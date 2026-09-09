@@ -10,6 +10,7 @@ CODE="$DIR/OVMF_CODE_4M.fd"
 VARS="$DIR/OVMF_VARS_4M.fd"
 
 command -v qemu-system-x86_64 >/dev/null || { echo "缺少 qemu-system-x86_64"; exit 1; }
+[ -x /usr/sbin/smbd ]                    || { echo "缺少 smbd(共享文件夹需要): sudo apt install samba"; exit 1; }
 [ -r /dev/kvm ] && [ -w /dev/kvm ]       || { echo "无 /dev/kvm 权限"; exit 1; }
 [ -f "$ISO" ]                            || { echo "缺少 ISO: $ISO"; exit 1; }
 [ -f "$CODE" ] && [ -f "$VARS" ]         || { echo "缺少 OVMF 固件文件"; exit 1; }
@@ -39,10 +40,10 @@ exec qemu-system-x86_64 \
   -device ide-hd,drive=hdd,bus=ahci.0,bootindex=$HDD_BOOT \
   -drive id=cd,file="$ISO",format=raw,media=cdrom,if=none,readonly=on \
   -device ide-cd,drive=cd,bus=ahci.1,bootindex=$CD_BOOT \
-  -nic user,model=e1000 \
+  -nic user,model=e1000,smb="$DIR/shared" \
   -device qemu-xhci \
   -device usb-tablet \
-  -device virtio-vga \
+  -device virtio-vga,xres=1920,yres=1080 \
   -display gtk \
   -audiodev pipewire,id=snd \
   -device ich9-intel-hda \
