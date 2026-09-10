@@ -114,7 +114,7 @@ else
   echo "提示: 缺 winfsp*.iso,Windows 里 VirtioFS 服务起不来,共享文件夹不可见。"
 fi
 
-# SPICE 显示: 自动共享剪贴板(virtio-win-guest-tools 已含 vdagent)
+# GDK_SCALE=1: 防桌面 HiDPI 缩放,保证 1:1 像素
 export GDK_SCALE=1 GDK_DPI_SCALE=1
 qemu-system-x86_64 \
   -name "Win10-VM" \
@@ -139,7 +139,7 @@ qemu-system-x86_64 \
   -device qemu-xhci \
   -device usb-tablet \
   -device virtio-vga,xres="$XRES",yres="$YRES" \
-  -display spice-app,gl=off \
+  -display gtk,gl=off,zoom-to-fit=off \
   -audiodev pipewire,id=snd \
   -device ich9-intel-hda \
   -device hda-duplex,audiodev=snd \
