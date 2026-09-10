@@ -9,25 +9,36 @@ r"""校验脚本所在目录下所有 PDF 文件名是否严格符合命名格�
   C1  整名结构   ^\d{8}-[汉]+-[a-z汉]+-\d{3}-[0-9a-z_汉]+\.pdf$
   C2  日期       00000000(占位) 或 2000-2030 间的合法日历日期
   C3  券商       无(占位) 或 2-8个汉字 (合法券商集合由一级目录自描述, 见 X1)
-  C4  系列       无(占位) 或 纯[汉字+小写字母]且长度<=20 (结构由 C1 保证)
+  C4  系列       无(合法, 不提示) 或 纯[汉字+小写字母]且长度<=20 (结构由 C1 保证)
   C5  序号       000 当且仅当 系列为 无
   C6  标题       无(占位) 或 非空; 不含连续 __; 不以 _ 开头/结尾
   C7  长度       整名 utf-8 < 250 字节
+  C8  扫描件     前 SCAN_PAGES 页 pdftotext 抽不出任何文字 => 标记 [扫描:无文字层]
+                 (有 OCR 文字层的不算扫描件; 无法解析的 PDF 记为违规)
 跨文件/结构检查 (目录层次 = ROOT/{券商}/{系列}/):
   X1  PDF 必须恰好位于两级目录下, 且一级目录==券商段, 二级目录==系列段
   X2  同一系列目录内序号不得重复 (000 除外)
   X3  同一券商目录下的系列子目录名不得互为子串 (防止同一系列多种写法)
   X4  顶层券商目录名不得互为子串 (防止同一券商多种写法, 如 华泰/华泰期货)
+  X5  内容重复  按文件字节 sha256 判定, 即使文件名不同也算重复
 
-输出: 树状打印所有 [违规:*] 与 [占位:*] 的文件; 存在违规时退出码 1。
+输出: 树状打印所有 [违规:*] / [占位:*] / [扫描:*] 的文件; 存在违规时退出码 1。
+依赖: poppler-utils (pdftotext)
 用法: python3 scan.py
 """
-import os, re, signal, sys
+import hashlib, os, re, shutil, signal, subprocess, sys
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+
+# ---- 0. 依赖检查 ----
+assert sys.version_info >= (3, 8), '需要 python >= 3.8'
+assert shutil.which('pdftotext'), '缺少 pdftotext, 请安装 poppler-utils'
 
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)   # 允许 | head 截断
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+SCAN_PAGES = 3          # 扫描件判定只看前几页, 避免整本抽取
+WORKERS = os.cpu_count() or 4
 CJK = r'\u4e00-\u9fff\u3400-\u4dbf'
 
 RE_NAME = re.compile(
@@ -65,8 +76,7 @@ def check_file(fname):
     elif not (BROKER_MINLEN <= len(g['broker']) <= BROKER_MAXLEN):
         v.append('违规:券商名长度越界(%s)' % g['broker'])
     # C4/C5 系列与序号
-    if g['series'] == '无':
-        p.append('占位:系列')
+    if g['series'] == '无':                   # 单篇报告本就无系列, 不作占位提示
         if g['num'] != '000':
             v.append('违规:系列为无但序号%s' % g['num'])
     else:
@@ -83,8 +93,28 @@ def check_file(fname):
         v.append('违规:标题以下划线开头或结尾')
     return v, p, g
 
+def file_hash(path):
+    h = hashlib.sha256()
+    with open(path, 'rb') as fp:
+        for chunk in iter(lambda: fp.read(1 << 20), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+def has_text(path):
+    """前 SCAN_PAGES 页能否抽出文字。返回 True/False; 无法解析返回 None。"""
+    r = subprocess.run(['pdftotext', '-q', '-l', str(SCAN_PAGES), path, '-'],
+                       stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    if r.returncode != 0:
+        return None
+    return bool(r.stdout.replace(b'\f', b'').strip())
+
+def inspect_content(path):
+    """单文件内容检查 (放线程池): 返回 (sha256, has_text)。"""
+    return file_hash(path), has_text(path)
+
 def main():
-    records = []            # (相对文件夹, 文件名, 违规[], 占位[], 段dict|None)
+    # ---- 1. 收集文件, 逐文件名检查 C1-C7 ----
+    records = []            # (相对文件夹, 文件名, 违规[], 占位[], 扫描[], 段dict|None)
     total = 0
     for dirpath, dirs, files in os.walk(ROOT):
         dirs.sort()
@@ -94,14 +124,14 @@ def main():
                 continue
             total += 1
             if not f.endswith('.pdf'):       # 扩展名必须小写
-                records.append((folder, f, ['违规:扩展名非小写pdf'], [], None))
+                records.append((folder, f, ['违规:扩展名非小写pdf'], [], [], None))
                 continue
             v, p, g = check_file(f)
-            records.append((folder, f, v, p, g))
+            records.append((folder, f, v, p, [], g))
 
-    # ---- 结构与跨文件检查 ----
+    # ---- 2. 结构与跨文件检查 X1-X4 ----
     # X1 路径两级且与文件名段一致
-    for folder, f, v, p, g in records:
+    for folder, f, v, p, s, g in records:
         if g is None:
             continue
         comps = folder.split(os.sep)
@@ -114,7 +144,7 @@ def main():
             v.append('违规:系列目录不符(%s)' % comps[1])
     # X2 同一系列目录内序号重复
     by_num = {}
-    for idx, (folder, f, v, p, g) in enumerate(records):
+    for idx, (folder, f, v, p, s, g) in enumerate(records):
         if g is not None and g['series'] != '无':
             by_num.setdefault((folder, g['num']), []).append(idx)
     for (folder, num), idxs in sorted(by_num.items()):
@@ -124,7 +154,7 @@ def main():
     # X3 券商目录下系列子目录名互为子串
     dir_viol = []
     by_broker = {}
-    for folder, f, v, p, g in records:
+    for folder, f, v, p, s, g in records:
         comps = folder.split(os.sep)
         if len(comps) == 2:
             by_broker.setdefault(comps[0], set()).add(comps[1])
@@ -141,16 +171,37 @@ def main():
             if a in c or c in a:
                 dir_viol.append('违规:券商目录相近: %s / %s' % (a, c))
 
-    # ---- 树状打印 ----
+    # ---- 3. 内容检查 (并行读文件一次: sha256 + 文字层) ----
+    paths = [os.path.join(ROOT, folder, f) for folder, f, *_ in records]
+    with ThreadPoolExecutor(WORKERS) as ex:
+        results = list(ex.map(inspect_content, paths))
+    # C8 扫描件
+    for (folder, f, v, p, s, g), (digest, text) in zip(records, results):
+        if text is None:
+            v.append('违规:PDF无法解析')
+        elif not text:
+            s.append('扫描:无文字层')
+    # X5 内容重复 (按 sha256 判定, 即使文件名不同)
+    by_hash = {}
+    for idx, (digest, text) in enumerate(results):
+        by_hash.setdefault(digest, []).append(idx)
+    for idxs in by_hash.values():
+        if len(idxs) > 1:
+            for idx in idxs:
+                peers = [records[j][1] for j in idxs if j != idx]
+                records[idx][2].append('违规:内容重复(%s)' % ' / '.join(peers))
+
+    # ---- 4. 树状打印 ----
     tree = {}
-    n_viol = n_place = 0
-    for folder, f, v, p, g in records:
-        if v or p:
-            tree.setdefault(folder, []).append((f, v + p))
+    n_viol = n_place = n_scan = 0
+    for folder, f, v, p, s, g in records:
+        if v or p or s:
+            tree.setdefault(folder, []).append((f, v + p + s))
             n_viol += bool(v)
             n_place += bool(p)
-    print('%s  (共%d个PDF: %d个违规, %d个含占位, %d个目录级违规)'
-          % (os.path.basename(ROOT), total, n_viol, n_place, len(dir_viol)))
+            n_scan += bool(s)
+    print('%s  (共%d个PDF: %d个违规, %d个含占位, %d个扫描件, %d个目录级违规)'
+          % (os.path.basename(ROOT), total, n_viol, n_place, n_scan, len(dir_viol)))
     for line in dir_viol:
         print('├── [%s]' % line)
     folders = sorted(tree)
