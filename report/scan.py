@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-r"""校验 "Sellside 卖方金工研报" 下所有 PDF 文件名是否严格符合命名格式。
+r"""校验脚本所在目录下所有 PDF 文件名是否严格符合命名格式。
 
 命名格式 (固定五段, 缺失信息用占位):
     {日期}-{券商}-{系列}-{序号}-{标题}.pdf
@@ -27,7 +27,7 @@ from datetime import datetime
 
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)   # 允许 | head 截断
 
-ROOT = "/home/chuyin/work/doc/Sellside 卖方金工研报"
+ROOT = os.path.dirname(os.path.abspath(__file__))
 CJK = r'\u4e00-\u9fff\u3400-\u4dbf'
 
 RE_NAME = re.compile(
