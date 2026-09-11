@@ -49,6 +49,10 @@ YEAR_MIN, YEAR_MAX = 2000, 2030
 BROKER_MINLEN, BROKER_MAXLEN = 4, 4
 SERIES_MAXLEN = 20
 MAX_NAME_BYTES = 250
+TOPIC_DIR = '0主题研报'   # 该目录下只查重, 不做命名/结构/扫描检查
+
+def is_topic(folder):
+    return folder == TOPIC_DIR or folder.startswith(TOPIC_DIR + os.sep)
 
 def check_file(fname):
     """返回 (违规列表, 占位列表, 解析段 dict|None)。"""
@@ -108,9 +112,9 @@ def has_text(path):
         return None
     return bool(r.stdout.replace(b'\f', b'').strip())
 
-def inspect_content(path):
-    """单文件内容检查 (放线程池): 返回 (sha256, has_text)。"""
-    return file_hash(path), has_text(path)
+def inspect_content(path, check_text=True):
+    """单文件内容检查 (放线程池): 返回 (sha256, has_text|None)。"""
+    return file_hash(path), (has_text(path) if check_text else None)
 
 def main():
     # ---- 1. 收集文件, 逐文件名检查 C1-C7 ----
@@ -123,6 +127,9 @@ def main():
             if not f.lower().endswith('.pdf'):
                 continue
             total += 1
+            if is_topic(folder):           # 主题研报: 只查重, 跳过命名检查
+                records.append((folder, f, [], [], [], None))
+                continue
             if not f.endswith('.pdf'):       # 扩展名必须小写
                 records.append((folder, f, ['违规:扩展名非小写pdf'], [], [], None))
                 continue
@@ -155,6 +162,8 @@ def main():
     dir_viol = []
     by_broker = {}
     for folder, f, v, p, s, g in records:
+        if is_topic(folder):
+            continue
         comps = folder.split(os.sep)
         if len(comps) == 2:
             by_broker.setdefault(comps[0], set()).add(comps[1])
@@ -173,10 +182,13 @@ def main():
 
     # ---- 3. 内容检查 (并行读文件一次: sha256 + 文字层) ----
     paths = [os.path.join(ROOT, folder, f) for folder, f, *_ in records]
+    text_flags = [not is_topic(folder) for folder, f, *_ in records]
     with ThreadPoolExecutor(WORKERS) as ex:
-        results = list(ex.map(inspect_content, paths))
+        results = list(ex.map(inspect_content, paths, text_flags))
     # C8 扫描件
     for (folder, f, v, p, s, g), (digest, text) in zip(records, results):
+        if is_topic(folder):
+            continue
         if text is None:
             v.append('违规:PDF无法解析')
         elif not text:
