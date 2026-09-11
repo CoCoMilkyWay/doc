@@ -15,9 +15,10 @@ r"""校验脚本所在目录下所有 PDF 文件名是否严格符合命名格�
   C7  长度       整名 utf-8 < 250 字节
   C8  扫描件     前 SCAN_PAGES 页 pdftotext 抽不出任何文字 => 标记 [扫描:无文字层]
                  (有 OCR 文字层的不算扫描件; 无法解析的 PDF 记为违规)
-跨文件/结构检查 (目录层次 = ROOT/{券商}/{系列}/):
+跨文件/结构检查 (目录层次 = ROOT/{券商}/{系列}/; TOPIC_DIR 下为 ROOT/0主题研报/{主题}/):
   X1  PDF 必须恰好位于两级目录下, 且一级目录==券商段, 二级目录==系列段
-  X2  同一系列目录内序号不得重复 (000 除外)
+      (TOPIC_DIR 下目录是主题而非券商/系列, 仅豁免这两个相等比较, 仍须两级)
+  X2  同一券商+系列(按文件名段)内序号不得重复 (000 除外)
   X3  同一券商目录下的系列子目录名不得互为子串 (防止同一系列多种写法)
   X4  顶层券商目录名不得互为子串 (防止同一券商多种写法, 如 华泰/华泰期货)
   X5  内容重复  按文件字节 sha256 判定, 即使文件名不同也算重复
@@ -49,7 +50,7 @@ YEAR_MIN, YEAR_MAX = 2000, 2030
 BROKER_MINLEN, BROKER_MAXLEN = 4, 4
 SERIES_MAXLEN = 20
 MAX_NAME_BYTES = 250
-TOPIC_DIR = '0主题研报'   # 该目录下只查重, 不做命名/结构/扫描检查
+TOPIC_DIR = '0主题研报'   # 该目录下与普通研报同规检查, 仅豁免 X1 的目录==券商/系列比较
 
 def is_topic(folder):
     return folder == TOPIC_DIR or folder.startswith(TOPIC_DIR + os.sep)
@@ -112,9 +113,9 @@ def has_text(path):
         return None
     return bool(r.stdout.replace(b'\f', b'').strip())
 
-def inspect_content(path, check_text=True):
+def inspect_content(path):
     """单文件内容检查 (放线程池): 返回 (sha256, has_text|None)。"""
-    return file_hash(path), (has_text(path) if check_text else None)
+    return file_hash(path), has_text(path)
 
 def main():
     # ---- 1. 收集文件, 逐文件名检查 C1-C7 ----
@@ -127,9 +128,6 @@ def main():
             if not f.lower().endswith('.pdf'):
                 continue
             total += 1
-            if is_topic(folder):           # 主题研报: 只查重, 跳过命名检查
-                records.append((folder, f, [], [], [], None))
-                continue
             if not f.endswith('.pdf'):       # 扩展名必须小写
                 records.append((folder, f, ['违规:扩展名非小写pdf'], [], [], None))
                 continue
@@ -143,27 +141,27 @@ def main():
             continue
         comps = folder.split(os.sep)
         if len(comps) != 2:
-            v.append('违规:路径应为券商/系列两级(%s)' % folder)
+            v.append('违规:路径应为两级(%s)' % folder)
+            continue
+        if is_topic(folder):             # 主题研报: 目录是主题, 豁免与券商/系列段的比较
             continue
         if comps[0] != g['broker']:
             v.append('违规:券商目录不符(%s)' % comps[0])
         if comps[1] != g['series']:
             v.append('违规:系列目录不符(%s)' % comps[1])
-    # X2 同一系列目录内序号重复
+    # X2 同一券商+系列(按文件名段)内序号重复
     by_num = {}
     for idx, (folder, f, v, p, s, g) in enumerate(records):
         if g is not None and g['series'] != '无':
-            by_num.setdefault((folder, g['num']), []).append(idx)
-    for (folder, num), idxs in sorted(by_num.items()):
+            by_num.setdefault((g['broker'], g['series'], g['num']), []).append(idx)
+    for (broker, series, num), idxs in sorted(by_num.items()):
         if len(idxs) > 1:
             for idx in idxs:
-                records[idx][2].append('违规:序号%s重复' % num)
+                records[idx][2].append('违规:序号%s重复(%s-%s)' % (num, broker, series))
     # X3 券商目录下系列子目录名互为子串
     dir_viol = []
     by_broker = {}
     for folder, f, v, p, s, g in records:
-        if is_topic(folder):
-            continue
         comps = folder.split(os.sep)
         if len(comps) == 2:
             by_broker.setdefault(comps[0], set()).add(comps[1])
@@ -182,13 +180,10 @@ def main():
 
     # ---- 3. 内容检查 (并行读文件一次: sha256 + 文字层) ----
     paths = [os.path.join(ROOT, folder, f) for folder, f, *_ in records]
-    text_flags = [not is_topic(folder) for folder, f, *_ in records]
     with ThreadPoolExecutor(WORKERS) as ex:
-        results = list(ex.map(inspect_content, paths, text_flags))
+        results = list(ex.map(inspect_content, paths))
     # C8 扫描件
     for (folder, f, v, p, s, g), (digest, text) in zip(records, results):
-        if is_topic(folder):
-            continue
         if text is None:
             v.append('违规:PDF无法解析')
         elif not text:
