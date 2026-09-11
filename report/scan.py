@@ -42,7 +42,7 @@ WORKERS = os.cpu_count() or 4
 CJK = r'\u4e00-\u9fff\u3400-\u4dbf'
 
 RE_NAME = re.compile(
-    r'(?P<date>\d{8})-(?P<broker>[%s]+)-(?P<series>[a-z%s]+)-(?P<num>\d{3})-(?P<title>[0-9a-z_%s]+)\.pdf'
+    r'(?P<date>\d{8})-(?P<broker>[%s]+)-(?P<series>[a-z%s]+)-(?P<num>\d{3}[a-z]?)-(?P<title>[0-9a-z_%s]+)\.pdf'
     % (CJK, CJK, CJK))
 
 YEAR_MIN, YEAR_MAX = 2000, 2030
