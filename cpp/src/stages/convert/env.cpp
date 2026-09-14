@@ -28,13 +28,24 @@ static const char *DEPS_PROBE_PY =
 //   PYTHONNOUSERSITE=1 必须带, 否则 pip 本身会先从 ~/.local 找, 装出来的东西不纯净;
 //   先 rm -rf: pip --target 只覆盖同名文件、不卸载旧包, 而 onnxruntime 与 onnxruntime-gpu 是两个包
 //     却共用同一个 onnxruntime/ 模块目录, CPU/GPU 之间来回切时不清空就会新旧文件混在一起
+// 长路径先落成 shell 变量再拼命令, 每行都压到 70 列以内: 这些指令是给人复制粘贴的, 长行被终端
+// 折行后, 折点若正好落在空格上, 复制时行首空格会被吞掉, 粘出来就是粘连的错参数 (实测
+// "-s modelscope -m" 被粘成 "-s modelscope-m", 报 invalid value 'modelscope-m').
+// 不能改用 cd + 相对路径来缩短: mineru/utils/config_reader.py read_config() 见到相对的
+// MINERU_TOOLS_CONFIG_JSON 会把它拼到 ~ 下面, 必须是绝对路径
 static void print_install_cmd(const std::string &py, const std::string &deps,
                               const std::string &src, bool gpu) {
   fprintf(stderr,
-          "  rm -rf %s && PYTHONNOUSERSITE=1 %s -m pip install --target=%s \\\n"
+          "  MU_SRC=%s\n"
+          "  MU_DEPS=%s\n"
+          "  MU_PY=%s\n"
+          "  rm -rf $MU_DEPS && \\\n"
+          "  PYTHONNOUSERSITE=1 $MU_PY -m pip install \\\n"
+          "    --target=$MU_DEPS \\\n"
           "    --index-url https://download.pytorch.org/whl/%s \\\n"
-          "    --extra-index-url https://pypi.org/simple \"%s[%s]\"\n",
-          deps.c_str(), py.c_str(), deps.c_str(), gpu ? "cu130" : "cpu", src.c_str(),
+          "    --extra-index-url https://pypi.org/simple \\\n"
+          "    \"$MU_SRC[%s]\"\n",
+          src.c_str(), deps.c_str(), py.c_str(), gpu ? "cu130" : "cpu",
           gpu ? "pipeline-gpu" : "pipeline");
 }
 
@@ -123,11 +134,20 @@ std::string check_mineru_env(const std::string &root) {
     fprintf(stderr,
             "[环境] pipeline 模型未就绪 (%s 不存在, 或其 models-dir.pipeline 下模型不全)\n"
             "解决办法 (约 1~2GB, 走 modelscope 国内快; 下载完会自动写 %s;\n"
-            "  PYTHONNOUSERSITE=1 必须带, 否则会误捡 ~/.local 下无关/不全的包导致 import 报错):\n"
-            "  PYTHONNOUSERSITE=1 PYTHONPATH=%s:%s MODELSCOPE_CACHE=%s MINERU_TOOLS_CONFIG_JSON=%s "
-            "%s -m mineru.cli.models_download -s modelscope -m pipeline\n",
+            "  PYTHONNOUSERSITE=1 必须带, 否则会误捡 ~/.local 下无关/不全的包导致 import 报错;\n"
+            "  用 shell 变量装长路径的原因见 print_install_cmd 处注释):\n"
+            "  MU_SRC=%s\n"
+            "  MU_DEPS=%s\n"
+            "  MU_CFG=%s\n"
+            "  MU_MODELS=%s\n"
+            "  MU_PY=%s\n"
+            "  PYTHONNOUSERSITE=1 \\\n"
+            "  PYTHONPATH=$MU_SRC:$MU_DEPS \\\n"
+            "  MODELSCOPE_CACHE=$MU_MODELS \\\n"
+            "  MINERU_TOOLS_CONFIG_JSON=$MU_CFG \\\n"
+            "  $MU_PY -m mineru.cli.models_download -s modelscope -m pipeline\n",
             config_json.c_str(), config_json.c_str(), src.c_str(), deps.c_str(),
-            models_cache.c_str(), config_json.c_str(), py.c_str());
+            config_json.c_str(), models_cache.c_str(), py.c_str());
     assert(false && "E3 模型缺失");
   }
 
