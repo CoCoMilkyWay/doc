@@ -53,6 +53,12 @@ inline constexpr const char *MINERU_FORMULA_CH_SUPPORT = "false"; // 环境变�
 // 的; CPU 上每个任务的 torch 都默认吃满全部核, 3 个并发 = 3 倍线程抢同一批核, 只会更慢, 还把日志交错成一团.
 // GPU 下暂时也保持 1: 并发数受显存约束 (每个任务一份模型权重), 调高前先看实测显存占用
 inline constexpr const char *MINERU_API_CONCURRENCY = "1";
+// 并行 mineru 子进程数 (每个领一个目录). 0 = 自动: cuda 且显存够放两份 (≥6GB) 开 2 个, 否则 1 ——
+// 实测单进程 GPU 利用率仅 20%~80% 波动 (流水线里页面渲染/Processing pages/写盘等纯 CPU 阶段 GPU
+// 干等), 两个进程错峰互补即接近打满, 再多收益骤减还挤显存; CPU 模式恒 1 (torch 单进程已吃满全部核).
+// 也可写死正整数 (显存自己负责). 多进程时各 mineru 的 stderr (tqdm 进度条) 重定向到临时日志防交错,
+// 进度看 docpipe 的 ✓ 行. 每进程批量由 MINERU_VIRTUAL_VRAM_SIZE 按显存份额自动定, 见 convert.cpp
+inline constexpr int MINERU_WORKERS = 0;
 // 环境变量 MINERU_LOG_LEVEL: loguru + uvicorn (fast_api.py 已改为跟随) 的级别. WARNING = 不刷 INFO 行,
 // 终端只剩各模型的 tqdm 进度条 (不受该级别控制) 和 docpipe 自己的进度行
 inline constexpr const char *MINERU_LOG_LEVEL = "WARNING";

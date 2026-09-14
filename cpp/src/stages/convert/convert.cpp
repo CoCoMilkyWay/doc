@@ -73,7 +73,8 @@ int ConvertStage::run(const Ctx &ctx) {
   std::string raw = ctx.root + "/" + RAW_REPORT_DIR;
   std::string proc = ctx.root + "/" + PROC_REPORT_DIR;
   assert(is_dir(raw) && "缺少研报输入目录 RAW_REPORT_DIR");
-  std::string device = check_mineru_env(ctx.root); // E1-E3, 顺带定下本次用 cuda 还是 cpu
+  int vram_gb = 0;                                          // cuda 时为显存 GB, cpu 时 0
+  std::string device = check_mineru_env(ctx.root, vram_gb); // E1-E3, 顺带定下本次用 cuda 还是 cpu
 
   std::vector<Pdf> pdfs;
   walk(raw, ".", pdfs);
@@ -98,8 +99,6 @@ int ConvertStage::run(const Ctx &ctx) {
   size_t n_todo = todo.size(), n_done = pdfs.size() - n_todo;
   fprintf(stderr, "[convert] 共%zu个PDF: 已完成%zu, 待转换%zu (%zu个目录, %zu页)\n", pdfs.size(),
           n_done, n_todo, pending.size(), todo_pages);
-  if (n_todo)
-    print_pipeline_steps(device);
 
   // MinerU 通过环境变量取设备与模型来源; 子进程继承. 显式写入探测结果而不是留空让 MinerU 自己
   // 判 (mineru/utils/config_reader.py get_device()), 是为了让这里打印的和实际跑的一定是同一个
@@ -123,72 +122,151 @@ int ConvertStage::run(const Ctx &ctx) {
   assert(setenv("HF_HUB_DISABLE_TELEMETRY", "1", 1) == 0);
   std::string py = ctx.root + "/" + MINERU_PYTHON_BIN;
 
-  std::vector<size_t> failed;
-  size_t gi = 0, done_pages = 0;
-  double spent_ms = 0; // 已完成目录的 mineru 累计耗时, 与 done_pages 一起给出 s/页 与 ETA
-  for (const auto &[folder, idxs] : pending) {
-    std::string out_dir = folder == "." ? proc : proc + "/" + folder;
-    mkdirs(out_dir);
+  // ---- 并行度与批量: 按显存自动 (MINERU_WORKERS 非 0 则写死并行数) ----
+  // 实测 (RTX 2060 6GB, batch_ratio=2): 单进程峰值显存 ~2.5GB ≈ 权重 1.5GB + 激活 0.5GB×ratio,
+  // GPU 利用率仅 20%~80% 波动 (纯 CPU 阶段 GPU 干等), CPU 也只用 ~3 核 —— 并行 2 个进程错峰互补.
+  // 批量: MinerU 按 get_vram 阶梯定 batch_ratio (pipeline_analyze.py: ≥32GB→16, ≥16→8, ≥8→4,
+  // ≥6→2, 否则 1), 那是按独占整卡设计的; 这里按 "峰值估算 1.5+0.5×ratio ≤ 每进程显存份额
+  // (总显存-1GB 桌面预留)/进程数" 取允许的最大档, 用 MINERU_VIRTUAL_VRAM_SIZE 报给每个进程
+  int workers = MINERU_WORKERS;
+  if (workers == 0)
+    workers = (device == "cuda" && vram_gb >= 6) ? 2 : 1;
+  if ((size_t)workers > pending.size() && !pending.empty())
+    workers = (int)pending.size();
+  if (device == "cuda") {
+    double share = double(vram_gb - 1) / workers;
+    int vvram = 1;
+    constexpr int LADDER[][2] = {{16, 32}, {8, 16}, {4, 8}, {2, 6}}; // {batch_ratio, 虚拟显存GB}
+    for (auto [r, v] : LADDER)
+      if (1.5 + 0.5 * r <= share) {
+        vvram = v;
+        break;
+      }
+    assert(setenv("MINERU_VIRTUAL_VRAM_SIZE", std::to_string(vvram).c_str(), 1) == 0);
+    if (n_todo)
+      fprintf(stderr, "[convert] 显存%dGB: 并行%d个mineru, 每个按虚拟显存%dGB定批量\n", vram_gb,
+              workers, vvram);
+  }
+  bool quiet = workers > 1; // 多进程时 tqdm 进度条交错刷屏, mineru stderr 改重定向到临时日志
+  if (n_todo && !quiet)
+    print_pipeline_steps(device);
 
+  // 每个在跑的 mineru 子进程领一个目录; 各用独立暂存子目录 staging/j<gi> 防 stem 撞名
+  struct Job {
+    std::string folder;
+    std::vector<size_t> idxs;
+    std::string tmp;      // 软链临时目录
+    std::string jstaging; // 本目录专属暂存子目录
+    std::string log;      // quiet 时 mineru stderr 重定向文件 (tmp 内), 否则空
+    std::vector<bool> seen;
+    size_t dir_pages = 0;
+    double t0 = 0;
+    pid_t pid = -1;
+  };
+
+  std::vector<size_t> failed;
+  std::vector<Job> running;
+  size_t gi = 0, done_pages = 0;
+  double t_start = now_ms(); // 并行下 s/页 与 ETA 按墙钟算
+  auto next = pending.begin();
+
+  auto spawn_job = [&](const std::string &folder, const std::vector<size_t> &idxs) {
+    mkdirs(folder == "." ? proc : proc + "/" + folder);
+
+    Job j;
+    j.folder = folder;
+    j.idxs = idxs;
     // 同目录待转 PDF 软链到临时目录, 一次调用, 模型只加载一次
     char tmp[] = "/tmp/docpipe-convert-XXXXXX";
     assert(mkdtemp(tmp) && "mkdtemp 失败");
-    size_t dir_pages = 0;
+    j.tmp = tmp;
     for (size_t i : idxs) {
-      assert(symlink(pdfs[i].path.c_str(), (std::string(tmp) + "/" + pdfs[i].name).c_str()) == 0);
-      dir_pages += pages[i];
+      assert(symlink(pdfs[i].path.c_str(), (j.tmp + "/" + pdfs[i].name).c_str()) == 0);
+      j.dir_pages += pages[i];
     }
+    j.jstaging = staging + "/j" + std::to_string(++gi);
+    j.seen.assign(idxs.size(), false);
 
-    fprintf(stderr, "[convert] (%zu/%zu) %s: %zu个PDF %zu页", ++gi, pending.size(),
-            folder.c_str(), idxs.size(), dir_pages);
-    if (done_pages)
-      fprintf(stderr, "  [%.1fs/页, 剩余约%.0f分]", spent_ms / 1000 / done_pages,
-              spent_ms / done_pages * (todo_pages - done_pages) / 60000);
+    fprintf(stderr, "[convert] (%zu/%zu) %s: %zu个PDF %zu页", gi, pending.size(), folder.c_str(),
+            idxs.size(), j.dir_pages);
+    if (done_pages) {
+      double sp = (now_ms() - t_start) / done_pages; // ms/页, 墙钟
+      fprintf(stderr, "  [%.1fs/页, 剩余约%.0f分]", sp / 1000,
+              sp * (todo_pages - done_pages) / 60000);
+    }
     fprintf(stderr, "\n");
-    double t0 = now_ms();
+    j.t0 = now_ms();
+    if (quiet)
+      j.log = j.tmp + "/mineru.log";
+    j.pid = spawn_cmd({py, "-m", "mineru.cli.client", "-p", j.tmp, "-o", j.jstaging, "-b",
+                       MINERU_BACKEND, "-m", MINERU_METHOD, "-l", MINERU_LANG, "-f",
+                       MINERU_FORMULA ? "true" : "false", "-t", MINERU_TABLE ? "true" : "false"},
+                      j.log);
+    running.push_back(std::move(j));
+  };
 
-    // 等待期间每秒探测 MinerU 已落盘的 md, 逐篇打印完成 (MinerU 按批出结果, 一批 1~3 篇)
-    std::vector<bool> seen(idxs.size(), false);
-    auto tick = [&] {
-      for (size_t k = 0; k < idxs.size(); ++k) {
-        if (seen[k])
+  // 每秒探测各在跑目录已落盘的 md, 逐篇打印完成 (MinerU 按批出结果, 一批 1~3 篇)
+  auto tick = [&] {
+    for (Job &j : running)
+      for (size_t k = 0; k < j.idxs.size(); ++k) {
+        if (j.seen[k])
           continue;
-        std::string s = stem(pdfs[idxs[k]].name);
-        if (path_exists(staging + "/" + s + "/" + MINERU_METHOD + "/" + s + ".md")) {
-          seen[k] = true;
-          fprintf(stderr, "    ✓ %s (%d页, %.0fs)\n", pdfs[idxs[k]].name.c_str(), pages[idxs[k]],
-                  (now_ms() - t0) / 1000);
+        std::string s = stem(pdfs[j.idxs[k]].name);
+        if (path_exists(j.jstaging + "/" + s + "/" + MINERU_METHOD + "/" + s + ".md")) {
+          j.seen[k] = true;
+          fprintf(stderr, "    ✓ %s (%d页, %.0fs)\n", pdfs[j.idxs[k]].name.c_str(),
+                  pages[j.idxs[k]], (now_ms() - j.t0) / 1000);
         }
       }
-    };
-    int code = run_cmd({py, "-m", "mineru.cli.client", "-p", tmp, "-o", staging, "-b",
-                        MINERU_BACKEND, "-m", MINERU_METHOD, "-l", MINERU_LANG, "-f",
-                        MINERU_FORMULA ? "true" : "false", "-t", MINERU_TABLE ? "true" : "false"},
-                       tick);
-    double dt = now_ms() - t0;
-    spent_ms += dt;
-    done_pages += dir_pages;
-    if (code != 0)
-      fprintf(stderr, "    mineru 退出码 %d\n", code);
+  };
 
-    for (size_t i : idxs)
-      assert(unlink((std::string(tmp) + "/" + pdfs[i].name).c_str()) == 0);
-    assert(rmdir(tmp) == 0);
+  while (next != pending.end() || !running.empty()) {
+    while ((int)running.size() < workers && next != pending.end()) {
+      spawn_job(next->first, next->second);
+      ++next;
+    }
+    int code = 0;
+    pid_t pid = wait_any(&code, tick);
+    size_t ji = 0;
+    while (ji < running.size() && running[ji].pid != pid)
+      ++ji;
+    assert(ji < running.size() && "wait_any 返回未知 pid");
+    Job &j = running[ji];
+    double dt = now_ms() - j.t0;
+    done_pages += j.dir_pages;
+    if (code != 0) {
+      fprintf(stderr, "    mineru 退出码 %d (%s)\n", code, j.folder.c_str());
+      if (quiet) { // stderr 进了日志文件, 打印尾部供排查 (日志随 tmp 一起删, 不留)
+        std::string s = read_file(j.log);
+        size_t pos = s.size() > 4096 ? s.find('\n', s.size() - 4096) + 1 : 0; // npos+1==0, 整读
+        fprintf(stderr, "    ---- mineru 日志尾部 ----\n%s    ----\n", s.substr(pos).c_str());
+      }
+    }
+
+    for (size_t i : j.idxs)
+      assert(unlink((j.tmp + "/" + pdfs[i].name).c_str()) == 0);
+    if (!j.log.empty())
+      assert(unlink(j.log.c_str()) == 0);
+    assert(rmdir(j.tmp.c_str()) == 0);
 
     // 以产物为准判定成败, 不信退出码 (单个文件失败时 mineru 非 0 但其余已写出);
-    // 成功的搬平+写 .stat+原子换入最终位置, 失败的清掉暂存, 暂存区每目录结束后必为空
+    // 成功的搬平+写 .stat+原子换入最终位置, 失败的清掉暂存, 暂存子目录每目录结束后必空
+    std::string out_dir = j.folder == "." ? proc : proc + "/" + j.folder;
     size_t n_fail = 0;
-    for (size_t i : idxs) {
+    for (size_t i : j.idxs) {
       std::string s = stem(pdfs[i].name);
-      if (!finalize(staging + "/" + s, s, pdfs[i].size, out_dir + "/" + s)) {
+      if (!finalize(j.jstaging + "/" + s, s, pdfs[i].size, out_dir + "/" + s)) {
         failed.push_back(i);
         ++n_fail;
         fprintf(stderr, "    ✗ %s\n", pdfs[i].name.c_str());
-        remove_all(staging + "/" + s);
+        remove_all(j.jstaging + "/" + s);
       }
     }
-    fprintf(stderr, "    完成 %zu/%zu, %.0fs (%.1fs/页)\n", idxs.size() - n_fail, idxs.size(),
-            dt / 1000, dt / 1000 / dir_pages);
+    if (path_exists(j.jstaging)) // mineru 启动即挂时可能根本没建过
+      assert(rmdir(j.jstaging.c_str()) == 0 && "暂存子目录应已清空");
+    fprintf(stderr, "    完成 %zu/%zu (%s), %.0fs (%.1fs/页)\n", j.idxs.size() - n_fail,
+            j.idxs.size(), j.folder.c_str(), dt / 1000, dt / 1000 / j.dir_pages);
+    running.erase(running.begin() + ji);
   }
   assert(rmdir(staging.c_str()) == 0 && "暂存区应为空");
 

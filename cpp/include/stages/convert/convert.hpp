@@ -36,11 +36,15 @@
 //
 // 转换 (convert.cpp), 随时被 kill 也不留半成品到最终位置:
 //   MinerU CLI 每次调用都要拉起本地服务并加载模型, 故按目录分批: 同一目录的待转 PDF 软链到一个
-//   临时目录, 一次 mineru -p <临时目录> -o PROC_STAGING_DIR 调用, 模型每目录只加载一次.
+//   临时目录, 一次 mineru -p <临时目录> -o <暂存子目录> 调用, 模型每目录只加载一次.
+//   并行: 同时开多个 mineru 子进程各领一个目录 (MINERU_WORKERS, 0=按显存自动定并行数与
+//   MINERU_VIRTUAL_VRAM_SIZE 批量, 见 config.hpp 与 convert.cpp 注释), 各用独立暂存子目录
+//   PROC_STAGING_DIR/j<序号> 防 stem 撞名.
 //   每篇跑完: 在暂存区内搬平 (MinerU 的 {stem}/auto/{stem}.md -> {stem}/report.md, images 上移)
 //   -> 写 .stat -> rename({stem}) 到最终位置 (同一文件系统, 原子). 暂存区启动时无条件清空.
-//   mineru 的 INFO 日志 (loguru/uvicorn) 用 MINERU_LOG_LEVEL=WARNING 压掉, 各模型的 tqdm 进度条保留;
-//   docpipe 自己的进度: 每目录一行 (PDF 数/页数/累计 s/页/ETA), 每篇落盘一行 ✓, 目录结束一行完成数与耗时.
+//   mineru 的 INFO 日志 (loguru/uvicorn) 用 MINERU_LOG_LEVEL=WARNING 压掉; 单进程时各模型的 tqdm
+//   进度条保留, 多进程时会交错刷屏, 改重定向到各自临时日志文件, 失败才打印尾部.
+//   docpipe 自己的进度: 每目录一行 (PDF 数/页数/墙钟 s/页/ETA), 每篇落盘一行 ✓, 目录结束一行完成数与耗时.
 //   本地 mineru-api 并发固定为 MINERU_API_CONCURRENCY (CPU 上 1 最快, 见 config.hpp).
 //   MinerU 没产出 md 的记失败, 树状列出; 有失败退出码 1。
 // 参数见 config.hpp。
@@ -62,8 +66,9 @@ struct Pdf {
   long long size = 0; // 字节数, 写入 .stat 作为源身份
 };
 
-// env.cpp: E1-E3. 返回本次实际使用的设备 ("cuda" 或 "cpu", 见 config.hpp MINERU_DEVICE)
-std::string check_mineru_env(const std::string &root);
+// env.cpp: E1-E3. 返回本次实际使用的设备 ("cuda" 或 "cpu", 见 config.hpp MINERU_DEVICE);
+// vram_gb 填显存 GB (cuda 时 >0, cpu 时 0), 供 convert.cpp 定并行数与批量
+std::string check_mineru_env(const std::string &root, int &vram_gb);
 
 // stat.cpp
 void write_stat(const std::string &doc_dir, long long pdf_size);

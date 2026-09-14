@@ -12,13 +12,17 @@
 // /proc/driver/nvidia/version 由内核模块创建, 驱动一加载就有, 不依赖 PATH 里是否有 nvidia-smi
 static bool has_nvidia_gpu() { return path_exists("/proc/driver/nvidia/version"); }
 
-// E2 一次子进程同时回答两件事, 省掉重复 import torch 的几秒:
-// 退出码 0=依赖齐全且 CUDA 可用, 3=依赖齐全但只能 CPU, 其余(python 自身的 1)=import 失败,
-// 缺什么由 python 自己的 traceback 打到 stderr. 判据与 mineru/utils/config_reader.py
-// get_device() 一致, 所以这里探到什么, MinerU 实际就会用什么
+// E2 一次子进程同时回答三件事, 省掉重复 import torch 的几秒:
+// 退出码 100+显存GB=依赖齐全且 CUDA 可用 (显存供 convert.cpp 定并行数与批量, 上限 150 防溢出
+// 8 位退出码), 3=依赖齐全但只能 CPU, 其余(python 自身的 1)=import 失败, 缺什么由 python 自己的
+// traceback 打到 stderr. CUDA 判据与 mineru/utils/config_reader.py get_device() 一致, 显存取整
+// 与 mineru/utils/model_utils.py get_vram() 一致, 所以这里探到什么, MinerU 实际就会用什么
 static const char *DEPS_PROBE_PY =
     "import sys, mineru, torch, onnxruntime, transformers\n"
-    "sys.exit(0 if torch.cuda.is_available() else 3)\n";
+    "if not torch.cuda.is_available():\n"
+    "    sys.exit(3)\n"
+    "gb = round(torch.cuda.get_device_properties(0).total_memory / (1 << 30))\n"
+    "sys.exit(100 + min(gb, 150))\n";
 
 // E2 的安装指令. CPU/GPU 两套只差 --index-url 与 extra 名, 其余道理相同:
 //   必须一条命令装全: pip --target 不把目标目录当已装环境, 分两步先装 torch 再装 extra 的话,
@@ -66,7 +70,7 @@ for p in missing:
 sys.exit(4 if missing else 0)
 )PY";
 
-std::string check_mineru_env(const std::string &root) {
+std::string check_mineru_env(const std::string &root, int &vram_gb) {
   std::string src = root + "/" + MINERU_DIR;
   std::string py = root + "/" + MINERU_PYTHON_BIN;
   std::string deps = root + "/" + MINERU_DEPS_DIR;
@@ -98,13 +102,14 @@ std::string check_mineru_env(const std::string &root) {
   assert(setenv("PYTHONPATH", (src + ":" + deps).c_str(), 1) == 0);
   bool gpu = has_nvidia_gpu();
   int rc = run_cmd({py, "-c", DEPS_PROBE_PY});
-  if (rc != 0 && rc != 3) {
+  if (rc != 3 && rc < 100) {
     fprintf(stderr, "[环境] MINERU_DEPS_DIR 依赖不完整: %s\n解决办法 (本机%s, 装%s版):\n",
             deps.c_str(), gpu ? "有 NVIDIA 卡" : "无 NVIDIA 卡", gpu ? " GPU " : " CPU ");
     print_install_cmd(py, deps, src, gpu);
     assert(false && "E2 依赖缺失");
   }
-  bool cuda_ok = rc == 0;
+  bool cuda_ok = rc >= 100;
+  vram_gb = cuda_ok ? rc - 100 : 0;
 
   // 定下这次实际用的设备. MINERU_DEVICE 写死 "cpu"/"cuda" 时照用 (写死 cuda 就必须真能用),
   // "auto" 则按探测结果走 —— 这就是 CPU/GPU 通用的地方: 同一份代码, 有卡的机器自动 cuda
