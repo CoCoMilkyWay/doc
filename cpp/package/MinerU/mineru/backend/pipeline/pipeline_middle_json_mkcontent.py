@@ -78,7 +78,7 @@ def make_blocks_to_markdown(paras_of_layout,
         if para_text.strip() == '':
             continue
         else:
-            page_markdown.append((para_type, '\n'.join(line.rstrip() for line in para_text.strip().split('\n'))))  # docpipe: 无行尾空白
+            page_markdown.append((para_type, para_text.strip()))
 
     return page_markdown
 
@@ -236,7 +236,7 @@ def render_visual_block_segments(block, img_buket_path='', para_block=None):
                     continue
                 if span.get('html', ''):
                     # docpipe 剪裁: 表格 html 一律转 markdown 管道表, 合并格展开 (见 _table_html_to_markdown)
-                    rendered_segments.append(_table_html_to_markdown(_format_embedded_html(span['html'], img_buket_path)))
+                    rendered_segments.append(_table_html_to_markdown(span['html'], img_buket_path))
                 elif span.get('image_path', ''):
                     rendered_segments.append((f"![]({img_buket_path}/{span['image_path']})", 'markdown_line'))
         return rendered_segments
@@ -296,8 +296,8 @@ def _replace_eq_tags_in_table_html(html):
 
     return re.sub(
         r'<eq>(.*?)</eq>',
-        lambda match: (  # docpipe: 表内公式同样压缩 LaTeX 空白
-            f" {inline_left_delimiter}{_docpipe_compact_latex(unescape(match.group(1)))}{inline_right_delimiter} "
+        lambda match: (
+            f" {inline_left_delimiter}{unescape(match.group(1))}{inline_right_delimiter} "
         ),
         html,
         flags=re.DOTALL,
@@ -354,25 +354,37 @@ def _docpipe_compact_latex(tex):
 _TR_RE = re.compile(r'<tr[^>]*>(.*?)</tr>', re.DOTALL)
 _TD_RE = re.compile(r'<t[dh]\b([^>]*)>(.*?)</t[dh]>', re.DOTALL)
 _SPAN_ATTR_RE = re.compile(r'(rowspan|colspan)="?(\d+)"?')
+_EQ_RE = re.compile(r'<eq>(.*?)</eq>', re.DOTALL)
 
 
-def _table_html_to_markdown(html):
+def _table_cell_text(cell):
+    """格内容 (表格 OCR 文本已 html.escape, 公式在 <eq> 里) -> 纯文本; 含其他标签返回 None."""
+    cell = re.sub(r'<br\s*/?>', ' ', cell)
+    eqs = []
+    cell = _EQ_RE.sub(lambda m: (eqs.append(m.group(1)), f'\0{len(eqs) - 1}\0')[1], cell)
+    if '<' in cell:  # 此时仍是转义后的 html, 剩下的 "<" 只可能是真标签 (img 等)
+        return None
+    text = re.sub(r'\0(\d+)\0', lambda m: f' {inline_left_delimiter}{_docpipe_compact_latex(unescape(eqs[int(m.group(1))]))}{inline_right_delimiter} ', unescape(cell))
+    return ' '.join(text.split()).replace('|', '\\|')  # 管道表的格内竖线 (含公式里的 |x|) 必须转义
+
+
+def _table_html_to_markdown(html, img_buket_path):
     """docpipe 剪裁: 表格模型输出的 html -> markdown 管道表 (segment, kind).
     <tr>/<td>/rowspan/colspan 全是渲染布局, 对 AI 无意义. 按 html 表格算法把单元格铺到网格上, 合并格的内容
-    复制到它覆盖的每一格 (跨 3 列的表头 "2020" 变成 3 个 "2020", 每列仍自描述), 整行空白的行丢弃.
-    只有嵌套表或格内含别的标签 (img 等) 才原样保留 html."""
+    复制到它覆盖的每一格 (跨 3 列的表头 "2020" 变成 3 个 "2020", 每列仍自描述), 整行/整列空白丢弃.
+    只有嵌套表或格内含别的标签 (img 等) 才退回原版 html 输出."""
+    fallback = (_format_embedded_html(html, img_buket_path), 'html_block')
     if html.count('<table') != 1:
-        return html, 'html_block'
+        return fallback
     grid = {}  # (row, col) -> text
     nrow = 0
     for r, tr in enumerate(_TR_RE.findall(html)):
         nrow = r + 1
         col = 0
         for attrs, cell in _TD_RE.findall(tr):
-            cell = re.sub(r'<br\s*/?>', ' ', cell)
-            if '<' in cell:
-                return html, 'html_block'
-            text = ' '.join(unescape(cell).split()).replace('|', '\\|')
+            text = _table_cell_text(cell)
+            if text is None:
+                return fallback
             span = {'rowspan': 1, 'colspan': 1}
             span.update((k, int(v)) for k, v in _SPAN_ATTR_RE.findall(attrs))
             while (r, col) in grid:  # 被上方 rowspan 占掉的格
@@ -383,7 +395,7 @@ def _table_html_to_markdown(html):
                     nrow = max(nrow, r + dr + 1)
             col += span['colspan']
     if not grid:
-        return html, 'html_block'
+        return fallback
     ncol = max(c for _, c in grid) + 1
     rows = [[grid.get((r, c), '') for c in range(ncol)] for r in range(nrow)]
     rows = [row for row in rows if any(row)]  # 整行/整列空格 (表格识别把分隔线/空白带当成一行/列) 无信息
@@ -391,7 +403,7 @@ def _table_html_to_markdown(html):
     rows = [[row[c] for c in keep] for row in rows]
     ncol = len(keep)
     if not rows or not ncol:
-        return html, 'html_block'
+        return fallback
     lines = ['| ' + ' | '.join(row) + ' |' for row in rows]
     lines.insert(1, '|' + ' --- |' * ncol)
     return '\n'.join(lines), 'md_table'
@@ -445,7 +457,7 @@ def merge_para_with_text(para_block):
     return _merge_para_text(para_block, escape_markdown=False, list_line_break='\n')
 
 
-def _merge_para_text(para_block, escape_markdown=False, list_line_break='\n'):
+def _merge_para_text(para_block, escape_markdown=True, list_line_break='  \n'):
     # 将普通文本段落 block 渲染成 markdown 字符串。
     # 处理流程分为三层：
     # 1. 先收集文本内容做语言检测
@@ -575,7 +587,7 @@ def _join_rendered_span(para_block, block_lang, line, line_idx, span_idx, span_t
     return content, ' '
 
 
-def _line_prefix(line_idx, line, list_line_break='\n'):
+def _line_prefix(line_idx, line, list_line_break='  \n'):
     # 处理进入新 list item 前的 block 级换行。
     # 这里保留历史语义：list 起始行前插入一个 hard break。
     if line_idx >= 1 and line.get(ListLineTag.IS_LIST_START_LINE, False):
