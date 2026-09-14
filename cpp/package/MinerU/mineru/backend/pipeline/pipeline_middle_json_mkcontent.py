@@ -236,7 +236,7 @@ def render_visual_block_segments(block, img_buket_path='', para_block=None):
                     continue
                 if span.get('html', ''):
                     # docpipe 剪裁: 表格 html 一律转 markdown 管道表, 合并格展开 (见 _table_html_to_markdown)
-                    rendered_segments.append(_table_html_to_markdown(span['html'], img_buket_path))
+                    rendered_segments.append(_table_html_to_markdown(span['html'], img_buket_path, span.get('image_path', '')))
                 elif span.get('image_path', ''):
                     rendered_segments.append((f"![]({img_buket_path}/{span['image_path']})", 'markdown_line'))
         return rendered_segments
@@ -368,36 +368,60 @@ def _table_cell_text(cell):
     return ' '.join(text.split()).replace('|', '\\|')  # 管道表的格内竖线 (含公式里的 |x|) 必须转义
 
 
-def _table_html_to_markdown(html, img_buket_path):
-    """docpipe 剪裁: 表格模型输出的 html -> markdown 管道表 (segment, kind).
-    <tr>/<td>/rowspan/colspan 全是渲染布局, 对 AI 无意义. 按 html 表格算法把单元格铺到网格上, 合并格的内容
-    复制到它覆盖的每一格 (跨 3 列的表头 "2020" 变成 3 个 "2020", 每列仍自描述), 整行/整列空白丢弃.
-    只有嵌套表或格内含别的标签 (img 等) 才退回原版 html 输出."""
-    fallback = (_format_embedded_html(html, img_buket_path), 'html_block')
-    if html.count('<table') != 1:
-        return fallback
-    grid = {}  # (row, col) -> text
-    nrow = 0
+def _parse_table_cells(html):
+    """表格 html -> [(row, col, rowspan, colspan, text)] 与 (nrow, ncol); 格内含未知标签返回 None."""
+    cells, occupied, nrow, ncol = [], set(), 0, 0
     for r, tr in enumerate(_TR_RE.findall(html)):
-        nrow = r + 1
         col = 0
         for attrs, cell in _TD_RE.findall(tr):
             text = _table_cell_text(cell)
             if text is None:
-                return fallback
+                return None
             span = {'rowspan': 1, 'colspan': 1}
             span.update((k, int(v)) for k, v in _SPAN_ATTR_RE.findall(attrs))
-            while (r, col) in grid:  # 被上方 rowspan 占掉的格
+            while (r, col) in occupied:  # 被上方 rowspan 占掉的格
                 col += 1
             for dr in range(span['rowspan']):
                 for dc in range(span['colspan']):
-                    grid[(r + dr, col + dc)] = text
-                    nrow = max(nrow, r + dr + 1)
+                    occupied.add((r + dr, col + dc))
+            cells.append((r, col, span['rowspan'], span['colspan'], text))
+            nrow, ncol = max(nrow, r + span['rowspan']), max(ncol, col + span['colspan'])
             col += span['colspan']
-    if not grid:
+    return cells, nrow, ncol
+
+
+# 结构识别失败的特征: 合并格里塞了一段话. 真实的合并表头/标题行是短标签 (<= 几个字/词), 而无线表格模型在
+# 热力图/折行表头/无框线表上失败时, 会把整块表头文字识别成一个跨多列的巨格 (实测 colspan=24, 200 字)
+_DEGENERATE_MIN_COLSPAN = 4
+_DEGENERATE_LEN_RATIO = 6
+
+
+def _table_is_degenerate(cells):
+    lens = sorted(len(t) for *_, t in cells if t)
+    if not lens:
+        return True
+    median = lens[len(lens) // 2]
+    return any(cs >= _DEGENERATE_MIN_COLSPAN and len(t) >= max(40, _DEGENERATE_LEN_RATIO * median)
+               for _, _, _, cs, t in cells)
+
+
+def _table_html_to_markdown(html, img_buket_path, image_path=''):
+    """docpipe 剪裁: 表格模型输出的 html -> markdown 管道表 (segment, kind).
+    <tr>/<td>/rowspan/colspan 全是渲染布局, 对 AI 无意义. 按 html 表格算法把单元格铺到网格上, 合并格的内容只写在
+    它左上角那一格, 其余覆盖格留空 (永不重复). 整行/整列空白丢弃.
+    结构识别失败 (见 _table_is_degenerate) 时输出表格截图而非错位的文字; 嵌套表或格内含别的标签才退回 html."""
+    fallback = (_format_embedded_html(html, img_buket_path), 'html_block')
+    if html.count('<table') != 1:
         return fallback
-    ncol = max(c for _, c in grid) + 1
-    rows = [[grid.get((r, c), '') for c in range(ncol)] for r in range(nrow)]
+    parsed = _parse_table_cells(html)
+    if parsed is None or not parsed[0]:
+        return fallback
+    cells, nrow, ncol = parsed
+    if image_path and _table_is_degenerate(cells):
+        return f"![]({img_buket_path}/{image_path})", 'markdown_line'
+    rows = [[''] * ncol for _ in range(nrow)]
+    for r, c, _, _, text in cells:
+        rows[r][c] = text
     rows = [row for row in rows if any(row)]  # 整行/整列空格 (表格识别把分隔线/空白带当成一行/列) 无信息
     keep = [c for c in range(ncol) if any(row[c] for row in rows)]
     rows = [[row[c] for c in keep] for row in rows]

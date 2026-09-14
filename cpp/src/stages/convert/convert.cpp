@@ -28,6 +28,25 @@ static void walk(const std::string &root, const std::string &rel, std::vector<Pd
 
 static std::string stem(const std::string &name) { return name.substr(0, name.size() - 4); }
 
+// 按 MinerU 实际执行顺序打印各阶段作用, 帮用户理解进度条里那些 "Layout Predict" /
+// "MFR Predict" 之类的输出分别在干什么; MINERU_FORMULA/MINERU_TABLE 关闭时对应行不会
+// 真的跑, 这里同步跳过, 避免误导.
+static void print_pipeline_steps() {
+  fprintf(stderr, "[convert] MinerU 处理流程 (device=%s, 每个PDF依次经过以下阶段):\n", MINERU_DEVICE);
+  fprintf(stderr, "  Layout Predict        版面检测: 分割标题/正文/表格/公式/图片等区域框\n");
+  if (MINERU_FORMULA)
+    fprintf(stderr, "  MFR Predict           公式识别: 公式区域图片 -> LaTeX\n");
+  if (MINERU_TABLE) {
+    fprintf(stderr, "  Table orientation     表格方向判断: 检测表格是否被旋转 90°/270°\n");
+    fprintf(stderr, "  Table-ocr det/rec     表格内文字检测+识别 (供表格结构还原用)\n");
+    fprintf(stderr, "  Table-wireless Predict 无线表(无框线)结构识别 -> 还原成 HTML\n");
+    fprintf(stderr, "  Table-wired Predict   有线表(有框线)结构识别 -> 还原成 HTML\n");
+  }
+  fprintf(stderr, "  OCR-det/rec           正文文字检测+识别\n");
+  fprintf(stderr, "  Seal Predict          印章检测识别 (没有印章时为 0it)\n");
+  fprintf(stderr, "  Processing pages      汇总以上结果, 拼成最终页面结构\n");
+}
+
 // 暂存区内的 MinerU 输出 <stage_dir>/<MINERU_METHOD>/{<stem>.md, images/} 搬平为 <stage_dir>/{PROC_MD_NAME,
 // images/}, 写 .stat, 最后 rename 整个目录到最终位置 (同一文件系统, 原子: 要么完整出现, 要么不出现).
 // 返回 false 表示 MinerU 没产出 md (暂存目录留给调用方清理). 中间目录 rmdir 非空即断言失败 =>
@@ -78,6 +97,8 @@ int ConvertStage::run(const Ctx &ctx) {
   size_t n_todo = todo.size(), n_done = pdfs.size() - n_todo;
   fprintf(stderr, "[convert] 共%zu个PDF: 已完成%zu, 待转换%zu (%zu个目录, %zu页)\n", pdfs.size(),
           n_done, n_todo, pending.size(), todo_pages);
+  if (n_todo)
+    print_pipeline_steps();
 
   // MinerU 通过环境变量取设备与模型来源; 子进程继承
   assert(setenv("MINERU_DEVICE_MODE", MINERU_DEVICE, 1) == 0);
