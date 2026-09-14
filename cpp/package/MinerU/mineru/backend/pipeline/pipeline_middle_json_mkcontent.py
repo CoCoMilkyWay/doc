@@ -1,5 +1,6 @@
 # Copyright (c) Opendatalab. All rights reserved.
 import re
+import unicodedata
 from html import unescape
 
 from loguru import logger
@@ -23,17 +24,24 @@ def make_blocks_to_markdown(paras_of_layout,
     for para_block in paras_of_layout:
         para_text = ''
         para_type = para_block['type']
+        # docpipe 剪裁: md 是给 AI 读的, 只保留内容与层级, 去掉一切版式痕迹 (集中在本文件, 见各 _docpipe_* 帮助函数):
+        #   INDEX(目录, 布局模型标签 content) 整块丢弃 —— 标题都在正文里, 页码对 md 无意义
+        #   标题/段落行首的项目符号 (◼ ➢ • ...) 是版式, 标题里去掉, 段落里归一为 markdown 列表 "- "
+        if para_type == BlockType.INDEX:
+            continue
         if para_type in [
             BlockType.TEXT,
             BlockType.LIST,
-            BlockType.INDEX,
             BlockType.ABSTRACT,
             BlockType.REF_TEXT
         ]:
-            para_text = merge_para_with_text(para_block)
+            para_text = _BULLET_LINE_RE.sub('- ', merge_para_with_text(para_block))
         elif para_type == BlockType.TITLE:
             title_level = get_title_level(para_block)
-            para_text = f'{"#" * title_level} {merge_para_with_text(para_block)}'
+            title_text = _BULLET_LINE_RE.sub('', merge_para_with_text(para_block)).strip()
+            if not title_text:
+                continue
+            para_text = f'{"#" * title_level} {title_text}'
         elif para_type == BlockType.INTERLINE_EQUATION:
             if len(para_block['lines']) == 0 or len(para_block['lines'][0]['spans']) == 0:
                 continue
@@ -177,10 +185,9 @@ def render_visual_block_segments(block, img_buket_path='', para_block=None):
                 if span['type'] != ContentType.TABLE:
                     continue
                 if span.get('html', ''):
-                    rendered_segments.append((
-                        _format_embedded_html(span['html'], img_buket_path),
-                        'html_block',
-                    ))
+                    # docpipe 剪裁: 表格模型输出的 html 每格都带 rowspan=1 colspan=1, 是给渲染器看的布局噪音;
+                    # 无合并单元格的表直接转 markdown 管道表, 有合并的只保留非 1 的 span 属性
+                    rendered_segments.append(_table_html_to_markdown(_format_embedded_html(span['html'], img_buket_path)))
                 elif span.get('image_path', ''):
                     rendered_segments.append((f"![]({img_buket_path}/{span['image_path']})", 'markdown_line'))
         return rendered_segments
@@ -197,11 +204,11 @@ def get_visual_block_separator(prev_segment_kind, current_segment_kind):
         # Raw HTML blocks need a blank line after them, otherwise the following
         # markdown text is still treated as part of the HTML block.
         return '\n\n'
-    if prev_segment_kind == 'details_block' or current_segment_kind == 'details_block':
+    if prev_segment_kind in ('details_block', 'md_table') or current_segment_kind in ('details_block', 'md_table'):
         return '\n\n'
     if current_segment_kind == 'html_block':
         return '\n'
-    return '  \n'
+    return '\n'  # docpipe 剪裁: 原为 "  \n" (markdown hard break), 行尾双空格对 AI 是不可见噪音
 
 
 latex_delimiters_config = get_latex_delimiter_config()
@@ -253,6 +260,75 @@ def _format_embedded_html(html, img_buket_path):
     return _replace_eq_tags_in_table_html(_prefix_table_img_src(html, img_buket_path))
 
 
+# ---- docpipe 剪裁: 面向 AI 阅读的 md 去版式化 ----
+# 行首项目符号 (PPT 风格研报的 ◼ • ➢ 等). 标题里删掉, 段落里归一为 "- "
+_BULLET_LINE_RE = re.compile(r'^[ \t]*[•◼■●▪➢►➤◆❖※○◇□]+[ \t]*', re.MULTILINE)
+# PDF 文字层里的数学字母数字符号 (U+1D400~U+1D7FF, 如 𝑆𝐷𝐶 𝑇𝑢𝑟𝑛𝑂𝑣𝑒𝑟): 4 字节/字符, tokenizer 拆碎, grep 搜不到.
+# 只对该区做 NFKC (映射回 ASCII/希腊字母), 不碰中文全角标点
+_MATH_ALNUM_RE = re.compile(r'[\U0001D400-\U0001D7FF]+')
+# LaTeX 词法: 控制词 / 控制符 (含 "\ ") / 空白 / 其他
+_TEX_TOKEN_RE = re.compile(r'\\[a-zA-Z]+|\\.|\s+|[^\s\\]+', re.DOTALL)
+_TEX_TEXT_CMDS = frozenset({r'\text', r'\mbox', r'\textrm', r'\textbf', r'\textit', r'\hbox'})
+
+
+def _docpipe_fold_math_alnum(text):
+    return _MATH_ALNUM_RE.sub(lambda m: unicodedata.normalize('NFKC', m.group()), text)
+
+
+def _docpipe_compact_latex(tex):
+    """公式模型输出的 LaTeX 逐 token 带空格 (C l o s e P r i c e _ { i , t }). 数学模式本就忽略空白, 全部去掉,
+    只保留两处: 控制词与紧随字母之间 (\\sum x 不能变 \\sumx); \\text{...} 类命令花括号内 (折叠为单空格)."""
+    tokens = _TEX_TOKEN_RE.findall(tex)
+    out = []
+    in_text, depth = False, 0  # in_text: 位于 \text 类命令的参数内; depth: 其花括号深度
+    prev = ''
+    for i, t in enumerate(tokens):
+        if t.isspace():
+            if in_text and depth > 0:  # 花括号内才保留 (折叠为单空格); \text 与 "{" 之间不保留
+                out.append(' ')
+            elif re.fullmatch(r'\\[a-zA-Z]+', prev) and i + 1 < len(tokens) and tokens[i + 1][0].isalpha():
+                out.append(' ')
+            continue
+        if in_text:
+            depth += t.count('{') - t.count('}')
+            if depth <= 0:
+                in_text = False
+        elif t in _TEX_TEXT_CMDS:
+            in_text, depth = True, 0  # 紧随的 "{" 使 depth 变 1, 配对的 "}" 归零即退出
+        out.append(t)
+        prev = t
+    return ''.join(out)
+
+
+_SPAN1_RE = re.compile(r'\s+(?:rowspan|colspan)="?1"?(?=[\s>])')
+_TR_RE = re.compile(r'<tr[^>]*>(.*?)</tr>', re.DOTALL)
+_TD_RE = re.compile(r'<t[dh]\b[^>]*>(.*?)</t[dh]>', re.DOTALL)
+
+
+def _table_html_to_markdown(html):
+    """docpipe 剪裁: 表格 html -> (segment, kind).
+    先剥掉 rowspan=1/colspan=1 (无信息量); 若仍有合并单元格、嵌套表或格内标签, 保留精简后的 html;
+    否则转 markdown 管道表 (首行为表头), 让 md 只剩表格内容本身."""
+    html = _SPAN1_RE.sub('', html)
+    if 'rowspan' in html or 'colspan' in html or html.count('<table') != 1:
+        return html, 'html_block'
+    rows = []
+    for tr in _TR_RE.findall(html):
+        cells = []
+        for cell in _TD_RE.findall(tr):
+            cell = re.sub(r'<br\s*/?>', ' ', cell)
+            if '<' in cell:  # 格内还有别的标签 (img/b/sup...), 不冒险
+                return html, 'html_block'
+            cells.append(' '.join(unescape(cell).split()).replace('|', '\\|'))
+        rows.append(cells)
+    if not rows:
+        return html, 'html_block'
+    ncol = max(len(r) for r in rows)
+    lines = ['| ' + ' | '.join(r + [''] * (ncol - len(r))) + ' |' for r in rows]
+    lines.insert(1, '|' + ' --- |' * ncol)
+    return '\n'.join(lines), 'md_table'
+
+
 def _normalize_visual_content(content):
     """将视觉块识别内容统一成字符串，便于 markdown 和结构化输出复用。"""
     if isinstance(content, list):
@@ -296,13 +372,12 @@ def merge_para_with_text(para_block):
         guess_lang = para_block.get('guess_lang', 'txt') or 'txt'
         return f"```{guess_lang}\n{code_text}\n```"
 
-    para_text = _merge_para_text(para_block)
-    if para_block.get('type') == BlockType.TEXT:
-        para_text = escape_text_block_markdown_prefix(para_text)
-    return para_text
+    # docpipe 剪裁: 不做 markdown 转义 (原版会把 chip_distri_2 写成 chip\_distri\_2, 段首 "-" 写成 "\-"),
+    # 也不用 "  \n" hard break. md 的读者是 AI 而非渲染器, 转义只是噪音
+    return _merge_para_text(para_block, escape_markdown=False, list_line_break='\n')
 
 
-def _merge_para_text(para_block, escape_markdown=True, list_line_break='  \n'):
+def _merge_para_text(para_block, escape_markdown=False, list_line_break='\n'):
     # 将普通文本段落 block 渲染成 markdown 字符串。
     # 处理流程分为三层：
     # 1. 先收集文本内容做语言检测
@@ -359,7 +434,8 @@ def _collect_text_for_lang_detection(para_block):
 def _normalize_text_content(content):
     # 对原始文本做统一归一化，当前只负责全角转半角。
     # 单独拆出来是为了让语言检测和渲染阶段复用同一套文本预处理。
-    return full_to_half_exclude_marks(content or '')
+    # docpipe 剪裁: 再把 U+1D400 区的数学字母折回 ASCII (𝑆𝐷𝐶 -> SDC)
+    return _docpipe_fold_math_alnum(full_to_half_exclude_marks(content or ''))
 
 
 def _render_span(span, escape_markdown=True):
@@ -374,10 +450,10 @@ def _render_span(span, escape_markdown=True):
             content = escape_special_markdown_char(content)
     elif span_type == ContentType.INLINE_EQUATION:
         if span.get('content', ''):
-            content = f"{inline_left_delimiter}{span['content']}{inline_right_delimiter}"
+            content = f"{inline_left_delimiter}{_docpipe_compact_latex(span['content'])}{inline_right_delimiter}"
     elif span_type == ContentType.INTERLINE_EQUATION:
         if span.get('content', ''):
-            content = f"\n{display_left_delimiter}\n{span['content']}\n{display_right_delimiter}\n"
+            content = f"\n{display_left_delimiter}\n{_docpipe_compact_latex(span['content'])}\n{display_right_delimiter}\n"
     else:
         return None
 
@@ -419,7 +495,7 @@ def _join_rendered_span(para_block, block_lang, line, line_idx, span_idx, span_t
     return content, ' '
 
 
-def _line_prefix(line_idx, line, list_line_break='  \n'):
+def _line_prefix(line_idx, line, list_line_break='\n'):
     # 处理进入新 list item 前的 block 级换行。
     # 这里保留历史语义：list 起始行前插入一个 hard break。
     if line_idx >= 1 and line.get(ListLineTag.IS_LIST_START_LINE, False):

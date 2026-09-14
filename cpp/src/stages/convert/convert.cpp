@@ -87,6 +87,7 @@ int ConvertStage::run(const Ctx &ctx) {
   assert(setenv("MINERU_LOG_LEVEL", MINERU_LOG_LEVEL, 1) == 0);
   assert(setenv("DOCPIPE_IMG_MAX_WIDTH", IMG_MAX_WIDTH, 1) == 0);
   assert(setenv("DOCPIPE_IMG_QUALITY", IMG_QUALITY, 1) == 0);
+  assert(setenv("DOCPIPE_IMG_MIN_SIDE_PT", IMG_MIN_SIDE_PT, 1) == 0);
   // 内置便携 python + PYTHONPATH = MINERU_DIR 源码 : MINERU_DEPS_DIR (见 config.hpp 注释, 顺序不能反),
   // 不用 venv/入口脚本, 全部路径均由 ctx.root 运行时拼出, 项目搬迁/换机器不受影响
   assert(setenv("PYTHONNOUSERSITE", "1", 1) == 0);

@@ -60,6 +60,9 @@ inline constexpr const char *MINERU_LOG_LEVEL = "WARNING";
 // 同质量小一半以上。抽样实测 (120 张) 相对原版: WebP q75 限宽 1000 ≈ 37%, 叠加删孤儿图后整体约 1/10
 inline constexpr const char *IMG_MAX_WIDTH = "1000"; // 像素; 宽超过则等比缩到该宽度
 inline constexpr const char *IMG_QUALITY = "75";     // WebP 有损质量 0~100
+// 环境变量 DOCPIPE_IMG_MIN_SIDE_PT: 图/图表 bbox 短边 (PDF 点, 1pt=1/72in) 小于此值的不落盘也不进 md —— 实测这些全是
+// 电话/邮箱/微信 logo 一类图标 (~15pt), 真正的图表短边都在 100pt 以上. 公式与表格截图不受此限
+inline constexpr const char *IMG_MIN_SIDE_PT = "36";
 // 配置文件与模型缓存均改到项目内相对路径 (原版默认在 ~, 通过环境变量
 // MINERU_TOOLS_CONFIG_JSON / MODELSCOPE_CACHE 重定向, 见 env.cpp/convert.cpp), 随项目搬迁/换机器可用
 inline constexpr const char *MINERU_CONFIG_JSON = "cpp/package/MinerU/mineru.json"; // 由 mineru-models-download 生成

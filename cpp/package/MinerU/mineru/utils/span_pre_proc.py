@@ -560,12 +560,9 @@ def _append_script_wrapped_text(parts, role, text):
     """把连续同类上下标文本包裹成 HTML 标签，正文保持原样。"""
     if not text:
         return
-    if role == 'sup':
-        parts.append(f'<sup>{text}</sup>')
-    elif role == 'sub':
-        parts.append(f'<sub>{text}</sub>')
-    else:
-        parts.append(text)
+    # docpipe 剪裁: 上下标是按字符几何位置猜的, 研报里命中的多是版式碎片 (<sup>\_ReportTime]</sup>, Wind<sub>、</sub>),
+    # 真正的数学上下标走公式模型另有 LaTeX. 一律输出纯文本, 不产生 html 标签
+    parts.append(text)
 
 
 def _wrap_script_runs(role_text_parts):
