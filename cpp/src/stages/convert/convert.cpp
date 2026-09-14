@@ -31,8 +31,9 @@ static std::string stem(const std::string &name) { return name.substr(0, name.si
 // 按 MinerU 实际执行顺序打印各阶段作用, 帮用户理解进度条里那些 "Layout Predict" /
 // "MFR Predict" 之类的输出分别在干什么; MINERU_FORMULA/MINERU_TABLE 关闭时对应行不会
 // 真的跑, 这里同步跳过, 避免误导.
-static void print_pipeline_steps() {
-  fprintf(stderr, "[convert] MinerU 处理流程 (device=%s, 每个PDF依次经过以下阶段):\n", MINERU_DEVICE);
+static void print_pipeline_steps(const std::string &device) {
+  fprintf(stderr, "[convert] MinerU 处理流程 (device=%s, 每个PDF依次经过以下阶段):\n",
+          device.c_str());
   fprintf(stderr, "  Layout Predict        版面检测: 分割标题/正文/表格/公式/图片等区域框\n");
   if (MINERU_FORMULA)
     fprintf(stderr, "  MFR Predict           公式识别: 公式区域图片 -> LaTeX\n");
@@ -72,7 +73,7 @@ int ConvertStage::run(const Ctx &ctx) {
   std::string raw = ctx.root + "/" + RAW_REPORT_DIR;
   std::string proc = ctx.root + "/" + PROC_REPORT_DIR;
   assert(is_dir(raw) && "缺少研报输入目录 RAW_REPORT_DIR");
-  check_mineru_env(ctx.root); // E1-E3
+  std::string device = check_mineru_env(ctx.root); // E1-E3, 顺带定下本次用 cuda 还是 cpu
 
   std::vector<Pdf> pdfs;
   walk(raw, ".", pdfs);
@@ -98,10 +99,11 @@ int ConvertStage::run(const Ctx &ctx) {
   fprintf(stderr, "[convert] 共%zu个PDF: 已完成%zu, 待转换%zu (%zu个目录, %zu页)\n", pdfs.size(),
           n_done, n_todo, pending.size(), todo_pages);
   if (n_todo)
-    print_pipeline_steps();
+    print_pipeline_steps(device);
 
-  // MinerU 通过环境变量取设备与模型来源; 子进程继承
-  assert(setenv("MINERU_DEVICE_MODE", MINERU_DEVICE, 1) == 0);
+  // MinerU 通过环境变量取设备与模型来源; 子进程继承. 显式写入探测结果而不是留空让 MinerU 自己
+  // 判 (mineru/utils/config_reader.py get_device()), 是为了让这里打印的和实际跑的一定是同一个
+  assert(setenv("MINERU_DEVICE_MODE", device.c_str(), 1) == 0);
   assert(setenv("MINERU_MODEL_SOURCE", MINERU_MODEL_SOURCE, 1) == 0);
   assert(setenv("MINERU_FORMULA_CH_SUPPORT", MINERU_FORMULA_CH_SUPPORT, 1) == 0);
   assert(setenv("MINERU_API_MAX_CONCURRENT_REQUESTS", MINERU_API_CONCURRENCY, 1) == 0);

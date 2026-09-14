@@ -30,7 +30,7 @@ inline constexpr const char *TOPIC_DIR = "0主题研报";
 inline constexpr const char *WU = "无";
 
 // ---------- stage2 convert: MinerU 转 markdown ----------
-inline constexpr const char *MINERU_BACKEND = "pipeline"; // 无 GPU, 只有 pipeline 可用
+inline constexpr const char *MINERU_BACKEND = "pipeline"; // vlm 后端另需 [vlm] 依赖与 VLM 模型, 未纳入
 inline constexpr const char *MINERU_METHOD = "auto";      // auto/txt/ocr; 也决定 MinerU 临时输出子目录名
 // 最终产物: PROC_REPORT_DIR/{券商}/{系列}/{stem}/PROC_MD_NAME + images/ (convert.cpp 从 MinerU 固有的
 // {stem}/{MINERU_METHOD}/{stem}.md 搬平; 文件名统一, stem 信息已在目录名里)
@@ -42,13 +42,16 @@ inline constexpr const char *PROC_STAT_NAME = ".stat";
 // 启动时无条件清空, 结束时删除, 只有被 kill 才会残留
 inline constexpr const char *PROC_STAGING_DIR = ".staging";
 inline constexpr const char *MINERU_LANG = "ch";
-inline constexpr bool MINERU_FORMULA = true;                      // 关掉可省 1 个模型
-inline constexpr bool MINERU_TABLE = true;                        // 关掉可省 4 个模型
-inline constexpr const char *MINERU_DEVICE = "cpu";               // 环境变量 MINERU_DEVICE_MODE
+inline constexpr bool MINERU_FORMULA = true; // 关掉可省 1 个模型
+inline constexpr bool MINERU_TABLE = true;   // 关掉可省 4 个模型
+// 环境变量 MINERU_DEVICE_MODE. "auto" = 由 env.cpp 跑一次 torch.cuda.is_available() 探测, 有卡用 cuda
+// 无卡用 cpu (CPU/GPU 通用: 同一份代码换机器不用改); 也可写死 "cpu"/"cuda" 强制指定, 跳过探测
+inline constexpr const char *MINERU_DEVICE = "auto";
 inline constexpr const char *MINERU_MODEL_SOURCE = "local";       // 环境变量 MINERU_MODEL_SOURCE, 跑前已校验模型齐备, 不联网
 inline constexpr const char *MINERU_FORMULA_CH_SUPPORT = "false"; // 环境变量; true 换用支持中文的 pp_formulanet_plus_m
 // 环境变量 MINERU_API_MAX_CONCURRENT_REQUESTS: 本地 mineru-api 同时处理的任务数. MinerU 默认 3, 那是给 GPU
-// 的; CPU 上每个任务的 torch 都默认吃满全部核, 3 个并发 = 3 倍线程抢同一批核, 只会更慢, 还把日志交错成一团
+// 的; CPU 上每个任务的 torch 都默认吃满全部核, 3 个并发 = 3 倍线程抢同一批核, 只会更慢, 还把日志交错成一团.
+// GPU 下暂时也保持 1: 并发数受显存约束 (每个任务一份模型权重), 调高前先看实测显存占用
 inline constexpr const char *MINERU_API_CONCURRENCY = "1";
 // 环境变量 MINERU_LOG_LEVEL: loguru + uvicorn (fast_api.py 已改为跟随) 的级别. WARNING = 不刷 INFO 行,
 // 终端只剩各模型的 tqdm 进度条 (不受该级别控制) 和 docpipe 自己的进度行

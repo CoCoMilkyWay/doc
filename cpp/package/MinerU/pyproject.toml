@@ -101,6 +101,23 @@ pipeline = [
     "safetensors>=0.4.0,<1",
     "onnxruntime>1.17.0",
 ]
+# docpipe 新增: 有 NVIDIA GPU 的机器改装这个 extra (env.cpp 按机器自动给出对应指令)。
+# 与 pipeline 只差 onnxruntime -> onnxruntime-gpu: 二者提供同一个 onnxruntime 模块, 不能共存,
+# 故必须整组替换而不是追加. torch 走 cu130 源时其 cuda-toolkit[cudart,cufft,curand,nvrtc]==13.0.3
+# 展开出的 nvidia-cuda-runtime/cufft/curand/nvrtc 与 nvidia-cudnn-cu13 正好落在 onnxruntime-gpu
+# 的 [cuda,cudnn] 约束区间内, 两者共用同一套 CUDA 13 运行时, 不重复下载.
+# 下限 1.30: 该版起 onnxruntime-gpu 才是 CUDA 13 世代 (1.23 及以前依赖 nvidia-*-cu12, 与 cu130 torch 错代).
+pipeline-gpu = [
+    "PyYAML>=6.0.1,<7",
+    "ftfy>=6.3.1,<7",
+    "shapely>=2.0.7,<3",
+    "pyclipper>=1.3.0,<2",
+    "torch>=2.6.0,<3",
+    "torchvision",
+    "transformers>=4.57.3,<5.0.0",
+    "safetensors>=0.4.0,<1",
+    "onnxruntime-gpu[cuda,cudnn]>=1.30,<2",
+]
 gradio = [
     "gradio>=5.49.1,!=6.0.0,!=6.0.1,!=6.0.2,!=6.1.0,!=6.2.0,!=6.3.0,!=6.4.0,!=6.5.0,!=6.5.1,!=6.6.0,!=6.7.0,<6.9.0",
     "gradio-pdf>=0.0.22",

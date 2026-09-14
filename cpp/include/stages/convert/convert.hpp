@@ -1,4 +1,5 @@
-// stage2 convert: 用 MinerU (pipeline 后端, CPU) 把 RAW_REPORT_DIR 下每个 PDF 转成 markdown。
+// stage2 convert: 用 MinerU (pipeline 后端) 把 RAW_REPORT_DIR 下每个 PDF 转成 markdown。
+// CPU/GPU 通用: 有 NVIDIA 卡的机器自动走 cuda, 没有的走 cpu, 同一份代码不用改 (见 env.cpp E2)。
 //
 // 输出位置与输入同层次, 每篇一个目录, 文件名统一 (给 agent 用: 只留 md + 图, 无调试产物):
 //     RAW_REPORT_DIR/{券商}/{系列}/{stem}.pdf
@@ -15,7 +16,8 @@
 //
 // 跑前环境校验 (env.cpp), 任一不满足即打印解决办法并断言失败:
 //   E1  内置python  MINERU_PYTHON_BIN 存在
-//   E2  依赖        MINERU_PYTHON_BIN + PYTHONPATH=MINERU_DEPS_DIR 下可 import mineru/torch/onnxruntime/transformers
+//   E2  依赖        MINERU_PYTHON_BIN + PYTHONPATH=MINERU_DEPS_DIR 下可 import mineru/torch/onnxruntime/transformers;
+//                   同时用 torch.cuda.is_available() 定下设备, 有卡却装了 CPU 版 torch 也在此失败
 //   E3  模型        MINERU_CONFIG_JSON 的 models-dir.pipeline 下 MINERU_PIPELINE_MODELS 全部存在
 //
 // 完成凭据 (stat.cpp): 每篇就绪后在 {stem}/ 下写 PROC_STAT_NAME, 格式:
@@ -60,8 +62,8 @@ struct Pdf {
   long long size = 0; // 字节数, 写入 .stat 作为源身份
 };
 
-// env.cpp: E1-E3
-void check_mineru_env(const std::string &root);
+// env.cpp: E1-E3. 返回本次实际使用的设备 ("cuda" 或 "cpu", 见 config.hpp MINERU_DEVICE)
+std::string check_mineru_env(const std::string &root);
 
 // stat.cpp
 void write_stat(const std::string &doc_dir, long long pdf_size);
