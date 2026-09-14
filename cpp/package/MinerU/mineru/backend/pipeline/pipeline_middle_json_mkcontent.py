@@ -19,15 +19,23 @@ from mineru.backend.utils.markdown_utils import (
 def make_blocks_to_markdown(paras_of_layout,
                                       mode,
                                       img_buket_path='',
+                                      running_texts=frozenset(),
                                       ):
+    """返回 [(block_type, markdown_text)]; running_texts 为 union_make 统计出的页眉页脚文本 (见 _docpipe_running_texts)."""
     page_markdown = []
-    for para_block in paras_of_layout:
+    for i, para_block in enumerate(paras_of_layout):
         para_text = ''
         para_type = para_block['type']
         # docpipe 剪裁: md 是给 AI 读的, 只保留内容与层级, 去掉一切版式痕迹 (集中在本文件, 见各 _docpipe_* 帮助函数):
-        #   INDEX(目录, 布局模型标签 content) 整块丢弃 —— 标题都在正文里, 页码对 md 无意义
+        #   INDEX(目录, 布局模型标签 content) 整块丢弃 —— 标题都在正文里, 页码对 md 无意义; 紧邻其前的 TITLE
+        #   ("目录"/"图目录") 是它的标题, 一并丢弃
+        #   布局模型漏标的页眉页脚 (同一短文本出现在 >=3 页) 丢弃
         #   标题/段落行首的项目符号 (◼ ➢ • ...) 是版式, 标题里去掉, 段落里归一为 markdown 列表 "- "
         if para_type == BlockType.INDEX:
+            continue
+        if para_type == BlockType.TITLE and i + 1 < len(paras_of_layout) and paras_of_layout[i + 1]['type'] == BlockType.INDEX:
+            continue
+        if para_type in (BlockType.TEXT, BlockType.TITLE) and merge_para_with_text(para_block).strip() in running_texts:
             continue
         if para_type in [
             BlockType.TEXT,
@@ -70,9 +78,51 @@ def make_blocks_to_markdown(paras_of_layout,
         if para_text.strip() == '':
             continue
         else:
-            page_markdown.append(para_text.strip())
+            page_markdown.append((para_type, '\n'.join(line.rstrip() for line in para_text.strip().split('\n'))))  # docpipe: 无行尾空白
 
     return page_markdown
+
+
+# ---- docpipe 剪裁: 跨页的两条结构规则 (在 union_make 里用, 只看页与页之间) ----
+_RUNNING_MAX_CHARS = 40  # 页眉页脚都很短; 图注/表注是视觉块的子块, 不经过本规则
+_RUNNING_MIN_PAGES = 3
+_SENTENCE_END_RE = re.compile(r'[.。!?！？:：;；)）\]】”"]\s*$')
+
+
+def _docpipe_running_texts(pdf_info_dict):
+    """布局模型漏标的页眉页脚: 同一短文本 (TEXT/TITLE 块) 出现在 >= _RUNNING_MIN_PAGES 个不同页上. 纯文档内统计, 不依赖词表."""
+    pages_by_text = {}
+    for page_info in pdf_info_dict:
+        for block in page_info.get('para_blocks') or []:
+            if block['type'] in (BlockType.TEXT, BlockType.TITLE):
+                text = merge_para_with_text(block).strip()
+                if 0 < len(text) <= _RUNNING_MAX_CHARS:
+                    pages_by_text.setdefault(text, set()).add(page_info.get('page_idx'))
+    return frozenset(t for t, pages in pages_by_text.items() if len(pages) >= _RUNNING_MIN_PAGES)
+
+
+def _docpipe_is_continuation(prev, curr):
+    """页尾段落被翻页截断: 上页末块与本页首块都是正文, 上句未收尾, 下句以小写字母或汉字接续 (非列表/标题)."""
+    (prev_type, prev_text), (curr_type, curr_text) = prev, curr
+    if prev_type != BlockType.TEXT or curr_type != BlockType.TEXT:
+        return False
+    if _SENTENCE_END_RE.search(prev_text) or prev_text.startswith('- ') or curr_text.startswith('- '):
+        return False
+    first = curr_text[0]
+    return first.islower() or ('\u4e00' <= first <= '\u9fff' and len(prev_text) > 60)
+
+
+def _docpipe_join_pages(page_items):
+    """把各页的 [(type, text)] 拼成整篇 md; 跨页断段合并 (西文补空格, 中文直接接)."""
+    items = []
+    for page in page_items:
+        for j, item in enumerate(page):
+            if j == 0 and items and _docpipe_is_continuation(items[-1], item):
+                sep = '' if '\u4e00' <= item[1][0] <= '\u9fff' else ' '
+                items[-1] = (BlockType.TEXT, items[-1][1] + sep + item[1])
+            else:
+                items.append(item)
+    return [text for _, text in items]
 
 
 def merge_visual_blocks_to_markdown(para_block, img_buket_path=''):
@@ -185,8 +235,7 @@ def render_visual_block_segments(block, img_buket_path='', para_block=None):
                 if span['type'] != ContentType.TABLE:
                     continue
                 if span.get('html', ''):
-                    # docpipe 剪裁: 表格模型输出的 html 每格都带 rowspan=1 colspan=1, 是给渲染器看的布局噪音;
-                    # 无合并单元格的表直接转 markdown 管道表, 有合并的只保留非 1 的 span 属性
+                    # docpipe 剪裁: 表格 html 一律转 markdown 管道表, 合并格展开 (见 _table_html_to_markdown)
                     rendered_segments.append(_table_html_to_markdown(_format_embedded_html(span['html'], img_buket_path)))
                 elif span.get('image_path', ''):
                     rendered_segments.append((f"![]({img_buket_path}/{span['image_path']})", 'markdown_line'))
@@ -247,8 +296,8 @@ def _replace_eq_tags_in_table_html(html):
 
     return re.sub(
         r'<eq>(.*?)</eq>',
-        lambda match: (
-            f" {inline_left_delimiter}{unescape(match.group(1))}{inline_right_delimiter} "
+        lambda match: (  # docpipe: 表内公式同样压缩 LaTeX 空白
+            f" {inline_left_delimiter}{_docpipe_compact_latex(unescape(match.group(1)))}{inline_right_delimiter} "
         ),
         html,
         flags=re.DOTALL,
@@ -266,6 +315,8 @@ _BULLET_LINE_RE = re.compile(r'^[ \t]*[•◼■●▪➢►➤◆❖※○◇�
 # PDF 文字层里的数学字母数字符号 (U+1D400~U+1D7FF, 如 𝑆𝐷𝐶 𝑇𝑢𝑟𝑛𝑂𝑣𝑒𝑟): 4 字节/字符, tokenizer 拆碎, grep 搜不到.
 # 只对该区做 NFKC (映射回 ASCII/希腊字母), 不碰中文全角标点
 _MATH_ALNUM_RE = re.compile(r'[\U0001D400-\U0001D7FF]+')
+_PUA_RE = re.compile(r'[\uE000-\uF8FF]+')
+_ASCII_WORD_RE = re.compile(r'[A-Za-z0-9]')
 # LaTeX 词法: 控制词 / 控制符 (含 "\ ") / 空白 / 其他
 _TEX_TOKEN_RE = re.compile(r'\\[a-zA-Z]+|\\.|\s+|[^\s\\]+', re.DOTALL)
 _TEX_TEXT_CMDS = frozenset({r'\text', r'\mbox', r'\textrm', r'\textbf', r'\textit', r'\hbox'})
@@ -300,31 +351,48 @@ def _docpipe_compact_latex(tex):
     return ''.join(out)
 
 
-_SPAN1_RE = re.compile(r'\s+(?:rowspan|colspan)="?1"?(?=[\s>])')
 _TR_RE = re.compile(r'<tr[^>]*>(.*?)</tr>', re.DOTALL)
-_TD_RE = re.compile(r'<t[dh]\b[^>]*>(.*?)</t[dh]>', re.DOTALL)
+_TD_RE = re.compile(r'<t[dh]\b([^>]*)>(.*?)</t[dh]>', re.DOTALL)
+_SPAN_ATTR_RE = re.compile(r'(rowspan|colspan)="?(\d+)"?')
 
 
 def _table_html_to_markdown(html):
-    """docpipe 剪裁: 表格 html -> (segment, kind).
-    先剥掉 rowspan=1/colspan=1 (无信息量); 若仍有合并单元格、嵌套表或格内标签, 保留精简后的 html;
-    否则转 markdown 管道表 (首行为表头), 让 md 只剩表格内容本身."""
-    html = _SPAN1_RE.sub('', html)
-    if 'rowspan' in html or 'colspan' in html or html.count('<table') != 1:
+    """docpipe 剪裁: 表格模型输出的 html -> markdown 管道表 (segment, kind).
+    <tr>/<td>/rowspan/colspan 全是渲染布局, 对 AI 无意义. 按 html 表格算法把单元格铺到网格上, 合并格的内容
+    复制到它覆盖的每一格 (跨 3 列的表头 "2020" 变成 3 个 "2020", 每列仍自描述), 整行空白的行丢弃.
+    只有嵌套表或格内含别的标签 (img 等) 才原样保留 html."""
+    if html.count('<table') != 1:
         return html, 'html_block'
-    rows = []
-    for tr in _TR_RE.findall(html):
-        cells = []
-        for cell in _TD_RE.findall(tr):
+    grid = {}  # (row, col) -> text
+    nrow = 0
+    for r, tr in enumerate(_TR_RE.findall(html)):
+        nrow = r + 1
+        col = 0
+        for attrs, cell in _TD_RE.findall(tr):
             cell = re.sub(r'<br\s*/?>', ' ', cell)
-            if '<' in cell:  # 格内还有别的标签 (img/b/sup...), 不冒险
+            if '<' in cell:
                 return html, 'html_block'
-            cells.append(' '.join(unescape(cell).split()).replace('|', '\\|'))
-        rows.append(cells)
-    if not rows:
+            text = ' '.join(unescape(cell).split()).replace('|', '\\|')
+            span = {'rowspan': 1, 'colspan': 1}
+            span.update((k, int(v)) for k, v in _SPAN_ATTR_RE.findall(attrs))
+            while (r, col) in grid:  # 被上方 rowspan 占掉的格
+                col += 1
+            for dr in range(span['rowspan']):
+                for dc in range(span['colspan']):
+                    grid[(r + dr, col + dc)] = text
+                    nrow = max(nrow, r + dr + 1)
+            col += span['colspan']
+    if not grid:
         return html, 'html_block'
-    ncol = max(len(r) for r in rows)
-    lines = ['| ' + ' | '.join(r + [''] * (ncol - len(r))) + ' |' for r in rows]
+    ncol = max(c for _, c in grid) + 1
+    rows = [[grid.get((r, c), '') for c in range(ncol)] for r in range(nrow)]
+    rows = [row for row in rows if any(row)]  # 整行/整列空格 (表格识别把分隔线/空白带当成一行/列) 无信息
+    keep = [c for c in range(ncol) if any(row[c] for row in rows)]
+    rows = [[row[c] for c in keep] for row in rows]
+    ncol = len(keep)
+    if not rows or not ncol:
+        return html, 'html_block'
+    lines = ['| ' + ' | '.join(row) + ' |' for row in rows]
     lines.insert(1, '|' + ' --- |' * ncol)
     return '\n'.join(lines), 'md_table'
 
@@ -434,8 +502,9 @@ def _collect_text_for_lang_detection(para_block):
 def _normalize_text_content(content):
     # 对原始文本做统一归一化，当前只负责全角转半角。
     # 单独拆出来是为了让语言检测和渲染阶段复用同一套文本预处理。
-    # docpipe 剪裁: 再把 U+1D400 区的数学字母折回 ASCII (𝑆𝐷𝐶 -> SDC)
-    return _docpipe_fold_math_alnum(full_to_half_exclude_marks(content or ''))
+    # docpipe 剪裁: 再把 U+1D400 区的数学字母折回 ASCII (𝑆𝐷𝐶 -> SDC); 私用区字符 (Wingdings/Symbol 字体的项目符号,
+    # 无 Unicode 语义) 统一映射为 •, 随后由 _BULLET_LINE_RE 归一
+    return _PUA_RE.sub('•', _docpipe_fold_math_alnum(full_to_half_exclude_marks(content or '')))
 
 
 def _render_span(span, escape_markdown=True):
@@ -449,11 +518,13 @@ def _render_span(span, escape_markdown=True):
         if escape_markdown:
             content = escape_special_markdown_char(content)
     elif span_type == ContentType.INLINE_EQUATION:
-        if span.get('content', ''):
-            content = f"{inline_left_delimiter}{_docpipe_compact_latex(span['content'])}{inline_right_delimiter}"
+        tex = _docpipe_compact_latex(span.get('content', ''))
+        if tex:  # docpipe: 公式模型可能只吐空白, 不输出空的 $$
+            content = f"{inline_left_delimiter}{tex}{inline_right_delimiter}"
     elif span_type == ContentType.INTERLINE_EQUATION:
-        if span.get('content', ''):
-            content = f"\n{display_left_delimiter}\n{_docpipe_compact_latex(span['content'])}\n{display_right_delimiter}\n"
+        tex = _docpipe_compact_latex(span.get('content', ''))
+        if tex:
+            content = f"\n{display_left_delimiter}\n{tex}\n{display_right_delimiter}\n"
     else:
         return None
 
@@ -478,7 +549,16 @@ def _join_rendered_span(para_block, block_lang, line, line_idx, span_idx, span_t
     if block_lang in CJK_LANGS:
         if is_last_span and span_type != ContentType.INLINE_EQUATION:
             return content, ''
-        return content, ' '
+        # docpipe 剪裁: 中文 span 之间原版一律补空格 (Wind、 信达 / 第 i 个), 只在两侧都是西文字母数字或公式时才需要
+        if is_last_span or span_type == ContentType.INLINE_EQUATION:
+            return content, ' '
+        nxt = line['spans'][span_idx + 1]
+        if nxt.get('type') == ContentType.INLINE_EQUATION:
+            return content, ' '
+        nxt_text = _normalize_text_content(nxt.get('content', '')).lstrip()
+        if _ASCII_WORD_RE.match(content[-1:]) and _ASCII_WORD_RE.match(nxt_text[:1]):
+            return content, ' '
+        return content, ''
 
     if span_type not in [ContentType.TEXT, ContentType.INLINE_EQUATION]:
         return content, ''
@@ -1046,6 +1126,8 @@ def union_make(pdf_info_dict: list,
                img_buket_path: str = '',
                ):
     output_content = []
+    running_texts = _docpipe_running_texts(pdf_info_dict) if make_mode in [MakeMode.MM_MD, MakeMode.NLP_MD] else frozenset()
+    page_items = []  # docpipe: md 模式先按页收集 [(type, text)], 最后 _docpipe_join_pages 做跨页断段合并
     for page_info in pdf_info_dict:
         paras_of_layout = page_info.get('para_blocks')
         paras_of_discarded = page_info.get('discarded_blocks')
@@ -1054,8 +1136,7 @@ def union_make(pdf_info_dict: list,
         if make_mode in [MakeMode.MM_MD, MakeMode.NLP_MD]:
             if not paras_of_layout:
                 continue
-            page_markdown = make_blocks_to_markdown(paras_of_layout, make_mode, img_buket_path)
-            output_content.extend(page_markdown)
+            page_items.append(make_blocks_to_markdown(paras_of_layout, make_mode, img_buket_path, running_texts))
         elif make_mode == MakeMode.CONTENT_LIST:
             para_blocks = merge_adjacent_ref_text_blocks_for_content(
                 (paras_of_layout or []) + (paras_of_discarded or [])
@@ -1079,7 +1160,7 @@ def union_make(pdf_info_dict: list,
             output_content.append(page_contents)
 
     if make_mode in [MakeMode.MM_MD, MakeMode.NLP_MD]:
-        return '\n\n'.join(output_content)
+        return '\n\n'.join(_docpipe_join_pages(page_items))
     elif make_mode in [MakeMode.CONTENT_LIST, MakeMode.CONTENT_LIST_V2]:
         return output_content
     else:
