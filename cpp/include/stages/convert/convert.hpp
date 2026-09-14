@@ -65,7 +65,7 @@ void check_mineru_env(const std::string &root);
 
 // stat.cpp
 void write_stat(const std::string &doc_dir, long long pdf_size);
-// 返回 "" 表示完整; 否则为问题标签 (如 "不完整:缺 images/x.jpg")
+// 返回 "" 表示完整; 否则为问题标签 (如 "不完整:缺 images/x.webp")
 std::string verify_stat(const std::string &doc_dir, long long pdf_size);
 
 // check.cpp: 增量扫描. proc 为 PROC_REPORT_DIR 绝对路径. 待转换 PDF 下标写入 pending (按 pdfs 顺序).

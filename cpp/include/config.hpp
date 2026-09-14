@@ -53,6 +53,13 @@ inline constexpr const char *MINERU_API_CONCURRENCY = "1";
 // 环境变量 MINERU_LOG_LEVEL: loguru + uvicorn (fast_api.py 已改为跟随) 的级别. WARNING = 不刷 INFO 行,
 // 终端只剩各模型的 tqdm 进度条 (不受该级别控制) 和 docpipe 自己的进度行
 inline constexpr const char *MINERU_LOG_LEVEL = "WARNING";
+// 环境变量 DOCPIPE_IMG_MAX_WIDTH / DOCPIPE_IMG_QUALITY: 插图落盘参数 (MinerU pdf_image_tools.py::cut_image 读取).
+// MinerU 原版是 200dpi 页面截图 + PIL 默认 JPEG(q75), 且对 table/equation 也截图落盘, 而 md 里表格是 <table>
+// html、公式是 LaTeX, 那些截图从不被引用 (实测占 images/ 一半以上字节, 由 cli/common.py 在写完 md 后删掉)。
+// 被引用的插图改为 WebP + 限宽: 视觉模型输入本就会缩到 ~1000px 量级, 限宽不丢信息; 图表类图 WebP 比 JPEG
+// 同质量小一半以上。抽样实测 (120 张) 相对原版: WebP q75 限宽 1000 ≈ 37%, 叠加删孤儿图后整体约 1/10
+inline constexpr const char *IMG_MAX_WIDTH = "1000"; // 像素; 宽超过则等比缩到该宽度
+inline constexpr const char *IMG_QUALITY = "75";     // WebP 有损质量 0~100
 // 配置文件与模型缓存均改到项目内相对路径 (原版默认在 ~, 通过环境变量
 // MINERU_TOOLS_CONFIG_JSON / MODELSCOPE_CACHE 重定向, 见 env.cpp/convert.cpp), 随项目搬迁/换机器可用
 inline constexpr const char *MINERU_CONFIG_JSON = "cpp/package/MinerU/mineru.json"; // 由 mineru-models-download 生成

@@ -503,12 +503,21 @@ def cut_image(
     img_path = f"{return_path}_{filename}" if return_path is not None else None
 
     # 新版本生成平铺路径
-    img_hash256_path = f"{str_sha256(img_path)}.jpg"
+    # docpipe 剪裁: 原版 .jpg (PIL 默认 q75, 200dpi 原尺寸) 改为 WebP + 限宽, 参数由 docpipe 经环境变量下发
+    # (见 config.hpp IMG_MAX_WIDTH / IMG_QUALITY); 缺环境变量即断言失败, 不静默退回原版行为
+    img_hash256_path = f"{str_sha256(img_path)}.webp"
     # img_hash256_path = f'{img_path}.jpg'
 
     crop_img = get_crop_img(bbox, page_pil_img, scale=scale)
 
-    img_bytes = image_to_bytes(crop_img, image_format="JPEG")
+    max_width = int(os.environ["DOCPIPE_IMG_MAX_WIDTH"])
+    quality = int(os.environ["DOCPIPE_IMG_QUALITY"])
+    assert max_width > 0 and 0 <= quality <= 100, (max_width, quality)
+    if crop_img.width > max_width:
+        crop_img = crop_img.resize((max_width, max(1, round(crop_img.height * max_width / crop_img.width))), Image.LANCZOS)
+    with BytesIO() as buf:
+        crop_img.save(buf, format="WEBP", quality=quality, method=6)
+        img_bytes = buf.getvalue()
 
     image_writer.write(img_hash256_path, img_bytes)
     return img_hash256_path

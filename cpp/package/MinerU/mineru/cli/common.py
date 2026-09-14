@@ -317,6 +317,12 @@ def _process_output(
             f"{pdf_file_name}.md",
             md_content_str,
         )
+        # docpipe 剪裁: cut_image_and_table 对 image/table/equation span 一律截图落盘, 但 md 里表格是 <table>
+        # html、公式是 LaTeX, 那些截图从不被引用 (实测占 images/ 一半以上字节). md 定稿后删掉未被引用的图
+        assert os.path.isdir(local_image_dir), local_image_dir
+        for fname in os.listdir(local_image_dir):
+            if f"{image_dir}/{fname}" not in md_content_str:
+                os.remove(os.path.join(local_image_dir, fname))
 
     if f_dump_content_list:
 
