@@ -7,6 +7,9 @@
 // printf 风格格式化
 [[gnu::format(printf, 1, 2)]] std::string F(const char *fmt, ...);
 
+// 单调时钟毫秒, 仅用于耗时打印
+double now_ms();
+
 std::vector<std::string> split(const std::string &s, char sep);
 std::string lower_ascii(std::string s);
 

@@ -11,7 +11,7 @@
 //   C5  序号       3位数字(可带1个小写字母); 000 违规(单篇报告亦须归入某系列)
 //   C6  标题       非空; 不含连续 __; 不以 _ 开头/结尾; 不允许 无
 //   C7  长度       整名 utf-8 < 250 字节
-//   C8  扫描件     前 SCAN_PAGES 页 pdftotext 抽不出任何文字 => 标记 [扫描:无文字层]
+//   C8  扫描件     前 SCAN_PAGES 页抽不出任何文字 => 标记 [扫描:无文字层]
 //                  (有 OCR 文字层的不算扫描件; 无法解析的 PDF 记为违规)
 // 跨文件/结构检查 (structure.cpp / content.cpp), 目录层次 = ROOT/{券商}/{系列}/,
 // TOPIC_DIR 下为 ROOT/0主题研报/{主题}/:
@@ -23,7 +23,7 @@
 //   X5  内容重复  按文件字节 sha256 判定, 即使文件名不同也算重复
 //
 // 输出: 树状打印所有 [违规:*] / [占位:*] / [扫描:*] 的文件; 存在违规时退出码 1。
-// 依赖: poppler-utils (pdftotext)
+// 依赖: libpoppler-cpp (pkg-config poppler-cpp)
 #pragma once
 
 #include <cstddef>
@@ -56,7 +56,7 @@ struct Rec {
   std::vector<std::string> viol, place, scan; // 违规 / 占位 / 扫描 标签
   bool parsed = false;                        // 文件名结构是否合法
   Seg g;
-  std::string digest; // sha256
+  std::string digest; // sha256; 仅大小有碰撞的文件才计算, 其余为空
   int text = -1;      // pdf_has_text 结果
 };
 

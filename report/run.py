@@ -14,7 +14,9 @@ BIN = os.path.join(BUILD, "docpipe")
 
 assert os.path.isfile(os.path.join(CPP, "CMakeLists.txt")), "缺少 %s/CMakeLists.txt" % CPP
 assert shutil.which("cmake"), "缺少 cmake"
-assert shutil.which("pdftotext"), "缺少 pdftotext, 请安装 poppler-utils"
+assert shutil.which("pkg-config"), "缺少 pkg-config"
+assert subprocess.run(["pkg-config", "--exists", "poppler-cpp"]).returncode == 0, \
+    "缺少 libpoppler-cpp, 请安装: sudo apt install libpoppler-cpp-dev"
 
 if not os.path.isfile(os.path.join(BUILD, "CMakeCache.txt")):
     cxx = shutil.which("clang++")

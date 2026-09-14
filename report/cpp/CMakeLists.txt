@@ -15,6 +15,13 @@ string(REPLACE "-DNDEBUG" "" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_R
 
 find_package(Threads REQUIRED)
 
+# PDF 解析依赖 libpoppler-cpp, 缺了直接在配置期失败
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(POPPLER_CPP IMPORTED_TARGET poppler-cpp)
+if(NOT POPPLER_CPP_FOUND)
+  message(FATAL_ERROR "缺少 libpoppler-cpp, 请安装: sudo apt install libpoppler-cpp-dev")
+endif()
+
 add_library(docpipe_core STATIC
   src/common/util.cpp
   src/common/sha256.cpp
@@ -28,7 +35,7 @@ add_library(docpipe_core STATIC
   src/stages/scan/report.cpp
 )
 target_include_directories(docpipe_core PUBLIC include)
-target_link_libraries(docpipe_core PUBLIC Threads::Threads)
+target_link_libraries(docpipe_core PUBLIC Threads::Threads PkgConfig::POPPLER_CPP)
 target_compile_options(docpipe_core PUBLIC -Wall -Wextra)
 
 add_executable(docpipe src/main.cpp)

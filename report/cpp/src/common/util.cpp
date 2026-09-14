@@ -1,6 +1,7 @@
 #include "common/util.hpp"
 
 #include <cassert>
+#include <chrono>
 #include <cstdarg>
 #include <cstdio>
 
@@ -18,6 +19,11 @@ std::string F(const char *fmt, ...) {
   vsnprintf(big.data(), (size_t)n + 1, fmt, ap);
   va_end(ap);
   return big;
+}
+
+double now_ms() {
+  using namespace std::chrono;
+  return duration<double, std::milli>(steady_clock::now().time_since_epoch()).count();
 }
 
 std::vector<std::string> split(const std::string &s, char sep) {
