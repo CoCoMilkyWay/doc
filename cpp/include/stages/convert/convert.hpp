@@ -8,15 +8,15 @@
 // middle/model/content_list json 与 origin/layout/span pdf 已在 package/MinerU/mineru/cli/client.py 关掉.
 //
 // python 环境不用 venv (venv 会把创建时的绝对路径写死进 pyvenv.cfg/activate/符号链接, 项目搬迁即
-// 失效), 改用: 内置便携版 CPython (MINERU_PYTHON_BIN, 不依赖系统 python) + pip --target 把依赖装进
-// 项目内相对目录 (MINERU_DEPS_DIR) + 运行时 PYTHONPATH 指过去; 配置文件与模型缓存同理改到项目内
+// 失效), 改用: 内置便携版 CPython (PYTHON_BIN, 不依赖系统 python) + pip --target 把依赖装进
+// 项目内相对目录 (PYTHON_DEPS_DIR) + 运行时 PYTHONPATH 指过去; 配置文件与模型缓存同理改到项目内
 // (MINERU_CONFIG_JSON/MINERU_MODELS_CACHE_DIR, 原版默认写 ~, 用 MINERU_TOOLS_CONFIG_JSON/
 // MODELSCOPE_CACHE 环境变量重定向)。全部路径基于 ctx.root 现算, 随项目搬迁/换机器直接可用,
 // 见 config.hpp 注释。
 //
 // 跑前环境校验 (env.cpp), 任一不满足即打印解决办法并断言失败:
-//   E1  内置python  MINERU_PYTHON_BIN 存在
-//   E2  依赖        MINERU_PYTHON_BIN + PYTHONPATH=MINERU_DEPS_DIR 下可 import mineru/torch/onnxruntime/transformers;
+//   E1  内置python  PYTHON_BIN 存在
+//   E2  依赖        PYTHON_BIN + PYTHONPATH=PYTHON_DEPS_DIR 下可 import mineru/torch/onnxruntime/transformers;
 //                   同时用 torch.cuda.is_available() 定下设备, 有卡却装了 CPU 版 torch 也在此失败
 //   E3  模型        MINERU_CONFIG_JSON 的 models-dir.pipeline 下 MINERU_PIPELINE_MODELS 全部存在
 //

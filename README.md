@@ -62,10 +62,12 @@ doc/
 │   │       ├── rules.cpp      # 🏷️ V2 V3 K1-K8 字段间一致性; G1-G4 接地: evidence 归一化后必须是 report.md 逐字子串, 数字须在 evidence 里
 │   │       ├── cross.cpp      # 🏷️ X1-X4: builds_on 存在·不倒置·无环 / 枚举取值分布 (防 LLM 默认填) / 死词表提示 / findings 串写
 │   │       └── report.cpp     # 🏷️ 按券商目录统计 (总数/已标注/缺失/违规/多余), 违规项树状列出
+│   ├── agent/                 # 🏷️ stage3 阶段一: tag_loop.py (Cursor Python SDK 补标签) + agent loop.md 设计 + cursor_api_key.txt (gitignore)
 │   ├── package/               # 📚 内置第三方 (随项目搬迁, 不依赖系统环境)
-│   │   ├── python/            # 📚 便携版 CPython 3.12 (python-build-standalone, 自带 pip)
+│   │   ├── python/            # 📚 便携版 CPython 3.12 (python-build-standalone, 自带 pip), 各 stage 共用
+│   │   │   └── deps/          # 📚 pip --target 装的依赖 (~1.6G: MinerU 全家 + cursor-sdk). 共享一份, 不按 stage 分;
+│   │   │                      #     不用 venv (绝对路径写死, 搬迁即失效), 也不进 site-packages (那是 git 跟踪的)
 │   │   └── MinerU/            # 📚 MinerU 剪裁版源码 (cli/client.py 关掉了 middle/model/content_list json 与调试 pdf)
-│   │       ├── deps/          # 📚 pip --target 装的依赖 (~1.6G, 不用 venv: venv 会把绝对路径写死, 搬迁即失效)
 │   │       ├── models/        # 📚 模型缓存 (~2.5G, MODELSCOPE_CACHE 重定向到此)
 │   │       └── mineru.json    # 📚 由 mineru-models-download 生成 (MINERU_TOOLS_CONFIG_JSON 重定向到此)
 │   └── build/                 # 🎯 构建目录, 产物 cpp/build/docpipe

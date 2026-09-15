@@ -10,27 +10,36 @@ inline constexpr const char *MINERU_DIR = "cpp/package/MinerU";         // Miner
 // stage3 tag 的标签 json, 与 PROC_REPORT_DIR 同层次但独立成树: {券商}/{系列}/{stem}.json
 // (不能放进 proc 的 {stem}/ 内: .stat 清单是 list_tree 逐行相等, 多一个文件即判 [不完整])
 inline constexpr const char *TAG_REPORT_DIR = "resources-tag/report";
-// stage3 补全: 缺失的标签先由 Cursor Cloud Agents API 生成 (无仓库代理, report.md 正文随 prompt 发送, 结果 json 从
-// 回复文本里取; 本机用 docpipe tag --one 校验, 违规原样回喂同一 agent 重问), 全部补完后再整体校验. 见 tag/agent loop.md
+// stage3 补全: 缺失的标签先由 Cursor Python SDK (cursor_sdk, 云端无仓库代理) 生成 —— report.md 正文随 prompt 发送,
+// 结果 json 从回复文本里取; 本机用 docpipe tag --one 校验, 违规原样回喂同一 agent 重问, 全部补完后再整体校验.
+// 见 cpp/agent/agent loop.md
 // 以下三个目录/文件都在 TAG_REPORT_DIR 之外 (放进去会被 F1 判多余)
-inline constexpr const char *TAG_STAGING_DIR = "resources-tag/.staging";       // agent 产出先落这里, 校验通过才 rename 进 TAG_REPORT_DIR; 启动清空
-inline constexpr const char *TAG_QUARANTINE_DIR = "resources-tag/.quarantine"; // 用完轮数仍违规: json + .viol. 存在即不再重试 (删掉即重试)
-inline constexpr const char *TAG_AGENT_LOG = "resources-tag/agent.jsonl";      // 每篇一行: 轮数 / 各轮违规 / 用量 / 结局
-inline constexpr const char *TAG_AGENT_SCRIPT = "cpp/agent/tag_loop.py";       // 用 MINERU_PYTHON_BIN 跑, 只用标准库
+inline constexpr const char *TAG_STAGING_DIR = "resources-tag/.staging";          // agent 产出先落这里, 校验通过才 rename 进 TAG_REPORT_DIR; 启动清空
+inline constexpr const char *TAG_QUARANTINE_DIR = "resources-tag/.quarantine";    // 用完轮数仍违规: json + .viol. 存在即不再重试 (删掉即重试)
+inline constexpr const char *TAG_AGENT_LOG_DIR = "resources-tag/agent-log";       // 交互全记录 (迭代 prompt 的依据): agent.jsonl 每篇一行汇总;
+                                                                                  // prefix-{hash}.md 静态前缀 (指令+tag.md+示例) 只存一份;
+                                                                                  // {folder}/{stem}/meta.json + round-N.{prompt.md,events.jsonl,reply.md,viol.txt}
+inline constexpr const char *TAG_AGENT_SCRIPT = "cpp/agent/tag_loop.py";          // 用 PYTHON_BIN 跑, 依赖 cursor-sdk (装在共享 PYTHON_DEPS_DIR, 见 tag/env.cpp 的 T1/T2)
 inline constexpr const char *TAG_AGENT_KEY_FILE = "cpp/agent/cursor_api_key.txt"; // Cursor API key 一行 (已 gitignore); 不存在则跳过阶段一
-inline constexpr const char *TAG_AGENT_MODEL = "composer-2";                   // GET /v1/models 的 id; 启动时校验存在
-inline constexpr int TAG_AGENT_WORKERS = 4;                                    // 同时在跑的 agent 数 (受 API 限速)
-inline constexpr int TAG_AGENT_MAX_ROUND = 3;                                  // 首轮 + 最多 2 次回喂; 用完进 quarantine
-inline constexpr size_t TAG_AGENT_MD_MAX_BYTES = 160000;                       // report.md 超过则只发前这么多字节 (中位 42KB, p90 73KB)
+inline constexpr const char *TAG_AGENT_MODEL = "glm-5.2";                         // Cursor.models.list() 的 id; 启动时校验存在. 便宜档还有 kimi-k3 composer-2.5 gemini-3.8-flash
+inline constexpr int TAG_AGENT_WORKERS = 4;                                       // 同时在跑的 agent 数 (受 API 限速)
+inline constexpr int TAG_AGENT_MAX_ROUND = 3;                                     // 首轮 + 最多 2 次回喂; 用完进 quarantine
+inline constexpr size_t TAG_AGENT_MD_MAX_BYTES = 160000;                          // report.md 超过则只发前这么多字节 (中位 42KB, p90 73KB)
+// ---------- 项目内共享 python (各 stage 共用: convert 跑 MinerU, tag 跑 agent loop) ----------
 // 内置便携版 CPython (python-build-standalone, 自带 pip, 不依赖系统 python, 整目录搬迁/换机器直接可用):
 //   https://github.com/astral-sh/python-build-standalone/releases
-inline constexpr const char *MINERU_PYTHON_DIR = "cpp/package/python";
-inline constexpr const char *MINERU_PYTHON_BIN = "cpp/package/python/bin/python3.12";
-// MinerU 依赖不用 venv (venv 会把创建时的绝对路径写死进 pyvenv.cfg/activate, 搬迁即失效),
-// 改用 pip --target 装到项目内相对目录, 运行时用 PYTHONPATH 指过去 (见 convert.cpp/env.cpp)。
-// 注意 pip 会把 MinerU 源码也复制一份进 deps/mineru, PYTHONPATH 必须 MINERU_DIR 在前, deps 在后,
+inline constexpr const char *PYTHON_DIR = "cpp/package/python";
+inline constexpr const char *PYTHON_BIN = "cpp/package/python/bin/python3.12";
+// 依赖不用 venv (venv 会把创建时的绝对路径写死进 pyvenv.cfg/activate, 搬迁即失效), 也不装进 python 自身的
+// site-packages (那是 git 跟踪的, 1.6G 依赖不该进版本库), 而是 pip --target 到 python 目录下的 deps/,
+// 运行时 PYTHONPATH 指过去 (见 convert/env.cpp, tag/env.cpp)。
+// 一个共享 deps, 不按 stage 分: 不同 stage 要的 python 功能不同但 python 是同一个, 分开装只会让公共依赖
+// (anyio/httpx/pydantic 这类) 存好几份且各自漂移。代价是各 stage 的包版本互相可见, 所以 —— 增量装一律带
+// --upgrade, 不要整目录 rm -rf (会连别的 stage 的包一起删); 装出来的版本能不能用, 由各 stage 跑前自己的
+// 环境检查负责 (convert E2 import mineru/torch/..., tag T2 查 cursor_sdk 接口), 冲突当场失败而不是半路崩。
+// 注意 pip 会把 MinerU 源码也复制一份进 deps/mineru, convert 的 PYTHONPATH 必须 MINERU_DIR 在前, deps 在后,
 // 否则跑的是 deps 里那份陈旧拷贝, 对 MINERU_DIR 源码的剪裁/修改全部无效
-inline constexpr const char *MINERU_DEPS_DIR = "cpp/package/MinerU/deps";
+inline constexpr const char *PYTHON_DEPS_DIR = "cpp/package/python/deps";
 
 // ---------- stage1 scan: 命名/结构校验 ----------
 inline constexpr int SCAN_PAGES = 3; // 扫描件判定只看前几页, 避免整本抽取

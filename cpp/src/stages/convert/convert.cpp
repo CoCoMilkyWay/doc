@@ -110,17 +110,17 @@ int ConvertStage::run(const Ctx &ctx) {
   assert(setenv("DOCPIPE_IMG_MAX_WIDTH", IMG_MAX_WIDTH, 1) == 0);
   assert(setenv("DOCPIPE_IMG_QUALITY", IMG_QUALITY, 1) == 0);
   assert(setenv("DOCPIPE_IMG_MIN_SIDE_PT", IMG_MIN_SIDE_PT, 1) == 0);
-  // 内置便携 python + PYTHONPATH = MINERU_DIR 源码 : MINERU_DEPS_DIR (见 config.hpp 注释, 顺序不能反),
+  // 内置便携 python + PYTHONPATH = MINERU_DIR 源码 : PYTHON_DEPS_DIR (见 config.hpp 注释, 顺序不能反),
   // 不用 venv/入口脚本, 全部路径均由 ctx.root 运行时拼出, 项目搬迁/换机器不受影响
   assert(setenv("PYTHONNOUSERSITE", "1", 1) == 0);
   assert(setenv("PYTHONPATH",
-                (ctx.root + "/" + MINERU_DIR + ":" + ctx.root + "/" + MINERU_DEPS_DIR).c_str(),
+                (ctx.root + "/" + MINERU_DIR + ":" + ctx.root + "/" + PYTHON_DEPS_DIR).c_str(),
                 1) == 0);
   // 防御性加固: 禁止 huggingface/transformers 联网 (本地模型已齐备, 实测本就不联网, 这里加一层保险)
   assert(setenv("HF_HUB_OFFLINE", "1", 1) == 0);
   assert(setenv("TRANSFORMERS_OFFLINE", "1", 1) == 0);
   assert(setenv("HF_HUB_DISABLE_TELEMETRY", "1", 1) == 0);
-  std::string py = ctx.root + "/" + MINERU_PYTHON_BIN;
+  std::string py = ctx.root + "/" + PYTHON_BIN;
 
   // ---- 并行度与批量: 按显存自动 (MINERU_WORKERS 非 0 则写死并行数) ----
   // 实测 (RTX 2060 6GB, batch_ratio=2): 单进程峰值显存 ~2.5GB ≈ 权重 1.5GB + 激活 0.5GB×ratio,

@@ -1,9 +1,10 @@
 **/__pycache__/
-/cpp/build/
-/resources-tag/.staging/
-/cpp/agent/cursor_api_key.txt
 **/.cache/
 **/.venv/
-cpp/package/MinerU/deps/
-cpp/package/MinerU/models/
-cpp/package/MinerU/mineru.json
+/cpp/build/
+/cpp/package/python/deps/
+/cpp/package/MinerU/models/
+/cpp/package/MinerU/mineru.json
+/cpp/agent/cursor_api_key.txt
+/resources-tag/.staging/
+/resources-tag/agent-log/

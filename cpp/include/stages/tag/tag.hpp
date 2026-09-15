@@ -7,9 +7,9 @@
 // 本 stage 会写标签树: 格式不规范的 json 原地覆盖为规范格式 (F3), 其余只读.
 //
 // 两个阶段 + 一个子命令:
-//   阶段一 补全   缺失的篮子交给 TAG_AGENT_SCRIPT (Cursor Cloud Agents API, 设计见 agent loop.md): 每篇一个 agent, 回复里的
-//                json 落 TAG_STAGING_DIR, 用 `docpipe ROOT tag --one <json>` 校验, 违规回喂重问; 通过 rename 进 TAG_REPORT_DIR,
-//                用完轮数进 TAG_QUARANTINE_DIR. 未设 CURSOR_API_KEY 则跳过本阶段
+//   阶段一 补全   缺失的篮子交给 TAG_AGENT_SCRIPT (Cursor Python SDK, 设计见 cpp/agent/agent loop.md): 每篇一个云端无仓库 agent,
+//                回复里的 json 落 TAG_STAGING_DIR, 用 `docpipe ROOT tag --one <json>` 校验, 违规回喂重问; 通过 rename 进
+//                TAG_REPORT_DIR, 用完轮数进 TAG_QUARANTINE_DIR. 无 TAG_AGENT_KEY_FILE 则跳过本阶段
 //   阶段二 校验   下面的规则全量跑一遍, 按券商统计
 //   --one <json>  只跑单文件规则 (F2-F4 S V K G), 违规一行一条到 stdout, 退出码 0/1; 文件须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下
 // 字段与词表见 schema.hpp, 设计与规则原文见 tag.md, 阈值见 config.hpp. 规则按 "越早失败越便宜" 分层,
@@ -106,6 +106,9 @@ void check_consistency(const Tag &tag, const std::string &date, std::vector<std:
 void check_grounding(const Tag &tag, const std::string &md, std::vector<std::string> &viol);
 // 接地用文本归一化 (G 规则口径), 暴露出来便于单测/复用
 std::string norm_text(const std::string &s);
+// env.cpp: 阶段一的环境检查 T1 内置便携 python / T2 cursor-sdk; 缺则打印安装指令后断言。
+// 顺带把 PYTHONNOUSERSITE / PYTHONPATH 设成 TAG_AGENT_SCRIPT 子进程要用的值
+void check_tag_env(const std::string &root);
 // cross.cpp: X1-X4. 库级违规写入 lib_viol, 提示写入 lib_note
 void check_cross(std::vector<TagRec> &recs, std::vector<std::string> &lib_viol, std::vector<std::string> &lib_note);
 // report.cpp: 按券商统计打印. extra 为 [多余] 项 (folder, name). 返回 违规数+多余数+库级违规数

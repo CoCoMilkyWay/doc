@@ -41,6 +41,7 @@ add_library(docpipe_core STATIC
   src/stages/convert/stat.cpp
   src/stages/convert/check.cpp
   src/stages/tag/tag.cpp
+  src/stages/tag/env.cpp
   src/stages/tag/parse.cpp
   src/stages/tag/rules.cpp
   src/stages/tag/cross.cpp

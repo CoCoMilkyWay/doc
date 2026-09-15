@@ -25,13 +25,15 @@ static const char *DEPS_PROBE_PY =
     "sys.exit(100 + min(gb, 150))\n";
 
 // E2 的安装指令. CPU/GPU 两套只差 --index-url 与 extra 名, 其余道理相同:
-//   必须一条命令装全: pip --target 不把目标目录当已装环境, 分两步先装 torch 再装 extra 的话,
+//   必须一条命令装全 MinerU 这一家: pip --target 不把目标目录当已装环境, 分两步先装 torch 再装 extra 的话,
 //     第二步会重新解析 torch 并从 PyPI 拉回另一个版本, 白占几个 G;
 //   torch 家族走 pytorch 源, 其余走 PyPI, +cpu/+cu130 本地版本号按 PEP 440 高于裸版本, 解析稳定胜出;
-//   --target 装到相对目录, 不装进内置 python 自身, 保持其干净可复用;
+//   --target 装到共享 PYTHON_DEPS_DIR (见 config.hpp: 各 stage 共用一份, 不装进 python 自身的 site-packages);
+//   --upgrade 必须带: 目标目录里已经有别的 stage 的包 (以及上一次装的自己), 不带 pip 会拒绝覆盖;
 //   PYTHONNOUSERSITE=1 必须带, 否则 pip 本身会先从 ~/.local 找, 装出来的东西不纯净;
-//   先 rm -rf: pip --target 只覆盖同名文件、不卸载旧包, 而 onnxruntime 与 onnxruntime-gpu 是两个包
-//     却共用同一个 onnxruntime/ 模块目录, CPU/GPU 之间来回切时不清空就会新旧文件混在一起
+//   只 rm -rf onnxruntime*, 不清整个目录 (那会连别的 stage 的包一起删): pip --target 只覆盖同名文件、
+//     不卸载旧包, 而 onnxruntime 与 onnxruntime-gpu 是两个包却共用同一个 onnxruntime/ 模块目录,
+//     CPU/GPU 之间来回切时不先删就会新旧文件混在一起
 // 长路径先落成 shell 变量再拼命令, 每行都压到 70 列以内: 这些指令是给人复制粘贴的, 长行被终端
 // 折行后, 折点若正好落在空格上, 复制时行首空格会被吞掉, 粘出来就是粘连的错参数 (实测
 // "-s modelscope -m" 被粘成 "-s modelscope-m", 报 invalid value 'modelscope-m').
@@ -41,11 +43,11 @@ static void print_install_cmd(const std::string &py, const std::string &deps,
                               const std::string &src, bool gpu) {
   fprintf(stderr,
           "  MU_SRC=%s\n"
-          "  MU_DEPS=%s\n"
-          "  MU_PY=%s\n"
-          "  rm -rf $MU_DEPS && \\\n"
-          "  PYTHONNOUSERSITE=1 $MU_PY -m pip install \\\n"
-          "    --target=$MU_DEPS \\\n"
+          "  PY_DEPS=%s\n"
+          "  PY=%s\n"
+          "  rm -rf $PY_DEPS/onnxruntime* && \\\n"
+          "  PYTHONNOUSERSITE=1 $PY -m pip install --upgrade \\\n"
+          "    --target=$PY_DEPS \\\n"
           "    --index-url https://download.pytorch.org/whl/%s \\\n"
           "    --extra-index-url https://pypi.org/simple \\\n"
           "    \"$MU_SRC[%s]\"\n",
@@ -72,8 +74,8 @@ sys.exit(4 if missing else 0)
 
 std::string check_mineru_env(const std::string &root, int &vram_gb) {
   std::string src = root + "/" + MINERU_DIR;
-  std::string py = root + "/" + MINERU_PYTHON_BIN;
-  std::string deps = root + "/" + MINERU_DEPS_DIR;
+  std::string py = root + "/" + PYTHON_BIN;
+  std::string deps = root + "/" + PYTHON_DEPS_DIR;
   std::string config_json = root + "/" + MINERU_CONFIG_JSON;
   std::string models_cache = root + "/" + MINERU_MODELS_CACHE_DIR;
 
@@ -91,19 +93,20 @@ std::string check_mineru_env(const std::string &root, int &vram_gb) {
             "https://github.com/astral-sh/python-build-standalone/releases/download/"
             "20260310/cpython-3.12.13+20260310-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz\n"
             "  tar -xzf /tmp/cpython.tar.gz -C /tmp && mv /tmp/python %s/%s\n",
-            py.c_str(), root.c_str(), MINERU_PYTHON_DIR);
+            py.c_str(), root.c_str(), PYTHON_DIR);
     assert(false && "E1 缺少内置 python");
   }
 
-  // E2 依赖 (装在项目内相对目录 MINERU_DEPS_DIR, 不用 venv: venv 会把创建时的绝对路径写死进
-  // pyvenv.cfg/activate, 项目搬迁即失效. PYTHONNOUSERSITE=1 保证不会误捡系统/用户目录里的包,
-  // 确保这里检测到的就是真正会在运行时用到的依赖). MINERU_DIR 源码在前, 压过 deps 里的 mineru 拷贝
+  // E2 依赖 (装在各 stage 共享的 PYTHON_DEPS_DIR, 为什么这么放见 config.hpp 那里的注释.
+  // PYTHONNOUSERSITE=1 保证不会误捡系统/用户目录里的包, 确保这里检测到的就是真正会在运行时用到的依赖;
+  // 共享目录意味着别的 stage 装包可能顶掉公共依赖的版本, 所以这一探测每次跑 convert 都必须做).
+  // MINERU_DIR 源码在前, 压过 deps 里的 mineru 拷贝
   assert(setenv("PYTHONNOUSERSITE", "1", 1) == 0);
   assert(setenv("PYTHONPATH", (src + ":" + deps).c_str(), 1) == 0);
   bool gpu = has_nvidia_gpu();
   int rc = run_cmd({py, "-c", DEPS_PROBE_PY});
   if (rc != 3 && rc < 100) {
-    fprintf(stderr, "[环境] MINERU_DEPS_DIR 依赖不完整: %s\n解决办法 (本机%s, 装%s版):\n",
+    fprintf(stderr, "[环境] PYTHON_DEPS_DIR 依赖不完整: %s\n解决办法 (本机%s, 装%s版):\n",
             deps.c_str(), gpu ? "有 NVIDIA 卡" : "无 NVIDIA 卡", gpu ? " GPU " : " CPU ");
     print_install_cmd(py, deps, src, gpu);
     assert(false && "E2 依赖缺失");
@@ -142,15 +145,15 @@ std::string check_mineru_env(const std::string &root, int &vram_gb) {
             "  PYTHONNOUSERSITE=1 必须带, 否则会误捡 ~/.local 下无关/不全的包导致 import 报错;\n"
             "  用 shell 变量装长路径的原因见 print_install_cmd 处注释):\n"
             "  MU_SRC=%s\n"
-            "  MU_DEPS=%s\n"
+            "  PY_DEPS=%s\n"
             "  MU_CFG=%s\n"
             "  MU_MODELS=%s\n"
-            "  MU_PY=%s\n"
+            "  PY=%s\n"
             "  PYTHONNOUSERSITE=1 \\\n"
-            "  PYTHONPATH=$MU_SRC:$MU_DEPS \\\n"
+            "  PYTHONPATH=$MU_SRC:$PY_DEPS \\\n"
             "  MODELSCOPE_CACHE=$MU_MODELS \\\n"
             "  MINERU_TOOLS_CONFIG_JSON=$MU_CFG \\\n"
-            "  $MU_PY -m mineru.cli.models_download -s modelscope -m pipeline\n",
+            "  $PY -m mineru.cli.models_download -s modelscope -m pipeline\n",
             config_json.c_str(), config_json.c_str(), src.c_str(), deps.c_str(),
             config_json.c_str(), models_cache.c_str(), py.c_str());
     assert(false && "E3 模型缺失");
