@@ -2,6 +2,7 @@
 #pragma once
 
 #include <cstddef>
+#include <string_view>
 
 // ---------- 目录布局 ----------
 inline constexpr const char *RAW_REPORT_DIR = "resources-raw/report";   // 研报 PDF 输入, 层次 {券商}/{系列}/
@@ -10,21 +11,51 @@ inline constexpr const char *MINERU_DIR = "cpp/package/MinerU";         // Miner
 // stage3 tag 的标签 json, 与 PROC_REPORT_DIR 同层次但独立成树: {券商}/{系列}/{stem}.json
 // (不能放进 proc 的 {stem}/ 内: .stat 清单是 list_tree 逐行相等, 多一个文件即判 [不完整])
 inline constexpr const char *TAG_REPORT_DIR = "resources-tag/report";
-// stage3 补全: 缺失的标签先由 Cursor Python SDK (cursor_sdk, 云端无仓库代理) 生成 —— report.md 正文随 prompt 发送,
-// 结果 json 从回复文本里取; 本机用 docpipe tag --one 校验, 违规原样回喂同一 agent 重问, 全部补完后再整体校验.
-// 见 cpp/agent/agent loop.md
+// stage3 补全: 缺失的标签先由智谱 GLM (官方 zai-sdk, 对话补全接口 https://docs.bigmodel.cn/cn/api/introduction) 生成 ——
+// 静态前缀 (指令+tag.md+示例) 作 system 消息 (吃隐式上下文缓存), report.md 正文随 user 消息发送, 结果 json 从回复文本里取;
+// 本机用 docpipe tag --one 校验, 违规原样作为下一条 user 消息回喂同一段对话重问, 全部补完后再整体校验. 见 cpp/agent/agent loop.md
 // 以下三个目录/文件都在 TAG_REPORT_DIR 之外 (放进去会被 F1 判多余)
-inline constexpr const char *TAG_STAGING_DIR = "resources-tag/.staging";          // agent 产出先落这里, 校验通过才 rename 进 TAG_REPORT_DIR; 启动清空
-inline constexpr const char *TAG_QUARANTINE_DIR = "resources-tag/.quarantine";    // 用完轮数仍违规: json + .viol. 存在即不再重试 (删掉即重试)
-inline constexpr const char *TAG_AGENT_LOG_DIR = "resources-tag/agent-log";       // 交互全记录 (迭代 prompt 的依据): agent.jsonl 每篇一行汇总;
-                                                                                  // prefix-{hash}.md 静态前缀 (指令+tag.md+示例) 只存一份;
-                                                                                  // {folder}/{stem}/meta.json + round-N.{prompt.md,events.jsonl,reply.md,viol.txt}
-inline constexpr const char *TAG_AGENT_SCRIPT = "cpp/agent/tag_loop.py";          // 用 PYTHON_BIN 跑, 依赖 cursor-sdk (装在共享 PYTHON_DEPS_DIR, 见 tag/env.cpp 的 T1/T2)
-inline constexpr const char *TAG_AGENT_KEY_FILE = "cpp/agent/cursor_api_key.txt"; // Cursor API key 一行 (已 gitignore); 不存在则跳过阶段一
-inline constexpr const char *TAG_AGENT_MODEL = "glm-5.2";                         // Cursor.models.list() 的 id; 启动时校验存在. 便宜档还有 kimi-k3 composer-2.5 gemini-3.8-flash
-inline constexpr int TAG_AGENT_WORKERS = 4;                                       // 同时在跑的 agent 数 (受 API 限速)
-inline constexpr int TAG_AGENT_MAX_ROUND = 3;                                     // 首轮 + 最多 2 次回喂; 用完进 quarantine
-inline constexpr size_t TAG_AGENT_MD_MAX_BYTES = 160000;                          // report.md 超过则只发前这么多字节 (中位 42KB, p90 73KB)
+inline constexpr const char *TAG_STAGING_DIR = "resources-tag/.staging";       // agent 产出先落这里, 校验通过才 rename 进 TAG_REPORT_DIR; 启动清空
+inline constexpr const char *TAG_QUARANTINE_DIR = "resources-tag/.quarantine"; // 用完轮数仍违规: json + .viol. 存在即不再重试 (删掉即重试)
+inline constexpr const char *TAG_AGENT_LOG_DIR = "resources-tag/agent-log";    // 交互全记录 (迭代 prompt 的依据): agent.jsonl 每篇一行汇总;
+                                                                               // prefix-{hash}.md 静态前缀 (指令+tag.md+示例) 只存一份;
+                                                                               // {folder}/{stem}/meta.json + round-N.{prompt.md,thinking.md,reply.md,viol.txt}
+inline constexpr const char *TAG_AGENT_SCRIPT = "cpp/agent/tag_loop.py";       // 用 PYTHON_BIN 跑, 依赖 zai-sdk (装在共享 PYTHON_DEPS_DIR, 见 tag/env.cpp 的 T1/T2)
+inline constexpr const char *TAG_AGENT_KEY_FILE = "cpp/agent/glm_api_key.txt"; // 智谱 API key 一行, 形如 {id}.{secret} (已 gitignore; bigmodel.cn 控制台 → API Keys); 不存在则跳过阶段一
+inline constexpr const char *TAG_AGENT_MODEL = "glm-5.3-flash";                // 对话补全接口的模型代码 (无 models.list 可预检, 写错首篇即 400/1211 停). 必须在 TAG_AGENT_PRICES 里
+// 单价表 (元/百万 tokens: 未命中缓存的输入 / 输出 / 缓存命中), 抄自 https://docs.bigmodel.cn/cn/guide/start/pricing; 缓存存储限时免费, 不计.
+// 每一轮费用 = (prompt_tokens - cached_tokens) * in + cached_tokens * hit + completion_tokens * out, 所有型号同一公式
+// (reasoning tokens 计在 completion_tokens 里, 见 usage.completion_tokens_details). 平台不回传金额, 这是本地估算, 对账以账单为准.
+// glm-5.1 / glm-5 / glm-5-turbo 按输入长度 <32K / >=32K 分档, 不是单一单价, 要用先补分档规则再进表.
+// Batch API (5 折) 只支持 GLM-4 系列 (docs.bigmodel.cn/cn/faq/batch-api-issues), GLM-5.x 用不上.
+// concurrency = 本账户对该模型的并发上限 (在途请求数), 抄自控制台 → 速率限制 (2026-09-15, 用户权益 V0); 权益等级变了要跟着改.
+// 文档不公布各等级数字, 只能看控制台. 开满即可, 超出只会撞 429/1302 背压等待.
+struct ModelPrice {
+  const char *model;
+  double in, out, hit;
+  int concurrency;
+};
+inline constexpr ModelPrice TAG_AGENT_PRICES[] = {
+    {"glm-5.2", 8, 28, 2, 10},
+    {"glm-5.3", 8, 28, 2, 5},
+    {"glm-5.3-flash", 0.8, 2.8, 0.23, 50},
+};
+consteval ModelPrice tag_agent_price() {
+  for (const ModelPrice &p : TAG_AGENT_PRICES)
+    if (std::string_view(p.model) == TAG_AGENT_MODEL)
+      return p;
+  throw "TAG_AGENT_MODEL 不在 TAG_AGENT_PRICES 里"; // consteval 内 throw => 编译期失败
+}
+inline constexpr ModelPrice TAG_AGENT_PRICE = tag_agent_price();
+inline constexpr const char *TAG_AGENT_REASONING_EFFORT = "high";     // 思考强度 (默认 max: 最贵最慢). 各型号可取档位不同 (docs.bigmodel.cn/cn/guide/start/concept-param):
+                                                                      //   glm-5.2: none/minimal 不思考, low/medium 都映射成 high, xhigh 映射成 max => 实际只有 不思考/high/max 三档
+                                                                      //   glm-5.3 / glm-5.3-flash: 强制思考, low/high/max 三档
+                                                                      // 实测 high 首轮 1~1.3 万 reasoning tokens, 占单篇输出费的大头
+inline constexpr int TAG_AGENT_WORKERS = TAG_AGENT_PRICE.concurrency; // 同时在飞的请求数 = 账户对该模型的并发上限, 开满. 吞吐 = workers / 单篇耗时
+                                                                      // (实测单篇 1.5~4.5 分钟: 4 路约 70 篇/小时, glm-5.2 的 10 路约 170 篇/小时, 1121 篇约 6.5 小时).
+                                                                      // GLM-5.x 没有 Batch API 可绕并发; 再快只能换 glm-5.3-flash (并发 50, 单价 1/10)
+inline constexpr int TAG_AGENT_MAX_ROUND = 3;                         // 首轮 + 最多 2 次回喂; 用完进 quarantine
+inline constexpr size_t TAG_AGENT_MD_MAX_BYTES = 160000;              // report.md 超过则只发前这么多字节 (中位 42KB, p90 73KB)
 // ---------- 项目内共享 python (各 stage 共用: convert 跑 MinerU, tag 跑 agent loop) ----------
 // 内置便携版 CPython (python-build-standalone, 自带 pip, 不依赖系统 python, 整目录搬迁/换机器直接可用):
 //   https://github.com/astral-sh/python-build-standalone/releases
@@ -36,7 +67,7 @@ inline constexpr const char *PYTHON_BIN = "cpp/package/python/bin/python3.12";
 // 一个共享 deps, 不按 stage 分: 不同 stage 要的 python 功能不同但 python 是同一个, 分开装只会让公共依赖
 // (anyio/httpx/pydantic 这类) 存好几份且各自漂移。代价是各 stage 的包版本互相可见, 所以 —— 增量装一律带
 // --upgrade, 不要整目录 rm -rf (会连别的 stage 的包一起删); 装出来的版本能不能用, 由各 stage 跑前自己的
-// 环境检查负责 (convert E2 import mineru/torch/..., tag T2 查 cursor_sdk 接口), 冲突当场失败而不是半路崩。
+// 环境检查负责 (convert E2 import mineru/torch/..., tag T2 查 zai 接口), 冲突当场失败而不是半路崩。
 // 注意 pip 会把 MinerU 源码也复制一份进 deps/mineru, convert 的 PYTHONPATH 必须 MINERU_DIR 在前, deps 在后,
 // 否则跑的是 deps 里那份陈旧拷贝, 对 MINERU_DIR 源码的剪裁/修改全部无效
 inline constexpr const char *PYTHON_DEPS_DIR = "cpp/package/python/deps";

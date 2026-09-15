@@ -145,14 +145,16 @@ void fill_missing(const Ctx &ctx, const std::vector<TagRec> &recs) {
     list += r->folder + "\t" + r->stem + "\t" + r->date + "\n";
   std::string list_path = staging + "/missing.tsv";
   write_file(list_path, list);
-  fprintf(stderr, "[tag] 缺失 %zu 篇, 交给 agent loop (model=%s, workers=%d, max_round=%d)\n", missing.size(),
-          TAG_AGENT_MODEL, TAG_AGENT_WORKERS, TAG_AGENT_MAX_ROUND);
+  fprintf(stderr, "[tag] 缺失 %zu 篇, 交给 agent loop (model=%s, reasoning_effort=%s, workers=%d, max_round=%d)\n",
+          missing.size(), TAG_AGENT_MODEL, TAG_AGENT_REASONING_EFFORT, TAG_AGENT_WORKERS, TAG_AGENT_MAX_ROUND);
   std::string py = ctx.root + "/" + PYTHON_BIN;
   int rc = run_cmd({py, ctx.root + "/" + TAG_AGENT_SCRIPT, "--root", ctx.root, "--docpipe", ctx.self, "--key-file", key_file, "--missing", list_path,
                     "--staging", staging, "--out", ctx.root + "/" + TAG_REPORT_DIR, "--proc", ctx.root + "/" + PROC_REPORT_DIR,
                     "--md-name", PROC_MD_NAME, "--quarantine", ctx.root + "/" + TAG_QUARANTINE_DIR, "--log-dir",
                     ctx.root + "/" + TAG_AGENT_LOG_DIR, "--spec", ctx.root + "/cpp/include/stages/tag/tag.md", "--model",
-                    TAG_AGENT_MODEL, "--workers", std::to_string(TAG_AGENT_WORKERS), "--max-round",
+                    TAG_AGENT_MODEL, "--reasoning-effort", TAG_AGENT_REASONING_EFFORT, "--price-in", std::to_string(TAG_AGENT_PRICE.in),
+                    "--price-out", std::to_string(TAG_AGENT_PRICE.out), "--price-hit", std::to_string(TAG_AGENT_PRICE.hit), "--workers",
+                    std::to_string(TAG_AGENT_WORKERS), "--max-round",
                     std::to_string(TAG_AGENT_MAX_ROUND), "--md-max", std::to_string(TAG_AGENT_MD_MAX_BYTES),
                     "--schema-version", std::to_string(TAG_SCHEMA_VERSION)});
   assert(rc == 0 && "agent loop 异常退出");

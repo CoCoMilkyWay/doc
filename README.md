@@ -27,7 +27,7 @@ doc/
 │   ├── .clang-format          # 🏗️ LLVM 风格, IndentWidth 2, 不限行宽
 │   ├── format.py              # 🏗️ 格式化 cpp/ 下全部 .cpp/.hpp (跳过 build/package); --check 只检查
 │   ├── include/
-│   │   ├── config.hpp         # ⚙️ 全部可调参数的唯一出处: 目录布局 / scan 阈值 / MinerU 后端与环境变量
+│   │   ├── config.hpp         # ⚙️ 全部可调参数的唯一出处: 目录布局 / scan 阈值 / MinerU 后端与环境变量 / tag agent 的模型·思考强度·并发·单价表
 │   │   │                      #    路径一律相对 ROOT, 项目整体搬迁/换机器直接可用
 │   │   ├── stage.hpp          # 🔗 stage 抽象: Ctx{root, workers} + Stage{name, run→退出码}; 新增 stage 只需实现接口 + 在 registry.cpp 登记
 │   │   ├── stages/scan/scan.hpp       # 🔍 stage1 规范校验: 逐文件 C1-C8 + 跨文件 X1-X5 规则表 / Seg / Rec
@@ -62,10 +62,11 @@ doc/
 │   │       ├── rules.cpp      # 🏷️ V2 V3 K1-K8 字段间一致性; G1-G4 接地: evidence 归一化后必须是 report.md 逐字子串, 数字须在 evidence 里
 │   │       ├── cross.cpp      # 🏷️ X1-X4: builds_on 存在·不倒置·无环 / 枚举取值分布 (防 LLM 默认填) / 死词表提示 / findings 串写
 │   │       └── report.cpp     # 🏷️ 按券商目录统计 (总数/已标注/缺失/违规/多余), 违规项树状列出
-│   ├── agent/                 # 🏷️ stage3 阶段一: tag_loop.py (Cursor Python SDK 补标签) + agent loop.md 设计 + cursor_api_key.txt (gitignore)
+│   ├── agent/                 # 🏷️ stage3 阶段一: tag_loop.py (智谱 GLM 官方 zai-sdk 补标签: system 静态前缀吃缓存, JSON 模式, 流式收思考,
+│   │                          #    违规回喂同一段对话, 每篇打 token 与费用) + agent loop.md 设计 + glm_api_key.txt (gitignore)
 │   ├── package/               # 📚 内置第三方 (随项目搬迁, 不依赖系统环境)
 │   │   ├── python/            # 📚 便携版 CPython 3.12 (python-build-standalone, 自带 pip), 各 stage 共用
-│   │   │   └── deps/          # 📚 pip --target 装的依赖 (~1.6G: MinerU 全家 + cursor-sdk). 共享一份, 不按 stage 分;
+│   │   │   └── deps/          # 📚 pip --target 装的依赖 (~1.6G: MinerU 全家 + zai-sdk). 共享一份, 不按 stage 分;
 │   │   │                      #     不用 venv (绝对路径写死, 搬迁即失效), 也不进 site-packages (那是 git 跟踪的)
 │   │   └── MinerU/            # 📚 MinerU 剪裁版源码 (cli/client.py 关掉了 middle/model/content_list json 与调试 pdf)
 │   │       ├── models/        # 📚 模型缓存 (~2.5G, MODELSCOPE_CACHE 重定向到此)
