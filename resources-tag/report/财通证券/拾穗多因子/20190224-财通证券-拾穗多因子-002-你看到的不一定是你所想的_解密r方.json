@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20190224-财通证券-拾穗多因子-002-你看到的不一定是你所想的_解密r方",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "dynamic_adjust"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_backtest", "L6_attribution"], "approach": ["evaluation_metric", "factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "在不加截距项的回归中R2可能出现负值，当没有足够信息显示数据穿过原点时，建议统一在模型中加上截距项。",
+      "evidence": "R2并非总是大于 0 而小于 1，在不加截距项的回归中，R2可能出现负值。当没有足够的信息显示数据穿过原点时，财通金工建议统一在模型中加上截距项。"
+    },
+    {
+      "text": "全样本回测期间总R2均值达到43%，相对R2均值为22%；市场波动剧烈时模型拟合优度显著高于横盘震荡行情。",
+      "evidence": "可以看到，全样本回测期间总 $R^{2}$ 均值达到 43%， $而$ 相对 $R^{2}$ 均值为 22%，二者之间相差较为明显。此外，当市场波动十分剧烈时（如 2015 年市场行情剧烈波动），模型的拟合优度显著高于横盘震荡的市场行情。"
+    },
+    {
+      "text": "仅加入国家因子时模型R2滚动均值为27%，加入行业因子后达37.5%，再加入风格因子后达43.2%，解释力以市场因子为主，其次行业因子，最后风格因子。",
+      "evidence": "由图 2 可以看到，当模型中仅加入国家因子时，模型的R2滚动均值为 27%，当加入了行业因子时R2滚动均值达到 37.5%，当再将风格因子加入时，模型R2滚动均值达到 43.2%，每类因子都对股票的波动增加一定的贡献，其中以市场因子为主，其次为行业因子，最后为风格类因子。"
+    },
+    {
+      "text": "模型在沪深300中拟合效果最佳，滚动12月相对R2均值达42%，中证500中为24%，Wind全A中为21%。",
+      "evidence": "可以看到模型在沪深 300 中的拟合效果最佳，其滚动12月的相对R2均值达到42%，而在中证500指数中为24%，在 Wind 全 A中为 21%。"
+    },
+    {
+      "text": "一元线性回归中R2等同于自变量与因变量相关系数的平方，在单因子测试中该相关系数即因子IC值，因此R2等同于IC的平方。",
+      "evidence": "在单因子测试的研究中，该相关系数也被称为因子的 IC 值，因此 $R^{2}$ 等同于 IC 的平方。"
+    },
+    {
+      "text": "所有样本指数未来一月年化波动区间在15%-24%之间，预测波动较上周整体减小，中小板、成长类指数风险较大，偏大盘、价值类股票风险较小。",
+      "evidence": "可以看到，所有样本指数未来一月的年化波动区间在 15%-24%之间，预测波动相较上一周整体减小，中小板股票、成长类指数的风险较大，而偏大盘股票、价值类股票的风险普遍较小。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "\"Introductory Econometrics: A Modern Approach\". Jeffrey M. Wooldridge, 5th edition, 2015.",
+    "\"The Barra Europe Equity Model (EUE3)\" Beat G. Briner, Rachael C. Smith and Paul Ward, 2009.",
+    "\"拾穗\"多因子系列（一）：《带约束的加权最小二乘：一种解析解法》",
+    "\"星火\"多因子系列（一）：《模型初探：A股市场风格解析》",
+    "\"星火\"多因子系列（三）：《Barra模型深化：纯因子组合构建》",
+    "\"星火\"多因子系列（二）：《Barra模型进阶：多因子模型风险预测》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

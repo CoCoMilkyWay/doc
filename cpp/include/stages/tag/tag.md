@@ -61,8 +61,8 @@ DataSource    market_daily     日频行情 (全部资产, 期货期权也用 ma
               macro            宏观
               none             无数据 (纯理论 / 综述)
 
-DataFreq      l1               Level-1 (3s 快照)
-              l2               Level-2 (逐笔 / 十档)
+DataFreq      l1               Level-1 (3s 快照/十档)
+              l2               Level-2 (逐笔)
               minute           分钟
               daily            日
               weekly           周
