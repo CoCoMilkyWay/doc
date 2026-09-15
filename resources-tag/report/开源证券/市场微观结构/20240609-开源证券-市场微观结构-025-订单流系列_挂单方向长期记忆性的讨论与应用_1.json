@@ -1,0 +1,160 @@
+{
+  "schema_version": 2,
+  "id": "20240609-开源证券-市场微观结构-025-订单流系列_挂单方向长期记忆性的讨论与应用_1",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "micro"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "长期记忆强度_LMS",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\rho_{k}=\\gamma_{k}/\\gamma_{0}\\text{，对}\\ln(k)\\text{做OLS回归，取截距项作为长期记忆强度}",
+          "stats": [0.039, null, null, 0.13],
+          "evidence": "我们将回归得到的截距项记为长期记忆强度因子_LMS，以其连续 20 日平滑的结果为例，该因子在 2018年至 2024年 3月期间可获得 13%的多空收益。"
+        },
+        {
+          "name": "高维记忆_MEMO",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{取最后半小时挂单方向滞后1至100阶自相关系数分布的峰度与偏度，截面等权合成}",
+          "stats": [0.061, null, null, null],
+          "evidence": "于是根据上面改进方向的测试结论，我们利用自相关系数分布形态的统计特征构造了高维记忆_MEMO 因子。"
+        },
+        {
+          "name": "分拆痕迹_OST",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{对当日委托数量最小的50%订单的挂单方向做傅里叶变换，统计频域强度的峰度并平滑20日}",
+          "stats": [-0.02, null, null, null],
+          "evidence": "因而，在因子的计算步骤中，笔者增加了一步样本筛选的处理，只选取当日委托数量较小的 50%订单用于转换频域信息，并将上述计算得到的因子命名为分拆痕迹_OST 因子。"
+        },
+        {
+          "name": "偏度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{挂单方向序列滞后1至100阶自相关系数分布的偏度}",
+          "stats": [0.064, null, null, null],
+          "evidence": "例如，我们选取 1 至 100 阶的自相关系数，计算其统计指标作为日频信号，测试结果如表 3 所示。其中，偏度和峰度因子对比改进效果最好，在原有因子的基础上增厚了多空收益的同时提高了因子稳定性，IC 达到 0.06，Rank ICIR 则均在 4 以上。"
+        },
+        {
+          "name": "峰度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{挂单方向序列滞后1至100阶自相关系数分布的峰度}",
+          "stats": [0.063, null, null, null],
+          "evidence": "尽管偏度和峰度具有较高的一致性，但在具体情况下可能彼此反映的信息也会有所差异，二者相关系数为 0.75。"
+        },
+        {
+          "name": "买入均值",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买入委托连续重复长度序列的均值}",
+          "stats": [0.051, null, null, null],
+          "evidence": "表 8展示了基于这两组数据构造的因子，其中，均值和标准差因子表现优异。"
+        },
+        {
+          "name": "买入标准差",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买入委托连续重复长度序列的标准差}",
+          "stats": [0.052, null, null, null],
+          "evidence": "表 8展示了基于这两组数据构造的因子，其中，均值和标准差因子表现优异。"
+        },
+        {
+          "name": "卖出均值",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖出委托连续重复长度序列的均值}",
+          "stats": [0.056, null, null, null],
+          "evidence": "表 8展示了基于这两组数据构造的因子，其中，均值和标准差因子表现优异。"
+        },
+        {
+          "name": "卖出标准差",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖出委托连续重复长度序列的标准差}",
+          "stats": [0.053, null, null, null],
+          "evidence": "表 8展示了基于这两组数据构造的因子，其中，均值和标准差因子表现优异。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["tree", "neural"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "挂单方向的长期记忆强度在2021年底前后出现明显分界，前一阶段均值约0.2，后一阶段可达0.4以上，且在2022年以前特征并不显著。",
+      "evidence": "无论在市值还是流动性分组下，我们均能够看到较为明显的分界带：在2021年底前后，挂单方向的长期记忆强度差异较大，前一阶段均值为 0.2，而后一阶段则可以达到0.4以上。"
+    },
+    {
+      "text": "订单流长期记忆性并非由价格趋势所致，也不是散户在时间上的拥挤行为，而是算法拆单等算法交易共同作用下的表象特征。",
+      "evidence": "综上所述，订单流的连续性并非是由散户在时间上的拥挤行为，而是某种或者多种算法共同作用的条件下所实现的表象特征。"
+    },
+    {
+      "text": "高维记忆_MEMO因子在全市场月频调仓的分组测试较优，多头相对等权基准的超额收益可观，Rank ICIR可达5以上。",
+      "evidence": "图 29 展示了在全市场范围内，将日频信号平滑 20 个交易日后用于月频调仓的分组测试结果。从效果上看，虽然 MEMO 在多空收益分布上相对更偏空头，但多头相对等权基准的超额收益仍然可观，Rank ICIR 可以达到 5以上。"
+    },
+    {
+      "text": "分拆痕迹_OST因子在2022年以后收益提升十分显著，与长期记忆性强度跃迁的时间节点相似，适合捕捉跃迁后的Alpha。",
+      "evidence": "图 34展示的OST 因子测试结果比较明显，存在有效性差异明显的时点。在 2022年以后，因子的收益提升十分显著，而这也恰好与长期记忆性强度跃迁后显著提升的时间节点非常相似，说明该因子用于捕捉跃迁后的Alpha 较为合适。"
+    },
+    {
+      "text": "XGBoost样本内多头超额显著，但样本外仅有8.6%的超额收益，胜率从98%降至70%，泛化能力较差；Light GBM分组单调性更优、样本外衰减更轻。",
+      "evidence": "XGBoost样本内效果比较理想，多头超额收益显著。但是，在样本外，仅有8.6%的超额收益，胜率也从 98%降至 70%，模型泛化能力较差。"
+    },
+    {
+      "text": "在LSTM的损失函数中添加负IC绝对值作为惩罚项后，模型得到的预测效果有明显的提升。",
+      "evidence": "于是，在尝试 LSTM的损失函数中添加负 IC 绝对值作为惩罚项后，模型得到的预测效果有明显的提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Doojin Ryu（2012）韩国期货市场长期记忆性检验",
+    "Lillo等学者（2004）关于挂单方向长期记忆过程的研究",
+    "Yuki Sato等（2023）日本股市长期记忆性定量刻画",
+    "《大小单重定标与资金流因子改进—市场微观结构研究系列（16）》-2022.09.04",
+    "《订单流系列：关于市场微观结构变迁的故事—市场微观结构研究系列（21）》-2023.09.19",
+    "《订单流系列：撤单行为规律初探—市场微观结构研究系列（22）》-2024.01.24"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

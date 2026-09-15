@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20220621-海通证券-选股因子-081-净利润相关指标的进一步改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "earnings_surprise"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["statement", "analyst"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "最新披露 ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最新一次财报披露的ROE}",
+          "stats": [0.029, null, 1.999, null],
+          "evidence": "在前期报告《使用基本面逻辑改进 ROE因子》中，我们提出，ROE因子的有效性主要来自于当期真实 ROE，而常用的最新披露 ROE因为数据披露滞后，只是被当作当期真实 ROE的预测值来使用。"
+        },
+        {
+          "name": "预测 ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{以最新披露ROE与一致预期ROE为预测变量建立当期真实ROE的预测模型，并按历史波动率倒数加权}",
+          "stats": [null, null, null, null],
+          "evidence": "我们以最新披露 ROE和一致预期 ROE为预测变量，建立当期真实 的预测模型。在得到预测值后，我们进一步采用 历史波动率倒数加权的方式，降低预测精度较差的那部分股票的影响，从而在一定程度上缓解了最新披露 ROE的滞后问题，提升了选股效果。"
+        },
+        {
+          "name": "快报修正预测 ROE+分级加权",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{业绩快报ROE替换最新披露ROE后预测当期真实ROE，再按剔除各行业后5年IC滚动均值差超过0.05%的行业分级靠档降权}",
+          "stats": [null, null, null, null],
+          "evidence": "首先，用业绩快报的 ROE代替最新披露 ROE，和一致预期 ROE共同得到当期真实 ROE的预测；随后，根据每个行业历史当期真实 ROE的选股效果，对预测 ROE实施分级靠档降权。"
+        },
+        {
+          "name": "最新披露 SUE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUE=DREV/SD(DREV_{t=1...4})",
+          "stats": [0.052, null, 3.403, null],
+          "evidence": "其中，DREV 为净利润同比增量， 为过去四个季度净利润同比增量的标准差。从计算公式来看，SUE也可认为是波动率调整后的净利润同比变化。"
+        },
+        {
+          "name": "正交 ROE+分级降权",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最新披露SUE对ROE正交，再按剔除各行业后SUE因子IC均值差以0.05%为阈值分级靠档降权}",
+          "stats": [null, null, null, null],
+          "evidence": "和改进 ROE因子有效性的方法类似，我们同样逐一剔除每个行业，考察 SUE因子IC 的变化。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "用业绩快报公布的ROE替换最新披露ROE得到的预测值均可获得更高的因子溢价；而业绩预告通常只公布净利润的区间且变动频繁，用其代替最新披露ROE反而使因子表现全面下降。",
+      "evidence": "然而，当我们用业绩预告代替最新披露 时，因子表现全面下降。我们猜测，这是因为业绩预告通常只公布净利润的区间，且变动频繁。而我们用的是最新公布的区间上下限均值，误差较大，因此反而降低了因子的选股能力。"
+    },
+    {
+      "text": "在每一个季度末依次剔除30个中信一级行业中的一个，计算过去5年剩余行业所有股票当季真实ROE的IC均值与全部股票当季真实ROE的IC均值之差，作为刻画每个行业对ROE因子有效性影响程度的量化指标。",
+      "evidence": "具体地，在每一个季度末，依次剔除 30 个中信一级行业中的一个，计算过去 5 年剩余行业所有股票当季真实ROE的IC均值，与全部股票当季真实ROE的IC均值之差，以此作为刻画每个行业对 ROE 因子有效性影响程度的量化指标。"
+    },
+    {
+      "text": "对判别为影响较大的行业的个股预测ROE降权（等权降权或分级降权）后，因子溢价、多头收益、多空收益都获得了较为显著的提升。",
+      "evidence": "如下表所示，在对部分影响较大的行业的个股预测 ROE 降权后，因子溢价、多头收益、多空收益都获得了较为显著的提升。由此可见，和引入业绩快报类似，对预测 ROE做适当的权重调整，同样可以改进因子的选股效果。"
+    },
+    {
+      "text": "最新披露ROE正交当期真实值后IC接近于0，其选股效果完全来自于对真实值的业绩动量效应；而最新披露SUE正交当期真实值后IC为0.021，还包含了其他信息。",
+      "evidence": "如下表所示，最新披露 ROE 正交当期真实值后，IC接近于 0；而最新披露 SUE正交当期真实值后，IC为 0.021。由此可见，最新披露 ROE的选股效果完全来自于对真实值的业绩动量效应，但最新披露 SUE还包含了其他信息。"
+    },
+    {
+      "text": "无论是和最新披露ROE还是和预测ROE正交，权重调整显著改善了SUE因子的选股表现，因子溢价和多空收益都出现提升，分级靠档降权方式的改善效果更为稳定。",
+      "evidence": "无论是和最新披露 ROE还是和预测 ROE正交，权重调整显著改善了 SUE因子的选股表现，因子溢价和多空收益都出现提升。相对而言，分级靠档降权方式的改善效果更为稳定。"
+    },
+    {
+      "text": "随着对ROE和SUE因子的不断改善，组合的表现也逐步提升，改进预测最新组合年化收益为三者最高，夏普比率和收益回撤比也优于Wind全A指数和另外两个组合。",
+      "evidence": "由上图可见，3 个组合均能显著战胜Wind全 A指数。并且，随着对 ROE和 SUE因子的不断改善，组合的表现也逐步提升。改进预测最新组合年化收益 ，为三者最高，夏普比率和收益回撤比也优于 Wind全 A指数和另外两个组合。"
+    },
+    {
+      "text": "指数增强组合中改进预测最新组合表现最优，其中中证500增强组合的改善效果最明显，年化超额收益上升1.1%。",
+      "evidence": "由图 4-6的累计超额收益可见，改进预测最新组合表现最优。相对而言，中证 500增强组合的改善效果最明显，年化超额收益上升 1.1%（表 8）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《使用基本面逻辑改进 ROE因子》"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "id": "20241118-广发证券-深度学习-012-股价预测之多模态多尺度",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth", "other"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "本文模型因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "weekly"],
+          "horizon": "monthly",
+          "formula": "\\text{多模态多尺度深度模型：对价量图表与时序数据分别用卷积模型与时序模型提取特征并融合，同时以未来股价绝对收益回归与涨平跌三分类双头端到端训练，输出未来上涨概率}",
+          "stats": [null, 0.087, null, 0.3673],
+          "evidence": "本文模型在日度价量数据图表的基础上，加入了高频因子数据、日频时序数据、周度价量数据图表，采用4个独立的深度时序模型和深度卷积模型进行多模态、多尺度的特征提取，并同时采用回归损失和分类损失以端到端的方式进行模型训练，有效提升了模型对未来股价的预测能力。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth", "other"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth", "other"],
+        "rebalance": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "以2020/01/01~2024/10/31为样本外回测区间、20日换仓，本文模型全市场RankIC均值8.7%、胜率86.7%，对比AI看图初始版本RankIC均值提升3.0%、胜率提升7.8%",
+      "evidence": "以2020/01/01~2024/10/31作为样本外回测区间，以20日作为换仓周期，本文模型预测结果在全市场、沪深300、中证500、中证800、中证1000、国证2000、创业板的RankIC均值分别为8.7%、7.9%、6.6%、6.9%、8.2%、8.7、10.4%，RankIC胜率分别为86.7%、69.0%、73.5%、75.2%、84.8%、86.1%、89.2%。以全市场作为回测统计口径，对比AI看图初始版本，本文模型的RankIC均值提升了3.0%，RankIC胜率提升了7.8%。"
+    },
+    {
+      "text": "卷积模型因子与时序模型因子虽同根同源，因子历史相关系数仅约35%，说明图表模态与时序模态捕获的信息差异较大，支持多模态融合的改进思路",
+      "evidence": "以AI看图初始版本模型的预测结果作为卷积模型因子，以GRU模型的预测结果作为时序模型因子，二者虽同根同源，但它们的因子历史相关系数仅约为35%，具有较大的差异性。"
+    },
+    {
+      "text": "对1分钟频价量数据采用高频数据日度因子化方式构建55组特征，既更有效捕获日内股价信息，又能降低模型复杂度、减少过拟合",
+      "evidence": "对于1分钟频价量数据，采用高频数据日度因子化的方式，从中构建出了55组特征信息，再将多日的日度因子送入时序模型。这样的特征提取方法不仅能够更有效地捕获日内股价信息，而且能够有效降低模型复杂度，减少过拟合，提升样本外的股价预测效果。"
+    },
+    {
+      "text": "本文模型因子与Barra风格因子相关性较低，相关性最高的三个因子为流动性、波动率和市值因子，相关系数分别为-18%、-16%和-8%",
+      "evidence": "整体而言，本文模型因子与Barra风格因子的相关性较低，其中相关性最高的三个Barra风格因子为流动性因子、波动率因子和市值因子，相关系数分别为-18%、-16%和-8%。"
+    },
+    {
+      "text": "全市场双边千三计费后多头年化收益率15.58%，相比同期中证全指取得12.97%的超额年化收益率，10分档收益单调性显著",
+      "evidence": "本文模型因子在全市场的10分档收益单调性显著，RankIC历史均值为8.7%、胜率为86.7%。2020年~2024年10月期间，双边千三计费后的多头年化收益率为15.58%，相比同期的中证全指取得了12.97%的超额年化收益率。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于卷积神经网络的股价走势AI识别与分类》（2023-04-06）",
+    "《基于深度学习的高频数据因子挖掘》（2023-08-11）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

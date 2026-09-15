@@ -1,0 +1,129 @@
+{
+  "schema_version": 2,
+  "id": "20190529-海通证券-选股因子-048-探索a股的五因子模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SMB",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个小市值组合收益均值-3个大市值组合收益均值（2*3分组取交集）}",
+          "stats": [null, null, null, null],
+          "evidence": "市值因子收益SMB即为3个小市值组合收益均值与3个大市值组合收益均值之差，估值因子收益为 2 个低估值组合收益均值与 2 个高估值组合收益均值之差。"
+        },
+        {
+          "name": "F_{PE}",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{2个低PE组合收益均值-2个高PE组合收益均值（市值与PE双重2*3分组）}",
+          "stats": [null, null, null, null],
+          "evidence": "总结来看，在传统的回归统计方法下，A股 FF3 因子模型中的估值因子更适合采用PE指标构建。"
+        },
+        {
+          "name": "F_{PB}",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{2个低PB组合收益均值-2个高PB组合收益均值（市值与PB双重2*3分组）}",
+          "stats": [null, null, null, null],
+          "evidence": "而包含 $\\mathsf{F_{PB}}$ 的模型后验概率之和为 0.00%。表明估值因子形式中， $\\mathsf{F_{PE}}$ 的后验概率更高。"
+        },
+        {
+          "name": "F_{SUE}",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{高SUE组合与低SUE组合的收益差（市值与SUE双重2*3分组）}",
+          "stats": [null, null, null, null],
+          "evidence": "$\\mathsf{F}_{\\mathsf{ROE}}$ 在包含 $\\mathsf{F_{SUE}}$ 的 M2 模型下，回归截距项为-0.12%，统计不显著；而 $\\mathsf{F_{SUE}}$ 在包含 $\\mathsf{F}_{\\mathsf{ROE}}$ 的 M1 模型下，回归截距项为 0.49%，显著大于 0。从传统回归方法来看，A股的盈利因子更适合采用 SUE 指标构建。"
+        },
+        {
+          "name": "F_{ROE}",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{高ROE组合与低ROE组合的收益差（市值与ROE双重2*3分组）}",
+          "stats": [null, null, null, null],
+          "evidence": "最常见的盈利因子构建指标有 ROE 和 SUE 两种，对应的因子分别记之为 $\\mathsf{F}_{\\mathsf{ROE}}$ 和$\\mathsf{F_{SUE}}$ 。我们以 FF3 因子模型为基础，采用传统回归统计方法对比这两个因子。"
+        },
+        {
+          "name": "F_{Pret}",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{低前期收益组合与高前期收益组合的收益差（2*3分组取交集）}",
+          "stats": [null, null, null, null],
+          "evidence": "除市场收益外，考察 5 个备选因子：市值、PE、反转、换手率和 ROE，因子收益计算采用与前文相同的 2*3 分组方法，分别记为：SMB、 $\\mathsf{F}_{\\mathsf{PE}},$ 、F 、F 、F 。样本区间为 2009 年至 2018 年。"
+        },
+        {
+          "name": "F_{Turn}",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{低换手率组合与高换手率组合的收益差（2*3分组取交集）}",
+          "stats": [null, null, null, null],
+          "evidence": "价格反转因子和换手率因子虽然同为技术因子，但两者相关性较低，仅为 0.08，这也是我们在分类模型中把两者视为不同类型的原因。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "对A股多因子模型对比研究发现，后验概率最高的是包含市场、市值、估值、盈利和换手率的五因子模型；估值因子适合采用 PE指标构建，盈利因子适合采用 SUE指标构建。",
+      "evidence": "采用常见的因子模型对比方法对 A股的多因子模型进行对比研究发现，后验概率最高的是包含市场、市值、估值、盈利和换手率的五因子模型。从因子形式来看，估值因子适合采用 PE指标构建，盈利因子适合采用 SUE指标构建。"
+    },
+    {
+      "text": "在传统的回归统计方法下，A股 FF3 因子模型中的估值因子更适合采用PE指标构建。",
+      "evidence": "总结来看，在传统的回归统计方法下，A股 FF3 因子模型中的估值因子更适合采用PE指标构建。"
+    },
+    {
+      "text": "从传统回归方法来看，A股的盈利因子更适合采用 SUE 指标构建。",
+      "evidence": "从传统回归方法来看，A股的盈利因子更适合采用 SUE 指标构建。"
+    },
+    {
+      "text": "基金增持策略经五因子模型归因后，风险调整后的月均收益仅为 0.36%，统计不显著，剔除五因子影响后基金增持事件本身并不存在显著收益。",
+      "evidence": "如下表所示，采用五因子模型对策略收益归因可发现，策略风险调整后的月均收益仅为 0.36%，t 值 1.25，统计不显著。也就是在剔除五因子影响后，基金增持事件本身并不存在显著收益。"
+    },
+    {
+      "text": "五个常见异象在五因子模型下的超额收益都不再显著，alpha 基本都低于 0.5%，表明前文所构造的五因子是这五个异象收益的主要来源。",
+      "evidence": "但它们在五因子模型下的超额收益都不再显著，alpha 基本都低于 0.5%。由此表明，前文所构造的五因子是这五个异象收益的主要来源。"
+    },
+    {
+      "text": "2017 年盈利因子 SUE 周度平均收益为 0.42%，明显高于其他年份，在一定程度上为基金贡献了相对市场的超额收益，解释了该年跑赢市场的基金数量更多。",
+      "evidence": "2017 年，盈利因子 SUE 周度平均收益为 0.42%，明显高于其他年份（2016 年仅为 0.18%），在一定程度上为基金贡献了相对市场的超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Fama 和 French（1993）三因子模型", "Francisco Barillas 和 Jay Shanken（2017）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

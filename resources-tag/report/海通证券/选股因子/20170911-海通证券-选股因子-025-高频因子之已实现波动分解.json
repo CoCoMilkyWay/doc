@@ -1,0 +1,137 @@
+{
+  "schema_version": 2,
+  "id": "20170911-海通证券-选股因子-025-高频因子之已实现波动分解",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频特质波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\left(\\sum_{t}(\\varepsilon_{i}^{t})^{2}\\right)^{\\frac{1}{2}}",
+          "stats": [null, -0.034, -0.886, 0.0025],
+          "evidence": "在 1 分钟的数据频率下，高频特质波动率因子表现较差，并无明显的选股能力。随着数据间隔的增大，该因子的 Rank IC、ICIR以及多空收益都出现了改善。"
+        },
+        {
+          "name": "高频系统波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\left(\\sum_{t}(r_{i}^{t}-\\varepsilon_{i}^{t})^{2}\\right)^{\\frac{1}{2}}",
+          "stats": [null, -0.07, -1.434, 0.0148],
+          "evidence": "考虑到股票日收益的波动率同样选股效果不佳，但将其拆分为系统波动以及特质波动后，两个因子皆具有较好的选股效果。"
+        },
+        {
+          "name": "高频特异度",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\varepsilon_{i}^{t})^{2}}{\\sum_{t}(r_{i}^{t})^{2}}",
+          "stats": [null, 0.044, 0.986, 0.0128],
+          "evidence": "此外，日级别上选股效果极为稳定的特异度因子，在高频维度上的选股效果也不佳。"
+        },
+        {
+          "name": "高频上行波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\left(\\sum_{t}\\left(r_{i}^{t}I_{\\left\\{r_{i}^{t}>0\\right\\}}\\right)^{2}\\right)^{\\frac{1}{2}}",
+          "stats": [null, -0.047, -1.201, 0.0059],
+          "evidence": "上行波动率因子在不同的数据频率下皆展现出了一定的选股效果，即前期股票高频上行波动越大，未来 个月收益表现越差。"
+        },
+        {
+          "name": "高频下行波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\left(\\sum_{t}\\left(r_{i}^{t}I_{\\left\\{r_{i}^{t}<0\\right\\}}\\right)^{2}\\right)^{\\frac{1}{2}}",
+          "stats": [null, -0.028, -0.716, 0.0012],
+          "evidence": "由于截面标准化后，上行波动占比因子与下行波动占比因子的线性相关性为-1，故而下表仅展示上行波动占比因子的选股效果。"
+        },
+        {
+          "name": "高频上行波动占比",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\left(r_{i}^{t}I_{\\left\\{r_{i}^{t}>0\\right\\}}\\right)^{2}}{\\sum_{t}\\left(r_{i}^{t}\\right)^{2}}",
+          "stats": [null, -0.083, -3.902, 0.0189],
+          "evidence": "将上行波动率对于股票波动率进行调整后，可计算得到上行波动占比。该因子在不同的数据频率下，皆具有较好的选股能力。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "“系统波动+特质波动”拆分在高频维度上无法得到具有优秀选股效果的因子，1分钟频率下高频特质波动率因子并无明显选股能力，随数据间隔增大其Rank IC、ICIR及多空收益才出现改善。",
+      "evidence": "在 1 分钟的数据频率下，高频特质波动率因子表现较差，并无明显的选股能力。随着数据间隔的增大，该因子的 Rank IC、ICIR以及多空收益都出现了改善。"
+    },
+    {
+      "text": "“上行波动+下行波动”拆分得到的上行波动占比因子选股效果较好，正交后依旧具有显著选股能力，且数据频率越高效果越好；1分钟频率下正交后IC为-0.038，ICIR为-3.6，月度多空收益达0.92%。",
+      "evidence": "上行波动占比因子在正交后依旧具有显著选股能力，且数据频率越高因子选股效果越好。在 1 分钟频率下，正交后的上行波动占比因子的 IC 为-0.038，ICIR 为-3.6，月度多空收益达 0.92%。"
+    },
+    {
+      "text": "上行波动占比因子加入多因子模型后能对模型产生进一步提升，改进模型在复合因子的IC、ICIR、月度胜率以及月度多空收益上全面优于原始模型。",
+      "evidence": "加入分钟上行波动占比的改进模型，相比于原始模型在复合因子的 IC、ICIR、月度胜率以及月度的多空收益上，都有进一步的提升。"
+    },
+    {
+      "text": "上行波动占比因子与市值及换手因子相关性较强，多头组合呈低换手、大市值特征，其选股效果来源于换手率因子而非市值因子。",
+      "evidence": "观察上图可知，上行波动占比因子和市值以及换手因子具有较强的相关性，因子多头组合（第 组）呈现出低换手、大市值的特征。因此可以推断，该因子的选股效果并不是来源于市值因子而是来源于换手率因子。"
+    },
+    {
+      "text": "2017年以来因子截面选股效果较好，仅在6月失效，其他月份IC及月度多空收益皆为正，但无法通过该因子构建单因子组合获取正向收益。",
+      "evidence": "2017 年以来因子截面选股效果较好，仅在 6 月失效。除了 6 月外，该因子在其他月份上的 以及月度多空收益皆为正。"
+    },
+    {
+      "text": "无法通过上行波动占比因子构建单因子组合获取正向收益，其TOP10%多头组合2017年以来累计收益为-13.25%。",
+      "evidence": "使用上行波动占比因子构建得到的TOP10%多头组合，在 17 年以来的累计收益为-13.25%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《“双面”波动率——波动率因子的分解与截面收益》2017.02.27",
+    "《选股因子系列研究(十七)——选股因子的正交》2017.01.19",
+    "《选股因子系列研究(十九)——高频因子之股票收益分布特征》2017.05.05"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

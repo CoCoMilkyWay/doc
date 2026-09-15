@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20260828-开源证券-市场微观结构-034-聪明钱3_0_ai赋能从分钟至逐笔的精细切割",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["order_flow", "intraday_pattern", "llm_generation"],
+      "setup": {
+        "universe": ["all", "csi800", "csi1000"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Baseline 因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Q=VWAP_{smart}/VWAP_{all}",
+          "stats": [null, -0.064, null, 0.1682],
+          "evidence": "该因子回测绩效如下：RankIC 为-6.4%，多空收益为16.82%，多空信息比率为 2.09。"
+        },
+        {
+          "name": "Smart_PriceImpact",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{先计算分钟聪明度}S_t\\text{，再在高}S_t\\text{样本中筛选前后收益差较大的时刻计算Q}",
+          "stats": [null, -0.07, null, 0.1969],
+          "evidence": "其 alpha 来源于：真正的聪明钱交易往往会在短时间内引起市场价格反应，前后收益差是识别这种信息驱动型价格变化的工具，从而在高S 中二次确认出真正具有信息含量的聪明钱时刻；该因子RankIC 为-7.00%，多空年化收益为 19.69%，信息比率为 2.20。"
+        },
+        {
+          "name": "Smart_VolDecay",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{先计算分钟聪明度}S_t\\text{，再在高}S_t\\text{样本中筛选发生后成交量相对前序显著萎缩的时刻计算Q}",
+          "stats": [null, -0.0624, null, 0.1749],
+          "evidence": "其 alpha 来源于：缩量说明该价格变动并非由散户追涨杀跌驱动，更可能来自信息优势方的定向交易，从而在高 $S_{t}$ 中进一步筛选出真正具有信息含量的聪明钱时刻；该因子 RankIC 为-6.24%，多空年化收益为 17.49%，信息比率为 2.41。"
+        },
+        {
+          "name": "Smart_Minute_Enhanced",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "0.5\\times Smart_{-}PriceImpact+0.5\\times Smart_{-}VolDecay",
+          "stats": [null, -0.0689, null, 0.205],
+          "evidence": "最终方案将两个因子等权合成，得到 Smart_Minute_Enhanced（分钟聪明钱增强因子），合成后 RankIC 为 -6.89%，多空对冲年化收益为 20.50%，信息比率为 2.41。"
+        },
+        {
+          "name": "Smart_TradeFlow_Patient",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔成交数据计算单笔聪明度}S_t\\text{，选取}S_t\\text{较低的尾部样本中有大单参与的时刻计算Q}",
+          "stats": [null, -0.0361, null, 0.1875],
+          "evidence": "其中，若仅使用低 $S_{t}$ 样本而不区分大单参与，因子选股效果较弱，RankIC 仅为 -0.63%；而在叠加大单筛选后，Smart_TradeFlow_Patient 的 RankIC 提升至-3.61%。这一对比说明，大单参与是识别耐心执行型聪明钱的关键条件。"
+        },
+        {
+          "name": "Smart_OrderFlow_Impact",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以单笔委托为锚点，衡量其前后委托方向的差别比例，选取方向变化较大的样本计算Q}",
+          "stats": [null, -0.0429, -4.15, 0.2005],
+          "evidence": "我们据此构建 Smart_OrderFlow_Impact（聪明委托流冲击因子）：以单笔委托为锚点，衡量其前后委托方向的差别比例，选取方向变化较大的样本作为聪明钱，并使用该部分计算 Q。"
+        },
+        {
+          "name": "Smart_Tick_Spread",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Spread=Ask1-Bid1,\\; Q=\\text{绝对价差较低、流动性较好的样本的}VWAP_{smart}/VWAP_{all}",
+          "stats": [null, -0.0755, -2.74, 0.1793],
+          "evidence": "因此，我们构建Smart_Tick_Spread（聪明价差因子）：基于 Level-2 盘口快照计算绝对价差 Spread =Ask1 -Bid1，选取绝对价差较低、流动性较好的样本作为聪明钱，并计算 Q。"
+        },
+        {
+          "name": "聪明钱 3.0",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{将 Smart_Minute_Enhanced 与 Level-2 层面的有效因子进一步合成}",
+          "stats": [null, -0.0721, -4.3, 0.2759],
+          "evidence": "绩效方面，聪明钱 3.0 的 RankIC 为 -7.21%，RankICIR 为 -4.30，多空对冲年化收益为 27.59%，信息比率为 3.21。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "分钟层面将 Smart_PriceImpact 与 Smart_VolDecay 等权合成 Smart_Minute_Enhanced，RankIC -6.89%、多空年化收益 20.50%、信息比率 2.41，较 Baseline 有一定幅度的提升。",
+      "evidence": "最终方案将两个因子等权合成，得到 Smart_Minute_Enhanced（分钟聪明钱增强因子），合成后 RankIC 为 -6.89%，多空对冲年化收益为 20.50%，信息比率为 2.41。该因子相较于 Baseline 有一定幅度的提升，说明引入价格冲击与成交量衰减两个维度的二次筛选能够有效增强分钟级聪明钱因子的选股能力。"
+    },
+    {
+      "text": "相较只用 Smart_Minute_Enhanced，加入 Smart_TradeFlow_Patient 后绩效进一步提升，二者互补，其 alpha 来源于控制冲击成本、缓慢执行的大额交易对应信息优势方的真实布局。",
+      "evidence": "其 alpha 来源于控制冲击成本、缓慢执行的大额交易往往对应信息优势方的真实布局，相较于只用 Smart_Minute_Enhanced 因子，加入Smart_TradeFlow_Patient 因子后绩效进一步提升，二者有互补之处；"
+    },
+    {
+      "text": "大单参与是识别耐心执行型聪明钱的关键条件：仅用低 St 样本 RankIC 仅-0.63%，叠加大单筛选后 Smart_TradeFlow_Patient 的 RankIC 提升至-3.61%。",
+      "evidence": "其中，若仅使用低 $S_{t}$ 样本而不区分大单参与，因子选股效果较弱，RankIC 仅为 -0.63%；而在叠加大单筛选后，Smart_TradeFlow_Patient 的 RankIC 提升至-3.61%。这一对比说明，大单参与是识别耐心执行型聪明钱的关键条件。"
+    },
+    {
+      "text": "委托方向差别比例按 4 分组测算，差别最大组 RankIC 为-4.29%、最小组为3.71%，验证委托方向变化对聪明钱识别具有显著的区分能力。",
+      "evidence": "我们将差别比例按 4 分组测算，差别最大组因子的 RankIC 为-4.29%，其次为-2.53%，再者为0.58%，差别最小组为3.71%，验证了委托方向变化对聪明钱识别具有显著的区分能力。"
+    },
+    {
+      "text": "综合分钟、逐笔成交、逐笔委托、盘口四大维度合成的聪明钱 3.0 因子，RankIC -7.21%、RankICIR -4.30、多空对冲年化收益 27.59%、信息比率 3.21，显著优于 Baseline。",
+      "evidence": "绩效方面，聪明钱 3.0 的 RankIC 为 -7.21%，RankICIR 为 -4.30，多空对冲年化收益为 27.59%，信息比率为 3.21。"
+    },
+    {
+      "text": "聪明钱 3.0 在沪深800内 RankIC 为-4.63%、多空年化收益 9.24%；在中证 1000 内 RankIC 为-5.35%、多空年化收益 11.98%，全市场表现最优。",
+      "evidence": "聪明钱 3.0在沪深800内 RankIC 为-4.63%，多空年化收益 9.24%、信息比率 1.48；在中证 1000 内 10 日 RankIC 为-5.35%，多空年化收益11.98%、信息比率 1.72。"
+    },
+    {
+      "text": "聪明钱 3.0 因子与 Barra 因子相关性低，除流动性和残差波动外，相关性幅度基本都在 20%以内。",
+      "evidence": "如图 13 所示，聪明钱 3.0 因子除了流动性和残差波动之外，和 Barra 因子相关性幅度基本都在 20%以内。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《分钟资金流因子的构建方法—市场微观结构研究系列（31）》-2025.12.21",
+    "《因子切割论—市场微观结构研究系列（10）》-2020.9.16",
+    "《大单与小单资金流的 alpha 能力—市场微观结构研究系列（12）》-2021.6.2",
+    "《大小单资金流 alpha 探究 2.0：变量精筛与高频测算—市场微观结构研究系列（18）》-2022.12.18",
+    "《聪明钱因子模型的 2.0 版本—市场微观结构研究系列（3）》-2020.2.9"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

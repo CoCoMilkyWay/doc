@@ -1,0 +1,188 @@
+{
+  "schema_version": 2,
+  "id": "20160720-海通证券-选股因子-013-因子大讲坛",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Size",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{月底市值})",
+          "stats": [null, null, null, 0.239],
+          "evidence": "其中，Size 因子是 07 年以后才相对比较有预测的效力，而Idiosyncratic Risk 因子的表现则相对比较稳定。"
+        },
+        {
+          "name": "Idiosyncratic Risk",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{上月三因子模型残差的标准差}}{\\text{均方根误差}\\times\\text{指数日均收益}}\\text{（5年数据）}",
+          "stats": [null, null, null, 0.2193],
+          "evidence": "其中，Size 因子是 07 年以后才相对比较有预测的效力，而Idiosyncratic Risk 因子的表现则相对比较稳定。"
+        },
+        {
+          "name": "Volume Variance",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3年成交额的标准差}",
+          "stats": [null, null, null, 0.1994],
+          "evidence": "其中，值得注意的是 Volume Variance 因子也如 Size 因子一样，大约 07 年以后才相对比较有预测的效力。"
+        },
+        {
+          "name": "Short-Term Reversal",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{上月的持有收益}",
+          "stats": [null, null, null, 0.1809],
+          "evidence": "这说明在上月大盘下跌的情况下，因子的区分度和稳定性会有所下降，但也不乏存在一些更适用于下跌市的因子，如 Short-Term Reversal,52-Week High，LaggedMomentum。"
+        },
+        {
+          "name": "Price",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{月底收盘价})",
+          "stats": [null, null, null, 0.1398],
+          "evidence": "| Price | 13.98% | 1.93 | 55.50% | -0.01 | 37.70% | 48.69% | 13.61% | 53.68% |"
+        },
+        {
+          "name": "Amihud's Measure",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{abs(日收益)/日成交量一年均值}",
+          "stats": [null, null, null, -0.1331],
+          "evidence": "但是，也有在加入市值因子影响后，基本上可以被认为不存在预测能力的因子，如 Amihud's Measure 因子。"
+        },
+        {
+          "name": "Max",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{上月最大日收益}",
+          "stats": [null, null, null, 0.1231],
+          "evidence": "| Max | 12.31% | 3.82 | 61.78% | 0.02 | 19.90% | 56.54% | 23.56% | 52.63% |"
+        },
+        {
+          "name": "Momentum",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{t-6:t-1 的持有收益}",
+          "stats": [null, null, null, 0.1012],
+          "evidence": "在第三节中收益排前 10 的因子中，仅 Momentum 因子与 Price 因子的收益显著下降，其收益的 t值、胜率也变得不再显著。"
+        },
+        {
+          "name": "Share Volume",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{日成交量/流通股数三个月均值}",
+          "stats": [null, null, null, 0.0827],
+          "evidence": "| Share Volume | 8.27% | 1.63 | 59.14% | -0.60 | 28.49% | 52.69% | 18.82% | 47.57% |"
+        },
+        {
+          "name": "Seasonality",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{历史以来该月份的平均收益}",
+          "stats": [null, null, null, -0.0804],
+          "evidence": "| Seasonality | -8.04% | -3.19 | 41.11% | -0.48 | 41.67% | 18.89% | 39.44% | 56.42% |"
+        },
+        {
+          "name": "Change in Asset Turnover",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{Asset Turnover 变化}",
+          "stats": [null, null, null, -0.2415],
+          "evidence": "从上面两张图来看，与我们之前的分析一致，Change in Asset Turnover 因子构建的组合产生的收益比 Market Value 因子构建的组合收益稳定得多。"
+        },
+        {
+          "name": "Market Value",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{期末市值}",
+          "stats": [null, null, null, 0.1483],
+          "evidence": "其中，Market Value 因子是 07 年以后才相对比较有预测的效力，而 Change in Asset Turnover 因子的表现则相对比较稳定。"
+        },
+        {
+          "name": "Revenue Surprises",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{同 Earnings Surprise，将 eps 改为营业收入即可}",
+          "stats": [null, null, null, -0.0645],
+          "evidence": "| Revenue Surprises | -6.45% | -2.11 | 42.22% | -0.68 | 33.33% | 22.22% | 44.44% | 54.55% |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "使用量价行情数据按月构建的18种因子中有10种平均年化多空组合收益率超过8%，收益最高的Size与Idiosyncratic Risk分别达到23.90%与21.93%，选股能力与持续性都较强。",
+      "evidence": "使用量价行情数据按月构建出的因子中，有 10 种因子的平均年化多空组合收益率超过8%，收益最高的两种因子（Size、Idiosyncratic Risk）分别达到 23.90%与 21.93%，有 种因子月收益显著异于 。"
+    },
+    {
+      "text": "本期大盘上涨时因子多空组合下月表现普遍优于总体情况，下跌时表现相反，上涨市更容易体现选股能力。",
+      "evidence": "在本期大盘上涨的情况下，因子构建的多空组合在下月的表现普遍优于总体情况；在本期大盘下跌的情况下，表现相反。上涨市更容易体现 和选股能力。"
+    },
+    {
+      "text": "剔除市值因子影响后，月度行情因子中有4种平均年化多空组合收益率超过10%，大部分因子选股能力保留，市值中性处理后稳定性有所提升。",
+      "evidence": "在剔除了市值因子的影响之后，使用行情数据按月构建出的因子，18种因子中有 4种因子的平均年化多空组合收益率超过 10%，有不少因子与市值的相关性较低，依然保持收益的预测能力，但也有部分因子的预测能力不复存在。"
+    },
+    {
+      "text": "剔除反转因子影响后，月度技术类因子中多种平均年化多空组合收益率超过10%，收益最高的Idiosyncratic Risk与Volume Variance分别达16.41%与15.69%，稳定性有所提升。",
+      "evidence": "剔除了反转因子的影响之后，月度技术类 种因子中有种因子的平均年化多空组合收益率超过 10%，收益最高的两种因子（IdiosyncraticRisk、Volume Variance）分别达到 16.41%与 15.69%，因子的收益贡献能力降低，但是稳定性有所提升。"
+    },
+    {
+      "text": "使用按季财务数据构成的因子，对未来收益预测的效力相对不如按月行情数据的因子，可能受国内投机氛围、投资期限较短及财报公布滞后性影响。",
+      "evidence": "使用按季财务数据构成的因子，在对未来收益预测的效力上相对不如按月行情数据的因子。原因可能是多方面的；第一，国内市场的投机氛围比较严重，导致财务因子相对不够有效；"
+    },
+    {
+      "text": "样本期上证指数从1366.58点上涨至3539.18点，因子对未来收益的预测能力可能略有高估，但全样本下因子对未来超额收益的预测能力依然存在且显著。",
+      "evidence": "我们选取的时间段，上证指数从 1366.58 点上涨至 3539.18点，这可能表明第三节中对因子对未来收益的解释的阐述有一点偏高，但是在总体上并不会影响使用行情数据按月计算的因子对未来收益具备解释力的结论。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《选股因子系列研究（十二）——“量”与“价”的结合》2016.06.27"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

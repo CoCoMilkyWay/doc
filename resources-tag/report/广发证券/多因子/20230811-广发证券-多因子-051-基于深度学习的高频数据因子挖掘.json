@@ -1,0 +1,138 @@
+{
+  "schema_version": 2,
+  "id": "20230811-广发证券-多因子-051-基于深度学习的高频数据因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["distribution_moment", "liquidity_turnover", "intraday_pattern", "representation_learning"],
+      "setup": {
+        "universe": ["csi1000", "growth"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "hf18",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{深层全连接神经网络最顶端隐藏层（H5 层）第 18 号节点的激活值，输入为 55 个高频数据低频化的日频人工因子}",
+          "stats": [null, -0.0679, null, 0.3944],
+          "evidence": "观察深层神经网络最顶端隐藏层（H5 层）的 32 个特征，将其节点依次编号为0，1，……，31，称之为因子 hf0，hf1，……，hf31。"
+        },
+        {
+          "name": "hf13",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{深层全连接神经网络最顶端隐藏层（H5 层）第 13 号节点的激活值，输入为 55 个高频数据低频化的日频人工因子}",
+          "stats": [null, 0.0663, null, 0.0608],
+          "evidence": "观察深层神经网络最顶端隐藏层（H5 层）的 32 个特征，将其节点依次编号为0，1，……，31，称之为因子 hf0，hf1，……，hf31。"
+        },
+        {
+          "name": "hf2",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{深层全连接神经网络最顶端隐藏层（H5 层）第 2 号节点的激活值，输入为 55 个高频数据低频化的日频人工因子}",
+          "stats": [null, -0.0843, null, 0.5321],
+          "evidence": "观察深层神经网络最顶端隐藏层（H5 层）的 32 个特征，将其节点依次编号为0，1，……，31，称之为因子 hf0，hf1，……，hf31。"
+        },
+        {
+          "name": "hf28",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{深层全连接神经网络最顶端隐藏层（H5 层）第 28 号节点的激活值，输入为 55 个高频数据低频化的日频人工因子}",
+          "stats": [null, -0.0636, null, 0.2851],
+          "evidence": "观察深层神经网络最顶端隐藏层（H5 层）的 32 个特征，将其节点依次编号为0，1，……，31，称之为因子 hf0，hf1，……，hf31。"
+        },
+        {
+          "name": "hf0",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{深层全连接神经网络最顶端隐藏层（H5 层）第 0 号节点的激活值，输入为 55 个高频数据低频化的日频人工因子}",
+          "stats": [null, -0.0562, null, 0.1195],
+          "evidence": "观察深层神经网络最顶端隐藏层（H5 层）的 32 个特征，将其节点依次编号为0，1，……，31，称之为因子 hf0，hf1，……，hf31。"
+        },
+        {
+          "name": "Amihud_illiq",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{Amihud 非流动性因子}",
+          "stats": [null, 0.0892, null, 0.3972],
+          "evidence": "在创业板中，表现较优的是 Amihud_illiq 非流动性因子，其 Rank_IC 均值达8.92%，多头年化收益率和多空年化收益率分别为27.91%和 39.72%。"
+        },
+        {
+          "name": "real_kurtosis",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收益率峰度，分钟行情收益率的峰度}",
+          "stats": [null, -0.0506, null, 0.1515],
+          "evidence": "在中证 1000 板块中，表现较优的是 real_kurtosis 因子，其 Rank_IC 均值为-5.06%，多头年化收益率和多空年化收益率分别为 10.76%和 15.15%；其次是Amihud_illiq 非流动性因子，其 Rank_IC 均值为 6.57%，多头年化收益率和多空年化收益率分别为 10.07%和 22.11%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "深度学习模型共获得32个特征因子，这些特征因子与模型输入的人工因子具有相对的独立性，在创业板和中证1000股票池中展现出不错的选股性能。",
+      "evidence": "深度学习模型共获得 32个特征因子，这些特征因子与模型输入的人工因子具有相对的独立性，在创业板和中证 1000股票池中展现出不错的选股性能。"
+    },
+    {
+      "text": "hf18因子在创业板股票池中Rank_IC为-6.79%，多头年化收益率27.25%，相对创业板指数超额年化收益率25.50%，信息比1.04。",
+      "evidence": "在周度换仓的频率下，双边千三计费后，在模型的训练和验证样本外的过去三年里，hf18 因子在创业板股票池中的Rank_IC 为-6.79%，取得了 27.25%的多头年化收益率，相对于同期的创业板指数取得了 25.50%的超额年化收益率，信息比为 1.04；"
+    },
+    {
+      "text": "hf13因子在中证1000股票池中Rank_IC为6.63%，多头年化收益率11.25%，相对中证1000指数超额年化收益率7.24%，信息比率0.64。",
+      "evidence": "hf13 因子在中证 1000 股票池中 Rank_IC 为 6.63%，取得了 11.25%的多头年化收益率，相对于同期的中证 1000 指数取得了 7.24%的超额年化收益率，信息比率为0.64。"
+    },
+    {
+      "text": "经过神经网络构建的深度学习特征因子与输入的高频因子之间的相关性较低，得到的深度学习特征因子是一组相对独立的新因子。",
+      "evidence": "经过神经网络构建的深度学习特征因子与输入的高频因子之间的相关性较低，得到的深度学习特征因子是一组相对独立的新因子。"
+    },
+    {
+      "text": "创业板中表现较优的人工因子是Amihud_illiq非流动性因子，Rank_IC均值达8.92%，多头与多空年化收益率分别为27.91%和39.72%。",
+      "evidence": "在创业板中，表现较优的是 Amihud_illiq 非流动性因子，其 Rank_IC 均值达8.92%，多头年化收益率和多空年化收益率分别为27.91%和 39.72%。"
+    },
+    {
+      "text": "hf18因子分年度表现较为稳定，负Rank_IC占比均超过75%，2021年之后超过85%；创业板多头组合2021年之后超额年化收益率超过29%，2023年达39.40%。",
+      "evidence": "在各年份中，hf18因子的表现较为稳定，负Rank_IC占比均超过了 75%，在 2021年之后超过了 85%；由hf18 因子筛选得到的创业板多头组合在2021 年之后的超额年化收益率超过了 29%，在 2023 年达 39.40%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Xinran He, Junfeng Pan 等,《Practical Lessons from Predicting Clicks on Ads at Facebook》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

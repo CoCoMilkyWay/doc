@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "id": "20210602-开源证券-市场微观结构-012-大单与小单资金流的alpha能力",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大单资金流因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "S1=\\frac{\\sum_{t-T}^{t}buy_{t}-sell_{t}}{\\sum_{t-T}^{t}Amount_{t}}",
+          "stats": [0.025, null, null, null],
+          "evidence": "从大单和小单资金流因子的五分组对冲曲线（因子值最大组-因子值最小组）可以看出，大单资金流因子具有稳定的正向选股效果，小单资金流因子具有稳定的负向选股效果（图3)。其中，大单资金流因子IC均值为 0.025，小单资金流因子IC 均值为-0.027。"
+        },
+        {
+          "name": "小单资金流因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "S1=\\frac{\\sum_{t-T}^{t}buy_{t}-sell_{t}}{\\sum_{t-T}^{t}Amount_{t}}",
+          "stats": [-0.027, null, null, null],
+          "evidence": "从大单和小单资金流因子的五分组对冲曲线（因子值最大组-因子值最小组）可以看出，大单资金流因子具有稳定的正向选股效果，小单资金流因子具有稳定的负向选股效果（图3)。其中，大单资金流因子IC均值为 0.025，小单资金流因子IC 均值为-0.027。"
+        },
+        {
+          "name": "大单资金流强度因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "S3=\\frac{\\sum_{t-T}^{t}buy_{t}-sell_{t}}{\\sum_{t-T}^{t}\\|buy_{t}-sell_{t}\\|}",
+          "stats": [0.042, null, null, null],
+          "evidence": "其中，净流入金额绝对值标准化表现最优，IR明显高于成交额标准化和“买入金额+卖出金额”标准化。大单资金流强度因子IC 均值提升至0.042，IR提升至2.69；小单资金流强度因子IC 均值提升至-0.03，IR 提升至1.37。"
+        },
+        {
+          "name": "小单资金流强度因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "S3=\\frac{\\sum_{t-T}^{t}buy_{t}-sell_{t}}{\\sum_{t-T}^{t}\\|buy_{t}-sell_{t}\\|}",
+          "stats": [-0.03, null, null, null],
+          "evidence": "其中，净流入金额绝对值标准化表现最优，IR明显高于成交额标准化和“买入金额+卖出金额”标准化。大单资金流强度因子IC 均值提升至0.042，IR提升至2.69；小单资金流强度因子IC 均值提升至-0.03，IR 提升至1.37。"
+        },
+        {
+          "name": "大单残差资金流强度因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "S_{t}=a+b*net20_{t}+\\varepsilon_{t},\\ \\text{因子取回归残差}\\ \\varepsilon_{t}",
+          "stats": [0.054, null, null, null],
+          "evidence": "可以发现，残差资金流强度因子的选股效果有了明显提升：大单残差资金流强度因子IC 均值提升至 0.054，信息比率 IR 提升至3.96；小单残差资金流强度因子IC均值提升至-0.057，信息比率IR提升至3.81。"
+        },
+        {
+          "name": "小单残差资金流强度因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "S_{t}=a+b*net20_{t}+\\varepsilon_{t},\\ \\text{因子取回归残差}\\ \\varepsilon_{t}",
+          "stats": [-0.057, null, null, null],
+          "evidence": "可以发现，残差资金流强度因子的选股效果有了明显提升：大单残差资金流强度因子IC 均值提升至 0.054，信息比率 IR 提升至3.96；小单残差资金流强度因子IC均值提升至-0.057，信息比率IR提升至3.81。"
+        },
+        {
+          "name": "大单残差反转因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Ret20_{t}=a+b*S_{t}+\\varepsilon_{t},\\ \\text{因子取回归残差}\\ \\varepsilon_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "可以发现，残差反转因子的选股效果有了明显提升：传统反转因子Ret20的多头信息比率 IR 为 0.53，空头信息比率 IR 为-0.05，多空对冲信息比率 IR 为1.42。大单残差反转因子的多头信息比率IR 提升至0.62，空头信息比率IR 降低至-0.11，多空对冲信息比率IR提升至1.87。小单残差反转因子的多头信息比率IR提升至0.72，空头信息比率IR降低至-0.14，多空对冲信息比率IR提升至2.26。"
+        },
+        {
+          "name": "小单残差反转因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Ret20_{t}=a+b*S_{t}+\\varepsilon_{t},\\ \\text{因子取回归残差}\\ \\varepsilon_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "可以发现，残差反转因子的选股效果有了明显提升：传统反转因子Ret20的多头信息比率 IR 为 0.53，空头信息比率 IR 为-0.05，多空对冲信息比率 IR 为1.42。大单残差反转因子的多头信息比率IR 提升至0.62，空头信息比率IR 降低至-0.11，多空对冲信息比率IR提升至1.87。小单残差反转因子的多头信息比率IR提升至0.72，空头信息比率IR降低至-0.14，多空对冲信息比率IR提升至2.26。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "大单资金流因子具有稳定的正向选股效果，小单资金流因子具有稳定的负向选股效果；大单的正向alpha能力源自大单资金的预见性，小单的负向alpha能力源自大单资金的挤出效应。",
+      "evidence": "从alpha产生的角度来讨论，大单资金流的正向alpha能力，源自大单资金的预见性;而小单资金流的负向alpha能力，源自大单资金的“挤出效应”。"
+    },
+    {
+      "text": "净流入金额绝对值标准化表现最优，大单资金流强度因子IC均值提升至0.042、IR提升至2.69，小单资金流强度因子IC均值提升至-0.03、IR提升至1.37。",
+      "evidence": "其中，净流入金额绝对值标准化表现最优，IR明显高于成交额标准化和“买入金额+卖出金额”标准化。大单资金流强度因子IC 均值提升至0.042，IR提升至2.69；小单资金流强度因子IC 均值提升至-0.03，IR 提升至1.37。"
+    },
+    {
+      "text": "剥离涨跌幅影响后残差资金流强度因子选股效果明显提升：大单残差IC均值提升至0.054、信息比率IR提升至3.96，小单残差IC均值提升至-0.057、信息比率IR提升至3.81。",
+      "evidence": "可以发现，残差资金流强度因子的选股效果有了明显提升：大单残差资金流强度因子IC 均值提升至 0.054，信息比率 IR 提升至3.96；小单残差资金流强度因子IC均值提升至-0.057，信息比率IR提升至3.81。"
+    },
+    {
+      "text": "残差反转因子显著优于传统反转因子：传统反转多空对冲信息比率IR为1.42，大单残差反转提升至1.87，小单残差反转提升至2.26。",
+      "evidence": "可以发现，残差反转因子的选股效果有了明显提升：传统反转因子Ret20的多头信息比率 IR 为 0.53，空头信息比率 IR 为-0.05，多空对冲信息比率 IR 为1.42。大单残差反转因子的多头信息比率IR 提升至0.62，空头信息比率IR 降低至-0.11，多空对冲信息比率IR提升至1.87。小单残差反转因子的多头信息比率IR提升至0.72，空头信息比率IR降低至-0.14，多空对冲信息比率IR提升至2.26。"
+    },
+    {
+      "text": "残差资金流强度因子在沪深300和中证500样本的选股效果表现优异，大单残差多空信息比率分别为2.05和3.18，小单残差分别为2.27和2.47。",
+      "evidence": "残差资金流强度因子在沪深300和中证500样本的选股效果表现优异。大单残差资金流强度因子在沪深300和中证500样本的多空信息比率分别为2.05和3.18，小单残差资金流强度因子在沪深300和中证500样本的多空信息比率分别为2.27和2.47。"
+    },
+    {
+      "text": "残差反转因子在沪深300和中证500的样本空间内的表现依然优于传统反转因子，小单残差反转表现更好。",
+      "evidence": "可以发现，残差反转因子在沪深300和中证500的样本空间内的表现依然优于传统反转因子。其中在沪深300中，大单残差反转因子的多头信息比率IR提升至0.51，空头信息比率IR降低至-0.02，多空对冲信息比率IR提升至1.59。小单残差反转因子的多头信息比率IR提升至0.59，空头信息比率IR降低至-0.05，多空对冲信息比率IR提升至2.05。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列(8)-结合行业轮动的沪深300指数增强测试》-2020.05.27",
+    "《市场微观结构研究系列(9)-主动买卖因子的正确用法》-2020.09.05",
+    "《市场微观结构研究系列（10）-因子切割论》-2020.09.17",
+    "《市场微观结构研究系列（11）-A股分层效应的普适规律与底层逻辑》-2021.04.30"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

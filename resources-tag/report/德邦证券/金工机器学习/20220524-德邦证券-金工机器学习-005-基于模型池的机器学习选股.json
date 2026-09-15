@@ -1,0 +1,113 @@
+{
+  "schema_version": 2,
+  "id": "20220524-德邦证券-金工机器学习-005-基于模型池的机器学习选股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "机器学习因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "P_{T,m}=\\sum_{k=1}^{K}\\frac{1}{K}p_{T,k}",
+          "stats": [null, 0.075, 0.906, null],
+          "evidence": "式（3）定义的和图 13 所示的机器学习因子平均 RankIC 为0.075，Rank ICIR为0.906"
+        },
+        {
+          "name": "机器学习反转因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "P_{T,r}={\\sum}_{k=1}^{K}s_{k}\\cdot[z(p_{T-1,k})-z(\\varepsilon_{T})]",
+          "stats": [null, 0.095, 1.04, null],
+          "evidence": "式（4）定义的和图14所示的机器学习反转因子的平均 RankIC 为 0.095，Rank ICIR 为 1.04"
+        },
+        {
+          "name": "复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "P_{T,c}=\\min(z(P_{T,m}),0)+\\max(z(P_{T,r}),0)",
+          "stats": [null, 0.088, 1.083, null],
+          "evidence": "式（5）定义的和图 15 所示的复合因子的平均 RankIC 为 0.088，Rank ICIR 为 1.083"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "sample_window", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi1000"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "长记忆模型池优于短记忆模型池，长、短记忆模型ICIR分别为1.307和0.857，长记忆模型池RankIC为负的次数不足短记忆模型的一半。",
+      "evidence": "长记忆模型池的表现更好，其 RankIC 为负的次数不足短记忆模型的一半。长、短记忆模型在这个时期的ICIR分别为1.307和0.857，体现出了较大的差距。"
+    },
+    {
+      "text": "集成模型的表现随训练间隔增加总体下降但并非单调，当训练间隔为3个月时模型表现超过每月训练的模型，每三个月新训练模型的频率表现最优。",
+      "evidence": "总体上，集成模型的表现随着训练间隔的增加而下降，但并非完全单调。当训练间隔为 3 个月时，模型表现超过每月训练的模型表现，因此训练频率不必过高。"
+    },
+    {
+      "text": "以过去Nv个月平均RankIC筛选模型是有效的：验证集评价期数越长效果越好，单期验证与样本外RankIC平均相关系数为0.21，十二期验证最好，为0.33。",
+      "evidence": "结果表明，平均相关系数随着评价期数的增加而单调增加，用单期的数据进行验证的效果最差，平均相关系数为 0.21，而用十二期的数据验证的结果最好，平均相关系数为 0.33。"
+    },
+    {
+      "text": "模型池中五千余个模型在横截面预测值两两相关系数的概率密度平均值仅为0.144，模型之间高度异质，有利于构建更高质量的集成模型。",
+      "evidence": "图 12 显示了这个相关系数的分布的概率密度，其平均值仅为 0.144，这说明模型之间是高度异质的，这有利于构建更高质量的集成模型。"
+    },
+    {
+      "text": "模型对训练频率、验证集时间长度和模型种类的敏感性低。",
+      "evidence": "通过对比各参数发现模型对训练频率、验证集时间长度和模型种类的敏感性低。"
+    },
+    {
+      "text": "全市场分十组回测单调性很好，组十超额收益每个年度均为正，样本期年化超额收益率为18.6%，信息比率为2.41。",
+      "evidence": "组十的超额收益在每个年度均为正，样本期年化超额收益率为 18.6%，信息比率为 2.41。"
+    },
+    {
+      "text": "中证1000分五组回测多头组超额收益总体稳健，每一年的超额收益均为正，样本期总体超额收益为16.3%，信息比率为2.092。",
+      "evidence": "多头组的超额收益总体上较为稳健，在每一年的超额收益均为正，样本期的总体超额收益为 16.3%，信息比率为 2.092。"
+    },
+    {
+      "text": "复合因子的Rank ICIR最高，其多头组表现显著优于机器学习反转因子，后者的高RankIC主要由较高的空头收益贡献。",
+      "evidence": "虽然机器学习反转因子与复合因子的结果从 RankIC 的角度来看相差不大，但通过分组回测，发现复合因子的多头组表现显著优于机器学习反转因子，而机器学习反转因子的 RankIC 高很大程度上是由较高的空头收益贡献的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《利用机器学习捕捉因子的非线性效应——德邦金工机器学习专题之一》 2021.10.18",
+    "《动态因子筛选——德邦金工机器学习专题之四》2022.03.09",
+    "《基于财务与风格因子的机器学习选股——德邦金工机器学习专题之三》 2022.01.25",
+    "《机器学习残差因子表现归因——德邦金工机器学习专题之二》2021.11.24"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "schema_version": 2,
+  "id": "20110810-广发证券-多因子-006-从宏观角度观察alpha因子趋势",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "analyst_behavior",
+        "momentum_reversal",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "相对PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股市盈率相对市场或行业平均市盈率}",
+          "stats": [null, null, null, null],
+          "evidence": "在出口同比增速下降时，相对 PE因子的防御功能最为突出，表明市场对低 PE股票还是较为青睐，所以该因子应适时运用。"
+        },
+        {
+          "name": "相对PS",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股市销率相对市场或行业平均市销率}",
+          "stats": [null, null, null, null],
+          "evidence": "在国债利差上升期间，相对 PS 因子效果十分的显著，平均受益高达 3.81%，为整体平均收益的两倍多，而且胜率奇高，强烈建议投资者关注！"
+        },
+        {
+          "name": "相对PCF",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股市现率相对市场或行业平均市现率}",
+          "stats": [null, null, null, null],
+          "evidence": "最后，在市场底部时，相对 PCF和一个月评级改变因子表现较好，应该适时关注！"
+        },
+        {
+          "name": "流通市值自然对数",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{流通市值})",
+          "stats": [null, null, null, null],
+          "evidence": "而在低位区间，流通市值与相对 PS 两个因子表现十分突出，胜率都为 80%，远高于它们的整体胜率。所以该两个因子在出口增速低位时应该重点关注！"
+        },
+        {
+          "name": "总资产周转率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "据统计所得，在工业增加值同比增速上升区间，总资产周转率因子的表现十分突出，因子平均收益为 1.93%，明显超于整体平均收益，胜率也有显著提升，所以建议关注！"
+        },
+        {
+          "name": "ROA(资产收益率)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "而从胜率角度来看，ROA 在出口同比增速高位时下降严重，因适时降低该因子的关注度。"
+        },
+        {
+          "name": "负债权益比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{总负债}}{\\text{股东权益}}",
+          "stats": [null, null, null, null],
+          "evidence": "在工业同比增速下降区间，两个估值因子以及负债权益比因子表现都不错。特别是负债权益比因子，在胜率上面提升较为明显。该三个因子的防御效果较好，在增速下滑时应重点配置。"
+        },
+        {
+          "name": "经营活动产生的现金流量净额比总市值",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营活动产生的现金流量净额}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "我们认为该些有效因子的挑选能够较全面的覆盖了股票的成长性，估值水平，盈利能力，营运能力以及反转效应。对于该些因子趋势性的研究能够更好的把握投资者在不同环境下的对于特定风险源的偏好。"
+        },
+        {
+          "name": "经营活动产生的现金流量净额(同比增长率)",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营活动产生的现金流量净额的同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "而对于经营活动产生的现金流量净额(同比增长率)因子，平均收益的严重缩水以及胜率的大幅下滑都表明该因子在国债利差高位时的无力，投资者应及时放弃对该因子的配置。"
+        },
+        {
+          "name": "净利润增长率(%)",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期净利润}-\\text{去年同期净利润}}{\\text{去年同期净利润}}\\times 100\\%",
+          "stats": [null, null, null, null],
+          "evidence": "而在增速高位时，市场似乎更青睐于净利润增长较快的股票，所以该因子值得关注。"
+        },
+        {
+          "name": "主营业务收入增长率(%)",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期主营业务收入}-\\text{去年同期主营业务收入}}{\\text{去年同期主营业务收入}}\\times 100\\%",
+          "stats": [null, null, null, null],
+          "evidence": "而主营业务收入增长因子在增速低位区间表现较差，这也表明投资者在低位区间并不看好主营业务增长好的股票，认为它们在增速低迷的时候并不会有亮点。"
+        },
+        {
+          "name": "三个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去三个月个股累计收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "若在 M1 同比增速的底部，则应该关注三个月股价表现较弱的股票，因为此时反转效应较为明显！"
+        },
+        {
+          "name": "一个月内评级改变",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{一个月内分析师评级改变的方向与幅度}",
+          "stats": [null, null, null, null],
+          "evidence": "若 CPI 同比增速在下降区间，一个月内评级改变因子的表现相对较好，胜率比整体来看还是有不小的改进，应适时关注！"
+        },
+        {
+          "name": "股权集中度",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{前十大股东持股比例合计}",
+          "stats": [null, null, null, null],
+          "evidence": "若 CPI同比增速在底部时，则应关注流通市值因子，从平均收益以及胜率都可看出该因子在该环境下选股效果显著！而股权集中度因子由于表现强差人意，投资者应及时规避。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["return_test"], "setup": {"universe": ["csi300"]}},
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "综合研判：较佳宏观市场环境中表现较好的因子为相对PE、相对PS、流通市值自然对数、总资产周转；较弱宏观市场环境中表现较好的因子为流通市值自然对数、三个月股价反转、一个月内评级改变，即市场好时看估值，市场差时看反转。",
+      "evidence": "综合研判，我们觉得在较佳宏观市场环境中表现较好的因子为：相对 PE，相对 PS，流通市值自然对数总资产周转。而在较弱宏观市场环境中表现较好的因子为：流通市值自然对数，三个月股价反转，一个月内评级改变。"
+    },
+    {
+      "text": "因子收益是有趋势性的，根据宏观市场环境的改变，因子有效性也随之发生变化，靠传统多因子模型一劳永逸的情况不复存在，应做因子择时。",
+      "evidence": "所以，因子收益是有趋势性的，根据宏观市场环境的改变，因子有效性也随之发生变化。"
+    },
+    {
+      "text": "要获得长期稳定的ALPHA因子百里挑一，以沪深300为例，信息比高于1、胜率65%以上的因子屈指可数。",
+      "evidence": "但通过我们的实证，要获得长期稳定的ALPHA的因子简直是百里挑一，而且效果并不能保证长期稳定。以沪深300市场为例，在不分市场环境的情况下，我们认为十分有效的因子，其信息比能高于1，胜率能在65%以上的因子屈指可数。"
+    },
+    {
+      "text": "市场环境按8个宏观指标划分：以每月滚动研判局部最高最低点定义上涨/下跌区间，以前12个月均值±1倍标准差定义高位/低位区间。",
+      "evidence": "站在某一时点，若前12个月以及后6个月都没有超过该点位的，便可定义为局部最高点。相反，若前12个月以及后6个月都没有低于该点位，则判定它为局部最低点。然后从指标的一个最高点到最低点可定义为一个下跌区间，而从指标的一个最低点到最高点则定义为上涨区间。"
+    },
+    {
+      "text": "牛市时估值效应十分明显，估值因子有很强的牛市效应，行情好时应重点关注估值因子的有效性。",
+      "evidence": "通过历史检验，在牛市的时候，估值效应十分明显。这也与我们之前研究所的结论一致，估值因子又十分强的牛市效应。所以在市场行情好的时候应重点关注估值因子的有效性。"
+    },
+    {
+      "text": "国债利差上升期间相对PS因子效果十分显著，平均收益高达3.81%，为整体平均收益的两倍多且胜率奇高。",
+      "evidence": "在国债利差上升期间，相对 PS 因子效果十分的显著，平均受益高达 3.81%，为整体平均收益的两倍多，而且胜率奇高，强烈建议投资者关注！"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "多因子 Alpha 模型研究:沪深 300 成分股的应用分析(上) 李明 2011-05-19",
+    "多因子 Alpha 模型研究:沪深 300 成分股的应用分析(下) 李明 2011-05-19"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

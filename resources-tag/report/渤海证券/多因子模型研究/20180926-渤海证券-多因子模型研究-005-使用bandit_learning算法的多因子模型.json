@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20180926-渤海证券-多因子模型研究-005-使用bandit_learning算法的多因子模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["weighting", "sample_window", "ensemble"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "reversal", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["holding_based"]}
+  },
+  "findings": [
+    {
+      "text": "与传统多因子模型暴涨暴跌的特点不同，Bandit Learning模型在指数下跌的年份也能取得较为稳健的收益",
+      "evidence": "与传统多因子模型暴涨暴跌的特点不同，BanditLearning 模型在指数下跌的年份也能取得较为稳健的收益。"
+    },
+    {
+      "text": "Bandit Learning（l=4）回测年化收益20.48%、夏普比率0.67、相对沪深300日胜率52.81%；传统多因子模型年化收益20.89%、夏普比率0.81、日胜率53.76%",
+      "evidence": "在表 2 中，我们统计了 2013-2018 年几种选股方法总体的回测表现，可以看出，时，Bandit Learning 的运行结果最好，年化收益 20.48%，夏普比率 0.67，相对沪深 300 日胜率 52.81%。而传统多因子模型年化收益 20.89%，夏普比率0.81，相对沪深 300 日胜率 53.76%。"
+    },
+    {
+      "text": "l取其他值时算法依然可以取得超出基准的收益，且回测曲线走势较为相似",
+      "evidence": "回测表明， 时回测效果最好，但 为其他值时算法依然可以取得超出基准的收益，且回测曲线走势较为相似。"
+    },
+    {
+      "text": "业绩归因显示传统多因子模型在盈利、动量、成长因子上有很高暴露，而Bandit Learning模型在前两个因子上的暴露几乎为0，成长因子暴露也远小于传统多因子模型",
+      "evidence": "传统多因子模型在盈利、动量、成长因子上有很高暴露，而 Bandit Learning 模型在前两个因子上的暴露几乎为 0，在成长因子上的暴露也远远小于传统多因子模型。"
+    },
+    {
+      "text": "多因子模型选股风格表现出很强的趋势性，Bandit Learning模型选股风格比较跳跃，这可能是在趋势性市场中多因子模型优于Bandit Learning模型、震荡市中相反的原因",
+      "evidence": "可以看出多因子模型的选股风格表现出了很强的趋势性，Bandit Learning模型的选股风格则比较跳跃。这可能也是在趋势性市场中，多因子模型表现明显优于 BanditLearning 模型，而在震荡市中，Bandit Learning 模型表现优于多因子模型的原因。"
+    },
+    {
+      "text": "Bandit Learning模型更偏好高波动、高换手、高估值的股票，与传统多因子模型在流动性、波动率和估值因子的暴露上结论完全相反",
+      "evidence": "在流动性、波动率和估值因子的暴露上，Bandit Learning模型给出了和传统多因子模型完全相反的结论。与传统多因子模型相反，Bandit Learning 似乎更偏好高波动、高换手、高估值的股票。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bai J, Ng S. 2002. Determining the number of factors in approximate factor models. Econometrica, 70(1):191-221",
+    "Li B, Hoi S C. 2014. Online portfolio selection: A survey. ACM Computing Survey, 46(3):35",
+    "Shen W, Wang J, Jiang Y G, and Zha H. 2015. Portfolio choices with orthogonal bandit learning. Proceedings of the 24th International Joint Conference on Artificial Intelligence, 974-980.",
+    "《多因子模型研究之一：单因子测试》20171011",
+    "《多因子模型研究之三：风险模型与组合优化》20180416",
+    "《多因子模型研究之二：收益预测模型》20171229",
+    "《随机森林多因子模型与传统多因子模型的选股风格对比——多因子模型研究系列之四》20180726"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

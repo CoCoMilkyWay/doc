@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20200217-海通证券-选股因子-058-知情交易与主买主卖",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "全天知情主卖占比（占全天成交额）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "R_{i,T,j}=\\gamma_{0}+\\sum_{k=1}^{4}\\gamma_{1,k}D_{T,k,j}^{weekday}+\\sum_{k=1}^{3}\\gamma_{2,k}D_{T,k,j}^{Period}+\\gamma_{3,1}R_{i,T,j-1}+\\varepsilon_{i,j},\\ \\text{预期外收益为正时主动卖出为知情主卖，知情主卖占比=知情主卖额/当日成交额}",
+          "stats": [-0.03, null, -2.3, 0.082],
+          "evidence": "在正交后，全天知情主卖占比的月均 IC的绝对值皆处于 0.02~0.03 之间并且因子年化 ICIR 的绝对值超2.0。"
+        },
+        {
+          "name": "开盘后知情主卖占比（占同时段成交额）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后时段预期外收益为正时的主动卖出金额}/\\text{当日同时段成交额}",
+          "stats": [-0.03, null, -3.54, 0.123],
+          "evidence": "开盘后知情主卖占比（占同时段成交额）具有相对较强的选股能力，因子月均 IC的绝对值接近 0.03，ICIR 的绝对值达 3.5，月度多空收益达0.94%，且因子月均多头收益为 0.57%。"
+        },
+        {
+          "name": "收盘前知情主买占比（占全天成交额）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前时段预期外收益为负时的主动买入金额}/\\text{当日成交额}",
+          "stats": [-0.04, null, -3.05, 0.161],
+          "evidence": "对比不同计算方法下的因子，收盘前知情主买占比（占全天成交额）的月度选股能力相对较强，因子月度多空收益达1.28%，月度胜率超 80%，多头月均收益达 0.56%。"
+        },
+        {
+          "name": "开盘后知情净主买占比（占全天成交额）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后知情净主买额}/\\text{当日成交额}",
+          "stats": [0.02, null, 2.83, 0.093],
+          "evidence": "开盘后知情净主买占比（占全天成交额）以及开盘后知情净主买占比（占同时段成交额）的月均 IC为 0.02，年化 ICIR 在 2.8~3.0 之间，月度胜率超 80%。"
+        },
+        {
+          "name": "开盘后知情净主买占比（占同时段成交额）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后知情净主买额}/\\text{当日同时段成交额}",
+          "stats": [0.02, null, 2.95, 0.103],
+          "evidence": "在正交后，开盘后知情净主买占比与股票未来收益正相关。开盘后知情净主买占比（占全天成交额）以及开盘后知情净主买占比（占同时段成交额）的月均 IC为 0.02，年化 ICIR 在 2.8~3.0 之间，月度胜率超 80%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "开盘后知情主卖占比（占同时段成交额）选股能力较强，月均IC绝对值接近0.03，ICIR绝对值达3.5，月度多空收益0.94%，月均多头收益0.57%",
+      "evidence": "开盘后知情主卖占比（占同时段成交额）具有相对较强的选股能力，因子月均 IC的绝对值接近 0.03，ICIR 的绝对值达 3.5，月度多空收益达0.94%，且因子月均多头收益为 0.57%。"
+    },
+    {
+      "text": "收盘前知情主买占比（占全天成交额）月度选股能力相对较强，月度多空收益1.28%，胜率超80%，多头月均收益0.56%",
+      "evidence": "对比不同计算方法下的因子，收盘前知情主买占比（占全天成交额）的月度选股能力相对较强，因子月度多空收益达1.28%，月度胜率超 80%，多头月均收益达 0.56%。"
+    },
+    {
+      "text": "开盘后知情净主买占比与股票未来收益正相关，月均IC为0.02，年化ICIR在2.8~3.0之间，月度胜率超80%",
+      "evidence": "在正交后，开盘后知情净主买占比与股票未来收益正相关。开盘后知情净主买占比（占全天成交额）以及开盘后知情净主买占比（占同时段成交额）的月均 IC为 0.02，年化 ICIR 在 2.8~3.0 之间，月度胜率超 80%。"
+    },
+    {
+      "text": "知情主卖占比与股票未来收益负相关，知情主卖行为越强股票未来收益越差；正交后因子IC降低但部分因子仍残留显著选股能力",
+      "evidence": "观察下表可知，知情主卖占比与股票未来收益负相关，也即，投资者的知情主卖行为越强，股票未来收益表现越差。"
+    },
+    {
+      "text": "全天及开盘后知情主卖占比在中证800和中证500指数内仍有一定选股能力，但在沪深300内未呈现显著的月度选股能力",
+      "evidence": "全天知情主卖占比以及开盘后知情主卖占比在中证 800 指数以及中证 500 指数内依旧具有一定的选股能力。然而，全天以及开盘后知情主卖占比（占同时段主卖）在沪深 300 指数内并未呈现出显著的月度选股能力。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chang,S.S.（2014）",
+    "《选股因子系列研究（五十七）——基于主动买入行为的选股因子》（2020-01-12）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

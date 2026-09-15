@@ -1,0 +1,611 @@
+{
+  "schema_version": 2,
+  "id": "20230310-广发证券-多因子-048-高频数据的因子化研究",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "real_var",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_var_{D,i}=\\frac{1}{T-2}\\sum_{t=2}^{T}\\left(r_{t,D,i}-\\bar{r}_{D,i}\\right)^{2}",
+          "stats": [-0.035, -0.0608, null, 0.3822],
+          "evidence": "real_var | 已实现方差，分钟行情收益率的方差"
+        },
+        {
+          "name": "real_skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_skew_{D,i}=\\frac{1}{T-1}\\sum_{t=2}^{T}\\frac{\\left(r_{t,D,i}-\\bar{r}_{D,i}\\right)^{3}}{real\\_var_{D,i}^{3/2}}",
+          "stats": [-0.0214, -0.029, null, 0.2038],
+          "evidence": "real_skew | 已实现偏度，分钟行情收益率的偏度"
+        },
+        {
+          "name": "real_kurtosis",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_kurtosis_{D,i}=\\frac{1}{T-1}\\sum_{t=2}^{T}\\frac{\\left(r_{t,D,i}-\\bar{r}_{D,i}\\right)^{4}}{real\\_var_{D,i}^{2}}",
+          "stats": [-0.0181, -0.0249, null, 0.1996],
+          "evidence": "real_kurtosis | 已实现峰度，分钟行情收益率的峰度"
+        },
+        {
+          "name": "real_upvar",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{仅考虑收益率大于0时的分钟行情收益率方差}",
+          "stats": [-0.0373, -0.0629, null, 0.4172],
+          "evidence": "real_upvar | 上行收益率方差，仅考虑收益率大于0时的分钟行情收益率方差"
+        },
+        {
+          "name": "real_downvar",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{仅考虑收益率小于0时的分钟行情收益率方差}",
+          "stats": [-0.0262, -0.049, null, 0.2705],
+          "evidence": "real_downvar | 下行收益率方差，仅考虑收益率小于0时的分钟行情收益率方差"
+        },
+        {
+          "name": "ratio_realupvar",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ratio\\_realupvar_{D,i}=\\frac{real\\_upvar_{D,i}}{real\\_var_{D,i}}",
+          "stats": [-0.0243, -0.0327, null, 0.2456],
+          "evidence": "ratio_realupvar | 上行收益率方差比值，real_upvar/ real_var"
+        },
+        {
+          "name": "ratio_realdownvar",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ratio\\_realdownvar_{D,i}=\\frac{real\\_downvar_{D,i}}{real\\_var_{D,i}}",
+          "stats": [0.0232, 0.0324, null, 0.2245],
+          "evidence": "ratio_realdownvar | 下行收益率方差比值，ratio_realdownvar / real_var"
+        },
+        {
+          "name": "trendratio",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "trendratio_{D,i}=\\frac{p_{T,D,i}-p_{1,D,i}}{\\sum_{t=2}^{T}\\left|p_{t,D,i}-p_{t-1,D,i}\\right|}",
+          "stats": [-0.0248, -0.0311, null, 0.2175],
+          "evidence": "trendratio | 趋势占比，日内价格变化/分钟频价格变化绝对值之和"
+        },
+        {
+          "name": "ret_intraday",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_intraday_{D,i}=\\frac{p_{T,D,i}}{open_{D,i}}-1",
+          "stats": [-0.0238, -0.0292, null, 0.2222],
+          "evidence": "ret_intraday | 日内收益率，收盘价/开盘价-1"
+        },
+        {
+          "name": "intraday_maxdrawdown",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "intraday\\_maxdrawdown_{D,i}=\\min_{0<t<T}\\min_{0<\\tau\\leq T-t}\\frac{p_{t+\\tau,D,i}}{p_{t,D,i}}-1",
+          "stats": [0.0222, 0.0458, null, 0.216],
+          "evidence": "intraday_maxdrawdown | 日内最大回撤，日内分钟频行情的最大回撤"
+        },
+        {
+          "name": "ratio_volumeH1",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第1个半小时成交量占全天成交量之比}",
+          "stats": [-0.0186, -0.0284, null, 0.181],
+          "evidence": "ratio_volumeH1 | 早盘成交量占比：开盘后第1个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "ratio_volumeH2",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第2个半小时成交量占全天成交量之比}",
+          "stats": [0.0092, 0.0095, null, 0.0994],
+          "evidence": "ratio_volumeH2 | 成交量占比H2：开盘后第2个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "ratio_volumeH3",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第3个半小时成交量占全天成交量之比}",
+          "stats": [0.0188, 0.0251, null, 0.1979],
+          "evidence": "ratio_volumeH3 | 成交量占比 H3：开盘后第 3个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "ratio_volumeH4",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第4个半小时成交量占全天成交量之比}",
+          "stats": [0.0213, 0.0312, null, 0.2114],
+          "evidence": "ratio_volumeH4 | 成交量占比H4：开盘后第4个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "ratio_volumeH5",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第5个半小时成交量占全天成交量之比}",
+          "stats": [0.0268, 0.0368, null, 0.2873],
+          "evidence": "ratio_volumeH5 | 成交量占比H5： 开盘后第5个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "ratio_volumeH6",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第6个半小时成交量占全天成交量之比}",
+          "stats": [0.0233, 0.0334, null, 0.2377],
+          "evidence": "ratio_volumeH6 | 成交量占比H6： 开盘后第6个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "ratio_volumeH7",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第7个半小时成交量占全天成交量之比}",
+          "stats": [0.0171, 0.0276, null, 0.1666],
+          "evidence": "ratio_volumeH7 | 成交量占比 H7：开盘后第7个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "ratio_volumeH8",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第8个半小时成交量占全天成交量之比}",
+          "stats": [-0.0089, -0.0035, null, 0.0949],
+          "evidence": "ratio_volumeH8 | 尾盘成交量占比：开盘后第8个半小时成交量占全天成交量之比"
+        },
+        {
+          "name": "corr_VP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VP_{D,i}=corr(v_{t,D,i},p_{t,D,i})",
+          "stats": [-0.0491, -0.0615, null, 0.5401],
+          "evidence": "corr_VP | 价量相关性，分钟成交量与价格相关性"
+        },
+        {
+          "name": "corr_VR",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VR_{D,i}=corr(v_{t,D,i},r_{t,D,i})",
+          "stats": [-0.0282, -0.0361, null, 0.2671],
+          "evidence": "corr_VR | 收益率与量相关性，分钟成交量与收益率相关性"
+        },
+        {
+          "name": "corr_VRlag",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VRlag_{D,i}=corr(v_{t,D,i},r_{t-1,D,i})",
+          "stats": [-0.0334, -0.0415, null, 0.3339],
+          "evidence": "corr_VRlag | 量与滞后收益率相关性，分钟成交量与上一时刻收益率相关性"
+        },
+        {
+          "name": "corr_VRlead",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VRlead_{D,i}=corr(v_{t,D,i},r_{t+1,D,i})",
+          "stats": [0.0048, 0.0047, null, 0.053],
+          "evidence": "corr_VRlead | 量与超前收益率相关性，分钟成交量与下一时刻收益率相关性"
+        },
+        {
+          "name": "Amihud_illiq",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "Amihud\\_illiq_{D,i}=\\frac{1}{T-1}\\sum_{t=2}^{T}\\frac{\\left|r_{t,D,i}\\right|}{p_{t,D,i}v_{t,D,i}}",
+          "stats": [0.0469, 0.0699, null, 0.54],
+          "evidence": "Amihud非流动性因子是Amihud在2002年提出了衡量流动性的因子，考虑单位成交额驱动下，股价的变化幅度。"
+        },
+        {
+          "name": "ret_overnight",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_overnight_{D,i}=\\frac{open_{D,i}}{close_{D-1,i}}-1",
+          "stats": [0.0123, 0.0181, null, 0.1237],
+          "evidence": "ret_overnight | 隔夜收益率，开盘价相对前收盘价的收益率"
+        },
+        {
+          "name": "ret_open2AH1",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_open2AH1_{D,i}=\\frac{open_{D,i}}{AH1_{D,i}}-1,\\ \\text{AH1为第一阶段集合竞价最高价}",
+          "stats": [0.0261, 0.0349, null, 0.2417],
+          "evidence": "ret_open2AH1 | 开盘价相对第一阶段集合竞价最高价的收益率"
+        },
+        {
+          "name": "ret_open2AL1",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_open2AL1_{D,i}=\\frac{open_{D,i}}{AL1_{D,i}}-1,\\ \\text{AL1为第一阶段集合竞价最低价}",
+          "stats": [0.0175, 0.0181, null, 0.2024],
+          "evidence": "ret_open2AL1 | 开盘价相对第一阶段集合竞价最低价的收益率"
+        },
+        {
+          "name": "ret_open2AH2",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_open2AH2_{D,i}=\\frac{open_{D,i}}{AH2_{D,i}}-1,\\ \\text{AH2为第二阶段集合竞价最高价}",
+          "stats": [0.0188, 0.0254, null, 0.166],
+          "evidence": "ret_open2AH2 | 开盘价相对第二阶段集合竞价最高价的收益率"
+        },
+        {
+          "name": "ret_open2AL2",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_open2AL2_{D,i}=\\frac{open_{D,i}}{AL2_{D,i}}-1,\\ \\text{AL2为第二阶段集合竞价最低价}",
+          "stats": [0.0101, 0.0036, null, 0.0231],
+          "evidence": "ret_open2AL2 | 开盘价相对第二阶段集合竞价最高价的收益率"
+        },
+        {
+          "name": "diverge_A1",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{第一阶段集合竞价振幅}",
+          "stats": [-0.0141, -0.0225, null, 0.1281],
+          "evidence": "diverge_A1 | 第一阶段集合竞价振幅 |\n| diverge_A2 | 第二阶段集合竞价振幅 |"
+        },
+        {
+          "name": "diverge_A2",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{第二阶段集合竞价振幅}",
+          "stats": [-0.0178, -0.0286, null, 0.2113],
+          "evidence": "集合竞价信息反映出资金的试盘行为和多空双方的博弈。"
+        },
+        {
+          "name": "ret_H1",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的收益率}",
+          "stats": [0.0047, 0.0052, null, 0.0466],
+          "evidence": "ret_H1 | 开盘后半小时的收益率 |\n| ret_close2H1 | 开盘后半小时至收盘的收益率 |"
+        },
+        {
+          "name": "ret_close2H1",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时至收盘的收益率}",
+          "stats": [-0.0324, -0.0365, null, 0.3493],
+          "evidence": "ret_close2H1 | 开盘后半小时至收盘的收益率"
+        },
+        {
+          "name": "corr_VPH1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VP}",
+          "stats": [-0.0167, -0.0208, null, 0.1511],
+          "evidence": "corr_VPH1 | 收盘前半小时的 corr_VP"
+        },
+        {
+          "name": "corr_VRH1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VR}",
+          "stats": [0.0063, 0.0078, null, 0.0568],
+          "evidence": "corr_VRH1 | 收盘前半小时的 corr_VR"
+        },
+        {
+          "name": "corr_VRleadH1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VRlead}",
+          "stats": [0.0088, 0.0112, null, 0.0816],
+          "evidence": "corr_VRleadH1 | 收盘前半小时的 corr_VRlead"
+        },
+        {
+          "name": "corr_VRlagH1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VRlag}",
+          "stats": [-0.003, -0.0039, null, 0.0285],
+          "evidence": "corr_VRlagH1 | 收盘前半小时的 corr_VRlag"
+        },
+        {
+          "name": "real_varH1",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 real_var}",
+          "stats": [-0.0272, -0.0522, null, 0.3029],
+          "evidence": "real_varH1 | 收盘前半小时的 real_var"
+        },
+        {
+          "name": "real_skewH1",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 real_skew}",
+          "stats": [0.0025, 0.0018, null, 0.0205],
+          "evidence": "real_skewH1 | 收盘前半小时的 real_skew"
+        },
+        {
+          "name": "real_kurtosisH1",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 real_kurtosis}",
+          "stats": [0.006, 0.0084, null, 0.0247],
+          "evidence": "real_kurtosisH1 | 收盘前半小时的 real_kurtosis"
+        },
+        {
+          "name": "ret_H8",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的收益率}",
+          "stats": [-0.0337, -0.0331, null, 0.3638],
+          "evidence": "收盘前半小时构建的因子中，其中ret_H8、corr_VRH8在全市场及中证500中的选股效果较为显著。"
+        },
+        {
+          "name": "corr_VPH8",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VP}",
+          "stats": [-0.0283, -0.0296, null, 0.2869],
+          "evidence": "corr_VPH8 | 收盘前半小时的 corr_VP"
+        },
+        {
+          "name": "corr_VRH8",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VR}",
+          "stats": [-0.0261, -0.0305, null, 0.2849],
+          "evidence": "收盘前半小时构建的因子中，其中ret_H8、corr_VRH8在全市场及中证500中的选股效果较为显著。"
+        },
+        {
+          "name": "corr_VRleadH8",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VRlead}",
+          "stats": [0.0017, 0.0025, null, 0.0004],
+          "evidence": "corr_VRleadH8 | 收盘前半小时的 corr_VRlead"
+        },
+        {
+          "name": "corr_VRlagH8",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 corr_VRlag}",
+          "stats": [-0.0179, -0.0193, null, 0.2036],
+          "evidence": "corr_VRlagH8 | 收盘前半小时的 corr_VRlag"
+        },
+        {
+          "name": "real_varH8",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 real_var}",
+          "stats": [-0.0229, -0.0347, null, 0.255],
+          "evidence": "real_varH8 | 收盘前半小时的 real_var"
+        },
+        {
+          "name": "real_skewH8",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 real_skew}",
+          "stats": [-0.0187, -0.0206, null, 0.2314],
+          "evidence": "real_skewH8 | 收盘前半小时的 real_skew"
+        },
+        {
+          "name": "real_kurtosisH8",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的 real_kurtosis}",
+          "stats": [null, null, null, null],
+          "evidence": "real_kurtosisH8 | 收盘前半小时的 real_kurtosis"
+        },
+        {
+          "name": "real_varlarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的收益率方差}",
+          "stats": [-0.0386, -0.0656, null, 0.4228],
+          "evidence": "real_varlarge | 大成交量对应的收益率方差"
+        },
+        {
+          "name": "real_kurtosislarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的收益率峰度}",
+          "stats": [-0.0143, -0.0185, null, 0.1438],
+          "evidence": "real_kurtosislarge | 大成交量对应的收益率峰度"
+        },
+        {
+          "name": "real_skewlarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的收益率偏度}",
+          "stats": [-0.0216, -0.0291, null, 0.2085],
+          "evidence": "real_skewlarge | 大成交量对应的收益率偏度"
+        },
+        {
+          "name": "ratio_realvarlarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ratio\\_realvarlarge_{D,i}=\\frac{real\\_varlarge_{D,i}}{real\\_var_{D,i}}",
+          "stats": [-0.0339, -0.0498, null, 0.3658],
+          "evidence": "ratio_realvarlarge | 大成交量方差占比，real_varlarge/real_var"
+        },
+        {
+          "name": "corr_VPlarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的 corr_VP}",
+          "stats": [-0.0473, -0.0591, null, 0.5443],
+          "evidence": "corr_VPlarge | 大成交量对应的 corr_VP"
+        },
+        {
+          "name": "corr_VRlarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的 corr_VR}",
+          "stats": [-0.0295, -0.0374, null, 0.3062],
+          "evidence": "corr_VRlarge | 大成交量对应的 corr_VR"
+        },
+        {
+          "name": "corr_VRleadlarge",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的 corr_VRlead}",
+          "stats": [0.0056, 0.0057, null, 0.0611],
+          "evidence": "corr_VRleadlarge | 大成交量对应的 corr_VRlead"
+        },
+        {
+          "name": "corr_VRlaglarge",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的 corr_VRlag}",
+          "stats": [null, null, null, null],
+          "evidence": "corr_VRlaglarge | 大成交量对应的 corr_VRlag"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "本报告从四类角度构建因子，考察55个因子周频选股表现，采用因子IC和多空收益分析筛选出12个周度选股能力较好的因子。",
+      "evidence": "采用因子 IC 和多空收益进行分析，筛选出 12 个周度选股能力较好的因子：real_skew（已实现偏度）、ret_intraday（日内收益率）、ratio_volumeH8（尾盘半小时成交量占比）、corr_VP（日内价量相关性）、corr_VRlag（量与滞后收益率相关性）、Amihud_illiq（Amihud非流动性因子）、ret_open2AH1（开盘价相对第一阶段集合竞价最高价的收益率）、ret_open2AL1（开盘价相对第一阶段集合竞价最低价的收益率）、ret_H8（尾盘半小时收益率）、real_skewlarge（大成交量已实现偏度）、corr_VPlarge（大成交量价量相关性）、corr_VRlaglarge（大成交量量与滞后收益率相关性）。"
+    },
+    {
+      "text": "与低频因子相比，高频数据在量化选股中的优势体现在因子拥挤度相对较低、因子多样性好、检验因子的独立样本多。",
+      "evidence": "与低频因子相比，高频数据在量化选股中的优势主要体现在：因子拥挤度相对较低、因子多样性好、检验因子的独立样本多。"
+    },
+    {
+      "text": "高频因子调仓周期较短，同一段测试期具有更多独立样本，有助于检验高频因子的有效性。",
+      "evidence": "高频数据开发的因子一般调仓周期较短，意味着在检验因子有效性的时候，同一段测试期具有更多的独立样本。例如，在一年的测试期内，只有12个独立的样本段用于检验月频调仓的因子，与之相比，有约50个独立的时段用于检验周频调仓因子，有超过240个独立的时段用于检验日频调仓的因子。独立样本的增多有助于检验高频因子的有效性。"
+    },
+    {
+      "text": "因子统一按周度调仓分析，T日收盘后因子预测T+1日起未来5个交易日收益率，IC测试与收益回测均按T+1日至T+5日计算。",
+      "evidence": "收益预测时，统一按照周度调仓的假设进行分析。T日收盘后计算的因子预测的是从T+1日股票未来5个交易日的收益率，因子IC测试和收益回测都按照T+1日至T+5日进行计算。"
+    },
+    {
+      "text": "日内价量类因子中ratio_volumeH1、corr_VP、ratio_volumeH5、corr_VRlag、Amihud_illiq在全市场及中证500中的选股效果较为显著。",
+      "evidence": "日内价量类数据构建的因子中，ratio_volumeH1、corr_VP、ratio_volumeH5、corr_VRlag、Amihud_illiq这5个因子在全市场及中证500中的选股效果较为显著。"
+    },
+    {
+      "text": "盘前信息中ret_open2AH1、diverge_A2在全市场及中证1000中的选股效果较为显著。",
+      "evidence": "从下表中可以看到，盘前相关的信息中，ret_open2AH1、diverge_A2因子在全市场及中证1000中的选股效果较为显著。"
+    },
+    {
+      "text": "筛选出来的因子都展示出了不错的多空超额能力。",
+      "evidence": "从因子表现来看，本报告筛选出来的因子都展示出了不错的多空超额能力。"
+    },
+    {
+      "text": "如何更好的将高频因子的选股能力转化为多头的超额收益，是有实际意义的课题。",
+      "evidence": "如何更好的将上述高频因子的选股能力转化为多头的超额收益，是非常有实际意义的课题。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

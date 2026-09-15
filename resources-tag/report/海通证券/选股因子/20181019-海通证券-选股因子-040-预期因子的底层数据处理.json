@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "id": "20181019-海通证券-选股因子-040-预期因子的底层数据处理",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "z_t=\\frac{E_t(ROE)-\\frac{1}{12}\\sum_{i=0}^{11}E_{t-i}(ROE)}{\\sqrt{\\frac{1}{12}\\sum_{i=0}^{11}\\left(E_{t-i}(ROE)-\\overline{E(ROE)}\\right)^2}}",
+          "stats": [null, 0.044, 2.707, null],
+          "evidence": "盈利指标中的净利润（NP）、ROE，成长指标中的净利润同比增速（NPG）、2 年复合净利润增速（G）基本涵盖了分析师进行预测的最重要的几类信息，这几个因子也是投资者最为关注的几个因子，所以后文中主要对这四个因子进行分析。"
+        },
+        {
+          "name": "NP",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "z_t=\\frac{E_t(NP)-\\frac{1}{12}\\sum_{i=0}^{11}E_{t-i}(NP)}{\\sqrt{\\frac{1}{12}\\sum_{i=0}^{11}\\left(E_{t-i}(NP)-\\overline{E(NP)}\\right)^2}}",
+          "stats": [null, 0.046, 2.617, null],
+          "evidence": "文中提到的净利润（NP）、ROE等因子，都已经进行了标准化处理。处理过后的因子，不再存在上市公司本身体量不同带来的不可比情况，所有数据都为可比数据。"
+        },
+        {
+          "name": "NPG",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "z_t=\\frac{E_t(NPG)-\\frac{1}{12}\\sum_{i=0}^{11}E_{t-i}(NPG)}{\\sqrt{\\frac{1}{12}\\sum_{i=0}^{11}\\left(E_{t-i}(NPG)-\\overline{E(NPG)}\\right)^2}}",
+          "stats": [null, 0.031, 1.772, null],
+          "evidence": "我们这里不讨论衍生因子的情况，着眼于最基础的一致预期基本面因子进行分析。在这些因子中，盈利指标中的净利润（NP）、ROE，成长指标中的净利润同比增速（NPG）、2 年复合净利润增速（G）基本涵盖了分析师进行预测的最重要的几类信息"
+        },
+        {
+          "name": "G",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "z_t=\\frac{E_t(G)-\\frac{1}{12}\\sum_{i=0}^{11}E_{t-i}(G)}{\\sqrt{\\frac{1}{12}\\sum_{i=0}^{11}\\left(E_{t-i}(G)-\\overline{E(G)}\\right)^2}}",
+          "stats": [null, 0.03, 1.848, null],
+          "evidence": "仅对于因子 G，锁定财务年度的因子 IR不是最高，这主要是由于因子 G需要用到未来两年的预测数据，而锁定财务年度的算法，在某些时刻实际上利用了未来 3 年的分析师预测数据，从这点而言，因子的预测准确度较低，会直接导致因子表现有所打折。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "smoothing", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "从因子IC表现来看，锁定财务年度算法正交因子的IR基本最高；仅对于因子G，锁定财务年度的因子IR不是最高，因该算法下因子需要用到未来三年的预测数据，预测准确度较低。",
+      "evidence": "从因子 IC表现来看，锁定财务年度算法，正交因子的 IR 基本最高。仅对于因子 G，锁定财务年度的因子 不是最高，这主要是该算法下因子 需要用到未来三年的预测数据，因子的预测准确度较低。"
+    },
+    {
+      "text": "从因子溢价来看，ROE、NP、NPG三个因子的因子溢价以及显著性水平都是锁定财务年度算法最优，因子多空收益具有类似特征。",
+      "evidence": "从因子溢价来看，ROE、NP、NPG 三个因子的因子溢价以及显著性水平都是锁定财务年度算法最优。因子多空收益具有类似特征。"
+    },
+    {
+      "text": "几个预期因子的因子溢价以及多空收益时间序列走势非常平稳，超额收益稳定；相对而言锁定财务年度算法最优，优势在多空收益上更为明显（即极值组合特征）。",
+      "evidence": "从时间序列表现来看，几个预期因子的因子溢价以及多空收益时间序列走势非常平稳，超额收益稳定。相对而言，锁定财务年度算法最优，优势在多空收益上更为明显（即极值组合特征）。"
+    },
+    {
+      "text": "几个因子的多头组合年化超额收益差异不大，超额收益均能够超过10%，且胜率在65%以上，单因子表现非常突出；平滑算法的因子多头信息比最高，多头效应最稳定。",
+      "evidence": "从单因子的多头组合表现来看，几个因子的多头组合年化超额收益差异不大，超额收益均能够超过 10%，且胜率在 65%以上，单因子表现非常突出。相对而言，平滑算法的因子多头信息比最高，因子多头效应最稳定。"
+    },
+    {
+      "text": "对于任何因子，都是锁定财务年度算法的因子多空收益、多空胜率表现最优，且预期因子都具有较好的单调性。",
+      "evidence": "对于任何因子，和前文结论类似，都是锁定财务年度算法（”report”）的因子多空收益、多空胜率表现最优。"
+    },
+    {
+      "text": "综合来看，锁定财务年度的算法综合表现最优；如果投资者更为关心单因子的多头效应，平滑算法则是更好的选择。",
+      "evidence": "综合来看，从因子的全面表现分析，锁定财务年度的算法综合表现最优；如果投资者更为关心单因子的多头效应，平滑算法则是更好的选择。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《行业轮动系列研究 8——预期情绪数据的应用分析》",
+    "《行业预期数据的应用分析》",
+    "《选股因子系列研究（三十三）——预期调整因子的收益特征》",
+    "《选股因子系列研究（三十九）——如何计算盈利指标的趋势？》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

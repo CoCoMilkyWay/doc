@@ -1,0 +1,132 @@
+{
+  "schema_version": 2,
+  "id": "20220309-德邦证券-金工机器学习-004-动态因子筛选",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": ["style_ratio", "statement_detail", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "机器学习集成模型因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "F=\\sum_{i}w_{i}{\\cfrac{f_{i}}{\\sigma_{i}}}",
+          "stats": [null, 0.081, 1.037, null],
+          "evidence": "在模型层面，我们构建了一个机器学习集成模型。集成模型中，我们使用了包括随机森林、GBDT、XGBoost、LGBM、AdaBoost、神经网络、支持向量回归等各类机器学习模型。"
+        },
+        {
+          "name": "线性多因子模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "F_{0}=\\sum_{i}s_{i}\\cfrac{x_{i}}{\\sigma_{xi}}",
+          "stats": [null, 0.06, 0.61, null],
+          "evidence": "我们首先构造一个线性多因子模型作为对照组，选股因子的值等于各个入选的因子乘以一个正负号后等权求和"
+        },
+        {
+          "name": "净资产回报率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{季度净资产回报率，并衍生其季度增速与年度增速}",
+          "stats": [null, null, null, null],
+          "evidence": "一个具有代表性的例子是净资产回报率（ROE），根据传统的有效性检验方法的结果，该指标有效性的分水岭是 2017年，在2017年前后该指标由无效变得有效。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["cleaning", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "sample_window", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "quarterly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "客观的因子筛选减少数据窥探偏误：每年度在一季报、中报和三季报披露截止日期进行三次因子筛选，根据一套客观的方法论动态筛选因子而非主观选择历史上有效的因子。",
+      "evidence": "客观的因子筛选减少了数据窥探偏误。根据一套客观的方法论来动态筛选因子，而不是主观地选择一批历史上有效的因子，可以更好地防止数据窥探的发生。"
+    },
+    {
+      "text": "引入首个财务因子的边际提升最明显，从第 17个财务因子起验证集 RankIC不再有显著变化，因为因子库中有效的因子的总数并不多。",
+      "evidence": "图 2 表明，引入首个财务因子的边际提升最明显，因为相对最有效的财务因子会被首先挑选出来。从第 17个财务因子起，验证集 RankIC随着因子数量的增加不再有显著变化，这是因为因子库中有效的因子的总数并不多。"
+    },
+    {
+      "text": "净资产回报率（ROE）在传统有效性检验下以 2017年为分水岭由无效变得有效，而在动态筛选框架中自2018年三季度起密集入选前五名有效因子，此前很少入选。",
+      "evidence": "一个具有代表性的例子是净资产回报率（ROE），根据传统的有效性检验方法的结果，该指标有效性的分水岭是 2017年，在2017年前后该指标由无效变得有效。而在我们提出的动态筛选因子的框架中，自2018年三季度起净资产回报率密集入选前五名有效因子，而此前很少入选。"
+    },
+    {
+      "text": "以近三个季报的数据作为验证集、更早的九个季报的数据作为训练集，用随机森林对因子池打分，兼顾数据量与市场特征变化。",
+      "evidence": "综合考虑各因素之后，我们选择以近三个季报的数据作为验证集，以更早的九个季报的数据作为训练集。"
+    },
+    {
+      "text": "因子预处理分四个步骤：无量纲化处理、舍弃空值比例大的项目、中位数去极值和填空值。",
+      "evidence": "我们依次按以下四个步骤处理因子：无量纲化处理、舍弃空值比例大的项目、中位数去极值和填空值。"
+    },
+    {
+      "text": "机器学习集成模型因子在全市场从 2014-10-31 至 2021-08-30平均 RankIC 为 0.081，Rank ICIR 为 1.037，因子在绝大数时期的 RankIC为正。",
+      "evidence": "机器学习集成模型因子在全市场的 RankIC 见图 11。从 2014-10-31 至 2021-08-30，平均 RankIC 为 0.081，Rank ICIR 为 1.037。因子在绝大数时期的 RankIC为正。"
+    },
+    {
+      "text": "全市场分组回测的单调性好，多头组 5 的超额收益非常稳健，在全回测区间未见显著回撤，年化超额收益率为 12.3%。",
+      "evidence": "分组的单调性好，多头组 5 的超额收益非常稳健，在全回测区间未见显著回撤，年化超额收益率为 12.3%。"
+    },
+    {
+      "text": "沪深 300指数成分内多头组 5的年化超额收益为12.6%，组1的空头收益为 6.4%，超额收益在近六年均正，年均双边换手率仅为 3.62，换手率极低。",
+      "evidence": "在回测时期内，多头组 5的年化超额收益为12.6%，组1的空头收益为 6.4%。"
+    },
+    {
+      "text": "多头组 5 的分年度表现中超额收益在近六年均正，年均双边换手率仅为 3.62，组合的换手率极低。",
+      "evidence": "多头组 5 的分年度表现见表 2，超额收益在近六年均正。多头组 5 的年均双边换手率仅为 3.62，组合的换手率极低。"
+    },
+    {
+      "text": "中证 500指数成分内五组的单调性好，多头组 5 的超额收益接近 10%，超额收益稳定性极佳，超额收益在全部年份均为正。",
+      "evidence": "在回测期内，五组的单调性好，多头组 5 的超额收益接近 10%，超额收益稳定性极佳。"
+    },
+    {
+      "text": "中证 1000指数成分内分组的单调性好，多头组 5 的超额收益总体上较为稳健，年化超额收益为 11.9%。",
+      "evidence": "分组的单调性好，多头组 5 的超额收益总体上较为稳健，年化超额收益为 11.9%。"
+    },
+    {
+      "text": "线性多因子模型作为对照组在全市场平均 RankIC为 0.06，RankICIR为 0.61，表现差强人意，机器学习集成模型的表现远超过线性多因子模型。",
+      "evidence": "我们同样构建了一个线性多因子模型作为对照组，机器学习集成模型的表现远超过线性多因子模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《利用机器学习捕捉因子的非线性效应—德邦金工机器学习专题之一》（2021.10.18）",
+    "《基于财务与风格因子的机器学习选股—德邦金工机器学习专题之三》（2022.01.25）",
+    "《机器学习因子：在线性因子模型中捕获非线性—德邦金工文献精译第一期》（2021.9.17）",
+    "《机器学习残差因子表现归因—德邦金工机器学习专题之二》（2021.11.24）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

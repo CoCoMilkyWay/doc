@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20241231-广发证券-深度学习-013-ai复盘之精选30策略组合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "AI看图因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ResNet残差卷积神经网络对包含60个交易日窗口期的标准化价量数据图表（K线图、成交量、MACD）进行图像识别，输出为未来股价涨跌}",
+          "stats": [null, null, null, null],
+          "evidence": "AI看图主要由标准化价量数据图表和卷积神经网络所构成。其中，本文所采用的标准化价量数据图表如下图所示，包含60个交易日窗口期的价量数据"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "AI看图因子在全市场的50档分档表现展现良好区分度，单调性明显，多头、空头收益显著。",
+      "evidence": "AI看图因子在全市场的50档分档表现如下图所示，分档组合展现出良好的区分度，单调性明显，多头、空头收益显著。"
+    },
+    {
+      "text": "2020~2024年期间，大盘精选30策略组合取得244.56%累计收益率，年化收益率29.42%，最大回撤率19.80%，年化波动率18.24%。",
+      "evidence": "在 2020~2024年期间，大盘精选 30策略组合取得了 244.56%的累计收益率，折合年化收益率为 29.42%，最大回撤率为 19.80%，年化波动率为 18.24%。"
+    },
+    {
+      "text": "2024年期间，大盘精选30策略组合取得40.88%的年化收益率，最大回撤率8.82%，年化波动率20.47%。",
+      "evidence": "在 2024年期间，大盘精选 30策略组合取得了 40.88%的年化收益率，最大回撤率为 8.82%，年化波动率为 20.47%。"
+    },
+    {
+      "text": "卷积神经网络能有效识别价量数据图表中价格和交易量的走势形态，并与未来股价进行建模，弥补时序模型无法识别走势形态的不足。",
+      "evidence": "因此，卷积神经网络能够有效识别价量数据图表中价格和交易量的走势形态，并与未来股价进行建模。"
+    },
+    {
+      "text": "根据AI看图因子，在全市场市值前1000的个股范围内构建大盘精选30策略组合，控制年换手在5倍以下，组合成分股30只。",
+      "evidence": "根据AI看图因子，在全市场市值前1000的个股范围内，构建出大盘精选30策略组合（Wind指数代码：GFAI30.WI），控制年换手在5倍以下。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["基于卷积神经网络的股价走势AI识别与分类（2023-04-06）"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

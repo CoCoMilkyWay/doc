@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "id": "20230402-广发证券-多因子-049-基于基金属性的因子选股策略研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi800", "other"],
+        "data": {"source": ["flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "综合基金属性因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "fundattr\\_factor\\_{i,k,t}=\\frac{\\sum_{j}(Hold\\_Ratio_{i,j,t}*fund\\_attribute\\_standard_{j,k,t})}{\\sum_{j}Hold\\_Ratio_{i,j,t}},\\;\\; \\text{各选基因子对应的基金属性因子标准化后等权合并}",
+          "stats": [null, 0.025, null, null],
+          "evidence": "为综合考虑基金各个属性，考虑将各个选基因子对应的基金属性因子标准化后等权合并，得到综合基金属性因子fundattr_factor_combinationi,t。"
+        },
+        {
+          "name": "历史一年信息比",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{选基因子库中衡量基金过去一年风险调整后收益的因子，经持仓比例加权映射到个股}",
+          "stats": [null, null, null, null],
+          "evidence": "基金因子属性：历史一年信息比、历史1年WS板块剥离超额收益稳定型、历史1年月频创新高次数、历史1年交易信息比等因子在主动权益基金股票池中的分档效果较为显著。"
+        },
+        {
+          "name": "历史1年WS板块剥离超额收益稳定型",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{选基因子库中剥离板块效应后的超额收益稳定性因子，经持仓比例加权映射到个股}",
+          "stats": [null, null, null, null],
+          "evidence": "基金因子属性：历史一年信息比、历史1年WS板块剥离超额收益稳定型、历史1年月频创新高次数、历史1年交易信息比等因子在主动权益基金股票池中的分档效果较为显著。"
+        },
+        {
+          "name": "历史1年月频创新高次数",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{基金过去一年月度净值创新高次数，经持仓比例加权映射到个股}",
+          "stats": [null, null, null, null],
+          "evidence": "基金因子属性：历史一年信息比、历史1年WS板块剥离超额收益稳定型、历史1年月频创新高次数、历史1年交易信息比等因子在主动权益基金股票池中的分档效果较为显著。"
+        },
+        {
+          "name": "历史1年交易信息比",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{选基因子库中衡量基金交易能力的信息比因子，经持仓比例加权映射到个股}",
+          "stats": [null, null, null, null],
+          "evidence": "基金因子属性：历史一年信息比、历史1年WS板块剥离超额收益稳定型、历史1年月频创新高次数、历史1年交易信息比等因子在主动权益基金股票池中的分档效果较为显著。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "经过行业市值中性化处理的综合基金属性因子在基金重仓股股票池内，RANK_IC均值为0.025，RANK_IC胜率为65.91%，信息比为0.80，换手率平均值为30%左右。",
+      "evidence": "在月度调仓频率下，经过行业市值中性化处理的因子在基金重仓股股票池内，RANK_IC均值为0.025，RANK_IC胜率为65.91%，信息比为0.80，换手率平均值为30%左右。"
+    },
+    {
+      "text": "中性化后的综合基金属性因子在沪深300股票池内分档效果显著，月度调仓频率下RANK_IC均值为0.035，RANK_IC胜率为65.91%，多头相对沪深300指数年化超额收益率为7.97%。",
+      "evidence": "在沪深300中月度调仓频率下，RANK_IC均值为0.035，RANK_IC胜率为65.91%。多头相对沪深300指数年化超额收益率为7.97%，除了2018年没有跑赢沪深300指数外，其他年度里面都稳定跑赢沪深300指数表现。"
+    },
+    {
+      "text": "行业市值中性化处理后的综合基金属性因子与常见因子相关性较低，其中与三个月股价动量因子相关性为12.88%。",
+      "evidence": "从下表中可以看出，经过行业市值中性化处理后的因子与常见因子相关性较低，其中与三个月股价动量因子相关性为12.88%。"
+    },
+    {
+      "text": "剥离掉三个月股价动量因子后以及行业市值中性化后的综合基金属性因子在基金重仓股股票池范围内依然有较为显著的选股效果，RANK_IC均值为0.029，RANK_IC胜率为68.94%。",
+      "evidence": "从下图中可以看出，剔除行业市值中性及三个月股价动量中性化后的综合属性因子在基金重仓股股票池中依然有较为显著的效果效果，因子单调性依然较为显著。在回测期内，RANK_IC均值为0.029，RANK_IC胜率为68.94%。"
+    },
+    {
+      "text": "行业市值中性化后的因子在中证500中的效果较为一般，月度调仓频率下RANK_IC均值为0.015，RANK_IC胜率为59.85%，多头相对中证500指数年化超额收益率为7.12%。",
+      "evidence": "在中证500中月度调仓频率下，RANK_IC均值为0.015，RANK_IC胜率为59.85%。多头相对中证500指数年化超额收益率为7.12%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "再谈SemiBeta因子：高频测算:多因子Alpha系列报告之(四十七)",
+    "再谈股价跳跃因子研究:多因子Alpha系列报告之(四十六)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

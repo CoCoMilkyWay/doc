@@ -1,0 +1,182 @@
+{
+  "schema_version": 2,
+  "id": "20251120-广发证券-多因子-055-基于隔夜相关性的因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["all", "csi300", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "factor_lead",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{基于隔夜收益和日间收益构建有向相关性矩阵，定向谱聚类划分群组，从领先群组生成信号，在滞后群组内构建多空组合}",
+          "stats": [null, 0.0029, 0.03, -0.015],
+          "evidence": "具体而言，是以隔夜收益和日间收益来构建相关性矩阵，以此来确定领先股票群组和滞后股票群组。"
+        },
+        {
+          "name": "factor_lag",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{基于隔夜收益和日间收益构建有向相关性矩阵，从滞后群组生成信号，在领先群组内构建多空组合}",
+          "stats": [null, 0.0013, 0.01, -0.027],
+          "evidence": "在此基础上构建交易策略，仅从领先群组生成信号，仅在滞后群组内交易，若领先群组平均收益为正，则在滞后群组中做多“受领先群组正影响”的股票，做空“受领先群组负影响”的股票；反之方向相反。"
+        },
+        {
+          "name": "corr_lag_21",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{回溯21个交易日，其他所有股票的隔夜收益与该股票日间收益相关性的均值}",
+          "stats": [null, 0.0129, 0.11, 0.028],
+          "evidence": "基于隔夜日间相关性，不区分领先和滞后群组，以所有其他股票的隔夜收益和该股票的日间收益相关性均值作为因子，分别尝试回溯21个交易日和60个交易日。"
+        },
+        {
+          "name": "corr_lag_60",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{回溯60个交易日，其他所有股票的隔夜收益与该股票日间收益相关性的均值}",
+          "stats": [null, 0.0268, 0.21, 0.094],
+          "evidence": "基于隔夜日间相关性，不区分领先和滞后群组，以所有其他股票的隔夜收益和该股票的日间收益相关性均值作为因子，分别尝试回溯21个交易日和60个交易日。"
+        },
+        {
+          "name": "factor_top50",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{隔夜日间相关性最高的前50只股票的隔夜收益与该股票日间收益相关性均值}",
+          "stats": [null, 0.0109, 0.1, 0.008],
+          "evidence": "基于隔夜日间相关性，不区分领先和滞后群组，筛选相关性最高的前50只股票、后50只股票的隔夜收益和该股票的日间收益相关性均值作为因子，以及将两者相减作为因子。"
+        },
+        {
+          "name": "factor_net",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{隔夜日间相关性最高的前50只股票与后50只股票的相关性均值之差}",
+          "stats": [null, 0.0008, 0.01, -0.011],
+          "evidence": "基于隔夜日间相关性，不区分领先和滞后群组，筛选相关性最高的前50只股票、后50只股票的隔夜收益和该股票的日间收益相关性均值作为因子，以及将两者相减作为因子。"
+        },
+        {
+          "name": "factor_top50_allday",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{全天收益率相关性最高的前50只股票的相关性均值}",
+          "stats": [null, 0.0811, 0.67, 0.276],
+          "evidence": "一方面，参考前述的方案，基于常规相关性，不区分领先和滞后群组，筛选相关性最高的前50只股票、后50只股票的相关性均值作为因子，以及将两者相减作为因子。"
+        },
+        {
+          "name": "factor_bottom50_allday",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{全天收益率相关性最低的后50只股票的相关性均值}",
+          "stats": [null, 0.0445, 0.47, 0.147],
+          "evidence": "一方面，参考前述的方案，基于常规相关性，不区分领先和滞后群组，筛选相关性最高的前50只股票、后50只股票的相关性均值作为因子，以及将两者相减作为因子。"
+        },
+        {
+          "name": "factor_net_allday",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{全天收益率相关性最高的前50只与后50只股票的相关性均值之差}",
+          "stats": [null, 0.052, 0.42, 0.134],
+          "evidence": "一方面，参考前述的方案，基于常规相关性，不区分领先和滞后群组，筛选相关性最高的前50只股票、后50只股票的相关性均值作为因子，以及将两者相减作为因子。"
+        },
+        {
+          "name": "factor_top50_corr_by_lag",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{先筛选隔夜日间相关性最高的前50只股票，再计算这些股票的全天收益率相关性均值}",
+          "stats": [null, 0.0665, 0.6, 0.232],
+          "evidence": "另一方面，筛选隔夜收益和该股票的日间收益相关性最高的前50只股票、后50只股票的常规相关性均值作为因子，即将两者进行结合。"
+        },
+        {
+          "name": "factor_small50_corr_by_lag",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{先筛选隔夜日间相关性最低的后50只股票，再计算这些股票的全天收益率相关性均值}",
+          "stats": [null, 0.0565, 0.67, 0.198],
+          "evidence": "另外，基于领先滞后关系筛选相关股票群组，领先滞后相关性数值最小的50只股票，基于常规性构建因子，即factor_small50_corr_by_lag，仍旧具备一定的预测效果。"
+        },
+        {
+          "name": "corr_combined1",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{factor_small50_corr_by_lag与factor_top50_allday等权加权}",
+          "stats": [null, 0.0813, 0.68, 0.276],
+          "evidence": "将相关性较低的factor_small50_corr_by_lag和factor_top50_allday等权加权，进一步观察因子的具体表现。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "日度调仓下A股的领先滞后效应呈现反转效应，基于领先群组发出预期看多信号后空头组合表现相对更加强势，且策略相对适用于中小盘股票。",
+      "evidence": "测算显示，日度调仓下，A股的领先滞后效应呈现反转效应，即基于领先群组发出预期看多信号后，空头组合表现相对更加强势，发出看空信号则相反，且策略相对适用于中小盘股票。"
+    },
+    {
+      "text": "采取统一次日开盘调仓的方案，滞后群组多空收益能实现约8.81%的年化收益，但多头组和空头组的表现会受到市场波动影响。",
+      "evidence": "另一方面，多头组和空头组的区分度相对明显，即在回溯期内，采取统一次日开盘调仓的方案，多空收益能实现约8.81%的年化收益，但多头组和空头组的表现会受到市场波动影响。"
+    },
+    {
+      "text": "只保留中证1000成分股后多空组合能实现约10.51%的年化收益，而沪深300成分股中多空组合的区分度相对不够突出，说明该策略相对适用于中小盘股票。",
+      "evidence": "筛选股票池，只保留中证1000成分股后，总体特征和全市场股票的特征基本一致，多空组合（空头组-多头组）在回测区间内能实现约10.51%的年化收益。而在沪深300成分股中，多空组合的区分度相对不够突出，说明该策略相对适用于中小盘股票。"
+    },
+    {
+      "text": "常规相关性在周度和月度换仓频率下的区分度相对明显，factor_top50_allday 的月度RANK_IC 为8.11%，多头年化收益为18.3%，周度RANK_IC为6.57%，多头年化收益为22.4%。",
+      "evidence": "测算结果显示，常规相关性在周度和月度换仓频率下的区分度相对明显，其中factor_top50_allday 的月度RANK_IC 为8.11%，多头 年化收益为18.3%，周度RANK_IC为6.57%，多头年化收益为22.4%。"
+    },
+    {
+      "text": "等权加权因子corr_combined1的月度RANK_IC为8.13%，多头年化收益为18.2%，周度RANK_IC为6.59%，多头年化收益为22.1%。",
+      "evidence": "corr_combined1的月度RANK_IC为8.13%，多头年化收益为18.2%，周度RANK_IC为6.59%，多头年化收益为22.1%。"
+    },
+    {
+      "text": "基于领先隔夜日间数据筛选股票群组再计算常规相关性，因子值内部相关性不高于60%，能带来边际的增量。",
+      "evidence": "常规相关性因子方面，内部总体相关程度高于和隔夜日间数据计算的因子的相关程度，而基于领先隔夜日间数据筛选股票群组，和直接基于常规数据计算股票群组结果来看，因子值内部相关性不高于60%，说明能带来边际的增量。"
+    },
+    {
+      "text": "与风格因子的相关性方面，相关性因子与残差波动等风格呈现一定相关性。",
+      "evidence": "与风格因子的相关性方面，相关性因子与残差波动等风格等风格呈现一定相关性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A tug of war across the market: overnight-vs-daytime lead-lag networks and clustering-based portfolio strategies",
+    "Cohen和Lou(2012)",
+    "Lou et al.（2019）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

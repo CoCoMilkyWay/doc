@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "id": "20240422-海通证券-选股因子-096-动量beta的择时_优选与alpha因子构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Mom_{t}=\\sum_{i=5}^{11}r_{t-i}",
+          "stats": [0.007, 0.009, null, 0.061],
+          "evidence": "例如，剔除近 5月涨跌幅，采用 t-11 月至 t-5月累计收益来构建的动量因子，年化空头收益-4.8%，统计显著；年化多头收益 1.2%，也优于其他回测窗口下的因子多头表现。"
+        },
+        {
+          "name": "增强动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Mom^{enh}_{t}=Mom_{t}\\times P_{t},\\ \\text{动量为正乘以t月超额收益在过去1年的降序分位点，动量为负乘以升序分位点；初始动量为[t-11,t-5]期间相对市场周超额收益的均值/超额波动率}",
+          "stats": [0.026, 0.027, 1, 0.135],
+          "evidence": "2005.01-2024.02 期间，增强动量因子分 10 组年化多头收益 6.3%，空头收益-7.2%，年化多空收益 13.5%，月胜率 62.2%；因子月均 IC 为 2.6%，月胜率 60.0%，统计显著。"
+        },
+        {
+          "name": "正交后的增强动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{增强动量因子对市值、估值、月累计收益率、波动率、换手率、ROE、SUE、预期净利润调整因子正交处理}",
+          "stats": [0.024, 0.026, 1.16, 0.14],
+          "evidence": "整体来看，正交后因子稳定性有所提升，月胜率增加，但月均 IC 有所下滑。正交后，因子月均 IC 为 2.4%，月胜率67.6%，ICIR 为 1.16，统计显著。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_zoo"],
+      "approach": ["decay_monitor", "crowding"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["holding_based"]},
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "当市场动量减弱/长短期月均收益为负/因子拥挤情景出现后，动量因子显著失效，多空收益反向；而其他情景下，动量因子选股收益显著为正。",
+      "evidence": "可见，当市场动量减弱/长短期月均收益为负/因子拥挤情景出现后，动量因子显著失效，多空收益反向；而其他情景下，动量因子选股收益显著为正。"
+    },
+    {
+      "text": "在市场动能减弱、指数长短期月均收益为负、因子拥挤等情景发生后的一个月，动量因子失效可能性高，动量因子有效的月度占比仅 28.6%，年化多空收益-22.6%；情景未触发时动量因子表现突出，年化多空收益高达 22.7%，月均 IC 4.2%。",
+      "evidence": "在本文划分的市场动能减弱、指数长短期月均收益为负、因子拥挤 种情景发生后的一个月，动量因子失效可能性高。动量因子有效（多空收益为正）的月度占比仅 28.6%，年化多空收益-22.6%，即呈较明显的反转效应。而在上述 3 种情景未触发时，动量因子表现突出。年化多空收益高达 22.7%，月均 IC 4.2%，统计显著。"
+    },
+    {
+      "text": "市值加权动量优选组合相对 wind全A指数年超额19.6%，月胜率 69.0%；等权组合年超额 23.6%，月胜率 71.0%。",
+      "evidence": "其中，市值加权组合相对 wind全 A指数年超额19.6%，月胜率 69.0%；等权组合相对 wind 全 A 指数年超额 23.6%，月胜率 71.0%。"
+    },
+    {
+      "text": "2005.01-2024.02 期间，全市场范围内，增强动量因子分 10 组年化多头收益 6.3%，空头收益-7.2%，月均 IC为 2.6%，统计显著。",
+      "evidence": "2005.01-2024.02 期间，全市场范围内，因子分 10 组年化多头收益 6.3%，空头收益-7.2%，月均 IC为 2.6%，统计显著。"
+    },
+    {
+      "text": "综合在风格因子暴露较低、FF3 alpha 较高两方面特征，采用t-11 到 t-5 月的累计涨幅所构建的动量因子相对更具优势。",
+      "evidence": "综合在其他风格因子暴露较低、FF3 alpha 较高这两方面的特征，采用t-11 到 t-5 月的累计涨幅所构建的动量因子相对更具优势。"
+    },
+    {
+      "text": "未触发3种不佳情景时行业动量效应显著，高动量组别年超额 12.0%，低动量组合年超额-7.5%，因子年化多空收益 19.5%，月胜率 66.9%。",
+      "evidence": "而未触发上述 3种情景时，行业动量效应显著。高动量组别年超额 12.0%，低动量组合年超额-7.5%，因子年化多空收益 19.5%，月胜率 66.9%，统计显著。"
+    },
+    {
+      "text": "与原始动量因子相比，增强动量因子在动量因子表现不佳情景下回撤相对较小，而在适合动量因子情景下稳定性更高，多空收益更明显。",
+      "evidence": "与原始动量因子相比，增强动量因子在本文第二部分定义的动量因子表现不佳情景下，回撤相对较小；而在适合动量因子情景下，稳定性更高，多空收益更明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

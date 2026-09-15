@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20210831-国盛证券-多因子系列-017-基于个股信息透明度和久期的分域研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["accounting_quality", "expectation_level", "analyst_behavior"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "reviewcoverage",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "reviewcoverage=mean(\\text{非财报点评报告数量}_i),\\ i=1,\\ldots,12",
+          "stats": [null, null, null, null],
+          "evidence": "因此，我们计算过去一年月均分析师非财报点评报告数量，来刻画公司除财报外可供投资者追踪信息的多寡："
+        },
+        {
+          "name": "绝对偏离幅度",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "abs\\ bias\\ mean=mean\\left(\\frac{abs(\\text{年度盈利预测}_i-\\text{公告真实盈利}_i)}{\\text{公告真实盈利}_i}\\right),\\ i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "我们统计过去三年，分析师最新的年度盈利预测与公告真实盈利的绝对偏离幅度，即分析师基于全年经营活动信息给出的预测的准确度，来衡量业绩的可预测性："
+        },
+        {
+          "name": "npqyoystd",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "npqyoystd=std(npqyoy_{i}),\\ i=1,2,\\ldots,8",
+          "stats": [null, null, null, null],
+          "evidence": "除了以上两个维度，我们还要面临的最大的不确定性，是来自于公司本身经营波动的风险。我们采用过去八个季度的净利润同比波动率来刻画："
+        },
+        {
+          "name": "duration",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "duration=\\frac{1\\times np_{fy1}+2\\times np_{fy2}+3\\times np_{fy3}}{np_{fy1}+np_{fy2}+np_{fy3}}",
+          "stats": [null, null, null, null],
+          "evidence": "我们利用分析师对公司未来三年净利润的预测构建了一个类似于债券“久期”属性的因子，来反映分析师对公司未来三年现金流的分布的预测，这也比较符合主动投资者在谈论成长股时的直觉感知，即远期的现金流高于近期的现金流，其成长属性越强。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["other"]}},
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "低信息透明度样本内市场定价效率相对较低，基于错误定价逻辑的估值类因子、量价类因子对股票收益的预测能力较强",
+      "evidence": "在低信息透明度样本内，市场定价效率相对较低，基于错误定价逻辑的因子，如估值类因子、量价类因子对股票收益的预测能力较强；"
+    },
+    {
+      "text": "高信息透明度样本内市场定价效率相对较高，估值类因子失效明显，基于市场反应构建的 ear/jor 因子表现更强，情绪类因子的多头收益突出",
+      "evidence": "在高信息透明度样本内，市场定价效率相对较高，估值类因子失效明显，超预期因子中基于市场反应构建的 ear/jor 因子表现更强，情绪类因子的多头收益突出。"
+    },
+    {
+      "text": "“黑马成长”标的池内基于 PB-ROE 选股策略，相对中证 800 年化超额 14.97%，信息比 1.01",
+      "evidence": "在“黑马成长”标的池内，基于 PB-ROE 选股策略，相对中证 800年化超额 14.97%，信息比 1.01；"
+    },
+    {
+      "text": "“白马成长”标的池内利用成交量波动和超预期因子构建的低估成长策略，相对中证 800 年化超额收益 20.57%，信息比 1.23",
+      "evidence": "在“白马成长”标的池内，利用成交量波动和超预期因子构建的低估成长策略，相对中证 800年化超额收益 20.57%，信息比 1.23。"
+    },
+    {
+      "text": "根据分析师的业绩预测能甄别出一批未来业绩高增速，或者经历困境有望实现反转的公司，长久期公司在未来两年进入最高和最低增速区间的比例高于高增长公司",
+      "evidence": "换言之，我们根据分析师的业绩预测能甄别出一批未来业绩高增速，或者经历困境有望实现反转的公司。"
+    },
+    {
+      "text": "“高信息透明度-长久期”样本的公告前超额收益最高，且长久期样本在公告后的超额收益比短久期样本更高",
+      "evidence": "双因素合力结果显示，“高信息透明度-长久期”样本的公告前超额收益最高，其次为“低信息透明度-长久期”样本，第三为“高信息透明度-短久期”样本；长久期样本在公告后的超额收益比短久期样本更高一些。"
+    },
+    {
+      "text": "A 股市场过去两轮明显的久期溢价与金融条件指数走势相吻合，当金融条件越宽松，久期溢价越明显",
+      "evidence": "长周期来看，A 股市场过去两轮明显的久期溢价与金融条件指数走势相吻合。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Lettau, Martin and Wachter, Jessica A., Why is Long-Horizon Equity Less Risky? A Duration-Based Explanation of the Value Premium (January 2005).",
+    "《量化专题报告：多因子系列之十六：基本面因子的收益分解》2021-08-21",
+    "国盛金工团队发布的报告《宏观经济量化系列之一：中国经济领先指数》",
+    "沧海一土狗. 宏观因子与风格分化——兼论白马抱团的逻辑, 2021."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

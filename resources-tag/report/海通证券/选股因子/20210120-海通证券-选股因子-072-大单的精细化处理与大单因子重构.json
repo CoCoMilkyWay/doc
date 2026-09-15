@@ -1,0 +1,148 @@
+{
+  "schema_version": 2,
+  "id": "20210120-海通证券-选股因子-072-大单的精细化处理与大单因子重构",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大单买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{j=1}^{N}\\text{大单买入成交额}_{i,t-j}}{\\sum_{j=1}^{N}\\text{成交额}_{i,t-j}}",
+          "stats": [0.022, null, 1.31, null],
+          "evidence": "基于前文提出的计算方法，可界定大单并构建选股因子刻画大单买入行为"
+        },
+        {
+          "name": "大单净买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{j=1}^{N}(\\text{大单买入成交额}_{i,t-j}-\\text{大单卖出成交额}_{i,t-j})}{\\sum_{j=1}^{N}\\text{成交额}_{i,t-j}}",
+          "stats": [0.045, null, 4.403, 0.22],
+          "evidence": "大单净买入因子在正交后呈现出了极为显著的月度选股能力。"
+        },
+        {
+          "name": "开盘后大单买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{j=1}^{N}\\text{大单买入成交额}_{i,t-j,9:30\\sim10:00}}{\\sum_{j=1}^{N}\\text{成交额}_{i,t-j,9:30\\sim10:00}}",
+          "stats": [0.028, null, 2.002, null],
+          "evidence": "由于大单因子旨在刻画具有信息优势的投资者的交易行为，因此除了可使用全天数据计算因子外，还可考虑聚焦于开盘后的 30 分钟，仅使用开盘后 30分钟的数据计算因子。"
+        },
+        {
+          "name": "开盘后大单净买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{j=1}^{N}\\text{大单买入成交额}_{i,t-j,9:30\\sim10:00}-\\text{大单卖出成交额}_{i,t-j,9:30\\sim10:00}}{\\sum_{j=1}^{N}\\text{成交额}_{i,t-j,9:30\\sim10:00}}",
+          "stats": [0.052, null, 5.143, 0.237],
+          "evidence": "与常规技术因子不同的是，开盘后大单净买入占比以及开盘后大单净买入强度因子在沪深300指数内依旧呈现出了极强的选股能力，部分因子的月均 IC高于其在全市场下的月均 IC。"
+        },
+        {
+          "name": "大单买入强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{mean(\\text{大单买入成交额}_{i,t-j})}{std(\\text{大单买入成交额}_{i,t-j})}",
+          "stats": [0.014, null, 1.19, null],
+          "evidence": "除了大单买入占比以及大单净买入占比外，还可构建大单买入强度以及大单净买入强度刻画大单买入序列的稳健性。具体计算公式如下所示："
+        },
+        {
+          "name": "大单净买入强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{mean(\\text{大单买入成交额}_{i,t-j}-\\text{大单卖出成交额}_{i,t-j})}{std(\\text{大单买入成交额}_{i,t-j}-\\text{大单卖出成交额}_{i,t-j})}",
+          "stats": [0.036, null, 3.455, 0.171],
+          "evidence": "相比而言，大单净买入相关的因子具有更强的选股能力。"
+        },
+        {
+          "name": "开盘后大单买入强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{mean(\\text{大单买入成交额}_{i,t-j,9:30\\sim10:00})}{std(\\text{大单买入成交额}_{i,t-j,9:30\\sim10:00})}",
+          "stats": [0.008, null, 0.843, null],
+          "evidence": "由于大单因子旨在刻画具有信息优势的投资者的交易行为，因此除了可使用全天数据计算因子外，还可考虑聚焦于开盘后的 30 分钟，仅使用开盘后 30分钟的数据计算因子。"
+        },
+        {
+          "name": "开盘后大单净买入强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{mean(\\text{大单买入成交额}_{i,t-j,9:30\\sim10:00}-\\text{大单卖出成交额}_{i,t-j,9:30\\sim10:00})}{std(\\text{大单买入成交额}_{i,t-j,9:30\\sim10:00}-\\text{大单卖出成交额}_{i,t-j,9:30\\sim10:00})}",
+          "stats": [0.042, null, 3.859, 0.182],
+          "evidence": "开盘后大单净买入占比以及开盘后大单净买入强度因子在沪深300指数内依旧呈现出了极强的选股能力，部分因子的月均 IC高于其在全市场下的月均 IC。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "改进后的大单净买入因子正交后月均IC在0.03~0.05之间，年化ICIR普遍超过3.5，月度胜率高于80%，甚至达到90%",
+      "evidence": "大单因子在正交后同样呈现出了极为显著的月度选股能力。相比而言，大单净买入相关的因子具有更强的选股能力。因子的月均 IC在 0.03~0.05 之间，年化 ICIR 普遍超过 3.5，月度胜率高于 80%，甚至达到 90%的月度胜率。"
+    },
+    {
+      "text": "开盘后大单净买入占比以及开盘后大单净买入强度因子在沪深300指数内依旧呈现出极强的选股能力，源于大单净买入类因子可归类为动量逻辑类因子，而沪深300范围内股票普遍具有较强的动量性",
+      "evidence": "与大部分技术因子不同的是，开盘后大单净买入占比以及开盘后大单净买入强度因子在沪深 300 指数内依旧呈现出了极强的选股能力，部分因子月均 IC强于其在全市场下的表现。我们认为大单净买入类因子之所以在沪深 300 指数范围内依旧有效，是因为该类因子可归类为动量逻辑类的因子，而沪深 300 指数范围内的股票普遍具有较强的动量性。"
+    },
+    {
+      "text": "大单净买入因子对大单筛选阈值具有一定敏感性，但筛选阈值在“均值”至“均值+1倍标准差”之间时稳定性相对较强，阈值过高或过低都会导致选股能力下降",
+      "evidence": "结合上述测试结果，大单净买入因子对于大单筛选阈值具有一定的敏感性，但是筛选阈值在“均值”至“均值+1 倍标准差”时的稳定性相对较强。"
+    },
+    {
+      "text": "绝对金额阈值能够在标准差阈值设定过低的情况下保证因子的选股能力，但并不能在标准差阈值设定适中的情况下带来因子选股能力的明显改变，并非必须",
+      "evidence": "实际回测结果表明，绝对金额阈值能够在标准差阈值设定过低的情况下保证因子的选股能力，但并不能在标准差阈值设定适中的情况下带来因子选股能力的明显改变。"
+    },
+    {
+      "text": "大单因子的引入对沪深300指数增强组合的改进提升效果更加明显，加入开盘后大单净买入占比因子后模型在2016、2017、2018以及2020年的超额收益皆得到提升",
+      "evidence": "在加入大单因子后，组合整体表现有所提升，且在 2020 年的超额收益表现得到了进一步的增强。在加入开盘后大单净买入占比因子后，模型在 2016、2017、2018 以及2020 年的超额收益皆得到了提升。"
+    },
+    {
+      "text": "对于中证500指数增强组合，大单因子在加入组合后并未明显影响组合的全区间收益表现，加入开盘后大单净买入强度因子后组合在2019以及2020年的超额收益有所提升",
+      "evidence": "对于中证 500 指数增强组合，大单因子在加入组合后并未明显影响组合的全区间收益表现。在加入开盘后大单净买入强度因子后，组合在 2019 以及 2020 年的超额收益有所提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（七十一）——逐笔大单因子与大资金行为》2020.12.17",
+    "《选股因子系列研究（七十）——日内市场微观结构与高频因子选股能力》",
+    "《选股因子系列研究（五十六）——买卖单数据中的 Alpha》2019.11.17",
+    "《选股因子系列研究（六十六）——寻找逐笔交易中的有效信息》2020.06.21"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

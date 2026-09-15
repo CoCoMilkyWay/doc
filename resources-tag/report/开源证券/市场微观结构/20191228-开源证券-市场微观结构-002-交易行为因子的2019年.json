@@ -1,0 +1,108 @@
+{
+  "schema_version": 2,
+  "id": "20191228-开源证券-市场微观结构-002-交易行为因子的2019年",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi800", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "理想反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "M=M_{high}-M_{low}",
+          "stats": [-0.058, -0.072, 2.17, null],
+          "evidence": "理想反转因子的交易行为逻辑是，A股反转之力的微观来源是大单成交，通过每日平均单笔成交金额的大小，可以切割出反转属性最强的交易日（魏建榕、傅开波，2018-12-13）"
+        },
+        {
+          "name": "聪明钱因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Q=VWAP_{smax}/VWAP_{all}",
+          "stats": [-0.046, -0.075, 3.21, null],
+          "evidence": "聪明钱因子用来衡量聪明钱参与交易的相对价位高低，具体步骤如下："
+        },
+        {
+          "name": "APM因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "stat_{j}=bRet20_{j}+\\varepsilon_{j},\\ \\text{APM因子为回归残差}\\varepsilon",
+          "stats": [0.039, 0.036, 2.01, null],
+          "evidence": "APM因子用来衡量股价行为上午与下午的差异程度，具体步骤如下："
+        },
+        {
+          "name": "交易行为合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i}w_{i}f_{i},\\ w_{i}\\propto ICIR_{i}(\\text{过去12期})",
+          "stats": [0.088, 0.105, 4.11, null],
+          "evidence": "因子权重方面，我们滚动选取过去 12 期因子的 ICIR 值作为权重，加权形成交易行为合成因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "交易行为合成因子全历史区间IC均值0.088，rankIC均值0.105，信息比率高达4.11",
+      "evidence": "在全历史区间内，合成因子的 IC 均值为0.088，rankIC 均值为 0.105，信息比率高达4.11。"
+    },
+    {
+      "text": "2019年度交易行为合成因子累计收益19.1%，信息比率3.06，月度胜率75%，表现依旧稳健",
+      "evidence": "总体来看，交易行为合成因子在2019 年度表现依旧稳健，累计收益为 19.1%，信息比率为 3.06，月度胜率为 75%。"
+    },
+    {
+      "text": "合成因子在中证1000中的表现显著优于中证800，全历史区间内信息比率分别为4.75和1.91",
+      "evidence": "值得一提的是，合成因子在中证1000 中的表现，要显著优于在中证 800中，全历史区间内的信息比率分别为4.75和1.91（图 9）。"
+    },
+    {
+      "text": "聪明钱因子2019年累计收益20.7%，信息比率4.18，月度胜率91.7%，表现非常出色",
+      "evidence": "在2019年度，聪明钱因子的累计收益为 20.7%，信息比率为4.18，月度胜率为91.7%。"
+    },
+    {
+      "text": "APM因子2019年累计收益3.33%，信息比率0.58，月度胜率41.7%，表现比较疲软",
+      "evidence": "在 2019年度，APM 因子的累计收益为 3.33%，信息比率为 0.58，月度胜率为 41.7%。"
+    },
+    {
+      "text": "理想反转因子2019年累计收益12.7%，信息比率1.28，月度胜率66.7%，2月份出现过一次较大的回撤",
+      "evidence": "在2019年度，理想反转因子的累计收益为12.7%，信息比率为1.28，月度胜率为66.7%。其中，2019 年 2 月份，理想反转因子录得了较大的回撤，其发生原因以及相应的解决方案，详见我们新近发布的专题报告《A股反转之力的微观来源》（魏建榕、傅开波，2019-12-23）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（1）-A 股反转之力的微观来源》（魏建榕、傅开波，2019-12-23）",
+    "魏建榕、傅开波（2018-12-13）",
+    "魏建榕等（2016-10-15）",
+    "魏建榕等（2016-7-8）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

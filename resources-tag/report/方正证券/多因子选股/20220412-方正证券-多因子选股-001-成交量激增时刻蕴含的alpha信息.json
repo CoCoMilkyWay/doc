@@ -1,0 +1,136 @@
+{
+  "schema_version": 2,
+  "id": "20220412-方正证券-多因子选股-001-成交量激增时刻蕴含的alpha信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "月均耀眼波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{最近20个交易日“适度日耀眼波动率”的平均值，其中适度日耀眼波动率}=|\\text{日耀眼波动率}-\\text{日耀眼波动率截面均值}|",
+          "stats": [null, -0.066, -4.7, 0.3105],
+          "evidence": "我们分别计算最近20个交易日的“适度日耀眼波动率”的平均值和标准差，记为“月均耀眼波动率”因子和“月稳耀眼波动率”因子。"
+        },
+        {
+          "name": "月稳耀眼波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{最近20个交易日“适度日耀眼波动率”的标准差}",
+          "stats": [null, -0.0787, -4.02, 0.3064],
+          "evidence": "我们分别计算最近20个交易日的“适度日耀眼波动率”的平均值和标准差，记为“月均耀眼波动率”因子和“月稳耀眼波动率”因子。"
+        },
+        {
+          "name": "月耀眼波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}(\\text{月均耀眼波动率}+\\text{月稳耀眼波动率})",
+          "stats": [null, -0.0763, -4.76, 0.3365],
+          "evidence": "将“月均耀眼波动率”与“月稳耀眼波动率”等权合成，得到“月耀眼波动率”因子。"
+        },
+        {
+          "name": "月均耀眼收益率",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{最近20个交易日“适度日耀眼收益率”的平均值，其中适度日耀眼收益率}=|\\text{日耀眼收益率}-\\text{日耀眼收益率截面均值}|",
+          "stats": [null, -0.0862, -4.15, 0.3148],
+          "evidence": "我们分别计算最近20个交易日的“适度日耀眼收益率”的平均值和标准差，记为“月均耀眼收益率”和“月稳耀眼收益率”因子。"
+        },
+        {
+          "name": "月稳耀眼收益率",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{最近20个交易日“适度日耀眼收益率”的标准差}",
+          "stats": [null, -0.08, -4.5, 0.3046],
+          "evidence": "我们分别计算最近20个交易日的“适度日耀眼收益率”的平均值和标准差，记为“月均耀眼收益率”和“月稳耀眼收益率”因子。"
+        },
+        {
+          "name": "月耀眼收益率",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}(\\text{月均耀眼收益率}+\\text{月稳耀眼收益率})",
+          "stats": [null, -0.0853, -4.35, 0.3253],
+          "evidence": "将“月均耀眼收益率”与“月稳耀眼收益率”因子等权合成，得到“月耀眼收益率”因子。"
+        },
+        {
+          "name": "适度冒险因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}(\\text{月耀眼波动率}+\\text{月耀眼收益率})",
+          "stats": [null, -0.0889, -4.84, 0.3746],
+          "evidence": "我们将上述“月耀眼波动率”因子与“月耀眼收益率”因子合并，等权合成为最终的“适度冒险”因子，合成后的因子表现如下表所示"
+        },
+        {
+          "name": "纯净适度冒险因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{使用10个常用风格因子对“适度冒险”因子正交化后的残差}",
+          "stats": [null, -0.0318, -1.89, 0.1807],
+          "evidence": "我们使用 10 个常用风格因子对“适度冒险”因子进行正交化处理，得到“纯净适度冒险”因子，再检验其选股能力。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "合成之后的“适度冒险”因子表现非常出色，Rank IC为-8.89%，Rank ICIR为-4.84，多空组合年化收益率达37.46%，信息比4.10，因子月度胜率87.74%。",
+      "evidence": "我们对“适度冒险”因子在月频选股效果上进行了回测，结果显示：合成之后的“适度冒险”因子表现非常出色，Rank IC为-8.89%，Rank ICIR 为-4.84，多空组合年化收益率达 37.46%，信息比4.10，因子月度胜率 87.74%。"
+    },
+    {
+      "text": "剔除常用风格因子影响后，“适度冒险”因子仍具有较强的选股能力，RankIC均值为-3.18%，Rank ICIR为-1.89，多空组合年化收益率18.07%，信息比率2.23。",
+      "evidence": "此外，在剔除了常用的风格因子影响后，“适度冒险”因子仍然具有较强的选股能力，RankIC 均值为-3.18%，Rank ICIR 为-1.89，多空组合年化收益率18.07%，信息比率 2.23。"
+    },
+    {
+      "text": "在沪深300、中证500、中证1000成分股样本空间下“适度冒险”因子均表现出较好的选股能力，相较而言中证500指数成分股内表现更为出色。",
+      "evidence": "为了检验“适度冒险”因子在其他样本空间下的选股表现，我们分别选取了沪深 300成分股、中证500成分股、中证 1000成分股作为股票池，测试其选股能力，可以看到“适度冒险”因子在不同样本空间下均表现出较好的选股能力，相较而言，中证 500指数成分股内表现更为出色。"
+    },
+    {
+      "text": "将“耀眼5分钟”改为“耀眼3分钟”或“耀眼4分钟”重新计算因子，因子表现依然非常出色，参数敏感性相对较低。",
+      "evidence": "我们将上述“耀眼5分钟”，改为“耀眼 3分钟”或“耀眼 4 分钟”，即取“激增时刻”及其随后的2分钟或3分钟来重新计算因子，可以看到因子表现依然非常出色，参数敏感性相对较低。"
+    },
+    {
+      "text": "“适度冒险”因子与波动率和换手率有一定的相关性，与其他风格因子相关系数均较低。",
+      "evidence": "进一步，我们测试其与其他常见风格因子的相关性，如下图所示，“适度冒险”因子与波动率和换手率有一定的相关性，与其他风格因子相关系数均较低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Arnold M, Pelster M, Subrahmanyam M G. Attention triggers and investors’ risk-taking[J]. Journal of Financial Economics, 2022, 143(2): 846-875."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

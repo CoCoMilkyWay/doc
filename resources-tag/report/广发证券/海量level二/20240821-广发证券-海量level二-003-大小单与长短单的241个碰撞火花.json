@@ -1,0 +1,167 @@
+{
+  "schema_version": 2,
+  "id": "20240821-广发证券-海量level二-003-大小单与长短单的241个碰撞火花",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BB_LB_BS_LS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段大买长买大卖长卖订单组合的统计量构建因子}",
+          "stats": [null, 0.065, null, null],
+          "evidence": "其中“大买_长买_大卖_长卖”因子“BigBuy_LongBuy_BigSell_LongSell”缩写为“BB_LB_BS_LS”，以此类推。"
+        },
+        {
+          "name": "BB_LB_BS_SS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段大买长买大卖短卖订单组合的统计量构建因子}",
+          "stats": [null, 0.129, null, null],
+          "evidence": "将成交量（成交完成时长）大于均值+N倍标准差的订单界定为大单（长单），剩余的则相应地界定为小单（短单），并分别采用3个不同的标准差阈值来对大小单（长短单）进行界定。"
+        },
+        {
+          "name": "BB_LB_SS_SS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段大买长买小卖短卖订单组合的统计量构建因子}",
+          "stats": [null, 0.121, null, null],
+          "evidence": "比如，“BB_LB_BS_LS_1p0_09301457”代表以均值+1.0倍标准差为大小（长短）订单划分阈值，以全日连续竞价交易时段作为统计口径的“大买_长买_大卖_长卖”因子。"
+        },
+        {
+          "name": "BB_SB_BS_LS_1p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段大买短买大卖长卖订单组合的统计量构建因子}",
+          "stats": [null, 0.069, null, null],
+          "evidence": "其中，本文采用全日连续竞价交易时段、开盘后15分钟、开盘后30分钟、收盘前30分钟、收盘前15分钟这5个时段，分别以09301457、09300945、09301000、14301457、14451457作为因子名称的后缀予以区分。"
+        },
+        {
+          "name": "BB_SB_BS_SS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段大买短买大卖短卖订单组合的统计量构建因子}",
+          "stats": [null, 0.078, null, null],
+          "evidence": "综上所述，本文共构建了16*3*5=240个同时从“大小”和“长短”进行解构的订单因子。"
+        },
+        {
+          "name": "BB_SB_SS_LS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段大买短买小卖长卖订单组合的统计量构建因子}",
+          "stats": [null, 0.085, null, null],
+          "evidence": "上述240个因子在2021年1月1日~2023年12月31日期间A股全市场的RankIC表现如下表4~19所示，其中分别统计了原始因子值与未来5个、20个交易日收益的相关性，以及5日平滑因子和20日平滑因子分别与未来5个、20个交易日收益的相关性。"
+        },
+        {
+          "name": "SB_LB_BS_SS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段小买长买大卖短卖订单组合的统计量构建因子}",
+          "stats": [null, 0.073, null, null],
+          "evidence": "因此，可以同时从订单的“大小”和“长短”角度对其进行解构，并采用订单维度的解耦分析方法，结合同一笔订单中的“买入订单号”和“卖出订单号”属性，同时从买入和卖出两个角度进行分析，构建出相应的16种订单因子，如下表3所示。"
+        },
+        {
+          "name": "SB_LB_SS_SS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段小买长买小卖短卖订单组合的统计量构建因子}",
+          "stats": [null, 0.085, null, null],
+          "evidence": "将成交量（成交完成时长）大于均值+N倍标准差的订单界定为大单（长单），剩余的则相应地界定为小单（短单），并分别采用3个不同的标准差阈值来对大小单（长短单）进行界定。"
+        },
+        {
+          "name": "SB_SB_BS_LS_1p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段小买短买大卖长卖订单组合的统计量构建因子}",
+          "stats": [null, 0.092, null, null],
+          "evidence": "其中，本文采用全日连续竞价交易时段、开盘后15分钟、开盘后30分钟、收盘前30分钟、收盘前15分钟这5个时段，分别以09301457、09300945、09301000、14301457、14451457作为因子名称的后缀予以区分。"
+        },
+        {
+          "name": "SB_SB_SS_LS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段小买短买小卖长卖订单组合的统计量构建因子}",
+          "stats": [null, 0.095, null, null],
+          "evidence": "从统计结果来看，在20日换仓条件下，上述240个因子中有超过50个因子的RankIC均值大于8%，其中有18个因子的RankIC大于10%。整体而言，本文挖掘出了一大批可观的有效逐笔订单因子。"
+        },
+        {
+          "name": "SB_SB_SS_SS_1p0_09301457",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量（成交完成时长）大于均值+N倍标准差界定大单（长单），统计全日连续竞价时段小买短买小卖短卖订单组合的统计量构建因子}",
+          "stats": [null, -0.089, null, null],
+          "evidence": "将成交量（成交完成时长）大于均值+N倍标准差的订单界定为大单（长单），剩余的则相应地界定为小单（短单），并分别采用3个不同的标准差阈值来对大小单（长短单）进行界定。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "大小单因子和长短单因子之间的相关性较低，相关系数范围在-0.19~0.19之间，表明“大小”和“长短”是衡量逐笔订单的两个较为独立的维度。",
+      "evidence": "整体而言，大小单因子和长短单因子之间的相关性较低，相关系数范围在-0.19~0.19之间，这表明“大小”和“长短”是衡量逐笔订单的两个较为独立的维度。"
+    },
+    {
+      "text": "在20日换仓条件下，240个同时从“大小”和“长短”解构的订单因子中有超过50个因子的RankIC均值大于8%，其中18个因子的RankIC大于10%。",
+      "evidence": "从统计结果来看，在20日换仓条件下，上述240个因子中有超过50个因子的RankIC均值大于8%，其中有18个因子的RankIC大于10%。整体而言，本文挖掘出了一大批可观的有效逐笔订单因子。"
+    },
+    {
+      "text": "2021~2023年间精选订单因子组合在全市场RankIC均值达13.3%、胜率达78.3%，Top-30组合平均年化收益率31.33%、最大回撤率15.39%、夏普比率1.86，而同期中证全指年化收益率为-8.50%。",
+      "evidence": "全市场板块。2021~2023 年间，精选因子 RankIC 均值达 13.3%、胜率达 78.3%，Top-30 组合的平均年化收益率为 31.33%、最大回撤率为 15.39%、夏普比率为1.86，而同期中证全指年化收益率为-8.50%。"
+    },
+    {
+      "text": "2021~2023年间精选订单因子组合在创业板RankIC均值达13.7%、胜率达83.4%，Top-30组合平均年化收益率27.66%、最大回撤率25.45%、夏普比率1.30，而同期创业板综指年化收益率为-7.46%。",
+      "evidence": "创业板板块。2021~2023 年间，精选因子 RankIC 均值达 13.7%、胜率达 83.4%，Top-30 组合的平均年化收益率为 27.66%、最大回撤率为25.45%、夏普比率为1.30，而同期创业板综指年化收益率为-7.46%。"
+    },
+    {
+      "text": "2021~2023年间精选订单因子组合在国证2000 RankIC均值为12.7%、胜率为76.5%，Top-30组合平均年化收益率25.00%、最大回撤率17.50%、夏普比率1.44，而同期国证2000指数平均年化收益率为1.22%，取得了较为显著的超额收益。",
+      "evidence": "国证 2000 板块。2021~2023 年间，精选因子 RankIC 均值为 12.7%，胜率为 76.5%，Top-30 组合的平均年化收益率为 25.00%、最大回撤率为 17.50%、夏普比率为1.44，而同期国证2000 指数平均年化收益率为 1.22%，精选订单因子组合取得了较为显著的超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "多维度解耦的22个长短单因子：海量Level 2数据因子挖掘系列（二）",
+    "多维度解耦的94个大小单因子：海量Level 2数据因子挖掘系列（一）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20240416-招商证券-ai系列研究-003-利用基本面信息改进机器学习因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "综合量价因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{MLP、GBDT、GRU 等模型在日频量价、Alpha158 与周频量价数据集上滚动训练，三个数据集对应的因子等权加权集成}",
+          "stats": [null, 0.1201, 1.12, 0.3111],
+          "evidence": "按照上述设定，我们分别利用不同的数据集来训练得到三个数据集对应得因子，最后等权加权得到综合量价因子。"
+        },
+        {
+          "name": "综合基本面因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{以原始基本面特征为输入，GBDT 滚动训练得到的因子}",
+          "stats": [null, 0.043, 0.39, null],
+          "evidence": "按照以上设定训练模型得到综合基本面因子的结果，同样按照 5 日滚动调仓来测试综合基本面因子的表现。综合基本面因子的 RankIC 均值为 0.043，ICIR 为 0.39，IC 胜率为 64.75%。"
+        },
+        {
+          "name": "综合机器学习因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "weekly", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{以基本面特征与综合量价因子为特征，用短期训练的 GBDT 模型滚动训练得到的综合因子}",
+          "stats": [null, 0.1052, 0.94, 0.3897],
+          "evidence": "按照基本面综合因子的构建方式，利用基本面特征+综合量价因子重新构建综合机器学习因子，具体构建流程如图 13所示。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "label_horizon", "sample_window", "ensemble", "fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "剔除行业、市值和Beta的学习目标表现最优，优于剔除所有常见风格，也优于仅剔除市值和行业；剔除过多风格反而降低模型性能，说明机器学习模型仍能从其他常见风格中捕捉Alpha信息。",
+      "evidence": "从实证的结果来看，剔除行业、市值和Beta模型结果的表现最优，优于剔除所有常见风格，也优于仅剔除市值和行业因子。机器学习模型仍能够从其他常见风格中捕捉到一定 Alpha信息，剔除过多的风格反而降低了模型的性能表现。"
+    },
+    {
+      "text": "利用梯度提升树融入基本面因子后，综合因子的多头表现相比于机器学习量价因子提升明显，年化对冲收益率达到38.97%。",
+      "evidence": "利用梯度提升树融入基本面因子后，综合因子的多头表现相比于机器学习量价因子提升明显，年化对冲收益率达到 38.97%。"
+    },
+    {
+      "text": "量价类因子和基本面类因子存在互补性：量价类因子IC均值偏高、换手率偏高、多空组合更稳定；基本面类因子换手率更低、分组收益率对称性更好，但IC和ICIR偏低、多空稳定性一般。",
+      "evidence": "量价类因子和基本面类因子的信息存在一定互补性，从因子的统计特性来看，一般量价类因子的 IC 均值偏高，因子换手率偏高，多空组合表现更稳定；基本面类的因子换手率更低，分组收益率的对称性更好，但 IC 和 ICIR 偏低，多空组合的稳定性一般。"
+    },
+    {
+      "text": "全市场选股的沪深300周频指增策略年化超额收益率为13.83%，超额最大回撤2.82%，信息比率为4.14，年化跟踪误差为3.73%。",
+      "evidence": "全市场选股的沪深300 周频指增策略年化超额收益率为 13.83%，超额最大回撤 2.82%，信息比率为 4.14，年化跟踪误差为3.73%。"
+    },
+    {
+      "text": "全市场选股的中证500周频指增策略年化超额收益率为22.22%，超额最大回撤6.98%，信息比率为4.03，年化跟踪误差为5.65%。",
+      "evidence": "全市场选股的中证 500 周频指增策略年化超额收益率为 22.22%，超额最大回撤 6.98%，信息比率为4.03，年化跟踪误差为 5.65%。"
+    },
+    {
+      "text": "全市场选股的中证1000周频指增策略年化超额收益率为27.06%，超额最大回撤6.14%，信息比率为4.69，年化跟踪误差为5.71%。",
+      "evidence": "全市场选股的中证 1000周频指增策略年化超额收益率为 27.06%，超额最大回撤 6.14%，信息比率为4.69，年化跟踪误差为 5.71%。"
+    },
+    {
+      "text": "中证500和中证1000策略在全市场选股场景下收益表现更好，但最大回撤显著增大，说明基于统计的风格控制难以完全规避尾部风险。",
+      "evidence": "中证 500 策略和中证 1000 策略在全市场选股的场景下，收益表现更好，但最大回撤也显著增大，这说明基于统计的风格控制，很难完全规避尾部风险。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["BARRA CNE5/CNE6 风险模型", "微软 Qlib Alpha158 数据集"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

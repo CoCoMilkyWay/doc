@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "id": "20170920-广发证券-多因子-034-基于多期限的选股策略研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "technical_pattern"],
+      "setup": {
+        "universe": ["all", "csi500", "csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "基于不同期限下的因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "E[r_{j,t+1}]=\\Sigma_{i}E[\\beta_{i,t+1}]\\tilde{A}_{jt,L_i},\\;\\tilde{A}_{jt,L}=\\frac{A_{jt,L}}{P_{j}^{t}},\\;A_{jt,L}=\\frac{P_{j,d-L+1}^{t}+\\cdots+P_{j,d}^{t}}{L},\\;E[\\beta_{i,t+1}]=\\frac{1}{25}\\sum_{m=1}^{25}\\beta_{i,t+1-m}",
+          "stats": [0.026, null, null, null],
+          "evidence": "本篇专题报告中构建了一个新的因子，通过分析不同期限的均线价格数据来同时捕捉短期反转、中期动量、长期反转等价格趋势。"
+        },
+        {
+          "name": "基于LLT指标构建的因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "LLT(T)=(2-2\\alpha)LLT(T-1)-(1-\\alpha)^{2}LLT(T-2)+\\left(\\alpha-\\frac{\\alpha^{2}}{4}\\right)P(T)+\\left(\\frac{\\alpha^{2}}{2}\\right)P(T-1)-\\left(\\alpha-\\frac{3}{4}\\alpha^{2}\\right)P(T-2),\\;\\alpha=\\frac{2}{1+N}",
+          "stats": [0.036, null, null, null],
+          "evidence": "从这点出发本篇专题报告用延迟性更好的 LLT 趋势线代替MA 均线，构造改进后的 LLT 趋势因子。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于多期限均线构建的因子在全市场选股中证500指数对冲情况下，年化收益率为25.40%，最大回撤为9.11%，信息比率为2.44。",
+      "evidence": "在实证区间内，基于多期限均线构建的因子在全市场选股中证 500 指数对冲情况下，年化收益率为 25.40%，最大回撤为 9.11%，信息比率为 2.44。"
+    },
+    {
+      "text": "改进的LLT趋势因子相对之前的基于MA构建的因子在全市场、中证500以及中证800指数中结果都有较大的改进，在全市场选股中证500指数对冲下年化收益率29.58%，最大回撤为11.57%，信息比率为2.51。",
+      "evidence": "实证结果表明，在全市场选股中证500指数对冲下，在实证区间内年化收益率 29.58%，最大回撤为 11.57%，信息比率为 2.51。改进的 LLT 趋势因子相对之前的基于 MA 构建的因子在全市场、中证 500 以及中证 800指数中结果都有较大的改进。"
+    },
+    {
+      "text": "基于LLT指标构建的因子的IC均值、正IC占比均高于基于MA指标因子，说明基于LLT指标构建的因子与资产收益率的相关性更高。",
+      "evidence": "比较两种指标构造的因子在全市场中的IC值，可以发现基于LLT指标构建的因子的IC均值、正IC占比均高于基于MA指标因子，说明基于LLT指标构建的因子与资产收益率的相关性比基于M指标构建的因子更高。"
+    },
+    {
+      "text": "基于LLT指标构建的因子在全市场下多空对冲，从2010年以来取得了35.83%的对冲年化收益率，15.64%的最大回撤和2.54的信息比率。",
+      "evidence": "从图17中可以看出基于LLT指标构建的因子在全市场下多空对冲表现：从 2010年以来，策略取得了 35.83% 的对冲年化收益率，14.11% 的年化波动率，15.64% 的最大回撤和 2.54 的信息比率。"
+    },
+    {
+      "text": "多期限因子在全市场多空对冲下，除了2012年外每年都取得了超过10%的超额收益。",
+      "evidence": "对冲策略分年度表现情况如下表所示，除了在 2012年外，策略在每年都取得了超过 10% 的超额收益。"
+    },
+    {
+      "text": "不同均线周期组合下因子的表现差异明显，多均线组合下效果比单均线组合更加稳健。",
+      "evidence": "再观察不同均线周期组合下因子的表现，可以看到不同期限组合的差异明显，多均线组合下效果比单均线组合更加稳健。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Han, Y., G. Zhou and Y. Zhu. (2016). \"A Trend Factor: Any Economic Gains from Using Information over Investment Horizons?\" Journal of Financial Economics.",
+    "《低延迟趋势线与交易性择时》（2013-7-26）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

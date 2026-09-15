@@ -1,0 +1,229 @@
+{
+  "schema_version": 2,
+  "id": "20100527-广发证券-多因子-001-风格因子驱动下的行业内量化选股研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "expectation_level", "analyst_behavior", "momentum_reversal"],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "一个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月个股收益率，反向排序：前期收益越低打分越高}",
+          "stats": [null, null, null, null],
+          "evidence": "在计算股价动量因子回报时，我们发现电子器件行业内股价动量效应较差，反转能力很强。前期收益较差股票表现平均而言优于收益较好股票。所以所有的动量因子都是反向排序，即股价具备反转性。"
+        },
+        {
+          "name": "三个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去三个月个股收益率，反向排序：前期收益越低打分越高}",
+          "stats": [null, null, null, null],
+          "evidence": "股价反转类指标表现强劲，与我们的预期相符。在绝大多数月度收益表现为正且最高接近于25%。累计相对收益表现在12个月样本期内全部为正，且趋势皆为向上，在09年12月除十二月反转外其余各因子累计相对收益差均达到顶峰"
+        },
+        {
+          "name": "六个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去六个月个股收益率，反向排序：前期收益越低打分越高}",
+          "stats": [null, null, null, null],
+          "evidence": "股价反转类指标表现强劲，与我们的预期相符。在绝大多数月度收益表现为正且最高接近于25%。累计相对收益表现在12个月样本期内全部为正，且趋势皆为向上，在09年12月除十二月反转外其余各因子累计相对收益差均达到顶峰"
+        },
+        {
+          "name": "十二个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去十二个月个股收益率，反向排序：前期收益越低打分越高}",
+          "stats": [null, null, null, null],
+          "evidence": "股价反转类指标表现强劲，与我们的预期相符。在绝大多数月度收益表现为正且最高接近于25%。累计相对收益表现在12个月样本期内全部为正，且趋势皆为向上，在09年12月除十二月反转外其余各因子累计相对收益差均达到顶峰"
+        },
+        {
+          "name": "一个月内评级改变",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{前一个月内评级调高家数}-\\text{前一个月内评级调低家数}",
+          "stats": [null, null, null, null],
+          "evidence": "一个月的评级改变实际就是前一个月内评级调高家数和评级调低家数之差。评级改变越大，证明个股越被看好。"
+        },
+        {
+          "name": "市净率",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股价}}{\\text{每股净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "同时，价值分析类因子表现也突出，投资者可以重点关注， 特别是市净率低以及动态市盈率低的个股。现金流类因子也可以适时关注。"
+        },
+        {
+          "name": "预测市盈率",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股价}}{\\text{预测每股收益}}",
+          "stats": [null, null, null, null],
+          "evidence": "机构给出的未来预期市盈率指标表现也十分不错，除09年5、6月份在0以下徘徊之外，09年7月开始，其累计相对收益表现开始一跃为正，尽管中间又有几个月收益轻微反复，但从09年11月开始累计收益率一路强势上行，在10年4月达到期内最大值40%"
+        },
+        {
+          "name": "股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{每股股利}}{\\text{股价}}",
+          "stats": [null, null, null, null],
+          "evidence": "股息率因子在10年3月收益急转之下为-11%之后紧接着4月份反转达到样本期内最大值23%，由此其累计收益表现继续维持强势上行趋势"
+        },
+        {
+          "name": "市销率",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{总市值}}{\\text{营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "另外两个因子市净率和市销率表现也比较优异，而且累计收益图形显示，从09年11月开始二者表现颇为相似。"
+        },
+        {
+          "name": "存货周转率",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业成本}}{\\text{平均存货}}",
+          "stats": [null, null, null, null],
+          "evidence": "营运能力类因子的两极分化比较明显。存货周转率和流动资本周转率因子的12个月的平均相对收益在1%以上，而且累计收益都为正。但其它的3个因子的平均收益为负，而且累计收益有明显的下降趋势。"
+        },
+        {
+          "name": "流动资本周转率",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入}}{\\text{平均流动资本}}",
+          "stats": [null, null, null, null],
+          "evidence": "营运能力类因子的两极分化比较明显。存货周转率和流动资本周转率因子的12个月的平均相对收益在1%以上，而且累计收益都为正。但其它的3个因子的平均收益为负，而且累计收益有明显的下降趋势。"
+        },
+        {
+          "name": "经营活动产生的现金流量净额与总市值比",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营活动产生的现金流量净额}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "综合对两个因子的量化分析，不难发现从2010年初开始， 经营活动中现金流充足的公司股价一般都优于现金流相对弱的公司。特别是占总市值比大的公司，它们比占比低的公司更有优胜。"
+        },
+        {
+          "name": "经营活动产生的现金流量净额同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期经营活动产生的现金流量净额}}{\\text{上年同期经营活动产生的现金流量净额}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "但经营活动产生的现金流量净额同比增长率因子却有着不错的表现。从2009年12月起，因子累计收益稳定上涨，全年累计收益收于20%。所以近期现金流同比增快的个股要比增长慢的有非常明显的优势，值得关注。"
+        },
+        {
+          "name": "资本支出折旧比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{资本支出}}{\\text{折旧}}",
+          "stats": [null, null, null, null],
+          "evidence": "资本支出折旧比12个月的累计收益差一直平稳的在-0.05到-0.15的区间徘徊，而且超过半数月份相对收益在0以下，所以证明电子元器件行业资本支出折旧比小的公司股票在过去12个月略优与资本支出折旧比大的公司。"
+        },
+        {
+          "name": "净资产收益率 ROE",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}}{\\text{净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "净资产收益率ROE、总资产收益率ROA两个因子表现较为疲弱，在样本期内累计收益表现基本徘徊在-10%~-20%，但在10年3月开始有所改善，尤其在4月份突破该区间达到期内最大值。"
+        },
+        {
+          "name": "流动比率",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{流动资产}}{\\text{流动负债}}",
+          "stats": [null, null, null, null],
+          "evidence": "而保守速动比率表现要差于前两个因子，其表现为正的月度收益只有四个月，其余皆在0或0之下，由此可说明样本期内流动性低的股票后续表现反而会好于流动性高的股票。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["sector"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "电子元器件行业27个测试月中有19个月模型捕捉到超额收益，成功率70%；超配组合累计收益率48%，平均每月收益2.5%，信息比0.17，是行业指数的两倍以上。",
+      "evidence": "从实证结果观察，27个测试月有 19个月我们的量化模型能捕捉到超额收益，有着 70%的成功率。在测试的时间段里我们的超配组合累计收益率是 48%，平均每月收益是 2.5%，信息比是 0.17，是行业指数的两倍以上。"
+    },
+    {
+      "text": "不同周期股价反转因子权重都很高，一个月股价反转权重最高，电子元器件行业近期股价反转明显，建议关注过去一个月收益表现差的个股。",
+      "evidence": "可以看出，不同时间股价反转因子都有着很高的权重，证明电子器件行业在近期还是有比较大的股价反转，一个月股价反转有最高的权重，建议关注过去一个月收益表现差的个股。"
+    },
+    {
+      "text": "价值分析类因子表现突出，尤其是市净率低的个股可重点关注；现金流因子当月表现不错，现金流强的个股也可适时关注。",
+      "evidence": "同时，价值分析类因子表现也突出，投资者可以近期关注， 尤其是市净率低的个股。当然，现金流因子当月也有不错的表现，所以现金流强的个股也可以适时关注。"
+    },
+    {
+      "text": "每月动态筛选过去12个月信息比为正的因子，并把正信息比因子按前36个月回报的相关系数聚类成独立的ALPHA源，体现类与类之间的独立性。",
+      "evidence": "所以，我们的模型利用了聚类分析法，把正值的因子根据它们前36个月回报的相关系数进行聚类，把类与类之间的独立性体现出来。"
+    },
+    {
+      "text": "抛弃因子维持不变的理念，每月始终选择过去1年具备正信息比的因子，动态调整模型因子库。",
+      "evidence": "我们抛弃因子维持不变的理念，每月始终选择过去 1年具备正信息比的因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bachelier(1900) 股价随机游走",
+    "Fama 有效市场假说",
+    "Ross(1976) 套利定价理论（APT）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

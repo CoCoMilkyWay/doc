@@ -1,0 +1,109 @@
+{
+  "schema_version": 2,
+  "id": "20221118-广发证券-多因子-045-基于semibeta的因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "fBeta_MN_60_S000852",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta_{t,i}^{M^{-}}=-\\frac{\\sum_{k=1}^{m}r_{t,k,i}^{+}f_{t,k}^{-}}{\\sum_{k=1}^{m}f_{t,k}^{2}}",
+          "stats": [-0.071, null, -0.98, 1.21],
+          "evidence": "其中综合较优的因子是fBeta_MN_60_S000852：IC均值为-7.1%、多空收益信息比为（LS_IR）为2.13，IC_IR为-0.98，年化收益为121%，胜率为75.7%，平均换股比例为46.6%，因子覆盖度达95.5%。"
+        },
+        {
+          "name": "fBeta_MN_60_S399006",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta_{t,i}^{M^{-}}=-\\frac{\\sum_{k=1}^{m}r_{t,k,i}^{+}f_{t,k}^{-}}{\\sum_{k=1}^{m}f_{t,k}^{2}}",
+          "stats": [-0.074, null, -0.86, 1.287],
+          "evidence": "以fBeta_MN_60_S399006 为例，IC 均值为-7.4%、多空收益信息比为（LS_IR）为 1.88，IC_IR 为-0.86，年化收益为 128.7%，胜率为 72.2%，平均换股比例为 43.5%。"
+        },
+        {
+          "name": "fBeta_MN_120_S000852",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta_{t,i}^{M^{-}}=-\\frac{\\sum_{k=1}^{m}r_{t,k,i}^{+}f_{t,k}^{-}}{\\sum_{k=1}^{m}f_{t,k}^{2}}",
+          "stats": [-0.058, null, -0.81, 0.765],
+          "evidence": "其中综合较优的因子是fBeta_MN_120_S000852：IC均值为-5.8%、多空收益信息比为（LS_IR）为1.64，IC_IR为-0.81，年化收益为76.5%，胜率为65.3%，平均换股比例为30.6%，因子覆盖度达95.4%。"
+        },
+        {
+          "name": "fBeta_MN_20_S399006",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta_{t,i}^{M^{-}}=-\\frac{\\sum_{k=1}^{m}r_{t,k,i}^{+}f_{t,k}^{-}}{\\sum_{k=1}^{m}f_{t,k}^{2}}",
+          "stats": [-0.067, null, -0.85, 1.8],
+          "evidence": "以fBeta_MN_20_S399006为例：IC均值为-6.7%、多空收益信息比为（LS_IR）为1.97，IC_IR为-0.85，年化收益为180.0%，胜率为71.5%，平均换股比例为80.4%，因子覆盖度达91.4%。"
+        },
+        {
+          "name": "fBeta_MP_20_S000852",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta_{t,i}^{M^{+}}=-\\frac{\\sum_{k=1}^{m}r_{t,k,i}^{-}f_{t,k}^{+}}{\\sum_{k=1}^{m}f_{t,k}^{2}}",
+          "stats": [-0.066, null, -0.71, 0.746],
+          "evidence": "其中综合较优的因子是fBeta_MP_20_S000852：IC均值为-6.6%、多空收益信息比为（LS_IR）为1.76，IC_IR为-0.71，年化收益为74.6%，胜率为69.4%，平均换股比例为82.4%，因子覆盖度达95.6%。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "全市场选股、月频调仓下fBeta_MN系列因子整体表现较好，以fBeta_MN_60_S399006为例，IC均值为-7.4%、IC_IR为-0.86、年化收益为128.7%、胜率为72.2%、平均换股比例为43.5%。",
+      "evidence": "以fBeta_MN_60_S399006 为例，IC 均值为-7.4%、多空收益信息比为（LS_IR）为 1.88，IC_IR 为-0.86，年化收益为 128.7%，胜率为 72.2%，平均换股比例为 43.5%。"
+    },
+    {
+      "text": "计算Beta因子滚动回溯的周期越短，回测总收益越高，但换手率也相对更高。",
+      "evidence": "计算 Beta 因子滚动回溯的周期越短，回测总收益越高，但换手率也相对更高。"
+    },
+    {
+      "text": "SemiBeta系列因子和市值、短期动量的相关性相对较低，和波动率存在一定相关性。",
+      "evidence": "整体而言，SemiBeta系列因子和市值、短期动量的相关性相对较低，和波动率存在一定相关性。"
+    },
+    {
+      "text": "月度换仓下2015年初至2022年11月，沪深300、中证500和中证1000增强策略分别实现约5%、10%和12%的年化超额收益。",
+      "evidence": "月度换仓频率下，2015 年初至2022 年11月，沪深 300、中证500 和中证1000增强策略分别实现约5%、10%和 12%的年化超额收益。"
+    },
+    {
+      "text": "fBeta_N系列因子有效性相对较弱，IC绝对值未超过5%，与Bollerslev（2021）美股高Beta_N个股具备较高风险溢价的实证结果存在差异。",
+      "evidence": "fBeta_N系列因子的有效性相对较弱，IC绝对值回测结果未超过5%。Bollerslev（2021）在美股中的实证结果显示高Beta_N个股具备较高的风险溢价，和我们基于A股的实证结果存在差异。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ang, A., Hodrick, R. J., Xing, Y., & Zhang, X. 2006. The cross‐section of volatility and expected returns. The journal of finance, 61(1), 259-299.",
+    "Bollerslev, T. , Patton, A. J. , & Quaedvlieg, R. . 2021. Realized semibetas: disentangling \"good\" and \"bad\" downside risks. Journal of Financial Economics(2).",
+    "Kahneman, D. and A. Tversky 1979. Prospect Theory: an analysis of decision under risk.Econometrica, Vol. 47(2), 263 – 292.",
+    "Levi, Y., & Welch, I. 2020. Symmetric and asymmetric market betas and downside risk. The Review of Financial Studies, 33(6), 2772-2795."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

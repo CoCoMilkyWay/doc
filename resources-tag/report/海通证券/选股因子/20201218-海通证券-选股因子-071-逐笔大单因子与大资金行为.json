@@ -1,0 +1,141 @@
+{
+  "schema_version": 2,
+  "id": "20201218-海通证券-选股因子-071-逐笔大单因子与大资金行为",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["order_flow", "participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大单",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{参与成交买卖订单有一方成交额超过全天所有订单成交额均值的成交金额占比}",
+          "stats": [null, null, null, null],
+          "evidence": "大单：即参与成交买卖订单有一方成交额超过全天所有订单成交额均值的成交金额占比。"
+        },
+        {
+          "name": "大买+大卖",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{参与成交买卖订单双方成交额均超过全天所有订单成交额均值的成交金额占比}",
+          "stats": [0.041, null, 4.224, 0.0136],
+          "evidence": "大买+大卖成交占比：下简称“大买+大卖”，即参与成交买卖订单双方成交额均超过全天所有订单成交额均值的成交金额占比。"
+        },
+        {
+          "name": "剔除大买的大卖",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖单成交额超过全天所有订单成交额均值而买单成交金额未超过均值的成交金额占比}",
+          "stats": [-0.065, null, -6.157, 0.0245],
+          "evidence": "剔除大买的大卖：即参与成交买卖订单中，卖单成交额均超过全天所有订单成交额均值，而买单成交金额没有超过全天所有订单成交金额均值的成交金额占比。"
+        },
+        {
+          "name": "大买",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单成交额超过全天所有订单成交额均值的成交金额占比}",
+          "stats": [0.042, null, 4.63, 0.0163],
+          "evidence": "大买：即参与成交买卖订单中，买单成交额均超过全天所有订单成交额均值的成交金额占比。"
+        },
+        {
+          "name": "正交大单的大买",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大买因子对大单因子进行线性回归的残差}",
+          "stats": [0.065, null, 5.955, 0.0232],
+          "evidence": "正交大单的大买：利用上述大买因子对上述大单因子进行线性回归的残差。"
+        },
+        {
+          "name": "基金持仓量",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{全市场所有主动公募基金所持有的股票市值在报告期末占该股票总市值的比例}",
+          "stats": [0.034, null, null, null],
+          "evidence": "全市场所有主动公募基金所持有的股票市值在报告期末占该股票总市值的比例"
+        },
+        {
+          "name": "基金持仓增量",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{相比上一个报告期，前十大重仓股中被每个基金增持的市值占比之和}",
+          "stats": [0.146, null, null, null],
+          "evidence": "相比上一个报告期，前十大重仓股中被每个基金增持的市值占比之和"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "大单因子与异动股票前五大买入席位金额占比之间有显著相关性，证明大单因子确实可以捕捉到大资金买入行为。",
+      "evidence": "大单因子与异动股票前五大买入席位金额占比之间确实有显著的相关性，因此我们可以认为我们所构建的大单因子确实可以捕捉到大资金买入行为。"
+    },
+    {
+      "text": "无论是剔除还是正交哑变量的方法，在剔除异动股票的影响后，大单因子的IC与多空收益表现均有不同幅度的提升。",
+      "evidence": "由上表可见，无论是剔除还是正交哑变量的方法，在剔除异动股票的影响后，大单因子的 与多空收益表现均有不同幅度的提升。"
+    },
+    {
+      "text": "基金重仓组合在报告期前的收益率分位数显著大于50%，并且报告期前表现普遍优于报告期之后，基金增持组合也具有同样的特征。",
+      "evidence": "由上表左侧收益分位数均值情况可见，基金重仓组合在报告期前的收益率分位数显著大于 50%，并且报告期前表现普遍优于报告期之后。"
+    },
+    {
+      "text": "持仓量指标与持仓增量指标在报告期前与收益率有显著的正相关性，尤其持仓增量指标与报告期前收益率相关性超过10%，但指标存在滞后效应，无法直接用于组合构建。",
+      "evidence": "由上表可见，持仓量指标与持仓增量指标在报告期前与收益率有显著的正相关性，尤其持仓增量指标，其与报告期前收益率相关性超过 10%。"
+    },
+    {
+      "text": "刻画大资金流入、流出效应的高频因子与基金持仓量、持仓增量指标之间也有较高的相关性，尤其是与持仓增量指标相关性更为显著，证明大单因子的有效性部分来自机构投资者的买入或增持行为。",
+      "evidence": "用同样的方式考察高频因子，可以发现，刻画大资金流入、流出效应的高频因子与基金持仓量、持仓增量指标之间也有较高的相关性，尤其是与持仓增量指标相关性更为显著。"
+    },
+    {
+      "text": "上期基金重仓组合中的股票依然出现在下期重仓组合中的比例高达78.9%，出现在下期增持组合中的概率也高达71.6%，说明基金重仓股的确具有良好的延续性。",
+      "evidence": "平均来看，上期基金重仓组合中的股票依然出现在下期重仓组合中的比例高达78.9%，而上期重仓组合中的股票出现在下期增持组合中的概率也高达71.6%，说明基金重仓股的确具有良好的延续性。"
+    },
+    {
+      "text": "利用非流动性、剔除大买的大卖以及正交大单的大买三个因子对上期基金重仓组合进行双分组增强，可以显著提升上期基金重仓组合月均收益，月胜率也有一定提升。",
+      "evidence": "与预期相同，利用非流动性，剔除大买的大卖以及正交大单的大买三个因子对基金重仓组合进行增强，可以显著提升上期基金重仓组合月均收益，月胜率也有一定提升。"
+    },
+    {
+      "text": "异动股票的超额收益主要来自于高开，以开盘价计算次日收益有明显负向收益，从更长的时间来看异动股票具有明显的反转效应。",
+      "evidence": "然而如果以开盘价计算次日收益，异动股票却有明显的负向收益，说明前文异动股票的超额收益主要来自于高开。"
+    },
+    {
+      "text": "在全市场范围内非流动性因子在非报告期选股效果更优，而大单因子在报告期会有更好的选股效果。",
+      "evidence": "在全市场范围内非流动性因子以及两个大单因子的因子表现也有类似的差异。非流动性因子在非报告期选股效果更优，而大单因子在报告期会有更好的选股效果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["海通证券高频因子系列报告"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

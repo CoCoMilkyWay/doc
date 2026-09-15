@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "id": "20190702-国盛证券-多因子系列-006-寻找财务数据中的alpha信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_mining"],
+      "approach": ["statement_detail", "symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "deltaEMPL_BEN_PAYABLE_TOT_ASSETS",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期应付职工薪酬}-\\text{上期应付职工薪酬}}{\\text{上期总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "这说明这类因子是十分稳健（robust）的 我们能够更加确信应付职工薪酬中的确包含对收，益的预测信息"
+        },
+        {
+          "name": "应付款项的变化/总负债",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期应付款项}-\\text{上期应付款项}}{\\text{上期总负债}}",
+          "stats": [null, null, 1.5, null],
+          "evidence": "应付款项的变化/总负债在我们的测试。中也是一个非常好的因子 T值为5.03 ICIR为1.5， ， 。"
+        },
+        {
+          "name": "预收款项相关因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期预收款项}-\\text{上期预收款项}}{\\text{上期某一标准化变量（例如总负债、总流动负债）}}",
+          "stats": [null, null, null, null],
+          "evidence": "预收账款的增加代表企业在供应链中的地位有所增加 因此是一个正向因子"
+        },
+        {
+          "name": "应交税费相关因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期应交税费}-\\text{上期应交税费}}{\\text{上期某一标准化变量（例如总负债、总流动负债）}}",
+          "stats": [null, null, null, null],
+          "evidence": "其因子构造方法均为（本期应交税费-上期应交。税费）/上期某一标准化变量（例如总负债 总流动负债等等）"
+        },
+        {
+          "name": "杠杆率变化相关因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\Delta\\left(\\frac{TOT\\_LIAB}{TOT\\_ASSETS}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "二是资产负债率（总负债/总资产）增加的越多 那么未来收益越高"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "5000次模拟中T统计量最大值的最大值仅有5.61，即仅通过测试大量无效因子所能达到的最好水平。",
+      "evidence": "在5000次模拟中 T统计量最大值的最大值仅有5.61 也就是说 仅通过测试大量的无效因"
+    },
+    {
+      "text": "可以拒绝原假设，构建的财务因子池中确实有能够产生显著超额收益的因子，而并不是运气造成的。",
+      "evidence": "确实有能够产生显著超额收益的因子 而并不是运气造成的"
+    },
+    {
+      "text": "第一阶段排名前10%的因子在后一阶段有46%的概率仍排名前10%，有74%的概率仍排名前30%，表现好的因子具有持续性。",
+      "evidence": "在第一阶段排名前10%的因子 在后一阶段有46%的概率仍然排名前， ，10% 有74%的概率仍然排名前30%"
+    },
+    {
+      "text": "在考虑数据挖掘的影响下，从生成的4680个因子中找到了364个仍然显著的财务因子。",
+      "evidence": "在考虑数据挖掘的影响下 本文从生成的4680个因子中 找到了364个仍然显著的财务因子， ， 。"
+    },
+    {
+      "text": "应付职工薪酬增长类因子十分稳健，我们能够更加确信应付职工薪酬中的确包含对收益的预测信息。",
+      "evidence": "这说明这类因子是十分稳健（robust）的 我们能够更加确信应付职工薪酬中的确包含对收，益的预测信息"
+    },
+    {
+      "text": "应付款项的变化/总负债也是一个非常好的因子，T值为5.03，ICIR为1.5。",
+      "evidence": "应付款项的变化/总负债在我们的测试。中也是一个非常好的因子 T值为5.03 ICIR为1.5， ， 。"
+    },
+    {
+      "text": "表现前100的因子中有38是杠杆变化率类因子，杠杆率变化类因子较多。",
+      "evidence": "杠杆率变化类因子较多 表现前100个指标中有38是杠杆变化率类因子"
+    },
+    {
+      "text": "资产负债率（总负债/总资产）增加得越多，未来收益越高，与美股市场的发现正好相反。",
+      "evidence": "二是资产负债率（总负债/总资产）增加的越多 那么未来收益越高"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cai和Zhang（2011）",
+    "Dimitrov和Jain（2008）",
+    "Harvey（2016）",
+    "White（2000）",
+    "Yan和Zheng（2017）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

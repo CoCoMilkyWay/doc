@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "20200522-国盛证券-多因子系列-011-主题的风险与收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "主题因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{计算所有主题过去126个交易日的动量，筛选动量最大的前20个主题，主题成分股因子值标记为1，其余股票标记为0}",
+          "stats": [0.018, null, 2.22, 0.061],
+          "evidence": "构建因子的方法如下，计算所有主题过去N天的动量，筛选前m个主题，并将这 m 个主题成分股的因子值标记为 1，其余股票标记为 0。我们将因子对所有的风格因子和行业因子做中性化，然后进行测试，得到以下结果："
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural", "adaptive"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "将主题纳入风险模型并约束暴露，月频调仓时约束过去一个月波动较大的主题，策略回撤有所改善，其中19年改善最为显著，在1%以上。",
+      "evidence": "我们测试了将主题纳入风险模型并进行约束的策略表现，发现在月频调仓时，约束过去一个月波动较大的主题的暴露，策略的回撤有所改善，其中 19年改善最为显著，在 1%以上。"
+    },
+    {
+      "text": "约束主题控制风险的核心是约束大量异动的主题，在可能牺牲一定alpha的情况下，降低尾部主题风险带来的策略大幅回撤。",
+      "evidence": "通过归因，我们发现通过约束主题来控制风险的核心是通过约束大量异动的主题，在有可能牺牲一定 alpha 的情况下，降低尾部主题风险带来的策略大幅回撤。"
+    },
+    {
+      "text": "主题存在非常显著的动量效应，时间序列动量和截面动量效应都非常显著。",
+      "evidence": "主题存在非常显著的动量效应。我们分别测试了主题的时间序列动量和截面动量效应，发现二者都非常显著。"
+    },
+    {
+      "text": "在组合优化时于高动量主题上主动暴露，大约能够提升1-2%的年化收益，回撤也有所改善；最优参数下组合收益相较基准策略有2%的提升，信息比从2.3上升至2.7。",
+      "evidence": "第一种是在做组合优化时，在高动量主题上进行主动暴露，该方法大约能够提升 1-2%的年化收益，回撤也有所改善。"
+    },
+    {
+      "text": "主题动量因子化后十分稳定，ICIR达到2.22，与所有传统alpha因子均正交，能给策略带来显著的增量信息；全市场IC值在0.02左右。",
+      "evidence": "第二种是将主题动量因子化，主题因子在对所有风格因子中性化后十分稳定，ICIR 达到2.22，且因子与所有传统 alpha 因子均正交，能够给策略带来显著的增量信息。"
+    },
+    {
+      "text": "与barra行业因子对比，半导体、新能源车、白酒、黄金等主题的风险要大于barra模型中控制的部分行业的风险，确认了在风险模型中加入某些主题的必要性。",
+      "evidence": "我们计算了同样时间区间 barra 行业因子的统计量，T 统计量绝对值均值的中位数为 1.3，T 统计量绝对值大于 2 的天数占比中位数为 20%，年化波动率的均值为 11%。通过横向对比，我们认为在历史样本中，以上这些主题的风险要大于我们在barra 模型中控制的部分行业的风险，进一步确认了在风险模型中加入某些主题的必要性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "TwoSigma关于美中贸易敏感度主题对美股市场影响的研究",
+    "《基金alpha进化史》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

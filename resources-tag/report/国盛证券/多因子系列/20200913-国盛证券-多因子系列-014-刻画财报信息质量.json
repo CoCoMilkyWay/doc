@@ -1,0 +1,222 @@
+{
+  "schema_version": 2,
+  "id": "20200913-国盛证券-多因子系列-014-刻画财报信息质量",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["accounting_quality"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "应收账款账龄",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "应收款账龄=\\frac{\\sum 账龄_{i}\\times 应收账款_{i}}{\\sum 应收账款_{i}}",
+          "stats": [null, null, null, null],
+          "evidence": "应收款的账龄是应收账款质量的指标之一，账龄越长，应收账款收回的可能性越低，从而成为一种劣质资产，是未来潜在亏损源。"
+        },
+        {
+          "name": "其他应收款账龄",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "应收款账龄=\\frac{\\sum 账龄_{i}\\times 应收账款_{i}}{\\sum 应收账款_{i}}",
+          "stats": [null, null, null, null],
+          "evidence": "从多空组合未来的表现来看，不管是应收账款账龄还是其他应收款账龄，自 2017 年以来，账龄高的股票组跑输账龄低的股票组，整体的 roe 水平低于账龄短的股票组，净利润同比也出现大幅的波动。"
+        },
+        {
+          "name": "应收账款坏账占比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "坏账比=\\frac{提取的坏账准备之和}{应收款之和}",
+          "stats": [null, null, null, null],
+          "evidence": "应收款的坏账计提比例也是衡量应收款质量的指标之一。坏账占比越高，应收账款的质量越低，收回可能性越低。"
+        },
+        {
+          "name": "其他应收款坏账占比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "坏账比=\\frac{提取的坏账准备之和}{应收款之和}",
+          "stats": [null, null, null, null],
+          "evidence": "其他应收款坏账计提比例高的股票组合，未来的净利润增速水平整体偏低。"
+        },
+        {
+          "name": "应收账款坏账比偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\sum abs\\Big(坏账计提比例_{i}-行业中位数_{i}\\Big),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "过去3年应收账款坏账占比偏离行业中位数的绝对值之和"
+        },
+        {
+          "name": "其他应收款坏账比偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\sum abs\\Big(坏账计提比例_{i}-行业中位数_{i}\\Big),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "过去3年其他应收款坏账占比偏离行业中位数的绝对值之和"
+        },
+        {
+          "name": "存货跌价准备比偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "inventoryrateabssum=\\sum abs\\Big(存货跌价准备比例_{i}-行业中值_{i}\\Big),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "我们测算公司的存货跌价准备计提比例，并计算过去 3 年存货跌价准备计提比例偏离行业中位数的绝对值之和："
+        },
+        {
+          "name": "资产折旧率偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "deprecicaterateabssum=\\sum abs\\Big(资产折旧率_{i}-行业中值_{i}\\Big),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "我们测算各类经营性资产的折旧与减值准备计提比例，其中油气资产和生物性生物资产一并归入固定资产范畴，并计算固定资产、长期待摊费用和无形资产过去 3 年计提比例偏离行业中位数的绝对值之和。"
+        },
+        {
+          "name": "资产减值准备率偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "devalue\\;rate\\;abs\\;sum\\;=\\sum abs\\Big(资产减值比例_i-行业中值_i\\Big),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "过去3年资产减值准备占比偏离行业中位数的绝对值之和"
+        },
+        {
+          "name": "长期待摊费用摊销率偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "amortization\\:rate\\:abs\\:sum=\\sum abs\\left(资产摊销比例_{i}-行业中值_{i}\\right),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "过去3年长期待摊费用摊销率偏离行业中位数的绝对值之和"
+        },
+        {
+          "name": "无形资产摊销率偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "amortization\\:rate\\:abs\\:sum=\\sum abs\\left(资产摊销比例_{i}-行业中值_{i}\\right),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "过去3年无形资产摊销率偏离行业中位数的绝对值之和"
+        },
+        {
+          "name": "非折旧型资产占比偏离",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "non\\;depreclate\\;asset\\;ratio\\;abs\\;sum=\\sum abs\\Big(非折旧资产比_{i}-行业中值_{i}\\Big),i=1,2,3",
+          "stats": [null, null, null, null],
+          "evidence": "由于在建工程、无形资产、开发支出、商誉等资产不需要计提或者较少计提折旧和摊销，因此企业有做高此类资产的倾向。"
+        },
+        {
+          "name": "所得税率的波动率",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "taxratevol=过去三年标准化波动率\\left(\\frac{按税法及相关规定计算的当期所得税}{净利润}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "当税务局认定的税前利润与公司净利润的比例相差较大，且呈现较高的波动，则应警惕公司可能存在大幅调节利润的情况。"
+        },
+        {
+          "name": "异常因子得分",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "异常因子得分=\\sum_{i}I_{factor_{i}\\leq-2}",
+          "stats": [null, null, null, null],
+          "evidence": "我们标记因子值低于 2 倍标准差为异常，并筛选有异常值的股票作为考察组。"
+        },
+        {
+          "name": "综合财报信息质量评分",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{账龄、坏账率、坏账率偏离、资产折旧/摊销率偏离、资产减值/跌价偏离、非折旧资产占比偏离、所得税率波动率七类小类因子去极值、标准化、市值行业中性化并调整方向后等权求均值}",
+          "stats": [0.0148, null, null, 0.069],
+          "evidence": "我们将上述因子分为账龄、坏账率、坏账率偏离、资产折旧/摊销率偏离、资产减值/跌价偏离、非折旧资产占比偏离、所得税率波动率七类，并且将小类因子去极值、标准化、市值行业中性化并调整方向，等权求均值。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "经过复合的财报信息质量因子在 wind 全 A 内分十组超额收益呈现单调性，多空组合年化收益 6.90%，夏普比 1.10，IC 均值 0.0148，t 检验值为 3.03，且多头组合未来在 roe波动率和 np_yoy 波动率上的暴露值更低。",
+      "evidence": "经过复合的财报信息质量因子在 wind 全 A 内分十组超额收益呈现单调性，多空组合年化收益 6.90%，夏普比 1.10，IC 均值 0.0148，t 检验值为 3.03，且多头组合未来在 roe波动率和 np_yoy 波动率上的暴露值更低。"
+    },
+    {
+      "text": "利用异常因子得分进行筛选，覆盖到了新的 435 条非标意见或违规立案记录，因子库对已有排雷指标和规则起到了补充作用。",
+      "evidence": "我们在此基础上利用异常因子得分进行筛选，覆盖到了新的 435 条非标意见或违规立案记录，说明我们的因子库对已有排雷指标和规则起到了补充的作用。"
+    },
+    {
+      "text": "结合规则库后非标意见样本召回率为 85.49%，非标意见或违规立案样本召回率 62.61%。",
+      "evidence": "再结合国盛财务风险识别规则库中的其他规则再筛去一批样本，此时非标意见样本召回率为 85.49%，非标意见或违规立案样本召回率 62.61%。"
+    },
+    {
+      "text": "在财报信息质量高的样本池中，超预期组合表现出更强的正向盈余惯性；反之，在财报信息质量低的样本池中，未达预期组合表现出更强的负向盈余惯性。",
+      "evidence": "我们发现在财报信息质量高的样本池中，超预期组合表现出更强的正向盈余惯性；反之，在财报信息质量低的样本池中，未达预期组合表现出更强的负向盈余惯性。"
+    },
+    {
+      "text": "结合了质量因子之后，高盈利超预期组合的收益有一定提升，采用平均分法的增强策略能获得更高的夏普比和信息比。",
+      "evidence": "我们看到，结合了质量因子之后，高盈利超预期组合的收益有一定提升，采用平均分法的增强策略能获得更高的夏普比和信息比。"
+    },
+    {
+      "text": "在年报披露完毕的5~6 月、中报发布完毕的 9 月、三季报发布完毕的 11 月，增强策略和剔除策略录得更高的超额收益，高质量的高盈利超预期组合在业绩真空期有更好的收益表现。",
+      "evidence": "在年报披露完毕的5~6 月，中报发布完毕的 9 月，三季报发布完毕的 11 月，增强策略和剔除策略录得更高的超额收益，即高质量的高盈利超预期组合在业绩真空期有更好的收益表现。"
+    },
+    {
+      "text": "财报信息质量能帮助我们在高盈利能力的票池中，筛去部分潜在风险较高的股票。",
+      "evidence": "换言之，财报信息质量能帮助我们在高盈利能力的票池中，筛去部分潜在风险较高的股票。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cohen, Daniel A. and Dey, Aiyesha and Lys, Thomas Z., Real and Accrual-Based Earnings Management in the Pre- and Post-Sarbanes Oxley Periods (June 2007)",
+    "Penman, Stephen H. and Zhang, Xiao-Jun, Accounting Conservatism, the Quality of Earnings, and Stock Returns (December 1999)",
+    "《量化专题报告：多因子系列之十三：基金重仓股研究》2020-09-07"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

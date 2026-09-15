@@ -1,0 +1,135 @@
+{
+  "schema_version": 2,
+  "id": "20251227-国金证券-alpha掘金-021-基于llm的全天候财务逻辑因子挖掘框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["llm_generation"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "因子1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{EMA}\\left(\\frac{\\text{Cov}(close,volume,5)}{\\text{Var}(close,5)}\\times \\text{Slope}(volume,5),5\\right)",
+          "stats": [-0.09, null, -1.04, 0.6564],
+          "evidence": "三个量价因子的 IC 均值分别达到-0.09、0.06 和-0.11，风险调整后的IC 分别为-1.04、0.73 和-0.77，多头年化超额收益率分别为 22.60%、23.91%和 33.60%。"
+        },
+        {
+          "name": "因子2",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{EMA}\\left(\\frac{close-\\text{Max}(high,5)}{\\text{Max}(high,5)-\\text{Min}(low,5)}\\times volume,5\\right)",
+          "stats": [0.06, null, 0.73, 0.5884],
+          "evidence": "三个量价因子的 IC 均值分别达到-0.09、0.06 和-0.11，风险调整后的IC 分别为-1.04、0.73 和-0.77，多头年化超额收益率分别为 22.60%、23.91%和 33.60%。"
+        },
+        {
+          "name": "因子3",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{Mean}(volume,20)\\times(\\text{Max}(high,5)-\\text{Min}(low,5))}{\\text{Corr}(close,vwap,10)+2}",
+          "stats": [-0.11, null, -0.77, 0.7983],
+          "evidence": "三个量价因子的 IC 均值分别达到-0.09、0.06 和-0.11，风险调整后的IC 分别为-1.04、0.73 和-0.77，多头年化超额收益率分别为 22.60%、23.91%和 33.60%。"
+        },
+        {
+          "name": "因子1",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{Div}(\\text{Log}(\\text{Mul}(\\text{Div}(NET\\_CASH\\_FLOWS\\_OPER\\_ACT,MarketValue),\\text{yoy\\_mean}(\\text{Div}(CASH\\_RECP\\_SG\\_AND\\_RS,CASH\\_PAY\\_GOODS\\_PURCH\\_SERV\\_REC),2))),MarketValue)",
+          "stats": [0.03, null, 0.19, 0.2648],
+          "evidence": "这个因子通过计算企业每元市值产生的经营净现金流，并结合销售现金 往往被市场低估，后续更容易获得估值修复。"
+        },
+        {
+          "name": "因子2",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{yoy\\_chg}(\\text{Div}(Net\\_Profit\\_Excl\\_Min\\_Int\\_Inc,Tot\\_Cur\\_Liab),1)",
+          "stats": [0.02, null, 0.28, 0.1074],
+          "evidence": "该因子衡量企业净利润与流动负债比率相较去年同期的增长率。当公司 盈利增速持续高于短期债务增速时，表明其经营效率提升且财务风险降 低，这种基本面的边际改善往往会被市场延迟定价，形成超额收益空 间。"
+        },
+        {
+          "name": "量价因子合成",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{LLM挖掘量价因子合成}",
+          "stats": [0.13, null, 1.05, 0.7018],
+          "evidence": "量价因子合成后IC均值达到 0.13，多头年化超额收益率 17.40%；基本面因子合成后 IC均值0.02，多头年化超额收益率 8.96%。"
+        },
+        {
+          "name": "基本面因子合成",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{LLM挖掘基本面因子合成}",
+          "stats": [0.02, null, 0.48, 0.1895],
+          "evidence": "量价因子合成后IC均值达到 0.13，多头年化超额收益率 17.40%；基本面因子合成后 IC均值0.02，多头年化超额收益率 8.96%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "构建了一个 7×24 小时自动化运行的具备相关性控制、融合成熟因子启发、配备自适应反馈机制的即插即用模块化LLM因子挖掘框架。",
+      "evidence": "本报告构建了一个 7×24小时自动化运行的具备相关性控制、融合成熟因子启发、配备自适应反馈机制的即插即用模块化LLM 因子挖掘框架。"
+    },
+    {
+      "text": "改进的MMR筛选机制在截面相关性之外引入时序相关性评估，并将Barra风险因子纳入相关性计算体系，从早期挖掘阶段就有效规避系统性风险暴露。",
+      "evidence": "通过改进的MMR筛选机制自适应控制因子间的相关性，不仅关注截面相关性，还引入时序相关性评估，同时将Barra风险因子纳入相关性计算体系，从早期挖掘阶段就有效规避系统性风险暴露。"
+    },
+    {
+      "text": "严格限定因子挖掘仅基于2010年至2019年共10年的历史数据，仅在因子入库阶段对2020年至2025年4月的样本外数据进行验证，有效避免信息泄露。",
+      "evidence": "严格限定因子挖掘仅基于 2010 年至 2019 年共 10 年的历史数据进行分析与筛选，仅在因子入库阶段对 2020 年至 2025 年 4 月的样本外数据进行验证，有效避免信息泄露。"
+    },
+    {
+      "text": "LLM挖掘的三个量价因子IC均值分别达到-0.09、0.06和-0.11，风险调整后的IC分别为-1.04、0.73和-0.77，多头年化超额收益率分别为22.60%、23.91%和33.60%。",
+      "evidence": "三个量价因子的 IC 均值分别达到-0.09、0.06 和-0.11，风险调整后的IC 分别为-1.04、0.73 和-0.77，多头年化超额收益率分别为 22.60%、23.91%和 33.60%。"
+    },
+    {
+      "text": "反思改进案例中原因子借助匹配的idea进行提升，改进后的因子IC均值从-0.63%提升到4.17%，多头年化超额收益率从4.24%提升到10.09%，效果显著。",
+      "evidence": "在反思改进案例中，原因子借助匹配的 idea进行提升，改进后的因子IC均值从-0.63%提升到 4.17%，多头年化超额收益率从 4.24%提升到10.09%，效果显著。"
+    },
+    {
+      "text": "RAG改进案例中借鉴成熟因子的构型，通过引入指标对比结构改进了原有因子，没有像遗传规划那样粗暴替换从而破坏原有因子的可解释性。",
+      "evidence": "在RAG改进案例中，借鉴了成熟因子的构型，通过引入指标对比结构改进了原有因子，没有像遗传规划那样粗暴替换从而破坏原有因子的可解释性，而是融合了启发思想，体现了LLM的先进性。"
+    },
+    {
+      "text": "量价因子合成后IC均值达到0.13，多头年化超额收益率17.40%；基本面因子合成后IC均值0.02，多头年化超额收益率8.96%。",
+      "evidence": "量价因子合成后IC均值达到 0.13，多头年化超额收益率 17.40%；基本面因子合成后 IC均值0.02，多头年化超额收益率 8.96%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Alpha 掘金之十七：即插即用 LLM 因子挖掘：MMR、RAG与自反馈机制》",
+    "《Alpha掘金系列之十五：基于OpenFE 框架的机器学习Level2高频特征挖掘方法》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

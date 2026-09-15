@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "id": "20160628-海通证券-选股因子-012-量与价的结合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "量价相关性",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "corr_{i,t}=\\frac{\\sum_{k=1}^{N}(P_{i,t-k+1}-\\bar{P}_{i})(T_{i,t-k+1}-\\bar{T}_{i})}{\\sqrt{\\sum_{k=1}^{N}(P_{i,t-k+1}-\\bar{P}_{i})^2}\\sqrt{\\sum_{k=1}^{N}(T_{i,t-k+1}-\\bar{T}_{i})^2}}",
+          "stats": [null, null, null, 0.29],
+          "evidence": "量价相关性的具体定义为：过去半个月中，股票复权收盘价与股票日换手率之间的 Pearson 相关系数。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "量价相关性因子多空组合在整个回测区间上年化收益达29%，区间最大回撤为16%，IR值达2.55，持仓期胜率为72%，空头收益约占70%，因子具有较强的空头效应。",
+      "evidence": "多空组合在整个回测区间上年化收益达 29%，区间最大回撤为 16%，IR值达 2.55，持仓期胜率为 72%（多头组合年化收益 29%，空头组合年化收益 1%）。"
+    },
+    {
+      "text": "FF回归表明量价相关性因子在剔除市值、反转、流动性及行业效应后Alpha显著为正，半月维度上Alpha约为1.05%。",
+      "evidence": "回归结果表明量价相关性因子在剔除了市值效应、反转效应、流动性效应以及行业效应后具有显著为正的 Alpha，在半个月的维度上，Alpha 约为1.05%。"
+    },
+    {
+      "text": "量价相关性因子多头收益来源于放量下跌的标的，空头收益来源于放量上涨的标的，放量上涨带来的空头收益更加明显。",
+      "evidence": "所以可以认为量价相关性选股因子多头收益来源于放量下跌的标的，而空头收益来源于放量上涨的标的。此外放量上涨带来的空头收益更加明显。"
+    },
+    {
+      "text": "量价相关性因子与反转因子叠加效果较好，与1个月反转因子叠加后多空组合年化收益达37%，叠加组合多头年化收益达33%。",
+      "evidence": "1 个月反转组合在整个回测区间年化收益为 29%，而叠加组合年化收益达 37%。1个月反转组合多头年化收益为 28%，而叠加组合多头年化收益达 33%。"
+    },
+    {
+      "text": "截面回归剔除市值、反转、换手及行业风险因子后，多空组合年化收益为20%，区间最大回撤为7%，IR值达2.78，持仓期胜率为74%。",
+      "evidence": "多空组合年化收益为 20%，区间最大回撤为 7%，IR 值达 2.78，持仓期胜率为 74%。虽然多空收益相对于剔除风险因子前有所降低，但是组合 IR 值出现了明显上升。"
+    },
+    {
+      "text": "因子多头组合具有一定的大市值暴露，多头组合股票平均市值偏高，空头组合股票平均市值偏低，与市值因子略微负相关。",
+      "evidence": "根据上图可知，因子多头组合具有一定的大市值暴露，多头组合股票（第 1 组）的平均市值偏高，而空头组合股票（第 10 组）平均市值偏低。此外，不同股票分组市值分位数相差较小，多头组为 86，而空头组合为 75。"
+    },
+    {
+      "text": "多空组合分年度表现稳定，但在2009年以及2014年中表现较差，该因子极具特点的分年度表现可以被概括为“熊市强，牛市弱”。",
+      "evidence": "当然需要注意的是多空组合在 2009 年以及 2014 年中表现较差。该因子极具特点的分年度表现可以被概括为“熊市强，牛市弱”。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《常见选股因子在板块间的有效性分析》（2016.06.23）",
+    "《常见选股因子在行业间的有效性分析》（2016.06.23）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

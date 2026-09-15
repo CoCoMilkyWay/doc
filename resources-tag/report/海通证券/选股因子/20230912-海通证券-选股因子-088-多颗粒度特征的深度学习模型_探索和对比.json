@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20230912-海通证券-选股因子-088-多颗粒度特征的深度学习模型_探索和对比",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "双向 AGRU 多颗粒度模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{日度、60分钟、30分钟特征分别通过双向注意力GRU提取序列信息，混合输入或输出集成后经MLP得到对未来收益的预测}",
+          "stats": [null, 0.12, null, null],
+          "evidence": "具体地，双向 AGRU 混合输入和输出集成模型的周均 IC 都超过 0.12，Top10%和Top100 组合的费前多头超额收益分别为 33%和 40%。考虑双边 0.3%的交易成本后，两个组合的多头超额收益依然可以达到 24%和 30%。"
+        },
+        {
+          "name": "多颗粒度残差学习",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{每个模块用双层GRU编码一个颗粒度并输出预测，从第二个模块起对输入取残差只保留该颗粒度特有信息，再集成各模块预测}",
+          "stats": [null, 0.114, 7.49, null],
+          "evidence": "具体地，将多个相同的模块叠加，形成整体网络架构，但每个模块只单独处理一个颗粒度的数据。从第二个模块起，输入的特征都需通过取残差的方式，剔除前一颗粒度已包含的信息，即，只保留该颗粒度特有的信息。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "输出集成方式的多颗粒度模型效果最好，10日标签对应的费前年化超额收益可达31.5%，多颗粒度模型的RankIC和年化多头超额收益相比单颗粒度模型都有提升。",
+      "evidence": "整体而言，输出集成方式的效果最好，10 日标签对应的年化超额收益可达 31.5%。"
+    },
+    {
+      "text": "双向AGRU多颗粒度模型相比传统单向GRU，RankIC、ICIR和多头超额收益全面稳定提升，周均Rank IC超过0.12，Top10%和Top100组合费前多头超额收益分别为33%和40%。",
+      "evidence": "和传统的单向 GRU相比，双向 AGRU 多颗粒度模型的 RankIC、ICIR 和多头超额收益都得到了全面而稳定的提升。具体地，周均 Rank IC超过 0.12，Top10%和 Top100 组合的费前多头超额收益分别为 33%和 40%。"
+    },
+    {
+      "text": "用双向AGRU多颗粒度模型构建周度调仓的中证500和中证1000 AI增强组合，无成分股约束时分别取得15%-20%和25%-30%的年化超额收益。",
+      "evidence": "2017.01-2023.07，无成分股约束时，中证 500 和中证1000AI增强组合分别取得15%-20%和25%-30%的年化超额收益。其中，2023 年的 YTD 超额收益分别为 10%-16%和 15%-18%。"
+    },
+    {
+      "text": "添加80%成分股权重约束后，中证500和中证1000增强组合的超额收益分别下降5%-6%和2%-3%，至10%-15%和23%-27%。",
+      "evidence": "添加 80%成分股权重约束后，两个组合的超额收益分别下降 5%-6%和 2%-3%，至 10%-15%和 23%-27%。"
+    },
+    {
+      "text": "多颗粒度残差学习网络并未展现显著优势，RankIC、ICIR、多头组合超额收益均弱于输出集成模型，或与超参数选择有关。",
+      "evidence": "多颗粒度残差学习网络并未展现出显著的优势，相反，Rank IC、ICIR、多头组合超额收益均弱于输出集成模型。"
+    },
+    {
+      "text": "模型在中证800成分股内表现一般，周均RankIC仅0.08-0.09、多头超额收益约20%，显著低于全市场；中证1000内、中证1800外等选股域RankIC高于0.12、费前多头超额收益超30%。",
+      "evidence": "模型在中证 800 成分股内表现较为一般，周均 Rank IC仅为 0.08-0.09，多头超额收益约 20%，都显著低于全市场的结果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Multi-Granularity Residual Learning with Confidence Estimation for Time Series Prediction",
+    "《选股因子系列研究（七十九）——用注意力机制优化深度学习高频因子》（2022.05.24）",
+    "《选股因子系列研究（八十七）——高频与日度量价数据混合的深度学习因子》（2023.05.13）",
+    "《选股因子系列研究（八十六）——深度学习高频因子的特征工程》（2023.01.24）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

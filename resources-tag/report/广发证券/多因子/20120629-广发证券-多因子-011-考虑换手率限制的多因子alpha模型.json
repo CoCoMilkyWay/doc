@@ -1,0 +1,162 @@
+{
+  "schema_version": 2,
+  "id": "20120629-广发证券-多因子-011-考虑换手率限制的多因子alpha模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "一个月成交金额",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月的月度成交金额}",
+          "stats": [-0.055, null, -1.09, null],
+          "evidence": "“一个月成交金额”具有明显的衰竭效应，滞后期从 1 个月到 24 个月之间，因子 IC_IR（后文默认为绝对值） 由 1.1下降到0.2 左右，其短期效应明显，在 2-3个月之内，因子有效性迅速下降到一半，设定其半衰期为2个月。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月的月度换手率}",
+          "stats": [-0.0613, null, -1.57, null],
+          "evidence": "“换手率”同样具有明显的衰竭效应，IC_IR的半衰期在2个月左右，短期效应明显。"
+        },
+        {
+          "name": "一个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月的股票收益率取负}",
+          "stats": [-0.0467, null, -0.93, null],
+          "evidence": "“一个月股价反转”同样具有明显的衰竭效应，IC_IR 的半衰期在 2个月左右，短期效应明显。"
+        },
+        {
+          "name": "三个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月的股票收益率取负}",
+          "stats": [-0.0385, null, -0.67, null],
+          "evidence": "“三个月股价反转”的短期衰竭效应同样很明显，IC_IR的半衰期在 2个月左右，半年以外，因子IC_IR的变动极不稳定，缺乏明显的趋势性。"
+        },
+        {
+          "name": "六个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月的股票收益率取负}",
+          "stats": [-0.0224, null, -0.37, null],
+          "evidence": "“六个月股价反转”的短期衰竭效应同样很明显，IC_IR的半衰期在 2个月左右，半年以外，因子IC_IR的变动呈现一定的周期性。"
+        },
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{月末流通市值}",
+          "stats": [-0.0316, null, -0.43, null],
+          "evidence": "“流通市值”同样具有明显的衰竭效应，IC_IR的半衰期在3个月左右，短期和长期衰竭效应都比较明显。"
+        },
+        {
+          "name": "每股派息/股价",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{每股派息/股价}",
+          "stats": [0.0264, null, 1.18, null],
+          "evidence": "“每股派息/股价”因子衰竭规律非常显著，IC_IR的半衰期长达9个月左右。"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{市盈率倒数 EP}",
+          "stats": [0.0421, null, 1.37, null],
+          "evidence": "“EP”同样具有明显的衰竭效应，IC_IR的半衰期在3个月左右，短期衰竭效应明显。"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{市销率倒数 SP}",
+          "stats": [0.0297, null, 1.37, null],
+          "evidence": "“SP”同样具有明显的衰竭效应，IC_IR的半衰期在3-4个月左右，短期效应明显。"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{市净率倒数 BP}",
+          "stats": [0.0436, null, 1.27, null],
+          "evidence": "“BP”同样具有明显的衰竭效应，IC_IR的半衰期在3个月左右，短期效应明显。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["smoothing", "decay_monitor"],
+      "setup": {"universe": ["csi800"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "样本外通过对各Alpha因子采取滞后期平滑处理，多因子组合换手率最多可控制在原来的68%左右，即由47%下降为32%，而同时组合的IC_IR仅下降为85%，由2.6下降为2.2。",
+      "evidence": "样本外的实证结果表明，通过对各Alpha因子采取滞后期平滑处理，多因子组合换手率最多可控制在原来的68%左右，即由47%下降为32%，而同时组合的IC_IR仅下降为85%，由2.6下降为2.2。"
+    },
+    {
+      "text": "大部分Alpha因子的有效性随着因子滞后期的加大出现明显衰竭现象，且存在相对稳定的“半衰期”，10个因子的半衰期多在2至3个月，每股派息/股价长达9个月。",
+      "evidence": "统计检验结果表明，大部分Alpha因子的有效性随着因子滞后期的加大，出现了明显衰竭现象，且存在相对稳定的“半衰期”。"
+    },
+    {
+      "text": "换手率在2个月的半衰期内平滑后，因子自相关系数由0.49增加至0.74，换手率迅速下降至原来的70%，而IC_IR的下降相对缓慢，仅下降至85%。",
+      "evidence": "“换手率”在 2 个月的半衰期内，随着因子权重 w0和 w1由(1,0)逐步变为(0.5,0.5)，因子自相关系数由0.49增加至0.74，换手率迅速下降至原来的70%，而IC_IR的下降则相对缓慢，在半衰期内下降至 85%。"
+    },
+    {
+      "text": "随着各类因子之间滞后因子权重的变化，换手率出现快速下降，但组合的IC_IR仅缓慢下降，通过因子平滑的方法能够成功实现对组合换手率的控制。",
+      "evidence": "且随着各类因子之间滞后因子权重的变化，换手率出现了快速的下降，但组合的 IC_IR仅缓慢下降，实证的结果表明，通过因子平滑的方法能够成功实现对组合换手率的控制。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "多因子 Alpha 系列报告之（七）——大浪淘金，Alpha 因子何处寻？史庆盛2011-07-21"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

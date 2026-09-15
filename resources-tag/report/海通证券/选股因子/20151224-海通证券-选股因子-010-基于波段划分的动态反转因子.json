@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20151224-海通证券-选股因子-010-基于波段划分的动态反转因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "动态反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对万得全A指数近一年走势用波段划分算法找到离当前时点最近的波段划分点，计算选股范围内所有股票自该划分点至当前时点的涨跌幅作为因子值}",
+          "stats": [null, null, null, null],
+          "evidence": "2） 计算选股范围内所有股票自波段划分点至当前时点的涨跌幅；"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["heuristic_ranking", "futures_hedge"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "控制月度反转效应与市值效应后，动态反转因子依旧存在明显选股能力。",
+      "evidence": "上述两表结果表明：动态反转因子在剔除了月度反转效应以及市值效应后依旧存在明显选股能力。"
+    },
+    {
+      "text": "动态反转与月度反转前后10%多空组合表现相似，年化收益均为27%，最大回撤均为17%。",
+      "evidence": "月度反转因子多空组合年化收益为 27%，最大回撤为 17%；万得全 A动态反转因子多空组合年化收益为 27%，最大回撤为 17%。"
+    },
+    {
+      "text": "行业中性组合上动态反转稳定优于月度反转：动态反转组合年化收益22%、最大回撤15%，月度反转组合年化收益19%、最大回撤22%。",
+      "evidence": "在整个回测区间上，月度反转组合年化收益为 19%，最大回撤为 22%，而动态反转组合年化收益为 22%，最大回撤为 15%。从收益回撤角度来看，动态反转因子的表现都优于月度反转因子。"
+    },
+    {
+      "text": "波段划分指数的代表性影响动态反转因子表现：基于沪深300指数的动态反转明显跑输月度反转，基于中证500指数的表现相近，基于万得全A指数的有稳定增强。",
+      "evidence": "基于沪深 指数的动态反转因子明显跑输月度反转并未起到明显的增强效果。基于中证 指数的动态反转因子与月度反转因子表现相近，而基于万得全指数的动态反转因子相比于月度反转因子有稳定的增强。"
+    },
+    {
+      "text": "标准差倍数过小时动态反转因子表现不稳定，时间窗口偏短，短窗口上股票呈动量效应而非反转效应。",
+      "evidence": "过低的标准差倍数会使得动态反转因子表现明显劣于月度反转因子，这是因为标准差倍数过小会导致输入波段划分算法的涨跌幅阈值偏小从而引起波段划分算法对于市场涨跌较为敏感，最终导致动态反转因子使用的时间窗口偏短。而在偏短的时间窗口上，股票收益表现出的是收益动量效应而非收益反转效应。"
+    },
+    {
+      "text": "动态反转因子所选时间窗口偏短时明显跑输月度反转因子，时间窗口偏长时可产生明显超额收益。",
+      "evidence": "上述统计结果表明：当动态反转因子所选时间窗口偏短时，会明显跑输月度反转因子。当动态反转因子所选时间窗口偏长时，相对于月度反转因子可产生明显超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Osler, C. and K. Chang (1995). \"Head and Shoulders: Not Just a Flaky Pattern\""],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "20140513-广发证券-另类交易策略-017-深度学习股指期货日内交易策略",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["order_flow", "representation_learning"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      },
+      "factors": [
+        {
+          "name": "深度学习高频股价预测模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{深度神经网络对1秒后涨跌方向输出的分类得分：Score1为上涨得分，Score2为下跌得分；Score1>BuyTrigger触发做多信号，Score2>SellTrigger触发做空信号}",
+          "stats": [null, null, null, null],
+          "evidence": "在预测模型输入的选择上，选择的是短期内的股票价格，以及价格的变化范围，买卖盘价格和委卖委买量等。预测模型的输出是未来短期内的涨跌方向。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["ml_timing"], "setup": {"rebalance": "second"}}
+  },
+  "findings": [
+    {
+      "text": "基于样本内历史数据训练的深度学习模型对1秒钟高频股指期货价格涨跌预测，样本外准确率超过73%。",
+      "evidence": "本报告通过样本内大量历史数据训练深度学习预测模型，对 1 秒钟高频下的股指期货价格涨跌进行预测。该预测模型的样本外的准确率超过73%，表现不俗。"
+    },
+    {
+      "text": "当实际股价上涨时模型有73.9%的机会给出上涨信号，实际下跌时有73.7%的机会给出下跌信号。",
+      "evidence": "当实际股价是上涨时(Y>0)，有73.9%的机会模型会给出价格上涨的信号；当实际股价是下跌时(Y<0)，模型也有 73.7%的机会给出价格下跌的信号。"
+    },
+    {
+      "text": "基于深度学习预测信号的股指期货日内交易策略自2013年以来累积收益率达99.6%，年化收益率为77.6%，最大回撤为-5.86%。",
+      "evidence": "该交易策略自 2013 年以来累积收益率达99.6%，年化收益率为 77.6%，最大回撤为-5.86%。"
+    },
+    {
+      "text": "扣除双边万二交易成本后平均单次交易收益率在0.01%到0.02%之间，受冲击成本影响很大，实际交易中需严格控制冲击成本。",
+      "evidence": "而且可以看到，在扣除双边万二的交易成本之后，平均的单次交易收益率在 0.01%到 0.02%之间，受冲击成本影响很大，在实际交易中需要严格控制冲击成本。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

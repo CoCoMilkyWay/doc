@@ -1,0 +1,208 @@
+{
+  "schema_version": 2,
+  "id": "20200622-海通证券-选股因子-066-寻找逐笔交易中的有效信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大买成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单为大单参与的成交金额占全天成交额比例}",
+          "stats": [0.057, null, 5.012, null],
+          "evidence": "研究发现由大额买单所参与的成交如果在全天成交当中有较高的占比，则说明该股票未来有较大上涨概率。"
+        },
+        {
+          "name": "大卖成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖单为大单参与的成交金额占全天成交额比例}",
+          "stats": [0.005, null, 0.474, null],
+          "evidence": "大买成交金额占比指标较高，某种程度代表拥有较大信息优势的大资金的买入意愿，而大卖成交金额占比则一定程度代表其卖出意愿。"
+        },
+        {
+          "name": "正交大买成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大买成交金额占比与大单成交金额占比正交后的残差}",
+          "stats": [0.061, null, 5.058, null],
+          "evidence": "将大买、大卖成交金额占比因子与大单成交金额占比因子进行正交，剥离掉大单参与这一因素影响，正交后的因子截面选股效果相比正交前有显著增强。"
+        },
+        {
+          "name": "正交大卖成交金额占比",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大卖成交金额占比与大单成交金额占比正交后的残差}",
+          "stats": [-0.002, null, -0.168, null],
+          "evidence": "而大卖成交金额占比因子正交后选股效果会进一步削弱，其因子值与股票月度收益率截面相关性接近于 0。"
+        },
+        {
+          "name": "大单成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单或卖单为大单的所有成交金额占全天成交额比例}",
+          "stats": [0.018, null, 1.445, null],
+          "evidence": "我们以 0 倍标准差为过滤参数，尝试构建大单成交金额占比因子，即买单或者卖单为大单的所有成交金额占全天成交额比例。"
+        },
+        {
+          "name": "剔除大卖的大买成交金额占比",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单由大单参与而卖单由非大单参与的成交金额占当天成交额比例}",
+          "stats": [0.003, null, 0.252, null],
+          "evidence": "剔除大卖的大买成交金额占比：买单由大单参与而卖单由非大单参与的成交金额占当天成交额比例。"
+        },
+        {
+          "name": "剔除大买的大卖成交金额占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖单由大单参与而买单由非大单参与的成交金额占当天成交额比例}",
+          "stats": [-0.062, null, -5.28, null],
+          "evidence": "剔除大买的大卖成交金额占比：卖单由大单参与而买单由非大单参与的成交金额占当天成交额比例。"
+        },
+        {
+          "name": "大买、大卖成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单与卖单均为大单所参与的成交金额占当天成交额比例}",
+          "stats": [0.045, null, 3.879, null],
+          "evidence": "大买、大卖成交金额占比：买单与买单均为大单所参与的成交金额占当天成交额比例。"
+        },
+        {
+          "name": "平均单笔流出金额占比（原始K线）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t=1}^{N}Amt_{t}\\cdot I_{r_{t}<0}}{\\sqrt{\\sum_{t=1}^{N}TrdNum_{t}}\\cdot I_{r_{t}<0}}",
+          "stats": [-0.02, null, -2.381, null],
+          "evidence": "该因子希望可以刻画下跌时段的多空强度相对于全天所有时段的比例情况。"
+        },
+        {
+          "name": "大单资金净流入率（原始K线）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\left(\\sum_{i=1}^{N}Amt_{i}\\cdot I_{\\{r_{i}>0\\}}-\\sum_{i=1}^{N}Amt_{i}\\cdot I_{\\{r_{i}<0\\}}\\right)/\\sum_{i=1}^{N}Amt_{i}",
+          "stats": [0.023, null, 3.08, null],
+          "evidence": "利用上述重构的思想，我们选取上文中因子表现效果较好的 0倍标准差参数，分别保留大买和大卖订单参与成交，剔除大买的大卖订单参与成交，大买订单参与成交以及大买或大卖订单参与成交四种成交过滤模式，最后构建四组重构的 K线进行基于 K线的因子构建。"
+        },
+        {
+          "name": "大单推动涨幅（原始K线）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "prod(1+r_i\\cdot I_{\\{i\\in IdxSet\\}})",
+          "stats": [-0.03, null, -3.377, null],
+          "evidence": "在这里我们进一步定义了大单 K线的概念，即 $I_{\\{J\\epsilon IdxSet\\}}$ 表示该 K线是否为全天所有K线当中，平均每笔成交额最大的前 10%的 K线。"
+        },
+        {
+          "name": "平均单笔流出金额占比（重构K线）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t=1}^{N}Amt_{t}\\cdot I_{r_{t}<0}}{\\sqrt{\\sum_{t=1}^{N}TrdNum_{t}}\\cdot I_{r_{t}<0}}",
+          "stats": [-0.022, null, -2.765, null],
+          "evidence": "对应以大买或大卖订单参与方式对于分钟 K线进行重构，重构后 K线所计算的平均单笔流出金额占比，大单资金净流入率与大单推动涨幅三个因子，其因子表现相较于利用原始 K线计算的这三个高频因子更佳。"
+        },
+        {
+          "name": "大单资金净流入率（重构K线）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\left(\\sum_{i=1}^{N}Amt_{i}\\cdot I_{\\{r_{i}>0\\}}-\\sum_{i=1}^{N}Amt_{i}\\cdot I_{\\{r_{i}<0\\}}\\right)/\\sum_{i=1}^{N}Amt_{i}",
+          "stats": [0.027, null, 3.98, null],
+          "evidence": "对应以大买或大卖订单参与方式对于分钟 K线进行重构，重构后 K线所计算的平均单笔流出金额占比，大单资金净流入率与大单推动涨幅三个因子，其因子表现相较于利用原始 K线计算的这三个高频因子更佳。"
+        },
+        {
+          "name": "大单推动涨幅（重构K线）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "prod(1+r_i\\cdot I_{\\{i\\in IdxSet\\}})",
+          "stats": [-0.035, null, -3.852, null],
+          "evidence": "对应以大买或大卖订单参与方式对于分钟 K线进行重构，重构后 K线所计算的平均单笔流出金额占比，大单资金净流入率与大单推动涨幅三个因子，其因子表现相较于利用原始 K线计算的这三个高频因子更佳。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "行业中性处理并与9个风格因子正交后，大买成交金额占比依然有很好的截面收益预测效果，而大卖成交金额占比表现则非常不显著。",
+      "evidence": "在进行行业中性处理，并与常用的市值、非线性市值、估值、换手、波动、反转、非流动性、盈利、盈利增速 9个风格因子（以下简称 9因子）正交后，大买成交金额占比依然有很好的截面收益预测效果，而大卖成交金额占比表现则非常不显著。"
+    },
+    {
+      "text": "有大资金方买入的股票未来一个月内有相对市场的正向超额收益；大资金卖出的股票只有当对手方不是大资金时才会大概率有负向超额收益。",
+      "evidence": "这说明无论其对手方是否为大资金，有大资金方买入的股票在未来一个月内会有相对于市场的正向超额收益。而对应大资金卖出的股票，只有当对手方不是大资金时，该股票在未来一个月内才会大概率有相对于市场的负向超额收益。"
+    },
+    {
+      "text": "只有保留大买或大卖订单参与这种过滤方式重构K线所构建的三个因子有明显效果提升，其余过滤方式构建因子的截面选股效果均有所减弱。",
+      "evidence": "由上表可见，相比较用原始 K 线所构建的因子，只有利用保留了大买或大卖订单参与这种过滤方式重构 K线所构建的三个因子有明显的效果提升，剩下过滤方式构建因子截面选股效果均有所减弱。"
+    },
+    {
+      "text": "500增强组合叠加剔除大买的大卖成交金额占比因子表现最为强势，自2016年开始均稳健战胜指数并强于原始9因子组合。",
+      "evidence": "对于 500 增强组合而言，叠加剔除大买的大卖成交金额占比因子所构建的组合表现最为强势，无论是区间收益率，还是月均超额、月均胜率角下度，自 2016 年开始均可以稳健战胜指数，同时也稳定的强于原始的 9因子组合。"
+    },
+    {
+      "text": "重构K线因子与大单因子有更高相关性，正交剥离大单影响后重构因子表现相对下降，说明重构K线相对原始K线的信息增益来自于大单特性。",
+      "evidence": "重构 K线因子与大单因子有更高的相关性，正交后将大单影响剥离，重构因子表现相对下降，也侧面说明重构K线相对原始 K线信息增益来自于大单特性。"
+    },
+    {
+      "text": "大单因子对月中区间收益的预测能力随时间推移而下降，10个交易日之后预测能力下降显著。",
+      "evidence": "因子值对于区间收益的预测能力随时间推移而下降，对于 10 个交易日之后的区间收益，预测能力下降显著。"
+    },
+    {
+      "text": "大单因子在沪深300中的表现相比中证500大幅削弱，仅从多头端表现来说，大单因子对组合在300当中的贡献没有500中明显。",
+      "evidence": "相比较 500 增强，大单因子在沪深 300 当中的表现，无论从超额收益，月均超额均值与月胜率等维度上看，都有很大程度削弱，尤其与 9因子组合相比提升更加不明显。仅从多头端表现来说，大单因子对于组合在 300 当中的贡献没有 500 中明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《选股因子系列研究（五十六）——买卖单数据中的Alpha》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

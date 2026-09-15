@@ -1,0 +1,116 @@
+{
+  "schema_version": 2,
+  "id": "20190222-海通证券-选股因子-045-质量因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE}=\\frac{\\text{滚动12个月每股收益}}{\\text{最新每股净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利能力是学术文献讨论最多的属性，且上一节展示的几个指数供应商在构建质量因子时都考虑了该属性。历史盈利高的公司，股票未来收益表现好的可能性越大。"
+        },
+        {
+          "name": "预期外 ROE",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{预期外ROE}=\\frac{\\Delta ROE_t}{\\text{std}(\\Delta ROE)}",
+          "stats": [null, null, null, null],
+          "evidence": "截面溢价统计结果显示，盈利增长指标具有显著选股效果。在 3 种构建方式下，预期外指标的选股效果最优，其次为指标变化，变化率指标效果相对较弱。"
+        },
+        {
+          "name": "股东权益变化率",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{B_t-B_{t-1}}{B_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "结果显示，从单因子分组收益来看，净资产增长速度越快，股票收益越低，但统计不显著。从截面溢价来看，若剔除了风格、ROE和盈利增长的影响，投资与股票收益呈现显著负相关关系。"
+        },
+        {
+          "name": "股票净发行因子",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{NS}=\\ln\\left(\\frac{\\text{当月总股本}}{\\text{前一月总股本}}\\right)\\text{，剔除送股、转增引起的股本变动}",
+          "stats": [null, null, null, null],
+          "evidence": "我们将股本变动中由送股、转增引起的股本变动剔除，计算当月总股本相对于前一个月总股本的对数变化作为股票净发行因子（NS）。"
+        },
+        {
+          "name": "dDebt/Asset",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{dDebt/Asset}_t=\\frac{D_t}{A_t}-\\frac{D_{t-1}}{A_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "结果显示，资产负债率增加幅度越大，股票收益表现越好。月均多空收益差为 0.53%，月胜率 74%，统计显著。从截面回归来看，无论是月频还是季频回归，因子溢价均显著为正，与分组结论保持一致。"
+        },
+        {
+          "name": "ROE 波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE 波动率}=\\text{std}\\left(\\text{ROE同比变化}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "盈利稳定性通常用指标波动率表示，波动率越高，代表盈利稳定性越差。截面回归结果显示，盈利指标波动率与股票收益呈现负相关关系，即盈利稳定性越高，股票收益表现越好，这也从另一方面解释了为什么预期外盈利增长指标选股效果优于盈利变化指标。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "盈利能力、增长、资产负债率变化存在显著为正的截面溢价，股份净发行存在显著为负的截面溢价；而盈利稳定性、投资则不存在明显选股效果。",
+      "evidence": "本文主要对除会计质量以外的 6 种质量因子属性，在 A股市场的单因子选股效果进行实证研究。结果显示，盈利能力、增长、资产负债率变化存在显著为正的截面溢价，股份净发行存在显著为负的截面溢价；而盈利稳定性、投资则不存在明显选股效果。"
+    },
+    {
+      "text": "投资因子在大盘和小盘中对股票未来收益的影响方向截然相反：小盘中与股票收益正相关，中大盘中负相关，因此全 A范围内选股效果相对较弱。",
+      "evidence": "对于投资因子而言，该因子在大盘和小盘中对股票未来收益的影响方向截然相反。在小盘中，投资因子与股票收益正相关；而在中大盘中，投资因子与股票收益负相关；因此在全 A范围内，投资因子的选股效果相对较弱。"
+    },
+    {
+      "text": "股份净发行越多，股票下月收益表现越差，但持有期较长时收益衰减：在季度调仓频率下，该因子溢价不再显著。",
+      "evidence": "对于股份发行因子而言，股份净发行越多，股票下月收益表现越差。但该因子在持有期较长时，会出现收益衰减：在季度调仓频率下，该因子溢价不再显著。"
+    },
+    {
+      "text": "资产负债率本身不存在选股效果，但负债率变化与股票收益显著正相关，且未来一期盈利能力越高，负债率变化因子的选股效果越好。",
+      "evidence": "总结来看，在 A股中资产负债率指标本身并不存在选股效果；但负债率变化因子与未来股票收益存在显著正相关关系。这一现象与股票未来盈利密切相关，对于未来盈利高的公司而言，加杠杆给股东带来的收益更高，负债率变化因子的选股效果也更优。"
+    },
+    {
+      "text": "增长属性的 3 种构建方式中，预期外指标的选股效果最优，其次为指标变化，变化率指标效果相对较弱。",
+      "evidence": "在 3 种构建方式下，预期外指标的选股效果最优，其次为指标变化，变化率指标效果相对较弱。"
+    },
+    {
+      "text": "采用一季度数据计算的盈利能力指标选股效果明显优于上年年报数据：每年 5-8月 ROE（上年年报）溢价均值-0.17%，几乎不存在选股效果，而 ROE（一季度）溢价均值 1.11%，统计显著。",
+      "evidence": "实际上，若对比 ROE（上年年报）和 ROE（一季度）在每年 5-8月份的溢价（图 2）可发现，ROE（上年年报）几乎不存在选股效果，截面溢价均值为-0.17%；而 ROE（一季度）溢价均值为 1.11%，统计显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama, E. F. and K. R. French. (2008). \"Dissecting Anomalies.\" Journal of Finance.",
+    "Fama, E. F. and K. R. French. (2015). \"A five-factor asset pricing model.\" Journal of Financial Economics."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

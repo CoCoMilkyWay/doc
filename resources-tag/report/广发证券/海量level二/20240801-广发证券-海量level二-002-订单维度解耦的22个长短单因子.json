@@ -1,0 +1,232 @@
+{
+  "schema_version": 2,
+  "id": "20240801-广发证券-海量level二-002-订单维度解耦的22个长短单因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "LongBuy_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongBuy_{1p0}=\\frac{\\sum_{i}Vol_i\\cdot\\mathbb{1}(T_i>\\bar{T}+1.0\\sigma_T)}{\\sum_{i}Vol_i}",
+          "stats": [null, 0.061, null, 0.3928],
+          "evidence": "本文分别采用3个不同的标准差阈值来对长短单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中成交完成时长大于均值+1.0倍标准差的长单约占15.8%，大于均值+1.5倍标准差的长单约占6.7%，大于均值+2.0倍标准差的长单约占2.3%，以此构建出了长买单占比因子LongBuy_1p0、LongBuy_1p5、LongBuy_2p0，以及长卖单占比因子LongSell_1p0、LongSell_1p5、LongSell_2p0。"
+        },
+        {
+          "name": "LongBuy_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongBuy_{1p5}=\\frac{\\sum_{i}Vol_i\\cdot\\mathbb{1}(T_i>\\bar{T}+1.5\\sigma_T)}{\\sum_{i}Vol_i}",
+          "stats": [null, 0.057, null, 0.3576],
+          "evidence": "本文分别采用3个不同的标准差阈值来对长短单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中成交完成时长大于均值+1.0倍标准差的长单约占15.8%，大于均值+1.5倍标准差的长单约占6.7%，大于均值+2.0倍标准差的长单约占2.3%，以此构建出了长买单占比因子LongBuy_1p0、LongBuy_1p5、LongBuy_2p0，以及长卖单占比因子LongSell_1p0、LongSell_1p5、LongSell_2p0。"
+        },
+        {
+          "name": "LongBuy_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongBuy_{2p0}=\\frac{\\sum_{i}Vol_i\\cdot\\mathbb{1}(T_i>\\bar{T}+2.0\\sigma_T)}{\\sum_{i}Vol_i}",
+          "stats": [null, 0.055, null, 0.3181],
+          "evidence": "本文分别采用3个不同的标准差阈值来对长短单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中成交完成时长大于均值+1.0倍标准差的长单约占15.8%，大于均值+1.5倍标准差的长单约占6.7%，大于均值+2.0倍标准差的长单约占2.3%，以此构建出了长买单占比因子LongBuy_1p0、LongBuy_1p5、LongBuy_2p0，以及长卖单占比因子LongSell_1p0、LongSell_1p5、LongSell_2p0。"
+        },
+        {
+          "name": "LongSell_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongSell_{1p0}=\\frac{\\sum_{i}Vol_i\\cdot\\mathbb{1}(T_i>\\bar{T}+1.0\\sigma_T)}{\\sum_{i}Vol_i}",
+          "stats": [null, 0.059, null, 0.3265],
+          "evidence": "本文分别采用3个不同的标准差阈值来对长短单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中成交完成时长大于均值+1.0倍标准差的长单约占15.8%，大于均值+1.5倍标准差的长单约占6.7%，大于均值+2.0倍标准差的长单约占2.3%，以此构建出了长买单占比因子LongBuy_1p0、LongBuy_1p5、LongBuy_2p0，以及长卖单占比因子LongSell_1p0、LongSell_1p5、LongSell_2p0。"
+        },
+        {
+          "name": "LongSell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongSell_{1p5}=\\frac{\\sum_{i}Vol_i\\cdot\\mathbb{1}(T_i>\\bar{T}+1.5\\sigma_T)}{\\sum_{i}Vol_i}",
+          "stats": [null, 0.055, null, 0.3023],
+          "evidence": "本文分别采用3个不同的标准差阈值来对长短单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中成交完成时长大于均值+1.0倍标准差的长单约占15.8%，大于均值+1.5倍标准差的长单约占6.7%，大于均值+2.0倍标准差的长单约占2.3%，以此构建出了长买单占比因子LongBuy_1p0、LongBuy_1p5、LongBuy_2p0，以及长卖单占比因子LongSell_1p0、LongSell_1p5、LongSell_2p0。"
+        },
+        {
+          "name": "LongSell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongSell_{2p0}=\\frac{\\sum_{i}Vol_i\\cdot\\mathbb{1}(T_i>\\bar{T}+2.0\\sigma_T)}{\\sum_{i}Vol_i}",
+          "stats": [null, 0.052, null, 0.2823],
+          "evidence": "本文分别采用3个不同的标准差阈值来对长短单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中成交完成时长大于均值+1.0倍标准差的长单约占15.8%，大于均值+1.5倍标准差的长单约占6.7%，大于均值+2.0倍标准差的长单约占2.3%，以此构建出了长买单占比因子LongBuy_1p0、LongBuy_1p5、LongBuy_2p0，以及长卖单占比因子LongSell_1p0、LongSell_1p5、LongSell_2p0。"
+        },
+        {
+          "name": "LongBuySell_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongBuySell_{1p0}=LongBuy_{1p0}+LongSell_{1p0}",
+          "stats": [null, 0.074, null, 0.5476],
+          "evidence": "此外，还可以将长买单占比因子和长卖单占比因子相加得到长买长卖单占比因子LongBuySell_1p0、LongBuySell_1p5、LongBuySell_2p0。"
+        },
+        {
+          "name": "LongBuySell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongBuySell_{1p5}=LongBuy_{1p5}+LongSell_{1p5}",
+          "stats": [null, 0.071, null, 0.4777],
+          "evidence": "此外，还可以将长买单占比因子和长卖单占比因子相加得到长买长卖单占比因子LongBuySell_1p0、LongBuySell_1p5、LongBuySell_2p0。"
+        },
+        {
+          "name": "LongBuySell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "LongBuySell_{2p0}=LongBuy_{2p0}+LongSell_{2p0}",
+          "stats": [null, 0.068, null, 0.4618],
+          "evidence": "此外，还可以将长买单占比因子和长卖单占比因子相加得到长买长卖单占比因子LongBuySell_1p0、LongBuySell_1p5、LongBuySell_2p0。"
+        },
+        {
+          "name": "LongBuy_LongSell_1p0",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{同时满足长买单与长卖单属性的成交量占比（长短单界定阈值为均值+1.0倍标准差）}",
+          "stats": [null, -0.01, null, -0.076],
+          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+        },
+        {
+          "name": "LongBuy_ShortSell_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{长买单短卖单属性的成交量占比（长短单界定阈值为均值+1.0倍标准差）}",
+          "stats": [null, 0.06, null, 0.3927],
+          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+        },
+        {
+          "name": "ShortBuy_LongSell_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{短买单长卖单属性的成交量占比（长短单界定阈值为均值+1.0倍标准差）}",
+          "stats": [null, 0.058, null, 0.3275],
+          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+        },
+        {
+          "name": "ShortBuy_ShortSell_1p0",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{短买单短卖单属性的成交量占比（长短单界定阈值为均值+1.0倍标准差）}",
+          "stats": [null, -0.074, null, 0.5485],
+          "evidence": "其中ShortBuy_ShortSell_1p0因子的RankIC均值绝对值最高，为-7.4%，胜率为28%。"
+        },
+        {
+          "name": "LongBuy_LongSell_2p0",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{同时满足长买单与长卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
+          "stats": [null, -0.013, null, -0.0633],
+          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+        },
+        {
+          "name": "LongBuy_ShortSell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{长买单短卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
+          "stats": [null, 0.057, null, 0.3555],
+          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+        },
+        {
+          "name": "ShortBuy_LongSell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{短买单长卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
+          "stats": [null, 0.055, null, 0.2974],
+          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+        },
+        {
+          "name": "ShortBuy_ShortSell_2p0",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{短买单短卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
+          "stats": [null, -0.071, null, 0.4812],
+          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500", "csi800", "csi1000", "growth"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于逐笔成交订单中不同买入或卖出订单号的实际成交完成时间统计成交量占比，将成交完成时长大于均值+N倍标准差的订单界定为长单，剩余界定为短单，构建长短单占比因子并结合订单维度解耦构建出22个长短单因子。",
+      "evidence": "基于此观察，本文分别对逐笔成交订单中不同买入或卖出订单号的实际成交完成时间进行统计，并对成交完成时长大于均值+N倍标准差的订单界定为长单，剩余的则相应地界定为短单。"
+    },
+    {
+      "text": "2021~2023年全市场板块，精选因子RankIC均值达13.2%、胜率达80.5%，Top-150组合平均年化收益率21.41%、最大回撤率18.70%、夏普比率1.31，同期中证全指-8.50%，取得显著超额收益。",
+      "evidence": "2021~2023 年间，精选因子 RankIC 均值达 13.2%、胜率达 80.5%，Top-150组合的平均年化收益率为 21.41%、最大回撤率为18.70%、夏普比率为1.31，同期中证全指平均年化收益率为-8.50%。"
+    },
+    {
+      "text": "2021~2023年创业板板块，因子RankIC均值达13.2%、胜率达80.3%，Top-150组合平均年化收益率21.52%、最大回撤率29.49%、夏普比率1.07，同期创业板综指-7.46%。",
+      "evidence": "创业板板块回测：2021~2023年间，因子RankIC均值达13.2%、胜率达80.3%，Top-150组合的平均年化收益率为21.52%、最大回撤率为29.49%、夏普比率为1.07，同期创业板综指平均年化收益率为-7.46%。"
+    },
+    {
+      "text": "2021~2023年沪深300板块，因子RankIC均值为10.2%、胜率为65.9%，Top-50组合平均年化收益率6.61%、最大回撤率14.87%、夏普比率0.35，同期沪深300指数-13.79%，取得显著超额收益。",
+      "evidence": "沪深300板块回测：2021~2023年间，因子RankIC均值为10.2%、胜率为65.9%，Top-50组合的平均年化收益率为6.61%、最大回撤率为14.87%、夏普比率为0.35，而同期沪深300指数平均年化收益率为-13.79%，精选长短单因子组合取得了较为显著的超额收益。"
+    },
+    {
+      "text": "平滑处理后20日换仓下LongBuySell_1p0因子RankIC均值达11.7%、胜率72%，多头年化收益率21.78%，多空年化收益率38.26%、最大回撤率12.98%、夏普比率1.76。",
+      "evidence": "其中表现较好的LongBuySell_1p0因子的RankIC均值达11.7%，胜率为72%，多头年化收益率为21.78%、最大回撤率为6.84%、夏普比率为1.49，多空年化收益率为38.26%、最大回撤率为12.98%、夏普比率为1.76。"
+    },
+    {
+      "text": "平滑处理后20日换仓下ShortBuy_ShortSell_1p0因子RankIC均值绝对值达-11.7%、胜率28%，多头年化收益率21.65%，多空组合年化收益率38.10%、最大回撤率13.23%、夏普比率1.74。",
+      "evidence": "其中ShortBuy_ShortSell_1p0因子的RankIC均值绝对值最高，达-11.7%，胜率为28%，多头组合的年化收益率为21.65%、最大回撤率为6.79%，夏普比率为1.49，多空组合年化收益率为38.10%，最大回撤率为13.23%，夏普比率为1.74。"
+    },
+    {
+      "text": "因子平滑处理后，各因子的RankIC均值和多头最大回撤率指标均有提升，但RankIC胜率和多头年化收益率略有衰减。",
+      "evidence": "在经过因子平滑处理的5日换仓情况下（表3），各因子的RankIC均值和多头最大回撤率指标均有提升，但RankIC胜率和多头年化收益率略有衰减。"
+    }
+  ],
+  "builds_on": ["20240715-广发证券-海量level二-001-多维度解耦的94个大小单因子"],
+  "external_ref": ["Wind", "通联数据"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,275 @@
+{
+  "schema_version": 2,
+  "id": "20180614-国泰君安-数量化专题-108-投资科技创新股_基本面成长因子再挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["all", "sector"],
+        "data": {"source": ["market_daily", "statement", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "研发支出/营业收入",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{研发支出}}{\\text{营业收入}}",
+          "stats": [0.0152, null, null, null],
+          "evidence": "研发支持：考量企业研发投入水平以及对研发的支持力度。①研发，主要考量研发投入、专利产出、研发人数、技术人数、硕士博士人数等；②支持，主要考量科研补助、技术人员激励、合作成立实验室等。"
+        },
+        {
+          "name": "研发费用/营业收入",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{研发费用}}{\\text{营业收入}}",
+          "stats": [0.0104, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "R&D人员占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{R\\&D人员数}}{\\text{员工总数}}",
+          "stats": [0.0041, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "当年申请专利数(合计)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年该公司申请专利总数}",
+          "stats": [0.0108, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "当年申请专利数(发明)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年该公司申请发明专利总数}",
+          "stats": [0.0103, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "累计有效专利数(合计)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{截至当期累计有效专利总数}",
+          "stats": [0.01, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "累计有效专利数(发明)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{截至当期累计有效发明专利总数}",
+          "stats": [0.0099, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "政府补助（用于科研）/营业收入",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{政府补助（用于科研）}}{\\text{营业收入}}",
+          "stats": [0.0157, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "技术人员占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{技术人员数}}{\\text{员工总数}}",
+          "stats": [0.0095, null, null, null],
+          "evidence": "研发支持：考量企业研发投入水平以及对研发的支持力度。①研发，主要考量研发投入、专利产出、研发人数、技术人数、硕士博士人数等；②支持，主要考量科研补助、技术人员激励、合作成立实验室等。"
+        },
+        {
+          "name": "硕士占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{硕士学历员工数}}{\\text{员工总数}}",
+          "stats": [0.0115, null, null, null],
+          "evidence": "研发支持：考量企业研发投入水平以及对研发的支持力度。①研发，主要考量研发投入、专利产出、研发人数、技术人数、硕士博士人数等；②支持，主要考量科研补助、技术人员激励、合作成立实验室等。"
+        },
+        {
+          "name": "博士占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{博士学历员工数}}{\\text{员工总数}}",
+          "stats": [0.008, null, null, null],
+          "evidence": "研发支持：考量企业研发投入水平以及对研发的支持力度。①研发，主要考量研发投入、专利产出、研发人数、技术人数、硕士博士人数等；②支持，主要考量科研补助、技术人员激励、合作成立实验室等。"
+        },
+        {
+          "name": "技术人员激励权益/总股本",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{技术人员激励权益市值}}{\\text{总股本市值}}",
+          "stats": [0.0094, null, null, null],
+          "evidence": "研发支持类指标主要包括研发支出、专利产出等研发类指标，以及政府补助、技术人员激励等支持类指标。"
+        },
+        {
+          "name": "(净利润+研发支出)/总市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{净利润}+\\text{研发支出}}{\\text{总市值}}",
+          "stats": [0.0043, null, null, null],
+          "evidence": "由于科创行业业绩的不确定性，传统的估值指标可能不适用于这类行业，但通过研发支出调整后的估值指标可以反映科创行业的价值；"
+        },
+        {
+          "name": "研发支出/总市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{研发支出}}{\\text{总市值}}",
+          "stats": [0.0099, null, null, null],
+          "evidence": "由于科创行业业绩的不确定性，传统的估值指标可能不适用于这类行业，但通过研发支出调整后的估值指标可以反映科创行业的价值；"
+        },
+        {
+          "name": "毛利润/总资产",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{毛利润}}{\\text{总资产}}",
+          "stats": [0.0069, null, null, null],
+          "evidence": "从逻辑上看，科创行业技术壁垒较高，具有一定的成本优势，表现为较高的毛利率；此外，由于科创行业在当下看来，还尚属成长行业，其行业营销渠道还没有被充分建立，缺少营销壁垒，表现为较少的营业收入，从而需要较高的销售费用以扩大市场规模，如若毛利率与销售费用率均较低，说明其技术壁垒不高，营销投入不大，成长存在一定风险。"
+        },
+        {
+          "name": "毛利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{毛利润}}{\\text{营业收入}}",
+          "stats": [0.0066, null, null, null],
+          "evidence": "从逻辑上看，科创行业技术壁垒较高，具有一定的成本优势，表现为较高的毛利率；此外，由于科创行业在当下看来，还尚属成长行业，其行业营销渠道还没有被充分建立，缺少营销壁垒，表现为较少的营业收入，从而需要较高的销售费用以扩大市场规模，如若毛利率与销售费用率均较低，说明其技术壁垒不高，营销投入不大，成长存在一定风险。"
+        },
+        {
+          "name": "销售费用率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{销售费用}}{\\text{营业收入}}",
+          "stats": [0.0147, null, null, null],
+          "evidence": "从逻辑上看，科创行业技术壁垒较高，具有一定的成本优势，表现为较高的毛利率；此外，由于科创行业在当下看来，还尚属成长行业，其行业营销渠道还没有被充分建立，缺少营销壁垒，表现为较少的营业收入，从而需要较高的销售费用以扩大市场规模，如若毛利率与销售费用率均较低，说明其技术壁垒不高，营销投入不大，成长存在一定风险。"
+        },
+        {
+          "name": "扣非净利润/净利润",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{扣除非经常性损益后净利润}}{\\text{净利润}}",
+          "stats": [0.0035, null, null, null],
+          "evidence": "此外，由于科创行业产出的周期偏长，我们可以不过分要求利润，但经营净现金流必不可少，如果长期过低的经营现金流，将为可持续成长带来较高的风险。"
+        },
+        {
+          "name": "经营性净现金流/总资产",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{\\text{经营性净现金流}}{\\text{总资产}}",
+          "stats": [0.0061, null, null, null],
+          "evidence": "此外，由于科创行业产出的周期偏长，我们可以不过分要求利润，但经营净现金流必不可少，如果长期过低的经营现金流，将为可持续成长带来较高的风险。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": [
+        "neutralization",
+        "smoothing",
+        "return_test",
+        "regression_test",
+        "robustness",
+        "decay_monitor"
+      ],
+      "setup": {"universe": ["all", "sector"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "quarterly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "分域测试显示，大多数研发支持及安全边际类因子在成长行业域均能够提升选股效果，两类因子在科创行业域中IC更高且更显著。",
+      "evidence": "综上，通过比较全域显著性检验与分域测试的结果，我们可以发现大多数研发支持及安全边际类因子在成长行业域均能够提升选股效果。"
+    },
+    {
+      "text": "研发支出、研发费用、申请专利数等基本面成长因子累计因子收益平稳上升，而EPS同比增长率累计因子收益衰减较迅速。",
+      "evidence": "从统计上看，研发支出、研发费用、申请专利数的累计因子收益平稳上升，而 EPS同比增长率累计因子收益衰减较迅速。"
+    },
+    {
+      "text": "对长期因子在时间序列上做多周期合成，多周期因子相较于单期因子可提升0.003左右的IC，且显著性也有较高提升。",
+      "evidence": "对此，可考虑对因子进行时间序列上多周期的合成，多周期因子相较于单期因子可提升0.003左右，且显著性也有较高提升。"
+    },
+    {
+      "text": "量化筛选科创成长行业长期有效，筛选出的行业收益较为可观，累计相对收益为54%。",
+      "evidence": "所以长期来看，通过量化筛选科创成长行业的方法效果较好，筛选出的行业收益较为可观，累计相对收益为 54%（量化科创成长-量化非科创成长）。"
+    },
+    {
+      "text": "各科创行业域合成因子经z-score标准化等权合成后，IC较单因子均有提升，各域合成因子IC约0.03-0.054。",
+      "evidence": "对于上述6个域中各自的有效因子，我们分别对它们做z-score标准化处理，然后等权合成，最后分别检验上述6个域中各自的合成因子的显著性，合成因子 IC较单因子均有提升。"
+    },
+    {
+      "text": "医药+TMT板块域增强策略年化超额收益11.01%，信息比率1.15，年化双边换手率63%，每年均能跑赢基准。",
+      "evidence": "医药+TMT板块域增强策略年化收益 21.33%，年化超额收益 11.01%，年化双边换手率为 63%，增强效果稳定。分年度来看，每年均能跑赢基准指数，除了 2015 年股灾时出现较大回撤以外，其余年份最大回撤均不超过9%，策略稳定性较好，信息比率为1.15。"
+    },
+    {
+      "text": "医药+TMT板块域、医药、电子、计算机行业增强策略均带来显著且历年稳定的增强效果，选股贡献显著正向收益；通信、传媒行业策略效果一般。",
+      "evidence": "经过上述回溯检验，我们发现对于“医药+TMT”板块域、医药行业、电子行业、计算机行业构建的行业增强策略，在组合年换手率较低的情况下，均带来了显著的增强效果，且增强效果历年稳定，对组合进行业绩归因分析，发现选股贡献了显著的正向收益；而对于通信行业与传媒行业，策略效果则较为一般，有待进行进一步地研究检验。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["菲利普·费雪成长股价值投资理论"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

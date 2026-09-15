@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20141210-海通证券-选股因子-009-上市公司薪酬那点事",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["statement_detail"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "应付薪酬增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "GR_{t}^{T}=\\frac{Topay_{i,t}}{Topay_{i,t-1}}-1,\\quad Topay_{i,t}=\\sum_{j=0}^{3}topay_{t-j}",
+          "stats": [null, null, null, null],
+          "evidence": "结果显示，无论是全市场还是剔除小市值股票后的样本空间，应付薪酬增速具有显著的多空股票区分能力；而已付薪酬增速的选股能力并不显著。"
+        },
+        {
+          "name": "已付薪酬增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "GR_{t}^{P}=\\frac{Paid_{i,t}}{Paid_{i,t-1}}-1,\\quad Paid_{i,t}=\\sum_{j=0}^{3}paid_{t-j}",
+          "stats": [null, null, null, null],
+          "evidence": "其一，“支付给职工以及为职工支付的现金”项目，反映了公司本年度已经为职工支付的现金流量。因此，当季“已付职工薪酬”等于本期财报的数据与上季度之差。"
+        },
+        {
+          "name": "人均薪酬增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{将薪酬规模替换为人均薪酬后的连续两期变化率}",
+          "stats": [null, null, null, null],
+          "evidence": "同时，薪酬规模增速与人均薪酬增速指标的选股效果并无显著差距。这是由于，一般上市公司的员工人数仅在年报中披露；分母的固定，使得一个滚动财务年度中，有 3期薪酬规模增速与人均薪酬增速相同。"
+        },
+        {
+          "name": "薪酬连续增长期数",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "N_{t}=max\\{n\\mid GR_{t+1-j}>0,\\ \\forall 1\\leq j\\leq n\\};\\quad else\\ N_{t}=0",
+          "stats": [null, null, null, null],
+          "evidence": "回测显示，各薪酬指标下，组合收益随连续增长期数增加而上升。但从显著性与稳定性角度看，连续增长期数指标的选股效果并不显著、稳健，这与标的数量的锐减有较大关系。"
+        },
+        {
+          "name": "人均应付薪酬增长期数指标",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{将薪酬规模替换为人均薪酬后，过去薪酬增速为正的最大连续期数}",
+          "stats": [null, null, null, null],
+          "evidence": "在表 5 中多空区别最为显著的人均应付薪酬增长期数指标，其多空收益主要源于2009 年 5 月至 11 年 4月，此后多空收益并不明显。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["heuristic_ranking", "futures_hedge"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "无论全市场还是剔除小市值股票后的样本空间，应付薪酬增速均具有显著的多空股票区分能力，而已付薪酬增速的选股能力并不显著。",
+      "evidence": "结果显示，无论是全市场还是剔除小市值股票后的样本空间，应付薪酬增速具有显著的多空股票区分能力；而已付薪酬增速的选股能力并不显著。"
+    },
+    {
+      "text": "应付薪酬增速指标在人力开支比重较大的TMT行业中具有最为优秀的选股能力，因TMT行业人力成本占运营成本比例非常高，能很好反映公司运营状况。",
+      "evidence": "这一方面是由于薪酬指标相对而言更适用于具有成长性的非周期行业，周期行业的薪酬可能被行业景气度影响；另一方面，TMT 行业的人力成本在其运营成本中占据非常高的比例，故而能够很好的反映公司运营状况。"
+    },
+    {
+      "text": "行业控制下应付薪酬增速指标在TMT行业中的选股效果最为显著，多空组合超额收益与行业偏离无关。",
+      "evidence": "如表 4 所示，应付薪酬增速指标在 TMT 行业中的选股效果最为显著。这极可能是由于：TMT 行业的人力开支占经营支出的比例是所有行业大类中最高的。"
+    },
+    {
+      "text": "行业中性组合明显优于沪深300指数，月胜率66.7%，年化超额收益14.55%，但长持仓低换手导致最大回撤13.48%，收益回撤比1.08。",
+      "evidence": "组合月胜率为 66.7%，换仓期胜率为 65%，年化超额收益为 14.55%。但长持仓，低换手导致组合波动较大，最大回撤 13.48%，收益回撤比 1.08。"
+    },
+    {
+      "text": "行业中性组合相对中证500指数年化超额收益仅7.40%，最大回撤5.38%，薪酬因子不具备单独构建投资组合的能力。",
+      "evidence": "如图所示，行业中性组合明显优于中证 500 指数。组合月胜率为 64.1%，换仓期胜率为 85%，但年化超额收益仅为 7.40%，最大回撤 5.38%，收益回撤比 1.36。"
+    },
+    {
+      "text": "TMT组合相对行业指数月胜率70.6%，年化超额收益12.76%，最大回撤9.38%，收益回撤比仅1.36，因组合持股少换手率低。",
+      "evidence": "相对行业指数，组合月胜率为 70.6%，换仓期胜率为 70%，年化超额收益为 12.76%，最大回撤 9.38%，收益回撤比为 1.36。"
+    },
+    {
+      "text": "多空组合的超额收益很大一部分源于薪酬指标能够多次命中行业内收益排名数一数二的牛股。",
+      "evidence": "通过分位点分析的方法对策略的选股结果进行微观考察，发现多空组合的超额收益很大一部分源于薪酬指标能够多次命中行业内收益排名数一数二的牛股。"
+    },
+    {
+      "text": "薪酬持续增长的公司其增长时间和股票收益呈一定单调性，但连续增长标的过少导致组合收益波动较大，不适合作为单策略运行。",
+      "evidence": "薪酬持续增长的公司，其增长时间和股票收益呈现一定的单调性，但是由于连续增长的公司标的过少，组合收益波动较大，不适合作为单策略运行。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Fama, E. and French, K. (2008) Dissectinganomalies. Journal of Finance 63, 1653—1678"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

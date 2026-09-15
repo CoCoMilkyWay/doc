@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "id": "20220221-广发证券-高频数据因子-006-信息不对称理论下的因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "VWPIN因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{VWPIN}=\\sum_{i=1}^{n}w_{i}Pin_{i}=\\sum_{i=1}^{n}w_{i}\\frac{|S_{i}-B_{i}|}{S_{i}+B_{i}},\\quad w_{i}=\\frac{TradVol_{i}}{\\sum_{i=1}^{n}TradVol_{i}}",
+          "stats": [0.063, null, null, 0.3314],
+          "evidence": "VWPIN模型的计算是利用个股的区间交易量、区间主买(卖)成交笔数来实现的，其中买卖交易方向依据Lee-Ready算法事先进行判断。"
+        },
+        {
+          "name": "VWPIN平滑因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{VWPIN}_{smooth}=\\text{在VWPIN因子基础上，对个股在周/月内的VWPIN因子数据求均值}",
+          "stats": [0.064, null, null, 0.3128],
+          "evidence": "为得到VWPIN平滑因子，还需要在VWPIN因子基础上，对个股在周/月内的VWPIN因子数据求均值，如果在频率内存在无数据的情况，对这些交易日进行剔除，再计算个股的VWPIN平滑因子"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "全市场范围内VWPIN因子选股效果较好，中性化因子IC均值为0.06，正IC占比76.59%，多头相对中证800年化收益率为19.07%，最大回撤33.71%，信息比率为1.18",
+      "evidence": "从整体角度看，全市场范围内VWPIN因子选股效果较好，中性化因子IC 均值为 0.06，正IC 占比 76.59%，多头相对中证 800 年化收益率为 19.07%，年化波动率 16.15%，最大回撤 33.71%，信息比率为 1.18；"
+    },
+    {
+      "text": "中证500指数内VWPIN因子IC均值为0.04，正IC占比为66.12%，多空对冲策略年化收益率为17.61%，年化波动率为9.99%，信息比为1.76，最大回撤为18.60%",
+      "evidence": "中证 500 指数内，VWPIN 因子 IC 均值为 0.04，正 IC 占比为 66.12%，多空对冲策略年化收益率为 17.61%，年化波动率为 9.99%，信息比为 1.76，最大回撤为 18.60%。"
+    },
+    {
+      "text": "VWPIN平滑因子考虑了调仓时间内所有交易日的VWPIN值，能够反映更丰富的信息，在因子分档测试、IC值表现方面都具有更好的表现，整体上表现优于VWPIN因子",
+      "evidence": "综合两个因子的实证分析结果，在因子层面，VWPIN平滑因子在整体上表现优于VWPIN因子。由于VWPIN平滑因子考虑了调仓时间内所有交易日的VWPIN值，能够反映更丰富的信息，因此该因子在因子分档测试、IC值表现方面都具有更好的表现。"
+    },
+    {
+      "text": "VWPIN(VWPIN平滑)因子与BARRA因子之间的相关性较低，能够作为新的高频技术性因子加入多因子模型中",
+      "evidence": "可以发现，VWPIN(VWPIN平滑)因子与BARRA因子之间的相关性较低，能够作为新的高频技术性因子加入多因子模型中。"
+    },
+    {
+      "text": "VWPIN因子具有高换手率特征，对手续费费率设置更加敏感，使用其选股应当对手续费费率予以重点关注",
+      "evidence": "结果显示，VWPIN因子由于具有高换手率特征，对手续费费率设置更加敏感。"
+    },
+    {
+      "text": "扣除千三的手续费后，全市场、中证1000以及中证500选股策略能够获得超额收益",
+      "evidence": "扣除千三的手续费后，全市场、中证1000以及中证500选股策略能够获得超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Easley, D., M. O'Hara, 1996, 《Liquidity, Information, and Infrequently Traded Stocks》",
+    "Easley, D., R. Engle, M. O'Hara, L. Wu, 2012, 《Flow Toxicity and Liquidity in a High-frequency World》",
+    "《高频价量数据的因子化方法-多因子Alpha系列报告之（四十一）》",
+    "李平等, 2020, 《知情交易概率于风险定价——基于不同PIN测度方法的比较研究》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

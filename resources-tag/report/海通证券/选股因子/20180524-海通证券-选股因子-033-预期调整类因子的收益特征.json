@@ -1,0 +1,152 @@
+{
+  "schema_version": 2,
+  "id": "20180524-海通证券-选股因子-033-预期调整类因子的收益特征",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_revision"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "dROE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "dROE_t = E_t(ROE) - \\frac{1}{12}\\sum_{i=0}^{11} E_{t-i}(ROE)",
+          "stats": [0.0082, 0.0328, 1.1, null],
+          "evidence": "以 dROE、dG、dNPG 分别代表当前预期净资产收益率、两年复合增长率、以及净利润同比增长率，与过去 12个月平均预期水平的差异。"
+        },
+        {
+          "name": "dG",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "dG_t = G_t - \\frac{1}{12}\\sum_{i=0}^{11} G_{t-i}",
+          "stats": [0.0159, null, 1.56, null],
+          "evidence": "以 dROE、dG、dNPG 分别代表当前预期净资产收益率、两年复合增长率、以及净利润同比增长率，与过去 12个月平均预期水平的差异。"
+        },
+        {
+          "name": "dNPG",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "dNPG_t = NPG_t - \\frac{1}{12}\\sum_{i=0}^{11} NPG_{t-i}",
+          "stats": [0.0067, null, 0.84, null],
+          "evidence": "以 dROE、dG、dNPG 分别代表当前预期净资产收益率、两年复合增长率、以及净利润同比增长率，与过去 12个月平均预期水平的差异。"
+        },
+        {
+          "name": "dROE_std",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "dROE\\_std_t = \\frac{E_t(ROE) - \\bar{E}_{12}(ROE)}{\\sigma_{12}(E(ROE))}",
+          "stats": [0.0385, 0.0362, 2.5, null],
+          "evidence": "下文中我们将时间序列标准化的 dROE、dG、dNPG 因子分别记之为 dROE_std、dG_std、dNPG_std，并考察这几个因子的选股效果。"
+        },
+        {
+          "name": "dG_std",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "dG\\_std_t = \\frac{G_t - \\bar{G}_{12}}{\\sigma_{12}(G)}",
+          "stats": [0.0272, 0.0285, 2.02, null],
+          "evidence": "下文中我们将时间序列标准化的 dROE、dG、dNPG 因子分别记之为 dROE_std、dG_std、dNPG_std，并考察这几个因子的选股效果。"
+        },
+        {
+          "name": "dNPG_std",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "dNPG\\_std_t = \\frac{NPG_t - \\bar{NPG}_{12}}{\\sigma_{12}(NPG)}",
+          "stats": [0.0277, 0.027, 2.08, null],
+          "evidence": "下文中我们将时间序列标准化的 dROE、dG、dNPG 因子分别记之为 dROE_std、dG_std、dNPG_std，并考察这几个因子的选股效果。"
+        },
+        {
+          "name": "dROE_std_0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{对预测类型为3及以上的股票以0填充其因子值，其余股票取时间序列标准化后的预期ROE变动}",
+          "stats": [0.0341, 0.0363, 3.09, null],
+          "evidence": "dROE_std_0 表示对于预测类型为 3及以上的股票，以 0作为其因子值，其余股票因子值则为时间序列标准化后的预期 ROE变动。"
+        },
+        {
+          "name": "dG_std_0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{对预测类型为3及以上的股票以0填充其因子值，其余股票取时间序列标准化后的预期复合增长率变动}",
+          "stats": [0.0265, 0.0301, 2.95, null],
+          "evidence": "以后缀“_0”表示用 0 填充预测类型为 3 及以上股票的因子值所构造的因子，下表展示了不同填充方法下，预期调整单因子的 IC 表现。"
+        },
+        {
+          "name": "dNPG_std_0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{对预测类型为3及以上的股票以0填充其因子值，其余股票取时间序列标准化后的预期净利润增速变动}",
+          "stats": [0.0267, 0.0296, 3.32, null],
+          "evidence": "以后缀“_0”表示用 0 填充预测类型为 3 及以上股票的因子值所构造的因子，下表展示了不同填充方法下，预期调整单因子的 IC 表现。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "预期调整因子与股票次月收益呈现显著正相关性，选股效果与观察期密切相关：随着观察期增加，因子RankIC呈现先增加后减小的态势；观察期短盈利不变股票占比大，观察期过长信息及时性大打折扣。",
+      "evidence": "预期调整因子与股票次月收益呈现显著正相关性，其选股效果与观察期密切相关：随着观察期增加，因子 RankIC 呈现先增加后减小的态势。观察期短，盈利不变股票占比大，因子 RankIC 较低；观察期增加，预期不变股票占比迅速下降，覆盖率增加，使得因子 RankIC 增加；观察期继续增加时，覆盖率增大的优势逐渐减弱，而信息的及时性大打折扣，拖累因子表现。"
+    },
+    {
+      "text": "预期稳定性（预期指标过去一段时间的波动率）对预期调整因子的选股效果存在明显影响，采用预期稳定性分组可增强预期调整类因子的选股效果。",
+      "evidence": "预期稳定性，即预期指标过去一段时间的波动率，对预期调整因子的选股效果存在明显影响。采用预期稳定性分组，可增强预期调整类因子的选股效果。"
+    },
+    {
+      "text": "时间序列标准化后的预期调整因子选股效果更优，IC均值和月胜率均高于标准化前因子，整体IR高于2；剔除行业和风格以后，因子IR接近于3，其中dROE_std稳定性最高，RankIC月胜率达80%以上。",
+      "evidence": "时间序列标准化后的预期调整因子，选股效果更优。其 IC 均值和月胜率均高于时间序列标准化前的因子，整体 IR 高于 2；剔除行业和风格以后，因子 IR接近于 3。其中，以 dROE_std 因子稳定性最高，RankIC 月胜率达 80%以上；而 dG_std 和 dNPG_std的 RankIC 月胜率也超过 70%。"
+    },
+    {
+      "text": "dROE_std与dG_std相关性相对较低，为43.39%，主要由于前者属于盈利能力因子，后者为成长能力因子。",
+      "evidence": "其中，dROE_std 与 dG_std 相关性相对较低，为 43.39%。这主要是由于前者属于盈利能力因子，后者为成长能力因子；且复合增长率是基于当年和后一年预期净利润所得，因此在 3个因子中，这两个因子相关性相对较低。"
+    },
+    {
+      "text": "预测类型1和2较为可靠，类型3和4为数据模拟与沿用、可靠性较低；在预测类型2以内的子样本中因子截面溢价显著为正，但类型3及以上的子样本中选股效果不显著。",
+      "evidence": "朝阳永续一致预期数据一共包括 4种预测类型，其中预测类型 1和 2 较为可靠；而类型 3和 4的数据为数据模拟与沿用，可靠性较低。从预期调整类因子截面回归结果来看，在预测类型 2 以内的子样本中，因子截面溢价显著为正；但在类型 3 及以上的子样本中，预期调整因子选股效果不显著。"
+    },
+    {
+      "text": "用0填充近期没有预测数据的股票所得到的调整类因子IC表现并不比朝阳永续填充方法差，单因子月胜率在80%以上，IR高于3。",
+      "evidence": "预测类型 3 和 4的因子值类似于朝阳永续构造的一种填充方法；实际上我们还可用0 填充那些近期没有预测数据的股票。以 0填充所得到的调整类因子 IC表现并不比朝阳永续填充方法差，其单因子月胜率在 80%以上，IR 高于 3。"
+    },
+    {
+      "text": "在不同观察期下，dROE_std_0因子的表现均优于dROE_std因子，而dROE_std因子的表现优于dROE因子，建议关注时间序列标准化后、以0填充预测数据不可靠股票所构造的因子。",
+      "evidence": "整体来看，在不同观察期下，dROE_std_0 因子的表现均优于 dROE_std 因子，而dROE_std 因子的表现优于 dROE 因子。在预期调整类因子中，我们建议关注时间序列标准化后、以 0填充预测数据不可靠的股票所构造的因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《龙头股效应在一致预期数据上的应用》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

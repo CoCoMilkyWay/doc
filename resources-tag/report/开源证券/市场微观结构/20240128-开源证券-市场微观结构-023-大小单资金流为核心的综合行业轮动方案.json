@@ -1,0 +1,189 @@
+{
+  "schema_version": 2,
+  "id": "20240128-开源证券-市场微观结构-023-大小单资金流为核心的综合行业轮动方案",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "earnings_surprise",
+        "momentum_reversal",
+        "order_flow",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "改进主动超大单强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\mathbb{1}_{\\text{极端净流入}}\\cdot \\text{主动超大单净流入}_t}{\\text{总市值}}\\times\\frac{1}{K},\\; K=\\frac{\\text{强度Rank过去2月均值}}{\\text{强度Rank过去12月均值}}",
+          "stats": [null, null, 1.16, null],
+          "evidence": "在原始主动超大单强度的基础上，考虑了是否处于高位和资金流的极端与否之后，改进的效果非常明显，RankICIR从原始0.95提升至 1.16。"
+        },
+        {
+          "name": "改进行业羊群效应",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{RankCorr}(\\Delta R_t, \\Delta S^{\\text{非主动小单}}_{t+1}) \\text{ 与该因子变动量的结合}",
+          "stats": [null, null, -1.03, null],
+          "evidence": "结合以上两点的改进，我们得到了改进行业羊群效应因子，其 5 分组多空如图10 所示，RankICIR从-0.86提升至-1.03，近两年的失效和回撤得到一定程度的解决。"
+        },
+        {
+          "name": "行业超大单和小单综合资金流因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\left(\\text{Rank}(\\text{改进主动超大单强度})+\\text{Rank}(\\text{改进行业羊群效应})\\right)",
+          "stats": [null, 0.0928, 1.62, null],
+          "evidence": "我们将上述的改进行业主动超大单强度和改进行业羊群效应进行合成，月频调仓下的效果如图 11 所示。该因子的 RankIC 为 9.28%，RankICIR 为 1.62，效果非常优异。"
+        },
+        {
+          "name": "大单极端突破",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "S_t=\\text{sign}(\\text{净流入}_t-\\mu_{120})\\cdot\\mathbb{1}\\{\\text{净流入}_t \\text{突破}\\ \\mu_{120}\\pm0.5\\sigma_{120}\\},\\; \\text{因子}=\\sum_{i=1}^{N}S_{t-i},\\ N=10",
+          "stats": [null, null, null, null],
+          "evidence": "具体做法为：对于单个行业每日净流入，回看过去 120 天计算均值和标准差，观察是否突破均值上下0.5倍标准差，若当日发生极端向上突破计为 1，发生极端向下突破计为-1，其余情况计为0，在调仓日回看过去N 个交易日并求和，若大于 0为多头，小于 0为空头。"
+        },
+        {
+          "name": "外资券商极端突破",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{同大单极端突破做法，以单个行业外资券商日净流入计算极端突破信号并回看求和，N=20}",
+          "stats": [null, null, null, null],
+          "evidence": "这里我们也采取同样的方法做了尝试，其中较为有效的为外资券商的净流入数据，回看天数对多空年化收益影响的参数敏感性分析如图21所示。相较于大单而言，最优回看天数会更长一些，这里我们选取N=20 为最后的参数。"
+        },
+        {
+          "name": "资金流综合因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{1}{2}\\left(\\text{IND\\_EX\\_S升频前向填充}+\\text{IND\\_L\\_N}\\right)",
+          "stats": [null, null, 2.03, null],
+          "evidence": "其 5 分组回测如图 24 所示，表现较为优异，RankICIR为2.03，该因子也是本文最后优选行业的核心主体因子。"
+        },
+        {
+          "name": "行业极端情绪动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\max_{i\\le N} r_{t-i}}{\\left|\\min_{i\\le N} r_{t-i}\\right|},\\; N=10",
+          "stats": [null, null, null, null],
+          "evidence": "具体做法为：对于单个行业，求过去 N 天正收益最大的日度收益，过去 N 天负收益最大的日度收益绝对值，最后取二者的比值。"
+        },
+        {
+          "name": "综合极端动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\left(\\text{Rank}(\\text{行业极端情绪动量})+\\text{Rank}(\\text{市场极端情绪动量})\\right)",
+          "stats": [null, null, 0.88, null],
+          "evidence": "最终我们将行业极端情绪动量和市场极端情绪动量进行合成，为综合极端动量因子。该因子 RankICIR 为 0.88，其 5分组的净值如图31所示。"
+        },
+        {
+          "name": "行业超预期景气因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{基于业绩超预期与分析师预期调整构建的行业景气因子（见《业绩超预期 Plus2.0：基于预期调整的修正》）}",
+          "stats": [null, null, 0.6, null],
+          "evidence": "对于基本面维度而言，我们在《业绩超预期 Plus2.0：基于预期调整的修正》中构建了行业超预期景气因子，RankICIR为0.60，在《价值Plus组合构建与多策略融合实践》中构建了困境反转因子，RankICIR为 1.00。"
+        },
+        {
+          "name": "行业困境反转因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{基于财务困境反转逻辑构建的行业因子（见《价值Plus组合构建与多策略融合实践》）}",
+          "stats": [null, null, 1, null],
+          "evidence": "在《价值Plus组合构建与多策略融合实践》中构建了困境反转因子，RankICIR为 1.00。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "考虑近期强弱趋势与资金流极端与温和后，改进主动超大单强度RankICIR从0.95提升至1.16，5分组多空收益波动比从0.74提升至1.03，近两年波动和回撤较大的问题一定程度上得到解决。",
+      "evidence": "在原始主动超大单强度的基础上，考虑了是否处于高位和资金流的极端与否之后，改进的效果非常明显，RankICIR从原始0.95提升至 1.16。除此之外，5分组多空对冲波动明显减小，收益波动比从原始 0.74 提升至 1.03，尤其是近两年波动和回撤较大的问题一定程度上得到了解决。"
+    },
+    {
+      "text": "改进行业羊群效应RankICIR从-0.86提升至-1.03，近两年的失效和回撤得到一定程度的解决。",
+      "evidence": "结合以上两点的改进，我们得到了改进行业羊群效应因子，其 5 分组多空如图10 所示，RankICIR从-0.86提升至-1.03，近两年的失效和回撤得到一定程度的解决。"
+    },
+    {
+      "text": "改进主动超大单强度和改进行业羊群效应等权合成后，月频调仓下RankIC为9.28%，RankICIR为1.62，效果非常优异。",
+      "evidence": "我们将上述的改进行业主动超大单强度和改进行业羊群效应进行合成，月频调仓下的效果如图 11 所示。该因子的 RankIC 为 9.28%，RankICIR 为 1.62，效果非常优异。"
+    },
+    {
+      "text": "大单极端突破在周频调仓下多空表现最优，与外资券商极端突破联合后，二者都看多效果相对较好，都看空效果最差，有一定联合增强效果。",
+      "evidence": "最终我们将大单极端突破和外资券商极端突破进行结合，其中大单和外资券商都有 3 种信号，我们将其结合可以得到如下 9 种收益表现，可以发现二者如果都看多，则效果相对较好，而二者若都看空效果是最差的，有一定联合增强效果。"
+    },
+    {
+      "text": "资金流综合因子5分组回测表现较为优异，RankICIR为2.03，该因子也是本文最后优选行业的核心主体因子。",
+      "evidence": "其 5 分组回测如图 24 所示，表现较为优异，RankICIR为2.03，该因子也是本文最后优选行业的核心主体因子。"
+    },
+    {
+      "text": "超预期景气模型和困境反转模型存在显著轮动周期：经济上行时超预期景气因子较好，经济下行时困境反转因子较好，二者轮动后的效果相较于单一景气模型显著提升。",
+      "evidence": "在财务维度，我们发现超预期景气模型和困境反转模型存在较为显著的轮动周期：经济上行时超预期景气因子较好，经济下行时困境反转因子较好，相较于只使用单一的景气模型而言，二者轮动后的效果显著提升。"
+    },
+    {
+      "text": "拥挤度两种衡量方式中，以成交额表征的交易热度和以赚钱效应表征的盈利水平相比，后者对组合收益提升较为显著。",
+      "evidence": "在拥挤度维度，我们主要讨论了两种衡量方式：1、以成交额表征的交易热度；2、以赚钱效应表征的盈利水平，其中后者对组合收益提升较为显著。"
+    },
+    {
+      "text": "以资金流因子为主体、其余维度负向剔除构建的行业轮动策略，周频调仓下选取5个行业，扣费后年化21.84%，效果优异。",
+      "evidence": "最终，我们以资金流因子为主体，其余维度进行负向剔除，构建了行业轮动策略，周频调仓下选取 5个行业，扣费后年化 21.84%，效果优异。"
+    },
+    {
+      "text": "行业轮动模型对指增存在增量：以中证1000指增为例，相较于只使用资金流选股因子，结合行业后多空信息比率从1.55提升至1.98。",
+      "evidence": "从图 44我们可以发现：行业轮动对于指增存在一定增量，考虑行业之后多空信息比率从 1.55 提升至 1.98。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《业绩超预期 Plus2.0：基于预期调整的修正》",
+    "《大小单资金流 alpha 探究 2.0：变量精筛与高频测算—市场微观结构系列（18）》-2022.12.18",
+    "《新型因子：资金流动力学与散户羊群效应—市场微观结构系列（14）》-2022.06.02",
+    "《日内极端收益前后的反转特性与因子构建》",
+    "《知情交易者背后的择时信息》",
+    "《遗传算法赋能交易行为因子》",
+    "价值Plus组合构建与多策略融合实践"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

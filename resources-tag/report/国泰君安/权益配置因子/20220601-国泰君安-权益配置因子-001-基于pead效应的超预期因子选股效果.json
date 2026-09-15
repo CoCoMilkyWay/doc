@@ -1,0 +1,195 @@
+{
+  "schema_version": 2,
+  "id": "20220601-国泰君安-权益配置因子-001-基于pead效应的超预期因子选股效果",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_revision", "earnings_surprise"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "公告后1天异常收益",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "abr\\_N\\_M_{i,t}=\\sum_{j=t-N}^{t+M-1}(R_{i,j}-R_{中证500,j})",
+          "stats": [0.0132, 0.0108, null, 0.1318],
+          "evidence": "1）公告后 1 天异常收益因子、公告前 1 后 2 天异常收益因子、跳空因子效果较好，组合优化相对基准（沪深 300）的年化超额收益分别为5.52%、5.72%和 5.37%，信息比率分别为 1.03、1.05 和 1.04。"
+        },
+        {
+          "name": "Jump",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "jump_{i,t}=\\frac{open_{i,t}}{close_{i,t-1}}-\\frac{open_{中证500,t}}{close_{中证500,t-1}}",
+          "stats": [0.019, 0.0238, null, 0.1839],
+          "evidence": "开盘跳空也是常用因子,计算方法是股票业绩公告后t日的开盘价相对t-1 日收盘价的收益率减去中证 500 的收益"
+        },
+        {
+          "name": "FE3",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Foster(1984)提出的公告后1天异常收益因子}",
+          "stats": [0.0039, 0.0062, null, 0.0291],
+          "evidence": "此外，我们还计算 Foster(1984)文献中提到的 FE3 和 FE4 因子。"
+        },
+        {
+          "name": "标准化预期外单季度归母净利润",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "SUE_{i,q}=\\frac{X_{i,q}-\\mathbb{E}(X_{i,q})}{\\sigma_{i,q}},\\ \\sigma_{i,q}=\\sqrt{\\frac{(X_{i,q-1}-X_{i,q-5})^{2}+\\cdots+(X_{i,q-4}-X_{i,q-8})^{2}}{4}}",
+          "stats": [0.0245, 0.0293, null, 0.2252],
+          "evidence": "超预期最知名的因子是标准化预期外盈利 SUE，其投资逻辑是实际公告盈利值相对于盈利预期值的增幅越大，业绩越超预期，股票未来表现越好。"
+        },
+        {
+          "name": "标准化预期外单季度营业利润",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "SUE_{i,q}=\\frac{X_{i,q}-\\mathbb{E}(X_{i,q})}{\\sigma_{i,q}},\\ \\text{净利润替换为单季度营业利润，计算方法与SUE相同}",
+          "stats": [0.0221, 0.026, null, 0.2097],
+          "evidence": "1） 标准化预期外单季度归母净利润、标准化预期外单季度扣非净利润、标准化预期外单季度毛利润、标准化预期外单季度营业利润、单季度归母净利润超分析师预期幅度效果较好，组合优化后相对基准（中证 500）的年化超额收益分别为 12.10%、11.88%、10.08%、11.88%和 8.18%，信息比率分别为 2.51、2.50、2.10 、2.46 和 1.71。"
+        },
+        {
+          "name": "标准化预期外单季度归母ROA",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "SUE_{i,q}=\\frac{X_{i,q}-\\mathbb{E}(X_{i,q})}{\\sigma_{i,q}},\\ \\text{净利润替换为单季度归母ROA，计算方法与SUE相同}",
+          "stats": [0.0198, 0.0222, null, 0.1894],
+          "evidence": "1） 标准化预期外单季度 GPOA、标准化预期外单季度归母 ROA、标准化预期外单季度归母 ROE、标准化预期外单季度扣非 ROA、标准化预期外扣非 ROE（TTM）效果较好，组合优化后相对基准（中证 500）的年化超额收益分别为 13.33%、13.38%、13.23%和 13.12%，信息比率分别为 2.16、2.25、2.16 和 2.15。"
+        },
+        {
+          "name": "标准化预期外扣非ROE(TTM)",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "SUE_{i,q}=\\frac{X_{i,q}-\\mathbb{E}(X_{i,q})}{\\sigma_{i,q}},\\ \\text{净利润替换为扣非ROE(TTM)，计算方法与SUE相同}",
+          "stats": [0.0165, 0.0172, null, 0.1684],
+          "evidence": "标准化预期外单季度 GPOA、标准化预期外单季度归母 ROA、标准化预期外单季度归母 ROE、标准化预期外单季度扣非 ROA、标准化预期外扣非 ROE(TTM)效果较好，组合优化后相对基准（沪深 300）的年化超额收益分别为 7.15%、6.64%、7.07%、7.99%和 9.02%，信息比率分别为 1.29、1.33、1.41、1.57 和 1.76。"
+        },
+        {
+          "name": "过去90日报告上调-下调比例",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{报告上调比例}-\\text{报告下调比例}=(上调报告数-下调报告数)/总报告数",
+          "stats": [0.0161, 0.0176, null, 0.1395],
+          "evidence": "1） 过去 90 日券商上调-下调比例、过去 90 日报告上调-下调比例、过去 60 日券商上调比例、过去 90 日报告上调比例效果较好，相对基准（沪深 300）的年化超额收益分别为 8.17%、9.92%、8.52%和 9.15%，信息比率分别为 1.61、1.99、1.75 和 1.84。"
+        },
+        {
+          "name": "过去90天盈利调整",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{Profit\\_adjust\\_Nday_{i,s}}{n}=\\frac{1}{n}\\sum_{s=1}^{n}\\frac{Profit_{i,s}-Profit\\_last_{i,s}}{Profit\\_last_{i,s}}",
+          "stats": [0.0178, 0.0224, null, 0.1508],
+          "evidence": "1） 过去 90 天盈利调整、过去 60 天营收调整效果较好，相对基准（中证 500）的年化超额收益为 9.59%、7.79%，信息比率为 1.97、1.58。"
+        },
+        {
+          "name": "过去90天营收调整",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{Revenue\\_adjust\\_Nday_{i,s}}{n}=\\frac{1}{n}\\sum_{s=1}^{n}\\frac{Revenue_{i,s}-Revenue\\_last_{i,s}}{Revenue\\_last_{i,s}}",
+          "stats": [0.0134, 0.0144, null, 0.1105],
+          "evidence": "1） 过去 90 天盈利调整、过去 60 天营收调整效果较好，相对基准（中证 500）的年化超额收益为 9.59%、7.79%，信息比率为 1.97、1.58。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "selection"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "沪深300股票池内，超预期复合因子组合优化的年化超额收益9.51%，超额最大回撤-10.87%，信息比率2.03，周度双边换手率18.69%。",
+      "evidence": "沪深300股票池内，超预期复合因子组合优化的年化超额收益 9.51%，超额最大回撤-10.87%，信息比率 2.03，周度双边换手率 18.69%。2022 年以来超额收益 2.77%，超额最大回撤-1.70%。"
+    },
+    {
+      "text": "中证500股票池内，超预期复合因子组合优化的年化超额收益15.13%，超额最大回撤-8.33%，信息比率3.07，周度双边换手率14.02%。",
+      "evidence": "中证 500 股票池内，超预期复合因子组合优化的年化超额收益 15.13%，超额最大回撤-8.33%，信息比率 3.07，周度双边换手率14.02%。2022 年以来超额收益 6.98%，超额最大回撤-0.86%。"
+    },
+    {
+      "text": "全市场股票池内，超预期复合因子组合优化的年化超额收益21.85%，超额最大回撤-10.17%，信息比率3.23，周度双边换手率17.34%。",
+      "evidence": "全市场股票池内，超预期复合因子组合优化的年化超额收益 21.85%，超额最大回撤-10.17%，信息比率 3.23，周度双边换手率 17.34%。2022 年以来超额收益 5.14%，最大回撤-2.59%。"
+    },
+    {
+      "text": "沪深300股票池筛选出标准化预期外单季度营业利润、标准化预期外扣非ROE(TTM)、过去90日报告上调-下调比例、JUMP跳空等16个有效因子，组合优化的年化超额普遍在6-9%。",
+      "evidence": "综合考察组合优化超额收益、IC、分组测试、多空收益等指标，沪深 300 股票池内，筛选出标准化预期外单季度营业利润、标准化预期外扣非 ROE(TTM)、过去 90 日报告上调-下调比例、JUMP跳空等 16 个有效因子，组合优化的年化超额普遍在 6-9%。"
+    },
+    {
+      "text": "中证500股票池筛选出标准化预期外单季度归母净利润等17个有效因子，组合优化的年化超额普遍在8-12%。",
+      "evidence": "中证 500股票池内，筛选出标准化预期外单季度归母净利润、标准化预期外单季度扣非 ROE、过去 90 日报告上调比例、过去 60 天盈利调整、跳空等 17 个有效因子，组合优化的年化超额普遍在 8-12%。"
+    },
+    {
+      "text": "全市场股票池筛选出标准化预期外单季度归母净利润、单季度归母ROA等17个有效因子，组合优化的年化超额普遍在12-16%。",
+      "evidence": "全市场股票池，筛选出标准化预期外单季度归母净利润、标准化预期外单季度归母 ROA、过去 90 日报告上调比例、过去 60 天营收调整等 17 个有效因子，组合优化的年化超额普遍在 12-16%。"
+    },
+    {
+      "text": "标准化预期外盈利SUE的投资逻辑是实际公告盈利值相对于盈利预期值的增幅越大，业绩越超预期，股票未来表现越好。",
+      "evidence": "超预期最知名的因子是标准化预期外盈利 SUE，其投资逻辑是实际公告盈利值相对于盈利预期值的增幅越大，业绩越超预期，股票未来表现越好。"
+    },
+    {
+      "text": "单季度净利润计算的SUE效果均好于净利润TTM计算的SUE。",
+      "evidence": "单季度净利润计算的 SUE效果均好于净利润 TTM 计算的 SUE。"
+    },
+    {
+      "text": "过去90日券商/报告上下调比例等因子在沪深300股票池效果较好，年化超额收益8.17%-9.92%，信息比率1.61-1.99。",
+      "evidence": "1） 过去 90 日券商上调-下调比例、过去 90 日报告上调-下调比例、过去 60 日券商上调比例、过去 90 日报告上调比例效果较好，相对基准（沪深 300）的年化超额收益分别为 8.17%、9.92%、8.52%和 9.15%，信息比率分别为 1.61、1.99、1.75 和 1.84。"
+    },
+    {
+      "text": "根据业绩超预期的投资逻辑，股票因子值越大未来收益越高，每周末按因子值从小到大排序分10组调仓，因子最大的t9组为多头组。",
+      "evidence": "根据业绩超预期的投资逻辑，股票因子值越大，预期股票的未来收益越高；在每周末进行分组调仓操作，按因子值从小到大排序分 10 组"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ball, R. and P. Brown. (1968). An Empirical Evaluation of Accounting Income Numbers.",
+    "Fama, E. and K. French. (2015). A five-factor asset pricing model.",
+    "Foster, G. (1984).",
+    "Qian, E. (2006). On the financial interpretation of risk contribution.",
+    "《如何基于PEAD超预期因子构建行业轮动策略——行业配置研究系列02》（2022.05.11）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

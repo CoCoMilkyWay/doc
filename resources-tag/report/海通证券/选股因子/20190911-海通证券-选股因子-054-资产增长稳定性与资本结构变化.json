@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20190911-海通证券-选股因子-054-资产增长稳定性与资本结构变化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "总资产增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产同比增长率}",
+          "stats": [null, 0.0101, 0.61, null],
+          "evidence": "而 A股并不存在明显的资产增长异象。下表展示了 A股总资产增长因子的 RankIC表现情况。结果显示，总资产增长与股票收益呈现一定的正相关关系，资产增速越快，未来股票收益表现越优。"
+        },
+        {
+          "name": "流动资产增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{流动资产同比增长率}",
+          "stats": [null, 0.0082, 0.59, null],
+          "evidence": "剔除市值、盈利、利润增长后，流动资产增长和非流动资产增长与股票收益呈现非常微弱的正相关性。"
+        },
+        {
+          "name": "非流动资产增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{非流动资产同比增长率}",
+          "stats": [null, 0.0037, 0.19, null],
+          "evidence": "剔除市值、盈利、利润增长后，流动资产增长和非流动资产增长与股票收益呈现非常微弱的正相关性。"
+        },
+        {
+          "name": "总资产增长波动率",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去8个季度总资产增长率的标准差}",
+          "stats": [null, -0.0177, -1.32, null],
+          "evidence": "结果显示，资产增长波动率与股票收益呈显著负相关关系，波动率越高，股票未来收益表现越差。"
+        },
+        {
+          "name": "流动资产增长波动率",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去8个季度流动资产增长率的标准差}",
+          "stats": [null, -0.0231, -1.25, null],
+          "evidence": "剔除市值、盈利和利润增长影响后，资产增长波动率与股票收益的负相关性更为显著。其中，仍以流动资产增长波动率表现最优。月均 RankIC 为-3.79%，相应的 ICIR 为-1.82。"
+        },
+        {
+          "name": "非流动资产增长波动率",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去8个季度非流动资产增长率的标准差}",
+          "stats": [null, -0.0097, -0.48, null],
+          "evidence": "结果显示，资产增长波动率与股票收益呈显著负相关关系，波动率越高，股票未来收益表现越差。"
+        },
+        {
+          "name": "股东权益比率变化",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期股东权益比率（股东权益/资产总额）相对前期的变化量}",
+          "stats": [null, null, null, null],
+          "evidence": "从极端组合多空收益差来看，在 4个资本结构比率变化因子中，股东权益比率变化因子表现最优。该因子月均多空收益为 0.69%，相应的信息比为 1.57，统计显著。"
+        },
+        {
+          "name": "资产负债率变化",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期资产负债率（负债总额/资产总额）相对前期的变化量}",
+          "stats": [null, null, null, null],
+          "evidence": "从负债端来看，随着资产负债率变化、长期负债比率变化逐渐增加，股票收益逐渐增大。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "在 A股市场，资产增长与股票收益呈现微弱的正相关性，与海外市场的负相关异象相反；这一现象与经济周期和市场情绪有关，PMI 上行区间呈动量效应，市场情绪极度低迷时资产增长反而释放积极信号。",
+      "evidence": "在 A股市场，资产增长与股票收益呈现微弱的正相关性。这种现象在一定程度上与经济周期和市场情绪有关。经济增长上行，规模扩张整体呈现动量效应，资产增速越快的公司未来收益表现越优；而经济增长下行时，规模扩张通常被认为不可持续，资产增速越快的公司未来收益表现越差。"
+    },
+    {
+      "text": "资产增长波动率越高，股票未来收益表现越差；从波动率计算窗口来看，近期资产变化的波动水平对股票收益的影响更大，窗口为 1年时因子溢价水平最高，窗口拉长选股效果减弱。",
+      "evidence": "总结来看，资产增长波动率越高，股票未来收益表现越差。从波动率计算窗口来看，近期资产变化的波动水平对股票收益的影响更大。"
+    },
+    {
+      "text": "在包含市值、反转、换手率、波动率、流动性、ROE、预期净利润调整、SUE因子的基础模型中，资产增长波动率因子的截面溢价显著为负，剔除常见因子后与股票收益仍显著负相关。",
+      "evidence": "结果显示，资产增长波动率因子的截面溢价显著为负。表明剔除了常见因子后，资产增长波动率因子与股票收益仍呈现显著负相关关系。"
+    },
+    {
+      "text": "基于行业内流动资产增长波动率中位数的行业因子显示，资产增长稳定的行业相对资产增长波动大的行业存在显著正向超额收益，年化超额 10%，信息比 0.79。",
+      "evidence": "结果显示，资产增长稳定的行业相对于资产增长波动大的行业，存在显著正向超额收益，年化超额 10%，相应的信息比为 0.79。"
+    },
+    {
+      "text": "在 4个资本结构比率变化因子中，股东权益比率变化因子表现最优，剔除市值、盈利与增长后月均多空收益 0.69%，信息比 1.57，统计显著。",
+      "evidence": "从极端组合多空收益差来看，在 4个资本结构比率变化因子中，股东权益比率变化因子表现最优。该因子月均多空收益为 0.69%，相应的信息比为 1.57，统计显著。"
+    },
+    {
+      "text": "在过去 10 余年间，杠杆率增加的公司股票收益表现越优，在 70%的月份存在正向超额收益，且在传媒、电子元器件等成长性行业中更为明显。",
+      "evidence": "综上所述，杠杆率增加幅度越大的公司，未来收益表现越优。这种现象在传媒、电子元器件等成长性行业中更为明显。"
+    },
+    {
+      "text": "剔除市值、盈利和利润增长影响后，资产增长波动率与股票收益的负相关性更为显著，流动资产增长波动率表现最优，月均 RankIC 为-3.79%，ICIR 为-1.82。",
+      "evidence": "剔除市值、盈利和利润增长影响后，资产增长波动率与股票收益的负相关性更为显著。其中，仍以流动资产增长波动率表现最优。月均 RankIC 为-3.79%，相应的 ICIR 为-1.82。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Cooper el.（2008）总资产增长率与股票收益"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

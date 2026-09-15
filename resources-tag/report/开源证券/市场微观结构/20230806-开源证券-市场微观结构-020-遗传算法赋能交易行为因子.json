@@ -1,0 +1,120 @@
+{
+  "schema_version": 2,
+  "id": "20230806-开源证券-市场微观结构-020-遗传算法赋能交易行为因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["order_flow", "symbolic_search"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "遗传算法优选综合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{选取样本内行业市值中性化RankICIR大于3.5的个体，并将其合成}",
+          "stats": [null, null, 5.52, null],
+          "evidence": "综合因子样本内(20131231-20211231)的 RankICIR 为 5.81，样本外(20211231-20230630)的 RankICIR 为 4.13，全区间 RankICIR 为 5.52。5 分组多空信息比例为 3.83，年化收益为28.33%，胜率为85.09%，效果较为优异。"
+        },
+        {
+          "name": "主动超大单关注度因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "EXL_{ACT\\_high}(20\\%) - EXL_{ACT\\_low}(20\\%)",
+          "stats": [null, null, 2.19, null],
+          "evidence": "将其命名为主动超大单关注度因子，其 5 分组绩效测算如图 5 所示。该因子整体绩效较为优异，RankICIR为2.19，5分组多空收益波动比为 2.08，月度胜率为74.4%。"
+        },
+        {
+          "name": "超大单关注度因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "EXL_{high}(20\\%) - EXL_{low}(20\\%)",
+          "stats": [null, null, 2.88, null],
+          "evidence": "同样地，我们以λ为 20%为例，计算EXL_ℎigℎ(20%)与EXL_low(20%)，并作差，将其命名为超大单关注度因子，其 5 分组绩效测算如图 8 所示。该因子整体绩效较为优异，RankICIR 为 2.88，5 分组多空收益波动比为 2.63，月度胜率为 82.4%，相较于主动超大单关注度因子效果更好。"
+        },
+        {
+          "name": "VM_diff因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "VM_{high}(20\\%) - VM_{low}(20\\%)",
+          "stats": [null, null, -4.08, null],
+          "evidence": "我们以λ为 20%为例，计算VM_ℎigℎ(20%)与VM_low(20%)，并作差，将其命名为VM_diff因子，其 5 分组绩效测算如图 13 所示。该因子整体绩效较为优异，RankICIR 为-4.08，5 分组多空收益波动比为 2.83，月度胜率为 79.82%。"
+        },
+        {
+          "name": "交易情绪不稳定性因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对分钟收益波动、分钟标准化成交量波动、分钟量价相关性分别施加时序极差算子ts\\_max\\_to\\_min，再将三个因子rank合成}",
+          "stats": [null, null, -3.43, null],
+          "evidence": "最后我们将这3个因子进行rank合成，综合因子命名为交易情绪不稳定性因子，其分组效果如图 16所示。整体绩效较为优异，RankICIR为-3.43，5 分组多空收益波动比为 3.35，月度胜率为84.2%。"
+        },
+        {
+          "name": "主力控盘能力因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ts\\_corr(分钟收益波动, 振幅, d) 与 ts\\_corr(标准化分钟成交量波动, 振幅, d) 两个因子rank取反并合成}",
+          "stats": [null, null, 2.82, null],
+          "evidence": "我们将“分钟收益波动”与“振幅”相关性，“标准化的分钟成交量波动”与振幅相关性这两个因子 rank取反并合成，将其命名为主力控盘能力因子，其分组效果如图 18所示。该因子整体绩效较为优异，RankICIR为 2.82，5分组多空收益波动比为 2.46，月度胜率为 80.7%。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "经过一轮完整的迭代，遗传算法挖掘得到近200个有效因子，选取样本内RankICIR大于3.5的个体合成，综合因子全区间RankICIR为5.52，效果非常亮眼。",
+      "evidence": "经过一轮完整的迭代，我们得到了近200 个有效因子，进一步地，我们选取样本内 RankICIR大于 3.5 的个体，并将其合成，综合因子全区间RankICIR为 5.52，效果非常亮眼。"
+    },
+    {
+      "text": "综合因子样本内RankICIR为5.81，样本外为4.13，全区间为5.52；5分组多空信息比例3.83，年化收益28.33%，胜率85.09%，效果较为优异。",
+      "evidence": "综合因子样本内(20131231-20211231)的 RankICIR 为 5.81，样本外(20211231-20230630)的 RankICIR 为 4.13，全区间 RankICIR 为 5.52。5 分组多空信息比例为 3.83，年化收益为28.33%，胜率为85.09%，效果较为优异。"
+    },
+    {
+      "text": "小单强度较高处超大单强度呈现正向选股效果，小单强度较低处呈现负向选股效果，本篇报告将这种现象称之为超大单的关注度效应，是对以往资金流研究的重要补充。",
+      "evidence": "针对这一现象，我们尝试从行为金融学的角度对其进行解释：由于拆单现象的存在，小单中充斥着超大单的拆单产物，当机构看好某只股票时，其往往会以小单进货，再用具备足够市场关注度的超大单来抬升市场情绪，从而达到抬升股价收获利润的目的，所以在小单强度较高处的超大单强度有正向选股效果；相反，若机构不看好某只股票时，其往往会以小单出货，为了防止市场恐慌，机构往往会用超大单来稳住情绪来完成平稳出货，所以在小单强度较低处的超大单强度有负向选股效果。本篇报告将这种现象称之为：超大单的关注度效应。"
+    },
+    {
+      "text": "超大单关注度因子全区间RankICIR为2.88，5分组多空收益波动比2.63，月度胜率82.4%，相较于主动超大单关注度因子效果更好，且在其他样本空间依然具有一定选股能力。",
+      "evidence": "该因子整体绩效较为优异，RankICIR 为 2.88，5 分组多空收益波动比为 2.63，月度胜率为 82.4%，相较于主动超大单关注度因子效果更好。"
+    },
+    {
+      "text": "VM_diff因子将振幅替换为日内分钟收益波动，绩效有进一步的提升，RankICIR由-3.58提升至-4.08，与理想振幅本质非常相似。",
+      "evidence": "其中将振幅替换为日内分钟收益波动，绩效有进一步的提升，RankICIR 由-3.58 提升至-4.08；"
+    },
+    {
+      "text": "交易情绪不稳定性因子由分钟收益波动、分钟标准化成交量波动、分钟量价相关性的时序极差因子rank合成，RankICIR为-3.43，多空收益波动比3.35，月度胜率84.2%，是对传统振幅波动率因子很好的改进。",
+      "evidence": "最后我们将这3个因子进行rank合成，综合因子命名为交易情绪不稳定性因子，其分组效果如图 16所示。整体绩效较为优异，RankICIR为-3.43，5 分组多空收益波动比为 3.35，月度胜率为84.2%。"
+    },
+    {
+      "text": "主力控盘能力因子由振幅与分钟收益波动以及分钟标准化成交量波动的相关性因子rank取反并合成，RankICIR为2.82，5分组多空收益波动比2.46，月度胜率80.7%。",
+      "evidence": "我们将“分钟收益波动”与“振幅”相关性，“标准化的分钟成交量波动”与振幅相关性这两个因子 rank取反并合成，将其命名为主力控盘能力因子，其分组效果如图 18所示。该因子整体绩效较为优异，RankICIR为 2.82，5分组多空收益波动比为 2.46，月度胜率为 80.7%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《A 股反转之力的微观来源 —市场微观结构研究系列（1）》-2019.12.23",
+    "《因子切割论 —市场微观结构研究系列（10）》-2020.9.16"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

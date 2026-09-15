@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "id": "20230404-国金证券-alpha掘金-005-如何利用chatgpt挖掘高频选股因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["distribution_moment", "order_flow", "llm_generation"],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "LI",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "LI=\\frac{\\sigma_{price}}{\\mu_{price}}",
+          "stats": [-0.0536, null, -0.44, 0.0835],
+          "evidence": "初步来看，四个因子 IC的 T值均大于 2，IC 均值从 2.79%至 5.36%不等。可以说明价格和成交量的波动率均为越低越好，基本符合低波动异象的情况。"
+        },
+        {
+          "name": "VLI",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "VLI=\\frac{\\sigma_{vol}}{\\mu_{vol}}",
+          "stats": [-0.0279, null, -0.41, 0.084],
+          "evidence": "初步来看，四个因子 IC的 T值均大于 2，IC 均值从 2.79%至 5.36%不等。可以说明价格和成交量的波动率均为越低越好，基本符合低波动异象的情况。"
+        },
+        {
+          "name": "LIxVLI",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "LIxVLI=\\mathrm{LI}*\\mathrm{VLI}",
+          "stats": [-0.0529, null, -0.58, 0.0889],
+          "evidence": "该因子在收盘价和成交量两个领域分别计算其变异系数，并相乘得到一个综合的选股因子。"
+        },
+        {
+          "name": "LI2VLI",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "LI2VLI=\\mathrm{LI}/\\mathrm{VLI}",
+          "stats": [-0.0311, null, -0.25, 0.0206],
+          "evidence": "此外，我们考虑对因子进行适当变形，将两者变异系数相除，得到新的变异系数因子（LI2VLI）。利用日频的量价数据，取过去 5天的价格和成交量变异系数进行计算，对该因子进行构建："
+        },
+        {
+          "name": "买盘力量",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "BForce=BVol*\\left(1-\\frac{\\overline{price}_{bid}}{\\overline{price}}\\right)",
+          "stats": [-0.0024, null, -0.02, 0.1874],
+          "evidence": "利用已有的 A 股 tick 数据进行构建并进行因子测试。使用与前期系列报告中相似的处理方式，对每只股票每天的 3 秒快照数据分别求出前十档的买入委托价、买入委托量和卖出委托价、卖出委托量，最终每个交易日求出均值得到买盘力量、卖盘力量和买卖盘力量差异因子。"
+        },
+        {
+          "name": "卖盘力量",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "SForce=\\mathrm{SVol}*\\left(\\frac{\\overline{price}_{ask}}{\\overline{price}}-1\\right)",
+          "stats": [-0.0102, null, -0.07, 0.0406],
+          "evidence": "可以看出，在日频的调仓频率下，表现相对较好的是卖盘力量因子（SForce）和买卖盘力量差异因子（BSForce），两者的T统计量均大于2，IC均值也在1%以上。"
+        },
+        {
+          "name": "买卖盘力量差异因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "BSForce=\\frac{BForce-SForce}{BForce+SForce}",
+          "stats": [0.0113, null, 0.17, 0.37],
+          "evidence": "多空力量因子由于其综合考虑了两个方向的因子并衡量了买卖盘力量失衡的特点，相较于单一方向的因子有明显提高，多空夏普比率为 4.51，多头年化超额收益率为 17.29%。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "ChatGPT给出的变异系数因子IC指标表现较好，但多头组超额收益较低，难以成功构建投资策略。",
+      "evidence": "发现因子 IC指标表现较好，但多头组超额收益较低，难以成功构建投资策略。"
+    },
+    {
+      "text": "买卖盘力量差异因子在日频上表现优异，多头年化超额收益率达到17.29%，但因子衰减速度较快。",
+      "evidence": "经过测试发现买卖盘力量差异因子在日频上表现优异，多头年化超额收益率达到17.29%，但因子衰减速度较快。"
+    },
+    {
+      "text": "买卖盘力量因子降至周频后多空单调性一般，但多头组合表现尚可，多头年化超额收益率分别为9.77%和10.20%。",
+      "evidence": "为符合交易实际，我们针对买盘和卖盘力量因子分别降至周频进行测试，发现虽然因子整体多空单调性一般，但多头组合表现尚可，多头年化超额收益率分别为9.77%和 10.20%。"
+    },
+    {
+      "text": "利用卖盘力量因子构建中证1000指数增强策略，在单边千分之二的手续费率下，年化超额收益率为7.17%，信息比率为0.57。",
+      "evidence": "发现在单边千分之二的手续费率下，策略的年化超额收益率为7.17%，信息比率为 0.57。"
+    },
+    {
+      "text": "因子换手率相对较低，双边周度换手率均值为12.72%，可以为现有的多因子组合提供一定的提升空间。",
+      "evidence": "且因子的换手率相对较低，双边的周度换手率均值为12.72%，可以为现有的多因子组合提供一定的提升空间。"
+    },
+    {
+      "text": "ChatGPT代码能力测试发现，针对常用的量化研究所需框架、函数等能较准确的给出结果，但使用时需要注意代码细节，确保其符合实际需求。",
+      "evidence": "此外我们对于 ChatGPT代码能力进行测试，发现针对常用的量化研究所需框架、函数等能较准确的给出结果，但使用时需要注意代码细节，确保其符合实际需求。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Wei et al(2022) 思维链提示研究",
+    "《Attention is All You Need》",
+    "《Evaluating Large Language Models Trained on Code》（Mark Chen，2021）",
+    "《On the Comparability of Pre-trained Language Models》（Matthias，2020）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

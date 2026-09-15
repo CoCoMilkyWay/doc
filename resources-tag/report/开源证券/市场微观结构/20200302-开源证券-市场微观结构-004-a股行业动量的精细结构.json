@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "id": "20200302-开源证券-市场微观结构-004-a股行业动量的精细结构",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "intraday_pattern"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Ret20",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{行业指数过去20个交易日的区间涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "在每个自然月的月底，我们提取各个申万一级行业指数在过去 20个交易日的区间涨跌幅，简称为Ret20 因子。"
+        },
+        {
+          "name": "日内因子M0",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "M0=\\sum_{t=-20}^{-1}\\left(close_t/open_t-1\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "在此基础之上，我们将过去 20个交易日的日内收益率加总，得到日内因子M0；将过去 20 个交易日的隔夜收益率加总，得到隔夜因子 M1。"
+        },
+        {
+          "name": "隔夜因子M1",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "M1=\\sum_{t=-20}^{-1}\\left(open_t/close_{t-1}-1\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "统计结果显示：日内因子 M0 呈现动量效应，即 M0 数值越大的组，年化收益率越高；隔夜因子 M1 呈现反转效应，即 M1 数值越大的组，年化收益率倾向于越低。"
+        },
+        {
+          "name": "牵引力因子G",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "G=R_{\\text{龙头}}-R_{\\text{普通}}",
+          "stats": [null, null, null, null],
+          "evidence": "我们首先将行业内成分股按照成交金额排序，划分为龙头股和普通股，计算出牵引力因子 G=(R_龙头-R_普通)。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "申万一级行业指数存在弱动量效应：Ret20因子第五组累计收益明显高于第一组，但多空对冲信息比率IR仅为0.47，因子收益稳定度欠佳。",
+      "evidence": "我们可以看到，第五组的累计收益要明显高于第一组，这是动量效应存在的证据。然而，多空对冲的净值曲线（图 1虚线）显示，因子收益的稳定度欠佳，信息比率 IR仅为0.47，反映了动量效应的微弱。"
+    },
+    {
+      "text": "黄金律模型基于纵向切割，多头组合年化收益19.5%，多空对冲年化收益8.56%，年化波动12.6%，信息比率0.68，且对回溯天数的敏感度低于传统动量因子。",
+      "evidence": "黄金律模型的五分组净值曲线如图 4 所示。其中，多头组合由每月底总得分最高的 5个行业构成，年化收益为19.5%。多空对冲（图4虚线）的年化收益为8.56%，年化波动为 12.6%，信息比率为0.68。"
+    },
+    {
+      "text": "龙头股模型基于横向切割，λ=60时效果最佳，多头组合年化收益17.7%，多空对冲年化收益12.9%，年化波动11.2%，信息比率1.15。",
+      "evidence": "图 6 给出了不同切割参数 λ%下龙头模型的信息比率，λ=60 时效果达到最佳。最佳切割参数对应的龙头股模型的五分组净值曲线，如图 7 所示。其中，多头组合由每月底 G 因子最高的 5 个行业构成，年化收益为 17.7%。多空对冲（图 7 虚线）的年化收益为 12.9%，年化波动为11.2%，信息比率为1.15。"
+    },
+    {
+      "text": "四个参照模型（按个股数量切割、总市值排序等）在最优切割参数下的信息比率均明显低于龙头股模型。",
+      "evidence": "从图 8 的结果可以看出，四个参照模型在最优切割参数下的信息比率，均明显低于龙头股模型（信息比率=1.15）。"
+    },
+    {
+      "text": "切割是剖析精细结构、寻找更优代理变量的有效方法：黄金律模型取“日内收益-隔夜收益”，龙头股模型取“龙头股收益-普通股收益”作为新的代理变量。",
+      "evidence": "黄金律模型的回答是，在时间轴上进行纵向切割，拆分出两个矛盾的成分：日内动量、隔夜反转，取“日内收益-隔夜收益”作为新的代理变量。龙头股模型的回答是，在成分股中进行横向切割，拆分出两个矛盾的成分：龙头股动量、普通股反转，取“龙头股收益-普通股收益”作为新的代理变量。市场行为模式的晦暗不明，往往只是由于代理变量选得不好，“切割”是剖析精细结构、寻找更优变量的有效方法。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（1）-A 股反转之力的微观来源》-2019.12.23",
+    "《市场微观结构研究系列（2）-交易行为因子的 2019》-2020.12.29",
+    "《市场微观结构研究系列（3）-聪明钱因子模型的 2.0 版本》-2020.2.9"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

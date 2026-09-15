@@ -1,0 +1,147 @@
+{
+  "schema_version": 2,
+  "id": "20150408-广发证券-多因子-022-一致预期指标构建及其在因子选股中的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["analyst"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "广发一致预期净利润",
+          "family": "analyst",
+          "direction": "unknown",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{近180天内各分析师最新归母净利润预测值，按(0.5×历史预测准确度得分+0.5×推荐市场反应得分)×时效性指数衰减权重加权平均}",
+          "stats": [null, null, null, null],
+          "evidence": "在广发一致预期指标编制过程中，我们使用近 180 天的所有报告，使用最新发布原则，并且考虑历史预测准确度、发布后二级市场涨跌幅及时效性三维度进行加权，得到的广发一致预期净利润指标。"
+        },
+        {
+          "name": "EP_GFCE_FY1",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{FY1归母净利润}}{\\text{总市值}}",
+          "stats": [0.042, null, null, null],
+          "evidence": "EP_GFCE_FY1：FY1归母净利润/总市值。该因子属于预期估值因子。"
+        },
+        {
+          "name": "EP_GFCE_FY0",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{FY0归母净利润}}{\\text{总市值}}",
+          "stats": [0.025, null, null, null],
+          "evidence": "EP_GFCE_FY0：FY0归母净利润/总市值。该因子只有每年年初业绩快报、正式报告均未公布时，会用到分析师预测数据。"
+        },
+        {
+          "name": "EG_GFCE_FY0",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{FY0相对于FY-1的净利润同比}",
+          "stats": [0.008, null, null, null],
+          "evidence": "EG_GFCE_FY0：FY0相对于FY-1的净利润同比。该因子属于历史成长因子，只有每年年初业绩快报或正式报告未公布时，会用到分析师预测数据。"
+        },
+        {
+          "name": "EG_GFCE_FY1",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{FY1相对于FY0的净利润同比}",
+          "stats": [null, null, null, null],
+          "evidence": "EG_GFCE_FY1：FY1相对于FY0的净利润同比。该因子属于预期成长因子。"
+        },
+        {
+          "name": "EarningRev_GFCE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本期广发一致预期净利润}-\\text{上期广发一致预期净利润}}{\\max(\\text{最小阈值},\\;\\text{abs(上期广发一致预期净利润)})}",
+          "stats": [0.023, null, null, null],
+          "evidence": "EarningRev_GFCE：本期广发一致预期净利润相对于上期广发一致预期净利润的环比。分析师上调公司预期净利润是一个积极的Alpha信号。"
+        },
+        {
+          "name": "CEBias_GFCE",
+          "family": "analyst",
+          "direction": "unknown",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{广发一致预期净利润}-\\text{等权一致预期净利润}",
+          "stats": [0.017, null, null, null],
+          "evidence": "CEBias_GFCE：广发一致预期净利润与等权一致预期净利润的偏差。广发加权的一致预期净利润相比等权一致预期的预测作用更为明显，两者数值上的差异能够反应权重分析师与权重报告中蕴含的信息，具有一定的Alpha。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "广发一致预期指标从分析师历史预测准确度、发布后二级市场涨跌幅及时效性三维度加权编制，战胜等权一致预期的概率为64.97%。",
+      "evidence": "根据我们的统计，使用广发一致预期指标，战胜等权一致预期的概率为64.97%。"
+    },
+    {
+      "text": "2014年A股市场25%标的无人覆盖，25%标的覆盖人数小于等于3名，余下50%标的覆盖人数较多，覆盖程度基本能够满足编制一致预期指标的要求。",
+      "evidence": "从覆盖的分布情况来说，2014年，25%标的无人覆盖，25%标的覆盖人数小于等于3名，10%标的覆盖人数为4到5名，20%标的覆盖人数为6到10名，20%标的覆盖人数超过10名。覆盖程度基本能够满足我们编制一致预期指标的要求。"
+    },
+    {
+      "text": "推荐EP_GFCE_FY1预期估值因子：用沪深300对冲后年化复合收益26.09%，2011年来组合最大月度回撤为2.45%，年平均换手2.54x。",
+      "evidence": "着重推荐如下几个因子：EP FY1 用沪深 300 对冲后效果较好，年化复合 26.09%收益，2011 年来组合最大月度回撤为 2.45%，年平均换手2.54x，非常低"
+    },
+    {
+      "text": "盈利调整因子的月度IC均值为0.023，胜率为67.7%，比较稳定；2009年下半年开始有效性明显提高，该段时间内IC均值为0.029，胜率为75.8%。",
+      "evidence": "从IC角度看，盈利调整因子的月度IC均值为0.023，胜率为67.7%，比较稳定。从月度IC图中可以明显看出其有效性从2009年下半年开始有明显提高，这段时间内的IC均值为0.029，胜率为75.8%。"
+    },
+    {
+      "text": "盈利调整与一致预期偏差因子与估值、成长性类因子的IC相关性都比较小，四个因子收益相关性较低，可各赋1/4权重结合选股。",
+      "evidence": "盈利调整与一致预期偏差因子与估值、成长性类因子的IC相关性都比较小"
+    },
+    {
+      "text": "EP_GFCE_FY1、EG_GFCE_FY0、盈利调整与预期偏离构成的四因子组合对冲沪深300复合年化超额收益20.63%、信息比率1.61；对冲中证800超额收益19.48%、信息比率2.12、最大回撤8.05%发生在2009年。",
+      "evidence": "四因子组合从2009至2014年相对沪深300复合年化超额收益为20.63%，信息比率1.61，但在2014年末回撤较大；由于组合股票更偏向小盘股一些，因此用诸如中证800等风格相对均衡的基准对冲后的效果更为稳定一些，年化复合收益19.48%，信息比率2.12，最大回撤8.05%，发生在2009年。"
+    },
+    {
+      "text": "基于分析师预期的因子比传统的基于已知信息的因子拥有更高的alpha。",
+      "evidence": "实证表明，基于分析师预期的因子比传统的基于已知信息的因子拥有更高的alpha。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

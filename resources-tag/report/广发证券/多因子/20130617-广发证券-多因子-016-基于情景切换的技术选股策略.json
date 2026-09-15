@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20130617-广发证券-多因子-016-基于情景切换的技术选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "KDJ",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "RSV_t = \\frac{close_t - \\min_{1\\le i\\le N} low_{t-N+i}}{\\max_{1\\le i\\le N} high_{t-N+i} - \\min_{1\\le i\\le N} low_{t-N+i}} \\times 100,\\; K = SMA(RSV, M_1, 1),\\; D = SMA(K, M_2, 1),\\; J = 3K - 2D",
+          "stats": [null, null, null, null],
+          "evidence": "KDJ的计算并不复杂，首先计算周期（N日、N周等）的RSV值，即未成熟随机指标值，然后再通过加权平滑计算K值、D值、J值等，以日KDJ数值的计算为例，其计算公式如下："
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "当个股ADX大于80（近期走出单边行情）时KDJ选股指标显著失效；ADX小于80时，随着ADX增加，KDJ最优参数的N和M均随之增加。",
+      "evidence": "结果显示，当个股 ADX 大于 80 时，意味着个股近期走出了单边行情，此时 KDJ 选股指标显著失效；而当ADX 小于 80时，注意到随着ADX 增加，由于单边趋势愈加明显，KDJ最优参数的N 和 M均随之增加；在大盘股中 KDJ选股指标显著失效"
+    },
+    {
+      "text": "大盘股中KDJ选股指标显著失效，小盘股应用效果最优（参数6,3,3），中盘股最优参数为（12,4,4），情景切换后策略超额收益率介于各类情景之间但胜率更高。",
+      "evidence": "在大盘股中KDJ选股指标显著失效；小盘股及中盘股中KDJ指标不同程度有效，其中小盘股应用效果最优，参数为（6,3,3）意味着小盘股中KDJ更加看重短期内股价走势，且对当前K线反应更为灵敏；而中盘股最优参数为（12,4,4），意味着该类个股中KDJ更加看重中短期内股价走势，且对当前K线反应稍微迟钝一些。"
+    },
+    {
+      "text": "根据交叉次数对买入股票配权的策略自2005年以来累计超额收益率为237%，明显高于单次交叉信号策略，胜率有所提高，最大回撤下降为33%。",
+      "evidence": "该策略相比自2005年以来累计超额收益率为237%，明显高于根据单次交叉信号进行买卖的策略，且胜率有所提高，最大回撤下降为33%，发生在2006年。"
+    },
+    {
+      "text": "考虑信号止损后策略超额收益显著提高，最大回撤有所下降，日均新股数量显著提高。",
+      "evidence": "首先对比不考虑信号止损与考虑止损的策略表现差异，后者的超额收益有了显著地提高，且最大回撤也有所下降，个股平均持仓时间也略有减少，日均新股数量则显著提高。"
+    },
+    {
+      "text": "2011-2013年样本外共累计超额收益率19.1%，其中2011年策略表现不佳出现亏损，2013年前5个月超额累计收益率已达17%。",
+      "evidence": "分阶段来观察KDJ选股策略的表现，其中2011-2013年为样本外数据，共累计超额收益率19.1%，其中2011年策略表现不佳出现亏损，而2012年及2013年至今策略均有不错表现，尤其今年以来5个月超额累计收益率已达17%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "基于情景分析的多因子 Alpha 策略——多因子 Alpha系列报告之（十四）（2012-11-16）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

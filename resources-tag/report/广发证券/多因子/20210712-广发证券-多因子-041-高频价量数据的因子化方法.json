@@ -1,0 +1,203 @@
+{
+  "schema_version": 2,
+  "id": "20210712-广发证券-多因子-041-高频价量数据的因子化方法",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "real_skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_skew_{D,i}=\\frac{1}{T-1}\\sum_{t=2}^{T}\\frac{(r_{t,D,i}-\\bar{r}_{D,i})^3}{real\\_var_{D,i}^{3/2}}",
+          "stats": [-0.0448, null, 5.05, 0.2927],
+          "evidence": "| real_skew | 已实现偏度，分钟行情收益率的偏度 |"
+        },
+        {
+          "name": "ret_intraday",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_intraday_{D,i}=\\frac{p_{T,D,i}}{open_{D,i}}-1",
+          "stats": [-0.0494, null, 2.66, 0.3423],
+          "evidence": "| ret_intraday | 日内收益率，收盘价/开盘价-1 |"
+        },
+        {
+          "name": "ratio_volumeH8",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ratio\\_volumeH8_{D,i}=\\frac{\\sum_{t\\in H8}v_{t,D,i}}{\\sum_{t=1}^{T}v_{t,D,i}}",
+          "stats": [-0.0236, null, 2.11, 0.3391],
+          "evidence": "| ratio_volumeH8 | 尾盘成交量占比：开盘后第8个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "corr_VP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VP_{D,i}=corr(v_{t,D,i},p_{t,D,i})",
+          "stats": [-0.0615, null, 4.74, 0.4757],
+          "evidence": "| corr_VP | 价量相关性，分钟成交量与价格相关性 |"
+        },
+        {
+          "name": "corr_VRlag",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VRlag_{D,i}=corr(v_{t,D,i},r_{t-1,D,i})",
+          "stats": [-0.0546, null, 3.76, 0.3187],
+          "evidence": "| corr_VRlag | 量与滞后收益率相关性，分钟成交量与上一时刻收益率相关性 |"
+        },
+        {
+          "name": "Amihud_illiq",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "Amihud\\_illiq_{D,i}=\\frac{1}{T-1}\\sum_{t=2}^{T}\\frac{|r_{t,D,i}|}{p_{t,D,i}v_{t,D,i}}",
+          "stats": [0.0657, null, 3.68, 0.3622],
+          "evidence": "Amihud非流动性因子是Amihud在2002年提出了衡量流动性的因子，考虑单位成交额驱动下，股价的变化幅度。"
+        },
+        {
+          "name": "ret_open2AH1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_open2AH1_{D,i}=\\frac{open_{D,i}}{AH1_{D,i}}-1",
+          "stats": [0.0435, null, 3.97, 0.2161],
+          "evidence": "| ret_open2AH1 | 开盘价相对第一阶段集合竞价最高价的收益率 |"
+        },
+        {
+          "name": "ret_open2AL1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_open2AL1_{D,i}=\\frac{open_{D,i}}{AL1_{D,i}}-1",
+          "stats": [0.0251, null, 4.17, 0.1989],
+          "evidence": "| ret_open2AL1 | 开盘价相对第一阶段集合竞价最低价的收益率 |"
+        },
+        {
+          "name": "ret_H8",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时（开盘后第8个半小时）的收益率}",
+          "stats": [-0.0435, null, 4.01, 0.5004],
+          "evidence": "在回测期内，ret_H8因子MA5的IC均值为-4.35%，IC胜率为74.59%，年化ICIR为4.01。"
+        },
+        {
+          "name": "real_skewlarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_skewlarge_{D,i}=\\text{大成交量对应时刻的分钟收益率偏度}",
+          "stats": [-0.0401, null, 5.44, 0.2773],
+          "evidence": "| real_skewlarge | 大成交量对应的收益率偏度 |"
+        },
+        {
+          "name": "corr_VPlarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VPlarge_{D,i}=corr(v_{t,D,i},p_{t,D,i}),\\ t\\in S_{large}",
+          "stats": [-0.0642, null, 5.38, 0.4982],
+          "evidence": "| corr_VPlarge | 大成交量对应的 corr_VP |"
+        },
+        {
+          "name": "corr_VRlaglarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr\\_VRlaglarge_{D,i}=corr(v_{t,D,i},r_{t-1,D,i}),\\ t\\in S_{large}",
+          "stats": [-0.0503, null, 4.04, 0.2928],
+          "evidence": "| corr_VRlaglarge | 大成交量对应的 corr_VRlag |"
+        },
+        {
+          "name": "ret_overnight",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "ret\\_overnight_{D,i}=\\frac{open_{D,i}}{close_{D-1,i}}-1",
+          "stats": [-0.0441, null, 4.36, -0.0027],
+          "evidence": "| ret_overnight | 隔夜收益率，开盘价相对前收盘价的收益率 |"
+        },
+        {
+          "name": "trendratio",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "trendratio_{D,i}=\\frac{p_{T,D,i}-p_{1,D,i}}{\\sum_{t=2}^{T}|p_{t,D,i}-p_{t-1,D,i}|}",
+          "stats": [-0.0399, null, 2.2, 0.2665],
+          "evidence": "| trendratio | 趋势占比，日内价格变化/分钟频价格变化绝对值之和 |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization", "smoothing"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "本报告从四类角度构建46个高频价量因子，采用IC和多空收益测试，筛选出12个周度选股能力较好的因子，包括real_skew（已实现偏度）、ret_intraday（日内收益率）、ratio_volumeH8（尾盘半小时成交量占比）、corr_VP（日内价量相关性）、corr_VRlag（量与滞后收益率相关性）、Amihud_illiq（Amihud非流动性因子）等。",
+      "evidence": "采用 IC 和多空收益测试，筛选出 12 个周度选股能力较好的因子：real_skew（已实现偏度）、ret_intraday（日内收益率）、ratio_volumeH8（尾盘半小时成交量占比）、corr_VP（日内价量相关性）、corr_VRlag（量与滞后收益率相关性）、Amihud_illiq（Amihud 非流动性因子）、ret_open2AH1（开盘价相对第一阶段集合竞价最高价的收益率）、ret_open2AL1（开盘价相对第一阶段集合竞价最低价的收益率）、ret_H8（尾盘半小时收益率）、real_skewlarge（大成交量已实现偏度）、corr_VPlarge（大成交量价量相关性）、corr_VRlaglarge（大成交量量与滞后收益率相关性）。"
+    },
+    {
+      "text": "筛选出来的因子都展示出了不错的多空超额能力，但除了 Amihud_illiq 因子外，其他因子的正 Alpha 收益显著弱于负 Alpha 收益。",
+      "evidence": "从因子表现来看，本报告筛选出来的因子都展示出了不错的多空超额能力。但除了 Amihud_illiq 因子外，其他因子的正 Alpha 收益显著弱于负 Alpha 收益。"
+    },
+    {
+      "text": "扣除交易成本后超额收益降低很多，除 Amihud_illiq 具有较高的相对500超额外，其他因子年化超额收益基本上处于-1%~9%之间，如何将高频因子选股能力转化为多头超额收益是有实际意义的课题。",
+      "evidence": "除了 Amihud_illiq因子具有较高的相对 500超额，其他因子年化超额收益基本上处于-1%~9%之间。如何更好的将上述高频因子的选股能力转化为多头的超额收益，是非常有实际意义的课题。"
+    },
+    {
+      "text": "按照5日窗口平滑的因子对未来5天的收益预测能力一般强于原始的因子，尤其是real_skew、trendratio、ret_intraday这三个因子。",
+      "evidence": "按照5日窗口平滑的因子对未来5天的收益预测能力一般强于原始的因子，尤其是real_skew和trendratio、ret_intraday这三个因子。"
+    },
+    {
+      "text": "大多数平滑后的因子相对原因子具有更高的IC和多空收益，在5天调仓情景下MA5处理相比MA20处理有更高的选股收益率。",
+      "evidence": "从 IC 和多空收益的比较来看，大多数平滑后的因子相对原因子具有更高的 IC和多空收益。在5天调仓的情景下，MA5处理相比MA20处理有更高的选股收益率。"
+    },
+    {
+      "text": "原始Amihud_illiq因子和风格因子相关性较高，中性化之后收益率下降非常明显。",
+      "evidence": "corr_VRlag中性化之后 选股能力略有下降，而原始Amihud_illiq因子和风格因子相关性较高，中性化之后 收益率下降非常明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《深度学习框架下高频数据因子挖掘》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

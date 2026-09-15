@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "20121116-广发证券-多因子-014-基于情景分析的多因子alpha策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "selection"],
+      "setup": {"universe": ["csi800"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_hedge"],
+      "approach": ["futures_hedge"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "情景模型显著地提高了多因子Alpha策略的收益，同时模型在各阶段的表现更加具有稳定性，样本内信息比1.59优于因子等权的1.39与IC加权的1.25。",
+      "evidence": "对比结果显示情景模型显著地提高了多因子Alpha策略的收益，同时模型在各阶段的表现更加具有稳定性。"
+    },
+    {
+      "text": "根据每个因子的“分层强度”得到6个分层因子分别为：ROE(代表盈利因子)、总资产增长率(代表成长因子)、一个月成交金额(代表流动性因子)、一个月股价反转(代表股价涨幅因子)、流通市值(代表规模因子)、EP(代表估值因子)。",
+      "evidence": "本文则进一步分析了因子的分层效应，根据每个因子的“分层强度”得到6个分层因子分别为：ROE(代表盈利因子)、总资产增长率(代表成长因子)、一个月成交金额(代表流动性因子)、一个月股价反转(代表股价涨幅因子)、流通市值(代表规模因子)、EP(代表估值因子)。"
+    },
+    {
+      "text": "多因子情景策略样本外（2011年以来）年化收益率接近11%，相比样本内大幅下降，但对冲组合的最大回撤降低至11%左右。",
+      "evidence": "多因子情景策略样本外（2011年以来）年化收益率接近 11%，相比样本内显然有大幅度下降，但同时对冲组合的最大回撤也降低至 11%左右。"
+    },
+    {
+      "text": "2011年情景策略年化收益率仅6.2%；今年以来策略表现明显改善，截止10月底累计收益为11.8%，年化收益14.3%，最大回撤仅4.7%。",
+      "evidence": "其中2011 年情景策略年化收益率仅 6.2%；而今年以来策略表现有了明显改善，截止 10 月底累计收益为 11.8%，年化收益 14.3%，最大回撤仅4.7%。"
+    },
+    {
+      "text": "因子IC加权策略虽考虑了因子在样本内的有效性，但未能稳定地改善因子等权策略，而情景模型则在每一个年度都明显战胜因子等权策略。",
+      "evidence": "其中因子IC加权策略虽然考虑了因子在样本内的有效性，但未能稳定地改善因子等权策略，这意味着而情景模型则在每一个年度都明显战胜因子等权策略。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "多因子 Alpha系列报告之（七）——大浪淘金，Alpha因子何处寻？",
+    "多因子 Alpha系列报告之（十三）——考虑非线性特征的多因子 Alpha策略"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

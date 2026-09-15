@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "id": "20211019-德邦证券-金工机器学习-001-利用机器学习捕捉因子的非线性效应",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "机器学习因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{神经网络、提升树和随机森林集成模型对线性回归残差收益率的预测值}",
+          "stats": [null, null, null, null],
+          "evidence": "我们使用十个风格因子作为输入，用机器学习模型得到线性回归的残差的预测值，将其称为机器学习因子，并检验该因子的选股效果。"
+        },
+        {
+          "name": "机器学习残差因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "G(X)=X\\cdot f_{G}+\\varepsilon_{G}",
+          "stats": [null, null, null, null],
+          "evidence": "因此，我们用回归法分解机器学习因子，并单独检验机器学习因子中与风格因子线性不相关部分的超额收益贡献。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": [
+        "tree",
+        "neural",
+        "label_horizon",
+        "sample_window",
+        "loss_generalization",
+        "interpretability",
+        "ensemble"
+      ],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "在因子与收益的线性关系之外，还有很强的待挖掘的非线性关系，机器学习算法可以高效地对这种非线性关系进行建模、近似。",
+      "evidence": "本文的研究表明，在因子与收益的线性关系之外，还有很强的待挖掘的非线性关系。"
+    },
+    {
+      "text": "集成模型的输出随复杂度变化相对稳定，且IC通常比对应的单一模型更高，通过集成可以削弱噪音、增强信号。",
+      "evidence": "集成模型相对单一模型而言具有明显的优势，首先，随着复杂度的变化，其输出相对稳定，其次，集成模型的 IC通常比对应的单一模型更高。"
+    },
+    {
+      "text": "交错训练的总集成模型利用不同时间段的数据，避免重训练时刻模型预测值突变和随之而来的突发高换手率，表现最优。",
+      "evidence": "交错训练的好处是利用到不同时间段的数据，避免集中训练模型时刻导致的模型预测值突变和随之而来的突发高换手率。"
+    },
+    {
+      "text": "机器学习因子分组回测在2015年至2017年依然能带来显著超额收益，但2017年以后不能持续带来超额收益，源于其在风格因子上的暴露及风格因子失效。",
+      "evidence": "在样本外，从2015年至2017年，策略依然能带来显著的超额收益，然而，2017年以后，不能持续带来超额收益。"
+    },
+    {
+      "text": "剔除风格因子影响后，机器学习残差因子的多头年化超额收益率下降了10%，空头年化超额收益率也下降了5%，但超额收益在近几年表现良好。",
+      "evidence": "在剔除了风格因子的影响之后，多头年化超额收益率下降了10%，空头年化超额收益率也下降了5%。"
+    },
+    {
+      "text": "机器学习残差因子具有很高的信息比率、最小的波动率、最小的回撤和最低的月自相关系数，是一个显著的alpha因子。",
+      "evidence": "虽然机器学习残差因子的交叉验证的R2增益并不算高，但它具有很高的信息比率、最小的波动率、最小的回撤，此外，它还具有最低的月自相关系数；"
+    },
+    {
+      "text": "机器学习残差因子作为一个单因子集成了众多基础因子的非线性效应，集成的优势在于叠加和分散风险，基础因子数量增多后其选股能力有望逐渐提高。",
+      "evidence": "机器学习残差因子作为一个单因子，却集成了众多的基础因子的非线性效应。集成的优势在于叠加和分散风险，而这或许正是机器学习残差因子的强大选股能力的来源。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bonne, G., Wang, J., and Zhang, H., 2021. \"Machine Learning Factors: Capturing Nonlinearities in Linear Factor Models\" MSCI Research Insights.",
+    "Orr, D. J., Mashtaler, I., Nagy, A. 2012. \"The Barra China Equity Model (CNE5)\" MSCI Model Insight."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

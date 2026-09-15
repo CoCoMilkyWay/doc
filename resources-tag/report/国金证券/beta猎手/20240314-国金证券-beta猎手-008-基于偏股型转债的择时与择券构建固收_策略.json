@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "id": "20240314-国金证券-beta猎手-008-基于偏股型转债的择时与择券构建固收_策略",
+  "genre": "research",
+  "asset": ["convertible"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "量价因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{两个隐含波动率因子先等权合成，再与其余4个量价类因子等权合成}",
+          "stats": [0.059, null, 0.35, 0.4158],
+          "evidence": "测试完之后，本文将两个隐含波动率因子先等权合成，再于剩下4个较好的量价类因子等权合成为新的大类因子，等权合成后的量价因子IC均值达到了5.90%的水平，风险调整后的IC为0.35，表现好于所有量价类单因子，预测能力大幅提升。"
+        },
+        {
+          "name": "转债基本面因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{6个表现较好的转债基本面类因子等权合成}",
+          "stats": [0.0489, null, 0.24, 0.2616],
+          "evidence": "但是单因子的波动性往往比较大，可能出现阶段性失效的情况，因此本文将表现较好的转债基本面类因子等权合成为新的大类因子，等权合成后的转债基本面因子IC 均值达到了4.89%的水平，风险调整后的IC为0.24，表现相较于单因子更加稳定。"
+        },
+        {
+          "name": "正股基本面因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{2个表现较好的正股基本面类因子等权合成}",
+          "stats": [0.017, null, 0.07, 0.1524],
+          "evidence": "本文将表现较好的正股基本面类因子等权合成为新的大类因子，等权合成后的正股基本面因子IC均值达到了1.70%的水平，风险调整后的IC为0.07，表现相较于单因子更加稳定。"
+        },
+        {
+          "name": "偏股型转债精选因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{转债基本面因子、正股基本面因子和量价因子三大类因子标准化后等权合成}",
+          "stats": [0.0624, null, 0.31, 0.3858],
+          "evidence": "因此本文对三个大类因子进行了标准化处理，并等权合成为偏股型转债精选因子。等权合成后的偏股型转债精选因子IC均值达到了6.24%的水平，风险调整后的IC为0.31，表现相较于单个大类因子提升十分明显。"
+        },
+        {
+          "name": "双低",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{可转债价格}+100\\times\\text{转股溢价率}",
+          "stats": [-0.0913, null, -0.38, null],
+          "evidence": "从各个转债基本面类因子IC指标可以看到，双低因子的表现远远优于其它基本面类因子，IC均值达到了-9.13%，呈现一枝独秀的状态。"
+        },
+        {
+          "name": "转股溢价率",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{转债收盘价}-\\text{转换价值}}{\\text{转换价值}}",
+          "stats": [-0.0435, null, -0.21, null],
+          "evidence": "从各个量价类因子IC指标可以看到，60日标准化隐含波动率因子和转股溢价率因子的表现较好，IC均值分别为-4.74%和-4.35%。"
+        },
+        {
+          "name": "60日标准化隐含波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{对可转债的BS隐含波动率滚动60日做标准化}",
+          "stats": [-0.0474, null, -0.22, null],
+          "evidence": "从各个量价类因子IC指标可以看到，60日标准化隐含波动率因子和转股溢价率因子的表现较好，IC均值分别为-4.74%和-4.35%。"
+        },
+        {
+          "name": "当日总市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{转债所对应正股的公司的总市值}",
+          "stats": [-0.019, null, -0.07, null],
+          "evidence": "从各个正股基本面类因子IC指标可以看到，当日总市值因子的表现优于净利润因子，IC均值达到了-1.90%。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["na"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "基于价格中位数、价格偏度和纯债溢价率三个择时信号合成的优选择时策略，年化收益率8.52%高于指数的6.20%，波动率和最大回撤明显降低，夏普比率从0.35提升至0.55。",
+      "evidence": "基于三个指标择时信号合成的优选择时策略，在年化收益率(8.52%)较国金金工偏股型转债指数(6.20%)有所提升的同时，波动率和最大回撤都能有明显降低。夏普比率也从指数的0.35提升至0.55。"
+    },
+    {
+      "text": "加入40%换手率缓冲后择券策略换手率大幅降低，年化收益率20.76%，夏普比率1.01，最大回撤率由27.69%降到26.40%。",
+      "evidence": "在40%的换手率缓冲下，改进后的策略换手率大幅降低，择券策略超额净值稳步上升。策略的年化收益率为20.76%，夏普比率为1.01，在收益表现与之前持平的情况下，最大回撤率由27.69%降到了26.40%。"
+    },
+    {
+      "text": "偏股型转债精选因子多空净值在2021年后大幅增长，多空组合年化收益率达38.58%，夏普比率1.86。",
+      "evidence": "从多空组合表现上看，偏股型转债精选因子的多空净值在2021年后迎来大幅增长，多空组合年化收益率达到了38.58%，夏普比率为1.86，表现非常出色。"
+    },
+    {
+      "text": "偏股型转债择时增强固收策略在最大回撤仅小幅变大的情况下，增厚固收产品2.94%的年化收益率。",
+      "evidence": "偏股型转债择时增强固收策略虽然夏普比率低于中长期纯债型指数，但是在最大回撤仅小幅变大的情况下，增厚了固收产品2.94%的年化收益率，收益率提升明显。"
+    },
+    {
+      "text": "纯债偏股转债择券择时策略在小幅放大年化波动率(3.33%)和最大回撤(-2.81%)的情况下，年化收益率提升6.76%，夏普比率提升至1.61。",
+      "evidence": "相较纯债偏股型转债择时策略，纯债偏股转债择券择时策略在小幅放大年化波动率(3.33%)和最大回撤(-2.81%)的情况下，年化收益率提升明显6.76%，使得策略夏普比率提升至1.61。"
+    },
+    {
+      "text": "偏股型转债择时择券叠加策略年化收益率19.28%，高于指数的6.20%，波动率与指数接近持平，夏普比率突破1。",
+      "evidence": "策略年化收益率为19.28%，高于国金金工偏股型转债指数的6.20%，同时波动率(17.22%)与国金金工偏股型转债指数(18.11%)相比接近持平。从而使得策略夏普比率突破了1，数值提升明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

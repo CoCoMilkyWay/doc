@@ -1,0 +1,123 @@
+{
+  "schema_version": 2,
+  "id": "20200224-海通证券-选股因子-059-基于逐笔成交数据的高频因子梳理",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大买成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{大买成交金额_{i,t}}{总成交金额_{i,t}}",
+          "stats": [0.04, null, 2.99, 0.185],
+          "evidence": "大买成交金额占比年化多空收益达 18.5%，月均溢价达 0.40%。"
+        },
+        {
+          "name": "买单集中度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{k=1}^{N_{i,t}}买单成交金额_{i,t,k}^{2}}{总成交金额_{i,t}^{2}}",
+          "stats": [0.03, null, 1.41, 0.158],
+          "evidence": "在正交处理前，买单集中度呈现出了极强的月度选股能力，因子月均 IC达 0.07，月度多空收益达 2.3%。"
+        },
+        {
+          "name": "盘中主买占比（占全天成交）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{盘中主买金额_{i,t}}{总成交金额_{i,t}}",
+          "stats": [0.03, null, 2.39, 0.113],
+          "evidence": "在中证 800 指数内，大买成交金额占比、盘中主买占比（占全天成交）以及尾盘知情主买占比（占全天成交）皆呈现出了较为显著的选股能力。"
+        },
+        {
+          "name": "开盘后日内净主买强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{mean(净主买金额_{i,t,开盘后})}{std(净主买金额_{i,t,开盘后})}",
+          "stats": [0.04, null, 3.13, 0.151],
+          "evidence": "开盘后日内净主买强度年化多空收益达 15.1%，月均溢价达 0.28%。"
+        },
+        {
+          "name": "开盘后知情主卖占比（占同时段成交）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "-1*\\frac{开盘后知情主卖额_{i,t}}{开盘后成交金额_{i,t}}",
+          "stats": [0.03, null, 3.49, 0.126],
+          "evidence": "除买单集中度外，开盘后知情主卖占比（占同时段成交）以及尾盘知情主买占比（占全天成交）同样呈现出了较为显著的月度选股能力，因子月均 IC 达0.04，月度多空收益超 1%。"
+        },
+        {
+          "name": "尾盘知情主买占比（占全天成交）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前知情主买占比（占全天成交额）}=-1*\\frac{收盘前知情主买额_{i,t}}{全天成交金额_{i,t}}",
+          "stats": [0.03, null, 2.51, 0.14],
+          "evidence": "美中不足的是，大买成交金额占比在中证 500 指数内的多头效应较弱，月均多头超额收益仅有 0.22%，而开盘后知情主卖占比（占同时段成交）以及尾盘知情主买占比（占全天成交）的月均多头超额收益在 0.40%~0.45%之间。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "正交处理后各逐笔因子皆呈现较为显著的全市场月度选股能力，因子月均IC在0.03~0.04之间，除买单集中度外其余因子年化ICIR皆超过2.0",
+      "evidence": "在正交处理后，各因子皆呈现出了较为显著的月度选股能力。因子月均 IC 在0.03~0.04 之间。此外，各逐笔因子呈现出了较强的稳定性。除买单集中度外，其余因子年化 ICIR 皆超过 2.0。"
+    },
+    {
+      "text": "指数范围会对因子选股能力产生影响：中证800内大买成交金额占比、盘中主买占比（占全天成交）以及尾盘知情主买占比（占全天成交）依旧显著，中证500内除大买成交金额占比外其余因子选股能力减弱",
+      "evidence": "指数范围会对因子选股能力产生影响。在中证 指数内，大买成交金额占比、盘中主买占比（占全天成交）以及尾盘知情主买占比（占全天成交）依旧呈现出了较为显著的选股能力。在中证 500 指数内，除了大买成交金额占比外，其余因子的选股能力都出现了一定程度的减弱。"
+    },
+    {
+      "text": "调仓频率从月度提升至半月度时因子ICIR与年化多空收益皆提升；从半月度提升至周度时，仅有大买成交金额占比以及尾盘知情主买占比（占全天成交）的选股能力进一步提升",
+      "evidence": "当调仓频率从月度提升至半月度时，因子的 ICIR 以及年化多空收益皆得到了一定的提升。部分因子的多头效应也得到了改善。然而当调仓频率从半月度提升至周度时，仅有大买成交金额占比以及尾盘知情主买占比（占全天成交）的选股能力出现进一步的提升。其余因子的多空年化收益反而出现了小幅回落。"
+    },
+    {
+      "text": "正交后开盘后日内净主买强度与开盘后知情主卖占比（占同时段成交）强相关，截面相关性达0.47，使用逐笔因子时需避免同时使用高相关因子",
+      "evidence": "此外，开盘后日内净主买强度与开盘后知情主卖占比（占同时段成交）强相关，截面相关性达 0.47。"
+    },
+    {
+      "text": "逐笔因子的引入能够提升中证500指数增强组合表现，引入买单集中度后模型年化超额收益从18.7%提升至21.5%，但并非任意因子都能带来组合改善",
+      "evidence": "观察上表不难发现，部分逐笔因子的引入的确能够给组合表现带来进一步的提升。例如，在引入买单集中度后，模型年化超额收益从 18.7%提升至 21.5%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（五十七）——基于主动买入行为的选股因子》（2020.01.10）",
+    "《选股因子系列研究（五十八）——知情交易与主买主卖》",
+    "《选股因子系列研究（五十六）——买卖单数据中的 Alpha》（2019.11.05）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20240701-德邦证券-金工机器学习-006-基于分钟数据的gru模型在选股策略中的应用初探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "GRU因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{一日分钟bar行情的7个特征（开高低收、成交量、成交额、成交笔数）经时序标准化后输入32个GRU隐藏元，32个隐含因子取均值得到模型输出}",
+          "stats": [null, 0.075, null, null],
+          "evidence": "本文直接采用标准化后的一日分钟 bar行情数据输入 GRU 模型，对股票未来一日的 open to open 收益进行预测。模型得到的因子对于未来一日 open to open 收益率的日平均 Rank IC 为 7.5%，对未来收益有较强的预测能力。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "GRU因子对未来一日open to open收益率的日均RankIC为7.5%，分组收益呈线性，空头组未来一日平均收益率-0.34%，多头组0.24%。",
+      "evidence": "最终得到的 GRU因子，对预测目标（未来一日 open to open收益率）的日均 IC（RankIC，若无其他说明，本文IC均指Rank IC）为7.5%。"
+    },
+    {
+      "text": "GRU因子多头组合的交易层面影响较大：在交易速率层面策略产生年化约4.87%-9.54%的滑点影响，换仓频率层面存在约6%-10%左右的年化收益率差异，更高频率换仓和更贴近开盘成交有明显优势。",
+      "evidence": "在交易速率层面策略产生年化约 4.87%-9.54%的滑点影响，换仓频率层面存在约 6%-10%左右的年化收益差异。"
+    },
+    {
+      "text": "GRU因子指数增强组合表现优秀：沪深300增强年化超额7.26%（IR 1.93），中证500增强7.58%（IR 1.75），中证1000增强8.86%（IR 1.83），跟踪误差均在5%以内。",
+      "evidence": "具体来看，沪深 300 增强组合年化收益率增强 7.26%，整体信息比率为 1.93，Calmar比率为 1.68；中证 500 增强组合年化收益率增强 7.58%，整体信息比率为 1.75，Calmar比率为 1.81；中证 1000 增强组合年化收益率增强 8.86%，整体信息比率为 1.83，Calmar 比率为 1.35。"
+    },
+    {
+      "text": "GRU因子风格上明显偏好低波动率、低流动性，兼有低估值、高盈利偏好，这一风格偏好对组合的交易成本影响较大。",
+      "evidence": "GRU因子在风格上偏好选择流动性较差，波动率较小，估值较低，盈利水平较高的股票。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kyunghyun Cho, Bart van Merrienboer, Caglar Gulcehre Dzmitry Bahdanau, Fethi Bougares, Holger Schwenk, and Yoshua Bengio. 2014. Learning phrase representations using rnn encoder-decoder for statistical machine. In Proceedings of the 2014 Conference on EMNLP, 1724-1734.",
+    "S. Hochreiter and J. Schmidhuber. Long Short- Term Memory. Neural Computation. 1997, 9(8):1735~1780"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

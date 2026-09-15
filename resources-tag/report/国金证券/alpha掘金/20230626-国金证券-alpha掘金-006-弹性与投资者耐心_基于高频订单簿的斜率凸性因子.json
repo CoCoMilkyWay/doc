@@ -1,0 +1,202 @@
+{
+  "schema_version": 2,
+  "id": "20230626-国金证券-alpha掘金-006-弹性与投资者耐心_基于高频订单簿的斜率凸性因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["csi300", "csi800", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "Slopea",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{对累计委托量与委托价进行拟合得到买方订单簿斜率，以委托量占比为分母，并将买方斜率取负号}",
+          "stats": [0.0034, null, null, 0.0133],
+          "evidence": "根据我们的推测，买方斜率越大，股票的需求弹性越小，买方投资者对于股票的价格敏感程度较低，则股票应有更高的预期收益。"
+        },
+        {
+          "name": "Slopeb",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{对累计委托量与委托价进行拟合得到卖方订单簿斜率，以委托量占比为分母}",
+          "stats": [-0.0001, null, null, 0.0281],
+          "evidence": "对于卖方而言，斜率越小则股票的供给弹性越大，即减少相同的价格会有较大程度的委托量降低，表明卖方不愿轻易降价卖出，同样对应到股票更高的预期收益。"
+        },
+        {
+          "name": "Slopeab",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "Slope_{ab}=Slope_{a}-Slope_{b}",
+          "stats": [0.0023, null, null, 0.0465],
+          "evidence": "同时，为了进一步衡量买卖双方的弹性差异，我们计算了买卖方斜率差异因子："
+        },
+        {
+          "name": "Slopeabl",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\mathit{Slope}_{abl}=\\frac{\\mathit{Slope}_{al}-\\mathit{Slope}_{bl}}{\\mathit{Slope}_{al}+\\mathit{Slope}_{bl}}",
+          "stats": [-0.0169, null, -0.22, 0.3275],
+          "evidence": "我们推测，低档位斜率因子与上述的供需弹性逻辑相符，即买方低档斜率越大，投资者对于价格的敏感程度越小，股票预期收益越高。"
+        },
+        {
+          "name": "Slopeabh",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\mathit{Slope}_{abh}=\\frac{\\mathit{Slope}_{ah}-\\mathit{Slope}_{bh}}{\\mathit{Slope}_{ah}+\\mathit{Slope}_{bh}}",
+          "stats": [0.0104, null, 0.09, 0.1264],
+          "evidence": "而高档位投资者往往耐心程度更强，且其更有可能拥有优势信息，会与低档位投资者产生相反的预测效果。"
+        },
+        {
+          "name": "Slopealh",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{卖方高低档斜率按照 2/3,1/3 的比例反向合成，衡量卖方订单簿拟合曲线的凸性程度}",
+          "stats": [0.0193, null, 0.18, 0.1411],
+          "evidence": "经过测试发现，斜率凸性因子在中证 800 成分股上预测效果较好。就单方向而言，卖方的斜率凸性因子 IC 均值达到 1.93%，风险调整后 IC 为 0.18，而买方斜率凸性因子表现相对较差。"
+        },
+        {
+          "name": "Slopeblh",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{买方高低档斜率按照 2/3,1/3 的比例反向合成，衡量买方订单簿拟合曲线的凸性程度}",
+          "stats": [0.0019, null, 0.02, 0.1131],
+          "evidence": "依据上文的高低档斜率因子逻辑推理和验证效果，若卖方凸性越大，高低档位斜率差异越大，预期收益越高；买方凸性越大，预期收益越低。"
+        },
+        {
+          "name": "Slopeablh",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{高低档斜率因子按照 2/3,1/3 的比例进行合成，衡量订单簿拟合曲线的凸性程度}",
+          "stats": [-0.0165, null, -0.19, 0.2834],
+          "evidence": "因此我们考虑将两个因子按照 2/3,1/3 的比例进行合成，构建出斜率凸性因子，衡量订单簿拟合曲线的凸性程度。"
+        },
+        {
+          "name": "SlopeablhAdjCI",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{行业市值中性化后的买卖双方斜率凸性因子}",
+          "stats": [-0.0154, null, -0.22, 0.2598],
+          "evidence": "经过行业市值中性化后，因子的 IC 均值为-1.54%，风险调整 IC 达到-0.22。"
+        },
+        {
+          "name": "ConvexityFactor",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{将卖方斜率凸性因子与买卖方低档位斜率因子进行合成}",
+          "stats": [0.0254, null, 0.27, 0.164],
+          "evidence": "因此我们进一步将有效因子进行合成，得到斜率凸性因子在中证 800 成分股上的 IC 指标如下。可以看出，合成因子相较单因子的提升幅度明显，IC 均值在 2.54%，风险调整后 IC值为 0.27。"
+        },
+        {
+          "name": "ConvexityFactorAdjCI",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{行业市值中性化后的合成斜率凸性因子}",
+          "stats": [0.0236, null, 0.32, 0.1515],
+          "evidence": "经过行业市值中性化后因子的风险调整 IC 进一步提高，达到 0.32。"
+        },
+        {
+          "name": "CGTM",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期（Consensus）、成长（Growth）、技术（Technique_RegM）和动量（Momentum）四个风格因子合成}",
+          "stats": [0.0567, null, 0.49, 0.5098],
+          "evidence": "我们将四个因子合成（CGTM）后得到的 IC 均值为 5.67%，风险调整后 IC为 0.49。"
+        },
+        {
+          "name": "CGTMConvexity",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{CGTM 四因子与斜率凸性因子合成}",
+          "stats": [0.0625, null, 0.54, 0.5615],
+          "evidence": "本次我们将四个因子与斜率凸性因子合成（CGTMConvexity），测试此因子所带来的增量收益。发现最终的合成因子 IC 指标得到进一步提升，均值为 6.25%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["csi800"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "低档买卖方斜率因子在沪深 300 成分股上的多头年化超额收益率达到 13.52%，多空夏普比率为 3.49。",
+      "evidence": "低档买卖方斜率因子在沪深 300 成分股上的多头年化超额收益率达到 13.52%，多空夏普比率为 3.49。"
+    },
+    {
+      "text": "买卖双方斜率凸性因子在沪深 300 成分股上多头年化超额收益率为 12.86%，多空夏普比率为 3.14；降至周频后多头年化超额收益率依然保持在 10.04%，多空夏普比率为 2.04。",
+      "evidence": "结合了买卖双方的斜率凸性因子在沪深 300 成分股上多头年化超额收益率为 12.86%，多空夏普比率为 3.14。降至周频后，因子的多头年化超额收益率依然保持在 10.04%，多空夏普比率为 2.04。"
+    },
+    {
+      "text": "斜率凸性因子与风格因子间相关性都较低，相关性最高的为价值因子，仅为 0.17，提供了独特的 alpha 收益。",
+      "evidence": "从如下数据可以看出，该因子与风格因子间相关性都较低，相关性最高的为价值因子，仅为 0.17。"
+    },
+    {
+      "text": "因子普遍在尾盘期间效果更佳，尾盘期间低档和高档斜率因子 IC 均值分别为-1.34%和 1.05%，均优于全天因子值的表现。",
+      "evidence": "低档和高档斜率因子在早尾盘期间表现差异明显，开盘期间因子 IC 的 T 统计量均不显著，尾盘期间 IC 均值分别为-1.34%和 1.05%，均优于全天因子值的表现。"
+    },
+    {
+      "text": "单边千分之二手续费率下，斜率凸性因子的中证 800 指数增强策略年化超额收益率为 8.25%，信息比率为 0.98。",
+      "evidence": "发现因子的年化超额收益率达到 8.25%，信息比率为 0.98。"
+    },
+    {
+      "text": "将斜率凸性因子与一致预期、成长、技术和动量四因子合成后构建的中证 800 指数增强策略，年化超额收益率为 19.91%，信息比率为 1.59，超额最大回撤为 18.57%。",
+      "evidence": "增强策略的年化超额收益率为 19.91%，信息比率为 1.59，超额最大回撤为 18.57%。"
+    },
+    {
+      "text": "在较严格的千分之三手续费率下，合成因子增强策略年化超额收益率依然有 17.88%，信息比率达到 1.42。",
+      "evidence": "不过在较严格的千分之三手续费率下，年化超额收益率依然有 17.88%，信息比率达到 1.42。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Rosu2009"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

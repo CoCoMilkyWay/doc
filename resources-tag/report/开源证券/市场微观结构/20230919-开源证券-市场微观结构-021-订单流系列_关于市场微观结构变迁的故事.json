@@ -1,0 +1,134 @@
+{
+  "schema_version": 2,
+  "id": "20230919-开源证券-市场微观结构-021-订单流系列_关于市场微观结构变迁的故事",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "单笔金额分位数QUA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于分钟单笔成交金额序列构造的分位数统计量，刻画机构参与程度}",
+          "stats": [null, -0.093, -4.92, null],
+          "evidence": "在《高频因子：分钟单笔金额序列中的主力行为刻画》报告中，我们基于分钟单笔成交金额刻画了机构参与程度的度量（QUA因子)，2018年以来跟踪效果表现优异，RankIC为-0.093，ICIR为-4.92，多头超额收益达到 7%以上。"
+        },
+        {
+          "name": "广义主力净流入率CNIR",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{利用逐笔委托和逐笔成交数据重新划分大小单后计算的广义主力净流入率}",
+          "stats": [null, null, null, null],
+          "evidence": "在《大小单重定标与资金流因子改进》报告中，我们尝试利用逐笔委托和逐笔成交数据重新划分大小单，同时解决了资金流因子多头超额不显著的问题。改进的广义主力净流入率（CNIR因子）多头超额优异，样本外超越沪深300达到5.1%。"
+        },
+        {
+          "name": "时间重心偏离TGD",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{涨跌幅日内时间重心相对均匀分布重心的偏离度}",
+          "stats": [null, 0.06, null, null],
+          "evidence": "在《日内分钟收益率的时序特征：逻辑讨论与因子增强》报告中，我们以涨跌幅的日内效应为出发点，探究涨跌幅在时间轴上的分布信息。所构造的时间重心偏离 TGD 因子的多空信息比率较高，Rank IC 为 0.06，多空月度胜率超过 90%。"
+        },
+        {
+          "name": "隔夜涨跌幅因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R_{t}^{ono}=\\frac{Open_{t}}{Close_{t-1}}-1",
+          "stats": [null, 0.04, null, null],
+          "evidence": "我们把当日涨跌幅拆分为隔夜和日内若干时段，IC结构性测试结果表明：隔夜涨跌幅呈现弱动量效应，而日内涨跌幅则呈现不同程度的反转效应。"
+        },
+        {
+          "name": "剔除开盘第1小时的日内涨跌幅因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "R_{t}^{A}=\\sum_{i=61}^{240}r_{t,i}",
+          "stats": [null, -0.068, null, null],
+          "evidence": "A因子在2018年以前表现要显著优于B因子，说明由于投资者在日内结构分布的不均匀，盘初阶段的涨跌幅会对日内反转因子产生干扰，剔除掉这部分往往能够改造出比较好的反转因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "robustness", "decay_monitor", "crowding"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "A股机构化进程体现为“交易”机构化而非“持仓”机构化，未来整体资金换手率将会提升，微观结构变迁的理解需要修正。",
+      "evidence": "未来A股的变化趋势将会是整体资金换手率的提升，我们对于微观结构变迁的理解也需要修正：机构化进程体现为“交易”机构化，而并非是“持仓”机构化。"
+    },
+    {
+      "text": "小市值股票委托平均执行时间缩短最明显，A股机构化是“不均匀”或“小市值”的机构化，微观结构变迁对主动暴露小市值风格的因子影响更显著。",
+      "evidence": "从变化趋势来看，小市值股票的市价化限价委托，平均执行时间缩短的程度最为明显。我们或许可以补充机构化为“不均匀”或是“小市值”的机构化，而市场微观结构变迁对主动暴露小市值风格的因子影响会更加显著。"
+    },
+    {
+      "text": "A股平均单笔挂单金额近年呈下降趋势，大小单划分阈值从20万元不断降低至2.5万元且参数还在缩减，对策略的参考意义在降低。",
+      "evidence": "我们观察到A股的平均单笔挂单金额在近年来呈现下降趋势（图26)，2022年4月达到最低值。考虑这点，报告对大小单划分的阈值进行重新定义，大单与小单的分界值从20万元不断降低至2.5万元，并且参数还在缩减，对于策略的参考意义也在降低。"
+    },
+    {
+      "text": "完成当天20%交易量的时长从2013年的35分钟缩短至2022年的20分钟左右，交易量向早盘阶段漂移。",
+      "evidence": "在2013年，完成当天20%的交易量预计需要35分钟，而在2022年这一时长则缩短至20分钟左右，早盘交易的比例在增加。"
+    },
+    {
+      "text": "高频（10秒以内）撤单占比2018年以来持续提升，而撤单占比整体维持在约32%的稳定水平，说明是结构性转变而非总量变化。",
+      "evidence": "图19展示了高频（10秒以内）撤单占比的变化，2018年以撤单比例的分布重心在逐渐往右移动，撤回的股数占比越来越高。"
+    },
+    {
+      "text": "剔除开盘第1小时涨跌幅提纯日内反转的做法自2019年以来不再有效，日内因子游戏的玩法已经发生变化。",
+      "evidence": "然而，自2019年以来，上述做法变得不再有效，我们再次观察，日内因子游戏的玩法已经发生变化（图42）。"
+    },
+    {
+      "text": "合成因子2023年上半年仍取得3%以上多头超额、最大回撤1.93%，但获取超额收益的难度在逐渐增大。",
+      "evidence": "尽管获取超额收益的难度在逐渐增大，但是合成因子在2023年上半年，仍然有着3%以上的多头超额，最大回撤为1.93%。"
+    },
+    {
+      "text": "私募是A股小市值机构化的主要推手。",
+      "evidence": "因此，我们合理推测私募是A股小市值机构化的主要推手。"
+    },
+    {
+      "text": "微盘股策略市场容量暂未达到峰值，但同类结构下累计超额收益已较高（当前达50%以上），需警惕投资者盈利变现的处置效应风险。",
+      "evidence": "综上，我们判断微盘股策略市场容量暂时还没达到峰值，但是超额收益在同类结构下累计已经较高，不排除会出现部分投资者选择在当下盈利变现的风险。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《大小单重定标与资金流因子改进—市场微观结构研究系列（16）》-2022.09.04",
+    "《日内分钟收益率的时序特征：逻辑讨论与因子增强—市场微观结构研究系列（19)》-2022.12.25",
+    "《高频因子：分钟单笔金额序列中的主力行为刻画—市场微观结构研究系列（15)》-2022.06.12"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

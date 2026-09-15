@@ -1,0 +1,154 @@
+{
+  "schema_version": 2,
+  "id": "20120801-广发证券-多因子-012-从icir角度挖掘风格因子的均值回复性",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "1个月成交金额",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月个股成交金额}",
+          "stats": [-0.055, null, -1.09, null],
+          "evidence": "“一个月成交金额”因子近8 个月内的 ICIR与当期 IC 具有显著的负相关关系，8个月以上两者相关性衰减至零附近。可初步设定 8 个月作为“一个月成交金额”因子ICIR的计算周期。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月个股换手率}",
+          "stats": [-0.0613, null, -1.57, null],
+          "evidence": "“换手率”因子的近期ICIR与当期 IC 存在显著的负相关关系，其中在 10 个月的统计期内两者的相关系数在90%置信度下显著。"
+        },
+        {
+          "name": "一个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月个股涨跌幅的相反数}",
+          "stats": [-0.0467, null, -0.93, null],
+          "evidence": "“一个月股价反转” 因子的近期 ICIR与当期 IC 同样存在显著的负相关关系，其中在 10 个月的统计期内两者的相关系数在 80%置信度下显著。同上，以 10 个月作为因子ICIR的计算周期。"
+        },
+        {
+          "name": "三个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月个股涨跌幅的相反数}",
+          "stats": [-0.0385, null, -0.67, null],
+          "evidence": "“三个月股价反转”因子的近期 ICIR 与当期 IC 同样存在显著的负相关关系，其中在8个月的统计期内两者的相关系数在 80%置信度下显著。以8个月作为因子ICIR的计算周期。"
+        },
+        {
+          "name": "六个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月个股涨跌幅的相反数}",
+          "stats": [-0.0224, null, -0.37, null],
+          "evidence": "“六个月股价反转”因子8个月内的ICIR与当期IC同样存在显著的负相关关系，8个月外两者相关关系趋于零，以8个月作为因子ICIR的计算周期。"
+        },
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{个股流通市值}",
+          "stats": [-0.0316, null, -0.43, null],
+          "evidence": "“流通市值”因子 8 个月内的 ICIR 与当期 IC 同样存在显著的负相关关系，同样以8个月作为因子 ICIR的计算周期。"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润}/\\text{总市值}",
+          "stats": [0.0421, null, 1.37, null],
+          "evidence": "“EP”因子 6 个月内的 ICIR 与当期 IC 同样存在显著的负相关关系，以 6 个月作为因子 ICIR的计算周期。"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入}/\\text{总市值}",
+          "stats": [0.0297, null, 1.37, null],
+          "evidence": "“SP” 因子6个月内的ICIR与当期 IC 同样存在显著的负相关关系，同样以6个月作为因子 ICIR的计算周期。"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产}/\\text{总市值}",
+          "stats": [0.0436, null, 1.27, null],
+          "evidence": "“BP” 因子8个月内的ICIR与当期 IC 同样存在显著的负相关关系，8个月以上计算的 ICIR与IC 的相关性趋于零附近，以 8个月作为因子ICIR的计算周期。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["return_test"], "setup": {"universe": ["csi800"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "风格因子的IC与因子近期ICIR之间存在显著的负相关关系，且不同风格因子的ICIR计算周期各不相同，验证风格因子存在均值回复特征",
+      "evidence": "最后，通过观察及统计发现，风格因子的 IC 与因子近期 ICIR 之间存在显著的负相关关系，而且对于不同的风格因子，ICIR选择的计算周期各不相同，报告对各类风格因子的最佳观察周期进行了统计检验。"
+    },
+    {
+      "text": "运用因子择时策略后，多空对冲及股指期货对冲组合的收益率与信息比均改善，两类对冲组合信息比均提高11%以上，相对因子等权策略各期胜率均为60.76%",
+      "evidence": "结果表明，在运用因子择时策略之后，多空对冲组合及股指期货对冲组合的收益率及信息比均有所改善，其中，两类对冲组合的信息比均提高了11%以上，且因子择时策略相对因子等权策略各期的胜率均为60.76%。"
+    },
+    {
+      "text": "在不考虑各种费用及杠杆因素的情况下，因子等权的多空对冲组合样本外平均收益17.16%、信息比1.613、最大回撤6.57%，相比股指期货对冲方案能获得更多的Alpha，且波动率和最大回撤更小",
+      "evidence": "由图 22及表5可以直观看到，在不考虑各种费用及杠杆因素的情况下，多空对冲组合相比股指期货对冲方案能获得更多的 Alpha，同时组合的波动率和最大回撤都更小。"
+    },
+    {
+      "text": "2011上半年及今年以来，因子择时策略成功捕捉“一个月股价反转”及“换手率”等因子的轮动规律，使对冲组合表现大幅提高",
+      "evidence": "根据上图显示，2011上半年及今年以来，由于因子择时策略成功地捕捉了“一个月股价反转”以及“换手率”等因子的轮动规律，使得对冲组合的表现有了大幅的提高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "多因子 Alpha系列报告之（七）——大浪淘金，Alpha因子何处寻？",
+    "多因子 Alpha系列报告之（十一）——考虑换手率的多因子策略？"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

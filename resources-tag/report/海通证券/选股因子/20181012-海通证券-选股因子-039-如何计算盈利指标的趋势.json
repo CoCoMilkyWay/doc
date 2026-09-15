@@ -1,0 +1,94 @@
+{
+  "schema_version": 2,
+  "id": "20181012-海通证券-选股因子-039-如何计算盈利指标的趋势",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Gross Profitability",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Gross\\;Profitability}=\\frac{Gross\\;Profit}{Asset}",
+          "stats": [0.023, 0.0381, 0.62, 0.0064],
+          "evidence": "Gross Profitability 的计算也非常简单，即毛利润除以总资产。"
+        },
+        {
+          "name": "GP环比趋势因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GP_{t}=\\alpha_{t}+\\beta_{t}\\,t+\\varepsilon_{t},\\;\\text{OLS回归得到的系数}\\beta_{t}\\text{即为趋势因子，回归用最近N个相邻季度的单季度Gross Profitability}",
+          "stats": [0.0258, 0.0358, 1.4, 0.0088],
+          "evidence": "考虑到很多公司的毛利润通常会具有一定的周期性，我们构建两种不同的盈利趋势因子：环比趋势因子和同比趋势因子，两种因子的区别在于回归方程中 $GP$ 的选择不同。"
+        },
+        {
+          "name": "GP同比趋势因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GP_{t}=\\alpha_{t}+\\beta_{t}\\,t+\\varepsilon_{t},\\;\\text{OLS回归得到的系数}\\beta_{t}\\text{即为趋势因子，回归用最近N个季度及其上一年同期的单季度Gross Profitability}",
+          "stats": [0.0336, 0.041, 1.68, 0.0105],
+          "evidence": "同比趋势因子： $\\pmb{G}\\pmb{P}_{\\phantom{\\dagger}N}$ 为最近一个季度的 Gross Profitabililty，假设 $\\pmb{G}\\pmb{P}_{\\phantom{\\dagger}N}$ 为二季度数据，那么 $\\widehat{GP_{\\mathbf{\\Lambda}_{N-1}}}$ 为上一年二季度的 Gross Profitabililty。"
+        },
+        {
+          "name": "GP同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近单季度Gross Profitability相对上一年同期单季度Gross Profitability的增长率}",
+          "stats": [0.0282, 0.043, 1.87, 0.0116],
+          "evidence": "如表 7，我们可以看到 GP同比增长率的因子表现。GP同比增长率的 IC 和 Rank IC分别为 2.82%和 4.30%，胜率也均超过 70%，多空月均收益也达到了 1.16%，因子的表现相较 Gross Profitability 也更为出色。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "GP同比趋势因子在显著性上明显提升，IC和RankIC均值分别达3.36%和4.10%，胜率73%和75%，ICIR为1.68和1.87，表现相比GP环比趋势因子更为出色。",
+      "evidence": "两种趋势因子在显著性上有明显地提升，其中同比趋势因子的 IC 表现最为突出。其 IC和 RankIC 的均值分别达到 3.36%和 4.10%，胜率分别为 73%和 75%，ICIR 提升了一倍以上，分别为 1.68 和 1.87。"
+    },
+    {
+      "text": "控制市值、估值、反转、ROE、换手率等常用因子后，GP趋势因子分组收益仍保持显著单调性，A股常用选股因子并不能解释GP趋势因子的超额收益。",
+      "evidence": "从表 3-4可以看出，在控制常见因子后，GP环比趋势因子和 GP同比趋势因子的分组收益依然保持着显著的单调性。两种趋势因子的首尾组合收益差的显著性较强，T值大多在4以上，因此A股市场上常用的选股因子并不能解释GP趋势因子的超额收益。"
+    },
+    {
+      "text": "GP同比趋势因子在沪深300指数内IC均值最高，IC和RankIC均值分别5.49%和5.43%，多空月均收益差1.56%为三个选股池中最高。",
+      "evidence": "从指数内选股的结果来看，GP 同比趋势因子在沪深 300 指数内的 IC 均值最高，其IC 和 Rank IC 的均值分别 5.49%和 5.43%，胜率均在 70%左右。多空月均收益差达到1.56%，也是三个选股池中最高的。"
+    },
+    {
+      "text": "因子在小市值股票中表现更稳定，中证800以外股票池中因子IC和Rank IC胜率分别为73%和77%，信息比分别为1.75和1.98。",
+      "evidence": "但是需要注意的是，因子在小市值股票中的 IC 表现更加稳定，因子IC和Rank IC的胜率分别为73%和77%，信息比分别为1.75和1.98，显著高于因子在沪深 300 指数成分股中的表现。"
+    },
+    {
+      "text": "GP同比趋势因子并不是GP同比增长率的变形，两者IC相关性仅0.30左右；反而与原Gross Profitability因子的IC相关系数超过0.70，更适合作为Gross Profitability的替代因子。",
+      "evidence": "总的来说，虽然 GP同比趋势因子从逻辑上与成长类因子相似，但是经过检验，我们发现 GP同比趋势因子并不是 GP 同比增长率的一个变形，两者的 IC相关性也不强。反而，GP 同比趋势因子与原 Gross Profitability 因子的 IC 相关性系数超过 0.70。因此，GP同比趋势因子的表现出色，更适合作为 Gross Profitability的一个替代因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Robert Novy-Marx (2014), Understanding Quality: Gross Profitability"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

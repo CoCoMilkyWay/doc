@@ -1,0 +1,283 @@
+{
+  "schema_version": 2,
+  "id": "20170628-海通证券-选股因子-021-分析师一致预期相关因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision"],
+      "setup": {
+        "universe": ["all", "sector"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Con_EPS",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期每股收益}",
+          "stats": [0.0093, null, null, -0.0004],
+          "evidence": "其中，Con_EPS反应分析师对股票的估价，Con_EPS增加表明分析师对公司的估价上升。"
+        },
+        {
+          "name": "Con_Nprofit",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期净利润}",
+          "stats": [-0.025, null, null, 0.0093],
+          "evidence": "通过分析可发现，Con_Nprofit 与市值存在明显的相关性，两者相关系数高达 42.8%，即市值越小的公司，一致预期净利润越小"
+        },
+        {
+          "name": "Con_DesP",
+          "family": "analyst",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期目标价}",
+          "stats": [null, null, null, null],
+          "evidence": "（1） 一致预期目标价行业覆盖率最低，各行业月度平均覆盖率低于 50%。覆盖率较低的指标其次为一致预期评级和 PEG 相关因子，它们的平均覆盖率均不足 80%。"
+        },
+        {
+          "name": "Con_score",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期评级}",
+          "stats": [0.024, null, null, -0.0093],
+          "evidence": "覆盖率较低的指标其次为一致预期评级和 PEG 相关因子，它们的平均覆盖率均不足 80%。"
+        },
+        {
+          "name": "Con_Nprofit_growth",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期净利润同比增长率}",
+          "stats": [0.0233, null, null, -0.0091],
+          "evidence": "从因子有效性来看，一致预期 PB、PE、PEG 及其环比增长率因子在绝大部分行业均具有显著的选股效果；除此之外，一致预期 Nprofit_growth 平均 IC 也显著不为 0。"
+        },
+        {
+          "name": "Con_growth_rate",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{t2期一致预期净利润}/\\text{t0期实际净利润}}-1",
+          "stats": [0.0196, null, null, -0.0086],
+          "evidence": "Con_growth_rate | 2年复合增长率：SQRT(t2¹期一致预期净利润/t0 期实际净利润)-1 |"
+        },
+        {
+          "name": "Con_PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{统计日收盘价}/\\text{一致预期净资产}",
+          "stats": [-0.0359, null, null, 0.0044],
+          "evidence": "从因子有效性来看，一致预期 PB、PE、PEG 及其环比增长率因子在绝大部分行业均具有显著的选股效果；除此之外，一致预期 Nprofit_growth 平均 IC 也显著不为 0。"
+        },
+        {
+          "name": "Con_PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{统计日收盘价}/\\text{一致预期每股收益}",
+          "stats": [-0.0313, null, null, 0.0072],
+          "evidence": "银行行业筛选出的有效因子只有一致预期PE，该因子在银行行业覆盖率为100%，IC均值逾10%。"
+        },
+        {
+          "name": "Con_PEG",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期PE}/\\text{2年复合增长率}",
+          "stats": [-0.0428, null, null, 0.0117],
+          "evidence": "而非银金融行业有效的因子则为 Con_PE_rel 和 Con_PEG。利用这几个有效因子对银行和非银金融行业进行选股，可获得稳定的超额收益。"
+        },
+        {
+          "name": "Con_ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期净利润}/\\text{一致预期净资产}",
+          "stats": [0.0073, null, null, -0.0004],
+          "evidence": "Con_ROE | 一致预期净利润/一致预期净资产 |"
+        },
+        {
+          "name": "Con_RR",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{目标价}/\\text{当前股价}-1",
+          "stats": [0.0571, null, null, -0.0161],
+          "evidence": "值得注意的是，目标收益（Con_RR）因子 IC均值及显著性都很高，但该因子覆盖率很低。"
+        },
+        {
+          "name": "Con_EPS_rel",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_EPS\\_rel_{t}=\\frac{Con\\_EPS_{t}}{Con\\_EPS_{t-1}}-1",
+          "stats": [0.0223, null, null, -0.0069],
+          "evidence": "例如，Con_EPS_rel 表示 Con_EPS环比增长率，即本月一致预期 EPS/前一个月一致预期EPS-1"
+        },
+        {
+          "name": "Con_Nprofit_rel",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_Nprofit\\_rel_{t}=\\frac{Con\\_Nprofit_{t}}{Con\\_Nprofit_{t-1}}-1",
+          "stats": [0.023, null, null, -0.0093],
+          "evidence": "从IC 序列的统计结果来看，除 Con_DesP_rel因子不显著外，其余因子在 1%的臵信水平下均显著不为 0。"
+        },
+        {
+          "name": "Con_DesP_rel",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_DesP\\_rel_{t}=\\frac{Con\\_DesP_{t}}{Con\\_DesP_{t-1}}-1",
+          "stats": [0.0082, null, null, -0.003],
+          "evidence": "从IC 序列的统计结果来看，除 Con_DesP_rel因子不显著外，其余因子在 1%的臵信水平下均显著不为 0。"
+        },
+        {
+          "name": "Con_score_rel",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_score\\_rel_{t}=\\frac{Con\\_score_{t}}{Con\\_score_{t-1}}-1",
+          "stats": [0.0126, null, null, -0.0058],
+          "evidence": "正交后选股效果仍然显著的有Con_EPS_rel、Con_Nprofit_rel、Con_Nprofit_growth_rel、Con_PEG_rel、Con_DesPrice_rel 以及 Con_score_rel。"
+        },
+        {
+          "name": "Con_Nprofit_growth_rel",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_Nprofit\\_growth\\_rel_{t}=\\frac{Con\\_Nprofit\\_growth_{t}}{Con\\_Nprofit\\_growth_{t-1}}-1",
+          "stats": [0.0242, null, null, -0.0093],
+          "evidence": "正交后选股效果仍然显著的有Con_EPS_rel、Con_Nprofit_rel、Con_Nprofit_growth_rel、Con_PEG_rel、Con_DesPrice_rel 以及 Con_score_rel。"
+        },
+        {
+          "name": "Con_growth_rate_rel",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_growth\\_rate\\_rel_{t}=\\frac{Con\\_growth\\_rate_{t}}{Con\\_growth\\_rate_{t-1}}-1",
+          "stats": [0.0157, null, null, -0.0084],
+          "evidence": "从表 和表 的对比结果可看出，环比增长率具有比原始因子更好的选股效果：从IC 序列的统计结果来看，除 Con_DesP_rel因子不显著外，其余因子在 1%的臵信水平下均显著不为 0。"
+        },
+        {
+          "name": "Con_PB_rel",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_PB\\_rel_{t}=\\frac{Con\\_PB_{t}}{Con\\_PB_{t-1}}-1",
+          "stats": [-0.0609, null, null, 0.0155],
+          "evidence": "从回归结果来看，Con_PB_rel与股票收益呈现负相关关系，即 Con_PB_rel越高，后期股票收益表现越差。"
+        },
+        {
+          "name": "Con_PE_rel",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_PE\\_rel_{t}=\\frac{Con\\_PE_{t}}{Con\\_PE_{t-1}}-1=\\frac{P_{t}/Con\\_EPS_{t}}{P_{t-1}/Con\\_EPS_{t-1}}-1",
+          "stats": [-0.0659, null, null, 0.0173],
+          "evidence": "因此 Con_PE_rel 越高，市场价格上涨幅度超过分析师估价上涨幅度越大（或市场价格下跌幅度不如分析师估价下跌幅度），后期股价下跌的可能性越大。"
+        },
+        {
+          "name": "Con_PEG_rel",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_PEG\\_rel_{t}=\\frac{Con\\_PEG_{t}}{Con\\_PEG_{t-1}}-1",
+          "stats": [-0.0547, null, null, 0.0146],
+          "evidence": "正交后选股效果仍然显著的有Con_EPS_rel、Con_Nprofit_rel、Con_Nprofit_growth_rel、Con_PEG_rel、Con_DesPrice_rel 以及 Con_score_rel。"
+        },
+        {
+          "name": "Con_ROE_rel",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Con\\_ROE\\_rel_{t}=\\frac{Con\\_ROE_{t}}{Con\\_ROE_{t-1}}-1",
+          "stats": [0.0234, null, null, -0.0091],
+          "evidence": "这可能是由于环比增长率因子反映了卖方分析师对公司未来价值看法的变化，是当月新增的信息，比公司原始的基本面预测指标更能吸引投资者注意力。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "目标收益Con_RR因子效果最优，IC均值为5.71%，多空收益差为1.61%，但该因子覆盖率很低，仅为46.1%。",
+      "evidence": "其中，目标收益Con_RR 因子的效果最优，IC 均值为 5.71%，多空收益差为 1.61%；但需要注意的是，该因子覆盖率很低，仅为 46.1%。"
+    },
+    {
+      "text": "环比增长率具有比原始因子更好的选股效果，除Con_DesP_rel因子不显著外，其余因子IC在1%的置信水平下均显著不为0，因其反映了卖方分析师看法变化的当月新增信息。",
+      "evidence": "从表 和表 的对比结果可看出，环比增长率具有比原始因子更好的选股效果：从IC 序列的统计结果来看，除 Con_DesP_rel因子不显著外，其余因子在 1%的臵信水平下均显著不为 0。这可能是由于环比增长率因子反映了卖方分析师对公司未来价值看法的变化，是当月新增的信息，比公司原始的基本面预测指标更能吸引投资者注意力。"
+    },
+    {
+      "text": "一致预期估值因子环比增长率指标的选股效果最强，Con_PB_rel和Con_PE_rel的IC均值分别为-6.09%和-6.59%，多空收益差分别为1.55%和1.73%。",
+      "evidence": "一致预期估值因子环比增长率指标的选股效果最强， Con_PB_rel 和 Con_PE_rel的 IC 均值分别为-6.09%和-6.59%，多空收益差分别为 1.55%和 1.73%。"
+    },
+    {
+      "text": "正交后的一致预期因子选股效果比原始因子有很大提升，绝大部分因子IC均值均超过2%；但环比增长率因子正交之后效果大幅下降，Con_PE_rel正交后IC下降为1.96%。",
+      "evidence": "统计结果显示，正交后的一致预期因子选股效果比原始因子有很大提升，绝大部分因子 IC均值均超过 2%，统计显著。特别地，正交后的 Con_Nprofit 月均多空收益差达2.29%，相应的 IC均值为 7.06%，月胜率 71%，具有非常稳定的选股效果。相较而言，一致预期环比增长率因子正交之后的效果大幅下降。例如，效果显著的Con_PE_rel因子在正交之后 IC 下降为 1.96%。"
+    },
+    {
+      "text": "逐步筛选法在6个常见因子和20个一致预期因子中共筛选出7个因子：Cap、Turn、Con_PB_rel、Resvol、Cap^2、Con_PEG以及Con_ROE_rel，模型拟合优度均值为7.72%。",
+      "evidence": "在 6 个常见因子以及 20 个一致预期因子中，一共筛选出 7 个因子，包括 4 个常见因子和 3 个一致预期因子。它们分别是 Cap、Turn、Con_PB_rel、Resvol、Cap^2、Con_PEG以及 Con_ROE_rel。包含上述 7 个因子的模型拟合优度均值为 7.72%，这主要是由于我们的回归模型中不包含行业和估值因素。"
+    },
+    {
+      "text": "常见选股因子如市值、反转在银行和非银金融行业没有显著选股效果，而银行行业Con_PE因子月均IC超过10%，非银金融有效因子为Con_PE_rel和Con_PEG，可获得稳定的超额收益。",
+      "evidence": "常见的选股因子，如市值、反转等，在银行和非银金融行业中没有显著的选股效果，而部分一致预期因子在这两个行业中则表现突出。其中，银行行业 Con_PE因子月均 IC超过 10%（绝对值），而非银金融行业有效的因子则为 Con_PE_rel 和 Con_PEG。利用这几个有效因子对银行和非银金融行业进行选股，可获得稳定的超额收益。"
+    },
+    {
+      "text": "Con_PE因子在银行行业多头相对空头组合月均超额1.14%，年化超额15.49%，多头相对中信银行指数年化超额6.84%。",
+      "evidence": "Con_PE因子在银行行业的选股效果十分突出，多头相对于空头组合月均超额 1.14%，年化超额15.49%，平均月换手率为 21.65%；多头相对于中信银行指数月均超额 0.50%，年化超额 6.84%。"
+    },
+    {
+      "text": "包含Con_PE_rel和Con_PEG两因子的模型在非银金融行业多头相对空头组合月均超额2.26%，年化超额27.39%，月胜率逾60%。",
+      "evidence": "包含 Con_PE_rel 和Con_PEG 两因子的收益率预测模型在非银金融行业的选股效果十分突出，包含 4 只股票的多头相对于空头组合月均超额 2.26%，年化超额 27.39%，月换手率为 13.56%，月胜率逾 60%。"
+    },
+    {
+      "text": "从覆盖率来看，与一致预期目标价相关的因子覆盖率最低，不足50%；与盈利预测相关的因子覆盖率最高，基本都超过90%。",
+      "evidence": "从覆盖率来看，不同因子的覆盖率有所差异，与一致预期目标价相关的因子覆盖率最低，不足 50%；与盈利预测相关的因子覆盖率最高，基本都超过 90%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究(二十)——基于条件期望的因子择时框架》",
+    "《选股因子系列研究（十七）——选股因子的正交》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20231119-海通证券-选股因子-090-理解红利投资_加入红利投资_超越红利投资",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "earnings_surprise",
+        "analyst_behavior",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{现金分红总额}}{\\text{总市值}}=\\frac{\\text{红利支付率}}{PE}",
+          "stats": [null, null, null, null],
+          "evidence": "后者通常用股息率表征：股息率 = 现金分红总额/总市值，是构建红利策略时最常用的因子之一。"
+        },
+        {
+          "name": "SUE",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化预期外盈利因子}",
+          "stats": [null, null, null, null],
+          "evidence": "红利+成长组合，即利用成长因子（SUE）对股息率因子实现收益增厚，具体步骤如下所示。"
+        },
+        {
+          "name": "盈利质量",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去一年经营活动现金流}-\\text{过去一年营业利润}}{\\text{最新财报总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，盈利质量因子为，（过去一年经营活动现金流-过去一年营业利润）/最新财报总资产；分析师观点因子为，分析师覆盖度与分析师买入评级的等权复合。"
+        },
+        {
+          "name": "分析师观点",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师覆盖度与分析师买入评级的等权复合}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，盈利质量因子为，（过去一年经营活动现金流-过去一年营业利润）/最新财报总资产；分析师观点因子为，分析师覆盖度与分析师买入评级的等权复合。"
+        },
+        {
+          "name": "低波",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{低波动率因子}",
+          "stats": [null, null, null, null],
+          "evidence": "低波 50：在前一步确定的 75 只股票中，选择低波和低换手两个因子综合得分最高的 50 只股票；"
+        },
+        {
+          "name": "低换手",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{低换手率因子}",
+          "stats": [null, null, null, null],
+          "evidence": "低波 50：在前一步确定的 75 只股票中，选择低波和低换手两个因子综合得分最高的 50 只股票；"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["dividend"], "rebalance": "quarterly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "美债利率上行或市场波动放大时，避险情绪推动资金从成长性资产转向价值型资产，红利投资具备较高性价比，月均收益为正且显著优于成长风格。",
+      "evidence": "当美债利率上行或市场波动放大时，避险情绪推动资金从成长性资产转向价值型资产，此时红利投资具备较高的性价比。不仅月均收益为正，且显著优于成长风格。"
+    },
+    {
+      "text": "社融同比下降期的次月，红利指数优于国证成长指数的概率为66%，收益差高达12.8%，并在10%的臵信度下统计显著。",
+      "evidence": "如表 4所示，在我们划分的社融同比下降期的次月，红利指数优于国证成长指数的概率为 66%，收益差高达 12.8%，并在 10%的臵信度下统计显著。"
+    },
+    {
+      "text": "市场波动放大时红利投资性价比提升，在59%的月份获得正收益，且相对国证成长指数年化超额12.8%。",
+      "evidence": "综上所述，我们认为，市场波动放大，投资者避险情绪高，红利投资的性价比提升，在 59%的月份获得正收益；且显著优于成长风格，相对国证成长指数年化超额 12.8%。"
+    },
+    {
+      "text": "红利支付率及股息率的延续性都很强，t-1年红利支付率最高的20%公司，t年平均红利支付率为57.3%，t年也属于最高20%的概率为59.5%。",
+      "evidence": "由图 14可见，红利支付率及股息率的延续性都很强。t-1 年红利支付率最高的 20%公司，t年的平均红利支付率为 57.3%，t 年也属于红利支付率最高 20%的概率为 59.5%，两个指标均显著高于其他组别。"
+    },
+    {
+      "text": "红利+成长组合年化收益20.9%，相对中证红利指数年化超额9.6%，每一年均存在正超额，年胜率100%，月胜率58.1%。",
+      "evidence": "扣除单边 3‰的交易成本后，2013 年以来（截至 2023.09，下同），红利+成长组合年化收益 20.9%，而同期中证红利指数年化收益 11.3%，组合相对指数年化超额 9.6%。每一年，红利+成长组合相对中证红利指数均存在正超额，年胜率 100%，月胜率 58.1%。"
+    },
+    {
+      "text": "红利+低波组合年化收益21.6%，相对红利低波全收益指数年化超额8.6%，每一年均存在正超额，年胜率100%，月胜率58.9%。",
+      "evidence": "扣除单边 3‰的交易成本后，2013 年以来，红利+低波组合年化收益 21.6%。同期，红利低波全收益指数年化收益 13.1%，组合相对指数年化超额 8.6%。每一年，红利+低波组合相对红利低波指数均存在正超额，年胜率 100%，月胜率 58.9%。"
+    },
+    {
+      "text": "红利+分红潜力组合年化收益25.2%，相对红利质量全收益指数年化超额7.8%，每一年均存在正超额，年胜率100%，月胜率60.5%。",
+      "evidence": "扣除单边 3‰的交易成本后，2013 年以来，红利+分红潜力组合年化收益 25.2%。同期，红利质量全收益指数年化收益 17.4%，组合相对指数年化超额 7.8%。每一年，红利+分红潜力组合相对红利质量指数均存在正超额，年胜率 100%，月胜率 60.5%。"
+    },
+    {
+      "text": "按4:6比例混合红利+成长与小市值高增长的年度再平衡杠铃式组合，2013年以来年化收益高达33.1%，除2018年外其余年份收益率都超过10%。",
+      "evidence": "若按 4:6 的比例混合高防御性的红利+成长组合与高收益弹性的小市值高增长组合，可使得分年度收益更加稳健。年度再平衡的“杠铃式”组合，2013 年以来，年化收益高达 33.1%。除 2018 年收益为负以外，其余年份的收益率都超过 10%，收益分布相较单一组合更加均匀。"
+    },
+    {
+      "text": "以红利+低波策略为股票端的10-90中枢“固收+”组合，除2016年收益为1.6%外其余年份均不低于3%，且2017年以来每一年的回撤都小于1.5%。",
+      "evidence": "特别是红利+低波策略，2013 年以来，以其作为股票端的 10-90 中枢“固收+”组合，除 2016 年收益为 1.6%以外，其余年份均不低于 3%，且 2017 年以来每一年的回撤都小于 1.5%。"
+    },
+    {
+      "text": "中证红利指数增强组合每一年相对中证红利指数均存在正超额，年胜率100%，月胜率63.5%。",
+      "evidence": "每一年，增强组合相对中证红利指数均存在正超额，年胜率 100%，月胜率 63.5%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《如何优雅地抄基金经理作业（七）——偏股基金指数（885001）增强必须还原持仓吗？》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "schema_version": 2,
+  "id": "20140729-广发证券-事件驱动-013-多维视角下的一致预期选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision", "earnings_surprise", "analyst_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "growth"],
+        "data": {"source": ["analyst"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "复合增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{朝阳永续一致预期数据库中的复合增长率指标}",
+          "stats": [null, null, null, null],
+          "evidence": "首先展示的是三个业绩预测类指标：复合增长率、长期预期净利变化率及预期EPS。"
+        },
+        {
+          "name": "长期预期净利变化率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{朝阳永续一致预期数据库中的长期预期净利变化率（N周预期净利变化率）}",
+          "stats": [null, null, null, null],
+          "evidence": "首先展示的是三个业绩预测类指标：复合增长率、长期预期净利变化率及预期EPS。"
+        },
+        {
+          "name": "预期EPS",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师一致预期每股收益}",
+          "stats": [null, null, null, null],
+          "evidence": "整体来看，盈利预测类指标更加适用在大股票中适用，而且对非周期行业选股效果更佳。"
+        },
+        {
+          "name": "预期净资产",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师一致预期净资产}",
+          "stats": [null, null, null, null],
+          "evidence": "下面我们展示的是两个估值类指标：预期净资产、 预期市净率 。"
+        },
+        {
+          "name": "预期市净率",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师一致预期市净率}",
+          "stats": [null, null, null, null],
+          "evidence": "可以明显看到，创业板小票中，看估值指标效果并不佳。"
+        },
+        {
+          "name": "分析师激进指数（短期）",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{基于分析师行为构建的激进程度指标（短期窗口）}",
+          "stats": [null, null, null, null],
+          "evidence": "接着展示的是四个市场关注度、情绪类指标： 分析师激进指数（短期）、分析师激进指数（长期）、 目标价调整、EPS 偏离度（短期）。"
+        },
+        {
+          "name": "分析师激进指数（长期）",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{基于分析师行为构建的激进程度指标（长期窗口）}",
+          "stats": [null, null, null, null],
+          "evidence": "接着展示的是四个市场关注度、情绪类指标： 分析师激进指数（短期）、分析师激进指数（长期）、 目标价调整、EPS 偏离度（短期）。"
+        },
+        {
+          "name": "目标价调整",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师目标价调整事件特征}",
+          "stats": [null, null, null, null],
+          "evidence": "接着展示的是四个市场关注度、情绪类指标： 分析师激进指数（短期）、分析师激进指数（长期）、 目标价调整、EPS 偏离度（短期）。"
+        },
+        {
+          "name": "预期EPS偏离度（短期）",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{预期EPS相对历史值的偏离度（短期窗口）}",
+          "stats": [null, null, null, null],
+          "evidence": "接着展示的是四个市场关注度、情绪类指标： 分析师激进指数（短期）、分析师激进指数（长期）、 目标价调整、EPS 偏离度（短期）。"
+        },
+        {
+          "name": "机构覆盖数（长期）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{覆盖该个股的研究机构数量（长期窗口）}",
+          "stats": [null, null, null, null],
+          "evidence": "最后展示的是两个市场机构分歧度类指标： 机构覆盖数（长期）、机构覆盖数（短期）。"
+        },
+        {
+          "name": "机构覆盖数（短期）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{覆盖该个股的研究机构数量（短期窗口）}",
+          "stats": [null, null, null, null],
+          "evidence": "最后展示的是两个市场机构分歧度类指标： 机构覆盖数（长期）、机构覆盖数（短期）。"
+        },
+        {
+          "name": "预期净利同比变化率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期净利润同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "首先展示的是三个业绩预测类指标： 预期净利同比变化率、 预期EPS、 预期净利润"
+        },
+        {
+          "name": "预期净利润",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师一致预期净利润}",
+          "stats": [null, null, null, null],
+          "evidence": "首先展示的是三个业绩预测类指标： 预期净利同比变化率、 预期EPS、 预期净利润"
+        },
+        {
+          "name": "预期涨跌幅",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师一致预期涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "接下来展示的是两个市场关注度、情绪类指标：预期涨跌幅度 、评级强度"
+        },
+        {
+          "name": "评级强度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师评级强度}",
+          "stats": [null, null, null, null],
+          "evidence": "可以发现，评级强度这个指标在行业配置方面的应用要比在选股中好很多。"
+        },
+        {
+          "name": "预期EPS标准差（长期）",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{长期窗口内一致预期EPS的标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "最后展示的是一个机构分歧度类指标：预期EPS标准差（长期）。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_zoo"],
+      "approach": ["selection"],
+      "setup": {"universe": ["all", "csi300", "growth"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "混合指标选股策略在收益回撤比上比单个指标选股有提高，从10年到14年除11年外策略的超额收益都在7%以上，最大回撤基本都在4%之内，13年一年斩获40%的收益，截止至今年6月策略已获得近14%的超额收益。",
+      "evidence": "回测结果显示，混合指标选股策略在收益回撤比上比单个指标选股有提高。从策略分年度表现来看，从10年到 14年，除了 11年外，策略的超额收益都在 7%以上，最大回撤基本也很小，基本都在4%之内。尤其是 13 年，一年斩获 40%的收益，截止至今年 6 月策略已经获得了近 14%的超额收益。"
+    },
+    {
+      "text": "混合指标行业配置策略近几年的超额收益都比较稳定，最大回撤基本在3%之内，13年一年斩获近30%的收益，截止至今年6月策略已获得近7%的超额收益。",
+      "evidence": "回测结果显示，混合指标行业配置策略近几年的超额收益都比较稳定，最大回撤基本也很小，基本都在 3%之内。同样是最近两年表现地更好，尤其是 13年，一年斩获近 30%的收益，截止至今年 6 月策略已经获得了近7%的超额收益。"
+    },
+    {
+      "text": "盈利预测类指标更加适用在大股票中适用，而且对非周期行业选股效果更佳。",
+      "evidence": "整体来看，盈利预测类指标更加适用在大股票中适用，而且对非周期行业选股效果更佳。"
+    },
+    {
+      "text": "创业板小票中，看估值指标效果并不佳。",
+      "evidence": "可以明显看到，创业板小票中，看估值指标效果并不佳。"
+    },
+    {
+      "text": "市场关注度、情绪类指标比较适合在全市场选股中的应用，并且该类指标倾向于应用在非周期行业中。",
+      "evidence": "可以看到市场关注度、情绪类指标比较适合在全市场选股中的应用，并且该类指标倾向于应用在非周期行业中。"
+    },
+    {
+      "text": "评级强度这个指标在行业配置方面的应用要比在选股中好很多。",
+      "evidence": "可以发现，评级强度这个指标在行业配置方面的应用要比在选股中好很多。"
+    },
+    {
+      "text": "周频率的数据比较合适，本篇报告采用的数据是周频的一致预期数据。",
+      "evidence": "对于周频的数据，分析看来，周频率应该是比较合适的，从图 4 的数据变化情况来看，事实上也确实如此。因此本篇报告采用的数据是周频的一致预期数据。"
+    },
+    {
+      "text": "个股一致预期数据本身存在一定的滞后和片面性，策略的应用存在一定风险。",
+      "evidence": "个股一致预期数据本身存在一定的滞后和片面性，策略的应用存在一定风险。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["朝阳永续一致预期数据库"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

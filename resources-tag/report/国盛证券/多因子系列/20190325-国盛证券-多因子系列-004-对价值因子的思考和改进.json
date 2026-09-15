@@ -1,0 +1,125 @@
+{
+  "schema_version": 2,
+  "id": "20190325-国盛证券-多因子系列-004-对价值因子的思考和改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "去杠杆 SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{营业收入}{MarketValue(经营性净资产)}",
+          "stats": [null, 0.036, 2.109, 0.132],
+          "evidence": "综上所述，我们将价值因子分子端的科目替换为与企业经营活动更接近的指标，其中SP和 CFP分子端仍然采用营业收入和经营性净现金流，EP 分子端我们用营业收入减去生产成本替换，BP 的分子端替换为经营性净资产的账面价值；分母端股权市值替换为经营性净资产的市场价值，构建去杠杆价值因子。"
+        },
+        {
+          "name": "去杠杆 EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{营业收入-生产成本}{MarketValue(经营性净资产)}",
+          "stats": [null, 0.049, 2.875, 0.1683],
+          "evidence": "经我们测试，在多个利润指标中，经营性毛利润是最佳选择。相比于 EBIT，经营性毛利润不考虑价值变动净收益，也不考虑销售费用和管理费用。"
+        },
+        {
+          "name": "去杠杆 BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{经营性净资产(NOA)}{MarketValue(经营性净资产)}",
+          "stats": [null, 0.043, 1.87, 0.1438],
+          "evidence": "为了使因子不受企业杠杆的影响，同时能剥离金融性活动更好地体现企业的核心资产，分母端我们在所有者权益的基础上，加入负债，并剔除部分非核心资产，我们称这一部分资产为经营性净资产，并取这部分资产的市场定价。"
+        },
+        {
+          "name": "去杠杆 CFP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{经营性净现金流}{MarketValue(经营性净资产)}",
+          "stats": [null, 0.041, 2.908, 0.13],
+          "evidence": "现金流指标我们考虑经营性净现金流，它能反映企业在经营活动中现金的充沛程度；"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "去杠杆价值SP/EP/CFP对股票收益的区分度更明显，IC值显著提高，SP因子IC从0.02提升至0.036，EP从0.042提升至0.049，CFP从0.014提升至0.041，多空组合收益大幅提升。",
+      "evidence": "因子测试结果表明，去杠杆价值 SP/EP/CFP 对股票收益的区分度更明显；IC 值也有较为显著的提高，SP 因子 IC 从 0.02 提升至 0,036，EP 从 0.042 提升至 0.049，CFP 从 0.014提升至 0.041；多空组合的收益也有大幅提升。"
+    },
+    {
+      "text": "权益价值因子在大市值股票中表现更佳，去杠杆价值因子中SP、CFP在中证500内表现更佳，去杠杆EP则表现相当，去杠杆价值在中小市值中更有优势。",
+      "evidence": "原因子中 SP、EP 和 CFP 在沪深 300 里的选股能力强于中证 500，BP在中证 500 的表现有优势；去杠杆价值因子中 SP、CFP 在中证 500 内的表现更佳，去杠杆 EP则表现相当。"
+    },
+    {
+      "text": "去杠杆价值在多数非金融板块行业内比权益价值更有优势，但在杠杆率较高的建筑和交通运输行业，以及杠杆偏低的计算机和食品饮料行业表现较差。",
+      "evidence": "去杠杆价值在多数非金融板块行业内比权益价值更有优势，但在杠杆率较高的建筑和交通运输行业，以及杠杆偏低的计算机和食品饮料行业表现较差。"
+    },
+    {
+      "text": "在滞胀和衰退阶段权益价值表现变差甚至失效，而去杠杆价值依然有较强的选股能力。",
+      "evidence": "我们测试了因子在不同经济状态下的表现，发现在滞胀和衰退阶段权益表现变差甚至失效，而去杠杆价值依然有较强的选股能力。"
+    },
+    {
+      "text": "去杠杆EP年化收益提升4.56%，夏普比从1.44提升至2.27；去杠杆SP年化收益提升4.85%，夏普比从1.27提升至2.15；去杠杆CFP年化收益提升8.03%，夏普比从0.80提升至2.10；去杠杆BP收益下降，但夏普比从1.45提升1.86。",
+      "evidence": "从分组多空收益来看，去杠杆EP 年化收益提升 4.56%，夏普比从 1.44提升至2.27；去杠杆 SP 年化收益提升 4.85%，夏普比从 1.27 提升至 2.15；去杠杆 CFP 年化收益提升8.03%，夏普比从0.80 提升至2.10；去杠杆BP 收益下降，但夏普比从 1.45提升 1.86。"
+    },
+    {
+      "text": "去杠杆价值因子剥离原价值因子后，残差在中证500和中证1000中的IC均值仍有0.0247和0.0223，仍有选股效果，能带来一定的信息增量。",
+      "evidence": "去杠杆价值因子在剥离原价值因子之后，残差在中证500和中证 1000中的IC 均值仍有0.0247 和0.0223，仍有选股效果，能带来一定的信息增量。"
+    },
+    {
+      "text": "杠杆对权益EP并非简单的线性影响，做线性中性化并不能完全剥离杠杆的影响，因此不建议用中性化的方式构建去杠杆价值。",
+      "evidence": "2). 杠杆对权益 EP 并非简单的线性影响，做线性中性化并不能完全剥离杠杆的影响。"
+    },
+    {
+      "text": "中证500纯价值增强组合中，去杠杆价值增强相对权益价值增强在年化收益上平均提升5.42%，IR从-0.08提升至0.87。",
+      "evidence": "利用合成价值因子作为 alpha信号，控制组合在除价值风格以外其他所有风险因子的暴露，构建中证 500 纯价值增强组合，去杠杆价值增强相对权益价值增强，在年化收益上平均提升 5.42%，IR 从-0.08 提升至 0.87。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Penman S H, Reggiani F, Richardson S A, et al. A framework for identifying accounting characteristics for asset pricing models, with an evaluation of book‐to‐price[J]. European Financial Management, 2018, 24(4): 488-520.",
+    "Penman S. Accounting for value[M]. Columbia University Press, 2010: 95-103.",
+    "Qian E E, Hua R H, Sorensen E H. Quantitative equity portfolio management: modern techniques and applications[M]. Chapman and Hall/CRC, 2007: 111-125."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

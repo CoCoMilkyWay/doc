@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20241017-广发证券-海量level二-005-牛市中的市价订单与相关因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "MarketOrder_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市价订单数量}}{\\text{订单总数量}}",
+          "stats": [null, -0.065, null, null],
+          "evidence": "MarketOrder_ratio因子在深证A股的20档分档收益如图5所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "MarketOrder_LimitOrder_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市价订单数量}}{\\text{限价订单数量}}",
+          "stats": [null, -0.065, null, null],
+          "evidence": "MarketOrder_LimitOrder_ratio因子在深证A股的20档分档收益如图7所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "MarketBuyOrder_MarketOrder_ratio",
+          "family": "microstructure",
+          "direction": "nonmonotonic",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市价买入订单数量}}{\\text{市价订单总数量}}",
+          "stats": [null, 0.001, null, null],
+          "evidence": "MarketBuyOrder_MarketOrder_ratio因子在深证A股的20档分档收益如图9所示，分档组合收益呈现出两头高、中间低的独特走势。"
+        },
+        {
+          "name": "MarketBuyOrder_LimitBuyOrder_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市价买入订单数量}}{\\text{限价买入订单数量}}",
+          "stats": [null, -0.06, null, null],
+          "evidence": "MarketBuyOrder_LimitBuyOrder_ratio因子在深证A股的20档分档收益如图11所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "MarketBuyOrder_LimitSellOrder_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市价买入订单数量}}{\\text{限价卖出订单数量}}",
+          "stats": [null, -0.062, null, null],
+          "evidence": "MarketBuyOrder_LimitSellOrder_ratio因子在深证A股的20档分档收益如图13所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "MarketSellOrder_LimitBuyOrder_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市价卖出订单数量}}{\\text{限价买入订单数量}}",
+          "stats": [null, -0.064, null, null],
+          "evidence": "MarketSellOrder_LimitBuyOrder_ratio因子在深证A股的20档分档收益如图15所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "MarketSellOrder_LimitSellOrder_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市价卖出订单数量}}{\\text{限价卖出订单数量}}",
+          "stats": [null, -0.066, null, null],
+          "evidence": "其中，MarketSellOrder_LimitSellOrder_ratio 因子的选股性能最优，分档组合收益的单调性显著，其 RankIC 均值为-6.6%、胜率为 25%，根据该因子构建的 Top-30组合在双边千三计费后的年化收益率为 13.66%、最大回撤率为36.72%、夏普比率为0.56，相比同期的深证A 指指数取得了7.57%的超额年化收益率。"
+        },
+        {
+          "name": "LimitBuyOrder_LimitOrder_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{限价买入订单数量}}{\\text{订单总数量}}",
+          "stats": [null, -0.023, null, null],
+          "evidence": "LimitBuyOrder_LimitOrder_ratio因子在深证A股的20档分档收益如图19所示，从分档结果来看该因子几乎没有选股能力。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["other"]}}
+  },
+  "findings": [
+    {
+      "text": "牛市启动期市价单占比快速上升，2024/09/30达到峰值，是历史均值的2倍以上。",
+      "evidence": "在 2024/09/18~2024/09/30 期间，市价单占比快速上升，在 2024/09/30 达到市价单占比的峰值，是历史均值的2倍以上。"
+    },
+    {
+      "text": "2024/09/30深证A股的市价单中买单占比达到峰值66%，在沪深300、中证500、中证800、中证1000板块内分别高达77%、85%、82%和90%，表明市场参与者买入决心强烈。",
+      "evidence": "进一步对市价单中的买卖力量进行统计，在 2024/09/30 深证 A股的市价单中，买单占比达到峰值66%；在沪深300、中证500、中证 800、中证 1000 板块内的占比更是分别高达 77%、85%、82%和 90%，表明了市场参与者对于买入的决心。"
+    },
+    {
+      "text": "5日平滑因子以20日换仓选股性能最优，6个因子RankIC均值大于6.0%、胜率大于70%。",
+      "evidence": "整体而言，5日平滑因子以20日进行换仓的选股性能最优，其中6个因子的RankIC均值大于6.0%，胜率大于70%。"
+    },
+    {
+      "text": "MarketSellOrder_LimitSellOrder_ratio因子选股性能最优，RankIC均值为-6.6%，Top-30组合双边千三计费后年化收益率13.66%，相对深证A指取得7.57%超额年化收益率。",
+      "evidence": "其中，MarketSellOrder_LimitSellOrder_ratio 因子的选股性能最优，分档组合收益的单调性显著，其 RankIC 均值为-6.6%、胜率为 25%，根据该因子构建的 Top-30组合在双边千三计费后的年化收益率为 13.66%、最大回撤率为36.72%、夏普比率为0.56，相比同期的深证A 指指数取得了7.57%的超额年化收益率。"
+    },
+    {
+      "text": "市价订单因子与大小单因子、长短单因子、集合竞价因子、Barra风格因子的相关性均较低，是一组较为独立的因子。",
+      "evidence": "市价订单因子与大小单因子、长短单因子、集合竞价因子、Barra 风格因子的相关性均较低，是一组较为独立的因子。"
+    },
+    {
+      "text": "当市价订单中买卖订单委托量出现失衡时，则该个股在未来有更大的可能性上涨。",
+      "evidence": "这说明在市价订单中，当买卖订单委托量出现失衡时，则该个股在未来有更大的可能性上涨。"
+    },
+    {
+      "text": "LimitBuyOrder_LimitOrder_ratio因子几乎没有选股能力，各组合相对深证A指均取得负的超额年化收益率，表明该因子无效。",
+      "evidence": "在2019年3月~2024年9月期间，各组合相对深证A指指数均取得了负的超额年化收益率，表明该因子无效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《多维度解耦的94个大小单因子：海量Level 2数据因子挖掘系列（一）》（2024-07-15）",
+    "《大小单与长短单的241个碰撞火花：海量Level 2数据因子挖掘系列（三）》（2024-08-21）",
+    "《订单维度解耦的22个长短单因子：海量Level 2数据因子挖掘系列（二）》（2024-08-01）",
+    "《集合竞价相关因子：海量Level 2数据因子挖掘系列（四）》（2024-09-12）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

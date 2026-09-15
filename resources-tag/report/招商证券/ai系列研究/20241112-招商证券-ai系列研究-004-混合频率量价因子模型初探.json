@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "id": "20241112-招商证券-ai系列研究-004-混合频率量价因子模型初探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "综合量价因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{残差增量学习+特征提升的混合频率综合量价因子：GRU 分别在周频、日频、15min 量价数据集上按残差目标依次训练生成 64 维特征，与 Alpha158 特征拼接后输入 GBDT 进行梯度提升整合输出}",
+          "stats": [null, 0.1315, 1.12, null],
+          "evidence": "为了更大限度地利用不同量价数据集的信息，本文进一步提出了在数据集残差增量学习框架的基础上构建多维特征，最后使用梯度提升技术来整合特征的残差增量学习+特征提升的混合频率综合量价因子学习框架。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["loss_generalization", "ensemble", "fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在周频、日频原始量价数据构建的简单等权模型基础上加入 15min 数据集之后模型的表现有一定的提升。",
+      "evidence": "在周频、日频原始量价数据构建的简单等权模型基础上加入 15min 数据集之后模型的表现有一定的提升。"
+    },
+    {
+      "text": "基于残差的增量学习流程相比于在不同频率量价数据集上单独训练后等权加权的模型，明显提高了集成模型的整体表现。",
+      "evidence": "从结果来看，相比于分别在不同频率的量价数据集上单独训练然后等权加权的模型，本节提出的基于残差的增量学习流程比较明显地提高了集成模型的整体表现。"
+    },
+    {
+      "text": "残差增量学习+特征提升框架得到的综合因子周频 RankIC 达到 13.15%，全 A 分 20 组的多头超额年化收益率达到 38.01%，显著超过基准。",
+      "evidence": "从 2017 年至今的表现来看，综合因子的周频 RankIC 达到 13.15%，全 A 分 20 组的多头超额年化收益率达到 38.01%，显著超过基准的表现。"
+    },
+    {
+      "text": "全市场选股的沪深 300 周频指增策略年化超额收益率为 13.75%，超额最大回撤 6.91%，信息比率为 3.51，年化跟踪误差为 4.44%。",
+      "evidence": "全市场选股的沪深 300 周频指增策略年化超额收益率为 13.75%，超额最大回撤 6.91%，信息比率为3.51，年化跟踪误差为4.44%；"
+    },
+    {
+      "text": "全市场选股的中证 500 周频指增策略年化超额收益率为 19.79%，超额最大回撤 6.76%，信息比率为 3.48，年化跟踪误差为 6.11%。",
+      "evidence": "全市场选股的中证500周频指增策略年化超额收益率为 19.79%，超额最大回撤 6.76%，信息比率为3.48，年化跟踪误差为6.11%；"
+    },
+    {
+      "text": "全市场选股的中证 1000 周频指增策略年化超额收益率为 23.48%，超额最大回撤 5.44%，信息比率为 3.96，年化跟踪误差为 5.80%。",
+      "evidence": "全市场选股的中证 1000周频指增策略年化超额收益率为 23.48%，超额最大回撤 5.44%，信息比率为3.96，年化跟踪误差为5.80%。"
+    },
+    {
+      "text": "综合因子与流动性（Liquidity）和残差波动率（Residual Volatility）的平均截面相关性稍高，分别为-0.38 和-0.42；因子多头的尾部风险主要来自小市值股票的暴跌。",
+      "evidence": "综合因子与流动性（Liquidity）和残差波动率（Residual Volatility）的平均截面相关性稍高分别为-0.38 和-0.42；在因子多头的尾部风险敞口分析中发现因子的主要的尾部风险来自小市值股票的暴跌。"
+    },
+    {
+      "text": "因子多头大幅回撤区间市值因子分别贡献-11.4%和-6.87%的负向收益，机器学习模型通过非线性拟合学习到了小市值暴露，带来不容忽视的尾部风险。",
+      "evidence": "通过对综合因子在大幅回撤的区间进行分析，本文发现最大的风险敞口是市值，在因子多头大幅回撤的区间，市值因子分别贡献了-11.4%和-6.87%的负向收益，其次是动量-2.6%和-0.65%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

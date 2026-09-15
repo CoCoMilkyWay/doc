@@ -1,0 +1,149 @@
+{
+  "schema_version": 2,
+  "id": "20220831-广发证券-高频数据因子-009-基于股价跳跃模型的因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "SRJV_week",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "RJVP_{t}=\\max(RV_{t}^{+}-\\widehat{IV}_{t}/2,0),\\; RJVN_{t}=\\max(RV_{t}^{-}-\\widehat{IV}_{t}/2,0),\\; SRJV_{t}=RJVP_{t}-RJVN_{t},\\; \\text{周度因子为调仓日前5个交易日日度因子的均值}",
+          "stats": [-0.0876, null, -8.91, 0.4597],
+          "evidence": "全历史来看，因子IC均值为-8.76%，IC胜率为89.27%，年化ICIR为-8.91，t值为-31.33。多空组合业绩方面，年化收益为45.97%，夏普比率为4.40，Calmar比率为4.80，最大回撤为9.58%，周均双边换手率为1.63。"
+        },
+        {
+          "name": "RJVP_week",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "RJVP_{t}=\\max(RV_{t}^{+}-\\widehat{IV}_{t}/2,0),\\; \\text{周度因子为调仓日前5个交易日日度因子的均值}",
+          "stats": [-0.0858, null, -7.29, 0.4385],
+          "evidence": "全历史因子IC均值为-8.58%，IC胜率为84.91%，年化ICIR为-7.29，t值为-9.24。多空组合方面，年化收益为43.85%，夏普比率为3.45，Calmar比率为3.42，最大回撤为12.84%，周均双边换手率为1.31。"
+        },
+        {
+          "name": "RLJVP_week",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "RLJVP_{t}=\\min\\left(RJVP_{t},\\sum_{i=1}^{n}r_{i,t}^{2}I_{\\{r_{i,t}\\geq\\gamma\\}}\\right),\\; \\gamma=\\alpha N^{-0.49}\\sqrt{\\widehat{IV}_{t}},\\; \\text{周度因子为调仓日前5个交易日日度因子的均值}",
+          "stats": [-0.0826, null, -8.68, 0.4216],
+          "evidence": "RLJVP_week因子IC均值为-8.26%，IC胜率为88.48%，年化ICIR为-8.68，t值为-30.51。多空组合方面，年化收益为42.16%，夏普比率为4.13，Calmar比率为4.65，最大回撤为9.07%，双边换手率为1.49。"
+        },
+        {
+          "name": "SRLJV_week",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "RLJVN_{t}=\\min\\left(RJVN_{t},\\sum_{i=1}^{n}r_{i,t}^{2}I_{\\{r_{i,t}\\leq-\\gamma\\}}\\right),\\; SRLJV_{t}=RLJVP_{t}-RLJVN_{t},\\; \\text{周度因子为调仓日前5个交易日日度因子的均值}",
+          "stats": [-0.0788, null, -9.57, 0.3719],
+          "evidence": "SRLJV_week因子IC均值为-7.88%，IC胜率为90.00%，年化ICIR为-9.57，t值为-33.65。多空组合方面，年化收益为37.19%，夏普比率为4.05，Calmar比率为4.35，最大回撤为8.54%，周均双边换手率为1.62。"
+        },
+        {
+          "name": "SRJV_month",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SRJV_{t}=RJVP_{t}-RJVN_{t},\\; \\text{月度因子为调仓日前20个交易日日度因子的均值}",
+          "stats": [-0.0933, null, -5.56, 0.306],
+          "evidence": "横向对比来看，依然是4个绩优周频因子对应的月度因子表现较好，IC均值为-9%左右，多空年化在26%-30%之间。"
+        },
+        {
+          "name": "RJVP_month",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "RJVP_{t}=\\max(RV_{t}^{+}-\\widehat{IV}_{t}/2,0),\\; \\text{月度因子为调仓日前20个交易日日度因子的均值}",
+          "stats": [-0.0915, null, -3.51, 0.2682],
+          "evidence": "横向对比来看，依然是4个绩优周频因子对应的月度因子表现较好，IC均值为-9%左右，多空年化在26%-30%之间。"
+        },
+        {
+          "name": "RLJVP_month",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "RLJVP_{t}=\\min\\left(RJVP_{t},\\sum_{i=1}^{n}r_{i,t}^{2}I_{\\{r_{i,t}\\geq\\gamma\\}}\\right),\\; \\gamma=\\alpha N^{-0.49}\\sqrt{\\widehat{IV}_{t}},\\; \\text{月度因子为调仓日前20个交易日日度因子的均值}",
+          "stats": [-0.0904, null, -3.99, 0.2879],
+          "evidence": "横向对比来看，依然是4个绩优周频因子对应的月度因子表现较好，IC均值为-9%左右，多空年化在26%-30%之间。"
+        },
+        {
+          "name": "SRLJV_month",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SRLJV_{t}=RLJVP_{t}-RLJVN_{t},\\; \\text{月度因子为调仓日前20个交易日日度因子的均值}",
+          "stats": [-0.0889, null, -5.44, 0.2916],
+          "evidence": "横向对比来看，依然是4个绩优周频因子对应的月度因子表现较好，IC均值为-9%左右，多空年化在26%-30%之间。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "全历史表现最优的SRJV_week因子行业市值中性后IC均值-8.76%、年化ICIR-8.91，扣费后多空年化45.97%、多空夏普4.40、最大回撤9.58%，与主要风格因子相关性较低。",
+      "evidence": "全历史（2010 年以来）来看，4 类因子中表现最好的 SRJV_week 因子行业市值中性后、全市场十分组选股的 IC均值为-8.76%，年化 ICIR 为-8.91，扣费后（双边千三）多空年化为 45.97%，多空夏普为 4.40，多空最大回撤为 9.58%，该因子与主要风格因子相关性较低。"
+    },
+    {
+      "text": "52个跳跃波动类型因子全市场因子覆盖度均在85%以上，周度未归一化因子的表现最强，综合IC与多空表现筛选出RJVP_week、SRJV_week、RLJVP_week和SRLJV_week四个绩优因子。",
+      "evidence": "总结来看，上述52个跳跃波动类型因子在全市场中因子覆盖度均在85%以上，周度未归一化跳跃波动因子的表现最强。综合IC与多空表现，我们认为其中RJVP_week、SRJV_week、RLJVP_week和SRLJV_week这4个因子表现较优，下面我们进一步考察这4个绩优因子的特征与表现。"
+    },
+    {
+      "text": "不同日内区间频率下因子表现有差异：5分钟频率下因子表现较好，1分钟数据频率下因多空噪声有所降低。",
+      "evidence": "由于短周期的数据构造因子可能存在过多噪声，而使用过长周期的数据构造因子则可能造成信息稀释问题，绩优因子在构建时选用不同日内区间频率会导致表现有所差异，5分钟频率下因子表现较好而 1 分钟数据频率下有所降低"
+    },
+    {
+      "text": "阈值参数敏感性测试显示，随着阈值参数中常数项α偏离经验值而升高，RLJVP、SRLJV_week因子表现有所下降。",
+      "evidence": "对于 RLJVP、SRLJV_week 因子构建时涉及的阈值参数我们也进行了敏感性测试，结果显示随着阈值参数中常数项偏离经验值而升高，因子表现有所下降。"
+    },
+    {
+      "text": "对4类因子进行的5种衍生构造尝试对业绩提升效果不明显，其中1min早盘与尾盘数据计算的因子表现明显弱化。",
+      "evidence": "测算显示这些衍生构造方式对于因子表现提升效果不明显，尤其是利用（1）（3）两种方式计算的因子表现明显弱化。"
+    },
+    {
+      "text": "SRJV_week、SRLJV_week因子的风格相关性较低，相关系数均在15%以下；RJVP_week、RLJVP_week因子与残差波动率因子、BP、流动性因子存在一定相关性，4个因子均无明显行业偏离。",
+      "evidence": "SRJV_week、SRLJV_week因子的风格相关性较低，相关系数均在15%以下；而RJVP_week、RLJVP_week因子与残差波动率因子、BP、流动性因子存在一定的相关性。"
+    },
+    {
+      "text": "高频因子衰减特性使得周度调仓效果出色而月频调仓效果减弱，改进得到月度层面更显著预测能力的因子是进一步研究方向。",
+      "evidence": "通过本文的实证测试，我们看到尽管学界对日内股价跳跃波动的刻画在A股的实证资产定价中取得不俗的效果，但由于高频因子的衰减特性，使得周度调仓的效果出色而月频调仓则效果减弱，能否进一步改进得到在月度层面具有更显著预测能力的因子是可能被关注的研究目标之一。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Andersen等（2001）《The Distribution of Realized Exchange Rate Volatility》",
+    "Aït-Sahalia and Jacod (2012). \"Analyzing the spectrum of asset returns: Jump and volatility components in high frequency data\"",
+    "Barndorff和Shephard（2004）《Power and Bipower Variation with Stochastic Volatility and Jumps》",
+    "Bollerslev等（2020）《Good Volatility, Bad Volatility, and the Cross Section of Stock Returns》",
+    "Duong和Swanson（2015）《Empirical evidence on the importance of aggregation, asymmetry, and jumps for volatility prediction》",
+    "Yu等（2020）《New Evidence of the Marginal Predictive Content of Small and Large Jumps in the Cross-Section》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

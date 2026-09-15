@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "id": "20210301-国盛证券-多因子系列-015-分析师盈利修正后的股价漂移",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_revision"],
+      "setup": {
+        "universe": ["all", "csi800", "other"],
+        "data": {"source": ["analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "90天内盈利修正",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{在每个月底寻找个股90天内的非0盈利修正，用滚动回归模型对每次事件的CAR打分，将每个机构的最新盈利修正打分取平均作为因子值}",
+          "stats": [0.024, null, 2.398, null],
+          "evidence": "因此我们最终构建因子的方法为在每个月底，寻找个股 90 天内的非 0盈利修正，然后将每个机构的最新盈利修正打分取平均，作为最终的因子值。"
+        },
+        {
+          "name": "180天内盈利修正",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{在每个月底寻找个股180天内的非0盈利修正，将每个机构的最新盈利修正打分取平均作为因子值}",
+          "stats": [0.023, null, 2.089, null],
+          "evidence": "我们同时也测试了使用 180天窗口构建的因子。"
+        },
+        {
+          "name": "3个月一致预期修正",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月一致预期盈利的变化率}",
+          "stats": [0.025, null, 2.486, null],
+          "evidence": "分析师预期数据可以构造很多不同的因子，例如预期的估值，预期的利润增速等等，但其中比较稳定的要数一致预期的盈利修正因子"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all", "csi800", "other"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "不管从线性角度还是头部筛选角度，90天内盈利修正因子相对传统一致预期盈利修正因子都有明显的增量信息。",
+      "evidence": "不管从线性的角度，还是从头部筛选的角度，该因子相对于传统的一致预期盈利修正因子有着明显的增量信息。"
+    },
+    {
+      "text": "盈利修正的大小与超额收益正相关，但近年来负向盈利修正已无明显的负向超额收益，可能源于市场定价效率提升。",
+      "evidence": "同时我们发现近几年来，负向的盈利修正并没有明显的负向超额收益，这可能是由于市场定价效率提升的结果。"
+    },
+    {
+      "text": "盈利修正质量（创新性、可靠性、及时性）显著影响修正后的超额收益，质量越高的盈利修正后续超额收益越高。",
+      "evidence": "我们分别使用盈利预测是否同时高于一致预期以及前次预测、盈利修正方向与一致预期修正方向的同步性、盈利修正的时间间隔作为上述因素的代理变量，发现这些因素确实显著影响了盈利修正后的超额收益，质量越高的盈利修正，后续的超额收益越高。"
+    },
+    {
+      "text": "PFRD的超额收益在约60个交易日后衰减明显，因此在月底取过去90天盈利修正事件打分均值作为因子，相对一致预期盈利修正在全市场、分析师覆盖域和中证800均有明显增量信息。",
+      "evidence": "我们发现盈利修正后的超额收益在大约 60 个交易日后衰减十分明显，因此我们在每个月底选取了过去 90 天的盈利修正事件打分的平均作为因子值，该因子不管是在全市场、分析师覆盖域或者中证 800 中，都相对于一致预期的盈利修正存在明显的增量信息。"
+    },
+    {
+      "text": "全A头部选股中，90天内盈利修正筛选的50只股票年化超额收益16.88%，显著高于一致预期盈利修正的10.07%。",
+      "evidence": "从筛选头部股票的角度来看，在全A样本内，90天内盈利修正筛选出的股票超额收益显著较高，其中 50 只股票的年化超额收益为 16.88%，而一致预期盈利修正的头部 50 只股票超额收益只有 10.07%。"
+    },
+    {
+      "text": "原始预测数据包含无信息修正、过于主观修正、发布滞后等问题，获取PFRD超额收益时噪声较大，需结合主动研究信息进一步剔除。",
+      "evidence": "尽管本文构建的因子解决了一致预期盈利修正因子中的部分问题，但是由于原始的预测数据中包含无信息的修正、过于主观的修正、发布滞后等等一系列问题，使得我们在获取 PFRD的超额收益时，带有较大的噪声。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chan L K C, Jegadeesh N, Lakonishok J. Momentum strategies[J]. The Journal of Finance, 1996, 51(5): 1681-1713.",
+    "Givoly D, Lakonishok J. The information content of financial analysts' forecasts of earnings: Some evidence on semi-strong inefficiency[J]. Journal of Accounting and Economics, 1979, 1(3):165-185.",
+    "Gleason C A, Lee C M C. Analyst forecast revisions and market price discovery[J]. The Accounting Review, 2003, 78(1): 193-225.",
+    "Imhoff E A, Lobo G J. Information content of analysts' composite forecast revisions[J]. Journal of Accounting Research, 1984: 541-554.",
+    "Stickel S E. Common stock returns surrounding earnings forecast revisions: More puzzling evidence[J]. Accounting Review, 1991: 402-416.",
+    "Zhang X F. Information Uncertainty and Stock Returns[J]. The Journal of Finance, 2006, 61(1)."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": 2,
+  "id": "20240524-开源证券-市场微观结构-024-深度学习赋能交易行为因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "LSTM_{init}",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{以日频量价、分钟频量价、大小单资金流为输入，经2层LSTM与Self-Attention编码，直接经全连接层输出的单输出月频因子}",
+          "stats": [null, 0.0808, 3.99, 0.3016],
+          "evidence": "进一步地，我们对其进行回测，在回测时剔除停牌、ST、上市不满 60天的股票，月度等权构建组合，10分组表现如图 4所示。该因子RankIC为 8.08%，RankICIR 为 3.99，10 分组多空年化收益 30.16%，收益波动比为 3.37，已经具备较为优异的选股效果，但多头端的分层效果较为一般，为量价类因子普遍的劣势。"
+        },
+        {
+          "name": "LSTM_{pro}",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{以日频量价、分钟频量价、大小单资金流为输入，经LSTM隐藏层后与转化为分位点的财务指标神经元拼接，经全连接层输出的月频因子}",
+          "stats": [null, 0.0917, 4.49, 0.3514],
+          "evidence": "对于财务数据而言，考虑到其时序变化较慢，我们并没有将其和日度变化的量价类指标一起作为初始输入层数据，而是将其转化为分位点后，放入输出层前一层，和量价类指标通过隐藏层后的神经元进行拼接，一起通过全连接层输出为最后的因子。"
+        },
+        {
+          "name": "LSTM_{pro\\_multi}",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{在原始损失函数（IC的负数）基础上加上多因子间相关性惩罚，输出3个低相关因子后等权合成}",
+          "stats": [null, 0.0894, 4.27, 0.3411],
+          "evidence": "这里我们采取的做法为：3大类变量一起输入模型，但是在输出的时候，并不是输出单一的因子，而是输出 3 个尽可能低相关的因子。实现这一操作的核心步骤即：在原始损失函数的基础上加上多因子间的相关性惩罚。"
+        },
+        {
+          "name": "Alpha185",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{遗传算法（切割算子等算子与变量，1轮10代挖掘）得到并等权合成的交易行为因子}",
+          "stats": [null, 0.1214, 4.45, 0.3479],
+          "evidence": "我们在《遗传算法赋能交易行为因子》中，创新性地提出“切割算子”，并结合其他算子和变量，利用改进的遗传算法流程，经过1 轮 10 代的挖掘，得到了开源金工遗传算法因子：Alpha185。从 2017 年 1 月至 2024 年 4 月，合成后因子RankIC 为 12.14%，RankICIR 为 4.45，10 分组多空年化收益为 34.79%，信息比率为3.16"
+        },
+        {
+          "name": "改进理想反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{LSTM以日频量价、分钟频量价、大小单资金流为输入，在原损失函数（IC的负数）基础上加入与原始理想反转因子相关系数惩罚后输出的因子}",
+          "stats": [null, -0.0903, -4.13, null],
+          "evidence": "本文我们以理想反转为例进行小篇幅展开，尝试使用 LSTM 对其进行改进，具体的做法即在原损失函数的基础上考虑与待改进因子的相关系数。改进理想反转因子的 RankIC 为-9.03%，RankICIR 为-4.13，明显优于原始理想反转。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "遗传算法因子Alpha185从2017年1月至2024年4月，合成后因子RankIC为12.14%，RankICIR为4.45，10分组多空年化收益为34.79%，信息比率为3.16，2022年6月以来的样本外整体表现也较为优异。",
+      "evidence": "从 2017 年 1 月至 2024 年 4 月，合成后因子RankIC 为 12.14%，RankICIR 为 4.45，10 分组多空年化收益为 34.79%，信息比率为3.16，2022年6月份以来的样本外整体表现也较为优异。"
+    },
+    {
+      "text": "加入财务数据的LSTM_{pro}因子RankIC为9.17%，RankICIR为4.49，相较LSTM_{init}整体绩效有所提升，多头端的分层效果更为优异，被选为本文最后推荐的因子。",
+      "evidence": "该因子 RankIC 为 9.17%，RankICIR 为 4.49，相较于 $:LSTM_{init}$ 整体的绩效有所提升，更为重要的是，多头端的分层效果更为优异。"
+    },
+    {
+      "text": "多输出的3个因子互相关性为45.93%，并没有特别低，原因在于为了保证因子的选股效果以及降低训练成本，因子间相关性惩罚系数并没有调太高，且多输出训练成本更高，所以以LSTM_{pro}为最后推荐的因子。",
+      "evidence": "这里需要说明的是，多输出的 3 个因子互相关性为 45.93%，并没有特别低，原因在于为了保证因子的选股效果以及降低训练成本，因子间相关性惩罚系数并没有调太高。"
+    },
+    {
+      "text": "LSTM_{pro}在中证1000指数增强上，从2019年1月至2024年4月，超额年化收益15.74%，所有年份都录得了正超额。",
+      "evidence": "从 2019年1月至2024年4 月，超额年化收益15.74%，所有年份都录得了正超额。"
+    },
+    {
+      "text": "LSTM_{pro}在不同样本空间测试中，中证1000内的表现相对更加优异，中证1000内多空年化收益31.29%、信息比率3.10，多头超额年化收益12.18%、信息比率2.32。",
+      "evidence": "在中证 1000内多空年化收益31.29%、信息比率3.10，多头超额年化收益12.18%、信息比率 $2.32\\circ LSTM_{pro}$ 在中证1000内的表现相对更加优异。"
+    },
+    {
+      "text": "人工因子、遗传算法因子和深度学习因子对比：人工因子在RankICIR以及多空对冲上效果较为优异，深度学习因子在多头超额方面的表现较为优异。",
+      "evidence": "我们可以发现人工因子在RankICIR以及多空对冲上效果较为优异，深度学习因子在多头超额方面的表现较为优异。"
+    },
+    {
+      "text": "使用LSTM改进理想反转因子，改进理想反转因子与原始理想反转因子相关性为52.85%，RankIC为-9.03%，RankICIR为-4.13，明显优于原始理想反转，多空对冲和多头超额的收益率也明显更高。",
+      "evidence": "改进理想反转因子与原始理想反转因子相关性为 52.85%，RankIC 为-9.03%，RankICIR 为-4.13，明显优于原始理想反转。除此之外，在多空对冲和多头超额的收益率上，改进理想反转也明显更高，但是信息比率并无明显跑赢。"
+    }
+  ],
+  "builds_on": [
+    "20191223-开源证券-市场微观结构-001-A股反转之力的微观来源",
+    "20230806-开源证券-市场微观结构-020-遗传算法赋能交易行为因子"
+  ],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "id": "20220508-方正证券-多因子选股-002-个股成交量的潮汐变化及潮汐因子构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "全潮汐因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{全潮汐因子}=\\frac{1}{20}\\sum_{i=1}^{20}\\frac{C_{n,i}-C_{m,i}}{C_{m,i}\\cdot(n_i-m_i)}",
+          "stats": [null, -0.0709, -3.73, 0.2711],
+          "evidence": "则全部“潮汐”过程的价格变化率为(Cn-Cm)/Cm。3）进而全“潮汐”过程的价格变动速率为(Cn-Cm)/Cm/(n-m)，我们将此作为每日投资者出售或购买股票意愿强烈程度的代理变量。4）我们计算最近20个交易日的价格变动速率的平均值，记为“全潮汐”因子。"
+        },
+        {
+          "name": "强势半潮汐因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{强势半潮汐因子}=\\frac{1}{20}\\sum_{i=1}^{20}\\frac{\\text{强势半潮汐起止收盘价涨跌幅}_{i}}{\\text{强势半潮汐持续分钟数}_{i}}",
+          "stats": [null, -0.0488, -4.4, 0.2101],
+          "evidence": "与计算“全潮汐”因子的方法类似，我们先计算“强势半潮汐”过程的起止收盘价的涨跌幅。2）然后将涨跌幅除以“强势半潮汐”持续的分钟数，即可得到每日推动力量更大的一部分价格变化的速率。并将此作为投资者买卖意愿相对更强烈的时间段投资者交易热情的代理变量。"
+        },
+        {
+          "name": "激进弱势半潮汐因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{激进弱势半潮汐因子}=\\frac{1}{20}\\sum_{i=1}^{20}\\frac{\\text{弱势半潮汐起止收盘价涨跌幅}_{i}}{\\text{弱势半潮汐持续分钟数}_{i}}",
+          "stats": [null, -0.0269, -2.35, 0.0816],
+          "evidence": "接下来我们通过两种不同的方式刻画因子，其一是我们计算最近20个交易日弱势半潮汐内的价格变动速率的平均值，其二是我们计算最近 20 个交易日的价格变动速率的标准差，并分别记为“激进弱势半潮汐”因子和“稳定弱势半潮汐”因子。"
+        },
+        {
+          "name": "稳定弱势半潮汐因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{稳定弱势半潮汐因子}=\\text{Std}\\left(\\frac{\\text{弱势半潮汐起止收盘价涨跌幅}_{i}}{\\text{弱势半潮汐持续分钟数}_{i}},\\; i=1,\\dots,20\\right)",
+          "stats": [null, -0.0697, -3.14, 0.1928],
+          "evidence": "而相比之下，“稳定弱势半潮汐”因子表现则相对较好，其 Rank IC和Rank ICIR 分别为-6.97%、-3.14，多空组合年化收益率和月度胜率分别为 19.28%、74.53%，信息比率为 1.82。"
+        },
+        {
+          "name": "完整潮汐因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{完整潮汐因子}=\\frac{1}{2}\\left(\\text{强势半潮汐因子}+\\text{稳定弱势半潮汐因子}\\right)",
+          "stats": [null, -0.079, -4.13, 0.2709],
+          "evidence": "我们将其进行合并，等权合成为“完整潮汐”因子，合成后的因子表现如下表所示："
+        },
+        {
+          "name": "纯净完整潮汐因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{纯净完整潮汐因子}=\\text{完整潮汐因子对常用风格因子及行业因子正交化后的残差}",
+          "stats": [null, -0.0347, -2.72, 0.1477],
+          "evidence": "我们使用常用风格因子及行业因子对“完整潮汐”因子进行正交化处理，得到“纯净完整潮汐”因子，再检验其选股能力。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "合成之后的“完整潮汐”因子表现非常出色，Rank IC为-7.90%，Rank ICIR 为-4.13，多空组合年化收益率达 27.09%，信息比3.08，因子月度胜率 83.96%",
+      "evidence": "合成之后的“完整潮汐”因子表现非常出色，Rank IC为-7.90%，Rank ICIR 为-4.13，多空组合年化收益率达 27.09%，信息比3.08，因子月度胜率 83.96%。"
+    },
+    {
+      "text": "剔除常用风格因子影响后，“完整潮汐”因子仍具有较强选股能力，Rank IC 均值为-3.47%，Rank ICIR 为-2.72，多空组合年化收益率14.77%，信息比率 2.53",
+      "evidence": "在剔除了常用的风格因子影响后，“完整潮汐”因子仍然具有较强的选股能力，Rank IC 均值为-3.47%，Rank ICIR 为-2.72，多空组合年化收益率14.77%，信息比率 2.53。"
+    },
+    {
+      "text": "中证 1000 指数成分股内“完整潮汐”因子表现更为出色，Rank IC 为-6.22%，Rank ICIR 为-3.70，多头组合年化超额收益达 13.01%",
+      "evidence": "主流宽基指数中，沪深 300成分股、中证500成分股、中证 1000成分股内“完整潮汐”因子均表现出较好的选股能力，相较而言，中证 1000 指数成分股内表现更为出色，其 Rank IC 为-6.22%，Rank ICIR 为-3.70，多头组合年化超额收益达 13.01%。"
+    },
+    {
+      "text": "“完整潮汐”因子与波动率和换手率均有较高的相关性，与其他风格因子相关系数均较低",
+      "evidence": "“完整潮汐”因子与波动率和换手率均有较高的相关性，与其他风格因子相关系数均较低。"
+    },
+    {
+      "text": "对弱势半潮汐过程，求稳定更重要：“稳定弱势半潮汐”因子表现相对较好，Rank IC和Rank ICIR 分别为-6.97%、-3.14",
+      "evidence": "而相比之下，“稳定弱势半潮汐”因子表现则相对较好，其 Rank IC和Rank ICIR 分别为-6.97%、-3.14，多空组合年化收益率和月度胜率分别为 19.28%、74.53%，信息比率为 1.82。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

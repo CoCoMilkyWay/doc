@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "20191223-开源证券-市场微观结构-001-a股反转之力的微观来源",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "理想反转因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "M = M_{high} - M_{low}",
+          "stats": [null, null, null, null],
+          "evidence": "从样本内的回测看，由W式切割得到的理想反转因子，其收益的稳健度要大大优于传统反转因子Ret20，两者的多空对冲信息比率IR分别为2.51与1.20，月度胜率分别为 74%与 64%，孰优孰劣，一目了然（图 1）。"
+        },
+        {
+          "name": "M_high",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "daily"],
+          "horizon": "monthly",
+          "formula": "M_{high} = \\text{过去20日中单笔成交金额（或成交金额分布分位值）高的10个交易日涨跌幅加总}",
+          "stats": [-0.046, null, null, null],
+          "evidence": "我们的计算结果显示，当采用1/16分位值作为切割标准时，M_high的IC为-0.046 M_1ow的IC为-0.019，两个成分都呈现了反转特性（图4中最左边的蓝点与红点)。"
+        },
+        {
+          "name": "M_high_13/16",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "daily"],
+          "horizon": "monthly",
+          "formula": "M_{high\\_13/16} = \\text{过去20日中逐笔成交金额分布13/16分位值最高的10个交易日涨跌幅加总}",
+          "stats": [-0.07, -0.087, null, null],
+          "evidence": "图 10给出了2013年至今各因子的多空对冲净值曲线。在此期间，新的因子M_high_13/16（蓝线）的多空 IR 为 2.00，月度胜率为 72.0%，IC 为-0.070，rankIC为-0.087。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["return_test"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "由W式切割得到的理想反转因子收益稳健度显著优于传统反转因子Ret20，多空对冲信息比率IR分别为2.51与1.20，月度胜率分别为74%与64%。",
+      "evidence": "从样本内的回测看，由W式切割得到的理想反转因子，其收益的稳健度要大大优于传统反转因子Ret20，两者的多空对冲信息比率IR分别为2.51与1.20，月度胜率分别为 74%与 64%，孰优孰劣，一目了然（图 1）。"
+    },
+    {
+      "text": "切割标准选用越高的分位值，W式切割的效果越好，决定反转强度的因素主要来源于成交金额分布的高分位区，也即大单成交区。",
+      "evidence": "也就是说，切割标准选用越高的分位值，W式切割的效果越好（图4 与图5，横轴为 1/16 至 15/16 分位）。这意味着，决定反转强度的因素，主要来源于成交金额分布的高分位区，也即大单成交区。"
+    },
+    {
+      "text": "假想实验显示，随着新增成交金额逐步提高，该笔成交对当日IC的贡献从微弱的正值（动量特性）迅速下降为负值（反转特性），反转之力的微观来源是大单成交。",
+      "evidence": "图8所示的结果显示，随着成交金额的逐步提高（横轴从左到右），新增该笔成交对当日 IC的贡献，从微弱的正值（动量特性）迅速下降为负值（反转特性），并且呈现加速下降的趋势。这个分析的意义在于，在逐笔成交的层面上，我们得到了如下重要推论：反转之力的微观来源，是大单成交。"
+    },
+    {
+      "text": "新因子M_high_13/16多空IR为2.00，月度胜率72.0%，IC为-0.070，rankIC为-0.087，既保留理想反转因子的长期收益特征，又成功避免了2019年2月份的大幅回撤。",
+      "evidence": "图 10给出了2013年至今各因子的多空对冲净值曲线。在此期间，新的因子M_high_13/16（蓝线）的多空 IR 为 2.00，月度胜率为 72.0%，IC 为-0.070，rankIC为-0.087。特别地，2019年2月份M_high_13/16仍然取得了正收益。我们的结论是，新因子 M_high_13/16既保留了理想反转因子（橘线）的长期收益特征，又成功避免了类似 2019年2月份的大幅回撤。"
+    },
+    {
+      "text": "M_high作为反转因子非常稳健；2019年2月负M_low因子录得很大回撤，受其拖累，理想反转因子（M_high-M_low）在2月份也出现较大回撤。",
+      "evidence": "我们清楚地看到，M_high 作为反转因子是非常稳健的。而在2019年 2 月份，负M_low因子录得了一个很大的回撤。受负 M_low 因子表现的拖累，理想反转因子（M_high-M_low）在 2月份也出现了较大的回撤。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "魏建榕、傅开波（2018-12-13），W式切割反转因子",
+    "魏建榕等（2016-10-15），APM因子",
+    "魏建榕等（2017-9-14），日内加权的反转因子"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

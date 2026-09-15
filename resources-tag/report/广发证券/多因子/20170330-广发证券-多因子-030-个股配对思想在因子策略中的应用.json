@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "20170330-广发证券-多因子-030-个股配对思想在因子策略中的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "配对反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "I_{t}=Spread_{t}/\\sigma_{t}=(log(P_{t}^{A})-\\gamma log(P_{t}^{B})-\\mu)/\\sigma_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "配对反转因子与反转因子的思路一脉相承，核心思想与配对交易一致，不同之处在于将配对交易止盈止损条件改为定期平仓。配对反转因子认为过去相对强/弱势的，股票在未来有着较好/差的表现,从而买入过去表现相对弱势而卖出过去表现相对强势的股票。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "月度调仓频率下，配对反转因子获取超额收益能力突出，配对反转信号可用于指数增强，亦可用于优化多因子组合提高收益率。",
+      "evidence": "月度调仓的频率下，配对反转因子获取超额收益能力突出，配对反转信号可以用于指数增强，亦可用于优化多因子组合提高收益率。"
+    },
+    {
+      "text": "基于个股配对的权重调整方法用于指数增强策略，2007年-2016年年化超额收益率达8%。",
+      "evidence": "本文提出了基于个股配对的权重调整方法，用于指数增强策略，2007年-2016年年化超额收益率达8%。"
+    },
+    {
+      "text": "即使考虑交易费用，周度配对调仓依然有增强效果，样本期2007年-2016年基准多因子组合收益率424.40%，配对调仓组合收益率501.59%。",
+      "evidence": "即使考虑交易费用，周度配对调仓依然有增强效果，在样本期 2007 年-2016 年，基准多因子组合收益率424.40%，配对调仓组合收益率501.59%。"
+    },
+    {
+      "text": "考虑协整系数后，多头对冲中证800的策略整体收益有所提高，波动也加大。",
+      "evidence": "可以看出，考虑了协整系数后，策略整体收益有所提高，波动也加大。"
+    },
+    {
+      "text": "开仓阈值T1与交易机会/行业历史平均股票数高度负相关，相关系数为-0.83。",
+      "evidence": "开仓阈值T1与交易机会/行业历史平均股票数高度负相关，相关系数为-0.83，详见图14。"
+    },
+    {
+      "text": "反转因子在长回测期上IC绝对值在各类因子中名列前茅，在LS收益率、LS胜率、LS_IR、IC_IR、IC_P1等各项指标上都表现较好。",
+      "evidence": "从下表中可以看出，反转因子的IC绝对值在各类因子中名列前茅，在LS收益率、LS胜率、LS_IR、IC_IR、IC_P1等各项指标上都表现较好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "2015-08多因子 Alpha系列报告之（二十五）——反转因子再优化，更精准把握拐点",
+    "多因子 ALPHA 系列报告之2014-09（二十一）：alpha 因子何处寻 掘金海量技术指标"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

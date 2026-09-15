@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "id": "20170711-广发证券-深度学习-003-深度学习新进展_alpha因子再挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "深度学习选股因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\hat{y}_{1}=\\frac{e^{z_{1}}}{\\sum_{i=1,2,3}e^{z_{i}}}\\text{，即深度学习预测模型softmax输出层对上涨类的预测打分}",
+          "stats": [0.092, null, null, null],
+          "evidence": "但总体而言，选股因子在样本外的IC平均值为0.092，标准差为0.065，而且大部分情况下，模型的 IC为正值。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["cleaning"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "sample_window", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["heuristic_ranking", "futures_hedge"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "实证策略每次调仓从全市场选取10%的股票配置，用中证500指数对冲，样本外年化收益率为20.3%，最大回撤为-4.77%，月度胜率为88.0%。",
+      "evidence": "实证策略每次调仓时从全市场选取 10%的股票进行配置，用中证 500 指数对冲，样本外年化收益率为 20.3%，最大回撤为 -4.77%，月度胜率为 88.0%。"
+    },
+    {
+      "text": "选股因子在样本外的IC平均值为0.092，标准差为0.065，而且大部分情况下模型的IC为正值。",
+      "evidence": "但总体而言，选股因子在样本外的IC平均值为0.092，标准差为0.065，而且大部分情况下，模型的 IC为正值。"
+    },
+    {
+      "text": "定期更新深度学习模型后，更新后的模型在收益率和回撤上都有明显的改善。",
+      "evidence": "比较两个模型在 2013 年 1 月之后的表现，可以看到，更新后的模型在收益率和回撤上都有明显的改善。"
+    },
+    {
+      "text": "深度学习选股因子与常见风格因子（规模、反转、流动性、估值）的相关性不高，可以考虑将深度学习因子与传统风格因子进行进一步的结合。",
+      "evidence": "从深度学习选股因子与传统风格因子的相关性分析可以看到，深度学习选股因子与常见风格因子（规模、反转、流动性、估值）的相关性不高，可以考虑将深度学习因子与传统风格因子进行进一步的结合。"
+    },
+    {
+      "text": "在训练样本上，模型的预测准确率为67.84%，在验证集样本上，模型的预测准确率为62.32%，显著高于三分类问题随机预测的33.33%。",
+      "evidence": "在训练样本上，模型的预测准确率为67.84%，在验证集样本上，模型的预测准确率为62.32%。显著高于随机预测的表现（对于三分类问题，随机预测的准确率大约为1/3，即33.33%）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Alpha因子何处寻，掘金海量技术指标》",
+    "《深度学习系列之一：深度学习之股指期货日内交易策略》",
+    "《深度学习系列之二：深度学习算法掘金ALPHA因子》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

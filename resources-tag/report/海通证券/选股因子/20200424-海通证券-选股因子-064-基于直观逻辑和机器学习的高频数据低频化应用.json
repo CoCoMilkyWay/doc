@@ -1,0 +1,154 @@
+{
+  "schema_version": 2,
+  "id": "20200424-海通证券-选股因子-064-基于直观逻辑和机器学习的高频数据低频化应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["order_flow", "intraday_pattern", "symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "买入意愿占比（开盘后）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "买入意愿占比_{i,T}=\\frac{\\sum 买入意愿_{i,T,k}}{\\sum 成交金额_{i,T,k}}",
+          "stats": [0.03, null, 3.09, 0.1249],
+          "evidence": "对于买入意愿占比类因子，开盘后买入意愿占比选股能力较为显著，因子月均IC 超 0.03，年化 ICIR 高于 3.0，月度胜率达 85%。因子多空收益分布较为均匀，月均多空收益为 0.98%，月均多头超额收益为 0.57%。"
+        },
+        {
+          "name": "日内买入意愿强度（开盘后）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "买入意愿强度_{i,T}=\\frac{mean(买入意愿_{i,T,k})}{std(买入意愿_{i,T,k})}",
+          "stats": [0.04, null, 3.7, 0.162],
+          "evidence": "对于日内买入意愿强度因子，全天日内买入意愿强度、开盘后日内买入意愿强度以及盘中日内买入意愿强度皆呈现出了极为显著的月度选股能力。因子月均 IC普遍高于0.03，年化 ICIR 普遍高于 2.5，月度胜率接近或者高于 80%。相比而言，开盘后日内买入意愿强度因子表现更好，因子月均多空收益达 1.34%，月均多头超额收益达 0.41%。"
+        },
+        {
+          "name": "Alpha_1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{neg}(\\log(\\text{roll_std}(\\text{period_med}(\\text{主买额}))))",
+          "stats": [0.04, null, 3.14, 0.194],
+          "evidence": "Alpha1 计算了股票过去 20 日盘中主买额的波动率，计算公式中的 log 调整了因子的截面分布，而负号则表明，盘中主买额波动率越低，股票未来表现越好。"
+        },
+        {
+          "name": "Alpha_2",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{neg}(\\log(\\text{roll_std}(\\text{大单买入额}\\times\\text{period_beg}(\\text{成交额}))))",
+          "stats": [0.05, null, 3.5, 0.2097],
+          "evidence": "例如，Alpha2 计算了大单买入额与开盘后成交额之积的波动率，我们难以直观理解该种计算方法后的逻辑。"
+        },
+        {
+          "name": "Alpha_3",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{neg}(\\log(\\text{roll_mean}(\\text{period_med}(\\text{成交额})-\\text{period_end}(\\text{净主买额}))))",
+          "stats": [0.04, null, 2.93, 0.2054],
+          "evidence": "| Alpha3 | neg(log(roll_mean(period_med(成交额)-period_end(净主买额)))) |"
+        },
+        {
+          "name": "Alpha_4",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{neg}(\\log(\\text{roll_mean}(\\text{成交额}-\\text{period_med}(\\text{成交额}))))",
+          "stats": [0.05, null, 3.17, 0.2209],
+          "evidence": "Alpha4 计算了过去 1个月开盘后与收盘前的成交额的滚动均值，该指标越高，股票未来表现越弱。"
+        },
+        {
+          "name": "Alpha_5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{neg}(\\log(\\text{roll_mean}(\\text{period_beg}(\\text{主买额})+\\text{period_med}(\\text{主买额})-\\text{period_med}(\\text{净主买额})+\\text{period_end}(\\text{成交额}))))",
+          "stats": [0.04, null, 3.06, 0.2174],
+          "evidence": "| Alpha5 | neg(log(roll_mean(period_beg(主买额)+ period_med(主买额)- period_med(净主买额)+ period_end(成交额)))) |"
+        },
+        {
+          "name": "Alpha_6",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{neg}(\\text{roll_sum}(\\text{period_beg}(\\text{成交额})+\\text{period_end}(\\text{成交额}))/\\text{roll_sum}(\\text{period_med}(\\text{成交额})))",
+          "stats": [0.02, null, 1.86, 0.085],
+          "evidence": "Alpha6体现出了类似的逻辑，它计算了过去 1 个月开盘后与收盘前的成交额之和与过去 1个月盘中成交额之和的比值。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "以开盘后日内买入意愿强度与开盘后日内净主买强度为例，买入意愿类因子相比净主买类因子有明显提升：因子的IC从0.03提升至0.04，年化ICIR从2.96提升至3.70，月度胜率从80%提升至85%，月均多空收益从1.02%提升至1.34%。",
+      "evidence": "以开盘后日内买入意愿强度与开盘后日内净主买强度为例，因子的 IC 从 0.03 提升至 0.04，年化 ICIR 从 2.96 提升至 3.70，月度胜率从 80%提升至 85%，月均多空收益从 1.02%提升至 1.34%，月均多头收益从 0.23%提升至0.41%。"
+    },
+    {
+      "text": "正交处理后，开盘后买入意愿占比以及开盘后日内买入意愿强度年化多空收益分别达12.49%以及16.20%，各因子在大部分年份中皆取得较好的收益表现。",
+      "evidence": "开盘后买入意愿占比以及开盘后日内买入意愿强度年化多空收益分别为 12.49%以及 16.20%。各因子在大部分年份中皆取得了较好的收益表现。"
+    },
+    {
+      "text": "若进一步剔除高频因子的影响，机器挖掘因子的月度选股能力会更加显著，大部分因子月均IC高于0.04，年化ICIR接近3.0，月均多空收益高于1.5%。",
+      "evidence": "如果进一步剔除高频因子的影响，机器挖掘因子的月度选股能力会更加显著，大部分因子月均 IC 高于 0.04，年化 ICIR 接近 3.0，月均多空收益高于 1.5%。"
+    },
+    {
+      "text": "以中证500指数增强组合为例，回测结果表明因子的引入能够带来模型整体效果的提升，但不同因子在不同年度的提升效果存在差异。",
+      "evidence": "回测结果表明，因子的引入的确能够带来模型整体效果的提升，但是不同因子在不同年度的提升效果存在差异。"
+    },
+    {
+      "text": "同时加入Alpha_2以及开盘后日内买入意愿强度后，全区间超额收益相比于基础模型以及单独加入开盘后日内买入意愿强度的模型产生了一定提升，但是略弱于单独加入Alpha_2的模型，且分年度收益表现更加稳定。",
+      "evidence": "模型在同时加入 以及开盘后日内买入意愿强度后，全区间超额收益相比于基础模型以及单独加入开盘后日内买入意愿强度的模型产生了一定提升，但是略弱于单独加入 Alpha_2 的模型。虽然模型全区间超额收益低于单独加入 Alpha_2 的模型，但是同时加入两因子的模型在分年度收益表现上更加稳定。"
+    },
+    {
+      "text": "机器挖掘类因子与买入意愿类因子之间的截面相关性较为可控，若两类因子间的相关性较为可控，可考虑同时加入模型从而得到更加稳健的模型提升效果。",
+      "evidence": "从截面相关性的角度看，机器挖掘类因子与买入意愿类因子之间的截面相关性较为可控。机器挖掘因子之间的截面相关性较高，买入意愿因子间的截面相关性较高。"
+    },
+    {
+      "text": "同时引入Alpha_2以及开盘后日内买入意愿强度能够进一步提升模型表现稳定性。",
+      "evidence": "同时引入 Alpha_2 以及开盘后日内买入意愿强度能够进一步提升模型表现稳定性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（五十七）——基于主动买入行为的选股因子》",
+    "《选股因子系列研究（五十八）——知情交易与主买主卖》",
+    "《选股因子系列研究（五十六）——买卖单数据中的 Alpha》",
+    "《选股因子系列研究（四十七）——捕捉投资者的交易意愿》",
+    "《金融科技（Fintech）和数据挖掘研究（三）——量化因子的批量生产与集中管理》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

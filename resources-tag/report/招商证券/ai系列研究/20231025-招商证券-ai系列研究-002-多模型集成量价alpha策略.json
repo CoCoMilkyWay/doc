@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "id": "20231025-招商证券-ai系列研究-002-多模型集成量价alpha策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "MLP",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{MLP截面模型在日线量价特征序列 PRICE(0)..PRICE(-N+1) 上输出的因子值}",
+          "stats": [null, 0.106, 1.06, 0.2849],
+          "evidence": "MLP和 GBDT均为截面学习模型，在没有特征工程的前提下无法提取时序信息。在基于 MLP和 GBDT的因子生成算法中，通常将时序上所有时间点的样本看作同一分布的样本。"
+        },
+        {
+          "name": "GBDT",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{LightGBM(GBDT)截面模型在日线量价特征序列上输出的因子值}",
+          "stats": [null, 0.1066, 1.14, 0.2984],
+          "evidence": "基于 GBDT 的截面模型因子，在全 A 成分股内，RankIC 为 10.66%，ICIR为 1.14（未年化），分 20 组的多头对冲年化收益率为 29.84%"
+        },
+        {
+          "name": "AGRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{在GRU基础上增加基于序列隐藏状态的Self Attention并与原始GRU输出特征拼接后输出的因子值}",
+          "stats": [null, 0.1067, 0.99, 0.2667],
+          "evidence": "因此，本文在GRU模型的基础上，增加基于序列隐藏状态的 Self Attention并与原始 GRU模型的输出特征拼接构建了 GRU with Attention 模型，以下简称 AGRU。"
+        },
+        {
+          "name": "GRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU时序模型在30日日线量价序列上输出的因子值}",
+          "stats": [null, 0.113, 1.06, 0.2883],
+          "evidence": "基于 GRU的时序模型因子在全 A 成分股中，RankIC 为 11.3%，ICIR 达到 1.06（未年化），分 20 组的多头对冲年化收益率为 28.83%"
+        },
+        {
+          "name": "集成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{按过去60个交易日ICIR加权对MLP、GBDT、GRU、AGRU四个模型因子进行Voting集成}",
+          "stats": [null, 0.119, 1.13, 0.3311],
+          "evidence": "集成因子相比于单个模型的因子 RankIC 提升到 11.9%，ICIR 达到 1.13（未年化），多头收益率提高到33.11%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "label_horizon", "sample_window", "ensemble"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "引入截面特征序列后，截面模型与时序模型的因子学习能力基本处于同一水平。",
+      "evidence": "在引入截面特征序列后截面模型与时序模型的因子学习能力基本处于同一水平。"
+    },
+    {
+      "text": "引入Attention机制后GRU生成的因子表现没有明显提高，可能是模型复杂度提升需要更多样本数据和训练轮数。",
+      "evidence": "引入 Attention 机制后 GRU 生成的因子表现没有明显提高。可能是由于模型复杂度的提升，需要更多的样本数据和训练轮数来学习量价特征。"
+    },
+    {
+      "text": "GBDT截面模型因子在全A内RankIC为10.66%，多头对冲年化收益率29.84%；GRU时序模型因子RankIC为11.3%，多头对冲年化收益率28.83%。",
+      "evidence": "基于 GBDT 的截面模型因子，在全 A 成分股内，RankIC 为 10.66%，ICIR为 1.14（未年化），分 20 组的多头对冲年化收益率为 29.84%；基于 GRU的时序模型因子在全 A 成分股中，RankIC 为 11.3%，ICIR 达到 1.06（未年化），分 20 组的多头对冲年化收益率为 28.83%"
+    },
+    {
+      "text": "按过去60个交易日ICIR加权集成后，集成因子RankIC提升到11.9%，ICIR达到1.13，多头收益率提高到33.11%。",
+      "evidence": "集成因子相比于单个模型的因子 RankIC 提升到 11.9%，ICIR 达到 1.13（未年化），多头收益率提高到33.11%。"
+    },
+    {
+      "text": "集成因子与常见风格因子相关性较低，在流动性和残差波动率风格上有一定暴露；风格中性化后多头收益率下降但Alpha选股仍然显著。",
+      "evidence": "集成学习模型因子与常见风格因子整体相关性较低，在流动性和残差波动率风格上有一定的暴露。风格中性化后集成因子的多头收益率有所下降，但Alpha选股仍然显著。"
+    },
+    {
+      "text": "基于集成因子的TOP100策略除2018年外，在单边换手率约束为40%以上时绝对年化收益率显著为正。",
+      "evidence": "基于集成因子构建的 TOP100 策略的绝对收益表现良好，除 2018 年外，在单边换手率约束为 40%以上时，绝对年化收益率显著为正。"
+    },
+    {
+      "text": "沪深300周频指增策略年化超额收益率13.00%，信息比率4.13，年化跟踪误差3.15%。",
+      "evidence": "沪深 300 周频指增策略年化超额收益率为 13.00%，信息比率为 4.13，年化跟踪误差为 3.15%"
+    },
+    {
+      "text": "中证500周频指增策略年化超额收益率14.14%，信息比率2.26，年化跟踪误差6.23%。",
+      "evidence": "中证 500 周频指增策略年化超额收益率为 14.14%，信息比率为 2.26，年化跟踪误差为 6.23%；"
+    },
+    {
+      "text": "中证1000周频指增策略年化超额收益率20.13%，信息比率3.07，跟踪误差6.55%。",
+      "evidence": "中证 1000 周频指增策略年化超额收益率为 20.13%，信息比率为 3.07，跟踪误差为 6.55%"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chen T, He T, Benesty M, et al. Xgboost: extreme gradient boosting[J]. R package version 0.4-2, 2015, 1(4): 1-4.",
+    "Chung J, Gulcehre G, Cho K H, et al. Empirical evaluation of gated recurrent neural networks on sequence modeling[J]. arXiv preprint arXiv:1412.3555, 2014.",
+    "Ke G, Meng Q, Finley T, et al. Lightgbm: A highly efficient gradient boosting decision tree[J]. Advances in neural information processing systems, 2017, 30.",
+    "Qin Y, Song D, Chen H, et al. A dual-stage attention-based recurrent neural network for time series prediction[J]. arXiv preprint arXiv:1704.02971, 2017."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

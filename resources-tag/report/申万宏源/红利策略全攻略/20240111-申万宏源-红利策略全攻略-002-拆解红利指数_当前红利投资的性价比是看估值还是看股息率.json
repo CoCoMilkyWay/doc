@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "id": "20240111-申万宏源-红利策略全攻略-002-拆解红利指数_当前红利投资的性价比是看估值还是看股息率",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["dividend"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "修正股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "event",
+          "formula": "\\text{按指数权重加权的分红总额}/\\text{按指数权重加权的总市值}",
+          "stats": [null, null, null, null],
+          "evidence": "首先，我们发现股息率的计算方式同样是采用了总市值的计算方式，即总分红金额除以总市值，而红利指数的非市值加权特征可能对高股息但市值不够高的公司有影响，因此，我们把分红和总市值按指数权重进行调整，得到修正后的股息率数据："
+        },
+        {
+          "name": "三年加权股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "event",
+          "formula": "\\text{过去三年累计股息加总}/\\text{按指数权重加权的总市值}",
+          "stats": [null, null, null, null],
+          "evidence": "为了平滑该数据，我们将过去三年累计的股息加总计算，这样的结果一定程度上缓和了短期分红变化的影响，但缺点是由于过去分红持续的上升，看过去三年的股息率一定程度上低估了当前的股息："
+        },
+        {
+          "name": "加权估值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "event",
+          "formula": "\\text{按指数权重加权的总市值}/\\text{按指数权重加权的总净利润}",
+          "stats": [null, null, null, null],
+          "evidence": "我们采用红利指数本身的成分股权重，对市值和净利润全部进行权重调整后再加总，最后将两者相除，得到修正后的中证红利指数和上证红利指数的 PE 走势如下："
+        }
+      ]
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["return_based"]},
+    "L8_timing": {"module": ["L8_timing"], "approach": ["macro_valuation"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "稳定且持续增长的股息为红利指数贡献相当的收益，但2023年的收益更多部分来自估值的贡献，且往前几年估值和盈利的贡献波动较大。",
+      "evidence": "我们对过去几年红利指数的收益进行拆解，一方面，稳定且持续增长的股息确实为红利指数贡献着相当的收益，但 2023年的收益更多部分也是来自估值的贡献，且往前的几年里估值和盈利的贡献波动较大。"
+    },
+    {
+      "text": "红利指数的选股和交易贡献较低，每次调仓股息率的上升也较为有限。",
+      "evidence": "但根据我们对近两年数据的测算，发现红利指数的选股和交易贡献较低，每次调仓股息率的上升也较为有限。"
+    },
+    {
+      "text": "估值对红利投资性价比判断提供的信息有限，但能够提供安全边际的参考，原因是红利指数历史估值长期下行、无周期性走势，且煤炭、交运等高股息行业盈利波动较大。",
+      "evidence": "目前来看估值对红利投资性价比判断提供的信息有限，但能够提供安全边际的参考。主要的原因是红利指数历史上的估值呈现长期下行，估值没有呈现周期性走势，使得通过估值进行择时判断较为困难。另外一方面的原因是因为部分高股息行业如煤炭、交运等盈利波动较大。"
+    },
+    {
+      "text": "高股息率买入低股息率卖出的买卖时点对判断红利投资性价比有一定的指示意义，且用于考察红利相比主动权益投资的性价比时更加有效。",
+      "evidence": "结果发现，高股息率买入低股息率卖出的买卖时点的给出，对判断红利投资性价比有一定的指示意义，且在用于考察红利相比主动权益投资的性价比时更加有效。"
+    },
+    {
+      "text": "考虑票息后红利指数总收益特征良好：中证红利收益指数2022、2023年收益率为-0.37%、6.34%，上证红利全收益指数为3.46%、9.06%。",
+      "evidence": "考虑到指数的票息，中证红利收益指数在 2022年、2023 年的收益率为-0.37%、6.34%，上证红利全收益指数在 2022 年和 2023年收益率为 3.46%、9.06%，展示出了良好的总收益特征。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

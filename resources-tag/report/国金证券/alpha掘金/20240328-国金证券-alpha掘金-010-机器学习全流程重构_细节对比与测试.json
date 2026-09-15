@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "20240328-国金证券-alpha掘金-010-机器学习全流程重构_细节对比与测试",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "GBDT+NN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{GBDT与NN两大类机器学习模型分别训练后合成所得因子}",
+          "stats": [0.1601, null, 1.49, 0.7235],
+          "evidence": "不过，在中证1000成分股中，因子表现极为突出，两类模型合成因子IC均值达到16.01%，行业市值中性化后依然有 15.14%。"
+        },
+        {
+          "name": "GBDT+NN_AdjCI",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{行业市值中性化后的GBDT与NN两类模型合成因子}",
+          "stats": [0.1514, null, 1.69, 0.715],
+          "evidence": "而在中证 1000 成分股上，因子表现尤其突出，IC 均值 15.14%，多头年化超额收益率 23.48%，多头超额最大回撤 3.12%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "label_horizon", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "针对（时序）神经网络类模型，选择超额收益率作为预测目标，特征采用RobustZScore方式处理，标签使用CSRank处理；而截面模型使用整个训练集RobustZscore标准化保留不同日期间的相对大小关系",
+      "evidence": "综上，针对（时序）神经网络类模型，我们选择超额收益率作为预测目标，特征采用RobustZScore 方式处理，标签使用 CSRank 处理。"
+    },
+    {
+      "text": "成分股训练能使模型更有针对性学习特定类型股票的特征与加权方式，但会损失样本集规模；全A训练还是成分股训练既与所用基准有关，也与模型本身特性相关",
+      "evidence": "我们认为，对机器学习领域而言，使用成分股训练的好处在于能使模型更有针对性的对特定类型的股票进行学习，从而学习到更适用的特征和特征加权方式。而这种方式的明显缺陷在于会损失样本数据集的规模，有一定可能会导致模型难以充分学习。"
+    },
+    {
+      "text": "一次性训练对LightGBM效果明显更优，IC与多空指标均好于滚动或扩展训练；GRU三种训练效果差距缩窄，一次性训练主要在回撤控制上有优势",
+      "evidence": "对于 LightGBM 而言，一次性训练效果明显更优，无论从 IC、多空相关指标来看，均要好于滚动或扩展训练集的方式。而对于 GRU 而言，三种训练效果差距缩窄，一次性训练的预测结果主要在回撤控制上具有一定优势。"
+    },
+    {
+      "text": "回归模型所得因子在各指标上都能超过分类模型，保留更有颗粒度的标签数据有助于提升模型学习效果",
+      "evidence": "而在分类和回归模型的选择上，我们经过对比发现，回归模型所得因子在各指标上都能超过分类模型的效果，保留更有颗粒度的标签数据有助于提升模型的学习效果。"
+    },
+    {
+      "text": "损失函数直接修改为IC指标并没有带来显著改善，使用MSE作为损失函数较为合适",
+      "evidence": "而对于损失函数是否有必要直接修改为IC 指标，我们经过多种测试，发现并没有带来显著的改善效果，使用 MSE 作为损失函数较为合适。"
+    },
+    {
+      "text": "引入Drop out思想的DART模型超过了GBDT算法，能有效缓解模型可能存在的过拟合问题，DART在各项指标中均表现最佳，多头年化超额收益率相较于GBDT有接近2%的提升",
+      "evidence": "最终，对于不同的决策树集成算法，我们经过对比发现引入了 Drop out 思想的 DART 模型超过了 GBDT 算法，能有效缓解模型可能存在的过拟合问题。"
+    },
+    {
+      "text": "改进后GBDT与NN两大类模型合成因子在样本外效果突出：中证1000成分股上因子表现尤其突出，IC均值15.14%，多头年化超额收益率23.48%，多头超额最大回撤3.12%",
+      "evidence": "而在中证 1000 成分股上，因子表现尤其突出，IC 均值 15.14%，多头年化超额收益率 23.48%，多头超额最大回撤 3.12%。"
+    },
+    {
+      "text": "基于GBDT+NN的指数增强策略：沪深300年化超额收益15.43%、超额最大回撤2.87%；中证500年化超额20.50%、超额最大回撤8.39%；中证1000年化超额32.25%、超额最大回撤4.33%",
+      "evidence": "其中，沪深300指数增强策略年化超额收益达到15.43%，超额最大回撤为2.87%。中证 500 指增策略年化超额收益 20.50%，超额最大回撤 8.39%。中证 1000 指增策略年化超额收益 32.25%，超额最大回撤 4.33%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Alpha 掘金系列之九：基于多目标、多模型的机器学习指数增强策略》",
+    "《Dropouts meet Multiple Additive Regression Trees》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

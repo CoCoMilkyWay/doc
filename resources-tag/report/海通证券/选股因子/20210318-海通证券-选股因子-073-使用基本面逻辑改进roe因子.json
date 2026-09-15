@@ -1,0 +1,153 @@
+{
+  "schema_version": 2,
+  "id": "20210318-海通证券-选股因子-073-使用基本面逻辑改进roe因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "statement_detail", "expectation_level"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "最新披露 ROE_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE}_{TTM}=\\frac{\\text{过去四个季度净利润之和}}{\\text{对应净资产}}",
+          "stats": [0.013, null, 1.103, null],
+          "evidence": "然而，由于业绩披露规则原因，通常我们只能将最新披露的财务报告上的 ROE信息作为因子使用，而这种方式可能存在以下缺陷。"
+        },
+        {
+          "name": "最新披露 ROE_单季度",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE}_{单季度}=\\frac{\\text{单季度净利润}}{\\text{单季度净资产}}",
+          "stats": [0.024, null, 2.119, null],
+          "evidence": "然而，由于业绩披露规则原因，通常我们只能将最新披露的财务报告上的 ROE信息作为因子使用，而这种方式可能存在以下缺陷。"
+        },
+        {
+          "name": "当期真实 ROE_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE}_{TTM}^{true}=\\frac{\\text{截至当月所在财报期的四个季度净利润之和}}{\\text{对应净资产}}",
+          "stats": [0.032, null, 2.36, null],
+          "evidence": "理论上来说，如果在月底就可获得当月所在财报期的财务数据，那么选股效果应该有明显提升。例如，在 7 月底即使用基于三季报财务信息，而非半年报财务信息构建的ROE 因子。"
+        },
+        {
+          "name": "当期真实 ROE_单季度",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE}_{单季度}^{true}=\\frac{\\text{当月所在财报期的单季度净利润}}{\\text{单季度净资产}}",
+          "stats": [0.056, null, 3.411, null],
+          "evidence": "理论上来说，如果在月底就可获得当月所在财报期的财务数据，那么选股效果应该有明显提升。例如，在 7 月底即使用基于三季报财务信息，而非半年报财务信息构建的ROE 因子。"
+        },
+        {
+          "name": "一致预期 ROE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{朝阳永续一致预期ROE：基于不同机构影响力加权的业绩预期}",
+          "stats": [0.018, null, 0.93, null],
+          "evidence": "朝阳永续一致预期 ROE是目前较为常用的一类 ROE预测指标。该预测指标每日均有数据更新，可以较为及时地反映上市公司经营情况的变化。"
+        },
+        {
+          "name": "预测当期 ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\widehat{\\text{ROE}}^{true}=\\beta_0+\\beta_1\\,\\text{最新披露ROE}+\\beta_2\\,\\text{一致预期ROE}",
+          "stats": [0.033, null, 2.117, null],
+          "evidence": "在预测当期真实 ROE时，我们使用过去 12 个月月末的一致预期 ROE，以及每个月末对应的最新披露 ROE和当期真实 ROE，建立回归模型。"
+        },
+        {
+          "name": "波动率调整后的最新披露 ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{波动率调整ROE}=(\\text{最新披露ROE}-\\overline{\\text{ROE}})\\cdot\\frac{\\exp(1/\\sigma_{ROE})}{\\overline{\\exp(1/\\sigma_{ROE})}}-\\min\\left[(\\text{最新披露ROE}-\\overline{\\text{ROE}})\\cdot\\frac{\\exp(1/\\sigma_{ROE})}{\\overline{\\exp(1/\\sigma_{ROE})}}\\right]",
+          "stats": [0.03, null, 2.388, null],
+          "evidence": "首先，计算新披露 ROE对应报告期前 4个报告期的季度滑动平均 ROE的标准差，以该标准差倒数的自然对数作为权重。"
+        },
+        {
+          "name": "波动率调整后的【(最新披露 ROE+一致预期 ROE）联合预测)】",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{VolAdj}\\left(\\beta_0+\\beta_1\\,\\text{最新披露ROE}+\\beta_2\\,\\text{一致预期ROE}\\right)",
+          "stats": [0.038, null, 2.198, null],
+          "evidence": "下表展示了对使用最新披露 ROE 和一致预期 ROE得到的预测值，再进行波动率调整后，相对当期真实 ROE的预测误差。"
+        },
+        {
+          "name": "(波动率调整后的最新披露ROE+一致预期 ROE)联合预测",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\beta_0+\\beta_1\\,\\text{VolAdj}(\\text{最新披露ROE})+\\beta_2\\,\\text{一致预期ROE}",
+          "stats": [0.039, null, 2.255, null],
+          "evidence": "在 3.1 节中，我们联合使用最新披露 ROE和一致预期 ROE预测当期真实 ROE，显著降低了预测误差。3.2 节则是从预测可靠性的角度，通过对最新披露 ROE进行波动率调整，同样实现了预测精度的提升。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["linear", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "在最新披露ROE的基础上加入一致预期ROE这一增量信息后，不论是从MAE、RMSE还是R-Square的角度，对当期真实ROE的预测效果都有所提升。",
+      "evidence": "如下表所示，不论是从 MAE、RMSE还是 R-Square 的角度，结合后的预测效果都有所提升。"
+    },
+    {
+      "text": "通过一致预期ROE回归与波动率加权两步构建的新ROE因子，选股能力大幅提高，相比传统的最新披露ROE，因子IC与月均溢价均有50%左右的提升，更接近理论上最优的当期真实ROE的效果。",
+      "evidence": "回测结果表明，通过上述两步构建的新 ROE因子，选股能力大幅提高。相比传统的最新披露 ROE，因子 IC与月均溢价均有 50%左右的提升，更接近理论上最优的当期真实ROE 的效果。"
+    },
+    {
+      "text": "将最新披露ROE对当期真实ROE正交、剥离其中包含的动量成分后，选股能力几乎完全消失，IC接近于0，表明最新披露ROE的选股有效性主要来自业绩动量。",
+      "evidence": "如果用最新披露 ROE 对当期真实 ROE正交，即剥离最新披露 ROE中包含的动量成分，选股能力几乎完全消失，IC接近于 0。"
+    },
+    {
+      "text": "财报空窗期并不是造成最新披露ROE与当期真实ROE选股效果巨大差异的主要原因。",
+      "evidence": "因此，我们认为，财报空窗期并不是造成最新披露 ROE与当期真实 ROE 选股效果巨大差异的主要原因。"
+    },
+    {
+      "text": "经过波动率倒数加权后，最新披露ROE对当期真实ROE的预测误差显著小于原始值，剔除ROE高波动股票后，对全市场范围内IC的提升最为显著，而对应沪深300和中证500的影响几乎可以忽略。",
+      "evidence": "和表 10中预测误差的结果一致，剔除 ROE高波动股票后，对全市场范围内 IC的提升最为显著，而对应沪深 300 和中证 500 的影响几乎可以忽略。"
+    },
+    {
+      "text": "不同行业产生ROE波动的原因可能各不相同，周期行业与高商誉的传媒行业表现尤为明显，深入每个行业研究业绩波动的来源，或许能够找到更好的预测ROE的方案。",
+      "evidence": "通过对周期行业和传媒行业的分析，可以发现，不同行业产生 ROE波动的原因可能各不相同。进一步深入每个行业研究业绩波动的来源，或许能够找到更好的预测 ROE的方案。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

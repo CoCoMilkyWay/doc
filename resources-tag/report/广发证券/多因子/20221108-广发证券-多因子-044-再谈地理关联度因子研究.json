@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "id": "20221108-广发证券-多因子-044-再谈地理关联度因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "INDUCORR",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "INDUCORR_{i,t}=\\sum_{j=1}^{N}w_{j,t}*CORR_{i,j,t},\\quad CORR_{i,j,t}=\\frac{cov(R_i,R_j)}{std(R_i)*std(R_j)},\\quad geog_i\\neq geog_j,\\ industry_i=industry_j",
+          "stats": [0.071, null, null, 0.227],
+          "evidence": "本篇报告定义行业相关系数因子(INDUCORR)，用以度量个股与其行业关联(不同省份相同申万一级行业)公司股票之间的整体相关程度，具体由个股和行业关联公司股票相关系数均值表示。"
+        },
+        {
+          "name": "INDUCORRP",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "INDUCORRP_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{+},R_j^{+}),\\quad R_i^{+}=max(R_i,0)",
+          "stats": [0.065, null, null, 0.2072],
+          "evidence": "基于不同数值方向收益序列构建的相关系数，可能蕴含的信息量也存在差异。因此，本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的行业相关系数拆解因子(INDUCORRP、INDUCORRN、INDUCORRIP与INDUCORRJP)，用以度量个股与行业关联公司股票的调整后收益序列的相关程度。"
+        },
+        {
+          "name": "INDUCORRN",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "INDUCORRN_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{-},R_j^{-}),\\quad R_i^{-}=min(R_i,0)",
+          "stats": [0.052, null, null, 0.1631],
+          "evidence": "本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的行业相关系数拆解因子(INDUCORRP、INDUCORRN、INDUCORRIP与INDUCORRJP)，用以度量个股与行业关联公司股票的调整后收益序列的相关程度。"
+        },
+        {
+          "name": "INDUCORRIP",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "INDUCORRIP_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{+},R_j^{-})",
+          "stats": [0.061, null, null, 0.1716],
+          "evidence": "本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的行业相关系数拆解因子(INDUCORRP、INDUCORRN、INDUCORRIP与INDUCORRJP)，用以度量个股与行业关联公司股票的调整后收益序列的相关程度。"
+        },
+        {
+          "name": "INDUCORRJP",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "INDUCORRJP_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{-},R_j^{+})",
+          "stats": [0.037, null, null, 0.128],
+          "evidence": "本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的行业相关系数拆解因子(INDUCORRP、INDUCORRN、INDUCORRIP与INDUCORRJP)，用以度量个股与行业关联公司股票的调整后收益序列的相关程度。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "INDUCORRP因子整体表现较好，IC均值为0.065，正IC占比88.31%，多头相对中证500指数年化超额收益率为15.32%，信息比率为1.816。",
+      "evidence": "其中，INDUCORRP因子整体表现较好，因子整体的IC 均值为0.065，正IC占比88.31%，多头相对中证500指数年化超额收益率为15.32%，信息比率为 1.816。"
+    },
+    {
+      "text": "除INDUCORRJP因子外，其余4种相关系数类因子的分档效果均显著。",
+      "evidence": "实证分析结果表明，除INDUCORRJP因子外，其余 4 种相关系数类因子的分档效果均显著。"
+    },
+    {
+      "text": "行业相关系数类因子与BARRA因子的相关系数控制在20%以内，能够挖掘传统因子外的增量信息，即股票之间的行业关联信息。",
+      "evidence": "整体而言，行业相关系数类因子与BARRA因子的相关系数控制在20%以内，能够挖掘传统因子外的增量信息，具体为股票之间的行业关联信息。"
+    },
+    {
+      "text": "INDUCORR因子与INDUCORRP因子在中证1000选股范围中存在较好表现。",
+      "evidence": "实证结果显示，INDUCORR因子与INDUCORRP因子在中证1000选股范围中存在较好表现。"
+    },
+    {
+      "text": "2种因子策略扣除千五手续费后仍能长期获得超额收益，但随手续费水平上升策略净值表现整体下降，行业相关系数类因子对手续费敏感。",
+      "evidence": "结果表明，2种因子策略扣除千五手续费后，仍然能够在长期获得超额收益，但随着手续费水平上升，策略净值表现整体下降。因此，当使用以上行业相关系数类因子进行选股，应当对手续费费率予以重点关注。"
+    },
+    {
+      "text": "INDUCORRP因子整体表现优于INDUCORR因子，因其仅考虑研究个股与行业关联股票在日度收益不为负情况下的相关关系，更能精确度量正向共同基本面信息。",
+      "evidence": "综合上述2个因子的实证分析结果，INDUCORRP因子整体表现优于INDUCORR因子。由于该因子对行业相关系数进行拆解，仅考虑了研究个股与行业关联股票在日度收益不为负情况下的相关关系，因此，更能精确地度量多头策略所需要的基于行业共性挖掘的正向共同基本面信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bollerslev, T., A.J. Patton, and R. Quaedvlieg, Realized semibetas: Disentangling “good” and “bad” downside risks. Journal of Financial Economics, 2022. 144(1): p. 227-246.",
+    "Parsons, C. and R. Sabbatucci, Geographic Lead-Lag Effects. The Review of Financial Studies, 2020. 33(10).",
+    "基于地理关联度因子研究——多因子Alpha系列报告之（四十三）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

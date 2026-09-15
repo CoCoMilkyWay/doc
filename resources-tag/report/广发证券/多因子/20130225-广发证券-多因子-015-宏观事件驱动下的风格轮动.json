@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "id": "20130225-广发证券-多因子-015-宏观事件驱动下的风格轮动",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "净利润增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{(本期净利润-上期净利润)/上期净利润，报告未给出闭式}",
+          "stats": [0.066, null, null, null],
+          "evidence": "以“净利润增长率”因子为例，时间样本中因子平均IC高达6.6%，IC胜率为78%。"
+        },
+        {
+          "name": "六个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月累计收益取负的反转信号，报告未给出闭式}",
+          "stats": [null, null, null, null],
+          "evidence": "GDP创新高时，经济过热的风险随之加大，股价中短期反转及估值指标备受关注，“股价六个月反转”IC胜率高达67%；而盈利及成长性等基本面因素失效。"
+        },
+        {
+          "name": "三个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月累计收益取负的反转信号，报告未给出闭式}",
+          "stats": [null, null, null, null],
+          "evidence": "最新公布的 2012 四季度 GDP 同比数据创了半年内新高，据此 2 月份推荐关注的风格因子是：三个月股价反转、六个月股价反转、BP、SP。"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{账面市值比：净资产/总市值，报告未给出闭式}",
+          "stats": [null, null, null, null],
+          "evidence": "由于预期M2指标的采集时间较短，该类事件发生的次数比较少，但BP因子的IC胜率却高达73%，值得持续关注。"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{销售收益率比：营业收入/总市值，报告未给出闭式}",
+          "stats": [null, null, null, null],
+          "evidence": "最新公布的 2012 四季度 GDP 同比数据创了半年内新高，据此 2 月份推荐关注的风格因子是：三个月股价反转、六个月股价反转、BP、SP。"
+        },
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值（取对数），报告未给出闭式}",
+          "stats": [null, null, null, null],
+          "evidence": "该类样本较少，但胜率非常高。以“流通市值”因子为例，胜率高达80%。"
+        },
+        {
+          "name": "总资产",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产（取对数），报告未给出闭式}",
+          "stats": [null, null, null, null],
+          "evidence": "最新公布的进出口金额同比数据显示，12 月份该指标创半年新高，据此2 月份推荐关注的风格因子是：流通市值、总资产。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "考虑宏观事件驱动的风格轮动之后，策略相对静态多因子策略表现显著提高，信息比由1.73提高到2.46，年化收益率由11%提高为18%，风格轮动策略相对静态多因子策略的胜率为67%。",
+      "evidence": "结果显示：考虑宏观事件驱动的风格轮动之后，策略相对静态多因子策略的表现有了显著的提高，信息比由 1.73提高到2.46，年化收益率由11%提高为18%；分年度来看，除了 2011年策略收益出现了下降，其余每个年度均有很大的提高，风格轮动策略相对静态多因子策略的胜率为 67%。"
+    },
+    {
+      "text": "GDP创半年新高时，股价中短期反转及估值指标备受关注，“股价六个月反转”IC胜率高达67%，而盈利及成长性等基本面因素失效。",
+      "evidence": "GDP创新高时，经济过热的风险随之加大，股价中短期反转及估值指标备受关注，“股价六个月反转”IC胜率高达67%；而盈利及成长性等基本面因素失效。"
+    },
+    {
+      "text": "进出口总额创半年新高时，投资情绪极度乐观，小盘股由于其成长性高而备受青睐，“流通市值”因子胜率高达80%。",
+      "evidence": "进出口总额创新高，投资情绪极度乐观，中小企业生存环境得到改善，小盘股由于其成长性高，业绩想象空间较大而备受青睐；而蓝筹股由于规模较大，业绩虽稳定但利润增长的边际效益较低，因此盈利、成长以及运营类等方面的风格因子有效性并不显著。该类样本较少，但胜率非常高。以“流通市值”因子为例，胜率高达80%。"
+    },
+    {
+      "text": "A股账户新增开户数创半年新低多发生在市场底部，投资者往往更加关注基本面因素，大盘蓝筹成为该类事件中的主旋律。",
+      "evidence": "A股账号新增开户数创半年新低，多数发生在市场底部，悲观的市场情绪常常会影响市场后续走势，该类事件下，出于对资产保值及风险控制的考虑，投资者往往更加关注基本面因素，因而大盘蓝筹成为该类事件中的主旋律。"
+    },
+    {
+      "text": "每年6月份A股市场都会迎来一轮大盘蓝筹行情，毛利率、ROE、主营收入增长率等基本面因素受到普遍关注，而小盘股纷纷沦为垫底。",
+      "evidence": "经统计发现，每年6月份A股市场都会迎来一轮大盘蓝筹行情，期间毛利率、ROE、主营收入增长率等基本面因素受到投资者的普遍关注，而小盘股则纷纷沦为垫底。"
+    },
+    {
+      "text": "除2011年之外，其余各个阶段风格轮动策略样本外的表现都比较出色，上个月相对静态多因子策略获得了1.7%的超额收益率。",
+      "evidence": "图25显示，除2011年之外，其余各个阶段风格轮动策略样本外的表现都比较出色，上个月相对静态多因子策略获得了 1.7%的超额收益率。"
+    },
+    {
+      "text": "30个宏观指标各分6种情形衍生共180种宏观事件，加上风格因子的月度与季度日历效应16种，全部事件情景为180+16=186种。",
+      "evidence": "从而得到30个宏观指标所衍生共180种情景，我们称之为宏观事件。此外，我们对风格因子的日历效应进行分析，包括月度效应以及季度效应，因此全部的事件情景为180+16=186种情景。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama和French（1992）三因子模型",
+    "《观宏观经济周期，察风格因子轮动——因子风格轮动系列专题之一》（2011-12-20）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

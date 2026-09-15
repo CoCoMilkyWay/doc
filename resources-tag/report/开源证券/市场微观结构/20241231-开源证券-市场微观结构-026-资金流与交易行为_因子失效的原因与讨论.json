@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20241231-开源证券-市场微观结构-026-资金流与交易行为_因子失效的原因与讨论",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "other"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "广义主力净流入率（CNIR）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{将大于阈值的委托订单识别为主力资金，将超大单、大单和中单合并为广义主力资金后计算主力净流入率}",
+          "stats": [null, null, null, null],
+          "evidence": "我们《大小单重定标与资金流因子改进》的报告中，利用逐笔成交数据重新切分大小单资金流并构造CNIR 因子，但是在实际使用过程中发现效果并不理想。"
+        },
+        {
+          "name": "CNIR_G1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "monthly",
+          "formula": "ln(B/S)=\\alpha+\\beta_1\\times Ret+\\beta_2\\times V_1+\\beta_3\\times V_2+\\varepsilon,\\ \\text{取残差}\\varepsilon\\text{，月底回溯过往20个交易日求均值作为因子}",
+          "stats": [null, null, null, null],
+          "evidence": "第一步，将当日的所有股票按照市值由大到小分成N组（例如，N=3)；"
+        },
+        {
+          "name": "CNIR_G2",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "monthly",
+          "formula": "ln(B/S)=\\alpha+\\beta_1\\times Ret+\\beta_2\\times V_1+\\beta_3\\times V_2+\\varepsilon,\\ \\text{以行业类别作为分组标签生成哑变量，取残差}\\varepsilon\\text{，月底回溯过往20个交易日求均值作为因子}",
+          "stats": [null, null, null, null],
+          "evidence": "步骤同上，行业类别作为分组标签，生成对应的哑变量用以构造回归模型。"
+        },
+        {
+          "name": "CNIR_MV",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "monthly",
+          "formula": "ln(B/S)=\\alpha+\\beta_1\\times Ret+\\beta_2\\times MV+\\varepsilon,\\ \\text{其中MV为截面全部个股的对数市值，月底回溯过往20个交易日求}\\varepsilon\\text{的均值作为因子}",
+          "stats": [null, null, null, null],
+          "evidence": "第一步，补充股票的市值作为解释变量，将原来的回归表达式修改为如下："
+        },
+        {
+          "name": "CNIR_LQ",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "monthly",
+          "formula": "ln(B/S)=\\alpha+\\beta_1\\times Ret+\\beta_2\\times Turn+\\varepsilon,\\ \\text{添加的流动性指标为股票当日的换手率，月底回溯过往20个交易日求}\\varepsilon\\text{的均值作为因子}",
+          "stats": [null, null, null, null],
+          "evidence": "步骤同上，添加的流动性指标为股票当日的换手率。"
+        },
+        {
+          "name": "CNIR_TS",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "monthly",
+          "formula": "ln(B/S)=\\alpha+\\beta\\times Ret+\\varepsilon,\\ \\text{逐个统计每只股票过去120个交易日的资金流和涨跌幅数据，时序回归估计并取残差}e",
+          "stats": [null, null, null, null],
+          "evidence": "第一步，逐个统计每只股票的过去120个交易日的资金流和涨跌幅数据；"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "decay_monitor", "crowding"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000", "other"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "CNIR因子在不同预测周期长度下的IC在2016年以后峰值消失且均值水平明显下滑，资金流因子失效不应归结于策略同质化或交易拥挤。",
+      "evidence": "图3展示了 CNIR 因子在不同预测周期长度下的 IC 变化趋势，2016 年以前的峰值大约出现在第 15个交易日，2016年以后峰值似乎已经消失并且均值水平出现明显下滑。这说明即便是在若干个组合内共同使用资金流策略，也不至于出现的因子衰减。"
+    },
+    {
+      "text": "CNIR因子2021年以来出现较为明显的衰减，截至2024年底因子并未出现明显的回调和改善的迹象。",
+      "evidence": "表 1 统计了 CNIR 因子分年度测试的结果，2021 年以来，该因子出现了较为明显的衰减。截至2024年底，因子并未出现明显的回调和改善的迹象。"
+    },
+    {
+      "text": "剥离反转效应的五种备用回归方案（分组回归-市值、分组回归-行业、补充市值变量、补充流动性变量、时序回归）并没有提供预想中明显的优化结果，能够提供的增量信息有限。",
+      "evidence": "从上述结果可以看出，表 2 中涉及的 5 种方案，并没有提供预想中明显的优化结果。无论是添加解释变量或是分域处理，能够提供的增量信息有限。"
+    },
+    {
+      "text": "资金流因子的核心定价逻辑主要背靠机构优秀的选股能力，在大市值股票中的选股效果更加稳定，在小市值范围的排序能力较弱。",
+      "evidence": "资金流因子的核心定价逻辑主要背靠机构的优秀的选股能力。在 A 股市场，机构交易者往往是以市值由大到小的方向覆盖其选股范围，在大市值股票中的选股效果会更加稳定，在小市值范围的排序能力较弱。"
+    },
+    {
+      "text": "大小单划分的最优阈值逐年漂移，2022-2024年分别为26万元、12万元和40万元，远大于2.5万元经验值，原因是高频交易占比上升使每笔订单委托金额快速下降、主力资金识别难度增加。",
+      "evidence": "2022年、2023年和 2024年的阈值分别是 26 万元、12 万元和 40万元，均远大于原始报告中的 2.5万元的经验值。我们分析原因，这主要是因为市场微观结构发生了较大变化。以私募量化为代表的高频交易资金在交易中贡献的比重在这期间逐渐上升，通过观察我们的观测指标（图 12，单笔金额）不难发现，在这期间每笔订单的委托金额快速下降，交易流动性得到改善的同时，主力资金识别的难度也在增加。"
+    },
+    {
+      "text": "相对阈值和动态阈值调整没有起到很好的增厚收益的作用，主力资金识别难的问题并不能通过单纯调节大小单划分阈值来解决，拆单行为是最直接的影响因素。",
+      "evidence": "从结果来看，相对阈值和动态阈值调整没有起到很好的增厚收益的作用，这说明主力资金识别难的问题并不能通过单纯调节大小单划分阈值来解决。划分标准的普适性减弱，拆单行为是最直接的影响因素，并且这一变化在流动性上分布不均。"
+    }
+  ],
+  "builds_on": ["20220904-开源证券-市场微观结构-016-大小单重定标与资金流因子改进"],
+  "external_ref": [
+    "《订单流系列：关于市场微观结构变迁的故事—市场微观结构研究系列（21）》-2023.09.19",
+    "《订单流系列：撤单行为规律初探—市场微观结构研究系列（22）》-2024.01.24"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

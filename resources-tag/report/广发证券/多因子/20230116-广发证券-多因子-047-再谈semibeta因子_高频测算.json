@@ -1,0 +1,92 @@
+{
+  "schema_version": 2,
+  "id": "20230116-广发证券-多因子-047-再谈semibeta因子_高频测算",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "semi_beta_N_SH000852",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\beta^{N}\\equiv\\frac{N}{Var(R_{m})},\\ \\beta\\equiv\\beta^{N}+\\beta^{P}-\\beta^{M^{+}}-\\beta^{M^{-}},\\ \\beta^{M^{\\pm}}\\equiv-\\frac{M^{\\pm}}{Var(R_{m})}",
+          "stats": [-0.061, null, -1.69, 0.126],
+          "evidence": "N因子中，semi_beta_N_SH000852和semi_beta_N_SZ399300_ma10因子的总体效果相对较好，其中semi_beta_N_SH000852因子的IC均值为-6.1%，多空年化收益为12.6%。"
+        },
+        {
+          "name": "semi_beta_P_SH000852",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\beta^{P}\\equiv\\frac{P}{Var(R_{m})},\\ \\beta\\equiv\\beta^{N}+\\beta^{P}-\\beta^{M^{+}}-\\beta^{M^{-}},\\ \\beta^{M^{\\pm}}\\equiv-\\frac{M^{\\pm}}{Var(R_{m})}",
+          "stats": [-0.064, null, -1.86, 0.148],
+          "evidence": "P因子中，semi_beta_P_SH000852和semi_beta_P_SZ399300因子的总体效果相对较好，其中semi_beta_P_SH000852因子的IC均值为-6.4%，多空年化收益为14.8%。semi_beta_P_SZ399300因子的IC均值为-6.0%，多空年化收益为13.0%。"
+        },
+        {
+          "name": "semi_beta_P_SZ399300",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\beta^{P}\\equiv\\frac{P}{Var(R_{m})},\\ \\beta\\equiv\\beta^{N}+\\beta^{P}-\\beta^{M^{+}}-\\beta^{M^{-}},\\ \\beta^{M^{\\pm}}\\equiv-\\frac{M^{\\pm}}{Var(R_{m})}",
+          "stats": [-0.06, null, -1.86, 0.13],
+          "evidence": "P因子中，semi_beta_P_SH000852和semi_beta_P_SZ399300因子的总体效果相对较好，其中semi_beta_P_SH000852因子的IC均值为-6.4%，多空年化收益为14.8%。semi_beta_P_SZ399300因子的IC均值为-6.0%，多空年化收益为13.0%。"
+        },
+        {
+          "name": "5avg_fBeta_MN_HF_S000300",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{以沪深300为市场基准，基于1分钟级日内收益计算的}\\beta^{N}\\text{类SemiBeta，取滚动过去5个交易日因子均值}",
+          "stats": [-0.053, null, -4.75, 0.294],
+          "evidence": "如 5avg_fBeta_MN_HF_S000300 均值为-5.3%，年化 ICIR 为-4.75，多空年化收益为 29.4%，多头年化收益为 18.5%，多空单期换股比例均值为 60.9%。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "周频调仓频率下，全市场选股范围内所有因子均表现出负IC特征，对比MN、MP、N和P各大类因子，MN系列因子表现较好",
+      "evidence": "A股实证分析：周频调仓频率下，全市场选股范围内，所有因子均表现出负IC的特征，对比MN、MP、N和P各大类因子，MN系列因子表现较好。"
+    },
+    {
+      "text": "5avg_fBeta_MN_HF_S000300因子均值为-5.3%，年化ICIR为-4.75，多空年化收益为29.4%，多头年化收益为18.5%，多空单期换股比例均值为60.9%",
+      "evidence": "如 5avg_fBeta_MN_HF_S000300 均值为-5.3%，年化 ICIR 为-4.75，多空年化收益为 29.4%，多头年化收益为 18.5%，多空单期换股比例均值为 60.9%。"
+    },
+    {
+      "text": "月频全市场选股下N因子和P因子表现较好，semi_beta_P_SH000852的IC均值为-6.4%，多空年化收益为14.8%；限定选股池后，中证500指数成分股范围内的因子效果相对较好",
+      "evidence": "月频调仓频率下，全市场选股范围内，N 因子和 P 因子的因子表现较好。semi_beta_P_SH000852 因子的 IC 均值为-6.4%，多空年化收益为 14.8%。限定选股池后，中证 500 指数成分股范围内的因子效果相对较好。"
+    },
+    {
+      "text": "将选股范围限定到沪深300、中证500和中证1000指数成分股等不同的选股池内，因子有效性呈现一定程度的下降",
+      "evidence": "将选股范围限定到如沪深 300、中证 500 和中证 1000指数成分股等不同的选股池内，因子有效性呈现一定程度的下降。"
+    },
+    {
+      "text": "高频SemiBeta因子内部之间的相关性高于低频SemiBeta因子内部；低频的P因子和高频的N、P因子存在一定相关性",
+      "evidence": "高频SemiBeta因子内部之间的相关性高于低频SemiBeta因子内部。低频的P 因子和高频的N、P 因子存在一定相关性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bollerslev, T., Patton, A. J., & Quaedvlieg, R.. 2021. Realized semibetas: disentangling \"good\" and \"bad\" downside risks. Journal of Financial Economics",
+    "《基于SemiBeta的因子研究——多因子 Alpha 系列报告之(四十五)》（2022-11-18）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

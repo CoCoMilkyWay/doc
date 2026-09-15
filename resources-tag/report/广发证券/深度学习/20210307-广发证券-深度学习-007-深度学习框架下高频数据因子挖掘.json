@@ -1,0 +1,413 @@
+{
+  "schema_version": 2,
+  "id": "20210307-广发证券-深度学习-007-深度学习框架下高频数据因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "intraday_pattern",
+        "representation_learning"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "turnover5D",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{股票5日换手率均值}",
+          "stats": [-0.0776, null, null, null],
+          "evidence": "此外，模型输入还包括股票市值（mktval）、股票5 日换手率均值（turnover5D）和股票 5日收益率（ret5D）等三个低频风格因子。"
+        },
+        {
+          "name": "amountbuy_small",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{散户买入金额，单笔成交额小于4万元}",
+          "stats": [-0.076, null, null, null],
+          "evidence": "| amountbuy_small | 散户买入金额，单笔成交额小于4万元 |"
+        },
+        {
+          "name": "amountsell_med",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{中户卖出金额，单笔成交额4万元到20万元之间}",
+          "stats": [-0.0755, null, null, null],
+          "evidence": "| amountsell_med | 资金流向因子 | -7.55% | -8.67% |"
+        },
+        {
+          "name": "amountsell_small",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{散户卖出金额，单笔成交额小于4万元}",
+          "stats": [-0.0753, null, null, null],
+          "evidence": "| amountsell_small | 资金流向因子 | -7.53% | -8.57% |"
+        },
+        {
+          "name": "amountbuy_med",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{中户买入金额，单笔成交额4万元到20万元之间}",
+          "stats": [-0.0699, null, null, null],
+          "evidence": "| amountbuy_med | 中户买入金额，单笔成交额4万元到20万元之间 |"
+        },
+        {
+          "name": "amountsell_large",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{大户卖出金额，单笔成交额20万元至100万元之间}",
+          "stats": [-0.064, null, null, null],
+          "evidence": "| amountsell_large | 大户卖出金额 |"
+        },
+        {
+          "name": "amountbuy_large",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{大户买入金额，单笔成交额20万元至100万元之间}",
+          "stats": [-0.0615, null, null, null],
+          "evidence": "| amountbuy_large | 大户买入金额，单笔成交额20万元至100万元之间 |"
+        },
+        {
+          "name": "amountbuy_exlarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{机构买入金额，单笔成交额大于100万元}",
+          "stats": [-0.0552, null, null, null],
+          "evidence": "| amountbuy_exlarge | 机构买入金额，单笔成交额大于100万元 |"
+        },
+        {
+          "name": "amountsell_exlarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{机构卖出金额，单笔成交额大于100万元}",
+          "stats": [-0.0493, null, null, null],
+          "evidence": "| amountsell_exlarge | 机构卖出金额 |"
+        },
+        {
+          "name": "amountdiff_large",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{大户净买入金额}",
+          "stats": [0.0314, null, null, null],
+          "evidence": "| amountdiff_large | 大户净买入金额 |"
+        },
+        {
+          "name": "real_varlarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的收益率方差}",
+          "stats": [-0.0587, null, null, null],
+          "evidence": "| real_varlarge | 大成交量对应的收益率方差 |"
+        },
+        {
+          "name": "real_upvar",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{仅考虑收益率大于0时刻的分钟行情收益率方差}",
+          "stats": [-0.0552, null, null, null],
+          "evidence": "| real_upvar | 上行收益率方差，仅考虑收益率大于0时刻的分钟行情收益率方差 |"
+        },
+        {
+          "name": "ratio_realvarlarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_varlarge/real\\_var",
+          "stats": [-0.053, null, null, null],
+          "evidence": "| ratio_realvarlarge | 大成交量方差占比，real_varlarge/real_var |"
+        },
+        {
+          "name": "real_var",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟行情收益率的方差}",
+          "stats": [-0.0524, null, null, null],
+          "evidence": "| real_var | 收益率方差，分钟行情收益率的方差 |"
+        },
+        {
+          "name": "real_varH1",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的收益率方差}",
+          "stats": [-0.0496, null, null, null],
+          "evidence": "| real_varH1 | 开盘后半小时的 real_var |"
+        },
+        {
+          "name": "real_downvar",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{仅考虑收益率小于0时刻的分钟行情收益率方差}",
+          "stats": [-0.0409, null, null, null],
+          "evidence": "| real_downvar | 下行收益率方差，仅考虑收益率小于0时刻的分钟行情收益率方差 |"
+        },
+        {
+          "name": "real_skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟行情收益率的偏度}",
+          "stats": [-0.0352, null, null, null],
+          "evidence": "| real_skew | 收益率偏度，分钟行情收益率的偏度 |"
+        },
+        {
+          "name": "real_kurtosis",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟行情收益率的峰度}",
+          "stats": [-0.033, null, null, null],
+          "evidence": "| real_kurtosis | 收益率峰度，分钟行情收益率的峰度 |"
+        },
+        {
+          "name": "real_skewlarge",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的收益率偏度}",
+          "stats": [-0.0329, null, null, null],
+          "evidence": "| real_skewlarge | 大成交量对应的收益率偏度 |"
+        },
+        {
+          "name": "ratio_realupvar",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_upvar/real\\_var",
+          "stats": [-0.0314, null, null, null],
+          "evidence": "| ratio_realupvar | 上行收益率方差占比，real_upvar/ real_var |"
+        },
+        {
+          "name": "ret_open2AH1",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘价相对第一阶段集合竞价最高价的收益率}",
+          "stats": [0.0415, null, null, null],
+          "evidence": "| ret_open2AH1 | 开盘价相对第一阶段集合竞价最高价的收益率 |"
+        },
+        {
+          "name": "ret_overnight",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{隔夜收益率，开盘价相对前收盘价的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "| ret_overnight | 隔夜收益率，开盘价相对前收盘价的收益率 |"
+        },
+        {
+          "name": "ret_intraday",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{日内收益率，收盘价/开盘价-1}",
+          "stats": [null, null, null, null],
+          "evidence": "| ret_intraday | 日内收益率，收盘价/开盘价-1 |"
+        },
+        {
+          "name": "trendratio",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{趋势占比，日内价格变化/分钟频价格变化绝对值之和}",
+          "stats": [null, null, null, null],
+          "evidence": "| trendratio | 趋势占比，日内价格变化/分钟频价格变化绝对值之和 |"
+        },
+        {
+          "name": "ret_H8",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的收益率}",
+          "stats": [-0.0323, null, null, null],
+          "evidence": "| ret_H8 | 收盘前半小时因子 | -3.23% | -2.17% |"
+        },
+        {
+          "name": "ratio_volumeH5",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第5个半小时成交量占全天成交量之比}",
+          "stats": [0.0346, null, null, null],
+          "evidence": "| ratio_volumeH5 | 成交量占比：开盘后第5个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "ratio_volumeH4",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第4个半小时成交量占全天成交量之比}",
+          "stats": [0.0335, null, null, null],
+          "evidence": "| ratio_volumeH4 | 成交量占比：开盘后第4个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "corr_VP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟成交量与价格相关性}",
+          "stats": [-0.0396, null, null, null],
+          "evidence": "| corr_VP | 成交量相关因子 | -3.96% | -3.17% |"
+        },
+        {
+          "name": "corr_VRlag",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟成交量与上一时刻收益率相关性}",
+          "stats": [-0.0311, null, null, null],
+          "evidence": "| corr_VRlag | 成交量相关因子 | -3.11% | -2.32% |"
+        },
+        {
+          "name": "corr_VPlarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的分钟成交量与价格相关性}",
+          "stats": [-0.0404, null, null, null],
+          "evidence": "| corr_VPlarge | 大成交量对应的 corr_VP |"
+        },
+        {
+          "name": "corr_VRlaglarge",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的分钟成交量与上一时刻收益率相关性}",
+          "stats": [-0.0316, null, null, null],
+          "evidence": "| corr_VRlaglarge | 大成交量对应的 corr_VRlag |"
+        },
+        {
+          "name": "hf3",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{深层全连接神经网络最顶端隐含层H5的第3个节点输出特征}",
+          "stats": [null, null, null, null],
+          "evidence": "以样本外IC 绝对值较高的 hf3为例，观察特征走势。"
+        },
+        {
+          "name": "特征组合模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\hat{r}_{i}^{s}=\\sum_{k=1}^{n}x_{ik}^{s}E^{s}[\\beta_{k}]",
+          "stats": [0.076, null, null, null],
+          "evidence": "2019年以来，其IC均值为7.6%，标准差为7.8%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "label_horizon"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "深度学习模型获得的特征总体上具有较高的IC，样本外所有特征的平均IC（取绝对值）为7.7%，IC均值低于5%的特征数量为5个，占比约16%。",
+      "evidence": "全样本所有特征的平均 IC（取绝对值）为 8.6%，样本外所有特征的平均 IC（取绝对值）为 7.7%，特征在样本外的 IC相对全样本有所降低，但总体仍然具有较高的IC水平。"
+    },
+    {
+      "text": "特征组合模型2019年以来样本外IC均值为7.6%，标准差为7.8%。",
+      "evidence": "2019年以来，其IC均值为7.6%，标准差为7.8%。"
+    },
+    {
+      "text": "在20%的换手率约束下，中证500指数成分股内选股多头组合的年化超额收益率为26.0%，超额收益的夏普比率为2.99，年换手率为48.6倍。",
+      "evidence": "在回测期内，多头组合的累计收益率为129.6%，而中证500指数的累计收益率为58.8%，策略的年化超额收益率为26.0%，超额收益的夏普比率为2.99，年换手率为48.6倍。"
+    },
+    {
+      "text": "在20%的换手率约束下，中证1000指数成分股内选股多头组合的年化超额收益率为42.4%，超额收益的夏普比率为3.37，年换手率为48.6倍。",
+      "evidence": "在回测期内，多头组合的累计收益率为180.6%，而中证1000指数的累计收益率为56.4%，策略的年化超额收益率为42.4%，超额收益的夏普比率为3.37，年换手率为48.6倍。"
+    },
+    {
+      "text": "5日IC最高的因子是turnover5D，IC为-7.76%，此外还有3个资金流向因子的5日IC绝对值超过7%。",
+      "evidence": "其中 5 日 IC 最高的因子是 turnover5D，IC 为-7.76%，此外，还有 3 个资金流向因子的5 日IC 绝对值超过 7%。"
+    },
+    {
+      "text": "特征hf3多空超额收益显著且稳定，2019年至2020年多头相对中证500累计超额收益为50%（扣费前），空头端显著跑输中证500指数，负alpha收益更突出。",
+      "evidence": "多空超额收益显著，而且多空超额比较稳定。但多头净值相对中证 500 指数的超额收益不高，2019 年至2020年的累计超额收益为 50%（扣费前），而空头端显著跑输中证500 指数，可见该特征的负 alpha 收益更突出。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《101 Formulaic Alphas》",
+    "《Practical Lessons from Predicting Clicks on Ads at Facebook》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "schema_version": 2,
+  "id": "20110815-广发证券-多因子-007-大浪淘金_alpha因子何处寻",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["point_in_time"],
+      "setup": {"data": {"source": ["statement"], "freq": "quarterly"}}
+    },
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "technical_pattern"
+      ],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "销售净利率(%)",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{销售净利率}=\\frac{\\text{净利润}}{\\text{营业收入}}",
+          "stats": [-0.0295, null, null, -0.0796],
+          "evidence": "综合考虑各个度量指标，12 个盈利因子中，销售净利率的有效性最为显著，其信息系数 IC 为-2.95%，表示该因子与股票收益具有负相关关系，其超低配组合的胜率也比较高，因子排名靠后的股票相对排名靠前的股票平均胜率为 61.54%，五档股票组合的累积超额收益率也具备较明显的递减性。"
+        },
+        {
+          "name": "经营活动产生的现金流量净额(同比)",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营活动产生的现金流量净额同比增长率}",
+          "stats": [-0.0071, null, null, 0.0448],
+          "evidence": "其中，在 14 个成长因子中，“经营活动产生的现金流金额增长率”有效性最为显著，其信息比 IR最高为-0.603%，五档股票组合的累积超额收益率也具备较明显的递增性，但其信息系数为负且不显著，没有太大的参考意义，其超低配组合胜率并不高。"
+        },
+        {
+          "name": "流通市值/总市值",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值}/\\text{总市值}",
+          "stats": [0.0215, null, null, 0.0893],
+          "evidence": "在样本回测期间，规模因子在大部分行情下对挖掘各股 Alpha 收益的贡献相当显著，共 5 个备选因子的IC均大于 1%，表明规模因子与个股收益有相对较高的显著性，其中，流通市值因子的 IC 为-5.34%，组合胜率为 63.46%，五档组合的收益具备明显的递减性。"
+        },
+        {
+          "name": "流通市值自然对数",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{流通市值})",
+          "stats": [-0.0543, null, null, -0.1623],
+          "evidence": "在样本回测期间，规模因子在大部分行情下对挖掘各股 Alpha 收益的贡献相当显著，共 5 个备选因子的IC均大于 1%，表明规模因子与个股收益有相对较高的显著性，其中，流通市值因子的 IC 为-5.34%，组合胜率为 63.46%，五档组合的收益具备明显的递减性。"
+        },
+        {
+          "name": "PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{PB}=\\frac{\\text{股价}}{\\text{每股净资产}}",
+          "stats": [-0.0274, null, null, -0.0851],
+          "evidence": "在共 10 个估值因子中，PB 与个股未来收益的相关性最高为-2.74%，IR 为-0.47，信息比最高的因子是 SP，即主营收入/总市值，信息比高达 1.26，超低配组合的平均年化收益 t检验概率最低为0.0115，另外，行业相对 PB，相对 SP以及相对 CFP在各个指标上同样具有较好的表现，总体而言，估值因子的选股效果较为突出。"
+        },
+        {
+          "name": "SP:主营业务收入/总市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{SP}=\\frac{\\text{主营业务收入}}{\\text{总市值}}",
+          "stats": [0.0177, null, null, 0.1322],
+          "evidence": "信息比最高的因子是 SP，即主营收入/总市值，信息比高达 1.26，超低配组合的平均年化收益 t检验概率最低为0.0115，另外，行业相对 PB，相对 SP以及相对 CFP在各个指标上同样具有较好的表现，总体而言，估值因子的选股效果较为突出。"
+        },
+        {
+          "name": "相对PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{相对PB}=\\frac{\\text{个股PB}}{\\text{行业PB}}",
+          "stats": [-0.0137, null, null, -0.0735],
+          "evidence": "另外，行业相对 PB，相对 SP以及相对 CFP在各个指标上同样具有较好的表现，总体而言，估值因子的选股效果较为突出。"
+        },
+        {
+          "name": "相对 SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{相对SP}=\\frac{\\text{个股SP}}{\\text{行业SP}}",
+          "stats": [0.0167, null, null, 0.1091],
+          "evidence": "另外，行业相对 PB，相对 SP以及相对 CFP在各个指标上同样具有较好的表现，总体而言，估值因子的选股效果较为突出。"
+        },
+        {
+          "name": "最近3个月平均成交量",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近3个月平均成交量}",
+          "stats": [-0.0508, null, null, -0.1546],
+          "evidence": "统计发现其中“最近 3 个月平均成交量”因子的 IC最高，IR 为-0.8173，t 检验概率为 0.095，五档股票组合同样表现出显著的递减效应，另外，总资产周转率、换手率以及存货周转率也均有不俗表现！"
+        },
+        {
+          "name": "总资产周转率",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产周转率}=\\frac{\\text{营业收入}}{\\text{总资产}}",
+          "stats": [0.0139, null, null, 0.0919],
+          "evidence": "另外，总资产周转率、换手率以及存货周转率也均有不俗表现！"
+        },
+        {
+          "name": "换手率(算术平均)",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{换手率算术平均}",
+          "stats": [-0.0434, null, null, -0.1467],
+          "evidence": "另外，总资产周转率、换手率以及存货周转率也均有不俗表现！"
+        },
+        {
+          "name": "成交金额(合计)/股价波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{成交金额}}{\\text{股价波动率}}",
+          "stats": [-0.0478, null, null, -0.194],
+          "evidence": "IC最高的因子为“最近一个月成交金额/股价波动率”，其 IC为-4.78%，相应的信息比为-1.4711。组合胜率更是高达 71.15%，t检验概率为 0.0035，具有非常高的显著性。"
+        },
+        {
+          "name": "hight/low",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一个月内最高价}}{\\text{一个月内最低价}}",
+          "stats": [0.0364, null, null, 0.1376],
+          "evidence": "而“一个月内最高价/一个月内最低价”的 IC同样较高为 3.64%，信息比为0.9037，t检验概率为 0.0657。"
+        },
+        {
+          "name": "一个月股价动量/反转",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{t-1} = \\frac{P_{t-1}-P_{t-2}}{P_{t-2}}",
+          "stats": [-0.0531, null, null, -0.1999],
+          "evidence": "统计发现技术因子的选股效果比较明显，其中“一个月股价动量/反转”的 IC 最高为-5.31%，信息比为-1.204，其余指标均显著有效！"
+        },
+        {
+          "name": "RSI14",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "RSI_{14}=100-\\frac{100}{1+\\frac{\\text{14日平均上涨幅度}}{\\text{14日平均下跌幅度}}}",
+          "stats": [-0.0229, null, null, -0.0966],
+          "evidence": "RSI指标中，最常用的指标周期为14 天，其 IC为-2.29%，RI 为-0.5134，胜率高达 6.154%。可见技术类 Alpha 因子远比许多基本面因子更能甄选表现优异的股票。"
+        },
+        {
+          "name": "一致预测 ESP 环比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预测EPS环比增长率}",
+          "stats": [0.014, null, null, 0.0141],
+          "evidence": "对于分析师的一致预期，由于数据较难获得，我们只统计了其中两个因子，其中“一致预测 ESP月环比”的 IC较高为 1.4%，但其他指标效果并不十分显著"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "return_test", "selection"],
+      "setup": {"universe": ["csi800"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "以一个月股价反转和14天RSI为代表的技术因子以及以流通市值为代表的规模因子与股价的IC最高，估值因子则具有最高的IR，流动性因子和波动性因子在优选个股方面也有不俗的表现。",
+      "evidence": "统计结果发现，以 个月股价反转和 14 天 RSI为代表的技术因子以及以流通市值为代表的规模因子与股价的 IC最高，而估值因子则具有最高的IR，另外，流动性因子和波动性因子在优选个股方面也有不俗的表现。"
+    },
+    {
+      "text": "在样本期间，盘子小，股票短期流动性较差且属于薄利多销型的公司通常下个月的股价增长较大，股价的反转以及RSI强弱指标均显示出较明显的反转效应。",
+      "evidence": "综合各个因子的结果,在样本期间，盘子小，股票短期流动性较差且属于薄利多销型的公司通常下个月的股价增长较大，另外，股价的反转以及RSI强弱指标均显示出较明显的反转效应！"
+    },
+    {
+      "text": "盈利因子的选股效果并不明显，仅有销售净利率具有一定的选股效应，成长性因子、杠杆因子以及分析师一致预测数据的选股能力均较差，而估值因子、规模因子、流动因子、波动因子以及技术因子均能找到具有较好选股效应的因子。",
+      "evidence": "综上所述，盈利因子的选股效果并不明显，仅有“销售净利率”具有一定的选股效应，而成长性因子、杠杆因子以及分析师一致预测数据的选股能力均较差，而估值因子、规模因子、流动因子、波动因子以及技术因子均能找到具有较好选股效应的因子。"
+    },
+    {
+      "text": "流通市值、股价近3个月成交量、1个月成交金额／股价波动率以及股价1个月反转等因子的选股能力最为突出。",
+      "evidence": "其中，流通市值、股价近3个月成交量、1个月成交金额／股价波动率以及股价1个月反转等因子的选股能力最为突出！"
+    },
+    {
+      "text": "成交金额/股价波动率因子IC为-4.78%，信息比-1.4711，组合胜率高达71.15%，t检验概率0.0035，具有非常高的显著性。",
+      "evidence": "IC最高的因子为“最近一个月成交金额/股价波动率”，其 IC为-4.78%，相应的信息比为-1.4711。组合胜率更是高达 71.15%，t检验概率为 0.0035，具有非常高的显著性。"
+    },
+    {
+      "text": "IR的绝对值高于0.7时，Alpha因子的选股效果通常比较明显；t检验的概率小于0.2时，相应的Alpha因子具有较好的选股效果。",
+      "evidence": "另外，经统计发现，IR的绝对值高于 0.7时，Alpha 因子的选股效果通常比较明显，另外，若 IR为正，则代表应该超配因子暴露值高的股票，反之若IR为负，则应该超配因子暴露值低的股票。"
+    },
+    {
+      "text": "技术类Alpha因子远比许多基本面因子更能甄选表现优异的股票。",
+      "evidence": "可见技术类 Alpha 因子远比许多基本面因子更能甄选表现优异的股票。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "多因子Alpha模型研究:沪深300成分股的应用分析(上)",
+    "多因子Alpha模型研究:沪深300成分股的应用分析(下)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "schema_version": 2,
+  "id": "20220606-广发证券-高频数据因子-008-日内价量数据因子化研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "DPIN_BASE",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{1}{48}\\sum_{j=1}^{48}\\left[\\frac{NB_{i,j}}{NT_{i,j}}(\\epsilon_{i,j}<0)+\\frac{NS_{i,j}}{NT_{i,j}}(\\epsilon_{i,j}>0)\\right]",
+          "stats": [null, null, null, null],
+          "evidence": "当判断结果为是(否)，则 $DPIN_{BASE}$ 因子值为区间主卖(主买)成交笔数占区间总成交笔数的比重。"
+        },
+        {
+          "name": "DPIN_SIZE",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\left[\\frac{NB_{i,j}}{NT_{i,j}}(\\epsilon_{i,j}<0)+\\frac{NS_{i,j}}{NT_{i,j}}(\\epsilon_{i,j}>0)\\right](LT_{i,j})",
+          "stats": [null, null, null, null],
+          "evidence": "在交易日t内，当股票i在区间j内的总交易量超过当日各个区间内总交易量的中位数，则虚拟变量赋值为1，此时未预期收益为正(负)情况下的卖(买)单反映信息优势交易概率，反之为0。"
+        },
+        {
+          "name": "DPIN_SMALL",
+          "family": "microstructure",
+          "direction": "nonmonotonic",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\left[\\frac{NB_{i,j}}{NT_{i,j}}(\\epsilon_{i,j}<0)+\\frac{NS_{i,j}}{NT_{i,j}}(\\epsilon_{i,j}>0)\\right](ST_{i,j})",
+          "stats": [null, null, null, null],
+          "evidence": "在交易日t内，当股票i在区间j内的总交易量小于当日各个区间内总交易量的中位数，则虚拟变量赋值为1，此时未预期收益为正(负)情况下的卖(买)单反映知情交易概率，反之为0。"
+        },
+        {
+          "name": "DPIN_SMALL_PM_MEAN",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{日度值为}\\frac{1}{6}\\sum_{j=43}^{48}DPIN_{SMALL}^{i,j}\\text{，测试用因子值为单周各交易日日度值的平均值}",
+          "stats": [0.044, null, null, 0.375],
+          "evidence": "在全市场选股中，DPIN_SMALL_PM_MEAN因子整体表现较好，2022年仍持续有效。IC值方面，因子IC均值为0.044，正IC占比84.4%。多空策略方面，策略整体年化收益率为37.5%，信息比率为3.66。"
+        },
+        {
+          "name": "DPIN_BASE_MIDDLE_STD",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{日度值为}STD\\left(\\sum_{j=7}^{42}DPIN_{BASE}^{i,j}\\right)\\text{，测试用因子值为单周各交易日日度值的平均值}",
+          "stats": [0.061, null, null, 0.443],
+          "evidence": "在全市场选股中，DPIN_BASE_MIDDLE_STD因子整体表现较好，2022年因子有效性延续。IC值方面，因子IC均值为0.061，正IC占比72.4%。多空对冲策略方面，策略整体年化收益率为44.3%，信息比率为3.16。"
+        },
+        {
+          "name": "DPIN_SMALL_TOTAL_STABLE",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{日度值为}MEAN(\\sum_{j=1}^{48}DPIN_{SMALL}^{i,j})/STD(\\sum_{j=1}^{48}DPIN_{SMALL}^{i,j})\\text{，测试用因子值为单周各交易日日度值的平均值}",
+          "stats": [-0.059, null, null, 0.415],
+          "evidence": "在全市场选股中，DPIN_SMALL_TOTAL_STABLE因子整体表现较好，2022年因子有效性延续。IC值方面，因子IC均值为-0.059，负IC占比72.4%。多空策略方面，策略整体年化收益率为41.5%，信息比率为2.82。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "DPIN_SMALL_PM_MEAN因子IC均值0.044，正IC占比84.4%，多空策略整体年化收益率37.5%，信息比率3.66，2022年仍持续有效。",
+      "evidence": "在全市场选股中，DPIN_SMALL_PM_MEAN因子整体表现较好，2022年仍持续有效。IC值方面，因子IC均值为0.044，正IC占比84.4%。多空策略方面，策略整体年化收益率为37.5%，信息比率为3.66。"
+    },
+    {
+      "text": "DPIN_BASE_MIDDLE_STD因子IC均值0.061，正IC占比72.4%，多空对冲策略整体年化收益率44.3%，信息比率3.16，多头相对中证800指数策略整体年化收益率18.8%，信息比率1.08。",
+      "evidence": "在全市场选股中，DPIN_BASE_MIDDLE_STD因子整体表现较好，2022年因子有效性延续。IC值方面，因子IC均值为0.061，正IC占比72.4%。多空对冲策略方面，策略整体年化收益率为44.3%，信息比率为3.16。多头相对中证800指数策略方面，策略整体的年化收益率为18.8%，信息比率为1.08，除2017年、2020年，其余年份均可取得超额收益。"
+    },
+    {
+      "text": "DPIN_SMALL_TOTAL_STABLE因子IC均值-0.059，负IC占比72.4%，多空策略整体年化收益率41.5%，信息比率2.82，多头相对中证800指数对冲策略整体年化收益率19.2%，信息比率1.09，2022年有效性延续。",
+      "evidence": "在全市场选股中，DPIN_SMALL_TOTAL_STABLE因子整体表现较好，2022年因子有效性延续。IC值方面，因子IC均值为-0.059，负IC占比72.4%。多空策略方面，策略整体年化收益率为41.5%，信息比率为2.82。多头相对中证800指数对冲策略方面，策略整体的年化收益率为19.2%，信息比率为1.09，除2017年、2020年，其余年份均可取得超额收益。"
+    },
+    {
+      "text": "在因子层面，整体绩效表现排序为DPIN_STD>DPIN_STABLE>DPIN_MEAN，两类因子在因子分档测试、IC值表现方面都具有更好的表现。",
+      "evidence": "综合 $\\cdot DPIN_{MEAN}$ $DPIN_{STD}$ $DPIN_{STABLE}$ 三大类因子的实证分析结果，在因子层面，整体绩效表现排序为 $DPIN_{STD}>DPIN_{STABLE}>DPIN_{MEAN}$ 。由于 $:DPIN_{STD}$ $DPIN_{STABLE}$ 两类因子能够从股票日内交易结构的角度刻画信息优势交易概率，从而反映DPIN因子在分散度、稳定性方面的多维信息，因此该因子在因子分档测试、IC值表现方面都具有更好的表现。"
+    },
+    {
+      "text": "DPIN_SIZE因子整体呈U型特征，说明开盘、收盘时段大单信息优势交易概率高；DPIN_SMALL因子整体呈倒U型特征，说明市场交易不活跃时段小单信息优势交易概率高。",
+      "evidence": "$DPIN_{SIZE}$ 因子整体呈“U型”特征，说明开盘、收盘时段大单信息优势交易概率高的研究结论； $DPIN_{SMALL}$ 因子整体呈“倒U型”特征，说明市场交易不活跃时段小单信息优势交易概率高的研究结论。"
+    },
+    {
+      "text": "DPIN类因子与部分BARRA因子存在一定程度相关性，例如考虑行为特征的3类DPIN因子均表现出与流动性因子STOM存在一定程度的相关性，加入多因子模型前须与现有因子进行相关性分析。",
+      "evidence": "通过对数据预处理后的DPIN因子和BARRA因子进行相关性分析，可以发现DPIN类因子与部分BARRA因子存在一定程度相关性，例如考虑行为特征的3类DPIN因子均表现出与流动性因子STOM存在一定程度的相关性。因此在考虑将DPIN类因子加入多因子模型前，须对DPIN类因子与现有因子进行相关性分析。"
+    },
+    {
+      "text": "DPIN因子在中证1000、中证500选股范围具有更好表现；在2天、3天的调仓频率下具有更高的IC显著性水平，多空策略收益、多头相对基准收益和更高的多头平均换手率。",
+      "evidence": "结果显示，DPIN因子在中证1000、中证500选股范围具有更好表现；在2天、3天的调仓频率下具有更高的IC显著性水平，多空策略收益、多头相对基准收益和更高的多头平均换手率。因此，当应用DPIN因子进行选股，需要在收益与换手率之间权衡，以规避高换手率带来的高手续费成本问题。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chang等, \"A dynamic intraday measure of the probability of informed trading and firm-specific return variation\", Journal of Empirical Finance, 2014",
+    "Easley等, \"Flow Toxicity and Liquidity in a High-frequency World\", 2012",
+    "Easley等, \"Liquidity, Information, and Infrequently Traded Stocks\", 1996",
+    "李平等, \"知情交易概率于风险定价——基于不同PIN测度方法的比较研究\", 2020"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

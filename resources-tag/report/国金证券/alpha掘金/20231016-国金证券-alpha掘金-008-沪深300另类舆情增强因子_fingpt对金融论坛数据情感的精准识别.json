@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20231016-国金证券-alpha掘金-008-沪深300另类舆情增强因子_fingpt对金融论坛数据情感的精准识别",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["text"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "乐观情感和",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "M(S,T)_{positive}=\\sum_{t=1}^{T}Score_t,\\ Score_t>0",
+          "stats": [0.0365, null, 0.32, 0.1271],
+          "evidence": "其中乐观情感和因子单因子 IC 达到 3.68%，分位数组合单调性良好，多空组合年化收益率为 12.71%，多空净值增加平稳，是有效评价情感与选股的指标。"
+        },
+        {
+          "name": "情感和",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "M(S,T)=\\sum_{t=1}^{T}Score_t",
+          "stats": [0.0302, null, 0.24, null],
+          "evidence": "那么每一条金融论坛评论对应唯一一个情感分值，我们可以使用对应分值的加总与平均等来计算该评论对应股票的情感值表达、分歧与变化，其中Score 代表评论具体的情感分值。"
+        },
+        {
+          "name": "悲观情感和",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "M(S,T)_{negative}=\\sum_{t=1}^{T}Score_t,\\ Score_t<0",
+          "stats": [-0.0261, null, -0.23, null],
+          "evidence": "情感和、乐观情感和与悲观情感和三个因子表现更佳，乐观情感和因子 IC 为 3.65%，t 统计量为 2.58，结果显著。"
+        },
+        {
+          "name": "情感平均",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "M(S,T)_{mean}=\\frac{M(S,T)}{C(S,T)}",
+          "stats": [0.003, null, 0.03, null],
+          "evidence": "情感表达是投资者在论坛上明确传达的情感和态度的衡量，代表投资者对某一资产整体的注意力和情感认知；情绪分歧是投资者之间对特定话题或股票的情绪差异或对立的衡量，代表投资者对某一资产整体情感认知的差异；"
+        },
+        {
+          "name": "情感分歧",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "M(S,T)_{posdneg}=\\frac{M(S,T)_{positive}}{M(S,T)_{negative}}",
+          "stats": [-0.009, null, -0.07, null],
+          "evidence": "情绪分歧是投资者之间对特定话题或股票的情绪差异或对立的衡量，代表投资者对某一资产整体情感认知的差异；"
+        },
+        {
+          "name": "情感变化",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "Corr(S,T)=corr(Rank(Score_{s,t}),Rank(t))",
+          "stats": [0.0138, null, 0.15, null],
+          "evidence": "情绪变化是投资者的情绪随时间、信息或其他外部因素的变化而发生转变的衡量，代表代表投资者对某一资产整体情感认知的变化。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "从因子测试结果上看，评论数据的情感信息与股票的相关性更高，最终选择金融论坛的评论数据构建舆情情感因子。",
+      "evidence": "从因子测试结果上看，在情感分析的角度，评论数据的情感信息与股票的相关性更高。"
+    },
+    {
+      "text": "情感和、乐观情感和与悲观情感和三个因子表现更佳，乐观情感和因子IC为3.65%、t统计量2.58，结果显著，股票情感越乐观越容易取得超额收益。",
+      "evidence": "情感和、乐观情感和与悲观情感和三个因子表现更佳，乐观情感和因子 IC 为 3.65%，t 统计量为 2.58，结果显著。结果共同表明股票情感越乐观情况下股票更容易取得超额收益。"
+    },
+    {
+      "text": "千分之三手续费下舆情增强策略年化收益率6.69%、夏普0.32、超额年化8.02%、信息比率1.58、超额最大回撤仅6.94%，金融论坛评论带来额外增量信息。",
+      "evidence": "从策略指标上看，在千分之三的手续费下策略年化收益率高达 6.69%，夏普比率为 0.32，策略的超额年化收益率为 8.02%，信息比率为 1.58，策略的超额最大回撤仅为 6.94%。"
+    },
+    {
+      "text": "当期股票收益与情感和因子秩相关系数高达9.19%，明显高于因子IC值3.65%，说明论坛评论受当日涨跌幅影响大，情感指标是同步指标。",
+      "evidence": "最直接的我们使用当期股票收益和当期股票情感和因子计算秩相关系数，值高达 9.19%，明显比因子 IC 值 3.65%高，结果说明，论坛评论受当日股票涨跌幅影响大，情感指标是一个“同步”指标，当天“涨的多”，评论情绪就更乐观，当天“跌的多”，情感就更悲观。"
+    },
+    {
+      "text": "舆情情感因子与基本面和技术因子相关性均低，与市值因子相关性达0.55，但市值是升序因子而情感总和是降序因子，证明收益来自情感分析而非市值。",
+      "evidence": "舆情情感因子与大部分基本面和技术因子相关性均低，细分基本面指标中与情感因子相关较高的是市值因子，二者相关性达到 0.55。"
+    },
+    {
+      "text": "大模型舆情情感因子IC不高，但沪深300池中单因子IC达3%已能超过80%的基本面因子，且与基本面因子保持低相关性。",
+      "evidence": "虽然大模型舆情情感因子的 IC 值不高，但根据因子收益中的讨论，沪深 300 池中 2018 年 1 月以来单因子测试 IC 达到 3%已经能超过 80%的基本面因子，并且大模型舆情情感因子与基本面因子保持低的相关性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Wang, Zengzhi, et al.《Is ChatGPT a good sentiment analyzer? A preliminary study.》",
+    "Yang, Hongyang, Xiao-Yang Liu, and Christina Dan Wang.《FinGPT: Open-Source Financial Large LanguageModels》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

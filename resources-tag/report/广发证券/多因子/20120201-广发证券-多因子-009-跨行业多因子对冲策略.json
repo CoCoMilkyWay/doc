@@ -1,0 +1,158 @@
+{
+  "schema_version": 2,
+  "id": "20120201-广发证券-多因子-009-跨行业多因子对冲策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE的同比增长率}",
+          "stats": [0.0717, null, 1.199, 0.133],
+          "evidence": "农业具有独特资源稀缺性，随着农产品价值理性回归，行业盈利能力好转是必然之势，盈利能力增长高的个股更受市场青睐"
+        },
+        {
+          "name": "每股派息/股价",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{每股派息}/\\text{股价}",
+          "stats": [0.0685, null, 1.055, 0.288],
+          "evidence": "从采掘行业来看，市场更偏向于派息高，现金较为充裕的个股。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{月度累计换手率}",
+          "stats": [-0.0416, null, -0.811, -0.0829],
+          "evidence": "化工行业中，投资者似乎更青睐于成交量低，换手较小的小市值股票"
+        },
+        {
+          "name": "成交金额",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{月度成交金额}",
+          "stats": [-0.1166, null, -1.913, -0.3837],
+          "evidence": "对于电子行业，统计下来我们发现成交量偏低，换手少的股票在行业内跑得相对更好。"
+        },
+        {
+          "name": "负债/资产",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总负债}/\\text{总资产}",
+          "stats": [0.0406, null, 0.686, 0.1419],
+          "evidence": "钢铁行业有固定资产投资高，负债高，特别是流动负债高的特性。而流动负债高的公司获得流动资金的能力相对较强，对上游议价能力也强，所以该些公司表现更好。"
+        },
+        {
+          "name": "毛利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{毛利润}/\\text{营业收入}",
+          "stats": [0.0543, null, 0.68, 0.3224],
+          "evidence": "建材行业技术门栏不算十分高，加之所需原材料分布广，产品价格低，运费高，导致利润薄。所以毛利率较高企业证明盈利能力较强。"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{每股净资产}/\\text{股价}",
+          "stats": [0.0548, null, 0.857, 0.2373],
+          "evidence": "对于机械设备行业，低PB的公司具有阶段性价值回归潜力。机械行业本身用PB来估值就存在低估嫌疑，所以PB低的公司更值得关注！"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润}/\\text{总市值}",
+          "stats": [0.0968, null, 1.029, 0.3335],
+          "evidence": "对于家用电器行业，PE估值指标具有十分强的选股指导意义。我国家电业高流动负债是行业特点，流通负债越高，可证明企业对上游的话语权越高。"
+        },
+        {
+          "name": "一个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月个股收益率取负}",
+          "stats": [-0.0846, null, -0.843, -0.2367],
+          "evidence": "信息设备行业有很强的一个月反转效应，换手较低的个股也备受青睐。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["regime_domain", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "不论从战胜指数的胜率来看，或者是策略超额收益的年化IR，OEE（因子平均加权，股票平均加权）多因子组合表现都是最优，也是几个策略中的首选。",
+      "evidence": "总结：不论从战胜指数的胜率来看，或者是策略超额收益的年化IR，OEE（因子平均加权，股票平均加权）多因子组合表现都是最优，也是我们几个策略中的首选。"
+    },
+    {
+      "text": "OEE策略战胜指数胜率62.71%、年化平均收益16.74%、跟踪误差11.83%、年化IR1.415、平均月度换手率40.28%，在OEE/OET/OIE/OIT四个策略中最优。",
+      "evidence": "| 战胜指数胜率 | 62.71% | 61.02% | 62.71% | 62.71% |\n| 年化平均收益 | 16.74% | 9.09% | 14.43% | 8.45% |\n| 跟踪误差 | 11.83% | 9.92% | 11.81% | 10.41% |\n| 年化IR | 1.415 | 0.916 | 1.222 | 0.812 |\n| 平均月度换手率 | 40.28% | 43.15% | 42.95% | 47.57% |"
+    },
+    {
+      "text": "每个行业根据近三年有效因子组建行业多因子模型，每行业前20%为超配组合、后20%为低配组合，超配组合权重等于行业在中证800的实际权重，实现行业权重中性。",
+      "evidence": "- 每个行业根据近三年有效因子组建多因子模型\n- 每行业前20%为超配组合，后20%为低配组合\n- 每行业超组合权重=行业在中证800的实际权重"
+    },
+    {
+      "text": "OEE策略2007-2011年逐年超额收益分别为1.98%、27.88%、35.30%、15.87%、7.14%，逐年均战胜基准。",
+      "evidence": "| OEE逐年超额收益 | 1.98% | 27.88% | 35.30% | 15.87% | 7.14% |"
+    },
+    {
+      "text": "从各行业有效因子来看，大部分行业的有效因子都是与股价相关的因子（反转，成交金额，估值），未来思路是结合上下游情况挖掘具有行业特性的因子。",
+      "evidence": "展望：从各行业有效因子来看，不难发现大部分行业的有效因子都是与股价相关的因子（反转，成交金额，估值）。所以未来我们行业内的思路会转向结合上下游的情况，挖掘具有行业特性的一些因子。"
+    },
+    {
+      "text": "多个行业呈现显著反转效应，如交运设备的反转效应十分明显，金融股方面也应多关注股价反转因子。",
+      "evidence": "从结果来看，交运设备的反转效应十分之明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

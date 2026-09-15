@@ -1,0 +1,161 @@
+{
+  "schema_version": 2,
+  "id": "20200527-开源证券-市场微观结构-008-结合行业轮动的沪深300指数增强测试",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover", "intraday_pattern"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "market_minute", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Technical_Last15MinVolumeRatio_20Day",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20天最后15分钟成交量比率}",
+          "stats": [-0.085, null, null, null],
+          "evidence": "Technical_Last15MinVolumeRatio_20Day过去20天最后15分钟成交量比率"
+        },
+        {
+          "name": "Technical_MixLIQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{基于分钟数据构建的纯净化流动性因子}",
+          "stats": [-0.095, null, null, null],
+          "evidence": "Technical_MixLIQ基于分钟数据构建的纯净化流动性因子"
+        },
+        {
+          "name": "Technical_SmartMoney",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{聪明钱因子}",
+          "stats": [-0.048, null, null, null],
+          "evidence": "Technical_SmartMoney聪明钱因子"
+        },
+        {
+          "name": "Technical_IdealReversed",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{理想反转因子}",
+          "stats": [-0.067, null, null, null],
+          "evidence": "Technical_IdealReversed理想反转因子"
+        },
+        {
+          "name": "Fundamental_TTM_ROE_PbSizeNeutral",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROEttm对PB和市值因子做中性化}",
+          "stats": [0.07, null, null, null],
+          "evidence": "Fundamental_TTM_ROE_PbSizeNeutralROEttm对PB和市值因子做中性化"
+        },
+        {
+          "name": "Fundamental_TTM_ROA_PbSizeNeutral",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROAttm对PB和市值因子做中性化}",
+          "stats": [0.068, null, null, null],
+          "evidence": "Fundamental_TTM_ROA_PbSizeNeutralROAttm对PB和市值因子做中性化"
+        },
+        {
+          "name": "龙头股模型",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "G = R_{龙头} - R_{普通}",
+          "stats": [null, null, null, 0.129],
+          "evidence": "我们根据行业成分股内的牵引力大小和方向构建龙头股模型（见表1)。龙头股模型的多空对冲年化收益12.9%，年化波动11.21%，信息比率1.16（图4)。"
+        },
+        {
+          "name": "黄金律模型",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{将行业指数按照日内因子M0从低到高、隔夜因子M1从高到低分别打分，两项打分相加得到行业总得分}",
+          "stats": [null, null, null, 0.0815],
+          "evidence": "黄金律模型的构建基于对行业动量的纵向切割。我们根据行业指数在不同交易时段存在的系统性差异，将其分成日内和隔夜两段，基于此构建黄金律模型(见表2)。黄金律模型的多空对冲年化收益8.15%，年化波动11.77%，信息比率0.69（图5)。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "selection"],
+      "setup": {"universe": ["csi800"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "market_minute", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基础模型的超额年化为7.42%，超额年化波动率为3.94%，夏普比率为1.88。",
+      "evidence": "根据组合优化器，我们进行基础模型构建，其中买入和卖出的手续费分别设置为单边千分之1.5。可以看到，基础模型的超额年化为7.42%，超额年化波动率为3.94%，夏普比率为1.88。"
+    },
+    {
+      "text": "龙头股模型在η=0.04的情况下，超额年化收益率为8.53%，超额年化波动率为4.13%，夏普比率2.07，月度胜率为71.88%。",
+      "evidence": "可以看到龙头股模型在η=0.04的情况下，其超额年化收益率为8.53%，超额年化波动率为4.13%，夏普比率2.07，月度胜率为71.88%。"
+    },
+    {
+      "text": "黄金律因子在η=0.04的情况下，策略的超额年化收益率为9.24%，超额年化波动率为4.18%，夏普比率2.21，月度胜率为68.75%。",
+      "evidence": "同样的，黄金律因子在η=0.04的情况下，策略的超额年化收益率为9.24%，超额年化波动率为4.18%，夏普比率2.21，月度胜率为68.75%。"
+    },
+    {
+      "text": "龙头股模型+300增强策略2020年以来表现突出，超额年化收益率12.20%，超额年化波动率4.10%，夏普比率2.98。",
+      "evidence": "尤其2020年以来，策略表现突出，超额年化收益率12.20%，超额年化波动率4.10%，夏普比率2.98。"
+    },
+    {
+      "text": "黄金律模型+300增强策略2020年以来超额年化收益率15.40%，超额年化波动率4.06%，夏普比率3.80。",
+      "evidence": "2020年以来表现突出，超额年化收益率15.40%，超额年化波动率4.06%，夏普比率3.80。"
+    },
+    {
+      "text": "参数遍历显示，由于在行业上的偏离增大，策略的年化收益率提高，但波动也随之增加，因此夏普比率呈现先涨后跌的趋势。",
+      "evidence": "可以看到，由于在行业上的偏离增大，策略的年化收益率提高，但波动也随之增加，因此夏普比率呈现先涨后跌的趋势。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（3）-聪明钱因子模型的2.0版本》-2020.02.09",
+    "《市场微观结构研究系列（4）-A股行业动量的精细结构》-2020.03.02"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

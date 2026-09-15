@@ -1,0 +1,120 @@
+{
+  "schema_version": 2,
+  "id": "20170508-海通证券-选股因子-019-高频因子之股票收益分布特征",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频收益偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "RSkew_{i}=\\frac{\\sqrt{N}\\sum_{j=1}^{N}r_{ij}^{3}}{RVar_{i}^{3/2}},\\quad RVar_{i}=\\sum_{j=1}^{N}r_{ij}^{2},\\quad 因子值为过去一个月日度指标的均值",
+          "stats": [null, -0.053, -2.789, null],
+          "evidence": "从分组收益可知，高频偏度因子对于股票收益具有较好的区分效果，前期偏度越小的股票未来表现越好。因子月度多空收益约为 ，但因子空头收益占比较高。"
+        },
+        {
+          "name": "高频收益方差",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "RVar_{i}=\\sum_{j=1}^{N}r_{ij}^{2},\\quad 因子值为过去一个月日度指标的均值",
+          "stats": [null, -0.06, -1.362, null],
+          "evidence": "在任意交易日，基于股票 i的高频收益序列 $\\{\\Gamma_{j}\\}$ 对于市场上交易的股票可计算高频收益方差、高频收益偏度以及高频收益峰度三个指标。"
+        },
+        {
+          "name": "高频收益峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "RKurt_{i}=\\frac{N\\sum_{j=1}^{N}r_{ij}^{4}}{RVar_{i}^{2}},\\quad 因子值为过去一个月日度指标的均值",
+          "stats": [null, -0.025, -1.186, null],
+          "evidence": "从 rankIC 以及 rankICIR 的角度来看，峰度因子选股效果在不同数据频率下同样存在明显差异。简单来说，1分钟峰度因子基本不具有选能力，5 分钟峰度因子选股能力较弱。"
+        },
+        {
+          "name": "正交高频偏度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{将高频收益偏度因子剔除行业、市值、非线性市值、换手、特异度以及反转因子影响后的正交化因子}",
+          "stats": [null, -0.024, -2.819, null],
+          "evidence": "考虑到因子与市值以及换手率之间的相关性，本节对于高频偏度因子进行了正交化处理，对于剔除了行业、市值、非线性市值、换手、特异度以及反转影响后的偏度因子进行了回测。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "高频偏度因子在不同数据频率、不同计算方法下皆具有稳健选股能力，rankIC 绝对值基本维持在 0.05~0.06 左右，ICIR 绝对值普遍高于 2.5，IC 月度胜率接近 80%。",
+      "evidence": "从 rankIC 以及 rankICIR 的角度来看，偏度因子同样具有较好的选股能力。不同频率、不同计算方式下因子的 rankIC 的绝对值基本维持在 0.05~0.06左右，ICIR 的绝对值普遍高于 2.5，因子 IC 月度胜率接近 80%。"
+    },
+    {
+      "text": "正交后的高频偏度因子剔除行业、市值、非线性市值、换手、特异度及反转影响后依旧具有选股能力，1 分钟因子 IC 绝对值下降至 0.03 附近但 ICIR 绝对值仍在 2 以上。",
+      "evidence": "正交后的高频偏度因子选股效果虽受到一定程度的影响，但是因子依旧具有选股能力。1分钟的高频偏度因子 IC绝对值下降至 0.03 附近，但 ICIR 绝对值依旧在 2 以上。"
+    },
+    {
+      "text": "Fama-MacBeth 回归显示各计算频率、各计算方法下的高频偏度因子均具有显著选股能力，且 1 分钟偏度因子强于 5 分钟偏度因子。",
+      "evidence": "观察新增因子回归系数均值以及 T 统计量可知，各计算频率以及计算方法下的高频偏度因子在回测时间段中具有显著选股能力。此外，1分钟偏度因子选股效果强于 5 分钟偏度因子选股效果，这一点在回归系数以及回归系数 T 统计量绝对值大小上皆有所体现。"
+    },
+    {
+      "text": "高频因子对 TOP100 纯多头组合改进有限：加入 1 分钟偏度因子后年化收益、收益回撤比及信息比率皆提升；加入 5 分钟偏度因子后部分改进模型年化收益未改进。",
+      "evidence": "在加入 1分钟偏度因子后，TOP100纯多头组合在年化收益、收益回撤比以及信息比率上皆有所提升。在加入 5分钟偏度因子 后，部分改进模型在年化收益上并未出现改进，仅在收益回撤比以及信息比率上有所提升。"
+    },
+    {
+      "text": "改进模型中 1 分钟偏度因子权重占比约为 10%，5 分钟偏度因子权重占比在 5%~10% 之间。",
+      "evidence": "此外，从因子权重来看，1分钟偏度因子权重占比约为 10%，5 分钟偏度因子权重占比在 5%~10%之间。"
+    },
+    {
+      "text": "高频方差因子组间收益单调性较差，1 分钟频率下不具选股能力，5 分钟频率下仅具弱选股能力，故不作进一步分析。",
+      "evidence": "从 IC 以及 ICIR 的角度来看，1 分钟频率下的高频方差因子并不具有选股能力，5分钟频率下的高频方差因子具有弱选股能力。但是考虑到 5 分钟高频方差因子组间收益单调性欠佳，本文并不会对于该因子进行进一步分析。"
+    },
+    {
+      "text": "高频偏度因子多头组合具有大市值、低换手特征，与市值因子负相关、与换手率因子正相关，而与反转及特异度相关性不高。",
+      "evidence": "观察上表可知，高频偏度因子多头组合具有大市值、低换手的特征。随着因子值的升高，组别收益逐渐降低。与此同时，组合股票市值逐渐降低，股票前期换手率逐渐升高。因此，高频偏度因子与市值因子负相关，而与换手率因子正相关。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究十八——价格形态因子》",
+    "《选股因子系列研究（十七）——选股因子的正交》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

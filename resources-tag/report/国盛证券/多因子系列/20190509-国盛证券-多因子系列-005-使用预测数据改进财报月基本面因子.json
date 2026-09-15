@@ -1,0 +1,194 @@
+{
+  "schema_version": 2,
+  "id": "20190509-国盛证券-多因子系列-005-使用预测数据改进财报月基本面因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "expectation_level", "expectation_revision"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "or_growth_std",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{or_{t}-\\mathrm{mean}(or_{t-8:t-1})}{\\mathrm{std}(or_{t-8:t-1})}",
+          "stats": [0.03674, null, 2.486171, null],
+          "evidence": "从测试结果可以看出，该模型对于因子的提升效果要好于之前的线性模型，其中因子 IC提升在 0.003 以上的因子达到 10个，其中最好的因子 or_growth_std（营业收入标准化增长）提升达到0.01，单因子的预测胜率为86.7%。"
+        },
+        {
+          "name": "np_growth_std",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{np_{t}-\\mathrm{mean}(np_{t-8:t-1})}{\\mathrm{std}(np_{t-8:t-1})}",
+          "stats": [0.036815, null, 2.450206, null],
+          "evidence": "使用未来一个月数据情况下，只有 sales_to_ev、sp_adj、bp、noa_to_ev四个因子没有提升，表现反而更差，其他因子表现都得到了提升，其中 np_growth_std因子提升效果最强，IC 可以从 0.03 提高到接近 0.07。"
+        },
+        {
+          "name": "yoy_roe",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{roe_{t}-roe_{t-4q}}{roe_{t-4q}}",
+          "stats": [0.025978, null, 1.864301, null],
+          "evidence": "左轴是绝对净值，右轴为相对净值，例如 YOY_ROE 因子在 14年至 19 年累计提升相对收益为16%。"
+        },
+        {
+          "name": "yoy_eps",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{eps_{t}-eps_{t-1y}}{eps_{t-1y}}",
+          "stats": [0.022522, null, 1.598867, null],
+          "evidence": "其中提高幅度较大的因子为 yoy_eps、yoy_roe、yoy_np_q、yoy_or_q、or_growth_std 这五个因子，IC 提升都在0.003 以上。"
+        },
+        {
+          "name": "yoy_np_q",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{np_{q,t}-np_{q,t-4}}{np_{q,t-4}}",
+          "stats": [0.032571, null, 2.34192, null],
+          "evidence": "其中提高幅度较大的因子为 yoy_eps、yoy_roe、yoy_np_q、yoy_or_q、or_growth_std 这五个因子，IC 提升都在0.003 以上。"
+        },
+        {
+          "name": "yoy_or_q",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{or_{q,t}-or_{q,t-4}}{or_{q,t-4}}",
+          "stats": [0.024344, null, 1.735079, null],
+          "evidence": "其中提高幅度较大的因子为 yoy_eps、yoy_roe、yoy_np_q、yoy_or_q、or_growth_std 这五个因子，IC 提升都在0.003 以上。"
+        },
+        {
+          "name": "yoy_np",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{np_{t}-np_{t-1y}}{np_{t-1y}}",
+          "stats": [0.011869, null, 0.912684, null],
+          "evidence": "从上表可以看出，总体来说，模型预测因子在全 A 股的表现是优于分析师预期数据的，尤其是yoy_np, yoy_or 几个同比因子，分析师预期数据并没有特别好的预测能力。"
+        },
+        {
+          "name": "yoy_or",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{or_{t}-or_{t-1y}}{or_{t-1y}}",
+          "stats": [0.012971, null, 0.767548, null],
+          "evidence": "从上表可以看出，总体来说，模型预测因子在全 A 股的表现是优于分析师预期数据的，尤其是yoy_np, yoy_or 几个同比因子，分析师预期数据并没有特别好的预测能力。"
+        },
+        {
+          "name": "ep",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{PE_{t}}",
+          "stats": [0.035921, null, 1.924415, null],
+          "evidence": "以 EP（市盈率倒数）因子为例，测试结果如下图所示。"
+        },
+        {
+          "name": "peg",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{PE_{t}}{g_{t}}",
+          "stats": [-0.03427, null, -1.7202, null],
+          "evidence": "除了 sp、sp_adj、yoy_eps_q、peg这四个因子以外，其他因子预测能力都得到了不同程度的提高"
+        },
+        {
+          "name": "roe",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "roe_{t,12m}",
+          "stats": [0.02249, null, 1.285975, null],
+          "evidence": "or_growth_std、roe、roa、yoy_roe 几个因子预测模型表现更优，而其他因子分析师数据表现更优。"
+        },
+        {
+          "name": "roa",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "roa_{t,12m}",
+          "stats": [0.017962, null, 0.982662, null],
+          "evidence": "or_growth_std、roe、roa、yoy_roe 几个因子预测模型表现更优，而其他因子分析师数据表现更优。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "财报频发的4、8、10三个月中，月频多因子策略固定时间换仓使得很多公司发布财报后很多天信息才能反映到策略当中，造成换仓滞后的问题，组合在财报月表现不佳。",
+      "evidence": "由于在财报频发的 4、8、10 三个月中，每个公司发布财报的时间有先后差异，而我们月频多因子策略往往使用固定时间（例如每月最后一个交易日）换仓，这样使得很多公司发布财报后很多天信息才能反映到我们的策略当中，造成换仓滞后的问题。"
+    },
+    {
+      "text": "月频模型和日频模型等价的临界成本约为0.5%左右（双边千五），交易成本小于该值时在财报月简单增加换仓频率即可，否则该方法性价比不高。",
+      "evidence": "可以看到，如果投资于上述基本面因子，同时不考虑换手率限制，即让组合充分换手的情况下，月频模型和日频模型等价的临界成本约为 0.5%左右。"
+    },
+    {
+      "text": "非线性模型对因子的提升效果要好于之前的线性模型，IC提升0.003以上的因子达到10个，其中or_growth_std提升达到0.01，单因子预测胜率86.7%。",
+      "evidence": "从测试结果可以看出，该模型对于因子的提升效果要好于之前的线性模型，其中因子 IC提升在 0.003 以上的因子达到 10个，其中最好的因子 or_growth_std（营业收入标准化增长）提升达到0.01，单因子的预测胜率为86.7%。"
+    },
+    {
+      "text": "前视模型下np_growth_std因子提升效果最强，IC可以从0.03提高到接近0.07，说明净利润能够较准确预测时因子预测能力将得到极大提升。",
+      "evidence": "使用未来一个月数据情况下，只有 sales_to_ev、sp_adj、bp、noa_to_ev四个因子没有提升，表现反而更差，其他因子表现都得到了提升，其中 np_growth_std因子提升效果最强，IC 可以从 0.03 提高到接近 0.07。"
+    },
+    {
+      "text": "只有4、8、10三个月因子表现有提升，因此每年只需在3、7、9月使用预测模型更新因子截面，实际上只需要预测三次。",
+      "evidence": "即使是 100%预测正确下一个月的基本面数据，只有 4、8、10 三个月因子表现有提升，其他月份均很难提升，因此我们只需要在 4、8、10 这三个月的前一个月，即 3、7、9 月使用预测模型更新我们的因子截面即可，其他月份均不需要更新。"
+    },
+    {
+      "text": "分析师覆盖域内分析师数据预测能力更强，但由于其覆盖率较低（约37%），在全A选股时预测模型整体更胜一筹。",
+      "evidence": "总体上看，分析师数据预测能力更强。这进一步验证了我们的猜测：在分析师覆盖领域内，分析师预测可能使用了除了基本面数据更多的信息，所以预测更为准确；而由于其覆盖率还较低，因子如果在全 A选股，我们的预测模型会更胜一筹。"
+    },
+    {
+      "text": "将分析师预期数据和预测模型数据结合的预测组合，比历史数据的基本面组合有明显提高，年化收益从13.79%提升到16.25%，信息比率从2.481提高到2.764。",
+      "evidence": "可以看到，通过预测数据构建基本面组合，可以比历史数据的基本面组合有较为明显的提高，年化收益从 13.79%提升到 16.25%，信息比率从 2.481 提高到2.764。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alberg, J. and Z. C. Lipton (2017). Improving factor-based quantitative investing by forecasting company fundamentals. NIPS Time Series Workshop 2017."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

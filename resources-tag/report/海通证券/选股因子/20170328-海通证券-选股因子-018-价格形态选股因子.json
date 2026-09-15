@@ -1,0 +1,132 @@
+{
+  "schema_version": 2,
+  "id": "20170328-海通证券-选股因子-018-价格形态选股因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "开盘冲高_2周",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "highOp_{t}=\\frac{1}{K}\\sum_{i=t-K}^{t-1}\\log\\frac{high_{i}}{open_{i}},\\ K=2\\text{周}",
+          "stats": [-0.06, -0.07, null, null],
+          "evidence": "1） 开盘冲高：log(盘高/开盘价)。该指标越大，股票盘中冲高幅度越大。"
+        },
+        {
+          "name": "盘低回升_2周",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "closeLow_{t}=\\frac{1}{K}\\sum_{i=t-K}^{t-1}\\log\\frac{close_{i}}{low_{i}},\\ K=2\\text{周}",
+          "stats": [-0.07, -0.07, null, null],
+          "evidence": "2） 盘低回升：log(收盘价/盘低)。该指标越大，股票从盘低回升的幅度也就越大。"
+        },
+        {
+          "name": "均价偏离_2周",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "vwapClose_{t}=\\frac{1}{K}\\sum_{i=t-K}^{t-1}\\log\\frac{vwap_{i}}{close_{i}},\\ K=2\\text{周}",
+          "stats": [0.04, 0.05, null, null],
+          "evidence": "3） 均价偏离：log(均价/收盘价)。该指标体现了股票成交均价相对于收盘价的偏离。"
+        },
+        {
+          "name": "开盘冲高_1月",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "highOp_{t}=\\frac{1}{K}\\sum_{i=t-K}^{t-1}\\log\\frac{high_{i}}{open_{i}},\\ K=1\\text{月}",
+          "stats": [-0.05, -0.07, null, null],
+          "evidence": "在使用一个月的数据计算因子时，开盘冲高以及盘低回升的选股能力有所下降，并且两因子的 ICIR和 rank ICIR 也出现了下降。"
+        },
+        {
+          "name": "盘低回升_1月",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "closeLow_{t}=\\frac{1}{K}\\sum_{i=t-K}^{t-1}\\log\\frac{close_{i}}{low_{i}},\\ K=1\\text{月}",
+          "stats": [-0.06, -0.07, null, null],
+          "evidence": "在使用一个月的数据计算因子时，开盘冲高以及盘低回升的选股能力有所下降，并且两因子的 ICIR和 rank ICIR 也出现了下降。"
+        },
+        {
+          "name": "均价偏离_1月",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "vwapClose_{t}=\\frac{1}{K}\\sum_{i=t-K}^{t-1}\\log\\frac{vwap_{i}}{close_{i}},\\ K=1\\text{月}",
+          "stats": [0.04, 0.05, null, null],
+          "evidence": "均价偏离因子 IC以及 rank IC 并未出现明显变化，且 ICIR 以及 rank ICIR 有所上升。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "开盘冲高、盘低回升以及均价偏离三个因子皆具有一定的选股能力，计算时间窗口为半个月时选股能力更强，各因子空头效应较强，且分组收益呈现非线性特征。",
+      "evidence": "价格形态因子具有一定的选股能力。开盘冲高、盘低回升以及均价偏离三个因子皆具有一定的选股能力，并且这三个因子在计算时间窗口为半个月的情况下具有更强的选股能力。从单因子的角度来看，各个因子空头效应较强，且在分组收益上呈现出了非线性的特征。"
+    },
+    {
+      "text": "正交后，半个月窗口的盘低回升以及均价偏离因子依旧具有选股能力；一个月窗口的均价偏离因子依旧保留较为明显的选股效果，而开盘冲高与盘低回升选股效果基本消失。",
+      "evidence": "从正交因子的 IC以及 ICIR来看，半个月窗口计算的开盘冲高因子，其选股效果受到了明显影响，而盘低回升以及均价偏离因子依旧具有一定的选股能力。对于一个月窗口计算的价格形态因子，开盘冲高因子以及盘低回升因子选股效果基本消失，而均价偏离因子依旧保留较为明显的选股效果。"
+    },
+    {
+      "text": "回归法下，半个月计算的开盘冲高、盘低回升、均价偏离以及一个月计算的均价偏离均能为模型提供额外选股能力，其回归系数时间序列 T 统计量绝对值皆在 3以上；除一个月的均价偏离外，二阶项皆具有显著的额外选股能力。",
+      "evidence": "观察上表结果可知，半个月计算周期下的开盘冲高、盘低回升、均价偏离以及一个月计算周期下的均价偏离均能够为模型提供额外的选股能力，其回归系数时间序列 T 统计量绝对值皆在 3 以上。"
+    },
+    {
+      "text": "TOP100 组合中加入价格形态因子后，年化收益、收益回撤比以及信息比率皆有提升，价格形态因子对模型年化收益的提升基本在 2%~3%左右。",
+      "evidence": "整体上来看，价格形态因子在引入到多因子模型后对于模型年化收益的提升基本在 2%~3%左右。"
+    },
+    {
+      "text": "在“逐步正交+最大化单期 IC”的权重分配框架下，价格形态因子普遍能够得到 10%以上的权重分配，侧面说明了其选股能力。",
+      "evidence": "从模型权重分配来看，价格形态因子在“逐步正交+最大化单期 IC”的权重分配框架下普遍能够得到 10%以上的权重分配。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《从最大化复合因子单期 IC角度看因子权重》",
+    "《选股因子系列研究（十七）——选股因子的正交》2017.01.16"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

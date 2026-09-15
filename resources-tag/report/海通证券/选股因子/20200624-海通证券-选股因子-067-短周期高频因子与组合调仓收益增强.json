@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20200624-海通证券-选股因子-067-短周期高频因子与组合调仓收益增强",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{尾盘时段成交量占全天成交量的占比，具体计算方法参见系列前期专题报告，本文未给出闭式}",
+          "stats": [null, null, null, 0.351],
+          "evidence": "不妨使用 2014 年以来的高频数据分别构建尾盘成交占比、改进反转、下行波动占比、开盘后日内买入意愿强度因子，并正交剔除常规低频因子的影响。"
+        },
+        {
+          "name": "改进反转",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{基于高频数据构建的改进反转因子，具体计算方法参见系列前期专题报告，本文未给出闭式}",
+          "stats": [null, null, null, 0.537],
+          "evidence": "本章以前期系列报告提出的尾盘成交占比、改进反转、下行波动占比、开盘后买入意愿强度为例，展示了中证500指数增强组合上使用单个高频因子进行调仓优化的效果。"
+        },
+        {
+          "name": "下行波动占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{下行波动占总体波动之比，具体计算方法参见系列前期专题报告，本文未给出闭式}",
+          "stats": [null, null, null, 0.32],
+          "evidence": "考虑到高频因子与常规因子之间的相关性，本章所使用的高频因子都已进行了正交化处理，剔除了行业、市值、换手、反转以及波动率等低频因子的影响。"
+        },
+        {
+          "name": "开盘后买入意愿强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{开盘后日内买入意愿强度，具体计算方法参见系列前期专题报告，本文未给出闭式}",
+          "stats": [null, null, null, 0.365],
+          "evidence": "此外，开盘后买入意愿强度在部分参数设定下同样产生了一定的收益增强，而下行波动占比的效果偏弱。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在各因子计算回看窗口下，随着调仓频率的提升，因子的多空年化收益持续升高，高频因子具有较为显著的短周期选股能力",
+      "evidence": "观察上表不难发现，在各因子计算回看窗口下，随着调仓频率的提升，因子的多空年化收益也在持续升高。由此可见，高频因子具有较为显著的短周期选股能力。"
+    },
+    {
+      "text": "对于中证 500 指数增强组合，调仓优化策略可产生 1%~2%的年化收益增强",
+      "evidence": "对于中证 500 指数增强组合，调仓优化策略可产生 1%~2%的年化收益增强。对于沪深 指数增强组合，调仓优化策略可产生 左右的年化收益增强。"
+    },
+    {
+      "text": "相比于单因子调仓优化策略，复合高频因子调仓优化策略的收益提升能力更加稳健，具有更强的收益提升能力",
+      "evidence": "相比于单因子调仓优化策略，复合高频因子调仓优化策略的收益提升能力更加稳健，具有更强的收益提升能力。"
+    },
+    {
+      "text": "在因子计算窗口为 2 日、5 日以及 10 日的设定下，IC 加权复合高频因子比等权复合高频因子展现出更大的收益提升幅度",
+      "evidence": "在因子计算窗口为 2 日、5 日以及 10 日的设定下，IC 加权复合高频因子比等权复合高频因子展现出了更大的收益提升幅度。"
+    },
+    {
+      "text": "基础组合换手率越低，延后调仓组合选股空间越小，调仓优化策略收益空间越小",
+      "evidence": "基础组合换手率会明显影响调仓优化策略的收益增强能力。基础组合换手率越低，延后调仓组合选股空间越小，调仓优化策略收益空间越小。"
+    },
+    {
+      "text": "调仓优化策略在次日均价调仓的设定下依旧具有收益增强能力，不过部分参数下的表现会受到一定的影响",
+      "evidence": "复合高频因子调仓优化策略在次日均价调仓的设定下依旧具有收益增强能力，不过部分参数下的表现会受到一定的影响。"
+    },
+    {
+      "text": "过低的延后调仓比例虽使延后调出与延后调入组合间收益差更大，但会限制调仓优化策略对于组合整体收益的影响",
+      "evidence": "虽然在延后调仓比例较低时，延后调出与延后调入组合间的收益差更大，但是过低的延后调仓比例同样会限制调仓优化策略对于组合整体收益的影响。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（五十七）——基于主动买入行为的选股因子》2020.01.10",
+    "《选股因子系列研究（五十八）——知情交易与主买主卖》2020.02.12",
+    "《选股因子系列研究（五十六）——买卖单数据中的 Alpha》2019.11.05"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

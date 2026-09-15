@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20131011-海通证券-选股因子-003-从spearman相关系数出发研究因子有效性",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_zoo"],
+      "approach": ["selection", "decay_monitor"],
+      "setup": {"universe": ["csi300"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "马尔科夫链 Kalman Filter 模型能够更好的跟踪因子有效性，基于该模型构建的股票组合历史表现优于 p 值选取法。",
+      "evidence": "分析表明，马尔科夫链 Kalman Filter模型确实能够更好的跟踪因子有效性，同时基于该模型所构建的股票组合的历史表现要优于 p值选取法。"
+    },
+    {
+      "text": "从表 1 中可以看出，KF 法收益率、信息比均好于其它两种方法，同时它们的跟踪误差和最大回撤基本相同。",
+      "evidence": "从表 1 中可以看出，KF 法收益率、信息比均好于其它两种方法，同时它们的跟踪误差和最大回撤基本相同。"
+    },
+    {
+      "text": "KF 法组合在 2010 年以后表现好于 p 值法，主要原因是前者更早发现了成长因子的有效性。",
+      "evidence": "可以看出，KF法的组合表现在 2010年以后要好于 p值法的组合表现，其主要原因在于，前者更早的发现了成长因子的有效性。"
+    },
+    {
+      "text": "观测到的 Spearman 相关系数中，噪音相关性所占份额远大于真实相关性，应更关心真实相关性这一隐参量。",
+      "evidence": "观测到的Spearman相关系数中，“噪音”相关性所占份额要远远大于“真实”相关性。"
+    },
+    {
+      "text": "p 值法本质是 24 个月移动平均模型，其预测结果远远滞后于当前市场风格，且在阈值附近震荡时因子选取不稳定。",
+      "evidence": "24个月移动平均的预测结果会远远滞后于当前市场风格，这是一个非常重要的风险。"
+    },
+    {
+      "text": "马尔科夫链 Kalman Filter 模型对因子截面 Spearman 相关系数的跟踪效果整体上好于 24 月移动平均和 24 月指数移动平均模型。",
+      "evidence": "从图中可以看出，马尔科夫链 Kalman Filter模型的跟踪效果整体上要好于另外两种模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《基于动量因子和财务指标的组合优化方法研究》（2009-9-28）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

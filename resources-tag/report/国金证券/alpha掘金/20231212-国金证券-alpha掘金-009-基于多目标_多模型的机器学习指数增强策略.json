@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20231212-国金证券-alpha掘金-009-基于多目标_多模型的机器学习指数增强策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "GBDT+NN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{GBDT类模型与神经网络类模型分别以超额收益率与信息比率为标签训练后，模型因子值等权合成}",
+          "stats": [0.1462, null, null, 0.802],
+          "evidence": "两类模型的相关性约为 0.4-0.5 之间，因此我们将两大类模型等权合成，构造最终的选股因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "label_horizon", "interpretability", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在沪深 300 上，GBDT+NN 模型因子 IC 均值达到 10.40%，多头年化超额收益率 14.44%，超额最大回撤仅为 5.54%；中证 500 上 IC 均值 10.34%，多头年化超额收益率 16.55%；中证 1000 上 IC 均值 14.62%，多头年化超额收益率 27.71%。",
+      "evidence": "在沪深 300 上，GBDT+NN 模型因子 IC 均值达到 10.40%，多头年化超额收益率 14.44%，多头夏普比率 0.73，超额最大回撤仅为 5.54%。在中证 500 上，IC 均值 10.34%，多头年化超额收益率 16.55%，多头夏普比率 0.72，超额最大回撤12.84%。中证 100 成分股上表现更加亮眼，IC 均值 14.62%，多头年化超额收益率 27.71%，多头夏普比率 0.97，超额最大回撤 4.74%。"
+    },
+    {
+      "text": "使用均值方差优化并限制跟踪误差后，GBDT+NN 沪深 300 指数增强策略年化超额收益率 15.85%，超额最大回撤 3.12%；中证 500 年化超额 20.74%、回撤 6.36%；中证 1000 年化超额 32.82%、回撤 3.97%。",
+      "evidence": "在假设单边千二的手续费率下，所得到 GBDT+NN 沪深 300 指数增强策略年化超额收益率 15.85%，超额最大回撤 3.12%。中证 500 指数增强策略年化超额 20.74%，超额最大回撤 6.36%。中证 1000 指数增强策略年化超额32.82%，超额最大回撤 3.97%。"
+    },
+    {
+      "text": "预测标签设计显著影响模型表现：以 Calmar 作为预测标签的模型信号每一项指标均表现最差，信息比率标签模型在多头年化超额收益率、多头信息比率和多头超额最大回撤上明显占优。",
+      "evidence": "发现以 Calmar 作为预测标签的模型所给出预测信号在每一项指标中均表现最差，以超额收益率和信息比率作为标签在 IC 均值上几乎不分伯仲，但信息比率标签模型在多头年化超额收益率、多头信息比率和多头超额收最大回撤上明显占优。"
+    },
+    {
+      "text": "特征输入的影响因模型而异：GBDT 类模型使用 Alpha158 与 GJQuant 结合表现较好，四个模型 IC 均值均在 10%以上；神经网络类模型中 GJQuant 的加入反而降低预测效果，单用 Alpha158 表现最佳，Ta-Lib 因子表现较差。",
+      "evidence": "可以看到，对于 GBDT 类模型而言，Alpha158 纯量价因子和 GJQuant 基本面及量价因子在经过模型训练后均能有出色表现，两者结合可以进一步增强预测效果，四个模型IC 均值均在 10%以上。不过在神经网络类模型中，GJQuant 的加入反而会降低模型的预测效果，单用 Alpha158 表现最佳。而 Ta-Lib 因子表现较差，将其他特征附加 Ta-Lib 因子后反而会降低 IC 均值。"
+    },
+    {
+      "text": "GBDT 和 NN 两类模型结构差异大、相关系数低，在各类成分股上基本在 0.4-0.5 之间，等权合成后策略的收益和稳定性都非常优异。",
+      "evidence": "GBDT 和 NN 两类模型由于结构存在较大差异，模型的相关系数较低。在各类成分股上相关系数基本在 0.4-0.5 之间。"
+    },
+    {
+      "text": "仅对模型的预测标签进行简单变形并将训练好的模型等权合成，即便模型间相关系数较高，合成后仍可在一定程度上增强投资组合的收益和稳定性。",
+      "evidence": "可以说明，仅对模型的预测标签进行简单变形并将训练好的模型进行合成，即便模型间相关系数水平较高，但合成后仍然可以在一定程度上增强投资组合的收益和稳定性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling",
+    "Qlib",
+    "Ta-Lib"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

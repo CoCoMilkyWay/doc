@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "id": "20220330-广发证券-高频数据因子-007-再谈信息不对称理论下的因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "VPIN因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "VPIN=\\frac{\\alpha\\mu}{\\alpha\\mu+2\\varepsilon}=\\frac{\\sum_{\\tau=1}^{n}\\left|V_{\\tau}^{S}-V_{\\tau}^{B}\\right|}{nV}=\\frac{\\sum_{\\tau=1}^{n}\\left|OI_{\\tau}\\right|}{nV}",
+          "stats": [-0.0467, null, null, 0.3368],
+          "evidence": "根据信息不对称理论及VPIN模型的定义，本篇专题报告构建VPIN因子，用来衡量市场中个股反映信息不对称程度的刻画。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "全市场选股中VPIN因子IC均值为-0.0467，负IC占比74.18%；多头对冲中证800指数的回测中，策略整体年化收益率18.67%，信息比率1.28。",
+      "evidence": "在全市场选股中，VPIN因子表现出显著的选股区分度，因子IC均值为-0.0467，负IC占比74.18%。在多头对冲中证800指数的回测中，策略整体的年化收益率为18.67%，信息比率为1.28。"
+    },
+    {
+      "text": "VPIN因子与传统BARRA因子相关性较低，与流动性类因子相关性较高，相关系数为0.18，可作为新的高频技术性因子加入多因子模型。",
+      "evidence": "VPIN因子与传统BARRA相关的因子之间的相关性较低，与流动性类因子相关性较高，相关系数为 0.18。"
+    },
+    {
+      "text": "VPIN因子具有高换手率特征，对手续费敏感：扣除千三手续费后仅全市场、中证800及中证500选股策略能获得超额收益，扣除千五后仅全市场有效。",
+      "evidence": "扣除千三的手续费后，全市场、中证800以及中证500选股策略能够获得超额收益。且全市场选股策略表现最佳。扣除千五的手续费后，仅全市场选股的VPIN因子有效。"
+    },
+    {
+      "text": "分板块看，中证500选股中VPIN因子IC均值为-0.0394，多头对冲中证500指数年化收益率11.54%，信息比率1.72。",
+      "evidence": "在中证500选股中，VPIN因子表现出显著的选股区分度，因子IC均值为-0.0394，负IC占比66.53%。在多头对冲中证500指数的回测中，策略整体的年化收益率为11.54%，信息比率为1.72。"
+    },
+    {
+      "text": "VPIN模型通过等交易量区间的交易量不平衡性度量信息优势交易程度，相比PIN模型无需复杂极大似然估计，更贴合实际。",
+      "evidence": "与PIN模型相比，它不需要进行复杂的极大似然估计获得信息优势交易占比概率的隐含参数，而是通过计算等交易量区间的交易量不平衡性来获得信息优势交易程度的测度。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《信息不对称理论下的因子研究-高频数据因子研究系列六》",
+    "李平等（2020），《知情交易概率于风险定价——基于不同PIN测度方法的比较研究》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

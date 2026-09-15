@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "20230202-广发证券-多因子-046-弹性因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "弹性因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Resiliency}_{i,t}=\\frac{1}{[D_{i,t}/2]}\\sum_{k=1}^{[D_{i,t}/2]}\\frac{2|\\bar{Z}_{k,i,t}|}{T_{k,i,t}}=\\sum_{k=1}^{[D_{i,t}/2]}2|\\bar{Z}_{k,i,t}|\\cdot f_{k,i,t}",
+          "stats": [null, -0.0544, null, null],
+          "evidence": "为了构建弹性因子，在每月月末调仓时，针对每个个股，使用自2005年1月起至该调仓日所有可用的过去股价数据进行HP分解，得到基本价格和暂时价格，然后以36个月的滚动窗口通过离散傅立叶变换进行逐月计算得出每个个股的弹性水平。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "弹性因子在各板块的分档效果均较为显著，其中在创业板表现突出，2013年1月至2022年12月多头年化收益率达22.12%，同期创业板指数年化收益率为12.64%，超额年化收益率达9.48%，信息比为0.66。",
+      "evidence": "其中弹性因子在创业板板块表现较为突出，在 2013 年 1月至 2022 年 12 月回测期间内多头年化收益率达 22.12%，同期创业板指数年化收益率为 12.64%，超额年化收益率达9.48%，信息比为0.66。"
+    },
+    {
+      "text": "弹性因子在全市场范围内选股的多头年化收益率为11.35%，多头相对沪深300指数的超额年化收益率达8.99%。",
+      "evidence": "弹性因子在全市场范围内选股的多头年化收益率为11.35%，多头相对沪深300指数的超额年化收益率达8.99%。"
+    },
+    {
+      "text": "弹性因子选股换手率较低，除在创业板的多头平均换手率为21.03%外，其他板块的多头平均换手率均低于20%。",
+      "evidence": "此外，弹性因子选股换手率较低。除在创业板的多头平均换手率为 21.03%外，弹性因子在其他板块的多头平均换手率均低于 20%。"
+    },
+    {
+      "text": "本报告定义的弹性测量直接衡量暂时价格的恢复速度，通过频域的频谱分析得到暂时价格的距离和恢复时间，用距离除以恢复时间来计算速度，更符合弹性的字面定义。",
+      "evidence": "区别于上述相关研究，本报告定义的弹性测量直接衡量了暂时价格的恢复速度。通过频域的频谱分析得到暂时价格的距离和恢复时间，然后用距离除以恢复时间来计算速度。因此，本文对弹性的测量更符合弹性的字面定义。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Amihud, Y., 2002, Illiquidity and stock returns: cross-section and times-series effects, Journal of Financial Markets 5, 31-56.",
+    "Bernstein, P.L., 1987, Liquidity, stock markets, and market makers. Financial Management, 16(2), 54-62.",
+    "Harris, L, 2003, Trading & exchanges: Market microstructure for practitioner. Oxford University Press.",
+    "Kim J, Kim Y. Transitory prices, resiliency, and the cross-section of stock returns. International Review of Financial Analysis, 2019, 63: 243-256."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

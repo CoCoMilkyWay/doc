@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20200505-广发证券-高频数据因子-003-基于个股羊群效应的选股因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "羊群效应指标",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "H(i,T)=\\left|\\frac{B(i,T)}{B(i,T)+S(i,T)}-P_{T}\\right|-AF(t,T)",
+          "stats": [0.047, null, null, null],
+          "evidence": "本篇专题结合个股在微观市场结构中的特征，采用LSV 模型刻画个股的羊群效应程度，其中利用个股日内高频交易明细区分主动买卖单，从而能够计算出特定股票买卖双方的相对强弱。"
+        },
+        {
+          "name": "买入羊群行为HB(i,T)",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "HB(i,T)=-H(i,T)\\;\\text{if}\\;\\frac{B(i,T)}{B(i,T)+S(i,T)}>P_{T}",
+          "stats": [null, null, null, null],
+          "evidence": "根据个股买单比例的相对平均水平的值为正或者负，将羊群行为划分成买入羊群行为HB(i,T)和卖出羊群行为HS(i,T),其表达式如下所示"
+        },
+        {
+          "name": "卖出羊群行为HS(i,T)",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "HS(i,T)=H(i,T)\\;\\text{if}\\;\\frac{B(i,T)}{B(i,T)+S(i,T)}<P_{T}",
+          "stats": [null, null, null, null],
+          "evidence": "通常认为，短期羊群效应会伴随着价格的反转，即当出现买入（卖出）羊群行为时，未来股价可能会下跌（上涨）。同时，买入（卖出）效应越强烈，未来价格下跌（上涨）的幅度越大，即未来价格变动和羊群行为的剧烈程度相关。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["heuristic_ranking", "futures_hedge"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "因子指标在全市场、中证800指数成分股、中证500指数对个股收益率区分度较为明显，且分档收益单调性也较为明显。",
+      "evidence": "实证结果表明，因子指标在全市场、中证 800 指数成分股、中证500 指数对个股收益率区分度较为明显，且分档收益单调性也较为明显。"
+    },
+    {
+      "text": "周频调仓下因子在全市场选股，2007年至今IC均值为0.047，正IC占比为69.90%；多头组合对冲中证500指数之后年化收益率为24.61%，年化波动率为9.30%，信息比率为2.59。",
+      "evidence": "在周频调仓下，因子指标在全市场范围内选股，从 2007 年至今IC 均值为 0.047， 正IC 占比为 69.90%。全市场多头组合在回测期内表现优异，对冲中证 500指数之后年化收益率为 24.61%，年化波动率为 9.30%，信息比率为 2.59。"
+    },
+    {
+      "text": "因子经过去极值、中性化和标准化处理之后策略结果得到改善，全市场多头组合对冲中证500指数之后年化收益率为24.98%，年化波动率为8.62%，信息比率为2.84。",
+      "evidence": "利用LSV模型计算得到的因子经过去极值、中性化和标准化处理之后，策略结果得到改善。在周频调仓下，全市场多头组合对冲中证 500 指数之后的年化收益率为 24.98%，年化波动率为8.62%，信息比率为2.84。在沪深300 指数成分股内选股表现改善也较为明显。"
+    },
+    {
+      "text": "经过处理后因子的IC均值比原始因子的IC均值高，且正IC值占比较高。",
+      "evidence": "从表18结果可以看出，经过处理后因子的IC均值比原始因子的IC均值高，且正IC值占比较高。"
+    },
+    {
+      "text": "在全市场和中证500中，对处理后的因子选股做行业中性不会明显影响其收益率，并且能够降低波动率和最大回撤，降低策略风险，从而提高策略的信息比率。",
+      "evidence": "从表37中可以看出，在全市场和中证500中，对处理后的因子选股做行业中性不会明显的影响其收益率，并且能够降低波动率和最大回撤，降低策略风险，从而提高策略的信息比率。"
+    },
+    {
+      "text": "在沪深300股票池中，分组收益没有明显区分，说明该股票池中因子区分度不高。",
+      "evidence": "从图18中的结果可以看出，在沪深300股票池中，将股票按照因子值分成10组分别构建投资组合，各组收益没有较为明显的区分，部分组合存在收益大致相近的情况，说明在该股票池中，因子区分度不高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于日内高频数据的短周期选股因子研究-高频数据因子研究系列一》（2019-05-06）",
+    "《基于日内高频数据的短周期选股因子研究-高频数据因子研究系列二》（2019-08-15）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

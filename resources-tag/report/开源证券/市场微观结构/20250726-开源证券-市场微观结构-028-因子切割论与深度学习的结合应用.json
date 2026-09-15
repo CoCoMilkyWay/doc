@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "id": "20250726-开源证券-市场微观结构-028-因子切割论与深度学习的结合应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "理想反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "M=M_{high}-M_{low},\\; M_{high}=\\sum_{t\\in\\text{单笔成交金额最高的10个交易日}}r_t,\\; M_{low}=\\sum_{t\\in\\text{单笔成交金额最低的10个交易日}}r_t",
+          "stats": [null, -0.0606, -2.98, 0.2426],
+          "evidence": "在“理想反转因子”的构造中，我们选定了股票每日的“平均单笔成交金额”作为切割指标。我们根据切割指标的大小，把股票的逐日涨跌幅分为两组，若两组之间表现出显著差异，则说明我们的切割达到了目的。"
+        },
+        {
+          "name": "理想振幅因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "V=V_{high}-V_{low},\\; V_{high}=\\text{收盘价较高的25%交易日的振幅均值},\\; V_{low}=\\text{收盘价较低的25%交易日的振幅均值}",
+          "stats": [null, -0.07, -3.47, 0.2102],
+          "evidence": "（4） 将高价振幅因子 $V_{high}$ 与低价振幅因子 $V_{low}$ 作差，得到理想振幅因子V =$V_{high}-V_{low}\\circ$"
+        },
+        {
+          "name": "主动买卖因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{小单流入强度}=\\frac{主动买入金额\\big(小单\\big)-主动卖出金额\\big(小单\\big)}{主动买入金额\\big(小单\\big)+主动卖出金额\\big(小单\\big)},\\;\\text{取收盘价较低的25%交易日的小单流入强度均值}",
+          "stats": [null, -0.0339, -1.27, 0.102],
+          "evidence": "选择收盘价较低的 25%有效交易日，计算小单流入强度均值，得到主动买卖因子（小单）。"
+        },
+        {
+          "name": "理想振幅-DBD",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以切割指标时序中位数为阈值构造掩码，掩码处理后的切割指标与切割对象分别输入}GRU_{high}\\text{与}GRU_{low}\\text{，取两分支最后时间步差异}",
+          "stats": [null, -0.1033, -3.68, 0.3431],
+          "evidence": "我们以特征A在时序上的中位数为阈值，构造两个掩码 mask_Ahigh和 mask_Alow，将使用掩码处理后的数据分别输入两个分支网络 GRU_high和 GRU_low中。取两个网络最后一个时间步的差异输入输出层。"
+        },
+        {
+          "name": "理想反转-DBD",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以切割指标时序中位数为阈值构造掩码，掩码处理后的切割指标与切割对象分别输入}GRU_{high}\\text{与}GRU_{low}\\text{，取两分支最后时间步差异}",
+          "stats": [null, -0.1031, -3.57, 0.3762],
+          "evidence": "我们以特征A在时序上的中位数为阈值，构造两个掩码 mask_Ahigh和 mask_Alow，将使用掩码处理后的数据分别输入两个分支网络 GRU_high和 GRU_low中。取两个网络最后一个时间步的差异输入输出层。"
+        },
+        {
+          "name": "主动买卖-DBD",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以切割指标时序中位数为阈值构造掩码，掩码处理后的切割指标与切割对象分别输入}GRU_{high}\\text{与}GRU_{low}\\text{，取两分支最后时间步差异}",
+          "stats": [null, -0.0981, -3.63, 0.3333],
+          "evidence": "我们以特征A在时序上的中位数为阈值，构造两个掩码 mask_Ahigh和 mask_Alow，将使用掩码处理后的数据分别输入两个分支网络 GRU_high和 GRU_low中。取两个网络最后一个时间步的差异输入输出层。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "与原始切割论因子和基线模型的GRU因子相比，DBD-GRU模型因子表现优异，测试区间（201412~202505）内，理想振幅-DBD、理想反转-DBD、主动买卖-DBD因子的RankIC分别为-10.33%、-10.31%、-9.81%。",
+      "evidence": "与原始切割论因子和基线模型的 GRU 因子相比，DBD-GRU 模型因子表现优异，测试区间（201412~202505）内，理想振幅-DBD、理想反转-DBD、主动买卖-DBD 因子的 RankIC 分别为-10.33%、-10.31%、-9.81%。"
+    },
+    {
+      "text": "DBD-GRU模型在剔除对应的切割论因子与GRU因子后仍有较好的表现，并非只是简单叠加而是提供了较多信息增量；作为对比，GRU模型因子在剔除DBD-GRU因子后表现不佳。",
+      "evidence": "DBD-GRU 模型在剔除对应的切割论因子与 GRU 因子后仍有较好的表现，这表明 DBD-GRU 模型并非只是以上两者的简单叠加，而是提供了较多的信息增量，作为对比，GRU模型因子在剔除 DBD-GRU因子后表现不佳。"
+    },
+    {
+      "text": "三个DBD-GRU因子对称正交后等权合成的DBD-Combine因子在沪深300、中证500、中证1000中的RankIC分别为-5.76%、-7.40%、-9.84%；指增组合在中证1000中超额年化收益11.8%，超额IR为2.21。",
+      "evidence": "我们将 DBD-GRU 模型的三个因子对称正交处理后等权合成，得到 DBD-Combine 因子，DBD-Combine 因子在主流宽基指数中均有较好表现，在沪深300、中证 500、 中证 1000 成 分股中的 RankIC 分别为-5.76%、-7.40%、-9.84%。应用于指增组合时，在中证 1000 中的超额年化收益为 11.8%，超额 IR为2.21，表现优秀。"
+    },
+    {
+      "text": "相减或相除的操作在隐蔽之处起到了标准化的重要作用：被减去的部分通常并未带来显著的收益增量，却提供了公允标准化的水准线，从而最终提升了因子的稳定性。",
+      "evidence": "被减去的部分，通常并未带来显著的收益增量，却提供了公允标准化的水准线，从而最终提升了因子的稳定性。"
+    },
+    {
+      "text": "理想反转因子自2018年底发布至今已有近7年时间，因子在样本外表现十分稳健，经受住了市场的考验。",
+      "evidence": "其中，理想反转因子自 2018 年底发布至今已有近 7 年时间，因子在样本外表现十分稳健，经受住了市场的考验。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《APM因子模型的进阶版》，2020-03-07",
+    "《A股反转之力的微观来源》（魏建榕、傅开波），2019-12-23",
+    "《主动买卖因子的正确用法》（魏建榕、傅开波、苏俊豪），2020-09-05",
+    "《因子切割论》（魏建榕、苏俊豪），2020-09-16",
+    "《振幅因子的隐藏结构》（魏建榕、高鹏、苏俊豪），2020-05-16",
+    "《遗传算法赋能交易行为因子》（魏建榕、盛少成），2023-08-06"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

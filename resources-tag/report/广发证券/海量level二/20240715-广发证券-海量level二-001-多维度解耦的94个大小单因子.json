@@ -1,0 +1,315 @@
+{
+  "schema_version": 2,
+  "id": "20240715-广发证券-海量level二-001-多维度解耦的94个大小单因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BigBuy_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单中成交量大于均值+1.0倍标准差的订单界定为大买单，大买单占比为大买单成交量占全部买单成交量的比例}",
+          "stats": [null, 0.079, null, 0.2414],
+          "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
+        },
+        {
+          "name": "BigBuy_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单中成交量大于均值+1.5倍标准差的订单界定为大买单，大买单占比为大买单成交量占全部买单成交量的比例}",
+          "stats": [null, 0.076, null, 0.2342],
+          "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
+        },
+        {
+          "name": "BigBuy_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单中成交量大于均值+2.0倍标准差的订单界定为大买单，大买单占比为大买单成交量占全部买单成交量的比例}",
+          "stats": [null, 0.071, null, 0.2191],
+          "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
+        },
+        {
+          "name": "BigSell_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖单中成交量大于均值+1.0倍标准差的订单界定为大卖单，大卖单占比为大卖单成交量占全部卖单成交量的比例}",
+          "stats": [null, 0.07, null, null],
+          "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
+        },
+        {
+          "name": "BigSell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖单中成交量大于均值+1.5倍标准差的订单界定为大卖单，大卖单占比为大卖单成交量占全部卖单成交量的比例}",
+          "stats": [null, 0.067, null, null],
+          "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
+        },
+        {
+          "name": "BigSell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖单中成交量大于均值+2.0倍标准差的订单界定为大卖单，大卖单占比为大卖单成交量占全部卖单成交量的比例}",
+          "stats": [null, 0.063, null, null],
+          "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
+        },
+        {
+          "name": "BigBuySell_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大买单占比因子BigBuy_1p0与大卖单占比因子BigSell_1p0相加}",
+          "stats": [null, 0.084, null, 0.2333],
+          "evidence": "此外，还可以同时从买卖双向考虑大小单问题，将大买单占比因子和大卖单占比因子相加得到大买大卖单占比因子BigBuySell_1p0、BigBuySell_1p5、BigBuySell_2p0。"
+        },
+        {
+          "name": "BigBuySell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大买单占比因子BigBuy_1p5与大卖单占比因子BigSell_1p5相加}",
+          "stats": [null, 0.08, null, 0.229],
+          "evidence": "此外，还可以同时从买卖双向考虑大小单问题，将大买单占比因子和大卖单占比因子相加得到大买大卖单占比因子BigBuySell_1p0、BigBuySell_1p5、BigBuySell_2p0。"
+        },
+        {
+          "name": "BigBuySell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大买单占比因子BigBuy_2p0与大卖单占比因子BigSell_2p0相加}",
+          "stats": [null, 0.076, null, 0.225],
+          "evidence": "此外，还可以同时从买卖双向考虑大小单问题，将大买单占比因子和大卖单占比因子相加得到大买大卖单占比因子BigBuySell_1p0、BigBuySell_1p5、BigBuySell_2p0。"
+        },
+        {
+          "name": "BigBuy_1p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内以均值+1.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.032, null, 0.1419],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_1p0_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内以均值+1.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.045, null, 0.1811],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_1p0_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内以均值+1.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.034, null, 0.0972],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_1p0_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内以均值+1.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.027, null, 0.0757],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_1p0_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内以均值+1.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.033, null, 0.1052],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_1p0_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内以均值+1.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.026, null, 0.0861],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买卖双向同为大单（成交量均大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.098, null, 0.3512],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买卖双向同为大单（成交量均大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.094, null, 0.3517],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买卖双向同为大单（成交量均大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.089, null, 0.3198],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p0",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买卖双向同为小单（成交量均不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.064, null, -0.1825],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买卖双向同为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.032, null, 0.1314],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p0_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买卖双向同为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.049, null, 0.1717],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p0_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.042, null, 0.1196],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p0_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买卖双向同为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.031, null, 0.0958],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p5_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.034, null, 0.0922],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_2p0_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.028, null, 0.0665],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "rebalance": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "精选大小单因子组合在全市场板块的200档多头显著，2020~2023年取得36.61%的多头年化收益率，最大回撤率17.52%，夏普比率2.03，相对中证全指超额年化33.07%。",
+      "evidence": "大小单因子组合在全市场板块的200档多头较为显著，在2020~2023年间取得了36.61%的多头年化收益率，最大回撤率为17.52%，夏普比率为2.03，相对同期的中证全指取得了33.07%的超额年化收益率。"
+    },
+    {
+      "text": "订单维度解耦显著提升多空收益：5日换仓下BigBuy_BigSell_1p0多空年化收益率47.09%，远高于未解耦BigBuy_1p0的32.23%。",
+      "evidence": "例如在5日换仓条件下，未解偶的大买单占比因子BigBuy_1p0的多空年化收益率为32.23%，而经订单维度解耦后的大买单大卖单占比因子BigBuy_BigSell_1p0取得了47.09%的多空年化收益率。"
+    },
+    {
+      "text": "20日换仓下BigBuy_BigSell_1p0的RankIC均值9.8%、胜率82%，多空年化收益率35.12%、最大回撤率8.35%、夏普比率2.17。",
+      "evidence": "在20日换仓条件下，大买单大卖单占比因子BigBuy_BigSell_1p0的RankIC均值为9.8%、胜率达82%，多头年化收益率达28.57%、最大回撤率为11.53%、夏普比率为1.80，多空年化收益率达35.12%、最大回撤率为8.35%、夏普比率为2.17；"
+    },
+    {
+      "text": "时间维度解耦使RankIC大幅降低，但对多头年化收益率影响不大，因为大买单占比因子与多头深度绑定。",
+      "evidence": "尽管经时间维度解耦后的大小单占比因子的RankIC有较大幅度的降低，但对多头年化收益率的影响并不大。"
+    },
+    {
+      "text": "与未解耦平滑因子相比，解耦后因子能在取得同等绝对收益的情况下降低最大回撤率，收益表现更平稳。",
+      "evidence": "而未经解耦的大买单占比平滑因子的20日换仓多头年化收益率为28.92%、最大回撤率为9.16%，相比之下解耦后的大小单因子能够在取得同等绝对收益的情况下，降低最大回撤率，取得更平稳的收益表现。"
+    },
+    {
+      "text": "50档组合下，因子组合在沪深300、中证500、中证800、中证1000和创业板分别取得12.24%、22.55%、18.54%、24.61%、36.20%的多头年化收益率及13.40%、18.67%、18.95%、17.39%、25.07%的超额年化收益率。",
+      "evidence": "在50档分档组合构建下，大小单因子组合在沪深300、中证500、中证800、中证1000和创业板板块的多头较为显著，分别取得了12.24%、22.55%、18.54%、24.61%、36.20%的多头年化收益率，夏普比率分别为0.75、1.12、1.14、1.36、1.59，相比同期的板块指数分别取得了13.40%、18.67%、18.95%、17.39%、25.07%的超额年化收益率。"
+    },
+    {
+      "text": "提高大买单界定阈值后订单维度解耦的多空表现更突出，BigBuy_BigSell_2p0多空年化收益率58.17%，最大回撤率仅5.55%，夏普比率4.34。",
+      "evidence": "这一现象在提升大买单界定阈值后更为突出，例如表11中BigBuy_BigSell_2p0取得了58.17%的多空年化收益率，且其最大回撤率仅为5.55%，夏普比率达4.34。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

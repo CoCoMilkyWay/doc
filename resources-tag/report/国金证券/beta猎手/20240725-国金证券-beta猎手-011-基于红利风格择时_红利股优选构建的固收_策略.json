@@ -1,0 +1,254 @@
+{
+  "schema_version": 2,
+  "id": "20240725-国金证券-beta猎手-011-基于红利风格择时_红利股优选构建的固收_策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_mining"],
+      "approach": ["style_ratio", "statement_detail", "expectation_revision", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "dividend"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "净利润同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润同比增长率}",
+          "stats": [0.0366, null, 0.22, 0.095],
+          "evidence": "净利润同比 | 3.66% | 0.22 | 2.35 | 3.52% | 30.99% | 22.79% | 9.50% | 0.53 | 22.69%"
+        },
+        {
+          "name": "过去5年毛利率标准差/均值",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去5年毛利率标准差与均值之比}",
+          "stats": [-0.0477, null, -0.3, 0.1008],
+          "evidence": "过去5年毛利率标准差/均值 | -4.77% | -0.30-3.13 |  | 4.06% | 28.43% | 22.55% | 10.08% | 0.47 | 28.63%"
+        },
+        {
+          "name": "经营性现金流 TTM/总资产",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营性现金流TTM}}{\\text{总资产}}",
+          "stats": [0.04, null, 0.23, 0.0915],
+          "evidence": "经营性现金流 TTM/总资产 | 4.00% | 0.23 | 2.42 | 6.17% |  | 51.93% 20.60% | 9.15% | 0.56 | 17.63%"
+        },
+        {
+          "name": "经营性现金流/流动负债",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营性现金流}}{\\text{流动负债}}",
+          "stats": [0.0544, null, 0.35, 0.0725],
+          "evidence": "经营性现金流/流动负债 | 5.44% | 0.35 | 3.75 | 4.27% |  | 43.56% 29.21% | 7.25% | 0.47 | 34.68%"
+        },
+        {
+          "name": "ROA_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润TTM}}{\\text{总资产}}",
+          "stats": [0.0349, null, 0.17, 0.1632],
+          "evidence": "ROA_TTM | 3.49% | 0.17 | 1.79 | 4.12% |  | 30.83% 21.28% | 16.32% | 0.83 | 31.91%"
+        },
+        {
+          "name": "ROE 同比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE同比增长率}",
+          "stats": [0.0302, null, 0.17, 0.1069],
+          "evidence": "ROE 同比 | 3.02% | 0.17 | 1.84 | 3.23% | 28.72% | 26.66% | 10.69% | 0.59 | 26.96%"
+        },
+        {
+          "name": "EBIT/EV",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{EBIT}{EV}",
+          "stats": [0.04, null, 0.21, 0.1314],
+          "evidence": "EBIT/EV | 4.00% | 0.21 | 2.19 | 4.46% | 32.30% | 20.00% | 13.14% | 0.57 | 38.00%"
+        },
+        {
+          "name": "未来12个月一致预期EPS过去3个月变化率",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{未来12个月一致预期EPS过去3个月变化率}",
+          "stats": [0.0465, null, 0.29, 0.2611],
+          "evidence": "未来12个月一致预期 EPS过去3个月变化 率 | 4.65% | 0.29 | 3.10 | 13.07% | 81.06% | 19.98% | 26.11% | 1.13 | 28.62%"
+        },
+        {
+          "name": "当期年报一致预期EPS过去3个月变化率",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期年报一致预期EPS过去3个月变化率}",
+          "stats": [0.0492, null, 0.3, 0.175],
+          "evidence": "当期年报一致预期EPS过去3个月变化率 | 4.92% | 0.30 | 3.13 | 5.50% |  | 37.07% 22.13% | 17.50% |  | 0.83 22.29%"
+        },
+        {
+          "name": "未来12个月一致预期ROE过去3个月变化率",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{未来12个月一致预期ROE过去3个月变化率}",
+          "stats": [0.0344, null, 0.21, 0.177],
+          "evidence": "未来12个月一致预期ROE过去3个月变化 率 | 3.44% | 0.21 | 2.26 | 8.65% |  | 58.95% 28.65% | 17.70% |  | 0.89 25.68%"
+        },
+        {
+          "name": "有效因子等权合成",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{十个传统有效因子的等权线性合成}",
+          "stats": [0.0632, null, 0.35, 0.252],
+          "evidence": "进一步地，我们对上述已识别的十个有效因子做了等权线性合成，合成后的因子IC均值6.32%，年化超额15.42%，多头超额最大回撤25.46%，行业市值中性化化后的合成因子IC均值5.77%，年化超额13.75%，多头超额最大回撤17.92%。"
+        },
+        {
+          "name": "GBDT",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{GBDT树模型对下期收益的预测值（Alpha158+GJQuant特征）}",
+          "stats": [0.1439, null, 1.27, 0.6094],
+          "evidence": "GBDT | 14.39% | 1.27 | 13.37 | 18.04%"
+        },
+        {
+          "name": "GBDT_AdjCI",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{GBDT模型（IC类损失训练）对下期收益的预测值}",
+          "stats": [0.1322, null, 1.55, 0.5962],
+          "evidence": "GBDT_AdjCI | 13.22% | 1.55 | 16.33 | 18.66% | 3.60 | 2.89% | 59.62% | 5.08 | 3.62%"
+        },
+        {
+          "name": "NN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{神经网络对下期收益的预测值（Alpha158特征）}",
+          "stats": [0.1226, null, 1.28, 0.498],
+          "evidence": "NN | 12.26% | 1.28 | 13.51 | 15.04% | 2.20 | 8.54% | 49.80% | 3.43 | 11.39%"
+        },
+        {
+          "name": "NN_AdjCI",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{NN模型（IC类损失训练）对下期收益的预测值}",
+          "stats": [0.1152, null, 1.5, 0.4809],
+          "evidence": "NN_AdjCI | 11.52% | 1.50 | 15.80 | 15.90% | 2.76 | 4.21% | 48.09% | 4.06 | 7.73%"
+        },
+        {
+          "name": "GBDT+NN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{GBDT与NN两类模型预测信号的等权合成}",
+          "stats": [0.1485, null, 1.37, 0.6288],
+          "evidence": "GBDT+NN | 14.85% | 1.37 | 14.42 | 18.33% | 2.99 | 4.52% | 62.88% | 4.38 | 7.37%"
+        },
+        {
+          "name": "GBDT+NN_AdjCI",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{GBDT与NN（IC类损失）预测信号的等权合成}",
+          "stats": [0.138, null, 1.67, 0.6018],
+          "evidence": "GBDT+NN_AdjCI | 13.80% | 1.67 | 17.62 | 19.02% | 3.78 | 2.02% | 60.18% | 5.09 | 6.42%"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "dividend"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["dividend"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["macro_valuation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "宏观事件因子红利择时策略2009年1月至2024年6月年化收益率17.49%，高于中证红利全收益指数的11.58%，相对Wind全A有约5.9%的年化超额收益；年化波动率由指数的23.18%降到17.50%，最大回撤从36.80%降到21.22%，夏普比率升到0.98。",
+      "evidence": "从2009年1月至2024年6月，年化收益率为 17.49%，中证红利全收益指数为11.58%，相对 Wind全A有约5.9%的年化超额收益。该择时策略在波动率端也有比较好的表现，年化波动率由指数原来 23.18%的波动率下降到了 17.50%；最大回撤明显下降，从指数的36.80%下降到了 21.22%，夏普比率上升到了 0.98。"
+    },
+    {
+      "text": "通过样本内（2005年1月-2017年12月）事件因子的开仓波动调整收益率，挑选出表现较好的10个宏观事件因子（包括消费者信心指数、发电量、国债利差等），并确定各因子的数据格式、处理方法和滚动窗口期。",
+      "evidence": "最后我们通过计算样本内时间段（2005 年 1 月-2017 年 12 月）宏观数据构建的事件因子的开仓波动调整收益率，挑选出了样本内表现较好的 10 个因子，我们将其列在了图表当中，并且说明了每个数据的数据格式、数据处理方法和对应的滚动窗口期。"
+    },
+    {
+      "text": "传统有效因子收益稳定性水平普遍偏差，多头年化超额收益率在3%到13%不等，多头超额最大回撤在20%左右。",
+      "evidence": "不过这些因子的收益稳定性水平普遍偏差，多头年化超额收益率在 3%到 13%不等，多头超额最大回撤在 20%左右。"
+    },
+    {
+      "text": "十个传统有效因子等权线性合成后IC均值6.32%，年化超额15.42%，多头超额最大回撤25.46%；行业市值中性化化后的合成因子IC均值5.77%，年化超额13.75%，多头超额最大回撤17.92%。",
+      "evidence": "进一步地，我们对上述已识别的十个有效因子做了等权线性合成，合成后的因子IC均值6.32%，年化超额15.42%，多头超额最大回撤25.46%，行业市值中性化化后的合成因子IC均值5.77%，年化超额13.75%，多头超额最大回撤17.92%。"
+    },
+    {
+      "text": "中性化后的GBDT+NN因子在全A的IC均值为13.80%，多头年化超额19.02%，多头超额最大回撤2.02%。",
+      "evidence": "经过中性化的因子 IC 均值为 13.80%，多头年化超额 19.02%,多头超额最大回撤 2.02%。"
+    },
+    {
+      "text": "AI选股因子在中证红利指数成分股中月度调仓测试，预测效果相较于全A略有下降，IC均值约为10.81%，多头年化超额12.14%，多头超额最大回撤10.55%。",
+      "evidence": "在中证红利指数成分股中月度调仓测试（未扣费），发现因子预测效果相较于全 A 略有下降，IC 均值约为 10.81%，多头年化超额 12.14%。多头超额最大回撤 10.55%。"
+    },
+    {
+      "text": "等权买入因子值最高的前十只股票、双边千四手续费的红利股优选策略获得相对优异的超额收益，年化超额8.36%，跟踪误差11.91%。",
+      "evidence": "为考察贴近交易实际的情况，我们设置等权买入因子值最高的前十只股票，手续费率设置为双边千四后，得到的红利股优选策略获得了相对优异的超额收益，年化超额 8.36%，跟踪误差 11.91%。"
+    },
+    {
+      "text": "择时+选股叠加策略兼具选股策略高收益和择时策略低回撤的特点，夏普比率达到1.30，优于单纯选股的0.87和择时的0.95，收益稳定性相较于中证红利全收益指数大幅提高。",
+      "evidence": "单纯选股策略和择时策略的夏普比率分别为 0.87 和 0.95，而两者叠加后的择时+选股策略兼具选股策略高收益和择时策略低回撤的特点，夏普比率达到 1.30，收益稳定性相较于中证红利全收益指数得到了大幅提高。"
+    },
+    {
+      "text": "权益仓位上限20%的固收+策略年化收益率7.21%，夏普比率2.10，最大回撤4.93%，整体具有较好的收益回撤表现。",
+      "evidence": "可以看出，固收+策略年化收益率 7.21%，夏普比率 2.10，最大回撤 4.93%，整体具有较好的收益回撤表现。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Qlib（Alpha158特征集）",
+    "《Alpha 掘金系列之九：基于多目标、多模型的机器学习指数增强策略》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

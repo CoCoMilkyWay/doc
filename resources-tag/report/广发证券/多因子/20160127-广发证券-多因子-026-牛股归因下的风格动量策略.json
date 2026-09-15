@@ -1,0 +1,123 @@
+{
+  "schema_version": 2,
+  "id": "20160127-广发证券-多因子-026-牛股归因下的风格动量策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{行业内个股过去5天流通市值均值}",
+          "stats": [null, null, null, null],
+          "evidence": "例如：流通市值风格在2012年至2013年第一季度间发生了较大的回撤，而ROA风格则是在2014年至2015年间发生了大幅回撤。"
+        },
+        {
+          "name": "PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{个股过去5天市净率均值}",
+          "stats": [null, null, null, null],
+          "evidence": "估值因子代表的是投资者对企业的表现和未来发展前景的估计，但估值因子过大多是由于发生了投机性泡沫，高估了企业价值所导致的。所以，利用估值因子时应把其方向设置为负。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{个股过去5天净资产收益率均值}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利因子作为判断企业发展状况的重要评价指标，其值越大表示企业的运营情况越好，盈利情况较差的公司股票上涨可能性较小，所以设置盈利因子的方向为正。"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{个股过去5天总资产收益率均值}",
+          "stats": [null, null, null, null],
+          "evidence": "ROA单风格策略在2011年至2013年间净值几乎不变，其收益主要来自于2014年至2015年，使用该因子会造成该时间段策略的低迷甚至是大幅回撤；"
+        },
+        {
+          "name": "每股收益",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{个股过去5天每股收益均值}",
+          "stats": [null, null, null, null],
+          "evidence": "每股收益单风格策略在样本期间发生了三次较大的回撤，与ROE和ROA相比不稳定性更强。"
+        },
+        {
+          "name": "长期资本负债率",
+          "family": "quality",
+          "direction": "nonmonotonic",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{个股过去5天长期资本负债率均值}",
+          "stats": [null, null, null, null],
+          "evidence": "A的后20%(长期资本负债率较大的个股，下图绿色部分)却与B的前20%(收益率较大的个股)有43%的重复个股(下图红色部分)，也就是说，长期资本负债率较大的个股的收益率远远大于长期资本负债率较小的个股的收益率。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "daily"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_momentum"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "多风格因子(不同行业相同因子)策略选用流通市值、PB、长期资本负债率和ROE四个因子，平均年化收益率达到17.58%，最大回撤仅11.01%，胜率54.62%。",
+      "evidence": "多风格因子(不同行业相同因子)策略利用了上述四个因子，回测结果来看，平均年化收益率达到了 17.58%，而最大回撤却仅有11.01%，胜率也达到了 54.62%，持仓率为99.59%。"
+    },
+    {
+      "text": "多风格因子(分行业选因子)策略利用每个行业内表现最好的四个因子，平均年化收益率达到28.56%，最大回撤仅11.41%，胜率56.18%，效果优于不同行业相同因子策略。",
+      "evidence": "多风格因子(分行业选因子)策略则利用每个行业内表现最好的四个因子，平均年化收益率达到了 28.56%，最大回撤却仅有 11.41%，胜率达到了56.18%，持仓率同样为99.59%。"
+    },
+    {
+      "text": "使用牛股归因的方法监测风格轮动：若行业中的最牛个股均在某个风格下表现出一致的特点，则推测该风格的形成。",
+      "evidence": "使用牛股归因的方法来监测风格的轮动：在一个时间段内，如果行业中的那些最牛个股均在某个风格下表现出一致的特点，那我们有理由推测该风格的形成。"
+    },
+    {
+      "text": "根据趋同特征，风格成为投资热点后个股动量将反转，涨幅已高的个股再次上涨可能性较小，具有该风格且尚未上涨的个股具备较大的上涨空间。",
+      "evidence": "在该风格成为行业当前的投资热点后，根据趋同特征，个股动量的反转将会发生，涨幅已处于较高水平的个股再次上涨的可能性较小，而那些具有该风格且尚未上涨的个股就会成为投资的热门，因此这类股票具备较大的上涨空间。"
+    },
+    {
+      "text": "不同行业对单风格因子策略的适应性差异较大，例如房地产行业适应性较强，通信行业适应性较差。",
+      "evidence": "说明部分行业(例如房地产)对单风格因子策略的适应性较强，而部分行业(例如通信行业)则对单因子策略的适应性较差。"
+    },
+    {
+      "text": "分行业选因子策略除2012、2014和2016年外，各年度超额收益率均达到15%以上，2015年达到97.37%。",
+      "evidence": "除2012、2014和2016年，各年度的超额收益率均达到了15%以上，2015年更是达到了97.37%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于风格回复的多因子动态调仓策略——多因子 ALPHA系列报告之(二十)》",
+    "《捕捉羊群效应下的行业轮动机会——行为金融投资策略专题之（一）》",
+    "《笑看北雁南飞南燕北归——多因子ALPHA系列报告之(十九)》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "id": "20240624-国金证券-beta猎手-010-个股k线图形态ai识别构建市场风格预测",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "AI 识别 K 线",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以过去20日OHLC图+移动平均线(MA5/MA20/MA60)+成交量柱状图作为CNN输入，取softmax输出的股票未来20日上涨概率作为因子值}",
+          "stats": [null, 0.0552, null, 0.1894],
+          "evidence": "我们定义“AI 识别 K 线”因子为使用包含过去 20 日价量数据的改进后的 OHLC 图表来预测未来20 个交易日收益情况的因子，并以 20 个交易日为周期进行调仓。"
+        },
+        {
+          "name": "CNN强信息因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{CNN强信息因子 = 分布差异 \\times 权重系数 = (Num10 - Num1) \\times (Num10+Num1)/\\sum Numi，其中Num10、Num1分别为风格指数成分股中AI识别K线因子第10组、第1组的股票数量}",
+          "stats": [null, null, null, null],
+          "evidence": "我们将第 10 分组与第 1 分组的股票数量占总成分股数量的比例，作为权重系数。这一权重系数反映了在风格指数中，极端表现股票的相对重要性，有助于我们更准确地捕捉市场的风格轮动趋势。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "AI识别K线因子在全市场的RankIC均值为5.52%，效果较为显著，多空组合年化收益率高达18.94%，夏普比率为1.79。",
+      "evidence": "从IC测试表现来看，AI 识别 K 线因子在全市场的 RankIC 均值为 5.52%，效果较为显著。"
+    },
+    {
+      "text": "AI识别K线因子在沪深300、中证500、中证1000股票池中的RankIC均值分别为3.89%、3.96%、4.85%，在中证1000股票池中的表现远远好于沪深300和中证500股票池。",
+      "evidence": "从IC测试表现来看，AI识别K线因子在沪深300、中证 500、中证 1000 股票池中的 RankIC 均值分别为 3.89%、3.96%、4.85%。"
+    },
+    {
+      "text": "AI识别K线因子与其他大类因子相关性都不高，是个比较好补充的信息维度。",
+      "evidence": "我们能发现通过图像识别的 AI 识别 K 线因子，无论是与机器学习量价、传统量价还有基本面因子的相关性都不高，是个比较好补充的信息维度。"
+    },
+    {
+      "text": "基于成分股CNN图像识别的风格轮动策略超额净值实现12.38%的年化收益率和0.89的夏普比率，最大回撤率控制在-6%左右，胜率为64.94%。",
+      "evidence": "回测结果显示，策略超额净值实现了 12.38%的年化收益率和 0.89 的夏普比率，同时最大回撤率控制在-6%左右，胜率为 64.94%，超额净值曲线也一直保持向上的趋势，表现可喜。"
+    },
+    {
+      "text": "根据模型最新一期信号，建议6月配置小盘成长指数，预期会相对基准组合取得超额收益。",
+      "evidence": "根据模型最新一期信号，建议 6 月配置小盘成长指数，预期会相对基准组合取得超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Krizhevsky, Alex, I. Sutskever, and G. Hinton. \"ImageNet Classification with Deep Convolutional Neural Networks.\"",
+    "Lecun, Y, and L. Bottou. \"Gradient-based learning applied to document recognition.\"",
+    "《(Re-)Imag(in)ing Price Trends》",
+    "《Alpha 掘金系列之九：基于多目标、多模型的机器学习指数增强策略》",
+    "《Alpha 掘金系列之十：机器学习全流程重构——细节对比与测试》",
+    "《BETA 猎手系列之九：人工智能全球大类资产配置模型》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

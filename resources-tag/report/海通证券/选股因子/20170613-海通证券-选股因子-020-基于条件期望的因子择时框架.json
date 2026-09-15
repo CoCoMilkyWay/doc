@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "20170613-海通证券-选股因子-020-基于条件期望的因子择时框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "macro"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "总体上看，大部分波动率类指标、部分涨跌幅指标、个别指数估值、换手率指标具有一定择时效果。",
+      "evidence": "总体上看，大部分波动率类指标、部分涨跌幅指标、个别指数估值、换手率指标具有一定择时效果。"
+    },
+    {
+      "text": "择时模型在大部分时间段内会跑输原始模型，但在风格明显切换的市场环境下（如2014年12月以及2017年以来）相对于原始模型会有大幅的超额收益。",
+      "evidence": "根据组合净值走势可知，择时模型在大部分时间段内会跑输原始模型，但是在风格明显切换的市场环境下（如，2014 年 12 月以及 2017 年以来）相对于原始模型会有大幅的超额收益。"
+    },
+    {
+      "text": "2017年以来因子择时TOP100组合获得了约1%的收益，而原始模型同期收益为-19.6%。",
+      "evidence": "因子择时TOP100 组合获得了约 1%的收益，而原始模型同期收益为-19.6%。"
+    },
+    {
+      "text": "AIC筛选下的多条件变量因子择时模型TOP100组合区间收益略低于原始模型，但分年度收益分布更加均衡，在风格剧烈切换的市场环境中也能获得不错的收益表现。",
+      "evidence": "总体上来看，因子择时模型 TOP100 组合在区间收益上略低于原始模型 TOP100 组合。但是从分年度收益上看，因子择时模型组合收益分布更加均衡并且组合在风格剧烈切换的市场环境中也能够获得不错的收益表现。"
+    },
+    {
+      "text": "风格切换时段因子择时模型大幅降低市值因子、特异度因子的权重，提升换手率因子、估值因子以及ROE因子的权重，权重调整效果较好。",
+      "evidence": "例如，在 2014 年 12 月以及 2017 年以来，择时模型在大部分月份中大幅降低了市值因子、特异度因子的权重，转而提升了换手率因子、估值因子以及 ROE因子的权重。从当月的因子模型复合因子 IC以及 TOP100 组合收益上来看，择时模型的权重调整效果较好。"
+    },
+    {
+      "text": "单条件变量相对于原始模型的提升幅度较为有限，仅体现为IC以及IC胜率的提升、多空收益的扩大、TOP100组合年化收益的提升。",
+      "evidence": "具体体现在 IC以及 IC 胜率的提升、多空收益的扩大、TOP100 组合年化收益的提升。不过值得注意的是，单条件变量相对于原始模型的提升幅度较为有限。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《从最大化复合因子单期 IC角度看因子权重》2017.02.14",
+    "《选股因子系列研究(十七)——选股因子的正交》2017.01.19"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

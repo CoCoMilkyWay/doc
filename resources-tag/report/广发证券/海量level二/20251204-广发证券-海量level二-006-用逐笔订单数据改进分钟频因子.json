@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20251204-广发证券-海量level二-006-用逐笔订单数据改进分钟频因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "KeyPeriod_ret_zero",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔订单数据识别日内横盘时段（KeyPeriod），统计该重点时段内的涨跌幅特征}",
+          "stats": [null, -0.0536, null, null],
+          "evidence": "33 个涨跌类因子：横盘时段因子 KeyPeriod_ret_zero 的 20 日换仓历史 RankIC 均值为-5.36%、胜率为 85.1%；下跌时段因子 KeyPeriod_ret_low5pct 的 20 日换仓历史 RankIC 均值为 5.47%、胜率为 84.1%。"
+        },
+        {
+          "name": "KeyPeriod_ret_low5pct",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔订单数据识别日内下跌时段（涨跌幅处于最低5%分位的KeyPeriod），统计该重点时段内的涨跌幅特征}",
+          "stats": [null, 0.0547, null, null],
+          "evidence": "33 个涨跌类因子：横盘时段因子 KeyPeriod_ret_zero 的 20 日换仓历史 RankIC 均值为-5.36%、胜率为 85.1%；下跌时段因子 KeyPeriod_ret_low5pct 的 20 日换仓历史 RankIC 均值为 5.47%、胜率为 84.1%。"
+        },
+        {
+          "name": "KeyPeriod_price_low5pct",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔订单数据识别日内低价时段（股价处于最低5%分位的KeyPeriod），统计该重点时段内的价格特征}",
+          "stats": [null, 0.0559, null, null],
+          "evidence": "30 个价格类因子：低价时段因子 KeyPeriod_price_low5pct 的 20 日换仓历史 RankIC 均值为 5.59%、胜率为 85.3%。"
+        },
+        {
+          "name": "KeyPeriod_amount_top30pct",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔订单数据识别日内大成交金额时段（成交金额处于最高30%分位的KeyPeriod），统计该重点时段内的成交金额特征}",
+          "stats": [null, 0.1123, null, null],
+          "evidence": "30 个成交金额类因子：大成交金额时段因子 KeyPeriod_amount_top30pct 的 20 日换仓历史 RankIC 均值为 11.23%、胜率为 84.8%；小成交金额时段因子 KeyPeriod_amount_low50pct 的 20 日换仓历史RankIC 均值为-10.50%、胜率为 75.0%。"
+        },
+        {
+          "name": "KeyPeriod_amount_low50pct",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔订单数据识别日内小成交金额时段（成交金额处于最低50%分位的KeyPeriod），统计该重点时段内的成交金额特征}",
+          "stats": [null, -0.105, null, null],
+          "evidence": "30 个成交金额类因子：大成交金额时段因子 KeyPeriod_amount_top30pct 的 20 日换仓历史 RankIC 均值为 11.23%、胜率为 84.8%；小成交金额时段因子 KeyPeriod_amount_low50pct 的 20 日换仓历史RankIC 均值为-10.50%、胜率为 75.0%。"
+        },
+        {
+          "name": "KeyPeriod_sync_low50pct",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔订单数据识别日内量价背离时段（量价协同性处于最低50%分位的KeyPeriod），统计该重点时段内的量价协同特征}",
+          "stats": [null, 0.06, null, null],
+          "evidence": "30 个量价协同类因子：量价背离时段因子 KeyPeriod_sync_low50pct的 20 日换仓历史 RankIC 均值为 6.00%、胜率为 81.5%。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "本文采用逐笔订单数据对分钟频因子进行改进，构建了一批日内重点时段（KeyPeriod）的Level 2因子，包括涨跌、价格、成交金额、量价协同共4大类、123个因子，并予以不同阈值的指标划分标准以及主买/主卖区分。",
+      "evidence": "本文尝试采用逐笔订单数据对分钟频因子进行改进，构建了一批日内重点时段（KeyPeriod）的Level 2因子。"
+    },
+    {
+      "text": "横盘时段因子KeyPeriod_ret_zero的20日换仓历史RankIC均值为-5.36%、胜率为85.1%；下跌时段因子KeyPeriod_ret_low5pct的RankIC均值为5.47%、胜率为84.1%。",
+      "evidence": "33 个涨跌类因子：横盘时段因子 KeyPeriod_ret_zero 的 20 日换仓历史 RankIC 均值为-5.36%、胜率为 85.1%；下跌时段因子 KeyPeriod_ret_low5pct 的 20 日换仓历史 RankIC 均值为 5.47%、胜率为 84.1%。"
+    },
+    {
+      "text": "大成交金额时段因子KeyPeriod_amount_top30pct的20日换仓历史RankIC均值为11.23%、胜率为84.8%；小成交金额时段因子KeyPeriod_amount_low50pct的RankIC均值为-10.50%、胜率为75.0%。",
+      "evidence": "30 个成交金额类因子：大成交金额时段因子 KeyPeriod_amount_top30pct 的 20 日换仓历史 RankIC 均值为 11.23%、胜率为 84.8%；小成交金额时段因子 KeyPeriod_amount_low50pct 的 20 日换仓历史RankIC 均值为-10.50%、胜率为 75.0%。"
+    },
+    {
+      "text": "关于股价涨跌幅、股价高低、量价协同性的KeyPeriod_ret_zero、KeyPeriod_ret_low5pct、KeyPeriod_price_low5pct、KeyPeriod_sync_low50pct这4个因子具有高度的独立性，与其他因子的相关系数基本保持在10%以内；而2个与成交金额大小相关的因子相关系数整体保持在50%以内。",
+      "evidence": "整体而言，其中关于股价涨跌幅、股价高低、量价协同性的KeyPeriod_ret_zero、KeyPeriod_ret_low5pct、KeyPeriod_price_low5pct、KeyPeriod_sync_low50pct这4个因子具有高度的独立性，与其他因子的相关系数基本保持在10%以内。而KeyPeriod_amount_top30pct、KeyPeriod_amount_low50pct这2个与成交金额大小相关的因子则相对而言与其他因子的相关性较高，但相关系数也整体保持在50%以内。"
+    },
+    {
+      "text": "从123个重点时段因子中挑选出的6个表现较优因子，在全市场月度换仓的RankIC累计走势单调，具有较好的个股分档能力，并在各大板块内进行了指数增强表现测试。",
+      "evidence": "这些因子在2020年1月1日~2025年11月28日间在全市场以月度换仓的RankIC指标、10分档平均收益，以及在各大板块内的指数增强表现如下图所示。整体而言，这些因子的RankIC累计走势单调，具有较好的个股分档能力。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于深度学习的高频数据因子挖掘：多因子Alpha系列报告之(五十一)》",
+    "《多维度解耦的94个大小单因子：海量Level 2数据因子挖掘系列（一）》（2024-07-15）",
+    "《大小单与长短单的241个碰撞火花：海量Level 2数据因子挖掘系列（三）》（2024-08-21）",
+    "《牛市中的市价订单与相关因子：海量Level 2数据因子挖掘系列（五）》（2024-10-17）",
+    "《订单维度解耦的22个长短单因子：海量Level 2数据因子挖掘系列（二）》（2024-08-01）",
+    "《集合竞价因子：海量Level 2数据因子挖掘系列（四）》（2024-09-12）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "20180726-渤海证券-多因子模型研究-004-随机森林与传统多因子模型的选股风格对比",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_level",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "在各个样本池中，随机森林模型的表现相比于传统多因子模型均有一定程度的提升，月度胜率提升十分显著，说明随机森林模型具有更强灵活性，能更快把握市场风格转变。",
+      "evidence": "在各个样本池中，随机森林模型的表现相比于传统多因子模型均有一定程度的提升，尤其是在相比业绩基准的月度胜率上的提升十分显著。"
+    },
+    {
+      "text": "沪深300样本池中，随机森林模型相对传统多因子模型年化收益提升1.75%，相对沪深300月度胜率提升5%。",
+      "evidence": "通过统计针对沪深 300 的回测结果，可以看出，使用了随机森林多因子模型后，模型的收益和胜率相对传统多因子模型均有所提升，年化收益提升 1.75%，相对沪深 300月度胜率提升5%。"
+    },
+    {
+      "text": "中证500样本池中，随机森林模型相对传统多因子模型波动率降低1%，相对中证500月度胜率提高6%。",
+      "evidence": "在针对中证 500 的回测结果中，可以看出，使用了随机森林多因子模型后，模型的波动率和胜率相对传统多因子模型均有所好转，波动率降低 1%，相对中证500月度胜率提高 6%。"
+    },
+    {
+      "text": "全体A股样本池中，随机森林模型相对传统多因子模型年化收益率提高3%，相对沪深300月度胜率提高4%。",
+      "evidence": "在针对全体 A股的回测结果中，可以看出，使用了随机森林多因子模型后，模型的收益率和胜率相对传统多因子模型均有较大提高，年化收益率提高 3%，相对沪深 300月度胜率提高4%。"
+    },
+    {
+      "text": "业绩归因显示传统多因子模型在大部分因子暴露上的波动率均明显大于随机森林模型，说明不加限制时传统多因子模型选股风格可能更加极端化。",
+      "evidence": "在业绩归因模型中，传统多因子模型在大部分因子暴露上的波动率均明显大于随机森林模型。这说明在不加限制的情况下，传统多因子模型的选股风格可能会更加极端化。"
+    },
+    {
+      "text": "股票池中小市值股票越多（全A>中证500>沪深300），模型选股结果的因子波动性越大，市值因子暴露逐步上升，建议对市值因子做风险敞口控制。",
+      "evidence": "股票池中的小市值股票越多（全A>中证500>沪深 300），模型选股结果的因子波动性越大，同时在市值因子的暴露也逐步上升。对市值因子的依赖是多因子模型一直面临的问题，在实际应用中，我们推荐对于市值因子做一定的风险敞口控制，以防止因子失效带来的大幅回撤风险。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《使用随机森林算法的行业轮动模型——行业轮动专题一》20180708",
+    "《多因子模型研究之一：单因子测试》20171011",
+    "《多因子模型研究之三：风险模型与组合优化》20180416",
+    "《多因子模型研究之二：收益预测模型》20171229"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

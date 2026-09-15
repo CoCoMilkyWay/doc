@@ -1,0 +1,142 @@
+{
+  "schema_version": 2,
+  "id": "20200307-开源证券-市场微观结构-005-apm因子模型的进阶版",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "原始APM因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\delta_{t}=\\varepsilon_{t}^{am}-\\varepsilon_{t}^{pm},\\ stat=\\frac{\\mu(\\delta_{t})}{\\sigma(\\delta_{t})/\\sqrt{N}},\\ \\text{再对动量因子Ret20横截面回归取残差}",
+          "stats": [null, null, 2.07, 0.1099],
+          "evidence": "可以看到，该因子在样本内（2013年5月-2016年10月）表现优异，多空对冲年化收益达到了15.90%，期间最大回撤为2.52%，信息比率为2.84，月度胜率为78.6%；样本外（2016年11月-2019年12月）的表现略逊于样本内，多空对冲年化收益为6.41%，最大回撤为5.72%。"
+        },
+        {
+          "name": "改进APM因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以隔夜收益}r^{overnight}\\text{替代APMraw计算中的上午收益}r^{am}\\text{，其余步骤不变}",
+          "stats": [null, null, 3.17, 0.1281],
+          "evidence": "在第一步中，用隔夜收益r overnight替代上午收益rtam，（指数收益也相应用隔夜的指数收益替代），其余步骤不变，回归所得到的因子记为APMnew。"
+        },
+        {
+          "name": "APM_1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{APM因子方法论应用于隔夜与14:00-15:00两个时段}",
+          "stats": [null, null, null, null],
+          "evidence": "可以看到：使用了隔夜数据的两个因子（APMnew、APM_1）在2019年表现都较好，而其他只使用日内交易数据的因子则表现逊色。"
+        },
+        {
+          "name": "APM_3",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{APM因子方法论应用于10:30-14:00时段}",
+          "stats": [null, null, null, null],
+          "evidence": "另外，只使用每个交易日中间两小时（10:30-14:00）得到的因子（APM_3）表现较差，我们猜想这是由于市场整体在这段时间成交相对寡淡，难以从中提炼出有效的差异信息。"
+        },
+        {
+          "name": "股票上午的收益累加值",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=1}^{20} r_{i}^{am}",
+          "stats": [null, null, null, null],
+          "evidence": "因子与未来20日股票涨跌幅，在全样本区间内为正相关，而在2019年却是负相关；"
+        },
+        {
+          "name": "股票下午的收益累加值",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=1}^{20} r_{i}^{pm}",
+          "stats": [null, null, null, null],
+          "evidence": "因子与未来20日股票的涨跌幅，在全样本区间内和2019年差异不大，均为负相关。"
+        },
+        {
+          "name": "OVP因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OVP=RO-RP",
+          "stats": [null, null, 4.17, 0.1804],
+          "evidence": "第三步：OVP=RO-RP；AVP=RA-RP分别为用隔夜与下午收益和用上午与下午收益计算的因子。"
+        },
+        {
+          "name": "AVP因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "AVP=RA-RP",
+          "stats": [null, null, 0.15, 0.03],
+          "evidence": "剔除市值与行业因子后，OVP因子与AVP因子的表现如图9和表3所示：OVP因子较AVP因子不管从哪个维度，表现更加优异"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "从隔夜到下午，股票分时收益对未来收益的预测性逐步由正转负，上午收益的预测性并不稳定，而隔夜收益的正向预测性较为稳定。",
+      "evidence": "从图4和图5可以得到：从隔夜到下午，股票分时收益对未来收益的预测性逐步由正转负，但股票上午收益对未来收益的预测性并不稳定（从2019年可以看出），而隔夜收益对未来收益的正向预测性则较为稳定。"
+    },
+    {
+      "text": "原始APM因子在2019年出现较大回撤，是因为上午和下午的收益性质在2019年发生了巨大的改变。",
+      "evidence": "回顾上一章节构建APM因子的步骤三，因子值是通过计算上午和下午残差的差值来计算得到，而上午和下午的收益性质在2019年发生了巨大的改变。因此，原始APM因子在2019年出现了较大的回撤。"
+    },
+    {
+      "text": "使用了隔夜数据的两个因子（APMnew、APM_1）在2019年表现都较好，进一步印证APMraw在2019年的回撤是因为股票在日内交易行为的差异性发生了变化。",
+      "evidence": "可以看到：使用了隔夜数据的两个因子（APMnew、APM_1）在2019年表现都较好，而其他只使用日内交易数据的因子则表现逊色。这也进一步印证了我们在第三部分的猜想：APMraw在2019年的回撤是因为股票在日内交易行为的差异性发生了变化。"
+    },
+    {
+      "text": "改进APM因子（APMnew）较原始APM因子（APMraw）的多空净值明显提升。",
+      "evidence": "图6：APMnew较APMraw的多空净值明显提升（全市场，五分组，多空净值，剔除行业和市值因素）"
+    },
+    {
+      "text": "APMnew因子在中证500成分股内的表现要优于全市场，而在沪深300成分股内的选股能力一般。",
+      "evidence": "图7为APMnew因子在各个样本范围内的表现，可以看到APMnew因子在沪深300成分股内的选股能力一般，而在中证500成分股内的表现要优于全市场。"
+    },
+    {
+      "text": "OVP因子较AVP因子不管从哪个维度，表现更加优异。",
+      "evidence": "剔除市值与行业因子后，OVP因子与AVP因子的表现如图9和表3所示：OVP因子较AVP因子不管从哪个维度，表现更加优异"
+    },
+    {
+      "text": "交易者在上午的交易行为很大程度上受隔夜信息的影响，集合竞价阶段成交量占当日成交量比重最高。",
+      "evidence": "由此可见，交易者在上午的交易行为很大程度上受隔夜信息的影响，而上午的交易又可以分为集合竞价与连续竞价这两个阶段。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（1）-A股反转之力的微观来源》-2019.12.23",
+    "《市场微观结构研究系列（2）-交易行为因子的2019年》-2019.12.28",
+    "《市场微观结构研究系列（3）-聪明钱因子模型的2.0版本》-2020.02.09",
+    "《市场微观结构研究系列（4）-A股行业动量的精细结构》-2020.03.02"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

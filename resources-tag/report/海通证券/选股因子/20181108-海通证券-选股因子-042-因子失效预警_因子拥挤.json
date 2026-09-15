@@ -1,0 +1,109 @@
+{
+  "schema_version": 2,
+  "id": "20181108-海通证券-选股因子-042-因子失效预警_因子拥挤",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "估值价差",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ValueationSpread=log(\\frac{因子多头估值}{因子空头估值})",
+          "stats": [null, null, null, null],
+          "evidence": "相关研究认为，资金对于因子的追捧会进一步推升因子多头端的估值或者压低因子空头端的估值水平，由此加大因子多空组合的估值价差。因此，可通过计算估值价差衡量因子的拥挤程度。"
+        },
+        {
+          "name": "配对相关性",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Parwisecorrelation=mean(\\sum_{i=1}^{N}corr(r_{多头},r_{多头,i}))-mean(\\sum_{i=1}^{N}corr(r_{空头},r_{空头,i}))",
+          "stats": [null, null, null, null],
+          "evidence": "配对相关性从股票同涨同跌的特征来度量因子的拥挤程度。相关研究认为，资金对于因子或者某一类股票的追捧会加剧这一类股票同涨同跌的特性，因此可以通过刻画因子多空组合同涨同跌特性的差别来衡量因子拥挤度。"
+        },
+        {
+          "name": "长期累计收益",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{因子多空组合的长期累计收益（经时间序列标准化处理），作为因子拥挤度指标}",
+          "stats": [null, null, null, null],
+          "evidence": "因子长期累计收益是投资者在选择因子时的重要考量因素，因此长期累计收益更高的因子更容易受到资金的追捧。"
+        },
+        {
+          "name": "多空波动率比率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "FactorVolatility=\\frac{vol(r_{多头})}{vol(r_{空头})}",
+          "stats": [null, null, null, null],
+          "evidence": "海外相关研究认为，资金对于因子的追捧会加剧因子波动，因此可使用因子波动率来衡量因子当前的拥挤程度。考虑到指标的具体指示意义，本报告在回测相关指标时使用了因子多空端波动率比率。"
+        },
+        {
+          "name": "复合拥挤度",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{估值价差、配对相关性、长期累计收益、多空波动率比率四类拥挤度指标的等权复合}",
+          "stats": [null, null, null, null],
+          "evidence": "本节将在此基础之上对于上述指标进行简单复合，并讨论分析复合拥挤度的择时效果。为了能够控制指标加权对于最终结果带来的影响，本报告暂时使用等权的方式对于拥挤度指标进行复合。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_zoo"],
+      "approach": ["decay_monitor", "crowding"],
+      "setup": {"universe": ["all"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "因子拥挤度在中长期上与因子未来收益负相关，未来观测窗口越长，市值、估值、盈利、盈利增长等因子的拥挤度与未来收益的负相关性越明显。",
+      "evidence": "整体来看，因子拥挤度与未来因子收益负相关。对于部分因子，如市值、估值、盈利、盈利增长，未来观测的窗口越长，拥挤度与未来因子收益之间的负相关性越明显。"
+    },
+    {
+      "text": "经过简单复合的因子拥挤度更加稳健，与大部分常用因子未来收益负相关，但仅与部分因子的未来收益波动正相关。",
+      "evidence": "经过简单复合的因子拥挤度更加稳健，与大部分常用因子未来收益负相关。但是仅与部分因子的未来收益波动正相关。"
+    },
+    {
+      "text": "以 1 以及 -1 作为因子拥挤与否的划分阈值，因子进入高拥挤状态后往往出现收益的减弱甚至回撤，进入低拥挤状态后往往具有较高的收益空间。",
+      "evidence": "若使用 1 以及作为因子拥挤与否的划分阈值，在因子进入高拥挤状态后，因子往往会出现收益的减弱甚至回撤，而在因子进入低拥挤状态后，因子往往具有较高的收益空间。"
+    },
+    {
+      "text": "拥挤度越高，因子未来发生大幅回撤的概率越大；但由于各因子历史上超过 1 的情况并不多，该统计在一定程度上缺乏显著性。",
+      "evidence": "观察上图不难发现，拥挤度越高，因子未来发生大幅回撤的概率越大。由于各因子历史上超过 1的情况并不多，上述统计在一定程度上缺乏显著性。"
+    },
+    {
+      "text": "海外研究中发现的因子拥挤度与因子未来收益波动之间的正相关性在 A 股市场并不普遍存在，可能和具体因子的失效特征以及市场特征有关。",
+      "evidence": "值得注意的是，海外研究中发现的因子拥挤度与因子未来收益波动之间的正相关性在 A股市场并不普遍存在。这可能和具体因子的失效特征以及市场特征有一定的关联。"
+    },
+    {
+      "text": "截至 2018 年 10 月 31 日，大市值以及高盈利因子的复合拥挤度在 2018 年以来都已出现超过 1 的情况，若按照 1 作为阈值，大市值已处于高拥挤状态。",
+      "evidence": "在最近 1年至 2 年间，大市值、高盈利、低估值以及低换手因子的复合拥挤度都出现了十分明显的上升，并且大市值以及高盈利因子的复合拥挤度在 2018年以来都已出现超过 1的情况。若按照 1 作为阈值，大市值已处于高拥挤状态。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

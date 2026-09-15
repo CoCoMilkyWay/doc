@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "id": "20220530-方正证券-多因子选股-003-个股波动率的变动及勇攀高峰因子构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "月均重建因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日计算分钟收益波动比与“更优波动率”的协方差，每月末求最近20天协方差的均值}",
+          "stats": [null, -0.0496, -2.53, 0.1341],
+          "evidence": "每月末求最近20天的协方差的均值和标准差，得到“月均重建”因子和“月稳重建”因子，并将二者等权合成为“灾后重建”因子。"
+        },
+        {
+          "name": "月稳重建因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日计算分钟收益波动比与“更优波动率”的协方差，每月末求最近20天协方差的标准差}",
+          "stats": [null, -0.0549, -2.21, 0.1775],
+          "evidence": "每月末求最近20天的协方差的均值和标准差，得到“月均重建”因子和“月稳重建”因子，并将二者等权合成为“灾后重建”因子。"
+        },
+        {
+          "name": "灾后重建因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{“月均重建”因子与“月稳重建”因子等权合成，其中协方差为日内收益波动比与“更优波动率”的协方差}",
+          "stats": [null, -0.0602, -2.56, 0.1834],
+          "evidence": "秉持“深入高频，以获得更多信息”的原则，我们用分钟数据，计算了收益波动比与波动率之间的协方差，进而构建了“灾后重建”因子。"
+        },
+        {
+          "name": "月均攀登因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日计算异常高波动时段收益波动比与“更优波动率”的协方差，每月末求最近20天协方差的均值}",
+          "stats": [null, 0.0394, 4.21, 0.1376],
+          "evidence": "每月末分别计算最近 20天的协方差的均值和标准差，得到“月均攀登”因子和“月稳攀登”因子，并最终将二者等权合成“勇攀高峰”因子。"
+        },
+        {
+          "name": "月稳攀登因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日计算异常高波动时段收益波动比与“更优波动率”的协方差，每月末求最近20天协方差的标准差}",
+          "stats": [null, -0.0606, -4.02, 0.1875],
+          "evidence": "每月末分别计算最近 20天的协方差的均值和标准差，得到“月均攀登”因子和“月稳攀登”因子，并最终将二者等权合成“勇攀高峰”因子。"
+        },
+        {
+          "name": "勇攀高峰因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{“月均攀登”因子与“月稳攀登”因子等权合成，其中协方差仅计算当日“更优波动率”大于等于 mean+std 的异常高波动时段}",
+          "stats": [null, 0.0562, 4.47, 0.1976],
+          "evidence": "“勇攀高峰”因子的构造方式与“灾后重建”因子几乎一致，不同之处仅在于：“灾后重建”因子计算的是全天233分钟的协方差，而“勇攀高峰”因子仅计算了每天波动异常高的那些分钟的协方差。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "“勇攀高峰”因子月度选股表现出色，Rank IC为 5.62%，Rank ICIR 为 4.47，多空组合年化收益率达 19.76%，信息比3.45，因子月度胜率 83.02%。",
+      "evidence": "我们对“勇攀高峰”因子在月度频率上的选股效果进行回测，结果显示： “勇攀高峰”因子表现非常出色，Rank IC为 5.62%，Rank ICIR 为 4.47，多空组合年化收益率达 19.76%，信息比3.45，因子月度胜率 83.02%。"
+    },
+    {
+      "text": "剔除常用风格因子影响后，“纯净勇攀高峰”因子仍有一定选股能力，Rank IC 均值为 1.95%，Rank ICIR 为 1.61，多空组合年化收益率 9.04%，信息比率1.52。",
+      "evidence": "在剔除了常用的风格因子影响后，“勇攀高峰”因子仍然具有一定的选股能力，Rank IC 均值为 1.95%，Rank ICIR 为 1.61，多空组合年化收益率 9.04%，信息比率1.52。"
+    },
+    {
+      "text": "主流宽基指数中，中证1000成分股内“勇攀高峰”因子表现更为出色，其 Rank IC 为 3.46%，Rank ICIR 为 3.35，多头组合年化超额收益为 8.67%。",
+      "evidence": "主流宽基指数中，中证1000成分股内“勇攀高峰”因子表现更为出色，其 Rank IC 为 3.46%，Rank ICIR 为 3.35，多头组合年化超额收益为 8.67%。"
+    },
+    {
+      "text": "用收盘波动率替换“更优波动率”后，因子 Rank IC、RankICIR、年化收益率、信息比率等指标都有所下降，验证了“更优波动率”在捕捉分钟内价格变动时的优越性。",
+      "evidence": "但与使用“更优波动率”计算的“月均攀登”因子、“月稳攀登”因子、“勇攀高峰”因子相比，其 Rank IC、RankICIR、年化收益率、信息比率等指标都有所下降，其分组表现如下图所示。"
+    },
+    {
+      "text": "“灾后重建”类因子 Rank IC 虽较高（分别为-4.96%、-5.49%、-6.02%），但 Rank ICIR 普遍较低，只有-2.5 左右，表明该类因子表现不够稳定。",
+      "evidence": "从测试结果来看，“月均重建”因子、“月稳重建”因子以及“灾后重建”因子 Rank IC 虽然较高，分别为-4.96%、-5.49%、-6.02%。但Rank ICIR 则普遍较低，只有-2.5 左右，表明该因子表现不够稳定"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Lochstoer L A, Muir T. Volatility expectations and returns[J]. The Journal of Finance, 2022, 77(2): 1055-1096.",
+    "Moreira A, Muir T. Volatility‐managed portfolios[J]. The Journal of Finance, 2017, 72(4): 1611-1644.",
+    "《个股成交量的潮汐变化及“潮汐”因子构建——多因子选股系列研究之二》",
+    "《成交量激增时刻蕴含的alpha信息——多因子选股系列研究之一》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

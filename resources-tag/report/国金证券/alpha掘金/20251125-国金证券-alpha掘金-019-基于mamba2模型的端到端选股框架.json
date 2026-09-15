@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "id": "20251125-国金证券-alpha掘金-019-基于mamba2模型的端到端选股框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GRU+Mamba+GJQ+LGBM",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{第一层：分别训练GRU（日/60/30/10min）与Mamba2（日/60/30min）输出标准化截面评分；第二层：与GJQuant的117个风格因子一起输入LightGBM做堆叠集成}",
+          "stats": [null, 0.1361, 1.26, 1.1527],
+          "evidence": "第一层：分别训练 GRU（日/60/30/10min）与 Mamba2（日/60/30min），输出标准化的截面评分（hidden）。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "loss_generalization", "ensemble", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "Mamba2 只有在日频数据上整体表现明显优于 GRU 模型，60 分钟频上与 GRU 不分伯仲，30 分钟频上能够带来沪深 300 的优化",
+      "evidence": "Mamba2 模型只有在日频数据上整体表现明显优于 GRU 模型，60 分钟频上与 GRU 模型不分伯仲，30 分钟频上能够带来沪深 300 的优化。"
+    },
+    {
+      "text": "GRU 与 Mamba2 在不同频率的截面信号相关性约 70%–80%，二者并非冗余，模型-频率合成有望带来增量信息与风格分散",
+      "evidence": "相关性测算显示 GRU 与 Mamba2 在不同频率的“截面信号”相关性约 70%–80%。这意味着二者并非冗余：通过模型-频率的合成（如日频+60 分/30 分、GRU+Mamba2）有望带来增量信息与风格分散，在控制回撤的同时稳定提升组合夏普率。"
+    },
+    {
+      "text": "三类市场信息中三大宽基指数信息的提升最为显著，IC、多头多空收益与回撤指标均明显改善；时间信息与 Barra 风格信息在 GRU 上并未带来稳定增益",
+      "evidence": "结果显示：三大宽基指数信息的提升最为显著，IC、多头多空收益与回撤指标均明显改善；时间信息与 Barra 风格信息在 GRU 上并未带来稳定增益。"
+    },
+    {
+      "text": "综合全 A 统计，MSE 损失在多数指标上表现最好，是无明确难例加权诉求时的稳健首选",
+      "evidence": "综合全 A 统计，MSE 在多数指标上表现最好，但 Focal 在少数指标上取得最优。"
+    },
+    {
+      "text": "加入 Mamba2 后 IC、多头超额等较 GRU 基线提升明显，叠加 LGBM 与 GJQ 因子库后进一步至最佳；多空年化收益率与夏普比率持续抬升而多空波动率并未同步放大，说明合成带来了真实 Alpha 增量",
+      "evidence": "更关键的是，多空年化收益率与夏普比率在合成后持续抬升，而多空波动率并未同步放大，说明合成带来了真实Alpha 增量而非来源于杠杆放大。"
+    },
+    {
+      "text": "三大宽基指增策略均取得显著超额，沪深 300、中证 500、中证 1000 年化超额分别达 9.99%、12.20%和 20.65%，信息比率分别为 1.88、2.24 和 3.31，主动层回撤均显著小于指数本身",
+      "evidence": "结果显示，三大宽基的指数增强均取得显著超额，沪深 300、中证 500、中证 1000 指增策略的年化超额分别达到 9.99%、12.20%和 20.65%，信息比率分别为 1.88、2.24 和 3.31；最大回撤方面，三者的主动层回撤均显著小于指数本身；可见，合成因子在保持 Beta 暴露稳定的同时，提供了具有持续性的截面 Alpha。"
+    },
+    {
+      "text": "10 分钟频受噪声影响更大，Mamba2 优势显著收敛，体现高频 Alpha 可得性受限",
+      "evidence": "10 分钟频受噪声影响更大，Mamba2 仍具可用性但优势显著收敛，三大宽基上难以完美预测，体现高频 Alpha 可得性受限。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Visual Guide to Mamba and State Space Models",
+    "Efficiently Modeling Long Sequences with Structured State Spaces",
+    "State Space Duality (Mamba-2) Part I - The Model"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

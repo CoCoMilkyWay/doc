@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20150514-广发证券-另类交易策略-024-观日内趋势_察行业轮动_品风格套利",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "日内风格趋势",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "Ratio_{T}=\\frac{SZ50_{T}}{ZZ500_{T}},\\;\\text{若}Ratio_{T}>Ratio_{Begin}\\text{则当日为大盘风格，做多上证50期货并做空中证500期货，反之为中小盘风格}",
+          "stats": [null, null, null, null],
+          "evidence": "受股指期货日内趋势交易模型的启发，我们可以通过观察开盘一段时间样本内大小盘风格的趋势，推测大小盘风格将在当日持续，从而对上证50和中证500股指期货在观察时间样本后开相反的持仓方向，在当日收盘时平仓。"
+        },
+        {
+          "name": "净行业指标",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "index_{i}=\\frac{bc_{i}}{t_{bc}}-\\frac{sc_{i}}{t_{sc}},\\;style_{T}=\\sum_{i=1}^{28}index_{i}\\times return_{i,T-1}",
+          "stats": [null, null, null, null],
+          "evidence": "因此，我们可以根据历史上行业轮动对于次日风格轮动的预测对各个行业打分，再根据前一交易日行业轮动的次序，对未来的风格做出判断。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_hedge"],
+      "approach": ["pairs_arbitrage"],
+      "setup": {"universe": ["na"], "rebalance": "daily"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "日内趋势风格套利策略在双边万二的交易成本下样本外胜率为51.81%，年化收益率为17.54%，最大回撤为-5.34%，同时具有卓越的参数稳定性。",
+      "evidence": "在双边万二的交易成本下，该策略样本外胜率为51.81%，年化收益率为17.54%，最大回撤为-5.34%.同时具有卓越的参数稳定性。"
+    },
+    {
+      "text": "行业轮动风格套利策略在双边万二的交易成本下样本外胜率为46.68%，年化收益率为22.08%，最大回撤-5.86%。",
+      "evidence": "在双边万二的交易成本下，该策略样本外胜率为 46.68%，年化收益率为22.08%，最大回撤-5.86%."
+    },
+    {
+      "text": "样本外5年多观察期内行业轮动模型取得184.62%的累计收益率，平均年化收益为22.08%，最大回测为-5.86%，交易次数为563次，平均每次持仓周期为2天左右。",
+      "evidence": "在样本外数据5年多的观察期内取得了184.62%的累计收益率，平均年化收益为22.08%，最大回测为-5.86%，交易次数为563次，平均每次持仓周期为2天左右。"
+    },
+    {
+      "text": "观察时期T取值在10附近时，年化收益率变化并不大，回撤保持在5%左右，年化收益率与回撤之比都超过了3，胜率均超过了50%，盈亏比保持在1.4以上，模型表现出卓越的参数稳定性。",
+      "evidence": "可以看出，当T取值在10附近时，年化收益率变化并不大，且回撤一直保持较小，保持在5%左右，年化收益率与回撤之比都超过了3，胜率均超过了50%，盈亏比保持在1.4以上。总体来看，通过样本内数据选出的观察时期10分钟是一个相对较为合理的选择，模型表现出卓越的参数稳定性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "另类交易策略系列之二十一：基于市场情绪平稳度的股指期货日内交易策略（2015-04-10）",
+    "另类交易策略系列之二十三：股指期货高频追杀趋势策略（2015-04-22）",
+    "另类交易策略系列之二十二：风格动量下的股指期货跨品种套利策略（2015-04-16）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

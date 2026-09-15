@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20190403-广发证券-深度学习-006-深度学习在指数增强策略上的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "深度学习因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\hat{y}_{1}=\\frac{e^{z_{1}}}{\\sum_{i=1,2,3}e^{z_{i}}}",
+          "stats": [0.095, null, 0.795, null],
+          "evidence": "第一个输出节点的预测值 $\\begin{array}{r}{\\hat{y}_{1}=\\frac{e^{z_{1}}}{\\sum_{i=1,2,3}e^{z_{i}}}}\\end{array}$ 是我们对股票的上涨预测打分，即预测该股票属于“上涨”类别的概率，下文中，我们称该打分为股票的深度学习因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "quality", "reversal", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "全市场选股的中证1000指数增强策略获得了29.07%的年化超额收益，中证500指数增强策略获得了14.67%，沪深300指数增强策略获得了13.11%。",
+      "evidence": "其中，全市场选股的中证1000指数增强策略获得了 29.07%的年化超额收益，中证 500指数增强策略获得了 14.67%的年化超额收益，沪深300指数增强策略获得了 13.11%的年化超额收益。"
+    },
+    {
+      "text": "深度学习因子在中证1000成份股内的IC均值为0.095，IC_IR为0.795。",
+      "evidence": "深度学习因子在中证1000成份股内的IC如下图所示。IC均值为0.095，IC_IR为0.795。"
+    },
+    {
+      "text": "在组合优化目标中引入交易成本惩罚项可以显著降低换手率，减小跟踪误差，提高信息比；当λ=1时三个指数增强策略都具有最高的信息比。",
+      "evidence": "在组合优化问题中，通过在优化目标中引入“惩罚项”可以显著降低策略的换手率，减小组合的跟踪误差，提高组合的信息比。"
+    },
+    {
+      "text": "直接约束换手率（每次调仓24%，折合年化6倍）可控制在期望范围内，中证1000指数增强年化超额收益23.01%，中证500为12.13%，沪深300为6.07%。",
+      "evidence": "中证1000指数增强策略的年化超额收益为23.01%，中证500指数增强策略的年化超额收益为12.13%，沪深300指数增强策略的年化超额收益为6.07%。"
+    },
+    {
+      "text": "归因显示行业因子收益贡献较低，流动性因子和反转因子收益贡献较高，大部分超额收益由不能被行业和风格因子解释的Alpha收益贡献，说明深度学习模型能从因子非线性特征中获取额外信息。",
+      "evidence": "此外，大部分超额收益是由不能被行业因子和风格因子所解释的 Alpha 收益贡献的，说明深度学习模型能够从因子的非线性特征中获取额外信息。"
+    },
+    {
+      "text": "从信息比来看，当λ=1时，三个指数增强策略都具有最高的信息比；λ=0时过高换手率的交易成本损耗降低超额收益并增大跟踪误差，λ=2时过低换手率降低超额收益来源。",
+      "evidence": "从信息比来看，当λ = 1时，三个指数增强策略都具有最高的信息比。"
+    }
+  ],
+  "builds_on": ["20180714-广发证券-深度学习-005-风险中性的深度学习选股策略"],
+  "external_ref": ["《深度学习系列之三：深度学习新进展，Alpha因子的再挖掘》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

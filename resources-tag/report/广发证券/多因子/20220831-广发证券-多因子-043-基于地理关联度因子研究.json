@@ -1,0 +1,127 @@
+{
+  "schema_version": 2,
+  "id": "20220831-广发证券-多因子-043-基于地理关联度因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "地理关联度因子",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对于某支股票，将与之属于相同省份不同行业的所有股票的月度收益均值作为这支股票的月度地理关联度因子}",
+          "stats": [-0.024, null, null, 0.0711],
+          "evidence": "本报告借鉴Parsons和Sabbatucci在《Geographic Lead-Lag Effects》(TheReview of Financial Studies, 2018)[1]中的指标构建方法，对于某支股票而言，将与之属于相同省份不同行业的所有股票的月度收益均值作为这支股票的月度地理关联度因子。"
+        },
+        {
+          "name": "地理相关系数因子(GEOGCORR)",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "GEOGCORR_{i,t}=\\sum_{j=1}^{N}w_{j,t}*\\frac{cov(R_i,R_j)}{std(R_i)*std(R_j)},\\quad geog_i=geog_j,\\ industry_i\\neq industry_j",
+          "stats": [0.074, null, null, 0.2211],
+          "evidence": "本篇报告定义地理相关系数因子(GEOGCORR)，用以度量个股与其地理关联公司股票之间的整体相关程度，具体由个股和地理关联公司股票相关系数均值表示。"
+        },
+        {
+          "name": "地理相关系数变动因子(GEOGCORRCHG)",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "GEOGCORRCHG_{i,t}=\\sum_{j=1}^{N}w_{j,t}*(CORR_{i,j,t}-CORR_{i,j,t-2,t})",
+          "stats": [0.044, null, null, 0.1604],
+          "evidence": "为研究个股与地理关联公司股票的相关程度变动，是否影响地理关联特征对个股的收益预测能力，本报告定义地理相关系数变动因子(GEOGCORRCHG)，用以度量个股与关联公司股票整体相关程度的变动情况。"
+        },
+        {
+          "name": "GEOGCORRP",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "GEOGCORRP_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{+},R_j^{+}),\\quad R_i^{+}=max(R_i,0)",
+          "stats": [0.069, null, null, 0.2119],
+          "evidence": "因此，本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的地理相关系数拆解因子(GEOGCORRP、GEOGCORRN、GEOGCORRIP与GEOGCORRJP)，用以度量个股与地理关联公司股票的调整后收益序列的相关程度。"
+        },
+        {
+          "name": "GEOGCORRN",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "GEOGCORRN_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{-},R_j^{-}),\\quad R_i^{-}=min(R_i,0)",
+          "stats": [0.052, null, null, 0.1393],
+          "evidence": "因此，本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的地理相关系数拆解因子(GEOGCORRP、GEOGCORRN、GEOGCORRIP与GEOGCORRJP)，用以度量个股与地理关联公司股票的调整后收益序列的相关程度。"
+        },
+        {
+          "name": "GEOGCORRIP",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "GEOGCORRIP_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{-},R_j^{+})",
+          "stats": [0.063, null, null, 0.1892],
+          "evidence": "因此，本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的地理相关系数拆解因子(GEOGCORRP、GEOGCORRN、GEOGCORRIP与GEOGCORRJP)，用以度量个股与地理关联公司股票的调整后收益序列的相关程度。"
+        },
+        {
+          "name": "GEOGCORRJP",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "GEOGCORRJP_{i,t}=\\sum_{j=1}^{N}w_{j}*CORR(R_i^{+},R_j^{-})",
+          "stats": [0.04, null, null, 0.1451],
+          "evidence": "因此，本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的地理相关系数拆解因子(GEOGCORRP、GEOGCORRN、GEOGCORRIP与GEOGCORRJP)，用以度量个股与地理关联公司股票的调整后收益序列的相关程度。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "地理相关系数类因子能够挖掘传统因子外的增量信息，具体为股票之间的地理关联信息，可作为新因子加入多因子模型中。",
+      "evidence": "整体而言，地理相关系数类因子能够挖掘传统因子外的增量信息，具体为股票之间的地理关联信息。"
+    },
+    {
+      "text": "GEOGCORRP因子整体表现较好，因子整体的IC均值为0.069，正IC占比90%，多头相对中证500指数年化超额收益率为13.98%，信息比率为1.706。",
+      "evidence": "其中，GEOGCORRP因子整体表现较好。因子整体的 IC均值为 0.069，正 IC 占比 90%，多头相对中证 500 指数年化超额收益率为 13.98%，信息比率为 1.706。"
+    },
+    {
+      "text": "地理关联度因子在A股市场的选股逻辑与上述论文中阐述的逻辑相反：因子值越小，股票未来收益越高，整体IC均值为-0.024。",
+      "evidence": "实证结果表明，地理关联度因子在A股市场的选股逻辑与上述论文中阐述的逻辑相反：因子值越小，股票未来收益越高。因子的整体IC均值为-0.024，正IC占比34.67%。"
+    },
+    {
+      "text": "GEOGCORR因子、GEOGCORRP因子在中证1000、创业板股票池内仍具有较好表现；由于因子策略多头换手率较高，地理相关系数类因子对手续费敏感。",
+      "evidence": "GEOGCORR因子、GEOGCORRP因子在中证 1000、创业板股票池内仍具有较好表现。由于因子策略多头换手率较高，地理相关系数类因子对手续费敏感。"
+    },
+    {
+      "text": "GEOGCORR因子的选股区分度较高，因子IC均值为0.074，正IC占比88.00%，多头相对中证500指数的年化超额收益率为13.21%，信息比率为1.55。",
+      "evidence": "在全市场选股中，GEOGCORR因子的选股区分度较高，因子IC均值为0.074，正IC占比88.00%，除2017年外，分年度IC均在0.05以上。在多头相对中证500指数的回测中，策略整体的年化超额收益率为13.21%，信息比率为1.55。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bollerslev, T., A.J. Patton, and R. Quaedvlieg, Realized semibetas: Disentangling “good” and “bad” downside risks. Journal of Financial Economics, 2022. 144(1): p. 227-246",
+    "Parsons, C. and R. Sabbatucci, Geographic Lead-Lag Effects. The Review of Financial Studies, 2018. 33(10)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

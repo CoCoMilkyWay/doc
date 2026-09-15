@@ -1,0 +1,154 @@
+{
+  "schema_version": 2,
+  "id": "20220612-开源证券-市场微观结构-015-高频因子_分钟单笔金额序列中的主力行为刻画",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "QUA因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "S=\\frac{A_{10\\%}-A_{\\min}}{A_{\\max}-A_{\\min}},\\quad QUA=\\text{S指标的20日均值}",
+          "stats": [null, -0.072, 3.57, null],
+          "evidence": "全区间来看，QUA 因子 Rank IC 为-0.072，Rank ICIR 达到 3.57，具备稳定有效的选股能力。多头组合的年化收益仍能达到 24.69%，信息比率达到 3.59。"
+        },
+        {
+          "name": "STD因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{保留10\\%单笔成交金额较小的样本计算标准差，取20日均值}",
+          "stats": [null, -0.065, 3.305, null],
+          "evidence": "STD 因子： RankIC 值为负，单笔成交金额分散程度更低，“相对大单”的成交金额偏离也更高，未来股价表现会更好。"
+        },
+        {
+          "name": "SKEW因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{保留50\\%单笔成交金额较小的样本计算偏度，取20日均值}",
+          "stats": [null, 0.075, 3.77, null],
+          "evidence": "SKEW因子：RankIC 值为正，单笔成交金额分布的右偏程度越高，大单相对小单的金额偏离越大，股票也更受主力资金的青睐。"
+        },
+        {
+          "name": "KURT因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{保留50\\%单笔成交金额较小的样本计算峰度，取20日均值}",
+          "stats": [null, -0.068, 3.864, null],
+          "evidence": "KURT 因子：KURT 因子与 SKEW 因子的统计含义相近，单笔成交金额分布越离散，大单相对小单的金额偏离越小，主力资金对股票的看涨空间也比较有限。"
+        },
+        {
+          "name": "MTS因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MTS=\\text{corr}(\\text{分钟单笔成交金额},\\text{分钟成交额})\\text{的20日均值}",
+          "stats": [null, 0.065, 3.18, null],
+          "evidence": "MTS 因子的历史表现不错，其 Rank IC 值达到 0.065，Rank ICIR 为 3.18，具备稳定有效的选股能力。尽管因子收益偏向空头端，其多头组合的年化收益仍能达到22.84%，信息比率达到3.51，同期万得全A指数为 9.53%，超额13%以上。"
+        },
+        {
+          "name": "MTE因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MTE=\\text{corr}(\\text{分钟单笔成交金额},\\text{分钟收盘价})\\text{的20日均值}",
+          "stats": [null, -0.039, 3.34, null],
+          "evidence": "在全区间（20130104-20220408）内，MTE 因子 Rank IC 值为-0.039，Rank ICIR达到 3.34；因子的分组单调性较好，属于多头有效的因子，年化收益率为 21.56%，相对万得全A 超额达到11.78%。"
+        },
+        {
+          "name": "SR因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SR=\\sum_{\\text{单笔成交金额前}\\lambda\\text{比例的分钟}} r_i,\\quad \\lambda=20\\%",
+          "stats": [null, -0.055, 2.62, null],
+          "evidence": "从全区间测试表现来看，该因子 Rank IC 值为-0.055，Rank ICIR 达到 2.62，持仓胜率为 83.93%，多头年化收益为 24.19%，相比万得全A 超额收益在 14.6%以上。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000", "sector"],
+        "data": {"source": ["market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000", "sector"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "QUA分位数因子Rank IC为-0.072，Rank ICIR达到3.57，多头组合年化收益24.69%，信息比率3.59，具备稳定有效的选股能力。",
+      "evidence": "全区间来看，QUA 因子 Rank IC 为-0.072，Rank ICIR 达到 3.57，具备稳定有效的选股能力。多头组合的年化收益仍能达到 24.69%，信息比率达到 3.59。"
+    },
+    {
+      "text": "在“相对大单”框架下，大单相对小单的成交金额偏离越大，说明主力对于该股票的关注度越高，未来股价表现会越好。",
+      "evidence": "在“相对大单”的框架下，QUA 因子的 Alpha来源可以理解为：大单相对小单的成交金额偏离越大，说明主力（“相对大单”）对于该股票的关注度越高，未来股价表现会越好。"
+    },
+    {
+      "text": "MTS主力交易强度因子Rank IC达到0.065，Rank ICIR为3.18，多头组合年化收益22.84%，同期万得全A为9.53%，超额13%以上。",
+      "evidence": "MTS 因子的历史表现不错，其 Rank IC 值达到 0.065，Rank ICIR 为 3.18，具备稳定有效的选股能力。尽管因子收益偏向空头端，其多头组合的年化收益仍能达到22.84%，信息比率达到3.51，同期万得全A指数为 9.53%，超额13%以上。"
+    },
+    {
+      "text": "MTE主力交易情绪因子Rank IC为-0.039，Rank ICIR达到3.34，分组单调性较好，属于多头有效因子，相对万得全A超额达到11.78%。",
+      "evidence": "在全区间（20130104-20220408）内，MTE 因子 Rank IC 值为-0.039，Rank ICIR达到 3.34；因子的分组单调性较好，属于多头有效的因子，年化收益率为 21.56%，相对万得全A 超额达到11.78%。"
+    },
+    {
+      "text": "SR强反转因子Rank IC值为-0.055，Rank ICIR达到2.62，多头年化收益24.19%，相比万得全A超额收益在14.6%以上。",
+      "evidence": "从全区间测试表现来看，该因子 Rank IC 值为-0.055，Rank ICIR 达到 2.62，持仓胜率为 83.93%，多头年化收益为 24.19%，相比万得全A 超额收益在 14.6%以上。"
+    },
+    {
+      "text": "强反转因子选股能力稳健，回归理想反转因子后仍有增量，多空年化收益12.6%，多头年化收益21.39%。",
+      "evidence": "强反转因子的选股能力比较稳健，回归理想反转因子后仍有增量，多空年化收益为12.6%，多空 IR 达到 2.75，多头年化收益为 21.39%。"
+    },
+    {
+      "text": "反转效应的微观来源是大单成交，在分钟频率上，基于单笔成交金额提纯的反转因子能够有更多的信息增量。",
+      "evidence": "综上，反转效应的微观来源是大单成交，在分钟频率上，基于单笔成交金额提纯的反转因子能够有更多的信息增量。"
+    },
+    {
+      "text": "等权合成因子在小市值股票池上表现更优，中证1000成分中年化超额收益率达到12.01%，中证500和沪深300超额收益分别为3.72%和1.13%。",
+      "evidence": "与一般的价量因子相似，上述因子在小市值股票池上表现更优，在中证1000成分中表现最好，年化超额收益率达到12.01%，回撤幅度较小；因子在中证 500 和沪深 300成分中的选股效果整体偏弱，超额收益分别为3.72%和1.13%。"
+    },
+    {
+      "text": "行业赛道优选组合表现较好：机械50组合超额收益13.14%，电子50组合超额收益13.03%，计算机30组合超额收益11.5%。",
+      "evidence": "机械50组合的年化收益为 19.35%，超额收益达到 13.14%；电子50组合的年化收益为28.73%，超额收益为 13.03%；计算机30组合的年化收益为25.22%，超额收益达到 11.5%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（12）-大单与小单资金流的 alpha 能力》-2021.6.2",
+    "《市场微观结构研究系列（13）-理想反转因子的 4 年总结：依旧理想》-2022.5.2",
+    "《市场微观结构研究系列（14）-新型因子：资金流动力学与散户羊群效应》-2022.6.2"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

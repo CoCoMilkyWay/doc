@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "id": "20191107-海通证券-选股因子-056-买卖单数据中的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大卖成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "大卖成交金额占比_{i,t}=\\frac{大卖成交金额_{i,t}}{总成交金额_{i,t}}",
+          "stats": [0.01, null, 0.84, 0.043],
+          "evidence": "将成交量大于均值+N 倍标准差的买卖单认定为大单。"
+        },
+        {
+          "name": "大买成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "大买成交金额占比_{i,t}=\\frac{大买成交金额_{i,t}}{总成交金额_{i,t}}",
+          "stats": [0.046, null, 3.622, 0.227],
+          "evidence": "在剔除常规因子的影响后，大买成交金额占比、大买大卖成交金额占比差值皆呈现出了显著的正向选股能力。"
+        },
+        {
+          "name": "大买大卖成交金额占比差值",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "大买大卖成交金额占比差值_{i,t}=\\frac{大买成交金额_{i,t}}{总成交金额_{i,t}}-\\frac{大卖成交金额_{i,t}}{总成交金额_{i,t}}",
+          "stats": [0.034, null, 3.027, 0.136],
+          "evidence": "也即，在控制了常规因素的影响后，大买成交金额占比越高或者大买成交金额占比越高于大卖成交金额占比，股票未来的超额收益表现越好。"
+        },
+        {
+          "name": "大单成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "大单成交金额占比_{i,t}=\\frac{大买成交金额_{i,t}}{总成交金额_{i,t}}+\\frac{大卖成交金额_{i,t}}{总成交金额_{i,t}}",
+          "stats": [0.034, null, 2.677, 0.149],
+          "evidence": "由于股票成交中的大买单以及大卖单广受投资者关注，我们可基于买卖单数据尝试构建大单成交金额占比因子。"
+        },
+        {
+          "name": "卖单集中度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "卖单集中度_{i,t}=\\frac{\\sum_{k=1}^{N_{i,t}}卖单成交金额_{i,t,k}^{2}}{总成交金额_{i,t}^{2}}",
+          "stats": [0.027, null, 1.595, 0.137],
+          "evidence": "从原始因子的角度看，除买卖集中度差值外，其余因子皆呈现出了较为显著的选股能力。股票的集中度越高，未来的超额收益表现越好。"
+        },
+        {
+          "name": "买单集中度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "买单集中度_{i,t}=\\frac{\\sum_{k=1}^{N_{i,t}}买单成交金额_{i,t,k}^{2}}{总成交金额_{i,t}^{2}}",
+          "stats": [0.03, null, 1.731, 0.166],
+          "evidence": "在正交剔除了常规因子的影响后，集中度因子依旧呈现出了较为明显的截面选股能力。"
+        },
+        {
+          "name": "买卖集中度差值",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "买卖单集中度差值_{i,t}=\\frac{\\sum_{k=1}^{N_{i,t}}买单成交金额_{i,t,k}^{2}}{总成交金额_{i,t}^{2}}-\\frac{\\sum_{k=1}^{N_{i,t}}卖单成交金额_{i,t,k}^{2}}{总成交金额_{i,t}^{2}}",
+          "stats": [0.015, null, 1.456, 0.059],
+          "evidence": "值得注意的是，买单集中度因子与卖单集中度因子的 IC方向相同，并未呈现出“买单集中度具有看多能力，卖单集中度具有看空能力”的现象。"
+        },
+        {
+          "name": "买卖集中度之和",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "买卖单集中度之和_{i,t}=\\frac{\\sum_{k=1}^{N_{i,t}}买单成交金额_{i,t,k}^{2}}{总成交金额_{i,t}^{2}}+\\frac{\\sum_{k=1}^{N_{i,t}}卖单成交金额_{i,t,k}^{2}}{总成交金额_{i,t}^{2}}",
+          "stats": [0.027, null, 1.545, 0.14],
+          "evidence": "除买卖集中度差值外，其余因子皆与股票未来收益正相关。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "大单成交金额占比类因子在正交后具有显著的选股能力，剔除常规因子影响后，大买成交金额占比、大买大卖成交金额占比差值皆呈现显著正向选股能力",
+      "evidence": "大单成交金额占比类因子在正交后具有显著的选股能力。在剔除常规因子的影响后，大买成交金额占比、大买大卖成交金额占比差值皆呈现出了显著的正向选股能力。"
+    },
+    {
+      "text": "集中度因子在正交前后皆具有显著的选股能力，除买卖集中度差值外，其余因子皆与股票未来收益正相关，股票集中度越高，未来超额收益表现越好",
+      "evidence": "集中度因子在正交前后皆具有显著的选股能力。从原始因子的角度看，除买卖集中度差值外，其余因子皆呈现出了较为显著的选股能力。股票的集中度越高，未来的超额收益表现越好。"
+    },
+    {
+      "text": "1倍标准差筛选法下，大买成交金额占比因子在沪深300指数内月均IC为0.04，月度胜率达75%，月度多空收益1.28%，大单占比类因子在中大盘范围内选股能力稳定",
+      "evidence": "在 1倍标准差筛选法下，大买成交金额占比因子的月均 IC为 0.04，月度胜率达 75%，因子月度多空收益为 1.28%。"
+    },
+    {
+      "text": "大买成交金额占比、大买大卖成交金额占比差值因子在中证800、中证500、沪深300指数内皆呈现显著选股能力，而集中度因子的选股能力主要集中于中小市值股票",
+      "evidence": "大买成交金额占比、大买大卖成交金额占比差值因子在中证 800 指数内、中证 500 指数内以及沪深 300 指数内皆呈现出了显著的选股能力。而集中度因子的选股能力主要集中于中小市值的股票范围中。"
+    },
+    {
+      "text": "月度有效的因子如大买成交金额占比、大买大卖成交金额占比差值、买单集中度、卖单集中度在2周、1周、2天、1天换仓频率下依旧有效，且稳定性随换仓频率提升而提升",
+      "evidence": "月度换仓时有效的因子，如大买成交金额占比、大买大卖成交金额占比差值、买单集中度以及卖单集中度因子，在更高的换仓频率下依旧具有显著的选股能力，且选股能力的稳定性也随着换仓频率的提升而有所提升。"
+    },
+    {
+      "text": "自2014年以来大买成交金额占比因子收益表现较好，正交后买单、卖单集中度因子多空年化收益分别为13%和16%，月度胜率达70%",
+      "evidence": "自 2014 年以来，买单集中因子与卖单集中度因子多空年化收益高于 30%。在正交后，两因子多空年化收益分别为 13%以及 16%，月度胜率达 70%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究(十一)——Level2行情选股因子初探》",
+    "《选股因子系列研究（四十七）——捕捉投资者的交易意愿》",
+    "《选股因子系列研究（四十九）——当下跌遇到托底》",
+    "《选股因子系列研究（四十六）——日内分时成交中的玄机》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

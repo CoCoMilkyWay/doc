@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "id": "20250108-国金证券-alpha掘金-014-gbdt_nn机器学习可转债择券策略",
+  "genre": "research",
+  "asset": ["convertible"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GRU 因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU网络以转债K线与三种溢价率的60日回看窗口序列为输入，对5日收益率排序标签进行端到端学习}",
+          "stats": [0.0626, null, 0.59, 0.2782],
+          "evidence": "在使用 GRU 模型进行时间序列分析时，我们期望其能够捕捉到价格随时间变化的规律，因此我们选择日度 K 线作为主要输入。此外，由于偏股型、平衡型和偏债型转债在价格变化规律上存在显著差异，我们将三种溢价率序列（包括平底溢价率）也纳入 GRU 的输入，以便模型能够更精准地识别和处理这些不同类型转债的特征。"
+        },
+        {
+          "name": "LGBM 因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{LGBM模型以转债与正股的Alpha158因子及12个手工构建因子为输入，预测未来5日收益率排序}",
+          "stats": [0.0979, null, 0.72, 0.2385],
+          "evidence": "为此，我们将转债和正股的 Alpha158 因子，以及《BETA 猎手系列之八：基于偏股型转债的择时与择券构建固收+策略》中手工构建的 12 个因子，全部纳入 LGBM 模型的输入。这一策略旨在为模型提供更为多样化的因子视角，从而提升其预测精度和稳定性。"
+        },
+        {
+          "name": "ML 因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{ML因子}=0.5\\times\\text{GRU因子}+0.5\\times\\text{LGBM因子}",
+          "stats": [0.0971, null, 0.86, 0.3183],
+          "evidence": "ML 因子在全部转债上 IC 均值为 9.71%，5 分组多头年化收益率为 22.80%，多空年化收益率 31.83%；在偏股/平衡/偏债型转债上 IC 均值为 8.41%/9.42%/8.90%，多头年化收益率为 28.36%/18.99%/15.32%，多空年化收益率 39.04%/25.41%/20.04%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "label_horizon", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["na"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "转债的K线与溢价率的组合最适合作为GRU模型的输入，溢价率对模型表现提升至关重要，而正股的量价信息对GRU模型的贡献表现为负增益。",
+      "evidence": "通过各项指标分析，我们发现转债的 K 线与溢价率的组合最适合作为 GRU 模型的输入，并且溢价率对于模型的表现提升至关重要。而相较之下，正股的量价信息对 GRU 模型的贡献则表现为负增益。"
+    },
+    {
+      "text": "加入专注于多头的损失函数（后50%样本损失权重乘以0.5）效果不尽如人意，导致信息比率和多空指标大幅下滑，还对多头表现产生负面影响。",
+      "evidence": "研究表明，加入专注于多头的损失函数效果不尽如人意。这不仅导致信息比率（IC）和多空指标大幅下滑，还对多头表现产生了一定程度的负面影响。"
+    },
+    {
+      "text": "对2022年之前样本不足的训练集进行数据增强（随机回看窗口、缩放波动率、高斯噪声），GRU模型多头和多空表现均明显提升；2022年之后数据充足，使用原始数据更能适应市场变化。",
+      "evidence": "因此，我们决定对 2022 年之前的训练集进行数据增强，以提高模型的性能，而在 2022 年之后，选择使用原始数据来确保模型准确捕捉到最新的市场变化。"
+    },
+    {
+      "text": "转债与正股Alpha158的组合在LGBM模型中的多头表现最优，手工构造的12个因子表现不佳，可能需要进一步扩充以满足模型需求。",
+      "evidence": "可以看到，转债与正股 Alpha158 的组合在 LGBM 模型中的多头表现最优。手工构造的 12个因子在 LGBM 模型中表现不佳，可能需要进一步扩充以满足模型的需求。"
+    },
+    {
+      "text": "GRU模型与LGBM模型训练得到的因子相关性较低，仅为0.35，因此将两者等权合成得到机器学习转债择券因子（ML因子）。",
+      "evidence": "GRU 模型与 LGBM 模型训练得到的因子相关性较低，仅为 0.35，因此我们将两者等权合成得到机器学习转债择券因子（ML 因子）。"
+    },
+    {
+      "text": "ML因子在全部转债上IC均值9.71%，多头年化收益率22.80%，多空年化收益率31.83%；在偏股/平衡/偏债型转债上IC均值为8.41%/9.42%/8.90%，多空年化收益率39.04%/25.41%/20.04%，合成后因子绝大部分指标均得到提升。",
+      "evidence": "ML 因子在全部转债上 IC 均值为 9.71%，5 分组多头年化收益率为 22.80%，多空年化收益率 31.83%；在偏股/平衡/偏债型转债上 IC 均值为 8.41%/9.42%/8.90%，多头年化收益率为 28.36%/18.99%/15.32%，多空年化收益率 39.04%/25.41%/20.04%。"
+    },
+    {
+      "text": "与前期报告的手工线性因子相比，ML因子在偏股、平衡和偏债型转债上所有指标均表现更优，同时多头净值走势更加稳定。",
+      "evidence": "可以看到，ML 因子在所有指标中均表现更优，同时多头净值走势更加稳定。"
+    },
+    {
+      "text": "考虑扣费和换手率缓冲，使用20%的转债、相对中证转债指数构建的机器学习转债择券策略年化收益率14.59%，跟踪误差5.18%，信息比率2.23，超额最大回撤4.24%；偏股/平衡/偏债型转债上年化收益率分别为20.77%/11.11%/9.09%。",
+      "evidence": "进一步考虑扣费和换手率缓冲，使用 20%的转债，相对中证转债指数构建机器学习转债择券策略，该策略在全部转债上年化收益率 14.59%，跟踪误差 5.18%，信息比率 2.23，超额最大回撤 4.24%；在偏股/平衡/偏债型转债上年化收益率分别为 20.77%/11.11%/9.09%，信息比率分别为 1.44/1.64/0.90。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A survey on Image Data Augmentation for Deep Learning",
+    "《BETA 猎手系列之八：基于偏股型转债的择时与择券构建固收+策略》",
+    "微软的机器学习量化投资框架Qlib（Alpha158因子集）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

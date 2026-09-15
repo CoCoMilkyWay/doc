@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "id": "20220606-海通证券-选股因子-080-股票久期的定义_溢价及应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "隐含久期",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "D=\\frac{\\sum_{t=1}^{T}t\\times CF_{t}/(1+r)^{t}}{P}+\\left(T+\\frac{1+r}{r}\\right)\\times\\frac{\\left(P-\\sum_{t=1}^{T}CF_{t}/(1+r)^{t}\\right)}{P}",
+          "stats": [null, null, null, 0.098],
+          "evidence": "基于一阶自回归模型，我们可以预测未来有限期 T 内，每一期的 ROE和股权增长率 g，将两者之差乘以上一期末的账面资产价值 BV即为每一期的现金流；再将每一期的现金流代入公式（6）即可求得股票的隐含久期。"
+        },
+        {
+          "name": "债券相似度",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "r_{j,t}-r_{rf,t}=\\alpha_{j}+\\beta_{j}\\left(r_{mkt}-r_{rf,t}\\right)+b_{j}\\left(r_{TY10}-r_{rf,t}\\right)+\\epsilon_{j,t}",
+          "stats": [null, null, null, 0.053],
+          "evidence": "将每只股票相对无风险利率的超额收益对 10 年期国债的月度超额收益和股市月度超额收益进行滚动 5年的回归"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "隐含久期因子2013年初至2022年4月的年化多空收益为9.8%，统计显著，但多头效应弱、空头效应强，且与PB因子月多空收益的相关系数高达0.86。",
+      "evidence": "2013 年初至 2022 年 4 月，隐含久期因子的年化多空收益为 9.8%，统计显著。但该因子多头效应弱、空头效应强，多头收益并不显著。隐含久期因子与估值因子具有很高的相关性，月多空收益的相关系数高达 0.86。"
+    },
+    {
+      "text": "剥离价量、基本面、PB和行业因子影响后，债券相似度因子的年化多空收益为4.5%，月胜率60.7%，统计显著，且多头收益年化2.7%，空头1.8%。",
+      "evidence": "剥离价量、基本面、PB和行业因子影响后，债券相似度因子的年化多空收益为4.5%，月胜率 60.7%，统计显著。且多空收益相对较为平均，多头收益年化 2.7%，空头 1.8%。"
+    },
+    {
+      "text": "无论是隐含久期还是债券相似度，均与股票收益负相关，长久期股票的收益率低于短久期股票，可能源于投资者对魅力股增长前景过于乐观。",
+      "evidence": "从结果来看，无论是隐含久期，还是债券相似度，均与股票收益负相关。即，长久期股票的收益率低于短久期股票。关于久期与股票收益之间的负相关关系，一个可能的解释是投资者的非理性。市场参与者通常对“魅力股”的增长前景过于乐观，并将这些证券的价格推升至不合理的高水平。随后，这些股票未能达到预期，导致未来收益率较低。"
+    },
+    {
+      "text": "隐含久期与股票波动率、beta高度正相关，且在预测未来波动率/beta时对历史波动率/beta具有增量解释能力。",
+      "evidence": "隐含久期可以衡量股票波动率对预期股权回报冲击的敏感性。隐含久期长的股票，对预期股权回报冲击更为敏感。隐含久期与股票波动率、beta 高度正相关，并且在预测未来波动率/beta时，对历史波动率/beta 具有增量解释能力。"
+    },
+    {
+      "text": "利率变化与久期因子表现呈正相关，隐含久期因子月多空收益与利率变化的相关系数为0.16，债券相似度因子为0.06。",
+      "evidence": "从实证结果来看，利率变化与久期因子表现呈正相关关系，其中，隐含久期因子月多空收益与利率变化的相关系数为 0.16，债券相似度因子为 0.06。"
+    },
+    {
+      "text": "将隐含久期因子加入指数增强策略，可降低组合的波动率和相对回撤，提升组合的收益风险比。",
+      "evidence": "将隐含久期因子加入指数增强策略，可降低组合的波动率和相对回撤，提升组合的收益风险比。"
+    },
+    {
+      "text": "将债券相似度因子加入指数增强策略，可提升组合超额收益，同时降低波动性和相对回撤。",
+      "evidence": "将债券相似度因子加入指数增强策略，可提升组合超额收益，同时降低波动性和相对回撤。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Dechow, Sloan, Soliman (2004). \"Implied Equity Duration: A New Measure of Equity Risk\""],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

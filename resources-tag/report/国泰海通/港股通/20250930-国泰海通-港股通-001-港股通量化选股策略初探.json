@@ -1,0 +1,222 @@
+{
+  "schema_version": 2,
+  "id": "20250930-国泰海通-港股通-001-港股通量化选股策略初探",
+  "genre": "research",
+  "asset": ["stock_hk"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "statement_detail", "momentum_reversal"],
+      "setup": {
+        "universe": ["all", "hk_connect"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "现金流比例",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去1年经营活动净现金流}-\\text{构建固定资产、无形资产和其他长期资产支付的现金}}{\\text{总市值}+\\text{总负债}-\\text{货币资金}}",
+          "stats": [0.029, 0.033, null, null],
+          "evidence": "上述 8 个价值指标中，表现最优的为现金流比例。在全部港股通股票池中，该因子月均IC 为2.9%、RankIC 为3.3%；即使考虑流动性因素，剔除市值≤50 亿元、日均成交额<5000 万元的个股后，月均 IC 仍有 2.2%，RankIC 2.6%，统计显著。"
+        },
+        {
+          "name": "1年股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去1年现金分红总额}}{\\text{总市值}}",
+          "stats": [0.021, 0.042, null, null],
+          "evidence": "其次为股息率因子，1 年股息率在全部港股通中的月均 IC 为 2.1%，"
+        },
+        {
+          "name": "3年股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去3年平均年现金分红}}{\\text{总市值}}",
+          "stats": [0.011, 0.032, null, null],
+          "evidence": "| 3年股息率 | 1.1% | 1.0% | 0.0% | 0.3% | 3.2% | 2.7% | 1.2% | 1.3% | -0.7% | 1.3% | 1.7% | 1.8% |"
+        },
+        {
+          "name": "-1*PB",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "-1 \\times \\frac{\\text{总市值}}{\\text{净资产}}",
+          "stats": [0.01, 0.019, null, null],
+          "evidence": "而其他估值指标，如PB、PE 等，选股效果较弱，特别是剔除成交额较低个股后，月均 IC 不足1%。"
+        },
+        {
+          "name": "-1*PE",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "-1 \\times \\frac{\\text{总市值}}{\\text{TTM净利润}}",
+          "stats": [0.019, 0.028, null, null],
+          "evidence": "而其他估值指标，如PB、PE 等，选股效果较弱，特别是剔除成交额较低个股后，月均 IC 不足1%。"
+        },
+        {
+          "name": "-1*PCF",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "-1 \\times \\frac{\\text{总市值}}{\\text{TTM经营活动产生的现金流量净额}}",
+          "stats": [0.025, 0.032, null, null],
+          "evidence": "| -1*PCF | 2.5% | 1.7% | 1.8% | 2.2% | 3.2% | 2.9% | 2.5% | 2.9% | 6.9% | 6.2% | 5.4% | 6.0% |"
+        },
+        {
+          "name": "净流动资产价值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{流动资产}-\\text{流动负债}}{\\text{总市值}}",
+          "stats": [0, 0.007, null, null],
+          "evidence": "| 净流动资产价值 | 0.0% | 0.4% | -0.2% | 0.2% | 0.7% | 0.7% | 0.0% | 0.4% | -0.4% | 1.5% | 2.6% | 2.6% |"
+        },
+        {
+          "name": "回购比例",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去1年累计回购金额}}{\\text{日均总市值}}",
+          "stats": [0, -0.001, null, null],
+          "evidence": "| 回购比例 | 0.0% | 0.4% | 0.1% | 0.1% | -0.1% | 0.5% | 0.2% | 0.2% | 2.2% | 1.9% | 0.5% | 0.3% |"
+        },
+        {
+          "name": "营收占比",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{公司营业收入}}{\\text{所属Wind二级行业总营收}}",
+          "stats": [null, null, null, null],
+          "evidence": "网络效应：用户越多，公司产品价值越高。我们通过市场份额，即公司营业收入占所属 Wind二级行业总营收之比，来刻画网络效应。"
+        },
+        {
+          "name": "无形资产因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{无形资产总额(扣除商誉)与无形资产/总资产两指标等权排序打分}",
+          "stats": [null, null, null, null],
+          "evidence": "我们用无形资产总额、无形资产占总资产之比两个指标等权排序打分，构建无形资产因子。"
+        },
+        {
+          "name": "现金利润占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营净现金流}-\\text{营业利润}}{\\text{净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "转换成本是指客户从一个产品或服务转向另一个时所面临的成本。拥有较强转换成本的企业，客户支付意愿强，回款快，具有健康的现金流。我们以现金利润占比，来反映转换成本。"
+        },
+        {
+          "name": "增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润同比变化}}{\\text{过去3年净利润同比变化波动率(6期)}}",
+          "stats": [null, null, null, null],
+          "evidence": "(1）增长：净利润同比变化/过去3年净利润同比变化波动率（6期）"
+        },
+        {
+          "name": "股价相对强度",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年累计收益率、收益排序、区间振幅3因子等权排序打分}",
+          "stats": [null, null, null, null],
+          "evidence": "(5）股价相对强度：过去1年累计收益率、收益排序、以及区间振幅3因子等权排序"
+        },
+        {
+          "name": "小市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama French 小盘因子：2*3 分组等权组合多空收益差}",
+          "stats": [null, null, null, -0.024],
+          "evidence": "小盘效应上，两个池子具有较大差异。港股主板，小盘因子收益为正；而在港股通池子里，小盘失效，甚至呈微弱的大盘效应，小市值因子年化收益为负。"
+        },
+        {
+          "name": "动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama French 动量因子：2*3 分组等权组合多空收益差}",
+          "stats": [null, null, null, 0.125],
+          "evidence": "整体来看，港股市场成长、动量风格突出。无论是港股通池子、还是港股主板，这两个因子的收益均显著为正。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["hk_connect"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "港股通个股市值普遍较大，小盘效应弱，成长、动量效应突出，价值因子表现优于港股主板。",
+      "evidence": "综上所述，港股通个股市值普遍较大，小盘效应弱，而成长、动量效应突出，价值因子表现优于港股主板。结合这些特征，参考海外经典大师选股策略，本文接下来将主要探讨价值策略、护城河策略、成长股投资策略、以及均衡策略等，在港股通选股池的表现。"
+    },
+    {
+      "text": "8 个价值指标中表现最优的为现金流比例，全部港股通池月均IC 为2.9%、RankIC 为3.3%；剔除低流动性个股后月均 IC 仍有 2.2%、RankIC 2.6%，统计显著。",
+      "evidence": "上述 8 个价值指标中，表现最优的为现金流比例。在全部港股通股票池中，该因子月均IC 为2.9%、RankIC 为3.3%；即使考虑流动性因素，剔除市值≤50 亿元、日均成交额<5000 万元的个股后，月均 IC 仍有 2.2%，RankIC 2.6%，统计显著。"
+    },
+    {
+      "text": "港股通等权价值组合2015年以来年化收益11.7%，股息率加权组合年化15.8%；两种加权方式下样本区间每年相对港股通指数均具有正超额收益。",
+      "evidence": "每年12月底调仓，扣除单边2‰交易成本后，港股通等权价值组合2015年以来年化收益11.7%（表3），股息率加权组合收益相对更优，年化15.8%。两种加权方式下，样本区间组合每年相对于港股通指数都具有正超额收益。"
+    },
+    {
+      "text": "等权港股通护城河策略2015年以来年化收益12.6%，相对港股通指数年化超额10.5%，每年均跑赢港股通指数，超额收益波动率和相对回撤最低。",
+      "evidence": "我们基于网络效应、无形资产、成本优势、现金利润占比等因子等权打分，选择得分最高的 30 只股票构建等权港股通护城河策略，2015.01.01-2025.08.26 期间，策略年化收益12.6%，相对于港股通指数年化超额10.5%；分年度来看，组合每年均跑赢港股通指数。"
+    },
+    {
+      "text": "剔除流动性较低个股后，港股通成长股投资策略年化收益 22.2%，相对港股通指数年化超额 20.0%，相对港股通成长策略指数年化超额 16.6%。",
+      "evidence": "月度换仓，扣除单边2‰交易成本后，按照上述方式构建的成长投资策略年化收益21.4%，相对港股通指数年化超额19.2%。若剔除流动性较低个股，则组合收益年化收益 22.2%，相对港股通指数年化超额 20.0%，相对港股通成长策略指数年化超额 16.6%。"
+    },
+    {
+      "text": "市值加权港股通均衡策略2015年以来年化收益25.1%，相对港股通指数年化超额23.0%。",
+      "evidence": "我们基于市值、价值、成长、质量、动量 5 类经典因子等权排序打分，选择得分最高的 30只股票构建市值加权港股通均衡策略，2015.01.01-2025.08.26期间，策略年化收益25.1%，相对于港股通指数年化超额23.0%。"
+    },
+    {
+      "text": "均衡策略在各风格上都具有一定正暴露，剔除市场、风格影响后仍具有年化13.7%的 alpha。",
+      "evidence": "均衡策略在各风格上都具有一定正暴露，整体比较均衡。剔除市场、风格影响后，策略仍具有年化13.7%的 alpha。"
+    },
+    {
+      "text": "4 个策略相对港股通指数的年化超额收益均不低于 9%；均衡配置策略回撤较小、信息比最高，护城河策略超额收益波动率和相对回撤都较低。",
+      "evidence": "整体来看，这 4 个策略在港股通池子里都具有较优的长期业绩表现，相对于港股通指数的年化超额收益均不低于 9%。相较而言，均衡配置策略回撤较小，信息比最高；护城河策略和指数更为接近，超额收益波动率和相对回撤都较低。"
+    },
+    {
+      "text": "护城河策略无显著风格暴露，市场 beta 接近于 1；价值策略主要暴露价值风格；成长策略呈高 beta 属性，成长、动量、高估值暴露显著。",
+      "evidence": "其中，护城河策略无显著风格暴露，市场 beta 接近于 1，和港股通指数走势更为接近，其超额收益波动率和相对回撤最低。价值策略，主要暴露风格为价值；而成长策略呈高 beta 属性，同时成长、动量、高估值暴露显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama, E. F. and K. R. French. (1993). \"Common risk factors in the returns on stocks and bonds.\""
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

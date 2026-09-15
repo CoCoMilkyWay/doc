@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20200601-国盛证券-多因子系列-012-无形资产估值因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "growth"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ICV",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{ICV}_{i,t}=\\frac{\\mathrm{Krd}_{i,t}+\\mathrm{Ksga}_{i,t}-\\mathrm{Goodwill}_{i,t}}{\\mathrm{MarketCap}_{i,t}}",
+          "stats": [0.0262, null, null, 0.137],
+          "evidence": "我们加总企业的研发资产、销售管理资产，减去商誉，并除以市值构建无形资产的价值因子 ICV（Intangible Capital Value）："
+        },
+        {
+          "name": "Krd/Cap",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Krd}_{i,t}=(1-d_{rd})\\mathrm{Krd}_{i,t-1}+\\mathrm{RD}_{i,t},\\quad \\mathrm{KrdCap}_{i,t}=\\frac{\\mathrm{Krd}_{i,t}}{\\mathrm{MarketCap}_{i,t}}",
+          "stats": [null, null, null, null],
+          "evidence": "以研发支出为例，我们希望将公司历史上所有在研发上的支出，根据支出时间和折旧率折算到当前时间点，作为公司在研究创新上沉淀下来的资本。"
+        },
+        {
+          "name": "Ksga/Cap",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Ksga}_{i,t}=0.8\\mathrm{Ksga}_{i,t-1}+0.15\\mathrm{SGA}_{i,t},\\quad \\mathrm{KsgaCap}_{i,t}=\\frac{\\mathrm{Ksga}_{i,t}}{\\mathrm{MarketCap}_{i,t}}",
+          "stats": [null, null, null, null],
+          "evidence": "计算思路类似于研发资产，但是我们设定每期的只有 15%的销售管理费用进入资产，并将历史资产以 20%的折旧率折算："
+        },
+        {
+          "name": "Negative Goodwill/Cap",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{NegativeGoodwillCap}_{i,t}=\\frac{-\\mathrm{Goodwill}_{i,t}}{\\mathrm{MarketCap}_{i,t}}",
+          "stats": [null, null, null, null],
+          "evidence": "商誉也是一种无形资产，然而由于在商誉问题上暴雷的公司层出不穷，我们认为应当对高商誉采取谨慎的态度，因此选择扣除商誉，降低商誉被高估而带来的潜在风险。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "ICV因子分组收益整体呈现单调性，2014年1月~2020年3月wind全A样本内测试，因子值最大的第十组相对于第一组存在明显的优势，对股票收益有一定区分度。",
+      "evidence": "ICV 因子分组收益整体呈现单调性。我们在测试了 2014年1 月~2020年3 月为止，wind全 A 样本内 ICV 原始因子，市值中性化以及市值行业中性化后因子分组表现，下图为分十组组合相对 wind 全 A 超额年化收益，我们看到因子对股票收益有一定区分度，其中因子值最大的第十组相对于第一组存在明显的优势。"
+    },
+    {
+      "text": "ICV因子在样本内的IC值显著异于0，原始因子IC均值0.0262，市值中性化后IC均值0.0219，市值行业中性化后IC均值0.0206。",
+      "evidence": "从 IC 检验来看，ICV 因子在样本内的 IC 值显著异于 0。原始因子 IC 均值 0.0262，t检验值3.93；而对市值中性化后因子IC均值0.0219，对市值行业中性化后IC均值0.0206。"
+    },
+    {
+      "text": "ICV因子多头组合整体跑赢空头组合，原始因子多空组合年化收益13.7%，对市值和行业中性化后有所降低。",
+      "evidence": "从多空组合表现来看，ICV因子多头组合整体跑赢空头组合。原始因子多空组合年化收益 13.7%，对市值和行业中性化后有所降低。"
+    },
+    {
+      "text": "在控制所有风险因子后，ICV因子仍然能提供一定的超额收益，中证500样本自2016年起有持续超额收益，创业板综在2014年及2017年6月至今也有持续超额收益。",
+      "evidence": "我们观察到，在控制所有风险因子后，ICV 因子仍然能提供一定的超额收益。下图为回归法测试中，控制了风险模型中的十大类风格因子（size、nlsize、beta、momentum、residual volatility、liquidity、value、earnings y ield、growth 和 leverage）与行业因子（中信一级行业分类）后，ICV 因子在 wind 全 A、沪深 300、中证500 和创业板综中的纯因子收益率。从不同的指数样本来看，ICV 因子自 2016 年起中证 500 样本中有持续的超额收益，而在 2014 年以及 2017 年6 月至今在创业板综样本中也有持续的超额收益；此外，因子在沪深 300 样本内的收益相对较低，但自 2018 年至今依然能提供一定的超额收益。"
+    },
+    {
+      "text": "TMT行业内用ICV因子每月月底等权买入打分最高的50只股票并控制市值暴露，组合年化超额收益8.84%，信息比1.39，相较于传统BP因子有明显优势。",
+      "evidence": "我们利用无形资产估值因子在 TMT 行业内构建策略，每月月底等权买入打分最高的 50只股票，并控制市值暴露，该组合年化超额收益 8.84%，信息比 1.39，且相较于传统的 BP因子有明显优势。"
+    },
+    {
+      "text": "A股上市公司研发支出折旧率处于30%~80%不等，其中汽车、医药行业研发折旧率较低，电子行业研发折旧率偏高。",
+      "evidence": "回归结果表明 A股上市公司的研发支出折旧率处于 30%~80%不等，其中汽车、医药行业研发折旧率较低，电子行业研发折旧率偏高。"
+    },
+    {
+      "text": "对比中小票中因子表现，设定折旧率为0的因子表现更占优势，即我们测算的折旧率有偏高的嫌疑。",
+      "evidence": "若是全市场选股，因子对折旧率的敏感性相对弱一些，但对比中小票中因子表现，设定折旧率为 0 的因子表现更占优势，即我们测算的折旧率有偏高的嫌疑。"
+    },
+    {
+      "text": "负商誉估值在传媒行业的统计检验值较高，该因子确实能帮助我们降低高商誉公司暴雷风险。",
+      "evidence": "负商誉估值在传媒行业的统计检验值较高，该因子确实能帮助我们降低高商誉公司暴雷风险。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Baruch, Lev, and, et al. The capitalization, amortization, and value-relevance of R&D[J]. Journal of Accounting & Economics, 1996.",
+    "Li W C Y , Hall B H . Depreciation of Business R&D Capital[J]. Bea Working Papers, 2016.",
+    "Park, Hyuna. An intangible-adjusted book-to-market ratio still predicts stock returns [J]. European Financial Management, 2019."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

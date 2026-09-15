@@ -1,0 +1,181 @@
+{
+  "schema_version": 2,
+  "id": "20260411-国泰海通-量化选股-004-融合深度学习因子的500增强多策略组合实证",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": ["style_ratio", "order_flow", "intraday_pattern", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "盈利加速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利增长速度的变化（盈利加速度）}",
+          "stats": [0.012, null, 2.554, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "改进市净率",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{改进口径的市净率}",
+          "stats": [0.035, null, 1.897, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "研发占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{研发投入占营业收入的比例}",
+          "stats": [0.008, null, 0.538, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经波动率调整与一致预期调整的净资产收益率}",
+          "stats": [-0.01, null, -0.649, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "SUE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经波动率调整与一致预期调整的标准化盈余惊喜}",
+          "stats": [0.02, null, 2.305, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "市值",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{市值因子值取反处理（小市值暴露）}",
+          "stats": [0.037, null, 1.893, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{尾盘时段成交量占全日成交量比例，因子值取反处理}",
+          "stats": [0.02, null, 3.726, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "大单净买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大单净买入金额占成交金额的比例}",
+          "stats": [0.027, null, 6.707, null],
+          "evidence": "以小市值高增长组合所用到的多因子为例，该组合使用盈利加速，改进市净率，研发占比，ROE（波动率调整与一致预期调整），SUE（波动率调整与一致预期调整），市值，尾盘成交占比，大单净买入占比 8个因子等权构建，其中，市值与尾盘成交占比因子值进行了取反处理。"
+        },
+        {
+          "name": "多粒度因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{利用Level2行情，基于深度学习复杂非线性模型构建的复合因子，训练Label窗口为一周与两周}",
+          "stats": [0.075, null, 4.518, null],
+          "evidence": "对于多粒度因子，这种利用 Level2 行情，基于深度学习这一复杂非线性模型所构建的复合因子是否依然有截面表现与时序表现稳定性差异呢，我们考察多粒度因子周度表现，如下表："
+        },
+        {
+          "name": "小市值高增长",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利加速、改进市净率、研发占比、ROE、SUE、市值、尾盘成交占比、大单净买入占比的复合因子，采用等权法或回归法确定因子系数}",
+          "stats": [0.055, null, 8.6, null],
+          "evidence": "考虑到市值因子对于复合因子影响的差异性，我们分别以包含市值的8因子以及不包含市值的 7 因子构建复合因子，同时分别采用回归法与等权法确定因子系数。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["mean_variance", "futures_hedge"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "500成分内，复合因子表现显著优于单纯的多粒度因子与小市值高增长因子；多策略复合表现远优于传统多因子方法所构建的增强组合，年化收益提升10%左右，信息比也有明显提升。",
+      "evidence": "500 成分内，复合因子表现显著优于单纯的多粒度因子与小市值高增长因子，虽然相较于小市值高增长因子放大了回撤，但从收益与信息比角度有显著的增强。整体来看，多策略复合表现远优于传统多因子方法所构建的增强组合，年化收益提升10%左右，信息比也有明显提升。"
+    },
+    {
+      "text": "多策略复合表现远优于传统的复合因子方法所构建的增强组合，而在80%成分股限定下，以信息比为优化目标效果更优。",
+      "evidence": "整体来看，多策略复合表现远优于传统的复合因子方法所构建的增强组合，而在80%成分股限定下，以信息比为优化目标效果更优。"
+    },
+    {
+      "text": "多策略复合（信息比最优）500增强超额年化收益18.32%，信息比2.273，最大回撤9.04%，收益回撤比2.027。",
+      "evidence": "多策略复合（信息比最优） | 18.32% | 2.273 | 9.04% | 2.027 |"
+    },
+    {
+      "text": "部分因子在全市场与500成分内有明显的差异，市值因子在全市场表现明显小盘股效应而500成分内IC均值接近0，因子在截面与时序上均有显著的不稳定性。",
+      "evidence": "上表中因子表现可以看出，部分因子在全市场与 500 成分内有明显的差异，其中市值因子在全市场表现明显小盘股效应，而 500成分内IC 均值接近 0。绝大部分因子，无论全市场与500成分内表现差异是否很大，其全市场 IC-IR均显著高于 500成分内IC-IR。综上说明因子在截面与时序上均有显著的不稳定性"
+    },
+    {
+      "text": "多粒度因子的全市场表现与500成分表现差异度远大于小市值高增长因子，500成分内表现大概率低于小市值高增长组合。",
+      "evidence": "多粒度因子的全市场表现与 500 成分表现差异度远大于小市值高增长因子，其 500 成分内多头表现月度化后，与无市值的小市值高增长组合接近，但周度胜率很低，因子500 成分内表现大概率低于小市值高增长组合。"
+    },
+    {
+      "text": "目前的多策略方法会有换手率失控的风险，最终换手率往往高达20倍左右，而同样因子的传统多因子组合换手率只有8倍左右。",
+      "evidence": "目前的多策略方法会有换手率失控的风险，从本文所述策略来看，最终换手率往往高达 20倍左右，而同样因子的传统多因子组合换手率只有8倍左右。"
+    },
+    {
+      "text": "与股指期货对冲可以得到10%左右的绝对收益，但夏普比只能达到1左右，若单纯通过对冲股指期货构建绝对收益产品，策略表现还需要进一步改进。",
+      "evidence": "与股指期货对冲可以得到 10%左右的绝对收益，但夏普比只能达到 1左右，结合基差的波动与超额收益的不稳定性，如果单纯的希望通过对冲股指期货构建绝对收益产品，策略表现还需要进一步改进。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Wind",
+    "国泰海通量化选股系列（二）——中证 500指数增强策略的再探索（2026.03.27）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

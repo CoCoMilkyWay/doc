@@ -1,0 +1,90 @@
+{
+  "schema_version": 2,
+  "id": "20190201-海通证券-选股因子-044-因子拥挤度的扩展",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["distribution_moment", "participant_behavior"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_daily", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "资产集中度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "C_{i}=\\frac{\\sum_{j=1}^{n}AR^{j}\\cdot\\frac{\\left|EV_{i}^{j}\\right|}{\\sum_{k=1}^{N}\\left|EV_{k}^{j}\\right|}}{\\sum_{j=1}^{n}AR^{j}},\\quad AR^{j}=\\frac{\\sigma_{Ej}^{2}}{\\sum_{k=1}^{N}\\sigma_{Ak}^{2}}",
+          "stats": [-0.58, null, null, null],
+          "evidence": "在因子层面，资产集中度度量了因子的多头组合对于市场波动的解释能力。因子多头组合的波动解释能力越强，越代表该因子是当前市场波动的主要来源，该因子拥挤度越高。"
+        },
+        {
+          "name": "机构持仓金额比",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{机构持仓金额比}=\\frac{\\text{因子多头组合股票公募基金前10大持仓总金额}}{\\text{公募基金前10大持仓总金额}}",
+          "stats": [-0.47, null, null, null],
+          "evidence": "由于公募基金的季度持仓数据为投资者能够拿到的最及时的机构持仓数据，本章在构建相关指标时，主要基于公募基金季度持仓进行指标加工。"
+        },
+        {
+          "name": "机构持仓市值比",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{机构持仓市值比}=\\frac{\\text{因子多头组合股票公募基金前10大持仓总金额}}{\\text{多头组合股票总市值}}",
+          "stats": [-0.67, null, null, null],
+          "evidence": "整体来看，机构持仓市值比的预测能力同样偏弱。从收益预测能力来看，指标除了与盈利增长因子未来收益之间的负相关性较为明显外，该指标在其余因子上与因子未来收益之间的相关性偏弱。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "robustness", "selection", "crowding"],
+      "setup": {"universe": ["all", "csi800"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "资产集中度对于因子未来收益具有一定的预测能力，但在部分因子上会与因子未来收益正相关；其收益预测能力在正交的因子集合上依然存在，而对因子未来收益波动的预测能力在正交集合上会大幅减弱。",
+      "evidence": "资产集中度对于因子未来收益具有一定的预测能力，但是在部分因子上会与因子未来收益正相关。指标对于因子未来收益的预测能力在正交的因子集合上依然存在。在原始因子集合上，资产集中度对因子未来收益波动同样具有预测能力，但是在正交的因子集合上，指标的波动预测能力会大幅减弱。"
+    },
+    {
+      "text": "使用公募基金季度披露的前大持仓数据构建的机构持仓集中度指标在原始因子集合上预测能力较弱；在正交的因子集合上，机构持仓市值比具有一定预测能力，在波动、估值、盈利以及盈利增长等因子上与因子未来收益负相关。",
+      "evidence": "使用公募基金季度披露的前大持仓数据构建得到的机构持仓集中度指标在原始因子集合上的预测能力较弱，无论是机构持仓金额比还是机构持仓市值比都未呈现出较好的预测能力。在正交的因子集合上，机构持仓市值比具有一定的预测能力。指标在波动、估值、盈利以及盈利增长等因子上与因子未来收益负相关。"
+    },
+    {
+      "text": "各拥挤度指标之间存在一定的相关性，估值价差与长期收益反转正相关，因子波动率与资产集中度正相关。",
+      "evidence": "简单来说，各拥挤度指标之间存在一定的相关性。例如，估值价差与长期收益反转正相关，因子波动率与资产集中度正相关。"
+    },
+    {
+      "text": "大部分拥挤度指标对选股空间的变化并不特别敏感，在全市场以及中证800内的预测能力较为接近，但配对相关性对选股空间的变化极为敏感。",
+      "evidence": "回测结果表明，大部分拥挤度指标对于选股空间的变化并不是特别敏感。大部分的拥挤度指标在全市场以及在中证 800 内的预测能力较为接近，但是配对相关性对于选股空间的变化极为敏感。"
+    },
+    {
+      "text": "资产集中度在中证800内呈现出更强的收益预测能力，与反转、波动以及盈利因子的未来收益之间的负相关性更强，但对因子未来收益波动的预测效果有所减弱。",
+      "evidence": "通过对比可以发现，资产集中度在中证 800 内呈现出了更强的收益预测能力，指标与反转、波动以及盈利因子的未来收益之间的负相关性更强。值得注意的是，在中证 800 内，指标对于因子未来收益波动的预测效果有所减弱。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究(十七)——选股因子的正交》",
+    "《选股因子系列研究（四十三）——因子拥挤度的改进》",
+    "《选股因子系列（四十二）——因子失效预警：因子拥挤》",
+    "《量化研究新思维（十三）——拥挤交易对于板块轮动以及因子择时的指示意义》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

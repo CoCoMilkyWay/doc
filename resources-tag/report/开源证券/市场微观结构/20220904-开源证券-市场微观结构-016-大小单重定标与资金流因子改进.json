@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20220904-开源证券-市场微观结构-016-大小单重定标与资金流因子改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_l1_l2", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "NIR_MOD因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "ln(B/S)=\\alpha+\\beta\\times Ret+\\varepsilon,\\ \\hat{B}=\\frac{e^{\\varepsilon}}{1+e^{\\varepsilon}}\\times(B+S),\\ \\hat{S}=\\frac{1}{1+e^{\\varepsilon}}\\times(B+S),\\ NIR\\_MOD=\\frac{\\sum_{i}^{N}(\\hat{B}_i-\\hat{S}_i)}{\\sum_{i}^{N}(\\hat{B}_i+\\hat{S}_i)}",
+          "stats": [null, null, null, 0.3216],
+          "evidence": "本文选取买入卖出金额比作为代理变量（IMB），通过截面回归的方法，剥离反转因素的影响以提纯资金流的 Alpha 信息。NIR_MOD因子相比NIR因子选股能力明显提升，IR由 2.63提升至 4.76。"
+        },
+        {
+          "name": "CNIR因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "B_P=B_{Extra}+B_{Large}+B_{Med},\\ S_P=S_{Extra}+S_{Large}+S_{Med},\\ CNIR=\\frac{\\sum_{i}^{N}(\\hat{B}_{P,i}-\\hat{S}_{P,i})}{\\sum_{i}^{N}(\\hat{B}_{P,i}+\\hat{S}_{P,i})}",
+          "stats": [null, 0.056, 3.647, 0.2519],
+          "evidence": "为了更便捷地利用上述结论，我们将Wind的超大单、大单和中单合并，定义为有定价权的“广义主力资金”，进而在NIR_MOD的基础上构造CNIR因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "随着划分大单的金额阈值降低，NIR_MOD因子的有效性在逐渐增强，最优划分阈值并非Wind预设的20万元，而是明显偏低（例如2万元）。",
+      "evidence": "经过参数测试我们发现，随着划分大单的金额阈值降低，NIR_MOD因子的有效性在逐渐增强，并且当金额低于10 万元时基本达到峰值，最优的划分阈值并未等于Wind预设的20万元，而是明显要偏低一些（例如，2万元）。"
+    },
+    {
+      "text": "把划分主力资金的金额阈值扩展至更低的2万元标准，NIR_MOD因子多空对冲收益提升至32.16%，提升了6%的水平，并且回撤幅度更小。",
+      "evidence": "而同样是采用资金流修正方法，若是我们把划分主力资金的金额阈值扩展至更低的 2万元标准，NIR_MOD因子则会有更加不错的表现，多空对冲收益提升至 32.16%，提升了6%的水平，并且回撤幅度更小。"
+    },
+    {
+      "text": "CNIR因子全市场多头年化收益率达27.86%，IR提升至4.91，在中证1000上表现优于沪深300和中证500。",
+      "evidence": "在全市场上，CNIR因子的多头年化收益率达到 27.86%，IR也提升至 4.91；从分域测试效果来看，因子在中证 1000上表现要优于沪深 300 和中证500。"
+    },
+    {
+      "text": "资金流的Alpha更多来源自主力资金的信息优势而不是小单流动性映射，大单的多空收益可达年化25%以上，相比小单收益多出4%左右。",
+      "evidence": "大单的多空收益可以达到年化25%以上，相比小单收益多出 4%左右，资金流的Alpha更多来源自主力资金的信息优势而不是小单流动性映射。"
+    },
+    {
+      "text": "依据逐笔数据的Type、Side等字段划定主动与非主动交易，基于主动买卖数据构造的大单NIR_MOD因子选股效果并未获得改进，主动与非主动标签并未贡献明显的增量信息。",
+      "evidence": "依据逐笔数据的 Type、Side等字段划定主动与非主动交易，我们测试后发现基于主动买卖数据构造的大单NIR_MOD因子选股效果并未获得改进。"
+    },
+    {
+      "text": "大票为主的最优划分阈值不明确且相对更高，中证1000及全市场范围内主力资金划分阈值明显偏低，有效性曲线更光滑，可能与机构拆单行为有关。",
+      "evidence": "在大票为主的沪深 300 和中证500指数成分股中，主力资金的最优划分阈值是不明确的，并且划分金额相对更高。而在中证1000 以及全市场范围内测试，主力资金的划分阈值会明显偏低，二者之中的全市场又要更低一些，整体上有效性曲线会更“光滑”。"
+    },
+    {
+      "text": "扣减Barra风格因子收益后，CNIR因子多头年化收益仍达23.04%，信息比率4.48，多空收益17.4%以上，具有独立的Alpha源。",
+      "evidence": "在扣减 Barra 风格因子的收益之后，CNIR因子的多头收益依旧显著，年化收益达到 23.04%，多空对冲收益稳健，信息比率为 4.48，多空收益仍有 17.4%以上；扣减交易行为因子的收益后，因子的多头和空头损失程度会加重，多空收益为15.25%，但胜率保持在 85%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《大单与小单资金流的 alpha 能力》（2021-06-02）",
+    "《新型因子：资金流动力学与散户羊群效应--市场微观结构研究系列》（2022-6-2）",
+    "《理想反转因子的 4 年总结：依旧理想--市场微观结构研究系列》（2022-5-2）",
+    "《高频因子：分钟单笔金额序列中的主力行为刻画--市场微观结构研究系列》（2022-6-12）",
+    "《高频股东数据的隐含信息量》（2020-12-31）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

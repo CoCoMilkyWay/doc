@@ -1,0 +1,108 @@
+{
+  "schema_version": 2,
+  "id": "20220602-开源证券-市场微观结构-014-新型因子_资金流动力学与散户羊群效应",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "超大单和小单的同步相关性",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\operatorname{RankCorr}(EL_{t},S_{t})",
+          "stats": [0.0513, null, 2.43, 0.1209],
+          "evidence": "从表 1 我们可以看出，超大单和小单的同步相关性 $.RankCorr(EL_{t},S_{t})$ 表现最好。"
+        },
+        {
+          "name": "小单和小单的错位相关性",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\operatorname{RankCorr}(S_{t},S_{t+1})",
+          "stats": [0.0309, null, 2.07, 0.0845],
+          "evidence": "对于错位相关性因子而言，小单和小单的错位相关性 $RankCorr(S_{t},S_{t+1})$ 表现最好，IC均值为3.09%，ICIR达 2.07，其 alpha来源是“散户羊群效应”。"
+        },
+        {
+          "name": "散户羊群效应因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\operatorname{RankCorr}(R_{t},S_{t+1})",
+          "stats": [-0.0452, null, -2.35, 0.1251],
+          "evidence": "接着，我们对 $RankCorr(R_{t},S_{t+1})$ 进行回测，IC 均值-4.52%，ICIR-2.35，多空对冲年化收益率12.51%，收益波动比2.18，胜率77.48%，而且该因子回看参数敏感性不高。"
+        },
+        {
+          "name": "行业散户羊群效应",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\operatorname{RankCorr}(\\Delta R_{t},\\Delta S_{t+1})",
+          "stats": [-0.0585, null, -1.04, 0.1199],
+          "evidence": "最终，我们采用$RankCorr(\\Delta R_{t},\\Delta\\mathsf{S}_{t+1})$ 作为行业散户羊群效应的代理变量，具体解释为：对于某行业小单资金净流入的日度变化而言，若其跟随昨日行业收益日度变化越紧密，我们则认为该行业散户羊群效应较高，后市表现可能较差。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "超大单和小单的同步相关性RankCorr(ELt,St)表现最好，IC均值5.13%，ICIR达2.43，但其alpha来源是伪动力学：在恒等式约束下可被两者流入量级所解释，底层alpha来源仍是资金流强度。",
+      "evidence": "对于同步相关性因子而言，超大单和小单的同步相关性 $RankCorr(EL_{t},S_{t})$ 表现最好，IC 均值为 5.13%，ICIR 达 2.43。但其 alpha 来源是“伪动力学”，即在恒等式“超大单+大单+中单+小单=0”的约束下，资金流同步相关性 alpha，可以被两者流入量级所解释，其底层 alpha来源仍是资金流强度。"
+    },
+    {
+      "text": "小单和小单的错位相关性RankCorr(St,St+1)表现最好，IC均值3.09%，ICIR达2.07，其alpha来源是散户羊群效应。",
+      "evidence": "对于错位相关性因子而言，小单和小单的错位相关性 $RankCorr(S_{t},S_{t+1})$ 表现最好，IC均值为3.09%，ICIR达 2.07，其 alpha来源是“散户羊群效应”。"
+    },
+    {
+      "text": "原始因子RankCorr(ELt,St)回归掉H指标（超大单与小单净流入量级占比）之后基本不具备选股能力，验证了资金流同步相关性alpha可被两者流入量级所解释。",
+      "evidence": "从图 3 我们可以看到，原始因子 $RankCorr(EL_{t},S_{t})$ 回归掉H指标之后，基本不具备选股能力，所以我们前面的猜想基本正确：在恒等式“超大单+大单+中单+小单=0”的约束下，资金流同步相关性 alpha，可以被两者流入量级所解释。"
+    },
+    {
+      "text": "散户羊群效应因子RankCorr(Rt,St+1)为负向选股因子，回测IC均值-4.52%，ICIR-2.35，多空对冲年化收益率12.51%，收益波动比2.18，且回看参数敏感性不高。",
+      "evidence": "接着，我们对 $RankCorr(R_{t},S_{t+1})$ 进行回测，IC 均值-4.52%，ICIR-2.35，多空对冲年化收益率12.51%，收益波动比2.18，胜率77.48%，而且该因子回看参数敏感性不高。"
+    },
+    {
+      "text": "每月底进行Barra风格因子及行业中性化后，纯净新因子多空对冲年化收益8.49%，信息比率2.27，胜率75%，最大回撤2.37%，剔除风格行业干扰后依然有效。",
+      "evidence": "纯净新因子多空对冲的年化收益为 8.49%，信息比率为 2.27，胜率为75%，最大回撤为 2.37%。"
+    },
+    {
+      "text": "散户羊群效应因子在其他样本空间依然有效：沪深300、中证500、中证1000内多空收益波动比分别为1.35、1.32、2.05，表现较好。",
+      "evidence": "以回看天数20天为例，在沪深 300内多空和多空收益波动比分别为 1.35和 0.60，中证 500内因子的多空和多头的收益波动比分别为 1.32 和 0.43，中证 1000 内因子的多空和多头的收益波动比分别为 2.05 和 0.61。"
+    },
+    {
+      "text": "行业散户羊群效应代理变量RankCorr(ΔRt,ΔSt+1)的IC均值-5.85%，ICIR为-1.04，3分组回测多空对冲年化收益11.99%，信息比率1.25，胜率66.07%，最大回撤8.22%，整体绩效较为优异，具备行业轮动能力。",
+      "evidence": "对于行业 $RankCorr(\\Delta R_{t},\\Delta\\mathsf{S}_{t+1})$ 而言，IC均值-5.85%，ICIR为-1.04。我们对其进行 3 分组回测，多空对冲的年化收益 11.99%，信息比率 1.25，胜率 66.07%，最大回撤 8.22%，整体绩效较为优异。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《大类资产配置研究系列（6）-行业配置体系2.0：轮动模型的回顾、迭代与思考》-2022.02.27",
+    "《市场微观结构研究系列（12）-大单与小单资金流的alpha能力》-2021.06.02",
+    "《市场微观结构研究系列（9）-主动买卖因子的正确用法》-2020.09.05",
+    "《开源量化评论（42）-知情交易者背后的择时信息》-2021.10.24"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

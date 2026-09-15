@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20220721-国泰君安-文献解读-031-esg取值的组合优化与动态资产定价",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_tail"],
+      "approach": ["extreme_dependence"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily", "alt"], "freq": "mixed"},
+        "horizon": "na"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["mean_variance", "option_overlay"],
+      "setup": {"universe": ["large"], "rebalance": "daily"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "提出将ESG评级纳入动态定价理论的统一框架：以ESG取值的收益率替代传统收益率，形成由回报、风险和ESG评分综合决定的组合优化框架，保留风险厌恶系数α并引入ESG亲和系数λ。",
+      "evidence": "通过引入 ESG 取值的收益率作为传统的收益率的替代，本文形成一个由回报、风险和 ESG 评分综合决定组合优化框架。该框架保留了组合优化中的风险厌恶系数（α），并引入了 ESG 亲和系数（λ）。"
+    },
+    {
+      "text": "最优权重组合在α≥0.7的mCVaR0.99情形和α≥0.1的MV情形下，其总收益和年化收益都强于基准组合EWBH。",
+      "evidence": "具体来说，最优权重组合在 $.\\alpha\\geq0.7$ 的 $\\mathrm{mCVaR}_{0.99}$ 情况下和 $\\alpha\\ge0.1$ 的 MV情况下，其总收益和年化收益都强于基准组合。"
+    },
+    {
+      "text": "E值的更新产生的RD变化小于5%，表明E值最优权重向量相对稳健；RD指标负相关于α，且λ较高时这种负相关性越强。",
+      "evidence": "从图 4 可以看出，E值的更新产生的 RD 变化小于 5%，这表明 E 值最优权重向量相对稳健。更进一步，RD 指标负相关于 α，并且在 λ 较高时，这种负相关性越强（见图 4（a））。"
+    },
+    {
+      "text": "λ较大时切线组合的表现远超基准组合；除Gini系数外，随λ增大切线组合所有RRR均优于基准组合，平均换手率随λ增大而减小。",
+      "evidence": "当λ较大时，切线组合的表现远超基准组合。除了 Gini 系数，伴随着λ的增大，切线组合所有的 RRR 都优于基准组合。平均换手率则随着λ的增大而减小。"
+    },
+    {
+      "text": "MV场景中的RRR表现强于mCVaR场景中的RRR，且相对于基准组合RRR都有一定程度提升。",
+      "evidence": "总体上看，MV 场景中的 RRR表现强于 mCVaR 场景中的 RRR，而且相对于基准组合 RRR 都有一定程度的提升。"
+    },
+    {
+      "text": "λ=0时两种底层资产的期权价差几乎为零；随λ增加，期权价差主要发生在行权价格更偏价内的情况，E值切线组合因向高E值标的倾斜而产生更高的期权价格。",
+      "evidence": "可以看到，对于λ = 0，期权价差几乎为零。随着λ的增加，期权价差主要发生在行权价格更偏价内（into-the-money）的情况。E值切线组合由于拥有较高的 E值，因此会产生向高 E值标的的倾斜，从而生成更高的期权价格。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "D. Lauria, W. B. Lindquist, S. Mittnik and S. T. Rachev. \" ESG - Valued Portfolio Optimization and Dynamic Asset Pricing.\" Preprint version. https: //arxiv.org/abs/2206.02854"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

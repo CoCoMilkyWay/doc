@@ -1,0 +1,154 @@
+{
+  "schema_version": 2,
+  "id": "20200831-海通证券-选股因子-070-日内市场微观结构与高频因子选股能力",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{基于日内分钟高频收益率计算的偏度指标，刻画投资者在交易上的过度反应}",
+          "stats": [-0.02, null, null, 0.0094],
+          "evidence": "而以高频偏度为代表的一系列因子则更多刻画了投资者在交易上的过度反应。"
+        },
+        {
+          "name": "下行波动占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内下行波动占整体波动的比例}",
+          "stats": [0.02, null, null, 0.0054],
+          "evidence": "同样可以发现，部分因子在剔除开盘后数据计算时展现出了更强的选股能力，如，委托成交相关性、高频偏度、下行波动占比等因子。"
+        },
+        {
+          "name": "净委买占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{（委托买量-委托卖量）/委托总量，刻画投资者的主动交易倾向}",
+          "stats": [0.02, null, null, 0.0057],
+          "evidence": "从因子构建思路来看，以净委买占比为代表的一系列因子着重刻画了投资者的主动交易行为或者主动交易倾向。"
+        },
+        {
+          "name": "委托成交相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{委托量与成交量在日内不同时段的相关性}",
+          "stats": [-0.02, null, null, 0.0075],
+          "evidence": "同样可以发现，部分因子在剔除开盘后数据计算时展现出了更强的选股能力，如，委托成交相关性、高频偏度、下行波动占比等因子。"
+        },
+        {
+          "name": "净主买占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{（主买量-主卖量）/成交量，刻画投资者主动买入倾向}",
+          "stats": [0.01, null, null, 0.0033],
+          "evidence": "部分因子在仅使用开盘后数据计算时展现出了更强的选股能力，如，净委买占比、净主买占比、知情主卖占比、买入意愿占比以及买入意愿强度。"
+        },
+        {
+          "name": "知情主卖占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{知情交易者主导的卖出成交占成交量的比例}",
+          "stats": [-0.02, null, null, 0.0061],
+          "evidence": "部分因子在仅使用开盘后数据计算时展现出了更强的选股能力，如，净委买占比、净主买占比、知情主卖占比、买入意愿占比以及买入意愿强度。"
+        },
+        {
+          "name": "买入意愿占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{主动买入金额占成交金额的比例，刻画买入意愿的强弱}",
+          "stats": [0.02, null, null, 0.0069],
+          "evidence": "部分因子在仅使用开盘后数据计算时展现出了更强的选股能力，如，净委买占比、净主买占比、知情主卖占比、买入意愿占比以及买入意愿强度。"
+        },
+        {
+          "name": "买入意愿强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于主动买入金额构建的买入意愿强度指标}",
+          "stats": [0.03, null, null, 0.0101],
+          "evidence": "以买入意愿强度为例，中证 500 指数增强组合年化收益提升约 3.6%。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "部分因子在仅使用开盘后数据计算时展现出了更强的选股能力，如净委买占比、净主买占比、知情主卖占比、买入意愿占比以及买入意愿强度。",
+      "evidence": "观察上表不难发现，部分因子在仅使用开盘后数据计算时展现出了更强的选股能力，如，净委买占比、净主买占比、知情主卖占比、买入意愿占比以及买入意愿强度。"
+    },
+    {
+      "text": "委托成交相关性、高频偏度、下行波动占比等因子在剔除开盘后数据计算时展现出了更强的选股能力。",
+      "evidence": "同样可以发现，部分因子在剔除开盘后数据计算时展现出了更强的选股能力，如，委托成交相关性、高频偏度、下行波动占比等因子。"
+    },
+    {
+      "text": "根据因子内在逻辑可将高频因子分为两类：刻画知情交易者交易行为的因子在使用开盘后数据计算时具有更强的月度选股能力，刻画投资者过度反应的因子在剔除开盘后数据计算时选股能力相对较强。",
+      "evidence": "可根据高频因子内在逻辑将其分为两类，一类旨在刻画知情交易者的交易行为，该类因子在使用开盘后 分钟数据计算时具有更强的月度选股能力，而另一类旨在刻画投资者的过度反应，该类因子在使用剔除开盘后 分钟数据计算时的选股能力相对较强。"
+    },
+    {
+      "text": "股票日内成交呈U型分布，开盘后30分钟以及收盘前30分钟的成交占比远高于日内其他时段，且该现象在不同指数范围内皆存在。",
+      "evidence": "总体来看，股票日内成交呈 U 型分布，开盘后 30 分钟以及收盘前 30分钟的成交占比远高于日内其他时段，并且这种现象在不同的指数范围内皆存在。"
+    },
+    {
+      "text": "股票分钟收益波动以及盘口买卖价差在日内呈L型分布，推测开盘后聚集了更多的知情交易者。",
+      "evidence": "股票分钟收益波动以及盘口买卖价差在日内呈 L 型分布。"
+    },
+    {
+      "text": "在国内市场，开盘后聚集了更多的知情交易者，而收盘前的知情交易者占比相对较低。",
+      "evidence": "那么我们是否可以推测，在国内市场，开盘后聚集了更多的知情者，而收盘前的知情交易者占比却相对较低。"
+    },
+    {
+      "text": "因子在使用开盘后30分钟与收盘前30分钟计算时展现出截然不同的选股能力，两段时间虽然都聚集了较多成交，但存在较为明显的差异。",
+      "evidence": "从下表回测结果可知，因子在使用开盘后 30分钟与收盘前 30 分钟计算时，展现出了截然不同的选股能力。"
+    },
+    {
+      "text": "使用开盘后数据计算的买入意愿强度加入中证500指数增强组合后，各年皆取得更高超额收益，为组合带来进一步的收益增强以及风险的降低。",
+      "evidence": "观察上表不难发现，相比于使用全天数据计算买入意愿强度，使用开盘后 分钟数据计算得到的买入意愿强度不仅在单因子上呈现出了更强的选股能力，在加入组合后同样能够为组合带来进一步的收益增强以及风险的降低。"
+    },
+    {
+      "text": "调整因子计算数据时段可提升组合收益：以买入意愿强度为例，中证500指数增强组合年化收益提升约3.6%；以买入意愿占比为例，沪深300指数增强组合年化收益提升约1.7%。",
+      "evidence": "以买入意愿强度为例，中证 500 指数增强组合年化收益提升约 3.6%。以买入意愿占比为例，沪深 300 指数增强组合年化收益提升约 1.7%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（五十七）——基于主动买入行为的选股因子》（2020.01.10）",
+    "《选股因子系列研究（五十八）——知情交易与主买主卖》（2020.02.12）",
+    "《选股因子系列研究（五十六）——买卖单数据中的 Alpha》（2019.11.05）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

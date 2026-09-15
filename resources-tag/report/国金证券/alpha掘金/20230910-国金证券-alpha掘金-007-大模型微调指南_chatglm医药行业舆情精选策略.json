@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20230910-国金证券-alpha掘金-007-大模型微调指南_chatglm医药行业舆情精选策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative", "L1_mining"],
+      "approach": ["text_sentiment", "llm_generation"],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "得分",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "weekly",
+          "formula": "\\text{将每周内新闻文本经ChatGLM2-LoRA判定为积极/中立/消极后分别转换为1/0/-1，按发生所在日期衰减求和：周五衰减系数为1，周四为0.5，以此类推}",
+          "stats": [null, null, null, null],
+          "evidence": "将三个标签分别转换为 1,0，-1,后，对每周内新闻文本按照发生所在日期进行衰减求和，周五的衰减系数为 1，周四为 0.5，以此类推。由于早期新闻数据量较少，覆盖度较低，我们设置阈值 50，当该周新闻所覆盖股票数量达到50 只及以上时，买入得分最高的前 10%股票"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["sector"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "直接以未来20日或5日超额收益率为标签训练，样本内准确率达0.59，但样本外的准确率仅有0.34，与随机标签几乎没有区别，模型难以直接学习新闻文本和收益率之间的对应关系。",
+      "evidence": "随后我们对样本内和选取的部分样本外数据作为测试集分别观察其混淆矩阵，发现样本内的准确率已经得到大幅提升，达到 0.59，f1-score 达到 0.63。而样本外的准确率仅有0.34，与随机标签几乎没有区别。"
+    },
+    {
+      "text": "使用ChatGPT3.5输出结果作为标签微调ChatGLM2后，样本外标签准确率由0.65上升到0.84，平均F1-score在0.80以上，说明大语言模型的推理判断逻辑可以通过训练被其他模型学习。",
+      "evidence": "在样本外，ChatGLM2-LoRA 的标签准确率相较于未微调时得到大幅提升，由 0.65 上升到 0.84，平均 F1-score 也在 0.80 以上。虽然相较于样本内准确率仍有一定差距，但整体表现已经远超出原本未微调时模型的水平。并且相较于以收益率为标签进行训练的大幅度改进也可以说明，大语言模型的推理判断逻辑是可以通过训练被其他模型学习到的。"
+    },
+    {
+      "text": "ChatGPT3.5和ChatGLM2给出的标签与收益率单调性较好，消极标签未来5日超额收益率分别为-1.87%和-0.94%，积极标签对应超额收益率分别为0.23%和0.17%。",
+      "evidence": "如上图所示，ChatGLM3.5 和 ChatGLM2 所给出标签与收益率的单调性都较好，且两个模型的消极标签未来 5 日超额收益率负向明显，分别为-1.87%和-0.94%。积极标签所对应的超额收益率分别为 0.23%和 0.17%。"
+    },
+    {
+      "text": "以微调后的ChatGLM2-LoRA标签构建的医药行业周度舆情精选策略年化超额收益率达30.52%，信息比率0.90，已超过ChatGPT水准。",
+      "evidence": "从策略的基本指标可以看出，经过微调后的 ChatGLM2 舆情精选策略已经超过了 ChatGPT水准，年化超额收益率为 30.52%，相较于未经过微调的策略上升明显，信息比率为 0.90，不过由于每周新闻的股票覆盖度偏低，策略的整体稳定性有一定欠缺。"
+    },
+    {
+      "text": "策略对手续费敏感，经换手率缓冲后单边千分之二费率下年化超额收益率降至12.17%，信息比率0.36。",
+      "evidence": "根据策略的各项指标来看，策略对于手续费比较敏感，策略在单边千分之二的情况下年化超额收益率降至 12.17%，信息比率为 0.36。不过我们考虑，这是由于数据本身限制对策略产生了较大影响，本文对于 ChatGLM 的微调本身依然显著提升了模型在该领域新闻文本的逻辑推理能力。"
+    },
+    {
+      "text": "FinBERT全量微调后样本外准确率为0.81，平均F1-score未能达到0.80，效果略差于微调后的ChatGLM2模型。",
+      "evidence": "结果发现模型同样能在一定程度上学到新闻文本的推理判断能力，准确率为 0.81，平均 F1-score 未能达到 0.80，效果略差于微调后的 ChatGLM2 模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Beta 猎手系列之四：如何利用 ChatGPT 解析卖方策略观点并构建行业轮动策略？》",
+    "《CTA 金点子系列之一：基于 ChatGPT 新闻情感分析的原油期货策略》",
+    "《Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning》",
+    "《P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-tuning Universally Across Scales and Tasks》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

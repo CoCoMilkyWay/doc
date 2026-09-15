@@ -1,0 +1,150 @@
+{
+  "schema_version": 2,
+  "id": "20220922-方正证券-多因子选股-006-个股股价跳跃及其对振幅因子的改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "月均跳跃度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\bar{J}_{t}=\\frac{1}{20}\\sum_{i=0}^{19}Jump_{t-i},\\quad Jump_{d}=\\frac{1}{N}\\sum_{t}\\left[2\\left(\\frac{P_{t}}{P_{t-1}}-1-\\ln\\frac{P_{t}}{P_{t-1}}\\right)-\\left(\\ln\\frac{P_{t}}{P_{t-1}}\\right)^{2}\\right]",
+          "stats": [null, -0.069, -3.86, 0.2871],
+          "evidence": "7）每月月底，计算过去 20个交易日的“日跳跃度”因子的均值和标准差，分别记为“月均跳跃度”因子和“月稳跳跃度”因子，并将二者等权合成为“月跳跃度”因子。"
+        },
+        {
+          "name": "月稳跳跃度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma_{t}=\\text{std}_{i=0..19}\\left(Jump_{t-i}\\right)",
+          "stats": [null, -0.066, -3.15, 0.2845],
+          "evidence": "7）每月月底，计算过去 20个交易日的“日跳跃度”因子的均值和标准差，分别记为“月均跳跃度”因子和“月稳跳跃度”因子，并将二者等权合成为“月跳跃度”因子。"
+        },
+        {
+          "name": "月跳跃度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{“月均跳跃度”因子与“月稳跳跃度”因子等权合成}",
+          "stats": [null, -0.0763, -3.68, 0.3471],
+          "evidence": "在全A样本中按照月度频率对上述构建的“月均跳跃度”因子、“月稳跳跃度”因子和“月跳跃度”因子进行测试，测试中对因子进行市值和行业正交化处理，测试区间为2013年1月至2022年8月（下同）。"
+        },
+        {
+          "name": "传统振幅因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Amp_{t}=\\frac{High_{t}-Low_{t}}{Close_{t-1}},\\quad \\text{因子}=\\frac{1}{20}\\sum_{i=0}^{19}Amp_{t-i}",
+          "stats": [null, -0.0741, -2.05, 0.2175],
+          "evidence": "2）每月月底，计算过去 20 个交易日的振幅的均值，得到传统振幅因子。"
+        },
+        {
+          "name": "修正振幅因子1",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{20}\\sum_{i=0}^{19}s_{t-i}\\cdot Amp_{t-i},\\; s_{t-i}=\\begin{cases}-1, & Jump_{t-i}<\\overline{Jump}_{t}\\\\ 1, & Jump_{t-i}>\\overline{Jump}_{t}\\end{cases}",
+          "stats": [null, -0.0728, -4.41, 0.3028],
+          "evidence": "2）每天计算“日跳跃度”因子的截面均值，我们认为“日跳跃度”小于截面均值的股票，属于未发生跳跃或跳跃程度较小的股票，这一天的振幅为“太阳”型振幅，将其振幅值乘以-1；反之如果“日跳跃度”大于截面均值，则认为这种股票属于发生跳跃或跳跃程度较大的股票，这一天的振幅为“火把”型振幅，将其振幅乘以 1。记变化后的振幅为“翻转振幅”因子。"
+        },
+        {
+          "name": "修正振幅因子2",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{20}\\sum_{i=0}^{19}s_{t-i}\\cdot Amp_{t-i},\\; s_{t-i}=\\begin{cases}-1, & TR_{t-i}<\\overline{TR}_{t}\\\\ 1, & TR_{t-i}>\\overline{TR}_{t}\\end{cases},\\; TR_{t}=2\\left(\\frac{High_{t}}{Low_{t-1}}-1-\\ln\\frac{High_{t}}{Low_{t-1}}\\right)-\\left(\\ln\\frac{High_{t}}{Low_{t-1}}\\right)^{2}",
+          "stats": [null, -0.0847, -3.89, 0.3383],
+          "evidence": "5）每天计算“泰勒残项”的截面均值，我们认为“泰勒残项”小于截面均值的股票，属于未发生跳跃或跳跃程度较小的股票，这一天的振幅为“太阳”型振幅，将其振幅值乘以-1；反之如果“泰勒残项”大于截面均值，则认为这种股票属于发生跳跃或跳跃程度较大的股票，这一天的振幅为“火把”型振幅，将其振幅乘以 1。记变化后的振幅为“翻转振幅2”。"
+        },
+        {
+          "name": "修正振幅因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{“修正振幅”因子1与“修正振幅”因子2等权合成}",
+          "stats": [null, -0.087, -4.38, 0.3668],
+          "evidence": "我们将上述构造的“修正振幅”因子1和“修正振幅”因子2等权合成，构造“修正振幅”因子。"
+        },
+        {
+          "name": "飞蛾扑火因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{“月跳跃度”因子与“修正振幅”因子等权合成}",
+          "stats": [null, -0.089, -4.52, 0.373],
+          "evidence": "我们将上述构造的“月跳跃度”因子和“修正振幅”因子等权合成，得到“飞蛾扑火”因子。我们对“飞蛾扑火”因子在月度频率上进行选股效果测试。"
+        },
+        {
+          "name": "纯净飞蛾扑火因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{“飞蛾扑火”因子对常用风格因子及行业因子正交化处理后的残差}",
+          "stats": [null, -0.0503, -2.68, 0.2335],
+          "evidence": "为进一步验证因子的增量信息，我们使用常用风格因子及行业因子对“飞蛾扑火”因子进行正交化处理，得到“纯净飞蛾扑火”因子，再检验其选股能力。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "“飞蛾扑火”因子Rank IC达-8.90%，Rank ICIR为-4.52，年化收益率达37.30%，信息比率3.51，月度胜率为87.83%，选股效果优异",
+      "evidence": "从测试结果来看，“飞蛾扑火”因子 Rank IC 达-8.90%，Rank ICIR为-4.52，年化收益率达 37.30%，信息比率 3.51，月度胜率为 87.83%，选股效果优异，其分组表现如下图所示："
+    },
+    {
+      "text": "月均跳跃度、月稳跳跃度、月跳跃度三因子Rank IC分别为-6.90%、-6.60%和-7.63%，Rank ICIR达到-3.86、-3.15和-3.68，多空组合年化收益率分别为28.71%、28.45%和34.71%，选股效果较为出色",
+      "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-6.90%、-6.60%和-7.63%，Rank ICIR 达到-3.86、-3.15 和-3.68，多空组合年化收益率分别为 28.71%、28.45%和 34.71%，选股效果较为出色。"
+    },
+    {
+      "text": "传统振幅因子的Rank IC虽然高达-7.41%，但其RankICIR仅有-2.05，信息比率也低至1.17，表明传统振幅因子的效果不够稳定，常常出现失效的情况",
+      "evidence": "从测试结果来看，传统振幅因子的Rank IC虽然高达-7.41%，但其RankICIR 仅有-2.05，信息比率也低至 1.17，表明传统振幅因子的效果不够稳定，常常出现失效的情况。"
+    },
+    {
+      "text": "“修正振幅”因子1的Rank IC虽然没有明显提升，但Rank ICIR提升至-4.41，年化收益率和信息比率也分别提升至30.28%和3.16，这一改进效果非常明显",
+      "evidence": "从测试结果来看，“修正振幅”因子1的Rank IC虽然没有明显提升，但 Rank ICIR 提升至-4.41，年化收益率和信息比率也分别提升至30.28%和 3.16，可见这一改进效果非常明显。"
+    },
+    {
+      "text": "在剔除了常用的风格因子影响后，“飞蛾扑火”因子仍然具有很好的选股能力，Rank IC均值为-5.03%，Rank ICIR为-2.68，多空组合年化收益率23.35%，信息比率2.46",
+      "evidence": "可以看到，在剔除了常用的风格因子影响后，“飞蛾扑火”因子仍然具有很好的选股能力，Rank IC 均值为-5.03%，Rank ICIR 为-2.68，多空组合年化收益率23.35%，信息比率2.46。"
+    },
+    {
+      "text": "“飞蛾扑火”因子在沪深300、中证500、中证1000指数成分股内均表现不俗，多头组合年化超额收益分别为6.05%、8.48%和13.87%",
+      "evidence": "可以看到，“飞蛾扑火”因子在沪深 300、中证500、中证 1000指数成分股内均表现不俗，多头组合年化超额收益分别为 6.05%、8.48%和 13.87%。"
+    },
+    {
+      "text": "中证1000指数的单复利差相对更大一些，表明了在小市值股票上，更容易发生股价跳跃",
+      "evidence": "图中可见，四个主要指数同日内的单复利差走势基本一致，且中证 1000 指数的单复利差相对更大一些，也表明了在小市值股票上，更容易发生股价跳跃。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Jiang G J, Oomen R C A. Testing for jumps when asset prices are observed with noise – a “swap variance” approach[J]. Journal of Econometrics, 2008, 144(2): 352-370.",
+    "《个股动量效应的识别及“球队硬币”因子构建——多因子选股系列之四》（2022.06.11）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "20120916-广发证券-另类交易策略-009-基于遗传规划的智能交易策略方法",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "最优策略信号计算函数",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "y=\\cos\\left(tt\\right)+2\\sin\\left(\\frac{\\cos\\left(ll+tt\\right)}{\\cos\\left(\\sin\\left(ll\\right)^{n}\\right)}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "交易规则上，从交易日09:30开始，当交易信号值大于0时，开仓做多，反之小于0时开仓做空，并设置固定止损幅度为0.5%，当价格触及止损线时，平仓止损，之后再观察交易信号值与零的大小关系，若当日未发生止损，则收盘15:00强制平仓。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "intraday"}}
+  },
+  "findings": [
+    {
+      "text": "最优策略全样本年化收益率116%，胜率42.68%，赔率1.91倍，历史最大回撤-8.2%；2010、2011、2012年化收益率分别为118%、67%、34%。",
+      "evidence": "最优策略的实证结果如下，全样本来看，年化收益率为 116%，胜率为 42.68%，赔率为 1.91 倍，历史最大回撤为-8.2%，分年度来看，2010、2011、2012 年化收益率分别为 118%、67%、34%，胜率分别为 39%、42%、45%，赔率分别为 2.36、1.80、1.54，最大回撤分别为-6.18%、-7.48%、-8.09%，交易次数方面，每年交易在 400 次左右，平均每天1.6次。"
+    },
+    {
+      "text": "以股指期货5分钟为交易周期，群体规模500，个体适应度为收益回撤比，算法迭代至54次之后收敛，累计测试了27000个策略。",
+      "evidence": "首先我们构建了自己的遗传规划算法框架，在设定了群体规模为 500，个体适应度为收益回撤比的情况下，以股指期货 5分钟为交易周期，进行日内程序化交易策略的进化迭代生成，算法在迭代至 54 次之后收敛，累计测试了 27000 个策略。"
+    },
+    {
+      "text": "整个进化过程共计经过54次，总计测试策略数量达到27000个，至进化结束时最佳个体收益回撤比达到32.5倍。",
+      "evidence": "整个进化过程共计经过了54次，总计测试策略数量达到了27000个，至进化结束时，最佳个体收益回撤比达到了32.5倍。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "一类波动收敛突变模式的趋势跟随策略（安宁宁，2011-08-10）",
+    "基于日内波动极值的股指期货趋势跟随系统（安宁宁，2011-12-09）",
+    "基于缠中说禅之分型通道趋势交易系统（安宁宁，2012-03-14）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

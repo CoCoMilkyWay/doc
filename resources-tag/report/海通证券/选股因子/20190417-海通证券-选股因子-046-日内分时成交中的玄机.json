@@ -1,0 +1,124 @@
+{
+  "schema_version": 2,
+  "id": "20190417-海通证券-选股因子-046-日内分时成交中的玄机",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "平均单笔成交金额",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "AmtPerTrd_{i}=\\frac{\\sum_{j=1}^{N}Amt_{ij}}{\\sum_{j=1}^{N}TrdNum_{ij}}",
+          "stats": [0.027, 0.038, 1.25, 0.0108],
+          "evidence": "该因子正交后有较弱的选股能力，IC和 rank IC 均值分别为 2.7%和 3.8%，正向占比分别为 66%和 71%，IC-IR 和 rank IC-IR 分别为 1.25 和 1.75，多空组合月均收益差为 1.08%，说明在控制了其他风格因子影响之后，平均单笔成交金额越小的股票未来收益表现越差。"
+        },
+        {
+          "name": "平均单笔流出金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "ApT\\_outFlow\\_ratio_{i}=\\frac{AmtPerTrd\\_outFlow_{i}}{AmtPerTrd_{i}}=\\frac{\\sum_{j=1}^{N}Amt_{ij}\\cdot I_{r_{ij}<0}/\\sum_{j=1}^{N}TrdNum_{ij}\\cdot I_{r_{ij}<0}}{\\sum_{j=1}^{N}Amt_{ij}/\\sum_{j=1}^{N}TrdNum_{ij}}",
+          "stats": [0.058, 0.074, 2.76, 0.0165],
+          "evidence": "平均单笔流出金额占比因子具有明显的选股效果，因子的 IC 和 rank IC 均值分别为5.8%和 7.4%，正向占比分别为 79%和 80%，IC-IR 和 rank IC-IR 分别为 2.76 和 3.08，多空组合月均收益差为 1.65%。"
+        },
+        {
+          "name": "平均单笔流入金额占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "ApT\\_inFlow\\_ratio_{i}=\\frac{AmtPerTrd\\_inFlow_{i}}{AmtPerTrd_{i}}=\\frac{\\sum_{j=1}^{N}Amt_{ij}\\cdot I_{r_{ij}>0}/\\sum_{j=1}^{N}TrdNum_{ij}\\cdot I_{r_{ij}>0}}{\\sum_{j=1}^{N}Amt_{ij}/\\sum_{j=1}^{N}TrdNum_{ij}}",
+          "stats": [-0.021, -0.015, -2.43, 0.0086],
+          "evidence": "平均单笔流入金额占比因子在正交后有一定的选股效果，因子 IC 和 rank IC 均值分别为-2.1%和-1.5%，负向占比分别为 78%和 65%，IC-IR 和 rank IC-IR 分别为-2.43 和-1.70，多空组合月均收益差为 0.86%。"
+        },
+        {
+          "name": "平均单笔流入流出金额之比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "ApT\\_netInFlow\\_ratio_{i}=\\frac{ApT\\_inFlow\\_ratio_{i}}{ApT\\_outFlow\\_ratio_{i}}",
+          "stats": [null, -0.031, -2.51, -0.0117],
+          "evidence": "平均单笔流入流出金额之比因子同样具有明显的选股效果，原始因子和正交因子的rank IC 均值分别为-3.1%和-2.4%，负向占比分别为 78%和 81%，rank IC-IR 分别为-2.51和-2.98，多空组合月均收益差分别为-1.17%和-1.05%。"
+        },
+        {
+          "name": "大单资金净流入率（N=20%）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Amt\\_netInFlow\\_bigOrder\\_ratio_{i}=\\left(\\sum_{j=1}^{N}Amt_{ij}\\cdot I_{\\{r_{ij}>0,\\ j\\in IdxSet\\}}-\\sum_{j=1}^{N}Amt_{ij}\\cdot I_{\\{r_{ij}<0,\\ j\\in IdxSet\\}}\\right)/\\sum_{j=1}^{N}Amt_{ij}",
+          "stats": [-0.0504, -0.056, -2.77, -0.0156],
+          "evidence": "大单资金净流入率（N=20%）因子具有明显的选股效果，原始因子和正交因子的 rankIC 均值分别为-5.6%和-2.2%，负向占比分别为 75%和 72%，rank IC-IR 分别为-2.77 和-2.39，多空组合月均收益差分别为-1.56%和-0.97%。"
+        },
+        {
+          "name": "大单驱动涨幅（N=30%）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Mom\\_bigOrder_{i}=prod(1+r_{ij}\\cdot I_{\\{j\\in IdxSet\\}})",
+          "stats": [-0.0698, -0.082, -4.12, -0.0223],
+          "evidence": "大单驱动涨幅（N=30%）因子同样具有明显的选股效果，原始因子和正交因子的 rankIC 均值分别为-8.2%和-3.1%，负向占比分别为 92%和 86%，rank IC-IR 分别为-4.12 和-3.56，多空组合月均收益差分别为-2.23%和-1.08%。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "平均单笔流出金额占比因子具有明显的选股效果，IC 和 rank IC 均值分别为5.8%和 7.4%，IC-IR 和 rank IC-IR 分别为 2.76 和 3.08，多空组合月均收益差为 1.65%。",
+      "evidence": "平均单笔流出金额占比因子具有明显的选股效果，因子的 IC 和 rank IC 均值分别为5.8%和 7.4%，正向占比分别为 79%和 80%，IC-IR 和 rank IC-IR 分别为 2.76 和 3.08，多空组合月均收益差为 1.65%。"
+    },
+    {
+      "text": "平均单笔流出金额占比因子正交后选股效果仍然显著，多空组合月均收益差为1.09%；双重分组结果显示控制常见因子后分组收益仍单调，首尾组合月均收益差均超过 1%，Fama-Macbeth 回归月均溢价 0.31%，t 统计量 11.97。",
+      "evidence": "平均单笔流出金额占比因子正交后选股效果仍然显著，多空组合月均收益差为1.09%，因子的 IC 和 rank IC 均值均为 3.2%，正向占比分别为 90%和 87%，IC-IR 和rank IC-IR 分别为 4.13 和 3.82。"
+    },
+    {
+      "text": "平均单笔流出金额占比与股票未来收益正相关，平均单笔流入金额占比与股票未来收益负相关，呈现明显的反转特征，可能与风险补偿以及主力操纵行为有关。",
+      "evidence": "平均单笔流出金额占比与股票未来收益正相关，平均单笔流入金额占比与股票未来收益负相关，呈现出明显的反转特征，这可能与风险补偿以及主力操纵行为有关。"
+    },
+    {
+      "text": "大单资金净流入率（N=20%）和大单驱动涨幅（N=30%）因子均与股票下月收益率显著负相关；本文采取动态划分方式提取大单交易样本，与 Wind 静态划分方式构建的相关因子表现不一致。",
+      "evidence": "这一结论可能与使用 Wind 提供的 level2 行情指标构建的相关因子表现不一致，主要原因在于 Wind 采用了静态的划分方式，例如挂单金额在 100 万元以上的为超大单。而本文采取的是动态的划分方式，对于每只股票都提取出一部分行情作为大单交易样本。"
+    },
+    {
+      "text": "加入日内分时成交因子后多因子模型表现有所提升，改进模型 3 的 rank IC 从 13.21%提高至 13.64%，rank IC-IR 从 4.08 提高至 4.26，top100 等权组合年化收益率从 33.10%提高至 34.93%。",
+      "evidence": "加入分时成交因子后，多因子模型的 IC、IR、胜率以及多头组合的表现均有所提升。以改进模型 3 为例，rank IC 从 13.21%提高至 13.64%，rank IC-IR 从 4.08 提高至 4.26，预期收益率最高的 100 只股票的等权组合年化收益率从 33.10%提高至 34.93%。"
+    },
+    {
+      "text": "表面上的大单主动买入或卖出实际上帮助了事先潜伏的大单顺利成交，可能是主力通过对倒引诱散户跟风交易。",
+      "evidence": "这说明，虽然表面上看存在大单主动买入或卖出，实际上却帮助了事先潜伏的大单顺利成交，我们猜测这可能是主力的“对倒”行为，目的是引诱散户跟风交易。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《高频量价因子在股票与期货中的表现》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

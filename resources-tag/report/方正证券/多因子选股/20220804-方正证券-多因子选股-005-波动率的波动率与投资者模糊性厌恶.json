@@ -1,0 +1,224 @@
+{
+  "schema_version": 2,
+  "id": "20220804-方正证券-多因子选股-005-波动率的波动率与投资者模糊性厌恶",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "均模糊关联度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{mean}_{20d}\\left(corr(\\text{模糊性}_t, \\text{分钟成交金额}_t)\\right),\\ \\text{其中模糊性为每分钟过去5分钟波动率的标准差}",
+          "stats": [null, -0.0982, -3.71, 0.285],
+          "evidence": "每月月底，分别计算过去 20 个交易日的“日模糊关联度”因子的均值和标准差，分别记为“均模糊关联度”因子和“稳模糊关联度”因子，并将二者等权合成为“模糊关联度”因子。"
+        },
+        {
+          "name": "稳模糊关联度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{std}_{20d}\\left(corr(\\text{模糊性}_t, \\text{分钟成交金额}_t)\\right)",
+          "stats": [null, -0.0693, -4.07, 0.2082],
+          "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-9.82%、-6.93%和-9.52%，Rank ICIR 达到-3.71、-4.07 和-4.15，年化收益率达 28.50%、20.82%和 26.91%，选股效果较为优秀。"
+        },
+        {
+          "name": "模糊关联度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "0.5\\left(\\mathrm{mean}_{20d}(corr(\\text{模糊性}_t, \\text{分钟成交金额}_t))+\\mathrm{std}_{20d}(corr(\\text{模糊性}_t, \\text{分钟成交金额}_t))\\right)",
+          "stats": [null, -0.0952, -4.15, 0.2691],
+          "evidence": "每天计算模糊性序列与分钟成交金额序列的相关系数，记为“日模糊关联度”因子，将其作为投资者成交金额随着模糊性变化而变化程度的代理变量。"
+        },
+        {
+          "name": "均模糊金额比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{mean}_{20d}\\left(\\frac{\\text{雾中金额}}{\\text{总体金额}}\\right)",
+          "stats": [null, -0.076, -4.23, 0.2626],
+          "evidence": "每月月底，分别计算过去 20 个交易日的“日模糊金额比”的均值和标准差，分别记为“均模糊金额比”因子和“稳模糊金额比”因子。再将二者等权合成为“模糊金额比”因子。"
+        },
+        {
+          "name": "稳模糊金额比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{std}_{20d}\\left(\\frac{\\text{雾中金额}}{\\text{总体金额}}\\right)",
+          "stats": [null, -0.0542, -3.18, 0.1975],
+          "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-7.60%、-5.42%和-7.33%，Rank ICIR 达到-4.23、-3.18 和-4.47，多空组合年化收益率为26.26%、19.75%和 26.45%，选股效果同样较为出色。"
+        },
+        {
+          "name": "模糊金额比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "0.5\\left(\\mathrm{mean}_{20d}(\\tfrac{\\text{雾中金额}}{\\text{总体金额}})+\\mathrm{std}_{20d}(\\tfrac{\\text{雾中金额}}{\\text{总体金额}})\\right)",
+          "stats": [null, -0.0733, -4.47, 0.2645],
+          "evidence": "使用“雾中金额”除以“总体金额”，记为“日模糊金额比”，将其作为当日投资者在模糊性较大时，卖出股票金额的代理变量，反映了投资者对模糊性的厌恶程度。"
+        },
+        {
+          "name": "均模糊数量比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{mean}_{20d}\\left(\\frac{\\text{雾中数量}}{\\text{总体数量}}\\right)",
+          "stats": [null, -0.0755, -4.21, 0.2609],
+          "evidence": "每月月底，分别计算过去 20 个交易日的“日模糊数量比”的均值和标准差，记为“均模糊数量比”因子和“稳模糊数量比”因子。再将二者等权合成为“模糊数量比”因子。"
+        },
+        {
+          "name": "稳模糊数量比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{std}_{20d}\\left(\\frac{\\text{雾中数量}}{\\text{总体数量}}\\right)",
+          "stats": [null, -0.0536, -3.14, 0.1969],
+          "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-7.55%、-5.36%和-7.28%，Rank ICIR 达到-4.21、-3.14 和-4.45，年化收益率达 26.09%、19.69%和 26.21%，选股效果较好，并且和“模糊数量比”因子绩效表现相近。"
+        },
+        {
+          "name": "模糊数量比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "0.5\\left(\\mathrm{mean}_{20d}(\\tfrac{\\text{雾中数量}}{\\text{总体数量}})+\\mathrm{std}_{20d}(\\tfrac{\\text{雾中数量}}{\\text{总体数量}})\\right)",
+          "stats": [null, -0.0728, -4.45, 0.2621],
+          "evidence": "与上一节的“模糊金额比”类似，本节用同样的方式，构造“模糊数量比”因子。考察模糊性较大时，成交量是否会偏大，即计算模糊性较大时的平均分钟成交量，与日内全部时间的平均分钟成交量的比值。"
+        },
+        {
+          "name": "均模糊价差",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{mean}_{20d}\\left(\\text{日模糊金额比}-\\text{日模糊数量比}\\right)",
+          "stats": [null, -0.0744, -4.91, 0.273],
+          "evidence": "上述“均模糊价差”因子，虽然效果较好，但仍存在一定的改善空间。"
+        },
+        {
+          "name": "稳模糊价差",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{std}_{20d}\\left(\\text{日模糊金额比}-\\text{日模糊数量比}\\right)",
+          "stats": [null, -0.0718, -3.48, 0.2284],
+          "evidence": "我们每月月底，分别计算过去 20 个交易日的“日模糊价差”因子的均值和标准差，记为“均模糊价差”因子和“稳模糊价差”因子。再将二者等权合成为“模糊价差”因子。"
+        },
+        {
+          "name": "模糊价差",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "0.5\\left(\\mathrm{mean}_{20d}(\\text{日模糊金额比}-\\text{日模糊数量比})+\\mathrm{std}_{20d}(\\text{日模糊金额比}-\\text{日模糊数量比})\\right)",
+          "stats": [null, -0.0831, -4.67, 0.2895],
+          "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-7.44%、-7.18%和-8.31%，Rank ICIR 达到-4.91、-3.48 和-4.67，年化收益率达 27.30%、22.84%和 28.95%，选股效果非常优秀。"
+        },
+        {
+          "name": "均修正模糊价差",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{mean}_{20d}\\left(\\frac{\\text{日模糊价差}}{\\mathrm{std}_{10d}(\\text{日模糊价差})}\\cdot\\frac{s2}{s1},\\ \\text{仅对负值部分调整}\\right)",
+          "stats": [null, -0.0828, -4.6, 0.2679],
+          "evidence": "每月月底，计算过去 20个交易日的“修正日模糊价差”的均值，记为“均修正模糊价差”因子。再将其与“稳模糊价差”因子等权合成，得到“修正模糊价差”因子。"
+        },
+        {
+          "name": "修正模糊价差",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "0.5\\left(\\mathrm{mean}_{20d}(\\text{修正日模糊价差})+\\mathrm{std}_{20d}(\\text{日模糊价差})\\right)",
+          "stats": [null, -0.085, -4.39, 0.2763],
+          "evidence": "从测试结果来看，上述两个因子 Rank IC 分别为-8.28%和-8.50%，RankICIR 达到-4.6 和-4.39，年化收益率达 26.79%和 27.63%，选股效果非常优秀。尤其“均修正模糊价差”因子相比于“均模糊价差”因子，Rank IC 提升明显。"
+        },
+        {
+          "name": "云开雾散",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{模糊关联度}+\\text{模糊金额比}+\\text{修正模糊价差}}{3}",
+          "stats": [null, -0.0981, -4.48, 0.3089],
+          "evidence": "我们将上述构造的“模糊关联度”因子、“模糊金额比”因子、“修正模糊价差”因子等权合成，得到“云开雾散”因子。"
+        },
+        {
+          "name": "纯净云开雾散",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{对“云开雾散”因子使用常用风格因子及行业因子进行正交化处理后的残差}",
+          "stats": [null, -0.0395, -3.22, 0.1338],
+          "evidence": "我们使用常用风格因子及行业因子对“云开雾散”因子进行正交化处理，得到“纯净云开雾散”因子，再检验其选股能力。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "“云开雾散”因子月度选股效果非常出色，Rank IC达-9.81%，Rank ICIR为-4.48，多空组合年化收益率达30.89%，信息比3.29，因子月度胜率82.46%。",
+      "evidence": "我们对“云开雾散”因子在月度频率上的选股效果进行测试，结果显示 “云开雾散”因子表现非常出色，Rank IC达-9.81%，Rank ICIR 为-4.48，多空组合年化收益率达 30.89%，信息比3.29，因子月度胜率 82.46%。"
+    },
+    {
+      "text": "在剔除了常用的风格因子影响后，“云开雾散”因子仍然具有很好的选股能力，Rank IC 均值为-3.95%，Rank ICIR 为-3.22，多空组合年化收益率13.38%，信息比率2.17。",
+      "evidence": "在剔除了常用的风格因子影响后，“云开雾散”因子仍然具有很好的选股能力，Rank IC 均值为-3.95%，Rank ICIR 为-3.22，多空组合年化收益率13.38%，信息比率2.17。"
+    },
+    {
+      "text": "“云开雾散”因子在沪深300、中证500、中证1000指数成分股内均表现不俗，多头组合年化超额收益分别为5.75%、6.39%、10.59%。",
+      "evidence": "可以看到，“云开雾散”因子在沪深 300、中证500、中证 1000指数成分股内均表现不俗，多头组合年化超额收益分别为 5.75%、6.39%、10.59%。"
+    },
+    {
+      "text": "当模糊性较大时，如果平均成交金额所占比例远小于平均成交量所占比例，表明投资者急于卖出、挂单价格明显偏低，容易发生反应过度，未来大概率会发生补涨。",
+      "evidence": "具体而言，当模糊性较大时，如果平均成交金额所占比例远小于平均成交量所占比例，则表明面对波动性的迷雾，厌恶心理使得投资者急于卖出，因此挂单价格明显偏低，此时容易发生反应过度，未来大概率会发生补涨。"
+    },
+    {
+      "text": "“模糊金额比”因子与“模糊数量比”因子相关性极高，平均每日秩相关系数为99.96%，二者0.04%的差异体现的是模糊性与价格之间的关系。",
+      "evidence": "因此使用这二者构建的“模糊金额比”因子与“模糊数量比”因子，也具有极高的相关性。二者的平均每日秩相关系数为 99.96%。"
+    },
+    {
+      "text": "“均修正模糊价差”因子相比于“均模糊价差”因子，Rank IC 提升明显，Rank IC从-7.44%提升至-8.28%。",
+      "evidence": "从测试结果来看，上述两个因子 Rank IC 分别为-8.28%和-8.50%，RankICIR 达到-4.6 和-4.39，年化收益率达 26.79%和 27.63%，选股效果非常优秀。尤其“均修正模糊价差”因子相比于“均模糊价差”因子，Rank IC 提升明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kostopoulos D, Meyer S, Uhr C. Ambiguity about volatility and investor behavior[J]. Journal of Financial Economics, 2021.",
+    "《个股动量效应的识别及“球队硬币”因子构建——多因子选股系列之四》2022.06.11",
+    "《个股成交量的潮汐变化及“潮汐”因子构建——多因子选股系列研究之二》2022.05.08",
+    "《个股波动率的变动及“勇攀高峰”因子构建——多因子选股系列研究之三》2022.05.30",
+    "《成交量激增时刻蕴含的alpha信息——多因子选股系列研究之一》2022.04.12"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

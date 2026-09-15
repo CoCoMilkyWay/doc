@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20190116-国盛证券-多因子系列-001-多因子选股体系的思考",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["point_in_time", "infrastructure"],
+      "setup": {"data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "原EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{归母净利润/市值}",
+          "stats": [0.0037, 0.0159, 0.084, null],
+          "evidence": "以 EP因子为例，原因子与经过对市值和行业中性化处理后的 EP 因子月度 IC，均值分别为 0.0037 和 0.0258，Rank-IC 均值分别为 0.0159 和 0.0420，ICIR 值分别为 0.084 和1.209，Rank-ICIR 分别为 0.3433 和 1.8839，中性化之后均值和稳定性都有所提升."
+        },
+        {
+          "name": "中性化EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值和行业中性化处理后的EP}",
+          "stats": [0.0258, 0.042, 1.2088, null],
+          "evidence": "从信息系数来看：经过市值和行业中性化后的 EP 因子 IC 均值 0.0258，ICIR 为 1.209，说明 EP 与股票月度收益的有一定相关性，但并不稳定；"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity", "other"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {
+      "module": ["L6_backtest", "L6_attribution"],
+      "approach": ["bias_control", "evaluation_metric", "factor_based"]
+    }
+  },
+  "findings": [
+    {
+      "text": "在特征值调整中加入了 NeweyWest调整，能够更加准确地调整 second order risk带来的偏误",
+      "evidence": "因此我们在特征值调整中加入了 NeweyWest调整，这样能够更加准确地调整 second order risk带来的偏误。"
+    },
+    {
+      "text": "风险模型的BiasStatistics的均值和MRAD与Barra文档中结果接近，能够较好得刻画组合风险",
+      "evidence": "对于所有的组合，我们的风险模型的BiasStatistics的均值和MRAD 都与Barra文档中结果接近，能够较好得刻画组合风险。"
+    },
+    {
+      "text": "剔除市值和行业影响的 EP 因子具备一定的 Alpha 属性，稳定性较差，大部分信息能被风险因子所解释，无法提供风险因子以外的收益",
+      "evidence": "因此，从单因子角度来看，剔除市值和行业影响的 EP 因子具备一定的 Alpha 属性，稳定性较差，大部分信息能被风险因子所解释，无法提供风险因子以外的收益。"
+    },
+    {
+      "text": "大部分风格因子的贡献都有高估的嫌疑，回归调整后特质收益贡献与因子收益贡献的时序相关性从-0.1094降至0.0114，p 值由1.33E-06变为0.6167，即相关性统计检验不显著",
+      "evidence": "注意到大部分风格因子的贡献都有高估的嫌疑，回归调整后原始风格因子贡献下降，特质收益上升。而经过剥离后的特质收益贡献与因子收益贡献的时序相关性从-0.1094 在绝对值上下降至 0.0114，且 p 值由 1.33E-06变为 0.6167，即相关性统计检验不显著。"
+    },
+    {
+      "text": "500增强残差收益和因子收益负相关，导致其跟踪误差相对其他两个策略较小",
+      "evidence": "从表 11 可以看到，尽管对于三个策略来说，因子收益和残差收益的波动都要高于预测值，但是 500增强的跟踪误差却相对其他两个策略较小。这就是因为 500增强残差收益和因子收益负相关导致的。"
+    },
+    {
+      "text": "Alpha 因子中含有反转因子时组合实现的跟踪误差可能大于预设，因为传统的 Barra模型并不含有反转因子的风险",
+      "evidence": "例如如果我们的 Alpha 因子中含有反转因子，那么很大可能组合实现的跟踪误差会大于我们预设的跟踪误差，因为传统的 Barra模型中并不含有反转因子的风险。"
+    },
+    {
+      "text": "对于较为稳定的 Alpha 策略，在控制跟踪误差为 5%的情况下，不同月份收益间的波动会使得实现的跟踪误差增加 0.2%左右",
+      "evidence": "经试验发现，对于较为稳定的 Alpha 策略，在控制跟踪误差为 5%的情况下，不同月份收益间的波动会使得实现的跟踪误差增加 0.2%左右。"
+    },
+    {
+      "text": "数据处理时不考虑财务数据调整变更的问题，可能会用到未来数据导致高估策略回测结果",
+      "evidence": "例如，如果不在数据处理的时候考虑诸如财务数据调整变更的问题，可能会用到未来数据导致高估策略回测结果；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bender J, Lee J H, Stefek D. Refining Portfolio Construction by Penalizing Residual Alpha-Empirical Examples[J]. 2009.",
+    "Davis B, Menchero J. Risk Contribution is Exposure times Volatility times Correlation[J]. MSCI Research Insight, 2010.",
+    "Lee J H, Stefek D. Do risk factors eat alphas?[J]. The Journal of Portfolio Management, 2008, 34(4): 12-25.",
+    "Satchell S E, Hwang S. Tracking error: Ex ante versus ex post measures[J]. Journal of Asset Management, 2001, 2(3): 241-246.",
+    "Shepard, P.G. Second order risk. 2009, arXiv:0908.2455."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

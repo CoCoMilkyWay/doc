@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20101203-广发证券-多因子-003-估值与动量结合的选股模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "analyst_behavior", "momentum_reversal"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "相对PS比率",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{相对PS比率}=\\frac{PS_{\\text{实际}}}{\\widehat{PS}},\\quad \\ln(\\widehat{PS})=0.9868+0.9289\\ln(1+G_{Sale})-0.2075\\,MC",
+          "stats": [null, null, null, null],
+          "evidence": "PS模型以相对PS比率作为评价单一股票估值高低的标准。所谓的相对PS比率是指每只股票的实际市销率除以它的理论市销率所得的比值。该比值越低，证明该股票的市销率低于理论值，投资价值越高。"
+        },
+        {
+          "name": "相对PE比率",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{相对PE比率}=\\frac{PE_{\\text{实际}}}{\\widehat{PE}},\\quad \\ln(\\widehat{PE})=3.5550+0.5390\\ln(1+G_{earning})-0.7745\\,MC",
+          "stats": [null, null, null, null],
+          "evidence": "PE模型以相对PE比率来评价股票估值的高低。相对PE比率是单只股票的真实市盈率值除以理论市盈率的比率。比率越低，证明该股票的估值被低估，未来由于估值修复而股价上扬的概率大。"
+        },
+        {
+          "name": "股价动量模型",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "t=\\frac{\\beta}{SE(\\beta)},\\quad \\beta \\text{ 为对数收盘价对时间的趋势线回归斜率}",
+          "stats": [null, null, null, null],
+          "evidence": "根据这观点，本模型对备选股票池里每个股票过往一年收盘价的对数做趋势线分析，并计算出该趋势线的t统计值作为衡量各个股票动量效应强弱的指标。"
+        },
+        {
+          "name": "动量加速模型",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\Delta t=\\left|t_{T}-t_{T-1}\\right|",
+          "stats": [null, null, null, null],
+          "evidence": "由于我们的投资频率以月为单位，所以模型以备选股票池里各股票当月计算的趋势线t值减去一个月前的趋势线t值的绝对差值作为短期股价动量变化的指标。该指标越大，证明股价的短期动量变化越强，个股后续表现越好。"
+        },
+        {
+          "name": "收入预期模型",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师一个月评级改变指标：评级改变越大得分越高}",
+          "stats": [null, null, null, null],
+          "evidence": "收入预期模型使用分析师一个月评级改变指标来衡量股票投资价值的好坏。每月我们会提取备选股票池里所有股票的分析师评级改变数据，并根据该数据来对股票进行打分。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "动态权重的PS+PE估值综合模型选股能力最为出色：捕获正收益差的成功率是所有综合模型之最，年化收益差高达43.9%，信息比为2.34，超配组合收益战胜指数的胜率高达80%。",
+      "evidence": "动态权重的PS+PE估值综合模型在选股能力上的表现上最为出色。该模型在捕获正收益差的成功率是所有综合模型之最。它的年化收益差高达43.9%，信息比为2.34,也是优于其他模型。而超配组合收益战胜指数的胜率也高达80%。"
+    },
+    {
+      "text": "固定权重PS估值综合模型在45个月份里有33个月能获得正收益差，成功率达到73%，每月平均收益差为2.28%，超配组合四年累积收益281%，远超中证800指数的58%。",
+      "evidence": "固定权重的PS估值综合模型在实证分析的45个月份里有33个月能获得正收益差，成功率达到73%。每月平均收益差为2.28%。对比超配组合累积收益与中证800指数累积收益，如果不考虑交易成本，我们发现超配组合四年的累积收益为281%，而中证800指数的累积收益仅为58%。"
+    },
+    {
+      "text": "PS模型在07年以及09年的大牛市时期表现很亮眼，因子收益都在60%以上，5年来正收益月次成功率高达65%；预期收入模型因子捕获正收益的成功率为70%，优于其余4个模型。",
+      "evidence": "其中，PS模型在07年以及09年的大牛市时期表现很亮眼，因子收益都在60%以上。而且统计该因子5年来获得正收益的月次，该因子的成功率高达65%。所以我们可以判定，在中国大牛市时期，市销率小的个股表现要比市销率大的股票更为优异。预期收入模型在07和09年的表现也较其他年度要好，而且该模型从因子捕获正收益的成功率为70%，优于其余4个模型。"
+    },
+    {
+      "text": "从5年累积收益看，PS模型因子表现最好，平均月收益能达2%，收入预期因子为1.7%，PE模型为1.6%，估值类模型在选股能力上占优。",
+      "evidence": "PS模型的因子表现最好，平均月收益能达2%。收入预期因子表现第二，平均月收益为1.7%。接着是PE模型，平均月收益能达1.6%。股价动量与动量加速两因子表现较弱，排名靠后。所以从因子收益角度来看，估值类模型在选股能力上还是占优。"
+    },
+    {
+      "text": "股价动量因子在大牛市里效果不理想，07年和09年都分别获得负收益差。",
+      "evidence": "像07年和09年这种大牛市的时候，利用股价动量来投资效果并不理想，股价动量因子在这两年里都分别获得负收益差。"
+    },
+    {
+      "text": "根据因子过去12个月信息比动态分配权重的PS+PE综合模型有很高的胜率，45个月份里有35个月捕捉到正值的收益差，成功率为78%，四年累积收益高达502%。",
+      "evidence": "从历史表现来看，动态变化权重模型有很高的胜率，45个月份里，有35个月模型能捕捉到正值的收益差，成功率为78%。超配组合表现也十分优异，四年的累积收益高达502%，远胜于中证800指数，并微胜于固定权重模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["金融工程2011年量化投资策略（罗军，2010-11-29）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

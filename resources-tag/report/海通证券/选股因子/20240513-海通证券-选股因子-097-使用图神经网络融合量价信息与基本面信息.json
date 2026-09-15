@@ -1,0 +1,109 @@
+{
+  "schema_version": 2,
+  "id": "20240513-海通证券-选股因子-097-使用图神经网络融合量价信息与基本面信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "深度学习量价因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{使用深度学习网络架构学习不同颗粒度的日频量价信息后输出的选股因子}",
+          "stats": [null, 0.139, null, null],
+          "evidence": "在前期专题报告中，我们使用了不同的深度学习网络架构学习了不同颗粒度的量价信息。测试结果表明，因子在历史上呈现出了较强的选股能力。"
+        },
+        {
+          "name": "深度学习基本面因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{以股票历史 12 个季度的基本面特征作为输入，使用 GRU+MLP 网络架构训练得到的选股因子}",
+          "stats": [null, 0.039, null, null],
+          "evidence": "为了测试基本面特征的选股能力，我们不妨单纯使用股票历史 12 个季度的基本面特征作为模型输入训练深度学习因子。"
+        },
+        {
+          "name": "深度学习复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{将基本面特征与量价特征共同输入深度学习模型训练得到的选股因子}",
+          "stats": [null, 0.14, null, null],
+          "evidence": "进一步观察深度学习复合因子可知，因子在不同周期上同样呈现出了极强的选股能力，因子表现略好于深度学习量价因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["neural", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "深度学习基本面因子在不同预测周期皆有选股能力，周均 Rank IC 约 0.039，月均 Rank IC 约 0.067，Top10%组合超额收益约 10%",
+      "evidence": "不难发现，深度学习基本面因子在不同的预测周期上皆呈现出了一定的选股能力，因子周均 Rank IC 约 0.039，因子月均 Rank IC 约 0.067，Top10%组合超额收益约 10%。"
+    },
+    {
+      "text": "当同时输入基本面特征与量价特征时，模型学习到的基本面信息较为有限，复合因子与基本面类因子之间的相关性仅小幅提升",
+      "evidence": "然而，当同时输入基本面特征与量价特征时，模型学习到的基本面信息却较为有限。相比于深度学习量价因子，深度学习复合因子与基本面类因子之间的相关性仅出现了小幅提升。"
+    },
+    {
+      "text": "二次加权模型周均 Rank IC 达 0.133，Top10%组合费前年化多头超额收益达 32.1%，但换手更高，Top10%组合年化双边换手从 42 倍提升至 52 倍",
+      "evidence": "模型周均Rank IC 达 0.133，Top10%组合费前年化多头超额收益达 32.1%。值得注意的是，在进行二次加权后，模型呈现出了更高的换手，因子 Top10%组合年化双边换手从 42 倍提升至 52 倍。"
+    },
+    {
+      "text": "图神经网络模型基于股票基本面特征构建关联信息，对量价模块提取的结果进行二次修正，使个股打分同时取决于自身与基本面关联较强股票的量价信息",
+      "evidence": "不同于二次加权模型，基于股票基本面特征构建得到的关联信息，图神经网络模型会对于量价模块提取得到的结果进行二次修正，使得每个股票的打分不仅取决于自身的量价信息还取决于基本面关联性较强的股票的量价信息。"
+    },
+    {
+      "text": "BiAGRU-GAT 模型周度选股能力显著，周均 Rank IC 达 0.141，年化多头超额收益达 32.9%，换手未明显变化，Top10%组合年化换手率从 42 倍小幅提升至 47 倍",
+      "evidence": "测试结果表明，BiAGRU-GAT 模型同样呈现出了较为显著的周度选股能力。模型周均 Rank IC达 0.141，年化多头超额收益达 32.9%。此外，模型换手并未出现明显变化，Top10%组合年化换手率从 42 倍小幅提升至 47 倍。"
+    },
+    {
+      "text": "BiAGRU-GAT 模型在 2024 年表现更好，Top10%组合 2024 年以来取得 12%的多头超额收益，2024 年 1 月底至 2 月初回撤明显更小，超额收益表现更加稳定",
+      "evidence": "BiAGRU-GAT模型Top10%组合在2024年以来取得了12%的多头超额收益，明显强于基准模型。下图进一步对比展示了各模型 Top10%组合多头超额净值走势。相比于基准模型，BiAGRU-GAT 模型在 2024 年 1 月底至 2 月初之间回撤明显更小，超额收益表现更加稳定。"
+    },
+    {
+      "text": "BiAGRU-GAT 中证 500 增强组合年化超额收益 17.2%，超额最大回撤 5.6%发生在 2024 年，2024 年以来取得 4.2%超额收益且组合最大回撤明显低于基准模型",
+      "evidence": "2017 年以来，组合年化超额收益为 17.2%，超额最大回撤 5.6%，发生在 2024 年。2024 年以来，BiAGRU-GAT 中证 500 增强组合取得了 4.2%的超额收益，组合最大回撤明显低于基准模型。"
+    },
+    {
+      "text": "BiAGRU-GAT 中证 1000 增强组合年化超额收益 24.1%，超额最大回撤 5.0%发生在 2021 年，2024 年以来组合超额最大回撤明显低于基准模型",
+      "evidence": "2017 年以来，组合年化超额收益 24.1%，超额最大回撤 5.0%，发生在 2021 年。2024 年以来，BiAGRU-GAT 中证 1000 增强组合同样取得了更高的超额收益，组合最大回撤也明显低于基准模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（九十三）——深度学习因子的“模型动物园”》",
+    "《选股因子系列（九十六）——动量的择时、优选与 因子构建》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

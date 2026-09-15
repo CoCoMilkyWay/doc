@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "20240115-国金证券-beta猎手-007-追上投资热点_基于llm的产业链图谱智能化生成",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["text"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["llm_generation"],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "产业链Agent梳理智能手机上游得到的产业链结构与Wind智能手机产业链整体结构一致，具有正确梳理产业链结果的能力，并能最终导出网状结构的产业链图谱。",
+      "evidence": "以智能手机上游为例，产业链 Agent 梳理结果与 Wind 智能手机产业链二者整体结构一致。"
+    },
+    {
+      "text": "叠加新闻数据后的产业链Agent能给出更加细致的答案，且挂载的新闻数据范围更大，梳理出的产业链结构也更加具体，可以梳理出随时间变化的动态产业链结构。",
+      "evidence": "可以看出，叠加新闻后的产业链 Agent 能给出更加细致的答案。例如在叠加新闻之前，它只能大致知道图像显示分为液晶面板和 OLED 面板；叠加全时间段新闻后，产业链Agent 可以清楚知道当前主流采用的液晶技术为 TFT-LCD，而自发光显示方面目前主流采用 AMOLED技术。"
+    },
+    {
+      "text": "筛选投资标的过程中仅保留每只个股及其同时出现次数最多的产品节点，同时剔除掉了部分末端节点对应的个股，最终保留板块股数量在72只。",
+      "evidence": "在筛选过程中，我们仅保留每只个股及其同时出现次数最多的产品节点，同时剔除掉了部分末端节点对应的个股。最终保留板块股数量在 72只。"
+    },
+    {
+      "text": "产业链梳理以及个股推荐功能虽已有雏形，但仍存在产业链结果不稳定、结构可能存在冗余、叠加新闻效果不稳定等问题，与应用实际落地之间仍有一定差距。",
+      "evidence": "目前产业链梳理以及个股推荐的等功能虽已有雏形，但仍可能存在一定问题，包括：产业链结果不稳定、结构可能存在冗余、叠加新闻效果不稳定。"
+    },
+    {
+      "text": "针对模型专业知识不足与产业链动态变化问题，给出基于检索增强生成（RAG）的解决方案，为产业链Agent配置新闻检索的工具，综合新闻信息与自有知识进行回答。",
+      "evidence": "为了解决这些问题，我们给出了基于检索增强生成（RAG）的解决方案，为产业链Agent 配置了新闻检索的工具。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["AutoGPT开源项目", "The Rise and Potential of Large Language Model Based Agents: A Survey"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

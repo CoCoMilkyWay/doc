@@ -1,0 +1,108 @@
+{
+  "schema_version": 2,
+  "id": "20141008-海通证券-选股因子-008-单因子多策略组合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "总市值",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股总市值}",
+          "stats": [null, null, null, null],
+          "evidence": "表 3 展示了总市值因子选股策略的表现统计，TOP100 组合每年都能战胜沪深 300指数，年化超额收益为 46.40%，月胜率为 71.60%；行业中性组合每年都能战胜沪深 300指数，年化超额收益为 26.93%，月胜率为 74.07%。"
+        },
+        {
+          "name": "日均成交额",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月的日均成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "表 4 展示了日均成交额因子选股策略的表现统计，TOP100 组合每年都能战胜沪深300指数，年化超额收益为 41.54%，月胜率为 71.60%；行业中性组合每年都能战胜沪深 300指数，年化超额收益为 28.75%，月胜率为 75.31%。"
+        },
+        {
+          "name": "过去一个月收益率",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{t-1}=\\frac{P_{t-1}-P_{t-2}}{P_{t-2}}",
+          "stats": [null, null, null, null],
+          "evidence": "表 5 展示了反转因子选股策略的表现统计，TOP100 组合除 2011 年外每年都能战胜沪深 300 指数，年化超额收益为 21.64%，月胜率为 64.20%；行业中性组合除 2011年外每年都能战胜沪深 300指数，年化超额收益为 17.00%，月胜率为 65.43%。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月的平均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "表 6 展示了换手率因子选股策略的表现统计，TOP100 组合每年都能战胜沪深 300指数，年化超额收益为 14.25%，月胜率为 69.14%；行业中性组合每年都能战胜沪深 300指数，年化超额收益为 11.89%，月胜率为 76.54%。"
+        },
+        {
+          "name": "PE",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "PE=\\frac{P}{E}",
+          "stats": [null, null, null, null],
+          "evidence": "表 7展示了估值因子选股策略的表现统计，TOP100组合每年都能战胜沪深 300指数，年化超额收益为 11.85%，月胜率为55.56%；行业中性组合每年都能战胜沪深 300指数，年化超额收益为 11.53%，月胜率为 76.54%。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "选取历史入选率最高的5个因子，选取每个因子值最极端的那部分股票，对各因子选出的股票进行组合构建，取得了不错的效果。",
+      "evidence": "本文选取历史入选率最高的 5 个因子，选取每个因子值最极端的那部分股票，然后对各因子选出的股票进行组合构建，取得了不错的效果，供投资者参考。"
+    },
+    {
+      "text": "总市值因子TOP100组合2008年至今相对沪深300指数的年化超额收益为46.40%，月度胜率为71.60%；行业中性组合年化超额收益为26.93%，月度胜率为74.07%。",
+      "evidence": "总市值。TOP100组合 2008年至今相对沪深 300指数的年化超额收益为 46.40%，月度胜率为 71.60%。行业中性组合 2008年至今相对沪深 300指数的年化超额收益为 26.93%，月度胜率为 74.07%。"
+    },
+    {
+      "text": "单因子多策略是多个单因子的叠加，股票数量更多、资金容量更大；每个因子代表了一种风格的策略，难以同时持续的失效，并行模式可以更好的分散风险、平滑收益曲线。",
+      "evidence": "3）多因子选股策略本质上是一种选股模式。单因子多策略中每个因子代表了一种风格的策略，难以同时持续的失效，这种并行模式可以更好的分散风险，平滑收益曲线。"
+    },
+    {
+      "text": "进取组合每年都能战胜沪深300指数，年化超额收益为26.91%，月胜率为70.37%；稳健组合年化超额收益为19.16%，月胜率为74.07%。",
+      "evidence": "表 8展示了单因子多策略选股组合的表现统计，进取组合每年都能战胜沪深 300指数，年化超额收益为 26.91%，月胜率为70.37%；行业中性组合每年都能战胜沪深 300指数，年化超额收益为 19.16%，月胜率为 74.07%。"
+    },
+    {
+      "text": "较之随机抽样生成的基准分布，策略的分位点分布呈现明显的右偏，有54.6%的股票表现好于中位数，微观层面该方法选出的股票具有统计意义上的稳定性。",
+      "evidence": "图 29 展示单因子多策略组合的收益率分位点的分布情况（蓝色柱状图），较之随机抽样生成的基准分布（红色曲线），策略的分位点分布呈现明显的右偏，有 54.6%的股票表现好于中位数，这说明在微观层面，该方法选出的股票具有统计意义上的稳定性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama-French三因子模型",
+    "套利定价理论(APT理论)",
+    "选股因子研究系列（八）——基于市场非理性的流动性选股因子20140825"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "id": "20210607-广发证券-深度学习-008-基本面因子模型的深度学习增强",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_mining"],
+      "approach": ["style_ratio", "representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产收益率（ROE），行业中性、市值中性}",
+          "stats": [null, null, null, null],
+          "evidence": "过去的盈利能力可以通过公司公布的财报中的利润信息获取，比如使用净资产收益率（ROE）和毛利率（GPM）来代表公司的盈利能力；"
+        },
+        {
+          "name": "GPM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{毛利率（GPM），行业中性、市值中性}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利因子选取净资产收益率（ROE）和毛利率（GPM）作为代表，成长因子选取营业收益同比增长率（YoyOr）与资产同比增长率（YoyAsset）"
+        },
+        {
+          "name": "YoyOr",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入同比增长率，行业中性、市值中性}",
+          "stats": [null, null, null, null],
+          "evidence": "使用成长风格类的营业同比增长率作为主要标准筛选出前25%的股票，而将资产同比增长率作为次要标准筛选出50%的股票。"
+        },
+        {
+          "name": "YoyAsset",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产同比增长率，行业中性、市值中性}",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子选取营业收益同比增长率（YoyOr）与资产同比增长率（YoyAsset），估值因子的代表为市现率倒数（CFP）。"
+        },
+        {
+          "name": "CFP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{市现率倒数，行业中性、市值中性}",
+          "stats": [null, null, null, null],
+          "evidence": "此外，使用估值因子中的市现率倒数选出 70%的股票。"
+        },
+        {
+          "name": "深度学习模型打分",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\widehat{y}_{1}-\\widehat{y}_{3}",
+          "stats": [0.1361, null, 1.99, null],
+          "evidence": "本报告使用股票上涨概率与股票下跌概率之差作为深度学习模型对股票的打分。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以中证800为基准、千分之三交易成本下，增强模型2011年至2021年3月获得24.29%的年化超额收益，显著优于深度学习模型和基本面因子模型。",
+      "evidence": "以中证 800指数为基准的增强模型表现：在千分之三的交易成本下，增强模型在2011 年至2021 年3 月获得了24.29%的年化超额收益，与深度学习模型和基本面因子模型相比有显著提升。"
+    },
+    {
+      "text": "深度学习模型打分与基本面因子间的相关性均值处于-0.05与+0.05之间，十分档选股重合度均值最高仅为10.49%，两种模型选股逻辑迥异，具备组合基础。",
+      "evidence": "深度学习模型打分与基本面因子间的相关性均值处于-0.05 与+0.05 之间，两者的十分档选股重合度均值最高仅为10.49%。"
+    },
+    {
+      "text": "基本面因子中性化前的深度学习模型IC均值为0.1361、ICIR为1.99，中性化之后为0.1362、2.06，中性化前后选股能力无显著变化，印证两者选股相关性很低。",
+      "evidence": "从下面的图表的数据可知，基本面因子中性化前的机器学习模型的IC均值为0.1361，ICIR为1.99；中性化之后的机器学习模型的IC的均值为0.1362，ICIR为2.06。"
+    },
+    {
+      "text": "增强模型年化换手率为8.83倍，低于深度学习模型的10.89倍，且交易成本提升至千分之五时选股性能仍显著优于基本面模型和深度学习模型。",
+      "evidence": "增强模型的年化换手率为8.83倍，低于深度学习模型的换手率（10.89倍）。即使交易成本提升至千分之五，增强模型的选股性能仍然显著优于基本面模型和深度学习模型。"
+    },
+    {
+      "text": "以沪深300为基准、千分之三成本下，增强模型年化超额收益22.23%，高于深度学习模型的19.04%和基本面因子模型的12.74%。",
+      "evidence": "在千分之三的交易成本下，增强模型在2011 年至2021 年3 月获得了22.23%的年化超额收益，与之相比，深度学习模型的年化超额收益为 19.04%，基本面因子模型的年化超额收益为12.74%。"
+    },
+    {
+      "text": "回测区间11年里，增强模型每年都跑赢了基准指数，且其中8个年份增强模型的收益高于基本面模型。",
+      "evidence": "分年度来看，在回测区间的 11 年里，增强模型每年都跑赢了基准指数，而且在其中8个年份，增强模型的收益高于基本面模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《证券分析》",
+    "广发金融工程团队深度学习系列研报",
+    "广发金融工程团队长线选股系列报告"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

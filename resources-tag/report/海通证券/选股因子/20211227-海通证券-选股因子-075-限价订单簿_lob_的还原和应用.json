@@ -1,0 +1,187 @@
+{
+  "schema_version": 2,
+  "id": "20211227-海通证券-选股因子-075-限价订单簿_lob_的还原和应用",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "限价买卖委托成交概率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "TradeRatio_{t_{j}}=BidMatchVol_{max,t_{j}}/BidOrderVol_{t_{j}}-AskMatchVol_{max,t_{j}}/AskOrderVol_{t_{j}}",
+          "stats": [null, null, null, null],
+          "evidence": "定义3秒内成交量最大的限价买入订单的委托量与3秒内全部限价买入委托量的比值，减去 3秒内成交量最大的限价卖出订单的委托量与 3 秒内全部限价卖出委托量的比值，为限价买卖委托成交概率（下简称买卖成交概率）。"
+        },
+        {
+          "name": "订单簿相对强弱",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "SheetDiff_{t_{j}}=\\left(V_{B_{1t_{j}}}-V_{A_{1t_{j}}}\\right)/\\left(V_{B_{1t_{j}}}+V_{A_{1t_{j}}}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "如果当前买一价的委买量很大，那么限价买单的成交难度就会上升。因此，订单簿的强弱是影响成交概率的重要因素之一。于是，我们可以构建如下的 LOB衍生指标。"
+        },
+        {
+          "name": "成交相对强弱",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "MatchDiff_{t_{j-1,j}}=\\left(MatchVol_{B_{1}t_{j-1,j}}-MatchVol_{A_{1}t_{j-1,j}}\\right)/TotVol_{B_{1}t_{j-1,j}}",
+          "stats": [null, null, null, null],
+          "evidence": "此外，过去一段时间内订单簿的变化，包括发生的委托、撤单和成交，反映了所有市场参与者对该证券的观点，同样会影响未来成交概率的高低。"
+        },
+        {
+          "name": "挂单相对强弱",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "OrderDiff_{t_{j-1,j}}=\\left(OrderVol_{B_{1}t_{j-1,j}}-OrderVol_{A_{1}t_{j-1,j}}\\right)/TotVol_{B_{1}t_{j-1,j}}",
+          "stats": [null, null, null, null],
+          "evidence": "类似地，我们还可以构建过去一段时间内，与买一价和卖一价上挂单量和撤单量的变化相关的 LOB衍生指标。"
+        },
+        {
+          "name": "撤单相对强弱",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "CancelDiff_{t_{j-1,j}}=\\left(CancelVol_{B_{1}t_{j-1,j}}-CancelVol_{A_{1}t_{j-1,j}}\\right)/TotVol_{B_{1}t_{j-1,j}}",
+          "stats": [null, null, null, null],
+          "evidence": "类似地，我们还可以构建过去一段时间内，与买一价和卖一价上挂单量和撤单量的变化相关的 LOB衍生指标。"
+        },
+        {
+          "name": "开盘后买入意愿占比（LOB）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "BidIntentionAmt_{j,j+3}=NetSetOrderAmt_{j,j+3}-NetSetCancelAmt_{j,j+3}-NetSetMatchAmt_{j,j+3}-NetMatchAmt_{j,j+3}",
+          "stats": [0.034, null, 4.006, null],
+          "evidence": "在海通量化团队前期的报告《高频因子的现实与幻想》中，我们结合盘口快照与逐笔成交数据，构建了开盘后买入意愿占比因子。即， 间，每个股票的买入意愿与总成交金额的比值。"
+        },
+        {
+          "name": "开盘后买入意愿占比（快照）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后买入意愿与总成交金额的比值，基于盘口快照与逐笔成交数据计算}",
+          "stats": [0.034, null, 3.988, null],
+          "evidence": "虽然我们通过 指标给出了更加复杂的买入意愿定义，但本质上，它和从 秒快照数据得到的因子刻画的是同一种投资者行为，因此，两者在选股效果上应该没有差异。"
+        },
+        {
+          "name": "开盘后净挂单占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "NetSetOrderAmt_{j,j+3}/\\text{总成交金额}",
+          "stats": [0.014, null, 1.728, null],
+          "evidence": "如下表所示，开盘后被动净买入占比的IC 绝对值最高，开盘后净成交占比次之，开盘后净挂单占比再次，而开盘后净撤单占比的 IC 则接近于 0。"
+        },
+        {
+          "name": "开盘后净撤单占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "NetSetCancelAmt_{j,j+3}/\\text{总成交金额}",
+          "stats": [0.009, null, 1.392, null],
+          "evidence": "如下表所示，开盘后被动净买入占比的IC 绝对值最高，开盘后净成交占比次之，开盘后净挂单占比再次，而开盘后净撤单占比的 IC 则接近于 0。"
+        },
+        {
+          "name": "开盘后净成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "NetSetMatchAmt_{j,j+3}/\\text{总成交金额}",
+          "stats": [-0.022, null, -2.452, null],
+          "evidence": "如下表所示，开盘后被动净买入占比的IC 绝对值最高，开盘后净成交占比次之，开盘后净挂单占比再次，而开盘后净撤单占比的 IC 则接近于 0。"
+        },
+        {
+          "name": "开盘后被动净买入占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "NetMatchAmt_{j,j+3}/\\text{总成交金额}",
+          "stats": [-0.027, null, -2.942, null],
+          "evidence": "如下表所示，开盘后被动净买入占比的IC 绝对值最高，开盘后净成交占比次之，开盘后净挂单占比再次，而开盘后净撤单占比的 IC 则接近于 0。"
+        },
+        {
+          "name": "复合因子（正交+IC加权）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{将净挂单、净撤单、净成交、被动净买入四个细分因子先逐次正交、再IC加权复合}",
+          "stats": [0.034, null, 4.023, null],
+          "evidence": "综合因子之间 的差异和两两之间的相关性，我们认为，如果不考虑因子的实际意义，单从信号挖掘的角度， 个因子等权线性复合（不考虑正负号），或许并不是最优方案。因此，我们尝试用先逐次正交、再 IC加权的方式重新构建复合因子，并考察它的选股效果。"
+        }
+      ]
+    },
+    "L7_execution": {
+      "module": ["L7_algo"],
+      "approach": ["schedule", "cost_prediction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "连续竞价阶段用逐笔数据还原盘口行情，可将订单簿更新频率提升到0.01秒以内，最大程度避免快照行情迟滞，且包含更丰富的盘口信息。",
+      "evidence": "连续竞价阶段用逐笔数据还原盘口行情，可以带来诸多优势。首先，理论上，可将订单簿的更新频率提升到 0.01 秒以内。其次，最大程度上避免快照行情可能存在较大迟滞这一问题，实时跟踪订单簿的全貌。最后，由逐笔数据还原的连续竞价阶段的盘口行情包含更加丰富的信息。"
+    },
+    {
+      "text": "限价单TWAP策略在每个3秒成交概率较低时，订单会堆积到分钟末被迫以市价单成交，堆积量超过最优对手方价格委托量时将比市价单TWAP产生亏损，侵蚀限价单成交部分累积的超额收益。",
+      "evidence": "然而，从上表中的对比分析可以看出，如果每个 3秒的限价单成交概率较低，就会导致很多订单堆积在分钟末被迫以市价单成交。而一旦堆积的量超过了最优对手方价格的委托量时，则相比均匀的市价单 TWAP策略就会产生亏损，从而侵蚀掉限价单成交部分累积的超额收益。"
+    },
+    {
+      "text": "整体来看，订单簿相对强弱对买卖成交概率的预测效果最好，挂单相对强弱次之；这4个LOB衍生指标更适用于京东方A和证券ETF。",
+      "evidence": "整体来看，订单簿相对强弱的预测效果最好，挂单相对强弱次之。不过，同样的指标应用于不同证券，结果也是大相径庭。相对而言，这 4 个衍生指标更适用于京东方A 和证券 ETF。"
+    },
+    {
+      "text": "对于京东方A和证券ETF，改进的TWAP策略全面优于简单的市价单和限价单TWAP策略，日均能够带来0.3-1.4个bp左右的成本下降。",
+      "evidence": "我们欣喜地发现，对于京东方 A和证券 ETF，改进的 TWAP策略全面优于简单的市价单和限价单 TWAP策略，日均能够带来 0.3-1.4 个 bp 左右的成本下降。"
+    },
+    {
+      "text": "LOB还原的买入意愿因子与快照数据因子刻画同一种投资者行为，两种方法得到的因子在IC、IC-IR和收益等方面几乎完全一致。",
+      "evidence": "虽然我们通过 指标给出了更加复杂的买入意愿定义，但本质上，它和从 秒快照数据得到的因子刻画的是同一种投资者行为，因此，两者在选股效果上应该没有差异。事实也是如此。如下表所示，两种不同方法得到的因子，在 、 和收益等方面几乎完全一致。"
+    },
+    {
+      "text": "细分因子先逐次正交、再IC加权构建的复合因子略优于两个原始因子，IC-IR、IC胜率和多空月均收益更高，但提升幅度极其有限。",
+      "evidence": "由上表可见，复合因子展现出略优于两个原始因子的选股效果。具体表现在更高的IC-IR、IC 胜率和多空月均收益，但提升幅度极其有限。"
+    },
+    {
+      "text": "从LOB出发可提取海量的投资者行为和市场微观结构特征，但线性合成这些特征得到因子或交易信号的方式可能存在难以突破的瓶颈，深度学习是较为理想的解决方案。",
+      "evidence": "首先，我们证明了，从 LOB出发，可以提取更多甚至海量的有关投资者行为和市场微观结构的特征；其次，线性合成这些特征得到因子或交易信号的方式，可能在高频数据领域存在难以突破的瓶颈。而深度学习正是我们面对这两个需求时，较为理想的解决方案。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["海通量化团队前期的报告《高频因子的现实与幻想》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

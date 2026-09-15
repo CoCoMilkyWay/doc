@@ -1,0 +1,144 @@
+{
+  "schema_version": 2,
+  "id": "20190826-海通证券-选股因子-053-上市公司关系网因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "度",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股价相关性网络中，与公司u有关联关系的公司数量}",
+          "stats": [0.046, 0.056, 2.071, null],
+          "evidence": "度和中心性因子均具备显著为正的选股效果。前者的 IC和 Rank IC分别为 0.046 和 0.056，对应的 IR 分别达到 2.071 和 2.269，胜率在 70%以上，T 值都在 6 以上。"
+        },
+        {
+          "name": "中心性",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "c(u)=\\sum_{s,t\\neq u}\\frac{n_{st}(u)}{N_{st}}",
+          "stats": [0.048, 0.071, 2.751, null],
+          "evidence": "后者的 IC 和 Rank IC 分别为 0.048 和 0.071，对应的 IR 分别为 2.751 和 3.419，胜率都在 80%以上，T 值分别为 8.37 和 10.4。"
+        },
+        {
+          "name": "NetR_10",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{和每个股票相关系数绝对值最大的10%股票，过去20日的平均涨幅}",
+          "stats": [-0.048, -0.056, -1.654, null],
+          "evidence": "以 NetR_10 为例，IC 和 IR 分别为-0.048 和-1.654，胜率为 33%，T 值为-5.03；Rank IC 和对应的 IR分别为-0.056 和-1.816。"
+        },
+        {
+          "name": "NetM_10",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{与个股收益率相关性（过去t-12月至t-1月的日收益率计算）绝对值最大的10%股票，过去20日的平均涨幅}",
+          "stats": [-0.002, -0.019, -0.035, null],
+          "evidence": "总体来看，长周期溢出效应因子的选股有效性较弱。以 NetM_10 为例，正交前，因子 IC 和 Rank IC 分别为-0.002 和-0.19，T 值分别为-0.11 和-1.18；正交后，因子 IC和 Rank IC 的均值上升至 0.023 和 0.015，T 值分别为 2.93 和 1.89。"
+        },
+        {
+          "name": "主营业务产品",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{主营业务收入网络中，有相同主营产品类别的关联公司过去N日的平均涨幅}",
+          "stats": [0.014, 0.015, 0.953, null],
+          "evidence": "在主营业务收入网络中，存在微弱的动量溢出效应。即，有相同主营产品的公司，股价的变化会有同向的传导现象。但是这种溢出效应，仅存在于非行业中性下的正交因子中。此时，因子的 IC 和 Rank IC 分别为 0.014 和 0.015，对应的 IR 分别为 0.953 和1.028，胜率高于 60%，T 值在 3左右。"
+        },
+        {
+          "name": "ind1M_r40",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{剔除与个股短周期收益率相关系数绝对值最大的40%股票后，所属一级行业剩余股票上个月的平均涨幅}",
+          "stats": [0.027, 0.026, 1.18, null],
+          "evidence": "如下表所示，正交后的一级行业动量溢出因子（ind1M）的 IC 和 ICIR分别为 0.024和 0.946，剔除短周期下，收益率相关系数的绝对值最大的 40%股票后（ind1M_r40），IC 和 ICIR 分别提升至 0.027 和 1.18。"
+        },
+        {
+          "name": "ConcptM_r20",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{把与个股低相关的股票作为一个新的概念板块，与原概念板块融合后计算的动量溢出因子}",
+          "stats": [0.027, 0.026, 1.991, null],
+          "evidence": "如下表所示，正交后（行业中性）的 ConcptM 因子，IC 和 ICIR 分别为 0.024 和 1.671。叠加股价相关性网络后，IC 和 ICIR 分别提升到 0.027 和 1.991，T 值也从 5.08 提升到 6.06。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "度和中心性因子原始因子表现突出，IC 分别为 0.046 和 0.048，Rank IC 分别为 0.056 和 0.071，对应的 IR 分别达 2.071 和 2.751。",
+      "evidence": "度和中心性因子均具备显著为正的选股效果。前者的 IC和 Rank IC分别为 0.046 和 0.056，对应的 IR 分别达到 2.071 和 2.269，胜率在 70%以上，T 值都在 6 以上。后者的 IC 和 Rank IC 分别为 0.048 和 0.071，对应的 IR 分别为 2.751 和 3.419，胜率都在 80%以上，T 值分别为 8.37 和 10.4。"
+    },
+    {
+      "text": "与常用因子正交后，度和中心性因子的 IC 依然保持在 0.02 左右，T 值均大于 4，胜率在 2/3 以上，提供了信息的补充，初步展示出挖掘图网络因子的价值。",
+      "evidence": "但我们也应看到，两个因子正交后的 IC依然保持在 0.02 左右，T 值均大于 4，胜率在 2/3 以上。这表明两者还是提供了信息的补充，初步展示出挖掘图网络因子的价值。"
+    },
+    {
+      "text": "短周期溢出效应因子和预期收益呈显著负相关，且随着对高相关性定义的逐渐严格，IC 的绝对值不断上升。",
+      "evidence": "由上表可见，短周期溢出效应因子和预期收益呈显著负相关。而且，随着对高相关性定义的逐渐严格，IC 的绝对值不断上升。"
+    },
+    {
+      "text": "长周期溢出效应因子正交后展现出较为明显的动量特征，在 13-14 年的 TMT 行情与 2016 年下半年以来的白马龙头行情中表现都十分出色。",
+      "evidence": "整体来看，因子展现出较为明显的动量特征。如，在 13-14 年的 TMT 行情与 2016 年下半年以来的白马龙头行情中，长周期溢出效应因子的表现都十分出色。"
+    },
+    {
+      "text": "主营业务收入网络中存在微弱的动量溢出效应，但仅存在于非行业中性下的正交因子中；行业中性化后 IC 大幅下降，因该网络接近另一种形式的行业分类。",
+      "evidence": "然而，进一步对因子做行业中性化处理后，IC和 Rank IC大幅下降至 0.007。这一结果也很容易解释，因为同一行业中的公司更容易有相同的主营产品，使得主营业务收入网络接近于另一种形式的行业分类。"
+    },
+    {
+      "text": "剔除高相关股票后，一级行业动量溢出因子正交后的 IC 和 ICIR 由 0.024 和 0.946 提升至 0.027 和 1.18（ind1M_r40）。",
+      "evidence": "如下表所示，正交后的一级行业动量溢出因子（ind1M）的 IC 和 ICIR分别为 0.024和 0.946，剔除短周期下，收益率相关系数的绝对值最大的 40%股票后（ind1M_r40），IC 和 ICIR 分别提升至 0.027 和 1.18。"
+    },
+    {
+      "text": "叠加股价相关性网络后，概念板块动量溢出因子正交后的 IC 和 ICIR 由 0.024 和 1.671 提升至 0.027 和 1.991，T 值从 5.08 提升到 6.06。",
+      "evidence": "如下表所示，正交后（行业中性）的 ConcptM 因子，IC 和 ICIR 分别为 0.024 和 1.671。叠加股价相关性网络后，IC 和 ICIR 分别提升到 0.027 和 1.991，T 值也从 5.08 提升到 6.06。"
+    },
+    {
+      "text": "ConcptM_r20 因子的月均溢价为 25 bps，T 值为 5.67，胜率达 76.6%，整体表现稳定，仅在 2015 年股市异常波动期间出现明显回撤。",
+      "evidence": "ConcptM_r20 的月均溢价为 25 bps，T 值为 5.67，胜率达到 76.6%。从下图的累计截面溢价和多空组合的累计净值来看，ConcptM_r20 因子整体表现稳定，仅在 2015年的股市异常波动期间出现过明显的回撤。"
+    },
+    {
+      "text": "关系网因子内部相关性较弱，对 A 股上市公司构建关系网并从中得到的因子，确实能提供传统分析尚未包含的信息。",
+      "evidence": "度和中心性，以及长（NetM_10）、短（NetR_10）周期的溢出效应，这两组因子内部存在中等程度的相关性，而其余因子之间的相关性都较弱。结合上文的结论，我们认为，对 A股上市公司构建关系网，并从中得到的因子，确实能提供传统分析尚未包含的信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Logistics of Supply Chain Alpha》（德银，2015）",
+    "《知识图谱的构建与应用》",
+    "《行业、概念板块的动量溢出效应》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

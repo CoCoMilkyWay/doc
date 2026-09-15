@@ -1,0 +1,319 @@
+{
+  "schema_version": 2,
+  "id": "20150706-广发证券-多因子-024-财报因子使用方法新探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "event", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "销售净利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润 / 营业收入}",
+          "stats": [null, null, null, null],
+          "evidence": "从快报披露的内容中，通过简单的计算，我们可以得到一些常见的因子，如销售净利率、ROE、ROA等。"
+        },
+        {
+          "name": "销售毛利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{(营业收入-营业成本) / 营业收入}",
+          "stats": [null, null, null, null],
+          "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润 / 股东权益}",
+          "stats": [null, null, null, null],
+          "evidence": "从快报披露的内容中，通过简单的计算，我们可以得到一些常见的因子，如销售净利率、ROE、ROA等。"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润 / 总资产}",
+          "stats": [null, null, null, null],
+          "evidence": "从快报披露的内容中，通过简单的计算，我们可以得到一些常见的因子，如销售净利率、ROE、ROA等。"
+        },
+        {
+          "name": "股东权益增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{本期股东权益同比增长比例}",
+          "stats": [null, null, null, null],
+          "evidence": "分别是：销售净利率、ROE、ROA、股东权益增长率、总资产同比增长率、净利润增长率、每股净资产增长率、roe同比增长率、主营业务收入同比增长率和资产总计，一共十个。"
+        },
+        {
+          "name": "总资产同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{本期总资产同比增长比例}",
+          "stats": [null, null, null, null],
+          "evidence": "分别是：销售净利率、ROE、ROA、股东权益增长率、总资产同比增长率、净利润增长率、每股净资产增长率、roe同比增长率、主营业务收入同比增长率和资产总计，一共十个。"
+        },
+        {
+          "name": "净利润增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{本期净利润同比增长比例}",
+          "stats": [null, null, null, null],
+          "evidence": "分别是：销售净利率、ROE、ROA、股东权益增长率、总资产同比增长率、净利润增长率、每股净资产增长率、roe同比增长率、主营业务收入同比增长率和资产总计，一共十个。"
+        },
+        {
+          "name": "每股净资产增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{本期每股净资产同比增长比例}",
+          "stats": [null, null, null, null],
+          "evidence": "分别是：销售净利率、ROE、ROA、股东权益增长率、总资产同比增长率、净利润增长率、每股净资产增长率、roe同比增长率、主营业务收入同比增长率和资产总计，一共十个。"
+        },
+        {
+          "name": "roe同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{本期ROE同比增长比例}",
+          "stats": [null, null, null, null],
+          "evidence": "而银行行业在首次选股时，已有13只成分股披露了财报（包括快报），其中，在2015年3月13日披露年报的平安银行凭借11.28%的ROE同比增长率获得较高的因子打分结果，成为银行行业首只超配的个股。"
+        },
+        {
+          "name": "主营业务收入同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{本期主营业务收入同比增长比例}",
+          "stats": [null, null, null, null],
+          "evidence": "分别是：销售净利率、ROE、ROA、股东权益增长率、总资产同比增长率、净利润增长率、每股净资产增长率、roe同比增长率、主营业务收入同比增长率和资产总计，一共十个。"
+        },
+        {
+          "name": "资产负债率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总负债 / 总资产}",
+          "stats": [null, null, null, null],
+          "evidence": "总体上看，考虑了快报的IR比不考虑快报的IR高，在每股净资产增长率、资产负债率、总资产、存货周转率、长期负债比率、财务费用比例等因子上表现尤为明显，这也进一步证明了快报数据，以及考虑了快报计算的披露占比提前了策略操作的时间，在一定程度上提高了因子的有效性。"
+        },
+        {
+          "name": "资产对数",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{总资产})",
+          "stats": [null, null, null, null],
+          "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+        },
+        {
+          "name": "存货周转率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业成本 / 平均存货}",
+          "stats": [null, null, null, null],
+          "evidence": "总体上看，考虑了快报的IR比不考虑快报的IR高，在每股净资产增长率、资产负债率、总资产、存货周转率、长期负债比率、财务费用比例等因子上表现尤为明显，这也进一步证明了快报数据，以及考虑了快报计算的披露占比提前了策略操作的时间，在一定程度上提高了因子的有效性。"
+        },
+        {
+          "name": "长期负债比率",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{长期负债 / 总资产}",
+          "stats": [null, null, null, null],
+          "evidence": "总体上看，考虑了快报的IR比不考虑快报的IR高，在每股净资产增长率、资产负债率、总资产、存货周转率、长期负债比率、财务费用比例等因子上表现尤为明显，这也进一步证明了快报数据，以及考虑了快报计算的披露占比提前了策略操作的时间，在一定程度上提高了因子的有效性。"
+        },
+        {
+          "name": "每股负债比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总负债 / 总股本}",
+          "stats": [null, null, null, null],
+          "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+        },
+        {
+          "name": "财务费用比例",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{财务费用 / 营业收入}",
+          "stats": [null, null, null, null],
+          "evidence": "总体上看，考虑了快报的IR比不考虑快报的IR高，在每股净资产增长率、资产负债率、总资产、存货周转率、长期负债比率、财务费用比例等因子上表现尤为明显，这也进一步证明了快报数据，以及考虑了快报计算的披露占比提前了策略操作的时间，在一定程度上提高了因子的有效性。"
+        },
+        {
+          "name": "固定比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{固定资产 / 总资产}",
+          "stats": [null, null, null, null],
+          "evidence": "| 固定比（高） | -0.10 | -0.15 | -0.07 | -0.32 | -0.41 | -0.62 | -0.45 | -0.78 | -0.64 | -0.46 | -0.93 |"
+        },
+        {
+          "name": "速动比率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{(流动资产-存货) / 流动负债}",
+          "stats": [null, null, null, null],
+          "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+        },
+        {
+          "name": "流动比率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{流动资产 / 流动负债}",
+          "stats": [null, null, null, null],
+          "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+        },
+        {
+          "name": "净利润现金含量",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营活动现金流净额 / 净利润}",
+          "stats": [null, null, null, null],
+          "evidence": "| 净利润现金含量（高） | 0.91 | 0.28 | -0.15 | -0.21 | -0.43 | -1.10 | -0.06 | 0.06 | 0.33 | -0.18 | 0.07 |"
+        },
+        {
+          "name": "总资产周转率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入 / 平均总资产}",
+          "stats": [null, null, null, null],
+          "evidence": "| 总资产周转率（高） | -0.49 | -0.42 | -0.60 | -0.36 | -0.62 | -0.75 | -0.47 | -1.20 | -0.59 | -0.36 | -0.18 |"
+        },
+        {
+          "name": "流动负债率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{流动负债 / 总负债}",
+          "stats": [null, null, null, null],
+          "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+        },
+        {
+          "name": "销售费用比例",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{销售费用 / 营业收入}",
+          "stats": [null, null, null, null],
+          "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_hedge"],
+      "approach": ["futures_hedge"],
+      "setup": {"universe": ["csi300", "csi500", "csi800"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "提前使用财报数据进行选股能够大幅提高因子的有效性，且使用快报效果更佳。",
+      "evidence": "本文测试了 23个财报因子在不同持有期下，不同起始比例以及截止日选股策略的表现，结果显示，提前使用财报数据进行选股能够大幅提高因子的有效性，且使用快报效果更佳；"
+    },
+    {
+      "text": "销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例八个因子在披露月的表现优于其在非披露月的表现。",
+      "evidence": "一共有八个因子（标记红颜色），包括销售毛利率、每股净资产增长率、资产对数、每股负债比、速动比率、流动比率、流动负债率和销售费用比例，在披露月的表现都优于其在非披露月的表现。"
+    },
+    {
+      "text": "考虑了快报的IR比不考虑快报的IR高，在每股净资产增长率、资产负债率、总资产、存货周转率、长期负债比率、财务费用比例等因子上表现尤为明显。",
+      "evidence": "总体上看，考虑了快报的IR比不考虑快报的IR高，在每股净资产增长率、资产负债率、总资产、存货周转率、长期负债比率、财务费用比例等因子上表现尤为明显，这也进一步证明了快报数据，以及考虑了快报计算的披露占比提前了策略操作的时间，在一定程度上提高了因子的有效性。"
+    },
+    {
+      "text": "在财务报告截止披露前大部分公司已披露新财报，但传统策略仍用旧报告数据打分，月中陆续披露的新财报数据也被传统策略完全忽略。",
+      "evidence": "在财务报告截止披露前一个月，大部分上市公司新的财务报告已经披露，但策略仍然在用旧报告的数据进行打分，如2015年3月底，市场上已有接近一半的个股披露了年报，但传统的的多因子ALPHA策略仍然在使用上一年三季报的因子数据进行选股；"
+    },
+    {
+      "text": "财务报告披露日期有向最晚披露日期集中的趋势，最晚披露日期前一两周大部分财务报告已经披露，已有足够多的个股因子数据用于打分，无需等到月末。",
+      "evidence": "从图中可以看出，近年来财务报告披露日期有向最晚披露日期集中的趋势。并且，在最晚披露日期前一两周，大部分的财务报告已经披露，已经有足够多的个股因子数据用于打分，无需等到月末。"
+    },
+    {
+      "text": "将快报纳入统计范围后，达到各个披露比例的时间点前移了，考虑了快报后在更早的时候就有足够多财报因子数据用于选股。",
+      "evidence": "从图中我们可以看出，将快报纳入统计范围后，达到各个比例的时间点前移了，即考虑了快报后在更早的时候就有足够多财报因子数据用于选股。"
+    },
+    {
+      "text": "披露月提前操作使策略具有更高的信息比、收益和胜率，最大回撤也略有减小，综合考虑不同策略的表现，最终选择70%作为最终参数。",
+      "evidence": "从上表可以看到披露月提前操作使策略具有更高的信息比、收益和胜率，最大回撤也略有减小。综合考虑不同策略的表现，最终选择70%作为该策略最终的参数。"
+    },
+    {
+      "text": "仅仅使用财报因子、一年只在三个披露月操作并提前使用财报数据的策略，总收益较低，但胜率和回撤比较理想。",
+      "evidence": "总体来看，无论是哪种对冲策略，仅仅使用财报因子，一年只在三个披露月进行操作，并提前使用财报数据，由于一年只有少数几个月份非空仓，且大部分交易日并非满仓投资股票，闲置资金进行无风险投资获得的收益较低，使得策略的总收益较低，但胜率和回撤是比较理想的。"
+    },
+    {
+      "text": "在截止日前使用财报数据进行选股，策略本身表现良好，并能与现有策略很好融合，带来更多收益回报，同时胜率更高、最大回撤更小。",
+      "evidence": "实证数据表明，在截止日前使用财报数据进行选股，策略本身表现良好，并且能够很好地与现有策略进行融合，带来更多的收益回报，同时也使得胜率更高、最大回撤更小！"
+    },
+    {
+      "text": "游族网络和平安银行在持有期20天内涨幅分别为56.99%和31.78%，等到4月底再超配则只能得到49.15%和-8.26%的收益，个股在财报披露后短期内的确有更好的收益表现。",
+      "evidence": "56.99%和31.78%，而如果我们等到4月底再超配这两只个股，则只能得到49.15%和-8.26%的收益，由此可见，个股在财报披露后短期内的确有更好的收益表现。"
+    },
+    {
+      "text": "财报+非财报因子新策略多对800信息比2.01、年化收益16.6%。",
+      "evidence": "| 多对800信息比 2.01 年化收益16.6% |  |  |  |"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《大浪淘沙，Alpha因子何处寻？》（2011.08）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

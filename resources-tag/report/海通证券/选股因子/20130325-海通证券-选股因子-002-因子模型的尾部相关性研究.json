@@ -1,0 +1,92 @@
+{
+  "schema_version": 2,
+  "id": "20130325-海通证券-选股因子-002-因子模型的尾部相关性研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "上尾相关系数",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "\\lambda_{+}=\\lim_{u\\to1}\\frac{1-2u+C(u,u)}{1-u},\\quad \\hat{\\lambda}_{+}=\\frac{1}{1+\\left(\\frac{\\varepsilon_{k,N}}{\\hat{\\beta}\\cdot y_{k,N}}\\right)^{\\alpha}}",
+          "stats": [null, null, null, null],
+          "evidence": "在投资实践中，常常会考虑这样一个问题。假定有两项资产 X和 Y，当 Y经历较大的收益时，另一项资产 X也有相同经历的概率是多少。"
+        },
+        {
+          "name": "下尾相关系数",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "\\lambda_{-}=\\lim_{u\\to0^{+}}\\frac{C(u,u)}{u},\\quad \\hat{\\lambda}=\\frac{1}{1+\\left(\\frac{\\varepsilon_{k,N}}{\\hat{\\beta}\\cdot y_{k,N}}\\right)^{\\alpha}}",
+          "stats": [null, null, null, null],
+          "evidence": "类似地，也可定义下尾相关系数，即当 Y遭遇较大损失时，X也遭遇较大损失的概率："
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["csi300"]}},
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_tail"],
+      "approach": ["structural", "extreme_dependence"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "event"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "na"}
+    }
+  },
+  "findings": [
+    {
+      "text": "因子 Y 的分布若是快速变化（如正态、指数及趋向于 0 的速度与指数函数同阶的分布），则 X 和 Y 的尾部相关系数都为 0，非零尾部相关性要求因子分布具有厚尾特性。",
+      "evidence": "更一般地，如果假定因子 Y的分布是快速变化的，比如正态、指数和那些趋向于 0的速度与指数函数同阶的分布，那么 X和 Y的尾部相关系数都为 0。"
+    },
+    {
+      "text": "根据下尾相关系数构建的 P_LOW 与 P_HIGH 组合累计收益相差不大，P_HIGH 高风险高收益；若关注夏普比率与最大回撤，P_LOW 无疑是更好的选择。",
+      "evidence": "两个组合的累计收益相差不大，但组合 P_HIGH 体现出高风险、高收益的特点。但如果投资者关注单位风险的报酬，即夏普比率，以及最大回撤，那么组合 P_LOW 无疑是更好的选择。"
+    },
+    {
+      "text": "市场处于罕见的极端下跌状态中时，低下尾相关性组合的风险几乎是一致地小于另一个组合，尾部相关性研究对组合管理相当有必要。",
+      "evidence": "进一步，如果考察上图中红色圈出部分，市场正处于罕见的极端下跌状态中，此时低下尾相关性组合的风险几乎是一致地小于另一个组合。"
+    },
+    {
+      "text": "2013 年 3 月 4 日沪深 300 指数重挫 4.61%，组合 P_LOW 仅下跌 1.16%，而组合 P_HIGH 跌幅达 5.75%，市场风险被放大。",
+      "evidence": "举最近的一个例子来说，2013 年 3 月 4 日，沪深 300 指数重挫 4.61%，而组合P_LOW 仅下跌 1.16%。相反，组合 P_HIGH 的跌幅则达到 5.75%，市场风险被放大。"
+    },
+    {
+      "text": "弱势震荡的第二个时间段内上尾相关系数几乎都落在 0.30 和 0.70 之间，系统性地大于波动更大的第一个时间段。",
+      "evidence": "而在第二个时间段内，市场处于弱势震荡的格局中，但上尾相关系数却几乎都落在 0.30 和 0.70 之间，系统性地大于第一个时间段。"
+    },
+    {
+      "text": "绝大部分个股的下尾相关系数估计比上尾对应值更大，意味着下跌环境下个股和市场尾部行为的关联度更强。",
+      "evidence": "另一方面，绝大部分个股的下尾相关系数估计要比表 中的对应值来得更大一些，这意味着在下跌的环境下，个股和市场尾部行为的关联度更强。"
+    },
+    {
+      "text": "即使是那些从 Beta 系数的角度被认为系统性风险类似的个股，在尾部的行为也是风格迥异，Beta 并非理想的尾部风险评价指标。",
+      "evidence": "这就揭示了一个很有意义的现象，即使是那些从 Beta 系数的角度被认为系统性风险类似的个股，在尾部的行为也是风格迥异。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

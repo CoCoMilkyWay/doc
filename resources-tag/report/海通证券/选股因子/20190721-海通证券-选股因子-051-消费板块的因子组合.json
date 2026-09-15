@@ -1,0 +1,209 @@
+{
+  "schema_version": 2,
+  "id": "20190721-海通证券-选股因子-051-消费板块的因子组合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最新市值}",
+          "stats": [null, -0.051, null, null],
+          "evidence": "从市值角度来看，消费板块呈现显著的小盘效应，小市值组合相对于大市值组合月均超额 。"
+        },
+        {
+          "name": "市值平方",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最新市值的平方}",
+          "stats": [null, 0.0351, null, null],
+          "evidence": "每个月末，将消费板块所有个股次月收益对这 12 个因子进行横截面回归，并统计溢价的时间序列特征，结果如下表所示。"
+        },
+        {
+          "name": "PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最新市净率}",
+          "stats": [null, -0.037, null, null],
+          "evidence": "从估值角度来看，低估值股票具有一定的收益优势。从因子形式来看，PB 因子的选股效果强于 PE因子和股息率因子（过去 1 年累计分红/最新市值）。"
+        },
+        {
+          "name": "PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最新市盈率}",
+          "stats": [null, -0.0147, null, null],
+          "evidence": "在考察的 12 个因子中，除波动率、PE和股息率 3个因子外，其余 9 个因子的截面溢价在时间序列上均显著异于 0。"
+        },
+        {
+          "name": "股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去 1 年累计分红}}{\\text{最新市值}}",
+          "stats": [null, 0.0193, null, null],
+          "evidence": "从估值角度来看，低估值股票具有一定的收益优势。从因子形式来看，PB 因子的选股效果强于 PE因子和股息率因子（过去 1 年累计分红/最新市值）。"
+        },
+        {
+          "name": "反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{前期收益率取反}",
+          "stats": [null, -0.0648, null, null],
+          "evidence": "从技术因子角度来看，消费板块呈现显著的价格反转效应、低换手率效应、低波动效应和流动性溢价现象。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一段时间的日均换手率}",
+          "stats": [null, -0.0738, null, null],
+          "evidence": "从技术因子角度来看，消费板块呈现显著的价格反转效应、低换手率效应、低波动效应和流动性溢价现象。"
+        },
+        {
+          "name": "波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一段时间收益率的标准差}",
+          "stats": [null, -0.0955, null, null],
+          "evidence": "从技术因子角度来看，消费板块呈现显著的价格反转效应、低换手率效应、低波动效应和流动性溢价现象。"
+        },
+        {
+          "name": "流动性",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流动性指标}",
+          "stats": [null, -0.08, null, null],
+          "evidence": "特别地，流动性溢价在消费板块非常显著，流动性低的股票相对流动性高的股票月均超额 2.2%，月胜率 71.6%，是考察的 12个因子中月均多空收益差最高的因子。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产收益率}",
+          "stats": [null, 0.0248, null, null],
+          "evidence": "从基本面因子角度来看，剔除市值风格后的 ROE和 ROE 同比（dROE）因子具有稳定的选股效果，RankIC月胜率分别为 69%和 80%。"
+        },
+        {
+          "name": "dROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE同比变化}",
+          "stats": [null, 0.0432, null, null],
+          "evidence": "从基本面因子角度来看，剔除市值风格后的 ROE和 ROE 同比（dROE）因子具有稳定的选股效果，RankIC月胜率分别为 69%和 80%。"
+        },
+        {
+          "name": "预期净利润调整",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师预期净利润的调整幅度}",
+          "stats": [null, 0.0238, null, null],
+          "evidence": "此外，预期净利润调整因子也存在显著选股效果，月均多空收益差为 1%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "常见因子在消费板块存在显著选股效果，其中以市值因子和流动性因子表现最优。",
+      "evidence": "常见因子在消费板块存在显著选股效果；其中以市值因子和流动性因子表现最优。"
+    },
+    {
+      "text": "市值与流动性相关性高，两者相关系数高达75%；而市值、估值、基本面因子间相关性较低。",
+      "evidence": "市值与流动性相关性高，两者相关系数高达 75%。对于相关性很高的因子，我们可通过构建复合因子的方式更好地提取公共部分。"
+    },
+    {
+      "text": "市值与流动性等权加总的小市值复合因子TOP100组合收益表现优于市值单因子组合和流动性单因子组合。",
+      "evidence": "下表展示了市值单因子、流动性单因子、市值与流动性等权加总的复合因子（简称小市值复合因子）TOP100 组合收益表现情况。结果显示，复合因子的收益表现优于市值单因子组合和流动性单因子组合。"
+    },
+    {
+      "text": "消费板块等权组合与全市场等权组合走势非常接近，但市值加权组合表现显著优于其他板块，沪深300成分股内消费板块表现也显著优于其他板块。",
+      "evidence": "总结来看，消费板块等权组合与全市场等权组合走势非常接近，差异很小；但消费板块的市值加权组合表现显著优于其他板块。此外，在沪深 300 指数成分股内，消费板块的表现也显著优于其他板块。相比于其他板块，消费板块的大盘股表现较为突出。"
+    },
+    {
+      "text": "仅含3个因子的“小市值+流动性+盈利”组合与9因子组合收益表现非常接近，扣费后年化收益均为25%左右。",
+      "evidence": "实证结果显示，仅包含 3 个因子的“小市值+流动性+盈利”组合与包含所有有效因子的 9因子组合收益表现非常接近，扣费后年化收益均为 25%左右。且各年度在主动股票开放型基金中的收益排名也很类似：2014-2016 年表现最优，收益排名均在前 10%；2017 年表现最差，收益排名在后 10%。"
+    },
+    {
+      "text": "“小市值+流动性+盈利”组合年化收益27.5%，相对消费板块等权基准年化超额17.0%，年化单边换手3.2倍。",
+      "evidence": "从全样本角度来看，“小市值+流动性+盈利”组合具有较好收益表现，年化收益27.5%，相对于消费板块等权组合基准存在显著超额收益，年化超额 17.0%。组合换手率较低，年化单边换手 3.2 倍。"
+    },
+    {
+      "text": "2017年小市值因子持续失效，“小市值+流动性+盈利”组合当年收益-21.8%，在股票型基金中排名分位点为99.4%，出现黑天鹅事件。",
+      "evidence": "2017 年，小市值因子持续失效，消费板块的“小市值+流动性+盈利”组合产生大幅回撤，当年收益-21.8%。而市场上的股票型基金平均收益 14.0%，收益为正的基金占比高达 82%。因此在 2017 年收益排名中，“小市值+流动性+盈利”组合排名非常靠后，分位点为 99.4%。"
+    },
+    {
+      "text": "“盈利+增长+价值”组合年化收益24.3%，相对消费板块市值加权基准年化超额16.8%，月胜率73.1%。",
+      "evidence": "整体来看，“盈利+增长+价值”组合具有较好收益表现，年化收益 24.3%；相对于消费板块市值加权组合的超额收益显著为正，年化超额 16.8%，月胜率 73.1%。组合年化换手 4.35 倍，单边扣除 3‰费率后，年化收益降低 3个百分点左右，变为 21.5%，相对基准年化超额 14.0%。"
+    },
+    {
+      "text": "“盈利+增长+价值”组合收益分布较为均匀，历史年度排名稳定在前40%，选股风格与市场主流类似，2017年未出现黑天鹅事件。",
+      "evidence": "但该组合的收益分布较为均匀，历史年度排名稳定在前 40%。且该组合选股风格与市场主流风格类似，因此在 2017 年并未像其他 3 个组合一样出现黑天鹅事件。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《短周期交易策略研究之一——基于集合竞价分时走势的 A股 T+0策略》2019.07.14",
+    "《金融科技（Fintech）和数据挖掘研究（四）—— 供应链数据的介绍和应用》2019.07.14"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

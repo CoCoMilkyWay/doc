@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20230522-招商证券-ai系列研究-001-端到端的动态alpha模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "loss_generalization", "interpretability"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "基于MLP的因子网络相比于L2正则的线性基准网络，RankIC均值略有下降，但多空年化收益率、多空夏普等指标改善明显，多头收益率对RankIC的贡献提升。",
+      "evidence": "基于 MLP的因子网络结构，相比于 L2正则的线性基准网络，在 RankIC均值略有下降。多空年化收益率、多空夏普等指标改善明显。多头收益率对RankIC 的贡献提升。"
+    },
+    {
+      "text": "本文测试了MSE、IC、CCC不同损失函数对模型表现的影响，IC损失函数的综合表现最好，CCC损失函数对应的合成zscore因子稳定性最好。",
+      "evidence": "本文测试了使用 MSE、IC、CCC 不同的损失函数对模型表现的影响。IC 损失函数的综合表现最好。CCC 损失函数对应的模型的合成 zscore 因子稳定性最好。"
+    },
+    {
+      "text": "IC作为传统的单因子表现指标，在多头选股场景下并不能正确评估最终的选股表现，需要结合因子的多空最大回撤、多空夏普以及多头组合的表现来综合评估。",
+      "evidence": "本文的研究过程发现 IC 作为传统的单因子表现指标，在多头选股的场景下并不能正确评估最终的选股表现。需要结合因子的多空最大回撤、多空夏普以及多头组合的表现来综合评估。"
+    },
+    {
+      "text": "在MLP网络中加入正交惩罚后，合成zscore的RankIC小幅提升，多头对冲基准的年化收益率从13.25%提高到15.91%，多头收益率对RankIC的贡献提升。",
+      "evidence": "加入正交惩罚后，合成 zscore 的 RankIC 表现小幅提升。但多头对冲基准的年化收益率从 13.25%提高到15.91%，多头收益率对RankIC的贡献提升。"
+    },
+    {
+      "text": "模型在不同成分股中的选股效果：中证1000表现最好，多头对冲基准年化收益率14.18%与全A较为接近，中证500为9.02%，中证800显著下降为4.93%。",
+      "evidence": "从对冲基准的年化收益率来看，中证 1000的表现最好，多头为 14.18%与全 A的表现较为接近。其次是中证 500，多头收益率为9.02%，中证800成分股中表现显著下降为4.93%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Gu, S., Kelly, B., & Xiu, D. (2021). Autoencoder asset pricing models. Journal of Econometrics, 222(1), 429-450.",
+    "Kelly, Bryan, Seth Pruitt, and Yinan Su, 2019, Characteristics are covariances: A unified model of risk and return, Journal of Financial Economics, forthcoming.",
+    "LeCun, Yann, Yoshua Bengio, and Geoffrey Hinton. \"Deep learning.\"nature 521.7553 (2015): 436-444.",
+    "Liao J J Z, Lewis J W. A note on concordance correlation coefficient[J]. PDA journal of pharmaceutical science and technology, 2000, 54(1): 23-26."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

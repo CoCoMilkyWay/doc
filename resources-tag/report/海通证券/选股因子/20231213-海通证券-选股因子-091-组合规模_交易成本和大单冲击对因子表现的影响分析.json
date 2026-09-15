@@ -1,0 +1,184 @@
+{
+  "schema_version": 2,
+  "id": "20231213-海通证券-选股因子-091-组合规模_交易成本和大单冲击对因子表现的影响分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": [
+        "style_ratio",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "intraday_pattern",
+        "representation_learning"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润/净资产}",
+          "stats": [0.033, null, null, null],
+          "evidence": "在其中，计算常用的基本面因子——ROE和 SUE，技术面因子——换手率、特质波动率、反转和非流动性，高频因子——大单净买入金额占比、买入意愿强度和尾盘成交占比、深度学习因子（周度换仓）的 IC。"
+        },
+        {
+          "name": "SUE",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季净利润同比增量/总资产}",
+          "stats": [0.032, null, null, null],
+          "evidence": "但当组合规模上升至50亿，SUE、特质波动率、换手率和非流动性因子的 IC开始出现下降。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去N日日均换手率}",
+          "stats": [0.054, null, null, null],
+          "evidence": "相反，换手率等 4个低频量价因子受组合规模的影响巨大。除反转因子外，其余因子的 IC都随规模的上升而单调下降。"
+        },
+        {
+          "name": "特质波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股日收益率对市场回归残差的标准差}",
+          "stats": [0.048, null, null, null],
+          "evidence": "特质波动率和非流动性因子在规模处于 10 亿以下时，尚能维持较优的表现。"
+        },
+        {
+          "name": "反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去N日累计收益率取负}",
+          "stats": [0.041, null, null, null],
+          "evidence": "由下表可见，当组合规模≤10 亿时，各因子的 IC 相比股票池为全部 A股的结果，几乎没有任何变化，反转因子的IC甚至还有小幅提升。"
+        },
+        {
+          "name": "非流动性",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Amihud非流动性指标：|日收益率|/日成交额的均值}",
+          "stats": [0.023, null, null, null],
+          "evidence": "特质波动率和非流动性因子在规模处于 10 亿以下时，尚能维持较优的表现。"
+        },
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{尾盘时段成交金额/全天成交金额}",
+          "stats": [0.035, null, null, null],
+          "evidence": "月度换仓下，除尾盘成交占比外，其余因子的IC 几乎都低于全部 A股中的结果。"
+        },
+        {
+          "name": "买入意愿强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于逐笔数据度量的主动买入意愿强度}",
+          "stats": [0.032, null, null, null],
+          "evidence": "ROE和 3 个高频因子（尾盘成交占比、买入意愿强度和大单净买入占比）在组合规模适中乃至较大时，有更高的 IC。"
+        },
+        {
+          "name": "大单净买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{大单净买入金额/成交金额}",
+          "stats": [0.039, null, null, null],
+          "evidence": "在剔除流动性不那么好的股票后，仅大单净买入占比因子的 IC有所提升，其余因子在组合规模达到30 亿以上后，IC 都低于全部 A 股中的结果。"
+        },
+        {
+          "name": "深度学习因子1",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{深度学习模型端到端输出的选股因子}",
+          "stats": [0.062, null, null, null],
+          "evidence": "而在规模达到 100 亿之后，即使是表现一直较为稳定的深度学习因子，IC 也未能超过 0.02。"
+        },
+        {
+          "name": "深度学习因子2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{深度学习模型端到端输出的选股因子}",
+          "stats": [0.054, null, null, null],
+          "evidence": "其中，尤以低频量价因子中的特质波动率和换手率，以及高频深度学习因子的降幅为甚。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_cost"],
+      "approach": ["impact", "capacity"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "月度换仓下，ROE和3个高频因子几乎不受影响，而换手率等4个低频量价因子受组合规模的影响巨大，除反转因子外其余因子的IC都随规模的上升而单调下降",
+      "evidence": "相反，换手率等 4个低频量价因子受组合规模的影响巨大。除反转因子外，其余因子的 IC都随规模的上升而单调下降。"
+    },
+    {
+      "text": "周度换仓下选股范围大幅缩窄对因子表现的影响更加突出，组合规模达到30亿以上后，除大单净买入占比外其余因子的IC都低于全部A股中的结果",
+      "evidence": "周度换仓带来的选股范围的大幅缩窄，对因子表现的影响显而易见。在剔除流动性不那么好的股票后，仅大单净买入占比因子的 IC有所提升，其余因子在组合规模达到30 亿以上后，IC 都低于全部 A 股中的结果。其中，尤以低频量价因子中的特质波动率和换手率，以及高频深度学习因子的降幅为甚。"
+    },
+    {
+      "text": "月度换仓下纳入大单冲击成本对因子IC的影响整体较弱，仅SUE和特质波动率在规模超50亿后明显下滑；周度换仓下所有因子的IC相对全部A股都有较大改变",
+      "evidence": "月度换仓下，纳入大单冲击成本对因子 IC的影响整体较弱，只有 SUE和特质波动率因子在组合规模超过 50 亿后，IC 有较为明显的下滑；周度换仓下，是出现大单交易的概率及相应的大单冲击成本陡然上升，所有因子的 IC 相对全部 A股中的结果都有较大的改变。"
+    },
+    {
+      "text": "盘口流动性成本与成交金额大小并不呈严格线性关系，按成交金额占比确定股票池可能高估流动性对因子表现的影响程度，容易误判因子的可用性",
+      "evidence": "我们认为，盘口流动性成本与成交金额大小并不呈严格的线性关系，按成交金额占比确定股票池，可能会高估流动性对因子表现的影响程度，容易误判因子的可用性。"
+    },
+    {
+      "text": "不论月度还是周度换仓、开盘后半小时还是全天完成交易，因子IC几乎不受价格波动和买卖价差的影响，二者并不会降低因子表现",
+      "evidence": "如上表所示，不论是月度还是周度换仓，也不论是在开盘后半小时内还是全天完成交易，因子 IC几乎不受价格波动和买卖价差的影响。这表明，当组合规模变大，投资者虽可能面临更高的交易成本，但其中的价格波动和买卖价差并不会降低因子表现。"
+    },
+    {
+      "text": "实施短周期策略时建议在开盘后半小时内拆单交易以保留更多理论收益，换仓周期为月度或更长时全天内拆单交易会更加从容",
+      "evidence": "因此，在实施短周期策略时，我们建议在开盘后半小时内拆单交易；而当换仓周期为月度或更长时，全天内拆单交易会更加从容。"
+    },
+    {
+      "text": "设计量化策略并进行回测时应引入流动性方面的考量，对全市场中表现优异的因子仍需审慎评估，以免过度高估其实际应用中的贡献",
+      "evidence": "综上所述，我们认为，在设计量化策略并进行回测时，引入流动性方面的考量，有着非常重要的意义。对于那些在全市场中表现优异的因子，我们仍需审慎地评估，以免过度高估它们在实际应用中的贡献。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（七十二）——大单的精细化处理与大单因子重构》",
+    "《高频策略交易成本的分析和预测》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

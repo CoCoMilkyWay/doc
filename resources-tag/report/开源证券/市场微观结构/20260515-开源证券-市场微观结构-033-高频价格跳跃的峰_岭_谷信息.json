@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20260515-开源证券-市场微观结构-033-高频价格跳跃的峰_岭_谷信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "价峰分钟数因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20天的价峰时点数量}",
+          "stats": [null, 0.0638, 3, 0.1637],
+          "evidence": "我们简单统计过去 20 天的价峰时点数量，作为价峰分钟数因子。因子 RankIC均值 6.38%，RankICIR3.0，全市场 10 分组多空年化收益率 16.37%，年化 IR2.1，最大回撤 10.6%，月度胜率68%，多头组年化收益率11.52%。"
+        },
+        {
+          "name": "价岭分钟收益因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20天价岭时点的分钟涨跌幅加总}",
+          "stats": [null, -0.0851, -3.8, 0.2593],
+          "evidence": "我们将过去 20 天价岭时点的分钟涨跌幅加总，作为价岭分钟收益因子。因子RankIC 均值-8.51%，RankICIR-3.8，全市场 10 分组多空年化收益率 25.93%，年化IR2.96，最大回撤 10.2%，月度胜率 80%，多头组年化收益率 14.83%。"
+        },
+        {
+          "name": "价谷相对加权价因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日价谷的成交量加权价格与当日总成交量加权价格之比的20日均值}",
+          "stats": [null, 0.0653, 4, 0.1837],
+          "evidence": "本节，我们参考聪明钱因子的构建方式，计算每日价谷的成交量加权价格，与当日总成交量加权价格做比，并计算 20 日均值作为价谷相对加权价因子。因子RankIC 均值 6.53%，RankICIR4.0，全市场 10 分组多空年化收益率 18.37%，年化 IR2.38，最大回撤 13.56%，月度胜率79%，多头组年化收益率11.14%。"
+        },
+        {
+          "name": "价谷加权价格分位点",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{价谷时点成交量加权价格在日内价格中的分位点}",
+          "stats": [null, 0.054, 3.5, null],
+          "evidence": "基于表 9 结果，我们筛选出 6个独立 alpha因子，分别为：价峰分钟数、价岭分钟收益、价谷相对加权价、价谷加权价格分位点、价岭间隔偏度、价格跳跃成交额相关性。"
+        },
+        {
+          "name": "价岭间隔偏度因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同日前后两个价岭之间时间间隔分布的偏度}",
+          "stats": [null, -0.0762, -3.5, 0.2169],
+          "evidence": "我们对过去20日同日前后两个价岭之间的时间间隔分布，计算偏度指标作为价岭间隔偏度因子。因子 RankIC 均值-7.62%，RankICIR-3.5，全市场 10 分组多空年化收益率 21.69%，年化 IR2.44，最大回撤 8.12%，月度胜率 74%，多头组年化收益率14.51%。"
+        },
+        {
+          "name": "价格跳跃成交额相关性因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20天价格跳跃时点成交额与下一分钟成交额的错位相关系数}",
+          "stats": [null, -0.1023, -3.8, 0.3117],
+          "evidence": "我们计算过去20天价格跳跃时点成交额与下一分钟成交额的错位相关系数，作为价格跳跃成交额相关性因子。因子 RankIC 均值-10.23%，RankICIR-3.8，全市场10 分组多空年化收益率 31.17%，年化 IR2.98，最大回撤 10.42%，月度胜率 77%，多头组年化收益率 17.23%。"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{6}\\sum_{i=1}^{6}F_{i}",
+          "stats": [null, 0.1072, 4.1, 0.3286],
+          "evidence": "我们将前述 6 个因子做简单等全合成，合成因子 RankIC 均值 10.72%，RankICIR4.1，全市场 10 分组多空年化收益率 32.86%，年化 IR3.34，最大回撤 10.64%，月度胜率 78%，多头组年化收益率 17.65%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "按局域情绪与跳跃结果双特征将日内跳跃时点划分为峰、岭、谷三类：局域情绪低迷的跳跃呈现正向alpha，局域情绪高涨的跳跃呈现负向alpha，无缺口跳跃正向、有缺口跳跃负向。",
+      "evidence": "按照局域情绪特征，我们将日内跳跃时点划分为4类，统计每类跳跃时点的数量作为因子值，从因子RankIC 来看，局域情绪低迷的跳跃呈现正向alpha，局域情绪高涨的跳跃呈现负向alpha，局域情绪适中的跳跃的 alpha并不显著。"
+    },
+    {
+      "text": "基于三类价格跳跃时点的量价数据，构建11个大类的17个有效因子。",
+      "evidence": "本文，我们延续前报告的研究框架，从价格跳跃维度，基于分钟价格跳跃的局域情绪与跳跃结果双特征，将分钟价格跳跃划分为价峰、价岭、价谷三类，并基于三类价格跳跃时点的量价数据，构建 11个大类的17个有效因子。"
+    },
+    {
+      "text": "价峰分钟数因子更适用于小市值股票池：中证1000中多空年化收益率18.44%，年化IR2.52，显著高于沪深300的7.25%。",
+      "evidence": "从分域表现来看，价峰分钟数因子更适用于小市值股票池。在沪深 300 中，多空年化收益率 7.25%，年化 IR0.82；在中证 500 中，多空年化收益率 13.24%，年化IR1.71；在中证 1000 中，多空年化收益率 18.44%，年化 IR2.52。"
+    },
+    {
+      "text": "大部分因子在剔除Barra风格因子后仍有效。",
+      "evidence": "在全域中，我们对比了Barra 风格因子剔除前后的因子有效性，大部分因子在剔除 Barra风格因子后仍有效。"
+    },
+    {
+      "text": "6个独立alpha因子等权合成后，多空年化收益32.9%，年化IR3.34，最大回撤10.64%，月度胜率78%。",
+      "evidence": "我们将前述 6 个因子做简单等全合成，合成因子 RankIC 均值 10.72%，RankICIR4.1，全市场 10 分组多空年化收益率 32.86%，年化 IR3.34，最大回撤 10.64%，月度胜率 78%，多头组年化收益率 17.65%。"
+    },
+    {
+      "text": "基于合成因子的约束优化指数增强组合：沪深300超额年化收益5.9%，中证500超额年化收益11%，中证1000超额年化收益10.7%。",
+      "evidence": "基于合成因子，通过约束优化，在行业、风格偏离约束下，构建指数增强组合，沪深 300 增强组合超额年化收益 5.9%，年化 IR1.38；中证 500 增强组合超额年化收益 11%，年化 IR1.32；中证 1000 增强组合超额年化收益10.7%，年化 IR1.37。"
+    }
+  ],
+  "builds_on": ["20250720-开源证券-市场微观结构-027-高频成交量的峰_岭_谷信息"],
+  "external_ref": ["《聪明钱因子模型的 2.0版本》（魏建榕、高鹏、傅开波，2020 年）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

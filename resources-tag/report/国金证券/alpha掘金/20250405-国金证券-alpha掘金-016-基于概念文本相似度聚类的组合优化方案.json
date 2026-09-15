@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "20250405-国金证券-alpha掘金-016-基于概念文本相似度聚类的组合优化方案",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["analyst", "text"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["csi300", "csi500", "other"],
+        "data": {"source": ["analyst", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": []
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以沪深 300 增强策略为例，控制股票概念聚类的暴露能够使信息比率达到 1.838，而控制中信一级行业分类的策略其信息比率仅 1.474",
+      "evidence": "以沪深 300 增强策略为例，控制股票概念聚类的暴露能够使信息比率达到 1.838，而控制中信一级行业分类的策略其信息比率仅 1.474。"
+    },
+    {
+      "text": "沪深300中tSNE(64)-Agglo(30, manhattan)聚类的年化超额收益 6.49%，信息比率 1.838；中信一级行业年化超额 4.70%，GICS 行业分类年化超额 4.81%，信息比率均在 1.475 左右",
+      "evidence": "其中，tSNE(64)-Agglo(30, manhattan) 聚类的年化超额收益到 6.49%，信息比率达到 1.838；tSNE(64)-Agglo(30, cosine) 也能达到年化超额 5.27%，信息比率 1.650，且超额最大回撤仅 3.86%；相比之下，中信一级行业分类年化超额 4.70%，GICS 行业分类年化超额 4.81%，信息比率均在 1.475 左右。"
+    },
+    {
+      "text": "中证 500 范围内，概念聚类的优势并不突出，仅 tSNE(64)-Agglo(30, correlation)方案能带来 4.84%的年化超额收益与 1.192 的信息比率，略优于 GICS 行业分类",
+      "evidence": "中证 500 范围内，概念聚类的优势并不突出，在信息比率方面难以超过 Barra 使用的 GICS行业分类的 1.122，仅 tSNE(64)-Agglo(30, correlation)方案能带来 4.84%的年化超额收益与 1.192 的信息比率，略优于 GICS 行业分类；"
+    },
+    {
+      "text": "tSNE 降维搭配 Agglomerative 层次凝聚聚类算法得到的股票分类用于控制行业暴露的效果普遍最好",
+      "evidence": "整体来说，tSNE 降维搭配 Agglomerative 层次凝聚聚类算法得到的股票分类用于控制行业暴露的效果普遍最好。"
+    },
+    {
+      "text": "股票聚类算法在沪深 300 上的优势相对中证 500 或中证 A500 都更好，概念相似性更适用于业务范围较广、涉及概念较多的大市值股票",
+      "evidence": "此外，股票聚类算法在沪深 300 上的优势相对中证 500 或中证 A500 都更好，这一方面有股票概念覆盖度的原因，另一方面也说明概念相似性更适用于业务范围较广、涉及概念较多的大市值股票。"
+    },
+    {
+      "text": "使用思维链技术让大模型分析研报与公告文本，提取出投资概念与对应解释文本，构建完善的股票概念关系数据库",
+      "evidence": "我们提出一种从投资概念出发的股票相似性衡量思路，设计了自动化的股票概念提取工作流，使用思维链技术让大模型分析研报与公告文本，提取出投资概念与对应解释文本，构建完善的股票概念关系数据库。"
+    },
+    {
+      "text": "现成概念数据库存在人工梳理导致的信息滞后：同花顺“DeepSeek”概念指数成分股数量累计达到 620只，但指数启用当天仅有 12 只股票被纳入成分股",
+      "evidence": "以同花顺的“DeepSeek”概念指数为例，截至 2025 年 3 月 24 日指数成分股数量累计达到 620只，但在指数启用的 2 月 5 日当天仅有 12 只股票被纳入成分股，其中有大量个股的纳入时间出现滞后，这实际上是人工梳理导致的信息滞后。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Cooper 等（2001）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

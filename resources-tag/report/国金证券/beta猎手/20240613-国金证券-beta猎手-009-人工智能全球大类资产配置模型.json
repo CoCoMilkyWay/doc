@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "20240613-国金证券-beta猎手-009-人工智能全球大类资产配置模型",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "全球大类资产配置因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以TA-Lib批量生成的154个量价指标为特征，经CSMinMax截面预处理后由LightGBM(DART)模型输出的资产未来20日收益预测打分}",
+          "stats": [0.09, null, null, 0.152],
+          "evidence": "因子 IC 均值达到 9.00%，多头年化收益 13.34%，多头 Sharpe 比率 1.105，多头最大回撤8.53%；多空年化收益率 15.20%，多空 Sharpe 比率 1.231。时序上看，因子多空组合净值稳定增长，仅部分月份回撤较大。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["cleaning"], "setup": {"universe": ["na"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "基于配置因子的大类资产策略年化收益率16.91%，夏普比率0.99，远超等权基准；年化超额收益率14.74%，信息比率1.34，超额最大回撤仅5.97%。",
+      "evidence": "策略的年化收益率为 16.91%，夏普比率为 0.99，而同时间段等权配置策略的年化收益率为 2.05%，夏普比率为0.24。策略的年化超额收益率为14.74%，信息比率为1.34，超额最大回撤仅为5.97%。"
+    },
+    {
+      "text": "叠加波动率约束后，策略Sharpe比率上升到1.28，年化双边换手率下降到288.68%，年化收益率保持在7.86%，年化超额收益4.70%。",
+      "evidence": "添加波动约束后，策略的 Sharpe 比率上升到 1.28，同时年化双边换手率下降到 288.68%。策略的年化收益率保持在 7.86%，年化超额收益 4.70%，信息比率 0.85。"
+    },
+    {
+      "text": "使用DART的LightGBM因子IC衰减更慢，有助于降低策略换手率；最终确定特征处理方式为CSMinMax、标签处理方式为ret_CSZScore，用lgb_dart生成配置因子。",
+      "evidence": "基于以上方法得到的两个因子具有较高的相关性，但其中使用 DART 的 LightGBM 模型得到的因子 IC 衰减相对更慢，我们认为这对于降低策略的换手率能带来一定帮助，对资产配置策略较为重要。最终我们确定特征处理方式为CSMinMax，标签处理方式为 ret_CSZScore，使用模型 lgb_dart 生成全球大类资产配置因子。"
+    },
+    {
+      "text": "特征在截面上做MinMax处理的优势最为明显，但不同标签预处理方式结合CSMinMax时各有优势。",
+      "evidence": "通过观察基于 lgb_gbdt 和 lgb_dart 模型得到的结果，我们确定特征在截面上做 MinMax 处理的方法优势最为明显；但不同的标签预处理方式在结合 CSMinMax 处理时各有优势。"
+    },
+    {
+      "text": "手续费上升到千分之5时排名前3策略仍有14.79%年化收益率，对手续费敏感度不高；持有资产数量对策略影响较明显。",
+      "evidence": "可以看到，在手续费上升到千分之 5 时，滚动选取排名前 3 资产的策略依旧能有 14.79%的年化收益率，策略整体对手续费敏感度不高；选取资产的数量则会对最终策略有较明显的影响，这可能是由于策略配置资产的数量较少，多持有一类资产会明显减少得分更高资产的权重，导致收益下滑。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

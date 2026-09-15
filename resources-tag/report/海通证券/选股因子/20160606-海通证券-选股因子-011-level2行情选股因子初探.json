@@ -1,0 +1,186 @@
+{
+  "schema_version": 2,
+  "id": "20160606-海通证券-选股因子-011-level2行情选股因子初探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "连续竞价成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{连续竞价成交金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.27],
+          "evidence": "对于连续竞价成交占比、中单成交占比、小单成交占比，因子值越高，股票在后一个月的收益越高。"
+        },
+        {
+          "name": "超大单成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{特大单成交金额}}{2\\times\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.3],
+          "evidence": "成交占比类因子多空组合年化收益基本高于 （除大单用，成交占比以外），其中连续竞价成交占比、超大单成交占比多空组合年化收益超27%，夏普比率高于 1.7，信息比率高于 2，月度胜率在 70%以上。"
+        },
+        {
+          "name": "大单成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{大单成交金额}}{2\\times\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.11],
+          "evidence": "对于特大单成交占比、大单成交占比，因子值越低，股票在后一个月的收益越高。"
+        },
+        {
+          "name": "中单成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{中单成交金额}}{2\\times\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.27],
+          "evidence": "对于连续竞价成交占比、中单成交占比、小单成交占比，因子值越高，股票在后一个月的收益越高。"
+        },
+        {
+          "name": "小单成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{小单成交金额}}{2\\times\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.22],
+          "evidence": "对于连续竞价成交占比、中单成交占比、小单成交占比，因子值越高，股票在后一个月的收益越高。"
+        },
+        {
+          "name": "净买入比率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{主动买入金额}-\\text{主动卖出金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.05],
+          "evidence": "净买入比率 | (主动买入金额-主动卖出金额)/当日成交金额"
+        },
+        {
+          "name": "特大单净买入比率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{特大单主买金额}-\\text{特大单主卖金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.06],
+          "evidence": "特大单净买入比率 | (特大单主买金额-特大单主卖金额)/当日成交金额"
+        },
+        {
+          "name": "大单净买入比率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{大单主买金额}-\\text{大单主卖金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0],
+          "evidence": "大单净买入比率 | (大单主买金额-大单主卖金额)/当日成交金额"
+        },
+        {
+          "name": "中单净买入比率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{中单主买金额}-\\text{中单主卖金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.05],
+          "evidence": "中单净买入比率 | (中单主买金额-中单主卖金额)/当日成交金额"
+        },
+        {
+          "name": "小单净买入比率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{小单主买金额}-\\text{小单主卖金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.01],
+          "evidence": "小单净买入比率 | (小单主买金额-小单主卖金额)/当日成交金额"
+        },
+        {
+          "name": "早盘净买入比率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{10点前主买金额}-\\text{主卖金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.06],
+          "evidence": "早盘净买入比率 | (10点前主买金额-主卖金额)/当日成交金额"
+        },
+        {
+          "name": "尾盘净买入比率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{14点30后主买金额}-\\text{主卖金额}}{\\text{当日成交金额}}",
+          "stats": [null, null, null, 0.1],
+          "evidence": "尾盘净买入比率 | (14点30后主买金额-主卖金额)/当日成交金额"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "成交占比类因子选股效果较好，连续竞价成交占比、超大单成交占比多空组合年化收益超27%，夏普比率高于1.7，信息比率高于2，月度胜率在70%以上。",
+      "evidence": "成交占比类因子多空组合年化收益基本高于 （除大单用，成交占比以外），其中连续竞价成交占比、超大单成交占比多空组合年化收益超27%，夏普比率高于 1.7，信息比率高于 2，月度胜率在 70%以上。"
+    },
+    {
+      "text": "净买入比率类因子选股效果较差，年化收益基本低于6%，夏普比率基本在0.5以下，信息比率基本在1以下。",
+      "evidence": "净买入比率类因子年化收益基本低于 6%，除了尾盘净买入比率因子年化收益达 10%。从夏普比率以及信息比率来看，净买入比率因子表现同样较差，夏普比率基本在 0.5 以下，信息比率基本在 1以下。"
+    },
+    {
+      "text": "剔除市值、反转以及换手后，成交占比类因子的组间收益单调性虽受影响，但大体上依旧呈现出很强的选股效果。",
+      "evidence": "在剔除了市值、反转以及换手后，成交占比类因子的组间收益单调性虽然受到了一定影响但是大体上依旧呈现出了很强的选股效果。"
+    },
+    {
+      "text": "除了剔除前就表现较差的大单成交占比，其余成交占比类因子多空收益在剔除了市值、反转以及换手率后多空收益降低幅度在0.4%~0.6%。",
+      "evidence": "除了剔除前就表现较差的大单成交占比，其余成交占比类因子多空收益在剔除了市值、反转以及换手率后多空收益降低幅度在 0.4%~0.6%。"
+    },
+    {
+      "text": "多数选股因子虽然有着较高多空收益但是多空收益大部分来源于空头收益，如以反转因子为例，多空收益中75%来自于空头收益。",
+      "evidence": "在 股市场中，多数选股因子虽然有着较高多空收益但是多空收益大部分来源于空头收益。以反转因子为例，多空收益中 75%来自于空头收益。"
+    },
+    {
+      "text": "各成交占比类因子在2014年年底均出现了不同程度的回撤，这一现象表明各多空组合存在一定的小市值特征。",
+      "evidence": "需要注意各成交占比类因子在 2014 年年底均出现了不同程度的回撤。这一现象表明各多空组合存在一定的小市值特征。"
+    },
+    {
+      "text": "连续竞价成交占比因子的选股逻辑与投资者关注度有关，连续竞价成交占比较高或者集合竞价成交占比较低的股票往往是投资者关注度较低的股票。",
+      "evidence": "在此，我们猜测连续竞价成交占比因子的选股逻辑与投资者关注度有关。连续竞价成交占比较高或者集合竞价成交占比较低的股票，往往是那些投资者关注度较低的股票。"
+    },
+    {
+      "text": "剔除市值效应后，连续竞价成交占比、超大单成交占比以及中单成交占比与市值的相关性超过0.6且显著。",
+      "evidence": "成交占比类因子在剔除市值效应后与市值之间依旧存在较强的相关性，连续竞价成交占比、超大单成交占比以及中单成交占比与市值的相关性超过 0.6 且显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "schema_version": 2,
+  "id": "20231128-国泰君安-权益配置因子-004-基于分钟数据的高频因子选股效果研究",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "csi2000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "1分钟ILLIQ",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{1分钟行情，收益率绝对值除以成交额的平均值}",
+          "stats": [null, 0.0404, null, null],
+          "evidence": "1分钟ILLIQ | 1分钟行情，收益率绝对值除以成交额的平均值 | 越大越好"
+        },
+        {
+          "name": "1分钟收益率峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{1分钟行情，全天收益率峰度}",
+          "stats": [null, 0.0577, null, null],
+          "evidence": "1分钟收益率峰度 | 1分钟行情，全天收益率峰度 | 越小越好"
+        },
+        {
+          "name": "5分钟收益率峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{5分钟行情，全天收益率峰度}",
+          "stats": [null, 0.0595, null, null],
+          "evidence": "5分钟收益率峰度 | 5分钟行情，全天收益率峰度 | 越小越好"
+        },
+        {
+          "name": "1分钟收益率偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{1分钟行情，全天收益率偏度}",
+          "stats": [null, 0.047, null, null],
+          "evidence": "1分钟收益率偏度 | 1分钟行情，全天收益率偏度 | 越小越好"
+        },
+        {
+          "name": "5分钟收益率偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{5分钟行情，全天收益率偏度}",
+          "stats": [null, 0.041, null, null],
+          "evidence": "5分钟收益率偏度 | 5分钟行情，全天收益率偏度 | 越小越好"
+        },
+        {
+          "name": "除去早盘30分钟后的涨跌幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{1分钟行情，除去早盘30分钟后的累计涨跌幅}",
+          "stats": [null, 0.0606, null, null],
+          "evidence": "除去早盘30分钟后的涨跌幅 | 1分钟行情，除去早盘30分钟后的累计涨跌幅 | 越小越好"
+        },
+        {
+          "name": "1分钟下行波动率占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{1分钟行情，下行波动率除以波动率}",
+          "stats": [null, 0.0665, null, null],
+          "evidence": "1分钟下行波动率占比 | 1分钟行情，下行波动率除以波动率 | 越大越好"
+        },
+        {
+          "name": "5分钟特质残差的峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{5分钟行情，三因子模型的残差峰度}",
+          "stats": [null, null, null, null],
+          "evidence": "5分钟特质残差的峰度 | 5分钟行情，三因子模型的残差峰度 | 越小越好"
+        },
+        {
+          "name": "5分钟特质残差的偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{5分钟行情，三因子模型的残差偏度}",
+          "stats": [null, null, null, null],
+          "evidence": "5分钟特质残差的偏度 | 5分钟行情，三因子模型的残差偏度 | 越小越好"
+        },
+        {
+          "name": "尾盘成交量波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{1分钟行情，尾盘30分钟成交量波动率}",
+          "stats": [null, null, null, null],
+          "evidence": "尾盘成交量波动率 | 1分钟行情，尾盘30分钟成交量波动率 | 越小越好"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "csi2000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000", "csi2000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "高频分钟因子在中小市值股票池的选股效果较好，表现比较稳定；近3年受益于小市值风格占优，在不同市值区间股票池中多头组超额收益均较好。",
+      "evidence": "从结果来看，高频分钟因子在中小市值股票池的选股效果较好，表现比较稳定；近 3 年受益于小市值风格占优，在不同市值区间股票池中多头组超额收益均较好。"
+    },
+    {
+      "text": "在五个指数成分股内中都被选用的因子有：1分钟ILLIQ、5分钟特质残差的峰度、1分钟收益率峰度、5分钟收益率偏度、除去早盘30分钟后的涨跌幅、1分钟下行波动率占比，这些因子在不同市值区间的适用性均较强。",
+      "evidence": "在五个指数成分股内中都被选用的因子有：1 分钟 ILLIQ、5 分钟特质残差的峰度、1分钟收益率峰度、5分钟收益率偏度、除去早盘30分钟后的涨跌幅、1 分钟下行波动率占比。可以认为，这些因子在不同市值区间的适用性均较强。"
+    },
+    {
+      "text": "使用5日平均值作为因子周度换手率很高，几乎是20日平均值的2倍，导致费后收益较低甚至为0，因此推荐使用20日平均值作为因子。",
+      "evidence": "计算发现，使用 5 日平均值作为因子，周度换手率很高，几乎是 20 日平均值的2倍，导致费后收益较低甚至为0。因此我们下面使用20日的平均值作为因子，展示周度选股的效果。"
+    },
+    {
+      "text": "分钟高频因子的输家组合负超额收益数值一般较大，多头组超额收益数值较小，多空收益主要是输家组合贡献的。",
+      "evidence": "（1）和日频价量因子类似，分钟高频因子的输家组合负超额收益数值一般较大，多头组超额收益数值较小；多空收益主要是输家组合贡献的。"
+    },
+    {
+      "text": "高频分钟因子和常用的日频价量因子相关性并不高，可以认为高频数据确实提供了和日频因子不同的信息。",
+      "evidence": "我们计算高频分钟因子和常用的日频价量因子的相关系数，发现相关性并不高，可以认为高频数据确实提供了和日频因子不同的信息。"
+    },
+    {
+      "text": "沪深300内控制市值行业无暴露构建复合因子得分最大化组合，2010年2月以来年化超额收益9.09%，超额收益最大回撤-6.08%，信息比率1.17，周度双边换手率69.9%。",
+      "evidence": "控制市值行业无暴露，在沪深300成分股中构建复合因子得分最大化组合。测算发现：2010年2月以来，年化超额收益9.09%（2016年以来，年化超额 5.83%），超额收益最大回撤-6.08%，信息比率 1.17，周度双边换手率 69.9%。"
+    },
+    {
+      "text": "中证500内复合因子得分最大化组合2010年2月以来年化超额收益10.04%，超额收益最大回撤-8.34%，信息比率1.17，周度双边换手率60.1%。",
+      "evidence": "控制市值行业无暴露，在中证500成分股中构建复合因子得分最大化组合。测算发现：2010 年 2 月以来，年化超额收益 10.04%（2016 年以来，年化超额 7.0%），超额收益最大回撤-8.34%，信息比率 1.17，周度双边换手率 60.1%。"
+    },
+    {
+      "text": "中证1000内复合因子得分最大化组合2010年2月以来年化超额收益15.50%，超额收益最大回撤-13.45%，信息比率1.59，周度双边换手率80.3%。",
+      "evidence": "控制市值行业无暴露，在中证 1000 成分股中构建复合因子得分最大化组合。测算发现：2010 年 2 月以来，年化超额收益 15.50%（2016年以来，年化超额 12.24%），超额收益最大回撤-13.45%，信息比率 1.59，周度双边换手率80.3%。"
+    },
+    {
+      "text": "中证2000内复合因子得分最大化组合2010年2月以来年化超额收益19.55%，超额收益最大回撤-13.34%，信息比率1.91，周度双边换手率77.1%。",
+      "evidence": "控制市值行业无暴露，在中证 2000 成分股中构建复合因子得分最大化组合。测算发现：2010 年 2 月以来，年化超额收益 19.55%（2016年以来，年化超额 16.3%），超额收益最大回撤-13.34%，信息比率 1.91，周度双边换手率77.1%。"
+    },
+    {
+      "text": "在全市场，高频分钟因子受市值因子表现影响较大，控制市值暴露，超额收益下降明显。",
+      "evidence": "对比表 19和表 20可以看出，在全市场，高频分钟因子受市值因子表现影响较大， 控制市值暴露，超额收益下降明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《中证 1000和中证 2000指数增强策略构建》（权益配置因子研究系列 03）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20220711-海通证券-选股因子-082-不可忽视的无形资产",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "PB_INT",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "PB_{INT,i,t}=\\frac{P_{i,t}}{B_{i,t}^{INT}},\\quad B_{i,t}^{INT}=B_{i,t}-GDWL_{i,t}+INT_{i,t},\\; INT_{i,t}=KC_{i,t}+OC_{i,t},\\; KC_{i,t}=(1-\\delta_{R\\&D})KC_{i,t-1}+R\\&D_{i,t},\\; OC_{i,t}=(1-\\delta_{SG\\&A})OC_{i,t-1}+30\\%\\cdot SG\\&A_{i,t}",
+          "stats": [-0.027, null, null, 0.109],
+          "evidence": "因此，我们在公司账面价值 B上，将这部分资产加进来。同时，为减少并购重组的影响，并防止无形资产的重复计算，我们将商誉剔除。最终，可得到经无形资产调整后的账面价值 BINT，"
+        },
+        {
+          "name": "无形资产占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{无形资产价值 INT 占公司总资本之比}",
+          "stats": [null, null, null, 0.078],
+          "evidence": "如左下图所示，无形资产占比与股票收益率显著正相关，无形资产占比越低，收益表现越差。这一现象在消费+TMT 板块内更为明显，无形资产占比因子的多空收益显著高于全市场。"
+        },
+        {
+          "name": "PB_KC",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{用知识资本 KC 替代无形资产调整账面价值后的 PB 因子：} PB_{KC}=\\frac{P}{B-GDWL+KC}",
+          "stats": [-0.022, null, null, 0.099],
+          "evidence": "如前文所述，无形资产由知识资本（KC）和组织资本（OC）组成，我们将这两项分开，分别考察 KC调整 PB因子（PB_KC）、OC 调整 PB因子（PB_OC）的业绩表现，结果如下表所示。"
+        },
+        {
+          "name": "PB_OC",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{用组织资本 OC 替代无形资产调整账面价值后的 PB 因子：} PB_{OC}=\\frac{P}{B-GDWL+OC}",
+          "stats": [-0.023, null, null, 0.093],
+          "evidence": "如前文所述，无形资产由知识资本（KC）和组织资本（OC）组成，我们将这两项分开，分别考察 KC调整 PB因子（PB_KC）、OC 调整 PB因子（PB_OC）的业绩表现，结果如下表所示。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "PB_INT 因子月均 IC 为-0.027，统计显著，与股票下月收益率显著负相关，且与 PB 因子的月度 IC 相关系数高达 0.95。",
+      "evidence": "计算 PB_INT 与股票下月收益率的相关系数，即 IC，累加后得到图 8。2013.01-2022.05，PB_INT 因子的月均 IC 为-0.027，统计显著。时间序列来看，PB_INT 因子与PB 因子的累计 IC走势较为接近，两者月度 IC 的相关系数高达 0.95。"
+    },
+    {
+      "text": "PB_INT 因子剥离市值、基本面、预期、量价等常见因子后仍具有显著 alpha，IC 均值为-0.02，t 值为-3.46；而 PB、PE、股息率正交后 IC 不显著，对多因子模型无明显增量信息。",
+      "evidence": "但是从多因子模型角度来看，若线性剥离其它因子的影响，则 PB、PE、股息率这些常见估值因子并无突出的选股效果， 均不显著。即，这些因子的选股效果可以通过线性配臵其他因子来获得，对多因子模型无明显增量信息。而 PB_INT 因子剥离掉市值、基本面、预期、量价这些常见因子后，仍具有显著的 alpha，IC 均值为-0.02，t 值为-3.46。"
+    },
+    {
+      "text": "PB 最高的 20%股票中，无形资产占比高的个股收益率显著高于无形资产占比低的股票，年化多空收益差为 7.8%。",
+      "evidence": "从中可见，同样是属于 PB 最高的 20%股票，无形资产占比高的个股收益率显著高于无形资产占比低的股票，两者的年化多空收益差为 7.8%。"
+    },
+    {
+      "text": "2019 年以来，消费+TMT 板块无形资产占比 top30 组合每年超额收益均在 10%以上。",
+      "evidence": "2019 年以来，无形资产占比高的股票超额收益逐渐凸显。尤其是消费+TMT 板块，每年超额收益均在 10%以上。"
+    },
+    {
+      "text": "PB_INT-ROE 优选组合 2013 年初至 2022 年 5 月年化收益 37.6%，优于 PB-ROE 优选组合的 31.7%，策略年化收益提升 5.9%。",
+      "evidence": "从业绩表现来看，2013 年初至 2022 年 5 月，PB_INT-ROE 优选组合年化收益37.6%，同期 PB-ROE 优选组合年化收益 31.7%。即，采用 PB_INT 替代 PB 因子，策略年化收益可提升 5.9%。"
+    },
+    {
+      "text": "价值风格失效阶段，PB_INT-ROE 优选组合超额收益分别为 0.8%和-5.1%，相对回撤明显减小。",
+      "evidence": "若使用 PB_INT 替代 PB，构建 PB_INT-ROE优选组合，则在这两个价值风格失效阶段，超额收益分别为 0.8%和-5.1%。组合仅在第二个价值风格回撤期，小幅跑输普通股票型基金指数，相对回撤明显减小。"
+    },
+    {
+      "text": "将 PB_INT 因子作为 alpha 因子加入多因子打分模型，可提升指数增强组合的超额收益、信息比和收益回撤比，降低超额波动率。",
+      "evidence": "将 PB_INT 因子作为 alpha 因子加入多因子打分模型，可提升指数增强组合的超额收益，降低超额波动率，提升信息比和收益回撤比。分年度来看，绝大部分年份加入PB_INT 因子的组合都优于原增强组合。"
+    },
+    {
+      "text": "A 股企业的无形资产占总资本之比处于较高水平，截止 2021 年年报占比为 13.8%。",
+      "evidence": "A股企业的无形资产占总资本之比处于一个较高的水平，截止 2021 年年报，占比为 13.8%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Dion Bongaerts, Xiaowei Kang, Mathijs van Dijk (2022). \"The Intangibles Premium: Risk or Mispricing?\"",
+    "Fama and French (1992、1993)",
+    "海通证券前期报告《构造 A股价值组合的三种范式》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

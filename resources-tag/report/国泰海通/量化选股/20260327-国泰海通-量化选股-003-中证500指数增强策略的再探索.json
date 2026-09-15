@@ -1,0 +1,137 @@
+{
+  "schema_version": 2,
+  "id": "20260327-国泰海通-量化选股-003-中证500指数增强策略的再探索",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_level",
+        "earnings_surprise",
+        "momentum_reversal",
+        "order_flow"
+      ],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "market_minute", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "小市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股总市值，市值越小因子得分越高}",
+          "stats": [null, null, null, null],
+          "evidence": "随着成分股市值增加、尾部成分股权重合计占比减小，小市值因子在中证 500 指数成分股里的选股效果有所减弱。"
+        },
+        {
+          "name": "ROE同比变化",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期ROE较去年同期的变化幅度}",
+          "stats": [null, null, null, null],
+          "evidence": "整体来看，基本面因子多头收益相对较高。特别是 ROE同比变化因子，年化超额收益 8.3%，分年度稳定性也较优。"
+        },
+        {
+          "name": "研发占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{研发投入占营业收入的比例，占比越高因子得分越高}",
+          "stats": [null, null, null, null],
+          "evidence": "GARP 选股：根据个股 PB、ROE同比变化、研发占比 3 个因子等权打分，选择复合得分最高的 50 只股票构建等权组合。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "而动态敞口调整组合，加入了预期收益较低因子——即 ROE、开盘后买入意愿强度、研发占比 3 个因子的敞口约束。"
+        },
+        {
+          "name": "开盘后买入意愿强度",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后一段时间的主动买入意愿强度指标}",
+          "stats": [null, null, null, null],
+          "evidence": "而动态敞口调整组合，加入了预期收益较低因子——即 ROE、开盘后买入意愿强度、研发占比 3 个因子的敞口约束。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "linear", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "因子收益波动增加背景下，ICIR 加权比 IC 均值加权更稳定：2023年以来 ICIR 加权的中证500指数增强策略年化超额5.21%，IC均值加权仅1.43%。",
+      "evidence": "2023年以来，ICIR加权的中证 500 指数增强策略年化超额 5.21%，相较于 IC 均值加权方式（年化超额 1.43%）收益明显提升。"
+    },
+    {
+      "text": "在因子收益整体下滑背景下，基于 PLS 模型动态调整因子敞口，2023年以来中证500指数增强策略年化超额收益提升至7.02%。",
+      "evidence": "2023 年以来，基于 PLS 模型动态调整因子敞口，中证 500 指数增强策略的年化超额收益提升至 7.02%。"
+    },
+    {
+      "text": "PLS 模型将因子按预期收益从低到高分5组，预期收益最低的一组下期表现相对较弱，波动大，收益与胜率低，故在风控端将该组敞口暴露限制为0.5。",
+      "evidence": "可见预期收益最低的一组因子表现相对较弱，波动大，而收益、胜率低。"
+    },
+    {
+      "text": "中证500成分股内构建 GARP50 策略，2014年以来相对基准年化超额收益14.2%，年化跟踪误差6.0%，信息比2.20，近几年与多因子优化指增组合形成互补。",
+      "evidence": "在中证 500 指数成分股内，构建GARP50 策略，2014年以来该组合相对基准年化超额收益 14.2%，年化跟踪误差 6.0%，信息比 2.20。"
+    },
+    {
+      "text": "将30%权重分配给 GARP50 组合，复合增强策略2023年以来相对基准的年化超额收益提升至9.6%，跟踪误差4.38%。",
+      "evidence": "将 30%的权重分配给 GARP50 组合，复合增强策略 2023 年以来相对基准的年化超额收益提升至 9.6%，跟踪误差 4.38%。"
+    },
+    {
+      "text": "复合中证500指数增强策略2014年以来月均单边换手率51.6%，扣除交易成本后相对指数年化超额收益16.6%，跟踪误差4.7%，信息比3.21，月胜率80%。",
+      "evidence": "2014 年以来，组合月均单边换手率 51.6%，年化双边换手 12.4 倍。扣除单边千 2 交易成本后，组合 2014 年以来相对指数年化超额收益 16.6%，跟踪误差 4.7%，信息比 3.21，月胜率 80%。"
+    },
+    {
+      "text": "2024年以来中证500成分股市值在全A排序分位点中位数超87%，指数由中盘向中大市值演进，小市值因子选股效果减弱，尾部个股权重降低。",
+      "evidence": "2024 年以来，中证 500 指数成分股市值在全 A中的排序分位点中位数已超过 87%，反映指数由中盘特征向中大市值演进的特征。"
+    },
+    {
+      "text": "在中证500成分股内以单因子得分最高20%个股等权多头组合相对指数的日超额收益波动率衡量，近几年因子波动普遍有所增加。",
+      "evidence": "在中证 500 指数成分股中，选择单因子得分最高的 20%个股构建等权多头组合，考察其相对于中证 500 指数的日超额收益波动率，结果如下图所示。整体来看，近几年因子波动有所增加。"
+    },
+    {
+      "text": "根据风格、量价、基本面等因子构建线性多因子收益预测模型，在市值0.3、估值0.1、个股1%、行业1%偏离约束下构建月度换仓的中证500指数增强组合。",
+      "evidence": "我们根据风格、量价、基本面等因子构建线性多因子收益预测模型，在市值 0.3、估值 0.1、个股 1%、行业 1%的偏离约束下，构建月度换仓的中证 500 指数增强组合。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

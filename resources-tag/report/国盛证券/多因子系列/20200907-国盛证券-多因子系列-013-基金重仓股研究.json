@@ -1,0 +1,128 @@
+{
+  "schema_version": 2,
+  "id": "20200907-国盛证券-多因子系列-013-基金重仓股研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Topten_to_float_ashare",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{基金重仓该股票的市值 / 该股票的流通市值}",
+          "stats": [0.02, null, 1.024, null],
+          "evidence": "从测试结果来看，重仓市值占流通市值比例以及比例的变化表现较好，IC在0.02左右，ICIR在 1左右，且第一组的超额收益年化达到 10%。"
+        },
+        {
+          "name": "delta_to_float_ashare",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{基金重仓该股票的市值 / 该股票的流通市值的环比变化}",
+          "stats": [0.019, null, 1.18, null],
+          "evidence": "由于这两个因子相关性较强，如果进一步的对这两个指标进行双因子分组测试，我们发现重仓股占流通市值的绝对值在 15 年之后几乎不提供超额收益，该因子的超额收益主要由其变化提供。"
+        },
+        {
+          "name": "delta_value_weight",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{基金重仓该股票的市值 / 基金重仓股持仓总市值的环比变化}",
+          "stats": [0.012, null, 0.721, null],
+          "evidence": "但持仓市值占流通市值的比例及其变化的预测效果较好，而持仓市值占所有重仓股持仓市值的比例以及持仓占比均值等因子效果较弱。"
+        },
+        {
+          "name": "Topten_max",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{重仓股占基金股票持仓比例的最大值}",
+          "stats": [0.011, null, 0.79, null],
+          "evidence": "从 Topten_max 测试结果可以看到，随着筛选的基金业绩越好，持有重仓比例最大值前N 的股票能够获得更高的超额收益，且有较强的单调性"
+        },
+        {
+          "name": "Topten_count",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{重仓该股票基金的数量}",
+          "stats": [0.01, null, 0.587, null],
+          "evidence": "Topten_count | 重仓该股票基金的数量"
+        },
+        {
+          "name": "Topten_mean",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{重仓股占基金股票持仓比例的均值}",
+          "stats": [0.009, null, 0.587, null],
+          "evidence": "Topten_mean | 重仓股占基金股票持仓比例的均值"
+        },
+        {
+          "name": "Topten_value_weight",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{基金重仓该股票的市值 / 基金重仓股持仓总市值}",
+          "stats": [0.006, null, 0.387, null],
+          "evidence": "Topten_value_weight 因子与股票的超额收益也呈线性相关，但是单调性不如 Topten_to_float_ashare，且多头和空头效应稍弱。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "业绩越好的基金其重仓股超额收益越高，且具有很强的头部效应和单调性。",
+      "evidence": "不同基金的重仓股超额收益有显著差别。业绩越好的基金其重仓股超额收益越高，且具有很强的头部效应和单调性。"
+    },
+    {
+      "text": "2017年之后，业绩较差的基金所单独持有的重仓股已经不能贡献任何超额收益，甚至提供负的超额收益。",
+      "evidence": "在 2017 年之后，业绩较差的基金所单独持有的重仓股已经不能贡献任何超额收益，甚至提供负的超额收益。"
+    },
+    {
+      "text": "重仓市值占流通市值比例及其变化的预测效果较好，IC在0.02左右，ICIR在1左右，第一组超额收益年化达到10%。",
+      "evidence": "从测试结果来看，重仓市值占流通市值比例以及比例的变化表现较好，IC在0.02左右，ICIR在 1左右，且第一组的超额收益年化达到 10%。"
+    },
+    {
+      "text": "以权重约束方式将重仓股股票池纳入中证500增强策略，2017年以来年化收益有2%以上的提升，信息比也有0.4左右的提升。",
+      "evidence": "平均来看，年化收益有 2%以上的提升，信息比也有 0.4左右的提升。"
+    },
+    {
+      "text": "筛选出的股票池风格暴露为高流动性、高估值和高动量，是在非常热门的股票中寻找未来盈利预期的增量。",
+      "evidence": "发现该股票的风格暴露为高流动性、高估值和高动量，但其在分析师于盈利预测上暴露也较高，说明这个股票池是在非常热门的股票中寻找未来盈利预期的增量。"
+    },
+    {
+      "text": "没有足够的证据表明跟随高换手基金重仓股的策略超额收益显著低于低换手基金，换手率不能作为有效的筛选指标。",
+      "evidence": "因此，并没有足够的证据表明跟随高换手基金重仓股的策略超额收益要显著低于低换手的基金，换手率不能作为一个有效的筛选指标。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《基金ALPHA进化史：深入ALPHA的创造与湮灭》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

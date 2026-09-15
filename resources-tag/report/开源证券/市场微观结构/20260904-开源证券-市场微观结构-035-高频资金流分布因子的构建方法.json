@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "id": "20260904-开源证券-市场微观结构-035-高频资金流分布因子的构建方法",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "mean因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{将 20 个交易日 1 分钟大单主动资金流强度序列（SIGN 指标）的均值，在截面上回归股票 20 日涨跌幅，所得残差即 mean 因子}",
+          "stats": [0.039, 0.046, 3.15, 0.168],
+          "evidence": "对每类强度指标，分别计算 20个交易日 1 分钟大单主动资金流强度序列的均值、标准差、偏度、峰度指标。进一步分别将均值、标准差、偏度、峰度指标在截面上回归股票的20日涨跌幅，所得残差分别为均值因子、标准差因子、偏度因子、峰度因子，记为 mean因子、std因子、skew因子、kurt因子。"
+        },
+        {
+          "name": "std因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{将 20 个交易日 1 分钟大单主动资金流强度序列（SIGN 指标）的标准差，在截面上回归股票 20 日涨跌幅，所得残差即 std 因子}",
+          "stats": [0.037, 0.052, 3.77, 0.181],
+          "evidence": "对每类强度指标，分别计算 20个交易日 1 分钟大单主动资金流强度序列的均值、标准差、偏度、峰度指标。进一步分别将均值、标准差、偏度、峰度指标在截面上回归股票的20日涨跌幅，所得残差分别为均值因子、标准差因子、偏度因子、峰度因子，记为 mean因子、std因子、skew因子、kurt因子。"
+        },
+        {
+          "name": "skew因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{将 20 个交易日 1 分钟大单主动资金流强度序列（SIGN 指标）的偏度，在截面上回归股票 20 日涨跌幅，所得残差即 skew 因子}",
+          "stats": [-0.039, -0.046, -3.16, 0.166],
+          "evidence": "对每类强度指标，分别计算 20个交易日 1 分钟大单主动资金流强度序列的均值、标准差、偏度、峰度指标。进一步分别将均值、标准差、偏度、峰度指标在截面上回归股票的20日涨跌幅，所得残差分别为均值因子、标准差因子、偏度因子、峰度因子，记为 mean因子、std因子、skew因子、kurt因子。"
+        },
+        {
+          "name": "kurt因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{将 20 个交易日 1 分钟大单主动资金流强度序列（SIGN 指标）的峰度，在截面上回归股票 20 日涨跌幅，所得残差即 kurt 因子}",
+          "stats": [-0.036, -0.05, -3.7, 0.183],
+          "evidence": "kurt 因子 IC 均值为-0.036、ICIR 为-3.7、RankIC 均值为-0.05、RankICIR为-4.07、多空对冲年化收益为18.3%、信息比率为4.41，多头组合年化收益为 19.7%。从图 3 可看出，kurt 因子多头组合收益表现优异，多空收益偏向多头组合，空头组合收益区分度不高，多空曲线稳健向上整体表现优异。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "SIGN 指标的 4 个资金流分布因子表现最优，mean 因子、std因子、skew 因子、kurt 因子信息比率分别为 3.53、4.39、3.46、4.41，显著优于净流入、ACT、净流入占比指标的资金流分布因子。",
+      "evidence": "可以看出，SIGN指标的 4 个资金流分布因子表现最优，mean 因子、std因子、skew 因子、kurt 因子信息比率分别为 3.53、4.39、3.46、4.41，整体表现显著优于净流入指标、ACT指标、净流入占比指标的资金流分布因子。"
+    },
+    {
+      "text": "第 1 小时资金流分布因子选股效果最优，std因子 RankICIR 为 4.59、信息比率 4.62、多头组合年化收益 19.8%；kurt因子 RankICIR 为-4.51、信息比率 4.5、多头组合年化收益 19.9%。",
+      "evidence": "综合选股绩效指标来看，第1 小时的 std因子和kurt因子表现优异：std因子IC均值为0.035、ICIR 为 3.73、RankIC 均值为 0.054、RankICIR 为 4.59、多空对冲年化收益为17.6%、信息比率为 4.62，多头组合年化收益为 19.8%；kurt 因子 IC 均值为 0.033、ICIR 为-3.51、RankIC 均值为-0.053、RankICIR 为-4.51、多空对冲年化收益为 17.5%、信息比率为 4.5，多头组合年化收益为 19.9%。"
+    },
+    {
+      "text": "符号成交额情景资金流分布因子表现整体更优，mean 因子 RankICIR 为 4.16、信息比率 4.29、多头组合年化收益 17.7%；skew 因子 RankICIR 为-4.2、信息比率 4.21、多头组合年化收益 17.5%。",
+      "evidence": "符号成交额构造的因子表现整体更优，其中 mean 因子和 skew 因子表现优异：mean 因子 IC 均值为 0.036、ICIR 为 4.07、RankIC 均值为 0.046、RankICIR为4.16、多空对冲年化收益为16%、信息比率为 4.29，多头组合年化收益为 17.7%；skew 因子 IC 均值为-0.035、ICIR 为-4.05、RankIC 均值为-0.045、RankICIR 为-4.2、多空对冲年化收益为 15.8%、信息比率为 4.21，多头组合年化收益为 17.5%。"
+    },
+    {
+      "text": "随着回看天数由 5 天增加至 30 天，mean、std、skew、kurt 因子选股效果先升后降，mean、std、skew 最优回看天数为 15 天，kurt 为 20 天。",
+      "evidence": "可以发现，随着回看天数由 5天增加至30 天，mean 因子、std 因子、skew 因子、kurt 因子选股效果先升后降。其中，mean 因子、std 因子、skew 因子的最优回看天数为 15 天，rankICIR 分别为 4.23、4.78、-4.26、kurt 因子的最优回看天数为 20 天，rankICIR 为-4.51。"
+    },
+    {
+      "text": "路径选择上，先计算日内分布得到日频特征、再计算日间分布得到最终 16 个因子，其中 mean-mean 因子和 skew-mean 因子表现优异，信息比率分别为 3.33 和 3.44。",
+      "evidence": "从构造得到的16个资金流分布因子的表现来看（表 9）：不同分布路径的 mean-mean 因子和 skew-mean 因子表现优异，信息比率分别为3.33 和 3.44。"
+    },
+    {
+      "text": "资金流分布因子在沪深 300 和中证 500 样本中选股效果维持稳健，而近几年高频量价因子在两个样本中均有一定失效。",
+      "evidence": "相较来看，近几年高频量价因子在沪深 300和中证 500样本中选股效果均有一定失效，而资金流分布因子在沪深 300和中证500样本中选股效果维持稳健。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《主动买卖因子的正确用法—市场微观结构系列（9）》-2020.9.5",
+    "《分钟主动资金流中的选股信息—开源量化评论（122）》-2026.02.25",
+    "《分钟资金流因子的构建方法—市场微观结构系列（31）》-2025.12.21",
+    "《大单与小单资金流的 alpha 能力—市场微观结构系列（12）》-2021.6.2"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

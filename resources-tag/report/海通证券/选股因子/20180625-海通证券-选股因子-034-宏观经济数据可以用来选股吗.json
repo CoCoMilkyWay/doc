@@ -1,0 +1,295 @@
+{
+  "schema_version": 2,
+  "id": "20180625-海通证券-选股因子-034-宏观经济数据可以用来选股吗",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["point_in_time", "synthesis"],
+      "setup": {"data": {"source": ["market_daily", "macro"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["firm_attribute"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "gdp 同比",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.001, null, null, 0],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "工业增加值当月同比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.01, null, null, -0.004],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "中采制造业 PMI",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.006, null, null, -0.005],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "固定资产投资增速累计同比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.002, null, null, -0.001],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "社会消费零售总额同比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.007, null, null, -0.001],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "出口同比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.006, null, null, -0.002],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "进口同比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.006, null, null, 0],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "贸易差额",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.007, null, null, 0.002],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "cpi 同比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.014, null, null, -0.003],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "ppi同比",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.014, null, null, -0.004],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "m0 同比",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0, null, null, 0.001],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "m1 同比",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0, null, null, 0.002],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "m2 同比",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.005, null, null, 0],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "新增人民币贷款",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.008, null, null, 0.006],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "外汇储备",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.006, null, null, -0.003],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "利率水平",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.001, null, null, 0.003],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "期限利差",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.011, null, null, -0.005],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "信用利差",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.003, null, null, 0.001],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "TED 利差",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.011, null, null, 0.005],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "油价涨跌幅",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.008, null, null, 0.002],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        },
+        {
+          "name": "黄金涨跌幅",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ExcessReturn_{i,t}=\\alpha_{i,t}+macroBeta_{i,t}\\cdot F_{t}+\\varepsilon_{i,t}",
+          "stats": [0.001, null, null, -0.002],
+          "evidence": "随后，将个股过去 60 个月的超额收益对同期的模拟组合收益进行回归，获得系数作为 MacroBeta，即宏观敏感性。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "宏观敏感性高（大于零）的股票以大市值为主，回测窗口内A股大市值股票收益较低，导致分组收益呈现单调性；一旦剥离常见风格，仅有极少数宏观敏感性因子依然存在选股效果。",
+      "evidence": "主要原因在于宏观敏感性高（大于零）的股票以大市值为主，在回测窗口内 A股大市值股票收益往往较低，导致按宏观敏感性因子分组后的收益呈现单调性。一旦剥离常见风格，仅有极少数宏观敏感性因子依然存在选股效果。"
+    },
+    {
+      "text": "剥离风格后的宏观敏感性因子的选股效果，也并非来源于因子本身，而是由于在回测区间内恰好暴露于正确的宏观经济指标的变化方向上。",
+      "evidence": "然而，进一步分析发现，剥离风格后的宏观敏感性因子的选股效果，也并非来源于因子本身，而是由于在回测区间内恰好暴露于正确的宏观经济指标的变化方向上。"
+    },
+    {
+      "text": "宏观敏感性因子只是刻画了股票与宏观经济指标之间的关系，包括方向与程度；正确逻辑是预测宏观指标上升时选择正敏感或高敏感的股票，反之选择负敏感或低敏感的股票。",
+      "evidence": "于是，我们得到结论，宏观敏感性因子只是刻画了股票与宏观经济指标之间的关系，包括方向与程度。使用宏观敏感性因子选股的正确逻辑应该是，当预测宏观经济指标上升时，选择正敏感或高敏感的股票。反之，选择负敏感或低敏感的股票。"
+    },
+    {
+      "text": "定义宏观得分 = 宏观敏感性 × 预期宏观经济走势，该策略想要获得成功严重依赖于对宏观经济走势的正确判断与宏观敏感性因子在时间序列上的稳定性。",
+      "evidence": "根据上述思路，我们提出了基于宏观得分的选股方法。定义宏观得分 = 宏观敏感性 × 预期宏观经济走势。但是，详细的实证研究也表明，该选股策略想要获得成功严重依赖于两个方面。一是对宏观经济走势的正确判断，二是宏观敏感性因子在时间序列上的稳定性。"
+    },
+    {
+      "text": "股票相对这些与企业经营直接相关的宏观经济指标的敏感性，在跨期稳定性上的表现更佳，更适合构建宏观得分，并应用于选股。",
+      "evidence": "据此我们猜测，股票相对这些与企业经营直接相关的宏观经济指标的敏感性，在跨期稳定性上的表现更佳，更适合构建宏观得分，并应用于选股。"
+    },
+    {
+      "text": "宏观经济数据面临公布时间滞后、数据发布频率不稳定、缺失值多、序列不平稳等问题，推荐通过差分法、Surprise 替代法、资产组合模拟法等方式进行预加工处理。",
+      "evidence": "宏观经济数据相较其他常见数据，面临的问题更多，包括公布时间滞后、数据发布频率不稳定、缺失值多、序列不平稳等。实际使用时，我们推荐通过差分法、Surprise 替代法、资产组合模拟法等方式进行预加工处理。"
+    },
+    {
+      "text": "资产组合模拟法可在当期宏观数据尚未发布前，基于每日更新的资产组合报价与历史回归系数提前获得最新的宏观数据模拟组合，在一定程度上弥补了宏观数据发布时间滞后的问题。",
+      "evidence": "另外，在当期宏观数据尚未发布前，资产组合模拟法可以基于每日更新的资产组合报价与历史回归系数，提前获得最新的宏观数据模拟组合。这在一定程度上弥补了宏观数据发布时间滞后的问题。"
+    },
+    {
+      "text": "忽视ppi在2015年12月前后由持续下行转为趋势向上的变化，继续按ppi敏感性因子IC为负选低敏感股票，会在ppi上升时期得到与预期完全相反的选股效果。",
+      "evidence": "如果我们忽视这一变化，继续按照表 4中 ppi的敏感性因子 IC为负的结论，选择低敏感性的股票，就会导致在 ppi上升时期，得到和预期完全相反的选股效果。"
+    },
+    {
+      "text": "知晓下一期ppi实际值后用宏观得分选股，净值曲线在2015年后依然稳定向上，表明基于宏观得分的选股逻辑存在可行性。",
+      "evidence": "显然，后者的净值曲线在 2015年后依然稳定向上。这表明，基于宏观得分的选股逻辑存在可行性。"
+    },
+    {
+      "text": "外汇储备敏感性因子基于历史数据计算，一旦股票与宏观指标的敏感性关系无法延续到未来，基于宏观得分的选股逻辑难以奏效。",
+      "evidence": "我们认为，当未来宏观经济指标上升（下降）时，应当选择高（低）敏感性的股票。然而，所有股票对宏观经济指标的敏感性都是基于历史数据计算得到的。一旦这种关系无法延续到未来，基于宏观得分的选股逻辑仍然难以奏效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Breeden(1989)", "Lamont(2001)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

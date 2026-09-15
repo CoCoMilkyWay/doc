@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "id": "20200512-开源证券-市场微观结构-006-交易者行为与市值风格",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "超大单占比因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Ratio_{exlarge}=\\frac{sum(amount_{exlarge})}{sum(amount_{total})}",
+          "stats": [null, null, -1.22, 0.1631],
+          "evidence": "我们可以按照挂单金额的大小，对每笔成交做一个简单的划分：超大单（>100万元）、大单（20万元~100 万元）、中单（4万元~20 万元）、小单（<4万元），我们回看每个股票在过去 20个交易日的超大单、大单、中单、小单成交额之和，分别与总成交额相除，得到超大单（exlarge）、大单（large）、中单（median）与小单（small）占比因子。"
+        },
+        {
+          "name": "大单占比因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Ratio_{large}=\\frac{sum(amount_{large})}{sum(amount_{total})}",
+          "stats": [null, null, null, null],
+          "evidence": "我们可以按照挂单金额的大小，对每笔成交做一个简单的划分：超大单（>100万元）、大单（20万元~100 万元）、中单（4万元~20 万元）、小单（<4万元），我们回看每个股票在过去 20个交易日的超大单、大单、中单、小单成交额之和，分别与总成交额相除，得到超大单（exlarge）、大单（large）、中单（median）与小单（small）占比因子。"
+        },
+        {
+          "name": "中单占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Ratio_{median}=\\frac{sum(amount_{median})}{sum(amount_{total})}",
+          "stats": [null, null, null, null],
+          "evidence": "我们可以按照挂单金额的大小，对每笔成交做一个简单的划分：超大单（>100万元）、大单（20万元~100 万元）、中单（4万元~20 万元）、小单（<4万元），我们回看每个股票在过去 20个交易日的超大单、大单、中单、小单成交额之和，分别与总成交额相除，得到超大单（exlarge）、大单（large）、中单（median）与小单（small）占比因子。"
+        },
+        {
+          "name": "小单占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Ratio_{small}=\\frac{sum(amount_{small})}{sum(amount_{total})}",
+          "stats": [null, null, null, null],
+          "evidence": "我们可以按照挂单金额的大小，对每笔成交做一个简单的划分：超大单（>100万元）、大单（20万元~100 万元）、中单（4万元~20 万元）、小单（<4万元），我们回看每个股票在过去 20个交易日的超大单、大单、中单、小单成交额之和，分别与总成交额相除，得到超大单（exlarge）、大单（large）、中单（median）与小单（small）占比因子。"
+        },
+        {
+          "name": "EVL",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{在截面上以大单占比因子为自变量、超大单占比因子为因变量作线性回归 } y_{t}=ax_{t}+b+\\varepsilon_{t} \\text{，取残差 } \\varepsilon_{t} \\text{ 作为新因子 EVL}",
+          "stats": [null, null, 1.85, 0.1866],
+          "evidence": "按以上方法，从超大单占比因子中分别剔除大单占比因子、中单占比因子与小单占比因子，所得新因子依次记为 EVL、EVM、EVS。测试发现，三个新因子均有不俗表现。"
+        },
+        {
+          "name": "EVM",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{从超大单占比因子中剔除中单占比因子（截面线性回归取残差）所得新因子}",
+          "stats": [null, null, null, null],
+          "evidence": "按以上方法，从超大单占比因子中分别剔除大单占比因子、中单占比因子与小单占比因子，所得新因子依次记为 EVL、EVM、EVS。测试发现，三个新因子均有不俗表现。"
+        },
+        {
+          "name": "EVS",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{从超大单占比因子中剔除小单占比因子（截面线性回归取残差）所得新因子}",
+          "stats": [null, null, null, null],
+          "evidence": "按以上方法，从超大单占比因子中分别剔除大单占比因子、中单占比因子与小单占比因子，所得新因子依次记为 EVL、EVM、EVS。测试发现，三个新因子均有不俗表现。"
+        },
+        {
+          "name": "成交额因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票过去N个交易日的成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "事实上，成交额因子比市值因子的收益更高，并且在剔除市值因子的影响后，成交额因子仍有一定收益。相反地，市值因子在剔除成交额因子后收益则不再显著（如图8、图 9所示）。"
+        },
+        {
+          "name": "中单成交额因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{中单占比因子乘以成交额因子得到调整后的中单成交额因子}",
+          "stats": [null, null, null, null],
+          "evidence": "我们使用成交占比因子乘以成交额因子得到对应的调整后的成交额因子：超大单成交额、大单成交额、中单成交额、小单成交额。"
+        },
+        {
+          "name": "小单成交额因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{小单占比因子乘以成交额因子得到调整后的小单成交额因子}",
+          "stats": [null, null, -1.9, 0.1467],
+          "evidence": "我们使用成交占比因子乘以成交额因子得到对应的调整后的成交额因子：超大单成交额、大单成交额、中单成交额、小单成交额。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "从超大单占比因子中提纯得到的EVL因子表现良好：年化多空收益18.66%，ICIR为1.85，市值中性化后ICIR提升至2.39。",
+      "evidence": "成交占比因子在市值中性化后收益不够显著，但利用线性回归从超大单占比因子中提纯得到的 EVL 因子则有着较好的表现，EVL 因子年化多空收益为 18.66%，ICIR为 1.85，市值中性化后ICIR 提升至 2.39。"
+    },
+    {
+      "text": "EVL因子在市值中性化后依旧稳健，多空年化收益为11.44%，ICIR为2.39，最大回撤仅6.09%。",
+      "evidence": "其中，EVL 因子多空年化收益可达 18.66%，ICIR为 1.85，且该因子在市值中性化后依旧稳健，多空年化收益为11.44%，ICIR为 2.39，最大回撤仅 6.09%。"
+    },
+    {
+      "text": "成交占比因子中超大单因子表现最好，多空年化收益率达16.31%，ICIR为-1.22，剔除市值因子后多空年化收益率下降至4.60%，ICIR降至-1.12。",
+      "evidence": "这其中，超大单因子表现最好，多空年化收益率达 16.31%，ICIR为-1.22，且在2018年后表现显著优于市值因子。但是在剔除市值因子后，因子多空年化收益率下降至 4.60%，ICIR 也降至-1.12。"
+    },
+    {
+      "text": "小单、中单成交额因子收益较为显著且均优于原始成交额因子，小单成交额因子市值中性化后年化多空收益仍有14.67%，ICIR为-1.90。",
+      "evidence": "在剔除了市值的影响之后，各成交额因子的表现有明显的分化，其中小单、中单成交额因子收益较为显著，且表现均优于原始成交额因子，小单成交额因子市值中性化后年化多空收益仍有14.67%，ICIR为-1.90。"
+    },
+    {
+      "text": "成交额因子比市值因子的收益更高，剔除市值因子后仍有一定收益，而市值因子在剔除成交额因子后收益则不再显著。",
+      "evidence": "事实上，成交额因子比市值因子的收益更高，并且在剔除市值因子的影响后，成交额因子仍有一定收益。相反地，市值因子在剔除成交额因子后收益则不再显著（如图8、图 9所示）。"
+    },
+    {
+      "text": "当小市值风格占优时，大单以上成交占比因子与市值的相关性下降，说明此时小市值股票的成交中大单与超大单的占比相对提升。",
+      "evidence": "如图 4 所示，当小市值风格占优时，大单以上成交占比因子与市值的相关性下降。这说明此时小市值股票的成交中，大单与超大单的占比相对提升了。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（1）-A 股反转之力的微观来源》-2019.12.23",
+    "《市场微观结构研究系列（2）-交易行为因子的 2019 年》-2019.12.28",
+    "《市场微观结构研究系列（3）-聪明钱因子模型的 2.0 版本》-2020.02.09",
+    "《市场微观结构研究系列（4）-A 股行业动量的精细结构》-2020.03.02",
+    "《市场微观结构研究系列（5）-APM因子模型的进阶版》-2020.03.07"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

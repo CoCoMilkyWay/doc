@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20240816-国金证券-beta猎手-012-rag_chatgpt提前布局热点概念领涨股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["infrastructure", "structuring"],
+      "setup": {"data": {"source": ["text"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative", "L1_mining"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "relation_graph",
+        "llm_generation"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{Ret}_{i,20d}=\\text{过去20日涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "我们在各概念成分股中，选取过去 20 日涨跌幅最高的前 10 只个股构成组合，观察该组合相对概念指数的累计超额收益表现。"
+        },
+        {
+          "name": "非流动性因子",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "ILLIQ_{i}=\\frac{1}{n}\\sum_{d=1}^{n}\\frac{\\left|r_{i,d}\\right|}{volume_{i,d}}",
+          "stats": [null, null, null, null],
+          "evidence": "我们使用过去 20 日数据计算非流动性指标，并选取数值最高的前 10 只个股构成组合，观察该组合相对概念指数的累计超额收益表现。"
+        },
+        {
+          "name": "领涨因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{Lead}_{i}=0.5\\times\\text{Ret}_{i,20d}+0.5\\times ILLIQ_{i,20d}",
+          "stats": [null, null, null, null],
+          "evidence": "我们将个股的 日涨跌幅与 日非流动性因子等权合成为领涨因子，并按照领涨因子对市值大于 亿的概念股进行排序。"
+        },
+        {
+          "name": "尖峰右偏",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{PeakSkew}_{i}=0.5\\times\\text{Kurt}_{i,240d}+0.5\\times\\text{Skew}_{i,240d}",
+          "stats": [null, null, null, null],
+          "evidence": "对此，我们引入“尖峰右偏”特征作为第二层精筛。“尖峰右偏”包含了峰度（Kurtosis）和偏度（Skewness）两个衡量维度：“尖峰”特征表明该个股历史上出现极端收益的概率更大，而“右偏”则说明该个股出现大幅上涨的概率更大。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "通过“海底捞针”实验证明，尽管大模型支持输入更长上下文，但在处理较长文本时可能出现能力下降，这也是必须用 RAG 提炼信息、实现降本增效的原因。",
+      "evidence": "通过“海底捞针”实验我们证明，尽管大模型支持输入更长上下文，但在处理较长文本时可能出现能力下降，这也是我们必须用 RAG 提炼信息，实现降本增效的原因。"
+    },
+    {
+      "text": "产业链 Agent 模型 v2.0 分别从知识库质量、RAG方式以及流程上做了全面升级，通过获取质量更高的文本来提升图谱结构合理性以及股票池的准确度。",
+      "evidence": "在新的版本中，我们分别从知识库质量、RAG方式以及流程上对模型做了全面的升级，此外也针对产业链这一独特的对象做了相应调整，通过获取质量更高的文本来提升图谱结构合理性以及股票池的准确度。"
+    },
+    {
+      "text": "对时间较久远的文档要求更高的相关性，使用半衰期加权的方式给各个时间范围指定检索数量并合并输出，将时效性纳入检索。",
+      "evidence": "因此，时间较久远的文档需要满足更高的相关性要求才能够输出。为了防止过度工程化，我们简单使用半衰期加权的方式给各个时间范围指定检索数量，再将各个时间范围的检索结果合并输出。"
+    },
+    {
+      "text": "概念股等权指数与 Wind 构造的概念股指数基本保持相同，能够捕捉到概念带来的行情，表明概念股梳理结果有较高准确度。",
+      "evidence": "从 2024 年内的走势上来看，我们构造的概念股等权指数与 Wind 构造的概念股指数基本保持相同，即能够捕捉到概念带来的行情。"
+    },
+    {
+      "text": "20日动量在AI手机、人形机器人与低空经济等板块上有较好的筛选效果，组合收益率能在五日内有较稳定的超额上涨，但在合成生物学概念上表现一般。",
+      "evidence": "从效果上来看，20日动量在AI手机、人形机器人与低空经济等板块上有较好的筛选效果，组合收益率能在五日内有较稳定的超额上涨；但在合成生物学概念上表现一般。"
+    },
+    {
+      "text": "20 日非流动性指标在 AI 手机概念上效果一般，但在其他板块上都有较好的效果；当行情来临时流动性低的个股更容易受到资金推动出现上涨。",
+      "evidence": "从效果上来看，20 日非流动性指标在 AI 手机概念上效果一般，但在其他板块上都有较好的效果。理论上来说，当行情来临时流动性低的个股更容易受到资金推动出现上涨。"
+    },
+    {
+      "text": "领涨组合在概念启动后的短期内相对概念指数以及 Wind 全 A 均有明显的超额收益。",
+      "evidence": "从回测结果上来看，领涨组合在概念启动后的短期内相对概念指数以及 Wind 全 A 均有明显的超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cormack, G. V., Clarke, C. L., & Buettcher, S. (2009). Reciprocal Rank Fusion outperforms Condorcet and individual Rank Learning Methods.",
+    "Zhao, P., et al. (2024). Retrieval-Augmented Generation for AI-Generated Content: A Survey.",
+    "《Beta 猎手系列之七：追上投资热点——基于 LLM 的产业链图谱智能化生成》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

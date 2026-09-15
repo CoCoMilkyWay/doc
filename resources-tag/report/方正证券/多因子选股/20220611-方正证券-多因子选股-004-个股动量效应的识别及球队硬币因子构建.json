@@ -1,0 +1,200 @@
+{
+  "schema_version": 2,
+  "id": "20220611-方正证券-多因子选股-004-个股动量效应的识别及球队硬币因子构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "传统反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Reversal_{t}=\\frac{1}{20}\\sum_{i=0}^{19}r^{interday}_{t-i}",
+          "stats": [null, -0.0653, -2.3, 0.2436],
+          "evidence": "1）此处我们使用日间收益率计算反转因子，即使用t日收盘价除以t-1日的收盘价再减 1。2）每月月底，计算过去 20 个交易日的日间收益率的平均值，记为本月的传统反转因子。"
+        },
+        {
+          "name": "日间反转-波动翻转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{若最近20日日间收益率波动率低于市场截面均值，则将当月日间收益率均值乘以-1，否则保持不变}",
+          "stats": [null, -0.0553, -2.94, 0.2012],
+          "evidence": "比较每只股票的日间波动率与市场截面均值的大小关系，将日间波动率小于市场均值的股票，视为“硬币”型股票，由于未来其发生动量效应的概率更大，因此我们将其当月日间收益率乘以-1；而日间波动率大于市场均值的股票，视为“球队”型股票，其未来将发生反转效应的概率更大，其因子值保持不变。"
+        },
+        {
+          "name": "“日间反转-换手翻转”因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{若t日换手率变化量低于当日市场均值，则将t日日间收益率乘以-1，否则保持不变，取最近20日翻转收益率均值}",
+          "stats": [null, -0.081, -4.25, 0.2991],
+          "evidence": "我们计算每只股票t日的日间收益率，将“硬币”型股票的日间收益率乘以-1，而“球队”型股票的日间收益率保持不变。记变化后的日间收益率为“翻转收益率”。"
+        },
+        {
+          "name": "修正日间反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\left(\\text{日间反转-波动翻转因子}+\\text{日间反转-换手翻转因子}\\right)",
+          "stats": [null, -0.0877, -4.64, 0.3419],
+          "evidence": "我们将上述构造的“日间反转-波动翻转”因子和“日间反转-换手翻转”因子等权合成，构造“修正日间反转”因子。"
+        },
+        {
+          "name": "传统日内反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "IntradayReversal_{t}=\\frac{1}{20}\\sum_{i=0}^{19}r^{intraday}_{t-i},\\; r^{intraday}_{t}=close_{t}/open_{t}-1",
+          "stats": [null, -0.0693, -2.69, 0.2652],
+          "evidence": "1）计算每只股票 t 日的日内收益率，即使用 t日收盘价除以 t日的开盘价后减1。2）每月月底，计算过去20个交易日的日内收益率的平均值，记为本月的传统日内反转因子。"
+        },
+        {
+          "name": "日内反转-波动翻转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{若最近20日日内收益率波动率低于市场截面均值，则将当月日内收益率均值乘以-1，否则保持不变}",
+          "stats": [null, -0.055, -3.23, 0.2082],
+          "evidence": "比较每只股票的日内收益率的波动率与市场截面均值的大小关系，将日内收益率的波动率小于市场均值的股票，视为“硬币”型股票，其未来发生动量效应的概率更大，因此我们将其当月日内收益率乘以-1；而日内收益率的波动率大于市场均值的股票，视为“球队”型股票，其未来将发生反转效应的概率更大，其当月日内收益率保持不变。"
+        },
+        {
+          "name": "日内反转-换手翻转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{若t日换手率变化量低于当日市场均值，则将t日日内收益率乘以-1，否则保持不变，取最近20日翻转日内收益率均值}",
+          "stats": [null, -0.0677, -3.93, 0.2348],
+          "evidence": "我们计算每只股票t日的日内收益率，将“硬币”型股票的日内收益率乘以-1，而“球队”型股票的日内收益率不变。记变化后的日内收益率为“翻转日内收益率”。"
+        },
+        {
+          "name": "修正日内反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\left(\\text{日内反转-波动翻转因子}+\\text{日内反转-换手翻转因子}\\right)",
+          "stats": [null, -0.075, -4.18, 0.3025],
+          "evidence": "我们将上述构造的“日内反转-波动翻转”因子和“日内反转-换手翻转”因子等权合成，构造“修正日内反转”因子。"
+        },
+        {
+          "name": "传统隔夜涨跌因子",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Overnight_{t}=\\frac{1}{20}\\sum_{i=0}^{19}r^{overnight}_{t-i},\\; r^{overnight}_{t}=open_{t}/close_{t-1}-1",
+          "stats": [null, 0.0236, 1.8, 0.0756],
+          "evidence": "1）计算每只股票 t 日的隔夜收益率，即使用 t 日开盘价除以 t-1 日的收盘价再减 1。2）每月月底，计算过去20个交易日的隔夜收益率的平均值，记为本月的传统隔夜涨跌因子"
+        },
+        {
+          "name": "隔夜距离因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Dist_{t}=\\left|r^{overnight}_{t}-\\overline{r^{overnight}_{t}}\\right|",
+          "stats": [null, -0.0648, -2.86, 0.1895],
+          "evidence": "因此我们计算每只个股的隔夜涨跌幅与市场平均水平的差值，然后取绝对值，表示这只个股与“最平静”之间的距离，并将其记为“隔夜距离”因子。"
+        },
+        {
+          "name": "隔夜反转-波动翻转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{若最近20日隔夜距离波动率低于市场截面均值，则将当月隔夜距离均值取相反数，否则保持不变}",
+          "stats": [null, -0.0433, -3.02, 0.1742],
+          "evidence": "比较每只股票的“隔夜距离波动率”与市场截面均值的大小关系，将“隔夜距离波动率”小于市场均值的股票，视为“硬币”型股票，其未来发生动量效应的概率更大，因此我们将其当月“隔夜距离”取相反数；而“隔夜距离波动率”大于市场均值的股票，视为“球队”型股票，其未来将发生反转效应的概率更大，因此其当月“隔夜距离”保持不变。"
+        },
+        {
+          "name": "隔夜反转-换手翻转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{若换手距离低于当日市场均值，则将t日隔夜距离乘以-1，否则保持不变，取最近20日翻转隔夜距离均值}",
+          "stats": [null, -0.074, -3.78, 0.2844],
+          "evidence": "我们计算每只股票t日的“隔夜距离”，将“硬币”型股票的“隔夜距离”乘以-1，而“球队”型股票的“隔夜距离”保持不变。记变化后的“隔夜距离”为“翻转隔夜距离”。"
+        },
+        {
+          "name": "修正隔夜反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\left(\\text{隔夜反转-波动翻转因子}+\\text{隔夜反转-换手翻转因子}\\right)",
+          "stats": [null, -0.0755, -4.04, 0.2854],
+          "evidence": "我们将上述构造的“隔夜反转-波动翻转”因子和“隔夜反转-换手翻转”因子等权合成，构造“修正隔夜反转”因子并进行因子测试"
+        },
+        {
+          "name": "球队硬币因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{3}\\left(\\text{修正日间反转因子}+\\text{修正日内反转因子}+\\text{修正隔夜反转因子}\\right)",
+          "stats": [null, -0.0967, -4.73, 0.3969],
+          "evidence": "我们将上述构造的“修正日间反转”因子、“修正日内反转”因子和“修正隔夜反转”因子等权合成，得到“球队硬币”因子。我们对“球队硬币”因子在月度频率上进行选股效果测试。"
+        },
+        {
+          "name": "纯净球队硬币因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{使用常用风格因子及行业因子对球队硬币因子进行正交化处理后的残差}",
+          "stats": [null, -0.0435, -2.98, 0.2227],
+          "evidence": "我们使用常用风格因子及行业因子对“球队硬币”因子进行正交化处理，得到“纯净球队硬币”因子，再检验其选股能力。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "“球队硬币”因子表现非常出色，Rank IC达-9.67%，Rank ICIR 为-4.73，多空组合年化收益率达 39.69%，信息比3.95，因子月度胜率 85.14%。",
+      "evidence": "我们对“球队硬币”因子在月度频率上的选股效果进行测试，结果显示 “球队硬币”因子表现非常出色，Rank IC达-9.67%，Rank ICIR 为-4.73，多空组合年化收益率达 39.69%，信息比3.95，因子月度胜率 85.14%。"
+    },
+    {
+      "text": "在剔除了常用的风格因子影响后，“球队硬币”因子仍然具有很好的选股能力，Rank IC 均值为-4.35%，Rank ICIR 为-2.98，多空组合年化收益率22.27%，信息比率2.75。",
+      "evidence": "可以看到，在剔除了常用的风格因子影响后，“球队硬币”因子仍然具有很好的选股能力，Rank IC 均值为-4.35%，Rank ICIR 为-2.98，多空组合年化收益率22.27%，信息比率2.75。"
+    },
+    {
+      "text": "“球队硬币”因子在沪深 300、中证500、中证 1000指数成分股内均表现不俗，多头组合年化超额收益分别为 5.86%、12.12%、16.55%。",
+      "evidence": "可以看到，“球队硬币”因子在沪深 300、中证500、中证 1000指数成分股内均表现不俗，多头组合年化超额收益分别为 5.86%、12.12%、16.55%。"
+    },
+    {
+      "text": "原始日间“净动量比例”在约 55.7%的时间里是大于0的，表明动量效应在个股中分布相对较为普遍，“均净动量比例”为0.38%，“稳净动量比例”为 3.42%。",
+      "evidence": "可以看到，原始日间“净动量比例”在约 55.7%的时间里是大于0的，表明动量效应在个股中分布相对较为普遍。此时“均净动量比例”为0.38%，“稳净动量比例”为 3.42%。"
+    },
+    {
+      "text": "波动率低的股票和换手率下降的股票，“可知性”更高，属于硬币类型的股票，未来发生动量效应的概率更大；波动率高的股票和换手率增长的股票，“可知性”更低，属于球队类型的股票，未来发生反转效应的概率更大。",
+      "evidence": "波动率低的股票和换手率下降的股票，“可知性”更高，属于硬币类型的股票，未来发生动量效应的概率更大；波动率高的股票和换手率增长的股票，“可知性”更低，属于球队类型的股票，未来发生反转效应的概率更大。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Moskowitz T J. Asset pricing and sports betting[J]. Journal of Finance, Forthcoming, 2021."],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

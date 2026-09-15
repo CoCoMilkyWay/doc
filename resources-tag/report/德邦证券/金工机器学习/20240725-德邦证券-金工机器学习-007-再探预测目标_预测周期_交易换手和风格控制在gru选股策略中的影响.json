@@ -1,0 +1,155 @@
+{
+  "schema_version": 2,
+  "id": "20240725-德邦证券-金工机器学习-007-再探预测目标_预测周期_交易换手和风格控制在gru选股策略中的影响",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "close1d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{以 close 价格计算的未来一日收益率（close to close）作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, 0.059, null, null],
+          "evidence": "选择预测目标的价格时，在模型使用vwap计算的未来收益作为预测目标时，其 IC表现相比预测 open未来收益的模型有较大提升，但是模型引入了更多风格特征，组合净值的综合表现不如预测 open未来收益的模型与预测close未来收益的模型。"
+        },
+        {
+          "name": "open1d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{以 open 价格计算的未来 X 日收益率（open_{T+1} to open_{T+X+1}）作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, 0.062, null, null],
+          "evidence": "具体来看，vwap1d模型对于未来 5日 vwap收益率的平均IC为 0.082，open1d 模型 IC 为 0.062。相对中证 1000 指数， vwap1d 模型超额年化收益率为17.52%，最大回撤为 18.01%，open1d 模型超额年化收益率为 15.60%，最大回撤为 10.21%；close1d 模型超额年化收益率为 14.79%，最大回撤为 10.99%。"
+        },
+        {
+          "name": "vwap1d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{以 vwap 价格计算的未来一日收益率（vwap_{T+1} to vwap_{T+2}）作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, 0.082, null, null],
+          "evidence": "具体来看，vwap1d模型对于未来 5日 vwap收益率的平均IC为 0.082，open1d 模型 IC 为 0.062。相对中证 1000 指数， vwap1d 模型超额年化收益率为17.52%，最大回撤为 18.01%，open1d 模型超额年化收益率为 15.60%，最大回撤为 10.21%；close1d 模型超额年化收益率为 14.79%，最大回撤为 10.99%。"
+        },
+        {
+          "name": "open5d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{以 open 价格计算的未来 5 日收益率（open_{T+1} to open_{T+6}）作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, 0.079, null, null],
+          "evidence": "如表 3所示，open1d模型更擅长预测短期的未来收益率，随着预测周期的增加，模型对于长期未来收益的预测能力也逐渐提升。"
+        },
+        {
+          "name": "open10d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{以 open 价格计算的未来 10 日收益率（open_{T+1} to open_{T+11}）作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, 0.08, null, null],
+          "evidence": "不同预测周期的 size 暴露趋势整体上较为接近。预测周期较长的 open5d 模型和 open10d模型在 2023年以后的小市值暴露明显高于 open1d模型。"
+        },
+        {
+          "name": "size1d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{Open1d 与 log 市值线性回归后的残差项作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, 0.056, null, null],
+          "evidence": "Size1d：Open1d 与 log 市值线性回归后的残差项。"
+        },
+        {
+          "name": "barra1d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{Open1d 与 barra 风格因子线性回归后的残差项作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, 0.044, null, null],
+          "evidence": "剥离预测目标风格后的size1d 模型，对各项未来收益从 IC上看相对open1d模型都有所减弱，剥离的风格越多的barra1d模型，减弱的程度也越多。"
+        },
+        {
+          "name": "barra5d",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{Open5d 与 barra 风格因子线性回归后的残差项作为预测目标，GRU 模型输出的预测收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "基于上述讨论，我们尝试改进open5d模型，剥离原先预测目标的 open5d收益率中的风格特征，最终得到 barra5d模型。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "vwap1d模型对未来5日vwap收益率的平均IC为0.082，高于open1d模型的0.062，但引入了更多风格特征，组合净值综合表现不如open1d与close1d模型；vwap1d超额年化收益率17.52%、最大回撤18.01%，open1d为15.60%、10.21%，close1d为14.79%、10.99%。",
+      "evidence": "具体来看，vwap1d模型对于未来 5日 vwap收益率的平均IC为 0.082，open1d 模型 IC 为 0.062。相对中证 1000 指数， vwap1d 模型超额年化收益率为17.52%，最大回撤为 18.01%，open1d 模型超额年化收益率为 15.60%，最大回撤为 10.21%；close1d 模型超额年化收益率为 14.79%，最大回撤为 10.99%。"
+    },
+    {
+      "text": "预测多日未来收益的GRU模型相比仅预测1日未来收益的模型IC有所提升，但组合暴露更多风格特征，组合表现各方面都弱于预测1日未来收益的模型。",
+      "evidence": "预测更长周期未来收益率的 GRU模型，表现上类似于预测 vwap未来收益的模型。在IC表现上，预测多日未来收益的 GRU模型相比仅预测 1日未来收益的GRU模型有所提升，但是组合上看暴露更多的风格特征。在组合表现上预测多日未来收益的 GRU模型各方面都弱于预测 1日未来收益的模型。"
+    },
+    {
+      "text": "2021年后原GRU模型小市值偏好显著增加，相对基准的市值风格暴露为-0.46；剥离预测目标中的风格特征后小市值偏好明显改善，剥离size风格的模型市值风格暴露缩小至-0.17，剥离所有barra风格特征的模型为-0.23。",
+      "evidence": "2021 年后，原先的GRU模型引入更多的风格特征，其小市值偏好显著增加，模型在 2021 年后相对基准的市值风格暴露为-0.46。然而，剥离预测目标中的风格特征之后，组合的小市值偏好得到明显的改善，剥离 size 风格的模型在 2021 年后相对基准的市值风格暴露缩小至-0.17，剥离所有 barra 风格特征的模型市值风格暴露为-0.23。"
+    },
+    {
+      "text": "barra5d模型相对open5d模型在净值表现各方面都得到提升，最大回撤得到很好控制，年化收益率反而有所提升，信息比率从1.52提升到2.60；说明剥离风格信息后增加预测周期能提升模型表现。",
+      "evidence": "barra5d模型相对open5d 模型在净值表现的各个方面都得到了提升，最大回撤得到很好的控制，最终的年化收益率反而有所提升，信息比率更是从 1.52提升到了 2.60。"
+    },
+    {
+      "text": "以vwap价格交易需要设置更低的换手率才能取得更优组合表现，日频交易相对周频交易对换手设置更敏感：日频下open价格交易单边换手率11%最优、vwap价格3%最优；周频下open价格最优单边换手约14%-20%，vwap价格6%-20%较优。",
+      "evidence": "在换手率设置方面，相比以 open价格交易，以 vwap价格进行交易需要设置更低的换手率能取得更优的组合表现，日频交易相对于周频交易的换手设置更为敏感。对于日频交易的情况下，使用 open 价格进行交易时，单边换手率设置为11%时组合表现最优；使用 vwap价格进行交易时，单边换手率设置为 3%时组合表现最优。周频交易的情况下，使用 open 价格交易的最优单边换手约为 14%-20%，使用 vwap交易时单边换手率设置为 6%-20%较优。"
+    },
+    {
+      "text": "更长周期的预测目标中带有的风格信息明显增加，长周期预测模型容易学到过多风格特征；剥离预测目标中的风格特征后，增加预测周期能一定程度上提升模型表现。",
+      "evidence": "更长周期的预测目标中带有的风格信息相比短期预测目标明显增加，这会导致长周期的预测模型很容易学到过多的风格特征。剥离掉预测目标中的风格特征后，增加预测周期能一定程度上提升模型的表现。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《利用机器学习捕捉因子的非线性效应——德邦金工机器学习专题之一》（2021.10.18）",
+    "《动态因子筛选——德邦金工机器学习专题之四》（2022.03.09）",
+    "《基于分钟数据的 GRU 模型在选股策略中的应用初探——德邦金工机器学习专题之六》（2024.07.01）",
+    "《基于模型池的机器学习选股——德邦金工机器学习专题之五》（2022.05.24）",
+    "《基于财务与风格因子的机器学习选股——德邦金工机器学习专题之三》（2022.01.25）",
+    "《机器学习残差因子表现归因——德邦金工机器学习专题之二》（2021.11.24）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

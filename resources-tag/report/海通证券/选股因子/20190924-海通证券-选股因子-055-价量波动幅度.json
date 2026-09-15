@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "id": "20190924-海通证券-选股因子-055-价量波动幅度",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "股价振幅因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "amplitude_{t,T}=\\frac{\\max_{i\\in[0,T]}P_{t-i}}{\\min_{i\\in[0,T]}P_{t-i}}-1",
+          "stats": [0.037, 0.0348, 1.45, null],
+          "evidence": "每个月末，我们基于过去一段时间内，日度价格最高值与最低值之间的变动幅度构建股价振幅因子（下简称振幅因子）。即振幅因子=日度价格最高值/最低值-1。"
+        },
+        {
+          "name": "换手率波幅因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "turnover_{-}range_{t,T}=\\max_{i\\in[0,T]}turn_{t-i}-\\min_{i\\in[0,T]}turn_{t-i}",
+          "stats": [-0.029, -0.0277, -1.93, null],
+          "evidence": "换手率波幅因子（过去一段时间内日换手率最高值与日换手率最低值之差）与股票收益显著负相关。即换手率波动幅度越大，股票未来收益表现越差。该因子多头效应弱，空头效应强。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "股价振幅因子与股票收益显著正相关，控制涨跌幅、换手率、波动率后，历史股价振幅越大，股票未来收益表现越优。",
+      "evidence": "股价振幅因子与股票收益显著正相关，即控制涨跌幅、换手率、波动率后，历史股价振幅越大，股票未来收益表现越优。"
+    },
+    {
+      "text": "3个月振幅因子月均IC和RankIC分别为3.7%、3.5%，统计显著，相应的IR分别为1.45、1.25。",
+      "evidence": "股票振幅与未来收益显著正相关。3个月振幅因子月均 IC 和 RankIC分别为 3.7%、3.5%，统计显著，相应的 IR 分别为 1.45、1.25。"
+    },
+    {
+      "text": "在涨幅低、波动率低、换手率低的样本空间，3个常见价量因子均失效，而振幅因子月均多空收益高达0.92%，是对传统价量因子的有效补充。",
+      "evidence": "特别地，在涨幅低、波动率低、换手率低的样本空间，3个常见价量因子均失效，多空收益为负，而振幅因子月均多空收益高达 0.92%，统计显著。"
+    },
+    {
+      "text": "考察振幅因子时均将其对技术类因子（反转、换手率、波动率、流动性）以及市值进行正交化处理，以反映控制价量特征后的选股效果。",
+      "evidence": "为体现振幅因子的补充作用，下文在考察该因子时，均将该因子对技术类因子（反转、换手率、波动率、流动性）以及市值进行正交化处理，以反映控制价量特征后振幅因子的选股效果。"
+    },
+    {
+      "text": "1-6个月观察期下振幅因子的RankIC均显著为正，ICIR均在0.9以上；观察期为2个月时RankIC最高，为3.84%。",
+      "evidence": "结果显示，在 1-6 个月的观察期窗口下，振幅因子的 RankIC 均显著为正，ICIR均在 0.9 以上。其中，观察期为 1 个月时，RankIC最小，为 2.70%。观察期为 2个月时，RankIC 最高，为 3.84%；之后随着观察期增加，振幅因子选股效果逐渐减弱。"
+    },
+    {
+      "text": "振幅因子多空收益衰减速度快，持有期为1个月时月均多空收益达1.67%，持有期为2个月时迅速降至0.61%，持有期超过5个月时甚至出现反向。",
+      "evidence": "持有期为1 个月时，因子月均多空收益达 1.67%；持有期为 2 个月时，因子多空收益迅速降至0.61%。持有期超过 5 个月时，振幅因子的选股效果甚至出现反向。"
+    },
+    {
+      "text": "换手率波幅因子与股票收益显著负相关，1个月换手率波幅因子月均IC和RankIC分别为-2.90%、-2.77%，多头效应弱、空头效应强。",
+      "evidence": "换手率波幅与股票未来收益显著负相关。1 个月换手率波幅因子月均 IC和 RankIC分别为-2.90%、-2.77%，统计显著，相应的 IR 分别为 1.93、1.37。"
+    },
+    {
+      "text": "在包含常见因子的9因子模型中加入价量波幅因子后，多因子模型IC和RankIC均得到提升，同时波动率下降，整体IR有所增加。",
+      "evidence": "从中可见，单独加入振幅因子和换手率波幅因子后，多因子模型 IC 和 RankIC 均得到提升，同时波动率下降，整体 IR 有所增加。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（五十四）——资产增长稳定性与资本结构变化》2019.09.10"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

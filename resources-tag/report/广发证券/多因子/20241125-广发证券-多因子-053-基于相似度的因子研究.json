@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20241125-广发证券-多因子-053-基于相似度的因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SIM",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "SIM_{i,t}=\\frac{\\sum_{j\\in S_i} w_{ij}\\, r_{j,t}}{\\sum_{j\\in S_i} w_{ij}}",
+          "stats": [-0.029, -0.029, -0.2, 0.081],
+          "evidence": "我们通过特征之间的距离来衡量股票之间的相关性。对计算股票之间所有特征的欧几里得距离，然后筛选相似股票，计算相似股票的收益加权均值（SIM），以及计算相似股票收益的相对差值（RSIM）。"
+        },
+        {
+          "name": "RSIM",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "RSIM_{i,t}=\\frac{r_{i,t}-SIM_{i,t}}{SIM_{i,t}}",
+          "stats": [null, -0.012, -0.09, 0.017],
+          "evidence": "我们通过特征之间的距离来衡量股票之间的相关性。对计算股票之间所有特征的欧几里得距离，然后筛选相似股票，计算相似股票的收益加权均值（SIM），以及计算相似股票收益的相对差值（RSIM）。"
+        },
+        {
+          "name": "SIM_corr",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "SIM\\_corr_{i,t}=\\text{corr}\\big(r_{i,t},\\, SIM_{i,t}\\big)",
+          "stats": [0.076, 0.076, 0.65, 0.25],
+          "evidence": "直接以收益率或相对收益率作为代理变量的回测结果不够理想，本部分采取以“相关性程度”的方式构建因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "月频全市场选股下SIM_corr因子IC均值7.6%、IC胜率74.8%、多空年化25%、夏普比率1.96、多头年化14%；周频下IC均值6.8%、IC胜率76.8%、多空年化47%、夏普比率3.24、多头年化18%。",
+      "evidence": "月频全市场选股方式下，SIM_corr因子的IC均值为7.6%,IC胜率为74.8%，多空年化收益为25%，夏普比率为1.96，多头年化收益为14%。行业市值中性化后，因子的ICIR、IC胜率、夏普比等特征进一步增厚。周频全市场选股方式下，SIM_corr因子的IC均值为6.8%,IC胜率为76.8%，多空年化收益为47%，夏普比率为3.24，多头年化收益为18%。"
+    },
+    {
+      "text": "行业市值中性化后，SIM_corr因子的ICIR、IC胜率、夏普比等特征进一步增厚。",
+      "evidence": "行业市值中性化后，因子的ICIR、IC胜率、夏普比等特征进一步增厚。"
+    },
+    {
+      "text": "未中性化时SIM因子月频IC均值-2.9%、多空年化8%、多头年化4.4%，收益特征相对不够突出。",
+      "evidence": "月频全市场选股方式下，SIM因子的IC均值为-2.9%，多空年化收益为8%，其中多头年化收益为4.4%，但收益特征相对不够突出。"
+    },
+    {
+      "text": "拆分正负收益序列构建的相关系数因子与拆解前收益特征基本一致。",
+      "evidence": "测算显示，拆解之后的收益特征和拆解前基本一致。"
+    },
+    {
+      "text": "分域检验显示因子在中证1000股票池中的回测IC相对更高，多头组的区分度更加突出。",
+      "evidence": "测算结果显示，因子在中证1000股票池中的回测IC相对更高，多头组的区分度更加突出。"
+    },
+    {
+      "text": "价格、市值、估值、盈利等基本指标直接用于选股时RANKIC、ICIR总体相对较低，效果不够理想，故需从多维不同角度刻画股票相似性。",
+      "evidence": "回测结果显示，前述指标的RANKIC、ICIR总体相对较低，即说明相应指标直接用于选股，总体效果不够理想。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Cohen和Lou(2012)", "Devenow and Welch (1996)", "Tan, Chiang, Mason (2008)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

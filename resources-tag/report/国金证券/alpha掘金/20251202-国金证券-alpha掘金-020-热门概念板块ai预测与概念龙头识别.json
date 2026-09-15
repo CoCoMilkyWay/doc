@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20251202-国金证券-alpha掘金-020-热门概念板块ai预测与概念龙头识别",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": ["style_ratio", "momentum_reversal", "representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "TimeMixer-stock",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{TimeMixer改进的GRU+LSTM机器学习选股模型输出的个股Alpha因子得分}",
+          "stats": [0.1068, null, null, 1.1337],
+          "evidence": "在分位数组合测试中，我们按照个股的 Alpha因子从高到低，将资产分为 10 组。周频选股因子的IC高达10.68%，多头年化超额收益率和多头信息比率分别高达45.42%和3.66。"
+        },
+        {
+          "name": "TimeMixer-Index",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{按概念指数成分股权重（等权）将个股Alpha因子得分聚合到概念指数层面的因子}",
+          "stats": [0.0727, null, null, null],
+          "evidence": "因子聚合到指数后依然效果显著，IC 均值为 7.27%，多头年化超额收益率为 30.77%，多头信息比率为 1.28。"
+        },
+        {
+          "name": "月度动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Wind热门概念指数过去一个月的收益率}",
+          "stats": [0.0135, null, null, 0.1113],
+          "evidence": "从因子检验结果来看，月度和周度动量因子 IC 分别为1.35%和2.38%，月度动量因子分位数组合及多空净值单调性弱于周度因子。"
+        },
+        {
+          "name": "周度动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Wind热门概念指数过去一周的收益率}",
+          "stats": [0.0238, null, null, 0.1221],
+          "evidence": "从因子检验结果来看，月度和周度动量因子 IC 分别为1.35%和2.38%，月度动量因子分位数组合及多空净值单调性弱于周度因子。"
+        },
+        {
+          "name": "FCF2EV(自由现金率因子)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "FCF2EV=\\frac{FCF}{EV},\\; FCF=(1-t)\\times EBIT+\\text{折旧摊销}-CapEx-\\text{净运营变化},\\; EV=\\text{市值}+\\text{总负债}-\\text{货币资金}",
+          "stats": [null, null, null, null],
+          "evidence": "最终，我们决定选择 FCF2EV(自由现金率因子)来帮助我们从概念组合里找出龙头公司，自由现金流率高的企业抗风险能力强，存在时间久且能真实反应企业盈利能力与财务状况："
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["neural", "ensemble"],
+      "baseline": ["tree"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "基于TimeMixer的热门概念指数轮动策略相对于中证全指和Wind热门概念指数等权分别取得费后18.06%和9.02%的年化超额收益率，相对中证全指超额最大回撤仅9.97%，信息比率1.73，所有年度均实现正向超额收益。",
+      "evidence": "基于 TimeMixer 的热门概念指数轮动策略相对于中证全指和 Wind 热门概念指数等权分别取得了费后18.06%和9.02%的年化超额收益率，相对于中证全指超额最大回撤仅为9.97%，信息比率为 1.73。策略所有年度均相对中证全指实现正向超额收益。"
+    },
+    {
+      "text": "将TimeMixer个股Alpha因子按等权聚合到概念指数后效果依然显著，IC均值为7.27%，多头年化超额收益率为30.77%，多头信息比率为1.28。",
+      "evidence": "因子聚合到指数后依然效果显著，IC 均值为 7.27%，多头年化超额收益率为 30.77%，多头信息比率为 1.28。 因子多空组合上表现有所下降。"
+    },
+    {
+      "text": "从周度概念指数信号成分股中按TimeMixer改进模型Alpha因子排名选出前20只股票构建组合，相对中证全指费后年化超额收益11.34%，超额最大回撤22.87%，信息比率0.79。",
+      "evidence": "基于周度策略的指数信号，我们在其成分股中按基于 TimeMixer 改进的机器学习模型Alpha因子排名选出前 20 只股票构建投资组合，手续费单边千分之一，策略相对于中证全指实现了费后 11.34%的年化超额收益，超额最大回撤为 22.87%，信息比率达到 0.79。"
+    },
+    {
+      "text": "每周在概念指数成分股组合里挑选自由现金流率（FCF2EV）最大的2只股票等权构建龙头组合，相较基准年化超额收益20.63%，信息比率1.61，超额最大回撤21.65%，2019-2025年所有年份均获得正超额。",
+      "evidence": "该选股策略整体表现优异，策略相较于基准年化超额收益为 20.63%，信息比率 1.61，超额最大回撤为 21.65%。分年度来看，组合在2019-2025年均获得了正超额。"
+    },
+    {
+      "text": "热门概念指数周度和月度动量策略年化超额仅1.05%和1.12%，即使不考虑交易费率净值波动依然较大，未能取得满意结果。",
+      "evidence": "自 2019 年以来，截至 2025 年 8 月 29日，热门概念指数周度和月度动量策略的年化超额分别为 1.05%和 1.12%。即使不考虑交易费率，策略净值波动依然较大，未能取得较为满意的结果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alpha 掘金系列之九：基于多目标、多模型的机器学习指数增强策略",
+    "Alpha 掘金系列之十八：基于 TimeMixer 改进的选股因子到ETF 轮动策略（2025-8-14）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

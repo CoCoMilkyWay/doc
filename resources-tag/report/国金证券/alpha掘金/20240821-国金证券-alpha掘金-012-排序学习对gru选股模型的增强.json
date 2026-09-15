@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "id": "20240821-国金证券-alpha掘金-012-排序学习对gru选股模型的增强",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "AGRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{GRU编码器结合特征层面注意力权重分配（借鉴DA-RNN思路，不再使用标签进行时序解码）输出的多步预测选股因子}",
+          "stats": [0.1442, null, 1.34, null],
+          "evidence": "我们结合 DA-RNN 模型的思路进行修改，同样使用注意力机制进行特征重要性的采样，不再每个时间步上利用实际预测标签进行时序编码，而是直接结合多步 GRU 后得到最终预测结果。"
+        },
+        {
+          "name": "Rank&MSE",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "f_{Rank\\&MSE}=\\frac{1}{4}\\left(f_{MSE}+f_{DCGHinge}+f_{LambdaNDCG2}+f_{NeuralNDCG}\\right)",
+          "stats": [0.1382, null, null, null],
+          "evidence": "因此，最终我们筛选表现较好且差异性较大的三个排序学习损失函数（DCG Hinge Loss,Lambda NDCG2, Neural NDCG）与 MSE 所得因子值等权合成，最终得到结合了排序与回归学习之后的模型因子"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "将注意力机制改为特征层面的权重分配，与GRU结合得到AGRU，在绝大部分指标上超越原本GRU模型。",
+      "evidence": "我们参考 DA-RNN 两阶段注意力机制的设计思路，避免该模型在实际应用中潜在的问题，将注意力机制改为特征层面的权重分配，与 GRU 结合后具有明显的优势，在绝大部分指标上超越原本 GRU 模型。"
+    },
+    {
+      "text": "筛选表现较好且差异性较大的三个排序学习损失函数与MSE因子等权合成，在各宽基股票池中表现均有增强，所得因子在全A股票池中IC均值为13.82%，多头年化超额19.69%，多头信息比率2.98。",
+      "evidence": "通过合成可以进一步提升因子收益和稳定性水平。所得因子在全 A 股票池中 IC 均值为 13.82%，多头年化超额 19.69%，多头信息比率 2.98。"
+    },
+    {
+      "text": "使用早停后验证集表现最优的5轮结果进行预测并取均值，能有效缓解过拟合，样本外稳健性更好。",
+      "evidence": "此处我们考虑，神经网络梯度下降至全局最优点本身应该追求“模糊的正确”，使用早停后验证集表现最优的 5 轮结果进行预测并取均值能有效缓解上述情况，从而在样本外地稳健性更好。"
+    },
+    {
+      "text": "结合NDCG指标的损失函数在多头端收益稳定性更高，LambdaNDCG2、ApproxNDCG和NeuralNDCG的多头信息比率和多头超额回撤在所有损失函数中表现最优。",
+      "evidence": "部分使用结合了 NDCG 作为评价指标的损失函数在多头端表现出较高的收益稳定性，如 LambdaNDCG2, ApproxNDCG 和 NeuralNDCG 的多头信息比率和多头超额回撤均在所有损失函数中表现最优，而多空的收益水平就没有明显优势。"
+    },
+    {
+      "text": "用改进因子构建指数增强策略：沪深300年化超额16.60%、超额最大回撤3.78%；中证500年化超额19.20%、超额最大回撤4.25%；中证1000年化超额29.81%、超额最大回撤8.04%。",
+      "evidence": "最终，我们对上述改进所得因子构建指数增强策略。其中，沪深 300 指数增强策略年化超额收益达到 16.60%，超额最大回撤为 3.78%。中证 500 指增策略年化超额收益 19.20%，超额最大回撤 4.25%。中证 1000 指增策略年化超额收益29.81%，超额最大回撤 8.04%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ma & Tan (2022) 多任务学习",
+    "《A Dual-Stage Attention-Based Recurrent Neural Network for Time Series Prediction》",
+    "《Alpha 掘金十：机器学习全流程重构——细节对比与测试》",
+    "《Learning to Rank for Information Retrieval》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

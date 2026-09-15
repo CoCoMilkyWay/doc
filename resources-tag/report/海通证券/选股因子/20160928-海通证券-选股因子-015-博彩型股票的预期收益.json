@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20160928-海通证券-选股因子-015-博彩型股票的预期收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "最大单日涨幅",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票当月内单日涨幅的最大值}",
+          "stats": [null, null, null, 0.1849],
+          "evidence": "如果将最大单日涨幅作为选股因子，它同样具备良好的效果。在等权重加权的情况下，股票在次月的预期收益和它们当月出现过的最大单日涨幅呈负相关，且首尾组合的收益差超过 1%，并在 5%的水平下显著。"
+        },
+        {
+          "name": "N日平均最大涨幅",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一个月中单日涨幅最大的前N个交易日的平均涨幅（N=1至5）}",
+          "stats": [null, null, null, 0.2543],
+          "evidence": "考虑到 A股市场对个股有涨跌停的限制，以最大单日涨幅排序可能并不合理。因此，进一步按照一个月中单日涨幅最大的前 N个交易日的平均涨幅排序分组，等权重加权计算组合收益，具体结果见下表。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "无论等权重还是流通市值加权，博彩型股票（第10组）在次月的平均收益都是最低的，符合投资者获利了结行为的推测。",
+      "evidence": "无论是等权重还是流通市值加权，“博彩型”股票（第 10 组）在次月的平均收益都是最低的，完全符合对投资者在获取极端高收益后急于卖出兑现这一行为的推测。"
+    },
+    {
+      "text": "N=1时最大单日涨幅多空组合年化收益18.49%，月胜率65.19%，三因素和四因素模型的alpha在统计意义上都十分显著。",
+      "evidence": "当N=1时，即，使用最大单日涨幅排序得到的多空组合，其年化收益达到了18.49％，月胜率达到 65.19%，三因素和四因素模型的 alpha 在统计意义上也都十分显著。"
+    },
+    {
+      "text": "双变量检验剔除市值、反转、流动性、BM影响后，最大单日涨幅与预期收益的负相关性依然存在，单调性改善，多空收益差更显著。",
+      "evidence": "在剔除了这几个因子的影响后，最大单日涨幅和预期收益之间的负相关性依然存在。而且，和单变量的结果相比，不仅单调性得到了很大改善，多空组合的收益差也更为显著。"
+    },
+    {
+      "text": "反转效应并不能完全解释最大单日涨幅的选股效果，两者提供了有关投资者行为的不同信息。",
+      "evidence": "此外，双变量交叉分组的检验结果表明，反转效应并不能完全解释最大单日涨幅的选股效果，可以认为两者提供了有关投资者行为的不同信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于因子剥离的 FOF 择基逻辑系列二——Alpha稳定性的两个维度》2016.09.13",
+    "《选股因子系列研究(十六)——选股因子空头收益的转化》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

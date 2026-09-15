@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20191203-广发证券-多因子-039-分析师一致预期下的反转策略研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_market"],
+      "approach": ["expectation_level", "momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "残差收益因子(Residual Return)",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Residual\\:Return(RR)=RE-U-CF}",
+          "stats": [-0.06, null, null, 0.1359],
+          "evidence": "本篇专题报告定义残差收益因子(Residual Return)，用来衡量个股收益率所不能被预期现金流和预期均衡收益解释的收益，该因子由三部分构成：个股当期收益（RE）、条件均衡收益（U）和未来现金流信息折现的收益（CF）："
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在月度调仓、全市场范围选股下，残差收益因子表现较佳，月度IC均值为-0.06，负IC占比为71%，相对中证500指数年化超额收益率为12.22%",
+      "evidence": "在月度调仓、全市场范围选股下，残差收益因子表现较佳，月度 IC均值为-0.06，负 IC占比为 71%，相对中证 500指数年化超额收益率为 12.22%。"
+    },
+    {
+      "text": "在中证500指数成分股内选股，月度IC均值为-0.04，负IC占比为67%，回测期内相对中证500指数年化超额收益率为6.16%",
+      "evidence": "在中证500指数成分股内选股，月度IC均值为-0.04，负IC占比为67%，回测期内相对中证500指数年化超额收益率为6.16%。"
+    },
+    {
+      "text": "全市场多头相对中证500指数策略整体年化超额收益率为12.22%，信息比率为0.45，策略的最大回撤发生在2017年，策略整体换手率平均保持在90%左右",
+      "evidence": "在多头相对中证500指数的表现中，策略整体的年化超额收益率为12.22%，信息比率为0.45，在2015、2016、2018年市场趋势较大时表现较为优异。策略的最大回撤发生在2017年，策略整体换手率平均保持在90%左右。"
+    },
+    {
+      "text": "中证500选股中RR因子IC均值为-0.04，策略整体相对中证500指数年化超额收益率为6.16%，换手率均值为90%，最大回撤发生在2018年，2012、2015年市场趋势较大的年份策略表现更为突出",
+      "evidence": "在中证500选股中，RR因子IC均值为-0.04，负IC占比67%。在相对中证500指数表现中，策略整体相对中证500指数年化超额收益率为6.16%，换手率均值为90%，策略的最大回撤发生在2018年，在2012、2015年市场趋势较大的年份，策略表现更为突出。"
+    },
+    {
+      "text": "在全市场选股中，RR因子表现出较为优异的选股区分度，因子IC均值为-0.06，负IC占比71%",
+      "evidence": "在全市场选股中，RR因子表现出较为优异的选股区分度，因子IC均值为-0.06，负IC占比71%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Cash Flow News模型", "Fama-French三因子模型"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

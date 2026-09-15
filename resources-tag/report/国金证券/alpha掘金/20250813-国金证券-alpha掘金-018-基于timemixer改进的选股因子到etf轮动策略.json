@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "id": "20250813-国金证券-alpha掘金-018-基于timemixer改进的选股因子到etf轮动策略",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU 端到端模型：以过去 180 日的 OHLCV 数据为输入，预测未来 10 日收盘价收益率，取隐藏层状态作为因子}",
+          "stats": [0.1175, null, 1.34, 0.7635],
+          "evidence": "对于 GRU 模型，每条训练数据，过去 180 日的 OHLCV 数据作为特征，未来 10 日的收盘价收益率作为标签。"
+        },
+        {
+          "name": "TSGRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{TSGRU：对输入序列做季节/趋势分解，将 Seasonal 与 Trend 分量分别输入 GRU 后混合，预测未来 10 日收益率}",
+          "stats": [0.1196, null, 1.31, 0.7795],
+          "evidence": "在时序数据输入 GRU 模型之前，我们分别将其进行多次下采样（多尺度特征）与季节/趋势分解。"
+        },
+        {
+          "name": "MGRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{MGRU：对输入序列做多次下采样得到多尺度特征，分别输入 GRU 后混合，预测未来 10 日收益率}",
+          "stats": [0.117, null, 1.26, 0.7324],
+          "evidence": "首先，多尺度采样方法在 GRU 模型上的应用效果不佳，各项评价指标均较基础 GRU 模型出现不同程度的下滑。"
+        },
+        {
+          "name": "复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{LightGBM 集成 GRU 与 TSGRU 的 64 维隐向量与 Alpha158、GJQuant 中的 117 个传统量化因子}",
+          "stats": [0.1286, null, 1.35, 0.8841],
+          "evidence": "通过将 TimeMixer 的季节/趋势分解模块与GRU 结合构建的 TSGRU 模型，在保持原始 GRU 预测能力（IC 均值 11.96% vs 11.75%）的同时，进一步将多空年化收益率提升至 77.95%。最终，通过 LightGBM 集成 TSGRU 隐向量与传统量化因子，合成的复合因子实现了 12.86%的 IC 均值和 88.41%的多空年化收益率，较基础 GRU 模型显著提升。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "ensemble", "fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "TimeMixer 原生模型在 A 股收益率预测中收益表现略逊于 GRU（年化多空收益率 57.87% vs 76.35%），但风险控制更优（最大回撤 10.64% vs 11.06%），两模型因子相关性达 77.2%，信息增量有限",
+      "evidence": "实验表明，虽然 TimeMixer 原生模型在 A 股收益率预测中收益表现略逊于 GRU（年化多空收益率57.87% vs 76.35%），但其风险控制更优（最大回撤 10.64% vs 11.06%）。"
+    },
+    {
+      "text": "季节/趋势分解的 TSGRU 模型未能显著超越原始模型，但在 IC 均值、多头组合超额收益的最大回撤以及多空年化收益率等关键指标上均实现了小幅提升，与原始 GRU 因子截面相关性为 84.4%，确实引入了额外的有效信息",
+      "evidence": "相比之下，虽然季节/趋势分解的TSGRU 模型未能显著超越原始模型，但在 IC 均值、多头组合超额收益的最大回撤以及多空年化收益率等关键指标上均实现了小幅提升。值得注意的是，TSGRU 因子与原始 GRU 因子的截面相关性为 84.4%，这一结果表明 TSGRU 在保持原有模型主要特征的同时，确实引入了额外的有效信息。"
+    },
+    {
+      "text": "GRU 与 TSGRU 因子等权合成后各方面表现均有明显提升，多空年化收益率从 76.35%提升到 81.05%，10 日 IC 均值也有明显的提升",
+      "evidence": "可以看到，合成后因子各方面表现均有明显提升，尤其是多空年化收益率，从 76.35%提升到 81.05%，10 日 IC 均值也有明显的提升。"
+    },
+    {
+      "text": "通过 LightGBM 集成 TSGRU 隐向量与传统量化因子，最终复合因子实现了 12.86%的 10 日 IC 均值和 88.41%的多空年化收益率，较基础 GRU 模型显著提升",
+      "evidence": "通过 LightGBM 集成 TSGRU 隐向量与传统量化因子，最终复合因子实现了 12.86%的 10 日 IC 均值和 88.41%的多空年化收益率。"
+    },
+    {
+      "text": "宽基指数增强策略表现卓越：中证 1000 增强组合年化超额达 17.94%（信息比率 3.09），沪深 300 和中证 500 增强策略分别实现 10.55%和 11.09%的超额收益，各策略每年均实现稳定正超额",
+      "evidence": "在宽基指数增强应用中，该策略在 2018-2025 年回测期内展现出卓越表现，中证 1000 增强组合年化超额达 17.94%（信息比率 3.09），沪深 300 和中证 500 增强策略也分别实现了 10.55%和 11.09%的超额收益。且三大宽基增强策略每年均实现稳定正超额，今年以来超额收益分别为 8.79%、8.29%和 13.08%，延续了稳健的表现。"
+    },
+    {
+      "text": "原 10 日收益机器学习因子可直接压缩为 5 日窗口周度调仓使用，周度调仓下多空年化收益率达 123.97%，多空最大回撤 9.42%",
+      "evidence": "原 10 日收益机器学习因子可直接压缩为 5 日窗口使用，回测结果如下（仅调仓频率调整，其余设定不变）"
+    },
+    {
+      "text": "因子聚合时仅筛选有 ETF 基金跟踪的指数，排除掉部分 MSCI、恒生指数等，仅考虑 A 股占绝大多数成分股权重的指数",
+      "evidence": "在聚合和因子测试过程中,我们仅筛选有 ETF 基金跟踪的指数,排除掉部分 MSCI、恒生指数等,仅考虑 A 股占绝大多数成分股权重的指数。"
+    },
+    {
+      "text": "指数轮动策略年化超额收益（相对沪深 300）达 19.65%（信息比率 1.98），ETF 轮动策略年化超额 18.98%（信息比率 1.88）",
+      "evidence": "通过将 TimeMixer 改进的机器学习因子合成的指数轮动策略在 2018-2025 年回测期间表现优异：指数轮动策略年化超额收益（相对沪深 300）达 19.65%（信息比率 1.98），ETF 轮动策略年化超额 18.98%（信息比率1.88）。"
+    },
+    {
+      "text": "ETF 轮动实操优化：选取滚动 20 日规模最大的 ETF 作为标的并动态调整可投标的池，2024 年实现 14.16%的超额收益，2025 年上半年超额收益达 8.40%，展现出稳定的超额收益能力",
+      "evidence": "在实操优化方面，我们选取滚动 20 日规模最大的 ETF 作为标的，并动态调整可投标的池，最终策略在 2024年实现 14.16%的超额收益，2025 年上半年超额收益达 8.40%，展现出稳定的超额收益能力。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting",
+    "《Alpha 掘金系列之九：基于多目标、多模型的机器学习指数增强策略》",
+    "《Alpha 掘金系列之十：细节对比与测试——机器学习全流程重构》",
+    "《智能化选基系列之七：基于 AI 预测中的个股 Beta 信息构建 ETF 轮动策略》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

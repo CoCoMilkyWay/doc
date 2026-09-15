@@ -1,0 +1,156 @@
+{
+  "schema_version": 2,
+  "id": "20140902-广发证券-多因子-021-alpha因子何处寻觅_掘金海量技术指标",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover", "technical_pattern"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "CR 能量指标",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "MID=(HIGH+LOW+CLOSE)/3,\\; CR=\\frac{\\sum \\max(0,HIGH-REF(MID,1))}{\\sum \\max(0,REF(MID,1)-L)}\\times 100",
+          "stats": [-0.0638, null, 2.364, 0.1877],
+          "evidence": "CR指标以上一个计算周期（如N日）的中间价比较当前周期（如日）的最高价、最低价，计算出一段时期内股价的“强弱”，从而在分析一些股价的异常波动行情时，有其独到的功能。"
+        },
+        {
+          "name": "PVT 价量趋势指标6",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "PVT=\\frac{CLOSE-REF(CLOSE,1)}{REF(CLOSE,1)}\\times VOL",
+          "stats": [-0.0628, null, 2.5014, 0.2252],
+          "evidence": "价量趋势(PVT)指标是指很巧妙地把能量变化与价格趋势有机地联系到了一起，从而构成了量价趋势指标。"
+        },
+        {
+          "name": "Aroon 指数",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Aroon指标}=\\text{Aroon上升数}-\\text{Aroon下降数},\\; \\text{Aroon上升数}=\\frac{\\text{计算期天数}-\\text{最高价后的天数}}{\\text{计算期天数}}\\times 100",
+          "stats": [0.0598, null, 3.7886, 0.1717],
+          "evidence": "它通过计算自价格达到近期最高值和最低值以来所经过的期间数，帮助投资者预测证券价格趋势、强弱以及趋势的反转等。"
+        },
+        {
+          "name": "ROC 变动速率(6日)",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ROC=\\frac{CLOSE-REF(CLOSE,N)}{REF(CLOSE,N)}\\times 100",
+          "stats": [-0.0805, null, 0.9815, 0.1871],
+          "evidence": "ROC(Price Rate of Change)是以今天之价格比较其N天前之价格的变化率。"
+        },
+        {
+          "name": "成交金额(20日)",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一个月的成交金额的移动平均值}",
+          "stats": [-0.0761, null, 1.3224, 0.2835],
+          "evidence": "此处为使得数据具有可比性，计算一个月的成交金额的移动平均值。"
+        },
+        {
+          "name": "SRMI 动量修正指标",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "SRMI=IF(C<REF(C,m),\\frac{C-REF(C,m)}{REF(C,m)},IF(C=REF(C,m),0,\\frac{C-REF(C,m)}{C}))",
+          "stats": [-0.0734, null, 0.9011, 0.1877],
+          "evidence": "修正动量指标在当日收盘价小于前一交易日时，以前一交易日作为衡量基准，当日收盘价大于前一交易日时，以当日一交易日作为衡量基准。"
+        },
+        {
+          "name": "BBI/C1ose多空指数/收盘价",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "BBI=\\frac{MA(CLOSE,M1)+MA(CLOSE,M2)+MA(CLOSE,M3)+MA(CLOSE,M4)}{4},\\; \\text{因子}=BBI/CLOSE",
+          "stats": [0.0704, null, 1.0244, 0.1745],
+          "evidence": "BBI多空指标，是一种将不同日数移动平均线加权平均之后的综合指标，属于均线型指标，一般选用3日、6日、12日、24日等4条平均线。"
+        },
+        {
+          "name": "ADTM 动态买卖气指标",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ADTM=IF(STM>SBM,\\frac{STM-SBM}{STM},IF(STM=SBM,0,\\frac{STM-SBM}{SBM}))",
+          "stats": [-0.0585, null, 3.8617, 0.1534],
+          "evidence": "ADTM是用开盘价的向上波动幅度和向下波动幅度的距离差值来描述人气高低的指标。"
+        },
+        {
+          "name": "OBV 能量潮(6 日)",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "OBV=SUM(IF(CLOSE>REF(CLOSE,1),VOL,IF(CLOSE<REF(CLOSE,1),-VOL,0)),0)",
+          "stats": [-0.0509, null, 1.7718, 0.1765],
+          "evidence": "能量潮(On Balance Volume)由美国的投资分析家Joe Granville所创。该指标通过统计成交量变动的趋势来推测股价趋势。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["csi800"]}}
+  },
+  "findings": [
+    {
+      "text": "综合因子表现及与一个月反转、一个月成交金额的相关性，推荐CR、PVT与AROON三大技术因子",
+      "evidence": "在综合考虑因子本身表现以及与一个月反转、一个月成交金额两价量因子的相关性基础上，我们推荐三大技术因子，分别是 CR、PVT 与AROON 指数"
+    },
+    {
+      "text": "IC绝对值方面，六日ROC变动速率以0.0805高居榜首，20日成交金额、SRMI动量修正指数、多空指数/收盘价的IC值均大于0.07",
+      "evidence": "其中六日ROC变动速率以0.0805高居榜首，表现抢眼，随后是20日成交金额，SRMI动量修正指数，多空指数/收盘价，且IC值均大于0.07."
+    },
+    {
+      "text": "描述股票价格变化率的技术指标效果较好，与股票价格反转理论相吻合：前期下跌较大的股票后一周期普遍表现较好",
+      "evidence": "第一，描述股票价格变化率的技术指标具有较好的效果，如BBI/收盘价，ROC,CR能量指标,SRMI动量修正指标，PVT指标等。这同股票价格反转理论相吻合。前一阶段价格下跌较大的股票，在后一周期普遍表现较好，相反，前一阶段价格上涨幅度较大的股票，则在后一阶段表现较差。"
+    },
+    {
+      "text": "与成交金额相关的技术指标因子表现较好，上期成交金额少说明受市场关注度低，下期受青睐的可能性较高",
+      "evidence": "第二，与成交金额相关的技术指标因子表现也较好。一方面，上期成交金额少，说明上期受市场关注度较低，则下期受市场青睐的可能性较高。若上期成交金额高，则在下期受市场持续追捧的可能性则较低。"
+    },
+    {
+      "text": "IR方面，ADTM动态买卖气指标与Aroon指数的IR高达3以上，多空组合年收益率均在10%以上且相对方差较小",
+      "evidence": "IR信息比方面，ADTM动态买卖气指标，Aroon指数的IR高达3以上。两者的多空组合年收益率均在10%以上，且相对方差较小。"
+    },
+    {
+      "text": "胜率方面，6日OBV能量潮、20日成交金额及六日PVT价量趋势指标的多空组合胜率位居前三，均在70%以上",
+      "evidence": "胜率方面，6日OBV能量潮，20日成交金额及六日PVT价量趋势指标的多空组合胜率位居前三，均在70%以上。"
+    },
+    {
+      "text": "多空组合年化收益率方面，20日成交金额和6日PVT价量趋势指标在20%之上，七年总收益率达356.47%和244.01%",
+      "evidence": "多空组合的年化收益率方面，20日成交金额和6日PVT价量趋势指标的年化收益率在20%之上，七年的总收益率分布达到了356.47%和244.01%."
+    },
+    {
+      "text": "20日成交金额指标同各个指标的重复度均较低，多因子选股时应从多个维度选择股票重合度较少的因子搭配",
+      "evidence": "由于IC值较高的股票中，单纯运用成交金额进行运算的较少，因此20日成交金额指标同各个指标的重复度均较低。我们在利用多种因子选股时应当注意从多个维度尽量选择股票重合度较少的因子进行搭配。"
+    },
+    {
+      "text": "换手率过高或过低都不利于股票选取，好的因子换手率应处于合适水平，既能及时调整组合又能降低交易成本",
+      "evidence": "第三，换手率过高或过低都不利于股票的选取。本文中测试的技术指标因子的换手率差异较大，最大为60.16%，最小为3.33%.大多数集中在55%左右。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

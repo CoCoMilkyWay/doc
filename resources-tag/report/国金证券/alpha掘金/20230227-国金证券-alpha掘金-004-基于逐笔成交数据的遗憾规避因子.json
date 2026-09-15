@@ -1,0 +1,298 @@
+{
+  "schema_version": 2,
+  "id": "20230227-国金证券-alpha掘金-004-基于逐笔成交数据的遗憾规避因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "买入浮亏占比因子（HCVOL）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCVOL=\\frac{\\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}}{total_{-}volume}",
+          "stats": [0.0208, null, 0.3, 0.5307],
+          "evidence": "上述因子的基本思路为：高于收盘价买入成交量占比越高，则投资者当天买入情绪较高，且浮亏占比较高，未来抛压较低，有着更高的预期收益。"
+        },
+        {
+          "name": "卖出反弹占比因子（LCVOL）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "LCVOL=\\frac{\\sum_{i}^{N}volume_{selli}*I_{p_{selli}<close}}{total_{-}volume}",
+          "stats": [0.0219, null, 0.26, 0.3167],
+          "evidence": "而低于收盘价卖出成交量占比越高、或价格相较于收盘价向下偏离越大的股票，投资者受到卖出行为的影响，不愿轻易再次买回，因此此类股票未来买入动力较低，有更低的预期收益。"
+        },
+        {
+          "name": "买入浮亏偏离因子（HCP）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCP=\\frac{\\sum_{i}^{N}\\overline{price}_{buyi}*I_{buyi>close}}{close}-1",
+          "stats": [0.0063, null, 0.05, 0.5159],
+          "evidence": "同理，高于收盘价买入的价格相较于收盘价偏离幅度越大，则投资者浮亏现象越严重，也会有更低的抛压，带来更高的预期收益。"
+        },
+        {
+          "name": "卖出反弹偏离因子（LCP）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "LCP=\\frac{\\sum_{i}^{N}\\overline{price}_{sell}*I_{p_{sell}<close}}{close}-1",
+          "stats": [0.044, null, 0.45, 0.4468],
+          "evidence": "根据以上思路，HCVOL 和 HCP 均应为正向因子，LCVOL 应为负向因子，而 LCP 由于所计算价格偏离为负数，此因子值越低，后续买入动力越弱，预期收益越低，应为正向因子。"
+        },
+        {
+          "name": "买入浮亏占比小单因子（HCVOLS）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCVOLS=\\frac{\\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{vol<vol_{mean}}}{total_{volume}}",
+          "stats": [0.0261, null, 0.33, 0.4733],
+          "evidence": "考虑到逐笔成交中的成交量可能会存在一笔大单被拆分成多个小单成交的情况，我们首先将同一订单号的成交进行汇总得到其真实订单成交量"
+        },
+        {
+          "name": "卖出反弹占比小单因子（LCVOLS）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "LCVOLS=\\frac{\\sum_{i}^{N}volume_{sell}*I_{p_{sell}<close}*I_{vol<vol_{mean}}}{total_{v}volume}",
+          "stats": [0.0307, null, 0.36, 0.4076],
+          "evidence": "最终计算当日的所有实际交易量均值作为区分大小单的阈值，将4 个因子改为仅考虑小单进行测试。"
+        },
+        {
+          "name": "买入浮亏偏离小单因子（HCPS）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCPS=\\frac{\\sum_{i}^{N}\\overline{{price}}_{buyi}*I_{p_{buyi}>close}*I_{vol<vol_{mean}}}{close}-1",
+          "stats": [0.007, null, 0.06, 0.4957],
+          "evidence": "利用小单改进的 4 个因子 IC 指标和十分组测试的几个关键指标如下，可以看出相较于原因子，4 个小单因子的 IC均值均有一定程度改进，风险调整后 IC 也有不同程度上升。"
+        },
+        {
+          "name": "卖出反弹偏离小单因子（LCPS）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "LCPS=\\frac{\\sum_{i}^{N}\\overline{price}_{sell}*I_{p_{sell}<close}*I_{vol<vol_{mean}}}{close}-1",
+          "stats": [0.045, null, 0.45, 0.4804],
+          "evidence": "从多空组合指标来看，LCVOLS 和 LCPS 相较于原因子有较为明显的提升，多空夏普比率分别上升至 3.53 和 3.25，但HCVOLS 和 HCPS 的改进效果不佳。"
+        },
+        {
+          "name": "买入浮亏占比尾盘因子（全天）（HCVOLE1）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCVOLE1=\\frac{\\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{t\\in[14:30,14:57)}}{total_{-}volume}",
+          "stats": [0.0148, null, 0.28, 0.2336],
+          "evidence": "我们考虑将交易日下午 2:30（含）-2:57（不含）定义为尾盘，考察上述 4 个因子在尾盘期间的绩效表现。"
+        },
+        {
+          "name": "买入浮亏占比尾盘因子（尾盘）（HCVOLE2）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCVOLE2=\\frac{\\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{t\\in[14:30,14:57)}}{total\\_volume_{end}}",
+          "stats": [0.0204, null, 0.38, 0.4802],
+          "evidence": "对于 HCVOL 和 LCVOL 所计算成交量占比，又可分为占尾盘期间成交量比例和占全天成交量比例。"
+        },
+        {
+          "name": "卖出反弹占比尾盘因子（全天）（LCVOLE1）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "LCVOLE1=\\frac{\\sum_{i}^{N}volume_{sell}*I_{p_{sell}<close}*I_{t\\in[14:30,14:57)}}{total_{volume}}",
+          "stats": [0.0268, null, 0.44, 0.5884],
+          "evidence": "我们考虑将交易日下午 2:30（含）-2:57（不含）定义为尾盘，考察上述 4 个因子在尾盘期间的绩效表现。"
+        },
+        {
+          "name": "卖出反弹占比尾盘因子（尾盘）（LCVOLE2）",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "LCVOLE2=\\frac{\\sum_{i}^{N}volume_{sell}*I_{p_{sell}<close}*I_{t\\in[14:30,14:57)}}{total_{v}-volume_{end}}",
+          "stats": [0.0221, null, 0.37, 0.4251],
+          "evidence": "对于 HCVOL 和 LCVOL 所计算成交量占比，又可分为占尾盘期间成交量比例和占全天成交量比例。"
+        },
+        {
+          "name": "买入浮亏偏离尾盘因子（HCPE）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCPE=\\frac{\\sum_{i}^{N}\\overline{price}_{buyi}*I_{p_{buyi}>close}*I_{t\\in[14:30,14:57)}}{close}-1",
+          "stats": [0.0105, null, 0.13, 0.3996],
+          "evidence": "由于 A 股的 T+1 交易机制，一般认为尾盘期间的交易行为蕴含了更多的私有信息，投资者尾盘期间的买入更不会受到短期波动的影响倾向于继续持有，尾盘期间的卖出也不会轻易买回。"
+        },
+        {
+          "name": "卖出反弹偏离尾盘因子（LCPE）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "LCPE=\\frac{\\sum_{i}^{N}\\overline{{price}}_{selli}*I_{p_{selli}<close}*I_{t\\in[14:30,14:57)}}{close}-1",
+          "stats": [0.0437, null, 0.59, 0.8803],
+          "evidence": "从多空组合的各项指标来看，各因子的尾盘改进均表现出较明显的提升。其中 LCPE 的多空夏普比率达到 8.15，多头组合年化超额收益率为 13.70%。"
+        },
+        {
+          "name": "HCVOLES",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{买入浮亏占比尾盘因子（尾盘成交占尾盘成交量比例）叠加小单限制}",
+          "stats": [0.0251, null, 0.45, 0.5611],
+          "evidence": "其中尾盘则根据上述测试效果，选取买入浮亏占比的尾盘成交占尾盘比例（HCVOLE2）和卖出反弹占比的尾盘成交占全天比例（HCVOLE1）进行构建。"
+        },
+        {
+          "name": "LCVOLES",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{卖出反弹占比尾盘因子（尾盘成交占全天成交量比例）叠加小单限制}",
+          "stats": [0.0348, null, 0.59, 0.7986],
+          "evidence": "其中 LCVOLES 和 LCPES 的表现尤其突出，LCPES 的多空年化收益率为 96.31%，夏普比率达到 8.77。"
+        },
+        {
+          "name": "HCPES",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{买入浮亏偏离尾盘因子叠加小单限制}",
+          "stats": [0.0113, null, 0.14, 0.4025],
+          "evidence": "可以发现 4 个小单+尾盘改进因子最终均表现出较强的收益能力，优于之前的任何一种单一改进方式。"
+        },
+        {
+          "name": "LCPES",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{卖出反弹偏离尾盘因子叠加小单限制}",
+          "stats": [0.0451, null, 0.6, 0.9631],
+          "evidence": "其中 LCVOLES 和 LCPES 的表现尤其突出，LCPES 的多空年化收益率为 96.31%，夏普比率达到 8.77。"
+        },
+        {
+          "name": "FRegretFactor",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{四个遗憾规避因子经分位数变换标准化后等权合成}",
+          "stats": [0.0404, null, 0.64, 0.9493],
+          "evidence": "在进行因子合成前，我们首先对因子进行分位数变换标准化，将四个因子进行等权合成。再对合成因子进行行业市值中性化处理后，得到了日频的合成因子。"
+        },
+        {
+          "name": "FRegretFactorAdjCI",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{FRegretFactor经行业市值中性化}",
+          "stats": [0.0398, null, 0.77, 0.931],
+          "evidence": "合成因子的多空夏普比率达到了10.60，多头组合的年化超额收益率为 31.38%。经过市值行业中性化后的合成因子表现又有进一步提升，多空夏普比率为 12.17，多头组合的年化超额收益率为 31.49%。"
+        },
+        {
+          "name": "FRegretFactorW",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{LCVOLES与LCPES经加权移动平均降频至周频后等权合成}",
+          "stats": [0.0429, null, 0.6, 0.3712],
+          "evidence": "就具体降频方式而言，我们采用加权移动平均法，即对于最近连续的五个交易日，更近的交易日给予其更高的权重。"
+        },
+        {
+          "name": "FRegretFactorWAdjCI",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{FRegretFactorW经行业市值中性化}",
+          "stats": [0.0424, null, 0.73, 0.3697],
+          "evidence": "从多空组合指标来看，十分组的单调性较好，FRegretFactorW 的多空年化收益率达到 37.12%，夏普比率为 4.09。将该因子进行行业市值中性化后，多空年化收益率为 36.97%，夏普比率提升至 5.00，两者的多头组合年化超额收益率也均达到了 10%以上。"
+        },
+        {
+          "name": "CGTCVmrFRegret",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期、成长、技术三类风格因子与量价背离因子、线性重构因子、遗憾规避因子合成}",
+          "stats": [0.0855, null, 1.06, 0.7543],
+          "evidence": "我们将三个因子与量价背离因子（CGTC）、线性重构因子进行合成（CGTCVmr），最后再与遗憾规避因子进行合成（CGTCVmrFRegret），测试此因子所带来的增量收益。发现最终的合成因子 IC 指标得到进一步提升，均值为 8.55%，风险调整后 IC 达到 1.06。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_l1_l2", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "小单+尾盘双重改进因子优于任何一种单一改进方式，其中 LCVOLES 和 LCPES 表现尤其突出，LCPES 多空年化收益率 96.31%，夏普比率 8.77",
+      "evidence": "其中 LCVOLES 和 LCPES 的表现尤其突出，LCPES 的多空年化收益率为 96.31%，夏普比率达到 8.77。"
+    },
+    {
+      "text": "尾盘期间的交易蕴含更多额外信息，各因子的尾盘改进均表现出较明显的提升，其中 LCPE 多空夏普比率达到 8.15",
+      "evidence": "从多空组合的各项指标来看，各因子的尾盘改进均表现出较明显的提升。其中 LCPE 的多空夏普比率达到 8.15，多头组合年化超额收益率为 13.70%。"
+    },
+    {
+      "text": "降频至周频后，合成因子 FRegretFactorW 多空年化收益率 37.12%、夏普比率 4.09；行业市值中性化后多空年化收益率 36.97%、夏普比率 5.00",
+      "evidence": "从多空组合指标来看，十分组的单调性较好，FRegretFactorW 的多空年化收益率达到 37.12%，夏普比率为 4.09。将该因子进行行业市值中性化后，多空年化收益率为 36.97%，夏普比率提升至 5.00，两者的多头组合年化超额收益率也均达到了 10%以上。"
+    },
+    {
+      "text": "六因子合成构建的中证1000指数增强策略超额净值稳定向上，年化超额收益率 20.79%，信息比率 4.05，超额最大回撤 3.82%",
+      "evidence": "增强策略的年化超额收益率为 20.79%，信息比率为 4.05，超额最大回撤为 3.82%。"
+    },
+    {
+      "text": "遗憾规避因子与传统风格因子相关性都较低（最高为动量因子 0.11），与量价背离因子和线性重构因子同样相关性较低，提供了独立 alpha",
+      "evidence": "我们首先计算了合成后的周频遗憾规避因子与传统风格因子间的秩相关系数，从如下数据可以看出，该因子与风格因子间相关性都较低，相关性最高的为动量因子，仅为 0.11。"
+    },
+    {
+      "text": "相较于卖出反弹类因子，买入浮亏类因子的 IC 衰减速度显著更快，卖出反弹类因子展现出更强的持续性",
+      "evidence": "相较于卖出反弹类因子，买入浮亏类因子的 IC 衰减速度显著更快。我们认为这可能与投资者注意力分配不对称有关。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

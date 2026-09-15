@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20111011-广发证券-另类交易策略-003-多项式拟合的股指期货趋势交易_lptt_策略",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern", "technical_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "低阶多项式拟合",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\frac{dy_{1}}{dt}\\times\\frac{d^{2}y_{2}}{dt^{2}}>0",
+          "stats": [null, null, null, null],
+          "evidence": "当 $fg>0$ 时，代表加速上涨与加速下跌行为，此时反转风险相对较小，可顺势建仓；当 $fg<0$ 时，代表减速上涨与减速下跌行为，反转风险较大，不进行交易。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "intraday"}}
+  },
+  "findings": [
+    {
+      "text": "考虑5倍杠杆，343个交易日回测获得195.0%累积收益率，最大回撤仅15.7%，年化收益率达到159.6%。",
+      "evidence": "采用上述建仓及平仓条件，我们对股指期货上市以来 343个交易日（2010年4 月 16 日至2011 年9 月9 日）进行交易回测，考虑 5 倍杠杆的情况下，获得了 195.0%的累积收益率，而最大回撤仅 15.7%，年化收益率达到 159.6%。"
+    },
+    {
+      "text": "加入一阶导数或二阶导数正负号反转的平仓条件后，在累积收益率略有降低的同时最大回撤大幅减小，有效控制了波动风险。",
+      "evidence": "发现通过该平仓条件，在累积收益率略有降低的同时，最大回撤大幅减小，反映了该平仓条件的有效性。"
+    },
+    {
+      "text": "10:55附近（±5分钟）建仓累积收益率达到最大值约200%，且出现峰顶平台结构，保证了统计参数的稳定性。",
+      "evidence": "而在10:55附近（±5分钟）建仓，累积收益率达到最大值——200%左右，并且累积收益率在10:55附近（±5分钟）出现了一个峰顶的平台结构，这一结构保证了统计参数的稳定性。"
+    },
+    {
+      "text": "判断正确率仅36.2%，但这正是平仓条件加入所致，合理有效地控制了波动风险，大幅减小了交易的最大回撤。",
+      "evidence": "虽然我们看到其判断正确率仅36.2%，但这正是由于平仓条件的加入所致，从而合理、有效地控制了波动风险，大幅减小了交易的最大回撤。"
+    },
+    {
+      "text": "10:55建仓、择时平仓的效果无论收益还是风险都远好于10:30建仓、收盘平仓的结果。",
+      "evidence": "可以看出，无论是从收益还是从风险的角度，10:55建仓的效果都远好于之前10:30建仓的结果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "一类波动收敛突变模式的趋势跟随策略",
+    "基于混沌理论的股指期货噪声趋势交易（NTT）策略"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

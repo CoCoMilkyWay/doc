@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20220818-海通证券-选股因子-083-盈利加速的定量刻画与高增长组合的构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EAA",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{EAA}_{i,t}=\\mathrm{EGA}_{i,t}-\\mathrm{EGA}_{i,t-1}=\\frac{\\mathrm{EPS}_{i,t}-\\mathrm{EPS}_{i,t-4}}{\\left|\\mathrm{EPS}_{i,t-4}\\right|}-\\frac{\\mathrm{EPS}_{i,t-1}-\\mathrm{EPS}_{i,t-5}}{\\left|\\mathrm{EPS}_{i,t-5}\\right|}",
+          "stats": [0.009, null, null, 0.051],
+          "evidence": "我们考虑了三种用于衡量盈利增速的对比基数：t-4 季度每股收益的绝对值（EGA）、t-1 季度末的股价（EGP）以及最近 8 个季度（包括第 t 季度）EPS的标准差（EGV）。"
+        },
+        {
+          "name": "EAP",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{EAP}_{i,t}=\\mathrm{EGP}_{i,t}-\\mathrm{EGP}_{i,t-1}=\\frac{\\mathrm{EPS}_{i,t}-\\mathrm{EPS}_{i,t-4}}{\\mathrm{Stock~Price}_{i,t-1}}-\\frac{\\mathrm{EPS}_{i,t-1}-\\mathrm{EPS}_{i,t-5}}{\\mathrm{Stock~Price}_{i,t-2}}",
+          "stats": [0.022, null, null, 0.096],
+          "evidence": "我们考虑了三种用于衡量盈利增速的对比基数：t-4 季度每股收益的绝对值（EGA）、t-1 季度末的股价（EGP）以及最近 8 个季度（包括第 t 季度）EPS的标准差（EGV）。"
+        },
+        {
+          "name": "EAV",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{EAV}_{i,t}=\\mathrm{EGV}_{i,t}-\\mathrm{EGV}_{i,t-1}=\\frac{\\mathrm{EPS}_{i,t}-\\mathrm{EPS}_{i,t-4}}{\\mathrm{SDEPS}_{i,t}}-\\frac{\\mathrm{EPS}_{i,t-1}-\\mathrm{EPS}_{i,t-5}}{\\mathrm{SDEPS}_{i,t-1}}",
+          "stats": [0.021, null, null, 0.097],
+          "evidence": "盈利加速（Earnings acceleration），衡量的是从一个季度到下一个季度盈利增速的变化。具体地，t季度的盈利加速因子等于，t 季度的盈利增速减去 t-1季度的盈利增速。其中，盈利增速用标准化的 EPS 同比变化来表示，即 EPS 的同比变化除以对比基数。"
+        },
+        {
+          "name": "正交EAV因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利加速因子对常见风格、基本面、预期类、价量类因子及行业正交化后所得因子}",
+          "stats": [0.01, null, null, 0.048],
+          "evidence": "由于盈利加速因子与增长类因子相关性较高，为剥离其他因子影响，考察该因子的增量信息，我们将盈利加速因子对常见风格、基本面、预期类、价量类因子及行业进行正交处理"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "2013年初至2022.07，原始EAV因子分10组年化多空收益9.7%，月均IC为0.02，月胜率76.5%；正交因子年化多空收益4.8%，月均IC为0.01，月胜率62.6%，统计显著。",
+      "evidence": "2013 年初至 2022.07，原始 EAV因子分 10组年化多空收益 9.7%，月均 IC 为 0.02，月胜率 76.5%；正交因子年化多空收益 4.8%，月均 IC为 0.01，月胜率62.6%，统计显著。"
+    },
+    {
+      "text": "高增长组合将盈利加速、SUE、预期净利润调整等因子等权加总构建复合增长因子，2013年初至2022.07年化收益34.2%，相对于wind全A指数年超额25.4%。",
+      "evidence": "具体地，将盈利加速、SUE、预期净利润调整等反映公司增长的因子等权加总，构建复合增长因子，选择得分最高的 50 只股票构建等权组合。2013 年初至 2022.07，高增长组合年化收益 34.2%，相对于 wind 全 A 指数年超额 25.4%。"
+    },
+    {
+      "text": "小市值+高增长组合自2013年初至2022.07年化收益43.4%，相对于国证2000指数年化超额32.1%，在小市值因子上的暴露更高。",
+      "evidence": "该组合自 2013 年初至 2022.07（下同）年化收益 43.4%，相对于国证 2000 指数年化超额 32.1%。与原高增长组合相比，该组合在小市值因子上的暴露更高。"
+    },
+    {
+      "text": "小盘中的高增长组合2013年以来年化收益39.5%，相对国证2000指数年化超额28.2%；大盘中的高增长组合年化收益24.0%，相对沪深300指数年化超额19.3%。",
+      "evidence": "该组合 2013 年以来年化收益39.5%，相对于国证 2000 指数年化超额28.2%。按照同样的方式构建大盘中的高增长组合，该组合13年以来年化收益24.0%，相对于沪深 300 指数年化超额19.3%。"
+    },
+    {
+      "text": "截面回归结果显示，盈利加速因子越大，公司未来的平均净利润增速越高，盈利加速对公司未来增长具有增量预测能力。",
+      "evidence": "2012Q3- 2021Q1，未来 1-4个季度净利润增速对单季度盈利加速因子的截面回归结果显示，盈利加速因子越大，公司未来的平均净利润增速越高。"
+    },
+    {
+      "text": "在高增长股票集中，盈利加速公司的收益优势更为明显，高EAV与低EAV组合的年化多空收益差高达10.3%。",
+      "evidence": "由前文可知，在高增长股票集中，盈利加速公司的收益优势更为明显，高 EAV与低EAV 组合的年化多空收益差高达 10.3%。"
+    },
+    {
+      "text": "偏成长风格的小市值+高增长组合在成长风格较强的2019年初至2021.07.21累计收益223.2%，优于未剔除低估值组合的197.2%；在价值风格走强的2021.07.21-2022.04.25累计收益-0.7%，弱于未剔除组合的5.4%。",
+      "evidence": "该组合在成长风格较强的 2019 年初至 2021.07.21，累计收益 223.2%，明显优于未进行低估值剔除的组合（197.2%）。同样地，在价值风格走强的 2021.07.21-2022.04.25，该组合累计收益-0.7%，表现弱于未进行低估值剔除的组合（5.4%）。"
+    },
+    {
+      "text": "利用高频因子（尾盘成交占比和开盘后大单净买入金额占比）可进一步增厚高增长组合的业绩表现，增长top50组合2年化收益37.7%。",
+      "evidence": "而且，利用高频因子可进一步增厚高增长组合的业绩表现。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《选股因子系列研究（八十二）——不可忽视的无形资产》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

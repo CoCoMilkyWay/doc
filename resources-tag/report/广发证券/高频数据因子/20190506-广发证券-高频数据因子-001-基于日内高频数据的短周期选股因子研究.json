@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20190506-广发证券-高频数据因子-001-基于日内高频数据的短周期选股因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "已实现波动（Realized Volatility）RVol",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "RVol_{t}=\\left(\\frac{242}{n}\\sum_{i=0}^{n}RDVar_{t-i}\\right)^{1/2}",
+          "stats": [null, null, null, null],
+          "evidence": "基于个股日内高频数据，构建了已实现波动（Realized Volatility）RVol，已实现偏度（Realized Skewness）RSkew、已实现峰度（RealizedKurtosis）RKurt因子指标，考察这三个因子在回测区间内对个股收益率的区别度。"
+        },
+        {
+          "name": "已实现偏度（Realized Skewness）RSkew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "RSkew_{t}=\\frac{1}{n}\\sum_{i=0}^{n}RDSkew_{t-i},\\quad RDSkew_{t}=\\frac{\\sqrt{N}\\sum_{i=1}^{N}r_{t,i}^{3}}{RDVar_{t}^{3/2}}",
+          "stats": [-0.028, null, null, null],
+          "evidence": "实证结果表明，RVol、RKurt因子指标对个股收益率区分度不明显，而RSkew在全市场以及中证500中对个股收益率区分度明显。"
+        },
+        {
+          "name": "已实现峰度（Realized Kurtosis）RKurt",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "RKurt_{t}=\\frac{1}{n}\\sum_{i=0}^{n}RDKurt_{t-i},\\quad RDKurt_{t}=\\frac{N\\sum_{i=1}^{N}r_{t,i}^{4}}{RDVar_{t}^{2}}",
+          "stats": [null, null, null, null],
+          "evidence": "基于个股日内高频数据，构建了已实现波动（Realized Volatility）RVol，已实现偏度（Realized Skewness）RSkew、已实现峰度（RealizedKurtosis）RKurt因子指标，考察这三个因子在回测区间内对个股收益率的区别度。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "RVol、RKurt因子指标对个股收益率区分度不明显，而RSkew在全市场以及中证500中对个股收益率区分度明显，分档收益单调性显著。",
+      "evidence": "实证结果表明，RVol、RKurt因子指标对个股收益率区分度不明显，而RSkew在全市场以及中证500中对个股收益率区分度明显。"
+    },
+    {
+      "text": "因子指标RSkew在全市场中选股，IC均值为-0.028，负IC占比为68.7%，多头组合年化收益率为26.7%，对冲中证800指数后年化收益率为17.7%，最大回撤为23.6%，信息比率为1.291。",
+      "evidence": "因子指标RSkew在全市场中选股，从2007年至今，IC均值为-0.028，负IC占比为68.7%，多头组合在回测期内表现优异，年化收益率为26.7%，多头组合对冲中证 800指数后年化收益率为 17.7%，最大回撤为 23.6%，信息比率为 1.291。"
+    },
+    {
+      "text": "因子指标RSkew在中证500成分股中选股，IC均值为-0.04，负IC占比为64.6%，多头组合年化收益率为23.10%，对冲中证500指数后年化收益率为11.20%，最大回撤为5.70%，信息比率为2.076。",
+      "evidence": "因子指标RSkew在中证500 指数成分股中选股，从2007年至今，IC均值为-0.04，负 IC 占比为 64.6%，多头组合取得了 23.10%的年化收益率，多头组合对冲中证 500 指数后年化收益率为 11.20%，最大回撤为5.70%，信息比率为 2.076。"
+    },
+    {
+      "text": "在周频调仓频率下，因子指标RVol、RKurt在全市场中的分档不明显，对个股收益率区分度较差，而因子指标RSkew在全市场中的分档收益表现明显。",
+      "evidence": "从图20至图22的结果中可以看出，在周频调仓频率的结果下，因子指标RVol、RKurt在全市场中的分档不明显，对个股收益率区分度较差，而因子指标RSkew在全市场中的分档收益表现明显，对个股收益率区分度明显，分档收益在单调性结果上显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

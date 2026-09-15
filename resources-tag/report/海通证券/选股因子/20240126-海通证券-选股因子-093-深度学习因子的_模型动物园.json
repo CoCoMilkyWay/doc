@@ -1,0 +1,241 @@
+{
+  "schema_version": 2,
+  "id": "20240126-海通证券-选股因子-093-深度学习因子的_模型动物园",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "BiAGRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.135, null, null],
+          "evidence": "与系列前期专题报告提出的双向 AGRU（下简称 BiAGRU）模型相比，两者的差异又有多少？"
+        },
+        {
+          "name": "TCN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.133, null, null],
+          "evidence": "TCN（Temporal Convolutional Network）简称时域卷积网络，是一种专门针对时间序列数据设计的深度学习模型。"
+        },
+        {
+          "name": "BiATCN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.137, null, null],
+          "evidence": "BiATCN 模型周均 Rank IC 为 0.137，Top10%组合年化超额收益 33.8%。"
+        },
+        {
+          "name": "TimesNet",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.124, null, null],
+          "evidence": "利用傅里叶变换和时空卷积模块，TimesNet 能够深入挖掘时间序列中的内在关联和结构性信息，从而提升预测性能和准确性。"
+        },
+        {
+          "name": "Transformer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.129, null, null],
+          "evidence": "Transformer 模型周均 Rank IC 为 0.129，Top10%组合年化超额收益 30.6%。"
+        },
+        {
+          "name": "Informer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.125, null, null],
+          "evidence": "相比于经典的 Transformer 架构，Informer 进一步引入时序编码、ProbSpare 自注意力机制和蒸馏机制，进一步提升了 Transformer类模型在时间序列预测问题上的效率和效果。"
+        },
+        {
+          "name": "PatchTST",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.111, null, null],
+          "evidence": "PatchTST 在 Transformer 类模型的基础上，进一步引入通道独立和 Patch 划分的特性，利用独立通道高效地处理包含多个变量的时间序列数据。"
+        },
+        {
+          "name": "DBiAGRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.134, null, null],
+          "evidence": "借鉴 DLinear 对输入特征的处理模式，可进一步构建 DBiAGRU 模型。"
+        },
+        {
+          "name": "RLinear",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.111, null, null],
+          "evidence": "RLinear 和 RMLP 模型的思路相同，但是在输入处理上更加简单，本文不再赘述。"
+        },
+        {
+          "name": "RMLP",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.117, null, null],
+          "evidence": "RLinear 和 RMLP 模型的思路相同，但是在输入处理上更加简单，本文不再赘述。"
+        },
+        {
+          "name": "DLinear",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.119, null, null],
+          "evidence": "DLinear 模型将时间序列分解为趋势序列和残差序列，然后使用两个单层线性网络分别对这两个序列建模，以完成预测任务。"
+        },
+        {
+          "name": "TSMixer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以日频量价特征为输入的端到端深度学习模型输出的股票收益预测值作为因子}",
+          "stats": [null, 0.122, null, null],
+          "evidence": "TSMixer 通过应用类似于 MLP-Mixer 的设计思路，引入时序混合层（Temporal Mixing）和特征混合层（Feature Mixing）。"
+        },
+        {
+          "name": "+BiATCN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{不同深度学习模型训练所得因子的等权集成}",
+          "stats": [null, 0.142, null, null],
+          "evidence": "由上表可见，BiAGRU 模型叠加 BiATCN 或 Transformer 后，因子表现得到进一步提升。周均 Rank IC 在 0.14 以上，Top10%组合和 Top100 组合的年化超额收益分别为34%和 40%左右。"
+        },
+        {
+          "name": "+BiATCN+Transformer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{不同深度学习模型训练所得因子的等权集成}",
+          "stats": [null, 0.141, null, null],
+          "evidence": "综合来看，+BiATCN 模型和+BiATCN+Transformer 模型的周度选股能力更强。"
+        },
+        {
+          "name": "+DBiAGRU+BiATCN+Transformer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{不同深度学习模型训练所得因子的等权集成}",
+          "stats": [null, 0.142, null, null],
+          "evidence": "其中，+BiATCN、+BIATCN+Transformer 和+DBiAGRU+BiATCN+Transformer表现相对更好。"
+        },
+        {
+          "name": "+DBiAGRU+BiATCN+Transformer+TSMixer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{不同深度学习模型训练所得因子的等权集成}",
+          "stats": [null, 0.14, null, null],
+          "evidence": "2019-2023 年期间，集成模型大概率优于 BiAGRU模型。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "卷积类模型呈现出显著的周度选股能力，TCN类模型较优，BiATCN 周均 Rank IC 为0.137，Top10%组合年化超额收益 33.8%。",
+      "evidence": "测试结果表明，卷积类模型呈现出显著的周度选股能力。其中，TCN 类模型较优，因子周均 Rank IC、极值组合（即 Top10%和 Top100 组合，下同）超额收益与 BiAGRU模型接近。BiATCN 模型周均 Rank IC 为 0.137，Top10%组合年化超额收益 33.8%。"
+    },
+    {
+      "text": "Transformer 类模型同样有着显著的周度选股能力，Transformer 周度选股能力最强，Informer 次之，PatchTST 相对较弱。",
+      "evidence": "对比不同的 Transformer 类模型，Transformer 周度选股能力最强，Informer 次之，PatchTST 相对较弱。Transformer 模型周均 Rank IC 为 0.129，Top10%组合年化超额收益 30.6%。"
+    },
+    {
+      "text": "线性类模型同样有较为出色的周度选股能力，但也明显不及 BiAGRU 模型，TSMixer 表现最优。",
+      "evidence": "从中可见，线性类模型同样有较为出色的周度选股能力，但也明显不及 BiAGRU 模型。其中，TSMixer 的周度选股能力最强， 和 次之， 较弱。"
+    },
+    {
+      "text": "各模型之间因子截面相关性整体较高，线性相关系数均处于 0.7-0.8 的范围内，同一类别内更是接近或高于 0.85。",
+      "evidence": "各模型之间的相关性整体较高，线性相关系数均处于 0.7-0.8 的范围内。而同一类别内，不同细分网络结构之间的相关性更是接近或高于 0.85。"
+    },
+    {
+      "text": "模型因网络结构、超参数选择等因素的差异，对量价信息的学习和调整速度并不一致，使得某一时段内表现大相径庭。",
+      "evidence": "由此可见，模型因网络结构、超参数选择等因素的差异，对量价信息的学习和调整速度并不一致，使得极值组合的年化超额收益虽然接近，但在某一时段内的表现却大相径庭，这就给单一模型的使用带来了很大的不确定性。"
+    },
+    {
+      "text": "BiAGRU 叠加 BiATCN 或 Transformer 后因子表现进一步提升，周均 Rank IC 在 0.14 以上，Top10%和 Top100 组合年化超额收益分别为34%和 40%左右。",
+      "evidence": "由上表可见，BiAGRU 模型叠加 BiATCN 或 Transformer 后，因子表现得到进一步提升。周均 Rank IC 在 0.14 以上，Top10%组合和 Top100 组合的年化超额收益分别为34%和 40%左右。"
+    },
+    {
+      "text": "AI 指数增强：全市场中证500增强组合年化超额收益从 16.5%提升至 17.4%-18.5%，全市场中证 1000增强从 22.5%提升至 24.3%-25.1%。",
+      "evidence": "全市场选股的中证500 增强组合的年化超额收益从 16.5%提升至 17.4%-18.5%；全市场选股的中证 1000增强组合年化超额收益从 22.5%提升至 24.3%-25.1%，80%成分股约束的中证 1000 增强组合年化超额收益从 20.0%提升至 20.5%-21.4%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Time Series is Worth 64 Words Long-term Forecasting with Transformers",
+    "An Empirical Evaluation of Generic Convolutional and Recurrent Networks for SequenceModeling",
+    "Are Transformers Effective for Time Series Forecasting?",
+    "Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting",
+    "TSMixer: Lightweight MLP-Mixer Model for Multivariate Time Series Forecasting",
+    "TimesNet: Temporal 2d-variation Modeling for General Time Series Analysis",
+    "《选股因子系列研究（八十八）——多颗粒度特征的深度学习模型：探索和对比》2023.09.11",
+    "《选股因子系列研究（八十六）——深度学习高频因子的特征工程》《选股因子系列研究（八十七）——高频与日度量价数据混合的深度学习因子》2023.05.13"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "id": "20180709-海通证券-选股因子-035-宏观经济的不确定性在a股市场被定价了吗",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "text", "macro"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EPU_beta",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Re}_{i,t}=\\alpha_{i,t}+\\beta_{i,t}^{EPU}*EPU_{t}+\\beta_{i,t}^{MKT}*MKT_{t}+\\beta_{i,t}^{SMB}*SMB_{t}+\\beta_{i,t}^{HML}*HML_{t}+\\epsilon_{i,t}",
+          "stats": [0.0198, null, 1.16, null],
+          "evidence": "A股市场上，对宏观经济不确定性较高的股票，预期收益也更高。通过时间序列回归计算每个股票在 EPU 指数上的回归系数，记为 EPU_beta。把 A 股市场上所有可交易的股票，按照这个因子从小到大分成 组。在等权和市值加权两种方式下，每组的平均收益呈单调上升的态势，且首尾组合的收益差显著异于零。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "macro"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "A股市场上，对宏观经济不确定性较高的股票（EPU_beta 越大），预期收益也更高；按因子从小到大分组后，每组平均收益呈单调上升，首尾组合收益差显著异于零，与美国市场的负相关结论相反。",
+      "evidence": "A股市场上，对宏观经济不确定性较高的股票，预期收益也更高。通过时间序列回归计算每个股票在 EPU 指数上的回归系数，记为 EPU_beta。把 A 股市场上所有可交易的股票，按照这个因子从小到大分成 组。在等权和市值加权两种方式下，每组的平均收益呈单调上升的态势，且首尾组合的收益差显著异于零。"
+    },
+    {
+      "text": "在控制了市值、反转等常见因子后，EPU_beta 的分组收益与因子值依然呈现正相关性，首尾组合的收益差在10%的水平下显著大于零；控制换手率和特质波动率后，分组收益的单调性更为突出，常用选股因子并不能解释其超额收益。",
+      "evidence": "在控制了市值、反转、 等常见因子后， 的分组收益与因子值依然呈现正相关性。首尾组合的收益差在 的水平下，显著大于零。而且，在控制了换手率和特质波动率这两个因子后，分组收益的单调性更为突出。"
+    },
+    {
+      "text": "只有在市值最大的一组中 EPU_beta 与预期收益才表现出明显正相关（首尾收益差高达1.02%），其余市值组别单调性弱且不显著，即宏观经济的不确定性只有在大市值股票中未被合理定价。",
+      "evidence": "只有在市值最大的一组（Big）中， $\\beta^{\\varepsilon\\bar{\\rho}\\bar{v}_{1}}$ 和预期收益才表现出明显的正相关，首尾组合的收益差高达 1.02%。而在其余的市值组别中，分组收益的单调性较弱，首尾组合的收益差在统计意义上也不显著异于零。这似乎意味着，A股市场上，宏观经济的不确定性只有在大市值股票中未被合理定价。"
+    },
+    {
+      "text": "EPU_beta 因子的选股效果在沪深300成分股中突出：IC 为 5.87%，IC-IR 接近 2，胜率达到 3/4；而在中证500成分股和所有 A 股中 IC 均未超过 2%。",
+      "evidence": "和分组得到的结论一致， $\\beta^{\\varepsilon\\bar{\\rho}\\bar{v}}$ 因子在沪深 300 成分股中的 IC 为 5.87%，IC-IR 接近 2，胜率也达到了3/4。而在中证 500 成分股和所有 A股中，该因子的 IC 均未超过 2%。"
+    },
+    {
+      "text": "将 EPU_beta 加入原 8 因子模型后，沪深300成分股中多空组合年化收益从 7.28%提升至 9.87%，波动率从 18.23%下降至 15.25%，夏普比率明显提高（0.647 v.s 0.399）。",
+      "evidence": "在沪深 300成分股中，加入 因子后，年化收益从 7.28%提升至 9.87%，波动率从 18.23%下降至 15.25%。因而，夏普比率也获得了明显的提高（0.647 v.s 0.399）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Baker, S. R., N. Bloom and S. J. Davis. Economic Policy Uncertainty Index (EPU), http://www.policyuncertainty.com",
+    "Is Economic Uncertainty Priced in the Cross-section of Stock Returns"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

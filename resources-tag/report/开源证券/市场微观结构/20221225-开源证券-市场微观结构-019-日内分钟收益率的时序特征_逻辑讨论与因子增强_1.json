@@ -1,0 +1,154 @@
+{
+  "schema_version": 2,
+  "id": "20221225-开源证券-市场微观结构-019-日内分钟收益率的时序特征_逻辑讨论与因子增强_1",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "涨幅时间重心因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "G_{u}=UR_{u}^{T}/\\|R_{u}\\|_{1},\\quad F_{u}=\\frac{1}{20}\\sum_{i=1}^{20}G_{u,i}",
+          "stats": [null, null, null, null],
+          "evidence": "我们以每分钟价格变动幅度对修正的时间戳加权平均，分别求得涨幅和跌幅的时间分布重心，记作 $G_{u}$ 和 ${\\cdot}G_{d}$"
+        },
+        {
+          "name": "跌幅时间重心因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "G_{d}=UR_{d}^{T}/\\|R_{d}\\|_{1},\\quad F_{d}=\\frac{1}{20}\\sum_{i=1}^{20}G_{d,i}",
+          "stats": [null, 0.053, null, null],
+          "evidence": "图 7 和图 8 分别展示涨幅时间重心因子和跌幅时间重心因子的表现，其中跌幅时间重心因子有效性明显更高，而尽管涨幅和跌幅二者“时间差”因子的多空信息比率最高，但其 RankIC仅为 0.02，明显弱于跌幅时间重心因子。"
+        },
+        {
+          "name": "时间差",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\tau=G_{d}-G_{u},\\quad F_{\\tau}=\\frac{1}{20}\\sum_{i=1}^{20}\\tau_{i}",
+          "stats": [null, 0.02, null, null],
+          "evidence": "此外还可以定义两个时间重心的差值和绝对差值，分别作为涨跌幅分布的“时间差”指标和“时间距离”指标，定义为 $\\tau=G_{d}-G_{u}和\\upsilon=|G_{d}-G_{u}|$"
+        },
+        {
+          "name": "时间距离",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\upsilon=|G_{d}-G_{u}|,\\quad F_{\\upsilon}=\\frac{1}{20}\\sum_{i=1}^{20}\\upsilon_{i}",
+          "stats": [null, null, null, null],
+          "evidence": "此外还可以定义两个时间重心的差值和绝对差值，分别作为涨跌幅分布的“时间差”指标和“时间距离”指标，定义为 $\\tau=G_{d}-G_{u}和\\upsilon=|G_{d}-G_{u}|$"
+        },
+        {
+          "name": "跌幅时间重心偏离因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon_{d}=\\alpha+\\beta\\varepsilon_{u}+\\varepsilon,\\quad F=\\frac{1}{20}\\sum_{i=1}^{20}\\varepsilon_{i}",
+          "stats": [null, 0.054, 2.99, null],
+          "evidence": "我们以跌幅时间重心作为被解释变量，对涨幅时间重心回归取残差，取其 20日均值作为选股因子，记为跌幅时间重心偏离因子。"
+        },
+        {
+          "name": "零涨跌幅数量因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{股票在过去20个交易日中，平均每天的日内零涨跌幅分钟数量}",
+          "stats": [null, 0.046, 1.22, null],
+          "evidence": "笔者计算股票在过去20个交易日中，平均每天的零涨跌幅分钟数量，在全市场上测试分组效果"
+        },
+        {
+          "name": "时间重心偏离（TGD）因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "G_{u}=f_{u}\\left(\\bar{R}_{u},R_{1},R_{2},R_{overnight}\\right)+\\varepsilon_{u},\\; G_{d}=f_{d}\\left(\\bar{R}_{d},R_{1},R_{2},R_{overnight}\\right)+\\varepsilon_{d},\\; \\varepsilon_{d}=\\alpha+\\beta\\varepsilon_{u}+\\varepsilon,\\; TGD=\\frac{1}{N}\\sum_{i=1}^{N}\\varepsilon_{i}",
+          "stats": [null, 0.067, 4.94, 0.2135],
+          "evidence": "因子改进思路较为简单，剥离可能影响“时间差Alpha”的干扰因子，在跌幅时间重心偏离因子的基础上改进得到时间重心偏离（TGD）因子。"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{合成因子}=\\text{rank}(TGD)+\\text{rank}(SKEW)",
+          "stats": [null, 0.084, 5.74, 0.2299],
+          "evidence": "笔者选取分布特征的典型因子：日内收益率偏度SKEW 因子作为代表，将TCD因子与SKEW 因子在横截面上排序加总得到合成因子"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "TGD因子的有效性较原始因子大幅提升，全市场五分组下的多空信息比率达到4.5以上，Rank ICIR为4.93，因子收益较为稳定",
+      "evidence": "TGD 因子的有效性较原始因子大幅提升，全市场五分组下的多空信息比率达到4.5 以上，Rank ICIR 为 4.93，因子收益较为稳定。"
+    },
+    {
+      "text": "跌幅时间重心偏离因子多头年化收益率21.2%，多空信息比率2.39，Rank IC和Rank ICIR分别为0.054和2.99，是刻画分钟时序特征更有效的指标，稳定性相比原始“时间差”因子更高",
+      "evidence": "测试结果表明，跌幅时间重心偏离因子多头年化收益率为 21.2%，多空信息比率为 2.39，Rank IC 和 Rank ICIR 分别为 0.054 和 2.99，跌幅时间重心偏离因子是刻画分钟时序特征更有效的指标，而且因子的稳定性相比原始“时间差”因子更高。"
+    },
+    {
+      "text": "“时间差Alpha”的解释因子为盘尾阶段收益率和零涨跌幅数量，中性化后的跌幅时间重心偏离因子几乎不具备选股能力，说明其是收益率结构和“低波效应”的综合",
+      "evidence": "基于上述三个维度的讨论，我们找到了“时间差Alpha”的解释因子：（1）盘尾阶段的收益率；（2）零涨跌幅数量。中性化后的跌幅时间重心偏离因子几乎不具备选股能力，这也说明“时间差Alpha”是收益率结构和“低波效应”的综合。"
+    },
+    {
+      "text": "盘初阶段收益率会干扰跌幅时间重心偏离因子的有效性，盘尾阶段则能够解释时间差的因子收益（正贡献）",
+      "evidence": "因而日内收益结构对于“时间差Alpha”并非始终如一，盘初阶段收益率会干扰跌幅时间重心偏离因子的有效性，盘尾阶段则能够解释时间差的有因子收益（正贡献）。"
+    },
+    {
+      "text": "APM因子是TGD因子的Alpha子集：TGD因子在对APM因子中性化后仍保留选股信息，而APM因子在回归掉TGD因子后几乎是噪音",
+      "evidence": "同样基于收益率结构的 APM 因子是 TGD 因子的 Alpha 子集。通过相互回归的方法证明，TGD因子在对APM因子中性化后仍然保留一定的选股信息，而 APM因子在回归掉TGD因子后几乎是噪音。"
+    },
+    {
+      "text": "TCD因子与SKEW因子横截面排序加总得到合成因子，相比TGD因子在稳定性方面进一步改善，Rank ICIR达到5.74",
+      "evidence": "合成因子相比 TGD 因子在稳定性方面进一步改善，Rank ICIR 达到 5.74。"
+    },
+    {
+      "text": "扣减Barra风格因子收益后，TGD因子多头分组能力依旧显著，多空年化收益为13.8%，多空信息比率仍保持3.77的较高水平",
+      "evidence": "在扣减 Barra 风格因子的收益之后，TGD 因子的多头分组能力依旧显著，多空年化收益为 13.8%，多空信息比率仍然保持3.77的较高水平。"
+    },
+    {
+      "text": "TGD因子在风格上整体偏向小票，全样本选股域更有效；多头组合每隔20个交易日调仓换手率约75%，综合考虑下双周频调仓最优",
+      "evidence": "如图 49 所示，多头组合每隔 20 个交易日调仓给的换手率约为 75%，整体费率损益中等，如若是将股票组合的调整至双周频、周频甚至更高的频率下调仓，因子收益增厚逐渐减弱，换手成本也会增加，综合考虑下双周频最优。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《日内极端收益前后的反转特性与因子构建—市场微观结构研究系列（17）》-2022.12.03",
+    "《高频因子：分钟单笔金额序列中的主力行为刻画—市场微观结构研究系列（15）》-2022.06.12"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

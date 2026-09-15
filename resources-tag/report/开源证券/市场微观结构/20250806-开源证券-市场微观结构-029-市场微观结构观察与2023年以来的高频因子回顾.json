@@ -1,0 +1,255 @@
+{
+  "schema_version": 2,
+  "id": "20250806-开源证券-市场微观结构-029-市场微观结构观察与2023年以来的高频因子回顾",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高维记忆_MEMO",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{将每笔委托交易方向处理成数值序列，计算一笔订单与后续多笔订单的相关系数，刻画订单间关联的长期记忆强度}",
+          "stats": [0.045, null, 2.989, 0.293],
+          "evidence": "我们通过符号处理方法，将每笔委托的交易方向处理成数值序列，通过计算相关系数的方式刻画一笔订单与后续几笔订单的关系。订单之间的关联性越强，说明机构在交易当中的贡献度越高，而这部分公司的质量也就越高。"
+        },
+        {
+          "name": "长期记忆强度_LMS",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于算法拆单行为，用统计算子度量挂单方向的长期记忆强度}",
+          "stats": [0.049, null, 2.966, 0.335],
+          "evidence": "在《订单流系列：挂单方向长期记忆性的讨论与应用》报告中，我们讨论了算法拆单行为的可识别方法，并基于统计算子挖掘了长期记忆强度和高维记忆等因子。"
+        },
+        {
+          "name": "分拆痕迹_OST",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{识别算法拆单行为在委托序列中留下的分拆痕迹}",
+          "stats": [-0.001, null, -0.268, 0.157],
+          "evidence": "这些因子经过了样本外的较长检验，有部分因子效果不如人意，有部分因子则依旧表现亮眼。"
+        },
+        {
+          "name": "时间重心偏离_TGD",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内成交时间重心相对历史水平的偏离度}",
+          "stats": [0.037, null, 2.559, 0.219],
+          "evidence": "在过往的几年里，我们集中开发了一系列高频因子。在《高频因子：分钟单笔金额序列中的主力行为刻画》报告中，我们利用分钟单笔成交金额作为切割变量开发了单笔金额分位数、主力交易强度和强反转等因子，可以从多个维度中识别出主力资金的交易行为并捕捉其Alpha信息；"
+        },
+        {
+          "name": "短线交易拥挤度STC",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{短线交易拥挤程度，交易放量伴随早盘成交比例增加时拥挤升高}",
+          "stats": [-0.029, null, -1.478, 0.118],
+          "evidence": "如果股票出现明显的交易放量并伴随早盘成交比例的增加，则投资者对于股票的交易情绪较高，交易上表现出一定的拥挤，反而需要注意后续下跌的风险。"
+        },
+        {
+          "name": "彩票委托_LOTTERY",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{涨停价挂卖单（跌停价挂买单）的委托占比}",
+          "stats": [-0.054, null, -2.792, 0.329],
+          "evidence": "从报价习惯来看，抱着“彩票博弈”的心理在涨停价挂卖单（或者在跌停价挂买单）一般是散户的交易行为。这部分委托的占比越高，说明当前交易者结构中散户的特征占据主导，而缺乏机构投资者的标的价格表现往往偏差。"
+        },
+        {
+          "name": "毒流动性_TOX",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{基于Level2撤单数据挖掘的毒性行为强度}",
+          "stats": [0.027, null, 1.864, 0.153],
+          "evidence": "在《订单流系列：撤单行为规律初探》报告中，我们基于Level2数据开发了诸如彩票委托和毒流动性等表现亮眼的因子，从撤单动作中挖掘特定投资者的行为规律；"
+        },
+        {
+          "name": "单笔金额分位数_QUA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟单笔成交金额在序列中的分位数}",
+          "stats": [-0.041, null, -2.155, 0.26],
+          "evidence": "在《高频因子：分钟单笔金额序列中的主力行为刻画》报告中，我们利用分钟单笔成交金额作为切割变量开发了单笔金额分位数、主力交易强度和强反转等因子，可以从多个维度中识别出主力资金的交易行为并捕捉其Alpha信息；"
+        },
+        {
+          "name": "主力交易强度_MTS",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟单笔成交金额切割下的主力交易强度}",
+          "stats": [0.04, null, 2.034, 0.213],
+          "evidence": "在《高频因子：分钟单笔金额序列中的主力行为刻画》报告中，我们利用分钟单笔成交金额作为切割变量开发了单笔金额分位数、主力交易强度和强反转等因子，可以从多个维度中识别出主力资金的交易行为并捕捉其Alpha信息；"
+        },
+        {
+          "name": "强反转_SR",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{利用分钟频单笔成交金额切割日内240分钟涨跌幅，在理想反转因子基础上构造强反转因子}",
+          "stats": [-0.043, null, -2.473, 0.197],
+          "evidence": "在分钟级别上，“单笔成交金额越高，反转强度越大”这个命题依旧成立。我们利用分钟频单笔成交金额对日内240分钟的涨跌幅进行切割，在理想反转因子的基础上构造强反转因子，效果相比日频的理想反转因子更好。"
+        },
+        {
+          "name": "买入高频撤单率_笔数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买入方向高频（挂单时长小于1秒）订单的撤回数量占全部撤单的比例（按笔数）}",
+          "stats": [0.045, null, 2.938, 0.247],
+          "evidence": "例如，高频（挂单时长小于1秒）的订单的撤回数量占全部撤单的比例可以描述程序化交易在交易中的影响，因为散户买卖股票的机械操作速度要远远慢于自动化交易订单的执行速度，1秒则是一个相对而言的经验值。"
+        },
+        {
+          "name": "卖出高频撤单率_笔数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖出方向高频（挂单时长小于1秒）订单的撤回数量占全部撤单的比例（按笔数）}",
+          "stats": [0.043, null, 2.69, 0.251],
+          "evidence": "例如，高频（挂单时长小于1秒）的订单的撤回数量占全部撤单的比例可以描述程序化交易在交易中的影响，因为散户买卖股票的机械操作速度要远远慢于自动化交易订单的执行速度，1秒则是一个相对而言的经验值。"
+        },
+        {
+          "name": "买入冲击成本_300万元",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{300万元单位交易金额刻画的可能价格变动（买入方向）}",
+          "stats": [0.037, null, 1.765, 0.162],
+          "evidence": "订单簿的厚度可以用五档或十档的盘口委托数据进行测量，计算其委托金额之和来反映当前价格超涨超跌的阻力：交易冲击成本则是用单位交易金额刻画可能的价格变动。"
+        },
+        {
+          "name": "卖出冲击成本_300万元",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{300万元单位交易金额刻画的可能价格变动（卖出方向）}",
+          "stats": [0.035, null, 1.715, 0.17],
+          "evidence": "订单簿的厚度可以用五档或十档的盘口委托数据进行测量，计算其委托金额之和来反映当前价格超涨超跌的阻力：交易冲击成本则是用单位交易金额刻画可能的价格变动。"
+        },
+        {
+          "name": "买入金额深度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买入方向盘口委托金额之和}",
+          "stats": [-0.035, null, -1.695, 0.17],
+          "evidence": "订单簿的厚度可以用五档或十档的盘口委托数据进行测量，计算其委托金额之和来反映当前价格超涨超跌的阻力：交易冲击成本则是用单位交易金额刻画可能的价格变动。"
+        },
+        {
+          "name": "卖出金额深度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖出方向盘口委托金额之和}",
+          "stats": [-0.035, null, -1.676, 0.167],
+          "evidence": "订单簿的厚度可以用五档或十档的盘口委托数据进行测量，计算其委托金额之和来反映当前价格超涨超跌的阻力：交易冲击成本则是用单位交易金额刻画可能的价格变动。"
+        },
+        {
+          "name": "早盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{早盘（9:30-10:00）成交量与全天成交量之比}",
+          "stats": [-0.041, null, -1.744, 0.19],
+          "evidence": "该指标包括成交占比和价格波动两个维度，从交易量来看，早盘（9:30-10:00）成交的股票数量与全天成交量之比往往能够反映投资者对股票交易的急迫性，如果股票出现明显的交易放量并伴随早盘成交比例的增加，则投资者对于股票的交易情绪较高，交易上表现出一定的拥挤，反而需要注意后续下跌的风险。"
+        },
+        {
+          "name": "单笔金额",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{平均一笔订单委托金额}",
+          "stats": [-0.035, null, -2.077, 0.214],
+          "evidence": "市场是由资金实力不等的各类投资者组合而成，统计平均一笔订单委托金额的变化能够间接反映市场中机构和散户参与比例的动态变化规律。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "为了持续跟踪有效性，统计以往发布的高频因子的表现，取因子的20日滚动均值并测试其在全市场分组效果",
+      "evidence": "为了持续跟踪有效性，我们统计以往发布的高频因子的表现，取因子的20日滚动均值并测试其在全市场分组效果，结果如表1所示。"
+    },
+    {
+      "text": "高频因子表现跟踪：“拆单”相关因子表现亮眼",
+      "evidence": "表1：高频因子表现跟踪：“拆单”相关因子表现亮眼"
+    },
+    {
+      "text": "高维记忆_MEMO因子2023年以来多空收益29.3%",
+      "evidence": "高维记忆_MEMO 因子：2023 年以来多空收益 29.3%；"
+    },
+    {
+      "text": "强反转_SR因子2023年以来多空收益19.7%",
+      "evidence": "强反转_SR因子：2023年以来多空收益 19.7%；"
+    },
+    {
+      "text": "彩票委托LOTTERY因子2023年以来多空收益32.9%",
+      "evidence": "彩票委托 LOTTERY 因子：2023 年以来多空收益 32.9%。"
+    },
+    {
+      "text": "早盘交易集中度截至2025年8月4日的集中比例大约为25%，维持在2024年“新国九条”颁布以来的水平",
+      "evidence": "图4展示了早盘交易集中度2018年以来的变化趋势，截至2025年8月4日的集中比例大约为25%，维持在2024年“新国九条”颁布以来的水平。"
+    },
+    {
+      "text": "放量阶段带来的高交易活跃度给高频策略更多空间，高频撤单比例在2024年9月以来明显增长",
+      "evidence": "放量阶段带来的高交易活跃度，能够给这些经过调整后的高频策略更多空间，于是高频撤单比例在2024年9月以来明显增长。"
+    },
+    {
+      "text": "微盘股在2025年1月和4月的回调是因为流动性供给出现了不足，而当前的流动性供给相对充足",
+      "evidence": "我们分别对比订单簿厚度、冲击成本与万得微盘股指数的变化趋势，不难看出微盘股在2025年1月和4月的回调是因为流动性供给出现了不足，而当前的流动性供给相对充足。"
+    },
+    {
+      "text": "当前各市场平均单笔金额相比2024年8月都有明显的提高，游资和机构的交易占比提升有一定促进作用",
+      "evidence": "当前各市场平均单笔金额相比2024年8月都有明显的提高，游资和机构的交易占比提升有一定促进作用，因为大额订单的涌入会抬高委托金额的平均水平。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《订单流系列：关于市场微观结构变迁的故事》",
+    "《订单流系列：挂单方向长期记忆性的讨论与应用》",
+    "《订单流系列：撤单行为规律初探》",
+    "《高频因子：分钟单笔金额序列中的主力行为刻画》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

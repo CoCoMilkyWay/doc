@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20230514-国金证券-beta猎手-004-如何利用chatgpt解析卖方策略观点并构建行业轮动策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative", "L1_mining"],
+      "approach": ["text_sentiment", "llm_generation"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "GPT 策略研报配置因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{将16家卖方策略团队月报中行业配置文本经GPT-4打分，取每个行业当月各团队得分的中位数}",
+          "stats": [-0.0003, null, null, 0.0565],
+          "evidence": "而针对当月的每个行业，我们取各个团队对该行业打分的中位数作为行业的 ChatGPT 得分，构造出 GPT 策略研报配置因子。我们使用 2021 年 1 月至 2023 年 4 月的数据对因子进行月频检验。"
+        },
+        {
+          "name": "GPT 精选配置因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动选取过去半年模拟推荐组合收益率动量最好的前4个卖方策略团队，取其对每个行业打分的中位数}",
+          "stats": [0.0094, null, null, null],
+          "evidence": "按照相同的方法，我们也计算出因子值的更新日期，并按照这 4 个团队对每个行业打分的中位数构造出 GPT 精选配置因子。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "GPT策略研报配置因子IC均值不显著但分组收益率呈现明显的单调性，多空组合与Top组合的年化收益分别达到了5.65%和3.15%，说明该因子确实能够在行业层面带来一定的信息。",
+      "evidence": "从 IC 结果来看，该因子并没有表现出显著的 IC 均值，不过从分位数组合测试结果可以看出，分组收益率呈现出明显的单调性，多空组合与 Top 组合的年化收益也分别达到了5.65%和 3.15%，说明该因子确实能够在行业层面带来一定的信息。"
+    },
+    {
+      "text": "滚动挑选过去半年表现最好的4个卖方策略团队构造的GPT精选配置因子，新的因子IC均值提升到0.94%，Top组合的年化收益率提升到8.46%，因子效果有明显的提升。",
+      "evidence": "新的因子 IC 均值提升到0.94%，同时Top组合的年化收益率提升到8.46%，因子效果有明显的提升。"
+    },
+    {
+      "text": "GPT精选因子轮动策略的年化收益率为6.03%，夏普比率为0.28，行业等权基准的年化收益率为-1.90%，策略的年化超额收益率达到9.63%，信息比率为0.95。",
+      "evidence": "从指标上来看，策略的年化收益率为 6.03%，夏普比率为 0.28，而行业等权基准的年化收益率为-1.90%。相较于等权基准，策略的年化超额收益率达到 9.63%，信息比率为0.95。"
+    },
+    {
+      "text": "打分因子主要体现行业的看多力量，因子仅仅在多头部分会有较好的效果，但在看空方面的分组收益单调性一般。",
+      "evidence": "因此打分因子主要体现行业的看多力量，但打分为 0 并不意味着团队对该行业看空，因子仅仅在多头部分会有较好的效果，但在看空方面的分组收益单调性表现一边。"
+    },
+    {
+      "text": "滚动筛选卖方策略团队的方法稳健性较强，选择前3名、前4名和前5名构造因子的IC均值与多空收益相对GPT策略研报配置因子都有明显提升。",
+      "evidence": "我们也对比了选择前 3 名、前 4 名和前 5 名卖方策略团队构造的因子，检验结果显示其 IC 均值与多空收益相对 GPT 策略研报配置因子都有明显提升，且三者之间相差不大，说明我们滚动筛选卖方策略团队的方法稳健性较强。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ashish Vaswani et al (2017). 《Attention Is All You Need》",
+    "Ouyang et al (2022). 《Training language models to follow instructions with human feedback》",
+    "Wei et al (2022). 《Chain-of-Thought Prompting Elicits Reasoning in Large Language Models》",
+    "《GPT-4 Technical Report》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

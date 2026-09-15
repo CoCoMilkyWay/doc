@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20210730-广发证券-多因子-042-海量技术指标掘金alpha因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "BIAS乖偏率(6日)",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "BIAS=\\frac{CLOSE-MA(CLOSE,P1)}{MA(CLOSE,P1)}\\times100",
+          "stats": [0.0343, null, null, null],
+          "evidence": "乖离率指标就是通过测算股价在波动过程中与移动平均线出现的偏离程度，从而得出股价在剧烈波动时因偏离移动平均趋势可能形成的回档或反弹。"
+        },
+        {
+          "name": "VSTD成交量方差(20日)",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{计算一个月的成交量方差}",
+          "stats": [0.0302, null, null, null],
+          "evidence": "此处为使得数据具有可比性，计算一个月的成交量方差。"
+        },
+        {
+          "name": "BBI_Close多空指数_收盘价",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "BBI=(MA(CLOSE,M1)+MA(CLOSE,M2)+MA(CLOSE,M3)+MA(CLOSE,M4))/4",
+          "stats": [0.0274, null, null, null],
+          "evidence": "BBI多空指标，是一种将不同日数移动平均线加权平均之后的综合指标，属于均线型指标，一般选用3日、6日、12日、24日等4条平均线。"
+        },
+        {
+          "name": "ASI(SI)振动升降指标",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "SI=16*\\frac{X}{R}*MAX(AA,BB),\\quad ASI=SUM(SI,0)",
+          "stats": [0.0271, null, null, null],
+          "evidence": "ASI指标以开盘、最高、最低、收盘价与前一交易日的各种价格相比较作为计算因子，研判市场的方向性。"
+        },
+        {
+          "name": "成交金额方差(20日)",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{计算一个月的成交金额方差}",
+          "stats": [0.0259, null, null, null],
+          "evidence": "此处为使得数据具有可比性，计算一个月的成交金额方差。"
+        },
+        {
+          "name": "价格线性回归系数（6日）",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{取近n个交易日的收盘价对n个周期的序数做普通最小二乘的线性回归，取股价关于周期序数的系数作为因子}",
+          "stats": [null, null, null, null],
+          "evidence": "取近n个交易日的收盘价对n个周期的序数做普通最小二乘的线性回归。取股价关于周期序数的系数作为因子。"
+        },
+        {
+          "name": "VEMA交易量指数均值",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "VEMA=EMA(Vol)",
+          "stats": [null, null, null, null],
+          "evidence": "此处计算一个交易月成交量的指数均值。 VEMA=EMA (Vol)"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "共选取8大类、62小类、102个技术类因子进行实证研究，包括趋向指标、反趋向指标、能量指标、成交量指标、量价指标、摆动指标、强弱指标及其他类指标。",
+      "evidence": "共选取 8大类，62小类，102个技术因子。传统的多因子模型从数据维度上看较多地使用基本面因子。本篇专题报告所选用的全部是技术类因子，共8 大类，包括趋向指标、反趋向指标、能量指标、成交量指标、量价指标、摆动指标、强弱指标及其他类的指标，分为62个小类，一共 102个指标。"
+    },
+    {
+      "text": "从因子IC绝对值角度看，BIAS乖偏率(6日)、VSTD成交量方差(20日)、BBI_Close多空指数_收盘价、ASI(SI)振动升降指标、成交金额方差(20日)等因子表现较好，IC绝对值分别为3.43%、3.02%、2.74%、2.71%、2.59%。",
+      "evidence": "从因子 IC 绝对值角度看，BIAS 乖偏率 (6 日)、VSTD 成交量方差(20 日)、BBI_Close 多空指数_收盘价、ASI(SI)振动升降指标、成交金额方差(20 日)等因子表现较好，IC 绝对值分别为3.43%、3.02%、2.74%、2.71%、2.59%；"
+    },
+    {
+      "text": "从多头年化收益率角度看，VSTD成交量方差(20日)、成交金额方差(20日)、价格线性回归系数（6日）、BIAS乖偏率(6日)、VEMA交易量指数均值因子表现较好，多头年化收益率分别为14.82%、14.47%、14.07%、14.07%、13.85%。",
+      "evidence": "从多头年化收益率角度看，VSTD 成交量方差(20 日)、成交金额方差(20 日)、价格线性回归系数（6 日）、BIAS 乖偏率 (6日)、VEMA交易量指数均值因子表现较好，多头年化收益率分别为：14.82%、14.47%、14.07%、14.07%、13.85%。"
+    },
+    {
+      "text": "采用排序法筛选有效因子，按周度换仓频率将个股因子暴露标准化后排序构造投资组合，选择因子暴露排序靠前20%的股票作为多头、靠后20%的股票作为空头，以因子IC、IR、胜率、年化收益率、换手率等衡量因子好坏。",
+      "evidence": "本篇专题报告按照周度换仓频率，将个股在因子上的暴露经过标准化处理后按照因子值大小进行排序，然后构造投资组合。选择因子暴露排序靠前 20%的股票作为多头，同时选择因子暴露在靠后 20%的股票，从而得到相关组合收益率。衡量因子好坏的主要指标有因子的 IC (信息系数)、因子的IR (信息比)、因子的胜率、年化收益率、换手率等。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

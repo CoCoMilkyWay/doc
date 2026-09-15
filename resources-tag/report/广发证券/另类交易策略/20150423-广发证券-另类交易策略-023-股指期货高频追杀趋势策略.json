@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20150423-广发证券-另类交易策略-023-股指期货高频追杀趋势策略",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "现货一分钟涨跌幅",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "r_t=\\frac{P_t-P_{t-1}}{P_{t-1}},\\ \\text{若 } r_t>u \\text{ 则开多仓，若 } r_t<d \\text{ 则开空仓，持仓1分钟后平仓}",
+          "stats": [null, null, null, null],
+          "evidence": "本文提出的追涨杀跌策略的大致思路就是：监视现货（即沪深 300指数）的一分钟涨跌幅；当涨幅（或跌幅）超过设定的阈值时，认为上涨（或下跌）趋势开启，在下一分钟开始时立即对股指期货开多仓（或空仓），持仓一分钟后平仓。"
+        }
+      ]
+    },
+    "L7_execution": {
+      "module": ["L7_algo"],
+      "approach": ["cost_prediction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "intraday"}}
+  },
+  "findings": [
+    {
+      "text": "期货日内走势噪声较大，使用期货预测期货无效，而现货走势更平稳、趋势性更明显，使用现货的趋势预测期货，实证发现策略有效。",
+      "evidence": "由于噪声主要以震荡出现，一旦振幅到达阈值容易引发错误的建仓信号，因此应当选用走势更加平稳、趋势性更加明显的现货来预测期货。"
+    },
+    {
+      "text": "资金容量有限：1手时样本外累积收益率14.44%、最大回撤率-4.42%；10手时样本外累积收益率率10.72%、最大回撤率-5.28%。",
+      "evidence": "在资金量为 1 手的情况下，样本外累积收益率14.44%，最大回撤率-4.42%；在资金量为 10手的情况下，样本外累积收益率率10.72%，最大回撤率-5.28%。"
+    },
+    {
+      "text": "限价委托会使策略表现下降，但策略仍然有效；直接买一卖一价平仓使累积收益率大幅缩减至12.40%，最大回撤变差至-3.89%。",
+      "evidence": "挂限价单开仓且直接买一卖一价平仓的情况下，累积收益率大幅缩减，仅有12.40%，而且最大回撤也变差，达-3.89%。"
+    },
+    {
+      "text": "2分钟和5分钟频率下趋势性不明显，策略无效；10秒频率下趋势性显著但获利无法覆盖交易成本；30秒与1分钟频率下策略表现出了较好的风险收益特性。",
+      "evidence": "实证中我们测算了 10 秒、30 秒、1 分钟、2 分钟、5 分钟交易频率下的策略表现，实证结果表明 2 分钟和 5 分钟交易频率下趋势性不明显，策略无效；10秒交易频率下趋势性显著，但获利无法覆盖交易成本；30 秒与1分钟交易频率下，策略表现出了较好的风险收益特性。"
+    },
+    {
+      "text": "该策略具有较好的风险收益表现，但尚无法容纳较大的资金量。",
+      "evidence": "研究表明该策略具有较好的风险收益表现，但尚无法容纳较大的资金量。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《笑看北雁南飞南雁北归》",
+    "在标度不变性破缺下洞察资金流向——MFT交易策略（2012-07-09）",
+    "基于 HP 滤波的高频混合交易策略（2013-02-25）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

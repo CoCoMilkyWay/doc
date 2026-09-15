@@ -1,0 +1,224 @@
+{
+  "schema_version": 2,
+  "id": "20200911-广发证券-多因子-040-科技板块量化选股策略研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "研发费用（市值中性）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{上一年度年报研发费用取对数后做市值中性化}",
+          "stats": [0.12, null, null, 0.2158],
+          "evidence": "根据上一年度年报数据进行选股，自2008年4月以来，科技股研发费用因子与未来 1 年收益率（这里1年是指从当年4月底至第二年4月底）的IC的均值为 0.12。"
+        },
+        {
+          "name": "单季度ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "ROE_{q}=\\frac{\\text{单季度净利润}}{\\text{股东权益}}",
+          "stats": [0.08, null, null, 0.1204],
+          "evidence": "在11个盈利因子中，代表指标是单季度ROE 和单季度 ROA，这两个因子的 IC都为 0.08，多空年化收益为 11%～12%。"
+        },
+        {
+          "name": "单季度ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "ROA_{q}=\\frac{\\text{单季度净利润}}{\\text{总资产}}",
+          "stats": [0.08, null, null, 0.1134],
+          "evidence": "在11个盈利因子中，代表指标是单季度ROE 和单季度 ROA，这两个因子的 IC都为 0.08，多空年化收益为 11%～12%。"
+        },
+        {
+          "name": "单季度净利润同比增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{净利润同比增长}_{q}=\\frac{NP_{q}-NP_{q-4}}{\\left|NP_{q-4}\\right|}",
+          "stats": [0.12, null, null, 0.1716],
+          "evidence": "3 个成长因子的 IC 都很显著，都超过 0.10，多空超额年化收益率均在 12%以上，其中单季度净利润同比增长因子的高达 17.16%，表现出不错的选股能力，3个因子的多头相对基准的超额年化收益率在 7%～9%之间。"
+        },
+        {
+          "name": "单季度营业同比增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{营业收入同比增长}_{q}=\\frac{Rev_{q}-Rev_{q-4}}{\\left|Rev_{q-4}\\right|}",
+          "stats": [0.1, null, null, 0.129],
+          "evidence": "3 个成长因子的 IC 都很显著，都超过 0.10，多空超额年化收益率均在 12%以上，其中单季度净利润同比增长因子的高达 17.16%，表现出不错的选股能力，3个因子的多头相对基准的超额年化收益率在 7%～9%之间。"
+        },
+        {
+          "name": "ROE同比增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{ROE同比增长}_{q}=\\frac{ROE_{q}-ROE_{q-4}}{\\left|ROE_{q-4}\\right|}",
+          "stats": [0.1, null, null, 0.1213],
+          "evidence": "3 个成长因子的 IC 都很显著，都超过 0.10，多空超额年化收益率均在 12%以上，其中单季度净利润同比增长因子的高达 17.16%，表现出不错的选股能力，3个因子的多头相对基准的超额年化收益率在 7%～9%之间。"
+        },
+        {
+          "name": "总资产周转率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{总资产周转率}=\\frac{\\text{营业收入}}{\\text{总资产}}",
+          "stats": [0.04, null, null, 0.0501],
+          "evidence": "实证分析表明，质量因子对于科技股未来表现的影响较弱。除了总资产周转率的季度 IC 为0.04之外，其他质量因子的季度 IC 都不高于0.02，以上质量因子年化多空超额收益率为 0.73%至 5.01%。"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP=\\frac{\\text{净资产}}{\\text{总市值}}",
+          "stats": [0.055, null, null, 0.1193],
+          "evidence": "本报告考察BP（市净率倒数）、EP（市盈率倒数）和SP（市销率倒数）的选股效果，以上3个因子都具有不错的选股效果，IC 均值为4.1%～5.5%，多空年化超额为 11.93%～19.44%，其中，EP 的选股能力相对更好一些。"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EP=\\frac{\\text{净利润TTM}}{\\text{总市值}}",
+          "stats": [0.05, null, null, 0.1944],
+          "evidence": "本报告考察BP（市净率倒数）、EP（市盈率倒数）和SP（市销率倒数）的选股效果，以上3个因子都具有不错的选股效果，IC 均值为4.1%～5.5%，多空年化超额为 11.93%～19.44%，其中，EP 的选股能力相对更好一些。"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "SP=\\frac{\\text{营业收入TTM}}{\\text{总市值}}",
+          "stats": [0.041, null, null, 0.1382],
+          "evidence": "本报告考察BP（市净率倒数）、EP（市盈率倒数）和SP（市销率倒数）的选股效果，以上3个因子都具有不错的选股效果，IC 均值为4.1%～5.5%，多空年化超额为 11.93%～19.44%，其中，EP 的选股能力相对更好一些。"
+        },
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值}",
+          "stats": [-0.03, null, null, 0.3488],
+          "evidence": "从因子IC来看，以上因子都具有一定的选股能力，低流通市值、低换手、低波动、前期超跌的个股在未来一个月一般会表现更好。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月换手率}",
+          "stats": [-0.097, null, null, 0.4298],
+          "evidence": "从因子IC来看，以上因子都具有一定的选股能力，低流通市值、低换手、低波动、前期超跌的个股在未来一个月一般会表现更好。"
+        },
+        {
+          "name": "波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月日收益率标准差}",
+          "stats": [-0.058, null, null, 0.0739],
+          "evidence": "从因子IC来看，以上因子都具有一定的选股能力，低流通市值、低换手、低波动、前期超跌的个股在未来一个月一般会表现更好。"
+        },
+        {
+          "name": "1月反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票过去1个月的收益率}",
+          "stats": [-0.086, null, null, 0.2703],
+          "evidence": "从因子IC来看，以上因子都具有一定的选股能力，低流通市值、低换手、低波动、前期超跌的个股在未来一个月一般会表现更好。"
+        },
+        {
+          "name": "12月反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票过去12个月的累计收益率}",
+          "stats": [-0.042, null, null, 0.0903],
+          "evidence": "从因子IC来看，以上因子都具有一定的选股能力，低流通市值、低换手、低波动、前期超跌的个股在未来一个月一般会表现更好。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "科技股研发费用与股票未来1年收益率的IC均值为0.12，2016年4月以来IC均值达到0.19，根据研发费用因子选股的多空年化收益率为21.58%。",
+      "evidence": "科技股研发费用与股票未来 1 年收益率的IC 均值为 0.12，在 2016 年 4 月以来，IC 均值达到了 0.19，近年来研发费用因子的选股能力有所增强。根据研发费用因子进行选股，多空年化收益率为 21.58%。"
+    },
+    {
+      "text": "盈利因子和成长因子都是科技股未来表现的驱动因子：单季度ROE的季度IC为0.08，年化多空收益12.04%；单季度净利润同比增长的季度IC为0.12，年化多空收益17.16%。",
+      "evidence": "盈利因子和成长因子都是科技股未来表现的驱动因子，其中，单季度 ROE 的季度 IC 为 0.08，年化多空收益为 12.04%，单季度净利润同比增长的季度 IC为0.12，年化多空收益为17.16%。此外，低估值、小市值、低换手和 1 月反转因子等传统因子在科技股板块都有一定的选股能力。"
+    },
+    {
+      "text": "估值因子在科技板块具有不错的选股效果，估值较低的科技股在未来一个月相对表现较好，BP、EP、SP的IC均值为4.1%～5.5%。",
+      "evidence": "在科技板块中，估值因子具有不错的选股效果，估值较低的科技股在未来一个月相对表现较好。本报告考察BP（市净率倒数）、EP（市盈率倒数）和SP（市销率倒数）的选股效果，以上3个因子都具有不错的选股效果，IC 均值为4.1%～5.5%，多空年化超额为 11.93%～19.44%，其中，EP 的选股能力相对更好一些。"
+    },
+    {
+      "text": "低换手率和小市值因子具有相对更高的多空超额收益，但小市值因子2017年以来表现不佳，低换手和1月反转因子近年来依然有不错表现。",
+      "evidence": "从因子多空收益来看，低换手率和小市值因子具有相对更高的多空超额收益，其中，小市值因子在 2017 年以来表现不佳，而低换手的股票近年来依然有不错的表现。此外，1 月反转因子也始终有不错的表现。"
+    },
+    {
+      "text": "基于研发费用因子和其他风格因子构建的月度调仓科技股多因子选股策略，2007年以来年化超额收益19.20%，超额最大回撤-8.16%，年化换手率5.43倍，月胜率79.2%。",
+      "evidence": "基于研发费用因子和其他风格因子，本报告构建了月度调仓的科技股多因子选股策略。从 2007 年以来，策略年化超额收益为19.20%，超额最大回撤为-8.16%，年化换手率为 5.43 倍，月胜率为79.2%。"
+    },
+    {
+      "text": "总体而言，高研发费用、高盈利、高成长、低估值的科技股相对来说有更高的收益。",
+      "evidence": "本报告从创新投入、盈利、成长、估值等角度对科技股的影响因子进行分析，总体而言，高研发费用、高盈利、高成长、低估值的科技股相对来说有更高的收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

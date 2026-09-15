@@ -1,0 +1,127 @@
+{
+  "schema_version": 2,
+  "id": "20150827-广发证券-多因子-025-反转因子再优化_更精准把握拐点",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "SLP反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{SLP}=\\left|P_2-P_1\\right|/(P_1\\cdot\\Delta T)",
+          "stats": [null, -0.0642, null, 0.6724],
+          "evidence": "用涨跌幅定义斜率因子$\\mathsf{SLP}{=}\\left|\\mathsf{P2}{-}\\mathsf{P1}\\right|/(\\mathsf{P1}^{\\star}\\Delta\\mathsf{T})$ 可以有效避免股票价格绝对值的差异带来的不合理"
+        },
+        {
+          "name": "1个月反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R_{t-20,t}=P_t/P_{t-20}-1",
+          "stats": [null, -0.0701, null, null],
+          "evidence": "传统因子模型中，经常使用历史1个月与3个月的收益率作为反转因子，并且进行月度调仓"
+        },
+        {
+          "name": "3个月反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R_{t-60,t}=P_t/P_{t-60}-1",
+          "stats": [null, -0.0693, null, null],
+          "evidence": "历史平均Rank IC-6.93%，IC月胜率65.26%"
+        },
+        {
+          "name": "5日反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "R_{t-5,t}=P_t/P_{t-5}-1",
+          "stats": [null, -0.0787, null, 0.3741],
+          "evidence": "短期反转因子以5天形成期、4天持有期最强（avg Rank IC= -7.56% )"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["csi300", "csi500", "csi800"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "SLP反转因子相比固定窗口的传统5日因子，提升效果显著",
+      "evidence": "SLP反转因子相比固定窗口的传统5日因子，提升效果显著！"
+    },
+    {
+      "text": "SLP因子沪深300对冲组合（D1）年化收益35.79%，最大回撤29.39%",
+      "evidence": "沪深300对冲组合（D1）年化收益35.79%，最大回撤29.39%"
+    },
+    {
+      "text": "SLP因子Top-Bottom（D1-D20）组合年化收益67.24%，最大回撤11.93%",
+      "evidence": "Top-Bottom（D1-D20）组合年化收益67.24%，最大回撤11.93%"
+    },
+    {
+      "text": "SLP因子历史平均Rank IC-6.42%，IC胜率71.25%",
+      "evidence": "历史平均Rank IC-6.42%，IC胜率71.25%"
+    },
+    {
+      "text": "短期反转因子以5天形成期、4天持有期最强，相比长期反转因子略胜一筹",
+      "evidence": "短期反转因子以5天形成期、4天持有期最强（avg Rank IC= -7.56% )"
+    },
+    {
+      "text": "长期反转因子以30天形成期、20天持有期最强",
+      "evidence": "长期反转因子以30天形成期、20天持有期最强（avg RankIC = -7.32% )"
+    },
+    {
+      "text": "SLP因子衰减速率较快，T+1 Alpha非常显著",
+      "evidence": "SLP因子衰减速率较快，T+1 Alpha非常显著"
+    },
+    {
+      "text": "SLP的LaggedCorr：T+1相关系数87%，T+5衰减到48%，权衡IC衰减速率与LaggedCorr后使用5天作为换手周期",
+      "evidence": "T+1相关系数87%，T+5就衰减到48%，说明股票根据SLP排序变动还是比较大的"
+    },
+    {
+      "text": "策略对交易成本较为敏感，可使用缓冲区原则，每次卖出排名后50%的股票，只换仓一半",
+      "evidence": "亦可使用类似缓冲区原则，每次卖出排名后50%的股票，只换仓一半"
+    },
+    {
+      "text": "不同基准对冲下，中证500对冲组合最为稳定，收益回撤比最优",
+      "evidence": "中证500对冲组合最为稳定，收益回撤比最优"
+    },
+    {
+      "text": "沪深300对冲组合收益最高，是中证500对冲组合的2倍，但回撤也较大",
+      "evidence": "沪深300对冲组合收益最高，是中证500对冲组合的2倍，但回撤也较大"
+    },
+    {
+      "text": "SLP因子BOTTOM组合（超涨回调）同样优秀",
+      "evidence": "SLP因子BOTTOM组合（超涨回调）同样优秀"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

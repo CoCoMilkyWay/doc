@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "id": "20180705-广发证券-多因子-037-探寻资金流背后的风格轮动规律",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["order_flow", "participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "净流入比率",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{多头组合与空头组合的主动净流入资金流差除以两组合交易额之和}",
+          "stats": [null, null, null, null],
+          "evidence": "定义指定风格的资金流偏好度为某一种风格因子的多头组合以及空头组合按照既定的资金流和既定的计算方法的资金的偏离度，具体计算方法如下："
+        },
+        {
+          "name": "融资余额交易额占比",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{多头组合与空头组合的融资余额增量之差除以两组合交易额之和}",
+          "stats": [null, null, null, null],
+          "evidence": "定义指定风格的资金流偏好度为某一种风格因子的多头组合以及空头组合按照既定的资金流和既定的计算方法的资金的偏离度，具体计算方法如下："
+        },
+        {
+          "name": "沪深股通交易额占比",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{多头组合与空头组合的沪深股通资金增量之差除以两组合交易额之和}",
+          "stats": [null, null, null, null],
+          "evidence": "定义指定风格的资金流偏好度为某一种风格因子的多头组合以及空头组合按照既定的资金流和既定的计算方法的资金的偏离度，具体计算方法如下："
+        },
+        {
+          "name": "主动流入资金增量环比增长",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{资金环比增长率} = \\text{本期的资金增量} / \\text{上一期的资金增量} - 1",
+          "stats": [null, null, null, null],
+          "evidence": "定义资金环比增长率 = 本期的资金增量 / 上一期的资金增量 – 1。"
+        },
+        {
+          "name": "融资余额增量环比增长",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{资金流差除以上一期的同一风格的资金流差得到的资金流环比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "定义指定风格的资金流偏好度为某一种风格因子的多头组合以及空头组合按照既定的资金流和既定的计算方法的资金的偏离度，具体计算方法如下："
+        },
+        {
+          "name": "沪深股通增量环比增长",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{沪深股通资金流差除以上一期同一风格的资金流差得到的环比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "由于沪深股通资金数据公布时间较晚，不作为综合策略参考依据"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "综合策略在2010年5月7日至2018年6月29日的样本区间内，累计获得673.1%的超额收益率，胜率为63.8%，最大回撤仅-16.0%。",
+      "evidence": "从回测效果上看，综合策略在 2010年5月7日至2018 年6 月29日的样本区间内，累计获得 673.1%的超额收益率，胜率为63.8%，最大回撤仅-16.0%。"
+    },
+    {
+      "text": "根据模型最新一期识别结果，6月29日主要推荐低流动性、低估值和一个月反转的综合风格配置组合。",
+      "evidence": "根据模型最新一期识别结果，6月 29日主要推荐低流动性、低估值和一个月反转的综合风格配置组合。"
+    },
+    {
+      "text": "资金比率的突然暴涨，甚至可能暴跌都可能对风格因子的收益率表现有一定的预测作用。",
+      "evidence": "最后，从以下市值风格银子的净流入资金增量环比增长率上看，资金比率的突然暴涨，甚至可能暴跌都可能对风格因子的收益率表现有一定的预测作用。"
+    },
+    {
+      "text": "直接观测宽基指数的资金流入流出并不能有效地指导风格配置。",
+      "evidence": "但资金流入小市值股票并没有如预期那样与创业扳指、中小创指数相关系数有非常高的相关性，从这一角度看，直接观测宽基指数的资金流入流出并不能有效地指导风格配置。"
+    },
+    {
+      "text": "资金对小市值风格具有动量效应，触发后下一期小市值组合将显著超越大市值股票获得超额收益，IR高达-1.65。",
+      "evidence": "从以上的图表中可以看到，当从横向观测资金的动向时，若观测到资金在小市值和大市值风格之间的资金差异在所有8种风格中最明显时，资金对市值风格而言具有动量效应，下一期小市值组合将显著超越大市值股票获得超额收益，在触发后的IR高达-1.65（负号表示小市值表现优于大市值）。"
+    },
+    {
+      "text": "沪深股通资金流入交易额占比策略表现出色，在近2年间都显著跑赢了基准。",
+      "evidence": "从回测结果可以看到沪深股通资金流入交易额占比策略表现出色，在近2年间都显著跑赢了基准。"
+    },
+    {
+      "text": "融资增量环比增长策略在所有年份的超额收益率均为正，不仅能比较好地捕捉牛市中的小市值行情，也很好地把握住了2017年以来大盘蓝筹的行情。",
+      "evidence": "从回测效果看，这一策略在所有年份的超额收益率均为正，不仅能比较好地捕捉牛市中的小市值行情，也很好地把握住了2017年以来大盘蓝筹的行情，但值得注意的是策略在2015年的熊市中不能很好地利用上证综指对冲风险，产生了较高的最大回撤。"
+    },
+    {
+      "text": "由于沪深股通资金数据的公布期限较短，因此无法用于构建综合策略。",
+      "evidence": "由于沪深股通资金数据的公布期限较短，因此无法用于构建综合策略。但从这6种资金偏好度的推荐配置矩阵看，沪深股通资金更能够捕获未来一周大市值上涨的超额收益，因此若能将其也加入综合策略的考量中，将能更好地弥补策略整体在大市值风格配置上的不足。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["宏观视角下的风格轮动2018-4-10"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

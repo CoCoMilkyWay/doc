@@ -1,0 +1,220 @@
+{
+  "schema_version": 2,
+  "id": "20240912-广发证券-海量level二-004-集合竞价相关因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BuyTransaction_BuyOrder_ratio_09150920",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:20时段内买单成交数量占买单委托数量的比例}",
+          "stats": [null, -0.092, null, null],
+          "evidence": "BuyTransaction_BuyOrder_ratio_09150920因子在深证A指成分股的50档分档收益如图1所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "SellTransaction_SellOrder_ratio_09150920",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:20时段内卖单成交数量占卖单委托数量的比例}",
+          "stats": [null, -0.053, null, null],
+          "evidence": "在09:15~09:20时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-9.20%，胜率为22%；撤单比例因子中表现较好的仍为买单方向因子，其20日平滑换仓RankIC均值为-5.00%，胜率为27%。"
+        },
+        {
+          "name": "Transaction_Order_ratio_09150920",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:20时段内买卖双向成交数量占委托数量的比例}",
+          "stats": [null, -0.079, null, null],
+          "evidence": "在09:15~09:20时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-9.20%，胜率为22%；撤单比例因子中表现较好的仍为买单方向因子，其20日平滑换仓RankIC均值为-5.00%，胜率为27%。"
+        },
+        {
+          "name": "BuyWithdrew_BuyOrder_ratio_09150920",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:20时段内买单撤单数量占买单委托数量的比例}",
+          "stats": [null, -0.05, null, null],
+          "evidence": "BuyWithdrew_BuyOrder_ratio_09150920因子在深证A指成分股的50档分档收益如图3所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "SellWithdrew_SellOrder_ratio_09150920",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:20时段内卖单撤单数量占卖单委托数量的比例}",
+          "stats": [null, -0.043, null, null],
+          "evidence": "在09:15~09:20时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-9.20%，胜率为22%；撤单比例因子中表现较好的仍为买单方向因子，其20日平滑换仓RankIC均值为-5.00%，胜率为27%。"
+        },
+        {
+          "name": "Withdrew_Order_ratio_09150920",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:20时段内买卖双向撤单数量占委托数量的比例}",
+          "stats": [null, -0.045, null, null],
+          "evidence": "在09:15~09:20时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-9.20%，胜率为22%；撤单比例因子中表现较好的仍为买单方向因子，其20日平滑换仓RankIC均值为-5.00%，胜率为27%。"
+        },
+        {
+          "name": "BuyTransaction_BuyOrder_ratio_09200925",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:20~09:25时段内买单成交数量占买单委托数量的比例}",
+          "stats": [null, -0.089, null, null],
+          "evidence": "在09:20~09:25时段内，成交比例因子中表现较好的是买卖单双向方向考虑的因子，其20日平滑换仓RankIC均值为-9.20%，胜率为28%。"
+        },
+        {
+          "name": "SellTransaction_SellOrder_ratio_09200925",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:20~09:25时段内卖单成交数量占卖单委托数量的比例}",
+          "stats": [null, -0.083, null, null],
+          "evidence": "在09:20~09:25时段内，成交比例因子中表现较好的是买卖单双向方向考虑的因子，其20日平滑换仓RankIC均值为-9.20%，胜率为28%。"
+        },
+        {
+          "name": "Transaction_Order_ratio_09200925",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:20~09:25时段内买卖双向成交数量占委托数量的比例}",
+          "stats": [null, -0.092, null, null],
+          "evidence": "Transaction_Order_ratio_09200925因子在深证A指成分股的50档分档收益如图5所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "BuyTransaction_BuyOrder_ratio_09150925",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:25时段内买单成交数量占买单委托数量的比例}",
+          "stats": [null, -0.101, null, null],
+          "evidence": "BuyTransaction_BuyOrder_ratio_09150925因子在深证A指成分股的50档分档收益如图7所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "SellTransaction_SellOrder_ratio_09150925",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:25时段内卖单成交数量占卖单委托数量的比例}",
+          "stats": [null, -0.089, null, null],
+          "evidence": "在09:15~09:25时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-10.10%，胜率为28%。"
+        },
+        {
+          "name": "Transaction_Order_ratio_09150925",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘集合竞价09:15~09:25时段内买卖双向成交数量占委托数量的比例}",
+          "stats": [null, -0.096, null, null],
+          "evidence": "在09:15~09:25时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-10.10%，胜率为28%。"
+        },
+        {
+          "name": "BuyTransaction_BuyOrder_ratio_14571500",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘集合竞价14:57~15:00时段内买单成交数量占买单委托数量的比例}",
+          "stats": [null, -0.006, null, null],
+          "evidence": "在该时段的成交比例因子中，买单方向因子RankIC均值接近于 0%，胜率徘徊在 50%左右，是一个几乎没有选股能力的因子。但与之相反的卖单方向因子则展现出了较为有效的选股性能，其RankIC 均值为-9.60%，胜率为 23%。这表明在收盘集合竞价阶段，卖单中的成交比例越大，则该股票在未来的看空可能性更大；而买单中的成交比例则与未来股价走势关系甚微。"
+        },
+        {
+          "name": "SellTransaction_SellOrder_ratio_14571500",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘集合竞价14:57~15:00时段内卖单成交数量占卖单委托数量的比例}",
+          "stats": [null, -0.096, null, null],
+          "evidence": "SellTransaction_SellOrder_ratio_14571500因子在深证A指成分股的50档分档收益如图9所示，分档组合收益呈现出较好的单调性。"
+        },
+        {
+          "name": "Transaction_Order_ratio_14571500",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘集合竞价14:57~15:00时段内买卖双向成交数量占委托数量的比例}",
+          "stats": [null, -0.078, null, null],
+          "evidence": "在该时段的成交比例因子中，买单方向因子RankIC均值接近于 0%，胜率徘徊在 50%左右，是一个几乎没有选股能力的因子。但与之相反的卖单方向因子则展现出了较为有效的选股性能，其RankIC 均值为-9.60%，胜率为 23%。这表明在收盘集合竞价阶段，卖单中的成交比例越大，则该股票在未来的看空可能性更大；而买单中的成交比例则与未来股价走势关系甚微。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "09:15~09:20时段成交比例因子中表现较好的是买单方向因子，20日平滑换仓RankIC均值为-9.20%，胜率为22%；撤单比例因子中表现较好的仍为买单方向因子，RankIC均值为-5.00%，胜率为27%。",
+      "evidence": "在09:15~09:20时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-9.20%，胜率为22%；撤单比例因子中表现较好的仍为买单方向因子，其20日平滑换仓RankIC均值为-5.00%，胜率为27%。"
+    },
+    {
+      "text": "09:20~09:25时段成交比例因子中表现较好的是买卖单双向方向考虑的因子，20日平滑换仓RankIC均值为-9.20%，胜率为28%。",
+      "evidence": "在09:20~09:25时段内，成交比例因子中表现较好的是买卖单双向方向考虑的因子，其20日平滑换仓RankIC均值为-9.20%，胜率为28%。"
+    },
+    {
+      "text": "09:15~09:25时段成交比例因子中表现较好的是买单方向因子，20日平滑换仓RankIC均值为-10.10%，胜率为28%。",
+      "evidence": "在09:15~09:25时段内，成交比例因子中表现较好的是买单方向因子，其20日平滑换仓RankIC均值为-10.10%，胜率为28%。"
+    },
+    {
+      "text": "收盘集合竞价14:57~15:00仅3分钟，买单方向因子RankIC均值接近0%、几乎没有选股能力；卖单方向因子RankIC均值为-9.60%、胜率为23%，卖单中的成交比例越大则未来看空可能性更大。",
+      "evidence": "在该时段的成交比例因子中，买单方向因子RankIC均值接近于 0%，胜率徘徊在 50%左右，是一个几乎没有选股能力的因子。但与之相反的卖单方向因子则展现出了较为有效的选股性能，其RankIC 均值为-9.60%，胜率为 23%。这表明在收盘集合竞价阶段，卖单中的成交比例越大，则该股票在未来的看空可能性更大；而买单中的成交比例则与未来股价走势关系甚微。"
+    },
+    {
+      "text": "集合竞价因子与大小单因子的相关系数在-13%~11%之间，相关性较低，是一组相较于大小单因子高度独立的因子。",
+      "evidence": "两类因子之间的相关系数在-13%~11%之间，相关性较低。整体而言，虽然同样作为level2逐笔订单数据构建的因子，集合竞价因子是一组相较于大小单因子高度独立的因子。"
+    },
+    {
+      "text": "集合竞价因子与Barra风格因子的相关系数在-7%~29%之间，相关性较低的三个较高的Barra风格因子分别为流动性因子、波动率因子、市值因子。",
+      "evidence": "下表8统计了集合竞价因子和Barra风格因子之间的相关性，两类因子之间的相关系数在-7%~29%之间，相关性较低。其中，相关性较高的三个Barra风格因子分别为流动性因子、波动率因子、市值因子。"
+    },
+    {
+      "text": "BuyWithdrew_BuyOrder_ratio_09150920因子构建的组合在2019年3月~2024年5月期间相对深证A指指数分别取得了11.88%、10.26%、8.28%、7.41%、6.55%的超额年化收益率。",
+      "evidence": "在2019年3月~2024年5月期间，各组合相对深证A指指数分别取得了11.88%、10.26%、8.28%、7.41%、6.55%的超额年化收益率。"
+    },
+    {
+      "text": "SellTransaction_SellOrder_ratio_14571500因子构建的组合在2019年3月~2024年5月期间相对深证A指指数分别取得了10.90%、10.37%、9.98%、9.22%、8.62%的超额年化收益率。",
+      "evidence": "在2019年3月~2024年5月期间，各组合相对深证A指指数分别取得了10.90%、10.37%、9.98%、9.22%、8.62%的超额年化收益率。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《多维度解耦的94个大小单因子》（2024-07-15）",
+    "《大小单与长短单的241个碰撞火花》（2024-08-21）",
+    "《订单维度解耦的22个长短单因子》（2024-08-01）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

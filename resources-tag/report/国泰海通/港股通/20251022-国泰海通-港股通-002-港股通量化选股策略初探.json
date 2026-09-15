@@ -1,0 +1,337 @@
+{
+  "schema_version": 2,
+  "id": "20251022-国泰海通-港股通-002-港股通量化选股策略初探",
+  "genre": "research",
+  "asset": ["stock_hk"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "accounting_quality",
+        "earnings_surprise",
+        "momentum_reversal",
+        "distribution_moment"
+      ],
+      "setup": {
+        "universe": ["all", "hk_connect"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "现金流比例",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去1年经营活动净现金流}-\\text{构建固定资产、无形资产和其他长期资产支付的现金}}{\\text{总市值}+\\text{总负债}-\\text{货币资金}}",
+          "stats": [null, null, null, null],
+          "evidence": "现金流比例 | 企业自由现金流/企业价值，其中 自由现金流=过去1年经营活动净现金流-构建固定资产、无形资产和其他长期资产支付的现金， |"
+        },
+        {
+          "name": "PCF",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{总市值}}{\\text{TTM经营活动产生的现金流量净额}}",
+          "stats": [null, null, null, null],
+          "evidence": "PCF | 总市值/TTM经营活动产生的现金流量净额 |"
+        },
+        {
+          "name": "1年股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去1年现金分红总额}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "要求过去1年、以及3年平均红利支付率均在0-1之间。"
+        },
+        {
+          "name": "3年股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去3年平均年现金分红}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "要求过去1年、以及3年平均红利支付率均在0-1之间。"
+        },
+        {
+          "name": "回购比例",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去1年累计回购金额}}{\\text{日均总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "回购比例 | 企业价值=总市值+总负债-货币资金 过去1年累计回购金额/日均总市值 |"
+        },
+        {
+          "name": "营收占比",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{公司营业收入}}{\\text{所属Wind二级行业总营收}}",
+          "stats": [0.0158, 0.032, null, null],
+          "evidence": "网络效应。用户越多，公司产品价值越高。我们通过市场份额，即公司营业收入占所属Wind二级行业总营收之比，来刻画网络效应。"
+        },
+        {
+          "name": "无形资产",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产负债表中的无形资产（扣除商誉）}",
+          "stats": [0.0115, 0.0228, null, null],
+          "evidence": "(2) 无形资产因子：资产负债表中的无形资产（扣除商誉）、以及无形资产/总资产两个指标等权排序打分"
+        },
+        {
+          "name": "无形资产占比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{无形资产（扣除商誉）}}{\\text{总资产}}",
+          "stats": [-0.0014, -0.003, null, null],
+          "evidence": "无形资产。无形资产能够为企业提供独特的竞争力，例如品牌、关键技术专利等。"
+        },
+        {
+          "name": "毛利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{毛利润}}{\\text{营业收入}}",
+          "stats": [0.0076, 0.0092, null, null],
+          "evidence": "·成本优势。成本优势允许企业在保持价格竞争力的同时还能保证利润率。我们采用半年度ROE、ROE_TTM、毛利率、ROE同比变化4个指标等权排序打分，来反映企业成本优势。"
+        },
+        {
+          "name": "最新ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{半年度ROE}",
+          "stats": [0.0174, 0.0271, null, null],
+          "evidence": "·成本优势。成本优势允许企业在保持价格竞争力的同时还能保证利润率。我们采用半年度ROE、ROE_TTM、毛利率、ROE同比变化4个指标等权排序打分，来反映企业成本优势。"
+        },
+        {
+          "name": "ROE同比变化",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE同比变化}",
+          "stats": [0.0171, 0.0266, null, null],
+          "evidence": "·成本优势。成本优势允许企业在保持价格竞争力的同时还能保证利润率。我们采用半年度ROE、ROE_TTM、毛利率、ROE同比变化4个指标等权排序打分，来反映企业成本优势。"
+        },
+        {
+          "name": "ROE_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE}_{TTM}",
+          "stats": [0.019, 0.0256, null, null],
+          "evidence": "·成本优势。成本优势允许企业在保持价格竞争力的同时还能保证利润率。我们采用半年度ROE、ROE_TTM、毛利率、ROE同比变化4个指标等权排序打分，来反映企业成本优势。"
+        },
+        {
+          "name": "现金利润占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营净现金流}-\\text{营业利润}}{\\text{净资产}}",
+          "stats": [0.01, 0.013, null, null],
+          "evidence": "拥有较强转换成本的企业，客户支付意愿强，回款快，具有健康的现金流。我们以现金利润占比，来反映转换成本。"
+        },
+        {
+          "name": "增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润同比变化}}{\\text{过去3年净利润同比变化波动率(6期)}}",
+          "stats": [null, null, null, null],
+          "evidence": "(1) 增长：净利润同比变化/过去3年净利润同比变化波动率(6期)"
+        },
+        {
+          "name": "研发投入",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年研发投入金额}",
+          "stats": [0.0274, 0.0135, null, null],
+          "evidence": "采用增长、研发投入、盈利能力、盈利质量、股价相对强度5 个因子等权排序打分，选择复合得分最高的30只股票构建等权"
+        },
+        {
+          "name": "盈利能力",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROIC（息前税后经营利润/(股东权益+有息负债)）与ROE同比变化等权排序复合}",
+          "stats": [null, null, null, null],
+          "evidence": "(3)盈利能力：ROIC（息前税后经营利润/(股东权益+有息负债)、及ROE同比变化等权排序复合"
+        },
+        {
+          "name": "1年累计收益",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年累计收益率}",
+          "stats": [0.0328, 0.0224, null, null],
+          "evidence": "(5) 股价相对强度：过去1年累计收益率、收益排序、以及区间振幅3因子等权排序打分。其中，"
+        },
+        {
+          "name": "收益排序",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{i=1}^{N}\\text{rank}_{t-i},\\ \\text{每日个股收益截面排序的过去1年日度等权平均}",
+          "stats": [0.0474, 0.0575, null, null],
+          "evidence": "收益排序因子：计算每日个股收益截面排序，然后将过去1年日度排序等权平均"
+        },
+        {
+          "name": "区间振幅",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去一年最高价}}{\\text{过去一年最低价}}-1",
+          "stats": [-0.0067, -0.0383, null, null],
+          "evidence": "区间振幅：过去一年最高价/最低价-1 | (5) 股价相对强度：过去1年累计收益率、收益排序、以及区间振幅3因子等权排序打分。其中，"
+        },
+        {
+          "name": "SUE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化盈利超预期（SUE）}",
+          "stats": [0.0263, 0.0285, null, null],
+          "evidence": "| 月均值 | 3.28% | 4.74% | -0.67% | 2.74% | 2.63% |  |"
+        },
+        {
+          "name": "小盘",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{FF小盘风格因子收益（2*3分组）}",
+          "stats": [null, null, null, -0.024],
+          "evidence": "| 小盘 | -2.4% | 43.0% | -1.01 | 0.316 | 6.2% 57.0% | 1.33 | 0.187 | -8.6% | 39.1% | -1.79 | 0.076 |"
+        },
+        {
+          "name": "价值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{FF价值风格因子收益（2*3分组）}",
+          "stats": [null, null, null, 0.072],
+          "evidence": "| 价值 | 7.2% | 53.9% | 1.64 | 0.103 | 0.7% 52.3% | 0.23 | 0.819 | 6.5% | 55.5% | 2.08 | 0.040 |"
+        },
+        {
+          "name": "盈利",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{FF盈利风格因子收益（2*3分组）}",
+          "stats": [null, null, null, 0.04],
+          "evidence": "| 盈利 | 4.0% | 58.6% | 1.25 | 0.214 | 9.1% 66.4% | 3.63 | 0.000 | -5.2% | 39.8% | -2.78 | 0.006 |"
+        },
+        {
+          "name": "成长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{FF成长风格因子收益（2*3分组）}",
+          "stats": [null, null, null, 0.087],
+          "evidence": "| 成长 | 8.7% | 61.7% | 3.25 | 0.001 | 11.6% 68.0% | 5.96 | 0.000 | -2.9% | 41.4% | -1.70 | 0.092 |"
+        },
+        {
+          "name": "动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{FF动量风格因子收益（2*3分组）}",
+          "stats": [null, null, null, 0.125],
+          "evidence": "| 动量 | 12.5% | 63.3% | 2.28 | 0.024 | 11.9% 68.8% | 2.81 | 0.006 | 0.6% | 50.8% | 0.24 | 0.810 |"
+        },
+        {
+          "name": "低波",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{FF低波风格因子收益（2*3分组）}",
+          "stats": [null, null, null, 0.047],
+          "evidence": "| 低波 | 4.7% | 55.5% | 1.04 | 0.302 | 4.4% 59.4% | 1.12 | 0.264 | 0.3% | 52.3% | 0.11 | 0.911 |"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["hk_connect"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "港股通个股市值普遍较大，小盘效应弱，而成长、动量效应突出，价值因子表现优于港股主板。",
+      "evidence": "要点：港股通个股市值普遍较大，小盘效应弱，而成长、动量效应突出，价值因子表现优于港股主板。"
+    },
+    {
+      "text": "风格因子检验显示：成长、动量效应强，小盘效应弱，价值效应强于港股主板。",
+      "evidence": "风格因子：成长、动量效应强，小盘效应弱，价值效应强于港股主板。"
+    },
+    {
+      "text": "价值因子中现金流比例表现最优，其次为PCF、股息率因子。",
+      "evidence": "因子表现：现金流比例表现最优，其次为PCF、股息率因子。"
+    },
+    {
+      "text": "基于现金流比例、股息率、回购比例3因子构建港股通价值策略，样本期间年化收益11.7%，相较于港股通指数年化超额9.5%。",
+      "evidence": "基于现金流比例、股息率、回购比例3因子构建港股通价值策略，样本期间（2015.01.01-2025.08.26，下同）年化收益11.7%，相较于港股通指数年化超额9.5%。"
+    },
+    {
+      "text": "基于网络效应、无形资产、成本优势、转换成本等因子构建港股通护城河策略，样本期间年化收益12.6%，相对港股通指数年化超额10.5%。",
+      "evidence": "基于网络效应、无形资产、成本优势、转换成本等因子，构建港股通护城河策略，样本期间年化收益12.6%，相对于港股通指数年化超额10.5%。"
+    },
+    {
+      "text": "基于增长、研发投入、盈利能力、盈利质量、股价相对强度5个因子等权排序打分的港股通成长策略，样本期间组合年化收益22.2%，相对港股通指数年化超额20.0%。",
+      "evidence": "基于增长、研发投入、盈利能力、盈利质量、股价相对强度5个因子等权排序打分，选择得分最高的30只股票构建等权港股通成长投资策略，样本期间组合年化收益22.2%，相对于港股通指数年化超额20.0%。"
+    },
+    {
+      "text": "基于市值、价值、成长、质量、动量5类经典因子等权排序打分的港股通均衡策略，样本期间策略年化收益25.1%，相对港股通指数年化超额23.0%。",
+      "evidence": "基于市值、价值、成长、质量、动量5类经典因子等权排序打分，选择得分最高的30只股票构建市值加权港股通均衡策略样本期间策略年化收益25.1%，相对于港股通指数年化超额23.0%。"
+    },
+    {
+      "text": "均衡策略信息比最高；护城河策略市场beta接近于1、和港股通指数跟踪最紧密，超额收益更多来源于其本身alpha。",
+      "evidence": "业绩表现：均衡策略信息比最高；护城河策略和指数跟踪最紧密。护城河策略在各风格因子上暴露都相对较低，市场beta接近于1，和港股通指数走势更为接近，超额收益更多来源于其本身alpha，超额收益波动率和相对回撤最低。"
+    },
+    {
+      "text": "剔除市场、风格影响后，均衡策略仍具有年化13.7%的alpha。",
+      "evidence": "剔除市场、风格影响后，策略仍具有年化13.7%的alpha。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

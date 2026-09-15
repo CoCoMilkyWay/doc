@@ -1,0 +1,297 @@
+{
+  "schema_version": 2,
+  "id": "20190704-国盛证券-多因子系列-007-对成长的分解及多维度寻找成长因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "roic",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{EBIT(1-taxrate)}{InvestmentCap}",
+          "stats": [0.0197, null, 0.7092, 0.1166],
+          "evidence": "长期来看，超过ROE的增长较难持续，ROE是增长之源，也是长期增长中枢。因此，虽然我们视ROIC和ROE为反映企业盈利能力指标，但其本质反映了企业的内生成长性。"
+        },
+        {
+          "name": "roe",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{净利润}{净资产}",
+          "stats": [0.0205, null, 0.6634, 0.1545],
+          "evidence": "从因子检验来看，基于净资产的回报率roe整体表现优于基于全部投入资本的回报率roic，对于二级市场投资者来说，更看重企业股权的回报。"
+        },
+        {
+          "name": "marginal_roic",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{(EBIT_{t}-EBIT_{t-1})(1-taxrate)}{InvestmentCap_{t}-InvestmentCap_{t-1}}",
+          "stats": [0.034, null, 2.17, 0.1249],
+          "evidence": "边际投资回报率反映企业相比于上期新投入资本带来的回报变化，比简单利用回报率同比因子有更好的选股效果；"
+        },
+        {
+          "name": "marginal_roe",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{NP_{t}-NP_{t-1}}{Equity_{t}-Equity_{t-1}}",
+          "stats": [0.0341, null, 1.98, 0.139],
+          "evidence": "边际投资回报率反映企业相比于上期新投入资本带来的回报变化，比简单利用回报率同比因子有更好的选股效果；"
+        },
+        {
+          "name": "roic_yoy",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{roic_{t}-roic_{t-1}}{roic_{t-1}}",
+          "stats": [0.0271, null, 1.91, 0.0947],
+          "evidence": "很多时候我们并不对这两个指标进行仔细区分，但因子所代表的含义并不一致：平均投资回报率综合考量投入额的回报，假设税率不变，平均投资回报率提升："
+        },
+        {
+          "name": "roe_yoy",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{roe_{t}-roe_{t-1}}{roe_{t-1}}",
+          "stats": [0.0221, null, 1.14, 0.0774],
+          "evidence": "很多时候我们并不对这两个指标进行仔细区分，但因子所代表的含义并不一致：平均投资回报率综合考量投入额的回报，假设税率不变，平均投资回报率提升："
+        },
+        {
+          "name": "tot_assets_yoy",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{Assets_{t}-Assets_{t-1}}{Assets_{t-1}}",
+          "stats": [0.0003, null, 0.01, 0.0567],
+          "evidence": "但换个角度，我们可以从新投资的资金来源衡量企业的扩张程度，即企业总资产、以及负债和权益规模的增长。"
+        },
+        {
+          "name": "tot_liab_yoy",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{Liabilities_{t}-Liabilities_{t-1}}{Liabilities_{t-1}}",
+          "stats": [0.0134, null, 0.75, 0.0708],
+          "evidence": "过去十年 A 股扩张以债权融资为主，因此负债增长率因子表现较好。"
+        },
+        {
+          "name": "equity_yoy",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{Equity_{t}-Equity_{t-1}}{Equity_{t-1}}",
+          "stats": [-0.0088, null, -0.45, 0.0324],
+          "evidence": "我们着重测试了三类与扩张程度相关的因子，包括：资产增长率因子 tot_assets_yoy、负债增长率因子 tot_liab_yoy 和权益增长率因子 equity_yoy。"
+        },
+        {
+          "name": "op_margin_delta",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{profit_{t}}{sales_{t}}-\\frac{profit_{t-1}}{sales_{t-1}}",
+          "stats": [0.0233, null, 1.66, 0.0858],
+          "evidence": "企业可以通过提高利润率或者加快资产周转率来提升自身的经营效率。利润率衡量了企业将销售额转化为利润的能力，周转率反映企业资产变现为销售额的能力。"
+        },
+        {
+          "name": "ebit_margin_delta",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{EBIT_{t}}{Sales_{t}}-\\frac{EBIT_{t-1}}{Sales_{t-1}}",
+          "stats": [0.0237, null, 1.78, 0.0981],
+          "evidence": "而其他利润率指标，比如 EBIT/Sales、NetProfit/Sales 等指标的提升，可能来自于毛利润的提升，也可能来自于企业期间费用、税率、非经常性损益的变动。从该逻辑出发，我们构建利润率变动因子。"
+        },
+        {
+          "name": "np_margin_delta",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{NetProfit_{t}}{Sales_{t}}-\\frac{NetProfit_{t-1}}{Sales_{t-1}}",
+          "stats": [0.0199, null, 1.34, 0.0708],
+          "evidence": "企业毛利率（Operation Profit/Sales）很大程度上是由产品或者行业的天然属性决定的，高毛利率往往是高盈利的出发点。而毛利率的提高，更有可能来自于企业对产品或业务的革新，为最终投资回报率的提升打好基础。"
+        },
+        {
+          "name": "totassets_trnv_delta",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{sales_{t}}{assets_{t}}-\\frac{sales_{t-1}}{assets_{t-1}}",
+          "stats": [0.03, null, 2.21, 0.1045],
+          "evidence": "从因子表现来看，从分解项考察，totassets_trnv_delta 因子、ebit_margin_delta 因子和op_margin_delta 因子表现较为突出。"
+        },
+        {
+          "name": "curassets_trnv_delta",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{sales_{t}}{curassets_{t}}-\\frac{sales_{t-1}}{curassets_{t-1}}",
+          "stats": [0.0217, null, 1.81, 0.0649],
+          "evidence": "因此我们在考察总资产周转率及其变动因子的同时，也同时考察了不同类型资产的周转率变化因子。"
+        },
+        {
+          "name": "fixassets_trnv_delta",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{sales_{t}}{fixassets_{t}}-\\frac{sales_{t-1}}{fixassets_{t-1}}",
+          "stats": [0.0175, null, 1.68, 0.0674],
+          "evidence": "不同企业经营所依赖的资产有较大区别，着重考察的资产周转率也有所侧重，例如相对于轻资产企业来说，重资产行业的企业更加重视固定资产的周转率。"
+        },
+        {
+          "name": "RDtoSales0",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{当期研发支出}{期初营业收入}",
+          "stats": [0.002, null, 0.05, 0.0123],
+          "evidence": "从研发投入意愿来看，RDtoSales0 因子在周期类的建筑、基础化工，消费类的农林牧渔，以及 TMT行业中的电子元器件、计算机和通信行业中有较好的区分度；"
+        },
+        {
+          "name": "RDtoIndRD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{当期研发支出}{同行业研发支出总额}",
+          "stats": [0.0142, null, 0.61, 0.0834],
+          "evidence": "从研发投入强度来看，RDtoIndRD因子在大部分行业有效；从转化效率来看，MarginalSalestoRD因子在农林牧渔、食品饮料、建材、汽车、机械等行业的区分度较好。"
+        },
+        {
+          "name": "MarginalSalestoRD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{营收增长}{上期研发支出}",
+          "stats": [0.0122, null, 0.5, 0.0628],
+          "evidence": "从研发投入强度来看，RDtoIndRD因子在大部分行业有效；从转化效率来看，MarginalSalestoRD因子在农林牧渔、食品饮料、建材、汽车、机械等行业的区分度较好。"
+        },
+        {
+          "name": "ADtoSales0",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{当期广告宣传推广费}{期初营业收入}",
+          "stats": [0.0031, null, 0.16, 0.0175],
+          "evidence": "从宣传投入意愿来看，ADtoSales0 因子在周期类的电力设备和机械，消费类的餐饮旅游、轻工制造中有较好的区分度；"
+        },
+        {
+          "name": "ADtoIndAD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{当期广告宣传推广费}{同行业广告宣传支出总额}",
+          "stats": [0.003, null, 0.18, 0.0866],
+          "evidence": "从推广投入强度来看，ADtoIndAD因子在消费类行业中的有效性更高一些；从转化效率来看，MarginalSalestoAD 因子在建材、机械、电力设备、餐饮旅游、计算机、电子元器件等行业的区分度较好。"
+        },
+        {
+          "name": "MarginalSalestoAD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{营收增长}{上期广告宣传推广费}",
+          "stats": [0.0133, null, 0.71, 0.0895],
+          "evidence": "从推广投入强度来看，ADtoIndAD因子在消费类行业中的有效性更高一些；从转化效率来看，MarginalSalestoAD 因子在建材、机械、电力设备、餐饮旅游、计算机、电子元器件等行业的区分度较好。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在控制风格和行业之后，成长因子能提供alpha信息；相对于常见的业绩增长类因子，投资回报率、边际投资回报率和资产增长类因子仍然能提供新的增量。",
+      "evidence": "在控制风格和行业之后，成长因子能提供 alpha 信息；相对于常见的业绩增长类因子，投资回报率、边际投资回报率和资产增长类因子仍然能提供新的增量；从时间序列上来看，在外延式增长占主导时期（2014~2016），市场情绪较为激进，投资者追逐业绩增长，并不对投资质量进行严格评判；而内生增长占主导时期（如 2010 年、2017~2018 年），投资者偏向保守，更注重企业内生增长和效率提升。"
+    },
+    {
+      "text": "利用多维度成长性因子构建中证500成长增强策略，相比于基准能提供11.54%的年化收益，信息比1.97；相比于单纯用业绩增长因子策略，年化收益提高5.45%，信息比提高0.95。",
+      "evidence": "利用多维度成长性因子能提升组合表现。我们尝试利用大类成长因子构建中证 500 成长增强策略，相比于基准能提供 11.54%的年化收益，信息比 1.97；相比于单纯用业绩增长因子策略，年化收益提高 5.45%，信息比提高 0.95。"
+    },
+    {
+      "text": "边际投资回报率反映企业相比于上期新投入资本带来的回报变化，比简单利用回报率同比因子有更好的选股效果，ICIR和多空组合的信息比更高。",
+      "evidence": "从边际回报率因子的定义方式来看，分子端利润的增长本身就带有规模增长的影响；从因子回测表现来看，边际回报率因子比回报率同比因子的选股能力更强，因子的ICIR和多空组合的信息比也更高。"
+    },
+    {
+      "text": "业绩增长信号在2014年到2016年整体比投资回报率信号的表现要强，而在2010年、2017年至2019年则相反，外延式增长占主导时期市场情绪较为激进，内生增长占主导时期更注重效率提升。",
+      "evidence": "从测试结果来看，业绩增长信号在2014年到2016年整体比投资回报率信号的表现要强，而在 2010年、2017年至2019年则相反。"
+    },
+    {
+      "text": "A股上市企业的资产增长以外源融资为主导，过去十年A股扩张以债权融资为主，因此负债增长率因子表现较好。",
+      "evidence": "A 股上市企业的资产增长是以外源融资为主导的，包括股权再融资与债权再融资。过去十年 A 股扩张以债权融资为主，因此负债增长率因子表现较好。"
+    },
+    {
+      "text": "在剔除了业绩增长类因子后，投资回报率、边际投资回报率因子仍然能提供增量信息；反过来将业绩增长因子对其他几大类因子剥离后所剩信息较少，多维度因子能覆盖大部分业绩增长因子的信息。",
+      "evidence": "由于业绩增长本身是经营效率增长的结果呈现，大类因子的信息本身包含在业绩增长因子中，而在剔除了业绩增长类因子后，投资回报率、边际投资回报率因子仍然能提供增量信息。"
+    },
+    {
+      "text": "整体来看因子在不同指数域内相对风险模型能提供增量信息，沪深300中营收增长和负债增长因子增量较多，中证500中毛利率增长、边际投资回报率因子增量较多，1000中业绩增长、投资回报率、边际投资回报率因子增量较多。",
+      "evidence": "整体来看因子在不同指数域内相对风险模型能提供增量信息。沪深 300中营收增长和负债增长因子的增量较多；中证500中毛利率增长、边际投资回报率因子的增量较多；1000中业绩增长、投资回报率、边际投资回报率因子增量较多。"
+    },
+    {
+      "text": "2008~2009年、2011~2016年A股整体利润增长由新投资扩张主导，增量空间成主要投资逻辑；2010年、2017年至今增长更多来自效率改善，存量结构成为投资基调，这解释了2017年以来成长风格疲软的现象。",
+      "evidence": "2008~2009 年、2011~2016 年 A 股整体利润增长是由新投资扩张主导，“增量空间”成主要投资逻辑；2010年、2017年至今，A股的增长更多来自于效率的改善，“存量结构”成为投资的基调。这也从侧面解释了自2017年以来成长风格疲软的现象。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chan L K C, Karceski J, Lakonishok J, et al. Balance sheet growth and the predictability of stock returns (2008)",
+    "Chan L K C, Lakonishok J, Sougiannis T. The stock market valuation of research and development expenditures (2001)",
+    "Damodaran A. Return on capital (ROC), return on invested capital (ROIC) and return on equity (ROE): Measurement and implications (2007)",
+    "Damodaran A. The origins of growth: past growth, predicted growth and fundamental growth (2008)",
+    "Mohanram P S. Separating Winners from Losers among Low-Book-to-Market Stocks using Financial Statement Analysis (2005)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

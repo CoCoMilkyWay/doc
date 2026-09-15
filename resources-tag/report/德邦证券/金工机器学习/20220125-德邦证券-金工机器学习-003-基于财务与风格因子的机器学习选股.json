@@ -1,0 +1,138 @@
+{
+  "schema_version": 2,
+  "id": "20220125-德邦证券-金工机器学习-003-基于财务与风格因子的机器学习选股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_mining"],
+      "approach": ["style_ratio", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "基于风格因子的机器学习残差因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R_{T}=B_{T-\\Delta T}\\cdot b_{T}+\\varepsilon_{T},\\quad \\tilde{G}_{T}=\\text{Orth}(G(B_{T}),B_{T})",
+          "stats": [null, 0.035, 0.623, null],
+          "evidence": "我们的目的是构造一个不暴露风格，但力求赚取特质收益率的投资组合。我们把风格因子和其他因子作为机器学习模型的输入，拟合特质收益率"
+        },
+        {
+          "name": "基于风格和财务因子的机器学习残差因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon_{T}=G(B_{T-\\Delta T},X_{T-\\Delta T})+\\varepsilon_{T}^{\\prime},\\quad G_{T}=G(B_{T},X_{T}),\\quad \\tilde{G}_{T}=\\text{Orth}(G_{T},B_{T})",
+          "stats": [null, 0.055, 0.92, null],
+          "evidence": "本文在机器学习系列之一、之二的基础上通过引入财务因子，显著增强了机器学习模型的选股能力。回测结果表明，引入少量几个财务因子即可大幅提高模型的选股能力。"
+        },
+        {
+          "name": "机器学习反转因子",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "-\\varepsilon_{T}^{\\prime}=B_{T-\\Delta T}\\cdot b_{T}^{\\prime}+\\epsilon_{T}",
+          "stats": [null, 0.068, 1.175, null],
+          "evidence": "实际情况下，模型对收益率具有一定的解释力度，但由于信息或模型的非完备性而无法完全解释，故 $\\varepsilon_{T}^{\\prime}$ 既包含模型不能解释的部分，也包含错误定价的成分，其中，前者的方向不确定，后者倾向于在未来反转。"
+        },
+        {
+          "name": "复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "M_{T}=\\frac{\\tilde{G}_{T}-\\bar{\\tilde{G}}_{T}}{\\sigma(\\tilde{G}_{T})}+\\frac{\\epsilon_{T}-\\bar{\\epsilon}_{T}}{\\sigma(\\epsilon_{T})}",
+          "stats": [null, 0.066, 1.132, null],
+          "evidence": "我们根据 2.3 节和 2.4节介绍的两个选股因子构造一个复合因子。我们选用一种等权的复合因子构造方法。在每个横截面上，我们将机器学习残差因子和机器学习反转因子分别做z-score处理并相加以计算复合残差因子"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_cost"],
+      "approach": ["capacity"],
+      "setup": {"universe": ["csi1000"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "综合使用风格与财务因子进行选股，在风格因子的基础上，引入财务因子数据，可以大幅提高机器学习模型的选股能力。",
+      "evidence": "综合使用风格与财务因子进行选股。在风格因子的基础上，引入财务因子数据，可以大幅提高机器学习模型的选股能力。"
+    },
+    {
+      "text": "仅基于风格因子的机器学习残差因子，多头与多空净值自2021年起都经历了大幅度、长时间的回撤，且从2015年至2018年超额收益不显著，十因子的机器学习模型尚待改善。",
+      "evidence": "无论是以多空净值还是多头净值，自 2021年起都经历了大幅度、长时间的回撤，且从2015年至 2018年超额收益不显著。因此，十因子的机器学习模型尚待改善。"
+    },
+    {
+      "text": "引入财务因子后，机器学习残差因子在全市场的平均RankIC为0.055，RankICIR为0.92；在中证1000成分股内平均RankIC为0.057，Rank ICIR为0.635。",
+      "evidence": "从 2015-01-05 至 2021-12-06，因子在全市场的平均 RankIC 为 0.055，RankICIR 为 0.92；因子在中证 1000 成分股内平均 RankIC 为 0.057，Rank ICIR 为0.635。"
+    },
+    {
+      "text": "机器学习反转因子在全市场平均RankIC为0.068，Rank ICIR为1.175；在中证1000成分股内平均RankIC为0.073，Rank ICIR为0.869。",
+      "evidence": "从2015-01-05至 2021-12-06，在全市场，平均 RankIC 为 0.068，Rank ICIR 为 1.175；在中证 1000 成分股内，平均 RankIC 为 0.073，Rank ICIR 为 0.869。"
+    },
+    {
+      "text": "2015年至2021年策略在每一年的超额收益均为正值，从2015年初至今策略相对中证1000指数的超额年化收益率约为14%，信息比率为2.35，且每一年信息比率均大于1.5。",
+      "evidence": "从 2015 年至 2021年，策略在每一年的超额收益均为正值。从 2015年初至今，策略相对中证1000指数的超额年化收益率约为 14%，信息比率为 2.35，且每一年信息比率均大于1.5。"
+    },
+    {
+      "text": "策略的年度平均双边换手率为8.14，换手率并不高。",
+      "evidence": "图中的红线的高度代表的是调仓日的换手率的均值，该数值为 0.678，故该策略的年度平均双边换手率为 8.14，换手率并不高。"
+    },
+    {
+      "text": "通过增加分组构造高集中度组合后，空头收益大幅提升，多头收益并未提高，故多空净值曲线的表现有大幅提升，而多头净值曲线没有明显的变化。",
+      "evidence": "相对图 11中的多头组 1和空头组 5，高集中度多头组（组 15）的收益并未提高，但高集中度的空头组（组 1）的空头收益大幅提升，故多空净值曲线的表现有大幅提升，而多头净值曲线没有明显的变化。"
+    },
+    {
+      "text": "虽然空头收益尚可，但多头收益极低，因此复合因子在沪深300股票池中基本完全失去了有效性。",
+      "evidence": "虽然空头收益尚可，但多头收益极低，因此复合因子在沪深 300股票池中基本完全失去了有效性。"
+    },
+    {
+      "text": "组合容量测试中初始资金量从10亿增加到500亿，年化收益率从16.1%下降到11.1%。",
+      "evidence": "初始资金量从10亿增加到 500亿，年化收益率从16.1%下降到11.1%。"
+    },
+    {
+      "text": "如果以决策后第15日的调仓完成度总体上不低于90%为标准，则策略的资金容量约为100亿元。",
+      "evidence": "如果以决策后第 15日的调仓完成度总体上不低于 90%为标准，则策略的资金容量约为100 亿元。"
+    },
+    {
+      "text": "收益归因的结果表明，组合的超额收益大多来自于因子的独立于风格、行业之外的特质选股能力。",
+      "evidence": "收益归因的结果表明，组合的超额收益大多来自于因子的独立于风格、行业之外的特质选股能力。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《利用机器学习捕捉因子的非线性效应—德邦金工机器学习专题之一》2021.10.18",
+    "《机器学习因子：在线性因子模型中捕获非线性—德邦金工文献精译第一期》2021.9.17",
+    "《机器学习残差因子表现归因—德邦金工机器学习专题之二》2021.11.24"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

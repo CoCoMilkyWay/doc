@@ -1,0 +1,315 @@
+{
+  "schema_version": 2,
+  "id": "20110519-广发证券-多因子-004-多因子alpha模型研究_沪深300成份股的应用分析上",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "expectation_level", "analyst_behavior", "momentum_reversal"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "相对 PE",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{个股PE}}{\\text{申万一级行业平均PE}}",
+          "stats": [null, null, 1.3258, null],
+          "evidence": "实证的结果也印证了上述观点。从因子胜率来分析，相对PE，相对PS和相对PCF胜率都在60%以上。"
+        },
+        {
+          "name": "相对 PS",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{个股PS}}{\\text{申万一级行业平均PS}}",
+          "stats": [null, null, 1.4214, null],
+          "evidence": "从逐年累积收益的结果分析，除了相对PB收益表现不太理想以外，所有其他估值因子表现十分优异。无论在牛市或熊市，这些估值因子都能获得正收益。"
+        },
+        {
+          "name": "相对 PCF",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{个股PCF}}{\\text{申万一级行业平均PCF}}",
+          "stats": [null, null, 1.0091, null],
+          "evidence": "从上述结果可推导出沪深300成分股里，相对估值水平较低的股票长期都有优于相对估值较高股票的表现，投资者应好好运用。纵观各估值因子的换手率，也都在20%以下。"
+        },
+        {
+          "name": "相对预测市盈率",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股价}/\\text{一致预期EPS}}{\\text{申万一级行业平均预测市盈率}}",
+          "stats": [null, null, 1.3696, null],
+          "evidence": "特别是相对预测市盈率，平均年收益可达17%。在07年以及09年的牛市里均能获得47%和31%的正收益，获利能力惊人。鉴于估值类因子的卓越表现，我们把除相对PB以外的所有因子纳入到最终因子备选库。"
+        },
+        {
+          "name": "负债权益比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总负债}/\\text{股东权益}",
+          "stats": [null, null, 1.0092, null],
+          "evidence": "年化信息比来看，本类有三个因子能获得正收益，而最值得推荐的是负债权益比，年化信息比可达1.而从t检验结果分析，负债权益比的历史收益十分显著，证明该因子长期持续有效。"
+        },
+        {
+          "name": "资产负债率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总负债}/\\text{总资产}",
+          "stats": [null, null, 0.6438, null],
+          "evidence": "从逐年的因子累计收益分析，负债权益比与资产负债率两个因子的表现也是明显优于其他因子。两个因子都只在10年的震荡市中出现亏损。"
+        },
+        {
+          "name": "三个月股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-r_{t-3,t}",
+          "stats": [null, null, 0.2706, null],
+          "evidence": "从逐年累积收益的分析中，我们发现了一个有趣现象，三个月股价动量因子收益从07年到09年一直出现较大亏损，可以证明沪深300股票在这三年里面一直都存在较强的三个月反转效应。"
+        },
+        {
+          "name": "一个月内评级改变",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月内分析师评级调整方向与幅度}",
+          "stats": [null, null, 0.9886, null],
+          "evidence": "从结果来看，该因子的有效性还是十分显著。因子胜率高达67%，评级改变较好股票持续有较优表现。年化的信息比率也接近1，证明收益稳定。从t检验结果来看，我们也发现该因子收益十分显著，值得强烈推荐。"
+        },
+        {
+          "name": "ROA(资产收益率)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润}/\\text{总资产}",
+          "stats": [null, null, 0.4274, null],
+          "evidence": "从因子胜率的角度来看，该类别中仅“ROA”能获得60%的因子胜率。表明在我们的历史回溯区间里，沪深300里资产收益率较高的股票往往会获得较高的股票收益。"
+        },
+        {
+          "name": "ROE(净资产收益率)(同比)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{ROE}_t-\\text{ROE}_{t-4}}{\\text{ROE}_{t-4}}",
+          "stats": [null, null, 0.4587, null],
+          "evidence": "从逐年累积收益的情况来看，ROE（同比）因子的表现也印证了它高信息比的结果，收益表现叫其他因子较为稳定。而且从10年开始，该因子的表现持续走强，我们看好该因子的后续走势，并把它选为我们最终多因子模型的其中一个有效因子。"
+        },
+        {
+          "name": "主营业务收入增长率(%)(同比)",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{主营业务收入}_t-\\text{主营业务收入}_{t-4}}{\\text{主营业务收入}_{t-4}}",
+          "stats": [null, null, 0.5357, null],
+          "evidence": "从逐年累计收益的结果来分析，主营业务收入增长率(%)(同比)该因子表现较优，除了08年获得负收益外，其他年份基本保持了正的年收益。"
+        },
+        {
+          "name": "净利润增长率(%)（同比)",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}_t-\\text{净利润}_{t-4}}{\\text{净利润}_{t-4}}",
+          "stats": [null, null, 0.6709, null],
+          "evidence": "而净利润增长率(%)(同比)因子也有不俗表现。可以看到该因子在06，07年的大行情里面比同类因子拥有明显的优势。在10年的震荡行情中也有十分好的表现。"
+        },
+        {
+          "name": "经营活动产生的现金流量净额(同比增长率)",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营活动现金流量净额}_t-\\text{经营活动现金流量净额}_{t-4}}{\\text{经营活动现金流量净额}_{t-4}}",
+          "stats": [null, null, 0.9793, null],
+          "evidence": "经营活动产生的现金流量净额(同比增长率)因子则为最稳定的因子，在08年的熊市里因子也只是出现小幅回落。仔细观察该因子的累积收益变化，发现是一个稳步上扬的趋势，波动要较同类其他因子较小，也印证了信息比最优的观点。"
+        },
+        {
+          "name": "经营活动产生的现金流量净额比总市值",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营活动产生的现金流量净额}/\\text{总市值}",
+          "stats": [null, null, 0.7219, null],
+          "evidence": "现金流类因子两极分化较为严重，仅经营活动产生的现金流量净额比总市值因子能获得正值的年化信息率。该因子的胜率虽然低于60%，但已经是同类最高。而较高的年化信息比，以及十分显著的P值，都证明了该因子的有效性。"
+        },
+        {
+          "name": "速动比率(同比)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{速动比率}_t-\\text{速动比率}_{t-4}}{\\text{速动比率}_{t-4}}",
+          "stats": [null, null, 0.7643, null],
+          "evidence": "特别是速动比率(同比)该因子，信息率可达0.7以上，风险超额收益较高。从t检验的结果来看，速动比率(同比)的收益也显著不为0，值得关注！"
+        },
+        {
+          "name": "市值自然对数",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{总市值})",
+          "stats": [null, null, 0.7124, null],
+          "evidence": "而市值自然对数因子以及流通市值自然对数因子的信息比也达到0.7.此三个因子在t检验中也都分别通过t检验10%的显著水平，其中，总资产自然对数更低于5%，显示该因子的收益十分显著。"
+        },
+        {
+          "name": "流通市值自然对数",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{流通市值})",
+          "stats": [null, null, 0.7035, null],
+          "evidence": "从逐年累计收益的表现来分析，市值自然对数，流通市值自然对数和总资产自然对数因子累积收益不约而同的从07年开始往上攀升，就算在08年的大熊市以及10年的震荡行情中也能获得良好的超额收益。"
+        },
+        {
+          "name": "总资产自然对数",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{总资产})",
+          "stats": [null, null, 0.8475, null],
+          "evidence": "分析各规模因子的胜率，总资产自然对数拥有65%胜率，属于指标的“推荐”因子。这表明沪深300成分股里，总资产低的股票战胜总资产高的股票概率高。"
+        },
+        {
+          "name": "股权集中度",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=1}^{10}\\text{前10大股东持股比例}_i",
+          "stats": [null, null, 0.2935, null],
+          "evidence": "而另一个值得注意的因子是股权集中度，该因子的胜率为42.86%。这说明了若按总市值占比计算，沪深300成分股前10大股东占比较小的股票战胜占比较大的股票概率大，所以我们可通过反向操作，捕获正值的年化信息比。"
+        },
+        {
+          "name": "股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{每股股利}/\\text{股价}",
+          "stats": [null, null, 0.8581, null],
+          "evidence": "股息率的信息比较高，可达0.85，说明股息率高的股票有较稳定的超额收益。从t检验结果分析，股息率因子P值小于5%的阀值，有十分显著的收益。而从换手率的角度去考虑，股息率因子换手率也低于另一个因子。"
+        },
+        {
+          "name": "固定资产周转率",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入}/\\text{固定资产}",
+          "stats": [null, null, 0.8735, null],
+          "evidence": "总体来看，营运类因子表现不错。从因子胜率来看，固定资产周转率因子和总资产周转率因子都刚好为60%，刚好达到我们“可选”因子标准。而从因子信息比来看，该两个因子也有较高的信息比值，具有稳定的因子收益。"
+        },
+        {
+          "name": "总资产周转率",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入}/\\text{总资产}",
+          "stats": [null, null, 0.9933, null],
+          "evidence": "并且两个因子都拥有低于5%的P值，有足够的理由相信该两个因子的收益十分显著。并且相对较低的换手率也为两因子加分不少。"
+        },
+        {
+          "name": "存货周转率(同比)",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{存货周转率}_t-\\text{存货周转率}_{t-4}}{\\text{存货周转率}_{t-4}}",
+          "stats": [null, null, 1.1777, null],
+          "evidence": "而年化信息比来看，存货周转率(同比)因子拥有很高的信息比，证明该因子能捕获长期稳定的收益。总资产周转率(同比)因子排名第二。"
+        },
+        {
+          "name": "总资产周转率(同比)",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{总资产周转率}_t-\\text{总资产周转率}_{t-4}}{\\text{总资产周转率}_{t-4}}",
+          "stats": [null, null, 0.6896, null],
+          "evidence": "而从t检验结果来进行研判，存货周转率(同比)银子还是占绝对优势，收益率十分显著。而总资产周转率(同比)因子P值也压边界在5%，有效性也十分明显。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "return_test", "regression_test"],
+      "setup": {"universe": ["csi300"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "从因子累积收益、IR、胜率、T检验以及换手率等角度综合分析，从十四类共84个备选因子中最终选出24个因子构建Alpha模型。",
+      "evidence": "通过历史数据分析，从因子累积收益、IR、胜率、T检验以及换手率等角度综合分析，最终选择估值、动量/反转、规模、盈利、成长、杠杆、营运能力、现金流、红利、一致预期以及评级改变等 24 个因子构建 Alpha 模型。"
+    },
+    {
+      "text": "从因子胜率来分析，相对PE，相对PS和相对PCF胜率都在60%以上，相对预测市盈率的因子胜率更高达70%，值得强烈推荐；估值类因子表现占绝对优势。",
+      "evidence": "从因子胜率来分析，相对PE，相对PS和相对PCF胜率都在60%以上。而相对预测市盈率的因子胜率更高达70%，值得强烈推荐。"
+    },
+    {
+      "text": "沪深300成分股存在长期的规模效应，市值自然对数、流通市值自然对数和总资产自然对数因子累积收益从07年开始往上攀升，即使08年大熊市与10年震荡市也能获得良好的超额收益。",
+      "evidence": "从逐年累计收益的表现来分析，市值自然对数，流通市值自然对数和总资产自然对数因子累积收益不约而同的从07年开始往上攀升，就算在08年的大熊市以及10年的震荡行情中也能获得良好的超额收益。"
+    },
+    {
+      "text": "沪深300成分股的反转效应强于动量效应，所有动量年化信息比都为负值，三个月反转因子经反向操作后被纳入最终因子库。",
+      "evidence": "从年化信息比可看出，沪深300成分股的反转效应还是强于动量效应，所有动量年化信息比都为负值。"
+    },
+    {
+      "text": "盈利（同比）类因子表现要较盈利（绝对值）类因子好，胜率更高，且所有因子都能获得正的信息比。",
+      "evidence": "对比发现总体而言，盈利（同比）类的因子表现要较盈利（绝对值）类因子的表现要好，因子胜率也较高。因子胜率方面，本类因子有两个因子的胜率超过60%，它们分别是ROE（同比）以及财务费用比例(%)(同比)。从信息比的角度来看，本类所有因子都能获得正的信息比，优于盈利（绝对值）类的因子。"
+    },
+    {
+      "text": "一致预期因子表现糟糕至极：超低的因子胜率、负值的年化信息比率以及奇高的P值，预测净利润增长与预测主营业务增长两个因子被放弃。",
+      "evidence": "本类因子表现可用糟糕至极来形容，超低的因子胜率，负值的年化信息比率以及奇高的P值都证明了该类因子的无效性。"
+    },
+    {
+      "text": "基于蒙特卡罗模拟对比FF排序打分法与OLS回归法产生因子回报，两种方法与真实因子回报对比均能产生较好的效果。",
+      "evidence": "然后针对模拟出来的股票收益以及因子暴露，用两种不同的方法产生因子回报，并与真实因子回报对比，发现均能产生较好的效果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama和French在1992年和1993年所撰写的报告（排序打分法原型）",
+    "多因子alpha模型研究：沪深300成份股应用分析（下）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

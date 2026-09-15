@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "id": "20180426-广发证券-多因子-036-机器学习多因子动态调仓策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{净资产收益率}",
+          "stats": [0.0072, null, 0.06, null],
+          "evidence": "本报告选取7类风格因子，其中盈利因子（ROE）、质量因子（速动比率）、成长因子（ROE同比）、估值因子（EP）为正向因子，而规模因子（流通市值）、流动性因子（月成交金额）、技术因子（20日收益率）为负向因子。"
+        },
+        {
+          "name": "速动比率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{上期财报速动比率}",
+          "stats": [0.0068, null, 0.06, null],
+          "evidence": "本报告选取7类风格因子，其中盈利因子（ROE）、质量因子（速动比率）、成长因子（ROE同比）、估值因子（EP）为正向因子，而规模因子（流通市值）、流动性因子（月成交金额）、技术因子（20日收益率）为负向因子。"
+        },
+        {
+          "name": "YOYROE",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{ROE同比增长率}",
+          "stats": [0.0088, null, 0.12, null],
+          "evidence": "本报告选取7类风格因子，其中盈利因子（ROE）、质量因子（速动比率）、成长因子（ROE同比）、估值因子（EP）为正向因子，而规模因子（流通市值）、流动性因子（月成交金额）、技术因子（20日收益率）为负向因子。"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "EP=\\frac{1}{PE}",
+          "stats": [0.0301, null, 0.25, null],
+          "evidence": "本报告选取7类风格因子，其中盈利因子（ROE）、质量因子（速动比率）、成长因子（ROE同比）、估值因子（EP）为正向因子，而规模因子（流通市值）、流动性因子（月成交金额）、技术因子（20日收益率）为负向因子。"
+        },
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{流通市值}",
+          "stats": [0.0287, null, 0.29, null],
+          "evidence": "本报告选取7类风格因子，其中盈利因子（ROE）、质量因子（速动比率）、成长因子（ROE同比）、估值因子（EP）为正向因子，而规模因子（流通市值）、流动性因子（月成交金额）、技术因子（20日收益率）为负向因子。"
+        },
+        {
+          "name": "月成交金额",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{1}{20}\\sum_{i=1}^{20}\\text{成交金额}_{t-i+1}",
+          "stats": [0.0587, null, 0.43, null],
+          "evidence": "本报告选取7类风格因子，其中盈利因子（ROE）、质量因子（速动比率）、成长因子（ROE同比）、估值因子（EP）为正向因子，而规模因子（流通市值）、流动性因子（月成交金额）、技术因子（20日收益率）为负向因子。"
+        },
+        {
+          "name": "股价反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{过去20个交易日涨跌幅}",
+          "stats": [0.0644, null, 0.4, null],
+          "evidence": "本报告选取7类风格因子，其中盈利因子（ROE）、质量因子（速动比率）、成长因子（ROE同比）、估值因子（EP）为正向因子，而规模因子（流通市值）、流动性因子（月成交金额）、技术因子（20日收益率）为负向因子。"
+        },
+        {
+          "name": "复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "w_{i,t}=\\max(IC_{i,t},0)\\text{（正向因子）或}\\max(-IC_{i,t},0)\\text{（负向因子），归一化后}\\sum w_{i,t}=1\\text{加权合成}",
+          "stats": [0.0826, null, 0.6627, null],
+          "evidence": "如表13所示，相比于因子等权复合因子，基于滚动训练的XGBoost模型得到复合因子的平均IC值提高了21.7%，但波动性更大一些，ICIR与因子等权复合因子基本相当。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["weighting", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost", "L5_hedge"],
+      "approach": ["heuristic_ranking", "turnover", "futures_hedge"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "基于滚动样本训练的多因子动态调仓策略更好地追踪市场风格变化，2014年以来累积收益率107.89%，胜率63.21%，年化收益率20.08%，最大回撤7.68%，信息比1.74，较因子等权和固定模型策略分别提高59.6%和27.9%。",
+      "evidence": "基于滚动样本训练的机器学习多因子动态调仓策略能够更好地追踪市场风格的变化，2014 年以来该策略累积收益率达到 107.89%，胜率达到63.21%，年化收益率达到 20.08%，最大回撤为 7.68%，信息比为 1.74，分别较因子等权策略和固定模型的多因子策略提高了59.6%和 27.9%。"
+    },
+    {
+      "text": "缓冲池个股数占比为10%时换手率控制效果最优：平均换手率下降38.2%，年化收益率比因子等权和无换手率限制分别提高61.4%和10.3%，信息比为因子等权的1.35倍，最大回撤和胜率也有提升。",
+      "evidence": "当缓冲池个股数占比为10%时，动态调仓策略的平均换手率下降了38.2%，年化收益率比因子等权策略和无换手率限制分别提高61.4%和10.3%，信息比为因子等权策略的1.35倍，最大回撤和胜率较因子等权策略也有一定提升。"
+    },
+    {
+      "text": "XGBoost模型预测的因子IC与实际值的秩相关系数样本外平均达18.19%，显著高于风格动量模型的7.79%，说明模型能很好预测因子IC的相对大小关系。",
+      "evidence": "从图8和表6从可以看出，XGBoost模型预测得到的因子IC值与实际值之间的秩相关系数在样本外的平均值达到18.19%，显著高于风格动量模型的7.79%，这说明模型能够很好的预测因子IC值之间的相对大小关系。"
+    },
+    {
+      "text": "相比基于动量效应的因子IC估计值，XGBoost模型预测IC的平均绝对误差明显更小，平均误差降低率在20%左右。",
+      "evidence": "相对于基于动量效应的因子IC估计值，XGBoost模型预测得到的IC值与实际IC值之间的平均绝对误差明显更小，平均的误差降低率在20%左右。"
+    },
+    {
+      "text": "单因子择时选股虽年化超额收益略降，但年化波动率显著降低、最大回撤普遍更小，7个因子中4个信息比提升，证明因子择时有效。",
+      "evidence": "单因子择时选股时，年化超额收益较不择时有所降低，但是年化波动率都显著降低，最大回撤也普遍更小，7个因子中有4个因子的信息比得到了提升，这证明了因子择时是有效果的。"
+    },
+    {
+      "text": "规模、反转、流动性等因子自2017年4月开始表现不佳，滚动训练模型相应减小其权重，说明其更好地追踪到了市场风格的变化。",
+      "evidence": "我们从图1中可以看出，规模、反转、流动性等因子是从2017年4月份开始表现不佳，这说明滚动训练的模型更好地追踪到了市场风格的这一种变化。"
+    },
+    {
+      "text": "限制换手率的动态调仓策略显著好于因子等权策略，模型滚动训练进一步提升表现，在胜率、年化收益率、信息比、最大回撤等各项指标上都显著更高。",
+      "evidence": "历史回测表明，限制换手率的多因子动态调仓策略的表现显著好于因子等权策略，而基于模型滚动训练的多因子动态调仓策略则进一步提升了回测表现，在胜率、年化收益率、信息比、最大回撤等各项指标上都显著高于因子等权策略。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "G. Nalbantov, R. Bauer 等关于因子风格轮动与经济状况关系的研究",
+    "Keith Miller 和 Hong Li 等关于Alpha因子有效性与市场变量、宏观经济变量关系的研究",
+    "《多因子Alpha系列报告之（三十五）——宏观视角下的风格轮动探讨》",
+    "《多因子Alpha系列报告之（二十）——基于风格回复的多因子动态调仓策略》",
+    "《多因子Alpha系列报告之（十二）——从ICIR角度探讨风格因子的均值回复性》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

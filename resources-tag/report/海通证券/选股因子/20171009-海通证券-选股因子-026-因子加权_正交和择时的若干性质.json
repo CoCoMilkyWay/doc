@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20171009-海通证券-选股因子-026-因子加权_正交和择时的若干性质",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting", "linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["none"], "freq": "monthly"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      }
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "na"}}
+  },
+  "findings": [
+    {
+      "text": "若收益率和因子都为原始值的 z-score，则最大化复合因子 IC 加权法等价于 Fama-MacBeth 回归，加权法完全可以用更简洁、更便于程序编写和运算的回归模型代替。",
+      "evidence": "性质 1：若收益率和因子都为原始值的 z-score，则最大化复合因子 加权法等价于Fama-MacBeth 回归。"
+    },
+    {
+      "text": "在 Fama-MacBeth 回归中，不论新加入的因子是否与原有因子正交，其因子溢价的估计不会改变；正交化后，新因子的溢价及稳定性可直接与原始因子进行对比。",
+      "evidence": "性质 3：在 Fama-MacBeth 回归中，不论新加入的因子是否与原有因子正交，其因子溢价的估计不会改变。"
+    },
+    {
+      "text": "向已有模型加入新因子时，可先对原模型中的所有因子回归取正交因子再加入，既避免多重共线性的影响，也没有损失与新因子选股能力有关的信息。",
+      "evidence": "这条性质表明，倘若想在已有模型中加入一个新因子，不妨将它对原模型中的所有因子进行回归，得到正交因子后再行加入。这样做既避免了可能存在的多重共线性的影响，也没有损失与新因子选股能力有关的信息，因为正交不改变其因子溢价的估计。"
+    },
+    {
+      "text": "因子择时模型本质上就是拿因子溢价对条件变量集合建立回归模型后，计算被解释变量的最小二乘估计，这使模型更直观且易于理解，并能简化程序编写、提高运算效率。",
+      "evidence": "由以上证明可见，看似复杂的因子择时模型，本质上就是拿因子溢价对条件变量集合建立回归模型后，计算被解释变量的最小二乘估计。这一结论不仅使得模型更加直观且易于理解，而且也能极大地简化程序的编写步骤、提高运算效率。"
+    },
+    {
+      "text": "在使用这个模型的过程中，一定要注意控制条件变量的个数，防止出现过拟合的问题。",
+      "evidence": "所以，在使用这个模型的过程中，一定要注意控制条件变量的个数，防止出现过拟合的问题。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Qian 等人（2007）最大化复合因子 IC 的加权算法",
+    "Qian 等人（2012）基于条件期望的因子择时模型",
+    "《选股因子系列研究(十七)——选股因子的正交》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

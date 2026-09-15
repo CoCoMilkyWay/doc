@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "id": "20160415-广发证券-多因子-027-基于筹码分布的选股策略分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "盈利占比",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{当前价位以下的筹码分布比例}",
+          "stats": [null, null, null, null],
+          "evidence": "当盈利占比很高时，此时市场中大部分投资者都是处于盈利状态，该股票面临抛售压力。当没有大盘支撑和利好的基本面信息的情况下，该股票在市场上是会面临供大于求，根据供需理论，会导致股票价格的下跌。"
+        },
+        {
+          "name": "活动筹码",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{当前价位上下10%的区间中筹码分布的所占比例}",
+          "stats": [null, null, null, null],
+          "evidence": "定义：当前价位上下10%的区间中筹码分布的所占比例。右图就是一个活动筹码指数较高的表现。该指标值很高时，说明股价处于筹码密集区，反之，当指标值很小时，说明当前股价处于无筹码的真空地带。"
+        },
+        {
+          "name": "筹码低位密集",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{平均成本价}-\\text{最低成本价}}{\\text{最高成本价}-\\text{最低成本价}}",
+          "stats": [null, null, null, null],
+          "evidence": "筹码低位密集指标=（平均成本价-最低成本价）／（最高成本价-最低成本价）\n当筹码低位密集指标值很小，筹码分布会呈现低位密集状态。一般股价放量突破单峰密集，会是一轮上涨行情的开始。"
+        },
+        {
+          "name": "价格相对位置",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{当前价格}-\\text{平均成本}}{\\text{平均成本}}",
+          "stats": [null, null, null, 0.3347],
+          "evidence": "当前价格的相对位置=（当前价格-平均成本）/平均成本\n当价格相对位置指标值越小，当前所处的价位就越低。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "在中证500成份股中回测，相对价格位置是一个相对较为有效的筹码分布衍生因子。",
+      "evidence": "本文构建了盈利占比、活动筹码、低位筹码密集以及相对价格位置等筹码分布衍生因子。在中证500成份股中回测，“相对价格位置”是一个相对较为有效的因子。"
+    },
+    {
+      "text": "价格相对位置因子第一档组合明显好于其他四档，与中证500指数对冲（交易费用0.3%）净值终值4.94，年化绝对收益20.27%。",
+      "evidence": "从5档净值图中，可以看出第一档的股票组合要明显好于其他四档。与中证500指数对冲（交易费用0.3%）的净值终值为4.94。年化绝对收益为20.27%。"
+    },
+    {
+      "text": "盈利占比因子自2009年起比较有效地区分了5档表现，但由于换手率高，考虑交易费用后与中证500指数对冲净值曲线表现不好。",
+      "evidence": "从5档净值图中，可以看出自2009年起比较有效地区分了5档表现。但由于换手率高，在考虑交易费用之后，与中证500指数对冲净值曲线表现不好。"
+    },
+    {
+      "text": "活动筹码因子第一档表现稍好于其他四档，但换手率高，考虑交易费用后与中证500对冲后净值曲线表现不好。",
+      "evidence": "从5档净值图中，可以看出第一档的股票组合表现稍好于其他四档。但由于换手率高，在考虑交易费用之后，与中证500对冲后净值曲线表现不好。"
+    },
+    {
+      "text": "低位筹码指标可以区分5档股票表现但不明显，该策略的换手率很低。",
+      "evidence": "从5档净值图中，可以看出该指标可以区分5档股票表现，但不明显。从未考虑交易费用的对冲净值曲线和考虑交易费用的对冲净值曲线中可以看出，该策略的换手率很低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

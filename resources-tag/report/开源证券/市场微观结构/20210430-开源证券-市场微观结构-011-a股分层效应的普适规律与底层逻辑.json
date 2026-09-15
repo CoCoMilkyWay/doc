@@ -1,0 +1,176 @@
+{
+  "schema_version": 2,
+  "id": "20210430-开源证券-市场微观结构-011-a股分层效应的普适规律与底层逻辑",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "股价振幅",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{20}\\sum_{i=0}^{19}\\left(\\frac{high_i}{low_i}-1\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "关于股价振幅的度量指标，本文选用过去20个交易日每日股价振幅（最高价/最低价-1）的均值。基于振幅水平对股票池进行的分层，是在每个月末都重新调整的。"
+        },
+        {
+          "name": "TTM_SOS_ROEGrowth",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{TTM口径的ROE同比增速}",
+          "stats": [0.0406, null, null, null],
+          "evidence": "| 成长Y | TTM_SOS_ROEGrowth | 4.06% | 6.17% | 5.65% | 4.79% | 4.10% | 3.42% | 3.55% | 3.93% | 5.00% | 5.12% | 4.75% | Itmll |"
+        },
+        {
+          "name": "TTM_SOS_NetProfitGrowth",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{TTM口径的归母净利润同比增速}",
+          "stats": [0.0365, null, null, null],
+          "evidence": "|  | TTM_SOS_NetProfitGrowth | 3.65% | 6.88% | 4.34% | 4.90% | 3.63% | 2.50% | 3.40% | 3.34% | 4.86% | 3.54% | 4.43% | Ituu |"
+        },
+        {
+          "name": "YOYSeason_Sales",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度营业收入同比增速}",
+          "stats": [0.0286, null, null, null],
+          "evidence": "|  | YOYSeason_Sales | 4.94% | 6.08% | 5.16% | 4.29% |  |  |  |  |  |  |  |  |"
+        },
+        {
+          "name": "YOYSeason_OP",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度营业利润同比增速}",
+          "stats": [0.0371, null, null, null],
+          "evidence": "|  | YOYSeason_OP | 3.71% | 7.08% | 5.74% | 5.12% | 3.69% | 3.17% | 4.14% | 3.88% | 4.69% | 4.20% | 4.73% | luu |"
+        },
+        {
+          "name": "TTM_ROA_PbSizeNeutral",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{TTM口径ROA，经市值与账面市值比中性化}",
+          "stats": [0.0338, null, null, null],
+          "evidence": "|  | TTM_ROA_PbSizeNeutral | 3.38% | 4.25% | 1.37% | 2.39% | 0.63% | 1.66% | 1.61% | 1.18% | 3.21% | 2.91% | 3.83% | Lul |"
+        },
+        {
+          "name": "TTM_ROE_PbSizeNeutral",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{TTM口径ROE，经市值与账面市值比中性化}",
+          "stats": [0.0327, null, null, null],
+          "evidence": "|  | TTM_ROE_PbSizeNeutral | 3.27% | 4.22% | 1.67% | 2.79% | 1.09% | 1.92% | 1.78% | 1.72% | 3.02% | 2.65% | 3.95% | Ld |"
+        },
+        {
+          "name": "Day20Momentum",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日的涨跌幅}",
+          "stats": [-0.0705, null, null, null],
+          "evidence": "|  | Day20Momentum | -7.05% | 2.60% | 0.02% | -0.45% | -2.31% | -2.99% | -4.47% | -4.34% | -5.48% | -6.90% | -8.03% | Cm |"
+        },
+        {
+          "name": "LnTurnoverRatio_20Day",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日换手率均值的对数}",
+          "stats": [-0.0749, null, null, null],
+          "evidence": "|  | LnTurnoverRatio_20Day | -7.49% | -1.87% | -1.24% | -1.00% | -2.98% | -2.51% | -3.08% | -3.99% | -3.98% | -4.49% | -8.73% | mm |"
+        },
+        {
+          "name": "层内排序值",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{按振幅将股票池划分为低、中、高三层，各层选择对应有效因子层内排序，重新合并后层内排序值即为新因子}",
+          "stats": [null, null, null, null],
+          "evidence": "·第4步：将各振幅层重新合并为大股票池，“层内排序值”即为新因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi800"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "随着振幅水平由低到高，价量类因子有效性逐步增强，基本面因子有效性呈先衰减后增强的U型曲线，称为A股市场的振幅分层效应。",
+      "evidence": "从因子有效性的变化来看，随着振幅水平由低到高变化，价量类因子的有效性呈现逐步增强的走势，基本面因子的有效性呈现先衰减后增强的U型曲线。我们将以上规律称为A股市场的“振幅分层效应”，简称分层效应。"
+    },
+    {
+      "text": "高振幅股票的信噪比更高，噪声信息难以改变股票的原有排序，高振幅股票上的收益预测效果具有天然优势。",
+      "evidence": "因素B是从预测机制视角出发。高振幅股票的信噪比更高，噪声信息难以改变股票的原有排序，因此，在高振幅股票上的收益预测效果（IC均值）具有天然优势。"
+    },
+    {
+      "text": "中证800上基本面因子有效性应呈U型曲线，沪深300上基本面因子有效性处于单调下降通道，价量类因子有效性都呈现单调增强的趋势。",
+      "evidence": "中证800股票池振幅范围相比于全市场处于较低水平，那么中证800上基本面因子有效性应该呈现一种U型曲线；沪深300股票池振幅范围相比中证800进一步降低，因此沪深300上基本面因子有效性或许处于单调下降通道；而无论是中证800还是沪深300股票池，价量类因子有效性都呈现单调增强的趋势。"
+    },
+    {
+      "text": "沪深300按振幅划分3组后，价量类因子有效性单调增强，基本面因子有效性随振幅提高单调衰减，与预判吻合。",
+      "evidence": "按照振幅由低到高将沪深300股票池划分为3组，价量类因子有效性呈现单调增强的趋势，而基本面因子有效性随振幅提高单调衰减，与上述预判吻合。"
+    },
+    {
+      "text": "分层多空组合相比因子等权与IR加权组合，年化收益差异较小，但多空组合稳定度提升，年化IR提升约0.2，最大回撤改善约8%。",
+      "evidence": "相比于因子等权多空组合与因子IR加权多空组合，分层多空组合年化收益差异较小，但多空组合稳定度提升，年化IR提升约0.2，最大回撤改善约8%。"
+    },
+    {
+      "text": "对振幅指标做行业中性化处理后再分层，分层效应依旧显著，说明振幅分层效应并非源于分层上的行业偏离。",
+      "evidence": "我们对振幅指标做行业中性化处理，并用行业中性化后的振幅指标进行分层。可以看出，行业中性化后的分层效应依旧显著。"
+    },
+    {
+      "text": "股票跃迁主要发生在相邻振幅层：每月约21.3%的股票从低振幅层跃迁至中振幅层，24.6%从中振幅层跃迁至高振幅层，24.4%从中振幅层跃迁至低振幅层，27.9%从高振幅层跃迁至中振幅层。",
+      "evidence": "每个月大约21.3%的股票从低振幅层跃迁至中振幅层；24.6%的股票从中振幅层跃迁至高振幅层；从中振幅层跃迁至低振幅层的股票为24.4%；从高振幅层跃迁至中振幅层的股票为27.9%。"
+    },
+    {
+      "text": "分层框架可等效为一个新因子：将各振幅层重新合并为大股票池，层内排序值即为新因子，满足与存量因子结合时的可加性要求。",
+      "evidence": "以上方法，最终为沪深300股票赋予了新的因子值，可以等效视为一个新因子，满足与存量因子结合时的可加性要求。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（10）-因子切割论》-2020.09.17",
+    "《市场微观结构研究系列（7）-振幅因子的隐藏结构》-2020.05.16",
+    "《市场微观结构研究系列（8）-结合行业轮动的沪深300指数增强测试》-2020.05.27",
+    "《市场微观结构研究系列（9）-主动买卖因子的正确用法》-2020.09.05"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

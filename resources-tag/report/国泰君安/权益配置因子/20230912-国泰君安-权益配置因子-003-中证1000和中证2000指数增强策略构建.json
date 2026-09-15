@@ -1,0 +1,163 @@
+{
+  "schema_version": 2,
+  "id": "20230912-国泰君安-权益配置因子-003-中证1000和中证2000指数增强策略构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["taxonomy"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_revision",
+        "earnings_surprise",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["csi1000", "csi2000"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "分析师超预期90日盈利上调占比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{过去90日（低于最新盈利预测报告数-高于最新盈利预测报告数）/总报告数}",
+          "stats": [null, null, null, null],
+          "evidence": "分析师超预期90日盈利上调占比 | 过去90日（低于最新盈利预测报告数-高于最新盈利预测报告数）/总报告数 | 越大越好"
+        },
+        {
+          "name": "分析师预测净利润增长率FY3",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师预测净利润FY3除以最新净利润}-1",
+          "stats": [null, null, null, null],
+          "evidence": "分析师预测净利润增长率FY3 | 分析师预测净利润FY3除以最新净利润-1 | 越大越好"
+        },
+        {
+          "name": "标准化预期外单季度归母净利润",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{将单季度归母净利润代入SUE公式计算}",
+          "stats": [null, null, null, null],
+          "evidence": "标准化预期外单季度归母净利润 | 将单季度归母净利润代入SUE公式计算 | 越大越好"
+        },
+        {
+          "name": "EP120日 score",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{EP在120日历史数据上的score}",
+          "stats": [null, null, null, null],
+          "evidence": "EP120日 score | EP在120日历史数据上的score | 越大越好"
+        },
+        {
+          "name": "20日特质波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{20日Fama-French三因子模型的残差波动率}",
+          "stats": [null, null, null, null],
+          "evidence": "20日特质波动率 | 20日Fama-French三因子模型的残差波动率 | 越小越好"
+        },
+        {
+          "name": "60日持股比例变动",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{60日北向持股比例变动}",
+          "stats": [null, null, null, null],
+          "evidence": "60日持股比例变动 | 60日持股比例变动 | 越大越好"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["csi1000", "csi2000"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi1000", "csi2000"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000", "csi2000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中证1000指数增强组合2010年以来历史年化超额29.4%，超额最大回撤-8.2%，周度双边换手率41%，2023年超额10.9%",
+      "evidence": "回测发现，中证 1000 指数增强组合 2010 年以来历史年化超额 29.4%，超额最大回撤-8.2%，周度双边换手率 41%，2023 年超额 10.9%。"
+    },
+    {
+      "text": "中证2000指数增强组合2014年以来历史年化超额26.8%，超额最大回撤-10.9%，周度双边换手率35%，2023年超额12.8%",
+      "evidence": "中证 2000 指数增强组合 2014 年以来历史年化超额26.8%，超额最大回撤-10.9%，周度双边换手率35%，2023 年超额 12.8%。"
+    },
+    {
+      "text": "对于中证1000股票池，建议设置个股1%、市值暴露0.5个标准差、行业权重偏离2.5%的上限约束，增强策略2010年2月以来年化超额29.4%（除去2015年，年化超额26.7%），超额最大回撤-8.2%，信息比率4.4，周度双边换手率41%",
+      "evidence": "对于中证 1000 股票池，建议设置个股1%、市值暴露0.5个标准差、行业权重偏离2.5%的上限约束，增强策略2010年2月以来年化超额29.4%（除去2015年，年化超额26.7%），超额最大回撤-8.2%，信息比率 4.4，周度双边换手率41%"
+    },
+    {
+      "text": "个股上限越高（持仓数量越少），超额收益越高；放松市值、行业约束可以明显增加超额收益",
+      "evidence": "从不同约束条件下，从中证 1000 指数增强策略绩效指标来看，个股上限越高（持仓数量越少），超额收益越高；放松市值、行业约束，可以明显增加超额收益。"
+    },
+    {
+      "text": "因子加权上使用过去一段时间（1年、3年、10年）因子rankIC_IR平均值作为权重",
+      "evidence": "因子加权上，使用过去一段时间（1 年、3 年、10 年）因子 rankIC_IR 平均值作为权重。"
+    },
+    {
+      "text": "按指数编制规则估算的历史成分股与实际指数2010.1-2014.5期间收益曲线对比，整体区别很小",
+      "evidence": "使用估算的成分股计算指数在 2010.1-2014.5 期间收益曲线，对比发现，整体区别很小，见下图。"
+    },
+    {
+      "text": "原中证500策略所用因子在中证500上近期超额收益不佳，但在中证1000、中证2000的超额收益仍然可观",
+      "evidence": "从结果看出，虽然所用因子在中证 500 上近期超额收益不佳，但在中证 1000、中证2000 的超额收益仍然可观。"
+    },
+    {
+      "text": "本报告收益为费前收益，按照41%的周度双边换手率、双边0.3%交易费用，费用对收益影响大约为2.95%",
+      "evidence": "本报告收益为费前收益，按照 41%的周度双边换手率，双边0.3%交易费用，费用对收益影响大约为 41%*48 周*(0.3%/2)=2.95%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《价格动量因子在行业轮动上的效果研究——行业配置研究系列 09_20230805》",
+    "《使用基本因子构建中证 500 指数增强策略——初探权益配置因子研究系列 02_20230801》",
+    "《基于PEAD 效应的超预期因子选股效果如何——权益配置因子研究系列01 _20220601》",
+    "《如何基于 PEAD 超预期因子构建——行业轮动策略行业配置研究系列 02_20220426》",
+    "《如何基于分析师预测数据构建行业轮动策略——行业配置研究系列 06_20221005》",
+    "《如何基于北向资金构建行业轮动策略——行业配置研究系列 03_20220610》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

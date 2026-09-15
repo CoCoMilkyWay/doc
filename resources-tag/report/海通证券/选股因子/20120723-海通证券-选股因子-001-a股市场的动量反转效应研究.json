@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "20120723-海通证券-选股因子-001-a股市场的动量反转效应研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "动量/反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R_{t-J,t}=\\prod_{i=0}^{J-1}(1+r_{t-i})-1",
+          "stats": [null, null, null, null],
+          "evidence": "股价对信息的过度反应或是反应不足为那些以历史收益率为基础的选股策略提供了操作空间，动量/反转因子逐渐成为众多投资者在实战中的重要参考，而对于这一效应的研究也不绝于各类文献。"
+        },
+        {
+          "name": "PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "PB_{t}=\\frac{P_{t}}{BVPS_{t}}",
+          "stats": [null, null, null, null],
+          "evidence": "首先剔除 PB小于 0的样本，再保留剩余股票中 PB最小的前 25%，最后选择其中收益率最低的 5%作为本期样本股组合"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "不论在哪一种J与K的组合下，动量策略截止6月底的最终净值都不高，同期Wind全A指数累计收益率为51.60%，只有持有期K等于6或12时表现才勉强与市场指数接近，A股强势股票并没有显示出持续性。",
+      "evidence": "不论在哪一种 J与 K的组合下，策略截止 6月底的最终净值都不是很高，而同期Wind全 A指数的累计收益率为 51.60%。与之相比，只有当持有期 K等于 6或 12时，策略的表现才勉强与市场指数接近。"
+    },
+    {
+      "text": "A股市场上的反转效应显著地强于动量效应，在所有J与K的组合中，J=3,K=1时买入低收益组的反转策略能达到最优的信息比。",
+      "evidence": "对比表 2可以发现，低收益组超额收益的表现远远优于高收益组，这表明 A股市场上的反转效应要显著地强于动量效应。在所有 J与 K的组合中，J=3,K=1能达到最优的信息比"
+    },
+    {
+      "text": "与表1中动量策略的另一个明显区别是，反转策略随着持有期K的增大，最终净值在不断变小，反转性质只能维持较短的时间，尤以1个月为最佳。",
+      "evidence": "此外，与表 1的另一个明显区别是，随着持有期 K的增大，最终净值在不断变小。"
+    },
+    {
+      "text": "买入Losers组合并对冲指数能获得稳定而显著的绝对收益，卖空Winners组合并对冲的方式除了今年外都无法持续累积收益，利用反转因子构建的多头组合可以战胜基准指数，用于建立空头组合则很难获得超额收益。",
+      "evidence": "截止 6 月末，买入 Losers 组合并对冲指数的策略能够获得稳定而显著的绝对收益，而卖空 Winners组合并对冲的方式除了今年外，都无法持续累积收益。这进一步表明利用反转因子构建的多头组合是可以战胜基准指数的，但倘若用于建立空头组合，就很难获得超额收益。"
+    },
+    {
+      "text": "在各种市场状态下，“低估值+反转”的因子组合能够筛选出明显强于市场的股票，策略相比中证800指数有着极其显著的优势，粗略估算可以容纳1亿的资金规模，是一个简单有效且具有实战价值的优良策略。",
+      "evidence": "在各种市场状态下，“低估值+反转”的因子组合能够筛选出明显强于市场的股票，策略相比中证 800指数有着极其显著的优势。粗略估算该策略可以容纳 1亿的资金规模，是一个简单有效且具有实战价值的优良策略。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Jegadeesh, N. and S. Titman. (1993). \"Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency.\" Journal of Finance."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

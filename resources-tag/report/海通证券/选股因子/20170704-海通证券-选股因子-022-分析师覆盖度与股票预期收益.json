@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20170704-海通证券-选股因子-022-分析师覆盖度与股票预期收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["analyst_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "特质覆盖度 ATOT",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ATOT_{i,m}=\\varepsilon_{i,m},\\quad \\log(1+TOT_{i,m})=\\beta_0+\\beta_1 Size_{i,m}+\\beta_2 Turn_{i,m}+\\beta_3 Pret_{i,m}+\\varepsilon_{i,m}",
+          "stats": [null, 0.04461, null, 0.0172],
+          "evidence": "ATOT 越大，表明相比于同等市值、流动性、前期收益的股票，该公司获得的分析师关注度更高。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "特质覆盖度越高，公司未来基本面向好的可能性越大，高覆盖度组合基本面向好的可能性比低覆盖度组合高 27.34%。",
+      "evidence": "整体而言，分析师覆盖度越高，公司未来基本面向好的可能性越大。覆盖度高低组合的 FSCORE 差为 0.802（t 统计量31.94），按照 FSCORE 平均值 2.935 计算，相当于 27.34%；也就是高覆盖度组合基本面向好的可能性比低覆盖度组合高 27.34%。"
+    },
+    {
+      "text": "股票收益率与特质覆盖度呈现明显正相关性，多空组合月均收益差为 1.72%，rankIC 为 4.461%，统计显著，且空头效应更为明显。",
+      "evidence": "从统计特征来看，多空组合月均收益差为 1.72%，月胜率逾 70%，统计显著。其中，多头相对于全市场等权组合月均超额 0.38%，空头超额-1.35%，该因子的空头效应更为明显。从与下月股票的收益率相关性来看，该因子 rankIC 为 4.461%，统计显著。"
+    },
+    {
+      "text": "特质覆盖度因子预测能力具有持续性，滞后 1 至 4 个月时多空收益差及 rankIC 均显著异于 0，滞后阶数更长时预测能力减弱。",
+      "evidence": "统计结果表明，滞后的 ATOT 指标对股票收益率也具有预测能力，在滞后 1 至 4个月的时间窗口下，该因子的多空收益差以及 rankIC 均显著异于 0；但滞后阶数更长时，预测能力减弱，不再显著。"
+    },
+    {
+      "text": "横截面回归中控制市值、换手率、波动率、市值平方和反转后，特质覆盖度因子月均溢价 0.39%（t 统计量 3.35），显著为正并能提高模型预测能力。",
+      "evidence": "回归结果显示，特质覆盖度因子的月均溢价为 0.39%，t 统计量为 3.35，显著大于 0；平均拟合优度增加至 8.80%。这表明，在控制其他因子的前提下，特质覆盖度与股票收益率仍呈现显著的正相关关系，且能提高原始收益率模型的预测能力。"
+    },
+    {
+      "text": "在不同观察期与持有期下 ATOT 因子均具显著选股效果，1至12个月构建期下月均多空收益差大于 1%、rankIC 大于 2%；但窗口越长因子有效性越低。",
+      "evidence": "从中可看出，在 1至 12 个月的构建期下，ATOT 因子的月均多空收益差都大于 1%，月胜率超过 60%；而 rankIC 也都大于 2%，统计显著。由此表明，在不同构建期窗口下的 ATOT 因子都具有显著的选股效果。但需要注意的是，构建期窗口越长，因子的 rankIC值越小，月胜率越低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《选股因子系列研究（二十一）——分析师一致预期相关因子》2017.06.27"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

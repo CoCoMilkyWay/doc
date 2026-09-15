@@ -1,0 +1,146 @@
+{
+  "schema_version": 2,
+  "id": "20171226-海通证券-选股因子-030-因子择时模型改进与择时指标库构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "规模因子",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\log(\\text{总市值})",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用股票对数总市值计算规模因子。因子 IC越高，市场越偏好大盘股；因子IC 越低，市场越偏好小盘股。"
+        },
+        {
+          "name": "中盘因子",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(\\text{截面标准化}(\\log(\\text{总市值})))^2",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用截面标准化后的对数总市值的平方计算中盘因子。因子值越小，股票越偏向中盘；因子值越大，股票越偏向小盘或者大盘。"
+        },
+        {
+          "name": "流动性因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票过去1个月日均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用股票过去 1个月日均换手率计算流动性因子。因子 IC越高，则市场越偏向前期高换手的股票；因子 IC 越低，则市场越偏好前期低换手的股票。"
+        },
+        {
+          "name": "反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票过去1个月收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用股票过去 1个月收益率计算反转因子。因子 IC 越高，市场动量效应越强；因子 IC 越低，市场反转效应越强。"
+        },
+        {
+          "name": "波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R^2_{\\text{FF3}}=\\text{股票过去1个月收益率对FF3因素回归的R方}",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用股票过去 1个月收益率的 FF3 因素回归 R方计算波动率因子。简单来说，股票 FF3 因素回归 R方越高，特质波动率占比越低，系统波动波动率占比越高。"
+        },
+        {
+          "name": "估值因子",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\log(\\text{PB})",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用股票对数 PB计算估值因子。下表展示了择时指标备选库中与估值因子跨期相关性较高的指标。因子 IC 越高，市场越偏好高估值股票；因子 IC 越低，市场越偏好低估值股票。"
+        },
+        {
+          "name": "盈利因子",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{股票单季度ROE}",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用股票单季度 ROE 计算盈利因子。因子 IC越高，市场越偏好高盈利股票；因子 越低，市场越偏好低盈利股票。"
+        },
+        {
+          "name": "盈利成长因子",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\Delta\\text{ROE}_{同比}=\\text{股票单季度ROE同比变化}",
+          "stats": [null, null, null, null],
+          "evidence": "本部分使用股票单季度 ROE 同比变化计算盈利成长因子。因子 IC越高，市场越偏好高盈利成长股票；因子 IC 越低，市场越偏好低盈利成长股票。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "截止2017年11月30日，因子择时组合2017年以来收益约11%，不择时组合同期收益约-20%，择时组合相对不择时组合的超额收益约31%。",
+      "evidence": "截止 2017 年 11月 30 日，因子择时组合在 2017 年以来的收益约为 11%，不择时组合同期收益约为-20%，因子择时组合相对于不择时组合的超额收益约为 31%。"
+    },
+    {
+      "text": "回归法下的因子择时模型更易于理解与应用，可基于回归模型构建因子收益的预测模型。",
+      "evidence": "回归法下的因子择时模型更易于理解与应用。因子择时旨在解决因子收益的预测，所以可构建因子收益的预测模型。在回归法的框架下，模型更加易于理解与应用。"
+    },
+    {
+      "text": "可从宏观经济、金融市场与因子表现三个层次构建择时变量备选库。",
+      "evidence": "可从宏观经济、金融市场与因子表现三个层次构建择时变量备选库。"
+    },
+    {
+      "text": "历史数据表明，前期PPI同比增速与未来规模因子IC正相关，前期PPI同比增速较高则未来规模因子IC较高。",
+      "evidence": "历史数据表明，前期 PPI 同比增速与未来规模因子 IC正相关，也即前期 PPI 同比增速较高，则未来规模因子 IC 较高；前期 PPI 同比增速较低，则未来规模因子 IC较低。"
+    },
+    {
+      "text": "历史数据表明，前期国开债到期收益率上升时未来规模因子IC较高（偏大盘），前期国开债到期收益率下行时未来规模因子IC较低（偏小盘）。",
+      "evidence": "历史数据表明，在前期国开债到期收益率上升时，未来规模因子 IC 较高（偏大盘）；在前期国开债到期收益率下行时，未来规模因子 IC较低（偏小盘）。"
+    },
+    {
+      "text": "历史数据表明，前期指数波动较低时未来规模因子IC较高（偏大盘），前期指数波动较高时未来规模因子IC较低（偏小盘）。",
+      "evidence": "历史数据表明，在前期指数波动较低时，未来规模因子 IC 较高（偏大盘）；在前期指数波动较高时，未来规模因子 IC 较低（偏小盘）。"
+    },
+    {
+      "text": "条件期望择时模型存在提升空间，包括择时指标备选范围过窄、筛选流程复杂、无法和衰减加权收益预测方法结合等。",
+      "evidence": "虽然基于条件期望的因子择时模型能够在风格多变的市场环境中提升因子收益预测的灵活性，但是该模型在实际使用的过程中依旧存在众多有待提升的地方： ）择时指标备选范围过窄； ）使用相同的择时指标预测不同因子的未来收益； ）择时指标的筛选流程较为复杂； ）无法和衰减加权的收益预测方法有效结合； ）难以扩展为风格择时模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究(三十一)——因子择时指标的选择》",
+    "《选股因子系列研究(二十)——基于条件期望的因子择时模型》",
+    "《选股因子系列研究（二十六）——因子加权、正交和择时的若干性质》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

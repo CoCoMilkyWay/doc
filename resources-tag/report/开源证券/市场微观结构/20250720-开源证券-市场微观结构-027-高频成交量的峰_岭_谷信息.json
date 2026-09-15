@@ -1,0 +1,257 @@
+{
+  "schema_version": 2,
+  "id": "20250720-开源证券-市场微观结构-027-高频成交量的峰_岭_谷信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "量峰分钟数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日量峰的分钟数之和}",
+          "stats": [null, 0.1062, 4.36, 0.3158],
+          "evidence": "我们简单统计过去 20日量峰的分钟数，作为量峰分钟数因子。因子衡量日内的知情交易参与频率，因子值越高，知情交易参与度越高。"
+        },
+        {
+          "name": "量岭分钟数",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日量岭的分钟数之和}",
+          "stats": [null, -0.0904, -3.13, 0.262],
+          "evidence": "类似的，我们构建了量岭分钟数因子，衡量个人投资者交易参与频率。因子 RankIC 均值-9.04%，RankICIR-3.13。"
+        },
+        {
+          "name": "量岭分钟收益",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日量岭时点的累计收益}",
+          "stats": [null, -0.0629, -3.55, 0.1498],
+          "evidence": "我们计算过去20日量岭时点的累计收益作为量岭分钟收益因子，衡量个人投资者交易的收益贡献，个人投资者交易的过度反应，导致量岭分钟收益因子为显著负向因子。"
+        },
+        {
+          "name": "量岭相对加权价",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日量岭成交量加权价格与当日总成交量加权价格之比的20日均值}",
+          "stats": [null, -0.0627, -3.77, 0.1799],
+          "evidence": "类似的，我们构建了量岭相对加权价格因子，衡量个人投资者交易的价格相对水平。因子 RankIC 均值-6.27%，RankICIR-3.77。"
+        },
+        {
+          "name": "量谷相对加权价",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日量谷的成交量加权价格与当日总成交量加权价格之比的20日均值}",
+          "stats": [null, 0.0869, 4.44, 0.2535],
+          "evidence": "本节，我们参考聪明钱因子的构建方式，计算每日量谷的成交量加权价格，与当日总成交量加权价格做比，并计算20日均值作为量谷相对加权价格因子。"
+        },
+        {
+          "name": "量峰加权价格分位",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日量峰成交量加权价格在[昨收,今收]区间相对分位点的20日均值}",
+          "stats": [null, 0.0347, 2.9, 0.112],
+          "evidence": "类似的，我们构建了量峰加权价格分位点因子，衡量知情交易价格的相对水平。因子 RankIC均值3.47%，RankICIR2.9。"
+        },
+        {
+          "name": "量谷加权价格分位",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日量谷成交量加权价格在[昨收,今收]区间相对分位点的20日均值，并做反转中性化}",
+          "stats": [null, 0.0634, 4.32, 0.2022],
+          "evidence": "本节，我们将“日内最高价、日内最低价、昨日收盘价”三者的最高值与最低值作为[昨收,今收]区间的价格高低位，并计算每日量谷成交量加权价格的相对分位点，将20日的分位点均值作为量谷加权价格分位点因子，衡量交易低迷时点的价格水平。"
+        },
+        {
+          "name": "量峰间隔标准差",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同日前后两个量峰之间时间间隔分布的标准差}",
+          "stats": [null, -0.0857, -3.99, 0.2566],
+          "evidence": "量峰间隔标准差因子 RankIC 均值-8.57%，RankICIR-3.99。从全市场表现来看，多头组年化收益率 10.74%，多空组合年化收益率 25.66%，年化 IR2.93，最大回撤9.86%，月度胜率 79.1%。"
+        },
+        {
+          "name": "量峰间隔偏度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同日前后两个量峰之间时间间隔分布的偏度}",
+          "stats": [null, 0.0768, 4.58, 0.2456],
+          "evidence": "量峰间隔偏度因子 RankIC 均值 7.68%，RankICIR4.58。从全市场表现来看，多头组年化收益率11.56%，多空组合年化收益率24.56%，年化IR3.37，最大回撤7.56%，月度胜率 80.4%。"
+        },
+        {
+          "name": "量峰间隔峰度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同日前后两个量峰之间时间间隔分布的峰度}",
+          "stats": [null, 0.0719, 4.63, 0.233],
+          "evidence": "本节中，我们针对两个量峰之间的时间间隔计算统计指标，对过去20日同日前后两个量峰之间的时间间隔分布，计算其峰度作为量峰间隔峰度因子。"
+        },
+        {
+          "name": "量岭间隔标准差",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同日前后两个量岭之间时间间隔分布的标准差}",
+          "stats": [null, 0.0734, 3.75, 0.1841],
+          "evidence": "量岭间隔标准差因子 RankIC 均值 7.34%，RankICIR3.75。从全市场表现来看，多头组年化收益率 12.59%，多头组收益贡献较高，多空组合年化收益率 18.41%，年化 IR2.23，最大回撤 8.63%，月度胜率 70.3%。"
+        },
+        {
+          "name": "量岭间隔偏度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同日前后两个量岭之间时间间隔分布的偏度}",
+          "stats": [null, -0.0808, -3.82, 0.2219],
+          "evidence": "量岭间隔偏度因子 RankIC 均值-8.08%，RankICIR-3.82。从全市场表现来看，多头组年化收益率12.32%，多空组合年化收益率22.19%，年化IR2.66，最大回撤7.07%，月度胜率 73.7%。"
+        },
+        {
+          "name": "量岭间隔峰度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同日前后两个量岭之间时间间隔分布的峰度}",
+          "stats": [null, -0.0761, -3.77, 0.1947],
+          "evidence": "量岭间隔峰度因子 RankIC 均值-7.61%，RankICIR-3.77。从全市场表现来看，多头组年化收益率10.25%，多空组合年化收益率19.47%，年化IR2.45，最大回撤7.21%，月度胜率 72.3%。"
+        },
+        {
+          "name": "峰岭加权价格比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日量峰成交量加权价格与量岭成交量加权价格之比的20日均值}",
+          "stats": [null, 0.047, 3.61, 0.1031],
+          "evidence": "类似的，我们构建了峰岭加权价格比因子，因子 RankIC 均值4.7%，RankICIR3.61。从全市场表现来看，多头组年化收益率 5.3%，多空组合年化收益率 10.31%，年化IR1.81，最大回撤 11.41%，月度胜率 68.9%。"
+        },
+        {
+          "name": "谷岭加权价格比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每日量谷成交量加权价格与量岭成交量加权价格之比的20日均值}",
+          "stats": [null, 0.0698, 3.56, 0.1583],
+          "evidence": "因此，我们计算每日量谷成交量加权价格，与量岭成交量加权价格做比，并计算 20 日价格比均值作为谷岭加权价格比因子。因子值越高，个人投资者过度反应使得价格向下偏离程度越高，个股未来表现越好。"
+        },
+        {
+          "name": "峰岭成交比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{20日量峰总成交额与量岭总成交额之比}",
+          "stats": [null, 0.1028, 4.07, 0.2713],
+          "evidence": "本小节通过计算20日量峰总成交额与量岭总成交额，二者做比作为峰岭成交比因子，衡量知情交易相对个人投资者交易的相对参与程度。"
+        },
+        {
+          "name": "喷发成交额跟随比例",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日喷发成交时点下一分钟总成交额与喷发成交时点总成交额之比}",
+          "stats": [null, -0.1059, -3.9, 0.3009],
+          "evidence": "因此，本节将过去20日喷发成交时点的总成交额作为分母，将喷发成交时点的下一分钟总成交额作为分子，从而衡量大额成交后的资金跟随程度，作为喷发成交额跟随比例因子，资金跟随程度越高，则个股交易中的个人投资者交易占比越高，个股未来表现越弱。"
+        },
+        {
+          "name": "喷发成交额敏感度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以喷发成交时点分钟成交额为自变量、下一分钟成交额为因变量的敏感度回归}",
+          "stats": [null, -0.0714, -3.58, 0.1561],
+          "evidence": "我们将过去20日喷发成交时点分钟成交额作为自变量，将喷发成交时点的下一分钟成交额作为因变量，从而衡量分钟成交额对大额成交的敏感度，作为喷发成交额敏感度因子。"
+        },
+        {
+          "name": "喷发成交额相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日喷发成交时点分钟成交额与下一分钟成交额的相关系数}",
+          "stats": [null, -0.1094, -3.99, 0.2972],
+          "evidence": "我们计算过去20日喷发成交时点分钟成交额与下一分钟成交额的相关系数，作为喷发成交额相关性因子。"
+        },
+        {
+          "name": "同时点峰岭数相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日同一时点的量峰与量岭样本数的相关系数}",
+          "stats": [null, -0.0667, -4.4, 0.2278],
+          "evidence": "本小节，我们统计过去20日同一时点的量峰与量岭样本数，并计算二者相关性，作为同时点峰岭数相关性因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "按“峰、岭、谷”划分构建了11个大类的20个有效因子，量峰分钟数因子全市场10分组多空年化收益31.58%，年化IR3.22，表现稳健。",
+      "evidence": "本报告构建因子数量较多，且表现稳健。部分因子表现如下：量峰分钟数因子全市场10分组多空年化收益31.58%，年化 IR3.22；"
+    },
+    {
+      "text": "量谷时点价格、收益类因子为正向因子；量峰时点分钟数、成交额类因子反映知情交易参与度，为正向因子；量岭时点各类因子均为负向alpha贡献。",
+      "evidence": "因此，对于量谷时点，价格、收益类因子更加有效，且为正向因子；对于量峰时点，分钟数、成交额类因子更加有效，反映知情交易参与度，为正向因子；对于量岭时点，分钟数、成交额类因子反映个人投资者参与度，价格、收益类因子反映个人投资者的过度反应，均比较有效，且均为负向alpha贡献。"
+    },
+    {
+      "text": "因子表现偏好小市值股票池：量峰分钟数因子在沪深300、中证500、中证1000中多空组合年化收益率分别为9.99%、14.96%、24.73%。",
+      "evidence": "从分域表现来看，量峰分钟数因子更加适用小市值股票池。在沪深 300 中，多空组合年化收益率9.99%，年化IR1.05；在中证500中，多空组合年化收益率14.96%，年化 IR1.66；在中证 1000 中，多空组合年化收益率 24.73%，年化 IR2.94。"
+    },
+    {
+      "text": "多数因子在Barra风格、行业中性后仍保持较高有效性；部分因子在波动率、流动性上有较高暴露（如分钟数类因子、时间间隔统计指标类因子等）。",
+      "evidence": "如表 18所示，多数因子在 Barra风格、行业中性后，仍保持较高有效性。"
+    },
+    {
+      "text": "量峰分钟数因子与量峰间隔标准差、峰岭成交比、喷发成交额跟随比例等因子相关性绝对水平超过80%，属于同一逻辑的不同表达。",
+      "evidence": "量峰分钟数因子与多个因子存在较高相关性。其中，与量岭分钟数因子负相关 69%，与量峰间隔标准差、峰岭成交比、喷发成交额跟随比例等因子相关性绝对水平超过 80%，属于同一逻辑的不同表达。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《从高频股价形态到追涨杀跌因子—开源量化评论（94）》-2024.6.23",
+    "《聪明钱因子模型的 2.0 版本》（开源证券，2020）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

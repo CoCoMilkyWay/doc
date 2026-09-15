@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "20170727-海通证券-选股因子-023-历史财务信息对股票收益的预测能力",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Factor_F",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Factor_F}=\\sum_{k=1}^{8}\\mathrm{resid}\\left(zscore(F_k)\\sim \\text{市值},\\text{PB}\\right)",
+          "stats": [0.0511, 0.0664, null, null],
+          "evidence": "我们将上述 8个指标横截面标准化，然后以回归的方式剔除风险因子（市值和 PB）影响，取残差等权加总后构建基本面综合因子，记之为 Factor_F。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "基本面综合因子值最高的1/10股票相对因子值最低的1/10股票月均超额1.74%，月胜率逾70%，统计显著。",
+      "evidence": "基本面综合因子值最高的 1/10 股票相对因子值最低的 1/10 股票月均超额 1.74%，月胜率逾 70%，统计显著。"
+    },
+    {
+      "text": "当月因子值与次月股票收益率的平均相关系数为0.0511，秩相关系数为0.0664，统计显著。",
+      "evidence": "从相关性分析来看，当月因子值与次月股票收益率的平均相关系数为 0.0511，秩相关系数为 0.0664，统计显著。"
+    },
+    {
+      "text": "上市公司综合基本面因子每提高一个标准差，月均收益提高0.47%，且这种现象在A股市场长期存在，历史财务信息对未来二级市场收益具有一定预测能力。",
+      "evidence": "通过横截面回归模型发现，上市公司综合基本面因子每提高一个标准差，月均收益提高 0.47%；且这种现象在 A股市场长期存在。由此表明，历史财务信息对未来二级市场收益具有一定预测能力。"
+    },
+    {
+      "text": "在收益率预测模型中引入基本面综合因子后，模型均值增加、月胜率上升、波动性下降，各项评估指标均得到明显提升。",
+      "evidence": "统计结果显示，引入 因子后收益率预测模型的 （ ）均值增加、月胜率上升、波动性下降，各项评估指标均得到明显提升。"
+    },
+    {
+      "text": "A股并不存在显著的应计异象，因此本文对盈利能力指标进行更改，剔除了ACC指标。",
+      "evidence": "但实际上 A股并不存在这种现象：2009年1月至2017年6月间，ACC>0的股票月均收益为2.22%，CC 的股票月均收益为 ，两者收益差仅为 （相应 值为 ）， 股并不存在显著的应计异象。"
+    },
+    {
+      "text": "历史财务信息具有较好的延续性，当期Factor_F与下期Factor_F相关系数达51.57%，秩相关系数达58.52%。",
+      "evidence": "我们以定期报告披露结束日（每年的 4、8、10 月底）为分界点，考察当期 Factor_F 与下期 Factor_F的相关性，结果显示两者相关系数达 51.57%，秩相关系数达 58.52%。"
+    },
+    {
+      "text": "无论是位序加总还是zscore加总，引入Factor_F因子都能明显增加收益率模型的预测效果，两者差异并不明显。",
+      "evidence": "从中可看出，无论是位序加总，还是 zscore 加总，引入 Factor_F 因子都能明显增加收益率模型的预测效果。"
+    },
+    {
+      "text": "Factor_F在沪深300成分股内均存在显著的选股效果，多空组合月均超额收益逾1.6%，月胜率超过73%，IC均值超过6.5%。",
+      "evidence": "从中可看出，无论采用 zscore 加总还是位序加总，基本面复合因子 Factor_F在沪深 300 成分股内均存在显著的选股效果。多空组合月均超额收益逾 1.6%，月胜率超过 73%，IC 均值超过 6.5%，统计显著。"
+    },
+    {
+      "text": "中证500成分股内，位序加总形式的Factor_F因子效果更优，月均多空收益差达1.91%，月胜率77.45%。",
+      "evidence": "相对而言，在 500 成分股内，位序加总形式的 Factor_F因子效果更优，月均多空收益差达 1.91%，月胜率 77.45%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Mohanram (2005) GSCORE",
+    "Piotroski (2000) FSCORE",
+    "《价值投资系列之二——历史盈利对股票收益预测的影响》（2017-7-17）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

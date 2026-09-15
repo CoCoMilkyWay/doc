@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20240321-申万宏源-红利策略全攻略-005-如何构建分红潜在增长的股票组合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "expectation_revision", "momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "Growth",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度营业收入}/\\text{去年同期营业收入}-1",
+          "stats": [null, 0.0731, 0.74, null],
+          "evidence": "比较选股因子在基础股票池内的 RankIC_IR 及分组多头超额收益的强弱表现，并且考虑到因子间的相关性（尽管选股因子做了逐步正交的处理）,最后我们选取Growth、Momentum、Analyst、Value、Dividend 五个因子作为选股因子，因子权重采取等权的方式。"
+        },
+        {
+          "name": "Momentum",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{最近1年（除去最近1个月）的累计收益率（剔除期间涨停天数）}",
+          "stats": [null, 0.0602, 0.59, null],
+          "evidence": "比较选股因子在基础股票池内的 RankIC_IR 及分组多头超额收益的强弱表现，并且考虑到因子间的相关性（尽管选股因子做了逐步正交的处理）,最后我们选取Growth、Momentum、Analyst、Value、Dividend 五个因子作为选股因子，因子权重采取等权的方式。"
+        },
+        {
+          "name": "Analyst",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{一致预期净利润}/\\text{3个月前一致预期净利润}-1",
+          "stats": [null, 0.0292, 0.52, null],
+          "evidence": "比较选股因子在基础股票池内的 RankIC_IR 及分组多头超额收益的强弱表现，并且考虑到因子间的相关性（尽管选股因子做了逐步正交的处理）,最后我们选取Growth、Momentum、Analyst、Value、Dividend 五个因子作为选股因子，因子权重采取等权的方式。"
+        },
+        {
+          "name": "Value",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{最近4个季度净利润}/\\text{总市值}",
+          "stats": [null, 0.0182, 0.14, null],
+          "evidence": "比较选股因子在基础股票池内的 RankIC_IR 及分组多头超额收益的强弱表现，并且考虑到因子间的相关性（尽管选股因子做了逐步正交的处理）,最后我们选取Growth、Momentum、Analyst、Value、Dividend 五个因子作为选股因子，因子权重采取等权的方式。"
+        },
+        {
+          "name": "Dividend",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{最近年度的预案分红金额}/\\text{总市值}",
+          "stats": [null, 0.0671, 0.52, null],
+          "evidence": "比较选股因子在基础股票池内的 RankIC_IR 及分组多头超额收益的强弱表现，并且考虑到因子间的相关性（尽管选股因子做了逐步正交的处理）,最后我们选取Growth、Momentum、Analyst、Value、Dividend 五个因子作为选股因子，因子权重采取等权的方式。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "三个筛选逻辑（股利支付率稳定、现金分红连续增长、预期股利支付率提高）复合后，预测准确率均值为58.23%，每期样本数量均在200只以上，2014年以来基本维持在500只以上，构成基础股票池。",
+      "evidence": "三个筛选逻辑复合后，整个回测区间的预测准确率均值为 58.23%；此外，每期的样本数量均在 200 只以上，2014 年以来样本数量基本维持在 500 只以上，这个样本池也作为接下来进一步优选的基础股票池。"
+    },
+    {
+      "text": "利用未来数据构造的已知分红增长组合年化收益23.16%，同期中证红利全收益指数年化11.62%，验证了分红增长选股逻辑的有效性。",
+      "evidence": "在业绩比较区间，已知分红增长组合的年化收益为 23.16%，同期中证红利全收益指数的年化收益率为 11.62%；分年度看，在 2012~2022 年完整的 11 个年度，除去2012 年之外，已知分红增长组合都取得超额收益。"
+    },
+    {
+      "text": "红利增长组合年化收益22.46%，显著高于中证红利全收益指数的11.34%和红利低波全收益指数的13.16%，夏普比率也显著高于两个比较基准指数。",
+      "evidence": "在2013/1/1~2024/2/29 业绩比较区间，红利增长组合的年化收益为22.46%，同期中证红利全收益指数、红利低波全收益指数的年化收益分别为 11.34%和13.16%，在夏普比率上，红利增长组合也是显著高于两个比较基准指数。"
+    },
+    {
+      "text": "在2022、2023年小盘价值行情下，红利增长组合依然取得超额收益，相对中证红利全收益指数的年度超额收益分别为8.38%、6.28%。",
+      "evidence": "在 2022、2023 年小盘价值行情下，红利增长组合依然取得超额收益，相对中证红利全收益指数的年度超额收益分别为8.38%、6.28%。"
+    },
+    {
+      "text": "过去三年股利支付率连续提高且盈利预期增长的预测准确率均值为49.50%，低于50%的随机预测水平，该逻辑不能有效筛选分红增长股票。",
+      "evidence": "在整个回测区间，过去三年股利支付率连续提高且盈利预期增长的预测准确率均值为49.50%，低于50%的随机预测准确率，也说明该逻辑并不能较好的筛选出分红增长的股票。"
+    },
+    {
+      "text": "红利增长组合每年调仓三次，平均双边换手率60.63%，年化双边换手率181.88%，按双边0.3%交易成本每年交易成本约0.55%。",
+      "evidence": "红利增长组合每年调仓三次，在 2012/4/30~2024/2/29 回测期间，组合的平均双边换手率为60.63%，年化双边换手率为181.88%，按照双边0.3%的交易成本，组合的每年交易成本约为0.55%（暂不考虑冲击成本）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["红利指数产品全览：境外发展特征与境内产品展望"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": 2,
+  "id": "20230202-国金证券-alpha掘金-003-高频非线性选股因子的线性化与失效因子的动态纠正",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["csi800", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "高低价格区间成交笔数占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\sum_{j=1}^{N}matchtimes\\cdot I_{\\{j\\in set\\_a\\}}}{\\sum_{j=1}^{N}matchtimes}",
+          "stats": [null, null, null, null],
+          "evidence": "高低价格区间成交笔数占比因子是价格区间内所有快照的成交笔数累加与全天成交总笔数的比值。"
+        },
+        {
+          "name": "高低价格区间成交量占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\sum_{j=1}^{N}volume*I_{\\{j\\in set\\_a\\}}}{\\sum_{j=1}^{N}volume}",
+          "stats": [null, null, null, null],
+          "evidence": "高低价格区间成交量占比因子是价格区间内所有快照的成交量累加与全天总成交量的比值。"
+        },
+        {
+          "name": "高低价格区间平均每笔成交量因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\sum_{j=1}^{N}volume*I_{\\{j\\leq set,a\\}}/\\sum_{j=1}^{N}matches*I_{\\{j\\leq set,a\\}}}{\\sum_{j=1}^{N}volume/\\sum_{j=1}^{N}matches}",
+          "stats": [null, null, null, null],
+          "evidence": "高低价格区间平均每笔成交量因子是将目标价格区间内的平均每笔成交量与全天平均水平进行比较。"
+        },
+        {
+          "name": "高频线性重构因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{分段线性回归转换后的18个价格区间占比因子分组等权合成，再做行业市值正交化}",
+          "stats": [0.0313, null, 0.51, 0.6257],
+          "evidence": "日频测试中，正交化后的高频线性重构因子 IC 均值为 3.13%，ICIR 为 0.51，多空组合年化收益率达到了 62.57%，夏普比率达到了 7.67。"
+        },
+        {
+          "name": "周频线性重构因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "S_{ma}=\\frac{\\sum_{t=1}^{T}S_{t}*k^{T-t+1}}{\\sum_{t=1}^{T}k^{T-t+1}}",
+          "stats": [0.0381, null, 0.52, 0.2839],
+          "evidence": "行业市值正交化之后的周频线性重构因子 IC 均值达到 3.81%，ICIR 为 0.52，多空组合年化收益率为 28.39%，夏普比率为 2.89。"
+        },
+        {
+          "name": "线性重构增强因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期因子、成长因子、技术因子、周频量价背离因子与周频线性重构因子等权合成}",
+          "stats": [0.08, null, 0.99, 0.6438],
+          "evidence": "如下表所示，线性重构增强因子的 IC 均值达到 8.00%，多空组合的年化收益率达到 64.38%，夏普比率达到 5.35，相比单因子有了明显的提高。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "smoothing", "decay_monitor"],
+      "setup": {"universe": ["csi800", "csi1000"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "linear", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_l1_l2", "analyst"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "线性转换方法不仅可以把此前不单调的因子处理为单调因子，还可以动态纠正部分时间段失效的因子，使因子有效性更加持续。",
+      "evidence": "研究发现，线性转换方法不仅可以对此前不单调的因子处理为单调的因子，同时也可以动态对部分时间段失效的因子进行纠正，使因子的有效性更加持续。"
+    },
+    {
+      "text": "对分段线性近似、线性插值、多项式拟合和分段线性回归四种方法进行线性转换测试，转换后因子多空组合年化收益率相比转换前分别提升10.30%、11.37%、9.77%和10.55%。",
+      "evidence": "我们分别对分段线性近似、线性插值、多项式拟合和分段线性回归等四种方法进行线性转换的测试，转换后因子的多空组合年化收益率相比转换前分别提升了 10.30%、11.37%、9.77%和 10.55%。"
+    },
+    {
+      "text": "分段线性回归集合了另外三种转换方法的优点，转换后价格区间占比因子的IC水平和多空组合年化收益率均值相对较高，是该类因子最佳的转换方法。",
+      "evidence": "其中，分段线性回归方法集合了另外三种转换方法的优点，而且使用该方法转换后，价格区间占比因子的 IC 水平和多空组合的年化收益率均值相对较高。因此，对于这类价格区间占比因子而言，最佳的转换方法是分段线性回归。"
+    },
+    {
+      "text": "很多价格区间占比因子的分位数组合年化超额收益率呈现明显不单调特征，多空收益很低且Top组合收益不理想，难以直接用于传统多因子模型。",
+      "evidence": "我们注意到，很多因子的分位数组合年化超额收益率呈现明显的不单调的特征，例如低价格区间成交笔数与成交量占比因子。在这种情况下，因子的多空收益很低，且 Top 组合的收益也不理想，这类因子很难直接应用在传统多因子模型中。"
+    },
+    {
+      "text": "经过分段线性近似转换后，低价格区间成交量占比因子在2019年8月后失效的问题得到明显改善，多空净值恢复平稳上升。",
+      "evidence": "对于这类因子，经过分段线性近似的方法进行转换，因子失效的问题得到了明显改善，多空净值在 2019 年 8 月之前保持有效性，同时在之后净值继续平稳上升。"
+    },
+    {
+      "text": "正交化后的高频线性重构因子日频IC均值3.13%，ICIR为0.51，多空组合年化收益率62.57%，夏普比率7.67；降频到周频后IC均值3.81%，多空年化收益率28.39%。",
+      "evidence": "日频测试中，正交化后的高频线性重构因子 IC 均值为 3.13%，ICIR 为 0.51，多空组合年化收益率达到了 62.57%，夏普比率达到了 7.67。"
+    },
+    {
+      "text": "基于正交化后的周频线性重构因子构建的中证1000指数增强策略，周频调仓，年化收益率7.53%，年化超额收益率11.03%，信息比率1.47。",
+      "evidence": "正交化后的周频线性重构因子对股票未来收益具有显著的预测能力。我们基于这一因子构建了中证 1000 指数增强策略，策略实现了 7.53%的年化收益率，相比基准取得 11.03%的年化超额收益率，信息比率为 1.47。"
+    },
+    {
+      "text": "将周频线性重构因子与传统因子及周频量价背离因子合成线性重构增强因子后构建策略，年化收益率18.83%，年化超额收益率23.24%，信息比率3.41。",
+      "evidence": "基于线性重构增强因子的策略表现亮眼，年化收益率达到 18.83%，相比中证 1000 指数取得了 23.24%的年化超额收益率，信息比率达到 3.41。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

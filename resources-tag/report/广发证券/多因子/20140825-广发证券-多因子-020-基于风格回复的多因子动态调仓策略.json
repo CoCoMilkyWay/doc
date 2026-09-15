@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "id": "20140825-广发证券-多因子-020-基于风格回复的多因子动态调仓策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "E/P",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{E/P}=\\frac{E}{P}",
+          "stats": [null, null, null, null],
+          "evidence": "其中估值类Alpha因子经过行业中性、去极值处理（详见系列报告前篇），在四类因子间采用等权重配置进行综合打分。其中行业划分我们以申万一级行业为标准。"
+        },
+        {
+          "name": "一月股价动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一月股价动量}=\\text{过去一个月的股价涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "我们从建立的风格因子库里选取四大类因子，分别为估值类因子：E/P；技术指标：一月股价动量；规模因子：流通市值以及流通性因子：换手率。"
+        },
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值}=\\text{流通股本}\\times\\text{股价}",
+          "stats": [null, null, null, null],
+          "evidence": "我们从建立的风格因子库里选取四大类因子，分别为估值类因子：E/P；技术指标：一月股价动量；规模因子：流通市值以及流通性因子：换手率。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{换手率}=\\frac{\\text{成交量}}{\\text{流通股本}}",
+          "stats": [null, null, null, null],
+          "evidence": "我们从建立的风格因子库里选取四大类因子，分别为估值类因子：E/P；技术指标：一月股价动量；规模因子：流通市值以及流通性因子：换手率。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost", "L5_hedge"],
+      "approach": ["heuristic_ranking", "turnover", "futures_hedge"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "多因子调仓策略相对原始策略在超额累计净值、胜率、回撤方面均有优势，月中平均换手率只有35%，不会大幅提高。",
+      "evidence": "历史回测表明，多个调仓因子策略相对于原始策略在超额累计净值、胜率、回撤方面均有优势，并且月中平均换手率只有 35%，不会大幅提高。"
+    },
+    {
+      "text": "原始多因子Alpha策略从05年1月到14年6月年化收益率达到26.70%，年化波动率为13.92%，信息比率1.92，胜率58.13%，最大回撤30.92%。",
+      "evidence": "从05年1 月到14年6月，该策略年化收益率达到 26.70%，年化波动率为 13.92%，信息比率 1.92，胜率 58.13%，最大回撤 30.92%。"
+    },
+    {
+      "text": "取调仓阈值向量P_Vec=（100,300,20,50）、阈值分量个数n=4时，多因子调仓策略超额累计净值最终为1510.53%，胜率59.36%，回撤29.77%，优于原始策略的1152.17%、58.13%、30.92%。",
+      "evidence": "为了降低换手率，我们最终将调仓阈值向量 P_Vec 及调仓至少要满足阈值分量的个数 n 设置为 P_Vec=（100,300,20,50），n=4，即四个调仓因子都要满足。"
+    },
+    {
+      "text": "多因子调仓策略的超额累计净值最终为1510.53%，胜率为59.36%，回撤29.77%；原始策略的超额累计净值为1152.17%，胜率为58.13%，回撤为30.92%。",
+      "evidence": "如图所示，多因子调仓策略的超额累计净值最终为1510.53%，胜率为59.36%，回撤29.77%。相应地，原始策略的超额累计净值为1152.17%，胜率为58.13%，回撤为 30.92%。"
+    },
+    {
+      "text": "除10年没有改善外，多因子调仓策略其它年度都一定程度改善，新策略相对原始策略的月度超额收益大部分为正，平均值为0.24%。",
+      "evidence": "分年度来看，多因子调仓策略相对于原始策略除了在10年没有改善之外，其它年度都一定程度的改善，表现比较稳定。并且可以看到，新策略相对于原始策略的月度超额收益大部分是正的，平均值为 0.24%。"
+    },
+    {
+      "text": "核心风险：风格回复本身未必导致相应个股未来收益回复，且月中调仓将导致组合换手率大幅提升，损失一定收益。",
+      "evidence": "风格回复本身未必导致相应的个股未来收益也将回复，此为最大风险点，其次月中调仓将导致组合换手率大幅提升，将损失一定的收益，请在收益与换手自荐自行权衡。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《笑看北雁南飞南雁北归——多因子Alpha系列报告之（十九）》（2014-06-13）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

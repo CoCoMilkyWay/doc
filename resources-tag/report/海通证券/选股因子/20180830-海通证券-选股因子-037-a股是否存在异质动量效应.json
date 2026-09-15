@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20180830-海通证券-选股因子-037-a股是否存在异质动量效应",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "IMom",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "IMom_{i,t}=\\sum_{j=1}^{12}e_{i,t-j},\\;e_{i,t}=R_{i,t}-R_{f,t}-\\widehat{\\alpha}_{i}+\\widehat{\\beta}_{mkt,i}\\cdot(R_{mkt,t}-R_{f,t})+\\widehat{\\beta}_{hml,i}\\cdot R_{hml,i}+\\widehat{\\beta}_{smb,i}\\cdot R_{smb,i}",
+          "stats": [0.01, 0.0084, null, null],
+          "evidence": "异质动量因子，又称之为残差动量，是指当期没有被 Fama French 3 因子模型（下简称为 FF3）解释的残差收益。"
+        },
+        {
+          "name": "正交 IMom因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{将IMom因子与传统的风格、技术、流动性、基本面等因子进行正交，取所得残差}",
+          "stats": [0.0228, 0.0398, null, 0.0093],
+          "evidence": "为控制其他因子对 IMom 因子的影响，我们将 IMom 因子与传统的风格、技术、流动性、基本面等因子进行正交，并将所得残差称为正交 IMom 因子。"
+        },
+        {
+          "name": "IMom_1",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{仅采用市场收益单因子对股票收益进行剥离后，t-12至t-1个月残差收益之和}",
+          "stats": [null, 0.0262, null, 0.008],
+          "evidence": "IMom_3 代表剥离模型包含市场、市值和估值 3 个因子，IMom_1 代表剥离模型仅包含市场收益。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "A股存在显著的异质动量效应：异质动量因子 IC 为 1%，显著为正，前期残差收益越高，下个月收益表现越好。",
+      "evidence": "从因子与股票下期收益的相关性统计来看，异质动量因子 IC 为 1%，显著为正；从这个角度来看，A股也存在显著的异质动量效应：前期残差收益越高，下个月收益表现越好。"
+    },
+    {
+      "text": "正交 IMom 因子多头组合月均超额 0.66%，空头超额-0.27%，月均 IC 2.28%，RankIC 为 3.98%，月均多空收益差为 0.93%，统计显著。",
+      "evidence": "正交因子多头组合月均超额 0.66%，月胜率 67.03%；空头超额-0.27%，跑输基准月度占比 54.95%，统计显著。从 IC统计来看，月均 IC 2.28%，为正的月度占比 69.23%；RankIC 为 3.98%，为正月份占比74.73%，统计显著。"
+    },
+    {
+      "text": "异质动量效应在“下跌市，反转（前 12 个月市场平均收益为负，下个月市场上涨）”状态下失效，该状态下 IMom 因子月均 IC 为-2.07%，多空收益差为-0.86%。",
+      "evidence": "异质动量效应在“下跌市，反转（前 12 个月市场平均收益为负，下个月市场上涨）”状态下失效。在这种市场状态下，IMom 因子月均 IC 为-2.07%，IC 为正的月份占比小于 50%；IMom 因子最高的十分之一股票与因子值最低的十分之一股票收益差为-0.86%，即 IMom 越低，后期收益表现反而更优。"
+    },
+    {
+      "text": "剥离共同因素更多的 IMom_3 因子 IC 均值更大，稳定性更高，相应的IR 为 2.04；而 IMom_1 为 1.17。",
+      "evidence": "结果显示，剥离共同因素更多的 IMom_3 因子 IC 均值更大，稳定性更高，相应的IR 为 2.04；而 IMom_1 为 1.17；同样地，IMom_3 因子的多头组合收益更高，整体多空收益差水平也更高。"
+    },
+    {
+      "text": "IMom 因子在沪深 300 指数成分股中的选股效果最优，其次为“其他股票”，在中证 500 成分股内的选股效果相对较差，但也可通过显著性检验。",
+      "evidence": "整体来看，IMom 因子在沪深 300 指数成分股中的选股效果最优，其次为“其他股票”，在中证 500 成分股内的选股效果相对较差，但也可通过显著性检验。"
+    },
+    {
+      "text": "加入 IMom 因子后，多因子模型整体信息比有所增加，IC_IR 由 3.99 增加至 4.15，RankIC_IR 由 4.60 增加至 4.70。",
+      "evidence": "加入 IMom 因子后，多因子模型 IC 的月胜率有所提高，波动率下降，因此整体信息比有所增加，IC_IR 由 3.99 增加至 4.15，RankIC_IR 由 4.60 增加至 4.70"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["David Blitz 等于2018.1.10 的《The Idiosyncratic Momentum Anomaly》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

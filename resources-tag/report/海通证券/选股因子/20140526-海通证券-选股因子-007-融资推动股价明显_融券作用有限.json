@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "id": "20140526-海通证券-选股因子-007-融资推动股价明显_融券作用有限",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "flow"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "融资增速",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{融资增速}=\\frac{\\text{最近}k\\text{天的融资增量均值}}{\\text{最近}k\\text{天的日均成交额}}",
+          "stats": [null, null, null, null],
+          "evidence": "融资增速 = 最近 k 天的融资增量均值/最近 k 天的日均成交额"
+        },
+        {
+          "name": "融资余额占比",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{融资余额占比}=\\frac{\\text{当前的融资余额}}{\\text{最近}k\\text{天的日均成交额}}",
+          "stats": [null, null, null, null],
+          "evidence": "报告中分别定义了融资增速与融资余额占比指标，回归分析发现融资增速对个股收益率的影响比融资余额更大，而且在统计上更显著。"
+        },
+        {
+          "name": "融券增速",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{融券增速}=\\frac{\\text{最近}k\\text{天的融券增量均值}}{\\text{最近}k\\text{天的日均成交额}}",
+          "stats": [null, null, null, null],
+          "evidence": "融券增速 = 最近 k 天的融券增量均值/最近 k 天的日均成交额"
+        },
+        {
+          "name": "融券余额占比",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{融券余额占比}=\\frac{\\text{当前的融券余额}}{\\text{最近}k\\text{天的日均成交额}}",
+          "stats": [null, null, null, null],
+          "evidence": "融券余额占比 = 当前的融券余额/最近 k 天的日均成交额"
+        },
+        {
+          "name": "融资融券净额增速",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{融资融券净额增速}=\\frac{\\text{最近}k\\text{天的融资融券净额增量均值}}{\\text{最近}k\\text{天的日均成交额}}",
+          "stats": [null, null, null, null],
+          "evidence": "我们可以和之前类似的定义融资融券净额增速和融资融券净余额指标，并进行回归分析和选股，结果如表 8 和表 9 所示。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "回归分析发现融资增速对个股收益率的影响比融资余额更大，而且在统计上更显著，这种显著性在个股一个月以上持有期时更明显。",
+      "evidence": "可以看到，融资增速对个股收益率的影响比融资余额更大，而且在统计上更显著，这种显著性在个股一个月以上持有期时更明显。"
+    },
+    {
+      "text": "投资者可以用融资增速快的股票作为选股组合，在观察期和持有期较长时（两个月以上），该组合可以获得较高的超额收益。",
+      "evidence": "投资者可以用融资增速快的股票作为选股组合，在观察期和持有期较长时（两个月以上），该组合可以获得较高的超额收益。"
+    },
+    {
+      "text": "融资增速组合的超额收益主要来自于2012四季度之后，时点正好和标的股扩容、融资余额增速加快的时点契合，迅速增加的入市资金明显推动股价上涨。",
+      "evidence": "融资增速组合的超额收益主要来自于 2012 四季度之后，时点正好和标的股扩容、融资余额增速加快的时点契合，迅速增加的入市资金明显推动股价上涨。"
+    },
+    {
+      "text": "融券余额与未来股价收益的相关性在绝大多数时候不显著，且正负无规律可循，不适合用来做为选股因子。",
+      "evidence": "另外，融券余额与未来股价收益的相关性在绝大多数时候不显著，且正负无规律可循，因而我们认为融券余额指标不适合用来做为选股因子。"
+    },
+    {
+      "text": "融资余额增速指标更适合中小盘股票，在沪深300里的使用效果一般。",
+      "evidence": "融资余额增速指标更适合中小盘股票，在沪深 300 里的使用效果一般。"
+    },
+    {
+      "text": "融券指标受限于券商的持券数量和持券偏好，会一定程度干扰净额指标的效用，建议投资者把更多注意力放在融资增速指标上。",
+      "evidence": "不过融券指标受限于券商的持券数量和持券偏好，对个股的影响不确定，从而一定程度会干扰净额指标的效用，我们建议投资者把更多注意力放在融资增速指标上。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "选股因子研究系列（一）——弱者终有逆袭日，强势几无持续时 20120723",
+    "选股因子研究系列（三）——从Spearman相关系数出发研究因子有效性——Kalman Filter 模型在因子选择中的应用20131011",
+    "选股因子研究系列（二）——因子模型的尾部相关性研究20130325",
+    "选股因子研究系列（五）——寻找股价驱动新因子之净换手率 2013.10.31",
+    "选股因子研究系列（四）——多因子选股模型的有效与失效20131028"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

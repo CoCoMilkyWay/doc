@@ -1,0 +1,213 @@
+{
+  "schema_version": 2,
+  "id": "20160831-海通证券-选股因子-016-选股因子空头收益的转化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{每月月初按总市值从小到大排序分为10组}",
+          "stats": [0.07, null, 1.5, null],
+          "evidence": "除了极少数强势选股因子外（如，市值、成交金额），多数选股因子空头收益更加明显。"
+        },
+        {
+          "name": "反转1M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票前1个月区间涨幅，按从小到大排序分为10组}",
+          "stats": [0.06, null, 1.62, null],
+          "evidence": "如 1 个月反转、3 个月反转、日均成交金额、异质波动率等因子其空头收益占比皆高于 70%。"
+        },
+        {
+          "name": "反转3M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票前3个月区间涨幅，按从小到大排序分为10组}",
+          "stats": [0.07, null, 1.49, null],
+          "evidence": "如 1 个月反转、3 个月反转、日均成交金额、异质波动率等因子其空头收益占比皆高于 70%。"
+        },
+        {
+          "name": "反转 6M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{股票前6个月区间涨幅，按从小到大排序分为10组}",
+          "stats": [0.06, null, 1.31, null],
+          "evidence": "观察上图可以看到，部分选股因子的多空收益在正交后出现了较为明显的变化，3个月反转、6个月反转、成交额等因子的多空收益出现了极大的变化，而其余选股因子的多空收益也受到了不同程度的影响。"
+        },
+        {
+          "name": "日均成交金额1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月的日均成交金额}",
+          "stats": [0.07, null, 1.79, null],
+          "evidence": "如 1 个月反转、3 个月反转、日均成交金额、异质波动率等因子其空头收益占比皆高于 70%。"
+        },
+        {
+          "name": "日均换手率1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月的日均换手率}",
+          "stats": [0.07, null, 1.54, null],
+          "evidence": "此外，对于个别因子（如换手率因子），其多头等权组合仅能小概率战胜逆向剔除随机等权组合。"
+        },
+        {
+          "name": "波动率1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月日收益率的标准差}",
+          "stats": [0.04, null, 0.81, null],
+          "evidence": "| 波动率1M | -0.36% | -0.99% | 0.63% | 1.16 | 157% | 0.04 | 0.81 |"
+        },
+        {
+          "name": "异质波动率 1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月剔除市场收益后的残差收益率波动率}",
+          "stats": [0.07, null, 2.19, null],
+          "evidence": "如 1 个月反转、3 个月反转、日均成交金额、异质波动率等因子其空头收益占比皆高于 70%。"
+        },
+        {
+          "name": "beta_1Y",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年日收益率对市场收益率回归的beta}",
+          "stats": [0.01, null, 0.39, null],
+          "evidence": "| beta_1Y | 0.00% | -0.75% | 0.75% | 1.36 | 99% | 0.01 | 0.39 |"
+        },
+        {
+          "name": "PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{市净率}",
+          "stats": [0.02, null, 0.58, null],
+          "evidence": "下图展示了全市场随机等权组合收益分位数分布情况以及市值、反转、换手率、PB、残差波动率因子逆向剔除随机等权组合收益分位数分布情况。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产收益率}",
+          "stats": [0.01, null, 0.52, null],
+          "evidence": "| ROE | 0.25% | -0.31% | 0.56% | 1.04 | 55% | 0.01 | 0.52 |"
+        },
+        {
+          "name": "D2E",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{债务与权益之比（杠杆）}",
+          "stats": [0.01, null, -0.24, null],
+          "evidence": "| D2E | 0.28% | -0.03% | 0.32% | 0.65 | 11% | 0.01 | -0.24 |"
+        },
+        {
+          "name": "净利润同比增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润同比增长率}",
+          "stats": [0.01, null, -0.1, null],
+          "evidence": "| 净利润同比增速 | 0.18% | 0.00% | 0.18% | 0.60 | 1% | 0.01 | -0.10 |"
+        },
+        {
+          "name": "营业收入同比增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入同比增长率}",
+          "stats": [0.01, null, 0.21, null],
+          "evidence": "| 营业收入同比增速 | 0.38% | -0.22% | 0.60% | 2.06 | 36% | 0.01 | 0.21 |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "1个月反转、3个月反转、日均成交金额、异质波动率等因子空头收益占比皆高于70%，多数选股因子空头收益占比极高",
+      "evidence": "观察下表也可以发现，在 C 超过 的选股因子中，多数选股因子空头收益占比极高。如 1 个月反转、3 个月反转、日均成交金额、异质波动率等因子其空头收益占比皆高于 70%。"
+    },
+    {
+      "text": "单因子情况下，逆向剔除法能较好转化因子空头收益：因子逆向剔除随机组合收益分位数分布较全市场随机组合更右偏，剔除空头端后选股更可能得到较好的收益表现",
+      "evidence": "观察上图可知，因子逆向剔除随机组合收益分位数分布相对于全市场随机组合收益分位数分布更为右偏。换句话说，在因子逆向剔除后的选股范围内选股将更加有可能得到较好的收益表现（较高的收益分位数）。"
+    },
+    {
+      "text": "多因子模型中因子收益的转化不仅取决于因子本身的选股能力（IC），还取决于因子间的IC协方差以及各因子的权重，可通过最大化复合因子IR寻找最优权重",
+      "evidence": "从上述公式可知，因子在多因子模型中的收益转化不仅仅取决于因子本身的选股能力还取决于因子间的 IC协方差以及各因子的权重。"
+    },
+    {
+      "text": "因子值截面协方差随时变动，需对因子做正交处理以满足截面协方差恒定的模型前提，本文推荐逐步回归方式，正交处理还能有效剔除合成型选股因子",
+      "evidence": "需要对于因子进行正交处理，使其满足截面协方差恒定这一模型前提要求。本文推荐使用逐步回归的方式进行处理。此外，正交因子将有效剔除合成型选股因子。"
+    },
+    {
+      "text": "简单因子叠加并不能有效转化空头收益：市值+换手+反转组合年化超额收益22%、最大回撤9%、信息比率3.03，而加入成交额因子后组合各方面指标反而下降",
+      "evidence": "不难发现，虽然上述因子从单因子来看都有着十分显著的多空收益，但是随着因子的增多，组合的收益或者信息比并未出现持续上升。市值因子在加上换手率因子后，组合年化收益略有降低，但是回撤出现了极大的改善，信息比稍有降低。在加上反转因子后，收益、回撤以及信息比率皆出现了十分明显的改善。然而，在加入成交额因子后，组合各方面指标反而出现了下降。"
+    },
+    {
+      "text": "成交额因子是典型的合成型选股因子，它是市值因子与换手率因子的结合，单因子回测选股效果极强，但引入多因子模型时并不能带来额外提升",
+      "evidence": "所谓合成型选股因子是指在单因子回测时因子呈现出极强的选股效果，但是由于该因子是现有因子的组合，将它引入多因子模型中时并不能带来额外的提升。成交额因子就是一个典型的“合成型”选股因子，它是市值因子与换手率因子的结合。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《Quantitative Equity Portfolio Management》"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20240909-国金证券-alpha掘金-013-ai选股模型特征筛选与处理_shap_中性化与另类特征",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{将每个交易日的分钟频OHLCV数据三等分，与整日数据一起计算成交量、价量相关性与波动率等四组日频基础因子共212个}",
+          "stats": [0.1396, null, null, 0.5766],
+          "evidence": "对于每一个交易日的分钟频 OHLCV 数据，我们将每日交易时间三等分，与整日的数据一起，计算四组日频的基础因子共 212 个。"
+        },
+        {
+          "name": "因子均值",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{在每个交易日对全部股票的因子x求均值，得到该交易日的均值因子}",
+          "stats": [null, null, null, null],
+          "evidence": "此外，时间截面上同一因子的均值可以帮助我们理解因子的长期趋势和稳定性。"
+        },
+        {
+          "name": "合成",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{高频因子与日频因子的合成}",
+          "stats": [0.1574, null, null, null],
+          "evidence": "在中证 1000 这类小微盘成分股上，高频因子的表现相当出色，不仅在 IC 均值上超越了日频因子，且合成后的 IC 均值达到了 15.74%。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "sample_window", "interpretability", "ensemble"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "statement", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于SHAP（Shapley AdditiveExplanations）的特征选择方法显著降低了模型训练成本，并在一定程度上提升了GRU模型的精度，SHAP可视化工具能直观展示各因子的作用。",
+      "evidence": "首先，基于 SHAP（Shapley AdditiveExplanations）的特征选择方法显著降低了模型训练成本，并在一定程度上提升了 GRU 模型的精度，同时，SHAP 提供的可视化工具能够直观地展示各个因子的作用，为进一步优化模型提供了有价值的参考。"
+    },
+    {
+      "text": "基于简单统计方法的特征选择取得了一定效果，但深度学习特征选择模块STG的表现则不太理想。",
+      "evidence": "相比之下，尽管基于简单统计方法的特征选择方法也取得了一定效果，但深度学习特征选择模块 STG 的表现则不太理想。"
+    },
+    {
+      "text": "将中性化处理后的标签喂入LightGBM模型并与原模型集成，能显著优化模型的表现，而将因子中性化作为模型输入的整体表现不尽如人意。",
+      "evidence": "在因子与标签中性化处理方面，将中性化处理后的标签喂入 LightGBM 模型并与原模型集成，能够显著优化模型的表现，然而，将因子中性化作为模型输入的整体表现则不尽如人意。"
+    },
+    {
+      "text": "加入宏观经济数据和BARRA因子收益率等反映整体市场的另类因子，虽然能在一定程度上提升LightGBM模型的超额收益，但总体而言缺乏显著的正向作用。",
+      "evidence": "关于另类因子的引入，加入宏观经济数据和 BARRA 因子收益率等反映整体市场的另类因子，虽然能够在一定程度上提升 LightGBM 模型的超额收益，但总体而言缺乏显著的正向作用。"
+    },
+    {
+      "text": "高频因子在小微盘股上显示出较高的有效性，而在大中盘股上的应用方法仍需进一步探索。",
+      "evidence": "因此，初步应用高频因子在小微盘股上显示出较高的有效性，而在大中盘股上的应用方法仍需进一步探索。"
+    },
+    {
+      "text": "Spearman相关度（无MMR）在特征筛选方面表现最佳，多空策略的表现显著优于其他几种方法。",
+      "evidence": "总体来看，Spearman 相关度（无 MMR）在特征筛选方面表现最佳，尤其在多空策略的表现上，显著优于其他几种方法。"
+    },
+    {
+      "text": "大部分分值最高的因子变化较少，排名32名到64名的因子变化较快，变化有向分值较高因子迁移的趋势，滚动训练是有必要性的。",
+      "evidence": "由此，我们发现大部分分值最高的因子变化较少，排名在 32 名到 64 名的因子变化较快。近年来，变化有向分值较高因子迁移的趋势，可能表征着风格切换的加剧。总体来说，滚动训练是有必要性的。"
+    },
+    {
+      "text": "特征工程优化的指数增强策略：沪深300年化超额收益15.83%、超额最大回撤3.18%；中证500年化超额收益18.23%、回撤8.21%；中证1000年化超额收益32.24%、回撤3.88%。",
+      "evidence": "其中，沪深 300 指数增强策略年化超额收益达到 15.83%，超额最大回撤为 3.18%。中证 500 指数增强策略年化超额收益 18.23%，超额最大回撤 8.21%。中证 1000 指增策略年化超额收益 32.24%，超额最大回撤 3.88%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Unified Approach to Interpreting Model Predictions",
+    "ALPHA 掘金系列之十二：排序学习对 GRU 选股模型的增强",
+    "Alpha 掘金系列之九：基于多目标、多模型的机器学习指数增强策略",
+    "Alpha 掘金系列之十：机器学习全流程重构",
+    "Feature Selection using Stochastic Gates"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

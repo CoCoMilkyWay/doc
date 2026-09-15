@@ -1,0 +1,193 @@
+{
+  "schema_version": 2,
+  "id": "20240422-国泰君安-权益配置因子-005-从量化视角复盘a股_1995年以来的风格轮动和选股因子表现",
+  "genre": "handbook",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "earnings_surprise",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "市值因子",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值，按十分组考察}",
+          "stats": [null, null, null, 0.22],
+          "evidence": "历史表现上，1995 年以来市值因子的年化多空收益达22%，年化超额收益达20%。"
+        },
+        {
+          "name": "估值因子",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{PE、PB、PS 等权合成估值因子}",
+          "stats": [null, null, null, 0.133],
+          "evidence": "自 1995 年以来，十分组下估值因子多头组（估值最低 10%股票组合）相对于万得全A指数的年化超额收益为10.8%，年化多空收益（估值最低 10%股票组合相对估值最高 10%股票组合的超额收益）为 13.3%。"
+        },
+        {
+          "name": "股息率因子",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{股息率}",
+          "stats": [null, null, null, null],
+          "evidence": "估值、股息率因子整体上在震荡市和没有行情时超额表现较好。牛市期间，超额较少，市场不关心估值高低，特别是 2013 年创业板牛市、2019-2020 年大盘蓝筹股的结构性牛市。"
+        },
+        {
+          "name": "价量波动性",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{5日交易金额/波动率、20日特质波动率、3个月换手率标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "价量因子跟小市值高度相关，小市值占优时价量因子表现均较好，小市值失效（2017年初-2021年初）时，价量因子也失效。"
+        },
+        {
+          "name": "价量反转",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{20日日内收益、60日信息比率、一个月涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "价量因子跟小市值高度相关，小市值占优时价量因子表现均较好，小市值失效（2017年初-2021年初）时，价量因子也失效。"
+        },
+        {
+          "name": "价量流动性",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{20日日均交易金额、1个月自由流通换手率、1个月换手率、3个月换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "价量因子跟小市值高度相关，小市值占优时价量因子表现均较好，小市值失效（2017年初-2021年初）时，价量因子也失效。"
+        },
+        {
+          "name": "成长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度扣非净利润同比增长率、单季度归母净利润同比增长率、单季度营业利润同比增长率、单季度营业收入同比增长率等}",
+          "stats": [null, null, null, null],
+          "evidence": "基本面因子整体上看有效性较强；主要回撤发生在2022年-2023年时，基本面因子均大幅跑输。"
+        },
+        {
+          "name": "盈利",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度GPOA、净经营资产收益率、单季度扣非ROA/ROE、单季度归母ROA/ROE}",
+          "stats": [null, null, null, null],
+          "evidence": "基本面因子整体上看有效性较强；主要回撤发生在2022年-2023年时，基本面因子均大幅跑输。"
+        },
+        {
+          "name": "业绩超预期",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化预期外单季度扣非净利润、标准化预期外单季度归母净利润、标准化预期外单季度营业收入及其带漂移项版本}",
+          "stats": [null, null, null, null],
+          "evidence": "基本面因子整体上看有效性较强；主要回撤发生在2022年-2023年时，基本面因子均大幅跑输。"
+        },
+        {
+          "name": "分析师",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师覆盖度、分析师预测目标价收益率、过去90日机构最新盈利预测调整幅度}",
+          "stats": [null, null, null, null],
+          "evidence": "基本面因子整体上看有效性较强；主要回撤发生在2022年-2023年时，基本面因子均大幅跑输。"
+        },
+        {
+          "name": "北向因子",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{5日持股比例变动、60日持股比例变动、5日净流入、60日净流入}",
+          "stats": [null, null, null, null],
+          "evidence": "北向因子整体有一定超额，但近一年多无超额。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "市值因子是A股最强的风格因子，1995年以来年化多空收益达22%，年化超额收益达20%。",
+      "evidence": "历史表现上，1995 年以来市值因子的年化多空收益达22%，年化超额收益达20%。"
+    },
+    {
+      "text": "市值风格4~10年左右轮动一次，可考虑战略性超配或低配，估值价差和滚动五年收益对市值因子择时有较强指导意义。",
+      "evidence": "按照过往30年的小样本总结规律，市值风格4~10年左右轮动一次，可考虑战略性超配或低配。估值价差和滚动五年收益对市值因子择时有较强指导意义。"
+    },
+    {
+      "text": "小市值因子持续失效主要有两段（2003年-2007年中、2017年初-2021年初），2007年1月超额回撤达到最大值48%，多空收益回撤达到61%。",
+      "evidence": "2003年-2007年中，小市值因子持续跑输基准，期间甚至没有反弹，2007 年 1 月超额回撤达到最大值 48%，意味着四年时间小市值组累计跑输基准指数48%，多空收益回撤达到61%。"
+    },
+    {
+      "text": "估值因子长期较为有效，高低估值轮动并不明显，明显失效只有一次，2019年4月-2021年1月期间超额收益累计回撤30%。",
+      "evidence": "除了2019年4月-2021年1月估值因子持续失效外，其他时间超额回撤幅度和时间都不大。从轮动上看，估值失效时段只有 1次，2019年 4月-2021年 1月期间超额收益累计回撤 30%（同期跑输市场基准指数 30%）。"
+    },
+    {
+      "text": "价量因子跟小市值高度相关，小市值占优时价量因子表现均较好，小市值失效（2017年初-2021年初）时，价量因子也失效。",
+      "evidence": "价量因子跟小市值高度相关，小市值占优时价量因子表现均较好，小市值失效（2017年初-2021年初）时，价量因子也失效。"
+    },
+    {
+      "text": "基本面因子整体上看有效性较强，但2021年10月以后开始失效，2022年10月超额持续回撤，2023年11月超额开始反弹，未来或有望重新有效。",
+      "evidence": "在控制市值行业暴露的最大化因子得分组合的超额收益看，2021 年 10 月以后基本面因子就已经开始失效，2022 年 10 月超额持续回撤，2023 年 11 月超额开始反弹，未来或有望重新有效。"
+    },
+    {
+      "text": "目前市值因子最新估值价差为0.93，相对历史高点区域1.7~2.6当前位置不高，小市值相对大市值组估值价差或许仍有60%以上提升空间。",
+      "evidence": "目前市值因子最新估值价差为 0.93，相对历史高点区域 1.7~2.6，估值价差当前位置不高，小市值相对大市值组估值价差或许仍有60%以上提升空间。"
+    },
+    {
+      "text": "在经济稳步复苏、流动性宽松、AI可能引发新科技浪潮、IPO放缓的背景下，中期看小市值风格未来一两年大概率延续。",
+      "evidence": "在经济稳步复苏、流动性宽松、AI 可能引发新科技浪潮、IPO 放缓的背景下，如果多种影响因素持续，中期看小市值风格未来一两年大概率延续。"
+    },
+    {
+      "text": "常用选股因子在2017年以后超额收益相对之前有所降低。",
+      "evidence": "常用选股因子在 2017 年以后超额收益相对之前有所降低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《MSCI Integrated Factor Crowding Model》",
+    "《权益因子观察周报》",
+    "詹姆斯·奥肖内西《投资策略实战分析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

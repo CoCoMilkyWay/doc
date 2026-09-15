@@ -1,0 +1,215 @@
+{
+  "schema_version": 2,
+  "id": "20200730-海通证券-选股因子-069-高频因子的现实与幻想",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\sqrt{N}\\sum_{j=1}^{N}r_{i,j,n}^{3}}{\\left(\\sum_{j=1}^{N}r_{i,j,n}^{2}\\right)^{1.5}}",
+          "stats": [null, 0.0341, 3.48, 0.0107],
+          "evidence": "高频偏度刻画了股票价格日内快速拉升或下跌的特征。假设有两只股票日内涨幅相同，其中一只股票的涨幅由持续稳定的小幅上涨累计而来，而另一只股票的上涨源自于短期的大幅拉升，那么后者在未来有较大概率出现收益反转。"
+        },
+        {
+          "name": "下行波动占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\sqrt{N}\\sum_{j=1}^{N}r_{i,j,n}^{2}\\cdot I_{r_{i,j,n}<0}}{\\sum_{j=1}^{N}r_{i,j,n}^{2}}",
+          "stats": [null, 0.0303, 3.02, 0.0094],
+          "evidence": "下行波动占比与高频偏度的逻辑基本一致，因子计算公式如下："
+        },
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{Vol_{i,14:30-15:00,n}}{Vol_{i,j,n}}",
+          "stats": [null, 0.0486, 3.59, 0.0162],
+          "evidence": "尾盘成交占比因子具有较好的效果可能源于，（1）尾盘投机度高，容易出现价格操纵行为；（2）非知情交易者（散户）不愿承担日内波动，更倾向于尾盘交易，而知情交易者（机构）则倾向于在早盘交易。"
+        },
+        {
+          "name": "高频量价相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}corner\\left(Class_{i,j,n},\\frac{Vol_{i,j,n}}{\\sum_{j}Vol_{i,j,n}}\\right)",
+          "stats": [null, 0.0409, 3.33, 0.0118],
+          "evidence": "量价背离的股票未来表现更好，即，日内缩量上涨或者放量下跌优于放量上涨或缩量下跌。可能的原因是，缩量上涨持续性强，放量下跌换手充分。"
+        },
+        {
+          "name": "改进反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\prod_{n=t}^{n=t-T+1}\\frac{Close_{i,j,n}}{Close_{i,10:00,n}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "基于以上推断，可以尝试将隔夜和开盘后半小时的涨幅剔除，构建改进反转因子。"
+        },
+        {
+          "name": "平均单笔流出金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\sum_{j=1}^{N}Am_{i,j,n}\\cdot I_{r_{i,j,n}<0}\\Big/\\sum_{j=1}^{N}TLNum_{i,j,n}\\cdot I_{r_{i,j,n}<0}}{\\sum_{j=1}^{N}Am_{i,j,n}\\Big/\\sum_{j=1}^{N}TLNum_{i,j,n}}",
+          "stats": [null, 0.0303, 3.15, 0.0107],
+          "evidence": "股票下跌时，如果单笔成交金额大，说明委买有大单，是一种抄底行为。"
+        },
+        {
+          "name": "大单推动涨幅",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\prod_{n=t}^{n=t-T+1}\\left(\\prod_{j\\in IdxSet}\\left(1+r_{i,j,n}\\cdot I_{\\{j\\in IdxSet\\}}\\right)-1\\right)",
+          "stats": [null, 0.0371, 3.79, 0.0132],
+          "evidence": "平均单笔成交金额较大的 K线多空博弈激烈，未来的反转效应更强。"
+        },
+        {
+          "name": "开盘后净委买增额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\sum_{j\\in9:30-10:00}净委买增额_{i,j,n}}{成交额_{i,j,n}}",
+          "stats": [null, 0.0419, 4.24, 0.0133],
+          "evidence": "盘口委托挂单数据刻画了投资者的买入意愿，开盘后 30 分钟内的委买增量越大，投资者在这段时间内的买入意愿越强。"
+        },
+        {
+          "name": "开盘后净主买占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\sum_{j\\in9:30-10:00}净主买成交额_{i,j,n}}{\\sum_{j\\in9:30-10:00}成交额_{i,j,n}}",
+          "stats": [null, 0.0331, 2.51, 0.0098],
+          "evidence": "开盘后净主买占比因子刻画了投资者在开盘后 30分钟内，净买入行为的强度。开盘后净主买占比越高，投资者的主动买入行为越强。"
+        },
+        {
+          "name": "开盘后净主买强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\mathsf{mean}_{j\\in9:30-10:00}\\left(净主买成交额_{i,j,n}\\right)}{\\mathsf{std}_{j\\in9:30-10:00}\\left(净主买成交额_{i,j,n}\\right)}",
+          "stats": [null, 0.0446, 3.29, 0.0134],
+          "evidence": "开盘后净主买强度因子刻画了投资者在开盘后 30分钟内，净买入行为的稳健性。开盘后净主买强度越高，投资者的主动买入行为越稳健。"
+        },
+        {
+          "name": "大买成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{大买单成交额_{i,\\cdot,n}}{成交额_{i,\\cdot,n}}",
+          "stats": [null, 0.0435, 1.96, 0.0135],
+          "evidence": "基于逐笔成交数据中的单号，可将逐笔数据合成为单成交数据，并从单的角度区分大小单。再根据对应的“买”、“卖”标记，可进一步计算大买单占全天成交金额的比例（简称“大买成交占比”）。大买成交占比越高，大单买入行为越强。"
+        },
+        {
+          "name": "开盘后知情主卖占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\sum_{j\\in9:30-10:00}知情主卖成交额_{i,j,n}}{\\sum_{j\\in9:30-10:00}成交额_{i,j,n}}",
+          "stats": [null, 0.0286, 2.51, 0.0076],
+          "evidence": "开盘后知情主卖占比越高，知情交易者卖出行为越强，投资者对股票未来的表现越悲观。"
+        },
+        {
+          "name": "开盘后买入意愿占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{\\sum_{j\\in9:30-10:00}买入意愿_{i,j,n}}{\\sum_{j\\in9:30-10:00}成交额_{i,j,n}}",
+          "stats": [null, 0.0434, 3.43, 0.0157],
+          "evidence": "委托挂单体现投资者尚未释放的交易意愿，而主买/主卖则代表已进行的交易行为。若将两者结合，可以得到广义的投资者主动买入意愿。开盘后 30 分钟内买入意愿占比越高，投资者的买入意愿越强。"
+        },
+        {
+          "name": "开盘后买入意愿强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\frac{mean_{j\\in9:30-10:00}\\left(买入意愿_{i,j,n}\\right)}{std_{j\\in9:30-10:00}\\left(买入意愿_{i,j,n}\\right)}",
+          "stats": [null, 0.0507, 3.93, 0.0182],
+          "evidence": "开盘后 30 分钟内的买入意愿强度越高，投资者的买入意愿越稳健。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "尾盘成交占比因子表现最优，月均Rank IC为4.86%，年化ICIR为3.59，月均多空收益1.62%，月度胜率82%。",
+      "evidence": "尾盘成交占比因子月均 Rank IC为 4.86%，年化 ICIR 为 3.59。因子月均多空收益为 1.62%，月度胜率为 82%。"
+    },
+    {
+      "text": "开盘后买入意愿强度因子月均Rank IC为5.07%，年化ICIR为3.93，月均多空收益1.82%，月度胜率达84%。",
+      "evidence": "开盘后买入意愿强度因子月均 Rank IC为 5.07%，年化 ICIR 为 3.93。因子月均多空收益为 1.82%，月度胜率达 84%。"
+    },
+    {
+      "text": "对沪深300、中证500和中证800指数，引入高频因子后均可将指数增强策略的年化超额收益提升2.6%以上，且在时间序列上较为稳定。",
+      "evidence": "对于沪深 300 指数、中证 500 指数和中证 800 指数，引入高频因子的信息后，均可将指数增强策略的年化超额收益提升 2.6%以上。并且，在时间序列上也较为稳定。在绝大部分年份中，引入高频因子后的策略都优于基准策略。"
+    },
+    {
+      "text": "对中证800指数增强，直接引入大单推动涨幅因子使年化超额收益由17.91%降至16.54%，但以空头虚拟变量因子形式引入则提升至18.61%，信息比和收益回撤比均明显改善。",
+      "evidence": "对于中证 800 指数增强策略，若直接以因子形式引入大单推动涨幅因子，年化超额收益不升反降，由 17.91%降低至 16.54%。但若以空头虚拟变量因子的形式引入，则年化超额收益由 17.91%提升至 18.61%。同时，信息比和收益回撤比均得到明显改善。"
+    },
+    {
+      "text": "高频因子空头效应强且在时间序列上稳定，可直接用于剔除空头个股以增厚指数增强策略的超额收益；在绝大部分阈值水平下，事后剔除的效果更好。",
+      "evidence": "高频因子空头效应强且在时间序列上稳定，因此可直接利用高频因子来剔除空头个股，以增厚指数增强策略的超额收益。"
+    },
+    {
+      "text": "相较而言，在绝大部分阈值水平下，事后剔除的效果更好，因为事后剔除主要依赖高频因子的空头效应。",
+      "evidence": "相较而言，在绝大部分阈值水平下，事后剔除的效果更好。这可能是由于，事后剔除主要依赖高频因子的空头效应。"
+    },
+    {
+      "text": "使用不同频率构造的高频因子之间相关性普遍较低，基于分钟、TICK、逐笔等不同频率的数据构建高频因子，可以起到风险分散的效果。",
+      "evidence": "由于可见，基于分钟、TICK、逐笔等不同频率的数据构建高频因子，可以起到风险分散的效果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Amaya, D., P. Christoffersen, K. Jacobs and A. Vasquez. (2011). \"Does Realized Skewness and Kurtosis Predict the Cross-Section of Equity Returns?\"",
+    "Worldquant Alpha 101"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

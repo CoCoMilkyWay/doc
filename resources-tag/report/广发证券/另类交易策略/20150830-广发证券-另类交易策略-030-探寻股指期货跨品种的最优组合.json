@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20150830-广发证券-另类交易策略-030-探寻股指期货跨品种的最优组合",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "当日指数涨跌幅",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{当日指数涨跌幅}",
+          "stats": [0.159, null, 0.186, null],
+          "evidence": "上一时间单位大盘股优于小盘股\n(上证50涨幅－ 中证500涨幅>0)\n做多上证50股指期货\n做空中证500股指期货"
+        },
+        {
+          "name": "当日最高价",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{当日最高价}}{\\text{当日收盘价}}",
+          "stats": [-0.134, null, -0.161, null],
+          "evidence": "指标标准化：当日最高价当日收盘价\n\n50指数当日最高价>500指数当日最高价"
+        },
+        {
+          "name": "当日最低价",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{当日最低价}}{\\text{当日收盘价}}",
+          "stats": [-0.136, null, -0.163, null],
+          "evidence": "指标标准化：当日最低价当日收盘价\n\n50指数当日最低价> 500指数当日最低价"
+        },
+        {
+          "name": "当日高频资金流",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\frac{\\sum_{T}\\pm M(T)}{\\text{当日总成交金额}}",
+          "stats": [0.144, null, 0.181, null],
+          "evidence": "资金流指标MF的计算\n记第T分钟内成交金额为\nM(T)，1、如果指数上涨，则MF:=MF+M(T) ;\n2、如果指数下跌，则\nMF:=MF-M(T)。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "预测函数与资产组合权重的确定可同时完成，该问题是一个典型相关分析（Canonical Correlation Analysis，CCA）模型求解典型变量的问题",
+      "evidence": "上述问题是一个“典型相关分析”（Canonical Correlation Analysis，CCA）模型求解“典型变量”的问题"
+    },
+    {
+      "text": "CCA获得的“资产组合”是与预测因子x的所有可能线性组合的相关性最强的一个组合",
+      "evidence": "获得的“资产组合” $y=wr^{T}$ 是与预测因子x的所有可能线性组合的相关性最强的一个组合。"
+    },
+    {
+      "text": "50-500线性回归模型扩展窗口年化收益率29.9%、最大回撤-7.0%、夏普比率2.61、胜率58.7%；固定窗口年化收益率27.3%、最大回撤-6.8%、夏普比率2.41、胜率58.1%",
+      "evidence": "| 年化收益率 | 29.9% | 27.3% |\n| 最大回撤 | -7.0% | -6.8% |\n| 夏普比率 | 2.61 | 2.41 |\n| 年化收益回撤比 | 4.25 | 4.02 |\n| 胜率 | 58.7% | 58.1% |"
+    },
+    {
+      "text": "CCA模型扩展窗口年化收益率19.0%、最大回撤-4.8%、夏普比率2.78、胜率58.5%；固定窗口年化收益率25.9%、最大回撤-5.9%、夏普比率2.71、胜率58.0%",
+      "evidence": "| 年化收益率 | 19.0% | 25.9% |\n| 最大回撤 | -4.8% | -5.9% |\n| 夏普比率 | 2.78 | 2.71 |\n| 年化收益回撤比 | 3.94 | 4.37 |\n| 胜率 | 58.5% | 58.0% |"
+    },
+    {
+      "text": "大小盘风格轮动是A股市场长期以来的特性；从统计模型中获得的“最优组合”基本上是一个无单边头寸的组合，做多和做空的资金量基本上持平",
+      "evidence": "1、大小盘风格轮动是A股市场长期以来的特性；\n\n2、从统计模型中获得的“最优组合”基本上是一个无单边头寸的组合，也就是用于做多和做空的资金量基本上持平。"
+    },
+    {
+      "text": "根据不同因子的打分，实现资金管理和仓位控制",
+      "evidence": "根据不同因子的打分，实现资金管理和仓位控制。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《另类交易策略系列之二十二：风格动量下的股指期货跨品种套利策略》",
+    "《另类交易策略系列之二十四：观日内趋势，察行业轮动，品风格套利》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "schema_version": 2,
+  "id": "20221213-方正证券-多因子选股-008-显著效应_极端收益扭曲决策权重和草木皆兵因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "惊恐收益因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{惊恐收益}_{i,t}=\\frac{1}{20}\\sum_{k=0}^{19}\\mathrm{Panicked}_{i,t-k}\\cdot r_{i,t-k},\\quad \\mathrm{Panicked}_{i,t}=\\frac{|r_{i,t}-r_{m,t}|}{|r_{i,t}|+|r_{m,t}|+0.1}",
+          "stats": [null, -0.0749, -3.31, 0.2345],
+          "evidence": "3）每月月底，分别计算过去 20 个交易日的“加权决策分”的均值和标准差，分别作为对“20 日收益率因子”和“20 日波动率因子”的改进，分别记为“惊恐收益”因子和“惊恐波动”因子，并将二者等权合成为“原始惊恐”因子。"
+        },
+        {
+          "name": "惊恐波动因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{惊恐波动}_{i,t}=\\mathrm{std}\\left(\\mathrm{Panicked}_{i,t-k}\\cdot r_{i,t-k},\\;k=0,\\dots,19\\right)",
+          "stats": [null, -0.0866, -2.98, 0.2309],
+          "evidence": "3）每月月底，分别计算过去 20 个交易日的“加权决策分”的均值和标准差，分别作为对“20 日收益率因子”和“20 日波动率因子”的改进，分别记为“惊恐收益”因子和“惊恐波动”因子，并将二者等权合成为“原始惊恐”因子。"
+        },
+        {
+          "name": "原始惊恐因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{原始惊恐}_{i,t}=\\frac{1}{2}\\left(\\text{惊恐收益}_{i,t}+\\text{惊恐波动}_{i,t}\\right)",
+          "stats": [null, -0.0932, -3.87, 0.2649],
+          "evidence": "3）每月月底，分别计算过去 20 个交易日的“加权决策分”的均值和标准差，分别作为对“20 日收益率因子”和“20 日波动率因子”的改进，分别记为“惊恐收益”因子和“惊恐波动”因子，并将二者等权合成为“原始惊恐”因子。"
+        },
+        {
+          "name": "波动率加剧-惊恐收益因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{波动率加剧-惊恐收益}_{i,t}=\\frac{1}{20}\\sum_{k=0}^{19}\\sigma^{1m}_{i,t-k}\\cdot\\mathrm{Panicked}_{i,t-k}\\cdot r_{i,t-k},\\quad \\sigma^{1m}_{i,t}=\\mathrm{std}\\left(\\text{分钟收益率}\\right)",
+          "stats": [null, -0.0804, -4, 0.3362],
+          "evidence": "4）每月月底，分别计算过去20 日的加权决策分的均值和标准差，记为“波动率加剧-惊恐收益”因子和“波动率加剧-惊恐波动”因子，并将二者等权合成为“波动率加剧-惊恐”因子。"
+        },
+        {
+          "name": "波动率加剧-惊恐波动因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{波动率加剧-惊恐波动}_{i,t}=\\mathrm{std}\\left(\\sigma^{1m}_{i,t-k}\\cdot\\mathrm{Panicked}_{i,t-k}\\cdot r_{i,t-k},\\;k=0,\\dots,19\\right)",
+          "stats": [null, -0.0848, -3.12, 0.3327],
+          "evidence": "4）每月月底，分别计算过去20 日的加权决策分的均值和标准差，记为“波动率加剧-惊恐收益”因子和“波动率加剧-惊恐波动”因子，并将二者等权合成为“波动率加剧-惊恐”因子。"
+        },
+        {
+          "name": "波动率加剧-惊恐因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{波动率加剧-惊恐}_{i,t}=\\frac{1}{2}\\left(\\text{波动率加剧-惊恐收益}_{i,t}+\\text{波动率加剧-惊恐波动}_{i,t}\\right)",
+          "stats": [null, -0.0934, -4.27, 0.3948],
+          "evidence": "4）每月月底，分别计算过去20 日的加权决策分的均值和标准差，记为“波动率加剧-惊恐收益”因子和“波动率加剧-惊恐波动”因子，并将二者等权合成为“波动率加剧-惊恐”因子。"
+        },
+        {
+          "name": "个人投资者交易比-惊恐收益因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个人投资者交易比-惊恐收益}_{i,t}=\\frac{1}{20}\\sum_{k=0}^{19}\\mathrm{Retail}_{i,t-k}\\cdot\\mathrm{Panicked}_{i,t-k}\\cdot r_{i,t-k},\\quad \\mathrm{Retail}_{i,t}=\\frac{\\text{个人投资者买卖金额均值}}{\\text{当日总成交金额}}",
+          "stats": [null, -0.0699, -3.07, 0.2577],
+          "evidence": "4）每月月底，分别计算过去20 日的加权决策分的均值和标准差，记为“个人投资者交易比-惊恐收益”因子和“个人投资者交易比-惊恐波动”因子，并将二者等权合成为“个人投资者交易比-惊恐”因子。"
+        },
+        {
+          "name": "个人投资者交易比-惊恐波动因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个人投资者交易比-惊恐波动}_{i,t}=\\mathrm{std}\\left(\\mathrm{Retail}_{i,t-k}\\cdot\\mathrm{Panicked}_{i,t-k}\\cdot r_{i,t-k},\\;k=0,\\dots,19\\right)",
+          "stats": [null, -0.0847, -3.05, 0.2459],
+          "evidence": "4）每月月底，分别计算过去20 日的加权决策分的均值和标准差，记为“个人投资者交易比-惊恐收益”因子和“个人投资者交易比-惊恐波动”因子，并将二者等权合成为“个人投资者交易比-惊恐”因子。"
+        },
+        {
+          "name": "个人投资者交易比-惊恐因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个人投资者交易比-惊恐}_{i,t}=\\frac{1}{2}\\left(\\text{个人投资者交易比-惊恐收益}_{i,t}+\\text{个人投资者交易比-惊恐波动}_{i,t}\\right)",
+          "stats": [null, -0.0935, -3.92, 0.3062],
+          "evidence": "1）参考 wind资金流指标定义，我们将单笔成交金额小于 4 万元的交易，视为个人投资者交易。我们计算每天个股个人投资者卖出和买入的金额均值，再除以个股的当日总体成交金额，得到当日个股的个人投资者交易比。"
+        },
+        {
+          "name": "注意力衰减-惊恐收益因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{注意力衰减-惊恐收益}_{i,t}=\\frac{1}{N}\\sum_{k}\\mathrm{Panicked}^{dec}_{i,t-k}\\cdot r_{i,t-k},\\quad \\mathrm{Panicked}^{dec}_{i,t}=\\mathrm{Panicked}_{i,t}-\\frac{\\mathrm{Panicked}_{i,t-1}+\\mathrm{Panicked}_{i,t-2}}{2}\\;(\\text{仅保留差值为正的交易日})",
+          "stats": [null, -0.076, -3.76, 0.2228],
+          "evidence": "本文考虑到短暂的连续异于市场的收益率，会引起投资者注意力的衰减，或恐慌情绪得到了适应和缓解，因此我们考虑将“惊恐度”减去过去两天的均值，构造衰减后的“惊恐度”，并将其加入权重的部分，构造“注意力衰减-惊恐”因子。"
+        },
+        {
+          "name": "注意力衰减-惊恐波动因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{注意力衰减-惊恐波动}_{i,t}=\\mathrm{std}\\left(\\mathrm{Panicked}^{dec}_{i,t-k}\\cdot r_{i,t-k},\\;k=0,\\dots,19\\right)",
+          "stats": [null, -0.079, -3.28, 0.174],
+          "evidence": "本文考虑到短暂的连续异于市场的收益率，会引起投资者注意力的衰减，或恐慌情绪得到了适应和缓解，因此我们考虑将“惊恐度”减去过去两天的均值，构造衰减后的“惊恐度”，并将其加入权重的部分，构造“注意力衰减-惊恐”因子。"
+        },
+        {
+          "name": "注意力衰减-惊恐因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{注意力衰减-惊恐}_{i,t}=\\frac{1}{2}\\left(\\text{注意力衰减-惊恐收益}_{i,t}+\\text{注意力衰减-惊恐波动}_{i,t}\\right)",
+          "stats": [null, -0.0873, -4.2, 0.2539],
+          "evidence": "本文考虑到短暂的连续异于市场的收益率，会引起投资者注意力的衰减，或恐慌情绪得到了适应和缓解，因此我们考虑将“惊恐度”减去过去两天的均值，构造衰减后的“惊恐度”，并将其加入权重的部分，构造“注意力衰减-惊恐”因子。"
+        },
+        {
+          "name": "草木皆兵-收益因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{草木皆兵-收益}_{i,t}=\\frac{1}{20}\\sum_{k=0}^{19}\\mathrm{Panicked}^{dec}_{i,t-k}\\cdot\\sigma^{1m}_{i,t-k}\\cdot\\mathrm{Retail}_{i,t-k}\\cdot r_{i,t-k}",
+          "stats": [null, -0.0769, -4.21, 0.2892],
+          "evidence": "每月月底，分别计算过去 20 日的加权决策分的均值和标准差，记为“草木皆兵-收益”因子和“草木皆兵-波动”因子，并将二者等权合成为“草木皆兵”因子。"
+        },
+        {
+          "name": "草木皆兵-波动因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{草木皆兵-波动}_{i,t}=\\mathrm{std}\\left(\\mathrm{Panicked}^{dec}_{i,t-k}\\cdot\\sigma^{1m}_{i,t-k}\\cdot\\mathrm{Retail}_{i,t-k}\\cdot r_{i,t-k},\\;k=0,\\dots,19\\right)",
+          "stats": [null, -0.0788, -3.47, 0.2426],
+          "evidence": "每月月底，分别计算过去 20 日的加权决策分的均值和标准差，记为“草木皆兵-收益”因子和“草木皆兵-波动”因子，并将二者等权合成为“草木皆兵”因子。"
+        },
+        {
+          "name": "草木皆兵因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{草木皆兵}_{i,t}=\\frac{1}{2}\\left(\\text{草木皆兵-收益}_{i,t}+\\text{草木皆兵-波动}_{i,t}\\right)",
+          "stats": [null, -0.089, -4.54, 0.325],
+          "evidence": "2）将每天的衰减后的“惊恐度”、波动率、个人投资者者交易比、收益率相乘，作为当日的加权决策分。每月月底，分别计算过去 20 日的加权决策分的均值和标准差，记为“草木皆兵-收益”因子和“草木皆兵-波动”因子，并将二者等权合成为“草木皆兵”因子。"
+        },
+        {
+          "name": "纯净草木皆兵因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{用常用风格因子及行业因子对草木皆兵因子正交化处理后的残差}",
+          "stats": [null, -0.0359, -1.86, 0.164],
+          "evidence": "在剔除了常用的风格因子影响后，“草木皆兵”因子仍然具有很好的选股能力，Rank IC 均值为-3.59%，Rank ICIR 为-1.86，多空组合年化收益率 16.40%，信息比率 2.03。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "“草木皆兵”因子月度选股表现出色：Rank IC达-8.90%，Rank ICIR 为-4.54，多空组合年化收益率达 32.50%，信息比3.92，月度胜率 85.71%",
+      "evidence": "我们对“草木皆兵”因子在月度频率上的选股效果进行测试，结果显示 “草木皆兵”因子表现非常出色，Rank IC达-8.90%，Rank ICIR 为-4.54，多空组合年化收益率达 32.50%，信息比3.92，因子月度胜率 85.71%。"
+    },
+    {
+      "text": "剔除常用风格因子影响后“草木皆兵”因子仍具较强选股能力：Rank IC均值-3.59%，Rank ICIR 为-1.86，多空年化收益率16.40%，信息比率 2.03",
+      "evidence": "在剔除了常用的风格因子影响后，“草木皆兵”因子仍然具有较强的选股能力，Rank IC均值为-3.59%，Rank ICIR 为-1.86，多空组合年化收益率16.40%，信息比率 2.03。"
+    },
+    {
+      "text": "草木皆兵因子在沪深300、中证500、中证1000成分股内均表现不俗，多头组合年化超额收益分别为 7.42%、9.74%和 10.15%",
+      "evidence": "可以看到，“草木皆兵”因子在沪深 300、中证500、中证 1000指数成分股内均表现不俗，多头组合年化超额收益分别为 7.42%、9.74%和 10.15%。"
+    },
+    {
+      "text": "因子构建综合使用分钟频与日频交易数据并低频化至月度使用，若在周度频率上应用表现更佳：多头年化收益率约39.81%，多空年化收益率 58.79%",
+      "evidence": "本文中“草木皆兵”因子的构建过程中我们综合使用了分钟频与日频交易数据，但在最终测试及使用中将其低频化至月度频率使用，如我们能够在周度频率上应用，因子的表现相对更佳，多头组合年化收益率约为39.81%，多空组合年化收益率为 58.79%。"
+    },
+    {
+      "text": "草木皆兵因子十分组保持严格单调性，多头年化收益率 22.64%，空头-8.43%，整体区分能力较佳",
+      "evidence": "从十分组表现来看，各组保持严格的单调性，多头组合年化收益率 22.64%，空头组合年化收益率-8.43%，整体区分能力较佳。"
+    },
+    {
+      "text": "相较于原始惊恐因子，波动率加剧改进后稳定性和收益率大幅提高：Rank ICIR 达到-4.00、-3.12 和-4.27，多空年化收益 33.62%、33.27%和 39.48%",
+      "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-8.04%、-8.48%和-9.34%，Rank ICIR 达到-4.00、-3.12 和-4.27，多空组合年化收益率为33.62%、33.27%和 39.48%，选股效果较为优秀。并且相较于“原始惊恐”因子，稳定性和收益率都有大幅提高，改进效果明显。"
+    },
+    {
+      "text": "对原始惊恐因子从波动率加剧、个人投资者交易比和注意力衰减三个角度改进，最终得到草木皆兵因子",
+      "evidence": "基于上述结论，本文对“原始惊恐”因子从波动率加剧、个人投资者交易占比和注意力衰减的角度来进行改进，最终得到了“草木皆兵”因子。"
+    },
+    {
+      "text": "草木皆兵因子与流动性、波动率因子相关性较高，与其余常见风格因子相关性均较低",
+      "evidence": "从上述测试结果来看，“草木皆兵”因子选股能力出色，进一步，我们测试其与其他常见风格因子的相关性，如下图所示，“草木皆兵”因子与流动性、波动率因子相关性较高，与其余因子相关性均较低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cakici N, Zaremba A. Salience theory and the cross-section of stock returns: International and further evidence[J]. Journal of Financial Economics, 2021.",
+    "Cosemans M, Frehen R. Salience theory and stock prices: Empirical evidence[J]. Journal of Financial Economics, 2021, 140(2): 460-483."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

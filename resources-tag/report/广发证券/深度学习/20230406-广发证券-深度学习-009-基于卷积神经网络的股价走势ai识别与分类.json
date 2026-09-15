@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "20230406-广发证券-深度学习-009-基于卷积神经网络的股价走势ai识别与分类",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "I20R20",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{将包含过去20日价量数据的标准化价量图表输入卷积神经网络，以模型输出的个股未来20日上涨概率作为选股因子}",
+          "stats": [null, 0.0581, null, null],
+          "evidence": "I20R20表示使用包含过去20日价量数据的标准化图表来预测未来20个交易日的收益情况，并以20个交易日为周期进行调仓。"
+        },
+        {
+          "name": "I20R5",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{将包含过去20日价量数据的标准化价量图表输入卷积神经网络，以模型输出的个股未来5日上涨概率作为选股因子}",
+          "stats": [null, 0.0364, null, null],
+          "evidence": "I20R5表示使用包含过去20日价量数据的标准化图表来预测未来5个交易日的收益情况，并以5个交易日为周期进行调仓。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "中性化前，I20R20因子在全市场、沪深300、中证500、中证800、中证1000、创业板中的RankIC均值分别为5.81%、5.15%、4.53%、4.61%、5.15%、6.40%，多头分别获得21.06%、8.76%、10.70%、12.04%、12.54%、11.62%的超额年化收益率。",
+      "evidence": "中性化前，I20R20因子在全市场、沪深300、中证500、中证800、中证1000、创业板中的RankIC均值分别为5.81%、5.15%、4.53%、4.61%、5.15%、6.40%，多头分别对应板块指数获得了21.06%、8.76%、10.70%、12.04%、12.54%、11.62%的超额年化收益率；"
+    },
+    {
+      "text": "中性化前，I20R5因子在全市场、沪深300、中证500、中证800、中证1000、创业板中的RankIC均值分别为3.64%、3.34%、3.26%、3.19%、3.65%、4.20%，多头分别获得15.93%、9.77%、3.79%、8.76、10.82%、11.32%的超额年化收益率。",
+      "evidence": "中性化前，I20R5因子在全市场、沪深300、中证500、中证800、中证1000、创业板中的RankIC均值分别为3.64%、3.34%、3.26%、3.19%、3.65%、4.20%，多头分别对应板块指数获得了15.93%、9.77%、3.79%、8.76、10.82%、11.32%的超额年化收益率；"
+    },
+    {
+      "text": "以2020年2月至2023年2月作为样本外回测区间，I20R20因子和I20R5因子的分档收益显著，均取得了较为可观的超额收益。",
+      "evidence": "以2020年2月至2023年2月作为样本外回测区间，实证分析结果表明I20R20因子和I20R5因子的分档收益显著，均取得了较为可观的超额收益。"
+    },
+    {
+      "text": "训练后的卷积神经网络能对标准化价量数据图表进行有效特征提取，低维度卷积层同时涵盖k线图、移动平均线、交易量以及MACD信息，高维度卷积层的关注点开始发生分化。",
+      "evidence": "由此可见，训练后的卷积神经网络能对标准化的价量数据图表进行有效的特征提取，识别出其中的价格以及交易量形态走势信息，从而与未来的股价走势进行建模，实现对未来股价的预测。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "SIMONYANK,ZISSERMANA《Very deep convolutional networks for large-scaleimage recognition》",
+    "Vaswani A, Shazeer N, Parmar N, et al.《Attention is all you need》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

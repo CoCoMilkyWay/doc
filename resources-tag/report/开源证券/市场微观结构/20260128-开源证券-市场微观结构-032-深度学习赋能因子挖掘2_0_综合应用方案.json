@@ -1,0 +1,164 @@
+{
+  "schema_version": 2,
+  "id": "20260128-开源证券-市场微观结构-032-深度学习赋能因子挖掘2_0_综合应用方案",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "statement", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "ML_C",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{多特征集(PV/G/C/HF/DP/F)分别经GRU+GAT_SA加权_考虑财务模型挖掘后，再按多头收益加权合成}",
+          "stats": [null, 0.142, 6.3, 0.727],
+          "evidence": "最终构建的因子自 2020年至今，在双周频调仓下，RankIC 可达 14.2%。"
+        },
+        {
+          "name": "GRU+GAT_SA加权_考虑财务",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{基础行情PV经GRU提时序特征、GAT提截面特征、SA加权融合，拼接财务指标后经全连接层输出因子}",
+          "stats": [null, 0.117, 5.7, 0.589],
+          "evidence": "基于基本行情PV，使用“GRU+GAT_SA加权_考虑财务”模型挖掘出的因子10日RankIC为11.7%，多空收益为 58.9%，多头超额信息比率为 5.1，多头超额为 24.1%，多头超额信息比率为 3.0，10分组的净值如图 5所示。"
+        },
+        {
+          "name": "特征集G",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{技术指标和K线状态变量经GRU+GAT_SA加权_考虑财务模型挖掘的因子}",
+          "stats": [null, 0.11, 5.8, 0.599],
+          "evidence": "进一步地，我们特征 G 放入“GRU+GAT_SA 加权”和“GRU+GAT_SA 加权_考虑财务”模型进行训练，绩效如表7所示：考虑财务后的因子10日RankIC为11.0%，多空收益为 59.9%，多空信息比率为 6.2，多头超额为 23.3%，多头超额信息比率为3.3。"
+        },
+        {
+          "name": "特征集C",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{大小单资金流原始数据、衍生指标与状态变量经GRU+GAT_SA加权_考虑财务模型挖掘的因子}",
+          "stats": [null, 0.106, 5.1, 0.564],
+          "evidence": "进一步地，我们将上述3个资金流维度进行训练，不同特征集之间使用SA加权，绩效如表 10所示：考虑财务后因子 10日 RankIC 为 10.6%，多空收益为56.4%，多空信息比率为 5.2，多头超额为 19.5%，多头超额信息比率为 2.8。"
+        },
+        {
+          "name": "特征集HF",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟收益与分钟成交量衍生指标、逐笔成交降频至分钟频的衍生指标，经GRU+GAT_SA加权_考虑财务模型挖掘的因子}",
+          "stats": [null, 0.116, 5.9, 0.575],
+          "evidence": "因子绩效如表 11 所示：考虑财务后因子 10 日RankIC 为 11.6%，多空收益为 57.5%，多空信息比率为 5.8，多头超额为 19.1%，多头超额信息比率为 2.6。"
+        },
+        {
+          "name": "特征集DP",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{遗传算法alpha185中筛选的48个有效因子经GAT_SA加权_考虑财务模型再挖掘的因子}",
+          "stats": [null, 0.114, 6.2, 0.492],
+          "evidence": "从表中我们发现：1、深度学习再掘金下的绩效优于遗传算法等权绩效；2、考虑财务后因子10日RankIC为11.4%，多空收益为 49.2%，多空信息比率为 4.4，多头超额为 20.3%，多头超额信息比率为2.8。"
+        },
+        {
+          "name": "收益率牵引因子",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{针对股票A，找到与其同状态的股票集，计算该股票集收益平均值，再回归掉股票A自身收益，残差即因子值}",
+          "stats": [null, 0.023, null, null],
+          "evidence": "值得一提的是，基于资金流关联网络，收益率的牵引因子就具备一定选股效果，双周频调仓下RankIC为2.3%，10 分组收益如图2所示。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_training", "L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["sse50", "csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "最终构建的因子自 2020年至今，在双周频调仓下，RankIC 可达 14.2%，即最终深度学习因子 ML_C",
+      "evidence": "最终构建的因子自 2020年至今，在双周频调仓下，RankIC 可达 14.2%。"
+    },
+    {
+      "text": "GRU因子在RankIC、多头超额、多空对冲上均略优于LSTM且训练更快，RNN不再沿用1.0版本的LSTM而是更换为GRU",
+      "evidence": "从表 2我们可以看出：GRU 因子无论在因子的RankIC、多头超额、多空对冲都略优于LSTM，且其训练的速度更快，所以对于RNN而言不再沿用1.0版本的LSTM，而是更换为 GRU。"
+    },
+    {
+      "text": "SA加权下的因子无论RankIC、多空对冲还是多头超额，绩效都略优于等权",
+      "evidence": "通过表 4 的因子绩效，我们不难发现：SA 加权下的因子无论是 RankIC、多空对冲还是多头超额，绩效都略优于等权。"
+    },
+    {
+      "text": "结合风格轮动优选后绩效更优，全A优选50只股票年化收益达38.52%",
+      "evidence": "从图 13绩效对比中，我们可以看出：相较于直接用ML_C优选，结合风格轮动后的绩效相对更加优异，优选50只股票的年化收益达到 38.52%。"
+    },
+    {
+      "text": "5个聚合因子等权合成后的行业轮动因子，双周频调仓下RankIC为 9.21%，多头收益为 17.93%，多空对冲年化收益 22.41%",
+      "evidence": "上述 5个因子等权合成后，绩效如图18 所示：双周频调仓下RankIC为 9.21%，多头收益为 17.93%，多空对冲年化收益 22.41%，胜率60.00%，夏普比例为1.70。"
+    },
+    {
+      "text": "行业轮动用于上证50增强，超额年化收益为 4.95%，超额信息比率为 2.28",
+      "evidence": "其整体绩效如图 19所示：超额年化收益为 4.95%，超额波动率为 2.17%，超额信息比率为 2.28，超额最大回撤为 1.98%。"
+    },
+    {
+      "text": "宽基指增绩效优异：沪深300增强超额年化收益6.77%，中证500增强10.72%，中证1000增强14.41%",
+      "evidence": "中证 1000增强超额年化收益为 14.41%，超额波动率为 4.42%，超额信息比率为3.26，超额最大回撤为 3.34%。"
+    },
+    {
+      "text": "人工挖掘资金流因子回归深度学习因子之后，残差基本不具备选股效果",
+      "evidence": "利用人工因子回归深度学习因子之后，残差基本不具备选股效果，多空净值对比如图 8所示。"
+    },
+    {
+      "text": "分域训练对最后因子的 RankIC 有一定影响，其中贝塔和成长因子分域后，等权合成的 RankIC相对最高",
+      "evidence": "可以发现：分域训练对最后因子的 RankIC 有一定影响。其中贝塔和成长因子分域后，等权合成的 RankIC相对最高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《主动买卖因子的正确用法》",
+    "《从小单资金流行为到股票关联网络》（魏建榕，王志豪，2022 年）",
+    "《分钟资金流因子的构建方法》（魏建榕，高鹏，2025 年）",
+    "《大小单资金流为核心的综合行业轮动方案》（魏建榕，盛少成，2024年）",
+    "《大小单资金流的 alpha 能力》",
+    "《大小单资金流的变量精筛与高频测算》（魏建榕，盛少成，2022年）",
+    "《深度学习赋能交易行为因子—市场微观结构（24）》-2024.5.24",
+    "《深度学习赋能分析师行为：更稳的盈利预期调整组合》",
+    "《深度学习赋能技术分析—开源量化评论（109）》-2025.6.25",
+    "《深度学习赋能风格轮动与多策略融合 — 开源量化评论（103）》-2024.12.12",
+    "《资金流动力学：散户羊群效应与散户羊群效应》",
+    "《遗传算法赋能交易行为因子—市场微观结构（20）》-2023.8.6"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

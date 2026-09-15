@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "20211202-海通证券-选股因子-074-基于风格特征的股票重新分类及应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["taxonomy"],
+      "setup": {"data": {"source": ["market_daily", "statement"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "风格分类动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "StyleMom_{i}=\\frac{\\sum_{j\\in C(i),j\\neq i} R_{j}}{\\#C(i)-1}",
+          "stats": [0.0399, null, 1.28, null],
+          "evidence": "按照同样的方式考察周频和月频下，市值、估值、盈利三因子风格分类的动量溢出效应，结果如下表所示。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "行业中性化后若再类别中性化，因子选股效果进一步增厚，波动率下降，ICIR提升明显；估值因子IC由-2.62%提升至-3.80%，年化ICIR由-0.97提升至-2.34。",
+      "evidence": "行业中性化后，若再类别中性化，则因子选股效果进一步增厚，同时波动率下降，ICIR 提升明显。例如，对于估值因子，行业中性化后因子的月均 IC 为-2.62%，年化 ICIR为-0.97；而进一步类别中性化，则因子的 IC可提升至-3.80%，年化 ICIR 为-2.34。"
+    },
+    {
+      "text": "在指数增强的风险控制模块，风格类别中性相比行业中性可提升策略的超额收益、信息比和收益回撤比，类别中性组合年超额收益波动率4.2%，明显低于行业中性组合的5.4%。",
+      "evidence": "时间序列角度来看，类别中性组合分年度收益分布更加均匀，年超额收益波动率为 4.2%，明显低于行业中性组合年超额收益的波动率 5.4%。"
+    },
+    {
+      "text": "风格分类动量因子选股效果显著，周频次均多空收益0.44%、月频1.43%，高风格分类动量组合的月均收益显著高于低风格分类动量组合。",
+      "evidence": "正交市值、行为因子后，风格分类动量因子选股效果显著，无论是周度还是月度换仓频率下，高风格分类动量组合的月均收益均高于低风格分类动量组合。周频次均多空收益为 0.44%，月频为 1.43%，风格分类动量溢出效应时间序列统计显著。"
+    },
+    {
+      "text": "风格分类动量与行业动量相对较为独立，同时包含两个动量因子的截面回归模型中，两者的溢价仍然显著大于0，具体大小未有明显下降。",
+      "evidence": "在同时包含行业动量和风格分类动量的方程 3 中，两因子的显著性仍然得以保持，溢价也没有明显下降。由此可见，风格分类动量与行业动量相对较为独立。"
+    },
+    {
+      "text": "类别中性化复合因子top100组合的小市值暴露高于行业中性化复合因子（分位点均值14.5%对50.0%），在大盘风格较强的2017年、2019-2020年表现不如行业中性化组合。",
+      "evidence": "类别中性化复合因子 top100 组合的小市值暴露高于行业中性化复合因子，前者小市值因子分位点均值为 14.5%，后者为 50.0%；因此，在大盘风格较强的 2017 年、2019-2020 年，类别中性化因子的 top100 组合不如行业中性化因子的 top100 组合。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

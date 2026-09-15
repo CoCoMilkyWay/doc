@@ -1,0 +1,195 @@
+{
+  "schema_version": 2,
+  "id": "20220720-国泰君安-权益配置因子-002-使用基本面因子构建中证500指数增强策略初探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_level",
+        "expectation_revision",
+        "earnings_surprise",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "北上资金复合因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{5日持股比例变动、60日持股比例变动、5日净流入、60日净流入四个单因子等权加权}",
+          "stats": [0.022, 0.0232, null, 0.2031],
+          "evidence": "中证 500 股票池内，北上资金复合因子多头组年化超额收益 13.99%，超额最大回撤-4.29%，信息比率 2.33；空头组年化超额-6.32%，多空年化收益 20.31%。"
+        },
+        {
+          "name": "超预期（传统）复合因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "SUE_{i,q}=\\frac{X_{i,q}-\\mathbb{E}(X_{i,q})}{\\sigma_{i,q}}\\text{，将单季度净利润、营业收入等代入后8个因子等权加权}",
+          "stats": [0.0323, 0.0353, null, 0.2449],
+          "evidence": "中证 500 股票池内，超预期（传统）复合因子多头组年化超额收益 16.22%，超额最大回撤-9.97%，信息比率-0.1；空头组年化超额-8.27%，多空年化收益 24.49%。"
+        },
+        {
+          "name": "超预期（分析师）复合因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{盈利上调占比、盈利/营收调整幅度、报告上调比例等11个分析师超预期因子等权加权}",
+          "stats": [0.0267, 0.0298, null, 0.226],
+          "evidence": "中证 500 股票池内，超预期（分析师）复合因子多头组年化超额收益16.03%，超额最大回撤-8.71%，信息比率 2.53；空头组年化超额-6.57%，多空年化收益 22.6%。"
+        },
+        {
+          "name": "超预期衍生（估值）复合因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{将市盈率（扣非/归母/营业利润）倒数、市净率倒数、市销率倒数代入SUE公式计算后9个因子等权加权}",
+          "stats": [0.032, 0.0363, null, 0.2489],
+          "evidence": "中证 500 股票池内，超预期衍生（估值）复合因子多头组年化超额收益15.75%，超额最大回撤-9.45%，信息比率 2.5；空头组年化超额-9.14%，多空年化收益 24.89%。"
+        },
+        {
+          "name": "超预期衍生（盈利）复合因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{将ROE、ROA、GPOA、归母净利润同比等代入SUE公式计算后11个因子等权加权}",
+          "stats": [0.0253, 0.0274, null, 0.1927],
+          "evidence": "中证 500 股票池内，超预期衍生（盈利）复合因子多头组年化超额收益12.78%，超额最大回撤-10.37%，信息比率 1.96；空头组年化超额-6.49%，多空年化收益 19.27%。"
+        },
+        {
+          "name": "成长复合因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{单季度净利润/营业收入同比增长率及单季度ROA、ROE变动等8个成长因子等权加权}",
+          "stats": [0.032, 0.036, null, 0.2591],
+          "evidence": "中证 500 股票池内，成长复合因子多头组年化超额收益 13.11%，超额最大回撤-9.58%，信息比率 1.99；空头组年化超额-12.8%，多空年化收益25.91%。"
+        },
+        {
+          "name": "分析师复合因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{分析师覆盖度、预测EP/ROE/PEG、目标价收益率、盈利预测调整幅度等13个因子等权加权}",
+          "stats": [0.0283, 0.0388, null, 0.2411],
+          "evidence": "中证 500 股票池内，分析师复合因子多头组年化超额收益 14.05%，超额最大回撤-7.88%，信息比率 1.98；空头组年化超额-10.06%，多空年化收益 24.11%。"
+        },
+        {
+          "name": "总量复合因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{单季度净利润、毛利润、营业利润、前三高管薪酬等对数化并市值行业中性化后5个因子等权加权}",
+          "stats": [0.0229, 0.0331, null, 0.2],
+          "evidence": "中证 500 股票池内，总量复合因子多头组年化超额收益 11.2%，超额最大回撤-14.98%，信息比率 1.57；空头组年化超额-8.8%，多空年化收益20%。"
+        },
+        {
+          "name": "估值复合因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{市盈率/市净率/市销率倒数、股息率、EBIT2EV及估值分位数等13个因子等权加权}",
+          "stats": [0.0356, 0.0544, null, 0.2794],
+          "evidence": "中证 500 股票池内，估值复合因子多头组年化超额收益 13.85%，超额最大回撤-17.96%，信息比率 1.66；空头组年化超额-14.1%，多空年化收益27.94%。"
+        },
+        {
+          "name": "盈利复合因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{单季度GPOA、扣非/归母ROA、扣非/归母ROE、净经营资产收益率等6个因子等权加权}",
+          "stats": [0.0265, 0.0363, null, 0.2283],
+          "evidence": "中证 500 股票池内，盈利复合因子多头组年化超额收益 13.47%，超额最大回撤-12.07%，信息比率 1.94；空头组年化超额-9.36%，多空年化收益22.83%。"
+        },
+        {
+          "name": "价量复合因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{特质波动率、特异度、换手率、反转、公告后跳空与异常收益等10个因子（含负向因子）等权加权}",
+          "stats": [0.0415, 0.0643, null, 0.358],
+          "evidence": "中证 500 股票池内，价量复合因子多头组年化超额收益 14.97%，超额最大回撤-8.62%，信息比率 2.09；空头组年化超额-20.82%，多空年化收益35.8%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": ["tree"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中证500指数增强组合年化超额收益17.86%，超额收益最大回撤-6.63%，信息比率3.65，周度双边换手率16.15%；样本外2022年以来超额收益8.87%，超额收益最大回撤-1.11%。",
+      "evidence": "测算发现，在中证 500成分股内构建指数增强策略，年化超额收益 17.86%，超额收益最大回撤-6.63%，信息比率 3.65，周度双边换手率 16.15%。样本外 2022 年以来超额收益 8.87%，超额收益最大回撤-1.11%。"
+    },
+    {
+      "text": "11个大类因子等权加权得到的大类复合因子多头组年化超额收益23.32%，超额最大回撤-8.77%，信息比率3.59，周度双边换手率16%。",
+      "evidence": "测算发现，大类复合因子多头组年化超额收益 23.32%，超额最大回撤-8.77%，信息比率 3.59，周度双边换手率 16%。"
+    },
+    {
+      "text": "根据因子历史表现动态加权和LightGBM模型加权的年化超额收益均没有明显增加，最终对目前选用的因子只使用等权方式加权。",
+      "evidence": "需要说明的是，除了等权的加权方式，我们还测试了根据因子历史表现动态加权，发现近 年超额收益有所提高，但历史整个区间的年化超额收益没有明显增加。我们也初步尝试使用了LightGBM模型做因子加权，测试发现年化超额收益没有明显增加。所以，最终对于目前选用的因子，本报告只使用等权方式加权。"
+    },
+    {
+      "text": "四类超预期因子超额收益较高，除2014年无明显超额收益外，超预期类因子的表现最为出色和稳定。",
+      "evidence": "除了2014年无明显超额收益外，超预期类因子的表现最为出色和稳定。"
+    },
+    {
+      "text": "估值因子2019-2021年始终没有获得超额收益，2022年上半年超额显著，价量、总量因子近三年超额收益震荡走平。",
+      "evidence": "从下图大类因子组合优化的超额收益曲线上可以看出，近三年价量、总量因子超额收益震荡走平，超额收益不高。估值因子在2019-2021年始终没有获得超额收益，今年上半年超额显著，目前有所回撤。"
+    },
+    {
+      "text": "三种基于SUE公式计算的超预期（传统、估值、盈利）因子相关性很高达到0.8-0.9；超预期（分析师）因子与三类SUE超预期因子相关性不高，仅0.4-0.5左右。",
+      "evidence": "分析大类因子的相关性，发现三种基于 公式计算的超预期（传统、估值、盈利）因子相关性很高，达到 0.8-0.9；同时超预期因子从更广义上来说，属于刻画和计算更精细的成长因子，和传统的成长因子相关性也很高，达 0.8。此外，超预期（分析师）因子和三类 SUE计算的超预期因子相关性不高，仅 0.4-0.5 左右。"
+    },
+    {
+      "text": "大类因子权重分配上，北上资金和总量因子权重为5%，其他大类因子权重为10%，类内等权，四类超预期因子总权重达40%。",
+      "evidence": "大类因子权重分配上，除了北上资金和总量因子权重为 5%，其他大类因子权重为 10%，大类因子内部权重也使用等权加权方式。整体而言，四类超预期因子的总权重达到 40%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "20220610_如何基于北向资金构建行业轮动策略——行业配置研究系列03",
+    "基于PEAD效应的超预期因子选股效果如何 ——权益配置因子研究系列 01 _20220601"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

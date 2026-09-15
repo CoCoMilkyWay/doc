@@ -1,0 +1,146 @@
+{
+  "schema_version": 2,
+  "id": "20200528-海通证券-选股因子-065-剔除高频因子空头组合后的中证500指数增强策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "量价相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{高频价格收益与成交量序列的相关性}",
+          "stats": [-0.0435, null, null, null],
+          "evidence": "下表展示了正交市值和低频技术因子（反转、换手率、波动率）后，月度高频因子在中证 500 指数成分股中的选股收益表现（因子具体构建方式参见前期报告《高频因子在不同周期和域下的表现及影响因素分析》），时间区间为 2013 年初至 2020 年 4 月底。"
+        },
+        {
+          "name": "收盘前成交委托相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前时段成交与委托单的相关性}",
+          "stats": [-0.0089, null, null, null],
+          "evidence": "下表展示了正交市值和低频技术因子（反转、换手率、波动率）后，月度高频因子在中证 500 指数成分股中的选股收益表现（因子具体构建方式参见前期报告《高频因子在不同周期和域下的表现及影响因素分析》），时间区间为 2013 年初至 2020 年 4 月底。"
+        },
+        {
+          "name": "下行波动占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{下行波动占整体波动的比例}",
+          "stats": [0.02, null, null, null],
+          "evidence": "下表展示了正交市值和低频技术因子（反转、换手率、波动率）后，月度高频因子在中证 500 指数成分股中的选股收益表现（因子具体构建方式参见前期报告《高频因子在不同周期和域下的表现及影响因素分析》），时间区间为 2013 年初至 2020 年 4 月底。"
+        },
+        {
+          "name": "改进反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{利用高频数据改进的反转因子}",
+          "stats": [-0.0403, null, null, null],
+          "evidence": "下表展示了正交市值和低频技术因子（反转、换手率、波动率）后，月度高频因子在中证 500 指数成分股中的选股收益表现（因子具体构建方式参见前期报告《高频因子在不同周期和域下的表现及影响因素分析》），时间区间为 2013 年初至 2020 年 4 月底。"
+        },
+        {
+          "name": "大单推动涨幅",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{大单成交推动的涨幅}",
+          "stats": [-0.0292, null, null, null],
+          "evidence": "下表展示了正交市值和低频技术因子（反转、换手率、波动率）后，月度高频因子在中证 500 指数成分股中的选股收益表现（因子具体构建方式参见前期报告《高频因子在不同周期和域下的表现及影响因素分析》），时间区间为 2013 年初至 2020 年 4 月底。"
+        },
+        {
+          "name": "高频偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{高频收益率的偏度}",
+          "stats": [-0.025, null, null, null],
+          "evidence": "下表展示了正交市值和低频技术因子（反转、换手率、波动率）后，月度高频因子在中证 500 指数成分股中的选股收益表现（因子具体构建方式参见前期报告《高频因子在不同周期和域下的表现及影响因素分析》），时间区间为 2013 年初至 2020 年 4 月底。"
+        },
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{尾盘时段成交量占全天成交量的比例}",
+          "stats": [-0.0592, null, null, null],
+          "evidence": "下表展示了正交市值和低频技术因子（反转、换手率、波动率）后，月度高频因子在中证 500 指数成分股中的选股收益表现（因子具体构建方式参见前期报告《高频因子在不同周期和域下的表现及影响因素分析》），时间区间为 2013 年初至 2020 年 4 月底。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["csi500"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "事后剔除得到的中证500指数增强策略，超额收益得到明显提升的空头阈值范围都更大，以参数敏感性反映的模型稳健性来看，事后剔除优于事前剔除。",
+      "evidence": "无论是采用因子复合还是组合复合方法构建高频多因子空头组合，事后剔除得到的中证 500 指数增强策略，超额收益得到明显提升（年化超额提升幅度大于 0.5%）的空头阈值范围都更大。也就是，以参数敏感性反映的模型稳健性来看，事后剔除优于事前剔除。"
+    },
+    {
+      "text": "组合复合剔除对超额收益的提升幅度优于因子复合剔除：5%空头阈值下组合复合可将年化超额收益提升1%以上，而因子复合剔除的收益提升幅度小于1%。",
+      "evidence": "组合复合剔除对中证 500 指数增强策略超额收益的提升幅度优于因子复合剔除。无论是事前剔除还是事后剔除，在 5%的空头阈值下，组合复合剔除可以将中证 500 指数增强策略的年化超额收益提升 1%以上，而因子复合剔除的收益提升幅度小于 1%。"
+    },
+    {
+      "text": "组合复合剔除对空头阈值的敏感性低：无论是否有成分股约束，5%-10%的空头阈值范围内，事后剔除都可将策略年化超额收益提升0.9%以上。",
+      "evidence": "此外，组合复合剔除对空头阈值的敏感性低。如以下两图所示，无论中证 500 指数增强策略是否有成分股约束，5%-10%的空头阈值范围内，事后剔除都可将策略的年化超额收益提升 0.9%以上。"
+    },
+    {
+      "text": "80%成分股约束下，加入改进反转因子对策略超额收益提升最明显，年化超额由16.17%提升至16.69%，信息比由2.62提升至2.69。",
+      "evidence": "其中，加入改进反转因子对策略超额收益提升最明显，可以将策略年化超额由 16.17%提升至 16.69%，信息比由 2.62 提升至 2.69。"
+    },
+    {
+      "text": "无成分股约束下，同时加入下行波动占比和尾盘成交占比因子，中证500指数增强策略扣费后年化超额收益可由18.36%提升至20.96%，提升幅度高达2.6%。",
+      "evidence": "而若同时加入下行波动占比和尾盘成交占比因子，则中证 500 指数增强策略扣费后年化超额收益可由18.36%提升至 20.96%，提升幅度高达 2.6%。"
+    },
+    {
+      "text": "空头阈值7%时，组合复合事后剔除可使中证500指数增强策略年化超额由16.17%提升至17.74%，提升幅度达1.57%，信息比和收益回撤比分别增加至2.71和3.89。",
+      "evidence": "特别地，如果空头阈值设为 7%，则中证 500 指数增强策略年化超额可由 16.17%提升至 17.74%，提升幅度达 1.57%，相应的信息比和收益回撤比分别增加至 2.71 和 3.89。"
+    },
+    {
+      "text": "组合复合事后剔除使增强策略年化超额收益提升1.1%，最大回撤由5.9%降至4.8%，收益回撤比由2.74提升至3.58。",
+      "evidence": "结果显示，组合复合事后剔除可明显提升中证 500 指数增强策略超额收益表现。相比于基准策略，组合复合剔除后的增强策略年化超额收益可提升 1.1%，同时最大回撤大幅降低，由 5.9%将至 4.8%，收益回撤比由 2.74 提升至 3.58。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（六十）——如何利用高频因子的空头效应？》",
+    "《高频因子在不同周期和域下的表现及影响因素分析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

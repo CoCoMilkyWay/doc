@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "id": "20200209-开源证券-市场微观结构-003-聪明钱因子模型的2_0版本",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "聪明钱因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "S_{t}=|R_{t}|/\\sqrt{V_{t}},\\quad Q=VWAP_{smax}/VWAP_{all}",
+          "stats": [null, null, null, null],
+          "evidence": "聪明钱因子模型的核心逻辑是，从分钟行情数据的价量信息中，尝试识别机构参与交易的多寡，最终构造出一个跟踪聪明钱的选股因子。"
+        },
+        {
+          "name": "β值为 0.1 下的因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "S=|R|/(V^{0.1}),\\quad Q=VWAP_{smax}/VWAP_{all}",
+          "stats": [null, null, null, null],
+          "evidence": "我们选取β值为0.1（S=|R|/(V^0.1)）与对数成交量（S=|R|/ln(V)）两个 S 指标的聪明钱因子，给出了因子在不同样本空间的多空对冲净值表现。"
+        },
+        {
+          "name": "S1指标",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "S_{1}=V",
+          "stats": [-0.036, null, null, null],
+          "evidence": "具体来看：S1 指标单独考虑成交量因素，将分钟成交量较大的交易划分为聪明钱交易；S2 指标综合考虑分钟交易的成交量和涨跌幅绝对值排名，将排名之和靠前的交易划分为聪明钱交易；"
+        },
+        {
+          "name": "S2指标",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "S_{2}=\\text{rank}(|R|)+\\text{rank}(V)",
+          "stats": [-0.043, null, null, null],
+          "evidence": "S2 指标综合考虑分钟交易的成交量和涨跌幅绝对值排名，将排名之和靠前的交易划分为聪明钱交易；S3指标是基于原始 S指标的变形，我们尝试对分钟成交量作对数变换构造聪明钱因子。"
+        },
+        {
+          "name": "S3指标",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "S_{3}=|R|/\\ln(V)",
+          "stats": [-0.05, null, null, null],
+          "evidence": "S3指标是基于原始 S指标的变形，我们尝试对分钟成交量作对数变换构造聪明钱因子。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "β取值为0.1左右时信息比率最大（3.67），β小于0.5的因子选股能力明显优于原始聪明钱因子（β=0.5）。",
+      "evidence": "可以看出，当β由0.7逐渐减小时，信息比率逐渐增加，当β取值为0.1左右时信息比率最大（3.67），当β由0.1继续逐渐减小时，信息比率呈现出缓慢下降的趋势，但整体信息比率均高于 2.5。"
+    },
+    {
+      "text": "改进后的聪明钱因子模型在全市场范围的五分组多空净值信息比率达到3.7左右，选股能力明显优于原始模型。",
+      "evidence": "改进后的聪明钱因子模型，在全市场范围的五分组多空净值，信息比率达到3.7左右，选股能力明显优于原始模型。"
+    },
+    {
+      "text": "3个S指标构造的聪明钱因子IC均值分别为-0.036、-0.043、-0.050，多空对冲信息比率分别为2.03、2.61、3.74，均优于原始聪明钱因子（信息比率1.69），其中对分钟成交量作对数变换构造的聪明钱因子（S3指标）选股能力最强。",
+      "evidence": "3 个 S 指标构造的聪明钱因子的 IC 均值分别为-0.036、-0.043、-0.050，多空对冲信息比率分别为 2.03、2.61、3.74，整体上新因子选股能力均优于原始聪明钱因子（信息比率 1.69），对分钟成交量作对数变换构造的聪明钱因子（S3指标）选股能力最强。"
+    },
+    {
+      "text": "机构投资者对全市场成交量的贡献比例在10%-20%之间，年度均值在13%左右，测试不同截止值后验证选取20%作为截止值具有合理支撑。",
+      "evidence": "通过比照机构投资者交易占比的实证数据、测试不同截止值下的因子选股能力，我们验证了：选取 20%作为截止值，是具有合理支撑的。"
+    },
+    {
+      "text": "改进后的聪明钱因子在不同样本空间均具有较好的选股效果，对中小市值股票选股能力更加稳健。",
+      "evidence": "总的来说，因子对于中小市值股票，选股能力更加稳健。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《市场微观结构研究系列（1）-A 股反转之力的微观来源》-2019.12.23",
+    "《市场微观结构研究系列（2）-交易行为因子的 2019 年》-2019.12.28"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

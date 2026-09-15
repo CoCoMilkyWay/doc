@@ -1,0 +1,165 @@
+{
+  "schema_version": 2,
+  "id": "20250119-国金证券-alpha掘金-015-基于openfe框架的机器学习level2高频特征挖掘方法",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "遗憾规避因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "HCVOL=\\frac{\\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}}{total_{-}volume}",
+          "stats": [null, null, null, null],
+          "evidence": "在我们前期报告中，曾构建过遗憾规避因子，其构建思路为：将当天逐笔成交数据中所有高于收盘价的成交量取出，求出其对于当天整体成交量的占比，以此来衡量某只股票买入浮亏情况。"
+        },
+        {
+          "name": "BID_DIFF_MEAN",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{Level2高频基础特征BID_DIFF经聚合算子降至日频后的因子}",
+          "stats": [0.0375, null, 0.24, 0.3644],
+          "evidence": "基础特征：即数据中原本包含的字段，如高频快照中的高开低收成交量、订单簿的委托价委托量、逐步数据中的成交价成交量等，是我们进行因子计算的基础。"
+        },
+        {
+          "name": "Corr(EffSp,SmallAskSum)",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{日内高频特征EffSp与SmallAskSum的秩相关系数降频至日频}",
+          "stats": [-0.0214, null, -0.27, 0.2968],
+          "evidence": "基础特征：即数据中原本包含的字段，如高频快照中的高开低收成交量、订单簿的委托价委托量、逐步数据中的成交价成交量等，是我们进行因子计算的基础。"
+        },
+        {
+          "name": "Small_DIFF_STD",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{Level2高频基础特征Small_DIFF经聚合算子降至日频后的因子}",
+          "stats": [0.0417, null, 0.27, 0.4477],
+          "evidence": "基础特征：即数据中原本包含的字段，如高频快照中的高开低收成交量、订单簿的委托价委托量、逐步数据中的成交价成交量等，是我们进行因子计算的基础。"
+        },
+        {
+          "name": "Corr(EffSp,BigBidMean)",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{日内高频特征EffSp与BigBidMean的秩相关系数，再经时序算子降频至周频}",
+          "stats": [0.0223, null, 0.24, 0.1227],
+          "evidence": "在日频因子的基础上，我们使用部分简单算子进行降频处理，使其包含更久的历史信息后进行周度调仓测试。"
+        },
+        {
+          "name": "Corr(Ret_MEAN,SmallAskMean)",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{日内高频特征Ret_MEAN与SmallAskMean的秩相关系数，再经时序算子降频至周频}",
+          "stats": [-0.0326, null, -0.36, 0.2492],
+          "evidence": "在日频因子的基础上，我们使用部分简单算子进行降频处理，使其包含更久的历史信息后进行周度调仓测试。"
+        },
+        {
+          "name": "ASK_DIFF_MEAN",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Level2高频基础特征ASK_DIFF经聚合算子与时序算子降至周频后的因子}",
+          "stats": [0.0716, null, 0.41, 0.3169],
+          "evidence": "在日频因子的基础上，我们使用部分简单算子进行降频处理，使其包含更久的历史信息后进行周度调仓测试。"
+        },
+        {
+          "name": "LGBM_OpenFE",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{OpenFE挖掘所得高频因子作为特征输入LGBM模型训练后的预测值}",
+          "stats": [0.0642, null, 0.51, 0.3845],
+          "evidence": "不过，仅通过 IC 单一指标筛选有效因子一方面会造成部分非线性因子的浪费，另一方面，若我们希望将因子作为特征投喂进入类似 LGBM 类模型是否依然合适可能也是潜在的问题，接下来我们尝试将上述过程中所得 300 余个因子作为特征输入进行训练。"
+        },
+        {
+          "name": "LGBM_OpenFE_Alpha158GJQuant",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{OpenFE高频因子与Alpha158、GJQuant特征合并等权合成后输入LGBM模型训练的预测值}",
+          "stats": [0.0876, null, 0.59, 0.6708],
+          "evidence": "此外，为进一步观察与日频量价特征、基本面特征叠加后的效果，我们将前期报告中 LGBM模型使用 Alpha158 和 GJquant 数据集训练所得因子同步测试进行对比，并将 OpenFE 所得因子等权合成观察因子表现变化，发现加入 OpenFE 因子后，整体表现能有进一步提升。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["tree"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "OpenFE批量挖掘所得高频因子整体均有较好的选股效果，周度IC均值ABS平均为2.57%。",
+      "evidence": "从测试结果发现，由此方法所得因子整体均有较好的选股效果。因子的周度 IC 均值 ABS 平均为 2.57%。"
+    },
+    {
+      "text": "将OpenFE因子作为特征输入LGBM模型后整体表现进一步提升，IC均值6.42%，多头年化超额7.87%。",
+      "evidence": "而若将这些因子作为特征输入 LGBM 模型，整体表现能有进一步提升，IC 均值 6.42%，多头年化超额 7.87%。"
+    },
+    {
+      "text": "OpenFE因子与Alpha158和GJQuant因子合成后表现进一步改善，IC均值8.76%，多头年化超额19.34%，多头超额回撤仅3.86%，多空年化收益率67.08%，多空最大回撤16.98%。",
+      "evidence": "对比前期报告中 LGBM使用 Alpha158 和 GJQuant 所得因子，合成后因子表现还能有所改善，IC 均值 8.76%，多头年化超额 19.34%，多头超额回撤仅为 3.86%，多空年化收益率 67.08%，多空最大回撤 16.98%。"
+    },
+    {
+      "text": "扣费后OpenFE-LGBM中证1000选股策略在2022年-2024年10月获得8.62%的年化超额收益率，信息比率0.77，超额最大回撤11.95%。",
+      "evidence": "考虑扣费后，所构建的中证 1000 选股策略在 2022 年-2024 年 10 月长期的市场波动中，获得了 8.62%的年化超额收益率，策略的信息比率 0.77，超额最大回撤 11.95%。"
+    },
+    {
+      "text": "结合Alpha158和GJQuant所得模型的合成因子构建的中证1000选股策略，年化超额收益率13.68%，超额最大回撤仅4.38%，信息比率1.98。",
+      "evidence": "结合我们前期报告中所使用特征数据 Alpha158 和 GJQuant 所得模型的合成因子构建策略，年化超额收益率为 13.68%，超额最大回撤仅为 4.38%，信息比率为 1.98。"
+    },
+    {
+      "text": "计算阶段将数据转换为tensor转移至GPU用torch批量计算，运算速度大幅提升；验证阶段为保证效率，使用IC作为评价指标进行逐步特征剔除。",
+      "evidence": "在计算阶段，我们将数据首先转换为 tensor 转移至 GPU 使用 torch 计算，运算速度得到大幅提升。在验证阶段，我们为了保证效率，使用 IC 作为评价指标进行逐步特征剔除。"
+    },
+    {
+      "text": "大部分高频因子均可表示成Mask、基础特征和聚合算子的组合形式，据此用高频数据字段遍历生成备选特征。",
+      "evidence": "我们认为大部分高频因子均可表示成 Mask、基础特征和聚合算子的组合形式，我们梳理归纳了主流的 Mask 和聚合算子，使用高频数据的字段进行遍历生成备选特征。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "OpenFE (TZhang et al, 2022)",
+    "《Alpha 掘金系列之十：机器学习全流程重构——细节对比与测试》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

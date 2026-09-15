@@ -1,0 +1,175 @@
+{
+  "schema_version": 2,
+  "id": "20240508-国金证券-alpha掘金-011-基于bert_textcnn的中证1000舆情增强策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "积极帖子占比",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{过去一周（t-7日至t-1日）积极主帖数量}}{\\text{主帖总数量}}",
+          "stats": [-0.0224, null, -0.28, 0.1068],
+          "evidence": "积极帖子占比因子的 IC 均值为-2.24%，即如果过去一周内股民情绪积极性较为一致，未来股票表现可能会较差。"
+        },
+        {
+          "name": "消极帖子占比",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{过去一周（t-7日至t-1日）消极主帖数量}}{\\text{主帖总数量}}",
+          "stats": [0.015, null, 0.18, 0.0737],
+          "evidence": "而消极帖子占比因子的 IC 值为 1.50%，即如果过去一周年股民情绪消极性较为一致，未来股票表现可能会比较好。"
+        },
+        {
+          "name": "主帖数量",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{过去一周（t-7日至t-1日）主帖数量}",
+          "stats": [-0.0594, null, -0.55, 0.5235],
+          "evidence": "我们可以用主帖数量来刻画股票的关注度，发帖数量越多，说明关注该股票的股民越多。"
+        },
+        {
+          "name": "积极帖子数量",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{过去一周（t-7日至t-1日）积极主帖数量}",
+          "stats": [-0.0622, null, -0.6, 0.5941],
+          "evidence": "经测试，使用积极帖子数量刻画的关注度因子表现最佳，IC均值达到-6.22%，风险调整的IC为-0.60，t 统计量为 10.39，多空组合年化收益率也达到了 59.41%。"
+        },
+        {
+          "name": "消极帖子数量",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{过去一周（t-7日至t-1日）消极主帖数量}",
+          "stats": [-0.0574, null, -0.54, 0.4315],
+          "evidence": "我们将主帖数量拆分成积极主帖数量与消极主帖数量，分别测试其选股效果。"
+        },
+        {
+          "name": "积极数量周方差",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{Var}\\left(\\text{日度积极主帖数量}_{t-7,\\dots,t-1}\\right)",
+          "stats": [-0.0655, null, -0.68, 0.6019],
+          "evidence": "我们对周内每日关注度（积极数量、消极数量）计算了方差，如果因子值较大，说明股票的关注度发生了波动，并不是持续受到高关注或者低关注。"
+        },
+        {
+          "name": "消极数量周方差",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{Var}\\left(\\text{日度消极主帖数量}_{t-7,\\dots,t-1}\\right)",
+          "stats": [-0.0575, null, -0.58, 0.5081],
+          "evidence": "经测试，关注度的方差因子，IC 均为负值，即过去一周内关注度波动较大的股票，未来表现可能相对较差，而过去一周内关注度较为稳定的股票，未来表现可能相对较好。"
+        },
+        {
+          "name": "整体情绪",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{积极主帖数量}-\\text{消极主帖数量}",
+          "stats": [0.0389, null, 0.39, 0.2606],
+          "evidence": "我们用积极主帖数量减去消极主帖数量，来刻画股民对某一只股票的整体情绪。"
+        },
+        {
+          "name": "整体情绪周内极值",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\max_{d}\\left(\\text{日度积极帖子数量}_{d}-\\text{日度消极帖子数量}_{d}\\right)-\\min_{d}\\left(\\text{日度积极帖子数量}_{d}-\\text{日度消极帖子数量}_{d}\\right)",
+          "stats": [-0.0542, null, -0.55, 0.4279],
+          "evidence": "基于整体情绪因子，我们对过去一周内每日的情绪值（即日度的积极帖子数量-消极帖子数量），计算最大值与最小值，最终计算出周内情绪极值，即周内情绪指标最大值与最小值的差。"
+        },
+        {
+          "name": "合成因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{积极帖子占比、积极帖子数量、积极数量周方差、整体情绪、整体情绪波动五个因子标准化后等权重合成}",
+          "stats": [0.0613, null, 0.71, 0.5476],
+          "evidence": "我们对合成因子进行了测试，合成因子 IC 达到 6.13%，风险调整的 IC 为 0.71，t 统计量达到 12.4，多空年化收益率为 54.76%，多空组合夏普比率为 4.07，而多空组合最大回撤率为 9.02%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "BERT-TextCNN 模型样本外准确率超过 85%，用该模型对超过 5000 万条股评信息进行情感分类。",
+      "evidence": "我们训练后的BERT-TextCNN 模型样本外准确率超过 85%，我们用该模型对超过 5000 万条股评信息进行情感分类。"
+    },
+    {
+      "text": "积极帖子数量刻画的关注度因子表现最佳，IC均值达到-6.22%，中证1000股票池中关注度越高的股票未来表现越差。",
+      "evidence": "经测试，使用积极帖子数量刻画的关注度因子表现最佳，IC均值达到-6.22%，风险调整的IC为-0.60，t 统计量为 10.39，多空组合年化收益率也达到了 59.41%。"
+    },
+    {
+      "text": "合成因子 IC 达到 6.13%，风险调整的 IC 为 0.71，多空年化收益率为 54.76%，多空组合最大回撤率为 9.02%，top 组合年化超额收益率达到 12.99%。",
+      "evidence": "我们对合成因子进行了测试，合成因子 IC 达到 6.13%，风险调整的 IC 为 0.71，t 统计量达到 12.4，多空年化收益率为 54.76%，多空组合夏普比率为 4.07，而多空组合最大回撤率为 9.02%。"
+    },
+    {
+      "text": "舆情合成因子与传统选股因子的相关系数均不超过 0.3，与传统因子相关性较低，是对传统选股因子的有效补充。",
+      "evidence": "基于金融论坛舆情数据的选股因子与成长、动量、价值、质量、波动率、分析师一致预期、技术等传统因子相关性较低，相关系数均不超过 0.3，因子基于金融论坛舆情数据的选股因子是传统选股因子的较好补充，有利于提供额外的信息。"
+    },
+    {
+      "text": "中证1000指数增强策略获得 13.95%的年化超额收益率，信息比率 1.56，超额净值最大回撤率 9.52%，除 2019 年外各年份均获正超额。",
+      "evidence": "基于金融论坛多维度舆情因子的中证 1000 指数增强策略，自 2018 年初至 2023 年末，获得 10.85%的年化收益率，相对于中证 1000 指数获得了 13.95%的年化超额收益率，信息比率达到 1.56，超额净值最大回撤率为 9.52%。"
+    },
+    {
+      "text": "整体情绪因子 IC 均值为 3.89%，股民整体情绪越积极，未来一周股票表现越好。",
+      "evidence": "我们对这一因子进行了测试，整体情绪因子 IC 均值大于 0，为 3.89%，风险调整的 IC 为0.39，t 统计量为 6.89。"
+    },
+    {
+      "text": "中证1000股票池中，情感一致性与高关注度可能带来股价反转，关注度越高的股票未来股价可能越差。",
+      "evidence": "因此，在中证 1000 指数成分股的股票池中，股民的高关注度可能会带来股价的反转，过去一周内关注度越高的股票，未来股价可能越差。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Alpha 掘金系列之八：FinGPT 对论坛评论情感的精准识别——沪深 300 另类舆情增强因子》",
+    "《Sentiment Analysis in the Era of Large Language Models: A Reality Check》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

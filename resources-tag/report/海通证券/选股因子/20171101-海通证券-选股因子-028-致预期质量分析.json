@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "id": "20171101-海通证券-选股因子-028-致预期质量分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "earnings_surprise"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "预期 ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{年报披露前一个月月末能够获得的分析师一致预期ROE}",
+          "stats": [0.036, null, 1.198, null],
+          "evidence": "根据能够提取到的分析师预测数据，可以加工出几个投资者比较关注的选股因子，分别为：预期 ROE、预期 PE、预期净利润率、预期净利润率同比、预期 ROE同比。通过多因子模型分析上述几个因子的选股效果。"
+        },
+        {
+          "name": "预期 PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{年报披露前一个月月末能够获得的分析师一致预期PE}",
+          "stats": [-0.022, -0.021, -1.309, null],
+          "evidence": "所有因子都采用剔除市值、估值风格后的正交因子。1）首先，从因子的整体有效性而言，净利润率表现最差，预期 ROE、PE以及预期 ROE、净利率同比都具有较好的 IC 表现。"
+        },
+        {
+          "name": "预期净利润率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{年报披露前一个月月末能够获得的分析师一致预期净利润率}",
+          "stats": [0.008, null, 0.332, null],
+          "evidence": "根据能够提取到的分析师预测数据，可以加工出几个投资者比较关注的选股因子，分别为：预期 ROE、预期 PE、预期净利润率、预期净利润率同比、预期 ROE同比。通过多因子模型分析上述几个因子的选股效果。"
+        },
+        {
+          "name": "预期净利润率同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师一致预期净利润率的同比变化}",
+          "stats": [0.012, 0.025, 0.719, null],
+          "evidence": "根据能够提取到的分析师预测数据，可以加工出几个投资者比较关注的选股因子，分别为：预期 ROE、预期 PE、预期净利润率、预期净利润率同比、预期 ROE同比。通过多因子模型分析上述几个因子的选股效果。"
+        },
+        {
+          "name": "预期 ROE同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师一致预期ROE的同比变化}",
+          "stats": [0.02, 0.036, 0.813, null],
+          "evidence": "根据能够提取到的分析师预测数据，可以加工出几个投资者比较关注的选股因子，分别为：预期 ROE、预期 PE、预期净利润率、预期净利润率同比、预期 ROE同比。通过多因子模型分析上述几个因子的选股效果。"
+        },
+        {
+          "name": "超预期因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{年报披露时，考察年报数据相对最新一期预测数据是否超预期，根据超预期的情况进行打分排序}",
+          "stats": [0.022, 0.025, 2.33, null],
+          "evidence": "在每年年报披露的时候，考察年报数据相对最新一期预测数据是否超预期，根据超预期的情况进行打分排序。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "朝阳永续出现极值数据的概率较大，不对极值数据进行处理时WIND的数据准确度明显优于朝阳永续；剔除显著不靠谱的预测后，朝阳永续进行过清洗的一致预期数据准确度高于WIND。",
+      "evidence": "考察一致预期数据的准确度，发现其一：朝阳永续出现极值数据的概率较大，会有相对真实财报极大偏差的预测出现，如果不对极值数据进行处理，WIND的数据准确度明显优于朝阳永续；其二，如果投资者具备一定的数据筛选能力，可以剔除一些显著不靠谱的预测，朝阳永续进行过清洗的一致预期数据准确度高于 WIND。"
+    },
+    {
+      "text": "朝阳永续的数据覆盖度基本稳定在80%，Wind的覆盖度基本稳定在70%，两家数据覆盖比例的差值基本稳定在10%左右。",
+      "evidence": "朝阳永续的数据覆盖度基本稳定在 80%，Wind的覆盖度基本稳定在 70%。两家数据覆盖比例的差值基本稳定在 10%左右。"
+    },
+    {
+      "text": "从对全市场股票进行收益率预测、以及全市场构建多因子股票策略来看，朝阳永续的因子表现更优，这与其股票覆盖度较高，且在非极值预测上的准确度较高有关系。",
+      "evidence": "从对全市场股票进行收益率预测、以及全市场构建多因子股票策略来看，朝阳永续的因子表现更优。这与其股票覆盖度较高，且在非极值预测上的准确度较高有关系。"
+    },
+    {
+      "text": "超预期组合从中长期收益来看（持有期2个月、3个月），WIND表现更好，这主要是因为朝阳永续数据库存在一些极端大或者极端小的预测值，直接影响极值股票构建的多头组合表现。",
+      "evidence": "2）从中长期收益来看（持有期 2 个月、3 个月），WIND表现更好，这主要是因为我们之前提到过朝阳永续数据库存在一些极端大或者极端小的预测值，这些可能不十分可靠的极端数据直接影响极值股票构建的多头组合表现。"
+    },
+    {
+      "text": "将超预期因子放在全市场股票中检测因子选股有效性，朝阳永续的因子IC、RankIC、多因子回归的因子溢价均能够通过显著性检验，而WIND数据表现不佳。",
+      "evidence": "将超预期因子放在全市场股票中检测因子选股有效性，朝阳永续的因子 IC、Rank IC、多因子回归的因子溢价均能够通过显著性检验，而 WIND数据表现不佳。"
+    },
+    {
+      "text": "全市场选股多因子策略在预期因子方面引入预期估值和预期ROE两个因子，每个月选择50只股票作为多头组合，对比基准为全市场等权重指数基准。",
+      "evidence": "下表中我们简单构建了全市场选股的多因子策略，在预期因子方面，都引入预期估值和预期 ROE两个因子，每个月选择 50只股票作为多头组合。对比基准为全市场等权重指数基准。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《分析师荐股报告是否具有超额收益》（2017.10.19）",
+    "《选股因子系列研究（二十七）——分位数回归在多因子选股中的应用》（2017.10.18）",
+    "《量化研究新思维（四）——动量崩溃》（2017.10.16）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

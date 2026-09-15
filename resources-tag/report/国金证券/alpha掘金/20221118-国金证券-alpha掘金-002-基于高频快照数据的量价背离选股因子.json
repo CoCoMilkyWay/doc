@@ -1,0 +1,243 @@
+{
+  "schema_version": 2,
+  "id": "20221118-国金证券-alpha掘金-002-基于高频快照数据的量价背离选股因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "CorrPM",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "CorrPM=Corr(Price_{i},Match_{i})",
+          "stats": [-0.031, null, -0.37, 0.1628],
+          "evidence": "基于上述优势，我们利用快照数据构建因子对日内价格与成交量的相关关系进行衡量，捕捉上文中提到的量价趋同/背离特征。衡量两个因素相关关系的直接方法就是计算相关系数。"
+        },
+        {
+          "name": "CorrPV",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "CorrPV=Corr(Price_{i},Volume_{i})",
+          "stats": [-0.0379, null, -0.45, 0.3069],
+          "evidence": "对于价格来说，我们选取快照成交价和快照收益率（即快照成交价相比上个快照成交价的变化）。对于成交量来说，我们不仅选取了快照成交量，而且选取了成交笔数，同时还计算了每笔成交量。"
+        },
+        {
+          "name": "CorrPVPM",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "CorrPVPM=Corr\\left(Price_{i},\\frac{Volume_{i}}{Match_{i}}\\right)",
+          "stats": [-0.0217, null, -0.41, 0.2997],
+          "evidence": "从多空组合指标上来看，CorrPVPM 因子的多空组合年化收益率达到了29.97%，夏普比率达到了 3.72。"
+        },
+        {
+          "name": "CorrRM",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "CorrRM=Corr\\left(\\frac{Price_{i}}{Price_{i-1}}-1,Match_{i}\\right)",
+          "stats": [-0.0208, null, -0.22, 0.0052],
+          "evidence": "对于价格来说，我们选取快照成交价和快照收益率（即快照成交价相比上个快照成交价的变化）。"
+        },
+        {
+          "name": "CorrRV",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "CorrRV=Corr\\left(\\frac{Price_{i}}{Price_{i-1}}-1,Volume_{i}\\right)",
+          "stats": [-0.0313, null, -0.37, 0.2957],
+          "evidence": "当价格与成交量的相关系数为负时，意味着量价出现背离，按照此前推断，股价上涨的可能性较高，反之亦然。因此，上述因子取值与未来股票收益率应该存在负的相关关系。"
+        },
+        {
+          "name": "CorrRVPM",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "CorrRVPM=Corr\\left(\\frac{Price_{i}}{Price_{i-1}}-1,\\frac{Volume_{i}}{Match_{i}}\\right)",
+          "stats": [-0.0122, null, -0.25, 0.114],
+          "evidence": "量价背离的特征最快可以在隔日收益率上体现，因此，我们首先测试了因子隔日收益率的预测能力，采用的方法是 IC测试和分位数组合测试（十组）。"
+        },
+        {
+          "name": "CorrFactor",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{CorrPM、CorrPV、CorrPVPM 和 CorrRV 经分位数变换标准化后等权合成}",
+          "stats": [0.0404, null, 0.5, 0.4119],
+          "evidence": "在进行因子合成时，我们首先对因子进行分位数变换标准化，然后选择了日频因子中表现相对较好的CorrPM、CorrPV、CorrPVPM 和 CorrRV 因子，以等权的方式合成量价背离合成因子 CorrFactor，同时我们也对该因子进行行业市值中性化处理，得到 CorrFactorAdjCI 因子。"
+        },
+        {
+          "name": "CorrFactorAdjCI",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{CorrFactor 经行业市值中性化处理}",
+          "stats": [0.0413, null, 0.63, 0.4983],
+          "evidence": "合成之后的因子的 IC 相比单因子有了一定的提升，达到4%以上，多空组合年化收益率为 41.19%，夏普比率为 3.80。中性化后的合成因子表现也大幅好于非中性化的因子，分位数组合 Top 组合的年化超额收益率从 11.82%提升至 15.52%。"
+        },
+        {
+          "name": "CorrPMW",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{计算过去一周单一股票所有日内快照成交价与成交笔数的相关系数}",
+          "stats": [-0.0637, null, -0.79, 0.3842],
+          "evidence": "从下表的周频因子的表现可以看出，量价背离因子的 IC 均值差异较大，其中 CorrPVW 因子（W 后缀代表周频因子，下同）和 CorrPMW 因子的 IC 相对较高，IC 均值分别达到了-7.00%和-6.37%，而日频因子中表现较好的 CorrPVPM 因子在周频下表现较为一般。"
+        },
+        {
+          "name": "CorrPVPMW",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{计算过去一周单一股票所有日内快照成交价与每笔成交量的相关系数}",
+          "stats": [-0.0131, null, -0.25, 0.1139],
+          "evidence": "在这里，我们采用整体的方法，即计算了过去一周单一股票所有日内快照成交量与价格的相关系数，构建量价背离因子，构建方法与日频因子类似。"
+        },
+        {
+          "name": "CorrPVW",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{计算过去一周单一股票所有日内快照成交价与成交量的相关系数}",
+          "stats": [-0.07, null, -0.85, 0.4718],
+          "evidence": "CorrPVW 因子的多空组合年化收益率达到了 47.18%，夏普比率达到了 4.04。"
+        },
+        {
+          "name": "CorrRMW",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{计算过去一周单一股票所有日内快照收益率与成交笔数的相关系数}",
+          "stats": [-0.0294, null, -0.31, 0.1176],
+          "evidence": "在这里，我们采用整体的方法，即计算了过去一周单一股票所有日内快照成交量与价格的相关系数，构建量价背离因子，构建方法与日频因子类似。"
+        },
+        {
+          "name": "CorrRVPMW",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{计算过去一周单一股票所有日内快照收益率与每笔成交量的相关系数}",
+          "stats": [-0.0296, null, -0.51, 0.1337],
+          "evidence": "而周频因子通过降低预测频率，可以在一定程度上平滑量价波动，从而提高预测的稳健性。"
+        },
+        {
+          "name": "CorrRVW",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{计算过去一周单一股票所有日内快照收益率与成交量的相关系数}",
+          "stats": [-0.0414, null, -0.47, 0.2293],
+          "evidence": "而周频因子通过降低预测频率，可以在一定程度上平滑量价波动，从而提高预测的稳健性。"
+        },
+        {
+          "name": "CorrFactorW",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{CorrPMW 与 CorrPVW 等权合成}",
+          "stats": [0.0685, null, 0.83, 0.4301],
+          "evidence": "成交笔数和成交量相关性较高，基于此构建的这两个因子的相关系数也较高，我们将这两个因子等权合成，得到代表这一类量价关系的因子 CorrFactorW，同时通过市值行业中性化得到 CorrFactorWAdjCI。"
+        },
+        {
+          "name": "CorrFactorWAdjCI",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{CorrFactorW 经市值行业中性化处理}",
+          "stats": [0.0627, null, 0.93, 0.3888],
+          "evidence": "从因子的 IC 指标来看，中性化后的合成因子相比单因子，虽然 IC 均值提升不明显，但风险调整后 IC 达到了 0.93，说明因子的稳定性进一步提高。"
+        },
+        {
+          "name": "CGTCAdj",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期因子、成长因子、技术因子以及量价背离因子等权合成}",
+          "stats": [0.0766, null, 1.02, 0.556],
+          "evidence": "我们将一致预期因子、成长因子、技术因子以及量价背离因子以等权的方式合成量价背离增强因子（CGTCAdj），同时，为了对比量价背离合成因子带来的增量信息，我们将前三个因子等权合成为传统合成因子（CGT）。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "当量价出现背离时，无论当前股价处在上升还是下降通道，未来上涨的可能性均较高；同理，当量价趋同时，股价未来下跌的可能性较高。",
+      "evidence": "结合上述对于量价的四种形态的分析，我们总结了不同形态下股价变动预期，见下表。可以看出，当量价出现背离时，无论当前股价处在上升还是下降通道，未来上涨的可能性均较高；同理，当量价趋同时，股价未来下跌的可能性较高。"
+    },
+    {
+      "text": "日频合成之后因子的IC相比单因子提升至4%以上，多空组合年化收益率41.19%，夏普比率3.80；中性化后Top组合年化超额收益率从11.82%提升至15.52%。",
+      "evidence": "合成之后的因子的 IC 相比单因子有了一定的提升，达到4%以上，多空组合年化收益率为 41.19%，夏普比率为 3.80。中性化后的合成因子表现也大幅好于非中性化的因子，分位数组合 Top 组合的年化超额收益率从 11.82%提升至 15.52%。"
+    },
+    {
+      "text": "采用整体方法构建周频量价背离因子，中性化后的合成因子IC均值为6.27%，多空组合年化收益率38.88%，夏普比率4.08。",
+      "evidence": "我们采用整体的方法，统计了过去一周单一股票的日内快照成交量与价格的背离，构建量价背离因子。中性化后的合成因子的 IC 均值为6.27%，多空组合的年化收益率达到了 38.88%，夏普比率达到了 4.08。"
+    },
+    {
+      "text": "周频量价背离合成因子与传统因子相关性不高，与技术因子相关系数最高也仅为0.21，基于日内高频量价数据的因子可以提供与传统因子不同的信息。",
+      "evidence": "我们进一步探究了周频量价背离合成因子与传统因子的相关性，可以看出，量价背离合成因子与大部分因子的相关性不高，其与技术因子（Technique_regM）因子相关系数最高，但也仅为 0.21。因此，基于日内高频量价数据的因子的确可以提供与传统因子不同的信息。"
+    },
+    {
+      "text": "基于量价背离增强因子的中证1000增强策略年化收益率9.51%，年化超额收益率11.90%，信息比率2.27，换手率为周度双边92.43%。",
+      "evidence": "增强策略的年化收益率为9.51%，相比基准的年化超额收益率为 11.90%。策略的换手率为周度双边 92.43%，换手率相对较高。策略的信息比率达到了2.27。"
+    },
+    {
+      "text": "策略对手续费较敏感：千分之三手续费下仍可获得6.73%的年化超额收益率；手续费降至万分之五时，年化超额收益率提升至20.14%，信息比率达到3.93。",
+      "evidence": "可以看出，随着手续费的增加，策略收益逐步下降，但即便在严格的千分之三的手续费之下，策略的仍然可以获得 6.73%的年化超额收益率。当手续费可以降低至万分之五时，策略的年化超额收益率的提升至 20.14%，此时的信息比率达到了 3.93。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}
