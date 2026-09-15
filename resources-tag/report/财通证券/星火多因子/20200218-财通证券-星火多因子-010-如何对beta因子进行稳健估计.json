@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "id": "20200218-财通证券-星火多因子-010-如何对beta因子进行稳健估计",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "CAPM Beta",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta_{i,t}^{HIST}=\\frac{\\sum_{i=1}^{n}(x_{i}-\\bar{x})(y_{i}-\\bar{y})}{\\sum_{i=1}^{n}(x_{i}-\\bar{x})^{2}}=\\frac{cov(r_{i,t},r_{M,t})}{\\sigma_{M,t}^{2}}",
+          "stats": [null, 0.355, null, null],
+          "evidence": "如前所述，Beta 因子衡量的是个股收益相对指数收益的波动幅度，因此可以通过如下的时间序列回归对其进行估计："
+        },
+        {
+          "name": "EWMA Beta",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\left[\\alpha_{i},\\beta_{i,t}^{EWMA}\\right]^{\\prime}=(X^{\\prime}WX)^{-1}X^{\\prime}WY",
+          "stats": [null, 0.37, null, null],
+          "evidence": "在实际计算中，由于我们采用的历史数据较长（通常长达 1 年甚至更久），而距离当前时间较远的日期价格信息对当前市场的影响相对较小，因此我们可以在简单历史 Beta 估计的基础上，对不同的时间样本点赋予不同的权重，这种方式的 Beta 因子估计也是 Barra 模型中估计的主要方式。"
+        },
+        {
+          "name": "Shrinkage Beta",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta_{i,t}^{Shrink}=\\lambda\\cdot\\beta_{i,t}^{Hist}+\\left(1-\\lambda\\right)\\cdot b_{i,t}",
+          "stats": [null, 0.371, null, null],
+          "evidence": "事实上，关于 Beta 因子的贝叶斯压缩调整最早由 Vasicek(1973)提出，它是将采用历史数据估计得到的 Beta值与采用结构化估计的先验 Beta进行权重组合，得到新的估计"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "回望周期的选择：采用过去6个月和1年的日度收益率数据估计Beta要明显优于1个月和3个月",
+      "evidence": "回望周期的选择：采用过去 6 个月和1 年的日度收益率数据要明显优于 1 个月和 3 个月。"
+    },
+    {
+      "text": "加权方式的选择：采用EWMA加权方式的Beta因子估计要优于等权方式的Beta因子估计",
+      "evidence": "加权方式的选择：采用 EWMA加权方式的 Beta 因子估计要优于等权方式的 Beta 因子估计。"
+    },
+    {
+      "text": "采用压缩方法对Beta因子进行估计能够显著减小其预测误差，且行业均值作为先验因子效果最佳",
+      "evidence": "先验因子的选择：采用压缩方法对 Beta 因子进行估计能够显著减小其预测误差，且行业均值作为先验因子效果最佳。"
+    },
+    {
+      "text": "采用过去21天数据估计的Beta效果最差（RankIC仅为0.287），采用126天数据的效果最好（RankIC达到0.355）",
+      "evidence": "可以看到，采用过去 21 天的数据估计得到的 Beta 值的效果最差（RankIC 仅为 0.287），而采用 126 天的数据计算得到的 Beta 值的效果最好（RankIC 达到 0.355）。"
+    },
+    {
+      "text": "以过去1年数据为例，EWMA加权后压缩估计使EWMA Beta的RMSE从0.485降至0.477，RankIC从0.365提高至0.371",
+      "evidence": "以采用过去1年的数据为例，EWMA Beta的 RMSE从0.485降至0.477，其 RankIC 从 0.365 提高至 0.371，且这一结论同样适用于采用过去 126 天的数据估计得到的 Beta 因子值。"
+    },
+    {
+      "text": "结论显示，采用过去1年的日度收益率数据，并经过EWMA加权，同时采用个股所在行业的行业均值作为先验因子进行压缩的方式，能够有效地改善Beta因子的预测能力",
+      "evidence": "结论显示，采用过去 1年的日度收益率数据，并经过 EWMA 加权，同时采用个股所在行业的行业均值作为先验因子进行压缩的方式，能够有效地改善 Beta 因子的预测能力。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "\"A Note on Using Cross-Sectional Information in Bayesian Estimation of Security Betas\"， Oldrich, A. Vasicek. The Journal of Finance, Vol.28, No.5(Dec.1973).",
+    "\"Betting Against Beta\". Frazzini, A., Pederson, L. H. Journal of Financial Economics. 2014",
+    "\"Evaluating the Accuracy of Beta Forecasts\". Jose G. Menchero, Zoltan Nagy and Ashutosh Singh. The Journal of Portfolio Management. 2016.",
+    "\"How to Estimate Beta\". Hollstein F., Prokopczuk, M. and Simen, C.W.. Working Paper. 2017."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

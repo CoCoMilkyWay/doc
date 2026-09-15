@@ -1,0 +1,92 @@
+{
+  "schema_version": 2,
+  "id": "20250321-长江证券-神经网络因子挖掘-004-因子风格暴露与标签中性化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "sse50", "csi300", "csi500", "csi800", "csi1000", "csi2000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{四个样本外持续跟踪的神经网络量价因子截面标准化后等权合成}",
+          "stats": [null, 0.1128, null, null],
+          "evidence": "神经网络因子挖掘系列报告前三篇得到四个样本外持续跟踪的因子，并将四个因子截面标准化后等权合成作为最终的“合成因子”进行回测。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "weekly"
+      }
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "2024年合成因子在中证全指内5日RankIC为11.28%与历史平均接近，但20日RankIC为10.69%相对历史平均14.90%大幅下滑，或与行业轮动和风格轮动加快有关。",
+      "evidence": "而在中证全指成分股内，合成因子的 5日收益率 RankIC为 11.28%与历史平均水平较为接近，但 20 日收益率 RankIC 为 10.69%，相对于历史平均水平14.90%有较大下滑，这可能与2024 年行业轮动和风格轮动的速度加快有关。"
+    },
+    {
+      "text": "以市值行业Barra中性化收益率Alpha1为预测目标可显著降低模型风格暴露，以残差波动因子为例，相关系数均值从Baseline的-29.45%降至-15.04%。",
+      "evidence": "以残差波动因子为例，Alpha1 与 Barra 风格因子相关系数均值从 Baseline 的-29.45%降至-15.04%。"
+    },
+    {
+      "text": "因子严格中性化后Alpha1的Top组超额收益达20.19%，较Baseline提升3.15%，且在2024年2月及9月的极端行情中回撤更小。",
+      "evidence": "因子严格中性化后 Alpha1 的 Top 组超额收益达 20.19%，较 Baseline 提升 3.15%，且在 2024 年 2 月及 9 月的极端行情中回撤更小。"
+    },
+    {
+      "text": "严格中性化后合成因子RankIC普遍下滑三分之一，表明原模型收益部分依赖Beta暴露（如小市值、低流动性）；但沪深300内因子通过风格择时实现长期超额。",
+      "evidence": "严格中性化后，我们的合成因子 RankIC 普遍下滑三分之一，表明原模型收益部分依赖Beta 暴露（如小市值、低流动性）。但 Beta 收益并非完全无效，沪深 300 内因子通过风格择时（如 2019-2020 年偏大市值，2022-2023 年偏小市值）实现长期超额。"
+    },
+    {
+      "text": "以Beta预测值与风格因子IC时间序列的20日差分作为风格方向择时指标，从精确率和召回率角度看有一定效果，但无法作为高胜率指标使用。",
+      "evidence": "我们以 Beta 预测值与每个风格因子的 IC 时间序列为基础，再计算其 IC 值的 20 日差分作为对应风格方向择时指标，计算该指标与风格因子是否反向的混淆矩阵，目的在于观察我们的预测值是否有风格异常时的提示能力。从精确率和召回率的角度来看，有一定的效果，但也无法作为一个高胜率的指标来使用。"
+    },
+    {
+      "text": "Alpha预测值和Beta预测值按3:1比例线性加权后与原始收益率预测值较为接近，但多头超额可进一步提升，较Baseline提升3.07%。",
+      "evidence": "将Alpha预测值和Beta预测值按照3:1比例线性加权后与原始收益率预测值较为接近，但多头超额可进一步提升，最终相比于 Baseline 提升 3.07%。"
+    },
+    {
+      "text": "以多策略形式同时使用原始收益率和中性化收益率生成的因子更加稳健，超额收益虽可能不会有明显提高，但稳定性大概率优化，特别是在极端行情下。",
+      "evidence": "更加稳健的做法是以多策略的形式同时使用原始收益率和中性化收益率生成的因子。超额收益虽可能不会有明显的提高，但是稳定性方面大概率会有一定的优化，特别是在部分极端行情下。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra CNE5"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

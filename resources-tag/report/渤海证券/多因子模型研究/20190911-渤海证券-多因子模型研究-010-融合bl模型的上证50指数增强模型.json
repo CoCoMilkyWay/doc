@@ -1,0 +1,146 @@
+{
+  "schema_version": 2,
+  "id": "20190911-渤海证券-多因子模型研究-010-融合bl模型的上证50指数增强模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["sse50"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "std_12m",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去12个月日收益率的标准差}",
+          "stats": [0.0616, null, 0.37, null],
+          "evidence": "| std_12m | 6.16% | 0.37 | 0.188 |\n| std_6m | 6.09% | 0.36 | 0.156 |\n| EP | 6.08% | 0.43 | 0.164 |"
+        },
+        {
+          "name": "std_6m",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月日收益率的标准差}",
+          "stats": [0.0609, null, 0.36, null],
+          "evidence": "| std_6m | 6.09% | 0.36 | 0.156 |\n| EP | 6.08% | 0.43 | 0.164 |"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EP = \\frac{1}{PE}",
+          "stats": [0.0608, null, 0.43, null],
+          "evidence": "| EP | 6.08% | 0.43 | 0.164 |\n| dastd | 5.66% | 0.32 | 0.116 |"
+        },
+        {
+          "name": "dastd",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一年日超额收益绝对值的均值}",
+          "stats": [0.0566, null, 0.32, null],
+          "evidence": "| std_12m | 6.16% | 0.37 | 0.188 |\n| std_6m | 6.09% | 0.36 | 0.156 |\n| EP | 6.08% | 0.43 | 0.164 |\n| dastd | 5.66% | 0.32 | 0.116 |"
+        },
+        {
+          "name": "reverse_180",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去180日累计收益的反转}",
+          "stats": [0.0562, null, 0.38, null],
+          "evidence": "| reverse_180 | 5.62% | 0.38 | 0.124 |\n| --- | --- | --- | --- |\n| reverse_20 | 4.78% | 0.33 | 0.148 |\n| BP | 4.68% | 0.35 | 0.124 |"
+        },
+        {
+          "name": "reverse_20",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20日累计收益的反转}",
+          "stats": [0.0478, null, 0.33, null],
+          "evidence": "| reverse_20 | 4.78% | 0.33 | 0.148 |\n| BP | 4.68% | 0.35 | 0.124 |"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP = \\frac{1}{PB}",
+          "stats": [0.0468, null, 0.35, null],
+          "evidence": "| BP | 4.68% | 0.35 | 0.124 |\n| nonlinearsize | 3.09% | 0.39 | 0.156 |"
+        },
+        {
+          "name": "nonlinearsize",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对数市值的非线性（立方）项}",
+          "stats": [0.0309, null, 0.39, null],
+          "evidence": "| BP | 4.68% | 0.35 | 0.124 |\n| nonlinearsize | 3.09% | 0.39 | 0.156 |"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "view_blending"],
+      "setup": {"universe": ["sse50"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "结合北上资金增速和北上资金持仓数据的BL模型加均值方差模型表现最好，相对原始均值方差模型年化收益提升4.6%，夏普比率、信息比率均明显上升。",
+      "evidence": "回测发现，结合了北上资金增速数据和北上资金持仓数据的 BL 模型结合均值方差模型表现最好，相对于原始均值方差模型的年化收益有了 4.6%的提升。夏普比率、信息比率也均有较为明显的上升。"
+    },
+    {
+      "text": "三个观点对原始模型均有提升，其中北向资金增速+北向资金持仓的BL模型提升最明显，2017-2019年年化收益22.82%，信息比率2.01。",
+      "evidence": "三个观点对于原始模型的表现均有不同程度提升，其中北向资金增速+北向资金持仓的BL模型收益提升最为明显，2017-2019 年年化收益 22.82%，信息比率 2.01。"
+    },
+    {
+      "text": "上证50成分股的有效因子只有8个，分别为市盈率倒数、市净率倒数、三种波动率因子、两种动量反转因子和中性市值因子。",
+      "evidence": "其中中证 500成分股的有效因子有56个，沪深 300 成分股的有效因子有 32个，而上证50成分股的有效因子只有 8 个，分别为市盈率倒数、市净率倒数、三种波动率因子、两种动量反转因子和中性市值因子。"
+    },
+    {
+      "text": "加入择时模型后，两类指数增强模型的收益、夏普比率和信息比率均有所上升。",
+      "evidence": "回测结果如下图所示，可以看出，加入择时模型后，两类指数模型的收益、夏普比率和信息比率均有所上升。"
+    },
+    {
+      "text": "多因子模型相对于均值方差模型收益率类似、波动率更小、夏普比率有所提升，两个增强模型相对指数均取得一定超额收益。",
+      "evidence": "可以看出，两个增强模型相对于指数均取得了一定的超额收益，多因子模型相对于均值方差模型，收益率类似，波动率更小，夏普比率有所提升。"
+    },
+    {
+      "text": "评级调整观点提升不明显，复盘发现数据源中研报评级调整数据缺漏较为严重、数据质量有待提高，是数据失效的可能原因之一。",
+      "evidence": "复盘其原因，我们发现，我们使用的数据源中研报评级调整数据缺漏较为严重，数据质量有待提高，这是导致数据失效的可能原因之一。"
+    },
+    {
+      "text": "各模型超配标的普遍集中在贵州茅台、中国平安、招商银行、伊利股份、恒瑞医药等股票，低配标的普遍集中在银行股、中国中车、中国建筑等股票。",
+      "evidence": "我们提取了不同模型相对指数超配、低配标的的前5 名，可以看出，大部分模型超配的标的普遍集中在贵州茅台、中国平安、招商银行、伊利股份、恒瑞医药等股票上。而低配标的普遍集中在银行股、中国中车、中国建筑等股票上。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Barra 风险模型（CNE6）之单因子检验——多因子研究系列之八》20190620",
+    "《Barra 风险模型（CNE6）之纯因子构建与因子合成——多因子模型研究系列之九》20190620",
+    "《使用多因子框架的沪深300指数增强模型——多因子研究系列之七》20190329"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

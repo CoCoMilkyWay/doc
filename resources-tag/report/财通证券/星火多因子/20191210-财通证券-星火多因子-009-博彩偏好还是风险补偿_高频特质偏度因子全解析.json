@@ -1,0 +1,108 @@
+{
+  "schema_version": 2,
+  "id": "20191210-财通证券-星火多因子-009-博彩偏好还是风险补偿_高频特质偏度因子全解析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频特质偏度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "w_{i,t}=\\ln(1+\\varepsilon_{i,t}),\\; ISKEW_{i,t}=\\frac{1}{N(t)}\\times\\frac{\\sum w_{i,t}^{3}}{\\left(\\frac{\\sum w_{i,t}^{2}}{N(t)}\\right)^{3/2}},\\; IdioSkew_{i}=\\frac{1}{21}\\sum_{t=21}^{t}ISKEW_{i,t}",
+          "stats": [-0.074, -0.095, null, null],
+          "evidence": "其中，N(t)表示个股日内存在交易的数据个数。为了避免数据存在过多的不稳定性，我们将个股在过去 21 天的日内特质偏度的均值作为其特质偏度因子"
+        },
+        {
+          "name": "暴涨因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Level_{i,t}=\\frac{w_{i,t}-\\mu_{i,t}}{\\sigma_{i,t}},\\; DJump\\_Level_{i,t}=\\max(Level_{i,t}),\\; Jump\\_Level_{i}=\\frac{1}{21}\\sum_{t=21}^{t}DJump\\_Level_{i,t}\\text{，再对 Crash\\_Level 横截面回归取残差}",
+          "stats": [-0.062, -0.087, null, null],
+          "evidence": "与高频特质偏度因子的计算类似，我们将过去 21 天的DJump $\\_Level_{i,t}$ 因子均值作为其“暴涨效应”的代理变量，将过去 21 天的 $DCrash\\_Level_{i,t}$ 因子均值作为其“暴跌效应”的代理变量"
+        },
+        {
+          "name": "暴跌因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "DCrash\\_Level_{i,t}=\\min(Level_{i,t}),\\; Crash\\_Level_{i}=\\frac{1}{21}\\sum_{t=21}^{t}DCrash\\_Level_{i,t}\\text{，再对 Jump\\_Level 横截面回归取残差的相反数}",
+          "stats": [-0.033, -0.041, null, null],
+          "evidence": "由此， $\\varepsilon_{i,t}$ 即可作为剥离掉“暴跌效应”的“暴涨因子”代理变量，而 $\\epsilon_{i,t}$ 即可作为剥离掉“暴涨效应”的“暴跌因子”代理变量。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["heuristic_ranking", "futures_hedge"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于日内5分钟高频数据构建的特质偏度因子在A股市场上表现优异，RankIC均值达到-9.5%，且多头相对基准指数在今年也有显著超额收益。",
+      "evidence": "（3） 基于日内 5 分钟高频数据构建的特质偏度因子在 A股市场上表现优异，RankIC 均值达到-9.5%，且多头相对基准指数在今年也有显著超额收益；"
+    },
+    {
+      "text": "暴涨因子的选股能力显著强于暴跌因子，博彩偏好效应在个人投资者居多的A股市场占主导地位。",
+      "evidence": "结果显示，“暴涨因子”的选股能力显著强于“暴跌因子”，“博彩偏好”效应在个人投资者居多的 A股市场占主导地。"
+    },
+    {
+      "text": "在冲击成本高、无分析师覆盖、非股指期货指数对应成分股及非融券标的个股中，特质偏度因子均有着更好的表现。",
+      "evidence": "（7） 通过个股的非流动性指标、是否有分析师覆盖、是否是股指期货指数成分股、是否为融券标的，我们将 A股进行了不同样本的划分，并检验了特质偏度因子在不同样本中的表现情况。结果显示，在冲击成本高、无分析师覆盖、非股指期货指数对应成分股及非融券标的个股中，特质偏度因子均有着更好的表现。"
+    },
+    {
+      "text": "剥离掉主要风格因子之后，特质偏度因子的RankIC均值仍达到-4.4%，t值为-7.65，仍表现出稳健的选股效果。",
+      "evidence": "图 10 展示了正交化所有风格因子后，高频特质偏度因子的表现情况。可以看到，其 RankIC 均值仍然达到-4.4%，月胜率 23%，t 值为-7.65。多空组合的月均收益率达到 0.96%，月度胜率 72%，t 值为 4.46。"
+    },
+    {
+      "text": "2019年低估值、低特质波动、低换手因子遭遇明显回撤，观察因子有效性时更需注重多头在近年的超额表现情况。",
+      "evidence": "（1） 2019 年，低估值、低特质波动、低换手因子遭遇了明显回撤。因此我们在观察因子有效性时不仅要观察其 RankIC 的表现情况，更需注重多头在近年的超额表现情况；"
+    },
+    {
+      "text": "基于RankICIR滚动加权复合因子构建的行业中性中证500指数增强组合，对冲组合年化收益18.43%，年化信息比率3.38，但2019年超额收益仅1.61%。",
+      "evidence": "由图 3 可以看到，对冲组合的年化收益达到 18.43%，年化波动达到 5.44%，年化信息比率能够达到 3.38，从数据统计上来看似乎是一个不错的组合。然而进一步分析可以发现，该组合在近几年尤其是 201 年以来的绩效表现并不令人满意。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Gu, Ming, Wenjin Kang, Bu Xu. \"Limits of arbitrage and idiosyncratic volatility: Evidence from China Stock Market\". Journal of Banking and Finance. 2018",
+    "“星火”多因子系列（五）：《源于动量，超越动量：特质动量因子全解析》",
+    "“星火”多因子系列（六）：《Alpha 因子重构：引入协方差矩阵的因子有效性检验》",
+    "王少峰. \"基于中国股票市场的预期特质偏度溢价研究\". 南京财经大学. 2017"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

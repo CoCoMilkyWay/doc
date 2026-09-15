@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20180106-财通证券-星火多因子-001-barra模型初探_a股市场风格解析",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": []
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "daily"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "2010-2016年期间Beta、成长、流动性和规模因子表现突出，高Beta、高成长、低换手、小市值股票获得持续超额收益；2017年风格剧变，规模因子方向反转，大市值占优，成长因子收益下滑，估值因子收益上升，短期动量方向也发生变化。",
+      "evidence": "2010-2016 年期间，Beta、成长、流动性和规模因子表现较为突出，高Beta、高成长、低换手、小市值的股票获得持续的超额收益。2017 年市场风格发生了明显的变化，规模因子方向反转，大市值股票全年占优。成长因子收益下滑，估值因子收益上升，低估值的股票备受青睐，短期动量的收益方向也发生了变化。"
+    },
+    {
+      "text": "截距项因子与中证全指日度收益走势高度相关，2017年度相关系数高达92%，验证了模型估计的正确性。",
+      "evidence": "事实上，由图表 7可以看到二者走势高度相关，相关系数高达 92%。"
+    },
+    {
+      "text": "拉长到2010-2017全样本期间，截距项fc与中证全指日度收益散点图相关系数高达97%，反映模型估计的正确性。",
+      "evidence": "图表 12 展示了截距项 fc与中证全指日度收益散点图，二者相关系数高达 97%，这种高度相关关系恰好反映了模型估计的正确性。"
+    },
+    {
+      "text": "2017年影响方向为正的Beta因子和规模因子表现最优，累计收益达14.13%和11.93%；方向为负的流动性因子和估值因子分别收获得-11.92%和-5.81%的收益。",
+      "evidence": "在整个 2017 年，影响方向为正的因子如 Beta 因子和规模因子表现最优，累计收益高达 14.13%和 11.93%；影响方向为负的因子如流动性因子和估值因子，分别收获得-11.92%和-5.81%的收益。"
+    },
+    {
+      "text": "29个中信一级行业中仅银行业和非银行金融的行业收益与纯净行业因子出现较大背离，原因是这两个行业成分股在规模因子上暴露普遍较大，行业纯净因子的下跌被规模因子等风险因子的收益抵冲。",
+      "evidence": "在总共 29 个一级行业中，仅有银行业和非银行金融两个行业的收益出现较大背离，方正金工认为是由于其他显性风格因子的作用而造成的。"
+    },
+    {
+      "text": "用多因子模型模拟上证50指数成分股组合收益，与实际日度收益相关系数高达93%，进一步验证了方正金工多因子模型的有效性和正确性。",
+      "evidence": "二者的相关系数高达 93%，反映在散点图上是一条斜向右上方偏斜的直线，这也进一步验证了方正金工多因子模型的有效性和正确性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra USE1 模型", "Barra USE3 模型", "Barra USE4 模型"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "20190507-财通证券-拾穗多因子-011-多因子风险预测_从怎么做到为什么",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "样本协方差矩阵估计存在三点不足：运算大、不可逆、偏差大，基于多因子的协方差矩阵估计可以针对这些问题发挥用武之地。",
+      "evidence": "样本协方差矩阵估计存在三点不足：运算大、不可逆、偏差大，基于多因子的协方差矩阵估计可以针对这些问题发挥用武之地。"
+    },
+    {
+      "text": "Shepard（2009）指出，由于估计误差的存在，采用样本协方差矩阵得到的最优投资组合的风险通常会被低估，真实风险与预测风险满足 σ_true ≈ σ_est/(1-N/T)。",
+      "evidence": "Shepard（2009）指出，在正态性和平稳性的假设下，由于估计误差的存在，采用样本协方差矩阵得到的最优投资组合的风险通常会被低估，其模型估计值与真实风险之间的关系满足："
+    },
+    {
+      "text": "在收益率满足正态分布的假设下，偏差统计量衡量的是实际风险与预测风险的比值，然而金融数据往往服从“尖峰厚尾”分布，很难做到偏差统计量等于 1。",
+      "evidence": "在收益率满足正态分布的假设下，偏差统计量衡量的是实际风险与预测风险的比值，然而金融数据往往服从“尖峰厚尾”分布，因此即便对于完美的预测方法而言，也很难做到偏差统计量等于 1。"
+    },
+    {
+      "text": "随着收益分布的峰度逐渐变大，偏差统计量落入 95%置信区间的概率逐渐减小，因此应允许偏差统计量与 95%置信区间存在一定偏离。",
+      "evidence": "收益率分布对于偏差统计量落入其置信区间内的概率存在影响，随着收益分布的峰度逐渐变大，落入 95%置信区间的概率逐渐减小。"
+    },
+    {
+      "text": "Newey-West 调整主要用于解决协方差矩阵估计中股票收益的自相关性影响，其最大贡献在于核函数权重的引入确保了估计的协方差矩阵仍是半正定矩阵。",
+      "evidence": "Newey-West 调整主要用于解决协方差矩阵估计中股票收益的自相关性影响，财通金工通过蒙特卡洛模拟法探究其原理。"
+    },
+    {
+      "text": "特征值调整的主要逻辑在于通过蒙特卡洛模拟法来试图模拟出各个特征组合的偏差统计量与 1 之间的偏差，并对低估组合的风险进行放大、对高估组合的风险进行缩小。",
+      "evidence": "特征值调整的主要逻辑在于通过蒙特卡洛模拟法来试图模拟出各个特征组合的偏差统计量与 1 之间的偏差，继而进行调整。"
+    },
+    {
+      "text": "特质风险估计中贝叶斯压缩调整的主要思想是将单只股票的特质风险向其所在的市值分组的市值加权平均风险压缩，实证发现股票特质风险与其市值之间存在强相关关系，市值越大，特质风险越小。",
+      "evidence": "特质风险估计中贝叶斯压缩调整的主要思想是将单只股票的特质风险向其所在的市值分组的市值加权平均风险压缩，实证发现股票特质风险与其市值之间存在强相关关系。"
+    },
+    {
+      "text": "所有样本指数在未来一个月的年化波动区间在 23%-33%之间，相较上周出现非常明显的攀升，财通金工对后市维持谨慎观点。",
+      "evidence": "所有样本指数在未来一个月的年化波动区间在 23%-33%之间，相较上周出现非常明显的攀升，财通金工特别提醒投资者注意当前市场的波动情况，后市维持谨慎观点。"
+    },
+    {
+      "text": "上周市场风格以大盘指数为主，表现最好的三只指数在非线性规模因子上暴露较少，而表现较差的三只指数在非线性规模因子上的较大暴露拖累指数收益。",
+      "evidence": "上周市场风格以大盘指数为主，表现最好的三只指数都是大盘指数，其在非线性规模因子上暴露较少，而表现较差的三只指数更多得偏向于中小市值股票，其在非线性规模因子上的较大暴露拖累指数收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A simple, positive semi-definite, heteroskedasticity and autocorrelation consistent covariance matrix. Newey W.K. and K.D. West. 1987. Econometrica",
+    "Eigen-Adjusted Covariance Matrices. Menchero Jose, Jun Wang, D.J. Orr, 2011, MSCI Research Insight",
+    "Honey, I Shrunk the Sample Covariance Matrix. Olivier Ledoit, Michael Wolf, 2003, Journal of Portfolio Management.",
+    "Second Order Risk. Shepard Peter, 2009, Working Paper",
+    "“星火”多因子系列（二）：《Barra模型进阶：多因子模型风险预测》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "id": "20240704-申万宏源-红利策略全攻略-006-红利增长策略的下一步_如何更准确的预测分红增长",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "expectation_level", "expectation_revision"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "红利支付率稳定",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{历史红利支付率的偏离不能高于一定阈值（如过去三年股利支付率偏离<10%）}",
+          "stats": [null, null, null, null],
+          "evidence": "我们将其定义为历史红利支付率的偏离不能高于一定阈值，作为预测红利增长的子视角之一，结合盈利预期增长的前提进行红利增长的预测，在预测结果上有着62%的准确度，表现较好。"
+        },
+        {
+          "name": "最新一期财报同比修正预期数据",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{最新一期财报的净利润累计同比为正，且一致预期净利润增长为正，且盈利预期预测家数>3}",
+          "stats": [null, null, null, null],
+          "evidence": "在第一种子视角下，我们用最新一期财报的单季净利润累计同比来对一致预期数据进行修正。"
+        },
+        {
+          "name": "ROE稳定修正预期数据",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{过去四年年末的ROE数据偏离小于1%，且ROE在全市场前30%，且一致预期净利润增长为正}",
+          "stats": [null, null, null, null],
+          "evidence": "因此，我们仿照对红利支付率稳定的要求，也要求企业的历史ROE水平应当在一定阈值内保持稳定，具体来说，我们仿照红利支付率偏离的计算，要求过去四年年末的ROE数据偏离应当小于1%，以保历史ROE的稳定。"
+        },
+        {
+          "name": "净利润同比加速增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{过去4个季度的单季度净利润同比增速逐期递增}",
+          "stats": [null, null, null, null],
+          "evidence": "首先，我们对企业净利润的加速增长进行了分析，这里我们要求企业过去4个季度的单季度净利润要表现为加速增长的态势。"
+        },
+        {
+          "name": "ROE同比加速增长",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{过去四季的ROE同比增速逐期递增}",
+          "stats": [null, null, null, null],
+          "evidence": "除了业绩的加速增长以外，ROE反映了企业的盈利能力，过去四季的ROE加速增长也可以体现出企业的盈利能力和公司景气度的上升。"
+        },
+        {
+          "name": "红利支付率跃升",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{红利支付率T-2~T-4偏离<10%，且红利支付率T-1较T-2上升10%以上、30%以下，且盈利预期向好}",
+          "stats": [null, null, null, null],
+          "evidence": "当企业在过往的红利支付率稳定的前提下，如果在上一期红利支付率发生了跃升、总体占上了一个新的台阶，那么在今年盈利预期向好的情况下，红利支付率更有可能会站稳当前新的台阶，从而在新台阶的基础上实现分红金额的增长。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["dividend"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "4个子视角并集后的红利增长预测模型总体胜率稳定在70%以上，近几期股票数量可以来到500只以上。",
+      "evidence": "在以上4个视角进行复核后，近几期的股票数量可以来到500只以上，并且总体胜率稳定在70%以上，具有较高的红利增长预测准确度。"
+    },
+    {
+      "text": "仅使用股息因子筛选和加权的红利增长组合年化收益率达19.48%，超越中证红利全收益的11.33%年化收益率。",
+      "evidence": "在仅使用股息因子进行筛选和加权的情况下，组合的年化收益率达19.48%，超越中证红利全收益的11.33%年化收益率。"
+    },
+    {
+      "text": "2019年以来组合相对中证红利各年份均有超额，平均每年超额达7.35%。",
+      "evidence": "分年度来看，组合在各个年份中基本都保持对红利指数的超额优势，尤其是2019年以来，组合相对中证红利各年份均有超额，平均每年超额达7.35%，表现优异。"
+    },
+    {
+      "text": "用最新一期财报的单季净利润累计同比修正一致预期后，该视角下预测胜率可以达到72.19%，近两年来中期股票数量也有400只左右。",
+      "evidence": "通过最新一期财报净利润数据对预测结果进行纠正和再筛选之后，在该视角下的预测胜率可以达到72.19%，并且近两年来中期股票数量也有400只左右，具有较高的预测胜率和较多的入选股票数量。"
+    },
+    {
+      "text": "逐季度ROE同比加速增长视角下所有时点共计有高达72.60%的胜率，10月底时预测的准确率平均有76.06%。",
+      "evidence": "最终入选的股票总体在每期100只左右，但在胜率上也表现较好，所有时点下共计有高达72.60%的胜率，并且在10月底时预测的准确率平均有76.06%。"
+    },
+    {
+      "text": "过去三年股利支付率连续提高且盈利预期增长的预测准确率均值为49.50%，低于50%的随机预测准确率，该逻辑并不能较好的筛选出分红增长的股票。",
+      "evidence": "在要求过去三年股利支付率连续提高且盈利预期增长的约束后，在整个回测区间，过去三年股利支付率连续提高且盈利预期增长的预测准确率均值为49.50%，低于50%的随机预测准确率，也说明该逻辑并不能较好的筛选出分红增长的股票。"
+    },
+    {
+      "text": "红利支付率跃升角度下总体的胜率为60.88%，略低于净利润增长下的各个子视角胜率。",
+      "evidence": "在最后的结果表现上，新增了一定限制条件的红利支付率跃升角度下总体的胜率为60.88%，略低于净利润增长下的各个子视角胜率。"
+    },
+    {
+      "text": "由于分红增长预测的高准确度，组合自身的未来股息率在各期基本都高于历史股息率。",
+      "evidence": "由下图可以看到，由于分红增长预测的高准确度，组合自身的未来股息率在各期基本都高于历史股息率，从这个角度也体现了较好的红利增长预测效果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《如何构建分红潜在增长的股票组合？》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

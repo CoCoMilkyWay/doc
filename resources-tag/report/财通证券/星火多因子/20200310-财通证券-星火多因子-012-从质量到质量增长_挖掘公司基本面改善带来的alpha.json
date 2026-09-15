@@ -1,0 +1,202 @@
+{
+  "schema_version": 2,
+  "id": "20200310-财通证券-星火多因子-012-从质量到质量增长_挖掘公司基本面改善带来的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROEQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROEQ=\\frac{归属母公司股东净利润}{期末归属母公司股东的权益}",
+          "stats": [null, 0.0363, 1.26, 0.1419],
+          "evidence": "我们采用净资产收益率 ROEQ、总资产收益率 ROAQ、总资产毛利率 GPOAQ 以及销售毛利率 GMARQ 来衡量公司的盈利能力。"
+        },
+        {
+          "name": "ROAQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROAQ=\\frac{净利润（含少数股东损益）}{（期初总资产+期末总资产）\\times 2}\\times 100\\%",
+          "stats": [null, 0.035, 1.1, 0.1199],
+          "evidence": "我们采用净资产收益率 ROEQ、总资产收益率 ROAQ、总资产毛利率 GPOAQ 以及销售毛利率 GMARQ 来衡量公司的盈利能力。"
+        },
+        {
+          "name": "GPOAQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GPOAQ=\\frac{营业收入-营业成本}{（期初总资产+期末总资产）\\times 2}\\times 100\\%",
+          "stats": [null, 0.0336, 1.2, 0.1169],
+          "evidence": "我们采用净资产收益率 ROEQ、总资产收益率 ROAQ、总资产毛利率 GPOAQ 以及销售毛利率 GMARQ 来衡量公司的盈利能力。"
+        },
+        {
+          "name": "GMARQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GMARQ=\\frac{营业收入-营业成本}{营业收入}\\times 100\\%",
+          "stats": [null, 0.0157, 0.71, 0.0639],
+          "evidence": "我们采用净资产收益率 ROEQ、总资产收益率 ROAQ、总资产毛利率 GPOAQ 以及销售毛利率 GMARQ 来衡量公司的盈利能力。"
+        },
+        {
+          "name": "dROEQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "dROEQ=\\frac{t期归母净利润-t-1期归母净利润}{t-1期归属母公司股东权益}\\times 100\\%",
+          "stats": [null, 0.0428, 1.77, 0.1515],
+          "evidence": "既然成长能力反映的是公司盈利能力是否能够持续，那么我们即可以盈利性指标的计算为基础，通过计算其相较上年同期数据的同比增长情况，作为公司成长能力的代理指标，具体方式如表 4 所示"
+        },
+        {
+          "name": "dROAQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "dROAQ=\\frac{t期归母净利润-t-1期归母净利润}{t-1期总资产}\\times 100\\%",
+          "stats": [null, 0.0425, 1.72, 0.1501],
+          "evidence": "既然成长能力反映的是公司盈利能力是否能够持续，那么我们即可以盈利性指标的计算为基础，通过计算其相较上年同期数据的同比增长情况，作为公司成长能力的代理指标，具体方式如表 4 所示"
+        },
+        {
+          "name": "dGPOAQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "dGPOAQ=\\frac{（t期毛利润-t-1期毛利润）}{t-1期总资产}，其中毛利润=营业收入-营业成本",
+          "stats": [null, 0.0465, 1.9, 0.1831],
+          "evidence": "既然成长能力反映的是公司盈利能力是否能够持续，那么我们即可以盈利性指标的计算为基础，通过计算其相较上年同期数据的同比增长情况，作为公司成长能力的代理指标，具体方式如表 4 所示"
+        },
+        {
+          "name": "dGMARQ",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "dGMARQ=\\frac{（t期毛利润-t-1期毛利润）}{t-1期营业收入}，其中毛利润=营业收入-营业成本",
+          "stats": [null, 0.0421, 1.9, 0.153],
+          "evidence": "既然成长能力反映的是公司盈利能力是否能够持续，那么我们即可以盈利性指标的计算为基础，通过计算其相较上年同期数据的同比增长情况，作为公司成长能力的代理指标，具体方式如表 4 所示"
+        },
+        {
+          "name": "MLEV",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "MLEV=\\frac{总市值+非流动负债}{总市值}",
+          "stats": [null, 0.0145, 0.67, 0.0428],
+          "evidence": "图13展示了MLEV因子样本内表现，可以看到其并非是理想的Alpha因子。多头相较基准指数的年化超额收益仅为 3%，多空对冲组合的净值也并不稳定。"
+        },
+        {
+          "name": "股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "DividendRatio=\\frac{过去一年分红金额}{总市值}",
+          "stats": [null, 0.0315, 1.58, 0.0902],
+          "evidence": "如表 8 所示，我们采用公司过去一年的分红金额与总市值的比值作为其偿付能力的代理变量。"
+        },
+        {
+          "name": "综合质量因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{对ROEQ、ROAQ、GPOAQ、GMARQ、dROEQ、dROAQ、dGPOAQ、dGMARQ、DividendRatioTTM按RankICIR加权合成}",
+          "stats": [null, 0.055, 2.13, 0.1857],
+          "evidence": "采用 RankICIR 加权构建综合质量因子，其在全样本中的 RankIC均值达到 5.5%，胜率 73.8%，RankICIR达到 2.13，多空组合的年化 IR达到 1.88，但是在 2014-2015期间的回撤较为明显。"
+        },
+        {
+          "name": "质量增长因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "Quality\\;Increase_{t}=Quality_{t}-Quality_{t-1}",
+          "stats": [null, 0.038, 2.95, 0.1343],
+          "evidence": "质量增长因子的 RankIC 均值为 3.8%，低于质量因子的 5.5%，但是其胜率与 RankICIR 都要显著地更高。对于多空对冲组合而言，得益于波动率的降低，其年化 IR 达到 2.54，远胜于质量因子的 1.88，同样的其最大回撤也有明显的下降。"
+        },
+        {
+          "name": "复合因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{采用RankICIR加权将综合质量因子与质量增长因子融合}",
+          "stats": [null, 0.048, 2.61, 0.1707],
+          "evidence": "通过将质量和质量增长因子进行融合，我们构建的复合因子RankIC 均值达到 4.8%，胜率 75.4%， RankICIR 达到 2.61。多空对冲组合年化 IR达到 2.36，且多头部分能够稳定地跑赢基准。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "采用单季度数据检验质量类因子，成长性指标的选股能力更为稳定，盈利性指标在2014-2015年期间发生了明显的回撤。",
+      "evidence": "本文采用单季度数据构建盈利性、成长性、安全性及偿付能力指标，并检验其在 A 股市场上的有效性发现，成长性指标的选股能力更为稳定，盈利性指标在 2014-2015年期间发生了明显的回撤。"
+    },
+    {
+      "text": "RankICIR加权构建的综合质量因子全样本RankIC均值5.5%，胜率73.8%，RankICIR 2.13，多空组合年化IR 1.88，但在2014-2015期间回撤较为明显。",
+      "evidence": "采用 RankICIR 加权构建综合质量因子，其在全样本中的 RankIC均值达到 5.5%，胜率 73.8%，RankICIR达到 2.13，多空组合的年化 IR达到 1.88，但是在 2014-2015期间的回撤较为明显。"
+    },
+    {
+      "text": "参考业绩超预期因子构建质量增长因子，质量因子的边际改善能带来更稳定的Alpha；与质量因子相比收益端稍显落后，但稳定性更胜一筹。",
+      "evidence": "我们参考业绩超预期因子的构建方式，发现质量因子的边际改善能够带来更为稳定的 Alpha。与质量因子相比，质量增长因子在收益端稍显落后，但在稳定性上却更胜一筹。"
+    },
+    {
+      "text": "质量与质量增长融合的复合因子RankIC均值4.8%、胜率75.4%、RankICIR 2.61，多空对冲组合年化IR 2.36，多头部分能够稳定地跑赢基准。",
+      "evidence": "通过将质量和质量增长因子进行融合，我们构建的复合因子RankIC 均值达到 4.8%，胜率 75.4%， RankICIR 达到 2.61。多空对冲组合年化 IR达到 2.36，且多头部分能够稳定地跑赢基准。"
+    },
+    {
+      "text": "复合因子在中证500成分股和沪深300成分股中分组单调性都较好，但其对冲组合及多头组合在中证500中的表现都更为优异。",
+      "evidence": "此外，复合因子在中证 500 成分股和沪深 300 成分股中分组单调性都较好，但其对冲组合及多头组合在中证 500 中的表现都更为优异。"
+    },
+    {
+      "text": "从北上资金持股及公募基金重仓股组合的风格因子暴露来看，机构资金更偏向于大市值、高动量、高估值的股票，且在基本面因子上的暴露程度普遍更高。",
+      "evidence": "从北上资金持股及公募基金重仓股组合的风格因子暴露来看，机构资金更偏向于大市值、高动量、高估值的股票，且其在基本面因子上的暴露程度普遍更高。"
+    },
+    {
+      "text": "MLEV因子并非是理想的Alpha因子，多头相较基准指数的年化超额收益仅为3%，多空对冲组合的净值也并不稳定。",
+      "evidence": "图13展示了MLEV因子样本内表现，可以看到其并非是理想的Alpha因子。多头相较基准指数的年化超额收益仅为 3%，多空对冲组合的净值也并不稳定。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "\"Buffett's Alpha\". Frazzini, A., Karbiller. D., and Pedersen. Lasse. H. 2013. NBER Working Paper.",
+    "\"Firm's Quality Increases and the Cross-Section of Stock Returns: Evidence From China.\" Yin. Libo and Liao Huiyi. 2019. International Review of Economics and Finance.",
+    "\"Quality Investing\". Novy Marx. R.(2014) Working Paper",
+    "\"Quality Minus Junk\" Asness, Cliff, S., Frazzini A. and Pdeersen. Lasse. H. 2019"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

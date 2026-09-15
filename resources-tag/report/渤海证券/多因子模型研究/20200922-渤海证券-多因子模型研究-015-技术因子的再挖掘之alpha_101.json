@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "id": "20200922-渤海证券-多因子模型研究-015-技术因子的再挖掘之alpha_101",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "intraday_pattern", "technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Alpha040",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1\\times rank(stddev(HIGH,10)))\\times correlation(HIGH,VOLUME,10)",
+          "stats": [0.09, null, 1.01, null],
+          "evidence": "公式的前半段为计算过去10 日股票最高价的波动率，后半段则是计算过去10日最高价和成交量的关系。这是一个监测股票过去 10 日内是否存在量价背离的因子。该因子无论正向，反向，历年均有较为优异的表现。"
+        },
+        {
+          "name": "Alpha088",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "min(rank(decay\\_linear((rank(open)+rank(low))-(rank(high)+rank(close)),8)),ts\\_rank(decay\\_linear(correlation(ts\\_rank(close,8),ts\\_rank(adv20,20),8),7),3))",
+          "stats": [0.06, null, 0.74, null],
+          "evidence": "这是一个监测股票过去10日内是否存在量价背离的因子。该因子在2020年之前均有较为显著的收益，2020区分度略有失效。"
+        },
+        {
+          "name": "Alpha042",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank((vwap-close))/rank((vwap+close))",
+          "stats": [0.07, null, 0.68, null],
+          "evidence": "定义中的 vwap 是使用成交量赋权的日内成交价格，在这里我们使用成交额/成交量来代替。这个因子衡量了日内密集成交价格和收盘价的关系，探测尾盘异动。该因子收益一直较为显著，特别是 2020 年之后，依然维持了一定的区分度。"
+        },
+        {
+          "name": "Alpha069",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank(ts\\_max(delta(indneutralize(vwap, indclass.industry),3),5))",
+          "stats": [0.05, null, 0.59, null],
+          "evidence": "这又是一个挖掘出的因子。该因子收益一直较为显著，2019年之后收益格外明显。"
+        },
+        {
+          "name": "Adj-Alpha025",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AdjustedAlpha025_i=-(Alpha025_i-Median(Alpha025))^2,\\; Alpha025=rank((((-1\\times returns)\\times adv20)\\times vwap)\\times(high-close))",
+          "stats": [0.09, null, 1.12, null],
+          "evidence": "除了以上几个表现较好的因子外，我们还观察到，有一些因子在回测时中间值表现明显好于两端，如 Alpha025因子："
+        },
+        {
+          "name": "Adj-Alpha047",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AdjustedAlpha047_i=-(Alpha047_i-Median(Alpha047))^2,\\; Alpha047=(((rank((1/close))\\times volume)/adv20)\\times((high\\times rank((high-close)))/(sum(high,5)/5))-rank((vwap-delay(vwap,5))))",
+          "stats": [0.08, null, 1.01, null],
+          "evidence": "经过调整后，很多因子的表现大大提升，甚至超过了大部分原始因子。"
+        },
+        {
+          "name": "Adj-Alpha008",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AdjustedAlpha008_i=-(Alpha008_i-Median(Alpha008))^2,\\; Alpha008=-1\\times rank((sum(open,5)\\times sum(returns,5))-delay((sum(open,5)\\times sum(returns,5)),10))",
+          "stats": [0.07, null, 0.92, null],
+          "evidence": "该因子用 5 天的开盘价乘以五天的涨跌幅，与 10 天前的该值求差值。当股票加速上涨时，回撤风险加大，因子值会越来越小。经处理后，该因子倾向于选择没有急涨或急跌的股票。"
+        },
+        {
+          "name": "Adj-Alpha011",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AdjustedAlpha011_i=-(Alpha011_i-Median(Alpha011))^2,\\; Alpha011=(rank(ts\\_max((vwap-close),3))+rank(ts\\_min((vwap-close),3)))\\times rank(delta(volume,3))",
+          "stats": [0.05, null, 0.82, null],
+          "evidence": "该因子同样专注于 vwap-close这一统计量，重点研究尾盘拉升或急跌的现象。只不过把时间维度拉长到了 3天。"
+        },
+        {
+          "name": "Adj-Alpha019",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AdjustedAlpha019_i=-(Alpha019_i-Median(Alpha019))^2,\\; Alpha019=-1\\times sign((close-delay(close,7))+delta(close,7))\\times(1+rank(1+sum(returns,250)))",
+          "stats": [null, null, null, null],
+          "evidence": "该因子刻画了股票7 日涨跌和过去一年涨跌幅的关系。"
+        },
+        {
+          "name": "Alpha077",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "min(rank(decay\\_linear(((high+low)/2)+high-(vwap+high),20)),rank(decay\\_linear(correlation((high+low)/2,adv40,3),5)))",
+          "stats": [0.02, null, 0.36, null],
+          "evidence": "该因子定义较为复杂，猜测由数据挖掘获得。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["cleaning", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "结合 World Quant 2015 年发表的论文 101Formulaic Alphas，对论文中提到 101 个技术面因子进行了初步回测与调整，最后筛选出 10 个备选因子，与现有的因子体系进行融合。",
+      "evidence": "本文中，我们结合 World Quant 2015 年发表的论文《101 Formulaic Alphas》，对论文中提到 101 个技术面因子进行了初步回测与调整。最后，我们筛选出 10个备选因子，与现有的因子体系进行融合。"
+    },
+    {
+      "text": "大部分的Alpha 101 统计上均较为显著；针对全体因子做了关于中位数的调整后，很多因子的表现大大提升，甚至超过了大部分原始因子。",
+      "evidence": "通过统计回测，我们发现，大部分的Alpha 101 统计上均较为显著。有一些因子在回测时中间值表现明显好于两端，鉴于出现此类现象的因子较多，我们针对全体因子做了关于中位数的调整，经过调整后，很多因子的表现大大提升，甚至超过了大部分原始因子。"
+    },
+    {
+      "text": "近几年技术面因子回撤较为明显，各类技术面因子都出现了不同程度的失效。",
+      "evidence": "近几年，随着模型的广泛使用，各因子的收益率均有所缩小。其中又以技术面因子回撤较为明显，各类技术面因子都出现了不同程度的失效。"
+    },
+    {
+      "text": "很多历史上表现非常好的因子在 2020 年却出现了明显的失效，仅有 Alpha040、Alpha042 和 Alpha069 表现尚可；筛选出两个过去表现一般，近期表现较为亮眼的因子，作为观察备选。",
+      "evidence": "在回测中，我们发现，很多历史上表现非常好的因子在 2020 年却出现了明显的失效，仅有 Alpha040、Alpha042 和 Alpha069 表现尚可。除此之外，我们还筛选出两个过去表现一般，近期表现较为亮眼的因子，作为观察备选。"
+    },
+    {
+      "text": "Alpha101因子与大多数主流因子，以及彼此之间，相关性均不显著，为未来将Alpha101因子引入多因子模型提供了基础。",
+      "evidence": "我们又计算了筛选出的Alpha101 因子与主流因子的相关性，可以看出，Alpha101因子与大多数主流因子，以及彼此之间，相关性均不显著。这种特点为未来将Alpha101因子引入多因子模型提供了基础。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kakushadze, Z. (2015). \"101 Formulaic Alphas.\" World Quant.",
+    "《Barra 风险模型（CNE6）之单因子检验——多因子研究系列之八》（20190620）",
+    "《Barra 风险模型（CNE6）之纯因子构建与因子合成——多因子模型研究系列之九》（20190620）",
+    "《使用多因子框架的沪深300指数增强模型——多因子研究系列之七》（20190329）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "schema_version": 2,
+  "id": "20240703-海通证券-选股因子-098-不同市场环境下的因子表现与配置分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "expectation_revision",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "小市值",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{市值取反向得分，市值越小得分越高，不做中性化处理}",
+          "stats": [0.073, null, null, null],
+          "evidence": "同时，在这种情景下，风格因子的收益也相对较高，小市值因子月均 IC为 7.3%，低估值因子月均 IC为 4.8%，均统计显著。"
+        },
+        {
+          "name": "低估值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{估值取反向得分，估值越低得分越高，不做中性化处理}",
+          "stats": [0.048, null, null, null],
+          "evidence": "同时，在这种情景下，风格因子的收益也相对较高，小市值因子月均 IC为 7.3%，低估值因子月均 IC为 4.8%，均统计显著。"
+        },
+        {
+          "name": "股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的股息率因子}",
+          "stats": [0.022, null, null, null],
+          "evidence": "在选股池中，根据股息率、现金流、预期净利润调整、低换手率 4 个因子等权打分，选择复合得分最高的 50 只股票构建股息率加权组合即为红利组合。"
+        },
+        {
+          "name": "流动性",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的流动性因子}",
+          "stats": [0.028, null, null, null],
+          "evidence": "注：本文的因子除小市值、低估值外，其余因子均对市值、估值以及行业进行了正交中性化处理。"
+        },
+        {
+          "name": "反转",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的价格反转因子}",
+          "stats": [0.045, null, null, null],
+          "evidence": "情景得分越低，基本面因子的收益贡献越弱，而价量反转类的因子如换手率、波动率、反转，以及防御特征的组合如红利组合，优势越明显。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的换手率因子}",
+          "stats": [0.062, null, null, null],
+          "evidence": "若经济增长指标下行，同时中美利差减小，则动量延续性弱，基本面因子、预期因子以及动量因子表现普遍较差，月均 IC 不超过 1.5%。此时，价量反转类因子优势明显，月胜率都不低于 80%，IC 均值也都在 4.5%以上。"
+        },
+        {
+          "name": "波动率",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的波动率因子}",
+          "stats": [0.058, null, null, null],
+          "evidence": "情景复合得分越低，偏反转类型的因子，如换手率、波动率、反转因子、PB 等，收益较高，这也体现出防御性较强的股票可能优势更为明显。"
+        },
+        {
+          "name": "动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的价格动量因子}",
+          "stats": [0.021, null, null, null],
+          "evidence": "中美利差增加，中国国债收益率相对提升，我国经济预期较优，基本面优异的公司与预期相对更为匹配，此时整体动量延续性较强，无论是基本面动量、还是价格动量，都具有较优的选股收益表现，稳定性高。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的ROE盈利因子}",
+          "stats": [0.094, null, null, null],
+          "evidence": "截至 4月底，2024 年 ROE 因子月均 IC 高达 9.4%，月胜率 100%，与前 3年月均IC 不足 2%的表现形成强烈对比。"
+        },
+        {
+          "name": "ROE_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的ROE同比改善因子}",
+          "stats": [0.025, null, null, null],
+          "evidence": "整体来看，基本面类的因子，包括 ROE、ROE_YOY、SUE、预期净利润调整等，在利率上行后一月，表现明显优于其在利率下行后一个月的表现。而价量反转类因子，在利率下行阶段相对于基本面因子的优势更明显。"
+        },
+        {
+          "name": "SUE",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的标准化盈余惊喜因子}",
+          "stats": [0.034, null, null, null],
+          "evidence": "整体来看，基本面类的因子，包括 ROE、ROE_YOY、SUE、预期净利润调整等，在利率上行后一月，表现明显优于其在利率下行后一个月的表现。而价量反转类因子，在利率下行阶段相对于基本面因子的优势更明显。"
+        },
+        {
+          "name": "预期净利润调整",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的分析师预期净利润修正因子}",
+          "stats": [0.025, null, null, null],
+          "evidence": "整体来看，基本面类的因子，包括 ROE、ROE_YOY、SUE、预期净利润调整等，在利率上行后一月，表现明显优于其在利率下行后一个月的表现。而价量反转类因子，在利率下行阶段相对于基本面因子的优势更明显。"
+        },
+        {
+          "name": "预期EP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的分析师预期EP因子}",
+          "stats": [0.019, null, null, null],
+          "evidence": "情景得分越高，偏动量类型的因子，包括价格动量、基本面动量、预期因子等，IC 表现越优（图 8）。"
+        },
+        {
+          "name": "目标收益",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的分析师目标收益因子}",
+          "stats": [0.031, null, null, null],
+          "evidence": "在经济增长指标上行，同时中美利差增加的 39 个月度，偏动量类型的因子，例如基本面动量、预期因子、价格动量因子，表现优异，大部分因子月均 IC都超过 5%，月胜率在 75%以上。"
+        },
+        {
+          "name": "分析师关注度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对市值、估值及行业正交中性化后的分析师覆盖关注度因子}",
+          "stats": [0.028, null, null, null],
+          "evidence": "而若基本面改善，则财报披露后的 2-3 个月，基本面因子、分析师关注度因子的表现都很突出，优于价量反转类因子，IC 均值、以及稳定性都明显占优。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "2024年ROE因子月均IC高达9.4%，月胜率100%，与前3年月均IC不足2%的表现形成强烈对比。",
+      "evidence": "截至 4月底，2024 年 ROE 因子月均 IC 高达 9.4%，月胜率 100%，与前 3年月均IC 不足 2%的表现形成强烈对比。"
+    },
+    {
+      "text": "PMI上行时价格动量、基本面动量及分析师相关情绪类因子表现突出；PMI下行时价量反转类因子优势明显，基本面因子IC表现相对较弱。",
+      "evidence": "整体来看，基本面因子受 PMI 影响较大，而价量反转类因子受 PMI 影响相对较小。PMI 上行，价格动量、基本面动量、以及分析师相关情绪类因子表现突出，明显优于其在 PMI 下行阶段的表现。且其稳定性优于价量类因子，月胜率普遍高于价量类反转因子。而 PMI 下行时，价量反转类因子优势明显，基本面因子的 IC表现相对较弱。"
+    },
+    {
+      "text": "中美利差增加时整体动量延续性较强，基本面动量与价格动量都有较优的选股收益表现；中美利差缩小时反转效应相对较强，价量反转类因子表现突出，而基本面因子收益相对较低。",
+      "evidence": "中美利差增加，中国国债收益率相对提升，我国经济预期较优，基本面优异的公司与预期相对更为匹配，此时整体动量延续性较强，无论是基本面动量、还是价格动量，都具有较优的选股收益表现，稳定性高。中美利差缩小，中国国债收益率相对降低，此时反转效应相对较强，价量反转类因子表现突出，而基本面因子收益相对较低。"
+    },
+    {
+      "text": "小盘价值环境下价量反转类因子表现突出，而大盘成长风格下基本面因子稳定性高。",
+      "evidence": "综合起来，小盘价值环境下，价量反转类因子表现突出；而大盘成长风格下，基本面因子稳定性高。"
+    },
+    {
+      "text": "情景得分为0、外生环境不利于基本面因子时，降低基本面类因子权重可将多因子模型月均IC由7.1%提升至7.9%，同时ICIR也有所改善。",
+      "evidence": "而外生变量不利于基本面因子，即情景得分=0 时，降低基本面类因子权重（IC加权权重*50%）可将多因子模型月均 IC由 7.1%提升至 7.9%，同时 ICIR 也有所改善。"
+    },
+    {
+      "text": "复合情景得分为0时，沪深300指数增强若将市值暴露放开为0.5，组合年化超额可由3.2%提升至7.5%，信息比由1.54提升至2.52。",
+      "evidence": "对于沪深 300 指数增强，在复合情景得分为 0 时，若将市值暴露放开为 0.5，则组合年化超额可由 3.2%提升至 7.5%，同时信息比由 1.54 提升至 2.52，业绩表现改善明显。"
+    },
+    {
+      "text": "中证500指数增强在复合情景得分为0时若将市值敞口放开为0.5，组合年化超额由4.6%提升至13.3%，信息比由0.84提升至3.55。",
+      "evidence": "中证500指数增强也呈现类似特征，复合情景得分为0时，若将市值敞口放开为0.5，则组合年化超额由 4.6%提升至 13.3%，同时信息比由 0.84 提升至 3.55，业绩表现改善明显。"
+    },
+    {
+      "text": "情景得分越高偏动量型的重仓股组合表现越优，情景得分越低偏防御型的红利组合超额收益越明显。",
+      "evidence": "表 13 展示了在不同情景复合得分下，红利组合与重仓股组合相对于 wind全 A指数的超额收益表现。可见，情景得分越高，偏动量型的重仓股组合表现越优；而情景得分越低，偏防御型的红利组合超额收益越明显。"
+    },
+    {
+      "text": "根据情景配臵的复合组合相比单一策略净值走势更为平稳，收益由等权配臵的17.6%增加至23.4%，信息比提升至1以上，绝大部分年份（10/12）均优于等权配臵组合。",
+      "evidence": "根据情景配臵的复合组合，一方面相比单一策略净值走势更为平稳（图 11），另一方面收益也有所提升，由等权配臵的 17.6%增加至 23.4%，信息比提升至 1 以上。分年度来看，根据情景配臵的复合组合，绝大部分年份（10/12）均优于等权配臵组合。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《低利率视角下的风格资产复盘》2024.06.12",
+    "《基于逐笔成交数据跟踪小微盘股的订单流向》2024.06.10",
+    "《选股因子系列研究（九十七）——使用图神经网络融合量价信息与基本面信息》2024.05.13"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

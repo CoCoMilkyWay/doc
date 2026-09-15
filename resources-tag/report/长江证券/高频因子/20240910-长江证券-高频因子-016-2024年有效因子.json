@@ -1,0 +1,258 @@
+{
+  "schema_version": 2,
+  "id": "20240910-长江证券-高频因子-016-2024年有效因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "特异率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "1-R^{2}_{FF3}",
+          "stats": [0.0724, null, 0.7274, null],
+          "evidence": "一减Fama-French三因子模型回归拟合优度"
+        },
+        {
+          "name": "残差波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma(\\varepsilon_{FF3})",
+          "stats": [0.1072, null, 0.797, null],
+          "evidence": "残差波动率：Fama-French模型残差的标准差，波动是成交异常的一种衡量，波动越大局部成交越活跃，容易形成错误定价。"
+        },
+        {
+          "name": "换手率波动率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{std}(turn)",
+          "stats": [0.1013, null, 0.6528, null],
+          "evidence": "换手率波动率：换手率标准差，成交过程的稳定性。"
+        },
+        {
+          "name": "换手率变异系数",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{std}(turn)}{\\overline{turn}}",
+          "stats": [0.074, null, 0.8631, null],
+          "evidence": "| 换手率变异系数 | 换手率（标准差/平均值） | 1 |"
+        },
+        {
+          "name": "残差峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{kurt}(\\varepsilon_{FF3})",
+          "stats": [0.0591, null, 0.7728, null],
+          "evidence": "Fama-French三因子模型回归残差峰度"
+        },
+        {
+          "name": "每笔成交",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{总成交量}}{\\text{成交笔数}}",
+          "stats": [0.0669, null, 0.4705, null],
+          "evidence": "单位笔数下的成交越多，挂单效率越高，卖方交易意愿越强"
+        },
+        {
+          "name": "高量成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以5分钟成交量为划分，筛选后20\\%的数据计算每笔成交额，除以全时间段每笔成交额}",
+          "stats": [0.1122, null, 0.9528, null],
+          "evidence": "以5分钟成交量为划分，筛选后20%的数据计算每笔成交额，除以全时间段每笔成交额"
+        },
+        {
+          "name": "低量成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以5分钟成交量为划分，筛选后20\\%的数据计算每笔成交额，除以全时间段每笔成交额}",
+          "stats": [0.089, null, 0.6223, null],
+          "evidence": "以5分钟成交量为划分，筛选后20%的数据计算每笔成交额，除以全时间段每笔成交额"
+        },
+        {
+          "name": "量价相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{corr}(\\text{成交量},\\ \\text{收盘价})",
+          "stats": [0.0617, null, 0.6939, null],
+          "evidence": "量价相关性：corr（成交量，收盘价），量价的趋同程度高（即价格高时成交量高，价格低时成交量低），说明在价格较高时成交更多，股票交易行为中存在着羊群效应。"
+        },
+        {
+          "name": "加权偏度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{skew}\\left(\\frac{\\sum_{t} vol_{t}\\, close_{t}}{VOL}\\right)",
+          "stats": [0.0588, null, 0.8848, null],
+          "evidence": "每笔成交量价相关性高量每笔成交加权偏度高价成交占比"
+        },
+        {
+          "name": "时量价比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t=1}^{T} close_{t}/T}{\\sum_{t=1}^{T}\\frac{vol_{t}}{VOL}close_{t}}",
+          "stats": [0.0896, null, 0.8867, null],
+          "evidence": "加权收盘价因子相当于将成交量和收盘价做权重化处理后，以排序不等式的角度刻画成交体系的“混乱”程度。"
+        },
+        {
+          "name": "高量交易成本",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最高20\\%价格区间成交量}}{\\text{全区间成交量}}",
+          "stats": [0.0703, null, 1.002, null],
+          "evidence": "| 高量交易成本 | 最高20%价格区间成交量/全区间成交量 | -1 |"
+        },
+        {
+          "name": "高价成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最高20\\%成交区间成交均价}}{\\text{全区间成交均价}}",
+          "stats": [0.0522, null, 0.6532, null],
+          "evidence": "| 高价成交占比 | 最高20%成交区间成交均价/全区间成交均价 | -1 |"
+        },
+        {
+          "name": "成交占比熵",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "H(p_{1},p_{2},\\ldots,p_{n})=-\\sum_{i=1}^{N}p_{i}\\ln(p_{i}),\\ p_{i}=\\frac{amount_{i}}{AMOUNT}",
+          "stats": [0.079, null, 0.8766, null],
+          "evidence": "而在衡量体系混乱程度时，信息熵的定义也可以参考："
+        },
+        {
+          "name": "波峰",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以日内1分钟成交量K线数据均值+1倍标准差筛选峰值，再筛选局部峰值，取局部峰值K线数量的20日均值}",
+          "stats": [0.1088, null, 1.1939, null],
+          "evidence": "波峰：日内个股成交显著活跃的次数，属流动性类别"
+        },
+        {
+          "name": "非流动性",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{收益率轨迹路径}}{\\text{总成交额}}",
+          "stats": [0.0878, null, 0.7306, null],
+          "evidence": "Amihud非流动性：收益率绝对值/成交额，衡量单位资金对价格变动的冲击。"
+        },
+        {
+          "name": "短期动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以5分钟成交量/成交笔数为划分，筛选前20\\%的数据的对数收益率求和}",
+          "stats": [0.0286, null, 0.5443, null],
+          "evidence": "短期动量：以每笔成交量最低的的数据做对数收益率求和。"
+        },
+        {
+          "name": "短期反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以5分钟成交量/成交笔数为划分，筛选后20\\%的数据的对数收益率求和}",
+          "stats": [0.083, null, 0.926, null],
+          "evidence": "短期反转：以每笔成交量最高的的数据做对数收益率求和。"
+        },
+        {
+          "name": "每笔成交收益Beta",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "r_{t}=\\alpha+\\beta\\cdot\\text{每笔成交额}_{t}+\\varepsilon_{t}",
+          "stats": [0.0664, null, 0.7245, null],
+          "evidence": "以每笔成交额为自变量，和收益率回归，得到的斜率项"
+        },
+        {
+          "name": "收益偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{skew}(r)",
+          "stats": [0.06, null, 0.7386, null],
+          "evidence": "残差波动率高量交易成本每笔成交收益Beta高价成交占比收益偏度"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "分组回测以平均收益为对比标准，受市场风格影响较大，无法衡量在实际投资中的超额收益能力；以单因子在风险控制下构建的增强类策略，可以更好的评价因子表现。",
+      "evidence": "分组回测实际以平均收益为对比标准，但受市场风格影响较大，无法衡量在实际投资中的超额收益能力。而以单因子在风险控制下构建的增强类策略，可以更好的评价因子表现。"
+    },
+    {
+      "text": "2024年因子表现有较大变化：中证1000和中证全指的因子整体表现有所下降，沪深300的因子表现有所上升。",
+      "evidence": "中证1000和中证全指的因子整体表现有所下降，沪深300的因子表现有所上升。"
+    },
+    {
+      "text": "一些历史上有超额收益的因子在2024年收益有较大衰减；但在各个收益来源下（局部定价除外）也存在长期有效的因子。",
+      "evidence": "一些历史上有超额收益的因子在2024年收益有较大衰减；但在各个收益来源下（局部定价除外）也存在长期有效的因子。"
+    },
+    {
+      "text": "2024年各板块均有效因子：波峰属流动性类别、换手率波动率属波动类别、成交额占比熵属交易拥挤度类别、高量成交占比属空头意愿类别。",
+      "evidence": "2024年各个板块中均有效的因子有：波峰：日内个股成交显著活跃的次数，属流动性类别；换手率波动率：成交过程稳定性，属波动类别；"
+    },
+    {
+      "text": "2017年以来全市场单因子分组回测中，高量每笔成交IC为11.22%、ICIR为95.28%、超额收益9.79%、信息比1.37，居20个因子首位。",
+      "evidence": "| 高量每笔成交 | 11.22% | 95.28% | 9.79% | -8.65% | 1.37 | 68.24% | 3.08 |"
+    },
+    {
+      "text": "近一年沪深300单因子增强中，每笔成交超额收益12.10%、超额最大回撤-1.65%、信息比3.93、月度胜率87.50%。",
+      "evidence": "| 每笔成交 | 12.10% | -1.65% | 4.99% | 3.93 | 87.50% | 12.43 |"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Amihud非流动性指标", "Barra模型（CNE6）", "Fama-French三因子模型"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

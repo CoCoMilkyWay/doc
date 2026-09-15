@@ -1,0 +1,96 @@
+{
+  "schema_version": 2,
+  "id": "20190601-长江证券-高频因子-002-结构化反转因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "基础反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Rev}=\\log\\frac{\\mathrm{Close}_{t}}{\\mathrm{Close}_{t-21}}=\\sum_{i=1}^{21}\\log\\frac{\\mathrm{Close}_{t-i+1}}{\\mathrm{Close}_{t-i}}",
+          "stats": [-0.0731, null, -0.4747, 0.2377],
+          "evidence": "目前反转效应在中期维度更为明显，故本文以个股过去 21 天收益率作为基础反转因子，首先给出因子在全市场和中证 800 范围内分组回测的表现。"
+        },
+        {
+          "name": "高频反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Rev}_{vol}=\\sum_{i=1}^{period}w_i\\log\\frac{Class_{t-i+1}}{close_{t-i}},\\;w_i\\propto volume_i",
+          "stats": [-0.0922, null, 1.01, 0.2898],
+          "evidence": "本文基于反转效应在交易行为上的体现，即成交越活跃价格容易反转，给出按成交量加权的高频反转因子构建方式，如下式："
+        },
+        {
+          "name": "结构化反转因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Rev}_{struct}=\\mathrm{Rev}_{rev}-\\mathrm{Ret}_{mom},\\;\\mathrm{Rev}_{rev}=\\sum_{i=1}^{period_{rev}}w_i\\log\\frac{Close_{t-i+1}}{Close_{t-i}},\\;w_i\\propto volume_i,\\;\\mathrm{Rev}_{mom}=\\sum_{i=1}^{period_{mom}}w_i\\log\\frac{Class_{t-i+1}}{Class_{t-i}},\\;w_i\\propto\\frac{1}{volume_i}",
+          "stats": [-0.09, null, 1, 0.2994],
+          "evidence": "交易层面的反转效应会和成交活跃程度相关，成交量越低反转效应越弱，且到达一定阈值后转变为动量效应。基于此特性，给出了结构化反转因子的构建："
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi800"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "以21天收益率构建的基础反转因子有一定选股能力，年化超额收益1.10%、信息比0.16，但波动较大，回撤年份多，且分组线性性不佳。",
+      "evidence": "以 21 天收益率构建的基础反转因子是目前最常用的反转因子，可以获得年化1.10%的超额收益率和 0.16 的信息比，有一定的选股能力，但波动较大，回撤年份多，且分组线性性不佳。"
+    },
+    {
+      "text": "以成交量加权合成的高频反转因子显著提升了基础反转因子的选股能力，平均IC为-0.09，IC_IR为1.01，年化超额收益5.98%、信息比0.98，收益能力和稳定性均显著提高。",
+      "evidence": "以成交量加权合成的高频反转因子显著提升了基础反转因子的选股能力。其平均 IC 为-0.09，IC_IR 为 1.01，可以获得年化 5.98%的超额收益和 0.98 的信息比，因子的收益能力和稳定性均有显著提高。"
+    },
+    {
+      "text": "同时考虑动量效应和反转效应的结构化反转因子进一步提升选股能力，平均IC为-0.09，IC_IR为1.00，年化超额收益7.21%、信息比1.31，且净值分布严格以因子分组结果呈线性排列。",
+      "evidence": "在以高频数据构建结构化反转因子时，同时考虑了个股的动量效应和反转效应，进一步提升了基础反转因子的选股能力。其平均 IC 为-0.09，IC_IR 为 1.00，可以获得年化 7.21%的超额收益和 1.31 的信息比，因子的收益能力和稳定性均有显著提高，且净值分布严格以因子分组结果呈线性排列。"
+    },
+    {
+      "text": "剥离流动性和波动率因子的线性影响后，基础反转因子年化超额收益为-0.19%、信息比0.00，高频反转因子年化超额收益2.84%、信息比0.46，结构化反转因子年化超额收益3.65%、信息比0.64。",
+      "evidence": "在剥离了流动性和波动率因子的线性影响后，年化超额收益为-0.19%，信息比为0.00。"
+    },
+    {
+      "text": "个股动量效应与反转效应的临界点与市值相关：市值较大的个股多空博弈的程度较小，投资者更倾向于基本面定价，动量效应阈值较低。",
+      "evidence": "个股动量效应与反转效应的核心在于哪些变量会影响个股交易时多空双方博弈的激烈程度，市值较大的个股多空博弈的程度较小，投资者更倾向于基本面定价，动量效应阈值较低。"
+    },
+    {
+      "text": "反转类因子的收益能力和市场波动相关，在市场波动较大时反转类因子的收益能力增强，以市场波动率对反转类因子收益回归，高频反转因子和结构化反转因子的拟合优度高达65%和70%。",
+      "evidence": "为得到更偏统计的结果，在图 19 中我们以市场波动率为自变量，以反转类因子收益为因变量，给出线性回归结果，其中高频反转因子和结构化反转因子的拟合优度高达 65%和 70%。"
+    },
+    {
+      "text": "高频反转因子的半衰期显著高于基础反转因子，但基础反转因子的IC序列不稳定。",
+      "evidence": "高频反转因子（三个频率）的测算的半衰期显著高于基础反转因子，但从散点图的分布上可以看出，基础反转因子的 IC 序列不稳定。"
+    },
+    {
+      "text": "结构化反转因子在全A股范围内中性前后均优于高频反转因子，但在中证800范围内结果相反。",
+      "evidence": "结构化反转因子相比于高频反转因子，在全 A 股范围内，相对换手率因子和波动率因子中性前后，均有更好表现，但在中证 800范围内结果相反。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

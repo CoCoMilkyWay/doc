@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20190410-财通证券-星火多因子-004-基于持仓的基金业绩归因_始于brinson_归于barra",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L6_evaluation",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity", "other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["holding_based", "factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "2018.12.28-2019.1.31期间组合A相对基准超额收益-3.17%，其中行业配置-1.27%、选股-1.90%；组合B超额收益0.6%，其中0.08%来自行业配置、0.52%来自选股。",
+      "evidence": "在 2018.12.28-2019.1.31 期间，组合 A相对于基准组合的超额收益为-3.17%，其中在行业配置方面的超额收益为-1.27%，在选股方面的超额收益为-1.90%。组合 B相对于基准组合的超额收益为 0.6%，其中 0.08%的超额收益来自于行业配置效应，0.52%的超额收益来自于选股效应。"
+    },
+    {
+      "text": "仅含行业因子分解中组合A配置/选股收益为-1.27%/-1.90%，加入风格因子后变为-2.66%/-0.52%，说明组合A存在明显风格错配；组合B加入风格因子后配置/选股收益变为1.17%/-0.57%，其风格配置较为成功。",
+      "evidence": "在仅包含行业因子的分解中，组合 A 的配置收益和选股收益分别为-1.27%和-1.90%，在加入风格因子后，组合 A的配置收益和选股收益达到-2.66%和-0.52%，也就是说组合 A存在明显的风格错配。在仅包含行业因子的分解中，组合 B的配置收益和选股收益分别为 0.08%和 0.52%，在加入风格因子后，其配置收益和选股收益变为 1.17%和-0.57%，也就是说组合 B在风格配置上的操作较为成功。"
+    },
+    {
+      "text": "基于行业的多因子模型与自下而上的Brinson模型推导完全一致：截距项因子收益对应市场基准收益，行业因子收益对应行业相对基准的超额收益，特质收益对应个股相对其所属行业的超额收益。",
+      "evidence": "由此，基于行业的多因子模型与自下而上的 Brinson模型推导完全一致，其中截距项因子收益对应市场基准收益，行业因子收益对应基准中行业相对基准的超额收益，特质收益对应基准中个股相对其所属行业的超额收益。"
+    },
+    {
+      "text": "x-sigma-rho三要素分解将每个因子的风险贡献拆解到因子暴露、因子波动和因子-组合相关性三部分，比传统方法更贴合投资者实际操作，为风险控制提供更直观深入的参考。",
+      "evidence": "本文介绍的 x-sigma-rho波动三要素方法将每个因子的风险贡献分解到因子暴露（x）、因子波动（sigma）和组合-因子相关性（rho）三个部分，这种对于风险的进一步拆解更加贴合投资者的实际操作，能够为投资者的风险控制提供更为直观、深入的参考。"
+    },
+    {
+      "text": "组合A的边际风险分解与三要素分解得到的因子风险贡献高度相似，二者相关系数达到95%。",
+      "evidence": "图 15 对组合 A的风险进行分解，并比对了基于边际风险分解法计算得到的因子风险贡献（对应表 10 中的 CR 列）与基于三要素分解法计算得到的因子风险贡献（对应表 10 中的 RC 列）之间的区别，可以看到二者之间是非常相似的，其相关系数达到 95%。"
+    },
+    {
+      "text": "风险归因中基准指数风格暴露不为0，是因为协方差矩阵是基于全市场回归计算得到而非基于基准指数样本股回归：一是组合可能含基准外股票，二是每换一个基准重新估计的时间与维护成本过大。",
+      "evidence": "主要的原因在于，我们在进行风险归因的时候，采用的协方差矩阵是基于全市场回归计算得到的协方差矩阵，而非基于基准指数样本股回归得到的协方差矩阵。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ben Davis and Jose Menchero. \"Beyond Brinson: Establishing the Link Between Sector and Factor Models\". MSCI Barra Research. 2010",
+    "Ben Davis and Jose Menchero. \"Risk Contribution is Exposure times Volatility times Correlation\". MSCI Barra Research. 2010",
+    "Brinson G, Fachler N. \"Measuring non-US equity portfolio performance\". Journal of Portfolio Management, 1985",
+    "Brinson G., Hood R. and Beebower G. \"Determinants of portfolio performance\". Financial Analyst Journal, 1986",
+    "“拾穗”多因子系列（一）：《带约束的加权最小二乘：一种解析解法》",
+    "“拾穗”多因子系列（七）：《从纯因子组合的角度看待因子多重共线性》",
+    "“拾穗”多因子系列（三）：《行业因子选取：中信一级还是申万一级？》",
+    "“星火”多因子系列（一）：《Barra模型初探：A股市场风格解析》",
+    "“星火”多因子系列（三）：《Barra模型深化：纯因子组合构建》",
+    "“星火”多因子系列（二）：《Barra模型进阶：多因子风险预测》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

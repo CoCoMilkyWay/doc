@@ -1,0 +1,96 @@
+{
+  "schema_version": 2,
+  "id": "20251130-长江证券-神经网络因子挖掘-006-筹码分布因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["distribution_moment", "order_flow", "intraday_pattern", "representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "ChipDistDL",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以过去20日Level1快照构建60×6维筹码矩阵（成交价、成交量占比、成交笔数占比、快照数量占比、每笔成交量占比、每快照成交量占比），经截面Zscore标准化后输入自注意力神经网络，预测T+1至T+11日收益率}",
+          "stats": [null, 0.0771, null, null],
+          "evidence": "首先考虑使用神经网络直接学习筹码矩阵来预测股票未来收益率，实验参数如下："
+        },
+        {
+          "name": "ChipDist75feat",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "daily"],
+          "horizon": "weekly",
+          "formula": "Mean=\\sum Price_i Ratio_i,\\ Std=\\sqrt{\\sum(Price_i-Mean)^2 Ratio_i},\\ Skew=\\sum\\frac{(Price_i-Mean)^3}{Std}Ratio_i,\\ Kurt=\\sum\\frac{(Price_i-Mean)^4}{Std}Ratio_i-3,\\ Entropy=\\sum\\log\\frac{1}{Ratio_i}Ratio_i;\\ \\text{在盈利/亏损筹码分域下重复计算并输入TCN模型预测未来收益率}",
+          "stats": [null, 0.0905, null, null],
+          "evidence": "我们将以每种筹码分布特征为原始特征，加工出以下 5 个衍生代理变量——筹码均值、筹码标准差、筹码峰度、筹码偏度和筹码熵。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "直接用原始Transformer学习筹码矩阵效果有限，因子在Barra风格因子中暴露出较高的小市值、低波动等风格敞口，难以作为纯粹的Alpha因子融入现有框架",
+      "evidence": "因子在Barra 风格因子中暴露出较高的小市值、低波动等风格敞口，难以作为纯粹的 Alpha 因子融入现有框架，说明直接处理原始矩阵存在信息提取效率低的问题。"
+    },
+    {
+      "text": "构造75个有逻辑的筹码衍生特征并用TCN学习后，RankIC从7.71%提升至9.05%，多头超额从16.62%提升至21.76%，沪深300内超额从6.78%提升至17.42%",
+      "evidence": "使用TCN模型对这些特征进行学习后，因子在 2019 年以来 RankIC从 7.71%提升至 9.05%，多头超额收益从 16.62%提升至 21.76%，在各指数内选股能力显著增强，尤其在沪深 300 中超额收益从 6.78%提升至 17.42%。"
+    },
+    {
+      "text": "带有条件的分盈亏域特征能提供较高信息增量，在特征工程上构造更多富含逻辑的特征可带来信息增量",
+      "evidence": "我们在反复测试过程中发现，这种带有条件的分域特征能够提供较高的信息增量，也就是说即使神经网络有较强的非线性学习能力，但是如果在特征工程上构造更多富含逻辑的特征，是有可能带来更多信息增量的。"
+    },
+    {
+      "text": "资金流模型采用GRU作为位置编码器，结合Transformer自注意力结构，捕捉资金流数据中的时序依赖与截面关系，提升了资金流因子的预测能力",
+      "evidence": "资金流模型优化：采用 GRU 作为位置编码器，结合 Transformer 自注意力结构，捕捉资金流数据中的时序依赖与截面关系，提升了资金流因子的预测能力。"
+    },
+    {
+      "text": "合成因子样本外回测在中证全指内平均超额达32.13%，在小市值指数中表现尤为突出",
+      "evidence": "2019 年至 2025 年 11月 5 日样本外回测以来，因子在中证全指内平均超额达 32.13%，在小市值指数中表现尤为突出。"
+    },
+    {
+      "text": "基于合成因子构建的指数增强组合均实现显著超额收益，其中国证2000增强组合年化超额达28.42%，夏普比率提升至1.21",
+      "evidence": "基于合成因子构建了沪深 300、中证 500、中证1000 和国证2000 的指数增强组合，在相对严格控制风格暴露与换手率的条件下，各组合均实现显著超额收益，其中国证 2000 增强组合在 2019 年至 2025 年 11 月 5 日期间年化超额达 28.42%，夏普比率提升至 1.21，验证了模型在实际组合中的有效性与稳定性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《神经网络因子挖掘（三）——开盘集合竞价因子》",
+    "《筹码分布中的Alpha：交易行为的非对称性选股》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

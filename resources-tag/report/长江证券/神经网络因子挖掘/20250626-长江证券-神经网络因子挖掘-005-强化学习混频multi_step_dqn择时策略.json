@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "id": "20250626-长江证券-神经网络因子挖掘-005-强化学习混频multi_step_dqn择时策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L8_timing": {"module": ["L8_timing"], "approach": ["ml_timing"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "多空策略年化收益高达64.9%（经多步DQN优化后提升至79.4%），空头策略风险控制优异（最大回撤仅-14.33%）",
+      "evidence": "构建的策略显著超越基准：多空策略年化收益高达 64.9%（经多步 DQN优化后提升至 79.4%），空头策略风险控制优异（最大回撤仅-14.33%，优化后夏普/卡玛比领先）。"
+    },
+    {
+      "text": "从胜率角度看做空信号胜率较高，做多信号在触发次数比例超过一半的情况下，收益率大于零的概率达到55.18%",
+      "evidence": "从胜率的角度看，做空信号胜率较高，做多信号在触发次数比例超过一半的情况下，收益率大于零的概率达到 55.18%，空仓信号也有一定的做空价值。"
+    },
+    {
+      "text": "采用3步TD目标，在折扣因子0.5的条件下有偏估计的折扣系数为0.125，偏差减小至原来的1/4，做多做空信号比例更加均衡且指标提升",
+      "evidence": "我们采用 3 步 TD 目标，在折扣因子为 0.5 的条件下，3 步 TD 目标中有偏估计的折扣系数为 0.125，偏差减小至原来的 1/4。"
+    },
+    {
+      "text": "Multi-Step DQN后信号质量（做多做空更均衡，指标提升）和策略表现（各策略年化收益进一步提高，风险控制指标如夏普、卡玛比率也改善）都得到显著优化",
+      "evidence": "采用考虑未来多步奖励的改进版 DQN（Multi-StepDQN）后，信号质量（做多做空更均衡，指标提升）和策略表现（各策略年化收益进一步提高，风险控制指标如夏普、卡玛比率也改善）都得到了显著优化。"
+    },
+    {
+      "text": "改变随机种子的多次训练结果有不小的差异，最终采用训练50次取平均的方式缓解训练结果的不稳定性",
+      "evidence": "在尝试的过程中，我们发现改变随机种子的多次训练，结果有不小的差异，因此最终采用了训练 50 次取平均的方式，缓解了训练结果的不稳定性。"
+    },
+    {
+      "text": "将折扣因子从0.5改变至0.9，效果就可能从有效变成失效，说明模型训练对超参数较为敏感",
+      "evidence": "但是在本文强化学习模型的尝试过程中，我们发现将折扣因子从 0.5 改变至 0.9，效果就可能从有效变成失效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alameer A, Saleh H, Alshehri K. Reinforcement learning in quantitative trading: A survey[J]. Authorea Preprints, 2022.",
+    "Pippas N, Ludvig E, Turkay C. The Evolution of Reinforcement Learning in Quantitative Finance: A Survey[J]. ACM Computing Surveys, 2025.",
+    "van Seijen H. Effective multi-step temporal-difference learning for non-linear function approximation[J]. arXiv preprint arXiv:1608.05151, 2016.",
+    "《深度强化学习》王树森 黎彧君 张志华著，2022"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

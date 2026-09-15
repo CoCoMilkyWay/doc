@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "id": "20200304-财通证券-星火多因子-011-在下跌中寻找惊喜_业绩超预期与反转因子的融合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_market"],
+      "approach": ["earnings_surprise", "momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SUE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUE_{i,t}=\\frac{Q_{i,t}-E(Q_{i,t})}{\\sigma_{i,t}}",
+          "stats": [null, 0.046, null, 0.2055],
+          "evidence": "本文参考 Jegadeesh 和 Livnat（2006），采用标准化预期外盈利（StandardizedUnexcepted Earnings, SUE）因子作为公司业绩超预期程度的代理变量。"
+        },
+        {
+          "name": "SUR",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUR_{i,t}=\\frac{REV_{i,t}-E(REV_{i,t})}{\\xi_{i,t}}",
+          "stats": [null, null, null, null],
+          "evidence": "SUR 的计算方式与 SUE的计算完全一致，所不同的是 SUR 的计算不再以公司的净利润为基础数据，而是以其营业收入进行衡量"
+        },
+        {
+          "name": "Ret",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股过去一段时间的区间收益（反转因子），构造时对市值进行正交化}",
+          "stats": [null, null, null, null],
+          "evidence": "另一方面，我们知道 A 股市场上也存在着较为稳健的反转效应：前期涨幅较高的股票在未来将会出现明显的回调，而前期超跌的股票在未来一段时间会有不错的表现，主流文献认为这主要是由于投资者的反应过度造成的。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "A 股市场上存在显著的 PEAD 效应，业绩超预期的股票在业绩公告后的 120 天内展现出持续良好的超额收益。",
+      "evidence": "（1） A 股市场上存在显著的 PEAD 效应，业绩超预期的股票在业绩公告后的 120 天内展现出持续良好的超额收益；"
+    },
+    {
+      "text": "A 股市场不仅存在业绩公告后的价格漂移现象，业绩公告前的价格漂移现象同样稳健，财通金工认为这可能是由于知情交易者的存在导致的。",
+      "evidence": "（2） A 股市场上不仅存在业绩公告后的价格漂移现象，业绩公告前的价格漂移现象同样稳健。财通金工认为这可能是由于知情交易者（如内幕消息拥有者或是机构分析师一致预期信息的拥有者）的存在导致。"
+    },
+    {
+      "text": "在全市场中，SUE 因子月均 RankIC 达到 4.6%，T 值为 11.05，月胜率 88.4%，对空对冲组合的年化 IR 达到 3.89，且多头组合能够持续稳健地超过基准指数。",
+      "evidence": "在全市场中，SUE 因子月均 RankIC 达到 4.6%，T 值为 11.05，月胜率 88.4%，对空对冲组合的年化 IR 达到 3.89。与传统的价量因子不同，SUE 因子的多头组合能够持续稳健地超过基准指数。此外，该因子在沪深 300 及中证 500 中的表现同样优异。"
+    },
+    {
+      "text": "业绩预告和业绩快报的引入能够很大程度地提高因子表现，加入后因子多头相较市场的年化超额收益从 9.97%提升至 11.64%。",
+      "evidence": "最后，在加入了业绩预告和业绩快报数据之后，因子多头相较市场的年化超额收益从原来的 9.97%提升至 11.64%，因子有效性提升明显。"
+    },
+    {
+      "text": "根据业绩快报估算的净利润误差均值为 0.053，远远小于通过业绩预告上下限和增长率计算的结果，进一步验证了业绩快报数据的准确性。",
+      "evidence": "可以看到，根据业绩快报估算的净利润误差均值为 0.053，远远小于其他二者，这进一步验证了业绩快报数据的准确性。"
+    },
+    {
+      "text": "将业绩超预期因子与反转因子进行融合，其多头效果相较 SUE 多头并未有大的折扣，但其空头部分的负向 Alpha 效应更为明显。",
+      "evidence": "结合以上两点分析可知，将业绩超预期因子与反转因子进行融合，其多头效果相较SUE多头并未有大的折扣，但是其空头部分的负向Alpha效应更为明显。"
+    },
+    {
+      "text": "在市场波动急剧放大的 2015 年，得益于反转因子的强势，业绩超预期与反转融合的选股组合表现得十分亮眼。",
+      "evidence": "可以看到，SUE因子的多头在历年表现的十分稳健，而在市场波动急剧放大的 2015 年，得益于反转因子的强势，我们“在下跌中寻找惊喜”的选股组合表现得十分亮眼。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ball, R. and P. Brown. (1968). \"An Empirical Evaluation of Accounting Income Numbers.\"",
+    "Jegadeesh, N. and J. Livnat. (2006). \"Revenue Surprises and Stock Returns.\"",
+    "“拾穗”多因子系列（16）：《水月镜花：正视财务数据的前向窥视问题》",
+    "“星火”多因子系列（九）：《博彩偏好还是风险补偿？高频特质偏度因子全解析》",
+    "“星火”多因子系列（五）：《源于动量，超越动量：特质动量因子全解析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

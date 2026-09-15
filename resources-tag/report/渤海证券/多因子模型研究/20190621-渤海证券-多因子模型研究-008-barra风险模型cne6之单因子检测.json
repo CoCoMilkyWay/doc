@@ -1,0 +1,306 @@
+{
+  "schema_version": 2,
+  "id": "20190621-渤海证券-多因子模型研究-008-barra风险模型cne6之单因子检测",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "MIDCAP",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "MIDCAP=\\text{对}(\\text{Size})^3\\text{以加权回归对Size正交后去极值、标准化}",
+          "stats": [0.037, null, 0.523, null],
+          "evidence": "首先取Size因子暴露的立方，然后以加权回归的方式对Size因子正交，最后进行去极值和标准化处理"
+        },
+        {
+          "name": "Size",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Size=\\frac{1}{2}\\left(\\text{Std}(\\ln ME)+\\text{Std}(MIDCAP)\\right)",
+          "stats": [0.038, null, 0.672, null],
+          "evidence": "规模因子包含 LNCAP 和 MIDCAP 两个三级因子以及二者等权合成的 Size 一级因子。"
+        },
+        {
+          "name": "HSIGMA",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "HSIGMA=\\sigma(\\hat{e}_t),\\quad r_t=\\alpha+\\beta R_t+e_t",
+          "stats": [-0.049, null, -0.416, null],
+          "evidence": "在计算BETA所进行的时间序列回归中，取回归残差收益率的波动率"
+        },
+        {
+          "name": "DASTD",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "DASTD=\\sqrt{\\sum_{t=1}^{252}w_t r_t^2},\\; w_t=\\text{半衰指数权重（半衰期42个交易日）}",
+          "stats": [-0.071, null, -0.495, null],
+          "evidence": "日收益率在过去252个交易日的波动率，半衰期42个交易日"
+        },
+        {
+          "name": "Volatility",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Volatility=\\text{BETA与ResidualVolatility等权合成的一级因子}",
+          "stats": [-0.04, null, -0.337, null],
+          "evidence": "波动率因子中，一级因子 Volatility 由 BETA 三级因子和 ResidualVolatility 二级因子构成，其中BETA、HSIGMA 和CMRA 三个因子的定义相对CNE5 有所变动"
+        },
+        {
+          "name": "STOM",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "STOM=\\ln\\left(\\sum_{t=1}^{21}\\frac{V_t}{S_t}\\right)",
+          "stats": [-0.09, null, -0.818, null],
+          "evidence": "对最近21个交易日的股票换手率求和，然后取对数，即："
+        },
+        {
+          "name": "STOQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "STOQ=\\ln\\left(\\frac{1}{T}\\sum_{\\tau=1}^{T}\\exp(STOM_{\\tau})\\right),\\; T=3",
+          "stats": [-0.074, null, -0.676, null],
+          "evidence": "为τ月的换手率（每月包含21个交易日）季换手率定义为："
+        },
+        {
+          "name": "ATVR",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ATVR=\\text{对日换手率进行252个交易日（半衰期63个交易日）加权求和后年化}",
+          "stats": [-0.067, null, -0.667, null],
+          "evidence": "对日交易份额比率（换手率）进行加权求和，时间窗口252个交易日，半衰期63个交易日"
+        },
+        {
+          "name": "Liquidity",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Liquidity=\\text{STOM、STOQ、ATVR等权合成的一级因子}",
+          "stats": [-0.076, null, -0.676, null],
+          "evidence": "流动性因子仅在 CNE5的基础上增添了三级因子ATVR。"
+        },
+        {
+          "name": "STREV",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "STREV(t)=\\sum_{\\tau\\in T}w_{\\tau-t-1}\\left[\\ln(1+r(\\tau))\\right]",
+          "stats": [-0.061, null, -0.624, null],
+          "evidence": "动量因子中新增了 STREV、SEASON、INDMOM 和 HALPHA 三级因子，并以RSTR 和HALPHA 合成了Momentum 二级因子。"
+        },
+        {
+          "name": "Momentum_2",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Momentum_2=\\text{以RSTR和HALPHA合成Momentum二级因子}\\text{（时间窗口与滞后参数为另一组设置）}",
+          "stats": [-0.063, null, -0.691, null],
+          "evidence": "从分层回测的结果来看，三级因子中的STREV和HALPHA表现出一定的单调性，且等权合成的 Momentum二级和一级因子也表现出较好的单调性。"
+        },
+        {
+          "name": "GP",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GP=\\frac{Sales-COGS}{TA}",
+          "stats": [0.019, null, 0.277, null],
+          "evidence": "其中 Sales、COGS 和TA 分别是上一个财务年度的营业收入、营业成本和总资产"
+        },
+        {
+          "name": "GPM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GPM=\\frac{Sales-COGS}{Sales}",
+          "stats": [0.012, null, 0.184, null],
+          "evidence": "其中 Sales和COGS 分别为上一会计年度的营业收入和销货成本"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROA=\\frac{Earnings}{TA}",
+          "stats": [0.026, null, 0.292, null],
+          "evidence": "Earnings为过去12 个月的净利润，TA 为最近报告期的总资产"
+        },
+        {
+          "name": "AGRO",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "AGRO=-\\frac{\\text{slope}(TA_t\\sim t)}{\\overline{TA}}",
+          "stats": [0.007, null, 0.079, null],
+          "evidence": "最近5个财政年度的总资产对时间的回归的斜率值，除以平均总资产，最后取相反数"
+        },
+        {
+          "name": "Profitability",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "Profitability=\\text{GP、GPM、ROA、ATO等权合成的二级因子}",
+          "stats": [0.022, null, 0.278, null],
+          "evidence": "总体来看，质量因子中，二级因子 Profitability 和InvestmentQuality 及其对应的三级因子具有一定的选股能力。"
+        },
+        {
+          "name": "InvestmentQuality",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "InvestmentQuality=\\text{AGRO、IGRO、CXGRO等权合成的二级因子}",
+          "stats": [0.005, null, 0.059, null],
+          "evidence": "除 InvestmentQuality二级因子对应的 CXGRO 三级因子外，其余因子均仅在 Wind 全 A 范围内显著；"
+        },
+        {
+          "name": "BTOP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BTOP=\\frac{BE}{ME}",
+          "stats": [0.045, null, 0.45, null],
+          "evidence": "BTOP | Book to price | 账面市值比 | 将最近报告期的普通股账面价值除以当前市值"
+        },
+        {
+          "name": "ETOP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "ETOP=\\frac{Earnings_{t-12\\text{月}:t}}{ME}",
+          "stats": [0.038, null, 0.523, null],
+          "evidence": "EarningsYield | TrailingEarnings-to-priceRatio | EP比 | 过去12个月的盈利除以当前市值"
+        },
+        {
+          "name": "CETOP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "CETOP=\\frac{\\text{现金盈利}_{t-12\\text{月}:t}}{ME}",
+          "stats": [0.029, null, 0.526, null],
+          "evidence": "Cash earnings toprice | 现金盈利价格比 | 过去12个月的现金盈利除以当前市值"
+        },
+        {
+          "name": "EM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EM=\\frac{EBIT}{EV}",
+          "stats": [0.048, null, 0.667, null],
+          "evidence": "Enterprisemultiple (Ebit toEv) | 企业价值倍数的倒数 | 上一财政年度的息税前利润（EBIT）除以当前企业价值（EV)"
+        },
+        {
+          "name": "EarningsYield",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EarningsYield=\\text{ETOP、CETOP、EM等权合成的二级因子（剔除预期类因子ETOPF）}",
+          "stats": [0.046, null, 0.63, null],
+          "evidence": "我们剔除了预期类因子 ETOPF，并在构建对应二级因子 EarningsYield时，未包含该因子在内。"
+        },
+        {
+          "name": "DTOP",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "DTOP=\\frac{DPS_{t-12\\text{月}:t}}{P}",
+          "stats": [0.023, null, 0.414, null],
+          "evidence": "我们对预期类因子DTOPF进行了剔除，且剔除后仅剩 DTOP 因子，故未新合成DividendYields一级因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": [
+          "size",
+          "value",
+          "growth",
+          "quality",
+          "dividend",
+          "momentum",
+          "reversal",
+          "volatility",
+          "liquidity"
+        ],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "CNE6因子在Wind全A范围内的显著性均明显好于沪深300和中证500；结合分层回测结果，初步选出各风格下单因子测试显著的因子：规模MIDCAP和Size，波动率HSIGMA、DASTD和Volatility，流动性STOM、STOQ、ATVR和Liquidity，动量STREV和Momentum_2，质量GP、GPM、ROA、AGRO、Profitability和InvestmentQuality，价值BTOP、ETOP、CETOP、EM和EarningsYield，分红收益率DTOP。",
+      "evidence": "结果表明，CNE6因子在Wind全A范围内的显著性均明显好于沪深300和中证500；结合分层回测的结果，我们初步选出单因子测试显著的因子为：规模因子 MIDCAP 和 Size，波动率因子 HSIGMA、DASTD 和Volatility，流动性因子 STOM、STOQ、ATVR 和 Liquidity，动量因子STREV 和 Momentum_2，质量因子 GP、GPM、ROA、AGRO、Profitability 和 InvestmentQuality，价值因子 BTOP、ETOP、CETOP、EM 和 EarningsYield，分红收益率因子 DTOP；成长因子可能由于其采用周期较长的基本面数据进行构建，未体现出良好的选股能力。"
+    },
+    {
+      "text": "提取的因子数据需经过数据对齐、去极值、标准化、缺失值处理等步骤，才可进入下一步的选股模型。",
+      "evidence": "提取的因子数据需经过数据对齐、去极值、标准化、缺失值处理等步骤，才可进入下一步的选股模型。"
+    },
+    {
+      "text": "单因子统计检验在每一个横截面上使用加权最小二乘回归（WLS），权重采用流通市值的平方根，一定程度上消除了异方差性。",
+      "evidence": "在每一个横截面上使用加权最小二乘回归（WLS），权重采用流通市值的平方根，一定程度上消除了异方差性。"
+    },
+    {
+      "text": "成长因子分层回测均没有较好的单调性表现，可能由于其采用周期较长的基本面数据进行构建，未体现出良好的选股能力。",
+      "evidence": "从分层回测的结果来看，成长因子均没有较好的单调性表现。总体来看，成长因子可能由于其采用周期较长的基本面数据进行构建，未体现出良好的选股能力。"
+    },
+    {
+      "text": "对单一因子做分层回测时无法保证其对其他因子的暴露中性，下一篇报告将构造纯因子模型，以更客观的反应因子的收益能力。",
+      "evidence": "由于对于单一因子做分层回测时，无法保证其对其他因子的暴露中性，所以在进行单因子检测时，该方法无法排除其他因子对于组合的影响。下一篇报告中，我们将构造纯因子模型，以更客观的反应因子的收益能力。敬请关注。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "The Barra China Equity Model (CNE6)",
+    "《Barra风险模型（CNE6）之纯因子构建与因子合成——多因子模型研究系列之九》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

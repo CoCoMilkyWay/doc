@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "id": "20240312-长江证券-神经网络因子挖掘-002-1分钟频量价因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "日内因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{TCN网络以每支股票当天240行1分钟频率量价数据为输入，输出单个预测值，以皮尔逊相关系数的负数为目标函数}",
+          "stats": [null, 0.0641, null, null],
+          "evidence": "我们选择先进行一个相对简单的实验，以每支股票当天的 240 行 1 分钟频率数据预测未来 1 日收益率。"
+        },
+        {
+          "name": "分钟频量价因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{分日多模型TCN：每日1分钟频率量价数据单独输入一个TCN得到}\\widehat{Day_{i}}\\text{，再经全连接层或等权合成得到最终预测值，损失函数为}Loss_{4}=-\\frac{\\sum_{i=1}^{5}\\operatorname{Corr}(\\widehat{Day_{i}},y)}{5}-\\operatorname{Corr}(\\widehat{y_{mean}},y)",
+          "stats": [null, 0.099, null, null],
+          "evidence": "我们最终的实验方案为使用过去 5 日1 分钟频率量价数据来预测未来 5 日收益率。"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{对1分钟频率量价因子和日频量价因子分别计算截面均值方差标准化后再进行等权合成}",
+          "stats": [null, 0.1119, null, null],
+          "evidence": "我们将 1 分钟频率量价因子和日频量价因子分别计算截面均值方差标准化后再进行等权合成得到最终的“合成因子”。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["weighting", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "深度学习模型关注胜率、相对忽视盈亏比，2024年以来日频量价因子明显失效，回撤主要集中在多头端和小市值股票。",
+      "evidence": "经过多项测算，我们认为日频量价因子近期回撤分组来看，回撤主要集中在多头端；分域来看，回撤主要集中在小市值股票。"
+    },
+    {
+      "text": "2024年1月末2月初预测效果显著下滑，全A上选股效果大幅回撤，与微盘股大幅回撤有较高的相关性。",
+      "evidence": "2024 年 1 月末 2 月初预测效果显著下滑，全 A 上选股效果大幅回撤，这与微盘股大幅回撤有较高的相关性。"
+    },
+    {
+      "text": "分日多模型 TCN 明显优于单模型 TCN，加上 Loss4 的方法在验证集上表现最好，RankIC 为 12.89%。",
+      "evidence": "从表 2 中不难发现，分日多模型加上 $[Loss_{4}$ 的方法所获得的最终预测值在验证集上表现最好，RankIC 为 12.89%。"
+    },
+    {
+      "text": "当天日内量价信息预测未来一日收益率平均 RankIC 高达 6.41%，验证集与测试集差异较小，模型过拟合现象不显著。",
+      "evidence": "根据表 1 来看，2018 年以来当天日内量价信息预测未来一日收益率均有不俗的预测能力，平均 RankIC 高达 6.41%。"
+    },
+    {
+      "text": "合成后因子的稳定性和有效性均有不小的提升，日间量价信息和日内量价信息有较好的互补提升性，合成因子RankIC 均值提升至 11.19%。",
+      "evidence": "从因子 RankIC 变化和分组收益率来看，合成后因子的稳定性和有效性均有不小的提升，说明 TCN 神经网络所挖掘的日间量价信息和日内量价信息有较好的互补提升性。"
+    },
+    {
+      "text": "合成因子 2024 年以来先大跌后大幅反弹，中证全指多头超额收益从低点的-20%左右回升至-2.35%，主流宽基指数成分股内已取得不俗的多头超额收益。",
+      "evidence": "截止 3月 1 日，因子在除中证全指以外的主流宽基指数成分股内已取得不俗的多头超额收益，而中证全指上的多头超额收益已从低点的-20%左右回升至-2.35%。"
+    },
+    {
+      "text": "日频量价因子在成分股内多空收益均为正值，中证 500 多空收益为 11.02%，与全 A 上多头超额大幅回撤的现象并不一致。",
+      "evidence": "另一方面，从图 4 的多空收益净值近期表现来看，2023 年四季度以来上证 50 和沪深300 表现较为突出。2024 年截止 2 月8 日，中证 500 多空收益为 11.02%，各大指数多空收益均为正值，这与全 A 上多头超额大幅回撤的现象并不一致。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《神经网络因子挖掘——TCN 日频量价因子》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

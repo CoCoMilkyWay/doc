@@ -1,0 +1,244 @@
+{
+  "schema_version": 2,
+  "id": "20230723-长江证券-高频因子-013-广义拥挤度",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "开盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘5分钟成交量占全日成交量的比例}",
+          "stats": [-0.0663, null, -0.6976, 0.1796],
+          "evidence": "开盘作为成交最为活跃的时间段，很多交易特征的刻画都受到开盘区间的影响，如成交量和每笔成交量均有成交活跃部分的影响，成交量加权收益率、高每笔收益率和开盘成交占比有较高相关性；"
+        },
+        {
+          "name": "高价成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{价格最高20\\%区间成交量}}{\\text{全区间成交量}}",
+          "stats": [-0.0646, null, -0.7075, 0.2028],
+          "evidence": "维度属性均价，成交属性成交量占比，衡量成交集中在价格高位或价格低位，反映市场交易中的羊群效应；"
+        },
+        {
+          "name": "低价成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{价格最低20\\%区间成交量}}{\\text{全区间成交量}}",
+          "stats": [0.069, null, 0.7568, 0.2486],
+          "evidence": "维度属性均价，成交属性成交量占比，衡量成交集中在价格高位或价格低位，反映市场交易中的羊群效应；"
+        },
+        {
+          "name": "价主买相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{价格和主动流入资金占比的相关性}",
+          "stats": [-0.0594, null, -0.7112, 0.2004],
+          "evidence": "本文选取了时间、均价、波动率、成交量、每笔成交量和方向作为维度属性，以成交占比、均价、收益率、主买资金流入和每笔成交量作为成交属性，构建广义拥挤度因子。"
+        },
+        {
+          "name": "波动率加权成交量",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以日度波动率为权重加权的成交量占比}",
+          "stats": [-0.0756, null, -0.9792, 0.2278],
+          "evidence": "本文选取了时间、均价、波动率、成交量、每笔成交量和方向作为维度属性，以成交占比、均价、收益率、主买资金流入和每笔成交量作为成交属性，构建广义拥挤度因子。"
+        },
+        {
+          "name": "波动价相关性",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日度波动率和均价的相关性}",
+          "stats": [-0.0813, null, -0.9372, 0.2839],
+          "evidence": "最后整理了如波动价相关性、高成交量每笔成交，共计 17 个选股较为有效的代表性因子，因子和传统量价因子有较高相关性，剔除风格和行业线性影响后，仍有大量因子具有选股能力。"
+        },
+        {
+          "name": "高波动收益率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日度波动率最高的20\\%区间的收益率}",
+          "stats": [-0.0747, null, -0.8347, 0.2541],
+          "evidence": "维度属性波动率，成交属性收益率，衡量已实现收益集中在高波动区间还是低波动区间，反映市场局部风险溢价；"
+        },
+        {
+          "name": "高波动资金流入",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日度波动率最高的20\\%区间的主动流入资金占比}",
+          "stats": [-0.0891, null, -1.0441, 0.3144],
+          "evidence": "本文选取了时间、均价、波动率、成交量、每笔成交量和方向作为维度属性，以成交占比、均价、收益率、主买资金流入和每笔成交量作为成交属性，构建广义拥挤度因子。"
+        },
+        {
+          "name": "高成交量交易成本",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{成交量最高20\\%区间均价}}{\\text{全区间均价}}",
+          "stats": [-0.0834, null, -0.8448, 0.2553],
+          "evidence": "成交量作为维度属性构建的因子有选股能力，即成交价格在不同成交活跃上的差异有个股风险上的区分，市场交易成本（高位拥挤）逻辑有效；"
+        },
+        {
+          "name": "低成交量交易成本",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{成交量最低20\\%区间均价}}{\\text{全区间均价}}",
+          "stats": [0.0789, null, 0.7881, 0.2356],
+          "evidence": "成交量作为维度属性构建的因子有选股能力，即成交价格在不同成交活跃上的差异有个股风险上的区分，市场交易成本（高位拥挤）逻辑有效；"
+        },
+        {
+          "name": "成交量加权收益率",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量为权重对对数收益率求和}",
+          "stats": [-0.0868, null, -0.9378, 0.2681],
+          "evidence": "加权计算和相关性计算的结果，与局部计算结果中维度属性影响较大的因子相关性较高，以维度属性成交量为例，成交量加权更多受高成交区间的影响，后两种计算方法的因子和高成交量区间因子相关性更高。"
+        },
+        {
+          "name": "高成交量每笔成交",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{成交量最高20\\%区间每笔成交量}}{\\text{全区间每笔成交量}}",
+          "stats": [0.1179, null, 0.9854, 0.5227],
+          "evidence": "高成交量每笔成交、低成交量每笔成交和每笔主买相关性有较高相关性。"
+        },
+        {
+          "name": "低成交量每笔成交",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{成交量最低20\\%区间每笔成交量}}{\\text{全区间每笔成交量}}",
+          "stats": [-0.0811, null, -0.5943, 0.3287],
+          "evidence": "高成交量每笔成交、低成交量每笔成交和每笔主买相关性有较高相关性。"
+        },
+        {
+          "name": "高每笔收益率",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每笔成交量最高20\\%区间的收益率}",
+          "stats": [-0.0852, null, -0.9408, 0.3315],
+          "evidence": "维度属性每笔成交量、成交属性收益率也符合该情况，但信息并不完全线性对称，相关性的正负加权权重不合理"
+        },
+        {
+          "name": "低每笔收益率",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每笔成交量最低20\\%区间的收益率}",
+          "stats": [0.0312, null, 0.5759, 0.1649],
+          "evidence": "不同维度属性下的拥挤度因子均和普通反转有一定的相关性，开盘反转因子相关性高达 66.83%；"
+        },
+        {
+          "name": "每笔主买相关性",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每笔成交量和主动资金流入的相关性}",
+          "stats": [0.0755, null, 0.6624, 0.3054],
+          "evidence": "高成交量每笔成交、低成交量每笔成交和每笔主买相关性有较高相关性。"
+        },
+        {
+          "name": "主动资金流入",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{主动资金流入占比}",
+          "stats": [-0.0776, null, -0.5063, 0.2232],
+          "evidence": "开盘成交占比和主动资金流入是两个较为传统的高频因子，在剥离风格和行业影响后，无选股能力。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["all", "csi800"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "广义拥挤度为某成交属性在某维度属性上的情况，本文以时间、均价、波动率、成交量、每笔成交量和方向为维度属性，以成交占比、均价、收益率、主买资金流入和每笔成交量作为成交属性，共计整理17个选股较为有效的代表性因子，剔除风格和行业线性影响后仍有大量因子具有选股能力。",
+      "evidence": "本文选取了时间、均价、波动率、成交量、每笔成交量和方向作为维度属性，以成交占比、均价、收益率、主买资金流入和每笔成交量作为成交属性，构建广义拥挤度因子。最后整理了如波动价相关性、高成交量每笔成交，共计 17 个选股较为有效的代表性因子，因子和传统量价因子有较高相关性，剔除风格和行业线性影响后，仍有大量因子具有选股能力。"
+    },
+    {
+      "text": "广义拥挤度成交属性的刻画有局部计算、加权计算和相关性计算三种方法，均能体现维度属性和成交属性的匹配情况。",
+      "evidence": "在广义拥挤度成交属性的刻画上，有如下三种计算方法，均能体现维度属性和成交属性的匹配情况："
+    },
+    {
+      "text": "维度属性和成交维度的组合需要有逻辑意义，当两者衡量的交易行为有重复含义时，匹配结果天然正向匹配，往往无选股能力。",
+      "evidence": "维度属性和成交维度的组合需要有逻辑意义，如维度属性和成交属性衡量的交易行为有重复含义时，匹配结果天然正向匹配，呈现交易行为外的固有属性，往往无选股能力。"
+    },
+    {
+      "text": "从多空收益上看，全市场范围和中证800范围内因子均有选股能力；全市场范围内除低每笔收益率外均可获得超额收益，中证800范围内除价主买相关性、每笔主买相关性、高每笔收益率、低每笔收益率外均可获得超额收益。",
+      "evidence": "全市场范围内，除低每笔收益率，均可获得超额收益，中证 800 范围内；除价主买相关性、每笔主买相关性、高每笔收益率、低每笔收益率，均可获得超额收益。"
+    },
+    {
+      "text": "成交量作为维度属性构建的因子有选股能力，市场交易成本（高位拥挤）逻辑有效；每笔成交量作为维度属性构建的因子无选股能力，交易属性交易成本逻辑无效。",
+      "evidence": "成交量作为维度属性构建的因子有选股能力，即成交价格在不同成交活跃上的差异有个股风险上的区分，市场交易成本（高位拥挤）逻辑有效；"
+    },
+    {
+      "text": "开盘成交占比和主动资金流入是两个较为传统的高频因子，在剥离风格和行业影响后无选股能力。",
+      "evidence": "开盘成交占比和主动资金流入是两个较为传统的高频因子，在剥离风格和行业影响后，无选股能力。"
+    },
+    {
+      "text": "高成交量每笔成交、低成交量每笔成交和每笔主买相关性有较高相关性。",
+      "evidence": "高成交量每笔成交、低成交量每笔成交和每笔主买相关性有较高相关性。"
+    },
+    {
+      "text": "拥挤度因子和风格中的量价因子，反转、换手率和波动率相关性较高。",
+      "evidence": "下表展示了拥挤度因子和传统风格因子相关性，拥挤度因子和风格中的量价因子，反转、换手率和波动率相关性较高。"
+    },
+    {
+      "text": "剥离风格和行业影响后，全市场范围内失效的因子较多，而中证800范围内大部分因子仍可以获得一定的超额收益。",
+      "evidence": "从超额收益上看，全市场范围内失效的因子较多，而中证 800 范围内大部分因子仍可以获得一定的超额收益；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《减量市场下规模头部集中趋势或逆转——长江金工 2023 年度中期投资策略》2023-06-30",
+    "《行业轮动（六）：风险篇》",
+    "《高频因子（十）：量价关系中的反转微观结构》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

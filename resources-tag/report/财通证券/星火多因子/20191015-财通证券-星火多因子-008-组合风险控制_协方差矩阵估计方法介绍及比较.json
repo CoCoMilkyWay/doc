@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "20191015-财通证券-星火多因子-008-组合风险控制_协方差矩阵估计方法介绍及比较",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "statistical", "shrinkage", "dynamic_adjust"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "risk_based"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "对全市场指数而言表现最好的是经过多步调整的多因子模型（MultiFactor_VRA），其预测风险与实际风险之间相关系数能够达到 0.708，而其他的协方差估计方法的相关系数普遍在 0.4 左右，相差较大。",
+      "evidence": "可以看到，对 全 市 场 指 数 而 言 表 现 最 好 的 是 经 过 多 步 调 整 的 多 因 子 模 型（MultiFactor_VRA），其预测风险与实际风险之间相关系数能够达到 0.708，而其他的协方差估计方法的相关系数普遍在 0.4 左右，相差较大。"
+    },
+    {
+      "text": "所有 GMV组合的实际波动（一般在 17%左右）都要明显小于基准组合（年化波动高达 23%），说明组合风险控制有效，而各类方法构建的 GMV组合的样本外波动并没有明显的区别。",
+      "evidence": "可以看到所有 GMV组合的实际波动（一般在 17%左右）都要明显小于基准组合（年化波动高达 23%），这也从另一个层面说明了组合风险控制的有效性。事实上，各类方法构建的 GMV组合的样本外波动并没有明显的区别，部分组合相较基准还能够获取一定的超额收益。"
+    },
+    {
+      "text": "在年化波动 7.5%的跟踪误差限制下，仅有经过多步调整的多因子模型风险估计和 PCA 风险矩阵达到了要求，其他方式构建的组合风险都要显著更高；多因子风险模型构建的组合年化 IR 最高，达到 1.95。",
+      "evidence": "可以看到，在年化波动 7.5%的限制下，仅有经过多步调整的多因子模型风险估计和 PCA 风险矩阵达到了要求，其他方式构建的协方差矩阵估计得到的组合风险都要显著更高。在组合的信息比率方面，多因子风险模型构建的组合年化 IR 最高，达到 1.95，而其他方式构建的对冲组合样本外表现稍弱。"
+    },
+    {
+      "text": "多因子模型的协方差矩阵估计的实际效果要优于其他方法，建议优选多因子模型；如果从模型构造的简便性出发，基于压缩矩阵估计的方法也能够取得不错的效果。",
+      "evidence": "综合以上研究结论，我们认为多因子模型的协方差矩阵估计的实际效果要优于其他方法，如果愿意投入足够的精力和维护成本，我们建议优选多因子模型。财通金工可以定期提供多因子模型构建的协方差矩阵，有需要的投资者可以直接与我们联系获取。如果从模型构造的简便性出发，基于压缩矩阵估计的方法也能够取得不错的效果。"
+    },
+    {
+      "text": "样本协方差矩阵 S 是真实协方差 Σ 的无偏估计，但其逆矩阵却不是真实协方差矩阵的逆的无偏估计，且当 N 越来越大时，二者之间的偏差将越来越大。",
+      "evidence": "这意味着虽然S是Σ的无偏估计，但S−1却是Σ−1的有偏估计，且当 N 越来越大时，二者之间的偏差将越来越大。"
+    },
+    {
+      "text": "适当地暴露一定的风格能够帮助组合获取一定的超额收益，其代价在于组合的风险也会有一定程度的上升。",
+      "evidence": "图 10 展示了加入行业及市值中性的对冲组合与非行业市值中性对冲组合的绩效走势图，可以看到适当地暴露一定的风格能够帮助组合获取一定的超额收益，其代价在于组合的风险也会有一定程度的上升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ledoit, O., & Wolf, M. (2003). Improved Estimation of the Covariance Matrix of Stock Returns With An Application to Portfolio Selection. Journal of Empirical Finance.",
+    "Michaud, R.O. (1989). The Markowitz Optimization Enigma: Is 'Optimized' Optimal? Financial Analyst Journal.",
+    "Qian（2007）最大化 ICIR 因子合成方法",
+    "财通证券“拾穗”多因子系列（11）：《多因子风险预测：从怎么做到为什么》",
+    "财通证券“星火”多因子系列（二）：《Barra模型进阶：多因子模型风险预测》",
+    "财通证券“星火”多因子系列（六）：《Alpha 因子重构：引入协方差矩阵的因子有效性检验》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

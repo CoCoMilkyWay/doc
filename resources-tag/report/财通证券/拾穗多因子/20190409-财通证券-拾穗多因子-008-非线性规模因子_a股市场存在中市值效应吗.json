@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "id": "20190409-财通证券-拾穗多因子-008-非线性规模因子_a股市场存在中市值效应吗",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "非线性规模",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "lnSize^{3}=\\alpha+\\beta\\,lnSize+\\varepsilon,\\quad SizeNL=-\\varepsilon",
+          "stats": [-0.029, -0.0538, null, 0.2216],
+          "evidence": "以2019年3月28日全市场股票作为样本股票，将股票总市值对数的三次方对总市值对数进行回归，得到残差变量，此处我们取残差变量的相反数。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity", "other"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "回归法和平方法两种计算方法在本质上并无区别，所不同的在于平方法得到的因子值标准差更小，而回归法的因子跨度较大。",
+      "evidence": "由此也能看出，这两种方法在本质上并无区别，所不同的在于平方法得到的因子值标准差更小，而回归法的因子跨度较大。"
+    },
+    {
+      "text": "非线性规模纯因子组合历年收益均为负，波动要明显小于规模纯因子，这表明中市值股票并不能跑赢甚至是经常跑输大小市值股票。",
+      "evidence": "从非线性规模纯因子组合的净值走势来看，其历年收益均为负，波动要明显小于规模纯因子，这表明中市值股票并不能跑赢甚至是经常跑输大小市值股票。"
+    },
+    {
+      "text": "分组法回测区间内非线性规模因子的rankIC为-5.38%，月胜率为29%，t值显著为负（-6.00），多空组合月均收益达到1.58%，胜率达到72%。",
+      "evidence": "表 1 对因子绩效进行了统计，在回测区间因子的 rankIC 为-5.38%，月胜率为29%，t 值显著为负（-6.00），其中多空组合月均收益达到 1.58%，胜率达到 72%。"
+    },
+    {
+      "text": "从分组法对非线性规模因子构建多空组合来看，对冲组合的年化收益达到22.16%，年化波动为8.17%，信息比率IR达到2.71。",
+      "evidence": "从分组法对非线性规模因子构建多空组合来看，对冲组合的年化收益达到22.16%，年化波动为8.17%，信息比率IR达到2.71；"
+    },
+    {
+      "text": "Fama-Macbeth检验显示非线性规模因子的风险溢价显著为负，t值达到-4.99，该因子值越高股票未来收益越低，是不能被其他因子解释的有效因子。",
+      "evidence": "且非线性规模因子的风险溢价显著为负，其 t 值达到-4.99，也就是说非线性规模因子是一个不能被其他因子解释的有效因子，而且该因子值越高，股票在未来的收益将会越低，"
+    },
+    {
+      "text": "中证1000指数成分股并非全市场市值最小的那部分股票，因此其非线性规模因子暴露与中证500指数处于同等水平也就不足为奇了。",
+      "evidence": "中证 1000 指数成分股并非全市场市值最小的那部分股票，因此其非线性规模因子暴露与中证 500 指数的非线性规模因子暴露处于同等水平也就不足为奇了。"
+    },
+    {
+      "text": "所有样本指数在未来一个月的年化波动区间在22%-31%之间，相较上周基本持平，财通金工特别提醒投资者注意当前市场的波动情况。",
+      "evidence": "所有样本指数在未来一个月的年化波动区间在 22%-31%之间，相较上周基本持平，财通金工特别提醒投资者注意当前市场的波动情况。"
+    },
+    {
+      "text": "上周市场风格以中小盘指数为主，表现最好的三只指数是中小盘指数，其在非线性规模因子上暴露较多，而表现较差的三只指数则更多地偏向于大规模股票。",
+      "evidence": "上周市场风格以中小盘指数为主，表现最好的三只指数是中小盘指数，其在非线性规模因子上暴露较多，而表现较差的三只指数则更多地偏向于大规模股票，其在规模因子上的较大暴露拖累指数收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Characteristics of Factor Portfolios, Jose Menchero, 2010.3, MSCI Working Paper"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

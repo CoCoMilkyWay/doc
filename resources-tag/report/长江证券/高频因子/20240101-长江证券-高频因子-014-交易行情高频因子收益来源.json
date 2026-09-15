@@ -1,0 +1,419 @@
+{
+  "schema_version": 2,
+  "id": "20240101-长江证券-高频因子-014-交易行情高频因子收益来源",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "intraday_pattern"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "非流动性",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收益率绝对值/成交额}",
+          "stats": [null, null, 0.6859, null],
+          "evidence": "非流动性 | 收益率绝对值/成交额 | 相同资金规模能够引起的价格变动 越大，流动性越差 | 68.59% | 2.58 | 2.24"
+        },
+        {
+          "name": "回归非流动性",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{对数收益率绝对值和对数成交额回归系数}",
+          "stats": [null, null, 0.6756, null],
+          "evidence": "回归非流动性 | 对数收益率绝对值和对数成交额回归系数 | 回归角度衡量资金对价格变动撬动 的能力 | 67.56% | 2.20 | 2.23"
+        },
+        {
+          "name": "每笔成交额",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{成交额/成交笔数}",
+          "stats": [null, null, -0.89, null],
+          "evidence": "每笔成交额 | 成交额/成交笔数 | 相同挂单可容纳的资金规模越大， 流动性越好 | -89.00% | 3.18 | 3.07"
+        },
+        {
+          "name": "每笔成交额分位数",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{每笔成交额（第15%分位数-最小值)/(第5%分位数-最小值）}",
+          "stats": [null, null, -0.798, null],
+          "evidence": "每笔成交额分位数 | 每笔成交额（第15%分位数-最小值)/(第5%分位 每笔成交额异常间隔越大，个股容 数-最小值） | 纳资金弹性越强，流动性越好 | -79.80% | 1.20 | 2.62"
+        },
+        {
+          "name": "波峰",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以日内1分钟成交量K线数据均值+1倍标准差作为峰值筛选，以局部峰值筛选后的局部峰值k线数量}",
+          "stats": [null, null, 1.2818, null],
+          "evidence": "波峰 | 以日内1分钟成交量K线数据均值+1倍标准差作为 每日异常交易的时间段次数越多， 峰值筛选，以局部峰值筛选后的局部峰值k线数量 | 流动性越差 | 128.18% | 1.84 | 3.89"
+        },
+        {
+          "name": "每笔流出额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以价格变动方向确定流入流出，每笔流出额/总每笔成交额}",
+          "stats": [null, null, 0.8017, null],
+          "evidence": "每笔流出额占比 | 以价格变动方向确定流入流出，每笔流出额/总每 流出占比越高，个股被卖出程度越 笔成交额 | 高 | 80.17% | 1.55 | 2.35"
+        },
+        {
+          "name": "低量每笔成交",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{最低20%成交区间每笔成交偏移}",
+          "stats": [null, null, -0.779, null],
+          "evidence": "低量每笔成交 | 最低20%成交区间每笔成交偏移 | 成交平缓时间段卖方成交单密度越 高，做空过度反应程度越低 | -77.90% | 1.31 | 2.53"
+        },
+        {
+          "name": "高量每笔成交",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{最高20%成交区间每笔成交偏移}",
+          "stats": [null, null, 0.8646, null],
+          "evidence": "高量每笔成交 | 最高20%成交区间每笔成交偏移 | 成交活跃时间段卖方成交单密度越 高，做空过度反应程度越高 | 86.46% | 0.98 | 2.91"
+        },
+        {
+          "name": "高密度每笔成交",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以收益率绝对值/成交量对数作为划分标准，最高20%密度区间每笔成交偏移}",
+          "stats": [null, null, -0.881, null],
+          "evidence": "高密度每笔成交 | 以收益率绝对值/成交量对数作为划分标准，最高 20%密度区间每笔成交偏移 | 流动性最弱时间段卖方成交单密度 越高，做空过度反应程度越低 | -88.10% | 1.30 | 3.06"
+        },
+        {
+          "name": "量大每笔流出额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量确定大小单，以价格变动方向确定流入流出，大单每笔流入额/每笔成交额}",
+          "stats": [null, null, 0.9279, null],
+          "evidence": "量大每笔流出额占比 | 以成交量确定大小单，以价格变动方向确定流入流成交活跃时间段流出占比越高，个 出，大单每笔流入额/每笔成交额 | 股被过度卖出程度越高 | 92.79% | 1.31 | 3.11"
+        },
+        {
+          "name": "一致卖出占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以（收盘价-开盘价）振幅和0.95倍（最高价-最低价）比较确定区间属性，卖出成交额/总成交额}",
+          "stats": [null, null, -0.6487, null],
+          "evidence": "一致卖出占比 | 以（收盘价-开盘价）振幅和0.95倍（最高价-最低成交异常时间段卖出占比越高，做 价）比较确定区间属性，卖出成交额/总成交额 | 空过度反应程度越高， | -64.87% | 1.70 | 1.99"
+        },
+        {
+          "name": "残差波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama-French模型残差波动率}",
+          "stats": [null, null, -0.7747, null],
+          "evidence": "残差波动率 | Fama-French 模型残差波动率 | 区别于市场波动越大，交易异常度 越高 | -77.47% | 0.52 | 1.82"
+        },
+        {
+          "name": "特异率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "1-\\text{过去n个交易日m分钟频率Fama-French模型特异率}",
+          "stats": [null, null, -0.9155, null],
+          "evidence": "特异率 | 1-过去 n 个交易日 m 分钟频率 Fama-French 模型特区别于市场波动越大，交易异常度 异率 | 越高 | -91.55% | 1.30 | 2.54"
+        },
+        {
+          "name": "非流动性变异系数",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{非流动性（标准差/平均值）}",
+          "stats": [null, null, -0.5398, null],
+          "evidence": "非流动性变异系数 | 非流动性（标准差/平均值） | 流动性波动约大，交易异常度越高 | -53.98% | 1.28 | 1.75"
+        },
+        {
+          "name": "换手率波动率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{换手率标准差}",
+          "stats": [null, null, -0.5737, null],
+          "evidence": "换手率波动率 | 换手率标准差 | 流动性波动约大，交易异常度越高 | -57.37% | 0.28 | 1.46"
+        },
+        {
+          "name": "换手率变异系数",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{换手率（标准差/平均值）}",
+          "stats": [null, null, 0.8707, null],
+          "evidence": "换手率变异系数 | 换手率（标准差/平均值） | 流动性波动约大，交易异常度越高 | 87.07% | 0.74 | 2.00"
+        },
+        {
+          "name": "成交占比熵",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量占比为p，带入熵公式}",
+          "stats": [null, null, 0.9028, null],
+          "evidence": "成交占比熵 | 以成交量占比为 p，带入熵公式 | 成交越平稳，交易异常度越低 | 90.28% | 0.72 | 2.06"
+        },
+        {
+          "name": "高价振幅",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{价格最高（20%）部分平均振幅}",
+          "stats": [null, null, -0.6566, null],
+          "evidence": "高价振幅 | 价格最高（20%）部分平均振幅 | 高价区间波动越大，交易异常度越 低 | -65.66% | 0.80 | 1.61"
+        },
+        {
+          "name": "残差峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama-French模型残差峰度}",
+          "stats": [null, null, -0.8562, null],
+          "evidence": "残差峰度 | Fama-French 模型残差峰度 | 区别于市场波动越大，交易异常度 越高 | -85.62% | 1.19 | 1.98"
+        },
+        {
+          "name": "收益偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{收益率偏度}",
+          "stats": [null, null, -0.796, null],
+          "evidence": "收益偏度 | 收益率偏度 | 价格变动偏离度越大，交易异常度 越高 | -79.60% | 0.46 | 1.97"
+        },
+        {
+          "name": "左右概率差",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{右端收益VaR-左端收益VaR}",
+          "stats": [null, null, 0.6204, null],
+          "evidence": "左右概率差 | 右端收益 VaR-左端收益 VaR | 异常价格变动越频繁，交易异常度 越高 | 62.04% | 0.57 | 1.49"
+        },
+        {
+          "name": "左右收益差",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{出现大于右端收益率平均值-出现小于左端收益率平均值}",
+          "stats": [null, null, 0.5874, null],
+          "evidence": "左右收益差 | 出现大于右端收益率平均值-出现小于左端收益率平 异常价格变动越大，交易异常度越 均值 | 高 | 58.74% | 0.08 | 1.21"
+        },
+        {
+          "name": "极端收益",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以|收益率-收益率中位数|定义异常，取最异常的收益率}",
+          "stats": [null, null, -0.5962, null],
+          "evidence": "极端收益 | 以\\|收益率-收益率中位数\\|定义异常，取最异常的收益异常价格变动越大，交易异常度越 率 | 高 | -59.62% | 0.17 | 1.20"
+        },
+        {
+          "name": "积分相对价格位置",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{(时间均价-区间最低价)/（区间最高价-区间最低价）}",
+          "stats": [null, null, 0.3834, null],
+          "evidence": "积分相对价格位置 | (时间均价-区间最低价)/（区间最高价-区间最低 均价越靠近价格波动上限，上行风 价) | 险占比越高，交易异常度越低 | 38.34% | 0.12 | 0.98"
+        },
+        {
+          "name": "上下行波动占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{把波动率拆分为上行下行，统计上行的平方占整体情况}",
+          "stats": [null, null, 0.7899, null],
+          "evidence": "上下行波动占比 | 把波动率拆分为上行下行，统计上行的平方占整体情下行风险占比越高，交易异常度越 况 | 高 | 78.99% | 0.39 | 1.88"
+        },
+        {
+          "name": "量大单买入强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量确定大小单，以价格变动方向确定流入流出，大买单成交额（标准差/平均值）}",
+          "stats": [null, null, 1.0905, null],
+          "evidence": "量大单买入强度 | 以成交量确定大小单，以价格变动方向确定流入流 交易密度波动越小，交易异常度越 出，大买单成交额（标准差/平均值） | 低 | 109.05% | 1.15 | 2.83"
+        },
+        {
+          "name": "量价相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{成交量和收盘价秩相关系数}",
+          "stats": [null, null, -0.5451, null],
+          "evidence": "量价相关性 | 成交量和收盘价秩相关系数 | 量价趋同度越高，价格高位成交占 比越高，高位越拥挤 | -54.51% | 0.54 | 1.39"
+        },
+        {
+          "name": "加权偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{成交量加权收盘价偏度}",
+          "stats": [null, null, -0.8161, null],
+          "evidence": "加权偏度 | 成交量加权收盘价偏度 | 偏度越大，价格集中在较高水平， 高位越拥挤 | -81.61% | 0.62 | 1.94"
+        },
+        {
+          "name": "时量价比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{时间加权价格/量加权价格}",
+          "stats": [null, null, 0.8145, null],
+          "evidence": "时量价比 | 时间加权价格/量加权价格 | 成交均价相对平均价越大，成交集 中在价格高位，高位越拥挤 | 81.45% | 0.66 | 1.68"
+        },
+        {
+          "name": "高量交易成本",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{最高20%成交区间价格偏离}",
+          "stats": [null, null, -1.0367, null],
+          "evidence": "高量交易成本 | 最高 20%成交区间价格偏离 | 成交活跃时间段价格越高，高位越 拥挤 | -103.67% | 0.43 | 2.33"
+        },
+        {
+          "name": "高价成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{最高20%价格区间成交量占比}",
+          "stats": [null, null, -0.6721, null],
+          "evidence": "高价成交占比 | 最高20%价格区间成交量占比 | 价格高位成交占比越高，高位越拥 挤 | -67.21% | -0.21 | 1.44"
+        },
+        {
+          "name": "短期反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以每笔成交量为划分，筛选后20%的数据的对数收益率求和}",
+          "stats": [null, null, -0.9434, null],
+          "evidence": "短期反转 | 以每笔成交量为划分，筛选后20%的数据的对数收 空头力量较强的时间段体现过度反 益率求和 | 应，个股收益不可持续 | -94.34% | 1.03 | 2.44"
+        },
+        {
+          "name": "每笔成交收益 Beta",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{每笔成交额为自变量，和收益率回归系数}",
+          "stats": [null, null, -0.8765, null],
+          "evidence": "每笔成交收益 Beta | 每笔成交额为自变量，和收益率回归系数 | 回归角度衡量空头力量和收益率的 关系 | -87.65% | 1.38 | 2.69"
+        },
+        {
+          "name": "短期动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以每笔成交量为划分，筛选前20%的数据的对数收益率求和}",
+          "stats": [null, null, 0.5494, null],
+          "evidence": "短期动量 | 以每笔成交量为划分，筛选前20%的数据的对数收 空头力量较弱的时间段体现信息消 益率求和 | 化，个股收益可持续 | 54.94% | -0.14 | 2.21"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "因子暴露相关性对因子间收益影响的衡量存在局部偏差，信息比降低值和因子暴露相关性之间的相关性仅为21.01%；且因子间的影响具有单向性，非流动性因子可以作为每笔成交额收益来源的解释，反之则不能。",
+      "evidence": "影响程度局部存在偏差，相关性较低和较高均可以对因子表现有较大影响，且效果相反，如成交占比熵和价格时滞相关性较低，但彼此影响较大，残差波动率和主买占比相关性较高，但彼此影响较小，所以信息比降低值和因子暴露相关性之间的相关性仅为 21.01%；"
+    },
+    {
+      "text": "因子间的影响具有单向性，如非流动性因子可以作为每笔成交额收益来源的解释，反之则不能，这一点因子暴露相关性无法体现。",
+      "evidence": "因子间的影响具有单向性，而这一点因子暴露相关性无法体现，如非流动性因子可以作为每笔成交额收益来源的解释，反之则不能。"
+    },
+    {
+      "text": "因子暴露相关性和因子收益相关性有一定差别，但两者的相关系数为55.13%，仍属于相对较高水平。",
+      "evidence": "所以因子暴露相关性和收益相关性结果上有一定差别，但两者的相关系数为 55.13%，仍属于相对较高水平。"
+    },
+    {
+      "text": "因子暴露相关性和收益回撤重合度的相关系数为39.58%，因子暴露在衡量风险上有较大误差。",
+      "evidence": "因子暴露相关性和收益回撤重合度的相关系数为39.58%，即因子暴露在衡量风险上有较大误差。"
+    },
+    {
+      "text": "因子收益主成分分析第一成分解释了体系超过30%的波动，为所有因子正向共同合成的高频因子共有收益来源，即“系统性”风险；第一成分收益和所有因子平均收益的相关性为95.87%。",
+      "evidence": "其中第一个成分解释了该体系超过 30%的波动，而从下右图第一成分的转移向量可以看到，第一成分为所有因子正向共同合成，可以解释为高频因子的共有收益来源，即该体系因子的“系统性”风险，第二成分的转移向量则呈现了正负上的分化，即因子内部的差异从第二成分开始。"
+    },
+    {
+      "text": "剔除共有收益来源后第一成分解释度下降至26%，绝对收益第一成分和相对收益第二成分的错位相关性高达92.92%，佐证因子体系的第一收益来源为所有因子的整体表现。",
+      "evidence": "所以当我们从因子收益中剔除该共有收益来源后再做主成分分析（该结果在本节后续简称为相对收益，对应的原始收益的结果在本节后续简称为绝对收益），其第一成分解释度下降至 26%，如左上图所示，而绝对收益的第一成分和相对收益第二成分的转移系数相关性（本节后续简称为错位相关性）高达 92.92%，如下右图所示，这也侧面佐证了因子体系的第一收益来源为所有因子的整体表现。"
+    },
+    {
+      "text": "因子体系内部收益来源可分为流动性、交易拥挤、空头意愿和波动四大类，属于“特质”风险。",
+      "evidence": "整体的因子体系内部收益来源可以分为流动性、交易拥挤、空头意愿和波动四大类，属于“特质”风险；"
+    },
+    {
+      "text": "因子的尾部风险集中爆发在一些特定的时间段，如2007年、2019年、2021年，可视为高频因子历史上失效的区间。",
+      "evidence": "因子的尾部风险集中爆发在一些特定的时间段，如 2007 年、2019 年、2021 年。"
+    },
+    {
+      "text": "本文从流动性溢价、空头意愿、交易平稳、高位拥挤、反转、动量六个维度，展示了34个有选股能力的因子。",
+      "evidence": "本文从流动性溢价、空头意愿、交易平稳、高位拥挤、反转、动量六个维度，展示了 34 个有选股能力的因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《行业轮动系列（七）：行业分类思考》",
+    "《高频因子（五）：高频因子和交易行为》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

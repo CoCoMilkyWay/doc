@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "id": "20200602-财通证券-星火多因子-014-将事件驱动融入因子选股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "earnings_surprise", "analyst_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "复合基本面因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "f^{comp}_{i,t}=\\sum_{k=1}^{5} w_k \\tilde{f}_{k,i,t},\\quad w_k=\\frac{RankICIR_k^{(24期)}}{\\sum_{j=1}^{5} RankICIR_j^{(24期)}}",
+          "stats": [null, 0.047, 2.37, 0.1803],
+          "evidence": "本文我们以表1介绍的5个财务类因子为基础，通过对其过去24期RankICIR进行加权合成为一个复合因子，接下来我们将对该复合因子进行有效性检验，具体细节如下："
+        },
+        {
+          "name": "分析师评级上调",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股在过去一个月内是否触发分析师“上调至买入评级”事件，触发记为1，未触发记为0}",
+          "stats": [null, null, null, null],
+          "evidence": "扫描过去 1 个月（[T −1,T]期间）出现过“上调至买入评级”的个股，计算个股触发事件后的最后一个日期距离调仓日的天数，随后计算该天数往后推21天的区间超额收益率"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "daily"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "“好风借力”组合（分析师评级上调筛选+复合基本面因子排序）在全样本区间超额年化收益为15.32%，年化波动12.64%，年化IR为1.21。",
+      "evidence": "图 9 展示了“好风借力”组合及超额净值走势，在全样本区间组合的超额年化收益为 15.32%，年化波动 12.64%，年化 IR 为 1.21。"
+    },
+    {
+      "text": "截至2020年5月22日，采用如上方法构建的中证500增强组合（全市场选股）超额收益为5.23%，沪深300增强组合（全市场选股）超额收益为10.08%。",
+      "evidence": "截至 2020 年5 月 22 日，采用如上方法构建的中证 500 增强组合（全市场选股）超额收益为 5.23%，沪深 300 增强组合（全市场选股）超额收益为 10.08%。"
+    },
+    {
+      "text": "分析师“上调至买入评级”事件策略年化超额收益为5.85%，年化波动7.52%，年化IR为0.78。",
+      "evidence": "图 2 展示了分析师“上调至买入评级”事件策略的累计净值及基准（中证全指）的净值，可以看到组合的年化超额收益为 5.85%，年化波动 7.52%，年化 IR 为 0.78。"
+    },
+    {
+      "text": "复合基本面因子多头和空头超额收益较为平均，多头超额年化10.17%，空头超额收益年化-8.85%，与传统价量因子超额收益主要由空头贡献不同。",
+      "evidence": "图 展示了复合基本面因子在全样本时间段内的表现情况，可以看到组合在多头和空头方面的超额收益较为平均，其中多头超额年化 10.17%，空头超额收益年化-8.85%，与传统的价量因子超额收益主要由空头部分贡献情况不同。"
+    },
+    {
+      "text": "与中证500中的效果不同，叠加分析师评级事件后的复合因子在沪深300指数中的提升效果并不明显。",
+      "evidence": "与在中证 500 中的效果不同，叠加了分析师评级事件后的复合因子在沪深 300 指数中的提升效果并不明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "财通金工“星火”专题（13）《从事件驱动角度看分析师评级上调带来的Alpha》",
+    "财通金工“星火”多因子系列（11）《在下跌中寻找惊喜：业绩超预期与反转因子的融合》",
+    "财通金工“星火”多因子系列（12）《从质量到质量增长：挖掘公司基本面改善带来的Alpha》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

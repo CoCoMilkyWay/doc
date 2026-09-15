@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20190910-财通证券-星火多因子-007-借因子组合之力_优化alpha因子合成",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L2_process": {"module": ["L2_single_test"], "approach": ["regression_test"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "剥离其他风格因子影响后，纯因子组合及最小波动因子组合的信息比率都比简单因子组合更高，且最小波动因子组合的波动及回撤更小。",
+      "evidence": "从实证结果来看，纯因子组合及最小波动因子组合的信息比率都要比简单因子组合更高，且最小波动因子组合的波动及回撤相对而言都要更小。"
+    },
+    {
+      "text": "各类因子合成方法中，最大化ICIR加权并采用压缩矩阵估计协方差的方法信息比率最高，样本回测区间内达到3.58。",
+      "evidence": "从信息比率来看，通过最大化 ICIR 加权并采用压缩矩阵估计协方差矩阵的方法信息比率最高，在样本回测区间内能够达到 3.58。"
+    },
+    {
+      "text": "借助最小波动因子组合合成的Alpha因子虽信息比率稍低，但其波动及最大回撤都得到了有效控制。",
+      "evidence": "相较之下，借助最小波动因子组合的方法在信息比率上虽然稍低，但其年化波动及最大回撤都得到了较为有效的控制，这说明通过这种方法合成的因子能够在一定程度上控制组合的相对波动。"
+    },
+    {
+      "text": "最小波动因子组合是在单位目标因子暴露条件下预期风险最小的组合，其夏普比率在理论上是最高的。",
+      "evidence": "前面提到，在所有的因子组合中，最小波动因子组合是在单位目标因子暴露的条件下预期风险最小的组合，因此其夏普比率在理论上来讲是最高的。"
+    },
+    {
+      "text": "回测期间各大类因子的最小波动因子组合中，信息比率绝对值最高的是成长率因子，达到4.39，其次为流动性因子的-3.54和非线性规模因子的-3.29。",
+      "evidence": "图 4 展示了回测期间不同大类因子的最小波动因子组合信息比率，从信息比率的绝对值来看，排名最高的是成长率因子，其信息比率达到 4.39，其次为流动性因子，达到-3.54，接下来为非线性规模因子（-3.29）等。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Efficiently Combining Multiple Sources of Alpha. Jose Menchero and Jyh-Huei Lee. Journal of Investment Management. Vol.13, No.4, 2015",
+    "Qian（2007）因子加权方法"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

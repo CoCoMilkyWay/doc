@@ -1,0 +1,127 @@
+{
+  "schema_version": 2,
+  "id": "20200916-长江证券-高频因子-008-高位成交因子_从量价匹配说起",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "量价相关性因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Corr}(\\{vol_t\\},\\{close_t\\})",
+          "stats": [-0.0529, null, -0.5592, null],
+          "evidence": "在负向 alpha 系列报告《如何利用负面因子做指数增强？——高频因子篇》中，我们提出了以每个时间段内成交量和收盘价的相关性构建量价相关性因子，衡量成交量和股价之间的趋同或背离程度，趋同程度高（即价格高时成交量高，价格低时成交量低）反映了股票交易行为中存在着羊群效应"
+        },
+        {
+          "name": "加权收盘价比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t=1}^{T}\\frac{vol_{t}}{VOL}close_{t}}{\\frac{\\sum_{t=1}^{T}close_{t}}{T}}",
+          "stats": [-0.0509, null, -0.6215, null],
+          "evidence": "故可以将成交量加权的收盘价求和同收盘价等权求和的比值，作为个股在高位成交密集水平的刻画，构建加权收盘价比因子"
+        },
+        {
+          "name": "加权偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t=1}^{T}w_{t}(close_{t}-\\overline{close})^{3}}{close_{\\sigma}^{3}}",
+          "stats": [-0.0598, null, -0.8123, null],
+          "evidence": "故本节以成交量加权的方式计算过去一段时间价格分布的偏离程度，如果负偏态越明显，则个股在价格高位成交越多"
+        },
+        {
+          "name": "单位一成交额占比熵",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{H}(\\frac{vol_{1}}{VOL}\\frac{close_{1}}{CLOSE},\\frac{vol_{2}}{VOL}\\frac{close_{2}}{CLOSE},\\ldots,\\frac{vol_{N}}{VOL}\\frac{close_{N}}{CLOSE})",
+          "stats": [-0.0442, null, -0.584, null],
+          "evidence": "故沿着加权成交价比的思路，以单位一成交额占比作为每一个时间段状态的发生概率，以熵的定义刻画成交的混乱程度，构建单位一成交额占比熵因子"
+        },
+        {
+          "name": "成交额占比熵",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{H}(\\frac{amount_{1}}{AMOUNT},\\frac{amount_{2}}{AMOUNT},\\ldots,\\frac{amount_{N}}{AMOUNT})",
+          "stats": [-0.0623, null, -0.7753, null],
+          "evidence": "除此之外，还可以直接成交额占比作为每一个时间段状态的发生概率，构建成交额占比熵因子"
+        },
+        {
+          "name": "合成因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{量价相关性因子}+\\text{加权偏度}+\\text{单位一成交额占比熵}",
+          "stats": [-0.0653, null, -0.7578, null],
+          "evidence": "我们保留仍然具有一定信息增量的因子，即量价相关性、加权偏度和单位一成交额占比熵因子，并以三个因子等权求和作为合成因子"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all", "csi800"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "高位成交较多的个股因交易中羊群效应导致局部价格高估而在未来呈现反转效应，低位成交较多的个股未来价格有较大相对上行空间。",
+      "evidence": "高位成交较多的个股，交易行为中存在羊群效应，导致局部价格高估而在未来呈现反转效应，反之如果个股低位成交较多，存在低位加仓的现象，未来价格有较大相对上行空间。"
+    },
+    {
+      "text": "以风格中性后仍保留较多信息的量价相关性、加权偏度和单位一成交额占比熵因子等权求和构成合成因子，在全市场和中证800内剥离风格因子线性影响前后均有一定选股能力。",
+      "evidence": "本文以风格中性后仍保留较多信息的因子，即量价相关性、加权偏度和单位一成交额占比熵因子等权求和作为合成因子，在全市场和中证 800 内，剥离风格因子线性影响前后均有一定选股能力。"
+    },
+    {
+      "text": "合成因子在全市场和中证800内的IC和ICIR分别为-6.53%、-75.78%和-5.65%、-51.03%，中性后分别为-5.13%、-94.25%和-4.78%、-66.79%，中性前超额收益于特定年份回撤，多空收益全时间段均较稳定。",
+      "evidence": "在全市场和中证 800 内的 IC 和 ICIR 分别为-6.53%、-75.78%和-5.65%、-51.03%，在剥离了风格因子线性影响后分别为-5.13%、-94.25%和-4.78%和-66.79%，从回测的收益上看，中性前超额收益于特定年份产生回撤，多空收益全时间段均较为稳定"
+    },
+    {
+      "text": "风格中性后量价相关性和加权偏度对收益率的预测能力最强，单位一成交额占比熵保留较稳定的预测能力，加权收盘价比和成交额占比熵的预测能力有较大程度下降。",
+      "evidence": "从因子IC和ICIR上看，中性后量价相关性和加权偏度对收益率的预测能力最强，单位一成交额占比熵保留了较为稳定的收益率预测能力，加权收盘价比和成交额占比熵的收益率预测能力有较大程度的下降；"
+    },
+    {
+      "text": "合成因子在中性后对收益的预测能力有所下降，但稳定性有一定提升，中性后超额收益和多空收益有所下降，多空夏普比有所增强。",
+      "evidence": "从 IC 和 ICIR 上看，合成因子在中性后对收益的预测能力有所下降，但稳定性有一定提升；\n\n从收益上看，合成因子在中性后超额收益和多空收益有所下降，但多空夏普比有所增强。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《如何利用负面因子做指数增强？——高频因子篇》",
+    "《高频因子（七）：分布估计下的主动成交占比》2020-08-03"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

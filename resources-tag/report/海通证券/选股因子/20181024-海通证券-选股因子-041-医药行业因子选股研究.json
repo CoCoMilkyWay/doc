@@ -1,0 +1,400 @@
+{
+  "schema_version": 2,
+  "id": "20181024-海通证券-选股因子-041-医药行业因子选股研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_level",
+        "expectation_revision",
+        "earnings_surprise",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(MV)",
+          "stats": [null, -0.0307, -0.5, null],
+          "evidence": "从分组收益表现来看，在风格类因子中市值因子表现最优，随着市值增大，股票收益逐渐减小，单调性明显；月均多空收益差为 2.67%。"
+        },
+        {
+          "name": "非线性市值",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{非线性市值（对数市值立方剔除线性与平方项后的残差）}",
+          "stats": [null, null, null, null],
+          "evidence": "这 9 个因子分别是：市值、非线性市值、反转、换手率、ROE、预期净利润调整、营业收入同比增长、预期外盈利以及流动比率。"
+        },
+        {
+          "name": "PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{市盈率（总市值/净利润），剔除市值后使用}",
+          "stats": [null, -0.0356, -0.93, null],
+          "evidence": "从相关性角度来看，仅 PE因子可通过显著性检验。剔除市值后，该因子月均 RankIC为-3.56%，有效月份占比 58.65%。但该因子的极端组合收益差不明显，月均多空收益差仅为 0.38%。"
+        },
+        {
+          "name": "反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R_{t-1}",
+          "stats": [null, -0.0554, -1.14, null],
+          "evidence": "与全市场统计结果一致，在医药行业内，这几个技术类因子与股票次月收益均呈现显著负相关性。前一个月涨幅越大、换手率越高、波动率越大、流动性越强，次月股票收益表现越差。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月日均换手率}",
+          "stats": [null, -0.0479, -0.86, null],
+          "evidence": "与全市场统计结果一致，在医药行业内，这几个技术类因子与股票次月收益均呈现显著负相关性。前一个月涨幅越大、换手率越高、波动率越大、流动性越强，次月股票收益表现越差。"
+        },
+        {
+          "name": "波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sigma(r_d),\\ r_d\\text{为过去一个月日收益率}",
+          "stats": [null, -0.063, -1.57, null],
+          "evidence": "与全市场统计结果一致，在医药行业内，这几个技术类因子与股票次月收益均呈现显著负相关性。前一个月涨幅越大、换手率越高、波动率越大、流动性越强，次月股票收益表现越差。"
+        },
+        {
+          "name": "流动性",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流动性因子}",
+          "stats": [null, -0.0545, -1.09, null],
+          "evidence": "与全市场统计结果一致，在医药行业内，这几个技术类因子与股票次月收益均呈现显著负相关性。前一个月涨幅越大、换手率越高、波动率越大、流动性越强，次月股票收益表现越差。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{净利润}{净资产}",
+          "stats": [null, 0.0273, 0.52, null],
+          "evidence": "常见的基本面因子主要是 ROE 及其增长，本小节主要对这两个因子进行分析；下文中我们也会详细考察其他基本面因子在医药行业内的选股效果。"
+        },
+        {
+          "name": "ROE同比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{ROE_t-ROE_{t-4}}{|ROE_{t-4}|}",
+          "stats": [null, 0.0357, 1.19, null],
+          "evidence": "与直观一致， 越高、同比增加越大，股票收益越高。盈利能力因子分组收益单调性强，从时间序列角度来看，也不存在持续性地大幅回撤出现，稳定性高。"
+        },
+        {
+          "name": "销售毛利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{毛利}{营业收入}",
+          "stats": [null, 0.031, 0.91, null],
+          "evidence": "结果显示，无论从哪一个指标来看，医药行业内公司盈利能力水平越高，股票收益表现越优。"
+        },
+        {
+          "name": "营业利润/营业收入",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{营业利润}{营业收入}",
+          "stats": [null, 0.0479, 1.37, null],
+          "evidence": "在 3 个展示的因子中，营业利润/营业收入因子表现最优，月均 RankIC为 4.79%，相应的 IR 为 1.37；多空收益差为 1.39%。"
+        },
+        {
+          "name": "销售净利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{净利润}{营业收入}",
+          "stats": [null, 0.0461, 1.35, null],
+          "evidence": "结果显示，无论从哪一个指标来看，医药行业内公司盈利能力水平越高，股票收益表现越优。"
+        },
+        {
+          "name": "经营净现金流/净收益",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{经营活动产生的现金流量净额}{经营活动净收益}",
+          "stats": [null, 0.0301, 0.75, null],
+          "evidence": "整体来看，净现金流占比越高，盈利质量越高，股票收益表现越优；盈利质量因子与股票收益显著正相关。"
+        },
+        {
+          "name": "经营净现金流/营业收入",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{经营活动产生的现金流量净额}{营业收入}",
+          "stats": [null, 0.0283, 1.04, null],
+          "evidence": "整体来看，净现金流占比越高，盈利质量越高，股票收益表现越优；盈利质量因子与股票收益显著正相关。"
+        },
+        {
+          "name": "净利润同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{净利润_t-净利润_{t-4}}{|净利润_{t-4}|}",
+          "stats": [null, 0.035, 0.93, null],
+          "evidence": "结果显示，利润或收入增长越快的公司，股票收益表现越优，从相关性统计和分组收益来看，因子均可通过显著性检验。"
+        },
+        {
+          "name": "营业收入同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{营业收入_t-营业收入_{t-4}}{|营业收入_{t-4}|}",
+          "stats": [null, 0.038, 1.05, null],
+          "evidence": "结果显示，利润或收入增长越快的公司，股票收益表现越优，从相关性统计和分组收益来看，因子均可通过显著性检验。"
+        },
+        {
+          "name": "预期外营业收入",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\Delta E}{std(\\Delta E)},\\ \\Delta E\\text{为盈利变化值}",
+          "stats": [null, 0.0539, 1.83, null],
+          "evidence": "另一种为预期外盈利，即将盈利变化值除以盈利变化值的标准差（具体计算方式参见《学术研究中的财务异象与本土实证（一）——盈利能力》）。"
+        },
+        {
+          "name": "预期外营业利润",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\Delta E}{std(\\Delta E)},\\ \\Delta E\\text{为盈利变化值}",
+          "stats": [null, 0.0553, 1.89, null],
+          "evidence": "另一种为预期外盈利，即将盈利变化值除以盈利变化值的标准差（具体计算方式参见《学术研究中的财务异象与本土实证（一）——盈利能力》）。"
+        },
+        {
+          "name": "预期外净利润",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\Delta E}{std(\\Delta E)},\\ \\Delta E\\text{为盈利变化值}",
+          "stats": [null, 0.0591, 1.96, null],
+          "evidence": "整体来看，预期外盈利因子的选股效果普遍优于同比增长率，其RankIC 的 IR 在 1.9 左右，月胜率在 70%左右。"
+        },
+        {
+          "name": "总资产增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{总资产_t-总资产_{t-1}}{总资产_{t-1}}",
+          "stats": [null, 0.0467, 1.39, null],
+          "evidence": "整体来看，规模扩大的企业，股票收益表现越优；资产增长率与股票收益呈现显著正相关性。"
+        },
+        {
+          "name": "净资产增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{净资产_t-净资产_{t-1}}{净资产_{t-1}}",
+          "stats": [null, 0.0519, 1.26, null],
+          "evidence": "整体来看，规模扩大的企业，股票收益表现越优；资产增长率与股票收益呈现显著正相关性。"
+        },
+        {
+          "name": "流动比率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{流动资产}{流动负债}",
+          "stats": [null, 0.0322, 0.84, null],
+          "evidence": "结果显示，流动比率越高、现金流动负债率越高、现金负债率越高、长期负债占营运资金比率越低，股票后期收益表现越优。"
+        },
+        {
+          "name": "经营净现金流/流动负债",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{经营净现金流}{流动负债}",
+          "stats": [null, 0.0341, 1.32, null],
+          "evidence": "结果显示，流动比率越高、现金流动负债率越高、现金负债率越高、长期负债占营运资金比率越低，股票后期收益表现越优。"
+        },
+        {
+          "name": "经营净现金流/负债",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{经营净现金流}{负债}",
+          "stats": [null, 0.0298, 1.16, null],
+          "evidence": "结果显示，流动比率越高、现金流动负债率越高、现金负债率越高、长期负债占营运资金比率越低，股票后期收益表现越优。"
+        },
+        {
+          "name": "长期债务/营运资金",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{长期债务}{营运资金}",
+          "stats": [null, -0.0267, -0.71, null],
+          "evidence": "结果显示，流动比率越高、现金流动负债率越高、现金负债率越高、长期负债占营运资金比率越低，股票后期收益表现越优。"
+        },
+        {
+          "name": "预期ROE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{朝阳永续一致预期ROE}",
+          "stats": [null, 0.0358, 1.06, null],
+          "evidence": "结果显示，预期 ROE 及其调整因子、预期净利润调整因子，与股票次月收益均呈现显著正相关性。"
+        },
+        {
+          "name": "预期净利润调整",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{预期净利润调整因子}",
+          "stats": [null, 0.0366, 1.34, null],
+          "evidence": "其中，以预期净利润调整因子表现最优，月均 RankIC 为 3.66%，相应的 IR 为 1.34；月均多空收益差为 2%，相应的信息比率为 1.64。"
+        },
+        {
+          "name": "预期ROE调整",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{预期ROE调整因子}",
+          "stats": [null, 0.0298, 1.13, null],
+          "evidence": "结果显示，预期 ROE 及其调整因子、预期净利润调整因子，与股票次月收益均呈现显著正相关性。"
+        },
+        {
+          "name": "覆盖度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{前3个月分析师报告总篇数}",
+          "stats": [null, 0.0572, 1.37, null],
+          "evidence": "此外，分析师覆盖度与股票收益也呈现显著正相关关系，分析师对股票出具的报告总篇数越多，股票二级市场表现越好。"
+        },
+        {
+          "name": "复合多因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "R_{i,t+1}=c_{t}+\\sum_{j=1}^{m}f_{t}\\cdot F_{s_{j},t}+\\varepsilon_{i,t}",
+          "stats": [0.1013, 0.11, 2.42, null],
+          "evidence": "复合多因子 RankIC 为 11%，月胜率为 75%，相应的 IR 为 2.42，优于任一单因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "selection"],
+      "setup": {"universe": ["sector"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "常见选股因子在医药行业内存在显著选股效果；风格类因子平均收益水平高但稳定性差，近两年出现持续性大幅回撤；技术类因子与股票收益显著负相关，综合表现最好的是波动率，相对较差的是换手率；高盈利公司具有更高的收益。",
+      "evidence": "常见选股因子在医药行业内存在显著选股效果。其中，风格类因子平均收益水平高，但稳定性差，在近两年出现了持续性的大幅回撤。技术类因子与股票收益呈现显著负相关性，前期涨跌幅越大，换手率越高，波动率越大，流动性越强，次月股票收益表现越差。在这几个因子中，综合表现最好的是波动率，综合表现相对较差的是换手率。盈利能力在医药行业内也存在显著的选股效果，高盈利公司具有更高的收益。"
+    },
+    {
+      "text": "企业盈利能力越高，资产增长越快，利润增长越快，盈利质量越好，偿债能力越强，股票收益表现越优。",
+      "evidence": "企业盈利能力越高，资产增长越快，利润增长越快，盈利质量越好，偿债能力越强，股票收益表现越优。"
+    },
+    {
+      "text": "按照逐步筛选法，在医药行业有效且可提供显著边际信息的因子一共有9个，分别是市值、非线性市值、反转、换手率、ROE、预期净利润调整、营业收入同比增长、预期外盈利以及流动比率。",
+      "evidence": "按照逐步筛选法，在医药行业有效的、可提供显著边际信息的因子一共有 9个，分别是市值、非线性市值、反转、换手率、ROE、预期净利润调整、营业收入同比增长、预期外盈利以及流动比率。"
+    },
+    {
+      "text": "基于9个因子构建的医药行业多因子模型复合因子RankIC为11%，月胜率75%，IR为2.42，优于任一单因子。",
+      "evidence": "复合多因子 RankIC 为 11%，月胜率为 75%，相应的 IR 为 2.42，优于任一单因子。"
+    },
+    {
+      "text": "包含20个股票的最大化预期收益组合年化收益30.27%，相对于医药行业等权基准年化超额22.05%，月胜率73.91%。",
+      "evidence": "医药行业等权基准年化收益 8.22%。包含 20 个股票的最大化预期收益组合年化收益 30.27%，相应的超额收益为 22.05%，月胜率 73.91%。"
+    },
+    {
+      "text": "以医药行业指数为优化基准的增强组合年化收益18.03%，超额收益12.32%，最大回撤和波动率控制在5%左右。",
+      "evidence": "从风险控制组合来看，医药行业指数年化收益 5.71%，以此为优化基准的增强组合年化收益 18.03%，相应的超额收益为 12.32%，最大回撤和波动率控制在 5%左右。"
+    },
+    {
+      "text": "医药行业单独选股的沪深300增强组合年化超额收益由11.66%增加至12.81%，收益回撤比由2.85增加至3.77。",
+      "evidence": "将沪深 300 增强组合与医药行业多因子模型结合，构建医药行业单独选股的沪深 300 增强组合，其年化超额收益可由原来的 11.66%增加至12.81%，收益回撤比由 2.85 增加至 3.77。"
+    },
+    {
+      "text": "横截面样本较少时部分因子稳定性受影响：2016年2-10月预期净利润调整和预期外盈利因子平均溢价分别变为0.04%和-0.18%，有效性变差甚至方向发生变动。",
+      "evidence": "而在 2016 年 2-10 月份，这两个因子的有效性变差，甚至方向发生变动，平均溢价分别变为 0.04%和-0.18%。"
+    },
+    {
+      "text": "截止2018年8月底医药股市值占比6.61%，医药行业相较于其他行业最近几年存在超额收益。",
+      "evidence": "市值占比则呈现逐渐增加趋势，截止 2018 年 8 月底，该占比为 6.61%。表明医药行业相较于其他行业最近几年存在超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《学术研究中的财务异象与本土实证（一）——盈利能力》",
+    "《选股因子系列研究（三十三）——预期调整类因子的收益特征》",
+    "《选股因子系列研究（三十九）——如何计算盈利指标的趋势？》",
+    "《选股因子系列研究（四十）——预期因子的底层数据处理》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

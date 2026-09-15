@@ -1,0 +1,254 @@
+{
+  "schema_version": 2,
+  "id": "20241028-长江证券-神经网络因子挖掘-003-开盘集合竞价因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["order_flow", "intraday_pattern", "representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "振幅",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{最高价}-\\text{最低价}}{\\text{最低价}}",
+          "stats": [null, -0.0446, -0.2604, null],
+          "evidence": "在训练网络前，我们对各特征依次进行单因子回测，可以观察各特征的线性有效性。这里我们以量价因子相对普遍的方法，取过去 20 日特征均值作为个股因子值进行回测。"
+        },
+        {
+          "name": "一阶段振幅",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{一阶段最高价}-\\text{一阶段最低价}}{\\text{一阶段最低价}}",
+          "stats": [null, -0.0354, -0.2312, null],
+          "evidence": "| 一阶段振幅 | 一阶段：（最高价-最低价）/最低价 |"
+        },
+        {
+          "name": "二阶段振幅",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{二阶段最高价}-\\text{二阶段最低价}}{\\text{二阶段最低价}}",
+          "stats": [null, -0.0619, -0.3392, null],
+          "evidence": "从单因子 RankIC 回测结果来看，效果比较好的因子是快照数量、二阶段振幅和二阶段涨跌幅，RankIC 分别为-6.59%、-6.19%和5.20%。其中快照数量因子的分组收益也呈现明显的单调递减趋势，多空两端超额收益较高且并未出现明显失衡。"
+        },
+        {
+          "name": "隔夜收益率",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{开盘成交价}/\\text{昨收盘价}-1",
+          "stats": [null, 0.0228, 0.2194, null],
+          "evidence": "在训练网络前，我们对各特征依次进行单因子回测，可以观察各特征的线性有效性。这里我们以量价因子相对普遍的方法，取过去 20 日特征均值作为个股因子值进行回测。"
+        },
+        {
+          "name": "一阶段涨跌幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{一阶段价格}/\\text{昨收盘价}-1",
+          "stats": [null, -0.0176, -0.2481, null],
+          "evidence": "在训练网络前，我们对各特征依次进行单因子回测，可以观察各特征的线性有效性。这里我们以量价因子相对普遍的方法，取过去 20 日特征均值作为个股因子值进行回测。"
+        },
+        {
+          "name": "二阶段涨跌幅",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{二阶段价格}/\\text{一阶段价格}-1",
+          "stats": [null, 0.052, 0.452, null],
+          "evidence": "从单因子 RankIC 回测结果来看，效果比较好的因子是快照数量、二阶段振幅和二阶段涨跌幅，RankIC 分别为-6.59%、-6.19%和5.20%。其中快照数量因子的分组收益也呈现明显的单调递减趋势，多空两端超额收益较高且并未出现明显失衡。"
+        },
+        {
+          "name": "上行比例",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{价格上行快照数量}/\\text{快照数量}",
+          "stats": [null, 0.017, 0.1257, null],
+          "evidence": "在训练网络前，我们对各特征依次进行单因子回测，可以观察各特征的线性有效性。这里我们以量价因子相对普遍的方法，取过去 20 日特征均值作为个股因子值进行回测。"
+        },
+        {
+          "name": "下行比例",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{价格下行快照数量}/\\text{快照数量}",
+          "stats": [null, -0.0075, -0.0487, null],
+          "evidence": "在训练网络前，我们对各特征依次进行单因子回测，可以观察各特征的线性有效性。这里我们以量价因子相对普遍的方法，取过去 20 日特征均值作为个股因子值进行回测。"
+        },
+        {
+          "name": "快照数量",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{开盘集合竞价期间快照总数}",
+          "stats": [null, -0.0659, -0.5792, null],
+          "evidence": "从单因子 RankIC 回测结果来看，效果比较好的因子是快照数量、二阶段振幅和二阶段涨跌幅，RankIC 分别为-6.59%、-6.19%和5.20%。其中快照数量因子的分组收益也呈现明显的单调递减趋势，多空两端超额收益较高且并未出现明显失衡。"
+        },
+        {
+          "name": "开盘成交量",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{开盘集合竞价最终成交量}",
+          "stats": [null, -0.0513, -0.4301, null],
+          "evidence": "选股效果较好的快照数量和开盘成交量相关性较高，说明快照数量反映的仍旧类似于流动性方面的信息。"
+        },
+        {
+          "name": "买量委比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{买一量}+\\text{买二量}+\\text{买三量}}{\\text{买一量}+\\text{买二量}+\\text{买三量}+\\text{卖一量}+\\text{卖二量}+\\text{卖三量}}",
+          "stats": [null, 0.0018, 0.0317, null],
+          "evidence": "| 买量委比 | (买一量+买二两+买三量)/ (买一量+买二量+买三量+卖一量+卖二量+卖三量) |"
+        },
+        {
+          "name": "一阶段买量委比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{9:20时刻的买量委比}",
+          "stats": [null, -0.0024, -0.0478, null],
+          "evidence": "在训练网络前，我们对各特征依次进行单因子回测，可以观察各特征的线性有效性。这里我们以量价因子相对普遍的方法，取过去 20 日特征均值作为个股因子值进行回测。"
+        },
+        {
+          "name": "二阶段买量委比变化",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{9:25买量委比}-\\text{9:20买量委比}",
+          "stats": [null, 0.0041, 0.0669, null],
+          "evidence": "| 二阶段买量委比变化 | 9:25买量委比-9:20买量委比 |"
+        },
+        {
+          "name": "开盘成交数据因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{以过去30日每日开盘集合竞价成交数据为输入的TCN网络输出的未来5日收益率预测值}",
+          "stats": [null, 0.0608, null, null],
+          "evidence": "因此我们以每日开盘集合竞价成交数据作为日频特征，沿用前期报告中的神经网络 TCN，每日输入过去 30 日特征值返回预测值，用以预测未来 5 日收益率。"
+        },
+        {
+          "name": "人工特征开盘因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{以过去30日13个开盘集合竞价特征矩阵为输入的TCN网络输出的预测值}",
+          "stats": [null, 0.0837, null, null],
+          "evidence": "再将过去30 日的特征矩阵作为神经网络的输入后，模型预测值在样本外RankIC提升至 8.37%。"
+        },
+        {
+          "name": "当日开盘集合竞价重采样因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{以当日开盘集合竞价10秒重采样快照矩阵（60×12）为输入的双TCN子模型拼接网络输出的未来1日收益率预测值}",
+          "stats": [0.106, 0.0668, 0.6741, null],
+          "evidence": "输入端我们考虑将当天开盘集合竞价 10 分钟的 Level1 快照数据重采样为 10 秒一行的快照数据，目的是将输入矩阵的时间步长固定为 60 步，方便输入任意时序神经网络以进行学习。"
+        },
+        {
+          "name": "神经网络开盘量价因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{人工特征开盘因子与当日开盘集合竞价重采样因子等权合成}",
+          "stats": [null, 0.0914, null, null],
+          "evidence": "最终从效果出发，我们考虑将后面两次尝试的因子值等权合成作为神经网络开盘量价因子，效果相较于二者单个因子都有明显的提升。"
+        },
+        {
+          "name": "周+日+分钟+开盘",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly"],
+          "horizon": "daily",
+          "formula": "\\text{周频量价因子、日频量价因子、分钟频量价因子与神经网络开盘量价因子等权合成}",
+          "stats": [null, 0.12, null, null],
+          "evidence": "2018 年样本外以来，合成因子的 5 日收益率 RankIC 值达到了 12.00%，沪深两市 A 股分 20 组 Top 多头年化超额高达 38.20%。在各大宽基指数成分股内多头超额同样有一定提升，说明使用神经网络提取开盘集合竞价中的信息能够带来不小的增量提升。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "以开盘集合竞价最终成交数据作为输入的神经网络因子，2018年以来样本外与未来5日收益率的RankIC为6.08%、多头超额16.81%，相较前期日频和分钟频网络因子有较大差距",
+      "evidence": "2018 年以来样本外回测结果如图所示，预测值对股票未来 5 日收益率有一定的预测效果，但是 6.08%的 RankIC 和 16.81%的多头超额相较于前期报告中日频网络因子和分钟频网络因子有较大差距，因此下文考虑如何进行优化。"
+    },
+    {
+      "text": "单因子中效果较好的是快照数量、二阶段振幅和二阶段涨跌幅，RankIC分别为-6.59%、-6.19%和5.20%，快照数量因子分组收益呈明显单调递减趋势，多空两端未失衡",
+      "evidence": "从单因子 RankIC 回测结果来看，效果比较好的因子是快照数量、二阶段振幅和二阶段涨跌幅，RankIC 分别为-6.59%、-6.19%和5.20%。其中快照数量因子的分组收益也呈现明显的单调递减趋势，多空两端超额收益较高且并未出现明显失衡。"
+    },
+    {
+      "text": "将过去30日的13个特征矩阵作为神经网络输入后，模型预测值样本外RankIC提升至8.37%",
+      "evidence": "再将过去30 日的特征矩阵作为神经网络的输入后，模型预测值在样本外RankIC提升至 8.37%。"
+    },
+    {
+      "text": "当日重采样因子存在两个问题：超额收益随持有时间增加而明显衰减；因子IC值显著高于RankIC，可能说明因子值分布更接近真实收益率分布",
+      "evidence": "但是该预测值也表现出 2 个问题：（1）超额收益随持有时间的增加而明显衰减。（2）因子 IC 值显著高于 RankIC，这可能说明因子值分布更接近真实收益率分布。"
+    },
+    {
+      "text": "开盘集合竞价因子多头超额在首日远高于日频和分钟频量价因子，超额收益为0.18%，而日频和分钟频量价因子分别为0.10%和0.08%",
+      "evidence": "不难发现，开盘集合竞价因子的多头超额在首日远高于日频量价因子和分钟频量价因子，前者的超额收益为 0.18%，而日频量价因子和分钟频量价因子分别为 0.10%和 0.08%。"
+    },
+    {
+      "text": "开盘集合竞价因子优势需要更高频调仓和更高换手率实现，从第6日起完全落后于日频和分钟频量价因子，增量可能被交易成本抹平",
+      "evidence": "但是从第 3 日开始开盘集合竞价因子的多头超额实现速率有明显的下降，并且于第 6 日完全落后于日频量价因子和分钟频量价因子，最终保持略低于前二者的斜率直至 20 日。总结来看，开盘集合竞价因子的优势需要更高频的调仓和更高的换手率来实现，但是这部分超额收益所带来的增量也可能被交易成本抹平。"
+    },
+    {
+      "text": "加入开盘因子后，合成因子5日RankIC从11.74%提升至12.00%，且每年均高于基准的周+日+分钟因子，优化较为稳定，并非某些年份风格偏移所致",
+      "evidence": "加入开盘因子后，5 日 RankIC 从 11.74%提升至 12.00%，且每年 RankIC 均高于基准的“周+日+分钟”因子，因此可以认为开盘因子带来的优化是较为稳定的，并非某些年份上风格偏移所带来的提升。"
+    },
+    {
+      "text": "2018年样本外以来合成因子5日收益率RankIC达12.00%，沪深两市A股分20组Top多头年化超额高达38.20%，各大宽基指数成分股内多头超额同样有提升",
+      "evidence": "2018 年样本外以来，合成因子的 5 日收益率 RankIC 值达到了 12.00%，沪深两市 A 股分 20 组 Top 多头年化超额高达 38.20%。在各大宽基指数成分股内多头超额同样有一定提升，说明使用神经网络提取开盘集合竞价中的信息能够带来不小的增量提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《神经网络因子挖掘——TCN日频量价因子》",
+    "《神经网络因子挖掘（二）——1 分钟频量价因子》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

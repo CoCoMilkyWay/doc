@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "id": "20190521-财通证券-星火多因子-005-源于动量_超越动量_特质动量因子全解析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300"],
+        "data": {"source": ["market_daily", "statement"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "特质动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "IMOM_{i,t}=\\frac{\\prod_{t-11}^{t-1}(1+\\varepsilon_{i,t})-1}{\\sqrt{12}\\times\\sqrt{\\frac{\\sum_{t-11}^{t-1}(\\varepsilon_{i,t}-\\overline{\\varepsilon}_i)^2}{11}}}",
+          "stats": [0.0228, 0.0315, null, 0.128],
+          "evidence": "特质动量因子，又称残差动量因子，是指在剔除了传统的风格因子影响之后，根据个股的特质收益计算得到的特质动量因子。"
+        },
+        {
+          "name": "传统动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "MOM_{i,t}=\\prod_{t-12}^{t-1}(1+r_{i,t})-1",
+          "stats": [0.0123, 0.0328, null, 0.1135],
+          "evidence": "假设当前处于 t 月的月末，那么单只股票传统动量因子即是该股票在 t-12 月到 t-1 月之间的累计收益："
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "正交化后特质动量因子RankIC为3.15%、t值4.98，多空月度溢价0.87%、胜率64%，选股效果优于传统动量因子且更稳健。",
+      "evidence": "全样本区间内，特质动量因子的 RankIC 为 3.15%，稍低于传统动量因子的 3.28%，二者的 t 值分别为 4.98 和 4.14，统计意义上显著。此外，特质动量因子多空组合收益差的月度溢价达到 0.87%，优于传统动量因子 0.72%的溢价程度，且其胜率要明显更高（64%VS 56%）。"
+    },
+    {
+      "text": "特质动量因子多空组合信息比率1.42明显高于传统动量因子的1.01，最大回撤16.3%也明显小于传统动量因子的37.2%。",
+      "evidence": "可以看到基于特质动量因子构建的多空组合信息比率要明显高于传统动量因子（1.42 VS 1.01），而且该组合的最大回撤也明显更小（16.3%VS 37.2%），从这两个指标来看，基于特质动量因子构建的组合都明显更优。"
+    },
+    {
+      "text": "特质动量因子多空组合Beta绝对暴露更小，有效控制了组合风险，这是其最大回撤明显更小的主要原因。",
+      "evidence": "在全样本区间内，特质动量因子多空组合的 Beta 因子的绝对值普遍比传统动量因子多空组合的 Beta 绝对值更低，这说明前者有效地控制了组合风险，从而在市场状态发生转变时能够有效地控制最大回撤。"
+    },
+    {
+      "text": "特质动量因子在沪深300成分股中RankIC达3.98%、t值3.88，选股能力在统计意义上显著。",
+      "evidence": "在全样本期间，因子的 RankIC 达到 3.98%，t 值达到 3.88，在统计意义上显著。"
+    },
+    {
+      "text": "Fama-Macbeth回归中特质动量因子每月溢价0.19%且t值显著（3.104），传统动量因子溢价仅0.08%、t值不显著（0.933）。",
+      "evidence": "由表 5 可以看到，在剔除了已知因子影响后，特质动量因子每月溢价均值为0.19%，其 t 值显著（3.104），而传统动量因子的每月溢价均值仅为 0.08%，其 t值不显著（0.933）。"
+    },
+    {
+      "text": "Spanning Test显示剔除Fama-French三因子后特质动量因子超额收益t值4.285，远高于传统动量因子的2.633，更为有效。",
+      "evidence": "可以看到在剔除Fama-French 三因子影响后，特质动量因子仍然存在一定的风险溢价，其超额收益的 t 值达到 4.285，远高于传统动量因子的 t 值 2.633，从这个角度来看特质动量因子也比传统动量因子更为有效。"
+    },
+    {
+      "text": "特质动量因子和传统动量因子在牛市反转和持续熊市状态下更有效，熊转牛行情下传统动量因子RankIC为负而特质动量因子仍为正。",
+      "evidence": "此外，二者在牛市反转（UpReverse）和持续熊市（DownMomentum）情况下都更为有效，而对于熊转牛（DownRevese）的行情下，传统动量因子的 RankIC为负，而特质动量因子的 RankIC仍然维持为正（尽管其在统计意义上并不显著）。"
+    },
+    {
+      "text": "通过Overlapping组合构建法发现，特质动量因子和传统动量因子在中长期时间段内都没有发生反转。",
+      "evidence": "随着持有期的数量逐步增加，二者在中长期时间段内都没有发生反转，特质动量因子的表现仍然总体优于传统动量因子。"
+    },
+    {
+      "text": "特质动量因子在市值最大的D9组别RankIC达3.5%，在大市值成分股中并未失效。",
+      "evidence": "特别的，对于市值最大的组别 D9 来讲，其全样本区间内的 RankIC 达到 3.5%，并没有呈现出传统价量因子在大市值股票中的失效情况，这是该因子值得关注的原因之一。"
+    },
+    {
+      "text": "从因子自稳定系数看，三步法计算得到的特质动量因子稳定性优于直接回归法。",
+      "evidence": "由图 12可以看到，通过三步法计算得到的特质动量因子的稳定性要优于直接回归法。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "“Momentum Crashes”. K. Daniel and T. Moskowitz. Journal of Financial Economics. 2016",
+    "“Momentum, Reversal, and the Trading Behaviors of Insitutions”，Roberto C.Gutierrez and Christo A. Pirinsky. Journal of Financial M arkets. 2007",
+    "“Residual Momentum in Japan”. R. Chang, K. Ko, S. Nakano and G. Rhee. Journal of Empirical Finance. 2018",
+    "“Residual Momentum”. D. Blitz, J. Huij and M. Martens. Journal of Empirical Finance. 2011",
+    "“The Idiosyncratic Momentum Anomaly”. D. Blitz, M.X.Hanauer, M. Vidojeciv. 2018",
+    "【10】“拾穗”多因子系列（九）：《牛市抢跑者：低 Beta一定低风险吗？》",
+    "【11】“拾穗”多因子系列（十）：《行业的风格偏好：解析纯风格因子组合》",
+    "【12】“拾穗”多因子系列（十一）：《多因子风险预测：从怎么做到为什么》",
+    "【1】“星火”多因子系列（一）：《Barra模型初探：A 股市场风格解析》",
+    "【2】“星火”多因子系列（二）：《Barra模型进阶：多因子模型风险预测》",
+    "【3】“星火”多因子系列（三）：《Barra模型深化：纯因子组合构建》",
+    "【5】“拾穗”多因子系列（一）：《带约束的加权最小二乘：一种解析解法》",
+    "【6】“拾穗”多因子系列（五）：《数据异常值处理：比较与实践》",
+    "【7】“拾穗”多因子系列（六）：《因子缺失值处理：数以多为贵》",
+    "【8】“拾穗”多因子系列（七）：《从纯因子组合的角度看待多重共线性》",
+    "【9】“拾穗”多因子系列（八）：《非线性规模因子：A 股市场存在中市值效应吗？》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

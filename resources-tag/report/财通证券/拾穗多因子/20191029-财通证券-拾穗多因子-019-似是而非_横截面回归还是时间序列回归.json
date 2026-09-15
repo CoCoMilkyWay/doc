@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20191029-财通证券-拾穗多因子-019-似是而非_横截面回归还是时间序列回归",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Size",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股自由流通市值}",
+          "stats": [null, -0.047, null, null],
+          "evidence": "例如股票的市值因子暴露可用其自由流通市值来衡量，而股票的价值因子可用其市净率的倒数 PB因子来衡量。"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP=\\frac{1}{PB}",
+          "stats": [null, 0.051, null, null],
+          "evidence": "例如股票的市值因子暴露可用其自由流通市值来衡量，而股票的价值因子可用其市净率的倒数 PB因子来衡量。"
+        },
+        {
+          "name": "时序SMB系数",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}-r_{f,t}=\\alpha_i+\\beta_i(r_{m,t}-r_{f,t})+s_i SMB_t+h_i HML_t+\\varepsilon_{i,t}\\text{ 中的系数 } s_i",
+          "stats": [null, 0.02, null, null],
+          "evidence": "我们将个股在过去 252 个交易日的收益率对Fama-French 三因子的日度收益率进行时间序列回归，将回归得到的系数作为个股在对应因子上的暴露程度，并将其与横截面上的因子暴露度进行比较。"
+        },
+        {
+          "name": "时序HML系数",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}-r_{f,t}=\\alpha_i+\\beta_i(r_{m,t}-r_{f,t})+s_i SMB_t+h_i HML_t+\\varepsilon_{i,t}\\text{ 中的系数 } h_i",
+          "stats": [null, 0.016, null, null],
+          "evidence": "我们将个股在过去 252 个交易日的收益率对Fama-French 三因子的日度收益率进行时间序列回归，将回归得到的系数作为个股在对应因子上的暴露程度，并将其与横截面上的因子暴露度进行比较。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "以Fama-French模型为代表的时间序列回归将因子收益视为已知、因子暴露视为待估计的参数；而以Barra模型为代表的横截面回归将因子暴露视为已知、因子收益视为待估计的参数。",
+      "evidence": "在资产定价模型中，以Fama-French模型为代表的时间序列回归将因子收益视为已知、因子暴露视为待估计的参数；而在以Barra模型为代表的横截面回归中，将因子暴露视为已知、因子收益视为待估计的参数；"
+    },
+    {
+      "text": "Fama-French方法构建的因子收益更像多空分组法或Double-Sort分组法，目的是用分组剔除目标因子与其他因子之间的相关关系。",
+      "evidence": "根据 Fama-French 方法构建的因子收益更像是一种多空分组法或者是 Double-Sort的分组方法，其主要目的是根据分组的方法剔除目标因子与其他因子之间的相关关系。"
+    },
+    {
+      "text": "横截面直接获取的个股特征因子值选股效果更显著：Size因子T值-2.81，BP因子经市值和行业中性化后T值4.81，而时序回归的SMB系数和HML系数选股效果并不明显。",
+      "evidence": "可以看到，根据横截面上直接获取的个股特征因子值的选股效果均更为显著，其中Size因子的T值达到-2.81，而BP因子在经过市值和行业中性化之后达到4.81，而相较之下，根据时间序列回归得到的SMB系数和HML系数的选股效果并不明显。"
+    },
+    {
+      "text": "时序回归模型R方注重收益的解释，横截面回归模型R方注重收益的预测，二者讨论的并不是同一个问题。",
+      "evidence": "由此可见，基于时序回归得到的模型R方与基于横截面回归得到的模型R方之间讨论的并不是同一个问题，前者更注重于收益的解释，而后者更注重于收益的预测。"
+    },
+    {
+      "text": "判断公式是时间序列回归还是横截面回归的关键在于截距项的表示：时序回归截距不带t下角标，横截面回归截距与时间t有关。",
+      "evidence": "事实上，分辨的关键在于截距项的表示。在时间序列回归中，由于截距项对于所有的时间来讲是固定的，因此其截距项并不会带上t的下角标。而对于横截面回归而言，不同时刻的截距项是不同的，因此其表示方式与时间t有关，从而带有角标t。"
+    },
+    {
+      "text": "特质动量因子在时间序列上剥离市值和价值影响后，横截面上与Size和BP仍存在强烈相关关系，因为时序剔除与横截面剔除存在区别，不能完全等同。",
+      "evidence": "在特质动量因子的计算中，我们在时间序列上剥离了市值和价值的影响之后，在横截面上个股与Size和BP仍然体现出强烈的相关关系。究其原因，我们认为时间序列上的剔除与横截面上的剔除是存在区别的，二者并不能完全等同。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Blitz D., Hanauer M.X., Vidojeciv M. \"The Idiosyncratic Momentum Anomaly\". 2018.",
+    "Fama, E.F., French, K.R. \"Comparing Cross-Section and Time-Series Factor Models\". 2019, SSRN"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

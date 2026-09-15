@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20190813-财通证券-拾穗多因子-017-因子检验中的时序相关性处理_newey_west调整",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {"module": ["L2_single_test"], "approach": ["regression_test"], "setup": {"universe": ["all"]}},
+    "L4_risk": {
+      "module": ["L4_covariance"],
+      "approach": ["dynamic_adjust"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "Newey-West 调整通过在计算协方差矩阵时加入自相关调整项，能够有效规避序列自相关对协方差矩阵估计带来的影响。",
+      "evidence": "Newey-West 调整通过在计算协方差矩阵时加入自相关调整项，能够有效规避序列自相关对协方差矩阵估计带来的影响。"
+    },
+    {
+      "text": "蒙特卡洛模拟显示：当序列存在自相关时，经过Newey-West 调整后计算得到的序列标准差估计与其真实方差之间存在极高的相关性；残差项自相关系数大于 0 时 NW 调整后的标准差估计大于传统 OLS 估计结果，反之则小于。",
+      "evidence": "根据蒙特卡洛模拟结果显示，当序列存在自相关时，经过Newey-West 调整后计算得到的序列标准差估计与其真实方差之间存在极高的相关性。当残差项自相关系数大于 0 时，NW 调整后序列标准差的估计大于传统的 OLS 估计结果（反之，当自相关系数小于 0 时，NW 调整估计得到的标准差小于 OLS 估计结果）。"
+    },
+    {
+      "text": "经过 NW 调整后计算出的波动率与实际波动率之间存在极高相关性（相关系数达到 0.99），由于序列正向自相关性的存在，NW 调整后计算得到的波动率相对更高，t 统计量绝对值较传统学生 t 检验更低，可能使原本显著的序列不再显著。",
+      "evidence": "可以看到，经过 NW 调整后计算出的波动率与实际波动率之间存在极高相关性（相关系数达到 0.99），但由于序列本身正向自相关性（自相关系数大于 0）的存在，导致经过 NW 调整后计算得到的波动率相对更高"
+    },
+    {
+      "text": "NW 调整后系数标准差更高，导致调整后 t 统计量数值相对更低，系数显著性减弱；若残差项自相关系数为负则结论相反。",
+      "evidence": "可以看到，由于经过 Newey-West 调整后计算得出的系数估计值较传统 OLS 方法而言相对更高，从而导致调整后的 t 统计量数值相对更低，系数显著性减弱（若残差项自相关系数为负则结论相反）。"
+    },
+    {
+      "text": "Barra 因子框架下的 Newey-West 调整针对的是因子日度收益的协方差矩阵而非回归系数的协方差矩阵，不涉及回归过程，仅在修正中引入滞后项以调节数据自相关性的影响。",
+      "evidence": "值得注意的是，Barra 因子框架下的Newey-West 调整与 1.2 节中介绍的 Newey-West(1987)的调整方式并不完全相同，Barra 的修正针对的是因子日度收益的协方差矩阵而并非是回归系数的协方差矩阵，并不涉及任何回归过程，仅在修正过程中采用 Newey-West(1987)的思想引入滞后项以调节数据自相关性的影响。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test For Heteroskedasticity. Halbert White. Econometrica, Vol.48, No.4. 1980",
+    "A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix. Whitney K. Newey and Kenneth D. West. Econometrica, Vol.55, No.3. 1987",
+    "Empirical Asset Pricing. The Cross Section of Stock Returns. Turan G. Bali, Robert F. Engle and Scott Murray. Wiley Press."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

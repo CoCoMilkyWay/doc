@@ -1,0 +1,164 @@
+{
+  "schema_version": 2,
+  "id": "20191013-长江证券-高频因子-006-特异视角下的波动率因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "基础波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{1}{n-1}\\sum_{t}(r_t-\\overline{r_t})^2}",
+          "stats": [-0.0548, null, null, 0.1566],
+          "evidence": "从最终风险指标上看，基础波动率因子在全 A 股和中证 800 内均可以获得相对稳定的多空收益，但无超额收益。"
+        },
+        {
+          "name": "特异波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{1}{n-1}\\sum_{t}(\\varepsilon_t)^2}",
+          "stats": [-0.0494, null, null, 0.2621],
+          "evidence": "即以 fama 三因子模型为基础，对过去 21 天个股收益率做市场收益率、规模因子收益率和价值因子收益率的线性回归，取残差计算标准差作为特异波动率因子"
+        },
+        {
+          "name": "特异率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "1-R^{2},\\ R^{2}\\ \\text{为过去21天个股收益率对市场、规模、价值因子收益率回归的拟合优度}",
+          "stats": [null, null, null, 0.2409],
+          "evidence": "其构建方式为对过去 21 天个股收益率做市场收益率、规模收益率和价值收益率的线性回归，取回归的拟合优度，以 1-拟合优度作为特异率因子，特异率因子值越大，个股存在更多的交易异常行为。"
+        },
+        {
+          "name": "新特异波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{1}{n-1}\\sum_{t}(\\varepsilon_t)^2},\\ \\varepsilon_t\\ \\text{为加入流动性与反转因子的五因子回归残差}",
+          "stats": [null, null, null, 0.2632],
+          "evidence": "并取上述方程回归结果的残差标准差及拟合优度，构建特异波动率及特异率因子，在下文中统称为新特异波动率和新特异率"
+        },
+        {
+          "name": "新特异率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "1-R^{2},\\ \\text{五因子（fama三因子+流动性与反转）回归的拟合优度}",
+          "stats": [null, null, null, 0.2266],
+          "evidence": "新特异率因子相比特异率因子在中证 800 范围内有较大改进，超额收益和多空收益提升显著，而在全 A 股范围内差别不大。"
+        },
+        {
+          "name": "高频波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{新特异率}}\\times\\text{过去21天5/30分钟线个股收益率标准差}",
+          "stats": [-0.055, null, null, 0.2927],
+          "evidence": "故本文分别以过去 21天 5分钟线、30分钟线和日线个股收益率标准差作为波动率因子部分，与新特异率因子开方相乘得到高频波动率类因子"
+        },
+        {
+          "name": "非线性波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{特异率}}\\times e^{norm_i},\\ norm_{i}=\\frac{std_{i}-\\min(\\{std_{i}\\})}{\\max(\\{std_{i}\\})-\\min(\\{std_{i}\\})}",
+          "stats": [-0.0432, null, null, 0.3125],
+          "evidence": "故本文分别以过去 21天 5分钟线、30分钟线和日线个股收益率标准差出发，进行截面归一化，以对波动率非线性变换得到的部分作为波动率因子乘数部分，与特异率因子开方相乘得到非线性波动率类因子"
+        },
+        {
+          "name": "高频反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{基于高频收益率构建的反转因子，要求个股价格变动与成交量在时间段上相互匹配}",
+          "stats": [null, null, null, 0.2741],
+          "evidence": "高频反转因子的构建要求个股的价格变动和成交量在时间段上能够相互匹配，但为相同标的的匹配，相同标的的匹配误差较小。"
+        },
+        {
+          "name": "非线性反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Rev_{struct}=\\sum_{i} w_i\\log\\frac{Close_{t-i+1}}{Close_{t-i}},\\ weight_{i}^{non\\_linear}=\\log(1+weight_{i}-weight_{gap})",
+          "stats": [null, null, null, 0.287],
+          "evidence": "结构化反转因子的思想为量变引起质变，但在数学形式上却有更合理的非线性变换函数避免上述缺点且满足构建逻辑，这里借鉴波动率通过指数函数非线性变换的形式构建因子"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test"],
+      "setup": {"universe": ["all", "csi800"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "特异波动率因子表现较好，全A股中超额收益2.22%，信息比0.32，多空收益26.21%，多空夏普比1.71。",
+      "evidence": "表现上看特异波动率因子表现较好，全 A 股中超额收益 2.22%，信息比 0.32，多空收益 26.21%，多空夏普比 1.71。"
+    },
+    {
+      "text": "在 fama 三因子的基础上加入流动性和反转因子构建的新特异波动率因子，在全A股中超额收益2.89%，信息比0.42，多空收益26.32%。",
+      "evidence": "在 fama 三因子的基础上，考虑和波动率类因子相关性较高的流动性和反转因子构建的新特异波动率因子，在全 A 股中超额收益 2.89%，信息比 0.42，多空收益 26.32%，信息比 1.80。"
+    },
+    {
+      "text": "以高频数据进行细化构建的高频波动率因子，在全A股中超额收益3.37%，信息比0.49，多空收益29.27%。",
+      "evidence": "以高频数据进行细化构建高频波动率因子，在全 A 股中超额收益 3.37%，信息比 0.49，多空收益 29.27%，信息比 1.99。"
+    },
+    {
+      "text": "以非线性方式改进个股波动部分乘数构建的非线性波动率因子，在全A股中超额收益7.19%，信息比1.18，多空收益31.25%，多空夏普比2.46。",
+      "evidence": "以非线性的方式改进个股波动部分乘数，可以保留其空头端的区分能力，同时淡化头部组的分组信息，构建非线性波动率因子，在全 A 股中超额收益 7.19%，信息比 1.18，多空收益 31.25%，信息比 2.46。"
+    },
+    {
+      "text": "特异波动率综合了特异率（个股特异）和波动率（个股波动）信息，即特异波动率=√(特异率×基础波动率)，这种综合为非线性组合。",
+      "evidence": "即特异波动率综合了特异率（个股特异）和波动率（个股波动）信息，使得因子在表现上兼具两个因子的共同特点"
+    },
+    {
+      "text": "低波效应和资产定价模型并不矛盾，低波效应为滞后一期的风险，同期风险的回测显示个股波动越大收益越高。",
+      "evidence": "低波效应为滞后一期的风险，但个股风险不具有持续性，同期风险的回测显示个股波动越大收益越高。"
+    },
+    {
+      "text": "波动率类因子在30分钟级别下表现较好，二阶矩计算受局部误差制约；高频反转因子在5分钟级别下仍有提升。",
+      "evidence": "结果上看波动率类因子在 30 分钟级别下表现较好。而一阶矩计算不受局部误差影响，且个股自身不同维度数据匹配误差较小，使得高频反转因子在 5 分钟级别下仍有提升。"
+    },
+    {
+      "text": "在频率提高至10分钟以上后，特异率因子开始失效。",
+      "evidence": "在改进波动率因子的过程中，我们也尝试了以不同频率计算的收益率进行 fama三因子回归的特异率，其风险指标如表 28 所示5，在频率提高至 10 分钟以上的频率后，特异率因子开始失效。"
+    },
+    {
+      "text": "非线性波动率因子 t 值较高，通过统计检验，在现存的风格因子体系下仍有信息增量。",
+      "evidence": "非线性波动率因子 t 值较高，通过统计检验，说明在现存的风格因子体系下，非线性波动率因子仍有信息增量。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《结构化反转因子》",
+    "《高频因子（五）：高频因子和交易行为》",
+    "《高频因子（四）：高阶矩高频因子》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

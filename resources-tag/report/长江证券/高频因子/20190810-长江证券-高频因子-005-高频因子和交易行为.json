@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "id": "20190810-长江证券-高频因子-005-高频因子和交易行为",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "轨迹5分",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "illiq_{guiji}=\\frac{\\log\\prod(1+|Return_{t}|)}{\\sum Amount_{t}}",
+          "stats": [0.0879, null, 0.7625, 0.3643],
+          "evidence": "上式的含义为在一段时间内，按照一定方式划分区间作为价格变动估计周期，累积得到价格变动及成交额，以整体衡量单位成交额对于价格的影响，其中分子体现了过去一段时间价格变动的全轨迹，并取对数转换为收益率，分母为过去一段时间总成交额。"
+        },
+        {
+          "name": "轨迹日线",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "illiq_{guiji}=\\frac{\\log\\prod(1+|Return_{t}|)}{\\sum Amount_{t}}",
+          "stats": [0.0851, null, 0.8104, 0.3819],
+          "evidence": "其中以价格轨迹变动改进的非流动性因子在剥离了规模因子的线性影响后，全 A 股范围内超额收益9.70%，信息比 1.55，多空收益 38.19%，多空夏普比 2.90。"
+        },
+        {
+          "name": "博弈",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "Stren=\\frac{\\sum weight_{t}\\times Vol\\_Buy_{t}}{\\sum weight_{t}\\times Vol\\_Sell_{t}}",
+          "stats": [-0.0752, null, -0.6435, 0.2667],
+          "evidence": "一般情况下买卖双方的短期博弈均存在过度反应的现象，当个股过去一段时间主买量大于主卖量时，买方力量强于卖方力量，多头筹码量增价，个股价格容易被高估；反之当个股过去一段时间主卖量大于主买量时，卖方力量强于买方力量，个股价格容易被低估。"
+        },
+        {
+          "name": "21天特异率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以Fama三因子模型回归方程的R方作为特异率因子，衡量个股的表现异常情况}",
+          "stats": [0.0733, null, 0.7375, 0.2466],
+          "evidence": "故本文分别 21 天和42 天的时间长度，以上述回归方程的 R 方作为特异率因子，本文统称为特异率类因子，衡量个股的表现异常情况，特异率因子值越小，个股存在更多的交易异常行为。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "以价格轨迹变动改进的非流动性因子在剥离规模因子线性影响后，全A股超额收益9.70%，信息比1.55，多空收益38.19%；以主动买卖单构建的博弈因子超额收益4.47%，多空收益26.67%。",
+      "evidence": "其中以价格轨迹变动改进的非流动性因子在剥离了规模因子的线性影响后，全 A 股范围内超额收益9.70%，信息比 1.55，多空收益 38.19%，多空夏普比 2.90。以主动买卖单构建的博弈因子，在全 A 股范围内超额收益 4.47%，信息比 0.77，多空收益 26.67%，多空夏普比2.10。"
+    },
+    {
+      "text": "特异率因子直接从价格变动结果刻画个股交易异常，本身具有一定选股能力，全A股超额收益5.64%，信息比0.92，多空收益24.66。",
+      "evidence": "特异率因子可以直接从价格变动的结果，对个股的交易异常给出刻画，本身也具有一定的选股能力，在全A股范围内超额收益5.64%，信息比0.92，多空收益 24.66，多空夏普比 2.14。"
+    },
+    {
+      "text": "高频因子的局限：因子相关性有限但仍有信息增量；因子收益彼此相互影响；下行风险相关性高，尾部风险集中。",
+      "evidence": "从因子信息上看，各个高频因子的相关性有限，以特异率刻画交易异常行为，加入新的高频因子仍有显著的信息增量；从因子收益上看，因子彼此之间相互影响，加入新的因子回测收益有限；从因子风险上看，下行风险相关性高，尾部风险集中。"
+    },
+    {
+      "text": "剥离barra因子后等权合成的高频因子，全A股超额收益3.07%，信息比0.67，多空收益18.07%，每项风险指标均高于单个高频因子。",
+      "evidence": "在剥离 barra 因子后，等权加总高频因子构建合成因子，在全A 股范围内超额收益 3.07%，信息比 0.67，多空收益 18.07%，多空夏普比 2.39，每项风险指标均高于单个高频因子。"
+    },
+    {
+      "text": "各个高频因子的尾部风险基本集中爆发，历史上大致有四个区间，其中两次回撤是A股大牛市的开端。",
+      "evidence": "各个高频因子的尾部风险基本集中爆发。因子的回撤对于市场有一定的启示意义，其中第一次回撤（2006 年底）和第三次回撤（2014 年底）是 A 股两轮大牛市的开端，第四次回撤是长期结构性牛市。"
+    },
+    {
+      "text": "剥离特异率因子的影响后，各因子t值仍显著，因子可以贡献信息增益，特异率因子可解释其他高频因子部分收益来源。",
+      "evidence": "从上文的统计结果，剥离了特异率因子的影响后，因子 t 值仍显著，因子可以贡献信息增益。"
+    }
+  ],
+  "builds_on": [
+    "20190720-长江证券-高频因子-003-高频因子研究框架",
+    "20190720-长江证券-高频因子-004-高频因子本质（上）"
+  ],
+  "external_ref": ["《资金流因子全面测试兼正交化方法详解》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "id": "20190416-财通证券-拾穗多因子-009-牛市抢跑者_低beta一定代表低风险吗",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Beta",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Beta_{i}=\\frac{cov(r_{i},r_{m})}{\\sigma_{m}^{2}}",
+          "stats": [0.0021, -0.0103, null, null],
+          "evidence": "在本文的介绍中，我们取其狭义的Beta含义，也就是股票收益相对市场收益的波动幅度。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]},
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "2019年以来Beta因子在所有风格因子中表现最为抢眼，样本区间内已获得5.36%的高收益，Beta纯因子表现甚至优于纯规模因子。",
+      "evidence": "可以看到，在所有风格因子中，Beta因子的表现最为抢眼，在样本区间内已经获得了5.36%的高收益，Beta纯因子的表现甚至要优于纯规模因子的表现。"
+    },
+    {
+      "text": "简单Beta因子组合在流动性和波动率上的高暴露腐蚀了组合收益，从而导致高Beta组合走势不如低Beta组合；而纯Beta因子能够获得较为稳定的正收益。",
+      "evidence": "因此，简单Beta因子组合在流动性和波动率上的高暴露在一定程度上腐蚀了组合收益，从而导致高Beta组合走势不如低Beta组合。"
+    },
+    {
+      "text": "全样本期间Beta并不是十分有效的单因子：回测区间rankIC为-1.03%，月胜率为45%，t值并不显著（-0.77）。",
+      "evidence": "表 2 对因子绩效进行了统计，在回测区间因子的 rankIC 为-1.03%，月胜率为 45%，t 值并不显著（-0.77）。"
+    },
+    {
+      "text": "前期市场上涨本月反转（upReverse）时Beta因子IC显著为负，说明市场由牛转熊的切换中高Beta股票跌幅显著大于低Beta股票，低Beta策略能提供保护性。",
+      "evidence": "但是在前期市场上涨本月市场反转时，Beta 因子的 IC 显著为负，说明在市场由牛转熊的切换中（upReverse），高 Beta 股票的跌幅将会显著大于低 Beta 股票，这一点与 Beta 因子本身所代表的市场弹性含义相契合。"
+    },
+    {
+      "text": "市场由熊转牛切换中（downResverse），高Beta股票涨幅显著大于低Beta股票，高Beta策略能带来较高攻击性。",
+      "evidence": "同样的，当市场处于由熊转牛的切换中时（downResverse），高Beta的股票的涨幅将会显著大于低Beta股票。"
+    },
+    {
+      "text": "持续下跌行情（downMomentum）中Beta因子rankIC同样显著为负，这解释了2018年单边下跌行情中低Beta指数比高Beta指数表现更好。",
+      "evidence": "此外，我们还观察到当市场处于持续下跌的行情时（downMomentum），Beta 因子的rankIC 值同样显著为负，这也能够解释在 2018 年的市场单边下跌行情中，低 Beta指数为何能够比高 Beta 指数表现更好。"
+    },
+    {
+      "text": "银行业Beta均值仅为0.67，与其今年涨幅仅为上证综指涨幅70%基本对应。",
+      "evidence": "可以看到，银行业的 Beta均值为 0.67，这与之前我们观察到了银行业涨幅是市场涨幅是 70%基本对应。"
+    },
+    {
+      "text": "2018.12.28-2019.4.12期间沪深300高低贝塔相对净值获得19%收益，中证500高低贝塔相对净值也获得6%收益，高贝塔指数表现明显优于低贝塔指数。",
+      "evidence": "在2018.12.28-2019.4.12 期间，沪深 300 高低贝塔相对净值已经获得 19%的收益，而中证 500 高低贝塔相对净值也获得了 6%的收益。"
+    },
+    {
+      "text": "判断市场处于牛市时可适当配置高Beta策略，并需时刻关注市场状态切换、做好风控准备。",
+      "evidence": "如果投资者判断市场处于牛市状态，又担心自己所选择的组合跑不赢指数，财通金工建议投资者可以适当考虑在当前时点配置一定量的高 Beta 策略。当然市场状态的切换也需要时刻关注，投资者必须做好风控准备。"
+    },
+    {
+      "text": "所有样本指数未来一个月年化波动区间在22%-31%之间，相较上周攀升明显，需注意当前市场波动情况。",
+      "evidence": "所有样本指数在未来一个月的年化波动区间在 22%-31%之间，相较上周攀升明显，财通金工特别提醒投资者注意当前市场的波动情况。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "“拾穗”多因子系列（七）：《从纯因子组合的角度看待多重共线性》",
+    "“星火”多因子系列（一）：《Barra模型初探：A 股市场风格解析》",
+    "“星火”多因子系列（三）：《Barra模型深化：纯因子组合构建》",
+    "“星火”多因子系列（二）：《Barra模型进阶：多因子模型风险预测》",
+    "“星火”多因子系列（四）：《基于持仓的基金绩效归因：始于 Brinson，归于 Barra》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

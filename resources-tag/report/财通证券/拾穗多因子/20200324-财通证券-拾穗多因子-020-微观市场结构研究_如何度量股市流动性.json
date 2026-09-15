@@ -1,0 +1,127 @@
+{
+  "schema_version": 2,
+  "id": "20200324-财通证券-拾穗多因子-020-微观市场结构研究_如何度量股市流动性",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{换手率}=\\frac{\\text{成交量}(\\text{手})}{\\text{股本数量}(\\text{股})}\\times100\\%",
+          "stats": [null, null, null, null],
+          "evidence": "换手率，又称买卖周转率，是指一段时间内市场中股票转手买卖的频率，它是反映股票流动性强弱的指标之一。"
+        },
+        {
+          "name": "Amihud 非流动性指标",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "AmihudIlliq=\\frac{|\\text{区间收益率}|}{\\text{区间成交金额}}\\times100\\%",
+          "stats": [null, null, null, null],
+          "evidence": "Amihud 非流动性指标是目前采用的最广泛的市场冲击指标之一，其计算方法如下："
+        },
+        {
+          "name": "Pastor Gamma 指标",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "r^{e}_{i,d+1,t}=\\theta_{i,t}+\\phi_{i,t}r_{i,d,t}+\\gamma_{i,t}\\,sign(r^{e}_{i,d,t})\\cdot v_{i,d,t}+\\epsilon_{i,d+1,t}",
+          "stats": [null, null, null, null],
+          "evidence": "Pastor and Stambaugh（2003）为了分析前期交易量和交易方向对当期股票收益率的影响，提出通过如下时间序列回归来度量个股流动性："
+        },
+        {
+          "name": "LOT Zeros 方法",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\frac{\\text{考察时期内零收益率的天数}}{\\text{考察时期的天数}}",
+          "stats": [null, null, null, null],
+          "evidence": "Lesmond, Ogden and Trzcinka（1999）认为当股票的流动性越差时，没有交易的天数就会越多，从而导致零收益率的天数越多。"
+        },
+        {
+          "name": "有效价差",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "na",
+          "formula": "\\text{相对有效价差}=\\frac{2\\times|\\text{成交价}-\\text{买卖价中点价格}|}{\\text{买卖价中点价格}}",
+          "stats": [null, null, null, null],
+          "evidence": "由于一天之内存在多笔成交，因此根据 McInish and Wood（1992）在度量日度的买卖价差时，通常可以分为时间加权的平均买卖价差、简单平均的买卖价差、收盘时刻的买卖价差三种。"
+        },
+        {
+          "name": "Roll价差",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "S=2\\sqrt{-cov(\\Delta P_{t},\\Delta P_{t+1})}",
+          "stats": [null, null, null, null],
+          "evidence": "Roll价差是一种根据日度交易数据，采用一阶差分的价格序列协方差来衡量有效市场中个股买卖价差的估计方式。"
+        },
+        {
+          "name": "Corwin and Schultz 指标",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "S=\\frac{2(e^{\\alpha}-1)}{1+e^{\\alpha}},\\quad \\alpha=\\frac{\\sqrt{2\\beta}-\\sqrt{\\beta}}{3-2\\sqrt{2}}-\\sqrt{\\frac{\\gamma}{3-2\\sqrt{2}}}",
+          "stats": [null, null, null, null],
+          "evidence": "最后一部分，我们介绍一种采用每日最高价和最低价来估计个股买卖价差的方法，其最早由 Corwin and Schultz（2010）提出。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "本文介绍衡量市场流动性的多项衡量指标，包括换手率、Amihud 非流动性指标、Pastor Gamma、LOT Zeros、有效价差、Roll 价差以及基于高低价差的指标。",
+      "evidence": "本文介绍衡量市场流动性的多项衡量指标，包括换手率、Amihud 非流动性指标、Pastor Gamma、LOT Zeros、有效价差、Roll 价差以及基于高低价差的指标。"
+    },
+    {
+      "text": "对中美两市的实证检验发现，美国市场近期多次熔断造成市场恐慌，流动性压力极大，流动性危机确实存在，而 A股市场的整体流动性情况仍然良好。",
+      "evidence": "对中美两市的实证检验发现，美国市场近期多次熔断造成市场恐慌，流动性压力极大，“流动性危机”确实存在，而 A股市场的整体流动性情况仍然良好。"
+    },
+    {
+      "text": "三个流动性指标综合来看，近期美股市场承受了较大的卖压，投资者的恐慌性抛售导致的市场信心不足从多个流动性指标维度得到验证。",
+      "evidence": "由三个指标综合来看，近期美股市场确实承受了较大的卖压，由于投资者的恐慌性抛售导致的市场信心不足从多个流动性指标维度得到了验证。"
+    },
+    {
+      "text": "高开低收价差指标近期峰值已达历史高点，远高于 2008 年金融危机时候的峰值。",
+      "evidence": "特别是高开低收价差指标，其近期峰值已经达到了历史高点，远高于 2008 年金融危机时候的峰值。"
+    },
+    {
+      "text": "拉长到历史区间看，A 股 Roll 价差近期虽有一定程度攀升，但总体而言 A股市场流动性目前仍然比较好，并未出现股市流动性紧张的情况。",
+      "evidence": "相较之下，Roll 价差则在 2015 年时达到最高点，并且在近期也出现了一定程度的攀升。不过拉长到历史区间来看，这点攀升并不足以导致投资者的紧张。总体而言，A股市场的流动性目前来看还是比较好的，并未出现股市流动性紧张的情况。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Amihud. Y. and H. Mendelson. “Asset Pricing and the Bid-Ask Spread.” Journal of Financial Economics. 1986, 17(2)",
+    "Corwin S. and P. Schultz. “A Simple Way to Estimate Bid-Ask Spreads from Daily Highand Low Prices.”",
+    "Lesmond,D., C.Trzcinka, J. Ogden. “A New Measure of Transaction Costs.” Review of Financial Studies, 1999, 12(5).",
+    "Pastor L. and R. Stambaugh. “Liquidity Risk and Expected Stock Returns.” Journal of Political Economy, 2003. 111(3).",
+    "Roll R. “A Simple Implicit Measure of the Effective Bid-Ask Spread in an Efficient Market.” The Journal of Finance. 1984. 39(4).",
+    "刘逖. “证券市场微观结构理论与实践.” 复旦大学出版社. 2002",
+    "张峥，李怡宗，张玉龙等.“中国股市流动性间接指标的检验——基于买卖价差的实证分析”. 经济学（季刊），2013. 13(1)."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "schema_version": 2,
+  "id": "20190827-财通证券-星火多因子-006-alpha因子重构_引入协方差矩阵的因子有效性检验",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "IVFF3_RSquare_1M",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股过去21天日度收益对FF3因子时序回归的R方}",
+          "stats": [null, 0.087, null, 0.2984],
+          "evidence": "IVFF_1M/IVFF_RSquare_1M | 特质波动率/特异度 | 个股过去 21 天收益对 FF3 因子进行时序回归，取残差波动率及R方"
+        },
+        {
+          "name": "IVFF3_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股过去21天日度收益对FF3因子时序回归的残差波动率}",
+          "stats": [null, 0.097, null, 0.2498],
+          "evidence": "IVFF_1M/IVFF_RSquare_1M | 特质波动率/特异度 | 个股过去 21 天收益对 FF3 因子进行时序回归，取残差波动率及R方"
+        },
+        {
+          "name": "STD_1M_Excess",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "STD_{1M\\_Excess,t}=\\text{std}(r_{t-i}-r_{m,t-i}),\\ i=0,\\dots,20",
+          "stats": [null, 0.087, null, 0.2207],
+          "evidence": "STD_1M_Excess/3M/6M | 过去N月日度超额收益率标准差 | 市场收益采用样本股流通市值加权收益"
+        },
+        {
+          "name": "TurnOver_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "TurnOver_{1M,t}=\\frac{1}{N}\\sum_{i=0}^{N-1}turn_{t-i}",
+          "stats": [null, 0.106, null, 0.3142],
+          "evidence": "TurnOver_1M/3M/6M/1Y | 最近N月日度换手率平均 | 需剔除停牌日数据"
+        },
+        {
+          "name": "TurnOver_3M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "TurnOver_{3M,t}=\\frac{1}{N}\\sum_{i=0}^{N-1}turn_{t-i}",
+          "stats": [null, 0.081, null, 0.2426],
+          "evidence": "TurnOver_1M/3M/6M/1Y | 最近N月日度换手率平均 | 需剔除停牌日数据"
+        },
+        {
+          "name": "TurnOver_6M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "TurnOver_{6M,t}=\\frac{1}{N}\\sum_{i=0}^{N-1}turn_{t-i}",
+          "stats": [null, 0.069, null, 0.2096],
+          "evidence": "TurnOver_1M/3M/6M/1Y | 最近N月日度换手率平均 | 需剔除停牌日数据"
+        },
+        {
+          "name": "TurnOver_1Y",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "TurnOver_{1Y,t}=\\frac{1}{N}\\sum_{i=0}^{N-1}turn_{t-i}",
+          "stats": [null, 0.061, null, 0.1748],
+          "evidence": "TurnOver_1M/3M/6M/1Y | 最近N月日度换手率平均 | 需剔除停牌日数据"
+        },
+        {
+          "name": "AmihudILLIQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ILLIQ_t=\\frac{1}{21}\\sum_{i=0}^{20}\\frac{|r_{t-i}|}{Amount_{t-i}}",
+          "stats": [null, 0.027, null, 0.0571],
+          "evidence": "Amihud Illiqudity | 过去21个交易日的日涨跌幅绝对值除以成交额指标的均值 | 衡量个股成交量对于价格的冲击"
+        },
+        {
+          "name": "MaxRet21",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "MaxRet21_t=\\max_{i=0,\\dots,20} r_{t-i}",
+          "stats": [null, 0.066, null, 0.1213],
+          "evidence": "MinRet21/MaxRet21 | 过去N日最大收益率/最小收益率"
+        },
+        {
+          "name": "Ret21",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Ret21_t=\\frac{P_t-P_{t-21}}{P_{t-21}}",
+          "stats": [null, 0.072, null, 0.1916],
+          "evidence": "Ret21/Ret63/Ret126/Ret252_21 | 过去N日收益率 | 长期动量 Ret252_21 需要将过去252 天收益率减去最近21 天收益"
+        },
+        {
+          "name": "IMOM",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对Beta进行正交的特质动量因子}",
+          "stats": [null, 0.029, null, 0.1117],
+          "evidence": "特质动量 IMOM | 具体参见“星火”（五）和“拾穗”（12） | 采用对 Beta 进行正交的版本"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "BP_t=\\frac{\\text{净资产}}{\\text{总市值}}",
+          "stats": [null, 0.057, null, 0.1545],
+          "evidence": "BP | 市净率PB的倒数=净资产/总市值 | 对应 Wind 中 pb_lf 倒数"
+        },
+        {
+          "name": "EPTTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "EPTTM_t=\\frac{\\text{净利润TTM}}{\\text{总市值}}",
+          "stats": [null, 0.041, null, 0.1046],
+          "evidence": "EP | 市盈率PE的倒数=净利润TTM/总市值 | 对应 Wind 中 pe_ttm 倒数"
+        },
+        {
+          "name": "SPTTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SPTTM_t=\\frac{\\text{营业收入TTM}}{\\text{总市值}}",
+          "stats": [null, 0.037, null, 0.1061],
+          "evidence": "SP | 市销率PS的倒数=营业收入TTM/总市值 | 对应 Wind 中 ps_ttm 倒数"
+        },
+        {
+          "name": "OCFPTTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "OCFPTTM_t=\\frac{\\text{经营性现金流入TTM}}{\\text{总市值}}",
+          "stats": [null, 0.042, null, 0.1095],
+          "evidence": "OCFPTTM | 经营性现金流入TTM/总市值 | 对应 Wind 中 pcf_ocf_ttm 倒数"
+        },
+        {
+          "name": "CFO",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "CFO_t=\\frac{\\text{经营活动产生的现金流量净额}}{\\text{期末总资产}}",
+          "stats": [null, 0.02, null, 0.0499],
+          "evidence": "CFO | 经营活动产生的现金流量净额/期末总资产*100% | 衡量企业现金流量"
+        },
+        {
+          "name": "ROE_ExDiluted",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE\\_ExDiluted_t=\\frac{\\text{扣除非经常性损益后归属母公司股东净利润}}{\\text{期末归属母公司股东的权益}}",
+          "stats": [null, 0.031, null, 0.0854],
+          "evidence": "扣非后净资产收益率ROE（摊薄）ROE_ExDiluted | 扣除非经常性损益后归属母公司股东净利润/期末归属母公司股东的权益*100%"
+        },
+        {
+          "name": "DTOA",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "DTOA_t=\\frac{\\text{总负债}}{\\text{总资产}}",
+          "stats": [null, 0.02, null, 0.0603],
+          "evidence": "| DTOA | -1 | 6.03% | 18.09% | 0.334 | 41.95% | 0.020 | 1.812 |"
+        },
+        {
+          "name": "NetProfitQYOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度净利润（最新财报）同比增长率}",
+          "stats": [null, 0.05, null, 0.1605],
+          "evidence": "NetProfitQYOY | 单季度净利润（最新财报）同比增长率 | 同上"
+        },
+        {
+          "name": "NetOperateCashFlowQYOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度经营性现金流（最新财报）同比增长率}",
+          "stats": [null, 0.028, null, 0.0777],
+          "evidence": "NetOperateCashFlowQYOY | 单季度经营性现金流（最新财报）同比增长率 | 同上"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "引入协方差矩阵的因子有效性检验法的t值比多空分组法的t值更大，且与实际投资中的组合优化方法更为贴近，理论上更能准确反映因子有效性程度",
+      "evidence": "引入协方差矩阵的因子有效性检验法的t值比多空分组法的t值应该更大，且与实际投资中的组合优化方法更为贴近，理论上而言是一种更能准确反映因子有效性程度的方法；"
+    },
+    {
+      "text": "基于 Qian_Shrink 方法得到的合成Alpha 因子效果最佳，多空对冲组合信息比率达到 3.51，月胜率达到 84%，纯多头组合相较基准存在稳健的超额收益",
+      "evidence": "实证结果表明，基于 Qian_Shrink方法得到的合成Alpha 因子效果最佳，在全样本中，多空对冲组合的信息比率达到 3.51，月胜率达到 84%，且纯多头组合相较基准存在稳健的超额收益。"
+    },
+    {
+      "text": "Qian-Shrink 多头组合相较市场指数的年化超额收益为 12.83%，年化波动为 6.99%，夏普比率为 1.84，最大回撤为 5.28%",
+      "evidence": "在回测时间段内，多头组合相较市场指数的年化超额收益为 12.83%，年化波动为 6.99%，夏普比率为 1.84，最大回撤为 5.28%。"
+    },
+    {
+      "text": "RankICIR 加权合成的 Alpha 因子年化收益最高，达到 44.92%，年化波动 15.33%，信息比率 2.93，月胜率 78%",
+      "evidence": "由图 6 可以看出，根据 RankICIR 加权合成的 Alpha 因子年化收益最高，其年化收益达到 44.92%，年化波动为 15.33%，信息比率达到 2.93，月胜率 78%。"
+    },
+    {
+      "text": "财通金工从 Beta、规模、动量、波动、换手、估值、成长、质量、盈利、杠杆和特色因子出发，构建 57 个基础因子，并对其有效性进行检验",
+      "evidence": "财通金工从 Beta、规模、动量、波动、换手、估值、成长、质量、盈利、杠杆和特色因子出发，构建 57个基础因子，并对其有效性进行测试；"
+    },
+    {
+      "text": "带绝对值的组合优化求解更为复杂，提出两种引入新变量的方法和一种直接求解法",
+      "evidence": "带绝对值的组合优化求解更为复杂，我们提出两种引入新变量的方法和一种直接求解法，分享在此问题上的一些探索。"
+    },
+    {
+      "text": "直接调用 scipy.optimize 求解直观便捷但速度缓慢，单个因子114个月的优化需将近30个小时甚至更多",
+      "evidence": "直接调用 scipy.optimize 包进行权重求解直观便捷，且最终确实能够求解出满足条件的组合权重。但是相较于二次规划问题求解而言，其运行速度十分缓慢，单单对于一个因子而言，对总共114个月的优化就需要将近30个小时甚至更多，时间花销极大。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Efficient Sorting: A More Powerful Test for Cross-Sectional Anomalies. Olivier Ledoit. Michael Wolf and Zhao Zhao.",
+    "Honey, I Shrunk the Sample Covariance Matrix. Oliver Ledoit, Michael Wolf. 2004.",
+    "Quantitative Equity Portfolio Management: Modern Techniques and Applications. Qian, E. Hua, R. Sorensen.",
+    "《源于动量，超越动量：特质动量因子全解析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

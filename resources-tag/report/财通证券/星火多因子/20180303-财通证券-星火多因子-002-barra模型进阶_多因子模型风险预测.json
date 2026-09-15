@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20180303-财通证券-星火多因子-002-barra模型进阶_多因子模型风险预测",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "momentum", "volatility", "liquidity", "other"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["risk_based"],
+      "setup": {"universe": ["all", "sse50", "csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "给定投资组合权重向量即可对其未来1个月波动进行预测，Wind全A指数的预测波动率与实际波动率相关关系高达74%",
+      "evidence": "任意投资组合风险预测：给定投资组合权重向量，即可对其未来 1个月波动进行预测，回测发现预测波动率与实际波动率走势十分相似，对于 Wind 全A 指数，二者相关关系高达74%。"
+    },
+    {
+      "text": "GMV组合的实际风险明显小于基准组合，夏普比率有明显的提高",
+      "evidence": "最小期望风险 GMV 组合：在给定投资标的的情况下，每月月底调整权重，使得投资组合的预期风险最小。研究发现，GMV 组合的实际风险明显小于基准组合，夏普比率有明显的提高。"
+    },
+    {
+      "text": "创业板指的预测波动率与实际波动率走势十分相似，二者之间的相关系数达到 73.9%",
+      "evidence": "由图表 可以看出，创业板指的预测波动率与实际波动率走势十分相似，二者之间的相关系数达到 73.9%。"
+    },
+    {
+      "text": "经过特征值修正之后，最优投资组合的偏差统计量（Eigen）大部分落在置信区间内，风险测度的准确性有较大幅度的提高",
+      "evidence": "而在经过特征值修正之后，最优投资组合的偏差统计量（Eigen）大部分落在置信区间内，这说明经过特征值调整过后，风险测度的准确性有较大幅度的提高。"
+    },
+    {
+      "text": "与调整前相比，经过调整过后的偏误统计量更接近于 1，VRA调整的偏误统计量均在 1附近",
+      "evidence": "图表 7 绘制出了在时间序列上，调整前后偏误统计量的 12 个月滚动平均值，可以看到与调整前相比，经过 调整过后的偏误统计量更接近于 1。当未调整的协方差矩阵显著低估（或高估）实际风险，导致偏误统计量远大于 1（或小于 1）时，VRA 调整的偏误统计量均在 1附近。"
+    },
+    {
+      "text": "经过贝叶斯压缩调整过后的特异风险在每个波动率分组中的分布保持一致，特异风险预测效果更好",
+      "evidence": "由图表 13可以看到，经过压缩过后的协方差矩阵（Shrink）在每个波动率分组中的分布保持一致，均在 附近，由此说明经过贝叶斯压缩调整过后的特异风险预测效果更好。"
+    },
+    {
+      "text": "特异收益数据质量较优（γ=1）的股票在全市场中所占比率均值维持在87%，是一个较为理想的比例",
+      "evidence": "图表 12 绘制了从 2007.6.29-2018.1.31 期间，特异收益数据质量较优（即γ=1）的股票在全市场股票中所占比率的柱状图，可以看到该比例的均值维持在87%，这是一个较为理想的比例。"
+    },
+    {
+      "text": "上证综指GMV对冲组合年化收益13.3%、年化波动7.1%、夏普比率1.87，对冲效果有较为明显的改善",
+      "evidence": "以上证综指为例，通过做多上证综指 GMV 组合、做空上证综指构建的对冲组合净值如图表 21 所示，该样本回测区间内该对冲组合的年化收益达到13.3%，年化波动为7.1%，夏普比率达到 1.87。"
+    },
+    {
+      "text": "本报告采用的方法对主要指数的风险预测较为准确，月末权重调整的最小预期风险组合在预期风险和实际风险均低于相应的基准组合",
+      "evidence": "从实证结果中发现，本报告中采用的方法对主要指数的风险预测较为准确，相关系数在 以上。此外，根据月末权重调整的最小预期风险组合在预期风险和实际风险均低于相应的基准组合，策略的夏普比率也有较为明显的提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Grinold R, R. Kahn, 2000, Active Portfolio Management, New York: McGraw-Hill",
+    "Menchero Jose, D.J. Orr, Jun Wang, 2011, The Barra USE Equity Model (USE4)",
+    "Menchero Jose, Jun Wang, D.J.Orr, 2011. Eigen-Adjusted Covariance Matrices. MSCI Research Insight.",
+    "Shepard Peter, 2009. Second Order Risk. Working Paper"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": 2,
+  "id": "20231116-长江证券-神经网络因子挖掘-001-tcn日频量价因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "量价因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{TCN 神经网络以过去 63 日最高价、开盘价、最低价、收盘价、成交均价、成交量、成交额 7 个特征的量价数据矩阵为输入，输出 64 个预测值作为因子，无闭式表达式}",
+          "stats": [null, 0.0554, 0.6431, null],
+          "evidence": "最终我们使用 TCN神经网络以股票过去 63 日的量价数据作为输入，预测隔天未来 20 日收益率，获得了 64 个量价因子和 1 个等权合成因子。"
+        },
+        {
+          "name": "等权合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{64}\\sum_{i=1}^{64}\\hat{y}_{i}",
+          "stats": [null, 0.1173, 1.4004, null],
+          "evidence": "在对 64 个因子进行简单的等权合成后，RankIC 值提升到 11.73%，RankICIR 值提升至 140.04%，远超合成前的 64 个因子单因子表现。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "损失函数同时考虑每个因子的有效性、合成因子的有效性以及因子间相关系数三个部分，前两者越高越好，后者越低越好；忽视任意一部分约束都会使所挖因子在该方面有所损失。",
+      "evidence": "直观上来解释，我们希望网络同时考虑每个因子的有效性，合成因子的有效性，以及因子间相关系数三个部分，前两者越高越高，后者越低越好。我们依次剔除了上述损失函数中的某一部分，来观察它对所挖因子的影响。最后发现，忽视任意一部分约束，都将使得所挖因子在该方面有一定的损失，这说明了我们所构建的损失函数的合理性。"
+    },
+    {
+      "text": "忽视因子间相关系数约束会得到 64 个有效但几乎相同的因子，等权合成几乎没有信息增量。",
+      "evidence": "直观上来理解，忽视了因子间相关系数的约束，会使得网络挖掘单个十分有效性的量价因子，并将其重复 64 次，即得到了 64 个十分有效但是几乎相同的因子，类似“抄作业”现象。"
+    },
+    {
+      "text": "样本外 2018 年以来 64 个量价因子的平均 RankIC 为 5.54%，等权合成因子 RankIC 为 11.73%。",
+      "evidence": "样本外 2018 年以来 64 个量价因子的平均RankIC 为 5.54%，等权合成因子的 RankIC 为 11.73%，表现优异。"
+    },
+    {
+      "text": "收益率区间越短，因子预测效果越差，与因子对 20 日收益率相关性最高的推测逻辑相符。",
+      "evidence": "从结果来看，收益率区间越短，预测效果越差，这与推测逻辑相符合。"
+    },
+    {
+      "text": "因子在市值较小的股票上表现比大市值股票好，可能因为关注度较高的股票错误定价更少。",
+      "evidence": "这说明，因子在市值较小的股票上表现比大市值股票好，这个现象是目前市场上大部分因子均存在的，原因可能是关注度较高的股票错误定价更少。"
+    },
+    {
+      "text": "全 A 多头策略 2018 年以来每年均有较高超额收益，相对万得全 A 年化超额 20.31%，日频超额胜率 55.16%。",
+      "evidence": "2018 年以来，相对于万得全 A，每年均有较高的超额收益，年化超额 20.31%，日频超额胜率 55.16%。"
+    },
+    {
+      "text": "最大超额回撤发生在 2021 年初，相比万得全 A 有 20.74%的超额回撤。",
+      "evidence": "最大超额回撤发生在 2021 年初，相比于万得全 A 有 20.74%的超额回撤，风险上仍有待优化。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "S. Bai et al. An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "schema_version": 2,
+  "id": "20240215-长江证券-高频因子-015-高频因子和深度学习因子的异同_兼论近期量价策略回撤的原因",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "intraday_pattern",
+        "representation_learning"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "特异率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "1-R^{2}_{\\text{FF3},21d}",
+          "stats": [null, null, null, null],
+          "evidence": "| 特异率 | 一减过去21 个交易日Fama-French 三因子模型回归拟合优度 | -1 |"
+        },
+        {
+          "name": "残差波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\sigma(\\varepsilon_{\\text{FF3},21d})",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 残差波动率 | 过去 21 个交易日Fama-French三因子模型回归残差波动率 | -1 |"
+        },
+        {
+          "name": "空头意愿",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{以5分钟成交量为划分筛选后20\\%数据的每笔成交额}}{\\text{全时间段每笔成交额}}",
+          "stats": [null, null, null, null],
+          "evidence": "以5分钟成交量为划分，筛选后20%的数据计算每笔成交额，除以全时间段每笔成交额"
+        },
+        {
+          "name": "量价相关性",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\mathrm{Spearman}_{21d}(\\text{volume}, \\text{close})",
+          "stats": [null, null, null, null],
+          "evidence": "| 交易拥挤度 | 量价相关性 | 过去21 日成交量和复权收盘价秩相关系数 | -1 |"
+        },
+        {
+          "name": "加权偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\mathrm{Skew}_{21d}(\\text{成交量加权收盘价})",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 加权偏度 | 过去21 日成交量加权收盘价偏度 | -1 |"
+        },
+        {
+          "name": "波峰",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\mathrm{MA}_{20}(\\text{日内1分钟成交量K线以}\\mu+\\sigma\\text{筛选的局部峰值K线数量})",
+          "stats": [null, null, null, null],
+          "evidence": "以日内1分钟成交量k线数据均值+1倍标准差作为峰值筛选，以局部峰值筛选后的局部 峰值 k 线数量的 20 日均值"
+        },
+        {
+          "name": "非流动性",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{收益率轨迹路径长度}}{\\text{总成交额}}",
+          "stats": [null, null, null, null],
+          "evidence": "非流动性因子和规模因子相关性较高，故以非流动性因子对规模因子做中性；波峰因子和波动因子相关性较高，故以波峰因子对波动因子做中性。"
+        },
+        {
+          "name": "短期动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\sum_{t \\in \\text{5分钟成交量/成交笔数前20\\%}} \\ln(1+r_t)",
+          "stats": [null, null, null, null],
+          "evidence": "以5分钟成交量/成交笔数为划分，筛选前20%的数据的对数收益率求和"
+        },
+        {
+          "name": "短期反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\sum_{t \\in \\text{5分钟成交量/成交笔数后20\\%}} \\ln(1+r_t)",
+          "stats": [null, null, null, null],
+          "evidence": "以5分钟成交量/成交笔数为划分，筛选后20%的数据的对数收益率求和"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "daily",
+          "formula": "w = 0.7 \\cdot w_{\\text{因子动量排序}} + 0.3 \\cdot w_{|ICIR|}",
+          "stats": [null, null, null, 0.442],
+          "evidence": "以单因子过去一年回测的信息比对因子做排序，给予排序靠前的因子较高权重，排序靠后的因子较低权重，以此为加权合成权重，占最终合成权重的 70%，该加权方式主要考虑因子获得超额收益的能力；"
+        },
+        {
+          "name": "深度学习因子",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{《神经网络因子挖掘——TCN 日频量价因子》中最终得到的因子}",
+          "stats": [null, null, null, 0.3063],
+          "evidence": "本文以《神经网络因子挖掘——TCN 日频量价因子》中最终得到的因子为深度学习因子为深度学习因子代表。"
+        },
+        {
+          "name": "残差深度学习因子",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\varepsilon_{\\text{DL}} = \\text{深度学习因子对因子体系的因子统一做线性回归得到的残差}",
+          "stats": [null, null, null, null],
+          "evidence": "而对于深度学习因子，对其近期回撤影响最大的为因子体系以外的收益来源，下图给出了残差深度学习因子（即深度学习因子对因子体系的因子统一做线性回归得到的残差）的表现，不论从超额收益还是多空收益上看，深度学习因子均在近一个月有一定回撤。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "regression_test", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "daily"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "高频因子体系中波动、非流动性、量价相关性、加权偏度、空头意愿为深度学习因子包含的收益来源，波峰、短期反转等为深度学习因子不包含的收益来源。",
+      "evidence": "在本文构建的高频因子体系中，波动、非流动性、量价相关性、加权偏度、空头意愿为深度学习包含的收益来源，波峰、短期反转、短期反转为深度学习因子不包含的收益来源。"
+    },
+    {
+      "text": "非流动性、波动和空头意愿因子近期衰减影响高频合成因子和深度学习因子表现，非流动性是因子体系中主要回撤的收益来源，也是高频合成因子回撤的主要原因。",
+      "evidence": "非流动性、波动和空头意愿因子近期的衰减一定程度上影响了了高频合成因子和深度学习因子的近期表现，其中非流动性是因子体系中主要回撤的收益来源，也是导致高频合成因子回撤的主要原因。"
+    },
+    {
+      "text": "残差深度学习因子是深度学习因子相对高频因子体系有超额的收益来源，叠加近期因子体系影响降低，成为近期深度学习因子回撤的主要原因。",
+      "evidence": "残差深度学习因子是过去深度学习因子相对高频因子体系有超额的收益来源，叠加近期因子体系在深度学习因子上的影响降低，使得其是成为近期深度学习因子回撤的主要原因。"
+    },
+    {
+      "text": "近期规模因子收益下降显著，各增强策略在规模风格上负暴露，规模因子是增强策略产生回撤的重要原因。",
+      "evidence": "近期规模因子收益下降显著，而各增强策略在放开规模暴露后，组合均会在规模风格上负暴露，遭受较大回撤。"
+    },
+    {
+      "text": "近1个月板块成份外获取超额收益的能力显著降低，导致增强策略在板块外的组合上遭受较大回撤。",
+      "evidence": "但近 1个月板块成份外获取超额收益的能力显著降低，导致增强策略在板块外的组合上遭受较大回撤。"
+    },
+    {
+      "text": "非流动性因子第1组个股有46.09%出现在合成因子第1组中，头部信息表达较高，是合成因子近期回撤的原因。",
+      "evidence": "非流动性因子的第 1 组个股有 46.09%的个股出现在了合成因子的第 1 组中，即实际上非流动性这一收益来源在头部信息的表达较高，这也是合成因子在近期产生回撤的原因。"
+    },
+    {
+      "text": "过去一年深度学习策略在中证500和中证1000上表现更好，合成因子策略在沪深300上表现更好；近期增强类策略主要回撤集中在中证1000，深度学习策略衰减幅度更大。",
+      "evidence": "过去一年，深度学习策略在中证 500 和中证 1000 上的表现更好，合成因子策略在沪深 300 上表现更好；近期增强类策略的主要回撤集中在中证 1000 上，且所有板块上深度学习策略的衰减幅度更大。"
+    },
+    {
+      "text": "因子值相关性无法完全对应收益来源：深度学习因子和特定高频因子的收益相关性提升到50%以上，和合成因子提升到59.90%。",
+      "evidence": "深度学习因子和特定高频因子的相关性提升到了 50%以上，和合成因子相关性提升到了 59.90%；"
+    },
+    {
+      "text": "合成因子增强策略相对深度学习因子增强策略的超额收益主要集中在波峰和空头意愿两个收益来源上，残差深度学习因子在深度学习因子策略上暴露更高且近期衰减较大。",
+      "evidence": "合成因子增强策略相对深度学习因子增强策略的超额收益主要集中在波峰和空头意愿两个收益来源上；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《神经网络因子挖掘——TCN 日频量价因子》",
+    "《高频因子（十四）：交易行情高频因子收益来源》2024-01-01"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

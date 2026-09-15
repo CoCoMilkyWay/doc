@@ -1,0 +1,192 @@
+{
+  "schema_version": 2,
+  "id": "20190214-财通证券-星火多因子-003-barra模型深化_纯因子组合构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Beta",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathbf{r_t}=\\alpha+\\beta\\mathbf{R_t}+\\mathbf{e_t}",
+          "stats": [null, null, null, 0.0264],
+          "evidence": "将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63 天"
+        },
+        {
+          "name": "规模",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "SIZE=\\log(\\text{总市值})",
+          "stats": [null, null, null, -0.0657],
+          "evidence": "由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值"
+        },
+        {
+          "name": "长期动量",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{RSTR}=\\sum_{t=21}^{525} w_t \\ln(1+r_t)",
+          "stats": [null, null, null, 0.0082],
+          "evidence": "过去一段时间个股的累计收益率，不含最近一个月"
+        },
+        {
+          "name": "波动率",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{DASTD}=\\left(\\sum_{t=1}^{252} w_t (r_t-\\mu(r))^2\\right)^{1/2}",
+          "stats": [null, null, null, -0.013],
+          "evidence": "个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天"
+        },
+        {
+          "name": "非线性规模",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{NonLinerSize}=-\\mathrm{resid}(\\ln(MV)^3 \\sim \\ln(MV))",
+          "stats": [null, null, null, -0.0348],
+          "evidence": "中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "BP=1/PB",
+          "stats": [null, null, null, 0.0173],
+          "evidence": "市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数"
+        },
+        {
+          "name": "流动性",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{STOM}=\\ln(\\mathrm{mean}(\\sum_{t=1}^{21} V_t/S_t))",
+          "stats": [null, null, null, -0.07],
+          "evidence": "1)采用流通股本值，而非自由流通股本值2)剔除未上市、停牌日期的数据"
+        },
+        {
+          "name": "盈利",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\cdot\\frac{1}{\\mathrm{PCF}_{ttm}}+\\frac{1}{2}\\cdot\\frac{1}{\\mathrm{PE}_{ttm}}",
+          "stats": [null, null, null, 0.0285],
+          "evidence": "过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数"
+        },
+        {
+          "name": "成长",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\mathrm{YOYProfit}+\\frac{1}{2}\\mathrm{YOYSales}",
+          "stats": [null, null, null, 0.0586],
+          "evidence": "单季度净利润同比增长率 | 1/2 | 为避免使用未来数据，需要根据季报公布时间进行调整"
+        },
+        {
+          "name": "杠杆",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{3}\\mathrm{MLEV}+\\frac{1}{3}\\mathrm{DTOA}+\\frac{1}{3}\\mathrm{BLEV}",
+          "stats": [null, null, null, -0.0219],
+          "evidence": "市场杠杆率，MLEV=（总市值+非流动负债）/总市值"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "完全复制法根据多因子模型解析解构造权重、能保证组合收益即为纯因子收益，最优复制法通过带约束的均值—方差优化求解、可限制事前风险但可能出现跟踪误差",
+      "evidence": "其中，完全复制法是根据多因子模型本身的解析解来构造组合权重，这种方法能够保证组合的收益即为纯因子的收益；最优化复制方法是根据带约束的均值—方差优化的方法来求解的，这种方法可以限制组合的事前风险，但可能会出现一定程度的跟踪误差。"
+    },
+    {
+      "text": "纯因子组合换手率较高且需要做空成分股票，在国内做空机制不完善的背景下可投资性较弱，需通过组合优化构造更具可行性的策略",
+      "evidence": "然而考虑到这些组合换手率较高、国内市场做空机制尚不完善等实际情况，还需通过组合优化的方法构造更具可行性的投资策略。"
+    },
+    {
+      "text": "Smart Beta指数风格暴露并不纯粹：沪深300价值成分股在价值（BP）因子上的暴露比基准指数高出将近40%，但在盈利和杠杆因子上暴露也显著更高",
+      "evidence": "可以看到，价值指数成分股在价值（BP）因子上的暴露比基准指数高出将近 40%，这一点与其突出“价值指数”的目的显然是合意的。"
+    },
+    {
+      "text": "特质收益是纯因子组合的收益杀手：纯成长因子组合的特质收益部分在全样本期间“腐蚀”了将近40%的收益",
+      "evidence": "纯成长因子组合的特质收益部分在全样本期间“腐蚀”了将近40%的收益，而在其他因子上特质收益累计回报的绝对值也相当地高。"
+    },
+    {
+      "text": "个股特质收益不存在稳定的持续效应，直接通过控制组合样本内特质收益无法在样本外得到合意效果",
+      "evidence": "此外，该相关系数本身的绝对值较小，说明个股特质收益本身并不存在稳定的持续效应。"
+    },
+    {
+      "text": "通过减少股票权重集中度、对每只股票设置权重上限并增加组合股票数量，优化后的纯因子组合与预想的因子走势更加贴合",
+      "evidence": "本文提出通过减少股票权重的集中度，对每只股票的权重设置一定的上限，增加组合股票数量来解决特质收益为组合回报带来的不确定性，实证结果表明：优化后的纯因子组合与预想的因子走势更加贴合。"
+    },
+    {
+      "text": "将权重上限设为0.1%后，平均持股数升至730只左右，大大多于调整前38只股票的均值",
+      "evidence": "从图 15 中可以看到，调整后的平均持股数在 730 只左右，大大多于调整前 38 只股票的均值。"
+    },
+    {
+      "text": "多因子模型月度回归的R2平均为21.1%，股票利用率均值达到90.6%，因子缺失影响有限",
+      "evidence": "可以看到每期回归中的股票利用率基本在 85%以上，其均值达到 90.6%，股票因子缺失带来的影响有限。在模型回归的解释度方面，模型的R2平均为 21.1%，最高达到 61.3%，最低只有 5.86%。"
+    },
+    {
+      "text": "成长因子、流动性因子和规模因子的因子夏普比率较高，尤其值得投资者关注",
+      "evidence": "结合图 4 和表4 可以看出，成长因子、流动性因子和规模因子的因子夏普比率较高，这些风格因子尤其值得投资者关注，我们在后续章节中将以这些因子为例进行说明。"
+    },
+    {
+      "text": "加入最大股票投资权重约束后特质收益累计收益明显下降，能明显降低特质收益为组合回报带来的不确定性",
+      "evidence": "研究结果表明通过加入最大权重的约束，能够明显地降低特质收益为组合回报带来的不确定性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Melas, D., R. Suryanarayanan and S. Cavaglia. (2010). \"Efficient Replication of Factor Returns: Theory and Applications.\" The Journal of Portfolio Management.",
+    "《“星火”多因子系列（一）：Barra模型初探：A股市场风格解析》",
+    "《“星火”多因子系列（二）：Barra模型进阶：多因子风险预测》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

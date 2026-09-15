@@ -1,0 +1,100 @@
+{
+  "schema_version": 2,
+  "id": "20201012-长江证券-高频因子-009-高频波动中的时间序列信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频成交量波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma_{day}=std(\\{vol_{i}\\}),\\quad\\sigma_{vol}=\\frac{std(\\{\\sigma_{day}\\})}{mean(\\{\\sigma_{day}\\})}",
+          "stats": [-0.0682, null, -1.1047, 0.2084],
+          "evidence": "以成交量数据为例，本文使用1分钟频率数据构建了高频成交量波动因子，其具体构建方法如下："
+        },
+        {
+          "name": "每笔成交量差分标准差",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "diff_{i}=volb_{i}-volb_{i-1},\\quad diff_{std\\_day}=\\frac{std(\\{diff_{i}\\})}{mean(\\{volb_{i}\\})},\\quad diff_{std\\_volb}=mean(\\{diff_{std\\_day}\\})",
+          "stats": [null, null, null, 0.2422],
+          "evidence": "以每笔成交量数据为例，本文依照上述思路构建了每笔成交量差分标准差因子："
+        },
+        {
+          "name": "成交量差分绝对值均值",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "diff_{i}=vol_{i}-vol_{i-1},\\quad diff_{mean\\_day}=mean(abs(\\frac{diff_{i}}{mean(\\{vol_{i}\\})})),\\quad diff_{mean\\_vol}=mean(\\{diff_{mean\\_day}\\})",
+          "stats": [0.0996, null, 0.7031, 0.3388],
+          "evidence": "采用这种方式构建的因子中，表现最好的成交量差分绝对值均值因子在全市场中取得了年化34.13%的多空收益和7.95%的超额收益，多空夏普比和信息比分别达到2.12和1.10，风格中性后月度I0和ICIR仍有4.35%和44.70%。"
+        },
+        {
+          "name": "每笔成交量差分绝对值均值",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "diff_{i}=volb_{i}-volb_{i-1},\\quad diff_{mean\\_day}=mean(abs(\\frac{diff_{i}}{mean(\\{volb_{i}\\})})),\\quad diff_{mean\\_volb}=mean(\\{diff_{mean\\_day}\\})",
+          "stats": [0.0939, null, 0.6963, 0.3413],
+          "evidence": "仍以每笔成交量数据为例，本文依照上述思路构建了每笔成交量差分绝对值均值因子："
+        },
+        {
+          "name": "成交量波峰计数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{筛选出日内大于(均值+1倍标准差)的分钟数据，再保留与前一分钟时间差超过1分钟的分钟作为局部峰值，当日局部峰值个数即为当日因子值，最终因子值取过去20个交易日因子值的均值}",
+          "stats": [0.0916, null, 1.0823, 0.3908],
+          "evidence": "差分提取时间序列信息的有效性来源于对数据局部峰值的度量，而对波峰计数是度量局部峰值更简单也更有效的方法。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "表现最好的1min频率下的高频成交量波动因子在全市场取得年化20.84%多空收益和6.27%超额收益，多空夏普比和信息比分别为2.87和1.62，近两年无明显回撤。",
+      "evidence": "其中，表现最好的1min频率下的高频成交量波动因子在全市场中取得了年化20.84%的多空收益和6.27%的超额收益，多空夏普比和信息比分别达到2.87和1.62，且在近两年没有出现明显回撤。"
+    },
+    {
+      "text": "先计算日内标准差再计算日间标准差最后除以均值去量纲是较好的波动因子高频化构建方式，其优势在于同时提取了日内波动与日间波动中的信息。",
+      "evidence": "先计算日内标准差再计算日间标准差最后除以均值去量纲被证明是较好的构建方式，其优势在于同时提取了日内波动与日间波动中的信息。"
+    },
+    {
+      "text": "先差分再计算标准差提取的时间序列信息不涉及对波动的表征，可能是对趋势交易者或知情交易者交易行为的刻画；表现最好的每笔成交量差分标准差因子全市场年化多空收益24.22%、超额3.00%。",
+      "evidence": "此方法下构建的因子表现出因子值越大收益越高的正向收益能力，说明其已经不涉及对波动的表征，而可能是对趋势交易者或知情交易者交易行为的刻画。其中，表现最好的每笔成交量差分标准差因子在全市场中取得了年化24.22%的多空收益和3.00%的超额收益，多空夏普比和信息比分别达到1.76和0.51。"
+    },
+    {
+      "text": "标准差改为均值能显著提高差分因子表现，成交量差分绝对值均值因子全市场年化多空收益34.13%、超额7.95%，风格中性后月度IC和ICIR仍有4.35%和44.70%；但因子对数据频率敏感，降到15min时基本失去收益能力。",
+      "evidence": "采用这种方式构建的因子中，表现最好的成交量差分绝对值均值因子在全市场中取得了年化34.13%的多空收益和7.95%的超额收益，多空夏普比和信息比分别达到2.12和1.10，风格中性后月度I0和ICIR仍有4.35%和44.70%。差分因子对数据频率的敏感性很高，当数据频率降低到15min时因子已基本失去收益能力。"
+    },
+    {
+      "text": "成交量波峰计数因子在所有因子中表现最好，全市场年化多空收益39.08%、超额7.10%，风格中性后月度IC和ICIR仍有3.88%和61.60%；调仓频率缩短到5日时多空收益56.65%、超额9.03%。",
+      "evidence": "该因子在全市场中取得了年化39.08%的多空收益和7.10%的超额收益，多空夏普比和信息比分别达到3.41和 1.61，风格中性后月度IC和ICIR仍有3.88%和61.60%。缩短调仓频率能进一步提升该因子的收益表现，当调仓频率为5日时，因子在全市场中取得了年化56.65%的多空收益和9.03%的超额收益，多空夏普比和信息比分别达到4.33和1.97。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

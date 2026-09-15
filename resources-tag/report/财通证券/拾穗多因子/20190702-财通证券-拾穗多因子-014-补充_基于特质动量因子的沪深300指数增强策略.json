@@ -1,0 +1,120 @@
+{
+  "schema_version": 2,
+  "id": "20190702-财通证券-拾穗多因子-014-补充_基于特质动量因子的沪深300指数增强策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "特质动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "IMOM_{i,t}=\\frac{\\prod_{t-12}^{t-1}(1+\\varepsilon_{i,t})-1}{\\sqrt{12}\\times\\sqrt{\\frac{\\sum_{t-12}^{t-1}\\left(\\varepsilon_{i,t}-\\bar{\\varepsilon}_{i}\\right)^{2}}{12}}}",
+          "stats": [0.0221, 0.032, null, 0.0093],
+          "evidence": "在原文报告中介绍的特质动量因子中，我们计算的是经过风险调整过后的特质动量因子，也就是将股票在T-12月到T-1月之间的特质收益累计除以其特质波动率。"
+        },
+        {
+          "name": "特质波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "IV_{i,t}=\\sqrt{\\frac{\\sum_{t-12}^{t-1}\\bigl(\\varepsilon_{i,t}-\\bar{\\varepsilon}_{i}\\bigr)^{2}}{12}}",
+          "stats": [null, null, null, null],
+          "evidence": "本部分将就这两个问题展开讨论。首先我们通过如下方法构建特质波动率因子，亦即特质动量计算公式中的分母部分："
+        },
+        {
+          "name": "横截面动量因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Cross\\mathrm{~-~}IMOM_{i,t}=\\prod_{t-12}^{t-1}\\bigl(1+\\varepsilon_{i,t}\\bigr)-1",
+          "stats": [-0.0022, 0.0051, null, -0.0007],
+          "evidence": "我们首先在横截面上将股票风格拆解为市场收益、行业收益、风格收益和特质收益，此处得到的特质收益被认为该个股在剔除市场、行业和风格影响之后的无法解释的部分"
+        },
+        {
+          "name": "经过风险调整后的传统动量因子",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "MOM_{Adjusted}=\\frac{\\prod_{t=12}^{t-1}\\left(1+r_{i,t}\\right)-1}{\\sqrt{12}\\times\\sqrt{\\frac{\\sum_{t=12}^{t-1}\\left(r_{i,t}-\\bar{r}_{i}\\right)^{2}}{12}}}",
+          "stats": [null, null, null, null],
+          "evidence": "那么，传统动量因子的表现之所以不如特质动量因子，是否是由于其没有进行风险调整的缘故呢？基于此，我们构建经过风险调整后的传统动量因子，对其进行稳健性检验："
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于特质动量因子的沪深300指数增强策略能够稳健跑赢基准，在考虑手续费为单边的条件下，超额收益达到年化5.24%的增强效果，信息比率达到0.83。",
+      "evidence": "总体而言，基于单因子的特质动量因子在沪深 上的增强还是展现出不错的选股效果，在考虑手续费为单边的条件下，其超额收益能够达到年化5.24%的增强效果，信息比率也达到0.83。"
+    },
+    {
+      "text": "长期特质波动率是一个比较显著的负向选股因子，在剔除特质波动率影响之后的特质动量因子仍然表现出非常稳健的选股能力，二者的收益来源并不相同。",
+      "evidence": "长期特质波动率是一个比较显著的负向选股因子，在剔除特质波动率影响之后的特质动量因子仍然表现出非常稳健的选股能力，这说明二者的收益来源并不相同；"
+    },
+    {
+      "text": "剔除Beta因子影响之后特质动量因子的效果得到进一步改善，RankIC月胜率从63%提高到66%，t值由5.06提高到5.47，多空月度收益差均值从0.88%提升至0.93%。",
+      "evidence": "由表 2 可以看到，剔除了 Beta因子的影响之后，特质动量因子的效果得到进一步的改善，其 RankIC 的月胜率从63%提高到66%，t值由5.06提高到5.47，多空组合的月度收益差均值从0.88%提升至 0.93%，t 值从 3.82 提升至 4.23。"
+    },
+    {
+      "text": "特质动量因子的多头组合质地优良、基本面好，是一些盈利能力强、成长性较好、现金流量较优且营运水平较高的标的，往往是主动型投资经理和外资比较偏好的股票。",
+      "evidence": "特质动量因子的多头组合是一些盈利能力强、成长性较好、现金流量较优且营运水平较高的标的，质地优良、基本面好，往往是主动型投资经理和外资比较偏好的股票；"
+    },
+    {
+      "text": "横截面动量因子在剔除已知风格因子影响之后并不具备选股能力，其RankIC的t值仅为0.93，并不显著。",
+      "evidence": "可以看到，在剔除了已知因子影响之后的横截面动量因子并不具备选股能力，其RankIC的t值仅为0.93，并不显著。"
+    },
+    {
+      "text": "“动量崩溃效应”在特质动量因子上的表现并不明显，在剔除Beta因子影响之后，特质动量因子的表现有所提升。",
+      "evidence": "“动量崩溃效应”在特质动量因子上的表现并不明显，在剔除 Beta因子影响之后，特质动量因子的表现有所提升；"
+    },
+    {
+      "text": "经过风险调整后的传统动量因子与未经风险调整的传统动量因子之间并不存在显著差别，传统动量因子表现不如特质动量因子源于其在市场风格上的暴露更高。",
+      "evidence": "可以看到，二者之间并未存在明显的区别，经过风险调整后的传统动量因子的累计收益基本保持一致，在稳定性上有一定的提升，但是提升效果并不明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "“拾穗”多因子系列（九）：《牛市抢跑者：低 Beta一定低风险吗？》",
+    "“星火”多因子系列（一）：《Barra模型初探：A 股市场风格解析》",
+    "“星火”多因子系列（五）：《源于动量，超越动量：特质动量因子全解析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}
