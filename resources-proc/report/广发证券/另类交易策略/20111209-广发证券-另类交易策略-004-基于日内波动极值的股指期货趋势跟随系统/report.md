@@ -98,11 +98,11 @@ eMail：lj33@gf.com.cn
 记 $c_{1},c_{2},\cdots,c_{n}$ 为股指期货日内某一频率下 K线的收盘价序列， $h_{1},h_{2},\cdots,h_{n}$ 为股指期货日内某一频率下 K线的最高价序列， $l_{1},l_{2},\cdots,l_{n}$ 为股指期货日内某一频率下 K线的最低价序列， $sL$ 为日内波动极值偏移周期数，定义
 
 $$
-\nu H_{i}=\operatorname*{max}_{1\leq j\leq\operatorname*{max}\left(i-sL,1\right)}\left(h_{j}\right),i=1,2,\cdots,n
+vH_{i}=\max_{1\leq j\leq\max(i-sL,1)}\left(h_{j}\right),\quad i=1,2,\cdots,n.
 $$
 
 $$
-\nu L_{i}=\operatorname*{min}_{1\leq j\leq\operatorname*{max}\left(i-sL,1\right)}\left(l_{j}\right),i=1,2,\cdots,n
+vL_{i}=\min_{1\leq j\leq\max(i-sL,1)}\left(l_{j}\right),\quad i=1,2,\cdots,n
 $$
 
 其中 $\nu H_{i}$ 、 $\nu L_{i}$ 为第i根 K线处的日内波动极高值和日内波动极低值。
@@ -112,7 +112,7 @@ $$
 记cL为截断阀值，则买卖信号按如下规则触发：
 
 $$
-S_{i}=\left\{\begin{array}{ll}{1,}&{if~c_{i}\geq\nu H_{i}~and~i\geq cL+1}\\{-1,}&{if~c_{i}\leq\nu L_{i}~and~i\geq cL+1}\\{0,}&{else}\end{array}\right.
+S_{i}=\begin{cases}1,&if\quad c_{i}\geq\nu H_{i}\quad and\quad i\geq cL+1\\-1,&if\quad c_{i}\leq\nu L_{i}\quad and\quad i\geq cL+1\\0,&else\end{cases}
 $$
 
 其中， $S_{i}$ 表示i时刻的信号，1表示买入信号，-1表示卖出信号，0表示无信号。
@@ -159,14 +159,14 @@ $$
 
 （2）离场价位的动态计算：
 
-记 $h_{i}$ ， $l_{i}$ 为i时刻的最高价、最低价， $i=1,2,\cdots,n,\ j_{0}$ 为开仓时点，给定k时刻的离场价 $\nu C_{k}$ ，则
+记 $h_{i}$ ， $l_{i}$ 为i时刻的最高价、最低价， $i=1,2,\cdots,n,\quad j_{0}$ 为开仓时点，给定k时刻的离场价 $\nu C_{k}$ ，则
 
 $$
-3\mathbin{\vrule h\vrule h0.6101010101010101}\colon\nu C_{k+1}=\nu C_{k}+\left(\operatorname*{max}_{j_{0}\leq j\leq k}\left(h_{j}\right)-\nu C_{k}\right)\times AF
+\nu C_{k+1}=\nu C_{k}+\left(\max_{j_{0}\leq j\leq k}\left(h_{j}\right)-\nu C_{k}\right)\times AF
 $$
 
 $$
-\because H_{\max}:\quad\nu C_{k+1}=\nu C_{k}-\left(\nu C_{k}-\operatorname*{min}_{j_{0}\leq j\leq k}\left(L_{j}\right)\right)\times AF
+\nu C_{k+1}=\nu C_{k}-\left(\nu C_{k}-\min_{j_{0}\leq j\leq k}\left(L_{j}\right)\right)\times AF
 $$
 
 其中AF 为加速因子，加速因子初始值为0，每当市场创出自开仓以来新高或者新低一次，加速因子增加0.01，且加速因子最大值为0.1。
@@ -204,11 +204,11 @@ $$
 记 $F_{1}$ 为开仓成交价， $F_{2}$ 为平仓成交价，c为单边手续费率，I 为单边冲击成本，M为杠杆倍数，则单次交易收益率为
 
 $$
-r_{long}=\left[\frac{(F_{2}-I)\times(1-c)-(F_{1}+I)\times(1+c)}{\left(F_{1}+I\right)\times\left(1+c\right)}\right]\times M
+r_{long}=\left[\frac{(F_2-I)\times(1-c)-(F_1+I)\times(1+c)}{(F_1+I)\times(1+c)}\right]\times M
 $$
 
 $$
-r_{short}=\left[\frac{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1-c\big)-\big(F_{\scriptscriptstyle2}+I\big)\times\big(1+c\big)}{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1+c\big)}\right]\times M
+r_{short}=\left[\frac{(F_1-I)\times(1-c)-(F_2+I)\times(1+c)}{(F_1-I)\times(1+c)}\right]\times M
 $$
 
 此处模拟交易相关设定为：

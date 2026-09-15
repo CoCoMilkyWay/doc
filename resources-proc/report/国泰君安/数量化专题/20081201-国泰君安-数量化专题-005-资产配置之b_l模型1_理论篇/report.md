@@ -49,10 +49,10 @@ B-L 模型在均衡收益基础上通过投资者观点修正了期望收益，�
 B-L 模型最后新形成的后验收益为：
 
 $$
-E[R]=\big[(\tau\Sigma)^{-1}+P^{\prime}\Omega^{-1}P\big]^{-1}\big[(\tau\Sigma)^{-1}\Pi+P^{\prime}\Omega^{-1}Q\big]
+E[R]=\left[(\tau\Sigma)^{-1}+P^{\prime}\Omega^{-1}P\right]^{-1}\left[(\tau\Sigma)^{-1}\Pi+P^{\prime}\Omega^{-1}Q\right]
 $$
 
-也可以写为： $E[R]=\Pi+\tau\Sigma P^{\prime}(\Omega+\tau P\Sigma P^{\prime})^{-1}(Q-P\Pi)$
+也可以写为： $E[R]=\Pi+\tau\Sigma P^{\dagger}(\Omega+\tau P\Sigma P^{\dagger})^{-1}(Q-P\Pi)$
 
 这里
 
@@ -83,11 +83,11 @@ Q：观点收益向量(k×1 列向量)
 法，可以求得最优的资产配置组合权重（无约束）：
 
 $$
-\operatorname*{max}_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
+\max_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
 $$
 
 $$
-w=\left(\lambda\Sigma\right)^{-1}\mu
+w=(\lambda\Sigma)^{-1}\mu
 $$
 
 其中 w 是组合权重，μ是资产的期望收益，∑是资产收益的协方差，λ是风险厌恶系数。
@@ -95,7 +95,7 @@ $$
 当μ=E[R]时，得到无约束条件下的新的资产组合权重向量：
 
 $$
-w^{*}=w_{mkt}+P^{\prime}(\frac{\Omega}{\tau}+P\Sigma P^{\prime})^{-1}(\frac{Q}{\lambda}-P\Sigma w_{mkt})
+w^{*}=w_{mkt}+P\left(\frac{\Omega}{\tau}+P\Sigma P^{\prime}\right)^{-1}\left(\frac{Q}{\lambda}-P\Sigma w_{mkt}\right)
 $$
 
 B-L 模型的整个过程可以分解为：
@@ -106,7 +106,7 @@ B-L 模型的整个过程可以分解为：
 
 ## 2. B-L 模型参数估计
 
-在 B-L 模型中，风险厌恶系数 $\lambda=(E(r)-r_{f})/\sigma_{m}^{2}$ ，其中 E(r)是期望市场收益， $r_{f}$ 是无风险利率， $\sigma_{\mathrm{m}}^{2}$ 是市场收益方差； $w_{mkt}$ 是各资产的市值权重，也就是市场流通市值权重；协方差矩阵 Σ一般是用历史收益求得。
+在 B-L 模型中，风险厌恶系数 $\lambda=\left(E(r)-r_f\right)/\sigma_m^2$ ，其中 E(r)是期望市场收益， $r_{f}$ 是无风险利率， $\sigma_{\mathrm{m}}^{2}$ 是市场收益方差； $w_{mkt}$ 是各资产的市值权重，也就是市场流通市值权重；协方差矩阵 Σ一般是用历史收益求得。
 
 B-L 模型中的资产收益有两个特点：一是以本国货币计价，二是超额收益，即减去本国货币的无风险利率（Black and Litterman(1992)、Satchell andScowcroft (2000)）。因此协方差矩阵∑是超额收益的协方差矩阵，∏是先验均衡超额收益，对于观点收益向量 Q和后验收益 E[R]，也应是超额收益。
 
@@ -129,17 +129,17 @@ Black and Litterman(1992)的文献主要呈现了全球资产配置的实证结�
 正优化：
 
 $$
-\operatorname*{max}_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
+\max_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
 $$
 
 $$
-w=\left(\lambda\Sigma\right)^{-1}\mu
+w=(\lambda\Sigma)^{-1}\mu
 $$
 
 逆优化：
 
 $$
-\operatorname*{max}_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
+\max_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
 $$
 
 $$
@@ -150,7 +150,7 @@ $$
 
 Adzorek (2002)对上述方法求均衡收益（我们称作隐含均衡收益）与其他方法进行了比较，他利用三种方法对道琼斯工业平均指数的 30只股票收益进行估计，分别采用历史、CAPM和隐含均衡收益，其中基于 CAPM的估计采用 60个月 beta、5%的无风险利率（近似于 2001年末的十年期国债收益率）和 7.5%的市场风险溢价。
 
-结果表明，历史收益有更大的标准差，而后两者（CAPM 和隐含均衡收益）估计所得的收益十分接近，相关性达 0.85。用三种估计收益求组合权重$\left(\left(\lambda\Sigma\right)^{-1}\Pi\right)$ ），所得结果差距较大，历史收益的组合权重对市值权重偏离最大，均衡收益所得权重即市值权重，而用 CAPM收益所求得的权重和市值权重的相关性仅为 0.18。
+结果表明，历史收益有更大的标准差，而后两者（CAPM 和隐含均衡收益）估计所得的收益十分接近，相关性达 0.85。用三种估计收益求组合权重$(\;(\lambda\Sigma)^{\bar{\bar{\bar{\lambda}}}}\Pi\;)$ ），所得结果差距较大，历史收益的组合权重对市值权重偏离最大，均衡收益所得权重即市值权重，而用 CAPM收益所求得的权重和市值权重的相关性仅为 0.18。
 
 Adzorek(2002)认为，在没有主观观点的前提下，均衡收益应是市场中性立场的收益。所以应使用市值逆优化方法所得的隐含均衡收益∏。
 
@@ -169,7 +169,7 @@ Adzorek(2002)认为，在没有主观观点的前提下，均衡收益应是市�
 | He and Litterman (1999) | 假定一个τ值，然后校准观点的信心水平，使得 ω/τ等于观点的方差(PkΣPk′) |
 | Satchell and Scowcroft (2000) | τ被认为是刻度因子(scaling factor)，经常设定 为1 |
 | Lee (2000) | 常设定在 0.01-0.05之间 |
-| Adzorek(2002) | $\tau=\frac{P{\Sigma}P^{*}}{\frac{k}{\frac{i=1}{k}({\big\langle}_{LC_{i}}^{k}{*}CF)}}$ ，其中 LCi 为第 i 个观点的 信心水平，ωt等于看法组合的方差 |
+| Adzorek(2002) | $\tau=\frac{P\Sigma P^{\dagger}}{\underbrace{\sum_{i=1}^{k}(\mathit{V}_{LC_{i}}*CF)}_{k}},$ ，其中 LCi 为第 i 个观点的 信心水平，ωt等于看法组合的方差 |
 | Christodoulakis and Cass(2002) | τ是一个标量，来 scale 历史协方差矩阵∑ |
 | Blamont and Firoozye (2003) | (τ∑) 是隐含均衡收益∏的方差，所以标量τ近似 于1/观测值数量 使用抽样理论推导 B-L 模型，τ=n/m，n 为 |
 | Charlotta Mankert(2006) | observations by the investor, m 为 observations by the market，n 并不等于观点数 k，这里收益观测 值是N个资产的收益向量，N×1维向量 |
@@ -179,12 +179,12 @@ Adzorek(2002)认为，在没有主观观点的前提下，均衡收益应是市�
 Adzorek (2002)设定的τ值为：
 
 $$
-\tau=\frac{P^{*}\Sigma P^{*}^{*}}{\overline{{\omega}}}=\frac{P^{*}\Sigma P^{*}^{*}}{\displaystyle{\sum_{i=1}^{k}(\sum_{LC_{i}}^{k}*CF)}}
+\tau=\frac{P^{*}\Sigma P^{*}}{\overline{\omega}}=\frac{P^{*}\Sigma P^{*}}{\sum\limits_{i=1}^{k}\left(\sqrt{LC_{i}}^{*}CF\right)}
 $$
 
-${\boldsymbol{P}}^{*}{\boldsymbol{\Sigma}}{\boldsymbol{P}}^{*}$ '为观点组合的方差， $P^{*}$ 是观点矩阵 P 每列求和所得 1×n 行向量（在Adzorek (2002)附注 10 中提到），LCi 为第 i 个观点的信心水平。
+$\boldsymbol{P}^{*}\boldsymbol{\Sigma}\boldsymbol{P}^{*}^{\prime}$ '为观点组合的方差， $P^{*}$ 是观点矩阵 P 每列求和所得 1×n 行向量（在Adzorek (2002)附注 10 中提到），LCi 为第 i 个观点的信心水平。
 
-而 He and Litterman (1999)认为 $\tau=\frac{\stackrel{\stackrel{\_}{\omega}}}{P^{*}\Sigma P^{*}}$ ，即 $\overline{{\omega}}/\tau=P^{*}\Sigma P^{*}$ '，分子分母正好和Adzorek (2002)相反。
+而 He and Litterman (1999)认为 $\tau=\frac{\overline{{\omega}}}{{\boldsymbol{P}}^{*}{\boldsymbol{\Sigma}}{\boldsymbol{P}}^{*}},$ ，即 $\overline{{\omega}}/\tau=\boldsymbol{P}^{*}\boldsymbol{\Sigma}\boldsymbol{P}^{*}$ '，分子分母正好和Adzorek (2002)相反。
 
 τ和ω分别是衡量先验收益和观点收益的误差值，按 He and Litterman (1999)的方法，等于τ和ω同时放大或缩小，先验收益和观点收益方差变动对后验收益E[R]的影响相互抵消。因此，我们认为 Adzorek (2002)的方法更为合理。
 
@@ -195,27 +195,27 @@ ${\boldsymbol{P}}^{*}{\boldsymbol{\Sigma}}{\boldsymbol{P}}^{*}$ '为观点组合
 另外一种对Ω的解释，Adzorek (2002)提到，在观点收益中，具有一个随机的、独立的、且服从均值为 0的正态分布的残差项ε，ε服从分布N(0, )Ω 。每个观点收益都具有 Q+ε的形式。
 
 $$
-\begin{array}{r}{Q+\varepsilon=\left[\begin{array}{c}{Q_{1}}\\{\vdots}\\{Q_{k}}\end{array}\right]+\left[\begin{array}{c}{\varepsilon_{1}}\\{\vdots}\\{\varepsilon_{k}}\end{array}\right]}\end{array}
+Q+\varepsilon=\left[\begin{matrix}{Q_{1}}\\{\vdots}\\{Q_{k}}\\\end{matrix}\right]+\left[\begin{matrix}{\varepsilon_{1}}\\{\vdots}\\{\varepsilon_{k}}\\\end{matrix}\right]
 $$
 
 事实上，观点矩阵和后验收益之间存在如下的关系（Black and Litterman(1992)、Adzorek (2002)）：
 
 $$
-{\left[\begin{array}{cccc}{P_{1,1}}&{\cdots}&{P_{1,n}}\\{\vdots}&{\ddots}&{\vdots}\\{P_{k,1}}&{\cdots}&{P_{k,n}}\end{array}\right]}{\left[\begin{array}{c}{E\left[R_{1}\right]}\\{\vdots}\\{E\left[R_{n}\right]}\end{array}\right]}={\left[\begin{array}{c}{Q_{1}}\\{\vdots}\\{Q_{k}}\end{array}\right]}+{\left[\begin{array}{c}{\varepsilon_{1}}\\{\vdots}\\{\varepsilon_{k}}\end{array}\right]}
+\begin{bmatrix}P_{1,1}&\cdots&P_{1,n}\\\vdots&\ddots&\vdots\\P_{k,1}&\cdots&P_{k,n}\end{bmatrix}\begin{bmatrix}E\big[R_1\big]\\\vdots\\E\big[R_n\big]\end{bmatrix}=\begin{bmatrix}Q_1\\\vdots\\Q_k\end{bmatrix}+\begin{bmatrix}\varepsilon_1\\\vdots\\\varepsilon_k\end{bmatrix}
 $$
 
 当有 2个或以上观点时，残差项ε不直接进入模型，取而代之的则是观点误差矩阵Ω(k×k)。假设各个观点间相互独立，则Ω为对角阵（Black and Litterman(1992)、Adzorek (2002)）。每个观点的误差ω越大，观点的不确定性也越大。
 
 $$
-\Omega=\left[\begin{array}{ccc}{{\omega_{1}}}&{{0}}&{{0}}\\{{0}}&{{\ddots}}&{{0}}\\{{0}}&{{0}}&{{\omega_{k}}}\end{array}\right]
+\Omega=\left[\begin{matrix}{\omega_{1}}&{0}&{0}\\{0}&{\ddots}&{0}\\{0}&{0}&{\omega_{k}}\\\end{matrix}\right]
 $$
 
-其实，Ω矩阵是对角阵的假设条件并不是限制条件，如果Ω矩阵不是对角阵，可以通过分解， $\Omega=V\hat{\Omega}V^{-1}$ $\hat{P}={V}^{-1}P$ ， $\hat{Q}=\boldsymbol{V}^{-1}\boldsymbol{Q}$ ，变换后观点收益的残差 $\widehat{\varepsilon}$ 的协方差矩阵 $\hat{\Omega}$ 仍为对角阵（He and Litterman (1999)）。
+其实，Ω矩阵是对角阵的假设条件并不是限制条件，如果Ω矩阵不是对角阵，可以通过分解， $\Omega=V\hat{\Omega}V^{-1}$ $\hat{P}=V^{-1}P$ ， $\hat{Q}=V^{-1}Q$ ，变换后观点收益的残差 $\widehat{\varepsilon}$ 的协方差矩阵 $\widehat{\Omega}$ 仍为对角阵（He and Litterman (1999)）。
 
 Adzorek (2002)给出Ω矩阵的一种设定方法：
 
 $$
-\Omega=\left[\begin{array}{ccc}{{\left(\stackrel{\displaystyle\bigcup}{}_{LC_{1}}{}^{*}CF\right)}}&{{0}}&{{0}}\\{{0}}&{{...}}&{{0}}\\{{0}}&{{0}}&{{\left(\stackrel{\displaystyle\bigcup}{}_{LC_{k}}{}^{*}CF\right)}}\end{array}\right]
+\Omega=\left[\begin{matrix}{\left(\mathcal{V}_{LC_{1}}*CF\right)}&{0}&{0}\\{0}&{...}&{0}\\{0}&{0}&{\left(\mathcal{V}_{LC_{k}}*CF\right)}\\\end{matrix}\right]
 $$
 
 LCi 为第 i 个观点的信心水平，CF(Calibration Factor)为标准刻度因子（假定投资者信心水平在 0%-100%之间，服从均值为 50%的正态分布）：
@@ -227,14 +227,14 @@ $$
 每个观点的误差为：
 
 $$
-\frac{1}{LC_{i}}{^*CF}
+\frac{1}{LC_{i}}{}^{*}CF
 $$
 
 ## 2.4. 其他参数
 
-对于风险厌恶系数λ，Black and Litterman (1992)指出该值和 Black (1989)定义的一致。He and Litterman (1999)认为，λ表示世界风险容忍度。Satchell andScowcroft (2000)和 Best and Grauer (1985)设定 $\lambda=(E(r)-r_{f})/\sigma_{m}^{2}$
+对于风险厌恶系数λ，Black and Litterman (1992)指出该值和 Black (1989)定义的一致。He and Litterman (1999)认为，λ表示世界风险容忍度。Satchell andScowcroft (2000)和 Best and Grauer (1985)设定 $\lambda=\left(E(r)-r_f\right)/\sigma_m^2$
 
-Adzorek (2002)用两种方法求λ：（1）给定市场风险溢价(7.5%)，用 5 年 DJIA指数历史标准差(18.25%)求得λ为 2.25；（2）给定市场风险溢价(7.5%)，用成份股历史协方差矩阵∑得来的标准差（19.12%）（ $\sigma_{m}^{2}=w\mathrm{\large~\sum~}w\mathrm{\large~)~}$ ），求得λ为 2.05。两者结果不一样，是因为 DJIA的成份股在 5年内有所变动。
+Adzorek (2002)用两种方法求λ：（1）给定市场风险溢价(7.5%)，用 5 年 DJIA指数历史标准差(18.25%)求得λ为 2.25；（2）给定市场风险溢价(7.5%)，用成份股历史协方差矩阵∑得来的标准差（19.12%）（ $\sigma_{_m}^{2}=w\Sigma w\mathrm{~)~}$ ），求得λ为 2.05。两者结果不一样，是因为 DJIA的成份股在 5年内有所变动。
 
 使用和市场组合有不同风险收益特征的市场指数所得的λ值，会有完全不同的收益∏（比如用S&P 500指数和NASDAQ 100指数计算得到的∏会大不相同）。
 
@@ -249,22 +249,22 @@ Adzorek (2002)用两种方法求λ：（1）给定市场风险溢价(7.5%)，用
 Adzorek (2004)提出了一种校准Ω矩阵的方法，在所得的新权重向量 w中引入tilt的方法，第k个观点的隐含信心水平应该是：
 
 $$
-\begin{array}{rl}&{C_{k}=\frac{\boldsymbol{W}_{C_{k}}-\boldsymbol{W}_{mkl}}{\boldsymbol{W}_{1000s}-\boldsymbol{W}_{mkl}}}\\&{Tilt_{k}\approx\left(\boldsymbol{W}_{1000s}-\boldsymbol{W}_{mkl}\right)^{*}\boldsymbol{C}_{k}}\\&{\boldsymbol{w}_{C_{k}}=\boldsymbol{w}_{mkl}+Tilt_{k}}\\&{\boldsymbol{w}_{k}=\left(\lambda\boldsymbol{\Sigma}\right)^{-1}\left[\left(\boldsymbol{\tau}\boldsymbol{\Sigma}\right)^{-1}+\boldsymbol{p}_{k}\boldsymbol{\omega}_{k}^{-1}\boldsymbol{p}_{k}\boldsymbol{\cdot}\right]^{-1}\left[\left(\boldsymbol{\tau}\boldsymbol{\Sigma}\right)^{-1}\boldsymbol{\Pi}+\boldsymbol{p}_{k}\boldsymbol{\omega}_{k}^{-1}\boldsymbol{Q}_{k}\right]}\end{array}
+\begin{aligned}&C_{_k}=\frac{W_{C_{_k}}-W_{_{mkt}}}{w_{_{100\%}}-w_{_{mkt}}}\\&\\&Tilt_{_k}\approx(w_{_{100\%}}-w_{_{mkt}})^{*}C_{_k}\\&\\&w_{C_{_k}}=w_{_{mkt}}+Tilt_{_k}\\&\\&w_{_k}=(\lambda\Sigma)^{^{-1}}\Big[\big(\tau\Sigma\big)^{^{-1}}+p_{_k}\omega_{_k}{^{-1}}p_{_k}\Big]^{^{-1}}\Big[\big(\tau\Sigma\big)^{^{-1}}\Pi+p_{_k}\omega_{_k}{^{-1}}Q_{_k}\Big]\\\end{aligned}
 $$
 
-$w_{100\%}$ 是信心水平 100%时的新权重， $w_{C_{k}}$ 是信心水平 $C_{k}$ 时的新权重， $p_{k}$ 是 P矩阵中观点 k对应的行向量。
+$w_{100\%}$ 是信心水平 100%时的新权重， $w_{c_{k}}$ 是信心水平 $C_{k}$ 时的新权重， $p_{k}$ 是 P矩阵中观点 k对应的行向量。
 
-再通过最小化 $\left(w_{C_{k}}-w_{k}\right)^{2}$ 求解Ω的对角元素 $\omega_{k}$ 。重复k次就可以解得校准后的Ω矩阵。我们认为，这种方法只有在假设w是按信心水平比例调整时才能成立，而当w变动时，矩阵Ω的元素并不一定是成比例变动的。
+再通过最小化 $(w_{C_{k}}-w_{k})^{2}$ 求解Ω的对角元素 $\omega_{k}$ 。重复k次就可以解得校准后的Ω矩阵。我们认为，这种方法只有在假设w是按信心水平比例调整时才能成立，而当w变动时，矩阵Ω的元素并不一定是成比例变动的。
 
 ## 3. B-L 模型约束条件
 
-在本文第一部分，我们用 $w=\left(\lambda\Sigma\right)^{-1}\mu$ （其中 w 是组合权重，μ是资产的期望收益，∑是资产收益的协方差，λ是风险厌恶系数）求得无约束条件下的资产配置权重向量。事实上，通过优化，我们可以对 B-L 模型加入各种约束条件。
+在本文第一部分，我们用 $w=(\lambda\Sigma)^{-1}\mu$ （其中 w 是组合权重，μ是资产的期望收益，∑是资产收益的协方差，λ是风险厌恶系数）求得无约束条件下的资产配置权重向量。事实上，通过优化，我们可以对 B-L 模型加入各种约束条件。
 
 图 3 在最优化过程中加入约束条件
 ![](images/71ae88b536f9192d8f254087e973566cb8caea2c915448f14f9a151820664bd0.webp)
 数据来源：国泰君安证券研究所
 
-可加入的约束条件有：（1）非卖空限制 $w_{i}\geq0;\left(2\right)$ 资产权重之和为 1，即$\sum^{\mathrm{n}}w_{\mathrm{i}}=1$ ；（3）资产组合方差小于某个数，即 $w^{\prime}\Sigma w\leq x$ ；（4）单个资产权i重上限，即 $w_{i}\leq x$ ，等等。
+可加入的约束条件有：（1）非卖空限制 $w_{i}\geq0;(2)$ 资产权重之和为 1，即$\sum^{\mathrm{n}}w_{\mathrm{i}}=1$ ；（3）资产组合方差小于某个数，即 $w^{\intercal}\Sigma w\leq x$ ；（4）单个资产权i重上限，即 $w_{i}\leq x$ ，等等。
 
 还有一些特定的风险控制的约束要求，比如 β 值、夏普比率和信息比率。这些指标可以在进行组合配置之前设置，也可以在之后进行跟踪。
 
@@ -296,15 +296,15 @@ $r_{m}$ ：是市场收益
 
 $\sigma_{m}^{2}$ ：市场组合收益方差
 
-根据 Litterman and Winkelmann(1996)和 Bevan and Winkelman(1998)的研究，跟踪误差(Tracking Error)为投资组合收益和市场收益之差的波动性，也就是$(r_{p}-r_{m})$ 的标准差，Iordanidis(2002)给出公式：
+根据 Litterman and Winkelmann(1996)和 Bevan and Winkelman(1998)的研究，跟踪误差(Tracking Error)为投资组合收益和市场收益之差的波动性，也就是$(r_{_p}-r_{_m})$ 的标准差，Iordanidis(2002)给出公式：
 
 $$
-\sigma_{{\scriptscriptstyle TE}}=\sqrt{\sigma_{{}_{p}}^{2}+\sigma_{{}_{m}}^{2}-2\cos(r_{{}_{p}},r_{{}_{m}})}
+\sigma_{TE}=\sqrt{\sigma_p^2+\sigma_m^2-2\mathrm{cov}(r_p,r_m)}
 $$
 
 其中，
 
-$\boldsymbol{\sigma}_{p}^{2}$ ：投资组合收益方差
+${\sigma_{p}^{2}}$ ：投资组合收益方差
 
 $\sigma_{m}^{2}$ ：市场组合收益方差
 
@@ -313,14 +313,14 @@ $\mathrm{cov}(r_{p},r_{m})$ ：投资组合和市场组合收益的协方差
 可以将 Tracking Error(TE)设定为一定值，如果组合的 TE超出该设定值时，则产生风险警示。或设定 Z 值，单位跟踪误差的收益差，如超过警戒值（经常设为 1，即收益差在一个标准差范围内），则产生风险警示。还可以设定时间占比，如 2/3，监视是否在 2/3的时间内，Z值是在 1之内的。
 
 $$
-z=\frac{r_{p}-r_{m}}{\sigma_{{_{TE}}}}z=\frac{\overline{{r}}_{p,t}^{\prime}-\overline{{r}}_{m,t}^{\prime}}{\sigma_{{_{TE}}}}
+z=\frac{r_{p}-r_{m}}{\sigma_{TE}}\quad z=\frac{\overline{r_{p,t}^{\mathrm{l}}}-\overline{r_{m,t}^{\mathrm{l}}}}{\overline{\sigma_{TE}}}
 $$
 
 $$
-z=\frac{\displaystyle\left|\overline{{\boldsymbol{r}}}_{{p,t}}-\overline{{\boldsymbol{r}}}_{m,t}\right|}{\displaystyle\overline{{\sigma_{_{TE}}}}}
+z=\frac{\left|\stackrel{\mathcal{T}}{r}_{p,t}-\stackrel{\mathcal{T}}{r}_{m,t}\right|}{\overline{{\sigma_{\mathit{TE}}}}}.
 $$
 
-$\prod_{p,t}$ ：组合第 t期的收益$\boxed{r}_{m,t}$ ：市场第 t期的收益$\sigma_{\pi}$ ：设定的 Tracking Error
+$\vec{r}_{p,t}$ ：组合第 t期的收益$\mathbb{P}_{m,t}$ ：市场第 t期的收益$\sigma_{\mathit{TE}}$ ：设定的 Tracking Error
 
 我们认为，计算跟踪误差所使用的基准未必一定是市场组合的，投资者可以自己选定所比较的基准。这也是 Black and Litterman (1992)为什么这么重视基准选择的缘故。
 

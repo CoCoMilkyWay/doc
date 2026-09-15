@@ -198,7 +198,7 @@ Embedding 模型可以将文本的语义通过向量表示出来，并允许我�
 实际操作中，我们会将概念名称、概念描述和原因合并为概念文本，并对概念文本进行向量化。概念文本不仅仅包含了概念的释义，还包括概念提取的原因，这保证了向量化能够保留概念与个股之间完整的语义关系。本文采用余弦相似度来计算向量之间的距离，其公式如下:
 
 $$
-cosine\left(\boldsymbol{x}_{i},\boldsymbol{x}_{j}\right)=\frac{\boldsymbol{x}_{i}\cdot\boldsymbol{x}_{j}}{\|\boldsymbol{x}_{i}\|\|\boldsymbol{x}_{j}\|}
+{cosine}(x_{i},x_{j})={\frac{x_{i}\cdot x_{j}}{\|x_{i}\|\|x_{j}\|}}
 $$
 
 其中，x 与x 代表两个概念向量。余弦相似度取值在-1 到 1 之间，越接近 1 表明两个向量距离越近，其语义也越相似。
@@ -244,7 +244,7 @@ $$
 我们采用的概念向量计算方法如下：
 
 $$
-vec(stock_{i})={{\sum_{j}vec}\left({concept_{i,j}}\right)_{\Big/{\left\|{\sum_{j}vec}\left({concept_{i,j}}\right)\right\}|}}
+vec(stock_{i})=\frac{\sum_{j}vec\big(concept_{i,j}\big)}{}\bigg/\big\|\sum_{j}vec\big(concept_{i,j}\big)\big\|
 $$
 
 其中， $vec(stock_{i})$ 代表股票 i 对应的向量， $vec(concept_{i,j}$ )代表属于股票 i 的概念j 对应的向量。
@@ -370,7 +370,7 @@ $$
 我们将聚类结果应用于指数增强策略中。在以往研究中，我们通过求解 Markowitz 均值-方差优化模型来得到组合中个股的权重，并在优化过程中加入个股权重偏离约束、因子暴露约束、行业暴露约束等条件，控制策略对基准指数的跟踪能力。此前我们一般使用 Barra行业分类（GICS）或中信行业分类作为行业基准。优化问题可大致表示为如下形式：
 
 $$
-\begin{array}{c}{\displaystyle{\operatorname*{max}^{m\ ax}w^{T}f}}\\{\displaystyle{}}\\{\displaystyle{s.t.\left\{(w-w^{0})^{T}\Sigma^{(}w-w^{0})<\varepsilon\right.}}\\{\displaystyle{\left.B(w-w^{0})<b\right.}}\\{\displaystyle{I(w-w^{0})<i}}\end{array}
+\begin{aligned}\max_{w}w^{T}f\\s.t.\begin{cases}\quad|w-w^{0}|<\delta\\(w-w^{0})^{T}\Sigma(w-w^{0})<\varepsilon\\\quad B(w-w^{0})<b\\\quad I(w-w^{0})<i\end{cases}\end{aligned}
 $$
 
 其中，w为需要求出的权重，f为预期收益率因子，B为 Barra 因子暴露矩阵，I则为行业暴露矩阵，δ、 ε、 b、 i等表示人为设置的约束值。

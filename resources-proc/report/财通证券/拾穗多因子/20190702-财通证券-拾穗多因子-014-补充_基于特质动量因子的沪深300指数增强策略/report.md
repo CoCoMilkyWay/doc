@@ -148,25 +148,25 @@ $$
 1）盈利能力：
 
 $$
-\mathrm{ROE}=\frac{12\sqrt{3}-15\sqrt{2}\sqrt{2}\sqrt{3}\sqrt{3}\sqrt{2}\sqrt{3}\sqrt{3}\sqrt{3}\sqrt{3}}{\frac{12}{3}\sqrt{3}\sqrt{3}\sqrt{3}\sqrt{3}\sqrt{3}}
+ROE=\frac{归属母公司股东净利润}{期末归属母公司股东的权益}
 $$
 
 2） 成长能力：
 
 $$
-\langle\frac{3}{4}\rangle\langle1|\langle1|\rangle|\big|\big|\big|\partial\big|\rangle\big|\big|\mathrm{t}\mathcal{S}\frac{\mathrm{i}\mathrm{e}}{16}\big|\frac{\mathcal{S}}{16}\big|\frac{3}{5}=\left(\frac\frac{3}{4}\sqrt{3}\beta_{1}^{2})\big|2\beta_{2}^{2}\big|\beta_{3}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{2}^{2}\big|\big|\beta_{3}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{1}^{2}\big|\big|\beta_{2}^{2}\big|\right)\times100\%,
+净利润同比增长率=\left(\frac{本期归属母公司股东的净利润}{去年同期归属母公司股东的净利润}-1\right)\times100\%
 $$
 
 3）现金流量：
 
 $$
-\begin{array}{r}{\mathtt{CFO}=\frac{\frac{\frac{\xi\mathfrak{Z}}{2}\frac{}{\xi}{\Theta}:\xi}{\xi}\frac{}{\xi}\hat{y}\hat{y}\hat{z}}{\sharp\sharp\mathcal{J}(\vec{x}\cdot\vec{\xi})\frac{}{\xi}\frac{\dot{\mathcal{J}}\hat{x}}{\partial\tau}\frac{}{\xi}\frac{\dot{\mathcal{J}}\hat{y}}{\partial\tau}}\times100\%}\end{array}
+CF0=\frac{经营活动产生的现金流量净额}{期末总资产}\times100\%
 $$
 
 4） 营运能力：
 
 $$
-\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}\mathbb{\beta}\mathbb{\frac{\beta\hat{\mathcal{Z}}}{\beta}}\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}=\frac{\frac{\hat{\mathcal{Z}}}{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}}{\big(\frac{\mathrm{HF}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{Z}}\big)\big(\frac{\mathrm{HF}\hat{\mathcal{Z}}}{\beta}\hat{\mathcal{H}}\hat{\mathcal{Z}}\big)}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}}+\frac{\mathbb{i}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}
+总资产周转率=\frac{营业收入}{(期初总资产+期末总资产)/2}\times100\%
 $$
 
 图3展示了特质动量因子十分组下，在ROE、净利润同比增长率、CFO和总资产周转率四个基本面因子上的分布情况，可以看到十分组下各组的基本面呈现出非常强的单调性，多头组合（ 9）是一些盈利能力较强、成长情况较好、营运能力较高且现金管理较优的上市公司，这些公司在基本面上都是非常良好的标的，是非常适合信奉价值投资理念的投资者持有的。
@@ -188,13 +188,13 @@ $$
 在原文报告中介绍的特质动量因子中，我们计算的是经过风险调整过后的特质动量因子，也就是将股票在T-12月到T-1月之间的特质收益累计除以其特质波动率。
 
 $$
-IMOM_{i,t}=\frac{\prod_{t-12}^{t-1}\bigl(1+\varepsilon_{i,t}\bigr)-1}{\sqrt{12}\times\sqrt{\frac{\sum_{t=12}^{t-1}\bigl(\varepsilon_{i,t}-\overline{{\varepsilon}}_{i}\bigr)^{2}}{12}}}
+IMOM_{i,t}=\frac{\prod_{t-12}^{t-1}(1+\varepsilon_{i,t})-1}{\sqrt{12}\times\sqrt{\frac{\sum_{t-12}^{t-1}\left(\varepsilon_{i,t}-\bar{\varepsilon}_{i}\right)^{2}}{12}}}
 $$
 
 然而过往大量的研究表明，国外市场和 股市场都存在明显的“特质波动异象”，过往特质波动率较低的股票在未来的走势往往能够战胜特质波动率较高的股票。然而当前市场上大量的研究关注的都是短期日频的特质波动率，而没有对较长期的特质波动因子进行讨论，因此长期特质波动率在 股市场上是否存在显著的选股效果？在剔除掉特质波动率之后，特质动量因子本身的表现是否会出现很大的变化？本部分将就这两个问题展开讨论。首先我们通过如下方法构建特质波动率因子，亦即特质动量计算公式中的分母部分：
 
 $$
-IV_{i,t}=\sqrt{\frac{\sum_{t-12}^{t-1}\left(\varepsilon_{i,t}-\bar{\varepsilon}_{i}\right)^{2}}{12}}
+IV_{i,t}=\sqrt{\frac{\sum_{t-12}^{t-1}\bigl(\varepsilon_{i,t}-\bar{\varepsilon}_{i}\bigr)^{2}}{12}}
 $$
 
 选取2005.1.29-2019.5.31为回测区间，选取Wind全A为回测样本，其他的因子分组细节与原文报告中保持一致，其十分组下的每组月均超额收益及胜率如图5所示。
@@ -234,7 +234,7 @@ $$
 我们仅在沪深300指数成分股中选股，最大化组合在经过市值、Beta、BP、21天换手率和21天波动率正交化之后的特质动量因子上的暴露值，同时限制组合在29个中信一级行业上的暴露度与沪深300在行业因子上的暴露保持完全一致，此外投资组合的权重加总等于1，且权重大于0，是一个不可做空的完全投资组合。
 
 $$
-\begin{array}{c}{{\displaystyle\operatorname*{min}_{w}w^{\prime}\cdot IMOM}}\\{{s.t.\left(w^{\prime}-w_{HS300}^{\prime}\right)\cdot X_{Industry}=0}}\\{{\displaystyle\sum_{\forall i,w_{i}=1}w_{i}}}\\{{\forall i,w_{i}>0,}}\end{array}
+\begin{array}{c}{{\displaystyle\operatorname*{min}_{w}w^{\prime}\cdot IMOM}}\\{{\displaystyle s.t.(w^{\prime}-w_{HS300}^{\prime})\cdot X_{Industry}=0}}\\{{\displaystyle\sum w_{i}=1}}\\{{\displaystyle\forall i,w_{i}>0,}}\end{array}
 $$
 
 需要说明的是，为了单纯检验特质动量因子在沪深300上的增强效果，我们仅最大化组合在该因子上的暴露值。而在实际的应用过程中，我们可以将其与一些已知的Alpha因子进行合成，最大化合成因子的暴露度。此外，在该模型中我们保证了增强组合在行业上与基准组合的暴露保持一致，这在一定程度上限制了组合相较基准的跟踪误差，然而更加精确的控制可以引入风险模型，将目标组合将对基准的主动风险控制在一定的阈值以内。
@@ -261,13 +261,13 @@ $$
 我们首先在横截面上将股票风格拆解为市场收益、行业收益、风格收益和特质收益，此处得到的特质收益被认为该个股在剔除市场、行业和风格影响之后的无法解释的部分，并且假设每只股票的特质收益之间互不相关，且单只个股的往期特质收益与本期特质收益也不存在相关性。
 
 $$
-r_{n}=f_{c}+\sum_{i=1}X_{ni}f_{i}+\sum_{s=1}X_{ns}f_{S}+\varepsilon_{n}
+r_{n}=f_{c}+\sum_{i=1}^{r}X_{ni}f_{i}+\sum_{s=1}X_{ns}f_{S}+\varepsilon_{n},
 $$
 
 接下来即可根据如上回归得到的特质收益计算该个股在 月到 月的特质收益累计，构建方法与原文报告中提到的传统动量因子的构建方法完全相同。
 
 $$
-Cross-IMOM_{i,t}=\prod_{t-12}^{t-1}\left(1+\varepsilon_{i,t}\right)-1
+Cross\mathrm{~-~}IMOM_{i,t}=\prod_{t-12}^{t-1}\bigl(1+\varepsilon_{i,t}\bigr)-1.
 $$
 
 图8：基于横截面动量的十分组选股表现
@@ -277,7 +277,7 @@ $$
 图8展示了基于横截面动量因子在十分组下的表现情况，可以看到横截面动量因子的原始值呈现出非常单调的反向选股效果，因子值最高的D9组合将大幅跑输市场，而因子值最低的 组别相较市场均值有 的月均超额收益。进一步地，我们同样想要了解横截面动量本身是否与一些其他因子值之间存在明显的相关关系，图9展示了横截面动量因子的十分组组合在已知风格因子上的得分均值，可以看到该因子与市值因子、21天换手率和21天波动率之间存在明显的正相关性，而与BP因子、Beta因子和21天涨跌幅之间存在明显的正向相关性，也就是说即便通过横截面回归得到的特质收益来构建的动量因子也同样在其他风格上存在非常相关的暴露，因此我们需要考察剔除掉这些风格因子影响之后，横截面动量的表现情况：
 
 $$
-\begin{array}{c}{{Cross\_IMOM_{i}=\alpha_{i}+Beta_{i}+BP_{i}+Size_{i}+Turnover21_{i}+Vol21_{i}+Ret21_{i}}}\\{{+\varepsilon_{i}}}\end{array}
+\begin{aligned}Cross\_IMOM_{i}&=\alpha_{i}+Beta_{i}+BP_{i}+Size_{i}+Turnover21_{i}+Vol21_{i}+Ret21_{i}\\&\quad+\varepsilon_{i}\end{aligned}
 $$
 
 图9：横截面动量因子十分组组合在已知风格因子上的得分均值
@@ -305,7 +305,7 @@ $$
 最后，我们对传统动量因子再进行一次稳健性检验。在原文报告中，我们构建的特质动量因子是经过风险调整后的特质动量，而传统动量因子仅仅用的是T-12月到T-1月的累计收益，并未进行风险调整。那么，传统动量因子的表现之所以不如特质动量因子，是否是由于其没有进行风险调整的缘故呢？基于此，我们构建经过风险调整后的传统动量因子，对其进行稳健性检验：
 
 $$
-MOM_{Adjusted}=\frac{\prod_{t-12}^{t-1}\left(1+r_{i,t}\right)-1}{\sqrt{12}\times\sqrt{\frac{\sum_{t-12}^{t-1}\left(r_{i,t}-\bar{r}_{i}\right)^{2}}{12}}}
+MOM_{Adjusted}=\frac{\prod_{t=12}^{t-1}\left(1+r_{i,t}\right)-1}{\sqrt{12}\times\sqrt{\frac{\sum_{t=12}^{t-1}\left(r_{i,t}-\bar{r}_{i}\right)^{2}}{12}}}
 $$
 
 图11：传统动量因子（经过风险调整VS不经过风险调整）多空净值表现
@@ -323,7 +323,7 @@ $$
 （1） 在特质动量因子的直接回归法介绍中，原文18页中的“接下来对股票在t-11到t-1月（共12个月）的特质收益进行处理…”应为对t-12到t-1（共12个月）的特质收益进行处理，相应的公式也应该表述为：
 
 $$
-IMOM_{i,t}=\frac{\frac{1}{12}\sum_{t-12}^{t-1}\varepsilon_{i,t}}{\sqrt{\frac{\sum_{t=12}^{t-1}\left(\varepsilon_{i,t}-\overline{{\varepsilon}}_{i}\right)^{2}}{12}}}\tag{2}
+IMOM_{i,t}=\frac{\frac{1}{12}\sum_{t-12}^{t-1}\varepsilon_{i,t}}{\sqrt{\frac{\sum_{t-12}^{t-1}\left(\varepsilon_{i,t}-\overline{{\varepsilon}}_{i}\right)^{2}}{12}}}\tag{2}
 $$
 
 （2） 在P19中的4.3公式中，三步求解法的特质收益应该用 $\epsilon_{i,t}$ 表示，而非用 $\varepsilon_{i,t}$ 表示，因此正确的公式应该为：
@@ -485,17 +485,17 @@ $$
 
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
 | --- | --- | --- | --- | --- |
-| Beta | BETA | $\mathrm{r_{t}}=\alpha+\beta\mathrm{R_{t}}+\mathrm{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3) 若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
+| Beta | BETA | $\mathbf{r_{t}}=\alpha+\beta\mathbf{R_{t}}+\mathbf{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3) 若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathsf{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathsf{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r_{t}=P_{t}/P_{t-1}-1,~T=504,~L=21,}$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)^{.}}$ | 0.7 | 1) 采用流通市值加权计算指数收益2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
-|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathrm{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathrm{T})),}\end{array}$ $\begin{array}{r}{\sharp\sharp\Psi\mathrm{Z(T)}=\exp\bigl(\sum_{\mathrm{t=1}}^{\mathrm{T}}\ln(1+\mathrm{r_{t}})\bigr)-1}\\{\qquad\sharp\ :\mathrm{T}\ :\bigwedge\ :\sharp\sharp\sharp\frac{\dot{\lesssim}}{{\mathrm{in}}}\ :.\dddot{\frac{\dot{\lesssim}}{{\mathrm{in}}}}\ :.\dddot{\frac{\dot{\lesssim}}{{\mathrm{in}}}}}\end{array}$ ，表示过 | 0.15 | 以 21 天为 1 个月 |
-|  | HSIGMA | 计算 Beta 时残差的标准差， ${\mathrm{Hsigma}}=s{\mathrm{td}}(e_{i})$ | 0.15 | 同 Beta 因子的计算 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t}=\mathrm{L}}^{\mathrm{T}+\mathrm{L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 1) 采用流通市值加权计算指数收益2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
+|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ $\begin{aligned}Z(T)=\exp(\sum_{t=1}^{T}\ln(1+r_{t}))-1\quad&\\去T个月的收益率\end{aligned}$ ，表示过 | 0.15 | 以 21 天为 1 个月 |
+|  | HSIGMA | 计算 Beta 时残差的标准差， $\mathrm{Hsigma}=\mathrm{std}(e_{i})$ | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |
-| 流动性(对市值因子进行正交化） | STOM | 月度换手率， $\overline{{\mathrm{STOM}}}=\ln(\operatorname*{mean}(\sum_{t=1}^{21}(V_{t}/S_{t})))$ 其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2)剔除未上市、停牌日期的数据 |
-|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\operatorname*{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
-|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_{t}/S_{t}))),$ | 0.25 | 同 STOQ 因子的计算 |
+| 流动性(对市值因子进行正交化） | STOM | 月度换手率， $\mathrm{STOM}=\ln(\mathrm{mean}(\sum_{t=1}^{21}(V_t/S_t)))$ 其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2)剔除未上市、停牌日期的数据 |
+|  | STOQ | 季度换手率， $\mathrm{STOQ}=\ln(\mathrm{mean}(\sum_{t=1}^{63}(V_t/S_t))),$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_t/S_t)))$ | 0.25 | 同 STOQ 因子的计算 |
 | 盈利 | CETOP | 过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数 | 1/2 | 采用 Wind 中的 PCF_OCF_ttm 因子的倒数 |
 |  | ETOP | 过去滚动12个月的利润除以当前市值实际计算中取市盈率 PETTM 的倒数 | 1/2 | 采用 Wind 中的 PE_ttm 因子的倒数 |
 | 成长 | YOYProfit | 单季度净利润同比增长率 | 1/2 | 为避免使用未来数据，需要根据季报公布时间进行调整 |

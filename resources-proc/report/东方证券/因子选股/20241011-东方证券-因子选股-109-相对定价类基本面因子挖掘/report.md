@@ -80,7 +80,7 @@ DFQ-FactorVAE：融合变分自编码器和概 2024-05-14率动态因子模型�
 图 2：基本面指标的重构方式
 
 $$
-\begin{array}{rl}&\quad\frac{\widehat{\varepsilon}(\widehat{\beta})+\widehat{\varepsilon}(\widehat{\beta})}{2}\underset{n\leq i+1}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i+1}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{|\varepsilon|\geq\widehat{\varepsilon}(\widehat{\beta})}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{n\leq i}{\overset{\varepsilon}{\sum}}\underset{n\leq i}\overset\end{array}
+定价类基本面指标的一般形式:$\begin{array}{c}绝对定价转为相对定价\\\xrightarrow{\quad A}\quad ln\quad A=\beta\cdot ln\quad B+\alpha\stackrel{\circ}{\underset{\quad\leftarrow\quad\bullet}{+}}\stackrel{\circ}{\underset{\quad\bullet}{E}}\stackrel{\circ}{\underset{\quad\bullet}{\quad\bullet}}\\\end{array}$取回归的残差作为新的基本面因子.,故题来源:乐方证步研究所
 $$
 
 考虑到大部分财务指标在截面上的分布并不正态，因此我们借鉴市值对数化的操作，对每个财务指标也都进行对数化操作以调整其分布。由于财务指标会为负或为 0，因此我们以如下方式来进行对数化调整：
@@ -203,7 +203,7 @@ $$
 该因子以单季度 EBIT的同比变化对市值回归而构建，其回归结构如下：
 
 $$
-ln(Delta_{-}Quart\_EBIT)=\beta\cdot ln(MV)+\alpha+\varepsilon
+ln(�data\_Quart\_EBIT)=\beta\cdot ln(MV)+\alpha+\varepsilon
 $$
 
 其中 EBIT是利润表的科目，反映了企业的息税前利润。该因子表达了经过市值调整后的 EBIT的成长性。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC均值 0.044，年化 ICIR3.73，IC胜率 88%。
@@ -250,7 +250,7 @@ $$
 该因子以单季度未分配利润的同比变化对市值回归而构建，其回归结构如下：
 
 $$
-ln(Delta\mathrm{~.~}Quart\mathrm{~.~}UNDISTRIBUTED\mathrm{~.~}PROFIT)=\beta\cdot ln(MV)+\alpha+\varepsilon
+ln(�)\_Quart\_UNDISTRIBUTED\_PROFIT)=\beta\cdot ln(MV)+\alpha+\varepsilon
 $$
 
 其中未分配利润是资产负债表的科目，指企业留待以后年度分配或者待分配的利润。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.036 化 ICIR3.1IC 胜率 82%。
@@ -343,7 +343,7 @@ $$
 该因子以单季度的投资活动现金流出小计对市值回归而构建，其回归结构如下：
 
 $$
-ln(Quart\_STOT\_CASH\_OUTFLOWS\_INV\_ACT)=\beta\cdot ln(MV)+\alpha+\varepsilon
+ln(Quart\_STOT\_CASH\_OUTLUWS\_INV\_ACT)=\beta\cdot ln(MV)+\alpha+\varepsilon
 $$
 
 其中投资活动现金流出小计是现金流量表的科目，指企业经营过程中所产生的与投资活动相关的现金流出的金额的合计值。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度IC均值0.025，年化ICIR2.45，IC胜率 75%。
@@ -366,7 +366,7 @@ $$
 该因子以应付职工薪酬对去年同期的其他应付款回归而构建，其回归结构如下：
 
 $$
-ln(EMPL\_BEN\_PAYABLE)=\beta\cdot ln(Lastsame\_OTH\_PAYABLE\_TOT)+\alpha+\varepsilon
+ln(EMPL\_BEN\_PAYABLE)=\beta\cdot ln(Losssame\_OTH\_PAYABLE\_TOT)+\alpha+\varepsilon
 $$
 
 其中应付职工薪酬是资产负债表的科目，指按照规定应付给职工的各种薪资报酬，其他应付款也是资产负债表的科目，指应付利息、应付股利与其他应付款合计。该因子同时表达了相对占比和同比增速的双重含义。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.027，年化 ICIR2.77，IC 胜率81%。
@@ -390,7 +390,7 @@ $$
 该因子以单季度所得税对去年同期单季度 EBIT回归而构建，其回归结构如下：
 
 $$
-ln(Quart\_INC\_TAX)=\beta\cdot ln(Lastsame\_Quart\_EBIT)+\alpha+\varepsilon
+ln(Quart\_INC\_TAX)=\beta\cdot ln(Lassame\_Quart\_EBIT)+\alpha+\varepsilon
 $$
 
 其中所得税是利润表的科目，指缴纳的企业所得税的金额，EBIT 也是利润表的科目，指企业的息税前利润。该因子同时表达了相对占比和同比增速的双重含义。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度IC 均值 0.036，年化 ICIR3.08，IC 胜率 82%。
@@ -413,7 +413,7 @@ $$
 该因子以单季度的购建固定资产、无形资产和其他长期资产支付的现金对去年同期的在建工程回归而构建，其回归结构如下：
 
 $$
-ln(Quart\_CASH\_PAY\_ACQ\_CONST\_FIOLTA)=\beta\cdot ln(Lastsame\_CONST\_IN\_PROG\_TOT)+\alpha+\varepsilon
+ln(Quart\_CASH\_PAY\_ACQ\_CONST\_FIOLTA)=\beta\cdot ln(Losssame\_CONST\_IN\_PROG\_TOT)+\alpha+\varepsilon
 $$
 
 其中购建固定资产、无形资产和其他长期资产支付的现金是现金流量表的科目，指企业用于固定资产、无形资产、其他长期资产等购置所支付的现金，在建工程是资产负债表的科目，指企业的在建工程与工程物资科目合计。该因子反映了上市公司在该季度的固定资产的扩张水平。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC均值 0.021，年化 ICIR2.35，IC胜率 75%。
@@ -438,7 +438,7 @@ $$
 该因子以单季度的归母净利润对单季度的综合收益总额（母公司）回归而构建，其回归结构如下：
 
 $$
-\begin{array}{rl}&{ln(Quart\_NET\_PROFIT\_EXCL\_MIN\_INT\_INC)}\\&{\qquad=\beta\cdot ln(Quart\_TOT\_COMPREH\_INC\_PARENT\_COMP)+\alpha+\varepsilon}\end{array}
+\begin{aligned}ln(Quart\_NET\_PROFIT\_EXCL\_MIN\_INT\_INC)\\=\beta\cdot ln(Quart\_TOT\_COMPREH\_INC\_PARENT\_COMP)+\alpha+\varepsilon\end{aligned}
 $$
 
 其中归母净利润是利润表的科目，反映上市公司的归属于母公司的净利润，综合收益总额（母公司）也是利润表的科目，反映归属于母公司股东（所有者）的那部分综合收益总额。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.047，年化 ICIR2.92，IC 胜率 83%。
@@ -462,7 +462,7 @@ $$
 该因子以单季度的营业总成本对去年同期的流动负债合计回归而构建，其回归结构如下：
 
 $$
-ln(Quart\_TOT\_OPER\_COST2)=\beta\cdot ln(Lastsame\_TOT\_CUR\_LIAB)+\alpha+\varepsilon
+ln(Quart\_TOT\_OPER\_COST2)=\beta\cdot ln(Lassame\_TOT\_CUR\_LIAB)+\alpha+\varepsilon
 $$
 
 其中营业总成本是利润表的科目，指上市公司的营业总成本，而流动负债合计是资产负债表的科目，指上市公司的流动负债类科目合计值。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.029，年化ICIR2.4，IC 胜率 76%。
@@ -510,7 +510,7 @@ $$
 该因子以盈余公积金对去年同期的单季度利息费用回归而构建，其回归结构如下：
 
 $$
-ln(SURPLUS\_RSRV)=\beta\cdot ln(Lastsame\_Quart\_STMNOTE\_FINEXP)+\alpha+\varepsilon
+ln(SURPLUS\_RSRV)=\beta\cdot ln(Losssame\_Quart\_STMNOTE\_FINEXP)+\alpha+\varepsilon
 $$
 
 其中盈余公积金是资产负债表的科目，反映公司盈余中提取的公积金，利息费用是利润表的科目，反映企业为筹集生成经营所需资金等而发生的应予费用化的利息支出。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.047，年化 ICIR2.23，IC 胜率 72%。
@@ -533,7 +533,7 @@ $$
 该因子以未分配利润对去年同期单季度的未分配利润回归而构建，其回归结构如下：
 
 $$
-ln(UNDISTRIBUTED_{-}PROFIT)=\beta\cdot ln(Lastsame\_Quart\_UNDISTRIBUTED\_PROFIT)+\alpha+\varepsilon
+ln(UNDISTRIBUTED\_PROFTT)=\beta\cdot ln(Losssame\_Quart\_UNDISTRIBUTED\_PROFTT)+\alpha+\varepsilon
 $$
 
 其中未分配利润是资产负债表的科目，指企业留待以后年度分配或者待分配的利润。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.037，年化 ICIR2.07，IC 胜率 71%。
@@ -556,7 +556,7 @@ $$
 该因子以半年度的固定资产折旧、油气资产折耗、生产性生物资产折旧对去年同期单季度的利息费用回归而构建，其回归结构如下：
 
 $$
-ln(Half\_DEPR\_FA\_COGA\_DPBA)=\beta\cdot ln(Lastsame\_Quart\_STMNOTE\_FINEXP)+\alpha+\varepsilon
+ln(Haff\_DEPR\_FA\_COGA\_DPBA)=\beta\cdot ln(Lassame\_Quart\_STMNOTE\_FINEXP)+\alpha+\varepsilon
 $$
 
 其中固定资产折旧、油气资产折耗、生产性生物资产折旧是现金流量表的科目，反映因固定资产、油气资产、生产性生物资产按会计准则要求发生折旧在本报告期的体现，利息费用是利润表的科目，反映企业为筹集生成经营所需资金等而发生的应予费用化的利息支出。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.038，年化 ICIR2.23，IC 胜率 74%。
@@ -581,7 +581,7 @@ $$
 该因子以单季度的经营活动现金流入对去年同期单季度的经营活动现金流入回归而构建，其回归结构如下：
 
 $$
-\begin{array}{rl}&{ln(Quart\_STOT\_CASH\_INFLOWS\_OPER\_ACT)}\\&{\phantom{ln}=\beta\cdot ln(Lastsame\_Quart\_STOT\_CASH\_INFLOWS\_OPER\_ACT)+\alpha+\varepsilon}\end{array}
+\begin{aligned}ln(Quart\_STOT\_CASH\_INFLOWS\_OPER\_ACT)\\=\beta\cdot ln(Lasstsame\_Quart\_STOT\_CASH\_INFLOWS\_OPER\_ACT)+\alpha+\varepsilon\end{aligned}
 $$
 
 其中经营活动现金流入是现金流量表的科目，指企业与经营活动相关的现金流量的明细统计。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC均值 0.029，年化 ICIR2. 7，IC胜率 78%。
@@ -605,7 +605,7 @@ $$
 该因子以现金及现金等价物余额对去年同期其他综合收益回归而构建，其回归结构如下：
 
 $$
-ln(CASH_{-}CASH_{-}EQU_{-}END_{-}PERIOD)=\beta\cdot ln(Lastsame_{-}OTHER_{-}COMP\_INCOME)+\alpha+\varepsilon
+ln(CASH_{-}CASH_{-}EQU_{-}END_{-}PERIOD)=\beta\cdot ln(Lasssame_{-}OTHER_{-}COMP_{-}INCOME)+\alpha+\varepsilon
 $$
 
 其中现金及现金等价物余额是现金流量表的科目，指报表截止日期现金及融资期限为三个月或三个月内的，具有高度流动性且内购赚取利息的投资的余额，其他综合收益是资产负债表的科目，指企业根据其他会计准则规定未在当期损益中确认的各项利得和损失。下图分别展示了该因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.031，年化 ICIR2.2，IC 胜率 71%。
@@ -710,7 +710,7 @@ $$
 该因子以盈余公告次日换手率对盈余公告后累计超额市场收益回归而构建，其回归结构如下：
 
 $$
-TURNOVER_{-}REPORT=\beta\cdot EXC_{-}RET_{-}AFTER_{-}REPORT+\alpha+\varepsilon
+TURNOVER\_REPORT=\beta\cdot EXC\_RET\_AFTR\_REPORT+\alpha+\varepsilon
 $$
 
 盈余公告次日换手率因子本身已经是一个较为显著的因子，其表现如下图所示。因子月度 IC均值-0.052，年化 ICIR-2.15，IC 胜率 73%。
@@ -891,10 +891,10 @@ $$
 本节我们以该基本面类复合因子构建沪深300、中证500、中证1000指数增强组合，我们采用如下组合优化模型来构建指数增强组合：
 
 $$
-\begin{array}{rl}{max}&{f^{T}w}\\{s.t.}&{s_{l}\leq X(w-w_{b})\leq s_{h}}\\&{h_{l}\leq H(w-w_{b})\leq h_{h}}\\&{w_{l}\leq w-w_{b}\leq w_{h}}\\&{b_{l}\leq B_{b}w\leq b_{h}}\\&{0\leq w\leq l}\\&{1^{T}w=1}\end{array}
+\begin{aligned}\underset{}{max}\quad&f^{T}w\\s.t.\quad&s_{l}\leq X(w-w_{b})\leq s_{h}\\&h_{l}\leq H(w-w_{b})\leq h_{h}\\&w_{l}\leq w-w_{b}\leq w_{h}\\&b_{l}\leq B_{b}w\leq b_{h}\\&\mathbf{0}\leq w\leq l\\&\mathbf{1}^{T}w=1\end{aligned}
 $$
 
-该优化模型的目标函数为最大化复合因子取值，其中 f 为因子取值， $f^{T}w$ 为组合在因子上的加权暴露，w 为待求解的股票权重向量。模型的约束条件包括组合在风格因子上的偏离度、行业偏离度、个股偏离度、成分股权重占比控制、个股权重上下限控制、换手率等。
+该优化模型的目标函数为最大化复合因子取值，其中 f 为因子取值， $f^{T}W$ 为组合在因子上的加权暴露，w 为待求解的股票权重向量。模型的约束条件包括组合在风格因子上的偏离度、行业偏离度、个股偏离度、成分股权重占比控制、个股权重上下限控制、换手率等。
 
 ⚫ 第一个约束条件限制了组合相对于基准指数的风格暴露，X 为股票对风格因子的因子暴露矩阵， $w_{b}$ 为基准指数成分股的权重向量， $s_{l},s_{h}$ 分别为风格因子相对暴露的下限及上限；
 

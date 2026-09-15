@@ -200,13 +200,13 @@ ann@gf.com.cn
 假定投资组合观察窗口股票数量为 N。观察窗口内股票价格：
 
 $$
-\mathrm{P_{1,t}},\mathrm{P_{2,t}},\ldots,\mathrm{P_{N,t}}
+\mathbb{P}_{1,\mathrm{t}},\mathbb{P}_{2,\mathrm{t}},\dots,\mathbb{P}_{\mathrm{N},\mathrm{t}}
 $$
 
 备选池股票价格：
 
 $$
-\mathrm{A}_{1,\mathrm{t}},\mathrm{A}_{2,\mathrm{t}},\ \dots,\mathrm{A}_{\mathrm{N},\mathrm{t}}
+\mathrm{A}_{1,\mathrm{t}},\mathrm{A}_{2,\mathrm{t}},\dots,\mathrm{A}_{\mathrm{N},\mathrm{t}}
 $$
 
 若 T时刻触发阈值限制条件，即：

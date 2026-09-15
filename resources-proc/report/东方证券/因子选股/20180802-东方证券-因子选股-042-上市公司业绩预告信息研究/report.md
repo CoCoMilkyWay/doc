@@ -76,13 +76,13 @@ zhujiantao@orientsec.com.cn
 从报告的发布时间和数量来看，业绩预告确实可以一定程度上提高信息获得的效率，但是业绩预告本身也存在一定的问题，不同公司在公布业绩预告的时候往往会给出不同的范围，有的上限和下限是相同的，有的则相差的非常远，如果我们都用上下限的均值来作为业绩的预测，那么上下限的区间大小和这个预测的准确程度有没有存在一定的关系？我们构建了指标来衡量预告的区间大小：
 
 $$
-x\vert\downarrow\frac{\downarrow\pm\exists\pi}{\downarrow\pi}\uparrow\uparrow\frac{1}{1}\pm\vert\downarrow\vert\downarrow\downarrow=\frac{\downarrow\vert\Re\downarrow-\top\mathbb{N}\mathbb{k}}{(\perp\mathbb{N}\mathbb{k}+\top\mathbb{N}\mathbb{k})/2}
+业绩预告区间比=\frac{上限-下限}{(上限+下限)/2}
 $$
 
 这个值越大代表公司给出的业绩预告的不确定性越大，可能的偏差也更大。此外，我们还构建了业绩预告准确度指标：
 
 $$
-\frac{\sqrt{|\zeta\frac{\dot{\ z}\pm\Xi}{2\pi}\Im|\mathbf{\Sigma}_{\perp}^{\prime\pm}}\pm\pm\frac{|\mathbf{\hat{z}}|}{\sqrt{|\mathbf{\hat{z}}|}\sqrt{|\mathbf{\hat{z}}|}}\sqrt{\pmb{\Sigma}}}{\Xi}=\frac{\frac{\Re}{\sqrt{|\mathbf{\hat{z}}|}\cdot\left[\mathbf{\hat{z}}\right]\sqrt{\frac{\Xi}{2\pi}\sqrt{\frac{\mu}{\hbar}}\mathbf{\hat{z}}\mp\frac{\mp\mathbf{\Lambda}}{\sqrt{|\mathbf{\hat{z}}|}}\sqrt{|\mathbf{\hat{z}}|}}-(\pm\mathbf{\Lambda}\pm\mp\mathbf{\Lambda}\mp\mathbf{\Lambda}\mp\mathbf{\Lambda}\mp\mathbf{\Lambda}\mp\mathbf{\Lambda}\mp\mathbf{\Lambda})/2}}\frac{\Im}{\Xi}\left[\mathbf{\Xi}_{\mathbf{\hat{z}}}^{-}\mathbf{\hat{z}}^{\prime}\mathbf{\hat{z}}\right]\tilde{\Xi}\tilde{\mp}\frac{\mp\mathbf{\Lambda}}{\sqrt{\mathbf{\hat{z}}}}\sqrt{\frac{\ddagger}{2\pi}\sqrt{\frac{\mu}{\hbar}}\mathbf{\hat{z}}\mp\frac{\mp\mathbf{\Lambda}}{\sqrt{|\mathbf{\hat{z}}|}}\left\}\right]}
+业绩预告均值偏离度=\frac{实际的累积净利润-(上限+下限)/2}{实际的单季度净利润}
 $$
 
 这个偏离度衡量了实际的单季净利润高于业绩预告均值的百分比。图 4 统计了 2007-2018.6 不同的业绩预告区间对应的偏离度的均值。从结果来看，73.9%的公司业绩预告区间比在 0.3以下，然而还有 5%左右的公司业绩预告区间比在 1以上，这些公司的业绩预告有着高度的不确定性。从对应区间的偏离度均值来看，所有区间的均值均小于零，也就是说平均来说业绩预告是高估了公司的实际净利润情况，此外，随着预告区间比大小的提升，平均的偏离度也存在一定的放大，这也就是说整体而言公司给出的业绩预告上下限越大，实际的净利润低于上下限均值的程度也会更高。因此业绩预告的上下行差别越小，预测的准确性通常来说也会更好一些。

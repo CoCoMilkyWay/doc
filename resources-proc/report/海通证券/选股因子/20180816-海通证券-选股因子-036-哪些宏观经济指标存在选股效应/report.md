@@ -71,11 +71,11 @@ T 值大于 1.96（95%显著性水平）的股票仅有 77 只，大于 1.65（9
 公式如下：
 
 $$
-Return_{i,t}\ =\ \alpha_{i,t}+MacroBeta_{i,t}\cdot F_{t}
+Return_{i,t}\;=\;\alpha_{i,t}+macroBeta_{i,t}\cdot F_{t}
 $$
 
 $$
-+\beta_{i,t}^{MKT}\cdot MKT_{t}+\beta_{i,t}^{SMB}\cdot SMB_{t}+\beta_{i,t}^{HML}\cdot HML_{t}\ +\varepsilon_{i,t}
++\pmb{\beta}_{i,t}^{MKT}\cdot\pmb{MKT}_{t}+\pmb{\beta}_{i,t}^{SMB}\cdot\pmb{SMB}_{t}+\pmb{\beta}_{i,t}^{HML}\cdot\pmb{HML}_{t}+\pmb{\varepsilon}_{i,t}
 $$
 
 其中，F 表示宏观经济指标第 t 期的取值，Return 表示第 t 期的股票绝对收益。MKT 表示市场因子，SMB表示市值因子，HML 表示估值因子。

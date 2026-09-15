@@ -213,16 +213,16 @@ e_Summary] “趋”代表价格运动的方向，而“势”则表明价格波
 ![](images/985cf9d4a6faad822116c368ab465495e9485bd29a5eb00cf1bfb59bfe69b188.webp)
 数据来源：国泰君安证券研究
 
-假定用 $(\mathbf{s}_{_0},\mathbf{s}_{_1},\mathbf{s}_{_2},\mathbf{s}_{_3},...,\mathbf{s}_{_N}$ )表示价格走势在每一个时间点的位移，那么图中标注的拐点为位移向量的一个子集，记为 $(\mathbf{s}_{\gamma_{_0}},\mathbf{s}_{\gamma_{1}},\mathbf{s}_{\gamma_{2}},...,\mathbf{s}_{\gamma_{k}})$ ，共k+1 个拐点，注意这里的拐点集合必定包含起点和终点。定义相邻两个拐点之间的位移为：
+假定用 $(\mathrm{s}_{_0},\mathrm{s}_{_1},\mathrm{s}_{_2},\mathrm{s}_{_3},\ldots,\mathrm{s}_{_N}$ )表示价格走势在每一个时间点的位移，那么图中标注的拐点为位移向量的一个子集，记为 $(\mathrm{s}_{_{\gamma_{_{0}}}},\mathrm{s}_{_{\gamma_{_{1}}}},\mathrm{s}_{_{\gamma_{_{2}}}},\dots,\mathrm{s}_{_{\gamma_{_{k}}}})$ ，共k+1 个拐点，注意这里的拐点集合必定包含起点和终点。定义相邻两个拐点之间的位移为：
 
 $$
-\mathbf{d}_{\mathbf{\Omega}_{i}}=\mathbf{s}_{\gamma_{i}}-\mathbf{s}_{\gamma_{i-1}},i=1,2,...,k,1\leq k\leq N_{\mathbf{\Omega}_{\circ}}
+\mathbf{d}_{i}=\mathbf{s}_{\gamma_{i}}-\mathbf{s}_{\gamma_{i-1}},i=1,2,\ldots,k,1\leq k\leq N
 $$
 
 因此势可以构造为相邻拐点位移的平方和：
 
 $$
-T=\sum_{i=1}^{k}d_{i}^{\ 2},
+T\quad=\quad\sum_{_{i=1}}^{^{k}}\quad d_{_{i}}^{^{2}}\quad,
 $$
 
 基于这个定义，显而易见下图中左图的势大于右图，左图上涨波段更有
@@ -238,7 +238,7 @@ $$
 基于一个简单的数学不等式容易得出：
 
 $$
-N\leq T=\sum_{i=1}^{k}d_{i}^{\ 2}\leq N^{\ 2}\circ
+N\;\leq\;T\;=\;\sum_{_{i=1}}^{^{k}}\;d_{_{i}}^{^{\;2}}\;\leq\;N^{^{\;2}}\;_{\circ}
 $$
 
 势的最大值出现在连续N个交易日上涨或连续N个交易日下跌的走势，反之势最小值出现在每个交易日涨跌交替这种情形。以上势的定义是对价格走势趋势的直观观察的结果。
@@ -246,7 +246,7 @@ $$
 上述是对势的定义，而趋本质就是价格实际运行的位移，所以加入趋的定义，趋势的量化定义本质是一个二维向量，第一个变量代表“趋”，表征市场位移方向，位移正值代表向上，位移负值代表方向向下；第二个变量代表“势”，表征趋的程度，或者说连续波动的集中性。趋势定义为：
 
 $$
-\left(\nvDash_{i\not\in2}^{\pm\sharp},\ \ddag_{\mathcal{I}}^{\pm\varkappa}\ \right)\ =\left(\sum_{i=1}^{k}d_{i}\ ,\sum_{i=1}^{k}d_{i}^{2}\ \right)
+\left(\sum_{i=1}^{k}d_{i},\sum_{i=1}^{k}d_{i}^{2}\right)
 $$
 
 举例看下图三种走势，趋向都为上涨，上涨位移8步。从趋势定义可知，第一个走势的“势”最大为 82，第二个走势次之为 54，第三个走势最小为42。第一种走势“势”最大原因是连续出现9步上涨，而第二个走势出现了连续7步上涨，第三个走势出现了连续 5步。所以综合来看，三种走势具有相同的“趋”，但“势”不同。
@@ -278,35 +278,35 @@ $$
 严谨的基于绝对波动区间定义的数学描述如下。假定价格状态向量如下，
 
 $$
-(1\ 1\ 0\ 1\ -1\ 0\ -1\ 1\ 1\ -1\ 0\ 0\ 1\ 1\ 1\ -1\ -1\ -1\ ),\quad\exists\ \nu\lambda\not{A}\ \frac{\exp}{\exp}\ \hat{\chi}\ \not{C}\ \not{C}\ X
+\left(\begin{array}{l}1101-10-111-1001111-1-1-1\end{array}\right),可以用变量记为
 $$
 
 $$
-(\delta_{_1},\delta_{_2},\delta_{_3},...,\delta_{_n}),
+(\delta_{1},\delta_{2},\delta_{3},\ldots,\delta_{n}),
 $$
 
 那么价格位移定义为：
 
 $$
-s_{{\mathrm{\Delta}}_{k}}=s_{{\mathrm{\scriptsize~0}}}+\sum_{i=1}^{k}\delta_{{\mathrm{\scriptsize~i}}},k=1,2,3,...,n.\ ,s_{{\mathrm{\scriptsize~0}}}=0.
+s_{k}=s_{0}+\sum_{i=1}^{k}\delta_{i},k=1,2,3,\ldots,n.,\quad s_{0}=0.
 $$
 
 定义二元数组集合，满足价格波动区间最大值，换言之，寻找时间窗口内价格最大值和最小值。
 
 $$
-\Gamma=\{(\mathbf{x},\mathbf{y})\mid\mathbf{x},\mathbf{y}\in\{0,1,2,\ldots,\mathbf{n}\};\mathbf{x}<\mathbf{y};\mid s_{x}-s_{y}\mid=\underset{1\leq j,k\leq n}{\mathbf{max}}|s_{j}-s_{k}|\}\}
+\Gamma=\left\{(\mathrm{x},\mathrm{y})\mid\mathrm{x},\mathrm{y}\in\{0,1,2,\ldots,\mathrm{n}\};\mathrm{x}<\mathrm{y};\mid s_{\mathrm{x}}-s_{\mathrm{y}}\mid=\max_{1\leq j,k\leq n}\left|s_{j}-s_{k}\right|\right\}
 $$
 
 定义最短距离集合：
 
 $$
-\Omega=\left\{(\alpha,\beta)\in\Gamma:\vert\alpha-\beta\vert=\underset{(x,y)\in\Gamma}{\mathrm{min}}\left.x-y\right.\right\}
+\Omega=\left\{(\alpha,\beta)\in\Gamma:\mid\alpha-\beta\mid=\underset{_{(x,y)\in\Gamma}}{\operatorname*{min}}\left|x-y\right|\right\}
 $$
 
-不难知道，最短距离集合可能包含不止一个元素，我们选取 最小的那个数组，记为 $(\alpha_{_1},\beta_{_1})$ 。之后，把价格位移序列 $\left\{\begin{array}{l}{s_{\scriptscriptstyle k}}\end{array}\right\}$ 的 $\alpha_{\scriptscriptstyle1}$ 到 $\beta_{_1}$ 之间部分移出，对剩下的左侧部分（不一定存在）和右侧部分（不一定存在）重复上述过程，继续重复上述步骤寻找最大价格波动区间，得到最短距离数组 $(\alpha_{_2},\beta_{_2}),(\alpha_{_3},\beta_{_3}),...,(\alpha_{_m},\beta_{_m})$ 。那么基于绝对波动区间的势定义为：
+不难知道，最短距离集合可能包含不止一个元素，我们选取 最小的那个数组，记为 $(\alpha_{_1},\beta_{_1})$ 。之后，把价格位移序列 $\{s_{_k}\}$ 的 $\alpha_{\mathrm{~i~}}$ 到 $\beta_{\perp}$ 之间部分移出，对剩下的左侧部分（不一定存在）和右侧部分（不一定存在）重复上述过程，继续重复上述步骤寻找最大价格波动区间，得到最短距离数组 $(\alpha_{_{2}},\beta_{_{2}}),(\alpha_{_{3}},\beta_{_{3}}),\ldots,(\alpha_{_{m}},\beta_{_{m}})$ 。那么基于绝对波动区间的势定义为：
 
 $$
-\sum_{i=1}^{m}{\left({{\bf{s}}_{\alpha_{i}}}-{{\bf{s}}_{\beta_{i}}}\right)^{2}}\mathrm{~.~}
+\sum_{i=1}^{m}\mathrm{~(~s_{\alpha_i}-~s_{\beta_i}~)~}^{2}\mathrm{~.~}
 $$
 
 图 10基于绝对波动区间势的计算示例
@@ -316,7 +316,7 @@ $$
 从上图来看基于绝对波动区间势的计算，首先整个价格走势图的最大值为S2，最低值为S3，对应的波动区间|S2-S3|，同样剩余的左右两边两个子走势图的绝对波动区间分别为|S2-S1|和|S3-S2|，因此上面这个价格序列的势为
 
 $$
-({\bf s}_{2}-{\bf s}_{1})^{2}+({\bf s}_{3}-{\bf s}_{2})^{2}+({\bf s}_{4}-{\bf s}_{3})^{2}=3^{2}+4^{2}+3^{2}=34
+(\mathrm{s}_{2}-\mathrm{s}_{1})^{2}+(\mathrm{s}_{3}-\mathrm{s}_{2})^{2}+(\mathrm{s}_{4}-\mathrm{s}_{3})^{2}=3^{2}+4^{2}+3^{2}=34
 $$
 
 易知这个势和基于连续波段的势是不同的。
@@ -346,7 +346,7 @@ $$
 所以综合来看，合理的势定义应该是连续波段定义的势与绝对波动区间的势取二者较大的值。
 
 $$
-\operatorname*{max}{\left(\sum_{i=1}^{m}{{{\left({{\bf{s}}_{\alpha_{i}}}-{{\bf{s}}_{\beta_{i}}}\right)}^{2}}},\sum_{i=1}^{k}{{{d}_{i}}^{2}}\right)}
+\max\left(\sum_{i=1}^{m}\left(\mathbf{s}_{\alpha_i}-\mathbf{s}_{\beta_i}\right)^2,\sum_{i=1}^{k}d_i^2\right)
 $$
 
 图 13 <基于连续波段的势，基于绝对波动区间的势>
@@ -370,7 +370,7 @@ $$
 假定一个时间序列的长度为 N，根据之前定义的势为 T：
 
 $$
-\mathrm{T}=\mathrm{m}\mathrm{ax}\left(\sum_{i=1}^{m}{(\mathrm{s}_{\alpha_{i}}-\mathrm{s}_{\beta_{i}})}^{2},\sum_{i=1}^{k}{d_{i}^{\mathrm{\tiny~2~}}}\right)
+\mathbf{T}=\max\left(\sum_{i=1}^{m}\left(\mathbf{s}_{\alpha_i}-\mathbf{s}_{\beta_i}\right)^2,\sum_{i=1}^{k}d_i^2\right)
 $$
 
 那么要想消除时间长度对势的影响，一个简单想法是对T 除以N。
@@ -378,7 +378,7 @@ $$
 这个想法是否合理？我们用下图两种走势来说明，如果除以长度N的话图(a)和图(b)的势是相同的，都为 1。但是从走势的常理分析，(b)图走了12步之多，还在宽度为1的区间内波动，虽然(a)图也在宽度为 1的区间内波动，但其仅走了6步，从价格波动的可能性分析，其未来的波动区间超过1的可能性很高，所以相比较而言，(a)应该较(b)具有更大的势。从这个简单的例子说明T简单除以时间长度N 并不合理。需要除以一个幂次大于 1 的 N，如下，p 必须大于 1，但 p 到底取多少合适还需要进一步分析。
 
 $$
-\frac{T}{N^{\textit{ p }}},p>1\mathrm{~.~}
+\frac{T}{N^{^{\scriptsize~p}}},p>1\;.
 $$
 
 图 15 不同时间长度的窄幅波动走势
@@ -387,7 +387,7 @@ $$
 
 ![](images/ee818c7937743325d53ec41fed27be24e69bd2bbc2412708cae2fc717f11731f.webp)
 
-下图两种走势(a)与(b)都属于单边趋势，如果不考虑时间长短因素的话，二者的势分别为9和 81；如果除以N的平方的话，二者的势则都为 1，可以看出是不合理的，(b)图的势应该比(a)要大。所以，p必须小于2。$\frac{T}{N^{\ p}},1<\ p<2.$
+下图两种走势(a)与(b)都属于单边趋势，如果不考虑时间长短因素的话，二者的势分别为9和 81；如果除以N的平方的话，二者的势则都为 1，可以看出是不合理的，(b)图的势应该比(a)要大。所以，p必须小于2。$\frac{T}{N^{^{p}}},1<{\it{p}}<2.$
 
 图 16 不同时间长度的单边上涨走势
 ![](images/a73c2e00410aa3bca479c903aeecc29261c265269595d1841a809f2e4e9e0b92.webp)
@@ -398,19 +398,19 @@ $$
 最后，我们再以横盘波动走势图的突破带来势的变化，来进一步对p的取值加以确认。如下图，假定(a)图走了n 步，到了(b)图的第n+1 步向上突破，不难知道(b)的势应该大于(a)图。也就是说满足：
 
 $$
-\frac{n}{n^{\begin{array}{l}{p}\end{array}}}<\frac{n-1+2^{2^{2}}}{(n+1)^{^{p}}},
+\frac{n}{n^{p}}<\frac{n-1+2^{2}}{(n+1)^{p}}
 $$
 
 经过简单变换，易知 p 的取值范围为：
 
 $$
-p<{\frac{\ln(n+3)-\ln(\mathfrak{n})}{\ln(n+1)-\ln(n)}},
+p<\frac{\ln\left(n+3\right)-\ln\left(n\right)}{\ln\left(n+1\right)-\ln\left(n\right)},
 $$
 
 而对于任何 n,
 
 $$
-{\frac{\ln(n+3)-\ln(\mathfrak{n})}{\ln(n+1)-\ln(n)}}\geq2,
+\frac{\ln\left(n+3\right)-\ln\left(n\right)}{\ln\left(n+1\right)-\ln\left(n\right)}\geq2,
 $$
 
 所以，对任何1 < p < 2 都满足要求。
@@ -424,7 +424,7 @@ $$
 综合以上分析，为了简洁，我们 p 的取值为 3/2。因此，基于连续波段的势与基于绝对波动区间的势定义为：
 
 $$
-{\mathrm{T}}={\mathrm{m}}\arg\left(\sum_{i=1}^{m}{(\mathbf{s}_{\alpha_{i}}-\mathbf{s}_{\beta_{i}})}^{2},\sum_{i=1}^{k}{d_{i}^{\ 2}}\right)/{\cal N}^{3/2}\circ
+\mathbf{T}=\max\left(\sum_{i=1}^{m}\left(\mathbf{s}_{\alpha_i}-\mathbf{s}_{\beta_i}\right)^2,\sum_{i=1}^{k}d_i^2\right)/N^{3/2}
 $$
 
 对于单边上涨行情，可知其势随时间以 $\sqrt{N}$ 速度增长，趋于无穷大；而对于完全横盘震荡的走势，其势随时间以 $\frac{1}{\sqrt{N}}$ 速度递减，最终趋于零。如果不考虑平行移动的情况，易知给定任何时间步长 N，任何走势的势位于区间 $\left[{\frac{1}{\sqrt{N}}},{\sqrt{N}}\right]$

@@ -101,13 +101,13 @@ yangyiling@orientsec.com.cn
 综合上述结果，我们最终设计损失函数可表示为：
 
 $$
-\sum_{t=1}^{T}\omega^{t-1}\mathrm{R}-\mathsf{square}(F,y_{t})+\lambda||\mathrm{corr}(F,F)||^{2}
+\sum_{t=1}^{T}\omega^{t-1}\mathrm{R}-\operatorname{square}(\boldsymbol{F},y_{t})+\lambda\left|\left|\operatorname{corr}(\boldsymbol{F},\boldsymbol{F})\right|\right|^{2}
 $$
 
 其中参数 ω 表示属性特征向量与未来 t 期标准收益率（记为 $y_{t}$ ）之间的 R-square 的权重，并且$0<\omega<1$ （即 t 越大则该期计算所得 R-square 损失对应权重越小）。参数 λ 表示相关系数惩罚项权重系数，是一个人为确定的超参数。上述损失函数中R-square具体计算方式可以由以下公式给出：
 
 $$
-\mathrm{R}-s\mathsf{quare}(F,y_{t})=1-||y_{t}-F(F^{T}F)^{-1}F^{T}y_{t}||_{\circ}
+\mathbb{R}-\operatorname{square}(\pmb{F},y_{t})=1-||y_{t}-\pmb{F}(\pmb{F}^{T}\pmb{F})^{-1}\pmb{F}^{T}y_{t}||\mathrm{{_\infty}}
 $$
 
 而 RNN+GAT 模型的输入则主要是一些长周期风险因子构成，这些风险因子主要分为十个大类，具体组成如下图所示：
@@ -139,7 +139,7 @@ $$
 我们因子单元提取的网络结构中图模型部分可表示为以下两种形式：
 
 $$
-\begin{array}{l}{{{\pmb{Z}}=({\pmb{I}}+softmax(ReLU({\pmb{M}}{\pmb{M}}^{T})))X{\pmb{W}}\mathrm{(\pmb{\mu})}{\sharp}\pmb{\Sigma}\mathrm{)}}}\\{{{\pmb{Z}}=({\pmb{I}}-softmax(ReLU({\pmb{M}}{\pmb{M}}^{T})))X{\pmb{W}}\mathrm{(\pmb{\mu})}{\widehat{\mu}}_{\sf{W}}^{\pm}\pmb{\Sigma}\mathrm{)}}}\end{array}
+\begin{aligned}\boldsymbol{Z}\;&=\;(\boldsymbol{I}+softmax(ReLU(MM^T)))\boldsymbol{X}\boldsymbol{W}\;(加法)\\\boldsymbol{Z}\;&=\;(\boldsymbol{I}-softmax(ReLU(MM^T)))\boldsymbol{X}\boldsymbol{W}\;(减法)\end{aligned}
 $$
 
 这里加法方式表示利用同类型股票来进行对股票自身 alpha 特征进行加强，可以理解为一种动量效应。而减法则可以理解为通过同类型的股票来进行中性化。整个因子单元提取的网络结构示意图可表示为：

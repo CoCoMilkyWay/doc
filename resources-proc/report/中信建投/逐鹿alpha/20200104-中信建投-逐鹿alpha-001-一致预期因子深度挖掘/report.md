@@ -366,7 +366,7 @@ NSGA-II 算法更适用于多目标优化，其优点在于可以大幅提升计
 因子的具体表达式为：
 
 $$
-\begin{array}{rl}{(0.074^{\star}\mathsf{E}\mathsf{S}\mathsf{T}_{-}\mathsf{E}\mathsf{P}\mathsf{S}_{-}\mathsf{NORM})+(0.063^{\star}\mathsf{ROE}_{-}\mathsf{NORM})+(0.045^{\star}\mathsf{E}\mathsf{S}\mathsf{T}_{-}\mathsf{ROE}_{-}\mathsf{NORM})+}&{}\\{(0.077^{\star}\mathsf{E}\mathsf{S}\mathsf{T}_{-}\mathsf{DPS}_{-}\mathsf{NORM})+(0.075^{\star}\mathsf{EPS}_{-}\mathsf{NORM})+(0.056^{\star}\mathsf{E}\mathsf{S}\mathsf{T}_{-}\mathsf{CFPS}_{-}}&{}\\{\mathsf{NORM})+(0.07^{\star}\mathsf{EST}_{-}\mathsf{BPS}_{-}\mathsf{NORM})}&{}\end{array}
+\begin{aligned}(0.074^{*}\mathsf{EST}\_\mathsf{EPS}\_\mathsf{NORM})+&(0.063^{*}\mathsf{ROE}\_\mathsf{NORM})+(0.045^{*}\mathsf{EST}\_\mathsf{ROE}\_\mathsf{NORM})+\\(0.077^{*}\mathsf{EST}\_\mathsf{DPS}\_\mathsf{NORM})+&(0.075^{*}\mathsf{EPS}\_\mathsf{NORM})+(0.056^{*}\mathsf{EST}\_\mathsf{CFPS}\_\\\mathsf{NORM})+&(0.07^{*}\mathsf{EST}\_\mathsf{BPS}\_\mathsf{NORM})\end{aligned}
 $$
 
 其中因子名称以 EST 开头的均为一致预期因子，其余为传统因子。后缀加 NORM表明对因子进行了去极值标准化处理。
@@ -391,7 +391,7 @@ $$
 因子的具体表达式为：
 
 $$
-\begin{array}{rl}{(-0.027^{\star}\mathsf{EST}_{-}\mathsf{EPS}_{-}\mathsf{NORM})+(}&{0.081^{\star}\mathsf{ROE}_{-}\mathsf{NORM})+(}&{-0.001^{\star}\mathsf{EST}_{-}\mathsf{ROE}_{-}\mathsf{NOR}}\\{\mathsf{M})+(}&{0.04^{\star}\mathsf{EST}_{-}\mathsf{DPS}_{-}\mathsf{NORM})+(0.075^{\star}\mathsf{EPS}_{-}\mathsf{NORM})+(}&{0.018^{\star}\mathsf{EST}_{-}\mathsf{CFPS}_{-}}\\&{\qquad\quad\mathsf{NORM})+(}&{0.063^{\star}\mathsf{EST}_{-}\mathsf{BPS}_{-}\mathsf{NORM})}\end{array}
+\begin{aligned}(-0.027^{*}\mathsf{EST}_{\_}\mathsf{EPS}_{\_}\mathsf{NORM})+&(\;0.084^{*}\mathsf{ROE}_{\_}\mathsf{NORM})+(\;-0.001^{*}\mathsf{EST}_{\_}\mathsf{ROE}_{\_}\mathsf{NOR})\\\mathsf{M})+&(\;0.04^{*}\mathsf{EST}_{\_}\mathsf{DPS}_{\_}\mathsf{NORM})+(0.075^{*}\mathsf{EPS}_{\_}\mathsf{NORM})+(\;0.018^{*}\mathsf{EST}_{\_}\mathsf{CFPS}_{\_}\\\mathsf{NORM})+&(\;0.063^{*}\mathsf{EST}_{\_}\mathsf{BPS}_{\_}\mathsf{NORM})\end{aligned}
 $$
 
 因子在样本内外的累计净值，累计超额净值，以及最大回撤如下图所示：
@@ -437,7 +437,7 @@ $$
 因子二的具体表达式为：
 
 $$
-{\mathsf{ROE}}+{\mathsf{EST\_GFPS}}-{\mathsf{EST\_PB}}
+\mathsf{ROE}+\mathsf{EST\_OFPS}-\mathsf{EST\_PB}
 $$
 
 因子二在样本内外的累计净值，累计超额净值，以及最大回撤如下图所示：

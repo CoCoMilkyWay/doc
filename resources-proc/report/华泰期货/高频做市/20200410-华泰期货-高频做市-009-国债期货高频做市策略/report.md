@@ -56,10 +56,10 @@ chenchen@htfc.com
 
 做市策略总是包含着双向报价的目的，通过成交价格在买卖价差之间非常窄幅的波动中获利，这里的窄幅波动通常就只有 1 至 2 个买卖变动价位，而非从标的资产大方向性变化中获利。这意味着做市策略必须避免积累了大量的做多或者做空方向的净头寸。因为净头寸的积累将带来价格反向波动时的损失。这也意味着做市策略的盈利是来自于小幅度但是高频率的价格波动。
 
-根据 Tanmoy Chakraborty 和 Michael Kearns 的论文 Market Making and Mean Reversion, 2011 可以对做市策略的盈利作出合理的解释。这里首先假设所有的市场事件出现在离散的时间点位 0，1，2…直到时刻 $T_{\circ}$ 时刻T是做市策略结束的时间点，可以理解为做市策略从每天开盘开始，到收盘结束。在收盘时刻T，做市策略必须平掉所有的单方向净头寸。标的资产在所有 $0\le t\le T$ 的时刻，都存在一个即时价格 $P_{t}$ ，这个 $P_{t}$ 用变动单位表示，是标的资产最小变动单位的整数倍。做市策略的理论收益为
+根据 Tanmoy Chakraborty 和 Michael Kearns 的论文 Market Making and Mean Reversion, 2011 可以对做市策略的盈利作出合理的解释。这里首先假设所有的市场事件出现在离散的时间点位 0，1，2…直到时刻 $T_{\circ}$ 时刻T是做市策略结束的时间点，可以理解为做市策略从每天开盘开始，到收盘结束。在收盘时刻T，做市策略必须平掉所有的单方向净头寸。标的资产在所有 $\begin{array}{r}{0\leq t\leq T}\end{array}$ 的时刻，都存在一个即时价格 $P_{t}$ ，这个 $\cdot P_{t}$ 用变动单位表示，是标的资产最小变动单位的整数倍。做市策略的理论收益为
 
 $$
-{\frac{1}{2}}(K-z^{2})\tag{1}
+\frac{1}{2}(K-z^{2})\tag{1}
 $$
 
 其中
@@ -86,50 +86,50 @@ $$
 ds_{t}=\sigma dW_{t}\tag{4}
 $$
 
-库存q，即做市商的净持仓，由买单持仓 $N^{b}$ 和卖单持仓 $N^{a}$ 构成
+库存q，即做市商的净持仓，由买单持仓 $\cdot N^{b}$ 和卖单持仓 $N^{a}$ 构成
 
 $$
 q_{t}=N_{t}^{b}-N_{t}^{a}\tag{5}
 $$
 
-与AS模型不同，ASQ 模型里做市商围绕中间价s进行买单报价 $\cdot\delta^{b}$ 和卖单报价 $\cdot\delta^{a}$ ，做市商的现金流X可以表示为
+与AS模型不同，ASQ 模型里做市商围绕中间价s进行买单报价 $\cdot\delta^{b}$ 和卖单报价 $-\delta^{a}$ ，做市商的现金流X可以表示为
 
 $$
 dX_{t}=(s_{t}+\delta_{t}^{a})dN_{t}^{a}-(s_{t}+\delta_{t}^{b})dN_{t}^{b}\tag{6}
 $$
 
-同时假设在距离中间价δa和 $\hbar^{b}$ 的价位上发生市价单成交事件的泊松密度为
+同时假设在距离中间价δa和 $\imath\delta^{b}$ 的价位上发生市价单成交事件的泊松密度为
 
 $$
 \Lambda(\delta)=\lambda e^{-\kappa\delta}\tag{7}
 $$
 
-模型里会对做市商的最大库存Q进行限制，即库存q $\in\{-0,-0+1,\ldots,0,\ldots,0-1,0\}$
+模型里会对做市商的最大库存Q进行限制，即库存q $\in\{-\mathrm{Q},-\mathrm{Q}+1,\ldots,0,\ldots,\mathrm{Q}-1,\mathrm{Q}\}$
 
-当 $|q|<0$ 时，做市商进行买卖双向报价，最优报价 $\cdot\delta^{b}$ 和 ${}_{r\delta}a$ 满足 HJB 方程
+当 $|q|<0$ 时，做市商进行买卖双向报价，最优报价 $-\delta^{b}$ 和 $\mathfrak{a}\delta^{a}$ 满足 HJB 方程
 
 $$
-\begin{array}{r}{u_{t}+\displaystyle\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{b}}\lambda e^{-\kappa\delta^{b}}[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]\medskip\qquad}\\{\quad\quad\quad+\operatorname*{max}_{\delta^{a}}\lambda e^{-\kappa\delta^{a}}[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]-\phi q^{2}=0}\end{array}\tag{8}
+\begin{align*}u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\max_{\delta^{b}}\lambda e^{-\kappa\delta^{b}}[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]\\+\max_{\delta^{a}}\lambda e^{-\kappa\delta^{a}}[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]-\phi q^{2}=0.\end{align*}\tag{8}
 $$
 
 其中的φ为做市过程中做市商的库存风险偏好。
 
-$q=0$ 时，做市商不再进行买入报价，只进行卖出报价，这时最优卖出报价 $\cdot\delta^{a}$ 满足 HJB方程
+$q=\mathsf{Q}$ 时，做市商不再进行买入报价，只进行卖出报价，这时最优卖出报价 $\cdot\delta^{a}$ 满足 HJB方程
 
 $$
-u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{\alpha}}\lambda e^{-\kappa\delta^{a}}[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]-\phi q^{2}=0\tag{9}
+u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\max_{\delta^{a}}\lambda e^{-\kappa\delta^{a}}[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]-\phi q^{2}=0\tag{9}
 $$
 
-当 $q=-0$ 时，做市商不再进行卖出报价，只进行买入报价，这时最优买入报价 $\cdot\delta^{b}$ 满足HJB 方程
+当 $q=-\mathsf{Q}$ 时，做市商不再进行卖出报价，只进行买入报价，这时最优买入报价 $\cdot\delta^{b}$ 满足HJB 方程
 
 $$
-u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{b}}\lambda e^{-\kappa\delta^{b}}[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]-\phi q^{2}=0\tag{10}
+u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\max_{\delta^{b}}\lambda e^{-\kappa\delta^{b}}[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]-\phi q^{2}=0\tag{10}
 $$
 
 做市商报价在T时刻终止，所以方程(8)-(10)满足终止条件
 
 $$
-\forall\mathbf{q}\in\{-\mathbb{Q},\dots,\mathbb{Q}\},u(T,x,q,s)=x+q(s-\alpha q)\tag{11}
+\forall\mathbf{q}\in\{-\mathbb{Q},\ldots,\mathbb{Q}\},u(T,x,q,s)=x+q(s-\alpha q)\tag{11}
 $$
 
 方程(8)-(11)包含2Q+1个偏微分方程，必须联立求解。
@@ -143,19 +143,19 @@ $$
 那么方程组(8)-(10)可以转化为
 
 $$
-\begin{array}{rl}&{h_{t}+\underset{\delta^{b}}{\operatorname*{max}}\lambda e^{-\kappa\delta^{b}}[\delta^{b}+h(q+1,t)-h(q,t)]}\\&{\qquad+\underset{\delta^{a}}{\operatorname*{max}}\lambda e^{-\kappa\delta^{a}}[\delta^{a}+h(q-1,t)-h(q,t)]-\phi q^{2}=0}\end{array}\tag{13}
+\begin{align*}h_{t}+\max_{\delta^{b}}\lambda e^{-\kappa\delta^{b}}&[\delta^{b}+h(q+1,t)-h(q,t)]\\&+\max_{\delta^{a}}\lambda e^{-\kappa\delta^{a}}[\delta^{a}+h(q-1,t)-h(q,t)]-\phi q^{2}=0.\end{align*}\tag{13}
 $$
 
 其中最优报价策略可以通过令一阶项导数为 0求得
 
 $$
-\delta^{a,b}=\frac{1}{\kappa}+[h(t,q)-h(t,q\mp1)]\tag{14}
+\delta^{a,b}=\cfrac{1}{\kappa}+[h(t,q)-h(t,q\mp1)]\tag{14}
 $$
 
 另外做市商在累计一定库存后，可能需要使用市价单保证成交以减少库存风险，因此引入市价单后公式(13)可以写成
 
 $$
-\begin{array}{rl}&{\operatorname*{max}\Big\{h_{t}+\underset{\delta^{b}}{\operatorname*{max}}\lambda e^{-\kappa\delta^{b}}[\delta^{b}+h(q+1,t)-h(q,t)]}\\&{\qquad+\underset{\delta^{a}}{\operatorname*{max}}\lambda e^{-\kappa\delta^{a}}[\delta^{a}+h(q-1,t)-h(q,t)]-\phi q^{2},h(q-1,t)}\\&{\qquad-\ :h(q,t)-\xi,h(q+1,t)-h(q,t)-\xi\Big\}=0}\end{array}\tag{15}
+\begin{aligned}\max\left\{h_{t}+\max_{\delta^{b}}\lambda&e^{-\kappa\delta^{b}}[\delta^{b}+h(q+1,t)-h(q,t)]\right.\\&\left.+\max_{\delta^{a}}\lambda e^{-\kappa\delta^{a}}[\delta^{a}+h(q-1,t)-h(q,t)]-\phi q^{2},h(q-1,t)\right.\\&\left.-h(q,t)-\xi,h(q+1,t)-h(q,t)-\xi\right\}=0\end{aligned}\tag{15}
 $$
 
 这里的ξ值代表使用市价单成本，这里设定为2个最小变动价位。上述偏微分方程可以使用有限差分的方法进行求解，由于实际中一天的做市过程较长，为了简化计算，这里使用公式(15)达到稳定解时的最优策略进行做市分析与回测。
@@ -165,7 +165,7 @@ $$
 由于这里的做市模型使用到多个市场参数，先对他们稍作分析。这里选取10 年期国债期货主力合约 2019年1月至2020年 2月的高频数据进行分析。使用的高频数据来源于天软的500毫秒 Level1截面数据，里面包含了 500毫秒截面上的买一价、卖一价、买一量、卖一量、500毫秒内的成交量和成交金额等数据。波动率σ可以直接从利用高频数据的中间价计算。限价指令簿厚度系数κ和限价指令簿击穿概率系数A则需要通过统计市价单击穿某个价位的概率，然后拟合公式(7)进行计算。把公式(7)两边取对数可得
 
 $$
-\mathrm{log}\Lambda=\mathrm{ln}\lambda-\kappa\delta\tag{16}
+\log\Lambda=\ln\lambda-\kappa\delta\tag{16}
 $$
 
 公式(16)的拟合参数会受到每天不同的交易量影响，实际交易中最好分时段进行拟合，这里为了简化处理，只使用开盘后约 30 分钟的数据进行拟合，其中 2019 年 1 月 2日 10 年期国债期货高频数据拟合效果如图 1 所示，横轴δ表示与上 500 毫秒中间价的距离，logΛ表示在特定价位上出现成交事件数量的对数。图中的采样点排布规律非常符合线性分布，因此使用公式(7)来描述国债期货的成交价位分布是比较准确的。
@@ -200,7 +200,7 @@ $$
 
 而在使用市价卖单时则是按照行情数据中成交位置最低的一个价格计算，接近成交的最差情况。作为对照，这里加入了不使用模型的情况，即使用限价单在买一和卖一上报价，当累积库存达到仓位限制时即停止同向报价，由于图3给出的市价单临界点最多为净持仓8手，因此这里设定对照策略的最大库存也为8手。
 
-图 4 展示了不使用模型以及各个风险偏好下做市策略的收益。从图中可见在各种情况下策略都能获得一定的正收益，但是不使用随机控制模型的对照组策略收益波动明显较大，使用随机控制的最优报价后收益明显平稳很多。 $\phi\ :=10^{-3}$ 时的收益曲线最为平滑，而当φ =10-4和 $5\times10^{-5}$ 时，两者的收益曲线差别不大，这是因为实际报价需要对连续报价进行取整，虽然图 3 中报价距离有很多，但是根据最小变动单位取整后的报价只有 0, 0.005和 0.01三种，这也是使用连续报价模型的一种缺陷，可以用离散报价进行改进。
+图 4 展示了不使用模型以及各个风险偏好下做市策略的收益。从图中可见在各种情况下策略都能获得一定的正收益，但是不使用随机控制模型的对照组策略收益波动明显较大，使用随机控制的最优报价后收益明显平稳很多。 $\phi\;=10^{-3}$ 时的收益曲线最为平滑，而当φ =10-4和 $5\times10^{-5}$ 时，两者的收益曲线差别不大，这是因为实际报价需要对连续报价进行取整，虽然图 3 中报价距离有很多，但是根据最小变动单位取整后的报价只有 0, 0.005和 0.01三种，这也是使用连续报价模型的一种缺陷，可以用离散报价进行改进。
 
 图4： 国债期货做市策略收益
 ![](images/e7a05e7fb2c3fd87e9097f1397dea0290836ff71de48e2c6b6820dc8105dd50e.webp)

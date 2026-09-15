@@ -135,7 +135,7 @@ linxiaoming@htsc.com
 在本章前两个小节中，我们分析了换手率因子在不同行业的分布差异性及换手率因子与市值因子的相关性，接下来，我们将计算各换手率因子之间的相关性。假设因子 A和 B之间的月度相关系数序列为{CorrAB}，其中 $Corr_{i}^{AB}$ 是在第i个月月末这一截面上因子 A、B在所有个股上的因子暴露度的相关系数，我们构造了一个相关强度指标：
 
 $$
-C_{AB}={\frac{mean(Corr_{i}^{AB}|\mathrm{i}=1,\dots,\mathrm{N})}{\mathrm{std}(Corr_{i}^{AB}|\mathrm{i}=1,\dots,\mathrm{N})}}
+C_{AB}=\frac{mean(Corr_{i}^{AB}|i=1,\ldots,N)}{std(Corr_{i}^{AB}|i=1,\ldots,N)}
 $$
 
 该指标结合了因子平均相关系数和相关系数的稳定性，能够综合反映因子之间的相关情况。我们分别计算各因子两两之间在过去 36 个月（2014 年 1 月到 2016 年 12 月）内的相关强度指标，如图表 6 所示。计算过程中涉及的相关系数均值和方差详细展示在图表 7 和 8中。通过观察可以发现，各换手率因子两两之间普遍具有非常强的正相关性，与之前测试过的估值、成长、动量类因子对比，相关性显得更加突出。如果要组合使用各换手率因子构建选股模型，需要注意处理多重共线性问题。
@@ -217,36 +217,36 @@ r_{i}^{T+1}=\sum_{j}X_{j}^{T}f_{ji}^{T}+X_{d}^{T}d_{i}^{T}+\mu_{i}^{T}
 $$
 
 $$
-r_{i}^{T+1}\colon\sharp\sharp\ :\frac{\ d\mathbb{D}}{\ d\cdot\ d{\tau}}\mathrm{~i~}/\ddagger\ddot{\mathcal{H}}\mathrm{~T~}+1\xrightarrow{\ddagger\ d{\romannumeral1}}\sharp\sharp\big\lim\frac{\ d{\tau}}{\ d{\tau}}\frac{\ d\dot{\xi}^{\star}}{\ d{\tau}^{\star}}\ :\frac{\ d{\tau}}{\ d{\tau}^{\star}}
+$r_{i}^{T+1}\text{:}股票$i在第$\mathrm{T}+1$期的收益率
 $$
 
 $$
-d_{i}^{T}\colon\mathbb{H}\mathbin{\ P}\mathbin{\ P}\mathrm{~i~}\mathbin{/\Sigma}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin{\ P}\mathbin\mathbin{P\ P}\mathbin\mathbin{\ P}\mathbin{\ P}
+$d_{i}^{T}:$$\mathrm{股票}\;\mathrm{i}$在在第T期因子d上的暴露度
 $$
 
 $f_{ji}^{T}$ : 股票 i 在第 T 期第 j 个行业因子上的暴露度(属于该行业则为 1，否则为 0)
 
 $$
-X_{j}^{T}\left(\ddot{\mathfrak{s}}_{\mathrm{X}}X_{d}^{T}\right)\colon\stackrel{\ast\ast}{\hat{\eta}^{\sharp}}\textstyle\textsc{T}\stackrel{\ast\ast}{\hat{\eta}^{\sharp}}\textstyle{\frac{\ast\ast}{\hat{\eta}^{\sharp}}}\textstyle{\textrm{ j }}\wedge\llangle\bar{\tau}\llangle\big(\ddot{\mathfrak{s}}_{\mathrm{X}}\boxed{\mathfrak{s}}\mp\mathrm{d}\big)\oplus\llangle\bar{\tau}\boxed{\mathfrak{s}}\mp\downarrow\&\ddot{\mathfrak{s}}\stackrel{\ast\ast}{\hat{\mathrm{m}}\ll}\mp\quad,\stackrel{\ast\ast}{\hat{\eta}^{\sharp}}\equiv\mathtt{j}\exists\stackrel{\dot{\iota}\ll\iota}{\widehat{\eta}\approx}\pm\frac{\lambda}{\lambda}
+$X_{j}^{T}\big(或X_{d}^{T}\big);$第T期第$\mathrm{j}$个行业因子$\left(或因子\;\mathrm{d}\right)$的因子收益率,1需回归拟合.
 $$
 
 $$
-\mu_{i}^{T}\colon\sharp_{\mathcal{X}}^{\pi}\triangleq\mathrm{~i~}/\pounds\stackrel{\varkappa\varkappa}{\div}\mathrm{~T~}\varkappa\varkappa\varkappa^{\xi}\varkappa\varkappa\varkappa\breve{\Xi}_{\mathcal{X}}\sharp_{\mathcal{X}}\ast\sharp_{\mathcal{X}}\varkappa\varkappa\varkappa.
+$\mu_{i}^{T}\mathrm{:}$股票i在第T期的残差收益率
 $$
 
 在所有截面期上，我们对因子d进行回归测试，能够得到该因子的因子收益率序列（即所有截面期回归系数 $X_{d}^{T}$ 构成的序列）和对应的 t 值序列。t 值指的是对单个回归系数 $X_{d}^{T}$ 的 t检验统计量，描述的是单个变量显著性，t 值的绝对值大于临界值说明该变量是显著的，即该解释变量（T期个股在因子 d的暴露度）是真正影响因变量（T+1期个股收益率）的一个因素。也就是说，在每个截面期上，对于每个因子的回归方程，我们设
 
 $$
-\begin{array}{r}{1_{\mathbb{R}}^{pz}\dot{\ i}_{\mathcal{X}}^{n}\dot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\enspace H_{0}\colon X_{d}^{T}=0}\\{\ddot{\ast}\dot{\ast}\ddot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\dot{\ast}\enspace H_{1}\colon X_{d}^{T}\neq0}\end{array}
+\begin{aligned}&假设检验\;H_0:X_d^T=0\\&备择假设\;H_1:X_d^T\neq0\\\end{aligned}
 $$
 
 该假设检验对应的 t统计量为
 
 $$
-\mathsf{t}=\frac{X_{d}^{T}}{SE(X_{d}^{T})}
+\mathbf{t}=\frac{X_{d}^{T}}{SE(X_{d}^{T})}
 $$
 
-其中 $SE(X_{d}^{T})$ 代表回归系数 $X_{d}^{T}$ 的标准差的无偏估计量。一般 t值绝对值大于 2 我们就认为本期回归系数 $X_{d}^{T}$ 是显著异于零的（也就是说，本期因子 d对下期收益率具有显著的解释作用）。注意，我们在回归模型中加入了行业因素，能在一定程度上规避行业因素对成长因子的影响。并且回归法单因子测试中并未对市值因素的影响进行调整，但是在后续计算因子 IC值的部分会做一些调整。
+其中 $SE(X_{d}^{T})$ 代表回归系数 $X_{d}^{T}$ 的标准差的无偏估计量。一般 t值绝对值大于 2 我们就认为本期回归系数 $[X_{d}^{T}]$ 是显著异于零的（也就是说，本期因子 d对下期收益率具有显著的解释作用）。注意，我们在回归模型中加入了行业因素，能在一定程度上规避行业因素对成长因子的影响。并且回归法单因子测试中并未对市值因素的影响进行调整，但是在后续计算因子 IC值的部分会做一些调整。
 
 1． 股票池：全 A股，剔除 ST、PT 股票，剔除每个截面期下一交易日停牌的股票。
 
@@ -258,7 +258,7 @@ $$
 
 a) 因子暴露度的计算方法已在图表 1中进行说明，个股换手率均取自Wind，换手率为零的日期（即遇到停牌或类似情况）不参与平均值、标准差计算；
 
-b) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},\ D_{M}$ 为该序列中位数， $D_{M1}$ 为序列| $D_{i}-D_{M}|$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+b) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},~D_{M}$ 为该序列中位数， $D_{M1}$ 为序列| $\left|D_{i}-D_{M}\right|$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 c) 标准化：将去极值处理后的因子暴露度序列减去其现在的均值、除以其标准差，得到一个新的近似服从N(0,1)分布的序列，这样做可以让不同因子的暴露度之间具有可比性；
 
@@ -284,7 +284,7 @@ $$
 IC_{d}^{T}=\operatorname{corr}(\overrightarrow{R^{T+1}},\overrightarrow{d^{T}})
 $$
 
-其中， $IC_{d}^{T}$ 代表因子 d 在第 T 期的 IC 值， $\overrightarrow{R^{T+1}}$ 代表所有个股第 T+1 期的收益率向量， $\overrightarrow{d^{T}}$ 代表所有个股第 T 期在因子 d上的暴露度向量。
+其中， $IC_{d}^{T}$ 代表因子 d 在第 T 期的 IC 值， $\overrightarrow{R^{T+1}}$ 代表所有个股第 T+1 期的收益率向量， $\overrightarrow{d^{T}}.$ 代表所有个股第 T 期在因子 d上的暴露度向量。
 
 1. 股票池、回溯区间、截面期均与回归法相同。
 
@@ -312,7 +312,7 @@ $$
 [corr(X,Y)]^{2}=R^{2}
 $$
 
-其中R2为线性回归Y = aX +b或线性回归 $\mathrm{X}=aY+b$ 的可决系数（其中a，b是待回归系数）。
+其中R2为线性回归Y = aX +b或线性回归 $\mathtt{X}=aY+b$ 的可决系数（其中a，b是待回归系数）。
 
 如果我们在单因子测试（线性回归法）中使用模型
 

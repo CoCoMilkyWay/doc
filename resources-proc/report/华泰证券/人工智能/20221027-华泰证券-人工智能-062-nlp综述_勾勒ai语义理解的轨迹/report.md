@@ -108,16 +108,16 @@ ELMo、GPT 及 BERT 模型是第三阶段预训练语言模型的代表。ELMo �
 
 ## N-gram
 
-语言模型的本质在于预测一段自然语言文本的概率大小，通俗来说我们希望用概率来表示一段本文是人类语言的可能性。数学定义如下：如果某段文本表示为 ${{S}_{i}}=\left({{w}_{1}},{{w}_{2}},{{w}_{3}},\ldots,{{w}_{n}}\right)$ 那么语言模型就是计算该序列的出现概率：
+语言模型的本质在于预测一段自然语言文本的概率大小，通俗来说我们希望用概率来表示一段本文是人类语言的可能性。数学定义如下：如果某段文本表示为 $S_{i}=(w_{1},w_{2},w_{3},\ldots,w_{n})$ 那么语言模型就是计算该序列的出现概率：
 
 $$
-P(S_{i})=P(w_{1},w_{2},w_{3},\dots,w_{n})
+P(S_{i})=P(w_{1},w_{2},w_{3},\ldots,w_{n})
 $$
 
-最直观地根据大数定律里频率逼近概率的思想，当我们有人类历史上产生过的所有文本集合，那么可以将 $\mathbf{\nabla}\cdot P(S_{i})$ 表示为如下公式。但显然要获取全历史的文本集合是一件难以实现的事，因此下述公式在实践层面难以实现。
+最直观地根据大数定律里频率逼近概率的思想，当我们有人类历史上产生过的所有文本集合，那么可以将 $\cdot P(S_{i})$ 表示为如下公式。但显然要获取全历史的文本集合是一件难以实现的事，因此下述公式在实践层面难以实现。
 
 $$
-P(S_{i})={\frac{f(S_{i})}{\sum_{j=0}^{\infty}f(S_{j})}}
+P(S_{i})=\frac{f(S_{i})}{\sum_{j=0}^{\infty}f(S_{j})}
 $$
 
 N-gram 模型正是为了解决上述估计所产生的方法。根据条件概率有如下表达式，其中 $P(w_{1})$ 表示词语 $w_{1}$ 出现在句子开头的概率， $P(w_{2}|w_{1})$ 表示给定词语 $w_{1}$ ，下一个词语是 $w_{2}$ 的概率，以此类推；某个词 $w_{n}$ 出现的概率取决于前面出现的 n-1 个词语。
@@ -126,20 +126,20 @@ $$
 P(w_{1},w_{2},w_{3},\ldots,w_{n})=P(w_{1})P(w_{2}|w_{1})\ldots P(w_{n}|w_{1},w_{2},\ldots,w_{n-1})
 $$
 
-为更方便地计算上述概率，引入马尔可夫假设，即任意一个词语出现的概率只和它之前的N-1 个词语有关： $P(w_{i}|w_{1},w_{2},\dots,w_{i-1})=P(w_{i}|w_{i-n-1},\dots,w_{i-1})$ ，根据这个假设可以给出N-gram 语言模型的定义：
+为更方便地计算上述概率，引入马尔可夫假设，即任意一个词语出现的概率只和它之前的N-1 个词语有关： $P(w_{i}|w_{1},w_{2},\ldots,w_{i-1})=P(w_{i}|w_{i-n-1},\ldots,w_{i-1})$ ，根据这个假设可以给出N-gram 语言模型的定义：
 
 $$
-P(w_{1},w_{2},w_{3},\ldots,w_{n})=\prod{}~p(w_{i}|w_{i-1},\ldots,w_{1})=\prod{}~p(w_{i}|w_{i-1},\ldots,w_{i-N+1})
+P(w_{1},w_{2},w_{3},\ldots,w_{n})=\prod p(w_{i}|w_{i-1},\ldots,w_{1})=\prod p(w_{i}|w_{i-1},\ldots,w_{i-N+1})
 $$
 
 当 N 取 1/2/3 时我们分别得到 unigram/bigram/trigram 模型：
 
 $$
-{\begin{array}{rl}{{\mathsf{Unigram}}\quad}&{{\boldsymbol{P}}(w_{1},w_{2},w_{3},\ldots,w_{n})=\prod p(w_{i})}\end{array}}
+\begin{array}{rl}{{\sf Uniqram}}&{{}~P(w_{1},w_{2},w_{3},\ldots,w_{n})=\prod p(w_{i})}\end{array}
 $$
 
 $$
-\begin{array}{rlr}{\mathsf{Bigram}}&{{}}&{P(w_{1},w_{2},w_{3},\ldots,w_{n})=\prod p(w_{i}|w_{i-1})}\end{array}
+\begin{array}{rlr}{{\sf Bigram}}&{{}}&{P(w_{1},w_{2},w_{3},\ldots,w_{n})=\prod p(w_{i}|w_{i-1})}\end{array}
 $$
 
 $$
@@ -155,19 +155,19 @@ $$
 ## <s> Sam I am <s>
 
 $$
-<_{\mathbb{S}}>\mid{\mathrm{do~not~like~eggs~and~ham}}<_{\mathbb{S}}>
+<\mathrm{s}>\mid\mathrm{donotlikeeggandham<s}>
 $$
 
 $$
-P(\pmb{a}m|I)=\frac{2}{3}
+P({\boldsymbol{a}}m|I)={\frac{2}{3}}
 $$
 
 $$
-P(I|<s>)=\frac{2}{3}
+P(I\mid<s>)=\frac{2}{3}
 $$
 
 $$
-P(Sam|am)=\frac{1}{2}
+P(Sum|am)=\frac{1}{2}
 $$
 
 $$
@@ -176,9 +176,9 @@ $$
 
 资料来源：华泰研究
 
-N-gram 模型中所做的马尔可夫假设忽略了语言中的长程依赖，例如文中某个代词可能指的是一两句话之前的名词， $\mathcal{\bar{\kappa}}$ 不仅仅只和前几个词有关。实际情况中应用最多的是 $\Nu{=}2$ 或 ${\Nu}{=}3$ 的模型，当 N的取值继续增加时，模型效果提升不再显著。
+N-gram 模型中所做的马尔可夫假设忽略了语言中的长程依赖，例如文中某个代词可能指的是一两句话之前的名词， $而$ 不仅仅只和前几个词有关。实际情况中应用最多的是 $N{=}2$ 或 $N{=}3$ 的模型，当 N的取值继续增加时，模型效果提升不再显著。
 
-以 $\Nu=2$ 为例，实际在计算等号右侧的条件概率时，会根据条件概率公式进行如下转化：
+以 $N{=}2$ 为例，实际在计算等号右侧的条件概率时，会根据条件概率公式进行如下转化：
 
 $$
 p(w_{i}|w_{i-1})=\frac{p(w_{i-1},w_{i})}{p(w_{i-1})}
@@ -187,10 +187,10 @@ $$
 根据频率逼近概率的思想，在给定的语料库（Corpus）内来估计上述概率：
 
 $$
-p(w_{i}|w_{i-1})\approx\frac{count(w_{i}|w_{i-1})}{count(*|w_{i-1})}=\frac{count(w_{i}|w_{i-1})}{count(w_{i-1})}
+p(w_i|w_{i-1})\approx\frac{count(w_i|w_{i-1})}{count(*|w_{i-1})}=\frac{count(w_i|w_{i-1})}{count(w_{i-1})}
 $$
 
-由于在语料库中计算时可能出现 $count(w_{i}|w_{i-1})$ 为零或者 $count(w_{i}|w_{i-1})$ 及 $count(w_{i-1})$ 均为 1 的情况，会导致估计出的 $p(w_{i}|w_{i-1})$ 明显有偏，常用拉普拉斯平滑、卡茨退避法、及删除插值法等方法来缓解上述估计过程中的有偏问题。
+由于在语料库中计算时可能出现 $count(w_{i}|w_{i-1})$ 为零或者 $count(w_{i}|w_{i-1})$ 及 $.count(w_{i-1})$ 均为 1 的情况，会导致估计出的 ${\langle p(w_{i}|w_{i-1})}$ 明显有偏，常用拉普拉斯平滑、卡茨退避法、及删除插值法等方法来缓解上述估计过程中的有偏问题。
 
 N-gram 这种基于统计的语言模型存在两个比较大的问题：1）N 无法取到很大的值，当 N很大时会使得计算复杂度指数上升，因此模型难以表征文本上下文较长的依赖关系；2）统计语言模型无法表征词语之间的相似性。
 
@@ -207,31 +207,31 @@ N-gram 这种基于统计的语言模型存在两个比较大的问题：1）N �
 ## 图表3： One-hot encoding
 
 $$
-V=\left\{\begin{array}{lllll}{\check{\Theta},}&{\check{\ddag}\check{\leqslant},}&{\check{\ddag}\check{\ddag},}&{\check{\ddag}\check{\leqslant},}&{\check{\ddag}\check{\leqslant},}&\ddag\vphantom{\dag}\right\}\end{array}
+V=\{自,然,语,言,处,理\}
 $$
 
 $$
-c(\sharp)=(1,0,0,0,0,0)
+C(自)=(1,0,0,0,0)
 $$
 
 $$
-C(\underset{\cdots}{\overset{\varkappa}{\underset{\cdots}{\iint}}})=(0,1,0,0,0,0)
+C(然)=(0,1,0,0,0)
 $$
 
 $$
-C(\ i_{\perp}^{\mathcal{F}})=(0,0,1,0,0,0)
+C(语)=(0,0,1,0,0,0)
 $$
 
 $$
-c(\tilde{\bar{\mathbf{\tau}}})=(0,0,0,1,0,0)
+C(言)=(0,0,0,1,0,0)
 $$
 
 $$
-c(\mathcal{H}\mathrm{\left(\mathcal{H}\right)}=(0,0,0,0,1,0)
+C(处)=(0,0,0,0,1,0)
 $$
 
 $$
-c(\mathfrak{P})=(0,0,0,0,0,1)
+C(理)=(0,0,0,0,1)
 $$
 
 资料来源：华泰研究
@@ -246,10 +246,10 @@ One-hot 表示方法十分直观且简单，但是存在维度灾难和语义鸿
 
 ## NNLM 原理：三层全连接网络
 
-NNLM 的目标及假设与 N-gram 模型类似，本质上就是一个 N-gram 语言模型。其目标为给定词语序列 $w_{1},w_{2},\dots,w_{t-1}$ ,要预测出下一个词是 $w_{t}$ 的概率 $\cdot P(w_{t}|w_{1},w_{2},\dots,w_{t-1})$ ；假设为当前词仅依赖于前 n-1 个词，因此
+NNLM 的目标及假设与 N-gram 模型类似，本质上就是一个 N-gram 语言模型。其目标为给定词语序列 $w_{1},w_{2},\ldots,w_{t-1},$ ,要预测出下一个词是 $w_{t}$ 的概率 $\cdot P(w_{t}|w_{1},w_{2},\ldots,w_{t-1})$ ；假设为当前词仅依赖于前 n-1 个词，因此
 
 $$
-P(w_{t}|w_{1},w_{2},\dots,w_{t-1})=P(w_{t}|w_{t-n+1},w_{t-n+2},\dots,w_{t-1})
+P(w_{t}|w_{1},w_{2},\ldots,w_{t-1})=P(w_{t}|w_{t-n+1},w_{t-n+2},\ldots,w_{t-1})
 $$
 
 NNLM 网络的结构如下图所示，在任务开始之前，首先我们会确定一个词表V，记录了语料中出现的全部单词，其余各项参数解释如下：
@@ -258,7 +258,7 @@ NNLM 网络的结构如下图所示，在任务开始之前，首先我们会确
 
 2） C表示词向量矩阵，将词表V中每一个词表示为维度为m的向量，大小为|V|×m；
 
-3） $C(w_{i})$ 是单词 $w_{i}\ d{}^{\mathscr{A}}$ 对应的词向量，其中i为单词 $w_{i}$ 在整个词表V中的索引；
+3） $C(w_{i})$ 是单词 $w_{i}\vec{x}$ 对应的词向量，其中i为单词 $w_{i}$ 在整个词表V中的索引；
 
 4） m是词向量的维度；
 
@@ -269,7 +269,7 @@ NNLM 网络的结构如下图所示，在任务开始之前，首先我们会确
 为了更好的理解 NNLM 的实际计算步骤，我们将前向传播的过程重新绘制如图表 5 所示。在输入层之前首先会将每个词语映射成词向量并拼接在一起，得到输入向量：
 
 $$
-x=(C(w_{t-1}),C(w_{t-2}),\dots,C(w_{t-n+1}))
+\boldsymbol{x}=(C(w_{t-1}),C(w_{t-2}),\ldots,C(w_{t-n+1}))
 $$
 
 在实际操作中这一步我们通常通过 Embedding 层来完成，也即图表 5 所示的输入层之前的结构。得到输入向量x后会继续经过一层隐藏层+一层输出层得到最后的输出，输出层为|V维度的向量，经过 Softmax 激活后表示预测出在每个词上的出现概率。整个前向传播过程表达式为：
@@ -281,7 +281,7 @@ $$
 其中各矩阵的维度为
 
 $$
-\begin{array}{c}{\dim(b)=|V|\times1}\\{\dim(W)=|V|\times m(n-1)}\\{\dim(U)=|V|\times|H|}\\{\dim(d)=|H|\times1}\\{\dim(H)=|H|\times m(n-1)}\end{array}
+\begin{aligned}\dim(b)&=|V|\times1\\\dim(W)&=|V|\times m(n-1)\\\dim(U)&=|V|\times|H|\\\dim(d)&=|H|\times1\\\dim(H)&=|H|\times m(n-1)\end{aligned}
 $$
 
 损失函数为交叉熵损失函数：
@@ -294,10 +294,10 @@ $$
 ![](images/59219e23d627805d7718d9adb84013772b08be7eec1e8584ecf7451c88c7e62d.webp)
 资料来源：华泰研究
 
-可以看到上述网络结构实际上已经有一些残差结构的思想。我们可以将上述过程拆分为三个步骤：1）从词到词向量矩阵的映射，矩阵C中均为可训练参数，这部分参数量为|V|×m；2）从输入层到隐藏层，这部分矩阵d及H为可训练参数，参数量为 $|H|+|H|\times m(n-1);3^{\setminus}$ 从隐藏层到输出层，这部分矩阵b W U均为可训练参数，参数量为 $\left|V\right|+\left|V\right|\times m(n-1)+$ $|V|\times|H|$ ，所有可训练参数量为
+可以看到上述网络结构实际上已经有一些残差结构的思想。我们可以将上述过程拆分为三个步骤：1）从词到词向量矩阵的映射，矩阵C中均为可训练参数，这部分参数量为|V|×m；2）从输入层到隐藏层，这部分矩阵d及H为可训练参数，参数量为 $|H|+|H|\times m(n-1);3)$ 从隐藏层到输出层，这部分矩阵b W U均为可训练参数，参数量为 $|V|+|V|\times m(n-1)+$ $|V|\times|H|$ ，所有可训练参数量为
 
 $$
-|V|\times\left(|H|+mn+1\right)+|H|\times\left(mn-m+1\right)
+|V|\times(|H|+mn+1)+|H|\times(mn-m+1)
 $$
 
 上述参数量是 n 的线性函数，因此 NNLM 模型可以对更长的文本上下文依赖进行建模，解决了 N-gram 难以处理长依赖的问题。此外 NNLM 的另一重要贡献在于生成了副产物词向量，将模型的第一层特征映射矩阵当作词语的分布式表示（即矩阵 C），从而使得刻画词语之间的相似性也成为可能，启发了后来第二阶段 Word2Vec 的工作。
@@ -312,7 +312,7 @@ NNLM 解决了 N-gram 中的部分问题，但也有其缺点需要改进。一�
 
 2008 年 Collobert 和Weston 提出的 C&W 模型不再利用语言模型的结构，而是将目标文本片段整体当做输入，然后预测这个片段是真实文本的概率，所以它的工作主要是改变了目标输出。由于输出只是一个概率大小，不再是词典大小，因此训练效率大大提升，但由于使用了这种比较“别致”的目标输出，使得它的词向量表征能力有限。
 
-2010 年 Mikolov 提出 RNNLM（Recurrent Neural Network based Language Model）直接对 $P(w_{t}|w_{1},w_{2},\dots,w_{t-1})$ 进行建模而不使用 $P(w_{t}|w_{t-n+1},w_{t-n+2},\dots,w_{t-1})$ 进行简化，目标是利用所有的上文信息来预测下一个词语。
+2010 年 Mikolov 提出 RNNLM（Recurrent Neural Network based Language Model）直接对 $P(w_{t}|w_{1},w_{2},\ldots,w_{t-1})$ 进行建模而不使用 $P(w_{t}|w_{t-n+1},w_{t-n+2},\ldots,w_{t-1})$ 进行简化，目标是利用所有的上文信息来预测下一个词语。
 
 图表6： RNNLM 网络结构
 ![](images/6003a76e8b0d3de0f06e4a93e7792b8c3aafdf830e2918ae8adf1f1ad4ebb98b.webp)
@@ -352,11 +352,11 @@ Mikolov在发表上述两篇论文之后，彼时仍在谷歌工作的他继续�
 ![](images/cb228232c84f374e9ad451b65d2ade2137400542e0007776c764fbb428c01a1e.webp)
 资料来源：Efficient estimation of word representation in vector space，华泰研究
 
-CBOW 和 Skip-gram 都是轻量级的神经网络，本质上只有输入层和输出层两层（相比于NNLM，少了隐藏层），CBOW 是在知道词语 $w_{t}$ 上下文 $\dots,w_{t-2},w_{t-1},w_{t+1},w_{t+2},\dots$ 的情况下预测当前词 $w_{t}$ ；而 Skip-gram 则正好相反，是在知道词 $w_{t}$ 的 情 况 下 对 其 上下 文$\dots,w_{t-2},w_{t-1},w_{t+1},w_{t+2},$ …进行预测，简化示意图如上图所示。
+CBOW 和 Skip-gram 都是轻量级的神经网络，本质上只有输入层和输出层两层（相比于NNLM，少了隐藏层），CBOW 是在知道词语 $w_{t}$ 上下文 $\ldots,w_{t-2},w_{t-1},w_{t+1},w_{t+2},\ldots$ 的情况下预测当前词 $w_{t}$ ；而 Skip-gram 则正好相反，是在知道词 $w_{t}$ 的 情 况 下 对 其 上下 文$\ldots,w_{t-2},w_{t-1},w_{t+1},w_{t+2},$ …进行预测，简化示意图如上图所示。
 
 ## CBOW：Continuous Bag-of-Words
 
-CBOW 的任务是在知道词语 $w_{t}$ 上下文 $\dots,W_{t-2},W_{t-1},W_{t+1},W_{t+2},\cdot$ …的情况下预测当前词 $w_{t}$ 其网络结构如下图所示。我们可以与 NNLM 进行对比，发现两者结构十分相似，但是 CBOW没有中间隐藏层，输入层对 one-hot representation 进行线性变换以后直接连接到输出层。CBOW 将每个输入词语转换成词向量以后，也不再是 NNLM 中的拼接操作，而是将词向量进行求和（实际操作时也可以求平均），得到ℎ向量。
+CBOW 的任务是在知道词语 $w_{t}$ 上下文 $\ldots,w_{t-2},w_{t-1},w_{t+1},w_{t+2},.$ …的情况下预测当前词 $w_{t}$ 其网络结构如下图所示。我们可以与 NNLM 进行对比，发现两者结构十分相似，但是 CBOW没有中间隐藏层，输入层对 one-hot representation 进行线性变换以后直接连接到输出层。CBOW 将每个输入词语转换成词向量以后，也不再是 NNLM 中的拼接操作，而是将词向量进行求和（实际操作时也可以求平均），得到ℎ向量。
 
 通过上述求和的操作可以发现，CBOW 的一个特点是在求语境 context 向量（ℎ向量）时，语境内词序已经丢弃，而这也是模型名称中 Continuous 的来源；另一个特点是 CBOW 最终的目标函数仍为语言模型的目标函数，所以需要顺序遍历语料中的每一个词，这是模型名称中 Bag-of-Words 的来源。
 
@@ -366,7 +366,7 @@ CBOW 的任务是在知道词语 $w_{t}$ 上下文 $\dots,W_{t-2},W_{t-1},W_{t+1
 
 ## Skip-gram
 
-Skip-gram 模型与 CBOW 相反，是知道词 $w_{t}$ 的情况下对其上下文 $\dots,w_{t-2},w_{t-1},w_{t+1},w_{t+2},\dots$ 进行预测，两组权重矩阵仍然共享，但损失函数是上下文 C 个损失函数之和。
+Skip-gram 模型与 CBOW 相反，是知道词 $w_{t}$ 的情况下对其上下文 $\ldots,w_{t-2},w_{t-1},w_{t+1},w_{t+2},\ldots$ 进行预测，两组权重矩阵仍然共享，但损失函数是上下文 C 个损失函数之和。
 
 CBOW 和 Skip-gram 两个模型的参数量均为2m|V|，与 NNLM 的参数量相比大大减少，且与上下文所选取的词数量无关，避免了 N-gram 中随着阶数 N 增大而使得计算复杂度急剧上升的问题。但是无论是 CBOW 还是 Skip-gram，如果没有训练优化算法，二者的输出层不可避免地要使用softmax操作，当字典数量很大时求softmax操作将带来很大的计算量。因此 Mikolov 在随后的论文中提到了 Hierarchical Softmax 和 Negative Sampling 这两种优化算法，下面我们分别进行介绍。
 
@@ -375,14 +375,14 @@ CBOW 和 Skip-gram 两个模型的参数量均为2m|V|，与 NNLM 的参数量�
 资料来源：华泰研究
 
 $$
-\pmb{h}=\pmb{W}^{T}\pmb{w}_{k}
+\pmb{h}=W^{T}w_{k}
 $$
 
 $$
 y_{jk}=W^{\prime T}h
 $$
 
-由于 $\mathbf{\mathcal{W}}_{N\times V}^{\prime}$ 共享，实际上计算出来的 $_{y_{jk}}$ 是一样的，但是因为上下文真实的标签不一样，所以最终计算出的损失函数不同。因为我们最终的目标是要生成词向量，而不是真的对上下文进行预测，所以 $W_{N\times V}^{\prime}$ 共享是合理的。
+由于 ${}^{\cdot}W_{N\times V}^{\prime}$ 共享，实际上计算出来的 $\left[\mathbf{y}_{jk}\right.$ 是一样的，但是因为上下文真实的标签不一样，所以最终计算出的损失函数不同。因为我们最终的目标是要生成词向量，而不是真的对上下文进行预测，所以 $W_{N\times V}^{\prime}$ 共享是合理的。
 
 ## 优化算法一：Hierachical Softmax
 
@@ -405,7 +405,7 @@ Mikolov 首先提到了 Hierachical Softmax，认为这是对 full softmax 的�
 CBOW 的原始目标函数实际上如下，前文我们写成 CrossEntropy 的形式是因为如果不引入训练优化算法则实际训练时损失函数会设置成 CrossEntropy。这里我们回到 CBOW 的原始目标函数，是为了便于后文公式推导：
 
 $$
-L=\sum_{w}logp(w|Context(w))
+:L=\sum_{w}logp(w|Context(w)).
 $$
 
 基于层次 Softmax的 CBOW 网络结构如下图所示。
@@ -417,7 +417,7 @@ $$
 输入层是指Context(w)中所包含的 2c个词的词向量： $v(Context(w)_{1}),v(Context(w)_{2})$ $v(Context(w)_{2c})$ ，投影层指的是直接对 2c个词向量进行累加，累加之后得到 $X_{w}$ ：
 
 $$
-X_{w}=\sum_{i=1}^{2c}v(Context(w)_{i})
+X_{w}=\sum_{i=1}^{2c}v(context(w)_{i})
 $$
 
 输出层是一棵 Huffman 树，其中叶子节点共 N 个，对应词典中 N个单词，非叶子节点 N-1个，对应上图中标黄的结点。接下来我们将介绍基于层次 Softmax 的 CBOW 模型如何计算损失函数及对参数进行更新。
@@ -426,11 +426,11 @@ $$
 
 ⚫ $\pmb{p}^{w}$ ：从根结点出发，到达单词w对应叶子结点的路径；
 
-⚫ $\pmb{l}^{w}:$ ：路径 $p^{w}$ 中包含的结点个数；
+⚫ $l^{w};$ ：路径 $p^{w}$ 中包含的结点个数；
 
-$\pmb{p}_{1}^{w},\pmb{p}_{2}^{w},\dots,\pmb{p}_{l^{w}}^{w};$ ：路径 ${\boldsymbol{\cdot}}{\boldsymbol{p}}^{w}$ 中对应的各个结点，其中 $p_{1}^{w}$ 代表根结点，而pww 代表的是单词w对应的叶子结点；
+$\pmb{p}_{1}^{w},\pmb{p}_{2}^{w},\dots,\pmb{p}_{l^{w}}^{w};$ ：路径 $:p^{w}$ 中对应的各个结点，其中 $p_{1}^{w}$ 代表根结点，而pww 代表的是单词w对应的叶子结点；
 
-$d_{2}^{w},d_{3}^{w},\ldots,d_{l^{w}}^{w}\in\{0,1\}$ ：单词w对应的哈夫曼编码，一个词的哈夫曼编码是由 $l^{w}-1$ 位构成的， $d_{j}^{w}$ 表示路径 ${:p^{w}}$ 中第 j 个结点对应的哈夫曼编码，根结点不参与对应的编码（因为根结点没有左右结点之分） $;d_{j}^{w}$ 取值为0或1，表示对应的结点为左子结点还是右子结点，根据Word2Vec 的定义，0对应右子结点，1 对应左子结点；
+$\pmb{d}_{2}^{w},\pmb{d}_{3}^{w},\dots,\pmb{d}_{l^{w}}^{w}\in\{\pmb{0},\pmb{1}\}$ ：单词w对应的哈夫曼编码，一个词的哈夫曼编码是由 $l^{w}-1$ 位构成的， $d_{j}^{w}$ 表示路径 $:p^{w}$ 中第 j 个结点对应的哈夫曼编码，根结点不参与对应的编码（因为根结点没有左右结点之分） $;d_{j}^{w}$ 取值为0或1，表示对应的结点为左子结点还是右子结点，根据Word2Vec 的定义，0对应右子结点，1 对应左子结点；
 
 $\pmb{\theta}_{1}^{w},\pmb{\theta}_{2}^{w},\dots,\pmb{\theta}_{l^{w}-1}^{w}\in\Re^{m}$ ：路径 $p^{w}$ 中非叶子结点对应的向量， $\theta_{j}^{w}$ 表示路径 $p^{w}$ 中第 j 个非叶子结点对应的向量，这个向量实际上是模型可训练参数，在后续反向传播时将会根据梯度进行参数更新。
 
@@ -443,7 +443,7 @@ $\pmb{\theta}_{1}^{w},\pmb{\theta}_{2}^{w},\dots,\pmb{\theta}_{l^{w}-1}^{w}\in\R
 根据Word2Vec 的原始定义，哈夫曼编码为 $d_{i}^{w}=0$ 表示正类（右子结点），编码为 $d_{i}^{w}=1$ 表示负类（左子结点），可以定义正负类别的公式：
 
 $$
-Label(p_{i}^{w})=1-d_{i}^{w},i=2,3,4,\dots,l^{w}
+Label(p_{i}^{w})=1-d_{i}^{w},i=2{,}3{,}4,\ldots,l^{w}
 $$
 
 使用 Sigmoid 函数来对每个结点进行分类，结点被分为正类的概率为：
@@ -462,60 +462,60 @@ $$
 
 4. 第四次分类被分到负类： $p(d_{5}^{w}|x_{w},\theta_{4}^{w})=1-\sigma(x_{w}^{T}\theta_{4}^{w})$
 
-那么当 $w="$ 市场"时，则有如下表达式成立：
+那么当 $w=$ 市场"时，则有如下表达式成立：
 
 $$
-p\big(\boldsymbol{w}\big|Context(\boldsymbol{w})\big)=p\left(\bigoplus\forall\forall\big|Context\big(\forall\forall\big|\big)\right)=\prod_{j=2}^{5}p\big(d_{j}^{\boldsymbol{w}}\big|x_{\boldsymbol{w}},\theta_{j-1}^{\boldsymbol{w}}\big)
+p\big(\boldsymbol{w}\big|Context(\boldsymbol{w})\big)=p\left(市场\big|Context\big(市场\big)\right)=\prod_{j=2}^{5}p\big(d^w_j\big|\boldsymbol{x}_w,\theta^w_{j-1}\big)
 $$
 
-模型训练的目标则为优化θw, $\pmb{\theta}_{2}^{w},\dots,\pmb{\theta}_{l^{w}-1}^{w}$ 使得目标函数最大化。对于词典中任意一个单词w，哈夫曼树中都会存在唯一的路径从 ${}_{\cdot p^{w}}$ 从根结点到单词w对应的叶子结 $\therefore$ 。路径 ${\boldsymbol{\cdot}}{\boldsymbol{p}}^{w}$ 上存在lw −1个分支，每个分支都对 $\dot{\Sigma}-\hbar=\hbar$ 类，将路径 ${\boldsymbol{\cdot}}{\boldsymbol{p}}^{w}$ 上的二分类概率相乘就得到词语w出现的概率。因此条件概率 $p(\pmb{w}|Context(\pmb{w}))$ 的一般公式如下：
+模型训练的目标则为优化θw, $\pmb{\theta}_{2}^{w},\dots,\pmb{\theta}_{l^{w}-1}^{w}$ 使得目标函数最大化。对于词典中任意一个单词w，哈夫曼树中都会存在唯一的路径从 $-p^{w}$ 从根结点到单词w对应的叶子结 $点$ 。路径 $:p^{w}$ 上存在lw −1个分支，每个分支都对 $应一个二分$ 类，将路径 $:p^{w}$ 上的二分类概率相乘就得到词语w出现的概率。因此条件概率 $p(\boldsymbol{w}|Context(\boldsymbol{w}))$ 的一般公式如下：
 
 $$
-p\big(\pmb{w}\big|Context(\pmb{w})\big)=\sum_{j=2}^{l^{w}}p(d_{j}^{w}|x_{w},\pmb{\theta}_{j-1}^{w})
+p\big(\boldsymbol{w}\big|Context(\boldsymbol{w})\big)=\sum_{j=2}^{l^{w}}p(d_{j}^{w}|\boldsymbol{x}_{w},\boldsymbol{\theta}_{j-1}^{w})
 $$
 
 其中
 
 $$
-\begin{array}{rlr}&{}&{p\big(d_{j}^{w}\big|x_{w},\theta_{j-1}^{w}\big)=\left\{\begin{array}{ll}{\sigma\big(x_{w}\theta_{j-1}^{w}\big),}&{d_{j}^{w}=0}\\{1-\sigma\big(x_{w}\theta_{j-1}^{w}\big),}&{d_{j}^{w}=1}\end{array}\right.}\\&{}&{=[\sigma\big(x_{w}\theta_{j-1}^{w}\big)]^{1-d_{j}^{w}}\cdot[1-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]^{d_{j}^{w}}}\end{array}
+\begin{align*}p\big(d_j^w\big|x_w,\theta_{j-1}^w\big)=\left\{\begin{aligned}\sigma\big(x_w\theta_{j-1}^w\big),&\quad d_j^w=0,\\1-\sigma\big(x_w\theta_{j-1}^w\big),&\quad d_j^w=1,\end{aligned}\right.\\=[\sigma\big(x_w\theta_{j-1}^w\big)]^{1-d_j^w}\cdot[1-\sigma\big(x_w\theta_{j-1}^w\big)]^{d_j^w}\end{align*}
 $$
 
 将上式代入 CBOW 的目标函数中，得到
 
 $$
-\begin{array}{c}{{{\cal L}=\displaystyle\sum_{w\in{\cal C}}logp\big(w\big|Context(w)\big)}}\\{{{}}}\\{{=\displaystyle\sum_{w\in{\cal C}}log\displaystyle\prod_{j=2}^{l^{\prime\prime}}\big[\sigma\big(x_{w}\theta_{j-1}^{w}\big)\big]^{1-d_{j}^{w}}\cdot\big[1-\sigma\big(x_{w}\theta_{j-1}^{w}\big)\big]^{d_{j}^{w}}}}\\{{{}}}\\{{=\displaystyle\sum_{w\in{\cal C}}\sum_{j=2}^{l^{\prime\prime}}\big(1-d_{j}^{w}\big)\cdot\log\big[\sigma\big(x_{w}\theta_{j-1}^{w}\big)\big]+d_{j}^{w}\cdot\log[1-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]}}\end{array}
+\begin{align*}L=\sum_{w\in C}logp\big(w\big|Context(w)\big)\quad\\=\sum_{w\in C}log\prod_{j=2}^{l^w}\big[\sigma\big(x_w\theta_{j-1}^w\big)\big]^{1-d_j^w}\cdot\big[1-\sigma\big(x_w\theta_{j-1}^w\big)\big]^{d_j^w}\\=\sum_{w\in C}\sum_{j=2}^{l^w}\big(1-d_j^w\big)\cdot\log\big[\sigma\big(x_w\theta_{j-1}^w\big)\big]+d_j^w\cdot\log[1-\sigma\big(x_w\theta_{j-1}^w\big)].\end{align*}
 $$
 
 接下来我们将推导参数 $\theta_{j-1}^{w}$ 及 $x_{w}$ 的更新公式，为方便描述将上述双重求和后的公式记为$L(w,j)$
 
 $$
-L(w,j)=\left(1-d_{j}^{w}\right)\cdot\log\left[\sigma\big(x_{w}\theta_{j-1}^{w}\big)\right]+d_{j}^{w}\cdot\log[1-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]
+L(w,j)=\left(1-d_{j}^{w}\right)\cdot\log[\sigma(x_{w}\theta_{j-1}^{w})]+d_{j}^{w}\cdot\log[1-\sigma(x_{w}\theta_{j-1}^{w})]
 $$
 
 $$
-L=\sum_{w\in C}\sum_{j=2}^{l^{w}}L(w,j)
+L=\sum_{w\in C}\sum_{j=2}^{l^{w}}L(w,j).
 $$
 
-首先考虑 $L(w,j)$ 关于 $\theta_{j-j}^{w}$ 1的梯度及更新公式：
+首先考虑 $L(w,j)$ 关于 $\cdot\theta_{j-1}^{w}$ 1的梯度及更新公式：
 
 $$
-\begin{array}{c}{\displaystyle\frac{\Delta L(w,j)}{\Delta\theta_{j-1}^{w}}=\big\{\big(1-d_{j}^{w}\big)\big[1-\sigma\big(x_{w}\theta_{j-1}^{w}\big)\big]x_{w}-d_{j}^{w}\sigma\big(x_{w}\theta_{j-1}^{w}\big)\big\}x_{w}}\\{=[1-d_{j}^{w}-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]x_{w}}\end{array}
+\begin{align*}\frac{\Delta L(w,j)}{\Delta\theta_{j-1}^w}=\big\{\big(1-d_j^w\big)\big[1-\sigma\big(x_w\theta_{j-1}^w\big)\big]x_w-d_j^w\sigma\big(x_w\theta_{j-1}^w\big)\big\}x_w\\=[1-d_j^w-\sigma\big(x_w\theta_{j-1}^w\big)]x_w\end{align*}
 $$
 
 $$
-\theta_{j-1}^{w}\gets\theta_{j-1}^{w}+\eta[1-d_{j}^{w}-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]x_{w}
+\theta_{j-1}^{w}\leftarrow\theta_{j-1}^{w}+\eta[1-d_{j}^{w}-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]x_{w}
 $$
 
 其次考虑 $L(w,j)$ 关于 $x_{w}$ 的梯度及更新公式：
 
 $$
-\frac{\Delta L(w,j)}{\Delta x_{w}}=[1-d_{j}^{w}-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]\theta_{j-1}^{w}
+\cfrac{\Delta L(w,j)}{\Delta x_{w}}=[1-d_{j}^{w}-\sigma\big(x_{w}\theta_{j-1}^{w}\big)]\theta_{j-1}^{w},
 $$
 
 上式仅是对于 $x_{w}$ 的梯度，而 $x_{w}$ 是Context(w)中所有单词累加的结果，还需要考虑对Context(w)中的每个单词v(w̃)进行更新，论文作者采用的方式为直接使用 $x_{w}$ 的梯度累加对单词v(w̃)进行更新：
 
 $$
-v(\widetilde{w})\gets v(\widetilde{w})+\eta\sum_{j=2}^{l^{w}}\frac{\Delta L(w,j)}{\Delta x_{w}},\widetilde{w}\in Context(w)
+v(\widetilde{w})\leftarrow v(\widetilde{w})+\eta\sum_{j=2}^{l^{w}}\frac{\Delta L(w,j)}{\Delta x_{w}},\widetilde{w}\in Context(w)
 $$
 
 以上为基于 Hierachical Softmax 的 CBOW 参数更新推导，而基于 Hierachical Softmax 的Skip-gram 参数更新推导与之类似，正文受限于篇幅我们不再展开，推导过程参见附录。
@@ -534,19 +534,19 @@ $$
 len(w)=\frac{counter(w)}{\sum_{u\in C}counter(u)}
 $$
 
-这里counter(u)表示词语u在语料 C 中出现的次数，分母用于归一化。将词典 D 中所有词语对应的线段拼接成长度为 1 的直线，如下图上半部分所示，出现频率越高的词语对应的线段长度越长。 $l_{0}=0,l_{1}=len(w_{1}),\ldots,l_{k}=\sum_{j=1}^{k}len(w_{j}),k=1,2,\ldots,N$ ，其中 $w_{j}$ 表示词典中第 j 个单词， $\mathcal{V}\{l_{i}\}_{j=0}^{N}$ 为结点划分得到 N 条线段即为每个单词对应的线段 $\{I_{i}\}_{j=1}^{N}$ ，线段长度为 $len\big(w_{j}\big)$ o
+这里counter(u)表示词语u在语料 C 中出现的次数，分母用于归一化。将词典 D 中所有词语对应的线段拼接成长度为 1 的直线，如下图上半部分所示，出现频率越高的词语对应的线段长度越长。 $\begin{array}{r}{l_{0}=0,l_{1}=len(w_{1}),\dots,l_{k}=\sum_{j=1}^{k}len\big(w_{j}\big),k=1{,}2,\dots,N}\end{array}$ ，其中 $w_{j}$ 表示词典中第 j 个单词， $以\{l_i\}_{j=0}^N$ 为结点划分得到 N 条线段即为每个单词对应的线段 $\{I_{i}\}_{j=1}^{N}$ ，线段长度为 $len(w_{j})$ o
 
 图表14： 负采样映射示意图
 ![](images/55dbd8a1ab51e0b51aed5983cc13b35b2c4bd91f5b91ed5617cf019666e5ae28.webp)
 资料来源：华泰研究
 
-上图的下半部分为我们引入的区间[0,1]上的等距剖分，将内部剖分结点 $\{m_{j}\}_{j=1}^{M-1}$ 投影到上半部分的非等距剖分上，建立 $\{m_{j}\}_{j=1}^{M-1}\botneq\{I_{j}\}_{j=1}^{M}$ 1的映射关系：
+上图的下半部分为我们引入的区间[0,1]上的等距剖分，将内部剖分结点 $\{m_{j}\}_{j=1}^{M-1}$ 投影到上半部分的非等距剖分上，建立 $\{m_j\}_{j=1}^{M-1}与\{I_j\}_{j=1}^{M}$ 1的映射关系：
 
 $$
-f(i)=w_{k},wherem_{i}\in I_{k},i=1,2,\dots,M-1
+f(i)=w_{k},where\;m_{i}\in I_{k},i=1{,}2,\ldots,M-1
 $$
 
-根据上述映射关系进行负采样：对词语 $w_{j}$ 进行负采样，每次生成一个[1,M-1]之间的随机整数，f(i)即为一个采样样本；若 $f(i)=w_{j}$ ，即采样到 $w_{j}$ 本身则跳过，进行下一次采样。Word2Vec 在实际操作时，len(w)计算公式中不是直接使用counter(w)，而是对其做了α次幂，其中 $\alpha=0.75$ ：
+根据上述映射关系进行负采样：对词语 $w_{j}$ 进行负采样，每次生成一个[1,M-1]之间的随机整数，f(i)即为一个采样样本；若 $f(i)=w_{j},$ ，即采样到 $w_{j}$ 本身则跳过，进行下一次采样。Word2Vec 在实际操作时，len(w)计算公式中不是直接使用counter(w)，而是对其做了α次幂，其中 $\alpha=0.75$ ：
 
 $$
 len(w)=\frac{counter(w)^{\alpha}}{\sum_{u\in C}[counter(u)]^{\alpha}}=\frac{counter(w)^{0.75}}{\sum_{u\in C}[counter(u)]^{0.75}}
@@ -554,25 +554,25 @@ $$
 
 ## 基于 Negative Sampling 的 CBOW
 
-接下来介绍基于负采样算法的 CBOW。对于 $(w,Context(w))$ ，对w进行负采样得到负样本子集 $NEG(w)\neq\emptyset$ ，对于 $\forall\widetilde{w}\in D$ ，定义单词w̃的标签如下，正样本的标签为 1，负样本的标签为 0：
+接下来介绍基于负采样算法的 CBOW。对于 $\left(w,Context(w)\right)$ ，对w进行负采样得到负样本子集 $NEG(w)\neq\emptyset$ ，对于 $\forall\widetilde{w}\in D$ ，定义单词w̃的标签如下，正样本的标签为 1，负样本的标签为 0：
 
 $$
-L^{w}(\widetilde{w})=\big\{_{0,}^{1,}\ \widetilde{w}=w
+L^{w}(\widetilde{w})=\Big\{\begin{aligned}1,\quad\widetilde{w}=w\\0,\quad\widetilde{w}\neq w\end{aligned}
 $$
 
-对于一个给定的正样本 $(w,Context(w))$ ，希望最大化目标函数
+对于一个给定的正样本 $\cdot(w,Context(w))$ ，希望最大化目标函数
 
 $$
-\begin{array}{rl}&{g(w)=\displaystyle\prod_{u\in w\cup NEG(w)}p(u|Context(w))}\\{~}&{}\\{where}&{p\big(u\big|Context(w)\big)=\displaystyle\Big\lbrace_{1}-\sigma(x_{w}^{T}\theta^{u}),~L^{w}(u)=1}\\&{}\\&{=[\sigma(x_{w}^{T}\theta^{u})]^{L^{w}(u)}\cdot[1-\sigma(x_{w}^{T}\theta^{u})]^{1-L^{w}(u)}}\end{array}
+\begin{aligned}&g(w)=\prod_{u\in w\cup NEG(w)}p(u|Context(w))\\where\quad&p(u|Context(w))=\left\{\begin{aligned}&\sigma(x_w^T\theta^u),\quad L^w(u)=1\\&1-\sigma(x_w^T\theta^u),\quad L^w(u)=0\end{aligned}\right.\\&=[\sigma(x_w^T\theta^u)]^{L^w(u)}\cdot[1-\sigma(x_w^T\theta^u)]^{1-L^w(u)}\end{aligned}
 $$
 
-这里 $x_{w}$ 仍然表示Context(w)各个词语的词向量之和， $\mathcal{F}_{\mathfrak{M}}\theta^{u}\in R^{m}$ 是引入的辅助向量，为待训练的参数。 $g(w)$ 简化以后也可以写成如下表达式
+这里 $x_{w}$ 仍然表示Context(w)各个词语的词向量之和， $而\theta^{u}\in R^{m}$ 是引入的辅助向量，为待训练的参数。 $g(w)$ 简化以后也可以写成如下表达式
 
 $$
-g(w)=\sigma(x_{w}^{T}\theta^{w})\prod_{u\in NEG(w)}[1-\sigma(x_{w}^{T}\theta^{u})]
+g(w)=\sigma(x_w^T\theta^w)\prod_{u\in NEG(w)}[1-\sigma(x_w^T\theta^u)]
 $$
 
-其中 $\sigma(\cdot)$ 也是 Sigmoid 函数， $\sigma(x_{w}^{T}\theta^{u})$ 表示当上下文为Context(w)时，中心词为w的概率。因此最大化 $\mathbf{\nabla}\cdot g(w)$ ，是希望 $\sigma(x_{w}^{T}\theta^{u})$ 最大化的同时 $\sigma(x_{w}^{T}\theta^{u}),u\in NEG(w)$ 最小化，即增大中心词被判定为正样本w的概率的同时降低中心词被判定为负样本的概率。
+其中 $\sigma(\cdot)$ 也是 Sigmoid 函数， $\sigma(x_{w}^{T}\theta^{u})$ 表示当上下文为Context(w)时，中心词为w的概率。因此最大化 $\llangle g(w)$ ，是希望 $\sigma(x_{w}^{T}\theta^{u})$ 最大化的同时 $\sigma(x_{w}^{T}\theta^{u}),u\in NEG(w)$ 最小化，即增大中心词被判定为正样本w的概率的同时降低中心词被判定为负样本的概率。
 
 接下来对 CBOW 的原始目标函数进行改造，原始的目标函数为
 
@@ -583,37 +583,37 @@ $$
 改造后的目标函数为
 
 $$
-\begin{array}{c}{{L=\displaystyle\sum_{w\in C}logg(w)}}\\{{=\displaystyle\sum_{w\in C}\displaystyle\sum_{u\in w\cup NEG(w)}\log\lbrace[\sigma(x_{w}^{T}\theta^{u})]^{L^{w}(u)}\cdot[1-\sigma(x_{w}^{T}\theta^{u})]^{1-L^{w}(u)}\rbrace}}\\{{=\displaystyle\sum_{w\in C}\displaystyle\sum_{u\in w\cup NEG(w)}L^{w}(u)\cdot log\sigma(x_{w}^{T}\theta^{u})+[1-L^{w}(u)]\cdot\log[1-\sigma(x_{w}^{T}\theta^{u})]}}\end{array}
+\begin{align*}L=\sum_{w\in C}logg(w)\quad&\\=\sum_{w\in C}\sum_{u\in w\cup NEG(w)}\log\{[\sigma(x_w^T\theta^u)]^{L^w(u)}\cdot[1-\sigma(x_w^T\theta^u)]^{1-L^w(u)}\}\quad&\\=\sum_{w\in C}\sum_{u\in w\cup NEG(w)}L^w(u)\cdot log\sigma(x_w^T\theta^u)+[1-L^w(u)]\cdot\log[1-\sigma(x_w^T\theta^u)].&\\\end{align*}
 $$
 
 同样的为方便求梯度，记L(w, u)
 
 $$
-L(w,u)=L^{w}(u)\cdot log\sigma(x_{w}^{T}\theta^{u})+[1-L^{w}(u)]\cdot\log[1-\sigma(x_{w}^{T}\theta^{u})]
+L(w,u)=L^{w}(u)\cdot log\sigma(x_{w}^{T}\theta^{u})+[1-L^{w}(u)]\cdot log[1-\sigma(x_{w}^{T}\theta^{u})]
 $$
 
-$L(w,u)$ 关于 $\boldsymbol{\cdot}\theta^{u}$ 的梯度为
+$L(w,u)$ 关于 $\cdot\theta^{u}$ 的梯度为
 
 $$
-\begin{array}{c}{\displaystyle\frac{\Delta L(w,u)}{\Delta\theta^{u}}=L^{w}(u)[1-\sigma(x_{w}^{T}\theta^{u})]x_{w}-[1-L^{w}(u)]\cdot\sigma(x_{w}^{T}\theta^{u})x_{w}}\\{=[L^{w}(u)-\sigma(x_{w}^{T}\theta^{u})]x_{w}}\end{array}
+\begin{align*}\cfrac{\Delta L(w,u)}{\Delta\theta^u}=L^w(u)[&1-\sigma(x_w^T\theta^u)]x_w-[1-L^w(u)]\cdot\sigma(x_w^T\theta^u)x_w\\&=[L^w(u)-\sigma(x_w^T\theta^u)]x_w\end{align*}
 $$
 
 $\theta^{u}$ 更新公式为
 
 $$
-\theta^{u}\gets\theta^{u}+\eta[L^{w}(u)-\sigma(x_{w}^{T}\theta^{u})]x_{w}
+\theta^{u}\leftarrow\theta^{u}+\eta[L^{w}(u)-\sigma(x_{w}^{T}\theta^{u})]x_{w}
 $$
 
 L(w, u)关于 $x_{w}$ 的梯度为
 
 $$
-\frac{\Delta L(w,u)}{\Delta x_{w}}=[L^{w}(u)-\sigma(x_{w}^{T}\theta^{u})]\theta^{u}
+\cfrac{\Delta L(w,u)}{\Delta x_{w}}=[L^{w}(u)-\sigma(x_{w}^{T}\theta^{u})]\theta^{u}.
 $$
 
 $x_{w}$ 的更新公式为
 
 $$
-v(\widetilde{w})=v(\widetilde{w})+\eta\sum_{u\in w\cup NEG(w)}\frac{\Delta L(w,u)}{\Delta x_{w}},\widetilde{w}\in Context(w)
+v(\widetilde{w})=v(\widetilde{w})+\eta\sum_{u\in w\cup NEG(w)}\frac{\Delta L(w,u)}{\Delta x_w},\widetilde{w}\in Context(w)
 $$
 
 基于 Negative Sampling 的 Skip-gram 推导见附录。
@@ -660,7 +660,7 @@ CBOW 和 skip-gram 方法虽然可以很好地对词汇进行类比，但是只�
 
 ## GloVe 原理
 
-有了共现矩阵的概念后，接下来考虑如何更好地表示出词向量。将某个语料库的共现矩阵记为 $X=(X_{ij})_{N\times N},X_{ij}$ 表示指定窗口长度下词语 i 和词语 j 的共现次数，以及
+有了共现矩阵的概念后，接下来考虑如何更好地表示出词向量。将某个语料库的共现矩阵记为 $X=(X_{ij})_{N\times N},\quad X_{ij}$ 表示指定窗口长度下词语 i 和词语 j 的共现次数，以及
 
 $$
 X_{i}=\sum_{k}X_{ik}
@@ -669,10 +669,10 @@ $$
 表示语料库中词语 i出现的次数总和，
 
 $$
-P_{ij}=P(j|i)={\frac{X_{ij}}{X_{i}}}
+P_{ij}=P(j|i)=\frac{X_{ij}}{X_{i}}
 $$
 
-表示词语 j出现在词语 i上下文的概率。下面我们以论文中的例子来介绍 GloVe 的原理。假设 i=ice，j=steam，当 k 取不同的词语如 solid、gas、water 时，我们可以得到概率 $\mathbf{\nabla}\cdot P_{ik}=$ P(k|ice)、 $P_{jk}=P(k|steam)$ ，并进一步计算出P(k|ice)/P(k|steam)。例如当 k 取 solid 时，P(solid|ice)较大，P(solid|steam)较小，上述比值应该较大；当 k 取 gas 时，P(gas|ice)较小，P(gas|steam)较大，上述比值应该较小；当 k 取 water 或 fashion 时，与 ice 和 steam的共现概率同时很大或很小，对应的上述比值都接近 1。因此P(k|ice)/P(k|steam)可以一定程度上反映词汇之间的相关性。
+表示词语 j出现在词语 i上下文的概率。下面我们以论文中的例子来介绍 GloVe 的原理。假设 i=ice，j=steam，当 k 取不同的词语如 solid、gas、water 时，我们可以得到概率 $\cdot P_{ik}=$ P(k|ice)、 $P_{jk}=P(k|steam)$ ，并进一步计算出P(k|ice)/P(k|steam)。例如当 k 取 solid 时，P(solid|ice)较大，P(solid|steam)较小，上述比值应该较大；当 k 取 gas 时，P(gas|ice)较小，P(gas|steam)较大，上述比值应该较小；当 k 取 water 或 fashion 时，与 ice 和 steam的共现概率同时很大或很小，对应的上述比值都接近 1。因此P(k|ice)/P(k|steam)可以一定程度上反映词汇之间的相关性。
 
 图表16： 共现概率
 
@@ -687,31 +687,31 @@ $$
 接着作者提出一种猜想，能否通过训练词向量来使得词向量经过某种函数作用后可以得到上述比值，即满足如下公式：
 
 $$
-F\left(w_{i},w_{j},w_{k}\right)=\frac{P_{ik}}{P_{jk}}
+F\big(w_{i},w_{j},w_{k}\big)=\frac{P_{ik}}{P_{jk}}
 $$
 
 其中 $w_{i},w_{j},w_{k}$ 分别为词语 i、j、k 对应的词向量， $P_{ik}/P_{jk}$ 可以通过语料计算得到，F 为某个待定义的变换函数。考虑到词向量处于同一个线性空间，因此对 $w_{i},w_{j}$ 进行差分变换：
 
 $$
-F\left(w_{i}-w_{j},w_{k}\right)=\frac{P_{ik}}{P_{jk}}
+F\big(w_{i}-w_{j},w_{k}\big)=\frac{P_{ik}}{P_{jk}}
 $$
 
 最直观能想到的函数 F为向量内积：
 
 $$
-F\big((w_{i}-w_{j})^{T}w_{k}\big)=F\big({w_{i}}^{T}w_{k}-{w_{j}}^{T}w_{k}\big)=\frac{P_{ik}}{P_{jk}}
+F\big((w_{i}-w_{j})^{T}w_{k}\big)=F\big(w_{i}{}^{T}w_{k}-w_{j}{}^{T}w_{k}\big)=\frac{P_{ik}}{P_{jk}}
 $$
 
 将减法与除法联系到一起，又容易联想到指数计算，因此可以将 F取为指数函数：
 
 $$
-exp\big({w_{i}}^{T}w_{k}-{w_{j}}^{T}w_{k}\big)=\frac{\exp({w_{i}}^{T}w_{k})}{\exp({w_{j}}^{T}w_{k})}=\frac{P_{ik}}{P_{jk}}
+exp(w_{i}{}^{T}w_{k}-w_{j}{}^{T}w_{k})=\frac{\exp(w_{i}{}^{T}w_{k})}{\exp(w_{j}{}^{T}w_{k})}=\frac{P_{ik}}{P_{jk}}
 $$
 
 只需要保证分子分母分别相等，上式即可成立：
 
 $$
-\begin{array}{r}{\exp({w_{i}}^{T}w_{k})=P_{ik}}\\{\exp({w_{j}}^{T}w_{k})=P_{jk}}\end{array}
+\begin{array}{r}{\exp({w_{i}}^{T}w_{k})=P_{ik},}\\{\exp\bigl({w_{j}}^{T}w_{k}\bigr)=P_{jk},}\end{array}
 $$
 
 进一步目标可以转化为对于语料中的所有词汇，考察
@@ -721,7 +721,7 @@ $$
 $$
 
 $$
-{w_{i}}^{T}w_{k}=\log\bigg(\frac{X_{ik}}{X_{i}}\bigg)=logX_{ik}-logX_{i}
+{w_{i}}^{T}w_{k}=\log\left(\frac{X_{ik}}{X_{i}}\right)=logX_{ik}-logX_{i}
 $$
 
 考虑到上述等号左侧 i和 k 应具有对称性，为保证右侧也具有对称性，引入两个偏置项：
@@ -730,7 +730,7 @@ $$
 {w_{i}}^{T}w_{k}=\log X_{ik}-b_{i}-b_{k}
 $$
 
-此时 ${\cdot{log}X_{i}}$ 已经包含在 $.b_{i}$ 中。此时模型的目标转化为通过学习词向量的表示，使得上述等式尽量成立，故而损失函数的构建如下：
+此时 $logX_{i}$ 已经包含在 $.b_{i}$ 中。此时模型的目标转化为通过学习词向量的表示，使得上述等式尽量成立，故而损失函数的构建如下：
 
 $$
 J=\sum_{i,k=1}^{V}({w_{i}}^{T}w_{k}+b_{i}+b_{k}-logX_{ik})^{2}
@@ -739,7 +739,7 @@ $$
 但是该目标函数存在一个缺点，即所有的共现词汇都采用同样的权重，因此作者对目标函数进行了进一步修正，通过语料中的词汇共现统计来改变其在目标函数中的权重，具体如下：
 
 $$
-\boldsymbol{J}=\sum_{i,k=1}^{V}f(\boldsymbol{X}_{ik})({w_{i}}^{T}\boldsymbol{w}_{k}+b_{i}+b_{k}-log\boldsymbol{X}_{ik})^{2}
+J=\sum_{i,k=1}^{V}f(X_{ik})(w_i{}^Tw_k+b_i+b_k-logX_{ik})^2
 $$
 
 这里 V表示词汇数量，权重函数f需具备以下特性：
@@ -753,7 +753,7 @@ $$
 例如作者提出的权重函数如下：
 
 $$
-f(x)=\left\{{\begin{array}{ll}{(x/x_{max})^{\alpha},\ if\ x<x_{max}}\\{1,\ otherwise}\end{array}}\right.
+f(x)=\Big\{\begin{matrix}{(x/x_{max})^{\alpha},\quad if\quad x<x_{max}}\\{1,\quad otherwise}\\\end{matrix}
 $$
 
 图表17： 当α = 0. 75时的f(x)
@@ -827,63 +827,63 @@ word2vec 的出现极大的促进了 NLP 的发展。
 
 ELMo 的全称是 Embeddings from Language Models，是一个可以生成动态词向量的预训练语言模型，由 Matthew E. Peters 等人 2018 年在论文《Deep contextualized wordrepresentations》中首次提出。ELMo 模型综合起来说有如下两个特点：（1）ELMo 模型使用整段文本作为输入，根据上下文动态地生成词向量，因此可以学习不同语境下的词汇多义性；（2）没有像 word2vec 模型一样上下文一并作为输入，而是使用双向的语言模型，分别从正反两面在词元序列上运行，使提取的特征更准确。
 
-ELMo 使用双向 LSTM 来完成上述任务。例如有一个具有 N 个词语的序列 $(t_{1},t_{2},\dots,t_{N})$ , 对于前向语言模型, 我们利用前k −1个词来预测第k个词：
+ELMo 使用双向 LSTM 来完成上述任务。例如有一个具有 N 个词语的序列 $(t_{1},t_{2},\ldots,t_{N})$ , 对于前向语言模型, 我们利用前k −1个词来预测第k个词：
 
 $$
-p(t_{1},t_{2},\ldots,t_{N})=\prod_{k=1}^{N}p(t_{k}\mid t_{1},t_{2},\ldots,t_{k-1})
+p(t_{1},t_{2},\ldots,t_{N})=\prod_{k=1}^{N}p(t_{k}\mid t_{1},t_{2},\ldots,t_{k-1}).
 $$
 
 后向语言模型与前向语言模型相似，但它反向运行在序列上，使用后续的文本来预测前一个词:
 
 $$
-p(t_{1},t_{2},\ldots,t_{N})=\prod_{k=1}^{N}p(t_{k}\mid t_{k+1},t_{k+2},\ldots,t_{N})
+p(t_{1},t_{2},\ldots,t_{N})=\prod_{k=1}^{N}p(t_{k}\mid t_{k+1},t_{k+2},\ldots,t_{N}).
 $$
 
 双向语言模型（biLM）就是同时利用前向语言模型和后向语言模型来预测 $t_{k}$ 。双向语言模型训练的目标是最大化二者联合的对数似然函数：
 
 $$
-\Theta=argmax\sum_{k=1}^{N}\left(\log\mathrm{p}(t_{k}\mid t_{1},\dots,t_{k-1};\Theta)+\log\mathrm{p}(t_{k}\mid t_{k+1},\dots,t_{N};\Theta)\right)
+\Theta=argmax\sum_{k=1}^{N}(\log\mathsf{p}(t_{k}\mid t_{1},\ldots,t_{k-1};\Theta)+\log\mathsf{p}(t_{k}\mid t_{k+1},\ldots,t_{N};\Theta))
 $$
 
 图表19： ELMo 模型图
 ![](images/a7d163c59525d2ae3ca21774ec4dc9ee5eeb6cfd1714a04592ce657e8e6dc42e.webp)
 资料来源：华泰研究
 
-在预训练阶段，对于一个词语 ${\bf\nabla}\cdot{\bf t}_{k}$ ，ELMo 模型使用通过 char-based CNN（Rafal Jozefowicz等 2016 年在论文《Exploring the Limits of Language Model》中提出的模型）生成原始的静态词向量作为模型的输入，用 $\mathbf{x}_{k}^{LM}$ 表示。若只考虑单层的 LSTM 和前向语言模型，将上一时刻的隐状态 $h_{k-1}$ 及 $\mathbf{x}_{k}^{LM}-$ 并送入 LSTM 可得到隐状态 $h_{k}$ ，在输出层按以下公式计算$p(t_{k}\mid t_{1},\ldots,t_{k-1})$ ，这种先经过CNN得到词向量，再计算Softmax的方法叫做CNN Softmax：
+在预训练阶段，对于一个词语 $\cdot t_{k}$ ，ELMo 模型使用通过 char-based CNN（Rafal Jozefowicz等 2016 年在论文《Exploring the Limits of Language Model》中提出的模型）生成原始的静态词向量作为模型的输入，用 $\mathbf{x}_{k}^{LM}$ 表示。若只考虑单层的 LSTM 和前向语言模型，将上一时刻的隐状态 $h_{k-1}$ 及 $\mathbf{.x}_{k}^{LM}\mathrm{~一~}$ 并送入 LSTM 可得到隐状态 $h_{k}$ ，在输出层按以下公式计算$p(t_{k}\mid t_{1},\ldots,t_{k-1})$ ，这种先经过CNN得到词向量，再计算Softmax的方法叫做CNN Softmax：
 
 $$
 h_{k}=\mathrm{LSTM}(t_{k}\mid t_{1},\ldots,t_{k-1})
 $$
 
 $$
-p(t_{k}\mid t_{1},\dots,t_{k-1})={\frac{\exp(CNN(t_{k})^{T}h_{k})}{\sum_{i=1}^{|V|}\exp(CNN(t_{k})^{T}h_{k})}}
+p(t_{k}\mid t_{1},\ldots,t_{k-1})=\frac{\exp(CNN(t_{k})^{T}h_{k})}{\sum_{i=1}^{|V|}\exp(CNN(t_{k})^{T}h_{k})}
 $$
 
-后向语言模型部分类似，当考虑多层 LSTM 时将最后一层 LSTM 的输出作为上述 $h_{k}$ 。假设$\overrightarrow{\Theta}_{LSTM}$ 为正向 LSTM 模型的参数， $\overleftarrow{\Theta}_{LSTM}$ 为后向 LSTM 模型的参数， $\Theta_{s}$ 为 softmax 层参数，$\Theta_{x}$ 为将词语映射到原始词向量的映射层参数（即 char-based CNN 中的参数，这部分参数在模型训练时不变，由预训练好的 char-based CNN 定义），优化上文中提到的 biLM 的目标函数来进行模型训练：
+后向语言模型部分类似，当考虑多层 LSTM 时将最后一层 LSTM 的输出作为上述 $h_{k}$ 。假设$\vec{\Theta}_{LSTM}$ 为正向 LSTM 模型的参数， $\overleftarrow{\Theta}_{LSTM}$ 为后向 LSTM 模型的参数， $\Theta_{s}$ 为 softmax 层参数，$\Theta_{x}$ 为将词语映射到原始词向量的映射层参数（即 char-based CNN 中的参数，这部分参数在模型训练时不变，由预训练好的 char-based CNN 定义），优化上文中提到的 biLM 的目标函数来进行模型训练：
 
 $$
-\Theta=argmax\sum_{k=1}^{N}\left(\log\mathfrak{p}\big(t_{k}\mid t_{1},\dots,t_{k-1};\Theta_{x},\vec{\Theta}_{LSTM},\Theta_{s}\big)+\log\mathfrak{p}\big(t_{k}\mid t_{k+1},\dots,t_{N};\Theta_{x},\overleftarrow{\Theta}_{LSTM},\Theta_{s}\big)\right)
+\Theta=argmax\sum_{k=1}^{N}\left(\log\mathsf{p}\big(t_{k}\mid t_{1},\ldots,t_{k-1};\Theta_{x},\overleftarrow{\Theta}_{LSTM},\Theta_{s}\big)+\log\mathsf{p}\big(t_{k}\mid t_{k+1},\ldots,t_{N};\Theta_{x},\overleftarrow{\Theta}_{LSTM},\Theta_{s}\big)\right)
 $$
 
 可以得到最终的 ELMo 模型。此外通过随机添加适当数量的 dropout 或者对 ELMo 模型的权重添加 L2 正则项，可以提高模型的表现。
 
 ## 词向量生成
 
-词向量是语言模型的副产物，对于每个单词 $t_{k}$ ，通过 L 层的 biLSTM 语言模型最后一共可以输出 1个静态词向量和 2L 个动态词向量：
+词向量是语言模型的副产物，对于每个单词 $(t_{k}$ ，通过 L 层的 biLSTM 语言模型最后一共可以输出 1个静态词向量和 2L 个动态词向量：
 
 $$
-\begin{array}{rl}{R_{k}}&{=\left\{\mathbf{x}_{k}^{LM},\vec{\mathbf{h}}_{k,j}^{LM},\mathbf{\overleftarrow{\mathbf{h}}}_{k,j}^{LM}\mid j=1,\dots,L\right\}}\\&{=\left\{\mathbf{h}_{k,j}^{LM}\mid j=0,\dots,L\right\}}\end{array}
+\begin{array}{rl}{R_{k}}&{=\big\{\mathbf{x}_{k}^{LM},\vec{\mathbf{h}}_{k,j}^{LM},\overleftarrow{\mathbf{h}}_{k,j}^{LM}\mid j=1,\dots,L\big\}}\\&{=\big\{\mathbf{h}_{k,j}^{LM}\mid j=0,\dots,L\big\}}\end{array}
 $$
 
-其中， $\mathbf{x}_{k}^{LM}$ 为最原始的输入静态词向量， $\vec{\bf h}_{k,j}^{LM}$ 为第k个输入词在第j层前向 LSTM 输出的动态隐向量，包含了前面文本的信息； $\mathbf{\widetilde{h}}_{k,j}^{LM}$ 为第k个输入词在第j层后向 LSTM 的动态隐向量，包含了后面文本的信息。
+其中， $\mathbf{x}_{k}^{LM}$ 为最原始的输入静态词向量， $\vec{\mathbf{h}}_{k,j}^{LM}$ 为第k个输入词在第j层前向 LSTM 输出的动态隐向量，包含了前面文本的信息； $\mathbf{\check{h}}_{k,j}^{LM}$ 为第k个输入词在第j层后向 LSTM 的动态隐向量，包含了后面文本的信息。
 
-有两种方式可以得到 ELMo 模型提取的最终的词向量，最简单的情形是直接使用最顶层biLSTM 的输出作为词向量，即使用 $\mathbf{h}_{k,L}^{LM}$ 作为EL $\mathbf{Mo}_{k}^{\mathsf{task}}$ ；另一种是将所有层的 $\mathbf{1}_{k,j}^{LM}$ 以一定权重进行加权，静态词向量和动态词向量组合起来得到最终词向量 $\mathbf{ELMO}_{k}^{\sf task}$ ，如下所示：
+有两种方式可以得到 ELMo 模型提取的最终的词向量，最简单的情形是直接使用最顶层biLSTM 的输出作为词向量，即使用 $\mathbf{h}_{k,L}^{LM}$ 作为EL $\mathsf{M}\mathbf{o}_{k}^{\mathsf{task}}$ ；另一种是将所有层的 $\mathbf{1}_{k,j}^{LM}$ 以一定权重进行加权，静态词向量和动态词向量组合起来得到最终词向量 $\mathbf{ELMo}_{k}^{\mathsf{task}}$ ，如下所示：
 
 $$
-\mathbf{ELMo}_{k}^{\mathsf{task}}=E\bigl(R_{k};\Theta^{\mathsf{task}}\bigr)=\gamma^{\mathsf{task}}\sum_{j=0}^{L}s_{j}^{\mathsf{task}}\mathbf{h}_{k,j}^{LM}
+\mathrm{ELMo}_{k}^{\mathrm{task}}=E\big(R_{k};\Theta^{\mathrm{task}}\big)=\gamma^{\mathrm{task}}\sum_{j=0}^{L}\;s_{j}^{\mathrm{task}}\mathbf{h}_{k,j}^{LM}
 $$
 
-其中， $s_{j}^{\mathrm{task}}$ 是经 softmax标准化后的各 LSTM层的权重， $\gamma^{\mathrm{task}}$ 是缩放因子。
+其中， $s_{j}^{\mathsf{task}}$ 是经 softmax标准化后的各 LSTM层的权重， $\gamma^{\tt task}$ 是缩放因子。
 
 一旦我们得到训练好的 ELMo 模型以及 ELMo 模型生成的每个单词的词向量，我们可以将其作为新特征，供下游任务使用。ELMo 模型的优势在于解决一词多义问题，同时可以学习到语法等词汇用法的复杂性。当然，ELMo 模型也有自己的不足之处，例如 LSTM 训练速度较慢、特征提取能力不如 Transformer、正向和反向 LSTM 之间无通信导致上下文特征融合不好等，从这个角度看，ELMo 模型的“双向特征表示”远不如一体化融合特征的 BERT模型，或者称它为“伪双向表征”语言模型更合适。
 
@@ -916,7 +916,7 @@ $$
 k为迭代的次数， $w_{k}$ 为第k次迭代后的权值。ASGD（Averaged SGD）使用过去的权重求均值来进行部分权重的更新：
 
 $$
-w_{k+1}={\frac{1}{k-T+1}}\sum_{i=T}^{k}w_{i}
+w_{k+1}=\frac{1}{k-T+1}{\sum_{i=T}^{k}}~w_{i}.
 $$
 
 其中，k是迭代次数，T < k为指定的触发阈值。在前T个迭代中，ASGD 的权重更新方法和传统 SGD 完全相同。AWD-LSTM 使用 ASGD 的一种非单调触发变体——NT-ASGD，它的效果优于传统 SGD。
@@ -934,13 +934,13 @@ $$
 但实际上网络不同层可以获得的信息种类是不同的，因此不同层采用不同的学习率是更好的选择，这就是 ULMFiT 的微调策略之一——区别性微调策略（Discriminativefine-tuning），定义ηl对应第l层的学习速率，采用逐层递减来定义学习率，则：
 
 $$
-\begin{array}{c}{\theta_{t}^{l}=\theta_{t-1}^{l}-\eta^{l}\cdot\nabla_{\theta^{l}}J(\theta)}\\{\eta^{l-1}=\eta^{l}/2.6}\end{array}
+\begin{array}{c}{{\theta_{t}^{l}=\theta_{t-1}^{l}-\eta^{l}\cdot\nabla_{\theta^{l}}J(\theta)}}\\{{\eta^{l-1}=\eta^{l}/2.6}}\end{array}
 $$
 
 2. 为了使参数适合于特定的任务，我们希望模型在训练开始时参数就快速收敛到合适的区间，然后对参数进行精细的优化。在这过程中使用恒定的学习率或者衰减学习率不是一个好的选择。ULMFiT 提出一种倾斜三角学习率微调策略（Slanted triangularlearning rates），这种学习率调整策略首先迅速地增加学习率，再逐渐降低学习率，计算公式如下：
 
 $$
-p=\left\{\begin{array}{cc}{cut=\left[T\cdot cut_{-}frac\right]}\\{t/cut,}&{\mathrm{if~}t<cut}\\{1-\displaystyle\frac{t-cut}{cut\cdot(\frac{1}{cut_{-}frac}-1)},}&{\mathrm{otherwise}}\\{\eta_{t}=\eta_{max}\cdot\frac{1+p\cdot(\mathrm{ratio-1})}{\mathrm{ratio}}}\end{array}\right.
+p=\{\begin{aligned}&\quad\begin{aligned}cut&=[T\cdot cut_{-}frac]\\t&-\frac{t/cut\quad,\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\ \end{aligned}\end{aligned}
 $$
 
 T为训练中总迭代的次数，cut frac是我们增加学习率的迭代的比例，cut是学习率由增加转减小的那次迭代，ratio 是最大学习率对最小学习率的倍数。
@@ -984,33 +984,33 @@ H_{t}=f(H_{t-1},y_{t-1},C_{t})
 $$
 
 $$
-C_{t}=\sum_{i=1}^{n_{sequence}}\alpha_{ti}h_{i}
+C_{t}=\sum_{i=1}^{n_{sequence}}\alpha_{ti}h_{i}.
 $$
 
-其中， $C_{t}$ 是时刻t的上下文向量，是 Encoder 中所有隐藏层 $\cdot h_{i}$ 的加权平均。由于对每个隐藏层的关注程度不同，自然我们给每个 $\cdot h_{i}$ 分配的权重也不同，这个权重我们称为全局对齐权重（Global Alignment Weights）。带有 Attention 的 Encoder-Decoder 的工作原理如下图所示：
+其中， $C_{t}$ 是时刻t的上下文向量，是 Encoder 中所有隐藏层 $h_{i}$ 的加权平均。由于对每个隐藏层的关注程度不同，自然我们给每个 $-h_{i}$ 分配的权重也不同，这个权重我们称为全局对齐权重（Global Alignment Weights）。带有 Attention 的 Encoder-Decoder 的工作原理如下图所示：
 
 图表23： 带有 Attention 的 Encoder-Decoder 框架图
 ![](images/4eacf4af29b2ce5ab520094d70a5848c39e6df0e079ab4fc00bb73fa4c7bcfed.webp)
 资料来源：华泰研究
 
-可以看到，我们要解决的最关键的问题就是如何计算全局对齐权重，也就是 $\mathbf{\nabla}_{\mathbf{\mathcal{\alpha}}}\alpha_{ti}$ 的大小。定义 $e_{ti}=s(h_{i},H_{t-1})$ 为相关能量（associated energy），综合 Encoder 中所有隐藏层并用向量形式表示， $\overrightarrow{e_{t}}=(s(h_{1},H_{t-1}),s(h_{2},H_{t-1}),\dots,s(h_{n_{sequence}},H_{t-1}))$ ，则 $\overrightarrow{\alpha_{t}}=softmax(\overrightarrow{e_{t}})$ ，即注意力
+可以看到，我们要解决的最关键的问题就是如何计算全局对齐权重，也就是 $\alpha_{ti}$ 的大小。定义 $.e_{ti}=s(h_{i},H_{t-1})$ 为相关能量（associated energy），综合 Encoder 中所有隐藏层并用向量形式表示， $\overrightarrow{e_{t}}=(s(h_{1},H_{t-1}),s(h_{2},H_{t-1}),\ldots,s(h_{n_{sequence}},H_{t-1}))$ ，则 $\overrightarrow{\alpha_{t}}=softmax(\overrightarrow{e_{t}})$ ，即注意力
 
 $$
 C_{t}=\sum_{i=1}^{n_{sequence}}\frac{\exp(s(h_{i},H_{t-1}))}{\sum_{j=1}^{n_{sequence}}\exp(s(h_{j},H_{t-1}))}h_{i}
 $$
 
-至于 $e_{ti}$ 的计算方法，具体来说有以下几种：
+至于 $\boldsymbol{\cdot}\boldsymbol{e}_{ti}$ 的计算方法，具体来说有以下几种：
 
-1. 加性模型： $s(h_{i},H_{t-1})=v^{t}\mathrm{tanh}(Wh_{i}+UH_{t-1})$ ，W、U为可学习的参数。
+1. 加性模型： $s(h_i,H_{t-1})=v^t\tanh(Wh_i+UH_{t-1})$ ，W、U为可学习的参数。
 
 2. 乘法模型： $s(h_{i},H_{t-1})=h_{i}WH_{t-1}$ ，W为可学习的参数。
 
 3. 点积模型： $s(h_{i},H_{t-1})=h_{i}^{T}H_{t-1}$
 
-上面的 Attention 机制我们也称为 Soft Attention，为与下文中介绍 Self-Attention 的工作机制相衔接，我们从寻址的角度再来探讨一下 Soft Attention。由于不需要中间状态来存储Encoder 中的信息，H可以直接调取ℎ的信息，因此类比于数据库的操作，我们给原先的H一个新的名字 $\mathbfcal{Q}$ ，代表查询（Query），ℎ同时记为K和V，代表查询的键（Key）与值（Value），因此我们将 Attention 的算式改写为：
+上面的 Attention 机制我们也称为 Soft Attention，为与下文中介绍 Self-Attention 的工作机制相衔接，我们从寻址的角度再来探讨一下 Soft Attention。由于不需要中间状态来存储Encoder 中的信息，H可以直接调取ℎ的信息，因此类比于数据库的操作，我们给原先的H一个新的名字 $\mathbf{q},$ ，代表查询（Query），ℎ同时记为K和V，代表查询的键（Key）与值（Value），因此我们将 Attention 的算式改写为：
 
 $$
-Attention\big((K,V),q\big)=\sum_{i=1}^{n_{sequence}}\frac{\exp(s(k_{i},q))}{\sum_{j=1}^{n_{sequence}}\exp(s(k_{j},q))}v_{i}
+Attention\big((\boldsymbol{K},\boldsymbol{V}),\boldsymbol{q}\big)=\sum_{i=1}^{n_{sequence}}\frac{\exp(s(k_i,\boldsymbol{q}))}{\sum_{j=1}^{n_{sequence}}\exp(s(k_j,\boldsymbol{q}))}v_i
 $$
 
 可以看到在 Soft Attention 中，Key 与 Value 其实是相等的，同时 Query 取自 Decoder 中的隐藏层。这与自注意力机制（Self-Attention）不同，在 Self-Attention 中，Key、Value、Query 是不相同的，Attention 计算需要的 Key、Value、Query 都完全直接来自于输入的词向量。Self-Attention 也是 Transformer 的基础。Transformer 是多层的 Encoder、Decoder的堆叠，Self-Attention 计算的 Attention 张量在各层之间流动，抛弃了 RNN、CNN 等复杂的神经网络架构，并行程度高。下图展现了 Self-Attention 的工作机制。
@@ -1025,32 +1025,32 @@ $$
 
 Self-Attention 的计算步骤可以总结为如下几步：
 
-1. 对于每一个单词词嵌入向量 $x_{i}$ ，分别让它乘上 $W^{Q},\ W^{K},\ W^{V}$ ，映射成三个新向量： $\pmb{Q}_{i}$ （查询 Query）、 $K_{i}$ （键 $\mathsf{Key})$ $V_{i}$ （值 Value）。 $W^{Q}$ $W^{K}$ $W^{V}$ 都是可学习的参数矩阵。同时定义Q为整个序列的 Query 矩阵，K为整个序列的 Key 矩阵， V为整个序列的 Value 矩阵。
+1. 对于每一个单词词嵌入向量 $x_{i}$ ，分别让它乘上 $W^{Q}、W^{K}、W^{V}$ ，映射成三个新向量： $\pmb{q}_{i}$ （查询 Query）、 $K_{i}$ （键 $Key)$ $V_{i}$ （值 Value）。 $W^{Q}$ $W^{K}$ $W^{V}$ 都是可学习的参数矩阵。同时定义Q为整个序列的 Query 矩阵，K为整个序列的 Key 矩阵， V为整个序列的 Value 矩阵。
 
-2. 我们接着计算对于词嵌入向量 $x_{i}$ ，第 j 个单词的全局对齐权重 $\alpha_{ij}$ 。 $\alpha_{ij}$ 的计算可以参考Soft Attention 的点积模型方法，但我们使用输入单词的 Query 代替了输出单词的Query：
-
-$$
-\alpha_{ij}=\frac{\exp({\pmb Q_{i}{K_{j}}^{T}})}{\sum_{t=1}^{{n_{sequence}}}\exp({\pmb Q_{i}{K_{t}}^{T}})}
-$$
+2. 我们接着计算对于词嵌入向量 $x_{i},$ ，第 j 个单词的全局对齐权重 $[\alpha_{ij}$ 。 $\alpha_{ij}$ 的计算可以参考Soft Attention 的点积模型方法，但我们使用输入单词的 Query 代替了输出单词的Query：
 
 $$
-Attention(\pmb{Q}_{i},\pmb{K},\pmb{V})=\sum_{j=1}^{n_{sequence}}\alpha_{ij}V_{j}
+\alpha_{ij}=\frac{\exp(\boldsymbol{Q}_i\boldsymbol{K}_j^T)}{\sum_{t=1}^{n_{sequence}}\exp(\boldsymbol{Q}_i\boldsymbol{K}_t^T)}
+$$
+
+$$
+Attention(\boldsymbol{Q}_{i},\boldsymbol{K},\boldsymbol{V})=\sum_{j=1}^{n_{sequence}}\alpha_{ij}V_{j}
 $$
 
 3. 我们可以很容易看出，对于不同的输入词向量，Attention 的计算过程是完全可以并行进行的，这大大提高的模型的训练速度。我们可以将 Attention 的计算式重新写成：
 
 $$
-Attention(\pmb{Q},\pmb{K},\pmb{V})=softmax(\frac{\pmb{Q}\pmb{K}^{T}}{\sqrt{d_{k}}})\pmb{V}
+Attention(\boldsymbol{Q},\boldsymbol{K},\boldsymbol{V})=softmax(\frac{\boldsymbol{Q}\boldsymbol{K}^T}{\sqrt{d_k}})\boldsymbol{V}
 $$
 
-${Q}K^{T}$ 的方差会比较大，易影响模型的稳定性，因此将其除以 $\sqrt{d_{k}}$ 进行缩放，使方差归一。
+$\pmb{Q}\pmb{K}^{T}$ 的方差会比较大，易影响模型的稳定性，因此将其除以 $\sqrt{d_{k}}$ 进行缩放，使方差归一。
 
-我们不妨梳理一下各参数的维度，因为这样更有利于理解整个 Self-Attention 机制。假设词汇表的大小为|V|，则一个单词可以转化为一个|V|维的 one-hot 向量。若词嵌入转换矩阵 $\mathbf{\nabla}W^{E}$ 的维度为|V| $\times d_{embedding}$ ，则这个单词最终变成词嵌入向量 $\pmb{x}_{i}\in\mathbb{R}^{d_{embedding}}$ ，一个有$n_{sequence}$ 个单词的文本序列会被转换为矩阵X ∈ ℝnsequence×dembedding输入模型。我们用X分别 乘 上 三 个 可 学 习 的 参 数 矩 阵 $W^{Q}\in\mathbb{R}^{d_{embedding}\times d_{k}}\mathrm{~,~}W^{K}\in\mathbb{R}^{d_{embedding}\times d_{k}}\mathrm{~,~}W^{V}\in\mathbb{R}^{d}$ $\mathbb{R}^{d_{embedding}\times d_{v}}$ ，映射成的三个矩阵为： $Q\in\mathbb{R}^{n_{sequence}\times d_{k}},K\in\mathbb{R}^{n_{sequence}\times d_{k}},V\in\mathbb{R}^{n_{sequence}\times d_{v}}\mathrm{.}$ 在论文《Attention Is All You Need》中假设 $d_{k}=d_{v}=d_{embedding}=d_{model}\mathrm{,}$ 。容易得出 $QK^{T}\in$ ℝnsequence×nsequence， ${Q}K^{T}$ 的第 t 行表示第 t 个单词和其他单词计算注意力得到的权重。$softmax({\pmb Q}{\pmb K}^{T}/\sqrt{d_{k}}){\pmb V}$ 的维度是 $n_{sequence}\times d_{model}$ ，即 $\begin{array}{r}{Attention(\pmb{Q},\pmb{K},\pmb{V})\in\mathbb{R}^{n_{sequence}\times d_{model}}}\end{array}$ 这和模型的输入维度完全一样。
+我们不妨梳理一下各参数的维度，因为这样更有利于理解整个 Self-Attention 机制。假设词汇表的大小为|V|，则一个单词可以转化为一个|V|维的 one-hot 向量。若词嵌入转换矩阵 $\cdot W^{E}$ 的维度为|V| $\times d_{embedding}$ ，则这个单词最终变成词嵌入向量 $\pmb{x}_{i}\in\mathbb{R}^{d_{embedding}}$ ，一个有$n_{sequence}$ 个单词的文本序列会被转换为矩阵X ∈ ℝnsequence×dembedding输入模型。我们用X分别 乘 上 三 个 可 学 习 的 参 数 矩 阵 $\boldsymbol{W}^{Q}\in\mathbb{R}^{d_{embedding}\times d_{k}}\quad,\quad\boldsymbol{W}^{K}\in\mathbb{R}^{d_{embedding}\times d_{k}}\quad,\quad\boldsymbol{W}^{V}\in$ $\mathbb{R}^{d_{embedding}\times d_{v}}$ ，映射成的三个矩阵为： $\pmb{Q}\in\mathbb{R}^{n_{sequence}\times d_{k}}\textbackslash\pmb{K}\in\mathbb{R}^{n_{sequence}\times d_{k}}\textbackslash\pmb{V}\in\mathbb{R}^{n_{sequence}\times d_{\pmb{v}}}\textbackslash$ 在论文《Attention Is All You Need》中假设 $.d_{k}=d_{v}=d_{embedding}=d_{model}\mathrm{{}^{\circ}}$ 。容易得出 $\pmb{Q}\pmb{K}^{T}\in$ ℝnsequence×nsequence， $\pmb{Q}\pmb{K}^{T}$ 的第 t 行表示第 t 个单词和其他单词计算注意力得到的权重。$softmax(\pmb{Q}\pmb{K}^{T}/\sqrt{d_{k}})\pmb{V}$ 的维度是 $|n_{sequence}\times d_{model}$ ，即 $Attention(\boldsymbol{Q},\boldsymbol{K},\boldsymbol{V})\in\mathbb{R}^{n_{sequence}\times d_{model}}$ 这和模型的输入维度完全一样。
 
-对于每一个词嵌入向量 $x_{i}$ ，为了可以提取出更多的信息，我们引入了多头注意力机制（ Multi-Head Attention）。 Multi-Head Attention 其 实 就 是用 不 同 的参 数多 次 计 算了Self-Attention。具体来说，对于 ${\boldsymbol{x}}_{i}$ ，我们设置 h组不同的参数 $(W_{1}^{Q}\setminus W_{1}^{K}\setminus W_{1}^{V})\setminus(W_{2}^{Q}\setminus W_{2}^{K}$ $\smash{W_{2}^{V}\bigr)_{\setminus\mathrm{~\scriptsize~\cdots~}}(W_{h\setminus\mathrm{~\scriptsize~}}^{Q}W_{h\setminus\mathrm{~\scriptsize~}}^{K}W_{h}^{V})}$ ，并缩小Q、K、V的维度 $d_{k},\ d_{v}$ 至原来的 1/h。我们将不同参数计算出的结果（也称为 head）进行拼接，并乘上参数矩阵 ${{W}_{0}}$ ，得到最终的 Attention，公式化表示为：
+对于每一个词嵌入向量 $x_{i}$ ，为了可以提取出更多的信息，我们引入了多头注意力机制（ Multi-Head Attention）。 Multi-Head Attention 其 实 就 是用 不 同 的参 数多 次 计 算了Self-Attention。具体来说，对于 $x_{i}$ ，我们设置 h组不同的参数 $\left(W_{1}^{Q}、W_{1}^{K}、W_{1}^{V}\right)、\left(W_{2}^{Q}、W_{2}^{K}\right.$ $W_{2}^{V})、\ldots、(W_{h}^{Q}、W_{h}^{K}、W_{h}^{V})$ ，并缩小Q、K、V的维度 $\_d_{\/k}\_d_{\/v}$ 至原来的 1/h。我们将不同参数计算出的结果（也称为 head）进行拼接，并乘上参数矩阵 $.W_{0}$ ，得到最终的 Attention，公式化表示为：
 
 $$
-Multi-HeadAttention(Q,K,V)=concat(head_{1},head_{2},\dots,head_{h})W_{0}
+Multi-HeadAttention(\boldsymbol{Q},\boldsymbol{K},\boldsymbol{V})=concat(head_1,head_2,\ldots,head_h)\boldsymbol{W}_0
 $$
 
 很容易看出，Multi-Head Attention 输出的 Attention 维数与 Self-Attention 相比是没有改变的。Multi-Head Attention 的工作流程可以用下图来表示：
@@ -1068,25 +1068,25 @@ $$
 我们首先对 Transformer 的 Encoder 模块进行剖析。Encoder 模块的输入是一个大小为$n_{sequence}\times d_{model}$ 的矩阵，该矩阵在经过 Multi-Head Attention 层后，输出一个计算好的Attention 张量，并对其进行了残差连接。为减少梯度爆炸和梯度消失问题，Attention 一般需要进行标准化处理。由于每句话的序列长度不相同，因此如果使用 Batch Normalization进行归一化的话效果会比较差。Layer Normalization 常被用于自然语言处理中，用于在隐藏层不同单词之间进行标准化。Transformer 使用 Layer Normalization 来减少梯度问题，具体操作如下：
 
 $$
-\mu=\frac{1}{n_{sequence}}\sum_{i=1}^{n_{sequence}}A_{i},A_{i}\in R^{[1,d_{model}]}
+\mu=\frac{1}{n_{sequence}}{\sum_{i=1}^{n_{sequence}}}A_{i},A_{i}\in R^{[1,d_{model}]}
 $$
 
 $$
-\sigma=\sqrt{\frac{1}{n_{sequence}}\sum_{i=1}^{n_{sequence}}(A_{i}-\mu)^{2}}
+\sigma=\sqrt{\frac{1}{n_{sequence}}{\sum_{i=1}^{n_{sequence}}(A_{i}-\mu)^{2}}}
 $$
 
 $$
-LayerNorm(\mathrm{A})=\frac{\bf g}{\sigma}\odot(A-\mu)+{\bf b}
+LayerNorm(\mathrm{A})=\frac{\mathbf{g}}{\sigma}\odot(A-\mu)+\mathbf{b}
 $$
 
-$\mathbf{g}\hbar{\boldsymbol{\mathbf{\mathit{\mathbf{\mathbf{\mathbf{\Pi}}}}}}}$ 是 Layer Normalization 所需要的两个可学习参数，用以防止模型退化。Attention 经过标准化后进入一个全连接层，首先对其进行一个使用 ReLU 作为激活函数的全连接运算，经过此步后 Attention 的维度会增大，因此再使用一个无激活函数的线性层对其进行降维。再进行一次残差连接和 Layer Normalization 后，就可以将结果输出该 Encoder 模块，作为其他 Encoder 模块的输入。
+$\mathbf{g}和\mathbf{b}$ 是 Layer Normalization 所需要的两个可学习参数，用以防止模型退化。Attention 经过标准化后进入一个全连接层，首先对其进行一个使用 ReLU 作为激活函数的全连接运算，经过此步后 Attention 的维度会增大，因此再使用一个无激活函数的线性层对其进行降维。再进行一次残差连接和 Layer Normalization 后，就可以将结果输出该 Encoder 模块，作为其他 Encoder 模块的输入。
 
 Transformer 的 Decoder 模块实际上与 Encoder 差异比较大。由于 Decoder 在预测下一个单词的时候采取的是自回归的方式，在生成一个单词的时候，只能用到前面已经生成的单词。而且 Transformer 的输入必须是定长的句子，Decoder 模块的输入在已有的单词后面可能会有一长串无意义的占位符，这无疑会对 Attention 的计算带来干扰。
 
-另一种情况是在模型训练时我们不使用 Decoder 已经生成的单词，而是直接使用 GroundTruth——一个完整的句子，预测其中某个词（Teacher-forcing的训练模式，后文中有介绍），这更会牵涉到信息泄露的问题。因此，Decoder 模块中的多头注意力采用的是 MaskedMulti-Head Attention，将掩码机制代入 Attention，即我们生成一个下三角全 0，上三角全为-inf 的矩阵M，遮盖于 $\cdot QK^{T}$ 矩阵之上，生成新的 masked ${Q}K^{T}$ 矩阵，之后计算全局对齐权重时，通过 softmax 可以将-inf 变为 0。这样，在预测第 t+1 个单词时，就看不见前 t 个单词之后的词了。用公式表示为：
+另一种情况是在模型训练时我们不使用 Decoder 已经生成的单词，而是直接使用 GroundTruth——一个完整的句子，预测其中某个词（Teacher-forcing的训练模式，后文中有介绍），这更会牵涉到信息泄露的问题。因此，Decoder 模块中的多头注意力采用的是 MaskedMulti-Head Attention，将掩码机制代入 Attention，即我们生成一个下三角全 0，上三角全为-inf 的矩阵M，遮盖于 $\cdot QK^{T}$ 矩阵之上，生成新的 masked $\pmb{Q}\pmb{K}^{T}$ 矩阵，之后计算全局对齐权重时，通过 softmax 可以将-inf 变为 0。这样，在预测第 t+1 个单词时，就看不见前 t 个单词之后的词了。用公式表示为：
 
 $$
-Attention(Q,K,V)=softmax(\frac{QK^{T}\odot M}{\sqrt{d_{k}}})V
+Attention(\boldsymbol{Q},\boldsymbol{K},\boldsymbol{V})=softmax(\frac{\boldsymbol{Q}\boldsymbol{K}^T\odot\boldsymbol{M}}{\sqrt{d_k}})\boldsymbol{V}
 $$
 
 下图也可以直观理解这一过程。
@@ -1108,7 +1108,7 @@ $$
 了解清楚 Encoder 模块和 Decode 模块的结构之后，我们将其堆叠起来，组成最终的Transformer 网络。Encoder Block 的输入自然是文本序列的词嵌入向量矩阵，由于Transformer的输入必须为定长，长度过长的样本要进行截断，过短的文本要用特殊字符（例如“<PAD>”）进行补齐。此外，为提取不同单词的位置信息，Transformer引入了位置编码（Positional Encoding），将位置编码与原始词向量相加作为 Encoder Block 的输入，位置编码的编码准则如下：
 
 $$
-\begin{array}{c}{{PE(pos,2i)=sin(\frac{pos}{10000^{2i/d_{model}}})}}\\{{\ }}\\{{PE(pos,2i+1)=cos(\frac{pos}{10000^{2i/d_{model}}})}}\end{array}
+\begin{aligned}PE(pos,2i)&=sin(\frac{pos}{10000^{2i/d_{model}}})\\PE(pos,2i+1)&=cos(\frac{pos}{10000^{2i/d_{model}}})\end{aligned}
 $$
 
 pos是当前单词的位置；嵌入层的维度为偶数则使用sin函数，奇数则使用cos函数。输入信息依次经过6个 Encoder 模块后，向 Decoder Block 中各模块传递K和V的信息。我们不难看出，因为一个文本序列可以一次完整输入 Encoder Block，Encoder Block 实际上只需要运行一次，因此 Encoder Block 也可以看作是一个双向表征的 Transformer。
@@ -1140,25 +1140,25 @@ GPT 基本单元是 Transformer 的 Encoder 模块和 Decoder 模块的结合，
 GPT 是典型的“无监督预训练+有监督微调”的两阶段模型，先在没有标注的数据集中进行预训练，之后再在有标注的特定任务数据集上进行微调。GPT 使用 BooksCorpus 数据集作为语料库，该数据集包含了还包含了 7000 多本未发表的书。GPT 使用 ftfy库对数据集进行了清洗，并使用 spaCy 进行了分词。预训练阶段对于一个含有大量单词的语料库U =$\{u_{1},\ldots,u_{n}\}$ ，GPT 使用语言模型并极大化似然函数来进行优化：
 
 $$
-L_{1}(\mathcal{U})=\sum_{i}\log P(u_{i}\mid u_{i-k},\ldots,u_{i-1};\Theta)
+L_{1}(\mathcal{U})=\sum_{i}\log P(u_{i}\mid u_{i-k},\ldots,u_{i-1};\Theta),
 $$
 
-k是预测时所用到的单词的个数，P是用于预测的模型。我们定义 $U=(u_{-k},\dots,u_{-1})$ 为输入的k个单词的 one-hot 编码序列， $W_{e}$ 为词嵌入映射矩阵， $W_{p}$ 为位置嵌入矩阵，L 表示堆叠的Block 层数，则 GPT 的预训练流程可以按如下方法公式化：
+k是预测时所用到的单词的个数，P是用于预测的模型。我们定义 $U=(u_{-k},\ldots,u_{-1})$ 为输入的k个单词的 one-hot 编码序列， $W_{e}$ 为词嵌入映射矩阵， $W_{p}$ 为位置嵌入矩阵，L 表示堆叠的Block 层数，则 GPT 的预训练流程可以按如下方法公式化：
 
 $$
-\begin{array}{r}{h_{0}=UW_{e}+W_{p}}\\{h_{l}=\mathrm{transformer}_{\mathrm{block}(h_{l-1})},l\in\{1,2,3\dots,L\}}\\{P(u)=\mathrm{softmax}(h_{L}W_{e}^{T})}\end{array}
+\begin{aligned}h_{0}&=UW_{e}+W_{p}\\h_{l}=transformer_{block(h_{l-1})},l&\in\{1,2,3\ldots,L\}\\P(u)&=softmax(h_{L}W_{e}^{T})\end{aligned}
 $$
 
 预训练完成后需要对少量的带标注的数据对模型参数进行微调。我们使用一个有标注的数据集C，假设每个样本的单词是 $x^{1},\ldots,x^{m}$ ，标签为y。预训练中最后一个 Transformer 的输出实际上之前没有用到，我们用它和参数 $W_{y}$ 组成一个线性层共同预测 $P(y\mid x^{1},\ldots,x^{m})$ ：
 
 $$
-P(y\mid x^{1},\ldots,x^{m})={\mathsf{softmax}}{\big(}h_{l}^{m}W_{y}{\big)}
+P(y\mid x^{1},\ldots,x^{m})=softmax(h_{l}^{m}W_{y})
 $$
 
-我们选择极大化 $L_{2}(\mathcal{C})$ 作为微调阶段的目标函数：
+我们选择极大化 $.L_{2}(\mathcal{C})$ 作为微调阶段的目标函数：
 
 $$
-L_{2}({\mathcal{C}})=\sum_{(x,y)}\log P(y\mid x^{1},\ldots,x^{m})
+L_{2}(\mathcal{C})=\sum_{(x,y)}\log P(y\mid x^{1},\ldots,x^{m}).
 $$
 
 GPT 的作者发现，将预训练时的损失函数和微调阶段的损失函数加在一起，可以取得更好的效果，因此，作者将两部分损失加在一起进行优化：
@@ -1252,7 +1252,7 @@ $$
 L(\theta,\theta_{1},\theta_{2})=L_{1}(\theta,\theta_{1})+L_{2}(\theta,\theta_{2})=-\sum_{i=1}^{M}\log p(m=m_{i}\mid\theta,\theta_{1})-\sum_{j=1}^{N}\log p(n=n_{i}\mid\theta,\theta_{2})
 $$
 
-其中 $m_{i}\in[1,2,\ldots,|V|]$ ，n ∈ [IsNext, Notnext]，BERT 使用 AdamW 作为优化器。
+其中 $m_{i}\in[1{,}2,\ldots,|V|]$ ，n ∈ [IsNext, Notnext]，BERT 使用 AdamW 作为优化器。
 
 样本 1：[CLS] CSI500 rose [MASK] today [SEP] trading volume [MASK] greatly [SEP] 标签 1：IsNext
 
@@ -1279,13 +1279,13 @@ BERT 模型的优点在于相较于使用 RNN、LSTM 的其他 NLP 模型来说�
 在 XLNet 之前，NLP 模型无外乎分为两类：自回归语言模型（AutoRegressive LM）和自编码语言模型（AutoEncoder LM）。自回归语言模型使用上一时刻模型的输出作为下一时刻的输入，目标函数是根据前t −1个单词预测第t个单词的似然概率最大：
 
 $$
-max\log p_{\theta}(\mathbf{x})=\sum_{t=1}^{T}\log p_{\theta}(x_{t}\mid\mathbf{x}_{<t})=\sum_{t=1}^{T}\log\frac{\exp\bigl(h_{\theta}(\mathbf{x}_{1:t-1})^{\top}e(x_{t})\bigr)}{\sum_{x^{\prime}}\exp\bigl(h_{\theta}(\mathbf{x}_{1:t-1})^{\top}e(x^{\prime})\bigr)}
+\underset{\theta}{max}\log p_{\theta}(\mathbf{x})=\sum_{t=1}^{T}\log p_{\theta}(x_{t}\mid\mathbf{x}_{<t})=\sum_{t=1}^{T}\log\frac{\exp(h_{\theta}(\mathbf{x}_{1:t-1})^{\top}e(x_{t}))}{\sum_{x^{\prime}}\exp(h_{\theta}(\mathbf{x}_{1:t-1})^{\top}e(x^{\prime}))}
 $$
 
 自回归语言模型非常适合文本生成任务，但只能使用上文或下文的信息，或者上下文的“伪结合”。以 BERT 为代表的自编码语言模型在句子中用[MASK]随机遮住一些单词，并通过上下文信息融合全向预测这些单词，这是典型的 DAE（Denoising AutoEncoder）的思路。用x̅代表被掩码的单词，x̂代表没有被掩码的单词，自编码语言模型的目标函数为：
 
 $$
-max\log p_{\theta}(\bar{\mathbf{x}}\mid\hat{\mathbf{x}})\approx\sum_{t=1}^{T}m_{t}\mathrm{log}p_{\theta}(x_{t}\mid\hat{\mathbf{x}})=\sum_{t=1}^{T}m_{t}\mathrm{log}\frac{\exp\bigl(H_{\theta}(\hat{\mathbf{x}})_{t}^{\top}e(x_{t})\bigr)}{\sum_{x^{\prime}}\exp\bigl(H_{\theta}(\hat{\mathbf{x}})_{t}^{\top}e(x^{\prime})\bigr)}
+\underset{\theta}{max}\log p_{\theta}(\bar{\mathbf{x}}\mid\hat{\mathbf{x}})\approx\sum_{t=1}^{T}m_{t}\log p_{\theta}(x_{t}\mid\hat{\mathbf{x}})=\sum_{t=1}^{T}m_{t}\log\frac{\exp(H_{\theta}(\hat{\mathbf{x}})_{t}^{\top}e(x_{t}))}{\sum_{x^{\prime}}\exp(H_{\theta}(\hat{\mathbf{x}})_{t}^{\top}e(x^{\prime}))}
 $$
 
 自编码语言模型很好地融合了上下文的信息，理解的语义更加完整，但其也有一些缺点，例如：（1）BERT 中有一个独立性假设，即被掩码的单词之间应相互独立，这忽略了单词之间的依赖性；（2）在预训练时输入中有[MASK]标记，然而在微调时是没有[MASK]标记的，使两个阶段产生差异；（3）更适合语义理解任务，语义生成能力差。
@@ -1294,13 +1294,13 @@ $$
 
 ## 改进 1：排列组合语言模型（Permutation Language Modeling）
 
-理论上来说，自回归语言模型只能使用上文或下文的信息，或者用上下文单独做一个预测并拼接起来，XLNet 模型巧妙引入了排列组合语言模型（Permutation Language Modeling），使自回归模型也可以全向学习文本内容。假设有一条文本序列 $\{X_{1},X_{2},X_{3},X_{4}\}$ ，若我们使用生成模型来预测 $\left|{{X}_{3}}\right.$ 的话，我们只能使用到 $X_{1}$ 和 $X_{2}\cdot$ 。排列组合语言模型对单词序列随机打乱，如下图所示，例如在左下角，要预测的文本序列被打乱成 $\{X_{1},X_{4},X_{2},X_{3}\}$ ，则在用语言模型预测 $X_{3}$ 时，就可以用到之前用不到的位置 4 的信息 $X_{4}$ 了。排列组合语言模型的目标函数如下：
+理论上来说，自回归语言模型只能使用上文或下文的信息，或者用上下文单独做一个预测并拼接起来，XLNet 模型巧妙引入了排列组合语言模型（Permutation Language Modeling），使自回归模型也可以全向学习文本内容。假设有一条文本序列 $\{X_{1},X_{2},X_{3},X_{4}\}$ ，若我们使用生成模型来预测 $|X_{3}|$ 的话，我们只能使用到 $X_{1}$ 和 $X_{2},$ 。排列组合语言模型对单词序列随机打乱，如下图所示，例如在左下角，要预测的文本序列被打乱成 $\{X_{1},X_{4},X_{2},X_{3}\}$ ，则在用语言模型预测 $X_{3}$ 时，就可以用到之前用不到的位置 4 的信息 $.X_{4}$ 了。排列组合语言模型的目标函数如下：
 
 $$
-max_{\begin{array}{l}{\mathbb{E}_{\mathbf{z}\sim\mathcal{Z}_{T}}}\left[\sum_{t=1}^{T}\log p_{\theta}\big(x_{z_{t}}\mid\mathbf{x}_{\mathbf{z}_{<t}}\big)\right]}\end{array}
+\mathop{max}_{\theta}\mathbb{E}_{\mathbf{z}\sim\mathcal{Z}_{T}}\left[\sum_{t=1}^{T}\log p_{\theta}(x_{z_{t}}\mid\mathbf{x}_{\mathbf{z}_{<t}})\right]
 $$
 
-其中， ${z}_{{T}}$ 是所有可能的排列方式，z是其中一种排列方式， $\scriptstyle{z_{t}}$ 指排列z中第 t个要预测的单词在原始序列中的位置， $\scriptstyle\mathbf{z}_{<t}$ 指排列z中前 t-1个单词在原始序列中的位置。
+其中， $z_{T}$ 是所有可能的排列方式，z是其中一种排列方式， $z_{t}$ 指排列z中第 t个要预测的单词在原始序列中的位置， $\mathbf{z}_{<t}$ 指排列z中前 t-1个单词在原始序列中的位置。
 
 图表39： 排列组合语言模型
 ![](images/16438cd8d1b8d382002686c0dcfa17b8ea6c7c22f6eac98aae9a76f53b52d5d5.webp)
@@ -1315,35 +1315,35 @@ $$
 Two-Stream Self-Attention 的产生源于排列组合语言模型的需要，如果采用普通的Transformer 来建模排列组合语言模型的话，我们预测 $X_{z_{t}}$ 的概率分布可以用如下式子来表示：
 
 $$
-p_{\theta}\bigl(X_{z_{t}}=x\mid\mathbf{x}_{z_{<t}}\bigr)=\frac{\exp\Big(e(x)^{T}h_{\theta}\bigl(\mathbf{x}_{z_{<t}}\bigr)\Big)}{\sum_{x^{\prime}}\exp\Big(e(x^{\prime})^{T}h_{\theta}\bigl(\mathbf{x}_{z_{<t}}\bigr)\Big)}
+p_{\theta}\left(X_{z_{t}}=x\mid\mathbf{x}_{z_{<t}}\right)=\frac{\exp\left(e(x)^{T}h_{\theta}\left(\mathbf{x}_{z_{<t}}\right)\right)}{\sum_{x^{\prime}}\exp\left(e(x^{\prime})^{T}h_{\theta}\left(\mathbf{x}_{z_{<t}}\right)\right)}
 $$
 
-但这样会存在一个问题，在部分不同的排列情况下，排列组合语言模型预测不同位置的单词时会出现同样的结果。假设有两种不同的排列 $\mathbf{z}^{(1)}$ 和 ${\boldsymbol{\mathbf{\mathit{x}}}}\mathbf{\mathit{z}}^{(2)}$ ${\bf z}_{ct}^{(1)}={\bf z}_{<t}^{(2)}={\bf z}_{<t}$ ，但 $z_{t}^{(1)}=i\neq$ $j=z_{t}^{(2)}$ ，很容易发现会有两个不同的位置却预测成了相同的单词：
+但这样会存在一个问题，在部分不同的排列情况下，排列组合语言模型预测不同位置的单词时会出现同样的结果。假设有两种不同的排列 $\mathbf{z}^{(1)}$ 和 $\pmb{\mathscr{x}}^{(2)}$ $\mathbf{z}_{<t}^{(1)}=\mathbf{z}_{<t}^{(2)}=\mathbf{z}_{<t}$ ，但 $z_{t}^{(1)}=i\neq$ $j=z_{t}^{(2)}$ ，很容易发现会有两个不同的位置却预测成了相同的单词：
 
 $$
-\underset{z_{t}^{(1)}=i,z_{<t}^{(1)}=z_{<t}}{\underbrace{p_{\theta}{\left(X_{i}=x\mid\mathbf{x}_{\mathbf{z}_{<t}}\right)}}}=\underset{z_{t}^{(2)}=j,z_{<t}^{(2)}=\mathbf{z}_{<t}}{\underbrace{p_{\theta}{\left(X_{j}=x\mid\mathbf{x}_{\mathbf{z}_{<t}}\right)}}}=\frac{\exp\left(e(x)^{\top}h{\left(\mathbf{x}_{\mathbf{z}_{<t}}\right)}\right)}{\sum_{x^{\prime}}\exp\left(e(x^{\prime})^{\top}h{\left(\mathbf{x}_{\mathbf{z}_{<t}}\right)}\right)}
+\frac{p_{\theta}\left(X_{i}=x\mid\mathbf{x}_{\mathbf{z}_{<t}}\right)}{z_{t}^{(1)}=i,x_{<t}^{(1)}=\mathbf{z}_{<t}}=\frac{p_{\theta}\left(X_{j}=x\mid\mathbf{x}_{\mathbf{z}_{<t}}\right)}{z_{t}^{(2)}=j,z_{<t}^{(2)}=\mathbf{z}_{<t}}=\frac{\exp\left(e(x)^{\top}h\left(\mathbf{x}_{\mathbf{z}_{<t}}\right)\right)}{\sum_{x^{\prime}}\exp\left(e(x^{\prime})^{\top}h\left(\mathbf{x}_{\mathbf{z}_{<t}}\right)\right)}
 $$
 
-我们不妨举个例子来更好地理解，假设原始的单词序列为 $\{X_{1},X_{2},X_{3},X_{4}\}$ ，现有 $\mathbf{\partial}_{\mathbf{Z}}^{(1)}=$ $\{X_{1},X_{2},X_{3},X_{4}\}$ 和z $\mathbf{\Omega}^{(2)}=\{X_{1},X_{2},X_{4},X_{3}\}$ 两种排列方式，则 $z_{3}^{(1)}=3\neq4=z_{3}^{(2)}$ 。在 $\mathbf{z}^{(1)}\top$ ，我们第三个要预测的单词是原序列中位置为 3 的单词X3，在 $\mathbf{\nabla}_{\mathbf{Z}}(2)$ 下，我们第三个要预测的单词是原序列中位置为 4 的单词 $X_{4}$ 。但实际上， $X_{3}$ 和 $X_{4}$ 却预测成了同一个单词：
+我们不妨举个例子来更好地理解，假设原始的单词序列为 $\{X_{1},X_{2},X_{3},X_{4}\}$ ，现有 $\mathbf{\hat{z}}^{(1)}=$ $\{X_{1},X_{2},X_{3},X_{4}\}$ 和z $\mathbf{\xi}^{(2)}=\{X_{1},X_{2},X_{4},X_{3}\}$ 两种排列方式，则 $z_{3}^{(1)}=3\neq4=z_{3}^{(2)}$ 。在 $\mathbf{z}^{(1)}下$ ，我们第三个要预测的单词是原序列中位置为 3 的单词X3，在 $\mathbf{\nabla}_{\mathbf{\nabla}}\mathbf{z}^{(2)}$ 下，我们第三个要预测的单词是原序列中位置为 4 的单词 $X_{4}$ 。但实际上， $X_{3}$ 和 $X_{4}$ 却预测成了同一个单词：
 
 $$
-p_{\theta}{\left(X_{3}=x\mid\mathbf{x_{z}}_{<3}\right)}=p_{\theta}{\left(X_{4}=x\mid\mathbf{x_{z}}_{<3}\right)}={\frac{\exp{\left(e(x)^{T}h_{\theta}{\left(X_{1}X_{2}\right)}\right)}}{\sum_{x^{\prime}}\exp{\left(e(x^{\prime})^{T}h_{\theta}{\left(X_{1}X_{2}\right)}\right)}}}
+p_{\theta}\big(X_{3}=x\mid\mathbf{x}_{\mathbf{z}_{<3}}\big)=p_{\theta}\big(X_{4}=x\mid\mathbf{x}_{\mathbf{z}_{<3}}\big)=\frac{\exp\big(e(x)^{T}h_{\theta}(X_{1}X_{2})\big)}{\sum_{x^{\prime}}\exp\big(e(x^{\prime})^{T}h_{\theta}(X_{1}X_{2})\big)}
 $$
 
-这显然是非常不合理的。之所以会产生这种原因，是因为忽略掉了我们要预测的单词在原始序列中的位置信息。为此 XLNet 提出新的概率分布计算方法，在预测 $X_{z_{t}}$ 时将位置信息 ${\bf\nabla}\cdot{\boldsymbol{z}}_{t}$ 考虑了进去，但不包含内容信息 $X_{z_{t}}$ ：
+这显然是非常不合理的。之所以会产生这种原因，是因为忽略掉了我们要预测的单词在原始序列中的位置信息。为此 XLNet 提出新的概率分布计算方法，在预测 $X_{z_{t}}$ 时将位置信息 $\cdot z_{t}$ 考虑了进去，但不包含内容信息 $X_{z_{t}}$ ：
 
 $$
-p_{\theta}\left(X_{z_{t}}=x\mid\mathbf{x}_{z_{<t}}\right)={\frac{\exp{\left(e(x)^{\top}g_{\theta}\left(\mathbf{x}_{\mathbf{z}_{<t}},z_{t}\right)\right)}}{\sum_{x^{\prime}}\exp{\left(e(x^{\prime})^{\top}g_{\theta}\left(\mathbf{x}_{\mathbf{z}_{<t}},z_{t}\right)\right)}}}
+p_{\theta}(X_{z_t}=x\mid\mathbf{x}_{z_{<t}})=\frac{\exp\left(e(x)^{\top}g_{\theta}(\mathbf{x}_{z_{<t}},z_t)\right)}{\sum_{x'}\exp\left(e(x')^{\top}g_{\theta}(\mathbf{x}_{z_{<t}},z_t)\right)}
 $$
 
 XLNet 通过 Two-Stream Self-Attention 来实现上述思想。两个流分别为内容流（ContentStream）和查询流（Query Stream）。查询流就为了预测当前词，只包含当前词的位置信息，不包含当前词的内容信息；内容流主要为查询流提供其它词的位置信息和内容信息。具体操作上，内容流做 self-attention 时，Q取当前位置的全部信息（用 $h_{z_{t}}^{(m-1)}$ 表示），K和V取所有位置的全部信息（下图（a）所示）。查询流做 self-attention 时，Q取当前位置的位置信息（用 $g_{z_{t}}^{(m-1)}$ 表示），K和V取其他位置的全部信息（下图（b）所示）。也可以用下式来表示：
 
 $$
-g_{z_{t}}^{(m)}\gets\mathrm{Attention}\left(\mathbf{Q}=g_{z_{t}}^{(m-1)},\mathbf{KV}=\mathbf{h}_{\mathbf{z}\ll t}^{(m-1)};\theta\right),(\mathrm{query~stream};\mathrm{use~}z_{t}\ \mathrm{but}\mathrm{can}^{\dag}\mathrm{see}\ x_{z_{t}})
+g_{z_{t}}^{(m)}\gets\mathsf{Attention}\left(\mathsf{Q}=g_{z_{t}}^{(m-1)},\mathsf{KV}=\mathbf{h}_{z_{<t}}^{(m-1)};\theta\right),(\mathsf{query\:stream}\colon\mathsf{use}\enspace z_{t}\enspace\mathsf{but\:cant\:see}\enspace x_{z_{t}})
 $$
 
 $$
-{h}_{z_{t}}^{(m)}\gets\mathrm{Attention}\big(\mathbf{Q}=h_{z_{t}}^{(m-1)},\mathbf{KV}=\mathbf{h}_{z_{st}}^{(m-1)};\theta\big),\big(\mathrm{contentstream:useboth}z_{t}\ :\mathrm{and}\ :x_{z_{t}}\big)
+h_{z_{t}}^{(m)}\leftarrow Attention(\mathbf{Q}=h_{z_{t}}^{(m-1)},\mathbf{K}\mathbf{V}=\mathbf{h}_{z_{t}}^{(m-1)};\theta),(contentstream:usebothz_{t}andx_{z_{t}})
 $$
 
 下图（c）展示了如何用 Attention 掩码来实现双流机制。掩码矩阵红色部分代表被掩码，例如对于内容流掩码矩阵，若有顺序 3→2→4→1，2 能看到 3，则第二列第三行未被掩码，1 能看到 2、3、4，则第一列第二三四行均未被掩码，查询流掩码矩阵同理。
@@ -1358,7 +1358,7 @@ BERT 模型里的 Transformer 固定了句子长度，输入句子的默认长�
 
 Vanilla Transformer 是谷歌 AI 团队在论文《Character-Level Language Modeling withDeeper Self-Attention》中提出的基于 Transformer 改进的一种模型。下图展示了 VanillaTransformer 训练和测试阶段的流程图。训练时将文本拆成许多个 segments，每次传给模型一个 segment 进行训练，第 1 个 segment 训练完成后，再传入第 2 个 segment 进行训练。测试时每次将输入向右移动一个位置，实现对单个单词的预测。
 
-Vanilla Transformer 模型具有一些缺点：（1）不同 segment 之间的训练没有关联，也就是前后训练独立，打断了文本之间的联系，因此单词之间的最大依赖距离受输入长度的限制，造成上下文碎片化，例如下图（a）中 $x_{5}\cdot$ 其实是看不见 $x_{1}$ 的；（2）实际上每个 segment都从头训练一遍效率也比较低；（3）测试时每次只能移动一个单词的步长，同时需要重新构建一遍上下文并从头开始计算，效率非常低。
+Vanilla Transformer 模型具有一些缺点：（1）不同 segment 之间的训练没有关联，也就是前后训练独立，打断了文本之间的联系，因此单词之间的最大依赖距离受输入长度的限制，造成上下文碎片化，例如下图（a）中 $x_{51}$ 其实是看不见 $x_{1}$ 的；（2）实际上每个 segment都从头训练一遍效率也比较低；（3）测试时每次只能移动一个单词的步长，同时需要重新构建一遍上下文并从头开始计算，效率非常低。
 
 图表41： Vanilla Transformer 的训练和测试阶段
 ![](images/521a15dff1bcbed010fd30f18906a831edb7b419a3a03310a05fd0e7cd49b840.webp)
@@ -1371,10 +1371,10 @@ Vanilla Transformer 模型具有一些缺点：（1）不同 segment 之间的�
 Transformer-XL 和 Vanilla Transformer 一样也是将长文本拆成许多个 segments，但不同的segment 之间不是完全孤立的，而是像 RNN 一样进行了串联。如下图（a）所示，对于第τ个 segment，每一个 Encoder 模块的隐状态输出，一方面作为下一层的输入，另一方面也用缓存进行了存储并输入到了第τ+1个 segment 的下一层 Encoder 模块。图中绿线就表示第τ个 segment 的隐状态输出，但其不参与第τ +1个 segment 的梯度计算。这就是 XLNet的循环机制。我们也可以用公式来表达这一过程：
 
 $$
-\begin{array}{rlr}&{}&{\tilde{\mathbf{h}}_{\tau+1}^{n-1}=\left[\mathrm{SG}(\mathbf{h}_{\tau}^{n-1})\circ\mathbf{h}_{\tau+1}^{n-1}\right]\qquad}\\&{}&{\mathbf{q}_{\tau+1}^{n},\mathbf{k}_{\tau+1}^{n},\mathbf{v}_{\tau+1}^{n}=\mathbf{h}_{\tau+1}^{n-1}\mathbf{W}_{q}^{\top},\tilde{\mathbf{h}}_{\tau+1}^{n-1}\mathbf{W}_{k}^{\top},\tilde{\mathbf{h}}_{\tau+1}^{n-1}\mathbf{W}_{v}^{\top}}\\&{}&{\mathbf{h}_{\tau+1}^{n}=\mathrm{Transformer-Layer}(\mathbf{q}_{\tau+1}^{n},\mathbf{k}_{\tau+1}^{n},\mathbf{v}_{\tau+1}^{n})}\end{array}
+\begin{array}{c}{\tilde{\mathbf{h}}_{\tau+1}^{n-1}=[\mathbb{SG}(\mathbf{h}_{\tau}^{n-1})\circ\mathbf{h}_{\tau+1}^{n-1}]}\\{\mathbf{q}_{\tau+1}^{n},\mathbf{k}_{\tau+1}^{n},\mathbf{v}_{\tau+1}^{n}=\mathbf{h}_{\tau+1}^{n-1}\mathbf{W}_{q}^{\top},\tilde{\mathbf{h}}_{\tau+1}^{n-1}\mathbf{W}_{k}^{\top},\tilde{\mathbf{h}}_{\tau+1}^{n-1}\mathbf{W}_{v}^{\top}}\\{\mathbf{h}_{\tau+1}^{n}=\mathrm{Transformer-Layer}(\mathbf{q}_{\tau+1}^{n},\mathbf{k}_{\tau+1}^{n},\mathbf{v}_{\tau+1}^{n})}\end{array}
 $$
 
-h̃ τ+1n−1代表第τ个和第τ + 1个 segment 的隐向量沿长度方向的拼接，SG 是 stop-gradient 的意思。 ${\bf q}_{\tau+1}^{n},{\bf k}_{\tau+1}^{n},{\bf v}_{\tau+}^{n}$ 分别代表第τ + 1个 segment 第n层 Transformer 的三个矩阵， $\mathbf{h}_{\tau+1}^{n}$ 为计算出的隐向量。
+h̃ τ+1n−1代表第τ个和第τ + 1个 segment 的隐向量沿长度方向的拼接，SG 是 stop-gradient 的意思。 $\mathbf{q}_{\tau+1}^{n},\mathbf{k}_{\tau+1}^{n},\mathbf{v}_{\tau+}^{n}$ 分别代表第τ + 1个 segment 第n层 Transformer 的三个矩阵， $\mathbf{h}_{\tau+1}^{n}$ 为计算出的隐向量。
 
 图表42： Transformer-XL 的训练和测试阶段
 (a) Training phase.
@@ -1387,13 +1387,13 @@ h̃ τ+1n−1代表第τ个和第τ + 1个 segment 的隐向量沿长度方向�
 根据循环机制，我们在训练第τ + 1个 segment 时，实际上也用到第τ个 segment 传递过来的信息，因此我们也需要知道第τ个 segment 一些单词的位置情况。但如果我们用普通方法给输入添加位置编码，就会出现不同 segment 同一位置的位置编码完全相同的情况。Transformer-XL 使用相对位置编码来解决这一问题，即在计算当前位置隐向量的时候，考虑与之依赖单词的相对位置关系而非绝对位置关系。用E代表词嵌入向量，U代表位置向量，Vanilla Transformer 通过下面的式子计算 Attention：
 
 $$
-\begin{array}{rl}&{\mathbf{A}_{i,j}^{\mathrm{abs}}=(\mathbf{W}_{q}(\mathbf{E}_{x_{i}}+\mathbf{U}_{i}))^{\mathrm{T}}(\mathbf{W}_{k}(\mathbf{E}_{x_{j}}+\mathbf{U}_{j})))}\\&{\qquad=\underbrace{\mathbf{E}_{x_{i}}^{\top}\mathbf{W}_{q}^{\top}\mathbf{W}_{k}\mathbf{E}_{x_{j}}}_{(a)}+\underbrace{\mathbf{E}_{x_{i}}^{\top}\mathbf{W}_{q}^{\top}\mathbf{W}_{k}\mathbf{U}_{j}}_{(b)}+\underbrace{+\mathbf{U}_{i}^{\top}\mathbf{W}_{q}^{\top}\mathbf{W}_{k}\mathbf{E}_{x_{j}}}_{(c)}+\underbrace{\mathbf{U}_{i}^{\top}\mathbf{W}_{q}^{\top}\mathbf{W}_{k}\mathbf{U}_{j}}_{(d)}}\end{array}
+\begin{aligned}\mathbf{A}_{i,j}^{\mathrm{abs}}&=\left(\mathbf{W}_q\left(\mathbf{E}_{x_i}+\mathbf{U}_i\right)\right)^{\mathrm{T}}\left(\mathbf{W}_k\left(\mathbf{E}_{x_j}+\mathbf{U}_j\right)\right)\Bigg)\\&=\underbrace{\mathbf{E}_{x_i}^{\top}\mathbf{W}_q^{\top}\mathbf{W}_k\mathbf{E}_{x_j}}_{(a)}+\underbrace{\mathbf{E}_{x_i}^{\top}\mathbf{W}_q^{\top}\mathbf{W}_k\mathbf{U}_j}_{(b)}++\underbrace{\mathbf{U}_i^{\top}\mathbf{W}_q^{\top}\mathbf{W}_k\mathbf{E}_{x_j}}_{(c)}+\underbrace{\mathbf{U}_i^{\top}\mathbf{W}_q^{\top}\mathbf{W}_k\mathbf{U}_j}_{(d)}\end{aligned}
 $$
 
-使用相对位置编码 $\mathbf{R}_{i-j}$ 取代（b）(d)项的绝对位置编码Uj $({\bf{R}}_{i-j}$ 也有固定的编码方式，用正弦函数生成，没有要学习的参数）。 $\mathbf{U}_{i}^{\top}\mathbf{W}_{q}^{\top}$ 代表第i个位置的 query向量，因为在考虑相对位置的时候，不需要查询绝对位置，所以可以直接用可训练的统一的参数u和v分别取代（c）（d）项的 $\mathbf{U}_{i}^{\top}\mathbf{W}_{q}^{\top}$ 。权重矩阵 $\mathbf{W}_{k,E}$ ${\bf W}_{k,R}$ 分别用于计算基于内容(词向量)的 key 向量和基于位置的 key 向量。综上，Transformer-XL 计算 Attention 的公式如下：
+使用相对位置编码 $\mathbf{R}_{i-j}$ 取代（b）(d)项的绝对位置编码Uj $(\mathbf{R}_{i-j}$ 也有固定的编码方式，用正弦函数生成，没有要学习的参数）。 $\mathbf{U}_{i}^{\mathsf{T}}\mathbf{W}_{q}^{\mathsf{T}}$ 代表第i个位置的 query向量，因为在考虑相对位置的时候，不需要查询绝对位置，所以可以直接用可训练的统一的参数u和v分别取代（c）（d）项的 $\mathbf{U}_{i}^{\mathsf{T}}\mathbf{W}_{q}^{\mathsf{T}}$ 。权重矩阵 $\cdot\mathbf{W}_{k,E}$ $\mathbf{W}_{k,R}$ 分别用于计算基于内容(词向量)的 key 向量和基于位置的 key 向量。综上，Transformer-XL 计算 Attention 的公式如下：
 
 $$
-\begin{array}{rl}&{\mathbf{A}_{i,j}^{\mathrm{abs}}=\underbrace{\mathbf{E}_{x_{i}}^{\top}\mathbf{W}_{q}^{\top}\mathbf{W}_{k,E}\mathbf{E}_{x_{j}}}_{(a)}+\underbrace{\mathbf{E}_{x_{i}}^{\top}\mathbf{W}_{q}^{\top}\mathbf{W}_{k,R}\mathbf{R}_{i-j}}_{(b)}+\underbrace{u^{\top}\mathbf{W}_{k,E}\mathbf{E}_{x_{j}}}_{(c)}+\underbrace{v^{\top}\mathbf{W}_{k,R}\mathbf{R}_{i-j}}_{(d)}}\\&{\quad\quad=\big(\mathbf{W}_{q}\mathbf{E}_{x_{i}}+u\big)^{\top}\mathbf{W}_{k,E}\mathbf{E}_{x_{j}}+\big(\mathbf{W}_{q}\mathbf{E}_{x_{i}}+v\big)^{\top}\mathbf{W}_{k,R}\mathbf{R}_{i-j}}\end{array}
+\begin{aligned}\mathbf{A}_{i,j}^{\mathrm{abs}}&=\underbrace{\mathbf{E}_{x_i}^{\top}\mathbf{W}_q^{\top}\mathbf{W}_{k,E}\mathbf{E}_{x_j}}_{(a)}+\underbrace{\mathbf{E}_{x_i}^{\top}\mathbf{W}_q^{\top}\mathbf{W}_{k,R}\mathbb{R}_{i-j}}_{(b)}+\underbrace{u^{\top}\mathbf{W}_{k,E}\mathbf{E}_{x_j}}_{(c)}+\underbrace{v^{\top}\mathbf{W}_{k,R}\mathbb{R}_{i-j}}_{(d)}\\&=\left(\mathbf{W}_q\mathbf{E}_{x_i}+u\right)^{\top}\mathbf{W}_{k,E}\mathbf{E}_{x_j}+\left(\mathbf{W}_q\mathbf{E}_{x_i}+v\right)^{\top}\mathbf{W}_{k,R}\mathbb{R}_{i-j}\end{aligned}
 $$
 
 （a）项代表基于内容的寻址，（b）项基于内容的位置偏差，（c）项代表全局的内容偏差，（d）项代表全局的位置偏差。也可以将其合并成第二个等号后的形式。
@@ -1401,7 +1401,7 @@ $$
 同时考虑循环机制和相对位置编码的方法，用 $\mathbf{E}_{\mathbf{S}_{\tau}}$ 代表词嵌入序列，一个N层的Transformer-XL（只考虑一个 head）的计算公式可以归纳如下：
 
 $$
-\begin{array}{c}{{\bf h}_{\tau}^{0}={\bf E}_{s_{\tau}}}\\{\tilde{\bf h}_{\tau}^{n-1}=[\mathrm{SG}(\mathbf{m}_{\tau}^{n-1})\circ{\bf h}_{\tau}^{n-1}]}\\{{\bf q}_{\tau}^{n},{\bf k}_{\tau}^{n},{\bf v}_{\tau}^{n}={\bf h}_{\tau}^{n-1}{\bf W}_{q}^{n},\tilde{\bf h}_{\tau}^{n-1}{\bf W}_{k,\tau}^{n},\tilde{\bf\Phi}_{{\bf{h}}_{\tau}^{n}}^{n-1}{\bf W}_{v}^{n}}\\{{\bf A}_{\tau,i,j}^{n}={\bf q}_{\tau,i}^{n}{\bf\Phi}_{{\bf k}_{\tau,j}}^{\bf\Phi}+{\bf q}_{\tau,i}^{n}{\bf\Phi}_{{\bf K}_{k,R}}^{\bf n}{\bf R}_{i-j}+u^{\tau}{\bf k}_{\tau,j}+v^{\tau}{\bf W}_{k,R}^{n}{\bf R}_{i-j}}\\{{\bf a}_{\tau}^{n}=\mathrm{Masked-Softmax}\left({\bf A}_{\tau}^{n}\right){\bf v}_{\tau}^{n}}\\{{\bf{o}}_{\tau}^{n}=\mathrm{LayerNorm}(\mathrm{Linear}({\bf a}_{\tau}^{n})+{\bf h}_{\tau}^{n-1})}\\{{\bf h}_{\tau}^{n}=\mathrm{Positionwise-Feed-Forward}\left({\bf0}_{\tau}^{n}\right)}\end{array}
+\begin{aligned}\mathbf{h}_{\tau}^{0}&=\mathbf{E}_{S_{\tau}}\\\tilde{\mathbf{h}}_{\tau}^{n-1}&=[\mathrm{S}G(\mathbf{m}_{\tau}^{n-1})\circ\mathbf{h}_{\tau}^{n-1}]\\\mathbf{q}_{\tau}^{n},\mathbf{k}_{\tau}^{n},\mathbf{v}_{\tau}^{n}&=\mathbf{h}_{\tau}^{n-1}\mathbf{W}_{q}^{n\top},\tilde{\mathbf{h}}_{\tau}^{n-1}\mathbf{W}_{k,E}^{n\top},\tilde{\mathbf{h}}_{\tau}^{n-1}\mathbf{W}_{v}^{n\top}\\\mathbf{A}_{\tau,i,j}^{n}&=\mathbf{q}_{\tau,i}^{n\top}\mathbf{k}_{\tau,j}^{n}+\mathbf{q}_{\tau,i}^{n\top}\mathbf{W}_{k,R}^{n}\mathbf{R}_{i-j}+u^{\top}\mathbf{k}_{\tau,j}+v^{\top}\mathbf{W}_{k,R}^{n}\mathbf{R}_{i-j}\\\mathbf{a}_{\tau}^{n}&=\mathrm{Masked-Softmax}\left(\mathbf{A}_{\tau}^{n}\right)\mathbf{v}_{\tau}^{n}\\\mathbf{o}_{\tau}^{n}&=\mathrm{LayerNorm}(\mathrm{Linear}(\mathbf{a}_{\tau}^{n})+\mathbf{h}_{\tau}^{n-1})\\\mathbf{h}_{\tau}^{n}&=\mathrm{Positiveise-Feed-Forward}\left(\mathbf{o}_{\tau}^{n}\right)\end{aligned}
 $$
 
 可以看出 Transformer-XL 和 Vanilla Transformer 的一个重要区别是，前者每层计算Attention 都需要包含相对位置编码，但后者仅在单词首次嵌入时才会加上绝对位置编码。
@@ -1515,19 +1515,19 @@ $$
 Skip-gram 的任务是在已知当前词语w的情况下对上下文Context(w)中的词语进行预测，条件概率函数的构造在 skip-gram 中定义如下
 
 $$
-p(Context(w)|w)=\prod_{u\in Context(w)}p(u|w)
+p(Context(w)|w)=\prod_{u\in context(w)}p(u|w)
 $$
 
 类似 CBOW 中的推导，上式中p(u|w)可以写成
 
 $$
-\begin{array}{c}{{p(u|w)=\displaystyle\prod_{j=2}^{l^{w}}p(d_{j}^{u}|v(w),\theta_{j-1}^{u})}}\\{{{}}}\\{{p\big(d_{j}^{u}\big|v(w),\theta_{j-1}^{u}\big)=[\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]^{1-d_{j}^{u}}\cdot[1-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]^{d_{j}^{u}}}}\end{array}
+\begin{align*}p(u|w)=\prod_{j=2}^{l^w}p(d^u_j|v(w),\theta^u_{j-1})\quad\\p\big(d^u_j\big|v(w),\theta^u_{j-1}\big)=[\sigma\big(v(w)^T\theta^u_{j-1}\big)]^{1-d^u_j}\cdot[1-\sigma\big(v(w)^T\theta^u_{j-1}\big)]^{d^u_j}.\end{align*}
 $$
 
 将上式代入 Skip-gram 的目标函数，得到
 
 $$
-L=\sum_{w\in C}log\prod_{u\in Context(w)}\prod_{j=2}^{l^{w}}\big[\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)\big]^{1-d_{j}^{u}}\cdot\big[1-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)\big]^{d_{j}^{u}}
+L=\sum_{w\in C}log\prod_{u\in Context(w)}\prod_{j=2}^{l^w}\left[\sigma\big(v(w)^T\theta_{j-1}^u\big)\right]^{1-d_j^u}\cdot\left[1-\sigma\big(v(w)^T\theta_{j-1}^u\big)\right]^{d_j^u}
 $$
 
 $$
@@ -1537,33 +1537,33 @@ $$
 将三重求和符号内的表达式记为 $L(w,u,j)$
 
 $$
-\begin{array}{r}{L(w,u,j)=(1-d_{j}^{u})log\big[\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)\big]+d_{j}^{u}log\big[1-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)\big]}\end{array}
+L(w,u,j)=(1-d_{j}^{u})log\big[\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)\big]+d_{j}^{u}log\big[1-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)\big]
 $$
 
-下面继续推导 $L(w,u,j)$ 关于 $\cdot\theta_{j-1}^{u}\mathscr{K}v(w)$ 的梯度和更新公式：
+下面继续推导 $L(w,u,j)$ 关于 $\cdot\theta_{j-1}^{u}及v(w)$ 的梯度和更新公式：
 
-$L(w,u,j)$ 关 $\mp\theta_{j-1}^{u}$ 的梯度：
+$L(w,u,j)$ 关 $于\theta_{j-1}^{u}$ 的梯度：
 
 $$
-\begin{array}{rl}&{\frac{\Delta L(w,u,j)}{\Delta\theta_{j-1}^{u}}=\big\{\big(1-d_{j}^{u}\big)1-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)v(w)-d_{j}^{u}\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)x\big\}v(w)}\\&{\quad\quad\quad\quad=[1-d_{j}^{u}-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]v(w)}\end{array}
+\begin{align*}\frac{\Delta L(w,u,j)}{\Delta\theta_{j-1}^u}=\big\{\big(1-d_j^u\big)1-\sigma\big(v(w)^T\theta_{j-1}^u\big)v(w)-d_j^u\sigma\big(v(w)^T\theta_{j-1}^u\big)x\big\}v(w)\\=[1-d_j^u-\sigma\big(v(w)^T\theta_{j-1}^u\big)]v(w)\end{align*}
 $$
 
 $\theta_{j-1}^{u}$ 的更新公式：
 
 $$
-\theta_{j-1}^{u}\theta_{j-1}^{u}+\eta[1-d_{j}^{u}-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]v(w)
+\theta_{j-1}^{u}\leftarrow\theta_{j-1}^{u}+\eta[1-d_{j}^{u}-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]v(w)
 $$
 
 $L(w,u,j)$ 关于v(w)的梯度：
 
 $$
-\frac{\Delta L(w,u,j)}{\Delta v(w)}=[1-d_{j}^{u}-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]\theta_{j-1}^{u}
+\cfrac{\Delta L(w,u,j)}{\Delta v(w)}=[1-d_{j}^{u}-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]\theta_{j-1}^{u},
 $$
 
 $v(w)$ 的更新公式：
 
 $$
-v(w)\gets v(w)+\eta\sum_{u\in Context(w)}\sum_{j=2}^{l^{w}}[1-d_{j}^{u}-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]\theta_{j-1}^{u}
+v(w)\leftarrow v(w)+\eta\sum_{u\in Context(w)}\sum_{j=2}^{l^{w}}[1-d_{j}^{u}-\sigma\big(v(w)^{T}\theta_{j-1}^{u}\big)]\theta_{j-1}^{u}
 $$
 
 ## 基于 Negative Sampling 的 Skip-gram
@@ -1571,22 +1571,22 @@ $$
 符号记法与正文相同，定义单词u的标签如下，正样本的标签为 1，负样本的标签为 0：
 
 $$
-L^{w}(u)=\left\{\begin{array}{ll}{1,}&{u=w}\\{0,}&{u\neq w}\end{array}\right.
+L^{w}(u)=\Big\{\begin{aligned}1,\quad u=w\\0,\quad u\neq w\end{aligned}
 $$
 
-对于给定的样本(w, Context(w))，希望最大化 $g(w)$ ：
+对于给定的样本(w, Context(w))，希望最大化 $\cdot g(w)$ ：
 
 $$
-\begin{array}{l}{\displaystyle g(w)=\prod_{\widetilde{w}\in Context(w)}\prod_{u\in W\backslash U^{\widetilde{W}}(w)}p(u|\widetilde{w})}\\{\displaystyle p(u|\widetilde{w})=\Big\{_1-\sigma(v(\widetilde{w})^{T}\theta^{u}),\ L^{w}(u)=1}\\{\displaystyle-\sigma(v(\widetilde{w})^{T}\theta^{u}),\ L^{w}(u)=0}\\{=\big[\sigma(v(\widetilde{w})^{T}\theta^{u})\big]^{L^{w}(u)}\cdot[1-\sigma(v(\widetilde{w})^{T}\theta^{u})]^{1-L^{w}(u)}}\end{array}
+\begin{aligned}&g(w)=\prod_{\widetilde{w}\in Context(w)}\prod_{u\in w\cup NEU^{\widetilde{w}}(w)}p(u|\widetilde{w})\\&p(u|\widetilde{w})=\left\{\begin{aligned}&\sigma(v(\widetilde{w})^{T}\theta^{u}),L^{w}(u)=1\\&1-\sigma(v(\widetilde{w})^{T}\theta^{u}),L^{w}(u)=0\end{aligned}\right.\\&=[\sigma(v(\widetilde{w})^{T}\theta^{u})]^{L^{w}(u)}\cdot[1-\sigma(v(\widetilde{w})^{T}\theta^{u})]^{1-L^{w}(u)}\\\end{aligned}
 $$
 
-这里 $.NEU^{w}(\widetilde{w})$ 表示处理词w̃时生成的负样本子集，右上角的标记w代表此时中心词为$\scriptstyle w_{\circ}\ g(w)$ 简化以后也可以写成如下表达式：
+这里 $.NEU^{w}(\widetilde{w})$ 表示处理词w̃时生成的负样本子集，右上角的标记w代表此时中心词为$w。g(w)$ 简化以后也可以写成如下表达式：
 
 $$
-g(w)=\prod_{\tilde{w}\in Context{(w)}}\sigma(v(\widetilde{w})^{T}\theta^{w})\prod_{u\in NEU^{w}(\widetilde{w})}[1-\sigma(v(\widetilde{w})^{T}\theta^{u})]
+g(w)=\prod_{\widetilde{w}\in context(w)}\sigma(v(\widetilde{w})^T\theta^w)\prod_{u\in NEU^{\widetilde{w}}(\widetilde{w})}[1-\sigma(v(\widetilde{w})^T\theta^u)]
 $$
 
-最大化 $g(w)$ 希望 $\sigma(v(\widetilde{w})^{T}\theta^{u})$ 最大化的同时 $\mathfrak{r}(v(\widetilde{w})^{T}\theta^{u}),u\in NEU^{w}(\widetilde{w})$ 最小化，正好与Skip-gram 的目标相同。
+最大化 $\scriptstyle{\mathcal{J}}(w)$ 希望 $\sigma(v(\widetilde{w})^{T}\theta^{u})$ 最大化的同时 $\sigma(v(\widetilde{w})^{T}\theta^{u}),u\in NEU^{w}(\widetilde{w})$ 最小化，正好与Skip-gram 的目标相同。
 
 接下来对 Skip-gram 的原始目标函数进行改造，原始的目标函数为
 
@@ -1597,37 +1597,37 @@ $$
 改造后的目标函数为
 
 $$
-=\sum_{w\in C}\sum_{\substack{\widetilde{w}\in Context(w)}}\sum_{\substack{u\in w\cup NEU^{w}(\widetilde{w})}}L^{w}(u)\log[\sigma(v(\widetilde{w})^{T}\theta^{u})]+[1-L^{w}(u)]\log[1-\sigma(v(\widetilde{w})^{T}\theta^{u})]
+\begin{align*}L=\sum_{w\in C}logg(w)\\=\sum_{w\in C}\sum_{\widetilde{w}\in Context(w)}\sum_{u\in w\cup NEU^{w}(\widetilde{w})}L^{w}(u)\log[\sigma(v(\widetilde{w})^{T}\theta^{u})]+[1-L^{w}(u)]\log[1-\sigma(v(\widetilde{w})^{T}\theta^{u})].\end{align*}
 $$
 
-同样的为方便求梯度， $i\mathcal{Z}L(w,\widetilde{w},u)$
+同样的为方便求梯度， $记L(w,\widetilde{w},u)$
 
 $$
-{\cal L}(w,\widetilde{w},u)={\cal L}^{w}(u)\log[\sigma(v(\widetilde{w})^{T}\theta^{u})]+[1-{\cal L}^{w}(u)]\log[1-\sigma(v(\widetilde{w})^{T}\theta^{u})]
+L(w,\widetilde{w},u)=L^{w}(u)\log[\sigma(v(\widetilde{w})^{T}\theta^{u})]+[1-L^{w}(u)]\log[1-\sigma(v(\widetilde{w})^{T}\theta^{u})]
 $$
 
-$L(w,\widetilde{w},u)$ 关于 $\varTheta^{u}$ 的梯度为
+$L(w,\widetilde{w},u)$ 关于 $\cdot\theta^{u}$ 的梯度为
 
 $$
-\begin{array}{rl}&{\cfrac{\Delta L(w,\widetilde{w},u)}{\Delta\theta^{u}}=\{L^{w}(u)[1-\sigma(v(\widetilde{w})^{T}\theta^{u})]v(\widetilde{w})-[1-L^{w}(u)]\cdot\sigma(v(\widetilde{w})^{T}\theta^{u})\}v(\widetilde{w})}\\&{\qquad=[L^{w}(u)-\sigma(v(\widetilde{w})^{T}\theta^{u})]v(\widetilde{w})}\end{array}
+\begin{align*}\frac{\Delta L(w,\widetilde{w},u)}{\Delta\theta^u}=\{L^w(u)[1&-\sigma(v(\widetilde{w})^T\theta^u)]v(\widetilde{w})-[1-L^w(u)]\cdot\sigma(v(\widetilde{w})^T\theta^u)\}v(\widetilde{w})\\&=[L^w(u)-\sigma(v(\widetilde{w})^T\theta^u)]v(\widetilde{w})\end{align*}
 $$
 
 θu的更新公式：
 
 $$
-\theta^{u}\theta^{u}+\eta[L^{w}(u)-\sigma(v(\widetilde{w})^{T}\theta^{u})]v(\widetilde{w})
+\theta^{u}\leftarrow\theta^{u}+\eta[L^{w}(u)-\sigma(v(\widetilde{w})^{T}\theta^{u})]v(\widetilde{w})
 $$
 
 $L(w,\widetilde{w},u)$ 关于v(w̃)的梯度为
 
 $$
-\frac{\Delta L(w,\widetilde{w},u)}{\Delta v(\widetilde{w})}=[L^{w}(u)-\sigma(v(\widetilde{w})^{T}\theta^{u})]\theta^{u}
+\cfrac{\Delta L(\boldsymbol{w},\widetilde{\boldsymbol{w}},\boldsymbol{u})}{\Delta v(\widetilde{\boldsymbol{w}})}=[L^{w}(\boldsymbol{u})-\sigma(v(\widetilde{\boldsymbol{w}})^{T}\theta^{u})]\theta^{u}.
 $$
 
 v(w̃)的更新公式：
 
 $$
-v(\widetilde{w})\gets v(\widetilde{w})+\eta\sum_{\substack{u\in w\cup NEU^{w}(\widetilde{w})}}\frac{\Delta L(w,\widetilde{w},u)}{\Delta v(\widetilde{w})},\widetilde{w}\in Context(w)
+v(\widetilde{w})\leftarrow v(\widetilde{w})+\eta\sum_{u\in w\cup NEU^{W}(\widetilde{w})}\frac{\Delta L(w,\widetilde{w},u)}{\Delta v(\widetilde{w})},\ \widetilde{w}\in Context(w).
 $$
 
 ## 免责声明

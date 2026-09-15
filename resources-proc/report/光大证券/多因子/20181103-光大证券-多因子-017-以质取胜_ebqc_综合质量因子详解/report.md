@@ -69,13 +69,13 @@ liujunwei@ebscn.com
 原始的Gordon成长模型为：
 
 $$
-\mathrm{Price}={\frac{dividend}{requiredreturn-growth}}\tag{1}
+\mathrm{Price}={\frac{dividend}{required~return-growth}}\tag{1}
 $$
 
 利用净资产 B（Book Value）来缩放价格, 使其在一段时间内和横截面上更加稳定。等式两边同时除以净资产 B：
 
 $$
-{\frac{\mathrm{P}}{\mathrm{B}}}={\frac{{\frac{profit}{B}}*{\frac{dividend}{profit}}}{requiredreturn-growth}}\tag{2}
+\frac{P}{B}=\frac{\frac{profit}{B}*\frac{dividend}{profit}}{required\ return-growth}\tag{2}
 $$
 
 ![](images/1b84be6ea976f4e1b471de3ef57696bc3ddb540d14707b2eb1eb0a9188b82402.webp)
@@ -85,7 +85,7 @@ $$
 等式（2）则可以理解为：
 
 $$
-{\frac{\mathrm{P}}{\mathrm{B}}}={\frac{profitability*payout\_ratio}{requiredreturn-growth}}\tag{3}
+\frac{\mathrm{P}}{\mathrm{B}}=\frac{profitability*payout\_ratio}{required\ return-growth}\tag{3}
 $$
 
 等式右侧的四个部分就是对于公司质量定义的四个基础组成部分，其中，Profitability 为盈利能力，可以由 ROE、ROA、毛利率在内的多个盈利能力指标表示；payout_ratio表示股东所得红利在总利润中的占比，主要用来衡量公司管理层对于股东的友好程度；growth为成长能力，可以由不同的成长因子来评价；required return 则可以用来反映公司的稳定性或者安全性，因为要求回报率越高的公司，自然风险越大。
@@ -263,7 +263,7 @@ OCFA因子IC_IR 表现较好，在《创新基本面因子：捕捉产能利用�
 首先需要对应计利润的定义做出说明：
 
 $$
-\begin{array}{r}{\frac{\sqrt{3}}{2}\dot{\tau}+\dot{\phi}(1)\dot{\gamma}\vert\dot{\varepsilon}\vert=\frac{\mu\pm}{5}\vert\vert\dot{\varepsilon}\vert\vert\dot{\varepsilon}\vert\vert\dot{\varepsilon}\vert-\frac{2}{2}\vert\vert\dot{\varepsilon}\vert\vert\pm\vert\vert\pm\vert\vert\vert\int_{1}\dot{\varepsilon}\vert\mu\pm\frac{\mu}{\mu\lambda}\vert\frac{\mu}{\mu}\vert\dot{\phi}(\dot{\varepsilon})\vert\vert\dot{\varepsilon}\vert\vert}\end{array}
+应计利润$=$营业利润-经营性现金流量净额
 $$
 
 同时，为了使得不同规模的公司的该项指标能够进行横向比较，我们采用将应计利润除以营业利润作为应计利润占比指标，来作为盈余质量指标的一种构建方式，明显的，该指标数值越大，标的盈余质量越差。因为现金利润来源于当期经营净现金流的增加；而应计利润则更多反映对未来现金流的确认，应计利润中存在较大的利润操纵空间，从而导致应计利润持续性较差，拥有较高应计利润的公司未来盈余往往会出现下滑。所以基于以上的逻辑，应计利润占比越大的公司，盈余质量越差。

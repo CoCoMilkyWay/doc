@@ -146,7 +146,7 @@ Asness, Moskowitz and Pedersen (2013)发现即使在跨国家、跨资产类别�
 
 表 1：各市场和资产中，价值和动量组合的平均超额收益
 
-|  | $\underline{{\boldsymbol{V}_{1}}}$ | $\underline{{\boldsymbol{V}_{2}}}$ | $\underline{{\boldsymbol{V}_{3}}}$ | $\underline{{{\pmb{M}}_{1}}}$ | $M_{2}$ | $\underline{{{M}_{3}}}$ | V | M | $c$ |
+|  | $\boxed{V_{1}}$ | $\|V_{2}\|$ | $\|V_{3}\|$ | $\underline{{M_{1}}}$ | $M_{2}$ | $\underline{{M_{3}}}$ | V | M | $c$ |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | U.S. | 0.59 | 0.62 | 0.68 | 0.52 | 0.59 | 0.79 | 0.17 | 0.42 | 0.29 |
 |  | (2.56) | (3.11) | (3.20) | (2.10) | (3.06) | (3.38) | (0.81) | (1.84) | (3.26) |
@@ -198,7 +198,7 @@ MP为工业产量增速， $MP=logIP_{t}-logIP_{t-1}$ ，其中 $IP_{t}$ 为第t
 
 UI为未预期通胀， $UI_{t}=I_{t}-E[I_{t}|t-1]$
 
-DEI为预期通胀的变化量， $DEI_{t}=E[I_{t+1}|t]-E[I_{t}|t-1]$ . 其中 $I_{t}$ 为通胀率， $I_{t}=logCPI_{t}-logCPI_{t-1}$ ，CPI为季节调整后的消费者物价指数。预期通胀率 $E[I_{t}|t-1]=r_{f,t}-E[RHO_{t}|t-1]$ ，其中r 是短期利率， $r_{f,t}$ $RHO_{t}=r_{f,t}-I_{t}$ 为实际收益率。全球短期利率 $\cdot r_{f,t}$ 为每个国家短期利率的GDP 加权平均值。对于美国，我们使用 CRSP 数据库的 1 月期国库券利率，对于欧洲国家和日本，我们使用 Datastream 数据库的短期利率。受 Fama and Gibbons (1984) 的启发，本文对短期利率采取移动平均方法进行建模，即 $RHO_{t}-RHO_{t-1}=u_{t}+\theta u_{t-1}$ ，然后计算E $\begin{array}{rlr}{\mathrm{[}RHO_{t}|t-1]=}\end{array}$ $\left(r_{f,t-1}-I_{t-1}\right)-\hat{u}_{t}-\theta\hat{u}_{t-1}$
+DEI为预期通胀的变化量， $DEI_{t}=E[I_{t+1}|t]-E[I_{t}|t-1]$ . 其中 $I_{t}$ 为通胀率， $I_{t}=logCPI_{t}-logCPI_{t-1}$ ，CPI为季节调整后的消费者物价指数。预期通胀率 $E[I_{t}|t-1]=r_{f,t}-E[RHO_{t}|t-1]$ ，其中r 是短期利率， $r_{f,t}$ $RHO_{t}=r_{f,t}-I_{t}$ 为实际收益率。全球短期利率 $\boldsymbol{\cdot}\boldsymbol{r}_{f,t}$ 为每个国家短期利率的GDP 加权平均值。对于美国，我们使用 CRSP 数据库的 1 月期国库券利率，对于欧洲国家和日本，我们使用 Datastream 数据库的短期利率。受 Fama and Gibbons (1984) 的启发，本文对短期利率采取移动平均方法进行建模，即 $RHO_{t}-RHO_{t-1}=u_{t}+\theta u_{t-1}$ ，然后计算E $[RHO_{t}|t-1]=$ $\left(r_{f,t-1}-I_{t-1}\right)-\hat{u}_{t}-\theta\hat{u}_{t-1}.$
 
 UTS为全球的期限溢价，通过对全球各国的长期政府债券与短期政府债券的利差进行GDP 加权得到。
 
@@ -209,26 +209,26 @@ UPR是违约利差，为穆迪评级Baa与 Aaa的公司债的收益率之差。
 为了解全球宏观经济因子是否可以回答 Asness, Pedersen and Moskowitz（2013）提出的问题，第一步是估计 5 个 CRR 全球宏观风险因子的风险价格（即因子收益率），并检验这些因子是否可以解释不同组合的收益横截面。因此，我们采取常用的线性模型
 
 $$
-E\left(r_{i,t}\right)=\lambda_{0}+\beta^{\prime}\lambda
+E\big(r_{i,t}\big)=\lambda_{0}+\beta^{\prime}\lambda
 $$
 
-其中 $r_{i,t}$ 为资 $\cdot\vec{j^{z}}$ i的超额收益率， $\lambda_{0}$ 为常数项，λ为因子的风险价格向量（常被称为因子收益率）， $\beta$ 为回归系数（常被称为因子暴露和因子载荷）。我们采取Fama-MacBeth 回归对模型进行估计。
+其中 $r_{i,t}$ 为资 $\cdot 产$ i的超额收益率， $\lambda_{0}$ 为常数项，λ为因子的风险价格向量（常被称为因子收益率）， $\beta$ 为回归系数（常被称为因子暴露和因子载荷）。我们采取Fama-MacBeth 回归对模型进行估计。
 
 具体来说，第一步回归为每个资产i在时序上的回归
 
 $$
-\boldsymbol{r}_{i,t}=\alpha_{i}+\beta_{i,MP}M\boldsymbol{P}_{t}+\beta_{i,UI}UI_{t}+\beta_{i,DEI}DEI_{t}+\beta_{i,UTS}UTS_{t}+\beta_{i,UPR}UPR_{t}+\epsilon_{i,UP}UI_{t},
+r_{i,t}=\alpha_{i}+\beta_{i,MP}MP_{t}+\beta_{i,UI}UI_{t}+\beta_{i,DEI}DEI_{t}+\beta_{i,UTS}UTS_{t}+\beta_{i,URR}UPR_{t}+\epsilon_{i,t}
 $$
 
-其中 $MP_{t},UI_{t},DEI_{t},UTS_{t}\mathcal{\vec{F}}^{\circ}UPR_{t}$ 分别为工业 $\dot{\mathcal{P}}$ 量增长率，未预期通胀，预期通胀的变化率，期限利差以及违约利差。回归所得系数估计为$\hat{\beta}_{i,MP},\hat{\beta}_{i,UI},\hat{\beta}_{i,DEI},\hat{\beta}_{i,UTS}\hat{\mathcal{F}}^{\alpha}\hat{\beta}_{i,UPR}$
+其中 $MP_{t},UI_{t},DEI_{t},UTS_{t}和UPR_{t}$ 分别为工业 $产$ 量增长率，未预期通胀，预期通胀的变化率，期限利差以及违约利差。回归所得系数估计为$\hat{\beta}_{i,MP},\hat{\beta}_{i,UI},\hat{\beta}_{i,DEI},\hat{\beta}_{i,UTS}和\hat{\beta}_{i,UPR}$
 
 第二步为截面上的回归
 
 $$
-\bar{r}_{i,t}=\alpha_{i}+\hat{\beta}_{i,MP}\lambda_{MP}+\hat{\beta}_{i,UI}\lambda_{UI}+\hat{\beta}_{i,DEI}\lambda_{DEI}+\hat{\beta}_{i,UTS}\lambda_{UTS}+\hat{\beta}_{i,UPR}\lambda_{UPR}+\eta_{i}
+\bar{\tau}_{i,t}=\alpha_{i}+\hat{\beta}_{i,MP}\lambda_{MP}+\hat{\beta}_{i,UI}\lambda_{UI}+\hat{\beta}_{i,DEI}\lambda_{DEI}+\hat{\beta}_{i,UTS}\lambda_{UTS}+\hat{\beta}_{i,URR}\lambda_{URR}+\eta_{i,t}
 $$
 
-这里 $\bar{\boldsymbol{r}}_{i,t}$ 为组合i的平均超额收益率， $\lambda_{MP}$ 为工业产量因子的风险价格， $\lambda_{UI}$ 为未预期通胀因子的风险价格， $\lambda_{DEI}$ 为预期通胀变化因子的风险价格，$\lambda_{UTS}$ 为期限利差因子的风险价格， $\lambda_{UPR}$ 为违约利差因子的风险价格。
+这里 $.\bar{r}_{i,t}$ 为组合i的平均超额收益率， $\lambda_{MP}$ 为工业产量因子的风险价格， $\lambda_{UI}$ 为未预期通胀因子的风险价格， $\lambda_{DEI}$ 为预期通胀变化因子的风险价格，$\lambda_{UTS}$ 为期限利差因子的风险价格， $\lambda_{UPR}$ 为违约利差因子的风险价格。
 
 ## 4.1. 全球 CRR因子模型对48个价值与动量组合的定价表现
 
@@ -242,7 +242,7 @@ UPR 的风险价格为-0.02。违约利差上升通常被解释为信用状况�
 
 表 4：48个价值与动量组合回归所得的全球 CRR因子的风险价格
 
-|  | $\widehat{\gamma}_{\mathbf{0}}$ | $\widehat{\gamma}_{MP}$ | ${\underline{{\widehat{\gamma}}}}_{UI}$ | $\underline{{\widehat{\gamma}_{DEI}}}$ | $\widehat{\gamma}_{UTS}$ | $\widehat{\gamma}_{UPR}$ | R2(%) | Avg.P.E. |
+|  | $\widehat{\gamma}_{0}$ | $\widehat{\gamma}_{MP}$ | $\underline{{\|\hat{\gamma}_{UI}\|}}$ | $\boxed{\widehat{\gamma}_{DEI}}$ | $\widehat{\gamma}_{UTS}$ | $\widehat{\gamma}_{UPR}$ | R2(%) | Avg.P.E. |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Price of risk | 0.272 | 0.371 | -0.027 | -0.217 | -0.021 | -0.017 | 50.5 | 0.144 |
 | t-statistic | 4.212 | 3.521 | -0.662 | -4.513 | -1.059 | -4.164 |  |  |
@@ -257,9 +257,9 @@ UPR 的风险价格为-0.02。违约利差上升通常被解释为信用状况�
 
 表 5：全球CRR因子模型的定价误差
 
-|  |  |  | $\pmb{V}_{2}$ | $V_{3}$ | $\underline{{{\pmb{M}}_{1}}}$ | $M_{2}$ | $M_{3}$ |
+|  |  |  | $V_{2}$ | $V_{3}$ | $\underline{{M_{1}}}$ | $M_{2}$ | $M_{3}$ |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| U.S. | P.E. | $\underline{{\boldsymbol{V}_{1}}}$ 0.086 | 0.108 | 0.299 | 0.125 | 0.234 | 0.211 |
+| U.S. | P.E. | $\underline{{\underline{{V_{1}}}}}$ 0.086 | 0.108 | 0.299 | 0.125 | 0.234 | 0.211 |
 | U.K. | AR/ER | 1.171 | 1.211 | 1.794 | 1.317 | 1.651 | 1.366 |
 |  | P.E. | -0.114 | 0.013 | 0.261 | -0.389 | 0.228 | 0.058 |
 | EU | AR/ER | 0.803 | 1.023 | 1.518 | 0.302 | 1.436 | 1.074 |

@@ -60,11 +60,11 @@ APM因子在样本内（2013年5月-2016年10月）表现良好，五分组多�
 
 原始APM因子的计算步骤：
 
-第一步：对选定股票，回溯取其过去20日数据，记逐日上午的股票收益率为 $r_{t}^{am}$ ，指数收益率为 $R_{t}^{am}$ ；逐日下午的股票收益率为 $r_{t}^{pm}$ ，指数收益率为 $R_{t}^{pm}$ ；
+第一步：对选定股票，回溯取其过去20日数据，记逐日上午的股票收益率为 $r_{t}^{am}$ ，指数收益率为 $R_{t}^{am}$ ；逐日下午的股票收益率为 $\cdot r_{t}^{pm}$ ，指数收益率为 $R_{t}^{pm}$ ；
 
-第二步：将得到的40组上午与下午(r,R)的收益率数据进行回归： $r_{i}=\alpha+\beta R_{i}+$ $\varepsilon_{i}.$ ，得到残差项 $\varepsilon_{i}$
+第二步：将得到的40组上午与下午(r,R)的收益率数据进行回归： $r_{i}=\alpha+\beta R_{i}+$ $\varepsilon_{i},$ ，得到残差项 $\varepsilon_{i}$
 
-第三步：以上得到的40个残差 $\varepsilon_{i}$ 中，上午残差记为 $\varepsilon_{t}^{am}$ ，下午残差记为 $\varepsilon_{t}^{pm}$ ，进一步计算每日上午与下午残差的差值 $\delta_{t}=\varepsilon_{t}^{am}-\varepsilon_{t}^{pm}$
+第三步：以上得到的40个残差 $\varepsilon_{i}$ 中，上午残差记为 $\varepsilon_{t}^{am}$ ，下午残差记为 $\varepsilon_{t}^{pm}$ ，进一步计算每日上午与下午残差的差值 $\boldsymbol{.\delta_{t}}=\boldsymbol{\varepsilon_{t}^{am}}-\boldsymbol{\varepsilon_{t}^{pm}}$
 
 第四步：构造统计量stat来衡量上午与下午残差的差异程度，计算公式如下 $(\mu$ 为均值， $\sigma$ 为标准差）：
 
@@ -89,11 +89,11 @@ APM因子在2019年的表现并不尽如人意，我们希望从源头上去探�
 为此，我们从计算APM因子的过程中取中间变量，来构造如下的两个因子：
 
 $$
-r_{t}^{am}\colon\dot{\mathfrak{x}}\pm20\ \sharp\sharp\sharp\underline{{\neq}}\ \pounds\in\mathfrak{f}\sharp\sharp\mathfrak{z}\stackrel{}{\mathrm{\#}}\ \sharp\mathfrak{z}\stackrel{}{\mathrm{\#}}\ \mathfrak{h}\varkappa\big|\dot{\mathfrak{z}}
+$r_{t}^{am}:过去20日股票上午的收益累加值$
 $$
 
 $$
-r_{t}^{pm}:\dot{\mathfrak{x}}\dot{\mathfrak{x}}\pm20\boxdot{\mathfrak{h}}\ddot{\mathfrak{x}}\frac{\oplus}{\mathfrak{h}}\top\dddot{\mathfrak{x}}\ddot{\mathfrak{y}}\mathfrak{h}\ddot{\mathfrak{x}}\frac{\ddot{\mathfrak{x}}}{\mathfrak{h}}\mathfrak{x}\ddot{\mathfrak{z}}
+$r_{t}^{pm}\text{: }过去20日股票下午的收益累加值$
 $$
 
 分别考察ram和rpm与未来20日股票日收益的相关性，记做ICIRam和ICIRpm。如图2 所示，在全样本区间（2013年6月-2019年12月）与2019年，ICIRam和ICIRpm的均值表现差异较大。

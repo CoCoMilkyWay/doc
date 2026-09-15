@@ -229,19 +229,19 @@ Levine等人（2000）则认为可以从四个方面定义企业的财务困境�
 1）若指标为正向指标（即指标值越大越好）：
 
 $$
-x_{i}=\frac{x_{i}-\operatorname*{min}\left(x_{i}\right)}{\operatorname*{max}(x_{i})-\operatorname*{min}\left(x_{i}\right)}
+x_{i}=\frac{x_{i}-\min(x_{i})}{\max(x_{i})-\min(x_{i})}
 $$
 
 2）若指标为反向指标（即指标值越小越好）：
 
 $$
-x_{i}={\frac{\operatorname*{max}(x_{i})-x_{i}}{\operatorname*{max}(x_{i})-\operatorname*{min}\left(x_{i}\right)}}
+x_{i}=\frac{\max(x_{i})-x_{i}}{\max(x_{i})-\min(x_{i})}
 $$
 
 3）若指标为区间型指标（即指标在某区间内最好）
 
 $$
-x_{i}=\left\{\begin{array}{cc}{1-\displaystyle\frac{\mathrm{a}-x_{i}}{\operatorname*{max}(a-\operatorname*{min}{(x_{i})},~\operatorname*{max}{(x_{i})}-\mathrm{b})},}&{x_{i}<a}\\{1,}&{a<x_{i}<b}\\{1-\displaystyle\frac{x_{i}-b}{\operatorname*{max}(a-\operatorname*{min}{(x_{i})},~\operatorname*{max}{(x_{i})}-\mathrm{b})},}&{b<x_{i}}\end{array}\right.
+x_{i}=\left\{\begin{array}{cc}1-\frac{a-x_{i}}{\max\left(a-\min\left(x_{i}\right),\max\left(x_{i}\right)-b\right)},&x_{i}<a\\1,&a<x_{i}<b\\1-\frac{x_{i}-b}{\max\left(a-\min\left(x_{i}\right),\max\left(x_{i}\right)-b\right)},&b<x_{i}\end{array}\right.
 $$
 
 通过上述方式，我们将指标都转换为 0-1 之间的正向指标，即越接近 1 表示公司风险越小，越接近 0 表示公司风险越大。同时，为了剔除行业因素的影响，我们在中信行业中进行无量纲化处理。
@@ -251,7 +251,7 @@ $$
 上文已提到，本文用未来三年内被特殊处理作为公司财务危机的代理变量。下面我们计算每年指标前 5%与后 5%的财务危机公司比例，并通过 t 检验评估指标是否具有区分能力（指标前5%和后5%的财务危机公司比例是否有显著区别），其中 t统计量的计算方式为：
 
 $$
-t={\frac{{\overline{{X_{1}}}}-{\overline{{X_{2}}}}}{\sqrt{{\frac{\sum x_{1}^{2}-\sum x_{2}^{2}}{n_{1}+n_{2}-2}}\times{\frac{n_{1}+n_{2}}{n_{1}\times n_{2}}}}}}
+t=\frac{\overline{X_1}-\overline{X_2}}{\sqrt{\frac{\sum x_1^2-\sum x_2^2}{n_1+n_2-2}\times\frac{n_1+n_2}{n_1\times n_2}}}
 $$
 
 图表 8、各指标财务危机判别能力评价
@@ -324,7 +324,7 @@ $$
 
 ## 第二步：确定突变级数法评价指标体系的突变系统类型
 
-考虑一个形态通常是光滑的，但有时也呈现出不连续的系统。一般假定系统在任何时刻的状态都可完全由给定 n 个变量 $(x_{1},\ x_{2},\ldots,\ x_{n})$ 的值确定，n 是有限的，但可以很大。也可以假定系统受到 m个独立变量 $(u_{1},\ u_{2},\ u_{}...\ ,\ u_{m})$ 的控制，这些变量的值决定了 $x_{i}$ 的值。我们把 ${\bf\mathcal{x}}_{i}$ 称为状态变量或内部变量， $u_{i}$ 称为控制变量或外部变量。
+考虑一个形态通常是光滑的，但有时也呈现出不连续的系统。一般假定系统在任何时刻的状态都可完全由给定 n 个变量 $(x_{1},x_{2},\ldots,x_{n})$ 的值确定，n 是有限的，但可以很大。也可以假定系统受到 m个独立变量 $(u_{1},u_{2},\ldots,u_{m})$ 的控制，这些变量的值决定了 $x_{i}$ 的值。我们把 $ix_{i}$ 称为状态变量或内部变量， $u_{i}$ 称为控制变量或外部变量。
 
 常见的突变类型有三种，具体参见图表 10。
 
@@ -333,14 +333,14 @@ $$
 | 类型 | 尖点突变系统 | 燕尾突变系统 | 蝴蝶突变系统 |
 | --- | --- | --- | --- |
 | 控制变量 | 2 | 3 | 4 |
-| 势函数 | $\begin{array}{l}{{f(x)=}}\\{{x^{4}+ax^{2}+bx}}\end{array}$ | $f(x)=$ | $f(x)=$ |
-|  |  | ${\frac{x^{5}}{5}}+a{\frac{x^{3}}{3}}+b{\frac{x}{2}}+cx$ | ${\frac{x^{6}}{6}}+a{\frac{x^{4}}{4}}+b{\frac{x^{2}}{3}}+c{\frac{x^{2}}{2}}+dx$ |
+| 势函数 | $\begin{array}{c}{f(x)=}\\{x^{4}+ax^{2}+bx}\end{array}$ | $f(x)=$ | $f(x)=$ |
+|  |  | ${\cfrac{x^{5}}{5}}+a{\cfrac{x^{3}}{3}}+b{\cfrac{x}{2}}+cx$ | $\frac{x^{6}}{6}+a\frac{x^{4}}{4}+b\frac{x^{2}}{3}+c\frac{x^{2}}{2}+dx$ |
 
 资料来源：兴业证券经济与金融研究院
 
 ## 第三步：由突变系统的分歧方程导出归一公式
 
-突变系统的势函数f(x)其所有临界点集合成平衡曲面M，方程可通过对（f x）求一阶导得到，即 $f^{\prime}(x){=}0$ ，它的奇点集通过对（f x）求二阶导数得到，即 $f^{\prime\prime}(x){=}0$ 由 $f^{\prime}(x){=}0\ {\hat{\ast}}{\cdot}\sigma f^{\prime\prime}(x){=}0$ 消去 x，则得到突变系统的分歧点集方程，分歧点集方程表明诸控制变量满足此方程时，系统就会发生突变。通过分解形式的分歧点集导出归一公式，由归一公式将系统内诸控制变量不同质态转换为同一质态，即化为状态变量表示的质态。
+突变系统的势函数f(x)其所有临界点集合成平衡曲面M，方程可通过对（f x）求一阶导得到，即 $f^{\prime}(x)=0$ ，它的奇点集通过对（f x）求二阶导数得到，即 $f^{\prime\prime}(x){=}0$ 由 $f^{\prime}(x)=0和f^{\prime\prime}(x)=0$ 消去 x，则得到突变系统的分歧点集方程，分歧点集方程表明诸控制变量满足此方程时，系统就会发生突变。通过分解形式的分歧点集导出归一公式，由归一公式将系统内诸控制变量不同质态转换为同一质态，即化为状态变量表示的质态。
 
 图表 11、突变级数法各系统模型归一公式
 
@@ -348,15 +348,15 @@ $$
 | --- | --- | --- | --- |
 | 控制变量 | 2 | 3 | 4 |
 |  | f(x) = | $f(x)=$ | $f(x)=$ |
-| 势函数 | $x^{4}+ax^{2}+bx$ | ${\frac{x^{5}}{5}}+a{\frac{x^{3}}{3}}+b{\frac{x}{2}}+cx$ | ${\frac{x^{6}}{6}}+a{\frac{x^{4}}{4}}+b{\frac{x^{2}}{3}}+c{\frac{x^{2}}{2}}+dx$ |
-|  | $x_{a}=a_{2}^{\frac{1}{2}},$ | $x_{a}=a^{\frac{1}{2}},x_{b}=b^{\frac{1}{3}},$ | $x_{a}=a^{\frac{1}{2}},x_{b}=b^{\frac{1}{3}},$ |
-| 归一公式 | $x_{b}=b^{\frac{2}{3}}$ | $x_{c}=c^{\frac{1}{4}}$ | $x_{c}=c^{\frac{1}{4}},x_{d}=d^{\frac{1}{5}}$ |
+| 势函数 | $x^{4}+ax^{2}+bx$ | ${\cfrac{x^{5}}{5}}+a{\cfrac{x^{3}}{3}}+b{\cfrac{x}{2}}+cx$ | $\frac{x^{6}}{6}+a\frac{x^{4}}{4}+b\frac{x^{2}}{3}+c\frac{x^{2}}{2}+dx$ |
+|  | $x_{a}=a^{\frac{1}{2}},$ | $x_{a}=a^{\frac{1}{2}},\quad x_{b}=b^{\frac{1}{3}},$ | $x_{a}=a^{\frac{1}{2}},\quad x_{b}=b^{\frac{1}{3}},$ |
+| 归一公式 | $x_{b}=b^{\frac{2}{3}}$ | $x_{c}=c^{\frac{1}{4}}$ | $x_{c}=c^{\frac{1}{4}},\quad x_{d}=d^{\frac{1}{5}}$ |
 
 资料来源：兴业证券经济与金融研究院
 
 ## 第四步：利用归一公式进行综合评价
 
-根据模糊理论，在多目标的情况下，若设 $A_{1},~A_{2},~\ldots,~A_{n}$ 为模糊目标集，则要满足以上目标的理想策略为 $\mathrm{C}=A_{1}|A_{2}|\ldots|A_{n}$ 。设 $u_{A_{1}},~u_{A_{2}},~...,~u_{A_{n}}$ 分别为$A_{1},~A_{2},~\ldots,~A_{n}$ 的隶属函数， ${u}_{c(x)}$ 为C的隶属函数，则 $u_{c(x)}{=}{\operatorname*{min}}[u_{A_{1}},\ u_{A_{2}},u_{A_{n}}]$ 即采用“大中取小”的原则，因此在利用归一公式对同一对象计算出的 x 值也应采用“大中取小”原则，但互补性的指标通常采用其平均值代理。在综合评价的最后一步，按评价对象的总评价指标值从大到小的顺序排序。
+根据模糊理论，在多目标的情况下，若设 $A_{1},A_{2},\ldots,A_{n}$ 为模糊目标集，则要满足以上目标的理想策略为 $\mathrm{C}{=}A_{1}|A_{2}|\ldots\ldots|A_{n}$ 。设 $u_{A_{1}},u_{A_{2}},\ldots,u_{A_{n}}$ 分别为$A_{1},A_{2},\ldots,A_{n}$ 的隶属函数， $\mathcal{u}_{c(x)}$ 为C的隶属函数，则 $u_{c(x)}=\min[u_{A_1},u_{A_2},u_{A_n}]$ 即采用“大中取小”的原则，因此在利用归一公式对同一对象计算出的 x 值也应采用“大中取小”原则，但互补性的指标通常采用其平均值代理。在综合评价的最后一步，按评价对象的总评价指标值从大到小的顺序排序。
 
 图表 12、突变级数法步骤
 ![](images/e67c069db1742c464f837e2522dfd7b44288e46bf711d1a1109712ee609a884e.webp)
@@ -798,11 +798,11 @@ A 股存在 ST 制度，对财务状况或其他状况出现异常的公司进�
 为更好的度量存贷双高，我们构建货币资金占比、有息负债占比两个指标表示企业存款、贷款情况。本文将货币资金占比、有息负债占比同时大于 30%的情况认定为造假概率较大：
 
 $$
-1)17\div\frac{2}{5}=5kt=5\times\frac{12}{17}+\frac{2}{17}=5k=\frac{12}{15}
+货币资金占比=广义货币资金/总资产
 $$
 
 $$
-\begin{array}{rl}\frac{\ddagger}{\hbar}\Psi,~J^{-}\mathrm{\Large~\textstyle~\mathcal~\mathcal~\int~}\mathrm{\Large~\mathfrak~\mathfrak{H}~}\mathrm{\Large~\mathfrak~\mathfrak{H}~}\mathrm\Large~\frac{\dddot~}{\hbar}~\mathfrak\frac{\ddot{\varphi}}{\mathfrak{H}}~\Longleftrightarrow~\frac{4\pi}{3\mathrm{\Large~\mathfrak~\mathfrak~\mathfrak{H}~}}\mathrm\Large~\frac{\ddot{\varphi}}{\mathfrak{H}}~\Longleftrightarrow~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\Longleftrightarrow~\frac{4\pi}{3\mathrm{\Large~\mathfrak~\mathfrak~\mathfrak{H}~}}~+~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm{\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm{\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\Longleftrightarrow~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm{\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\dot{\varphi}}~}}\\&~\ddot{\mathfrak{H}}~\mathrm{\Large~\mathfrak~\mathfrak\mathfrak~\mathfrak{H}~}\mathrm\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\Longleftrightarrow~\dot{\varphi}~\mathrm{\Large~\dot~\mathfrak\mathfrak{H}~}=~\ddot{\mathfrak{H}}~\mathrm{\Large~\mathfrak~\mathfrak\mathfrak{H}~}/\frac{\dot{\varphi}}{\mathfrak{H}}~/\mathrm\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm{\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\dot{\varphi}}~\mathrm\Large~\frac{\ddot{\varphi}}{\mathfrak{H}}~\mathrm\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm\Large~\frac{\dot{\varphi}}{\mathfrak{H}}~\mathrm\Large~\end{array}
+\begin{aligned}其中,\ 广义货币资金=&货币资金+应收票据+其他流动资产\\&有息负债占比=有息负债/总资产\end{aligned}
 $$
 
 其中，有息负债 = 短期借款 + 应付票据 + 一年内到期的非流动负债 + 应付短期债券 + 长期借款 + 应付债券

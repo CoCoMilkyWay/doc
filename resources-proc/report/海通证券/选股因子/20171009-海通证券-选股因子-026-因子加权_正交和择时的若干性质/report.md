@@ -36,25 +36,25 @@ Email:fengjr@htsec.com
 
 ## 1. 最大化复合因子 加权等价于 Fama-MacBeth回归法
 
-在多因子选股模型中，有一个非常重要的概念——因子 ，它被定义为因子值和股票收益率之间的线性相关系数。假设 $F_{t}$ 为 期的因子， $r_{t+1}$ 为 期的收益，则
+在多因子选股模型中，有一个非常重要的概念——因子 ，它被定义为因子值和股票收益率之间的线性相关系数。假设 $F_{t}$ 为 期的因子， $r_{\mathtt{f}+1}$ 为 期的收益，则
 
 $$
-IC=corr(F_{t},r_{t+1}).
+IC=corr(F_{\mathfrak{k}},r_{\mathfrak{k}+1}).
 $$
 
 因子 度量了选股因子对股票收益预测能力的强弱，是因子有效性高低的判别标准。其绝对值越大，表明预测收益的能力越强，也即越有效。
 
 多因子选股模型的另一个重要问题是如何分配因子的权重。一个朴素的想法是因子越有效，权重应当越高。但是，因子 并非常数，其波动的大小同样影响着加权效果。考虑到这两方面的因素，Qian 等人1（2007）提出了最大化复合因子 的加权算法。
 
-具体地，记 $\scriptstyle{\vec{F}}$ 为当期的因子向量， 是其对应的权重向量。那么，使得复合因子 $\cdot\vec{F}$ 的 最大化的解为，
+具体地，记 $\vec{F}$ 为当期的因子向量， 是其对应的权重向量。那么，使得复合因子 $r\bar{\bar{F}}$ 的 最大化的解为，
 
 $$
-\begin{array}{r}{\overrightarrow{w}_{ovt}=\Sigma^{-1}\overrightarrow{IC}.}\end{array}
+\begin{array}{r}{\overrightarrow{w}_{opt}=\Sigma^{-1}\overrightarrow{IC}.}\end{array}
 $$
 
-其中， $\scriptstyle{\overline{{IC}}}$ 为所有因子的 值组成的向量， 为因子的协方差矩阵。
+其中， $\overline{{IC}}$ 为所有因子的 值组成的向量， 为因子的协方差矩阵。
 
-构建多因子组合的另一种方式是建立股票收益的预测模型，即建 $\dot{\overline{{\mathscr{L}}}}t+1$ 期的收益$r_{t+1}$ 与 期的因子 $F_{t}$ 之间的 Fama-MacBeth 回归。具体形式为，
+构建多因子组合的另一种方式是建立股票收益的预测模型，即建 $立t+1$ 期的收益$r_{\mathtt{f}+1}$ 与 期的因子 $F_{t}$ 之间的 Fama-MacBeth 回归。具体形式为，
 
 $$
 r_{t+1}=c+F_{t}f+\varepsilon_{t}.
@@ -66,16 +66,16 @@ $$
 
 性质 1：若收益率和因子都为原始值的 z-score，则最大化复合因子 加权法等价于Fama-MacBeth 回归。
 
-证明：分别记 $\tilde{F}_{t}$ 和 $\tilde{r}_{t+1}$ 为收益率和因子的 z-score，容易推得，常数项 和因子溢价向量 的最小二乘估计分别为
+证明：分别记 $\tilde{F}_{t}$ 和 $\tilde{r}_{\mathtt{f}+1}$ 为收益率和因子的 z-score，容易推得，常数项 和因子溢价向量 的最小二乘估计分别为
 
 $$
-\hat{c}=0,\hat{f}=(\tilde{F}_{t}^{\prime}\tilde{F}_{t})^{-1}\tilde{F}_{t}^{\prime}\tilde{r}_{t+1}.
+\hat{c}=0,\hat{f}=(\tilde{F}_{\tt f}^{\prime}\tilde{F}_{\tt f}^{\prime})^{-1}\tilde{F}_{\tt f}^{\prime}\tilde{r}_{\tt f+1}.
 $$
 
-又因为 $\tilde{F}_{t}$ 和 $\tilde{r}_{\tau+1}$ 恰为 z-score，则由样本协方差矩阵和相关系数的定义可知，
+又因为 $\tilde{F}_{t}$ 和 $\tilde{r}_{\tt f+1}$ 恰为 z-score，则由样本协方差矩阵和相关系数的定义可知，
 
 $$
-\tilde{F}_{t}^{\prime}\tilde{F}_{t}=\Sigma,\tilde{F}_{t}^{\prime}\tilde{r}_{t+1}=\overrightarrow{IC}.
+\begin{array}{r}{\tilde{F}_{\bar{t}}^{\prime}\tilde{F}_{\bar{t}}=\Sigma,\quad\tilde{F}_{\bar{t}}^{\prime}\tilde{r}_{\bar{t}+1}=\overrightarrow{IC}.}\end{array}
 $$
 
 故，Fama-MacBeth回归对收益率的预测值等于最大化复合因子 加权法的股票得分。
@@ -88,12 +88,12 @@ $$
 
 因此，有人提出用正交化后的因子代替原始因子，以避免上述问题的发生。海通证券金融工程团队也曾就“因子正交”这一主题撰写了相关研究报告——《选股因子系列研究(十七)——选股因子的正交》，其中详细阐述了因子正交的步骤，本文不再赘述。那么，使用正交因子究竟能为模型带来哪些便利和改变，以下两条重要性质值得关注。
 
-性质 $\pmb{2}\colon$ ：在原始的 Fama-MacBeth 回归模型中加入和已有因子正交的新因子，不会改变原始模型得到的因子溢价估计值。
+性质 $\mathbf{2};$ ：在原始的 Fama-MacBeth 回归模型中加入和已有因子正交的新因子，不会改变原始模型得到的因子溢价估计值。
 
-证明：设原始模型中包含 个因子 $F_{1},\dots,F_{m}$ ，将它们构成的因子矩阵记为 。新加入模型的因子为 ，将其对原因子 进行正交，建立如下的回归方程，
+证明：设原始模型中包含 个因子 $F_{1},\ldots,F_{m}$ ，将它们构成的因子矩阵记为 。新加入模型的因子为 ，将其对原因子 进行正交，建立如下的回归方程，
 
 $$
-x=X\beta+\varepsilon.
+x=\bar{X}\beta+\varepsilon.
 $$
 
 回归系数 的最小二乘估计为，
@@ -102,42 +102,42 @@ $$
 {\hat{\beta}}=(X^{\prime}X)^{-1}X^{\prime}x.
 $$
 
-正交因子 $\cdot_{x^{(0)}}$ 即为上述回归方程的残差，具体形式为，
+正交因子 $x^{(\diamond)}$ 即为上述回归方程的残差，具体形式为，
 
 $$
-x^{(\mathcal{O})}=x-\bar{X}\hat{\beta}=x-\bar{X}(\bar{X}^{\prime}\bar{X})^{-1}\bar{X}^{\prime}x\triangleq x-Px=(I-\bar{P})x.
+x^{(\vartheta)}=x-X{\hat{\beta}}=x-X(X^{\prime}X)^{-1}X^{\prime}x\triangleq x-Px=(I-P)x.
 $$
 
-其中， $P=X(X^{\prime}X)^{-1}X^{\prime}$ 称为投影矩阵，且满足以下五条性质。
+其中， $\hat{P}=X(X^{\prime}X)^{-1}X^{\prime}$ 称为投影矩阵，且满足以下五条性质。
 
 $$
-(1)P^{2}=X(X^{\prime}X)^{-1}X^{\prime}X(X^{\prime}X)^{-1}X^{\prime}=X(X^{\prime}X)^{-1}X^{\prime}=P.
+P^{2}=X(X^{\prime}X)^{-1}X^{\prime}X(X^{\prime}X)^{-1}X^{\prime}=X(X^{\prime}X)^{-1}X^{\prime}=P.
 $$
 
-(2) $(I-P)^{2}=(I-P)(I-P)=I-2P+P^{2}=I-P.$
+(2) $\begin{array}{r}{(I-P)^{2}=(I-P)(I-P)=I-2P+P^{2}=I-P.}\end{array}$
 
-(3) $\begin{array}{r}{(I-P)X=X-X(X^{\prime}X)^{-1}X^{\prime}X=0.}\end{array}$
+(3) $\left(I-P\right)X=X-X\left(X^{\prime}X\right)^{-1}X^{\prime}X=0.$
 
-(4) $X^{\prime}\left(I-P\right)=X^{\prime}-X^{\prime}X(X^{\prime}X)^{-1}X^{\prime}=0.$
+(4) $X^{\prime}(I-P)=X^{\prime}-X^{\prime}X(X^{\prime}X)^{-1}X^{\prime}=0.$
 
-(5) $\begin{array}{r}{(I-P)^{\prime}=I-P.}\end{array}$
+(5) $(I-P)^{\prime}=I-P.$
 
-将正交因子 $\cdot_{x^{(0)}}$ 加入原模型，可得新的 Fama-MacBeth 回归方程：
+将正交因子 $x^{(\diamond)}$ 加入原模型，可得新的 Fama-MacBeth 回归方程：
 
 $$
-r=(\chi\quad_{x^{(0)}})f^{(1)}+\varepsilon=[\chi\quad(I-P)x]f^{(1)}+\varepsilon.
+\begin{array}{rl}{\boldsymbol{r}=\big(\boldsymbol{X}}&{{}\boldsymbol{x}^{(\boldsymbol{\mathscr{o}})}\big)\boldsymbol{f}^{(\mathbb{1})}+\boldsymbol{\varepsilon}=\big[\boldsymbol{X}}&{{}(\boldsymbol{I}-\boldsymbol{P})\boldsymbol{x}\big]\boldsymbol{f}^{(\mathbb{1})}+\boldsymbol{\varepsilon}.}\end{array}
 $$
 
 则 $m+1$ 个因子溢价的最小二乘估计为，
 
 $$
-\begin{array}{rl}{\hat{f}^{(1)}=\left[\left(\begin{array}{c}{X^{\prime}}\\{x^{(o)}^{\prime}}\end{array}\right)\quad(\chi}&{x^{(o)})\right]^{-1}\left(\begin{array}{c}{X^{\prime}}\\{x^{(o)}^{\prime}}\end{array}\right)r}\\{=\left[\left(\begin{array}{cc}{X^{\prime}}\\{x^{\prime}(I-P)}\end{array}\right)\quad(X}&{(I-P)x)\right]^{-1}\left[\begin{array}{c}{X^{\prime}}\\{x^{\prime}(I-P)}\end{array}\right]r}\\{=\left[\left(\begin{array}{cc}{X^{\prime}}\\{x^{\prime}(I-P)}\end{array}\right)\quad(X}&{(I-P)x)\right]^{-1}\left[\begin{array}{c}{X^{\prime}}\\{x^{\prime}(I-P)}\end{array}\right]r}\\=\left[\begin{array}{cc}{X^{\prime}X}&{0}\\{0}&{x^{\prime}(I-P)x\right]^{-1}\left[\begin{array}{c}{X^{\prime}}\\{x^{\prime}(I-P)}\end{array}\right]r.}\end{array}\end{array}
+\begin{array}{rlr}&{}&{\hat{f}^{(1)}=\left[\binom{X^{\prime}}{{x^{(\varrho)}}^{\prime}}\quad(_{X}\quad x^{(\varrho)})\right]^{-1}\binom{X^{\prime}}{{x^{(\varrho)}}^{\prime}}r}\\&{}&{=\left[\binom{X^{\prime}}{{x^{\prime}}(I-P)}\quad(_{X}\quad(I-P)x)\right]^{-1}\binom{X^{\prime}}{{x^{\prime}}(I-P)}r}\\&{}&{=\left[\binom{X^{\prime}}{{x^{\prime}}(I-P)}\quad(_{X}\quad(I-P)x)\right]^{-1}\binom{X^{\prime}}{{x^{\prime}}(I-P)}r}\\&{}&{=\left[\begin{matrix}{{^{X^{\prime}}}X}&{0}\\{0}&{{x^{\prime}}(I-P)x}\end{matrix}\right]^{-1}\binom{X^{\prime}}{{x^{\prime}}(I-P)}r.\quad}\end{array}
 $$
 
-$\begin{array}{r}{{\dot{\ i}}\vec{\tau}c=x^{\prime}(I-P)x}\end{array}$ ，因子溢价的估计可简写为，
+$记c=x^{\prime}(I-P)x$ ，因子溢价的估计可简写为，
 
 $$
-{\hat{f}}^{\mathrm{(1)}}={\Bigl[}_{c^{-1}x^{\prime}\mathrm{(}I-P\mathrm{)}r}^{\mathrm{(}X^{\prime}X\mathrm{)}^{-1}X^{\prime}r}{\Bigr]}.
+\hat{f}^{(1)}=\left[\begin{matrix}{(X^{\prime}X)^{-1}X^{\prime}r}\\{c^{-1}x^{\prime}(I-P)r}\end{matrix}\right].
 $$
 
 由上式可见，前 个原始因子的溢价估计为 $(X^{\prime}X)^{-1}X^{\prime}r$ ，恰好等于原始模型因子溢价的最小二乘估计。
@@ -146,39 +146,39 @@ $$
 
 性质 3：在 Fama-MacBeth 回归中，不论新加入的因子是否与原有因子正交，其因子溢价的估计不会改变。
 
-证明：由性质 2 的证明过程可知，如果新加入的为正交因子 $x^{(0)}$ ，那么它的因子溢价的估计值为，
+证明：由性质 2 的证明过程可知，如果新加入的为正交因子 $x^{(\diamond)}$ ，那么它的因子溢价的估计值为，
 
 $$
 c^{-1}x^{\prime}(I-P)r.
 $$
 
-其中， $P=X(X^{\prime}X)^{-1}X^{\prime},\ c=x^{\prime}(I-P)\ j$ 。
+其中， $P=X(X'X)^{-1}X',\quad c=x'(I-P)x$ 。
 
 如果使用未正交的因子 ，Fama-MacBeth回归可写成如下的形式，
 
 $$
-r=(\chi\quad x)f^{(2)}+\varepsilon.
+\begin{array}{r}{r=(\chi\quad x)f^{(2)}+\varepsilon.}\end{array}
 $$
 
 则因子溢价的估计值为，
 
 $$
-{\hat{f}}^{(2)}=[{\binom{X^{\prime}}{x^{\prime}}}\quad(X\quad x)]^{-1}({\binom{X^{\prime}}{x^{\prime}}}r={\binom{X^{\prime}X}{x^{\prime}X}}^{-1}({\binom{X^{\prime}}{x^{\prime}}}r.)r.
+\hat{f}^{(2)}=\left[\binom{\chi^{\prime}}{\chi^{\prime}}\quad\left(\chi\quad_{X}\right)\right]^{-1}\binom{\chi^{\prime}}{\chi^{\prime}}r=\binom{\chi^{\prime}X\quad X^{\prime}x}{\chi^{\prime}X\quad x^{\prime}x}^{-1}\binom{\chi^{\prime}}{\chi^{\prime}}r.
 $$
 
 根据分块矩阵求逆公式，
 
 $$
-{\binom{X^{\prime}X}{x^{\prime}X}}\quad X^{\prime}x)^{-1}={\binom{(X^{\prime}X)^{-1}+c^{-1}(X^{\prime}X)^{-1}X^{\prime}xx^{\prime}X(X^{\prime}X)^{-1}}{x^{-1}x^{\prime}X}}\quad-c^{-1}(X^{\prime}X)^{-1}X^{\prime}x\Big).\mathrm{~f~o~r~}(X^{\prime}X)^{-1}X^{\prime}x\Big).\mathrm{~f~o~r~}(X)^{-1}X^{\prime}x\Big).
+\begin{pmatrix}\chi^{\prime}\chi&\chi^{\prime}\chi\\\chi^{\prime}\chi&\chi^{\prime}\chi\end{pmatrix}^{-1}=\begin{pmatrix}(\chi^{\prime}\chi)^{-1}+c^{-1}(\chi^{\prime}\chi)^{-1}\chi^{\prime}\chi\chi^{\prime}\chi(\chi^{\prime}\chi)^{-1}&-c^{-1}(\chi^{\prime}\chi)^{-1}\chi^{\prime}\chi\\-c^{-1}\chi^{\prime}\chi(\chi^{\prime}\chi)^{-1}&c^{-1}\end{pmatrix}.
 $$
 
 于是，
 
 $$
-\begin{array}{c}{{\hat{f}^{(2)}=\left(\begin{array}{cc}{{(X^{\prime}X)^{-1}+c^{-1}(X^{\prime}X)^{-1}X^{\prime}xx^{\prime}X(X^{\prime}X)^{-1}}}&{{-c^{-1}(X^{\prime}X)^{-1}X^{\prime}x}}\\{{-c^{-1}x^{\prime}X(X^{\prime}X)^{-1}}}&{{c^{-1}}}\end{array}\right)\binom{X^{\prime}}{x^{\prime}}r}}\\{{=\Big[\big(X^{\prime}X\big)^{-1}X^{\prime}r-c^{-1}(X^{\prime}X)^{-1}X^{\prime}xx^{\prime}(I-P)r\Big].}}\\{{c^{-1}x^{\prime}(I-P)r}}\end{array}
+\begin{align*}\hat{f}^{(2)}=\begin{pmatrix}(X'X)^{-1}+c^{-1}(X'X)^{-1}X'xx'X(X'X)^{-1}&-c^{-1}(X'X)^{-1}X'x\\-c^{-1}x'X(X'X)^{-1}&c^{-1}\end{pmatrix}\begin{pmatrix}X'\\x'\end{pmatrix}r\\=\begin{bmatrix}(X'X)^{-1}X'r-c^{-1}(X'X)^{-1}X'xx'(I-P)r\\c^{-1}x'(I-P)r\end{bmatrix}.\end{align*}
 $$
 
-上式第二项即为因子 的溢价估计，与 $\underline{{\mathcal{\bar{\mathbf{\Phi}}}}}$ 交因子 $\cdot_{x^{(0)}}$ 的溢价估计完全一致。
+上式第二项即为因子 的溢价估计，与 $:正$ 交因子 $\boldsymbol{x}^{(\diamond)}$ 的溢价估计完全一致。
 
 这条性质表明，倘若想在已有模型中加入一个新因子，不妨将它对原模型中的所有因子进行回归，得到正交因子后再行加入。这样做既避免了可能存在的多重共线性的影响，也没有损失与新因子选股能力有关的信息，因为正交不改变其因子溢价的估计。
 
@@ -189,50 +189,50 @@ $$
 假设原始的因子溢价 是由历史上 期的溢价均值估计得到，记为 $\bar{f}_{\circ}$ 。那么，经过条件变量 修正后的因子溢价为，
 
 $$
-f_{|v}=\bar{f}+\Sigma_{fv}\Sigma_{vv}^{-1}(v-\bar{v}).
+f_{|v}=\bar{f}+\Sigma_{\bar{f}v}\Sigma_{vv}^{-1}(v-\bar{v}).
 $$
 
 其中， $\Sigma_{fv}$ 是因子溢价和条件变量的协方差矩阵， $\Sigma_{vv}$ 是条件变量自身的协方差矩阵， 是条件变量 历史上 期的均值。
 
-性质 4：条件期望向量 $f_{|v}$ 中的每一个元素，等于 对 回归后的预测值 $\hat{\pmb f}\ll\hat{\pmb f}$
+性质 4：条件期望向量 $f_{|v}$ 中的每一个元素，等于 对 回归后的预测值 $\hat{f}.$
 
 证明：分别对因子 的溢价序列 $f^{(i)}$ 和条件变量序列 进行中心化，并记
 
 $$
-\begin{array}{r}{f_{(c)}^{(i)}=f^{(i)}-\bar{f}^{(i)},v_{(c)}=v-\bar{v}.}\end{array}
+f_{(c)}^{(i)}=f^{(i)}-\bar{f}^{(i)},v_{(c)}=v-\bar{v}.
 $$
 
 假设共有 个条件变量，则可建立如下的回归方程，
 
 $$
-f_{(c)}^{(i)}=\alpha+V_{(c)}\gamma+\varepsilon.
+f_{(c)}^{(\dot{\iota})}=\alpha+V_{(c)}\gamma+\varepsilon.
 $$
 
-其中， $\pmb{f}_{(c)}^{(\mathrm{i})}$ 是 维向量， $V_{(c)}\overbrace{\mathcal{K}}^{\sharp}n\times p$ 维矩阵，每一列代表了中心化后的条件变量。
+其中， $f_{(c)}^{(\mathrm{i})}$ 是 维向量， $V_{(\bar{c})}是n\times p$ 维矩阵，每一列代表了中心化后的条件变量。
 
 通过简单的矩阵运算，可知 和 的最小二乘估计为
 
 $$
-\hat{\alpha}=0,\ \hat{\gamma}=(V_{(c)}^{\prime}V_{(c)})^{-1}V_{(c)}^{\prime}f_{(c)}^{(i)}.
+\hat{\alpha}=0,\quad\hat{\gamma}=(V_{(\mathcal{E})}^{\prime}V_{(\mathcal{E})})^{-1}V_{(\mathcal{E})}^{\prime}f_{(\mathcal{E})}^{(\hat{\imath})}.
 $$
 
 则 $v_{(c)}=v-$ 时，因子溢价的估计值为，
 
 $$
-\begin{array}{c}{{{\hat{f}}^{(i)}={\bar{f}}^{(i)}+{\hat{f}}_{(c)}^{(i)}}}\\{{={\bar{f}}^{(i)}+v_{(c)}^{\prime}{\hat{\gamma}}}}\\{{={\bar{f}}^{(i)}+{\left(v-{\bar{v}}\right)}^{\prime}{\left(V_{(c)}^{\prime}V_{(c)}\right)}^{-1}V_{(c)}^{\prime}f_{(c)}^{(i)}}}\\{{={\bar{f}}^{(i)}+{f_{(c)}}^{\prime}V_{(c)}{\left(V_{(c)}^{\prime}V_{(c)}\right)}^{-1}(v-{\bar{v}}).}}\end{array}
+\begin{array}{rlr}&{}&{\hat{f}^{(\mathrm{i})}=\bar{f}^{(\mathrm{i})}+\hat{f}_{(\mathfrak{e})}^{(\mathrm{i})}}\\&{}&{=\bar{f}^{(\mathrm{i})}+v_{(\mathfrak{e})}^{\prime}\hat{\gamma}}\\&{}&{=\bar{f}^{(\mathrm{i})}+\big(v-\bar{v}\big)^{\prime}\Big(V_{(\mathfrak{e})}^{\prime}V_{(\mathfrak{e})}\Big)^{-1}V_{(\mathfrak{e})}^{\prime}f_{(\mathfrak{e})}^{(\mathrm{i})}}\\&{}&{=\bar{f}^{(\mathrm{i})}+{f_{(\mathfrak{e})}^{(\mathrm{i})}}^{\prime}V_{(\mathfrak{e})}\Big(V_{(\mathfrak{e})}^{\prime}V_{(\mathfrak{e})}\Big)^{-1}\big(v-\bar{v}\big).}\end{array}
 $$
 
-由于 $\pmb{f}_{(c)}^{(\mathrm{i})}$ 和 $'_{(c)}$ 均为中心化变量，因 $\Psi\mathsf{E}\mathsf{E}\mathsf{E}_{vv}=V_{(c)}^{\prime}V_{(c)},\ \boldsymbol{f}_{(c)}^{(i)^{\prime}}V_{(c)}$ 为因子 的溢价与每一个条件变量的协方差组成的向量， $\mathbb{E}\mathbb{P}\mathbb{Z}_{fv}$ 的第 行。
+由于 $f_{(c)}^{(\mathrm{i})}$ 和 $\left(c\right)^{\frac{1}{2}}$ 均为中心化变量，因 $\Sigma_{vv}=V_{(c)}^{\prime}V_{(c)},f_{(c)}^{(i)}V_{(c)}$ 为因子 的溢价与每一个条件变量的协方差组成的向量， $即\Sigma_{fv}$ 的第 行。
 
 对每个因子都进行相似的运算，可得修正后的因子溢价向量为，
 
 $$
-\hat{f}=\bar{f}+\Sigma_{fv}\Sigma_{vv}^{-1}(v-\bar{v}).
+\hat{f}=\bar{f}+\Sigma_{\bar{f}v}\Sigma_{vv}^{-1}(v-\bar{v}).
 $$
 
 由以上证明可见，看似复杂的因子择时模型，本质上就是拿因子溢价对条件变量集合建立回归模型后，计算被解释变量的最小二乘估计。这一结论不仅使得模型更加直观且易于理解，而且也能极大地简化程序的编写步骤、提高运算效率。
 
-此外，将 Qian（2012）的因子择时模型转化成回归的形式，也对条件变量的选取数量提出了更高的要求，而这一点并未在其文献中提及。根据回归分析的理论，对于维矩阵 $\cdot{\cal V}_{(c)},$ ，应当有 $p\leq n.$ 。否则， $p\times p$ 维矩阵 $\cdot V_{(c)}^{\prime}V_{(c)}$ 不满秩，即它的逆矩阵不唯一，由此得到的修正后的因子溢价也将是不可靠的。所以，在使用这个模型的过程中，一定要注意控制条件变量的个数，防止出现过拟合的问题。
+此外，将 Qian（2012）的因子择时模型转化成回归的形式，也对条件变量的选取数量提出了更高的要求，而这一点并未在其文献中提及。根据回归分析的理论，对于维矩阵 $\cdot V_{(c)},$ ，应当有 $\left[p\leq n\right]$ 。否则， $p\times p$ 维矩阵 $\cdot V_{(c)}^{\prime}V_{(c)}$ 不满秩，即它的逆矩阵不唯一，由此得到的修正后的因子溢价也将是不可靠的。所以，在使用这个模型的过程中，一定要注意控制条件变量的个数，防止出现过拟合的问题。
 
 ## 4. 总结与讨论
 

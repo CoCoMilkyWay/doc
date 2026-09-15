@@ -97,7 +97,7 @@ zhangyu1@ctsec.com 021-68592337
 第一种方法参考Barra CNE5文档，将对数市值的三次方对对数市值进行回归，将回归得到的残差作为因子的代理变量。在财通金工“拾穗”系列（二）《你看到的不一定是你所想的：解密R2》中，我们特别提醒投资者在做回归处理时，如果没有任何证据显示数据将会穿过原点，那么在回归模型中我们建议一律加上截距项。
 
 $$
-\begin{array}{c}{{lnSize^{3}=\beta lnSize+\varepsilon}}\\{{\phantom{lnSize^{3}=}lnSize^{3}=\alpha+\beta lnSize+\varepsilon}}\end{array}
+\begin{aligned}&lnSize^{3}=\beta lnSize+\varepsilon\\&lnSize^{3}=\alpha+\beta lnSize+\varepsilon\\\end{aligned}
 $$
 
 以2019年3月28日全市场股票作为样本股票，将股票总市值对数的三次方对总市值对数进行回归，得到残差变量，此处我们取残差变量的相反数。图3和图4分别展示了不带截距项的回归残差和带截距项的回归残差与对数市值的散点图，可以看到带截距项的回归残差呈现出一条开口向下的抛物线形状，这表明中间市值的股票的因子值越大，而两端（大市值或小市值）股票的因子值越小，这一点与我们先前的共识是一致的，而不带截距项的回归残差并没有体现这一点。特别需要提醒的是，我们此处对回归残差取了相反数，这样处理的目的是为了让处于中等市值分位股票的非线性规模因子越大，这也与该因子体现出的中市值含义相契合。
@@ -194,7 +194,7 @@ r=\alpha+\beta_{0}BP+\beta_{1}Turnover21+\beta_{2}Ret21+\beta_{3}Size+\beta_{4}V
 $$
 
 $$
-r=\alpha+\beta_{0}BP+\beta_{1}Turnover21+\beta_{2}Ret21+\beta_{3}Size+\beta_{4}Vol21+\beta_{4}SizeNL
+r=\alpha+\beta_{0}BP+\beta_{1}Turnover21+\beta_{2}Ret21+\beta_{3}Size+\beta_{4}Vol21+\beta_{5}SizeNL
 $$
 
 表 2：非线性规模 Fama-Macbeth 检验结果
@@ -410,17 +410,17 @@ $$
 |  | 财通金工规 |  |  |  |
 | --- | --- | --- | --- | --- |
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
-| Beta | BETA | $\mathrm{r_{t}}=\alpha+\beta\mathrm{R_{t}}+\mathrm{e_{t}}$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为 63 天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
+| Beta | BETA | $\mathbf{r_{t}}=\alpha+\beta\mathbf{R_{t}}+\mathbf{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为 63 天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathsf{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathsf{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r_{t}}=\mathrm{P_{t}}/\mathrm{P_{t-1}}-1,\ \mathrm{T}{=}504,\ \mathrm{L}{=}21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1) 对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)^{.}}$ | 0.7 | 1) 采用流通市值加权计算指数收益2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
-|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathrm{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathrm{T})),}\end{array}$ $\sharp\Psi\mathrm{Z(T)}=\exp\bigl(\sum_{\mathrm{t=1}}^{\mathrm{T}}\ln(1+\mathrm{r_{t}})\bigr)-1$ ，表示过去T个月的收益率 | 0.15 | 以21 天为 1 个月 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t}=\mathrm{L}}^{\mathrm{T}+\mathrm{L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1) 对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 1) 采用流通市值加权计算指数收益2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
+|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ $\mathrm{Z(T)=\exp(\sum_{t=1}^{T}\ln(1+r_t))-1}$ ，表示过去T个月的收益率 | 0.15 | 以21 天为 1 个月 |
 |  | HSIGMA | 计算 Beta 时残差的标准差， Hsigma = std(ei) | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |
 | 流动性(对市值因子进行正交化） | STOM | 月度换手率，STOM = In(mean(Σt=1(Vt/St)))其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2)剔除未上市、停牌日期的数据 |
-|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\operatorname*{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
-|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_{t}/S_{t})))$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\mathrm{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_t/S_t)))$ | 0.25 | 同 STOQ 因子的计算 |
 | 盈利 | CETOP | 过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数 | 1/2 | 采用 Wind 中的 PCF_OCF_ttm 因子的倒数 |
 |  | ETOP | 过去滚动12个月的利润除以当前市值实际计算中取市盈率 PETTM 的倒数 | 1/2 | 采用 Wind 中的 PE_ttm 因子的倒数 |
 | 成长 | YOYProfit | 单季度净利润同比增长率 | 1/2 | 为避免使用未来数据，需要根据季报公布时间进行调整 |

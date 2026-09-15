@@ -60,12 +60,12 @@ A 股量价因子的收益来源往往是局部交易行为下个股定价对其
 
 在《高频因子（五）：高频因子和交易行为》中，我们提出了根据主动买入卖出在总成交量中的结构情况，构建的博弈因子，构建方法如下：
 
-以逐笔成交数据估计主动买卖成交量。当前成交价大于上一笔买一价时，交易以买方为主导，记成交量为vol_buy ；反之当前成交价小于上一笔卖一价时，交易以卖方为主导，记成交量为vol_selli。则当天主买量为 $\begin{array}{r}{Vol\_Buy_{t}=\sum vol\_buy_{i}}\end{array}$ ，以衡量多空博弈双方多头力量，当天主卖量为 $\begin{array}{r}{Vol\_Sell_{t}=\sum vol\_sell_{i}}\end{array}$ ，以衡量多空博弈双方空头力量。
+以逐笔成交数据估计主动买卖成交量。当前成交价大于上一笔买一价时，交易以买方为主导，记成交量为vol_buy ；反之当前成交价小于上一笔卖一价时，交易以卖方为主导，记成交量为vol_selli。则当天主买量为 $Vol\_Buy_{t}=\sum vol\_buy_{i}$ ，以衡量多空博弈双方多头力量，当天主卖量为 $Vol\_Sell_{t}=\sum vol\_sell_{i}$ ，以衡量多空博弈双方空头力量。
 
 - 以一段时间总主动买入和总主动卖出的比例，构建博弈因子：
 
 $$
-\mathbb{\Psi}\mathbb{\Xi}\mathbb{\Xi}=\frac{\sum Vol\_Buy_{t}}{\sum Vol\_Sell_{t}}
+博弈因子=\frac{\sum Vol\_Buy_{t}}{\sum Vol\_Sell_{t}}
 $$
 
 博弈因子构建的思路在于，主动买入量刻画了买方（多头）力量，主动卖出量刻画了卖方（空头）力量，买方力量相比于卖方力量越强，个股价格越容易被多头力量推升，也越容易被市场高估。所以从博弈因子的构建过程上看，关键在于如何准确的刻画市场的主动买卖。
@@ -118,11 +118,11 @@ $$
 在《如何利用负面因子做指数增强？——高频因子篇》中，便按照上述思路对资金流入方向给出划分，即股价上涨时资金呈流入状态，股价下跌资金呈流出状态，提出了资金流向因子的构建方法，即时间段内价格上升成交额归为资金流入，时间段内价格下降成交额归为资金流出，计算主动流入资金占比，具体如下：
 
 $$
-\frac{\gamma\sf R}{\sf R}\frac{\sf R}{\sf t}\dot{\sf z}\frac{\sf r}{/\eta\sf R}\boldsymbol{\|}_{i}=Amount_{i}\times\frac{Close_{i}-Close_{i-1}}{|Close_{i}-Close_{i-1}|}
+资金流向_{i}=Amount_{i}\times\frac{Close_{i}-Close_{i-1}}{|Close_{i}-Close_{i-1}|}
 $$
 
 $$
-\Xi\sum_{\Xi}^{\infty}{\widehat{\ddagger}}{\widehat{\ddagger}}{\widehat{\ddagger}}{\widehat{\boxplus}}{\widehat{\boxplus}}{\widehat{\boxplus}}={\frac{\sum_{i=1}^{N}{\overset{\ddots}{\operatorname{A}}}{\widehat{\operatorname*{A}}}\widehat{\ddagger}{\widehat{\operatorname*{A}}}{\widehat{\operatorname*{A}}}}_{i}}{\sum_{i=1}^{N}Amount_{i}}_{i}
+资金流向因子=\frac{\sum_{i=1}^{N}资金流向_{i}}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 其中i为每个时间段标注，Closei为时间段末复权收盘价，Amounti为时间段成交额，N为因子构建时所包含的全部时间段。
@@ -148,11 +148,11 @@ $$
 批量成交划分法即根据上述思路，提出了在时间段上对成交量从指示性划分到连续性划分的解决方法，方法如下：
 
 $$
-\pm\frac{\mp}{\Xi}\mathbf{j}\mathbf{\jmath}_{\Xi^{\prime}\setminus\widehat{\Sigma}}^{\mp}\land\widehat{\pmb{\Sigma}}\widehat{\pmb{\Xi}}\mathbf{\jmath}_{i}^{\mp}=Amount_{i}\times t(\frac{Close_{i}-Close_{i-1}}{\sigma_{\Delta close}},df)
+主动买入金额_{i}=Amount_{i}\times t(\frac{Close_{i}-Close_{i-1}}{\sigma_{\Delta close}},df)
 $$
 
 $$
-\pm\nexists\exists\div\sqcup\qquad e\ggg\exists\div\emptyset.
+主动卖出金额_{i}=Amount_{i}-主动买入金额_{i}
 $$
 
 和资金流向因子中的资金流向相比，式子的变化主要在成交额所乘的系数上，其中t()为t分布的累计分布函数，函数值在 0 到 1 之间，保证了每期估计的主动流入金额在 0到该期总成交额之间； $\sigma_{\Delta close}$ 为在整个时间区间内，每段时间末截面收盘价的标准差，保证每段时间价格变动相对可比；df为自由度，针对相同的股价变动，自由度越小，则根据t分布得到的主动买入金额占比越小。
@@ -164,7 +164,7 @@ $$
 本节根据批量成交划分法，对资金流向因子给出改进，构建朴素主动占比因子：
 
 $$
-\arrows hee\pm\infty\pm\infty\rfloor\downarrow\downarrow\downarrow\downarrow EtE\downarrow\mp=\frac{\sum_{i=1}^{N}\pm\overline{{\Xi}}\mathrm{j})\overline{{\vec{s}_{\mathrm{\uparrow}}^{\prime}}}\wedge\underline{{\hat{\mathrm{g}}}}\overline{{\vec{\mathrm{g}}}}\mathrm{j}\mathrm{\downarrow}}{\sum_{i=1}^{N}Amount_{i}}
+朴素主动占比因子=\frac{\sum_{i=1}^{N}主动买入金额_{i}}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 下图分别展示了该因子自 2005 年以来在全市场及中证 800内表现，并在下表中给出了其分年风险指标，可以看到：
@@ -241,11 +241,11 @@ $$
 本节以t分布累计函数为对应法则，以收益率为自变量，构建 T 分布主动占比因子。在将价格变动以收益率替代时，仍存在不同个股因波动率不同在同一函数对应法则下不适用的情况，故作收益率对波动率的标准化处理，因子构建过程如下：
 
 $$
-\mathbb{T}\not\mathcal{H}\not\equiv\equiv\mathbb{\bar{z}}\not\exists)\overline{{\vec{\geqslant}\cdot}}\bigwedge\bigoplus_{i\in\mathcal{B}}\mathbb{\bar{z}}\not\equiv Amount_{i}\times t(\frac{ret_{i}}{\sigma_{ret}},df)
+\left[\mathrm{T}分布主动买入金额_i=Amount_i\times t(\frac{rect_i}{\sigma_{ref}},df)\right]
 $$
 
 $$
-\mathrm{~T~}\mathcal{G}\mathcal{F}\equiv\Xi\mathcal{J}\Xi\mathcal{k}\mathcal{E}\Xi\mathcal{F}=\frac\sum_{i=1}^{N}\mathrm{{T}}\mathbf{\Xi}\mathbf{\mathcal{G}}\mathbf{\Xi}\mathbf{\Xi}\mp\Xi\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi}\mathbf{\Xi\Xi}\mathbf
+\mathrm{T}分布主动占比因子=\frac{\sum_{i=1}^{N}\mathrm{T}分布主动买入金额_{i}}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 其中 $ret_{i}$ 为每个时间段收益率， $\sigma_{ret}$ 为全部时间段收益率标准差。
@@ -296,11 +296,11 @@ $$
 第一种方法和 T分布主动占比因子类似，以标准化的收益率作为自变量，并认为其服从标准正态分布，做其以标准正态分布累计函数到主动买入占比的映射：
 
 $$
-1\div\frac{1}{17}\times\frac{1}{18}=\frac{1}{15}\times\frac{1}{3}+\frac{1}{17}\frac{1}{3}=\frac{1}{18}\times\frac{1}{3}=\frac{1}{18}=1000011\times11\times\frac{11}{(\frac{11}{\sigma_{ret}})}
+标准正态分布主动买入金额_{_i}=Amount_{i}\times N(\frac{ret_{t}}{\sigma_{ref}})
 $$
 
 $$
-\frac{1}{17\times16}\mathbb{1}\mathbb{E}\mathbb{\frac{\eta\mathbb{\hat{\times}}\mathcal{A}}{8\times4}}\mathbb{1}\mathbb{\hat{\eta}}\mathbb{\pm\frac{\mathbb{-j}}{8}}\mathbb{j}\mathbb{E}\mathbb{k}\mathbb{E}\mathbb{E}\mathbb{1}\mathbb\mp\frac{\mathbb{-j}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat{\times}}\mathbb{\hat\hat{\times}}\mathbb{\hat\hat{\times}}\mathbb{\hat\hat{\times}}}{\sum_{i=1}^{N}Amount_{i}}
+标准正态分布主动占比因子=\frac{\sum_{i=1}^{N}标准正态分布主动买入金额_{i}}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 其中N()为标准正态分布累计函数。
@@ -347,11 +347,11 @@ $$
 第二种方法承认个股波动天然存在差异，但是价格变动可以在各个时间段直接反应当时的主动买卖强弱，故个股波动的存在实际上是市场投资者对于该个股在交易上的直接体现，而反之波动率并不影响主动买卖力量，故可以直接以收益率作为自变量。A 股存在涨跌停限制，个股价格变动幅度一般在-10%到 10%之间，当价格变动到达涨跌停限制甚至溢出时，可以认为是统计上的一次异常变动，以统计下标准正态分布 95%置信水平系数 1.96 为标准，做收益率线性变换后的值到主动买入占比的映射：
 
 $$
-\frac{\cos}{\mathbb{E}}\langle\Xi\operatorname{I}\mathbb{E}\langle\Xi\rangle\mathcal{I}\dag\mathbb{1}\pm\frac{-}{\alpha}\mathcal{I}\dag\overline{{\tilde{s}^{\prime}}}\wedge\overbrace{\pmb{\mathscr{E}}\frac{\varkappa}{\alpha}\mathcal{U}}^{\Xi\star\Xi}\mathcal{\Lambda}_{i}=Amount_{i}\times N(\frac{ret_{t}}{0.1}\times1.96)
+置信正态分布主动买入金额_{_i}=Amount_{i}\times N(\frac{rect_{t}}{0.1}\times1.96)
 $$
 
 $$
-\frac\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{i=1}^{j}\mathcal{I}_{ij}^{j}\sum_{k=1}^{m}\sum_{j=1}^{k}\mathrm{t}_{k}^{\mathrm{t}_{k}}\mathrm{E}_{i}^{j}=\frac\sum_{i=1}^{N}\frac\sum_{i=1}^{m}\big\langle\frac{-2}{2}\mathrm{t}_{i}\mathrm{E}_{i}^{j}\Sigma_{k}^{i}\big\rangle+\mathrm{t}_{i}^{\mathrm{t}}\pm\frac{1}{2}\mathrm{j}\frac{\partial^{2}}{\partial\mathrm{t}_{i}}\wedge\frac{\displaystyle{\widehat{\mathrm{tan}}_{i}^{\mathrm{t}}}}{\displaystyle{\sum_{i=1}^{N}Amount_{i}}}\mathrm{t}_{i}
+置信正态分布主动占比因子=\frac{\sum_{i=1}^{N}置信正态分布主动买入金额_{i}}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 下图分别展示了该因子自 2005 年以来在全市场及中证 800内表现，并在下表中给出了其分年风险指标，可以看到：
@@ -398,11 +398,11 @@ $$
 不论是t分布还是正态分布，从分布刻画上看，对相同价格变动单位，均认为在价格正向或负向变动初始对主动买卖占比影响更大，即价格变动对主动买卖力量衰退式影响，但真实的分布还存在均匀影响、递增式影响的可能，故本节以均匀分布为例，展示均匀影响下的估计情况。由于 A 股存在涨跌停限制，个股价格变动幅度一般在-0.1 到 0.1 之间，做原收益率从-0.1 至 0.1到 0 至1 之间的线性变换：
 
 $$
-\pm\overleftrightarrow{\sf z}\ \overleftrightarrow{\sf z}\ \sum\mathrm{\large~\frac{~1~}{~2~}~}\ I\mathrm{\large~\frac{~1~}{~2~}~}\overbrace{\sf z}^{\mathrm{~\large~\frac{~1~}{~2~}~}}\lambda\overbrace{\pm\frac{~1}{~2~}\mathrm{\large~\frac{~1~}{~2~}~}}^{\mathrm{~\large~\frac{~1~}{~2~}~}}=Amount_{i}\times\frac{ret_{t}-0.1}{0.2}
+均匀分布主动买入金额_{_i}=Amount_{i}\times\frac{ret_{t}-0.1}{0.2}
 $$
 
 $$
-\pm5){\mathcal{G}}\supset{\mathcal{F}}{\mathcal{F}}\oplus{\pm}{\pm}{\vec{\mathfrak{a}}}{\mathfrak{j}}{\vert}{\pm}{\mathrm{E}}{\mathsf{k}}{\vert}{\Xi}{\vert}=\frac\sum_{i=1}^{N}{{\pm}{\bf{\dot{5}}}{\bf{\dot{7}}}}{\bf{\dot{7}}}{\pm}{\bf{\dot{7}}}{\pm}{\bf{\dot{7}}}{\pm}{\bf{\dot{7}}}{\vert}{\pm}{\bf{\dot{5}}}{\bf{)}}{\vert}\widehat{\bf{\dot{\xi}}}{\bf{\dot{\xi}}}{\bf{\dot{\times}}}\bf{\dot{\Xi}}{\bf{\dot{\Xi}}}{\bf{\dot{\Xi}}}{\bf{\dot{\Xi}}}{\bf{\dot{\Xi}}}{\bf{\dot{\Xi}}}{\bf{\dot{\Xi}}}{\bf{\dot{\Xi}}}{\bf{\dot{\Xi}}}{\bf{\dot\Xi}}{\bf{\Xi}}{\bf{\dot\Xi}}{\bf{\Xi}}{\bf{\dot\Xi}}{\bf{\Xi}}{\bf{\dot\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\dot\Xi}{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}{\bf{\Xi}}\bf
+均匀分布主动占比因子=\frac{\sum_{i=1}^{N}均匀分布主动买入金额_{i}}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 下图分别展示了该因子自 2005 年以来在全市场及中证 800内表现，并在下表中给出了其分年风险指标，可以看到：
@@ -485,7 +485,7 @@ $$
 线性分段函数假设头部组的因子排序变化存在等距效应，故以 10%分位数为临界点，大于临界点的因子保持原值，小于临界点的因子值反向排序，即函数表达式如下，曲线如下图所示：
 
 $$
-y=\bigl\{\begin{array}{ll}{x}&{\qquad x\geq0.1}\\{0.2-x}&{\quad x<0.1}\end{array}\bigr.
+y=\left\{\begin{aligned}&x&\quad&x\geq0.1\\&0.2-x&\quad&x<0.1\end{aligned}\right.
 $$
 
 图 15：线性分段函数变换

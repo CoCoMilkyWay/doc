@@ -154,7 +154,7 @@ le_Summary]宏观研究在大类资产配置研究中占据着决定性的地位
 对原始时间序列{y}，HP滤波是求解如下的优化问题来得到“光滑”的序列{τ}：
 
 $$
-\underset{\tau}{\mathop{\operatorname*{min}}}\left(\sum_{t=1}^{T}{\left(\boldsymbol{y}_{t}-\boldsymbol{\tau}_{t}\right)^{2}}+\lambda\sum_{t=2}^{T-1}{\left((\boldsymbol{\tau}_{t+1}-\boldsymbol{\tau}_{t})-(\boldsymbol{\tau}_{t}-\boldsymbol{\tau}_{t-1})\right)^{2}}\right)\mathrm{~}\mathrm{~}
+\underset{_{t=1}}{\operatorname*{min}}\left(\sum_{_{t=1}}^{^{T}}(y_{_{t}}-\tau_{_{t}})^{^{2}}+\lambda\sum_{_{t=2}}^{^{T-1}}((\tau_{_{t+1}}-\tau_{_{t}})-(\tau_{_{t}}-\tau_{_{t-1}}))^{^{2}}\right)\;,
 $$
 
 优化目标函数的第一项要求滤波前和滤波后的两个时间序列尽可能地相近，第二项则要求滤波后地序列足够光滑。HP 滤波是对时间序列进行样本内的滤波方法，因此我们并没有对宏观指标的时间戳依据发布时间进行调整。以CPI当月同比为例，下面展示了对单个宏观指标进行上行和下行状态划分的过程。
@@ -300,43 +300,43 @@ $$
 假定资产的权重向量为w ，资产间的方差协方差矩阵为• ，当我们以组合的波动率作为风险的度量时，可以对其进行如下的线性分解：
 
 $$
-\sigma\left(w\right)=\sqrt{{w^{\textit{ r }}}\Sigma\boldsymbol{w}}=\sum_{i=1}^{n}{w_{i}\frac{\hat{\sigma}\sigma\left(w\right)}{\hat{\sigma}w_{i}}}=\sum_{i=1}^{n}{w_{i}\cdot MCR_{i}}=\sum_{i=1}^{n}{RC_{i}}\mathrm{~e~}i\neq j,
+\sigma\;(\;w\;)=\;\sqrt{w^{^T}\Sigma\;w}\;=\;\sum_{_{i=1}}^{^n}\;w_{_i}\;\frac{\partial\;\sigma\;(\;w\;)}{\partial\;w_{_i}}=\;\sum_{_{i=1}}^{^n}\;w_{_i}\cdot M\;C\;R_{_i}\;=\;\sum_{_{i=1}}^{^n}\;R\;C_{_i}\;\bullet\;\frac{\partial\;\sigma\;(\;w\;)}{\partial\;w_{_i}}\;.
 $$
 
 其中，RC 为资产的风险贡献，表示各资产在当前权重下对风险的贡献比例；MCR 为边际风险贡献（Marginal Contribution of Risk），表示在当前配置权重下，某一资产变动 1单位所带来的组合风险的变动：
 
 $$
-MCR_{\ i}=\frac{\hat{\sigma}\sigma\left(\boldsymbol{w}\right)}{\hat{\sigma}_{\boldsymbol{w}_{i}}}=\frac{\left(\Sigma\boldsymbol{w}\right)_{i}}{\sigma\left(\boldsymbol{w}\right)}\mathrm{~,~}
+MCR_{_{i}}=\frac{\partial\sigma\left(w\right)}{\partial w_{_{i}}}=\frac{\left(\Sigma w\right)_{_{i}}}{\sigma\left(w\right)},
 $$
 
 风险平价（Risk Rarity），顾名思义，就是在进行资产配置时将各自产对组合的风险贡献给出相等的预算：
 
 $$
-RC_{\bf\Xi_{i}}=RC_{\bf\Xi_{j}}
+R\;C_{_{i}}\;=\;R\;C_{_{j}}
 $$
 
 $$
-w_{_i}\frac{\hat{\sigma}\sigma\left(w\right)}{\hat{\sigma}w_{_i}}=w_{_j}\frac{\hat{\sigma}\sigma\left(w\right)}{\hat{\sigma}w_{_j}}
+w_{_{i}}\;\frac{\hat{\sigma}\sigma(w)}{\hat{\sigma}w_{_{i}}}=\;w_{_{j}}\;\frac{\hat{\sigma}\sigma(w)}{\hat{\sigma}w_{_{j}}}.
 $$
 
-当各资 $\cdot\vec{p}$ 的Sharpe Ratio 都相同并且相关系数也相同时，风险平价组合就位于有效前沿边界上。然而在现实中，各资产 Sharpe Ratio 都相同并且相关系数也相同的条件难以满足。特别是对于大类资产配置研究而言，Sharpe Ratio 相同这一假定过于苛刻。因此，我们可以放松假定，对不同的资产分配不同的风险贡献比例来进行配置，即风险预算（RiskBudgeting）配置方法。风险预算的优化问题可以有多种表达形式，其核心是优化问题的一阶条件需要满足给定的风险贡献比例条件：
+当各资 $\cdot 产$ 的Sharpe Ratio 都相同并且相关系数也相同时，风险平价组合就位于有效前沿边界上。然而在现实中，各资产 Sharpe Ratio 都相同并且相关系数也相同的条件难以满足。特别是对于大类资产配置研究而言，Sharpe Ratio 相同这一假定过于苛刻。因此，我们可以放松假定，对不同的资产分配不同的风险贡献比例来进行配置，即风险预算（RiskBudgeting）配置方法。风险预算的优化问题可以有多种表达形式，其核心是优化问题的一阶条件需要满足给定的风险贡献比例条件：
 
 $$
-\frac{RC_{i}}{b_{i}}=\frac{RC_{j}}{b_{j}}
+\frac{R\;C_{\;_{i}}}{b_{\;_{i}}}=\frac{R\;C_{\;_{j}}}{b_{\;_{j}}}
 $$
 
-其中， $b_{_i}$ 是各资 $\dot{\mathcal{P}}$ 对整体组合的风险 $\boldsymbol{\underline{\mathbf{\Lambda}}}$ 比。
+其中， $b_{i}$ 是各资 $产$ 对整体组合的风险 $占$ 比。
 
 在报告中，我们采用了如下形式的优化问题求解给定风险预算比例下的资产权重：
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{min}\sigma\left(y\right)}\\{s.t.}\\{\sum_{i=1}^{n}b_{i}\ln y_{i}\ge c}\\{y\ge0}\end{array}
+\begin{aligned}&\min\mathrm{in}\sigma\left(y\right)\\&s.t.\\&\sum_{_{i=1}^{n}}^{^{n}}b_{_{i}}\ln y_{_{i}}\geq c_{_{i}}\\&\Delta y\geq0\\\end{aligned}
 $$
 
 这里得到的权重y 需要进一步归一化，来得到最后的权重向量：
 
 $$
-\boldsymbol{w}_{\boldsymbol{i}}=\frac{\boldsymbol{y}_{\boldsymbol{i}}}{\boldsymbol{I}^{\intercal}\boldsymbol{y}}
+w_{_{i}}=\frac{y_{_{i}}}{I^{^{T}}y}
 $$
 
 ## 3.2.中国市场的风险预算设计

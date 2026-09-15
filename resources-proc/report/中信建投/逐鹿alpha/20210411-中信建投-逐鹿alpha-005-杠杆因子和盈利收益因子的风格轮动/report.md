@@ -261,7 +261,7 @@ $$
 subject to
 
 $$
-\begin{array}{rl}{sum(w)=1}&{\hdots\hdots(1)}\\{w}&{\geq\ 0\hdots\hdots(2)}\\{|w-w_{0}|\leq0.01}&{\hdots\hdots(3)}\\{|f-f_{0}|\leq0.01}&{\hdots\hdots(4)}\\{\hdots signal*(\Delta f_{l}+\Delta f_{e})\geq1}&{\hdots\hdots(5)}\end{array}
+\begin{aligned}sum(w)&=1\quad\ldots\ldots(1)\\w&\geq0\quad\ldots\ldots(2)\\|w-w_0|&\leq0.01\quad\ldots\ldots(3)\\|f-f_0|&\leq0.01\quad\ldots\ldots(4)\\\ldots\ldots\ldots\ldots(5)&\end{aligned}
 $$
 
 上式中（1）（2）约束分别为个股总权重为 1，和禁止做空约束，约束（3）为个股权重偏离基准的上限为 0.01，约束（4）限制了市值和行业暴露偏离小于 0.01，约束（5）为杠杆和盈利收益的风格约束，在信号为正时，要求两者的暴露偏离之和小于-1，反之则要求大于 1，利用此约束，能够有效对杠杆因子和盈利收益因子进行风格轮动。

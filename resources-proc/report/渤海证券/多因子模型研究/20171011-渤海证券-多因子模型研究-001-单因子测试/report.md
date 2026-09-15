@@ -69,11 +69,11 @@ max_{w}w^{\prime}\mu
 $$
 
 $$
-\begin{array}{rl}{\mathrm{st.}}&{{}\sum w=1;}\end{array}
+\begin{array}{rl}{{\mathrm{st.}}}&{{}\sum w=1;}\end{array}
 $$
 
 $$
-\mathrm{w}^{\prime}\Lambda\mathrm{w}\leq\sigma^{2};
+\mathsf{w}^{\prime}\Lambda\mathsf{w}\leq\sigma^{2};
 $$
 
 其中：
@@ -239,19 +239,19 @@ w：股票池内股票权重；
 去极值：为避免数据中的极端值对回归结果产生过多影响，我们使用“中位数去极值法”，将超过上下限的极端值用上下限值代替。
 
 $$
-\widetilde\mathrm{x}_{\mathrm{i}}=\left\{\begin{array}{ll}{\mathrm{x}_{\mathrm{M}}+5\times\mathrm{x}_{\mathrm{MAD}},~\mathrm{x}_{\mathrm{i}}>\mathrm{x}_{\mathrm{M}}+5\times\mathrm{x}_{\mathrm{MAD}}}\\{\mathrm{x}_{\mathrm{i}},~\mathrm{x}_{\mathrm{M}}-5\times\mathrm{x}_{\mathrm{MAD}}\leq\mathrm{x}_{\mathrm{i}}\leq\mathrm{x}_{\mathrm{M}}+5\times\mathrm{x}_{\mathrm{MAD}}}\\{~\mathrm{x}_{\mathrm{M}}-5\times\mathrm{x}_{\mathrm{MAD}},~\mathrm{x}_{\mathrm{i}}<\mathrm{x}_{\mathrm{M}}-5\times\mathrm{x}_{\mathrm{MAD}}}\end{array}\right.
+\begin{aligned}\tilde{\mathbf{x}}_{\mathbf{i}}=&\left\{\begin{aligned}\mathbf{x}_{\mathbf{M}}+&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}},\mathbf{x}_{\mathbf{i}}>\mathbf{x}_{\mathbf{M}}+5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\\\mathbf{x}_{\mathbf{i}},\mathbf{x}_{\mathbf{M}}-&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\leq\mathbf{x}_{\mathbf{i}}\leq\mathbf{x}_{\mathbf{M}}+5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\\\mathbf{x}_{\mathbf{M}}-&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}},\mathbf{x}_{\mathbf{i}}<\mathbf{x}_{\mathbf{M}}-5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\end{aligned}\right.\end{aligned}
 $$
 
 $$
-\begin{array}{rl}{\mathrm{x_{i}}\colon}&{{}|\xi_{\mathrm{s}}\star_{\mathrm{\xi_{e}}}^{L}\rrangle\dot{\vec{\mathcal{F}}}\mathinner{\xi_{1}}|}\end{array}
+$\mathbf{x}_{\mathrm{i}}\mathbf{:}$原始序列
 $$
 
 $$
-\begin{array}{c}\begin{array}{rl}{\mathbf{x}_{\mathrm{M}}\colon}&{{}|\dot{\vec{\mathcal{F}}}\cdot\vec{\mathcal{G}}^{1}|\mathbf{x_{i}}\mathbin{\not\ G^{2}}\mathbin{\dag}\mathbf{\Sigma}\dag}\end{array}\downarrow\dot{\Xi}\mathbin{\mathcal{Z}}^{*}\mathbin{\not\Delta}\mathbin{\dag}\mathbf{x}\end{array}
+$\mathrm{x}_{\mathrm{M}}\mathrm{:}$序列x_{i}的中位数
 $$
 
 $$
-x_{MAD}:\ \mathcal{\vec{H}}^{\ }\mathcal{\vec{H}}||x_{i}-x_{M}|\sharp\mathcal{Y}\ \mathcal{I}^{\ \ Z}\mathcal{A}_{\ Z}^{\ \ Z}\ \mathcal{Z}^{\ \ Z\mu\nu}
+x_{MAD}:序列|x_i-x_M|的中位数
 $$
 
 x̃ ：去极值处理后的新序列
@@ -276,7 +276,7 @@ $f_{size,i}^{T}$ ：第T 期，股票i 的流通市值；
 
 $f_{d,i}^{T}$ ：第T 期，股票i 在d 因子上的因子暴露；
 
-$X_{j}^{T}$ $x_{size}^{T}\setminus\boldsymbol{x}_{d}^{T}$ ：回归模型运算所得的因子收益率；
+$X_{j}^{T}$ $x_{size}^{T}、x_{d}^{T}$ ：回归模型运算所得的因子收益率；
 
 $u_{i}^{T}$ ：回归模型运算所得股票i 的残差；
 

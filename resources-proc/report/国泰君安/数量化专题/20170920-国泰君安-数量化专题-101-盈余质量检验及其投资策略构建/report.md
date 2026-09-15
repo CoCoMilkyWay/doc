@@ -183,18 +183,18 @@ Jones（1995）认为非操纵性应计利润主要受营业收入变动以及�
 
 修正琼斯模型建立在基本琼斯模型的基础上，不同的是，修正琼斯模型认为上市公司可通过改变信用条件来操控利润，所以在营业收入变动中扣除了应收账款变动，以计量更为准确的非操纵性应计利润。模型构建的步骤分为以下三步：
 
-首先，通过对基本琼斯模型的表达式分行业进行截面回归，得到相应的系数 $\beta_{0},\ \beta_{I},\ \beta_{2}$
+首先，通过对基本琼斯模型的表达式分行业进行截面回归，得到相应的系数 $\beta_{0}、\beta_{I}、\beta_{2}$
 
 $$
 \frac{ACC_{t}}{TA_{t-1}}=\beta_{0}+\beta_{1}\frac{\Delta REV_{t}}{TA_{t-1}}+\beta_{2}\frac{PPE_{t}}{TA_{t-1}}+\varepsilon_{t}
 $$
 
-其中，ACC为总应计利润，TA为总资 $\dot{\mathcal{P}}$ ，ΔREV为营业收入的变动，PPE为固定资产水平。
+其中，ACC为总应计利润，TA为总资 $\cdot 产$ ，ΔREV为营业收入的变动，PPE为固定资产水平。
 
 其次，将分行业回归所得系数代入下式以计算非操纵性应计利润。
 
 $$
-\frac{NDACC_{t}}{TA_{t-1}}=\hat{\beta}_{0}+\hat{\beta}_{1}\frac{\Delta REV_{t}-\Delta REC_{t}}{TA_{t-1}}+\hat{\beta}_{2}\frac{PPE_{t}}{TA_{t-1}}
+\frac{NDACC_{t}}{TA_{t-1}}=\beta_{0}+\beta_{1}\frac{\Delta REV_{t}-\Delta REC_{t}}{TA_{t-1}}+\beta_{2}\frac{PPE_{t}}{TA_{t-1}}
 $$
 
 其中，ΔREC为应收账款的变动。
@@ -202,7 +202,7 @@ $$
 最后，从总应计利润中减去非操纵性应计利润可得操纵性应计利润。
 
 $$
-\frac{DACC_{t}}{TA_{t-1}}=\frac{ACC_{t}}{TA_{t-1}}-\frac{NDACC_{t}}{TA_{t-1}}
+\frac{DACC_{t}}{TA_{t-1}}=\frac{ACC_{t}}{TA_{t-1}}-\frac{NDAC_{t}}{TA_{t-1}}
 $$
 
 操纵性应计利润更准确地反映了上市公司对利润操纵的程度，可作为我们检验盈余质量好坏的代理变量，其数值越大，则说明标的盈余质量越差；当数值为负时，该数值代表标的“藏利润”的程度。
@@ -224,7 +224,7 @@ $$
 首先，对营业利润运用应计利润分离模型进行拆解及合成：
 
 $$
-\begin{array}{rl}{\frac{\partial\hat{\mathcal{E}}}{\partial\mathcal{Z}}\downarrow[\mathcal{X}\mathcal{H}]\hat{\mathcal{H}}\{\mathrm{~O~P~}\}}&{=\frac{\partial\hat{\mathcal{Z}}}{\partial\mathcal{Z}}\frac{\partial\hat{\mathcal{P}}}{\partial\mathcal{Z}}\frac{\partial\hat{\mathcal{Z}}}{\partial\mathcal{Z}}\frac{\partial\hat{\mathcal{Z}}}{\partial\mathcal{W}}\left(\mathrm{CFO~}\right)\quad+\ \beta\frac{\partial}{\partial\mathcal{Z}}\hat{\mathcal{H}}\left\{\mathcal{Z}\right\}\left\{\mathcal{A}\right\}\left(\mathrm{ACC~}\right)}\\&{=\frac{\beta\mathcal{Z}}{\mathcal{Z}}\frac{\partial\hat{\mathcal{P}}}{\partial\mathcal{Z}}\frac{\partial\hat{\mathcal{P}}}{\partial\mathcal{Z}}\frac{\partial\hat{\mathcal{Z}}}{\partial\mathcal{Z}}\ \frac{\partial\hat{\mathcal{Z}}}{\partial\mathcal{W}}\ \left(\mathrm{~CFO~}\right)\quad+\ \frac{4\beta}{\beta\mathcal{Z}}\frac{4\beta}{\beta\mathcal{Z}}\frac{1}{\beta\mathcal{Z}}\frac{\partial\hat{\mathcal{Z}}}{\partial\mathcal{Z}}\hat{\mathcal{H}}\left\{\mathcal{Z}\right\}\hat{\mathcal{H}}}\\&{\quad\left(\mathrm{~NDACC~}\right)\quad+\ \frac{4\beta}{4\mathcal{P}}\frac{1}{4\mathcal{Z}}\frac{1}{\beta\mathcal{Z}}\hat{\mathcal{H}}\left\{\mathcal{Z}\right\}\hat{\mathcal{Z}}\hat{\mathcal{H}}\left\{\mathcal{Z}\right\}\left(\mathrm{~DACC~}\right)}\\&=\ \mathcal{K}\overline{{\mathrm{~v_\mathrm{Z}~}}}\frac{4\beta}{2\mathcal{Z}}\frac{1+4\hat{\mathcal{Z}}}{\beta\mathcal{Z}}|\pm\end{array}
+\begin{aligned}(OP)&=经营净现金流(CFO)+应计利润(ACC)\\&=经营净现金流(CFO)+非操控性应计利润\\&\quad(NDACC)+操控性应计利润(DACC)\\&=不可操控性利润(PDI)+操控性应计利润(DACC)\\\end{aligned}
 $$
 
 其次，对上述表达式取变化值，即
@@ -234,7 +234,7 @@ $$
 最后，考察等式右边两个变化量之间的相关关系，
 
 $$
-SmoothIndex2{=}\rho(\Delta PDI,\Delta DACC)
+SmoothIndex2=\rho(\Delta PDI,\Delta DACC)
 $$
 
 若两者呈负相关变动，则说明公司进行了利润平滑操作，且若该值越接
@@ -244,7 +244,7 @@ $$
 对于财报期重合角度，我们选取四季度单季度营业利润与下一会计年度一季度单季度营业利润进行比较：
 
 $$
-SmoothIndex3{=}\vert OP_{{t},{4}}/OP_{{t}+1,1}\vert
+SmoothIndex3=\left|OP_{t,4}/OP_{t+1,1}\right|
 $$
 
 若两者接近，即指标值越接近 1，则公司越可能存在一定利润平滑的操作。其逻辑在于年报与一季报发布时点接近，公司可以在满足本年度业绩需求的情况下，平滑一部分收益至下一会计年度，为满足下一年度业绩需求提供了一定操作空间。
@@ -282,7 +282,7 @@ $$
 对于生产操控，进行分行业截面回归的表达式如下，
 
 $$
-\frac{PROD_{t}}{TA_{t-1}}=\frac{COGS_{t}+\Delta INV_{t}}{TA_{t-1}}=\beta_{0}+\beta_{1}\frac{1}{TA_{t-1}}+\beta_{2}\frac{SALES_{t}}{TA_{t-1}}+\beta_{3}\frac{\Delta SALES_{t}}{TA_{t-1}}+\beta_{4}\frac{\Delta SALES_{t-1}}{TA_{t-1}}+\delta_{t}
+\frac{PROD_{t}}{TA_{t-1}}=\frac{COGS_{t}+\Delta INV_{t}}{TA_{t-1}}=\beta_{0}+\beta_{1}\frac{1}{TA_{t-1}}+\beta_{2}\frac{SALES_{t}}{TA_{t-1}}+\beta_{3}\frac{\Delta SALES_{t}}{TA_{t-1}}+\beta_{4}\frac{\Delta SALES_{t-1}}{TA_{t-1}}+\varepsilon_{t}
 $$
 
 其中，PROD 为总生产成本，由销货成本 COGS 与存货变化 ΔINV加总可得，残差项为生产成本的异常值；
@@ -308,21 +308,21 @@ $$
 Basu（1997）认为会计稳健性是指会计盈余对“坏消息”做出的反应相比于“好消息”应该更及时，并建立 Basu 反回归模型用以检验企业的会计稳健性。在市场有效的假设下，股价能够成为“好消息”与“坏消息”的代理变量，股票收益率大于0 对应“好消息”，小于0则对应“坏消息”。
 
 $$
-\frac{EPS_{t}}{P_{t-1}}=\beta_{0}+\beta_{1}D_{t}+\beta_{2}RET_{t}+\beta_{3}D_{t}\times RET_{t}+\varepsilon_{t}
+\frac{EPS_{t}}{P_{t-1}}=\beta_{0}+\beta_{1}D_{t}+\beta_{2}RET_{t}+\beta_{3}D_{t}\timesRET_{t}+\varepsilon_{t}
 $$
 
-其中，EPS 为本年度每股收益，P 为上一年度末的股价；RET为上一年度财务报告发布开始至本年度财务报告发布结束（即本年 5 月至下一年4 月）的超额收益，D 为哑变量，若 RET小于 0，D=1，否则 D=0。 $\beta_{2}$ 表示盈余对“好消息”反应的程度， $\beta_{2}+\beta_{3}$ 表示盈余对“坏消息”反应的程度， $\beta_{3}$ 则表示盈余对“坏消息”相比于“好消息”反应的及时程度，所以 $\beta_{3}$ 若显著大于0，则代表企业会计较稳健。
+其中，EPS 为本年度每股收益，P 为上一年度末的股价；RET为上一年度财务报告发布开始至本年度财务报告发布结束（即本年 5 月至下一年4 月）的超额收益，D 为哑变量，若 RET小于 0，D=1，否则 D=0。 $\beta_{2}$ 表示盈余对“好消息”反应的程度， $\beta_{2}{+}\beta_{3}$ 表示盈余对“坏消息”反应的程度， $\beta_{3}$ 则表示盈余对“坏消息”相比于“好消息”反应的及时程度，所以 $\beta_{3}$ 若显著大于0，则代表企业会计较稳健。
 
 Basu模型适用于时间序列上的检验，反映的是企业长期的会计稳健性表现。对于某一年企业之间会计稳健性的横向比较，Khan & Watts（2009）在其基础上建立了C-Score 模型进行相关研究，其用资产规模（SIZE）、市帐率（MTB）以及LEV（资产负债率）对 $\beta_{2}$ 与 $\beta_{3}$ 进行解释，
 
 $$
-\begin{array}{r}{\frac{EPS_{t}}{P_{t-1}}=\beta_{0}+\beta_{1}D_{t}+\left(\phi_{0}+\phi_{1}SIZE_{t}+\phi_{2}MTB_{t}+\phi_{3}LEV_{t}\right)RET_{t}}\\{+\left(\varphi_{0}+\varphi_{1}SIZE_{t}+\varphi_{2}MTB_{t}+\varphi_{3}LEV_{t}\right)D_{t}\times RET_{t}+\varepsilon_{t}}\end{array}
+\begin{aligned}\frac{EPS_{t}}{P_{t-1}}=\beta_{0}+\beta_{1}D_{t}+\left(\phi_{0}+\phi_{1}SIZE_{t}+\phi_{2}MTB_{t}+\phi_{3}LEV_{t}\right)RET_{t}\\+\left(\phi_{0}+\phi_{1}SIZE_{t}+\phi_{2}MTB_{t}+\phi_{3}LEV_{t}\right)D_{t}\timesRET_{t}+\varepsilon_{t}\end{aligned}
 $$
 
 通过对上式分行业进行截面回归，可以得到各系数的值，通过合成可得C-Score 指标：
 
 $$
-C-Score=\hat{\varphi_{0}}+\hat{\varphi_{1}}SIZE_{t}+\hat{\varphi_{2}}MTB_{t}+\hat{\varphi_{3}}LEV_{t}
+C-Score=\varphi_{0}+\varphi_{1}SIZE_{t}+\varphi_{2}MTB_{t}+\varphi_{3}LEV_{t}
 $$
 
 若企业会计较为稳健，其盈余则相对保守，表现为较高的盈余质量，所以 C-Score 指标可以作为盈余质量的代理变量，其指标数值越大，则盈余质量越高。
@@ -349,7 +349,7 @@ Beneish（1999）在对美国 1982 至 1992 年 74 家被证实盈余操纵的�
 Beneish通过Probit回归建立了上述8个指标与美国盈余操纵及正常公司的关系：
 
 $$
-\begin{array}{rl}{{}}&{{M\displaystyle{-Score}=-4.84+0.92(DSR)+0.528(GMI)}}\\{{}}&{{~+0.404(AQI)+0.892(SGI)}}\\{{}}&{{~+0.115(DEPI)-0.172(SGAI)}}\\{{}}&{{~+4.679(Accruals)-0.327(LEVI)}}\end{array}
+\begin{aligned}M-Score=-&4.84+0.92(DSR)+0.528(GMI)\\&+0.404(AQI)+0.892(SGI)\\&+0.115(DEPI)-0.172(SGAI)\\&+4.679(Accruals)-0.327(LEVI)\end{aligned}
 $$
 
 当某企业对应的M-Score指标大于-1.78的时候，该企业有很大可能进行了盈余操纵。M-Score 作为盈余质量好坏的代理变量，其数值越大，盈余质量越差。
@@ -359,12 +359,12 @@ $$
 Frank Benford（1938）对人口出生率、死亡率、物理和化学常数、质素数字等各种数据进行统计分析后，发现这些数据首位数字为 1的概率约为30%，首位数字为2的概率约为 17%，随着数字增大，数字出现的概率依次递减，表现为服从以下分布：
 
 $$
-P\left(d_{i}\right)=\log_{10}\left(1+\frac{1}{d_{i}}\right),d_{i}=1,2,...9
+P(d_i)=\log_{10}\left(1+\frac{1}{d_i}\right),d_i=1,2,\cdots9
 $$
 
 表 2: Benford 定律期望概率
 
-| $\mathbf{\ b{d}}_{i}$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+| $d_{i}$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | $P_{e}$ | 30.10% | 17.61% | 12.49% | 9.69% | 7.92% | 6.69% | 5.80% | 5.12% | 4.58% |
 
@@ -373,7 +373,7 @@ $$
 该定律如今在审计抽样上有着重要的应用，这里我们通过对上市公司利润表数据进行统计，计算上市公司数据首位数字分布与 Benford 定律对应分布的偏差X：
 
 $$
-X{=}\sum_{i=1}^{9}\left[p\left(d_{i}\right){-}p_{e}\left(d_{i}\right)\right]^{2}
+X=\sum_{i=1}^{9}\left[p(d_i)-p_e(d_i)\right]^2
 $$
 
 若X越大，则说明两者分布相差越大，对应企业盈余操纵嫌疑越大，盈余质量越差。
@@ -395,7 +395,7 @@ $$
 对于具体的检验过程，借鉴Gunny（2010）研究真实盈余管理与未来业绩之间关系的方法建立如下检验模型，其表达式为：
 
 $$
-AdjROA_{t+1}=\beta_{0}+\beta_{1}EQP_{t}+\beta_{2}AdjROA_{t}+\beta_{3}Size_{t}+\beta_{4}MTB_{t}+\beta_{5}Growth_{t}+\beta_{6}Z-Score_{t}
+AdjROA_{t+1}=\beta_{0}+\beta_{1}EQP_{t}+\beta_{2}AdjROA_{t}+\beta_{3}Size_{t}+\beta_{4}MTB_{t}+\beta_{5}Growth_{t}+\beta_{6}Z\cdot Score_{t}
 $$
 
 其中，AdjROA为经过行业调整后（减去行业中位数）的总资产收益率，EQP为上述盈余质量的代理变量，控制变量Size为总资产的对数，MTB为市净率，Growth 为最近一期营业收入增长率，Z-Score 为财务困境指数，对于上述每个变量均采用中位数极值处理法进行极值处理。
@@ -413,14 +413,14 @@ $$
 | ACC1 | Accruals（利润表） | $\frac{ACC_{1,t}}{TA_{t-1}}$ |  |
 | ACC2 | Accruals（资产负债表） |  |  |
 |  |  | $\frac{ACC_{2,t}}{TA_{t-1}}$ |  |
-| DAC | DACC（应计盈余管理） | $\frac{DACC_{t}}{TA_{t-1}}$ |  |
-| SM1 | Smoothness（财务数据角度） | $\underline{{\sigma}}_{oP}$ $\sigma_{cFO}$ | 使用5年的数据计算 |
-| SM2 | Smoothness（应计利润分离模型 角度） | $\rho(\Delta PDI,\Delta DACC)$ | 使用5年的变化数据计算 |
+| DAC | DACC（应计盈余管理） | $\frac{DACC_{t}}{TA_{{\it t-1}}}$ |  |
+| SM1 | Smoothness（财务数据角度） | $\underline{{\sigma_{OP}}}$ $\sigma_{cro}$ | 使用5年的数据计算 |
+| SM2 | Smoothness（应计利润分离模型 角度） | $\rho(\Delta PDI,\Delta DAC)$ | 使用5年的变化数据计算 |
 | SM3 | Smoothness（财报期重合角度） | $\left\|OP_{t,4}/OP_{t+1,1}\right\|$ | 相差 0.05以内设为 0，否则为 1 |
 | REM | REM（真实盈余管理） | REM |  |
 | C-Score | C-Score(TLR) | C-score |  |
 | M-Score | M-Score | M-score |  |
-| BFL | Benford's Law | $\sum_{i=1}^{9}\left[p\left(d_{i}\right)-p_{e}\left(d_{i}\right)\right]^{2}$ | 使用5年的利润表数据计算 |
+| BFL | Benford's Law | $\sum_{i=1}^{9}\left[p(d_i)-p_e(d_i)\right]^2$ | 使用5年的利润表数据计算 |
 
 数据来源：国泰君安证券研究
 

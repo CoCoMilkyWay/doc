@@ -61,7 +61,7 @@ liaojingchi024655@gtjas.com
 多因子模型（Multiple-Factor Model, MFM）属于国内外主流量化选股模型之一。使用多个因子预测股票未来收益，筛选预期收益较好的股票，以期战胜基准指数。学术研究上，这类模型属于资产定价理论，最早起源于 CAPM 资产定价理论，1970 年罗斯提出 APT 多因素模型，该模型认为股票未来的收益可以用若干因素来解释。但是并没有指出哪些具体的因素。实证研究方面，1992 年 Fama 和 French 提出三因素模型，使用市场、市值、估值三个因子作为自变量解释股票未来收益，效果不错。2015 年 Fama 和 French 从股利贴现模型出发，推导出与股票收益相关的因素，加入盈利和投资因子，提出五因子模型：
 
 $$
-R_{i}-R_{f}=\alpha+\beta_{1}\big(R_{m}-R_{f}\big)+\beta_{2}SMB+\beta_{3}HML+\beta_{4}RMW+\beta_{5}CMA+\varepsilon_{i}
+R_{i}-R_{f}=\;\alpha+\beta_{1}\big(R_{m}-\;R_{f}\big)+\beta_{2}SMB+\beta_{3}HML+\beta_{4}RMW+\beta_{5}CMA+\varepsilon_{i}
 $$
 
 其中，SMB为市值因子收益率，HML为估值因子收益率，RMW 为盈利因子收益率、CMA为投资因子收益率。Fama 和 French 使用五因子模型分析了多种常见的市场异象，也研究了五因子模型在国际其他股票市场的效果。
@@ -110,7 +110,7 @@ $$
 
 ## （1）因子 IC 测试
 
-因子的 IC 值是指第 T 期的因子值（因子中性化处理后残差） $\vec{\bf x}_{\mathrm{t}}$ 与 T+1期的股票收益 $\vec{\bf r}_{\mathrm{t}+1}$ 的相关系数——Pearson 相关系数。此外，可以计算秩相关系数——Spearman 相关系数，使用两个变量的位次计算，是与因子分布无关。
+因子的 IC 值是指第 T 期的因子值（因子中性化处理后残差） $\vec{\mathbf{X}}_{\mathbf{t}}$ 与 T+1期的股票收益 $\vec{\mathbf{r}}_{\mathbf{t}+\mathbf{1}}$ 的相关系数——Pearson 相关系数。此外，可以计算秩相关系数——Spearman 相关系数，使用两个变量的位次计算，是与因子分布无关。
 
 ## （2）因子分组测试
 
@@ -144,18 +144,18 @@ LightGBM（Light Gradient Boosting Machine)是微软亚洲研究院分布式机�
 
 ## 1.3. 构建指数增强组合
 
-基于多因子模型的指数增强组合构建。我们首先对于不同的宽基指数，筛选出适用的有效因子。其次，每周计算成分股因子值，并对因子进行去极值、标准化、缺失值填充、市值行业中性化处理。然后，按照各类因子逻辑，将股票池股票因子值排序，计算各类因子得分 Score（分位数），对因子得分等权加权每只股票的最终得分。最后，使用多因子模型计算得到每周末股票的得分 ${\cdot}score_{i}^{T}$ 或预期收益率 $\hat{r_{i}}^{T+1}$ 、股票协方差矩阵ˆ 。最后代入下面的组合优化模型，在控制跟踪误差、行业暴露、风格暴露等约束条件下，以最大化股票组合得分 $\begin{array}{r}{\sum_{1}^{N}score_{i}^{T}*w_{i}}\end{array}$ 或最大化预期收益 $\sum_{1}^{N}\hat{r}_{i}^{T+1}\ast\boldsymbol{w}_{i}$ 为目标，求解组合股票的权重 $w^{*}$ ：
+基于多因子模型的指数增强组合构建。我们首先对于不同的宽基指数，筛选出适用的有效因子。其次，每周计算成分股因子值，并对因子进行去极值、标准化、缺失值填充、市值行业中性化处理。然后，按照各类因子逻辑，将股票池股票因子值排序，计算各类因子得分 Score（分位数），对因子得分等权加权每只股票的最终得分。最后，使用多因子模型计算得到每周末股票的得分 $rscore_{i}^{T}$ 或预期收益率 $\hat{r}_{i}^{\textit{ T + 1 }}$ 、股票协方差矩阵ˆ 。最后代入下面的组合优化模型，在控制跟踪误差、行业暴露、风格暴露等约束条件下，以最大化股票组合得分 $\textstyle\sum_{1}^{N}score_{i}^{T}*w_{i}$ 或最大化预期收益 $\sum_{\mathrm{~\scriptsize~1~}}^{\mathrm{~\scriptsize~N~}}\hat{r}_{i}^{^{T\;+1}}^{\mathrm{~\scriptsize~*~}}w_{\mathrm{~\scriptsize~}i}$ 为目标，求解组合股票的权重 ${\boldsymbol{w}}^{*}$ ：
 
 $$
-\begin{array}{rl}&{\underset{mu_{1}}{\overset{N}{\sum}}\displaystyle\sum_{i\in\mathcal{N}_{i}}Sor\delta_{i}^{\top}\ne\mathcal{W}_{i}~Or\displaystyle\sum_{1}^{N}\hat{T}_{i}^{\top+1}\star\mathcal{W}_{i}}\\{\ }&{\qquad1}\\{\ }&{\displaystyle\sum_{i\in\mathcal{N}_{i}}\sum_{w_{i}=1}\qquad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad(1)}\\&{\displaystyle\mathcal{W}^{\mathrm{toomer}}\leq w_{i}\leq w_{i}\leq w^{wpp\pi},\quad\phantom{\hat{W}^{1}\hat{W}^{1}\hat{W}^{1}}=1,\dots,N}\\&{\displaystyle\mathcal{W}^{\mathrm{iotorw}}\leq w_{i}-w_{\Sigma,\Sigma,\hat{\Phi}\hat{W}\hat{\Phi}}\leq w_{w\mathrm{Toiter}}^{wp\pi},\ i=1,\dots,N}\\&{\displaystyle\quad\mathcal{W}^{\top}\sum_{N=1}\qquad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\times}\\&{\displaystyle\quad\sum_{i=1}^{N}\times_{i}w_{i}-w^{i}}&&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\displaystyle\quad\displaystyle\sum_{i=1}^{N}\frac{x_{i}}{x_{i}+w_{i}}\leq w_{i}^{in\mu\lambda}}&&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&\end{array}\tag{3}
-$$
-
-$$
-x_{\scriptscriptstyle{\frac{1+\zeta}{2\leq u}\gamma_{\bf\tt S}}+\zeta_{\bf\tt S}\ll\zeta}w_{i}\geq0.8\qquad({\mathrm{~7~}})
+\begin{aligned}&\begin{aligned}\\&max_{w_{i}}\sum_{1}^{N}score_{i}^{T}*w_{i}\quad or\quad\sum_{1}^{N}\hat{r}_{i}^{T+1}*w_{i}\\&\sum_{i}w_{i}=1\quad\text{ ( 1 ) }\\&w^{lower}\leq w_{i}\leq w^{upper},i=1,\ldots,N\quad\text{ ( 2 ) }\\&w_{active}^{lower}\leq w_{i}-w_{基准指数}\leq w_{active}^{upper},i=1,\ldots,N\\&w^{T}\hat{\sum}w\leq\sigma_{traceerror}^{2}\quad\text{ ( 4 ) }\\&\sum_{1}^{N}x_{il}w_{i}=w^{I}\quad\text{ ( 5 ) }\\&\left|\sum_{1}^{N}x_{ik}*w_{i}\right|\leq x_{k}^{limit}\quad\text{ ( 6 ) }\\&\end{aligned}\\\end{aligned}\tag{3}
 $$
 
 $$
-\sum\left|w_{i}^{t}-w_{i}^{t-1}\right|\leq T\tag{8}
+x_{基准指数}w_{i}\geq0.8\quad(7)
+$$
+
+$$
+\sum\bigl|w_{i}^{t}-w_{i}^{t-1}\bigr|\leq T\tag{8}
 $$
 
 公式（2）为个股上下限约束：主要是不能卖空、避免某些个股权重过高。
@@ -286,7 +286,7 @@ $$
 
 ## 2.2. 超预期（传统）因子
 
-我们参照学术文献中研究 PEAD 效应使用的超预期 SUE 指标，使用多种类型的净利润、营业收入代入公式计算超预期（传统）因子。对于股票 i，SUE是单季度预期外收益 $(X_{i,q}-\mathbb{E}(X_{i,q})$ ）除以预期外收益的标准差，公式为：
+我们参照学术文献中研究 PEAD 效应使用的超预期 SUE 指标，使用多种类型的净利润、营业收入代入公式计算超预期（传统）因子。对于股票 i，SUE是单季度预期外收益 $(\mathbf{\nabla}X_{i,q}-\mathbb{E}(X_{i,q})$ ）除以预期外收益的标准差，公式为：
 
 $$
 SUE_{i,q}=\frac{X_{i,q}-\mathbb{E}(X_{i,q})}{\sigma_{i,q}}

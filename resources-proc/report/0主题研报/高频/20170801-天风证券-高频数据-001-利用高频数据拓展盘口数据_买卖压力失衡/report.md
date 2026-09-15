@@ -159,7 +159,7 @@ wuxianxing@tfzq.com
 我们定义挂单 i 的权重为：
 
 $$
-W_{i}=[Close/(P_{i}-Close)]/\sum Close/(P_{i}-Close)
+W_{i}=[Class/(P_{i}-Closs)]/\sum Closs/(P_{i}-Closs)
 $$
 
 其中 Close 为当日收盘价， $P_{i}$ 为挂单价格。
@@ -167,7 +167,7 @@ $$
 据此我们计算得到个股买卖压力：
 
 $$
-\begin{array}{r}{Pbuy=\sum Vol_{i}\left[Close/(P_{i}-Close)\right]/\sum Close/(P_{i}-Close)}\\{Psell=\sum Vol_{i}\left[Close/(P_{i}-Close)\right]/\sum Close/(P_{i}-Close)}\end{array}
+\begin{aligned}&Pbuy=\sum Vol_{i}\left[Class/(P_{i}-Close)\right]/\sum Close/(P_{i}-Close)\\&PSell=\sum Vol_{i}\left[Class/(P_{i}-Close)\right]/\sum Close/(P_{i}-Close)\\\end{aligned}
 $$
 
 其中 $Vol_{i}$ 为 i 挂单上的挂单量。

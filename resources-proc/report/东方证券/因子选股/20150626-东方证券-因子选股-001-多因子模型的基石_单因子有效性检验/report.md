@@ -116,7 +116,7 @@ $$
 使拟合之后的残差平方和（residual sum of squares, 简记 RSS） ∑ ̂   最小化：
 
 $$
-\mathrm{RSS}=\sum_{\mathrm{t=1}}^{\mathrm{T}}(\mathrm{y}_{\mathrm{t}}-\hat{\mathrm{y}}_{\mathrm{t}})^{2}=\sum_{\mathrm{t=1}}^{\mathrm{T}}(\mathrm{y}_{\mathrm{t}}-\widehat{\alpha}-\hat{\beta}\mathrm{x}_{\mathrm{t}})^{2}
+\mathrm{RSS}=\sum_{\mathrm{t}=1}^{\mathrm{T}}(\mathrm{y}_{\mathrm{t}}-\hat{\mathrm{y}}_{\mathrm{t}})^2=\sum_{\mathrm{t}=1}^{\mathrm{T}}(\mathrm{y}_{\mathrm{t}}-\hat{\mathrm{\alpha}}-\hat{\mathrm{\beta}}\mathrm{x}_{\mathrm{t}})^2
 $$
 
 传统的最小二乘法方便估计出一个线性回归系数，但其目标函数并不是一个稳健的统计量，容易受到异常样本值的影响。因为最小二乘法要求误差项相互独立、服从正态分布、以零为数学期望并有相同方差的随机变量。当实际的观测值包含异常值时，误差将不再服从正态分布，而是重尾分布（long-tailed distribution）。对这样的数据作回归分析时，回归直线将是主体数据与异常值之间的一个妥协，而与真实的回归线相差较远。

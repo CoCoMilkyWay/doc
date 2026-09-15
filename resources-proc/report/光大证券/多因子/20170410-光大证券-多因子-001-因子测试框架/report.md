@@ -51,12 +51,12 @@ zhouxiaoxiao@ebscn.com
 资本资产定价模型（CAPM）由威廉·夏普等人于 1964 年提出，CAPM 模型是在资产组合理论的基础上发展起来的：
 
 $$
-E\left(r_{p}\right)=r_{F}+\beta_{p}*\left(r_{M}-r_{F}\right)
+E\big(r_{p}\big)=r_{F}+\beta_{p}*(r_{M}-r_{F})
 $$
 
 其中， $r_{p}$ 代表资产 p 的收益率， $r_{F}$ 代表无风险收益率， $r_{M}$ 代表市场基准收益率。
 
-在 CAPM 模型的定义下，资产的收益率只与 $\beta_{p}$ 有关，这里的 $\beta_{p}$ 则定义为：$\beta_{p}=\frac{Cov(r_{p},r_{M})}{Var(r_{M})}$ ，即资产收益率与市场组合收益率之间的协方差除以市场组合收益率方差。因此我们可以将 CAPM 模型看作以市场组合为因子的单因子模型。
+在 CAPM 模型的定义下，资产的收益率只与 $\beta_{p}$ 有关，这里的 $\beta_{p}$ 则定义为：$\begin{array}{r}{\beta_{p}=\frac{Cov(r_{p},r_{M})}{Var(r_{M})}}\end{array}$ ，即资产收益率与市场组合收益率之间的协方差除以市场组合收益率方差。因此我们可以将 CAPM 模型看作以市场组合为因子的单因子模型。
 
 但随着业界对股票市场研究的深入，CAPM这样的单一因子模型已经无法很好的解释资产收益的来源。例如，Fama/French1在 1992 年提出 PB 和市值因子对股票的收益率有十分显著的影响，并且基于这个发现建立了Fama-French 三因素模型。
 
@@ -75,13 +75,13 @@ r_{i}=\beta_{i1}*f_{1}+\beta_{i2}*f_{2}+\beta_{i3}*f_{3}+\beta_{i4}*f_{4}+\cdots
 $$
 
 $$
-\mathbb{R}\mathbb{P}:~r_{i}=\sum_{j=1}^{M}\beta_{ij}\ast f_{j}+\mu_{i}
+即:r_{i}=\sum_{j=1}^{M}\beta_{ij}*f_{j}+\mu_{i}
 $$
 
 也可以用向量形式表示：
 
 $$
-\pmb{r}=\pmb{\beta}\pmb{f}+\pmb{\mu}
+\boldsymbol{r}=\boldsymbol{\beta}\boldsymbol{f}+\boldsymbol{\mu}
 $$
 
 其中，
@@ -92,7 +92,7 @@ $f_{j}$ 表示因子收益
 
 $\mu_{i}$ 表示股票i 的残差收益
 
-要使上式成立，需要满足的条件包括：（1） $\mu_{i}$ 之间两两相互独立，也就是说不同股票之间收益率的相关性完全取决于式中的M个因子 $f_{j}$ 。这样的假设也使得相关矩阵Σ的计算更加简便。（2）残差收益率 $\cdot\mu_{i}$ 与各个因子间均不存在相关性。
+要使上式成立，需要满足的条件包括：（1） $\mu_{i}$ 之间两两相互独立，也就是说不同股票之间收益率的相关性完全取决于式中的M个因子 $-f_{j}$ 。这样的假设也使得相关矩阵Σ的计算更加简便。（2）残差收益率 $\cdot\mu_{i}$ 与各个因子间均不存在相关性。
 
 相比较 CAPM和 Fama-French 等模型，多因子模型的优势在于它可以提供更为完整的风险暴露分析，并且分离出每个因子的影响,从而为投资决策提供更为局部和细致的分析。
 
@@ -136,7 +136,7 @@ $$
 MAD=median(\left|f_{i}-Median_{f}\right|)
 $$
 
-采取与3σ法等价的方法，我们将大于 $Median_{f}+3*1.4826*MAD$ 的值或小于 ${\cdot}Median_{f}-3*1.4826*MAD$ 的值定义为异常值。在对异常值做处理时，需要根据因子的具体情况来决定是直接剔除异常值，还是将异常值设为上下限的数值，常用的方法是后者。
+采取与3σ法等价的方法，我们将大于 $Median_{f}+3*1.4826*MAD$ 的值或小于 $\cdot Median_{f}-3*1.4826*MAD$ 的值定义为异常值。在对异常值做处理时，需要根据因子的具体情况来决定是直接剔除异常值，还是将异常值设为上下限的数值，常用的方法是后者。
 
 类似的，对缺失值的处理方式要依据缺失值的来源和逻辑解释，选取不同的操作，包括剔除或者以行业中位数替代。在单因子测试时，我们对缺失率小于 20%的因子数据用中信一级行业的中位数代替，当缺失率大于 20%时则做剔除处理。
 
@@ -161,7 +161,7 @@ $$
 加入行业因子和市值因子后，单因子测试的回归方程如下所示：
 
 $$
-\left[\begin{array}{c}{r_{ti}}\\{\vdots}\\{r_{tn}}\end{array}\right]=\left[\begin{array}{cccc}{\beta_{t11}I_{t1u}}&{\cdots}&{I_{t1v}m_{t1m}}\\{\vdots}&{\vdots}&{\cdots}&{\vdots}\\{\beta_{tn1}I_{tnu}}&{\cdots}&{I_{tnv}m_{tnm}}\end{array}\right]\cdot\left[\begin{array}{c}{f_{ti}}\\{\vdots}\\{f_{tn}}\end{array}\right]+\left[\begin{array}{c}{\mu_{ti}}\\{\vdots}\\{\mu_{tn}}\end{array}\right]
+\begin{bmatrix}r_{ti}\\\vdots\\r_{tn}\end{bmatrix}=\begin{bmatrix}\beta_{t11}I_{t1u}&\cdots&I_{t1v}m_{t1m}\\\vdots&\vdots&\cdots&\vdots\quad\vdots\\\beta_{tn1}I_{tnu}&\cdots&I_{tnv}m_{tnm}\end{bmatrix}\cdot\begin{bmatrix}f_{ti}\\\vdots\\f_{tn}\end{bmatrix}+\begin{bmatrix}\mu_{ti}\\\vdots\\\mu_{tn}\end{bmatrix}
 $$
 
 其中：
@@ -193,25 +193,25 @@ RLM中常用的M-estimator方法具体步骤如下所示：
 多元回归的一般表达式为：
 
 $$
-y_{i}=\alpha+\beta_{1}x_{i1}+\beta_{2}x_{i2}+\cdots+\beta_{k}x_{ik}+\varepsilon_{i}=x_{i}^{\prime}\beta+\varepsilon_{i}
+y_{i}=\alpha+\beta_{1}x_{i1}+\beta_{2}x_{i2}+\cdots+\beta_{k}x_{ik}+\varepsilon_{i}=\boldsymbol{x}_{i}^{\prime}\boldsymbol{\beta}+\varepsilon_{i}
 $$
 
 当给定β的估计值为b 时，拟合的模型为：
 
 $$
-\widehat{y_{\scriptscriptstyle{l}}}=\alpha+b_{1}x_{i1}+b_{2}x_{i2}+\cdots+b_{k}x_{ik}+\varepsilon_{i}=x_{i}^{\prime}b+\varepsilon_{i}
+\widehat{y}_{\iota}=\alpha+b_{1}x_{i1}+b_{2}x_{i2}+\cdots+b_{k}x_{ik}+\varepsilon_{i}=\boldsymbol{x}_{i}^{\prime}\boldsymbol{b}+\varepsilon_{i}
 $$
 
 此时残差为：
 
 $$
-e_{i}=y_{i}-\widehat{y_{\imath}}
+e_{i}=y_{i}-\widehat{y_{u}}
 $$
 
 M-estimation中b的估计由最小化特定的目标函数p决定：
 
 $$
-\sum_{i=1}^{n}p(e_{i})=\sum_{i=1}^{n}p(y_{i}-x_{i}^{\prime}b)
+\sum_{i=1}^{n}p(\mathbf{\nabla}e_{i})=\sum_{i=1}^{n}p(\mathbf{\nabla}y_{i}-\pmb{x}_{i}^{\prime}\pmb{b}).
 $$
 
 其中，p 对于每一个残差给定一个目标函数。P 的性质为：
@@ -220,43 +220,43 @@ $$
 
 （2） p(0)=0；
 
-（3） 对称性， $\mathrm{p(e)=}\mathrm{p(-e)}$ ；
+（3） 对称性， $\mathrm{p(e)=p(-e)}$ ；
 
-（4） $p(e_{i})>p(e_{i}^{\prime})\nrightarrow|e_{i}|>|e_{i}^{\prime}|$
+（4） $p(e_i)>p(e'_i)时,|e_i|>|e'_i|$
 
-令ψ ${\boldsymbol{\mathsf{J}}}={\boldsymbol{p}}^{\prime}$ 为 p 的偏导，ψ为影响曲线。目标函数对系数 b 进行偏导，并令其等于 0，可以得到关于系数的（k+1）个等式：
+令ψ $\mathsf{r}=p^{\prime}$ 为 p 的偏导，ψ为影响曲线。目标函数对系数 b 进行偏导，并令其等于 0，可以得到关于系数的（k+1）个等式：
 
 $$
-\sum_{i=1}^{n}\Psi(y_{i}-x_{i}^{\prime}b)x_{i}^{\prime}=0
+\sum_{i=1}^{n}\boldsymbol{\psi}(\mathbf{\nabla}y_{i}-\pmb{x}_{i}^{\prime}\pmb{b})\;\boldsymbol{x}_{i}^{\prime}=0.
 $$
 
-定义权重函数为： $\begin{array}{r}{\omega(e)=\Psi({\bf e})/{\bf e},}\end{array}$ 并且 $\mathfrak{so}(i)=w(ei)$
+定义权重函数为： $\omega(e)=\psi(\mathsf{e})/\mathsf{e},$ 并且 $令\omega(i)=w(ei)$
 
 于是，系数估计的等式可改写为：
 
 $$
-\sum_{i=1}^{n}\omega_{i}(y_{i}-x_{i}^{\prime}{b})x_{i}^{\prime}=0
+\sum_{i=1}^{n}\omega_{i}(\mathbf{\nabla}y_{i}-\pmb{x}_{i}^{\prime}\pmb{b})\:x_{i}^{\prime}=0.
 $$
 
 由于权重的大小取决于残差的大小，残差的大小取决于估计的系数，而系数又取决于权重，因此我们需要一个迭代算法（iteratively reweighted least-squares,IRLS）。
 
-（1） 选择初始的估计值 $b^{(0)}$ ,如最小二乘法得到的系数估计；
+（1） 选择初始的估计值 $\lfloor b^{(0)}$ ,如最小二乘法得到的系数估计；
 
-（2） 对于第 t 个迭代，根据第（t-1）次的迭代计算残差 $e_{i}^{(t-1)}$ 和对应的权重 $\omega_{i}^{(t-1)}=\omega\left[e_{i}^{(t-1)}\right]$ ;
+（2） 对于第 t 个迭代，根据第（t-1）次的迭代计算残差 $e_{i}^{(t-1)}$ 和对应的权重 $i\omega_{i}^{(t-1)}=\omega\left[e_{i}^{(t-1)}\right]$ ;
 
 （3） 计算新的最优系数估计：
 
 $$
-b^{(t)}=[X^{\prime}W^{(t-1)}X]^{-1}X^{\prime}W^{(t-1)}y
+\boldsymbol{b}^{(t)}=[\boldsymbol{X}^{\prime}\boldsymbol{W}^{(t-1)}\boldsymbol{X}]^{-1}\boldsymbol{X}^{\prime}\boldsymbol{W}^{(t-1)}\boldsymbol{y}
 $$
 
-其中，X为变量矩阵。 $\pmb{W}^{(t-1)}=diag\{\omega_{i}^{(t-1)}\}$ 是当前迭代的权重矩阵。重复（2）（3）步直至参数估计值收敛。b的渐近协方差矩阵为：
+其中，X为变量矩阵。 $\boldsymbol{W}^{(t-1)}=diag\{\omega_{i}^{(t-1)}\}$ 是当前迭代的权重矩阵。重复（2）（3）步直至参数估计值收敛。b的渐近协方差矩阵为：
 
 $$
-\mathbf{v}(b)=\frac{E(\Psi^{2})}{[E(\Psi^{\prime})]^{2}}(\mathbf{X^{\prime}}\mathbf{X})^{-1}
+\mathbf{v}(b)=\frac{E(\boldsymbol{\psi}^{2})}{[E(\boldsymbol{\psi}^{\prime})]^{2}}(\mathbf{X}^{\prime}\mathbf{X})^{-1}
 $$
 
-用∑[ψ $(e_{i})]^{2}$ 去估计 $E(\Psi^{2})$ ，[∑ $\psi^{\prime}(e_{i})/n]^{2}$ 去估计 $[E(\Psi^{\prime})]^{2}$ ，从而得到渐近的协方差矩阵：ν(b)
+用∑[ψ $[(e_{i})]^{2}$ 去估计 $E(\psi^{2})$ ，[∑ $\psi^{\prime}(e_{i})/n]^{2}$ 去估计 $[E(\psi^{\prime})]^{2}$ ，从而得到渐近的协方差矩阵：ν(b)
 
 下面我们通过一个简单的例子来解释RLM相比OLS的优势所在：
 
@@ -264,7 +264,7 @@ $$
 ![](images/5a3d5cecdba7b4e152826e23c1d09580d15bb701206a930921b4f936156629ea.webp)
 资料来源：光大证券研究所，Wind
 
-尽管从图形上看两种回归方法得到的直线斜率差异并不明显，但是从下表的数据中可以看出，RLM 稳健回归所得fj明显大于 OLS 得到 $\hbar\Im\mathrm{f}_{\mathrm{j}}$ ，且 RLM 方法得到的fj显著的小于零（|t|>2）
+尽管从图形上看两种回归方法得到的直线斜率差异并不明显，但是从下表的数据中可以看出，RLM 稳健回归所得fj明显大于 OLS 得到 $的f_{j}$ ，且 RLM 方法得到的fj显著的小于零（|t|>2）
 
 表 1：RLM 与 OLS 回归效果对比
 

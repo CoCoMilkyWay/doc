@@ -117,7 +117,7 @@ $$
 具体的优化形式为：
 
 $$
-\begin{array}{rl}&{\quad\quad\mathrm{max~}(w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|}\\&{\mathrm{s.t.}(w^{T}-w_{bench}^{T})X_{Style}\in[down_{-}cons,up_{-}cons]}\\&{\quad\quad(w^{T}-w_{bench}^{T})X_{ind}\in[down_{-}cons,up_{-}cons]}\\&{\quad\quad(w-w_{bench})^{T}(XFX^{T}+\Delta)(w-w_{bench})<\mathrm{target}TE^{2}}\\&{\quad\quad\quad w^{T}\mathbf{1}=total_{-}weight}\\&{\quad\quad\quad0\leq w\leq max_{-}weight}\end{array}
+\begin{aligned}&\max\ (w-w_{bench})^T\alpha-\delta*\mathbf{1}^T|w-w_{last}|\\s.t.&(w^T-w^T_{bench})X_{Style}\in[down\_coss,up\_coss]\\&\quad(w^T-w^T_{bench})X_{ind}\in[down\_coss,up\_coss]\\&\quad(w-w_{bench})^T(XF^T+\Delta)(w-w_{bench})<\operatorname{target}TE^2\\&\quad w^T1=total\_weight\\&\quad0\leq w\leq max\_weight\end{aligned}
 $$
 
 其中约束条件上文已经给出。这里的α即为我们使用ICIR方式加权合成的α。
@@ -178,7 +178,7 @@ $$
 IC_{weighted}=\frac{\sum_{i}^{n}w_{i}x_{i}r_{i}-(\sum_{i}^{n}w_{i}x_{i})(\sum_{i}^{n}w_{i}r_{i})}{\sqrt{\sum_{i}^{n}w_{i}x_{i}^{2}-(\sum_{i}^{n}w_{i}x_{i})^{2}}\sqrt{\sum_{i}^{n}w_{i}r_{i}^{2}-(\sum_{i}^{n}w_{i}r_{i})^{2}}}
 $$
 
-其中， $x_{i}$ 表示第 i只股票的因子暴露， $r_{i}$ 表示第 i只股票下一期的收益率，n 代表当期截面股票个数， $w_{i}.$ 表示第i只股票的权重，其给定方式为以 int(n/2)为半衰期进行加权，即位于因子打分 50%分位数的股票的权重为 0.5，以此类推。
+其中， $x_{i}$ 表示第 i只股票的因子暴露， $r_{i}.$ 表示第 i只股票下一期的收益率，n 代表当期截面股票个数， $w_{i}.$ 表示第i只股票的权重，其给定方式为以 int(n/2)为半衰期进行加权，即位于因子打分 50%分位数的股票的权重为 0.5，以此类推。
 
 为了更清晰的表达这个方法的思路，我们举个简单的例子。假设有A、B两个因子，其t时刻的因子暴露和 t+1时刻的收益率分别如下表所示：
 
@@ -202,19 +202,19 @@ $$
 如果用 IC 指标计算这两个因子，得到：
 
 $$
-\mathrm{IC_{A}}=0.707,\mathrm{IC_{B}}=0.716
+\mathrm{IC}_{\mathrm{A}}=0.707,\mathrm{IC}_{\mathrm{B}}=0.716
 $$
 
 B 因子的 IC 略高于 A 因子，但显然在多头端 A 因子表现更优，B 因子 IC 相对更高更多来源于空头部分。我们计算加权的 IC，得到：
 
 $$
-\mathrm{IC_{Aweighted}}=0.747,\mathrm{IC_{Bweighted}}=0.633
+\mathrm{IC}_{\mathrm{Aweighted}}=0.747,\mathrm{IC}_{\mathrm{Bweighted}}=0.633
 $$
 
 可以看到，A 因子的 IC 变高了，而 B 因子 IC 大幅降低，因此更好的表示出了两者在多头端的表现差异。根据这个 IC 值我们可以同样计算带权重的 ICIR：
 
 $$
-\mathrm{ICIR}_{\mathrm{weighted}}=\frac{mean(IC_{weighted})}{std(IC_{weighted})}\sqrt{\frac{252}{d}}
+\mathrm{ICIR}_{\text{weighted }}=\frac{\operatorname{mean}(IC_{\text{weighted }})}{\operatorname{std}(IC_{\text{weighted }})}\sqrt{\frac{252}{d}}
 $$
 
 下面，我们使用带权重的 ICIR加权方式重新构建多因子组合，依然保持上文参数 k=50，c=0.2不变，组合构建的细节也完全参照之前的ICIR，回测结果如下图所示：
@@ -319,7 +319,7 @@ $$
 顶端优化模型是李楠等人发表于 NIPS 2014 上《Top Rank Optimization in Linear Time》一文中的算法，其以二分排序为基础，在二分排序模型之中，广泛使用的评价准则是AUC，为了优化AUC，传统排序优化的损失函数为：
 
 $$
-\mathcal{L}_{\mathrm{rank}}\big(f;S\big)=\frac{1}{mn}\sum_{i=1}^{m}\sum_{j=1}^{n}\mathbb{I}\big(f(\mathbf{x}_{i}^{+})\leq f(\mathbf{x}_{j}^{-})\big),\tag{1}
+\mathcal{L}_{\operatorname{rank}}(f;S)=\frac{1}{mn}\sum_{i=1}^{m}\sum_{j=1}^{n}\mathbb{I}\big(f(\mathbf{x}_{i}^{+})\leq f(\mathbf{x}_{j}^{-})\big)\;,\tag{1}
 $$
 
 其中 f 表示预测模型，m 与 n 表示正例样本数与负例样本数， $x_{i}^{+}$ 与 $x_{j}^{-}$ 表示正例样本和负例样本，I表示指示函数，这个损失函数可以理解为：当模型对正例样本的预测值小于负例样本时，记为 1错误，遍历所有正例与负例样本对，得到整体错误率。
@@ -327,39 +327,39 @@ $$
 然而，AUC强调的是模型整体的排序效果好坏，最大化AUC并不能满足对排序最顶端的优化目标，为了解决这一问题，顶端优化算法着眼于优化排序最顶端的精度：高于排名最高负例的正例比例，又被称为顶端正例率，其损失函数为：
 
 $$
-\mathcal{L}(f;S)=\frac{1}{m}\sum_{i=1}^{m}\mathbb{I}\Big(f(\mathbf{x}_{i}^{+})\leq\operatorname*{max}_{1\leq j\leq n}f(\mathbf{x}_{j}^{-})\Big)\tag{2}
+\mathcal{L}(f;S)=\frac{1}{m}et{}{_{i=1}^{m}}\sum\mathbb{I}\Big(f(\mathbf{x}_{i}^{+})\leq\operatorname*{max}_{1\leq j\leq n}f(\mathbf{x}_{j}^{-})\Big)\tag{2}
 $$
 
-损失函数(2)可以理解为：当模型对正例x+的预测值 $f(x_{i}^{+})$ 比模型预测排序最靠前的负例$\mathrm{max}_{1\le j\le\mathrm{n}}f(x_{j}^{-})$ 预测值小的时候，记为 1 错误，对所有正例进行遍历，得到排名在最高负例之下的正例比例，通过降低(2)中的损失函数，我们将更多的正例排在了所有负例之前，使得在排序顶端的正例纯度升高。
+损失函数(2)可以理解为：当模型对正例x+的预测值 $f(x_{i}^{+})$ 比模型预测排序最靠前的负例$\operatorname*{max}_{1\leq j\leq\mathrm{n}}f(x_{j}^{-})$ 预测值小的时候，记为 1 错误，对所有正例进行遍历，得到排名在最高负例之下的正例比例，通过降低(2)中的损失函数，我们将更多的正例排在了所有负例之前，使得在排序顶端的正例纯度升高。
 
 由于指示函数为非凸函数，不利于模型的优化，模型使用凸函数对损失函数进行替代：
 
 $$
-\mathcal{L}^{\ell}(f;S)=\frac{1}{m}\sum_{i=1}^{m}\ \ell\Big(\operatorname*{max}_{1\leq j\leq n}f(\mathbf{x}_{j}^{-})-f(\mathbf{x}_{i}^{+})\Big)\tag{3}
+\mathcal{L}^{\ell}(f;S)=\frac{1}{m}\sum_{i=1}^{m}\;\ell\Big(\operatorname*{max}_{1\leq j\leq n}f(\mathbf{x}_{j}^{-})-f(\mathbf{x}_{i}^{+})\Big)\tag{3}
 $$
 
-其中l 为截断二次损失 $l(z)=[1+z]_{+}^{2}$ ，为了最小化损失函数，我们将 $\mathbf{\partial}\cdot f(x)\mathbf{\partial}\psi\mathcal{U}\mathbf{\partial}w^{T}x$ 的形式表示，那么模型的目的就是学得各因子的权重 $w$ ，最终，模型的优化问题为：
+其中l 为截断二次损失 $l(z)=[1+z]_{+}^{2}$ ，为了最小化损失函数，我们将 $\cdot f(x)以w^{T}x$ 的形式表示，那么模型的目的就是学得各因子的权重 $w$ ，最终，模型的优化问题为：
 
 $$
-\operatorname*{min}_{\mathbf{w}}\ \frac{\lambda}{2}\|\mathbf{w}\|^{2}+\frac{1}{m}\sum_{i=1}^{m}\ell\Big(\operatorname*{max}_{1\leq j\leq n}\mathbf{w}^{\top}\mathbf{x}_{j}^{-}-\mathbf{w}^{\top}\mathbf{x}_{i}^{+}\Big)\tag{4}
+\begin{aligned}\min_{\mathbf{w}}\ \frac{\lambda}{2}\|\mathbf{w}\|^2+\frac{1}{m}\sum_{i=1}^{m}\ell\Big(\max_{1\leq j\leq n}\mathbf{w}^{\top}\mathbf{x}_j^{-}-\mathbf{w}^{\top}\mathbf{x}_i^{+}\Big)\end{aligned}\tag{4}
 $$
 
 其中λ为正则化参数，由于max操作符难以优化，我们对优化问题求其对偶形式：
 
 $$
-\operatorname*{min}_{(\alpha,\beta)\in\Xi}g(\alpha,\beta)=\frac{1}{2\lambda m}\|\alpha^{\top}\mathbf{X}^{+}-\beta^{\top}\mathbf{X}^{-}\|^{2}+\sum_{i=1}^{m}\ell_{*}(\alpha_{i})\tag{5}
+\operatorname*{min}_{(\mathbf{\alpha},\mathbf{\beta})\in\Xi}\;g(\mathbf{\alpha},\mathbf{\beta})=\frac{1}{2\lambda m}\|\mathbf{\alpha}^{\top}\mathbf{X}^{+}-\mathbf{\beta}^{\top}\mathbf{X}^{-}\|^{2}+\textstyle\sum_{i=1}^{m}\ell_{*}(\alpha_{i})\tag{5}
 $$
 
 其中α与 $\beta$ 为对偶变量，其定义域Ξ为：
 
 $$
-\begin{array}{rlr}{\Xi}&{=}&{\left\{{\pmb\alpha}\in\mathbb{R}_{+}^{m},\beta\in\mathbb{R}_{+}^{n}:{\bf1}_{m}^{\top}{\pmb\alpha}={\bf1}_{n}^{\top}\beta\right\}}\end{array}\tag{6}
+\begin{array}{rlr}{\Xi}&{=}&{\left\{\pmb{\alpha}\in\mathbb{R}_{+}^{m},\:\pmb{\beta}\in\mathbb{R}_{+}^{n}:\:\mathbf{1}_{m}^{\top}\pmb{\alpha}=\mathbf{1}_{n}^{\top}\pmb{\beta}\:\right\}}\end{array}\tag{6}
 $$
 
-令 $\ b{\cdot}\ b{\alpha}^{*}$ 与 $\beta^{*}$ 为对偶问题的最优解，那么原问题的最优解 $w^{*}$ 可由对偶变量推出：
+令 $-\alpha^{*}$ 与 $\beta^{*}$ 为对偶问题的最优解，那么原问题的最优解 $\cdot w^{*}$ 可由对偶变量推出：
 
 $$
-\mathbf{w}^{*}={\frac{1}{\lambda m}}\bigl(\mathbf{{a}}^{*}{}^{\top}\mathbf{X}^{+}-\beta^{*}{}^{\top}\mathbf{X}^{-}\bigr)\tag{7}
+\mathbf{w}^{*}=\frac{1}{\lambda m}\big(\mathbf{a}^{*\top}\mathbf{X}^{+}-\mathbf{\beta}^{*\top}\mathbf{X}^{-}\big)\tag{7}
 $$
 
 所以若求得对偶变量α与β的最优解，我们也得到了因子权重的最优解 $w^{*}$ ，为了求解对偶变量，我们使用加速梯度下降来对(5)式进行求解，对偶变量的梯度为：
@@ -367,11 +367,11 @@ $$
 (8)
 
 $$
-\nabla_{\alpha}g(\alpha,\beta)=\mathbf{X}^{+}\nu^{\top}/\lambda m+\ell_{*}^{\prime}(\alpha)\tag{9}
+\nabla_{\pmb{\alpha}}g(\pmb{\alpha},\pmb{\beta})=\mathbf{X}^{+}\pmb{\nu}^{\top}/\lambda m+\ell_{*}^{\prime}(\pmb{\alpha})\tag{9}
 $$
 
 $$
-\nabla_{\beta}g(\alpha,\beta)=-\mathbf{X}^{-}\pmb{\nu}^{\top}/\lambda m\tag{10}
+\nabla_{\pmb{\beta}}g(\pmb{\alpha},\pmb{\beta})=-\mathbf{X}^{-}\pmb{\nu}^{\top}/\lambda m\tag{10}
 $$
 
 $$
@@ -401,7 +401,7 @@ $$
 我们同样通过顶端优化算法构建月换仓的交易策略，在每个月最后一个交易日结束后提取个股过去 12 个月月末的因子值及下一期收益率，对每一期分别运行顶端排序模型，得到因子权重，最后以 6个月为半衰期求得加权均值，使用此因子权重与当期个股因子暴露加权后得到个股的因子总得分，该得分即为合成的ALPHA值。依然根据3.1节中的目标函数进行组合优化：
 
 $$
-\operatorname*{max}{(w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|}
+\operatorname*{max}(w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|
 $$
 
 我们回测的细节如下：

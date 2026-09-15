@@ -308,7 +308,7 @@ X=1，3，5，7，9，15，日线一段下跌在30 分钟级别走势上出现�
 考虑每日的指数点位计算公式：
 
 $$
-\begin{array}{rl}{{\frac{\displaystyle\sum_{n=1}^{N}P_{_{t,n}}\cdot CAP_{_{t,n}}\cdot W_{_{t,n}}}{\displaystyle\sum_{n=1}^{N}P_{_{t-1,n}}\cdot CAP_{_{t,n}}\cdot W_{_{t,n}}}=\frac{PI_{_{t}}}{PI_{_{t-1}}}}\qquad}&{}\end{array}
+\frac{\sum\limits_{n=1}^{N}P_{_{t,n}}\cdot CAP_{_{t,n}}\cdot W_{_{t,n}}}{\sum\limits_{n=1}^{N}P_{_{t-1,n}}\cdot CAP_{_{t,n}}\cdot W_{_{t,n}}}=\frac{PI_{_{t}}}{PI_{_{t-1}}}
 $$
 
 其中，N 为成分股个数，P为成分股n的收盘价，CAP 为其 A股总股本，W为其分级靠档比例，PI为指数收盘价。
@@ -316,13 +316,13 @@ $$
 上式可化为：
 
 $$
-\sum_{n=1}^{N}{\left|\begin{array}{ll}{P_{_{t,n}}}-\frac{PI_{_{t}}}{PI_{_{t-1}}}.P_{_{t-1,n}}\right|}\end{array}\cdot CAP_{_{t,n}}\cdot W_{_{t,n}}=0
+\sum_{_{n=1}}^{^{N}}\left(P_{_{t,n}}-\frac{PI_{_{t}}}{PI_{_{t-1}}}\cdot P_{_{t-1,n}}\right)\cdot CAP_{_{t,n}}\cdot W_{_{t,n}}=0
 $$
 
 现在我们已知 P、PI、CAP，但是对 W 不确定，假设 W 有两个可能的值 $\mathbf{W}^{1}$ 与 $\mathbf{W}^{2}.$ ，那么我们设一个 0-1变量 x（可取0或 1），将方程转化为一个多元0-1不定方程，进行优化求解，从而得到较为准确的 W。
 
 $$
-\sum_{n=1}^{N}\left(\left.P_{t,n}-{\frac{PI_{t}}{PI_{t-1}}}\cdot P_{t-1,n}\right)\right.\cdot CAP_{t,n}\cdot W_{t,n}^{\mathrm{~1~}}\cdot x_{n}+\sum_{n=1}^{N}\left(\left.P_{t,n}-{\frac{PI_{t}}{PI_{t-1}}}\cdot P_{t-1,n}\right)\right.\cdot CAP_{t,n}\cdot W_{t,n}^{\mathrm{~2~}}\cdot(1-x_{n})=0
+\sum_{_{s=1}}^{^{\infty}}\left(P_{_{t,s}}-\frac{PI_{_{r}}}{PI_{_{r-1}}}\cdot P_{_{t-1,s}}\right)\cdot CAP_{_{r,s}}\cdot W_{_{r,s}}^{^{1}}\cdot x_{_{s}}+\sum_{_{s=1}}^{^{\infty}}\left(P_{_{r,s}}-\frac{PI_{_{r}}}{PI_{_{r-1}}}\cdot P_{_{t-1,s}}\right)\cdot CAP_{_{r,s}}\cdot W_{_{r,s}}^{^{2}}\cdot(1-x_{_{s}})=0
 $$
 
 最后，使用上述得到的权重信息对个股 30 分钟数据进行加权可得行业指数的30分钟数据。
@@ -532,9 +532,9 @@ $$
 
 - 收益率：
 
-- 预测成功CA-CB 段收益率 $=\left(P_{CB}-P_{CA}\right)/P_{CA}\times100\%$
+- 预测成功CA-CB 段收益率 $\left(\boldsymbol{P}_{CB}-\boldsymbol{P}_{CA}\right)/\boldsymbol{P}_{CA}\times100\%$
 
-- 止损操作CA-SB2 段收益率（以下简称止损收益率 $)=(P_{SB2}-P_{CA})$ $/Pc_{A}\times100\%$
+- 止损操作CA-SB2 段收益率（以下简称止损收益率 $\boldsymbol{D}=\left(\boldsymbol{P}_{SB2}-\boldsymbol{P}_{CA}\right)$ $/P_{CA}\times100\%$
 
 - 跟随确认收益空间：所有预测样本（考虑止损）的平均收益率
 

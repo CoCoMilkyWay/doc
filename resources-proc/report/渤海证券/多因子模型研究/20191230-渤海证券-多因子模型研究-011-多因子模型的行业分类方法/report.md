@@ -58,7 +58,7 @@ songyang@bhzq.com
 K-Means 算法是一种简单的迭代型聚类算法，采用距离作为相似性指标，从而将给定数据集分为 K 个类，每个类的中心是根据类中所有数值的均值得到的，每个类的中心用聚类中心来描述。对于这里“距离”的定义，大部分情况下选取欧式距离作为相似度指标，也可以选取其他距离。算法的目标是使各个类的聚类平方和最小。对于给定的一个包含 n 个的数据点的数据集 X 以及要得到的类别数量 K，其损失函数可以写为：
 
 $$
-\mathsf{J}=\sum_{k=1}^{K}\sum_{i=1}^{n}\|x_{i}-u_{k}\|^{2}
+\mathbf{J}=\sum_{k=1}^{K}\sum_{i=1}^{n}\lVert\boldsymbol{x}_{i}-\boldsymbol{u}_{k}\rVert^{2},
 $$
 
 在算法构造上，首先随机选取 K 个对象作为初始的聚类中心。然后计算每个对象与各个种子聚类中心之间的距离，把每个对象分配给距离它最近的聚类中心。聚类中心以及分配给它们的对象就代表一个聚类。一旦全部对象都被分配了，每个聚类的聚类中心会根据聚类中现有的对象被重新计算。这个过程将不断重复直到满足某个终止条件。终止条件可以是以下任何一个：
@@ -536,9 +536,9 @@ $$
 |  | STOQ |  |
 |  | STOS | 季度平均换手率；最近一季度的交易量/流通股数 |
 |  | STOA | 半年平均换手率；最近半年的交易量/流通股数 年度平均换手率；最近一年的交易量/流通股数 |
-|  | STOM_barra | Barra 因子；公式： $\ln\left(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}}\right)$ $V_{t}$ 为t日成交金额， $S_{t}$ 为t日流动市值 |
-|  | STOQ_barra | Barra 因子；公式： $\begin{array}{r}{\ln[\frac{1}{T}\sum_{t=1}^{T}\exp(STOM_{t})]}\end{array}$ ，T=63 个交易日 |
-|  | STOA_barra | Barra 因子；公式： $\begin{array}{r}{\ln[\frac{1}{T}\sum_{t=1}^{T}\exp(STOM_{t})]}\end{array}$ ，T=244个个交易日 |
+|  | STOM_barra | Barra 因子；公式： $\begin{array}{r}{\ln\left(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}}\right)}\end{array}$ $V_{t}$ 为t日成交金额， $S_{t}$ 为t日流动市值 |
+|  | STOQ_barra | Barra 因子；公式： $\ln\left[\frac{1}{T}\sum_{t=1}^{T}\exp(STOM_t)\right]$ ，T=63 个交易日 |
+|  | STOA_barra | Barra 因子；公式： $\ln\left[\frac{1}{T}\sum_{t=1}^{T}\exp(STOM_t)\right]$ ，T=244个个交易日 |
 |  | Ins | 机构持股比例；机构持股变动/总股本 |
 |  | ins_c | 机构持股比例变动 |
 |  | MSM | 一个月换手率变动；最近1个月换手率/最近1年换手率 |

@@ -125,7 +125,7 @@ Fama-French三因子模型的实证结果不仅能够较好地解释公司规模
 - 未来现金流信息折现的收益（CF）
 
 $$
-{\mathrm{Residual~Return}}({\mathrm{RR}})=~{\mathrm{RE-U-CF}}
+\mathrm{Residual\:Return(RR)=RE-U-CF}
 $$
 
 ## 条件均衡收益(U)和 Cash-Flow News(CF)的构造
@@ -149,7 +149,7 @@ $$
 （1）SMB（市值因子）
 
 $$
-SMB=1/3*(SL+SM+SH)-1/3*(BL+BM+BH)
+\mathsf{SMB{=}1/3{*}(SL{+}SM{+}SH{)}{-}1/3{*}(BL{+}BM{+}BH{)}}
 $$
 
 其中，SL表示股票组合SL的加权收益率，以此类推。
@@ -157,7 +157,7 @@ $$
 （2）HML（账面市值比因子）
 
 $$
-HML=(SH+BH)/2-(SL+BL)/2
+\mathsf{HML}=(\mathsf{SH}+\mathsf{BH})/2-(\mathsf{SL}+\mathsf{BL})/2
 $$
 
 （3）MKT（市场因子）
@@ -181,7 +181,7 @@ Cash flow News为News about future cash flows，即未来现金流的信息，�
 步骤一：计算未来1-5年的预期收益
 
 $$
-\begin{array}{rl}&{X_{t,t+1}=A1_{t}}\\&{X_{t,t+2}=A2_{t}}\\&{X_{t,t+3}=A2_{t}(1+LTG_{t})}\\&{X_{t,t+4}=X_{t,t+3}(1+LTG_{t})}\\&{X_{t,t+5}=X_{t,t+4}(1+LTG_{t})}\end{array}
+\begin{aligned}X_{t,t+1}&=A1_{t}\\X_{t,t+2}&=A2_{t}\\X_{t,t+3}&=A2_{t}(1+LTG_{t})\\X_{t,t+4}&=X_{t,t+3}(1+LTG_{t})\\X_{t,t+5}&=X_{t,t+4}(1+LTG_{t})\end{aligned}
 $$
 
 其中，A1表示分析师一致预期本年年末个股的每股收益，A2表示分析员一致预测下一年年末的个股的每股收益，LTGt表示分析师一致预期净利润的年化增长率。
@@ -189,7 +189,7 @@ $$
 步骤二：计算未来6-10年的预期收益
 
 $$
-X_{t,t+j+1}=X_{t,t+j}\left[1+LTG_{t}+{\frac{j-4}{5}}(g_{t}-LTG_{t})\right]
+X_{t,t+j+1}=X_{t,t+j}\left[1+LTG_{t}+\frac{j-4}{5}(g_{t}-LTG_{t})\right]
 $$
 
 其中，g为全部股票LTG的均值
@@ -197,19 +197,19 @@ $$
 步骤三：计算对数预期会计收益(expected log accounting return)，其中ψ取0.05.
 
 $$
-e_{t,t+j+1}=\left\{\begin{array}{l}{log\left(1+\frac{X_{t,t+j+1}}{B_{t,t+j}}\right)for0\leq j\leq9,}\\{log\left(1+\frac{g_{t}}{1-\varphi}\right)forj\geq10,}\end{array}\right.
+e_{t,t+j+1}=\left\{\begin{aligned}log\left(1+\frac{X_{t,t+j+1}}{B_{t,t+j}}\right)&\;for\;0\leq j\leq9,\\log\left(1+\frac{g_{t}}{1-\varphi}\right)&\;for\;j\geq10,\end{aligned}\right.
 $$
 
 步骤四：计算三阶段增长模型(three-stage growth model), 其中，ρ取0.95.
 
 $$
-E_{t}\sum_{j=0}^{\infty}\rho^{j}e_{t+j+1}=\sum_{j=0}^{9}\rho^{j}e_{t+j+1}+\frac{\rho^{10}}{1-\rho}log\left(1+\frac{g_{t}}{1-\varphi}\right)
+E_{t}\sum_{j=0}^{\propto}\rho^{j}e_{t+j+1}=\sum_{j=0}^{9}\rho^{j}e_{t+j+1}+\frac{\rho^{10}}{1-\rho}log\left(1+\frac{g_{t}}{1-\varphi}\right)
 $$
 
 步骤五：计算CF指标
 
 $$
-CF_{t+1}=E_{t+1}\sum_{j=0}^{\infty}\rho^{j}e_{t+j+1}-E_{t}\sum_{j=0}^{\infty}\rho^{j}e_{t+j+1}
+CF_{t+1}=E_{t+1}\sum_{j=0}^{\infty}\rho^{j}e_{t+j+1}-E_{t}\sum_{j=0}^{\infty}\rho^{j}e_{t+j+1},
 $$
 
 条件均衡收益(U)和Cash-Flow News(CF)计算完成后，通过公式Residual Return(RR) = RE − U − CF 计算残差收益因子RR。
@@ -231,7 +231,7 @@ $$
 当某支股票残差收益RR因子较大时，股价长期位于高位，未来下跌的可能性很大，因为U的影响有限，考虑到这一点，本篇专题报告把残差收益RR因子计算公式简化为：
 
 $$
-{\mathrm{Residual~Return}}({\mathrm{RR}})=~{\mathrm{RE-CF}}
+\mathrm{Residual\:Return(RR)=RE-CF}
 $$
 
 据此，本篇专题报告构造如下交易策略：根据股票价格与未来预期现金流，在调仓日买进RR较低的组合，同时卖出处于RR较大的组合。

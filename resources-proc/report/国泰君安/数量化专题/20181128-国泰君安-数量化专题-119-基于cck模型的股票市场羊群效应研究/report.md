@@ -131,37 +131,37 @@ Chang, Cheng & Khorana 首先通过以下推导证明了理性情况下，由于
 定义股票组合在 t 时刻的截面绝对离散度C S A D 为
 
 $$
-\ CSAD_{\mathrm{\Omega}_{t}}=\frac{1}{N}\sum_{i=1}^{N}\left|R_{i,t}-R_{\mathrm{\Omega}_{m,t}}\right|
+CSAD_{t}=\frac{1}{N}\sum_{i=1}^{N}\left|R_{i,t}-R_{m,t}\right|
 $$
 
 根据 CAPM，有
 
 $$
-E(R_{i,t})=\gamma_{\mathrm{~0~}}+\beta_{i}E(R_{m,t}-\gamma_{\mathrm{~0~}})
+E\;(\;R_{_{i,t}}\;)\;=\;\gamma_{_{0}}\;+\;\beta_{_{i}}E\;(\;R_{_{m\;,t}}\;-\;\gamma_{_{0}}\;)
 $$
 
-则期望C S A D ，即 $E\left(CSAD_{_t}\right)$ 为
+则期望C S A D ，即 $E(CSAD_{_{t}})$ 为
 
 $$
-\begin{array}{rl}&{E\left(CSAD,\right)=E\displaystyle\left(\frac{1}{N}\sum_{i=1}^{N}\left|R_{i,i}-R_{n,i}\right|\right)}\\&{=\displaystyle\frac{1}{N}\sum_{i=1}^{N}\left(\sum_{j=1,i}^{N}E\left(R_{n,i}\right)-E\left(R_{n,i}\right)\right)}\\&{=\displaystyle\frac{1}{N}\left(\sum_{i=1}^{N}\left|\gamma_{i}+\beta_{i}E\left(R_{n,i}-\gamma_{0}\right)-(\gamma_{0}+\beta_{m}E\left(R_{n,i}-\gamma_{0}\right))\right|\right)}\\&{=\displaystyle\frac{1}{N}\sum_{i=1}^{N}\left|\beta_{i}-\beta_{m}\right|E\left(R_{n,i}-\gamma_{0}\right)}\\&{=\displaystyle\frac{1}{N}\sum_{i=1}^{N}\left|\beta_{i}-\beta_{m}\right|E\left(R_{n,i}-\gamma_{0}\right)}\end{array}
+\begin{aligned}&E\left(CSAD_{_t}\right)=E\left(\frac{1}{N}\sum_{_{i=1}}^{^N}\left|R_{_{i,t}}-R_{_{m,t}}\right|\right)\\&=\frac{1}{N}\left(\sum_{_{i=1}}^{^N}\left|E\left(R_{_{i,t}}\right)-E\left(R_{_{m,t}}\right)\right|\right)\\&=\frac{1}{N}\left(\sum_{_{i=1}}^{^N}\left|\gamma_{_0}+\beta_{_i}E\left(R_{_{m,t}}-\gamma_{_0}\right)-\left(\gamma_{_0}+\beta_{_m}E\left(R_{_{m,t}}-\gamma_{_0}\right)\right)\right|\right)\\&=\frac{1}{N}\sum_{_{i=1}}^{^N}\left|\beta_{_i}-\beta_{_m}\left|E\left(R_{_{m,t}}-\gamma_{_0}\right)\right.\right.\\\end{aligned}
 $$
 
-对 $E\left(CSAD_{_t}\right)$ 求一、二阶导数，有
+对 $E(CSAD_{_{t}})$ 求一、二阶导数，有
 
 $$
-\frac{\delta E\left(CSAD_{\iota}\right)}{\delta E\left(R_{\iota,\iota}\right)}=\frac{1}{N}\sum_{i=1}^{N}\left|\beta_{i}-\beta_{\iota}\right|>0
+\frac{\delta E\left(CSAD_{_t}\right)}{\delta E\left(R_{_{m,t}}\right)}=\frac{1}{N}\sum_{_{i=1}}^{N}\left|\beta_{_i}-\beta_{_m}\right|>0
 $$
 
 $$
-\frac{\delta^{~2}E\left(CSAD_{~t}\right)}{\delta E\left(R_{~m,t}\right)^{2}}=~0
+\frac{\delta^{^2}E\left(CSAD_{_t}\right)}{\delta E\left(R_{_{m,t}}\right)^{^2}}=0.
 $$
 
 一阶导数为正，二阶导数为零，说明理性情况，即无羊群效应时，C S A D和Rm的关系为线性正相关。
 
-而存在羊群效应时，CSAD 和 Rm的线性正相关关系会被打破。基于这一思想，Chang, Cheng & Khorana 构造了如下回归，根据回归中 ${R_{{_m,t}}}^{2}$ 的系数 ${\boldsymbol{\beta}}_{\mathbf{\nu}_{2}}$ 是否显著为负判断是否存在羊群效应： ${\boldsymbol{\beta}}_{\mathbf{\nu}_{2}}$ 显著时，说明 $CSAD_{\iota}$ 和Rm的关系为非线性； ${{\boldsymbol{\beta}}_{\mathbf{\Lambda}_{2}}}$ 为负时，如下图所示，随Rm增大，离散度会减速上升或加速下降。减速上升说明 $CSAD_{t}$ 上升幅度低于理性情况（理性情况下匀速上升），离散度加速下降更表明 $CSAD_{\iota}$ 和 Rm 间存在强负相关关系。因此， ${R_{{m},t}}^{2}$ 的系数 $\beta_{\gamma}$ 显著为负时说明羊群效应发生。
+而存在羊群效应时，CSAD 和 Rm的线性正相关关系会被打破。基于这一思想，Chang, Cheng & Khorana 构造了如下回归，根据回归中 $R_{{\tiny{\begin{array}{c}{m,t}\end{array}}}}^{\quad2}$ 的系数 $\beta_{z}$ 是否显著为负判断是否存在羊群效应： $\beta_{z}$ 显著时，说明 $CSAD_{\iota}$ 和Rm的关系为非线性； $\beta_{\mathrm{~2~}}$ 为负时，如下图所示，随Rm增大，离散度会减速上升或加速下降。减速上升说明 $CSAD_{_t}$ 上升幅度低于理性情况（理性情况下匀速上升），离散度加速下降更表明 $CSAD_{\perp}$ 和 Rm 间存在强负相关关系。因此， $R_{{\tiny{\begin{array}{c}{m,t}\end{array}}}}^{\quad2}$ 的系数 $\beta_{\mathrm{~}_{2}}$ 显著为负时说明羊群效应发生。
 
 $$
-CSAD_{t}=\alpha+\beta_{1}\left|R_{{}_{m,t}}\right|+\beta_{2}R_{{}_{m,t}}^{{}^{2}}+\varepsilon_{t}
+CSAD_{_t}=\alpha+\beta_{_1}\left|R_{_{m,t}}\right|+\beta_{_2}R_{_{m,t}}^{^2}+\varepsilon_{_t}
 $$
 
 图 2β2 显著为负时 CSAD 与 Rm 关系
@@ -175,14 +175,14 @@ CCK模型的所有因变量均基于市场收益率Rm构建，也即模型将市
 从驱动因素的重要性出发，本文将主要探究市场驱动的羊群效应、市值风格驱动的羊群效应发生后的市场：我们以 22 交易日（一个月，包括当日）为滚动期，每天计算向前 22交易日其上证50成分股组合截面绝对离散度CSAD，估计以下两个模型的参数：
 
 $$
-\begin{array}{r}\begin{array}{l}{CSAD_{\mathrm{~\it t~}}=\alpha+\beta_{{\mathrm{~\scriptsize1~}}}\Big|R_{\mathrm{~\it m~,\mathrm{~\it t~}~}}\Big|+\beta_{{\mathrm{~\scriptsize2~}}}R_{\mathrm{~\it m~,\mathrm{~\it t~}~}}{\}}\end{array}}\end{array}
+CSAD_{_t}=\alpha+\beta_{_1}\left|R_{_{m,t}}\right|+\beta_{_2}{R_{_{m,t}}}^2
 $$
 
 $$
-\begin{array}{r}{{CSAD}_{t}=\alpha+\beta_{1}\left|R_{\textrm{ \tiny { s m b , t } }}\right|+\beta_{2}{R_{\textrm{ \tiny { s m b , t } }}}^{2}+\varepsilon_{t}}\end{array}
+CSAD_{_t}=\alpha+\beta_{_1}\left|R_{_{smb,t}}\right|+\beta_{_2}R_{_{smb,t}}^2+\varepsilon_{_t}
 $$
 
-其中， $R_{\textit{ \textbf { m } },t}$ 为指数收益率， $R_{\scriptscriptstyle{smb},t}$ 为市值因子收益率，当对应二次项系数显著为负时，则发生了由该因素驱动的羊群效应。我们以滚动期内指数平均日收益率的正负区分市场趋势为上涨还是下跌，上涨状态下各指数收盘价与羊群效应发生时间如下图所示。从图中可以看出：
+其中， $R_{{\tiny{\begin{array}{c}{m}\\\end{array}}},t}$ 为指数收益率， $R_{{smb},t}$ 为市值因子收益率，当对应二次项系数显著为负时，则发生了由该因素驱动的羊群效应。我们以滚动期内指数平均日收益率的正负区分市场趋势为上涨还是下跌，上涨状态下各指数收盘价与羊群效应发生时间如下图所示。从图中可以看出：
 
 ①羊群效应产生于趋势，作用于趋势，信号发出前后市场趋势明显。
 
@@ -210,7 +210,7 @@ $$
 
 建仓成本：次日均价
 
-策略步骤：计算向前 22 日（包括当日）每天的成分股组合截面绝对离散度 CSAD，OLS 估计 CCK 模型中 ${R_{{m},t}}^{2}$ 的系数 ${\boldsymbol{\beta}}_{\mathbf{\Phi}_{2}}$ ，若 ${\boldsymbol{\beta}}_{\mathbf{\Phi}_{2}}$ 显著为负则认为当日该组合存在羊群效应，根据 22 日内指数平均收益率的正负区分羊群效应发生时的市场趋势为上涨/下跌，买入/卖出标的指数并持仓22交易日，持有期不重复开仓。
+策略步骤：计算向前 22 日（包括当日）每天的成分股组合截面绝对离散度 CSAD，OLS 估计 CCK 模型中 ${R_{{\tiny~m~},t}^{{\tiny~\mathrm{~\scriptsize~2~}}}}$ 的系数 $\beta_{\mathrm{~2~}}$ ，若 $\beta_{\mathrm{~2~}}$ 显著为负则认为当日该组合存在羊群效应，根据 22 日内指数平均收益率的正负区分羊群效应发生时的市场趋势为上涨/下跌，买入/卖出标的指数并持仓22交易日，持有期不重复开仓。
 
 市场趋势为上涨时策略在宽基指数上的平均表现如下所示（分年度表现见附录）。可以看出，市场趋势方面，市场存在上涨趋势时，羊群效应策略效果相对较为显著。市值风格方面，高市值指数回测结果优于低市值指数，标的为上证 50时，平均收益率达11.06%，胜率88.89%，标的为沪深300时，平均收益率 3.42%，胜率63.64%，二者表现均优于中证500、中小板综、创业板指。重点关注的是，策略在风格最为混杂的上证综指上效果最差，平均收益率仅 0.19%，胜率60%。
 
@@ -250,7 +250,7 @@ $$
 ![](images/34447fc75e5e940fab1e86a2bbf59d690e67a3710af92bfcb652130d1b7fdedc.webp)
 数据来源：国泰君安证券研究
 
-市值风格方 $\cdot\ln$ ，上涨与下跌状态下，高市值指数回测结果均优于低市值指数。我们认为这可能是由于高市值股票信息透明度高，特质性信息少，价格更易受交易行为影响。
+市值风格方 $\text{" }面$ ，上涨与下跌状态下，高市值指数回测结果均优于低市值指数。我们认为这可能是由于高市值股票信息透明度高，特质性信息少，价格更易受交易行为影响。
 
 风格纯度方面，上涨与下跌状态下，策略在风格最为混杂的上证综指上效果均较差。我们在驱动因素部分已经论证过羊群效应的产生与风格有关，而上证综指风格纯度低，因此这种风格择时在上证综指上效果较差。
 
@@ -277,7 +277,7 @@ $$
 
 建仓成本：建仓当日均价
 
-策略步骤：计算向前 22 日（包括当日）每天的成分股组合截面绝对离散度 CSAD，OLS 估计 CCK 模型中 ${R_{{_m,t}}}^{2}$ 的系数 ${\boldsymbol{\beta}}_{\mathbf{\Phi}_{2}}$ ，若 ${\boldsymbol{\beta}}_{\mathbf{\Phi}_{2}}$ 显著为负则
+策略步骤：计算向前 22 日（包括当日）每天的成分股组合截面绝对离散度 CSAD，OLS 估计 CCK 模型中 $R_{{\tiny{\begin{array}{c}{m,t}\end{array}}}}^{\quad2}$ 的系数 $\beta_{\mathrm{~2~}}$ ，若 $\beta_{\mathrm{~2~}}$ 显著为负则
 
 认为当日该组合存在羊群效应，根据 22 日内指数平均收益率的正负区分羊群效应发生时的市场趋势为上涨/下跌，买入/卖出标的指数并持仓22交易日，持有期不重复开仓。
 

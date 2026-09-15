@@ -49,7 +49,7 @@
 逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的成交量作为计算标准，计算出前 K 线各商品品种与前 500 根 K 线成交量占比，选取成交量占比偏度最大的部分品种做多，选取成交量占比偏度最小的部分品种做空。
 
 $$
-\begin{array}{r}{\mathrm{Vol-skew}=~\mathrm{skew}~(\frac{volume_{t}}{\sum_{i}^{n}{volume_{i}}})}\end{array}
+Vol-skew=skew\ \left(\frac{volume_{t}}{\sum_{i}^{n}volume_{i}}\right)
 $$
 
 2.成交量偏度因子：
@@ -57,7 +57,7 @@ $$
 逻辑：我们这里使用的是距当前成交价格 500 根 K 线的成交量作为计算标准，计算出前 K 线各商品品种与前 500根K线成交量占比，选取成交量占比偏度最大的部分品种做多，选取成交量占比偏度最小的部分品种做空。
 
 $$
-\begin{array}{r}{\mathrm{Vol-kurt}=\mathrm{~kurt}\ (\frac{volume_{t}}{\sum_{i}^{n}volume_{i}})}\end{array}
+Vol-kart=kart\left(\frac{volume_{t}}{\sum_{i}^{n}volume_{i}}\right)
 $$
 
 3.成交量峰度与偏度比值因子：
@@ -65,7 +65,7 @@ $$
 逻辑：我们这里使用的是距当前成交价格 500 根 K 线的成交量作为计算标准，计算出前 K 线各商品品种与前 500根K线成交量占比，再计算其峰度与偏度的比值，选取数值最大的部分品种做多，选取数值最小的部分品种做空。
 
 $$
-\mathrm{Vol-sk=Vol-skew/Vol-kurt}
+Vol-sk=Vol-skew/Vol-kart
 $$
 
 4.收益率峰度因子
@@ -73,7 +73,7 @@ $$
 逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的收益率作为计算标准，选取收益率峰度最大的部分品种做多，选取收益率峰度最小的部分品种做空。
 
 $$
-\mathrm{yield-skew}=\ \mathrm{skew}\ (\frac{volume_{t}}{\Sigma_{i}^{n}volume_{i}})
+yield-skew=skew\ \left(\frac{volume_{t}}{\sum_{i}^{n}volume_{i}}\right)
 $$
 
 5.收益率偏度因子：
@@ -81,7 +81,7 @@ $$
 逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的收益率作为计算标准，选取收益率偏度最大的部分品种做多，选取收益率偏度最小的部分品种做空。
 
 $$
-{\mathrm{yield-kurt}}={\mathrm{kurt}}\ ({\frac{volume_{t}}{\sum_{i}^{n}volume_{i}}})
+yield-kart=kart\left(\frac{volume_{t}}{\sum_{i}^{n}volume_{i}}\right)
 $$
 
 6.收益率峰度与偏度比值因子：
@@ -89,7 +89,7 @@ $$
 逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的收益率作为计算标准，再计算其峰度与偏度的比值，选取收益率偏度最大的部分品种做多，选取收益率偏度最小的部分品种做空。
 
 $$
-\mathrm{yield-sk=Vol-skew/Vol-kurt}
+\mathrm{yield-sk}=\mathrm{Vol-skew/Vol-kurt}
 $$
 
 ## 因子表现
@@ -171,7 +171,7 @@ $$
 我们比较全品种等权资金分配方案策略效果，基础资金分配时间为每季度最后一个交易日，基础资金分配如下：
 
 $$
-\begin{array}{c}\frac{1+}{25}\pi\frac{11}{11}\times\frac{2}{5}\pi\frac{1}{12}\times\frac{1}{12}=\frac{\frac{1}{15}\times\frac{2}{15}\times\frac{2}{10}\times\frac{2}{10}}{\frac{1}{16}\times\frac{2}{15}\pi\times\frac{5}{10}\times\frac{1}{10}\times\frac{2}{10}\times\frac{3}{10}\times\frac{2}{10}\times\frac{3}{10}\times\frac{5}{10}\times\frac{3}{10}}\end{array}
+基础资金单位=\frac{总权益}{当前可交易品种数}*杠杆系数
 $$
 
 注：杠杆系数在下文测试中统一设为2.0。

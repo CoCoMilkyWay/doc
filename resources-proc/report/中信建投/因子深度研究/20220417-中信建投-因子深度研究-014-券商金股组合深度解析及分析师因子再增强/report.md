@@ -253,7 +253,7 @@ $$
 其中， $forecast\_last_{s,i,t-1}$ 为分析师 i 上次报告对股票 s 的预期， $forecast\_new_{s,i,t}$ 为分析师 i 本次报告对股票 s的预期。我们在之前的报告中提出了基于过去一个月的预期调整构造的 $Income\_Adjust$ 因子。本文发现基于过去三个月的预期调整具有更高的因子覆盖度和更强的因子表现。具体公式如下：
 
 $$
-Analyst_{-}Forecast_{-}Adjust_{-}3M_{s,T}=\mathrm{median}\big(Income\_Adjust_{-}single_{s,i,t}\big),\ T-3<t\leq T
+Analyst\_Forecast\_Adjust\_3M_{s,T}=\mathsf{median}\big(Income\_Adjust\_single_{s,i,t}\big),T-3<t\leq T
 $$
 
 其中，i 为所有在过去三个月对股票 s进行预期调整的分析师。
@@ -265,12 +265,12 @@ $$
 我们以分析师在时间序列上的预期为基础构建市场一致预期（净利润、EPS、目标价，下文同）调整因子，定义市场对于股票 s在时间 t 给出的预期调整指标如下：
 
 $$
-Market_{-}Forecast_{-}Adjust_{s,t}=\frac{Forecast_{-}Mean_{-}New_{s,t-1t}-Forecast_{-}Mean_{-}Old_{s,t-12t-1}}{Forecast_{-}Mean_{-}Old_{s,t-12t-1}}
+Market\_Forecat\_Adjust_{s,t}=\frac{Forecat\_Mean\_New_{s,t-1\rightarrow t}-Forecat\_Mean\_old_{s,t-12\rightarrow t-1}}{Forecat\_Mean\_old_{s,t-12\rightarrow t-1}}
 $$
 
-其中， $Forecast\_Mean\_New_{s,t-1\to t}$ 为在过去一个月（ t−1 → t）市场所有分析师对于股票 s 的预期平均值 ，$Forecast\_Mean\_Old_{s,t-12\to t-1}$ 为在过去十一个月 $\begin{array}{rlr}{\mathrm{~}}&{{}(}&{t-12t-1)}\end{array}$ ）市场所有分析师对于股票 s的预期平均值。
+其中， $Forecast\_Mean\_New_{s,t-1\rightarrow t}$ 为在过去一个月（ t−1 → t）市场所有分析师对于股票 s 的预期平均值 ，$Forecast\_Mean\_Old_{s,t-12\rightarrow t-1}$ 为在过去十一个月 $\left(\begin{array}{c}t-12\rightarrow t-1\\\end{array}\right)$ ）市场所有分析师对于股票 s的预期平均值。
 
-$Forecast\_Mean\_New_{s,t-1\to t}$ 能够反映市场对于股票的新的一致预期，而 $Forecast\_Mean\_Old_{s,t-12t-1}$ 能够反映市场对于股票的旧的一致预期。市场一致预期调整类因子反映了市场所有分析师对于股票一致预期的调整水平。
+$Forecast\_Mean\_New_{s,t-1\rightarrow t}$ 能够反映市场对于股票的新的一致预期，而 $\left[Forecat\_Mean\_old_{s,t-12\rightarrow t-1}\right.$ 能够反映市场对于股票的旧的一致预期。市场一致预期调整类因子反映了市场所有分析师对于股票一致预期的调整水平。
 
 ## 3.2.3 纯净的分析师覆盖度类
 

@@ -94,13 +94,13 @@ Christopher Hrdlicka, Trading Volume and Time Varying Betas, Review of Finance, 
 
 贝塔值的估计使用日频数据，以每月为一期或每年为一期计算而来，其中该公司必须在观测期内至少超过半数的时间具有观测值才被视作有效样本，每期的所有样本的贝塔值将进行 1%缩尾处理，以减小异常值带来的影响。成交量数据以股票换手率在观测期内的平均值衡量，同样分别计算月频数据与年频数据。
 
-成交量与贝塔值数据的描述性统计如表 1 所示。其中 $\sigma({\hat{\beta}})$ 为估计贝塔值在每月或每年时截面的标准差， $\pi\sigma(\beta)$ 为真实贝塔值在每月或每年时截面的标准差，由于存在估计误差，两者间的关系如下：
+成交量与贝塔值数据的描述性统计如表 1 所示。其中 $\sigma(\hat{\beta})$ 为估计贝塔值在每月或每年时截面的标准差， $而\sigma(\beta)$ 为真实贝塔值在每月或每年时截面的标准差，由于存在估计误差，两者间的关系如下：
 
 $$
-\sigma^{2}\big(\hat{\beta}\big)=\sigma^{2}(\beta)+\sigma^{2}\big(\dot{\mathfrak{X}}/\eta\underline{{\breve{\perp}}}\dot{\mathcal{Z}}\big)
+\sigma^{2}\left(\hat{\beta}\right)=\sigma^{2}\left(\beta\right)+\sigma^{2}\left(冽显误差\right)
 $$
 
-因此，文章中 $\sigma^{2}\left(\beta\right)$ 由 $\sigma^{2}\left({\hat{\beta}}\right)$ 减去贝塔值估计量的均方误差得到。可以看出，成交量存在均值大（总量大），标准差大（异质性强）的特征，月度平均换手率能够达到 10%左右，年度平均换手率则超过了 100%；贝塔值即使在剔除测量误差的影响后，截面标准差的均值仍然达到 0.2 以上，说明不同公司间贝塔值的异质性也较强。
+因此，文章中 $\sigma^{2}(\beta)$ 由 $\sigma^{2}({\hat{\beta}})$ 减去贝塔值估计量的均方误差得到。可以看出，成交量存在均值大（总量大），标准差大（异质性强）的特征，月度平均换手率能够达到 10%左右，年度平均换手率则超过了 100%；贝塔值即使在剔除测量误差的影响后，截面标准差的均值仍然达到 0.2 以上，说明不同公司间贝塔值的异质性也较强。
 
 表 1:全样本描述性统计量总表
 全样本描述性统计量
@@ -155,22 +155,22 @@ $$
 模型 1：
 
 $$
-Turnover_{i,t}=a+b*\widehat{\beta}_{i,t}+c*\left|\Delta\widehat{\beta}_{i,t}\right|+\epsilon_{i,t}
+Turnover_{i,t}=\pmb{a}+\pmb{b}*\pmb{\beta}_{i,t}+\pmb{c}*\left|\Delta\pmb{\hat{\beta}}_{i,t}\right|+\epsilon_{i,t}
 $$
 
 模型 2：
 
 $$
-\begin{array}{r}{Turnover_{i,t}=a+b*\widehat{\beta}_{i,t}+c*\left|\Delta\widehat{\beta}_{i,t}\right|+d*\left|\Delta\widehat{\beta}_{i,t}\right|^{+}+\epsilon_{i,t}}\end{array}
+Turnover_{i,t}=\pmb{a}+\pmb{b}*\pmb{\beta}_{i,t}+\pmb{c}*\left|\pmb{\Delta\beta}_{i,t}\right|+\pmb{d}*\left|\pmb{\Delta\beta}_{i,t}\right|^{+}+\pmb{\epsilon}_{i,t}
 $$
 
 模型 3：
 
 $$
-Turnover_{i,t}=a+b*\widehat{\beta}_{i,t}+c*\left|\Delta\widehat{\beta}_{i,t}\right|+d*\left|\Delta\widehat{\beta}_{i,t}\right|^{+}+e*\widehat{\beta}_{i,t}*\left|\Delta\widehat{\beta}_{i,t}\right|+\epsilon_{i,t}.
+\boldsymbol{Turnover}_{i,t}=\boldsymbol{a}+\boldsymbol{b}*\widehat{\boldsymbol{\beta}}_{i,t}+\boldsymbol{c}*\left|\Delta\widehat{\boldsymbol{\beta}}_{i,t}\right|+\boldsymbol{d}*\left|\Delta\widehat{\boldsymbol{\beta}}_{i,t}\right|^{+}+\boldsymbol{e}*\widehat{\boldsymbol{\beta}}_{i,t}*\left|\Delta\widehat{\boldsymbol{\beta}}_{i,t}\right|+\boldsymbol{\epsilon}_{i,t}
 $$
 
-其中Turnove $\boldsymbol{r}_{i,t}$ 和 $\lvert\Delta\hat{\boldsymbol{\beta}}_{i,t}\rvert$ 为第 i 家公司在第 t 期的成交量与贝塔变化绝对值， $\left|\Delta\widehat{\beta}_{i,t}\right|^{+}$ 为虚拟变量，用于判别贝塔值是否为正向变化（正向变化为1）。
+其中Turnove $r_{i,t}$ 和 $|\Delta\widehat{\pmb{\beta}}_{i,t}|$ 为第 i 家公司在第 t 期的成交量与贝塔变化绝对值， $\left|\Delta\widehat{\pmb{\beta}}_{i,t}\right|^{+}$ 为虚拟变量，用于判别贝塔值是否为正向变化（正向变化为1）。
 
 根据前文中的观点（1），贝塔值的变化应提高成交量数据，故模型中的系数 c 应当为正值；根据观点（2），初始值更大的贝塔变化时引致成交量变化更小，故模型中的系数 应当为负；根据观点（ ），贝塔下降比上升将引致更高成交量，故模型中的系数 d 应为负。
 
@@ -182,13 +182,13 @@ $$
 | --- | --- | --- | --- | --- | --- | --- |
 | $\beta_{t}$ | 9.96 (76.63) | 15.47 (94.50) | 18.61 (85.55) | 5.03 (12.22) | 8.78 (13.17) | 10.46 (12.95) |
 | $\|\Delta\beta_{t}\|$ | 13.34 (87.61) | 19.51 (103.41) | 21.30 (103.69) | 6.22 (15.11) | 9.80 (17.07) | 10.77 (16.93) |
-| $\lvert\Delta\beta_{t}\rvert^{+}$ |  | -13.96 (-55.03) | -10.85 (-37.37) |  | -8.38 (-11.95) | -6.88 (-10.90) |
-| $\boldsymbol{\beta}_{t}*\|\Delta\boldsymbol{\beta}_{t}\|$ |  |  | -2.76 (-21.93) |  |  | -1.40(-6.94) |
+| $\|\Delta\pmb{\beta}_{t}\|^{+}$ |  | -13.96 (-55.03) | -10.85 (-37.37) |  | -8.38 (-11.95) | -6.88 (-10.90) |
+| $\pmb{\beta}_{t}*\|\pmb{\Delta\beta}_{t}\|$ |  |  | -2.76 (-21.93) |  |  | -1.40(-6.94) |
 | 时间固定效应 | Y | Y | Y | Y | Y | Y |
 | 公司固定效应 | N | N | N | Y | Y | Y |
 | 双重聚类标准误 | N | N | N | Y | Y | Y |
 | 公司异质波动率 | N | N | N | Y | Y | Y |
-| $R^{2}$ | 0.51 | 0.51 | 0.51 | $_{0.67}$ | 0.67 | 0.67 |
+| $R^{2}$ | 0.51 | 0.51 | 0.51 | $0.67$ | 0.67 | 0.67 |
 | N | 428,703 | 428,703 | 428,703 | 428,703 | 428,703 | 428,703 |
 
 数据来源：《Trading Volume and Time Varing Betas》，国泰君安证券研究
@@ -240,10 +240,10 @@ $$
 z_{i,t}=Az_{i,t-1}+u_{i,t}
 $$
 
-其中状态变量 $z_{i,t}=\left[r_{i,t},roe_{i,t},bm_{i,t}\right]^{T}$ ，向量内部的元素分别为对数收益率、对数净资产收益率与对数账面市值比。随后，基于模型 4 的系数矩阵 A，可以构造出贴现率冲击变量与股利现金流冲击变量（ρ取 0.96）：
+其中状态变量 $iz_{i,t}=\left[r_{i,t},roe_{i,t},bm_{i,t}\right]^{T}$ ，向量内部的元素分别为对数收益率、对数净资产收益率与对数账面市值比。随后，基于模型 4 的系数矩阵 A，可以构造出贴现率冲击变量与股利现金流冲击变量（ρ取 0.96）：
 
 $$
-\begin{array}{r}{DRshock_{i,t}=e_{1}^{\prime}\rho A(I-\rho A)^{-1}u_{i,t}}\\{CFshock_{i,t}=e_{2}^{\prime}\rho A(I-\rho A)^{-1}u_{i,t}}\end{array}
+\begin{aligned}&DRshock_{i,t}=e'_1\rho A(I-\rho A)^{-1}u_{i,t}\\&CFshock_{i,t}=e'_2\rho A(I-\rho A)^{-1}u_{i,t}\\\end{aligned}
 $$
 
 ## 4.2. 成交量与两种冲击的联系
@@ -253,7 +253,7 @@ $$
 模型 5：
 
 $$
-Turnover_{i,t}=a+b\big|{\cal D}Rshock_{i,t}\big|+c\big|CFshock_{i,t}\big|+\epsilon_{i,t}
+Turnover_{i,t}=a+b\big|DRshock_{i,t}\big|+c\big|CFshock_{i,t}\big|+\epsilon_{i,t}
 $$
 
 根据前文的观点，即成交量的变化与贴现率变化之间的联系强于与股利现金流变化之间的联系，实证结果的系数 b 应大于系数 c。将数据代入后，得到回归结果如表 5 所示，在控制公司固定效应与双重聚类标准误前后，自变量的 t 统计量均显著，且系数 b 始终大于系数 c，验证了前文观点，从实证角度说明了成交量与贴现率变化的联系更为紧密。
@@ -279,11 +279,11 @@ $$
 模型 6：
 
 $$
-\begin{array}{rl}&{\quad r_{i,t+h}^{adj}=a+b*r_{i,t}^{adj}+c*Turnover_{i,t}+d*r_{i,t}^{adj}Turnover_{i,t}+controls+\epsilon_{i,t+h}}\\&{\quad**\frac{d*}{d\mathcal{E}}\neq\frac{\gamma}{2}.}\end{array}
+\begin{aligned}r_{i,t+h}^{adj}&=a+b*r_{i,t}^{adj}+c*Turnover_{i,t}+d*r_{i,t}^{adj}Turnover_{i,t}+controls+\epsilon_{i,t+h}\\模型7&;\end{aligned}
 $$
 
 $$
-\begin{array}{c}{{earningssurprise{i}_{i,q,t}=a+b*r_{i,t}^{adj}+c*Turnover_{i,t}+d*r_{i,t}^{adj}Turnover_{i,t}}}\\{{+controls+\epsilon_{i,t+h}}}\end{array}
+\begin{aligned}learning\;superwise_{i,q,t}=a+b*r_{i,t}^{adj}+c*Turnover_{i,t}+d*r_{i,t}^{adj}Turnover_{i,t}\\+controls+\epsilon_{i,t+h}\end{aligned}
 $$
 
 在以上两个模型中，由于根据 Lee and Swaminathan(2000)的研究，成交量与账面市值比、价值因子等一系列与收益率相关的指标具有相关性，故在模型中采用调整后收益率因子进行回归，其调整方式主要遵循Fama-French 的三因子模型，公式如下：
@@ -297,7 +297,7 @@ $$
 在模型 7 中， $earningssurprise_{i,q,t}$ 主要衡量了股利现金流的变化，其构造方式如下：
 
 $$
-earningssurprise_{i,q,t}=\frac{actualeps_{i,q}-consensusforecast_{i,q,t-1}}{P_{i,t-1}}
+earnings\;surprise_{i,q,t}=\frac{actual\;eps_{i,q}-consensus\;forecast_{i,q,t-1}}{P_{i,t-1}}
 $$
 
 其中 q 的取值为（1,2,3），含义为第 t 期收益日后的第 q 个会计季度末，该模型中的预测数据与实际数据均来自于 I/B/E/S 数据库。
@@ -309,9 +309,9 @@ $$
 | 窗口跨度 | h=1 | h=2 | h=3 | h=6 | h=12 | h=18 | h=24 | h=30 | h=36 | q=1 模型(10) | q=2 | q=3 |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  | 模型(9) |  |  |  |  |  |  |  |  |  |  |  |  |
-| $\boldsymbol{r}_{i,t}^{adj}$ | 0.0877 | 0.049 | 0.0744 | 0.0405 | 0.059 | 0.024 | 0.1016 | 0.019 | 0.0928 | 0.0002 | 0.0059 |  | -0.002 |
+| $\underline{{r_{i,t}^{adj}}}$ | 0.0877 | 0.049 | 0.0744 | 0.0405 | 0.059 | 0.024 | 0.1016 | 0.019 | 0.0928 | 0.0002 | 0.0059 |  | -0.002 |
 |  | (75.03) | (38.51) | (56.37) | (31.07) | (42.49) | (16.07) | (65.13) |  | (12.26) | (56.41) | (0.10) | (3.76) | (-1.56) |
-| $Tu_{i,t}\mathrm{{^*10}}^{-3}$ | -0.4 | -1.3 | -0.8 | -0.7 | -1.7 | -0.9 | -1.4 | -1.3 |  | -1.7 | 7.7 | 1.9 | 1 |
+| $\mathbf{\mathit{Tu}}_{i,t}\mathbf{*10^{-3}}$ | -0.4 | -1.3 | -0.8 | -0.7 | -1.7 | -0.9 | -1.4 | -1.3 |  | -1.7 | 7.7 | 1.9 | 1 |
 |  | (-2.24) | (-6.50) | (-3.73) | (-3.43) | (-7.57) | (-3.87) | (-5.68) |  | (-5.37) | (-6.40) | (24.82) | (8.02) | (5.80) |
 | 交叉项*102 | -0.9 | -0.72 | -1.31 | -0.87 | -0.31 | -0.61 | 1.75 |  | -0.18 | -1.13 | -0.14 | -0.74 | -0.29 |
 |  | (-17.7) | (-13.1) | (-22.0) | (-14.3) | (-4.54) | (-8.15) | (-21.6) | (-2.17) |  | (-12.4) | (-1.35) | (-8.94) | (-4.48) |

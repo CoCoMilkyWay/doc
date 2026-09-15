@@ -533,7 +533,7 @@ Instholder Pct：公募基金持仓比例
 
 在基金季报公布后，选取优选基金组合的超配股作为调整对象。由于基金重仓股信息要等到每个季度结束之日起十五个工作日内才能获得，因而需要延后一个月使用，避免引入未来信息。例如，2019 年中报的重仓股信息，要等到 2019/07/31 调仓时才能使用，在 2019/07/31-2019/10/31这三次月度调仓均使用 2019年中报的信息。
 
-指数增强组合构建时，我们将七个大类 Alpha 因子等权合成，得到个股 zscore 得分，再将个股 zscore 得分线性转换成预测收益率 f。具体方法：每个月做一次带截距项的横截面 OLS 回归可得到历史各个月的因子收益率估计值。第 t+1 个月初，用过去两年（24 个月）因子收益率的均值作为第 t+1 个月因子收益率的预测值，然后乘以第 t +1 月初最新的因子值 $\mathrm{X}_{\mathrm{t}+1}^{\mathrm{(i)}}$ ，即可得到股票第t+1 个月的预测收益率。银行和非银行行业采用之前报告中的行业内选股策略进行单独建模，最后将三部分预测收益率合在一起，再输入到优化器中做组合优化。
+指数增强组合构建时，我们将七个大类 Alpha 因子等权合成，得到个股 zscore 得分，再将个股 zscore 得分线性转换成预测收益率 f。具体方法：每个月做一次带截距项的横截面 OLS 回归可得到历史各个月的因子收益率估计值。第 t+1 个月初，用过去两年（24 个月）因子收益率的均值作为第 t+1 个月因子收益率的预测值，然后乘以第 t +1 月初最新的因子值 $\mathbf{X}_{\mathrm{t+1}}^{\mathrm{(i)}}$ ，即可得到股票第t+1 个月的预测收益率。银行和非银行行业采用之前报告中的行业内选股策略进行单独建模，最后将三部分预测收益率合在一起，再输入到优化器中做组合优化。
 
 风险模型采用 DFQ风险模型（具体内容参见报告：东方 A 股因子风险模型——DFQ-2018），组合优化时将风险项作为惩罚项加入目标函数，风险厌恶系数需调试。考虑到优选基金超配股的行业分布很不均衡，因而我们控制银行和非银行业完全中性，其他行业暴露放开。控制市值完全中性。个股权重上下限分段设置。
 
@@ -542,7 +542,7 @@ Instholder Pct：公募基金持仓比例
 组合优化问题设置如下：
 
 $$
-\begin{array}{r}{\operatorname*{max};~\mathrm{f}^{\prime}\mathrm{w}-\lambda\mathrm{w}^{\prime}\mathrm{\tilde{Z}w}}\\{\mathrm{st}:~\operatorname*{imin}<\mathrm{w}^{\prime}\mathrm{I}<\operatorname*{imax}}\\{~\mathrm{w}^{\prime}\mathrm{MV}=0}\\{~\mathrm{wmin}<\mathrm{w}<wmax}\\{~\sum_{\mathbf{x}\mathbf{i}\geq t}targetwei}\end{array}
+\begin{aligned}&int:\quad max:\quad f'w-\lambda w'\Sigma w\\&\quad\\sst:\quad\begin{aligned}\\&\min<w'I<imax\\&\quad w'MV=0\\&\quad wmin<w<wmax\\&\quad\Sigma xi\geq targetweti\\&\end{aligned}\\\end{aligned}
 $$
 
 其中 w为主动权重，x为绝对权重，f 为预期收益率向量，Σ为估计的月度协方差矩阵, λ为风险厌恶系数，targetwei 为优化后超配股的绝对权重之和的下限，wmin 为个股主动权重下限，wmax为个股主动权重上限。

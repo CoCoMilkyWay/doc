@@ -230,21 +230,21 @@ $$
 则：
 
 $$
-\varXi\equiv\sqrt{\mathop{\mathrm{II}}\mathrm{II}\mathrm{I}\mathrm{J}}\bar{\Chi}\bar{\jmath}\bar{\mathcal{Z}}\bar{\mathrm{I}}=\sqrt{\frac{1}{n-1}\sum(r_{t})^{2}}=\sqrt{\frac{1}{n-1}\sum(r_{t}-\bar{r}_{t})^{2}}
+基础波动率=\sqrt{\frac{1}{n-1}{\sum}(r_t)^2}=\sqrt{\frac{1}{n-1}{\sum}(r_t-\overline{r_t})^2}
 $$
 
 $$
-\frac{\mu\pm}{\sqrt{\pi}+\lambda}\sqrt{\mathcal{X}}\overline{{\mathcal{Z}}}\overline{{\mathcal{Y}}}=\sqrt{\frac{1}{n-1}\sum(\varepsilon_{t})^{2}}=\sqrt{\frac{1}{n-1}\sum(r_{t}-\widehat{r_{t}})^{2}}
+特异波动率=\sqrt{\frac{1}{n-1}\sum(\varepsilon_{t})^{2}}=\sqrt{\frac{1}{n-1}\sum(r_{t}-\widehat{r}_{t})^{2}}
 $$
 
 $$
-\mathbb{\frac{\mu\pm}{1+2}}\mathbb{\frac{\mu\mp}{1+2}}=1-\frac{\sum(\widehat{r_{t}}-\widehat{r_{t}})^{2}}{\sum(r_{t}-\widehat{r_{t}})^{2}}=\frac{\sum(r_{t}-\widehat{r_{t}})^{2}}{\sum(r_{t}-\widehat{r_{t}})^{2}}=\frac{\mathbb{\frac{\mu+}{1+2}}\mathbb{\sum}\mathbb{\frac{\mu\leq}{1+2}}\mathbb{\widehat{x}}\mathbb{\frac{\mu\leq}{2}}{\sum(r_{t}-\widehat{r_{t}})^{2}}}{\mathbb{\frac{\mu\pm}{\pm1}}\mathbb{\frac{\mu\leq}{1+2}}\mathbb{\frac{\mu\leq}{2}}{\mathbb{\frac{\mu\leq}{1+2}}}^{2}}
+1-\frac{\sum(\bar{r}_t-\bar{r}_t)^2}{\sum(r_t-\bar{r}_t)^2}=\frac{\sum(r_t-\bar{r}_t)^2}{\sum(r_t-\bar{r}_t)^2}=\frac{\sum(\bar{r}_t-\bar{r}_t)^2}{\sum(r_t-\bar{r}_t)^2}=\frac{\sum(\bar{r}_t-\bar{r}_t)^2}{\sum(r_t-\bar{r}_t)^2}
 $$
 
 故从数学形式上看，波动率、特异波动率和特异率之间存在以下关系：
 
 $$
-A\pm\equiv\sum\limits_{i=1}\sum\limits_{j=1}\sp{i}\sum\limits_{\overrightarrow{i}}\overrightarrow{I_{j}}\max=\sqrt{4\pm\sum\limits_{i=1}\sp{j}\sum\limits_{p=1}\sp{i}}\times\pm\infty\exp\{\int\limits_{\overrightarrow{i}\cdot\overrightarrow{j}}\sum\limits_{j=1}\sp{i}\sum\limits_{\overrightarrow{i}}\int\frac{\ dz}{d\cdot p}\}\stackrel{\infty}{=}
+特异波动率=\sqrt{特异率\times 基础波动率}
 $$
 
 即特异波动率综合了特异率（个股特异）和波动率（个股波动）信息，使得因子在表现上兼具两个因子的共同特点：不论在全 A 股范围内还是中证 800 范围内，特异波动率继承了波动率对空头组的区分，得到了比特异率因子更高的多空收益率；同时继承了特异率对多头组的区分，得到了比波动率因子更高的超额收益率。需要指出的是这种综合为非线性组合，故在线性多因子选股模型中其余两个因子可能仍存在增量信息。
@@ -290,7 +290,7 @@ $$
 特异率衡量在剥离了可以对个股收益解释的因素后个股的异动情况，目前多以 fama 三因子模型为基础（市场 beta、规模和估值），以线性回归剔除线性影响的方式，以拟合优度为异常程度的评价标准。这种构建特异率的方式可以较好的体现个股价格变动相对市场主要矛盾的异常，但针对波动率类因子描述的价格变动，则需尽可能的考虑更多可以解释个股收益的因素。从表 11 中可知波动率类因子和流动性因子、反转因子线性相关性较高，故本文在 fama 三因子的基础上加入流动性和反转因子，构建新的特异信息，则回归方程如下：
 
 $$
-r_{t}=\alpha_{t}+\beta_{mkt}MKT_{t}+\beta_{smb}SMB_{t}+\beta_{hml}HML_{t}+\beta_{ret}RET_{t}+\beta_{liq}LIQ_{t}+\varepsilon_{t}
+r_{t}=\alpha_{t}+\beta_{mkt}MKT_{t}+\beta_{smb}SMB_{t}+\beta_{hml}HML_{t}+\beta_{ret}RET_{t}+\beta_{liq}LIA_{t}+\varepsilon_{t}
 $$
 
 并取上述方程回归结果的残差标准差及拟合优度，构建特异波动率及特异率因子，在下文中统称为新特异波动率和新特异率，本文中将特异率因子和新特异率因子统称为特异率类因子，将特异波动率因子和新特异波动率因子统称为特异波动率类因子。
@@ -429,7 +429,7 @@ $$
 精确计算个股波动率对特异波动率因子的提升有限，根本原因在于其空头组区分个股能力显著，而多头组区分个股能力较差，整体上拖累了杠杆加强个股股价变动异常信息时的头部组表现。从数学形式上看，特异波动率综合个股特异和个股波动的方式是非线性的：
 
 $$
-A\pm\equiv\sum\limits_{i=1}\sum\limits_{j=1}\sp{i}\sum\limits_{\overrightarrow{i}}\overrightarrow{I_{j}}\max=\sqrt{4\pm\sum\limits_{i=1}\sp{j}\sum\limits_{p=1}\sp{i}}\times\pm\infty\exp\{\int\limits_{\overrightarrow{i}\cdot\overrightarrow{j}}\sum\limits_{j=1}\sp{i}\sum\limits_{\overrightarrow{i}}\int\frac{\ dz}{d\cdot p}\}\stackrel{\infty}{=}
+特异波动率=\sqrt{特异率\times 基础波动率}
 $$
 
 如果可以保留这种信息综合方式，同时在数学形式上给出一定改善，以保留波动率因子空头组信息，同时模糊头部组选股区分度，便可以改善特异波动率因子选股的线性。
@@ -437,7 +437,7 @@ $$
 如图 11 所示，特异波动率因子在基础波动率在进行截面归一化后，以线性关系均匀分布，作为乘数加强特异率体现的个股特异信息。高个股波动区域确实存在更多价格变动异常，而在低波动区域个股之间的价格变动差别不大，局部的扰动误差会干扰杠杆在尾端的加强。为了加强空头组区分，模糊多头组区分，首先对基础波动率做如截面归一化：
 
 $$
-norm_{i}=\frac{std_{i}-\operatorname*{min}(\{std_{i}\})}{\operatorname*{max}(\{std_{i}\})-\operatorname*{min}(\{std_{i}\})}
+norm_{i}=\frac{std_{i}-\min(\{std_{i}\})}{\max(\{std_{i}\})-\min(\{std_{i}\})}
 $$
 
 对得到的归一化值进行非线性变换，得到基础波动率乘数部分：
@@ -720,19 +720,19 @@ $$
 对应到波动率因子上，二阶矩计算的对精确度要求较高。计算收益率时按照一定频率截取，会受到截取方式带来的局部偏移影响，假设局部上价格变动由截面收益率和局部偏移共同构成，其中局部偏移服从白噪音分布，与截面收益率独立：
 
 $$
-\mathrm{r}_{t}^{real}=r_{t}+\varepsilon_{t}
+\mathbf{r}_{t}^{real}=r_{t}+\varepsilon_{t}
 $$
 
 截面的截取存在的局部偏移并不会影响一阶矩的计算：
 
 $$
-{\mathrm{Return}}=\operatorname{E}\left(\operatorname{r}_{t}^{real}\right)=\operatorname{E}\left({r}_{t}+\varepsilon_{t}\right)=\operatorname{E}\left({r}_{t}\right)
+\mathrm{Return}=\mathrm{E}(\mathrm{r}_t^{real})=\mathrm{E}(\mathrm{r}_t+\varepsilon_t)=\mathrm{E}(\mathrm{r}_t)
 $$
 
 但会影响二阶矩的计算：
 
 $$
-\mathrm{Vol}=\mathrm{Var}\big(\mathrm{r}_{t}^{real}\big)=\mathrm{Var}(r_{t}+\varepsilon_{t})=\mathrm{Var}(r_{t})+\mathrm{Var}(\varepsilon_{t})
+\mathrm{Vol}=\mathrm{Var}\left(\mathrm{r}_{t}^{real}\right)=\mathrm{Var}\left(r_{t}+\varepsilon_{t}\right)=\mathrm{Var}\left(r_{t}\right)+\mathrm{Var}\left(\varepsilon_{t}\right)
 $$
 
 当 k 线频率较高时，截面收益率本身有较大偏差，但偏移量级较小，对波动计算造成的误差小；反之当 k 线频率较低时，截面收益率较为精确，但短期偏移影响较大。故对于波动率的计算，在频率上存在一个相对合理的区间。
@@ -770,13 +770,13 @@ $$
 以成交量倒数加权的形式，构建动量时间段反转因子：
 
 $$
-\mathrm{Rev}_{mom}=\sum_{i=1}^{period_{mom}}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\propto\frac{1}{volume_{i}}
+\mathrm{Rev}_{mom}=\sum_{i=1}^{period_{mom}}w_i\log\frac{Class_{t-i+1}}{Class_{t-i}},w_i\propto\frac{1}{volume_i}
 $$
 
 以成交量加权的形式，构建反转时间段反转因子：
 
 $$
-\mathrm{Rev}_{rev}=\sum_{i=1}^{period_{rev}}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\propto volume_{i}
+\mathrm{Rev}_{rev}=\sum_{i=1}^{period_{rev}}w_i\log\frac{Close_{t-i+1}}{Close_{t-i}},w_i\propto volume_i
 $$
 
 以动量时间段反转因子和反转时间段反转因子合成结构化反转因子：
@@ -810,13 +810,13 @@ $$
 其中权重为正的部分为动量时间段，归一化后构建动量时间段因子：
 
 $$
-\mathrm{Rev}_{mom}=\sum_{i=1}^{period_{mom}}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\in\{\frac{weight_{i}^{non_{linear}}}{Sum(weight_{i}^{non_{linear}})}|weight_{i}^{non_{linear}}<0\}
+\mathsf{Rev}_{mod}=\sum_{i=1}^{period_{mod}}w_i\log\frac{Close_{t-i+1}}{Close_{t-i}},w_i\in\{\frac{weight_i^{non_{linear}}}{Sum(weight_i^{non_{linear}})}|weight_i^{non_{linear}}<0\}
 $$
 
 其中权重为负的部分为反转时间段，归一化后构建反转时间段因子：
 
 $$
-\mathrm{Rev}_{rev}=\sum_{i=1}^{period_{mom}}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\in\{\frac{weight_{i}^{non_{linear}}}{Sum(weight_{i}^{non_{linear}})}|weight_{i}^{non_{linear}}\geq0\}
+\mathbb{R}\mathbf{e}\mathbf{v}_{rev}=\sum_{i=1}^{period_{mom}}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\in\{\frac{weight_{i}^{non_{iinear}}}{Sum(weight_{i}^{non_{iinear}})}|weight_{i}^{non_{iinear}}\geq0\}
 $$
 
 合并动量时间段反转因子和反转时间段反转因子合成结构化反转因子：

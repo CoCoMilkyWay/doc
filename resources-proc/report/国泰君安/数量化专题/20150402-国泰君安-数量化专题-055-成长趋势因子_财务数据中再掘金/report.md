@@ -149,7 +149,7 @@ le_Summary]投资者更关注财报中业绩趋势的变化：移动平均线在
 在计算好的净利润移动平均线的基础上，我们用当期移动平均净利润相对上期移动平均净利润的增幅作为成长趋势因子。
 
 $$
-\begin{array}{rl}{\mathsf{MA}_{\mathrm{profit}}=}&{\left(\mathrm{prof~i~t_{1}}+\mathrm{~prof~i~t_{2}}+\mathrm{~prof~i~t_{3}}+\mathrm{~prof~i~t_{4}}\right)}\\{\mathsf{E}_{\mathrm{prof~i~t}}=}&{\mathsf{MA}_{\mathrm{profit}}/\mathrm{~l}\mathrm{ag}\left(\mathsf{MA}_{\mathrm{profit}}\right)}\end{array}
+\begin{aligned}&\mathrm{MA_{prof\;it}}=(\mathrm{prof\;it\;t_1}+\mathrm{prof\;it\;t_2}+\mathrm{prof\;it\;t_3}+\mathrm{prof\;it\;t_4})\\&\mathrm{E_{prof\;it}}=\mathrm{MA_{prof\;it}}/\mathrm{1ag}(\mathrm{MA_{prof\;it}})\\\end{aligned}
 $$
 
 Profit: 单季净利润

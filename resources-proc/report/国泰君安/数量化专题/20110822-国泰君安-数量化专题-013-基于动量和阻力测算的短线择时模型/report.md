@@ -123,7 +123,7 @@ Step5：应用建立的logit模型预测持有期收益率，并检验模型效�
 指定价格区间持仓占比
 
 $$
-=(\sum_{\substack{\emptyset\dag\dag\Xi\dag\Xi\dag\Xi\dag\Xi\dag\Xi|\dag\Xi|\dag\Lambda\dag\Lambda\dag\Lambda|\Xi\dag\Lambda\dag\Lambda\dag\Xi}}\operatorname{Ipis}_{\lambda}\overbrace{\Sigma\dag\Xi\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Xi}^{\texttt{Dirsk2-pa}})\Biggl/(\sum_{\substack{\lambda\dag\Xi\dag\Xi\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Xi}})\Biggl\langle\sum_{\substack{\bar{\lambda}\dag\Xi\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda}}(\sum_{\substack{\bar{\lambda}\dag\Xi\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\dag\Lambda\Lambda}})
+=\left(\sum_{价格落在指定区间}成交额*时距权重\right)\left/\left(\sum_{过去\;50\;周}成交额*时距权重\right)\right.
 $$
 
 ## 2.2.1.2. 采用对数时距权重
@@ -131,7 +131,7 @@ $$
 为了使时距权重更平缓，我们对时距取对数，再计算时距权重。即当前日期的前第k周的权重为
 
 $$
-\Sigma^{\underline{{\sf}}}{\sf{H}}^{\underline{{\sf}}{\sf{A}}\underline{{\sf{A}}}}\mathrm{~k~}|\Xi|\|\partial/\Sigma^{\underline{{\sf}}}{\sf{H}}\bar{\sf{H}}\bar{\sf{H}}\bar{\sf{H}}\overline{{\Xi}}{\sf{H}}\equiv\log^{\{\underline{{\sf}}{\sf{A}}\underline{{\sf{A}}}}\{\bar{\sf{G}}\bar{\sf{S}}0-\mathrm{k}\}\Big/\sum_{\mathrm{i}=1}^{50}\log^{\{\underline{{\sf{A}}}\bar{\sf{f}}\}}(\bar{\sf{i}})
+前第\;k\;周的时距权重=\log\left(50-k\right)\bigg/\sum_{i=1}^{50}log\left(i\right)
 $$
 
 图3 对数时距权重比线性时距权重更平缓

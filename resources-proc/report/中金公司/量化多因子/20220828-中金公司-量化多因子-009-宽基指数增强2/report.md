@@ -62,7 +62,7 @@ xiang.gu@cicc.com.cn
 Grinold(1989)提出的主动管理基本定律(Fundamental Law of Active Management)表明，选股模型的信息比（IR）由信息系数（IC）和投资宽度（Breadth）的平方根共同决定。
 
 $$
-\mathsf{IR}=\mathsf{IC}\ast\sqrt{Breadth}
+\mathrm{IR}=\mathrm{IC}*\sqrt{Breadth}
 $$
 
 因此从信息比率角度衡量一个投资策略的优劣，主要取决于选股能力和投资宽度，也可以理解为投资的“深度”和“宽度”。对于量化投资来说，投资宽度越广，市场投资机会越多的时候，更容易获取较好的收益表现。量化投资更擅长通过投资宽度的比较优势来产生超额收益。而主动投资更擅长的是通过投资深度（公司研究、产业链研究等）带来收益。

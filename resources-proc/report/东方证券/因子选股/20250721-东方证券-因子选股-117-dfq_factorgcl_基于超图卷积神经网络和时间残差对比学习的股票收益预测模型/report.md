@@ -94,9 +94,9 @@ step2 ：股票间关联网络模块。
 
 2. 隐藏概念模块（Hidden ConceptModule）：该模块旨在挖掘股票特征中预定义概念无法捕捉到的、更深层次的隐藏共性信息。具体来看，该模块首先将预定义概念模块提取出的股票共性信息X̂t,0 ，从初始时序编码表示Xt,0中剔除，得到残差信息（记作Xt,1），即Xt,1 = Xt,0 − X̂t,0。这个残差中可能仍包含一些未被预定义概念结构覆盖的潜在共性信息，反映更加隐蔽但具有一致性的市场联动模式。为进一步挖掘这些隐藏的共性结构，该模块基于股票间特征相似性，动态构建股票-隐藏概念关联图，并基于这些结构信息对残差股票表示Xt,1 进行聚合与重构，从而得到每只股票在隐藏概念视角下的特征表达，记作 h_shared_info。该表示仍处于股票维度，但已整合了隐藏概念结构下的跨股票共性信息。随后，h_shared_info 同样经过两条前馈路径进行处理，生成两部分输出：一条用于预测股票收益率（记作 Ŷt,1），一条用于计算下一层模块的输入（记作X̂t,1）。
 
-3. 个股信息模块（Individual Information Module）：该模块旨在处理上述预定义概念和隐藏概念都未能涵盖的、每只股票独有的个体特质信息。该模块的输入是初始时序编码表示中剥离前两条路径提取的共性信息后剩余的残差向量（记作Xt,2），即 $\mathit{X}^{t,2}=\mathit{X}^{t,0}-\hat{X}^{t,0}-\hat{X}^{t,1}$ ，用于提取股票自身独有的、不可归于任何共享概念的个股特质性特征。该模块不再构建截面交互结构，直接通过一条前馈路径进行处理，得到用于预测股票收益率的输出信息Ŷt,2。
+3. 个股信息模块（Individual Information Module）：该模块旨在处理上述预定义概念和隐藏概念都未能涵盖的、每只股票独有的个体特质信息。该模块的输入是初始时序编码表示中剥离前两条路径提取的共性信息后剩余的残差向量（记作Xt,2），即 $X^{t,2}=X^{t,0}-\hat{X}^{t,0}-\hat{X}^{t,1}$ ，用于提取股票自身独有的、不可归于任何共享概念的个股特质性特征。该模块不再构建截面交互结构，直接通过一条前馈路径进行处理，得到用于预测股票收益率的输出信息Ŷt,2。
 
-step3：聚合模块。该模块将 step 2 中三个子模块提取出的用于预测股票收益率的所有股票信息汇总起来，得到合成后的股票特征信息表达（记作Yt）， $\mathsf{E}\mathbb{J}Y^{t}=\mathsf{\Omega}\hat{Y}^{t,0}+\hat{Y}^{t,1}+\hat{Y}^{t,2}$ 。再通过一个全连接层对聚合后的信息进行进一步处理，最终得出模型对每只股票的预测收益率Pt。
+step3：聚合模块。该模块将 step 2 中三个子模块提取出的用于预测股票收益率的所有股票信息汇总起来，得到合成后的股票特征信息表达（记作Yt）， $即Y^{t}=\ \hat{Y}^{t,0}+\hat{Y}^{t,1}+\hat{Y}^{t,2}$ 。再通过一个全连接层对聚合后的信息进行进一步处理，最终得出模型对每只股票的预测收益率Pt。
 
 图 1：HIST模型框架
 ![](images/e82156039b12e3bdf99a8d89c753a85c19612048b3956c57b2bcc9d2d397ed2c.webp)
@@ -172,9 +172,9 @@ c. 聚合得到概念特征：利用该权重矩阵对股票特征加权，得�
 
 以预定义概念为例（隐藏概念模块采用相同逻辑），个股信息和概念信息的融合流程如图 5所示，具体解释如下：
 
-a.相似度计算：计算初始股票特征与修正后的概念特征 $e_{i}^{t,1}$ 之间的余弦相似度。
+a.相似度计算：计算初始股票特征与修正后的概念特征 $\boldsymbol{\cdot}e_{i}^{t,1}$ 之间的余弦相似度。
 
-b.归一化权重：使用 softmax 函数对每只股票在所有概念上的相似度进行归一化，从而得到从概念到股票的聚合权重 $\cdot\beta_{i,j}^{t}$ 。这个权重矩阵展示了每个概念对特定股票的重要性程度。
+b.归一化权重：使用 softmax 函数对每只股票在所有概念上的相似度进行归一化，从而得到从概念到股票的聚合权重 $\boldsymbol{\mathcal{B}}_{i,j}^{t}$ 。这个权重矩阵展示了每个概念对特定股票的重要性程度。
 
 c. 加权聚合：使用该权重矩阵对概念的向量表示进行加权，得到融合了概念信息后的每只股票的向量表示Ŝt,0。这一步实质上就是矩阵乘积算法的应用，将概念信息根据其重要性 “注入”到每只股票的特征中。
 
@@ -233,25 +233,25 @@ $$
 y_{t}=h(\beta_{t},z_{t})+\alpha_{t}+\epsilon_{t}
 $$
 
-其中， $y_{t}$ 为股票在时点 t 上的超额收益， $\beta_{t}$ 为股票在时点 t 上对各风险因子上的暴露程度， $z_{t}$ 为这些风险因子在时点 t上的因子收益率。传统线性模型假设股票的系统性收益可由β 与 $\dot{\boldsymbol{z}}_{t}$ 的加权求和表示 $\left(\beta_{t}^{\textit{ T }}z_{t}\right)$ ，但在更一般的情形下，该组合关系也可以用一个非线性函数ℎ $(\beta_{t},z_{t})$ 来表示，用以捕捉更复杂的因子交互关系。 $\alpha_{t}$ 为股票在时点 t 上的特质收益率， $\epsilon_{t}$ 为无法建模的随机误差项。
+其中， $y_{t}$ 为股票在时点 t 上的超额收益， $\beta_{t}$ 为股票在时点 t 上对各风险因子上的暴露程度， $z_{t}$ 为这些风险因子在时点 t上的因子收益率。传统线性模型假设股票的系统性收益可由β 与 $\bar{z}_{t}$ 的加权求和表示 $\left(\beta_{t}{}^{T}z_{t}\right)$ ，但在更一般的情形下，该组合关系也可以用一个非线性函数ℎ $\mathbf{.}(\beta_{t},z_{t})$ 来表示，用以捕捉更复杂的因子交互关系。 $\alpha_{t}$ 为股票在时点 t 上的特质收益率， $\epsilon_{t}$ 为无法建模的随机误差项。
 
 HIST 模型实际上就是非线性因子模型的一种深度学习表达方式，在进行股票收益预测时，将股票收益分解为由系统性因子驱动的部分和由个体特质驱动的部分，并分别建模。所谓股票间关联的概念，也可以理解为因子。
 
 该拟合过程等价于：
 
 $$
-\begin{array}{r}{\hat{y}_{i}^{t}=linear(f_{\mathrm{pre-definedlayer}}(\beta_{s}^{t},x_{i}^{t,0})+f_{\mathit{\hat{\mu}}iddenlayer}\big(\beta_{h}^{t},x_{i}^{t,1}\big)+f_{\alpha}\big(x_{i}^{t,2}\big))}\end{array}
+\hat{y}_{i}^{t}=linear(f_{\mathrm{pre-defined\;layer}}(\beta_{s}^{t},x_{i}^{t,0})+f_{\mathrm{Aidden\;layer}}(\beta_{h}^{t},x_{i}^{t,1})+f_{\alpha}(x_{i}^{t,2}))
 $$
 
-1. HIST 认为股票收益的系统性驱动因子包括预定义因子和隐藏因子。其中股票的因子暴露矩阵（股票-概念的关联矩阵）βt和 $\mathcal{B}_{h}^{t}$ 都不是完全外部预设输入的，而是采用“人工预设+动态修$\overline{{\mathbf{L}}}^{\mathfrak{n}}$ 的机制计算出来的。
+1. HIST 认为股票收益的系统性驱动因子包括预定义因子和隐藏因子。其中股票的因子暴露矩阵（股票-概念的关联矩阵）βt和 $|\beta_{h}^{t}$ 都不是完全外部预设输入的，而是采用“人工预设+动态修$正"$ 的机制计算出来的。
 
-2. 函数 $f_{\mathrm{pre-definedlayer}}\overleftarrow{\exists}f_{\mathit{hiddenlayer}}$ 通过“股票–概念”之间的信息传递与融合，提取融合概念信息后的股票特征表达，再施加非线性变换（linear+leakyrelu），增强表达能力。两者最终输出维度均为 N × hidden_size，仅作为中间特征，并不直接对应预测收益值。
+2. 函数 $f_{pre-definedlayer}与f_{hiddenlayer}$ 通过“股票–概念”之间的信息传递与融合，提取融合概念信息后的股票特征表达，再施加非线性变换（linear+leakyrelu），增强表达能力。两者最终输出维度均为 N × hidden_size，仅作为中间特征，并不直接对应预测收益值。
 
 3.函数 $f_{\alpha}$ 对残差特征进行非线性变换（linear +leakyrelu），提取未被因子层解释的股票特质特征表达。输出同样为 $\mathsf{N}\times\mathsf{hidden\_size}$ ，仅为中间特征。
 
-4. 三部分股票特征表达聚合后，通过全连接线性变换映射为最终收益预测 $(\mathsf{N}\times\mathsf{1})$ ）。
+4. 三部分股票特征表达聚合后，通过全连接线性变换映射为最终收益预测 $(\textsf{N}\times\textsf{1})$ ）。
 
-因此，HIST模型没有显式学习传统意义上的因子收益率 $\scriptstyle:z_{t}$ ，而是在这一阶段中通过概念特征的提取生成了一个类似于 $\cdot z_{t}$ 的“因子特征表达”。同时也没有显示学习 $h(\beta_{t},z_{t})$ 和 $\lvert\alpha_{t}$ ，而是通过深度特征学习隐式地实现了“因子信息的融合与非线性表达”。 $f_{\mathrm{pre-definedlayer}}\setminus f_{\mathit{\lambda iiddenlayer}}\setminus f_{\alpha}$ 的输出只能理解为“股票获得的综合因子特征表示”，并不代表股票从因子层获得的收益贡献和未被因子层解释的剩余收益贡献，最终的收益贡献要经过全连接层投影后才得以实现。
+因此，HIST模型没有显式学习传统意义上的因子收益率 $iz_{t}$ ，而是在这一阶段中通过概念特征的提取生成了一个类似于 $z_{t}$ 的“因子特征表达”。同时也没有显示学习 $h(\beta_{t},z_{t})$ 和 $|\alpha_{t}$ ，而是通过深度特征学习隐式地实现了“因子信息的融合与非线性表达”。 $f_{\mathrm{pre-defined\;layer}},f_{\mathrm{\it{fidden\;layer}}},f_{\alpha}$ 的输出只能理解为“股票获得的综合因子特征表示”，并不代表股票从因子层获得的收益贡献和未被因子层解释的剩余收益贡献，最终的收益贡献要经过全连接层投影后才得以实现。
 
 ## 1.5 HIST 模型不足之处
 
@@ -283,7 +283,7 @@ softmax 强制将所有相似度归一化为 [0,1] 区间并设置总和为 1，
 
 ## 1.5.3 概念交互机制结构表达能力不足
 
-HIST 模 型 在 构 建 股 票 与 概 念 之 间 的 信 息 交 互 机 制 时 ， 使 用 以 下 两 步 矩 阵 操 作 ：$X_{\mathit{pas}}=\beta^{T}X_{\mathit{hass}},X_{\mathit{hass}}{}^{\prime}=\beta X_{\mathit{hass}}$ 。其中β 是股票-概念的关联权重矩阵，通过“余弦相似度 +softmax”构造得出。这种方式虽然结构清晰、计算高效，但在结构表达能力上存在以下局限：
+HIST 模 型 在 构 建 股 票 与 概 念 之 间 的 信 息 交 互 机 制 时 ， 使 用 以 下 两 步 矩 阵 操 作 ：$X_{能念}=\beta^{T}X_{脱眾},\quad X_{脱眾}=\beta X_{能念}$ 。其中β 是股票-概念的关联权重矩阵，通过“余弦相似度 +softmax”构造得出。这种方式虽然结构清晰、计算高效，但在结构表达能力上存在以下局限：
 
 ## 1. 无法表达概念内部的股票联动关系
 
@@ -396,7 +396,7 @@ $$
 
 其中：
 
-${D_{v}^{-1/2}HW_{e}D_{e}^{-1}H^{T}D_{v}^{-1/2}}$ ：传播矩阵，满足对称和归一化，用于控制每个股票特征被传递给其他股票的程度。
+$D_{v}^{-1/2}HW_{e}D_{e}^{-1}H^{T}D_{v}^{-1/2}$ ：传播矩阵，满足对称和归一化，用于控制每个股票特征被传递给其他股票的程度。
 
 $Y\in R^{N\times C_{out}}$ ：输出的股票特征矩阵，代表每只股票的特征在超图结构中聚合后的表示。 $C_{out}$ 是输出特征维度；
 
@@ -404,7 +404,7 @@ $X\in R^{N\times C_{in}}$ ：输入的股票特征矩阵。N 是股票数量， 
 
 $H\in R^{N\times M}$ ：超图的关联矩阵，表示 N 个股票与 M 个因子（超边）之间的连接关系；
 
-$\mathrm{D}_{\mathrm{v}}\in\mathrm{R}^{\mathrm{N}\times\mathrm{N}}$ ：节点度对角矩阵，表示每只股票关联的因子数量。
+$\mathsf{D}_{\mathbf{v}}\in\mathsf{R}^{\mathsf{N}\times\mathsf{N}}$ ：节点度对角矩阵，表示每只股票关联的因子数量。
 
 $D_{e}\in R^{M\times M}$ ：超边度对角矩阵，表示每个因子连接的股票数量；
 
@@ -424,19 +424,19 @@ Input size: [batch_size, num_stock, num_factor];
 
 output size: [batch_size, num_stock, num_hidden]
 
-Step2： $D_{v}^{-1/2}(X\pmb{\theta})$ (节点特征归一化):
+Step2： $\pmb{D}_{v}^{-1/2}(\pmb{X}\pmb{\theta})$ (节点特征归一化):
 
-含义： ${D_{v}}^{-1/2}$ 操作对每只股票节点的特征进行度归一化处理，即除以其连接因子数量的平方根。通过这一步归一化，可以防止高连接节点过度主导信息流（如某些股票连接了多个热门概念），保持信息传播的平衡性和稳定性。
+含义： $D_{v}^{-1/2}$ 操作对每只股票节点的特征进行度归一化处理，即除以其连接因子数量的平方根。通过这一步归一化，可以防止高连接节点过度主导信息流（如某些股票连接了多个热门概念），保持信息传播的平衡性和稳定性。
 
 $$
-\mathsf{lnputsize:\mathsf{[batch\_size,num\_stock,num\_hidden]};}
+\mathsf{Input}\:\mathsf{size}{:}\:[\mathsf{batch\_size},\:\mathsf{num\_stock},\:\mathsf{num\_hidden}];
 $$
 
 有关分析师的申明，见本报告最后部分。其他重要信息披露见分析师申明之后部分，或请与您的投资代表联系。并请阅读本证券研究报告最后一页的免责申明。
 
 output size: [batch_size, num_stock, num_hidden]
 
-Step3： $H^{T}\Big(D_{v}^{-1/2}X\pmb{\theta}\Big)$ (节点到超边聚合):
+Step3： $H^{T}\Big({\pmb D}_{v}^{-1/2}X{\pmb\theta}\Big)$ (节点到超边聚合):
 
 含义：这一步实现了信息从股票节点向超边（概念）的聚合。 $H^{T}$ 矩阵的维度是 M×N，每一行对应一个超边（概念），每一列对应一个节点（股票）。当 $H^{T}$ 乘以股票特征矩阵时，每个超边会收集所有连接到它的股票（即受该因子影响的股票）的特征信息，并将这些信息聚合起来，形成超边自身的特征表示。
 
@@ -444,7 +444,7 @@ input size: [batch_size, num_stock, num_hidden];
 
 output size: [batch_size, num_concept, num_hidden]
 
-Step4： $W_{e}D_{e}^{-1}\Big(H^{T}D_{v}^{-1/2}X\pmb\theta\Big)$ (超边特征加权与归一化):
+Step4： $\boldsymbol{W}_{e}\boldsymbol{D}_{e}^{-1}\Big(\boldsymbol{H}^{T}\boldsymbol{D}_{v}^{-1/2}\boldsymbol{X}\boldsymbol{\Theta}\Big)$ (超边特征加权与归一化):
 
 含义：这一步是对聚合后的超边特征进行加权和归一化。 $D_{e}^{-}$ 1操作对超边特征进行归一化，确保那些连接股票数量特别多（或影响范围广）的概念不会过度主导后续信息传播，控制因子对整体信息流的影响力，保持建模公平性和数值稳定性。 $W_{e}$ 进一步对超边（概念）赋予权重，表示该概念在模型中的重要性，使得模型可以区分不同因子的影响力。
 
@@ -452,23 +452,23 @@ Input size: [batch_size, num_concept, num_hidden];
 
 output size: [batch_size, num_concept, num_hidden]
 
-Step5： $H\Big(W_{e}D_{e}^{-1}H^{T}D_{v}^{-1/2}X\pmb\theta\Big)$ (超边到节点传播):
+Step5： $H\Big(W_{e}D_{e}^{-1}H^{T}D_{v}^{-1/2}X\theta\Big)$ (超边到节点传播):
 
-含义：这一步是信息从超边（概念）向股票节点的回传。H矩阵的维度是 ${\mathsf{N}}{\times}{\mathsf{M}}_{\circ}$ 。当 H 乘以经过处理的超边特征矩阵时，每个股票节点会从所有连接到它的超边（因子）那里接收并聚合信息。
+含义：这一步是信息从超边（概念）向股票节点的回传。H矩阵的维度是 $N\times M_{\circ}$ 。当 H 乘以经过处理的超边特征矩阵时，每个股票节点会从所有连接到它的超边（因子）那里接收并聚合信息。
 
 Input size: [batch_size, num_concept, num_hidden];
 
 output size: [batch_size, num_stock, num_hidden]
 
-$\mathsf{Step6}\colon\boldsymbol{D}_{v}^{-1/2}\big(\boldsymbol{H}\boldsymbol{W}_{e}\boldsymbol{D}_{e}^{-1}\boldsymbol{H}^{T}\boldsymbol{D}_{v}^{-1/2}\boldsymbol{X}\theta\big)$ (最终节点特征归一化):
+${\sf Step6}\colon{\cal D}_{v}^{-1/2}\left({\cal HW}_{e}{\cal D}_{e}^{-1}{\cal H}^{T}{\cal D}_{v}^{-1/2}{\cal X\Theta}\right)$ (最终节点特征归一化):
 
-含义：对最终传回股票节点的特征再进行一次度归一化处理，采用的是与 Step2 相同的$\pmb{D}_{v}^{-1/2}$ 系数。通过这一步归一化，可以避免部分节点因连接超边较多而累加过多特征，导致数值膨胀或训练不稳定。同时与 step2 一起构成对称归一化结构，使信息在“节点→超边→节点”的传播路径中，对“发送方”和“接收方”的贡献进行均衡调控，有助于特征的平稳传播与模型收敛。
+含义：对最终传回股票节点的特征再进行一次度归一化处理，采用的是与 Step2 相同的$D_{v}^{-1/2}$ 系数。通过这一步归一化，可以避免部分节点因连接超边较多而累加过多特征，导致数值膨胀或训练不稳定。同时与 step2 一起构成对称归一化结构，使信息在“节点→超边→节点”的传播路径中，对“发送方”和“接收方”的贡献进行均衡调控，有助于特征的平稳传播与模型收敛。
 
 Input size: [batch_size, num_stock, num_hidden];
 
 output size: [batch_size, num_stock, num_hidden]
 
-Step7：σ $\big(D_{v}^{-1/2}HW_{e}D_{e}^{-1}H^{T}D_{v}^{-1/2}X\pmb\theta\big)$ (激活函数处理)
+Step7：σ $\left(\;{\cal D}_{v}^{-1/2}HW_{e}{\cal D}_{e}^{-1}H^{T}{\cal D}_{v}^{-1/2}X\theta\;\right)$ (激活函数处理)
 
 含义：在完成超图结构上的特征传播与线性变换后，模型对输出结果施加非线性激活函数，以增强模型的表达能力与拟合复杂结构的能力。
 
@@ -487,10 +487,10 @@ output size: [batch_size, num_stock, num_hidden]
 该框架引入 HyperGCN作为概念层信息聚合模块，其整体预测结构为：
 
 $$
-\begin{array}{r}{\hat{y}_{i}^{t}=w_{o1}HyperGCN_{prior-betalayer}\left(\beta_{s}^{t},x_{i}^{t,0}\right)+w_{o2}HyperGCN_{hidden-betalayer}\left(\beta_{h}^{t},x_{i}^{t,1}\right)}\\{+w_{o3}f_{\alpha}\left(x_{i}^{t,2}\right)+b}\end{array}
+\begin{aligned}\hat{y}_{i}^{t}=w_{o1}HyperGCN_{prior-batch\ layer}\big(\beta_{s}^{t},x_{i}^{t,0}\big)+w_{o2}HyperGCN_{hidden-total\ layer}\big(\beta_{h}^{t},x_{i}^{t,1}\big)\\+w_{o3}f_{\alpha}\big(x_{i}^{t,2}\big)+b\end{aligned}
 $$
 
-其中：（1）两个 HyperGCN 模块分别用于构建融合预定义因子与隐藏因子的股票特征表达，表示股票从因子层获得的收益贡献 $\big(\approx\beta^{T}z\big)_{\mathrm{~\circ~}}\left(2\right)f_{\alpha}$ 模块保留了原 HIST 中的 linear +leakyrelu结构，用于建模未被因子层解释的特质收益。（3） $w_{o1},w_{o2},w_{o3}\in R^{d}$ 为可学习的线性参数，b ∈R为偏置项，用于拟合各路径对最终收益的相对贡献，增强表达能力并提升对收益的拟合效果。
+其中：（1）两个 HyperGCN 模块分别用于构建融合预定义因子与隐藏因子的股票特征表达，表示股票从因子层获得的收益贡献 $(\approx\beta^{T}z)\mathrm{~。~}(2)f_{\alpha}$ 模块保留了原 HIST 中的 linear +leakyrelu结构，用于建模未被因子层解释的特质收益。（3） $w_{o1},w_{o2},w_{o3}\in R^{d}$ 为可学习的线性参数，b ∈R为偏置项，用于拟合各路径对最终收益的相对贡献，增强表达能力并提升对收益的拟合效果。
 
 这种改进方式，既保留了 HIST 框架中“非线性因子建模 + 特质残差剥离”的基本思想，又通过引入超图结构提升了对复杂因子暴露模式的表达能力，使得模型在表达强度、稳定性与结构可扩展性方面更具优势。
 
@@ -514,7 +514,7 @@ HIST-HyperGCN 做法：直接采用人工设定的 0-1 二值关联矩阵作为�
 
 原 HIST 做法：不显式设定一组固定的隐藏概念，而是通过股票之间的局部相似性动态生成隐藏概念特征。股票与隐藏概念之间的关联权重 β由个股在残差空间中的相似度决定，隐藏概念表示则是以此β加权的聚合结果。换言之，每只股票的隐藏概念表达，实质上是“由我最相似的那几只股票的特征加权得出”。这种方式下的隐藏概念并不具备稳定的定义或结构，其表示随样本特征和相似度变化而变化，属于一种相对相似性驱动的概念建构方式。
 
-HIST-HyperGCN 做法：隐藏概念不再依赖于其他股票的特征来动态生成，而是引入一组可学习的因子原型C ∈ RM×d，作为隐藏概念的特征表示，每一行c 代表一个固定的隐藏概念。这些因子由模型在训练过程中直接学习得到，具有稳定性和全局性，在时序上保持不变。股票与隐藏概念之间的关联权重 βt由股票特征与因子原型之间的内积计算而来，再通过Sigmoid 函数归一化为0-1之间的关联强度，即 $\begin{array}{r}{{1}\beta_{h}^{t}=\mathrm{sigmoid}(\mathrm{X}^{t}{C}^{T})}\end{array}$ 。这种方式的核心思想是：先定义出一组清晰的因子，再看每只股票与这些因子的关系，强调的是“我受哪些因子影响”，而不是“我像哪几只股票”。将隐藏概念建模从基于相似度的相对构造，转变为面向因子的绝对表达。
+HIST-HyperGCN 做法：隐藏概念不再依赖于其他股票的特征来动态生成，而是引入一组可学习的因子原型C ∈ RM×d，作为隐藏概念的特征表示，每一行c 代表一个固定的隐藏概念。这些因子由模型在训练过程中直接学习得到，具有稳定性和全局性，在时序上保持不变。股票与隐藏概念之间的关联权重 βt由股票特征与因子原型之间的内积计算而来，再通过Sigmoid 函数归一化为0-1之间的关联强度，即 $\beta_{h}^{t}=sigmoid(X^{t}C^{T})$ 。这种方式的核心思想是：先定义出一组清晰的因子，再看每只股票与这些因子的关系，强调的是“我受哪些因子影响”，而不是“我像哪几只股票”。将隐藏概念建模从基于相似度的相对构造，转变为面向因子的绝对表达。
 
 改进优势： a. 摆脱对相似股票的依赖，更稳定。HIST 中，隐藏概念由“谁像我”决定，高度依赖股票之间的相似性排序，受市场状态、特征波动等影响较大，且缺乏统一的、结构化的语义表达。HIST-HyperGCN 直接学习概念原型，结构固定，显著提升概念表达的稳定性与一致性。b. 建模抽象因子，更具结构表达力。因子原型法让隐藏因子从“相似股票集合”跃升为“抽象因子集合”，实现对市场结构共性的统一建模。c. 贴近金融因子建模，更易解释和归因。股票与原型之间的内积可以理解为“因子暴露”，符合金融学中“收益= 因子×暴露”的经典建模方式。d. 减少参数量，提升训练效率。模型只需学习少量因子原型，即可覆盖全市场的因子表达需求。
 
@@ -542,21 +542,21 @@ HIST-HyperGCN 做法：同样遵循“股票 → 概念 → 股票”的信息�
 
 | 操作阶段 |  | HIST预定义概念层 | FactorGCL先验Beta层 |
 | --- | --- | --- | --- |
-| 输入特征 | 用GRU编码原始时序特征 |  | 用GRU编码原始时序特征数据后，进行线性变换 $\widetilde{X^{t,0}}=X^{t,0}\pmb{\theta}$ |
+| 输入特征 | 用GRU编码原始时序特征 |  | 用GRU编码原始时序特征数据后，进行线性变换 $\widetilde{\boldsymbol{X}^{t,0}}=\boldsymbol{X}^{t,0}\boldsymbol{\theta}$ |
 | 股票和概念间的关联矩阵计算 | $X^{t,0}=x_{i}^{t,0}$ 先用市值加权初始化 | 通过01关联矩阵构建静态概念超图 |  |
-|  | $\beta^{\tau,0}=\alpha_{i,k}^{t,0}=\left\{\begin{array}{c}{{mktvalue_{i}}}\\{{\sum_{i}mktvalue_{i}},{ifb_{i,k}=1}}\\{{0,else}}\end{array}\right.$ | $\beta^{\sf t}=\left(b_{i,k}\right)_{n\times m}$ |  |
+|  | $\beta^{t,0}=\alpha_{i,k}^{t,0}=\left\{\frac{mktvalue_{i}}{\sum_{i}mktvalue_{i}},ifb_{i,k}=1\atop0,else\right\}$ | $\beta^{t}=\left(b_{i,k}\right)_{n\times m}$ |  |
 | 从个股到概念的信息提取 | 通过市值加权构建动态概念表示 | \ |  |
 |  |  | 计算个股和概念的余弦相似度，再用softmax归一化作为权重 |  |
-| 动态修正关联 | $\beta^{t,1}=\left({\alpha}_{ki}^{t,1}\right)_{n\times m}=\left\{\begin{array}{c}{{50\mathrm{fmax}(cos(h_{k}^{t,0},x_{i}^{t,0})),ifb_{i,k}=1}}\\{{0,else}}\end{array}\right.$ |  | \ |
+| 动态修正关联 | $\beta^{t,i}=\left(\alpha_{ki}^{t,i}\right)_{n\times m}=\left\{\begin{matrix}\mathsf{softmax}(\cos(h_k^{t,0},x_i^{t,0})),ifb_{i,k}=1\\0,else\end{matrix}\right.$ |  | \ |
 | 动态修正概念特征 | 用上述权重重新计算概念特征 |  | 节点到超边的聚合 |
-|  | $H^{t,1}=\left(h_{k}^{t,1}\right)_{m,1}=\beta^{t,1^{T}}X^{t,0}$ |  | $H^{t}=\beta^{t}{}^{T}\Big(D_{v}^{-1/2}\widetilde{X^{t,0}}\Big)$ |
+|  | $\begin{array}{r}{H^{\pmb{t},\pmb{1}}=\left(h_{k}^{\pmb{t},\pmb{1}}\right)_{m,\pmb{1}}=\beta^{\pmb{t},\pmb{1}^{T}}\pmb{X}^{\pmb{t},\pmb{0}}}\end{array}$ |  | $\pmb{H}^{t}=\beta^{t^{T}}\left(\pmb{D}_{v}^{-1/2}\widetilde{\pmb{X}^{t,0}}\right)$ |
 | 概念和股票间的关联矩阵计算 |  | 计算概念和个股的余弦相似度，再用softmax归一化作为权重 |  |
-|  | $\beta^{t,z}=\left(\alpha_{ki}^{t,z}\right)_{n,m}=so\mathsf{ftmax}(cos\left(h_{k}^{t,1},x_{i}^{t,0}\right))$ |  | \ |
+|  | $\beta^{t,2}=\left(\alpha_{ki}^{t,2}\right)_{n,m}=softmax\left(\cos\left(h_{k}^{t,1},x_{i}^{t,0}\right)\right)$ |  | \ |
 |  | 获取融合预定义概念信息后的个股特征 |  | 超边到节点的聚合 |
-| 从概念到个股的信息融合 | $E^{t,0}=\left(e_{i}^{t,0}\right)_{n,1}=\beta^{t,1}H^{t,1}$ |  | $E^{t,0}=\sigma(D_{v}^{-1/2}\beta^{t,1}W_{e}D_{e}^{-1}H^{t})$ |
+| 从概念到个股的信息融合 | $E^{t,0}=\left(e_{i}^{t,0}\right)_{n,1}=\beta^{t,1}H^{t,1}$ |  | $E^{t,0}=\sigma(\pmb{D}_{v}^{-1/2}\beta^{t,1}\pmb{W}_{e}\pmb{D}_{e}^{-1}\pmb{H}^{t})$ |
 | 输出设计 | 双分支输出 |  | 单嵌入输出 |
-|  | $\widehat{X^{\tau,0}}=\left(\widehat{x_{\tau}^{\tau,0}}\right)_{n,1};$ backcast : |  | $\widehat{X^{\tau,0}}=\left(\widehat{x_{\tau}^{\tau,0}}\right)_{n,1}$ |
-|  | forecast : $\widehat{Y^{t,0}}=\widehat{(y_{t}^{t})}_{n,1}$ |  |  |
+|  | $\widehat{\bar{X}^{t,0}}=\left(\widehat{x_{\imath}^{t,0}}\right)_{\mathfrak{n},\mathfrak{l}};$ backcast : |  | $\widehat{\bar{X}^{t,0}}=\left(\widehat{x_{\imath}^{t,0}}\right)_{n,\mathbb{1}}$ |
+|  | forecast : $\widehat{\pmb{Y}^{t,0}}=\left(\widehat{y_{\iota}^{t}}\right)_{n,\bot}$ |  |  |
 
 数据来源：东方证券研究所
 
@@ -564,13 +564,13 @@ HIST-HyperGCN 做法：同样遵循“股票 → 概念 → 股票”的信息�
 
 | 操作阶段 | HIST隐藏概念层 | FactorGCL隐藏Beta层 |
 | --- | --- | --- |
-| 输入特征 | 残差输入 $X^{t,1}=X^{t,0}-\widehat{X^{t,0}}$ | 残差输入，进行线性变换 $\widetilde{X^{t,1}}=\textit{ \textbf { ( } \widetilde { X ^ { t , 0 } } - \widetilde { X ^ { t , 0 } } \textit { ) } }\theta$ |
+| 输入特征 | 残差输入 $X^{t,1}=X^{t,0}-\widehat{X^{t,0}}$ | 残差输入，进行线性变换 $\widetilde{X^{t,1}}=\widetilde{\left(X^{t,0}-X^{t,0}\right)}\theta$ |
 | 因子原型定义 | 所有股票自身作为一个概念，初始隐藏概念特征=股票特征 | 可学习因子原型（隐藏概念特征)： $C=\{c_{k}\}_{k=1}^{M}$ |
-| 股票和概念间的关联矩阵计算 | 计算个股和概念的余弦相似度，再用softmax归一化作为权重。对权 重进行进行稀疏化处理，每个股票仅保留与之相关性最大的topk个 利用个股特征与因子原型做内积运算 概念作为隐藏概念 $\beta_{h}^{t,0}=\left(\alpha_{ki}^{t,0}\right)_{n\times m}=\left\{\begin{array}{r}{s\circ\mathrm{ftm}ax(cos(h_{k}^{t,0},x_{i}^{t,0})),if}\\{0,else}\end{array}\right.$ k在 id 的 top 中 | $\beta_{h}^{t}=\sigma\big(\widetilde{X^{t,1}}\cdot C^{\tau}\big)$ |
-| 从个股到概念的信息提取 | 用上述权重计算概念特征 $H_{h}^{t,0}=\left(h_{k}^{t,0}\right)_{m,1}=\beta_{h}^{t,0}^{T}X^{t,1}$ | 节点到超边的聚合 $H_{h}^{t}={\beta_{h}^{t}}^{T}\Big(D_{v}^{-1/2}\widetilde{X^{t,1}}\Big)$ |
+| 股票和概念间的关联矩阵计算 | 计算个股和概念的余弦相似度，再用softmax归一化作为权重。对权 重进行进行稀疏化处理，每个股票仅保留与之相关性最大的topk个 利用个股特征与因子原型做内积运算 概念作为隐藏概念 $\beta_{h}^{t,0}=\left(\alpha_{ki}^{t,0}\right)_{n\times m}=\left\{\begin{aligned}\mathsf{softmax}(\mathsf{cos}(h_{k}^{t,0},x_{i}^{t,0})),if\\0,else\end{aligned}\right.$ k在 id 的 top 中 | $\beta_{h}^{t}=\sigma\big(\widetilde{X^{t,\mathtt{i}}}\cdot C^{T}\big)$ |
+| 从个股到概念的信息提取 | 用上述权重计算概念特征 $H_{h}^{t,0}=\left(h_{k}^{t,0}\right)_{m,1}=\beta_{h}^{t,0^{T}}X^{t,1}$ | 节点到超边的聚合 $H_{h}^{t}=\beta_{h}^{t^{T}}\Big(D_{v}^{-1/2}\widetilde{X^{t,\perp}}\Big)$ |
 | 概念和股票间的关联矩阵计算 | 计算概念和个股的余弦相似度，再用softmax归一化作为权重 |  |
-| 从概念到个股的信息融合 | $\beta_{h}^{t,1}=\left(\alpha_{ki}^{t,2}\right)_{n,m}=s\circ\mathsf{ffmax}(cos\left(h_{k}^{t,1},x_{i}^{t,0}\right))$ 获取融合隐藏概念信息后的个股特征 | 1 超边到节点的聚合 |
-| 输出设计 | $E_{h}^{t,0}=\left(e_{i}^{t,0}\right)_{n,1}=\beta^{t,1}H^{t,0}$ 双分支输出 $\operatorname{backcast}:X^{\widehat{\tau},1}=\left(x_{\iota}^{\widehat{\tau},1}\right)_{n,1};$ $\widehat{X^{\tau,1}}=\left(\widehat{x_{\tau}^{t,1}}\right)_{n,1}$ | $E_{h}^{t,0}=\sigma(D_{v}^{-1/2}\beta_{h}^{t}W_{e}D_{e}^{-1}E)$ 单嵌入输出 |
+| 从概念到个股的信息融合 | $\beta_{h}^{t,1}=\left(\alpha_{ki}^{t,2}\right)_{n,m}=softmax\left(\cos\left(h_{k}^{t,1},x_{i}^{t,0}\right)\right)$ 获取融合隐藏概念信息后的个股特征 | 1 超边到节点的聚合 |
+| 输出设计 | $E_{h}^{t,0}=\left(e_{i}^{t,0}\right)_{n,\downarrow}=\beta^{t,\downarrow}H^{t,0}$ 双分支输出 $\mathrm{box}\mathrm{box}\mathrm{x}\mathrm{x}\mathrm{x}\mathrm{x}\mathrm{t}:\mathrm{x}^{\widehat{\mathrm{T}},\mathrm{1}}=\left(\mathrm{x}_{\mathrm{t}}^{\widehat{\mathrm{T}},\mathrm{1}}\right)_{\mathrm{n},\mathrm{1}}$ $\widehat{\pmb{X}^{t,\mathtt{i}}}=\left(\widehat{x_{\imath}^{t,\mathtt{i}}}\right)_{\mathfrak{n},\mathtt{i}}$ | $E_{h}^{t,0}=\sigma(D_{v}^{-1/2}\beta_{h}^{t}W_{e}D_{e}^{-1}E)$ 单嵌入输出 |
 
 数据来源：东方证券研究所
 
@@ -607,7 +607,7 @@ HIST-HyperGCN 做法：同样遵循“股票 → 概念 → 股票”的信息�
 如前文 1.4 节所述，HIST 模型本质上是一种基于深度学习的非线性因子模型，其核心目标是将股票收益拆解为三部分：由预定义概念（因子）、隐藏概念（因子）构建的系统性收益部分，以及通过残差模块学习得到的每只股票独有的特质收益部分（α）。其拟合形式如下：
 
 $$
-\begin{array}{r}{\hat{y}_{i}^{t}=linear(f_{\mathrm{pre-definedlayer}}(\beta_{s}^{t},x_{i}^{t,0})+f_{\mathit{\hat{\mu}}iddenlayer}\big(\beta_{h}^{t},x_{i}^{t,1}\big)+f_{\alpha}\big(x_{i}^{t,2}\big))}\end{array}
+\hat{y}_{i}^{t}=linear(f_{\mathrm{pre-defined\;layer}}(\beta_{s}^{t},x_{i}^{t,0})+f_{\mathrm{Aidden\;layer}}(\beta_{h}^{t},x_{i}^{t,1})+f_{\alpha}(x_{i}^{t,2}))
 $$
 
 我们期望，特质收益部分（α）具有以下两个核心性质：
@@ -687,7 +687,7 @@ t时刻的特征在做预测时是已知的，已经用于历史路径中了。�
 
 ## 2. 时间序列正序排列，保持建模一致性
 
-在未来路径中，时间维度应保持自然的正序排列（即从t + 1 到t + seq_len），与历史路径 [t$\mathbf{-\ seq\_len}+1,\ \dots,\mathbf{t}]$ 的排列方式保持一致。这样有助于保证时间递进结构的建模逻辑统一，简化时序编码器对时间模式的学习，避免因反序输入而引发不必要的归一化偏移或特征混淆。
+在未来路径中，时间维度应保持自然的正序排列（即从t + 1 到t + seq_len），与历史路径 [t$-\operatorname{seq}[\ln+1,\ldots,t]$ 的排列方式保持一致。这样有助于保证时间递进结构的建模逻辑统一，简化时序编码器对时间模式的学习，避免因反序输入而引发不必要的归一化偏移或特征混淆。
 
 ## 3. 匹配预测期，增强目标相关性
 
@@ -700,7 +700,7 @@ t时刻的特征在做预测时是已知的，已经用于历史路径中了。�
 未来路径与历史路径的模型架构相同，均采用 HIST 模型，由三个主要模块组成：股票时序特征编码模块、股票间关联网络模块、个股信息模块。两个路径的个股特质收益的拟合过程如下：
 
 $$
-\begin{array}{rl}&{\alpha_{i,past}^{t}=f_{\alpha}(\phi_{feat}^{past}\big(s_{i,past}^{t}\big)-f_{\mathrm{pre-definedlayer}}\big(\beta_{s,past}^{t},\boldsymbol{x}_{i,past}^{t,0}\big)-f_{hiddenlayer}\big(\beta_{h,past}^{t},\boldsymbol{x}_{i,past}^{t,1}\big))}\\&{\qquad\alpha_{i,future}^{t}=f_{\alpha}(\phi_{feat}^{future}\big({s}_{i,future}^{t}\big)-f_{\mathrm{pre-definedlayer}}\big(\beta_{s,future}^{t},\boldsymbol{x}_{i,future}^{t,0}\big)}\\&{\qquad-f_{hiddenlayer}\big(\beta_{h,future}^{t},\boldsymbol{x}_{i,future}^{t,1}\big))}\end{array}
+\begin{aligned}\alpha_{i,past}^{t}=f_{\alpha}(\phi_{f_{cirel}}^{j_{itil}}\big(s_{i,past}^{t}\big)-f_{pre-definedlayer}\big(\beta_{s,past}^{t},\boldsymbol{x}_{i,past}^{t,0}\big)-f_{hiddenlayer}\big(\beta_{h,past}^{t},\boldsymbol{x}_{i,past}^{t,1}\big))\\\alpha_{i,future}^{t}=f_{\alpha}(\phi_{f_{cirel}}^{j_{itil}\cdot\cdot\cdot\cdot}\big(s_{i,future}^{t}\big)-f_{pre-definedlayer}\big(\beta_{s,f_{itil}\cdot\cdot\cdot\cdot}^{t},\boldsymbol{x}_{i,future}^{t,0}\big)\\-f_{hiddenlayer}\big(\beta_{h,f_{itil}\cdot\cdot\cdot\cdot}^{t},\boldsymbol{x}_{i,future}^{t,1}\big))\end{aligned}
 $$
 
 HIST-TRCL 在构建时间对比路径时，采用“特征编码器独立 + 因子模块共享”的结构设定，一方面确保了历史与未来路径在特征提取阶段各自适配不同时间视角下的数据特征，提升了建模的表达能力，另一方面又确保了 alpha 定义在时间维度上的语义一致性，为后续的残差对比学习提供了坚实基础。未来路径与历史路径的模型结构设置及参数共享策略如下：
@@ -709,9 +709,9 @@ HIST-TRCL 在构建时间对比路径时，采用“特征编码器独立 + 因�
 
 HIST-TRCL 中，个股特质的历史与未来表征分别通过两条独立的时序路径构建而成：
 
-a. 历史路径以某只股票在当前截面前 30 日（t-29 到 t）的特征序列 $s_{i,past}^{t}$ 为输入，经过一个结构独立的 GRU 编码器 $\phi_{feat}^{past}$ 生成表征输出，记作 $\hat{\mathbf{\rho}}_{i,past}^{t,0}$ ；
+a. 历史路径以某只股票在当前截面前 30 日（t-29 到 t）的特征序列 $s_{i,past}^{t}$ 为输入，经过一个结构独立的 GRU 编码器 $\phi_{feat}^{past}$ 生成表征输出，记作 $c_{i,past}^{t,0}$ ；
 
-b. 未来路径则以未来 20 日（t+1 到 t+20）的特征序列 $\ r_{i,future}^{t}$ 为输入，同样通过一个结构独立的 GRU 编码器 $\phi_{feat}^{futur}$ e进行时序建模，提取的输出记作 $\mathrm{:}x_{i,future}^{t,0}\mathrm{:}$历史路径与未来路径的时序编码模块结构相同，但参数独立，原因在于两者在建模目标上存在根本差异：
+b. 未来路径则以未来 20 日（t+1 到 t+20）的特征序列 $s_{i,future}^{t}$ 为输入，同样通过一个结构独立的 GRU 编码器 $\phi_{feat}^{futur}$ e进行时序建模，提取的输出记作 ${{{i}}}x_{i,future}^{t,0}{{{i}}}$历史路径与未来路径的时序编码模块结构相同，但参数独立，原因在于两者在建模目标上存在根本差异：
 
 a. 时序跨度不同：历史路径采用的 t-29 到 t特征序列，未来路径则使用 t+1 到 t+20的特征序列，输入序列时间跨度不同，信息分布存在差异；
 
@@ -742,7 +742,7 @@ InfoNCE 损失的核心目标是：最大化正样本对（同一只股票在历
 具体而言，每只个股 i 在截面 t 上的 InfoNCE 损失定义如下：
 
 $$
-\mathcal{L}_{\mathrm{N},i}=-\log\frac{\exp\bigl(\sin\bigl(p(\alpha_{i,past}^{t}),p(\alpha_{i,future}^{t})\bigr)/\tau\bigr)}{\sum_{j\in\mathrm{Batch}}\exp\bigl(\sin\bigl(p(\alpha_{i,past}^{t}),p(\alpha_{j,future}^{t})\bigr)/\tau\bigr)}
+\mathcal{L}_{\mathrm{N},i}=-\log\frac{\exp\left(\sin\left(p(\alpha^t_{i,past}),p(\alpha^t_{i,future})\right)/\tau\right)}{\sum_{j\in\mathrm{Batch}}\exp\left(\sin\left(p(\alpha^t_{i,past}),p(\alpha^t_{j,future})\right)/\tau\right)}
 $$
 
 其中：
@@ -760,7 +760,7 @@ sim(∙)为余弦相似度作为判别器判断任意一组正（负）样本的
 截面上总 InfoNCE 损失为 $\begin{array}{r}{\mathcal{L}_{\mathsf{N}}=\sum_{j\in\mathsf{Batch}}\mathcal{L}_{\mathsf{N},j},}\end{array}$ 。HIST-TRCL 模型将该损失与历史路径的预测误差 MSE损失，通过权重γ，重构为新的训练损失：
 
 $$
-\mathcal{L}_{\sf total}=\mathcal{L}_{\sf MSE}+\gamma\mathcal{L}_{\sf N}.
+\mathcal{L}_{\mathsf{total}}=\mathcal{L}_{\mathsf{MSE}}+\gamma\mathcal{L}_{\mathsf{N}}.
 $$
 
 ## 3.2.5 InfoNCE 损失的改进
@@ -782,7 +782,7 @@ $$
 第二，为保留正样本对的方向信息。我们在分子中加入原始相似度的符号，即使用 sign(sim)× sim² 作为正样本的相似度值。这样一来，只有当同一股票在历史与未来时间段提取出的 alpha在方向和强度上都高度一致时，相似度才最大、损失才最小；若方向相反（即负相关），即使强度匹配，也会被判为错误匹配并受到惩罚。该机制强化了模型在时间维度上的一致性建模能力，防止学习出“方向相反但高度相关”的伪稳定因子。
 
 $$
-\mathcal{L}_{\mathrm{N},i}=-\log\frac{\exp\Bigl(\mathrm{sign}\bigl(\sin\Bigl(p(\alpha_{i,past}^{t}),p(\alpha_{i,future}^{t})\Bigr)\bigr)*sim^{2}\Bigl(p(\alpha_{i,past}^{t}),p(\alpha_{i,future}^{t})\Bigr)/\tau\Bigr)}{\sum_{j\in\mathrm{Batch}}\exp\left(sim^{2}\left(p(\alpha_{i,past}^{t}),p(\alpha_{j,future}^{t})\right)/\tau\right)}\Bigr)
+\mathcal{L}_{\mathrm{N},i}=-\log\frac{\exp\left(\operatorname{sign}\left(\operatorname{sim}\left(p(\alpha^t_{i,past}),p(\alpha^t_{i,future})\right)\right)*\operatorname{sim}\left(p(\alpha^t_{i,past}),p(\alpha^t_{i,future})\right)/\tau\right)}{\sum_{j\in\mathrm{Batch}}\exp\left(\operatorname{sim}\left(p(\alpha^t_{i,past}),p(\alpha^t_{i,future})\right)/\tau\right)}
 $$
 
 综上，这一改进后的 InfoNCE 设计实现了双重优化目标：
@@ -806,16 +806,16 @@ $$
 对于历史路径中提取出的 alpha 表征，我们将其自身视为正样本，将同一批次内其他股票的alpha 视为负样本。截面 InfoNCE 损失定义如下：
 
 $$
-\mathcal{L}_{\mathrm{N},i}=-\log\frac{\exp\bigl(\sin\bigl(p(\alpha_{i,past}^{t}),p(\alpha_{i,past}^{t})\bigr)/\tau\bigr)}{\sum_{j\in\mathrm{Batch}}\exp\Big(\sin\Big(p(\alpha_{i,past}^{t}),p(\alpha_{j,past}^{t})\Big)/\tau\Big)}
+\mathcal{L}_{\mathrm{N},i}=-\log\frac{\exp\left(\sin\left(p(\alpha^t_{i,past}),p(\alpha^t_{i,past})\right)/\tau\right)}{\sum_{j\in\mathrm{Batch}}\exp\left(\sin\left(p(\alpha^t_{i,past}),p(\alpha^t_{j,past})\right)/\tau\right)}
 $$
 
 HIST-TRCL 模型最终将历史路径的预测误差 MSE 损失，截面 InfoNCE 损失、时序 InfoNCE损失，通过权重γ重构为新的训练损失：
 
 $$
-\mathcal{L}_{\sf total}=\mathcal{L}_{\sf MSE}+\gamma(\mathcal{L}_{\sf N,temporal}+\mathcal{L}_{\sf N,cross-section})
+\mathcal{L}_{\mathsf{total}}=\mathcal{L}_{\mathsf{MSE}}+\gamma(\mathcal{L}_{\mathsf{N},\mathsf{temporal}}+\mathcal{L}_{\mathsf{N},\mathsf{cross-section}})
 $$
 
-其中使用 $\mathcal{L}_{\sf N,temporal}$ 描述时序上的稳定性， $\mathcal{L}_{\sf N,cross-section}$ 描述截面上的稳定性。
+其中使用 $\mathcal{L}_{\mathsf{N},\mathsf{temporal}}$ 描述时序上的稳定性， $\mathcal{L}_{\mathsf{N},\mathsf{cross-section}}$ 描述截面上的稳定性。
 
 ## 3.3 HIST-TRCL 模型绩效
 
@@ -853,15 +853,15 @@ FactorGCL 模型训练过程如下：
 
 Step1：特征提取器 $\Phi_{feat}$ （Feature Extractor）：从输入的股票特征历史序列 $S_{past}^{t}$ 中提取股票的潜在特征Xt,0;
 
-Step2：先验 beta 模块 $\phi_{prior}$ （prior Beta Module）：将预定义概念构建的关联网络作为βs，使用超图卷积网络 $\mathsf{hyperGCN}\phi_{prior}(\beta_{s}^{t},X^{t,0})$ ，实现信息提取（message extractor），信息聚合（message aggregation）和信息共享（message share），最终得到个股的共享关联信息X̂t,0; 残差 $\dot{\boldsymbol{\xi}}\boldsymbol{X}^{t,1}=\boldsymbol{X}^{t,0}-\boldsymbol{\hat{X}}^{t,(}$ 0作为下一层输入；
+Step2：先验 beta 模块 $\phi_{prior}$ （prior Beta Module）：将预定义概念构建的关联网络作为βs，使用超图卷积网络 $\mathsf{hyperGCN}\phi_{prior}(\beta_{s}^{t},X^{t,0})$ ，实现信息提取（message extractor），信息聚合（message aggregation）和信息共享（message share），最终得到个股的共享关联信息X̂t,0; 残差 $\hat{z}X^{t,1}=X^{t,0}-\hat{X}^{t,0}$ 0作为下一层输入；
 
-Step3: 隐藏 beta 模块 $\phi_{hidden}$ （hidden Beta Module）：将 M 个可学习的因子原型（factorprototype ） c 和 残 $\yen8$ ， 进 行 内 积 运 算 ， 生 成 $\beta_{h}^{t}={\mathsf{sigmoid}}(X^{t,1}\cdot c)$ , 使 用$\mathsf{hyperGCN}\phi_{\mathsf{hidden}}(\beta_{h}^{t},X^{t,1})$ 生成个股的隐藏关联信息X̂t,1；残差 $X^{t,2}=X^{t,1}-\hat{X}^{t,1}$ 作为下一层输入；
+Step3: 隐藏 beta 模块 $\phi_{hidden}$ （hidden Beta Module）：将 M 个可学习的因子原型（factorprototype ） c 和 残 $差X^{t,1}$ ， 进 行 内 积 运 算 ， 生 成 $\beta_{h}^{t}=\mathsf{sigmoid}(X^{t,1}\cdot c)$ , 使 用$\mathsf{hyperGCN}\phi_{\mathsf{hidden}}(\beta_{h}^{t},X^{t,1})$ 生成个股的隐藏关联信息X̂t,1；残差 $X^{t,2}=X^{t,1}-\widehat{X}^{t,1}$ 作为下一层输入；
 
-Step4：个体 alpha 模块 $\phi_{\mathsf{alpha}}$ （Individual Alpha Module）：将残差 $X^{t,2}$ 放入线性层和LeakyReLU层，获取个股特质信息 $\alpha_{past}^{t}=\hat{X}^{t,2}{=}\phi_{\mathsf{alpha}}\ (X^{t,2})$
+Step4：个体 alpha 模块 $\phi_{\mathsf{alpha}}$ （Individual Alpha Module）：将残差 $X^{t,2}$ 放入线性层和LeakyReLU层，获取个股特质信息 $\alpha_{past}^{t}=\hat{X}^{t,2}{=}\phi_{\mathsf{alpha}}\left(X^{t,2}\right)$
 
-Step5：预测模块（prediction）：使用线性层组合关联信息（股票从先验和隐藏因子层获得的收益贡献）和个股特质收益，对收益率进行预测 $\hat{Y}^{t}=w_{o1}\hat{X}^{t,0}+w_{o2}\hat{X}^{t,1}+w_{o3}\hat{X}^{t,2}+b\mathrm{.}$
+Step5：预测模块（prediction）：使用线性层组合关联信息（股票从先验和隐藏因子层获得的收益贡献）和个股特质收益，对收益率进行预测 $\begin{array}{r}{\hat{Y}^{t}=\mathrel{w_{o1}}\hat{X}^{t,0}\neq\mathrel{w_{o2}}\hat{X}^{t,1}\neq\mathrel{w_{o3}}\hat{X}^{t,2}\neq b\mathrm{{。}}}\end{array}$
 
-Step6：未来路径模块：使用独立的特质提取器 $\flat_{feat}^{\prime}$ ，以及和历史路共享参数的网络 $\phi_{prior:}$ φ ，φ 与 beta 矩阵βt， $\boldsymbol{\beta}_{\hbar}^{t}$ ，构造未来路径。与 HIST-TRCL 模型不同，FactorGCL 模型下未来路径直接沿用历史路径下的 beta 矩阵，并不进行重新估计。用股票特征的未来序列 $\normalfont S_{future}^{t}$ 作 为 输 入 ， 提 取 未 来 个 股 特 质 信 息 $\alpha_{future}^{t}=\hat{X}_{future}^{t,2}=\phi_{\mathrm{alpha}}(\phi_{feat}^{'}(s_{future}^{t})-$ $\phi_{prior}\big(\beta_{s}^{t},X_{future}^{t,0}\big)-\phi_{hidden}\big(\beta_{h}^{t},X_{future}^{t,1}\big))$ 。
+Step6：未来路径模块：使用独立的特质提取器 $\mathfrak{p}_{feat}^{\prime}$ ，以及和历史路共享参数的网络 $\phi_{prior\;i}$ φ ，φ 与 beta 矩阵βt， $\beta_{\hbar}^{t}$ ，构造未来路径。与 HIST-TRCL 模型不同，FactorGCL 模型下未来路径直接沿用历史路径下的 beta 矩阵，并不进行重新估计。用股票特征的未来序列 $S_{future}^{t}$ 作 为 输 入 ， 提 取 未 来 个 股 特 质 信 息 $\alpha_{future}^{t}=\hat{X}_{future}^{t,2}=\phi_{\mathsf{alpha}}(\phi_{feat}^{'}\big(s_{future}^{t}\big)-$ $\phi_{_{prior}}\big(\beta_{s}^{t},X_{future}^{t,0}\big)-\phi_{_{hidden}}\big(\beta_{h}^{t},X_{future}^{t,1}\big))$ 。
 
 与 HIST-TRCL 模型不同，FactorGCL 模型下未来路径直接沿用历史路径下的 beta 矩阵，并不进行重新估计。主要出于几点考虑：
 
@@ -879,11 +879,11 @@ c.隐藏因子暴露是基于一组全局学习到的可训练因子原型向量
 
 ## FactorGCL 模型预测过程如下：
 
-Step1：特征提取器 $\phi_{feat}$ （Feature Extractor）：从输入的股票特征历史序列St中提取股票的潜在特征Xt,0;
+Step1：特征提取器 $:\phi_{feat}$ （Feature Extractor）：从输入的股票特征历史序列St中提取股票的潜在特征Xt,0;
 
-Step2：先验 beta 模块 $\phi_{prior}$ ，隐藏beta模块 $\phi_{hidden}$ ，个体 alpha 模块φ $\mathsf{\Pi}_{\mathsf{alpha}}$ ：残差连接生成共享关联信息X̂t,0，隐藏关联信息X̂t,1，个股特质信息X̂t,2；
+Step2：先验 beta 模块 $\phi_{prior}$ ，隐藏beta模块 $\phi_{hidden}$ ，个体 alpha 模块φ $\tt)_{alpha}$ ：残差连接生成共享关联信息X̂t,0，隐藏关联信息X̂t,1，个股特质信息X̂t,2；
 
-Step3：预测模块（prediction）：使用线性层组合关联信息和个股特质，对收益率进行预测$\hat{Y}^{t}=w_{o1}\hat{X}^{t,0}+w_{o2}\hat{X}^{t,1}+w_{o3}\hat{X}^{t,2}+b\mathrm{.}$
+Step3：预测模块（prediction）：使用线性层组合关联信息和个股特质，对收益率进行预测$\begin{array}{r}{\hat{Y}^{t}=\mathrel{w_{o1}}\hat{X}^{t,0}\not\sim\mathrel{w_{o2}}\hat{X}^{t,1}\not\sim\mathrel{w_{o3}}\hat{X}^{t,2}\not\sim b\mathrm{。}}\end{array}$
 
 ## 4.3 隐藏因子的可视化分析
 

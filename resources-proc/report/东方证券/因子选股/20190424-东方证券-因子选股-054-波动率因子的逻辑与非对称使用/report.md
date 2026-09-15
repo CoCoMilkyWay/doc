@@ -91,7 +91,7 @@ Hsu, Kudoh 和 Yamada（2013）研究发现卖方分析师的盈利预测整体�
 这里我们对上述两个解释在 A 股市场进行了测试。首先我们基于朝阳永续 2006-2019 的数据计算了股票的分析师一致预期，并构建了一致预期偏离度 EFB(earning forecast bias)，计算公式为：
 
 $$
-\mathrm{EFB}=\frac{\ddagger\star\lbrack\bar{Y}\rbrack\rbrack\sqrt{\flat}-\frac{\ddagger}{\ddagger\sqrt[4]{\flat}}\rbrack\sharp\lbrack\bar{y}\rbrack\sqrt[4]{\dddot{\Rightarrow}}\rbrack\ddot{\ddagger}\rbrack\ddot{\ddagger}\rbrack-\ddot{\ddagger}\left.\bar{y}\overline{{\gim}}\cdot\bar{\ y}\bar{\Psi}\rbrack\dot{\ne}\right.\ddot{\bmod{Y}}}{\ddot{\mho}\left.\bar{y}\overline{{\gim}}\cdot\bar{\ y}\bar{\mho}\right.\ddot{\dddot{\Rightarrow}}\bar{\varnothing}}
+EFB=\frac{分析师一致预期净利润-实际净利润}{实际净资产}
 $$
 
 我们在每个报告期用样本股票过去一年(两个报告期间隔）的收益率计算波动率，并把波动率从小到大分成 10 组，计算每组的 EFB 均值，然后再统计时间序列上的分组 EFB 均值（图 2）。从结果可以看到，股票的波动率大小和同期的一致预期偏离度直观来看并没有明显的关系，但是因为EFB 的行业属性非常明显，因此最好在测试的时候调整行业的影响，我们进一步把 EFB横截面上对波动率和行业虚拟变量做回归，然后时间序列上计算波动率系数的 t_value，发现结果不显著。综合来看，实证的结果都说明 A 股的分析师一致预期并不是波动率异像的解释。
@@ -131,10 +131,10 @@ Blitz 和 Vliet(2007)、Baker，Bradley 和 Wurgler(2011)以及 Ilmanen(2012)研
 
 投资业绩对资产管理规模的刺激作用。Chevalier 和 Ellison(1997)、Sirri 和 Tufano(1998)研究发现而少量业绩较好的产品可以得到较大规模的增长，而高波动股票更容易实现短线的好业绩，因此有部分资产管理公司会倾向于购买高波动股票。这样同样也会导致高波动股票的价格被高估。
 
-我们根据 2007.12到 2019.3偏股型和普通股票型产品的季度数据（这里统计 1个亿规模及以上的基金产品）计算了产品规模增长和产品收益和波动的关系，这里我们定义产品规模增长率 $\mathrm{FLOW_{i,t}}$ 为：
+我们根据 2007.12到 2019.3偏股型和普通股票型产品的季度数据（这里统计 1个亿规模及以上的基金产品）计算了产品规模增长和产品收益和波动的关系，这里我们定义产品规模增长率 $\mathrm{IFLOW_{i,t}}$ 为：
 
 $$
-\begin{array}{r}{FLOW_{i,t}=\frac{TNA_{i.t}-TNA_{i.t-1}*(1+R_{i,t})}{TNA_{i.t-1}},}\end{array}
+\begin{array}{r}{FLOW_{i,t}=\frac{TNA_{i,t}-TNA_{i,t-1}*(1+R_{i,t})}{TNA_{i,t-1}}.}\end{array}
 $$
 
 其中 $TNA_{i.t}$ 为第 i 个基金产品在 t 时刻的资产净值， $R_{i,t}$ 为基于复权单位净值计算的收益率，这里忽略了分红对资产净值的影响。
@@ -381,7 +381,7 @@ Stambaugh, Yu和 Yuan (2015)，研究发现特质波动率之谜可以通过套�
 基于上面的测试结果，可以估算出波动率因子的收益表现，以第一组低波动组为例，其估算的因子收益率公式如下：
 
 $$
-\begin{array}{rl}{\frac{16\sqrt{6}}{45}\frac{\sqrt{6}}{25}\equiv\displaystyle\sum\frac{4\sqrt{6}}{45}\frac{\xi(\xi)\sqrt{6}}{35}\frac{\xi}{2}\mp\frac{\xi}{45}\frac{\xi}{25}\mathbb{E}\big[\xi\big]\frac{8\pi}{35}\frac{\xi\pi}{2\pi}\big[\xi\big[\xi+\big[0\big]\frac{\xi}{\sqrt{6}}\frac{\xi\pi}{3}\big]}&{{}}\\{+\displaystyle\sum\big(\frac{\xi}{45}\frac{\xi}{25}\big[\xi\big]\frac{\xi}{35}\frac{\xi}{2}\big)\frac{2\xi}{45}-\frac{6\pi}{35}-\frac{\xi}{25}\big[\xi\big]\frac{8\pi}{35}\frac{\xi}{2}\big)\frac{2\xi}{45}\ }&{{}\ast\frac{\xi}{25}\frac{\xi}{6}\big[\xi\big]\frac{8\pi}{35}\frac{\xi\pi}{2\pi}\big[\xi\big[\xi+\mathrm{De}\big][\xi\big]\frac{8\pi}{35}\frac{\xi\pi}{35}\big]}\end{array}
+\begin{aligned}收益率=\sum 每组波动率*每组的股票占比*\mathsf{Vol}系数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \\end{}\end{aligned}
 $$
 
 计算得到第一组的因子收益率为 6.5%，相同方法可以估算第 9组收益率为 7.5%，而第 20组的收益率为-2%。这个估算结果因为是用的历史平均的参数，且估算的是因子收益，因此量级会和第一章因子测试中的结果有差距，但是从分布来看，确实可以部分的解释为什么因子测试时第一组的收益较低，3-4组的收益较高，而第 10组的收益非常低的形态成因。

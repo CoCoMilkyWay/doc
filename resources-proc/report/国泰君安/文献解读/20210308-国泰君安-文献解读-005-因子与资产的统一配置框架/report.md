@@ -124,23 +124,23 @@ Bender, Jennifer, Jerry Le Sun, and Ric Thomas. "Asset Allocation Vs. Factor All
 那么，如何将资产和因子建立联系？我们将宏观因子和风格因子统称为系统性因子，并将二者放在同一个资产定价因子模型中，如式（1）所示：
 
 $$
-R_{t}=B_{t}F_{t}+\epsilon_{t}\tag{1}
+\boldsymbol{R}_{t}=\boldsymbol{B}_{t}\boldsymbol{F}_{t}+\boldsymbol{\epsilon}_{t}\tag{1}
 $$
 
-其中， $R_{t}$ 表示资产收益率向量； $F_{t}$ 表示系统性因子（包括宏观因子和风格因子）向量； $B_{t}$ 表示资产收益率对因子的敏感度； $\epsilon_{t}.$ 表示收益率残差向量。
+其中， $R_{t1}$ 表示资产收益率向量； $F_{t}$ 表示系统性因子（包括宏观因子和风格因子）向量； $B_{t}$ 表示资产收益率对因子的敏感度； $\epsilon_{t1}$ 表示收益率残差向量。
 
 值得注意的是，在横截面上，并非所有残差都为零。残差收益有可能会表现出某种可预测的动态模式，比如一些农业和能源商品的季节性。此外，残差收益中还包含了一些无法因子化，但可以被投资者洞察的因素，比如突发性事件（nonrecurring event）——典型例子是英国脱欧或主权国家违约。考虑到上述情况，我们可以将残差 $\epsilon_{t}$ 进一步扩展为：
 
 $$
-\epsilon_{i,t}=\Gamma_{i,t}I_{i,t}+V_{i,t}+\eta_{i,t}\tag{2}
+\boldsymbol{\epsilon}_{i,t}=\boldsymbol{\Gamma}_{i,t}\boldsymbol{I}_{i,t}+\boldsymbol{V}_{i,t}+\boldsymbol{\eta}_{i,t}\tag{2}
 $$
 
 其中， $I_{i,t}$ 表示资产内部特质因子，用来捕捉可预测的残差收益（如商品的季节性）； $\Gamma_{i,t}$ 表示对 $I_{i,t}$ 的风险敞口； $V_{i,t}$ 是投资者的观点向量； $\eta_{i,t}$ 则表示上述收益率来源均被纳入考虑后的剩余残差，其期望值可以认为是零。
 
-为了更好地阐述如何使用该框架来进行战略与战术资产配置，我们把式（1）中的因子 $F_{t}$ 分解为长期部分 $\big(\bar{F}_{t}\big)$ ）和短期部分 $(\Delta F_{t})$ ），他们分别代表了不同投资期限的收益机会。进一步地，整合式（1）和式（2），可以将资产收益率表示为：
+为了更好地阐述如何使用该框架来进行战略与战术资产配置，我们把式（1）中的因子 $|F_{t}|$ 分解为长期部分 $\left(\;\bar{F}_{t}\;\right)$ ）和短期部分 $\left(\;\Delta F_{t}\;\right)$ ），他们分别代表了不同投资期限的收益机会。进一步地，整合式（1）和式（2），可以将资产收益率表示为：
 
 $$
-R_{t}={B_{t}}{\overline{{F}}_{t}}+{B_{t}}\Delta F_{t}+\Gamma_{t}I_{t}+V_{t}+\eta_{t}\tag{3}
+\boldsymbol{R}_{t}=\underbrace{\boldsymbol{B}_{t}\overline{\boldsymbol{F}}_{t}+\boldsymbol{B}_{t}\Delta\boldsymbol{F}_{t}+\boldsymbol{\Gamma}_{t}\boldsymbol{I}_{t}+\boldsymbol{V}_{t}+\boldsymbol{\eta}_{t}}_{战术配置}\tag{3}
 $$
 
 ## 4. 因子与资产的统一配置框架
@@ -152,7 +152,7 @@ $$
 基于因子风险敞口和收益预测，我们直接使用式（3）的资产定价模型来预测未来资产收益：
 
 $$
-E(R_{t+1})=B_{t}E(\overline{{F}}_{t+1})+B_{t}E(\Delta F_{t+1})+\Gamma_{t}E(I_{t+1})+E(V_{t+1})\tag{4}
+\boldsymbol{E}(\boldsymbol{R}_{t+1})=\boldsymbol{B}_{t}\boldsymbol{E}(\overline{{\boldsymbol{F}}}_{t+1})+\boldsymbol{B}_{t}\boldsymbol{E}(\Delta\boldsymbol{F}_{t+1})+\boldsymbol{\Gamma}_{t}\boldsymbol{E}(\boldsymbol{I}_{t+1})+\boldsymbol{E}(\boldsymbol{V}_{t+1})\tag{4}
 $$
 
 尽管式（4）可以直接用来计算资产的预期收益，但我们希望在将所有类型的因子组合到一个框架中时具有更大的灵活性，并在收益预测中更好地控制因子组成。因此，我们进一步结合Jones et al.（2007）提出的alpha构造方法，并将其扩展到了多资产类别场景。
@@ -311,29 +311,29 @@ b. 波动率（VOL）
 举例来说，为了创建一个因子模拟投资组合，需要解决如下最优化问题：
 
 $$
-\begin{array}{c}\begin{array}{c}{{{\begin{array}{c}{{max}}\\{{h}^{\prime}{\pmb{\beta}}_{i}}\end{array}}}}\\{{\begin{array}{rl}{s.t.h^{\prime}\sum h=1}\\{\vert{\pmb{h}}^{\prime}{\pmb{\beta}}_{i}\vert\leq\tau,i\neq j}\end{array}}}\end{array}\end{array}\tag{5}
+\begin{array}{c}{{{}_{h}^{max}h^{\prime}{\pmb\beta}_{i}}}\\{{s.t.h^{\prime}\sum h={\bf1}}}\\{{|h^{\prime}{\pmb\beta}_{i}|\leq\tau,i\neq j}}\end{array}\tag{5}
 $$
 
-其中，h表示因子 i的因子模拟投资组合的权重向量；∑表示各类资产的方差-协方差矩阵； $\beta_{i}.$ 表示因子i的风险敞口。上述优化问题要求投资组合在该因子 i 上有最大的风险敞口，同时在其他因子上的风险敞口低于容忍阈值τ。当然，式（5）中的优化目标和约束条件并不是唯一的，可以根据投资者要求灵活设定。
+其中，h表示因子 i的因子模拟投资组合的权重向量；∑表示各类资产的方差-协方差矩阵； $\beta_{i1}$ 表示因子i的风险敞口。上述优化问题要求投资组合在该因子 i 上有最大的风险敞口，同时在其他因子上的风险敞口低于容忍阈值τ。当然，式（5）中的优化目标和约束条件并不是唯一的，可以根据投资者要求灵活设定。
 
 ## 方法 3：因子模型法
 
 该方法参考 Jones et al.（2007），可视为一种扩展的 Fama-MacBeth 回归方法。假设可以用如下因子模型来表示资产的收益：
 
 $$
-\pmb{R}=\pmb{F}\pmb{B}+\pmb{\varepsilon}
+\boldsymbol{R}=\boldsymbol{F}\boldsymbol{B}+\boldsymbol{\varepsilon}
 $$
 
 其中，R 表示资产的收益向量；B 表示资产对因子的风险敞口矩阵；F表示相应因子模拟投资组合的收益向量。作为广义最小二乘系数，我们可以得到F的解析解如式（6）所示：
 
 $$
-{\widehat{\pmb{F}}}=[{\pmb{B}}^{\prime}{\pmb{\Sigma}}^{-1}{\pmb{B}}]^{-1}{\pmb{B}}^{\prime}{\pmb{\Sigma}}^{-1}{\pmb{R}}\tag{6}
+\widehat{\pmb{F}}=[\pmb{B}^{\prime}\pmb{\Sigma}^{-1}\pmb{B}]^{-1}\pmb{B}^{\prime}\pmb{\Sigma}^{-1}\pmb{R}\tag{6}
 $$
 
 由此，可以得到因子模拟投资组合P：
 
 $$
-P=[B^{\prime}\Sigma^{-1}B]^{-1}B^{\prime}\Sigma^{-1}\tag{7}
+\pmb{P}=[\pmb{B^{\prime}}\pmb{\Sigma^{-1}}\pmb{B}]^{-1}\pmb{B^{\prime}}\pmb{\Sigma^{-1}}\tag{7}
 $$
 
 在本文中，我们使用因子模型法来构建因子模拟投资组合。对表2中的每个因子，我们用式（7）来计算得到因子模拟投资组合。以这种方法构造的因子模拟投资组合，对目标因子有1个单位的风险暴露，对其他因子的风险暴露则为 0。除此之外，主观观点也可以用一个零投资组合（zero-investment portfolio）来表示。
@@ -415,7 +415,7 @@ $$
 通过设置因子模拟投资组合的权重，使得因子投资组合的波动性最小。该最优化目标可以用式（8）表示：
 
 $$
-\begin{array}{c}{{\stackrel{min}{h}}\lambda^{\prime}\Omega\lambda}\\{s.t.\lambda^{\prime}\mathfrak{l}=1}\\{\lambda>0}\end{array}\tag{8}
+\begin{aligned}\min_{h}&\lambda^{\prime}\Omega\lambda\\s.t.&\lambda^{\prime}\mathfrak{t}=\mathbf{1}\\&\lambda>0\end{aligned}\tag{8}
 $$
 
 其中，ι表示全 1 向量；λ表示因子权重向量；Ω表示因子模拟投资组合收益的方差-协方差矩阵。约束条件用来保证因子配置权重为正，且总和为 1。
@@ -429,7 +429,7 @@ $$
 最大化风险调整收益问题可以用式（9）表示：
 
 $$
-\begin{array}{rl}{\pmb{\mathstrut}_{\lambda}^{max}}&{{}(\lambda^{\prime}\pmb{Q}-\frac{1}{2}\lambda^{\prime}\pmb{\Omega}\lambda)}\end{array}\tag{9}
+\max_{\lambda}\left(\lambda^{\prime}Q-\frac{1}{2}\lambda^{\prime}\Omega\lambda\right)\tag{9}
 $$
 
 其中，λ表示因子权重向量；Q 表示因子模拟投资组合的预期收益；Ω 表示因子模拟投资组合收益的方差-协方差矩阵。在不同的应用场景中，可以灵活设置约束条件，因此式（9）中未明确写出约束条件。
@@ -458,13 +458,13 @@ $$
 最优因子组合可以表示为最优因子权重λ与因子模拟投资组合资产权重P 的乘积。在不考虑交易摩擦的理想市场中，该投资组合可以获取期望收益α。定义∑为所有资产类别的方差-协方差矩阵，将最优因子组合简记为 OFP（Optimal Factor Portfolio）， $\omega_{OFP}$ 和α的关系可以表示为：
 
 $$
-\omega_{OFP}=P^{\prime}\lambda=\Sigma^{-1}\alpha\tag{10}
+\boldsymbol{\omega}_{OFP}=\boldsymbol{P}^{\prime}\boldsymbol{\lambda}=\boldsymbol{\Sigma}^{-1}\boldsymbol{\alpha}\tag{10}
 $$
 
 由此可以推导出隐含预期收益：
 
 $$
-{\pmb{\alpha}}=\pmb{\Sigma}{\pmb{P}}^{\prime}{\pmb{\lambda}}\tag{11}
+\pmb{\alpha}=\pmb{\Sigma}\pmb{P}^{\prime}\pmb{\lambda}\tag{11}
 $$
 
 通过式（10），可以将因子权重（如表7）转换为资产权重；通过式（11），可以由投资组合权重得到预期收益。表 8 给出了资产权重和预期收益示例（其中预期收益已经做了年化处理）。

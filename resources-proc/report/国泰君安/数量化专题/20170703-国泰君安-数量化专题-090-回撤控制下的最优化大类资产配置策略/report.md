@@ -184,7 +184,7 @@ e_Summary]资产配置是主动投资艺术和组合理论科学的结合。组�
 
 以上的资产组合模型都同时考虑资产组合的收益和风险特征，但是对于资产未来收益和风险相对精确的预测困难重重，特别是对未来收益的预测，相比于二阶项的波动率预测误差更大。为了克服均值方差模型中对资产未来收益估计困难的问题，另一组仅考虑资产组合风险特征的模型也相继被提出，相比于资产未来收益率，资产波动率和协方差稳定性和延续性较强。相关模型主要有：目标风险模型、风险平价模型、等权配置模型、最小风险组合和最大分散度组合等。其中风险平价模型通过配平各资产对于资产组合风险的贡献，通常能够使得资产组合的夏普率高于任意单一资产。最大分散度组合通过最大化资产组合加权波动率与资产组合波动率的比率（类似于夏普比率，但是将加权收益替换成了加权
 
-波动率： $\mathrm{max}\frac{w\sigma}{\sqrt{w\Omega w\prime}})$ ）来优化权重。
+波动率： $\operatorname*{max}_{\frac{w\sigma}{\sqrt{w\Omega w\prime}}})$ ）来优化权重。
 
 表 2 现代投资组合理论下的配置模型
 
@@ -250,46 +250,46 @@ $$
 dP_{t}=P_{t}\big((b+r)dt+\sigma dZ_{t}\big),P_{0}>0
 $$
 
-$Z_{t}$ 是标准布朗运动，令 $W_{t}$ 表示资 $\cdot\vec{p}$ 组合的财富过程：
+$Z_{t}.$ 是标准布朗运动，令 $W_{t}$ 表示资 $\cdot 产$ 组合的财富过程：
 
 $$
 dW_{t}=rW_{t}dt+x_{t}(bdt+\sigma dZ_{t})
 $$
 
-其中 $x_{t}$ 代表在 t 时刻持有风险资产的比例，我们定义历史最大财富贴现值为：
+其中 $x_{t}]$ 代表在 t 时刻持有风险资产的比例，我们定义历史最大财富贴现值为：
 
 $$
-{M}_{t}=max\big\{{W}_{s}e^{\lambda(t-s)};s\le t\big\}
+M_{t}=max\big\{W_{s}e^{\lambda(t-s)};s\leq t\big\}
 $$
 
 则最终的优化问题即为：
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{max}_{\{x_{t}\}}\overline{{\operatorname*{lim}_{T\infty}}}\frac{1}{T}\log E\big(U(W_{T})\big)\ ,U(W)=\frac{W^{1-\gamma}}{1-\gamma}\ ,0<\gamma<1}\\{\displaystyle\qquad\mathrm{s.t.}W_{t}\geq\alpha M_{t}}\end{array}
+\begin{aligned}\max_{\{x_t\}}\varlimsup_{T\to\infty}\frac{1}{T}\log E\big(U(W_T)\big)\;,&U(W)=\frac{W^{1-\gamma}}{1-\gamma}\;,0<\gamma<1\\&s.t.W_t\geq\alpha M_t\end{aligned}
 $$
 
-其中效用函数采用的是 HARA（Hyperbolic absolute risk aversion）族函数之一的常数相对风险厌恶效用函数， 是风险厌恶系数。 是回撤控制系数，模型目标为在回撤控制的基础上最大化资产组合预期效用函数的长期收益率。Grossman 和 Zhou 认为最大回撤是非常重要的风险指标，这在现代投资组合理论中缺少体现，其代表性的均值方差模型将风险定义为收益率的波动率，而波动率是路径独立的，也就是说它没有考虑到资产组合的价值变化过程，对于回撤的控制是间接的。最大回撤将对投资者资金上和心理上造成巨大挑战，即便投资策略未来收益如何丰厚，一旦触及 $\dot{\mathcal{I}}$ 品的最大回撤阈值，产品就极有可能被强制平仓赎回。因此，利用回撤控制风险更贴合实际投资过程。
+其中效用函数采用的是 HARA（Hyperbolic absolute risk aversion）族函数之一的常数相对风险厌恶效用函数， 是风险厌恶系数。 是回撤控制系数，模型目标为在回撤控制的基础上最大化资产组合预期效用函数的长期收益率。Grossman 和 Zhou 认为最大回撤是非常重要的风险指标，这在现代投资组合理论中缺少体现，其代表性的均值方差模型将风险定义为收益率的波动率，而波动率是路径独立的，也就是说它没有考虑到资产组合的价值变化过程，对于回撤的控制是间接的。最大回撤将对投资者资金上和心理上造成巨大挑战，即便投资策略未来收益如何丰厚，一旦触及 $\begin{aligned}\text{、 }\text{、 }\text{1 }\text{、 }\text{2 }\text{1 }\text{、 }\text{1 }\text{1 }\text{、 }\text{2 }\text{1 }\text{1 }\text{1 }\text{1 }\text{1 }\text{2 }\text{2 }\text{2 }\text{2 }\text{1 }\text{1 }\text{2 }\text{2 }\text{1 }\text{1 }\text{2 }\text{2 }\text{1 }\text{1 }\text{2 }\text{2 }\text{1 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{1 }\text{ 1 }\text{ 2 }\text{ 1 }\text{ 1 }\text{ 2 }\text{ 1 }\text{ 1 }\text{ 2 }\text{ 1 }\text{ 1 }\text{ 2 }\text{ 1 }\text{ 1 }\text{ }\text{ 2 }\text{ 1 }\text{ 1 }\text{ 1 }\text{ }\text{ 2 }\text{ 1 }\text{ 1 }\text{ }\text{ 2 }\text{ 1 }\text{ 1 }\text{ }\text{ 2 }\text{ 1 }\text{ }\text\text{1}\text{ 2 }\text\text{1}\text{ }\text{ 1 }\text\text{2}\text{ 1 }\text\text{}\text{ 1 }\text\text{}\text{ 1 }\text\text{}\text{ 1 }\text\text{}\text{ }\text\text{1}\text\text{}\text{ }\text\text{}\text\text{}\text\text{}\text\text{}\text\text{}\text\text\end{aligned}$ 品的最大回撤阈值，产品就极有可能被强制平仓赎回。因此，利用回撤控制风险更贴合实际投资过程。
 
-Grossman 和 Zhou 给出的是连续时间下单一风险资产优化问题的解析解，随后Cvitanic和 Karatzas在 1995年将模型和策略延拓到了多资产的情况，为模型的实际应用做了泛化。新的模型假设在多资产（d 个风险资 $\dot{\mathcal{P}}^{\mathrm{~)~}}$ 的情况下，无风险资 $\cdot\vec{p}$ 和风险资 $\cdot\vec{p}$ 的价格随机过程分别满足：
+Grossman 和 Zhou 给出的是连续时间下单一风险资产优化问题的解析解，随后Cvitanic和 Karatzas在 1995年将模型和策略延拓到了多资产的情况，为模型的实际应用做了泛化。新的模型假设在多资产（d 个风险资 $1\cdot 产2)$ 的情况下，无风险资 $\cdot 产$ 和风险资 $\cdot 产$ 的价格随机过程分别满足：
 
 $$
 dP_{0}(t)=P_{0}(t)r(t)dt,P_{0}(0)=1
 $$
 
 $$
-dP_{i}(t)=P_{i}(t)\left[b_{i}(t)dt+\sum_{j=1}^{d}\sigma_{ij}(t)dZ_{j}(t)\right],\qquad P_{i}(0)=p_{i}>0
+dP_{i}(t)=P_{i}(t)\left[b_{i}(t)dt+\sum_{j=1}^{d}\sigma_{ij}(t)dZ_{j}(t)\right],\qquad P_{i}(0)=p_{i}>0.
 $$
 
 定义折现过程：
 
 $$
-\beta(t):=\frac{1}{P_{0}(t)}=\exp\left(-\int_{0}^{t}r(s)ds\right),0\le t<\infty
+\beta(t):=\frac{1}{P_{0}(t)}=\exp\left(-\int_{0}^{t}r(s)ds\right),0\leq t<\infty
 $$
 
-考虑一个资 $\cdot\dot{\vec{r}}$ 组合权重向量 $\mathbf{\sigma}^{\cdot}\pi(\cdot)=\bigl(\pi_{1}(\cdot),\ldots,\pi_{d}(\cdot)\bigr)^{\prime}$ ，以及与其对应的财富过程 $W^{\pi}(\cdot)$ ，则此财 $\overrightarrow{\frac{\triangledown}{\triangledown}}$ 过程由下式控制：
+考虑一个资 $\cdot 产$ 组合权重向量 $\mathbf{\boldsymbol{\tau}}\pi(\cdot)=\left(\pi_{1}(\cdot),\dots,\pi_{d}(\cdot)\right)^{\prime}$ ，以及与其对应的财富过程 $.W^{\pi}(\cdot)$ ，则此财 $寳$ 过程由下式控制：
 
 $$
-\begin{array}{rlr}{{dW^{\pi}(t)=\sum_{i=1}^{d}\pi_{i}(t)(W^{\pi}(t)-\frac{\alpha M^{\pi}(t)}{\beta(t)})[b_{i}(t)dt+\sum_{j=1}^{d}\sigma_{ij}(t)dZ_{j}(t)]}}\\&{}&{+[(1-\sum_{i=1}^{d}\pi_{i}(t))(W^{\pi}(t)-\frac{\alpha M^{\pi}(t)}{\beta(t)})+\frac{\alpha M^{\pi}(t)}{\beta(t)}]r(t)dt}\end{array}
+\begin{align*}dW^{\pi}(t)=\sum_{i=1}^{d}&\pi_{i}(t)\Biggl(W^{\pi}(t)-\frac{\alpha M^{\pi}(t)}{\beta(t)}\Biggr)\Biggl[b_{i}(t)dt+\sum_{j=1}^{d}\sigma_{ij}(t)dZ_{j}(t)\Biggr]\\&+\Biggl[\Biggl(1-\sum_{i=1}^{d}\pi_{i}(t)\Biggr)\Biggl(W^{\pi}(t)-\frac{\alpha M^{\pi}(t)}{\beta(t)}\Biggr)+\frac{\alpha M^{\pi}(t)}{\beta(t)}\Biggr]r(t)dt.\end{align*}
 $$
 
 $$
@@ -302,7 +302,7 @@ $$
 P[\beta(t)W^{\pi}(t)>\alpha M^{\pi}(t),\forall0\leq t<\infty]=1
 $$
 
-其中 $\alpha\in(0,1)$ ，历史最大财富折现值：
+其中 $\alpha\in(0{,}1)$ ，历史最大财富折现值：
 
 $$
 M^{\pi}(t):=\operatorname*{max}_{0\leq s\leq t}\beta(s)W^{\pi}(s)
@@ -332,7 +332,7 @@ $$
 REDD(t,H)=1-\frac{W_{t}}{M_{t,H}}
 $$
 
-其次，关于回撤控制系数 $_{.\alpha}$ 与风险厌恶系数 $\mathbf{\nabla}_{\cdot}\gamma,$ ，在原模型中并未给出两者之间的联系，从直觉上来说一个风险厌恶偏好高的投资者其对回撤的容忍也将比较低，因此我们简单的将动态回撤控制系数作为风险厌恶系数： $\gamma=\alpha.$ 。则解得风险资产权重的表达式为：
+其次，关于回撤控制系数 $\alpha$ 与风险厌恶系数 $\left(\gamma,\right.$ ，在原模型中并未给出两者之间的联系，从直觉上来说一个风险厌恶偏好高的投资者其对回撤的容忍也将比较低，因此我们简单的将动态回撤控制系数作为风险厌恶系数： $\gamma=\alpha.$ 。则解得风险资产权重的表达式为：
 
 $$
 \pi(t)=([\Sigma^{-1}\cdot\mu]^{T}\cdot\Sigma^{-1})\cdot max\left(0,\frac{1}{1-(1-\alpha)^{2}}\cdot\frac{(1-\alpha)-REDD}{1-REDD}\right)
@@ -356,7 +356,7 @@ $$
 
 分别是预期协方差阵的Cholesky分解（ 是下三角阵），以及第 i个资产的预期收益漂移项。
 
-解的前一项在风险资产只有一个的情况下可以写为： $\lambda/\sigma+1/2$ ，也就是资产预期夏普率除以预期波动率加 1/2。解的后一项由回撤控制，如果REDD 为 $^{0,}$ ，则此项系数得到最大值 $(1-\alpha)/(1-(1-\alpha)^{2})$ ，当 $\alpha$ 为 5%的情况下，此项系数为 5.01%。如果 REDD 达到 ，此项为0。也就是说一旦回撤达到容忍极限，就将清空风险资 $\cdot\vec{p}$ 的头寸。解的这两项都天然带有动量因素在其中，第一项中的资产预期收益率如果使用历史数据估计自然有动量的影响在其中，第二项在资产回撤减小的过程中会提高配置（有上限），在资产下跌中会减少配置，也有类似动量的操作。
+解的前一项在风险资产只有一个的情况下可以写为： $\lambda/\sigma+1/2$ ，也就是资产预期夏普率除以预期波动率加 1/2。解的后一项由回撤控制，如果REDD 为 $0,$ ，则此项系数得到最大值 $(1-\alpha)/(1-(1-\alpha)^{2})$ ，当 $\alpha$ 为 5%的情况下，此项系数为 5.01%。如果 REDD 达到 ，此项为0。也就是说一旦回撤达到容忍极限，就将清空风险资 $\cdot 产$ 的头寸。解的这两项都天然带有动量因素在其中，第一项中的资产预期收益率如果使用历史数据估计自然有动量的影响在其中，第二项在资产回撤减小的过程中会提高配置（有上限），在资产下跌中会减少配置，也有类似动量的操作。
 
 最后，由于原模型并未对 的取值进行限制，因此可能涉及杠杆和做空，如遇到 的项为负数的情况下，直接赋予该风险资产的头寸为0，如遇到所有项的和大于1，则按比例将其缩减到 1。
 
@@ -391,7 +391,7 @@ $$
 原模型的回撤控制基于资产组合总体，当资产组合价值下降到回撤阈值的时候所有风险资产的头寸都会降为 0，这种一刀切的方式对于未来仍有上升机会的风险资产是“不公平”的，所以本报告对其作出改进，我们认为回撤的控制应当放在单独风险资产上，也就是说当某一风险资产自身的回撤达到回撤阈值的时候，此资产的头寸暴露为 0，只有当此资产的价格回到阈值以上才可继续配置。这样单一资产的大幅回撤不会影响到其他资产的头寸。在此基础上REDD由一个标量变为一个向量，向量的每一项表示如下：
 
 $$
-REDD_{i}=1-{\frac{P_{i}(t)}{\displaystyle{\operatorname*{max}_{t-H\leq s\leq t}\beta(s)P_{i}(s)}}}
+REDD_{i}=1-\frac{P_{i}(t)}{\underset{t-H\leq s\leq t}{\operatorname*{max}}\beta(s)P_{i}(s)}
 $$
 
 在模型改进的基础上进行回测得到结果如下：
@@ -425,7 +425,7 @@ $$
 在回撤可接受的情况下，我们可以通过适当调高风险资产的总体配置比例的方式增强收益。我们借鉴 CPPI 策略中的风险乘数规则，调高风险资产总体配置比例。风险乘数规则下配置比例（K为风险乘数）为：
 
 $$
-\pi(t)=K\cdot([\Sigma^{-1}\cdot\mu]^{T}\cdot\Sigma^{-1})\cdot max\left(0,\frac{1}{1-(1-\alpha)^{2}}\cdot\frac{(1-\alpha)-REDD}{1-REDD}\right)
+\pi(t)=K\cdot([\Sigma^{-1}\cdot\mu]^T\cdot\Sigma^{-1})\cdot max\left(0,\frac{1}{1-(1-\alpha)^2}\cdot\frac{(1-\alpha)-REDD}{1-REDD}\right)
 $$
 
 $$

@@ -137,15 +137,15 @@ Stambaugh (2014)表明主动型管理基金在很大程度上改善了股票交�
 基金 i回报率对换手率的时间序列回归如下：
 
 $$
-\mathrm{R_{i,t}=a_{i}+b_{i}X_{i,t-1}+\varepsilon_{i,t}}\tag{1}
+\mathrm{R}_{\mathrm{i},\mathrm{t}}=\mathrm{a}_{\mathrm{i}}+\mathrm{b}_{\mathrm{i}}\mathrm{X}_{\mathrm{i},\mathrm{t}-1}+\mathrm{\varepsilon}_{\mathrm{i},\mathrm{t}}\tag{1}
 $$
 
-其中 $\mathrm{R}_{\mathrm{i,t}}$ 为基金在 t 经基准调整后的回报率， $\mathbf{X}_{\mathrm{i,t-l}}$ 为基金在 t−1 的换手率。如 $\mathbf{b}_{\mathrm{i}}$ 为正，则在 t –1 可以确定收益机会，从而在 t 获得盈利。
+其中 $\mathbf{R_{i,t}}$ 为基金在 t 经基准调整后的回报率， $\mathrm{X_{i,t-1}}$ 为基金在 t−1 的换手率。如 $\mathbf{b_{i}}$ 为正，则在 t –1 可以确定收益机会，从而在 t 获得盈利。
 
-文章使用 Ṕastor, Stambaugh, and Taylor(2015) 构建的数据库研究换手率与回报率之间的关系，此数据库包括从 1979 年至 2011 年期间 3126 只美国主动管理型基金的样本。文章按月频率估计所有回归，但基金的换手率仅以财政年度总额的形式公布，因此，文章用 $\mathrm{FundTurn_{i,t-1}}$ 来衡量换手率 $\mathbf{X}_{\mathrm{i,t-l}}$ ，即基金在 t 月之前结束的最近一个财政年度的换手率：
+文章使用 Ṕastor, Stambaugh, and Taylor(2015) 构建的数据库研究换手率与回报率之间的关系，此数据库包括从 1979 年至 2011 年期间 3126 只美国主动管理型基金的样本。文章按月频率估计所有回归，但基金的换手率仅以财政年度总额的形式公布，因此，文章用 $\mathbf{FundTurn}_{i,t-1}$ 来衡量换手率 $\mathrm{X_{i,t-1}}$ ，即基金在 t 月之前结束的最近一个财政年度的换手率：
 
 $$
-FundTurn_{i,t-1}=\frac{\operatorname*{min}(buys_{i,t-1},sells_{i,t-1})}{avg(TNA_{i,t-1})}\tag{2}
+FundTurn_{i,t-1}=\frac{\min(buys_{i,t-1},sells_{i,t-1})}{avg(TNA_{i,t-1})}\tag{2}
 $$
 
 分子取基金在 t 月结束前最近财政年度买入卖出总量的较小值，分母为基金在相同的 12 个月期间的平均总资产净值。这种衡量方式是向 SEC报告是采用的换手率衡量方法，也是 CRSP 提供的衡量方式。之后会介绍关于这种换手率测量方法的性质。
@@ -161,7 +161,7 @@ $$
 表 1 展示了在不同固定效应下公式 （1）中换手率的估计斜率系数 b。结合方程(1)和(3)，得到：
 
 $$
-\mathrm{R}_{\mathrm{i,t}}=\mathrm{a}_{\mathrm{i}}+\mathrm{b}\mathrm{X}_{\mathrm{i,t}-1}+\varepsilon_{\mathrm{i,t}}\tag{4}
+\mathrm{R_{i,t}=a_{i}+bX_{i,t-1}+\varepsilon_{i,t}}\tag{4}
 $$
 
 表 1 换手率-回报率在截面和时间序列中的关系
@@ -300,7 +300,7 @@ $$
 
 ## 6.3. 预测基金回报率
 
-文章对根据基准调整后的基金回报率 $\left(\operatorname{R}_{\mathrm{i,t}}\right)$ 和平均换手率滞后性进行回归，并考虑基金的固定效应。两个衡量基金换手率的指标分别是每类基金平均换手率（ $\mathrm{\ AvgTurnSim{\it_{i,t-1}}}$ ）和所有基金平均换手率 $(\mathrm{\ AvgTurn_{i,t-1}})$
+文章对根据基准调整后的基金回报率 $(\mathbf{R}_{\mathrm{i,t}})$ 和平均换手率滞后性进行回归，并考虑基金的固定效应。两个衡量基金换手率的指标分别是每类基金平均换手率（ $\mathrm{AvgTurn_{i,t-1}}$ ）和所有基金平均换手率 $(\mathrm{AvgTurn}_{\mathrm{i},\mathrm{t}-1})$
 
 表 6 平均换手率和回报率之间的关系
 
@@ -313,7 +313,7 @@ $$
 
 数据来源：《Do Funds Make More When They Trade More?》
 
-表 6 第一列显示， $\operatorname{R}_{\mathrm{i,t}}$ 在 $\mathrm{AvgTurnSim}_{\mathrm{i},\mathrm{t}-1}$ 的回归斜率为正且显著(统计值为 t = 3.29)， 说明同类型基金的平均换手率有助于预测每个基金的回报率。由于同类基金之间换手率存在更高的同步性，因此 $\mathrm{AvgTurnSim}_{\mathrm{i,t-1}}$ 比 $\mathtt{AvgTurn}_{\mathrm{i,t-1}}$ 更好地预测回报率。从表 6 第二列可以看到 $\operatorname{R}_{\mathrm{i,t}}$ 和$\mathtt{AvgTurn}_{\mathrm{i,t-1}}$ 存在正相关关系，但在统计上不显著。
+表 6 第一列显示， $\mathbf{R_{i,t}}$ 在 $\mathrm{AvgTurn}_{\mathrm{i},\mathrm{t}-1}$ 的回归斜率为正且显著(统计值为 t = 3.29)， 说明同类型基金的平均换手率有助于预测每个基金的回报率。由于同类基金之间换手率存在更高的同步性，因此 $\mathrm{AvgTurn}_{\mathrm{i},\mathrm{t}-1}$ 比 $\mathrm{AvgTurn}_{\mathrm{i},\mathrm{t}-1}$ 更好地预测回报率。从表 6 第二列可以看到 $\mathbf{R_{i,t}}$ 和$\mathrm{AvgTurn}_{\mathrm{i},\mathrm{t}-1}$ 存在正相关关系，但在统计上不显著。
 
 从表 6 中可以得出的核心结论为：基金的回报率可以通过同类基金的平均换手率和该基金的实际换手率进行预测。
 

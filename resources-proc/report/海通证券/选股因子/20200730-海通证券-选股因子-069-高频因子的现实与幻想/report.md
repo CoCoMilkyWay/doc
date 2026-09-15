@@ -220,7 +220,7 @@ Amaya et al. (2011) 在《Does Realized Skewness and Kurtosis Predict theCross-S
 高频偏度刻画了股票价格日内快速拉升或下跌的特征。假设有两只股票日内涨幅相同，其中一只股票的涨幅由持续稳定的小幅上涨累计而来，而另一只股票的上涨源自于短期的大幅拉升，那么后者在未来有较大概率出现收益反转。从风险溢价角度来看，日内经常快速下跌，或者下行风险大的股票具有更高的风险溢价。因子计算公式如下：
 
 $$
-\frac{\sum_{j=1}^{n}+|j|}{|\mathfrak{s}_{j}|}\iiint_{i,j,n}\dot{\overline{{\mathcal{Z}}}}=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\sqrt{N}\sum_{j=1}^{N}r_{i,j,n}^{3}}{\left(\sum_{j=1}^{N}r_{i,j,n}^{2}\right)^{1.5}}
+高频偏度=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\sqrt{N}\sum_{j=1}^{N}r_{i,j,n}^{3}}{\left(\sum_{j=1}^{N}r_{i,j,n}^{2}\right)^{1.5}}
 $$
 
 其中，i、j、n分别代表第 i只股票、第j 分钟和第 n 个交易日。月度选股下 T 取 20，周度选股下 T 取 5（下同）。
@@ -240,7 +240,7 @@ $$
 下行波动占比与高频偏度的逻辑基本一致，因子计算公式如下：
 
 $$
-\mathcal{F}\ :\mathcal{A}\ :\hat{\ :};\mathcal{B}\ :\hat{\ :}z\mathcal{\ :}\mathcal{Y}\ :\mapsto\ :\mathcal{\underline{{1}}}\ :\sum_{n=t}^{n=t-T+1}\ :\frac{\sqrt{N}\sum_{j=1}^{N}r_{i,j,n}^{2}\cdot I_{r_{i,j,n}<0}}{\sum_{j=1}^{N}r_{i,j,n}^{2}}
+下行波动占比$\begin{aligned}=&\frac{1}{T}{\sum_{n=t}^{n=t-T+1}}\frac{\sqrt{N}\sum_{j=1}^{N}r_{i,j,n}^{2}\cdot I_{r_{i,j,n}<0}}{\sum_{j=1}^{N}r_{i,j,n}^{2}}\end{aligned}$
 $$
 
 下行波动占比因子月均 Rank IC为 3.03%，年化 ICIR 为 3.02。因子月均多空收益为 0.94%，月度胜率为 78%。月均多头收益为 0.21%，月均空头收益为-0.73%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。
@@ -260,7 +260,7 @@ $$
 以半小时为间隔划分成八个区间，计算每个区间成交量占比，并使用股票过去 T 日指标均值作为因子值。检验发现，10:00 之前，14:30 之后的成交量占比因子和股票下月收益负相关；10:00-11:00 的成交量占比因子和股票下月收益显著正相关。其中，尾盘（14:30 之后）成交占比因子的选股效果最显著。因子计算公式如下：
 
 $$
-\mathcal{\bar{E}}\dot{\Xi}\dot{\Xi}\dot{\Xi}\dot{\Xi}\dot{\Xi}\dot{\Xi}\dot{\Xi}\dot{\Xi}\dot{\Xi}=\frac{1}{T}{\sum_{n=t}^{n=t-T+1}}\frac{Vol_{i,14:30-15:00,n}}{Vol_{i,j,n}}
+尾盘成交占比$\begin{aligned}=&\frac{1}{T}{\sum_{n=t}^{n=t-T+1}}\frac{Vol_{i,14:30-15:00,n}}{Vol_{i,j,n}}\end{aligned}$
 $$
 
 尾盘成交占比因子具有较好的效果可能源于，（1）尾盘投机度高，容易出现价格操纵行为；（2）非知情交易者（散户）不愿承担日内波动，更倾向于尾盘交易，而知情交易者（机构）则倾向于在早盘交易。
@@ -282,7 +282,7 @@ Worldquant 在 Alpha 101 中使用机器学习的方法挖掘出一系列日频�
 因子计算公式如下：
 
 $$
-\frac{\mathrm{s}}{\mathrm{g}}\mathcal{W}\mathrm{\neq}\mathrm{\neq}\mathrm{\neq}\mathrm{\neq}\mathrm{\neq}\mathrm{\neq}\mathrm{\neq}\frac{1}{T}\mathrm{L}\mathrm{\ -}\qquad\mathrm{\it corr}\left({\it Close}_{i,j,n},\frac{Vol_{i,j,n}}{\sum_{j}Vol_{i,j,n}}\right)
+量价相关性=\frac{1}{T}\sum_{n=t}^{n=t-T+1}corner\left(Class_{i,j,n},\frac{Vol_{i,j,n}}{\sum_{j}Vol_{i,j,n}}\right)
 $$
 
 量价背离的股票未来表现更好，即，日内缩量上涨或者放量下跌优于放量上涨或缩量下跌。可能的原因是，缩量上涨持续性强，放量下跌换手充分。
@@ -304,7 +304,7 @@ $$
 大多数公司选择在收盘后发布财务数据等重要信息，造成股票次日往往跳空开盘，并在随后一段时间大幅波动。近年来，A股机构投资者占比提升，市场交易行为在慢慢向美国等发达市场靠拢。这种在美股财报季常见的开盘跳空现象属于市场对重要数据或信息的合理定价，而非投资者行为造成的错误定价。基于以上推断，可以尝试将隔夜和开盘后半小时的涨幅剔除，构建改进反转因子。因子计算公式如下：
 
 $$
-\vec{\tau}\colon i\notin\mathcal{K}^{\frac{t}{4}\ddag}=\prod_{n=t}^{n=t-T+1}\frac{Close_{i,j,n}}{Close_{i,10:00,n}}-1
+改进反转=\prod_{n=t}^{n=t-T+1}\frac{Close_{i,j,n}}{Close_{i,10:00,n}}-1
 $$
 
 改进反转因子月均 C为 ，年化 C 为 。因子月均多空收益为1.40%，月度胜率为 82%。月均多头收益为 0.28%，月均空头收益为-1.12%。以下两图分别展示了因子的累计 Rank IC与多空相对强弱走势。
@@ -322,7 +322,7 @@ $$
 股票下跌时，如果单笔成交金额大，说明委买有大单，是一种抄底行为。因子计算公式如下：
 
 $$
-\mp\frac{19}{3}\mp\frac{32}{45}\mp\frac{53}{36}\pm\frac{5}{25}\overbrace{3}\dag\xi=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\sum_{j=1}^{N}Amt_{i,j,n}\cdot I_{r_{i,j,n}<0}/\sum_{j=1}^{N}TrdNum_{i,j,n}\cdot I_{r_{i,j,n}<0}}{\sum_{j=1}^{N}Amt_{i,j,n}/\sum_{j=1}^{N}TrdNum_{i,j,n}}
+平均单笔流出金额占比=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\sum_{j=1}^{N}Am_{i,j,n}\cdot I_{r_{i,j,n}<0}\Big/\sum_{j=1}^{N}TLNum_{i,j,n}\cdot I_{r_{i,j,n}<0}}{\sum_{j=1}^{N}Am_{i,j,n}\Big/\sum_{j=1}^{N}TLNum_{i,j,n}}
 $$
 
 平均单笔流出金额占比因子月均 Rank IC 为 3.03%，年化 ICIR 为 3.15。因子月均多空收益为 1.07%，月度胜率为 81%。月均多头收益为 0.50%，月均空头收益为-0.57%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。
@@ -340,7 +340,7 @@ $$
 平均单笔成交金额较大的 K线多空博弈激烈，未来的反转效应更强。因子计算公式如下：
 
 $$
-\bigstar\ntriangle{\dot{\pi}}{\lVert{\boldsymbol{\bar{z}}}\rVert}\dot{\mathfrak{z}}\dot{\mathfrak{z}}\mathbin{\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het\vrule het0.56}
+大单推动涨幅=\prod_{n=t}^{n=t-T+1}\left(prod_{}^{}\left(prod_{}^{}\left(1+r_{i,j,n}\cdot I_{\{j\in IdxSet\}}\right)\right)-1\right)
 $$
 
 其中，IdxSet表示j日平均单笔成交金额最大的 30%的 K线的序号。
@@ -446,11 +446,11 @@ $$
 盘口委托挂单数据刻画了投资者的买入意愿，开盘后 30 分钟内的委买增量越大，投资者在这段时间内的买入意愿越强。因子计算公式如下：
 
 $$
-\mathcal{H}\underset{\mathrm{{m}},\mathrm{{m}}}{\underbrace{\dot{\mathrm{m}},\dot{\mathrm{m}}}}\mathrm{~;}\dot{\overline{{\Phi}}}\underset{\mathrm{{m}}}{\underbrace{\dot{\mathrm{m}},\ddot{\mathrm{m}}}}\mathrm{~;}\dot{\overline{{\Theta}}}\underset{\mathrm{{m}}}{\underbrace{\dot{\mathrm{m}}}}\mathrm{~;}\dot{\overline{{\Theta}}}\underset{\mathrm{{m}}}{\underbrace{\dot{\mathrm{m}}}}\mathrm{~;}\dot{\overline{{\Theta}}}\underset{\mathrm{{m}}}{\underbrace{\dot{\mathrm{m}}}}\mathrm{~;}
+开盘后净委买增额占比$\begin{aligned}=&\frac{1}{T}{\sum_{n=t}^{n=t-T+1}}\frac{\sum_{j\in9:30-10:00}净委买增额_{i,j,n}}{成交额_{i,j,n}}\end{aligned}$
 $$
 
 $$
-\begin{array}{r}{\hat{\mathcal{\ddag}}\hat{\mathcal{\ddag}}\hat{\mathcal{\ddag}}\hat{\mathcal{\ddag}}\hat{\mathcal{\hat{H}}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}}\\{\quad\mathcal{\vphantom{\int_{\mathbb{R}}^{\mathrm{m}}\int_{0}^{\mathrm{m}}\int_{0}^{\mathrm{m}}\int_{1,j,n}^{\mathrm{m}}}}=\hat{\mathcal{\ddag}}\hat{\mathcal{\ddag}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}}{}_{i,j,n}-\hat{\mathcal{K}}\hat{\mathcal{\ddag}}\hat{\mathcal{}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{P}}\\{\quad\mathcal{\vphantom{K}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}}{}_{i,j,n}\end{array}
+净委买增额_{i,j,n}=委托买单增加量_{i,j,n}-委托卖单增加量_{i,j,n}
 $$
 
 开盘后净委买增额占比因子月均 Rank IC 为 4.19%，年化 ICIR 为 4.24。因子月均多空收益为 1.33%，月度胜率为 82%。月均多头收益为 0.68%，月均空头收益为-0.65%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。
@@ -470,11 +470,11 @@ $$
 逐笔成交数据中包含投资者主动买入和主动卖出的信息，将两者的成交金额相减即可得到净主动买入的金额（简称“净主买”）。开盘后净主买占比因子刻画了投资者在开盘后 30分钟内，净买入行为的强度。开盘后净主买占比越高，投资者的主动买入行为越强。因子计算公式如下：
 
 $$
-\mathscr{F}\overset{\mathrm{di}}{\underset{\mathrm{{sm}}}{\leq}}\lesssim\dot{\underset{\mathrm{{d}}}{\geq}}\dot{\underset{\mathrm{{\pm}}}{\geq}}\ddot{\underset{\mathrm{{\pm}}}{\geq}}\ddot{\underset{\mathrm{{\pm}}}{\geq}}\ddot{\underset{\mathrm{{\pm}}}{\geq}}\dot{\underset{\mathrm{{\updownarrow}}}{\geq}}\dot{\underset{\mathrm{{\updownarrow}}}{\geq}}\dot{\underset{\mathrm{{\updownarrow}}}{\geq}}\dot{\underset{\mathrm{{\updownarrow}}}{\geq}}\left(\frac1{T}\underset{\mathrm{{\updownarrow}}=t}{\sum_{n=t}^{n=t-T+1}}\frac\sum_{j\in9:30-10:00}\dot{\underset{\mathrm{{\updownarrow}}}{\not\nabla}}\dot{\underset{\mathrm{{\updownarrow}}}{\geq}}\dot{\underset{\mathrm{{\updownarrow}}}{\geq}}\ddot{\underset{\mathrm{{\updownarrow}}}{\geq}}\ddot{\underset{\mathrm{{\updownarrow}}}{\geq}}\ddot{\underset{\mathrm{{\updownarrow}}}{\geq}}\ddot{\underset{\mathrm{{\updownarrow}}}{\geq}}\ddot{\underset{\mathrm{{\updownarrow}}}{\geq}}\dot{\underset{i,j,n}{\uparrow}}\right.
+开盘后净主买占比$\begin{aligned}=&\frac{1}{T}\underset{n=t}{\sum}_{n=t}^{n=t-T+1}\frac{\sum_{j\in9:30-10:00}净主买成交额_{i,j,n}}{\sum_{j\in9:30-10:00}成交额_{i,j,n}}\end{aligned}$
 $$
 
 $$
-\begin{array}{r}{\dot{\bar{\varphi}}\dot{\pm}\vec{\mathcal{F}}\dot{\mathcal{R}}\dot{\mathcal{X}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}}{}_{i,j,n}=\dot{\pm}\vec{\mathcal{G}}\dot{\mathcal{H}}\dot{\mathcal{X}}\wedge\dot{\mathcal{R}}\dot{\mathcal{X}}\dot{\mathcal{R}}{}_{i,j,n}-\dot{\pm}\vec{\mathcal{G}}\dot{\mathcal{Y}}\dot{\mathcal{Z}}\dot{\mathcal{R}}\dot{\mathcal{X}}\dot{\mathcal{R}}\dot{\mathcal{Z}}\enspace\\{\enspace\enspace\enspace\enspace\enspace\partial\dot{\mathcal{Z}}\dot{\mathcal{H}}\dot{\mathcal{X}}\enspace\dot{\mathcal{R}}\enspace\dot{\mathcal{Z}}\enspace\enspace\enspace i,j,n}\end{array}
+净主买成交额_{i,j,n}=主动买入成交额_{i,j,n}-主动卖出成交额_{i,j,n}
 $$
 
 开盘后净主买占比因子月均 Rank IC 为 3.31%，年化 ICIR 为 2.51。因子月均多空收益为 0.98%，月度胜率为 73%。月均多头收益为 0.55%，月均空头收益为-0.42%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。
@@ -494,7 +494,7 @@ $$
 开盘后净主买强度越高，投资者的主动买入行为越稳健。因子计算公式如下：
 
 $$
-\#\frac{f_{\#}^{*}\zeta_{\#}^{*}\dot{\hat{z}}\dot{\hat{z}}\dot{\hat{z}}}{\mathbb{E}^{*}\zeta_{\#}^{*}\hat{z}_{\#}^{*}\hat{z}_{\#}^{*}\hat{z}_{\#}^{*}}\mathbb{E}_{*}^{*}=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\operatorname*{mean}_{j\in\Theta;30-10;00}\Big(\dot{\hat{z}}\dot{\hat{z}}\dot{\hat{z}}\vec{\hat{x}},\vec{h\times}_{\mathscr{X}}\ddot{\hat{z}}\vec{\hat{\mathcal{H}}}_{i,j,n}\Big)}{{\operatorname*{std}_{j\in\Theta;30-10;00}\Big(\dot{\hat{z}}\dot{\hat{z}}\dot{\hat{z}}\vec{\hat{x}},\vec{h\times}_{\mathscr{X}}\ddot{\hat{z}}\vec{\hat{\mathcal{H}}}_{i,j,n}\Big)}}
+开盘后净主买强度=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\mathsf{mean}_{j\in9:30-10:00}\left(净主买成交额_{i,j,n}\right)}{\mathsf{std}_{j\in9:30-10:00}\left(净主买成交额_{i,j,n}\right)}
 $$
 
 开盘后净主买强度因子月均 Rank IC 为 4.46%，年化 ICIR 为 3.29。因子月均多空收益为 1.34%，月度胜率为 72%。月均多头收益为 0.44%，月均空头收益为-0.91%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。
@@ -512,7 +512,7 @@ $$
 基于逐笔成交数据中的单号，可将逐笔数据合成为单成交数据，并从单的角度区分大小单。再根据对应的“买”、“卖”标记，可进一步计算大买单占全天成交金额的比例（简称“大买成交占比”）。大买成交占比越高，大单买入行为越强。因子计算公式如下：
 
 $$
-\texttt{kg}_{\texttt{kg}}^{*}\breve{\mathfrak{K}}\breve{\mathfrak{K}}\mathfrak{K}=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac\not\vdash\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}\cdot\overrightarrow{\mathfrak{K}}
+大买成交占比$\begin{aligned}=&\frac{1}{T}\overline{\sum_{n=t}^{n=t-T+1}}\frac{大买单成交额_{i,\cdot,n}}{成交额_{i,\cdot,n}}\end{aligned}$
 $$
 
 在界定大小单时，可从单的成交量分布出发。例如，某一单的成交量处于当日成交量分布的均值+1 倍标准差之外，则可被认为是大单。
@@ -534,15 +534,15 @@ $$
 首先，使用股票过去一个月的日内分钟收益序列，建立如下的回归模型：
 
 $$
-{r}_{i,j,n}={\gamma}_{0}+\sum_{k=1}^{4}{\gamma}_{1,k}D_{k,i,j,n}^{weekday}\ +\sum_{k=1}^{3}{\gamma}_{2,k}D_{k,i,j,n}^{period}\ +{\gamma}_{3}{r}_{i,j-1,n}+{\varepsilon}_{i,j,n}
+\tau_{i,j,n}=\gamma_{0}+\sum_{k=1}^{4}\gamma_{1,k}D_{k,i,j,n}^{weekday}+\sum_{k=1}^{3}\gamma_{2,k}D_{k,i,j,n}^{period}+\gamma_{3}r_{i,j-1,n}+\varepsilon_{i,j,n}
 $$
 
-其中， $\mathfrak{r}_{\mathrm{i},\mathrm{j},\mathfrak{n}}$ 为股票 i在 n 日第 j分钟的收益； $\mathsf{D}_{\mathsf{k,i,j,n}}\mathsf{\Pi}^{\mathsf{weekday}}$ 为虚拟变量（k=1, 2, 3, 4），分别表示周一至周四； $\mathsf{D}_{\mathsf{k,i,j},\mathsf{n}}^{\mathsf{period}}$ 为时间段虚拟变量 $(\mathsf{k}{=}1,2,3)$ ，分别表示开盘后 30 分钟、盘中及收盘前 30 分钟； $\mathfrak{r}_{\mathfrak{i},\mathfrak{j}-1,\mathfrak{n}}$ 为分钟收益滞后项。
+其中， $\mathsf{r}_{\mathsf{i},\mathsf{j},\mathsf{n}}$ 为股票 i在 n 日第 j分钟的收益； $\mathsf{D_{k,i,j,n}}^{\mathsf{weekday}}$ 为虚拟变量（k=1, 2, 3, 4），分别表示周一至周四； $\mathsf{D_{k,i,j,n}}^{\mathsf{period}}$ 为时间段虚拟变量 $(k=1,2,3)$ ，分别表示开盘后 30 分钟、盘中及收盘前 30 分钟； $r_{i,j-1,n}$ 为分钟收益滞后项。
 
 残差序列为股票的预期外收益。当预期外收益为正时，投资者的主动卖出行为可被认为是知情主卖；反之，则被认为是知情主买。因子计算公式如下：
 
 $$
-\mathcal{F}\frac{f_{\sf}^{\sf d}}{\sf m}\xi_{\sf}{\sf d}^{\sf m}\mathcal{F}_{\sf}{\sf H}^{\sf L}\frac{\sf+}{\sf\lambda}\dot{\sf\mathcal{Z}}\dot{\sf\Xi}\dot{\mathcal{W}}_{i}\sf K{\sf\Xi}=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\sum_{j\in\ L^{\eta}:30-10:0}\xi_{\sf}{\sf D}_{i}^{\sf t}\frac{1}{\sf\Xi}\dot{\mathcal{Z}}\dot{\mathcal{W}}_{i}\frac{1}{\mathcal{Z}}\dot{\mathcal{Z}}\dot{\mathcal{W}}_{i,j,n}}{\sum_{j\in\ L^{\eta}:30-10:0}\hbar_{\sf\Xi}^{\sf S}\dot{\mathcal{Z}}\ddot{\mathcal{W}}_{i,j,n}}
+开盘后知情主卖占比=\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\sum_{j\in9:30-10:00}知情主卖成交额_{i,j,n}}{\sum_{j\in9:30-10:00}成交额_{i,j,n}}
 $$
 
 开盘后知情主卖占比因子月均 Rank IC为 2.86%，年化 ICIR 为 2.51。因子月均多空收益为 0.76%，月度胜率为 75%。月均多头收益为 0.46%，月均空头收益为-0.30%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。
@@ -562,11 +562,11 @@ $$
 委托挂单体现投资者尚未释放的交易意愿，而主买/主卖则代表已进行的交易行为。若将两者结合，可以得到广义的投资者主动买入意愿。开盘后 30 分钟内买入意愿占比越高，投资者的买入意愿越强。因子计算公式如下：
 
 $$
-\mathcal{H}\underset{\cong\mathrm{m}}{\underbrace{\mathcal{H}\underset{\cong}{\mathcal{G}}}}\underset{\cong}{\underbrace{\mathcal{E}}}\lambda\wedge\overset{\Rightarrow}{\operatorname{\mathbb{E}}}\lambda\underset{\cong}{\underbrace{\mathcal{H}}}\big\downarrow\mathrm{k}=\frac{1}{T}{\sum}_{n=t}^{n=t-T+1}\frac{\sum_{j\in9:30-10:00}\mathrm{~\mathcal{F}}\big\wedge\frac{\partial}{\operatorname{\mathbb{E}}}\big\wedge\frac{\partial}{\operatorname{\mathbb{E}}}\big\wedge\frac{\partial}{\partial\mathrm{t}}}{\sum_{j\in\Theta:30-10:00}\mathrm{~\mathcal{H}}\big\wedge\frac{\partial}{\partial\mathrm{t}}\mathrm{~\mathcal{H}}\big\rangle_{i,j,n}}
+开盘后买入意愿占比$\begin{aligned}=&\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{\sum_{j\in9:30-10:00}买入意愿_{i,j,n}}{\sum_{j\in9:30-10:00}成交额_{i,j,n}}\end{aligned}$
 $$
 
 $$
-\vec{\mathfrak{F}}\wedge\mathring{\gtrsim}\lesssim_{i,j,n}^{\sharp}=\langle\mathring{\oplus}\underline{{{\vec{\star}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}|_{i,j,n}+\mathbin{{\dot{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}\mathbin{{\vec{\ m{\Sigma}}}}|_{i,j,n}^{\ 7}
+买入意愿_{i,j,n}=净主买成交额_{i,j,n}+净委买增额_{i,j,n}
 $$
 
 开盘后买入意愿占比因子月均 Rank IC为 4.34%，年化 ICIR 为 3.43。因子月均多空收益为 1.57%，月度胜率为 85%。月均多头收益为 0.89%，月均空头收益为-0.68%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。
@@ -584,7 +584,7 @@ $$
 开盘后 30 分钟内的买入意愿强度越高，投资者的买入意愿越稳健。因子计算公式如下：
 
 $$
-\#\frac{f_{\mathbb{A}}^{*}}{\mathbb{A}}\lesssim\vec{\mathbb{B}}\wedge\frac{\vec{\infty}}{\mathbb{B}}\wedge\frac{\mathcal{B}}{\mathbb{B}}\wedge\frac{\mathcal{B}}{\mathbb{B}},\tilde{\mathbb{B}}_{\times}^{*}=\frac{1}{T}{\sum_{n=t}^{n=t-T+1}}\frac{\mathrm{mean}_{j\in9;30-10;00}\left(\vec{\mathbb{B}}\wedge\frac{\vec{\infty}}{\mathbb{B}},\vec{\mathbb{B}}_{\times,j,n}^{*}\right)}{\mathrm{std}_{j\in9;30-10;00}\left(\vec{\mathbb{B}}\wedge\frac{\vec{\infty}}{\mathbb{B}},\vec{\mathbb{B}}_{\times,j,n}^{*}\right)}
+\frac{1}{T}\sum_{n=t}^{n=t-T+1}\frac{mean_{j\in9:30-10:00}\left(买入意愿_{i,j,n}\right)}{std_{j\in9:30-10:00}\left(买入意愿_{i,j,n}\right)}
 $$
 
 开盘后买入意愿强度因子月均 Rank IC为 5.07%，年化 ICIR 为 3.93。因子月均多空收益为 1.82%，月度胜率达 84%。月均多头收益为 0.68%，月均空头收益为-1.14%。以下两图分别展示了因子的累计 Rank IC 与多空相对强弱走势。

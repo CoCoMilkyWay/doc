@@ -107,7 +107,7 @@ CTA所采用的突破策略大多都带有止损机制，但是几乎没有人�
 但上述分析中还有一点瑕疵——图4和图5 的宽跨式组合形态对应期权组合的到期收益，也就是说，挂钩标的指数在行权日前如果触及止损位，但期末又弹回到止损价以内的，将以期末价格结算。而区间突破策略中，指数一旦触及止损位，将被平仓结算收益。因此，宽跨式组合的收益会比相应区间突破策略的收益大一些，多出的这部分正来源于价格触及行权价（止损位）后又在行权日反弹回到止损区间以外的收益，即
 
 $$
-\overline{{r}}_{\textsc{jilf}}=\overline{{r}}_{\textsc{jep}}+\overline{{r}}_{\textsc{jilf}\textsc{j}\textsc{l}}\overline{{\jmath}}_{\textsc{c}}^{*}\tag{1}
+\overline{r}_{宽跨}=\overline{r}_{区突}+\overline{r}_{触损反弹}\tag{1}
 $$
 
 为了解决这个问题，我们需要从统计的角度出发进行研究。假设我们在图5右开仓价突破时建仓（对应区间突破策略的上突破，下突破同理，这里就不再赘述），之后指数价格从右开仓价位置随机游走，直至期末。那么，价格波动会出现三种情况：
@@ -129,7 +129,7 @@ $$
 第3类波动触及止损线期末价格落在止损区间外
 数据来源：广发证券发展研究中心
 
-假设做一个实验，让指数价格从起始位置（右开仓价）随机波动N 次。其中发生 1、2、3三类事件的次数分别是 $n_{1}$ 、 $n_{2}$ 和 $n_{3}$ ，则有
+假设做一个实验，让指数价格从起始位置（右开仓价）随机波动N 次。其中发生 1、2、3三类事件的次数分别是 $,n_{\mathrm{i}}$ 、 $n_{2}$ 和 $n_{3}$ ，则有
 
 $$
 n_{1}+n_{2}+n_{3}=N\tag{2}
@@ -138,64 +138,64 @@ $$
 按照这三种情况，我们把宽跨式组合的损益也分解成三部分，即
 
 $$
-\begin{array}{c}\overline{{r_{\mathtt{AHMS}}}}=\frac{1}{N}\Bigg(\sum_{i=1}^{n_{1}}{r_{\Zplus\Zplus\ Z}}+\sum_{i=1}^{n_{2}}{r_{\Zplus\ Z\backslash}}+\sum_{i=1}^{n_{3}}{r_{\Zplus\ 4\atop i=1}}\end{array}\tag{3}
+\frac{1}{N}\left(\sum_{i=1}^{n_1}r_{未触i}+\sum_{i=1}^{n_2}r_{触中i}+\sum_{i=1}^{n_3}r_{触外i}\right)\tag{3}
 $$
 
-其中括弧中的第二项 $r_{\mathrm{\#\#\#\mathrm{i}}}$ 是符号为负的常数，即止损幅度，我们把这一常数记作$L_\mathrm{{_{I}\mathrm{{t}\mathrm{{f}\mathrm{{f}\mathrm{{u}\mathrm{{\scriptsize{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}}\mathrm{{f}\mathrm{{f}\mathrm{}}}}}}}}}}}}}}}}}}}}}}}}}}}$ ，则
+其中括弧中的第二项 $r_{触中\mathrm{i}}$ 是符号为负的常数，即止损幅度，我们把这一常数记作$L_{止损幅度}$ ，则
 
 $$
-\overline{{r}}_{\mathtt{mers}}=\frac{1}{N}\Bigg(\sum_{i=1}^{n_{1}}r_{\ddag\ast\sharp\sharp\mathtt{i}}+n_{2}L_{\mathrm{{IE}}^{\pm\sharp}\sharp\sharp\sharp\sharp\mathtt{i}}+\sum_{i=1}^{n_{3}}r_{\sharp\sharp\sharp,\mathscr{S}|\mathrm{{i}}}\Bigg)\tag{4}
+\frac{1}{N}\left(\sum_{i=1}^{n_{1}}r_{未触i}+n_{2}L_{止损幅度i}+\sum_{i=1}^{n_{3}}r_{触外i}\right)\tag{4}
 $$
 
-之前分析过，宽跨式组合比区间突破策略多出的收益正来自于第三项 $\sum_{i=1}^{n_{3}}r_{\#\#\#\mathbb{H}\mathbb{H}}$ 它可以写成止损收益加上以止损点为基准的期权到期收益形式，即
+之前分析过，宽跨式组合比区间突破策略多出的收益正来自于第三项 $\sum_{i=1}^{n_{3}}r_{触外i}$ 它可以写成止损收益加上以止损点为基准的期权到期收益形式，即
 
 $$
-\sum_{i=1}^{n_{3}}r_{\mathbb{HHHH}}=\sum_{i=1}^{n_{3}}\bigl(L+r_{\mathbb{HH}\mathscr{H}\sqrt{\mathscr{A}}^{\flat}\mathbb{H}\mathrm{i}}\bigr)\tag{5}
+\sum_{i=1}^{n_{3}}r_{触外i}=\sum_{i=1}^{n_{3}}\left(L+r_{触损反弹i}\right)\tag{5}
 $$
 
 代回（4）式，则有
 
 $$
-\overline{{r}}_{\overline{{\mathbb{X}\mathbb{X}^{\varepsilon}}}}=\frac{1}{N}\Bigg(\sum_{i=1}^{n_{1}}r_{\ddagger{\mathrm{sinit~}}}+n_{2}L_{\perp\mathrm{t}\perp\overline{{\mathbb{P}}}\|\overline{{\mathbb{M}}}\|\overline{{\mathbb{X}}}}+n_{3}L_{\perp\mathrm{t}\perp\overline{{\mathbb{P}}}\|\overline{{\mathbb{M}}}\|\overline{{\mathbb{X}}}}\Bigg)+\frac{1}{N}\sum_{i=1}^{n_{3}}r_{\ddag\overline{{\mathbb{P}}}\|\overline{{\mathbb{X}}}\|}\tag{6}
+\frac{1}{N}\left(\sum_{i=1}^{n_{1}}r_{未触i}+n_{2}L_{比损幅度}+n_{3}L_{比损幅度}\right)+\frac{1}{N}\sum_{i=1}^{n_{3}}r_{触损反弹i}\tag{6}
 $$
 
 日内区间突破策略一旦当日止损就不再开仓，（6）式中的第一项完整涵盖了这一信息，反映了区间突破策略应该具备的平均收益情况。所以（6）式可以写为
 
 $$
-\overline{{r_{\mathtt{AME}}}}=\overline{{r}}_{\mathtt{\vec{A}}\mathtt{\vec{A}}}+\frac{1}{N}\sum_{i=1}^{n_{3}}r_{\mathtt{\vec{A}}\mathtt{\vec{A}}\mathtt{\vec{M}}\mathtt{\vec{A}}}\mathtt{\vec{A}}\mathtt{\vec{A}}\mathtt{\vec{A}}\mathtt{\vec{i}}\tag{7}
+\overline{r}_{宽跨}=\overline{r}_{区突}+\frac{1}{N}\sum_{i=1}^{n_3}r_{触损反弹i}\tag{7}
 $$
 
 这正是（1）式的具体形式。那么区间突破策略的收益可以写为
 
 $$
-\overline{{r}}_{\boxtimes\angles{\approx}}=\overline{{r}}_{\nvDash\sb{\textnormal{\textbf{ M E }}}}-\frac{1}{N}\sum_{i=1}^{n_{3}}r_{\sharp\sharp\sharp\rbrack\sqrt{\arctan}}\overline{{x}}\sqrt{\Psi}\mathrm{i}\tag{8}
+\overline{r}_{区突}=\overline{r}_{宽跨}-\frac{1}{N}\sum_{i=1}^{n_3}r_{触损反弹i}\tag{8}
 $$
 
 即区间突破策略收益等于期权宽跨式组合收益减掉期权触及止损价而期末又回到行权价以外的收益部分。将（3）式代入（8）式，可以将区间突破策略的平均收益进一步写成
 
 $$
-\begin{array}{l}{\displaystyle\overline{{r}}_{\boxtimes\infty}=\displaystyle\frac{1}{N}\sum_{i=1}^{n_{1}}r_{\ddagger{\hat{\mathbb{W}}\equiv\mathrm{i}}}+\displaystyle\frac{1}{N}\sum_{i=1}^{n_{2}}r_{\natural\boxplus\mathrm{i}+\mathrm{i}}+\displaystyle\frac{1}{N}\sum_{i=1}^{n_{3}}r_{\natural\oplus\mathrm{i}\varnothing/\mathrm{i}\mathrm{i}}-\displaystyle\frac{1}{N}\sum_{i=1}^{n_{3}}r_{\natural\boxplus\mathrm{i}+\mathrm{i}}+\frac{1}{2}}\\{\displaystyle=\frac{1}{N}\sum_{i=1}^{n_{1}}r_{\ddagger{\hat{\mathbb{W}}\equiv\mathrm{i}}}+\frac{n_{2}}{N}L_{\scriptscriptstyle\mathrm{LE\boxplus\boxplus\boxplus\atop{i=1}}}+\left[\frac{1}{N}\sum_{i=1}^{n_{3}}\left(r_{\natural\oplus\mathrm{i},y_{\mathrm{i}}\mathrm{i}}-r_{\sharp\boxplus\mathrm{i}\atop{i=1}}\Longrightarrow{r_{\hat{\mathbb{W}}\oplus\mathrm{i}}}\right)\right]}\end{array}\tag{9}
+\begin{aligned}&\overline{r}_{区突}=\frac{1}{N}\sum_{i=1}^{n_1}r_{未触\mathrm{i}}+\frac{1}{N}\sum_{i=1}^{n_2}r_{触中\mathrm{i}}+\frac{1}{N}\sum_{i=1}^{n_3}r_{触外\mathrm{i}}-\frac{1}{N}\sum_{i=1}^{n_3}r_{触损反弹\mathrm{i}}\\&=\frac{1}{N}\sum_{i=1}^{n_1}r_{未触\mathrm{i}}+\frac{n_2}{N}L_{止损幅度}+\left[\frac{1}{N}\sum_{i=1}^{n_3}\left(r_{触外\mathrm{i}}-r_{触损反弹\mathrm{i}}\right)\right]\\\end{aligned}\tag{9}
 $$
 
-不难看出括弧中的 $r_{\hbar\oplus\hbar\mathrm{/\cdot i}}-r_{\hbar\oplus\hbar\mathrm{/\cdot p\Omega}}\ltimes{\Game\sharp\mathrm{i}}$ 等于常数 $L_{\mathrm{{_{I}\mathrm{{t}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}\mathrm{{f}}}}}}}}}}}}}}}}}}$ ，因此（9）式可以写为
+不难看出括弧中的 $r_{触外\mathrm{i}}-r_{触损反弹\mathrm{i}}$ 等于常数 $L_{止损幅度}$ ，因此（9）式可以写为
 
 $$
-\overline{{r_{\boxtimes\varkappa}}}=\frac{1}{N}\sum_{i=1}^{n_{1}}{r_{\mp\nexists\sharp\mathrm{i}}}+\frac{n_{2}}{N}L_{\scriptscriptstyle{\mathrm{LE\ "{J}\sharp\mathrm{i}\sharp\mathrm{E}}}}+\frac{n_{3}}{N}L_{\scriptscriptstyle{\mathrm{LE\ "{J}\sharp\mathrm{i}\sharp\mathrm{E}}}}\tag{10}
+\frac{1}{N}\sum_{i=1}^{n_1}r_{未触i}+\frac{n_2}{N}L_{止损幅度}+\frac{n_3}{N}L_{止损幅度}\tag{10}
 $$
 
 为了更为直观地解释（10）式的意义，我们把后两项合并在一起写作
 
 $$
-\overline{{r_{\boxtimes\ast}}}=\frac{1}{N}\sum_{i=1}^{n_{1}}{r_{\mp\nexists\Downarrow\mathrm{i}}}+\frac{n_{2}+n_{3}}{N}L_{\mathrm{1E\ "{j\uparrow}\Uparrow\jmath\mit|\mit\overrightarrow{H}\mathrm{j}\downarrow}}\tag{11}
+\overline{r}_{区突}=\frac{1}{N}\sum_{i=1}^{n_1}r_{未触i}+\frac{n_2+n_3}{N}L_{止损幅度}\tag{11}
 $$
 
 从（11）式可以看出，区间突破策略的收益正是开仓后不止损部分与止损部分的和，该式佐证了我们之前的推导是正确的。
 
-回到（8）式，如果区间突破的上下边界已经确定，我们希望（8）式 $\overline{{r}}_{\perp\mathrm{x}}$ 尽量大，就应该尽量减 $\therefore1-\frac{1}{N}\sum_{i=1}^{n_{3}}r_{\#\#\#\#}\rho_{\#\#}^{\quad}$
+回到（8）式，如果区间突破的上下边界已经确定，我们希望（8）式 $\overline{T_{区突}}$ 尽量大，就应该尽量减 $小\frac{1}{N}\sum_{i=1}^{n_{3}}r_{触损反弹i}$
 
-这里主要有两个因素，第一个因素是 $n_{3}$ 的大小，第二个因素是 $r_{\mathrm{filtinfin}}=\frac{1}{5}\sharp\sharp\mathrm{i}$ 的均值大小。两者都可以通过增加 $\left|L_{\mathrm{1Eff}\parallel\perp}\right|$ 的大小调节。首先，如果 $\left|L_{\mathrm{1Eff}\parallel\perp}\right|$ 增大，指数价格从开仓价波动到止损价将更加困难， $n_{3}$ 将减小。其次，触及止损后指数价格反弹本身是一个随机过程。在单个交易日内，如果希望反弹高度小，尽可能将触及止损线的时间推迟，越靠近收盘越好。此时的最佳方案就是增加 $\left|L_{\mathrm{1Eff}\parallel\perp}\right|$ ，使得从开仓价到止损线的时间尽量长。综合来看，增加止损幅度将有利于减小（8）式中的$\frac{1}{N}\sum_{i=1}^{n_{3}}r_{\#\#\#\mathbb{Z}\backslash\mathbb{Z}\backslash\#\mathbb{i}}\mathrm{~i~}$ ，提高区间突破策略收益。
+这里主要有两个因素，第一个因素是 $n_{3}$ 的大小，第二个因素是 $r_{触损反弹\mathrm{i}}$ 的均值大小。两者都可以通过增加 $\left|L_{止损幅度}\right|$ 的大小调节。首先，如果 $\left|L_{止损幅度}\right|$ 增大，指数价格从开仓价波动到止损价将更加困难， $n_{3}$ 将减小。其次，触及止损后指数价格反弹本身是一个随机过程。在单个交易日内，如果希望反弹高度小，尽可能将触及止损线的时间推迟，越靠近收盘越好。此时的最佳方案就是增加 $\left|L_{止损幅度}\right|$ ，使得从开仓价到止损线的时间尽量长。综合来看，增加止损幅度将有利于减小（8）式中的$\frac{1}{N}\sum_{i=1}^{n_3}r_{触损反弹i}$ ，提高区间突破策略收益。
 
-但是止损幅度不能无限制地增加，因为我们之前的分析都是在宽跨式组合的基础上完成的。宽跨式组合在确定开仓价格后，可以实现的最大止损幅度$\operatorname*{max}\left\{\left|L_{\mathrm{{\scriptscriptstyle1\boxdot{E}}}\mathrm{{\scriptscriptstyle1\boxdot{E}}}\mathrm{{\scriptscriptstyle1\boxdot{E}}}}\right|\right\}$ 将是开仓价到开盘价之间的距离，此时宽跨式组合转化为跨式组合，如图 7所示。
+但是止损幅度不能无限制地增加，因为我们之前的分析都是在宽跨式组合的基础上完成的。宽跨式组合在确定开仓价格后，可以实现的最大止损幅度$\max\left\{\left|L_{止损幅度}\right|\right\}$ 将是开仓价到开盘价之间的距离，此时宽跨式组合转化为跨式组合，如图 7所示。
 
 图7：区间突破策略收益最大化所对应的期权跨式组合
 ![](images/ccd5b37b7ec2a3545e0b08a55bd17ea6c8897c9dbd4f488dfb2eb7016524f713.webp)
@@ -203,15 +203,15 @@ $$
 
 也就是说，在开盘区间突破策略中，当上、下突破边界确定后，将开盘价设置为止损点，将会使策略收益最大化。
 
-再看（7）式，在随机游走假设下，我们已经通过调整 $\left|L_{\mathrm{1Eff}\parallel\perp}\right|$ 使得第二项对突破策略收益的影响尽可能小。在此基础上，突破策略的平均收益 $\overline{r}_{\perp\ast}$ 与 $\overline{{r}}_{\ast\ast}$ 呈现正相关关系。因此，宽跨式组合收益越高，区间突破策略的收益越高。在什么样的情况下宽跨式组合的收益才会较高呢？
+再看（7）式，在随机游走假设下，我们已经通过调整 $\left|L_{止损幅度}\right|$ 使得第二项对突破策略收益的影响尽可能小。在此基础上，突破策略的平均收益 $\overline{T_{区突}}$ 与 $\overline{T_{宽跨}}$ 呈现正相关关系。因此，宽跨式组合收益越高，区间突破策略的收益越高。在什么样的情况下宽跨式组合的收益才会较高呢？
 
 宽跨式组合在期权交易策略中主要用来进行波动率套利。之前所描述的期权跨式组合波动率多头在波动率上升时容易获利。结合（7）式，这点看似和许多人所认为的“波动率越大，期货日内趋势交易越容易赚钱”的观点一致。但是实际上这种观点存在一些问题。
 
 通过期权跨式组合多头进行波动率套利，在实际交易过程中往往不会持有合约到行权日，主要是因为期权的价值存在时间衰减，持续持有组合多头是不利的。也就是说，当期权挂钩标的指数价格大幅波动产生盈利时，交易员会及时平仓获利。
 
-但（7）式中的 $\overline{{r}}_{\oplus\tt S}$ 是指宽跨式组合多头持有到期末（对应区间突破策略的尾盘）的
+但（7）式中的 $\overline{F_{宽跨}}$ 是指宽跨式组合多头持有到期末（对应区间突破策略的尾盘）的
 
-平均收益。在这种情况下，若希望 $\overline{{r}}_{\mathrm{qam}\hbar}$ 尽量大，就需要期末指数涨跌在统计上呈现
+平均收益。在这种情况下，若希望 $\overline{T_{宽跨}}$ 尽量大，就需要期末指数涨跌在统计上呈现
 
 厚尾分布。也就是说，只有期货涨跌幅是厚尾分布的，区间突破策略才能够获得相对稳定的盈利，这也是突破策略收益的根本来源。
 
@@ -297,7 +297,7 @@ $$
 偏离度是指收盘价相对当日开盘价的偏离程度，标准化后的形式为
 
 $$
-1)\frac{\partial\arg x}{\partial y}|\frac{\partial\arg x}{\partial z}=\left|\frac{\underset{\forall x,\mathrm{Hz}}{\forall x\in\Im}/\hbar\Gamma-\mathcal{H}\underset{\mathrm{Hz}}{\arg x}|\mathcal{H}\uparrow}{\mathcal{H}\underset{\mathrm{Hz}}{\forall x\in\Im}\mathcal{H}\underset{\mathrm{H}}{\widehat{\operatorname{m}}}}\right|\tag{13}
+\left|\frac{收盘价-开盘价}{开盘价}\right|\tag{13}
 $$
 
 当这一指标较大时，表明厚尾效应存在。我们画出沪深 300股指期货历史上的偏离度，如图 11所示。
@@ -321,7 +321,7 @@ $$
 由于我们研究的是对称区间宽度的随机区间突破策略，因此我们有必要将样本的均值修正到 $\mu\simeq0$ ，按照统计学做法，可取峰度
 
 $$
-k_{0}=\frac{n-1}{(n-2)(n-3)}\big[(n+1)k_{\scriptscriptstyle1}-3(n-1)\big]+3\tag{15}
+k_{0}=\frac{n-1}{(n-2)(n-3)}\left[(n+1)k_{1}-3(n-1)\right]+3\tag{15}
 $$
 
 作为修正值，其中n为样本数量。

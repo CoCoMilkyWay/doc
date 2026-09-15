@@ -149,16 +149,16 @@ $$
 dlnS_{t}=\mu dt+\sigma dW_{t}
 $$
 
-在风险中性测度 $\mathbb{Q}_{\sf F}$ ，敲定价格为 $\mathrm{\ K}$ ，到期时间为 $\tau_{\sharp,\sharp}$ 欧式认购期权的定价公式为：
+在风险中性测度 $\mathbb{Q}_{\mathbb{F}}$ ，敲定价格为 $[\mathrm{K}]$ ，到期时间为 $T_{的}$ 欧式认购期权的定价公式为：
 
 $$
 C=S_{t}N(d_{1})-Ke^{-r(T-t)}N(d_{2})
 $$
 
-其 $\phi^{N(.)}$ 是标准正态累积分布函数。并且
+其 $\left.\begin{aligned}{}&{{}\begin{aligned}{}&{{}N(.)}\\\end{aligned}}\\\end{aligned}\right\}$ 是标准正态累积分布函数。并且
 
 $$
-d_{1}=\frac{ln(\frac{S_{t}}{K})+(r+\frac{1}{2}\sigma^{2})(T-t)}{\sigma\sqrt{T-t}}
+d_{1}=\frac{ln(\frac{S_{t}}{K})+(r+\frac{1}{2}\sigma^{2})(T-t)}{\sigma\sqrt{T-t}}.
 $$
 
 $$
@@ -183,7 +183,7 @@ $$
 dlnS_{t}=\mu_{t}dt+\sigma_{t}dW_{t}+JdN_{t}
 $$
 
-其中时变 $z=3$ 数 $\cdot\mu_{t}$ 是股票价格收益率期望值，时变函数 $\sigma_{t}$ 是 50ETF 指数的波动率函数， $N_{t}$ 是强度为λ的 Poisson 过程，跳幅 J 服从指数分布$\mathrm{J{\sim}Exp(\eta)}$
+其中时变 $函$ 数 $\mu_{t}$ 是股票价格收益率期望值，时变函数 $\tau^{\sigma_{t}}$ 是 50ETF 指数的波动率函数， $N_{t}$ 是强度为λ的 Poisson 过程，跳幅 J 服从指数分布$\mathbf{J}{\sim}\operatorname{Exp}(\mathbf{\eta})$
 
 定义 $lnS_{t}$ 的条件特征函数如下：
 
@@ -191,26 +191,26 @@ $$
 \varphi(T-t;s)=E_{t}^{\mathbb{Q}}[e^{islnS_{t}}]
 $$
 
-在风险中性测度 $\mathbb{Q}_{\sf T}$ ， $lnS_{t}$ 的条件特征函数具有如下显式形式：
+在风险中性测度 $\mathbb{P}_{\mathbb{F}}$ ， $lnS_{t}$ 的条件特征函数具有如下显式形式：
 
 $$
 \varphi(T-t;s)=exp\{is(T-t)(\mu_{t}-\frac{1}{2}\sigma_{t}^{2})-\frac{1}{2}s^{2}\sigma_{t}^{2}(T-t)+\lambda(T-t)(\frac{\eta}{\eta-is})\}
 $$
 
-在风险中性测度 $\mathbb{Q}_{\sf F}$ ，敲定价格为 $\mathrm{.\Upsilon}\mathrm{K}_{\cdot}$ ，到期时间为 $\mathbb{T}_{\iota}$ 的欧式认购期权的定价公式为：
+在风险中性测度 $\mathbb{Q}_{\mathbb{F}}$ ，敲定价格为 $[\mathrm{K}]$ ，到期时间为 $\mathsf{T}_{\mathsf{r}}$ 的欧式认购期权的定价公式为：
 
 $$
-C{=}S_{t}\varPi_{1}{-}Ke^{-r(T-t)}\varPi_{2}
+C=S_{t}\Pi_{1}-Ke^{-r(T-t)}\Pi_{2}
 $$
 
 其中
 
 $$
-\varPi_{j}=\frac{1}{2}+\frac{1}{\pi}\int_{0}^{\infty}Re\{\frac{\varphi_{j}(s)e^{-i\varphi lnK}}{is}\}ds,\quad j=1,2
+\Pi_{j}=\frac{1}{2}+\frac{1}{\pi}\int_{0}^{\infty}Re\{\frac{\varphi_{j}(s)e^{-i\varphi lnK}}{is}\}ds\quad,\quad j=1,2,
 $$
 
 $$
-\varphi_{1}(T-t;s)=\frac{\varphi(T-t;s-i)}{\varphi(T-t,-i)},\qquad\varphi_{2}(T-t;s)=\varphi(T-t;s)
+\varphi_{1}(T-t;s)=\frac{\varphi(T-t;s-i)}{\varphi(T-t,-i)}\;,\qquad\varphi_{2}(T-t;s)=\varphi(T-t;s).
 $$
 
 相较于B-S 模型，基于时变波动率的跳扩散模型的优势在于
@@ -227,7 +227,7 @@ $$
 
 在此前基于时变波动率的跳扩散模型中，可以看到模型中有 4个参数，
 
-分别为 $\mu_{t,}\sigma_{t,\lambda,\mathrm{~}\eta_{\mathfrak{c}}}$ 。在将模型应用于期权定价前，我们需要通过前一天期权的实际价格对参数进行估算。举例来说，如果我们预测 2017 年 2月 6 日期权价格，需要选择上一个交易日即 2017 年 2 月 3 日 50ETF 期权的收盘价作为校准数据。具体来看，2月3日50ETF收盘价为 2.342，同时，50ETF期权市场报价中包含 4种到期日期权，包括 2017年 02月22 日，2017 年 03 月 22 日，2017 年 06 月 28 日，2017 年 09 月 27 日。敲价范围在[2.05,2.5]之间。
+分别为 $\mu_{t,}\sigma_{t,\lambda,\eta_{\circ}}$ 。在将模型应用于期权定价前，我们需要通过前一天期权的实际价格对参数进行估算。举例来说，如果我们预测 2017 年 2月 6 日期权价格，需要选择上一个交易日即 2017 年 2 月 3 日 50ETF 期权的收盘价作为校准数据。具体来看，2月3日50ETF收盘价为 2.342，同时，50ETF期权市场报价中包含 4种到期日期权，包括 2017年 02月22 日，2017 年 03 月 22 日，2017 年 06 月 28 日，2017 年 09 月 27 日。敲价范围在[2.05,2.5]之间。
 
 在此基础上，考虑到期权流动性及定价的有效性，我们对于市场买入报价在[0,0.0001]深度虚值看涨期权，剔除这些报价数据。形成全部有效报价。如表 2 所示，我们对 2017 年 2 月 3 日 50ETF 看涨期权价格进行汇总和统计，包括数据处理过程。
 
@@ -248,14 +248,14 @@ $$
 
 ## 2.4.2. 目标函数
 
-在模型校正过程中，通过最小化由模型价格与市场报价之间的误差构成目标函数，可以得到矫正参数。我们使用的目标函数是平均二次方差（Mean Square Error, MSE）函数，该目标函数表示所有样本期权市场报价与模型价格之间误差平方之和。对于每个期权到期日 $T_{i};$ ；假设有 $N_{i^{\prime}}$ 个市场报价 $\{C_{T_{i},K_{j}}^{Market}\}_{j=1}^{N_{i}}{}_{,\sharp}\oplus^{\{K_{j}\}_{j=1}^{N_{i}}}$ 是这些期权的执行价格，与这些期权
+在模型校正过程中，通过最小化由模型价格与市场报价之间的误差构成目标函数，可以得到矫正参数。我们使用的目标函数是平均二次方差（Mean Square Error, MSE）函数，该目标函数表示所有样本期权市场报价与模型价格之间误差平方之和。对于每个期权到期日 $T_{i};$ ；假设有 $N_{i}$ 个市场报价 $\left\{C_{T_i,K_j}^{Market}\right\}_{j=1}^{N_i},其中\left\{K_j\right\}_{j=1}^{N_i}$ 是这些期权的执行价格，与这些期权
 
 $$
-\begin{array}{rl}&{\{C_{T_{i},K_{j}}^{Model}\}_{j=1}^{N_{i}}}\\&{\ast+\int_{-\infty}^{\infty}\dot{q}\{\dot{\gamma}\}_{l\infty}^{1+\infty}\frac{\dot{\gamma}_{l}^{3}}{2}\langle\dot{\beta}\rangle\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}=\frac{\dot{\gamma}_{l}^{3}}{2}\langle\dot{\beta}\rangle\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}=0.}\end{array}
+对应的模型价格为$\left\{C_{T_{i},\mathcal{K}_{j}}^{\mathit{Model}}\right\}_{j=1}^{N_{i}}$。从而$\mathrm{MSE}$目标函数定义为
 $$
 
 $$
-Loss^{MSE}=\sum_{j\ =1}^{N_{i}}(C_{T_{i},K_{j}}^{Market}\ -C_{T_{i},K_{j}}^{Model})^{2}
+Loss^{MSE}=\sum_{j=1}^{N_{i}}(C_{T_{i},K_{j}}^{Market}-C_{T_{i},K_{j}}^{Model})^{2}
 $$
 
 利用梯度下降法求解最优参数。
@@ -269,13 +269,13 @@ $$
 MAE 定义为
 
 $$
-MAE=\frac{1}{N}\sum_{j=1}^{N}\left|C_{T_{i},K_{j}}^{Market}-C_{T_{i},K_{j}}^{Model}\right|
+MAE=\frac{1}{N}{\sum_{j=1}^{N}}\left|C_{T_{i},K_{j}}^{Market}-C_{T_{i},K_{j}}^{Model}\right|,
 $$
 
 PE 定义为
 
 $$
-PE=\frac{1}{N}{\sum_{j=1}^{N}}\frac{\left|C_{T_{i},K_{j}}^{Market}-C_{T_{i},K_{j}}^{Model}\right|}{C_{T_{i},K_{j}}^{Market}}
+PE=\frac{1}{N}\sum_{j=1}^{N}\frac{\left|C_{T_{i},K_{j}}^{Market}-C_{T_{i},K_{j}}^{Model}\right|}{C_{T_{i},K_{j}}^{Market}}
 $$
 
 我们发现，从拟合效果上来看基于时变波动率的跳扩散模型（LRJ）定价效率明显优于 B-S 模型。首先，针对流动性最大的当月期权，B-S 公式定价的百分比误差达到了 248.28%，而 LRJ 模型定价的百分比误差仅有18.74%；另外，对下月和当季到期的期权，LRJ的定价效率都明显优于B-S 模型；但是，需要说明的是，由于 LRJ模型中加入的跳扩散过程对50ETF指数基金的短期跳跃刻画比较准确，对于6个月以上的下季到期期权的定价效果不及B-S 公式。但是，期权的有效报价随着到期时间的延长而递减，并且下季到期的合约几乎没有流动性，因此总体来说 LRJ模型的实际效用还是显著的优于 B-S 模型。

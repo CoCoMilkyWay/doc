@@ -157,7 +157,7 @@ A 股市场个人投资者多，对市场变化更容易做出过度反应，导
 在改进基础反转因子之前，首先要对反转因子在数学上的通用形式给出表达。基础反转因子的计算方式为过去 21 天收益率，本质为 21 天日度累计涨跌幅，表达式如下：
 
 $$
-\mathrm{Rev}=\frac{Close_{t}-Close_{t-21}}{Close_{t-21}}\propto\log\frac{Close_{t}}{Close_{t-21}}=\sum_{i=1}^{21}\log\frac{Close_{t-i+1}}{Close_{t-i}}
+\mathrm{Rev}=\frac{\mathrm{Close}_{t}-\mathrm{Close}_{t-21}}{\mathrm{Close}_{t-21}}\propto\log\frac{\mathrm{Close}_{t}}{\mathrm{Close}_{t-21}}=\sum_{i=1}^{21}\log\frac{\mathrm{Close}_{t-i+1}}{\mathrm{Close}_{t-i}}
 $$
 
 可以看出，基础反转因子为综合过去 21 天价格变化信息，给出其对数的等权加和。针对此构造方式，可以给出两个维度的改进：
@@ -165,19 +165,19 @@ $$
 加权的维度。量价因子最广义的变化即为针对信息综合的形式，给出相应的加权方式，如从时间维度出发，按照时间序列排序加权求和。下式展示了以半衰期的时间尺度加权方式，构造反转因子的表达通式，其中 $w_{i}$ 为每日价格变动的加权方式，τ为半衰期。
 
 $$
-\mathrm{Rev}_{time}=\sum_{i=1}^{21}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\propto\frac{1}{e^{-\tau i}}
+\mathrm{Rev}_{time}=\sum_{i=1}^{21}w_i\log\frac{\mathrm{Clos}_{t-i+1}}{\mathrm{Clos}_{t-i}},w_i\propto\frac{1}{e^{-\tau i}}
 $$
 
 时间段划分的维度。传统量价因子在构建时多以日度数据为基础，如波动率因子以日度收益率计算标准差，而低频的数据往往损失较多信息。对于基础反转因子来说，简单的使用过去一段时间的总累计收益率只用到了交易的结果数据，并没有利用到交易的过程数据，故可以适当提高数据频率实现信息的表达。下式展示了以更高频的时间段划分方式，构造反转因子表达通式，即为广义上反转因子的通式，其中period为过去一段时间按一定规则划分时间段的总时间段个数， $w_{i}$ 为每个时刻价格变动的加权方式。
 
 $$
-\mathbf{Rev}_{per}=\sum_{i=1}^{period}w_{i}\mathbf{log}\frac{Close_{t-i+1}}{Close_{t-i}}
+\mathbf{Rev}_{per}=\sum_{i=1}^{period}w_i\log\frac{Class_{t-i+1}}{Class_{t-i}}
 $$
 
 本文基于反转效应在交易行为上的体现，即成交越活跃价格容易反转，给出按成交量加权的高频反转因子构建方式，如下式：
 
 $$
-\mathrm{Rev}_{vol}=\sum_{i=1}^{period}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\propto volume_{i}
+\mathrm{Rev}_{vol}=\sum_{i=1}^{period}w_i\log\frac{Class_{t-i+1}}{close_{t-i}},w_i\propto volume_i
 $$
 
 下面给出 10 分钟频率、30 分钟频率和 60 分钟频率高频反转因子的相关分析，以及 10分钟频率下因子的表现，如无特指，下文中高频反转因子即指 10 分钟频率下的高频反转因子。
@@ -208,7 +208,7 @@ $$
 
 资料来源：天软科技，长江证券研究所
 
-图 4 和图 5 展示了基础反转因子和高频反转因子（三个频率）自身截面相关性和 IC 时间序列。为检测反转类因子信息衰减的速度，计算了月末因子值与接下来每 10 个交易日收益率的 IC 情况，拟合得到各个因子的半衰期，并根据 Grinold 的理论，将半衰期带入公式 $\begin{array}{r}{IC_{T}=IC_{0}\sqrt{\frac{1}{T}}\frac{1-\delta^{T}}{1-\delta}}\end{array}$ ，其中δ为衰减系数，得到拟合累积 IC 曲线。图 6 和图 7 分别给出了基础反转因子和高频反转因子的半衰期图。最后表 5 给出了因子 IC 和半衰期的相关统计。可以得到以下结论：
+图 4 和图 5 展示了基础反转因子和高频反转因子（三个频率）自身截面相关性和 IC 时间序列。为检测反转类因子信息衰减的速度，计算了月末因子值与接下来每 10 个交易日收益率的 IC 情况，拟合得到各个因子的半衰期，并根据 Grinold 的理论，将半衰期带入公式 $\begin{array}{r}{IC_{T}=IC_{0}\sqrt{\frac{1}{T}\frac{1-\delta^{T}}{1-\delta}}}\end{array}$ ，其中δ为衰减系数，得到拟合累积 IC 曲线。图 6 和图 7 分别给出了基础反转因子和高频反转因子的半衰期图。最后表 5 给出了因子 IC 和半衰期的相关统计。可以得到以下结论：
 
 不论是自身的截面相关性还是 IC 值，时间序列上基础反转因子的波动均高于高频反转因子（三个频率），这点也可以从因子 IC_IR 的显著差别上体现。
 
@@ -436,18 +436,18 @@ $$
 
 由上一节的分析中可知，交易层面的反转效应会和成交活跃程度相关，成交量越低反转效应越弱，且到达一定阈值后转变为动量效应。基于此特性，给出了结构化反转因子的构建：
 
-根据一段时间内每个时间段的成交量，从小到大进行排序，以一个比例为临界点，取小于临界点的时间段作为动量时间段，记为 $period_{mom}$ ，大于临界点的时间段作为反转时间段，记为 $period_{rev}$ ，其中period为过去一段时间按一定规则划分时间段的总时间段个数， $period=period_{mom}\cup period_{rev},$
+根据一段时间内每个时间段的成交量，从小到大进行排序，以一个比例为临界点，取小于临界点的时间段作为动量时间段，记为 $period_{mom}$ ，大于临界点的时间段作为反转时间段，记为 $period_{rev}$ ，其中period为过去一段时间按一定规则划分时间段的总时间段个数， $period=period_{mom}\cup period_{rev}\text{ 。 }$
 
 以成交量倒数加权的形式，构建动量时间段反转因子：
 
 $$
-\mathrm{Rev}_{mom}=\sum_{i=1}^{period_{mom}}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\propto\frac{1}{volume_{i}}
+\mathbf{Rev}_{mom}=\sum_{i=1}^{period_{mom}}w_i\log\frac{Class_{t-i+1}}{Class_{t-i}},w_i\propto\frac{1}{volume_i}
 $$
 
 以成交量加权的形式，构建反转时间段反转因子：
 
 $$
-\mathrm{Rev}_{rev}=\sum_{i=1}^{period_{rev}}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\propto volume_{i}
+\mathrm{Rev}_{rev}=\sum_{i=1}^{period_{rev}}w_i\log\frac{Close_{t-i+1}}{Close_{t-i}},w_i\propto volume_i
 $$
 
 以动量时间段反转因子和反转时间段反转因子合成结构化反转因子：

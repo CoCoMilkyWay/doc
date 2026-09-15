@@ -106,10 +106,10 @@ zhangyu1@ctsec.com 021-68592220
 回归法的主要步骤是将目标因子对所需剔除的因子进行回归，将回归得到的残差项作为新因子的代理变量。
 
 $$
-X_{New}=\alpha+\beta_{0}\cdot Industry+\beta_{1}\cdot Size+\beta_{2}\cdot Mom+\beta_{3}\cdot Vol+\varepsilon
+X_{New}=\alpha+\beta_{0}\cdot Industry+\beta_{1}\cdot Size+\beta_{2}\cdot Mon+\beta_{3}\cdot Vol+\varepsilon
 $$
 
-如上述公式所述，将待检测的因子 $X_{New}$ 作为因变量，待剔除的因子作为自变量进行回归，由于残差项与自变量之间互不相关，因此对新的代理变量进行排序分组，可以认为已经消除了行业、市值、动量和波动的影响。
+如上述公式所述，将待检测的因子 $\cdot X_{New}$ 作为因变量，待剔除的因子作为自变量进行回归，由于残差项与自变量之间互不相关，因此对新的代理变量进行排序分组，可以认为已经消除了行业、市值、动量和波动的影响。
 
 2） 分层法
 
@@ -137,17 +137,17 @@ c) 每层中的第 1 组-第 10 组进行合并，得到新的 10 个分组。
 
 ## 2.1 多因子模型回顾
 
-无论是 Barra USE3 还是 USE4 模型，在横截面上对股票收益率进行回归时均需包含行业因子 $f_{i}$ 及风格因子 $f_{S}$ ，二者的区别仅在于是否加入截距项（国家因子）。
+无论是 Barra USE3 还是 USE4 模型，在横截面上对股票收益率进行回归时均需包含行业因子 $\cdot f_{i}$ 及风格因子 $\cdot f_{S},$ ，二者的区别仅在于是否加入截距项（国家因子）。
 
 $$
-USE3\colon r_{n}=\sum_{i=1}X_{ni}f_{i}+\sum_{s=1}X_{ns}f_{s}+\varepsilon_{n}
+USE3\colon r_{n}=\sum_{i=1}X_{ni}f_{i}+\sum_{s=1}X_{ns}f_{s}+\varepsilon_{n},
 $$
 
 $$
-USE4;r_{n}=f_{c}+\sum_{i=1}X_{ni}f_{i}+\sum_{s=1}X_{ns}f_{s}+\varepsilon_{n}
+USE4\colon r_{n}=f_{c}+\sum_{i=1}X_{ni}f_{i}+\sum_{s=1}X_{ns}f_{S}+\varepsilon_{n}
 $$
 
-其中， $X_{ni}$ 表示股票 n 在行业i 上的暴露度，此处采用 0-1 哑变量表示，股票所属的行业因子暴露度为 1，否则为 $0\circ X_{ns}$ 表示股票在风格因子上的暴露度，所有风格因子均经过去极值化、标准化处理，部分因子经过正交化处理。由于股票特质收益的波动率呈现出异方差性，为此我们采用加权最小二乘 WLS 法对模型进行回归，权重即为股票的流通市值平方根权重。
+其中， $X_{ni}$ 表示股票 n 在行业i 上的暴露度，此处采用 0-1 哑变量表示，股票所属的行业因子暴露度为 1，否则为 $0\mathrm{{}_{\circ}}X_{ns}$ 表示股票在风格因子上的暴露度，所有风格因子均经过去极值化、标准化处理，部分因子经过正交化处理。由于股票特质收益的波动率呈现出异方差性，为此我们采用加权最小二乘 WLS 法对模型进行回归，权重即为股票的流通市值平方根权重。
 
 在本报告中，我们采用 29 个中信一级行业作为行业因子虚拟变量，风格因子的定义和计算方法如表 2 所示。在拟合因子收益时，我们采用 USE4 版本的方法，将市场收益从行业纯因子收益中剥离出来。而在构建纯因子组合时，由于需要对因子矩阵进行求逆，故需用到 USE3 版本的模型，关于这点后续将有进一步的论述。
 
@@ -159,17 +159,17 @@ $$
 
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
 | --- | --- | --- | --- | --- |
-| Beta | BETA | $\mathrm{r_{t}}=\alpha+\beta\mathrm{R_{t}}+\mathrm{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63 天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
+| Beta | BETA | $\mathbf{r_{t}}=\alpha+\beta\mathbf{R_{t}}+\mathbf{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63 天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathsf{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathsf{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r_{t}}=\mathrm{P_{t}}/\mathrm{P_{t-1}}-1,\ \mathrm{T}{=}504,\ \mathrm{L}{=}21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理) | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
-|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathrm{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathrm{T})),}\end{array}$ $\sharp\Psi\mathrm{Z(T)}=\exp\bigl(\sum_{\mathrm{t=1}}^{\mathrm{T}}\ln(1+\mathrm{r_{t}})\bigr)-1$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t}=\mathrm{L}}^{\mathrm{T}+\mathrm{L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理) | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
+|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ $\mathrm{Z(T)=\exp(\sum_{t=1}^{T}\ln(1+r_t))-1}$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
 |  | HSIGMA | 计算 Beta 时残差的标准差， Hsigma = std(ei) | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |
 | 流动性(对市值因子进行正交化） | STOM | 月度换手率，STOM = ln(mean(Σ2=1(Vt/St))其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2)剔除未上市、停牌日期的数据 |
-|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\operatorname*{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
-|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_{t}/S_{t}))),$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOQ | 季度换手率， $\mathrm{STOQ}=\ln(\mathrm{mean}(\sum_{t=1}^{63}(V_t/S_t)))$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_t/S_t)))$ | 0.25 | 同 STOQ 因子的计算 |
 | 盈利 | CETOP | 过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数 | 1/2 | 采用 Wind 中的 PCF_OCF_ttm 因子的倒数 |
 |  | ETOP | 过去滚动12个月的利润除以当前市值实际计算中取市盈率 PETTM 的倒数 | 1/2 | 采用 Wind 中的 PE_ttm 因子的倒数 |
 | 成长 | YOYProfit | 单季度净利润同比增长率 | 1/2 | 为避免使用未来数据，需要根据季报公布时间进行调整 |
@@ -193,10 +193,10 @@ $$
 ![](images/206a0add98dc144636c8027269c7c67fef6133a0bca47ec126105e8089a82d62.webp)
 数据来源：财通证券研究所，Wind
 
-表 和表 列出了纯行业因子及纯风格因子的因子显著度、值绝对值平均、自稳定相关系数、多重共线性检验的方差膨胀系数 VIF 值及绩效表现情况。因子显著度是指在回测期间，每期回归中因子 t 值绝对值大于 2 的次数占比；自稳定相关系数 $\mathbf{\xi}_{\rho_{kt}}$ 是指相邻两个截面日期股票因子暴露度的相关系数，其计算方法如下：
+表 和表 列出了纯行业因子及纯风格因子的因子显著度、值绝对值平均、自稳定相关系数、多重共线性检验的方差膨胀系数 VIF 值及绩效表现情况。因子显著度是指在回测期间，每期回归中因子 t 值绝对值大于 2 的次数占比；自稳定相关系数 $.\rho_{kt}$ 是指相邻两个截面日期股票因子暴露度的相关系数，其计算方法如下：
 
 $$
-\rho_{kt}=\frac{\sum_{K}w_{n}^{t}(X_{nk}^{t}-\bar{X}_{k}^{t})(X_{nk}^{t+1}-\bar{X}_{k}^{t+1})}{\sqrt{\sum_{K}w_{n}^{t}(X_{nk}^{t}-\bar{X}_{k}^{t})^{2}}\sqrt{\sum_{K}w_{n}^{t}(X_{nk}^{t+1}-\bar{X}_{k}^{t+1})^{2}}}
+\rho_{kt}=\frac{\sum_{K}w^t_n(X^t_{nk}-\bar{X}^t_k)(X^{t+1}_{nk}-\bar{X}^{t+1}_k)}{\sqrt{\sum_{K}w^t_n(X^t_{nk}-\bar{X}^t_k)^2}\sqrt{\sum_{K}w^t_n(X^{t+1}_{nk}-\bar{X}^{t+1}_k)^2}}
 $$
 
 其中， $w_{n}^{t}$ 是指股票 n 在t 时期的市值权重，此处我们衡量因子的月度自稳定系数，相邻的两个截面日期即为每月最后一个交易日期。
@@ -273,13 +273,13 @@ $$
 由于采用 0-1 哑变量作为行业因子的代理变量，因此 Barra USE4 版本中截距项的引入实际上是将市场收益从行业收益中剥离出来，而对风格因子的收益并不产生影响。由于在完全复制法的计算过程中，需要用到矩阵的逆，而 USE4 版本中截距项引入带来的自变量之间的完全共线性将导致因子矩阵是不满秩的，因此我们在完全复制法计算纯因子组合收益时采用 USE3 版本的模型，具体来讲：
 
 $$
-r=Xf+\varepsilon\Rightarrow{\hat{f}}=(X^{\prime}WX)^{-1}X^{\prime}Wr{\mathrm{:}}=W^{\ast}r
+r=Xf+\varepsilon\;\Rightarrow{\hat{f}}=(X^{\prime}WX)^{-1}X^{\prime}Wr{:=W^{*}r}
 $$
 
 其中 W 矩阵为回归的权重矩阵，将上述公式表示为向量形式，即为：
 
 $$
-\begin{array}{r}{\left(\begin{array}{c}{\hat{f}_{1}}\\{\hat{f}_{2}}\\{\vdots}\\{\hat{f}_{k}}\end{array}\right)_{k\times1}=\left(\begin{array}{ccc}{w_{11}}&{\cdots}&{w_{1n}}\\{\vdots}&{\ddots}&{\vdots}\\{w_{k1}}&{\cdots}&{w_{kn}}\end{array}\right)_{k\times n}\left(\begin{array}{c}{r_{1}}\\{r_{1}}\\{\vdots}\\{r_{n}}\end{array}\right)_{n\times1}}\end{array}
+\begin{pmatrix}\hat{f}_{1}\\\hat{f}_{2}\\\vdots\\\hat{f}_{k}\end{pmatrix}_{k\times1}=\begin{pmatrix}w_{11}&\cdots&w_{1n}\\\vdots&\ddots&\vdots\\w_{k1}&\cdots&w_{kn}\end{pmatrix}_{k\times n}\begin{pmatrix}r_{1}\\r_{1}\\\vdots\\r_{n}\end{pmatrix}_{n\times1}
 $$
 
 可以看到， $W^{*}$ 矩阵的每一行即为每一个纯因子组合对应的权重向量。采用完全复制法得到的纯因子组合权重能够精确地复制纯因子收益，然而其缺点在于它并不能对组合的事前风险进行控制，基于此下文将介绍如何通过最优化复制方法对此进行改进。
@@ -289,13 +289,13 @@ $$
 根据纯因子组合的定义，可将对纯因子组合的权重求解问题表述为一个优化问题：我们试图构建这样一个投资组合，该组合在满足对其他因子的暴露为 0 的条件下，能够最大化对目标因子暴露、同时最小化组合的预期风险。采用数学语言表达即为：我们试图找到一个最优权重向量 h，满足：
 
 $$
-\begin{array}{c}{{\displaystyle\operatorname*{max}_{h}\bigg\{h^{\prime}X_{\alpha}-\frac12\lambda h^{\prime}Vh\bigg\}}}\\{{s.t.\quad h^{\prime}X_{\sigma}=0}}\end{array}
+\begin{aligned}\max_{h}&\left\{h^{\prime}X_{\alpha}-\frac{1}{2}\lambda h^{\prime}Vh\right\}\\&s.t.\quad h^{\prime}X_{\sigma}=0\end{aligned}
 $$
 
 此处， $X_{\alpha}$ 和 $X_{\sigma}$ 分别表示投资组合对目标因子α和对其他因子σ的暴露程度，表示投资者在风格暴露与风险偏好之间的强弱程度，矩阵V即为成分股收益的协方差矩阵，可以通过《Barra 模型进阶：多因子模型风险预测》中的方法求得。采用拉格朗日乘数法即可推导出该优化的解析解（具体推导过程可参见附录），其公式如下：
 
 $$
-h^{\ast}=\frac{1}{\lambda}V^{-1}[X_{\alpha}-X_{\sigma}(X_{\sigma}^{\prime}V^{-1}X_{\sigma})^{-1}(X_{\sigma}^{\prime}V^{-1}X_{\alpha})]
+h^{*}=\frac{1}{\lambda}V^{-1}\big[X_{\alpha}-X_{\sigma}(X_{\sigma}^{\prime}V^{-1}X_{\sigma})^{-1}(X_{\sigma}^{\prime}V^{-1}X_{\alpha})\big]
 $$
 
 有趣的是，当我们采用回归矩阵 W来代替上式的 $V^{-1}$ 时，纯因子组合的权重与完全复制法得到的权重将会完全相同，也就是说，完全复制法可以被视为最优化复制法的一种特殊情况，具体推导可参见附录。
@@ -368,19 +368,19 @@ $$
 1）最小化组合全局风险（即最小化事前风险）：
 
 $$
-\begin{array}{c}{\displaystyle\operatorname*{min}_{w}w^{\prime}Vw}\\{\displaystyle}\\{s.t.\ (w-w_{B})^{\prime}X_{\sigma}=0,}\\{\displaystyle(w-w_{B})^{\prime}X_{\alpha}=1,}\\{\displaystyle\sum_{\forall i,w_{i}=1,}w_{i}=1,}\\{\displaystyle\forall i,w_{i}>0,}\end{array}
+\begin{array}{c}{{\displaystyle\operatorname*{min}_{w}w^{\prime}Vw}}\\{{\mathrm{~s.t.~}(w-w_{B})^{\prime}X_{\sigma}=0,}}\\{{(w-w_{B})^{\prime}X_{\alpha}=1,}}\\{{\displaystyle\sum_{\begin{array}{c}{{}}\\{{}}\\{{}}\end{array}}w_{i}=1,}}\\{{\forall i,w_{i}>0,}}\end{array}
 $$
 
 2）最小化组合主动风险（即最小化跟踪误差）
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{min}_{w}(w-w_{B})^{\prime}V(w-w_{B})}\\{\displaystyle\quad s.t.~(w-w_{B})^{\prime}X_{\sigma}=0,}\\{\displaystyle~(w-w_{B})^{\prime}X_{\alpha}=1,}\\{\displaystyle~\displaystyle\sum_{\forall i,w_{i}=1,}w_{i}=1,}\\{\displaystyle\quad\forall i,w_{i}>0,}\end{array}
+\begin{aligned}\min_{w}&(w-w_{B})^{\prime}V(w-w_{B})\\s.t.&(w-w_{B})^{\prime}X_{\sigma}=0,\\&(w-w_{B})^{\prime}X_{\alpha}=1,\\&\sum w_{i}=1,\\&\forall i,w_{i}>0,\end{aligned}
 $$
 
 ## 3）最大化目标因子暴露
 
 $$
-\begin{array}{c}{\displaystyle{\operatorname*{max}_{w}w^{\prime}X_{\alpha}}}\\{\displaystyle{s.t.~(w-w_{B})^{\prime}X_{\sigma}=0,}}\\{\displaystyle{\sum_{w_{i}=1,}w_{i}=1,}}\\{\displaystyle{\forall i,w_{i}>0,}}\end{array}
+\begin{aligned}&\max_{w}w^{\prime}X_{\alpha}\\s.t.&(w-w_{B})^{\prime}X_{\sigma}=0,\\&\sum_{i}w_{i}=1,\\&\forall i,w_{i}>0,\end{aligned}
 $$
 
 观察以上三种类型的优化方式，（1）和（2）是二次规划，通过引入风险矩阵来最小化组合的全局风险或者是相对于基准组合的主动风险。然而在实际计算中我们发现，由于样本股票数量较大、约束条件较多，经常存在无最优解的情况，此时我们需要进一步放松约束条件，在保证相对基准组合在其他因子上的暴露为0 的条件下，最大化对目标因子的暴露。第（3）种优化方式为线性规划，该求解不考虑风险部分的影响，因此其运算速度要显著地快于二次规划。
@@ -416,7 +416,7 @@ $$
 需要特别说明的是，由于在收益模型拟合时采用的是市值平方根加权，根据回归的特性，特质收益的市值平方根加权之和的期望为 （但其市值加权之和的期望并不为 0），因此下文所指的基准组合权重是指成分股的市值平方根加权组合，而不再是成分股的市值加权。
 
 $$
-X^{\prime}W{\hat{\varepsilon}}=X^{\prime}W{\big(}Y-X{\hat{\beta}}{\big)}=X^{\prime}WY-(X^{\prime}WX)(X^{\prime}WX)^{-1}X^{\prime}WY=0
+X^{\prime}W\hat{\varepsilon}=X^{\prime}W\big(Y-X\hat{\beta}\big)=X^{\prime}WY-\big(X^{\prime}WX\big)(X^{\prime}WX)^{-1}X^{\prime}WY=0
 $$
 
 由图 12 可以看到，成长纯因子净值走势与模拟对冲的走势保持一致，说明我们通过组合优化的方法确实能够得到在其他因子上暴露为 ，而仅在目标因子上有一定暴露的组合。然而，这仅仅是模拟出来的对冲收益，真正的实际收益（即成长因子对冲组合的收益）与我们预想的并不一致，这其中原因究竟是什么呢？
@@ -446,13 +446,13 @@ $$
 考虑如下的权重优化方法：
 
 $$
-\begin{array}{c}{{\displaystyle{\operatorname*{max}_{w}w^{\prime}X_{\alpha}}}}\\{{}}\\{{s.t.\ (w-w_{B})^{\prime}X_{\sigma}=0}}\\{{}}\\{{\displaystyle{\sum_{w_{i}=1}\ w_{i}=1}}}\\{{\forall i,w_{i}>0}}\\{{\displaystyle{\sum_{sign}(w_{i})>MinNum}}}\end{array}
+\begin{aligned}\max_{w}w^{\prime}X_{\alpha}\\s.t.(w-w_{B})^{\prime}X_{\sigma}&=0\\\sum w_{i}&=1\\\forall i,w_{i}&>0\\\sum sign(w_{i})&>MinNum\end{aligned}
 $$
 
 其中 sign 为符号函数，当个股权重大于 0 时返回 1，否则返回 0，也就是说这里实际上是加入组合最少持股数量的要求。然而，在实际求解中，符号函数的加入增加了求解的困难，因此我们转换一种思路，对每只股票的权重设置一定的上限（如每只股票权重最大不超过 0.1%），由此构建的投资组合将必须包含至少1000 只股票：
 
 $$
-\begin{array}{c}{\displaystyle\operatorname*{max}_{w}w^{\prime}X_{\alpha}}\\{s.t.\ (w-w_{B})^{\prime}X_{\sigma}=0}\\{\displaystyle\sum_{\forall i,w_{i}=1}w_{i}=1}\\{\forall i,w_{i}>0}\\{\forall i,w_{i}<\bar{w}}\end{array}
+\begin{aligned}&s.t.\begin{aligned}\\&\max_{w}w^{\prime}X_{\alpha}\\&(w-w_{B})^{\prime}X_{\sigma}=0\\&\sum w_{i}=1\\&\forall i,w_{i}>0\\&\forall i,w_{i}<\overline{w}\\&\end{aligned}\\\end{aligned}
 $$
 
 下面我们观察通过加入单只股票权重上限的调整方法对于组合收益的影响情况，此处我们选取为w̅的值为 0.1%，当求不到最优解时我们将w̅值以 0.0001的步长放宽，因此最后实际的权重上限不一定都为 0.1%。首先调整后的平均股票数量，从图 15 中可以看到，调整后的平均持股数在 730 只左右，大大多于调整前 38 只股票的均值。图 16 绘制出了调整后的最优化纯因子组合的净值走势，与图 12 相比，纯成长因子组合的实际收益与预想的纯因子收益的走势更加贴合，说明这种方法有效地分散了特质收益部分所带来的不确定性。
@@ -492,7 +492,7 @@ $$
 对拉格朗日函数求偏导，即有如下式子：
 
 $$
-\begin{array}{c}{\displaystyle\frac{\partial L(h,\eta)}{\partial h}=X_{\alpha}-\frac12\lambda\times2\times Vh+X_{\sigma}\eta=X_{\alpha}-\lambda Vh+X_{\sigma}\eta=0\ }\\{\displaystyle\frac{\partial L(h,\eta)}{\partial\eta}=h^{\prime}X_{\sigma}=0}\end{array}
+\begin{aligned}\cfrac{\partial L(h,\eta)}{\partial h}=X_{\alpha}-\cfrac{1}{2}\lambda\times2\times Vh+X_{\sigma}\eta&=X_{\alpha}-\lambda Vh+X_{\sigma}\eta=0\\\cfrac{\partial L(h,\eta)}{\partial\eta}=h'X_{\sigma}&=0\end{aligned}
 $$
 
 将上式中的第一个式子进行变换，有：
@@ -504,7 +504,7 @@ $$
 将其代入到第二个公式中，有：
 
 $$
-h^{\prime}X_{\sigma}=(X_{\alpha}^{\prime}+\eta X_{\sigma}^{\prime}){\frac{V^{-1}X_{\sigma}}{\lambda}}=0\quad\Rightarrow\quad\eta=-(X_{\sigma}^{\prime}V^{-1}X_{\sigma})^{-1}(X_{\alpha}^{\prime}V^{-1}X_{\sigma})
+h^{\prime}X_{\sigma}=(X_{\alpha}^{\prime}+\eta X_{\sigma}^{\prime})\frac{V^{-1}X_{\sigma}}{\lambda}=0\quad\Rightarrow\quad\eta=-(X_{\sigma}^{\prime}V^{-1}X_{\sigma})^{-1}(X_{\alpha}^{\prime}V^{-1}X_{\sigma})
 $$
 
 将求解出来的η代入到前一个式子中，即有：
@@ -526,28 +526,28 @@ $$
 将残差变量视为目标因子的代理变量，即有：
 
 $$
-\hat{\alpha}=X_{\alpha}-X_{\sigma}\hat{b}=X_{\alpha}-X_{\sigma}({X_{\sigma}}^{'}WX_{\alpha})^{-1}(X_{\sigma}{}^{'}WX_{\alpha})
+\hat{\alpha}=X_{\alpha}-X_{\sigma}\hat{b}=X_{\alpha}-X_{\sigma}({X_{\sigma}}^{\prime}WX_{\alpha})^{-1}({X_{\sigma}}^{\prime}WX_{\alpha})
 $$
 
 第二步将股票收益对残差变量进行 WLS 回归，得到的收益即为纯因子收益：
 
 $$
-\begin{array}{c}{{r=\hat{\alpha}f_{\alpha}+\varepsilon}}\\{{{}}}\\{{\hat{f}_{\alpha}=(\hat{\alpha}^{\prime}W\hat{\alpha})^{-1}\hat{\alpha}^{\prime}Wr=h_{\alpha}^{\prime}r}}\end{array}
+\begin{array}{c}{{r=\hat{\alpha}f_{\alpha}+\varepsilon}}\\{{}}\\{{\hat{f}_{\alpha}=(\hat{\alpha}^{\prime}W\hat{\alpha})^{-1}\hat{\alpha}^{\prime}Wr=h_{\alpha}^{\prime}r}}\end{array}
 $$
 
 由上式可以知道，通过完全复制法得到的权重可以表示为：
 
 $$
-h_{\alpha}=\frac{W\widehat{\alpha}}{\widehat{\alpha}^{\prime}W\widehat{\alpha}}
+h_{\alpha}=\frac{W\hat{\alpha}}{\hat{\alpha}^{\prime}W\hat{\alpha}}
 $$
 
-回顾 3.2 部分中最优复制法的解，当我们取 $\lambda=\hat{\alpha}^{\prime}W\hat{\alpha}$ 并且 ${\cal V}^{-1}=W$ 时，即有：
+回顾 3.2 部分中最优复制法的解，当我们取 $\lambda=\hat{\alpha}^{\prime}W\hat{\alpha}$ 并且 $V^{-1}=W!$ 时，即有：
 
 $$
-h^{\ast}=\frac{1}{\lambda}V^{-1}\left[X_{\alpha}-X_{\sigma}(X_{\sigma}^{\prime}V^{-1}X_{\sigma})^{-1}(X_{\sigma}^{\prime}V^{-1}X_{\alpha})\right]=\frac{W\hat{\alpha}}{\hat{\alpha}^{\prime}W\hat{\alpha}}=h_{\alpha}
+h^{*}=\frac{1}{\lambda}V^{-1}[X_{\alpha}-X_{\sigma}(X_{\sigma}^{\prime}V^{-1}X_{\sigma})^{-1}(X_{\sigma}^{\prime}V^{-1}X_{\alpha})]=\frac{\hat{W}\hat{\alpha}}{\hat{\alpha}^{\prime}W\hat{\alpha}}=h_{\alpha}
 $$
 
-由此可见，当满足 $\lambda=\hat{\alpha}^{\prime}W\hat{\alpha}$ 并且 $V^{-1}=W$ 时，最优化复制法和完全复制法得到的组合权重完全相同，可以认为最优复制法是完全复制法的一种特殊情况，证毕。
+由此可见，当满足 $.\lambda=\hat{\alpha}^{\prime}W\hat{\alpha}$ 并且 $V^{-1}=W$ 时，最优化复制法和完全复制法得到的组合权重完全相同，可以认为最优复制法是完全复制法的一种特殊情况，证毕。
 
 ## 参考文献：
 

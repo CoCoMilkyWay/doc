@@ -149,7 +149,7 @@ Instholder Pct：公募基金持仓比例
 在回归得到的传统beta的基础上，我们使用贝叶斯方法进行压缩调整，提升样本外预测能力。股票j的压缩估计量形式上可以表示
 
 $$
-\beta_{\mathrm{j}}^{shrink}=\lambda\cdot\beta_{j}^{prior}+(1-\lambda)\cdot\beta_{j}^{hist}
+\beta_{\mathrm{j}}^{shrink}\:=\lambda\cdot\beta_{j}^{prior}+(1-\lambda)\cdot\beta_{j}^{hist}
 $$
 
 其中βℎist为传统历史数据回归法估算出来的 beta, βprior 为先验 beta 值，我们取为个股所在行业的平均 beta。压缩系数λ 由βℎist的估计量方差和 beta 先验分布的方差的相对大小决定，βℎist的估计量方差越小，λ 取值越小。引入先验分布，使得压缩估计量变成有偏估计，提升了bias， 但同时也降低了估计量的方差（variance），两者叠加在一起有可能提升估计量样本外的预测准确度（bias–variance tradeoff）。下面的实证数据说明了这一点。
@@ -233,18 +233,18 @@ A 股是一个历史不到三十年的年轻市场，在信息披露完整性、
 在因子风险模型中，个股收益可以分为两部分：能够被公共风险因子解释的部分，以及不能被解释的残差收益：
 
 $$
-\boldsymbol{r}_{t,i}=\beta_{i,1}^{~t}f_{t,1}+\beta_{i,2}^{~t}f_{t,2}+\cdots+\beta_{i,K}^{~t}f_{t,K}+\varepsilon_{t,i}~t=1,\cdots T~i=1,\cdots N
+r_{t,i}=\beta_{i,1}^{\ t}f_{t,1}+\beta_{i,2}^{\ t}f_{t,2}+\cdots+\beta_{i,K}^{\ t}f_{t,K}+\varepsilon_{t,i}\quad t=1,\cdots T\quad i=1,\cdots N
 $$
 
 其中， $r_{t,i}$ 是第 i 只股票在期间 t 的收益率， $\beta_{i,k}^{\quad t}$ 是期间 t 开始时股票 i 在第 k 个因子上的风险暴露， $f_{t,k}$ 是第 k个因子在期间 t的纯因子收益率， $\mathcal{E}_{t,i}$ 是第 i只股票在期间t 的残差收益率。
 
-假定股票的残差收益率和公共因子收益率不相关，并且每只股票的残差收益率也不相关的情况下，则股票的协方差矩阵 $\scriptstyle\sum$ 可以表示为：
+假定股票的残差收益率和公共因子收益率不相关，并且每只股票的残差收益率也不相关的情况下，则股票的协方差矩阵 $\sum$ 可以表示为：
 
 $$
 \Sigma=BFB^{'}+S
 $$
 
-其中 B是N个股票在K个公共风险因子的上的因子暴露矩阵(N×K), F是K个公共因子收益率的协方差矩阵(K×K)，S 是 N个股票的残差收益率方差矩阵 $(\mathsf{N}\times\mathsf{N})$ 。从结果出发的话，想要得到未来一个月的股票间协方差矩阵的估计，就需要计算当前最新的个股风险因子暴露，因子协方差阵，个股风险三个变量。其中风险因子暴露可以直接由风险因子的取值计算，月度因子协方差矩阵可以通过过去的因子收益率估计得到，月度个股残差风险通过过去的个股残差收益率估计得到。这就意味着需要回归求解过去日度的因子收益率和残差收益率。股票协方差矩阵估计的具体流程如下图所示，接下来我们依次分别简单介绍因子风险模型的构建细节。
+其中 B是N个股票在K个公共风险因子的上的因子暴露矩阵(N×K), F是K个公共因子收益率的协方差矩阵(K×K)，S 是 N个股票的残差收益率方差矩阵 $\mathbf{.}(\mathbf{N}\times\mathbf{N})$ 。从结果出发的话，想要得到未来一个月的股票间协方差矩阵的估计，就需要计算当前最新的个股风险因子暴露，因子协方差阵，个股风险三个变量。其中风险因子暴露可以直接由风险因子的取值计算，月度因子协方差矩阵可以通过过去的因子收益率估计得到，月度个股残差风险通过过去的个股残差收益率估计得到。这就意味着需要回归求解过去日度的因子收益率和残差收益率。股票协方差矩阵估计的具体流程如下图所示，接下来我们依次分别简单介绍因子风险模型的构建细节。
 
 图6：股票协方差矩阵估计的具体流程
 ![](images/493c7e571cca654f1c55e87b83fa5be793a705a07f3bc02d8ff159c4664d6424.webp)
@@ -348,7 +348,7 @@ $$
 GMVP组合可以通过组合优化的方式定义为：
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{min}_{w}w^{\prime}\cdot\sum\cdot w}\\{\mathrm{s.t.}\sum_{t=1}^{N}w_{t}=1}\end{array}
+\begin{aligned}\min_{w}w^{\prime}\cdot\sum\cdot w^{\prime}\\s.t.\sum_{t=1}^{N}w_{_t}=1\end{aligned}
 $$
 
 这个二次规划问题有显式解 w∗=Σ−1⋅e/(e′⋅Σ−1⋅e)，e 为常数 1向量。这个组合与股票预期收益率无关，完全由股票间的协方差决定。
@@ -372,7 +372,7 @@ GMVP 组合的方差小，只能说明理论上因子风险模型对于股票协
 组合优化问题设置如下：
 
 $$
-\begin{array}{rl}&{\operatorname*{max:}\mathrm{~f^{\prime}w}-\lambda\mathrm{w^{\prime}}\Sigma\mathrm{w}}\\&{\quad\mathrm{st:}\quad\mathrm{w}^{\prime}\mathrm{I}=0}\\&{\quad\quad\quad\mathrm{w}^{\prime}\mathrm{Indus}=0}\\&{\quad\quad\quad\mathrm{w}^{\prime}\mathrm{MV}=0}\\&{\quad\quad\quad\quad\mathrm{wmin}<\mathrm{w}\ :<wmax}\end{array}
+\begin{aligned}\max:&\mathbf{f}^{\prime}\mathbf{w}-\lambda\mathbf{w}^{\prime}\Sigma\mathbf{w}\\st:&\quad\mathbf{w}^{\prime}\mathbf{I}=0\\&\quad\mathbf{w}^{\prime}\mathrm{Indus}=\mathbf{0}\\&\quad\mathbf{w}^{\prime}\mathrm{MV}=0\\&\quad\mathbf{wmin}<\mathbf{w}<w\max\mathbf{I}\end{aligned}
 $$
 
 其中 w为主动权重，f为预期收益率向量，λ为经验的风险厌恶系数，Σ为估计的月度协方差矩阵。个股权重上限分段设置，控制行业和市值完全中性。

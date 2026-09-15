@@ -86,16 +86,16 @@ SD(Standard Deviation)即标准差，是一种用来衡量风险历史最久的�
 
 风险平价策略的核心思想是通过在资产之间分配资本，使它们对总体的投资组合的风险贡献相等。下面我们会简要介绍下风险平价策略的理论原理。
 
-定义 $\scriptstyle x=(x1,x2,\ldots,xn)$ 为组合中 n 个资产的权重，xi 即为资产i的权重， ${\sigma_{i}}^{2}$ 为资产i的方差， $\sigma_{ij}$ 为资产i及资产j的协方差，Σ 为组合资产的协方差矩阵，因此资产组合的标准差可表示如下：
+定义 $x=(x1,x2,\ldots,xn)$ 为组合中 n 个资产的权重，xi 即为资产i的权重， $\sigma_{i}^{2}$ 为资产i的方差， $\sigma_{ij}$ 为资产i及资产j的协方差，Σ 为组合资产的协方差矩阵，因此资产组合的标准差可表示如下：
 
 $$
-\sigma(x)=\sqrt{x^{T}\Sigma x}=\sqrt{\sum_{i}x_{i}^{2}\sigma_{i}^{2}+\sum_{i}\sum_{i\neq j}x_{i}x_{j}\sigma_{ij}}
+\sigma(x)={\sqrt{x^{T}\Sigma x}}={\sqrt{\sum_{i}x_{i}^{2}\sigma_{i}^{2}+\sum_{i}\sum_{i\neq j}x_{i}x_{j}\sigma_{ij}}}.
 $$
 
 接着定义单个资产权重的微小变化对组合波动所带来的影响，即边际风险贡献(MRC),即：
 
 $$
-MRC=\partial_{x_{i}}\sigma(x)=\frac{x_{i}\sigma_{i}^{2}+\sum_{j\neq i}x_{j}\sigma_{ij}}{\sigma(x)}
+MRC\;=\;\partial_{x_{i}}\sigma(x)=\frac{x_{i}\sigma_{i}^{2}+\sum_{j\neq i}x_{j}\sigma_{ij}}{\sigma(x)}
 $$
 
 定义单个资产对组合波动率的总体影响为总体风险贡献(TRC),即：

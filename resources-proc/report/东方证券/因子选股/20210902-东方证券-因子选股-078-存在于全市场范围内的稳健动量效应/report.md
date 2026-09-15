@@ -87,7 +87,7 @@ $$
 4. 计算因子考察期内（T0-N-M到 T0-M区间内）的股票收益率排名的标准化得分均值。
 
 $$
-rank_{i,d}(\mathsf{N},\mathsf{M})=\frac{1}{N}{\sum}_{j=t-N-M}^{t-M}(rank_{i,D_{j}})
+rank_{i,d}(\mathbb{N},\mathbb{M})=\frac{1}{N}\sum_{j=t-N-M}^{t-M}(rank_{i,D_j})
 $$
 
 ## 二、动量因子的表现

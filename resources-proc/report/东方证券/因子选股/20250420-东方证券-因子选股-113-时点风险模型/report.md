@@ -236,19 +236,19 @@ DFQ-XGB：基于树模型的 alpha 预测方 2024-08-15案：——因子选股�
 - 振幅突变：当日中证全指的振幅突破过去5日的均值+1倍标准差时，作为特殊时点日期，以当天个股涨跌幅作为风险因子取值
 
 $$
-f_{-}tr_{t}=\left\{\begin{array}{cc}{ret_{t}}&{iftr_{zzqz,t}>ts_{-}mean\big(tr_{zzqz,t-1},5\big)+ts_{-}std\big(tr_{zzqz,t-1},5\big),}\\{f_{t-1}}&{else.}\end{array}\right.
+f_{\_}tr_{t}=\left\{\begin{aligned}&rt_{t}&if\ tr_{zzqz,\ t}>ts\_mean\big(tr_{zzqz,t-1},5\big)+ts\_std\big(tr_{zzqz,t-1},5\big),\\&f_{t-1}&else.\end{aligned}\right.
 $$
 
 ⚫ 成交额突变：当日中证全指的成交额突破过去 5 日的均值+1 倍标准差时，作为特殊时点日期，以当天个股涨跌幅作为风险因子取值
 
 $$
-f_{-}amt_{t}=\left\{\begin{array}{cc}{ret_{t}}&{if\ amt_{zzqz,t}>ts_{-}mean\big(amt_{zzqz,t-1},5\big)+ts_{-}std\big(amt_{zzqz,t-1},5\big),}\\{f_{t-1}}&{else.}\end{array}\right.
+f_{-}ant_{t}=\left\{\begin{aligned}&rt_{t}&if\ andt_{zzqz,t}>ts\_mean\big(amt_{zzqz,t-1},5\big)+ts\_std\big(amt_{zzqz,t-1},5\big),\\&f_{t-1}&else.\end{aligned}\right.
 $$
 
 ⚫ 价量均突变：当日中证全指的振幅和成交额均突破过去5日的均值+1倍标准差时，作为特殊时点日期，以当天个股涨跌幅作为风险因子取值
 
 $$
-time\_risk_{t}=\left\{\begin{array}{cc}{ret_{t}}&{if\ tr_{zzqz,t}>ts_{-}mean\big(tr_{zzqz,t-1},5\big)+ts_{-}std\big(tr_{zzqz,t-1},5\big)}\\{\ time\_risk_{t}=\left\{\begin{array}{cc}{ret_{t}}&{\ and\ amt_{zzqz,t}>ts_{-}mean\big(amt_{zzqz,t-1},5\big)+ts_{-}std\big(amt_{zzqz,t-1},5\big),}\\{f_{t-1}}&{\ alse\ b_{z}}\end{array}\right.}\end{array}\right.
+time_{-}risk_{t}=\left\{\begin{aligned}rect_{t}&\quad iftr_{zqz,\;t}>ts\_mean\big(tr_{zqz,t-1},5\big)+ts\_std\big(tr_{zqz,t-1},5\big)\\&\quad andand_{zqz,\;t}>ts\_mean\big(and_{zqz,t-1},5\big)+ts\_std\big(andt_{zqz,t-1},5\big),\\f_{t-1}&\quad else.\end{aligned}\right.
 $$
 
 以涨跌幅作为风险因子取值的核心原因在于，当日存在一些隐式潜在的风险来源，我们无法显式刻画，而这些隐式风险共同作用“定价”后的结果就是个股当天的涨跌幅，因此个股当日涨跌幅等于是将政策冲击、流动性突变等不可观测的隐式风险通过非参数化方式纳入模型。

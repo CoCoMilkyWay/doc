@@ -78,7 +78,7 @@ luojun@gf.com.cn
 用单日日内信息构建的因子仅包含当日的股票价量信息。一般来说，数据观察期窗口很短的因子对未来多日的预测能力比不上观察期窗口较长的因子。为了延长观察窗口以获取对未来5个交易日左右的预测能力，本报告一般采用5天的观察期将日频因子进行均值处理平滑，即MA5处理。设D日的日频因子为 $f_{D}$ ，则MA5平滑后因子为
 
 $$
-f_{D}^{MA5}=\frac{1}{5}\sum_{d=0}^{5}f_{D-d}
+f_{D}^{MA5}=\frac{1}{5}{\sum}_{d=0}^{5}f_{D-d}
 $$
 
 在本报告最后一节，比较了MA5、MA20、EMA5、EMA20等4种不同方法处理的因子的性能差异。其中，EMA5和EMA20分别表示5日指数移动平均和20日指数移动平均，
@@ -104,7 +104,7 @@ IC胜率：IC与因子方向相同的比率（因子方向按照整个回测区�
 年化ICIR：IC绝对值与IC标准差之比的年化值，即
 
 $$
-\mathrm{ICIR}=\mathrm{sqrt}(\mathrm{N})*\mathrm{abs}(\mathrm{IC})/\mathrm{std}(\mathrm{IC})
+\mathrm{ICIR}=\mathrm{sqrt(N)}*\mathrm{abs(IC)}/\mathrm{std(IC)}
 $$
 
 其中N表示一年内包含的交易周数。
@@ -139,7 +139,7 @@ $$
 
 数据来源：广发证券发展研究中心
 
-设个股 i 在D日的日内分钟频率下的股票价格序列为 $\big\{p_{t,D,i}\big\},t=1,2,3,\cdots,T$收益率序列为 $\left\{\boldsymbol{r}_{t,D,i}\right\}$ ，其中
+设个股 i 在D日的日内分钟频率下的股票价格序列为 $\big\{p_{t,D,i}\big\},t=1{,}2{,}3,\cdots,T,$收益率序列为 $\left\{r_{t,D,i}\right\}$ ，其中
 
 $$
 r_{t,D,i}=\frac{p_{t,D,i}}{p_{t-1,D,i}}-1,i=2,3,\cdots,T
@@ -148,13 +148,13 @@ $$
 则已实现收益率方差为
 
 $$
-real\_var_{D,i}=\frac{1}{T-2}{\sum}^{T}{_t}=2^{\left({r}_{t,D,i}-{\bar{r}_{D,i}}\right)^{2}}
+real\_var_{D,i}=\frac{1}{T-2}{\sum}_{t=2}^{T}\left(r_{t,D,i}-\bar{r}_{D,i}\right)^{2}
 $$
 
-其中， $\bar{r}_{D,i}$ 表示股票日内收益率的均值。收益率方差取值范围为 $[0,+\infty)$ 已实现收益率偏度为
+其中， $\bar{r}_{D,i}.$ 表示股票日内收益率的均值。收益率方差取值范围为 $[0,+\infty)$ 已实现收益率偏度为
 
 $$
-real\_skew_{D,i}=\frac{1}{T-1}{\sum}^{T}_{t=2}\frac{\left(r_{t,D,i}-{{\bar{r}}_{D,i}}\right)^{3}}{real_{-}var_{D,i}^{\ 3/2}}
+real_{-}skew_{D,i}=\frac{1}{T-1}\sum_{t=2}^{T}\frac{\left(r_{t,D,i}-\bar{r}_{D,i}\right)^{3}}{r_{real_{-}}var_{D,i}^{3/2}}
 $$
 
 收益率偏度可以用来度量收益率分布的不对称性，取值范围为 $(-\infty,+\infty)$ ，当偏度<0时，表示收益率分布左偏，当偏度>0时，表示收益率分布右偏。
@@ -162,15 +162,15 @@ $$
 已实现收益率峰度为
 
 $$
-real\_kurtosis_{D,i}=\frac{1}{T-1}{\sum}^{T}{\frac{\left(r_{t,D,i}-{\bar{r}}_{D,i}\right)^{4}}{real\_var_{D,i}}}^{2}
+real\_kurtosis_{D,i}=\frac{1}{T-1}\sum_{t=2}^{T}\frac{\left(r_{t,D,i}-\bar{r}_{D,i}\right)^4}{real\_var_{D,i}^2}
 $$
 
 峰度可以用来度量随机变量概率分布的陡峭程度。收益率峰度取值范围为[1,+∞)，当峰度超过3时，认为该分布厚尾。
 
-real_upvar为仅考虑 ${\mathbf{\nabla}}\cdot r_{t,D,i}>0$ 时的已实现收益率方差，real_downvar为仅考虑$r_{t,D,i}<$ 0时的已实现收益率方差。可以进一步展开，构建上行收益率方差比值和下行收益率方差比值：
+real_upvar为仅考虑 $\cdot r_{t,D,i}>0$ 时的已实现收益率方差，real_downvar为仅考虑$r_{t,D,i}<$ 0时的已实现收益率方差。可以进一步展开，构建上行收益率方差比值和下行收益率方差比值：
 
 $$
-\begin{array}{c}{{ratio\_realupvar_{D,i}=\displaystyle\frac{real\_upvar_{D,i}}{real\_var_{D,i}}}}\\{{}}\\{{{}}}\\{{ratio\_realdownvar_{D,i}=\displaystyle\frac{real\_downvar_{D,i}}{real\_var_{D,i}}}}\end{array}
+\begin{aligned}ratio\_realupper_{D,i}&=\frac{real\_upper_{D,i}}{real\_var_{D,i}}\\ratio\_realdownvar_{D,i}&=\frac{real\_downvar_{D,i}}{real\_var_{D,i}}\end{aligned}
 $$
 
 根据日内股价的形态，可以构建如下因子。
@@ -351,16 +351,16 @@ ret_intraday因子MA5的IC均值为-4.94%，IC胜率为64.68%，年化ICIR为2.6
 
 数据来源：广发证券发展研究中心
 
-其中，价量相关性是指价格序列和成交量序列的相关性，记股票日内分钟频率下的成交量序列为 $\big\{v_{t,D,i}\big\},t=1,2,3,\cdots,T$ ，则该因子计算方法为
+其中，价量相关性是指价格序列和成交量序列的相关性，记股票日内分钟频率下的成交量序列为 $\big\{v_{t,D,i}\big\},t=1{,}2{,}3,\cdots,T$ ，则该因子计算方法为
 
 $$
-corr\_VP_{D,i}=corr(v_{t,D,i},p_{t,D,i})
+corr\_VP_{D,i}=error(v_{t,D,i},p_{t,D,i})
 $$
 
 收益率与量的相关性为
 
 $$
-\begin{array}{c}{{corr\_VR_{D,i}=corr(v_{t,D,i},r_{t,D,i})}}\\{{{}}}\\{{corr\_VRlag_{D,i}=corr(v_{t,D,i},r_{t-1,D,i})}}\\{{{}}}\\{{{}}}\\{{corr\_VRlead_{D,i}=corr(v_{t,D,i},r_{t+1,D,i})}}\end{array}
+\begin{aligned}corr_{-}VR_{D,i}&=error(v_{t,D,i},r_{t,D,i})\\corr_{-}VRlg_{D,i}&=error(v_{t,D,i},r_{t-1,D,i})\\corr_{-}VRlgad_{D,i}&=error(v_{t,D,i},r_{t+1,D,i})\end{aligned}
 $$
 
 其中， $corr\_VRlag_{D,i}$ 是指成交量与上一个时刻收益率（滞后收益率）的相关性， $corr\_VRlead_{D,i}$ 是指成交量与下一个时刻（超前收益率）的相关性，上述相关性因子的取值范围为[−1,1]。
@@ -368,7 +368,7 @@ $$
 Amihud非流动性因子是Amihud在2002年提出了衡量流动性的因子，考虑单位成交额驱动下，股价的变化幅度。因子值越大，说明股票的价格越容易被交易行为所影响（即流动性越低）。常见的Amihud非流动性因子是按照日频构建的，本报告在分钟频率下构建类似的因子，
 
 $$
-Amihud\_illiq_{D,i}=\frac{1}{T-1}{\sum_{t=2}^{T}}\frac{\left|r_{t,D,i}\right|}{p_{t,D,i}v_{t,D,i}}
+Amihud\_illiq_{D,i}=\frac{1}{T-1}\sum_{t=2}^{T}\frac{\left|r_{t,D,i}\right|}{p_{t,D,i}v_{t,D,i}}
 $$
 
 该因子是指在分钟频率下，单位成交额驱动下，股价的变化幅度。Amihud非流动性因子取值非负。

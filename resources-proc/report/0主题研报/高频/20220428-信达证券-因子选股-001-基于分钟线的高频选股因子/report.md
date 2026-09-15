@@ -90,13 +90,13 @@ Table_Author] 于明明 金融工程与金融产品
 
 ## (1) 极值处理：
 
-对于量价类因子，首先对每一期截面因子值计算因子截面均值 ${\bf\nabla}\cdot{\mu_{t}}$ 以及因子截面标准差 $\sigma_{t}$ ，并将极值边界定义为 $\mu_{t}\pm3*\sigma_{t}$ ，对每一个截面超出边界的因子值作缩尾至边界的处理。
+对于量价类因子，首先对每一期截面因子值计算因子截面均值 $\mu_{t}$ 以及因子截面标准差 $\sigma_{t}$ ，并将极值边界定义为 $\mu_{t}\pm3*\sigma_{t}$ ，对每一个截面超出边界的因子值作缩尾至边界的处理。
 
-对于基本面类因子，首先对每一期截面因子值计算因子值的中位数 $med_{t}$ 以及绝对离差中位数$MAD_{t},MAD_{t}=median(|X_{i,t}-med_{t}|)$ ，其中 $X_{i,t}$ 为股票i在t时刻的因子值；定义极值边界为$\begin{array}{r}{med_{t}\pm\frac{3}{0.67449}\ast MAD_{t}}\end{array}$ ，对超出边界的因子值作缩尾至边界的处理。
+对于基本面类因子，首先对每一期截面因子值计算因子值的中位数 $med_{t}$ 以及绝对离差中位数$MAD_{t}\quad,\quad MAD_{t}=median(|X_{i,t}-med_{t}|)$ ，其中 $X_{i,t}$ 为股票i在t时刻的因子值；定义极值边界为$med_{t}\pm\frac{3}{0.67449}*MAD_{t}$ ，对超出边界的因子值作缩尾至边界的处理。
 
 (2) 标准化处理：
 
-标准化处理均采用 Z 值标准化，即标准化后因子值为 $(X_{i,t}-\mu_{t})_{\big/\sigma_{t}}$ ，其中 $X_{i,t}$ 为股票i在t时间因子值， $\mu_{t}$ 为因子截面均值， $\sigma_{t}$ 为因子截面标准差。
+标准化处理均采用 Z 值标准化，即标准化后因子值为 ${(X_{i,t}-\mu_{t})}_{\big/\sigma_{t}}$ ，其中 $X_{i,t}$ 为股票i在t时间因子值， $\mu_{t}$ 为因子截面均值， $\sigma_{t}$ 为因子截面标准差。
 
 ## 1.3 因子中性化处理
 
@@ -105,7 +105,7 @@ Table_Author] 于明明 金融工程与金融产品
 对于每一期截面因子值 $X_{i,t}$ ，对市值和行业虚拟变量作多元回归，即：
 
 $$
-X_{i,t}=\alpha_{t}+\beta_{{MV},t}*MV_{i,t}+\sum_{j=1}^{N}\beta_{Ind,j,t}*Ind_{j,i,t}+\varepsilon_{i,t}
+X_{i,t}=\alpha_{t}+\beta_{MV,t}*MV_{i,t}+\sum_{j=1}^{N}\beta_{Ind,j,t}*Ind_{j,i,t}+\varepsilon_{i,t},
 $$
 
 $X_{i,t}$ 为股票i在t时刻的因子值， $MV_{i,t}$ 为股票i在t时刻的总市值， $Ind_{j,i,t}$ 为根据t时刻中信一级行业构建 的行业虚拟变量， $\varepsilon_{i,t}$ 为市值与行业中性化后的股票i在t时刻的因子值。
@@ -119,17 +119,17 @@ $X_{i,t}$ 为股票i在t时刻的因子值， $MV_{i,t}$ 为股票i在t时刻的
 | 因子指标 | 指标缩写 | 计算方法 | 指标含义 |
 | --- | --- | --- | --- |
 | 个股因子值 | $\mathrm{X_{i,t}}$ |  | 个股i在 t时刻的因子值 |
-| 秩相关系数 | RankICt | ${\mathrm{rank\_corr}}(Return_{i,t+1},X_{i,t})$ | t+1 时刻收益与t时刻因子值的秩相关性 |
+| 秩相关系数 | RankICt | $\mathrm{rank}\_\mathrm{corr}(Return_{i,t+1},X_{i,t})$ | t+1 时刻收益与t时刻因子值的秩相关性 |
 | 信息比率 | ICIR | mean(RankICt)/std(RankICt) | 波动调整后的因子秩相关 |
 | t值 | t | mean(RankICt)/std(RankICt) * n | 因子对股票收益的解释性 |
-| RankIC 胜率 | WinRate | $\mathrm{count(RankIC_{t}>0)/count(RankIC_{t})}$ | 因子胜率 |
+| RankIC 胜率 | WinRate | $\mathrm{count}(\mathrm{RankIC}_{\mathrm{t}}>0)/\mathrm{count}(\mathrm{RankIC}_{\mathrm{t}})$ | 因子胜率 |
 | 多头年化收益 | Long_Ret | 因子值前k%的多头组合累积收益 | 多头组合的累积收益 |
 | 空头年化收益 | Short_Ret | 因子值后k%的空头组合累积收益 | 空头组合的累积收益 |
 | 多空年化收益 | LS_Ret | Long_Ret - Short_Ret | 多空组合累积收益 |
 | 多空波动率 | LS_Vol | std(LS_Rett) *√n | 多空组合年化波动率 |
 | 年化多空夏普 | LS_SR | LS_Ret/LS_Vol * n | 多空组合年化夏普比率 |
 
-注： $\mathrm{LS\mathrm{\underline{{Re}}t_{t}}}.$ 为每日多空收益序列, 其中，rank_corr 为秩相关函数，计算方法为 Spearman 秩相关系数法，mean 为均值函数，std 为标准差函数，sum 为求和函数，count 为计数函数，n 为因子年化时所乘的对应周期(例如日频因子为 252，月频因子为 12等)
+注： $\mathrm{LS\_Ret_{t}}.$ 为每日多空收益序列, 其中，rank_corr 为秩相关函数，计算方法为 Spearman 秩相关系数法，mean 为均值函数，std 为标准差函数，sum 为求和函数，count 为计数函数，n 为因子年化时所乘的对应周期(例如日频因子为 252，月频因子为 12等)
 
 资料来源：信达证券研发中心
 
@@ -145,7 +145,7 @@ $X_{i,t}$ 为股票i在t时刻的因子值， $MV_{i,t}$ 为股票i在t时刻的
 
 ## t时刻的 K线计算方法：
 
-[t-1, t)时间段内所有 tick 切片，每个 tick 最后一笔成交价格是 $price_{t,i}$ ,tick 切片成交量是 $Volume_{t,i}$ 成交额 $Value_{t,i}$ 其中i是该时间段 t的第i个切片， $\mathrm{i}{=}1,2{\ldots}{}\mathrm{n}$
+[t-1, t)时间段内所有 tick 切片，每个 tick 最后一笔成交价格是 $price_{t,i}$ ,tick 切片成交量是 $Volume_{t,i}$ 成交额 $Value_{t,i}$ 其中i是该时间段 t的第i个切片， $\mathbf{i}\mathbf{=}1\mathbf{,}2\mathbf{....}\mathbf{n}$
 
 分钟线的高开低收价格分别标记为： $High_{t},Open_{t},Low_{t},Close_{t}$ 则：
 
@@ -165,7 +165,7 @@ $$
 Close_{t}=price_{t,n}
 $$
 
-分钟线的成交量和成交额： $Volume_{t},Value_{t}$
+分钟线的成交量和成交额： $Volume_{t}{,}Value_{t}$
 
 $$
 Volume_{t}=\sum_{i<t}Volume_{i}-\sum_{i<t-1}Volume_{i}
@@ -219,7 +219,7 @@ $$
 均值去预测下一个 30分钟的收益序列，例如 09：30分至 10：00的信号预测 10：00至 10：30分的收益率，因构建逻辑是一个负向指标，因此在均值前添加负号，具体因子构造如下：
 
 $$
-Reverse_{i,t}~(\stackrel{}{\underset{i\neq j}{\xleftarrow}}\stackrel{\star\ x}{\underset{i\neq j}{\xleftarrow}})~=-\frac{1}{30}\sum_{t-29}^{t}r_{i,t}
+Reverse_{i,t}\left(高炀\right)=-\frac{1}{30}\sum_{t=29}^{t}r_{i,t}
 $$
 
 其中 $r_{i,t}$ 为第 i 只股票第 t 分钟的收益率，本因子只考虑了日内每半个小时节点。考虑到隔夜信息对于开盘的冲击较大，在 30 分钟频率上的预测区间只考虑 10：00 之后的每半小时时段（因子构造从 9：30开始），该因子回测参数如下：
@@ -258,7 +258,7 @@ $$
 对于收益反转因子，也可以将其放到日度预测，在日度层面，为了保证因子的时效性，该因子预测目标为当日收盘价距下一个交易日收盘价对应的涨跌幅。为了保证因子的可行性，在计算当日收益求和时剔除 14：56~15：00时段的数据，即只对 09：30 ~ 14：55分的收益取均值。
 
 $$
-Reverse_{i,T}~({\it EJ})\dot{\vec{\mathfrak{x}}}^{}~)~=-\frac{1}{235}\sum_{t=1}^{t=235}r_{i,t,T}
+Reverse_{i,T}\ \left(刀度\right)\ =-\frac{1}{235}\sum_{t=1}^{t=235}r_{i,t,T}
 $$
 
 其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率，因只统计至 14：55分的收益，t取值范围为 1至235，该因子回测参数如下：
@@ -293,7 +293,7 @@ $$
 改进放量的正收益反转因子：
 
 $$
-\begin{array}{rl}&{Reverse\_Imp\_pos_{i,T}\big(\mathcal{H}\mathcal{A}_{x}^{\sharp}\big)}\\&{\quad=\{-\frac{\sum_{t=1}^{t=235}\boldsymbol{r}_{i,t,T}*\boldsymbol{I}_{r_{i,t,T>0}}*\boldsymbol{I}_{vol_{i,t}>vol_{wp_{i,T}}}}{\sum_{t=1}^{t=235}\boldsymbol{I}_{r_{i,t,T>0}}*\boldsymbol{I}_{vol_{i,t}>vol_{wp_{i,T}}}}if\sum_{t=1}^{t=235}\boldsymbol{I}_{r_{i,t,T>0}}*\boldsymbol{I}_{vol_{i,t}>vol_{wp_{i,T}}}\neq0}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\end{array}
+\begin{aligned}Reverse\_Imp\_pos_{i,T}\left(\textit{of}\mathcal{R}\right)\\=\left\{\begin{aligned}&-\frac{\sum_{t=1}^{t=235}r_{i,t,T}*I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}}{\sum_{t=1}^{t=235}I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}}\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}\neq0\\&NAN\quad\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}=0\end{aligned}\right.\end{aligned}
 $$
 
 其中：
@@ -303,14 +303,14 @@ vol_{up,i,T}=vol_{mean,i,T}+vol_{std,i,T}
 $$
 
 $$
-vol_{mean,i.r}=\frac{1}{235}\sum_{t=1}^{t=235}vol_{i,t,T}\ ,vol_{std,i}=\sqrt{\frac{1}{235}\sum_{t=1}^{t=235}(vol_{i,t,T}-vol_{mean,i,T})^{2}}
+vol_{mean,i.T}=\frac{1}{235}\sum_{t=1}^{t=235}vol_{i,t,T},vol_{std,i}=\sqrt{\frac{1}{235}\sum_{t=1}^{t=235}(vol_{i,t,T}-vol_{mean,i,T})^2}
 $$
 
 其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率，因只统计至 14：55分的收益，t取值范围为 1至235，放量时段 $.vol_{up,i,T}$ 定义为 T日剔除14：56 ~ 15：00时段后的分钟成交量均值加分钟成交量标准差，只统计收益大于 0 且属于放量时段的收益均值，当全天没有放量且大于 0 的收益，则从当天的样本池中剔除该股票，该因子回测参数如下：
 
 样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股（上市不足一年的股票）、停牌以及 ST或 ST*股票
 
-从表中可以看出，改进放量的正收益反转因子（ $\cdot Reverse\_Imp\_pos_{i,T})$ ）相较于原反转因子$(Reverse_{i,T})$ 在各个统计指标上均有很大改进，总体日均 Rank IC 为 0.0627，日度 ICIR 为 0.66，且分年度来看 Rank IC也没有较大起伏。中性化后的 Rank IC有所下降，但 ICIR进一步提升，因子表现得更加稳定。
+从表中可以看出，改进放量的正收益反转因子（ $Reverse\_Imp\_pos_{i,T}$ ）相较于原反转因子$(Reverse_{i,T})$ 在各个统计指标上均有很大改进，总体日均 Rank IC 为 0.0627，日度 ICIR 为 0.66，且分年度来看 Rank IC也没有较大起伏。中性化后的 Rank IC有所下降，但 ICIR进一步提升，因子表现得更加稳定。
 
 表 6：日频改进放量的正收益反转因子(Reverse_Imp_posi,T)统计
 
@@ -338,7 +338,7 @@ $$
 注：不考虑换仓时手续费的影响
 资料来源：Wind，信达证券研发中心
 
-表 7：改进放量的正收益反转因子(Reverse $Imp_{-}pos_{i,T})$ 行业市值中性化后多空统计
+表 7：改进放量的正收益反转因子(Reverse $\_Imp\_pos_{i,T})$ 行业市值中性化后多空统计
 
 | 年度 | Rank IC 胜率 | 多头年化 收益 | 空头年化 收益 | 多空年化 收益 | 多空年化 波动率 | 多空年化 夏普 | 多头日均 换手率 | 多/空头 日均持仓 | 空头日均 换手率 | 中证全指 区间收益 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -360,7 +360,7 @@ $$
 ## 改进放量的负收益动量因子：
 
 $$
-\begin{array}{rl}&{Reverse\_Imp\_neg_{i,T}\Big(\ \mathscr{H}\mathscr{H}\Big)}\\&{\quad=\left\{\begin{array}{ll}{\displaystyle\sum_{t=1}^{t=235}r_{i,t,T}*I_{r_{i,t,T<0}}*I_{vol_{i,t}>vol_{up_{i,T}}}}{if}\ \underset{t=1}{\overset{t=235}{\sum}}I_{r_{i,t,T<0}}*I_{vol_{i,t}>vol_{up_{i,T}}}\ \underset{t=1}{\overset{t=235}{\sum}}I_{vol_{i,t}>vol_{up_{i,T}}}\ \neq0\right.}\\{\displaystyle\sum_{t=1}^{t=235}I_{r_{i,t,T<0}}*I_{vol_{i,t}>vol_{up_{i,T}}}\ }&{\displaystyle\sum_{t=1}^{t=235}I_{r_{i,t,T<0}}*I_{vol_{i,t}>vol_{up_{i,T}}}\ =0}\end{array}\end{array}
+\begin{aligned}Reverse\_Imp\_neg_{.}&neg_{i,T}\left(\textit{if}\mathcal{R}\right)\\&=\left\{\begin{aligned}&\sum_{t=1}^{t=235}r_{i,t,T}*I_{r_{i,t,T<o}}*I_{vol_{i,t}>vol_{up_{i,T}}}\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T<o}}*I_{vol_{i,t}>vol_{up_{i,T}}}\neq0\\&\textit{NAN}&\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T<o}}*I_{vol_{i,t}>vol_{up_{i,T}}}=0\end{aligned}\right.\\\end{aligned}
 $$
 
 其中：
@@ -370,7 +370,7 @@ vol_{up,i,T}=vol_{mean,i,T}+vol_{std,i,T}
 $$
 
 $$
-vol_{mean,i.r}=\frac{1}{235}\sum_{t=1}^{t=235}vol_{i,t,T}\ ,vol_{std,i}=\sqrt{\frac{1}{235}\sum_{t=1}^{t=235}(vol_{i,t,T}-vol_{mean,i,T})^{2}}
+vol_{mean,i,T}=\frac{1}{235}\sum_{t=1}^{t=235}vol_{i,t,T},vol_{std,i}=\sqrt{\frac{1}{235}\sum_{t=1}^{t=235}(vol_{i,t,T}-vol_{mean,i,T})^2}
 $$
 
 其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率，因只统计至 14：55分的收益，t取值范围为 1至235，放量时段 $vol_{up,i,T}$ 定义为 T日剔除14：56 ~ 15：00时段后的分钟成交量均值加分钟成交量标准差，只统计收益大于 0 且属于放量时段的收益均值，当全天没有放量且大于 0 的收益，则从当天的样本池中剔除该股票，该因子回测参数如下：
@@ -431,11 +431,11 @@ $$
 因此我们可以构建基于分钟线的收益反转因子，首先是对高频 30 分钟的预测，即使用当前 30 分钟区间内的分钟收益标准差去预测下一个 30分钟的收益序列，例如 09：30分至 10：00的信号预测 10：30 分的时点价相对 10：00 的时点价的收益。因构建逻辑是一个负向指标，因此在波动率前添加负号，具体因子构造如下：
 
 $$
-Return\_Std_{i,t}(\stackrel{}{\underset{t=7}{}}\frac{\varkappa\overrightarrow{2}}{\varkappa\overrightarrow{2}})=-\sqrt{\frac{1}{30}\sum_{t-29}^{t}(r_{i,t}-r_{i,mean})^{2}}
+Return\_Std_{i,t}\big(高瘾\big)=-\sqrt{\frac{1}{30}\sum_{t=29}^{t}(r_{i,t}-r_{i,mean})^2}
 $$
 
 $$
-r_{i,mean}=\frac{1}{30}\sum_{t-29}^{t}r_{i,t}
+r_{i,mean}=\frac{1}{30}\sum_{t=29}^{t}r_{i,t}.
 $$
 
 其中 $r_{i,t}$ 为第 i 只股票第 t 分钟的收益率， $r_{i,mean}$ 为前 30 分钟区间的收益均值，本因子只考虑了日内每半个小时节点。考虑到隔夜信息对于开盘的冲击较大，在 30 分钟频率上的预测只考虑 10：00之后的每半小时时段，该因子回测参数如下：
@@ -446,7 +446,7 @@ $$
 
 从下表中可以看出，该因子在 30分钟的频率上效果不如收益反转因子，汇总 Rank IC为 0.0334，ICIR为 0.33。整体较为平缓。
 
-表 10：高频收益波动率因子(Return $Std_{i,t})$ 统计
+表 10：高频收益波动率因子(Return $\scriptstyle{\boldsymbol{Std}}_{i,t})$ 统计
 
 | 全市场 | 原始因子 |  | 行业市值中性化后 |  |  |
 | --- | --- | --- | --- | --- | --- |
@@ -467,18 +467,18 @@ $$
 
 下图为日内分时段的 RankIC均值，例如 10：00时的 Rank IC均值为 09：30分至 10：00的分钟收益波动率所产生的信号对于 10：00 至 10：30 分收益（10：30 分的时点价对 10：00 的时点价）的 RankIC 的每日均值。分时段来看，该因子在开盘以及尾盘时段较为有效，在盘中 11：00 分的时候波动率因子 RankIC 较低，这也比较符合 A 股的交易行为，即开盘与尾盘成交比较活跃，相比于盘中更容易造成错误定价，使得波动率因子更为有效。
 
-图 5：行业市值中性化后高频收益波动率因子(Return $Std_{i,t})$ Rank IC 分时段统计
+图 5：行业市值中性化后高频收益波动率因子(Return $\mathcal{S}td_{i,t})$ Rank IC 分时段统计
 ![](images/5f043225ddb6b85a8756c5df73d35b9403461b4d612da4d4b8635a2fbdc148ac.webp)
 资料来源：Wind，信达证券研发中心
 
 同样对于波动率因子，也可以将其放到日度预测，在日度层面，为了保证因子的时效性，该因子预测目标为当日收盘价距下一个交易日收盘价的收益。为了保证因子的可行性，在计算当日收益求和时剔除 14：56~15：00时段的数据，即只统计 09：30 ~ 14：55时段的收益波动率。
 
 $$
-Return\_Std_{i,T}\enspace\mathcal{C}{H}{\dot{X}}{\xi}{\xi}
+Return\_Std_{i,T}\ (刀度丿=-\sqrt{\frac{1}{235}\sum_{t=1}^{t=235}(r_{i,t,T}-r_{i,mean,T})^2})
 $$
 
 $$
-r_{i,mean}=\frac{1}{235}\sum_{t=1}^{t=235}r_{i,t,{\cal T}}
+r_{i,mean}=\frac{1}{235}\sum_{t=1}^{t=235}r_{i,t,T}
 $$
 
 其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率，因只统计至 14：55分的收益，t取值范围为 1至235， $r_{i,mean}$ 为剔除T日剔除 14：56~ 15：00时段后的分钟收益均值，该因子回测参数如下：
@@ -511,11 +511,11 @@ $$
 改进波动率因子：
 
 $$
-Return\_Std\_Imp_{i,T}(\textit{ \xi }|\dot{\mathcal{Z}})=-\sqrt{\sum_{r_{i,t,T}\in r_{i,volup,T}}\frac{(r_{i,t,T}-r_{i,mean,T})^{2}}{\left\|r_{i,volup,T}\right\|}}
+Return\_Std\_Imp_{i,T}(刀度)=-\sqrt{\sum_{r_{i,t,T}\in r_{i,vol_{up},T}}\frac{(r_{i,t,T}-r_{i,mean,T})^2}{\left\|r_{i,vol_{up},T}\right\|}}
 $$
 
 $$
-r_{i,vol_{up},T}=\left.r_{i,t,T}|vol_{i,t,T}\in vol_{up,i,T}\right.,r_{i,mean,T}=\frac{\sum r_{i,vol_{up},T}}{\left\|r_{i,vol_{up},T}\right\|}
+r_{i,vol_{up},T}=\left\{r_{i,t,T}|vol_{i,t,T}\in vol_{up,i,T}\right\},\quad r_{i,mean,T}=\frac{\sum r_{i,vol_{up},T}}{\left\|r_{i,vol_{up},T}\right\|},
 $$
 
 $$
@@ -523,12 +523,12 @@ vol_{up,i,T}=\left\{vol_{i,t,T}|vol_{i,t,T}>vol_{mean,i,T}+vol_{std,i,T}\right\}
 $$
 
 $$
-vol_{mean,i}=\frac{1}{235}\sum_{j=1}^{j=235}vol_{i,j}\ ,vol_{std,i}=\sqrt{\frac{1}{235}\sum_{j=1}^{j=235}(vol_{i,j}-vol_{mean,i})^{2}}
+vol_{mean,i}=\frac{1}{235}\sum_{j=1}^{j=235}vol_{i,j},vol_{std,i}=\sqrt{\frac{1}{235}\sum_{j=1}^{j=235}(vol_{i,j}-vol_{mean,i})^2}
 $$
 
-其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率， $\left\|r_{i,volup,T}\right\|$ 定义为集合 $\cdot r_{i,vol_{up},T}$ 的基数，因只统计至 14：55分的收益，t取值范围为 1至 235， $r_{i,mean}$ 为剔除 T日剔除 14：56 ~ 15：00时段后的分钟收益均值，放量时段 ${\boldsymbol{vol}}_{up,i,T}$ 定义为 T日剔除 14：56 ~ 15：00时段后的分钟成交量均值加分钟成交量标准差，当第 t分钟成交量大于分钟成交量均值加分钟成交量标准差时，将第 t分钟定义为放量时段，当全天没有放量且大于 0 的收益，则从当天的样本池中剔除该股票，该因子回测参数如下：
+其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率， $\left\|r_{i,vol_{up},T}\right\|$ 定义为集合 $\cdot r_{i,vol_{up},T}$ 的基数，因只统计至 14：55分的收益，t取值范围为 1至 235， $r_{i,mean}$ 为剔除 T日剔除 14：56 ~ 15：00时段后的分钟收益均值，放量时段 $lvol_{up,i,T}$ 定义为 T日剔除 14：56 ~ 15：00时段后的分钟成交量均值加分钟成交量标准差，当第 t分钟成交量大于分钟成交量均值加分钟成交量标准差时，将第 t分钟定义为放量时段，当全天没有放量且大于 0 的收益，则从当天的样本池中剔除该股票，该因子回测参数如下：
 
-样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST 或 $S\mathrm{T^{*}}$ 股票
+样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST 或 $S\Gamma^{*}$ 股票
 
 从表中可以看出，同样地，改进后的波动率因子在各个统计指标上均有很大改进，总体日均 RankIC 为 0.0679，日度 ICIR 为 0.6，且分年度来看 Rank IC 也没有较大起伏。中性化后的 Rank IC 有所下降，但 ICIR进一步提升，因子表现得更加稳定。
 
@@ -579,17 +579,17 @@ $$
 
 ## 2.3 尾盘成交额占比因子
 
-由于 A股的 $_{\mathrm{T}+1}$ 机制，通常开盘和尾盘的成交量较大，相较于盘中蕴含额外的信息，因此，从尾盘的角度可以定义一个尾盘成交额因子。
+由于 A股的 $\mathrm{T}{+}1$ 机制，通常开盘和尾盘的成交量较大，相较于盘中蕴含额外的信息，因此，从尾盘的角度可以定义一个尾盘成交额因子。
 
 尾盘成交额因子：
 
 $$
-TTV_{-}Ratio_{i,T}=-\frac{\sum_{t=210}^{t=235}ttv_{i,t,T}}{FloatMV_{T-1}}
+TTV_{\_}Ratio_{i,T}=-\frac{\sum_{t=210}^{t=235}ttv_{i,t,T}}{FloadW_{T-1}}
 $$
 
 $ttv_{i,t,T}$ 为个股在 T日第 t分钟的成交额，该因子截取剔除尾盘 5分钟后半小时的成交额（14：55 ~15：00），因此 t 的取值为 210 至 235， $FloatMV_{T-1}$ 为 T-1日的流通市值。该因子回测参数如下：
 
-样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST或 $S\mathrm{T^{*}}$ 股票
+样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST或 $S\Gamma^{*}$ 股票
 
 从表中可以看出，中性化后的尾盘成交额因子 Rank IC 为 0.0564，ICIR 为 0.49，因子仅在 2015 年表现一般，其余年份较为稳定。
 
@@ -640,33 +640,33 @@ $ttv_{i,t,T}$ 为个股在 T日第 t分钟的成交额，该因子截取剔除�
 
 ## 3. 基于高频数据的日度调仓多因子策略
 
-多因子选股模型中最基础的一步便是考察因子间的相关性。为了简便考虑，将改进的放量正收益反转因子简称为 $a_{rev\_pos}$ ，改进的放量负收益动量因子简称为 $a_{rev\_neg}$ ，改进收益波动率因子简称为 $a_{std}$ ，尾盘成交额占比因子简称为 $a_{ttv}$ ，并从日度的频率上考察因子间的相关性。从表中可以看出 $a_{rev\_pos\setminus}\ a_{std}\not\Psi^{\sigma}a_{rev\_neg}$ 在全回测区间一直保持较高的相关性，但与 $a_{ttv}$ 相关性则较低。该结果也比较直观，因为 $a_{rev\_pos\setminus}\ a_{rev\_neg}\dot{\not\mathcal{H}}\overset{}{\underset{}{\ =}}a_{std}$ 均是从收益数据方面的改进， $a_{ttv}$ 与前三个因子使用了不同的数据源。
+多因子选股模型中最基础的一步便是考察因子间的相关性。为了简便考虑，将改进的放量正收益反转因子简称为 $a_{rev\_pos}$ ，改进的放量负收益动量因子简称为 $a_{rev\_neg}$ ，改进收益波动率因子简称为 $a_{std}$ ，尾盘成交额占比因子简称为 $a_{ttv}$ ，并从日度的频率上考察因子间的相关性。从表中可以看出 $a_{rev\_pos}、a_{std}和a_{rev\_neg}$ 在全回测区间一直保持较高的相关性，但与 $a_{ttv}$ 相关性则较低。该结果也比较直观，因为 $a_{rev\_pos}、a_{rev\_neg}和a_{std}$ 均是从收益数据方面的改进， $a_{ttv}$ 与前三个因子使用了不同的数据源。
 
 表 16：因子间截面上的相关性全区间均值
 
-|  | $a_{rev\_pos}$ | $\underline{{a_{rev\_neg}}}$ | $\underline{{a_{std}}}$ | $\underline{{a_{ttv}}}$ |
+|  | $a_{rev\_pos}$ | $\|a_{rev\_neg}\|$ | $\|a_{std}\|$ | $\|a_{ttv}\|$ |
 | --- | --- | --- | --- | --- |
 | $a_{rev\_pos}$ | 1.00 | 0.60 | 0.86 | 0.31 |
 | $a_{rev\_neg}$ | 0.60 | 1.00 | 0.77 | 0.28 |
 | $a_{std}$ | 0.86 | 0.77 | 1.00 | 0.38 |
-| $\underline{{a_{ttv}}}$ | 0.31 | 0.28 | 0.38 | 1.00 |
+| $\|a_{ttv}\|$ | 0.31 | 0.28 | 0.38 | 1.00 |
 
 注：因子回测区间为 2013/01/01~2022/02/28
 资料来源：Wind，信达证券研发中心
 
-## 3.1 剔除因子 $\mathbf{\Delta}_{a_{rev\_pos}}$ 和 $\mathbf{\mu}_{a_{rev\_neg}}$ 后的等权结合
+## 3.1 剔除因子 $\boldsymbol{a}_{rev\_pos}$ 和 $\boldsymbol{a}_{rev\_neg}$ 后的等权结合
 
-考虑到 ${\mathbf{a}}_{rev\_pos\setminus}\ {\mathbf{a}}_{rev\_neg}\mathcal{\vec{F}}^{\varpi}{a}_{std}$ 之间较高的相关性，为避免较高的相关性带来的同质性风险，将 $\mathbf{\Pi}_{a_{std}}$ 和 $\mathbf{\Pi}^{\prime}a_{ttv}$ 进行等权结合。
+考虑到 $a_{rev\_pos}、a_{rev\_neg}和a_{std}$ 之间较高的相关性，为避免较高的相关性带来的同质性风险，将 $\cdot a_{std}$ 和 ${}^{t}a_{ttv}$ 进行等权结合。
 
 $$
 a_{equal\_weighted}=\frac{1}{2}*a_{std}+\frac{1}{2}*a_{ttv}
 $$
 
-具体做法为将中性化后的 $a_{std}\mathcal{\dot{\mathrm{\pi}}}a_{ttv}$ 等权相加，若由于数据等原因造成 $a_{std}$ 和 $\mathbf{\boldsymbol{a}}_{ttv}$ 中任意一方的值缺失，结合后仍保持值缺失。结合后再对因子值作标准化、去极值、中性化等一系列操作。
+具体做法为将中性化后的 $a_{std}和a_{ttv}$ 等权相加，若由于数据等原因造成 $a_{std}$ 和 ${}^{\prime}a_{ttv}$ 中任意一方的值缺失，结合后仍保持值缺失。结合后再对因子值作标准化、去极值、中性化等一系列操作。
 
 从表中可以看出，等权结合后的因子相较于原始因子在各个统计指标上均有所改进，中性化后的等权组合因子全区间 Rank IC 可达 0.069，ICIR 为 0.59，在各个年度因子表现均较为稳定。
 
-表 17：等权组合因子 $({\pmb{a}}_{equal\_weighted})$ 因子统计
+表 17：等权组合因子 $\langle a_{equal\_weighted}\rangle$ 因子统计
 
 | 全市场 | 原始因子 |  | 行业市值中性化后 |  |
 | --- | --- | --- | --- | --- |
@@ -685,7 +685,7 @@ $$
 
 资料来源：Wind，信达证券研发中心
 
-表 18：等权组合因子 $({\pmb{a}}_{equal\_weighted})$ 行业市值中性化后多空统计
+表 18：等权组合因子 $\langle a_{equal\_weighted}\rangle$ 行业市值中性化后多空统计
 
 | 年度 | Rank IC 胜率 | 多头年化 收益 | 空头年化 收益 | 多空年化 收益 | 多空年化 波动率 | 多空年化 夏普 | 多头日均 换手率 | 多/空头 日均持仓 | 空头日均 换手率 | 中证全指 区间收益 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -706,11 +706,11 @@ $$
 
 将每日收益根据上一期因子值从大到小进行排序，排序后分 10组后每组取均值后在时序上取累积，仅从累积收益角度衡量组合因子的效用。从图中可以看出，组合后的因子第一组和空头端的分组较为明显，因此，可以尝试根据第一组的信号构建纯多头等权组合。
 
-图 8：等权组合因子 $({\pmb{a}}_{equal\_weighted})$ 行业市值中性化后分层后每组净值
+图 8：等权组合因子 $\langle a_{equal\_weighted}\rangle$ 行业市值中性化后分层后每组净值
 ![](images/9f80b697667a85e9138aa76266f193f17ea8652cca528f6fde74dba26fb8198e.webp)
 资料来源：Wind，信达证券研发中心
 
-图 9：等权组合因子 $({\pmb{a}}_{equal\_weighted})$ 行业市值中性化后分层后每组年化收益
+图 9：等权组合因子 $\langle a_{equal\_weighted}\rangle$ 行业市值中性化后分层后每组年化收益
 ![](images/8f0351fc28cd7e6a8818d620048f94ec00e89e95bd491eea9598313caa38aa96.webp)
 资料来源：Wind，信达证券研发中心
 
@@ -718,7 +718,7 @@ $$
 
 为了进一步验证费率对收益率的影响，根据因子值排序，取前 p %，费率设置为双边 f%每日调仓，指数设置为中证全指(000985)，从多头组分析超额以及费率敏感性。从表中可以看出，等权因子组合对费率较为敏感，在费率设置为 0.08%时相对于中证全指仍有超额，由于较高的换手率导致收益覆盖不了更高的费率。
 
-表 19：等权组合因子 $({\pmb{a}}_{equal\_weighted})$ 多头组相对于中证全指累积净值
+表 19：等权组合因子 $\langle a_{equal\_weighted}\rangle$ 多头组相对于中证全指累积净值
 
 | p/f | 0.00% | 0.05% | 0.06% | 0.08% | 0.10% | 0.15% |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -734,17 +734,17 @@ $$
 
 ## 3.2相关性加权
 
-考虑到 ${\mathbf{a}}_{rev\_pos\setminus}\ {\mathbf{a}}_{rev\_neg}\mathcal{\vec{F}}{\ v{\sigma}}a_{std}$ 之间较高的正相关性，为避免较高的相关性带来的同质性风险，采用相关性加权的方法，具体做法为：
+考虑到 $a_{rev\_pos}、a_{rev\_neg}和a_{std}$ 之间较高的正相关性，为避免较高的相关性带来的同质性风险，采用相关性加权的方法，具体做法为：
 
 计算每一期的因子暴露及其相关性，加权后的因子值为：
 
 $$
-\begin{array}{rl}{a_{corr_{-}weighted}=\frac{\left|corr_{std*ttv,t}\right|}{\left|corr_{rev,pos*std,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|}*a_{rev,pos,t}}&{}\\{\left|corr_{rev,pos*ttv,t}\right|}&{}\\{+\frac{\left|corr_{rev,pos*ttv,t}\right|}{\left|corr_{rev,pos*std,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|corr_{std*tv,t}\right|}*a_{std,t}}&{}\\{\left|corr_{rev,pos*std,t}\right|+\frac{\left|corr_{rev,pos*std,t}\right|}{\left|corr_{rev,pos*std,t}\right|+\left|corr_{rev,pos*ttv,t}\right|}*a_{ttv,t}}&{}\end{array}
+\begin{aligned}a_{corr_{-}weighted}=&\frac{\left|corr_{std*ttv,t}\right|}{\left|corr_{rev,pos*std,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|*a_{rev,pos,t}}\\+&\frac{\left|corr_{rev,pos*ttv,t}\right|}{\left|corr_{rev,pos*td,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|*a_{std,t}}\\+&\frac{\left|corr_{rev,pos*td,t}\right|}{\left|corr_{rev,pos*td,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|color_{std*ttv,t}\right|*a_{ttv,t}}\end{aligned}
 $$
 
-$corr_{x_{-}y,t}$ 为 t日因子 x和因子 y之间的相关性， $a_{z,t}$ 是中性化后的因子 $\mathbf{Z}\circ$ 对加权后的因子再作去极值、标准化以及中性化等一系列操作。从表中可以看出，相较于等权因子组合，相关性加权因子组合在各个统计指标上均有所提升，行业市值中性化后全区间 Rank IC 可达 7.18%，ICIR 为 0.67。
+$corr_{x\_y,t}$ 为 t日因子 x和因子 y之间的相关性， $a_{z,t}$ 是中性化后的因子 $\mathbf{Z}\circ$ 对加权后的因子再作去极值、标准化以及中性化等一系列操作。从表中可以看出，相较于等权因子组合，相关性加权因子组合在各个统计指标上均有所提升，行业市值中性化后全区间 Rank IC 可达 7.18%，ICIR 为 0.67。
 
-表 20：相关性加权组合因子 $({\pmb{a}}_{corr\ "{weighted}})$ 统计
+表 20：相关性加权组合因子 $(a_{corr\_weighted})$ 统计
 
 | 全市场 | 原始因子 |  | 行业市值中性化后 |  |
 | --- | --- | --- | --- | --- |
@@ -763,7 +763,7 @@ $corr_{x_{-}y,t}$ 为 t日因子 x和因子 y之间的相关性， $a_{z,t}$ 是
 
 资料来源：Wind，信达证券研发中心
 
-表 21：相关性加权组合因子 $({\pmb{a}}_{corr\ "{weighted}})$ 行业市值中性化后多空统计
+表 21：相关性加权组合因子 $(a_{corr\_weighted})$ 行业市值中性化后多空统计
 
 | 年度 | Rank IC 胜率 | 多头年化 收益 | 空头年化 收益 | 多空年化 收益 | 多空年化 波动率 | 多空年化 夏普 | 多头日均 换手率 | 多/空头 日均持仓 | 空头日均 换手率 | 中证全指 区间收益 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -783,11 +783,11 @@ $corr_{x_{-}y,t}$ 为 t日因子 x和因子 y之间的相关性， $a_{z,t}$ 是
 
 将每日收益根据上一期因子值从大到小进行排序，排序后分 10组后每组取均值后在时序上取累积，仅从累积收益角度衡量组合因子的效用。从图中可以看出，组合后的因子分组较为明显，相比于等权结合的因子，相关性加权因子多头组有更高的净值，并且第 1组至第 10组的分层具有明显单调性。
 
-图 10：相关性加权组合因子 $({\bf{\it{a}}}_{corr\_weighted})$ 行业市值中性化后分层净值
+图 10：相关性加权组合因子 $(a_{corr\_weighted})$ 行业市值中性化后分层净值
 ![](images/42457ca54f048bfeb76cb8559e1edd064e5f5cbbb022cd35972aac1497427660.webp)
 资料来源：Wind，信达证券研发中心
 
-图 11：相关性加权组合因子 $({a_{corr}}_{weighted})$ 行业市值中性化后分层后每组年化收益
+图 11：相关性加权组合因子 $\langle a_{corr\_weighted}\rangle$ 行业市值中性化后分层后每组年化收益
 ![](images/8c9b0bd5c9bad0b764d94991fe31cdf64ac01cfa253c60b2360d16bc8c99be20.webp)
 资料来源：Wind，信达证券研发中心
 
@@ -795,7 +795,7 @@ $corr_{x_{-}y,t}$ 为 t日因子 x和因子 y之间的相关性， $a_{z,t}$ 是
 
 为了进一步验证费率对收益率的影响，根据因子值排序，取前 p %，费率设置为双边 f%每日调仓，指数设置为中证全指(000985)，从多头组分析超额以及费率敏感性。从表中可以看出，相关性加权因子组合对费率仍较为敏感， 相较于等权组合因子超额有所改进，同样在手续费双边 0.08%时有超额但覆盖不了更高的费率。
 
-表 22：相关性加权组合多头组 $({a_{corr}}_{weighted})$ 累积超额
+表 22：相关性加权组合多头组 $\langle a_{corr\_weighted}\rangle$ 累积超额
 
 | p/f | 0.00% | 0.05% | 0.06% | 0.08% | 0.10% | 0.15% |
 | --- | --- | --- | --- | --- | --- | --- |

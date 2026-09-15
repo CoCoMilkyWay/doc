@@ -59,10 +59,10 @@ wangxingxing@orientsec.com.cn
 我们利用股票每日的 5 分钟线回归如下的方程：
 
 $$
-\begin{array}{c}{return_{i}=gamma^{up}\cdot I_{i}\cdot MF_{i}+gamma^{down}\cdot(1-I_{i})\cdot MF_{i}}\\{MF_{i}=MoneyFlow_{i}/Amount_{i}}\end{array}\tag{1}
+\begin{aligned}return_{i}=gamma^{up}\cdot I_{i}\cdot MF_{i}+gamma^{down}\cdot(1-I_{i})\cdot MF_{i}\\MF_{i}=MoneyFlow_{i}/Amount_{i}\end{aligned}\tag{1}
 $$
 
-其中， $return_{i}$ 为第 i 个5 分钟线的收益率， $MoneyFlow_{i}$ 为第 i 个 5 分钟内的主动净流入金额（正值为净流入， $\Re$ 值为净流出）， $Amount_{i}$ 为第 i 个 5 分钟内的成交金额， $MF_{i}$ 为主动净买入占比， $I_{i}$ 为示性函数，当 $MF_{i}$ 大 $\mp0$ 时取1，否则取 0。
+其中， $return_{i}$ 为第 i 个5 分钟线的收益率， $MoneyFlow_{i}$ 为第 i 个 5 分钟内的主动净流入金额（正值为净流入， $负$ 值为净流出）， $Amount_{i}$ 为第 i 个 5 分钟内的成交金额， $MF_{i}$ 为主动净买入占比， $I_{i}$ 为示性函数，当 $MF_{i}$ 大 $于0$ 时取1，否则取 0。
 
 本文主要想考察相同比例的主动净买入和主动净卖出对股价冲击带来的差异，所以上述回归方程（1）可以做如下变形：
 
@@ -76,9 +76,9 @@ $$
 gammabias=\frac{gamma^{up}-gamma^{down}}{S_{gamma^{up}-gamma^{down}}}
 $$
 
-其中， $S_{gamma^{up}-gamma^{down}}\not\exists\not{g}amma^{up}-gamma^{down}\not\parallel\not{\perp}\not{\perp}\not{\perp}+\not{\parallel}_{\not{\perp}}^{-}\not{\perp}\not{\perp}\not{\perp}\not{\perp}\not{\perp}\not{\perp}\not{\perp}$ 。
+其中， $S_{gamma^{up}-gamma^{down}}为gamma^{up}-gamma^{down}的估计标准差$ 。
 
-从以上分析和定义可知，某股票在特定交易日的价格冲击偏差（gammbias）等于用该交易日的 5 分钟收益率对序列 $MF_{i}$ 和 $|I_{i}\cdot MF_{i}.$ 序列回归时的 $|I_{i}\cdot MF_{i}$ 系数项的 t值，考虑到成交额较大的 5分钟线蕴含的信息量相对更大，成交额较小的 5 分钟线随机性更大，所以我们采用了以成交额作为权重的加权最小二乘回归。
+从以上分析和定义可知，某股票在特定交易日的价格冲击偏差（gammbias）等于用该交易日的 5 分钟收益率对序列 $MF_{i}$ 和 $|I_{i}\cdot MF_{i},$ 序列回归时的 $|I_{i}\cdot MF_{i}$ 系数项的 t值，考虑到成交额较大的 5分钟线蕴含的信息量相对更大，成交额较小的 5 分钟线随机性更大，所以我们采用了以成交额作为权重的加权最小二乘回归。
 
 价格冲击弹性（gammabias）在一定程度上表征了股票在某一时间区间上涨或者下跌的难易程度，价格冲击弹性较大（正值）的股票，相同比例的主动订单对其股价向下的冲击小于向上的冲击，股票容易上涨，价格冲击弹性较小（负值）的股票，相同比例的主动订单对其股价向上的冲击小于向下的冲击，股票容易下跌。
 

@@ -78,43 +78,43 @@ A股涨跌幅排行榜效应 2018-11-20
 
 几乎所有的交易行为都会反映在股票的价和量上，交易行为的特征也即价和量的特征，我们基于日内 5 分钟线计算了每只股票在每个交易日的日内涨跌幅和成交量的统计特征，然后再考察个股的这些日内特征在时间序列的稳定性。
 
-在每只股票的每个交易日，日内的 48个 K线对应着 48个 5分钟收益率（不考虑开盘价相对昨日收盘的跳开），利用这48个收益率我们分别计算股票i在交易t的日内收益率的波动率 $RVOL_{i,t}$ 偏度 $RSKEW_{i,t}$ 和峰度 $RKURT_{i,t}$
+在每只股票的每个交易日，日内的 48个 K线对应着 48个 5分钟收益率（不考虑开盘价相对昨日收盘的跳开），利用这48个收益率我们分别计算股票i在交易t的日内收益率的波动率 $RVOL_{i,t}$ 偏度 $RSKEW_{i,t}$ 和峰度 $[RKURT_{i,t}$
 
 日内收益率的波动：
 
 $$
-RVOL_{i,t}=\sqrt{\frac{1}{K}{\sum_{k=1}^{K=48}(r_{k}-\bar{r})^{2}}}
+RVOL_{i,t}=\sqrt{\frac{1}{K}{\sum}_{k=1}^{K=48}(r_{k}-\bar{r})^{2}}
 $$
 
 日内收益率的偏度：
 
 $$
-RSKEW_{i,t}=\frac{\frac{1}{K}{\sum_{k=1}^{K=48}({r_{k}-\bar{r}})^{3}}}{{RVOL_{i,t}}^{3}}
+RSKEW_{i,t}=\frac{\frac{1}{K}\sum_{k=1}^{K=48}(r_{k}-\bar{r})^{3}}{RVOL_{i,t}^{3}}
 $$
 
 日内收益率的峰度：
 
 $$
-RKURT_{i,t}=\frac{\frac{1}{K}{\sum_{k=1}^{K=48}({r_{k}-\bar{r}})^{4}}}{{RVOL_{i,t}}^{4}}
+RKURT_{i,t}=\frac{\frac{1}{K}{\sum_{k=1}^{K=48}(r_{k}-\bar{r})^{4}}}{RVOL_{i,t}^{4}}
 $$
 
 其中， $r_{k}$ 表示股票 i 在交易日 t 的第 k 个 5 分钟收益率，r̅表示 $r_{k}$ 的样本均值，为表达简洁，均省略下标 i 和 t。
 
-类似的，我们也可以计算日内5分钟成交量的波动率 $\mathit{VVOL}_{i,t}$ 、偏度 $VSKEW_{i,t}$ 和峰度 $VKURT_{i,t}$ 除此之外我们还通过赫芬达尔—赫希曼指数(Herfindahl-Hirschman Index，简称 HHI）考察了日内成交量在不同交易时间分布的离散程度，股票 i在交易日 t的 HHI指数定义如下：
+类似的，我们也可以计算日内5分钟成交量的波动率 ${1VVOL}_{i,t}$ 、偏度 $VSKEW_{i,t}$ 和峰度 $VKURT_{i,t}$ 除此之外我们还通过赫芬达尔—赫希曼指数(Herfindahl-Hirschman Index，简称 HHI）考察了日内成交量在不同交易时间分布的离散程度，股票 i在交易日 t的 HHI指数定义如下：
 
 $$
-VHHI_{i,t}=\sum_{k=1}^{K=48}\left(\frac{v_{k}}{\sum_{k=1}^{K=48}v_{k}}\right)^{2}
+VHHI_{i,t}=et{}{_{k=1}^{K=48}}\sum_{k=1}^{K=48}\left(\frac{v_{k}}{\sum_{k=1}^{K=48}v_{k}}\right)^{2}
 $$
 
 其中， $v_{k}$ 表示股票 i 在交易日 t 的第 k 个 5 分钟成交量。
 
-上面我们定义了 7个日内交易特征（3个与日内涨跌幅有关、4个与日内成交量有关），考虑到股票的日内统计特征或多或少都存在时间序列上的自相关性，我们采用 Newey West 调整后的标准差度量股票在过去一段时间内的稳定性，另外由于日内涨跌幅的波动率 $RVOL_{i,t}$ 和成交量的波动率 $VVOL_{i,t}$ 、两个股票日内特征受数据量纲影响，因此我们采用其均值对时间序列波动进行调整，即
+上面我们定义了 7个日内交易特征（3个与日内涨跌幅有关、4个与日内成交量有关），考虑到股票的日内统计特征或多或少都存在时间序列上的自相关性，我们采用 Newey West 调整后的标准差度量股票在过去一段时间内的稳定性，另外由于日内涨跌幅的波动率 $.RVOL_{i,t}$ 和成交量的波动率 $VVOL_{i,t}$ 、两个股票日内特征受数据量纲影响，因此我们采用其均值对时间序列波动进行调整，即
 
 $$
-\begin{array}{r}{{SDRVOL}_{i,t}=\sigma^{NW}\big(RVOL_{i,t}\big)/\mu\big(RVOL_{i,t}\big)}\\{\big)}\\{{SDVVOL}_{i,t}=\sigma^{NW}\big(VVOL_{i,t}\big)/\mu\big(VVOL_{i,t}\big)}\end{array}
+\begin{aligned}&SDRVOL_{i,t}=\sigma^{WW}\big(RVOL_{i,t}\big)/\mu\big(RVOL_{i,t}\big)\\&SDVVOL_{i,t}=\sigma^{WW}\big(VVOL_{i,t}\big)/\mu\big(VVOL_{i,t}\big)\\\end{aligned}
 $$
 
-而其他几个特征与量纲无关，可以直接取时间序列上的 Newey West 标准差作为相应的稳定性度量 $\underline{{\bar{s}}}DRSKEW_{i,t}$ 、 $SDRKURT_{i,t}$ 、SDVSKE $W_{i,t}$ $SDVKURT_{i,t}$ 、 $SDVHHI_{i,t}$ 。本文默认以过去一个月的日内交易特征计算 Newey West 标准差，但考虑到不同投资者的需求，我们也计算了不同计算周期下的因子选股表现。
+而其他几个特征与量纲无关，可以直接取时间序列上的 Newey West 标准差作为相应的稳定性度量 $\underline{{\underline{{1}}}}SDRSKEW_{i,t}$ 、 $SDRKURT_{i,t}$ 、SDVSKE $W_{i,t}$ $SDVKURT_{i,t}$ 、 $SDVHHI_{i,t}$ 。本文默认以过去一个月的日内交易特征计算 Newey West 标准差，但考虑到不同投资者的需求，我们也计算了不同计算周期下的因子选股表现。
 
 关于日内交易特征的度量有两个缺陷在这里需要说明：
 

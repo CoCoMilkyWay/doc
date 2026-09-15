@@ -144,14 +144,14 @@ hekang@htsc.com
 
 注意力机制(Attention)是当前深度学习领域常用的技术。当时序网络 GRU 接收的序列过长时，可能会出现信息“遗忘”的问题，此时对 GRU 的输出序列计算注意力可帮助模型更好地记忆长程序列信息。
 
-假设GRU 模型输出长度为 M 的特征序列 $z_{i}$ ，则针对 $z_{i}$ 的注意力计算过程如下。
+假设GRU 模型输出长度为 M 的特征序列 $z_{i}$ ，则针对 $\dot{\boldsymbol{z}}_{i}$ 的注意力计算过程如下。
 
 $$
-\begin{array}{c}{{u_{i}=tanh(W_{w}z_{i}+b_{w})}}\\{{{}}}\\{{\gamma_{i}=\displaystyle\frac{exp(u_{i})}{\sum_{j=1}^{M}exp(u_{j})}}}\end{array}
+\begin{aligned}u_{i}&=tanh(W_{w}z_{i}+b_{w})\\&\gamma_{i}=\frac{exp(u_{i})}{\sum_{j=1}^{M}exp(u_{j})}\end{aligned}
 $$
 
 $$
-o=\sum_{i=1}^{M}\gamma_{i}z_{i}
+\rho=\sum_{i=1}^{M}\gamma_{i}z_{i},
 $$
 
 模型的具体细节如下方图表所示，我们参考微软 qlib(https://github.com/microsoft/qlib)中ALSTM 模型的相关代码来实现。

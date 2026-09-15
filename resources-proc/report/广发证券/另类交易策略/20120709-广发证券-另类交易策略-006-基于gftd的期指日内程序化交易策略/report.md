@@ -16,7 +16,7 @@ eMail：ann@gf.com.cn
 
 ## GFTD模型及其止损机制
 
-买入信号的发出需2 个条件：买入启动完成及买入计数达到一定值，何谓买入启动，即连续 $n_{2}$ 个K线，每个K线比 $T_{-n_{1}}$ 根K线的收盘价低，买入启动完成后进入计数阶段，在任意K 线位置上同时满足A 收盘价大于或等于之前第 2根K线最高价；B 最高价大于之前第1根K 线的最高价；C 收盘价大于之前第1个计数的收盘价，三个条件则计数加1，当买入计数为 $n_{3}$ 时发出买入信号，买入信号发出之前若形成新的买入启动则重新开始计数，卖出信号类似之。可见模型有三个参数，分别为 n1、n2、n3。
+买入信号的发出需2 个条件：买入启动完成及买入计数达到一定值，何谓买入启动，即连续 $n_{2}$ 个K线，每个K线比 $T{\boldsymbol{-}}n_{1}$ 根K线的收盘价低，买入启动完成后进入计数阶段，在任意K 线位置上同时满足A 收盘价大于或等于之前第 2根K线最高价；B 最高价大于之前第1根K 线的最高价；C 收盘价大于之前第1个计数的收盘价，三个条件则计数加1，当买入计数为 $n_{3}$ 时发出买入信号，买入信号发出之前若形成新的买入启动则重新开始计数，卖出信号类似之。可见模型有三个参数，分别为 n1、n2、n3。
 
 止损方面，若为买入信号，则止损点为买入信号形成过程中市场形成的最低点，若为卖出信号，则止损点为卖出信号形成过程中市场形成的最高点。
 
@@ -51,14 +51,14 @@ GFTD是广发TD的简称，我们在2010年7月15日发表了题为《基于修�
 记 $c_{1},c_{2},\cdots,c_{n}$ 为某一股票日K 线的收盘价序列， $h_{1},h_{2},\cdots,h_{n}$ 为 K线的最高价序列， $l_{1},l_{2},\cdots,l_{n}$ 为K线的最低价序列， $n_{1}$ 为模型买入启动或卖出启动形态形成时的价格比较滞后期数， $n_{2}$ 为模型买入启动或卖出启动形态形成的价格关系单向连续个数，$n_{3}$ 为模型计数阶段的最终信号发出所需的计数值。
 
 $$
-ud_{i}=\left\{\begin{array}{ll}{1,\ }&{if\ c_{i}>c_{i-n_{1}}}\\{-1,}&{if\ c_{i}<c_{i-n_{1}}}\\{0,}&{else}\end{array}\right.
+ud_{_{i}}=\left\{\begin{aligned}&1,&&if\quad c_{_{i}}>c_{_{i-n_{_{1}}}}\\&-1,&&if\quad c_{_{i}}<c_{_{i-n_{_{1}}}}\\&0,&&else\end{aligned}\right.
 $$
 
-其中， $ud_{i}$ 为第i根K线的价格关系比较结果，当收盘价大于 $T-n_{\scriptscriptstyle1}$ 日收盘价时取值为 1，小于 $T-n_{\scriptscriptstyle1}$ 日收盘价时取值为-1，否则为0。
+其中， $ud_{i}$ 为第i根K线的价格关系比较结果，当收盘价大于 $T-n_{\mathrm{i}}$ 日收盘价时取值为 1，小于 $T-n_{\mathrm{i}}$ 日收盘价时取值为-1，否则为0。
 
 模型信号计算步骤：
 
-（1） 计算 $ud_{i},i=1,2,\cdots,n.$
+（1） 计算 $ud_{i},i=1,2,\cdots,n$
 
 （2） 对 $ud_{i}$ 进行累加计算，且当其值与上一个值不等时，停止本次累加。
 
@@ -133,11 +133,11 @@ $$
 记 $F_{1}$ 为开仓成交价， $F_{2}$ 为平仓成交价，c为单边手续费率，I 为单边冲击成本，M为杠杆倍数，则单次交易收益率为
 
 $$
-r_{long}=\left[\frac{\big(F_{2}-I\big)\times\big(1-c\big)-\big(F_{1}+I\big)\times\big(1+c\big)}{\big(F_{1}+I\big)\times\big(1+c\big)}\right]\times M
+r_{long}=\left[\frac{(F_2-I)\times(1-c)-(F_1+I)\times(1+c)}{(F_1+I)\times(1+c)}\right]\times M
 $$
 
 $$
-r_{short}=\left[\frac{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1-c\big)-\big(F_{\scriptscriptstyle2}+I\big)\times\big(1+c\big)}{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1+c\big)}\right]\times M
+r_{shot}=\left[\frac{\left(F_1-I\right)\times(1-c)-\left(F_2+I\right)\times(1+c)}{\left(F_1-I\right)\times(1+c)}\right]\times M
 $$
 
 此处模拟交易相关设定为：

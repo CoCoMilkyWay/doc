@@ -115,7 +115,7 @@ MID=\frac{P_{1}^{b}+P_{1}^{a}}{2}
 $$
 
 $$
-\begin{array}{r}{WP^{n_{1}-n_{2}}=\frac{\sum_{j=n_{1}}^{n_{2}}Q_{j}^{b}P_{j}^{b}+Q_{j}^{a}P_{j}^{a}}{\sum_{j=n_{1}}^{n_{2}}(Q_{j}^{b}+Q_{j}^{a})},n_{1}<n_{2}}\end{array}
+\begin{array}{r}{WP^{n_{1}-n_{2}}=\frac{\sum_{j=n_{1}}^{n_{2}}Q_{j}^{b}P_{j}^{b}+Q_{j}^{a}P_{j}^{a}}{\sum_{j=n_{1}}^{n_{2}}(Q_{j}^{b}+Q_{j}^{a})},\quad n_{1}<n_{2}}\end{array}
 $$
 
 还有一个是LP(LastPrice)，行情数据已经提供。
@@ -139,42 +139,42 @@ ISA来源于向量误差修正模型(VECM),改模型认为，如果两个或两�
 向量误差修正（VECM）模型：
 
 $$
-\begin{array}{r}{\stackrel{\triangledown}{\nabla}_{t}=\alpha\beta\stackrel{\cdot}{Y}_{t-1}+et{}{'}{\sum}_{j-1}^{k}\Phi\stackrel{\triangledown}{_{j}}\stackrel{\triangledown}{Y}_{t-j}+\varepsilon_{t}}\end{array}
+\mathrm{二}_{Y_{t}}=\alpha\beta^{'}Y_{_{t-1}}+\sum^{^{k}}{_{j-1}\Phi}_{j}^{\mathrm{~口}}Y_{_{t-j}}+\varepsilon_{_{t}}
 $$
 
-其中 $Z=\beta^{'}Y_{t-1}$ 为误差修正量，α是误差修正量， $\alpha\beta\stackrel{\cdot}{Y}_{t-1}$ 表示价格的长期均衡关系，$\sum_{j-1}^{k}\Phi_{j}\stackrel{\prod}{Y}_{t-j}$ 表示价格的短期动态关系， ${\varepsilon}_{t}$ 为随机扰动项，均值为0，序列不相关，协方差矩阵：
+其中 $Z\;=\;\beta\stackrel{\cdot}{Y}_{_{t-1}}$ 为误差修正量，α是误差修正量， $\alpha\beta\stackrel{\cdot}{Y}_{{}_{t-1}}$ 表示价格的长期均衡关系，$\sum_{\mathbf{\Lambda}_{j-1}}^{\mathbf{\Lambda}_{k}}\Phi_{\mathbf{\Lambda}_{j}}^{\mathbf{\Lambda}_{\mathbf{\Lambda}_{\mathbf{\Lambda}_{j}}}}Y_{\mathbf{\Lambda}_{t-\mathbf{\Lambda}_{j}}}$ 表示价格的短期动态关系， $\varepsilon_{_t}$ 为随机扰动项，均值为0，序列不相关，协方差矩阵：
 
 $$
-\Omega=\left(\begin{array}{cc}{{\sigma_{_1}^{^2}}}&{{\rho\sigma_{_1}\sigma_{_2}}}\\{{}}&{{}}\\{{\cup\sigma_{_1}\sigma_{_2}}}&{{\sigma_{_2}^{^2}}}\end{array}\right)
+\Omega=\left(\begin{array}{cc}\sigma_{1}^{2}&\rho\sigma_{1}\sigma_{2}\\\rho\sigma_{1}\sigma_{2}&\sigma_{2}^{2}\\\end{array}\right)
 $$
 
-$\sigma_{1}^{^2}$ $\sigma_{\mathrm{~2~}}^{2}$ 为新信息 ${\varepsilon}_{1t}$ $\mathcal{E}_{2t}$ 的方程， $\rho$ 为相关系数。
+${\sigma}_{\mathrm{~l~}}^{\mathrm{~2~}}$ $\sigma_{\mathrm{~2~}}^{\mathrm{~2~}}$ 为新信息 $\mathcal{E}_{1t}$ $\mathcal{E}_{2t}$ 的方程， $\rho$ 为相关系数。
 
 VECM可以检验两个价格时间序列的相互引导关系，在VECM模型的基础上，Hasbrouck(1995)发明了Hasbrouck信息份额方法，能够衡量每个时间序列对价格发现的贡献度。
 
-如果两个价格时间序列 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 满足协整关系，两者存在一个共同的变化趋势，即存在一个公共因子驱动，设为 $C_{\mathrm{\Delta}_{t}}$ ，时间序列 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 都可以分解为公共因子部分和噪声部分：
+如果两个价格时间序列 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 满足协整关系，两者存在一个共同的变化趋势，即存在一个公共因子驱动，设为 $C_{\textit{ t }}$ ，时间序列 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 都可以分解为公共因子部分和噪声部分：
 
-$Y_{_{1t}}=C_{_t}+\varepsilon_{_{1t}}\mathrm{~~\nabla~}Y_{_{2t}}=C_{_t}+\varepsilon_{_{2t}}$ ，将 $C_{t}$ 定义为 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 的线性组合 $C_{\ t}=\gamma_{_{1}}Y_{_{1t}}+\gamma_{_{2}}Y_{_{2t}}$ ，其中$\gamma_{_1}$ $\boldsymbol{\gamma}_{\mathbf{\lambda}_{2}}$ 经过标准化处理，满足 $\boldsymbol{\gamma}_{1}+\boldsymbol{\gamma}_{2}=\boldsymbol{1}$
+$Y_{_{1t}}=C_{_{t}}+\varepsilon_{_{1t}}\quad Y_{_{2t}}=C_{_{t}}+\varepsilon_{_{2t}}$ ，将 $C_{\textit{ t }}$ 定义为 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 的线性组合 $C_{_t}=\gamma_{_1}Y_{_{1t}}+\gamma_{_2}Y_{_{2t}}$ ，其中$\gamma_{\mathrm{~l~}}$ $\gamma_{\mathrm{~2~}}$ 经过标准化处理，满足 $\gamma_{1}+\gamma_{2}=1$
 
 信息份额模型将公共因子的方差进行分解，根据每个市场的信息对公共因子方差的贡献比例来定义每个价格时间序列的价格发现功能。
 
 当两个价格时间序列的信息不存在明显相关时，第j个市场的信息份额为
 
 $$
-\begin{array}{rl}{S}&{{}_{j}=\frac{\gamma_{_1}^{2}\sigma{_j}^{^2}}{\gamma_{_1}^{2}\sigma{_j}^{2}+\gamma_{_2}^{2}\sigma{_j}^{2}}}\end{array}
+S_{滘}=\frac{\gamma_{1}^{2}\sigma_{j}^{2}}{\gamma_{1}^{2}\sigma_{j}^{2}+\gamma_{2}^{2}\sigma_{j}^{2}}
 $$
 
-当两个两个价格时间序列的信息存在明显相关时，Hasbrouck方差矩阵 $\Omega$ 进行 Cholesky分解， $\Omega=MM^{'}$ ，则 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 的信息份额占比分别为
+当两个两个价格时间序列的信息存在明显相关时，Hasbrouck方差矩阵 $\Omega$ 进行 Cholesky分解， $\Omega=MM^{\mathrm{~\scriptsize~\cdot~}}$ ，则 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 的信息份额占比分别为
 
 $$
-\textit{ S }_{1}=\frac{{(\gamma_{\mathrm{\ell}}m_{11}+\gamma_{\mathrm{\ell}}m_{12})}^{2}}{{(\gamma_{\mathrm{\ell}}m_{11}+\gamma_{\mathrm{\ell}}m_{12})}^{2}+{(\gamma_{\mathrm{\ell}}m_{22})}^{2}}
+S_{_{\mathrm{~\tiny{~1}}}}=\frac{(\gamma_{_{1}}m_{_{11}}+\gamma_{_{2}}m_{_{12}})^{^{2}}}{(\gamma_{_{1}}m_{_{11}}+\gamma_{_{2}}m_{_{12}})^{^{2}}+(\gamma_{_{2}}m_{_{22}})^{^{2}}}
 $$
 
 $$
-\begin{array}{rl}{S}&{{}_{2}=\cfrac{\left(\gamma_{_2}m_{_{12}}\right)^{2}}{\left(\gamma_{_1}m_{_{11}}+\gamma_{_2}m_{_{12}}\right)^{2}+\left(\gamma_{_2}m_{_{22}}\right)^{2}}}\end{array}
+S_{_{\gamma_{_2}}}=\frac{(\gamma_{_2}m_{_{12}})^{^2}}{(\gamma_{_1}m_{_{11}}+\gamma_{_2}m_{_{12}})^{^2}+(\gamma_{_2}m_{_{22}})^{^2}}
 $$
 
-其中 $M\ =\ (\begin{array}{ccc}{{m_{_{11}}}}&{{0}}&\big)\quad\hfill(\begin{array}{ccc}{{\sigma_{1}}}&{{0}}&{{\big)}}\\{{m_{_{12}}}}&{{m_{_{22}}}}\end{array})=(\begin{array}{ccc}{{\sigma_{_{1}}}}&{{\sigma_{_{2}}(1-\rho^{2})^{1/2}}}\end{array})\end{array}$ 。可以看出，这种情况下， $Y_{_{1t}}$ $Y_{_{2t}}$ 的信息份额占比是不对称的，这是由于Cholesky分解对第一个价格序列赋予了较大的信息份额，通过改变模型变量的排序，可以得到 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 各自信息份额占比的上下限。一般将上下限的中点作为信息份额的有效估计。
+其中 $M=\begin{pmatrix}m_{_{11}}&0\\m_{_{12}}&m_{_{22}}\end{pmatrix}=\begin{pmatrix}\sigma_{_1}&0\\\rho\sigma_{_2}&\sigma_{_2}(1-\rho^{^2})^{^{1/2}}\end{pmatrix}$ 。可以看出，这种情况下， $Y_{_{1t}}$ $Y_{_{2t}}$ 的信息份额占比是不对称的，这是由于Cholesky分解对第一个价格序列赋予了较大的信息份额，通过改变模型变量的排序，可以得到 $Y_{_{1t}}$ ， $Y_{_{2t}}$ 各自信息份额占比的上下限。一般将上下限的中点作为信息份额的有效估计。
 
 由于Level2行情的数据量有限，以及考虑到计算复杂度问题，我们采用抽样一个月数据进行实证，结果如表1所示。MID、LP、WP2-5的信息份额均值分别为62.19%、20.67%、19.98%。
 
@@ -200,24 +200,24 @@ $$
 
 参考Cao（2009）的方法，我们可以定义Level2行情的订单簿不平衡。
 
-首先考虑挂单量的不平衡，用 ${Q}_{j}^{b}$ 表示第j档买单的挂单量，用 $\boldsymbol{Q}_{\ j}^{\ a}$ 表示j档卖单的挂单量， $QR$ 表示第j档的不平衡强度，公式表达如下：
+首先考虑挂单量的不平衡，用 $\boldsymbol{Q}_{j}^{b}$ 表示第j档买单的挂单量，用 $\boldsymbol{Q}_{j}^{a}$ 表示j档卖单的挂单量， $QR_{\perp}$ 表示第j档的不平衡强度，公式表达如下：
 
 $$
-QR_{{\bf\Phi}_{j}}=\frac{Q_{{\bf\Phi}_{j}}^{b}-Q_{{\bf\Phi}_{j}}^{a}}{Q_{{\bf\Phi}_{j}}^{b}+Q_{{\bf\Phi}_{j}}^{{\bf\Phi}_{a}}},{\bf\Phi}_{j}=1,2,...,5
+QR_{j}=\frac{Q_{j}^{b}-Q_{j}^{a}}{Q_{j}^{b}+Q_{j}^{a}},j=1,2,\ldots,5
 $$
 
-然后考虑价格的不平衡，用 ${P}_{j}^{b}$ 表示第j档买单的价格，用 ${{\cal P}}_{j}^{a}$ 表示j档卖单的价格， $HR_{j}$ 表示第j档的价格不平衡强度，定义如下：
+然后考虑价格的不平衡，用 $\boldsymbol{P}_{j}^{b}$ 表示第j档买单的价格，用 $\boldsymbol{P}_{j}^{a}$ 表示j档卖单的价格， $HR_{\phantom{\dagger}_{j}}$ 表示第j档的价格不平衡强度，定义如下：
 
 $$
-HR_{j}=\frac{(P_{j}^{a}-P_{j-1}^{a})-(P_{j}^{b}-P_{j-1}^{d})}{(P_{j}^{a}-P_{j-1}^{a})+(P_{j}^{b}-P_{j-1}^{b})},j=1,2,...,5
+HR_{_{j}}=\frac{(P_{_{j}}^{^{a}}-P_{_{j-1}}^{^{a}})-(P_{_{j}}^{^{b}}-P_{_{j-1}}^{^{d}})}{(P_{_{j}}^{^{a}}-P_{_{j-1}}^{^{a}})+(P_{_{j}}^{^{b}}-P_{_{j-1}}^{^{b}})},j=1,2,...,5
 $$
 
-前文统计了期指Level2行情的各档价格的分布，除了一档价买卖价差Spread=AskPricie1-BidPrice1 的均值大于0.2，其他档的价格之间基本都是0.2，因此 $\boldsymbol{H}\boldsymbol{R}_{j}$ 在国内股指期货行情中的意义不大。下文重点考察挂单量的不平衡。
+前文统计了期指Level2行情的各档价格的分布，除了一档价买卖价差Spread=AskPricie1-BidPrice1 的均值大于0.2，其他档的价格之间基本都是0.2，因此 $HR_{\mathrm{~}_{j}}$ 在国内股指期货行情中的意义不大。下文重点考察挂单量的不平衡。
 
-通过五档行情，我们可以综合计算整体的订单簿不平衡强度，第j权重记为 $\omega_{\mathbf{\lambda}_{j}}$ ，公式如下：
+通过五档行情，我们可以综合计算整体的订单簿不平衡强度，第j权重记为 $\omega_{\mathrm{~}_{j}}$ ，公式如下：
 
 $$
-\sum_{j=1}^{5}\omega_{{\scriptscriptstyle j}}\mathcal{Q}{\cal R}_{j}
+\sum_{j=1}^{5}\omega_{j}\mathrm{{\cal{U}}}QR_{j}
 $$
 
 参照Level1行情的研发方法，我们进行实证检验，由于数据量有限，抽取一个月的数据作为样本。实证结果如图6、图7所示，Level2订单簿不平衡和价格变化也成明显的单调性，在同样的时间内(1tick)，推动价格变化的空间要比Level1有了明显的提升，平均价格变化从0.08提高到接近0.2。由于图7的实证结果是抽样数据，数据量较少，因此相比图6没那么平滑。

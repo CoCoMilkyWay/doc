@@ -162,7 +162,7 @@ $$
 由于股票收益间的协方差是一个不可观测量，我们无法直接去比较那个方法预测的更“准”，只能比较不同方法的使用效果哪个更好。常用的比较方法是用不同方法估计得到的股票协方差矩阵预测值构建全局最小方差组合（GMVP, Global Minimum Variance Portfolio），考察 GMVP 组合在下个月的真实方差大小。由于 GMVP 组合与股票预期收益率无关，完全由股票间的协方差决定，因而模型对截面上个股风险预测越准，样本外真实方差应该越小。GMVP 组合可以通过组合优化的方式定义为：
 
 $$
-\begin{array}{rl}&{\underset{w}{\mathrm{min}}\ :w^{\prime}\cdot\sum\cdot w}\\&{}\\&{\mathrm{s.t.}\ :\displaystyle\sum_{t=1}^{N}w_{t}=1}\\&{\quad\quad w_{t}\geq0}\end{array}
+\begin{aligned}\min_{w}&w^{\prime}\cdot\sum\cdot w^{\prime}\\s.t.&\sum_{t=1}^{N}w_{_t}=1\\&w_{_t}\geq0\end{aligned}
 $$
 
 我们在中证全指、沪深 300 和中证 500 成分股中分别使用 DFQ-2018 模型和 DFQ-2020 模型构造月频 GMVP 组合，比较不同估计方法得到的 GMVP 组合年化波动率和换手率的相对大小。

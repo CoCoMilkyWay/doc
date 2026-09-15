@@ -213,7 +213,7 @@
 
 图表5:某一截面风格因子对其他所有因子的回归R方
 
-| 因子 | 调整的 $\scriptstyle{\mathsf{R}}^{2}$ |
+| 因子 | 调整的 $\pmb{R}^{2}$ |
 | --- | --- |
 | Beta | 0.429 |
 | Momentum | 0.472 |
@@ -230,12 +230,12 @@
 
 ## 3.1.3 标准化处理方法
 
-因子标准化分为两步，第一步是去极值，我们采用MAD 的方法，对于一个截面的样本$x_{i},i=1,2,\dotsc,n$ ，首先求中位数， $x_{median}=median(x_{i})$ ，然后求所有样本点距离 $x_{median}$ 的中位数， $MAD=median(x_{i}-x_{median})$ 。我们将超出 $x_{median}\pm5MAD$ 的数据都拉回到$x_{median}$ ± 5MAD。
+因子标准化分为两步，第一步是去极值，我们采用MAD 的方法，对于一个截面的样本$x_{i},i=1{,}2,\ldots,n$ ，首先求中位数， $x_{median}=median(x_{i})$ ，然后求所有样本点距离 $x_{median}$ 的中位数， $MAD=median(x_{i}-x_{median})$ 。我们将超出 $x_{median}\pm5MAD$ 的数据都拉回到$x_{median}$ ± 5MAD。
 
 去完极值之后，我们对样本进行标准化。为了使得基准在某个因子上的暴露为 0，我们在计算样本均值的时候使用流通市值加权，计算标准差时直接使用样本标准差。
 
 $$
-x_{standard}={\frac{x-\mu}{\sigma}}
+x_{standard}=\frac{x-\mu}{\sigma}
 $$
 
 ## 3.2 因子收益率计算
@@ -246,7 +246,7 @@ $$
 r_{n}=f_{c}+\sum_{i}X_{ni}f_{i}+\sum_{s}X_{ns}f_{s}+u_{n}
 $$
 
-由于加入了国家因子 $f_{c}$ ，会造成多重共线性，因此这里我们限制行业的加权收益为 0。即
+由于加入了国家因子 $\cdot f_{c}$ ，会造成多重共线性，因此这里我们限制行业的加权收益为 0。即
 
 $$
 \sum_{i}w_{i}f_{i}=0
@@ -287,16 +287,16 @@ $$
 
 Shepard（2009）提出，即使我们的估计方法是一个好的估计（无偏），但由于样本偏差
 
-的存在，最优化组合的实际风险总是会被低估。他将这一现象称为 Second Order Risk。假设Ω̂是我们估计的协方差矩阵， $E\big(\hat{\mathcal{\Omega}}\big)=\mathcal{\Omega}$ 。w是给定的权重（例如等权或者指数权重），那么 $E\big(w^{\prime}\hat{\varOmega}w\big)=w^{\prime}\varOmega w$ ，但是对于一个最优化组合，例如求解
+的存在，最优化组合的实际风险总是会被低估。他将这一现象称为 Second Order Risk。假设Ω̂是我们估计的协方差矩阵， $E\big(\widehat{\varOmega}\big)=\varOmega$ 。w是给定的权重（例如等权或者指数权重），那么 $E\big(w^{\prime}\hat{\varOmega}w\big)=w^{\prime}\varOmega w$ ，但是对于一个最优化组合，例如求解
 
 $$
-maxw^{\prime}\alpha-\frac{1}{2}w^{\prime}\hat{\Omega}w
+max\quad w^{\prime}\alpha-\frac{1}{2}w^{\prime}\hat{\Omega}w
 $$
 
-那么 $\widehat{w}=\widehat{\Omega}^{-1}\alpha$ ，此时 $E\big(\widehat{w}^{\prime}\widehat{\varOmega}\widehat{w}\big)=\widehat{w}^{\prime}\varOmega\widehat{w}$ 并不成立。这是因为此时权重和协方差矩阵均为估计值，因此 $\dot{\mathcal{P}}$ 生了二阶偏误。如果收益率是满足正态分布的，那么Ω̂满足 Wishart分布，则有
+那么 $\widehat{w}=\widehat{\Omega}^{-1}\alpha$ ，此时 $E\big(\widehat{w}^{\prime}\widehat{\varOmega}\widehat{w}\big)=\widehat{w}^{\prime}\varOmega\widehat{w}$ 并不成立。这是因为此时权重和协方差矩阵均为估计值，因此 $i产$ 生了二阶偏误。如果收益率是满足正态分布的，那么Ω̂满足 Wishart分布，则有
 
 $$
-E{\left(\widehat{w}^{\prime}{\widehat{\varOmega}}\widehat{w}\right)}=\left(1-\frac{N}{T}\right)^{2}\widehat{w}^{\prime}{\varOmega}\widehat{w}
+E\bigl(\widehat{w}^{\prime}\widehat{\varOmega}\widehat{w}\bigr)=\left(1-\frac{N}{T}\right)^{2}\widehat{w}^{\prime}\varOmega\widehat{w}.
 $$
 
 其中N 和 T分别为协方差矩阵维度以及估计窗口大小。也就是说，最优化组合的风险总会被系统性地低估。
@@ -313,7 +313,7 @@ $$
 
 首先，与因子风险估计相同，我们利用股票过去的残差收益率来得到残差波动的样本估计，并进行 NeweyWest 调整。
 
-接下来，由于特质收益存在明显的尖峰厚尾特征，例如新上市的股票、经历长期停牌后复牌的股票等，利用时间序列模型来估计这些股票的特质波动率是不合适的。因此针对这些特征的股票，我们选用结构化模型来估计股票的特质波动率。我们首先根据股票历史收益率的厚尾程度以及样本数来确定一个参数 $\gamma_{\mathrm{n}}(0\leq\gamma_{\mathrm{n}}\leq1)$ 。若股票残差收益率样本历史数量足够且分布接近正态分布，则 $\gamma_{\mathrm{{n}}}=1\}$ ；而 $\gamma_{\mathrm{n}}<1$ 时，股票的特质波动率需要由结构化模型调整。由所有 $\mathfrak{Y}_{\mathrm{n}}=1$ 的样本点回归得到估计系数 $b_{k}$ 并由此估计其他样本的波动率：
+接下来，由于特质收益存在明显的尖峰厚尾特征，例如新上市的股票、经历长期停牌后复牌的股票等，利用时间序列模型来估计这些股票的特质波动率是不合适的。因此针对这些特征的股票，我们选用结构化模型来估计股票的特质波动率。我们首先根据股票历史收益率的厚尾程度以及样本数来确定一个参数 $\gamma_{\mathrm{n}}(0\leq\gamma_{\mathrm{n}}\leq1)$ 。若股票残差收益率样本历史数量足够且分布接近正态分布，则 $\gamma_{\mathrm{n}}=1;$ ；而 $\gamma_{\mathrm{n}}<1$ 时，股票的特质波动率需要由结构化模型调整。由所有 $\gamma_{\mathrm{n}}=1$ 的样本点回归得到估计系数 $\cdot b_{k}$ 并由此估计其他样本的波动率：
 
 $$
 ln(\sigma_{n}^{TS})=\sum_{k}X_{nk}b_{k}+\epsilon_{n}
@@ -409,7 +409,7 @@ $$
 \sqrt{w_{a}^{\prime}(XFX^{\prime}+\Delta)w_{a}}\leq5\%/\sqrt{12}
 $$
 
-这其中有一个基本的假设就是权重 ${\bf W_{a}}$ 以及因子暴露矩阵X是不变的。但是在月中的时候，$w_{a}$ 将会随着股票的涨跌产生变化。Satchell和 Hwang（2001）研究了权重变化对跟踪误差的影响，他们证明了权重的随机变动总是会增加组合的跟踪误差，但是这一误差的大小无法精确估计。
+这其中有一个基本的假设就是权重 $\mathbf{w_{a}}$ 以及因子暴露矩阵X是不变的。但是在月中的时候，$w_{a}$ 将会随着股票的涨跌产生变化。Satchell和 Hwang（2001）研究了权重变化对跟踪误差的影响，他们证明了权重的随机变动总是会增加组合的跟踪误差，但是这一误差的大小无法精确估计。
 
 同时，因子暴露矩阵 X 也会有略微变化。尽管 Barra 在构建风险因子时特别强调了因子的稳定性，但是对于与股票收益率相关的因子，例如 Momentum 等，月中的组合暴露值相对月初总会有一定程度的偏移。在财报季，财务类因子的暴露同样也会产生偏移。
 
@@ -420,13 +420,13 @@ $$
 也就是说，我们预测的风险为
 
 $$
-TE_{forecasted}=\sqrt{var[w_{a}^{\prime}(Xf+e)]}=\sqrt{var(w_{a}^{\prime}Xf)+var(w_{a}^{\prime}e)}
+TE_{forecasted}=\sqrt{var[w_{a}^{\prime}(Xf+e)]}=\sqrt{var(w_{a}^{\prime}Xf)+var(w_{a}^{\prime}e)}.
 $$
 
 但实现的风险却为
 
 $$
-TE_{realized}=\sqrt{var[w_{a}^{\prime}(Xf+e)]}=\sqrt{var(w_{a}^{\prime}Xf)+var(w_{a}^{\prime}e)+cov(w_{a}^{\prime}Xf,w_{a}^{\prime}e)}
+TE_{realized}=\sqrt{var[w_a'(Xf+e)]}=\sqrt{var(w_a'Xf)+var(w_a'e)+cov(w_a'Xf,w_a'e)}
 $$
 
 其中 $w_{a}$ 为主动权重，X为股票因子暴露矩阵，f,e分别为因子收益和残差收益。
@@ -437,24 +437,24 @@ $$
 
 ## 3.6.4 偏差原因之四：策略风险
 
-在实际投资中，特别是相对基准的投资，我们经常用跟踪误差来衡量策略的风险。例如，若某只基金从 2016 年开始运行，我们想要计算它的跟踪误差，首先，计算从起始日开始基金每天的超额收益 ${\boldsymbol{\mathcal{r}}}_{t}$ ，然后计算其样本标准差，那么基金的年化跟踪误差为 $std(r_{t})*$ √252。
+在实际投资中，特别是相对基准的投资，我们经常用跟踪误差来衡量策略的风险。例如，若某只基金从 2016 年开始运行，我们想要计算它的跟踪误差，首先，计算从起始日开始基金每天的超额收益 $.r_{t}$ ，然后计算其样本标准差，那么基金的年化跟踪误差为 $std(r_{t})*$ √252。
 
 回到我们的组合优化问题，在组合优化中，我们在每个月底预测下个月的股票协方差矩阵，并约束组合下个月的预期年化跟踪误差小于 5%。也就是说，我们的目标是组合每个月的跟踪误差小于5%/√12，而我们在计算组合绩效的时候却使用的是整个回测区间的收益率。这两者会有一定的差别。
 
-我们把一年中每天的超额收益率记为 $r_{1,1},r_{1,2}\dots r_{1,21},r_{2,1},r_{2,2}\dots,r_{2,21}\dots,r_{12,1}\dots r_{12,21},r_{i,j}\Psi$ i代表月份，j代表月份中的第几个交易日。
+我们把一年中每天的超额收益率记为 $r_{1,1},r_{1,2}\ldots r_{1,21},r_{2,1},r_{2,2}\ldots,r_{2,21}\ldots,r_{12,1}\ldots r_{12,21}。r_{i,j}中$ i代表月份，j代表月份中的第几个交易日。
 
-如果假设组合日收益不存在自相关性，且我们的预测准确，那么有 $r_{i,j}{\sim}N(\mu_{i},\sigma_{i}),~\sigma_{i}=$ $5\%/\sqrt{252}$ ，即每月的日收益率满足同样的分布，但是不同月份之间的分布却不一定相同。如果用一年 252个交易日的样本求组合的跟踪误差，那么
+如果假设组合日收益不存在自相关性，且我们的预测准确，那么有 $\scriptstyle{\left[r_{i,j}\sim N(\mu_{i},\sigma_{i}),\sigma_{i}=\right.}$ $5\%/\sqrt{252},$ ，即每月的日收益率满足同样的分布，但是不同月份之间的分布却不一定相同。如果用一年 252个交易日的样本求组合的跟踪误差，那么
 
 $$
-trackingerror=\sqrt{252}*\sqrt{\frac{\sum_{i=1}^{12}\hat{\sigma}_{i}^{2}*(21-1)+21(\bar{r}_{\cdot}-\bar{r})^{2}}{252-1}}
+tracking\;error=\sqrt{252}*\sqrt{\frac{\sum_{i=1}^{12}\hat{\sigma}_{i}^{2}*(21-1)+21(\overline{{r_{\iota}}}-\bar{r})^{2}}{252-1}}
 $$
 
-若 $(\overline{{r_{\imath}}}-\bar{r})^{2}=0$ ，即不同月份的超额收益期望相同，则上述trackingerror的期望是5%，但是实际上，不同月份的平均收益并不相同，这会导致实现的tracking error会比 5%略大。但这一影响对一般的指数增强策略来说不会很大，因为指数增强策略的 Alpha 本来就相对稳定。经试验发现，对于较为稳定的 Alpha 策略，在控制跟踪误差为 5%的情况下，不同月份收益间的波动会使得实现的跟踪误差增加 0.2%左右。在表 11 的例子中，由于组合在沪深 300上的表现相对来说不太稳定，因此这一部分波动率导致了总风险的增加。
+若 $(\overline{{r_{\iota}}}-\bar{r})^{2}=0$ ，即不同月份的超额收益期望相同，则上述trackingerror的期望是5%，但是实际上，不同月份的平均收益并不相同，这会导致实现的tracking error会比 5%略大。但这一影响对一般的指数增强策略来说不会很大，因为指数增强策略的 Alpha 本来就相对稳定。经试验发现，对于较为稳定的 Alpha 策略，在控制跟踪误差为 5%的情况下，不同月份收益间的波动会使得实现的跟踪误差增加 0.2%左右。在表 11 的例子中，由于组合在沪深 300上的表现相对来说不太稳定，因此这一部分波动率导致了总风险的增加。
 
 Qian（2007）也在书中提到了这个问题，他将这一风险称之为策略风险。在进行组合构建时，我们一般只对未来一周或者一个月进行预测，然后构建组合，即 single-periodportfolio optimization。但我们实现的投资组合却是 multi-period 的。在因子的预测能力保持不变，即 IC 不变或者波动较小的情况下，这一风险几乎可以忽略不计，但是因子的稳定性很差时，IC 的波动将会使得组合的风险增加。这一影响可以写成如下表达式，其中 $\sigma_{target}$ 为目标跟踪误差，N为股票数量， $dis(R_{t})$ 为风险调整后的残差收益的标准差，可近似为 1。
 
 $$
-\sigma=\sqrt{\frac{1}{N}+\sigma_{IC}^{2}}*\sqrt{N}*\sigma_{target}*dis(R_{t})
+\sigma=\sqrt{\cfrac{1}{N}+\sigma_{IC}^{2}}*\sqrt{N}*\sigma_{target}*dis(R_{t})
 $$
 
 该式的具体推导细节以及相关例子可以参考 Qian（2007）。
@@ -471,7 +471,7 @@ $$
 
 $\alpha_{R\perp}$ 中包含的风险是无法被风险模型所捕捉的。例如如果我们的 Alpha 因子中含有反转因子，那么很大可能组合实现的跟踪误差会大于我们预设的跟踪误差，因为传统的 Barra模型中并不含有反转因子的风险。
 
-FAP 问题除了会导致策略的风险不可控之外，还会导致组合在某些因子上产生未预期的暴露。详细的推导过程可见 Lee 和 Stefek（2008），其证明了 FAP 问题会导致组合过多的暴露在了 $\alpha_{R\bot}\mathrm{~k~}$ o
+FAP 问题除了会导致策略的风险不可控之外，还会导致组合在某些因子上产生未预期的暴露。详细的推导过程可见 Lee 和 Stefek（2008），其证明了 FAP 问题会导致组合过多的暴露在了 $\alpha_{R\perp}上$ o
 
 ## 3.6.6 解决方案
 
@@ -479,10 +479,10 @@ FAP 问题除了会导致策略的风险不可控之外，还会导致组合在�
 
 上述提到的几乎所有原因都会导致我们的风险被低估，但是在很多研究报告中，我们发现策略的风险总是被控制在了目标范围之内。究其原因，这是由于他们在计算跟踪误差时并没有考虑到收益之间的自相关性，由于策略的日收益一般来说都是有正的自相关性的，这会使得计算的跟踪误差相比实际的跟踪误差偏低。从表 11中可以看到，经过 NW调整后的波动率全部大于直接用标准差估计的波动率。如果在计算跟踪误差时考虑到收益的自相关性，那么由于上述一些原因的存在，组合实现的跟踪误差几乎总会略高于目标跟踪误差。那么如何解决上述这些问题呢。
 
-对于风险模型估计方法的问题，我们可以强行调整模型的参数使得其历史的 biasstatistics 回到 1，但是这样并没有很强的逻辑，容易造成过拟合，在这里，我们倾向于不修改原始的风险模型。而对于权重和风格暴露在月中的变化，以及残差和风险因子的相关性问题，几乎没有很好的事前解决办法， $\bar{\hbar}$ 且对于不同的策略，产生偏误的原因也有所区别，我们可以对策略进行归因分析之后，对不同的策略再进行不同的调整。对于策略风险，Qian（2007）提出用 $\mathrm{k}=\sigma_{\mathrm{realized}}/\sigma_{target}$ 作为参数，然后修正目标跟踪误差。对于原因五，已经有很多文献给出了这一问题的解决方法。例如我们可以在风险模型中加入更多的风险因子。或者直接在组合优化时加上对残差Alpha的风险的惩罚。
+对于风险模型估计方法的问题，我们可以强行调整模型的参数使得其历史的 biasstatistics 回到 1，但是这样并没有很强的逻辑，容易造成过拟合，在这里，我们倾向于不修改原始的风险模型。而对于权重和风格暴露在月中的变化，以及残差和风险因子的相关性问题，几乎没有很好的事前解决办法， $而$ 且对于不同的策略，产生偏误的原因也有所区别，我们可以对策略进行归因分析之后，对不同的策略再进行不同的调整。对于策略风险，Qian（2007）提出用 $\mathrm{k}=\sigma_{\mathrm{realized}}/\sigma_{\mathrm{target}}$ 作为参数，然后修正目标跟踪误差。对于原因五，已经有很多文献给出了这一问题的解决方法。例如我们可以在风险模型中加入更多的风险因子。或者直接在组合优化时加上对残差Alpha的风险的惩罚。
 
 $$
-\operatorname*{max}{(w-w_{bench})^{T}\alpha-\lambda\times TE^{2}}-\theta\big[(w-w_{bench})^{T}\alpha_{R_{\perp}}\big]^{2}
+\max(w-w_{bech})^T\alpha-\lambda\times TE^2-\theta\left[(w-w_{bech})^T\alpha_{R_\perp}\right]^2
 $$
 
 由于本文篇幅有限，这里我们只是简要地介绍了风险模型的搭建以及对风险模型的理解，对这一部分感兴趣的投资者可以联系我们做进一步的交流。
@@ -529,10 +529,10 @@ $$
 
 ## 4.3.1 信息系数
 
-信息系数（information coefficient，缩写 IC）衡量截面上股票收益率与因子值之间的线性相关性，在线性模型的框架下，一般来说相关性越高，因子预测股票收益的能力越强。记月底全市场因子值向量为 $\alpha_{\mathrm{t0}}$ ，下月样本股票收益率向量为 $\boldsymbol{\Gamma}_{\mathrm{t1}}$ ，则二者间的 Pearson 相关系数即为 IC：
+信息系数（information coefficient，缩写 IC）衡量截面上股票收益率与因子值之间的线性相关性，在线性模型的框架下，一般来说相关性越高，因子预测股票收益的能力越强。记月底全市场因子值向量为 $\mathbf{a_{t0}}$ ，下月样本股票收益率向量为 $\mathbf{r_{t1}}$ ，则二者间的 Pearson 相关系数即为 IC：
 
 $$
-\mathrm{IC}=\mathrm{corr}(\alpha_{\mathrm{t0}},\mathrm{r}_{\mathrm{t1}})
+\mathrm{IC}=\mathrm{corr}(\alpha_{\mathrm{t}0},\mathrm{r}_{\mathrm{t}1})
 $$
 
 与 IC 相关的另一个指标为秩相关信息系数（Rank-IC），衡量因子值与收益率之间的Spearman相关系数，等同于二者排序间的线性相关性，避免极端值对 IC 的影响。多数情况下在绝对数值上 Rank-IC 会高于 IC。
@@ -616,17 +616,17 @@ $$
 最后一种因子检验方式为回归检验法，检验方式与风险模型中的风险因子检验一脉相承，将下一期股票收益对期初因子值线性回归，得到的系数可以视作在该因子上暴露为 1，在其他因子上暴露为 0的纯因子组合收益，通过考察纯因子组合的表现来理解因子的表现：
 
 $$
-\Gamma=f_{0}+f_{\alpha}\alpha+\sum_{i}f_{i}x_{i}+\epsilon
+\mathbf{r}=f_{0}+f_{\alpha}\alpha+\sum_{i}f_{i}x_{i}+\epsilon,
 $$
 
-其中r：股票收益率， $f_{0}{\mathrm{:}}$ ：市场因子收益， $f_{\alpha}$ ：α因子收益，α：α因子值， $f_{i}{\mathrm{:}}$ ：风险因子收益， $x_{i}{:}$ 风险因子暴露，ε：残差收益。
+其中r：股票收益率， $f_{0};$ ：市场因子收益， $f_{\alpha}$ ：α因子收益，α：α因子值， $f_{i};$ ：风险因子收益， $x_{i};$ 风险因子暴露，ε：残差收益。
 
-由线性回归的性质可知，在回归时加入风险因子，会剥离 $f_{\alpha}$ 中受风险因子影响的因素，等价于将 $\scriptstyle\cdot\alpha\mid$ 因子对风险因子中性化处理。风险因子可以根据需要选择市值、行业以及其他风险因子。
+由线性回归的性质可知，在回归时加入风险因子，会剥离 $f_{\alpha}$ 中受风险因子影响的因素，等价于将 $\cdot\alpha|$ 因子对风险因子中性化处理。风险因子可以根据需要选择市值、行业以及其他风险因子。
 
 因子显著性检验：对于因子收益的稳定性，我们可以对因子收益进行时间序列上的Fama-MacBeth 检验：
 
 $$
-\mathrm{t-value}=\frac{mean(f_{\alpha})}{std(f_{\alpha})}\sqrt{T-1}
+\mathrm{t}-\mathrm{value}=\frac{\mathrm{mean}(f_{\alpha})}{\mathrm{std}(f_{\alpha})}\sqrt{T-1}
 $$
 
 以 EP 为例，经过市值和行业中性化处理后的 EP 纯因子收益在时间序列上显示统计显著。
@@ -715,7 +715,7 @@ IC/Rank-IC（原因子&中性化因子）；
 组合优化的第一种形式是，最大化风险调整的Alpha：
 
 $$
-\begin{array}{rl}&{\operatorname*{max}~(w-w_{bench})^{T}\alpha-\lambda*TE^{2}-\delta*\mathbf{1}^{T}|w-w_{last}|}\\&{\mathrm{s.t.}~(w^{T}-w_{bench}^{T})X_{Style}\in[down.cons,up_{-}cons]}\\&{~(w^{T}-w_{bench}^{T})X_{ind}\in[down.cons,up_{-}cons]}\\&{~w^{T}1=total_{-}weight}\\&{~0\le w_{i}\le max_{-}weight_{i}}\end{array}
+\begin{array}{l}\max(w-w_{bench})^{T}\alpha-\lambda*TE^{2}-\delta*\mathbf{1}^{T}|w-w_{last}|\\\text{ s.t. }(w^{T}-w_{bench}^{T})X_{Style}\in[down_{-}cons,up_{-}cons]\\\quad(w^{T}-w_{bench}^{T})X_{ind}\in[down_{-}cons,up_{-}cons]\\\quad w^{T}1=total_{-}weight\\\quad0\leq w_{i}\leq max_{-}weight_{i}\end{array}
 $$
 
 其中，
@@ -727,13 +727,13 @@ $$
 第二种是，给定风险约束下，最大化Alpha：
 
 $$
-\begin{array}{rl}&{\operatorname*{max}\ (w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|}\\&{\quad\mathrm{s.t.}(w^{T}-w_{bench}^{T})X_{Style}\in[down.cons,up.cons]}\\&{\quad\quad(w^{T}-w_{bench}^{T})X_{ind}\in[down.cons,up.cons]}\\&{\quad\quad(w-w_{bench})^{T}(XFX^{T}+\Delta)(w-w_{bench})<\mathrm{target}TE^{2}}\\&{\quad\quad w^{T}\mathbf{1}=total.weight}\\&{\quad\quad0\leq w\leq max_{-}weight}\end{array}
+\begin{aligned}\max&(w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|\\s.t.&(w^{T}-w_{bench}^{T})X_{Style}\in[down_{-}cons,up_{-}cons]\\&(w^{T}-w_{bench}^{T})X_{inie}\in[down_{-}cons,up_{-}cons]\\&(w-w_{bench})^{T}(XFX^{T}+\Delta)(w-w_{bench})<\operatorname{target}TE^{2}\\&w^{T}1=total_{-}weight\\&0\leq w\leq max_{-}weight\end{aligned}
 $$
 
 当然，目标函数中对换手率的惩罚项也可以添加到约束中，即限制组合的换手率小于某个值。
 
 $$
-\mathbf{1}^{T}|w-w_{last}|<max\_turnover
+\mathbf{1}^{T}|w-w_{last}|<max_{-}turnover
 $$
 
 我们使用python的cvxopt包，并使用mosek作为优化器进行求解。
@@ -747,7 +747,7 @@ $$
 那么跟踪误差约束可以转化为对应的形式
 
 $$
-\|Pw-Pw_{bench}\|<\mathrm{target}TE^{2}
+\|Pw-Pw_{bench}\|<\operatorname{target}TE^{2}
 $$
 
 其中我们对股票的协方差矩阵做 Cholesky 分解得到P，即P′P = XFXT + ∆
@@ -755,7 +755,7 @@ $$
 由于在优化模型中加入了成本，使得模型中出现了绝对值项，我们需要对优化问题进行一定的变形，将权重变为净买入和净卖出的权重。
 
 $$
-\mathrm{\Delta}\mathbf{w}=\mathrm{w}_{\mathrm{last}}+w^{+}-w^{-}
+\mathsf{w}=\mathsf{w}_{\mathrm{last}}+w^{+}-w^{-}
 $$
 
 然后将上式代入原优化问题中求解。
@@ -823,13 +823,13 @@ $$
 r_{n}=X_{n,1}f_{1}+X_{n,2}f_{2}+\cdots+X_{n,k}f_{k}+u
 $$
 
-因此，将每个股票以组合权重向量 ${\bf W_{a}}$ （也可以是绝对权重）加权我们可以得到组合的收益分解：
+因此，将每个股票以组合权重向量 $\mathbf{w_{a}}$ （也可以是绝对权重）加权我们可以得到组合的收益分解：
 
 $$
 w_{a}^{T}r=w_{a}^{T}X_{1}\mathrm{f}_{1}+w_{a}^{\mathrm{T}}X_{2}\mathrm{f}_{2}+\cdots+w_{a}^{T}X_{\mathrm{k}}\mathrm{f}_{\mathrm{k}}+w_{a}^{T}u
 $$
 
-上式中每一项 $w_{a}^{\mathrm{T}}X_{\mathbf{k}}\mathbf{f}_{\mathbf{k}}.$ 是第k个因子对组合收益的贡献，我们看到，若某个因子要对组合收益产生显著的影响，需要满足两个条件：首先，该因子有足够显著的收益；其次组合在该因子上有足够大的暴露。
+上式中每一项 $w_{a}^{\mathrm{T}}X_{\mathbf{k}}\mathbf{f}_{\mathbf{k}},$ 是第k个因子对组合收益的贡献，我们看到，若某个因子要对组合收益产生显著的影响，需要满足两个条件：首先，该因子有足够显著的收益；其次组合在该因子上有足够大的暴露。
 
 当我们将因子贡献的收益从组合收益中剥离之后，剩下的残差收益即未能被风险因子解释的部分，这部分的收益可能来自于 Alpha 因子，也可能来自于运气，这一部分的收益能体现基金经理的选股能力。
 
@@ -843,13 +843,13 @@ $$
 
 |  | 组合收益 | 因子贡献1 | m | 因子贡献k | 残差贡献 |
 | --- | --- | --- | --- | --- | --- |
-| t1 | $\mathsf{R}_{1}$ | $\mathrm{F}_{1,1}$ | ■ | $\mathrm{F}_{\mathbf{k},1}$ | $\mathsf{Res}_{1}$ |
-| t2 | $\mathsf{R}_{2}$ | $\mathrm{F}_{1,2}$ | ■ | $\mathrm{F}_{\mathbf{k},2}$ | ${\sf Res}_{2}$ |
-| 总计 | R | $\mathrm{F}_{1}$ | m | $\mathrm{F_{k}}$ | Res |
+| t1 | $\mathtt{R_{1}}$ | $\mathrm{F_{1,1}}$ | ■ | $\mathrm{F_{k,1}}$ | $\mathrm{Res}_{1}$ |
+| t2 | $\mathtt{R_{2}}$ | $\mathrm{F}_{1,2}$ | ■ | $\mathrm{F}_{\mathrm{k},2}$ | $\mathrm{Res}_{2}$ |
+| 总计 | R | $\mathrm{F_{1}}$ | m | $\mathrm{F_{k}}$ | Res |
 
 资料来源：国盛证券研究所
 
-每一期满足 $\begin{array}{r}{\mathrm{R}_{\mathrm{t}}=\sum_{k}F_{k,t}+Res_{t}}\end{array}$ ，但是我们会发现R $\begin{array}{r}{\ne\sum_{\mathrm{k}}F+Res.}\end{array}$
+每一期满足 $\begin{array}{r}{\mathrm{.R}_{\mathrm{t}}=\sum_{k}F_{k,t}+Res_{t}}\end{array}$ ，但是我们会发现R $\begin{array}{r}{\neq\sum_{\mathrm{k}}F+Res.}\end{array}$
 
 倘若希望将某一策略的多期总收益拆解为各项收益的算术加和，一些常用的调整算法有Carino(1999)，Menchero(2001)提出的系数调整法，将每期的收益贡献乘以对应的一个调整系数，Frongello(2004)提出从组合整体价值的变化来调整每期的收益贡献的方法等。这些算法在时间序列上对收益进行平滑处理，使得最终的结果呈现一个直观的算术加和形式，对横向比较各项收益源对组合收益影响的结论并不会有明显的区别。下文例举了Carino 和 Menchero 的调整算法以供参考。
 
@@ -859,22 +859,22 @@ $$
 
 |  | 组合收益 | 调整系数 | 因子贡献1 | … | 因子贡献k 残差贡献 |  |
 | --- | --- | --- | --- | --- | --- | --- |
-| t1 | $\mathsf{R}_{1}$ | $\mathbf{c}_{1}$ | $\mathbf{c}_{1}\mathrm{F}_{1,1}$ |  | $\mathrm{c}_{1}\mathrm{F}_{\mathrm{k},1}$ | $\mathbf{c}_{1}\mathrm{Re}s_{1}$ |
-| t2 | $\mathrm{R}_{2}$ | ${\sf c}_{2}$ | ${\tt c}_{2}{\tt F}_{1,2}$ |  | ${\tt c}_{2}{\tt F}_{{\bf k},2}$ | $\mathbf{c}_{2}\mathrm{Re}s_{2}$ |
-| 总计 | R |  | $\widetilde{\mathrm{F}}_{1}$ | · | $\tilde{\mathrm{F}}_{\mathrm{k}}$ | $\widetilde{\mathrm{Res}}$ |
+| t1 | $\mathtt{R_{1}}$ | $\mathbf{c_{1}}$ | $\mathtt{C_{1}F_{1,1}}$ |  | $\mathtt{C_{1}F_{k,1}}$ | $\mathtt{c_{1}Res_{1}}$ |
+| t2 | $\mathtt{R_{2}}$ | $c_{2}$ | $\mathtt{C}_{2}\mathtt{F}_{1,2}$ |  | $\mathtt{C}_{2}\mathtt{F}_{\mathtt{k},2}$ | $\mathtt{c}_{2}\mathrm{Re}\mathtt{s}_{2}$ |
+| 总计 | R |  | $\widetilde{\mathbf{F}}_{1}$ | · | $\widetilde{\mathbf{F}}_{\mathbf{k}}$ | $\widetilde{\mathrm{Res}}$ |
 
 资料来源：国盛证券研究所
 
 其中Carino 提出调整系数为：
 
 $$
-\mathsf{c}_{\mathrm{t}}^{\mathrm{Car}}=\frac{\ln\left(1+R_{t}\right)/R_{t}}{\ln\left(1+R\right)/R}
+c_{\mathrm{t}}^{\mathrm{Car}}=\frac{\ln(1+R_{t})/R_{t}}{\ln(1+R)/R}
 $$
 
 Menchero 做法与Carino相似，每期对因子贡献乘以对应的调整系数：
 
 $$
-\mathsf{c}_{\mathrm{t}}^{\mathrm{Men}}=\frac{1}{T}\left[\frac{R}{(1+R)^{\frac{1}{T}}-1}\right]+\frac{R_{t}(R-\frac{1}{T}\left(\frac{R}{(1+R)^{\frac{1}{T}}}-1\right)\sum_{t}R_{t})}{\sum_{t}(R_{t})^{2}}
+c_{t}^{\mathrm{Men}}=\frac{1}{T}\left[\frac{R}{(1+R)^{\frac{1}{T}}-1}\right]+\frac{R_{t}(R-\frac{1}{T}\left(\frac{R}{(1+R)^{\frac{1}{T}}}-1\right)\sum_{t}R_{t})}{\sum_{t}(R_{t})^{2}}
 $$
 
 6.1.3 收益相关性问题及修正
@@ -924,8 +924,8 @@ $$
 
 |  | 组合收益 | 因子贡献a | 因子贡献b | 残差贡献 |
 | --- | --- | --- | --- | --- |
-| t1 | $\mathsf{R}_{1}$ | $\mathrm{F}_{\mathrm{a},1}$ | $\mathrm{F_{b,1}}$ | $\epsilon_{1}$ |
-| t2 | $\mathsf{R}_{2}$ | $\mathrm{F}_{\mathrm{a},2}$ | $\mathrm{F}_{\mathbf{b},2}$ | $\epsilon_{2}$ |
+| t1 | $\mathtt{R_{1}}$ | $\mathrm{F_{a,1}}$ | $\mathrm{F_{b,1}}$ | $\epsilon_{1}$ |
+| t2 | $\mathtt{R_{2}}$ | $\mathrm{F}_{\mathbf{a},2}$ | $\mathrm{F_{b,2}}$ | $\epsilon_{2}$ |
 | 总计 | R | $\mathrm{F_{a}}$ | $\mathrm{F_{b}}$ | € |
 
 资料来源：国盛证券研究所
@@ -933,17 +933,17 @@ $$
 平时在归因时，大部分人的做法是直接将组合收益减去因子收益贡献，将残差部分视作Alpha 来源：
 
 $$
-\begin{array}{c}{\frac{\dot{\varepsilon}\mathbb{A}\Longleftrightarrow\lVert\boldsymbol{\mathcal{E}},\boldsymbol{\check{\Xi}}\rVert^{2}}{\varepsilon\mathbb{B}\varepsilon^{3}\left.\boldsymbol{\mathcal{E}},\boldsymbol{\check{\Xi}}\right.}=(1+\mathrm{R}_{1})(1+\mathrm{R}_{2})}\\{=\left(1+\mathrm{F}_{\mathrm{a},1}+\mathrm{F}_{\mathrm{b},1}+\epsilon_{1}\right)\left(1+\mathrm{F}_{\mathrm{a},2}+\mathrm{F}_{\mathrm{b},2}+\epsilon_{2}\right)}\\{=\left(1+\mathrm{F}_{\mathrm{a},1}+\mathrm{F}_{\mathrm{b},1}\right)\left(1+\mathrm{F}_{\mathrm{a},2}+\mathrm{F}_{\mathrm{b},2}\right)+\left(1+\mathrm{F}_{\mathrm{a},1}+\mathrm{F}_{\mathrm{b},1}\right)\epsilon_{1}+\left(1+\mathrm{F}_{\mathrm{a},2}+\mathrm{F}_{\mathrm{b},2}\right)\epsilon_{2}+\epsilon_{1}\epsilon_{2}}\end{array}
+\begin{array}{c}组合收益=(1+\mathbb{R}_1)(1+\mathbb{R}_2)\\=\big(1+\mathbb{F}_{\mathsf{a},1}+\mathbb{F}_{\mathsf{b},1}+\epsilon_1\big)\big(1+\mathbb{F}_{\mathsf{a},2}+\mathbb{F}_{\mathsf{b},2}+\epsilon_2\big)\\=\big(1+\mathbb{F}_{\mathsf{a},1}+\mathbb{F}_{\mathsf{b},1}\big)\big(1+\mathbb{F}_{\mathsf{a},2}+\mathbb{F}_{\mathsf{b},2}\big)+\big(1+\mathbb{F}_{\mathsf{a},1}+\mathbb{F}_{\mathsf{b},1}\big)\epsilon_1+\big(1+\mathbb{F}_{\mathsf{a},2}+\mathbb{F}_{\mathsf{b},2}\big)\epsilon_2+\epsilon_1\epsilon_2\end{array}
 $$
 
-当满足因子间以及因子与残差收益间的不相关的假设时，我们可以简单地将 $(1+\epsilon_{1})(1+$ $\boldsymbol{\epsilon}_{2})$ 视为残差收益贡献，将 $\big(1+\mathrm{F}_{\mathrm{a,1}}\big)\big(1+\mathrm{F}_{\mathrm{a,2}}\big)\sharp\circ\big(1+\mathrm{F}_{b,1}\big)\big(1+\mathrm{F}_{\mathrm{b,2}}\big)$ 视为因子收益贡献。
+当满足因子间以及因子与残差收益间的不相关的假设时，我们可以简单地将 $(1+\epsilon_{1})(1+$ $\epsilon_{2})$ 视为残差收益贡献，将 $\left(1+\mathrm{F}_{\mathrm{a},1}\right)\left(1+\mathrm{F}_{\mathrm{a},2}\right)和\left(1+\mathrm{F}_{\mathrm{b},1}\right)\left(1+\mathrm{F}_{\mathrm{b},2}\right)$ 视为因子收益贡献。
 
 但是观察上式我们注意到，除开上述两项，在等式展开时还存在许多冗余项，包括在时序上因子 a与因子b 的交叉项，以及残差与因子 a和因子b的交叉项。在实际建模的过程中，这些交叉项并不等于 0。如果我们简单地用组合收益减去因子贡献收益，得到的残差收益贡献会与实际的 Alpha 贡献有偏差，若交互项之和大于 0，则会高估 Alpha 因子的能力。
 
 同样在多因子框架下，如果我们重新审视收益归因的出发点，我们希望对组合进行一个拆分，在风险模型的框架下，我们希望将目标组合表达为纯因子组合（factor mimickingportfolio）的线性组合：
 
 $$
-\mathrm{\Delta}\mathrm{w}=\mathrm{H}\lambda+\epsilon
+\mathbf{w}=\mathbf{H}\lambda+\mathbf{e}
 $$
 
 其中H的第k列代表因子k的纯因子组合权重，ϵ则为残差组合。
@@ -951,27 +951,27 @@ $$
 若在上式两边同时乘以股票收益率向量r，那么我们可以得到组合收益的分解：
 
 $$
-\mathbf{w}^{\mathrm{T}}\mathbf{r}=\lambda^{\mathrm{T}}\mathbf{H}^{\mathrm{T}}\mathbf{r}+\boldsymbol{\epsilon}^{\mathrm{T}}\boldsymbol{r}
+\mathbf{w}^{\mathrm{T}}\mathbf{r}=\mathbf{\lambda}^{\mathrm{T}}\mathbf{H}^{\mathrm{T}}\mathbf{r}+\mathbf{\epsilon}^{\mathrm{T}}\mathbf{r}
 $$
 
-而我们在风险模型的构建过程中，已事先计算了因子暴露，得到组合的因子暴露值 $X^{\mathrm{{T}}}w$ 截面回归过程中，已经获得了纯因子组合的收益 $\mathbf{f}=\mathrm{H}^{\mathrm{T}}r$ ，从而有：
+而我们在风险模型的构建过程中，已事先计算了因子暴露，得到组合的因子暴露值 $\mathbf{X}^{\mathrm{T}}\boldsymbol{w}$ 截面回归过程中，已经获得了纯因子组合的收益 $\mathbf{f}=\mathbf{H}^{\mathrm{T}}\boldsymbol{r}$ ，从而有：
 
 $$
-\mathbf{w}^{\mathrm{T}}r=w^{T}Xf+w^{T}\mathbf{u}
+\boldsymbol{\mathsf{w}}^{\mathrm{{T}}}\boldsymbol{r}=\boldsymbol{w}^{T}\boldsymbol{X}\boldsymbol{f}+\boldsymbol{w}^{T}\boldsymbol{\mathsf{u}}
 $$
 
-因此，当且仅当 $\lambda=\Chi^{\mathrm{T}}w$ 的时候，两种思路下的归因结果相同。
+因此，当且仅当 $\lambda=\mathtt{X}^{\mathrm{T}}w$ 的时候，两种思路下的归因结果相同。
 
-沿袭第一种思路，我们希望纯因子组合尽可能解释目标组合w，等价于我们希望在组合线性回归 $\mathbf{w}=\mathrm{H}\lambda+\epsilon\sharp\mathbf{\cdot}\mathbf{\cdot}\mathbf{j}$ ，最小化残差组合的方差：
+沿袭第一种思路，我们希望纯因子组合尽可能解释目标组合w，等价于我们希望在组合线性回归 $\mathrm{w}=\mathrm{H}\lambda+\mathrm{e}$ ，最小化残差组合的方差：
 
 $$
-\operatorname*{min}{\epsilon^{T}\Delta\epsilon}
+\operatorname*{min}\epsilon^{T}\Delta\epsilon
 $$
 
 运用广义最小二乘法可得：
 
 $$
-\mathrm{H^{T}}=(X^{T}\Delta^{-1}X)^{-1}X^{T}\Delta^{-1}
+\mathrm{H}^{\mathrm{T}}=(X^{T}\Delta^{-1}X)^{-1}X^{T}\varDelta^{-1}
 $$
 
 那么当我们求解λ的时候，易得：
@@ -986,22 +986,22 @@ $$
 H^{T}=(X^{T}WX)^{-1}X^{T}W
 $$
 
-那么显然 $\lambda=(H^{T}\varDelta H)^{-1}H^{T}\varDelta w\neq X^{T}w\llcorner$
+那么显然 $\lambda=(H^{T}\varDelta H)^{-1}H^{T}\varDelta w\neq X^{T}w\text{。 }$
 
 ## 3).归因调整
 
 由于残差收益与因子收益在时间序列上仍然存在一定的相关性，我们不妨从时间序列上直接对其构建线性回归模型：
 
 $$
-r_{t}^{T}\epsilon_{t}=\sum_{j}f_{tj}X_{tj}^{T}w\beta_{j}+r^{T}{\tilde{\epsilon}}
+r_{t}^{T}\epsilon_{t}=\sum_{j}f_{tj}X_{tj}^{T}w\beta_{j}+r^{T}\tilde{\epsilon}_{t}
 $$
 
-残差收益贡献为应变量，因子收益贡献为自变量，对每一个因子j都能得到其回归系数 $\beta_{j}$ ， 回归残差rTε为剥离因子收益之后更准确的残差贡献。̃
+残差收益贡献为应变量，因子收益贡献为自变量，对每一个因子j都能得到其回归系数 $i\beta_{j}$ ， 回归残差rTε为剥离因子收益之后更准确的残差贡献。̃
 
 那么原始因子收益归因可以转化为：
 
 $$
-r^{T}w=\sum_{j}f_{j}X_{j}^{T}w+r_{t}^{T}\epsilon_{t}=\sum_{j}f_{j}X_{j}^{T}w+\sum_{j}f_{tj}X_{tj}^{T}w\beta_{j}+r^{T}\tilde{\epsilon}=\sum_{j}f_{j}X_{j}^{T}w\big(1+\beta_{j}\big)+r^{T}\tilde{\epsilon}
+r^{T}w=\sum_{j}f_{j}X_{j}^{T}w+r_{t}^{T}\epsilon_{t}=\sum_{j}f_{j}X_{j}^{T}w+\sum_{j}f_{tj}X_{tj}^{T}w\beta_{j}+r^{T}\bar{\epsilon}\\=\sum_{j}f_{j}X_{j}^{T}w\big(1+\beta_{j}\big)+r^{T}\bar{\epsilon}
 $$
 
 如果我们将分解后的残差收益重新代入原式，可以看做是将原有的因子收益贡献乘以一个相对调整系数 $\left(1+\beta_{j}\right)$ ，这样做的好处在于，一是因子收益在时序上是变化的，相对值调整能保留变化的特征；二是在于，乘以一个相对调整系数可以避免调整出现不合理的因子收益贡献突变。
@@ -1010,7 +1010,7 @@ $$
 
 图表33：收益贡献回归结果
 
-| Coef ${\bf\Xi}(\beta_{j}{\bf\Lambda})$ | std err | t | P>1t1 |
+| Coef $(\pmb{\beta}_{j})$ | std err | t | P>1t1 |
 | --- | --- | --- | --- |
 | beta -0.1876 | 0.0590 | -3.1760 | 0.0020 |
 | 盈利 -0.3776 | 0.0840 | -4.4830 | 0.0000 |
@@ -1079,7 +1079,7 @@ $$
 当然我们也可以从后验的角度，利用策略整个回测时间窗口的收益序列，进行风险划分：
 
 $$
-\operatorname{var}(R)=\operatorname{cov}\left(\mathrm{R},\sum_{\mathrm{k}}x_{k}f_{k}\right)=\sum_{\mathrm{k}}cov(R,x_{k}f_{k})
+\mathrm{var}(R)=\mathrm{cov}\left(R,\sum_{k}x_{k}f_{k}\right)=\sum_{k}\mathrm{cov}(R,x_{k}f_{k})
 $$
 
 ## 2).截面风险归因
@@ -1087,26 +1087,26 @@ $$
 沿袭 Barra 对收益率的拆解，我们按上文对波动率做进一步的演化：
 
 $$
-\sigma(R)=\frac{\sigma^{2}(R)}{\sigma(R)}=\frac{Cov(R,~\sum_{k}X_{k}f_{k}+\sum_{n}h_{n}u_{n})}{\sigma(R)}=\frac{Cov(R,~\sum_{k}X_{k}f_{k})+Cov(R,~\sum_{n}h_{n}u_{n})}{\sigma(R)}
+\sigma(R)=\frac{\sigma^{2}(R)}{\sigma(R)}=\frac{Cov(R,\ \sum_{k}X_{k}f_{k}+\sum_{n}h_{n}u_{n})}{\sigma(R)}=\frac{Cov(R,\ \sum_{k}X_{k}f_{k})+Cov(R,\ \sum_{n}h_{n}u_{n})}{\sigma(R)}
 $$
 
 因此我们有
 
 $$
-\sigma(R)=\sum_{k}X_{k}\sigma(f_{k})\rho(f_{k},R)+\sum_{n}h_{n}\sigma(u_{n})\rho(u_{n},R)
+\sigma(R)=\sum_{k}X_{k}\sigma(f_{k})\rho(f_{k},R)+\sum_{n}h_{n}\sigma(u_{n})\rho(u_{n},R),
 $$
 
-其中， $\sigma(f_{k})\rho(f_{k},\mathrm{R})$ 为因子的边际风险贡献。
+其中， $\sigma(f_{k})\rho(f_{k},\mathsf{R})$ 为因子的边际风险贡献。
 
 由此可见，组合风险的来源可以拆分为共同风险和特质风险，且分别由三个因素驱动：- 组合在因子上的暴露；收益源因子的波动率；收益源因子与组合收益的相关性。
 
 而当我们考虑因子收益与组合收益的相关性时，我们有：
 
 $$
-\rho\big(f_{k},r_{p}\big)=\sum_{1}X_{l}\left[\frac{\sigma(f_{l})}{\sigma(R)}\right]\rho(f_{l},f_{k})
+\rho\big(f_{k},r_{p}\big)=\sum_{l}X_{l}\left[\frac{\sigma(f_{l})}{\sigma(R)}\right]\rho(f_{l},f_{k}),
 $$
 
-换言之，因子收益 $f_{k}$ 与组合收益的相关系数是该因子与其他因子收益的相关系数以$X_{l}\left[\frac{\sigma(f_{l})}{\sigma(R)}\right]$ 为权重的加和。因此，多因子模型中因子之间的千丝万缕的联系会对组合的风险分布产生至关重要的影响。
+换言之，因子收益 $f_{k}$ 与组合收益的相关系数是该因子与其他因子收益的相关系数以$\begin{array}{r}{X_{l}\left[\frac{\sigma(f_{l})}{\sigma(R)}\right]}\end{array}$ 为权重的加和。因此，多因子模型中因子之间的千丝万缕的联系会对组合的风险分布产生至关重要的影响。
 
 我们仍使用收益归因中的例子，将某个调仓日最优组合的先验风险归因结果（只列出风格因子项）按照风险贡献按绝对值降序排列如下：
 

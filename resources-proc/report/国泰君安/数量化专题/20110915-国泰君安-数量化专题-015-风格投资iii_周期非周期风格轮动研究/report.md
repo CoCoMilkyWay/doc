@@ -219,7 +219,7 @@ $$
 运用所有样本数据拟合模型可得:
 
 $$
-\begin{array}{l}{{Ln\left(\displaystyle\frac{p}{1-p}\right)=1.44cpi_{-}th-0.79cpi_{-}th+0.42ia_{-}th3+0.56cci_{-}d}}\\{{-0.07\exp_{-}h-0.29sum_{-}th}}\end{array}
+\begin{aligned}&Ln\left(\frac{p}{1-p}\right)=1.44cpi_{-}th-0.79cpi_{-}th+0.42ia_{-}th3+0.56cci_{-}dt\\&\\&-0.07\exp_{-}h-0.29sum_{-}th\\\end{aligned}
 $$
 
 具体参数及拟合度如下表所示：

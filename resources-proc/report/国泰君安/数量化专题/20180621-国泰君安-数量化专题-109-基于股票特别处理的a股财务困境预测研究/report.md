@@ -199,10 +199,10 @@ $$
 AR_{it}=R_{it}-R_{It}
 $$
 
-其中 $R_{it}$ 为 i 股第 t 日的日收益， $R_{It}$ 为 i 股所对应的申万一级行业指数在t日的收益， $AR_{it}$ 则代表个股的日度超额收益。累计超额收益 $CUMRET_{it}.$ 是日度超额收益的逐日累加。
+其中 $R_{it}$ 为 i 股第 t 日的日收益， $R_{It}$ 为 i 股所对应的申万一级行业指数在t日的收益， $AR_{it}$ 则代表个股的日度超额收益。累计超额收益 $CUMRET_{it.}$ 是日度超额收益的逐日累加。
 
 $$
-CUMRET_{it}=\sum_{d=-150}^{t}AR_{id}
+{CUMRET}_{it}=\sum_{d=-150}^{t}AR_{id},
 $$
 
 图 2 2016-2018 年 ST 前后累积超额收益
@@ -248,7 +248,7 @@ $$
 \mathrm{Z}=0.012X_{1}+0.014X_{2}+0.033X_{3}+0.006X_{4}+0.999X_{5}
 $$
 
-其中， $X_{1^{=}}$ 营运资本/总资产， $X_{2}=\hookleftarrow$ 存收益/总资产， $X_{3^{=}}$ 息税前利润/总资 $\cdot\vec{j^{z}}$ ， $X_{4}=XZ$ 益市值/总负债账面价值， $X_{5}=$ 销售收入/总资产。
+其中， $X_{1}-$ 营运资本/总资产， $X_{2}三留$ 存收益/总资产， $X_{3}-$ 息税前利润/总资 $\cdot 产$ ， $X_{4}三权$ 益市值/总负债账面价值， $X_{5}{\mathrm{{-}}}$ 销售收入/总资产。
 
 Z-Score 模型基于各变量加权得分对企业是否破产进行判断，在 Z-Score原始模型中，得分高于2.99 的属于“安全”区域、低于 1.80的属于“困境”区域，两个得分之间的属于“灰色”区域。
 
@@ -270,14 +270,14 @@ Altman（2014）将破产预测模型拓展到美国以外的市场，其中包�
 ![](images/bd1cfd16c4ba4e30a11917bad6e08d30137c775b424f1f42c6a2d9fa6c7265ed.webp)
 数据来源：《机器学习》，周志华。
 
-给定数据集 $\mathrm{D}=\{(\pmb{x}_{i},\pmb{y}_{i})\}_{i=1}^{m},~y_{i}\in\{0,1\}$ ，令 $\mu_{i}$ $\Sigma_{i}$ 分别表示第i类示例的集合、均值向量、协方差矩阵。若将数据投影到直线 $^{\prime w\pm}$ ，则两类样本在直线上的投影分别为 ${\pmb w}^{T}{\pmb\mu}_{0}$ 和 $\tau{\pmb{u}}\pmb{\nu}^{T}{\mu}_{1};$ ；若将所有样本点都投影到
+给定数据集 $\mathrm{D}=\left\{(x_i,y_i)\right\}_{i=1}^m,\quad y_i\in\{0,1\}$ ，令 $\mu_{i}$ $\Sigma_{i}$ 分别表示第i类示例的集合、均值向量、协方差矩阵。若将数据投影到直线 $w上$ ，则两类样本在直线上的投影分别为 $\pmb{\mathscr{w}}^{T}\mu_{0}$ 和 $\imath\pmb{\mathscr{w}}^{T}\mu_{1};$ ；若将所有样本点都投影到
 
-直线上，则两类样本的协方差分别为 $\pmb{w}^{T}\Sigma_{_0}\pmb{w}\pmb{\mathcal{F}}\mathbf{\mu}\pmb{w}^{T}\Sigma_{_1}\pmb{w}$
+直线上，则两类样本的协方差分别为 $\boldsymbol{\mathcal{W}}^T\boldsymbol{\Sigma}_0\boldsymbol{\mathcal{W}}和\boldsymbol{\mathcal{W}}^T\boldsymbol{\Sigma}_1\boldsymbol{\mathcal{W}}$
 
-投影线的选择欲使同类样例的投影点尽可能接近，也即同类样例投影点的协方差尽可能小，即最小化 $\pmb{w}^{T}\Sigma_{_0}\pmb{w}\mathrm{+}\pmb{w}^{T}\Sigma_{_1}\pmb{w}$ ，并且异类样例的投U影点尽可能远离，也即让类中心距离尽可能大，即最大化$||\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}||\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}\boldsymbol{\mathbf{\ell}}$ ，将两方目标结合，则可得到如下最优化目标：
+投影线的选择欲使同类样例的投影点尽可能接近，也即同类样例投影点的协方差尽可能小，即最小化 $\boldsymbol{w}^{T}\boldsymbol{\Sigma}_{0}\boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{\Sigma}_{1}\boldsymbol{w}$ ，并且异类样例的投U影点尽可能远离，也即让类中心距离尽可能大，即最大化$||\pmb{\mathscr{w}}^{T}\mu_{0}+\pmb{\mathscr{w}}^{T}\mu_{1}$ ，将两方目标结合，则可得到如下最优化目标：
 
 $$
-\begin{array}{rl}{\mathsf{Max}}&{{}\quad\mathcal{L}=\frac{||\boldsymbol{\omega}^{T}\boldsymbol{\mu}_{0}+\boldsymbol{\omega}^{T}\boldsymbol{\mu}_{1}||_{2}^{2}}{\boldsymbol{\omega}^{T}\Sigma_{0}\boldsymbol{\omega}+\boldsymbol{\omega}^{T}\Sigma_{1}\boldsymbol{\omega}}}\end{array}\tag{1}
+\mathrm{Max}\quad\mathcal{L}=\frac{||\boldsymbol{w}^{T}\boldsymbol{\mu}_{0}+\boldsymbol{w}^{T}\boldsymbol{\mu}_{1}||_{2}^{2}}{\boldsymbol{w}^{T}\boldsymbol{\Sigma}_{0}\boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{\Sigma}_{1}\boldsymbol{w}}\tag{1}
 $$
 
 图 4 Fisher 判别投影方式
@@ -389,10 +389,10 @@ Logistic 回归分析是另外一种常用的处理分类变量的模型，相�
 本文写作时也曾复制了Campbelletal.（2008）模型，但是效果并不理想，考虑可能的原因是从 A 股的历史表现来看，ST 股票常常作为“壳”概念被市场炒作，股价表现并不能发挥出应有的预测作用。同时为了与Fisher 判别分析方法进行更好的比较，本节构建的 Logistic 模型同样基于上一节中表3列举出的各项表示上市公司经营状况的财务指标。另外，鉴于以往绝大多数上市公司都是因为连续两年净利润为负而被实施 ST，当年实现负净利润的公司属于高危公司，因此本节在 Logistic 模型中加入了指示当年净利润是否为负的二值变量。整体模型设定如下：
 
 $$
-\begin{array}{r}{P_{t-1}\big(Y_{i,t}^{j}=1\big|Y_{i,t-1}^{j}=0\big)=\frac{1}{1+\exp(-\alpha_{j}-\beta_{j}x_{i,t-1})}}\end{array}
+P_{t-1}\left(Y_{i,t}^{j}=1\mid Y_{i,t-1}^{j}=0\right)=\frac{1}{1+\exp(-\alpha_{j}-\beta_{j}x_{i,t-1})}
 $$
 
-在进行模型预测时，被解释变量为实施ST的条件概率，也就是在 t-1期没有被 ST 的公司，在 t 期的 ST 状况。 $Y_{i,t}^{j}=1~Y\perp i,t\perp j\perp{=}0$ 表示 i 公司在t期被实施特别处理ST（*ST）， $Y_{i,t}^{j}=0$ 则为正常状态。最后得到的P值越接近于1，意味着该公司被实施特别处理的概率就越大。
+在进行模型预测时，被解释变量为实施ST的条件概率，也就是在 t-1期没有被 ST 的公司，在 t 期的 ST 状况。 $Y_{i,t}^{j}=1\quad Y\perp i{,}t\perp j\perp=0$ 表示 i 公司在t期被实施特别处理ST（*ST）， $Y_{i,t}^{j}=0$ 则为正常状态。最后得到的P值越接近于1，意味着该公司被实施特别处理的概率就越大。
 
 Logit模型用于实际预测的过程与 Fisher判别相类似，首先选取四年的样本训练期，选取具有显著预测效果的投入变量并得到其相应系数，用于下一期数据的预测，每一期向后滚动。从而得到每只股票对应的下一期被实施ST 的概率。
 

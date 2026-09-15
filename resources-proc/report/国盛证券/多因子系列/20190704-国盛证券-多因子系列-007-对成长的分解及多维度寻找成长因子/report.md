@@ -58,19 +58,19 @@
 
 ## 1.2 盈利增长的来源
 
-Damodaran 在《估值：难点、解决方案及相关案例》中将企业要素增长分解为两个来源：拓展业务的新投资和已有投资的效能改善。将利润增长率进行分解有助于我们更好地评估增长：我们定义t时期的利润为 $\mathrm{E}_{\mathrm{t}}.$ ，t时期开始的投资为 $\mathrm{I_{t}}$ ，该项投资的回报率为 $\mathrm{ROI}_{\mathrm{t}}$ 那么我们可得：
+Damodaran 在《估值：难点、解决方案及相关案例》中将企业要素增长分解为两个来源：拓展业务的新投资和已有投资的效能改善。将利润增长率进行分解有助于我们更好地评估增长：我们定义t时期的利润为 $\mathrm{E_{t}}_{:}$ ，t时期开始的投资为 $\mathbf{I_{t1}}$ ，该项投资的回报率为 $\mathrm{R0I_{t}}$ 那么我们可得：
 
 $$
-\mathrm{E}_{\mathrm{t}}=ROI_{t}\times I_{t}
+\mathtt{E_{t}}=ROI_{t}\times I_{t}
 $$
 
 假设利润从t−1期到t期的变化额为 $\Delta E$ ，投资额的变化为ΔI，那么利润的增长率g可以分解为：
 
 $$
-\mathbf{g}={\frac{\Delta\mathrm{E}}{\mathrm{E}_{\mathrm{t}-1}}}={\frac{ROI_{t}\times I_{t}-ROI_{t-1}\times I_{t-1}}{E_{t-1}}}=\mathrm{ROI_{t}}\times{\frac{\Delta I}{E_{t-1}}}+{\frac{\mathrm{ROI_{t}}-\mathrm{ROI_{t-1}}}{ROI_{t-1}}}
+\mathrm{g}=\frac{\Delta\mathrm{E}}{\mathrm{E}_{\mathrm{t}-1}}=\frac{\mathrm{ROI}_{\mathrm{t}}\times\mathrm{I}_{\mathrm{t}}-\mathrm{ROI}_{\mathrm{t}-1}\times\mathrm{I}_{\mathrm{t}-1}}{\mathrm{E}_{\mathrm{t}-1}}=\mathrm{ROI}_{\mathrm{t}}\times\frac{\Delta\mathrm{I}}{\mathrm{E}_{\mathrm{t}-1}}+\frac{\mathrm{ROI}_{\mathrm{t}}-\mathrm{ROI}_{\mathrm{t}-1}}{\mathrm{ROI}_{\mathrm{t}-1}}
 $$
 
-等式的第一项体现了新投资带来的增长，受新投资的回报率 $\mathrm{\cdot ROI_{t}}$ 和投入比例 $\frac{\Delta I}{E_{t-1}}$ 的影响，第二项则体现现有资产投资回报率变化的影响，这部分也被称作效率的增长。
+等式的第一项体现了新投资带来的增长，受新投资的回报率 $\cdot\mathrm{R0I_{t}}$ 和投入比例 $\frac{\Delta I}{E_{t-1}}$ 的影响，第二项则体现现有资产投资回报率变化的影响，这部分也被称作效率的增长。
 
 图表1：企业盈利增长来源
 ![](images/d755449df828a25b9384bd553e8bc257c7d3124404adbc432d564d17bb1671a5.webp)
@@ -108,7 +108,7 @@ $$
 我们考虑企业的股权利润。假设一家企业 ROE不变，并且在本期将上期净利润全部投入再生产，则
 
 $$
-\mathbf{g}=\mathsf{ROE}
+\mathrm{g}=\mathrm{ROE}
 $$
 
 换言之即使一家企业没有进行大量的研发和技术革新，只要公司能维持较高的投资回报率，并源源不断地将经营所得再投入生产，扩大规模，同样也能实现净利润的增长，并且是复利式增长。长期来看，超过ROE的增长较难持续，ROE是增长之源，也是长期增长中枢。因此，虽然我们视ROIC和ROE为反映企业盈利能力指标，但其本质反映了企业的内生成长性。
@@ -199,7 +199,7 @@ $$
 边际投资回报率反映企业在该期新投入的资金带来新增的回报：
 
 $$
-\begin{array}{c}{{Marginal~ROIC=\displaystyle\frac{(EBIT_{t}-EBIT_{t-1})(1-tax~rate)}{Investment~Cap_{t}-Investment~Cap_{t-1}}}}\\{{Marginal~ROE=\displaystyle\frac{NP_{t}-NP_{t-1}}{Equity_{t}-Equity_{t-1}}}}\end{array}
+\begin{aligned}MaxignalROIC=&\frac{(EBIT_{t}-EBIT_{t-1})(1-taxrate)}{InvestmentCap_{t}-InvestmentCap_{t-1}}\\MaxignalROE=&\frac{NP_{t}-NP_{t-1}}{Equity_{t}-Equity_{t-1}}\end{aligned}
 $$
 
 图表9:边际回报率因子和回报率同比因子检验结果
@@ -224,7 +224,7 @@ $$
 为了更进一步考虑投资效率提升的来源，我们可以将 ROIC 和 ROE 拆分为利润率和周转率：
 
 $$
-\begin{array}{c}{{\mathrm{ROIC}=\displaystyle\frac{EBIT(1-taxrate)}{Investment~Cap}=\displaystyle\frac{EBIT(1-taxrate)}{Sales}\times\displaystyle\frac{Sales}{Investment~Cap}}}\\{{\mathrm{ROE}=\displaystyle\frac{NetProfit}{Equity}=\displaystyle\frac{NetProfit}{Sales}\times\displaystyle\frac{Sales}{Equity}}}\end{array}
+\frac{EBIT(1-taxrate)}{InvestmentCap}=\frac{EBIT(1-taxrate)}{Sales}\times\frac{Sales}{InvestmentCap}\times\frac{RoI}{RoI}\times\frac{RoI}{RoI}\times\frac{RoI}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\frac{o}{o}\times\times{o}\frac{o}{o}\times\times\frac{o}{o}\times\frac{o}{o}\times\times{o}\frac{o}{o}\times\times\frac{o}{o}\times\frac{o}{o}\times\times{o}\frac{o}\times{o}\times\frac{o}{o}\times\times{o}\times\frac{o}{o}\times\frac{o}{o}\times\times\frac{o}{o}\times\frac{o}{o}\times\times\frac{o}{o}\times\frac{o}{o}\times\times{o}\times
 $$
 
 企业可以通过提高利润率或者加快资产周转率来提升自身的经营效率。利润率衡量了企业将销售额转化为利润的能力，周转率反映企业资产变现为销售额的能力。一家实施产品差异化战略的企业，会专注于新产品研发提升产品利润率；而一家实施成本领先战略的企业，其主要目标在于解决企业经营中无效率的问题，提高资产周转率，从而实现利润的增长；当然，二者间也往往存在交互影响。
@@ -232,13 +232,13 @@ $$
 企业毛利率（Operation Profit/Sales）很大程度上是由产品或者行业的天然属性决定的，高毛利率往往是高盈利的出发点。而毛利率的提高，更有可能来自于企业对产品或业务的革新，为最终投资回报率的提升打好基础。而其他利润率指标，比如 EBIT/Sales、NetProfit/Sales 等指标的提升，可能来自于毛利润的提升，也可能来自于企业期间费用、税率、非经常性损益的变动。从该逻辑出发，我们构建利润率变动因子。
 
 $$
-profitmargindelta_{t}=\frac{profit_{t}}{sales_{t}}-\frac{profit_{t-1}}{sales_{t-1}}
+profit\;margin\;delta_{t}=\frac{profit_{t}}{sales_{t}}-\frac{profit_{t-1}}{sales_{t-1}}
 $$
 
 不同企业经营所依赖的资产有较大区别，着重考察的资产周转率也有所侧重，例如相对于轻资产企业来说，重资产行业的企业更加重视固定资产的周转率。因此我们在考察总资产周转率及其变动因子的同时，也同时考察了不同类型资产的周转率变化因子。
 
 $$
-assetturnoverdelta_{t}=\frac{sales_{t}}{assets_{t}}-\frac{sales_{t-1}}{assets_{t-1}}
+asset\;turnover\;delta_{t}=\frac{sales_{t}}{assets_{t}}-\frac{sales_{t-1}}{assets_{t-1}}
 $$
 
 图表11：经营效率提升因子检验结果
@@ -537,7 +537,7 @@ $$
 我们考察利用成长因子对指数增强组合是否有贡献。我们根据上述几个维度分别合成相应成长因子，分别用等权和过去 12 个月的 ICIR 加权合成 alpha 信号，控制组合在除成长以外其他风格和行业上的暴露，测试其相对中证500是否有超额收益，即构建成长增强组合。月频调仓，组合优化形式如下：
 
 $$
-\begin{array}{rl}&{\qquad\mathrm{max~w^{T}{alpha}~}}\\&{\mathrm{s.t.Tracking~error}\leq5\%}\\&{\qquad\bigl|{\bf w}^{\mathrm{T}}\mathrm{Style_{i}}\bigr|\leq0.05}\\&{\qquad\bigl|{\bf w}^{\mathrm{T}}\mathrm{Industry_{j}}\bigr|\leq0.05}\\&{\qquad0\leq\mathrm{w_{n}}+{\bf w}_{\mathrm{bench}}\leq0.1}\\&{\qquad\mathrm{sum}({\bf w}_{\mathrm{n}}+{\bf w}_{\mathrm{bench}})=1}\end{array}
+\begin{aligned}&\max\mathrm{w^{T}}\mathrm{allha}\\s.t.&\operatorname{Tracking\:error}\leq5\%\\&\quad\left|\mathrm{w^{T}}\mathrm{Style_{i}}\right|\leq0.05\\&\quad\left|\mathrm{w^{T}Industry_{j}}\right|\leq0.05\\&0\leq\mathrm{w_{n}}+\mathrm{w_{bencch}}\leq0.1\\&\operatorname{sum}(\mathrm{w_{n}}+\mathrm{w_{bencch}})=1\end{aligned}
 $$
 
 成长增强策略整体表现比仅关注业绩增速的策略在年化化收益上提升 5.45%，信息比从1.02 提升至 1.97。

@@ -55,10 +55,10 @@ wangxingxing@orientsec.com.cn
 Ohlson(1995)在前人的研究基础上（Preinreich, 1938; Kay, 1976; Edwards and Bell, 1961）根据净盈余关系(clean surplus)由股利折现模型推到导出了剩余收益模型:
 
 $$
-V_{t}^{*}=B_{t}+\sum_{i}^{\infty}\frac{E_{t}[(ROE_{t+i}-r)B_{t+i-1}]}{(1+r)^{i}}
+V_{t}^{*}=B_{t}+\sum_{i}^{\infty}\frac{E_{t}[(ROE_{t+i}-r)B_{t+i-1}]}{(1+r)^{i}},
 $$
 
-其中，  为股票在 t时刻的内在价值， $\mathrm{B_{t}}$ 为股票在 t时刻的账面净资产， $\mathrm{ROE}_{\mathrm{t+i}}$ 表示 t+i时刻的净资产收益率，r表示权益的资本成本。
+其中，  为股票在 t时刻的内在价值， $\mathrm{B_{t}}$ 为股票在 t时刻的账面净资产， $\mathrm{ROE_{t+i}}$ 表示 t+i时刻的净资产收益率，r表示权益的资本成本。
 
 剩余收益模型很好的阐述了账面价值、预期未来盈利能力和折现率之间的关系，在账面价值和折现率一定的情况下，股票内在价值和预期盈利能力正相关，预期盈利能力（ROE）越强的公司，其权益的内在价值越高。然而在一个相对有效的市场中，预期的盈利能力已经反应在股价中，买入盈利能力强的股票并不能带来超额收益，但是，预期外的盈利能力在公告后会改变原有预期推动股价变动从而带来超额收益。
 
@@ -75,25 +75,25 @@ $$
 为了完全剥离金融活动对企业盈利能力度量的影响，Nissim和Penman(2001)从ROE出发，将净利润和股东权益（净资产，不含优先股）完全拆分成经营活动部分和金融活动部分，提出了RNOA（净经营资产收益率）的概念。
 
 $$
-\ P_{\mathrm{\Phi}}[\Phi]\dot{\Sigma}[\exists NI~=~\frac{\ell\Xi}{\Xi\Xi}\Xi^{\pm\pm}\vec{\Sigma}^{\|}]\dot{\Sigma}[\mathbf{\Sigma}]OI~-~\widehat{\Xi}\widehat{\Xi}\widehat{\Xi}\Xi\Xi^{\pm}\Xi\stackrel{\pm}{\Sigma}\downarrow+NFE
+净利润NI=经营利润OI-金融净支出NFE
 $$
 
 $$
-A_{\sf X}^{n}\mathop{\mathcal{Z}}_{\sf X}^{\prime}\mathop{\mathcal{Z}}\mathop{\mathcal{Z}}\mathop{\mathcal{Z}}\mathop{S}E=\mathrm{~\forall~}\oint\mathrm{d}\mathrm{~\underset{\sf X}{\mathrm{R}}~}I\partial\mathrm{~\neq~}N\partial A\mathrm{~-~}\mathrm{~\underset{\sf X}{\mathrm{R}}~}I\partial\mathrm{~\neq~}NFO
+股东状益SE=净经营资产NOA-净金融负债NFO
 $$
 
 其中：
 
 $$
-\frac{1}{12}\frac{m}{12}\times\frac{4}{3}\times11NFE=\frac{3}{12}\times\frac{m}{12}\times\frac{4}{3}\times11-\frac{3}{12}\times\frac{m}{12}\times11\times\Lambda
+金融净支出NFE=税后金融支出-税后金融收入
 $$
 
 $$
-\sharp\sharp\sharp\sharp\sharp\sharp\sharp\sharp\wedge\varkappa\partial_{\varphi}^{\star}NOA=\sharp\sharp\sharp\sharp\partial_{\varphi}^{\star\pm}\partial_{\varphi}^{\star}\partial_{\varphi}^{\star}OA-\sharp\sharp\sharp\partial_{\varphi}^{\star\pm}\partial_{\varphi}^{\star}O\mathsf{L}
+净经营资产NOA=经营资产\;0A\;-经营负债\;0L
 $$
 
 $$
-\sharp\sharp\sharp\sharp\sharp\sharp\varkappa\sharp/\sharp\Lambda FO=\lesssim\sharp\sharp\sharp\underline{{\varphi}}_{\sharp}\sharp\sharp\sharp\in F0\ -\sharp\sharp\sharp\sharp\varphi\qquad\mathrm{FA}
+净金融负债NFO=金融负债F0-金融资产FA
 $$
 
 经营性负债是指企业由于经营性活动所导致的负债，如应付账款、应付职工薪酬等，金融性资产是指与企业主要经营活动无关的、可以用来抵偿债务的资产项目，主要是经营活动正常需求以外的现金及存款，可供出售金融资产、投资性房地产等。根据会计恒等式上述资产项满足下列关系：
@@ -123,11 +123,11 @@ $$
 ，定义表示经营性资产盈利能力的指标 RNOA和表示净融资成本的指标 NBC如下：
 
 $$
-\mathtt{P4}\underbrace{\frac{4}{2}\underline{{\lambda}}\underline{{\lambda}}}_{\ge\underline{{\lambda}}}\mathtt{r}\mathtt{k}\mathtt{i}\underbrace{\dot{\gamma}\overline{{\lambda}}}_{\ge\underline{{\lambda}}}\mathtt{\dot{j}}\mathtt{K}\mathtt{i}\underbrace{\frac{\partial}{\partial\mathrm{i}}\mathrm{\partial}\mathrm{i}}_{\ge\underline{{\lambda}}}\mathtt{k}\underline{{\lambda}}\mathtt{k}\underline{{\lambda}}\mathtt{m}A=\\frac{\frac{4}{2}\underline{{\lambda}}\underline{{\lambda}}\underline{{\lambda}}+\underline{{\lambda}}}{\mathtt{k}\sharp\underline{{\lambda}}\underline{{\lambda}}}\mathtt{r}\mathtt{i}\underline{{j}}\underline{{\lambda}}\mathtt{i}\underline{{\lambda}}\mathtt{j}OI
+净经营性资产收益率ROA=\frac{经营利润OI}{净经营性资产NOA}
 $$
 
 $$
-\begin{array}{c}\mathtt{\backslash\Psi\underbrace{\Xi}_{\mathtt{H}\mathtt{d}\mathtt{d}}\underbrace{\mathtt{\backslash}\mathtt{A}}_{\mathtt{\langle P\mathtt{d}}}\mathtt{\backslash}\mathtt{\partial}\mathtt{\backslash}\mathtt{\partial}\mathtt{\backslash}\mathtt{NPC}=\mathtt{\frac{\ I_{\mathtt{N}}\Xi}{\mathtt{\backslash}\mathtt{A}}\Pi\Sigma}\mathtt{\backslash}\mathtt{NFE}}\end{array}
+净融资成本NBC=\frac{金融净支出NFE}{净金融负债NFO}
 $$
 
 其中，经营利润 OI（OI=NI+NFE）是从净经营资产中赚取的所有经营性利润（税后），金融净支出为所有金融支出与所有金融收入之差（税后），主要是利息净支出和金融资产公允价值变动的收益。
@@ -137,23 +137,23 @@ RNOA 不同于传统的 ROE、ROA 等指标，ROE、ROA等把企业的经营性�
 由于净利润等于经营利润 OI 和金融净支出 NFE 之差，所以传统的 ROE 可以做如下改写：
 
 $$
-ROE={\frac{NOA}{SE}}\times RNOA-{\frac{NFO}{SE}}\times NBC
+ROE=\frac{NOA}{SE}\times RNOA-\frac{NFO}{SE}\times NBC
 $$
 
 ROE 从某种意义上讲就是 RNOA 和 NBC的加权平均，上式再做变形，我们可以得到：
 
 $$
-ROE=RNOA+[FLEV\times SPREAD]
+ROE=RNOA+\left[FLEV\times SPREAD\right]
 $$
 
 其中：
 
 $$
-\begin{array}{r}{\underline{{\widehat{\mathbb{P}}}}\underline{{\mathbb{E}}}\underline{{\mathbb{d}}}\underline{{\sf t}}{\sf T}{\sf t}{\sf T}{\sf F}{\sf E}{\sf E}{\sf V}=\frac{\gamma\underline{{\sf4}}}{\mathbb{R}_{\sf4}^{2}\underline{{\sf t}}_{\sf4}}\underline{{\sf\Sigma}}\breve{\sf T}\breve{\sf\Sigma}\breve{\sf P}{\cal F}O}{\mathbb{R}_{\sf4}^{n}\underline{{\sf t}}_{\sf4}\breve{\sf R}_{\sf4}^{2}\underline{{\sf t}}_{\sf4}}\sf X\breve{\sf\Sigma}\breve{\sf E}\end{array}
+金融杠杆FLEV=\frac{净金融负债NFO}{股东权益SE}
 $$
 
 $$
-\Delta E\cong\Delta RPEAD=\Delta E\cong\Delta EP\cong\Delta EP.(\Delta EPS\cong\Delta EPS)
+息差SRPEAD=净经营资产收益率RNOA-净融资成本NBC
 $$
 
 从 ROE的分解可以看出，公司的净资产收益率可以拆分成净经营资产的收益率 RNOA和金融活动产生的调整项[ ]，当净经营资产的收益率高于净借贷成本时（SPREAD>0），金融活动对 ROE 产生正的贡献，当净经营资产的收益率低于净借贷成本时（SPREAD<0），金融活动对 ROE产生负的贡献，
@@ -236,17 +236,17 @@ $$
 
 其中， $RNOA_{y}$ 表示 $\mathsf{y}$ 年度的净经营资产净利率，下标 ly表示上一年度的数据，各个解释变量均由上一年度报告期公告截止日（即 4月 30日）及之前可获得的数据计算可得，各个解释变量具体定义如下：
 
-（1） $\frac{B_{ly}}{M_{ly}}.$ ，上一年度报告公告截止日前可获得的最新的账面市值比对数；
+（1） $\frac{B_{ly}}{M_{ly}},$ ，上一年度报告公告截止日前可获得的最新的账面市值比对数；
 
 （2） $lnMC_{ly}$ ，上一年度报告公告截止日前可获得的最新的总市值对数；
 
-（3） $\cdot\frac{dNOA_{ly}}{NOA_{ly}}.$ ，上一年度净经营资产的同比增长；
+（3） $\cdot\frac{dNOA_{ly}}{NOA_{ly}},$ ，上一年度净经营资产的同比增长；
 
 （4） $RNOA_{ly}$ ，上一年度的净经营资产收益率；
 
 （5） $dRNOA_{ly}$ ，上一年度的净经营资产收益率的同比变化量；
 
-（6） $\frac{ACC_{ly}}{NOA_{ly}}.$ ，上一年度的应计盈余偏差（Accrual，用营业利润减去经营活动现金净流量表示），经净经营资产调整；
+（6） $\frac{ACC_{ly}}{NOA_{ly}},$ ，上一年度的应计盈余偏差（Accrual，用营业利润减去经营活动现金净流量表示），经净经营资产调整；
 
 （7） $NODIVD_{ly}$ ，上一年度是否分红的哑变量，不分红取 1，分红取 0，4 月 30 日前未公告分红预案的视为不分红；
 
@@ -280,7 +280,7 @@ $$
 本文采用下列回归方程预测季度的盈利能力：
 
 $$
-\begin{array}{c}{{RNOA_{q}^{MRQ}=a+b_{1}\cdot ln\displaystyle\frac{B_{lq}}{M_{lq}}+b_{2}\cdot ln{\cal M}C_{lq}+b_{3}\cdot\displaystyle\frac{dNOA_{lq}}{NOA_{lq}}+b_{4}\cdot RNOA_{ly}^{MRQ}+}}\\{{{}}}\\{{b_{5}\cdot dRNOA_{ly}^{MRQ}=b_{6}\cdot dRNOA_{lq}^{MRQ}+b_{7}\cdot\displaystyle\frac{ACC_{lq}^{TTM}}{NOA_{lq}}+b_{8}\cdot NODIVD_{lq}+b_{9}\displaystyle\frac{DIVD_{lq}}{NOA_{lq}}+\varepsilon_{y}}}\end{array}
+\begin{aligned}&RNOA_{q}^{MRQ}=a+b_{1}\cdot ln\frac{B_{iq}}{M_{lq}}+b_{2}\cdot lnMC_{lq}+b_{3}\cdot\frac{dNOA_{iq}}{NOA_{lq}}+b_{4}\cdot RNOA_{ly}^{MRQ}+\\&\\&b_{5}\cdot dRNOA_{ly}^{MRQ}+b_{6}\cdot dRNOA_{lq}^{MRQ}+b_{7}\cdot\frac{ACC_{lq}^{TTM}}{NOA_{lq}}+b_{8}\cdot NODIVD_{lq}+b_{9}\frac{DIVD_{lq}}{NOA_{lq}}+\varepsilon_{y}\\\end{aligned}
 $$
 
 其中， $RNOA_{q}^{MRQ}$ 表示季度 q 的季度 RNOA， 上标 MRQ 表示季度值、上标 TTM 表示 TTM值，下标 lq 表示上一季度（由于数据的可获得性、这里一季度的上一季度 lq 指前一年三季度），下标 ly 表示去年同期。季度盈利能力 RNOA 回归预测方程的各个解释变量均由上一季度（一季报为去年三季报）报告期公告截止日及之前可获得的数据计算可得，各个解释变量的具体定义如下：
@@ -297,11 +297,11 @@ $$
 
 （6） $dRNOA_{lq}^{MRQ}$ ，上季度的同比变化量，季度值；
 
-（7） $\frac{ACC_{l\mathbf{q}}^{TTM}}{NOA_{lq}}.$ ，上季度的应计盈余偏差，TTM值；
+（7） $\frac{ACC_{l\mathbf{q}}^{TTM}}{NOA_{lq}},$ ，上季度的应计盈余偏差，TTM值；
 
 （8） $NODIVD_{lq}$ ，上一季度报告期公告截止日前可获取的最近年度是否分红的哑变量；
 
-（9） $\frac{DIVD_{lq}}{NOA_{lq}}.$ ，上一季度报告期公告截止日前可获取的最近年度分红金额，，经净经营资产调整。
+（9） $\frac{DIVD_{lq}}{NOA_{lq}},$ ，上一季度报告期公告截止日前可获取的最近年度分红金额，，经净经营资产调整。
 
 季度预测方程的回归方程由年度预测方程继承而来，账面市值比、总市值、净经营资产增量率和应计盈余偏差由于不存在季节效应，均使用上一季度（一季度的上一季度是全年三季度）的取值，RNOA 的变化量采用了去年同期和上一季度两个变量，由于上市公司中报和季报的分红极少，所以均是采用可获得最近年度的分红数据。
 

@@ -108,7 +108,7 @@ huangxuran@htfc.com
 ![](images/b260576ac370f326f893485fa2173b4f5fbe208c0f402e8a610890733a7f4321.webp)
 数据来源：华泰期货研究院
 
-当期因子值a与下期收益率r呈正相关时，a>x时做多，a<y时做空；a与r呈负相关时，a<y时做多，a>x时做空； $y\leqslant a\leqslant x$ 时空仓。
+当期因子值a与下期收益率r呈正相关时，a>x时做多，a<y时做空；a与r呈负相关时，a<y时做多，a>x时做空； $y\leq a\leq x$ 时空仓。
 
 首先展示的是各频率上效果排名靠前的因子。以下测算结果均尚未考虑交易成本。
 

@@ -130,15 +130,15 @@ lichen@gtjas.com
 
 在上篇报告《基于不同域研究的多因子选股体系》中，我们提出了全域风险调整后子域相关系数计算的方法，该方法即避免了市场风格因素对因子检验的干扰，同时也解决了域内股票数量不足所导致的统计偏差，是分域因子有效性家宴的较好方式。本篇报告中，我们仍然利用该方法，具体步骤如下：
 
-Step 1. 计算 t期原始因子值，并做去极值标准化处理，得到标准化原值因子载荷截面 $x_{t}$ ；
+Step 1. 计算 t期原始因子值，并做去极值标准化处理，得到标准化原值因子载荷截面 $x_{_t}$ ；
 
-Step 2. 计算风险调整后因子载荷截面 ，即 $\boldsymbol{\varepsilon}_{\scriptscriptstyle t}$ $x_{_{t}}=\beta_{_{t}}\cdot X_{_{t}}^{\mathit{\Delta}risk}+\varepsilon_{_{t}}$ ，其中$\boldsymbol{X}_{\_risk}$ 包含行业哑变量矩阵及 10类风险因子载荷矩阵；
+Step 2. 计算风险调整后因子载荷截面 ，即 $\varepsilon_{_t}$ $x_{_t}=\beta_{_t}\cdot X_{_t}^{^{risk}}+\varepsilon_{_t}$ ，其中$\boldsymbol{X}_{risk}$ 包含行业哑变量矩阵及 10类风险因子载荷矩阵；
 
-Step 3. 计算风险调整后个股收益残差截面 $\boldsymbol{\varepsilon}\boldsymbol{r}_{t}$ ，即 $R_{_t}=\beta_{_t}\cdot X_{_t}^{{\mathit{risk}}}+\varepsilon r_{_t}$ 其中 $R_{\mathbf{\Phi}_{t}}$ 为股票收益率截面, $\boldsymbol{X}_{\mathrm{\Delta\Omega}_{risk}}$ 同上定义；
+Step 3. 计算风险调整后个股收益残差截面 $\mathcal{E}\;r_{_t}$ ，即 $R_{_t}=\beta_{_t}^{^{'}}\cdot X_{_t}^{^{risk}}+\varepsilon_{_t}r_{_t}$ 其中 $R_{\phantom{\dagger}t}$ 为股票收益率截面, $\boldsymbol{X}_{\phantom{\dag}risk}$ 同上定义；
 
-Step 4. 选取 $\boldsymbol{\varepsilon}_{t}$ 和 $\boldsymbol{\varepsilon}\boldsymbol{r}_{t}$ 截面中，截取对应目标域对应个股的因子载荷截面c o n t e x t u a l 和 $\varepsilon r_{_t}^{^{contextual}}$ 收益残差截面，并进行标准化处理；
+Step 4. 选取 $\mathcal{E}_{\mathrm{~}t}$ 和 $\varepsilon\;r_{_t}$ 截面中，截取对应目标域对应个股的因子载荷截面c o n t e x t u a l 和 $\mathcal{E}r_{_t}^{^{contextual}}$ 收益残差截面，并进行标准化处理；
 
-Step 5 计算截面 c o n te x tu a lt 与截面 $\varepsilon r_{t}^{\textit{ c o n t e x t u a l }}$ 的相关系数 $IC_{\ t}$ ；
+Step 5 计算截面 c o n te x tu a lt 与截面 $\mathcal{E}r_{_t}^{^{contextual}}$ 的相关系数 $IC_{\textit{ t }}$ ；
 
 Step 6 重复上述过程，得到 T时间内段的IC 序列，并统计IC 序列的相关统计检验指标。
 
@@ -304,56 +304,56 @@ Step 6 重复上述过程，得到 T时间内段的IC 序列，并统计IC 序�
 
 传统因子权重配置考虑等权、IC 加权、ICIR 加权等方法，本节中我们将推导利用最大化因子组合 IC 的过程所求得的最优因子权重计算表达式，具体过程如下：
 
-对于单期的M 个风险调整后因子值 $(F_{_1},F_{_2},...,F_{_M})$ ，合成的风险调整后因子值为
+对于单期的M 个风险调整后因子值 $(F_1,F_2,\ldots,F_M)$ ，合成的风险调整后因子值为
 
 $$
-\boldsymbol{F}_{c}\ :=\ :\boldsymbol{\Sigma}_{i=1}^{M}\boldsymbol{\nu}_{i}\boldsymbol{F}_{i}
+F_{_c}=\Sigma_{_{i=1}}^{^M}\nu_{_i}F_{_i}
 $$
 
-其中 ${(\nu_{_{1}},\nu_{_{2}},...,\nu_{_{m}})}^{T}$ 为权重向量
+其中 $(\nu_{1},\nu_{2},\ldots,\nu_{m})^{T}$ 为权重向量
 
 对于单期组合的超额收益 ，其可以表示为（推导过程详见附录 1）
 
 $$
-\begin{array}{l}{{\displaystyle\alpha=\frac{N-1}{\lambda}Co\nu(F_{_c},R)}}\\{{}}\\{{\displaystyle=\frac{N-1}{\lambda}\ast IC_{_{F_{c},R}}\ast Dis(F_{_c})\ast Dis(R)}}\end{array}
+\begin{aligned}&\alpha=\frac{N-1}{\lambda}Co\nu\left(F_{_c},R\right)\\&\\&=\frac{N-1}{\lambda}*IC_{_{F_{_c},R}}*Dis(F_{_c})*Dis(R).\\\end{aligned}
 $$
 
 其中N 为截面上的股票个数； 为风险厌恶系数，控制了承担主动风险的程度；R 为股票风险调整后的截面收益向量。上式说明组合单期的超额收益正比于风险调整后合成因子的IC 值。又因为
 
 $$
-\begin{array}{l}{{Co\nu(F_{_c},R)=Co\nu(\Sigma_{i=1}^{M}\nu_{i}F_{_i},R)=\Sigma_{i=1}^{M}\nu_{i}Co\nu(F_{_i},R)}}\\{{{}}}\\{{{}=\Sigma_{i=1}^{M}\nu_{i}IC_{_i}Dis(F_{_i})Dis(R)}}\\{{{}}}\\{{{}}}\\{{Dis(F_{_c})=\sqrt{\nu^{^T}\Phi\nu}}}\end{array}
+\begin{aligned}&Cov\left(F_{_{c}},R\right)=Cov\left(\Sigma_{_{i=1}}^{^{M}}\nu_{_{i}}F_{_{i}},R\right)=\Sigma_{_{i=1}}^{^{M}}\nu_{_{i}}Cov\left(F_{_{i}},R\right)\\&\\&=\Sigma_{_{i=1}}^{^{M}}\nu_{_{i}}IC_{_{i}}Dis\left(F_{_{i}}\right)Dis\left(R\right)\\&\\&Dis\left(F_{_{c}}\right)=\sqrt{\nu^{^{T}}\Phi\nu}\\\end{aligned}
 $$
 
 其中Φ为因子截面值的方差协方差矩阵，那么
 
 $$
-IC_{\phantom{}_{F_{c},R}}=\frac{Co\nu(F_{_c},R)}{Dis(F_{_c})^{\ast}Dis(R)}=\frac{\sum_{i=1}^{M}\nu_{i}IC_{\phantom{}_{i}}Dis(F_{i})}{\sqrt{\nu_{\phantom{}}^{\phantom{}}\Phi\nu}}
+IC_{_{F_{_c},R}}=\frac{Cov\left(F_{_c},R\right)}{Dis\left(F_{_c}\right)*Dis\left(R\right)}=\frac{\Sigma_{_{i=1}}^{^M}\nu_{_i}IC_{_i}Dis\left(F_{_i}\right)}{\sqrt{\nu^{^T}\Phi\nu}}
 $$
 
-又因为标准化后， $Dis(F_{_i})=1,i=1,2,...,M$
+又因为标准化后， $Dis\left(F_{i}\right)=1,i=1,2,\ldots,M$
 
 因此，最大化合成因子的 IC 问题等价于
 
 $$
-\mathrm{~m~a~x~}_{\nu}\frac{\nu^{\textit{ T }}IC}{\sqrt{\nu^{\textit{ T }}\Phi\nu}}
+\mathrm{~m~a~x~}_{\nu}\;\frac{\nu^{^T}IC}{\sqrt{\nu^{^T}\Phi\nu}},
 $$
 
 上式的形式即为最大化 Shape Ratio问题。因为对于任意的 $w=k\nu$ ，当v是该问题的最优解时w 也一定是上式最优解。因此原问题等价于
 
 $$
-\begin{array}{l}{\displaystyle\textrm{ m a x }_{\nu}~\frac{1}{\sqrt{\nu^{\textit{ r }}\Phi~\nu}}}\\{\displaystyle s.t.}\\{\displaystyle_{w^{\textit{ r }}IC~=~1}}\end{array}
+\begin{aligned}&\text{ m a x }_{w}\frac{1}{\sqrt{w^{^T}\Phi w}}\\&s.t.\\&w^{^T}IC=1\\\end{aligned}
 $$
 
 即
 
 $$
-\begin{array}{l}{\operatorname*{min}_{\mathbf{\Sigma}_{w}}\ \boldsymbol{w}^{T}\boldsymbol{\Phi}\ \boldsymbol{w}}\\{s.t.}\\{\boldsymbol{w}^{T}\boldsymbol{I}\boldsymbol{C}\ =\ 1}\end{array}
+\begin{aligned}&\min\min_{\mathbf{\Phi}_{w}}w^{T}\boldsymbol{\Phi}\boldsymbol{w}\\&s.t.\\&w^{T}IC=1\\\end{aligned}
 $$
 
 求解该二次优化问题易得原优化问题的解为
 
 $$
-\nu\stackrel{*}{{}={}}s\Phi\stackrel{-1}{I}C
+\boldsymbol{v}^{^{*}}=s\boldsymbol{\Phi}^{^{-1}}\boldsymbol{I}\boldsymbol{C}
 $$
 
 其中s 为任意的正值常数，用于对整体权重进行比例限制。
@@ -362,32 +362,32 @@ $$
 
 表 6 不同因子加权方式下的模型预测精度比较
 
-|  | 等权 | IC | ICIR | $\Phi^{{\bf\Pi}^{-1}}IC$ |
+|  | 等权 | IC | ICIR | $\Phi^{\mathrm{~-~}1}IC$ |
 | --- | --- | --- | --- | --- |
 | Model IC | 3.82 | 4.07 | 4.28 | 4.32 |
 
 数据来源：国泰君安证券研究
 
-可以看到， $\Phi^{{\bf\Pi}^{-1}}IC$ 加权算法对于模型整体预测能力而言，效果好于等权、IC 加权、ICIR 加权等方法。
+可以看到， $\Phi^{\mathrm{~-~}1}IC$ 加权算法对于模型整体预测能力而言，效果好于等权、IC 加权、ICIR 加权等方法。
 
 ## 3.2.个股因子权重匹配
 
 在上述第一步确定了各个域内因子权重比例之后，我们考虑个股的因子权重匹配问题，即对于每一个股票，其所使用的因子权重同样亦有差别。
 
-例如，假设因子A和因子B在大市值域和小市值域内的权重分为[0.2,0.8]和[0.6,0.4]，那么我们考虑股票 j 其所处在的市值截面的分位数水平:若其正处于 50%的分位数水平，则其对应的最终因子权重即为$[0.2^{*}50^{\circ}\flat+0.6^{*}50^{\circ}\flat,0.8^{*}50^{\circ}\flat+0.4^{*}50^{\circ}\flat]=[0.4,0.6];$ 若其所出的位置更靠近大盘区域，例如为25%正向分位数水平，则其所对应的大市值域的因子权重应占比更高，因而其最终因子权重即为[0.2*75%+0.6*25%，0.8*75%+0.4*25%]=[0.3,0.7]。
+例如，假设因子A和因子B在大市值域和小市值域内的权重分为[0.2,0.8]和[0.6,0.4]，那么我们考虑股票 j 其所处在的市值截面的分位数水平:若其正处于 50%的分位数水平，则其对应的最终因子权重即为$[0.2^{*}50\%+0.6^{*}50\%,0.8^{*}50\%+0.4^{*}50\%]=[0.4,0.6];$ 若其所出的位置更靠近大盘区域，例如为25%正向分位数水平，则其所对应的大市值域的因子权重应占比更高，因而其最终因子权重即为[0.2*75%+0.6*25%，0.8*75%+0.4*25%]=[0.3,0.7]。
 
 实际过程中，我们利用端点距离倒数加权的方式，具体过程如下：
 
 假定对按高低分为两个域{ , }H L 的单一风格，每个域各自对应的因子权
 
-重向量为 $\{\boldsymbol\nu_{\mathbf{\Sigma}_{H}},\boldsymbol\nu_{\mathbf{\Sigma}_{L}}\}$ 。我们将截面上的所有股票按照这一风格的因子值进
+重向量为 $\{\nu_{_{H}},\nu_{_{L}}\}$ 。我们将截面上的所有股票按照这一风格的因子值进
 
-行排序，得到各个股票的分位数 $\mathcal{Q}_{i},i=1,2,...,N$ 。以分位数作为该股票在这一风格维度上高低程度的度量，并以其倒数作为权重进行加权。具体来说，对每一个股票i ，其因子权重为 $\nu_{{s_{i}}}=(1-Q_{{i}})\nu_{{{\scriptscriptstyle L}}}+Q_{{i}}\nu_{{{\scriptscriptstyle H}}}$
+行排序，得到各个股票的分位数 $Q_{i},i=1,2,\ldots,N$ 。以分位数作为该股票在这一风格维度上高低程度的度量，并以其倒数作为权重进行加权。具体来说，对每一个股票i ，其因子权重为 $v_{s_{i}}=(1-Q_{i})v_{L}+Q_{i}v_{H}$
 
-对分为三个域{ , , }H M L 的风格，其对应的因子权重为 $\{\nu_{{}_{H}},\nu_{{}_{M}},\nu_{{}_{L}}\}$ ，我们采用分段的方法，将距离个股最近的两个域对应的因子权重进行加权，即
+对分为三个域{ , , }H M L 的风格，其对应的因子权重为 $\{\nu_{_{H}},\nu_{_{M}},\nu_{_{L}}\}$ ，我们采用分段的方法，将距离个股最近的两个域对应的因子权重进行加权，即
 
 $$
-\begin{array}{rl}{\nu_{s_{i}}=\left\{\begin{array}{ll}{\begin{array}{rlrl}{(1-2Q_{i})\nu_{_{L}}+2Q_{i}\nu_{_{M}}}&{}&{0\leq Q_{i}<0.5}\\{\qquad\nu_{_{M}}}&{}&{Q_{i}=0.5}\end{array}}\\{\begin{array}{rl}{\nu_{_{M}}}&{}&{\qquad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\{\Bigl(2Q_{i}-1\bigr)\nu_{_{M}}+2(1-Q_{i})\nu_{_{H}}}&{}&{0.5<Q_{i}\leq1}\end{array}}\end{array}\right.}\end{array}
+v_{_{S_{_i}}}=\left\{\begin{array}{cc}(1-2Q_{_i})v_{_L}+2Q_{_i}v_{_M}&0\leq Q_{_i}<0.5\\&\\v_{_M}&Q_{_i}=0.5\\(2Q_{_i}-1)v_{_M}+2(1-Q_{_i})v_{_H}&0.5<Q_{_i}\leq1\\\end{array}\right.
 $$
 
 ## 3.3.预期收益整合及组合优化构建
@@ -427,7 +427,7 @@ $$
 最后，我们构建投资组合。我们选择以最大化Er为目标函数，同时保持行业、风格中性控制，并以一定的个股权重上限控制股票个股，具体过程如下：
 
 $$
-\begin{array}{rl}{M\alpha\boldsymbol{x}\ }&{\boldsymbol{w^{\prime}}\cdot\boldsymbol{E}\boldsymbol{r}}\\{s\cdot\boldsymbol{t}.}&{\textbf{ ( }\boldsymbol{w^{\prime}}\cdot\boldsymbol{w}_{\textit{ s }}^{\prime}\textbf{ ) }\cdot\boldsymbol{X}_{\textit{ r i s k }}=0}\\&{\boldsymbol{w^{\prime}}\cdot\boldsymbol{X}_{\textit{ i n d u s t r y }}=\boldsymbol{w}_{\textit{ b }}^{\prime}}\\&{\boldsymbol{w}\geq\textbf{ 0 }}\\&{\boldsymbol{w}\leq\boldsymbol{s}}\\&{\sum\textbf{ \textit { w } }=\textbf{ 1 }}\end{array}
+\begin{aligned}{}&{{}\textit{ M a x }}&{}&{{}w^{\prime}\cdot E\:r}\\{}&{{}\mathit{s.t.}}&{}&{{}(\:w^{\prime}\:\cdot\:w_{\textit{ b }}^{\prime}\:)\:\cdot\:X_{\textit{ r i s k }}\:=\:\mathbf{O}}\\{}&{{}}&{}&{{}w^{\prime}\:\cdot\:X_{\textit{ i n d u s t r y }}\:=\:w_{\textit{ b }}^{\:\prime}}\\{}&{{}}&{}&{{}w\:\geq\:\mathbf{O}}\\{}&{{}}&{}&{{}w\:\leq\:s}\\{}&{{}}&{}&{{}\sum_{\textit{ r i s k }}w\:=\:1}\\\end{aligned}
 $$
 
 其中，行业敞口限制为•1% 相对比例，市值估值等核心风格敞口设定均为•0.01 ，个股权重上限 s=2.5%。
@@ -505,47 +505,47 @@ $$
 对于给定的截面股票收益预测向量 f ，我们通过求解以下的经典均值方差问题来得到主动权重w ：
 
 $$
-\begin{array}{l}{\displaystyle{\textrm{ m a x }}_{w}\textit{ f }^{T}{w}-\frac{\lambda}{2}({w}^{T}\Sigma{w})}\\{\displaystyle}\\{\mathit{s.t.}}\\{\displaystyle{{w}}^{T}I=0}\\{\displaystyle{{w}}^{T}B=0}\end{array}
+\begin{aligned}&\textbf{m a x }_{w}\textbf{ \textit{f} }^{T}\textbf{ \textit{w} }-\frac{\lambda}{2}\left(\textbf{ \textit{w} }^{T}\boldsymbol{\Sigma}\textbf{ \textit{w}}\right)\\&s.t.\\&\textbf{ \textit{w} }^{T}\textbf{ \textit{I} }=\textbf{ 0}\\&\textbf{ \textit{w} }^{T}\textbf{ \textit{B} }=\textbf{ 0}\\\end{aligned}
 $$
 
-股票的方差协方差矩阵以多因子风险模型进行刻画，即 $\Sigma\ =\ B\Sigma_{\ _{risk}}B^{\ T}\ +\ S$ 。其中，B 为风险模型下股票在各风险因子上的暴露矩阵，S 为残差的方差协方差矩阵。上述优化问题可以简化为
+股票的方差协方差矩阵以多因子风险模型进行刻画，即 $\Sigma=B\Sigma_{_{risk}}B^{^T}+S$ 。其中，B 为风险模型下股票在各风险因子上的暴露矩阵，S 为残差的方差协方差矩阵。上述优化问题可以简化为
 
 $$
-\begin{array}{rl}&{\textrm{ m a x }_{w}\textbf{ \mathcal { f } }^{T}\boldsymbol{w}-\displaystyle\frac{\lambda}{2}(\boldsymbol{w}^{\textit{ T }}S\boldsymbol{w})}\\&{}\\&{s.t.}\\&{\boldsymbol{w}^{\textit{ T }}I=0}\\&{}\\&{\boldsymbol{w}^{\textit{ T }}B=0}\end{array}
+\begin{aligned}&\textbf{m a x }_{w}\textit{ f}^{^T}w\;-\;\frac{\lambda}{2}\left(\;w^{^T}\;Sw\;\right)\\&s.t.\\&w^{^T}\;I\;=\;0\\&w^{^T}\;B\;=\;0\\\end{aligned}
 $$
 
 采用拉格朗日乘子法求解上式，可得每个股票的最优权重如下
 
 $$
-w_{_i}=\frac{f_{_i}-l_{0}-l_{1}\beta_{_{1i}}-...-l_{_K}\beta_{_{Ki}}}{\lambda\sigma_{_i}^{^2}}
+w_{_i}=\frac{f_{_i}-l_{_0}-l_{_1}\beta_{_{1i}}-\ldots-l_{_K}\beta_{_{Ki}}}{\lambda\sigma_{_i}^{^2}}
 $$
 
-其中， $l_{0},l_{1},...,l_{\kappa}$ 为K • 1 个拉格朗日乘子。组合的截面超额收益则可以表示为
+其中， $l_{_0},l_{_1},...,l_{_K}$ 为K • 1 个拉格朗日乘子。组合的截面超额收益则可以表示为
 
 $$
-\alpha=\Sigma_{\phantom{i=1}i}^{\phantom{N}}w_{\phantom{i}i}r_{\phantom{i}i}=\Sigma_{\phantom{i=1}i}^{\phantom{N}}\frac{f_{i}-l_{0}-l_{1}\beta_{1i}-\dots-l_{\kappa}\beta_{\kappa i}}{\lambda{\sigma}_{\phantom{i}i}^{2}}r_{i}
+\alpha=\Sigma_{_{i=1}}^{^{N}}w_{_{i}}r_{_{i}}=\Sigma_{_{i=1}}^{^{N}}\frac{f_{_{i}}-l_{_{0}}-l_{_{1}}\beta_{_{1i}}-\ldots-l_{_{K}}\beta_{_{Ki}}}{\lambda\sigma_{_{i}}^{^{2}}}r_{_{i}}
 $$
 
-$r_{\scriptscriptstyle i}$ 为个股的下一期收益率，因为 $w^{\textit{ r }}I=0$ 并且 $w^{\textit{ T }}B=0$ ，我们可以将上式中的r 以个股在风险模型下的残差 $r_{i}$ 收益替代，即
+$r_{i}$ 为个股的下一期收益率，因为 $w^{\tiny{\begin{array}{c}{T}\\\end{array}}}I\;=\;0$ 并且 $w^{T}B\;=\;0$ ，我们可以将上式中的r 以个股在风险模型下的残差 $r_{i}$ 收益替代，即
 
 $$
-\alpha=\Sigma_{i=1}^{N}\frac{f_{i}-l_{0}-l_{1}\beta_{1i}-...-l_{\kappa}\beta_{\kappa i}}{\lambda\sigma_{i}^{2}}(r_{i}-m_{\scriptscriptstyle0}-m_{1}\beta_{\iota i}-...-m_{\kappa}\beta_{\kappa i})
+\alpha=\Sigma_{_{i=1}}^{^{N}}\frac{f_{_{i}}-l_{_{0}}-l_{_{1}}\beta_{_{1i}}-\ldots-l_{_{K}}\beta_{_{Ki}}}{\lambda\sigma_{_{i}}^{^{2}}}(r_{_{i}}-m_{_{0}}-m_{_{1}}\beta_{_{ii}}-\ldots-m_{_{K}}\beta_{_{Ki}})
 $$
 
-记 $\boldsymbol{F}_{\mathrm{{}}_{i}}$ 和 $R_{\mathbf{\Phi}_{i}}$ 分别为个股风险调整后的预测值和收益（实际应用中未进行残差波动率修正）：
+记 $F_{i}$ 和 $R_{j}$ 分别为个股风险调整后的预测值和收益（实际应用中未进行残差波动率修正）：
 
 $$
-F_{_i}=\frac{f_{_i}-l_{0}-l_{1}\beta_{_{1i}}-...-l_{_K}\beta_{_{Ki}}}{\sigma_{_i}}
+F_{_i}=\frac{f_{_i}-l_{_0}-l_{_1}\beta_{_{1i}}-\ldots-l_{_K}\beta_{_{Ki}}}{\sigma_{_i}}
 $$
 
 $$
-R_{_i}=\frac{f_{_i}-m_{_0}-m_{_1}\beta_{_1i}-...-m_{_K}\beta_{_{Ki}}}{\sigma_{_i}}
+R_{_{i}}=\frac{f_{_{i}}-m_{_{0}}-m_{_{1}}\beta_{_{1i}}-\ldots-m_{_{K}}\beta_{_{Ki}}}{\sigma_{_{i}}}.
 $$
 
 可以得到
 
 $$
-\alpha\ =\ \Sigma{}_{i=1}^{^N}w_{i}r_{i}\ =\ {\frac{1}{\lambda}}\Sigma{}_{i=1}^{^N}F_{i}R_{i}\ =\ {\frac{N\ -1}{\lambda}}Co\nu(F,R)
+\alpha=\Sigma_{_{i=1}}^{^{N}}w_{_{i}}r_{_{i}}=\frac{1}{\lambda}\Sigma_{_{i=1}}^{^{N}}F_{_{i}}R_{_{i}}=\frac{N-1}{\lambda}Co\nu\left(F,R\right)
 $$
 
 ## 附录 2 大类风格因子定义明细
@@ -554,29 +554,29 @@ $$
 
 | 大类 因子 | 小类 因子 | 因子计算方式 |
 | --- | --- | --- |
-| Beta | BETA | $r_{\scriptscriptstyle i}=\alpha+\beta r_{\scriptscriptstyle m}+e_{\scriptscriptstyle i}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
-| Momentum | RSTR | $RSTR=\sum_{t=L}^{T+L}w_{_t}[\ln(1+r_{_t})]$ ；其中 $_{\mathrm{T=500,~\mathrm{L=21}}}$ ，收益率序列以半衰指数加权，半衰期为120日。 |
+| Beta | BETA | $r_{_i}=\alpha+\beta r_{_m}+e_{_i}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
+| Momentum | RSTR | $RSTR=\sum_{_{t=L}}^{^{T+L}}w_{_{t}}[\ln{(1+r_{_{t}})}],$ ；其中 $T=500,\ L=21$ ，收益率序列以半衰指数加权，半衰期为120日。 |
 |  |  | ；个股总市值对数值。 |
-| Size | LNCAP | ${\cal L}NCAP={\cal L}N\left(total_{-}market_{-}capitalization\right)\|$ ；其中 为个股一致预期基本每股收益。 |
-| Earnings | EPIBS | $EPIBS=est\_eps/\ P$ $est\_eps$ ；历史EP值，利用过去12个月个股净利润除以 |
-| Yield | ETOP | $ETOP\ =earnings\_ttm\ /\ mkt\_freeshares$ 当前市值。 |
-|  | CETOP | $CETOP=Cash\_earnings\ /\ P$ ；个股现金收益比股票价格。 |
-|  | DASTD | $DASTD\ =\ \big(\sum_{t=1}^{T}\ w_{_t}\cdot\big(r_{t}-\mu\left(r\right)\big)^{2}\big)^{1/2}$ ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
-| Volatility |  | $CMRA=ln(1+\operatorname*{max}\left\{Z(T)\right\})-ln(1+\operatorname*{min}\left\{Z(T)\right\})$ in |
-|  | CMRA | 其中 $Z\left(T\right)={\sum}_{\tau=1}^{T}[ln\left(1+r_{\tau}\right)];$ $r_{\tau}$ 表示个股月收益率，T代表过去12个月。 |
-|  | HSIGMA | $HSIGMA=std(e_{i})$ ；其中残差 为 BETA 计算中所得。 $\boldsymbol{e}_{i}$ |
+| Size | LNCAP | $LNCAP=LN(total\_market\_capitalization)$ ；其中 为个股一致预期基本每股收益。 |
+| Earnings | EPIBS | $EPIBS\;=\;est_{\mathrm{~-~}}eps/P$ $est_{\mathrm{~-~}}eps$ ；历史EP值，利用过去12个月个股净利润除以 |
+| Yield | ETOP | $ETOP=earnings{\tiny{-}}ttm{\tiny{/}}mkt{\tiny{-}}freeshares$ 当前市值。 |
+|  | CETOP | $CETOP=Cash_{-}earnings/P$ ；个股现金收益比股票价格。 |
+|  | DASTD | $DASTD=(\sum_{t=1}^{T}w_{t}\cdot(r_{t}-\mu(r))^{2})^{1/2}$ ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
+| Volatility |  | $CMRA=ln(1+\mathrm{~m~a~x~}\{Z(T)\})-ln(1+\mathrm{~m~in~}\{Z(T)\})$ in |
+|  | CMRA | 其中 $Z\left(T\right)=\sum_{_{\tau=1}}^{^{T}}\left[ln\left(1+r_{_{\tau}}\right)\right];$ $r_{_{\tau}}$ 表示个股月收益率，T代表过去12个月。 |
+|  | HSIGMA | $HSIGMA=std(e_{_i})$ ；其中残差 为 BETA 计算中所得。 $e_{\textit{ i }}$ |
 |  | SGRO | 过去5年企业营业总收入复合增长率。 |
 | Growth | EGRO | 过去5年企业归属母公司净利润复合增长率。 |
 |  | EGIB | 未来3年企业一致预期净利润增长率。 |
 |  | EGIB_S | 未来1年企业一致预期净利润增长率。 |
-| Value | BTOP | $BTOP\ =\ common\_equity\ /\ current\_market\_capitalization$ |
+| Value | BTOP | $BTOP=common\_equity/current\_market\_capitalization$ |
 |  |  | 计算企业总权益值除以当前市值。 |
 |  | MLEV | $MLEV=(ME+LD)/ME$ ；其中M E表示企业当前总市值，LD表示企业长期负债。 |
-| Leverage | DTOA | $DTOA=TD\mathrm{~/~}TA$ ；其中TD表示总负债TA 表示总资产。 |
-|  | BLEV | $BLEV~=~(BE+LD)/~BE$ ；其中BE表示企业账面权益，LD表示企业长期负债。 |
-|  | STOM | $STOM=\ln(\sum_{t=1}^{21}(V_{t}~/~S_{t})$ ；其中 $\mathbf{\Sigma}_{V_{t}}$ 表示当日成交量， $\boldsymbol{S}_{\boldsymbol{t}}$ 表示流通股本。 |
-| Liquidity | STOQ | $STOQ\ =\ \ln({\frac{1}{T}}{\sum}^{T}\ \mathbf{exp}(STOM_{\ \tau}\ ))$ ；其中T=3。 |
-|  | STOA | $STOA=\ln({\frac{1}{T}}{\sum}^{T}\exp(STOM_{\ \tau}))$ ；其中 T=12。 |
+| Leverage | DTOA | $DTOA=TD/TA$ ；其中TD表示总负债TA 表示总资产。 |
+|  | BLEV | $BLEV=(BE+LD)/BE$ ；其中BE表示企业账面权益，LD表示企业长期负债。 |
+|  | STOM | $STOM=\ln\left(\sum_{t=1}^{21}(V_t/S_t)\right)$ ；其中 $V_{_t}$ 表示当日成交量， $S_{\phantom{\dagger}t}$ 表示流通股本。 |
+| Liquidity | STOQ | $STO\ Q=\ln\left(\frac{1}{T}\sum_{_{\tau=1}}^{^{T}}\exp\left(STO\ M_{_{\tau}}\right)\right)$ ；其中T=3。 |
+|  | STOA | $STOA=\ln{(\frac{1}{T}\sum_{_{_{_{_{_{_{_{_{_{_{}}}}}}}}}}}^{^{_{_{_{_{_{_{_{_{_{_{_{}}}}}}}}}}}}}\mathrm{exp}(\;STOM_{_{_{_{_{_{_{_{_{_{_{_{_{_}{}}}}}}}}}}}}}))}$ ；其中 T=12。 |
 
 数据来源：国泰君安证券研究
 

@@ -116,11 +116,11 @@ liuzhicheng@htsc.com
 
 | 类型 | 计算公式 |
 | --- | --- |
-| 普通动量 | $\begin{array}{r}{Mom_{t,K}=\frac{Close_{t,K}}{Close_{t-N+1,K}}-1}\end{array}$ |
+| 普通动量 | $Mom_{t,K}=\frac{Close_{t,K}}{Close_{t-N+1,K}}-1$ |
 | 夏普比率 | $\begin{array}{r}{Sharpe_{t,K}=\frac{\sum_{i=0}^{N-1}r_{t-i,K}/N}{std_{t,K}}}\end{array}$ |
 |  | $\begin{array}{r}{std_{t,K}^{2}=\sum_{i=0}^{N-1}\frac{(r_{t-i,K}-\bar{r}_{t,K})^{2}}{N-1},\bar{r}_{t,K}=\frac{\sum_{i=0}^{N-1}r_{t-i,K}}{N}}\end{array}$ |
-| 信息比率 | $\begin{array}{r}{IR_{t,K}=\frac{\sum_{i=0}^{N-1}(r_{t-i,K}-r_{t-i,m})/N}{TE_{t,K}}}\end{array}$ |
-|  | $\begin{array}{r}{TE_{t,K}^{2}=\sum_{i=0}^{N-1}\frac{(r_{t-i,K}-r_{t-i,m}-\bar{r}^{\prime}{t}_{K})^{2}}{N-1},r_{t,m}=\frac{\sum_{K=1}^{M}r_{t,K}}{M},\bar{r}^{\prime}{_t,K}=\frac{\sum_{i=0}^{N}(r_{t-i,K}-r_{t-i,m})}{N}}\end{array}$ |
+| 信息比率 | $\begin{array}{r}{IR_{t,K}\;=\;\frac{\sum_{i=0}^{N-1}(r_{t-i,K}-r_{t-i,m})/N}{TE_{t,K}}}\end{array}$ |
+|  | $\begin{array}{r}{TE_{t,K}^{2}\;=\;\sum_{i=0}^{N-1}\frac{(r_{t-i,K}-r_{t-i,m}-\bar{r}^{\prime}{}_{t,K})^{2}}{N-1}\mathrm{,}r_{t,m}\;=\;\frac{\sum_{K=1}^{M}r_{t,K}}{M}\mathrm{,}\bar{r}^{\prime}{}_{t,K}\;=\;\frac{\sum_{i=0}^{N}(r_{t-i,K}-r_{t-i,m})}{N}}\end{array}$ |
 | 路程调整动量 |  |
 |  | $\begin{array}{r}{Distance_{t,K}=\frac{Mom_{t,K}}{\sum_{i=0}^{N-1}\|r_{t-i,K}\|}}\end{array}$ |
 | 尾部动量 | $Tail_{t,K}=VaR_{t,K}$ |
@@ -143,13 +143,13 @@ liuzhicheng@htsc.com
 乖离率是较为常见的一种技术指标，通常是指最新市场价格与近期平均值之间的偏离度，以t时刻K行业的收盘价乖离率（窗口期 N）为例：
 
 $$
-close\_bias_{t,K}=\frac{close_{t,K}-\sum_{i=0}^{N-1}close_{t-i,K}/N}{\sum_{i=0}^{N-1}close_{t-i,K}/N}
+close_{-}bias_{t,K}=\frac{close_{t,K}-\sum_{i=0}^{N-1}close_{t-i,K}/N}{\sum_{i=0}^{N-1}close_{t-i,K}/N}
 $$
 
 乖离率越大，说明当前市场价格超出过去 N天的平均价越高，当前市场出现了剧烈的价格抬升，呈超买状态。在乖离率较大时，价格出现回弹的可能性更大。本研究对乖离率的用法做出延伸，计算了成交量、成交额和换手率的乖离率，分析市场最新的流动性指标是否与平均值出现了明显的偏离。收盘价或流动性指标的乖离率较大时，说明市场成交活跃度非常高，量和价都超出了均衡水平，此时可以考虑降低仓位，规避风险。
 
 $$
-\begin{array}{c}{{volume\_bias_{t,K}=\displaystyle\frac{volume_{t,K}-\sum_{i=0}^{N-1}volume_{t-i,K}/N}{\sum_{i=0}^{N-1}volume_{t-i,K}/N}}}\\{{amt\_bias_{t,K}=\displaystyle\frac{amt_{t,K}-\sum_{i=0}^{N-1}amt_{t-i,K}/N}{\sum_{i=0}^{N-1}amt_{t-i,K}/N}}}\\{{turn\_bias_{t,K}=\displaystyle\frac{turn_{t,K}-\sum_{i=0}^{N-1}turn_{t-i,K}/N}{\sum_{i=0}^{N-1}turn_{t-i,K}/N}}}\end{array}
+\begin{aligned}volume_{-}bias_{t,K}&=\frac{volume_{t,K}-\sum_{i=0}^{N-1}volume_{t-i,K}/N}{\sum_{i=0}^{N-1}volume_{t-i,K}/N}\\amt_{-}bias_{t,K}&=\frac{amt_{t,K}-\sum_{i=0}^{N-1}amt_{t-i,K}/N}{\sum_{i=0}^{N-1}amt_{t-i,K}/N}\\turn_{-}bias_{t,K}&=\frac{turn_{t,K}-\sum_{i=0}^{N-1}turn_{t-i,K}/N}{\sum_{i=0}^{N-1}turn_{t-i,K}/N}\end{aligned}
 $$
 
 ## 量价相关系数
@@ -163,17 +163,17 @@ $$
 本研究采用行业指数收盘价和流动性指标的相关系数来定量分析量价背离现象。量价相关系数越大，说明量价指标的走势越接近，反之则表示两者出现背离。举例来说，行业 K 在时刻 t的成交量与收盘价相关系数可以表示为：
 
 $$
-\begin{array}{rcl}{{corr_{-}volume_{-}close_{t,K}=\displaystyle\frac{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{{{close}}}_{t,K})(volume_{t-i,K}-\overline{{{volume}}}_{t,K})}{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{{{close}}}_{t,K})^{2}\sum_{i=0}^{N-1}(volume_{t-i,K}-\overline{{{volume}}}_{t,K})^{2}}}}\\{{}}&{{}}&{{}}\\{{\overline{{{close}}}_{t,K}=\displaystyle\sum_{i=0}^{N-1}close_{t-i,K}/N}}\end{array}
+\begin{aligned}corr_{-}volume_{-}close_{t,K}=\frac{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{close}_{t,K})(volume_{t-i,K}-\overline{volume}_{t,K})}{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{close}_{t,K})^2\sum_{i=0}^{N-1}(volume_{t-i,K}-\overline{volume}_{t,K})^2}\\\overline{close}_{t,K}=\sum_{i=0}^{N-1}close_{t-i,K}/N\end{aligned}
 $$
 
 $$
-\overline{{{volume}}}_{t,K}=\sum_{i=0}^{N-1}{volume_{t-i,K}}/N
+\overline{volume_{t,K}}=\sum_{i=0}^{N-1}volume_{t-i,K}/N
 $$
 
 当股价上涨时，如果某个行业指数的量价相关系数下降，意味着出现了量价背离的现象。当量价相关系数处于历史低位时，需要警惕可能出现的下跌风险。我们还计算了收盘价和成交额以及换手率的相关系数对量价背离现象进行分析：
 
 $$
-\begin{array}{r}{corr\_amt\_close_{t,K}=\frac{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{{close}}_{t,K})(amt_{t-i,K}-\overline{{amt}}_{t,K})}{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{{close}}_{t,K})^{2}\sum_{i=0}^{N-1}(amt_{t-i,K}-\overline{{amt}}_{t,K})^{2}}}\\{corr\_turn\_close_{t,K}=\frac{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{{close}}_{t,K})(turn_{t-i,K}-\overline{{turn}}_{t,K})}{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{{close}}_{t,K})^{2}\sum_{i=0}^{N-1}(turn_{t-i,K}-\overline{{turne}}_{t,K})^{2}}}\end{array}
+\begin{aligned}corr_{-}ant_{-}close_{t,K}&=\frac{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{close}_{t,K})(amt_{t-i,K}-\overline{amt}_{t,K})}{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{close}_{t,K})^2\sum_{i=0}^{N-1}(amt_{t-i,K}-\overline{amt}_{t,K})^2}\\corr_{-}turn_{-}close_{t,K}&=\frac{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{close}_{t,K})(turn_{t-i,K}-\overline{turn}_{t,K})}{\sum_{i=0}^{N-1}(close_{t-i,K}-\overline{close}_{t,K})^2\sum_{i=0}^{N-1}(turn_{t-i,K}-\overline{turn}_{t,K})^2}\end{aligned}
 $$
 
 ## 波动率指标
@@ -181,13 +181,13 @@ $$
 波动率就是股票价格的风险，一般用股票收益率的标准差进行表征。股票市场普遍存在低波动异象，长期来看低波动率的股票相对高波动率的股票具有更高收益。从拥挤度角度来看，如果行业指数短期的波动率急剧上升，说明股票风险加大，在投资过程中应该规避。行业 K在 t时刻的波动率可以表示为：
 
 $$
-\begin{array}{rl}{vol_{t,K}=}&{\sqrt{\displaystyle\sum_{i=0}^{N-1}\frac{\left(r_{t-i,K}-\bar{r}_{t,K}\right)^{2}}{N-1}}}\\&{\bar{r}_{t,K}=\frac{\displaystyle\sum_{i=0}^{N-1}r_{t-i,K}}{\displaystyle N}}\end{array}
+\begin{aligned}vol_{t,K}&=\sqrt{\sum_{i=0}^{N-1}\frac{\left(r_{t-i,K}-\bar{r}_{t,K}\right)^{2}}{N-1}}\\\bar{r}_{t,K}&=\frac{\sum_{i=0}^{N-1}r_{t-i,K}}{N}\end{aligned}
 $$
 
 波动率还可以进一步分为上行波动率和下行波动率，两者的区别在于统计正收益率还是负收益率的标准差。从定义来看，下行波动率指标关注过去一段时间市场下行风险，更贴近我们对于拥挤度指标的定义。因此本研究还基于下行波动率进行拥挤度指标构建：
 
 $$
-\begin{array}{rlr}{down\_vol_{t,K}=}&{{}\sqrt{\displaystyle\sum_{i=0}^{n_{d}-1}\frac{\left(r_{t-i,K}-\bar{r}_{t,K}\right)^{2}}{n_{d}-1}}}&{}\\{\bar{r}_{t,K}=\frac{\sum_{i=0}^{N-1}r_{t-i,K}}{N}}&{{}}&{}\end{array}
+\begin{aligned}down_{-}vol_{t,K}=&\sqrt{\sum_{i=0}^{n_{d}-1}\frac{\left(r_{t-i,K}-\bar{r}_{t,K}\right)^{2}}{n_{d}-1}}\\\bar{r}_{t,K}=&\frac{\sum_{i=0}^{N-1}r_{t-i,K}}{N}\end{aligned}
 $$
 
 其中d代表日收益率小于 0 的日期集合， $n_{d}$ 为日收益率小于 0 总天数。
@@ -196,32 +196,32 @@ $$
 
 分布特征指标一般用于描述行业指数历史收益率的概率分布情况。通过峰度和偏度两种指标可以分析近期行业指数日收益率是否出现异常分布，进而判断当前是否处于拥挤状态。
 
-峰度用来描述数据概率分布顶端尖峭或 $\dot{\mathcal{R}}$ 平的程度。峰度越大，代表分布越集中；峰度越小，分布越平滑。如果过去一段时间日收益率峰度越低，说明收益率取值较为分散，短期市场波动率更高，风险更大，拥挤度更高。行业 K在 t时刻的峰度（kurtosis）为：
+峰度用来描述数据概率分布顶端尖峭或 $\dot{属}$ 平的程度。峰度越大，代表分布越集中；峰度越小，分布越平滑。如果过去一段时间日收益率峰度越低，说明收益率取值较为分散，短期市场波动率更高，风险更大，拥挤度更高。行业 K在 t时刻的峰度（kurtosis）为：
 
 $$
-kurt_{t,K}={\frac{{\frac{1}{N}}\sum_{i=0}^{N-1}(r_{t-i,K}-{\bar{r}}_{t,K})^{4}}{({\frac{1}{N}}\sum_{i=0}^{N-1}(r_{t-i,K}-{\bar{r}}_{t,K})^{2})^{2}}}
+kurt_{t,K}\;=\;\frac{\frac{1}{N}{\sum_{i=0}^{N-1}(r_{t-i,K}-\bar{r}_{t,K})^{4}}}{(\frac{1}{N}{\sum_{i=0}^{N-1}(r_{t-i,K}-\bar{r}_{t,K})^{2}})^{2}}
 $$
 
 偏度用来度量数据概率分布的偏斜方向和程度。当偏度大于零时，数据处于正偏态，概率密度呈右侧长尾分布；当偏度小于零时，数据处于负偏态，概率密度呈左侧长尾分布。如果过去一段时间行业指数收益率序列处于负偏态时，意味着近期行业指数出现了非常态的低收益率，有可能存在较大风险。行业 K在 t时刻的偏度（skewness）为：
 
 $$
-\begin{array}{r}{skew_{t,K}=\frac{\frac{1}{N}\sum_{i=0}^{N-1}(r_{t-i,K}-\bar{r}_{t,K})^{3}}{(\frac{1}{N}\sum_{i=0}^{N-1}(r_{t-i,K}-\bar{r}_{t,K})^{2})^{3/2}}}\end{array}
+skew_{t,K}\;=\;\frac{\frac{1}{N}{\sum_{i=0}^{N-1}(r_{t-i,K}-\bar{r}_{t,K})^{3}}}{(\frac{1}{N}{\sum_{i=0}^{N-1}(r_{t-i,K}-\bar{r}_{t,K})^{2}})^{3/2}}
 $$
 
 进一步地，我们还引入协偏度（coskewness）考察行业收益率相比于全市场整体收益率概率分布的偏离程度，行业 K 在 t 时刻相对于市场基准的协偏度为：
 
 $$
-\begin{array}{r}{\mathbb{C}\mathbb{S}_{t,K}=\frac{\sum_{i=0}^{N-1}[(r_{t-i,k}-\bar{r}_{t,K})(r_{t-i,m}-\bar{r}_{t,m})^{2}]}{\sum_{i=0}^{N-1}[(r_{t-i,m}-\bar{r}_{t,m})^{3}]}}\end{array}
+\mathrm{CS}_{t,K}=\frac{\sum_{i=0}^{N-1}[(r_{t-i,k}-\bar{r}_{t,K})(r_{t-i,m}-\bar{r}_{t,m})^{2}]}{\sum_{i=0}^{N-1}[(r_{t-i,m}-\bar{r}_{t,m})^{3}]}
 $$
 
-公式中 $r_{t,K}$ 表示t时刻K行业的日收益率， ${\boldsymbol{r}}_{t,0}$ 为基准在 t 时刻的收益率，其中行业 K 平均收益率 $\cdot\bar{r}_{t,K}$ 以及市场收益率 ${\boldsymbol{r}}_{t,m}$ 可以表示为：
+公式中 $r_{t,K}$ 表示t时刻K行业的日收益率， $r_{t,0}$ 为基准在 t 时刻的收益率，其中行业 K 平均收益率 $\bar{r}_{t,K}$ 以及市场收益率 $\cdot r_{t,m}$ 可以表示为：
 
 $$
 r_{t,m}=\frac{\sum_{K=1}^{M}r_{t,K}}{M}
 $$
 
 $$
-\bar{r}_{t,m}=\frac{\sum_{i=0}^{N-1}{{r}_{t-i,m}}}{N}
+\bar{r}_{t,m}=\frac{\sum_{i=0}^{N-1}r_{t-i,m}}{N}
 $$
 
 ## 本研究构建了总计六类 20项拥挤度指标
@@ -296,12 +296,12 @@ b) 其他四个指标是负向指标，指标历史分位数需高出规定阈�
 借助于显著性检验可以判断拥挤度指标对于行业指数收益率是否具有解释力度。以拥挤度信号为自变量，以未来一个月行业指数收益率（20 个交易日）作为因变量，可以构建如下的回归方程：
 
 $$
-r_{t}^{K}=\beta_{0}+\beta_{1}S_{t}^{K}+\varepsilon
+r_{t}^{K}\;=\;\beta_{0}+\beta_{1}S_{t}^{K}+\varepsilon
 $$
 
-其中 $S_{t}^{K}$ 是行业 K在 t时刻的拥挤度指标， $S_{t}^{K}$ 取值为 1 时表示当前行业处于拥挤状态，取值为 0 时表示当前处于非拥挤状态； $r_{t}^{K}$ 表示行业 K在 t 时刻未来一个月收益率， $r_{t}^{K}$ 的取值与$S_{t}^{K}$ 一一对应； $\beta_{0}\hbar\pmb{\mathscr{p}}_{1}$ 是回归系数；ε为残差项。
+其中 $S_{t}^{K}$ 是行业 K在 t时刻的拥挤度指标， $S_{t}^{K}$ 取值为 1 时表示当前行业处于拥挤状态，取值为 0 时表示当前处于非拥挤状态； $r_{t}^{K}$ 表示行业 K在 t 时刻未来一个月收益率， $r_{t}^{K}$ 的取值与$S_{t}^{K}$ 一一对应； $\beta_{0}和\beta_{1}$ 是回归系数；ε为残差项。
 
-通过线性回归求出的 $\beta_{0}$ 为处于非拥挤状态下各行业指数未来一个月的平均收益率， $\beta_{0}+\beta_{1}$ 为处于拥挤状态下各行业指数未来一个月的平均收益率。当 $\beta_{1}$ 显著不为 0 时，说明 $S_{t}^{K}\mathcal{\sharp}\mathfrak{er}_{t}^{K}$ 存在线性关系。对此我们通过假设检验判断 $\boldsymbol{\beta}_{1}$ 是否显著异于 0，即给出原假设 $H_{0}\colon\beta_{1}=0$ 计算假设检验 t统计量的 P值。本研究选取显著性水平为 1%的假设检验，即当 $\mathrm{P}<0.01$ 时拒绝原假设 $H_{0}$ ，认为此时 $\cdot\beta_{1}$ 显著不为 0，此时拥挤度指标通过显著性检验。
+通过线性回归求出的 $\beta_{0}$ 为处于非拥挤状态下各行业指数未来一个月的平均收益率， $\beta_{0}+\beta_{1}$ 为处于拥挤状态下各行业指数未来一个月的平均收益率。当 $\beta_{1}$ 显著不为 0 时，说明 $S_{t}^{K}和r_{t}^{K}$ 存在线性关系。对此我们通过假设检验判断 $\cdot\beta_{1}$ 是否显著异于 0，即给出原假设 $H_{0}\colon\beta_{1}=0$ 计算假设检验 t统计量的 P值。本研究选取显著性水平为 1%的假设检验，即当 $\mathrm{P}<0.01$ 时拒绝原假设 $H_{0}$ ，认为此时 $\cdot\beta_{1}$ 显著不为 0，此时拥挤度指标通过显著性检验。
 
 为了减少回归残差的异方差性对假设检验的影响，我们利用 Newey-West 自相关相容协方差方法（Heteroskedasticity and Autocorrelation Consistent Covariance）对残差自相关性进行处理。在这种方法下，回归系数的估计值不会发生变化，只是显著性检验 P值会发生改变，检验结果更加可靠。
 
@@ -477,15 +477,15 @@ $$
 
 举例来说，在计算普通动量拥挤度时，需要引入窗口期长度和历史分位数阈值两个参数，取值范围分别是[20/40/60]日以及 [80%/90%/95%/99%]，我们在回测过程中发现窗口期长度为 20日、历史分位数阈值设定为 99%时，普通动量拥挤度策略的回测年化收益率最高。对于普通动量拥挤度指标来说，20 日和 99%这组参数作为最优参数的过拟合概率具体有多大，可以通过 CSCV方法进行定量验证，具体计算流程如下：
 
-1. 汇总基于不同参数计算的策略收益率序列。若总共有N组参数，收益率序列长度为T，可以得到收益率矩阵 ${\mathbf{\nabla}}M_{T\times N}$ 。将 $M_{T\times N}$ 矩阵从时间维度上划分为 S个子矩阵。
+1. 汇总基于不同参数计算的策略收益率序列。若总共有N组参数，收益率序列长度为T，可以得到收益率矩阵 $\cdot M_{T\times N}$ 。将 $M_{T\times N}$ 矩阵从时间维度上划分为 S个子矩阵。
 
-2. 从 S个子矩阵中任意选出半数作为测试集，余下作为训练集。遍历所有可能组合，依据组合原理，可以得到 $C_{s}^{s_{/2}}$ 组测试集和对应训练集。
+2. 从 S个子矩阵中任意选出半数作为测试集，余下作为训练集。遍历所有可能组合，依据组合原理，可以得到 $C_{s}^{^{S/_{2}}}$ 组测试集和对应训练集。
 
-3. 分析每组训练集中夏普比最高的参数组合，计算其在相应测试集的相对排名 $\omega_{i}$ ，汇总依据所有测试集和训练集计算的排名情况 $\boldsymbol{\omega}=(\omega_{1},\omega_{2},\ldots,\omega_{n})\quad(n={C}_{s}^{S}/_{2})$
+3. 分析每组训练集中夏普比最高的参数组合，计算其在相应测试集的相对排名 $\omega_{i}$ ，汇总依据所有测试集和训练集计算的排名情况 $\omega=(\omega_{1},\omega_{2},\dots,\omega_{n})\quad(n=C_{S}^{S/_{2}})$
 
 4. 统计 $\omega$ 中位于测试集后一半排名的个数占比，作为回测过拟合概率 PBO。
 
-通常来说划分子集数 S 取值越大，收益率矩阵 ${\mathbf{\nabla}}M_{T\times N}$ 将被切割的越来越细，测试集和训练集数目越多，PBO 计算结果越准确。本研究进行的过拟合测试中，划分子集数 S 分别设定为 4、6、8、10、12、14 和 16，并统计在不同划分子集数下回测过拟合概率的均值。
+通常来说划分子集数 S 取值越大，收益率矩阵 $\cdot M_{T\times N}$ 将被切割的越来越细，测试集和训练集数目越多，PBO 计算结果越准确。本研究进行的过拟合测试中，划分子集数 S 分别设定为 4、6、8、10、12、14 和 16，并统计在不同划分子集数下回测过拟合概率的均值。
 
 如果某个拥挤度指标的 PBO 高，说明训练集中表现好的参数在测试集中往往表现较差，意味着这个指标的参数设定过程存在较大的过拟合风险。指标的 PBO 越高，过拟合风险越大。我们会对需要设置参数的 20 项拥挤度指标进行过拟合概率计算，在保证有效性的同时寻找过拟合概率较低的拥挤度指标。
 
@@ -547,7 +547,7 @@ $$
 注：表中统计逐个通过各项检验的指标个数，比如通过信号胜率检验一栏，统计的是同时通过显著性检验和信号胜率检验的指标个数
 资料来源：Wind，华泰证券研究所
 
-为了避免重复，我们规定选出的每项拥挤度指标只保留一个最优的参数设定。在 CSCV 框架下，训练集中的每组收益率序列都是通过原始策略收益率序列排列组合得到的，那么在每组训练集上都可以筛选出一个最优参数，一共有 $C_{s}^{s_{/2}}$ 组训练集就对应可得 $c_{s}^{s}/{}_{2}$ 组最优参数。对这 $C_{s}^{s_{/2}}$ 组最优参数进行统计，我们可以得到每个参数作为最优参数出现的次数。上述过程相当于对回测时间进行排列组合，再由蒙特卡洛模拟计算最优参数出现的比率。如果某个参数作为最优参数出现的频率越高，说明这组参数对应的收益率序列在大多数情况下都有着优异的表现，不易受到回测区间选取的限制。
+为了避免重复，我们规定选出的每项拥挤度指标只保留一个最优的参数设定。在 CSCV 框架下，训练集中的每组收益率序列都是通过原始策略收益率序列排列组合得到的，那么在每组训练集上都可以筛选出一个最优参数，一共有 ${{{\bf{\cal C}}_{s}^{S/_{2}}}}$ 组训练集就对应可得 $\cdot C_{s}^{S/_{2}}$ 组最优参数。对这 ${\cal L}_{s}^{S/_{2}}$ 组最优参数进行统计，我们可以得到每个参数作为最优参数出现的次数。上述过程相当于对回测时间进行排列组合，再由蒙特卡洛模拟计算最优参数出现的比率。如果某个参数作为最优参数出现的频率越高，说明这组参数对应的收益率序列在大多数情况下都有着优异的表现，不易受到回测区间选取的限制。
 
 通过上述过程，可以针对每项拥挤度指标，计算其最优参数在训练集上出现的次数，并据此确定每项拥挤度指标的最优参数。经过筛选，我们最终选出的六个拥挤度指标如下：corr_volume_close_40_1% 、 corr_turn_close_60_1% 、 close_bias_250_90% 、kurtosis_60_1%、turn_bias_250_90%以及 turn_crowd_20_95%。
 

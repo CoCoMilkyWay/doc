@@ -79,7 +79,7 @@ zhangyu1@ctsec.com 021-68592337
 （2）Fama-French方法：将全市场所有股票按照其市值分为S和 B两组，再根据目标因子的大小按照前 、中间 和后 的关系分别构建三个组合（记为 H、N、L），由此因子收益可以通过如下几个组合的收益之差计算得到：
 
 $$
-HML=\frac{SH+BH}{2}-\frac{SL+BL}{2}
+HML={\frac{SH+BH}{2}}-{\frac{SL+BL}{2}}
 $$
 
 其中，每组收益可以采用等权或者市值加权求得；
@@ -102,7 +102,7 @@ $$
 r_{n}=f_{c}^{S}+X_{ns}f_{s}^{S}+u_{c}^{S}
 $$
 
-其中 $r_{n}$ 表示股票n的收益率， $X_{ns}$ 为股票 $n.$ 在风格因子s上的暴露大小， $f_{c}^{S}$ 、 $f_{s}^{S}$ 和$u_{c}^{S}$ 分别为截距项因子收益、风格因子收益和特质收益。由于股票收益通常存在异方差性（即小市值股票的特质波动率会明显地高于大市值股票的特质波动），因此我们采用加权最小二乘方法（WLS）来主动减少这些特质波动较大的股票在回归中的权重。在实际应用中，通常采用市值的平方根加权作为回归权重 $v_{n}$ ，当然这并不是唯一的赋权方法，其他能够达到类似效果的权重选择我们认为都是合意的。
+其中 $r_{n}$ 表示股票n的收益率， $X_{ns}$ 为股票 $n.$ 在风格因子s上的暴露大小， $f_{c}^{S}$ 、 $f_{s}^{S}$ 和$u_{c}^{s}$ 分别为截距项因子收益、风格因子收益和特质收益。由于股票收益通常存在异方差性（即小市值股票的特质波动率会明显地高于大市值股票的特质波动），因此我们采用加权最小二乘方法（WLS）来主动减少这些特质波动较大的股票在回归中的权重。在实际应用中，通常采用市值的平方根加权作为回归权重 $v_{n}$ ，当然这并不是唯一的赋权方法，其他能够达到类似效果的权重选择我们认为都是合意的。
 
 在进行模型拟合之前，我们还需对风格因子进行标准化处理。在财通金工纯因子组合的专题报告中，我们通常使得全市场股票因子的市值加权平均等于0，然而在对简单因子组合进行求解时，我们不做这样的处理，而是转而使股票因子的回归权重加权等于 ，用公式表示即为：
 
@@ -119,22 +119,22 @@ $$
 在对因子值进行了标准化，并对股票的拟合方式进行了设定后，我们即可对模型进行求解。由于风格因子与截距项因子不存在共线性，我们可以直接采用最小加权二乘的解析解对上式进行求解。首先我们计算如下矩阵：
 
 $$
-\begin{array}{c}{\begin{array}{rl}{X^{T}VX={\binom{1}{X_{1s}}}\quad{\begin{array}{llll}{1}&{\cdots}&{1}\\{X_{2s}}&{X_{2s}}&{\cdots}&{X_{Ns}}\end{array}}{\left(\begin{array}{llll}{v_{1}}&{0}&{\cdots}&{0}\\{0}&{v_{2}}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{\cdots}&{v_{N}}\end{array}\right)}{\left(\begin{array}{ll}{1}&{X_{1s}}\\{1}&{X_{2s}}\\{\vdots}&{\vdots}\\{1}&{X_{Ns}}\end{array}\right)}}\\&{={\left(\begin{array}{llll}{\displaystyle\sum_{n=1}^{N}v_{n}}&{\displaystyle\sum_{n=1}^{N}v_{n}X_{ns}}\\{\displaystyle\sum_{n=1}^{N}v_{n}X_{ns}}&{\displaystyle\sum_{n=1}^{N}v_{n}X_{ns}^{2}}\end{array}\right)}={\binom{1}{0}}}\end{array}}&{{\mathrm{(}}{\begin{array}{ll}{1}&{0}\\{0}&{1}\end{array}}{\mathrm{)}}}\end{array}
+\begin{aligned}X^{T}VX=\begin{pmatrix}1&1&\cdots&1\\X_{1s}&X_{2s}&\cdots&X_{Ns}\end{pmatrix}\begin{pmatrix}v_{1}&0&\cdots&0\\0&v_{2}&\cdots&0\\\vdots&\vdots&\ddots&\vdots\\0&0&\cdots&v_{N}\end{pmatrix}\begin{pmatrix}1&X_{1s}\\1&X_{2s}\\\vdots&\vdots\\1&X_{Ns}\end{pmatrix}\\=\begin{pmatrix}\displaystyle\sum_{n=1}^{N}&v_{n}&\displaystyle\sum_{n=1}^{N}&v_{n}X_{ns}\\\displaystyle\sum_{n=1}^{N}&v_{n}X_{ns}&\displaystyle\sum_{n=1}^{N}&v_{n}X_{ns}^{2}\end{pmatrix}=\begin{pmatrix}1&0\\0&1\end{pmatrix}\end{aligned}
 $$
 
 上述最后一个等式之所以成立，是因为回归权重的总和等于1，标准化后的风格因子回归权重加权等于0，且其回归权重加权标准差等于1。由此，即可推导出截距项因子和风格因子的收益表达式：
 
 $$
-\begin{array}{rl}{\left.f_{S}^{S}\right.=(X^{T}VX)^{-1}X^{T}Vrr=X^{T}Vr}&{}\\{\left.f_{S}^{S}\right.=(X^{T}VX)^{-1}X^{T}Vrr=X^{T}Vr}&{}\\{=\left(\begin{array}{llll}{1}&{1}&{\cdots}&{1}\\{X_{1s}}&{X_{2s}}&{\cdots}&{X_{Ns}}\end{array}\right)\left(\begin{array}{llll}{v_{1}}&{0}&{\cdots}&{0}\\{0}&{v_{2}}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{\cdots}&{v_{N}}\end{array}\right)\left(\begin{array}{l}{r_{1}}\\{\vdots}\\{\vdots}\\{r_{N}}\end{array}\right)}\\{=\left(\begin{array}{lllll}{v_{1}}&{v_{2}}&{\cdots}&{v_{N}}\\{v_{1}X_{1s}}&{v_{2}X_{2s}}&{\cdots}&{v_{N}X_{Ns}}\end{array}\right)\left(\begin{array}{l}{r_{1}}\\{\vdots}\\{r_{N}}\end{array}\right)=\left(\begin{array}{l}{\sum_{n}v_{n}r_{n}}\\{\sum_{n}(v_{n}X_{ns})r_{n}}\end{array}\right)}\end{array}
+\begin{aligned}\begin{pmatrix}f_{c}^{S}\\f_{s}^{S}\end{pmatrix}&=(X^{T}VX)^{-1}X^{T}Vr=X^{T}Vr\\&=\begin{pmatrix}1&1&\cdots&1\\X_{1s}&X_{2s}&\cdots&X_{Ns}\end{pmatrix}\begin{pmatrix}v_{1}&0&\cdots&0\\0&v_{2}&\cdots&0\\\vdots&\vdots&\ddots&\vdots\\0&0&\cdots&v_{N}\end{pmatrix}\begin{pmatrix}r_{1}\\r_{2}\\\vdots\\r_{N}\end{pmatrix}\\&=\begin{pmatrix}v_{1}&v_{2}&\cdots&v_{N}\\v_{1}X_{1s}&v_{2}X_{2s}&\cdots&v_{N}X_{Ns}\end{pmatrix}\begin{pmatrix}r_{1}\\r_{2}\\\vdots\\r_{N}\end{pmatrix}=\begin{pmatrix}\sum_{n}v_{n}r_{n}\\\sum_{n}(v_{n}X_{ns})r_{n}\end{pmatrix}\end{aligned}
 $$
 
 将上述求解的矩阵形式拆解为向量形式，即可得到截距项因子和风格因子的收益表达式：
 
 $$
-f_{s}^{S}=\sum_{n}(v_{n}X_{ns})r_{n}~f_{c}^{S}=\sum_{n}v_{n}r_{n}
+f_{s}^{S}=\sum_{n}(v_{n}X_{ns})r_{n}\quad f_{c}^{S}=\sum_{n}v_{n}r_{n}
 $$
 
-可以看到，对于某个风格因子s而言，其简单因子组合中股票n的权重为 $v_{n}X_{ns}$ 根据我们之前对风格因子的标准化处理方法可知，该组合的所有股票权重总和等于0，也就是说它是一个零额投资组合（dollar-neutral）。进一步分析可知，该简单因子组合对风格因子的暴露度为1，这是由因子的回归加权波动等于1而决定的。
+可以看到，对于某个风格因子s而言，其简单因子组合中股票n的权重为 $v_{n}X_{ns}.$ 根据我们之前对风格因子的标准化处理方法可知，该组合的所有股票权重总和等于0，也就是说它是一个零额投资组合（dollar-neutral）。进一步分析可知，该简单因子组合对风格因子的暴露度为1，这是由因子的回归加权波动等于1而决定的。
 
 对于截距项因子（简单市场因子）组合而言，它实际上是全市场所有股票收益的回归权重加权。因此，如果我们采用的回归权重是股票的市值权重，那么简单市场因子即为全市场股票的市值加权平均，即通常所说的指数收益。
 
@@ -157,7 +157,7 @@ $$
 对以上公式进行求解，有：
 
 $$
-f_{c}^{s}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{v_{n}r_{n}}{V_{i}}\right)~f_{i}^{s}=\frac{1}{V_{i}}\sum_{n\in i}v_{n}r_{n}-f_{c}^{s}
+f_{c}^{S}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{v_{n}r_{n}}{V_{i}}\right)\quad f_{i}^{S}=\frac{1}{V_{i}}\sum_{n\in i}v_{n}r_{n}-f_{c}^{S}
 $$
 
 其中， $V_{i}$ 表示行业 i 中所有股票的回归权重之和， $W_{i}$ 表示行业 i 中所有股票的市值权重之和。由此可，对于简单行业因子组合中的市场因子组合fS而言，它是一个纯多头组合，且该组合中的成分股权重之和等于 1，它对于每个行业是市值加权的，但是对于行业内部的成分股则采用的是回归权重加权。对于简单行业因子组合 $f_{i}^{S}$ 而言，它可以通过做多单个行业成分股中回归权重加权组合、同时做空市场因子组合得到。
@@ -170,7 +170,7 @@ $$
 r_{n}=f_{c}^{P}+\sum_{i}X_{ni}f_{i}^{P}+\sum_{s}X_{ns}f_{s}^{P}+u_{n}^{P}
 $$
 
-其中， $X_{ni}$ 表示股票n在行业因子i上的暴露度， $X_{ns}$ 表示股票 $\mathbf{\nabla}\cdot\mathbf{n},$ 在风格因子s上的暴露度。由于截距项因子与行业因子之间存在完全共线性，我们需加入行业因子收益的市值加权均值等于0的约束条件，以使得方程有唯一解：
+其中， $X_{ni}$ 表示股票n在行业因子i上的暴露度， $X_{ns}$ 表示股票 $\cdot n.$ 在风格因子s上的暴露度。由于截距项因子与行业因子之间存在完全共线性，我们需加入行业因子收益的市值加权均值等于0的约束条件，以使得方程有唯一解：
 
 $$
 \sum_{n}W_{i}f_{i}^{P}=0
@@ -234,7 +234,7 @@ $$
 
 前面提到，简单因子组合是不存在完全共线性的，而纯因子组合是剥离了其他已知因子的影响得到的组合，因此因子与因子之间的共线性问题，即可通过纯因子组合的权重与简单因子组合的权重对比来观察。
 
-Menchero（2010）提出采用因子权重相关系数（Factor Weight Correlation）来衡量目标因子与其他因子之间的共线性，它表示的是简单因子组合和纯因子组合在横截面上的相关系数。具体来讲，假设 $\boldsymbol{\mathrm{2}}_{nk}^{P}$ 表示纯因子组合k中股票n的权重，$\Omega_{nk}^{s}$ 表示简单因子组合k中股票n的权重，那么FWC系数可以通过如下方法计算得到：
+Menchero（2010）提出采用因子权重相关系数（Factor Weight Correlation）来衡量目标因子与其他因子之间的共线性，它表示的是简单因子组合和纯因子组合在横截面上的相关系数。具体来讲，假设 $\boldsymbol{\mathit{2}}_{nk}^{P}$ 表示纯因子组合k中股票n的权重，$\Omega_{nk}^{s}$ 表示简单因子组合k中股票n的权重，那么FWC系数可以通过如下方法计算得到：
 
 $$
 \rho_{k}^{CS}=\frac{\frac{1}{n}\sum_{n}\Omega_{nk}^{P}\cdot\Omega_{nk}^{s}}{\sigma(\Omega_{k}^{P})\sigma(\Omega_{k}^{s})}
@@ -251,7 +251,7 @@ $$
 Menchero（2010）还提出了另外一项指标因子收益相关系数（Factor ReturnCorrelation），即通过计算因子收益的相关性来观察因子之间的共线性程度。FRC系数是通过计算简单因子组合的收益和纯因子组合的收益在时间序列上的相关系数得到：
 
 $$
-\rho_{k}^{TS}=\frac{\frac{1}{T}\sum_{t}\left(f_{kt}^{P}-\bar{f}_{k}^{P}\right)\left(f_{kt}^{S}-\bar{f}_{k}^{S}\right)}{\sigma(f_{k}^{P})\sigma(f_{k}^{S})}
+\rho_{k}^{TS}=\frac{\frac{1}{T}\sum_{t}\left(f_{kt}^{P}-\bar{f}_{k}^{P}\right)\left(f_{kt}^{S}-\bar{f}_{k}^{S}\right)}{\sigma\left(f_{k}^{P}\right)\sigma\left(f_{k}^{S}\right)}
 $$
 
 直观上来讲，如果单个因子与其他因子之间的共线性程度很低，那么其他因子的加入并不会对该因子的收益产生明显的影响，该因子的简单因子组合收益和纯因子组合收益将会存在一致性，即上一小节所说的分化程度较小。
@@ -265,7 +265,7 @@ $$
 Menchero（2010）提出的第三个衡量共线性的指标是因子杠杆率（FactorLeverage Ratio），它被定义为纯因子组合与简单因子组合的成分股权重杠杆率：
 
 $$
-LEV_{k}=\frac{\sum_{n}\left|\Omega_{nk}^{P}\right|}{\sum_{n}\left|\Omega_{nk}^{S}\right|}
+LEV_{k}=\frac{\sum_{n}\bigl|\Omega_{nk}^{P}\bigr|}{\sum_{n}\bigl|\Omega_{nk}^{S}\bigr|}
 $$
 
 直观上来讲，如果因子杠杆率大于1，说明为了对冲掉其他因子对目标因子带来的风险暴露，目标因子的纯因子组合必须要在某些成分股上进行额外的做多或者做空操作，因此因子杠杆率的比值越大，说明目标因子与其他因子之间的共线性程度越高。
@@ -450,16 +450,16 @@ $$
 
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
 | --- | --- | --- | --- | --- |
-| Beta | BETA | $\mathrm{r_{t}}=\alpha+\beta\mathrm{R_{t}}+\mathrm{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3) 若满足条件的样本数据少于42天，我们将其 Beta 置为NaN。 |
+| Beta | BETA | $\mathbf{r_{t}}=\alpha+\beta\mathbf{R_{t}}+\mathbf{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3) 若满足条件的样本数据少于42天，我们将其 Beta 置为NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathsf{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathsf{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r_{t}}=\mathrm{P_{t}}/\mathrm{P_{t-1}}-1,\ \mathrm{T}{=}504,\ \mathrm{L}{=}21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理) | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
-|  | CMRA | $\$123,456,7$ $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathrm{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathrm{T})),}\end{array}$ $\begin{array}{r}{\ddag{\Psi}\Psi\mathrm{Z}\mathrm{(T)}=\exp\bigl(\sum_{\mathrm{t=1}}^{\mathrm{T}}\ln(1+\mathrm{r_{t}})\bigr)-1}\\{\ddag{\mathrm{\Large~\int_{\Sigma}~}}\llangle_{\mathrm{\Large~\hat{\mathrm{T}}~}}\bigwedge_{\mathrm{\Large~\hat{\mathrm{t}}~}}\rlap/{\Psi}\llangle_{\mathrm{\Large~\hat{\mathrm{t}}~}}\ddag{\hat{\ddag}{\mathrm{\Large~\frac{\hat{\mathcal{G}}~}{\cos~\theta}~}}}\llangle_{\mathrm{\Large~\hat{\mathrm{t}}~}}^{\pm}}\end{array}$ 表示过 | 0.15 | 以 21 天为 1 个月 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t}=\mathrm{L}}^{\mathrm{T}+\mathrm{L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理) | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
+|  | CMRA | $\boxed{表示过去\;12\;个月的波动幅度,}$ $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ $\mathrm{Z}(\mathrm{T})=\exp(\sum_{\mathrm{t}=1}^{\mathrm{T}}\ln(1+\mathrm{r}_{\mathrm{t}}))-1$ 表示过 | 0.15 | 以 21 天为 1 个月 |
 |  | HSIGMA | 计算 Beta 时残差的标准差， Hsigma = std(ei) | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |
-| 流动性(对市值因子进行正交化） | STOM | 月度换手率， $\mathrm{STOM}=\ln(\mathrm{mean}(\sum_{t=1}^{21}(V_{t}/S_{t})))$ 其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2)剔除未上市、停牌日期的数据 |
-|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\operatorname*{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
+| 流动性(对市值因子进行正交化） | STOM | 月度换手率， $\mathrm{STOM}=\ln(\mathrm{mean}(\sum_{t=1}^{21}(V_t/S_t)))$ 其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2)剔除未上市、停牌日期的数据 |
+|  | STOQ | 季度换手率， $\mathrm{STOQ}=\ln(\mathrm{mean}(\sum_{t=1}^{63}(V_t/S_t)))$ | 0.25 | 同 STOQ 因子的计算 |
 |  | STOA | 年度换手率，STOA = In(mean(Σ25(Vt/St)))， | 0.25 | 同 STOQ 因子的计算 |
 | 盈利 | CETOP | 过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数 | 1/2 | 采用 Wind 中的 PCF_OCF_ttm 因子的倒数 |
 |  | ETOP | 过去滚动12个月的利润除以当前市值实际计算中取市盈率 PETTM 的倒数 | 1/2 | 采用 Wind 中的 PE_ttm 因子的倒数 |

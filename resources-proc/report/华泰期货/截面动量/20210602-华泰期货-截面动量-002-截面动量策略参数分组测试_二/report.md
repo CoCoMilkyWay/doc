@@ -239,7 +239,7 @@
 第三个策略在第二个策略的基础上，增加了稳定性，但是也损失了参数对市场的敏锐，如果结合两种信息，策略可能可以得到提升。在上一个策略中我们选取：
 
 $$
-\int\sharp\sharp\sharp\sharp\ :\mathcal{K}\ :\mathcal{A}_{\sharp}\ :\mathring{\jmath}\ :=\mathrm{mean}(\mathring{\sharp})\ :\mathrm{T}-1\ :\sharp\sharp\ :\mathring{\sharp}\ :\mathring{\jmath}\ :\mathring{\sharp}\ :\mathrm{K})
+T期的K值=mean(前T-1期最优K)
 $$
 
 进一步，我们在此基础上增加一项，以捕捉近期的最优参数信息：
@@ -247,7 +247,7 @@ $$
 增加项 = mean( [近六个月最优 K - mean(前 T-1 期最优 K) ]）/10
 
 $$
-\mathrm{~T~}_\neq\}\sharp\sharp^{\prime}\mathrm{~K~}/\dddot{\mathfrak{H}}=\mathrm{mean}(\mathring{\mathtt{H}}\mathtt{I})\mathrm{~T-1~}\sharp\sharp\sharp\sharp\mathrm{~K~})+\mathrm{~\ddag^{*}~}j\flat\mathrm{~I}j\mathrm{I}
+T期的K值=mean(前T-1期最优K)+增加项
 $$
 
 策略表现如下图，历史夏普达到 0.97，2016年至今夏普为 1.12.

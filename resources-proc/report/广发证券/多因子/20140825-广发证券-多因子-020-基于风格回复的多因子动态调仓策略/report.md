@@ -186,19 +186,19 @@ sqs@gf.com.cn
 假定投资组合观察窗口股票数量为N。观察窗口内股票价格：
 
 $$
-P_{1,t},P_{2,t},.....P_{N,t}
+P_{1,t},P_{2,t},\ldots\ldots P_{N,t}
 $$
 
 备选池股票价格：
 
 $$
-A_{1\textit{ t }},A_{2t\beta}\ldots A_{N}
+A_{1,1},A_{2,2},\ldots A_{N}
 $$
 
 若T时刻触发阈值限制条件，即：
 
 $$
-\frac{\underset{i}{\operatorname*{max}}\{P_{i,T}/P_{i,0}\}}{\underset{j}{\operatorname*{min}}\{A_{j,T}/A_{j,0}\}}>1+\delta
+\frac{\max\{P_{i,T}/P_{i,0}\}}{\min\limits_{j}\{A_{j,T}/A_{j,0}\}}>1+\delta
 $$
 
 则根据配对股票进行投资组合的动态调整。

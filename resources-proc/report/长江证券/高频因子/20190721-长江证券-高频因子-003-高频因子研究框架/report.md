@@ -84,7 +84,7 @@ zhengqi2@cjsc.com
 
 因子统计的方法主要体现统计上的意义，在介绍构成之前，首先介绍 Fama-MacBeth 回归。Fama-MacBeth 回归由 Fama 和 MacBeth 在 1973 年为验证 CAPM 模型时提出，现在被广泛用来估计各类资产定价模型中的因子暴露和因子收益（即风险溢价）。其本质在于将每个截面上的回归结果作为一个独立的样本，通过不同的截面回归得到的时间序列对参数进行估计。Fama-MacBeth 回归可以消除残差在截面上的相关性对标准误差的影响，但是无法解决残差时间序列上自相关性的问题，需要通过如 Newey-West 等方法对自相关异方差进行一致性估计。一般来说 Fama-MacBeth 回归和参数估计可由三个步骤构成：
 
-记{Ri}为第i只股票第t个时间点上的收益率， $\{f_{t}^{j}\}$ 为第j个因子第t个时间点上的收益率。对每只个股，由时间序列回归得到个股i在因子j上的暴露 $\mathbf{\Delta}:\beta_{i}^{j}$ ：
+记{Ri}为第i只股票第t个时间点上的收益率， $\{f_{t}^{j}\}$ 为第j个因子第t个时间点上的收益率。对每只个股，由时间序列回归得到个股i在因子j上的暴露 $\dot{\tau}\beta_{i}^{j}$ ：
 
 $$
 R_{t}^{i}=a_{i}+\beta_{i}^{j}f_{t}^{j}+\varepsilon_{t}^{i}
@@ -98,22 +98,22 @@ $$
 R_{t}^{i}=\gamma_{t}+\beta_{i}^{1}\lambda_{t}^{1}+\cdots+\beta_{i}^{j}\lambda_{t}^{j}+\cdots+\alpha_{t}^{i}
 $$
 
-进行参数估计（因子收益、波动等），记 ${\hat{\alpha}}_{i}$ 为残差均值， $\hat{\lambda}_{j}$ 为因子收益均值， $\mathrm{Var}(\hat{\alpha}_{i})$ 为残差方差， $\mathrm{Var}(\hat{\lambda}_{j})$ 为因子方差，则：
+进行参数估计（因子收益、波动等），记 $\mathrm{i}\hat{\alpha}_{i}$ 为残差均值， $\hat{\lambda}_{j}$ 为因子收益均值， $\operatorname{Var}(\hat{\alpha}_{i})$ 为残差方差， $\operatorname{Var}({\hat{\lambda}}_{j})$ 为因子方差，则：
 
 $$
-\widehat{\alpha}_{i}=\frac{1}{T}\sum_{t=1}^{T}\alpha_{t}^{i}
-$$
-
-$$
-\widehat{\lambda}_{j}=\frac{1}{T}\sum_{t=1}^{T}\lambda_{t}^{j}
+\hat{\alpha}_{i}=\frac{1}{T}{\sum_{t=1}^{T}{\alpha_{t}^{i}}},
 $$
 
 $$
-\operatorname{Var}({\hat{\alpha}}_{i})={\frac{1}{T}}Var{\big(}\alpha_{t}^{i}{\big)}={\frac{1}{T^{2}}}\sum_{t=1}^{T}(\alpha_{t}^{i}-{\hat{\alpha}}_{i})^{2}
+\hat{\lambda}_{j}=\frac{1}{T}{\sum_{t=1}^{T}\lambda_{t}^{j}}.
 $$
 
 $$
-\mathrm{Var}\bigl(\hat{\lambda}_{j}\bigr)=\frac{1}{T}Var\bigl(\lambda_{t}^{j}\bigr)=\frac{1}{T^{2}}\sum_{t=1}^{T}(\lambda_{t}^{j}-\hat{\lambda}_{j})^{2}
+\mathrm{Var}(\hat{\alpha}_{i})=\frac{1}{T}\mathrm{Var}(\alpha_{t}^{i})=\frac{1}{T^{2}}\sum_{t=1}^{T}(\alpha_{t}^{i}-\hat{\alpha}_{i})^{2}
+$$
+
+$$
+\mathrm{Var}(\hat{\lambda}_j)=\frac{1}{T}\mathrm{Var}(\lambda_t^j)=\frac{1}{T^2}\sum_{t=1}^{T}(\lambda_t^j-\hat{\lambda}_j)^2
 $$
 
 在以后使用 Fama-MacBeth 回归时，有两点需要指出：
@@ -122,14 +122,14 @@ $$
 
 Fama-MacBeth 回归是为了验证因子对个股的收益是否有解释力度，故在第二步截面线性回归时，以当期因子暴露对下期收益做回归。
 
-记每期因子暴露和下期因子暴露相关性的时间序列为 $\{AutoCor_{t}\}$ ，每期因子暴露和下期收益率秩相关性的时间 $\left|\overline{{\beta}}\widehat{\hat{g}}\right|\left\{IC_{t}\right\}$ ，通过 Fama-MacBeth 回归得到各个因子的收益率时间序列和t值时间序列，分别记为 $\{beta_{t}\}$ 和 $\{tvalues_{t}\}$ ，mean为均值函数，std为方差函数，count为计数函数，sum为求和函数，I为示性函数。表 1 展示了因子统计的组成部分。
+记每期因子暴露和下期因子暴露相关性的时间序列为 $\{AutoCor_{t}\}$ ，每期因子暴露和下期收益率秩相关性的时间 $予列\{IC_{t}\}$ ，通过 Fama-MacBeth 回归得到各个因子的收益率时间序列和t值时间序列，分别记为 $\{beta_{t}\}$ 和 $\{tvalues_{t}\}$ ，mean为均值函数，std为方差函数，count为计数函数，sum为求和函数，I为示性函数。表 1 展示了因子统计的组成部分。
 
 表 1：因子统计组成部分
 
 | 统计指标 | 计算方法 | 统计含义 |
 | --- | --- | --- |
-| 因子截面相关性 | $\mathrm{mean}(AutoCor_{t})$ | 因子变化的速度 |
-| 因子IC | ${\mathrm{mean}}(IC_{t})$ | 个股因子排名和收益率排名的相关性 |
+| 因子截面相关性 | $\mathsf{mean}(AutoCor_{t})$ | 因子变化的速度 |
+| 因子IC | $\mathrm{mean}(IC_{t})$ | 个股因子排名和收益率排名的相关性 |
 | 因子IC_IR | $\mathrm{mean}(IC_{t})/\mathrm{std}(IC_{t})$ | 个股因子排名和收益率排名的相关性的稳定性 |
 | 因子年化收益 | $\mathrm{mean}(beta_{t})\times12$ | 因子的收益能力 |
 | 因子年化波动率 | $\mathrm{std}(beta_{t})\times\sqrt{12},$ | 因子收益的稳定性 |
@@ -137,7 +137,7 @@ Fama-MacBeth 回归是为了验证因子对个股的收益是否有解释力度�
 | 因子t值 | $\mathrm{mean}(beta_{t})/\mathrm{std}(beta_{t})\times\sqrt{\mathrm{count}(beta_{t})}$ | 因子的收益能力在统计意义的显著性 |
 | 平均†值 | $\mathrm{mean}(tvalues_{t})$ | 因子收益在时间序列上的稳定性 |
 | 平均绝对†值 | $\mathrm{mean}(abs(tvalues_{t}))$ | 因子对收益率解释的显著性 |
-| †值>2百分比 | $s\mathrm{um}(I(beta_{t}>0))/\mathrm{count}(beta_{t})$ | 因子对收益率解释的稳定性 |
+| †值>2百分比 | $\mathrm{sum}(I(beta_{t}>0))/\mathrm{count}(beta_{t})$ | 因子对收益率解释的稳定性 |
 
 资料来源：长江证券研究所
 
@@ -519,7 +519,7 @@ Backward 因子方法即逐渐从全信息因子中剔除部分信息，构建�
 以高频数据构建因子时，给出了反转类（动量类）因子的通式，主要从时间划分和加权方式两个维度进行改进：
 
 $$
-\mathbf{Rev}_{per}=\sum_{i=1}^{period}w_{i}\mathbf{log}\frac{Close_{t-i+1}}{Close_{t-i}}
+\mathbf{Rev}_{per}=\sum_{i=1}^{period}w_i\log\frac{Class_{t-i+1}}{Class_{t-i}}
 $$
 
 故因子改进的效果来源可以分为两部分：高频 k线上体现的行情微观结构，加权方式上体现的反转效应侧重。为探究两者是否均可以带来因子表现上的改进，表 16 和表 17 分别给出了全 A 股和中证 800 范围内，不同参数不同反转类因子的表现，其中高频表示高频反转因子，结构表示以结构反转因子，后跟的数字表示确定动量反转区间的阈值。从风险指标的展示结果可以得到以下结论：

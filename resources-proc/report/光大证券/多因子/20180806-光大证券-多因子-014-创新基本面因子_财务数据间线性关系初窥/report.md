@@ -115,13 +115,13 @@ hujicong@ebscn.com
 之后，当我们要研究两个或多个变量之间的线性关系时，最简单自然的想法便是使用 OLS 线性回归模型。在我们的框架里，如果我们认为基本面数据 Y 与基本面数据 A、B、C...在逻辑上有线性关系，或者 Y 的数值应当能被A、B、C...解释，那就可以构造线性回归模型：
 
 $$
-\begin{array}{r}{Funda_{Y}=\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+\cdots+}\\{\beta_{X}*Funda_{X}+\varepsilon\#(1)\qquad}\end{array}
+\begin{array}{c}Funda_{Y}=\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+\cdots+\\\beta_{X}*Funda_{X}+\varepsilon\#(1)\end{array}
 $$
 
 或者，更常用的简化形式，仅考虑两个不同财务数据间的简单线性回归：
 
 $$
-Funda_{Y}=\beta_{X}*Funda_{X}+{\varepsilon}\#(2)
+Funda_{Y}=\beta_{X}*Funda_{X}+\varepsilon\#(2)
 $$
 
 在拟合好回归模型后，根据最开始的逻辑需要，找到可以反映或代理该逻辑的量化数据，比如是需要 $\beta_{X}$ ，还是需要拟合后的最后一期的残差 $\varepsilon_{T}$ ，还是需要变量解释程度 $R^{2}$ 等等，甚至更进一步，这些描述线性关系的统计数据在时间序列上的性质等等。
@@ -161,7 +161,7 @@ $$
 2. 对营业收入样本与营业成本样本都做正态标准化处理，即：
 
 $$
-standard\bigl(sample_{j}\bigr)=\frac{sample_{j}-\overline{{sample}}}{std(sample)}\#(3)
+standard{\big(}sample_{j}{\big)}={\frac{sample_{j}-{\overline{{sample}}}}{std(sample)}}\#(3)
 $$
 
 3. 将标准化后的营业收入样本在营业成本上进行 OLS 线性回归，即：Revenuei = βi1 ∗ Costi + βi2 + εi
@@ -185,7 +185,7 @@ $$
 - 截面标准化处理：通过横截面 z-score方法，以每个时间截面 t上的所有股票的为样本，分别计算其均值和标准差得到如下所示 stand(factor)。此标准化方式属于因子的线性变换，并不会改变原始因子的分布特征。
 
 $$
-s\mathrm{tand}(factor)_{jt}=\frac{factor_{jt}-\overline{{factor_{t}}}}{std(factor)_{t}}\#(4)
+\mathrm{standard}(factor)_{jt}=\frac{factor_{jt}-\overline{factor_{t}}}{std(factor)_{t}}\#(4)
 $$
 
 - 有效性及稳定性检验：采用多期截面RLM回归后我们可以得到因子收益序列，以及每一期回归假设检验T 检验的 t 统计量序列，针对这两个序列我们通过以下几个指标来判断该因子的有效性和稳定性：
@@ -518,7 +518,7 @@ $$
 我们将通过横截面回归取残差的方式，同时剔除上述因子对 RROC 因子的影响，对所有的因子均做截面标准化和极值处理：
 
 $$
-\begin{array}{c}{RROC_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+\beta_{3}*NPyoy_{i}+}\\{\beta_{4}*ROE_{i}+\cdots+\varepsilon_{i}\#(5)}\end{array}
+\begin{array}{c}RROC_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+\beta_{3}*NPyoy_{i}+\\\beta_{4}*ROE_{i}+\cdots+\varepsilon_{i}\#(5)\end{array}
 $$
 
 对RROC因子中性化处理后因子的有效性检验等结果仍然十分显著，IC均值为 2.25%，IC 大于零的比例为 76.58%；而 IR 高达 0.82，相比中性化处理之前的 0.66 有明显提升，说明中性化处理起到了信息提纯的作用，使得因子的稳定性得到进一步提升。

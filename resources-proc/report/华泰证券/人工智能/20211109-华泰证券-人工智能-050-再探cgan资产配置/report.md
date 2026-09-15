@@ -185,7 +185,7 @@ cGAN 方法为什么优于历史波动率方法？一个直观的猜测是 cGAN 
 
 ## 特征值分布
 
-协方差矩阵的特征值反映了不同“主成分”的方差。对协方差矩阵进行特征值分解 Σ＝UΛUT，其中，U 的各列为正交的特征向量，对角阵 $\Lambda{=}\mathsf{diag}(\lambda_{1},\lambda_{2},...,\lambda\mathsf{d})$ ，对角元为从大到小排列的特征值，我们将考察特征值的分布情况。
+协方差矩阵的特征值反映了不同“主成分”的方差。对协方差矩阵进行特征值分解 Σ＝UΛUT，其中，U 的各列为正交的特征向量，对角阵 $\Lambda=\mathrm{diag}(\lambda_1,\lambda_2,\ldots,\lambda_d)$ ，对角元为从大到小排列的特征值，我们将考察特征值的分布情况。
 
 历史波动率方法、cGAN 方法和真实协方差矩阵的特征值分布如下图，图中每个点代表某个预测截面日计算的协方差矩阵特征值。观察知，cGAN 和真实协方差特征值分布接近，历史波动率方法特征值分布较为集中，且更靠近 0。换言之，历史波动率方法可能低估真实风险。
 
@@ -198,7 +198,7 @@ cGAN 方法为什么优于历史波动率方法？一个直观的猜测是 cGAN 
 Frobenius 范数距离可以衡量协方差估计量Σ̂和真实值Σ的偏差：
 
 $$
-D_{\widehat{\Sigma}}=\left.\widehat{\Sigma}-\Sigma\right._{F}=\sqrt{\sum_{i=1}^{d}\sum_{j=1}^{d}\left(\widehat{\sigma}_{ij}-\sigma_{ij}\right)^{2}}
+D_{\widehat{\Sigma}}=\left\|\widehat{\Sigma}-\Sigma\right\|_{F}=\sqrt{\sum_{i=1}^{d}\sum_{j=1}^{d}\bigl(\widehat{\sigma}_{ij}-\sigma_{ij}\bigr)^{2}}.
 $$
 
 两个矩阵的 Frobenius 范数距离越大，则各对应元素数值差异越大，Frobenius 范数为 0表明两个矩阵完全相同。
@@ -208,7 +208,7 @@ $$
 针对上述问题，我们首先对cGAN和历史波动率方法下协方差矩阵的特征值进行量级调整，将矩阵特征值乘以真实协方差与预测协方差的迹的比值：
 
 $$
-\hat{\boldsymbol{\Sigma}}_{c}=\boldsymbol{U}\left(\boldsymbol{\Lambda}*\frac{tr(\boldsymbol{\Sigma})}{tr(\hat{\boldsymbol{\Sigma}})}\right)\boldsymbol{U}^{T}
+\hat{\Sigma}_{c}=U\left(\varLambda*\frac{tr(\varSigma)}{tr\bigl(\hat{\Sigma}\bigr)}\right)U^{T}
 $$
 
 若cGAN协方差数量级比真实值大10倍，而历史波动率的协方差数量级比真实值小10倍，则需对前者除以 10、后者乘以 10，再比较 Frobenius 范数距离。
@@ -217,17 +217,17 @@ $$
 ![](images/f8d5a879f24c39f490b8f89584ebc3ca3f6ad9354a12613ac36b01119056cba3.webp)
 资料来源：Wind，华泰研究
 
-量级修正后，历史波动率方法、cGAN 方法各自与真实协方差的 Frobenius 距离如上图。cGAN 方法距离均值为 0.0012，历史波动率方法距离均值为 0.0012，Wilcoxon 检验显示cGAN 和传统方法无显著差异 $(p{=}0.29)$ ）。两种方法 $\cdot\frac{\cdot}{\vert\pm}$ Frobenius 距离指标上未体现出区别，我们需要更敏感的评价指标。
+量级修正后，历史波动率方法、cGAN 方法各自与真实协方差的 Frobenius 距离如上图。cGAN 方法距离均值为 0.0012，历史波动率方法距离均值为 0.0012，Wilcoxon 检验显示cGAN 和传统方法无显著差异 $(p=0.29)$ ）。两种方法 $在$ Frobenius 距离指标上未体现出区别，我们需要更敏感的评价指标。
 
 ## 相关矩阵距离
 
-定义 $R_{1}$ 和 ${\bf\cdot}R_{2}$ 两个矩阵的相关距离为：
+定义 $.R_{1}$ 和 ${}^{\cdot}R_{2}$ 两个矩阵的相关距离为：
 
 $$
-D_{corr}(R_{1},R_{2})=1-\frac{tr\{R_{1}R_{2}\}}{\parallel R_{1}\parallel_{F}\parallel_{R_{2}}\parallel_{F}}
+D_{corr}(R_{1},R_{2})=1-\frac{tr\{R_{1}R_{2}\}}{\|R_{1}\|_{F}\|R_{2}\|_{F}}
 $$
 
-其中 $D_{corr}(R_{1},R_{2})$ 为相关矩阵距离， $tr\{R_{1}R_{2}\}$ 为 $R_{1}R_{2}$ 的迹， $|R_{1}||_{F}$ 和 ${|R_{2}||}_{F}$ 分别为矩阵 ${\bf\nabla}\cdot{\cal R}_{1}$ 和 $\boldsymbol{\mathsf{R}}_{2}$ 的 Frobenius 范数。若 $R_{1}$ 和 $R_{2}$ 相同，则相关矩阵距离为 0；若二者正交，则该距离为 1。
+其中 $\bar{D}_{corr}(R_{1},R_{2})$ 为相关矩阵距离， $tr\{R_{1}R_{2}\}$ 为 $R_{1}R_{2}$ 的迹， $\|R_{1}\|_{F}$ 和 $\|R_{2}\|_{F}$ 分别为矩阵 $\cdot R_{1}$ 和 $\imath R_{2}$ 的 Frobenius 范数。若 $R_{1}$ 和 $R_{2}$ 相同，则相关矩阵距离为 0；若二者正交，则该距离为 1。
 
 历史波动率方法、cGAN 方法各自与真实协方差的相关矩阵距离如下图。cGAN 方法均值为-0.05，历史波动率方法均值为-0.07，Wilcoxon 检验显示 cGAN 显著高于历史波动率方法（p=0.001），cGAN 更接近 0，即更接近真实协方差。
 
@@ -266,7 +266,7 @@ $$
 风险平价模型中，若各资产实际分配权重向量为w，Σ为真实协方差矩阵，则资产i的实际风险贡献为：
 
 $$
-\sigma_{i}(w)=w_{i}\cdot\partial_{w_{i}}\sigma(w)={\frac{w_{i}(\Sigma w)_{i}}{\sqrt{w^{T}\Sigma w}}}
+\sigma_{i}(w)=w_{i}\cdot\partial_{w_{i}}\sigma(w)=\frac{w_{i}(\Sigma w)_{i}}{\sqrt{w^{T}\Sigma w}}.
 $$
 
 理想情形下，各资产风险应等权分配，三种资产均等于 1/3。
@@ -432,7 +432,7 @@ $$
 均值方差模型是更为经典的资产配置模型，基于预期收益μ和预期风险Σ求解资产权重w，在给定的风险厌恶水平 λ以及其他约束条件下，使得投资组合的期望效用最优：
 
 $$
-\begin{array}{r}{min-w^{T}\mu+\lambda w^{T}\Sigma w}\end{array}
+\min_{w}-w^{T}\mu+\lambda w^{T}\Sigma w
 $$
 
 前文表明，相比基于历史收益和波动率的预测方法，cGAN 对于资产收益均值和协方差预测的准确度更高，因此我们预期 cGAN在均值方差模型上也将表现更好。

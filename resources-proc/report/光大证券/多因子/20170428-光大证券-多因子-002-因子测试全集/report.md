@@ -70,7 +70,7 @@ $$
 MAD=median(\left|f_{i}-Median_{f}\right|)
 $$
 
-采取与 3σ法等价的方法，我们将大于 $Median_{f}+3*1.4826*MAD$ 的值或小于 ${\cdot}Median_{f}-3*1.4826*MAD$ 的值定义为异常值。
+采取与 3σ法等价的方法，我们将大于 $Median_{f}+3*1.4826*MAD$ 的值或小于 $rMedian_{f}-3*1.4826*MAD$ 的值定义为异常值。
 
 类似的，对缺失值的处理方式要依据缺失值的来源和逻辑解释，选取不同的操作，包括剔除或者以行业中位数替代。在单因子测试时，我们对缺失率小于 20%的因子数据用中信一级行业的中位数代替，当缺失率大于 20%时则做剔除处理。
 
@@ -80,14 +80,14 @@ $$
 
 ## 1.4、因子测试模型
 
-我们采取截面回归测试的方法，每期针对全体样本做一次回归，回归时因子暴露为已知变量，回归得到每期的一个因子收益值 $f_{j}$ .
+我们采取截面回归测试的方法，每期针对全体样本做一次回归，回归时因子暴露为已知变量，回归得到每期的一个因子收益值 ${\mathfrak{f}}_{j}$ .
 
 进行截面回归判断每个单因子的收益情况和显著性时，需要特别关注 A股市场中一些显著影响个股收益率的因素，例如行业因素和市值因素。市值因子在过去的很长一段时间内都是A股市场上影响股票收益显著性极高的一个因子，为了能够在单因子测试时得到因子真正收益情况，我们在回归测试时对市值因子也做了剔除。
 
 加入行业因子和市值因子后，单因子测试的回归方程如下所示：
 
 $$
-\left[\begin{array}{c}{r_{ti}}\\{\vdots}\\{r_{tn}}\end{array}\right]=\left[\begin{array}{cccc}{\beta_{t11}I_{t1u}}&{\cdots}&{I_{t1v}m_{t1m}}\\{\vdots}&{\vdots}&{\cdots}&{\vdots}\\{\beta_{tn1}I_{tnu}}&{\cdots}&{I_{tnv}m_{tnm}}\end{array}\right]\cdot\left[\begin{array}{c}{f_{ti}}\\{\vdots}\\{f_{tm}}\end{array}\right]+\left[\begin{array}{c}{\mu_{ti}}\\{\vdots}\\{\mu_{tn}}\end{array}\right]
+\begin{bmatrix}r_{ti}\\\vdots\\r_{tn}\end{bmatrix}=\begin{bmatrix}\beta_{t11}I_{t1u}&\cdots&I_{t1v}m_{t1m}\\\vdots&\vdots&\cdots&\vdots\\\beta_{tn1}I_{tnu}&\cdots&I_{tnv}m_{tnm}\end{bmatrix}\cdot\begin{bmatrix}f_{ti}\\\vdots\\f_{tm}\end{bmatrix}+\begin{bmatrix}\mu_{ti}\\\vdots\\\mu_{tn}\end{bmatrix}
 $$
 
 其中：

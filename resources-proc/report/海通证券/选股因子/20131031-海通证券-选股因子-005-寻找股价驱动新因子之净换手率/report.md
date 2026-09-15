@@ -54,10 +54,10 @@ Email：zhujt@htsec.com
 
 ## 2.1 报价法
 
-报价法（Quote Rule）最早由Hasbrouck（1988）*提出，设某天第 n 笔交易在 $t_{n}$ 时刻成交， $p_{t_{n}}$ 为成交价格， $a_{t_{n}},b_{t_{n}}$ 为对应的卖一和买一报价,记 $m_{t_{n}}=(a_{t_{n}}+b_{t_{n}})/2$ ，则按照报价法，该笔交易的买卖方向为 $BS_{t_{n}}$
+报价法（Quote Rule）最早由Hasbrouck（1988）*提出，设某天第 n 笔交易在 $t_{n}$ 时刻成交， $p_{t_{n}}$ 为成交价格， $a_{{}_{t_{n}}},b_{{}_{t_{n}}}$ 为对应的卖一和买一报价,记 $m_{t_n}=(a_{t_n}+b_{t_n})/2$ ，则按照报价法，该笔交易的买卖方向为 $BS_{t_{n}}$
 
 $$
-BS_{t_{n}}=\left\{\begin{array}{cc}{{1~if~p_{t_{n}}>m_{t_{n}}}}\\{{-1~if~p_{t_{n}}<m_{t_{n}}}}\\{{null~if~p_{t_{n}}=m_{t_{n}}}}\end{array}\right.
+BS_{_{t_{n}}}=\left\{\begin{aligned}1&\quad&if\ p_{_{t_{n}}}>m_{_{t_{n}}}\\-1&\quad&if\ p_{_{t_{n}}}<m_{_{t_{n}}}\\null&\quad&if\ p_{_{t_{n}}}=m_{_{t_{n}}}\end{aligned}\right.
 $$
 
 其中 $BS_{t_{n}}$ 等于 1 表示主动买，-1 表示主动卖，报价法对发生在买一和卖一价正中间的交易不做划分。
@@ -67,7 +67,7 @@ $$
 n 1逐笔法（Tick Rule）†只用到逐笔成交价格，不涉及挂单数据。设当天第 • 笔交易的成交时间为 $t_{n-1}$ $p_{t_{n-1}}$ 为成交价格，则按照逐笔法：
 
 $$
-BS_{_{t_{n}}}=\left\{\begin{array}{cc}{{1}}&{{if\ p_{_{t_{n}}}>p_{_{t_{n-1}}}}}\\{{-1}}&{{if\ p_{_{t_{n}}}<p_{_{t_{n-1}}}}}\\{{BS_{_{t_{n-1}}}}}&{{if\ p_{_{t_{n}}}=p_{_{t_{n-1}}}}}\end{array}\right.
+BS_{_{t_{n}}}=\left\{\begin{aligned}1&\quad if\ p_{_{t_{n}}}>p_{_{t_{n-1}}}\\-1&\quad if\ p_{_{t_{n}}}<p_{_{t_{n-1}}}\\BS_{_{t_{n-1}}}&\quad if\ p_{_{t_{n}}}=p_{_{t_{n-1}}}\end{aligned}\right.
 $$
 
 ## 2.3 LR方法
@@ -79,7 +79,7 @@ LR方法（Lee-Ready Rule）‡是报价法和逐笔法的结合，也是目前�
 内外盘方法和 Quote Rule 比较相似，不过是拿成交价格和买一、卖一价相比，这种方法在国内一些看盘软件中经常使用。
 
 $$
-BS_{t_{n}}=\left\{\begin{array}{ll}{1\quad\quad if\ p_{t_{n}}\geq a_{t_{n}}}\\{-1\quad\quad if\ p_{t_{n}}\leq b_{t_{n}}}\\{null\quad\quad if\ b_{t_{n}}<p_{t_{n}}<a_{t_{n}}}\end{array}\right.
+BS_{_{t_n}}=\left\{\begin{aligned}1&\quad if\ p_{_{t_n}}\geq a_{_{t_n}}\\-1&\quad if\ p_{_{t_n}}\leq b_{_{t_n}}\\null&\quad if\ b_{_{t_n}}<p_{_{t_n}}<a_{_{t_n}}\end{aligned}\right.
 $$
 
 ## 3. 四种划分方法的优劣比较

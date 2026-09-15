@@ -56,14 +56,14 @@ RGAN 的相对损失函数以样本点作为比较基准，存在较大随机性
 
 ## 广义 GAN
 
-本文涉及 GAN 的较多变体，为便于区分，我们先给出广义 GAN 的定义，再基于这一定义进行分类。在《人工智能 31：生成对抗网络 GAN 初探》（20200508）一文中，我们提到生成器和判别器分别最大化、最小化同一个目标函数。换言之，生成器和判别器训练时各自试图最小化的损失函数互为相反数。但在广义 GAN 中，生成器和判别器可以有不同的损失函数。因此我们需要给出一组损失函数 $(L_{D}^{GAN},~L_{G}^{GAN})$ ，分别表示判别器和生成器各自试图最小化的损失函数：
+本文涉及 GAN 的较多变体，为便于区分，我们先给出广义 GAN 的定义，再基于这一定义进行分类。在《人工智能 31：生成对抗网络 GAN 初探》（20200508）一文中，我们提到生成器和判别器分别最大化、最小化同一个目标函数。换言之，生成器和判别器训练时各自试图最小化的损失函数互为相反数。但在广义 GAN 中，生成器和判别器可以有不同的损失函数。因此我们需要给出一组损失函数 $(L_{D}^{GAN},L_{G}^{GAN})$ ，分别表示判别器和生成器各自试图最小化的损失函数：
 
 $$
-L_{D}^{GAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}\bigl[\widetilde{f}_{1}\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{z\sim\mathbb{P}_{z}}\left[\widetilde{f}_{2}\left(D\bigl(G(z)\bigr)\right)\right]
+L_{D}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\boldsymbol{r}}}\big[\widetilde{f}_{1}\big(D(\boldsymbol{x}_{r})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{\boldsymbol{z}}}\left[\widetilde{f}_{2}\left(D\big(G(\boldsymbol{z})\big)\right)\right]
 $$
 
 $$
-L_{G}^{GAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[\widetilde{g_{1}}\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{z\sim\mathbb{P}_{z}}\left[\widetilde{g_{2}}\left(D\bigl(G(z)\bigr)\right)\right]
+L_{G}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\widetilde{g_{1}}\big(D(\boldsymbol{x}_{r})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{z}}\left[\widetilde{g_{2}}\left(D\big(G(\boldsymbol{z})\big)\right)\right]
 $$
 
 图表1： GAN损失函数计算流程
@@ -72,38 +72,38 @@ $$
 
 上图展示了 GAN 模型中损失函数的计算流程。关于损失函数表达式及其计算流程，我们进行如下 4 点说明：
 
-1. $x_{r}$ 和ℙ 分别表示真样本和真样本的分布，z和ℙ 分别表示隐变量和隐变量的分布。后续我们还会用 $x_{f}$ 来表示生成器生成的假样本 $G(\pmb{z})$ ，用ℙ 来表示假样本的分布。
+1. $x_{r}$ 和ℙ 分别表示真样本和真样本的分布，z和ℙ 分别表示隐变量和隐变量的分布。后续我们还会用 $x_{f}$ 来表示生成器生成的假样本 $\mathbf{\nabla}_{\mathbf{\nabla}}G(\mathbf{z})$ ，用ℙ 来表示假样本的分布。
 
 2. $D(x)$ 为判别器， $G(x)$ 为生成器。与之前不同的是，这里我们对判别器做进一步拆分：
 
 $$
-D(\pmb{x})=a\big(C(\pmb{x})\big)
+D({\pmb x})=a{\bigl(}C({\pmb x}){\bigr)}
 $$
 
-其中， $C(x)$ 是判别器网络的原始输出，其数值范围通常不受限制。 $a(.)$ 是用来限制判别器最终输出数值范围的变换层，例如采用 Sigmoid 变换将输出范围从 $(-\infty,+\infty)\varlimsup$ 缩至[0,1]。某些损失函数可以没有这一变换层，或者说 $.a(.)$ 是恒等函数。这一类损失函数则需要在网络训练过程中进行其它条件限制，以防止判别器输出爆炸而导致的损失函数爆炸。
+其中， $C(x)$ 是判别器网络的原始输出，其数值范围通常不受限制。 $a(.)$ 是用来限制判别器最终输出数值范围的变换层，例如采用 Sigmoid 变换将输出范围从 $\cdot(-\infty,+\infty)压$ 缩至[0,1]。某些损失函数可以没有这一变换层，或者说 $.a(.)$ 是恒等函数。这一类损失函数则需要在网络训练过程中进行其它条件限制，以防止判别器输出爆炸而导致的损失函数爆炸。
 
-3. ${\widetilde{f}}_{1},\ {\widetilde{f}}_{2},\ \widetilde{g_{1}},\ \widetilde{g_{2}}$ 是从标量到标量的函数，代表损失函数的类型。例如，若采用交叉熵损失函数， $\widetilde{f}_{1}(x)=-log(x),\widetilde{f}_{2}(x)=-log(1-x)$ ；若采用最小二乘损失函数， $\widetilde{f}_{1}(x)=$ $\widetilde{f}_{2}(x)=(x-x_{label})^{2}$ 。值得注意的是， $\widetilde{g_{1}}$ 实际上不起任何作用，可以忽略。这是因为$\widetilde{g_{1}}$ 只存在于生成器 G的损失函数中，但它对应的损失项E $\mathfrak{i}_{x_{r}\sim\mathbb{P}_{r}}\big[\widetilde{g_{1}}\big(D(x_{r})\big)\big]$ 不含生成器G，即 $\widetilde{g_{1}}$ 所在的损失项对生成器 G参数的梯度为 0，也就无法影响生成器训练。
+3. $\widetilde{f_{1}},\widetilde{f_{2}},\widetilde{g_{1}},\widetilde{g_{2}}$ 是从标量到标量的函数，代表损失函数的类型。例如，若采用交叉熵损失函数， $\widetilde{f}_{1}(x)=-log(x),\quad\widetilde{f}_{2}(x)=-log(1-x)$ ；若采用最小二乘损失函数， $\widetilde{f}_{1}(x)=$ $\widetilde{f}_{2}(x)=(x-x_{label})^{2}$ 。值得注意的是， $\widetilde{g_{1}}$ 实际上不起任何作用，可以忽略。这是因为$\widetilde{g_{1}}$ 只存在于生成器 G的损失函数中，但它对应的损失项E $\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\widetilde{g_{1}}\big(D(\boldsymbol{x}_{r})\big)\big]$ 不含生成器G，即 $\widetilde{g_{1}}$ 所在的损失项对生成器 G参数的梯度为 0，也就无法影响生成器训练。
 
-4. 根据 $:\widetilde{f}_{1},\ \widetilde{f}_{2},\ \widetilde{g_{1}},\ \widetilde{g_{2}}\dot{z}$ 间的关系，可以把 GAN 分为饱和、非饱和两大类。
+4. 根据 $\widetilde{f_1},\widetilde{f_2},\widetilde{g_1},\widetilde{g_2}$ 间的关系，可以把 GAN 分为饱和、非饱和两大类。
 
-a. 当 $\dot{\cdot}\widetilde{f_{1}}=-\widetilde{g_{1}},\widetilde{f_{2}}=-\widetilde{g_{2}}\ell$ 时，这种损失函数称为饱和损失函数（Saturating Loss），相应的 GAN 称为饱和 GAN（Saturating GAN）。此时，生成器和判别器的损失函数互为相反数，也就是生成器和判别器分别在最小化和最大化同一个目标函数。例如，当判别器最后的输出可以理解为概率时，判别器试图降低假样本被判定为真的概率，生成器就试图提高假样本被判定为真的概率。其损失函数表达式如下：
-
-$$
-L_{D}^{GAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[\widetilde{f}_{1}\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{z\sim\mathbb{P}_{z}}\left[\widetilde{f}_{2}\left(D\bigl(G(z)\bigr)\right)\right]
-$$
+a. 当 $i\widetilde{f}_{1}=-\widetilde{g_{1}},\widetilde{f}_{2}=-\widetilde{g_{2}}\mathsf{I}$ 时，这种损失函数称为饱和损失函数（Saturating Loss），相应的 GAN 称为饱和 GAN（Saturating GAN）。此时，生成器和判别器的损失函数互为相反数，也就是生成器和判别器分别在最小化和最大化同一个目标函数。例如，当判别器最后的输出可以理解为概率时，判别器试图降低假样本被判定为真的概率，生成器就试图提高假样本被判定为真的概率。其损失函数表达式如下：
 
 $$
-L_{G}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\left[\widetilde{-f}_{1}\big(D(\boldsymbol{x}_{r})\big)\right]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{\boldsymbol{z}}}\left[\widetilde{-f}_{2}\left(D\big(G(\boldsymbol{z})\big)\right)\right]
-$$
-
-b. 当 $\widetilde{f}_{1}=\widetilde{g_{2}},\widetilde{f}_{2}=\widetilde{g_{1}}$ 时，这种损失函数称为非饱和损失函数（Non-saturating Loss），相应的 GAN 称为非饱和 GAN（Non-saturating GAN）。此时，生成器和判别器也可以看成共用同一个目标函数，只是互换了真样本和假样本的位置。例如，当判别器最后的输出可以理解为概率时，判别器试图提高真样本被判定为真的概率，生成器就提高假样本被判定为真的概率。其损失函数表达式如下：
-
-$$
-L_{D}^{GAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[\widetilde{f}_{1}\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{z\sim\mathbb{P}_{z}}\left[\widetilde{f}_{2}\left(D\bigl(G(z)\bigr)\right)\right]
+L_{D}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\widetilde{f}_{1}\big(D(\boldsymbol{x}_{r})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{\boldsymbol{z}}}\left[\widetilde{f}_{2}\left(D\big(G(\boldsymbol{z})\big)\right)\right]
 $$
 
 $$
-L_{G}^{GAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[\widetilde{f}_{2}\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{z\sim\mathbb{P}_{z}}\left[\widetilde{f}_{1}\left(D\bigl(G(z)\bigr)\right)\right]
+L_{G}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{\boldsymbol{r}}}\big[\widetilde{-f_{1}}\big(D(\boldsymbol{x}_{\boldsymbol{r}})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{\boldsymbol{z}}}\left[\widetilde{-f_{2}}\left(D\big(G(\boldsymbol{z})\big)\right)\right]
+$$
+
+b. 当 $\widetilde{f_{1}}=\widetilde{g_{2}},\widetilde{f_{2}}=\widetilde{g_{1}}$ 时，这种损失函数称为非饱和损失函数（Non-saturating Loss），相应的 GAN 称为非饱和 GAN（Non-saturating GAN）。此时，生成器和判别器也可以看成共用同一个目标函数，只是互换了真样本和假样本的位置。例如，当判别器最后的输出可以理解为概率时，判别器试图提高真样本被判定为真的概率，生成器就提高假样本被判定为真的概率。其损失函数表达式如下：
+
+$$
+L_{D}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\widetilde{f}_{1}\big(D(\boldsymbol{x}_{r})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{\boldsymbol{z}}}\left[\widetilde{f}_{2}\left(D\big(G(\boldsymbol{z})\big)\right)\right]
+$$
+
+$$
+L_{G}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\widetilde{f}_{2}\big(D(\boldsymbol{x}_{r})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{z}}\left[\widetilde{f}_{1}\left(D\big(G(\boldsymbol{z})\big)\right)\right]
 $$
 
 图表2： GAN 的分类
@@ -114,14 +114,14 @@ $$
 
 1. 判别器变换层为 Sigmoid。因此，判别器的输出在[0, 1]之间，可以理解为概率。例如，当真样本的标签为 1，假样本的标签为 0，判别器的输出即代表“判别器判定该样本为真样本的概率”。
 
-2. 损失函数为交叉熵损失函数， ${\mathfrak{P}}{\mathfrak{F}}_{1}(x)=-log(x),\ {\widetilde{f}}_{2}(x)=-log(1-x),$ 由上述两点可知，SGAN 的损失函数表达式为（非饱和形式）：
+2. 损失函数为交叉熵损失函数， $即\widetilde{f}_{1}(x)=-log(x),\widetilde{f}_{2}(x)=-log(1-x)\text{。 }$ 由上述两点可知，SGAN 的损失函数表达式为（非饱和形式）：
 
 $$
-L_{D}^{SGAN}=-\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}log~sigmoid{\bigl(}C(x_{r}){\bigr)}-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}log\left(1-sigmoid\left(C(x_{f})\right)\right)
+L_{D}^{SGAN}=-\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{r}}logsigmoid\big(C(\boldsymbol{x}_{r})\big)-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}log\left(1-sigmoid\left(C\big(\boldsymbol{x}_{f}\big)\right)\right)
 $$
 
 $$
-L_{G}^{SGAN}=-\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}log\left(1-sigmoid\bigl(C(x_{r})\bigr)\right)-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}logsigmoid\left(C\bigl(x_{f}\bigr)\right)
+L_{G}^{SGAN}=-\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{r}}log\left(1-sigmoid\left(C\left(\boldsymbol{x}_{r}\right)\right)\right)-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}log\;sigmoid\left(C\left(\boldsymbol{x}_{f}\right)\right)
 $$
 
 前文我们提到，GAN 损失函数中g̃可以忽略。在 SGAN 的概率框架下，这意味着判别器最大化损失函数，使得D(x) → 1，D(G(z)) → 0，即最大化真样本被判定为真实的概率，同时最小化假样本被判定为真实的概率；但是生成器虽然最小化同样的损失函数，却只能使D(G(z)) → 1，即只能最大化假样本被判定为真实的概率，而不能改变真样本被判定为真实的概率。SGAN 概率框架下的理想训练过程如下图所示。
@@ -151,7 +151,7 @@ $$
 在《人工智能 31：生成对抗网络 GAN 初探》（20200508）中我们证明过，如果采用饱和SGAN，在最优化判别器的前提下（即理想状态下判别器训练结束后），生成器的损失函数等价于真样本分布和假样本分布之间的 Jensen-Shannon 散度。其数学表达如下：
 
 $$
-L_{G}^{SGAN}=-2log2\ :+\ :2JSD(\mathbb{P}_{r}||\mathbb{P}_{f})
+L_{G}^{SGAN}\;=\;-2log2\;+\;2JSD(\mathbb{P}_{r}||\mathbb{P}_{f})
 $$
 
 ![](images/bb99b73ebe22354f1b29009f65d9c3ddf82ee84080254fc47daad040ab0da0ac.webp)
@@ -162,34 +162,34 @@ $$
 根据 SGAN 生成器损失函数的定义，我们又有：
 
 $$
-L_{G}^{SGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[log\bigl(D^{*}(x_{r})\bigr)\bigr]+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left[log\left(1-D^{*}\bigl(x_{f}\bigr)\right)\right]
+L_{G}^{SGAN}=\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{\boldsymbol{r}}}\big[log\big(D^{*}(\boldsymbol{x}_{\boldsymbol{r}})\big)\big]+\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{f}}\sim\mathbb{P}_{\boldsymbol{f}}}\big[log\big(1-D^{*}(\boldsymbol{x}_{\boldsymbol{f}})\big)\big]
 $$
 
 其中 $D^{*}$ 表示最优化的判别器。代入 SGAN 生成器损失函数的表达式，我们可以得到$JSD(\mathbb{P}_{r}||\mathbb{P}_{f})$ 的表达式：
 
 $$
-\begin{array}{r}{JSD(\mathbb{P}_{r}||\mathbb{P}_{f})\ =\ log2+\frac{1}{2}\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[log\bigl(D^{*}(x_{r})\bigr)\bigr]+\frac{1}{2}\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left[log\left(1-D^{*}\bigl(x_{f}\bigr)\right)\right]}\end{array}
+JSD(\mathbb{P}_{r}||\mathbb{P}_{f})=log2+\frac{1}{2}\mathbb{E}_{\boldsymbol{x}_{\mathbf{r}}\sim\mathbb{P}_{r}}[log(D^{*}(\boldsymbol{x}_{\mathbf{r}}))]+\frac{1}{2}\mathbb{E}_{\boldsymbol{x}_{\mathbf{f}}\sim\mathbb{P}_{f}}[log(1-D^{*}(\boldsymbol{x}_{\mathbf{f}}))]
 $$
 
 进而，我们得到全局 $JSD(\mathbb{P}_{r}||\mathbb{P}_{f})$ 的表达式为：
 
 $$
-\begin{array}{rl}{JSD(\mathbb{P}_{r}||\mathbb{P}_{f})\stackrel{}{=}log2+max_{D;X[0,1]}\{\frac{1}{2}\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}[log\big(D(x_{r})\big)]+\frac{1}{2}\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}[log(1-D\big(x_{f}))]\}}&{}\\{\quad\quad\quad\quad\quad\quad\quad\quad=log2+max_{D;X[0,1]}(L_{G}^{SGAN}/2)}\end{array}
+\begin{array}{rl}{JSD(\mathbb{P}_{r}||\mathbb{P}_{f})}&{=log2+max_{D:X\rightarrow[0,1]}\left\{\frac{1}{2}\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[log\big(D(\boldsymbol{x}_{r})\big)\big]+\frac{1}{2}\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\left[log\left(1-D\big(\boldsymbol{x}_{f}\big)\right)\right]\right\}}\\&{=log2+max_{D:X\rightarrow[0,1]}(L_{G}^{SGAN}/2)}\end{array}
 $$
 
-下面我们论证，虽然理论上SGAN的生成器应该最小化JS散度，从而模拟真实数据分布，但实际的训练过程却与之相悖。JS 散度的理论上界为 log2，为达到这一极值，必须使$D(\pmb{x}_{r})=1,D\big(\pmb{x}_{f}\big)=0;$ ；JS散度的理论下界为 $^{0,}$ ，为达到这一极值，必须使：
+下面我们论证，虽然理论上SGAN的生成器应该最小化JS散度，从而模拟真实数据分布，但实际的训练过程却与之相悖。JS 散度的理论上界为 log2，为达到这一极值，必须使$D(\pmb{x}_{\pmb{r}})=1,\quad D(\pmb{x}_{\pmb{f}})=0;$ ；JS散度的理论下界为 $0,$ ，为达到这一极值，必须使：
 
 $$
-D(x_{r})=D\big(x_{f}\big)=0.5
+D(\pmb{x}_{\pmb{r}})=D(\pmb{x}_{\pmb{f}})=0.5
 $$
 
 由于 JS 散度当且仅当真实数据分布和虚假数据分布完全相同时取 0，所以如果我们想要真实数据分布和虚假数据分布完全相同，必须使 JS 散度取 0，也就必须使生成器达到如下的极值：
 
 $$
-D(x_{r})=D\big(x_{f}\big)=0.5
+D(\pmb{x}_{\pmb{r}})=D(\pmb{x}_{\pmb{f}})=0.5
 $$
 
-但在 SGAN 中，一旦判别器训练结束后 $D(\pmb{x}_{r})1$ ，生成器就无法改变 $D(x_{r})$ 的值，即无论如何也达不到 $D(x_{r})=0.5$ ，也就无法最小化 JS散度。
+但在 SGAN 中，一旦判别器训练结束后 $D(\pmb{x}_{r})\rightarrow1$ ，生成器就无法改变 $D(\pmb{x}_{r})$ 的值，即无论如何也达不到 $D(\pmb{x}_{r})=0.5$ ，也就无法最小化 JS散度。
 
 我们可以用下图来更直观地表示：A. 理论上最小化 JS散度的训练路径（图 A）；B. 实际上 SGAN 的训练路径（图 B）；C. 理想状态下的训练路径（图 C）。其中纵轴表示判别器输出，横轴表示迭代次数。想要实现图 C，就必须能够降低真样本被判定为真实的概率。
 
@@ -210,19 +210,19 @@ $$
 我们给出过非饱和 GAN 的损失函数表达式如下：
 
 $$
-\begin{array}{rl}&{L_{D}^{GAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[\widetilde{f}_{1}\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{z\sim\mathbb{P}_{z}}\left[\widetilde{f}_{2}\left(D\bigl(G(z)\bigr)\right)\right]}\\&{}\\&{L_{G}^{GAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[\widetilde{f}_{2}\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{z\sim\mathbb{P}_{z}}\left[\widetilde{f}_{1}\left(D\bigl(G(z)\bigr)\right)\right]}\end{array}
+\begin{aligned}&L_{D}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\widetilde{f}_{1}\big(D(\boldsymbol{x}_{r})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{z}}\left[\widetilde{f}_{2}\left(D\big(G(\boldsymbol{z})\big)\right)\right]\\&\\&L_{G}^{GAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\widetilde{f}_{2}\big(D(\boldsymbol{x}_{r})\big)\big]+\mathbb{E}_{\boldsymbol{z}\sim\mathbb{P}_{z}}\left[\widetilde{f}_{1}\left(D\big(G(\boldsymbol{z})\big)\right)\right]\\\end{aligned}
 $$
 
 若取 $-\widetilde{f}_{1}\big(D(x)\big)=\widetilde{f}_{2}\big(D(x)\big)=D(x)=C(x)$ ，即判别器变换层a(.)是恒等函数，则可以得到基于 IPM 的 GAN的损失函数表达式：
 
 $$
-\begin{array}{rl}&{L_{D}^{IPM}=-\{\mathbb{E}_{{x_{r}}\sim\mathbb{P}_{r}}[C({x_{r}})]-\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}[C\big({x_{f}}\big)]\}}\\&{L_{G}^{IPM}=\mathbb{E}_{{x_{r}}\sim\mathbb{P}_{r}}[C({x_{r}})]-\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}[C\big({x_{f}}\big)]}\end{array}
+\begin{array}{rl}&{L_{D}^{IPM}=-\{\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C\big(\boldsymbol{x}_{f}\big)]\}}\\&{L_{G}^{IPM}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C\big(\boldsymbol{x}_{f}\big)]}\end{array}
 $$
 
 对比基于 IPM 的 GAN 的损失函数以及 IPM 的数学定义式可知，给定ℱ，则判别器损失函数的下界就是真实数据和虚假数据在ℱ下的 IPM 散度的相反数。即：
 
 $$
-\begin{array}{rl}&{min_{C\in\mathcal{F}}L_{D}^{IPM}=-max_{C\in\mathcal{F}}\{\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}[C(x_{r})]-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}[C\bigl(x_{f}\bigr)]\}}\\&{\qquad=-sup_{C\in\mathcal{F}}\{\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}[C(x_{r})]-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\bigl[C\bigl(x_{f}\bigr)\bigr]\}}\\&{\qquad=-IPM_{\mathcal{F}}(\mathbb{P}_{r}||\mathbb{P}_{f})}\end{array}
+\begin{aligned}min_{C\in\mathcal{F}}L_{D}^{IPM}&=-max_{C\in\mathcal{F}}\{\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C(\boldsymbol{x}_{f})]\}\\&=-sup_{C\in\mathcal{F}}\{\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C(\boldsymbol{x}_{f})]\}\\&=-IPM_{\mathcal{F}}(\mathbb{P}_{r}||\mathbb{P}_{f})\end{aligned}
 $$
 
 所以在最优化判别器的前提下，即判别器达到损失函数下界，基于 IPM 的 GAN 的生成器损失函数等价于真实分布和虚假分布在F下的 IPM 散度，而不是 SGAN 中的 JS散度。
@@ -236,38 +236,38 @@ $$
 本小节我们将对比非饱和 SGAN 和基于 IPM的 GAN的损失函数梯度。已知非饱和 SGAN的损失函数如下：
 
 $$
-L_{D}^{SGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigl[log\bigl(D(x_{r})\bigr)\bigr]+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left[log\left(1-D\bigl(x_{f}\bigr)\right)\right]
+L_{D}^{SGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[log(D(\boldsymbol{x}_{r}))]+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\left[log\left(1-D(\boldsymbol{x}_{f})\right)\right]
 $$
 
 $$
-L_{G}^{SGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\big[log\big(1-D(x_{r})\big)\big]+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left[log\left(D\big(x_{f}\big)\right)\right]
+L_{G}^{SGAN}=\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{\boldsymbol{r}}}[log(1-D(\boldsymbol{x}_{\boldsymbol{r}}))]+\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{f}}\sim\mathbb{P}_{\boldsymbol{f}}}[log(D(\boldsymbol{x}_{\boldsymbol{f}}))]
 $$
 
 可以求得其对网络参数 w的梯度为：
 
 $$
-\begin{array}{rl}&{\nabla_{w}L_{D}^{SGAN}=-\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\left[\left(1-D(x_{r})\right)V_{w}C(x_{r})\right]+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left[D\left(x_{f}\right)V_{w}C\left(x_{f}\right)\right]}\\&{\nabla_{w}L_{G}^{SGAN}=-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left[\left(1-D\left(x_{f}\right)\right)V_{w}C\left(x_{f}\right)\right]}\end{array}
+\begin{aligned}&\nabla_{w}L_{D}^{SGAN}=-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\big[\big(1-D\big(\boldsymbol{x}_{r}\big)\big)\nabla_{w}C\big(\boldsymbol{x}_{r}\big)\big]+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\big[D\big(\boldsymbol{x}_{f}\big)\nabla_{w}C\big(\boldsymbol{x}_{f}\big)\big]\\&\nabla_{w}L_{G}^{SGAN}=-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\big[\big(1-D\big(\boldsymbol{x}_{f}\big)\big)\nabla_{w}C\big(\boldsymbol{x}_{f}\big)\big]\\\end{aligned}
 $$
 
 基于 IPM 的 GAN 的损失函数为：
 
 $$
-\begin{array}{rl}&{L_{D}^{IPM}=-\{\mathbb{E}_{{x_{r}}\sim\mathbb{P}_{r}}[C(x_{r})]-\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}[C\big(x_{f}\big)]\}}\\&{L_{G}^{IPM}=\mathbb{E}_{{x_{r}}\sim\mathbb{P}_{r}}[C(x_{r})]-\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}[C\big(x_{f}\big)]}\end{array}
+\begin{array}{rl}&{L_{D}^{IPM}=-\{\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C\big(\boldsymbol{x}_{f}\big)]\}}\\&{L_{G}^{IPM}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C\big(\boldsymbol{x}_{f}\big)]}\end{array}
 $$
 
 可以求得其对网络参数 w的梯度为：
 
 $$
-\begin{array}{rl}&{\nabla_{w}L_{D}^{IPM}=-\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}[\nabla_{w}C({x}_{r})]+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\big[\nabla_{w}C\big({x}_{f}\big)\big]}\\&{\nabla_{w}L_{G}^{IPM}=-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\big[\nabla_{w}C\big({x}_{f}\big)\big]}\end{array}
+\begin{aligned}\nabla_{w}L_{D}^{IPM}&=-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[\nabla_{w}C(\boldsymbol{x}_{r})]+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[\nabla_{w}C(\boldsymbol{x}_{f})]\\\nabla_{w}L_{G}^{IPM}&=-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[\nabla_{w}C(\boldsymbol{x}_{f})]\end{aligned}
 $$
 
 对比二者梯度表达式可知，如果 SGAN 具备以下条件，则二者的损失函数梯度相同：
 
-1. 对 $L_{D}^{SGAN},\sqrt{\eta}\vec{\bar{\Xi}}$ ，若在判别器训练开始前（生成器训练结束后）， $D(\boldsymbol{x}_{r})=0,D\big(\boldsymbol{x}_{f}\big)=1$ 则变为相同。
+1. 对 $L_{D}^{SGAN}而言$ ，若在判别器训练开始前（生成器训练结束后）， $D(\boldsymbol{x}_{r})=0,D(\boldsymbol{x}_{f})=1$ 则变为相同。
 
-在理想状态下，SGAN 判别器训练结束后， $D(\pmb{x}_{r})1,D\big(\pmb{x}_{f}\big)0$ ，因此第二个条件被近似满足；生成器对 $D(x_{r})$ 并没有影响，因此生成器训练结束后， $D(\pmb{x}_{r})1,D\big(\pmb{x}_{f}\big)1$ 第一个条件中的 $D(\pmb{x}_{r})=0$ 没有被满足。因此，二者的主要区别在于生成器结束后， $D(x_{r})$ 是否趋于 0。
+在理想状态下，SGAN 判别器训练结束后， $D(\pmb{x}_{\pmb{r}})\rightarrow1,D(\pmb{x}_{\pmb{f}})\rightarrow0$ ，因此第二个条件被近似满足；生成器对 $D(\pmb{x}_{r})$ 并没有影响，因此生成器训练结束后， $D(\pmb{x}_{r})\rightarrow1,\quad D(\pmb{x}_{f})\rightarrow1$ 第一个条件中的 $D(\pmb{x}_{r})=0$ 没有被满足。因此，二者的主要区别在于生成器结束后， $D(\pmb{x}_{r})$ 是否趋于 0。
 
-下面我们给出上述梯度差别的直觉解释。在 SGAN 生成器训练的过程中，我们没有改变$D(x_{r})$ ，所以在判别器训练的过程中，真实数据梯度 $\nabla_{w}C({\pmb x}_{r})$ 的“权重项” $1-D({\pmb x}_{r})\approx0$ 即真实数据的影响逐渐下降。这导致 SGAN 判别器过多关注虚假数据，不再注重学习真实数据，进而导致学习的停滞。这也就是 SGAN 和基于 IPM 的 GAN 之间的差距所在。因此，如果损失函数能够在 $D\left(\pmb{x}_{f}\right)$ 上升的同时让 $D(x_{r})$ 下降并趋近于 0，那么判别器训练时就始终对真实数据保持更高比例的关注，就有助于提高算法的表现和稳定性。
+下面我们给出上述梯度差别的直觉解释。在 SGAN 生成器训练的过程中，我们没有改变$D(\pmb{x}_{r})$ ，所以在判别器训练的过程中，真实数据梯度 $\nabla_{w}C(\pmb{x}_{r})$ 的“权重项” $1-D(\pmb{x}_{r})\approx0$ 即真实数据的影响逐渐下降。这导致 SGAN 判别器过多关注虚假数据，不再注重学习真实数据，进而导致学习的停滞。这也就是 SGAN 和基于 IPM 的 GAN 之间的差距所在。因此，如果损失函数能够在 $D(\pmb{x}_{f})$ 上升的同时让 $D(\pmb{x}_{r})$ 下降并趋近于 0，那么判别器训练时就始终对真实数据保持更高比例的关注，就有助于提高算法的表现和稳定性。
 
 下图总结真样本被判定为真实的概率不下降带来的三个缺陷。
 
@@ -302,29 +302,29 @@ $$
 RGAN 的本质是将原先的绝对损失函数改为相对损失函数，因此所有拥有相对损失函数的GAN 都属于 RGAN。换言之，如果将损失函数改为相对损失函数“有利可图”，那么我们可以将其应用于几乎任何非相对损失函数，以赋予其某些相对损失函数的优秀性质。RGAN 的损失函数定义如下：
 
 $$
-\begin{array}{r}{L_{D}^{RGAN}=\mathbb{E}_{(x_{r},x_{f})\sim(\mathbb{P}_{r},\mathbb{P}_{f})}[\widetilde{f}_{1}\Big(a(C(x_{r})-C\big(x_{f}))\Big)]}\\{+\mathbb{E}_{(x_{r},x_{f})\sim(\mathbb{P}_{r},\mathbb{P}_{f})}[\widetilde{f}_{2}\Big(a(C\big(x_{f})-C(x_{r}))\Big)]}\end{array}
+\begin{aligned}L_{D}^{RGAN}=\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C(\boldsymbol{x}_{r})-C(\boldsymbol{x}_{f})\right)\right)\right]\\+\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{2}\left(a\left(C\left(\boldsymbol{x}_{f}\right)-C(\boldsymbol{x}_{r})\right)\right)\right]\end{aligned}
 $$
 
 $$
-\begin{array}{r}{L_{G}^{RGAN}=\mathbb{E}_{(x_{r},x_{f})\sim(\mathbb{P}_{r},\mathbb{P}_{f})}[\widetilde{g_{1}}(a(C(x_{r})-C\big(x_{f})))]}\\{+\mathbb{E}_{(x_{r},x_{f})\sim(\mathbb{P}_{r},\mathbb{P}_{f})}[\widetilde{g_{2}}(a(C\big(x_{f})-C(x_{r})))]}\end{array}
+\begin{aligned}L_{G}^{RGAN}=\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{g_{1}}\left(a\left(C(\boldsymbol{x}_{r})-C(\boldsymbol{x}_{f})\right)\right)\right]\\+\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{g_{2}}\left(a\left(C(\boldsymbol{x}_{f})-C(\boldsymbol{x}_{r})\right)\right)\right]\end{aligned}
 $$
 
-需要指出的是，原著中 RGAN 的定义中没有a(. )这一项。此处为使 ${\widetilde{f}}_{1}$ ， ${\widetilde{f}}_{2}$ ， $\widetilde{g_{1}}$ ， $\widetilde{g_{2}}$ 的含义与前文保持一致，故将a(. )从f1̃， ${\widetilde{f}}_{2}$ ，g̃1，g̃2中独立出来单列。
+需要指出的是，原著中 RGAN 的定义中没有a(. )这一项。此处为使 $\widetilde{f}_{1}$ ， $\widetilde{f}_{2}$ ， $\widetilde{g_{1}}$ ， $\widetilde{g_{2}}$ 的含义与前文保持一致，故将a(. )从f1̃， $\widetilde{f}_{2}$ ，g̃1，g̃2中独立出来单列。
 
 下面我们对 RGAN损失函数中与 GAN 损失函数不同的部分做进一步解释：
 
-1. 最主要的变化是相对判别器 $D\left(\left(x_{r},x_{f}\right)\right)=a\left(C(x_{r})-C{\left(x_{f}\right)}\right)$ 。相对判别器以一对样本作为输入，在输出时先将二者的原始输出相减，再对其结果进行变换a(.)。例如，在RSGAN 中，为了输出真样本比假样本更真的概率，我们以假样本为基准，用真样本的判别器原始输出减去假样本的判别器原始输出，再用 Sigmoid 函数将这一输出转换为概率。
+1. 最主要的变化是相对判别器 $D\left(\left(\pmb{x}_{r},\pmb{x}_{f}\right)\right)=a\left(C(\pmb{x}_{r})-C(\pmb{x}_{f})\right)$ 。相对判别器以一对样本作为输入，在输出时先将二者的原始输出相减，再对其结果进行变换a(.)。例如，在RSGAN 中，为了输出真样本比假样本更真的概率，我们以假样本为基准，用真样本的判别器原始输出减去假样本的判别器原始输出，再用 Sigmoid 函数将这一输出转换为概率。
 
-2. ${\widetilde{f}}_{1},\ {\widetilde{f}}_{2},\ \widetilde{g_{1}},\ \widetilde{g_{2}}$ 的含义与 GAN 中相同，同样可以根据这四项之间的关系把 RGAN 划分为饱和 RGAN 和非饱和 RGAN。但与 GAN 中不同的是，在 RGAN 中 $\widetilde{g_{1}}$ 不可省略，因为包含 $\widetilde{g_{1}}$ 的项E ${\overset{\cdot}{\cdot}}_{\left(x_{r},x_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[{\widetilde{g_{1}}}\left(a\left(C(x_{r})-C{\left(x_{f}\right)}\right)\right)\right]$ 里也包含 $x_{f}$ ，即G(z)，在生成器优化的过程中这一项的梯度并不为 0。
+2. $\widetilde{f}_{1},\widetilde{f}_{2},\widetilde{g}_{1},\widetilde{g}_{2}$ 的含义与 GAN 中相同，同样可以根据这四项之间的关系把 RGAN 划分为饱和 RGAN 和非饱和 RGAN。但与 GAN 中不同的是，在 RGAN 中 $\widetilde{g_{1}}$ 不可省略，因为包含 $\widetilde{g_{1}}$ 的项E $\mathbf{f}_{\left(x_{r},x_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{g_{1}}\left(a\left(C(\pmb{x}_{r})-C(\pmb{x}_{f})\right)\right)\right]$ 里也包含 $x_{f}$ ，即G(z)，在生成器优化的过程中这一项的梯度并不为 0。
 
-不少 GAN 的损失函数具有如下性质 $\widetilde{f}_{1}\big(a(x)\big)=\widetilde{f}_{2}\big(a(-x)\big)$ ，例如 SGAN。满足这一性质的RGAN 损失函数可以进一步化简，其中非饱和形式 $(\widetilde{f}_{1}=\widetilde{g_{2}},\ \widetilde{f_{2}}=\widetilde{g_{1}})$ 的化简结果如下：
-
-$$
-{\cal L}_{D}^{RGAN}=\mathbb{E}_{(x_{r},x_{f})\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C(x_{r})-C\big(x_{f}\big)\right)\right)\right]
-$$
+不少 GAN 的损失函数具有如下性质 $\widetilde{f}_{1}\big(a(x)\big)=\widetilde{f}_{2}\big(a(-x)\big)$ ，例如 SGAN。满足这一性质的RGAN 损失函数可以进一步化简，其中非饱和形式 $(\widetilde{f}_{1}=\widetilde{g_{2}},\widetilde{f}_{2}=\widetilde{g_{1}})$ 的化简结果如下：
 
 $$
-{\cal L}_{G}^{RGAN}=\mathbb{E}_{\left(x_{r},x_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C\left(x_{f}\right)-C(x_{r})\right)\right)\right]
+L_{D}^{RGAN}=\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C(\boldsymbol{x}_{r})-C(\boldsymbol{x}_{f})\right)\right)\right]
+$$
+
+$$
+L_{G}^{RGAN}=\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C\left(\boldsymbol{x}_{f}\right)-C\left(\boldsymbol{x}_{r}\right)\right)\right)\right]
 $$
 
 此外，基于 IPM 的 GAN实际上是一种特殊的 RGAN，具体介绍详见附录。
@@ -335,51 +335,53 @@ $$
 
 ## 图表7： RGAN算法伪代码
 
-输入：每轮判别器训练次数 $\mathbf{n}_{D}$ （通常取 1），批量样本数量 m，决定损失项的函数 f
+```latex
+输入：每轮判别器训练次数 $\pmb{n}_{D}$ （通常取 1），批量样本数量 m，决定损失项的函数 f
 1随机初始化判别器网络参数 w和生成器网络参数θ
 2 while θ不收敛
-3 For $t1$ to $\mathbf{n}_{D}$ do
+3 For $t\rightarrow1$ to $\pmb{n}_{D}$ do
 # 训练判别器 D
-4从真实数据分布中采集m个样本 $\{x^{i}\}$ 
-5从标准正态分布中采集m个样本 $\{{\bf z}^{i}\}$ 
-6用随机梯度下降算法更新 $\mathsf{w},$ ，梯度计算表达式为
-$\nabla_{w}\frac{1}{m}\Sigma_{i=1}^{m}\left[f\left(a\left(C_{w}(x^{i})-C_{w}\left(G_{\theta}(z^{i})\right)\right)\right)\right]$ 
+4从真实数据分布中采集m个样本 $\{x^{i}\}$
+5从标准正态分布中采集m个样本 $\{\mathbf{z}^{i}\}$
+6用随机梯度下降算法更新 $\mathbf{w},$ ，梯度计算表达式为
+$\nabla_{w}\frac{1}{m}\Sigma_{i=1}^{m}\left[f\left(\boldsymbol{a}\left(\boldsymbol{C}_{w}(\boldsymbol{x}^{i})-\boldsymbol{C}_{w}\left(\boldsymbol{G}_{\boldsymbol{\theta}}(\boldsymbol{z}^{i})\right)\right)\right)\right]$
 7 End
 # 训练生成器 G
-8从真实数据分布中采集m 个样本 $\{x^{i}\}$ 
-9从标准正态分布中采集m 个样本 $\{\mathbf{z}^{i}\}$ 
+8从真实数据分布中采集m 个样本 $\{x^{i}\}$
+9从标准正态分布中采集m 个样本 $\{\mathbf{z}^{i}\}$
 10用随机梯度下降算法更新θ，梯度计算表达式为
-$\nabla_{\boldsymbol{\theta}}\frac{1}{m}\Sigma_{i=1}^{m}\left[f\left(a\left(C_{w}\left(G_{\boldsymbol{\theta}}(\boldsymbol{z}^{i})\right)-C_{w}(\boldsymbol{x}^{i})\right)\right)\right]$ 
+$\nabla_{\theta}\frac{1}{m}\Sigma_{i=1}^{m}\left[f\left(a\left(C_{w}\big(G_{\theta}(z^{i})\big)-C_{w}(x^{i})\right)\right)\right]$
 11 End
 输出：生成器 G
+```
 资料来源：The relativistic discriminator: a key element missing from standard GAN， 华泰证券研究所
 
 ## RaGAN 的定义
 
 ## RaGAN 的原理
 
-RSGAN 设计判别器和生成器损失函数的初衷是衡量一类数据比另一类数据更真实的概率。然而在设计 RGAN 损失函数以及算法伪代码的过程中，我们实际选取了多组数据对（伪代码中的 $\left(x^{i},G(z^{i})\right)\mathrm{x}\mathrm{;}$ ），衡量一类数据的单个样本点比另一类数据的单个样本点更真实的概率。事实上，理想的判别器损失函数应该如下：
+RSGAN 设计判别器和生成器损失函数的初衷是衡量一类数据比另一类数据更真实的概率。然而在设计 RGAN 损失函数以及算法伪代码的过程中，我们实际选取了多组数据对（伪代码中的 $\left(x^{i},G(z^{i})\right)对\rangle$ ），衡量一类数据的单个样本点比另一类数据的单个样本点更真实的概率。事实上，理想的判别器损失函数应该如下：
 
 $$
-{\cal L}_{D}^{RSGAN}=-\{{\mathbb E}_{x_{r}\sim\mathbb{P}_{r}}\left[log{\mathbb E}_{x_{f}\sim\mathbb{P}_{f}}\big[D\big(x_{r},x_{f}\big)\big]\right]+{\mathbb E}_{x_{f}\sim\mathbb{P}_{f}}\left[log(1-{\mathbb E}_{x_{f}\sim\mathbb{P}_{f}}\big[D\big(x_{r},x_{f}\big)\big])\right]\}
+L_{D}^{RSGAN}=-\{\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\left[log\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[D\big(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\big)]\right]+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\left[log(1-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[D\big(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\big)])\right]\}
 $$
 
 其中：
 
-1. $\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}[D({x_{r}},{x_{f}})]$ ]表示某一真样本比全体假样本更真实的概率均值， $\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}[D(x_{f},x_{r})]$ 表示某一假样本比全体真样本更真实的概率均值。
+1. $\mathbb{E}_{\pmb{x}_{f}\sim\mathbb{P}_{f}}[D(\pmb{x}_{r},\pmb{x}_{f})]$ ]表示某一真样本比全体假样本更真实的概率均值， $\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[D(\boldsymbol{x}_{f},\boldsymbol{x}_{r})]$ 表示某一假样本比全体真样本更真实的概率均值。
 
-2. $\mathbb{E}_{{x_{r}}\sim\mathbb{P}_{\mathrm{r}}}[log\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}[D({x_{r}},{x_{f}})]]$ 表示每一个真样本比全体假样本更真实的概率小于 1 时造成的交叉熵损失。 $\mathbb{E}_{{x_{f}}^{\sim}\mathbb{P}_{f}}[log(1-\mathbb{E}_{{x_{r}}^{\sim}\mathbb{P}_{\mathrm{r}}}[D({x_{f}},{x_{r}})])]$ 表示每一个假样本比全体真样本更真实的概率大于 0 时造成的交叉熵损失。
+2. $\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\boldsymbol{r}}}[log\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[D(\boldsymbol{x}_{r},\boldsymbol{x}_{f})]]$ 表示每一个真样本比全体假样本更真实的概率小于 1 时造成的交叉熵损失。 $\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{f}}\sim\mathbb{P}_{\boldsymbol{f}}}[log(1-\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{\boldsymbol{r}}}[D(\boldsymbol{x}_{\boldsymbol{f}},\boldsymbol{x}_{\boldsymbol{r}})])]$ 表示每一个假样本比全体真样本更真实的概率大于 0 时造成的交叉熵损失。
 
 虽然这种算法更符合 RGAN 的初衷，但是该算法需要遍历所有样本组合，复杂度为 $O(m^{2})$ 而原先 RSGAN 的算法复杂度为 $O(m)$ 。为降低算法复杂度，我们注意到，这一算法是对更真实的概率进行平均，如果我们先对一类数据的判别器原始输出 $C(x)$ 进行平均，再用另一类数据样本点的判别器原始输出，减去这类数据的判别器原始输出的均值，来估计其相对更加真实的概率，我们就可以把算法复杂度改进到 $O(m)$ 。改进后的损失函数如下：
 
 $$
-\begin{array}{rl}&{L_{D}^{RaSGAN}=-\{\mathbb{E}_{{x_{r}}\sim\mathbb{P}_{\mathrm{r}}}[log~Sigmoid(C(x_{r})-\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}\big[C\big(x_{f}\big)\big])]}\\&{~+\mathbb{E}_{{x_{f}}\sim\mathbb{P}_{f}}[log~\mathrm{\textstyle(1-}Sigmoid\big(C\big(x_{f}\big)-\mathbb{E}_{{x_{r}}\sim\mathbb{P}_{\mathrm{r}}}[C(x_{r})]\big))]\}}\end{array}
+\begin{aligned}L_{D}^{RaSGAN}=-&\{\mathbb{E}_{\boldsymbol{x}_{\mathbf{r}}\sim\mathbb{P}_{\mathbf{r}}}\left[log\;Sigmoid\left(C(\boldsymbol{x}_{r})-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C(\boldsymbol{x}_{f})]\right)\right]\\+&\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\left[log\left(1-Sigmoid\left(C(\boldsymbol{x}_{f})-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathbf{r}}}[C(\boldsymbol{x}_{r})]\right)\right)\right]\}\end{aligned}
 $$
 
 如果放松 SGAN 中对交叉熵损失函数和 Sigmoid 变换层的限制，我们可以给出广义RaGAN（Relativistic average GAN）的定义：
 
 $$
-\begin{array}{r}{L_{D}^{RaGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigg[\widetilde{f}_{1}\bigg(a\Big(C(x_{r})-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}C(x_{f})\Big)\bigg)\bigg]}\\{+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\Big[\widetilde{f}_{2}\Big(a\Big(C\big(x_{f}\big)-\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}C(x_{r})\Big)\Big)\Big]}\\{L_{G}^{RaGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}\bigg[\widetilde{g}_{1}\bigg(a\Big(C(x_{r})-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}C(x_{f})\Big)\bigg)\bigg]}\\{+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\Big[\widetilde{g}_{2}\Big(a\Big(C\big(x_{f}\big)-\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}C(x_{r})\Big)\Big)\Big]}\end{array}
+\begin{aligned}L_{D}^{RaGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}\left[\widetilde{f_{1}}\left(a\left(C(\boldsymbol{x}_{r})-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}C(\boldsymbol{x}_{f})\right)\right)\right]\\+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\left[\widetilde{f_{2}}\left(a\left(C(\boldsymbol{x}_{f})-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}C(\boldsymbol{x}_{r})\right)\right)\right]\\L_{G}^{RaGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}\left[\widetilde{g_{1}}\left(a\left(C(\boldsymbol{x}_{r})-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}C(\boldsymbol{x}_{f})\right)\right)\right]\\+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\left[\widetilde{g_{2}}\left(a\left(C(\boldsymbol{x}_{f})-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}C(\boldsymbol{x}_{r})\right)\right)\right]\end{aligned}
 $$
 
 RaGAN 与 RGAN 的主要差别在于，判别器在计算一类样本和另一类样本（基准样本）的相对值时，RaGAN 会对基准样本的原始输出先进行平均，以衡量另一组样本的整体水平，增加梯度下降的稳定性。
@@ -390,25 +392,25 @@ RaGAN 与 RGAN 的主要差别在于，判别器在计算一类样本和另一�
 
 ## 图表8： RaGAN算法伪代码
 
-输入：每轮判别器训练次数 $\mathbf{n}_{D}$ （通常取 1），批量样本数量 m，决定损失项的函数 $\mathbf{{f_{1}}}$ $f_{2}{\mathrm{.}}$ 
+输入：每轮判别器训练次数 $\pmb{n}_{D}$ （通常取 1），批量样本数量 m，决定损失项的函数 $f_{1}$ $f_{2}.$ 
 1随机初始化判别器网络参数 w和生成器网络参数θ
 2 while θ不收敛
-3 For $t1$ to $\mathbf{n}_{D}$ do
+3 For $t\rightarrow1$ to $\pmb{n}_{D}$ do
 # 训练判别器 D
 4从真实数据分布中采集m个样本 $\{x^{i}\}$ 
 5从标准正态分布中采集m个样本 $\{\mathbf{z}^{i}\}$ 
-6求判别器对真实数据输出的“均值” $\overline{{C_{w}(x_{r})}}=\Sigma_{i=1}^{m}C_{w}(x^{i})/m$ 
-7求判别器对虚假数据输出的“均值” $\overline{{C_{w}\big(x_{f}\big)}}=\Sigma_{i=1}^{m}C_{w}\big(G_{\theta}(z^{i})\big)/m$ 
+6求判别器对真实数据输出的“均值” $\overline{{C_{w}(\pmb{x}_{r})}}=\pmb{\Sigma}_{i=1}^{m}C_{w}(\pmb{x}^{i})/m$ 
+7求判别器对虚假数据输出的“均值” $\overline{{C_{w}(x_{f})}}=\Sigma_{i=1}^{m}C_{w}\left(G_{\theta}(z^{i})\right)/m$ 
 8用随机梯度下降算法更新w，梯度计算表达式为
-$\nabla_{w}\frac{1}{m}\Sigma_{i=1}^{m}\left[f_{1}\left(a\left(C_{w}(x^{i})-\overline{{C_{w}\big(x_{f}\big)}}\right)\right)+f_{2}\left(a\left(C_{w}\big(G_{\theta}(z^{i})\big)-\overline{{C_{w}\big(x_{r}\big)}}\right)\right)\right].$ 
+$\boldsymbol{V}_{w}\frac{1}{m}\boldsymbol{\Sigma}_{i=1}^{m}\left[\boldsymbol{f}_{1}\left(\boldsymbol{a}\left(\boldsymbol{C}_{w}(\boldsymbol{x}^{i})-\overline{{\boldsymbol{C}_{w}(\boldsymbol{x}_{f})}}\right)\right)+\boldsymbol{f}_{2}\left(\boldsymbol{a}\left(\boldsymbol{C}_{w}\big(\boldsymbol{G}_{\boldsymbol{\theta}}(\boldsymbol{z}^{i})\big)-\overline{{\boldsymbol{C}_{w}(\boldsymbol{x}_{r})}}\right)\right)\right]$ 
 9 End
 # 训练生成器 G
 10从真实数据分布中采集m 个样本 $\{x^{i}\}$ 
 11从标准正态分布中采集m 个样本 $\{\mathbf{z}^{i}\}$ 
-12求真实数据的“平均值” $\overline{{C_{w}(x_{r})}}=\Sigma_{i=1}^{m}C_{w}(x^{i})/m$ 
-13求虚假数据的“平均值 $\mathbf{\nabla}^{,}\overline{{C_{w}\big(x_{f}\big)}}=\Sigma_{i=1}^{m}C_{w}\big(G_{\theta}(z^{i})\big)/m$ 
+12求真实数据的“平均值” $\overline{{C_{w}(\pmb{x}_{r})}}=\pmb{\Sigma}_{i=1}^{m}C_{w}(\pmb{x}^{i})/m$ 
+13求虚假数据的“平均值 $\overline{{C_w(x_f)}}=\Sigma_{i=1}^mC_w(G_\theta(z^i))/m$ 
 14用随机梯度下降算法更新θ，梯度计算表达式为
-$\nabla_{w}\frac{1}{m}\Sigma_{i=1}^{m}[f_{1}(a\left(C_{w}\big(G_{\theta}(z^{i})\big)-\overline{{C_{w}(x_{r})}}\right))+f_{2}(a(C_{w}(x^{i})-\overline{{C_{w}(x_{f})}})]$ 
+$V_{w}\frac{1}{m}\boldsymbol{\Sigma}_{i=1}^{m}[\boldsymbol{f}_{1}(\boldsymbol{a}\left(C_{w}\big(\boldsymbol{G}_{\boldsymbol{\theta}}(\boldsymbol{z}^{i})\big)-\overline{{C_{w}(\boldsymbol{x}_{r})}}\right))+\boldsymbol{f}_{2}(\boldsymbol{a}(C_{w}(\boldsymbol{x}^{i})-\overline{{C_{w}(\boldsymbol{x}_{f})}}))]$ 
 15 End
 输出：生成器 G
 资料来源：The relativistic discriminator: a key element missing from standard GAN， 华泰证券研究所
@@ -434,48 +436,48 @@ $\nabla_{w}\frac{1}{m}\Sigma_{i=1}^{m}[f_{1}(a\left(C_{w}\big(G_{\theta}(z^{i})\
 
 RGAN 和 RaGAN 的理念可以用于各种非相对 GAN，因此我们把 SGAN、LSGAN、HingeGAN 都修改成相应的相对 GAN，再对比其结果，以体现相对损失函数的优势。RaGAN 与 RGAN 效果相近，因此除了将 SGAN 与 RSGAN、RaSGAN 两者对比外，LSGAN和HingeGAN只分别与RaLSGAN和RaHingeGAN对比。下面我们给出LSGAN、RaLSGAN、HingeGAN、RaHingeGAN 的损失函数。
 
-最小二乘 GAN（Least Square GAN，简称 LSGAN）的损失函数是预测值和标签值的平方，也即 $\widetilde{f}_{1}(x)=\widetilde{f}_{2}(x)=(x-x_{label})^{2}\ ,a(x)=x$ 。因此 LSGAN 损失函数表达式为：
+最小二乘 GAN（Least Square GAN，简称 LSGAN）的损失函数是预测值和标签值的平方，也即 $\widetilde{f}_{1}(x)=\widetilde{f}_{2}(x)=(x-x_{label})^{2}\quad,\quad a(x)=x.$ 。因此 LSGAN 损失函数表达式为：
 
 $$
-L_{D}^{LSGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{r}}(C(x_{r})-1)^{2}+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left(C\big(x_{f}\big)\right)^{2}
+L_{D}^{LSGAN}=\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{r}}(C(\boldsymbol{x}_{\boldsymbol{r}})-1)^{2}+\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{f}}\sim\mathbb{P}_{\boldsymbol{f}}}\left(C\big(\boldsymbol{x}_{\boldsymbol{f}}\big)\right)^{2}
 $$
 
 $$
-L_{G}^{LSGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}\bigl(C(x_{r})\bigr)^{2}+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\bigl(C\bigl(x_{f}\bigr)-1\bigr)^{2}
+L_{G}^{LSGAN}=\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{\boldsymbol{r}}}\big(C(\boldsymbol{x}_{\boldsymbol{r}})\big)^{2}+\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{f}}\sim\mathbb{P}_{\boldsymbol{f}}}\big(C(\boldsymbol{x}_{\boldsymbol{f}})-1\big)^{2}
 $$
 
 RaLSGAN 损失函数表达式为：
 
 $$
-L_{D}^{LSGAN}=\mathbb{E}_{x_{T}\sim\mathbb{P}_{\Gamma}}\left(C(x_{r})-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}C(x_{f})-1\right)^{2}+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left(C\left(x_{f}\right)-\mathbb{E}_{x_{T}\sim\mathbb{P}_{\Gamma}}C(x_{r})+1\right)^{2}
+L_{D}^{LSGAN}=\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{\boldsymbol{r}}}\Big(C(\boldsymbol{x}_{\boldsymbol{r}})-\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{f}}\sim\mathbb{P}_{\boldsymbol{f}}}C\big(\boldsymbol{x}_{\boldsymbol{f}}\big)-1\Big)^{2}+\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{f}}\sim\mathbb{P}_{\boldsymbol{f}}}\big(C\big(\boldsymbol{x}_{\boldsymbol{f}}\big)-\mathbb{E}_{\boldsymbol{x}_{\boldsymbol{r}}\sim\mathbb{P}_{\boldsymbol{r}}}C(\boldsymbol{x}_{\boldsymbol{r}})+1\big)^{2}
 $$
 
 $$
-L_{G}^{LSGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}\left(C(x_{r})-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}C(x_{f})+1\right)^{2}+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}\left(C\left(x_{f}\right)-\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}C(x_{r})-1\right)^{2}
+L_{G}^{LSGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}\left(C(\boldsymbol{x}_{r})-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}C(\boldsymbol{x}_{f})+1\right)^{2}+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}\bigl(C\bigl(\boldsymbol{x}_{f}\bigr)-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}C(\boldsymbol{x}_{r})-1\bigr)^{2}
 $$
 
 HingeGAN 的损失函数对与标签值同方向的预测值不给予损失，反方向的预测值给予线性损失。例如，设预测值为y，若标签值为 1，那么大于 1的预测值损失为 0，小于 1的预测值损失为 1－y。若标签值为－1，那么小于－1 的预测值损失为 0，大于－1 的预测值损失为1＋y。因为这种损失函数状如铰链（见图表11），因此得名Hinge。取 $\widetilde{f}_{1}(x)=ReLU(1-x)$ $\widetilde{f}_{2}(x)=ReLU(x)$ ，又有a(x) = x，得到 HingeGAN 损失函数表达式：
 
 $$
-{\cal L}_{D}^{HingeGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}ReLU\bigl(1-C(x_{r})\bigr)+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}ReLU\left(C\bigl(x_{f}\bigr)\right)
+L_{D}^{HingeGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}ReLU(1-C(\boldsymbol{x}_{r}))+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}ReLU(C(\boldsymbol{x}_{f}))
 $$
 
 $$
-L_{G}^{HingeGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}ReLU\bigl(C(x_{r})\bigr)+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}ReLU\left(1-C\bigl(x_{f}\bigr)\right)
+L_{G}^{HingeGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}ReLU(C(\boldsymbol{x}_{r}))+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}ReLU(1-C(\boldsymbol{x}_{f}))
 $$
 
 RaHingeGAN 损失函数表达式：
 
 $$
-\begin{array}{r}{L_{D}^{HingeGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}ReLU\left(1-\Big(C(x_{r})-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}C\big(x_{f}\big)\Big)\right)}\\{+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}ReLU\left(1+\Big(C\big(x_{f}\big)-\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}C(x_{r})\Big)\right)}\end{array}
+\begin{aligned}L_{D}^{HingeGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}ReLU\left(1-\left(C(\boldsymbol{x}_{r})-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}C(\boldsymbol{x}_{f})\right)\right)\\+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}ReLU\left(1+\left(C(\boldsymbol{x}_{f})-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}C(\boldsymbol{x}_{r})\right)\right)\end{aligned}
 $$
 
 $$
-\begin{array}{r}{L_{G}^{HingeGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}ReLU\left(1+\left(C(x_{r})-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}C\big(x_{f}\big)\right)\right)}\\{+\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}ReLU\left(1-\left(C\big(x_{f}\big)-\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}C(x_{r})\right)\right)}\end{array}
+\begin{aligned}L_{G}^{HiggsGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}ReLU\Bigg(1+\Big(C(\boldsymbol{x}_{r})-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}C(\boldsymbol{x}_{f})\Big)\Bigg)\\+\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}ReLU\Bigg(1-\Big(C(\boldsymbol{x}_{f})-\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{\mathrm{r}}}C(\boldsymbol{x}_{r})\Big)\Bigg).\end{aligned}
 $$
 
 $$
-\sharp\Psi,\ ReLU(x)={\left\{\begin{array}{ll}{0,\ x\leq0}\\{x,\ x\geq0}\end{array}\right.}^{\circ}
+其中,\ ReLU(x)=\left\{\begin{aligned}0,\ x\leq0\\x,\ x\geq0\end{aligned}\right.。
 $$
 
 下面两张图表分别总结测试阶段所使用 GAN 模型的区别和损失函数对比。
@@ -653,13 +655,13 @@ RGAN 和 RaGAN 弥补了生成器不能使真样本被判定为真实的概率�
 下表展示 Hurst 指数值及假设检验的结果。Hurst 指数大于 0.5 表示序列具有长记忆性，即序列存在长时程相关，小于0.5表示序列具有反持续性。真实序列的Hurst指数为0.52，即体现出弱长时程相关。SGAN 生成序列的 Hurst 指数平均值小于 0.5，而 RSGAN 和RaSGAN 的 Hurst 指数平均值均大于 0.5，更好地模拟了真实数据的特点。我们还进行如下单边假设检验：
 
 $$
-H_{0}\colon\mathsf{Hurst}\ \mathsf{\ddagger}\rangle\langle\dot{\boxplus}\mathsf{\bf~.}5\ H_{1}\colon\mathsf{Hurst}\ \mathsf{\ddagger}\rangle\langle\dot{\mathsf{z}}\leqslant0.5
+H_{0}:\ H_{H}first均值>0.5\leftrightarrow H_{1}:\ H_{H}first均值\leq0.5
 $$
 
 检验统计量为：
 
 $$
-U=\frac{\sqrt{1000}(\bar{X}-0.5)}{S_{n}}
+U=\frac{\sqrt{1000}(\bar{X}-0.5)}{S_n}
 $$
 
 其中X̅表示 1000 条生成样本 Hurst 指数的样本均值， $S_{n}$ 表示 1000 条生成样本 Hurst 指数的样本方差。若U小于-1.64，则可以拒绝原假设，即 Hurst 指数平均值在 95%的置信水平下小于等于 0.5；反之，则无法拒绝原假设，即 Hurst 指数平均值在 95%的置信水平下大于 0.5。结果显示，RSGAN 和 RaSGAN 的生成序列均值显著大于 0.5，而 SGAN 的生成序列显著小于0.5。因此RSGAN和RaSGAN的生成序列在Hurst指数指标上有明显进步。
@@ -854,21 +856,21 @@ RGAN 生成虚假序列是对市场规律的探索，不构成任何投资建议
 事实上，基于 IPM 的 GAN 是一种特殊的 RGAN。正文部分我们给出过非饱和 RGAN 损失函数的形式如下：
 
 $$
-{\cal L}_{D}^{RGAN}=\mathbb{E}_{(x_{r},x_{f})\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C(x_{r})-C\big(x_{f}\big)\right)\right)\right]
+L_{D}^{RGAN}=\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C(\boldsymbol{x}_{r})-C(\boldsymbol{x}_{f})\right)\right)\right]
 $$
 
 $$
-{\cal L}_{G}^{RGAN}=\mathbb{E}_{\left(x_{r},x_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C\left(x_{f}\right)-C(x_{r})\right)\right)\right]
+L_{G}^{RGAN}=\mathbb{E}_{\left(\boldsymbol{x}_{r},\boldsymbol{x}_{f}\right)\sim\left(\mathbb{P}_{r},\mathbb{P}_{f}\right)}\left[\widetilde{f}_{1}\left(a\left(C\left(\boldsymbol{x}_{f}\right)-C\left(\boldsymbol{x}_{r}\right)\right)\right)\right]
 $$
 
 取a(x) = x，f1̃(x) = −x，又有(xr, xf)独立，因此有：
 
 $$
-{\cal L}_{D}^{RGAN}=-\{{\mathbb E}_{x_{r}\sim{\mathbb P}_{\mathrm{r}}}[C(x_{r})]-{\mathbb E}_{x_{f}\sim{\mathbb P}_{f}}[C(x_{f})]\}
+L_{D}^{RGAN}=-\widehat{\{\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C(\boldsymbol{x}_{f})]\}}
 $$
 
 $$
-L_{G}^{RGAN}=\mathbb{E}_{x_{r}\sim\mathbb{P}_{\mathrm{r}}}[C({x}_{r})]-\mathbb{E}_{x_{f}\sim\mathbb{P}_{f}}[C\big({x}_{f}\big)]
+L_{G}^{RGAN}=\mathbb{E}_{\boldsymbol{x}_{r}\sim\mathbb{P}_{r}}[C(\boldsymbol{x}_{r})]-\mathbb{E}_{\boldsymbol{x}_{f}\sim\mathbb{P}_{f}}[C(\boldsymbol{x}_{f})]
 $$
 
 即基于 IPM 的 GAN 的定义式。

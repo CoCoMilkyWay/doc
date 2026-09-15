@@ -183,7 +183,7 @@ Curve 因子：
 由于远月合约距离到期时间较长，需要承担更大的不确定性，所以市场会在不同到期期限的期货合约内嵌入相匹配的风险溢价以补偿投资者承担到期前合约价格不确定的风险，而导致远月相对贴水程度应该更深。基于这一逻辑可以通过做多远期合约、做空近期合约获得风险溢价[5]。
 
 $$
-\mathbf{r}_{\mathrm{t}}^{\mathrm{c}}=\mathrm{r}_{\mathrm{t}}^{\mathrm{c,future}}-\mathrm{r}_{\mathrm{t}}^{\mathrm{c,spot}}
+\mathbf{r}_{\mathsf{t}}^{\mathsf{c}}=\mathbf{r}_{\mathsf{t}}^{\mathsf{c},\mathsf{future}}-\mathbf{r}_{\mathsf{t}}^{\mathsf{c},\mathsf{spot}}
 $$
 
 其中rtc,future和rtc,spot分别为期货品种 c 在 t 时刻的远月合约收益率和近月合约收益率。特别说明，为方便描述本文中的 spot 均代表期货品种的近月合约，而非现货，这与引用的参考文献指代方式一致。
@@ -193,7 +193,7 @@ $$
 1）将不同商品的 Curve因子值降序排序
 
 $$
-\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{r_{t}^{c}})
+\mathrm{rank}_{\{\mathrm{argc}\}}(\bf{r}_{t}^{c})
 $$
 
 2）做多因子排名靠前期货品种的连续主力合约，做空因子排名靠后的期货品种连续主力 合约
@@ -217,21 +217,21 @@ $$
 期限结构因子[7]：
 
 $$
-{\mathrm{Roll}}_{\mathrm{t}}^{\mathrm{c}}=\ln{(\frac{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{spot}}}{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{dom}}})}\times\frac{365}{\mathrm{t}_{\mathrm{c},\mathrm{dom}}-\mathrm{t}_{\mathrm{c},\mathrm{spot}}}
+\mathrm{Roll_{t}^{c}=\ln\left(\frac{P_{t}^{c,spot}}{P_{t}^{c,dom}}\right)\times\frac{365}{t_{c,dom}-t_{c,spot}}}
 $$
 
-其中 $\mathrm{P_{t}^{c,spot}}\mathcal{F}^{\mathrm{{c,dom}}}$ 分别为在 t 时刻期货品种 c 的近月合约价格和主力合约价格， $\mathrm{t}_{\mathrm{c},\mathrm{spot}}$ 和$\mathrm{\sf t}_{\mathrm{c,dom}}$ 分别为期货品种 c 近月合约到期日剩余天数和期货品种 c 主力合约到期日剩余天数。
+其中 $\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{s}\mathrm{p}\mathrm{ot}}和\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{d}\mathrm{o}\mathrm{m}}$ 分别为在 t 时刻期货品种 c 的近月合约价格和主力合约价格， $\mathbf{t}_{\mathsf{c},\mathsf{spot}}$ 和$\mathbf{t}_{\mathsf{c,dom}}$ 分别为期货品种 c 近月合约到期日剩余天数和期货品种 c 主力合约到期日剩余天数。
 
 ## 波动率因子：
 
 由于期货合约在曲线上嵌入风险溢价以补偿投资者在到期前价格的不确定性，我们选择变动系数（方差/期货收益均值）作为波动率度量，通过做多变动系数高的合约、做空变动系数低的合约获得风险溢价。[13,16,17]
 
 $$
-\mathrm{CV_{t}^{c}}=\frac{\sigma^{2}(\mathrm{R_{t}^{c,dom}})}{|\overline{{\mathrm{R_{t}^{c,dom}}}}|}
+\mathrm{CV_{t}^{c}=\frac{\sigma^{2}(R_{t}^{c,dom})}{|R_{t}^{c,dom}|}}
 $$
 
 $$
-\mathrm{R}_{\mathrm{t}}^{\mathrm{c}}=\left\{\mathrm{r}_{\mathrm{t-j}\times21}^{\mathrm{c,dom}},\mathrm{j}=0,1,\dots,\mathrm{M}-1\right\}
+\mathrm{R}_{\mathrm{t}}^{\mathrm{c}}=\{\mathrm{r}_{\mathrm{t}-\mathrm{j}\times21}^{\mathrm{c},\mathrm{dom}},\mathrm{j}=0,1,\ldots,\mathrm{M}-1\}
 $$
 
 基础因子策略[6]:
@@ -239,7 +239,7 @@ $$
 1）将波动因子降序排序
 
 $$
-\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{CV_{t}^{c})}
+\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{CV_{t}^{c}})
 $$
 
 2）做多因子排名靠前的期货品种连续主力合约，做空因子排名靠后的期货品种连续主力合约。
@@ -251,10 +251,10 @@ $$
 价值因子：
 
 $$
-\mathrm{Value}_{\mathrm{t}}^{\mathrm{c}}=\ln{(\frac{\mathrm{P}_{\mathrm{t}}^{\mathrm{c,spot}}}{\mathrm{P}_{\mathrm{t}}^{\mathrm{c,near\mathrm{-}19}}})}\times\frac{12}{\mathrm{t_{c,near\mathrm{-}19}-t_{c,spot}}}
+\mathrm{Value}_{\mathrm{t}}^{\mathrm{c}}=\ln\left(\frac{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{spot}}}{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{near}_{-}1\mathrm{y}}}\right)\times\frac{12}{\mathrm{t}_{\mathrm{c},\mathrm{near}_{-}1\mathrm{y}}-\mathrm{t}_{\mathrm{c},\mathrm{spot}}}
 $$
 
-其中 $\mathrm{P_{t}^{c,spot}\#}\mathcal{F}^{\mathrm{{c,near\mathrm{.}1y}}}$ 分别为在t时刻期货品种 c的近月合约（现货）价格和距到期最接近一年的合约价格。 $\mathfrak{t}_{\mathrm{c,near\_1y}}\mathfrak{f}^{\mathrm{_{\perp}}\mathrm{r}}\mathrm{t}_{\mathrm{c,spot}}$ 为期货品种 c 距到期期限最接近一年的合约的到期日剩余月数。
+其中 $\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{s}\mathrm{p}\mathrm{ot}}和\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{n}\mathrm{e}\mathrm{ar}\_1\mathrm{y}}$ 分别为在t时刻期货品种 c的近月合约（现货）价格和距到期最接近一年的合约价格。 $\mathrm{t}_{\mathrm{c},\mathrm{near}_{-}1\mathrm{y}}和\mathrm{t}_{\mathrm{c},\mathrm{spot}}$ 为期货品种 c 距到期期限最接近一年的合约的到期日剩余月数。
 
 ## 持仓因子：
 
@@ -263,15 +263,15 @@ Hong & Yogo (2012)[12] 提出持仓量是经济活动的顺周期指标，它包
 持仓金额因子[12,13]：
 
 $$
-\Delta0\mathrm{I_{t}^{c}}=\ln{(0\mathrm{I_{t}^{c,dom})}}-\ln{(0\mathrm{I_{t-21}^{c,dom})}}
+\Delta\mathrm{OI}_{\mathrm{t}}^{\mathrm{c}}=\ln\left(\mathrm{OI}_{\mathrm{t}}^{\mathrm{c},\mathrm{dom}}\right)-\ln\left(\mathrm{OI}_{\mathrm{t}-21}^{\mathrm{c},\mathrm{dom}}\right)
 $$
 
-其 $\Psi0\mathrm{I}_{\mathrm{t}}^{\mathrm{c,dom}}$ 为期货品种c的连续主力合约dom在t时刻的持仓金额。
+其 $中\mathrm{UI_t^{c,dom}}$ 为期货品种c的连续主力合约dom在t时刻的持仓金额。
 
 1）将持仓金额因子降序排序
 
 $$
-\mathrm{rank}_{\{\mathrm{argc}\}}(\Delta0\mathrm{I_{t}^{c}})
+\mathrm{rank}_{\{\mathrm{argc}\}}(\Delta\mathrm{OI_{t}^{c}})
 $$
 
 2）做多持仓金额因子排名靠前的期货品种连续主力合约，做空持仓金额因子排名靠后的期货品种连续主力合约。
@@ -281,11 +281,11 @@ $$
 Liu(2017) [14]和 Fernandez-Perez(2018) [15]使用偏度作为信号，证明了在商品期货中做多偏度小的品种、做空偏度大的品种可以获得风险溢价[6] 。
 
 $$
-\mathrm{SK_{t}^{c}}=\mathrm{Skew}(\mathrm{R_{t}^{c}})
+\mathrm{SK_{t}^{c}}=\mathrm{Skw}(\mathrm{R_{t}^{c}})
 $$
 
 $$
-\mathrm{R}_{\mathrm{t}}^{\mathrm{c}}=\left\{\mathrm{r}_{\mathrm{t-j}}^{\mathrm{c,dom}},\mathrm{j}=0,1,\dots,255\right\}
+\mathrm{R}_{\mathrm{t}}^{\mathrm{c}}=\{\mathrm{r}_{\mathrm{t-j}}^{\mathrm{c,dom}},\mathrm{j}=0\mathrm{,}1\mathrm{,}\dots\mathrm{,}255\}
 $$
 
 1）将偏度因子降序排序
@@ -303,13 +303,13 @@ $$
 动量因子：
 
 $$
-\mathrm{Mom}_{\mathrm{t}}^{\mathrm{c}}=\prod_{\mathrm{j}=0}^{\mathrm{D}-1}\bigl(\mathrm{r}_{\mathrm{t-d}}^{\mathrm{c,dom}}+1\bigr)-1\ ,\ \mathrm{D}=256\mathrm{days}
+\mathrm{Mom}_{\mathrm{t}}^{\mathrm{c}}=\prod_{\mathrm{j}=0}^{\mathrm{D}-1}\left(\mathrm{r}_{\mathrm{t}-\mathrm{d}}^{\mathrm{c},\mathrm{dom}}+1\right)-1,\mathrm{D}=256\mathrm{d}\mathrm{d}\mathrm{y}\mathrm{s}
 $$
 
 1）将动量因子降序排序
 
 $$
-\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{Mom}_{\mathrm{t}}^{\mathrm{c}})
+\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{Mon}_{\mathrm{t}}^{\mathrm{c}})
 $$
 
 2）做多动量因子排名靠前的期货品种连续主力合约，做空动量因子排名靠后的期货品种
@@ -321,19 +321,19 @@ $$
 流动性溢价来自于投资者在流动性相对较低的商品期货中持有多仓超额回报。通过Amivest流动比率可以衡量流动性，做多流动性低的合约、做空流动性高的合约可以获得流动性溢价。[13,22]
 
 $$
-{\mathrm{Amivest}}_{\mathrm{t}}^{\mathrm{c}}=\sum_{\mathrm{j=1}}^{\mathrm{D}}{\frac{\mathrm{Vol\_Amount}_{\mathrm{t}-\mathrm{j}}^{\mathrm{c,dom}}}{\left|\mathrm{r}_{\mathrm{t}-\mathrm{j}}^{\mathrm{c,dom}}\right|}},\qquad{\mathrm{D}}=256{\mathrm{days}}
+\mathrm{Amwest_{t}^{c}}=\sum_{\mathrm{j}=1}^{\mathrm{D}}\frac{\mathrm{Vol\_Amount_{t-j}^{c,dom}}}{\left|\mathrm{r_{t-j}^{c,dom}}\right|},\quad\mathrm{D}=256\mathrm{days}
 $$
 
 $$
-\mathrm{LR}_{\mathrm{t}}^{\mathrm{c}}=\frac{1}{\mathrm{D}}\mathrm{Amivest}_{\mathrm{t}}^{\mathrm{c}}
+\mathrm{LR}_{\mathrm{t}}^{\mathrm{c}}=\frac{1}{\mathrm{D}}\text{A}\text{invest}_{\mathrm{t}}^{\mathrm{c}}
 $$
 
-其中Vol $\mathrm{\mathbf{Amount}_{t}^{c,dom}}$ 为期货品种 c 的连续主力合约dom在 t 时刻的成交金额，流动性因子为Amivest流动性比率的日均值。
+其中Vol $\mathsf{LMmount_{t}^{c,dom}}$ 为期货品种 c 的连续主力合约dom在 t 时刻的成交金额，流动性因子为Amivest流动性比率的日均值。
 
 1）将流动性因子降序排序
 
 $$
-\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{LR}_{\mathrm{t}}^{\mathrm{c}})
+\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{LR}_{\mathfrak{t}}^{\mathrm{c}})
 $$
 
 2）做空流动性因子排名靠前的期货品种连续主力合约，做多流动性因子排名靠后的期货品种连续主力合约。
@@ -343,15 +343,15 @@ $$
 经典的均价突破策略是当标的价格向上突破移动平均线，则认为价格未来会继续上涨；若向下突破移动平均线，则认为价格会继续下跌，该策略是基于均值是支撑或阻挡价格出现新阶段性趋势的假设。本文中，我们使用品种主力合约价格与其自身 20 日均值之差构建均价突破因子，做多价格超越均价并继续趋高的品种，同时做空价格难于维持而向下突破均价并继续趋低的品种。20 日均价突破因子：
 
 $$
-\mathrm{MA_{t}^{c}=\frac{\mathrm{P_{t}^{c,dom}-\overline{{P_{\ t}^{\prime c}}}}}{\sigma(\mathrm{R_{t}^{c,dom})P_{t-20}^{c,dom}}}}
+\mathrm{MA_{t}^{c}=\frac{P_{t}^{c,dom}-\overline{P_{t}^{c}}}{\sigma(R_{t}^{c,dom})P_{t-20}^{c,dom}}}
 $$
 
 $$
-\mathrm{R_{t}^{c}}=\left\{\mathrm{r_{t-j}^{c,dom}},\mathrm{j}=0,1,\dots,19\right\}
+\mathrm{R_{t}^{c}=\{r_{t-j}^{c,dom},j=0,1,\ldots,19\}}
 $$
 
 $$
-\mathsf{P}_{\mathrm{t}}^{\prime\mathrm{c}}=\left\{\mathrm{P}_{\mathrm{t-j}}^{\mathrm{c,dom}},\mathrm{j}=0,1,\ldots,19\right\}
+\mathrm{P_{t}^{\prime c}=\{P_{t-j}^{c,dom},j=0,1,\ldots,19\}}
 $$
 
 基础因子策略：
@@ -359,7 +359,7 @@ $$
 1）将 MA 因子降序排序
 
 $$
-\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{MA_{t}^{c})}
+\mathrm{rank}_{\{\mathrm{argc}\}}(\mathrm{MA}_{\mathrm{t}}^{\mathrm{c}})
 $$
 
 2）做多 MA 因子排名靠前的期货品种连续主力合约，做空MA 因子排名靠后的期货品种连续主力合约
@@ -371,7 +371,7 @@ $$
 由于大宗商品可以对冲通胀冲击，通胀风险溢价反映了投资者持有对通胀冲击高度敏感的商品期货，承担了通胀下行风险而获得收益补偿。我们使用60 月商品期货收益率与CPI变化线性拟合的斜率制作CPI Beta 因子。通过做多高 CPI Beta的合约、做空低 CPI Beta的合约获得通胀风险溢价。本文使用中国 CPI指数制作因子[9,10,13,23]。
 
 $$
-\mathrm{r_{t-j}^{c}}=\alpha_{\mathrm{t}}^{\mathrm{c}}+\beta_{\mathrm{t}}^{\mathrm{c}}\Delta\mathrm{CPI}_{\mathrm{t-j}\times21}+\varepsilon_{\mathrm{t-j}\times21}^{\mathrm{c}},\ \mathrm{j}=0,1,\dots,59
+\mathbf{r}_{\mathrm{t}-\mathrm{j}}^{\mathrm{c}}=\alpha_{\mathrm{t}}^{\mathrm{c}}+\beta_{\mathrm{t}}^{\mathrm{c}}\Delta\mathrm{CPI}_{\mathrm{t}-\mathrm{j}\times21}+\varepsilon_{\mathrm{t}-\mathrm{j}\times21}^{\mathrm{c}},\mathrm{~j}=0,1,\ldots,59
 $$
 
 其中ΔCPI为 CPI 变化量
@@ -489,10 +489,10 @@ $$
 1） R 平方（R2）
 
 $$
-\mathrm{R}^{2}=\frac{\mathrm{SSR}}{\mathrm{SST}}
+\mathrm{R}^{2}={\frac{\mathrm{SSR}}{\mathrm{SST}}}
 $$
 
-其中，SSR为预测数据与原始数据均值之差的平方和，SST为原始数据与原始数据均值之差的平方和。 $\mathrm{R}^{2}$ 的取值范围为[0,1]， $\mathrm{R}^{2}$ 越接近1，表明解释变量对被解释变量的解释能力越强，模型拟合效果越好。
+其中，SSR为预测数据与原始数据均值之差的平方和，SST为原始数据与原始数据均值之差的平方和。 $\mathbb{R}^{2}$ 的取值范围为[0,1]， $\mathbb{R}^{2}$ 越接近1，表明解释变量对被解释变量的解释能力越强，模型拟合效果越好。
 
 ## 2） 信息系数（IC）
 
@@ -543,27 +543,27 @@ t值用于判断每个自变量的显著性，t值绝对值大于由置信水平
 多因子模型为这一问题提供了更可靠的解决方案[8]。商品收益被归因分解到基于暴露程度的商品因子收益和每个商品品种独有的特异性收益率上：
 
 $$
-\mathrm{r_{n}=\sum_{k}X_{nk}f_{k}+u_{n}}
+\mathbf{r_{n}}=\sum_{\mathbf{k}}\mathbf{X_{nk}}\mathbf{f_{k}}+\mathbf{u_{n}}
 $$
 
-其中 ${\tt X}_{\mathrm{nk}}$ 是商品n对因子k的暴露程度， $\mathrm{f_{k}}$ 是因子收益率， $\mathtt{u_{n}}$ 是商品n的特异性收益率。
+其中 $\mathrm{X_{nk}}$ 是商品n对因子k的暴露程度， $\mathbf{f_{k}}$ 是因子收益率， $\mathbf{u_{n}}$ 是商品n的特异性收益率。
 
 商品n权重为 $\mathbf{w_{n}}$ 的投资组合收益率为
 
 $$
-\mathsf{R}_{\mathrm{P}}=\sum_{\mathrm{n}}\mathsf{w}_{\mathrm{n}}\mathsf{r}_{\mathrm{n}}
+\mathbf{R}_{\mathrm{P}}=\sum_{\mathrm{n}}\mathbf{w}_{\mathrm{n}}\mathbf{r}_{\mathrm{n}}
 $$
 
 投资组合的因子暴露为各资产因子暴露的加权平均数，即
 
 $$
-\mathrm{X_{k}^{p}=\sum_{n}w_{n}X_{nk}}
+\mathrm{X}_{\mathrm{k}}^{\mathrm{P}}=\sum_{\mathrm{n}}\mathrm{w}_{\mathrm{n}}\mathrm{X}_{\mathrm{nk}},
 $$
 
 因此，投资组合的收益率为
 
 $$
-\mathrm{R_{P}=\sum_{k}X_{k}^{P}f_{k}+\sum_{n}w_{n}u_{n}}
+\mathrm{R}_{\mathrm{P}}=\sum_{\mathrm{k}}\mathrm{X}_{\mathrm{k}}^{\mathrm{P}}\mathrm{f}_{\mathrm{k}}+\sum_{\mathrm{n}}\mathrm{w}_{\mathrm{n}}\mathrm{u}_{\mathrm{n}}
 $$
 
 Barra模型考虑一个国家因子、多个行业因子和多个风格因子。对于给定某一期截面数据（T期），在截面回归时，Barra采用期初的因子暴露取值（即T-1期末因子暴露值）和商品在T 期的因子收益率进行回归。T-1 期末因子暴露可由时间序列得到。具体做法为：
@@ -571,13 +571,13 @@ Barra模型考虑一个国家因子、多个行业因子和多个风格因子。
 在每一时刻，根据各因子的投资组合策略，可以得到每一时刻的基础因子收益率，通过时序回归可以得到各商品的因子暴露
 
 $$
-\Upsilon_{\mathrm{n,t-1}}=\beta_{\mathrm{n}}\mathrm{f}_{\mathrm{t-1}}
+\mathbf{Y}_{\mathbf{n},\mathbf{t}-1}=\beta_{\mathbf{n}}\mathbf{f}_{\mathbf{t}-1}
 $$
 
-其中， $\mathrm{Y}_{\mathrm{n,t-1}}$ 为 t-1 期商品 n 收益率， $\mathrm{f}_{\mathrm{t}-1}$ 为 t-1 期基础因子收益率， $\beta_{\mathrm{n}}$ 为通过回归得到的商品 n 在 t-1 期末的因子暴露。由全部 $\beta_{\mathrm{n}}$ 可组合得到 t-1 期末全商品因子暴露矩阵 $\mathrm{X}_{\mathrm{t}}$
+其中， $\tt Y_{n,t-1}$ 为 t-1 期商品 n 收益率， $\mathbf{f_{t-1}}$ 为 t-1 期基础因子收益率， $\beta_{\mathrm{n}}$ 为通过回归得到的商品 n 在 t-1 期末的因子暴露。由全部 $\beta_{\mathrm{n}}$ 可组合得到 t-1 期末全商品因子暴露矩阵 $\mathrm{X_{t}}$
 
 $$
-\mathrm{Y_{t}}=\mathrm{X_{t}f_{t}}+\mathrm{u_{t}}
+\mathrm{Y_{t}=X_{t}f_{t}+u_{t}}
 $$
 
 通过截面回归的到截面因子ft。

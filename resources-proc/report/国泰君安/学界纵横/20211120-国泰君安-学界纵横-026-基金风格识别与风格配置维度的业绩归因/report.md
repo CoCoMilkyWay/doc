@@ -116,19 +116,19 @@ Eigenvalue
 
 ## 2.2. 基金风格切换动机：风格择时与风格专业知识
 
-基于 Brinson et al.（1995）提出的业绩归因方法，本文将基金风格切换收益拆解为风格择时与风格专业知识两个部分，用于检验风格切换基金是否提高了自身的业绩表现，以及剖析基金风格切换业绩的主要来源。假定基金在 时刻发生风格切换，其在 $\left[t+1,t+k\right]$ 期间的收益可拆分为初始风格收益与风格切换收益，初始风格收益表示基金不改变投资风格，维持原有风格可取得的收益， $\bar{\hbar}$ 风格切换收益表示主动投资新风格所取得的收益。具体如下表示：
+基于 Brinson et al.（1995）提出的业绩归因方法，本文将基金风格切换收益拆解为风格择时与风格专业知识两个部分，用于检验风格切换基金是否提高了自身的业绩表现，以及剖析基金风格切换业绩的主要来源。假定基金在 时刻发生风格切换，其在 $\left[t+1,t+k\right]$ 期间的收益可拆分为初始风格收益与风格切换收益，初始风格收益表示基金不改变投资风格，维持原有风格可取得的收益， $而$ 风格切换收益表示主动投资新风格所取得的收益。具体如下表示：
 
 $$
-R_{_{i,\left[t+1,t+k\right]}^{\textit{ N e w }}}^{_{New}}=R_{_{\left[t+1,t+k\right]}^{\textit{ O l d }}}^{\textit{ O l d }}+\left(R_{_{i,\left[t+1,t+k\right]}}^{_{New}^{\textit{ N e w }}}-R_{_{\left[t+1,t+k\right]}^{\textit{ O l d }}}^{\textit{ O l d }}\right)\tag{1}
+R_{_{i,[t+1,t+k]}}^{^{New}}=R_{_{[t+1,t+k]}}^{^{Old}}+\left(R_{_{i,[t+1,t+k]}}^{^{New}}-R_{_{[t+1,t+k]}}^{^{Old}}\right)\tag{1}
 $$
 
 其中，等式右端第一部分表示初始风格收益，第二部分表示风格切换收益。进一步，本文将风格切换收益分解为风格择时（style-timing）收益与风格专业知识（style-expertise）收益，即：
 
 $$
-R_{i,[t+1,t+k]}^{\tiny{\ N_{ew}^{\tiny{\ N_{ew}}}}}-R_{[t+1,t+k]}^{\tiny{\ O_{ld}}}=\underbrace{\left(R_{[t+1,t+k]}^{\tiny{\ N_{ew}}}-R_{[t+1,t+k]}^{\tiny{\ O_{ld}}}\right)}_{\tiny{\mathrm{gain~of~style-timing}}}+\underbrace{\left(R_{i,[t+1,t+k]}^{\tiny{\ N_{ew}}}-R_{[t+1,t+k]}^{\tiny{\ N_{ew}}}\right)}_{\tiny{\mathrm{gain~of~style-cupertise}}},\tag{2}
+R_{_{i,\left[t+1,t+k\right]}}^{^{New}}-R_{_{\left[t+1,t+k\right]}}^{^{OM}}=\underbrace{\left(R_{_{\left[t+1,t+k\right]}}^{^{New}}-R_{_{\left[t+1,t+k\right]}}^{^{OM}}\right)}_{_{\mathrm{g}\;\mathrm{ain}\;\mathrm{of}\;\mathrm{syle}\;\mathrm{-im}\;\mathrm{ing}}}+\underbrace{\left(R_{_{i,\left[t+1,t+k\right]}}^{^{New}}-R_{_{\left[t+1,t+k\right]}}^{^{New}}\right)}_{_{\mathrm{g}\;\mathrm{ain}\;\mathrm{of}\;\mathrm{syle}\;\mathrm{-experitie}}}\tag{2}
 $$
 
-其中， $\boldsymbol{R}_{i,[t+1,t+k]}^{\textit{ N e w }}$ 表示风格切换基金 在 $\left[t+1,t+k\right]$ 期间的累计收益， $\boldsymbol{R}_{[t+1,t+k]}^{old}$ 表示初始风格在 $\left[t+1,t+k\right]$ 期间的累计收益。风格择时收益反映了新风格相对于初始风格的表现，而风格专业知识收益反映了基金i 相对于新风格基准的超额收益。
+其中， $R_{\textit{ i },\left[\textit{ t }+1,\textit{ t }+\textit{ k }\right]}^{\textit{ N e w }}$ 表示风格切换基金 在 $\left[t+1,t+k\right]$ 期间的累计收益， $R_{\;\left[t+1,t+k\right]}^{\;{\cal O}ld}$ 表示初始风格在 $\left[t+1,t+k\right]$ 期间的累计收益。风格择时收益反映了新风格相对于初始风格的表现，而风格专业知识收益反映了基金i 相对于新风格基准的超额收益。
 
 ## 3. 基金风格切换的业绩表现研究
 
@@ -243,7 +243,7 @@ $$
 |  | 1-quarter | 2-quarter | 1-year |
 | --- | --- | --- | --- |
 | Panel A: Equal-weighted shifting fund returns |  |  |  |
-| $R_{i,\tau+k}$ | 2.04*** (6.67) | 3.86*** (6.25) | 7.62 *** (5.49) |
+| $R_{i,t+k}$ | 2.04*** (6.67) | 3.86*** (6.25) | 7.62 *** (5.49) |
 | $R_{t+k}^{New}$ | 1.58*** (4.44) | 3.17*** (4.65) | 6.52*** (5.14) |
 | $R_{t+k}^{old}$ | 1.50*** (3.85) | 2.74*** (3.55) | 5.76*** (4.40) |
 | $(R_{i,t+k}-R_{t+k}^{Old})$ | 0.54** (1.99) | 1.12** (2.20) | 1.86 ** (2.05) |

@@ -58,10 +58,10 @@ $$
 虽然 q 因子模型是受q 理论的经济学模型启发得到的，但是q 因子模型在很大程度上是一个简化的经验模型。为了使模型更加符合资产定价模型，q 因子模型最终的表达式为：
 
 $$
-\begin{array}{r}{r_{t}^{i}-r_{t}^{f}=\alpha_{q}^{i}+\beta MKT_{t}+\beta_{ME}^{i}\mathrm{{r_{ME,t}}}+\beta_{I/A}^{i}{r_{I/A,t}}+\beta_{ROE}^{i}{r_{ROE,t}}+\epsilon^{i}}\end{array}
+r_{t}^{i}-r_{t}^{f}=\alpha_{q}^{i}+\beta MKT_{t}+\beta_{ME}^{i}r_{\mathrm{ME},t}+\beta_{I/A}^{i}r_{I/A,t}+\beta_{ROE}^{i}r_{ROE,t}+\epsilon^{i}
 $$
 
-其中 $MKT_{t}$ 为 t 期的市场风险溢价。 ${\boldsymbol{\Gamma}}_{\mathrm{ME,t}}$ 为市值因子， $r_{I/A,t}$ 为投资因子， $r_{ROE,t}$ 为盈利因子，分别是通过对股票相应的因子值大小进行排序，对首尾组收益相减得到。
+其中 $MKT_{t}$ 为 t 期的市场风险溢价。 $\mathbf{r}_{\mathrm{ME,t}}$ 为市值因子， $r_{I/A,t}$ 为投资因子， $r_{ROE,t}$ 为盈利因子，分别是通过对股票相应的因子值大小进行排序，对首尾组收益相减得到。
 
 本文主要通过构建 A 股的 q 因子模型，检验 q 因子模型在 A股的有效性。
 
@@ -76,15 +76,15 @@ $$
 r ,r ,r 的计算公式分别为：
 
 $$
-\begin{array}{rl}{\mathbf{r}_{\mathrm{ME}}=}&{(\mathbf{S}/\mathsf{A}/\mathsf{R}+\mathbf{S}/\mathsf{A}/\mathsf{M}+\mathbf{S}/\mathsf{A}/\mathsf{M}+\mathbf{S}/\mathsf{N}/\mathsf{R}+\mathbf{S}/\mathsf{M}/\mathsf{M}+\mathbf{S}/\mathsf{N}/\mathsf{M}+\mathbf{S}/\mathsf{G}/\mathsf{R}+\mathbf{S}/\mathsf{G}/\mathsf{M}+}\\&{\mathbf{S}/\mathsf{G}/\mathsf{M})\mathbf{\Lambda}/9-\mathbf{\Lambda}(\mathbf{B}/\mathsf{A}/\mathsf{R}+\mathbf{B}/\mathsf{A}/\mathsf{M}+\mathbf{B}/\mathsf{M}/\mathsf{R}+\mathbf{B}/\mathsf{N}/\mathsf{R}+\mathbf{B}/\mathsf{M}/\mathsf{M}+\mathbf{B}/\mathsf{N}/\mathsf{M}+\mathbf{B}/\mathsf{G}/\mathsf{R}+\mathbf{B}/\mathsf{G}/\mathsf{M}}\\{+\mathbf{\delta}/\mathbf{G}/\mathsf{M})\mathbf{\Lambda}/9}\end{array}
+\begin{aligned}&\mathrm{r}_{\mathrm{ME}}=\left(\mathrm{S}/\mathrm{A}/\mathrm{R}+\mathrm{S}/\mathrm{A}/\mathrm{H}+\mathrm{S}/\mathrm{A}/\mathrm{H}+\mathrm{S}/\mathrm{H}/\mathrm{R}+\mathrm{S}/\mathrm{H}/\mathrm{R}+\mathrm{S}/\mathrm{H}/\mathrm{H}+\mathrm{S}/\mathrm{H}/\mathrm{H}+\mathrm{S}/\mathrm{G}/\mathrm{R}+\mathrm{S}/\mathrm{G}/\mathrm{H}\right.+\\&\left.\mathrm{S}/\mathrm{G}/\mathrm{H}\right)/9-\left(\mathrm{B}/\mathrm{A}/\mathrm{R}+\mathrm{B}/\mathrm{A}/\mathrm{H}+\mathrm{B}/\mathrm{A}/\mathrm{H}+\mathrm{B}/\mathrm{H}/\mathrm{R}+\mathrm{B}/\mathrm{H}/\mathrm{H}+\mathrm{B}/\mathrm{H}/\mathrm{H}+\mathrm{B}/\mathrm{G}/\mathrm{R}+\mathrm{B}/\mathrm{G}/\mathrm{H}\right.\\&+\left.\mathrm{B}/\mathrm{G}/\mathrm{H}\right)/9\\\end{aligned}
 $$
 
 $$
-\begin{array}{lll}{{r_{I/A}}}&{{=}}&{{\left({\mathbb S}/{\mathbb C}/{\mathbb R}+{\mathbb S}/{\mathbb M}+{\mathbb S}/{\mathbb C}/{\mathbb M}+{\mathbb B}/{\mathbb C}/{\mathbb R}+{\mathbb B}/{\mathbb C}/{\mathbb M}+{\mathbb B}/{\mathbb C}/{\mathbb M}\right)~/6-~\left({\mathbb S}/{\mathbb A}/{\mathbb R}+{\mathbb S}/{\mathbb M}/{\mathbb M}\right)}}\\{{}}&{{+}}&{{{\mathbb S}/{\mathbb A}/~\mathbb H~+~{\mathbb B}/{\mathbb R}+{\mathbb B}/{\mathbb A}/~{\mathbb M}+{\mathbb B}/{\mathbb A}/{\mathbb M})}}\end{array}
+\begin{aligned}&r_{1/A}=\left(\mathrm{S/G/R}+\mathrm{S/G/H}+\mathrm{S/G/H}+\mathrm{B/G/R}+\mathrm{B/G/H}+\mathrm{B/G/H}\right)/6-\left(\mathrm{S/A/R}+\mathrm{S/A/H}\right.\\&\left.+\mathrm{S/A/H}+\mathrm{B/A/R}+\mathrm{B/A/H}+\mathrm{B/A/H}\right)\\\end{aligned}
 $$
 
 $$
-\begin{array}{lll}{{r_{ROE}}}&{{=}}&{{\left({{\mathbb S}/{\mathsf{A}}/{\mathsf{R}}+{\mathbb S}/{\mathsf{N}}/{\mathsf{R}}+{\mathbb S}/{\mathsf{A}}/{\mathsf{R}}+{\mathbb S}/{\mathsf{A}}/{\mathsf{R}}+{\mathbb S}/{\mathsf{N}}/{\mathsf{R}}+{\mathbb S}/{\mathsf{C}}/{\mathsf{R}}}\right)/{\mathsf{\Omega}}-\mathsf{\Omega}\left({{\mathbb S}/{\mathsf{A}}/{\mathsf{M}}+{\mathbb S}/{\mathsf{A}}/{\mathsf{R}}}\right)}}\\{{{\mathbb S}/{\mathsf{N}}/{\mathsf{M}}+{\mathbb S}/{\mathsf{C}}/{\mathsf{M}}+{\mathbb S}/{\mathsf{A}}/{\mathsf{M}}+{\mathbb S}/{\mathsf{N}}/{\mathsf{M}}+{\mathbb S}/{\mathsf{C}}/{\mathsf{M}}/{\mathsf{\Omega}}}}\end{array}
+\begin{aligned}&r_{ROE}=\left(\mathrm{S/A/R}+\mathrm{S/W/R}+\mathrm{S/G/R}+\mathrm{S/A/R}+\mathrm{S/H/R}+\mathrm{S/G/R}\right)/6-\left(\mathrm{S/A/R}+\mathrm{S/W/R}+\mathrm{S/G/R}+\mathrm{S/A/R}+\mathrm{S/W/R}+\mathrm{S/G/R}\right)/6\\\end{aligned}
 $$
 
 作为简单理解，可以将上述三个因子分别看作小市值与大市值组合收益之差，保守投资与积极投资组合收益之差，高盈利和低盈利组合收益之差。
@@ -140,9 +140,9 @@ A 股表现不是十分明显。
 
 |  | 周收益率平均值 | newey-west t 值 | p值 |
 | --- | --- | --- | --- |
-| $\mathsf{R}_{\mathsf{ME}}$ | -0.270% | -2.877 | 0.004 |
-| $\textsf{R}_{1/\mathsf{A}}$ | 0.010% | 0.145 | 0.885 |
-| $\mathsf{R}_{\mathsf{R0E}}$ | 0.209% | 2.387 | 0.017 |
+| $R_{ME}$ | -0.270% | -2.877 | 0.004 |
+| $\mathsf{R}_{\mathsf{L}/\mathsf{A}}$ | 0.010% | 0.145 | 0.885 |
+| $\mathsf{R}_{\mathsf{ROE}}$ | 0.209% | 2.387 | 0.017 |
 
 数据来源：wind, 财通证券研究所
 
@@ -237,7 +237,7 @@ Quality/Yield 和 Value 因子存在一定的相关性，Quality 和 Yield 之�
 将投资因子替换为价值因子后的因子模型如下：
 
 $$
-r_{t}^{i}-r_{t}^{f}=\alpha_{q}^{i}+\beta MKT_{t}+\beta_{ME}^{i}\Gamma_{\mathrm{ME,t}}+\beta_{ROE}^{i}r_{ROE,t}+\beta_{value}^{i}r_{value,t}+\epsilon^{i}
+r_{t}^{i}-r_{t}^{f}=\alpha_{q}^{i}+\beta MKT_{t}+\beta_{ME}^{i}r_{ME,t}+\beta_{ROE}^{i}r_{ROE,t}+\beta_{value}^{i}r_{value,t}+\epsilon^{i}
 $$
 
 作为对比，我们分别用两个模型对 A 股所有股票收益率进行回归，比较两个模型的效果，其中 A|α|代表所有股票α绝对值的平均值。

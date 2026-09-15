@@ -126,16 +126,16 @@ liziyu@htsc.com
 
 多任务学习中各任务损失函数加权方式是决定模型表现的关键因素。我们梳理常用的加权方式如下。
 
-Kendall 等（2017）（uncertainty weight，UW）：利用各任务的不确定性作为权重。以双任务学习为例，损失函数中的 $\sigma_{1}\hbar\pmb{\sigma}_{2}$ 分别代表两项任务的不确定性， $\mathcal{L}_{1}(W)\dot{\ast}\ast\mathcal{\perp}_{2}(W)$ 分别代表两项任务的损失函数。任务的不确定性越大，其损失函数对模型更新的贡献就越小。具体实现时，不确定性 ${\boldsymbol{\sigma}}_{1}{\ \hbar}{\boldsymbol{\sigma}}_{2}$ 设为可更新的参数，直接由神经网络学习。
+Kendall 等（2017）（uncertainty weight，UW）：利用各任务的不确定性作为权重。以双任务学习为例，损失函数中的 $\sigma_{1}和\sigma_{2}$ 分别代表两项任务的不确定性， $\mathcal{L}_{1}(W)和\mathcal{L}_{2}(W)$ 分别代表两项任务的损失函数。任务的不确定性越大，其损失函数对模型更新的贡献就越小。具体实现时，不确定性 $\sigma_{1}和\sigma_{2}$ 设为可更新的参数，直接由神经网络学习。
 
 $$
-{\mathcal{L}}(W,\sigma_{1},\sigma_{2})={\frac{1}{{2{\sigma_{1}}^{2}}}}{\mathcal{L}}_{1}(W)+{\frac{1}{{2{\sigma_{2}}^{2}}}}{\mathcal{L}}_{2}(W)+\log\sigma_{1}+\log\sigma_{2}
+\mathcal{L}(W,\sigma_{1},\sigma_{2})=\frac{1}{2{\sigma_{1}}^{2}}\mathcal{L}_{1}(W)+\frac{1}{2{\sigma_{2}}^{2}}\mathcal{L}_{2}(W)+\log\sigma_{1}+\log\sigma_{2}
 $$
 
 Liu 等（2018）（dynamic weight average，DWA）：使得不同任务的学习速率尽量保持一致。DWA 回溯各任务过去 2 期损失函数值，若 t-1 期相比于 t-2 期升高，则给予该任务更高的权重，促进该任务的学习。
 
 $$
-\lambda_{k}(t)=\frac{Kexp\left(\frac{w_{k}(t-1)}{T}\right)}{\sum_{i}exp\left(\frac{w_{k}(t-1)}{T}\right)}
+\lambda_{k}(t)=\frac{Kexp\left(\cfrac{w_{k}(t-1)}{T}\right)}{\sum_{i}exp\left(\cfrac{w_{k}(t-1)}{T}\right)}.
 $$
 
 $$
@@ -145,7 +145,7 @@ $$
 Chennupati 等（2019）（geometric loss strategy，GLS）：将各任务损失函数值的几何均值作为总损失。
 
 $$
-\mathcal{L}_{Total}=\prod_{i=1}^{n}\sqrt[n]{\mathcal{L}_{i}}
+\mathcal{L}_{Total}=\prod_{i=1}^{n}\sqrt[n]{\mathcal{L}_{i}}.
 $$
 
 Lin 等（2021）（random weight loss，RW）：直接向不同任务施加总和为 0 的随机权重。

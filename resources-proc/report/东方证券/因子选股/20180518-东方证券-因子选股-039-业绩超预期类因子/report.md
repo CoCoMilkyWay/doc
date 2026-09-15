@@ -73,16 +73,16 @@ $$
 SUE_{i,t}=\frac{Q_{i,t}-E\left(Q_{i,t}\right)}{\sigma_{i,t}}
 $$
 
-其中， $Q_{i,t}$ 表示公司实际公告的净利润， $E\left(Q_{i,t}\right)$ 表示 $Q_{i,t}$ 公告前的预期值， $\sigma_{i,t}$ 表示 $Q_{i,t}$ 的预测标准差。 $E\left(Q_{i,t}\right)$ 和 $\sigma_{i,t}$ 均通过季节性时间序列模型估计。虽然早期有部分学者建议采用 AR（1）对净利润同比差值建模，但是我们采用 Narasimhan（2006）、Sadka（2006）等采用的季节性随机游走模型估计，主要原因有以下两点：（1）Freeman和 Tse (1989)的研究表明公告后的价格偏移和季节性随机游走模型估计出来的结果相关性更高，（2）随机游走模型需要估计的参数最少，这样估计准确性更高，需要的样本点更少，从而避免了长样本带来的生存偏差和公司发生实质变化的情形。
+其中， $Q_{i,t}$ 表示公司实际公告的净利润， $E\big(Q_{i,t}\big)$ 表示 $Q_{i,t}$ 公告前的预期值， $\sigma_{i,t}$ 表示 $Q_{i,t}$ 的预测标准差。 $E\big(Q_{i,t}\big)$ 和 $\sigma_{i,t}$ 均通过季节性时间序列模型估计。虽然早期有部分学者建议采用 AR（1）对净利润同比差值建模，但是我们采用 Narasimhan（2006）、Sadka（2006）等采用的季节性随机游走模型估计，主要原因有以下两点：（1）Freeman和 Tse (1989)的研究表明公告后的价格偏移和季节性随机游走模型估计出来的结果相关性更高，（2）随机游走模型需要估计的参数最少，这样估计准确性更高，需要的样本点更少，从而避免了长样本带来的生存偏差和公司发生实质变化的情形。
 
-根据季节性随机游走模型是否带漂移项，我们计算了两个 SUE 指标，SUE0假设随机游走模型含漂移项，其中漂移项可以根据过去两年盈利同比变化 $Q_{i,t}-Q_{i,t-4}$ 的均值估计，预测的标准差 $\cdot\varepsilon_{t}$ 可以通过 $Q_{i,t}-Q_{i,t-4}$ 的标准差估计，SUE1不含漂移项，预测的标准差 $\varepsilon_{t}$ 可以通过 $Q_{i,t}-Q_{i,t-4}$ 的不带均值的标准差估计。SUE0和 SUE1的差别在于假设市场是否会根据历史业绩增长对未来产生预期。
-
-$$
-\begin{array}{r}{Q_{i,t}=Q_{i,t-4}+c_{i,t}+\varepsilon_{t}\qquad\quad(\frac{++}{\uparrow\uparrow},\frac{\ast\oplus}{\uparrow\downarrow},\frac{\ast\not\ G}{\downarrow\downarrow},\frac{\ast}{\downarrow\downarrow})\underset{\mathrm{~d~}}{\overbrace{\pm\pm\frac{1}{\uparrow}\uparrow}}+\frac{1+}{\downarrow\downarrow}\langle\frac{\ast\not\in\frac{1}{\uparrow}}{\downarrow\downarrow},\frac{\ast\not\in\frac{1}{\uparrow}}{\uparrow\downarrow}\rangle\underset{\mathrm{~d~}}{\overbrace{\pm\frac{1}{\uparrow}\uparrow}}+\frac{1+}{\downarrow\downarrow}\langle\frac{1}{\uparrow\uparrow},\frac{\ast\not\in\frac{1}{\uparrow}}{\uparrow\downarrow}\rangle\underset{\mathrm{~d~}}{\overbrace{\pm\frac{1}{\uparrow}\uparrow}})}\end{array}
-$$
+根据季节性随机游走模型是否带漂移项，我们计算了两个 SUE 指标，SUE0假设随机游走模型含漂移项，其中漂移项可以根据过去两年盈利同比变化 $.Q_{i,t}-Q_{i,t-4}$ 的均值估计，预测的标准差 $\mathbf{\nabla}(\mathcal{E}_{t})$ 可以通过 $Q_{i,t}-Q_{i,t-4}$ 的标准差估计，SUE1不含漂移项，预测的标准差 $\varepsilon_{t}$ 可以通过 $Q_{i,t}-Q_{i,t-4}$ 的不带均值的标准差估计。SUE0和 SUE1的差别在于假设市场是否会根据历史业绩增长对未来产生预期。
 
 $$
-Q_{i,t}=Q_{i,t-4}+\varepsilon_{t}\qquad(\overline{{{\mathcal{K}}}}_{\mathrm{rfy}}^{\scriptscriptstyle++},\underline{{{\sqrt{3}}}},\overline{{{\xi}}}_{\mathrm{rfy}}^{\scriptscriptstyle+}\underline{{{\bar{\mathcal{K}}}}})\underline{{{\bar{\mathcal{K}}}}}_{\mathrm{i}}\pm\pm,|\underline{{{\bar{\mathcal{K}}}}}_{\mathrm{i}}\pm\underline{{{\bar{\mathcal{K}}}}}|[\gamma]\widetilde{{\mathcal{H}}}\pm\pm\pm|\underline{{{\bar{\mathcal{K}}}}}_{\mathrm{reff}}^{\scriptscriptstyle+}\pm\underline{{{\bar{\mathcal{K}}}}}_{\mathrm{reff}}^{\scriptscriptstyle+}\rangle
+Q_{i,t}=Q_{i,t-4}+c_{i,t}+\varepsilon_{t}\quad(带漂移项的季节性随机游走模型)
+$$
+
+$$
+Q_{i,t}=Q_{i,t-4}+\varepsilon_{t}\quad(不带漂移项的季节性随机游走模型)
 $$
 
 由于参数估计过程中涉及到去年同期的数据，因此计算 SUE0 和 SUE1 默认需要过去 12 个季度的净利润数据，为了提高 SUE 在样本空间的覆盖率我们要求只要有 8个有效的季度数据就计算指标，另外由于 A 股公告财报时会同时公告去年同期的调整报表，因此上市满一年的股票基本都可以计算该指标，指标的覆盖率较高。
@@ -90,10 +90,10 @@ $$
 类似的我们也可以计算 SUR0 和 SUR1 两个标准化预期外营收（standardized unexpectedrevenue， SUR）作为 Revenue Surprise 的度量。
 
 $$
-\mathit{SUR}_{i,t}=\frac{REV_{i,t}-E\big(REV_{i,t}\big)}{\xi_{i,t}}
+SUR_{i,t}=\frac{REV_{i,t}-E\big(REV_{i,t}\big)}{\xi_{i,t}}
 $$
 
-$E\left(REV_{i,t}\right)$ 表示预期的营业收入， $\xi_{i,t}$ 表示预期营业收入的标准差， $E\big(REV_{i,t}\big)\mp\mathbb{A}\xi_{i,t}$ 通过对季度营业收入建立季节性随机游走模型估计，SUR0指标假设模型含漂移项，SUR1指标假设模型不含漂移项，参数估计和 SUE类似。
+$E\big(REV_{i,t}\big)$ 表示预期的营业收入， $\xi_{i,t}$ 表示预期营业收入的标准差， $E(REV_{i,t})和\xi_{i,t}$ 通过对季度营业收入建立季节性随机游走模型估计，SUR0指标假设模型含漂移项，SUR1指标假设模型不含漂移项，参数估计和 SUE类似。
 
 最后，需要说明的 SUE 和 SUR 的度量方法并不唯一，不同度量方法在具体数字上会有不一样，但从学界的研究结果来看，主要结论基本一致。
 

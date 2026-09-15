@@ -213,16 +213,16 @@ OpenFE:AutomatedFeatureGeneration with Expert-level Performanc,
 在先前的研究中，我们使用了退化变异和灾难算法，通过删除特定基因或个体来增强种群的多样性。在本研究中，我们采纳了一种更为直接和高效的策略：在适应度计算中引入了惩罚项。通过调整相关性惩罚后的适应度，我们能够筛选出既具有较高适应度又保持较低相关性的因子。适应度的计算公式定义如下：
 
 $$
-fitness~=~IC~*~(1~-~\mu*(1-max_{corr}))
+fitness\quad=\quad IC\quad*\quad(1\quad-\quad\mu*(1-max_{corr}))
 $$
 
-其中 $\mu$ 为惩罚系数，其取值范围从 到 ， $\mu$ 值越大，对相关性的惩罚也就越重，这有助于提升种群的多样性，但同时可能会牺牲一定的整体有效性，本文取 。 $max_{corr}$ 的计算方法如下：
+其中 $\mu.$ 为惩罚系数，其取值范围从 到 ， $\mu^{\prime}$ 值越大，对相关性的惩罚也就越重，这有助于提升种群的多样性，但同时可能会牺牲一定的整体有效性，本文取 。 $max_{corr}$ 的计算方法如下：
 
 $$
-max_{corr}~=~max(corr_{population},corr_{factor~pool})
+max_{corr}\quad=\quad max(corr_{population},corr_{factor\quad pool})
 $$
 
-$max_{corr}$ 由两部分计算得到， $corr_{population}$ 表示个体与种群中其他个体的相关性， $corr_{factor}\ pool$ 表示个体与factorpool中的个体相关性，其中factor pool是已经经过筛选保留得到的因子池。
+$max_{corr}$ 由两部分计算得到， $corr_{population}$ 表示个体与种群中其他个体的相关性， $corr_{factor\_pool}$ 表示个体与factorpool中的个体相关性，其中factor pool是已经经过筛选保留得到的因子池。
 
 通过引入惩罚项，如果新生成的因子与现有因子的相关性过高，其适应度将被有效降低，从而减少其被选中的可能性，这有助于我们发现新的、具有潜力的因子。
 

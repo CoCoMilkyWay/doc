@@ -149,7 +149,7 @@ le_Summary]本文探索股价跳跃与新闻报道的关系。本文使用Logist
 我们将股价跳跃与新闻相关的因素联系起来。首先，使用 Logistic 回归检验跳跃的概率与新闻数量、新闻语气和不确定单词的百分比的关系。
 
 $$
-\begin{array}{r}{logit(p_{it})=a+b_{1}\times NewsCount_{it}+b_{2}\times|NewsTone_{it}|+b_{3}}\\{\times UncWords_{it}+b_{5}\times|Ret_{it-1}|+\epsilon_{it}}\end{array}
+\begin{aligned}logit\left(p_{it}\right)=a+b_{1}\times NewCount_{it}+b_{2}\times\left|NewsTone_{it}\right|+b_{3}\\\times UncWords_{it}+b_{5}\times\left|Ret_{it-1}\right|+\epsilon_{it}\end{aligned}
 $$
 
 其中，因变量是每日跳跃的逻辑变量。我们还在回归中包含前一日股票回报率的绝对值。所有解释变量都经过标准化，以便在公司之间具有相同的均值和标准差。通过这样做，我们主要依靠解释变量中的时间序列变化来解释跳跃的概率。
@@ -158,7 +158,7 @@ $$
 
 表 1: Logistic 回归系数估计值
 
-| 系数估计 | J99 | J95 J.99 | ${\tt J}_{0}95$ |
+| 系数估计 | J99 | J95 J.99 | $\mathbf{J}_{\mathfrak{g}}\mathfrak{g}5$ |
 | --- | --- | --- | --- |
 | $NewsCount_{it}$ | 0.2003 | 0.1915 0.1597 | 0.1318 |
 | $NewsTone_{it}$ | 0.0186 | 0.0156 0.0113 | 0.0080 |
@@ -171,14 +171,14 @@ $$
 接下来，我们分析新闻流如何影响跳跃幅度。我们专注于对已实现跳跃的观察，以了解新闻对跳跃幅度大小的影响。运行以下回归：
 
 $$
-\begin{array}{r}{r_{it}|Jump=b_{0}+b_{1}\times NewsCount_{it}+b_{2}\times NewsTone_{it}+b_{3}}\\{\times UncWords_{it}+b_{5}\times r_{it-1}+\epsilon_{it}}\end{array}
+\begin{aligned}r_{it}|Jupp=b_{0}+&b_{1}\times NewScount_{it}+b_{2}\times NewTone_{it}+b_{3}\\&\times UncWords_{it}+b_{5}\times r_{it-1}+\epsilon_{it}\end{aligned}
 $$
 
-其中， $r_{it}|Jump.$ 表示跳跃日股票的实际回报率。表 2 报告了所有公司回归的结果。对回归两边取均值，试验结果表明跳跃大小平均值在统计上与新闻内容显著相关：与新闻计数、新闻语气和不确定单词的百分比呈正相关。
+其中， $r_{it}|\mathit{Jump}.$ 表示跳跃日股票的实际回报率。表 2 报告了所有公司回归的结果。对回归两边取均值，试验结果表明跳跃大小平均值在统计上与新闻内容显著相关：与新闻计数、新闻语气和不确定单词的百分比呈正相关。
 
 表 2: 所有跳跃幅度的回归结果
 
-| 系数估计 | J99 | J95 | ${\bf J_{0}}99$ | ${\tt J}_{0}95$ |
+| 系数估计 | J99 | J95 | $\mathbf{J}_{0}\mathbf{99}$ | $\mathbf{J}_{0}95$ |
 | --- | --- | --- | --- | --- |
 | $NewsCount_{it}$ | 2.96E-03 | 2.64E-03 | 2.39E-03 | 2.26E-03 |
 | $NewsTone_{it}$ | 0.0126 | 0.0110 | 0.0071 | 0.0050 |
@@ -192,7 +192,7 @@ $$
 
 表 3: 正跳跃幅度的回归结果
 
-| 系数估计 | J99 | J95 | $\mathbf{J_{0}}99$ | ${\tt J}_{0}95$ |
+| 系数估计 | J99 | J95 | $\mathbf{J}_{\mathbf{\theta}}\mathbf{9}\mathbf{9}$ | $\mathbf{J}_{\mathfrak{g}}\mathfrak{g}5$ |
 | --- | --- | --- | --- | --- |
 | $NewsCount_{it}$ | 1.04E-02 | 9.92E-03 | 8.69E-03 | 7.72E-03 |
 | $NewsTone_{it}$ | 0.0014 | 0.0010 | 0.0006 | 0.0003 |
@@ -202,7 +202,7 @@ $$
 
 表 4: 负跳跃幅度的回归结果
 
-| 系数估计 | J99 | J95 | $\mathbf{J_{0}}99$ | ${\tt J}_{0}95$ |
+| 系数估计 | J99 | J95 | $\mathbf{J}_{\mathbf{\theta}}\mathbf{9}\mathbf{9}$ | $\mathbf{J}_{\mathfrak{g}}\mathfrak{g}5$ |
 | --- | --- | --- | --- | --- |
 | $NewsCount_{it}$ | -1.07E-02 | -9.93E-03 | -8.17E-03 | -6.75E-03 |
 | $NewsTone_{it}$ | 0.0046 | 0.0043 | 0.0032 | 0.0025 |

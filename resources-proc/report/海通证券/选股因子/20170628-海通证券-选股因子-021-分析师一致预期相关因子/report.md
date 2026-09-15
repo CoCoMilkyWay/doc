@@ -99,7 +99,7 @@ Email:ll9773@htsec.com
 一致预期估值因子环比增长率指标的选股效果最强， Con_PB_rel 和 Con_PE_rel的 IC 均值分别为-6.09%和-6.59%，多空收益差分别为 1.55%和 1.73%。我们以为例，可通过其构建方法来分析估值环比增长率的含义。按照定义，Con_PE_rel 计算公式如下所示：
 
 $$
-Con_{-}PE_{-}rel_{t}=\frac{Con_{-}PE_{t}}{Con_{-}PE_{t-1}}-1=\frac{P_{t}/Con_{-}EPS_{t}}{P_{t-1}/Con_{-}EPS_{t-1}}-1=\frac{P_{t}/P_{t-1}}{Con_{-}EPS_{t}/Con_{-}EPS_{t-1}}-1
+Con\_PE\_rel_{t}=\frac{Con\_PE_{t}}{Con\_PE_{t-1}}-1=\frac{P_{t}/Con\_EPS_{t}}{P_{t-1}/Con\_EPS_{t-1}}-1=\frac{P_{t}/P_{t-1}}{Con\_EPS_{t}/Con\_EPS_{t-1}}-1
 $$
 
 其中，Con_EPS反应分析师对股票的估价，Con_EPS增加表明分析师对公司的估价上升。若是估价下降而同时期的股价上升（或下降幅度不如估价），表明市场价格相对于分析师预期存在偏差，后期可能会出现价格修复，导致股价下降。因此 Con_PE_rel 越高，市场价格上涨幅度超过分析师估价上涨幅度越大（或市场价格下跌幅度不如分析师估价下跌幅度），后期股价下跌的可能性越大。
@@ -172,19 +172,19 @@ $$
 
 为考察在一致预期相关因子在全市场选股的新增信息，我们采用逐步筛选法来筛选全市场有效的 alpha 因子。我们的备选因子库包含市值（Cap）、反转（Pret）、换手率
 
-（Turn）、波动率（Resvol）、估值（PB）、市值平方（ $\mathsf{\Lambda}_{\mathsf{Cap}}\mathsf{\Lambda}_{2}^{\mathsf{\Lambda}},$ ）6 个常见的选股因子，以及前文提到的 20 个一致预期及其环比增长率因子。
+（Turn）、波动率（Resvol）、估值（PB）、市值平方（ $(Cap\land2)$ ）6 个常见的选股因子，以及前文提到的 20 个一致预期及其环比增长率因子。
 
-在逐步筛选之前，我们先剔除备选因子库中 IC 不足 2%，或 IC 不显著的因子。假设剩余 K个备选因子 $\mathsf{F}_{\mathsf{k}}\left(\mathsf{k}{=}1,\mathsf{\hdots}\hdots,\mathsf{K}\right)$ ，我们已从中筛选出 m 个因子（初始时 m=0），称为“已选因子”，记之为 $\mathsf{Fs}_{1},\mathsf{Fs}_{2},\ldots,\mathsf{Fs}_{\mathsf{m}}$ 。则第 m+1 步筛选过程为：
+在逐步筛选之前，我们先剔除备选因子库中 IC 不足 2%，或 IC 不显著的因子。假设剩余 K个备选因子 $\mathbf{F}_{\mathbf{k}}(\mathbf{k}=1,\ldots\ldots,\mathbf{K})$ ，我们已从中筛选出 m 个因子（初始时 m=0），称为“已选因子”，记之为 $\mathsf{Fs_{1},}\mathsf{Fs_{2},\dots,\quad Fs_{m}}.$ 。则第 m+1 步筛选过程为：
 
-（1）将每一个备选因子 ${\sf F}_{\sf k}\left(\sf k{=}1\right.,\sf...,\sf~K)$ 和已选因子 $(\mathsf{Fs}_{1},\mathsf{Fs}_{2},\ldots,\mathsf{Fs}_{m})$ 作为自变量，以下期股票收益率为因变量，进行 Fama-MacBeth回归：
+（1）将每一个备选因子 $\mathbf{F}_{\mathsf{k}}(\mathsf{k}=1,\ldots,\mathsf{K})$ 和已选因子 $(\mathrm{~Fs_{1},Fs_{2},~\dots,~Fs_{m}~})$ 作为自变量，以下期股票收益率为因变量，进行 Fama-MacBeth回归：
 
 $$
-R_{i,t+1}=c_{t}+\sum_{j=1}^{m}f_{t}\cdot F_{s_{j},t}+\theta_{k,t}\cdot F_{k}+\varepsilon_{i,t}
+R_{i,t+1}=c_{t}+\sum_{j=1}^{m}\pmb{f}_{t}\cdot\pmb{F}_{s_{j},t}+\theta_{k,t}\cdot\pmb{F}_{k}+\varepsilon_{i,t},
 $$
 
 其中，R 为横截面上各股票的收益率，F为股票在各因子上的暴露，f和 θ为需要回归的因子溢价。
 
-（2）求得每个备选因子溢价 $\boldsymbol{\cdot}\theta_{s_{j}}$ 的显著性，以及每个月横截面回归拟合优度平均值；
+（2）求得每个备选因子溢价 $\cdot\theta_{s_{j}}$ 的显著性，以及每个月横截面回归拟合优度平均值；
 
 （3）选取因子溢价显著且平均拟合优度最大的因子，假设为 $F_{s_{n}}$ ，将该因子添加至已选因子列表中，并将该因子从备选因子中剔除；
 

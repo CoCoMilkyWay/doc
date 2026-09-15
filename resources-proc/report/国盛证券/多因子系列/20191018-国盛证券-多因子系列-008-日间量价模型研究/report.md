@@ -126,7 +126,7 @@ Thomas Wiecki 在 《 All That Glitters Is Not Gold: Comparing Backtest andOut-o
 日间ALPHA模型的本质还是基于多因子模型：
 
 $$
-r_{n}=\sum_{i}X_{ni}f_{i}+\sum_{s}X_{ns}f_{s}+u_{n}
+r_{n}=\sum_{i}X_{ni}f_{i}+\sum_{s}X_{ns}f_{s}+u_{n},
 $$
 
 其中 $X_{ni}$ 是风格因子， $X_{ns}$ 是ALPHA 因子。风格因子一般使用能够解释选股域主要风格且不易判断方向的因子构成，例如本文在构建因子体系过程中使用 BarraCNE5所有风格因子；ALPHA 因子则使用希望主动暴露的具有超额收益的因子构成，这里即为我们挖掘到的所有有效因子。那么，这里有两个问题：1.我们挖掘到的这些ALPHA因子是否要和风格因子进行中性化处理？2.这些ALPHA 因子之间是否要做正交处理？
@@ -142,7 +142,7 @@ $$
 由于我们在进行因子挖掘时因子的产生是有先后顺序的，因此，在本文的场景中，顺序线性正交是最好的方式，即对于挖掘到的第 s+1个因子，将其对所有风格因子和前s个因子进行线性正交：
 
 $$
-X_{s+1}=\sum_{i}X_{ni}f_{i}+\sum_{s}X_{ns}f_{s}+u_{n}
+X_{s+1}=\sum_{i}X_{ni}f_{i}+\sum_{s}X_{ns}f_{s}+u_{ni}
 $$
 
 其中 $X_{ni}$ 是风格因子， $X_{ns}$ 是s个已经挖掘到的ALPHA因子， $X_{s+1}$ 是原始因子截面， $u_{n}$ 是正交之后我们要求的因子残差截面。
@@ -178,7 +178,7 @@ $$
 因子的表达方式很多，其中最简单的就是直接写出因子表达式，并且通过因子表达式计算出因子截面。因此，因子的挖掘问题其实就是因子表达式的生成问题。由于因子表达式必须是可以正确计算的，因此一个有效的因子除了对应的因子截面 IR 要足够高以外，一个大的前提是因子表达式必须是合法的。如何生成一个合法的表达式呢？我们可以将因子看成一棵“公式树”，生成一棵合法的公式树则可以对应一个合法的因子。例如，以下因子
 
 $$
-\cdot\textit{ I }^{*}corr(rank(delta(log(volume),1)),rank((close-open)/open),6)
+-I^{*}corr(rank(delta(log(volume),I)),rank((close-open)/open),6)
 $$
 
 对应的公式树即为下图所示：
@@ -323,7 +323,7 @@ VWAP 价：vwap
 在得到个股的打分后，我们依然使用组合优化的方式来得到每一期的持仓，具体优化方式如下：
 
 $$
-\begin{array}{rl}&{\operatorname*{max}~(w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|}\\&{\mathrm{~s.t.~}(w^{T}-w_{bench}^{T})X_{Style}\in[-0.01,0.01]}\\&{\qquad(w^{T}-w_{bench}^{T})X_{ind}\in[-0.01,0.01]}\\&{\qquad w^{T}1=1}\\&{\qquad0\leq w_{i}\leq0.05}\end{array}
+\begin{array}{l}\max(w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|\\\text{ s.t. }(w^{T}-w_{bench}^{T})X_{Style}\in[-0.01\text{,}0.01]\\\quad(w^{T}-w_{bench}^{T})X_{ind}\in[-0.01\text{,}0.01]\\\quad w^{T}1=1\\\quad0\leq w_{i}\leq0.05\end{array}
 $$
 
 其中，w是要求的个股权重， $w_{bench}$ 是对冲基准的个股权重，例如后文中使用中证500指数进行对冲。 $w_{last}$ 是组合上一期的持仓，δ是换手率惩罚系数。另外，我们在限制条件中设定组合在所有行业和风格均没有超额暴露，限制股票权重之和为 1，且每只股票投资比例不超过 5%。

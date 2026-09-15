@@ -41,19 +41,19 @@ Alpha 因子库精简与优化2016-08-12
 单只股票冲击成本可以分为永久性冲击成本和暂时性冲击成本，函数形式如下：
 
 $$
-\mathrm{J}={\frac{1}{2}}\gamma\sigma Tsgn(X)\left|{\frac{X}{VT}}\right|^{\alpha}\left({\frac{\theta}{V}}\right)^{\delta}+\eta\sigma\mathrm{Tsgn(X)}\left|{\frac{\mathrm{X}}{\mathrm{VT}}}\right|^{\beta}
+\mathrm{J}=\frac{1}{2}\gamma\sigma T\mathrm{sgn}(X)\left|\frac{X}{\mathrm{V}T}\right|^{\alpha}\left(\frac{\theta}{\mathrm{V}}\right)^{\delta}+\eta\sigma\mathrm{Tsgn}(X)\left|\frac{X}{\mathrm{V}T}\right|^{\beta}
 $$
 
 其中 X为交易的订单大小，把 X替换为组合调仓时个股权重的变化：
 
 $$
-\mathrm{X}=\Delta\mathrm{w}*\mathrm{S}/\mathrm{P},
+\mathrm{X}=\Delta\mathrm{w}*\mathrm{S}/\mathrm{P}
 $$
 
 其中 S为组合总规模，P 为股票的交易价格，单只股票对于整个组合的冲击成本影响为 ，因此单只股票对于整个组合的冲击成本函数为：
 
 $$
-\begin{array}{r}{\boldsymbol{\mathrm{J}}*\Delta\boldsymbol{\mathbf{w}}=\boldsymbol{\mathrm{A}}|\Delta\boldsymbol{\mathbf{w}}|^{\alpha+1}+B|\Delta\boldsymbol{\mathbf{w}}|^{\beta+1},}\end{array}
+\mathsf{J}\ast\Delta\mathsf{w}=\mathsf{A}|\Delta\mathsf{w}|^{\alpha+1}+B|\Delta\mathsf{w}|^{\beta+1},
 $$
 
 根据我们的统计，参数 与 都是介于 0 到1 之间的，所以单只股票对于整个组合的冲击是一个凸函数的形式。
@@ -63,7 +63,7 @@ $$
 在上一篇相关报告《资金规模对策略收益的影响中》中我们采用经过风险和交易成本调整后的alpha 作为优化的目标函数：
 
 $$
-\begin{array}{l}{{\mathrm{Max}{\{}f^{\prime}w-\tau|w-w_{0}|}-\displaystyle\lambda\sum_{i=1}^{N}\Bigl(A_{i}|w_{i}-w_{0i}|^{\alpha_{i}+1}+B_{i}|w_{i}-w_{0i}|^{\beta_{i}+1}\Bigr)}\\{~}\\{{\mathrm{S.t.}\quad\mathrm{i^{\prime}w=1},}}\\{{\quad R^{\prime}w=R^{\prime}w_{bench},}}\\{{\quad(w-w_{bench})^{\prime}{\mathrm{Z}}\quad(w-w_{bench})\le\displaystyle\frac{TE^{2}}{2\mathrm{s}^{2}},}}\\{{\quad{}}}\\{{\quad0\le w_{i}\le\operatorname*{min}(max\uplus\rho sition,w_{0i}+maxtradesize_{i}/boobsize_{i}),}}\end{array}
+\begin{aligned}&Max:f'w-\tau|w-w_0|-\lambda\sum_{i=1}^{N}\left(A_i|w_i-w_{0i}|^{\alpha_i+1}+B_i|w_i-w_{0i}|^{\beta_i+1}\right)\\&\\&s.t.\quad i'w=1,\\&\\&\quad R'w=R'w_{bencch},\\&\\&\quad(w-w_{bencch})'\mathcal{E}\setminus(w-w_{bencch})\leq\frac{TE^2}{252},\\&\\&\quad0\leq w_i\leq\min(maxposition,\;w_{0i}+matrixadesize_i/bobsize_i),\\\end{aligned}
 $$
 
 其中 $f^{\prime}$ 为预期 ， $w_{0}$ 为调仓前组合个股权重， 为股票的固定交易成本（佣金+印花税，设为单边0.15%）， 是调整系数（调整优化过程中冲击成本高估的问题，我们将在后面一节解释 的意义），是协方差矩阵的压缩估计量， $w_{bench}$ 是基准指数成分股权重。
@@ -74,22 +74,22 @@ $$
 
 所以我们这里首先把控制跟踪误差的约束条件放到了目标函数中，调整下式参数 的值来隐性控制跟踪误差，再通过分段线性函数近似逼近冲击成本函数，把上述优化问题转换二次规划问题，大幅提升运算速度，同时保证全局最优解的存在性。
 
-首先需要处理的是固定成本项绝对值的问题，在这里我们优化的目标权重 w 改写为 $w_{0}+\Delta\mathfrak{w}$ 的形式，并且把跟踪误差的约束条件放入到目标函数中，则目标函数变为：
+首先需要处理的是固定成本项绝对值的问题，在这里我们优化的目标权重 w 改写为 $w_{0}+\Delta w$ 的形式，并且把跟踪误差的约束条件放入到目标函数中，则目标函数变为：
 
 $$
-f^{\prime}(w_{0}+\Delta\mathbf{w})-\ y_{\mathrm{~}}\left(\boldsymbol{w}_{0}+\Delta\mathbf{w}\right)^{\mathrm{~\tiny~'~}}\boldsymbol{\Sigma}\enspace\left(\boldsymbol{w}_{0}+\Delta\mathbf{w}\right)\enspace-\tau|\Delta\mathbf{w}|-\lambda\sum_{i=1}^{N}\left(A_{i}|\Delta\mathbf{w}_{\mathrm{i}}|^{\alpha_{i}+1}+B_{i}|\Delta\mathbf{w}_{i}|^{\beta_{i}+1}\right)
+f^{\prime}(w_{0}+\Delta\mathsf{w})-\mu\quad(w_{0}+\Delta\mathsf{w})\quad^{\prime}\pounds\quad(w_{0}+\Delta\mathsf{w})\quad-\tau|\Delta\mathsf{w}|-\lambda\sum_{i=1}^{N}\bigl(A_{i}|\Delta\mathsf{w}_{\mathrm{i}}|^{\alpha_{i}+1}+B_{i}|\Delta w_{i}|^{\beta_{i}+1}\bigr)
 $$
 
 把其中的常数项去除后，目标函数变为:
 
 $$
-(f^{\prime}-2*\mu*w_{0}^{\prime}\Sigma)\Delta\mathbf{w}-\mu*\Delta\mathbf{w}^{\prime}\Sigma\Delta\mathbf{w}-\tau|\Delta\mathbf{w}|-\lambda\sum_{i=1}^{N}\left(A_{i}|\Delta{\mathbf{w}_{\mathrm{i}}}|^{\alpha_{i}+1}+B_{i}|\Delta{\mathbf{w}_{i}}|^{\beta_{i}+1}\right).
+(f^{\prime}-2*\mu*{w_{0}}^{\prime}\mathcal{L})\Delta\mathsf{w}-\mu*\Delta\mathsf{w}^{\prime}\mathcal{L}\Delta\mathsf{w}-\tau|\Delta\mathsf{w}|-\lambda{\sum_{i=1}^{N}}\big(A_{i}|\Delta\mathsf{w}_{\mathrm{i}}|^{\alpha_{i}+1}+B_{i}|\Delta\mathsf{w}_{i}|^{\beta_{i}+1}\big)
 $$
 
-为了去掉绝对值的形式把目标函数转变为二次规划，我们可以把 向量改变为 $(\Delta{\bf w_{b}}^{\prime},\Delta{\bf w_{s}}^{\prime})$ 的形式，其中 $\Delta\mathrm{w_{b}}$ 是买入部分的权重（大于零）， $\Delta\mathrm{w}_{s}$ 为卖出部分的权重（小于零）。此时目标函数将变为：
+为了去掉绝对值的形式把目标函数转变为二次规划，我们可以把 向量改变为 $\langle\Delta{{\mathsf{w}}_{\mathsf{b}}}^{\prime},\Delta{{\mathsf{w}}_{\mathsf{s}}}^{\prime}\rangle$ 的形式，其中 $\Delta\mathbf{w_{b}}$ 是买入部分的权重（大于零）， $\Delta\mathbf{w}_{s}$ 为卖出部分的权重（小于零）。此时目标函数将变为：
 
 $$
-\begin{array}{rl}{\left[(f^{\prime}f^{\prime})-2*\mu*0.5*({w_{0}}^{\prime}{w_{0}}^{\prime})\left(\underset{\textstyle\sum}{\overset{\mathcal{L}}{\sum}}\right)-(\tau-\tau)\right]\Delta\mathbf{w}-\mu*\Delta\mathbf{w}^{\prime}\left(\underset{\textstyle\sum}{\overset{\mathcal{L}}{\sum}}\right)\Delta\mathbf{w}}&{}\\{\qquad-\lambda\displaystyle\sum_{i=1}^{N}\left(A_{i}|\Delta\mathbf{w}_{\mathrm{i}}|^{\alpha_{i}+1}+B_{i}|\Delta\mathbf{w}_{\mathrm{i}}|^{\beta_{i}+1}\right)}&{}\end{array}
+\begin{aligned}\left[(f^{\prime}f^{\prime})-2*\mathfrak{\mu}*0.5\right.&\left.*(w_0^{\phantom{0}'}w_0^{\phantom{0}'})\begin{pmatrix}\mathfrak{L}&\mathfrak{L}\\\mathfrak{L}&\mathfrak{L}\end{pmatrix}-(\tau\phantom{\mu}-\tau)\right]\Delta\mathbf{w}-\mathfrak{\mu}*\Delta\mathbf{w}^{\prime}\begin{pmatrix}\mathfrak{L}&\mathfrak{L}\\\mathfrak{L}&\mathfrak{L}\end{pmatrix}\Delta\mathbf{w}\\&-\lambda\sum_{i=1}^{N}(A_i|\Delta\mathbf{w}_{\mathrm{i}}|^{\alpha_i+1}+B_i|\Delta\mathbf{w}_{\mathrm{i}}|^{\beta_i+1})\end{aligned}
 $$
 
 这样固定成本项的绝对值符号就被去除了，代价是优化变量的个数增大了一倍。
@@ -98,21 +98,21 @@ $$
 ![](images/3f9248cc5870b9f0a6030e642028d219ab605612f8eb1e8ce414332e8120f10c.webp)
 数据来源：东方证券研究所
 
-为了把目标函数转变成标准二次规划的形式，我们对最后一项的非线性冲击成本函数做分段的线性近似（图 1）。并且将 向量改变为 $\begin{array}{c}\langle\Delta\mathbf{w_{b1}}^{\prime}\Delta\mathbf{w_{s1}}^{\prime}\Delta\mathbf{w_{b2}}^{\prime}\Delta\mathbf{w_{s2}}^{\prime}\rangle\end{array}$ ，其中 $\Delta\mathrm{w_{b1}}$ 是低斜率范围的买入量， $\Delta\mathrm{w}_{\mathbf{b}2}$ 是高斜率范围的买入量， $\Delta\mathrm{w}_{{\mathrm s}1}$ 为低斜率范围的卖出量， $\Delta\mathsf{w}_{\mathsf{s}2}$ 为高斜率范围的卖出量。它们的斜率依次为 $k_{1},\ -k_{1},\ k_{2},\ -k_{2}$ 。最终的目标函数和约束条件形式变为：
+为了把目标函数转变成标准二次规划的形式，我们对最后一项的非线性冲击成本函数做分段的线性近似（图 1）。并且将 向量改变为 $\left({\Delta{{\bf{w}}_{{\bf{b}}{{1}}}}^{\prime}\:\Delta{{\bf{w}}_{{\bf{s}}{{1}}}}^{\prime}\:\Delta{{\bf{w}}_{{\bf{b}}{{2}}}}^{\prime}\:\Delta{{\bf{w}}_{{\bf{s}}{{2}}}}^{\prime}}\right)^{\prime}$ ，其中 $\Delta\mathbf{w}_{\mathbf{b}1}$ 是低斜率范围的买入量， $\Delta\mathbf{w}_{\mathbf{b}2}$ 是高斜率范围的买入量， $\Delta\mathsf{w}_{\mathsf{s1}}$ 为低斜率范围的卖出量， $\Delta\mathbf{w}_{s2}$ 为高斜率范围的卖出量。它们的斜率依次为 $k_{1},~-k_{1},~k_{2},~-k_{2}$ 。最终的目标函数和约束条件形式变为：
 
 $$
-\begin{array}{c}\begin{array}{rl}{max:\left[\left(f^{\prime}~f^{\prime}~f^{\prime}~f^{\prime}\right)-2*\mu*0.25*\left({w_{0}}^{\prime}{w_{0}}^{\prime}{w_{0}}^{\prime}{w_{0}}^{\prime}\right)\left(\begin{array}{lll}{\Sigma}&{\cdots}&{\Sigma}\\{\vdots}&{\ddots}&{\vdots}\\{\Sigma}&{\cdots}&{\Sigma}\end{array}\right)-\left(\tau-\tau\right\right]}&{\tau}&{-\tau}\end{array})&{{}}\\{-\lambda~\left(k_{1}-k_{1}\quad k_{2}\quad-k_{2}\right)}&{{}\left[\Delta\mathbf{w}-\mu*\Delta\mathbf{w}^{\prime}\left(\begin{array}{lll}{\Sigma}&{\cdots}&{\Sigma}\\{\vdots}&{\ddots}&{\vdots}\\{\Sigma}&{\cdots}&{\Sigma}\end{array}\right)\Delta\mathbf{w}\right.}&{{}}\end{array}
+\begin{array}{c}{max\colon\Bigg[(f^{\prime}f^{\prime}f^{\prime}f^{\prime})-2*\mu*0.25*({w_{0}}^{\prime}{w_{0}}^{\prime}{w_{0}}^{\prime}{w_{0}}^{\prime})\binom{\mathcal{E}\quad\cdots\quad\mathcal{E}}{\vdots\quad\ddots\quad\vdots}-(\tau-\tau\tau-\tau)}\\{-\lambda\left(k_{1}-k_{1}\quad k_{2}\quad-k_{2}\right)\Bigg]\Delta\mathbf{w}-\mu*\Delta\mathbf{w}^{\prime}\binom{\mathcal{E}\quad\cdots\quad\mathcal{E}}{\vdots\quad\ddots\quad\vdots}\Delta\mathbf{w}}\\\end{array}
 $$
 
 $$
-\begin{array}{rl}{\mathrm{~s.t.~}}&{\mathrm{i^{\prime}(}\Delta\mathbf{w}+0.25*({w_{0}}^{\prime}\ {w_{0}}^{\prime}\ {w_{0}}^{\prime}\ {w_{0}}^{\prime}\mathrm{)^{\prime}})=1}\\&{~R^{\prime}\Delta\mathbf{w}=R^{\prime}(w_{bench}-w_{0}),}\\&{~0\leq\Delta{\mathbf{w}_{\mathbf{b},1}}^{\prime}\leq\operatorname*{min}(\operatorname*{max}({\mathbf{w}_{max}}-{\mathbf{w}_{0}}),{\mathbf{w}_{max}}/2),}\\&{~-\operatorname*{min}({\mathbf{w}_{0}},{\mathbf{w}_{max}}/2)\leq\Delta{\mathbf{w}_{\mathbf{s},1}}^{\prime}\leq-\operatorname*{min}(\operatorname*{max}({\mathbf{w}_{0}}-{\mathbf{w}_{max}},0),{\mathbf{w}_{max}}/2),}\\&{~0\leq\Delta{\mathbf{w}_{\mathbf{b},2}}^{\prime}\leq\operatorname*{max}({\mathbf{w}_{max}}-{\mathbf{w}_{0}}-{\mathbf{w}_{max}}/2,0)}\\&{~-({\mathbf{w}_{0}}+-\operatorname*{min}({\mathbf{w}_{0}},{\mathbf{w}_{\mathbf{max}}}/2))\leq\Delta{\mathbf{w}_{\mathbf{s},1}}^{\prime}\leq-\operatorname*{max}({\mathbf{w}_{0}}-3*{\mathbf{w}_{\mathbf{max}}}/2,0)}\end{array}
+\begin{aligned}\text{ s.t. }\quad&\mathrm{i}^{\prime}(\Delta\mathrm{w}+0.25*({w_{0}}^{\prime}{w_{0}}^{\prime}{w_{0}}^{\prime}{w_{0}}^{\prime})^{\prime})=1\\&R^{\prime}\Delta\mathrm{w}=R^{\prime}(w_{bench}-w_{0}),\\&0\leq\Delta{\mathrm{w}_{\mathrm{b}_{1}}}^{\prime}\leq\min(\max({w_{max}}-{\mathrm{w}_{0}}),{\mathrm{w}_{max}}/2),\\&-\min({\mathrm{w}_{0}},{\mathrm{w}_{max}}/2)\leq\Delta{\mathrm{w}_{\mathrm{s}_{1}}}^{\prime}\leq-\min(\max({w_{0}}-{\mathrm{w}_{max}},0),{\mathrm{w}_{max}}/2),\\&0\leq\Delta{\mathrm{w}_{\mathrm{b}_{2}}}^{\prime}\leq\max({\mathrm{w}_{max}}-{\mathrm{w}_{0}}-{\mathrm{w}_{max}}/2,0)\\&-({\mathrm{w}_{0}}+-\min({\mathrm{w}_{0}},{\mathrm{w}_{max}}/2))\leq\Delta{\mathrm{w}_{\mathrm{s}_{1}}}^{\prime}\leq-\max({\mathrm{w}_{0}}-3*{\mathrm{w}_{max}}/2,0)\\\end{aligned}
 $$
 
 因为冲击成本函数为凸函数，因此分段函数的斜率的递增的，斜率低的部分交易相同权重的股票冲击成本更低，这也就是说在优化的过程中，优化器会优先满足低斜率部分的权重，接着才会去增加高斜率部分的权重。通过这种方法，我们就将原本的非线性目标函数变成了一个标准的二次型，代价是优化变量的个数再增大一倍。
 
-对于最后 4 个约束条件，我们举几个例子来说明，假设我们单只股票权重上限为 1.5%，对于初始权重 1.6%的股票我们可以得到 $\leq\Delta\mathbf{w_{b11}}^{\prime}\leq0,0\leq\Delta\mathbf{w_{b21}}^{\prime}\leq0$ ，也就是说这支股票已经不能再买入了；同时可以得到 $-0.75\%\leq\Delta{\bf w}_{s11}^{\prime}\leq-0.1\%,-0.85\%\leq\Delta{\bf w}_{s21}^{\prime}\leq0$ ，也就是说对于低斜率部分，这支股票至少要卖出 0.1%的权重以使得目标权重在权重上限范围内，且低斜率端加高斜率端总的卖出上限是 1.6%。对于初始权重 0.8%的股票我们可以得到 $\leq\Delta\mathbf{w_{b11}}^{\prime}\leq0.7\%,0\leq\Delta\mathbf{w_{b21}}^{\prime}\leq0$ 也就是说这支股票最多只能再买入 0.7%；同时可以得到 $-0.75\%\leq\Delta\mathrm{w}_{{\mathrm{s11}}^{'}}\leq0\%-0.05\%\leq$ ${\Delta}{w_{s21}}^{\prime}\le0$ ，也就是说这支股票最多可以卖出 0.8%，其中低斜率端最多可以卖出 0.75%，高斜率端最多可以卖出 0.05%。
+对于最后 4 个约束条件，我们举几个例子来说明，假设我们单只股票权重上限为 1.5%，对于初始权重 1.6%的股票我们可以得到 $\leq{\Delta{{\mathsf{w}}_{{\mathsf{b}}{1}{1}}}^{\prime}}\leq0,0\leq{\Delta{{\mathsf{w}}_{{\mathsf{b}}{2}{1}}}^{\prime}}\leq0$ ，也就是说这支股票已经不能再买入了；同时可以得到 $-0.75\%\leq\Delta{\mathsf{w}_{s11}}^{\prime}\leq-0.1\%,-0.85\%\leq\Delta{\mathsf{w}_{s21}}^{\prime}\leq0$ ，也就是说对于低斜率部分，这支股票至少要卖出 0.1%的权重以使得目标权重在权重上限范围内，且低斜率端加高斜率端总的卖出上限是 1.6%。对于初始权重 0.8%的股票我们可以得到 $\leq\Delta{\mathrm{w}_{\mathrm{b}11}}^{\prime}\leq0.7\%,0\leq\Delta{\mathrm{w}_{\mathrm{b}21}}^{\prime}\leq0$ 也就是说这支股票最多只能再买入 0.7%；同时可以得到 $-0.75\%\leq\Delta\mathrm{w_{s11}}^{\prime}\leq0\%,-0.05\%\leq$ ${\Delta{{\mathsf{w}}_{{\mathsf{S}}{21}}}^{\prime}}\le0$ ，也就是说这支股票最多可以卖出 0.8%，其中低斜率端最多可以卖出 0.75%，高斜率端最多可以卖出 0.05%。
 
-优化完之后的目标权重 $\begin{array}{r}{\mathbf{w}=w_{0}+\Delta\mathbf{w}_{\mathbf{b}1}+\Delta\mathbf{w}_{s1}+\Delta\mathbf{w}_{\mathbf{b}2}+\Delta\mathbf{w}_{s2}}\end{array}$
+优化完之后的目标权重 $w=w_{0}+\Delta w_{\mathrm{b}1}+\Delta w_{\mathrm{s}1}+\Delta w_{\mathrm{b}2}+\Delta w_{\mathrm{s}2}$
 
 ## 三、实证分析
 
@@ -129,7 +129,7 @@ $$
 | 理想组合 | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | 0.00% | 0.00% |
 | 基准 | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | 0.00% | 0.00% |
 | 调整系数0（回测含冲击成本） | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | 0.00% | 0.00% |
-| 调整系数0.1(回测含冲击成本） | -0.25% | -0.24% | -0.29% | 0.002 | -0.099 | 3.80% | -3.32% |
+| 调整系数0.1(回测含冲击成本) | -0.25% | -0.24% | -0.29% | 0.002 | -0.099 | 3.80% | -3.32% |
 | 调整系数0.2（回测含冲击成本） | 0.09% | 0.09% | 0.42% | 0.016 | -0.040 | 2.53% | -2.87% |
 | 调整系数0.3（回测含冲击成本） | -0.63% | -0.60% | -0.59% | -0.011 | -0.194 | 3.80% | -2.33% |
 | 调整系数0.4(回测含冲击成本） | -0.24% | -0.23% | -0.04% | 0.002 | -0.137 | 1.27% | -2.85% |
@@ -143,8 +143,8 @@ $$
 | 理想组合 | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | 0.00% | 0.00% |
 | 基准 | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | 0.00% | 0.00% |
 | 调整系数0（回测含冲击成本) | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | 0.00% | 0.00% |
-| 调整系数0.1（回测含冲击成本） | -0.30% | -0.28% | -0.55% | 0.000 | -0.063 | 2.53% | -2.72% |
-| 调整系数0.2(回测含冲击成本) | 0.02% | 0.02% | -0.04% | 0.012 | -0.040 | 3.80% | -2.69% |
+| 调整系数0.1(回测含冲击成本） | -0.30% | -0.28% | -0.55% | 0.000 | -0.063 | 2.53% | -2.72% |
+| 调整系数0.2（回测含冲击成本) | 0.02% | 0.02% | -0.04% | 0.012 | -0.040 | 3.80% | -2.69% |
 | 调整系数0.3（回测含冲击成本） | 0.00% | 0.00% | -0.09% | 0.008 | -0.071 | 5.06% | -2.40% |
 | 调整系数0.4(回测含冲击成本） | -0.15% | -0.15% | 0.43% | 0.007 | -0.065 | 3.80% | -2.68% |
 
@@ -262,7 +262,7 @@ $$
 | 基准 | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | 0.00% | 0.00% |
 | 调整系数0（回测含冲击成本） | 0.00% | 0.00% | 0.00% | 0.000 | 0.000 | -2.53% | 0.00% |
 | 调整系数0.1(回测含冲击成本） | -0.11% | -0.10% | -0.43% | 0.000 | -0.047 | -1.27% | -3.06% |
-| 调整系数0.2(回测含冲击成本） | 0.21% | 0.20% | -0.77% | 0.013 | -0.027 | -3.80% | -3.67% |
+| 调整系数0.2（回测含冲击成本） | 0.21% | 0.20% | -0.77% | 0.013 | -0.027 | -3.80% | -3.67% |
 | 调整系数0.3（回测含冲击成本） | 0.50% | 0.48% | -0.26% | 0.023 | 0.010 | -6.33% | -3.79% |
 | 调整系数0.4（回测含冲击成本） | 1.23% | 1.17% | 0.97% | 0.048 | 0.133 | 0.00% | -2.85% |
 
@@ -326,7 +326,7 @@ $$
 | 调整系数0.1(回测含冲击成本) | -1.31% | -1.25% | -1.47% | -0.044 | -0.108 | -2.53% | 7.74% |
 | 调整系数0.2(回测含冲击成本) | -2.03% | -1.94% | -1.82% | -0.064 | -0.283 | -5.06% | 10.13% |
 | 调整系数0.3(回测含冲击成本) | -1.51% | -1.44% | -2.19% | -0.053 | -0.249 | 3.80% | 14.32% |
-| 调整系数0.4(回测含冲击成本） | -1.92% | -1.83% | -1.05% | -0.066 | -0.348 | -1.27% | 16.94% |
+| 调整系数0.4（回测含冲击成本） | -1.92% | -1.83% | -1.05% | -0.066 | -0.348 | -1.27% | 16.94% |
 
 数据来源：东方证券研究所 & Wind 资讯
 

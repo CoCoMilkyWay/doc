@@ -98,10 +98,10 @@ LoRA:英文全称为 Low-Rank Adaptation of LLM, 这是一种微软研究人员�
 LoRA 的核心思想类似于残差连接，通过使用旁路的方式更新模拟 Full Fine-Tuning的过程。对于一个参数量为 d 的模型，需要在 d 维空间寻找有效解： $\theta^{(d)}\in R^{d}$ 。研究人员（Li 2018）发现，原本的 d 维空间其实是冗余的，实际仅需 r 个参数就能找到有效解。也就是说，预训练的语言模型具有较低的内部维度（intrinsic dimension），也被称为本征维度，在任务适配的过程中即使投影到较小的子空间，仅训练 r 个参数依然可以有效学习。
 
 $$
-\lambda=W_{0}x+\Delta W_{x}=W_{0}x+BA_{x}
+\begin{array}{r}{\not\Delta=W_{0}x+\Delta W_{x}=W_{0}x+BA_{x}}\end{array}
 $$
 
-如上图所示，在 LoRA 训练过程中，原模型矩阵 $W_{0}$ 保持不变，只需训练 A 和 B 的部分，最终再与原模型合并。其中 A 的输入维度和 B 的输出维度与原模型保持一致，但A 的输出维度仅需本征维度 r 即可，其中 r≪d，从而达到节省训练资源的效果。
+如上图所示，在 LoRA 训练过程中，原模型矩阵 $.W_{0}$ 保持不变，只需训练 A 和 B 的部分，最终再与原模型合并。其中 A 的输入维度和 B 的输出维度与原模型保持一致，但A 的输出维度仅需本征维度 r 即可，其中 r≪d，从而达到节省训练资源的效果。
 
 而对于如何确定本征维度 r 的大小，一般可以认为，若通过 LoRA 秩为 r 的微调能够达到 Full Fine-Tuning 的 90%效果，则确定 r 为合适的“本征维度”。下图展示了Aghajanyan et al.2020 使用 Bert 类模型在两类经典的问答任务训练中，不同的本征维度（d）和最终的准确率的对应关系。结果发现，对于 RoBERTa-Large，仅需数百个参数量的训练就可以达到全量微调 90%的效果。其余几个模型也有类似现象。
 
@@ -172,7 +172,7 @@ $$
 - 评估：大模型的评估方法可以用来评价模型训练效果的好坏，通过统计训练后模型回答与数据中标签的匹配度，评判模型性能。常见的评价指标包括 ROUGE 和 BLEU，两种指标都是基于词重叠率设计的，表征了回复的语义准确性。我们以 ROUGE-L 为例，简要介绍其评估思想：
 
 $$
-\begin{array}{c}{{R_{LCS}=\displaystyle\frac{LCS(C,S)}{\mathrm{len}(S)}}}\\{{{}}}\\{{P_{LCS}=\displaystyle\frac{LCS(C,S)}{\mathrm{len}(\mathrm{C)}}}}\\{{{}}}\\{{F_{LCS}=\displaystyle\frac{(1+\beta^{2})R_{LCS}P_{LCS}}{R_{LCS}+\beta^{2}P_{LCS}}}}\end{array}
+\begin{aligned}&\frac{R_{LCS}=\frac{LCS\left(C,S\right)}{\ln\left(S\right)}}{P_{LCS}=\frac{LCS\left(C,S\right)}{\ln\left(\mathbb{C}\right)}}\\&F_{LCS}=\frac{\left(1+\beta^{2}\right)R_{LCS}P_{LCS}}{R_{LCS}+\beta^{2}P_{LCS}}\\\end{aligned}
 $$
 
 上式中，C 和 S 分别为标签和预测结果， $R_{LCS}$ 表示召回率， $P_{LCS}$ 表示精确率。 $F_{LCS}$ 即我们的评价指标 ROUGE-L。这一评价指标通过计算标签和预测结果之间的最长公共子序列（LCS），这一序列越长，则表明两个文本之间越相似，从而得到的结果与标签也就越相近。

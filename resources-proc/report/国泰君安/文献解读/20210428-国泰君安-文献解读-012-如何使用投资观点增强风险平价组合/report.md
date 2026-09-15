@@ -113,13 +113,13 @@ Roncalli(2015)提供了另外一种将预期收益率信息纳入风险平价组
 在一个风险平价的组合中，所有N个资产的权重与资产对风险平价组合的敏感性beta成反比:
 
 $$
-\mathrm{\Delta w_{i}^{RP}\sim\frac{1}{\beta_{\mathrm{ip}}}}\tag{1}
+\mathbf{w}_{\mathbf{i}}^{\mathrm{RP}}\sim\frac{1}{\beta_{\mathrm{ip}}}\tag{1}
 $$
 
 参考公式1的等比例关系， $\beta_{ip}$ 是以资产i的超额收益率为因变量，以风险平价组合超额收益率为解释变量的回归中的回归系数。由于风险平价组合要求所有资产对组合风险的贡献为相等的 1/N，我们也可以如下方程来代表风险平价的组合：
 
 $$
-\mathsf{w_{i}^{RP}}\mathsf{\beta_{ip}}=\mathrm{~1~/~N~}
+\mathrm{w}_{\mathrm{i}}^{\mathrm{RP}}\beta_{\mathrm{ip}}=1/\mathrm{N}
 $$
 
 值得注意的是，这里的 $\beta_{ip}$ 可以以相关性以及资产波动率的形式表示，此时：

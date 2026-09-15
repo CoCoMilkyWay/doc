@@ -51,15 +51,15 @@ Email:ll9773@htsec.com
 我们考虑了三种用于衡量盈利增速的对比基数：t-4 季度每股收益的绝对值（EGA）、t-1 季度末的股价（EGP）以及最近 8 个季度（包括第 t 季度）EPS的标准差（EGV）。相应的盈利加速因子分别记之为 EAA、EAP和 EAV：
 
 $$
-\mathrm{EAA_{i,t}=EGA_{i,t}-EGA_{i,t-1}=\frac{EPS_{i,t}-EPS_{i,t-4}}{\left|EPS_{i,t-4}\right|}-\frac{EPS_{i,t-1}-EPS_{i,t-5}}{\left|EPS_{i,t-5}\right|}},
+\mathrm{EAA}_{\mathrm{i},t}=\mathrm{EGA}_{\mathrm{i},t}-\mathrm{EGA}_{\mathrm{i},t-1}=\frac{\mathrm{EPS}_{\mathrm{i},t}-\mathrm{EPS}_{\mathrm{i},t-4}}{\left|\mathrm{EPS}_{\mathrm{i},t-4}\right|}-\frac{\mathrm{EPS}_{\mathrm{i},t-1}-\mathrm{EPS}_{\mathrm{i},t-5}}{\left|\mathrm{EPS}_{\mathrm{i},t-5}\right|}
 $$
 
 $$
-\mathrm{EAP_{i,t}=EGP_{i,t}-EGP_{i,t-1}=\frac{EPS_{i,t}-EPS_{i,t-4}}{StockPrice_{i,t-1}}-\frac{EPS_{i,t-1}-EPS_{i,t-5}}{StockPrice_{i,t-2}}},
+\mathrm{EAP}_{\mathrm{i},t}=\mathrm{EGP}_{\mathrm{i},t}-\mathrm{EGP}_{\mathrm{i},t-1}=\frac{\mathrm{EPS}_{\mathrm{i},t}-\mathrm{EPS}_{\mathrm{i},t-4}}{\mathrm{Stock~Price}_{\mathrm{i},t-1}}-\frac{\mathrm{EPS}_{\mathrm{i},t-1}-\mathrm{EPS}_{\mathrm{i},t-5}}{\mathrm{Stock~Price}_{\mathrm{i},t-2}}
 $$
 
 $$
-\mathrm{EAV_{i,t}=EGV_{i,t}-EGV_{i,t-1}=\frac{EPS_{i,t}-EPS_{i,t-4}}{SDEPS_{i,t}}-\frac{EPS_{i,t-1}-EPS_{i,t-5}}{SDEPS_{i,t-1}}}.
+\mathrm{EAV}_{\mathrm{i},t}=\mathrm{EGV}_{\mathrm{i},t}-\mathrm{EGV}_{\mathrm{i},t-1}=\frac{\mathrm{EPS}_{\mathrm{i},t}-\mathrm{EPS}_{\mathrm{i},t-4}}{\mathrm{SDEPS}_{\mathrm{i},t}}-\frac{\mathrm{EPS}_{\mathrm{i},t-1}-\mathrm{EPS}_{\mathrm{i},t-5}}{\mathrm{SDEPS}_{\mathrm{i},t-1}}
 $$
 
 图 1 展示了盈利加速因子与常见因子的平均截面相关系数，从中可见，该因子与市值、估值及价量类因子相关性较低。在基本面因子中，其与增长类因子的线性相关性较为明显。盈利增长加速的公司，平均增速和净利润调整幅度均高于盈利增长减速的公司。但盈利加速因子与盈利水平本身的线性相关性相对较弱，盈利增长加速公司的平均盈利水平与全市场平均水平无异；盈利增长大幅减速的公司，盈利水平相对较差。
@@ -173,7 +173,7 @@ $$
 进一步，我们采用如下截面回归方程，控制 SUE、当期盈利增速、ROE等公司基本面的影响，考察盈利加速对公司未来增长（净利润同比增速）的增量预测能力。
 
 $$
-\mathrm{Growth}_{\mathrm{t+k}}=\propto+\beta_{1}\cdot\mathrm{EAV}_{\mathrm{t}}+\beta_{2}\cdot\mathrm{SUE}_{\mathrm{t}}+\beta_{3}\cdot\mathrm{Growth}_{\mathrm{t}}+\cdots+\varepsilon_{\mathrm{k}},\mathrm{k}=1,2,3,4
+\mathrm{Growth}_{\mathrm{t}+\mathrm{k}}=\alpha+\beta_{1}\cdot\mathrm{EAV}_{\mathrm{t}}+\beta_{2}\cdot\mathrm{SUE}_{\mathrm{t}}+\beta_{3}\cdot\mathrm{Growth}_{\mathrm{t}}+\cdots+\varepsilon_{\mathrm{k}},\mathrm{k}=1,2,3,4
 $$
 
 图 9 展示了预测未来 1年（k=4）增速时，EAV每期的回归系数。

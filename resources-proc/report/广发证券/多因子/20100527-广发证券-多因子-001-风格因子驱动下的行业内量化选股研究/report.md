@@ -135,7 +135,7 @@ Effect)则指的是投资策略或组合的持有期业绩方向和形成期业�
 我们的量化模型所应用的因子库并不是总维持不变，会每个月动态调整。每个月底都会根据因子在过去12个月的信息比动态的筛选出正值的因子，正值越大，证明因子对行业的影响越大。信息比的计算公式如下：
 
 $$
-IR=\frac{12\uparrow\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}}{\underset{\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}}{\uparrow\mathbb{T}\mathbb{N}}\mathbb{H}\mathbb{H}\mathbb{H}}
+IR=\frac{12个月平均回报}{标准差}
 $$
 
 运用12个月的信息比可以很好的体现出因子对于行业近期影响的趋势。
@@ -159,11 +159,11 @@ $$
 最大加权法： 每一类的权重是跟类里最大信息比的因子呈正比。
 
 $$
-w(k)=\frac{\operatorname*{max}(IR_{n})}{\displaystyle\sum_{i\in cluster_{k}}\operatorname*{max}(IR)}
+w(k)=\frac{\max(IR_n)}{\sum\limits_{i\in cluster_k}\max(IR)}
 $$
 
 $$
-\forall n\in cluster_{k},k=1,2,3,...,K
+\forall n\in cluster_{k},\quad k=1,2,3,...,K
 $$
 
 其中， 我们发现最大加权法更有实效性。每个ALPHA源对于行业的影响都不相同，如果赋予相同权重，必然导致影响大的被低估，影响小的被高估。
@@ -177,7 +177,7 @@ w(n,k)\propto\frac{IR_{n}}{\sum_{i\in cluster_{k}}IR_{i}},
 $$
 
 $$
-\forall n\in cluster_{k},k=1,2,3,...,K
+\forall n\in{cluster}_{k},\quad k=1,2,3,...,K
 $$
 
 其中： w n k ( , ) ＝ 在K聚类里n因子的权重
@@ -191,13 +191,13 @@ IR ＝ 因子的最近12月信息比
 当然，这只是对个股针对单个因子打分。根据每个因子的权重不同，模型会每月为个股单个因子打分进行动态加权。得到股票最终的综合得分。加权的公式如下：
 
 $$
-\alpha(s){=}\displaystyle\sum_{k=1}^{K}\displaystyle\sum_{n=1}^{N(k)}w(n,k){\times}V(s,n,k)
+\alpha(s)=\sum_{k=1}^{K}\sum_{n=1}^{N(k)}w(n,k)\times V(s,n,k)
 $$
 
 其中：w n k( , )＝ 在K聚类里n因子的权重
 
 $$
-\nu(s,n,k)=s\big/\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big||\big|\big|\big|\big|\big|\big||\big|\big|\big|\big||\big|\big|\big|\big||\big|\big|\big||\big|\big|\big||\big|\big|\big|\big||\big|\big|\big||\big|\big|\big|\big||\big|\big|\big|\big||\big|\big|\big|\big|\big||\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big|\big
+v(s,n,k)=s公司在k类里n因子的原始打分
 $$
 
 下图总结了我们量化模型整个选股流程：

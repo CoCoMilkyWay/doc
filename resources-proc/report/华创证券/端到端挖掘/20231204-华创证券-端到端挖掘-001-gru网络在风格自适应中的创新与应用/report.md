@@ -200,10 +200,10 @@ GRU 模型在传统 RNN 模型的基础上引入门控机制，减少了 RNN 网
 GRU的关键在于它的门控机制，这种机制可以决定哪些信息可以通过时间传递，哪些信息应该被丢弃，数学表达如下：
 
 $$
-\begin{array}{rl}&{z_{t}=\sigma(W_{z}x_{t}+U_{z}h_{t-1}+b_{z})}\\&{~r_{t}=\sigma(W_{r}x_{t}+U_{r}h_{t-1}+b_{r})}\\&{~\widehat{h_{t}}=\phi(W_{h}x_{t}+U_{h}(r_{t}\odot h_{t-1})+b_{h})}\\&{~h_{t}=(1-z_{t})\odot h_{t-1}+z_{t}\odot\widehat{h_{t}}}\end{array}
+\begin{aligned}\boldsymbol{z}_{t}&=\sigma(\boldsymbol{W}_{z}\boldsymbol{x}_{t}+\boldsymbol{U}_{z}\boldsymbol{h}_{t-1}+\boldsymbol{b}_{z})\\\boldsymbol{r}_{t}&=\sigma(\boldsymbol{W}_{r}\boldsymbol{x}_{t}+\boldsymbol{U}_{r}\boldsymbol{h}_{t-1}+\boldsymbol{b}_{r})\\\widehat{\boldsymbol{h}_{t}}&=\boldsymbol{\phi}(\boldsymbol{W}_{h}\boldsymbol{x}_{t}+\boldsymbol{U}_{h}(\boldsymbol{r}_{t}\odot\boldsymbol{h}_{t-1})+\boldsymbol{b}_{h})\\\boldsymbol{h}_{t}&=(1-\boldsymbol{z}_{t})\odot\boldsymbol{h}_{t-1}+\boldsymbol{z}_{t}\odot\widehat{\boldsymbol{h}_{t}}\end{aligned}
 $$
 
-其中， $x_{t}.$ 表示当前时间步的输入， $h_{t}$ 为输出的隐状态， $\widehat{h_{t}}$ 为候选隐状态，z_t为更新门，r_t为重置门，σ表示sigmoid 激活函数，ϕ表示tanh激活函数，W,U,b表示全连接参数矩阵/向量。
+其中， $x_{t}.$ 表示当前时间步的输入， $h_{t}$ 为输出的隐状态， $\widehat{h}_{t}$ 为候选隐状态，z_t为更新门，r_t为重置门，σ表示sigmoid 激活函数，ϕ表示tanh激活函数，W,U,b表示全连接参数矩阵/向量。
 
 GRU单元的两个门——重置门和更新门，控制了隐状态的更新过程。更新门负责决定保留多少之前的记忆，当更新门趋近于 1 时，之前的记忆将被保留并传递给当前状态，反之新的记忆将替代旧的记忆；重置门它决定了是否应该忽略之前的记忆，如果重置门接近0，模型忘记过去的不重要的信息。
 
@@ -239,7 +239,7 @@ GRU单元的两个门——重置门和更新门，控制了隐状态的更新�
 
 在每周的最后一个交易日t，回溯截面上所有 $N_{t}$ 只股票过去 30 个交易日 6 个特征的时序数据（高、开、低、收、均价、成交量）。以一只股票为例，在 t时刻构成了模型输入矩阵的一条样本，形状为（1,30,6）。
 
-我们采用周度滚动的方式生成输入数据 $(\ N_{1},30,6)_{\bullet}\ (\ N_{2},30,6)\ \dots\ (\ N_{t},30,6\ )$ ，在第一个维度上进行矩阵拼接。
+我们采用周度滚动的方式生成输入数据 $(N_{1},30,6),(N_{2},30,6),..(N_{t},30,6)$ ，在第一个维度上进行矩阵拼接。
 
 数据预处理方法：
 

@@ -67,7 +67,7 @@ anningning@gf.com.cn
 
 ## 一、背景介绍
 
-波动率研究在资产定价及风险管理中具有重要作用，而如何更准确地估计波动率以及如何从中提取出Alpha信息一直是学界的热门话题。早在上世纪80年代，Merton（1980）在 $\langle\langle\mathsf{O}\mathsf{n}$ Estimating the Expected Return on the Market: An ExploratoryInvestigation》中就提出高频股价收益率可以用于准确地估计波动率。然而这一推论是建立在资产价格的连续扩散模型之上的，这一假设在实证研究中往往不能得到满足。虽然近年来利用高频股价数据开展的研究越来越多，但是直接利用高频数据进行波动率建模仍然十分困难。学术界利用高频数据估计波动率的一个重要研究成果是Andersen等（2001）在《The Distribution of Realized Exchange Rate Volatility》中提出的已实现波动率，这一简单的估计方式在预测波动率方面已被反复验证要优于许多经典连续时间模型的估计结果。然而较为可惜的是，随后大量的实证研究表明已实现波动率对资产收益率的预测效果有限。
+波动率研究在资产定价及风险管理中具有重要作用，而如何更准确地估计波动率以及如何从中提取出Alpha信息一直是学界的热门话题。早在上世纪80年代，Merton（1980）在 $\mathbb{\langle On}$ Estimating the Expected Return on the Market: An ExploratoryInvestigation》中就提出高频股价收益率可以用于准确地估计波动率。然而这一推论是建立在资产价格的连续扩散模型之上的，这一假设在实证研究中往往不能得到满足。虽然近年来利用高频股价数据开展的研究越来越多，但是直接利用高频数据进行波动率建模仍然十分困难。学术界利用高频数据估计波动率的一个重要研究成果是Andersen等（2001）在《The Distribution of Realized Exchange Rate Volatility》中提出的已实现波动率，这一简单的估计方式在预测波动率方面已被反复验证要优于许多经典连续时间模型的估计结果。然而较为可惜的是，随后大量的实证研究表明已实现波动率对资产收益率的预测效果有限。
 
 另一方面，越来越多的研究表明资产价格不能用简单的连续时间模型来刻画，而应该将资产价格中的不连续变化（即跳跃）考虑在内。随着Barndorff和Shephard（2004）在《Power and Bipower Variation with Stochastic Volatility and Jumps》中利用股价的跳跃—扩散模型从理论上证明可以将资产价格波动率中的跳跃部分分离出来，这使得研究股价波动率中的跳跃部分对资产收益率的预测成为可能。在此基础上，随后的许多学术研究尝试从不同方面对股价波动率的跳跃部分进行分解，以寻找其中更显著的资产定价信息。
 
@@ -75,27 +75,27 @@ anningning@gf.com.cn
 
 ## 二、研究进展
 
-一般的，假设股票价格遵循几何布朗运动且在考虑股价变化存在跳跃的情况下，对数股票价格 ${\bf-}p_{t}$ 满足如下跳跃—扩散模型：
+一般的，假设股票价格遵循几何布朗运动且在考虑股价变化存在跳跃的情况下，对数股票价格 $-p_{t}$ 满足如下跳跃—扩散模型：
 
 $$
 \begin{array}{r}{p_{t}=p_{0}+\int_{0}^{t}\mu_{s}ds+\int_{0}^{t}\sigma_{s}dW_{s}+\sum_{0\leq\tau\leq t}J_{\tau},}\end{array}
 $$
 
-上式中等式右边第二至第四项分别表示股价变化中的漂移过程、扩散过程和跳跃过程， $W_{s}$ 表示标准布朗运动。Andersen等（2001）以此模型为基础推导出利用高频数据计算的已实现方差（也称作已实现波动率） $\begin{array}{r}{RV_{t}=\sum_{i=1}^{N}r_{t_{i}}^{2}}\end{array}$ （这里 $r_{t_{i}}$ 表示第t天第i个高频区间内股价的对数收益率）收敛于 $p_{t}$ 的二次变分 $\begin{array}{r}{\cdot QV_{t}=\int_{0}^{t}\sigma_{s}^{2}ds+\sum_{\tau\leq t}\Delta J_{\tau}^{2}}\end{array}$ 而之前的研究已经证明了 $QV_{t}$ 度量了股价收益率的波动率（这里 $QV_{t}$ 的表达式中，第一项 $\begin{array}{r}{IV_{t}=\int_{0}^{t}\sigma_{s}^{2}ds}\end{array}$ 表示积分波动率，刻画了股价连续分量的波动水平，而第二项$\begin{array}{r}{QJ_{t}=\sum_{\tau\leq t}\Delta J_{\tau}^{2}}\end{array}$ 则表示跳跃波动，刻画的是股价跳跃部分的波动水平）。随后的实证研究表明已实现波动率对股票收益率的预测能力有限，而其跳跃部分的波动或蕴含更高的Alpha信息，下面具体论述相关研究。
+上式中等式右边第二至第四项分别表示股价变化中的漂移过程、扩散过程和跳跃过程， $W_{s}$ 表示标准布朗运动。Andersen等（2001）以此模型为基础推导出利用高频数据计算的已实现方差（也称作已实现波动率） $\begin{array}{r}{RV_{t}=\sum_{i=1}^{N}\:r_{t_{i}}^{2}}\end{array}$ （这里 $r_{t_{i}}$ 表示第t天第i个高频区间内股价的对数收益率）收敛于 ${}^{\cdot}p_{t}$ 的二次变分 $\begin{array}{r}{\cdot QV_{t}=\int_{0}^{t}\sigma_{s}^{2}ds+\sum_{\tau\leq t}\Delta J_{\tau}^{2}}\end{array}$ 而之前的研究已经证明了 $QV_{t}$ 度量了股价收益率的波动率（这里 $QV_{t}$ 的表达式中，第一项 $\begin{array}{r}{IV_{t}=\int_{0}^{t}\sigma_{s}^{2}ds}\end{array}$ 表示积分波动率，刻画了股价连续分量的波动水平，而第二项$\begin{array}{r}{QJ_{t}=\sum_{\tau\leq t}\Delta J_{\tau}^{2}}\end{array}$ 则表示跳跃波动，刻画的是股价跳跃部分的波动水平）。随后的实证研究表明已实现波动率对股票收益率的预测能力有限，而其跳跃部分的波动或蕴含更高的Alpha信息，下面具体论述相关研究。
 
 为了从实证角度分解出已实现波动率的跳跃分量，Barndorff和Shephard（2004）通过理论推导证明上述积分波动率 $IV_{t}$ 可以用多幂次变差来进行有效地估计：
 
 $$
-\begin{array}{r}{\widehat{IV}_{t}=\mu_{m}^{-2/m}\sum_{i=k}^{n}\big|r_{t_{i}}\big|^{\mathrm{m}}\big|r_{t_{i-1}}\big|^{\mathrm{m}}\dots\big|r_{t_{i-k+1}}\big|^{\mathrm{m}},}\end{array}
+\begin{array}{r}{\widehat{IV}_{t}=\mu_{m}^{-2/m}\sum_{i=k}^{n}\left|r_{t_{i}}\right|^{\mathfrak{m}}\left|r_{t_{i-1}}\right|^{\mathfrak{m}}\ldots\left|r_{t_{i-k+1}}\right|^{\mathfrak{m}},}\end{array}
 $$
 
-（其中 $\mu_{m}\equiv2^{m/2}\Gamma((k+1)/2)/\Gamma(1/2)$ 2 $km=2)$ 。据此我们可以构建出已实现波动率的跳跃分量。考虑到 $QJ_{t}\geq0$ ，因此可以用已实现跳跃波动来作为QJ_t的估计量。
+（其中 $\mu_{m}\equiv2^{m/2}\Gamma((k+1)/2)/\Gamma(1/2)$ 2 $km=2\;)$ 。据此我们可以构建出已实现波动率的跳跃分量。考虑到 $QJ_{t}\geq0$ ，因此可以用已实现跳跃波动来作为QJ_t的估计量。
 
 $$
-RJV_{t}=max{\big(}RV_{t}-{\widehat{IV}}_{t},0{\big)}
+RJV_{t}=max\big(RV_{t}-\widehat{IV}_{t},0\big)
 $$
 
-另外，Barndorff等（2010）在《Measuring Downside Risk-Realised Semivariance》中首次将已实现波动率分解为上行分量（即上行波动率 $\begin{array}{r}{RV_{t}^{+}=\sum_{i=1}^{N}r_{t_{i}}^{2}\pmb{I}_{\left\{r_{t_{i}}>0\right\}})}\end{array}$ 和下行分量（即下行波动率 $\begin{array}{r}{RV_{t}^{-}=\sum_{i=1}^{N}r_{t_{i}}^{2}I_{\left\{r_{t_{i}}<0\right\}})}\end{array}$ ，并且证明 $RV_{t}^{+}$ 和 $RV_{t}^{-}$ 分别依概率收敛于上行跳跃波动和下行跳跃波动加上积分波动率的一半，即： $RV_{t}^{+}\overset{p}{}\frac{1}{2}\int_{0}^{t}\sigma_{s}^{2}ds+$ $\begin{array}{r}{\sum_{\tau\leq t}\varDelta J_{\tau}^{2}I_{\{\varDelta J_{\tau}>0\}},RV_{t}^{-}\stackrel{p}{}\frac12\int_{0}^{t}\sigma_{s}^{2}ds+\sum_{\tau\leq t}\varDelta J_{\tau}^{2}I_{\{\varDelta J_{\tau}<0\}}}\end{array}$ 。他们认为上行波动率和下行波动率对于股价预测具有不同的作用，这一猜测在后来的实证研究中得到了证实。
+另外，Barndorff等（2010）在《Measuring Downside Risk-Realised Semivariance》中首次将已实现波动率分解为上行分量（即上行波动率 $\begin{array}{r}{RV_{t}^{+}=\sum_{i=1}^{N}\left.r_{t_{i}}^{2}\pmb{I}_{\left\{r_{t_{i}}>0\right\}})}\end{\right.array}\end{array}$ 和下行分量（即下行波动率 $\begin{array}{r}{RV_{t}^{-}=\sum_{i=1}^{N}\left.r_{t_{i}}^{2}\pmb{I}_{\left\{r_{t_{i}}<0\right\}}\left.\right)}\end{\right.array}\end{array}$ ，并且证明 $RV_{t}^{+}$ 和 $iRV_{t}^{-}$ 分别依概率收敛于上行跳跃波动和下行跳跃波动加上积分波动率的一半，即： $\begin{array}{r}{RV_{t}^{+}\stackrel{p}{\rightarrow}\frac{1}{2}\int_{0}^{t}\sigma_{s}^{2}ds+}\end{array}$ $\begin{array}{r}{\sum_{\tau\leq t}\varDelta J_{\tau}^{2}\pmb{I}_{\{\varDelta J_{\tau}>0\}},\quad RV_{t}^{-}\stackrel{p}{\rightarrow}\frac{1}{2}\int_{0}^{t}\sigma_{s}^{2}ds+\sum_{\tau\leq t}\varDelta J_{\tau}^{2}\pmb{I}_{\{\varDelta J_{\tau}<0\}}}\end{array}$ 。他们认为上行波动率和下行波动率对于股价预测具有不同的作用，这一猜测在后来的实证研究中得到了证实。
 
 在此基础之上，Bollerslev等（2020）在论文《Good Volatility, Bad Volatility, and theCross Section of Stock Returns》中构建了将上行波动率减去下行波动率的因子
 
@@ -114,7 +114,7 @@ $$
 进一步地，Aït-Sahalia和Jacod（2012）在《Analyzing the spectrum of asset returns:Jump and volatility components in high frequency data》中给出了将已实现波动率的跳跃分量分解为大程跳跃波动和小程跳跃波动的方法，并且推测不同的分量对于收益率预测具有不同的作用。这一推测后来被Duong和Swanson（2015）在《Empirical evidence on the importance of aggregation, asymmetry, and jumps forvolatility prediction》中的实证结果所证实。其中他们构建的大程跳跃波动因子为：
 
 $$
-\begin{array}{r}{RLJV_{t}=min\Big(RJV_{t},\sum_{i=1}^{n}r_{i,t}^{2}I_{\{|r_{i,t|}>\gamma\}}\Big),}\end{array}
+\begin{array}{r}{RLJV_{t}=min\left(RJV_{t},\sum_{i=1}^{n}\left.r_{i,t}^{2}I_{\left\{|r_{i,t}|>\gamma\right\}}\right),\right.}\end{array}
 $$
 
 小程跳跃波动因子为：
@@ -127,21 +127,21 @@ $$
 
 综合上述研究，Yu等（2020）在《New Evidence of the Marginal Predictive Contentof Small and Large Jumps in the Cross-Section》中分别从大小和方向（上行、下行）这两个维度构建跳跃波动的分量因子进行实证研究，他们发现不同因子对股价收益率预测具有不同的作用。具体的，他们构建了以下9个因子：
 
-（1） 上行跳跃波动因子： $RJVP_{t}=max\big(RV_{t}^{+}-\widehat{IV}_{t}/2,0\big),$
+（1） 上行跳跃波动因子： $RJVP_{t}=max\big(RV_{t}^{+}-\widehat{IV}_{t}/2{,}0\big),$
 
-（2） 下行跳跃波动因子： $RJVN_{t}=max\big(RV_{t}^{-}-\widehat{IV}_{t}/2,0\big)$
+（2） 下行跳跃波动因子： $RJVN_{t}=max\big(RV_{t}^{-}-\widehat{IV_{t}}/2{,}0\big)$
 
 （3） 上下行跳跃波动不对称因子： $SRJV_{t}=RJVP_{t}-RJVN_{t}$
 
-（4） 大程上行跳跃波动因子： $\begin{array}{r}{RLJVP_{t}=min\Big(RJVP_{t},\sum_{i=1}^{n}r_{i,t}^{2}I_{\left\{r_{i,t}\geq\gamma\right\}}\Big),}\end{array}$
+（4） 大程上行跳跃波动因子： $\begin{array}{r}{RLJVP_{t}=min\left(RJVP_{t},\sum_{i=1}^{n}\left.r_{i,t}^{2}I_{\left\{r_{i,t}\geq\gamma\right\}}\right),\right.}\end{array}$
 
-（5） 大程下行跳跃波动因子： $\begin{array}{r}{RLJVN_{t}=min\Big(RJVN_{t},\sum_{i=1}^{n}r_{i,t}^{2}I_{\left\{r_{i,t}\leq-\gamma\right\}}\Big),}\end{array}$
+（5） 大程下行跳跃波动因子： $\begin{array}{r}{RLJVN_{t}=min\left(RJVN_{t},\sum_{i=1}^{n}\left.r_{i,t}^{2}I_{\left\{r_{i,t}\leq-\gamma\right\}}\right),\right.}\end{array}$
 
 （6） 大程上下行跳跃波动不对称因子： $SRLJV_{t}=RLJVP_{t}-RLJVN_{t},$
 
 （7） 小程上行跳跃波动因子： $RSJVP_{t}=RJVP_{t}-RLJVP_{t},$
 
-（8） 小程下行跳跃波动因子： $\begin{array}{r}{RSJVN_{t}=RJVN_{t}-RLJVN_{t},}\end{array}$
+（8） 小程下行跳跃波动因子： $RSJVN_{t}=RJVN_{t}-RLJVN_{t},$
 
 （9） 小程上下行跳跃波动不对称因子： $SRSJV_{t}=RSJVP_{t}-RSJVN_{t}.$
 
@@ -171,7 +171,7 @@ $$
 
 ## （二）因子构建说明
 
-本节利用5分钟数据频率构建已实现跳跃波动类型因子，选择5分钟数据频率是因为研究表明数据频率太低与太高都会导致估计不准确，因此这里选择与大部分实证研究相同的数据频率进行测试，本文第五章会展示不同数据频率构建下的因子表现。其中 $\widehat{IV}_{t}$ 我们用和Yu等（2020）中相同的三幂次变差进行计算，即 $\widehat{IV}_{t}=$ $\begin{array}{r}{\mu_{m}^{-2/m}\sum_{i=k}^{n}\left|r_{t_{i}}\right|^{\mathrm{m}}\left|r_{t_{i-1}}\right|^{\mathrm{m}}\ldots\left|r_{t_{i-k+1}}\right|^{\mathrm{m}},(k=3,m=2/3)}\end{array}$ ；另外在构建大程、小程跳跃变化因子时选用的阈值γ也与Yu等（2020）的构建方式相同 $(\gamma=\alpha N^{-0.49}\sqrt{IV_{t}}$ ，这里N等于一天中股价数据个数，α为经验参数），本报告中α选择为Yu等（2020）测试中表现较好的参数值α = 4，第五章同样将对α进行参数敏感性分析。本报告中构建的周度均值因子和月度均值因子分别是用调仓日前5个交易日和前20个交易日的日度因子通过计算均值得到，相应的调仓周期分别为一周和一个月。因子的具体描述如下：
+本节利用5分钟数据频率构建已实现跳跃波动类型因子，选择5分钟数据频率是因为研究表明数据频率太低与太高都会导致估计不准确，因此这里选择与大部分实证研究相同的数据频率进行测试，本文第五章会展示不同数据频率构建下的因子表现。其中 $\widehat{IV}_{t}$ 我们用和Yu等（2020）中相同的三幂次变差进行计算，即 $\widehat{IV_{t}}=$ $\begin{array}{r}{\mu_{m}^{-2/m}\sum_{i=k}^{n}\big|r_{t_{i}}\big|^{\mathfrak{m}}\big|r_{t_{i-1}}\big|^{\mathfrak{m}}\dots\big|r_{t_{i-k+1}}\big|^{\mathfrak{m}},(k=3,m=2/3)}\end{array}$ ；另外在构建大程、小程跳跃变化因子时选用的阈值γ也与Yu等（2020）的构建方式相同 $\left(\gamma=\alpha N^{-0.49}\sqrt{\widehat{IV_{t}}}\right.$ ，这里N等于一天中股价数据个数，α为经验参数），本报告中α选择为Yu等（2020）测试中表现较好的参数值α = 4，第五章同样将对α进行参数敏感性分析。本报告中构建的周度均值因子和月度均值因子分别是用调仓日前5个交易日和前20个交易日的日度因子通过计算均值得到，相应的调仓周期分别为一周和一个月。因子的具体描述如下：
 
 表1：已实现跳跃波动类因子描述
 

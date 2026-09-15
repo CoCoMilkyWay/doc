@@ -63,17 +63,17 @@ RSI的具体定义如下：
 首先定义上涨幅度U和下跌幅度D：
 
 $$
-U(t)=\operatorname*{max}(\operatorname{Close}_{t}-\operatorname{Close}_{t-1},0)
+U(t)=\max(\mathrm{close}_{t}-\mathrm{close}_{t-1},0)
 $$
 
 $$
-D(t)=\operatorname*{max}(\mathrm{Close}_{t-1}-\mathrm{Close}_{t},0)
+D(t)=\max(\mathrm{close}_{t-1}-\mathrm{close}_{t},0)
 $$
 
 接着定义相对强弱（Relative Strength）：
 
 $$
-\mathrm{RS}={\frac{\mathrm{SMA}(U,n)}{\mathrm{SMA}(D,n)}}
+\mathrm{RS}=\frac{\mathrm{SMA}(U,n)}{\mathrm{SMA}(D,n)}
 $$
 
 其中，SMA(x,n)为x的周期为n的简单移动平均值。
@@ -81,7 +81,7 @@ $$
 将RS归一化后，得到RSI：
 
 $$
-{\mathrm{RSI}}=100\times{\frac{{\mathrm{RS}}}{1+{\mathrm{RS}}}}
+\mathrm{RSI}=100\times{\frac{\mathrm{RS}}{1+\mathrm{RS}}}
 $$
 
 归一化保证了RSI的取值范围在0~100之间，这样使得不同时刻的RSI具有可比性。通过定义可以看出，RSI与RS呈正相关关系，而RS与过去n个周期内平均上涨幅度呈正比，与过去n个周期内平均下跌幅度成反比。因此，RSI衡量了过去n个周期内，平均上涨幅度相对于平均下跌幅度的大小，亦即过去n个周期内，多头相对于空头的力量强弱。RSI越大，表明过去一段时间多方越强势；RSI越小，表明过去一段时间空方越强势。

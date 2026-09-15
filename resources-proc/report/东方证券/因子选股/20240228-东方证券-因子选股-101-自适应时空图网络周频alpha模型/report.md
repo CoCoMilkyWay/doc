@@ -68,30 +68,30 @@ yangyiling@orientsec.com.cn
 
 ## 1.1 图与图神经网络简介
 
-图是用来表示数据点之间关联关系的一种结构。对于一个数据点集 $X=\{x_{1},x_{2},\cdots,x_{n}\}$ ，这里$x_{i}$ 表示第 i 个节点对应的特征，如果我们把这些点看做图的一系列节点（node），第 i 个节点称之为 $v_{i}$ 这些节点的集合记作 V，有关联关系的顶点之间相互连接形成一系列边（edge），给这些边设置相应的权重并且把这些带权重的边构成的集合记作 E，将连接节点 i 与j 的边记为 $e_{i,j}$ 其对应权重记为 $w_{i,j}$ （当图是无向图时显然有 $w_{i,j}=w_{j,i}~)$ ，则我们可以构建一个权重图 $G=$ (V,E) 来表示这些图上节点之间的关联关系。当数据点数量趋于无穷大时，权重图则能收敛于数据分布的底层流形。因而权重图是刻画数据分布以及数据间关联关系的重要手段。
+图是用来表示数据点之间关联关系的一种结构。对于一个数据点集 $\boldsymbol{X}=\left\{x_{1},x_{2},\cdots,x_{n}\right\}$ ，这里$x_{i}$ 表示第 i 个节点对应的特征，如果我们把这些点看做图的一系列节点（node），第 i 个节点称之为 $v_{i}$ 这些节点的集合记作 V，有关联关系的顶点之间相互连接形成一系列边（edge），给这些边设置相应的权重并且把这些带权重的边构成的集合记作 E，将连接节点 i 与j 的边记为 $e_{i,j}$ 其对应权重记为 $w_{i,j}$ （当图是无向图时显然有 $w_{i,j}=w_{j,i}\mathrm{~)~}$ ，则我们可以构建一个权重图 $G=$ (V,E) 来表示这些图上节点之间的关联关系。当数据点数量趋于无穷大时，权重图则能收敛于数据分布的底层流形。因而权重图是刻画数据分布以及数据间关联关系的重要手段。
 
 图 2：权重图示意图
 
 数据来源：东方证券研究所
 
-特别的，如果我们用 $u_{i}$ 作为节点 i 在这个图上的一个表示，那么我们自然希望如果节点 i、 j之间边权重 $w_{i,j}$ 越大则对应的表示 $u_{i}$ 与 $u_{j}$ 之间距离越近，显然所有节点的表示矩阵 ${\pmb u}=$ $\{u_{1},u_{2},\cdots,u_{n}\}$ 可以通过极小化以下能量函数进行求解：
+特别的，如果我们用 $u_{i}$ 作为节点 i 在这个图上的一个表示，那么我们自然希望如果节点 i、 j之间边权重 $w_{i,j}$ 越大则对应的表示 $u_{i}$ 与 $u_{j}$ 之间距离越近，显然所有节点的表示矩阵 $u=$ $\{u_{1},u_{2},\cdots,u_{n}\}$ 可以通过极小化以下能量函数进行求解：
 
 $$
-\mathrm{min}_{u}\sum_{i,j}w_{i,j}\big(u_{i}-u_{j}\big)^{2}
+\operatorname*{min}_{\boldsymbol{u}}\sum_{i,j}w_{i,j}\big(u_{i}-u_{j}\big)^{2}
 $$
 
-记 $\begin{array}{r}{d_{i}=\sum_{i}w_{i,j}}\end{array}$ ，则我们称矩阵 $\pmb{A}=\left\{w_{i,j}\right\}_{i,j}$ 为图 G 的邻接矩阵，矩阵 $\pmb{D}=\left\{w_{i,j}\right\}_{i,j}$ 为图 G 的度矩阵，矩阵 $\pmb{D}-\pmb{A}$ 则称为图 G 的非标准化的 graph Laplacian，剔除向量 u 长度和分量全为 1的常值解影响，上述优化问题可以等价为寻找矩阵 $\pmb{L}=\pmb{I}-\pmb{D}^{-1/2}\pmb{A}\pmb{D}^{-1/2}$ 特征值和特征向量问题进行求解，这里矩阵 I 为单位矩阵，矩阵 L 则被称之为图 G 的标准化的 graph Laplacian。当采样点个数趋于无穷大时，graph Laplacian 将收敛于底层流形上的内蕴量——Laplace 算子，因而graph Laplacian 矩阵能很好的刻画权重图的关联信息。
+记 $\begin{array}{r}{d_{i}=\sum_{i}w_{i,j}}\end{array}$ ，则我们称矩阵 $\boldsymbol{A}=\left\{w_{i,j}\right\}_{i,j}$ 为图 G 的邻接矩阵，矩阵 $\boldsymbol{D}=\left\{w_{i,j}\right\}_{i,j}$ 为图 G 的度矩阵，矩阵 $\pmb{D}-\pmb{A}$ 则称为图 G 的非标准化的 graph Laplacian，剔除向量 u 长度和分量全为 1的常值解影响，上述优化问题可以等价为寻找矩阵 $\boldsymbol{L}\;=\;\boldsymbol{I}-\boldsymbol{D}^{-1/2}\boldsymbol{A}\boldsymbol{D}^{-1/2}$ 特征值和特征向量问题进行求解，这里矩阵 I 为单位矩阵，矩阵 L 则被称之为图 G 的标准化的 graph Laplacian。当采样点个数趋于无穷大时，graph Laplacian 将收敛于底层流形上的内蕴量——Laplace 算子，因而graph Laplacian 矩阵能很好的刻画权重图的关联信息。
 
-类似傅里叶卷积变换的操作，如果以标准化的 graph Laplacian 特征向量作为一组基向量，对于一个给定向量 $_x$ ，我们也可以定义图卷积操作：
+类似傅里叶卷积变换的操作，如果以标准化的 graph Laplacian 特征向量作为一组基向量，对于一个给定向量 $x$ ，我们也可以定义图卷积操作：
 
 $$
-g_{\theta}*x=Ug_{\theta}U^{T}x
+g_{\theta}\ast\;{\pmb x}\;=\;{\pmb U}g_{\theta}{\pmb U}^{\pmb T}{\pmb x}
 $$
 
 这里 $g_{\theta}$ 是对角矩阵，其对角元是一组参数，矩阵 U 是 graph Laplacian矩阵特征向量构成的。如果我们把 $g_{\theta}$ 的对角元作为一组可学习的参数，并且利用利用 1 阶切比雪夫多项式进行逼近，则图卷积操作信号输出 Z 则可近似为 [1]：
 
 $$
-\pmb{Z}=(\pmb{I}+\pmb{D}^{-1/2}\pmb{A}\pmb{D}^{-1/2})\pmb{X}\pmb{W}
+\boldsymbol{Z}\;=\;(\boldsymbol{I}+\boldsymbol{D}^{-1/2}\boldsymbol{A}\boldsymbol{D}^{-1/2})\boldsymbol{X}\boldsymbol{W}
 $$
 
 有关分析师的申明，见本报告最后部分。其他重要信息披露见分析师申明之后部分，或请与您的投资代表联系。并请阅读本证券研究报告最后一页的免责申明。
@@ -99,10 +99,10 @@ $$
 一个多层的图卷积神经网络结构则可表示为：
 
 $$
-\begin{array}{l}{{\pmb{Z}^{l+1}=\sigma((\pmb{I}+\pmb{D}^{-1/2}\pmb{A}\pmb{D}^{-1/2})\pmb{Z}^{l}\pmb{W}^{l})}}\end{array}
+{\cal Z}^{l+1}\;=\;\sigma((I+D^{-1/2}AD^{-1/2}){\cal Z}^{l}W^{l})
 $$
 
-这里 $W^{l}$ 表示图神经网络第 l 层可学习的权重参数， $z^{l}$ 表示第 l 层输入和第 l−1 层输出 $(\mathbf{\nabla}Z^{0}$ 为图神经网络的输入，即 $\pmb{Z}^{0}=\pmb{X})$ $\sigma(\cdot)$ 表示层之间的激活函数通常取 $\mathsf{ReLU}(\mathsf{x}){=}\mathsf{max}(\mathsf{x},0)$ 可以看到图神经网络通过将一个先验的邻接矩阵作为输入，可以辅助模型有效的学习出空间域内数据点之间的关联关系。
+这里 $W^{l}$ 表示图神经网络第 l 层可学习的权重参数， $\pmb{Z}^{l}$ 表示第 l 层输入和第 l−1 层输出 $(\mathbf{\nabla}Z^{\mathbf{0}}$ 为图神经网络的输入，即 $Z^{0}=X)$ $\sigma(\cdot)$ 表示层之间的激活函数通常取 $\mathsf{ReLU}(\mathsf{x})=\mathsf{max}(\mathsf{x},0)$ 可以看到图神经网络通过将一个先验的邻接矩阵作为输入，可以辅助模型有效的学习出空间域内数据点之间的关联关系。
 
 ## 1.2自适应时空循环神经网络简介
 
@@ -117,13 +117,13 @@ $$
 基于以上角度，我们使用文献 [2] 中数据驱动的方式通过数据自适应的学习节点间的内在隐藏关联关系来获取邻接矩阵。其具体做法为，首先设置可学习的节点嵌入向量 M，然后通过嵌入向量的相似度衡量节点间的关联关系，如下所示：
 
 $$
-D^{-1/2}AD^{-1/2}=softmax(ReLU(MM^{T}))
+{\pmb D}^{-1/2}{\pmb A}{\pmb D}^{-1/2}=softmax(ReLU({\pmb M}{\pmb M}^{T}))
 $$
 
 上式中我们使用激活函数 ReLU 对关联矩阵进行稀疏化并剔除弱连接，而相似度度量矩阵我们使用 $MM^{T}$ 的目的是为了使得该相似度度量矩阵至少为半正定矩阵，且对角元（衡量自身与自身的相似性）为正数，并且使用 softmax 函数直接对关联矩阵进行归一化得到 $\pmb{D}^{-1/2}\pmb{A}\pmb{D}^{-1/2}$ ，像其它自适应图卷积模型一样，本方法只学习出邻接矩阵或者拉普拉斯矩阵，并没有人为预先设定。此时，模型中的自适应图卷积层可以表示为
 
 $$
-{\cal Z}=(I+softmax(ReLU(MM^{T})))XW
+\boldsymbol{Z}\;=\;(\boldsymbol{I}+softmax(ReLU(\boldsymbol{M}\boldsymbol{M}^{T})))\boldsymbol{X}\boldsymbol{W}
 $$
 
 这里 X 表示数据特征矩阵，W 表示自适应图网络的参数。
@@ -137,7 +137,7 @@ $$
 我们还可以将先验的邻接矩阵信息嵌入到我们这套自适应时空图网络框架中，具体做法为损失函数加入图临近损失项（Graph Proximity Loss） [4]，节点 i 的损失函数项可表示为：
 
 $$
-\mathcal{L}_{\mathcal{GP}}(\mathrm{i})=-\sum_{j\in\mathcal{N}(i)}log(\sigma(\pmb{o}_{i}\pmb{o}_{j}^{T}))-\sum_{j\in\mathcal{S}-\mathcal{N}(i)}log(-\sigma(\pmb{o}_{i}\pmb{o}_{j}^{T}))
+\mathcal{L}_{\mathcal{GP}}(\mathrm{i})=-\sum_{j\in\mathcal{N}(i)}log(\sigma(\pmb{o}_{i}\:\pmb{o}_{j}{}^{T}))-\sum_{j\in\mathcal{S}-\mathcal{N}(i)}log(-\sigma(\pmb{o}_{i}\pmb{o}_{j}{}^{T}))
 $$
 
 这里 $\pmb{o}_{i}$ 表示节点 i 的 GRU 输出的隐层， $\mathcal{N}(i)$ 表示节点 i 邻居节点构建的集合（该集合节点元素为先验知识），S 表示所有节点构建的集合，σ 表示sigmoid函数。特别的，我们也可以将图结构直接嵌入 GRU 结构中，具体可参考文献 [2]，此处不再赘述。

@@ -143,7 +143,7 @@ Alpha模型
 Maximize
 
 $$
-\begin{array}{r}{\boldsymbol{\mathrm{~x~}}^{T}\boldsymbol{r}-\lambda\boldsymbol{x}^{T}\mathrm{~E~}\boldsymbol{x}-c\left|\boldsymbol{w}_{t}-\boldsymbol{w}_{t-1}\right|\qquad\mathrm{~\mathsf{~E~}}\left|\boldsymbol{\ddag}\boldsymbol{\widehat{\mathrm{~x~}}}\boldsymbol{\mathrm{~x~}}\right|\boldsymbol{\ddag}\boldsymbol{x}}\end{array}
+$\mathrm{x}^{^T}r-\lambda_{}x^{^T}\mathrm{E}x-c\left|w_{_t}-w_{_{t-1}}\right|$日标函数
 $$
 
 Sugject to
@@ -151,31 +151,31 @@ Sugject to
 （1）
 
 $$
-\mathbf{w}_{\mathrm{\ min}}\leq\mathbf{x}\leq\mathbf{w}_{\mathrm{\ max}}\qquad\quad\land\mathtt{M}_{\mathrm{\ min}}^{n}\neq\mathtt{X}\neq\mathtt{M}_{\mathrm{\ max}}\tag{2}
+\mathrm{w}_{\min}\leq\mathrm{x}\leq\mathrm{w}_{\max}\tag{2}
 $$
 
 $$
-\begin{array}{r}{\left|\mathrm{x}_{t}-x_{t-1}\right|\leq\delta\qquad\qquad\ddag{\hat{\mathcal{H}}}-\bar{\mathcal{H}}\bar{\mathcal{H}}\hat{\mathcal{H}}\left.\hat{\mathcal{H}}\right|}\end{array}\tag{3}
+\left|x_{_t}-x_{_{t-1}}\right|\leq\delta\quad 换手率限制\tag{3}
 $$
 
 $$
-\begin{array}{r}{\mathbf{dum}_{in\_bench}x\ge\mathcal{W}_{\operatorname*{min}_{-}in\_bench}\qquad\quad\stackrel{\operatorname*{lim}}{\mathrm{\textmu}}\mathbb{X}\mathbb{X}\mathbb{X}\mathbb{X}\mathbb{X}\mathbb{X}\equiv\mathbb{X}\mathbb{R}\mathbb{R}^{\frac{i+}{\hbar}|\mathbf{X}|}\mathbb{X}}\end{array}\tag{4}
+$\mathbf{dum}_{_{in\_bench}}x\geq w_{_{\operatorname*{min}_{_{e}}in_{_{-}}bench}}$成份股权重限制\tag{4}
 $$
 
 $$
-\begin{array}{r}w_{indus}+e\geq\mathbf{dum}_{indus}x\geq w_{indus}-e\qquad\mathrm{~\#~\hat{T}~\underline{~}{1}\underline{~}{~j}~\mathbf{\updownarrow}~\mathbf{\updownarrow}~\mathbf{\updownarrow}~\mathbf{\updownarrow}~\mathbf{\updownarrow}}\end{array}\tag{5}
+w_{indus}+e\geq\operatorname{dum}_{indus}x\geq w_{indus}-e\tag{5}
 $$
 
 $$
-f_{\exp ose\_{\mathrm{min}}}\leq E\mathrm{x}\leq f_{\exp ose\_{\mathrm{max}}}{\qquad}\qquad{\scriptstyle\Re[\underbrace{\mathbb{R}}_{\lceil\pm\rceil}\mathbb{R}]}\preceq{\frac{\exp\ e^{\frac{2}{\beta}}}{\lambda\mathbb{R}\cdot\beta\mathbb{S}}}{\scriptstyle\mathbb{R}\cdot\frac{\mathbb{R}}{\eta}}{\scriptstyle\mathbb{I}}\tag{6}
+f_{\exp\mathrm{one}_{-}\min}\leq E\mathrm{x}\leq f_{\exp\mathrm{see}_{-}\max}\tag{6}
 $$
 
 $$
-\begin{array}{r}{\big(\mathbf{x}-\mathbf{w}_{bench}\big)^{T}\sum\big(\mathbf{x}-\mathbf{w}_{bench}\big)\leq\sigma^{2}\qquad\pounds\big\|_{\mathbf{x}}^{2}\frac{\mathbf{y}_{b}^{2}}{2\hbar\mathbf{x}}\frac{\mathbf{y}_{c}^{2}}{2\hbar\mathbf{x}}\frac{\mathbf{y}_{c}^{2}}{2\mathbf{x}}\big\|_{\mathbf{x}}^{2}\frac{\mathbf{y}_{b}^{2}}{\mathsf{H}}\big\|_{\mathbf{x}}^{2}}\end{array}
+\left(\scriptstyle\mathrm{X}-\scriptstyle\mathrm{W}_{kench}\right)^{T}\sum\left(\scriptstyle\mathrm{X}-\scriptstyle\mathrm{W}_{kench}\right)\leq\sigma^{2}
 $$
 
 $$
-\begin{array}{rlr}{(7)\quad}&{{}}&{1^{\mathrm{{T}}}(\mathrm{~x~}>0)\le\mathrm{n}_{\mathrm{{max}}}\qquad}&{{}}&{\sharp\lambda^{\underline{{n}}}\frac{\dddot{\omega}}{\pi\mathrm{{m}}}\frac{\dddot{\omega}}{\pi\mathrm{{m}}}\frac{\ddot{\omega}}{\pi}\ddot{\xi}\rangle\vphantom{\big(}\dot{\xi}\big)\enspace\dot{\mathcal{R}}}\end{array}
+1^{\mathrm{T}}(x\geq0)\leq n_{\max}
 $$
 
 其中x为待求解的个股权重变量，r为个股的alpha模型得分值，λ为风险系数，E 为个股的协方差矩阵，c 为成本系数，wmin、wmax 为个股权重的最小值、最大值的序列变量，δ为换手率限制条件参数。dumin_bench 为是否为成份股的虚拟变量，wmin_in_bench 为成份股权重最小值。dumindus 为个股的行业虚拟变量，windus为成份股的行业权重序列变量，e为行业暴露条件，当e为0时，则行业条件退化为行业中性。E 为股票在风险因子上的暴露，fexpose_min、fexpose_max 为在风险因子上的暴露限制，当 fexpose_min 与 fexpose_max 相等时，则退化为风险因子中性。∑为股票的协方差矩阵。windus 为成份股的个股权重序列变量，nmax为股票数量最大值。
@@ -473,7 +473,7 @@ lamda 系数为均值方差模型中方差项前的系数，该值越大，表�
 在有跟踪误差控制条件的情况下，需要对目标函数进行修改，新的目标函数为如下：
 
 $$
-\mathsf{Maximize:\quad x}^{T}r-c\left|w_{t}-w_{t-1}\right|\qquad\mathsf{ElfTs2A}\nearrow
+\mathsf{Maximize}:\quad\mathbf{x}^{T}r-c\left[w_{t}-w_{t-1}\right]\quad 目标函数
 $$
 
 此外，在进行计算时，使用剔除了 size 因子后的所有大类因子的协方差矩阵进行计算。根据第四节中的测试结果，因基本规则下的跟踪误差不同，我们对不同组合设置了不同的跟踪误差条件进行测试。
@@ -515,11 +515,11 @@ $$
 在测试时，我们对权重小于 0.1%的股票进行了直接权重为 0 的替换。当大于0.1%的股票数量超过 n_max 的限制条件时，需要进行股票数量控制的优化。该优化为在第一次优化结果的基础上进行的第二次优化，二次优化的目的是在第一次选择的股票池的基础上进一步缩小股票池数量。为了进行股票数量的控制，我们需要引入一个仅为0或1的虚拟变量y，并在constraints中添加如下两个限制条件：
 
 $$
-(1)\mathrm{~\bf~x~}-y\le0
+(1)^{\mathrm{~\scriptsize~x~-~}y\;\leq\;0}
 $$
 
 $$
-(2)\ sum\left(y\right)\leq n_{\mathrm{{\ max}}}
+sum(y)\leq n_{\operatorname*{max}}
 $$
 
 因 y 仅为 0 或 1，x 为大于等于 0 的一个权重值，故条件 1 保证了当某种股票的 y为 0 时，对应该股票的x也为0，条件 2 保证了为1 的 y的数量小于限制条件。因 cvxpy 工具包允许同时对两个变量进行优化，故我们也还是使用 cvxpy 工具包进行优化运算。

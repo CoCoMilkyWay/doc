@@ -195,7 +195,7 @@ Xuemin Yan & Lingling Zheng 在《Fundamental Analysis and the Cross-Section of 
 
 依据每一个基本面信号，作者对所有股票排序，然后按照等权和市值加权的方式，分别构建投资组合。注意，这里是依据前一财年的数据，在每年的六月构建投资组合，并计算该投资组合从当年七月到次年六月的收益。也就是说，投资组合的调整周期是一年。
 
-文章在做多前10%的股票同时，做空后10%的股票，以此构建多空组合。随后，计算这种投资策略的收益 ${\mathit{r}}_{i,t};$ ，并将它与 CAPM 模型、Fama-French三因子模型和 Carhart 四因子模型回归，得到 alpha 的估计值。
+文章在做多前10%的股票同时，做空后10%的股票，以此构建多空组合。随后，计算这种投资策略的收益 $r_{i,t},$ ，并将它与 CAPM 模型、Fama-French三因子模型和 Carhart 四因子模型回归，得到 alpha 的估计值。
 
 $$
 r_{i,t}=\alpha_{i}+\beta_{i}MKT_{t}+e_{i,t}\tag{1}
@@ -206,7 +206,7 @@ r_{i,t}=\alpha_{i}+\beta_{i}MKT_{t}+s_{i}SMB_{t}+h_{i}HML_{t}+e_{i,t}\tag{2}
 $$
 
 $$
-r_{i,t}=\alpha_{i}+\beta_{i}MKT_{t}+s_{i}SMB_{t}+h_{i}HML_{t}+u_{i}UMD_{t}+e_{i,t}^{\phantom{}}\tag{3}
+r_{i,t}=\alpha_{i}+\beta_{i}MKT_{t}+s_{i}SMB_{t}+h_{i}HML_{t}+u_{i}UMD_{t}+e_{i,t}\tag{3}
 $$
 
 ## 4.4. Bootstrap
@@ -215,7 +215,7 @@ $$
 
 以 Fama-French 三因子模型为例，作者按照以下几个步骤进行 Bootstrap（CAPM 模型和四因子模型的 Bootstrap 过程与之类似）：
 
-1. 对投资策略收益 ${\mathit{r}}_{i,t}$ 与 Fama-French 三因子回归，得到 alpha、回归系数、残差的估计值。
+1. 对投资策略收益 $r_{i,t}$ 与 Fama-French 三因子回归，得到 alpha、回归系数、残差的估计值。
 
 2. 有放回地随机抽取残差及对应的 Fama-French 三因子，得到 606 个月的重采样数据。这里注意的是，为了保护横截面数据的时间结构性，此处不是对每一个基本面信号单独抽样，而是对整个截面数据联合抽样。举个例子，当我们要抽取 1998 年 10 月的数据时，我们抽取该时间点的整个横截面的残差及 Fama-French 三因子。这种抽样过程称为“cross-sectional bootstrap”（Kosowski et al., 2006）。
 

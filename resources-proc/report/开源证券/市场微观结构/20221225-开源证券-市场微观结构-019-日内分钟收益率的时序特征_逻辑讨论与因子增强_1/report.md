@@ -114,22 +114,22 @@ TCD 因子属于时间维度的综合信息，并不受收益率分布的影响�
 
 ## 1、 时序特征：跌幅时间重心偏离因子
 
-为了观察收益率的时序特征，我们将重新标注日内分钟时间戳，将09:31至 15:00间的 240根分钟Bar依次标记为1至240，然后分别统计价格上涨和价格下跌两组分钟 Bar的时间标识序列，记作U和D，对应的收益率序列为 ${R_{u}}{\hbar}^{\mathrm{~}}R_{d}$
+为了观察收益率的时序特征，我们将重新标注日内分钟时间戳，将09:31至 15:00间的 240根分钟Bar依次标记为1至240，然后分别统计价格上涨和价格下跌两组分钟 Bar的时间标识序列，记作U和D，对应的收益率序列为 $R_{u}和R_{d}$
 
 $$
-\begin{array}{rl}&{(U,R_{u})=[(u_{1},r_{1}^{u}),(u_{2},r_{2}^{u}),\cdots,(u_{n},r_{n}^{u})]}\\&{}\\&{(D,R_{d})=\big[\big(u_{1},r_{1}^{d}\big),\big(u_{2},r_{2}^{d}\big),\cdots,(u_{m},r_{m}^{d})\big]}\end{array}
+\begin{aligned}&\left(U,R_{u}\right)=\left[(u_{1},r_{1}^{u}),(u_{2},r_{2}^{u}),\cdots,(u_{n},r_{n}^{u})\right]\\&\\&\left(D,R_{d}\right)=\left[\binom{u_{1},r_{1}^{d}}{},\binom{u_{2},r_{2}^{d}}{},\cdots,\binom{u_{m},r_{m}^{d}}{}\right]\\\end{aligned}
 $$
 
-其中， $u_{i}$ 和 $r_{i}^{u}$ 分别表示第i涨幅分钟的时间序号及收益率， $d_{j}\mathscr{\ddag}\pounds\tau_{j}^{d}$ 同理； $i\in[1,n]$ $\bar{\mathsf{m}}j\in[1,m]$ ；由于不考虑分钟涨跌幅为零的序列， $n+m\leq240$ o
+其中， $u_{i}$ 和 $\boldsymbol{r}_{i}^{u}$ 分别表示第i涨幅分钟的时间序号及收益率， $d_{j}和r_{j}^{d}$ 同理； $i\in[1,n]$ $而j\in[1,m]$ ；由于不考虑分钟涨跌幅为零的序列， $n+m\leq240$ o
 
 图1：日内收益率的时序特征：涨、跌幅的时间重心
 ![](images/8040590856d1c5ab0c2d5efd5f8f1753053c29cb598f1ab12dc14ddcc448d5af.webp)
 资料来源：开源证券研究所
 
-图 1 展示了股票 A 在某日的分钟涨跌幅序列，涨幅较高和跌幅较大的分钟往往会靠得比较近，并呈现出一定的日内结构：股价在开盘半小时至一小时内变动幅度最大。我们以每分钟价格变动幅度对修正的时间戳加权平均，分别求得涨幅和跌幅的时间分布重心，记作 $G_{u}$ 和 $G_{d}$ ：
+图 1 展示了股票 A 在某日的分钟涨跌幅序列，涨幅较高和跌幅较大的分钟往往会靠得比较近，并呈现出一定的日内结构：股价在开盘半小时至一小时内变动幅度最大。我们以每分钟价格变动幅度对修正的时间戳加权平均，分别求得涨幅和跌幅的时间分布重心，记作 $G_{u}$ 和 ${\cdot}G_{d}$ ：
 
 $$
-\begin{array}{r}{G_{u}=U{R_{u}}^{T}/\|{R_{u}}\|_{1}}\\{G_{d}=U{R_{d}}^{T}/\|{R_{d}}\|_{1}}\end{array}
+\begin{aligned}&G_{u}={UR_{u}}^{T}/\|R_{u}\|_{1}\\&\\&G_{d}={UR_{d}}^{T}/\|R_{d}\|_{1}\\\end{aligned}
 $$
 
 我们统计某个交易日的截面上所有股票的涨、跌幅的时间重心的相关性，二者呈现出强正相关，相关系数可达 0.7，结果如图2和图3 所示。
@@ -161,7 +161,7 @@ $$
 
 数据来源：Wind、开源证券研究所
 
-涨、跌幅时间重心反映了股价在日内交易中上涨和下跌的位置，此外还可以定义两个时间重心的差值和绝对差值，分别作为涨跌幅分布的“时间差”指标和“时间距离”指标，定义为 $\tau=G_{d}-G_{u}\rlap{/}{\ast}\omega\upsilon=\left|G_{d}-G_{u}\right|$ 。我们统计了涨跌幅时间重心，以及时间差的分布情况，如图 5和图6 所示。
+涨、跌幅时间重心反映了股价在日内交易中上涨和下跌的位置，此外还可以定义两个时间重心的差值和绝对差值，分别作为涨跌幅分布的“时间差”指标和“时间距离”指标，定义为 $\tau=G_{d}-G_{u}和\upsilon=|G_{d}-G_{u}|$ 。我们统计了涨跌幅时间重心，以及时间差的分布情况，如图 5和图6 所示。
 
 图5：涨跌幅时间重心存在日间差异
 ![](images/d87bc48b6419395d55f6c85825096182711be9751ad0db8606b4a974233a1d02.webp)
@@ -171,9 +171,9 @@ $$
 ![](images/692f250d6746c4eecc392c771592c76d358bd6c3aa5648e08b10a7d4cb010ad8.webp)
 数据来源：Wind、开源证券研究所
 
-图 5 和图 6 分别展示了涨、跌幅时间重心以及“时间差”的分布。不同交易日的涨、跌幅时间重心具有同向差异性，而相同股票的 $G_{d}\mathcal{\hat{\kappa}}\mathrm{{}}G_{u}$ 的分布基本一致，没有表现明显的结构性特征；若由大到小选取一定数量的涨、跌幅样本计算各自时间重心，其“时间差”随着样本数量的减少而逐渐发散，极端样本涨跌时间重心的离散度相比全部样本会更高一些。
+图 5 和图 6 分别展示了涨、跌幅时间重心以及“时间差”的分布。不同交易日的涨、跌幅时间重心具有同向差异性，而相同股票的 $G_{d}和G_{u}$ 的分布基本一致，没有表现明显的结构性特征；若由大到小选取一定数量的涨、跌幅样本计算各自时间重心，其“时间差”随着样本数量的减少而逐渐发散，极端样本涨跌时间重心的离散度相比全部样本会更高一些。
 
-涨、跌幅在时间轴上的分布位置捕捉了股票的交易行为特征，两者的相对位置也可能蕴含某种选股信息。于是，笔者选取涨幅时间重 $\therefore G_{u}$ 、跌幅时间重 $\therefore G_{d}$ 以及“时间差”信息τ、“时间距离”信息υ，并计算上述指标在过去 20 个交易日的均值作为选股因子，具体的构造方法如表 1 所示。
+涨、跌幅在时间轴上的分布位置捕捉了股票的交易行为特征，两者的相对位置也可能蕴含某种选股信息。于是，笔者选取涨幅时间重 $心G_{u}$ 、跌幅时间重 $心G_{d}$ 以及“时间差”信息τ、“时间距离”信息υ，并计算上述指标在过去 20 个交易日的均值作为选股因子，具体的构造方法如表 1 所示。
 
 表1：两类时间重心因子以及“时间差”、“时间距离”因子的构造步骤
 
@@ -182,11 +182,11 @@ $$
 | 第一步 | 基于个股上涨和下跌的1分钟收益率序列，逐日统计幅度和时间信息，记为： 上涨幅度和时间 $(U,R_{u})$ |
 | 第二步 | 下跌幅度和时间(D,Ra) |
 |  | 分别计算如下日频指标： |
-|  | 涨幅时间重心 $G_{u}=U{R_{u}}^{T}/\\|R_{u}\\|_{1}$ |
-|  | 跌幅时间重心 $G_{d}=U{R_{d}}^{T}/\\|R_{d}\\|_{1}$ |
+|  | 涨幅时间重心 $G_{u}={UR_{u}}^{T}/{\\|R_{u}\\|_{1}}$ |
+|  | 跌幅时间重心 $G_{d}={UR_{d}}^{T}/\\|R_{d}\\|_{1}$ |
 |  | 时间差 $\tau=G_{d}-G_{u}$ 时间距离 $\upsilon=\|G_{d}-G_{u}\|$ |
 | 第三步 | 回溯过去一段时间，对日频指标进行平滑处理得到相应的选股因子： |
-|  | $F=\frac{1}{N}\sum_{i=1}^{N}Ind$ |
+|  | $F=\frac{1}{N}\sum_{i=1}^{N}Ind_{i}$ |
 |  | 其中，F和Ind分别表示因子暴露和日频指标，N=20。 |
 
 资料来源：开源证券研究所
@@ -209,7 +209,7 @@ $$
 ![](images/a1e8f2ca8f9e2c47dd363362c11e85b03dd935b16eb1e36a3574fd141b91cd7f.webp)
 数据来源：Wind、开源证券研究所，测试区间为 20130104-20220315
 
-图10：“时间差”τ剥离 $G_{d}\hbar\pm G_{u},$ ，Alpha信噪比明显降低
+图10：“时间差”τ剥离 $G_{d}和G_{u},$ ，Alpha信噪比明显降低
 ![](images/02bcc70c510b3e887ebaf0c7a1bde0f2fc27ac8ceacbc352e4dea33f9167cb4c.webp)
 数据来源：Wind、开源证券研究所
 
@@ -282,14 +282,14 @@ $$
 无论是日内收益率或是隔夜收益率，对于时间差 Alpha 均是干扰因素，若我们对其进行中性化处理，因子效果非但不会降低反而会提升。笔者对涨、跌幅时间重心分别建模：通过截面回归的方法，保留残差项以剔除收益率结构的影响。
 
 $$
-G_{u}=\alpha_{u}+\beta_{u}R_{intraday}+\gamma_{u}R_{overnight}+\varepsilon_{u}
+G_{u}=\alpha_{u}+\beta_{u}R_{intraday}+\gamma_{u}R_{overight}+\varepsilon_{u}
 $$
 
 $$
-G_{d}=\alpha_{d}+\beta_{d}R_{intraday}+\gamma_{d}R_{overnight}+\varepsilon_{d}
+G_{d}=\alpha_{d}+\beta_{d}R_{intraday}+\gamma_{d}R_{overight}+\varepsilon_{d}
 $$
 
-基于回归得到的残差项 $\varepsilon_{u}\hbar^{\alpha}\varepsilon_{d}$ ，再继续提取时间差 Alpha：
+基于回归得到的残差项 $\varepsilon_{u}和\varepsilon_{d}$ ，再继续提取时间差 Alpha：
 
 $$
 \varepsilon_{d}=\alpha+\beta\varepsilon_{u}+\varepsilon
@@ -352,10 +352,10 @@ $$
 我们将涨、跌幅时间重心分别回归日内尾盘时段的收益率，观察剥离掉收益率影响后，两类时间重心因子有效性是否改变。进一步，构造时间差 Alpha 的解释模型，对于涨、跌幅时间重心的中性化处理分别设为如下形式：
 
 $$
-\begin{array}{r}{G_{u}=\alpha_{u}+\beta_{u,7}R_{7}+\beta_{u,8}R_{8}+\varepsilon_{u}}\\{\quad}\\{G_{d}=\alpha_{d}+\beta_{d,7}R_{7}+\beta_{d,8}R_{8}+\varepsilon_{d}}\end{array}
+\begin{aligned}&G_{u}=\alpha_{u}+\beta_{u,7}R_{7}+\beta_{u,8}R_{8}+\varepsilon_{u}\\&G_{d}=\alpha_{d}+\beta_{d,7}R_{7}+\beta_{d,8}R_{8}+\varepsilon_{d}\\\end{aligned}
 $$
 
-再在残差项 $\dot{\varepsilon}_{u}$ 和 $\tau\varepsilon_{d}$ 的基础上，通过回归方法得到时间差 Alpha。
+再在残差项 $\Gamma_{\varepsilon_{u}}$ 和 $^{\prime}\varepsilon_{d}$ 的基础上，通过回归方法得到时间差 Alpha。
 
 图27：剔除盘尾阶段收益率后，因子有效性降低
 ![](images/4d5692fd62a1793c36c6bac50b98ed4bb013fa78379530520a5259a884cfb36f.webp)
@@ -398,10 +398,10 @@ $$
 因此，设置如下回归模型以剥离极端收益率的影响：
 
 $$
-\begin{array}{l}{{G_{u}=\alpha_{u}+\delta_{u}\bar{R}_{u}+\varepsilon_{u}}}\\{{\ }}\\{{G_{d}=\alpha_{d}+\delta_{d}\bar{R}_{d}+\varepsilon_{d}}}\end{array}
+\begin{aligned}&G_{u}=\alpha_{u}+\delta_{u}\bar{R}_{u}+\varepsilon_{u}\\&G_{d}=\alpha_{d}+\delta_{d}\bar{R}_{d}+\varepsilon_{d}\\\end{aligned}
 $$
 
-其中， $\bar{R}_{u}\mathcal{\bar{\kappa}}{\ v{e}}\bar{R}_{d}$ 分别表示涨、跌幅较大的 17 根分钟Bar的平均涨幅和平均跌幅。
+其中， $\bar{R}_{u}和\bar{R}_{d}$ 分别表示涨、跌幅较大的 17 根分钟Bar的平均涨幅和平均跌幅。
 
 图31：剔除极端收益率后，时间指标的有效性变化
 ![](images/3cbadf58c6918a4b1fe8d56c1189511ade022c9b21749edc830be9eb03a83fcf.webp)
@@ -428,10 +428,10 @@ $$
 进一步，设置如下回归模型以剥离涨跌幅位置信息：
 
 $$
-\begin{array}{c}{{G_{u}=\alpha_{u}+\gamma_{u}C_{u}+\varepsilon_{u}}}\\{{{}}}\\{{G_{d}=\alpha_{d}+\gamma_{d}C_{d}+\varepsilon_{d}}}\end{array}
+\begin{aligned}&G_{u}=\alpha_{u}+\gamma_{u}C_{u}+\varepsilon_{u}\\&G_{d}=\alpha_{d}+\gamma_{d}C_{d}+\varepsilon_{d}\\\end{aligned}
 $$
 
-其中， $C_{u}\mathcal{\hat{\mathrm{A}}}^{\ v{c}}C_{d}$ 分别表示全部涨幅与全部跌幅的时间戳中位数。
+其中， $C_{u}和C_{d}$ 分别表示全部涨幅与全部跌幅的时间戳中位数。
 
 图35：剔除时间中心后，时间指标的有效性变化
 ![](images/392c084caa3610bd9fef87e2baefd1d50e435dbc849c8667919d31eb99ec4566.webp)
@@ -551,13 +551,13 @@ $$
 
 | 顺序 | 计算方法 |
 | --- | --- |
-| 第一步 | 逐日计算个股的涨幅时间重 $\therefore G_{u}$ 和跌幅时间重 $\therefore G_{d}$ ，并统计以下指标： |
+| 第一步 | 逐日计算个股的涨幅时间重 $心G_{u}$ 和跌幅时间重 $心G_{d}$ ，并统计以下指标： |
 |  | 平均涨幅 $\bar{R}_{u}$ |
-|  | 平均跌幅 $\textstyle{\overline{{R}}}_{d}$ |
+|  | 平均跌幅 $\bar{R}_{d}$ |
 |  | 时段1（09:31-10:00）的涨跌幅 $R_{1}$ |
 |  | 时段2（10:01-10:30）的涨跌幅 $R_{2}$ 隔夜涨跌幅 Rovernight |
 | 第二步 | 将涨、跌幅的时间重心单独剥离干扰因子： |
-|  | $\begin{array}{r}{G_{u}=f_{u}\big(\bar{R}_{u},R_{1},R_{2},R_{overnight}\big)+\varepsilon_{u}}\\{G_{d}=f_{d}\big(\bar{R}_{d},R_{1},R_{2},R_{overnight}\big)+\varepsilon_{d}}\end{array}$ |
+|  | $\begin{aligned}G_{u}&=f_{u}\big(\bar{R}_{u},R_{1},R_{2},R_{overright}\big)+\varepsilon_{u}\\G_{d}&=f_{d}\big(\bar{R}_{d},R_{1},R_{2},R_{overright}\big)+\varepsilon_{d}\end{aligned}$ |
 | 第三步 |  |
 |  | 通过截面回归方法，构造“时间差”指标，并取其20日均值作为因子： |
 |  | $\varepsilon_{d}=\alpha+\beta\varepsilon_{u}+\varepsilon$ |

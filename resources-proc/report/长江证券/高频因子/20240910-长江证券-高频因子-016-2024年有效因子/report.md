@@ -435,20 +435,20 @@ Amihud非流动性：收益率绝对值/成交额，衡量单位资金对价格�
 
 - 量价相关性：corr（成交量，收盘价），量价的趋同程度高（即价格高时成交量高，价格低时成交量低），说明在价格较高时成交更多，股票交易行为中存在着羊群效应。
 
-加权收盘价比 $=\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VOL}close_{t}}{\frac{\sum_{t=1}^{T}close_{t}}{T}}$
+加权收盘价比 $\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VOL}close_{t}}{\frac{\sum_{t=1}^{T}close_{t}}{T}}$
 
 $$
-\mathrm{j}\mathrm{j}\mathrm{l}\mathrm{j}\mathrm{k}\mathrm{\mathbb{X}}\backslash\lvert\mathrm{\tilde{X}_{m}^{\mathrm{\neq\neq}}}\mathrm{\mathcal{W}}\mathrm{\tilde{r}}\mathrm{k}\rvert=\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VOL}close_{t}}{\displaystyle{\frac{\sum_{t=1}^{T}close_{t}}{T}}}=T\times\sum_{t=1}^{T}\frac{vol_{t}}{VOL}\frac{close_{t}}{CLOSE}
+加权收盘价比=\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VOL}close_{t}}{\sum_{t=1}^{T}\frac{close_{t}}{T}}=T\times\sum_{t=1}^{T}\frac{vol_{t}}{VOL}\frac{close_{t}}{CLOSE}
 $$
 
 从量纲上看相当于每个时刻的成交量占比和收盘价占比的乘积求和，是一种量纲单位1化后的成交额，后文中称为单位一成交额占比。由排序不等式性质：
 
-设两组数列 $\{a_{i}\},\{b_{i}\}$ 满足 $a_{1}\leq a_{2}\leq\cdots\leq a_{n},b_{1}\leq b_{2}\leq\cdots\leq b_{n}$ ，{ci}为 $\{b_{i}\}$ 的乱序排列，则有 $a_{1}b_{n}+a_{2}b_{n-1}+\cdots+a_{n}b_{1}\leq a_{1}c_{1}+$ $a_{2}c_{2}+\cdots+a_{n}c_{n}\leq a_{1}b_{1}+a_{2}b_{2}+\cdots+a_{n}b_{n}$
+设两组数列 $\{a_{i}\},\{b_{i}\}$ 满足 $.a_{1}\leq a_{2}\leq\cdots\leq a_{n},b_{1}\leq b_{2}\leq\cdots\leq b_{n}$ ，{ci}为 $\{b_{i}\}$ 的乱序排列，则有 $\left[a_{1}b_{n}+a_{2}b_{n-1}+\cdots+a_{n}b_{1}\leq a_{1}c_{1}+\right.$ $a_{2}c_{2}+\cdots+a_{n}c_{n}\leq a_{1}b_{1}+a_{2}b_{2}+\cdots+a_{n}b_{n}$
 
 成交额占比熵：加权收盘价因子相当于将成交量和收盘价做权重化处理后，以排序不等式的角度刻画成交体系的“混乱”程度。而在衡量体系混乱程度时，信息熵的定义也可以参考：
 
 $$
-\begin{array}{r}{\mathrm{H}(p_{1},p_{2},\dots,p_{n})=-\sum_{i=1}^{N}p_{i}\ln(p_{i})\Rightarrow\mathrm{H}(\frac{amount_{1}}{AMOUNT},\frac{amount_{2}}{AMOUNT},\dots,\frac{amount_{N}}{AMOUNT})}\end{array}
+\begin{array}{r}{\mathrm{H}(p_{1},p_{2},\ldots,p_{n})=-\sum_{i=1}^{N}p_{i}\ln(p_{i})\Rightarrow\mathrm{H}(\frac{amount_{1}}{AMOUNT},\frac{amount_{2}}{AMOUNT},\ldots,\frac{amount_{N}}{AMOUNT})}\end{array}
 $$
 
 残差波动率：Fama-French模型残差的标准差，波动是成交异常的一种衡量，波动越大局部成交越活跃，容易形成错误定价。

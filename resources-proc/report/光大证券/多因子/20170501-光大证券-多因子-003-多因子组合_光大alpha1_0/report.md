@@ -80,7 +80,7 @@ $$
 MAD=median(\left|f_{i}-Median_{f}\right|)
 $$
 
-采取与 3σ法等价的方法，我们将大于 $Median_{f}+3*1.4826*MAD$ 的值或小于 ${\cdot}Median_{f}-3*1.4826*MAD$ 的值定义为异常值。
+采取与 3σ法等价的方法，我们将大于 $Median_{f}+3*1.4826*MAD$ 的值或小于 $rMedian_{f}-3*1.4826*MAD$ 的值定义为异常值。
 
 类似的，对缺失值的处理方式要依据缺失值的来源和逻辑解释，选取不同的操作，包括剔除或者以行业中位数替代。在单因子测试时，我们对缺失率小于 20%的因子数据用中信一级行业的中位数代替，当缺失率大于 20%时则做剔除处理。
 
@@ -90,14 +90,14 @@ $$
 
 ## 1.4、因子测试模型
 
-我们采取截面回归测试的方法，每期针对全体样本做一次回归，回归时因子暴露为已知变量，回归得到每期的一个因子收益值 $f_{j}$ .
+我们采取截面回归测试的方法，每期针对全体样本做一次回归，回归时因子暴露为已知变量，回归得到每期的一个因子收益值 ${\mathfrak{f}}_{j}$ .
 
 进行截面回归判断每个单因子的收益情况和显著性时，需要特别关注 A股市场中一些显著影响个股收益率的因素，例如行业因素和市值因素。市值因子在过去的很长一段时间内都是A股市场上影响股票收益显著性极高的一个因子，为了能够在单因子测试时得到因子真正收益情况，我们在回归测试时对市值因子也做了剔除。
 
 加入行业因子和市值因子后，单因子测试的回归方程如下所示：
 
 $$
-\left[\begin{array}{c}{r_{ti}}\\{\vdots}\\{r_{tn}}\end{array}\right]=\left[\begin{array}{cccc}{\beta_{t11}I_{t1u}}&{\cdots}&{I_{t1v}m_{t1m}}\\{\vdots}&{\vdots}&{\cdots}&{\vdots}\\{\beta_{tn1}I_{tnu}}&{\cdots}&{I_{tnv}m_{tnm}}\end{array}\right]\cdot\left[\begin{array}{c}{f_{ti}}\\{\vdots}\\{f_{tm}}\end{array}\right]+\left[\begin{array}{c}{\mu_{ti}}\\{\vdots}\\{\mu_{tn}}\end{array}\right]
+\begin{bmatrix}r_{ti}\\\vdots\\r_{tn}\end{bmatrix}=\begin{bmatrix}\beta_{t11}I_{t1u}&\cdots&I_{t1v}m_{t1m}\\\vdots&\vdots&\cdots&\vdots\quad\vdots\\\beta_{tn1}I_{tnu}&\cdots&I_{tnv}m_{tnm}\end{bmatrix}\cdot\begin{bmatrix}f_{ti}\\\vdots\\f_{tm}\end{bmatrix}+\begin{bmatrix}\mu_{ti}\\\vdots\\\mu_{tn}\end{bmatrix}
 $$
 
 其中：
@@ -161,7 +161,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 其中，我们对单调性指标的得分计算标准做了如下的规定：
 
 $$
-\mathsf{MonotonyScore=}\frac{\mathsf{R}_{5}-\mathsf{R}_{1}}{\mathsf{R}_{4}-\mathsf{R}_{2}}
+\mathrm{Monotony\;Score}={\frac{\mathrm{R}_{5}-\mathrm{R}_{1}}{\mathrm{R}_{4}-\mathrm{R}_{2}}}
 $$
 
 其中， $\mathrm{R_{i}}$ 代表因子分层回溯法得到的第i组分组的年化收益率。
@@ -300,20 +300,20 @@ $$
 
 ## 3.1、因子权重优化方法简述
 
-我们首先考虑单期的静态多因子模型，即M个因子： $(F_{1},F_{2}\dots,F_{M})$ 因子的线性组合，假设入选的各因子权重为 $\mathbf{v}=(v_{1},v_{2},\dots,v_{m})^{\prime}$ 。权重向量一旦确定，将不随时间变化，保持不变。而实际应用中我们更倾向于使用动态的最优化IR 方法：
+我们首先考虑单期的静态多因子模型，即M个因子： $(F_{1},F_{2}\ldots,F_{M})$ 因子的线性组合，假设入选的各因子权重为 $\mathbf{v}=(v_{1},v_{2},\ldots,v_{m})^{\prime}$ 。权重向量一旦确定，将不随时间变化，保持不变。而实际应用中我们更倾向于使用动态的最优化IR 方法：
 
 为了将模型表现和实际组合应用结合，我们假设所有的因子已经通过之前两篇系列报告中介绍的因子测试框架做了中性处理。所以，复合因子是M个因子的一个线形组合：
 
 $$
-F_{c}=\sum_{i=1}^{M}v_{i}F_{i}
+F_{c}=\sum_{i=1}^{M}v_{i}F_{i}.
 $$
 
 因子的 IR 值为因子 IC 的均值与因子 IC 的标准差的比值。因子 IR 值越高，代表因子综合考虑区分度和稳定性后效果越好。我们的优化目标便是使复合因子的信息比 IR 取到最大值。
 
-首先，我们假设 IC 均值向量为 $\overline{{IC}}=(\overline{{IC_{1}}},\overline{{IC_{2}}},\dots,\overline{{IC_{M}}})$ ‘,IC 的协方差矩阵是$\Sigma_{IC}=(\rho_{ij,IC})_{i,j=1}^{M}$ 。此时，复合 IC 的均值和标准差为：
+首先，我们假设 IC 均值向量为 $\overrightarrow{IC}{=}(\overrightarrow{IC_{1}},\overrightarrow{IC_{2}},\ldots,\overrightarrow{IC_{M}})$ ‘,IC 的协方差矩阵是$\Sigma_{IC}=(\rho_{ij,IC})_{i,j=1}^{M},$ 。此时，复合 IC 的均值和标准差为：
 
 $$
-\overline{{IC_{C}}}=\frac{1}{\tau}\sum_{\mathrm{i}=1}^{M}v_{i}\overline{{IC_{\iota}}}=\frac{1}{\tau}v^{\prime}\overline{{IC}}
+\overline{{IC_{C}}}=\frac{1}{\tau}\sum_{\mathrm{i}=1}^{M}v_{i}\overline{{IC_{\iota}}}=\frac{1}{\tau}v^{\prime}\overline{{IC}}.
 $$
 
 $$
@@ -323,7 +323,7 @@ $$
 此时 IR 可以表示为：
 
 $$
-IR_{c}=\frac{\sum_{\mathrm{i}=1}^{M}v_{i}\overline{{IC_{\imath}}}}{\sqrt{\sum_{i=1}^{M}\sum_{j=1}^{M}v_{i}v_{j}\rho_{ij,IC}\sigma_{IC_{i}}\sigma_{IC_{i}}}}=\frac{v^{\prime}\overline{{IC}}}{\sqrt{v^{\prime}\Sigma_{IC}v}}
+IR_{c}=\frac{\sum_{i=1}^{M}v_{i}\overline{IC_{i}}}{\sqrt{\sum_{i=1}^{M}\sum_{j=1}^{M}v_{i}v_{j}\rho_{ij,IC}\sigma_{IC_{i}}\sigma_{IC_{i}}}}=\frac{v^{\prime}\overline{IC}}{\sqrt{v^{\prime}\Sigma_{IC}v}}
 $$
 
 参数τ为常数
@@ -337,22 +337,22 @@ $$
 令偏导为 0，我们可得到：
 
 $$
-({\pmb v}^{\prime}\Sigma_{IC}{\pmb v})\overline{{IC}}=({\pmb v}^{\prime}\overline{{IC}})\Sigma_{IC}{\pmb v}
+({\pmb v}^{\prime}\Sigma_{IC}{\pmb v})\overline{{{IC}}}\;=\;({\pmb v}^{\prime}\overline{{{IC}}})\Sigma_{IC}{\pmb v}
 $$
 
 则最优化权重的解为：
 
 $$
-{\pmb v}^{*}=s\Sigma_{IC}^{-1}\overline{{IC}}
+\pmb{v}^{*}=s\Sigma_{IC}^{-1}\overline{{IC}}
 $$
 
 代入得到最优的 IR:
 
 $$
-IR^{*}=\sqrt{\overline{{IC}}^{\prime}\Sigma_{IC}^{-1}\overline{{IC}}}
+IR^{*}=\sqrt{\overline{{I}}\overline{{C}}^{\prime}\Sigma_{IC}^{-1}\overline{{I}}\overline{{C}}}.
 $$
 
-最优解 $v^{*}$ 中的 s 是任意常数，可以自行选择s 使得最优权重之和为1。
+最优解 $.v^{*}$ 中的 s 是任意常数，可以自行选择s 使得最优权重之和为1。
 
 可以看出，虽然这里用到的 IR 最优化问题和均值方差优化方法类似，但差异依然是很明显的。最优化 IR 时的目标函数是均值和标准差之比，并且不涉及风险厌恶系数。因此，任何常数乘以最优权重同样会是最优化结果，因为 IR 值是不受参数 s 的影响的，所以理论上我们不需要各个因子的权重之和为100%，不过在实际操作中为了符合习惯往往会设置权重和为 100%。
 

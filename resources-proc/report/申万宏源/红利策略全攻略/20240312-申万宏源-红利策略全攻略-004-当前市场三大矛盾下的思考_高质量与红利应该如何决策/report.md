@@ -247,7 +247,7 @@ jiangxin@swsresearch.com
 所谓内生增长率，是指在公司完全不对外融资，且不变现内部金融资产的情况下，其预测增长率的最高水平，也即在货币偏紧、市场环境恶化的环境下，企业能够依靠自身实现增长的比例。其计算公式为：
 
 $$
-A\pm\pm\frac{160}{16}\pm\frac{20}{4}g=(1.00A^{\star}b)/(1-1-0.0A^{\star}b)
+内生增长率$\mathtt{\mathfrak{g}}{=}\quad\left(\quad\mathsf{ROA}\quad^{\star}\quad\mathsf{b}\quad\right)\quad/\quad\left(\quad\mathsf{1}-\mathsf{ROA}\quad^{\star}\quad\mathsf{b}\quad\right)$
 $$
 
 其中 ROA 为总资产收益率，b 为留存收益率=1-股利支付率。这一增长率反映在经营环境不变、且企业能够持续扩张的前提下，企业依靠自身盈利所能实现最高增长率，也即反映了在扩张阶段企业的成长空间。

@@ -89,13 +89,13 @@ chenye@htsc.com
 设 $T_{i}$ 表示个体 i 接受处理与否，处理取 1，对照取 0(这部分的处理变量都讨论二值的，多值的可以做相应的推广)；Y 表示个体 i 的结果变量。记 (Y(1), Y(0)) 表示个体 i 接受处理或者对照的潜在结果(potential outcome)，那么 Y(1) − Y(0) 表示个体 i 接受处理的个体因果作用。但是每个个体要么接受了处理，要么接受对照，(Y(1), Y(0)) 中必然缺失一半，因此个体的因果作用是不可识别的。注意，对于个体 i，潜在结果是确定的数；这里的随机性体现在 i 上，i 可以看成通常概率论中样本空间 Ω 中的样本点 ω。但是，在 T 做随机化的前提下，我们可以识别总体的平均因果作用(ACE，average causalefect)：
 
 $$
-ACE(TY)=E(Y_{i}(1)-Y_{i}(0))
+ACE(T\rightarrow Y)=E(Y_{i}(1)-Y_{i}(0))
 $$
 
 这是因为
 
 $$
-\begin{array}{rl}&{ACE(TY)=E\big(Y_{i}(1)\big)-E\big(Y_{i}(0)\big)}\\&{\qquad=E(Y_{i}(1)|T_{i}=1)-E(Y_{i}(0)|T_{i}=0)}\\&{\qquad=E(Y_{i}|T_{i}=1)-E(Y_{i}|T_{i}=0)}\end{array}
+\begin{aligned}ACE(T\rightarrow Y)&=E\big(Y_i(1)\big)-E\big(Y_i(0)\big)\\&=E(Y_i(1)|T_i=1)-E(Y_i(0)|T_i=0)\\&=E(Y_i|T_i=1)-E(Y_i|T_i=0)\end{aligned}
 $$
 
 最后一个等式表明 ACE 可以由观测的数据估计出来。其中第一个等式用到了期望算子的线性性质(非线性的算子导出的因果度量很难被识别)；第二个式子用到了随机化，即 T⊥(Y (1),Y (0))(⊥表示独立性)。 由此可见，随机化试验对于平均因果作用的估计起着至关重要的作用。
@@ -123,7 +123,7 @@ $$
 倾向性评分是给定混淆变量W的条件下，个体接受Treatment的概率估计，即 P(T=1|W)。如图表 5所示，要计算每个研究对象的倾向性评分，需要以 Treatment 为因变量，混淆变量 Confounders 为自变量，建立回归模型(如 Logistic 回归)来估计每个研究对象接受Treatment 的可能性。对于倾向性评分接近的样本，则认为它们近似匹配，可用来评估因果效应。匹配完成之后，即可通过下式计算 Treatment 变量 T 对 Outcome 变量 Y的因果效应。
 
 $$
-ACE(TY)=E(Y_{i}|T_{i}=1)-E(Y_{i}|T_{i}=0)
+ACE(T\rightarrow Y)=E(Y_{i}|T_{i}=1)-E(Y_{i}|T_{i}=0)
 $$
 
 图表5： 倾向性评分的计算和匹配
@@ -138,11 +138,11 @@ $$
 3. 倾向性评分加权法(Propensity Score Weighting，PSW)：PSW 在计算得出倾向性评分的基础上，通过倾向性评分值赋予每个样本一个相应的权重进行加权，使得处理组和对照组中倾向性评分分布一致，从而达到消除混淆变量影响的目的。Robins 等人给出的加权系数计算方法是：
 
 $$
-\begin{array}{r}\mathrm{~\#\mathbb{L}\#\mathbb{L}\#\mathbb{L}\#\mathbb{L}\#\mathbb{L}\#\mathbb{L}\#\mathbb{L}\#\mathbb{L}\mathbb{L}W_{t}=\frac{1}{PS}}\end{array}
+处理组样本的权重为$W_{t}=\frac{1}{PS}$
 $$
 
 $$
-\begin{array}{r}{\vec{x}\dag\frac{\partial\mathcal{G}}{\partial x}\mathcal{L}_{\perp}\vec{\mathcal{t}}\dag\frac{\partial^{\prime}}{\partial\mathcal{F}}\dag\frac{\partial^{\prime}}{\partial\mathcal{H}}\dag\vec{y}\dag\vec{x}\mp\frac{\partial}{\partial\mathcal{H}}\dag\mathcal{W}_{c}=\frac{1}{1-PS}}\end{array}
+对照组样本的权重为$W_{c}=\frac{1}{1-PS}$
 $$
 
 以上两式中，PS 是样本的倾向性评分。该加权方法的通俗理解方式为：由于 PS 是由 Logistic 回归拟合得到，总体上来看处理组样本的 PS 靠近 1，对照组样本的 PS靠近 0。PS 越小的处理组样本，越容易找到能与之匹配的对照组样本，使用该处理组样本估计的因果效应更可靠，其权重应该更大。所以对于处理组样本来说，其权重$W_{t}$ 等于 PS 的倒数。而对照组样本的情况和处理组样本正好相反，故其权重 $W_{c}$ 等于(1-PS)的倒数。
@@ -150,11 +150,11 @@ $$
 然而在大多数情况下，处理组和对照组样本的数量并不均衡。Hernan 等人对计算方法进行了调整，将整个样本空间中处理组样本的占比 $\left(P_{t}\right)$ 和非处理组样本的占比(1−$P_{t})$ 加入公式中，增大占比较大组的样本的权重，得到以下计算方法：
 
 $$
-\begin{array}{r}{\mathrm{~\AE~}\dot{\mathfrak{L}}\supseteq\mathrm{~\sharp~}\dot{\mathfrak{L}}\equiv\dot{\mathfrak{L}}\enspace\dot{\mathfrak{L}}\enspace{\dot{\mathfrak{L}}\enspace}\mathrm{~\AE~}\enspace\dot{\mathfrak{L}}\enspace{\dot{\mathfrak{L}}\rvert}\otimes\dot{\mathfrak{L}}\enspace{\dot{\mathfrak{L}}\rvert}\mathrm{~\rule{0.5ex}{5ex}~}}\end{array}
+处理组样本的权重为$W_{t}=\frac{P_{t}}{PS}$
 $$
 
 $$
-\begin{array}{r}{\vec{x}\dag\frac{\mathrm{H}\vec{\sigma}}{\mathrm{e}}\frac{\not\cdot\mathrm{H}\vec{\mathcal{H}}}{\mathrm{H}\vec{\mathcal{H}}}\frac{\not\cdot\mathrm{\Pi}}{\mathrm{\mathcal{H}}}\frac{\not\cdot\mathrm{H}^{3}}{\mathrm{H}\cdot\mathrm{J}}\frac{\not\cdot\mathrm{H}}{\mathrm{H}}\frac{\mathrm{\widehat{H}}}{\mathrm{\mathcal{H}}}\frac{\not\cdot\mathrm{H}}{\mathrm{J}}W_{c}=\frac{1-P_{t}}{1-PS}}\end{array}
+对照组样本的权重为$W_{c}=\frac{1-P_{t}}{1-PS}$
 $$
 
 在给样本加权后，即可计算因果效应。PSW 的优点在于可以充分利用每个样本，不会出现样本无法匹配的情况。(见参考文献[5])

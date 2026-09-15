@@ -51,18 +51,18 @@ Alpha 是量化投资的基础概念，但实际使用时存在模糊的地方�
 
 ## 1.2 Alpha 因子与 Alpha 收益
 
-实务投资研究中，我们采用 alpha 因子横截面分析的方式来判别股票未来 alpha 收益的高低，这可以表示成一个回归问题或预测问题。例如用 $\mathrm{r}_{i,t}$ 表示股票 i 在第 t个月的 alpha收益， $f_{\mathrm{i,t}}$ 表示月初某个 alpha 因子在股票 i 上的取值，并记向量 $\vec{\bf r}_{t}=(r_{1,t},r_{2,t},\ldots r_{N,t})^{T},\vec{\bf f}_{t}=(f_{1,t},f_{2,t},\ldots f_{N,t})^{T}$ , 如果拿横截面上 alpha 收益对 alpha 因子做带常数项的单变量线性回归，用 OLS 方法易求得模型估计的 alpha 收益
+实务投资研究中，我们采用 alpha 因子横截面分析的方式来判别股票未来 alpha 收益的高低，这可以表示成一个回归问题或预测问题。例如用 $\mathbf{r}_{i,t}$ 表示股票 i 在第 t个月的 alpha收益， $f_{\mathrm{i,t}}$ 表示月初某个 alpha 因子在股票 i 上的取值，并记向量 $\vec{\mathbf{r}}_{t}=(r_{1,t},r_{2,t},\dots r_{N,t})^{T},\quad\vec{\mathbf{f}}_{t}=(f_{1,t},f_{2,t},\dots f_{N,t})^{T}$ , 如果拿横截面上 alpha 收益对 alpha 因子做带常数项的单变量线性回归，用 OLS 方法易求得模型估计的 alpha 收益
 
 $$
-\begin{array}{l}\displaystyle\mathrm{E}(\pmb{r}_{t}|\pmb{f_{t}})=E(\pmb{\vec{\mathrm{r}_{t}}})+cov\big(\vec{\mathrm{\bf r}_{t}},\vec{\mathrm{\bf f}_{t}}\big)\cdot\frac{\vec{\mathrm{\bf f}_{t}}-E\big(\vec{\mathrm{\bf f}_{t}}\big)}{var\big(\begin{array}{c}{\vec{\mathrm{\bf f}_{t}}}\\{\vec{\mathrm{\bf f}_{t}}\big)}}\\{=E(\vec{\mathrm{\bf f}_{t}})+corr\big(\vec{\mathrm{\bf r}_{t}},\vec{\mathrm{\bf f}_{t}}\big)\cdot std(\vec{\mathrm{\bf r}_{t}})\cdot\frac{\vec{\mathrm{\bf f}_{t}}-E\big(\vec{\mathrm{\bf f}_{t}}\big)}{std\big(\begin{array}{c}{\vec{\mathrm{\bf f}_{t}}}\end{array}\big)}}\end{array}\end{array}\tag{}
+\begin{aligned}\mathrm{E}(\boldsymbol{r}_{t}|\boldsymbol{f}_{t})&=E(\vec{\mathbf{r}}_{t})+cov(\vec{\mathbf{r}}_{t},\vec{\mathbf{f}}_{t})\cdot\frac{\vec{\mathbf{f}}_{t}-E(\vec{\mathbf{f}}_{t})}{var(\ \vec{\mathbf{f}}_{t})}\\&\quad=E(\vec{\mathbf{r}}_{t})+error(\vec{\mathbf{r}}_{t},\vec{\mathbf{f}}_{t})\cdot std(\vec{\mathbf{r}}_{t})\cdot\frac{\vec{\mathbf{f}}_{t}-E(\vec{\mathbf{f}}_{t})}{std(\ \vec{\mathbf{f}}_{t})}\end{aligned}\tag{}
 $$
 
-上述等式的 $\mathrm{E(\cdot)},cov(\cdot,\cdot),corr(\cdot,\cdot),var(\cdot),std(\cdot)$ 均表示随机变量函数对应的样本函数。把 $\vec{\mathbf{f}}_{t}$ 换成最新一期的因子数值就能得到预测的 alpha收益。
+上述等式的 $\mathrm{E}(\cdot),cov(\cdot,\cdot),corr(\cdot,\cdot),var(\cdot),std(\cdot)$ 均表示随机变量函数对应的样本函数。把 $\vec{\mathbf{f}}_{t}$ 换成最新一期的因子数值就能得到预测的 alpha收益。
 
-假设投资者不做任何风险控制，那么这时 $\vec{\bf r}_{t}.$ 就是股票收益率，上述等式中 $E(\vec{\bf r}_{t})$ 由市场决定，对横截面上所有股票都一样，我们做相对收益或对冲组合更关心的是股票间的相对收益大小，也就是式(1.1)的第二部分。上式可以采用 Grinold (1999)的表示方法简单写作
+假设投资者不做任何风险控制，那么这时 $\mathbf{\vec{T}}_{t}^{\mathrm{~i~}}$ 就是股票收益率，上述等式中 $E(\vec{\mathbf{r}}_{t})$ 由市场决定，对横截面上所有股票都一样，我们做相对收益或对冲组合更关心的是股票间的相对收益大小，也就是式(1.1)的第二部分。上式可以采用 Grinold (1999)的表示方法简单写作
 
 $$
-\mathrm{E}(r_{t}|f_{t})-E({\vec{\mathbf{r}}}_{t})=corr\big({\vec{\mathbf{r}}}_{t},{\vec{\mathbf{f}}}_{t}\big)\cdot std({\vec{\mathbf{r}}}_{t})\cdot\frac{{\vec{\mathbf{f}}}_{t}-E\big({\vec{\mathbf{f}}}_{t}\big)}{std\big(\begin{array}{l}{{\vec{\mathbf{f}}}_{t}\big)}\triangleq1\mathbf{C}\cdot\mathbf{V}\mathbf{0}1\cdot\mathbf{zscore}}\end{array}\tag{}
+\mathbb{E}(\boldsymbol{r}_{t}|\boldsymbol{f}_{t})-E(\vec{\mathbf{r}}_{t})=error(\vec{\mathbf{r}}_{t},\vec{\mathbf{f}}_{t})\cdot std(\vec{\mathbf{r}}_{t})\cdot\frac{\vec{\mathbf{f}}_{t}-E(\vec{\mathbf{f}}_{t})}{std(\vec{\mathbf{f}}_{t})}\triangleq\mathbf{IC}\cdot\mathbf{Vol}\cdot\mathbf{z}\mathbf{score}\tag{}
 $$
 
 (1.2)
@@ -83,13 +83,13 @@ BARRA 采用的 ZSCORE 转 Alpha 收益方法（Gleiser & McKenna 2010）和上�
 
 从上一节的分析可知，alpha 因子的 IC 可以用来衡量其对 alpha 收益的预测能力，IC 计算采用的是矩形式的 Pearson 线性相关系数，但实务中我们用的更多的是 Spearman秩相关系数，两者会有哪些差别？
 
-首先，如果随机变量 X 和 Y 满足标准二元联合正态分布，相关系数为 ，则可以证明 Pearson相关系数 ${\mathrm{p}}_{\mathfrak{p}}(X,Y)$ 和 Spearman 秩相关系数 $\rho_{s}(X,Y)$ 满足下面等式
+首先，如果随机变量 X 和 Y 满足标准二元联合正态分布，相关系数为 ，则可以证明 Pearson相关系数 $\mathsf{(p_{p}(}X,Y\mathrm{)}$ 和 Spearman 秩相关系数 $(\mathsf{p}_{s}(X,Y)$ 满足下面等式
 
 $$
-\mathsf{p}_{\mathsf{p}}(X,Y)=2\cdot\sin(\frac{\pi}{6}\cdot\rho_{s}(X,Y))
+\rho_{\mathrm{p}}(X,Y)=2\cdot\sin(\frac{\pi}{6}\cdot\rho_{s}(X,Y))
 $$
 
-如果将 在 0点 Taylor展开，可以计算得到 $\begin{array}{r}{\mathsf{\rho}_{\mathsf{p}}(X,Y)\approx\frac{\pi}{3}\cdot\rho_{s}(X,Y)\approx1.0472\cdot\mathsf{\rho}_{\mathsf{s}}(X,Y)}\end{array}$ ，由于绝大部分 alpha 因子的 Spearman IC 绝对值不超过 0.1，因此 Pearson 和 Spearman 相关系数数值上相差非常小。这也可以下图 1看出，两者的关系几乎就是一条 y=x的直线，但放到全局看（图 2），这条“直线”其实是正玄函数的一段。
+如果将 在 0点 Taylor展开，可以计算得到 $\begin{array}{r}{\rho_{\mathtt{p}}(X,Y)\approx\frac{\pi}{3}\cdot\rho_{s}(X,Y)\approx1.0472\cdot\rho_{s}(X,Y)}\end{array}$ ，由于绝大部分 alpha 因子的 Spearman IC 绝对值不超过 0.1，因此 Pearson 和 Spearman 相关系数数值上相差非常小。这也可以下图 1看出，两者的关系几乎就是一条 y=x的直线，但放到全局看（图 2），这条“直线”其实是正玄函数的一段。
 
 图 1： $\begin{array}{r}{\mathrm{y}=2\cdot\sin(\frac{\pi}{6}\cdot x)}\end{array}$ 在区间[-0.1, 0.1]上的图像
 ![](images/0e8fd033f7da96bff40607fa903c057a5470043dd5583608007ea3e47e2dbf31.webp)
@@ -109,10 +109,10 @@ $$
 
 用原始 alpha因子来做选股会面临较大的风险暴露，例如成长类因子会偏好高成长性行业，而估值类因子则偏好传统周期行业，技术类因子由于小盘股的股价波动更大，会更多的选出小市值股票。因此为了降低风险因子对股票组合收益的影响，有必要对原始 alpha因子数据做风险中性化处理。要中性化处理哪些风险因素取决于最后组合构建时的风险控制要求，我们将在后续报告中单独探讨 A 股市场的风险因素，就目前实证结果来看，控制行业和市值两个风险因素就可以获得非常稳健的量化组合。因此本报告中的风险中性化处理都是针对行业和市值两个风险因子，具体做法是通过横截面回归方式，
 
-假设 $\vec{\mathbf{f}}_{t}=(f_{1,t},f_{2,t},\ldots f_{N,t})^{T}$ 为某个 alpha 因子第 t 个月在 N 个股票上的取值，全市场股票的一级行业数量有 D 个， $\vec{I}_{\mathrm{t}}^{(\mathrm{d})}=(\mathrm{I}_{1,\mathrm{t}}^{(\mathrm{d})},~I_{2,t}^{(d)}\dots~I_{N,t}^{(d)})^{T},~\mathrm{d}=1,2\dots\mathrm{D}$ 表示 t 时刻第 d 个行业的示性函数取值，个股属于d行业，函数取值为1；不属于d行业，函数取值为0. $\overrightarrow{\mathbf{M}}_{t}=(m_{1,t},m_{2,t},~\ldots m_{N,t})^{T}$ 表示N 个股票总市值因子数据取自然对数后再做横截面标准化后的数值，代表个股的市值风险暴露程度，市值中性化处理即是在每个月横截面上，拿期初的 alpha因子对行业和市值暴露度做回归，
+假设 $i\vec{\mathbf{f}}_{t}=(f_{1,t},f_{2,t},\dots f_{N,t})^{T}$ 为某个 alpha 因子第 t 个月在 N 个股票上的取值，全市场股票的一级行业数量有 D 个， $\vec{I}_{\mathrm{t}}^{(\mathrm{d})}=(\mathrm{I}_{1,\mathrm{t}}^{(\mathrm{d})},I_{2,t}^{(d)}\dots I_{N,t}^{(d)})^{T},\mathrm{d=1,}2\dots\mathrm{D}$ 表示 t 时刻第 d 个行业的示性函数取值，个股属于d行业，函数取值为1；不属于d行业，函数取值为0. $\overrightarrow{\mathbf{M}}_{\pmb{t}}=(m_{1,t},m_{2,t},\dots m_{N,t})^{T}$ 表示N 个股票总市值因子数据取自然对数后再做横截面标准化后的数值，代表个股的市值风险暴露程度，市值中性化处理即是在每个月横截面上，拿期初的 alpha因子对行业和市值暴露度做回归，
 
 $$
-\vec{\mathbf{f}}_{t}\sim\vec{I}_{\mathrm{t}}^{(1)}+\vec{I}_{\mathrm{t}}^{(2)}+\cdots+\vec{I}_{\mathrm{t}}^{\mathrm{(D)}}+\overrightarrow{\mathbf{M}}_{t}+\vec{\epsilon}_{t}
+\vec{\mathbf{f}}_{\mathbf{t}}\sim\vec{I}_{\mathbf{t}}^{(1)}+\vec{I}_{\mathbf{t}}^{(2)}+\cdots+\vec{I}_{\mathbf{t}}^{(\mathrm{D})}+\overrightarrow{\mathbf{M}}_{\mathbf{t}}+\vec{\pmb{\epsilon}}_{\mathbf{t}}
 $$
 
 取残差项 $\vec{\epsilon}_{t}$ 作为风险中性化处理后的 alpha 因子。
@@ -216,7 +216,7 @@ IC_IR 加权是等权方式一种的改进，它把 alpha 因子过去一段时�
 
 ## 3.3 Alpha 优化方法
 
-在上一篇报告中，我们为了考察 alpha因子相关性的影响，证明报告提出的因子筛选流程没有过多信息损失，采用了 Qian(2007)提出的 Alpha 优化方法来计算 alpha 因子的权重，优化结果有显式解 $\mathbf{w}^{*}=\delta\cdot\Sigma_{IC}^{-1}\cdot\overline{{\mathbf{IC}}}$ 。如果 alpha 因子之间都线性不相关，那么优化后第 i 个 alpha 因子的权重 $\begin{array}{r}{\mathbf{w_{i}^{*}}=\delta\cdot\frac{\mathrm{IC_{i}}}{\sigma_{i}^{2}}}\end{array}$ , 为该 alpha 因子过去 24 个月的 IC 的标准差, 为 IC 均值。所以上节提到的IC_IR 加权方法可以看作 alpha 优化方法在因子线性不相关情况下的一个变种，弱化了 alpha 优化方法对风险的重视度。
+在上一篇报告中，我们为了考察 alpha因子相关性的影响，证明报告提出的因子筛选流程没有过多信息损失，采用了 Qian(2007)提出的 Alpha 优化方法来计算 alpha 因子的权重，优化结果有显式解 $\mathsf{w}^{*}=\delta\cdot\Sigma_{IC}^{-1}\cdot\overline{{\mathbf{IC}}}$ 。如果 alpha 因子之间都线性不相关，那么优化后第 i 个 alpha 因子的权重 $\begin{array}{r}{\mathbf{w}_{\mathrm{i}}^{*}=\delta\cdot\frac{\mathrm{IC_{i}}}{\sigma_{i}^{2}}}\end{array}$ , 为该 alpha 因子过去 24 个月的 IC 的标准差, 为 IC 均值。所以上节提到的IC_IR 加权方法可以看作 alpha 优化方法在因子线性不相关情况下的一个变种，弱化了 alpha 优化方法对风险的重视度。
 
 对于风险中性化处理后的 alpha因子, Alpha优化方法的结果仍然如图 7和图 8所示，可以看到 Alpha 优化方法的多空组合收益率明显要比等权和 IC_IR 加权方法低，每个月差不多少了一个百分点，但是稳健性要高不少，多空组合 Sharpe 值可以提升到 4.21，多空组合的最大回撤也从9.1%降为 6.2%。
 
@@ -255,51 +255,51 @@ Raw IC 和 Purified Alpha 是拿原始或中性化处理后的 alpha 因子去�
 带风险控制的多空组合或指数增强组合构建可以表示成以下 Mean-Variance 优化问题：
 
 $$
-\operatorname*{max}_{\mathbf{w}}~\alpha^{\prime}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot\Sigma\cdot w\qquad\ldots\dots\tag{1.3}
+\operatorname*{max}_{w}~\alpha^{\prime}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot\Sigma\cdot w\qquad\ldots\ldots\tag{1.3}
 $$
 
 $$
-\quad\mathrm{s.t.}\quad\left[{\begin{array}{l}{e^{\prime}}\\{B^{\prime}}\end{array}}\right]\cdot w=\tilde{B}\cdot w=0
+\mathrm{s.t.}\quad\left[\begin{matrix}{e^{\prime}}\\{B^{\prime}}\end{matrix}\right]\cdot w=\tilde{B}\cdot w=0
 $$
 
 其中： 是一个 矩阵，表示预测的 N只股票的未来收益。
 
-是一个 的单位 1 矩阵，如果是做多空组合， $\mathbf{e^{\prime}}\cdot\mathbf{w}=0$ 表示组合是资金中性的，多头和空头资金量相等；如果是做指数增强组合, w 表示组合的主动权重（active weight，组合权重和基准权重的差额）， $\mathbf{e^{\prime}}\cdot\mathbf{w}=0$ 表示在满仓做指数增强。
+是一个 的单位 1 矩阵，如果是做多空组合， $\mathbf{e}^{\prime}\cdot\mathbf{w}=0$ 表示组合是资金中性的，多头和空头资金量相等；如果是做指数增强组合, w 表示组合的主动权重（active weight，组合权重和基准权重的差额）， $\mathbf{e}^{\prime}\cdot\mathbf{w}=0$ 表示在满仓做指数增强。
 
-B 是 $\Nu\times\Kup$ 的风险暴露矩阵，K 为风险因子数量。基于这些风险因子可以对股票收益率的协
-方差矩阵做出估计， $\Sigma=\mathbf{B}\cdot\boldsymbol{\mathbf{F}}\cdot\mathbf{B}^{\prime}+S$ ， 是 K个风险因子的 协方差矩阵， 是 $\mathrm{N}\times\mathrm{N}_{\mathrm{l}}$ 的
+B 是 $\mathrm{N\times K\check{\mathfrak{f}}}$ 的风险暴露矩阵，K 为风险因子数量。基于这些风险因子可以对股票收益率的协
+方差矩阵做出估计， $\Sigma=\mathrm{B}\cdot\mathrm{F}\cdot\mathrm{B}^{\prime}+S$ ， 是 K个风险因子的 协方差矩阵， 是 $|\mathrm{N}\times\mathrm{N}|$ 的
 特质方差（Specific Risk）对角阵。记矩阵 $\tilde{B}^{\prime}=[e,B]$ o
 
-带约束条件的优化问题（1.3）可以通过 Lagrange 算子转换成无约束优化问题，再通过一阶导数等于 0 的条件容易求得最优解 $\begin{array}{r}{\mathbf{\dot{w}^{\star}}=\lambda^{-1}S^{-1}\left(I-\tilde{B}\big(\tilde{B}^{\prime}S^{-1}\tilde{B}\big)^{-1}\tilde{B}^{\prime}\cdot S^{-1}\right)\boldsymbol{\alpha},}\end{array}$
+带约束条件的优化问题（1.3）可以通过 Lagrange 算子转换成无约束优化问题，再通过一阶导数等于 0 的条件容易求得最优解 $\begin{array}{r}{\mathsf{I}\mathbf{w}^{\star}=\lambda^{-1}S^{-1}\left(I-\tilde{B}\big(\tilde{B}^{\prime}S^{-1}\tilde{B}\big)^{-1}\tilde{B}^{\prime}\cdot S^{-1}\right)\alpha,}\end{array}$
 
-如果把预测收益率对风险因子做加权线性回归，权重为 $S^{-1}$ ，取残差项 $\alpha_{\perp}$
+如果把预测收益率对风险因子做加权线性回归，权重为 $S^{-1}$ ，取残差项 $\pmb{\alpha}_{\perp}$
 
 $$
-\alpha=\tilde{B}\cdot f+\alpha_{\perp},\ \alpha_{\perp}\sim N(0,S)\ \Rightarrow\ \alpha_{\perp}=(I-\tilde{B}\big(\tilde{B}^{\prime}S^{-1}\tilde{B}\big)^{-1}\tilde{B}^{\prime}\cdot S^{-1})\cdot\alpha
+\alpha=\tilde{B}\cdot f+\alpha_{\perp},\alpha_{\perp}\sim N(0,S)\Rightarrow\alpha_{\perp}=(I-\tilde{B}\big(\tilde{B}^{\prime}S^{-1}\tilde{B}\big)^{-1}\tilde{B}^{\prime}\cdot S^{-1})\cdot\alpha
 $$
 
 则上述最优解还可以表示成下面无约束优化问题（1.4）的解：
 
 $$
-\operatorname*{max}_{\mathbf{w}}\alpha_{\perp}^{\prime}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot S\cdot w\Rightarrow w^{\star}=\lambda^{-1}S^{-1}\alpha_{\perp}=\lambda^{-1}S^{-1}\left(I-\tilde{B}\big(\tilde{B}^{\prime}S^{-1}\tilde{B}\big)^{-1}\tilde{B}^{\prime}\cdot S^{-1}\right)\alpha_{\perp}.
+\operatorname*{max}_{w}\alpha_{\perp}^{\prime}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot S\cdot w\Rightarrow w^{*}=\lambda^{-1}S^{-1}\alpha_{\perp}=\lambda^{-1}S^{-1}\left(I-\tilde{B}\big(\tilde{B}^{\prime}S^{-1}\tilde{B}\big)^{-1}\tilde{B}^{\prime}\cdot S^{-1}\right)\alpha
 $$
 
-如果拿个股真实收益率 也对风险因子做加权线性回归，权重也为 ${\mathsf{S}}^{-1}$ ，取残差项 $\boldsymbol{\Gamma}_{\perp}$
+如果拿个股真实收益率 也对风险因子做加权线性回归，权重也为 $S^{-1}$ ，取残差项 $\mathbf{r}_{\perp}$
 
 $$
-\mathbf{r}={\tilde{B}}\cdot f_{r}+\mathbf{r_{\bot}},\ \mathbf{r_{\bot}}\sim N(0,S)\Rightarrow\mathbf{r_{\bot}}=\left(I-{\tilde{B}}{\left({\tilde{B}}^{\prime}S^{-1}{\tilde{B}}\right)}^{-1}{\tilde{B}}^{\prime}\cdot S^{-1}\right)\cdot{r}
+\mathbf{r}=\tilde{B}\cdot f_{r}+\mathbf{r}_{\perp},\mathbf{r}_{\perp}\sim N(0,S)\Rightarrow\mathbf{r}_{\perp}=(I-\tilde{B}\big(\tilde{B}^{\prime}S^{-1}\tilde{B}\big)^{-1}\tilde{B}^{\prime}\cdot S^{-1})\cdot r
 $$
 
 则在最优权重下，股票组合的收益率
 
 $$
-\mathrm{r_{p}}={w^{\star}}^{\prime}\cdot r=(\lambda^{-1}S^{-1}\alpha_{\bot})^{\prime}\cdot(\tilde{B}\cdot f+\mathrm{r_{\bot}})
+\mathbf{r}_{\mathtt{p}}=w^{\star^{\prime}}\cdot r=(\lambda^{-1}S^{-1}\alpha_{\perp})^{\prime}\cdot(\tilde{B}\cdot f+\mathbf{r}_{\perp})
 $$
 
-容易证明 $\alpha_{\bot}^{\prime}\cdot S^{-1}\cdot\widetilde{B}=0$ ，并记 ${\boldsymbol\tilde{\mathbf{z}}}=(\tilde{\mathbf{z}}_{1},\tilde{\mathbf{z}}_{2}\dots\tilde{\mathbf{z}}_{\mathrm{N}})^{\prime},\tilde{\mathbf{r}}=(\tilde{r}_{1},\tilde{r}_{2}\dots\tilde{r}_{\mathrm{N}})^{\prime}$ $\begin{array}{r}{\tilde{{\bf z}}_{i}=\frac{{\alpha_{\perp,i}}}{\sqrt{S_{i}}},\tilde{r}_{i}=\frac{{\bf r}_{\perp,i}}{\sqrt{S_{i}}}}\end{array}$ ，则：
+容易证明 $\boldsymbol{\alpha}_{\perp}^{\prime}\cdot\boldsymbol{S}^{-1}\cdot\tilde{\boldsymbol{B}}=0$ ，并记 $\mathbf{\tilde{\mathtt{Z}}}=(\tilde{\mathtt{z}}_{1},\tilde{\mathtt{z}}_{2}\dots\tilde{\mathtt{z}}_{\mathrm{N}})^{\prime},\tilde{\mathbf{r}}=(\tilde{r}_{1},\tilde{r}_{2}\dots\tilde{r}_{\mathrm{N}})^{\prime}$ $\begin{array}{r}{\tilde{\bf z}_{i}=\frac{\tilde{\bf u}_{\perp,i}}{\sqrt{S_{i}}},\quad\tilde{r}_{i}=\frac{{\bf r}_{\perp,i}}{\sqrt{S_{i}}}}\end{array}$ ，则：
 
 $$
-\begin{array}{l}{\displaystyle{\bf r}_{\bf p}=\lambda^{-1}{\bf\alpha}\alpha_{\perp}^{\prime}\cdot S^{-1}\cdot{\bf r}_{\perp}=\lambda^{-1}({\bf\alpha}\alpha_{\perp}^{\prime}\cdot S^{-\frac{1}{2}})\cdot(S^{-\frac{1}{2}}\cdot{\bf r}_{\perp})=\frac{1}{\lambda}\displaystyle\sum_{i=1}^{N}({\widetilde\bf z}_{i}\times{\widetilde\bf r}_{i})=\frac{N}{\lambda}\times corr({\widetilde\bf z},{\widetilde\bf r})\times{\bf\alpha}\sigma_{\widetilde{\bf z}}\times{\bf\sigma}_{\widetilde{\bf z}}}\end{array}
+\begin{aligned}\mathbf{r}_{\mathbf{p}}&=\lambda^{-1}\boldsymbol{\alpha}_{\perp}^{\prime}\cdot\boldsymbol{S}^{-1}\cdot\mathbf{r}_{\perp}=\lambda^{-1}(\boldsymbol{\alpha}_{\perp}^{\prime}\cdot\boldsymbol{S}^{-\frac{1}{2}})\cdot(\boldsymbol{S}^{-\frac{1}{2}}\cdot\mathbf{r}_{\perp})=\frac{1}{\lambda}\sum_{i=1}^{N}(\tilde{\boldsymbol{z}}_{i}\times\tilde{\mathbf{r}}_{i})=\frac{N}{\lambda}\times Corr(\tilde{\mathbf{z}},\tilde{\mathbf{r}})\times\boldsymbol{\sigma}_{\tilde{\mathbf{z}}}\times\boldsymbol{\sigma}_{\tilde{\mathbf{r}}}\\&\approx\frac{N}{\lambda}\times error(\tilde{\mathbf{z}},\tilde{\mathbf{r}})\end{aligned}
 $$
 
 我们把 ̃ 称作风险调整 alpha， ̃称作风险调整收益， ̃ ̃ 称作风险调整 IC。容易证明，当所有股票的特质风险相同时，Purified Alpha IC 和 Risk Adjusted IC 相等。

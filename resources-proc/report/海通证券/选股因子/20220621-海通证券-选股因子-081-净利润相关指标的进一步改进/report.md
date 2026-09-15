@@ -192,7 +192,7 @@ Email:yhm9591@htsec.com
 除 ROE外，SUE也是常见的与盈利相关的选股指标，用于描述超预期的盈余状况，一般会和 ROE搭配使用。计算公式如下：
 
 $$
-\mathtt{SUE}=\mathtt{DREV}/\mathtt{SD}(\mathtt{DREV}_{\mathtt{t=1},\mathtt{m},4})
+\tt SUE=DREV/SD(DREV_{t=1...4})
 $$
 
 其中，DREV 为净利润同比增量， 为过去四个季度净利润同比增量的标准差。从计算公式来看，SUE也可认为是波动率调整后的净利润同比变化。

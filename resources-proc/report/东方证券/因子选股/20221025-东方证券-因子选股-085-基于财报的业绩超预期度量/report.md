@@ -67,17 +67,17 @@ $$
 SUE_{i,t}=\frac{\Delta Q_{i,t}-E(\Delta Q_{i,t})}{\sigma(\Delta Q_{i,t})}\tag{1}
 $$
 
-其中， $\Delta Q_{i,t}$ 表示公司财报公告的净利润单季同比增长， $E\left(\Delta Q_{i,t}\right),~\sigma(\Delta Q_{i,t})$ 分别表示公告前的预测值和预测标准差。根据季节性随机游走模型是否含漂移项，我们可以得到两种不同的时间序列模型：
+其中， $\Delta Q_{i,t}$ 表示公司财报公告的净利润单季同比增长， $E\left(\Delta Q_{i,t}\right)、\sigma\left(\Delta Q_{i,t}\right)$ 分别表示公告前的预测值和预测标准差。根据季节性随机游走模型是否含漂移项，我们可以得到两种不同的时间序列模型：
 
 $$
-Q_{i,t}=Q_{i,t-4}+C_{i,t}+\varepsilon_{i,t}\ \big(\mathrm{~}{\widehat{\Xi}|\dddot{\Xi}|\dddot{\Xi}|\llangle|\overline{{\mathcal{X}}}|\llangle|\mathcal{X}}\big)\tag{2}
+$Q_{i,t}=Q_{i,t-4}+C_{i,t}+\varepsilon_{i,t}$(含漂移项)\tag{2}
 $$
 
 $$
-Q_{i,t}=Q_{i,t-4}+\varepsilon_{i,t}\ (\ \mp\Longleftrightarrows\exists\mp\pmb{\underline{{\mp}}}\mp\pmb{\underline{{\mp}}}\ \pmb{\underline{{\mp}}}\ \mathbf{I}\pmb{\underline{{\jmath}}}\ )\tag{3}
+$Q_{i,t}=Q_{i,t-4}+\varepsilon_{i,t}$(不含漂移项)\tag{3}
 $$
 
-在含漂移项的随机游走模型假设下， $\begin{array}{r}{E\big(\Delta Q_{i,t}\big)=\frac{\sum_{i=1}^{n}\Delta Q_{i,t-j}}{n},~\sigma\big(\Delta Q_{i,t}\big)=\sqrt{\frac{\sum_{i=1}^{n}(\Delta Q_{i,t-j}-\mu)^{2}}{n-1}}}\end{array}$ ；在不含漂移项的随机游走模型假设下， $\begin{array}{r}{E\bigl(\Delta Q_{i,t}\bigr)=0,\sigma\bigl(\Delta Q_{i,t}\bigr)=\sqrt{\frac{\sum_{i=1}^{n}\Delta{Q_{i,t-j}}^{2}}{n-1}}}\end{array}$ （n 默认取 8）。因此，在随机游走模型假设下，我们可以得到两类 SUE因子。
+在含漂移项的随机游走模型假设下， $E\left(\Delta Q_{i,t}\right)=\frac{\sum_{i=1}^{n}\Delta Q_{i,t-j}}{n},\quad\sigma\left(\Delta Q_{i,t}\right)=\sqrt{\frac{\sum_{i=1}^{n}\left(\Delta Q_{i,t-j}-\mu\right)^{2}}{n-1}}$ ；在不含漂移项的随机游走模型假设下， $E\left(\Delta Q_{i,t}\right)=0,\sigma\left(\Delta Q_{i,t}\right)=\sqrt{\frac{\sum_{i=1}^{n}\Delta Q_{i,t-j}^{2}}{n-1}}$ （n 默认取 8）。因此，在随机游走模型假设下，我们可以得到两类 SUE因子。
 
 除去上文展示的算法外，我们还可以对 $\Delta Q_{i,t}$ 构建 AR（1）、MA（1）等时序模型等方法来计算超预期因子。但经测算，发现不同算法间因子的相关性较高，为避免冗余，我们只保留随机游走模型下的两类算法。
 
@@ -88,15 +88,15 @@ $$
 事实上，除去净利润与营业收入，毛利在利润表中也是一项重要科目。下面公式展示了营业收入、毛利与净利润在利润表中的简化勾稽关系1。其中，营业收入与毛利的主要区别在于是否包含营业成本，而净利润与毛利的主要区别在于是否包含销售、管理、研发、财务费用等。因此，毛利这个字段可以提供不同于净利润与营业收入的业绩信息、拓宽我们对于业绩刻画的角度。相对营业收入，毛利多了一些成本的考虑，相对净利润，毛利少了一些更容易操控的会计项目。
 
 $$
-\frac{1}{5}\times114\times\lambda-\frac{2}{5}\times11\times5\times2\pi=75\pi
+营业收入-营业成本=毛利
 $$
 
 $$
-\begin{array}{r}{\sum\sharp\sharp||+\frac{\hbar\wedge\mathord{\geqslant}\mathscr{R}}{\dag\dag}|\dag\sum_{1\dag\dag}^{2,2,4}-\frac{\hbar\mapsto\mathscr{R}}{\dag\dag}\dag\underline{{\dag\dag}}=\frac{\hbar\to\tau_{1}\dag\dag}{\dag\dag}\lVert-\frac{\hbar\to\tau_{1}\dag\dag}{\dag\dag\dag}\rVert-\frac{\hbar\dag\dag\dag\sum_{1}\dag}{\dag\dag\dag\sum_{1\dag}\dag}\lVert-\frac{\hbar\dag\dag\dag\sum_{1}\dag}{\dag\dag\dag\sum_{1\dag}\dag}\lVert-\frac{\hbar\dag\dag\dag}{\dag\dag\dag\sum_{1\dag}\dag}\rVert=\frac{\hbar\to\tau_{1}}{\dag\dag\dag\dag}\lVert\dot{\gamma}_{1}\dag\rVert.}\end{array}
+毛利+投资收益-销售费用-管理费用-研发费用-财务费用=营业利润
 $$
 
 $$
-\begin{array}{r}{\frac{\pm\pm}{\Xi^{3}}\underline{{\vee}}|\langle\mathcal{F}|\mathcal{J}_{l}|\Xi\rangle+\frac{\pm\pm}{\Xi^{3}}\underline{{\vee}}|\langle\mathcal{I}\rangle\rrangle\rrangle\rrangle-\frac{\pm\pm}{\Xi^{3}}\underline{{\vee}}|\langle\mathcal{I}\rangle\rrangle\rrangle\underline{{}}\ \underline{{\Psi}}|\qquad-\widetilde{\jmath}\widetilde{\Gamma}_{1}^{\prime}\{\Xi\}\underline{{\breve{\Gamma}}}|\mathcal{J}_{l}|\sum\rrangle}\end{array}
+营业利润+营业外收入-营业外支出-所得税=净利润
 $$
 
 综上，我们在业绩超预期因子“公告值减去预期值除以规模数”的框架下，分别采用了两种算法（是否含漂移项的随机游走模型）与三个字段（净利润、营业收入与毛利），总共构建了六类业绩超预期因子。为了表述方便，我们用 SUE0、SUE1表示两类净利润因子（0表示含漂移项、1表示不含漂移项，下同），用 SUR0、SUR1表示两类营业收入因子，用 SUG0、SUG1表示两类毛利因子。
@@ -451,7 +451,7 @@ $$
 业绩预告作为公司盈利情况的预测，自身也可以作为财报发布前的比较基准来加以利用。在报告《上市公司业绩预告信息研究》业绩预告均值偏离度因子的基础上，我们新增了财报净利润相对业绩预告上下限因子，并分别用 EBIAS0和 EBIAS1表示。
 
 $$
-\begin{array}{r}{EBIAS_{0}=\frac{\underset{\overrightarrow{\mathbf{J}}}{\triangledown}\mathbf{\mathcal{J}}\overrightarrow{\mathbf{J}}\overrightarrow{\mathbf{J}}\overrightarrow{\mathbf{J}}-\frac{\overline{{\mathbf{J}}}}{\textnormal{J}}\underset{\overrightarrow{\mathbf{J}}}{\triangledown}(\frac{\overrightarrow{\mathbf{J}}+\overrightarrow{\mathbf{J}}}{\overrightarrow{\mathbf{J}}})\wedge\overrightarrow{\mathbf{J}}\overrightarrow{\mathbf{J}}}{\overrightarrow{\mathbf{J}}\vert\vert\overrightarrow{\mathbf{J}}}-\frac{\overline{{\mathbf{J}}}}{\textnormal{J}}\overline{{\mathbf{K}}}\mathbf{\mathbf{J}}\overrightarrow{\mathbf{J}}\widehat{\mathbf{J}}\overrightarrow{\mathbf{J}}}\\{\frac{\overline{{\mathbf{J}}}}{\textnormal{J}\vert\overrightarrow{\mathbf{J}}\vert}\underset{\textnormal{\textbf{ J }}}{\Longleftrightarrow}(\not{\cong}\overrightarrow{\mathbf{J}}\underset{\overrightarrow{\mathbf{J}}}{\qqless}\mathbf{\bar{J}}\mathbf{\bar{\Psi}}\mathbf{I})\wedge\overrightarrow{\mathbf{J}}\overrightarrow{\mathbf{J}}\mathbf{J}\overrightarrow{\mathbf{J}}\overrightarrow{\mathbf{J}}}\\EBIAS_{1}=\frac{\underset{\overrightarrow{\mathbf{J}}}{\everymath{\textbf{ J }}}+\underset{\overrightarrow{\mathbf{J}}}{\everymath{\textbf{ J }}}+\underset{\overrightarrow{\mathbf{J}}}{\everymath{\textbf{ J }}}\overrightarrow{\mathbf{J}}\overrightarrow{\mathbf{J}}}{\everymath{\textbf{ J }}\overrightarrow{\mathbf{J}}}-\frac{\overline{{\mathbf{J}}}}{\textnormal{J}\vert\overrightarrow{\mathbf{J}}\vert}\overrightarrow{\mathbf{J}}\end{array}
+\begin{aligned}&EBIAS_{0}=\frac{财报(单季)净利润-预告(单季)净利润上下限均值}{预告(单季)净利润上下限均值}\\&\\&EBIAS_{1}=\frac{财报净利润-预告净利润下限}{预告净利润上限-预告净利润下限}\\\end{aligned}
 $$
 
 从因子表现来看，虽然两类 EBIAS 因子的 RankIC 不高，但其在行业市值中性化后的回撤较低，如 EBIAS0和 EBIAS1自2010年起在中证全指内的多空组合最大回撤分别为-3.91%和-7.10%，显示了较好的因子稳定性。

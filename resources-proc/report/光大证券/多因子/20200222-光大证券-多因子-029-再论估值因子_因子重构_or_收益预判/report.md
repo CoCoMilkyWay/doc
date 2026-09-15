@@ -645,25 +645,25 @@ $$
 | 风格大类 | 细分因子 | 因子计算方式 |  |
 | --- | --- | --- | --- |
 | Size（规模） | LNCAP | 对数总市值 |  |
-| Beta(CAPM 模型 Beta) | BETA | 该因子用以衡量市场性风险: $u_{i}=\alpha+\beta r_{m}+e_{i}$ |  |
+| Beta(CAPM 模型 Beta) | BETA | 该因子用以衡量市场性风险: $u_{i}=\:\alpha+\beta r_{m}+e_{i}$ |  |
 |  |  | 按照 CAPM 理论使用沪深 300 指数收益率对个股收益率进行半衰期为 60 个交易日的指 数加权滚动回归，取回归模型斜率即为beta；其中滚动回归的序列长度为240个交易日。 |  |
 | Momentum（动量） | RSTR | 该因子衡量股票前期业绩持续能力：过去一段时间T个股累积收益率 |  |
-|  |  | $RSTR=\sum_{t=L}^{T+L}w_{t}\ln(1+r_{t})$ |  |
+|  |  | $RSTR={et{}{^{T+L}}\sum}_{t=L}^{T+L}w_{t}\ln(1+r_{t})$ |  |
 |  |  | $\mathsf{T}=500,\mathsf{L}=20,w_{t}$ 为半衰期指数，半衰期为120个交易日。 |  |
-| Residual Volatility（波动） | $\mathsf{Volatility}=0.74^{\star}\mathsf{DASTD}+0.16^{\star}\mathsf{CMRA}+0.10^{\star}\mathsf{HSIGMA}$ |  |  |
-|  | DASTD | $DASTD=({\sum}^{T}w_{t}(r_{t}-u(r))^{2})^{0.5}$ |  |
+| Residual Volatility（波动） | $\mathsf{Volatility}=0.74^{\star}\:\mathsf{DASTD}+0.16^{\star}\:\mathsf{CMRA}+0.10^{\star}\:\mathsf{HSIGMA}$ |  |  |
+|  | DASTD | $DASTD=({\sum}_{t=1}^{T}w_{t}(r_{t}-u(r))^{2})^{0.5}$ |  |
 |  |  | $r_{t}$ 表示个股t日的收益率，u(r)表示过去250个交易日个股收益率均值，指数加权半衰期 |  |
 |  |  | 为 40 个交易日。 |  |
-|  | CMRA | $CMRA=ln(1+\operatorname*{max}\{Z(T)\})-ln(1+\operatorname*{min}\{Z(T)\})$ |  |
-|  |  | $Z(T)=\sum_{t=1}^{T}\ln(1+r_{t})$ $r_{\tau^{\prime}}$ 表示个股月收益率， ${\mathsf{T}}{\mathsf{=}}1,2,\ldots,12.$ |  |
+|  | CMRA | $CMRA=ln\left(1+\max\{Z(T)\}\right)-ln\left(1+\min\{Z(T)\}\right)$ |  |
+|  |  | $Z(T)={et{}{^T}\sum}_{t=1}^{T}\ln(1+r_{t})$ $r_{\tau}.$ 表示个股月收益率， $\mathsf{T}{=}1,2,\ldots,12.$ |  |
 |  | HSIGMA | $HSIGMA=std(e_{t})$ |  |
 | 计算 beta 所得残差标准差 |  |  |  |
 |  | BTOP | 市净率倒数=股东权益/总市值 |  |
-| Liquidity（流动性） | $\mathsf{Liquidity}=0.35^{\star}\mathsf{STOM}+0.35^{\star}\mathsf{STOQ}+0.30^{\star}\mathsf{STOA}$ |  |  |
-|  | $\overline{{STOM}}=\ln({\sum}^{20}\frac{V_{t}}{S_{t}})$ STOM |  |  |
-|  | Vt为t日的成交量，St为t日流通股本 $STOQ=\ln(\frac{1}{T}{\sum}^{T}\exp(STOM_{t})),\qquad T=3$ |  |  |
+| Liquidity（流动性） | $\mathsf{Liquidity}=0.35\mathbin{{}^{\star}}\mathsf{STOM}+0.35\mathbin{{}^{\star}}\mathsf{STOQ}+0.30\mathbin{{}^{\star}}\mathsf{STOA}$ |  |  |
+|  | $\boxed{STOM=\ln({\sum}_{t=1}^{20}\frac{V_{t}}{S_{t}})}$ STOM |  |  |
+|  | Vt为t日的成交量，St为t日流通股本 $STOQ=\ln(\frac{1}{T}\sum_{t=1}^{T}\exp(STOM_t)),\quad T=3$ |  |  |
 |  | STOQ STOM表示一个月（20日）换手率 |  |  |
-|  | $STOQ=\ln(\frac{1}{T}{\sum}^{T}\exp(STOM_{t})),\qquad T=12$ STOA |  |  |
+|  | $STOQ=\ln(\frac{1}{T}\sum_{t=1}^{T}\exp(STOM_t)),\quad T=12$ STOA |  |  |
 |  | Earnings Yield（盈利） |  | Earnings = 0.68 * EPFWD + 0.21 * CETOP + 0.11 * ETOP |
 | EPFWD |  | EPFWD =est_eps(TTM) / close_price，未来12 个月一致预期每股收益/收盘价 |  |
 | CETOP |  | CETOP=过去12个月每股现金收益/当前收盘价 |  |

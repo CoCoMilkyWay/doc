@@ -90,7 +90,7 @@ $$
 其一为按照筹码龄分层，即按照筹码形成并留存至今的时间长短进行划分。具体的估计方法为：设 $A_{t}(a,p)$ 为交易日 t、年龄为 a、成本位于价格 p 的筹码质量，则新增筹码进入年龄为 1 的分布，历史筹码在留存后向更高年龄滚动：
 
 $$
-\begin{array}{c}{{A_{t}(1,p)=\tau_{t}\times D_{t}(p)}}\\{{A_{t}(a+1,p)=(1-\tau_{t})\times A_{t-1}(a,p)}}\end{array}
+\begin{aligned}A_{t}(1,p)&=\tau_{t}\times D_{t}(p)\\A_{t}(a+1,p)&=(1-\tau_{t})\times A_{t-1}(a,p)\end{aligned}
 $$
 
 本文将筹码龄天数划分为 [1, 2]、[3, 10]、[11, 100]、[101, ∞) 四组，分别对应超短期、短期、中期和长期筹码。对于年龄层 g，其筹码分布定义为：
@@ -116,13 +116,13 @@ $$
 其中，某类投资者的买入换手和卖出换手分别用当日该类型投资者对应订单规模成交量与当日总成交量估计：
 
 $$
-BuyTurn_{t}^{b}=\tau_{t}\times\frac{BuyVolume_{t}^{b}}{TotalVolume_{t}},~SellTurn_{t}^{b}=\tau_{t}\times\frac{SellVolume_{t}^{b}}{TotalVolume_{t}}
+BuyTurn_{t}^{b}=\tau_{t}\times\frac{BuyVolume_{t}^{b}}{TotalVolume_{t}},\qquad SellTurn_{t}^{b}=\tau_{t}\times\frac{SellVolumente_{t}^{b}}{TotalVolume_{t}}
 $$
 
 某类投资者的新增筹码分布用当日该类型订单成交金额与成交量估计均价计算：
 
 $$
-VWAP_{t}^{b}=\frac{BuyValue_{t}^{b}}{BuyVolume_{t}^{b}}\times AdjFactor
+VWAP_{t}^{b}=\frac{BuyValue_{t}^{b}}{BuyValue_{t}^{b}}\times AdjFactor
 $$
 
 最终对四个订单通道整体归一化，使其共同构成完整的投资者类型分层筹码分布。

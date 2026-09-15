@@ -224,19 +224,19 @@ Average assets
 
 因此，在考虑低投资是否是一种防御性特征时，对于投资的定义很重要。我们通过以下六种指标进行分析：
 
-（1）异常资本投资： $\begin{array}{r}{\mathrm{AbnCapex}=\frac{\mathrm{CE}_{\mathrm{t-1}}}{(\mathrm{CE}_{\mathrm{t-2}}+\mathrm{CE}_{\mathrm{t-3}}+\mathrm{CE}_{\mathrm{t-4}})/3}-1}\end{array}$ ，其中 $\mathrm{CE}_{\mathrm{t}-1}$
+（1）异常资本投资： $\mathrm{AbnCapex}=\frac{\mathrm{CE_{t-1}}}{(\mathrm{CE_{t-2}}+\mathrm{CE_{t-3}}+\mathrm{CE_{t-4}})/3}-1$ ，其中 $\mathbf{CE_{t-1}}$
 
 是按销售额来衡量的公司资本支出。我们使用过去三年的平均资本支出来预测公司成立年度的基准投资，若 AbnCapex 大于 0，则认定 t 年为高投资。使用销售额作为平减指数，假设资本支出的基准水平将与销售成比例增长。根据此定义，AbnCapex 值等于（大于、小于）零表示形成年度的资本投资与（大于、小于）前三年的平均水平相同。
 
-（2）资本支出增长率： $\mathrm{CapexG}={\frac{\mathrm{CE}_{\mathrm{t}-1}}{\mathrm{CE}_{\mathrm{t}-2}}}-1$
+（2）资本支出增长率： $\mathrm{CapexG}=\frac{\mathrm{CE_{t-1}}}{\mathrm{CE_{t-2}}}-1$
 
-（3）总资产： $\begin{array}{r}{\mathrm{DAsset}=\frac{\mathsf{Assets}_{\mathrm{t-1}}-\mathsf{Assets}_{\mathrm{t-2}}}{\mathsf{Assets}_{\mathrm{t-2}}}}\end{array}$
+（3）总资产： $\mathrm{DAsset}=\frac{\mathrm{Assets}_{\mathrm{t-1}}\mathrm{-Assets}_{\mathrm{t-2}}}{\mathrm{Assets}_{\mathrm{t-2}}}$
 
-（4）账面权益增长： $\begin{array}{r}{\mathrm{DEquity}=\frac{\mathrm{B}_{\mathrm{t-1}}-\mathrm{B}_{\mathrm{t-2}}}{\mathrm{B}_{\mathrm{t-2}}}}\end{array}$
+（4）账面权益增长： $\mathrm{DEquity}=\frac{\mathrm{B}_{\mathrm{t}-1}-\mathrm{B}_{\mathrm{t}-2}}{\mathrm{B}_{\mathrm{t}-2}}$
 
-（5）外部融资增长： $\begin{array}{r}{\mathrm{ExtFin}=\frac{\mathrm{XFIN}_{\mathrm{t-1}}}{(\mathrm{Assets}_{\mathrm{t-1}}+\mathrm{Assets}_{\mathrm{t-2}})/2}}\end{array}$ ， 其 中 $\mathrm{XFIN_{t}=}$ $\Delta CEQUITY_{\mathrm{t}}+\Delta PEQUITY_{\mathrm{t}}+\Delta\mathrm{DEBT_{\mathrm{t}}}$ ，∆CEQUITY指普通股发行减去普通股回购和股息，∆PEQUITY指优先股发行减少优先股退出和回购，∆DEBT指债务发行减去债务和回购。
+（5）外部融资增长： $\mathrm{ExtFin}=\frac{\mathrm{XFIN}_{\mathrm{t-1}}}{(\mathrm{Assets}_{\mathrm{t-1}}+\mathrm{Assets}_{\mathrm{t-2}})/2}$ ， 其 中 $\mathrm{XFN_{t}}=$ $\Delta CEQUITY_{t}+\Delta PEQUITY_{t}+\Delta DEBT_{t}$ ，∆CEQUITY指普通股发行减去普通股回购和股息，∆PEQUITY指优先股发行减少优先股退出和回购，∆DEBT指债务发行减去债务和回购。
 
-（6）股票发行增长：CRSP 提供的因子f的累积乘积 $\mathrm{Total\ Factor_{t}=}$ $\Pi_{\mathrm{i=1}}^{\mathrm{t}}(1+\mathrm{f_{i}})$ ， 调整流通股数量 $\mathrm{AdjustedShares}_{\mathrm{t}}=\frac{\mathrm{SharesOutstanding}_{\mathrm{t}}}{\mathrm{Total~Factor}_{\mathrm{t}}}$ 年度股票发行量 $\mathrm{ISSUE}_{\mathrm{t},\mathrm{t}-11}=\mathrm{Ln}(\mathrm{AdjustedShares}_{\mathrm{t}})-$ $\mathrm{Ln}(\mathrm{AdjustedShares}_{\mathrm{t-11}})$
+（6）股票发行增长：CRSP 提供的因子f的累积乘积 $\mathrm{Total\_Factor_{t}=}$ $\textstyle\prod_{\mathrm{i}=1}^{\mathrm{t}}(1+\mathbf{f}_{\mathrm{i}})$ ， 调整流通股数量 $\mathrm{AdjustedShares_{t}=\frac{SharesOutstanding_{t}}{TotalFactor_{t}}}$ 年度股票发行量 $\mathrm{ISSUE_{t,t-11}=Ln(AdjustedShares_{t})-}$ $\mathrm{Ln(AdjustedShares_{t-11})}$
 
 ## 2.3.5. 杠杆
 
@@ -304,10 +304,10 @@ Average assets
 我们对以下式子进行回归分析：
 
 $$
-\begin{array}{r}{logit{(L_{i,t})}=\beta_{0}+\beta_{1}D_{i,t}+\beta_{2}B_{i,t}+\beta_{3}M_{i,t}+\beta_{4}S_{i,t}+\beta_{5}V_{i,t}}\end{array}
+logit\left(L_{i,t}\right)=\beta_{0}+\beta_{1}D_{i,t}+\beta_{2}B_{i,t}+\beta_{3}M_{i,t}+\beta_{4}S_{i,t}+\beta_{5}V_{i,t}
 $$
 
-其中， $L_{i,t}$ 是指股票 i在时间 t 时的永久性资本损失， $\beta_{0}$ 是指截距， $\beta_{1}$ 是指的防御特征（D）的系数， $\beta_{2}\underline{{\Sigma}}\beta_{5}$ 依次是控制变量市场 beta (B)、动量(M)、规模(S)和价值(V)的系数。
+其中， $L_{i,t}$ 是指股票 i在时间 t 时的永久性资本损失， $\beta_{0}$ 是指截距， $\beta_{1}$ 是指的防御特征（D）的系数， $\beta_{2}至\beta_{5}$ 依次是控制变量市场 beta (B)、动量(M)、规模(S)和价值(V)的系数。
 
 表 3：永久资本损失回归结果
 
@@ -341,7 +341,7 @@ $$
 |  | ROE | -0.058*** | -5.57 | 8.67% | 15.57% |
 |  | ROIC | -0.186*** | -16.18 | 8.65% | 15.82% |
 
-数据来源：《In Search of a Defensive Equity Factor》。注：在每个分析日期，永久资本损失二元变量 L以上述公式的形式回归到预测值上。这里给出的平均值是 2000 年 9月至 2020年 12月之间的分析日期，并基于 DM 的股票范围。隐含的概率是一个按 L分组的平均值。*p < 0.05、 $^{**}\mathrm{p}<0.01$ 、***p < 0.001。
+数据来源：《In Search of a Defensive Equity Factor》。注：在每个分析日期，永久资本损失二元变量 L以上述公式的形式回归到预测值上。这里给出的平均值是 2000 年 9月至 2020年 12月之间的分析日期，并基于 DM 的股票范围。隐含的概率是一个按 L分组的平均值。*p < 0.05、 $^{**}\mathtt{p}<0.01$ 、***p < 0.001。
 
 回归分析检验了永久性资本损失与相关因素是否显著相关，以及是否存在因果关系。结果发现，波动性最显著，表明人们过于区分暂时价格波动风险和永久资本损失风险；资产周转率、Accr1、Accr2 以及投资、杠杆和盈利性指标都有非常显著的负系数，在这些特征中，杠杆指标的系数最为显著，其次是盈利性系数。盈利性指标的 ROE相较其他指标较不显著，表明该定义的防御性较低。投资指标的系数差距较大，表明在考虑低投资是否是一种防御性特征时，对于投资的定义很重要。增长指标系数显著为正，表明高增长潜力的股票不具有防御属性。
 
@@ -352,10 +352,10 @@ $$
 我们通过以下式子回归：
 
 $$
-R_{i,t+1}=\alpha_{t+1}+\sum_{c}\delta_{i\in c,t}r_{c,t+1}+\sum_{f}Z_{f,i,t}r_{f,t+1}+\varepsilon_{i,t+1}
+R_{i,t+1}=\alpha_{t+1}+\sum_{c}\delta_{i\in c,t}r_{c,t+1}+\sum_{f}Z_{f,i,t}r_{f,t+1}+\varepsilon_{i,t+1},
 $$
 
-其中， $R_{i,t+1}$ 为 t 到 t+1 时间内股票 i以美元计价的月回报率， $\alpha_{t+1}$ 为t到t+1 时间内资本化加权基准， $\delta_{i\in{\mathcal{c}},t}={\left\{\begin{array}{ll}{1}&{if}\\{0}&{if}\end{array}\right.}_{i}\in c_{}$ 股票 i 在 t 时刻对行业或国家的虚拟可变敞口， $Z_{f,i,t}$ 股票 i的资本化加权 z 分数到 t 时刻的f的样式因子， $r_{f,t+1}$ 为 t 到 t+1 时间内国家或行业的回报率， $r_{f,t+1}$ 为 t 到 t+1时间内因素 f的回报率， $\varepsilon_{i,t+1}$ 为 t 到 t+1时间内股票 i的剩余回报。
+其中， $R_{i,t+1}$ 为 t 到 t+1 时间内股票 i以美元计价的月回报率， $\alpha_{t+1}$ 为t到t+1 时间内资本化加权基准， $\delta_{i\in c,t}=\left\{\begin{matrix}{1\quad if\quad i\in c_{j}}\\{0\quad if\quad i\notin c^{\prime}}\end{matrix}\right.$ 股票 i 在 t 时刻对行业或国家的虚拟可变敞口， $Z_{f,i,t}$ 股票 i的资本化加权 z 分数到 t 时刻的f的样式因子， $r_{f,t+1}$ 为 t 到 t+1 时间内国家或行业的回报率， $r_{f,t+1}$ 为 t 到 t+1时间内因素 f的回报率， $\varepsilon_{i,t+1}$ 为 t 到 t+1时间内股票 i的剩余回报。
 
 表 4：横断面回归结果
 
@@ -390,7 +390,7 @@ $$
 | ROE | 0.061* | 2.08 | 0.177** | 2.63 | -0.007 | -0.08 | 0.061 | 0.94 | 0.000 | 0.02 |
 | ROIC | 0.095** | 2.34 | 0.171** | 2.35 | 0.043 | 0.27 | 0.096 | 1.05 | 0.057 | 1.16 |
 
-数据来源：《In Search of a Defensive Equity Factor》。注：在每个分析日期，未来的月回报以上述公式的形式回归到预测变量上。这里给出的平均值是 2000年9月至 2021年 12月之间的分析日期，并基于 DM 的股票范围。用于计算平均值的数据来自于总周期阶段和不同的业务周期阶段。 $^{*}\mathrm{p}<0.05,^{**}\mathrm{p}<0.01,^{***}\mathrm{p}<0.001$
+数据来源：《In Search of a Defensive Equity Factor》。注：在每个分析日期，未来的月回报以上述公式的形式回归到预测变量上。这里给出的平均值是 2000年9月至 2021年 12月之间的分析日期，并基于 DM 的股票范围。用于计算平均值的数据来自于总周期阶段和不同的业务周期阶段。 $\mathrm{p}<0.05,\mathrm{**p}<0.01,\mathrm{***p}<0.001$
 
 通过回归分析结果发现，除盈利波动性 StdROA外，所有特征都有正的平均回报；此外，所有的盈利性、大部分的杠杆和收益质量指标的回报都是显著的，表明防御特征与正的超额回报相关。
 
@@ -492,7 +492,7 @@ $$
 最后，我们分析投资组合的主动回报与市场之间的关系。我们对下式进行普通最小二乘时间序列回归：
 
 $$
-Active\ return=\alpha+\beta_{0}Market\ return+\beta_{1}Market\ return^{2}
+Active\quad return=\alpha+\beta_{0}Market\quad return+\beta_{1}Market\quad return^{2}
 $$
 
 表 7：主动回报回归结果
@@ -528,9 +528,9 @@ $$
 | ROE | 0.000 | 0.90 | -0.019*** | -10.78 | 0.046 | 0.95 |
 | ROIC | 0.000 | 1.63 | -0.028*** | -15.03 | 0.039 | 0.77 |
 
-数据来源：《In Search of a Defensive Equity Factor》。注：模拟投资组合的每日主动回报以上述公式中规定的形式回归到市场回报上。 $^{\ast}\mathrm{p}<0.05,^{\ast\ast}\mathrm{p}<0.01,^{\ast\ast\ast}\mathrm{p}<0.001$
+数据来源：《In Search of a Defensive Equity Factor》。注：模拟投资组合的每日主动回报以上述公式中规定的形式回归到市场回报上。 $\mathrm{p}<0.05,\mathrm{**p}<0.01,\mathrm{***p}<0.001$
 
-结果显示：几乎所有的投资组合的 $\beta_{0}$ 都是结果显示：几乎所有的投资组合的 $\lvert\beta_{0}$ 都是负的，而且在几乎所有的情况下，它都非常显著（DAT 和Growth 投资组合例外），表明投资组合具有防御性，在熊市中会优于大盘。除了 DAT 和增长、投资组合， $\beta_{1}$ 基本是正的，且较显著，表明投资组合可能在牛市与熊市中都表现出色。
+结果显示：几乎所有的投资组合的 $\beta_{0}$ 都是结果显示：几乎所有的投资组合的 $1\beta_{0}$ 都是负的，而且在几乎所有的情况下，它都非常显著（DAT 和Growth 投资组合例外），表明投资组合具有防御性，在熊市中会优于大盘。除了 DAT 和增长、投资组合， $\beta_{1}$ 基本是正的，且较显著，表明投资组合可能在牛市与熊市中都表现出色。
 
 我们将 DA、增长、OCFA和 Vol投资组合的主动回报与市场回报关系可视化，如下图
 
@@ -538,7 +538,7 @@ $$
 ![](images/a4a3774c7b892ece6ceda0db4cbfc27915602b4aad6b1339b2d9c7bd35255da0.webp)
 数据来源：《In Search of a Defensive Equity Factor》。注：本图显示了模拟的投资组合主动回报与基准回报的关系，以最佳拟合的多项式线呈现非线性关系。
 
-由于 $\cdot\beta_{1}$ 为正、 $\beta_{0}$ 为负，DA和 OCFA 与市场回报为 u 型关系；由于 $\boldsymbol{\beta}_{1}$ 为负， $\beta_{0}$ 为正，增长的投资组合呈现了一个 n 型市场下跌；由于 $\boldsymbol{\beta}_{1}$ 为正、$\beta_{0}$ 为负，且考虑相对大小，Vol投资组合为低 beta 回报轮廓。
+由于 $\cdot\beta_{1}$ 为正、 $\beta_{0}$ 为负，DA和 OCFA 与市场回报为 u 型关系；由于 $\cdot\beta_{1}$ 为负， $\beta_{0}$ 为正，增长的投资组合呈现了一个 n 型市场下跌；由于 $\cdot\beta_{1}$ 为正、$\beta_{0}$ 为负，且考虑相对大小，Vol投资组合为低 beta 回报轮廓。
 
 总之，低杠杆、低波动性、盈利性和收益质量的投资组合具有第三个防御属性。尤其从下降捕获率均低于 1，历史下降幅度低于基准水平中可以看出，这些指标对市场变化的敏感性较低。而增长的投资组合的上升、下降捕获率均大于 1，可以看出其具有更高风险，表明增长不是防御特征。
 

@@ -217,10 +217,10 @@ le_Summary]金融危机后，危机的负面个人经历是否会导致未来的
 表 2 考察了个人经历对围绕继承的风险承担变化的影响。我们估计以下方程：
 
 $$
-\begin{array}{r}{\Delta\alpha_{i,t,2k}=\beta X_{i,t}+\gamma E_{i,b}+\varphi\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)+\varepsilon_{i,t},}\end{array}\tag{1}
+\Delta\alpha_{i,t,2k}=\beta X_{i,t}+\gamma E_{i,b}+\varphi\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)+\varepsilon_{i,t},\tag{1}
 $$
 
-其中因变量 $\Delta\alpha_{i,t,2k}$ 为个体i从t −k年到t+k年的风险承担变化量，t年为遗传年，且k = 1。 $X_{i,t}$ 是控制变量的向量， $E_{i,b}$ 是继承前个人经验的向量(即 $b<t-k),\ \omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)$ 控制惰性。如果受益人是惰性的，惰性决定了风险承担的变化是在获得遗产前的风险承担 $\mathbf{\nabla}\cdot\alpha_{t-k}$ 和继承财富的风险承担 $\cdot\alpha_{t-k}^{i}$ 的加权平均：
+其中因变量 $\Delta\alpha_{i,t,2k}$ 为个体i从t −k年到t+k年的风险承担变化量，t年为遗传年，且k = 1。 $X_{i,t}$ 是控制变量的向量， $E_{i,b}$ 是继承前个人经验的向量(即 $b<t-k),\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)$ 控制惰性。如果受益人是惰性的，惰性决定了风险承担的变化是在获得遗产前的风险承担 $\alpha_{t-k}$ 和继承财富的风险承担 $.\alpha_{t-k}^{i}$ 的加权平均：
 
 $$
 Inert_{t}=(1-\omega)\alpha_{t-k}+\omega\alpha_{t-k}^{i}-\alpha_{t-k}=\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big),
@@ -257,10 +257,10 @@ $$
 一个值得关注的问题是，有个人经历的受益人得到的遗产可能与没有个人经历的受益人得到的遗产有某种程度的不同。因此，有个人经历的个人承担较低的风险可能是由遗产构成的差异所驱动的，而不是由对风险的态度的变化所驱动的。我们用安慰剂测试来估计个人经历的影响，在这种测试中，我们根据第一手经验相对于遗产的时间来观察风险承担的差异。安慰剂测试的优势有两个方面。首先，死亡的时间，也就是继承的时间，与银行违约的时间无关。其次，在第一手经验之前继承的个人和在第一手经验之后继承的个人之间的风险承担差异，有效地消除了我们的结果是由遗产构成或投资风格的差异驱动的可能性。因此，安慰剂检验有助于控制归因于遗产构成和投资风格的差异。为了解决这些问题，我们估计了以下方程式:
 
 $$
-\begin{array}{r}{\Delta\alpha_{i,t,2k}=\beta X_{i,t}+\gamma_{b}E_{i,b}+\gamma_{a}E_{i,a}+\varphi\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)+\varepsilon_{i,t},}\end{array}
+\Delta\alpha_{i,t,2k}=\beta X_{i,t}+\gamma_{b}E_{i,b}+\gamma_{a}E_{i,a}+\varphi\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)+\varepsilon_{i,t},
 $$
 
-其中因变量 $\Delta\alpha_{i,t,2k}$ 为个体i从t −k年到t+k年的风险承担变化量，t年为继承年， $k=1\mathrm{,}X_{i,t}$ 是控制变量的向量, $E_{i,b}$ 是个人经验继承开始前窗口的向量(例如, $\ :,b\ :<\ :t-k)$ $E_{i,a}$ 是个人经验继承结束后窗口的向量(例如,$a>t+k)$ ; $\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)$ 控制惯性。 $\gamma_{b}\mathfrak{F}^{\sharp}\gamma_{a}$ 的不同允许我们的结果被由继承组成和投资风格的差异所影响。通过安慰剂测试，我们发现较低的风险承担不是投资风格或继承的投资组合的 $\dot{\mathcal{P}}$ 物，因为在银行尚未违约时，投资于银行的个人增加了他们的股票暴露。
+其中因变量 $\Delta\alpha_{i,t,2k}$ 为个体i从t −k年到t+k年的风险承担变化量，t年为继承年， $k\;=\;1_{\circ}X_{i,t}$ 是控制变量的向量, $E_{i,b}$ 是个人经验继承开始前窗口的向量(例如, $\mathbf{,}b<t-k)$ $E_{i,a}$ 是个人经验继承结束后窗口的向量(例如,$a>t+k)$ ; $\omega\big(\alpha_{t-k}^{i}-\alpha_{t-k}\big)$ 控制惯性。 $\gamma_{b}和\gamma_{a}$ 的不同允许我们的结果被由继承组成和投资风格的差异所影响。通过安慰剂测试，我们发现较低的风险承担不是投资风格或继承的投资组合的 $产$ 物，因为在银行尚未违约时，投资于银行的个人增加了他们的股票暴露。
 
 表 3：个人经历对风险承担的影响的匹配样本估计
 Dependent variable: active change in risky asset share

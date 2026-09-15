@@ -87,7 +87,7 @@ Email:lly10892@htsec.com
 模型一：将股票的历史超额收益对宏观经济变量 F进行回归，获得的回归系数称为MacroBeta，或称该股票的宏观敏感性。公式如下：
 
 $$
-\ ExcessReturn_{i,t}=\alpha_{i,t}+MacroBeta_{i,t}\cdot F_{t}+\varepsilon_{i,t}
+ExcessReturn_{i,t}=\alpha_{i,t}+macroBeta_{i,t}\cdot F_{t}+\varepsilon_{i,t}
 $$
 
 其中，F表示宏观经济指标第 t 期的取值，需要提前清洗与调整，具体方法将在下文中介绍。ExcessReturn 表示第 t 期的股票超额收益。
@@ -95,11 +95,11 @@ $$
 模型二：在模型一的基础上加入 Fama-French 三因子，以控制常见风格对股票收益的影响。
 
 $$
-Return_{i,t}\ =\ \alpha_{i,t}+MacroBeta_{i,t}\cdot F_{t}
+Return_{i,t}\;=\;\alpha_{i,t}+macroBeta_{i,t}\cdot F_{t}
 $$
 
 $$
-\begin{array}{r}{+\beta_{i,t}^{MKT}\cdot MKT_{t}+\beta_{i,t}^{SMB}\cdot SMB_{t}+\beta_{i,t}^{HML}\cdot HML_{t}\ +\varepsilon_{i,t}}\end{array}
++\pmb{\beta}_{i,t}^{MKT}\cdot MKT_{t}+\pmb{\beta}_{i,t}^{SMB}\cdot SMB_{t}+\pmb{\beta}_{i,t}^{HML}\cdot HML_{t}+\pmb{\varepsilon}_{i,t}
 $$
 
 其中，F 依然表示宏观经济指标第 t期的取值，Return 表示第 t期的股票绝对收益。MKT表示市场因子，SMB表示市值因子，HML 表示估值因子。
@@ -169,13 +169,13 @@ $$
 差分法是处理非平稳时间序列的常见方法。具体操作方式是取当期数据与上一期数据的差值，即宏观数据的增量。大多数宏观经济数据在一阶差分以后可以获得平稳序列。差分的计算公式如下：
 
 $$
-\pmb{f}_{i,t}=\pmb{F}_{t}-\pmb{F}_{t-1}
+\boldsymbol{f}_{i,t}=\boldsymbol{F}_{t}-\boldsymbol{F}_{t-1}
 $$
 
 Surprise 替代法，顾名思义，即使用宏观经济数据的 Surprise（宏观预期差）替代原始的宏观经济数据。与原始宏观经济数据相比，Surprise（宏观预期差）往往是平稳的。Surprise 的计算公式如下：
 
 $$
-S_{i,t}=F_{t}-P_{t}
+\boldsymbol{S}_{i,t}=\boldsymbol{F}_{t}-\boldsymbol{P}_{t}
 $$
 
 ## 2.3资产组合模拟法
@@ -186,9 +186,9 @@ $$
 y_{t}=a+w\cdot X_{t}+u_{t}
 $$
 
-其中， $y_{t}$ 表示目标宏观因子， $X_{t}$ 表示一系列基础资产组合。
+其中， $\mathbf{y}_{t}$ 表示目标宏观因子， $X_{t}$ 表示一系列基础资产组合。
 
-最终， $\nu\lambda w\cdot X_{t}$ 替代 $y_{t},$ ，作为模拟的宏观因子 F’。该方法旨在以资产收益的波动，体现宏观经济指标的变化所带来的影响。
+最终， $以w\cdot X_{t}$ 替代 $\mathbf{y}_{t},$ ，作为模拟的宏观因子 F’。该方法旨在以资产收益的波动，体现宏观经济指标的变化所带来的影响。
 
 在构建基础资产组合的过程中，海外常用的资产包括行业组合（标普行业分类）、市场组合、Fama-French 三因子、分类债券组合（国债、投资级信用债以及高收益信用债等）。
 
@@ -469,7 +469,7 @@ $$
 宏观得分 = 宏观敏感性 × 预期宏观经济走势。即
 
 $$
-\begin{array}{rl}{Score}&{{}=MacroBeta\mathrm{~~\times~}\boldsymbol{F}}\end{array}
+\begin{array}{rl}{Score}&{{}=MacroBeta\mathrm{~~\times~}{\pmb F}}\end{array}
 $$
 
 在选股时，根据 t 期个股的宏观敏感性以及投资者对 t+1 期宏观经济的预判，计算得到每个股票的得分，如下式所示。排序后，选择得分最高的若干个股票形成组合。
@@ -544,13 +544,13 @@ $$
 
 我们认为，当未来宏观经济指标上升（下降）时，应当选择高（低）敏感性的股票。然而，所有股票对宏观经济指标的敏感性都是基于历史数据计算得到的。一旦这种关系无法延续到未来，基于宏观得分的选股逻辑仍然难以奏效。那么，外汇储备敏感性因子是否恰好属于这种情况呢？对此，我们进行了如下的跨期稳定性测试。
 
-将 T 期所有股票的敏感性因子对 T-N期的因子进行回归（下式），获得系数 $\mathbf{{\mathcal{L}}}\mathbf{\partial}_{\mathbf{{\Phi}}}\mathbf{{\mathcal{L}}}\mathbf{\partial}_{\mathbf{{\Phi}}}$
+将 T 期所有股票的敏感性因子对 T-N期的因子进行回归（下式），获得系数 $\mathbf{\nabla}_{\mathbf{\nabla}}b_{t},$
 
 $$
-\begin{array}{r}{F_{p,t}=a_{t}+b_{t}F_{p,t-n}+\varepsilon_{p,t}}\end{array}
+\boldsymbol{F}_{p,t}=\boldsymbol{a}_{t}+\boldsymbol{b}_{t}\boldsymbol{F}_{p,t-n}+\boldsymbol{\varepsilon}_{p,t}
 $$
 
-通过检验 $\mathbf{\nabla}\cdot\mathbf{b}_{t},$ 在时间序列上的显著性，度量敏感性因子的跨期稳定性。
+通过检验 $-b_{t}$ 在时间序列上的显著性，度量敏感性因子的跨期稳定性。
 
 下图展示了前文提到的所有宏观敏感性因子的 T 值。可以发现，外汇储备的跨期稳定性显著低于 ppi同比和油价涨跌幅。因此，我们认为，敏感性因子自身稳定性的不足，可能是它的宏观得分选股效果不佳的重要原因。
 

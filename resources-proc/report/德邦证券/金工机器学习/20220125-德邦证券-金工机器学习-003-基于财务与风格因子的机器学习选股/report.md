@@ -69,7 +69,7 @@
 本文中，我们基于财务因子和风格因子构造一个风格中性的选股因子，该因子在各个横截面上与各个CNE5风格因子都线性无关。基于该因子构造的投资组合的风格暴露很低，但我们允许投资组合在财务因子上有暴露，例如，组合可以暴露高 ROE 因子。我们将本期的股票回报记为本期的股票回报记为 $R_{T}$ ，把上一期的风格因子记为 $B_{T-\Delta T}$ 。首先，用风格因子WLS回归股票收益率：
 
 $$
-R_{T}={\cal B}_{T-\Delta T}\cdot b_{T}+\varepsilon_{T},\tag{1}
+R_{T}=B_{T-\Delta T}\cdot b_{T}+\varepsilon_{T},\tag{1}
 $$
 
 其中， $b_{T}$ 为风格因子的拟合系数， $\varepsilon_{T}$ 为股票的特质收益率。
@@ -81,7 +81,7 @@ $$
 对于任意一个财务因子x，若上一期该财务因子值为x′，则按以下公式计算财务因子的变化率Δx：
 
 $$
-\Delta\mathbf{x}=\frac{x-x^{\prime}}{\vert x^{\prime}\vert}.\tag{2}
+\Delta\mathbf{x}=\frac{x-x^{\prime}}{|x^{\prime}|}.\tag{2}
 $$
 
 由于上一期财务因子值x′（例如总利润）有可能为负，故对（2）中分母取绝对值以反映财务因子的真实变化方向。
@@ -103,66 +103,66 @@ $$
 为了避免财务因子极端值对模型的不利影响，对每一个财务因子，在每一个横截面上，我们采用中位数去极值的方法去除极端值。
 
 $$
-\tilde{x}=\left\{\begin{array}{cc}{{x_{m}+n\cdot D,\qquad}}&{{ifx>x_{m}+n\cdot D}}\\{{x_{m}-n\cdot D,}}&{{ifx<x_{m}-n\cdot D}}\\{{x,}}&{{else}}\end{array}\right.,\tag{3}
+\tilde{x}=\left\{\begin{matrix}{x_{m}+n\cdot D,\qquad}&{if\quad x>x_{m}+n\cdot D}\\{x_{m}-n\cdot D,\qquad}&{if\quad x<x_{m}-n\cdot D}\\{x,\qquad}&{else}\end{matrix}\right.\quad,\tag{3}
 $$
 
-其中，x是任意一个财务因子的值， $x_{m}$ 是因子值在横截面上的中位数，D是序列|x−$\Chi_{\mathrm{m}}|$ 的中位数，n是一个参数，通常可以取3，而x̃为去极值后的结果。
+其中，x是任意一个财务因子的值， $x_{m}$ 是因子值在横截面上的中位数，D是序列|x−$\mathbf{x_{m}}[$ 的中位数，n是一个参数，通常可以取3，而x̃为去极值后的结果。
 
 ## 2.3. 机器学习残差因子
 
-我们的目的是构造一个不暴露风格，但力求赚取特质收益率的投资组合。我们把风格因子和其他因子作为机器学习模型的输入，拟合特质收益率 $\cdot\varepsilon_{T},$ ，即：
+我们的目的是构造一个不暴露风格，但力求赚取特质收益率的投资组合。我们把风格因子和其他因子作为机器学习模型的输入，拟合特质收益率 $\varepsilon_{T},$ ，即：
 
 $$
-\varepsilon_{T}=\mathrm{G}(B_{T-\Delta T},\mathrm{X_{T-\Delta T}})+\varepsilon_{T}^{\prime},\tag{4}
+\varepsilon_{T}=\mathsf{G}(B_{T-\Delta T},\mathrm{X}_{\mathrm{T}-\Delta\mathrm{T}})+\varepsilon_{T}^{\prime},\tag{4}
 $$
 
-其中 $\operatorname{G}(\cdot,\cdot)$ 为机器学习函数， $\bar{\mathsf{m}}\varepsilon_{T}^{\prime}$ 是机器学习模型的拟合残差。
+其中 $\mathbf{G}(\cdot,\cdot)$ 为机器学习函数， $而\varepsilon_{T}^{\prime}$ 是机器学习模型的拟合残差。
 
 机器学习模型包括两个具有不同神经元个数的神经网络模型、三个具有不同树数目的随机森林模型和三个具有不同深度的提升树模型。对每一类机器学习模型，计算其子模型的预测的代数平均值，从而得到三类集成模型的输出。将三类集成模型的输出做z-score标准化，再计算其平均值，得到总集成输出值。这么做的好处是尽可能让不同的模型拟合不同的噪音，并在总集成输出中尽可能降低噪音。
 
-训练模型时，使用过去五年的数据滚动训练，并交替训练八个子模型以避免相对集中的股票换仓。为了使 ${.\varepsilon_{T}}^{\sharp,\sharp}$ 数值更加适合于神经网络的训练，可先将ε 的值取 z-score再用（4）进行拟合，这样通常可以取得更好的效果。我们使用2015年之前的数据作为样本内数据，用滚动训练和验证的方式调节模型参数，使因子在样本内达到最优信息系数。由于输入数据维度并不高，最终得到的模型的复杂度通常较低，即神经网络的神经元数较低，提升树和随机森林的深度都较低。我们在机器学习系列之一、之二中对这套方法进行了更加详细的介绍。
+训练模型时，使用过去五年的数据滚动训练，并交替训练八个子模型以避免相对集中的股票换仓。为了使 $.\varepsilon_{T}的$ 数值更加适合于神经网络的训练，可先将ε 的值取 z-score再用（4）进行拟合，这样通常可以取得更好的效果。我们使用2015年之前的数据作为样本内数据，用滚动训练和验证的方式调节模型参数，使因子在样本内达到最优信息系数。由于输入数据维度并不高，最终得到的模型的复杂度通常较低，即神经网络的神经元数较低，提升树和随机森林的深度都较低。我们在机器学习系列之一、之二中对这套方法进行了更加详细的介绍。
 
-接下来，将机器学习模型作用于最近一期的风格和财务因子上，得到机器学习因子 $\mathrm{G_{T}}$ ，即：
+接下来，将机器学习模型作用于最近一期的风格和财务因子上，得到机器学习因子 $\mathsf{G}_{\mathrm{T}}$ ，即：
 
 $$
-G_{T}=\mathrm{G}(B_{T},\mathrm{X}_{\mathrm{T}}),\tag{5}
+G_{T}=\mathsf{G}(B_{T},\mathsf{X}_{T}),\tag{5}
 $$
 
-其中，T日为调仓日的前一日， $B_{T}$ 和 ${\boldsymbol{\tau}}\mathrm{X}_{\mathrm{T}}$ 分别是对应的风格和财务因子值，T日的因子在T日盘后可得，故 $G_{T}{,}^{\Sigma}$ 能被用在T+ 1日进行调仓。将 $\mathrm{G_{T}}$ 对风格因子 ${\bf\nabla}\cdot{\cal B}_{T}$ 取正交化处理，得到机器学习残差因子 $\widetilde{\mathbf{G}}_{T}$ ，对全市场而言，因子 $\widetilde{\mathbf{G}}_{T}$ 是风格中性的，却可以暴露于财务因子的特定方向。
+其中，T日为调仓日的前一日， $B_{T}$ 和 $\mathbf{rX_{T}}$ 分别是对应的风格和财务因子值，T日的因子在T日盘后可得，故 $G_{T}尺$ 能被用在T+ 1日进行调仓。将 $\mathsf{G}_{\mathrm{T}}$ 对风格因子 $B_{T}$ 取正交化处理，得到机器学习残差因子 $\widetilde{\mathbb{G}}_{T}$ ，对全市场而言，因子 $\widetilde{\mathbf{G}}_{T}$ 是风格中性的，却可以暴露于财务因子的特定方向。
 
 ## 2.4. 机器学习反转因子
 
-我们再来分析上一节的式（4），其中 $\sharp\mathfrak{H}(B_{T-\Delta T},\mathrm{X}_{\mathrm{T}-\Delta\mathrm{T}})$ 项是机器学习模型对在T日已知的特质收益率的拟合值，这个拟合值通常不等于该特质收益率。在调节模型参数和超参数阶段，如果模型复杂度过高，则模型虽然在样本内表现良好，但在样本外表现很差，产生过拟合问题。因此，拟合残差 $\varepsilon_{T}^{\prime}$ 通常是显著不为零的。
+我们再来分析上一节的式（4），其中 $\mathrm{G}(B_{T-\Delta T},X_{T-\Delta T})$ 项是机器学习模型对在T日已知的特质收益率的拟合值，这个拟合值通常不等于该特质收益率。在调节模型参数和超参数阶段，如果模型复杂度过高，则模型虽然在样本内表现良好，但在样本外表现很差，产生过拟合问题。因此，拟合残差 $\varepsilon_{T}^{\prime}$ 通常是显著不为零的。
 
-实际上， $\varepsilon_{T}^{\prime}$ 蕴含了丰富的信息。我们可以将 $\mathrm{G}(B_{T-\Delta T},\mathrm{X_{T-\Delta T}})$ 理解为模型意义下公允的T− ΔT日至T日的股票收益率，那么余下的部分 ${\bf\ddot{\varepsilon}}\varepsilon_{T}^{\prime}$ 是不能被模型解释的部分。在理想情况下，如果模型对收益率的预测是完全正确的，则 $\varepsilon_{T}^{\prime}$ 是纯粹的错误定价，倾向于在未来发生反转。实际情况下，模型对收益率具有一定的解释力度，但由于信息或模型的非完备性而无法完全解释，故 $\varepsilon_{T}^{\prime}$ 既包含模型不能解释的部分，也包含错误定价的成分，其中，前者的方向不确定，后者倾向于在未来反转。因此， $\varepsilon_{T}^{\prime}$ 也应该具有选股能力，且暴露于较小的 $:_{T}^{\prime}$ 是有益的。同样地，我们不希望组合具有风格偏好，故将 $\cdot\varepsilon_{T}^{\prime}$ 的相反数对风格因子 $B_{T-\Delta T}$ 做正交化处理：
+实际上， $\varepsilon_{T}^{\prime}$ 蕴含了丰富的信息。我们可以将 $\mathrm{G}(B_{T-\Delta T},\mathrm{X}_{\mathrm{T}-\Delta\mathrm{T}})$ 理解为模型意义下公允的T− ΔT日至T日的股票收益率，那么余下的部分 $\varepsilon_{T}^{\prime}$ 是不能被模型解释的部分。在理想情况下，如果模型对收益率的预测是完全正确的，则 $\varepsilon_{T}^{\prime}$ 是纯粹的错误定价，倾向于在未来发生反转。实际情况下，模型对收益率具有一定的解释力度，但由于信息或模型的非完备性而无法完全解释，故 $\varepsilon_{T}^{\prime}$ 既包含模型不能解释的部分，也包含错误定价的成分，其中，前者的方向不确定，后者倾向于在未来反转。因此， $\varepsilon_{T}^{\prime}$ 也应该具有选股能力，且暴露于较小的 $c_{T}^{\prime}$ 是有益的。同样地，我们不希望组合具有风格偏好，故将 $\varepsilon_{T}^{\prime}$ 的相反数对风格因子 ${\boldsymbol{B}}_{T-\Delta T}$ 做正交化处理：
 
 $$
--\varepsilon_{T}^{\prime}={\cal B}_{T-\Delta T}\cdot b_{T}^{\prime}+\epsilon_{T},\tag{6}
+-\varepsilon_{T}^{\prime}=B_{T-\Delta T}\cdot b_{T}^{\prime}+\epsilon_{T},\tag{6}
 $$
 
-其中， $b_{T}^{\prime}$ 为根据OLS拟合得到的风格因子的系数， $\bar{\mathsf{M}}\epsilon_{T}$ 是拟合残差，我们把它称为机器学习反转因子。
+其中， $b_{T}^{\prime}$ 为根据OLS拟合得到的风格因子的系数， $而\epsilon_{T}$ 是拟合残差，我们把它称为机器学习反转因子。
 
 利用线性拟合残差的思路在很长的时间范围内被学术届讨论，足见该方法在海外市场的长期有效性。例如Frankel等[1]研究了残差收益率模型，而Batram等[2]根据同样的思路构造了错误定价因子。我们在文献精译系列第二期中对Batram的论文进行了介绍，Batram较好地论述了残差收益率是独立于风险因子之外的一个有效选股信号，感兴趣的读者可以参考我们的精译。在文献中，残差通常指的是线性回归所得的残差，而我们使用的残差项是机器学习拟合的残差，由于机器学习模型能拟合非线性关系，通常能比线性模型更好地解释收益率，因而其残差项应该更接近于错误定价的真值。我们将考察机器学习反转因子作为一个单因子的选股能力，同样，我们展示它与机器学习残差因子等权结合后的复合因子的选股能力。
 
 ## 2.5. 复合因子
 
-我们根据 2.3 节和 2.4节介绍的两个选股因子构造一个复合因子。我们选用一种等权的复合因子构造方法。在每个横截面上，我们将机器学习残差因子和机器学习反转因子分别做z-score处理并相加以计算复合残差因子 $M_{T}$ ，即：
+我们根据 2.3 节和 2.4节介绍的两个选股因子构造一个复合因子。我们选用一种等权的复合因子构造方法。在每个横截面上，我们将机器学习残差因子和机器学习反转因子分别做z-score处理并相加以计算复合残差因子 $iM_{T}$ ，即：
 
 $$
-M_{T}=\frac{\tilde{G}_{T}-\bar{\tilde{G}}_{T}}{\sigma(\tilde{G}_{T})}+~\frac{\epsilon_{T}-\bar{\epsilon}_{T}}{\sigma(\epsilon_{T})},\tag{7}
+M_{T}=\frac{\tilde{G}_{T}-\bar{\tilde{G}}_{T}}{\sigma(\tilde{G}_{T})}+\frac{\epsilon_{T}-\bar{\epsilon}_{T}}{\sigma(\epsilon_{T})},\tag{7}
 $$
 
-其中 $\tilde{G}_{T}\mathcal{\dot{\kappa}}\mathbf{\varepsilon}_{T}$ 的含义同上文， $\sqrt{\Im}\overline{{\widetilde{\mathrm{G}}}}_{T}\ddag\substack{\pi\sigma}(\widetilde{G}_{T})$ 分别为横截面上机器学习残差因子的均值和标准差， $\bar{\epsilon}_{T}\dot{\ast}\pi\sigma(\epsilon_{T})$ 分别为横截面上机器学习反转因子的均值和标准差。
+其中 $\tilde{G}_{T}和\bar{\epsilon}_{T}$ 的含义同上文， $而\overline{\widetilde{G}}_{T}和\sigma(\widetilde{G}_{T})$ 分别为横截面上机器学习残差因子的均值和标准差， $\bar{\epsilon}_{T}和\sigma(\epsilon_{T})$ 分别为横截面上机器学习反转因子的均值和标准差。
 
 图 1对上述三个因子的计算方法做了一个梳理，复合因子的计算包括以下步骤：
 
-1） 根据历史因子值和历史收益率，训练机器学习模型 $\operatorname{G}(\cdot,\cdot)$ 。
+1） 根据历史因子值和历史收益率，训练机器学习模型 $\mathbf{G}(\cdot,\cdot)$ 。
 
-2） 根据模型G(⋅,⋅)和因子值 $\mathsf{B}_{T-\Delta T}\hbar^{\rho}\mathsf{X}_{T-\Delta T}$ 以及已知的收益率 $\mathrm{\partial\cdot R_{T-\Delta T}}$ ，计算机器学习反转因子 $\epsilon_{\mathrm{T}}$ 。
+2） 根据模型G(⋅,⋅)和因子值 $B_{T-\Delta T}和X_{T-\Delta T}$ 以及已知的收益率 $\mathrm{{\cdot R}_{T-\Delta T}}$ ，计算机器学习反转因子 $\epsilon_{\mathrm{T}}$ 。
 
-3） 根据 $\operatorname{G}(\cdot,\cdot)$ 和因子值 $\mathrm{B}_{T}\hbar\mathrm{\pmb{x}}_{T}$ ，计算机器学习残差因子 $\widetilde{\mathbf{G}}_{\mathrm{T}}$ 。
+3） 根据 $\mathbf{G}(\cdot,\cdot)$ 和因子值 $B_{T}和X_{T}$ ，计算机器学习残差因子 $\widetilde{\mathbf{G}}_{\mathbf{T}}$ 。
 
-4） 根据 $\epsilon_{\mathrm{T}}\hbar\hbar\widetilde{G}_{\mathrm{T}}$ 计算复合因子 $M_{T}$ 。
+4） 根据 $\epsilon_{\mathrm{T}}和\widetilde{\mathrm{G}}_{\mathrm{T}}$ 计算复合因子 $M_{T}$ 。
 
 图 1：因子计算方法示意图
 ![](images/710af2d223cf5bee96e36322266dfaa9f61a5566beb4157dde987f2c9216a494.webp)
@@ -174,7 +174,7 @@ $$
 
 1）暂停交易。
 
-2）ST 或 $\mathsf{ST}^{\star}$
+2）ST 或 $\mathbb{ST}^{\star}$
 
 3）涨停。
 
@@ -187,7 +187,7 @@ $$
 我们用式（8）和 WLS 对各个风格和行业进行归因：
 
 $$
-R_{T}={\cal B}_{T-\Delta T}\cdot c_{T}+X_{T-\Delta T}\cdot f_{T}+I_{T-\Delta T}\cdot s_{T}+\ \varepsilon_{T}^{\prime\prime}\tag{8}
+R_{T}=B_{T-\Delta T}\cdot c_{T}+X_{T-\Delta T}\cdot f_{T}+I_{T-\Delta T}\cdot s_{T}+\varepsilon_{T}^{\prime\prime}\tag{8}
 $$
 
 其中， $B_{T-\Delta T},X_{T-\Delta T},I_{T-\Delta T}$ 分别为风格、财务、行业因子矩阵， $c_{T},f_{T},s_{T}$ 为分别为风格、财务、行业收益率向量， $\varepsilon_{T}^{\prime\prime}$ 为拟合残差，WLS回归的权重为各个股票的自由流通市值的平方根。
@@ -400,7 +400,7 @@ $$
 n_{I}=\prod_{T}(1+I_{T-\Delta T}\cdot f_{T}),\tag{14}
 $$
 
-其中 $n_{B},n_{X},n_{I}$ 分别为风格、财务、行业因子主动暴露的回报的净值， $\hslash$ 由这三者不可解释的净值被归因于特质选股回报。其他变量的含义同式（8）。
+其中 $n_{B},~n_{X},~n_{I}$ 分别为风格、财务、行业因子主动暴露的回报的净值， $而$ 由这三者不可解释的净值被归因于特质选股回报。其他变量的含义同式（8）。
 
 图 21显示了的风格、财务、行业因子的净值曲线和特质选股的净值曲线，图中的蓝线是组合净值除以基准（中证1000指数）的相对净值曲线。结果表明：
 

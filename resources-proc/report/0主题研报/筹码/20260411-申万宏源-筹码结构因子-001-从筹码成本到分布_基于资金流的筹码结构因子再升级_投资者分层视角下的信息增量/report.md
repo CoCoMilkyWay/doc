@@ -272,7 +272,7 @@
 - 基于筹码分布，可以计算历史筹码的加权平均成本，以刻画当前市场存量筹码的平均持仓成本水平。
 
 $$
-Holding_{-}Price=\frac{\sum{Average\_Price_{t}*Chip_{t}^{T}}}{\sum{Chip_{t}^{T}}}
+Holliding\_Price=\frac{\sum Average\_Price_{t}*Chip_{t}^{T}}{\sum Chip_{t}^{T}}
 $$
 
 - 在此基础上，将该成本与最新收盘价进行对比，可衡量当前市场整体持仓的浮盈或浮亏状态。
@@ -282,7 +282,7 @@ $$
 - 反之，当指标数值较低时，则表明当前股价高于历史平均成本，投资者整体处于浮盈状态。
 
 $$
-Holding_{-}Cost_{t}=\frac{Holding_{-}Price_{t}-Close_{-}Price_{t}}{Close_{-}Price_{t}}
+Holling\_Cost_{t}=\frac{Holling\_Price_{t}-close\_Price_{t}}{close\_Price_{t}}
 $$
 
 - 除了对机构/散户买入总量的使用，通过同时考虑买入和卖出量，计算量差以衡量机构/散户的净买入量，可以在此前筹码成本的刻画方式上更进一步。

@@ -153,13 +153,13 @@ ALPHA 再优化：完全市值行业中性法 2021.07.26
 傅里叶变化的一般形式如下，其中 x 表示以秒表示的时间，w 为以赫兹表示的频率，通过这一变化我们能将时域中的函数变化至频域。
 
 $$
-f(t)=\mathcal{F}^{-1}[F(\omega)]=\frac{1}{2\pi}\int_{-\infty}^{\infty}F(\omega)e^{i\omega t}d\omega
+f(t)=\mathcal{F}^{-1}[F(\omega)]=\frac{1}{2\pi}{\int}_{-\infty}^{\infty}F(\omega)e^{i\omega t}d\omega.
 $$
 
 傅里叶逆变化将函数从频域变化至时域。
 
 $$
-F(\omega)=\mathcal{F}[f(t)]=\int_{-\infty}^{\infty}f(t)e^{-i\omega t}dt
+F(\omega)=\mathcal{F}[f(t)]={\int_{-\infty}^{\infty}}f(t)e^{-i\omega t}dt.
 $$
 
 显然，上述公式仅能用于连续函数，不适用于股票数据。因此，我们需要使用离散傅里叶变化（DFT），对离散点进行等距离采样，转化成一系列有限的频率对应的幅值。因此，DFT 对样本进行求和而非积分。其中xn 为时域中的某一样本点，N 为样本点的数量，k 为频域上的一频率，Xk 则为频域上 xn 所包含的正弦成分的相及对应的振幅。因此，对所有样本点处理过后，我们可以挖掘到信号主要由哪些频率的信号组成，是高频还是低频？各频率信号的相对强度如何？

@@ -107,7 +107,7 @@ Email:ylq9619@htsec.com
 首先可考虑构建预期持仓占比因子，因子计算方法如下：
 
 $$
-\hat{\mathcal{Z}}\hat{\mathcal{K}}\mathcal{H}\mathcal{I}\hat{\mathcal{Z}}\hat{\mathcal{Z}}\mathcal{E}\hat{\mathcal{P}}\mathcal{k}_{i,t}=\log\left(\frac{\Vec{\mathcal{Z}}\Vec{\mathcal{W}}\mathcal{I}\mathcal{H}\mathcal{I}\mathcal{\ne}\hat{\mathcal{E}}\hat{\mathcal{W}}_{i,t}}{\Vec{\Xi}\Vec{\mathcal{P}}\mathcal{H}\mathcal{I}_{i,t}}\right)
+所购样会占比_{i,t}=\log\left(\frac{所购样会会额_{i,t}}{总产值_{i,t}}\right)
 $$
 
 其中，预期持仓金额 为股票 在交易日 的公募预期持仓金额，总市值 为股票 在交 $^{\mathrm{i,t}}$ $^{\mathrm{i,t}}$ 易日 t的总市值。此处取对数是为了降低持仓金额原始值在分布上的偏度。
@@ -147,7 +147,7 @@ $$
 除了刻画个股当前的公募持仓水平外，还可尝试刻画持仓占比的变化。因此，可构建预期持仓占比变化因子，刻画个股当前的预期持仓占比相对于一个季度之前已披露的持仓占比的变化，因子计算公式如下：
 
 $$
-\begin{array}{r}{\overrightarrow{\mathbf{\nabla}}\overrightarrow{\mathbf{\mathcal{H}}}/\mathbf{\mathcal{H}}/\mathbf{\mathcal{F}}=\mathbf{\nabla}\mathcal{L}\kappa\mathcal{L}\overrightarrow{\mathbf{\mathcal{K}}}/\mathcal{L}_{i,t}=\overrightarrow{\mathbf{\nabla}\mathcal{R}}/\mathbf{\mathcal{H}}/\overrightarrow{\mathbf{\mathcal{F}}}\mathbf{\nabla}\mathcal{L}\nu\mathcal{L}\mathcal{L}_{i,t}-\mathbf{\nabla}\mathcal{L}\supset\overrightarrow{\mathbf{\mathcal{K}}}/\mathbf{\mathcal{H}}\cdot\mathbf{\mathcal{L}}\mathcal{L}\supset\mathcal{L}\nu\mathcal{L}_{i,t0}}\end{array}
+预期样会占比变化_{i,t}=预期样会占比_{i,t}-已成惊样会占比_{i,t0}
 $$
 
 其中，预期持仓占比 为交易日 t股票 i的公募持仓占比预期，t0 为交易日 t向前一个季度对应的时点，已披露持仓占比 为交易日 t0股票 i已披露的公募持仓占比。下表展示了正交前后，因子在沪深 300指数以及中证 800 指数内的选股能力。
@@ -190,10 +190,10 @@ $$
 考虑到基于个股的预期持仓占比，可向上合成行业的预期持仓占比，因此我们可围绕行业的预期持仓占比构建轮动策略。行业的预期持仓占比计算方法如下所示：
 
 $$
-1+1+3+3+4+6+5+6+1=\frac{1+3+4+4+6+8+87}{1+5+4+4+6+4+8+47}+1=\frac{1}{1+5+4+4+4+6+47}+1=\frac{1}{1+5+4+4+4+8+47}+1=1
+存业预期样企业比=\frac{\sum_{k\in 存业}预期样企业额_{k,t}}{\sum_{k\in 存业段是}预期样企业额_{k,t}}
 $$
 
-其中，预期持仓金额 $^{\mathsf{k,t}}$ 为交易日 t股票 k 的公募持仓金额预期。
+其中，预期持仓金额 $^{\mathrm{k,t}}$ 为交易日 t股票 k 的公募持仓金额预期。
 
 本章在使用行业预期持仓占比构建行业轮动策略时，主要从以下几个角度进行了尝试：
 
@@ -259,7 +259,7 @@ $$
 对于策略 2，可计算行业当前的预期持仓占比与 1个季度之前已披露持仓占比之间的变化，并选择持仓占比上升幅度最高的 5个行业作为多头组合，持仓占比上升幅度最低的 5个行业作为空头组合。持仓占比变化计算公式如下：
 
 $$
-\mathcal{\bar{H}}\mathcal{L}\mathcal{\bar{H}}\mathcal{\bar{H}}\mathcal{H}\mathcal{H}\mathcal{\bar{H}}\mathcal{\bar{H}}\mathcal{E}\mathcal{L}\mathcal{k}\mathcal{L}\mathcal{H}_{i,t}=\mathcal{H}\mathcal{L}\mathcal{\bar{H}}\mathcal{\bar{H}}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{\bar{H}}\mathcal{L}\mathcal{\bar{L}}\mathcal{L}\mathcal{L}_{i,t}-\mathcal{H}\mathcal{L}\mathcal{H}\mathcal{L}\mathcal{H}\mathcal{H}\mathcal{L}\mathcal{H}\mathcal{L}\mathcal{H}\mathcal{L}\mathcal{H}_{i,t0}
+存业预期样会占比变化_{i,t}=存业预期样会占比_{i,t}-存业已我忘样会占比_{i,t0}
 $$
 
 其中，行业预期持仓占比 为交易日 t 行业 i的预期持仓占比，t0 为交易日 t向前一个季度对应的时点，行业已披露持仓占比 为交易日 t0 行业 i的已披露持仓占比。
@@ -318,7 +318,7 @@ $$
 对于策略 3，可计算行业当前的预期持仓占比与最新季报披露的持仓占比之间的差值，并选择差值最高的 5 个行业作为多头组合，差值最低的 5个行业作为空头组合。预期持仓占比差的计算公式如下：
 
 $$
-\mathcal{H}_{\overline{{\mathbf{\Gamma}}},\overline{{\mathbf{\Gamma}}}}\mathcal{H}\mathcal{H}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}_{i,t}=\mathcal{H}\mathcal{T}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}\overline{{\mathbf{\Gamma}}}
+存业预期待会占比_{i,t}=存业预期待会占比_{i,t}-存业最新平预期富的待会占比_{i,t}
 $$
 
 其中，行业预期持仓占比 为交易日 t 行业 i的预期持仓占比，行业最新季报披露的持仓 $^{\mathrm{i,t}}$ 占比 $^{\mathrm{i,t}}$ 为交易日 t 行业 i最新季报披露的公募基金持仓占比。

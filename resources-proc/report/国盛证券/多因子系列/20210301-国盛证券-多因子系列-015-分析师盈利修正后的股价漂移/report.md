@@ -212,7 +212,7 @@ Figure 2b: When an analyst's own prior forecast is greater than the current cons
 Stickel（1991）认为过往的盈利修正可能已经被市场充分反应，因此当下市场对盈利修正的反应应该剔除过往的盈利修正，例如计算更新的盈利修正（updated revision）。更新的盈利修正等于当期盈利预测相对于市场预期的该分析师的盈利预测的差值。而市场预期的盈利预测由过去该分析师的盈利预测、一致预期的盈利修正以及一致预期盈利相对于分析师历史盈利预测回归得到。
 
 $$
-\begin{array}{rl}&{Updated\ Individual\ SUF_{i,a,\iota}=(FRCST_{i,a,\iota}-E_{t-1}(FRCST_{i,a,\iota}))/FRCST_{i,a,\iota}}\\&{E_{\iota^{-}1}(FRCST_{i,a,\iota})=FRCST_{i,a,\iota^{-\nu}}+\hat{\beta}_{0}+\hat{\beta}_{1}(CONSX_{i,\iota^{-1}}-CONSX_{i,2-\nu})}\\&{\qquad+\hat{\beta}_{2}(CONSX_{i,\iota^{-\nu}}-FRCST_{i,a,\iota^{-\nu}}),}\end{array}
+\begin{aligned}UpdateIndividualSUF_{i,a,t}=(FRCCT_{i,a,t}-E_{t-1}(FRCCT_{i,a,t}))/FRCCT_{i,a,t}\\E_{t-1}(FRCCT_{i,a,t})=FRCCT_{i,a,t-v}+\hat{\beta}_0+\hat{\beta}_1(CONSX_{i,t-1}-CONSX_{i,t-v})\\+\hat{\beta}_2(CONSX_{i,t-v}-FRCCT_{i,a,t-v}),\end{aligned}
 $$
 
 由于上述模型较为复杂，且要进行参数估计，我们使用一个简单版的更新的盈利修正。即分析师的盈利修正减去截止前一天最新的一致预期的盈利修正，作为更新的盈利修正。例如分析师本次盈利预测发布日期为 T1，其上次报告的发布日期为 T2。那么我们分别取得 T1-1日以及T2的市场一致预期，并计算一致预期的盈利修正，使用分析师的盈利修正与一致预期盈利修正的差作为更新的盈利修正，即认为前一天的一致预期盈利修正已经被市场所反应，而更新的盈利修正才能真正决定未来的超额收益。

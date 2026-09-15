@@ -94,14 +94,14 @@ anningning@gf.com.cn
 由于离群值有较大可能为错误数据，并且会使得数据的分布偏离假设。因此一般需要对离群值进行去极值化处理。常见离群值处理方法为 “中位数去极植法”进行去极值化，公式如下：
 
 $$
-\begin{array}{r}{D_{i,\mathrm{\ upper}}=\mathsf{D}_{\mathsf{m}}+\mathsf{n}\times D_{MAD},\quad ifD_{i\ge}D_{m}+\mathsf{n}\times D_{MAD}}\\{D_{i,\ Iower}=D_{m}-\mathsf{n}\times D_{MAD},\quad ifD_{i}\le D_{m}+\mathsf{n}\times D_{MAD}}\end{array}
+\begin{aligned}&D_{i.\ upper}=\mathrel{D_m}+\cap\times D_{MAD,}\quad ifD_{i}\geq D_{m}+\cap\times D_{MAD,}\\&D_{i,\ lower}=D_{m}-\cap\times D_{MAD,}\quad ifD_{i}\leq D_{m}+\cap\times D_{MAD,}\\\end{aligned}
 $$
 
-其中D为第i个描述性变量的观察值， $D_{m}$ 为所有观察值的中位数， $D_{m}\dot{\ i}\vec{\mathrm{z}}$ 作观测值与中位数的绝对偏离，即 $\begin{array}{r}{D_{i,AD}{=}|\ D_{i}-D_{m}|}\end{array}$ ，DMAD记作 $Di,AD^{\sharp}{\overset{\cdot}{\rVert}}$ 中位数， $D_{I},\ upper{\#\sqcap\sqcap\sqcap}$ $D_{I,Iower}$ 分别表示中位数去极值化后描述性变量的上下限，n为用于控制 $D_{i},\ upper{\notinq{\pi}}D_{i},$ $Iower^{\sharp\sharp}$ 常数。
+其中D为第i个描述性变量的观察值， $D_{m}$ 为所有观察值的中位数， $D_{m}记$ 作观测值与中位数的绝对偏离，即 $D_{i,AD}{=}|\;D_{i}\textrm{ - }D_{m}\;|$ ，DMAD记作 $D_{i},AD的$ 中位数， $D_{i,\ upper}和$ $D_{i,lower},$ 分别表示中位数去极值化后描述性变量的上下限，n为用于控制 $D_{i,\ upper}和D_{i,}$ $lower的$ 常数。
 
 ## 标准化
 
-由于各个描述性因子所衡量的单位不同，导致因子数值范围差异较大，因此在进行因子分析之前，必须对其进行标准化，本研究采用最常见 $\cdot N(0,1)$ 正态标准化处理之，公式如下：
+由于各个描述性因子所衡量的单位不同，导致因子数值范围差异较大，因此在进行因子分析之前，必须对其进行标准化，本研究采用最常见 $M(0,1)$ 正态标准化处理之，公式如下：
 
 识别风险，发现价值
 
@@ -156,7 +156,7 @@ t检验概率：用于衡量Alpha因子是否具有显著的因子回报，因�
 ACD指标将市场分为两股收集（买入）及派发（估出）的力量。若当天收盘价高于昨天收盘价，则收集力量等于当天收盘价与真实低位之差。真实低位是当天低位与昨天收盘价两者中的最低者。若当天收盘价低于昨天收盘价，则派发力量等于当天当天收盘价与真实高位之差。真实高位是当天高位与昨天收盘价两者较高者；若将收集力量（正数）及派发力量（负数）相加，便可得到市场的净收集力量，从而了解市场的强弱。
 
 $$
-\begin{array}{rl}&{\mathrm{LC}=\mathrm{REF}(\mathrm{CLOSE},1)}\\&{\mathrm{DIF}=\mathrm{CLOSE}-\mathrm{IF}\big(\mathrm{CLOSE}>\mathrm{LC},\mathrm{MIN}(\mathrm{LOW},\mathrm{LC}),\mathrm{MAX}(\mathrm{HIGH},\mathrm{LC})\big)}\\&{\quad\quad\quad\quad\quad\quad\mathrm{ACD}=\mathrm{SUM}(\mathrm{if}(\mathrm{CLOSE}=\mathrm{LC},0,\mathrm{DIF}),0)}\end{array}
+\begin{aligned}\mathrm{LC}=\mathrm{REF}(\mathrm{CLOSE},1)\\\mathrm{DIF}=\mathrm{CLOSE-IF}\big(\mathrm{CLOSE}&>\mathrm{LC},\mathrm{MIN}(\mathrm{LOW},\mathrm{LC}),\mathrm{MAX}(\mathrm{HIGH},\mathrm{LC})\big)\\\mathrm{ACD}=\mathrm{SUM}(\mathrm{if}(\mathrm{CLOSE}&=\mathrm{LC},0,\mathrm{DIF}),0)\end{aligned}
 $$
 
 此处为了使得指标具有可比性，分别计算了ACD指标6个和20个交易日的收集力量与派发力量之和。
@@ -166,7 +166,7 @@ $$
 ADTM是用开盘价的向上波动幅度和向下波动幅度的距离差值来描述人气高低的指标。
 
 $$
-{\begin{array}{rl}&{{\mathrm{DTM}}={\mathrm{IF}}(0<{\mathrm{REF}}(0,1),0,{\mathrm{MAX}}(({\mathrm{H}}-0),\left(0-{\mathrm{REF}}(0,1)\right)))}\\&{}\\&{{\mathrm{DBM}}={\mathrm{IF}}(0\geq{\mathrm{REF}}(0,1),0,{\mathrm{MAX}}\left((0-\mathrm{L}),\left(0-{\mathrm{REF}}(0,1)\right)\right))}\\&{}\\&{\qquad{\mathrm{STM}}={\mathrm{SUM}}({\mathrm{DTM}},\mathrm{P})}\end{array}}
+\begin{aligned}\mathrm{DTM}=\mathrm{IF}(0<\mathrm{REF}(0,1),0,\mathrm{MAX}((\mathrm{H}-0),\left(0-\mathrm{REF}(0,1)\right)))\\\mathrm{DBM}=\mathrm{IF}(0\geq\mathrm{REF}(0,1),0,\mathrm{MAX}\left((0-\mathrm{L}),\left(0-\mathrm{REF}(0,1)\right)\right))\\\mathrm{STM}=\mathrm{SUM}(\mathrm{DTM},\mathrm{P})\end{aligned}
 $$
 
 $$
@@ -174,7 +174,7 @@ $$
 $$
 
 $$
-\mathrm{ADTM}=\mathrm{IF}(\mathrm{STM}>\mathrm{SBM},\frac{\mathrm{STM}-\mathrm{SBM}}{\mathrm{STM}},\mathrm{IF}(\mathrm{STM}=\mathrm{SBM},0,\frac{\mathrm{(STM-SBM)}}{\mathrm{SBM}})
+\mathrm{ADTM}=\mathrm{IF}(\mathrm{STM}>\mathrm{SBM},\frac{\mathrm{STM}-\mathrm{SBM}}{\mathrm{STM}},\mathrm{IF}(\mathrm{STM}=\mathrm{SBM},0,\frac{\mathrm{STM}-\mathrm{SBM}}{\mathrm{SBM}}))
 $$
 
 这里主要考虑个股在过去20个交易日的指标计算。
@@ -184,7 +184,7 @@ $$
 AD指标将每日的成交量通过价格加权累计，用以计算成交量的动量。
 
 $$
-\mathrm{AD}=\mathrm{SUM}((\frac{2*\mathrm{CLOSE}-(\mathrm{HIGH}-\mathrm{CLOSE})}{\mathrm{HIGH}-\mathrm{LOW}}*\mathrm{VOL},0)
+\mathrm{AD}=\mathrm{SUM}((\frac{2*\mathrm{CLOSE}-(\mathrm{HIGH}-\mathrm{CLOSE})}{\mathrm{HIGH}-\mathrm{LOW}}*\mathrm{VOL},0))
 $$
 
 为了使指标具有可比性，这里分别计算了过去1个交易日、6个和20个交易日的AD指标累加值。
@@ -194,13 +194,13 @@ $$
 AR指标是反映市场当前情况下多空双方力量发展对比的结果。它是以当日的开盘价为基点。与当日最高价相比较，依固定公式计算出来的强弱指标。
 
 $$
-{\cal A}{\sf R}=\frac{\mathrm{SUM}({\sf HIGH}-0\mathrm{PEN},{\sf M})}{\mathrm{SUM}(0{\sf PEN}-{\sf L0W},{\sf M})}*100
+\mathrm{AR}=\frac{\mathrm{SUM}(\mathrm{HIGH}-\mathrm{OEN},\mathrm{M})}{\mathrm{SUM}(\mathrm{OPEN}-\mathrm{LOW},\mathrm{M})}\times100
 $$
 
 BR指标也是反映当前情况下多空双方力量争斗的结果。不同的是它是以前一日的收盘价为基础，与当日的最高价、最低价相比较，依固定公式计算出来的强弱指标。
 
 $$
-BR=\frac{SUM\big(MAX\big(0,HIGH-REF(CLOSE,1)\big),M\big)}{SUM(MAX(0,REF(CLOSE,1)-LOW),\mathsf{M})}*100
+BR=\frac{SUM(MAX(0,HIGH-REF(CLOSE,1)),M)}{SUM(MAX(0,REF(CLOSE,1)-LOW),M)}\times100
 $$
 
 ## (5) ARC变动率指数均值
@@ -208,7 +208,7 @@ $$
 ARC指标是股票的价格变化率RC指标的均值，用以判断前一段交易周期内股票的平均价格变化率。
 
 $$
-\begin{array}{c}{{\mathsf{RC}=\mathsf{C}/\mathsf{REF}(\mathsf{C},\mathsf{M})}}\\{{\mathsf{ARC}=\mathsf{SMA}(\mathsf{REF}(\mathsf{RC},1),\mathsf{M},1)}}\end{array}
+\begin{aligned}&\mathsf{RC}=\mathsf{C}/\mathsf{REF}(\mathsf{C},\mathsf{M})\\&\\\mathsf{ARCH}=\mathsf{SMA}(\mathsf{REF}(\mathsf{RC},1),\mathsf{M},1)\\\end{aligned}
 $$
 
 ## (6) Aroon指数
@@ -216,11 +216,11 @@ $$
 Aroon指标是由图莎尔·钱德（Tushar Chande)1995年发明的，它通过计算自价格达到近期最高值和最低值以来所经过的期间数，帮助投资者预测证券价格趋势、强弱以及趋势的反转等。 该指标由三部分组成：Aroon上升数、Aroon下降数以及Aroon指标。Aroon上升数和Aroon下降数分别用以描述多头和空头的强弱。
 
 $$
-Aroon\bot+\frac{2\pi}{20}=[(i+\frac{\pi}{4}+\frac{4\pi}{4})\times\frac{4\pi}{20}-\frac{20}{12}\frac{\pi}{10}+\frac{2}{12}\times\frac{4\pi}{20}\times\frac{4\pi}{20}]+\frac{24}{12}\times\frac{4\pi}{20}\times\frac{4\pi}{20}
+\mathsf{Aroon}上升数=[(计算期天数-最高价后的天数)/计算天数]^{\star}100
 $$
 
 $$
-AroonT\mathbb{F}^{2}\neq\frac{4\pi}{4}=[(\hat{1}+\frac{4\pi}{4}+\frac{4\pi}{4})\mathbb{F}\mathbb{\frac{4\pi}{2\pi}}-\frac{\pi}{2\pi}\int\mathbb{\hat{X}}\left(\hat{1}\right)\hat{1}\cdot f_{1}=\hat{1}\times\frac{4\pi}{2\pi}]\cdot\hat{1}+\frac{\pi\pi}{4}\pi\frac{4\pi}{2\pi}]^{\times}100
+\mathsf{Aroon}下降数=[(计算期天数-最底价后的天数)/计算天数]^{\star}100
 $$
 
 Aroon指标=Aroon上升数-Aroon下降数
@@ -234,25 +234,25 @@ $$
 $$
 
 $$
-\begin{array}{c}{AA=ABS(H-LC);BB=ABS(L-LC);CC=ABS\big(H-REF(L,1)\big);DD}\\{=ABS\big(LC-REF(O,1)\big)}\end{array}
+\begin{aligned}&AA=ABS(H-LC);BB=ABS(L-LC);CC=ABS\big(H-REF(L,1)\big);DD\\&\quad=ABS\big(LC-REF(O,1)\big)\\\end{aligned}
 $$
 
 $$
-\begin{array}{r}{R=\mathrm{IF}\left(\mathrm{AA}>\mathrm{BB}\mathrm{\ AND\ AA}>\mathrm{CC},\mathrm{AA}+\frac{\mathrm{BB}}{2}+\frac{\mathrm{DD}}{4},\mathrm{IF}\left(\mathrm{BB}>\mathrm{CC}\mathrm{AND\ BB}>\right)\right)}\end{array}
+R=\mathrm{IF}\left(\mathrm{AA}>\mathrm{BB}\mathrm{AND}\mathrm{AA}>\mathrm{CC},\mathrm{AA}+\frac{\mathrm{BB}}{2}+\frac{\mathrm{DD}}{4},\mathrm{IF}\left(\mathrm{BB}>\mathrm{CC}\mathrm{AND}\mathrm{BB}>\right.\right.
 $$
 
-AA, BB $\begin{array}{r}{+\frac{\mathtt{AA}}{2}+\frac{\mathtt{DD}}{4},\mathtt{CC}+\frac{\mathtt{DD}}{4}\Big)\Big)}\end{array}$
+AA, BB $\left(+\frac{\mathrm{AA}}{2}+\frac{\mathrm{DD}}{4},\mathrm{CC}+\frac{\mathrm{DD}}{4}\right)$
 
 $$
-X=(\mathrm{C-LC}+\frac{\mathrm{C-0}}{2}+\mathrm{LC}-\mathrm{REF}(0,1)
-$$
-
-$$
-SI=16*{\frac{\mathrm{X}}{\mathrm{R}}}*\mathrm{MAX}(\mathrm{AA},\mathrm{BB})
+X=(C-LC+\frac{C-0}{2}+LC-REF(0,1))
 $$
 
 $$
-ASI=\mathrm{SUM}(\mathrm{SI},0)
+SI=16*\frac{X}{R}*MAX(AA,BB)
+$$
+
+$$
+ASI=\operatorname{SUM}(\operatorname{SI},0)
 $$
 
 ## (8) ATR平均真实波幅
@@ -260,11 +260,11 @@ $$
 平均真实波幅(ATR)是显示市场变化率的指标。这一指标是由威尔斯·王尔德（Welles Wilder）所创立。ATR不指示价格的变动方向，只表示价格的波动程度。而价格波动幅度的突破通常也预示着价格的突破。即：该指标价值越高，趋势改变的可能性就越高；该指标的价值越低，趋势的移动性就越弱。
 
 $$
-\begin{array}{r}{ATR1=\mathrm{{MAX}}(\mathrm{{MAX}}(\mathrm{{HIGH}}-\mathrm{{LOW}},\mathrm{{ABS}}(\mathrm{{REF}}(\mathrm{{CLOSE}},1)-\mathrm{{HIGH}})),\mathrm{{ABS}}(\mathrm{{REF}}(\mathrm{{CLOSE}},1)}\\{-\mathrm{{LOW}}))}\end{array}
+\begin{aligned}&ATR1=MAX(MAX(HIGH-L0W,ABS(REF(CLOSE,1)-HIGH)),ABS(REF(CLOSE,1)\\&\quad-L0W))\\\end{aligned}
 $$
 
 $$
-ATR=\mathrm{MA}(\mathrm{ATR}1,\mathrm{M})
+ATR=MA(ATR1,M)
 $$
 
 本篇报告采用过去12、20个交易日的数据对相关指标进行计算。
@@ -274,7 +274,7 @@ $$
 BBI多空指标，是一种将不同日数移动平均线加权平均之后的综合指标，属于均线型指标，一般选用3日、6日、12日、24日等4条平均线。在BBI指标中，近期数据较多，远期数据利用次数较少，因而是一种变相的加权计算。BBI指标既有短期移动平均线的灵敏，又有明显的中期趋势特征。
 
 $$
-BBI=(\mathrm{MA}(\mathrm{CLOSE},\mathrm{M1})+\mathrm{MA}(\mathrm{CLOSE},\mathrm{M2})+\mathrm{MA}(\mathrm{CLOSE},\mathrm{M3})+\mathrm{MA}(\mathrm{CLOSE},\mathrm{M4}))/4
+BBI=(\mathsf{MA}(\mathsf{CLOSE},\mathsf{M1})+\mathsf{MA}(\mathsf{CLOSE},\mathsf{M2})+\mathsf{MA}(\mathsf{CLOSE},\mathsf{M3})+\mathsf{MA}(\mathsf{CLOSE},\mathsf{M4}))/4
 $$
 
 ## (10) BIAS乖偏率
@@ -282,7 +282,7 @@ $$
 乖离率（BIAS）简称Y值也叫偏离率，是反映一定时期内股价与其移动平均数偏离程度的指标。移动平均数一般可视为某一时期内买卖双方都能接受的均衡价格。因此，股价距离移动平均线太远时会重新向平均线靠拢。乖离率指标就是通过测算股价在波动过程中与移动平均线出现的偏离程度，从而得出股价在剧烈波动时因偏离移动平均趋势可能形成的回档或反弹。
 
 $$
-BIAS=\frac{\mathrm{CLOSE}-\mathrm{MA}(\mathrm{CLOSE},\mathsf{P1})}{\mathrm{MA}(\mathrm{CLOSE},\mathsf{P1})}*100
+BIAS=\frac{CLOSE-MA(CLOSE,P1)}{MA(CLOSE,P1)}\times100
 $$
 
 本篇报告采用过去6、12、24个交易日的数据对相关指标进行计算。
@@ -294,11 +294,11 @@ $$
 而CCI指标却是波动于正无穷大到负无穷大之间，因此不会出现指标钝化现象，这样就有利于投资者更好地研判行情，特别是那些短期内暴涨暴跌的非常态行情。
 
 $$
-TYP=(\mathrm{HIGH}+\mathrm{LOW}+\mathrm{CLOSE})/3
+TYP=(HIGH+L0W+CLOSE)/3
 $$
 
 $$
-CCI=(\mathrm{TYP-MA}(\mathrm{TYP},\mathrm{M}))/(0.015*\mathrm{AVEDEV}(\mathrm{TYP},\mathrm{M}))
+CCI=(\mathrm{TYP}-\mathrm{MA}(\mathrm{TYP},\mathrm{M}))/(0.015*\mathrm{AVEDEV}(\mathrm{TYP},\mathrm{M}))
 $$
 
 ## (12) Chaikin Oscillator佳庆指标
@@ -306,11 +306,11 @@ $$
 在Larry Williams和Joe Granville的工作的启发下，Marc Chaikin发明了Chaikin Oscillator佳庆指标。佳庆指标是基于AD曲线的指数移动均线而计算得到的。
 
 $$
-AD=\mathrm{VOL}*[(\mathrm{CLOSE-LOW})-(\mathrm{HIGH-CLOSE})]/(\mathrm{HIGH-CLOSE})
+AD=VOL*[(CLOSE-LOW)-(HIGH-CLOSE)]/(HIGH-CLOSE)
 $$
 
 $$
-\mathsf{ChaikinOscillator=EMA(AD,10)\cdot EMA}\ (\mathsf{AD},3)
+\mathsf{Chaikin\;Oscillator{=}EMA(AD,}10){-}\mathsf{EMA}\;\left(\mathsf{AD,}3\right)
 $$
 
 ## (13) Chaikin Oscillator佳庆指标
@@ -318,11 +318,11 @@ $$
 Chaikin Volatility是由Marc Chaikin发明的一种技术指标。Marc Chaikin认为，一个相对较短时间内的波动率上升意味着市场底部的到来，一段相对较长时间内波动率的下降意味着市场顶部的来到。因此，根据波动率，可以预测股票未来的趋势。
 
 $$
-\mathbb{C}\mathrm{\hbar}\mathrm{aikin~Volati|ity=}(\uparrow0\uparrow\mathsf{H}\mathsf{H}\mathsf{G}\mathsf{H}\mathsf{\mathrm{-}}\mathsf{LOW}_{\mathsf{H}}^{\prime}\mathsf{\xi}\mathsf{E}\mathsf{M}\mathsf{A}-\mathrm{\hbar}0\mathrm{\hbar}\check{\mathsf{\Omega}}\mathsf{\ddot{n}}\mathrm{\uparrow}\mathsf{H}\mathsf{G}\mathsf{H}\mathrm{-}\mathsf{LOW}_{\mathsf{H}}^{\prime}\mathsf{\xi}\mathsf{E}\mathsf{M}\mathsf{A})/\mathrm{\hbar}0\mathrm{\hbar}\mathrm{\hbar}\mathrm{\Omega},
+\mathsf{Chaikin\;Volatility{=}(\;\mathsf{1}0\;\mathsf{\Pi}\mathsf{H}\mathsf{I}\mathsf{G}\mathsf{H}\mathsf{-}\mathsf{L}\mathsf{O}\mathsf{W}\mathsf{的}\mathsf{E}\mathsf{M}\mathsf{A}\;-\;\mathsf{1}0\;\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{H}\mathsf{I}\mathsf{G}\mathsf{H}\mathsf{-}\mathsf{L}\mathsf{O}\mathsf{W}\mathsf{的}\mathsf{E}\mathsf{M}\mathsf{A}\;\mathsf{)}\;\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf\mathsf{\Pi}\mathsf
 $$
 
 $$
-\frac{2}{AD}\frac{1}{H}\vert GH-LOW//G^{\prime}MA^{\star}100
+前\mathsf{H}1\mathsf{G}\mathsf{H}-\mathsf{L}\mathsf{O}\mathsf{W}的\mathsf{E}\mathsf{M}\mathsf{A}\text{· }100
 $$
 
 ## (14) Chande钱德动量摆动指标
@@ -330,11 +330,11 @@ $$
 钱德动量摆动指标是由图莎尔·钱德发明的，与其他动量指标摆动指标如相对强弱指标（RSI）和随机指标（KDJ）不同，钱德动量指标在计算公式的分子中采用上涨日和下跌日的数据。当动量摆动超过+50时，认为证券处于超买状态，当动量摆动低于-50时，认为证券处于超卖状态。一些技术投资者还在此摆动指标的基础上添加了九个周期的移动平均线，以作为信号线。当摆动线在信号线上方时，是多头的信号；当摆动先位于信号线下方时，是空头的信号。
 
 $$
-CZ1=\mathrm{IF}(\mathrm{CLOSE}-\mathrm{REF}(\mathrm{CLOSE},1)>0,\mathrm{CLOSE}-\mathrm{REF}(\mathrm{CLOSE},1),0)
+{\tt CZ1=IF(CLOSE-REF(CLOSE,1)>0,CLOSE-REF(CLOSE,1),0)}
 $$
 
 $$
-\begin{array}{c}{CZ2=\mathrm{IF}(\mathrm{CLOSE-REF}(\mathrm{CLOSE},1)<0,\mathrm{ABS}(\mathrm{CLOSE-REF}(\mathrm{CLOSE},1)),0)}\\{SU=SUM(CZ1,N)}\end{array}
+\begin{aligned}&CZ2=IF(CLOSE-REF(CLOSE,1)<0,ABS(CLOSE-REF(CLOSE,1)),0)\\&\\&\quad SU=SUM(CZ1,N)\\\end{aligned}
 $$
 
 $$
@@ -342,7 +342,7 @@ SD=SUM(CZ2,N)
 $$
 
 $$
-CMO=\frac{SU-SD}{SU+SD}*100
+CMO=\frac{SU-SD}{SU+SD}\ast100
 $$
 
 本篇报告采用过去10个交易日的数据对相关指标进行计算。
@@ -352,7 +352,7 @@ $$
 估波指标（Coppock Curve）又称“估波曲线”，通过计算月度价格的变化速率的加权平均值来测量市场的动量，属于长线指标。估波指标由Edwin SedgwickCoppock于1962年提出，主要用于判断牛市的到来。该指标只能产生买进讯号。依估波指标买进股票后，应另外寻求其他指标来辅助卖出讯号。
 
 $$
-\begin{array}{rl}&{R(\mathrm{n}1)=\frac{\mathrm{CLOSE-REF}(\mathrm{CLOSE},\mathrm{N}1)}{\mathrm{REF}(\mathrm{CLOSE},\mathrm{N}1)}*100}\\&{}\\&{R(\mathrm{n}2)=\frac{\mathrm{CLOSE-REF}(\mathrm{CLOSE},\mathrm{N}2)}{\mathrm{REF}(\mathrm{CLOSE},\mathrm{N}2)}*100}\\&{}\\&{RC(n1,n2)=R(n1)+R(n2)}\\&{Coppock(n1,n2,n3)=\mathrm{WMA}(\mathrm{RC}(\mathrm{n}1,\mathrm{n}2),\mathrm{n}3)}\end{array}
+\begin{aligned}&R(\mathrm{n}1)=\frac{\mathrm{CLOSE}-\mathrm{REF}(\mathrm{CLOSE},\mathrm{N}1)}{\mathrm{REF}(\mathrm{CLOSE},\mathrm{N}1)}\ast100\\&R(\mathrm{n}2)=\frac{\mathrm{CLOSE}-\mathrm{REF}(\mathrm{CLOSE},\mathrm{N}2)}{\mathrm{REF}(\mathrm{CLOSE},\mathrm{N}2)}\ast100\\&\quad RC(n1,n2)=R(n1)+R(n2)\\&Coppck(n1,n2,n3)=\mathrm{WMA}(\mathrm{RC}(\mathrm{n}1,\mathrm{n}2),\mathrm{n}3)\\\end{aligned}
 $$
 
 ## (16) CR能量指标
@@ -360,7 +360,7 @@ $$
 CR指标以上一个计算周期（如N日）的中间价比较当前周期（如日）的最高价、最低价，计算出一段时期内股价的“强弱”，从而在分析一些股价的异常波动行情时，有其独到的功能。另外，CR指标测量人气的热度、价格动量的潜能，而且能够显示出股价的压力带和支撑带，为分析预测股价未来的变化趋势，判断买卖股票的时机提供参考。
 
 $$
-\begin{array}{c}{{MID=(\mathrm{HIGH+LOW+CLOSE})/3}}\\{{{}}}\\{{CR=\displaystyle\frac{SUM\big(MAX\big(0,HIGH-REF(MID,1)\big),M\big)}{SUM(MAX(0,REF(MID,1)-L),M)}\ast100}}\end{array}
+\begin{aligned}&\frac{MID=(HIGH+LOW+CLOSE)/3}{}\\&CR=\frac{SUM\left(MAX\left(0,HIGH-REF(MID,1)\right),M\right)}{SUM\left(MAX\left(0,REF(MID,1)-L\right),M\right)}*100\\\end{aligned}
 $$
 
 ## (17) DBCD异同离差乖离率
@@ -368,7 +368,7 @@ $$
 DBCD异同离差乖离先计算乖离率BIAS，然后计算不同日的乖离率之间的离差，最后对离差进行指数移动平滑处理。优点是能够保持指标的紧密同步，并且线条光滑，信号明确，能够有效的过滤掉伪信号。
 
 $$
-\begin{array}{rl}&{BIAS=(\mathrm{C}-\mathrm{MA}(\mathrm{C},\mathrm{P}))/\mathrm{MA}(\mathrm{C},\mathrm{P})}\\&{~DIF=(\mathrm{BIAS}-\mathrm{REF}(\mathrm{BIAS},\mathrm{N}))}\\&{~\mathrm{DBCD}=\mathrm{SMA}(\mathrm{DIF},\mathrm{W},1)}\end{array}
+\begin{aligned}&BIAS=(\mathbb{C}-\mathrm{MA}(\mathbb{C},\mathsf{P}))/\mathrm{MA}(\mathbb{C},\mathsf{P})\\&\quad DIF=(\mathrm{BIAS}-\mathrm{REF}(\mathrm{BIAS},\mathsf{N}))\\&\quad\mathrm{DBCD}=\mathrm{SMA}(\mathrm{DIF},\mathsf{W},1)\\\end{aligned}
 $$
 
 ## (18) DDI方向标准离差指数
@@ -382,7 +382,7 @@ $$
 如果（最高价+最低价）<（昨日最高价+昨日最低价），DMF=（最高价-昨日最低价）的绝对值与（最低价-昨日最低价）的绝对值中较大值。
 
 $$
-\begin{array}{rl}&{\mathrm{DIZ}=\mathrm{SUM}(\mathrm{DMZ,N})/(\mathrm{SUM}(\mathrm{DMZ,N})+\mathrm{SUM}(\mathrm{DMF,N}))}\\&{\mathrm{DIF}=\mathrm{SUM}(\mathrm{DMF,N})/(\mathrm{SUM}(\mathrm{DMF,N})+\mathrm{SUM}(\mathrm{DMZ,N}))}\\&{\qquad\mathrm{DDI}=\mathrm{DIZ}-\mathrm{DIF}}\end{array}
+\begin{aligned}\mathrm{DIIZ}&=\mathrm{SUM}(\mathrm{DMZ},\mathrm{N})/(\mathrm{SUM}(\mathrm{DMZ},\mathrm{N})+\mathrm{SUM}(\mathrm{DMF},\mathrm{N}))\\\mathrm{DIF}&=\mathrm{SUM}(\mathrm{DMF},\mathrm{N})/(\mathrm{SUM}(\mathrm{DMF},\mathrm{N})+\mathrm{SUM}(\mathrm{DMZ},\mathrm{N}))\\&\quad\mathrm{DDI}=\mathrm{DIIZ}-\mathrm{DIF}\end{aligned}
 $$
 
 本篇报告采用过去13个交易日的数据对相关指标进行计算。
@@ -394,31 +394,31 @@ DMI指标是由美国技术分析大师威尔斯·威尔德（Wells Wilder）所
 DMI指标共有+DI、-DI、ADX、ADXR四条线。
 
 $$
-\begin{array}{rl}&{\mathrm{TRI}=\mathrm{SUM}(\mathrm{MAX}\Big(\mathrm{MAX}\Big(\mathrm{HIGH}-\mathrm{LOW},\mathrm{ABS}\big(\mathrm{HIGH}-\mathrm{REF}(\mathrm{CLOSE},1)\big)\Big),\mathrm{ABS}\big(\mathrm{LOW}}\\&{\qquad-\mathrm{REF}(\mathrm{CLOSE},1)\big)\Big),\mathrm{P})}\\&{\qquad\mathrm{HD}=\mathrm{HIGH}-\mathrm{REF}(\mathrm{HIGH},1)}\\&{\qquad\mathrm{LD}=\mathrm{REF}(\mathrm{LOW},1)-\mathrm{LOW}}\end{array}
+\begin{aligned}&\mathsf{TRI}=\mathsf{SUM}(\mathsf{MAX}\Big(\mathsf{MAX}\Big(\mathsf{HIGH}-\mathsf{LOW},\mathsf{ABS}\big(\mathsf{HIGH}-\mathsf{REF}(\mathsf{CLOSE},1)\big)\Big),\mathsf{ABS}\big(\mathsf{LOW}\\&\\&\quad-\mathsf{REF}(\mathsf{CLOSE},1)\big)\Big),\mathsf{P})\\&\\&\quad\mathsf{HD}=\mathsf{HIGH}-\mathsf{REF}(\mathsf{HIGH},1)\\&\\&\quad\mathsf{LD}=\mathsf{REF}(\mathsf{LOW},1)-\mathsf{LOW}\\\end{aligned}
 $$
 
 +DM代表正趋向变动值即上升动向值，其数值等于当日的最高价减去前一日的最高价，如果<=0 则+DM=0。通过平均化，得到方向线+DI。
 
 $$
-\begin{array}{c}{{\mathsf{DMP}=\mathsf{SUM}(\mathrm{IF}(\mathrm{HD}>0\mathrm{AND}\mathrm{HD}>\mathrm{LD},\mathrm{HD},0),\mathrm{P})}}\\{{\mathrm{PDI}=\mathsf{DMP}*100/\mathrm{TRI}}}\end{array}
+\begin{aligned}\mathrm{DMP}=\mathrm{SUM}(&\mathrm{IF}(\mathrm{HD}>0\mathrm{AND}\mathrm{HD}>\mathrm{LD},\mathrm{HD},0),\mathrm{P})\\&\mathrm{PDI}=\mathrm{DMP}*100/\mathrm{TRI}\end{aligned}
 $$
 
 ﹣DM代表负趋向变动值即下降动向值，其数值等于前一日的最低价减去当日的最低价，如果<=0 则-DM=0。注意-DM也是非负数。通过平均化，得到方向线-DI。
 
 $$
-\begin{array}{c}{{\tt DMM=SUM(IF(LD>0AND\mit LD>HD,LD,0),P)}}\\{{\mathrm{MDI=DMM*}100/\mathrm{TRI}}}\end{array}
+\begin{aligned}\mathrm{DMM}=\mathrm{SUM}(&\mathrm{IF}(\mathrm{LD}>0\mathrm{AND}\;\mathrm{LD}>\mathrm{HD},\mathrm{LD},0),\mathrm{P})\\&\mathrm{MDI}=\mathrm{DMM}*100/\mathrm{TRI}\end{aligned}
 $$
 
 ADX是反映趋向变动程度的指数。ADX 无法告诉趋势的发展方向。可是如果趋势存在, ADX 可以衡量趋势的强度。
 
 $$
-\mathrm{ADX}=\mathrm{MA}(\frac{\mathrm{ABS}(\mathrm{MDI}-\mathrm{PDI})}{\mathrm{MDI}+\mathrm{PDI}}\ast100,\mathrm{M})
+\mathrm{ADX}=\mathrm{MA}(\frac{\mathrm{ABS}(\mathrm{MDI}-\mathrm{PDI})}{\mathrm{MDI}+\mathrm{PDI}}\times100,\mathrm{M})
 $$
 
 ADXR为趋向平均值：
 
 $$
-{\mathrm{ADXR}}=({\mathrm{ADX}}+{\mathrm{REF}}({\mathrm{ADX}},\mathrm{{M}}))/2
+\mathrm{ADXR}=(\mathrm{ADX}+\mathrm{REF}(\mathrm{ADX},\mathrm{M}))/2
 $$
 
 ## (20) DPTB大盘同步指标
@@ -426,7 +426,7 @@ $$
 大盘同步指标计算m周期内股票运动同大盘运动同步的比例。
 
 $$
-\mathrm{COUNT}((\mathrm{C}>0\mathrm{~AND~INDEXC}>\mathrm{INDEXO})OR(C\leq AND\ INDEXC<INDEXO,M)
+\mathsf{COUNT}((\mathsf{C}>0\;\mathsf{AND}\;\mathsf{INDEXC}>\mathsf{INDEXO})OR(\mathsf{C}\leq AND\;\mathsf{INDEXC}<\mathsf{INDEXO},M)
 $$
 
 ## (21) Ease of Movement简易波动指标
@@ -434,7 +434,7 @@ $$
 简易波动指标（Ease of Movement Value）又称EMV指标，它是由RichardW．Arm Jr．根据等量图和压缩图的原理设计而成, 目的是将价格与成交量的变化结合成一个波动指标来反映股价或指数的变动状况。由于股价的变化和成交量的变化都可以引发该指标数值的变动,因此,EMV实际上也是一个量价合成指标。
 
 $$
-Ease\ of\ Movement=\mathrm{EMA}(\left(\frac{\ H\mathrm{IGH}+\mathrm{LOW}}{2}-\frac{\mathrm{REF}(\mathrm{HIGH},1)+\mathrm{REF}(\mathrm{LOW},1)}{2}\right)/\mathrm{VOL})
+EasseofMovement=EMA\left(\frac{HIGH+L0W}{2}-\frac{REF(HIGH,1)+REF(L0W,1)}{2}\right)/V0L
 $$
 
 ## (22) Elder 透视指标
@@ -442,15 +442,15 @@ $$
 艾达透视指标是一种新的技术指标，它是由亚历山大·埃尔德(AlexanderElder)博士在1989年所设计，其名称由来是源自于X光，医生透过X光观察表层皮肤之下的骨骼结构，交易者可以经由艾达透视指标，观察市场表面之下的多头与空头力道。
 
 $$
-3\div13\div5=\frac{5}{12}\div5\cdots5+51\div5+11\div5\cdots11\div5=115
+多头力道=最高价-n期内收盘价的$\mathsf{EMA}$
 $$
 
 $$
-\therefore x=\frac{1}{2}\cdot x-12
+空头力道=最低价-\triangle 期内收盘价的\angle MA
 $$
 
 $$
-\mathsf{Elder~ize2}\hbar\mathsf{U}\mathsf{\Sigma}+\mathsf{H}\hbar\mathsf{\Sigma}+\mathsf{F}=(\hbar\hbar\mathsf{\Sigma}+\hbar\mathsf{\Sigma}+\hbar\mathsf{\Sigma}+\hbar\mathsf{\Sigma}+\hbar\mathsf{\Sigma})\mathsf{\Sigma}/\hbar\mathsf{U}\hbar\mathsf{\Sigma}+\hbar\mathsf{\Sigma}
+\mathsf{Elder}透视指标=(多头力道-空头力道)/收盘价
 $$
 
 ## (23) Hurst指数
@@ -460,7 +460,7 @@ H.E.HURST（赫斯特）是英国水文学家。以他命名的HURST指数，被
 取交易窗口n
 
 $$
-\mathrm{m}=\frac{1}{n}\sum_{i=1}^{n}P_{i}
+\mathbf{m}={\frac{1}{n}}{\sum_{i=1}^{n}P_{i}}.
 $$
 
 $$
@@ -468,11 +468,11 @@ Y_{i}=p_{i}-m
 $$
 
 $$
-\mathsf{Z}_{t}=\sum_{i=1}^{t}Y_{i}
+\mathbf{Z}_{t}=\sum_{i=1}^{t}Y_{i}
 $$
 
 $$
-\begin{array}{c}{\operatorname{R}(\mathrm{n})=\operatorname*{max}(\mathrm{Z}_{1},\mathrm{Z}_{2},\dots,\mathrm{Z}_{n})-\operatorname*{min}(\mathrm{Z}_{1},\mathrm{Z}_{2},\dots,\mathrm{Z}_{n})}\\{\quad\quad\quad\quad Hurst=R(n)/S(n)}\end{array}
+\begin{aligned}&\mathrm{R}(\mathrm{n})=\max(\mathrm{Z}_{1},\mathrm{Z}_{2},\ldots,\mathrm{Z}_{n})-\min(\mathrm{Z}_{1},\mathrm{Z}_{2},\ldots,\mathrm{Z}_{n})\\&\quad Hurst=R(n)/S(n)\\\end{aligned}
 $$
 
 S(n)为价格的标准差。
@@ -482,7 +482,7 @@ S(n)为价格的标准差。
 阶段强势指标计算一定周期m内，大盘下跌时，个股上涨的比例。
 
 $$
-A=COUNT(C>0ANDINDEXC<INDEXO,m)
+A=COUNT(C>0\;AND\;INDEXC<INDEXO,m)
 $$
 
 $$
@@ -498,7 +498,7 @@ $$
 KDJ指标又叫随机指标，最早起源于期货市场，由乔治·莱恩（GeorgeLane）首创。 KDJ指标在设计过程中主要是研究最高价、最低价和收盘价之间的关系，同时也融合了动量观念、强弱指标和移动平均线的一些优点。因此，能够比较直观地研判行情，被广泛用于股市的中短期趋势分析，是证券市场上常用的技术分析工具。 KDJ的计算比较复杂，首先要计算周期（n日、n周等）的RSV值，即未成熟随机指标值，然后再计算K值、D值、J值等。以日KDJ数值的计算为例，其计算公式为:
 
 $$
-\begin{array}{r}{RSV=\frac{\mathrm{CLOSE-LLV(LOW,N)}}{\mathrm{HHV}(\mathrm{HIGH,N)-LLV(LOW,N)}}\ast100}\\{K=SMA(RSV,P1,1)}\\{D=SMA(K,P2,1)}\\{J=3\ast K-2\ast D}\end{array}
+\begin{aligned}RSV=\frac{CLOSE-LLV(LOW,N)}{HHV(HIGH,N)-LLV(LOW,N)}*100\\K=&SMA(RSV,P1,1)\\D=&SMA(K,P2,1)\\J=&3*K-2*D\end{aligned}
 $$
 
 K与D值永远介于0到100之间。D大于70时，行情呈现超买现象。D小于30时，行情呈现超卖现象。
@@ -508,7 +508,7 @@ K与D值永远介于0到100之间。D大于70时，行情呈现超买现象。D�
 Klinger成交量摆动指标由Stephen Klinger创立，该指标在决定长期资金流量趋势的同时保持了对于短期资金流量的敏感性，因而可以用于预测短期价格拐点。
 
 $$
-t\dot{\Xi}\dot{\mathsf{2}}\mathbin{\vrule hidde10SE+H1GH+LOW)}\beta
+均价$\mathsf{M}{=}(\mathsf{CLOSE}{+}\mathsf{HIGH}{+}\mathsf{LOW})/3$
 $$
 
 若今日均价高于昨日均价则成交量记为正，反之记为负。然后计算55期和34期内经上述处理过的成交量的指数平均数，将两平均数相减得到差值。然后计算该差值的6日指数平均值。
@@ -528,15 +528,15 @@ $$
 MACD称为指数平滑异同平均线，是从双移动平均线发展而来的，由快的移动平均线减去慢的移动平均线，MACD的意义和双移动平均线基本相同，但阅读起来更方便。当MACD从负数转向正数，是买的信号。当MACD从正数转向负数，是卖的信号。当MACD以大角度变化，表示快的移动平均线和慢的移动平均线的差距非常迅速的拉开，代表了一个市场大趋势的转变。
 
 $$
-{\cal D}IFF=\mathrm{EMA}(\mathrm{CLOSE},\mathrm{S})-\mathrm{EMA}(\mathrm{CLOSE},\mathrm{P})
+\mathit{DIFF}=\mathrm{EMA}(\mathrm{CLOSE},\mathrm{S})-\mathrm{EMA}(\mathrm{CLOSE},\mathrm{P})
 $$
 
 $$
-DEA={\mathrm{EMA}}({\mathrm{DIFF}},{\mathrm{M}})
+DEA=EMA(DIFF,M)
 $$
 
 $$
-MACD=2*(\mathrm{DIFF}-\mathrm{DEA})
+MACD=2*(\mathrm{DIFF-DEA})
 $$
 
 ## (30) Mass Index梅斯线
@@ -544,7 +544,7 @@ $$
 MASS梅斯线（Mass Index）是Donald Dorsey设计的震荡曲线。该指标最主要的作用，在于寻找飙涨股或者极度弱势股的重要趋势反转点。 MASS指标是所有区间震荡指标中，风险系数最小的一个。由于股价高低点之间的价差波带，忽而宽忽而窄，并且不断的重复循环。利用这种重复循环的波带，可以预测股价的趋势反转点。
 
 $$
-MassIndex=\mathrm{EMA}(\mathrm{HIGH-LOW},9)/\mathrm{EMA}((\mathrm{EMA}(\mathrm{HIGH-LOW},9),9)
+Mass\ Index=\mathrm{EMA(HIGH-L0W,9)}/\mathrm{EMA((EMA(HIGH-L0W,9),9)}
 $$
 
 ## (31) MFI资金流量指标
@@ -552,7 +552,7 @@ $$
 资金流量指标(Money Flow Index)由Welles Wilder将RSI加以修改后，演变而来。RSI以成交价为计算基础；MFI指标则结合价和量，将其列入综合考虑的范围。可以说，MFI指标是成交量的RSI指标。
 
 $$
-\begin{array}{c}{{TYP=(HIGH+CLOSE+LOW)/3}}\\{{\nonumber}}\\{{V1=SUM(IF(TYP>REF(TYP,1),TYP*VOL,0),N)}}\\{{/SUM(IF(TYP<REF(TYP,1),TYP*VOL,0),N)}}\\{{\nonumber}}\\{{MFI=100-(\displaystyle\frac{100}{1+V1})}}\end{array}
+\begin{aligned}TYP&=(HIGH+CLOSE+LOW)/3\\V1=SUM(IF(TYP>REF(TYP,1),TYP*VOL,0),N)\\/SUM(IF(TYP&<REF(TYP,1),TYP*VOL,0),N)\\MFI&=100-(\frac{100}{1+V1})\end{aligned}
 $$
 
 ## (32)MICD异同离差动力指数
@@ -560,7 +560,7 @@ $$
 计算MI动力指数的离差得DIF，再做它的10日移动平均线得MICD。
 
 $$
-\mathbf{MTM}=\mathbf{CLOSE}-\mathbf{REF}(\mathbf{CLOSE},1);
+\mathrm{MTM}=\mathrm{CLOSE}-\mathrm{REF}(\mathrm{CLOSE},1);
 $$
 
 $$
@@ -568,11 +568,11 @@ MTMMA=SMA(MI,N,1);
 $$
 
 $$
-{DIFF}=MA(REF(MTMMA,1),N1)-MA(REF(MTMMA,1),N2)
+DIFF=MA(REF(MTMMA,1),N1)-MA(REF(MTMMA,1),N2)
 $$
 
 $$
-\mathsf{MICD}=\mathsf{SMA}(\mathrm{DIF},10,1)
+\mathrm{MIC}=\mathrm{SMA}(\mathrm{DIF},10,1)
 $$
 
 ## (33) Money Flow资金流量
@@ -580,7 +580,7 @@ $$
 用收盘价，最高价及最低价的均值乘以当日成交量即可得到该交易日的资金流量。
 
 $$
-\mathrm{Money}\mathrm{Flow}=\frac{\mathrm{CLOSE}+\mathrm{HIGH}+\mathrm{LOW}}{3}*\mathrm{VOL}
+\mathrm{Money~Flow}=\frac{\mathrm{CLOSE}+\mathrm{HIGH}+\mathrm{LOW}}{3}\times\mathrm{VOL}
 $$
 
 ## (34) MTM动量指标
@@ -588,7 +588,7 @@ $$
 在证券市场上有类似于物理学上的恒速原理的现象：如果股价的上涨（下跌）趋势在继续，则股价的上涨（下跌）速度会大体保持一致。动量指标（MomentumIndex）正是从股票的恒速原理出发，考察股价的涨跌速度，以股价涨跌速度的变化分析股价趋势的指标。
 
 $$
-\mathtt{MTM}=\mathtt{C}-\mathtt{REF}(\mathtt{C},\mathtt{m})
+\mathrm{MTM}=\mathrm{C}-\mathrm{REF}(\mathrm{C},\mathrm{m})
 $$
 
 $$
@@ -602,7 +602,7 @@ $$
 能量潮是将成交量数量化，制成趋势线，配合股价趋势线，从价格的变动及成交量的增减关系，推测市场气氛。其主要理论基础是市场价格的变化必须有成交量的配合，股价的波动与成交量的扩大或萎缩有密切的关连。通常股价上升所需的成交量总是较大；下跌时，则成交量可能放大，也可能较小。价格升降而成交量不相应升降，则市场价格的变动难以为继。
 
 $$
-\begin{array}{r}{\begin{array}{rl}&{\mathrm{OBV}=\mathrm{SUM}(\mathrm{IF}(\mathrm{CLOSE}}\\&{~>\mathrm{REF}(\mathrm{CLOSE},1),\mathrm{VOL},\mathrm{IF}(\mathrm{CLOSE}<\mathrm{REF}(\mathrm{CLOSE},1),-\mathrm{VOL},0),0)}\end{array}}\end{array}
+\begin{aligned}&\mathsf{OBV}=\mathsf{SUM(IF(CLOSE}\\&\quad>\mathsf{REF(CLOSE,1),VOL,IF(CLOSE<REF(CLOSE,1),-V0L,0),0)}\\\end{aligned}
 $$
 
 ## (36) PSY心理线
@@ -610,7 +610,7 @@ $$
 研究人员发现：一方面，人们的心理预期与市势的高低成正比，即市势升，心理预期也升，市势跌，心理预期也跌；另一方面，当人们的心理预期接近或达到极端的时候，逆反心理开始起作用，并可能最终导致心理预期方向的逆转。心理线（PSY）指标将一定时期内投资者趋向买方或卖方的心理事实转化为数值，从而判断股价的未来趋势。
 
 $$
-\mathrm{PSY}=\frac{\mathrm{COUNT}(\mathrm{CLOSE}>\mathrm{REF}(\mathrm{CLOSE},1),\mathsf{M})}{\mathsf{M}}*100
+\mathrm{PSY}=\frac{\mathrm{COUNT}(\mathrm{CLOSE}>\mathrm{REF}(\mathrm{CLOSE},1),\mathrm{M})}{\mathrm{M}}*100
 $$
 
 ## (37) PVI正成交量指标
@@ -618,7 +618,7 @@ $$
 正成交量指标(Positive Volume Index)其主要作用是辨别目前市场行情是处于多头行情还是空头行情，并追踪市场资金流向。识别主力资金是否在不动声色地购进股票或抛出，从而得出市场的操作策略。
 
 $$
-\begin{array}{r}{{\operatorname{PV}}={\operatorname{IF}}({\operatorname{CLOSE}}>{\operatorname{REF}}({\operatorname{CLOSE}},1),\frac{{\operatorname{CLOSE}}-{\operatorname{REF}}({\operatorname{CLOSE}},1)}{{\operatorname{REF}}({\operatorname{CLOSE}},1)}}\\{*{\operatorname{REF}}({\operatorname{PVI}},1),{\operatorname{REF}}({\operatorname{PVI}},1),))}\end{array}
+\begin{aligned}PV=IF(CLOSE>REF(CLOSE,1),\frac{CLOSE-REF(CLOSE,1)}{REF(CLOSE,1)}\\*REF(PVI,1),REF(PVI,1),))\end{aligned}
 $$
 
 ## (38) PVT价量趋势指标
@@ -626,7 +626,7 @@ $$
 价量趋势(PVT)指标是指把能量变化与价格趋势有机地联系到了一起，从而构成了量价趋势指标。
 
 $$
-PVT=\frac{\mathrm{CLOSE}-\mathrm{REF}(\mathrm{CLOSE},1)}{\mathrm{REF}(\mathrm{CLOSE},1)}*\mathrm{VOL}
+PVT=\frac{CLOSE-REF(CLOSE,1)}{REF(CLOSE,1)}\times VOL
 $$
 
 本篇报告采用过去6、12个交易日的数据对相关指标进行计算。
@@ -634,7 +634,7 @@ $$
 ## (39)RCCD异同离差变化率指数
 
 $$
-\begin{array}{r}{\mathsf{RC}=\mathsf{C}/\mathsf{REF}(\mathsf{C},\mathsf{m})\qquad}\\{\mathsf{ARC}\boldsymbol{1}=\mathsf{SMA}(\mathsf{REF}(\mathsf{RC},1),\mathsf{m},1)\qquad}\\{\mathsf{DIF}=\mathsf{MA}(\mathsf{REF}(\mathsf{ARC}1,1),\mathsf{p}1)-\mathsf{MA}(\mathsf{REF}(\mathsf{ARC}1,1),\mathsf{p}2)\qquad}\\{\mathsf{RCCD}=\mathsf{SMA}(\mathsf{DIF},\mathsf{m},1)\qquad}\end{array}
+\begin{aligned}{\mathsf{RC}{=}\mathsf{C}/\mathsf{REF}(\mathsf{C},}&{{}\mathsf{m})}\\{\mathsf{ARC}{1}{=}\mathsf{SMA}(\mathsf{REF}(\mathsf{RC},}&{{}\mathsf{1}){,}\mathsf{m},}&{{}\mathsf{1})}\\{\mathsf{DIF}{=}\mathsf{MA}(\mathsf{REF}(\mathsf{ARC}{1},}&{{}\mathsf{1}){,}\mathsf{p}{1}){-}\mathsf{MA}(\mathsf{REF}(\mathsf{ARC}{1},}&{{}\mathsf{1}){,}\mathsf{p}{2})}\\{\mathsf{RCCD}{=}\mathsf{SMA}(\mathsf{DIF},}&{{}\mathsf{m},}&{{}\mathsf{1})}\\\end{aligned}
 $$
 
 ## (40) RC变化率指数
@@ -650,7 +650,7 @@ ROC(Price Rate of Change)是以今天之价格比较其N天前之价格的变化
 相对强弱指标RSI 是由韦尔斯.怀尔德(Welles Wilder)提出的，是衡量证券自身内在相对强度的指标。相对强弱指数RSI是根据一定时期内上涨和下跌幅度之和的比率制作出的一种技术曲线。能够反映出市场在一定时期内的景气程度。
 
 $$
-RSI=\frac{\mathrm{SMA}(\mathrm{MAX}(\mathrm{CLOSE-LC},0),\mathrm{N1},1)}{\mathrm{SMA}(\mathrm{ABS}(\mathrm{CLOSE-LC}),\mathrm{N1},1)}*100
+RSI=\frac{\mathrm{SMA}(\mathrm{MAX}(\mathrm{CLOSE-LC},0),\mathrm{N}1,1)}{\mathrm{SMA}(\mathrm{ABS}(\mathrm{CLOSE-LC}),\mathrm{N}1,1)}\times100
 $$
 
 由上面算式可知RSI指标的技术含义，即以向上的力量与向下的力量进行比较，若上的力量较大，则计算出来的指标上升；若下的力量较大，则指标下降，由此测算出市场走势的强弱。
@@ -660,7 +660,7 @@ $$
 RVI用于预测波动率的方向，其通过计算波动率而不是价格的变化来预测价格的强度。
 
 $$
-\begin{array}{r}{\mathsf{UP\mathrm{=}}\mathsf{IF(CLOSE{\mathrm{\sim}}REF(CLOSE,\xi1),~\mathsf{STD}(CLOSE,\xi N),~0)}}\\{\mathsf{DOWN\mathrm{=}}\mathsf{IF(CLOSE{\mathrm{\sim}}REF(CLOSE,\xi1),~\mathsf{STD}(CLOSE,\xi N),~0)}}\\{\mathsf{AUP\mathrm{=}SMA(UP,~\mathsf{N},~1)}}\\{\mathsf{ADOWN\mathrm{=}SMA(DOWN,~\mathsf{N},~1)}}\\{\mathsf{RV}\mathsf{I}\mathsf{=}\mathsf{AUP/}(\mathsf{AUP\mathrm{+}ADOWN})^{\star}\mathsf{1}00}\end{array}
+\begin{aligned}{\mathsf{UP}{=}\mathsf{IF}(\mathsf{CLOSE}{>}\mathsf{REF}(\mathsf{CLOSE}{,~}\mathsf{I}){,~}\mathsf{STD}(\mathsf{CLOSE}{,~}\mathsf{N}){,~}\mathsf{0})}\\{\mathsf{DOWN}{=}\mathsf{IF}(\mathsf{CLOSE}{<}\mathsf{REF}(\mathsf{CLOSE}{,~}\mathsf{I}){,~}\mathsf{STD}(\mathsf{CLOSE}{,~}\mathsf{N}){,~}\mathsf{0})}\\{\mathsf{AUP}{=}\mathsf{SNA}(\mathsf{UP}{,~}\mathsf{N}{,~}\mathsf{I})}\\{\mathsf{ADOWN}{=}\mathsf{SMA}(\mathsf{DOWN}{,~}\mathsf{N}{,~}\mathsf{I})}\\{\mathsf{RVI}{=}\mathsf{AUP}/(\mathsf{AUP}{+}\mathsf{ADOWN})^{\star}100}\\\end{aligned}
 $$
 
 ## (44) SRMI修正动量指标
@@ -668,13 +668,13 @@ $$
 修正动量指标在当日收盘价小于前一交易日时，以前一交易日作为衡量基准，当日收盘价大于前一交易日时，以当日一交易日作为衡量基准。
 
 $$
-SRMI=\mathrm{IF}(\mathsf{C}<\mathrm{REF}(\mathsf{C},\mathsf{M}),\frac{\mathsf{C}-\mathsf{REF}(\mathsf{C},\mathsf{M})}{\mathsf{REF}(\mathsf{C},\mathsf{M})},\mathrm{IF}\left(\mathsf{C}=\mathsf{REF}(\mathsf{C},\mathsf{M}),0,\frac{\mathsf{C}-\mathsf{REF}(\mathsf{C},\mathsf{M})}{\mathsf{C}}\right))
+SRMI=\mathrm{IF}(\mathrm{C}<\mathrm{REF}(\mathrm{C},\mathrm{M}),\frac{\mathrm{C}-\mathrm{REF}(\mathrm{C},\mathrm{M})}{\mathrm{REF}(\mathrm{C},\mathrm{M})},\mathrm{IF}(\mathrm{C}=\mathrm{REF}(\mathrm{C},\mathrm{M}),0,\frac{\mathrm{C}-\mathrm{REF}(\mathrm{C},\mathrm{M})}{\mathrm{C}}))
 $$
 
 ## (45) StochRSI随机强弱指数
 
 $$
-RSI=\frac{SMA(MAX(CLOSE-LC,0),N1,1)}{SMA(ABS(CLOSE-LC),N1,1)}*100
+RSI=\frac{SMA(MAX(CLOSE-LC,0),N1,1)}{SMA(ABS(CLOSE-LC),N1,1)}\times100
 $$
 
 StochRSI=（当日RSI-周期内最小RSI）/（周期内最大RSI-周期内最小RSI）
@@ -692,7 +692,7 @@ TEMA=3*一重指数加权平均-3*二重指数加权平均+三重指数加权平
 TRIX指标是根据移动平均线理论，对一条平均线进行三次平滑处理，再根据这条移动平均线的变动情况来预测股价的长期走势。TRIX指标一方面忽略价格短期波动的干扰，除去移动平均线频繁发出假信号的缺陷，以最大可能地减少主力“骗线行为”的干扰，避免由于交易行为过于频繁而造成较大交易成本的浪费，二则保留移动平均线的效果，凸现股价未来长期运动趋势，使投资者对未来较长时间内股价运动趋势有个直观、准确地了解，从而降低投资者深度套牢等风险。
 
 $$
-\begin{array}{rl}&{TRIX=\mathrm{EMA}\left(\mathrm{EMA}\left(\mathrm{EMA}\left(\mathrm{LOG}(\mathrm{CLOSE})\right)\right)\right)}\\&{\qquad-\mathrm{REF}(\mathrm{EMA}\left(\mathrm{EMA}\left(\mathrm{EMA}\left(\mathrm{LOG}(\mathrm{CLOSE})\right)\right)\right),1))}\\&{\qquad/\mathrm{REF}(\mathrm{EMA}\left(\mathrm{EMA}\left(\mathrm{EMA}\left(\mathrm{LOG}(\mathrm{CLOSE})\right)\right)\right),1)}\end{array}
+\begin{aligned}TRIX=EMA\Biggl(EMA\Biggl(EMA\bigl(LOG(CLOSE)\bigr)\Biggr)\Biggr)\quad&\\&-REF\bigl(EMA\Biggl(EMA\bigl(EMA\bigl(LOG(CLOSE)\bigr)\bigr)\Biggr),1\bigr)\Biggr)\\&/REF\bigl(EMA\Biggl(EMA\bigl(EMA\bigl(LOG(CLOSE)\bigr)\bigr)\Biggr),1\Biggr)\\\end{aligned}
 $$
 
 即取时间n内的收盘价，取对数后计算其三重指数加权平均。TRIX为今日三重指数加权平均减去昨日三重指数加权平均后除以昨日三重指数加权平均。
@@ -702,11 +702,11 @@ $$
 TRI区间指数由Jack L.Weinberg创立并发表于1995年6月在”TechnicalAnalysis of Stocks & Commodities”杂志上。TRI的本质是正规化了的真实波动区间。
 
 $$
-\begin{array}{r}{\mathsf{X}1=\mathsf{IF}((\mathsf{CLOSE}>\mathsf{REF}(\mathsf{CLOSE},\mathsf{\Delta1})),\mathsf{T}/(\mathsf{CLOSE}\mathsf{-REF}(\mathsf{CLOSE},\mathsf{\Delta1})),\mathsf{T})}\\{\mathsf{X}2=\mathsf{X}1\mathsf{-MIN}(\mathsf{X}1)}\end{array}
+\begin{array}{c}{\mathsf{X1}{=}\mathsf{IF}((\mathsf{CLOSE}{>}\mathsf{REF}(\mathsf{CLOSE}{,~}\mathsf{\mathcal{i}})),\mathsf{T}/(\mathsf{CLOSE}{-}\mathsf{REF}(\mathsf{CLOSE}{,~}\mathsf{\mathcal{i}})),\mathsf{T})}\\{\mathsf{X2}{=}\mathsf{X1}{-}\mathsf{MIN}(\mathsf{X1})}\\\end{array}
 $$
 
 $$
-\sf TRl{=}\sf EMA(X2/(\sf HIG\sf H{-}LOW)^{\star}100,~\sf N)
+\mathsf{TRI{=}EMA(X2/(HIGH{-}LOW)^{\star}100,\quad N)}
 $$
 
 ## (49) Ulcer 指标
@@ -714,11 +714,11 @@ $$
 求出过去n日每日收盘价相对于n日内最高价的变动率Ri，Ri平方的平均值开二次方后得到Ulcer 指标。
 
 $$
-R_{i}=100*{\frac{CLOSE_{I}-MAX(CLOSE,M)}{MAX(CLOSE,M)}}
+R_{i}=100*\frac{CLOSE_{I}-MAX(CLOSE,M)}{MAX(CLOSE,M)}
 $$
 
 $$
-\mathrm{Ulcer}={\sqrt{\frac{R_{1}^{2}+R_{2}^{2}+\cdots+R_{m}^{2}}{m}}}
+\mathbf{Ulcer}={\sqrt{\frac{R_{1}^{2}+R_{2}^{2}+\cdots+R_{m}^{2}}{m}}}
 $$
 
 ## (50) UOS终极波动指标
@@ -728,27 +728,27 @@ $$
 现行使用的各种振荡指标，对于周期参数的选择相当敏感。不同市况、不同参数设定的振荡指标，产生的结果截然不同。因此，选择最佳的参数组合，成为使用振荡指标之前最重要的一道手续。
 
 $$
-TH=\mathsf{MAX}\big(\mathrm{HIGH-REF}(\mathrm{CLOSE},1)\big)
+TH=MAX(HIGH-REF(CLOSE,1))
 $$
 
 $$
-TL=MIN\big(LOW,REF(CLOSE,1)\big)
+TL=MIN\big(LOW,REF\big(CLOSE,1\big)\big)
 $$
 
 $$
-ACC1=\frac{CLOSE-SUM(TL,N1)}{\mathrm{SUM}(\mathrm{TH}-\mathrm{TL},\mathrm{N1})}
+ACC1=\frac{CLOSE-SUM(TL,N1)}{SUM(TH-TL,N1)}
 $$
 
 $$
-ACC2={\frac{CLOSE-SUM(TL,N2)}{\mathrm{SUM}({\mathrm{TH}}-{\mathrm{TL}},{\mathrm{N}}2)}}
+ACC2=\frac{CLOSE-SUM(TL,N2)}{SUM(TH-TL,N2)}
 $$
 
 $$
-ACC3={\frac{CLOSE-SUM(TL,N3)}{\mathrm{SUM}({\mathrm{TH}}-{\mathrm{TL}},{\mathrm{N}}3)}}
+ACC3=\frac{CLOSE-SUM(TL,N3)}{SUM(TH-TL,N3)}
 $$
 
 $$
-{\begin{array}{rl}&{\mathrm{UOS}=(\mathrm{ACC1}*\mathrm{N2}*\mathrm{N3}+\mathrm{ACC2}*\mathrm{N1}*\mathrm{N3}+\mathrm{ACC3}*\mathrm{N1}(\mathrm{N2})*100/(\mathrm{N1}*\mathrm{N2}+\mathrm{N1}}\\&{\qquad*\mathrm{N3}+\mathrm{N2}*\mathrm{N3})}\end{array}}
+\begin{aligned}\mathsf{U0S}=(\mathsf{ACC1}&*\mathsf{N2}*\mathsf{N3}+\mathsf{ACC2}*\mathsf{N1}*\mathsf{N3}+\mathsf{ACC3}*\mathsf{N1}(\mathsf{N2})*\mathsf{100}/(\mathsf{N1}*\mathsf{N2}+\mathsf{N1}\\&*\mathsf{N3}+\mathsf{N2}*\mathsf{N3})\end{aligned}
 $$
 
 ## (51) VEMA交易量指数均值
@@ -760,15 +760,15 @@ $$
 量指数平滑异同移动平均线(Vol Moving Average Convergence andDivergence)是从双移动平均线发展而来的，由快的移动平均线减去慢的移动平均线, VMACD的意义和MACD基本相同, 但VMACD取用的数据源是成交量，MACD取用的数据源是成交价格，这是它们之间最大的区别。
 
 $$
-\mathsf{D}|\mathsf{F}\mathsf{F}=\mathsf{E}\mathsf{M}\mathsf{A}\left(\mathsf{V}\mathsf{O}\mathsf{L},\mathsf{S}\right)-\mathsf{E}\mathsf{M}\mathsf{A}\left(\mathsf{V}\mathsf{O}\mathsf{L},\mathsf{P}\right)
+\mathsf{DIFF{=}EMA\;(VOL,\;\Delta S)\;{-}\;EMA\;(VOL,\;\Delta P)}
 $$
 
 $$
-{\mathsf{DEA}}{=}{\mathsf{EMA}}\left({\mathsf{DIFF}},\ \mathsf{M}\right)
+\mathsf{DEA{=}EMA\left({DIFF{,~}M}\right)}
 $$
 
 $$
-\mathsf{VMACD=DIFF-DEA}
+\mathsf{VMACD{=}DIFF{-}DEA}
 $$
 
 ## (53) VOSC移动平均成交量指标
@@ -776,7 +776,7 @@ $$
 VOSC指标又名移动平均成交量指标，但是，它并非仅仅计算成交量的移动平均线，而是通过对成交量的长期移动平均线和短期移动平均线之间的比较，分析成交量的运行趋势和及时研判趋势转变方向。
 
 $$
-{\mathsf{VOSC}}=(\mathsf{MA}(\mathsf{Vol},~\mathsf{M})-\mathsf{MA}(\mathsf{Vol},~\mathsf{P}))/\mathsf{MA}(\mathsf{Vol},~\mathsf{S})^{\star}100~
+\mathsf{VOSC{=}(MA(Vol,\quad M){-}MA(Vol,\quad P))/MA(Vol,\quad S)^{\star}100}
 $$
 
 ## (54) VROC量变动速率
@@ -784,7 +784,7 @@ $$
 VROC指标又名量变动速率指标，是以今天的成交量和N天前的成交量比较，通过计算某一段时间内成交量变动的幅度，应用成交量的移动比较来测量成交量运动趋向，达到事先探测成交量供需的强弱，进而分析成交量的发展趋势及其将来是否有转势的意愿，属于成交量的反趋向指标。
 
 $$
-(\mathsf{VOL-REF}(\mathsf{VOL},\mathsf{M}))/\mathsf{REF}(\mathsf{VOL},\mathsf{M})^{\star}100
+(\mathsf{VOL}{-}\mathsf{REF}(\mathsf{VOL},\quad\mathsf{M}))/\mathsf{REF}(\mathsf{VOL},\quad\mathsf{M})^{\star}\mathsf{100}
 $$
 
 ## (55) VRSI量相对强弱
@@ -792,7 +792,7 @@ $$
 VRSI的计算方法和判断原理基本和相对强弱指标RSI相同，但它重点考虑了量的因素，根据量比价先行的道理，能较好地超前判断价格走势。
 
 $$
-\begin{array}{r}{\mathsf{VRSl}=\mathsf{SMA}(\mathsf{MAX}(\mathsf{VOL}-\mathsf{REF}(\mathsf{VOL},\mathsf{\Lambda}1),\mathsf{\Lambda}0),\mathsf{\Lambda}\mathsf{M},\mathsf{\Lambda}1)/\mathsf{SMA}(\mathsf{ABS}(\mathsf{VOL}-\mathsf{I}),\mathsf{\Lambda}1),}\\{\mathsf{REF}(\mathsf{VOL},\mathsf{\Lambda}1)),\mathsf{\Lambda}\mathsf{M},\mathsf{\Lambda}1)^{\star}100}\end{array}
+\begin{array}{c}{\mathsf{VRSI}{=}\mathsf{SMA}(\mathsf{MAX}(\mathsf{VOL}{\cdot}\mathsf{REF}(\mathsf{VOL}{,}\quad\mathsf{\uparrow}){,}\quad\mathsf{0}){,}\quad\mathsf{M}{,}\quad\mathsf{\uparrow})/\mathsf{SMA}(\mathsf{ABS}(\mathsf{VOL}{-}}\\{\mathsf{REF}(\mathsf{VOL}{,}\quad\mathsf{\uparrow})){,}\quad\mathsf{M}{,}\quad\mathsf{\uparrow}){^{\star}}\mathsf{\uparrow}00}\\\end{array}
 $$
 
 ## (56) VR成交量比率
@@ -800,11 +800,11 @@ $$
 成交量比率（Volume Ratio简称VR）），是一项通过分析股价上升日成交额（或成交量，下同）与股价下降日成交额比值，从而掌握市场买卖气势的中期技术指标。主要用于个股分析，其理论基础是“量价同步”及“量须先予价”，以成交量的变化确认低价和高价，从而确定买卖时法。
 
 $$
-\mathsf{LC}{=}\mathsf{REF}(\mathsf{CLOSE},\ 1)
+\mathsf{LC}{=}\mathsf{REF}(\mathsf{CLOSE},\quad1)
 $$
 
 $$
-\begin{array}{rl}{\mathsf{VR}}&{=\mathsf{SUM}(\mathsf{IF}(\mathsf{CLOSE}\mathsf{\mathrm{\mathsf{sLC}}},\mathsf{\nabla}\mathsf{VOL},\mathsf{\nabla}0),\mathsf{\nabla}\mathsf{M})/\mathsf{SUM}(\mathsf{IF}(\mathsf{CLOSE}\mathsf{\mathrm{<}}\mathsf{=LC},\mathsf{\nabla}\mathsf{VOL},\mathsf{\nabla}0),\mathsf{\nabla}\mathsf{NL})}\\&{\mathsf{0}),\mathsf{\nabla}\mathsf{M})^{\star}\mathsf{1}00}\end{array}
+\begin{array}{c}{\mathsf{VR}{=}\mathsf{SUM}(\mathsf{IF}(\mathsf{CLOSE}{>}\mathsf{LC},\mathsf{VOL},\mathsf{0}),\mathsf{M})/\mathsf{SUM}(\mathsf{IF}(\mathsf{CLOSE}{<}{=}\mathsf{LC},\mathsf{VOL},}\\{\mathsf{0}),\mathsf{M})^{\star}100}\\\end{array}
 $$
 
 ## (57) VSTD成交量方差
@@ -816,7 +816,7 @@ $$
 威廉指数又称威廉超买超卖指数，简记为WMS%R或%R，威廉指数主要用于研究股价的波动，通过分析股价波动变化中的峰与谷决定买卖时机。它利用振荡点来反映市场的超买超卖现象，可以预测循期内的高点与低点，从而显示出有效的买卖信号，是用来分析市场短期行情走势的技术指示。
 
 $$
-\begin{array}{r}{\mathsf{RSV}=(\mathsf{HHV}(\mathsf{HIGH},\mathsf{N})-\mathsf{CLOSE})/(\mathsf{HHV}(\mathsf{HIGH},\mathsf{N})-\mathsf{LLV}(\mathsf{LOW},\mathsf{N}))^{\star}100}\\{\mathsf{W}^{\circ}\rho_{\mathsf{R}}-\mathsf{SMA}(\mathsf{RSV},\mathsf{P1},1)}\end{array}
+\begin{array}{c}{\mathsf{RSV}{=}\left(\mathsf{FHHV}(\mathsf{HIGH},\mathsf{\Pi}\mathsf{N}){\cdot}\mathsf{CLOSE}\right)/(\mathsf{FHV}(\mathsf{HIGH},\mathsf{\Pi}\mathsf{N}){\cdot}\mathsf{LLV}(\mathsf{LOW},\mathsf{\Pi}\mathsf{N}))^{\ast}\mathsf{100}}\\{\mathsf{WV_{6}R}{=}\mathsf{SMA}(\mathsf{RSV},\mathsf{P1},\mathsf{1})}\\\end{array}
 $$
 
 ## (59) 价格线性回归系数
@@ -828,7 +828,7 @@ $$
 此处计算一个交易月的价格绝对方差均值。
 
 $$
-1)\because\texttt{HSE-MA+>\texttt{H\_4}}\texttt{M\_mA->}\texttt{MA->}\texttt{MA(ABS(CLOSE-MA(CLOSE,\texttt{M})),\texttt{M})}
+价格绝对方差均值=MA(ABS(CLOSE-MA(CLOSE,$\mathsf{M}))\mathrm{,~}\mathsf{M})$
 $$
 
 ## (61) 成交金额

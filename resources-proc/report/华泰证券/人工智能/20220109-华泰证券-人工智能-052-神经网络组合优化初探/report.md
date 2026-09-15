@@ -87,16 +87,16 @@ hekang@htsc.com
 我们以马科维茨模型为例，来说明传统组合优化方法：
 
 $$
-\operatorname*{min}_{\boldsymbol{w}}\lambda\boldsymbol{w}^{T}\Sigma\boldsymbol{w}-\mu^{T}\boldsymbol{w}
+\min_{w}\lambda w^{T}\Sigma w-\mu^{T}w
 $$
 
 $$
-\mathrm{s.t.}\quad\left\{{Aw=b\atop Gw\leq\ h}\right.
+\begin{array}{ll}\text{ s.t. }&\left\{\begin{matrix}Aw=b\\Gw\leq\ h\end{matrix}\right.\end{array}
 $$
 
 式中w为权重， $\mu$ 为预期收益，Σ为协方差矩阵，λ为风险厌恶系数，目的是在给定约束下求解目标函数最优值时的w。该问题可以使用Matlab中的quadprog函数或者scipy的optimize模块来求解。这些传统求解方法可能会有以下局限：
 
-1. 预期收益 $\mathbf{\nabla}\cdot\mu^{\mathbf{\nabla}}$ 是给定的，组合优化过程无法影响到预期收益，不能做到端到端的优化。
+1. 预期收益 $\cdot\mu.$ 是给定的，组合优化过程无法影响到预期收益，不能做到端到端的优化。
 
 2. 对于λ这样的参数，需要通过遍历测试的方式来确定，无法在组合优化的同时确定。
 
@@ -137,7 +137,7 @@ CvxpyLayers 在 Cvxpy 的基础上，将凸优化过程作为网络层嵌入到�
 神经网络的激活函数中，Softmax函数有多个输出值，且输出值之和为 1，可达到类似于资产权重分配的效果。Softmax 函数可以由下式直接计算。
 
 $$
-f(x)_{j}={\frac{e^{x_{j}}}{\sum_{i}e^{x_{i}}}}
+f(x)_{j}=\frac{e^{x_{j}}}{\sum_{i}e^{x_{i}}}
 $$
 
 但实际上也可以用凸优化的方式得出 Softmax 函数的结果，相应的凸优化问题为：
@@ -147,13 +147,13 @@ $$
 $$
 
 $$
-\begin{array}{rl}{\mathsf{s.t.}\quad}&{{}\left\{{\begin{array}{ll}{0<w<1}\\{1^{T}w=1}\end{array}}\right.}\end{array}
+\begin{array}{rlr}{\mathrm{s.t.}}&{{}}&{\left\{\begin{matrix}{0<w<1}\\{1^{T}w=1}\end{matrix}\right.}\end{array}
 $$
 
 其中的H(w)为熵函数：
 
 $$
-H(w)=-\sum_{i}w_{i}\log w_{i}
+H(w)=-\sum_{i}w_{i}\log w_{i}.
 $$
 
 接下来我们对此进行证明。
@@ -169,7 +169,7 @@ $$
 一阶条件为：
 
 $$
-{\frac{\partial f}{\partial w}}=-x+\log w+1-\lambda=0
+\cfrac{\partial f}{\partial w}=-x+\log w+1-\lambda=0
 $$
 
 有
@@ -181,7 +181,7 @@ $$
 代入约束 $1^{T}w=1$ ，有
 
 $$
-1^{T}e^{\lambda-1+x}=1
+1^{T}e^{\lambda-1+x}{=}1
 $$
 
 得
@@ -193,7 +193,7 @@ $$
 代入前式，有
 
 $$
-w=\exp\{-\log(1^{T}e^{x-1})-1+x\}=\frac{e^{x}}{1^{T}e^{x}}
+w=\exp\{-\log(1^{T}e^{x-1})-1+x\}={\frac{e^{x}}{1^{T}e^{x}}}
 $$
 
 证明凸优化问题与原问题是等价的。
@@ -207,7 +207,7 @@ $$
 $$
 
 $$
-\mathrm{s.t.}\qquad\left\{\begin{array}{ll}{0<w<1}\\{1^{T}w=1}\\{~w\leq u}\end{array}\right.
+\begin{array}{rl}{\mathrm{s.t.}}&{{}\quad\left\{\begin{array}{ll}{0<w<1}\\{1^{T}w=1}\\{\quad w\leq u}\end{array}\right.}\end{array}
 $$
 
 CvxpyLayers 代码样例如下，其中 cp.entr(w)即熵函数H(w)。
@@ -228,17 +228,17 @@ layer = CvxpyLayer(prob, [x], [w])
 风险预算模型由风险平价模型推广而来，一般的风险预算模型需要求解以下优化问题：
 
 $$
-\operatorname*{min}_{\boldsymbol{w}}\sum_{i}^{n}\left(\frac{w_{i}(\Sigma\boldsymbol{w})_{i}}{\boldsymbol{w}^{T}\Sigma\boldsymbol{w}}-b_{i}\right)^{2}
+\operatorname*{min}_{w}\sum_{i}^{n}\left(\frac{w_{i}(\Sigma w)_{i}}{w^{T}\Sigma w}-b_{i}\right)^{2}
 $$
 
 $$
-\mathrm{~s.t.~}\quad\left\{\sum_{i}w_{i}=1\atop w_{i}>0\right.
+\mathrm{s.t.}\qquad\left\{\begin{aligned}&\sum_{i}w_{i}=1\\&w_{i}>0\end{aligned}\right.
 $$
 
 式中Σ为协方差矩阵，b为风险预算，w为要求的权重。该问题的解为：
 
 $$
-\frac{w(\Sigma w)_{i}}{w^{T}\Sigma w}=b_{i}
+\cfrac{w(\Sigma w)_{i}}{w^{T}\Sigma w}=b_{i}
 $$
 
 该问题并非凸优化问题，因而若要使用 CvxpyLayers，需要将该问题转变为凸优化问题：
@@ -248,7 +248,7 @@ $$
 $$
 
 $$
-\mathrm{s.t.}\qquad\left\{\sum_{i}b_{i}\ln y_{i}\geq c\qquad\right.\qquad
+\begin{array}{rl}{\mathrm{s.t.}\quad}&{{}\left\{\begin{aligned}{\sum_{i}b_{i}\ln y_{i}\geq c}\\{y_{i}>0}\end{aligned}\right.}\end{array}
 $$
 
 求解后，有：
@@ -270,27 +270,27 @@ $$
 一阶条件为：
 
 $$
-{\frac{\partial f}{\partial y_{i}}}(y;\lambda,\lambda_{c})={\frac{1}{\sqrt{y^{T}\Sigma y}}}\sum_{j=1}^{n}y_{j}\sigma_{i,j}-\lambda_{i}-\lambda_{c}{\frac{b_{i}}{y_{i}}}=0\tag{1}
+\frac{\partial f}{\partial y_{i}}(y;\lambda,\lambda_{c})=\frac{1}{\sqrt{y^{T}\Sigma y}}{\sum_{j=1}^{n}y_{j}\sigma_{i,j}}-\lambda_{i}-\lambda_{c}\frac{b_{i}}{y_{i}}=0,\tag{1}
 $$
 
 KKT 条件为：
 
 $$
-\left\{\begin{array}{c}{{\lambda_{i}y_{i}=0}}\\{{\displaystyle{\lambda_{c}\left(\sum_{i}b_{i}\ln y_{i}-c\right)=0}}}\end{array}\right.
+\left\{\begin{aligned}\lambda_{i}y_{i}&=0\\\lambda_{c}\left(\sum_{i}b_{i}\ln y_{i}-c\right)&=0\end{aligned}\right.
 $$
 
-因为 0不在ln $y_{i}$ 的定义域内，所 $\nu\lambda y_{i}$ 不能为 0，因而满足第一个条件意味着 $\lambda_{i}=0$ 。对于凸优化问题，若无约束，显然最优解为 $y=0$ ，但无法取得。当 $y>0$ 时，y越小目标函数也越小，因而最优解在条件的边界处，此时 $\begin{array}{r}{\sum_{i}b_{i}\ln y_{i}=c}\end{array}$ ，可知 $\lambda_{c}\neq0$ o
+因为 0不在ln $y_{i}$ 的定义域内，所 $以y_{i}$ 不能为 0，因而满足第一个条件意味着 $\lambda_{i}=0$ 。对于凸优化问题，若无约束，显然最优解为 $y=0$ ，但无法取得。当 $y>0$ 时，y越小目标函数也越小，因而最优解在条件的边界处，此时 $\textstyle\sum_{i}b_{i}\ln y_{i}=c$ ，可知 $\lambda_{c}\neq0$ o
 
 将上述信息代入式(1)，我们有解为：
 
 $$
-\frac{y_{i}(\Sigma{y})_{i}}{\sqrt{y^{T}\Sigma{y}}}=\lambda_{c}b_{i}\tag{2}
+\cfrac{y_{i}(\Sigma y)_{i}}{\sqrt{y^{T}\Sigma y}}=\lambda_{c}b_{i}\tag{2}
 $$
 
 对式(2)两边求和，有
 
 $$
-\sqrt{y^{T}\Sigma y}=\lambda_{c}\tag{3}
+{\sqrt{y^{T}\Sigma y}}=\lambda_{c}\tag{3}
 $$
 
 将式(3)代入式(2)，有
@@ -298,20 +298,20 @@ $$
 即
 
 $$
-\frac{y_{i}(\Sigma{y})_{i}}{\sqrt{y^{T}\Sigma{y}}}=b_{i}\sqrt{y^{T}\Sigma{y}}
+\cfrac{y_{i}(\Sigma y)_{i}}{\sqrt{y^{T}\Sigma y}}=b_{i}\sqrt{y^{T}\Sigma y}
 $$
 
 $$
 \frac{y_{i}(\Sigma y)_{i}}{y^{T}\Sigma y}=b_{i}\tag{4}
 $$
 
-将式(4)左侧上下同除以 $(\sum_{i}y_{i})^{2}$ ，我们有
+将式(4)左侧上下同除以 $(\textstyle\sum_{i}y_{i})^{2}$ ，我们有
 
 $$
-{\frac{\sum_{i}^{y_{i}}\left(\Sigma{\frac{y}{\sum_{i}^{\phantom{*}}y_{i}}}\right)_{i}}{{\frac{y}{\sum_{i}^{\phantom{*}}y_{i}}}^{T}\Sigma{\frac{y}{\sum_{i}^{\phantom{*}}y_{i}}}}}=b_{i}\tag{5}
+\frac{\frac{y_{i}}{\sum_{i}y_{i}}\Big(\Sigma\frac{y}{\sum_{i}y_{i}}\Big)_{i}}{\frac{y}{\sum_{i}y_{i}}^{T}\Sigma\frac{y}{\sum_{i}y_{i}}}=b_{i},\tag{5}
 $$
 
-此时，我们将 $y_{i}/\sum_{i}y_{i}$ 记作 $w_{i}$ ，则式(5)变为
+此时，我们将 $\textstyle\cdot y_{i}/\sum_{i}y_{i}$ 记作 $w_{i}$ ，则式(5)变为
 
 $$
 \frac{w_{i}(\Sigma w)_{i}}{w^{T}\Sigma w}=b_{i}
@@ -340,11 +340,11 @@ b = cp.Parameter(n,nonneg=True)
 利用马科维茨效用函数进行组合优化的示例问题如下：
 
 $$
-\operatorname*{min}_{w}\frac{1}{2}w^{T}\Sigma w-\mu^{T}w
+\min_{w}\frac{1}{2}w^{T}\Sigma w-\mu^{T}w
 $$
 
 $$
-\mathrm{s.t.}\quad\left\{{Aw=b\atop Gw\leq\ h}\right.
+\begin{array}{ll}\text{ s.t. }&\left\{\begin{matrix}Aw=b\\Gw\leq\ h\end{matrix}\right.\end{array}
 $$
 
 式中 $w$ 为权重， $\mu$ 为预期收益，Σ为协方差矩阵。目标函数中二次项前的系数为 $1/2$ ，而实际上我们可以设成任意值，也可以设计成参数，交由 CvxpyLayers 优化。CvxpyLayers 代码样例如下，其中 Q_sqrt 为协方差矩阵的平方根，q 为预期收益，A、b、G、h 分别是上述的约束参数。
@@ -371,7 +371,7 @@ $$
 本章将介绍 CvxpyLayers 在风险预算模型上的应用实证，构建模型的细节参考了普林斯顿大学在 2021 年初发表的论文“End-to-End Risk Budgeting Portfolio Optimization withNeural Networks”。为了使用 CvxpyLayers，需要通过以下凸优化问题求解资产权重（上一章已经推导过），其中 $b_{i}$ 为风险预算， $w_{i}$ 为资产权重。
 
 $$
-\begin{array}{c}{\displaystyle{\operatorname*{min}_{y}\sqrt{y^{T}\Sigma y}}}\\{\mathrm{s.t.}\quad\displaystyle{\left\{\begin{array}{ll}{\displaystyle{\sum_{i}b_{i}\ln y_{i}\geq c}}\\{\phantom{\displaystyle{\sum_{i}b_{i}\ln y_{i}\geq c}}}\\{\phantom{\displaystyle{\sum_{i}b_{i}\geq\sum_{j}}}}\end{array}\right.}}\end{array}
+\begin{aligned}&\min_{y}\sqrt{y^{T}\Sigma y}\\s.t.\quad&\left\{\begin{aligned}\sum_{i}b_{i}\ln y_{i}&\geq c_{i}\\y_{i}&>0\end{aligned}\right.\end{aligned}
 $$
 
 求解后，有：
@@ -443,7 +443,7 @@ Optimization with Neural Networks”中的方法。如图表 10 所示，模型�
 3. 与参考论文不同，我们在 Softmax函数后使用了激活函数 HardTanh，目的是限制风险预算的上下限在区间(lower,upper)，控制风险预算相比风险平价的偏离程度。HardTanh函数后再采用 normalize 函数将风险预算归一化。
 
 $$
-HardTanh(\mathbf{x})=\left\{{\begin{array}{lr}{upper}&{\quad if\ x>upper}\\{lower}&{\quad if\ x<lower}\\{x}&{\quad otherwise}\end{array}}\right.
+HardTash(\mathrm{x})=\left\{\begin{aligned}&upper\quad&if\ x>upper\\&lower\quad&if\ x<lower\\&x\quad&otherwise\end{aligned}\right.
 $$
 
 4. 将以上步骤生成的风险预算和协方差矩阵输入 CvxpyLayers 凸优化层得到组合权重，并通过组合权重和资产未来 20 个交易日的收益率计算出组合收益，以组合累计收益的负值为损失函数进行反向传播。

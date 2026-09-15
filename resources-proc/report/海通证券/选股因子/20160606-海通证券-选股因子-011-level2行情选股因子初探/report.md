@@ -279,7 +279,7 @@ Email:ylq9619@htsec.com
 本报告主要使用截面回归取残差的方式进行风险因子的剔除，回归因变量选取对应股票的标准化后的成交占比因子值，自变量选取对应股票标准化后的市值、前 1 个月涨幅、前 1个月换手率均值。回归表达式如下：
 
 $$
-factor=\alpha+\beta*MktVal+\beta*Ret1M+\beta*Turnover1M
+factor=\alpha+\beta*MktUall+\beta*Ret1M+\beta*Turnover1M
 $$
 
 factor：股票剔除前因子值

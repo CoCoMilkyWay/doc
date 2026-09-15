@@ -340,7 +340,7 @@ PPI统计调查涵盖1638个基本分类的20000多种工业产品的价格，�
 个股 FOM 因子的具体计算公式和示意图如下：
 
 $$
-FOM=\left(\mathsf{K}-\mathsf{M}\right)/\mathsf{N}
+\mathrm{FOM}=(\mathrm{K}-\mathrm{M})/\mathrm{N}
 $$
 
 N：过去一年中分析师针对个股当期年报业绩给出的预测报告篇数（如有预告、快报、年报数据，也纳入其中）。要求个股至少有 3篇分析师报告覆盖（N>=3），否则视为缺失值。
@@ -402,7 +402,7 @@ FOM=1意味着过去所有报告中的净利润，都比当前最新的净利润
 SUE因子的具体计算公式如下：
 
 $$
-\operatorname{SUE}={\frac{Q-E(Q)}{\sigma}}
+\mathrm{SUE}={\frac{Q-E(Q)}{\sigma}}
 $$
 
 其中：Q 表示公司实际公告的净利润，E（Q）表示公告前的预期值，σ表示 Q 的预测标准差。 E（Q）和 σ均通过季节性时间序列模型估计。其中 SUE0 假设随机游走模型含漂移项，SUE1假设不含。
@@ -1219,7 +1219,7 @@ $$
 2）通过组合优化，使得基金组合前十大重仓股的行业配置与指定的行业配置比例最接近。基金权重由优化器给出，剔除优化后权重小于0.1%的基金，剩余基金权重归一化。这种方法操作起来更加灵活。组合优化问题设置如下：
 
 $$
-\begin{array}{rl}&{\operatorname*{min}{:\|Ax-b\|_{1}}--\boxed{\sharp_{\uparrow:\mathcal{T}\backslash\Xi}^{\pm}|\sharp\chi}}\\&{\mathrm{st}:\quad\mathrm{w}_{i}\geq0--\overset{\iota\not\in\Upsilon\backslash\Upsilon\backslash\Upsilon}{\sharp}\overline{{\sharp\Xi}}\overline{{\mathbb{E}\sharp}}\overline{{\mathfrak{X}\sharp}}\overline{{\mathfrak{X}\mathscr{Z}}}}\\&{\quad\mathrm{w}_{i}\leq20\%--\overset{\iota\not\in\Upsilon\backslash\Upsilon}{\sharp}\overline{{\mathfrak{X}\sharp}}\overline{{\sharp\Xi}}\underline{{\mathfrak{X}\sharp\Upsilon}}\overline{{\sharp\sharp}}}\\&{\quad\mathrm{w}^{\prime}\mathrm{I}=1--\frac{\iota\not\in\Upsilon\backslash\Upsilon+\mathfrak{Z}\not\in\Upsilon\backslash\Upsilon\backslash\overline{{\mathfrak{X}\sharp}}\overline{{\mathfrak{X}\sharp}}\overline{{\mathfrak{Z}\mathfrak{Z}}}}{\sharp\overline{{\mathfrak{X}\Upsilon}}\dag}1}\end{array}
+\begin{aligned}&int:\left\|Ax-b\right\|_1——目标函数\\&\\sst:\quad w_i\geq0——绝对权重下限约束\\&\\w_i\leq20\%——绝对权重上限约束\\&\\w^{\prime}l=1——绝对权重的总和等于1\\\end{aligned}
 $$
 
 其中x为各基金的绝对权重，A为基金前十大重仓股在各行业上的配置权重，b为根据行业轮动模型给出的行业配置权重，设置 top10行业等权配置，其余行业不配置。‖ $\|_{1}$ 为 1阶范数，表示对应元素绝对值之和。前两个约束条件为控制权重的上下限，要求单个基金权重在 0-20%之间；第三个约束条件为权重总和等于 1。
@@ -1227,7 +1227,7 @@ $$
 进一步的，该策略也可以与夏普比率结合。结合方式我们也尝试了两种：第一种是在只对夏普比率排在前 50%的基金进行优化，优化设置不变。第二种是将基金组合的夏普比最高作为目标函数，将行业配置作为约束条件。第二种组合优化问题设置如下：
 
 $$
-\begin{array}{rl}&{\operatorname*{max};\mathrm{Sx}-\longrightarrow\boxed{\dag\frac{2}{2\sqrt{5}}\dag\frac{3\xi}{2\sqrt{5}}}}\\{\mathrm{St}:}&{\mathrm{w}_{i}\ge0--\underline{{\xi[\delta]}}\dot{\mathcal{H}}\underline{{\mathbb{X}}}\underline{{\xi}}\underline{{\xi}})\overline{{\mathcal{H}}}}\\{\mathrm{w}_{i}\le20\%--\underline{{\xi[\delta]}}\dot{\mathcal{H}}\underline{{\mathbb{X}}}\underline{{\xi}}\underline{{\mathcal{H}}}\underline{{\mathbb{X}}}\underline{{\xi}}\underline{{\xi}})\overline{{\mathcal{H}}}}\\&{\mathrm{w}^{\prime}[=1--\underline{{\xi[\delta]}}\dot{\mathcal{H}}\underline{{\mathbb{X}}}\underline{{\xi[\delta]}}\dot{\mathcal{H}}\underline{{\mathbb{X}}}\underline{{\xi}}]\overline{{\mathbb{X}}}\overline{{\xi}}\overline{{\xi}}\overline{{\xi}}\overline{{\xi}}\overline{{\xi}}}\\&{\mathrm{w}^{\prime}[\|Ax-b\|_{1}\le0.8}\end{array}
+\begin{aligned}&if\quad\max:Sx——目标函数\\&\begin{aligned}\\&sst:\quad w_i\geq0——绝对权重下限约束\\&\quad w_i\leq20\%——绝对权重上限约束\\&\quad w'I=1——绝对权重的总和等于1\\&\quad\|Ax-b\|_1\leq0.8\\&\end{aligned}\\\end{aligned}
 $$
 
 有关分析师的申明，见本报告最后部分。其他重要信息披露见分析师申明之后部分，或请与您的投资代表联系。并请阅读本证券研究报告最后一页的免责申明。

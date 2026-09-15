@@ -90,17 +90,17 @@
 这一问题同样存在于 EP 因子中。若我们假设有两家公司，总资产相同，其中一家负债经营，另一家无负债经营，最近一期的息前利润相同，并不考虑税费影响，可知：
 
 $$
-\langle\sum\limits_{i=1}^{4}f_{i}|\cdot\rangle|i\rangle=\langle\sum\limits_{j=1}^{\infty}\frac{j}{(1)!}f_{j}|\cdot\frac{1}{2}|\cdot\frac{1}{2}|\cdot\frac{1}{2}|\geq\frac{4}{2},\frac{4}{3!},\frac{4}{3!},
+净利润=息前利润-利息费用
 $$
 
 $$
-\begin{array}{rlrl}&{\dag\mathcal{U}\frac{\langle\vec{\mathfrak{s}}}{\mathrm{i}\mathfrak{V}}\mathrm{EP}=\frac{\langle\vec{\mathfrak{s}}\dag\mathcal{F}\dag\left.\cdot\right.\left.\vec{\mathfrak{s}}\right.}{\hbar\mathfrak{R}^{n}\dag\mathcal{U}\dag\left.\vec{\mathfrak{s}}\right.},}&{\dag\beta\vert\dag\frac{\vec{\mathfrak{s}}\dag\mathcal{E}}{\mathrm{i}\mathcal{E}}}&{\mathrm{EP}=\frac{\langle\vec{\mathfrak{s}}\dag\vec{\mathfrak{s}}\dag\vec{\mathfrak{s}}\dag\mathcal{H}\dag\left.\vec{\mathfrak{s}}\right.}{\hbar\mathfrak{R}^{n}\dag\mathcal{Z}\dag\mathcal{D}/\dag\left.\vec{\mathfrak{s}}\right.}+\langle\frac{\pm}{\vert\vec{\mathfrak{R}}\dag}\dag\mathcal{Z}\dag\vert\vec{\mathfrak{s}}\dag\vert\dag\mathcal{E}\dag\dag\mathrm{array}}&{}&\end{array}
+权益EP=\frac{净利润}{股权市值},调整EP=\frac{息前利润}{股权市值+债权市值}
 $$
 
 其中利息费用/债权市值可以看做是一家公司的融资成本。调整 EP 则可以看做公司整体的盈利水平，那么权益 EP和调整 EP二者之间满足等式：
 
 $$
-+{\mathfrak{X}}{\mathfrak{Z}}\ {\frac{\mathrm{s}}{\mathrm{sin}}}\ \mathrm{EP}={\mathfrak{z}}{\mathfrak{k}}{\mathfrak{s}}^{\sharp}{\frac{{\mathfrak{k}}^{\pm}}{\mathrm{sin}}}\ \mathrm{EP}+{\frac{/{\frac{\pm{\frac{\pm}{2}}}{\mathfrak{k}}}{\mathfrak{j}}{\mathfrak{k}}{\mathfrak{z}}{\vec{\eta}}{\overline{{\mathfrak{z}}}}\ {\left/{\frac{\pm}{\mathrm{d}}}\right.}}{{\mathfrak{j}}{\mathfrak{z}}{\mathfrak{j}}{\mathfrak{z}}{\vec{\eta}}{\overline{{\mathfrak{z}}}}{\left/{\frac{\pm}{\mathrm{d}}}\right.}}}\times\left[{\dot{\mathfrak{j}}}{\mathfrak{k}}\right]{\frac{{\dot{\mathfrak{k}}}{\mathfrak{z}}}{\mathrm{sin}}}\ \mathrm{EP}-{\frac{{\mathfrak{k}}{\mathfrak{l}},{\dot{\mathfrak{k}}}{\mathfrak{z}}{\frac{{\dot{\mathfrak{k}}}{\mathfrak{z}}}{\mathrm{sin}}}{\left.{\frac{\pm}{\mathrm{i}{\mathfrak{k}}}{\mathrm{\mathfrak{z}}}{\mathfrak{j}}{\mathfrak{z}}}{\left/{\frac{\pm}{\mathrm{d}}}\right.}\right]}}}
+权益\;EP=调整\;EP+\frac{债权市值}{股权市值}\times[调整\;EP-\frac{利息费用}{债权市值}]
 $$
 
 对无负债的公司而言，其无需支付利息费用，也不存在负债部分，权益 EP 与调整EP 相等；而对负债经营的公司而言，其需要分拨部分利润作为利息支付给债权人，从而降低净利润，所需的净资产也少于无负债公司的净资产，因此负债经营对权益 EP 的影响取决于两者影响的相对强弱。当企业融资成本较低，企业有能力降低利息费用而尽可能的提高企业杠杆，那么支付利息的影响远小于降低净资产的影响，从而抬高EP。
@@ -138,7 +138,7 @@ $$
 为了使因子不受企业杠杆的影响，同时能剥离金融性活动更好地体现企业的核心资产，分母端我们在所有者权益的基础上，加入负债，并剔除部分非核心资产，我们称这一部分资产为经营性净资产，并取这部分资产的市场定价。
 
 $$
-\frac{4\pi}{5}\frac{\dot{\pi}\dot{\beta}}{5}\dot{\iota}\dot{\Sigma}\dot{\dddot{\Phi}}\dot{\mathcal{H}}\dot{\mathcal{H}}\dot{\mathcal{H}}\dot{\mathcal{H}}\left(\mathrm{NOA}\right)=0\mathrm{A}-0\mathrm{L}=\mathrm{FL}-\mathrm{FA}+\dot{\mathcal{H}}\dot{\mathcal{Z}}\dot{\bar{\Omega}}
+经营性净资产(NOA)=0A-0L=FL-FA+权益
 $$
 
 OA：经营性资产；OL：经营性负债；FA：金融资产；FL：金融负债。
@@ -152,7 +152,7 @@ OA：经营性资产；OL：经营性负债；FA：金融资产；FL：金融负
 为了得到NOA的市场价值，权益部分我们用上市企业的股票市值作为代理指标，但对金融资产和金融负债而言，鉴于二者交易不活跃，市场价值较难获取，我们用它们的账面价值近似代替：
 
 $$
-\begin{array}{rl}&{\mathrm{Market~Value(NOA)}}\\&{\qquad=\mathrm{Market~Value}\big(\frac{\bigtriangleup\frac{\Vec{q}\mathrm{~k}}{\mathrm{B}}\big|^{2}}{\mathrm{B}^{2}}\big)\big/\frac{4}{|\mathfrak{X}|}\big)-\mathrm{Market~Value}\big(\frac{\bigtriangleup\frac{\Vec{q}\mathrm{~k}}{\mathrm{B}}\big|^{2}}{\mathrm{B}^{2}}\big)^{\frac{3}{2}}\big)}\\&{\qquad+\mathrm{Market~Value}\big(\frac{4}{\mathrm{B}^{2}}\frac{\bigtriangleup\frac{\Vec{q}\mathrm{~k}}{\mathrm{B}}}{\mathrm{B}^{2}}\big)}\\&{\qquad\approx\mathrm{Book~Value}\big(\frac{\bigtriangleup\frac{\Vec{q}\mathrm{~k}}{\mathrm{B}}\big|^{2}}{\mathrm{B}^{2}}\big)^{\frac{3}{2}}\big|\frac{4}{|\mathfrak{X}|}\big)-\mathrm{Book~Value}\big(\frac{\bigtriangleup\frac{\Vec{q}\mathrm{~k}}{\mathrm{B}}\big|^{2}}{\mathrm{B}^{2}}\big)^{\frac{3}{2}}\big)+\mathbb{h}\frac{\mathrm{Bi}}{\mathrm{B}}\frac{\mathrm{Bi}}{\mathrm{B}}\frac{\mathrm{Bi}}{\mathrm{B}}\big|^{2}\big|\frac{4}{\mathrm{B}}\big|}\end{array}
+\begin{aligned}&\texttt{MarketValue}(\texttt{NOA})\\&\quad=\texttt{MarketValue}(\texttt{金融负债})-\texttt{MarketValue}(\texttt{金融资产})\\&\quad+\texttt{MarketValue}(\texttt{权益})\\&\quad\approx\texttt{BobkValue}(\texttt{金融负债})-\texttt{BobkValue}(\texttt{金融资产})+\texttt{股票市值}\\\end{aligned}
 $$
 
 另外，银行和其他金融企依赖高杠杆经营，金融资产也是其经营活动的核心资产，经营逻辑有别于其他企业，因此该调整法不适用于这些企业。下文的讨论均不考虑银行和非银金融企业。
@@ -189,29 +189,29 @@ $$
 经营性净资产市值 = 股权市值+净负债市值
 
 $$
-1\Xi\Xi\stackrel{\ddagger}{\boldsymbol{\Xi}}{\boldsymbol{\Xi}}\cdot\vert\boldsymbol{\Xi}\cdot\boldsymbol{\dot{\Xi}}\cdot\boldsymbol{\dot{\mathcal{F}}}\vert\boldsymbol{\Xi}\vert=\langle\underline{{\widehat{\sf q}}}_{\mathrm{~s~}}\frac{\gamma}{\hbar!}\frac{\lambda}{\xi_{\perp}}\frac{\mu+}{\boldsymbol{\Xi}},\vert\boldsymbol{\dot{\Xi}}\boldsymbol{\dot{\Xi}}\cdot\boldsymbol{\dot{\Xi}}\vert\rangle\boldsymbol{\dot{\mathcal{I}}}\vert\boldsymbol{\Xi}\vert-\vert\boldsymbol{\mathcal{H}}\frac{\mu_{\mathrm{~s~}}\mu}{\gamma\mu}\boldsymbol{\mathcal{H}}
+经营性净利润=息前经营性利润-财务费用
 $$
 
 $$
-11\div3\cdots3+17=71.57\div37+1-11\div7\div57\div41\times\frac{3}{50}
+财务费用=利息费用-价值变动净收益
 $$
 
 那么权益 EP 和剥离经营性活动的调整EP可表述为：
 
 $$
-\begin{array}{rlr}&{}&{\mathcal{HK}=\frac{\dot{\overline{{\phi}}}^{2}+\hat{\mathcal{H}}\left[\hat{\mathcal{H}}\right]\ddot{\mathcal{Z}}}{\hat{\mathcal{H}}\stackrel{\prime}{\mathcal{Z}}\mathcal{H}\mathcal{K}\hat{\mathcal{H}}},\quad\dot{\mathcal{H}}\stackrel{\dagger\mathcal{H}}{\mathcal{H}}\frac{\dot{\mathcal{H}}}{\mathcal{H}}\mathrm{KP}=\frac{\dot{\mathcal{E}}\hat{\mathcal{H}}\frac{\dot{\mathcal{H}}}{\mathcal{H}}\frac{\dot{\mathcal{H}}\mathcal{K}}{\mathcal{H}}\frac{\dot{\mathcal{H}}}{\mathcal{H}}\left[\pm\hat{\mathcal{H}}\right]\ddot{\mathcal{Z}}}{\frac{\dot{\mathcal{H}}}{\mathcal{Z}}\frac{\dot{\mathcal{H}}}{\Xi}\frac{\dot{\mathcal{H}}}{\Xi}\left[\pm\hat{\mathcal{H}}\right]\frac{\dot{\mathcal{H}}}{\mathcal{H}}\frac{\dot{\mathcal{H}}}{\mathcal{H}}}}\end{array}
+权益EP=\frac{净利润}{股权市值},调整EP=\frac{息前经营性利润}{经营性净资产市值}
 $$
 
 二者满足等式关系：
 
 $$
-+\pi\frac{2}{2}\frac{2}{13}\frac{2}{13}\frac{2}{13}\frac{3}{13}\frac{2}{13}\frac{3}{13}\frac{2}{13}\frac{3}{13}\frac{2}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}
+权益\;EP=调整\;EP+\frac{净负债}{股权市值}\times[调整\;EP-\frac{财务费用}{净负债}]
 $$
 
-调整后的 EP 衡量了企业经营性净资 $\cdot\dot{\vec{r}}$ 的盈利水平。我们也可继续将 $\frac{DA\div B\cdots DA}{\therefore\frac{AB}{BC}\approx\frac{AB}{BC}}$ 看作融资成本，[调整 $\begin{array}{r}{\mathrm{EP}-\frac{\sharp\dot{\mathcal{A}}_{\mathfrak{h}}\sharp_{\mathfrak{h}}}{\sharp\ddot{\mathcal{A}}_{\mathfrak{h}}\sharp_{\mathfrak{h}}}\rbrack}\end{array}$ 称作经营利差，记 $-\frac{\frac{4}{7}\pi\frac{1}{17}}{\frac{\frac{1}{7}\pi}{17}+2\times\frac{1}{7}\times\frac{1}{15}}$ 为杠杆率，二者乘积称作杠杆贡献率。因此我们可以将等式写作：
+调整后的 EP 衡量了企业经营性净资 $\cdot 产$ 的盈利水平。我们也可继续将 $\frac{\left|财务费用\right|}{净负债}$ 看作融资成本，[调整 $\mathrm{EP}-\frac{财务费用}{净负债}\mathrm{]}$ 称作经营利差，记 $L^{\frac{净负债}{股权市值}}$ 为杠杆率，二者乘积称作杠杆贡献率。因此我们可以将等式写作：
 
 $$
-+{\mathfrak{X}}{\frac{\sharp}{\mathrm{\normalfont~{\hat{\mathfrak{H}}}}}}\ \mathrm{EP}={\mathfrak{X}}{\sharp}{\frac{{\vec{\pi}}}{\mathrm{\normalfont~{\hat{\pi}}}}}\ \mathrm{EP}+{\mathfrak{X}}{\pm}{\mathfrak{X}}+{\mathfrak{X}}\left[{\mathfrak{X}}{\mathfrak{X}}^{\pm}{\frac{{\vec{\pi}}}{\mathrm{\normalfont~{\hat{\pi}}}}}\ \mathrm{EP}-{\mathfrak{X}}{\sharp}{\frac{{\vec{\pi}}}{\mathrm{\normalfont~{\hat{\pi}}}}}\beta{\mathfrak{X}}{\bar{\mathcal{A}}}-\right]
+权益\;EP=调整\;EP+杠杆率\times[调整\;EP-融资成本]
 $$
 
 我们用总和法统计A股全市场股票（剔除金融和综合板块）的上述代理指标，发现过去 10 多年，受益于企业金融资产带来的收益，整体融资成本较低，企业经营利差整体为正，由于杠杆的贡献，权益 EP要远高于经营性资产的真实盈利水平。
@@ -347,7 +347,7 @@ $$
 去杠杆价值因子在中小市值股票上的信息增量更多：我们将四类价值因子去极值、标准和市值行业中性化处理后等权合成去杠杆价值因子，分别从去杠杆价值因子剥离原始价值因子和风险因子，观察残差因子是否能带来新的信息增量。风险因子包括 Barra 风格因子和中信行业一级哑变量。
 
 $$
-17\div7=13\div13
+待检验因子=\alpha+\beta\times 剥离因子+残差
 $$
 
 去杠杆价值因子在剥离原价值因子之后，残差在中证500和中证 1000中的IC 均值仍有0.0247 和0.0223，仍有选股效果，能带来一定的信息增量。
@@ -445,7 +445,7 @@ $$
 我们再次引用 2.3节中权益EP和调整 EP 间的等式关系：
 
 $$
-+\pi\frac{2}{2}\frac{2}{13}\frac{2}{13}\frac{2}{13}\frac{3}{13}\frac{2}{13}\frac{3}{13}\frac{2}{13}\frac{3}{13}\frac{2}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}{13}\frac{3}
+权益\;EP=调整\;EP+\frac{净负债}{股权市值}\times[调整\;EP-\frac{财务费用}{净负债}]
 $$
 
 我们看到中性化方法的缺陷主要有两点：
@@ -453,7 +453,7 @@ $$
 1). 上式中的杠杆并非 Barra 风格因子定义的杠杆，而是做了金融负债和资产划分后的净负债比股权市值：
 
 $$
-\tan\beta=\frac{\frac{2}{4}\sqrt[3]{13}}{\sqrt[3]{13}+3\sqrt[3]{13}}=\frac{\frac{2}{5}\sqrt[3]{13}\sqrt[3]{13}-\frac{2}{5}\sqrt[3]{13}\sqrt[3]{13}}{\sqrt[3]{13}+3\sqrt[3]{13}}
+杠杆=\frac{净负债}{股权市值}=\frac{金融负债-金融资产}{股权市值}
 $$
 
 2). 杠杆对权益 EP 并非简单的线性影响，做线性中性化并不能完全剥离杠杆的影响。
@@ -490,7 +490,7 @@ $$
 组合构建：月频调仓，将原四个价值因子和去杠杆价值因子去极值和标准化等权合成大类因子，对风险因子和行业中性化后作为 alpha，组合优化形式如下：
 
 $$
-\begin{array}{c}{\mathrm{max~w^{T}alpha}}\\{\mathrm{}}\\{\mathrm{}\mathrm{s.t.}\mathrm{Tracking~error}\leq5\%}\\{\ \left|\mathrm{w^{T}Style_{i}}\right|\leq0.05}\\{\ \left|\mathrm{w^{T}Industry_{j}}\right|\leq0.05}\\{0\leq\mathrm{w_{n}}+\mathrm{w_{bench}}\leq0.1}\\{\mathrm{}}\\{\mathrm{}\mathrm{}\mathrm{sum}(\mathrm{w_{n}}+\mathrm{w_{bench}})=1}\end{array}
+\begin{aligned}&\max\mathrm{w^{T}alpha}\\s.t.&\mathrm{Tracking\:error\leq5\%}\\&\quad\left|\mathrm{w^{T}Style_{i}}\right|\leq0.05\\&\quad\left|\mathrm{w^{T}Industry_{j}}\right|\leq0.05\\&0\leq\mathrm{w_{n}}+\mathrm{w_{bench}}\leq0.1\\&\mathrm{sum(w_{n}+w_{bench})=1}\end{aligned}
 $$
 
 由于Barra风险模型中的价值因子本身即包含BP的信息，盈利因子也包含部分EP和CFP的信息，因此我们将原价值因子作为 alpha 且控制了其他风险暴露时，相对风险因子外的 alpha 增量较少；而去杠杆价值因子相比于原价值因子，EP/SP/CFP 均有较大程度的增强，这些因子还能提供风险因子外的增量信息，因此在指数增强组合上有正向贡献。
@@ -557,7 +557,7 @@ EP、SP 和 CFP 因子在去杠杆化后选股能力有所增强。截面上来�
 利用资产负债表的数据计算 NOA：
 
 $$
-\frac{4\pi}{5}\frac{\dot{\pi}\dot{\beta}}{5}\dot{\iota}\dot{\Sigma}\dot{\dddot{\Phi}}\dot{\mathcal{H}}\dot{\mathcal{H}}\dot{\mathcal{H}}\dot{\mathcal{H}}\left(\mathrm{NOA}\right)=0\mathrm{A}-0\mathrm{L}=\mathrm{FL}-\mathrm{FA}+\dot{\mathcal{H}}\dot{\mathcal{Z}}\dot{\bar{\Omega}}
+经营性净资产(NOA)=0A-0L=FL-FA+权益
 $$
 
 OA：经营性资产；OL：经营性负债；FA：金融资产；FL：金融负债。

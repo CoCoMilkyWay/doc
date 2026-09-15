@@ -51,23 +51,23 @@ Email:ylq9619@htsec.com
 本文分别选取了大买成交金额占比、买单集中度、盘中主买占比（占全天成交）、开盘后日内净主买强度、开盘后知情主卖占比以及尾盘知情主买占比进行分析。股票 i在交易日 t的指标计算方法如下所示：
 
 $$
-\texttt{k}\overrightarrow{\texttt{k}}\texttt{k}\stackrel{\texttt{*}}{\texttt{F}}\texttt{k}\texttt{t}_{i,t}=\frac{\texttt{k}\overrightarrow{\texttt{k}}\texttt{k}\overrightarrow{\texttt{k}}\texttt{k}}{\texttt{k}\texttt{k}\texttt{k}}\texttt{i,t}
+大买成交金额占比_{i,t}=\frac{大买成交金额_{i,t}}{总成交金额_{i,t}}
 $$
 
-买单集中度 $\dot{\mathbf{\mu}}_{i,t}=\frac{\sum_{k=1}^{N_{i,t}}\vec{\mathcal{F}}\cdot\vec{\mathcal{F}}\star\vec{\mathcal{K}}\cdot\mathbf{\overleftarrow{\mathcal{K}}}\cdot\mathbf{\hat{\mathcal{F}}}\cdot\mathbf{\hat{\mathcal{W}}}}{\underset{i\leq}{\overset{\forall}{\hat{\mathcal{S}}}}\cdot\mathbf{\mathcal{k}}\cdot\mathbf{\overleftarrow{\mathcal{K}}}\cdot\mathbf{\hat{\mathcal{F}}}}^{2}{\hat{\mathcal{W}}\cdot\mathbf{\mathcal{K}}\cdot\mathbf{\overleftarrow{\mathcal{K}}}\cdot\mathbf{\hat{\mathcal{F}}}\cdot\mathbf{\mathcal{F}}}^{2}\ \mathrm{~,~}$
+买单集中度 $\mathrm{L}_{i,t}^{\mathrm{}}=\frac{\sum_{k=1}^{N_{i,t}}买单成交金额_{i,t,k,t}^{2}}{总成交金额_{i,t}^{2}}$
 
-盘中主买占比（占全天成交） $\mathbf{\Sigma}_{i,t}=\frac{\underset{\operatorname*{m}}{\iint}\Phi\tilde{\pm}\frac{\partial\mathcal{F}}{\partial\mathbf{\Sigma}}\underset{i,t}{\underbrace{\sum}}}{\underset{\operatorname*{m}}{\underbrace{\sum}}\mathcal{H}\underset{\mathbf{\Sigma}}{\underbrace{\dot{\mathcal{F}}}}\underset{\pm}{\underbrace{\sum}}\mathcal{H}\underset{i,t}{\underbrace{\dot{\mathcal{F}}}}}$
-
-$$
-\mathcal{F}\bot\sum\limits_{\Xi}^{\mathcal{\hat{Z}}}\Xi\perp\mathcal{R}\times\mathcal{\hat{H}}\times\dot{\Xi}\mp\frac{\mathcal{\hat{Z}}}{4}\dot{\Xi}\frac{\partial\Xi}{\partial\Xi}\int\dot{\Xi}_{i,t}^{\mathbf{\Lambda}}=\frac{mean(\langle\dot{\Xi}\pm\hat{\Xi}\cdot\widehat{\Xi}\Xi\Xi^{2}\rangle\{\mathbf{\hat{\Xi}}_{i,t,\mathcal{H},\Xi,\Xi}\})}{std(\langle\dot{\Xi}\pm\widehat{\Xi}\cdot\widehat{\Xi}\Xi\Xi^{2}\rangle\{\widehat{\Xi}\cdot\widehat{\Xi}\}\|_{i,t,\mathcal{H},\Xi,\Xi})}
-$$
+盘中主买占比（占全天成交） $\mathrm{I}_{i,t}=\frac{盘中主买金额_{i,t}}{总成交金额_{i,t}}$
 
 $$
-\mathcal{F}\frac{\mathrm{d}}{\mathrm{d}a}\int_{\Omega}^{\pm}\mathcal{J}\ d\mu\mu|_{\mathbb{H}}^{\pm}\frac{\ d}{\ d\Sigma}\ d\dot{\mathcal{Z}}\dot{\mathcal{Z}}\ d\nu\mathcal{k}\ d{\mathcal{L}}\left(\mathrm{~\vec{~}{\vec{~\mu~}{~}}~}\Xi\mathcal{\vec{Z}}\Lambda\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\right)_{i,t}=-1\ast\frac{\mathcal{F}\frac{\mathrm{d}}{\mathrm{d}a}\int_{\Omega}^{\pm}\mathcal{J}\ d\mu\mu|_{\mathbb{H}}^{\pm}\frac{\ d}{\mathcal{F}}\mathcal{\vec{K}}\mathcal{U}^{\pm}\mathcal{\vec{P}}\mathcal{\vec{K}}_{i,t}}{\mathcal{F}\dag\frac{\mathrm{d}}{\mathrm{d}a}\int_{\Omega}^{\infty}\mathcal{J}\ d\mu\mu\Lambda\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}\mathcal{\vec{K}}_{i,t}}{\mathcal{F}\dag\frac{\mathrm{d}}{\mathrm{d}a}\int_{\Omega}^{\infty}\mathcal{K}\mathcal{F}\ d\mu\Lambda\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{K\vec{K}}\mathcal{K}\mathcal{K}\mathcal{K\vec{K}}\mathcal{K}\mathcal{K}\mathcal{K\vec{K}}\mathcal{K}\mathcal{K}_{i,t}}\mathcal{F}\ d\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{K\vec{K}}\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{K\vec{K}}\mathcal{K}\mathcal
+开盘后日内净主买强度_{i,t}=\frac{mean(净主买金额_{i,t,开盘后})}{std(净主买金额_{i,t,开盘后})}
 $$
 
 $$
-\begin{array}{r}{\rVert\mathfrak{L}\frac{\hat{\mathcal{G}}\hat{\mathcal{R}}}{\mathrm{sm}}\hat{\mathcal{H}}\rVert\hat{\mathcal{H}}{\varphi}^{\hat{\mathcal{L}}}\rVert\hat{\mathcal{H}}\rVert\overset{\pm}{\mathfrak{L}}\vec{\mathcal{L}}{\varphi},\mathsf{E}{\varphi}\mathtt{K}\left(\begin{array}{l}{\mathsf{E}\underbrace{\hat{\mathcal{L}}\hat{\mathcal{L}}\hat{\mathcal{K}}\hat{\mathcal{K}}\hat{\mathcal{K}}\hat{\mathcal{W}}}_{\mathrm{\overline{{\mathcal{L}}}\overline{{\mathcal{L}}}\overline{{\mathcal{W}}}}}}\end{array}\right)_{i,t}=-1*\frac{\sharp\big|\hat{\mathcal{L}}_{\mathrm{sm}}^{\frac{\hat{\mathcal{L}}+}{2\pi}}\hat{\mathcal{H}}\varphi^{\hat{\mathcal{L}}}\hat{\mathcal{H}}\varphi^{\hat{\mathcal{L}}}\hat{\mathcal{H}}_{i,t}\big.}{\sharp\hat{\mathcal{L}}\hat{\mathcal{K}}\hat{\mathcal{L}}\hat{\mathcal{P}}\overline{{\mathcal{L}}}_{i,t}}}\end{array}
+开盘后知情主卖占比(占同时段成交额)_{i,t}=-1*\frac{开盘后知情主卖额_{i,t}}{开盘后成交金额_{i,t}}
+$$
+
+$$
+收盘前知情主买占比(占全天成交额)$_{i,t}{=}-1{*}\frac{{收盘前知情主买额}_{i,t}}{{\underline{{\hphantom{{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\;}}}}}}}}}}}}}}}}}}{\underline{{\hphantom{{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\;}}}}}}}}}}}}}}}{\underline{{\hphantom{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\dot{\;}}}}}}}}}}}}}}_{i,t}}$
 $$
 
 其中，开盘后特指 9:30~9:59，盘中特指 10:00~14:26，收盘前特指 14:27~14:56。需要注意的是，为了观察与分析的便利，本文在计算开盘后知情主卖占比以及尾盘知情主买占比时，调整了指标的正负，使得因子 IC 为正。本文使用了 2014 年以来的数据计算各逐笔因子。在计算因子时，剔除了 ST 以及上市不满 6个月的新股。更多关于因子的计算细节可参考相关因子的专题报告。

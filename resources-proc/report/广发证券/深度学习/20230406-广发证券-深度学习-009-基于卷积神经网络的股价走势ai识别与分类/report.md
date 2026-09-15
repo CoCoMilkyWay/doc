@@ -133,7 +133,7 @@ LeNet-5。LeNet-5的结构如图5所示，其定义了现代卷积神经网络�
 综上，假设输入大小为（H，W），卷积核的大小为（FH，FW），输出大小为（OH，OW），填充为P，步幅为S，通过下式可计算得到输出大小：
 
 $$
-0\mathsf{H}=\frac{\mathsf{H}+2\mathsf{P}-\mathsf{F}\mathsf{H}}{\mathsf{S}}+1,0\mathsf{W}=\frac{\mathsf{W}+2\mathsf{P}-\mathsf{F}\mathsf{W}}{\mathsf{S}}+1\mathsf{\Omega},
+\mathsf{OH=\frac{H+2P-FH}{S}+1,OW=\frac{W+2P-FW}{S}+1}
 $$
 
 ## 2. 池化层

@@ -83,19 +83,19 @@ liukaizhi025861@gtjas.com
 多因子模型（Multiple-Factor Model, MFM）属于国内外主流量化选股模型之一。使用多个因子预测股票未来收益，筛选预期收益较好的股票，以期战胜基准指数。学术研究上，这类模型属于资产定价理论，最早起源于 CAPM 资产定价理论，1970 年罗斯提出 APT 多因素模型，该模型认为股票未来的收益可以用若干因素来解释：
 
 $$
-r_{n}=f_{0}+x_{n1}f_{1}+x_{n2}f_{2}+\dots x_{nk}f_{k}
+r_{n}=f_{0}+x_{n1}f_{1}+x_{n2}f_{2}{+}...x_{nk}f_{k}
 $$
 
 但是并没有指出哪些具体的因素。实证研究方面，1992 年 Fama 和French提出三因素模型，使用市场、市值、估值三个因子作为自变量解释股票未来收益，效果不错。
 
 $$
-R_{i}-R_{f}=\alpha+\beta_{1}\big(R_{i}-R_{f}\big)+\beta_{2}SMB+\beta_{3}HML+\varepsilon_{i}
+R_{i}-R_{f}=\alpha+\beta_{1}\Big(R_{i}-R_{f}\Big)+\beta_{2}SMB+\beta_{3}HML+\varepsilon_{i}
 $$
 
 Fama-French 三因子模型论文发表后，其他学者提出更多的市场异象，比如盈利效应、投资效应等。这表明 FF 三因子模型的框架体系对这些异象解释能力不足，需要引入新的定价因子。2015 年 Fama 和 French 从股利贴现模型出发，推导出与股票收益相关的因素，加入盈利和投资因子，提出五因子模型，发现模型的解释能力提升，模型表示形式如下：
 
 $$
-R_{i}-\ R_{f}=\alpha+\ \beta_{1}\big(R_{m}-\ R_{f}\big)+\beta_{2}SMB+\beta_{3}HML+\ \varepsilon_{i}
+R_{i}-\;R_{f}=\;\alpha+\;\beta_{1}\big(R_{m}-\;R_{f}\big)+\;\beta_{2}SMB+\;\beta_{3}HML+\;\varepsilon_{i}
 $$
 
 其中，RMW 为盈利因子收益率、CMA为投资因子收益率。随后，Fama和 French 使用五因子模型分析了多种常见的市场异象，也研究了五因子模型在国际其他股票市场的效果。
@@ -122,7 +122,7 @@ $$
 
 ## 1.1.2. 数据处理
 
-在确定股票池 S $(s_{1}\cdot s_{2}\cdot s_{3}\cdot\ldots s_{N})$ ）之后，对于 N 只股票，K类因子，某类因子有f个子因子。按照因子公式计算每只股票在因子f上的取值 ，一般称为因子暴露（Factor Exposure）。对于因子原始值，一般需要进行去极值、标准化、缺失值填充、市值行业中性化等数据处理操作。
+在确定股票池 S $(\;s_{1},\;s_{2},\;s_{3},\;\ldots s_{N})$ ）之后，对于 N 只股票，K类因子，某类因子有f个子因子。按照因子公式计算每只股票在因子f上的取值 ，一般称为因子暴露（Factor Exposure）。对于因子原始值，一般需要进行去极值、标准化、缺失值填充、市值行业中性化等数据处理操作。
 
 ## （1） 去极值
 
@@ -131,7 +131,7 @@ $$
 中位数去极值（Median Absolute Deviation 绝对中位数）法是针对 3 倍标准差法的改进，原因在于国内大部分股票因子值的分布并不服从正态分布，因此国内大多数研究采用此方法处理极值。计算方法如下：对于某一期所有股票因子值，首先计算中位数med，然后计算MAD、$MAD_{e}$ ：
 
 $$
-\begin{array}{c}{med=median(x_{i})}\\{MAD=median(\lvert x_{i}-med\rvert)}\\{MAD_{e}=1.483*MAD}\end{array}
+\begin{aligned}&\#model=median(x_i)\\&MAD=median(|x_i-model|)\\&\quad MAD_e=1.483*MAD\\\end{aligned}
 $$
 
 通常把偏离中位数三倍 $MAD_{e}$ 以上的数据作为异常值。这种处理不受极端异常值的影响，结果更加稳健。
@@ -141,7 +141,7 @@ $$
 由于不同因子在量纲上存在差别，因此在因子加权、多元回归中需要对单个因子在横截面上进行标准化，从而让不同因子的暴露度之间具有可比性。一般的标准化方法，将当期去极值后的因子值序列减去全部股票的均值、再除以其标准差，得到一个新的近似服从 N(0,1)分布的序列：
 
 $$
-x_{i}^{s}={\frac{x_{i}^{raw}-\mu}{\sigma}}
+x_{i}^{s}=\frac{x_{i}^{raw}-\mu}{\sigma}
 $$
 
 ## （3）缺失值处理
@@ -157,10 +157,10 @@ $$
 目前使用最多的做法是对因子进行市值行业中性化处理。具体做法是：将每个股票标准化后的因子作为因变量，对对数市值和中信一级行业虚拟变量进行横截面回归，将回归后的残差作为每个股票因子值。一般认为，在全市场股票池中经过中性化处理后的因子，排除了市值和行业的影响，更好地反映因子的投资逻辑和选股效果。例如，使用市盈率因子分组，做了中性化处理之后，每组在各行业、市值区间上分布比较均匀。在实际使用上，除市值因子以外，其他因子均进行中性化处理。
 
 $$
-Factor_{n}=\beta_{mkt}ln(MktVal_{i})+\sum_{i=1}^{I}\beta_{i}Industry_{ni}+\varepsilon_{n}
+Factor_{n}=\beta_{mkt}\ln(MktVal_{i})+\sum_{i=1}^{I}\beta_{i}Industry_{ni}+\varepsilon_{ni}
 $$
 
-$Factor_{n}$ 是第 T 期股票 n 的因子值， $ln(MktVal_{i})$ 是第 T 期对数总市值因子的值， $Industry_{ni}.$ 是第 T 期第 i个中信一级行业因子哑变量（属于该行业为 1，否则为 0）。 $\varepsilon_{n\cdot}$ 是回归残差。我们以上述回归方程的残差项 $\varepsilon_{n}$ 作为原因子在市值行业中性化后的代理变量。
+$Factor_{n}$ 是第 T 期股票 n 的因子值， $ln(MktVal_{i})_{i}$ 是第 T 期对数总市值因子的值， $Industry_{ni},$ 是第 T 期第 i个中信一级行业因子哑变量（属于该行业为 1，否则为 0）。 $\varepsilon_{n}.$ 是回归残差。我们以上述回归方程的残差项 $\varepsilon_{n}$ 作为原因子在市值行业中性化后的代理变量。
 
 ## 1.1.3. 因子测试方法
 
@@ -168,7 +168,7 @@ $Factor_{n}$ 是第 T 期股票 n 的因子值， $ln(MktVal_{i})$ 是第 T 期�
 
 ## （1）因子 IC 测试
 
-我们计算T期因子值与T+1期股票收益率的Pearson相关系数（RawIC），同时计算因子 T 期因子值排序与 $\mathrm{T}{+}1$ 期股票收益率的 Spearman相关系数（RankIC）。因子的 IC 值是指第 T 期的因子值（因子中性化处理后残差） $\vec{\bf x}_{\mathrm{t}}$ 与 $\mathrm{T}{+}1$ 期的股票收益 $\vec{\bf r}_{{\bf t}+1}$ 的相关系数——Pearson 相关系数，公式表示为：
+我们计算T期因子值与T+1期股票收益率的Pearson相关系数（RawIC），同时计算因子 T 期因子值排序与 $\mathbf{T}\mathbf{+1}$ 期股票收益率的 Spearman相关系数（RankIC）。因子的 IC 值是指第 T 期的因子值（因子中性化处理后残差） $\vec{\mathbf{X}}_{\mathbf{t}}$ 与 $\mathbf{T}\mathbf{+1}$ 期的股票收益 $\vec{\mathbf{r}}_{\mathbf{t}+\mathbf{1}}$ 的相关系数——Pearson 相关系数，公式表示为：
 
 $$
 IC_{t}=corr(\vec{x}_{t},\vec{r}_{t+1})
@@ -177,7 +177,7 @@ $$
 此外，可以计算秩相关系数——Spearman 相关系数，使用两个变量的位次计算，是与因子分布无关的，公式表示为：
 
 $$
-IC_{rank,t}=corr\big(rank(\vec{x}_{t}),rank(\vec{r}_{t+1})\big)
+IC_{rank,t}=corr\left(rank(\vec{x}_{t}),rank(\vec{r}_{t+1})\right)
 $$
 
 可以通过以下指标评价因子效果：
@@ -214,10 +214,10 @@ c) 多头、空头组合相对市场基准的超额年化收益率、超额年�
 
 除了常用的 IC、分组测试以外，还可以使用组合优化的方式构建跟踪基准指数的组合，考察因子的超额收益表现。我们使用组合优化方式，添加多种约束条件，构建单因子的最大化股票得分组合，考察单因子的选股效果。具体每期的组合构建上，严格控制市值行业中性，并对个股权重进行约束，使用组合优化求解个股权重构建组合。组合优化参数设置上，对于沪深 300 股票池，控制市值行业严格中性，设置个股权重上限8%和个股权重偏离上限 3%；对于中证 500 股票池和全市场股票池，控制市值行业严格中性，设置个股权重偏离上限 1%和个股权重上限 1%。
 
-单因子组合优化模型公式表达。得到每周末股票的得分scoreT后，控制跟踪误差、行业暴露、风格暴露等约束条件，以最大化股票组合得分$\sum_{1}^{N}score_{i}^{T}*w_{i}$ 为目标，求解组合股票的权重 $w^{*}$ ，具体如下：
+单因子组合优化模型公式表达。得到每周末股票的得分scoreT后，控制跟踪误差、行业暴露、风格暴露等约束条件，以最大化股票组合得分$\textstyle\sum_{1}^{N}score_{i}^{T}*w_{i}$ 为目标，求解组合股票的权重 $w^{*}$ ，具体如下：
 
 $$
-\begin{array}{rl}\displaystyle_{\begin{array}{l}{m_{\ell}\kappa_{i}^{m}\sum_{1}^{N}score_{i}^{T}*w_{i}}\\{s.t.\sum_{m_{i}=1}^{N}w_{i}=1}\\{w^{loser}sw_{i}\leq w_{i}\leq w^{upper},i=1,...,N}\end{array}\quad(2)}\\\displaystyle_{\begin{array}{l}{W_{active}^{uper}\leq w_{i}-w_{k}\times w\leq w_{active}^{upper},i=1,...,N}\\{s}\\{\displaystyle\sum_{1}^{N}x_{i}w_{i}=w^{l}}\\{s}\end{array}}&{\quad(4)}\\\displaystyle_{\begin{array}{l}{\left|\sum_{1}^{N}x_{i}*w_{i}\right|\leq x_{k}^{limit}\qquad(5)}\end{array}}&{}\end{array}\tag{3}
+\begin{aligned}&\max_{w_{i}}\sum_{1}^{N}score_{i}^{T}*w_{i}\\&s.t.\quad\sum_{i}w_{i}=1\\&\quad w^{lower}\leq w_{i}\leq w^{upper},i=1,\ldots,N\quad\quad\quad\quad(\text{II }2)\\&\quad w_{active}^{lower}\leq w_{i}-w_{基准指数}\leq w_{active}^{upper},i=1,\ldots,N\\&\quad\sum_{1}^{N}x_{iI}w_{i}=w^{I}\quad\quad\quad\quad\quad\quad(\text{I }4)\\&\quad\left|\sum_{1}^{N}x_{ik}*w_{i}\right|\leq x_{k}^{limit}\quad\quad\quad\quad\quad\quad(\text{I }5)\\\end{aligned}\tag{3}
 $$
 
 公式（2）为个股上下限约束：主要是不能卖空、避免某些个股权重过高。公式（3）为个股权重相对基准指数偏离约束：主要是控制个股权重偏离程度。
@@ -243,7 +243,7 @@ $$
 因子等权加权，即每个因子分配相同的权重，其权重向量：
 
 $$
-w=(\frac{1}{K},\frac{1}{K},\dots,\frac{1}{K})^{T}
+w=(\frac{1}{K},\frac{1}{K},\ldots,\frac{1}{K})^{T}
 $$
 
 这种加权方式较为简单，但是没有考虑因子有效性的差异。基本思想是平等看待每类因子代表的投资逻辑，不做有偏好和预测的主观判断。避免了数据过度拟合，忽略了因子预测能力的差别。
@@ -251,26 +251,26 @@ $$
 IC 均值加权，是直接用各因子过去 T 期的因子 IC 的均值作为权重，即权重向量为：
 
 $$
-w=(\overline{{IC_{1}}},\overline{{IC_{2}}},\ldots,\overline{{IC_{K}}})^{T}
+\boldsymbol{w}=(\overline{{IC_{1}}},\overline{{IC_{2}}},\dots,\overline{{IC_{K}}})^{T}
 $$
 
-其中， $\overline{{IC_{k}}}.$ 为复合因子 k 过去 N 期 IC 的均值，计算方式为 $\overline{{IC_{k}}}=$ $\begin{array}{r}{\frac{1}{T}\sum_{t=1}^{T}{IC_{k^{\circ}}^{t}}}\end{array}$ 。这种方式考虑了因子过去一段时间的有效性。
+其中， $\overline{{IC_{k}}}.$ 为复合因子 k 过去 N 期 IC 的均值，计算方式为 $\overline{{IC_{k}}}=$ $\begin{array}{r}{\frac{1}{T}{\sum}_{t=1}^{T}IC_{k^{\circ}}^{t}}\end{array}$ 。这种方式考虑了因子过去一段时间的有效性。
 
 IC_IR 加权，是以因子过去 T 期的因子 IC 的均值除以其标准差作为当期因子 K的权重，即权重向量：
 
 $$
-w=(IR_{1,IC},IR_{2,IC},\ldots,IR_{K,IC})^{T}
+\boldsymbol{w}=(\boldsymbol{IR}_{1,IC},\boldsymbol{IR}_{2,IC},\dots,\boldsymbol{IR}_{K,IC})^{T}
 $$
 
-其中 $\overline{{IC_{k}}}$ 为因子 IC 的 IR，计算公式为 $\begin{array}{r}{\overline{{IC_{k}}}=\frac{1}{T}\sum_{t=1}^{T}{IC_{k}^{t}},}\end{array}$ ，这种方式同时考虑了因子过去一段时间的有效性和稳定性。
+其中 $\overline{{IC_{k}}}$ 为因子 IC 的 IR，计算公式为 $\begin{array}{r}{\overline{{IC_{k}}}=\frac{1}{T}{\sum_{t=1}^{T}IC_{k}^{t}},}\end{array}$ ，这种方式同时考虑了因子过去一段时间的有效性和稳定性。
 
-最优化复合 IR加权。Qian(2006)提出以最大化复合因子IC_IR为目标函数，对因子权重进行组合优化计算因子权重方法，给定各因子的 IC 均值向量 $\overbrace{\overline{{IC}}}^{\implies}=(\overline{{IC_{1}}},\overline{{IC_{2}}},\ldots,\overline{{IC_{K}}})^{T}$ ，IC 的协方差矩阵 $\cdot\sum_{IC}$ ，复合因子的 IR 为：
+最优化复合 IR加权。Qian(2006)提出以最大化复合因子IC_IR为目标函数，对因子权重进行组合优化计算因子权重方法，给定各因子的 IC 均值向量 $\overrightarrow{\overline{{IC}}}=(\overline{{IC_{1}}},\overline{{IC_{2}}},\dots,\overline{{IC_{K}}})^{T}$ ，IC 的协方差矩阵 $\cdot\Sigma_{IC}$ ，复合因子的 IR 为：
 
 $$
-IR_{max}=\frac{w^{T}\overrightarrow{IC}}{\sqrt{w^{T}\sum_{IC}w}}
+\mathit{IR}_{max}=\frac{w^{T}\overrightarrow{\overrightarrow{IC}}}{\sqrt{w^{T}{\sum_{IC}}w}}
 $$
 
-对w求偏导数，令偏导为0，可以推导出最优化权重的解为 $\begin{array}{r}{w^{*}={\sum_{IC}}^{-1}{\overline{{IC}}}}\end{array}$ 这种方法的优点是综合考虑了过去一段时间的有效性、稳定性和相关性。
+对w求偏导数，令偏导为0，可以推导出最优化权重的解为 $\begin{array}{r}{{w^{*}}={\sum_{IC}}^{-1}\overline{{IC}}.}\end{array}$ 这种方法的优点是综合考虑了过去一段时间的有效性、稳定性和相关性。
 
 加权后得到的复合因子测试方法与单因子测试相同，可以通过因子 IC测试、分组测试、组合优化考察复合因子收益预测的有效性与稳定性。复合因子测试时也计算多头组合的年化收益率、夏普比率、最大回撤，以及多头组合相对市场基准的年化超额收益率、信息比率和超额最大回撤等绩效指标。
 
@@ -307,11 +307,11 @@ LightGBM（Light Gradient Boosting Machine)是微软亚洲研究院分布式机�
 参考学术文献做法，我们使用公告前后股票价格数据，计算个股的ABR_N_M 和 EAR_N_M 因子。两个因子计算方式略有差异。ABR_N_M是盈余公告（正式报告、业绩预告、业绩快报）前 N 日至公告后 M 日的每日超额收益之和。EAR_N_M 表示盈余公告（正式报告、业绩预告、业绩快报）前 N 日至公告后 M 日时间区间个股收益减去期间基准指数收益后的超额收益。计算个股因子时，基准指数我们统一使用中证 500指数。公告日 t 日股票 i的因子计算公式如下：
 
 $$
-ear\_N\_M_{i,t}=\prod_{j=t-N}^{t+M-1}\bigl(1+R_{i,j}\bigr)-\prod_{j=t-N}^{t+M-1}\ (\ 1+R_{\Psi\dot{\imath}\bar{\jmath}}\_{\Psi00,j}\ )\tag{2.1}
+\begin{array}{r}{ear\_N\_M_{i,t}=\prod_{j=t-N}^{t+M-1}\bigl(1+R_{i,j}\bigr)-\prod_{j=t-N}^{t+M-1}\mathrm{~(~}1+R_{\mathrm{~中证~}500,j}\mathrm{~)~}}\end{array}\tag{2.1}
 $$
 
 $$
-\begin{array}{r}{abr\_N\_M_{i,t}=\sum_{j=t-N}^{t+M-1}(R_{i,j}-R_{\oplus\ i\pounds_{\perp}\ 500,j})}\end{array}\tag{2.2}
+\begin{aligned}abr\_N\_M_{i,t}=\sum_{j=t-N}^{t+M-1}(R_{i,j}-R_{中证500,j})\end{aligned}\tag{2.2}
 $$
 
 和 的取值尝试多种参数组合。对于每只股票，我们计算多组参数的abr 和 ear 因子。得到个股公告日 t 日的因子后，对于非公告日，均使用之前最近公告日计算的因子进行填充。
@@ -321,7 +321,7 @@ $$
 开盘跳空也是常用因子,计算方法是股票业绩公告后t日的开盘价相对t-1 日收盘价的收益率减去中证 500 的收益：
 
 $$
-\begin{array}{r}{jump_{i,t}=\frac{open_{i,t}}{close_{i,t-1}}-\frac{open_{\oplus\oplus\oplus\tt S00,t}}{close_{\oplus\tt ijE500,t-1}}}\end{array}\tag{2.3}
+jump_{i,t}=\frac{open_{i,t}}{close_{i,t-1}}-\frac{open_{中证500,t}}{close_{中证500,t-1}}\tag{2.3}
 $$
 
 对于非公告日，均使用之前最近公告日计算的因子进行填充，得到股票的每个交易日 T 的跳空因子。
@@ -363,9 +363,9 @@ $$
 
 超预期最知名的因子是标准化预期外盈利 SUE，其投资逻辑是实际公告盈利值相对于盈利预期值的增幅越大，业绩越超预期，股票未来表现越好。在学术文献中计算 SUE 时，分子是单季度预期外收益（ $X_{i,q}-$ $\mathbb{E}(X_{i,q})$ ），预期收益E $(X_{i,q})$ 可以使用历史财务数据估计，也可以使用分析师数据估计；标准化操作中的分母可以用去年同期单季度净利润的绝对值，也可以用预期外收益的标准差。
 
-## 1）使用历史财务数据估计预期收益E $(X_{i,q})$ ，分母使用预期外收益标准差
+## 1）使用历史财务数据估计预期收益E $(\boldsymbol{X}_{i,q})$ ，分母使用预期外收益标准差
 
-我们先采用预期外收益的标准差作为分母。对于股票 i，SUE 是单季度预期外收益 $(X_{i,q}-\mathbb{E}(X_{i,q}))$ 除以预期外收益的标准差：
+我们先采用预期外收益的标准差作为分母。对于股票 i，SUE 是单季度预期外收益 $\left(X_{i,q}-\mathbb{E}(X_{i,q})\right)$ 除以预期外收益的标准差：
 
 $$
 \begin{array}{r}{SUE_{i,q}=\frac{X_{i,q}-\mathbb{E}(X_{i,q})}{\sigma_{i,q}}}\end{array}\tag{2.4}
@@ -378,19 +378,19 @@ $$
 于无漂移项的情况，预期收益为上季度净利润：
 
 $$
-\mathbb{E}\left(X_{i,q}\right)=X_{i,q-4}\tag{2.5}
+\mathbb{E}\big(X_{i,q}\big)=X_{i,q-4}\tag{2.5}
 $$
 
 其中：
 
 $$
-\begin{array}{r}{\sigma_{i,q}=\ \sqrt{\frac{\left(X_{i,q-1}-X_{i,q-5}\right)^{2}+\cdots+\left(X_{i,q-4}-X_{i,q-8}\right)^{2}}{4}}}\end{array}\tag{2.6}
+\begin{array}{r}{\sigma_{i,q}=\sqrt{\frac{\left(X_{i,q-1}-X_{i,q-5}\right)^{2}+\cdots+\left(X_{i,q-4}-X_{i,q-8}\right)^{2}}{4}}}\end{array}\tag{2.6}
 $$
 
-对于带漂移项的情况，预期收益E $\left({{X}_{i,q}}\right)$ 等于去年本季度收益加上预期外收益的期望 $\mu_{i,q}.$
+对于带漂移项的情况，预期收益E $\left(X_{i,q}\right)$ 等于去年本季度收益加上预期外收益的期望 $\mu_{i,q},$
 
 $$
-\mathbb{E}\left(X_{i,q}\right)=X_{i,q-4}+\mu_{i,q}\tag{2.7}
+\mathbb{E}\big(X_{i,q}\big)=X_{i,q-4}+\mu_{i,q}\tag{2.7}
 $$
 
 其中：
@@ -400,7 +400,7 @@ $$
 $$
 
 $$
-\begin{array}{r}{\sigma_{i,q}=\ \sqrt{\frac{\left(X_{i,q-1}-X_{i,q-5}-\mu_{i,q}\right)^{2}+\cdots+\left(X_{i,q-4}-X_{i,q-8}-\mu_{i,q}\right)^{2}}{4}}}\end{array}\tag{2.9}
+\sigma_{i,q}=\sqrt{\frac{\left(X_{i,q-1}-X_{i,q-5}-\mu_{i,q}\right)^2+\cdots+\left(X_{i,q-4}-X_{i,q-8}-\mu_{i,q}\right)^2}{4}}\tag{2.9}
 $$
 
 个股净利润的选择上，在类型上，可以使用归母净利润、扣非净利润、营业利润等；在时间区间选择上，可以使用单季度净利润（qfa）、最近12 个月净利润（TTM）。我们使用业绩预告、业绩快报、定期报告三种财务报告数据计算 SUE等因子。其中，归母净利润使用业绩预告、业绩快报和定期报告数据；营业利润使用业绩快报和定期报告数据；扣非净利润只使用定期报告数据。同时，净利润数据计算时，考虑会计调整、更正处理，保证在任意时点都使用当时可以获得的最新数据。此外，业绩预告一般公布净利润上下限，我们使用净利润上下限的均值，作为净利润使用。
@@ -468,7 +468,7 @@ $$
 过去 N 日券商上调比例-下调比例=（上调家数-下调家数）/总家数 (2.11)
 
 $$
-\begin{array}{rlrl}&{{\mathrm{if~\pm~N~\boxplus~{\vec{\beta}}~{\frac{\partial^{\pm}}{\partial\tau}}~\bot^{\vec{\beta}}~\bot^{\vec{\beta}}~\bot^{\vec{\beta}}~\bot^{\vec{\gamma}}~}}}\\&{{\mathrm{if~\pm~N~\boxplus~{\vec{\beta}}~{\frac{\partial^{\pm}}{\partial\tau}}~\bot^{\vec{\gamma}}~\bot^{\vec{\gamma}\vec{\beta}}~\bot^{\vec{\gamma}}~}}\\&{{\mathrm{if~\pm~N~\boxplus~{\vec{\beta}}~{\frac{\partial^{\pm}}{\partial\tau}}~\bot^{\vec{\gamma}\vec{\beta}}~\bot^{\vec{\gamma}}~}}\\&{{\mathrm{if~\pm~N~\boxed~{\partial~{\vec{\beta}}^{\pm}~\frac{\partial^{\pm}}{\partial\tau}}~\bot^{\vec{\gamma}\vec{\beta}}~\bot^{\vec{\gamma}}~}}}\end{array}}\qquad}&&(2.12)
+\begin{align*}过去\mathbb{N}日报告上调比例=&上调报告数/总报告数\quad&(2.12)\\过去\mathbb{N}日券商上调比例=&上调家数/总家数\quad&(2.13)\end{align*}
 $$
 
 对于 N，取值为 60、90、180。主要测试的过去 N 日分析师预测上调减去下调比例因子列表如下：
@@ -491,13 +491,13 @@ $$
 我们使用朝阳永续分析师预测数据，计算过去 N 日分析师预测净利润调整幅度、预测营收上调幅度因子衡量股票业绩超预期的幅度。分析师调整幅度越大，说明业绩超预期程度越高。首先计算股票 s 在过去 N 日每个发布预测报告的分析师净利润上调幅度，然后等权平均得到个股的净利润上调因子：
 
 $$
-\begin{array}{r}{Profit_{-}adjust_{-}Nday_{i,s}=\frac{1}{n}\sum_{s=1}^{n}\frac{Profit_{i,s}-Profit_{-}last_{i,s}}{Profit_{-}last_{i,s}}}\end{array}\tag{2.14}
+\frac{Profit\_adjust\_Nday_{i,s}}{n}=\frac{1}{n}\sum_{s=1}^{n}\frac{Profit_{i,s}-Profit\_last_{i,s}}{Profit\_last_{i,s}}\tag{2.14}
 $$
 
 营收上调幅度因子类似：
 
 $$
-\begin{array}{r}{Revenue_{-}adjust\_Nday_{i,s}=\frac{1}{n}\sum_{s=1}^{n}\frac{Revenue_{i,s}-Revenue_{-}last_{i,s}}{Revenue_{-}last_{i,s}}}\end{array}\tag{2.15}
+\frac{Revenue_{-}adjust_{-}Nday_{i,s}}{n}=\frac{1}{n}\sum_{s=1}^{n}\frac{Revenue_{i,s}-Revenue_{-}last_{i,s}}{Revenue_{-}last_{i,s}}\tag{2.15}
 $$
 
 对于 N，取值为 60、90、120、180、360。主要测试的过去 N 日分析师预测净利润/营收调整等因子列表如下：

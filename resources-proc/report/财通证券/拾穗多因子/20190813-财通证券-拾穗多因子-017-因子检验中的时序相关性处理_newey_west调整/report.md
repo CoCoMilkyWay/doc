@@ -87,27 +87,27 @@ zhangyu1@ctsec.com 021-68592337
 本文从一个简单的广义线性回归模型(generalized linear regression model)说起，该模型满足如下形式：
 
 $$
-\begin{array}{c}{{Y=\pmb{\beta}\cdot\pmb{X}+\pmb{\varepsilon}}}\\{{\pmb{E}[\pmb{\varepsilon}|\pmb{X}]=\pmb{0}}}\\{{\pmb{E}[\pmb{\varepsilon}\pmb{\varepsilon}^{\prime}|\pmb{X}]=\sigma^{2}\pmb{\Omega}=\pmb{\Sigma}}}\end{array}
+\begin{aligned}&\boldsymbol{Y}=\boldsymbol{\beta}\cdot\boldsymbol{X}+\boldsymbol{\varepsilon}\\&\quad E[\boldsymbol{\varepsilon}|\boldsymbol{X}]=\mathbf{0}\\&\quad E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}'|\boldsymbol{X}]=\sigma^2\boldsymbol{\Omega}=\boldsymbol{\Sigma}\\\end{aligned}
 $$
 
-其中，Y 为T ×1维向量（T为时序期总期数），X为 $T\times K$ 阶矩阵（K为回归自变量的个数），ε为 $T\times1$ 维残差向量，Σ为残差协方差矩阵 $(T\times T$ 维)。在已知X和Y的前提下，回归的最终目标是得到 $\pmb{\beta}(K\times1)$ 的估计值并检验其显著性。
+其中，Y 为T ×1维向量（T为时序期总期数），X为 $T\times K$ 阶矩阵（K为回归自变量的个数），ε为 $T\times1$ 维残差向量，Σ为残差协方差矩阵 $\cdot(T\times T$ 维)。在已知X和Y的前提下，回归的最终目标是得到 $\pmb{\beta}(K\times1)$ 的估计值并检验其显著性。
 
 在传统多元回归模型中，假定残差项ε相互独立且同方差，亦即上述公式中的Ω为单位阵I，那么采用OLS估计方法最小化残差平方和即可得到β的估计值：
 
 $$
-\begin{array}{c}{{\varepsilon^{\prime}\varepsilon=(Y-\beta\cdot X)^{\prime}(Y-\beta\cdot X)}}\\{{{}}}\\{{{\frac{d\varepsilon^{\prime}\varepsilon}{d\beta}}=\bf{0}-X^{\prime}Y-X^{\prime}Y+2X^{\prime}X\beta}}\\{{{}}}\\{{{\widehat{\beta}}=(X^{\prime}X)^{-1}X^{\prime}Y}}\end{array}
+\begin{aligned}\boldsymbol{\varepsilon}^{\prime}\boldsymbol{\varepsilon}&=(\boldsymbol{Y}-\boldsymbol{\beta}\cdot\boldsymbol{X})^{\prime}(\boldsymbol{Y}-\boldsymbol{\beta}\cdot\boldsymbol{X})\\\frac{d\boldsymbol{\varepsilon}^{\prime}\boldsymbol{\varepsilon}}{d\boldsymbol{\beta}}&=\mathbf{0}-\boldsymbol{X}^{\prime}\boldsymbol{Y}-\boldsymbol{X}^{\prime}\boldsymbol{Y}+2\boldsymbol{X}^{\prime}\boldsymbol{X}\boldsymbol{\beta}\\&\quad\widehat{\boldsymbol{\beta}}=(\boldsymbol{X}^{\prime}\boldsymbol{X})^{-1}\boldsymbol{X}^{\prime}\boldsymbol{Y}\end{aligned}
 $$
 
 然而更一般地，在广义线性回归模型中，残差变量服从独立、同方差的这两个假设被打破，而是具有自相关和异方差性。如果残差变量具有异方差性，那么其协方差矩阵通常可以表示为如下形式：
 
 $$
-\sigma^{2}\pmb{\Omega}=\left[\begin{array}{cccc}{\sigma_{1}^{2}}&{0}&{\cdots}&{0}\\{0}&{\sigma_{2}^{2}}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{\cdots}&{\sigma_{T}^{2}}\end{array}\right]
+\sigma^{2}\boldsymbol{\Omega}=\begin{bmatrix}\sigma_{1}^{2}&0&\cdots&0\\0&\sigma_{2}^{2}&\cdots&0\\\vdots&\vdots&\ddots&\vdots\\0&0&\cdots&\sigma_{T}^{2}\end{bmatrix}
 $$
 
 如果残差变量具有自相关性，那么其协方差矩阵可以表示为如下形式：
 
 $$
-\sigma^{2}\pmb{\Omega}=\sigma^{2}\left[\begin{array}{cccc}{1}&{\rho_{1}}&{\cdots}&{\rho_{T-1}}\\{\rho_{1}}&{1}&{\cdots}&{\rho_{T-2}}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{\rho_{T-1}}&{\rho_{T-2}}&{\cdots}&{1}\end{array}\right]
+\sigma^{2}\boldsymbol{\Omega}=\sigma^{2}\begin{bmatrix}1&\rho_{1}&\cdots&\rho_{T-1}\\\rho_{1}&1&\cdots&\rho_{T-2}\\\vdots&\vdots&\ddots&\vdots\\\rho_{T-1}&\rho_{T-2}&\cdots&1\end{bmatrix}
 $$
 
 当如上两种情况的任意一种情况存在时，采用 OLS 估计得到的回归系数仍然是无偏（unbiased）和一致（consistent）的，但对其进行的显著性检验将不再有效：这是由于 OLS 估计中得到的回归系数标准差不再是真实标准差的一致性估计，因此其 t检验量不再服从 t分布，我们必须对其进行调整。
@@ -115,13 +115,13 @@ $$
 当Ω已知时，我们通过参数变换将其转换为普通最小二乘估计，从而得到参数的广义最小二乘估计量（具体推导可参见财通金工“拾穗”系列（13）：《恼人的显著性检验：多因子模型中 T 值的计算》1.3 小节）：
 
 $$
-{\widehat{\pmb{\beta}}}=(X^{\prime}{\pmb{\Omega}}^{-1}X)^{-1}X^{\prime}{\pmb{\Omega}}^{-1}Y
+\widehat{\pmb{\beta}}=(\pmb{X}^{\prime}\pmb{\varOmega}^{-1}\pmb{X})^{-1}\pmb{X}^{\prime}\pmb{\varOmega}^{-1}\pmb{Y}
 $$
 
-但是当Ω未知时，如果继续采用 OLS估计方法求解 $\mathbf{\nabla}\cdot\pmb{\beta}$ 的估计值，那么：
+但是当Ω未知时，如果继续采用 OLS估计方法求解 $\beta$ 的估计值，那么：
 
 $$
-{\widehat{\pmb{\beta}}}=({\pmb X}^{\prime}{\pmb X})^{-1}{\pmb X}^{\prime}{\pmb Y}={\pmb\beta}+({\pmb X}^{\prime}{\pmb X})^{-1}{\pmb X}^{\prime}{\pmb\varepsilon}
+\hat{\boldsymbol{\beta}}=(\boldsymbol{X}^{\prime}\boldsymbol{X})^{-1}\boldsymbol{X}^{\prime}\boldsymbol{Y}=\boldsymbol{\beta}+(\boldsymbol{X}^{\prime}\boldsymbol{X})^{-1}\boldsymbol{X}^{\prime}\boldsymbol{\varepsilon}
 $$
 
 谨请参阅尾页重要声明及财通证券股票和行业评级标准
@@ -129,23 +129,23 @@ $$
 对上式两边取期望可得：
 
 $$
-E{\big(}{\widehat{\boldsymbol{\beta}}}{\big)}=E({\boldsymbol{\beta}}+(X^{\prime}X)^{-1}X^{\prime}\varepsilon)=\beta
+\boldsymbol{E}\left(\widehat{\boldsymbol{\beta}}\right)=\boldsymbol{E}\left(\boldsymbol{\beta}+\left(\boldsymbol{X}'\boldsymbol{X}\right)^{-1}\boldsymbol{X}'\boldsymbol{\varepsilon}\right)=\boldsymbol{\beta}
 $$
 
-也就是说， $\widehat{\pmb{\beta}}$ 仍然是 $\mathbf{\delta}_{\mathbf{\cdot}\pmb{\beta}}$ 的无偏估计。进一步地，计算 $\mathbf{\widehat{\mathbf{\xi}}}\cdot\mathbf{\widehat{\mathbf{\xi}}}\mathbf{\widehat{\mathbf{\xi}}}$ 的协方差矩阵 $\mathbf{\nabla}\cdot\mathbf{V}_{oLs}$ ，即有：
+也就是说， $\widehat{\beta}_{1}$ 仍然是 $\beta$ 的无偏估计。进一步地，计算 $-\widehat{\beta}$ 的协方差矩阵 $.v_{o_{LS}}$ ，即有：
 
 $$
-\begin{array}{c}{{{\cal V}_{OLS}=E\Big[\Big(\widehat{\beta}-\beta\Big)\Big(\widehat{\beta}-\beta\Big)^{\prime}\Big|X\Big]=E\big((X^{\prime}X)^{-1}X^{\prime}\varepsilon\varepsilon^{\prime}X(X^{\prime}X)^{-1}\big)}}\\{{=(X^{\prime}X)^{-1}X^{\prime}\sigma^{2}\Omega X(X^{\prime}X)^{-1}}}\\{{=\displaystyle\frac{1}{T}\Big(\frac{1}{T}X^{\prime}X\Big)^{-1}\bigg(\displaystyle\frac{1}{T}X^{\prime}(\sigma^{2}\Omega)X\bigg)\bigg(\displaystyle\frac{1}{T}X^{\prime}X\bigg)^{-1}}}\end{array}
+\begin{array}{c}{{V_{OLS}=E\Big[\big(\widehat{\pmb{\beta}}-\pmb{\beta}\big)\big(\widehat{\pmb{\beta}}-\pmb{\beta}\big)^{\prime}\Big|\pmb{X}\Big]=E\big((\pmb{X}^{\prime}\pmb{X})^{-1}\pmb{X}^{\prime}\pmb{\varepsilon}\pmb{\varepsilon}^{\prime}\pmb{X}(\pmb{X}^{\prime}\pmb{X})^{-1}\big)}}\\{{=(\pmb{X}^{\prime}\pmb{X})^{-1}\pmb{X}^{\prime}\pmb{\sigma}^{2}\pmb{\Omega}\pmb{X}(\pmb{X}^{\prime}\pmb{X})^{-1}}}\\{{=\displaystyle\frac{1}{T}\bigg(\frac{1}{T}\pmb{X}^{\prime}\pmb{X}\bigg)^{-1}\bigg(\frac{1}{T}\pmb{X}^{\prime}(\pmb{\sigma}^{2}\pmb{\Omega})\pmb{X}\bigg)\bigg(\frac{1}{T}\pmb{X}^{\prime}\pmb{X}\bigg)^{-1}}}\end{array}
 $$
 
-当序列满足独立且同方差的假设时， $\begin{array}{r}{{\bf\Omega}\pmb{\Omega}=\mathbf{I},}\end{array}$ ，上式即转变成经典的OLS形式，即参数的方差即为协方差矩阵 $V_{OLS}=(X^{\prime}X)^{-1}\sigma^{z}$ 对角线元素。但当序列存在自相关或异方差时，采用 OLS方法所得到参数方差的估计不准确，从而影响参数统计检验结果，此时便是 调整发挥作用的时候了。
+当序列满足独立且同方差的假设时， $\mathbf{\Omega}=\mathbf{I},$ ，上式即转变成经典的OLS形式，即参数的方差即为协方差矩阵 $V_{OLS}=(X^{\prime}X)^{-1}\sigma^{2}$ 对角线元素。但当序列存在自相关或异方差时，采用 OLS方法所得到参数方差的估计不准确，从而影响参数统计检验结果，此时便是 调整发挥作用的时候了。
 
 ## 1.2 Newey-West 调整的一般形式
 
-如 1.1 小节中 $V_{OLS}$ 的推导公式可以看出，对参数协方差矩阵 $V_{OLS}$ 估计的核心在于对矩阵 $\pmb{-\frac{1}{T}}X^{\prime}(\sigma^{2}\pmb{\Omega})$ X的估计。为表述简便性起见，记该矩阵为 $\varrho_{:}$ ，那么有：
+如 1.1 小节中 $V_{OLS}$ 的推导公式可以看出，对参数协方差矩阵 $V_{OLS}$ 估计的核心在于对矩阵 $\begin{array}{r}{\mathbf{t}\frac{1}{T}\pmb{X}^{\prime}(\sigma^{2}\pmb{\Omega})}\end{array}$ X的估计。为表述简便性起见，记该矩阵为 $Q,$ ，那么有：
 
 $$
-\pmb{Q}=\frac{1}{T}X^{\prime}(\sigma^{2}\pmb{\Omega})X=\frac{1}{T}\sum_{i=1}^{T}\sum_{j=1}^{T}\sigma_{ij}X_{i}X_{j}^{\prime}
+\boldsymbol{Q}=\frac{1}{T}\boldsymbol{X}^{\prime}(\sigma^{2}\boldsymbol{\Omega})\boldsymbol{X}=\frac{1}{T}\sum_{i=1}^{T}\sum_{j=1}^{T}\sigma_{ij}\boldsymbol{X}_{i}\boldsymbol{X}_{j}^{\prime}
 $$
 
 其中 $X_{i}$ 为自变量矩阵X第i行的转置 $(K\times1$ 维），注意其与X第i列不相等。
@@ -153,27 +153,27 @@ $$
 为了计算中间矩阵 Q，White（1980）提出了一种估计方式，当残差项只存在异方差而不存在自相关性时，矩阵 Q 可简化为：
 
 $$
-\pmb{Q}=\frac{1}{T}X^{\prime}(\sigma^{2}\pmb{\Omega})X=\frac{1}{T}{\sum_{i=1}^{T}}\sigma_{i}^{2}X_{i}X_{i}^{\prime}
+\boldsymbol{Q}=\frac{1}{T}\boldsymbol{X}^{\prime}(\sigma^{2}\boldsymbol{\Omega})\boldsymbol{X}=\frac{1}{T}\sum_{i=1}^{T}\sigma_{i}^{2}\boldsymbol{X}_{i}\boldsymbol{X}_{i}^{\prime}
 $$
 
-White 证明使用矩阵 X 和回归残差 e 可求出矩阵 Q 的线性估计值 $s_{White}$
+White 证明使用矩阵 X 和回归残差 e 可求出矩阵 Q 的线性估计值 $S_{White}$
 
 $$
-Q_{White}=\frac{1}{T}\sum_{i=1}^{T}e_{i}^{2}X_{i}X_{i}^{\prime}
+Q_{White}=\frac{1}{T}{\sum_{i=1}^{T}{e_{i}^{2}X_{i}X_{i}^{\prime}}}
 $$
 
-将上式代入到 1.1 小节中，即可求得β̂的协方差矩阵 $\mathbf{\nabla}\cdot\mathbf{V}_{oLS}$ 的估计值。
+将上式代入到 1.1 小节中，即可求得β̂的协方差矩阵 $\cdot V_{oLS}$ 的估计值。
 
-White 提出的估计量解决了当残差变量存在异方差性且其结构未知时，对残差协方差矩阵的估计方法，但在实际应用中，除了异方差外，还需要考虑序列之间的自相关问题。Newey and West(1987)在 White 估计量的基础上，给出了当残差同时存在异方差和自相关时， $\varrho$ 矩阵的一致估计 $Q_{NW}$
-
-$$
-{\begin{array}{l}{\displaystyle{\boldsymbol{Q}}_{NW}={\frac{1}{T}}\Biggl\{\sum_{t=1}^{T}e_{t}^{2}X_{t}X_{t}^{\prime}+\sum_{l=1}^{L}\sum_{t=l+1}^{T}w_{l}e_{t}e_{t-l}(X_{t}X_{t-l}^{\prime}+X_{t-l}X_{t}^{\prime})\Biggr\}}\\{\displaystyle~\not{\mathrm{~\ast~}}\Psi,~w_{l}=1-{\frac{l}{1+L}}}\end{array}}
-$$
-
-上式即为 Newey-West调整的主要形式，其中大括号内第一项即为 White 异方差调整值（序列仅存在异方差而不存在自相关时的估计值），第二项为针对序列自相关性的调整，其中 L 是计算自相关性影响的最大滞后阶数， $w_{l}$ 为滞后期 l对应影响的系数（也称为核函数，该核函数的引入保证了估计得出的协方差矩阵仍然是一个半正定矩阵）。可以看到，自相关性的影响随着滞后期 l 的增大而减小。在得到了经过 Newey-West 调整后得到的 Q 矩阵的估计 $Q_{NW}|\overline{{\boldsymbol{\mathbf{z}}}}$ ，即可将其代入到 $V_{OLS}$ 的表达式内，得到回归系数的协方差矩阵估计量：
+White 提出的估计量解决了当残差变量存在异方差性且其结构未知时，对残差协方差矩阵的估计方法，但在实际应用中，除了异方差外，还需要考虑序列之间的自相关问题。Newey and West(1987)在 White 估计量的基础上，给出了当残差同时存在异方差和自相关时， $\pmb{\mathscr{Q}}$ 矩阵的一致估计 $\pmb{Q}_{NW}$
 
 $$
-V_{OLS\_NW}={\frac{1}{T}}\biggl({\frac{1}{T}}X^{\prime}X\biggr)^{-1}Q_{NW}\biggl({\frac{1}{T}}X^{\prime}X\biggr)^{-1}
+\begin{aligned}\boldsymbol{Q}_{NW}=\frac{1}{T}\left\{\sum_{t=1}^{T}e_{t}^{2}\boldsymbol{X}_{t}\boldsymbol{X}_{t}^{\prime}+\sum_{l=1}^{L}\sum_{t=l+1}^{T}w_{l}e_{t}e_{t-l}(\boldsymbol{X}_{t}\boldsymbol{X}_{t-l}^{\prime}+\boldsymbol{X}_{t-l}\boldsymbol{X}_{t}^{\prime})\right\}\\其中,\quad&w_{l}=1-\frac{l}{1+L}\end{aligned}
+$$
+
+上式即为 Newey-West调整的主要形式，其中大括号内第一项即为 White 异方差调整值（序列仅存在异方差而不存在自相关时的估计值），第二项为针对序列自相关性的调整，其中 L 是计算自相关性影响的最大滞后阶数， $w_{l}$ 为滞后期 l对应影响的系数（也称为核函数，该核函数的引入保证了估计得出的协方差矩阵仍然是一个半正定矩阵）。可以看到，自相关性的影响随着滞后期 l 的增大而减小。在得到了经过 Newey-West 调整后得到的 Q 矩阵的估计 $Q_{MW}后$ ，即可将其代入到 $V_{OLS}$ 的表达式内，得到回归系数的协方差矩阵估计量：
+
+$$
+\boldsymbol{V}_{OLS\_NW}=\frac{1}{T}\left(\frac{1}{T}\boldsymbol{X}^{\prime}\boldsymbol{X}\right)^{-1}\boldsymbol{Q}_{NW}\left(\frac{1}{T}\boldsymbol{X}^{\prime}\boldsymbol{X}\right)^{-1}
 $$
 
 其中，协方差矩阵 $V_{OLS\_NW}$ 中的各对角线上的元素即为对应参数方差的估计值。
@@ -182,16 +182,16 @@ $$
 
 到目前为止，我们介绍的都是在多元线性回归中，回归系数标准差的估计方法。然而正如前文所述，在单因子有效性的检验中，进行检验的往往是组合收益率序列或者因子收益率序列在时序上是否显著异于零，这一过程本身并不涉及回归过程，因此无法直接使用 1.2小节中介绍的调整方法。然而，我们知道组合收益或者因子收益在时序上极有可能存在异方差和自相关特性，因此在计算序列标准误差时，必须对其进行 Newey-West 调整，从而得到其标准差的一致性估计，进而得到更稳健的 t 值。
 
-那么，如何将多因子回归中的 t检验与时间序列上的 t检验联系起来呢？为解决这一问题，Bali et al(2016)指出对于单个因子收益率序列的显著性检验，我们可以将其转换为一个简单的线性回归模型：将 1作为自变量，将因子收益率作为因变量，进行回归得到残差变量。此时残差项即为因子收益率减去它在时间序列上的均值，把残差项 e 和 X=1 带入 Newey-West 调整式中即可得简化结果，即对中间矩阵 Q 的估计值 $Q_{NW-simple}$ 为:
+那么，如何将多因子回归中的 t检验与时间序列上的 t检验联系起来呢？为解决这一问题，Bali et al(2016)指出对于单个因子收益率序列的显著性检验，我们可以将其转换为一个简单的线性回归模型：将 1作为自变量，将因子收益率作为因变量，进行回归得到残差变量。此时残差项即为因子收益率减去它在时间序列上的均值，把残差项 e 和 X=1 带入 Newey-West 调整式中即可得简化结果，即对中间矩阵 Q 的估计值 $\mathcal{Q}_{NW-simple}$ 为:
 
 $$
-\begin{array}{c}{{Q_{NW-simple}=\displaystyle\frac{1}{T}\Biggl\{\sum_{t=1}^{T}e_{t}^{2}+2*\sum_{l=1}^{L}\sum_{t=l+1}^{T}w_{l}e_{t}e_{t-l}\Biggr\}}}\\{{w_{l}=1-\displaystyle\frac{l}{1+L}}}\end{array}
+\begin{aligned}Q_{SW-simple}=\frac{1}{T}\Biggl\{&\sum_{t=1}^{T}e_{t}^{2}+2*\sum_{l=1}^{L}\sum_{t=l+1}^{T}w_{l}e_{t}e_{t-l}\Biggr\}\\&w_{l}=1-\frac{l}{1+L}\end{aligned}
 $$
 
-将 $Q_{NW-simple}$ 代入到 1.2 小节中 $\sharp\sqrt[3]{V_{OLS\_NW}}$ 的表达式内，即可得到收益率序列方差的估计值 ${\hat{\sigma}}^{2};$
+将 $\cdot Q_{NW-simple}$ 代入到 1.2 小节中 $V_{OLS\_NW}$ 的表达式内，即可得到收益率序列方差的估计值 $\hat{\sigma}^{2};$
 
 $$
-{\hat{\sigma}}^{2}=S_{NW-simple}/T
+\hat{\sigma}^{2}=S_{NW-simple}/T
 $$
 
 ## 1.4 多因子风险模型估计中的Newey-West 调整
@@ -199,7 +199,7 @@ $$
 在多因子风险模型的估计中，我们同样会采用 Newey-West 调整的思想对因子收益的自相关性进行调整。具体而言，当采用日频因子收益率数据估计月频因子波动率时，需要对日频因子收益率的协方差矩阵进行修正，以消除序列自相关性的影响，实现方式如下：
 
 $$
-F(m)^{NW}=21\times[F(d)+\sum_{\triangle=1}^{D}\left(1-{\frac{\triangle}{D+1}}\right)(C_{+\triangle}^{(d)}+C_{-\triangle}^{(d)})]
+F(m)^{NW}=21\times[F(d)+\sum_{\triangle=1}^{D}\left(1-\frac{\triangle}{D+1}\right)(C_{+\triangle}^{(d)}+C_{-\triangle}^{(d)})],
 $$
 
 谨请参阅尾页重要声明及财通证券股票和行业评级标准
@@ -215,7 +215,7 @@ C_{kl,-\Delta}^{(d)}=cov(r_{l,t},r_{k,t-\Delta})
 $$
 
 $$
-C_{+\Delta}^{(d)}={C_{-\Delta}^{(d)}}^{'}
+C_{+\Delta}^{(d)}={C_{-\Delta}^{(d)}}^{\prime}
 $$
 
 上式中 k,l 分别代指因子 k 和因子 l。值得注意的是，Barra 因子框架下的Newey-West 调整与 1.2 节中介绍的 Newey-West(1987)的调整方式并不完全相同，Barra 的修正针对的是因子日度收益的协方差矩阵而并非是回归系数的协方差矩阵，并不涉及任何回归过程，仅在修正过程中采用 Newey-West(1987)的思想引入滞后项以调节数据自相关性的影响。关于这一调整的具体细节，可以参加财通金工“拾穗”系列（11）《多因子模型风险预测：从怎么做到为什么》。
@@ -231,10 +231,10 @@ $$
 1) 设定样本容量为 1000，首先生成正态随机误差项 $\varepsilon_{t}$ ，从而得到具有一阶自相关的残差序列 $e_{t}$ （相关系数大于 0，取为 0.5）：
 
 $$
-\begin{array}{c}{\varepsilon_{t}{\sim}N(0,~10^{2})}\\{e_{t}=0.5\times e_{t-1}+\varepsilon_{t}}\\{e_{0}=\varepsilon_{0}}\end{array}
+\begin{aligned}\varepsilon_{t}\sim&N(0,10^{2})\\e_{t}=0.&5\times e_{t-1}+\varepsilon_{t}\\e_{0}=&\varepsilon_{0}\end{aligned}
 $$
 
-2) 随后生成服从 1-100 均匀分布的自变量序列 x（1000×1 向量），并同时根据如下方式生成因变量序列 ${\mathrm{y}},$ ，其中 $\beta_{0}=1$ $\beta_{1}=0.3$
+2) 随后生成服从 1-100 均匀分布的自变量序列 x（1000×1 向量），并同时根据如下方式生成因变量序列 $\mathrm{~y~},$ ，其中 $\beta_{0}=1$ $\beta_{1}=0.3$
 
 $$
 y_{t}=\beta_{0}+\beta_{1}x_{t}+e_{t}
@@ -242,7 +242,7 @@ $$
 
 3) 在得到模拟数据序列后，我们分别采用传统 OLS 估计以及经过Newey-West 调整的估计，得到回归系数标准差的估计值。
 
-将上述步骤重复 1000 次，图 2 和图 3 分别展示了 1000 次模拟中 $\beta_{1}$ 和 $\boldsymbol{\beta}_{0}$ 在两种情况下的标准差估计散点图。结果显示，对于 $\pmb{\beta_{1}}$ 和 $\mathbf{\delta}_{\mathbf{\beta}}$ 而言，经过 Newey-West调整后计算得到的标准差估计值均大于传统 OLS 方法得到的估计结果。这主要是因为我们在模拟过程中预先假定了误差项自相关系数为 0.5（大于 0），从而导致Newey-West调整在对协方差矩阵进行估计时加入了对残差自相关性的调整项，从而放大了回归系数标准差的估计值。同样的，如果此处残差项自相关系数小于0，那么对应 Newey-West调整后计算得到的标准差估计值应小于传统 OLS方法得到的估计结果。
+将上述步骤重复 1000 次，图 2 和图 3 分别展示了 1000 次模拟中 $\beta_{1}$ 和 $\iota\beta_{0}$ 在两种情况下的标准差估计散点图。结果显示，对于 $\mathbf{\beta_{1}}$ 和 $\beta_{0}$ 而言，经过 Newey-West调整后计算得到的标准差估计值均大于传统 OLS 方法得到的估计结果。这主要是因为我们在模拟过程中预先假定了误差项自相关系数为 0.5（大于 0），从而导致Newey-West调整在对协方差矩阵进行估计时加入了对残差自相关性的调整项，从而放大了回归系数标准差的估计值。同样的，如果此处残差项自相关系数小于0，那么对应 Newey-West调整后计算得到的标准差估计值应小于传统 OLS方法得到的估计结果。
 
 表 1 中展示了单次回归过程中系数的估计值以及对应的标准差和 t 统计量。可以看到，由于经过 Newey-West 调整后计算得出的系数估计值较传统 OLS 方法而言相对更高，从而导致调整后的 t 统计量数值相对更低，系数显著性减弱（若残差项自相关系数为负则结论相反）。
 
@@ -269,22 +269,22 @@ $$
 为说明 Newey-West 调整在因子有效性检验中的效果，我们首先生成一个时间序列 $\varepsilon_{t}$ 服从均值为 0，标准差为 0.5 的正态分布，即：
 
 $$
-\varepsilon_{t}{\sim}N(0,\ 0.5^{2})
+\varepsilon_{t}{\sim}N(0,0.5^{2})
 $$
 
 由 $\varepsilon_{t}$ 生成一个存在一阶自相关的序列 $y_{t}$ （1000×1 维），自相关系数为 0.7，即：
 
 $$
-\begin{array}{c}{{y_{1}=\varepsilon_{1}}}\\{{\nonumber}}\\{{y_{t+1}=0.7y_{t}+\varepsilon_{t+1}}}\end{array}
+\begin{aligned}&y_{1}=\varepsilon_{1}\\y_{t+1}&=0.7y_{t}+\varepsilon_{t+1}\\\end{aligned}
 $$
 
-图 4 展示了按照上述规则生成的序 $\mathcal{F}\mathbb{J}_{t}$ 中的某一条序列走势，可以看到该序列本身存在明显的自相关性，上期数据更大时下期数据也趋向于更大，反之亦然。
+图 4 展示了按照上述规则生成的序 $列y_{t}$ 中的某一条序列走势，可以看到该序列本身存在明显的自相关性，上期数据更大时下期数据也趋向于更大，反之亦然。
 
 图 4：模拟生成序列 y中的某一条
 ![](images/759f0eb013258d2551c5c945a6b00f70d82f35d76564db12f9d73f0dc1a49b53.webp)
 数据来源：财通证券研究所
 
-同样的，我们按照如上规则进行 1000 次蒙特卡洛模拟，在每次模拟中均按照上述方式生成1000×1维向量 $\cdot\varepsilon_{t}\star\mathsf{\pi}y_{t}$ ，并同时计算序列 $y_{t}$ 的真实波动率和经过Newey-West 方法调整后的序列估计波动率，其结果如图 5 所示（此处在进行 NW调整时选取的最大滞后阶数 L=1）。
+同样的，我们按照如上规则进行 1000 次蒙特卡洛模拟，在每次模拟中均按照上述方式生成1000×1维向量 $\varepsilon_{t}和y_{t}$ ，并同时计算序列 $y_{t}$ 的真实波动率和经过Newey-West 方法调整后的序列估计波动率，其结果如图 5 所示（此处在进行 NW调整时选取的最大滞后阶数 L=1）。
 
 可以看到，经过 NW 调整后计算出的波动率与实际波动率之间存在极高相关性（相关系数达到 0.99），但由于序列本身正向自相关性（自相关系数大于 0）的存在，导致经过 NW 调整后计算得到的波动率相对更高（若序列自相关系数小于 $\mathbf{0},$ ，则 NW 调整后计算得到的波动率将低于序列真实波动率）。由于经过 NW调整后计算得到的波动率与序列真实波动率存在差异，因此经过NW 调整后的序列显著性检验结果也会随之改变。对于我们模拟生成的序列 y 而言，由于 NW 调整后计算得到的波动率相对更高，因此其 t 统计量的绝对值较传统的学生 t 检验而言相对更低，从而可能导致传统的显著的序列变得不再显著。
 

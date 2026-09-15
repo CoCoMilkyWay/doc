@@ -154,14 +154,14 @@ liufubing008481@gtjas.com
 
 相对阻力= ∑ Vi*ω1*ω2i / ∑Vj*ω1j*ω2ji cp p•j
 
-其中 $V_{\mathrm{\Omega}_{i}}$ 表示历史第i天的成交额， $\omega_{_{1i}}$ 表示成交额的距离加权， $\omega_{\textrm{ { 2 i } }}$ 表示成交额的时间加权，且
+其中 $V_{i}$ 表示历史第i天的成交额， $\omega_{_{1i}}$ 表示成交额的距离加权， $\omega_{_{2i}}$ 表示成交额的时间加权，且
 
 $$
-\omega_{_{1i}}=\log{[1/(abs({p_{i}-p_{c}})/{p_{c}})]}
+\omega_{_{1i}}=\log\left[1/\left(abs\left(p_{_i}-p_{_c}\right)/p_{_c}\right)\right]
 $$
 
 $$
-\omega_{_{2i}}=\log\left(\textit{ j }+1\right)/\log\left(N+1\right)
+\omega_{2i}=\log\left(j+1\right)/\log\left(N+1\right)
 $$
 
 由于相对阻力是一个比值，消除了量纲的影响，相对更合理些，因此后续我们主要对相对阻力进行研究。

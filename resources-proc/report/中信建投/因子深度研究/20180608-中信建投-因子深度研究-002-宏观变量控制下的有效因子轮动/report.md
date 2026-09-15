@@ -54,11 +54,11 @@ dingluming@csc.com.cn
 
 估计因子收益率的传统方法：
 
-假设因子历史收益率矩阵 $=\left[\begin{array}{ccc}{{f_{1}^{1}}}&{{\cdots}}&{{f_{1}^{T}}}\\{{\vdots}}&{{\ddots}}&{{\vdots}}\\{{f_{K}^{1}}}&{{\cdots}}&{{f_{K}^{T}}}\end{array}\right];$
+假设因子历史收益率矩阵 $=\begin{bmatrix}f_{1}^{1}&\cdots&f_{1}^{T}\\\vdots&\ddots&\vdots\\f_{K}^{1}&\cdots&f_{K}^{T}\end{bmatrix},$
 
-1.上一期因子收益率： $f_{k}^{T+1}=f_{k}^{T}.$
+1.上一期因子收益率： $f_{k}^{T+1}=f_{k}^{T};$
 
-2.长期均值法： $f_{k}^{T+1}=\frac{\sum_{t=1}^{T}f_{k}^{i}}{T}.$
+2.长期均值法： $f_{k}^{T+1}=\frac{\sum_{t=1}^{T}f_{k}^{i}}{T};$
 
 3. AR 模型： $f_{k}^{T+1}=a_{0}+a_{1}\cdot f_{k}^{T}+a_{2}\cdot f_{k}^{T-1}+\cdots+a_{i}\cdot f_{k}^{T-i+1}+\varepsilon_{T+1}$
 
@@ -73,11 +73,11 @@ $\varepsilon_{T+1}$ 是 AR模型中的残差变量。
 计算下一期股票预期收益率：
 
 $$
-\mathrm{X}=\left[\begin{array}{ccc}{X_{11}^{T+1}}&{\cdots}&{X_{1K}^{T+1}}\\{\vdots}&{\ddots}&{\vdots}\\{X_{J1}^{T+1}}&{\cdots}&{X_{JK}^{T+1}}\end{array}\right];f=\left(\begin{array}{c}{f_{1}^{T+1}}\\{\vdots}\\{f_{K}^{T+1}}\end{array}\right);
+X=\begin{bmatrix}X_{11}^{T+1}&\cdots&X_{1K}^{T+1}\\\vdots&\ddots&\vdots\\X_{J1}^{T+1}&\cdots&X_{JK}^{T+1}\end{bmatrix};f=\begin{pmatrix}f_1^{T+1}\\\vdots\\f_K^{T+1}\end{pmatrix};
 $$
 
 $$
-\boldsymbol{r}^{T+1}=\boldsymbol{X}\cdot\boldsymbol{f};
+r^{T+1}=X\cdot f;
 $$
 
 其中，
@@ -316,7 +316,7 @@ $r^{T+1}$ 是预测股票收益率。
 具体的线性模型如下所示：
 
 $$
-R_{t}=\alpha+\beta_{1}\cdot E_{t-2}+\beta_{2}\cdot M_{t-1}+\beta_{3}\cdot S_{t}+\beta_{4}\cdot Y_{t-1}+\varepsilon
+R_{t}=\alpha+\beta_{1}\cdot E_{t-2}+\beta_{2}\cdot M_{t-1}+\beta_{3}\cdot S_{t}+\beta_{4}\cdot Y_{t-1}+\varepsilon_{t}
 $$
 
 其中，
@@ -364,15 +364,15 @@ $Y_{t-1}$ 是上一期的因子收益率（短期平均收益率、长期平均�
 多元序数回归模型如下所示：
 
 $$
-\ln\left({\frac{\pi_{1}}{\pi_{k}}}\right)=\alpha_{1}+\beta_{1}X_{1}+\beta_{2}X_{2}+\cdots+\beta_{p}X_{p}
+\ln\left({\cfrac{\pi_{1}}{\pi_{k}}}\right)=\alpha_{1}+\beta_{1}X_{1}+\beta_{2}X_{2}+\cdots+\beta_{p}X_{p}
 $$
 
 $$
-\ln\left({\frac{\pi_{2}}{\pi_{k}}}\right)=\alpha_{2}+\beta_{1}X_{1}+\beta_{2}X_{2}+\cdots+\beta_{p}X_{p}
+\ln\left(\cfrac{\pi_{2}}{\pi_{k}}\right)=\alpha_{2}+\beta_{1}X_{1}+\beta_{2}X_{2}+\cdots+\beta_{p}X_{p}.
 $$
 
 $$
-\ln\left({\frac{\pi_{k-1}}{\pi_{k}}}\right)=\alpha_{k-1}+\beta_{1}X_{1}+\beta_{2}X_{2}+\cdots+\beta_{p}X_{p}
+\ln\left({\cfrac{\pi_{k-1}}{\pi_{k}}}\right)=\alpha_{k-1}+\beta_{1}X_{1}+\beta_{2}X_{2}+\cdots+\beta_{p}X_{p}.
 $$
 
 其中，k代表我们一共有 k 个种类，或者说按顺序排名后最后一名的序号为 k。 $\pi_{j}=P(y=j)$ 是最终结果在第j 名内的概率。
@@ -386,7 +386,7 @@ $$
 第 k名的概率如下：
 
 $$
-\pi_{k}=P(y=k)={\frac{1}{1+\sum_{j=1}^{k-1}e^{\alpha_{j}+\sum_{l=1}^{p}\beta_{l}X_{l}}}}
+\pi_{k}=P(y=k)=\frac{1}{1+\sum_{j=1}^{k-1}e^{\alpha_{j}+\sum_{l=1}^{p}\beta_{l}X_{l}}}
 $$
 
 也等于：

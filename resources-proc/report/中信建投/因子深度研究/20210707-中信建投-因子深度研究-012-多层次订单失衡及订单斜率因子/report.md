@@ -72,14 +72,14 @@ OFI_{t}=\Delta V_{t}^{B}-\Delta V_{t}^{A}
 $$
 
 $$
-\Delta V_{t}^{B}=\left\{\begin{array}{ll}{-V_{t-1}^{B}}&{P_{t}^{B}<P_{t-1}^{B}}\\{V_{t}^{B}-V_{t-1}^{B}}&{P_{t}^{B}=P_{t-1}^{B}}\\{V_{t}^{B}}&{P_{t}^{B}>P_{t-1}^{B}}\end{array}\right.\qquad,\qquad\Delta V_{t}^{A}=\left\{\begin{array}{ll}{V_{t}^{A}}&{P_{t}^{A}<P_{t-1}^{A}}\\{V_{t}^{A}-V_{t-1}^{A}}&{P_{t}^{A}=P_{t-1}^{A}}\\{-V_{t-1}^{A}}&{P_{t}^{A}>P_{t-1}^{A}}\end{array}\right.
+\Delta V_{t}^{B}=\begin{cases}-V_{t-1}^{B}&P_{t}^{B}<P_{t-1}^{B}\\V_{t}^{B}-V_{t-1}^{B}&P_{t}^{B}=P_{t-1}^{B}\\V_{t}^{B}&P_{t}^{B}>P_{t-1}^{B}\end{cases}\quad,\quad\Delta V_{t}^{A}=\begin{cases}V_{t}^{A}&P_{t}^{A}<P_{t-1}^{A}\\V_{t}^{A}-V_{t-1}^{A}&P_{t}^{A}=P_{t-1}^{A}\\-V_{t-1}^{A}&P_{t}^{A}>P_{t-1}^{A}\end{cases}
 $$
 
 $P_{t}^{B}$ 和 $|P_{t}^{A}$ 分别为 t 时刻的买一价和卖一价， $V_{t}^{B}$ 和 $V_{t}^{A}$ 分别是 t 时刻的买一和卖一的委托量。
 
 与之前定义的VOI因子不同，在 t 时刻， VOI因子将当买一价下降和卖一价上升时的订单影响定义为 0，而OFI将订单的影响定义为负向 t-1 时刻买卖委托量。这相当于考虑了 t-1 时刻到 t 时刻间买卖订单取消或移动的变化量，有利于充分把握订单变化信息。
 
-下图举例对OFI因子进行说明。在 n 时刻，卖一价为 ${\bf\mathcal{P}}_{n}^{A}$ ，买一价为 $P_{n}^{B}$ ，此时，中间价为 $P_{n}$ ，且最中间的红蓝柱子分别表示卖一量和买一量。在 n+1 时刻，从卖价端的角度，原卖一量被取消，卖一价上涨至 $P_{n+1}^{A}$ ，中间价上涨至 $P_{n+1}$ 。此时，卖价端的订单失衡为负向 n 时刻的卖一量，而从 ${\cal OF}I^{(1)}$ 因子总体来看，卖家端对价格的影响为正向 n 时刻的卖一量。而从买家端的角度，买一价不变，即 $P_{n+1}^{B}=P_{n}^{B}$ ，此时，买价端订单失衡为 n+1 时刻的买一量减去 n 时刻的买一量。
+下图举例对OFI因子进行说明。在 n 时刻，卖一价为 $P_{n}^{A}$ ，买一价为 $P_{n}^{B}$ ，此时，中间价为 $P_{n}$ ，且最中间的红蓝柱子分别表示卖一量和买一量。在 n+1 时刻，从卖价端的角度，原卖一量被取消，卖一价上涨至 $P_{n+1}^{A}$ ，中间价上涨至 $P_{n+1}$ 。此时，卖价端的订单失衡为负向 n 时刻的卖一量，而从 $|OFI^{(1)}$ 因子总体来看，卖家端对价格的影响为正向 n 时刻的卖一量。而从买家端的角度，买一价不变，即 $P_{n+1}^{B}=P_{n}^{B}$ ，此时，买价端订单失衡为 n+1 时刻的买一量减去 n 时刻的买一量。
 
 图1： OFI 因子的解释
 ![](images/17669bbc85e3cf172c44a59ceca6abfb776071fc61f423cb2aac0759f425deed.webp)
@@ -90,7 +90,7 @@ $P_{t}^{B}$ 和 $|P_{t}^{A}$ 分别为 t 时刻的买一价和卖一价， $V_{t
 在传统的 VOI 计算的基础上，将OFI指标扩展到不同档位下进行计算，得到
 
 $$
-OFI^{(i)}\quad\mathsf{i=}1,2,3,4,5
+OFI^{(i)}\quad\mathrm{i}=1,2,3,4,5
 $$
 
 分别衡量第 i 档下的订单失衡的潜在影响程度，避免遗漏掉很多有价值的信息。
@@ -98,7 +98,7 @@ $$
 为充分整合利用盘口数据信息，我们对不同OFI因子进行了合成，得到
 
 $$
-MOFI=\sum_{i=1}^{5}OFI^{(i)},i=1,2,3,4,5
+MOFI=\sum_{i=1}^{5}OFI^{(i)}\quad,\quad i=1{,}2{,}3{,}4{,}5.
 $$
 
 MOFI因子是对不同档位的OFI因子进行等权求和得到的，度量了各个档位订单失衡的简单累积影响。
@@ -106,16 +106,16 @@ MOFI因子是对不同档位的OFI因子进行等权求和得到的，度量了�
 进一步地，经过后面检测发现高档位的OFI因子选股效果更优，因此第五档的信息含量最高，第一档的信息含量最低，我们提出利用衰减加权的方式对OFI因子进行求和，得到
 
 $$
-MOFI_{-}Weight=\frac{\sum w_{i}\times OFI_{i,t}^{(i)}}{\sum w_{i}}~,~w_{i}=\frac{i}{5}~,~i=1,2,3,4,5
+MOFI\_Weight=\frac{\sum w_{i}\times OFI_{i,t}^{(i)}}{\sum w_{i}}\quad,\quad w_{i}=\frac{i}{5}\quad,\quad i=1,2,3,4,5
 $$
 
 最后我们看下订单斜率因子，订单斜率因子的具体构建过程如下：
 
 $$
-LogquoteSlope_{k}=\frac{\log(A_{k})-\log(B_{k})}{log(N_{k}^{A})+log(N_{k}^{B})}
+LogquoteStep_{k}=\frac{\log(A_{k})-\log(B_{k})}{\log(N_{k}^{A})+\log(N_{k}^{B})}
 $$
 
-$\boldsymbol{LogquoteSlope_{k}}$ 衡量 k 时刻的订单斜率。其中， $A_{k}$ 和 $B_{k}$ 分别表示卖一价和买一价， $N_{k}^{A}$ 和 $N_{k}^{B}$ 分别表示卖一量和买一量。订单斜率因子衡量的是订单价差对订单量差的敏感度，同时订单量考虑了订单的方向，假设卖为正，买为负，因此卖一量为 $N_{k}^{A}$ ，买一量为 $-N_{k}^{B}$
+$LogquoteSlope_{k}$ 衡量 k 时刻的订单斜率。其中， $A_{k}$ 和 $B_{k}$ 分别表示卖一价和买一价， $N_{k}^{A}$ 和 $N_{k}^{B}$ 分别表示卖一量和买一量。订单斜率因子衡量的是订单价差对订单量差的敏感度，同时订单量考虑了订单的方向，假设卖为正，买为负，因此卖一量为 $N_{k}^{A}$ ，买一量为 $-N_{k}^{B}$
 
 另一方面，考虑到 $A_{k}$ 和 $B_{k}$ 买卖价格的序列并不是正态分布的，因此，通过取对数得到 $\log(A_{k})$ 和 $\log(B_{k})$ 能够让价格序列接近正态分布，增加因子的平稳性。同样，订单量也采用对数的形式，买量定义为 $log(N_{k}^{A})$ 卖量为 $-log(N_{k}^{B})$ 。具体形象化表述参考图 2。
 
@@ -126,7 +126,7 @@ $\boldsymbol{LogquoteSlope_{k}}$ 衡量 k 时刻的订单斜率。其中， $A_{
 与 OFI 因子类似，我们也可以将LogquoteSlope指标扩展到不同档位下进行计算，得到
 
 $$
-\begin{array}{rl}{LogquoteSlope^{(i)}}&{{}\mathsf{i}\mathtt{=}1,2,3,4,5}\end{array}
+LogquoteSlope^{(i)}\quad i=1,2,3,4,5
 $$
 
 分别衡量第 i 档下的订单斜率的潜在信息，避免遗漏掉很多有价值的信息。同时，参考MOFI因子的构建思路，构造出MLogquoteSlope和MLogquoteSlopeWEIGHT。
@@ -154,7 +154,7 @@ $$
 首先，我们采取等权的方式将分钟因子转换成日因子，具体公式如下所示：
 
 $$
-\widehat{\mathrm{Factor}_{\mathrm{J,k}}}=\frac{\sum\mathrm{Fa\widehat{ctor}_{\mathrm{1,\mathrm{J,k}}}}}{\mathrm{N}}
+\widehat{\mathrm{Factor}_{\mathrm{j,k}}}=\frac{\sum\widehat{\mathrm{Factor}_{\mathrm{i,j,k}}}}{\mathrm{N}}
 $$
 
 其中 N 为第j 天总共的分钟数。
@@ -162,17 +162,17 @@ $$
 其次，由于各股盘口挂单强弱受到市场总体走势的影响，因此，为了剔除市场趋势的影响，我们对日频因子进行标准化处理。具体的计算公式为：
 
 $$
-\widehat{\mathrm{Factor}_{\mathrm{1,k}}}=\frac{\mathrm{Factor}_{\mathrm{j,k}}-M\mathrm{_-}\mathrm{Factor}_{\mathrm{j,k}}}{Std\mathrm{_-}\mathrm{Factor}_{\mathrm{j,k}}}
+\widehat{\mathrm{Factor_{j,k}}}=\frac{\mathrm{Factor_{j,k}}-M_{-}\mathrm{Factor_{j,k}}}{\mathrm{Std_{-}Factor_{j,k}}}
 $$
 
-其中， $Factor_{j,k}$ 为股票 k 第j 天的因子值， $M_{-}Factor_{j,k}$ 为横截面因子均值， $Std\_Factor_{j,k}$ 表示横截面因子标准差。
+其中， $Factor_{j,k}$ 为股票 k 第j 天的因子值， $M\_Factor_{j,k}$ 为横截面因子均值， $Std\_Factor_{j,k}$ 表示横截面因子标准差。
 
 最后，考虑到信息的时效性，距离调仓日越远其信息的有效性越弱，因此用衰减加权的方法对日因子加权。即按距离最后一个交易日的时间远近加权将日因子转换成月因子。具体的计算公式为：
 
 金融工程深度报告
 
 $$
-{\widehat{\mathrm{Factor}}}_{\mathrm{{J}}}={\frac{1}{\sum_{j=1}^{n}{\frac{\mathrm{{j}}}{\mathrm{{n}}}}}}\times\sum_{j=1}^{n}{\widehat{\mathrm{Factor}}}_{\mathrm{{j,k}}}\times{\frac{\mathrm{{j}}}{\mathrm{{n}}}}
+\widehat{\mathrm{Factor}_{\mathrm{j}}}=\frac{1}{\sum_{j=1}^{n}\frac{\mathrm{j}}{\mathrm{n}}}\times\sum_{j=1}^{n}\widehat{\mathrm{Factor}_{\mathrm{j},\mathrm{k}}}\times\frac{\mathrm{j}}{\mathrm{n}}
 $$
 
 其中，n 为当月交易日天数，j 为当月的第j 个交易日。

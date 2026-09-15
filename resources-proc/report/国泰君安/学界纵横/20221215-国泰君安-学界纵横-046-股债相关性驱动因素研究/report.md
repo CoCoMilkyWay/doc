@@ -124,7 +124,7 @@ SBC 升高的后果是什么? 最明显的是股票/债券投资组合的风险�
 ![](images/20748ae7486798ef28db338d5cf67d88c43c95394cd74e0e9d9e5e24ebd8a4c3.webp)
 数据来源：《The Stock/Bond Correlation》，国泰君安证券研究
 
-因此，我们发现股票和债券对经济增长的敏感性相反，但对通货膨胀的敏感性方向相同。换句话说，增长冲击将股票和债券的回报推向相反方向，而通胀冲击将它们推向相同方向。我们利用这种关系搭建了一个简单模型，将回报率与通胀和增长消息联系起来，假设股票回报率 $(r_{s})$ 和债券回报率 $(r_{b})$ 是由增长冲击 $(e_{g})$ 和通胀冲击 $(e_{\pi})$ 驱动的。
+因此，我们发现股票和债券对经济增长的敏感性相反，但对通货膨胀的敏感性方向相同。换句话说，增长冲击将股票和债券的回报推向相反方向，而通胀冲击将它们推向相同方向。我们利用这种关系搭建了一个简单模型，将回报率与通胀和增长消息联系起来，假设股票回报率 $(r_{s})$ 和债券回报率 $\boldsymbol{r}(\boldsymbol{r}_{b})$ 是由增长冲击 $(e_{g})$ 和通胀冲击 $(e_{\pi})$ 驱动的。
 
 $$
 \begin{array}{rl}{r_{s}=b_{s,g}e_{g}+b_{s,\pi}e_{\pi}}&{{}(1)}\\{r_{b}=b_{b,g}e_{g}+b_{b,\pi}e_{\pi}}&{{}(2)}\end{array}
@@ -133,7 +133,7 @@ $$
 根据这个模型，股票和债券回报的协方差是：
 
 $$
-\mathrm{cov(r_{s},r_{b})=(b_{s,g}b_{b,g})\sigma_{g}^{2}+(b_{s,\pi}b_{b,\pi})\sigma_{\pi}^{2}+(b_{s,g}b_{b,\pi}+b_{s,\pi}b_{b,g})\sigma_{g,\pi}^{2}}\tag{3}
+\mathrm{cov}(\mathrm{r}_{\mathrm{s}},\mathrm{r}_{\mathrm{b}})=\left(\mathrm{b}_{\mathrm{s},\mathrm{g}}\mathrm{b}_{\mathrm{b},\mathrm{g}}\right)\sigma_{\mathrm{g}}^{2}+\left(\mathrm{b}_{\mathrm{s},\pi}\mathrm{b}_{\mathrm{b},\pi}\right)\sigma_{\pi}^{2}+\left(\mathrm{b}_{\mathrm{s},\mathrm{g}}\mathrm{b}_{\mathrm{b},\pi}+\mathrm{b}_{\mathrm{s},\pi}\mathrm{b}_{\mathrm{b},\mathrm{g}}\right)\sigma_{\mathrm{g},\pi}^{2}\tag{3}
 $$
 
 当增长方差高时协方差趋于负，当通胀不确定性高时协方差趋于正。如果我们假设方差是对不确定性的衡量，当增长消息占主导地位时，股票和债券是较强的分散工具，而当通胀消息占主导地位时，股票和债券是较弱的分散工具。

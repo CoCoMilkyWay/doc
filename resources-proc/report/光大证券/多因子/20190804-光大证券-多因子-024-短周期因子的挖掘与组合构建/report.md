@@ -179,7 +179,7 @@ c) 单笔买卖成交量标准差比：主买成交量标准差 / 主卖成交�
 - 截面标准化处理：通过横截面 z-score方法，以每个时间截面 t上的所有股票的为样本，分别计算其均值和标准差得到如下所示的stand(factor)。此标准化方式属于因子的线性变换，并不会改变原始因子的分布特征。
 
 $$
-{\mathrm{stand}}(factor)_{jt}={\frac{factor_{jt}-{\overline{{factor_{t}}}}}{std(factor)_{t}}}
+\mathrm{standard}(factor)_{jt}=\frac{factor_{jt}-\overline{factor_{t}}}{std(factor)_{t}}
 $$
 
 清洗后的测试分为两个部分：

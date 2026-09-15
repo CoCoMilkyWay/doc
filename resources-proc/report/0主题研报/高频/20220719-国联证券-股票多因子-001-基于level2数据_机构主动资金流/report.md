@@ -141,7 +141,7 @@ A 股市场成立近 30 年来，全市场股票数量不断增加，日成交�
 
 ## 图 7：机构主动资金因子构建
 
-因子1： $\begin{array}{r}{ABSR=\left(\frac{buyex-sellex}{buyex+sellex}\right)}\end{array}$ . mean(n)， 当分母为 0 时， $\begin{array}{r}{\left(\frac{buyex-sellex}{buyex+sellex}\right)=0}\end{array}$ 
+因子1： $ABSR=\left({\frac{buyex-sellex}{buyex+sellex}}\right)$ . mean(n)， 当分母为 0 时， $\left(\frac{buyex{-}sellex}{buyex{+}sellex}\right)=0$ 
 mean(n) n
 因子2：（补充一个常见的量价因子）
 RETAMT = −[Ret(n) ∗ log(amt + 1)]. mean(n)

@@ -16,13 +16,13 @@
 
 ## $MCI_{B}$ 和 $MCI_{A}$ 在高频上分别为正向和负向，在低频上均为正向
 
-从短期来看， $MCI_{B}$ 较大时，发起市价交易的卖方要付出较大的费用卖出股票，说明股票的买压更强，股票较难下跌，所以和未来短期收益是正相关关系。 $MCI_{A}$ 较大时，发起市价交易的买方要付出较大的费用买入股票，说明股票的卖压更强，股票较难上涨，所以和未来短期收益是负相关关系。在高频（分钟）级别上， $MCI_{B}$ 和 ${|MCI_{A}}$ 因子方向和前面逻辑完全一致。在低频（月频）级别上， $MCI_{B}$ 和 $MCI_{A}$ 因子方向均显著为正，主要是流动性因子在长期来看具有风险溢价，因而与未来收益为正向关系。
+从短期来看， $MCI_{B}$ 较大时，发起市价交易的卖方要付出较大的费用卖出股票，说明股票的买压更强，股票较难下跌，所以和未来短期收益是正相关关系。 $MCI_{A}$ 较大时，发起市价交易的买方要付出较大的费用买入股票，说明股票的卖压更强，股票较难上涨，所以和未来短期收益是负相关关系。在高频（分钟）级别上， $MCI_{B}$ 和 $|MCI_{A}$ 因子方向和前面逻辑完全一致。在低频（月频）级别上， $MCI_{B}$ 和 $MCI_{A}$ 因子方向均显著为正，主要是流动性因子在长期来看具有风险溢价，因而与未来收益为正向关系。
 
 ## $MCI_{B}$ 因子 IC 均值 6.89%，年化多空收益高达 26.58%
 
 我们对 2 个买卖报单流动性因子进行单因子分析。具体回测时间为最近 10 年（2010 年 1 月-2020 年4 月），样本池全市场，月频调仓。因子都做了市值和行业中性化处理。 $MCI_{A}$ 因子 IC 均值 6.56%，年化 IR2.64，年化多空收益 24.32%，夏普比率 2.44。 $MCI_{B}$ 因子 IC 均值 6.89%，年化 IR2.76，年化多空收益 26.58%，夏普比率 2.71，总体选股效果所有因子里最好。
 
-## $MCI_{B}$ 和 ${\mid}MCI_{A}$ 因子对原来指数增强模型有显著的提升
+## $MCI_{B}$ 和 $|MCI_{A}$ 因子对原来指数增强模型有显著的提升
 
 2 个高频买卖报单流动性因子对原来指数增强模型的增强进行分析（包括 IC 分析和相对基准指数的超额收益分析）。具体回测时间为最近 10年（2010 年 1 月-2020年 4 月），样本池为沪深 300 或中证 500，月频调仓。在两个样本池内，2 个因子均对原来的指数增强模型有显著的提升。
 
@@ -72,7 +72,7 @@ SAC 执证编号：S1440519040002
 因而我们将建立因子来估计该交易成本，来衡量流动性。如上所述，我们将用市价交易成本与限价交易成本之间差值百分比来衡量交易成本。对于限价交易成本，由于交易并未发生，因而我们将假设买卖双方各付一半的交易费用，即用买一报单价格与卖一报单价格的均值 M 作为限价交易成本。
 
 $$
-\begin{array}{r}{\overrightarrow{\lambda}\overrightarrow{\lambda}\overrightarrow{\lambda}\overrightarrow{\mu}\vert\dot{\lambda}\dot{\lambda}/\vert\overrightarrow{\mathrm{H}}\mid\overrightarrow{\mathrm{M}}\colon M=\ \frac{P_{A,1}+P_{B,1}}{2}}\end{array}
+买卖单均值$\mathsf{M}\colon\;M=\;\frac{P_{A,1}+P_{B,1}}{2}$
 $$
 
 其中 $P_{A,i}$ 表示第 i 个卖单的价格， $Q_{A,i}$ 表示第 i 个卖单的报单量，下标 A 代表 Ask-side。
@@ -82,38 +82,38 @@ $$
 总卖单均价 $VWAP_{A}$ ，定义为五档卖单价格的报单量加权平均值：
 
 $$
-\begin{array}{r}{VWAP_{A}=\frac{\sum_{i}^{n}P_{A,i}\times Q_{A,i}}{\sum_{i}^{n}Q_{A,i}}=\frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}}\end{array}
+VWAP_{A}=\frac{\sum_{i}^{n}P_{A,i}\times Q_{A,i}}{\sum_{i}^{n}Q_{A,i}}=\frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}
 $$
 
 其中，总卖单报单金额 $DolVol_{A}$ ，定义为所有卖单报单价格乘以报单量之和，单位统一为万元（n 为单边报单价格的数量，对于我们的数据来说, n=5）：
 
 $$
-DolVol_{A}=~\sum_{i}^{n}P_{A,i}\times Q_{A,i}
+DolVol_{A}={\sum}_{i}^{n}P_{A,i}\;\times Q_{A,i}
 $$
 
 那么，交易成本即为市价交易成本与限价交易成本之间的差值；为了归一化，对该值取比例。交易成本为（市价交易成本-限价交易成本）/限价交易成本，即 $VWAP_{A}$ 与 M 的差值百分比 $VWAPM_{A}$ ，单位统一为 bps ：
 
 $$
-VWAPM_{A}\ =\ \frac{VWAP_{A}-M}{M}
+VWAPM_{A}=\frac{VWAP_{A}-M}{M}
 $$
 
-对于卖单报单来说，价格一定高于买卖报单均值（若存在卖单报价低于买单报价的情况，直接进行交易），因而 $VWAPM_{A}$ 大于 $0_{\circ}$ 。而在计算 $\ d_{1}CI_{B}$ 时，由于买单的价格一定低于买卖报单均值，则 $\frac{VWAP_{B}-M}{M}<0$ ，而我们用该数值衡量的交易费用是非负的，因而在计算时，添加上负号，得到一个正值，即：
+对于卖单报单来说，价格一定高于买卖报单均值（若存在卖单报价低于买单报价的情况，直接进行交易），因而 $VWAPM_{A}$ 大于 $0_{\circ}$ 。而在计算 $ICI_{B}$ 时，由于买单的价格一定低于买卖报单均值，则 $\frac{\frac{VWAP_{B}-M}{M}<0}{M}$ ，而我们用该数值衡量的交易费用是非负的，因而在计算时，添加上负号，得到一个正值，即：
 
 $$
 VWAPM_{B}=-\frac{VWAP_{B}-M}{M}
 $$
 
-我们在计算对于市价交易成本时，假设执行了最优五档报单。但是对于不同的股票，不同的时间执行该五档报单所需要的资金量是不同的，对于较大资金量的付出的交易成本自然比较多。因而在这一步，我们要统一资金量，用交易成本除以五档报单的资金总量 DolVol（五档价格乘以报单量之和）。最终得到我们的流动性因子，MCI （立即交易边际成本，marginal cost of immediacy）。使用买单报单计算得到的因子为买单流动性因 $\vec{\mathrm{\mathcal{F}}}MCI_{B}$ （Bid），使用卖单报单计算得到的因子为卖单流动性因子 $MCI_{A}\ (\mathsf{Ask})$ ）。卖单流动性因子 $\begin{array}{r}{MCI_{A}=~\frac{VWAPM_{A}}{DolVol_{A}}}\end{array}$ ；买单流动性因子 $\begin{array}{r}{MCI_{B}=\frac{VWAPM_{B}}{DolVol_{B}}}\end{array}$ 。单位统一为 bps/万元。
+我们在计算对于市价交易成本时，假设执行了最优五档报单。但是对于不同的股票，不同的时间执行该五档报单所需要的资金量是不同的，对于较大资金量的付出的交易成本自然比较多。因而在这一步，我们要统一资金量，用交易成本除以五档报单的资金总量 DolVol（五档价格乘以报单量之和）。最终得到我们的流动性因子，MCI （立即交易边际成本，marginal cost of immediacy）。使用买单报单计算得到的因子为买单流动性因 $子MCI_{B}$ （Bid），使用卖单报单计算得到的因子为卖单流动性因子 $MCI_{A}(Ask)$ ）。卖单流动性因子 $\frac{MCI_{A}=\frac{VWAPM_{A}}{molVol_{A}}}{}$ ；买单流动性因子 $MCI_{B}=\frac{VWAPM_{B}}{DolVol_{B}}$ 。单位统一为 bps/万元。
 
-在对资金量单位统一为每万元，对交易费用统一单位为 bps 后，对因子的直观解释是，当一个流动性需求者要求根据现有的卖单（买单）立即买入（卖出）一万元股票时，所付出的平均交易费用（用 bps衡量）。对于买单报单来说，买单流动性因子 $MCI_{B}$ 的计算过程与卖单的计算过程基本一致，只要将计算过程中的卖单数据改为买单数据，下标 B 代表 Bid-side 。唯一的区别在于计算 $VWAPM_{B}$ 时，需要将用该数值衡量的交易费用改为正值，因而在计算时，添加上负号，得到一个正值。
+在对资金量单位统一为每万元，对交易费用统一单位为 bps 后，对因子的直观解释是，当一个流动性需求者要求根据现有的卖单（买单）立即买入（卖出）一万元股票时，所付出的平均交易费用（用 bps衡量）。对于买单报单来说，买单流动性因子 ${\cdot}MCI_{B}$ 的计算过程与卖单的计算过程基本一致，只要将计算过程中的卖单数据改为买单数据，下标 B 代表 Bid-side 。唯一的区别在于计算 $VWAPM_{B}$ 时，需要将用该数值衡量的交易费用改为正值，因而在计算时，添加上负号，得到一个正值。
 
 ## 1.2、买卖报单流动性因子投资逻辑
 
-对于买单流动性因子 $MCI_{B}$ ，其衡量的是发起市价交易的卖方所付出的交易费用；从短期来看， $MCI_{B}$ 较大时，发起市价交易的卖方要付出较大的费用卖出股票，说明股票的买压更强，股票较难下跌，所以和未来短期收益是正相关关系。
+对于买单流动性因子 $_{\cdot}MCI_{B}$ ，其衡量的是发起市价交易的卖方所付出的交易费用；从短期来看， $MCI_{B}$ 较大时，发起市价交易的卖方要付出较大的费用卖出股票，说明股票的买压更强，股票较难下跌，所以和未来短期收益是正相关关系。
 
 对于卖单流动性因子 $MCI_{A}$ ，其衡量的是发起市价交易的买方所付出的交易费用；从短期来看， $MCI_{A}$ 较大时，发起市价交易的买方要付出较大的费用买入股票，说明股票的卖压更强，股票较难上涨，所以和未来短期收益是负相关关系。
 
-根据上述，可以自然的想到，为了综合买卖单流动性对于短期收益的影响，可以做 $MCI_{A}$ 和 $MCI_{B}$ 的差值来衡量买卖双方交易费用的差值，进而代表价格压力。为了消除单位的影响，指标还除以了两者之和。买卖报单流动性不平衡因子定义为： $\begin{array}{r}{MCI_{IMB}=\ \frac{MCI_{B}-MCI_{A}}{MCI_{A}+MCI_{B}}}\end{array}$
+根据上述，可以自然的想到，为了综合买卖单流动性对于短期收益的影响，可以做 $MCI_{A}$ 和 $|MCI_{B}$ 的差值来衡量买卖双方交易费用的差值，进而代表价格压力。为了消除单位的影响，指标还除以了两者之和。买卖报单流动性不平衡因子定义为： $\frac{MCI_{IMB}}{}=\frac{\frac{MCI_{B}-MCI_{A}}{MCI_{A}+MCI_{B}}}{}$
 
 买卖报单流动性不平衡因子 $MCI_{IMB}$ 的数据范围为[-1,1]。从短期来看，当 $MCI_{IMB}$ 大于 0 时，说明市价交易的卖方付出的交易费用大于买方，股票更容易以理想的价格买而不容易以理想的价格卖，更容易上涨；当 $MCI_{IMB}$ 小于 0 时，说明市价交易的买方付出的交易费用大于卖方，股票更容易以理想的价格卖而不容易以理想的价格买， 更容易下跌。因而从短期来看， $MCI_{IMB}.$ 与收益负相关。
 
@@ -135,31 +135,31 @@ $$
 
 贵州茅台（此处委托量单位为 1 手）：
 
-买卖单均值 $\begin{array}{r}{M=\ \frac{P_{A,1}+P_{B,1}}{2}=1252.38}\end{array}$
+买卖单均值 $M={\frac{P_{A,1}+P_{B,1}}{2}}=1252.38$
 
-总卖单报单金额 $\begin{array}{r}{DolVol_{A}=\ \sum_{i}^{n}P_{A,i}\times Q_{A,i}=425.96\ \mathcal{H}\mathcal{\vec{I}}\mathcal{\vec{I}}}\end{array}$
+总卖单报单金额 $$DolVol_{A}=\;\sum_{i}^{n}P_{A,i}\;\times Q_{A,i}=425.96$万元$
 
-总买单报单金额 $\begin{array}{r}{DolVol_{B}=\ \sum_{i}^{n}P_{B,i}\times Q_{B,i}=738.76~\mathcal{H}\mathcal{\vec{I}}\mathcal{\vec{I}}\mathcal{\vec{L}}}\end{array}$
+总买单报单金额 $$[DolVol_{B}=\;\sum_{i}^{n}P_{B,i}\;\times Q_{B,i}=738.76$万元$
 
-总卖单均价 $\begin{array}{r}{VWAP_{A}=\ \frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}\ =1252.815}\end{array}$
+总卖单均价 $\begin{array}{r}{VWAP_{A}=\frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}=1252.815}\end{array}$
 
-总买单均价 $\begin{array}{r}{\cdot VWAP_{B}=\ \frac{DolVol_{B}}{\sum_{i}^{n}Q_{B,i}}=1252.127}\end{array}$
-
-$$
-VWAPM_{A}=\frac{VWAP_{A}-M}{M}=0.035\%=3.5bps
-$$
+总买单均价 $VWAP_{B}=\frac{DolVol_{B}}{\sum_{i}^{n}Q_{B,i}}=1252.127$
 
 $$
-VWAPM_{B}=-\frac{VWAP_{B}-M}{M}=0.020\%=2.0~bps
+VWAPM_{A}=\frac{VWAP_{A}-M}{M}=0.035\%=3.5\;bp
 $$
 
-卖单流动性因子 $\begin{array}{r}{MCI_{A}=\ \frac{VWAPM_{A}}{DolVol_{A}}=8.2\times10^{-3}bps/\mathcal{K}\overline{{\mathcal{T}}}\overline{{\mathcal{T}}}}\end{array}$
+$$
+VWAPM_{B}=-\frac{VWAP_{B}-M}{M}=0.020\%=2.0\;bp
+$$
 
-买单流动性因子 $\begin{array}{r}{MCI_{B}=\ \frac{-VWAPM_{B}}{DolVol_{B}}=2.7\times10^{-3}bps/\mathrm{\mathcal{H}}\overline{{\mathcal{I}\overline{{\mathcal{L}}}}}}\end{array}$
+卖单流动性因子 $MCI_{A}=\frac{VWAPM_{A}}{molVol_{A}}=8.2\times10^{-3}bps/万元$
 
-买卖报单流动性不平衡因子 $\begin{array}{r}{MCI_{IMB}=\ \frac{MCI_{A}-MCI_{B}}{MCI_{A}+MCI_{B}}=0.50}\end{array}$
+买单流动性因子 $MCI_{B}=\frac{-VWAPM_{B}}{molVol_{B}}=2.7\times10^{-3}\text{1 }\text{1 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{2 }\text{1 }\text{2 }\text{1 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{2 }\text{2 }\text{1 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{2 }\text{ }\text{ 2 }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ 2 }\text{ }\text{ 2 }\text{ 2 }\text{ \text { 2 } \text { 2 } \text { } \text { 2 } \text { } \text { 2 } \text \text { } \text { 2 } \text { } \text { 2 } \text { 2 } \text \text { } \text { 2 } \text { 2 } \text \text { { 2 } \text { } \text { 2 } \text { } \text \text { } \text { 2 } \text {$
 
-从上面我们看到茅台的 $MCI_{A}$ 和 $MCI_{B}$ 都很小，流动性成本的数量级在 $10^{-3}bps/\mathcal{F}\overline{{\mathcal{T}}}$ ，可以看出茅台的市场流动性非常好。
+买卖报单流动性不平衡因子 $\frac{MCI_{IMB}}{MCI_{A}+MCI_{B}}=0.50$
+
+从上面我们看到茅台的 $MCI_{A}$ 和 $MCI_{B}$ 都很小，流动性成本的数量级在 $10^{-3}bps/万元$ ，可以看出茅台的市场流动性非常好。
 
 然后我们再看下另外一个大市值股票中国银行的流动性指标。
 
@@ -176,31 +176,31 @@ $$
 
 中国银行（此处委托量单位为 1 手）：
 
-买卖单均值 $\begin{array}{r}{M=\ \frac{P_{A,1}+P_{B,1}}{2}=3.455}\end{array}$
+买卖单均值 $M={\frac{P_{A,1}+P_{B,1}}{2}}=3.455$
 
-总卖单报单金额 $\begin{array}{r}{DolVol_{A}=~\sum_{i}^{n}P_{A,i}\times Q_{A,i}=7310.51}\end{array}$ 万元
+总卖单报单金额 $\begin{array}{r}{DolVol_{A}=\;\sum_{i}^{n}P_{A,i}\;\times Q_{A,i}=7310.51}\end{array}$ 万元
 
-总买单报单金额 $\begin{array}{r}{DolVol_{B}=~\sum_{i}^{n}P_{B,i}\ \times Q_{B,i}=10588.19}\end{array}$ 万元
+总买单报单金额 $\begin{array}{r}{DolVol_{B}=\;\sum_{i}^{n}P_{B,i}\;\times Q_{B,i}=10588.19}\end{array}$ 万元
 
-总卖单均价 $\begin{array}{r}{VWAP_{A}=\ \frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}=3.480}\end{array}$总买单均价 $\begin{array}{r}{VWAP_{B}=\frac{DolVol_{B}}{\sum_{i}^{n}Q_{B,i}}=3.432}\end{array}$
-
-$$
-VWAPM_{A}=\frac{VWAP_{A}-M}{M}=70.6\ :bps
-$$
+总卖单均价 $VWAP_{A}=\frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}=3.480$总买单均价 $VWAP_{B}=\frac{DolVol_{B}}{\sum_{i}^{n}Q_{B,i}}=3.432$
 
 $$
-VWAPM_{B}=-\frac{VWAP_{B}-M}{M}=65.8~bps
+VWAPM_{A}=\frac{VWAP_{A}-M}{M}=70.6\;bps
 $$
 
-卖单流动性因子 $\begin{array}{r}{\dot{}MCI_{A}=\ \frac{VWAPM_{A}}{DolVol_{A}}=9.7\times10^{-3}bps/\mathcal{K}\hat{\mathcal{T}}\hat{\mathcal{T}}\overline{{\mathcal{L}}}}\end{array}$
-
-买单流动性因子 $\begin{array}{r}{MCI_{B}=\ \frac{-VWAPM_{B}}{DolVol_{B}}=6.2\times10^{-3}bps/\mathrm{\mathcal{H}}\overline{{\mathcal{T}\overline{{\mathcal{U}}}}}}\end{array}$
-
 $$
-\begin{array}{r}\widecheck{\widecheck{\widecheck{\tau}}}\widecheck{\widecheck{\widecheck{\tau}}}\widecheck{\widecheck{\widecheck{\tau}}}\widecheck{\widecheck{\widecheck{\tau}}}\widecheck{\widecheck{\widecheck{\tau}}}\widecheck{\widecheck{\widecheck{\widecheck{\ t}}}}\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}}=0.22\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}}\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\tau}}}}}}\widecheck\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecXi}}}}}}}}}}}\widecheck\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck}}}}}}}}}}}}\widecheck\widecheck\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck}}}}}}}}}}}}\widecheck\widecheck\widecheck\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck{\widecheck}}}}}}}}}}}\widecheck\widecheck\widecheck\widecheck\widecheck\widecheck\widecheck\widecheck\widecheck\widecheck\widecheck\widecheck{\widecheck{\widecheck{\wideczeta}}}\end{array}
+VWAPM_{B}=-\frac{VWAP_{B}-M}{M}=65.8\;bp
 $$
 
-同样，中国银行的 $MCI_{A}$ 和 $MCI_{B}$ 也都很小，流动性成本的数量级也是在 $10^{-3}bps/\mathcal{F}\mathcal{\overline{{\mathcal{L}}}};$ ，和贵州茅台一样市场流动性也是非常好的。我们看到虽然中国银行和贵州茅台的股价差别很大，但流动性其实相差不大。假设我们用 $VWAPM_{A}$ 和 $VWAPM_{B}$ 来衡量股票的流动性成本的话，中国银行和贵州茅台的流动性成本相差 20 倍，这明显不符合我们的直观感受，因此这也是为什么我们需要对 VMAPM 做资金量的归一化。
+卖单流动性因子 $MCI_{A}=\frac{VWAPM_{A}}{DolVol_{A}}=9.7\times10^{-3}bps/万元$
+
+买单流动性因子 $MCI_{B}=\frac{-VWAPM_{B}}{molVol_{B}}=6.2\times10^{-3}\;kg/万元$
+
+$$
+买卖报单流动性不平衡因子$MCI_{IMB}=\frac{MCI_{A}-MCI_{B}}{MCI_{A}+MCI_{B}}{=0.22}$
+$$
+
+同样，中国银行的 $MCI_{A}$ 和 $MCI_{B}$ 也都很小，流动性成本的数量级也是在 $10^{-3}bps/万元,$ ，和贵州茅台一样市场流动性也是非常好的。我们看到虽然中国银行和贵州茅台的股价差别很大，但流动性其实相差不大。假设我们用 $VWAPM_{A}$ 和 $VWAPM_{B}$ 来衡量股票的流动性成本的话，中国银行和贵州茅台的流动性成本相差 20 倍，这明显不符合我们的直观感受，因此这也是为什么我们需要对 VMAPM 做资金量的归一化。
 
 最后，我们再看下一个市值比较小的股票——金洲慈航。
 
@@ -224,13 +224,13 @@ $$
 
 金融工程深度报告
 
-买卖单均值 $\begin{array}{r}{M=\ \frac{P_{A,1}+P_{B,1}}{2}=1.245}\end{array}$
+买卖单均值 $M=\frac{P_{A,1}+P_{B,1}}{2}=1.245$
 
-总卖单报单金额 $\begin{array}{r}{DolVol_{A}=\ \sum_{i}^{n}P_{A,i}\times Q_{A,i}=220.18\ \mathcal{H}\overrightarrow{\mathcal{I}\mathcal{L}}}\end{array}$
+总卖单报单金额 $$[DolVol_{A}=\;\sum_{i}^{n}P_{A,i}\;\times Q_{A,i}=220.18$万元$
 
-总买单报单金额 $\begin{array}{r}{DolVol_{B}=\ \sum_{i}^{n}P_{B,i}\times Q_{B,i}=197.78~\mathcal{H}\mathcal{\vec{I}}\mathcal{\vec{U}}}\end{array}$
+总买单报单金额 $$DolVol_{B}=\;\sum_{i}^{n}P_{B,i}\;\times Q_{B,i}=197.78$万元$
 
-总卖单均价 $\begin{array}{r}{VWAP_{A}=\ \frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}=1.272}\end{array}$
+总卖单均价 $VWAP_{A}=\frac{DolVol_{A}}{\sum_{i}^{n}Q_{A,i}}=1.272$
 
 总买单均价 $\begin{array}{r}{VWAP_{B}=\frac{DolVol_{B}}{\sum_{i}^{n}Q_{B,i}}=1.210}\end{array}$
 
@@ -239,14 +239,14 @@ VWAPM_{A}=\frac{VWAP_{A}-M}{M}=218.1bps
 $$
 
 $$
-VWAPM_{B}=-\frac{VWAP_{B}-M}{M}=284.3\ :bps
+VWAPM_{B}=-\frac{VWAP_{B}-M}{M}=284.3\;bps
 $$
 
-卖单流动性因子 $\begin{array}{r}{MCI_{A}=\ \frac{VWAPM_{A}}{DolVol_{A}}=0.99\ :bps/\mathcal{F}\bar{\mathcal{T}}}\end{array}$
+卖单流动性因子 $\frac{MCI_{A}}{\frac{VWAPM_{A}}{DolVol_{A}}}=0.99bps/万元$
 
-买单流动性因子 $\begin{array}{r}{{\cdot}MCI_{B}=\ \frac{-VWAPM_{B}}{DolVol_{B}}=1.44\ :bps/\mathrm{\mathcal{H}}\bar{\mathcal{T}}}\end{array}$
+买单流动性因子 $MCI_{B}=\frac{-VWAPM_{B}}{DolVol_{B}}=1.44bps/万元$
 
-买卖报单流动性不平衡因子 $\begin{array}{r}{MCI_{IMB}=\ \frac{MCI_{A}-MCI_{B}}{MCI_{A}+MCI_{B}}=-0.18}\end{array}$
+买卖报单流动性不平衡因子 $\frac{MCI_{IMB}}{}=\frac{\frac{MCI_{A}-MCI_{B}}{MCI_{A}+MCI_{B}}}{}=-0.18$
 
 金洲慈航的 $MCI_{A}$ 和 $|MCI_{B}$ 都在 1bps/万元左右，流动性成本为贵州茅台和中国银行的 1000 倍，因此其市场流动性是非常差的。
 
@@ -257,7 +257,7 @@ $$
 我们采用下面的具体流程把高频因子转为我们常用的月度低频选股因子。首先因为股票的盘口挂单强弱受到市场总体走势的影响，因此我们需要对各股票进行截面标准化以剔除市场对个股的影响。下面 $Factor_{i,j,k}$ 为股票 k 第j 天 i 分钟的因子值， $M\_Factor_{i,j,k}$ 为横截面因子均值， $Std\_Factor_{i,j,k}$ 表示横截面因子的标准差：
 
 $$
-\widehat{\mathrm{Factor}_{\mathrm{1,l,k}}}=\frac{\mathrm{Factor}_{\mathrm{i,j,k}}-M_{\mathrm{-}}\mathrm{Factor}_{\mathrm{i,j,k}}}{Std_{\mathrm{-}}\mathrm{Factor}_{\mathrm{i,j,k}}}
+\widehat{\mathrm{Factor_{i,j,k}}}=\frac{\widehat{\mathrm{Factor_{i,j,k}}}-M\_\mathrm{Factor_{i,j,k}}}{\widehat{\mathrm{Std\_Factor_{i,j,k}}}}
 $$
 
 然后我们把标准化后的分钟因子转换成日因子，我们采用了等权的方法。下面是日因子的构造方法，其中
@@ -267,13 +267,13 @@ $$
 N 为第j 天总共的分钟数：
 
 $$
-\widehat{\mathrm{Factor}_{\mathrm{{J,k}}}}=\frac{\sum\mathrm{Fa\widehat{ctor_{\mathrm{{l,l,k}}}}}}{\mathrm{N}}
+\widehat{\mathrm{Factor}_{\mathrm{j,k}}}=\frac{\sum\widehat{\mathrm{Factor}_{\mathrm{i,j,k}}}}{\mathrm{N}}
 $$
 
 最后我们把日因子转换成月因子，我们按距离每月最后一个交易日（假设为组合调仓日）的时间远近进行加权，考虑到信息的时效性，距离调仓日越远其信息的有效性越弱，因此用指数衰减加权的方法对日因子加权。n 为当月交易日天数，j 为当月的第j 个交易日，α 为衰减系数 0.5：
 
 $$
-\widehat{Factor}_{j}=\frac{1}{\sum_{j=1}^{n}\alpha^{n-j}}\times\sum_{j=1}^{n}\widehat{Factor}_{j,k}\times\alpha^{n-j}
+\widehat{Factor_{j}}=\frac{1}{\sum_{j=1}^{n}\alpha^{n-j}}\times\sum_{j=1}^{n}\widehat{Factor_{j,k}}\times\alpha^{n-j}
 $$
 
 ## 2.2、买卖报单流动性因子高频和低频 IC对比
@@ -289,7 +289,7 @@ $$
 
 数据来源：wind、天软科技、中信建投
 
-由上表可以看出，在高频（分钟）级别上， $MCI_{B}$ 和 $MCI_{A}$ 因子方向和前面逻辑完全一致， $MCI_{A}$ 和未来短期收益为负向关系， $MCI_{B}$ 和未来短期收益为正向关系。
+由上表可以看出，在高频（分钟）级别上， $MCI_{B}$ 和 $[MCI_{A}$ 因子方向和前面逻辑完全一致， $MCI_{A}$ 和未来短期收益为负向关系， $MCI_{B}$ 和未来短期收益为正向关系。
 
 在低频（月频）级别上， $MCI_{B}$ 和 $MCI_{A}$ 因子方向均显著为正，主要是流动性因子在长期来看具有风险溢价，因而与未来收益为正向关系。
 
@@ -510,7 +510,7 @@ MCI_B、 MCI_A 两个因子和自由流通市值（LnFloatCap）的相关性很�
 
 第二部分我们采用具体流程把高频因子转为我们常用的月度低频选股因子。首先因为股票的盘口挂单强弱受到市场总体走势的影响，因此我们需要对各股票进行截面标准化以剔除市场对个股的影响。然后我们把标准化后的分钟因子转换成日因子，我们采用了等权的方法。最后我们把日因子转换成月因子，我们按距离每月最后一个交易日（假设为组合调仓日）的时间远近进行加权，考虑到信息的时效性，距离调仓日越远其信息的有效性越弱，因此用衰减加权的方法对日因子加权。
 
-第三部分我们分析 2 个因子的分钟 IC 均值和月频 IC 均值。对于买单流动性因子 $MCI_{B}$ ，其衡量的是发起市价交易的卖方所付出的交易费用；从短期来看， $MCI_{B}$ 较大时，发起市价交易的卖方要付出较大的费用卖出股票，说明股票的买压更强，股票较难下跌，所以和未来短期收益是正相关关系。对于卖单流动性因子$MCI_{A}$ ，其衡量的是发起市价交易的买方所付出的交易费用；从短期来看， $MCI_{A}$ 较大时，发起市价交易的买方要付出较大的费用买入股票，说明股票的卖压更强，股票较难上涨，所以和未来短期收益是负相关关系。在高频（分钟）级别上， $MCI_{B}$ 和 $MCI_{A}$ 因子方向和前面逻辑完全一致。在低频（月频）级别上， $MCI_{B}$ 和$MCI_{A}$ 因子方向均显著为正，主要是流动性因子在长期来看具有风险溢价，因而与未来收益为正向关系。
+第三部分我们分析 2 个因子的分钟 IC 均值和月频 IC 均值。对于买单流动性因子 $IMCI_{B}$ ，其衡量的是发起市价交易的卖方所付出的交易费用；从短期来看， $MCI_{B}$ 较大时，发起市价交易的卖方要付出较大的费用卖出股票，说明股票的买压更强，股票较难下跌，所以和未来短期收益是正相关关系。对于卖单流动性因子$MCI_{A}$ ，其衡量的是发起市价交易的买方所付出的交易费用；从短期来看， $MCI_{A}$ 较大时，发起市价交易的买方要付出较大的费用买入股票，说明股票的卖压更强，股票较难上涨，所以和未来短期收益是负相关关系。在高频（分钟）级别上， $MCI_{B}$ 和 $MCI_{A}$ 因子方向和前面逻辑完全一致。在低频（月频）级别上， $MCI_{B}$ 和$MCI_{A}$ 因子方向均显著为正，主要是流动性因子在长期来看具有风险溢价，因而与未来收益为正向关系。
 
 第四部分检测了这 2 个因子和传统因子的相关性， $MCI_{B}$ $MCI_{A}$ 两个因子和自由流通市值的相关性很高，因此对于这两个因子的处理需要做市值中性处理。另外， $MCI_{B}.$ $MCI_{A}$ 两个因子和 AmountAvg_1M 相关性较高，因此后面两个因子可以对 AmountAvg_1M 做中性化处理。最后，我们检测两个因子和常用流动性因子包括非流动因子 ILLIQUID 和买卖报单差价 Quote_Spread 的相关性都不太强。
 

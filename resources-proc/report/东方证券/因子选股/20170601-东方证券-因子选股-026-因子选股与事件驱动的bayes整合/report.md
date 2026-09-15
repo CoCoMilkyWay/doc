@@ -56,51 +56,51 @@ zhujiantao@orientsec.com.cn
 在之前报告《alpha 预测中》中，我们介绍了风险调整 IC 的定义。投资者在构建指数增强、量化对冲组合时，往往会控制组合的风险暴露。带风险控制的多空组合或指数增强组合构建可以表示成以下 Mean-Variance 优化问题：
 
 $$
-\operatorname*{max}_{\mathbf{w}}\alpha^{\prime}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot\Sigma\cdot w\quad\cdots\cdots(1)
+\operatorname*{max}_{\mathbf{w}}~\alpha^{\prime}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot\Sigma\cdot w\quad\cdots\cdots(1)
 $$
 
 $$
-\quad\mathrm{s.t.}\quad\left[{\boldsymbol{\mathrm{e^{\prime}}}}\right]\cdot\boldsymbol{w}=\tilde{B}\cdot\boldsymbol{w}=0
+\begin{array}{rl}{\mathrm{s.t.}}&{{}\left[\begin{matrix}{e^{\prime}}\\{B^{\prime}}\end{matrix}\right]\cdot w=\tilde{B}\cdot w=0}\end{array}
 $$
 
 其中： 是一个 矩阵，表示预测的 N只股票的未来收益。
 
-是一个 的单位 1 矩阵，如果是做多空组合， $\mathbf{e^{\prime}}\cdot\mathbf{w}=0$ 表示组合是资金中性的，多头和空头资金量相等；如果是做指数增强组合, w 表示组合的主动权重（active weight，组合权重和基准权重的差额）， $\mathbf{e^{\prime}}\cdot\mathbf{w}=0$ 表示在满仓做指数增强。
+是一个 的单位 1 矩阵，如果是做多空组合， $\mathbf{e}^{\prime}\cdot\mathbf{w}=0$ 表示组合是资金中性的，多头和空头资金量相等；如果是做指数增强组合, w 表示组合的主动权重（active weight，组合权重和基准权重的差额）， $\mathbf{e}^{\prime}\cdot\mathbf{w}=0$ 表示在满仓做指数增强。
 
-B是 $\Nu\times$ 的风险暴露矩阵，K 为风险因子数量。基于这些风险因子可以对股票收益率的协方差矩阵做出估计， $\Sigma={\bf{B}}\cdot{\bf{F}}\cdot{\bf{B}}^{\prime}+S$ ， 是 K 个风险因子的 $\mathrm{K}\times\mathrm{K}$ 协方差矩阵， 是 的特质方差（Specific Risk）对角阵。记矩阵 $\tilde{B}^{\prime}=[e,B]$ C
+B是 $\mathbb{N}\times$ 的风险暴露矩阵，K 为风险因子数量。基于这些风险因子可以对股票收益率的协方差矩阵做出估计， $\Sigma=\mathrm{B}\cdot\mathrm{F}\cdot\mathrm{B}^{\prime}+S$ ， 是 K 个风险因子的 $\mathrm{K}\times\mathrm{K}$ 协方差矩阵， 是 的特质方差（Specific Risk）对角阵。记矩阵 $\tilde{B}^{\prime}=[e,B]$ C
 
 可以证明此带风险控制组合的预期收益和预测收益 的风险调整 IC 正比例相关，风险调整 IC的计算公式为
 
 $$
-\mathrm{IC_{risk-adj}}=corr(\tilde{z},\tilde{r}),\tilde{z}_{i}=\frac{\alpha_{\perp,i}}{\sqrt{S_{i}}}\mathrm{~,~}\tilde{r}_{i}=\frac{\Gamma_{\perp,i}}{\sqrt{S_{i}}}
+\mathrm{IC}_{\mathrm{risk-adj}}=corr(\tilde{\mathbf{z}},\tilde{\mathbf{r}}),\quad\tilde{\mathbf{z}}_{i}=\frac{\alpha_{\perp,i}}{\sqrt{S_{i}}},\tilde{\mathbf{r}}_{i}=\frac{\mathbf{r}_{\perp,i}}{\sqrt{S_{i}}}
 $$
 
-其中 $\alpha_{\perp,i}$ 、 $\mathrm{r}_{\perp,i}$ 为风险中性化处理后的预期收益和真实收益， $\mathrm{S_{i}}$ 为股票 i的特质方差。
+其中 $\boldsymbol{\alpha}_{\perp,i}$ 、 $\mathbf{r}_{\perp,i}$ 为风险中性化处理后的预期收益和真实收益， $\mathsf{S}_{\mathrm{i}}$ 为股票 i的特质方差。
 
 需要注意的是这里 是预测的个股收益率，而并非个股的多因子 zscore 打分，为把多因子得分转换成个股预测收益率，还需要做以下横截面回归
 
 $$
-\mathbf{R}_{\mathrm{t}}=\theta_{t}+{\boldsymbol{\beta}}_{t}\cdot{\boldsymbol{X}}_{t}+\epsilon_{t}
+\mathbf{R_{t}}=\theta_{t}+\beta_{t}\cdot X_{t}+\epsilon_{t}
 $$
 
-其中 $\mathbf{R_{t}}$ 为第 t 月的个股收益率 ${,}X_{\mathrm{t}}$ 为 t 月初因子的多因子 zscore 打分。由于 的样本是一个中心化的数据样本（样本均值等于 0），所以容易求得 ${.\theta_{\mathrm{t}}}$ 的 OLS 估计 $\widehat{\theta_{t}}=\bar{R}_{t}$ ，即横截面上个股收益率的样本均值。不过个股收益率和股票多因子 zscore打分的这种线性关系并不稳定，随时间变化剧烈，需要在长期历史数据中做多次横截面回归再取平均来过滤市场噪音的影响。实践中我们通常采用过去两年，也就是 24个月数据，每个月做一次横截面回归得到回归系数，再做时间序列上的平均
+其中 $\mathbf{R_{t}}$ 为第 t 月的个股收益率 $\mathrm{{}_{\mathrm{{}_{\mathrm{{}_{\mathrm{{}^{\prime}X}}}}}\mathrm{{}_{t}}}}$ 为 t 月初因子的多因子 zscore 打分。由于 的样本是一个中心化的数据样本（样本均值等于 0），所以容易求得 $\mathrm{{:}\theta_{t}}$ 的 OLS 估计 $\cdot\widehat{\theta_{t}}=\bar{R}_{t}$ ，即横截面上个股收益率的样本均值。不过个股收益率和股票多因子 zscore打分的这种线性关系并不稳定，随时间变化剧烈，需要在长期历史数据中做多次横截面回归再取平均来过滤市场噪音的影响。实践中我们通常采用过去两年，也就是 24个月数据，每个月做一次横截面回归得到回归系数，再做时间序列上的平均
 
 $$
-\bar{\theta}=\frac{1}{24}\cdot\sum_{j=0}^{23}\theta_{t-j},\bar{\beta}=\frac{1}{24}\cdot\sum_{j=0}^{23}\beta_{t-j}
+\bar{\theta}=\frac{1}{24}\cdot\sum_{j=0}^{23}\theta_{t-j},\bar{\beta}=\frac{1}{24}\cdot\sum_{j=0}^{23}\beta_{t-j}.
 $$
 
-然后代入第 t+1个月月初的多因子 zscore得分 $\Chi_{\tplus1}$ ，得到第 t+1个月的预测个股收益率
+然后代入第 t+1个月月初的多因子 zscore得分 $\mathrm{X}_{\mathbf{t}+\mathbf{1}}$ ，得到第 t+1个月的预测个股收益率
 
 $$
-\alpha_{\mathrm{t}+1}=\bar{\theta}+\bar{\beta}\cdot X_{t+1}\dots\dots(2)
+\alpha_{\mathsf{t}+1}=\bar{\theta}+\bar{\beta}\cdot X_{t+1}\quad\dots\dots(2)
 $$
 
 (2)式中前半部分 ̅代表模型预测的市场平均收益率，后半部分代表多因子打分预测的个股相对市场平均的超额收益。
 
-把 $\alpha=\alpha_{\mathrm{{t}}+1}$ 代入优化问题(1)的目标函数中
+把 $\alpha=\alpha_{\mathrm{t}+1}$ 代入优化问题(1)的目标函数中
 
 $$
-\begin{array}{l}{{\alpha_{t+1}^{\prime}\cdot w-\displaystyle\frac{1}{2}\lambda w^{\prime}\cdot\mathsf{cov}(\alpha_{\mathsf{t}+1},\alpha_{t+1})\cdot w=\bar{\theta}\cdot e^{\prime}\cdot w+\bar{\beta}\cdot X_{t+1}^{\prime}\cdot\mathsf{w}-\displaystyle\frac{1}{2}\lambda w^{\prime}\cdot\mathsf{cov}\big(\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1}\big)\cdot w}}\\{{\phantom{\alpha_{t+1}^{\prime}\cdot w-\displaystyle\frac{1}{2}\lambda w^{\prime}\cdot\mathsf{cov}\big(}\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1}\big)\cdot w}}\\{{\phantom{\alpha_{t+1}^{\prime}\cdot w-\displaystyle\frac{1}{2}\lambda w^{\prime}\cdot\mathsf{cov}\big(}\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1}\big)\cdot w}}\end{array}
+\begin{align*}\alpha_{t+1}^{\prime}\cdot w-\frac{1}{2}\lambda w^{\prime}&\cdot cov(\alpha_{t+1},\alpha_{t+1})\cdot w=\bar{\theta}\cdot e^{\prime}\cdot w+\bar{\beta}\cdot{X^{\prime}}_{t+1}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot cov(\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1})\cdot w\\&=\bar{\beta}\cdot{X^{\prime}}_{t+1}\cdot w-\frac{1}{2}\lambda w^{\prime}\cdot cov(\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1})\cdot w\end{align*}
 $$
 
 所以组合优化结果只和多因子模型预测的个股相对市场平均的超额收益有关，而和整个市场的绝对平均收益水平无关。而这个超额收益和个股的多因子打分只相差一个倍数，计算多因子模型预测个股收益的风险调整 IC等价于计算多因子打分的风险调整 IC。
@@ -122,25 +122,25 @@ $$
 
 2. 现在通过横截面回归的方式用个股的多因子打分来预测股票收益率，如果改为预测风险中性化后的残差收益，代入到组合优化中是否效果更好？
 
-对于第一个问题，假设第 t个月个股的风险暴露矩阵为 $\mathrm{B_{t}}$ ，加上风险因子后，每个月横截面回归可以得到风险因子的当月的纯因子收益率 $\mathrm{.f_{t}}$
+对于第一个问题，假设第 t个月个股的风险暴露矩阵为 $\mathrm{B_{t}}$ ，加上风险因子后，每个月横截面回归可以得到风险因子的当月的纯因子收益率 $\mathbf{f_{t}}$
 
 $$
-\mathbf{R}_{\mathrm{t}}={\boldsymbol{B}}_{t}\cdot{\boldsymbol{f}}_{t}+{\boldsymbol{\beta}}_{t}\cdot{\boldsymbol{X}}_{t}+\epsilon_{t}
+\mathbf{R_{t}}=B_{t}\cdot f_{t}+\beta_{t}\cdot X_{t}+\epsilon_{t}
 $$
 
-为降低市场噪音影响，我们可以同样采取过去 24 个月的数据得到因子收益率的估计值 ̅ 和 $\hat{\beta}$ ，那么此时第 t+1个月的预测股票收益率变为
+为降低市场噪音影响，我们可以同样采取过去 24 个月的数据得到因子收益率的估计值 ̅ 和 $\bar{\beta}$ ，那么此时第 t+1个月的预测股票收益率变为
 
 $$
-\alpha_{{\sf t}+1}=\boldsymbol{B}_{t+1}\cdot\bar{f}+\bar{\boldsymbol{\beta}}\cdot\boldsymbol{X}_{t+1}
+\alpha_{\mathsf{t}+1}=B_{t+1}\cdot\bar{f}+\bar{\beta}\cdot X_{t+1}
 $$
 
 如果是像优化问题（1）那样做主动风险暴露的完全控制，把上式代入到目标函数中，由于风险中性化的 alpha 因子和风险暴露矩阵的列向量都正交，所以目标函数等于
 
 $$
-\begin{array}{rl}&{(B_{t+1}\cdot\bar{f}+\bar{\beta}\cdot X_{t+1})^{\prime}\cdot w-\displaystyle\frac{1}{2}w^{\prime}\cdot cov(B_{t+1}\cdot\bar{f}+\bar{\beta}\cdot X_{t+1},B_{t+1}\cdot\bar{f}+\bar{\beta}\cdot X_{t+1})\cdot w}\\&{}\\&{=\bar{f}^{\prime}\cdot B_{\quad t+1}^{\prime}\cdot w+X_{\quad t+1}^{\prime}\cdot\bar{\beta}^{\prime}\cdot w-\displaystyle\frac{1}{2}w^{\prime}\cdot cov\big(\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1}\big)\cdot w}\\&{}\\&{=X_{\quad t+1}^{\prime}\cdot\bar{\beta}^{\prime}\cdot w-\displaystyle\frac{1}{2}w^{\prime}\cdot cov\big(\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1}\big)\cdot w}\end{array}
+\begin{aligned}&(B_{t+1}\cdot\bar{f}+\bar{\beta}\cdot X_{t+1})'\cdot w-\frac{1}{2}w'\cdot cov(B_{t+1}\cdot\bar{f}+\bar{\beta}\cdot X_{t+1},B_{t+1}\cdot\bar{f}+\bar{\beta}\cdot X_{t+1})\cdot w\\&\\&=\bar{f}'\cdot{B'}_{t+1}\cdot w+{X'}_{t+1}\cdot\bar{\beta}'\cdot w-\frac{1}{2}w'\cdot cov(\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1})\cdot w\\&\\&={X'}_{t+1}\cdot\bar{\beta}'\cdot w--\frac{1}{2}w'\cdot cov(\bar{\beta}\cdot X_{t+1},\bar{\beta}\cdot X_{t+1})\cdot w\\\end{aligned}
 $$
 
-同样也是由于正交性，而且 alpha因子都做过标准化处理，上面的 $\mathbb{J}\bar{\beta}$ 和直接用收益率对 alpha因子回归得到的系数相等。因此，如果策略组合完全控制了主动风险暴露，这两种方法结果一样。不过实际操作中，都会适度暴露部分风险，因此理论上这两种方法的结果会有差别；在主动风险暴露不是很大的情况下，这两种方法的结果相差不多。
+同样也是由于正交性，而且 alpha因子都做过标准化处理，上面的 $\mathrm{i}\bar{\beta}\mathrm{:}$ 和直接用收益率对 alpha因子回归得到的系数相等。因此，如果策略组合完全控制了主动风险暴露，这两种方法结果一样。不过实际操作中，都会适度暴露部分风险，因此理论上这两种方法的结果会有差别；在主动风险暴露不是很大的情况下，这两种方法的结果相差不多。
 
 对于第二个问题，可以类似的证明，在组合完全控制主动风险暴露的情况下，预测残差收益和直接预测股票收益率得到的组合优化结果是一样的；如果组合有主动风险暴露，两者会有差别。为了和事件驱动策略整合，我们本篇报告实证时是采用 alpha因子预测残差收益的方法。
 
@@ -148,38 +148,38 @@ $$
 
 承接上文，为了更纯净的度量融入事件驱动因素对多因子模型的影响，本报告的实证采用alpha 因子预测个股风险中性化处理后的残差收益，而不是之前报告里直接预测股票收益的方法。考虑了事件驱动因素后，我们有了两个关于残差收益的预测值，一个来自于多因子模型，一个来自于事件驱动策略，需要把它们合成一个预测值输入到后续的组合优化中。两个预测值直接相加不是一种理想的处理方式，因为 alpha 因子稳定性高、数据样本多，预测结果更可靠，而个别事件驱动策略效果随时间变化大，数据样本少，波动高，两个预测结果的可靠性不一样。另外，如果一个股票同时发生了很多事件，直接相加的方法会让残差收益趋于无穷大，产生逻辑谬误。本报告提供一种 Bayes 处理方法，把多因子模型预测当作先验数据，事件驱动作为观测值，通过 Bayes公式得到后验数据，模型思想来自于 Black-Litterman 模型的 Bayes推导过程。
 
-假设个股的残差收益率满足多元正态分布 $\mathbb{R}^{\mathrm{e}}{\sim}\mathbb{N}(\mu^{\mathrm{e}},\Sigma^{\mathrm{e}})$ ，期望收益的先验分布也为正态$\mu^{\mathrm{e}}{\sim}\mathrm{N}(\pi^{\mathrm{e}},\Phi^{\mathrm{e}})$ 。有 m 个股票处在某事件效应的有效作用期内，事件效应造成其未来的预期残差收益记为 $\mathbf{m}\times1$ 向量 $\boldsymbol{\mathsf{q}}^{\mathrm{{e}}}$ ，预期收益的方差为对角阵 $\Omega^{\mathrm{e}}$ ，事件效应的预测结果可以写成 BL 模型里面的观点矩阵的形式， $\mathrm{P^{e}}\cdot\mu^{e}=q^{e}+\epsilon,\epsilon{\sim}N(0,\Omega^{e})$ ，  是一个 矩阵，N 为股票数量。所以根据Bayes 公式，期望收益的后验分布函数
+假设个股的残差收益率满足多元正态分布 $\scriptstyle\mathbb{R}^{\mathsf{e}}\sim\mathrm{N}(\mu^{\mathsf{e}},\Sigma^{\mathsf{e}})$ ，期望收益的先验分布也为正态$\mu^{\mathsf{e}}{\sim}\mathsf{N}(\pi^{\mathsf{e}},\Phi^{\mathsf{e}})$ 。有 m 个股票处在某事件效应的有效作用期内，事件效应造成其未来的预期残差收益记为 $\mathbf{m}\times1$ 向量 $\mathfrak{q}^{\mathsf{e}}$ ，预期收益的方差为对角阵 $\mathrm{i}\Omega^{e}$ ，事件效应的预测结果可以写成 BL 模型里面的观点矩阵的形式， $\mathsf{P}^{e}\cdot\mu^{e}=q^{e}+\epsilon,\quad\epsilon{\sim}N(0,\Omega^{e})$ ，  是一个 矩阵，N 为股票数量。所以根据Bayes 公式，期望收益的后验分布函数
 
 $$
-\begin{array}{l}{\displaystyle\mathsf{pdf}(\mu^{\mathrm{e}}|P^{e}\cdot\mu^{e})\propto pdf(P^{e}\cdot\mu^{e}|\mu^{e})\cdot pdf(\mu^{e})}\\{\displaystyle\propto\exp\left(-\frac{1}{2}(q^{e}-P^{e}\cdot\mu^{e})^{\prime}\cdot\Omega^{\mathrm{e}-1}\cdot(q^{e}-P^{e}\cdot\mu^{e})-\frac{1}{2}(\mu^{e}-\pi^{e})^{\prime}\cdot\Phi^{e-1}\cdot(\mu^{e}-\pi^{e})\right)}\end{array}
+\begin{align*}\mathrm{pdf}(\mu^e&|P^e\cdot\mu^e)\propto pdf(P^e\cdot\mu^e|\mu^e)\cdot pdf(\mu^e)\\&\propto\exp\left(-\frac{1}{2}(q^e-P^e\cdot\mu^e)'\cdot\Omega^{e-1}\cdot(q^e-P^e\cdot\mu^e)-\frac{1}{2}(\mu^e-\pi^e)'\cdot\Phi^{e-1}\cdot(\mu^e-\pi^e)\right)\end{align*}
 $$
 
 整理后可以得到和 BL 模型一样的计算式：
 
 $$
-\begin{array}{c}{{\mathrm{E}(\mu^{\mathrm{e}}\mid P^{e}\cdot\mu^{e})=\left(\Phi^{\mathrm{e}^{-1}}+P^{e^{\prime}}\cdot\Omega^{\mathrm{e}^{-1}}\cdot P^{e}\right)^{-1}\cdot\left(\Phi^{\mathrm{e}^{-1}}\cdot\pi^{e}+P^{e^{\prime}}\cdot\Omega^{\mathrm{e}^{-1}}\cdot q^{e}\right)}}\\{{=\pi^{e}+\Phi^{\mathrm{e}}\cdot P^{e^{\prime}}\cdot\left(P^{e}\cdot\Phi^{\mathrm{e}}\cdot P^{e^{\prime}}+\Omega^{\mathrm{e}}\right)^{-1}\cdot\left(q^{e}-P^{e}\cdot\pi^{e}\right)}}\end{array}
+\begin{array}{rl}&{\mathbb{E}(\mu^{\mathsf{e}}\mid P^{e}\cdot\mu^{e})=\left(\Phi^{\mathsf{e}-1}+P^{e^{\prime}}\cdot\Omega^{\mathsf{e}-1}\cdot P^{e}\right)^{-1}\cdot\left(\Phi^{\mathsf{e}-1}\cdot\pi^{e}+P^{e^{\prime}}\cdot\Omega^{\mathsf{e}-1}\cdot q^{e}\right)}\\&{\quad=\pi^{e}+\Phi^{\mathsf{e}}\cdot P^{e^{\prime}}\cdot\left(P^{e}\cdot\Phi^{\mathsf{e}}\cdot P^{e^{\prime}}+\Omega^{\mathsf{e}}\right)^{-1}\cdot\left(q^{e}-P^{e}\cdot\pi^{e}\right)}\end{array}
 $$
 
 $$
-\mathrm{Var}(\mu^{\mathrm{e}}|P^{e}\cdot\mu^{e})=\left(\Phi^{\mathrm{e}^{-1}}+P^{e^{\prime}}\cdot\Omega^{\mathrm{e}^{-1}}\cdot P^{e}\right)^{-1}\ \cdots\cdots(3)
+\operatorname{Var}(\mu^{\mathsf{e}}|P^{e}\cdot\mu^{e})=\left(\Phi^{\mathsf{e}^{-1}}+P^{e^{\prime}}\cdot\Omega^{\mathsf{e}^{-1}}\cdot P^{e}\right)^{-1}\quad\cdots\cdots(3)
 $$
 
 和原始的 BL模型对比，有两点需要注意：
 
-1) 原始的 BL模型是用来做大类资产配臵，而上面的模型是用来做股票组合管理，中间的公式推导过程一致，但股票数量远远多于大类资 $\colon{\vec{p}}^{*}$ 数量，收益率满足多元联合正态分布的假设更难满足，模型偏离真实市场的情况会更严重。
+1) 原始的 BL模型是用来做大类资产配臵，而上面的模型是用来做股票组合管理，中间的公式推导过程一致，但股票数量远远多于大类资 $\begin{aligned}:产\end{aligned}$ 数量，收益率满足多元联合正态分布的假设更难满足，模型偏离真实市场的情况会更严重。
 
-2) 原始 BL 模型预测的是收益率，而上面模型预测的是剔除行业和市值风险因素后的残差收益。可以进一步假设  为对角阵，也就是说残差收益之间没有相关性。因此如果类似 BL模型假设$\Phi^{\mathbf{e}}=\pmb{\tau}\pmb{\Sigma}^{e}$ ，那么根据上述计算公式(3)，事件效应对个股残差收益的调整只会发生在这个股票上，而传统 BL模型里面由于股票收益率相关性的存在，对一个股票收益的主观调整会通过协方差矩阵传递到跟它相关性高的股票上。对于事件效应而言，这种对角阵形式的协方差矩阵更符合逻辑，例如沪深 300 的指数样本股调整会给个股带来异常收益，但这个事件效应只限于事件内的个股，即使从历史上看某些事件外股票和事件内个股相关性很高，它们也不会从这个事件受益，残差收益应该不受影响。不过有些事件，像年报业绩不及预期，特别是如果行业龙头由于行业不景气年报业绩不及预期，这个事件肯定会对行业内股票价格产生影响，事件效应会通过相关性进行传导。但如果真的是由于行业不景气导致的行业龙头业绩不及预期，那么后续应该还有一系列同行业公司业绩不及预期事件的发生，对角阵型协方差矩阵也还是可以捕捉到同行业股票的业绩相关性的，只是时间点上可能会有滞后或提前，这也是模型存在的一个缺陷。另外，对角阵假设可以显著降低模型需要估计的参数数量，降低估计误差对模型的影响。
+2) 原始 BL 模型预测的是收益率，而上面模型预测的是剔除行业和市值风险因素后的残差收益。可以进一步假设  为对角阵，也就是说残差收益之间没有相关性。因此如果类似 BL模型假设$\mathbf{\Phi}^{\mathbf{e}}=\tau\mathbf{\Sigma}^{e}$ ，那么根据上述计算公式(3)，事件效应对个股残差收益的调整只会发生在这个股票上，而传统 BL模型里面由于股票收益率相关性的存在，对一个股票收益的主观调整会通过协方差矩阵传递到跟它相关性高的股票上。对于事件效应而言，这种对角阵形式的协方差矩阵更符合逻辑，例如沪深 300 的指数样本股调整会给个股带来异常收益，但这个事件效应只限于事件内的个股，即使从历史上看某些事件外股票和事件内个股相关性很高，它们也不会从这个事件受益，残差收益应该不受影响。不过有些事件，像年报业绩不及预期，特别是如果行业龙头由于行业不景气年报业绩不及预期，这个事件肯定会对行业内股票价格产生影响，事件效应会通过相关性进行传导。但如果真的是由于行业不景气导致的行业龙头业绩不及预期，那么后续应该还有一系列同行业公司业绩不及预期事件的发生，对角阵型协方差矩阵也还是可以捕捉到同行业股票的业绩相关性的，只是时间点上可能会有滞后或提前，这也是模型存在的一个缺陷。另外，对角阵假设可以显著降低模型需要估计的参数数量，降低估计误差对模型的影响。
 
-如果  为对角阵，(3)式可以进一步简化，记  对角线第 i 个元素为 ，也就是第 个股票的特质方差。假设股票 处在k个事件的有效作用期内，事件造成的异常收益期望值分别为 ${\mathfrak{q}}_{\mathrm{i},1},q_{i,2},\dots q_{i,k}$ 异常收益方差分别为 $\Omega_{\mathrm{i},1},\Omega_{i,2},\ldots\Omega_{i,k}$ ，则事件效应调整后股票 i 残差收益为
+如果  为对角阵，(3)式可以进一步简化，记  对角线第 i 个元素为 ，也就是第 个股票的特质方差。假设股票 处在k个事件的有效作用期内，事件造成的异常收益期望值分别为 $\mathfrak{q}_{\mathrm{i},1},q_{i,2},\dots q_{i,k}$ 异常收益方差分别为 $\Omega_{\mathrm{i},1},\Omega_{i,2},\dots\Omega_{i,k}$ ，则事件效应调整后股票 i 残差收益为
 
 $$
-\mathrm{E}(\mu_{\mathrm{i}}^{\mathrm{e}}\mid P^{e}\cdot\mu^{e})=\frac{(\tau s_{i})^{-1}\pi_{i}+\Omega_{\mathrm{i},1}^{-1}q_{i,1}+\Omega_{\mathrm{i},2}^{-1}q_{i,2}+\cdots\Omega_{\mathrm{i},\mathrm{k}}^{-1}q_{i,k}}{(\tau s_{i})^{-1}+\Omega_{\mathrm{i},1}^{-1}+\Omega_{\mathrm{i},2}^{-1}+\cdots\Omega_{\mathrm{i},\mathrm{k}}^{-1}}
+\mathbb{E}(\mu_{i}^{e}\mid P^{e}\cdot\mu^{e})=\frac{(\tau s_{i})^{-1}\pi_{i}+\Omega_{i,1}^{-1}q_{i,1}+\Omega_{i,2}^{-1}q_{i,2}+\cdots\Omega_{i,k}^{-1}q_{i,k}}{(\tau s_{i})^{-1}+\Omega_{i,1}^{-1}+\Omega_{i,2}^{-1}+\cdots\Omega_{i,k}^{-1}}
 $$
 
 没发生事件股票的预期收益不变。事件效应调整后的股票残差收益协方差矩阵也为对角阵，其第对角线第 i个元素
 
 $$
-\operatorname{Var}(\mu_{\mathrm{i}}^{\mathrm{e}}\mid P^{e}\cdot\mu^{e})={\frac{1}{(\tau s_{i})^{-1}+\Omega_{\mathrm{i},1}^{-1}+\Omega_{\mathrm{i},2}^{-1}+\cdots\Omega_{\mathrm{i},\mathrm{k}}^{-1}}}
+\mathrm{Var}(\mu_{\mathrm{i}}^{\mathrm{e}}\mid P^{\mathrm{e}}\cdot\mu^{\mathrm{e}})=\frac{1}{(\tau s_{\mathrm{i}})^{-1}+\Omega_{\mathrm{i},1}^{-1}+\Omega_{\mathrm{i},2}^{-1}+\cdots\Omega_{\mathrm{i},k}^{-1}}
 $$
 
 没有发生事件股票的特质方差不变。

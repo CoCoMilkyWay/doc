@@ -285,19 +285,19 @@ PPO 算法中用于学习环境的策略模型属于演员-评论家策略（Mas
 
 考虑到因子组合的可解释性和运算效率，我们使用线性模型来组合 Alpha。也可以根据模型最终得到的单因子集，在外部进行重新加权，考虑动态加权、非线性加权等方式，可能也可以获得更好的合成因子表现。
 
-给定一组 k 个 alpha 因子 $\mathsf{F}=\{\mathsf{f}1,\mathsf{f}2,\cdots\cdots,\mathsf{fk}_{\mathrm{.}}$ }和它们的权重 $\mathsf{w}=(\mathsf{w}\mathsf{1},\mathsf{w}2,\cdots\mathsf{w}\mathsf{k})$ ，组合模型定义如下：
+给定一组 k 个 alpha 因子 $\mathsf{F}=\{\mathsf{f}1,\mathsf{f}2,\cdots\cdots,\mathsf{f}\mathsf{K}\}$ }和它们的权重 $\mathsf{w}=(\mathsf{w}1,\mathsf{w}2,\cdots\cdots\mathsf{w}\mathsf{k})$ ，组合模型定义如下：
 
 $$
-\mathsf{c}(\mathrm{X};\mathrm{F},\mathsf{w})=\sum_{j=1}^{k}\omega_{j}f_{j}(X)=z
+\mathbf{c}(\mathrm{X};\mathrm{F},\mathrm{w})=\sum_{j=1}^{k}\omega_{j}f_{j}(X)=z,
 $$
 
 组合模型的损失设计如下，通过优化损失函数，可以找到最佳的因子权重：
 
 $$
-\mathrm{L}(\omega)=\frac{1}{n}(1-2\sum_{i=1}^{K}\omega_{i}\bar{\sigma}_{y}(f_{i})+\sum_{i=1}^{K}\sum_{j=1}^{K}\left|\omega_{i}\omega_{j}\right|\left|\bar{\sigma}\left(f_{i}(X),f_{j}(X)\right)\right|+0.5*\sum_{i=1}^{K}\sum_{j=1}^{K}\omega_{i}\omega_{j}\bar{\sigma}\left(f_{i}(X),f_{j}(X)\right))
+\mathrm{L}(\omega)=\frac{1}{n}(1-2\sum_{i=1}^{K}\omega_{i}\overline{\sigma}_{y}(f_{i})+\sum_{i=1}^{K}\sum_{j=1}^{K}\left|\omega_{i}\omega_{j}\right|\left|\overline{\sigma}\left(f_{i}(X),f_{j}(X)\right)\right|+0.5*\sum_{i=1}^{K}\sum_{j=1}^{K}\omega_{i}\omega_{j}\overline{\sigma}\left(f_{i}(X),f_{j}(X)\right))
 $$
 
-这里，我们引入了平均相关性的 符号σ̅ ，其中：∑ Ki=1 $\omega_{i}\overline{{\sigma}}_{y}(f_{i})$ 代表合成因子的 IC；∑ Ki=1 $\left.\sum_{j=1}^{K}\bigl|\omega_{i}\omega_{j}\bigr|\right|\bar{\sigma}\left(f_{i}(X),f_{j}(X)\right)\bigr|$ ，为绝对值相关性和，因子间的高度负相关和正相关均会带来损失的增加。通过减小因子之间绝对值的相关性，减少因子之间的冗余和共线性，增加因子多样性；∑ ∑ Kj=1Ki=1 $\omega_{i}\omega_{j}\bar{\sigma}\left(f_{i}(X),f_{j}(X)\right)$ 考虑了相关性的正负号。一旦我们得到单因子 IC，以及两两相关系数，就可以使用这些项来计算损失，从而在每个梯度下降步骤中节省计算时间。
+这里，我们引入了平均相关性的 符号σ̅ ，其中：∑ Ki=1 $\omega_{i}\bar{\sigma}_{y}(f_{i})$ 代表合成因子的 IC；∑ Ki=1 $\begin{array}{r}{\left|\sum_{j=1}^{K}\middle|\omega_{i}\omega_{j}\right|\left|\overline{{\sigma}}\left(f_{i}(X),f_{j}(X)\right)\right|}\end{array}$ ，为绝对值相关性和，因子间的高度负相关和正相关均会带来损失的增加。通过减小因子之间绝对值的相关性，减少因子之间的冗余和共线性，增加因子多样性；∑ ∑ Kj=1Ki=1 $\omega_{i}\omega_{j}\bar{\sigma}\left(f_{i}(X),f_{j}(X)\right)$ 考虑了相关性的正负号。一旦我们得到单因子 IC，以及两两相关系数，就可以使用这些项来计算损失，从而在每个梯度下降步骤中节省计算时间。
 
 我们在损失函数中还加入了 L1 正则化项，以防止过拟合。L1 正则化通过在损失函数中添加一个与权重的绝对值成比例的项来工作，将倾向于产生稀疏权重向量，防止模型过于复杂，确保模型不会过度依赖单个因子，从而减少过拟合的风险。
 
@@ -307,7 +307,7 @@ $$
 
 下面展示了增量组合模型优化算法的主要步骤：
 
-输入：一个 Alpha 因子集合，包含 k 个 alpha 因子， $\mathsf{F}=\{\mathsf{f}1,\mathsf{f}2,\cdots\{\mathsf{k}\}$ ，权重集合 $\mathsf{W}=(\boldsymbol{\mathsf{w}}\boldsymbol{\mathsf{1}}$ w2,…… wk)，当前生成了一个新的 alpha 因子 fnew。
+输入：一个 Alpha 因子集合，包含 k 个 alpha 因子， $\mathsf{F}=\{\mathsf{f}1,\mathsf{f}2,\cdots\cdots\mathsf{f}k\}$ ，权重集合 $W=(w1$ w2,…… wk)，当前生成了一个新的 alpha 因子 fnew。
 
 输出：优化后的 Alpha因子集合 F* 和对应的单因子权重集合 $W^{\star}$
 
@@ -315,7 +315,7 @@ $$
 
 (1) 添加新的 Alpha 因子: 检查新的 Alpha 因子 fnew 是否可以被添加到现有的 Alpha 集合 F中。若该因子出现连续重复一元截面运算符的因子（例如 rank(rank($adjclose))）、仅为单特征因子（例如$adjclose）、无法计算 IC（缺失率过高、标准差过小、截面不重复数值太少）的因子、与因子池中的已有因子的因子值相关系数超过 0.99 等情况，则不满足添加条件，跳过该因子。若满足添加条件，则为该因子分配一个初始权重，即为单因子 IC 值。
 
-(2) 计算 Alpha因子与目标收益率的相关性，也就是 IC：对于集合 F 中的每一个 Alpha因子f ，计算或从缓存中获取他们与目标的平均相关性 $\{\bar{\sigma}_{y}(f_{i})$ ，也就是 IC均值。
+(2) 计算 Alpha因子与目标收益率的相关性，也就是 IC：对于集合 F 中的每一个 Alpha因子f ，计算或从缓存中获取他们与目标的平均相关性 ${\mathrm{i}}\bar{\sigma}_{y}(f_{i})$ ，也就是 IC均值。
 
 (3) 计算 Alpha 因子之间的相关性：对于集合 F 中的每一个 Alpha 因子 f，遍历集合 F 中的其他所有 Alpha 因子，计算或从缓存中获取它们之间的平均相关性 $\bar{\sigma}\left(f_{i}(X),f_{j}(X)\right)$ ，也就是因子值的相关系数均值矩阵。
 

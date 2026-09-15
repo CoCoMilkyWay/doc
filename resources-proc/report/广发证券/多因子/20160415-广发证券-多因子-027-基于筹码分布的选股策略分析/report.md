@@ -53,19 +53,19 @@ messages.pdf_cover_qr_code_label
 第一个交易日的成本价为b;换手率为p;一部分流通盘从a移动到了b;筹码分布为：
 
 $$
-\mathrm{a}{:(\mathrm{\small~1-p~})\ ^{\ast}100^{\mathrm{0}}\Delta\ b{:}p^{\ast}100^{\mathrm{0}}{/}_{0}}
+a:(1-p)\text{" 100}\%b:p\text{" 100}\%
 $$
 
-第二个交易日的成本价为c;换手率为 $\lvert\mathbf{q}\rvert$ 一部分流通盘从a,b移动到c;筹码分布为：
+第二个交易日的成本价为c;换手率为 $\left|\mathbf{q}\right|_{2}$ 一部分流通盘从a,b移动到c;筹码分布为：
 
 $$
-\mathrm{a}{:(1{-}p)^{\ast}(1{-}q)^{\ast}100^{\circ}\%b{:}p^{\ast}(1{-}q)^{\ast}100^{\circ}\diamond{c}{:}q^{\ast}100^{\circ}\diamond}
+a:(1-p)^{\pm}(1-q)^{\pm}100\%\ b:p^{\pm}(1-q)^{\pm}100\%\ c:q^{\pm}100\%
 $$
 
 第三个交易日的成本价为b;换手率为r;一部分流通盘从a,b,c移动到b;筹码分布为：
 
 $$
-\mathbf{a}\colon(1-\mathbf{p})^{*}(1-\mathbf{q})^{*}(1-\mathbf{r})^{*}100^{\%}\mid\mathbf{b}\colon\mathbf{p}^{*}(1-\mathbf{q})^{*}(1-\mathbf{r})^{*}100^{\%}+\mathbf{r}^{*}100^{\%}\mid\mathbf{0}\ l^{*}\mathrm{~c:~}\mathbf{q}^{*}(1-\mathbf{r})^{*}100^{\%}\mid\mathbf{0}\ l^{*}\mathrm{~c:~}\mathbf{q}^{*}(1-\mathbf{r})^{*}100^{\%}
+a\colon(1-p)^{k}(1-q)^{k}(1-r)^{k}100\%\mathrm{~b\colon p^{k}(1-q)^{k}(1-r)^{k}100\%\mathrm{+r^{k}100\%\mathrm{~c\colon q^{k}(1-r)^{k}100\%\mathrm{~c\colon q^{k}(1-r)^{k}100\%\mathrm{~c\colon q^{k}(1-r)^{k}10\%\mathrm{+r^{k}10\%\mathrm{~c\colon q^{k}(1-r)^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}10\%\mathrm{+r^{k}1\%\mathrm{+r^{k}1\%\mathrm{+r^{k}\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm{\mathrm}{\mathrm{\mathrm{}{\mathrm{\mathrm{}{\mathrm{\mathrm{}{\mathrm}{\mathrm{}{{\mathrm}{{\mathrm{}{}{\mathrm{{}}{{\mathrm}{}{}{{}{\mathrm{}{}{}{}{}{}{{}}{{}{}{}{}{}{}{{}}{}{{}{}{}{{}{}{}{{}{}{{}{{}{}{}{{{}{{}{}{{}{{{}{{{}{{}{{}{{}{{{{}{{}{{{}{{{{}{}{{{}{{{{}{{{}{{{{}{{{}{{{}{{{{}{{{}{{{{{}{{{{{}{{{}{{{{{}{{{{}}{{{{{{{{}{{{}{{{{{}{{}{{{}{{{{{}{{{{{}{{{{{}{{{{}{{{{{}{{{}{{{}{{}{{{{{{{}{{}{{{}{{{{{}{{{{{}{{{{}{{{{}{{}}{{{{{{{{{{{{}{{{{{{}}{{}{{{{}{}{{{{{{{{{}{}{{{{}{{{{{{}{{{}{{}{{{
 $$
 
 依此类推，得出股票在每个交易日的筹码分布。
@@ -74,9 +74,9 @@ $$
 
 | 成本 | 发行日 | 第一个交易日 | 第二个交易日 | 第三个交易日 |
 | --- | --- | --- | --- | --- |
-| C |  |  | $9^{*}100\%$ | $\mathrm{q^{*}(1\mathrm{-r})^{*}}100\%$ |
-| b |  | $\boldsymbol{\mathrm{p}}^{*}100\%$ | $\mathrm{p^{*}(1\mathrm{-q})^{*}}100\%$ | ${\mathrm{p}}^{*}(1{-}{\mathrm{q}})^{*}(1-$ $\mathrm{r})^{*}100\%+\mathrm{r}^{*}100\%$ |
-| a | 100% | $(1{-}\mathfrak{p})^{*}100\%$ | $(1{\cdot}\mathrm{p})^{\ast}(1{\cdot}\mathrm{q})^{\ast}100\%$ | $\begin{array}{c}{{(1\mathrm{-p})^{\ast}(1\mathrm{-q})^{\ast}(1\mathrm{-}}}\\{{\mathrm{r})^{\ast}100\%}}\end{array}$ |
+| C |  |  | $\mathsf{q}^{*}100\%$ | $\mathrm{q}^*(1-\mathrm{r})^*100\%$ |
+| b |  | $\mathtt{p^{*}}100\%$ | $\mathrm{p}^{*}(1-\mathrm{q})^{*}100\%$ | $\mathrm{p}^*(1-\mathrm{q})^*(1-$ $\mathrm{r})^{*}100\%+\mathrm{r}^{*}100\%$ |
+| a | 100% | $(1-p)^{*}100\%$ | $(1-p)^{*}(1-q)^{*}100\%$ | $\begin{array}{c}(1-p)^{*}(1-q)^{*}(1-\\r)^{*}100\%\end{array}$ |
 
 ## 例：神舟高铁（000008.SZ）在2015年10月26日到2015年10月29日的K线图如下：
 

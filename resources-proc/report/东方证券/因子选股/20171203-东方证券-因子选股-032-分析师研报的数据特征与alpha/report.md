@@ -162,7 +162,7 @@ Lee（2016）在研究分析师覆盖和股票预期收益的关系时也提出�
 在每个月底在全市场（中证全指成分股）用分析师覆盖的对数对同期的市值对数、换手的对数，和动量因子做横截面回归，取残差作为异常覆盖，
 
 $$
-ln\bigl(1+COV_{i,m}\bigr)=\beta_{0}+\beta_{1}\cdot SIZE_{i,m}+\beta_{2}\cdot LNTO_{i,m}+\beta_{1}\cdot MOM_{i,m}+\varepsilon_{i,m}
+ln\big(1+COV_{i,m}\big)=\beta_{0}+\beta_{1}\cdot SIZE_{i,m}+\beta_{2}\cdot LNTO_{i,m}+\beta_{1}\cdot MOM_{i,m}+\varepsilon_{i,m}
 $$
 
 其中， $COV_{i,m}$ 为第 i 值股票第 m 个月底是的简单分析师覆盖或者分析师总覆盖，对应的异常覆盖我们分别称为异常简单分析师覆盖（abnormal simple coverage, aCOV）和异常分析师总覆盖（abnormal total coverage, aTCOV）， $SIZE_{i,m}$ 为第 m 个月底的总市值对数， $LNTO_{i,m}$ 为截止 m月底时过去 3 个月日均换手率对数， $MOM_{i,m}$ 为截止 m月底时过去 3个月收益率，我们按照上述方法计算了简单分析师覆盖 COV 和分析师总覆盖 TCOV 的月度取值（经对数化处理 ( )，也可以取根号处理，两者结果几乎一致），以及相应的异常分析师覆盖因子 aCOV 和 aTCOV。COV、TCOV、aCOV、aTCOV 四个因子的行业市值中性化之后的表现如下表所示，由于行业市值中性化之后的分析师覆盖因子也类似于一种“异常覆盖”，为了对比原始分析师覆盖和异常分析师覆盖的差异，我们也计算了原始因子表现。
@@ -291,10 +291,10 @@ DISP 因子在沪深 300 成分股（非金融）中月度 RankIC 均值为-4.16
 传统上一般用盈余预测值和公告值之差的绝对值除以预测期初的股价作为预测误差的度量（absolute forecast error, AFE），预测误差越小，精确性越高，当然分母上除了选择股价也可以用实际公告的净利润、总资产等变量，目的主要是让不同股票、报告期的预测误差相对具有可比性。但是不管用哪个变量做归一化，传统预测准确性的度量都和不同公司、不同报告期有很强的相关性，某些公司在某些年份更加难以预测等等，这样在计量分析中必须加入一些变量来控制公司-报告期的固定效应，大大增加了分析的复杂程度和困难程度，Clement（1998, 1999）提出了 PMAFE（proportional mean absolute forecast error）用于度量分析师预期的精确程度，后来也被学界广泛采用。PMAFE 的具体计算方法如下：
 
 $$
-PMAFE_{ijt}=DAFE_{ijt}/\overline{{AFE_{yt}}}
+PMAFE_{ijt}=DAFE_{ijt}/\overline{{AFE_{jt}}}
 $$
 
-其中， $DAFE_{ijt}=AFE_{ijt}-\overline{{AFE_{_{Jt}}}},AFE_{ijt}$ 是第 i 个分析师/券商对第 j 家公司第 t 个报告期净利润的预测误差（传统的预测误差度量方法）， $\overline{{AFE_{Jt}}}$ 是对 j 家公司第 t 个报告期所有分析师预测误差的平均。
+其中， $DAFE_{ijt}=AFE_{ijt}-\overline{AFE_{jt}}\ ,AFE_{ijt}$ 是第 i 个分析师/券商对第 j 家公司第 t 个报告期净利润的预测误差（传统的预测误差度量方法）， $\widehat{AFE_{Jt}}$ 是对 j 家公司第 t 个报告期所有分析师预测误差的平均。
 
 可以看出 PMAFE 的度量与 AFE 分母上采用哪个变量无关，所有公司-报告期的平均预测误差均一样，这种度量方法主要用来研究不同分析师/券商属性对预测误差的影响，如果涉及到不同公司或者不同报告期的比较，PMAFE 将丧失意义。
 
@@ -625,7 +625,7 @@ SCORE：
 一致预期评级，评级高的公司分析师更加看好，一般基本面更好，未来空间更大。TPER：
 
 $$
-\mathsf{TPER}=\mathsf{consensus~target~price/~current~stock~price}\cdot\mathsf{1}
+\mathsf{TPER}=\mathsf{consensus}\;\mathsf{target}\;\mathsf{price}\;/\;\mathsf{current}\;\mathsf{stock}\;\mathsf{price}\;\cdot\;\uparrow
 $$
 
 目标价隐含收益率（Target price expected return,TPER），由 Da and Schaumburg（2011）提出，隐含目标价收益越高，预期未来的收益率也更高。

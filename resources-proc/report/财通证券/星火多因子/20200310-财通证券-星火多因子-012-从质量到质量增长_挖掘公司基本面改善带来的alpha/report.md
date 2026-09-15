@@ -97,25 +97,25 @@ zhangyu1@ctsec.com
 1）盈利能力：
 
 $$
-\mathrm{ROE}=\frac{12\sqrt{3}-15\sqrt{2}\sqrt{2}\sqrt{3}\sqrt{3}\sqrt{2}\sqrt{3}\sqrt{3}\sqrt{3}\sqrt{3}}{\frac{12}{3}\sqrt{3}\sqrt{3}\sqrt{3}\sqrt{3}\sqrt{3}}
+ROE=\frac{归属母公司股东净利润}{期末归属母公司股东的权益}
 $$
 
 2）成长能力：
 
 $$
-\langle\frac{3}{4}\rangle\langle1|\langle1|\rangle|\big|\big|\big|\partial\big|\rangle\big|\big|\mathrm{t}\mathcal{S}\frac{\mathrm{i}\mathrm{e}}{16}\big|\frac{\mathcal{S}}{16}\big|\frac{3}{5}=\left(\frac\frac{3}{4}\sqrt{3}\beta_{1}^{2})\big|2\beta_{2}^{2}\big|\beta_{3}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{2}^{2}\big|\big|\beta_{3}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{4}^{2}\big|\big|\beta_{1}^{2}\big|\big|\beta_{2}^{2}\big|\right)\times100\%,
+净利润同比增长率=\left(\frac{本期归属母公司股东的净利润}{去年同期归属母公司股东的净利润}-1\right)\times100\%
 $$
 
 3）现金流量：
 
 $$
-\begin{array}{r}{\mathtt{CFO}=\frac{\frac{\frac{\xi\mathfrak{Z}}{2}\frac{}{\xi}{\Theta}:\xi}{\xi}\frac{}{\xi}\hat{y}\hat{y}\hat{z}}{\sharp\sharp\mathcal{J}(\vec{x}\cdot\vec{\xi})\frac{}{\xi}\frac{\dot{\mathcal{J}}\hat{x}}{\partial\tau}\frac{}{\xi}\frac{\dot{\mathcal{J}}\hat{y}}{\partial\tau}}\times100\%}\end{array}
+CF0=\frac{经营活动产生的现金流量净额}{期末总资产}\times100\%
 $$
 
 4）营运能力：
 
 $$
-\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}\mathbb{\beta}\mathbb{\frac{\beta\hat{\mathcal{Z}}}{\beta}}\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}\frac{\partial\hat{\mathcal{Z}}}{\partial\hat{\mathcal{Z}}}=\frac{\frac{\hat{\mathcal{Z}}}{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}}{\big(\frac{\mathrm{HF}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{Z}}\big)\big(\frac{\mathrm{HF}\hat{\mathcal{Z}}}{\beta}\hat{\mathcal{H}}\hat{\mathcal{Z}}\big)}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}}+\frac{\mathbb{i}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}\mathbb{\beta}
+总资产周转率=\frac{营业收入}{(期初总资产+期末总资产)/2}\times100\%
 $$
 
 我们根据上交所和深交所每日公布的沪股通、深股通持仓情况构建了北上资金持仓组合，并对该组合每日风格因子暴露度进行了计算。图1展示了2020年1月23日北上资金持股组合在所选取因子上的暴露程度，其中横坐标的前10个因子（Beta至Leverage）为我们参照Barra模型构建的10个常见因子（其定义可以参考“拾穗”（15）附录部分），后4个因子为上述介绍的基本面因子。需要说明的是，由于此处仅仅是观察组合在各个因子上的暴露程度，并不涉及到组合中个股收益的分解，因此所选取因子是否存在共线性对结果的计算并无影响。
@@ -472,7 +472,7 @@ Frazzini（2013）在《Buffett’s Alpha》中，通过量化手段剖析了巴
 在财通金工“星火”专题（十一）《在下跌中寻找惊喜：业绩超预期与反转因子的融合》中，我们构建的业绩超预期因子的表现十分稳定。联想到业绩超预期因子的计算主要是根据其实际净利润与预期净利润之间的差值决定，其衡量的是净利润的边际改善带来的 Alpha，那么我们是否能够将同样的思路应用到质量因子的改善上呢？基于这一思想，我们构建出质量增长（Quality Increase）因子，其计算方式如下：
 
 $$
-Quality~Increase_{t}=~Quality_{t}-Quality_{t-1}
+Quality\;Increase_{t}=\;Quality_{t}-Quality_{t-1}
 $$
 
 可以看到，质量增长因子的计算十分简单，t月末的质量增长因子即为 t月末的质量因子与去年同期t月末的质量增长因子值的差值。

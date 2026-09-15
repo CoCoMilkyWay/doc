@@ -140,18 +140,18 @@ S0880114060025
 
 在结构化多因子风险模型之前，存在 3种基本的风险模型：
 
-第一种基本风险模型即为马科维茨组合方差。在马科维茨的均值方差理论中，投资组合的风险计算需要估计组合中每个资产的波动率及它们之间的相关系数。一般的，当组合中有N 只股票的情况下，需要估计的波动率个数为N ，而需要估计的相关系数的个数则为 $N(\textit{ N }-1)/2$ 。我们可以将所需要顾及的参数总结到一个协方差矩阵V 中：
+第一种基本风险模型即为马科维茨组合方差。在马科维茨的均值方差理论中，投资组合的风险计算需要估计组合中每个资产的波动率及它们之间的相关系数。一般的，当组合中有N 只股票的情况下，需要估计的波动率个数为N ，而需要估计的相关系数的个数则为 $N(\textit{ N }-1)\:/\:2$ 。我们可以将所需要顾及的参数总结到一个协方差矩阵V 中：
 
 $$
-{\begin{array}{rl}{|{\begin{array}{lllll}{{\boldsymbol{\sigma}}_{1}^{2}}&{{\boldsymbol{\sigma}}_{12}}&{\dots}&{{\boldsymbol{\sigma}}_{1N}}&{}\\{|}&{}&{}&{}&{}\end{array}}|}\\{V={|\begin{array}{lllll}{{\boldsymbol{\sigma}}_{12}}&{{\boldsymbol{\sigma}}_{2}^{2}}&{\dots}&{{\boldsymbol{\sigma}}_{2N}}&{}\\{}&{}&{}&{}&{}\end{array}|}}\\{|\begin{array}{lllll}{\dots}&{\dots}&{}&{\dots}&{}&{\dots}&{}\\{}&{}&{}&{}&{}\end{array}|}}\\{|\begin{array}{lllll}{{\boldsymbol{\sigma}}_{1N}}&{\dots}&{}&{\dots}&{}&{{\boldsymbol{\sigma}}_{N}^{2}}\end{array}|}\end{array}
+V=\begin{bmatrix}\sigma_{_1}^{^2}&\sigma_{_{12}}&\ldots&\sigma_{_{1N}}\\\vdots&\sigma_{_{2}}^{^2}&\ldots&\sigma_{_{2N}}\\\vdots&\ldots&\ldots&\ldots\\\sigma_{_{1N}}&\ldots&\ldots&\sigma_{_{N}}^{^2}\end{bmatrix}
 $$
 
-其中 $\sigma_{\it{ij}}$ 表示 $r_{i}$ 和 $r_{j}$ 的协方差，并且 $\sigma_{{\it ij}}=\sigma_{{\it ji}}$ 。协方差矩阵包含了计算组合风险所需的全部要素。然而，该方法的缺点是协方差矩阵中包含了太多的独立参数，无法精确且高效的预测协方差矩阵。
+其中 $\sigma_{_{ij}}$ 表示 $r_{i}$ 和 $r_{j}$ 的协方差，并且 $\sigma_{_{ij}}=\sigma_{_{ji}}$ 。协方差矩阵包含了计算组合风险所需的全部要素。然而，该方法的缺点是协方差矩阵中包含了太多的独立参数，无法精确且高效的预测协方差矩阵。
 
-第二种基本风险模型需要对每只股票的波动率 $\sigma_{\textit{ r }}$ ，以及股票之间的平均相关系数 $\rho$ 进行估计。这意味着任意两只股票之间的协方差为
+第二种基本风险模型需要对每只股票的波动率 $\sigma_{{n}}$ ，以及股票之间的平均相关系数 $\rho$ 进行估计。这意味着任意两只股票之间的协方差为
 
 $$
-{Cot\ l}_{n}r,\ \ l_{m}r\vdash\sigma\ l_{n}\cdot\sigma\ l_{m}\cdot\rho
+\textit{ C o }\nmid_{\textit{ n }}r,\:_{\textit{ m }}r\models\sigma\:_{\textit{ n }}\cdot\sigma\:_{\textit{ m }}\cdot\rho
 $$
 
 这种模型的最大优点就是简单，然而该模型忽略了类似行业或者具有相似属性的股票之间的微妙联系。
@@ -163,45 +163,47 @@ $$
 结构化多因子风险模型首先对收益率进行简单的线性分解，分解方程中包含四个组成部分：股票收益率、因子暴露、因子收益率和特质因子收益率。那么，第 j 只股票的线性分解如下所示：
 
 $$
-r_{j}=x_{1}f_{1}+x_{2}f_{2}+x_{3}f_{3}+x_{4}f_{4}...x_{\kappa}f_{\kappa}+u_{j}
+r_{_{j}}=x_{_{1}}f_{_{1}}+x_{_{2}}f_{_{2}}+x_{_{3}}f_{_{3}}+x_{_{4}}f_{_{4}}...x_{_{K}}f_{_{K}}+u_{_{j}}
 $$
 
-其中，r 表示第 j 只股票的收益率； $r_{j}$ $x_{\scriptscriptstyle k}$ 表示第 j 只股票在第k 个因子上的暴露（也称为因子载荷）； $\boldsymbol{f}_{k}$ 表示第 j 只股票第k 个因子的因子收益
+其中，r 表示第 j 只股票的收益率； $r_{j}$ $x_{{k}}$ 表示第 j 只股票在第k 个因子上
 
-率（即每单位因子暴露所承载的收益率）；u 表示第 $\boldsymbol{u}_{\ j}$ $j$ 只股票的特质因子收益率。
+的暴露（也称为因子载荷）； $f_{k}$ 表示第 j 只股票第k 个因子的因子收益
+
+率（即每单位因子暴露所承载的收益率）；u 表示第 $u_{\mathrm{~}_{j}}$ $j$ 只股票的特质因子收益率。
 
 对于上述方程的时间结构，若我们定义因子暴露是在时刻t 的结果，那么股票收益率、因子收益率和特质因子收益率均为t •1的结果。在模型中，我们以月频率处理截面数据。
 
-那么对于一个包含 N 只股票的投资组合，假设组合的权重为$w={(w_{1},w_{2},...,w_{_{N}})}^{T}$ ，那么组合收益率可以表示为：
+那么对于一个包含 N 只股票的投资组合，假设组合的权重为$w=(w_{1},w_{2},\ldots,w_{N})^{T}$ ，那么组合收益率可以表示为：
 
 $$
-R_{_P}=\sum_{j=1}^{N}w_{_n}\cdot(\sum_{k=1}^{K}x_{_{jk}}f_{_{jk}}+u_{_j})
+R_{_P}=\sum_{_{j=1}}^{^N}w_{_n}\cdot(\sum_{_{k=1}}^{^K}x_{_{jk}}f_{_{jk}}+u_{_j})
 $$
 
 现在我们假设每只股票的特质因子收益率与共同因子收益率不相关，并且每只股票的特质因子收益率也不相关。那么在上述表达式的基础上，可以得到组合的风险结构为：
 
 $$
-\sigma_{{}_{P}}=\sqrt{{w}^{T}\left(XFX^{T}+\Delta\right)w}
+\sigma_{_P}=\sqrt{w^{^T}\left(XFX^{^T}+\Delta\right)w}
 $$
 
-其中，X 表示N 只个股在K 个风险因子上的因子载荷矩阵 $(N\times K\ )\colon$
+其中，X 表示N 只个股在K 个风险因子上的因子载荷矩阵 $(N\times K);$
 
 $$
-\begin{array}{r}{{\left[\begin{array}{llll}{x_{1,1}}&{x_{1,2}}&{\dots}&{x_{1,k}}\\{\vert}&{}&{}&{}\\{x_{2,1}}&{x_{2,2}}&{\dots}&{x_{2,k}}\end{array}\right]}}\\{{X=\left[\begin{array}{llll}{\vert}&{}&{}&{}\\{\vert}&{}&{\dots}&{\dots}&{\dots}\\{\vert}&{}&{}&{}\\{x_{n,1}}&{x_{n,2}}&{\dots}&{x_{n,k}}\end{array}\right]}}\end{array}
+X={\left[\begin{array}{llll}{x_{_{1,1}}}&{x_{_{1,2}}}&{\ldots}&{x_{_{1,k}}}\\{x_{_{2,1}}}&{x_{_{2,2}}}&{\ldots}&{x_{_{2,k}}}\\{\ldots}&{\ldots}&{\ldots}&{\ldots}\\{x_{_{n,1}}}&{x_{_{n,2}}}&{\ldots}&{x_{_{n,k}}}\end{array}\right]}
 $$
 
 F 表示K 个因子的因子收益率协方差矩阵(K K• )：
 
 $$
-\begin{array}{l}{{[\begin{array}{lllll}{{\quad Var(f_{1})}}&{{\quad Co\nu(f_{1},f_{2})}}&{{\quad...}}&{{\quad Co\nu(f_{1},f_{k})}}\\{{|}}&{{\quad}}&{{\quad}}&{{\quad}}\\{{\quad Co\nu(f_{1},f_{2})}}&{{\quad Var(f_{2})}}&{{...}}&{{\quad Co\nu(f_{2},f_{k})}}\\{{\quad}}&{{\quad}}&{{\quad...}}&{{\quad}}\\{{\quad...}}&{{\quad...}}&{{\quad...}}&{{\quad...}}\end{array}]}}\\{{[\begin{array}{llllll}{{\quad Co\nu(f_{1},f_{1})}}&{{\quad Co\nu(f_{k},f_{2})}}&{{\quad...}}&{{\quad Var(f_{k})}}&{{\quad}}\\{{\quad}}&{{\quad...}}&{{\quad}}&{{\quad...}}&{{\quad}}\\{{\quad...}}&{{\quad}}&{{\quad....}}&{{\quad}}&{{\quad....}}\end{array}]}}\end{array}
+F=\left[\begin{array}{cccc}Var\left(f_{_1}\right)&Cov\left(f_{_1},f_{_2}\right)&\ldots&Cov\left(f_{_1},f_{_k}\right)\\\vdots&&&\vdots\\Cov\left(f_{_1},f_{_2}\right)&Var\left(f_{_2}\right)&\ldots&Cov\left(f_{_2},f_{_k}\right)\\\ldots&\ldots&\ldots&\ldots\\\vdots&&&\vdots\\Cov\left(f_{_k},f_{_1}\right)&Cov\left(f_{_k},f_{_2}\right)&\ldots&Var\left(f_{_k}\right)\\\end{array}\right]
 $$
 
 其中，因子收益率的波动率和协方差以因子收益率的日频率数据估算。
 
-- 表示N 只股票的特质因子收益率协方差矩阵 $(N\times N)$
+- 表示N 只股票的特质因子收益率协方差矩阵 $\left(N\times N\right)$
 
 $$
-\begin{array}{cccccc}{\displaystyle\begin{array}{ccccccc}{{\bigm\lceil}}&{{Var(u_{1})}}&{{}}&{{0}}&{{}}&{{\ldots}}&{{}}&{{0}}\\{{\bigm\rceil}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}\\{{\Delta=\displaystyle\left|\begin{array}{ccccccc}{{}}&{{0}}&{{}}&{{Var(u_{2})}}&{{}}&{{\ldots}}&{{}}&{{0}}\\{{}}&{{}}&{{}}&{{}}&{{}}&{{}}\\{{\bigm\lfloor}}&{{\ldots}}&{{}}&{{\ldots}}&{{}}&{{\ldots}}&{{}}\\{{\bigm\rfloor}}&{{}}&{{}}&{{0}}&{{}}&{{\ldots}}&{{}}\\{{\bigm\rfloor}}&{{0}}&{{}}&{{}}&{{\ldots}}&{{}}&{{Var(u_{k})\bigm\rfloor}}\end{array}\right|}}}\end{array}\end{array}
+\Delta=\begin{bmatrix}\left\lceil Var\left(u_{_1}\right)\quad0\quad\ldots\quad0\right.\\\left\lfloor\begin{array}{ccccc}0&&&&\\&&Var\left(u_{_2}\right)&&&0\\&\ldots&&&\ldots&\ldots\\&&&&&\\&0&&&\ldots&Var\left(u_{_k}\right)\end{array}\right\rfloor\end{bmatrix}
 $$
 
 由于我们假设每只股票的特质因子收益率相关性为 0，因此• 为对角阵。
@@ -239,27 +241,27 @@ $$
 
 | 大类 因子 | 小类 因子 | 因子计算方式 |
 | --- | --- | --- |
-| Beta | BETA | $\boldsymbol{r}_{i}=\boldsymbol{\alpha}+\boldsymbol{\beta}\boldsymbol{r}_{m}+\boldsymbol{e}_{i}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
-| Momentum | RSTR | $RSTR=\sum_{t=L}^{T+L}w_{_t}[\ln(1+r_{_t})]$ ；其中T=500，L=21，收益率序列以半衰指数加权，半衰期为120日。 |
+| Beta | BETA | $r_{i}=\alpha+\beta r_{m}+e_{i}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
+| Momentum | RSTR | $RSTR=\sum_{t=L}^{T+L}w_{_{t}}[\ln(1+r_{_{t}})]$ ；其中T=500，L=21，收益率序列以半衰指数加权，半衰期为120日。 |
 | Size | LNCAP | LNCAP = LN(total _ m arket _ capitalization) ；个股总市值对数值。 |
-| Earnings Yield | EPIBS | $EPIBS=est\_eps/P$ ；其中 $est\_eps$ 为个股一致预期基本每股收益。 |
-|  | ETOP | $ETOP=earnings\_ttm\ /\ mkt\_freeshares$ ；历史EP值，利用过去12个月个股净利润除以当 前市值。 |
-|  | CETOP | $CETOP=Cash\_earnings\ /\ P$ ；个股现金收益比股票价格。 |
-|  | DASTD | $DASTD\ =\ \big(\sum_{t=1}^{T}w_{_t}\cdot\big(r_{t}-\mu(r)\big)^{2}\big)^{1/2}$ ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
-| Volatility | CMRA | $CMRA=ln(1+\operatorname*{max}\left\{Z(T)\right\})-ln(1+\operatorname*{min}\left\{Z(T)\right\})$ ; |
-|  |  | 其中 $Z(T)={{\sum}^{T}}_{\tau=1}[ln(1+r_{\tau})]\ ;\ r_{\tau}$ 表示个股月收益率，T代表过去12个月。 |
-| Growth | HSIGMA | $HSIGMA=std(e_{i})$ ；其中残差 $\boldsymbol{e}_{i}$ 为 BETA 计算中所得。 |
+| Earnings Yield | EPIBS | $EPIBS=est_{\mathrm{~-~}}eps\mathrm{~/~}P$ ；其中 $est{\scriptsize-}eps$ 为个股一致预期基本每股收益。 |
+|  | ETOP | $ETOP=earnings{\tiny{-}}ttm{\tiny{/}}mkt{\tiny{-}}freeshares$ ；历史EP值，利用过去12个月个股净利润除以当 前市值。 |
+|  | CETOP | $CETOP=Cash\_earnings\mathrm{~/~}P$ ；个股现金收益比股票价格。 |
+|  | DASTD | $DASTD=\left(\sum_{t=1}^{T}w_{t}\cdot\left(r_{t}-\mu(r)\right)^{2}\right)^{1/2}$ ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
+| Volatility | CMRA | $CMRA=ln\left(1+\operatorname*{max}\left\{Z\left(T\right)\right\}\right)-ln\left(1+\operatorname*{min}\left\{Z\left(T\right)\right\}\right)$ ; |
+|  |  | 其中 $Z\left(T\right)=\sum_{\tau=1}^{T}\left[ln\left(1+r_{\tau}\right)\right];r_{\tau}$ 表示个股月收益率，T代表过去12个月。 |
+| Growth | HSIGMA | $HSIGMA=std(e_{i})$ ；其中残差 $e_{\textit{ i }}$ 为 BETA 计算中所得。 |
 |  | SGRO | 过去5年企业营业总收入复合增长率。 |
 |  | EGRO | 过去5年企业归属母公司净利润复合增长率。 |
 |  | EGIB | 未来3年企业一致预期净利润增长率。 |
 |  | EGIB_S | 未来1年企业一致预期净利润增长率。 |
-| Value | BTOP | $BTOP\ =common\_equity\ /current\_market\_capitalization$ i |
+| Value | BTOP | $BTOP=common\_equity\;/\;current\_market\_capitalization$ i |
 | Leverage | MLEV | 计算企业总权益值除以当前市值。 ；其中ME表示企业当前总市值，LD表示企业长期负债。 |
 |  | DTOA | $MLEV=(ME+LD)/ME$ |
 |  | BLEV | DTOA = TD / TA；其中TD 表示总负债TA 表示总资产。 $BLEV=(BE+LD)/BE$ ；其中BE表示企业账面权益，LD表示企业长期负债。 |
-| Liquidity | STOM | $STOM\ =\ \ln(\sum_{t=1}^{21}(V_{t}/\ S_{t})$ ；其中 $\mathbf{\Sigma}_{V_{t}}$ 表示当日成交量， $\boldsymbol{S}_{\boldsymbol{t}}$ 表示流通股本。 |
-|  | STOQ | $STOQ=\ln({\frac{1}{T}}{\sum}^{T}\mathbf{exp}(STOM_{\ \tau}))$ ；其中T=3。 |
-|  | STOA | $STOA=\ln({\frac{1}{T}}{\sum}^{T}\mathbf{exp}(STOM_{\ \tau}))$ ；其中 T=12。 |
+| Liquidity | STOM | $STOM=\ln\left(\sum_{t=1}^{21}(V_t/S_t)\right)$ ；其中 $V_{_t}$ 表示当日成交量， $S_{\textit{ t }}$ 表示流通股本。 |
+|  | STOQ | $STOQ=\ln\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)\right)$ ；其中T=3。 |
+|  | STOA | $STOA=\ln\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)\right)$ ；其中 T=12。 |
 
 数据来源：国泰君安证券研究
 
@@ -274,20 +276,20 @@ $$
 标准化的处理过程包括标准正态法、加权标准正态法、Box-Cox 变换、Johnson 变换等方法。在 BARRA 的风险模型中，采用根号市值加权的标准正态法，在一定程度上剔除了市值的影响，但是这样的方法会造成标准化因子截面的均值不等于 0，这在之后的股票组合权重优化的风险敞口设置时会产生一定的偏差，考虑到这点，我们仅采用简单的标准正态法，即：
 
 $$
-d_{{\bf\Gamma}_{nl}}=\frac{d{\bf\Gamma}_{nl}^{raw}-u_{l}}{\sigma_{{\bf\Gamma}_{l}}}
+d_{_{nl}}=\frac{d_{_{nl}}^{^{raw}}-u_{_{l}}}{\sigma_{_{l}}}
 $$
 
-其中， $\boldsymbol{d}_{nl}$ 为标准化因子序列， $\boldsymbol{d}_{\scriptscriptstyle nl}^{\scriptscriptstyle raw}$ 为原始因子序列， $\boldsymbol{u}_{\boldsymbol{l}}$ 为 $\boldsymbol{d}_{nl}^{\ raw}$ 的算术平均值， $\sigma_{\iota}$ 为 $\boldsymbol{d}_{nl}^{\ raw}$ 的标准差。
+其中， $d_{_{nl}}$ 为标准化因子序列， $\boldsymbol{d}_{nl}^{\;raw}$ 为原始因子序列， $u_{{l}}$ 为 $\boldsymbol{d}_{nl}^{\;raw}$ 的算术平均值， $\sigma_{{I}}$ 为 $\boldsymbol{d}_{\;nl}^{\;raw}$ 的标准差。
 
 ## 2.2.5. 参数估计
 
 结构化风险模型给出了任一股票收益率的线性分解形式：
 
 $$
-r_{j}=x_{1}f_{1}+x_{2}f_{2}+x_{3}f_{3}+x_{4}f_{4}...x_{\kappa}f_{\kappa}+u_{j}
+r_{_{j}}=x_{_{1}}f_{_{1}}+x_{_{2}}f_{_{2}}+x_{_{3}}f_{_{3}}+x_{_{4}}f_{_{4}}...x_{_{K}}f_{_{K}}+u_{_{j}}
 $$
 
-那么对于N 只股票的组合而 $\frac{\underline{{\underline{{\mathbf{\Pi}}}}}}{\bar{\overline{{\mathbf{\Pi}}}}}$ ，组合的收益率向量可以写成：
+那么对于N 只股票的组合而 $\frac{言}{言}$ ，组合的收益率向量可以写成：
 
 $$
 R=Xf+U
@@ -298,69 +300,69 @@ $$
 根据最小二乘法（O L S ），我们需要找到收益率向量 f 使得残差平方和达到最小，即：
 
 $$
-{\begin{array}{l}{Min~Q=\displaystyle\sum_{i=1}^{N}{\boldsymbol{\varepsilon_{i}}^{2}}=\sum_{i=1}^{N}\left({\boldsymbol{r_{i}}}-{\hat{\boldsymbol{r_{i}}}}\right)^{2}}\\{\qquad=(R-X{\hat{f}})^{\prime}(R-X{\hat{f}})}\\{\qquad=(R^{\prime}R-R^{\prime}X{\hat{f}}-{\hat{f}}X{\hat{R}}^{\prime}+{\hat{f}}XX{\hat{f}})}\\{\qquad=R^{\prime}R-2{\hat{f}}XY+{\hat{f}}XX{\hat{f}}}\end{array}}
+\begin{aligned}MinQ&=\sum_{_{i=1}}^{^{N}}\varepsilon_{_{i}}^{^{~2}}=\sum_{_{i=1}}^{^{N}}\left(r_{_{i}}-\hat{r}_{_{i}}\right)^{^{2}}\\&=\left(R-X\hat{f}\right)^{\prime}\left(R-X\hat{f}\right)\\&=\left(R^{\prime}R-R^{\prime}X\hat{f}-\hat{f}X^{\prime}R^{\prime}+\hat{f}X^{\prime}X\hat{f}\right)^{\prime}\\&=R^{\prime}R-2\hat{f}X^{\prime}Y+\hat{f}X^{\prime}X\hat{f}\\\end{aligned}
 $$
 
-$\frac{{\partial Q}}{{\partial{\hat{f}}}}=0$ ，得到 $-X^{\prime}R+X^{\prime}X\hat{f}\ =\ 0$ ，因此 ${\hat{f}}\ =\ \left(X\ X\ \right)^{\cdot1}X\ {\mathrm{\ '}}R$
+$\frac{\partial\hat{Q}}{\partial\hat{f}}=0$ ，得到 $-X^{\prime}R+X^{\prime}X\hat{f}=0$ ，因此 ${\hat{f}}=\left(X{\hat{}}X\right)^{^{-1}}X{\hat{}}R$
 
-OLS 最小二乘估计法仅当不同股票的残差序列 $\varepsilon_{\scriptscriptstyle it}$ 方差相同时， $\hat{f}$ 才是最优估计。然而，通常情况下，金融时间序列的数据均存在较明显的异方差性，即每只股票 $\varepsilon_{it}$ 的方差是不相同的。为了解决异方差性，通常采用广义最小二乘（GLS ）估计方法。我们下面对广义最小二乘估计方法做简单推导。
+OLS 最小二乘估计法仅当不同股票的残差序列 $\mathcal{E}_{\textit{ i t }}$ 方差相同时， $\hat{f}$ 才是最优估计。然而，通常情况下，金融时间序列的数据均存在较明显的异方差性，即每只股票 $\mathcal{E}_{it}$ 的方差是不相同的。为了解决异方差性，通常采用广义最小二乘（GLS ）估计方法。我们下面对广义最小二乘估计方法做简单推导。
 
-广义最小二乘法假设 $\varepsilon_{it}$ 的方差不相同，即
-
-$$
-\begin{array}{r}{Var(U)=\sum=\left|\begin{array}{llll}{\sigma_{1}^{2}}&{\sigma_{12}}&{\dots}&{\sigma_{1n}}\\{}&{}&{}&{}\\{\sigma_{21}}&{\sigma_{2}^{2}}&{\dots}&{\sigma_{2n}}\\{\dots}&{\dots}&{\dots}&{\dots}\\{}&{}&{}&{}\\{\sigma_{n1}}&{\dots}&{\dots}&{\sigma_{n}^{2}}\end{array}\right|}\end{array}
-$$
-
-由于矩阵• 是正定阵，因此可以写成 $\Sigma=KK^{\prime}$ ，其中K 为非奇异矩阵。对 $R=Xf+U$ ，可得到
+广义最小二乘法假设 $\mathcal{E}_{it}$ 的方差不相同，即
 
 $$
-K^{^{-1}}R\ =\ K^{^{-1}}Xf\ +\ K^{^{-1}}U
+Var\left(U\right)=\sum=\left|\begin{aligned}&\sigma_{_1}^{^2}\quad\sigma_{_{12}}\quad\ldots\quad\sigma_{_{1n}}\\&\sigma_{_{21}}\quad\sigma_{_2}^{^2}\quad\ldots\quad\sigma_{_{2n}}\\&\ldots\quad\ldots\quad\ldots\quad\ldots\\&\sigma_{_{n1}}\quad\ldots\quad\ldots\quad\sigma_{_{n}}^{^2}\end{aligned}\right|
 $$
 
-令 $\boldsymbol{R}^{*}=\boldsymbol{K}^{-1}\boldsymbol{R}$ $\boldsymbol{X}^{\ast}=\boldsymbol{K}^{\ast}\boldsymbol{X}$ $\boldsymbol{U}^{\ast}=\boldsymbol{K}^{\ast}\boldsymbol{U}$ ，则可得到
+由于矩阵• 是正定阵，因此可以写成 $\textstyle\sum\;=\;KK^{\prime}$ ，其中K 为非奇异矩阵。对 $R=Xf+U$ ，可得到
 
 $$
-\boldsymbol{R}^{*}=\boldsymbol{X}^{*}\boldsymbol{f}+\boldsymbol{U}^{*}
+K^{^{-1}}R=K^{^{-1}}Xf+K^{^{-1}}U
 $$
 
-由于 $E(U^{\ast})=0$ ，并且
+令 $\boldsymbol{R}^{*}=\boldsymbol{K}^{-1}\boldsymbol{R}$ $\boldsymbol{X}^{*}=\boldsymbol{K}^{-1}\boldsymbol{X}$ $\boldsymbol{U}^{\mathrm{~*~}}=\boldsymbol{K}^{\mathrm{~-1}}\boldsymbol{U}$ ，则可得到
 
 $$
-\begin{array}{l}{{Var(U^{*})=Var({K^{-1}U})}}\\{{\ }}\\{{\ =K^{-1}Var(U)({K^{-1}})^{\prime}}}\\{{\ }}\\{{\ =K^{-1}KK^{\prime}(K^{\prime})^{-1}}}\\{{\ }}\\{{\ =I}}\end{array}
+\boldsymbol{R}^{^{*}}=\boldsymbol{X}^{^{*}}\boldsymbol{f}+\boldsymbol{U}^{^{*}}
 $$
 
-因此 $\boldsymbol{R}^{*}=\boldsymbol{X}^{*}\boldsymbol{f}+\boldsymbol{U}^{*}$ 满足最小二乘估计（OLS ）的同方差性条件，根据OLS 中 f 的估计结果可以得到
+由于 $E\left(U^{^{*}}\right)=0$ ，并且
 
 $$
-\begin{array}{rl}&{\hat{\boldsymbol f}_{\boldsymbol GLS}=\big(\big(\boldsymbol X^{*}\big)^{\prime}\boldsymbol X^{*}\big)^{-1}\big(\boldsymbol X^{*}\big)^{\prime}\boldsymbol Y^{*}}\\&{\quad~=\big(\big(\boldsymbol K^{-1}\boldsymbol X~\big)^{\prime}\boldsymbol K^{-1}\boldsymbol X~\big)^{-1}\big(\boldsymbol K^{-1}\boldsymbol X~\big)^{\prime}\big(\boldsymbol K^{-1}\boldsymbol R~\big)}\\&{\quad=\big(\boldsymbol X^{\prime}\big(\boldsymbol K^{-1}\big)^{\prime}\boldsymbol K^{-1}\boldsymbol X~\big)^{-1}\boldsymbol X^{\prime}\big(\boldsymbol K^{-1}\big)^{\prime}\big(\boldsymbol K^{-1}\boldsymbol R~\big)}\end{array}
+\begin{aligned}Var\left(U^{^{\text{*}}}\right)&=Var\left(K^{^{-1}}U\right)\\&=K^{^{-1}}Var\left(U\right)(K^{^{-1}})^{^{\prime}}\\&=K^{^{-1}}KK^{^{\prime}}(K^{^{\prime}})^{^{-1}}\\&=I\\\end{aligned}
 $$
 
-因为 $\begin{array}{r}{(K^{^{-1}})^{\prime}K^{^{-1}}=\left(K^{^{\prime}}\right)^{^{-1}}K^{^{-1}}=\left(KK^{^{\prime}}\right)^{^{-1}}=\sum^{^{-1}}}\end{array}$ ，故
+因此 $R^{^{*}}=X^{^{*}}f+U^{^{*}}$ 满足最小二乘估计（OLS ）的同方差性条件，根据OLS 中 f 的估计结果可以得到
 
 $$
-\hat{f}_{_{GLS}}=\left(X^{\prime}\Sigma^{^{-1}}X\right)^{^{-1}}X^{\prime}\Sigma^{^{-1}}R
+\begin{aligned}&\hat{f}_{_{GLS}}\;=\;((\;X^{^{\;*}})^{\prime}X^{^{\;*}})^{^{-1}}(\;X^{^{\;*}})^{\prime}Y^{^{\;*}}\\&\quad=\;((K^{^{\;-1}}X^{^{\;\prime}}K^{^{\;-1}}X^{^{\;}})^{^{-1}}(K^{^{\;-1}}X^{^{\;}})^{\prime}(K^{^{\;-1}}R^{^{\;}})\\&\quad=\;(X^{^{\;\prime}}(K^{^{\;-1}})^{\prime}K^{^{\;-1}}X^{^{\;}})^{^{-1}}X^{^{\;\prime}}(K^{^{\;-1}})^{\prime}(K^{^{\;-1}}R^{^{\;}})\\\end{aligned}
 $$
 
-广义最小二乘（GLS ）估计法在已知残值波动率矩阵• 的条件下，可得到 f 的无偏估计量 $\hat{f}_{\scriptscriptstyle GLS}$
+因为 $(K^{^{-1}})^{\prime}K^{^{-1}}=(K^{\prime})^{^{-1}}K^{^{-1}}=(KK^{\prime})^{^{-1}}=\textstyle\sum^{^{-1}}$ ，故
+
+$$
+\hat{f}_{_{GLS}}=(X^{\prime}\textstyle\sum^{^{-1}}X)^{^{-1}}X^{\prime}\textstyle\sum^{^{-1}}R
+$$
+
+广义最小二乘（GLS ）估计法在已知残值波动率矩阵• 的条件下，可得到 f 的无偏估计量 $\hat{f}_{eLs}$
 
 而在结构化风险模型中，由于假设残差之间不存在相关性，因此可利用广义最小二乘GLS 方法的特殊形式加权最小二乘法（Weighted least square）处理。
 
-加权最小二乘法WLS 假设 $\varepsilon_{_{it}}$ 的方差不相同，但 $\varepsilon_{_{it}}$ 之间协方差为 0，即：
+加权最小二乘法WLS 假设 $\mathcal{E}_{\textit{ i t }}$ 的方差不相同，但 $\mathcal{E}_{\textit{ i t }}$ 之间协方差为 0，即：
 
 $$
-\begin{array}{r}{Var(U)=\sum=\left|\begin{array}{llll}{\sigma_{1}^{2}}&&&&\\&{\sigma_{2}^{2}}&&\\&&{\cdots}&\\&&&{\sigma_{n}^{2}}\end{array}\right|}\end{array}
+\boldsymbol{V}ar\left(\boldsymbol{U}\right)=\sum=\left|\begin{aligned}&\sigma_{_1}^{^2}&&&\\&&\sigma_{_2}^{^2}&&\\&&&\sigma_{_2}^{^2}&\\&&&\cdots&\\&&&&\sigma_{_n}^{^2}\end{aligned}\right|.
 $$
 
-上式中将 $\scriptstyle\sum$ 写成
+上式中将 $\sum$ 写成
 
 $$
-\Sigma=\sigma_{_w}^{2}\left|\begin{array}{c}{{1/w_{_1}}}\\{{}}\\{{1/w_{_2}}}\\{{}}\\{{\cdots}}\\{{}}\\{{}}\end{array}\right..\nonumber
+\sum=\sigma_{_w}^{^2}\left|\begin{aligned}&1/w_{_1}\\&\quad1/w_{_2}\\&\quad\cdots\\&\quad1/w_{_n}\end{aligned}\right|.
 $$
 
-令 $W\ =\ diag\left(\ w_{_1},w_{_2},...,w_{_n}\right)$ ，则 $\Sigma\ =\ \sigma_{\scriptscriptstyle w}^{\ 2}W^{\mathrm{~\scriptscriptstyle~-1~}}$ $\begin{array}{r}{\sum^{-1}=(1/\sigma_{w}^{2})W}\end{array}$ 。因此，由GLS 中 $\hat{f}_{_{GLS}}$ 的估计表达式可得：
+令 $W=diag\left(w_{1},w_{2},\ldots,w_{n}\right)$ ，则 $\Sigma\;=\;\sigma_{_{w}}^{^{2}}W^{^{-1}}$ $\scriptstyle\sum^{-1}=(1/\sigma_{_{w}}^{^2})W$ 。因此，由GLS 中 $\hat{f}_{_{GLS}}$ 的估计表达式可得：
 
 $$
-\begin{array}{rl}&{\hat{\boldsymbol f}_{\boldsymbol WLS}=\left(\boldsymbol X^{\prime}\sum^{-1}\boldsymbol X\right)^{-1}\boldsymbol X^{\prime}\sum^{-1}\boldsymbol R}\\&{~=\sigma_{\boldsymbol w}^{2}\left(\boldsymbol X^{\prime}\boldsymbol W\boldsymbol X\right)^{-1}\boldsymbol X^{\prime}(1/\sigma_{\boldsymbol w}^{2})\boldsymbol W\boldsymbol R}\\&{~=\left(\boldsymbol X^{\prime}\boldsymbol W\boldsymbol X\right)^{-1}\boldsymbol X^{\prime}\boldsymbol W\boldsymbol R}\end{array}
+\begin{aligned}\hat{f}_{_{WLS}}=&(\boldsymbol{X}^{\prime}\sum^{^{-1}}\boldsymbol{X}^{\prime})^{^{-1}}\boldsymbol{X}^{\prime}\sum^{^{-1}}\boldsymbol{R}\\=&\boldsymbol{\sigma}_{_w}^{^2}(\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{X}^{\prime})^{^{-1}}\boldsymbol{X}^{\prime}(1/\boldsymbol{\sigma}_{_w}^{^2})\boldsymbol{W}\boldsymbol{R}\\=&(\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{X}^{\prime})^{^{-1}}\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{R}\end{aligned}
 $$
 
 ## 2.2.6. 因子有效性检验
@@ -386,26 +388,26 @@ BARRA 从因子对收益率影响的显著程度、稳定性以及因子之间�
 7） 因子自稳定性系数（Factor Stability Coeff），该值检验因子收益率的稳定性，计算公式为：
 
 $$
-\rho_{_{kt}}=\frac{\sum_{n}{\nu}_{n}^{t}(x_{nk}^{t}-\overline{{x}}_{nk}^{t})(x_{nk}^{t+1}-\overline{{x}}_{nk}^{t+1})}{\sqrt{\sum_{n}{\nu}_{n}^{t}{(x_{nk}^{t}-\overline{{x}}_{nk}^{t})}^{2}}\sqrt{\sum_{n}{\nu}_{n}^{t}{(x_{nk}^{t+1}-\overline{{x}}_{nk}^{t+1})}^{2}}}
+\rho_{_{kt}}=\frac{\sum_{_{n}}v_{_{n}}^{^{t}}(x_{_{nk}}^{^{t}}-\overline{x}_{_{nk}}^{^{t}})(x_{_{nk}}^{^{t+1}}-\overline{x}_{_{nk}}^{^{t+1}})}{\sqrt{\sum_{_{n}}v_{_{n}}^{^{t}}(x_{_{nk}}^{^{t}}-\overline{x}_{_{nk}}^{^{t}})^{^{2}}}\sqrt{\sum_{_{n}}v_{_{n}}^{^{t}}(x_{_{nk}}^{^{t+1}}-\overline{x}_{_{nk}}^{^{t+1}})^{^{2}}}},
 $$
 
-其中， $\nu_{_{n}}^{^{t}}$ 是股票的回归加权权重。
+其中， $\nu_{n}^{t}$ 是股票的回归加权权重。
 
 8） 因子方差膨胀系数VIF 值（Variance Inflation Factor），VIF 是利用需要检验的因子作为应变量，已通过检验的因子作为自变量，构建多元方程，并计算回归方程的 $R^{2}$ ：
 
 $$
-X_{_{nk}}\ :=\ :\sum_{k^{\prime}\neq k}X_{_{nk}},b_{_{k^{\prime}}}+\varepsilon_{_{nk}}
+X_{_{nk}}=\sum_{_{k^{\prime}\neq k}}X_{_{nk^{\prime}}}b_{_{k^{\prime}}}+\varepsilon_{_{nk}}
 $$
 
 然后，VIF 的计算公式为：
 
 $$
-VIF_{_k}={\frac{1}{1-{R_{_k}}^{2}}}
+VIF_{_k}=\frac{1}{1-R_{_k}^{^2}}
 $$
 
 通常意义上，VIF 值越大则表明被检验因子与其他因子的共线性程度越高。经验表明，当VIF 值大于 3时，该因子的共线性程度较高，应该拒绝纳入风险因子范围。
 
-我们根据上述检验标准，对行业因子和风格因子进行有效性检验，在进行回归方程的参数估计中，我们令 $W\ =\ diag\left(\ w_{_1},w_{_2},...,w_{_n}\right)$ ，其中 $\boldsymbol{w}_{\scriptscriptstyle i}$ 为第i 只股票的流通市值平方根，即在WLS 估计中，我们以个股流通市值的平方根的导数作为加权权重。
+我们根据上述检验标准，对行业因子和风格因子进行有效性检验，在进行回归方程的参数估计中，我们令 $W=diag\left(w_{1},w_{2},\ldots,w_{n}\right)$ ，其中 $w_{\textit{ i }}$ 为第i 只股票的流通市值平方根，即在WLS 估计中，我们以个股流通市值的平方根的导数作为加权权重。
 
 因子有效性检验结果如下表所示：
 
@@ -470,7 +472,7 @@ $$
 在对风险因子进行检验筛选后，我们可以根据第一节中对多因子结构化风险模型的定义，给出股票组合预期收益率关于风险因子的线性分解形式：
 
 $$
-R_{_P}=\sum_{j=1}^{N}w_{_n}\cdot(\sum_{k=1}^{K}x_{_{jk}}f_{_{jk}}+u_{_j})
+R_{_P}=\sum_{_{j=1}}^{^N}w_{_n}\cdot(\sum_{_{k=1}}^{^K}x_{_{jk}}f_{_{jk}}+u_{_j}),
 $$
 
 那么，接下来就是对股票组合风险的预测，其中主要包括因子收益率协方差矩阵的预测与特质因子的风险建模。
@@ -480,13 +482,13 @@ $$
 在第一节中，组合风险可以表示为
 
 $$
-\sigma_{_p}=\sqrt{{w}^{T}\left(XFX^{T}+\Delta\right)w}
+\sigma_{_{p}}=\sqrt{w^{^{T}}\left(XFX^{^{T}}+\Delta\right)w}.
 $$
 
 其中，对K 个因子的收益率协方差矩阵F 的定义为：
 
 $$
-\begin{array}{l}{{[\begin{array}{lllll}{{\quad Var(f_{1})}}&{{\quad Co\nu(f_{1},f_{2})}}&{{\quad...}}&{{\quad Co\nu(f_{1},f_{k})}}\\{{|}}&{{\quad}}&{{\quad}}&{{\quad}}\\{{\quad Co\nu(f_{1},f_{2})}}&{{\quad Var(f_{2})}}&{{...}}&{{\quad Co\nu(f_{2},f_{k})}}\\{{\quad}}&{{\quad}}&{{\quad...}}&{{\quad}}\\{{\quad...}}&{{\quad...}}&{{\quad...}}&{{\quad...}}\end{array}]}}\\{{[\begin{array}{llllll}{{\quad Co\nu(f_{1},f_{1})}}&{{\quad Co\nu(f_{k},f_{2})}}&{{\quad...}}&{{\quad Var(f_{k})}}&{{\quad}}\\{{\quad}}&{{\quad}}&{{\quad...}}&{{\quad}}&{{\quad}}\\{{\quad...}}&{{\quad}}&{{\quad...}}&{{\quad}}&{{\quad...}}\end{array}]}}\end{array}
+F=\left[\begin{array}{cccc}Var\left(f_{_1}\right)&Cov\left(f_{_1},f_{_2}\right)&\ldots&Cov\left(f_{_1},f_{_k}\right)\\&&&&\\Cov\left(f_{_1},f_{_2}\right)&Var\left(f_{_2}\right)&\ldots&Cov\left(f_{_2},f_{_k}\right)\\&&&&\\\ldots&\ldots&\ldots&\ldots&\\&&&&\\Cov\left(f_{_k},f_{_1}\right)&Cov\left(f_{_k},f_{_2}\right)&\ldots&Var\left(f_{_k}\right)\\\end{array}\right]
 $$
 
 结构化多因子风险模型利用风险因子收益率的波动率来解释股票价格收益的波动，并且同时考虑了不同因子之间的收益率的相关性。
@@ -495,10 +497,10 @@ $$
 
 BARRA 在 EUE3、USE4 和 CNE5 的风险模型构建中，给出了协方差矩阵预测较为完整的方法：
 
-首先，利用日频率的历史因子收益率，计算日频率的因子收益率协方差矩阵 ${\boldsymbol{F}}^{(d)}$ ，其中利用了 RiskMetrics 的加权移动平均（EWMA）方法：
+首先，利用日频率的历史因子收益率，计算日频率的因子收益率协方差矩阵 $\boldsymbol{F}^{\mathrm{~(~}d\mathrm{~)~}}$ ，其中利用了 RiskMetrics 的加权移动平均（EWMA）方法：
 
 $$
-F_{kd}^{(d)}=\mathsf{cov}(f_{k},f_{k^{\prime}})_{t}=\sum_{s=t-h}^{t}\lambda^{t-s}(f_{ks}-\overline{{f_{k}}})(f_{k^{\prime}s}-\overline{{f_{k^{\prime}}}})/\sum_{s=t-h}^{t}\lambda^{t-s}
+F_{kd}^{(d)}=\operatorname{cov}(f_k,f_{k^{\prime}})_t=\sum_{s=t-h}^{t}\lambda^{t-s}(f_{ks}-\overline{f_k})(f_{k^{\prime}s}-\overline{f_{k^{\prime}}})/\sum_{s=t-h}^{t}\lambda^{t-s}
 $$
 
 其中，指数衰减权重 $\lambda=0.5^{1/\tau}$ 表示赋予越靠近当前日期越高的权重，半衰期参数 表示第 $t-\tau$ 天的权重为第t 天权重的 $\frac{1}{2}$ ，式中h 表示样本时间长度。
@@ -509,28 +511,28 @@ $$
 ![](images/2ac48655cc979c195b92e67317a60c3296b6dff768501bdae00c5d0e97ef3694.webp)
 数据来源：国泰君安证券研究
 
-上述得到的 ${\boldsymbol{F}}^{(d)}$ 仍然存在非平稳偏差问题，即风险预测会存在持续性的高估或低估情况。为此，需要引入因子截面偏差统计量 $\boldsymbol{B}_{\mathrm{\Omega}_{t}}^{\mathrm{\Delta}F}$ 和因子波动率乘子 $\lambda_{\scriptscriptstyle F}$ 。
+上述得到的 $\boldsymbol{F}^{\mathrm{~(}d\mathrm{~)~}}$ 仍然存在非平稳偏差问题，即风险预测会存在持续性的高估或低估情况。为此，需要引入因子截面偏差统计量 $\boldsymbol{B}_{t}^{\textit{ F }}$ 和因子波动率乘子 $\lambda_{\textit{ F }}$ 。
 
-具体而言，令 $\boldsymbol{f}_{kt}$ 为第k 个因子在第t 天的实际因子收益率， $\sigma_{\mathrm{\Delta}_{kt}}$ 为第 t • 1天预测的第t 天的因子收益的波动率，那么因子截面偏差统计量 $\boldsymbol{B}_{\mathrm{\Omega}_{t}}^{\mathrm{\Delta}F}$ 可表示为：
-
-$$
-\boldsymbol{B}_{t}^{\ F}=\sqrt{\frac{1}{K}\sum_{\ k}{(\frac{\boldsymbol{f}_{kt}}{\boldsymbol{\sigma}_{_{kt}}})}^{2}}
-$$
-
-其中，K 为因子个数。 $\boldsymbol{B}_{\mathrm{\Omega}_{t}}^{\mathrm{\Delta}F}$ 是检验因子波动率是否有偏的直观方法，例如，若预测的因子波动率过小，则 ${B_{t}^{\ F}}>1$
-
-在得到 $\boldsymbol{B}_{\mathrm{\Omega}_{t}}^{\mathrm{\Delta}F}$ 的时间序列后，通过指数衰减权重加权后，可以得到因子波动率乘子 $\lambda_{\scriptscriptstyle F}$ ，以此来预测因子收益波动率的预测是否是无偏的，并作出相应的调整，具体的：
+具体而言，令 $f_{kt}$ 为第k 个因子在第t 天的实际因子收益率， $\sigma_{{kt}}$ 为第 t • 1天预测的第t 天的因子收益的波动率，那么因子截面偏差统计量 $\boldsymbol{B}_{t}^{\textit{ F }}$ 可表示为：
 
 $$
-\lambda_{_F}=\sqrt{\sum_{t}{(B_{_t}^{\ F})}^{2}w_{t}}
+B_{_{t}}^{\;^{F}}=\sqrt{\frac{1}{K}\sum_{_{k}}\;(\frac{f_{_{kt}}}{\sigma_{_{kt}}})^{^2}},
 $$
 
-其中， $w_{\mathrm{\Omega}_{t}}$ 为指数半衰权重。
+其中，K 为因子个数。 $\boldsymbol{B}_{t}^{\textit{ F }}$ 是检验因子波动率是否有偏的直观方法，例如，若预测的因子波动率过小，则 $B_{_t}^{^F}>1$
+
+在得到 $\boldsymbol{B}_{t}^{\textit{ F }}$ 的时间序列后，通过指数衰减权重加权后，可以得到因子波动率乘子 $\lambda_{_F}$ ，以此来预测因子收益波动率的预测是否是无偏的，并作出相应的调整，具体的：
+
+$$
+\lambda_{_{F}}=\sqrt{\sum_{_{t}}\left(B_{_{t}}^{^{F}}\right)^{^{2}}w_{_{t}}},
+$$
+
+其中， $w_{_t}$ 为指数半衰权重。
 
 那么，调整后的每日因子收益率协方差矩阵则可表示为：
 
 $$
-\tilde{F}^{\mathit{\Phi}(d)}=\lambda_{\mathit{F}}^{\mathit{\Phi}^{2}}\cdot F^{\mathit{\Phi}^{(d)}}
+\tilde{F}^{(d)}=\lambda_{_F}^{^2}\cdot F^{(d)}
 $$
 
 最后，在得到日频率的因子收益率协方差矩阵后，需要将其调整至我们需要的月频率。其中，利用 $Newey-West$ 方法调整日频率协方差序列存在的序列相关性，进而得到月频率的协方差矩阵：
@@ -539,11 +541,11 @@ $$
 F=C^{^{NW}}\cdot\tilde{F}^{^{(d)}}
 $$
 
-F 即为组合风险 $\sigma_{\textit{ P }}$ 中的因子收益率协方差矩阵。
+F 即为组合风险 $\sigma_{{p}}$ 中的因子收益率协方差矩阵。
 
 ## 2.3.2. 特质因子风险建模
 
-在结构化多因子风险模型中，特质因子风险部分是共同因子无法解释的残余风险，在回归方程中表示为 $Var(\boldsymbol{u}_{\mathit{\Pi}_{j}})$ ，而由于模型假设特质因子与
+在结构化多因子风险模型中，特质因子风险部分是共同因子无法解释的残余风险，在回归方程中表示为 $Var(u_{{\tiny{j}}})$ ，而由于模型假设特质因子与
 
 公共因子相关性为 0，并且每只股票之间的特质因子相关性也为 0，因此整体股票组合的特质风险部分• 为一个对角阵。
 
@@ -552,7 +554,7 @@ F 即为组合风险 $\sigma_{\textit{ P }}$ 中的因子收益率协方差矩�
 与协方差矩阵F 的计算相似，首先同样利用加权移动平均（EWMA）方法计算个股的每日特质因子风险。具体的，对于股票 j ，每日特质因子风险的表达为：
 
 $$
-\sigma_{u_{j}t}^{^d}=(\sum_{s=t-h}^{t}\lambda^{^{t-s}}(u_{_{js}}-\overline{{u}}_{j})^{2}/\sum_{s=t-h}^{t}\lambda^{^{t-s}})^{1/2}\qquad\quad\lambda=0.5^{1/\tau}
+\sigma_{_{u_{j^{t}}}}^{^d}=(\sum_{_{s=t-h}}^{^{t}}\lambda^{^{t-s}}(u_{_{js}}-\overline{{u}}_{_{j}})^{^2}/\sum_{_{s=t-h}}^{^{t}}\lambda^{^{t-s}})^{^{1/2}}\quad\lambda=0.5^{^{1/2}}
 $$
 
 我们利用上述方式，对日频率特质因子波动率矩阵进行估计。其中，组合均采取等权重配置方式。结果如下 ：
@@ -564,7 +566,7 @@ $$
 在得到日频率的特质因子风险矩阵后，同样利用N ew e y W e st • 调整日频率序列相关性，并计算每月特质因子风险矩阵：
 
 $$
-\boldsymbol{\sigma}_{u_{j}t}=\boldsymbol{C}^{NW}\cdot\boldsymbol{\sigma}_{u_{j}t}^{d}
+\sigma_{_{u_{j^{t}}}}=C^{^{NW}}\cdot\sigma_{_{u_{j^{t}}}}^{^{d}}
 $$
 
 当然，时间序列方法仍然会产生估算的误差，例如：
@@ -593,31 +595,31 @@ $$
 
 ## 3.1. 纯因子组合
 
-在结构化风险模型中，我们介绍了风格因子有效性检验较为完整的方法，在此基础上得到了 9大类风格因子。对于一个包含N 只股票的投资组合，假设组合的权重为 $w={(w_{1},w_{2},...,w_{_{N}})}^{T}$ ，那么组合收益率可以表示为：
+在结构化风险模型中，我们介绍了风格因子有效性检验较为完整的方法，在此基础上得到了 9大类风格因子。对于一个包含N 只股票的投资组合，假设组合的权重为 $w=(w_{1},w_{2},\ldots,w_{N})^{T}$ ，那么组合收益率可以表示为：
 
 $$
-R_{_{P}}=\sum_{j=1}^{N}w_{_n}\cdot(\sum_{k=1}^{\kappa}x_{_{jk}}f_{_{jk}}+u_{_j})
+R_{_{P}}=\sum_{_{j=1}}^{N}w_{_{n}}\cdot(\sum_{_{k=1}}^{k}x_{_{jk}}f_{_{jk}}+u_{_{j}})
 $$
 
 上述表达式是一个简单的线性分解形式，通过计算我们可以得到每类因子对整体组合收益的贡献度。那么，为了更准确的把握每一类因子的收益特征，我们需要构造某一组合，使得组合的整体收益仅来源于某一类因子的收益，而其余因子的收益均为 0。
 
-具体而言，对于第 k 类因子，若存在某一股票投资组合权重$w=\left(w_{_1},w_{_2},...,w_{_N}\right)^{T}$ ，使得
+具体而言，对于第 k 类因子，若存在某一股票投资组合权重$w=(w_{1},w_{2},\ldots,w_{N})^{T}$ ，使得
 
 $$
-\begin{array}{l}{\displaystyle\int\big(\boldsymbol{w}^{T}-\boldsymbol{w}_{bench}^{T}\big)\boldsymbol{X}_{k}=1}\\{\Big\{\boldsymbol{\forall}\boldsymbol{k}^{\prime}\ :(\boldsymbol{w}^{T}-\boldsymbol{w}_{bench}^{T})\boldsymbol{X}_{k^{\prime}}=0}\end{array}
+\left\{\begin{aligned}&\left(\left.w^{^T}\right.-\left.w_{_{bench}}\right.^T\right)X_{_k}\left.=1\right.\\&\left.\forall\left.k^{\prime}\right.\right.\left(\left.w^{^T}\right.-\left.w_{_{bench}}\right.^T\right.\right)X_{_k},\left.=\left.0\right.\end{aligned}\right.
 $$
 
-其中 $k^{\prime}\ne k$ $w_{bench}$ 表示对冲基准的组合权重（例如以沪深 300 股指期
+其中 $k^{\prime}\neq k$ $w_{\mathit{bench}}$ 表示对冲基准的组合权重（例如以沪深 300 股指期
 
-货为对冲基准，则 $w_{bench}$ 表示沪深 300 指数成分股的对应权重，非指数成分股位置则权重为 0）。上述约束表明，因子k对应对冲基准的风险敞口暴露为 1，其余因子k• 对应对冲基准的风险敞口暴露完全封闭。我们称这样的组合权重w 为因子k 的单位纯因子股票组合，并称因子 k 较之对冲基准存在 1 单位的风险因子敞口暴露。
+货为对冲基准，则 $W_{bench}$ 表示沪深 300 指数成分股的对应权重，非指数成分股位置则权重为 0）。上述约束表明，因子k对应对冲基准的风险敞口暴露为 1，其余因子k• 对应对冲基准的风险敞口暴露完全封闭。我们称这样的组合权重w 为因子k 的单位纯因子股票组合，并称因子 k 较之对冲基准存在 1 单位的风险因子敞口暴露。
 
-更一般的，若存在某一股票投资组合权重 $w={(w_{_1},w_{_2},...,w_{_N})}^{T}$ ，仅使得
+更一般的，若存在某一股票投资组合权重 $w=(w_{1},w_{2},\ldots,w_{N})^{T}$ ，仅使得
 
 $$
-\forall k^{\prime}(w^{T}-w_{bench}^{\quad T})X_{k^{\prime}}=0
+\forall\;k^{^{\prime}}\;(w^{^{T}}-w_{_{bench}}^{\quad^{T}})X_{_{k^{^{\prime}}}}=0
 $$
 
-其中 $k^{\prime}\ne k$ 。我们称这样的组合权重w 为因子k 的纯因子股票组合。
+其中 $k^{\prime}\neq k$ 。我们称这样的组合权重w 为因子k 的纯因子股票组合。
 
 纯因子股票组合的意义在于，在考虑因子k 对收益率影响程度的同时，完全剔除了其余因子对组合的影响。这样，可以更加客观的考察组合基于第k 个因子的收益风险特征。
 
@@ -630,12 +632,12 @@ $$
 接下来，我们分别对上述 9类因子，构建纯因子股票组合。其中，构建组合权重的目标函数暂不考虑风险特征，仅为组合预期收益率最大化。同时，我们通过行业中性的约束保证行业因子收益率不对结果产生影响，具体如下：
 
 $$
-\begin{array}{l}{Max\textbf{ \textit { w } }^{T}R_{p}}\\{s.t.\textbf{ \textit { v k } }^{\prime}\left(\textbf{ \textit { w } }^{T}-\textbf{ \textit { w } }_{bench}^{T}\right)X_{k^{\prime}}=0}\\{\textbf{ \textit { w } }^{T}H\textbf{ \textit { = h } }^{T}}\\{w\ge0}\\{\displaystyle\sum_{i=1}^{N}w_{i}=1}\end{array}
+\begin{aligned}&Max\quad w^{^T}R_{_p}\\&s.t.\quad\forall k^{^T}\quad(w^{^T}-w_{_{bench}}^{^T})X_{_{k^{'}}}=0\\&\quad w^{^T}H=h^{^T}\\&\quad w\geq0\\&\quad\sum_{_{i=1}}^{^N}w_{_i}=1\\\end{aligned}
 $$
 
-其中， $R=\{r_{1},r_{2},...,r_{N}\}^{T}$ 表示组合N 只股票的预期收益率向量；H 表示N 只股票的行业哑变量矩阵； $\boldsymbol{h}=\{h_{_{1}},h_{_{2}},...,h_{_{30}}\}^{T}$ 表示沪深 300 对应的 30 个行业的占比权重；
+其中， $R=\{r_{1},r_{2},\ldots,r_{N}\}^{T}$ 表示组合N 只股票的预期收益率向量；H 表示N 只股票的行业哑变量矩阵； $h=\{h_{1},h_{2},...,h_{30}\}^{T}$ 表示沪深 300 对应的 30 个行业的占比权重；
 
-在该优化方程中： $\forall\boldsymbol{k}^{\prime}\textbf{ \textit { w } }^{T}\boldsymbol{X}_{\mathbf{\textit{ k }}^{\prime}}=\boldsymbol{0}$ 表示除第k 个因子外的任意风格因子$k^{\prime}$ 的风险敞口暴露为 0； $w^{\begin{array}{l}{T}\\{H}\end{array}}=\boldsymbol{h}^{\begin{array}{l}{T}\\{T}\end{array}}$ 表示任意行业因子的风险敞口暴露为 0； $w^{\textit{ T }}R$ 表示权重优化的目标为组合预期收益率的最大化。因此上述优化方程的结果 $w={(w_{1},w_{2},...,w_{_{N}})}^{T}$ 为第K 个因子的纯因子股票组合。
+在该优化方程中： $\forall\quad k^{\quad\prime}\quad w^{\quad^{T}}\quad X_{\quad_{k^{\prime}}}\quad=\quad0$ 表示除第k 个因子外的任意风格因子$k^{\prime}$ 的风险敞口暴露为 0； $w^{T}H=h^{T}$ 表示任意行业因子的风险敞口暴露为 0； $\boldsymbol{w}^{\mathrm{~\tiny~T~}}\boldsymbol{R}$ 表示权重优化的目标为组合预期收益率的最大化。因此上述优化方程的结果 $w=(w_{1},w_{2},\ldots,w_{N})^{T}$ 为第K 个因子的纯因子股票组合。
 
 我们分别考察了风险模型中9大类风格因子的纯因子股票组合的收益情况，累计收益曲线分别如下（在计算中，我们将其余因子的风险敞口暴露限制于区间•0.01中）:
 
@@ -866,7 +868,7 @@ $$
 假设H 为样本股票的行业因子哑变量矩阵，h 为沪深 300 中 30 个行业的对应权重，那么行业中性的权重w 满足：
 
 $$
-w^{\textit{ T }}H=h^{\textit{ T }};\quad w\geq0
+w^{^T}H=h^{^T};w\geq0
 $$
 
 风格因子中性是指，多头组合的风格因子较之对冲基准的风险暴露为 0。风格因子中性的意义在于，将多头组合的风格特征完全与对冲基准相匹配，使得组合的超额收益不来自于某类风格。因为，我们的目的是追求获得稳健的阿尔法收益，而并非市场某种风格的收益。经风格因子中性配置后，策略的净值曲线将会进一步的平滑，最大回撤进一步降低，组合的稳定性较之仅考虑行业中性的配置方式大幅提升。
@@ -875,10 +877,10 @@ $$
 ![](images/639f4e2f11bb5bb320c665519745a8a416f68abf3b455fd2d0cccf537e814f39.webp)
 数据来源：国泰君安证券研究
 
-假设 $X_{\textit{ \textbf { k } }}$ 为样本第k 个因子的载荷截面， $w_{bench}$ 为沪深 300 指数对应权重，那么因子k 的风格中性权重w 满足：
+假设 $X_{\textit{ k }}$ 为样本第k 个因子的载荷截面， $w_{\mathit{bench}}$ 为沪深 300 指数对应权重，那么因子k 的风格中性权重w 满足：
 
 $$
-(w^{\textit{ T }}-w_{bench}^{\textit{ T }})X_{\textit{ k }}=0;\ w\geq0
+(w^{T}-w_{bench}^{T})X_{k}=0;w\geq0
 $$
 
 若权重w 对组合中任意风格因子满足上述表达式，则称组合w 满足风格 因子中性。
@@ -893,10 +895,10 @@ $$
 
 ## 1） 最小化组合预期风险
 
-结构化风险模型对组合波动率的计算为 $\boldsymbol{\sigma}_{p}=\sqrt{\boldsymbol{w}^{T}\left(\boldsymbol{X}\boldsymbol{F}\boldsymbol{X}^{\textit{ T }}+\Delta\right)\boldsymbol{w}}$ ，那么最小化组合预期风险的权重优化表达为：
+结构化风险模型对组合波动率的计算为 $\sigma_{_p}=\sqrt{w^{^T}\left(XFX^{^T}+\Delta\right)w}$ ，那么最小化组合预期风险的权重优化表达为：
 
 $$
-\begin{array}{rl}{Min}&{\boldsymbol{w}^{T}\left(\boldsymbol{X}\boldsymbol{F}\boldsymbol{X}^{T}+\boldsymbol{\Delta}\right)\boldsymbol{w}}\\{s.t.}&{\forall\boldsymbol{k}^{\prime}\left(\boldsymbol{w}^{T}-\boldsymbol{w}_{bench}\right)\boldsymbol{X}_{\boldsymbol{k}^{\prime}}=0}\\&{\boldsymbol{w}^{T}\boldsymbol{H}=\boldsymbol{h}^{T}}\\&{\boldsymbol{w}\ge0}\\&{\sum}\\&{\sum_{i=1}^{N}w_{i}=1}\end{array}
+\begin{aligned}&Min\quad w^{^T}\left(\;XFX^{^T}\;+\;\Delta\;\right)w\\&s.t.\quad\forall k^{^T}\quad(w^{^T}\;-\;w_{_{bench}}\;^T\;)X_{_{k^{\prime}}}=0\\&\quad w^{^T}H\;=\;h^{^T}\\&\quad w\;\geq\;0\\&\quad\sum_{_{i=1}}^{^N}w_{_i}=1\\\end{aligned}
 $$
 
 其中k• 表示认定的风格因子，H 为样本股票的行业因子哑变量矩阵，h为沪深 300中 30个行业的对应权重。
@@ -906,13 +908,13 @@ $$
 最大化经风险调整后的收益为目标函数，同时考虑了预期收益与预期风险的作用，并且在马克维茨的均值方差理论框架下，引入了风险厌恶系数 ，具体权重优化表达为：
 
 $$
-\begin{array}{rl}{Max}&{R_{p}-\lambda\sigma_{p}^{2}-TC\left(w\right)}\\{s.t.}&{\forall{k^{\prime}}\left(w^{T}-w_{bench}\right)X_{k^{\prime}}=0}\\&{w^{T}H=h^{T}}\\&{w\geq0}\\&{\sum_{i=1}^{N}w_{i}=1}\end{array}
+\begin{aligned}&Max\quad R_{_P}-\lambda\sigma_{_P}^{^2}-TC\left(w\right)\\&s.t.\quad\forall k^{'}\quad(w^{^T}-w_{_{bench}}^{^T})X_{_{k^{'}}}=0\\&\quad w^{^T}H=h^{^T}\\&\quad w\geq0\\&\quad\sum_{_{i=1}}^{^N}w_{_i}=1\\\end{aligned}
 $$
 
-其 中 $TC\left(\nu\right)$ 表 示 以 权 重 w 构 建 组 合 的 换 仓 成 本 ，
+其 中 $TC\left(w\right)$ 表 示 以 权 重 w 构 建 组 合 的 换 仓 成 本 ，
 
 $$
-R_{_{P}}=\sum_{j=1}^{N}w_{_{n}}\cdot(\sum_{k=1}^{\kappa}x_{_{jk}}f_{_{jk}}+u_{_{j}}),\sigma_{_{P}}=\sqrt{w^{^T}(XFX^{^T}+\Delta)w}\circ_{_{P}}
+R_{_P}=\sum_{_{j=1}}^{^N}w_{_n}\cdot(\sum_{_{k=1}}^{^K}x_{_{jk}}f_{_{jk}}+u_{_j}),\ \sigma_{_p}=\sqrt{w^{^T}(XFX^{^T}+\Delta)w}。
 $$
 
 ## 3）最大化组合信息比率
@@ -920,13 +922,13 @@ $$
 最大化组合信息比率为目标函数以预期收益与预期组合风险的比值作为目标函数，具体权重优化表达为：
 
 $$
-\begin{array}{rl}{{Max}}&{{\displaystyle\frac{R_{p}-TC\left(w\right)}{\sigma_{p}}}}\\{{}}&{{}}\\{{s.t.}}&{{\forall{k^{\prime}}\left(w^{T}-w_{benc}^{T}\right)X_{\mu^{\prime}}=0}}\\{{}}&{{\displaystyle{w^{T}H=h^{T}}}}\\{{}}&{{\displaystyle{w\geq0}}}\\{{}}&{{\displaystyle{x}}}\\{{{\sum_{i=1}^{N}w_{i}=1}}}\end{array}
+\begin{aligned}&Max\quad\frac{R_{_P}-TC\left(w\right)}{\sigma_{_P}}\\&s.t.\quad\forall k^{\prime}\quad(w^{^T}-w_{_{bench}}{^T})X_{_{k^{\prime}}}=0\\&\quad w^{^T}H=h^{^T}\\&\quad w\geq0\\&\quad\sum_{_{i=1}}^{^N}w_{_i}=1\\\end{aligned}
 $$
 
 其中TC w( ) 表示以权重w 构建组合的换仓成本，
 
 $$
-R_{_{P}}=\sum_{j=1}^{N}w_{_{n}}\cdot(\sum_{k=1}^{K}x_{_{jk}}f_{_{jk}}+u_{_{j}}),\sigma_{_{p}}=\sqrt{w^{^T}(XFX^{^T}+\Delta)w}\circ_{_{X}}
+R_{_P}=\sum_{_{j=1}}^{^N}w_{_n}\cdot(\sum_{_{k=1}}^{^K}x_{_{jk}}f_{_{jk}}+u_{_j}),\ \sigma_{_p}=\sqrt{w^{^T}(XFX^{^T}+\Delta)w}。
 $$
 
 上述三种优化目标函数中，第一种方法和第三种方法完全依赖风险模型给定的数据结果进行计算，而第二种最大化经风险调整后的收益为目标函数引入了风险厌恶系数 ，提高了权重计算的灵活性，使得投资经理可以根据自身的风险偏好进行差异化的选择。
@@ -945,7 +947,7 @@ $$
 
 3）组合个股的权重上限设为 1%（银行、证券、保险行业占比较大，为实现行业中性配置，权重上限分别设为 3%、2%、2%）。
 
-4）优化目标函数我们采用 $\begin{array}{rl}{Max}&{{}R_{_P}-\lambda\sigma_{_P}^{^2}-TC\left(w\right)}\end{array}$ 形式，其中 $\lambda={\frac{1}{2}}$
+4）优化目标函数我们采用 $Max\quad R_{_P}-\lambda\sigma_{_P}^{^2}-TC(w)$ 形式，其中 $\lambda=\frac{1}{2}$
 
 5）行业中性约束中，因子敞口设定为•5% ；
 
@@ -970,15 +972,15 @@ $$
 ## 一、 构建市值中性对冲组合
 
 $$
-\begin{array}{rl}{Max}&{{}R_{_P}-\lambda\sigma_{_P}^{^2}-TC\left(w\right)}\end{array}
+Max\quad R_{P}-\lambda\sigma_{P}^{2}-TC(w)
 $$
 
 $$
-s.t.\qquad w\geq0
+s.t.\ w\geq0
 $$
 
 $$
-\sum_{i=1}^{N}w_{i}=1
+\sum_{i=1}^{N}w_{_{i}}=1
 $$
 
 图 13 市值中性组合与沪深 300指数比较
@@ -1007,7 +1009,7 @@ $$
 ## 二、 构建市值、行业中性对冲组合
 
 $$
-\begin{array}{ll}{{Max}}&{{R_{_{P}}-\lambda\sigma_{_P}^{^2}-TC\left(w\right)}}\\{{\ }}&{{}}\\{{s.t.\ }}&{{w^{^T}H\ =\ h^{^T}}}\\{{\ }}&{{\ }}\\{{\begin{array}{l}{{w\geq\ 0}}\\{{\ }}\\{{\sum_{i=1}^{N}w_{i}=1}}\end{array}}}\end{array}
+\begin{aligned}&Max\quad R_{_P}-\lambda\sigma_{_P}^{^2}-TC\left(w\right)\\&s.t.\quad w^{^T}H=h^{^T}\\&\quad w\geq0\\&\quad\sum_{_{i=1}^{^N}}^{^N}w_{_i}=1\\\end{aligned}
 $$
 
 图 15 市值、行业中性组合与沪深 300指数比较
@@ -1034,7 +1036,7 @@ $$
 ## 三、 构建市值、行业、风格中性对冲组合
 
 $$
-\begin{array}{ll}{{Max}}&{{R_{_{P}}-\lambda\sigma_{_{P}}^{^2}-TC\left(w\right)}}\\{{}}&{{}}\\{{s.t.}}&{{\forall{k^{\prime}}\left(w^{^T}-w_{_{bench}}\right)X_{{k^{\prime}}}=0}}\\{{}}&{{}}\\{{}}&{{w^{^T}H=h^{T}}}\\{{}}&{{w\geq0}}\\{{}}&{{}}\\{{}}&{{\sum_{i=1}^{N}w_{i}=1}}\end{array}
+\begin{aligned}&Max\quad R_{_P}-\lambda\sigma_{_P}^{^2}-TC\left(w\right)\\&s.t.\quad\forall k^{'}\quad(w^{^T}-w_{_{bench}}^{^T})X_{_{k^{'}}}=0\\&\quad w^{^T}H=h^{^T}\\&\quad w\geq0\\&\quad\sum_{_{i=1}}^{^N}w_{_i}=1\\\end{aligned}
 $$
 
 图 17 市值、行业、风格中性组合与沪深 300 指数比较
@@ -1094,16 +1096,16 @@ $$
 
 ## 3.6.1. 因子收益归因
 
-在结构化风险模型中，组合预期收益率利用行业因子、风格因子和特质残差因子线性表达： $R_{_{P}}=\sum_{j=1}^{N}w_{_n}\cdot(\sum_{k=1}^{\kappa}x_{_{jk}}f_{_{jk}}+u_{_j})$
+在结构化风险模型中，组合预期收益率利用行业因子、风格因子和特质残差因子线性表达： $R_{_P}=\sum_{_{j=1}}^{^N}w_{_n}\cdot(\sum_{_{k=1}}^{^K}x_{_{jk}}f_{_{jk}}+u_{_j}),$
 
-那么，因子收益归因即为当期组合的风险因子暴露与当期风险因子收益率的乘积，其余收益来源则归于特质残差因子。具体为，首先在第t 期初组合建仓日，经组合权重优化得到组合在风格因子k 上的敞口暴露为$w^{\textit{ T }}X_{\textit{ k }}-{w_{\textit{ b e n c h }}}^{\textit{ T }}X_{\textit{ k }}$ 。然后，在第t 期末组合换仓日，利用个股的实际收
+那么，因子收益归因即为当期组合的风险因子暴露与当期风险因子收益率的乘积，其余收益来源则归于特质残差因子。具体为，首先在第t 期初组合建仓日，经组合权重优化得到组合在风格因子k 上的敞口暴露为$w^{\phantom{\dagger}T}X_{\phantom{\dagger}_{k}}-w_{\phantom{\dagger}_{bench}}^{\phantom{\dagger}_{bench}T}X_{\phantom{\dagger}_{k}}$ 。然后，在第t 期末组合换仓日，利用个股的实际收
 
 益率与公共因子做回归分析，可以得到第t 期的因子收益率 f ，其中第k
 
-个因子的收益率为 $\boldsymbol{f}_{k}$ 。那么，第k 个因子在第t 期的因子收益贡献即为：
+个因子的收益率为 $f_{k}$ 。那么，第k 个因子在第t 期的因子收益贡献即为：
 
 $$
-(w^{\textit{ T }}-w_{\textit{ b e n c h }}{}^{T})X_{\textit{ k }}\cdot f_{\textit{ k }}
+(\boldsymbol{w}^{T}-\boldsymbol{w_{bench}}^{T})\boldsymbol{X_{k}}\cdot\boldsymbol{f_{k}}
 $$
 
 我们对上述3种实证检验的结果进行风格因子收益归因分析，结果如下:
@@ -1125,7 +1127,7 @@ $$
 在结构化风险模型中，组合风险的表达形式为：
 
 $$
-\sigma_{_p}=\sqrt{{w}^{T}\left(XFX^{T}+\Delta\right)w}\mathrm{~o~}
+\sigma_{_{p}}=\sqrt{w^{^{T}}\left(XFX^{^{T}}+\Delta\right)w}\mathrm{~~}
 $$
 
 对于每一类因子而言，其因子风险贡献来源于两部分，即因子风险敞口与因子波动率，越大的因子敞口和越大的因子波动率将会造成越高的因子风险贡献。
@@ -1133,7 +1135,7 @@ $$
 具体而言，对于N 只股票K 个因子的组合而言，那么第k 个因子的风险贡献为：
 
 $$
-(w^{\textit{ T }}-w_{bench}^{\textit{ T }})XF((w^{\textit{ T }}-w_{bench}^{\textit{ T }})X_{\textit{ k }})
+(w^{^T}-w_{_{bench}}^{^T})XF((w^{^T}-w_{_{bench}}^{^T})X_{_k})
 $$
 
 我们对上述3种实证检验的结果进行风格因子风险归因分析，结果如下：

@@ -68,7 +68,7 @@ hujicong@ebscn.com
 为了较为方便地刻画流动性风险，我们讨论股票的非流动性。亦即，非流动性越高，流动性风险越大。由于大部分的非流动性度量方式都较难直接测量或获取，因而往往是通过定义一些代理变量来间接地表达非流动性程度。一个比较经典的代理方法是：计算日收益率的绝对值与日成交量的比值，并求多日比值的平均值作为非流动性值（Amihud, JFM 2002）。该定义方式的逻辑在于试图通过单位成交量对收益率的影响，来刻画该股票交易的市场冲击。从而间接描述该股票的非流动性。
 
 $$
-ILLIQ_{t}=\frac{1}{d}{\sum_{i=1}^{d}\left(\frac{|Ret|}{Volume}\right)}_{t-i}\#(1)
+ILLIQ_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{|Ret|}{Volume}\right)_{t-i}\#(1).
 $$
 
 ## d：表示移动平均的周期参数
@@ -93,12 +93,12 @@ $$
 即如果我们假设，某只股票当天总共进行了n 比交易，则当日的收益率与交易量可以写成：
 
 $$
-\begin{array}{c}{{Return=\displaystyle\frac{1}{Close}\sum_{i=1}^{n}PriceChange_{i}}}\\{{{}}}\\{{=\displaystyle\frac{1}{Close}\Big(\sum PriceChange_{Rise}-\sum PriceChange_{Fall}\Big)\#(2)}}\\{{{}}}\\{{Volume=\displaystyle\sum_{i=1}^{n}Volume_{i}}}\\{{{}=\displaystyle\sum_{Volume_{Rise}+\sum Volume_{Fall}}\#(3)}}\end{array}
+\begin{aligned}Return=&\frac{1}{Class}\sum_{i=1}^{n}Pricechange_{i}\\=&\frac{1}{Class}\Big(\sum Pricechange_{Rise}-\sum Pricechange_{Fall}\Big)\ \#(2)\\&Volume=\sum_{i=1}^{n}Volume_{i}\\=&\sum Volume_{Rise}+\sum Volume_{Fall}\ \#(3)\end{aligned}
 $$
 
 $PriceChange_{Rise}$ ：表示单笔交易促成价格上涨时的价格变动
 
-$PriceChange_{Fall}:$ ：表示单笔交易促成价格下跌时的价格变动（正值）
+$PriceChange_{Fall}\colon$ ：表示单笔交易促成价格下跌时的价格变动（正值）
 
 $Volume_{Rise}$ ：表示单笔交易促成价格上涨时的成交量
 
@@ -133,13 +133,13 @@ SignedVolume=\sum_{i=1}^{n}SignedVolume_{i}
 $$
 
 $$
-=\sum Volume_{Rise}-\sum Volume_{Fall}\approx\sum_{i=1}^{p}Sign(Price{Change})_{i}*Volume_{i}\ \#(4)
+=\sum Volume_{Rise}-\sum Volume_{Fall}\approx\sum_{i=1}^{p}Sign(PriceChangle)_i*Volume_i\#(4)
 $$
 
 p：表示日内频率分段个数（例：若使用 30 分钟线频率，则将1 日分成 8 段，即 p = 8）
 
 $$
-Volume_{i}:~\frac{1}{\sqrt[4]{3}}\equiv\frac{1}{2\pi}\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gax\ gay
+Volume_{i}:表示日内频率下第\textsf{i}个时间段内的成交量
 $$
 
 Sign(PriceCℎange) ：表示日内频率下第 i 个时间段价格变化的方向（上涨为正号，下跌为负号）
@@ -147,7 +147,7 @@ Sign(PriceCℎange) ：表示日内频率下第 i 个时间段价格变化的方
 则此时非流动性的代理变量可写成：
 
 $$
-ILLIQ_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{Ret}{SignedVolume}\right)_{t-i}\#(5)
+ILLIQ_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{Ret}{SignedVolume}\right)_{t-i}\#(5).
 $$
 
 实际计算中，有向成交量（SignedVolume）可以用（4）式中约等号右侧算式估计。然而这样的定义方式依然有很大问题。一般情况下，当日的收益率与有向成交量的正负号是相同的；但依然有时候收益率与有向成交量符号相反，尤其是在日内震荡严重致使有向成交量值或收益率接近零的时候。作为单位成交量下的市场冲击代理变量，出现负值显然并没有逻辑意义。然而即使我们将定义套上绝对值符号，依然也无法解决该代理变量在有向成交量接近零值时极度不稳定的情况。
@@ -157,13 +157,13 @@ $$
 出现在分母位置作为交易市场冲击单位的成交量或成交额本身已经是无向叠加。而出现在分子位置体现一段时间内交易造成的市场冲击总值的部分，如何构造使其更加贴向价格变化的无向叠加是构造更有效非流动性代理变量的关键。我们考虑到实际上交易造成的市场冲击在价格上的体现应为：
 
 $$
-\sum PriceChange_{Rise}+\sum PriceChange_{Fall}~\#(6)
+\sum PriceChange_{Rise}+\sum PriceChange_{Fall}\#(6)
 $$
 
 其中 $PriceChange_{Rise}$ 与 $PriceChange_{Fall}$ 都是标量，全部为正值。（6）式实际上表达的是该股票在一个时间段里价格所经历的完整路径长度。在仅有一个完整K线的情况时，且没有K线完整路径长度分布的信息下，我们能够得到的最确定的接近完整路径长度的值为股票形成该K线的最短路径长度（ShortCut），即：
 
 $$
-ShortCut=~2*(High-Low)-\left|Open-Close\right|\#(7)
+ShortCut=2*(High-Low)-|Open-Close|\#(7)
 $$
 
 图 3：K 线形成的完整路径与最短路径示意图
@@ -173,7 +173,7 @@ $$
 在一根K线上，我们定义在该K 线的时间段上，非流动性的代理变量为单位成交额下的最短路径长度。若是定义在日线上取平均，即：
 
 $$
-ILLIQ_{t}=\frac{1}{d}\sum_{i=1}^{d}{\left(\frac{ShortCut}{Value}\right)_{t-i}}\#(8)
+ILLIQ_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{ShortCut}{Value}\right)_{t-i}\#(8)
 $$
 
 SℎortCut：表示当日 K 线最短路径长度
@@ -187,10 +187,10 @@ Value：表示当日成交额
 此时每日的 K线最短路径非流动性因子定义为：
 
 $$
-ILLIQ_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\sum_{j=1}^{p}\frac{ShortCut_{j}}{Value_{j}}\right)_{t-i}\#(9)
+ILLIQ_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\sum_{j=1}^{p}\frac{Shortcut_{j}}{Value_{j}}\right)_{t-i}\#(9)
 $$
 
-$S\hbar ortCut_{j}$ ：表示日内频率下第j根K 线的最短路径
+$S{\not}lortCut_{j}$ ：表示日内频率下第j根K 线的最短路径
 
 $Value_{j}$ ：表示日内频率下第j跟K 线内的成交额
 

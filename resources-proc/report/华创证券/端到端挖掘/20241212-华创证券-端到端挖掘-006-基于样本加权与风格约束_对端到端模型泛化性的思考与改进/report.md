@@ -119,7 +119,7 @@ GRU CONST 模型的 10日 IC最高达到为 14.1；TOP 组整体表现与基线�
 在模型训练完成后，取训练、测试数据集GRU 输出最后一个时间步，即每个截面输出的股票中间表征，形状为 $(n_{t},\mathrm{d})$ ，其中 $n_{t}$ 表示第 t 个 batch的股票数量，d为 GRU 嵌入维度（设置为 64），对表征矩阵进行SVD分解，将奇异值S 归一化后计算奇异值熵（SVE）指标：
 
 $$
-SVE=-\sum_{i=1}^{d}p_{i}\log(p_{i})
+SVE=-\sum_{i=1}^{d}p_{i}\log(p_{i}),
 $$
 
 其中：
@@ -240,24 +240,24 @@ GroupDRO 研究关注了深度学习模型在少数样本上的不佳表现，�
 在方法论上，我们参考原文及相关研究思路，给予每个样本一个分组标签，对于组 $g\in$ $\{1,\ldots,G\}$ ，损失计算为：
 
 $$
-\mathcal{L}_{g}=\mathrm{ICLoss}\left(\widehat{y_{g}},y_{g}\right)
+\mathcal{L}_{\mathcal{L}}=\mathrm{ICLoss}\big(\widehat{y_{g}},y_{g}\big)
 $$
 
-其中， $\widehat{y_{g}}$ 和 $\boldsymbol{y}_{g}$ 分别表示第 $g$ 组的模型预测值和训练标签。
+其中， $\widehat{\mathcal{Y}_{g}}$ 和 $^{t}y_{g}$ 分别表示第 $g$ 组的模型预测值和训练标签。
 
 每个batch 的总损失为：
 
 $$
-\mathcal{L}=\sum_{\mathrm{g}=1}^{\mathrm{G}}w_{g}\mathcal{L}_{g}
+\mathcal{L}\:=\:\sum_{g=1}^{G}\:w_{g}\:\mathcal{L}_{g},
 $$
 
 每组权重更新方法为：
 
 $$
-w_{g}^{\mathrm{new}}=\frac{w_{g}\exp\left(\rho\mathcal{L}_{g}\right)}{\sum_{i=1}^{G}w_{i}\exp\left(\rho\mathcal{L}_{i}\right)}
+w_{g}^{\mathrm{new}}=\frac{w_{g}\exp(\rho\mathcal{L}_{g})}{\sum_{i=1}^{G}w_{i}\exp(\rho\mathcal{L}_{i})}
 $$
 
-其中 $\mathrm{w_{g}}$ 是第 $g$ 组的当前权重， $\rho.$ 是权重更新率， $\mathcal{L}_{g}$ 是第 $g$ 组的损失。
+其中 $W_{\mathrm{g}}$ 是第 $g$ 组的当前权重， $\rho.$ 是权重更新率， $\mathcal{L}_{\mathcal{\phi}}$ 是第 $g$ 组的损失。
 
 在分组选择上，在后文测试中我们以流动风格作为分组标签，根据流动因子暴露将股票分为三组。我们将此模型记为 GRUDRO。
 
@@ -266,7 +266,7 @@ $$
 针对模型对流动性和残差波动的显著暴露的特点，我们采用一个简单的惩罚项来约束风格暴露：
 
 $$
-\mathcal{P}=\frac{1}{|s|}{\sum_{i\in s}\operatorname*{max}(|\operatorname{ICLoss}(\hat{y},s_{i})|-\epsilon,0)}
+\mathcal{P}=\frac{1}{|s|}\sum_{i\in s}\operatorname*{max}(|\operatorname{ICLoss}(\hat{y},s_{i})|-\epsilon,0)
 $$
 
 其中S是风格因子的集合，ŷ是模型对当前截面股票的预测值， $s_{i}$ 为当前截面股票在某个风格因子的暴露，ϵ为相关性阈值。

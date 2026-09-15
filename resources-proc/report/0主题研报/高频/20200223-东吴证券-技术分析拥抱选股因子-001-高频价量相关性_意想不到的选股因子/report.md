@@ -76,7 +76,7 @@ shenzhq@dwzq.com.cn
 （4）采用最简单的方式综合上述两个因子的信息，将 PV_corr_avg 和 PV_corr_std分别横截面标准化，等权线性相加得到价量相关性综合因子 PV_corr，即
 
 $$
-\mathrm{PV_{-}corr=\frac{PV_{-}corr_{-}avg-mean(PV_{-}corr_{-}avg)}{std(PV_{-}corr_{-}avg)}+\frac{PV_{-}corr_{-}std-mean(PV_{-}corr_{-}std)}{std(PV_{-}corr_{-}std)}}
+\mathrm{PV\_corr}=\frac{\mathrm{PV\_corr\_avg}-\mathrm{mean}(\mathrm{PV\_corr\_avg})}{\mathrm{std}(\mathrm{PV\_corr\_avg})}+\frac{\mathrm{PV\_corr\_std}-\mathrm{mean}(\mathrm{PV\_corr\_std})}{\mathrm{std}(\mathrm{PV\_corr\_std})}
 $$
 
 每月将所有样本按照两个子因子值分别排序分组，下图 3 和图 4 分别展示了PV_corr_avg 和PV_corr_std的 5分组及多空对冲净值走势（其中分组1因子值最小，分组5因子值最大），表1则汇报了它们多空对冲的各项绩效指标。另外，PV_corr_avg和PV_corr_std 的平均月度相关系数约为 0.15。
@@ -211,11 +211,11 @@ $$
 
 （1）每月月底，仍然回溯每只股票过去 20个交易日的价量信息，每日计算该股票分钟收盘价与分钟成交量的相关系数；
 
-（2）将每只股票的20个相关系数 $\mathcal{P}_{t}$ 对时间t回归，取回归系数 $\boldsymbol{\cdot}\beta$ ，即 $\rho_{t}=\beta*t+\varepsilon_{t}$ 其中，t取值为 1,2,3,……,20；
+（2）将每只股票的20个相关系数 $\rho_{t}$ 对时间t回归，取回归系数 $i\beta$ ，即 $\rho_{t}=\beta*t+\varepsilon_{t}$ 其中，t取值为 1,2,3,……,20；
 
 （3）将所有股票的回归系数β在横截面上剔除市值、传统价量类因子（20日反转、20日换手率、20日波动率因子），将得到的结果定义为趋势因子PV_corr_trend。
 
-仍以全体 A 股为研究样本（剔除其中的 ST 股、停牌股以及上市不足 60 个交易日的次新股），在回测期 2014/01/01-2020/01/31 内，趋势因子 PV_corr_trend 的月度 IC 均值为-0.042，RankIC 均值为-0.057，年化 ICIR 为-3.45，年化 RankICIR 为-3.97，因子值越小，即价量相关系数随时间推移变小的股票，未来收益倾向于越高，这与平均数因子PV_corr_avg 的逻辑相呼应。下图11 展示了趋势因子的 5 分组及多空对冲净值走势，表5 则报告了因子各年度的表现情况。在整个时间段上，趋势因子 5 分组多空对冲的年化收益为 14.55%，信息比率为 2.83，月度胜率 85.92%，最大回撤为 2.45%。虽然整体分组不严格单调（分组 2 优于分组 1），但多空对冲在 2019 年的表现明显优于上一节的$\mathrm{PV\_corr\_deRet}20$ 因子。
+仍以全体 A 股为研究样本（剔除其中的 ST 股、停牌股以及上市不足 60 个交易日的次新股），在回测期 2014/01/01-2020/01/31 内，趋势因子 PV_corr_trend 的月度 IC 均值为-0.042，RankIC 均值为-0.057，年化 ICIR 为-3.45，年化 RankICIR 为-3.97，因子值越小，即价量相关系数随时间推移变小的股票，未来收益倾向于越高，这与平均数因子PV_corr_avg 的逻辑相呼应。下图11 展示了趋势因子的 5 分组及多空对冲净值走势，表5 则报告了因子各年度的表现情况。在整个时间段上，趋势因子 5 分组多空对冲的年化收益为 14.55%，信息比率为 2.83，月度胜率 85.92%，最大回撤为 2.45%。虽然整体分组不严格单调（分组 2 优于分组 1），但多空对冲在 2019 年的表现明显优于上一节的$\mathrm{PV\_corr\_deRet20}$ 因子。
 
 图 11：趋势因子 PV_corr_trend 的 5 分组及多空对冲净值走势
 ![](images/a0bcce977b68cde28074499a04c4cdf0df07c33642dd3c7fbf99492f3447f799.webp)
@@ -240,7 +240,7 @@ $$
 经检验，上一小节介绍的趋势因子 PV_corr_trend 在剔除原来的综合因子PV_corr_deRet20 后，仍然具有一定的选股能力，因此我们将 PV_corr_trend 带来的增量信息叠加到 PV_corr_deRet20 之上，最终因子命名为 CPV 因子（Correlation of Price andVolume），涵盖了本篇报告提出的价量相关性 3个维度上的综合信息：
 
 $$
-\begin{array}{r}{\mathrm{CPV}=\frac{\mathrm{PV}_{-}\mathrm{corr}_{-}\mathrm{deRet}20\mathrm{-}\mathrm{mean}(\mathrm{PV}_{-}\mathrm{corr}_{-}\mathrm{deRet}20)}{\mathrm{std}(\mathrm{PV}_{-}\mathrm{corr}_{-}\mathrm{deRet}20)}}\\{+\frac{\mathrm{PV}_{-}\mathrm{corr}_{-}\mathrm{trend-}\mathrm{mean}(\mathrm{PV}_{-}\mathrm{corr}_{-}\mathrm{trend})}{\mathrm{std}(\mathrm{PV}_{-}\mathrm{corr}_{-}\mathrm{trend})}}\end{array}
+\begin{aligned}CPV=&\frac{PV\_corr\_det20-mean(PV\_corr\_det20)}{std(PV\_corr\_det20)}\\&+\frac{PV\_corr\_tend-mean(PV\_corr\_tend)}{std(PV\_corr\_tend)}\end{aligned}
 $$
 
 图 12：CPV因子总结

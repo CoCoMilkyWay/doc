@@ -41,12 +41,12 @@ zhujiantao@orientsec.com.cn
 
 ## 1.1 常见机器学习方法
 
-机器学习（ML，Machine Learning）涵盖一大类算法，我们这里的讨论只针对适用于金融数据预测的常用有监督型机器学习（Supervised ML）算法。假设我们要去预测某个连续变量 Y未来的取值（例如，个股未来一个月的收益率），并找到了影响变量 Y取值的K 个变量 $(\mathrm{X}_{1},\mathrm{X}_{2}\cdots\mathrm{X}_{K})$ 这些变量也称为特征变量（Feature Variable）。ML 即是要找到一个拟合函数 $\operatorname{f}(\mathrm{X}_{1},\mathrm{}X_{2}\cdots X_{K}|\Theta)$ 去描述 Y和特征变量之间的关系， 为这个函数的参数。
+机器学习（ML，Machine Learning）涵盖一大类算法，我们这里的讨论只针对适用于金融数据预测的常用有监督型机器学习（Supervised ML）算法。假设我们要去预测某个连续变量 Y未来的取值（例如，个股未来一个月的收益率），并找到了影响变量 Y取值的K 个变量 $(X_{1},X_{2}\cdots X_{K})$ 这些变量也称为特征变量（Feature Variable）。ML 即是要找到一个拟合函数 $\mathbf{f}(\mathrm{X}_{1},X_{2}\cdots X_{K}|\Theta)$ 去描述 Y和特征变量之间的关系， 为这个函数的参数。
 
-要找到这样的函数，必须要足够量的观测数据，假设有 N 个样本数据 $\{y_{1},y_{2}\cdots y_{N}\}$ 和$\{\left(\mathrm{x}_{1,\mathrm{i}},\boldsymbol{x}_{2,i},\cdots\boldsymbol{x}_{K,i}\right),i=1,2\ldots N\}$ 。然后定义一个二元函数 来衡量真实观测数据和模型估计数据的偏差，函数 L 也称作损失函数（Loss Function）。基于历史观测数据，我们可以求解下列的最优化问题来得到参数 的估计值
+要找到这样的函数，必须要足够量的观测数据，假设有 N 个样本数据 $\{\mathtt{y}_{1},y_{2}\cdots y_{N}\}$ 和$\{\left(x_{1,i},x_{2,i},\cdots x_{K,i}\right),i=1{,}2\ldots N\}$ 。然后定义一个二元函数 来衡量真实观测数据和模型估计数据的偏差，函数 L 也称作损失函数（Loss Function）。基于历史观测数据，我们可以求解下列的最优化问题来得到参数 的估计值
 
 $$
-\widehat{\Theta}=\arg\operatorname*{min}_{\Theta}\sum_{i=1}^{N}L(y_{i},f(\mathrm{x_{1,i}},x_{2,i},\cdots x_{K,i}))\quad\cdots\cdots\ :\ :(1.1)
+\hat{\Theta}=\arg\min_{\Theta}\sum_{i=1}^{N}L(y_i,f(x_{1,i},x_{2,i},\cdots x_{K,i}))\cdots\cdots(1.1)
 $$
 
 求解过程称作模型训练（Model Traing）。基于特征变量的最新观测值和训练出来的模型参数就可以预测 y的数值。不同机器学习方法的差别在于函数 和 的选择，同时还会给上述优化问题加上限制条件避免模型过拟合，不同的选择需要不同的算法来求解。
@@ -55,17 +55,17 @@ $$
 
 ## 1.1.1 线性模型
 
-如果采用线性拟合函数 $\mathrm{f}(\mathrm{X}_{1},\mathrm{}\mathrm{}_{1}\mathrm{}\mathrm{}\mathrm{}\mathrm{}\mathrm{}\cdots\mathrm{}\mathrm{}\mathrm{}X_{K}|\Theta)=a_{0}+a_{1}X_{1}+a_{2}X_{2}+\cdots a_{K}X_{K}$ 和二次损失函数$\operatorname{L}({\mathrm{a}},{\mathrm{b}})=({\mathrm{a}}-{\mathrm{b}})^{2}$ ，上述优化问题就变成了最常用的 OLS 线性回归。我们在上篇报告中就是采用简单的一元回归将 alpha 因子的zscore 转换为预测收益，线性模型的好处在于结构简单，可以基于此发展出完善的资产定价模型和风险分析工具，在 A 股实际使用下来效果也非常好，不比复杂的非线性模型差多少。但缺点是对于因子间共线性处理、变量选择效果一般。现在通行的做法是通过不同 alpha 因子的 IC 相关性分析，进行分类或正交化处理，因子数据预加工后再输入到回归模型中，这里面人为的主观因素会比较多。投资者可以尝试一些带压缩控制的线性模型，如 RidgeRegression，LASSO等，用数理手段处理问题，提升模型预测能力。
+如果采用线性拟合函数 $\mathrm{f}(\mathrm{X}_{1},X_{2}\cdots X_{K}|\Theta)=a_{0}+a_{1}X_{1}+a_{2}X_{2}+\cdots a_{K}X_{K}$ 和二次损失函数$\mathrm{L}(\mathrm{a},\mathrm{b})=(\mathrm{a}-\mathrm{b})^2$ ，上述优化问题就变成了最常用的 OLS 线性回归。我们在上篇报告中就是采用简单的一元回归将 alpha 因子的zscore 转换为预测收益，线性模型的好处在于结构简单，可以基于此发展出完善的资产定价模型和风险分析工具，在 A 股实际使用下来效果也非常好，不比复杂的非线性模型差多少。但缺点是对于因子间共线性处理、变量选择效果一般。现在通行的做法是通过不同 alpha 因子的 IC 相关性分析，进行分类或正交化处理，因子数据预加工后再输入到回归模型中，这里面人为的主观因素会比较多。投资者可以尝试一些带压缩控制的线性模型，如 RidgeRegression，LASSO等，用数理手段处理问题，提升模型预测能力。
 
 ## 1.1.2 决策树模型
 
-决策树（CART，Classification and Regression Tree）应该是一种结果最易于理解的机器学习模型，和很多投资者采用的因子逐步筛股法的思考方式很像。假设有两个特征变量 $\mathrm{X}_{1}\mp\sqcup\mathrm{X}_{2},\ -$ 个训练好的决策树模型可能是图1 的树状结构，它可以表示成一系列的二维示性函数的和
+决策树（CART，Classification and Regression Tree）应该是一种结果最易于理解的机器学习模型，和很多投资者采用的因子逐步筛股法的思考方式很像。假设有两个特征变量 $X_1和X_2,一$ 个训练好的决策树模型可能是图1 的树状结构，它可以表示成一系列的二维示性函数的和
 
 $$
-\operatorname{f}(\mathrm{X}_{1},\mathrm{X}_{2})=\sum_{k=1}^{5}a_{k}\cdot1_{\{(\mathrm{X}_{1},\mathrm{X}_{2})\in A_{k}\}}
+\mathbf{f}(\mathtt{X_{1}},X_{2})=\sum_{k=1}^{5}a_{k}\cdot1_{\{(X_{1},X_{2})\in A_{k}\}},
 $$
 
-其中 $\{\mathrm{A_{k}},k=1,2,3,4,5\}$ 对应图 2 中的矩阵区域。对于更多的特征变量，CART 的拟合函数也可以表示成类似的高维矩形块示性函数的和，这里矩形块的数量、划分点、划分顺序都是函数的参数，
+其中 $\{\mathrm{A}_{\mathrm{k}},k=1{,}2{,}3{,}4{,}5\}$ 对应图 2 中的矩阵区域。对于更多的特征变量，CART 的拟合函数也可以表示成类似的高维矩形块示性函数的和，这里矩形块的数量、划分点、划分顺序都是函数的参数，
 
 CART 的损失函数也为二次损失函数，优化问题(1.1)的变量同时包含整数和实数，属于混合优化问题，没有显式解和高效的数值算法。因此，实际使用中，用得更多的是一种逐步搜索的贪婪算法寻求次优解（算法步骤参考 Hastie2008），运算效率非常之高。
 
@@ -94,46 +94,46 @@ Fig. 1. Decision trees grown from two subsets of the lymphography dataset that d
 人工神经网络（ANN，Artificial Neural Network）是一种历史悠久的机器学习方法。它用的拟合函数比较特别，先对输入变量的线性组合做非线性转换，得到隐藏层的 M个变量
 
 $$
-\mathrm{Z_{m}}=\sigma\big(\alpha_{0,m}+\alpha_{1,m}\cdot X_{1}+\cdots\alpha_{N,m}\cdot\mathrm{X_{K}}\big),m=1,2\ldots M
+\mathrm{Z}_{\mathrm{m}}=\sigma\big(\alpha_{0,m}+\alpha_{1,m}\cdot X_{1}+\cdots\alpha_{N,m}\cdot\mathrm{X}_{\mathrm{K}}\big),\quad m=1{,}2\ldots M
 $$
 
-转换函数最早取得是 Heveside 阶梯函数，来模拟人生理上受到的刺激需要达到一定的量才会产生反应，但这是一个非连续函数，难以求解后续的优化问题，因此现在使用更多的是连续的 sigmoid函数 $\sigma(\mathrm{x})=1/(1+\mathrm{e}^{-\mathrm{x}})$ 或 GRBF（Gaussian Radial Basis Function） $\sigma(\mathrm{x})={\mathrm e}^{-{\mathrm a}\cdot{|\mathbf{x}|}|^{2}}$ 。对于回归问题，最后的输出变量是隐藏层变量的线性组合 $\mathrm{Y}=\beta_{0}+\beta_{1}\cdot Z_{1}+\beta_{2}\cdot Z_{2}+\cdots\beta_{M}\cdot Z_{M}$
+转换函数最早取得是 Heveside 阶梯函数，来模拟人生理上受到的刺激需要达到一定的量才会产生反应，但这是一个非连续函数，难以求解后续的优化问题，因此现在使用更多的是连续的 sigmoid函数 $\mathrm{{}_{\mathrm{{}_{\mathrm{{}}}}(\sigma(x)=1/(1+e^{-x})}}$ 或 GRBF（Gaussian Radial Basis Function） $\sigma(\mathbf{x})=\mathrm{e}^{-\mathbf{a}\cdot||\mathbf{x}||^{2}}$ 。对于回归问题，最后的输出变量是隐藏层变量的线性组合 $\mathrm{Y}=\beta_{0}+\beta_{1}\cdot Z_{1}+\beta_{2}\cdot Z_{2}+\cdots\beta_{M}\cdot Z_{M}$
 
 图 4：ANN 基本架构
 ![](images/09a63a906350769ed96767e11d15b9f1196b2494b6561c17574f259ca6dd9b11.webp)
 资料来源：东方证券研究所
 
-ANN 同样使用二次损失函数，但它并非直接求解优化问题（1.1），这样会导致过拟合，而是类似于 Ridge Regression 的做法，对模型里面的参数 $\begin{array}{r}{\{\alpha_{\mathrm{i,m}},\beta_{\mathrm{m}},i=0,1,\ldots\mathrm{N,m}=1,.}\end{array}$ 的大小做出限制，让优化求解过程提前结束，提高模型样本外预测能力。
+ANN 同样使用二次损失函数，但它并非直接求解优化问题（1.1），这样会导致过拟合，而是类似于 Ridge Regression 的做法，对模型里面的参数 $\{\alpha_{\mathrm{i,m}},\beta_{\mathrm{m}},i=0,1,\dots\mathbb{N},\mathrm{m}=1,.$ 的大小做出限制，让优化求解过程提前结束，提高模型样本外预测能力。
 
 理论上可以证明 ANN 的这种结构可以拟合任意形式的连续函数，增加隐藏层和隐藏层变量的数量可以让模型能够描述更复杂的结构。ANN 的参数数量可以远多于输入变量的个数，因此很容易过拟合，在某些工程问题的样本外表现不如 SVM。近些年，GPU 技术的发展和超大规模服务器并行运算使得复杂结构的神经网络能够在有效时间内完成训练，以 Google AlphaGo 为代表的深度神经网络重回人们视线，不仅在围棋上战胜人类高手，也在许多工程问题的机器学习算法竞赛中摘得桂冠(Schmidhuber2015)。另一方面，网络大数据使得传统 ANN 模型，即使不改进算法，仅靠训练样本数量的大幅提升，效果也能得到显著改善。
 
 ## 1.1.4 支持向量机（SVM）
 
-SVM 最早由 Vladimir N. Vapnik 和 Alexey Ya. Chervonenkis 于 1963 年提出，用来做分类，我们这里考察的是其对应的用来解决回归问题的模型 SVR（Support Vector Regression）。SVR先对原始数据做了非线性变换 $\mathrm{h}_{\mathrm{m}}(\cdot)$ ，把数据映射到高维空间，再做回归。其拟合函数可以表示为
+SVM 最早由 Vladimir N. Vapnik 和 Alexey Ya. Chervonenkis 于 1963 年提出，用来做分类，我们这里考察的是其对应的用来解决回归问题的模型 SVR（Support Vector Regression）。SVR先对原始数据做了非线性变换 $\mathbf{h_{m}}(\cdot)$ ，把数据映射到高维空间，再做回归。其拟合函数可以表示为
 
 $$
-\mathrm{f}({\mathrm{X}}_{1},X_{2}\dots X_{K})=\sum_{m=1}^{M}\beta_{m}\cdot h_{m}(X_{1},X_{2},\dots X_{K})+\beta_{0}\quad{\mathrm{m}}=1,2\dots{\mathrm{M}}
+\mathbf{f}(\mathtt{X}_{1},X_{2}\dots X_{K})=\sum_{m=1}^{M}\beta_{m}\cdot h_{m}(X_{1},X_{2},\dots X_{K})+\beta_{0}\quad\mathrm{m=1,}2\dots\mathsf{M}.
 $$
 
 损失函数 L(a,b)通常采用下面 形式
 
 $$
-\mathrm{L}_{\epsilon}(\mathrm{a},\mathrm{b})=\left\{\begin{array}{c}{{0\qquad if|a-b|<\epsilon}}\\{{|a-b|-\epsilon\quad if|a-b|\geq\epsilon}}\end{array}\right.
+\mathrm{L}_{\epsilon}(a,b)=\left\{\begin{matrix}{0\quad if\quad|a-b|<\epsilon}\\{|a-b|-\epsilon\quad if\quad|a-b|\geq\epsilon}\end{matrix}\right.
 $$
 
 优化问题（1.1）需要带上类似 Ridge Regression 或 LASSO 的约束条件或惩罚项。当采用类似Ridge Regression 的二次惩罚项时，优化问题可写作
 
 $$
-\operatorname*{min}_{\beta}\sum_{i=1}^{N}L_{\epsilon}(y_{i},f(x_{1},x_{2},\dots x_{K}))+\frac{\lambda}{2}\sum_{m=1}^{M}\beta_{m}^{2}
+\operatorname*{min}_{\beta}\sum_{i=1}^{N}L_{\epsilon}(y_{i},f(x_{1},x_{2},\ldots x_{K}))+\frac{\lambda}{2}{\sum_{m=1}^{M}}\beta_{m}^{2},
 $$
 
 求解这个优化问题，得到的拟合函数可以写成如下形式
 
 $$
-\mathrm{f}\left(\vec{X}\right)=\sum_{i=1}^{N}a_{i}\cdot K(\vec{X},\vec{X_{i}})\ ,\mathrm{K}\left(\vec{X},\vec{Y}\right)=\sum_{m=1}^{M}h_{m}\left(\vec{X}\right)\cdot h_{m}(\vec{Y})
+\operatorname{f}({\vec{X}})=\sum_{i=1}^{N}a_{i}\cdot K({\vec{X}},{\vec{X}}_{i}),\quad\operatorname{\mathbb{K}}\bigl({\vec{X}},{\vec{Y}}\bigr)=\sum_{m=1}^{M}h_{m}\bigl({\vec{X}}\bigr)\cdot h_{m}({\vec{Y}})
 $$
 
-因此 SVR 并没有设定转换函数 $\mathrm{h}_{\mathrm{m}}(\cdot)$ 的形式，而是直接选取不同形式的核函数 ，最常用的核函数有多项式函数和高斯核函数等；系数 $\mathsf{a}_{\mathrm{i}}\neq0$ 的数据样本点称为支持向量。
+因此 SVR 并没有设定转换函数 $\mathbf{h_{m}}(\cdot)$ 的形式，而是直接选取不同形式的核函数 ，最常用的核函数有多项式函数和高斯核函数等；系数 $\mathsf{a}_{\mathrm{i}}\neq0$ 的数据样本点称为支持向量。
 
 和 ANN 相比，SVR 的最大优势在于优化问题的求解，SVR 是一个凸优化问题，全局最优解唯一，模型训练速度快，而 ANN 优化问题求解得到的往往是局部解，和算法初始点取值有很大关系，不同初始点可能会收敛到不同的局部最优解。另外，基于 SRM（Structural Risk Minimization）理论，SVR参数 的调整可以用来控制模型预测偏差的上限，从而获得比传统 ANN更优的样本外表现。SVM在图像识别、文本分类、医药生物等不同领域有很广的运用，
 
@@ -149,10 +149,10 @@ ML 模型远不止上面介绍的几种基本类型，这样会引出一个很�
 
 从我们和机构客户的交流情况看，量化投研人员对机器学习的态度很复杂，一方面自己实际投资中发现选股因子和股票收益之间关系并非完全线性，需要能力更强的分析预测工具，另一方面又担心机器学习工具过于复杂，导致数据挖掘，样本内过拟合的结果外推性不强，经济含义也不好解释。我们这里想说明的是，ML 虽然没法完全避免过拟合的可能性，但配合使用一些方法是可以降低ML 过拟合的概率，提升样本外预测能力的。
 
-假设输入变量 X 和输出变量 Y 的真实关系可以表示为 $\mathrm{Y}=\mathrm{f}\mathrm{(X)}+\epsilon$ ， 为误差项，满足$\mathrm{E}(\epsilon)=0,\mathrm{Var}(\epsilon)=\sigma_{\epsilon}^{2}$ 。投资者者通过 ML 方法找到了 的一个拟合函数 $\hat{f}(\mathrm{X})$ 。对于一个新的数据$\operatorname{su}\mathrm{X}=\mathbf{x}_{0}$ , 它的预测偏差定义为
+假设输入变量 X 和输出变量 Y 的真实关系可以表示为 $\mathrm{Y}=\mathrm{f}(\mathrm{X})+\mathrm{e}$ ， 为误差项，满足$\mathrm{E}(\epsilon)=0,\mathrm{Var}(\epsilon)=\sigma_{\epsilon}^{2}$ 。投资者者通过 ML 方法找到了 的一个拟合函数 ${\hat{f}}(\mathbf{X})$ 。对于一个新的数据$点\mathbf{X}=\mathbf{x}_0$ , 它的预测偏差定义为
 
 $$
-\begin{array}{rl}&{\mathrm{Err}(\mathbf{x}_{0})\triangleq E\left[\left(Y-\hat{f}(x_{0})\right)^{2}|\ X=x_{0}\right]}\\&{\quad\quad=\sigma_{\epsilon}^{2}+\left[E\hat{f}(x_{0})-f(x_{0})\right]^{2}+E\big[\hat{f}(x_{0})-E\hat{f}(x_{0})\big]^{2}}\\&{\quad\quad=\sigma_{\epsilon}^{2}+Bias^{2}\left(\hat{f}(x_{0})\right)+Var\left(\hat{f}(x_{0})\right)\quad\quad\cdots\cdots(1.2)}\end{array}
+\begin{aligned}\operatorname{Err}&(\mathbf{x}_0)\triangleq E\left[\left(Y-\hat{f}(x_0)\right)^2\mid X=x_0\right]\\&=\sigma_{\epsilon}^2+\left[E\hat{f}(x_0)-f(x_0)\right]^2+E\big[\hat{f}(x_0)-E\hat{f}(x_0)\big]^2\\&=\sigma_{\epsilon}^2+Bias^2\left(\hat{f}(x_0)\right)+Var\left(\hat{f}(x_0)\right)\quad\cdots\cdots(1.2)\end{aligned}
 $$
 
 ML 模型的预测偏差取决于(1.2)的三项，第一项取值与 ML 模型选择无关，第二项 Bias 和第三项Variance 都受 ML 模型复杂度的影响；一般来讲，模型复杂度越高，Bias 越小，但 Variance 越大；模型复杂度越低，Bias越大，Variance越小。因此要想提高 ML模型的预测能力，模型并不是越复杂越好，而是要在 Bias 和 Variance 间做权衡，降低总体预测误差，也就是所谓的 Bias-Variance tradeoff。ML 模型都有参数来控制模型的复杂度，通过合理设置该参数数值来提高 ML模型样本外预测能力，降低过拟合可能。、为了合理设置 ML 模型的复杂度参数，我们需要估算不同复杂度参数下，ML 模型的样本外预测误差，再选择最小预测误差对应的参数数值。ML 模型样本外预期预测误差的估计可以通过交叉验证（CV，Cross-Validation）方法来实现，根据数据样本数量的不同，最常用的是 5-fold CV 和10-fold CV。以 5-fold CV为例，它首先把数据样本平均分为 5 份，以第一份为测试数据集，以其它四份为模型训练集；用训练集的数据训练 ML 模型的参数，用测试集数据作为样本外数据，计算ML 模型的预测误差。然后再以第二份数据为测试集，其它四份数据做训练集。如此轮流，把所有计算得到的预测误差取平均作为 ML 样本外预期预测误差的估计值。
@@ -160,7 +160,7 @@ ML 模型的预测偏差取决于(1.2)的三项，第一项取值与 ML 模型�
 这里举一个简单例子，我们用上篇报告《Alpha 预测》里提到的 2016 年8 月底的17 个风险中性化后的 alpha 因子和对应的2016 年 9 月份股票收益率来训练一个 LASSO线性模型。LASSO和传统 OLS 线性回归的差别在于做（1.1）优化时，对回归系数的大小做了限制，此时需要求解的优化问题转换为：
 
 $$
-\underset{\beta}{\operatorname{argmin}}\left\{\sum_{i=1}^{N}\left(y_{i}-\beta_{0}-\sum_{k=1}^{17}\beta_{k}\cdot x_{k,i}\right)^{2}+\lambda\sum_{k=1}^{17}\lvert\beta_{k}\rvert\right\}
+\operatorname*{argmin}_{\beta}\left\{\sum_{i=1}^{N}\left(y_{i}-\beta_{0}-\sum_{k=1}^{17}\beta_{k}\cdot x_{k,i}\right)^{2}+\lambda\sum_{k=1}^{17}\lvert\beta_{k}\rvert\right\}
 $$
 
 数值越大，模型对回归系数的惩罚越大，训练得到的线性模型越简单（系数不为零的变量个数越少）。下图是使用 5-fold CV方法得到的不同 数值对应的模型预测误差，为了便于展示，横轴采用的是   ，从左到右， 的数值越来越小，模型的复杂度越来越高。可以看到，刚开始时，预测误差随着模型复杂度的提高而迅速减小，说明此时模型复杂度提高带来的 Bias 减少效应大于Variance 的增加；预测误差在达到图中红点处的最小值后，再增加模型复杂度，预测误差反而会变大，Bias 减小效应小于 Variance 的增加，模型开始过拟合。LASSO通过 CV方法来选择参数，使得模型的预测误差最小，也就是图中的红点位置，从而避免模型过拟合。
@@ -178,23 +178,23 @@ $$
 增强型决策树（Boosted CART）使用多个决策树的线性组合来作为拟合函数
 
 $$
-\mathsf{f}\left(\vec{X}\right)=\sum_{m=1}^{M}\beta_{m}\cdot T_{m}(\vec{X};\boldsymbol{\Theta}_{m})
+\mathbf{f}\big(\vec{X}\big)=\sum_{m=1}^{M}\beta_{m}\cdot T_{m}(\vec{X};\Theta_{m}),
 $$
 
-其中 $\vec{X}$ 是输入变量， $\Theta_{\mathrm{m}}$ 为第m 个决策树的参数，增强型决策树即是要求解下列优化问题
+其中 $\vec{X}.$ 是输入变量， $\Theta_{\mathrm{m}}$ 为第m 个决策树的参数，增强型决策树即是要求解下列优化问题
 
 $$
-\operatorname*{min}_{\beta_{\mathrm{m}},\Theta_{m}}a\sum_{i=1}^{N}L\left(y_{i},\sum_{m=1}^{M}\beta_{m}\cdot T(\vec{x}_{i};\Theta_{m})\right)\cdots\cdots(1.3)
+\operatorname*{min}_{\beta_{\mathfrak{m}},\Theta_{m}}a\sum_{i=1}^{N}L\left(y_{i},\sum_{m=1}^{M}\beta_{m}\cdot T(\vec{x}_{i};\Theta_{m})\right)\;\cdots\cdots(1.3)
 $$
 
-优化问题（1.3）可以用 FSAM（Forward Stagwise Additive Modeling）算法（Hastie 2008）近似求解。对于分类问题，如果损失函数采用指数形式 $\operatorname{L}(\mathbf{a},\mathbf{b})=\exp(-a\cdot b)$ ，则 FSAM 算法等价于AdaBoost. 对于回归问题，如果损失函数采用二次损失函数，利用损失函数的可导性，可以采用Gradient Boosting 算法。增强型决策树的样本外预测能力要明显强于单个决策树，是当前使用最广的 ML 方法之一。
+优化问题（1.3）可以用 FSAM（Forward Stagwise Additive Modeling）算法（Hastie 2008）近似求解。对于分类问题，如果损失函数采用指数形式 $\mathrm{L}(a,b)=\exp(-a\cdot b)$ ，则 FSAM 算法等价于AdaBoost. 对于回归问题，如果损失函数采用二次损失函数，利用损失函数的可导性，可以采用Gradient Boosting 算法。增强型决策树的样本外预测能力要明显强于单个决策树，是当前使用最广的 ML 方法之一。
 
 ## 1.3.2 随机森林
 
-随机森林（RF, Random Forrest）的方法也是同时用多个决策树来做预测，但树的生成方法略有不同。它首先对数据样本进行了 B 次 Bootstrap 抽样，用抽样的数据训练出一个 CART$T_{b}(\vec{X};\Theta_{b})$ ，而且训练 CART 的算法做了改变，在决定每个分叉点使用哪个变量时，不是遍历所有的K 个变量，而是从中随机抽取 G个变量用来分析（回归通常取 $\mathrm{G}=\left[\mathrm{K}/3\right])$ 。RF 最终的预测函数形式为
+随机森林（RF, Random Forrest）的方法也是同时用多个决策树来做预测，但树的生成方法略有不同。它首先对数据样本进行了 B 次 Bootstrap 抽样，用抽样的数据训练出一个 CART$T_{b}(\vec{X};\Theta_{b})$ ，而且训练 CART 的算法做了改变，在决定每个分叉点使用哪个变量时，不是遍历所有的K 个变量，而是从中随机抽取 G个变量用来分析（回归通常取 $\mathsf{G}=[\mathrm{K}/3])$ 。RF 最终的预测函数形式为
 
 $$
-\mathsf{f}\left(\vec{X}\right)=\frac{1}{B}\sum_{b=1}^{B}T_{b}(\vec{X};\boldsymbol{\Theta}_{b})
+\mathbf{f}\big(\vec{X}\big)=\frac{1}{B}\sum_{b=1}^{B}T_{b}(\vec{X};\boldsymbol{\Theta}_{b}),
 $$
 
 前文提到，CART对数据很敏感，RF这种算法使得它生成的决策树预测结果的相关性很低，但 Bias变化不大，因此把多个低相关性的预测结果组合在一起，Variance 会明显降低。RF是通过降低预测结果的波动性来提升样本外的预测准确度。

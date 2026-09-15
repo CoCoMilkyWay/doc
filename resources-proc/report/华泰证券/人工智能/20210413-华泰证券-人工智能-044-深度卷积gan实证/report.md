@@ -99,64 +99,64 @@ CNN 是一种常见的深度学习网络架构，受生物自然视觉认知机�
 
 在 DCGAN 网络结构中，生成器使用转置卷积完成低维特征向高维特征的映射即上采样，判别器使用卷积完成高维特征向低维特征的映射即下采样，因此充分理解卷积和转置卷积的操作机制是重要且必要的。尽管从字面意思上来看，转置卷积操作与卷积操作相反，但事实上并非严格相反，且转置卷积的过程理解起来更晦涩。对此，本文引入仿射变换的形式，以一维卷积和转置卷积操作为例，对比两者的机制异同。
 
-首先，我们取步长为 1，且不考虑填充和通道维度。假设一个 5维输入x，经过大小为 3 的卷积核 $\pmb{w}=\left[w_{1},w_{2},w_{3}\right]$ ′进行卷积，可以得到 3 维向量z。卷积操作可以写为：
+首先，我们取步长为 1，且不考虑填充和通道维度。假设一个 5维输入x，经过大小为 3 的卷积核 $\pmb{w}=[w_{1},w_{2},w_{3}]$ ′进行卷积，可以得到 3 维向量z。卷积操作可以写为：
 
 $$
-{\pmb z}={\pmb w}\otimes{\pmb x}=\left[\begin{array}{ccccc}{W_{1}}&{W_{2}}&{W_{3}}&{0}&{0}\\{0}&{W_{1}}&{W_{2}}&{W_{3}}&{0}\\{0}&{0}&{W_{1}}&{W_{2}}&{W_{3}}\end{array}\right]{\pmb x}\overset{\mathrm{def}}{=}{\pmb C}{\pmb x}
+\boldsymbol{z}=\boldsymbol{w}\otimes\boldsymbol{x}=\begin{bmatrix}w_{1}&w_{2}&w_{3}&\begin{array}{r}0\\\end{array}0\begin{array}{r}0\\\end{array}\begin{array}{r}w_{1}\\\end{array}\begin{array}{r}w_{2}\\\end{array}\begin{array}{r}w_{3}\\\begin{array}{r}w_{2}\\\end{array}\begin{array}{r}0\\\end{array}\begin{array}{r}\\w_{3}\\\end{array}\begin{array}{r}0\\\end{array}\begin{array}{r}\boldsymbol{x}\stackrel{\mathtt{def}}{=}\boldsymbol{C}\boldsymbol{x}\\\end{array}\\\end{array}\end{bmatrix}
 $$
 
 反过来，如果我们想要把一个 3 维输入z，通过升维，得到 5 维向量x，只需把权重矩阵C进行转置（注意，只是形式上的转置，矩阵元素取值并非相等）。转置卷积操作可以写为：
 
 $$
-\pmb{x}=\pmb{v}\pmb{\otimes}\pmb{z}=\left[\begin{array}{ccc}{v_{1}}&{0}&{0}\\{v_{2}}&{v_{1}}&{0}\\{v_{3}}&{v_{2}}&{v_{1}}\\{0}&{v_{3}}&{v_{2}}\\{0}&{0}&{v_{3}}\end{array}\right]\pmb{z}\overset{\mathrm{def}}{=}\pmb{C}^{\prime}\pmb{z}
+\boldsymbol{x}=\boldsymbol{v}\otimes\boldsymbol{z}=\begin{bmatrix}v_{1}&0&0\\v_{2}&v_{1}&0\\v_{3}&v_{2}&v_{1}\\0&v_{3}&v_{2}\\0&0&v_{3}\end{bmatrix}\boldsymbol{z}\stackrel{\mathrm{def}}{=}\boldsymbol{C}'\boldsymbol{z}.
 $$
 
 进一步推广，如果考虑填充规模为 1，使一个 5维输入x，经过大小为 3的卷积核进行卷积，输出向量的维度仍然是 5 维，卷积操作可以写为：
 
 $$
-{\pmb z}={\pmb w}\otimes{\pmb x}=\left[\begin{array}{ccccc}{W_{2}}&{W_{3}}&{0}&{0}&{0}\\{W_{1}}&{W_{2}}&{W_{3}}&{0}&{0}\\{0}&{W_{1}}&{W_{2}}&{W_{3}}&{0}\\{0}&{0}&{W_{1}}&{W_{2}}&{W_{3}}\\{0}&{0}&{0}&{W_{1}}&{W_{2}}\end{array}\right]{\pmb x}\overset{\mathrm{def}}{=}{\pmb C}{\pmb x}
+\boldsymbol{z}=\boldsymbol{w}\otimes\boldsymbol{x}=\begin{bmatrix}w_{2}&w_{3}&0&0&0\\w_{1}&w_{2}&w_{3}&0&0\\0&w_{1}&w_{2}&w_{3}&0\\0&0&w_{1}&w_{2}&w_{3}\\0&0&0&w_{1}&w_{2}\end{bmatrix}\boldsymbol{x}\stackrel{def}{=}\boldsymbol{C}\boldsymbol{x}
 $$
 
 反过来，如果我们想要把一个 5 维输入z，通过转置卷积的作用，仍然得到 5 维向量x，只需把权重矩阵C进行转置。此时，不难发现，转置卷积操作仿射变换矩阵非零元素的位置与卷积操作的情况是相同的，因此转置卷积在效果上与卷积也是相同的：
 
 $$
-x=v\otimes z={\left[\begin{array}{lllll}{v_{2}}&{v_{1}}&{0}&{0}&{0}\\{v_{3}}&{v_{2}}&{v_{1}}&{0}&{0}\\{0}&{v_{3}}&{v_{2}}&{v_{1}}&{0}\\{0}&{0}&{v_{3}}&{v_{2}}&{v_{1}}\\{0}&{0}&{0}&{v_{3}}&{v_{2}}\end{array}\right]}z\ {\stackrel{\mathrm{def}}{=}}\ C^{\prime}z
+\boldsymbol{x}=\boldsymbol{v}\boldsymbol{\otimes}\boldsymbol{z}=\begin{bmatrix}v_{2}&v_{1}&0&0&0\\v_{3}&v_{2}&v_{1}&0&0\\0&v_{3}&v_{2}&v_{1}&0\\0&0&v_{3}&v_{2}&v_{1}\\0&0&0&v_{3}&v_{2}\end{bmatrix}\boldsymbol{z}\stackrel{def}{=}\boldsymbol{C}'\boldsymbol{z}.
 $$
 
 最后，如果考虑步长为 2，使一个 5维输入x，经过大小为 3 的卷积核进行卷积，被降维至2 维，卷积操作可以写为：
 
 $$
-\pmb{z}=\pmb{w}\pmb{\otimes}\pmb{x}=\left[\begin{array}{ccccc}{w_{1}}&{w_{2}}&{w_{3}}&{0}&{0}\\{0}&{0}&{w_{1}}&{w_{2}}&{w_{3}}\end{array}\right]\pmb{x}\equiv\pmb{C}\pmb{x}
+\boldsymbol{z}=\boldsymbol{w}\otimes\boldsymbol{x}=\begin{bmatrix}w_{1}&w_{2}&w_{3}&0&0\\0&0&w_{1}&w_{2}&w_{3}\end{bmatrix}\boldsymbol{x}\stackrel{\mathrm{def}}{=}\boldsymbol{C}\boldsymbol{x}
 $$
 
 反过来，如果我们想要把一个 2 维输入z，通过步长为 2的转置卷积的作用升维至 5维，只需把权重矩阵C进行转置。转置卷积操作可以写为：
 
 $$
-\pmb{x}=\pmb{v}\pmb{\otimes}\pmb{z}=\left[\begin{array}{ll}{v_{1}}&{0}\\{v_{2}}&{0}\\{v_{3}}&{v_{1}}\\{0}&{v_{2}}\\{0}&{v_{3}}\end{array}\right]\pmb{z}\stackrel{\mathrm{def}}{=}\pmb{C}^{\prime}\pmb{z}
+\boldsymbol{x}=\boldsymbol{v}\otimes\boldsymbol{z}=\begin{bmatrix}v_{1}&0\\v_{2}&0\\v_{3}&v_{1}\\0&v_{2}\\0&v_{3}\end{bmatrix}\boldsymbol{z}\stackrel{def}{=}\boldsymbol{C}'\boldsymbol{z}.
 $$
 
 上述简单情形不难被推广至更复杂的情形。例如，在本文构建的 DCGAN 中，判别器从输入数据中提取特征，其中的一步（卷积层中的倒数第二层卷积）是将 31 维生成器生成结果$\pmb{g}$ ，通过大小为 4、步长为 2、填充规模为 1 的卷积操作，降维至 15 维。卷积操作可写为：
 
 $$
-\pmb{z}=\pmb{w}\pmb{\otimes}\pmb{g}=\left[\begin{array}{ccccccccc}{W_{2}}&{W_{3}}&{W_{4}}&{0}&{\cdots}&{0}&{0}&{0}&{0}\\{0}&{W_{1}}&{W_{2}}&{W_{3}}&{\cdots}&{0}&{0}&{0}&{0}\\{0}&{0}&{0}&{W_{1}}&{\cdots}&{0}&{0}&{0}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\vdots}&{\vdots}&{\vdots}&{\vdots}&{\vdots}&{\vdots}\\{0}&{0}&{0}&{0}&{\cdots}&{W_{2}}&{W_{3}}&{W_{4}}&{0}\\{0}&{0}&{0}&{0}&{\cdots}&{0}&{W_{1}}&{W_{2}}&{W_{3}}\end{array}\right]\pmb{g}
+\boldsymbol{z}=\boldsymbol{w}\otimes\boldsymbol{g}=\begin{bmatrix}w_{2}&w_{3}&w_{4}&0&\cdots&0&0&0&0\\0&w_{1}&w_{2}&w_{3}&\cdots&0&0&0&0\\0&0&0&w_{1}&\cdots&0&0&0&0\\\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\0&0&0&0&\cdots&w_{2}&w_{3}&w_{4}&0\\0&0&0&0&\cdots&0&w_{1}&w_{2}&w_{3}\end{bmatrix}\boldsymbol{g}
 $$
 
-其中w的列数为输入维度 31，w的行数为 $\textstyle\left\lfloor{\frac{31+2*1-4}{2}}\right\rfloor+1=15$ ，即输出维度。
+其中w的列数为输入维度 31，w的行数为 $\textstyle{\left|{\frac{31+2*1-4}{2}}\right|}+1=15$ ，即输出维度。
 
 生成器用提取的特征与随机数序列来生成预测序列，其中的一步（转置卷积层中的第二层转置卷积）是将 15 维中间结果h，通过大小为 4、步长为 2、填充规模为 1的转置卷积操作，升维至 30 维。转置卷积操作可以写为：
 
 $$
-x=v\otimes h={\left[\begin{array}{llllll}{v_{2}}&{0}&{0}&{\cdots}&{0}&{0}\\{v_{3}}&{v_{1}}&{0}&{\cdots}&{0}&{0}\\{v_{4}}&{v_{2}}&{0}&{\cdots}&{0}&{0}\\{0}&{v_{3}}&{v_{1}}&{\cdots}&{0}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\vdots}&{\vdots}&{\vdots}\\{0}&{0}&{0}&{\cdots}&{v_{4}}&{v_{2}}\\{0}&{0}&{0}&{\cdots}&{0}&{v_{3}}\\{0}&{0}&{0}&{\cdots}&{0}&{v_{4}}\\{0}&{0}&{0}&{\cdots}&{0}&{0}\end{array}\right]}h
+\boldsymbol{x}=\boldsymbol{v}\otimes\boldsymbol{h}=\begin{bmatrix}v_{2}&0&0&\cdots&0&0\\v_{3}&v_{1}&0&\cdots&0&0\\v_{4}&v_{2}&0&\cdots&0&0\\0&v_{3}&v_{1}&\cdots&0&0\\\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\0&0&0&\cdots&v_{4}&v_{2}\\0&0&0&\cdots&0&v_{3}\\0&0&0&\cdots&0&v_{4}\\0&0&0&\cdots&0&0\end{bmatrix}\boldsymbol{h}
 $$
 
-其中v的列数为输入维度 15，v的行数为 $(15-1)*2+4-2*1=30$ ，即输出维度。通过仿射变换，我们就不难理解卷积和转置卷积操作的机制。
+其中v的列数为输入维度 15，v的行数为 $(15-1)\ast2+4-2\ast1=30$ ，即输出维度。通过仿射变换，我们就不难理解卷积和转置卷积操作的机制。
 
 ## 引入非线性：激活函数
 
-在卷积操作之后，通常引入偏置和非线性激活函数，给网络结构引入非线性因素，使得神经网络可以任意逼近任何非线性函数。假设经过卷积操作后有n个神经元 $.x_{1}\ldots...x_{n}$ ，对应n个权重 $\omega_{1}\ldots\ldots\omega_{n}$ ，若定义偏置为b，激活函数为ℎ()，则激活操作可以表示为：
+在卷积操作之后，通常引入偏置和非线性激活函数，给网络结构引入非线性因素，使得神经网络可以任意逼近任何非线性函数。假设经过卷积操作后有n个神经元 $x_{1}\ldots\ldots x_{n}$ ，对应n个权重 $[\omega_{1}\dots\dots\omega_{n}$ ，若定义偏置为b，激活函数为ℎ()，则激活操作可以表示为：
 
 $$
-z_{\omega,x}=h(\sum_{i}^{n}\omega_{i}x_{i}+b)
+z_{\omega,x}=h({\sum}_{i}^{n}\omega_{i}x_{i}+b)
 $$
 
 图表2： DCGAN涉及的激活函数
@@ -287,17 +287,17 @@ Radford 等（2016）将 CNN 与 GAN 有效结合，充分利用卷积操作强�
 
 图表11： DCGAN训练算法伪代码
 输入：迭代次数 T，小批量（minibatch）样本数量 m
-1随机初始化 D 网络参数θ 和 G 网络参数 $\theta_{g}$ 
+1随机初始化 D 网络参数θ 和 G 网络参数 $(\theta_{g}$ 
 2 for t ←1 to T do
 # 训练判别器 D
-3从训练集 ${\it p}_{r}(x)$ 中随机采集 m 条样本 $\{x^{(m)}\}$ 
-4从[0.9,1.1]均匀分布中采集 m 个随机数 $\{\epsilon_{1}^{~(m)}\}$ ，并计算 $\{\epsilon_{1}^{~(m)}\}$ 与{x(m)}的二进制交叉熵值 $.loss_{real}$ 
-5从标准正态分布 ${\bar{\boldsymbol{\imath}}}p_{g}(z)$ 中采集 m 条样 ${\ k}\ k\ k\ K^{(m)}\}$ 
-6从[0.1,0.3]均匀分布中采集 m 个随机数 $\{\epsilon_{2}^{~(m)}\}$ ，并计算 $\{\epsilon_{2}^{~(m)}\}$ $\mathcal{E}\{D(\mathrm{G}\big(z^{(i)}\big))\}$ }的二进制交叉熵值 $loss_{fake}$ 
+3从训练集 ${\mathfrak{:}}p_{r}(x)$ 中随机采集 m 条样本 $\{x^{(m)}\}$ 
+4从[0.9,1.1]均匀分布中采集 m 个随机数 $\{{\epsilon_{1}}^{(m)}\}$ ，并计算 $\cdot\{{\epsilon_{1}}^{(m)}\}$ 与{x(m)}的二进制交叉熵值 $loss_{real}$ 
+5从标准正态分布 $\bar{\tau}p_{g}(z)$ 中采集 m 条样 $本\{z^{(m)}\}$ 
+6从[0.1,0.3]均匀分布中采集 m 个随机数 $\{{\epsilon_{2}}^{(m)}\}$ ，并计算 $\cdot\{{\epsilon_{2}}^{(m)}\}$ $\{D(\mathsf{G}(z^{(i)}))\}$ }的二进制交叉熵值 $loss_{fake}$ 
 7使用 Adam 优化器更新判别器 D，梯度为 $loss_{fake}$ 
 # 训练生成器 G
-8从标准正态分布 ${\mathfrak{p}}_{g}(z)$ 中随机采集 m 条样本 $\cdot\{z^{(m)}\}$ 
-9从[0.1,0.3]均匀分布中采集 m 个随机数 $\{\epsilon_{2}^{~(m)}\}$ ，并计算 $\{\epsilon_{2}^{~(m)}\}$ 与{D(G(z(i)))}的二进制交叉熵 $\$10ss_{fake}$ 
+8从标准正态分布 $ip_{g}(z)$ 中随机采集 m 条样本 $\cdot\{z^{(m)}\}$ 
+9从[0.1,0.3]均匀分布中采集 m 个随机数 $\{{\epsilon_{2}}^{(m)}\}$ ，并计算 $\cdot\{{\epsilon_{2}}^{(m)}\}$ 与{D(G(z(i)))}的二进制交叉熵 $loss_{fake}$ 
 10使用 Adam 优化器更新判别器 D，梯度为 $loss_{fake}$ 
 11 end
 输出：生成器 G
@@ -344,7 +344,7 @@ DCGAN 模型虽然有了更合理的网络结构，但仍存在一些缺点：
 Arjovsky 等（2017）使用 Wasserstein 距离（简称 W 距离）替代 GAN 所使用的 JS 散度，这样构建的生成对抗网络称为WGAN。W 距离的原始数学定义在实践中难以直接计算，可通过 Kantorovich-Rubinstein Duality 公式（Arjovsky，2017）将其等价变换为下式：
 
 $$
-\begin{array}{rlr}&{}&{W\big(p_{r},p_{g}\big)=\displaystyle\frac{1}{K}\operatorname*{sup}_{w:||f_{w}||_{L}\le K}(E_{x\sim p_{r}}[f_{w}(x)]-E_{x\sim p_{g}}[f_{w}(x)])}\\&{}&{\qquad=\displaystyle\frac{1}{K}\operatorname*{sup}_{w:||f_{w}||_{L}\le K}(E_{x\sim p_{r}}[f_{w}(x)]-E_{z\sim p_{z}}[f_{w}\big(G(z)\big)])}\end{array}
+\begin{align*}W\big(p_r,p_g\big)=\frac{1}{K}\sup_{w:\|f_w\|_L\leq K}(E_{x\sim p_r}[f_w(x)]-E_{x\sim p_g}[f_w(x)])\\=\frac{1}{K}\sup_{w:\|f_w\|_L\leq K}(E_{x\sim p_r}[f_w(x)]-E_{z\sim p_z}[f_w\big(G(z)\big)]).\end{align*}
 $$
 
 前期研究《人工智能 35：WGAN 应用于金融时间序列生成》（20200828）和《人工智能38：WGAN 生成：从单资产到多资产》（20201124）已详细介绍 WGAN 的基本思想和实现细节，同时以 Bootstrap 重采样和 GARCH 模型等传统时间序列生成方法为对照组，充分验证了WGAN在生成单资产和多资产序列方面相对于传统方法的优势。
@@ -395,7 +395,7 @@ W-DCGAN 网络结构的构建思路与前文所述 DCGAN 模型相似，区别�
 | 输出层神经元数量 | 1 |
 | 输出层激活函数 | LeakyReLU(0.2) |
 | 是否标准化 | 否 |
-| 损失函数 | $E_{z\sim p_{z}}\big[f_{w}\big(G(z)\big)\big]-E_{x\sim p_{r}}[f_{w}(x)]+\lambda E_{\hat{x}\sim p_{\hat{x}}}[(\big\|\|\nabla_{\hat{x}}f_{w}(\hat{x})\|\big\|_{2}-1)^{2}]$ |
+| 损失函数 | $E_{z\sim p_{z}}[f_{w}(G(z))]-E_{x\sim p_{r}}[f_{w}(x)]+\lambda E_{\hat{x}\sim p_{\hat{x}}}[(\left\|\left\|\nabla_{\hat{x}}f_{w}(\hat{x})\right\|\right\|_{2}-1)^{2}]$ |
 | 优化器 | Adam |
 | 优化器学习速率 | 0.0002 |
 | 优化器其他参数 | β=(0.5,0.999) |
@@ -417,14 +417,14 @@ W-DCGAN 网络结构的构建思路与前文所述 DCGAN 模型相似，区别�
 # 采集小批量样本
 4从训练集p (x)中采集 m 条样本 $\{x^{(m)}\}$
 5从标准正态分布 $p_{g}(z)$ 中采集 m 条样本 $\{z^{(m)}\}$
-6从[0,1]均匀分布中采集 m 个随机 $\bar{\chi}\{\epsilon^{(m)}\}$ ，并计算 $\hat{x}^{(i)}=\epsilon^{(i)}x^{(i)}+(1-\epsilon^{(i)}){\cal G}(z^{(i)})$ ，得 $\boldsymbol{\underline{{\mathfrak{E}}}}|\{\boldsymbol{\hat{x}}^{(m)}\}$
+6从[0,1]均匀分布中采集 m 个随机 $\{\epsilon^{(m)}\}$ ，并计算 $\boldsymbol{\cdot}\hat{\boldsymbol{x}}^{(i)}=\boldsymbol{\epsilon}^{(i)}\boldsymbol{x}^{(i)}+(1-\boldsymbol{\epsilon}^{(i)})\mathsf{G}(\boldsymbol{z}^{(i)})$ ，得 $到\{\hat{x}^{(m)}\}$
 7使用 Adam 优化器更新判别器 D，梯度为：
-$\nabla_{\theta_{d}}\frac{1}{m}\sum_{i=1}^{m}[D\left(G\left(\boldsymbol{z}^{(i)}\right)\right)-D\left(\boldsymbol{x}^{(i)}\right)+\lambda(\left|\left|\nabla_{\hat{\boldsymbol{x}}}D\left(\hat{\boldsymbol{x}}^{(i)}\right)\right|\right|_{2}-1)^{2}]$
+$\nabla_{\theta_{d}}\frac{1}{m}{\sum}_{i=1}^{m}[D\left(G\big(z^{(i)}\big)\right)-D\big(x^{(i)}\big)+\lambda(\Big|\big|\nabla_{\hat{x}}D\big(\hat{x}^{(i)}\big)\big|\Big|_{2}-1)^{2}]$
 8 end
 # 训练生成器 G
-9从标准正态分布 ${p_{g}(z)}$ 中采集 m 条样本 $\{z^{(m)}\}$
+9从标准正态分布 $[p_{g}(z)$ 中采集 m 条样本 $\{z^{(m)}\}$
 10使用 Adam 优化器更新生成器 G，梯度为：
-$\nabla_{\theta_{g}}\frac{1}{m}{\sum_{i=1}^{m}[-D\left(G\left(z^{(i)}\right)\right)]}$
+$\nabla_{\theta_{g}}\frac{1}{m}{\sum}_{i=1}^{m}[-D\left(G\big(z^{(i)}\big)\right)]$
 11 end
 输出：生成器 G
 ```
@@ -502,7 +502,7 @@ Cont 在 2001 年发表的综述文章 Empirical properties of asset returns: st
 本节分别展示真实多资产序列、DCGAN 生成序列、W-DCGAN 生成序列、WGAN 生成序列共四类序列。对于每一类序列，分别展示随机抽取的两组样本。抽取的样本原始数据为对数收益率序列 r。展示时，将其转换为初始价格为 1的归一化价格序列。记第 0天资产价格为 1，则第 t天的资产价格如下式所示。
 
 $$
-P_{t}=\exp\left(\sum_{i=1}^{t}r_{i}\right)
+P_{t}=\exp\Big({\sum}_{i=1}^{t}r_{i}\Big)
 $$
 
 ## 真实序列展示
@@ -652,22 +652,22 @@ DCGAN、W-DCGAN、WGAN 生成序列的 Hurst 指数值如下图所示。上证�
 ![](images/e8670f99ff40ab2577df1fbbb5054957486a74f0eed0831f882409e147d8fbae.webp)
 资料来源：Wind，华泰研究
 
-仅根据表现出长时程相关的序列比例判定生成序列是否失真是不够的，这里对生成序列的Hurst值进行假设检验。我们想要验证生成分布在Hurst指标上的总体均值是否显著大于0.5，假设 ${\bf\nabla}_{\mu}$ 表示生成分布在 Hurst指标上的总体均值，则原假设和备择假设为：
+仅根据表现出长时程相关的序列比例判定生成序列是否失真是不够的，这里对生成序列的Hurst值进行假设检验。我们想要验证生成分布在Hurst指标上的总体均值是否显著大于0.5，假设 $\langle\mu_{H}$ 表示生成分布在 Hurst指标上的总体均值，则原假设和备择假设为：
 
 $$
-H_{0}\colon\mu_{H}>0.5H_{1}\colon\mu_{H}\leq~0.5
+H_{0}\colon\mu_{H}>0.5\;\leftrightarrow H_{1}\colon\mu_{H}\leq\;0.5
 $$
 
 生成的 1000 条虚假序列相当于从生成分布总体中的采样，对于这样的大样本检验，我们可以直接使用单样本正态总体均值的单边显著性检验统计量，如下所示：
 
 $$
-U=\frac{\sqrt{1000}(\bar{X}-0.5)}{S_{n}}
+U=\frac{\sqrt{1000}(\bar{X}-0.5)}{S_n}
 $$
 
-其中X̅表示 1000 条生成样本 Hurst 指数的样本均值， $S_{n}$ 表示 1000 条生成样本 Hurst指数的样本方差，记 $\{h_{t}\}_{t=1,\ldots,1000}$ 为 1000 条生成序列的 Hurst指标值，即：
+其中X̅表示 1000 条生成样本 Hurst 指数的样本均值， $S_{n}$ 表示 1000 条生成样本 Hurst指数的样本方差，记 $\{h_{t}\}_{t=1,\dots,1000}$ 为 1000 条生成序列的 Hurst指标值，即：
 
 $$
-\begin{array}{c}{{\bar{X}=\displaystyle\frac{1}{1000}\sum_{t=1}^{1000}h_{t}}}\\{{S_{n}=\displaystyle\frac{1}{999}\sum_{t=1}^{1000}(h_{t}-\bar{X})^{2}}}\end{array}
+\begin{aligned}\bar{X}=&\frac{1}{1000}\sum_{t=1}^{1000}h_{t}\\S_{n}=&\frac{1}{999}\sum_{t=1}^{1000}(h_{t}-\bar{X})^{2}\end{aligned}
 $$
 
 在大样本（一般来说样本数大于 30）条件下，原假设 $H_{0}$ 成立时 U服从 N(0,1)标准正态分布，因此在 95%置信水平下，U 如果落入(−∞,−1.64]的拒绝域，则拒绝原假设，认为生成样本的 Hurst指数总体均值小于 0.5。

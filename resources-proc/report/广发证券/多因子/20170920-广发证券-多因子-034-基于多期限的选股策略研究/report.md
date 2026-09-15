@@ -66,11 +66,11 @@ Yufeng Han，Guofu Zhou 和 Yingzi Zhu (2016) 在论文中提出一个信息非�
 
 1. 市场中仅有两类交易者，一类是根据移动平均线进行交易的技术面交易者，另一类是了解市场信息的知情交易者。
 
-2. 市场只有一种风险资 $\dot{\mathcal{P}}$ ，股利 $D_{t}$ 服从随机过程： $dD_{t}=(\pi_{t}-\alpha_{D}D_{t})dt+\sigma_{D}dB_{1t}$
+2. 市场只有一种风险资 $:产$ ，股利 $D_{t}$ 服从随机过程： $dD_{t}=(\pi_{t}-\alpha_{D}D_{t})dt+\sigma_{D}dB_{1t}$
 
-3. 平均股利 $\pi_{t}$ 服从随机过程： $\mathrm{d}\pi_{\mathrm{t}}=\alpha_{\pi}({\bar{\pi}}-\pi_{t})dt+\sigma_{\pi}dB_{2t}$ 0
+3. 平均股利 $\pi_{t}$ 服从随机过程： $\mathrm{d}\pi_{\mathrm{t}}=\alpha_{\pi}(\bar{\pi}-\pi_{t})dt+\sigma_{\pi}dB_{2t}$ 0
 
-4. 风险资产供应量为 $1+\theta_{\mathrm{t}}$ ，其中 $\theta_{\mathrm{t}}$ 服从随机过程： $d_{\theta_{t}}=-\alpha_{\theta}\theta_{t}dt+\sigma_{\theta}dB_{3t}$
+4. 风险资产供应量为 $1+\Theta_{\mathrm{t}}$ ，其中 $\theta_{\mathrm{t}}$ 服从随机过程： $d_{\theta_{t}}=-\alpha_{\theta}\theta_{t}dt+\sigma_{\theta}dB_{3t}$
 
 5. 技术面交易者根据资产历史价格走势进行交易，均线 $\begin{array}{r}{A_{t}=\int_{-\infty}^{t}e^{-\alpha(t-s)}P_{s}ds}\end{array}$
 
@@ -85,7 +85,7 @@ $$
 在 (1) 式两边取差分后得：
 
 $$
-\begin{array}{r}{\Delta P_{t}=p_{1}\varDelta D_{t}+p_{2}\varDelta\pi_{t}+p_{3}\varDelta\theta_{t}+p_{4}(P_{t}-\alpha A_{t})\varDelta t}\end{array}\tag{2}
+\varDelta P_{t}=p_{1}\varDelta D_{t}+p_{2}\varDelta\pi_{t}+p_{3}\varDelta\theta_{t}+p_{4}(P_{t}-\alpha A_{t})\varDelta t\tag{2}
 $$
 
 在 (2) 式两边处以价格得到资产的预期收益率：
@@ -109,7 +109,7 @@ $$
 为了同时捕捉短期、中期、长期的价格趋势，本篇专题报告取 3, 5, 10, 20, 30, 60,90, 120, 180, 240, 270, 300 等不同期限的均线数据，每期期末d 计算当期的均线因子数据:
 
 $$
-A_{jt,L}=\frac{P_{j,d-L+1}^{t}+\dots+P_{j,d}^{t}}{L}\tag{4}
+A_{jt,L}=\frac{P_{j,d-L+1}^{t}+\cdots+P_{j,d}^{t}}{L}\tag{4}
 $$
 
 进一步得到标准化后均线因子：
@@ -121,30 +121,30 @@ $$
 记股票 j 的 t 周收益率为 $r_{j,t}$ ，把 $r_{j,t}$ 与前一周的均线因子进行回归，得到回归系数 $\beta_{j,t}$ ：
 
 $$
-r_{j,t}=\beta_{0,t}+\Sigma_{i}\beta_{i,t}\tilde{A}_{jt-1,L_{i}}+\epsilon_{j,t}\tag{6}
+r_{j,t}=\beta_{0,t}+\Sigma_{i}\beta_{i,t}\tilde{A}_{jt-1,\;L_{i}}+\epsilon_{j,t}\tag{6}
 $$
 
 计算近 25 周回归系数的均值，作为下周回归系数预测值：
 
 $$
-E\left[\beta_{i,t+1}\right]=\frac{1}{25}\sum_{m=1}^{25}\beta_{i,t+1-m}\tag{7}
+E\left[\beta_{i,t+1}\right]=\frac{1}{25}\sum_{m=1}^{25}\beta_{i,t+1-m}.\tag{7}
 $$
 
 用预测的回归系数 $E\left[\beta_{i,t+1}\right]$ 与新一周的因子值 $\tilde{A}_{jt,L}$ 代入 (6) 式，计算股票的下周预期收益率:
 
 $$
-E\left[r_{j,t+1}\right]={{\varSigma}_{i}}E\left[{{\beta}_{i,t+1}}\right]{{\tilde{A}}_{jt,{{L}_{i}}}}\tag{8}
+E\big[r_{j,t+1}\big]=\varSigma_{i}\:E\left[\beta_{i,\:t+1}\right]\tilde{A}_{jt,\:L_{i}}\tag{8}
 $$
 
-根据回归得到的个股预期收益率降序排列，选择下期预期收益最 $\frac{\dot{\pi}}{\vert\nabla\pmb{\vert\tau}\vert}$ 的一档股票作为多头组合，预期收益率最低的一档股票作为空头组合。
+根据回归得到的个股预期收益率降序排列，选择下期预期收益最 $高$ 的一档股票作为多头组合，预期收益率最低的一档股票作为空头组合。
 
 图 1：基于不同期限因子构造流程
 
-| 1. 计算均线 | 对股票j计算不同周期L下的均线 $\begin{array}{r}{A_{jt,L}=\frac{P_{j,d-L+1}^{t}+\dots+P_{j,d}^{t}}{L}}\end{array}$ 及因子 $\begin{array}{r}{\tilde{A}_{jt,L}=\frac{A_{jt,L}}{P_{j}^{t}}\circ}\end{array}$ |
+| 1. 计算均线 | 对股票j计算不同周期L下的均线 $\begin{array}{r}{A_{jt,L}=\frac{P_{j,d-L+1}^{t}+\cdots+P_{j,d}^{t}}{L}}\end{array}$ 及因子 $\begin{array}{r}{\tilde{A}_{jt,L}=\frac{A_{jt,L}}{P_{j}^{t}}_{\circ}}\end{array}$ |
 | --- | --- |
 | 2. 截面回归 | 将t周股票i的收益率 $r_{j,t}$ 与t - 1 周的因子 $\tilde{A}_{jt-1,L}$ 进行回归，得到回归系数 $\beta_{j,t}$ $r_{j,t}=\beta_{0,t}+\Sigma_{i}\beta_{i,t}\tilde{A}_{jt-1,L_{i}}+\epsilon_{j,t}$ |
 | 3. 预测回归系数 | 计算近25 周回归系数的均值，作为下周回归系数预测值： $\begin{array}{r}{E\big[\beta_{i,t+1}\big]=\frac{1}{25}\sum_{m=1}^{25}\beta_{i,t+1-m}}\end{array}$ |
-| 4. 下期收益率 | 用预测的回归系数与新一周的因子值 $\tilde{A}_{jt,L}$ 计算股票的下周预期收益率： $E\big[r_{j,t+1}\big]=\Sigma_{i}\ E\big[\beta_{i,t+1}\big]\ \tilde{A}_{jt,L_{i}}$ |
+| 4. 下期收益率 | 用预测的回归系数与新一周的因子值 $\tilde{A}_{jt,L}$ 计算股票的下周预期收益率： $E\big[r_{j,t+1}\big]=\Sigma_{i}\;E\big[\beta_{i,t+1}\big]\;\tilde{A}_{jt,L_{i}}$ |
 | 根据个股预期收益率降序排列，选择预期收益高的个股做多，预期收益率低的个股做5. 构建组合 空。 |  |
 
 数据来源：广发证券发展研究中心
@@ -350,10 +350,10 @@ $$
 
 前述通过不同期限 MA 均线组合回归预测下期股票收益率，综合考虑不同期限MA均线下对股价“动量”和“反转”特征的刻画。经过实证分析发现中证500指数对冲下，2010 年以来，策略的对冲年化收益率为 25.40%，年化波动率 10.42%，最大回撤 9.11%，信息系数 2.44。同时可以看到MA 均线存在对价格的敏感度较低，对趋势刻画不及时的缺点。从这点出发本篇专题报告用延迟性更好的 LLT 趋势线代替MA 均线，构造改进后的 LLT 趋势因子。
 
-LLT 是低延迟趋势线 (Low-lag Trendline) 的简称，广发金工团队于 2013 年 7月 26 日发表了题为《低延迟趋势线与交易性择时》的择时报告，介绍了基于信号处理技术中的二阶线性滤波器构造的 LLT 趋势线。LLT 指标与传统 MA 移动平均线、EMA 指数加权移动平均线相比，具有跟踪延迟大幅降低的优势，能更好地把握股价的“反转”或“动量”效应特征。LLT 指标的递推公式如下，其中 $\begin{array}{r}{\alpha=\frac{2}{1+N}}\end{array}$ 是介于 0 和 1 之间的参数：
+LLT 是低延迟趋势线 (Low-lag Trendline) 的简称，广发金工团队于 2013 年 7月 26 日发表了题为《低延迟趋势线与交易性择时》的择时报告，介绍了基于信号处理技术中的二阶线性滤波器构造的 LLT 趋势线。LLT 指标与传统 MA 移动平均线、EMA 指数加权移动平均线相比，具有跟踪延迟大幅降低的优势，能更好地把握股价的“反转”或“动量”效应特征。LLT 指标的递推公式如下，其中 $\alpha=\frac{2}{1+N}$ 是介于 0 和 1 之间的参数：
 
 $$
-LLT=\left\{\begin{array}{c}{{P(T),\quad T=1,2}}\\{{\displaystyle(2-2\alpha)LLT(T-1)-(1-\alpha)^{2}LLT(T-2)+\left(\alpha-\frac{\alpha^{2}}{4}\right)P(T)}}\\{{\displaystyle+\left(\frac{\alpha^{2}}{2}\right)P(T-1)-\left(\alpha-\frac{3}{4}\alpha^{2}\right)P(T-2),\quad else}}\end{array}\right.\tag{9}
+\begin{aligned}&LLT=\left\{\begin{aligned}&P(T),\quad T=1,2\\&(2-2\alpha)LLT(T-1)-(1-\alpha)^{2}LLT(T-2)+\left(\alpha-\frac{\alpha^{2}}{4}\right)P(T)\\&\quad+\left(\frac{\alpha^{2}}{2}\right)P(T-1)-\left(\alpha-\frac{3}{4}\alpha^{2}\right)P(T-2),\quad else\end{aligned}\right.\\\end{aligned}\tag{9}
 $$
 
 因此本篇专题报告考虑以 LLT 趋势线替代 $\begin{array}{r}{r_{t+1}=a+\beta\frac{A_{t}}{P_{t}}+\epsilon_{t}}\end{array}$ 式中的指标 $A_{t}$ 进行改进。

@@ -139,7 +139,7 @@
 另外，在分析估值类因子时，如遇指标为负值的个股，我们将其剔除。在计算财务成长类因子时，我们利用如下公式计算指标增长率：
 
 $$
-\pmb{\mathrm{i}}\overrightarrow{\mathrm{E}}\div\overrightarrow{\mathrm{E}}\ast=(\overrightarrow{\mathrm{A}}/\pmb{\mathrm{H}}\pmb{\mathrm{H}}\overleftarrow{\mathrm{H}}\cdot\overrightarrow{\mathrm{J}}\overrightarrow{\mathrm{N}}-\bot\pmb{\mathrm{H}}\pmb{\mathrm{J}}\pmb{\mathrm{H}}\div\pmb{\mathrm{J}}\overline{{\mathrm{N}}})/\mathrm{abs}(\bot\pmb{\mathrm{H}}\pmb{\mathrm{J}}\pmb{\mathrm{H}}\cdot\overline{{\mathrm{J}}}\overline{{\mathrm{N}}})
+增长率=(本期指标-上期指标)/abs(上期指标)
 $$
 
 这样能够解决上期为负、本期转正的指标的增长率计算问题。

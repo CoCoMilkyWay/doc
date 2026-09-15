@@ -70,11 +70,11 @@ eMail：ann@gf.com.cn
 记 $c_{1},c_{2},\cdots,c_{n}$ 为某一品种日内某一频率下 K线的收盘价序列， $h_{1},h_{2},\cdots,h_{n}$ 为某一品种日内某一频率下 K线的最高价序列， $l_{1},l_{2},\cdots,l_{n}$ 为日内某一频率下 K线的最低价序列，nL为分型通道计算窗口长度，定义
 
 $$
-\nu f_{i}=1~,~\\\\\\\\equivh_{i}>h_{i+1}~\setminus~h_{i}>h_{i-1}~\setminus~l_{i}>l_{i+1}~\setminus~l_{i}>l_{i-1}~,~i=1,2,\cdots,n
+\nu f_{i}=1,\quad 当\quad h_{i}>h_{i+1},\quad h_{i}>h_{i-1},\quad l_{i}>l_{i+1},\quad l_{i}>l_{i-1},\quad i=1,2,\cdots,n
 $$
 
 $$
-\nu f_{i}=-1~,~\stackrel{*}{=}h_{i}<h_{i+1}~\mathrm{,}~h_{i}<h_{i-1}~\mathrm{,}~l_{i}<l_{i+1}~\mathrm{,}~l_{i}<l_{i-1}~,~i=1,2,\cdots,n
+yf_{i}=-1,\quad 当h_{i}<h_{i+1},\quad h_{i}<h_{i-1},\quad l_{i}<l_{i+1},\quad l_{i}<l_{i-1},\quad i=1,2,\cdots,n
 $$
 
 其中 $\nu f_{i}$ 为第i根K线处的分型顶底标记，为1时代表分型顶，为-1时代表分型底。
@@ -82,11 +82,11 @@ $$
 如前节所述，分型顶与分型底是市场卖方分力与买方分力相互较量后的结果，双方心理路程反应在形态走势上，分型顶的最高点与分型底的最低点具有极为重要的市场意义，我们通过这些更具市场意义的数据点来构架走势通道。
 
 $$
-\nu H_{_{i}}=\{{\begin{array}{lll}{\nu H_{_{i-1}},}&{if}&{\nu f_{_{i-2}}\not=1}\\{h_{_{i-2}},}&{if}&{\nu f_{_{i-2}}=1}\end{array}},\ i=1,2,\cdots,n
+vH_{i}=\left\{\begin{aligned}vH_{i-1},\quad&\text{ if }\quad vf_{i-2}\neq1\\h_{i-2},\quad&\text{ if }\quad vf_{i-2}=1\end{aligned}\right.,i=1,2,\cdots,n.
 $$
 
 $$
-\nu L_{i}=\{{\begin{array}{lll}{\nu L_{i-1},}&{if}&{\nu f_{i-2}\neq-1}\\{l_{i-2},}&{if}&{\nu f_{i-2}=-1}\end{array}},\ i=1,2,\cdots,n
+vL_{i}=\left\{\begin{aligned}&vL_{i-1},&\text{ if }\quad vf_{i-2}\neq-1\\&l_{i-2},&\text{ if }\quad vf_{i-2}=-1\end{aligned},\quad i=1,2,\cdots,n\right.
 $$
 
 其中 $\nu H_{i}$ 、 $\nu L_{i}$ 为分型形态高低点的连续变量，直观意义上来看，当前时刻的 $\nu H_{i}$ 为最近一个顶分型的高点价格，直到出现新的顶分型为止，其后的取值又变为新的顶分型的高点价格，如此一致延续下去。当前时刻的 $\nu L_{i}$ 为最近一个底分型的低点价格，直到出现新的底分型为止，其后的取值又变为新的底分型的低点价格，如此一致延续下去。
@@ -94,11 +94,11 @@ $$
 给定了这两个变量之后，我们可以进一步定义分型通道了，
 
 $$
-\nu U_{i}=\operatorname*{max}_{i-nL+1\leq j\leq i}\left(\nu H_{j}\right),i=1,2,\cdots,n
+vU_{i}=\max_{i-nL+1\leq j\leq i}\left(vH_{j}\right),\quad i=1,2,\cdots,n.
 $$
 
 $$
-\nu B_{i}=\operatorname*{min}_{i-nL+1\leq j\leq i}\left(\nu L_{j}\right),i=1,2,\cdots,n
+vB_{i}=\min_{i-nL+1\leq j\leq i}\left(vL_{j}\right),\quad i=1,2,\cdots,n
 $$
 
 其中， $\nu U_{i}$ $\nu B_{i}$ 分别为分型通道的上通道和下通道，且nL为分型通道计算窗口长度，是我们策略的第一个参数，也是唯一的一个参数，同时将策略默认值设置为 15。
@@ -106,7 +106,7 @@ $$
 给定了分型通道之后，即可根据如下的规则来触发买卖信号：
 
 $$
-S_{i}=\left\{\begin{array}{ll}{1,}&{if~c_{i}\geq\nu U_{i}}\\{-1,}&{if~c_{i}\leq\nu B_{i}}\\{0,}&{else}\end{array}\right.
+S_{_i}=\left\{\begin{aligned}&1,&&\textit{ i f }c_{_i}\geq\nu U_{_i}\\&-1,&&\textit{ i f }c_{_i}\leq\nu B_{_i}\\&0,&&\textit{ e l s e }\end{aligned}\right.
 $$
 
 其中， $S_{i}$ 表示i时刻的信号，1表示买入信号，-1表示卖出信号，0表示无信号。上述模型触发之信号会连续同号，比如连续触发买入信号或者连续触发卖出信号，我们对首个信号采取开仓操作，然后依据我们的头寸跟踪策略跟踪头寸，直到平仓离场为止，平仓之后再根据最新的买卖信号进行相应方向的开仓操作。
@@ -115,7 +115,7 @@ $$
 
 我们利用金字塔软件开发了上述分型通道趋势策略的信号指标，如图4所示，图中绿色向下箭头指示卖出信号，红色向上箭头指示买入信号。
 
-图4： $\dot{\boldsymbol{\mathfrak{p}}}$ 深300指数期货当月合约历史15分钟走势及策略信号
+图4： $浐$ 深300指数期货当月合约历史15分钟走势及策略信号
 
 ![](images/3b820e63953b96834a3fb065d1dbfef445a92bc552667ca0a3aaab547397ed41.webp)
 数据来源：广发证券发展研究中心
@@ -147,14 +147,14 @@ $$
 
 ## （2）离场价位的动态计算：
 
-记 $h_{i}$ ， $l_{i}$ 为i时刻的最高价、最低价， $i=1,2,\cdots,n,\ j_{0}$ 为开仓时点，给定k时刻的离场价 $\nu C_{k}$ ，则
+记 $h_{i}$ ， $l_{i}$ 为i时刻的最高价、最低价， $i=1,2,\cdots,n,\quad j_{0}$ 为开仓时点，给定k时刻的离场价 $\nu C_{k}$ ，则
 
 $$
-3\mathbin{\vrule h\vrule h0.6101010101010101}\colon\nu C_{k+1}=\nu C_{k}+\left(\operatorname*{max}_{j_{0}\leq j\leq k}\left(h_{j}\right)-\nu C_{k}\right)\times AF
+\nu C_{k+1}=\nu C_{k}+\left(\max_{j_{0}\leq j\leq k}\left(h_{j}\right)-\nu C_{k}\right)\times AF
 $$
 
 $$
-\because H_{\max}:\quad\nu C_{k+1}=\nu C_{k}-\left(\nu C_{k}-\operatorname*{min}_{j_{0}\leq j\leq k}\left(L_{j}\right)\right)\times AF
+\nu C_{k+1}=\nu C_{k}-\left(\nu C_{k}-\min_{j_{0}\leq j\leq k}\left(L_{j}\right)\right)\times AF
 $$
 
 其中AF 为加速因子，加速因子初始值为0，每当市场创出自开仓以来新高或者新低一次，加速因子增加0.01，且加速因子最大值为0.1。
@@ -167,7 +167,7 @@ $$
 
 表1：策略实证标的信息汇总
 
-| 股指 | PTA | $\therefore\partial^{2}$ 铜 |  | 橡胶 |
+| 股指 | PTA | $户.$ 铜 |  | 橡胶 |
 | --- | --- | --- | --- | --- |
 | 合约代码 | IF | TA | CU | RU |
 | 上市日期 | 2010-04-16 | 2006-12-18 | 1993-03-01 | 1993-11-01 |
@@ -208,11 +208,11 @@ $$
 记 $F_{1}$ 为开仓成交价， $F_{2}$ 为平仓成交价，c为单边手续费率，I 为单边冲击成本，M为杠杆倍数，则单次交易收益率为
 
 $$
-r_{long}=\left[\frac{\big(F_{2}-I\big)\times\big(1-c\big)-\big(F_{1}+I\big)\times\big(1+c\big)}{\big(F_{1}+I\big)\times\big(1+c\big)}\right]\times M
+r_{long}=\left[\frac{(F_2-I)\times(1-c)-(F_1+I)\times(1+c)}{(F_1+I)\times(1+c)}\right]\times M
 $$
 
 $$
-r_{short}=\left[\frac{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1-c\big)-\big(F_{\scriptscriptstyle2}+I\big)\times\big(1+c\big)}{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1+c\big)}\right]\times M
+r_{short}=\left[\frac{\left(F_1-I\right)\times(1-c)-(F_2+I)\times(1+c)}{(F_1-I)\times(1+c)}\right]\times M
 $$
 
 此处模拟交易相关设定为：
@@ -406,11 +406,11 @@ PTA期货实证周期为15分钟K线，时间段为2009-02-18至2012-02-20，默
 
 （2）连续三根K线，中间者之高点为三者之最高点，中间者低点亦为三者之最高点即为顶分型形态；反之，连续三根K线，中间者之高点为三者之最低点，中间者低点亦为三者之最低点即为底分型形态。顶分型中间者之高点与底分型中间者之点有着极为重要的市场意义，因为顶底分型形态的形成必然存在市场买方分力与卖方分力的三次较量，经过一而再、再而三、三而竭的过程才最终形成。
 
-（3）利用分型顶底形态的高点构建通道，首先定义 $\nu H_{i}$ 、 $\nu L_{i}$ ，当前时刻的取值分
+（3）利用分型顶底形态的高点构建通道，首先定义 $\nu H_{i}$ 、 $\nu L_{t}$ ，当前时刻的取值分
 
 别为最近一个已形成的顶分型的高点、最近一个已形成的底分型的低点，然后在对 $\nu H_{i}$
 
-$\nu L_{\mathrm{☉}}$ 进行取以nL为样本窗口宽度的滚动最高值和滚动最低值为通道的上轨和下轨，并且
+$\nu L_{i}$ 进行取以nL为样本窗口宽度的滚动最高值和滚动最低值为通道的上轨和下轨，并且
 
 当市场收盘价向上穿越上轨时发出开仓买多信号，当市场价格向下穿越下轨时开仓卖空信号，至于何时平仓方面，仍然采用我们前期发布的收敛突变、日内波动极值策略中的平仓策略。
 

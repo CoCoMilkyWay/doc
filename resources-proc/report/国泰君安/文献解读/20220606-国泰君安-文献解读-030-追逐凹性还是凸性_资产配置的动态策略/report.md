@@ -244,7 +244,7 @@ CM 策略的核心理念在于保持股票敞口在总资产中的比例不变�
 常数比例（constant proportion，CP）策略的形式如下:
 
 $$
-\mathsf{D}=\mathsf{m}\cdot(\mathsf{A}-\mathsf{F})
+\mathrm{D}=\mathrm{m}\cdot(\mathrm{A}-\mathrm{F})
 $$
 
 其中 D 是投资于股票的资金，m 为一个固定乘数，A 为总资产价值，F为底部价值。固定比例投资组合保险（CPPI）策略则是该类策略中乘数m 大于 1 的特例。
@@ -332,7 +332,7 @@ $$
 本附录将解释盈余图和敞口图的相关技术。首先我们引入一些记号。设
 
 $$
-\begin{array}{rl}&{(\mathrm{A}_{\mathrm{t}}=\mathrm{t}\ \sharp\ddot{\mathcal{Z}})\dot{\mathcal{H}}\big\langle\dot{\mathcal{T}}\big\rangle_{\mathrm{s}}^{\sharp}\frac{\dot{\mathcal{Z}}}{\mathfrak{p}}\big\langle\dot{\mathcal{P}}^{\sharp}\big\rangle_{\mathrm{r}}^{\sharp}}\\&|\begin{array}{l}{\mathrm{S}_{\mathrm{t}}=\mathrm{t}\ \ H\ddot{\mathcal{H}}\big\rangle\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{R}}}\big\rangle\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{K}}}\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{P}}^{\sharp}}\big\rangle_{\mathrm{r}}^{\sharp\sharp}}\\{\{\mathrm{F}_{\mathrm{t}}=\mathrm{t}\ \ \ H\ddot{\mathcal{H}}\big\}\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{K}}}\big\rangle\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{K}}}\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{P}}^{\sharp}}\big\langle\dot{\mathcal{H}}\big\rangle_{\mathrm{r}}\big\langle\dot{\mathcal{H}}\big\rangle}\\{|\mathrm{E}_{\mathrm{t}}=\mathrm{t}\ \ \ H\ddot{\mathcal{H}}\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{K}}}\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{T}}^{\sharp}}\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{P}}^{\sharp}}\frac{\dot{\mathcal{H}}^{\prime}}{\widetilde{\mathcal{P}}^{\sharp}}\big\langle\Omega}\\\mathrm{r}=\frac{\Phi}\end{array}\end{array}
+\begin{cases}\mathrm{A}_{\mathrm{t}}=\mathrm{t}时刻的总资产\\\mathrm{S}_{\mathrm{t}}=\mathrm{t}时刻的股票资产\\\mathrm{F}_{\mathrm{t}}=\mathrm{t}时刻的底部价值\\\mathrm{E}_{\mathrm{t}}=\mathrm{t}时刻的股票敞口\\\mathrm{r}=票据的连续收益率\end{cases}
 $$
 
 ## 9.1. B&H 策略
@@ -346,19 +346,19 @@ $$
 于是 t 时刻的底部价值为
 
 $$
-\mathrm{F_{t}}=(1-\mathrm{x})\mathrm{A}_{0}\mathrm{e}^{\mathrm{rt}}=\mathrm{F}_{0}\mathrm{e}^{\mathrm{rt}}
+\mathrm{F_t}=(1-\mathrm{x})\mathrm{A_0}\mathrm{e^{rt}}=\mathrm{F_0}\mathrm{e^{rt}}
 $$
 
 总资产为
 
 $$
-\mathrm{A_{t}}=\mathrm{F_{t}}+\mathrm{xA_{0}}\mathrm{S_{t}}/\mathrm{S_{0}}
+\mathrm{A_{t}=F_{t}+xA_{0}S_{t}/S_{0}}
 $$
 
 股票敞口为
 
 $$
-\mathrm{E}_{\mathrm{t}}=\mathrm{A}_{\mathrm{t}}-\mathrm{F}_{\mathrm{t}}
+\mathrm{E_{t}=A_{t}-F_{t}}
 $$
 
 ## 9.2. CP 策略
@@ -372,35 +372,35 @@ $$
 CP 策略与 B&H策略类似，此时总资产为
 
 $$
-{\cal A}_{\mathrm{t}}=\mathrm{F}_{\mathrm{t}}+\left({\cal A}_{0}-\mathrm{F}_{0}\right)\left(\frac{\mathrm{S}_{\mathrm{t}}}{\mathrm{S}_{0}}\right)^{\mathrm{m}}\mathrm{e}^{(1-\mathrm{m})\left(\mathrm{r}+\frac{\mathrm{m}\sigma^{2}}{2}\right)\mathrm{t}}
+\mathrm{A}_{\mathrm{t}}=\mathrm{F}_{\mathrm{t}}+\left(\mathrm{A}_{0}-\mathrm{F}_{0}\right)\left(\frac{\mathrm{S}_{\mathrm{t}}}{\mathrm{S}_{0}}\right)^{\mathrm{m}}\mathrm{e}^{(1-\mathrm{m})\left(\mathrm{r}+\frac{\mathrm{m}\sigma^{2}}{2}\right)\mathrm{t}}
 $$
 
 其中 $\sigma$ 是波动率参数。股票敞口变为
 
 $$
-\mathrm{E}_{\mathrm{t}}=\mathrm{m}(\mathrm{A}_{\mathrm{t}}-\mathrm{F}_{\mathrm{t}})
+\mathrm{E_{t}=m(A_{t}-F_{t})}
 $$
 
 如果不允许借贷，那么股票敞口变为
 
 $$
-\mathrm{E_{t}}=\operatorname*{min}\bigl(\mathrm{A_{t}},\mathrm{m}(\mathrm{A_{t}}-\mathrm{F_{t}})\bigr)
+\mathrm{E_{t}=min(A_{t},m(A_{t}-F_{t}))}
 $$
 
-此时的总资 $\cdot\dot{\bar{r}}$ 则没有一个简单的显式解。
+此时的总资 $\text{: }\begin{aligned}&\text{" }\\&\text{" }\end{aligned}$ 则没有一个简单的显式解。
 
 ## 9.3. OBPI 策略
 
 考虑行权价格为 K的，行权日期为 T 的欧式期权的 BS 公式。设
 
 $$
-\mathrm{d}_{\mathrm{t}}={\frac{\displaystyle\log{\frac{S_{\mathrm{t}}}{K}}+\mathrm{r}+{\frac{\sigma^{2}(\mathrm{T}-\mathrm{t})}{2}}}{\sigma{\sqrt{\mathrm{T}-\mathrm{t}}}}}
+\mathrm{d}_{\mathrm{t}}=\frac{\log\frac{\mathrm{S}_{\mathrm{t}}}{\mathrm{K}}+\mathrm{r}+\frac{\sigma^{2}(\mathrm{T}-\mathrm{t})}{2}}{\sigma\sqrt{\mathrm{T}-\mathrm{t}}}
 $$
 
 那么有期权价格等于
 
 $$
-\mathrm{B(S,K,r,\sigma,t,T)=S_{t}\cdot N(d_{t})-Ke^{-r(T-t)}\cdot N(d_{t}-\sigma\sqrt{T-t})}
+\mathrm{B}(\mathrm{S},\mathrm{K},\mathrm{r},\sigma,\mathrm{t},\mathrm{T})=\mathrm{S}_{\mathrm{t}}\cdot\mathrm{N}(\mathrm{d}_{\mathrm{t}})-\mathrm{Ke}^{-\mathrm{r}(\mathrm{T}-\mathrm{t})}\cdot\mathrm{N}(\mathrm{d}_{\mathrm{t}}-\sigma\sqrt{\mathrm{T}-\mathrm{t}})
 $$
 
 其中 N 是标准正态分布的累计分布函数。
@@ -408,13 +408,13 @@ $$
 OBPI 策略中期权购买数量为下列等式给出：
 
 $$
-\boldsymbol{\mathrm{n}}_{0}\cdot\mathrm{B}(\mathrm{S}_{0},\mathrm{K},\mathrm{r},\sigma,0,\mathrm{T})=\boldsymbol{\mathrm{A}}_{0}-\boldsymbol{\mathrm{F}}_{0}
+\mathbf{n}_{0}\cdot\mathsf{B}(\mathsf{S}_{0},\mathsf{K},\mathsf{r},\sigma,0,\mathsf{T})=\mathsf{A}_{0}-\mathsf{F}_{0}
 $$
 
 并且
 
 $$
-\boldsymbol{\mathrm{n_{T}}}\cdot\mathrm{K}=\boldsymbol{\mathrm{F_{T}}}=\boldsymbol{\mathrm{F_{0}}}\mathrm{e^{\mathrm{rT}}}
+\mathbf{n}_{\mathrm{T}}\cdot\mathbf{K}=\mathbf{F}_{\mathrm{T}}=\mathbf{F}_{0}\mathbf{e}^{\mathrm{rT}}
 $$
 
 因此在 0 到 T 之间，总资产等于
@@ -426,19 +426,19 @@ $$
 其中
 
 $$
-\mathrm{F_{t}}=\mathrm{F_{0}}\mathrm{e^{\mathrm{rt}}}
+\mathrm{F_{t}=F_{0}e^{rt}}
 $$
 
 而在 T 时，有
 
 $$
-\mathrm{A_{T}}=\mathrm{F_{T}}+\mathrm{n_{T}}\cdot\mathrm{max}(\mathrm{S_{T}}-\mathrm{K},0)
+\mathrm{A_{T}=F_{T}+n_{T}\cdot max(S_{T}-K,0)}
 $$
 
 期权敞口为
 
 $$
-\mathrm{E}_{\mathrm{T}}=\mathrm{n}_{\mathrm{T}}\cdot\mathrm{N}(\mathrm{d}_{\mathrm{T}})
+\mathrm{E_{T}=n_{T}\cdot N(d_{T})}
 $$
 
 ## 本公司具有中国证监会核准的证券投资咨询业务资格

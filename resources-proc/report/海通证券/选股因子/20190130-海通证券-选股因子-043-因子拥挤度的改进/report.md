@@ -59,7 +59,7 @@ Email:ylq9619@htsec.com
 系列前期报告在构建配对相关性这一指标时，考虑到 A股市场做空的限制，使用了多头组合中各股票收益与多头组合收益之间的相关性的均值，并用它来度量因子极值组合股票同涨同跌的属性。考虑到需要减去一个比较基准，因此减去了空头组合计算得到的相关性均值。计算公式如下所示：
 
 $$
-PairwiseCorrelation=mean\Big(corr\Big(r_{\xi\neq\cdot},r_{\xi\neq\cdot,i}\Big)\Big)-mean\Big(corr\Big(r_{\tilde{\Xi}\tilde{\mathcal{Z}}\tilde{\mathcal{Z}}\tilde{\mathcal{Z}},i}\Big)\Big)
+Parwise\;Correlation=mean\left(corr\left(r_{多央},r_{多央,i}\right)\right)-mean\left(Corr\left(r_{空央},r_{空央,i}\right)\right)
 $$
 
 在进一步的讨论分析后，我们发现上述公式在特定市场环境下会低估因子的拥挤程度。不妨以市值因子在 年年初的表现为例。在 年年初，市场呈现出了“大盘齐涨，小盘齐跌”的现象，因此根据上述计算公式计算得到的配对相关性会较低，然而当时的市场环境明显体现出了较高的因子拥挤程度。
@@ -67,13 +67,13 @@ $$
 为了能够更加真实地体现出因子的拥挤程度，现考虑对于指标的计算方式进行调整。可使用“多头+空头”的方式计算配对相关性，计算公式如下所示：
 
 $$
-PairwiseCorrelation=mean\left(corr\left(r_{\mathcal{F}\mathcal{F}},r_{\mathcal{F}\mathcal{F},i}\right)\right)+mean\left(corr\left(r_{\mathcal{F}\mathcal{F}},r_{\mathcal{F}\mathcal{F},i}\right)\right)
+Parwise\;Correlation=mean\left(error\left(r_{多头},r_{多头,i}\right)\right)+mean\left(error\left(r_{空头},r_{空头,i}\right)\right)
 $$
 
 也可单纯使用“多头”计算配对相关性，计算公式如下所示：
 
 $$
-PairwiseCorrelation=mean\left(corr\left(r_{\beta\ast},r_{\beta\ast,i}\right)\right)
+Parwisecorrelation=mean\left(corr\left(r_{多头},r_{多头,i}\right)\right)
 $$
 
 此外，计算收益相关性时所使用的收益类型也值得斟酌。在系列前期报告中，我们使用了股票原始收益，本文也尝试使用了剔除 Fama-French 三因素后的特质收益。
@@ -457,13 +457,13 @@ $$
 系列前期报告在构建波动率这一指标时，考虑到 A股市场做空的限制，因此使用多头组合波动与空头组合波动的比值衡量因子波动率。类似于配对相关性的计算，在部分市场环境下，空头组合并不是一个合适的比较基准。因此可考虑使用因子多头组合波动与市场波动的比值衡量因子波动水平。计算公式如下所示：
 
 $$
-FactorVolatility=\frac{vol(r_{\mathit{z}\mathit{z}})}{vol(r_{\mathit{\Pi}\mathit{\hat{p}}\mathit{z}})}
+Factor\;Volatility=\frac{vol(r_{多头})}{vol(r_{市场})}
 $$
 
 当然，也可将因子多、空两端的波动都纳入考虑，直接使用因子多空波动与市场波动的比值衡量因子波动水平。计算公式如下所示：
 
 $$
-FactorVolatility=\frac{vol(r_{\textrm{ \scriptsize 3 5 }})}{vol(r_{\textrm{ \scriptsize \textmu 5 }})}
+Factor\;Volatility=\frac{vol(r_{多空})}{vol(r_{市场})}
 $$
 
 本章与前一章类似，对于因子拥挤度指标进行了构建，并检验了各个指标在常见选股因子上与未来因子收益以及未来因子收益波动之间的相关性。

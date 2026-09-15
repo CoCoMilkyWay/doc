@@ -111,117 +111,117 @@ liufubing008481@gtjas.com
 假定市场中有 n只股票，其在 t时刻的价格服从几何布朗运动，即
 
 $$
-dS_{{\scriptscriptstyle i}}=\mu_{{\scriptscriptstyle i}}S_{{\scriptscriptstyle i}}dt+\sigma_{{\scriptscriptstyle i}}S_{{\scriptscriptstyle i}}dz_{{\scriptscriptstyle i}}
+dS_{i}=\mu_{i}S_{i}dt+\sigma_{i}S_{i}dz_{t}
 $$
 
-其中 $\boldsymbol{\mu}_{\ i}$ 是漂移率， $z_{t}$ 是标准的维纳过程。
+其中 $\mu_{\textit{ i }}$ 是漂移率， $z_{t}$ 是标准的维纳过程。
 
 利用 Ito引理，我们可以得到
 
 $$
-\ln\frac{S_{i}(t)}{S_{i}(0)}=(\mu-\frac{1}{2}\sigma_{i}^{2})t+\sigma_{i}z_{t}
+\ln\frac{S_{_i}(t)}{S_{_i}(0)}=(\mu-\frac{1}{2}\sigma_{_i}^{^2})t+\sigma_{_i}z_{_i}
 $$
 
-因此股票 $\boldsymbol{S}_{\boldsymbol{i}}$ 的几何增长率为：
+因此股票 $S_{\textit{ i }}$ 的几何增长率为：
 
 $$
-G_{_i}=E[\ln\frac{S_{_i}(t)}{S_{_i}(0)}]=(\mu_{_i}-\frac{1}{2}\sigma_{_i}^{^2})t
+G_{i}=E[\ln\frac{S_{i}(t)}{S_{i}(0)}]=(\mu_{i}-\frac{1}{2}\sigma_{i}^{2})t
 $$
 
-同时， $\ln\frac{S_{i}(t)}{S_{i}(0)}$ 的方差为
+同时， $\ln\frac{S_{_i}(t)}{S_{_i}(0)}$ 的方差为
 
 $$
-V[\ln\frac{S_{i}(t)}{S_{i}(0)}]=\sigma_{i}^{2}t
+V\left[\ln\frac{S_i(t)}{S_i(0)}\right]=\sigma_i^2t
 $$
 
 ## 2. 连续时间几何布朗运动下 Kelly 准则的确定
 
-假定一投资组合 P，其在 n 只股票上的投资权重为 $\textbf{ w }^{\textbf{ T }}=(w_{1},w_{2}$ ,Ⅲ, $w_{n})$
+假定一投资组合 P，其在 n 只股票上的投资权重为 $\mathbf{w}^{\mathrm{~T~}}=(w_{1},w_{2}$ ,Ⅲ, $\boldsymbol{w}_{{n}})$
 
-则该组合在 t时刻的价格 $S_{\textit{ p }}$ 也服从几何布朗运动，即
+则该组合在 t时刻的价格 $S_{\mathrm{~}_{P}}$ 也服从几何布朗运动，即
 
 $$
-dS_{\scriptscriptstyle P}=\mu_{\scriptscriptstyle P}S_{\scriptscriptstyle P}dt+\sigma_{\scriptscriptstyle P}S_{\scriptscriptstyle P}dz_{{\scriptscriptstyle t}}
+dS_{_P}=\mu_{_P}S_{_P}dt+\sigma_{_P}S_{_P}dz_{_t}
 $$
 
 则组合 P 的年化几何增长率为
 
 $$
-\begin{array}{r}{\boldsymbol{g}_{\mathbf{\Omega}_{P}}^{\mathbf{\Omega}}=\displaystyle\frac{G_{\mathbf{\Omega}_{P}}}{t}=(\mu_{p}-\frac{1}{2}\sigma_{\mathbf{\Omega}_{P}}^{\mathbf{\Omega}_{2}})}\\{\displaystyle\mathrm{\mathrm{\Omega}}}\\{=(\mathbf{w}^{\mathrm{\textbf{ T }}}\mathbf{\mu}-\frac{1}{2}\mathbf{w}^{\mathrm{\textbf{ T }}}\Sigma\mathbf{w}~)}\end{array}
+\begin{aligned}{g_{_{P}}\:=\:\frac{G_{_{P}}}{t}=\:(\:\mu_{_{P}}\:-\:\frac{1}{2}\:\sigma_{_{P}}^{^{2}})\:}\\{}\\{=\:(\:\mathbf{w}^{^{\mathrm{\tiny~T}}}\pmb{\mu}\:-\:\frac{1}{2}\:\mathbf{w}^{^{\mathrm{\tiny~T}}}\Sigma\:\mathbf{w}\:)\:.}\\\end{aligned}
 $$
 
-其中 $\boldsymbol{\mu}=(\mu_{_{1}},\mu_{_{2}},\iiint,\mu_{_{n}}),\boldsymbol{\Sigma}=(\sigma_{_{ij}})_{_{n\times\mathnormal{r}}}$ 表示收益率的方差协方差矩阵。
+其中 $\boldsymbol{\mu}=(\mu_{1},\mu_{2},\square\square,\mu_{n}),\boldsymbol{\Sigma}=(\sigma_{ij})_{n\times n}$ 表示收益率的方差协方差矩阵。
 
-Kelly 准则就是要使得资 $\cdot\dot{\vec{r}}$ 组合的预期年化增长率达到最大化，即选择最优的w ，使得 $\mathbf{w}^{\mathrm{~T~}}\mathbf{\mu}-\frac{1}{2}\mathbf{w}^{\mathrm{~T~}}\Sigma\mathbf{w}$ 最大化。
+Kelly 准则就是要使得资 $\text{· }产$ 组合的预期年化增长率达到最大化，即选择最优的w ，使得 $\textbf{ w }^{\mathrm{T}}\pmb{\mu}-\frac{1}{2}\textbf{ w }^{\mathrm{T}}\boldsymbol{\Sigma}\mathbf{w}$ 最大化。
 
 ## 2.1. Kelly 最优投资比例
 
 本节我们主要利用拉格朗日乘数来求解 Kelly最优投资比例。Kelly 最优投资比例的求解问题可以转换为如下的优化求解：
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{max}_{\mathbf{w}}{\mathbf{w}}^{\mathrm{{\tiny~T}}}\ d\mathbf{\mu}-\frac{1}{2}{\mathbf{w}}^{\mathrm{{\tiny~T}}}\ d\Sigma\mathbf{w}}\\{\displaystyle\mathbf{w}^{\mathrm{{\tiny~T}}}\ d\mathbf{1}=1}\end{array}
+\begin{array}{l}{\displaystyle\mathop{\operatorname*{max}}_{\mathbf{w}}\mathop{\mathbf{w}}^{\mathrm{\tiny~T~}}\pmb{\mu}-\frac{1}{2}\mathbf{w}^{\mathrm{\tiny~T~}}\boldsymbol{\Sigma}\mathbf{w}}\\{\displaystyle\mathbf{w}^{\mathrm{\tiny~T~}}\mathbf{1}=1}\end{array}
 $$
 
 其中1 = (1,1,,1)
 
-令 $L={{\bf{w}}^{\mathrm{{T}}}}{\bf{\mu}}-\frac{1}{2}{{\bf{w}}^{\mathrm{{T}}}}\Sigma{\bf{w}}-{\lambda}({{\bf{w}}^{\mathrm{{T}}}}{\bf{1}}-1)$ ，并令 $\frac{\partial L}{\partial\mathbf{w}}=0,\frac{\partial L}{\partial\lambda}=0$ ，则有 
+令 $L=\mathbf{w}^{^{\mathrm{T}}}\pmb{\mu}-\frac{1}{2}\mathbf{w}^{^{\mathrm{T}}}\Sigma\mathbf{w}-\lambda(\mathbf{w}^{^{\mathrm{T}}}\mathbf{1}-1).$ ，并令 $\frac{\partial L}{\partial\mathbf{w}}=0,\frac{\partial L}{\partial\lambda}=0$ ，则有 
 - μ - Σ w - e 0 
 w e − 1 = 0
 
-注意到 $\textbf{ w }^{\mathrm{T}}\mathbf{e}=\mathbf{e}^{\mathrm{T}}\textbf{ w }$ ，且 $\boldsymbol{\Sigma}^{\cdot{1}}\boldsymbol{\Sigma}=\mathbf{I}$ ，则有
+注意到 $\mathbf{w}^{\mathrm{~T~}}\mathbf{e}=\mathbf{e}^{\mathrm{~T~}}\mathbf{w}$ ，且 $\mathbf{\Sigma}^{-1}\mathbf{\Sigma}=\mathbf{I}$ ，则有
 
 $$
-1=\mathbf{e}^{\mathbf{^T}}\boldsymbol{\Sigma}^{\mathbf{^{-1}}}\boldsymbol{\Sigma}\mathbf{w}
+1=\mathbf{e}^{\mathrm{\tiny~T~}}\Sigma^{\mathrm{\tiny~-1~}}\Sigma\mathbf{w}
 $$
 
-对方程μ- Σw - λe = 0 两边同时左乘 $\mathbf{e}^{\mathbf{\phantom{\dagger}}}\Sigma^{\mathbf{\phantom{\dagger}}}$ 可以得到
+对方程μ- Σw - λe = 0 两边同时左乘 $\mathbf{e^{\mathrm{~T~}}\Sigma^{\mathrm{~-~1~}}}$ 可以得到
 
 $$
-\lambda={\frac{\mathbf{e}^{\mathbf{\lambda}\mathbf{r}}{\boldsymbol{\Sigma}}^{\mathbf{\lambda}\mathbf{\Sigma}^{\cdot1}}\mathbf{\mu}-1}{\mathbf{e}^{\mathbf{\lambda}\mathbf{r}}{\boldsymbol{\Sigma}}^{\mathbf{\lambda}\mathbf{\Sigma}^{\cdot1}}\mathbf{e}}}
+\lambda=\frac{\mathbf{e}^{\mathrm{T}}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}-1}{\mathbf{e}^{\mathrm{T}}\boldsymbol{\Sigma}^{-1}\mathbf{e}}
 $$
 
 将上式带入关于w 的方程可得 Kelly 最优投资比例为：
 
 $$
-{\begin{array}{l}{\mathbf{w}\ ^{*}=\ {\boldsymbol{\Sigma}}\ ^{\cdot1}(\mathbf{\mu}-\ \lambda\mathbf{e})=\ {\boldsymbol{\Sigma}}^{\cdot1}(\mu-\mathbf{e}{\frac{\mathbf{e}^{{\frac{\mathbf{r}}{\mathbf{\Sigma}}}{\mathbf{\Sigma}}^{\cdot1}}\left\|\mathbf{\mu}-1\right.}{\mathbf{e}^{\mathrm{\mathbf{r}}}{\boldsymbol{\Sigma}}^{\cdot1}\mathbf{e}}})}\\{=\ {\boldsymbol{\Sigma}}^{\cdot1}(\mathbf{I}\ {\boldsymbol{\cdot}}{\frac{\mathbf{e}\mathbf{e}^{\mathrm{\mathbf{\Sigma}}^{\mathrm{T}}}{\boldsymbol{\Sigma}}^{\cdot1}}{\mathbf{e}^{\mathrm{\mathbf{r}}}{\boldsymbol{\Sigma}}^{\cdot1}\mathbf{e}}})\mathbf{\mu}+{\frac{{\boldsymbol{\Sigma}}^{\cdot1}\mathbf{e}}{\mathbf{e}^{\mathrm{\mathbf{\Sigma}}^{\mathrm{T}}}{\boldsymbol{\Sigma}}^{\cdot1}\mathbf{e}}}=\mathbf{\Delta}\mathbf{A}\ \mu+\mathbf{B}}\end{array}}
+\begin{aligned}&\mathbf{w}^{^{*}}=\boldsymbol{\Sigma}^{^{-1}}(\boldsymbol{\mu}-\lambda\mathbf{e})=\boldsymbol{\Sigma}^{^{-1}}(\boldsymbol{\mu}-\mathbf{e}\frac{\mathbf{e}^{^{\mathrm{T}}}\boldsymbol{\Sigma}^{^{-1}}\boldsymbol{\mu}-1}{\mathbf{e}^{^{\mathrm{T}}}\boldsymbol{\Sigma}^{^{-1}}\mathbf{e}})\\&=\boldsymbol{\Sigma}^{^{-1}}(\mathbf{I}-\frac{\mathbf{e}\mathbf{e}^{^{\mathrm{T}}}\boldsymbol{\Sigma}^{^{-1}}}{\mathbf{e}^{^{\mathrm{T}}}\boldsymbol{\Sigma}^{^{-1}}\mathbf{e}})\boldsymbol{\mu}+\frac{\boldsymbol{\Sigma}^{^{-1}}\mathbf{e}}{\mathbf{e}^{^{\mathrm{T}}}\boldsymbol{\Sigma}^{^{-1}}\mathbf{e}}=\mathbf{A}\boldsymbol{\mu}+\mathbf{B}\\\end{aligned}
 $$
 
 其中
 
 $$
-\textbf{ A }=\boldsymbol\Sigma^{\cdot1}(\mathbf{I}-\frac{\mathrm{e}^{\textbf{ r }_{\Sigma}\cdot\mathbf{\bar{\Sigma}}^{-1}}}{\mathbf{e}^{\textbf{ r }_{\Sigma}\cdot1}\mathbf{e}})
+\mathbf{A}\;=\;\boldsymbol{\Sigma}^{\mathrm{\tiny~-1}}(\mathbf{I}\mathrm{~-~}\frac{\mathbf{e}\mathbf{e}^{\mathrm{\tiny~T~}}\boldsymbol{\Sigma}^{\mathrm{\tiny~-1~}}}{\mathbf{e}^{\mathrm{\tiny~T~}}\boldsymbol{\Sigma}^{\mathrm{\tiny~-1~}}\mathbf{e}}).
 $$
 
 $$
-\textbf{ B }=\frac{\boldsymbol{\Sigma}^{\mathbf{\Lambda}^{\mathbf{\Lambda}^{\mathbf{\Lambda}^{\mathbf{\Lambda}}}}\mathbf{e}}}{\mathbf{e}^{\mathrm{~\mathbf{\Lambda}^{\mathrm{~T}}~\boldsymbol{\Sigma}^{\mathbf{~\Lambda}^{\mathbf{\Lambda}^{\Lambda}}~\mathbf{e}~}}}}
+\bf{B}=\frac{\Sigma^{-1}e}{e^{^T}\Sigma^{-1}e}
 $$
 
 ## 2.2. Kelly 最优投资比例的性质
 
 由 $G_{_i}=E[\ln\frac{S_{_i}(t)}{S_{_i}(0)}]=(\mu_{_i}-\frac{1}{2}\sigma_{_i}^{^2})t$ 可知， Kelly 准则事实上就等同于投资者的预期对数效用最大化。
 
-令 $\mathbf{e}^{\mathrm{~\tiny~T~}}\Sigma^{\mathrm{~\tiny~\cdot~1~}}\mathbf{e}=d$ ，很容易证明，
+令 $\mathbf{e}^{\mathrm{\tiny~T~}}\Sigma^{\mathrm{\tiny~-1~}}\mathbf{e}=d$ ，很容易证明，
 
 $$
-\mathbf{A}^{\mathrm{~T~}}\Sigma\mathbf{A}\ =\ \mathbf{A}\ ,\mathbf{A}^{\mathrm{~T~}}\Sigma\mathbf{B}\ =\ \mathbf{0},\mathbf{B}^{\mathrm{~T~}}\Sigma\mathbf{B}\ =1/\ d
+\mathbf{A}^{\textsf{T}}\mathbf{\Sigma}\mathbf{A}\;=\;\mathbf{A}\;,\mathbf{A}^{\textsf{T}}\mathbf{\Sigma}\mathbf{B}\;=\;\mathbf{0}\;,\mathbf{B}^{\textsf{T}}\mathbf{\Sigma}\mathbf{B}\;=1\;/\;d
 $$
 
 则 Kelly最优投资组合的预期漂移率为
 
 $$
-{\boldsymbol{\mu}}^{*}={\boldsymbol{\mu}}^{\mathrm{~T~}}{\boldsymbol{\mathrm{w}}}^{*}={\boldsymbol{\mu}}^{\mathrm{~T~}}(\mathbf{A}\ {\boldsymbol{\mu}}+\mathbf{B})
+\boldsymbol{\mu}^{*}=\boldsymbol{\mu}^{\mathrm{{\tiny~T~}}}\boldsymbol{\mathbf{w}}^{*}=\boldsymbol{\mu}^{\mathrm{{\tiny~T~}}}(\mathbf{A}\boldsymbol{\mu}+\mathbf{B})
 $$
 
 Kelly 最优投资组合的方差协方差矩阵为
 
 $$
-\begin{array}{rl}&{\boldsymbol{\sigma_{P}}^{*2}=\mathbf{w}^{*\mathrm{\bf T}}\boldsymbol{\Sigma}\mathbf{w}^{*}=\left(\mathbf{A}\boldsymbol{\mu}+\mathbf{B}\right)^{\mathrm{\bf T}}\boldsymbol{\Sigma}\left(\mathbf{A}\boldsymbol{\mu}+\mathbf{B}\right)}\\&{\quad=\mathbf{\mu}^{\mathrm{\bf T}}\mathbf{A}\boldsymbol{\mu}+1/d}\end{array}
+\begin{aligned}&\sigma_{_P}^{^{\mathrm{~\tiny~*~2~}}}=\mathbf{w}^{^{\mathrm{\tiny~*~T~}}}\boldsymbol{\Sigma}\mathbf{w}^{^{\mathrm{\tiny~*~}}}=\left(\mathbf{A}\boldsymbol{\mu}+\mathbf{B}\right)^{^{\mathrm{T}}}\boldsymbol{\Sigma}\left(\mathbf{A}\boldsymbol{\mu}+\mathbf{B}\right)\\&\quad=\boldsymbol{\mu}^{^{\mathrm{T}}}\mathbf{A}\boldsymbol{\mu}+1/d\\\end{aligned}
 $$
 
 Kelly 最优投资组合的几何增长率为
 
 $$
-g^{\mathrm{~*~}}=\mu^{\mathrm{~*~}}-\frac{1}{2}\boldsymbol{\sigma}^{\mathrm{~*~}_{2}}=\mu^{\mathrm{~T~}}(\frac{1}{2}\mathbf{A}\mu+\mathbf{B})-\frac{1}{2d}
+g^{^{*}}=\mu^{^{*}}-\frac{1}{2}\sigma^{^{*2}}=\mu^{^{\mathrm{T}}}(\frac{1}{2}\mathrm{A}\mu+\mathrm{B})-\frac{1}{2d}
 $$
 
 ## 2.3.Kelly 最优投资组合与最小方差组合的比较
@@ -229,13 +229,13 @@ $$
 最小方差组合（MVP）是指满足如下条件的投资组合
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{min}_{\mathbf{w}}\frac{1}{2}\mathbf{w}^{\mathrm{~T~}}\Sigma\mathbf{w}}\\{\displaystyle\mathbf{w}^{\mathrm{~T~}}\mathbf{1}=1}\end{array}
+\begin{aligned}\underset{\mathbf{w}}{\min}&\frac{1}{2}\mathbf{w}^{\mathrm{T}}\boldsymbol{\Sigma}\mathbf{w}\\\mathbf{w}^{\mathrm{T}}\mathbf{1}&=1\end{aligned}
 $$
 
 利用拉格朗日乘数，可以证明上述优化问题的最优解 $\textbf{ w }^{0}$ 为
 
 $$
-\textbf{ w }^{0}=\frac{\boldsymbol{\Sigma}^{\mathbf{\lambda}^{\star}}\mathbf{e}}{\mathbf{e}^{\mathrm{~\mathbf~{\lambda}~}}\boldsymbol{\Sigma}^{\mathbf{\lambda}^{\star}}\mathbf{e}}=\textbf{ B }
+\mathbf{w}^{^{0}}=\frac{{\boldsymbol{\Sigma}}^{^{-1}}\mathbf{e}}{\mathbf{e}^{^{\mathrm{~T~}}}{\boldsymbol{\Sigma}}^{^{-1}}\mathbf{e}}=\mathbf{B}.
 $$
 
 对比 Kelly 组合与 MVP 组合，我们有如下性质比较：
@@ -244,17 +244,17 @@ $$
 
 |  | MVP 组合 | Kelly 组合 |
 | --- | --- | --- |
-| 投资权重 | B | $\mathbf{A}\equiv\mathbf{\boldsymbol{\mathsf{A}}}+\mathbf{B}$ |
-| 预期漂移率 | $\textbf{ \mu }^{\mathrm{\textbf{ r }}}\mathbf{B}$ | $\mathbf{\mu}^{\mathrm{~T~}}\mathbf{A}\ \mathbf{\mu}+\mathbf{\mu}^{\mathrm{~T~}}\mathbf{B}$ |
-| 方差 | $\frac{1}{d}$ | $\pmb{\mu}^{\textup{T}}\mathbf{A}\pmb{\mu}+\frac{1}{d}$ |
-| 几何增长率 | ${\boldsymbol{\mu}}^{\mathrm{\Delta T}}{\boldsymbol{\mathbf{B}}}-{\frac{1}{2d}}$ | $\pmb{\mu}^{\mathrm{\tiny~T}}\mathbf{A}\pmb{\mu}+\pmb{\mu}^{\mathrm{\tiny~T}}\mathbf{B}-\frac{1}{2d}$ |
+| 投资权重 | B | $\mathbf{A}\pmb{\mu}+\mathbf{B}$ |
+| 预期漂移率 | $\boldsymbol{\mu}^{\mathrm{~r~}}\mathbf{B}$ | $\pmb{\mu}^{\mathrm{~T~}}\mathbf{A}\;\pmb{\mu}\;+\;\pmb{\mu}^{\mathrm{~T~}}\mathbf{B}$ |
+| 方差 | $\frac{1}{d}$ | $\pmb{\mu}^{\mathrm{\tiny~T~}}\mathbf{A}\;\pmb{\mu}\;+\frac{1}{d}.$ |
+| 几何增长率 | $\pmb{\mu}^{\mathrm{\tiny~T~}}\pmb{B}=\frac{1}{2d}$ | $\boldsymbol{\mu}^{\mathrm{\tiny~T~}}\mathbf{A}\boldsymbol{\mu}+\boldsymbol{\mu}^{\mathrm{\tiny~T~}}\mathbf{B}-\frac{1}{2d}$ |
 
 数据来源：国泰君安证券研究
 
 可以证明，矩阵 A是半正定的，因此，对于任意向量 a，有
 
 $$
-\mathbf{a}^{\mathrm{~T~}}\mathbf{A}\mathbf{a}\geq0
+\mathbf{a}^{\mathrm{\tiny~T~}}\mathbf{A}\mathbf{a}\geq0
 $$
 
 由表 1 可知，Kelly组合的预期漂移率、方差以及几何增长率都要比 MVP组合的高，两者的关系也可以用下图直观表示：
@@ -265,28 +265,28 @@ $$
 
 ## 3. Kelly 公式在行业配置中的应用
 
-我们选择中信一级行业作为配置标的，选择的数据是从 2009 年至今的周数据。若令 $P_{i,t}$ 表示第 t期第 i个行业的收盘价， $\textit{ g }_{i,t}$ 表示第 t期第 i
+我们选择中信一级行业作为配置标的，选择的数据是从 2009 年至今的周数据。若令 $P_{i,t}$ 表示第 t期第 i个行业的收盘价， $\boldsymbol{\textit{ g }}_{i,t}$ 表示第 t期第 i
 
 个行业的几何增长率，g 表示 i 行业的年化增长率，则
 
 $$
-g_{_{i,t}}^{}=\ln(P_{_{i,t}}^{}/P_{_{i,t-1}}^{})
+g_{i,t}=\ln\left(P_{i,t}/P_{i,t-1}\right)
 $$
 
 $$
-\hat{g}_{{\scriptsize{i}}}=\frac{1}{n}\sum_{{\scriptsize{t=1}}}^{n}{g_{{\scriptsize{i,t}}}{^{*}}}50
+\hat{g}_{_{i}}=\frac{1}{n}\sum_{_{t=1}}^{n}\;g_{_{i,t}}^{*}50.
 $$
 
-利用 $g_{\mathbf{\Phi}_{i,\mathrm{i}}}$ 我们可以估算方差协方差矩阵，其中
+利用 $\boldsymbol{\textit{ g }}_{i,i}$ 我们可以估算方差协方差矩阵，其中
 
 $$
-\begin{array}{l}{{\hat{\sigma_{i}}^{2}=\sigma_{g_{i}}^{2}\ast50}}\\{{\phantom{\hat{\sigma_{i}}^{2}}}}\\{{\phantom{\hat{\sigma_{i}}}}}\end{array}
+\begin{aligned}\hat{\sigma_{_i}}^{^2}=&\sigma_{_{g_i}}^{^2}*50\\\hat{\sigma_{_{ij}}}=&\mathrm{cov}(g_{_i},g_{_j})*50\end{aligned}
 $$
 
 对于预期漂移率的估算，我们可以利用下面的等式进行估计
 
 $$
-\hat{\mu}_{i}=\hat{g}_{i}+\frac{1}{2}\hat{\sigma_{i}}^{2}
+\hat{\mu}_{_{i}}=\hat{g}_{_{i}}+\frac{1}{2}\hat{\sigma_{_{i}}}^{2}
 $$
 
 ## 3.1.Kelly 公式在一级行业资产配置中的应用

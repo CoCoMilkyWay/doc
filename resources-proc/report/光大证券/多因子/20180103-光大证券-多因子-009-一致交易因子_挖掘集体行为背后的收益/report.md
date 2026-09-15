@@ -89,7 +89,7 @@ $$
 但实际上这样定义是比较苛刻的，尤其是对那些流动性高，交易较为频繁的股票而言。因为只要在K线内第一笔或最后一笔交易跟该 K线最终涨跌方向相反，那么该K线按此定义就不能算是实体K 线，即使其它所有交易都是沿着该K线最终涨跌方向成交。因此为了减少定义对某些个别交易的过重依赖。我们认为仅需K 线满足：
 
 $$
-|Close-Open|\le\propto\left|High-Low\right|\#(2)
+|Close-Open|\leq\alpha\times|High-Low|\#(2)
 $$
 
 即可认为其是实体K线，其中 α 是一致参数，取值在 0 到1 之间，取1 时即变成之前所述的严格实体 K线定义。
@@ -161,7 +161,7 @@ Volume：表示当日总成交量
 截面标准化处理：通过横截面 z-score方法，以每个时间截面 t上的所有股票的为样本，分别计算其均值和标准差得到如下所示 stand(factor)。此标准化方式属于因子的线性变换，并不会改变原始因子的分布特征。
 
 $$
-s\mathrm{tand}(factor)_{jt}=\frac{factor_{jt}-\overline{{factor_{t}}}}{std(factor)_{t}}\#(6)
+\mathrm{standard}(factor)_{jt}=\frac{factor_{jt}-\overline{factor_{t}}}{std(factor)_{t}}\#(6)
 $$
 
 有效性及稳定性检验：采用多期截面RLM回归后我们可以得到因子收益序列，以及每一期回归假设检验T 检验的 t 统计量序列，针对这两个序列我们通过以下几个指标来判断该因子的有效性和稳定性：
@@ -433,7 +433,7 @@ $$
 可以想见，在与波动因子、换手因子与流动性因子有如此高的负相关性，那么在上一章节中极为优秀的预测能力极有可能大部分来自于这几个因子的贡献。为了进一步验证一致卖出交易因子自身所隐含的独有信息，我们将通过横截面回归取残差的方式，同时剔除规模、波动、流动性和行业等因素的影响，对所有的因子均做截面标准化和极值处理。
 
 $$
-\begin{array}{r}{NCV_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+\beta_{3}*TURNOVER_{1M_{i}}+\beta_{4}*STD_{i}+}\\{\beta_{5}*VSTD_{i}+\beta_{6}*BP_{i}+\beta_{7}*ROE_{i}+\beta_{8}*FC_{i}+\varepsilon_{i}\#(7)\qquad}\end{array}
+\begin{array}{c}NCV_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+\beta_{3}*TURNOVER_{1M_{i}}+\beta_{4}*STD_{i}+\\\beta_{5}*VSTD_{i}+\beta_{6}*BP_{i}+\beta_{7}*ROE_{i}+\beta_{8}*FC_{i}+\varepsilon_{i}\#(7)\end{array}
 $$
 
 在经过中性化处理后一致卖出交易因子的有效性检验等结果虽然有明显下降，但仍然十分显著，IC 平均值为2.37%， IR 绝对值达 0.60。此外因子的分组单调性有较大削弱，除了第九组与第十组以外，其余 8组基本没有什么区分度。

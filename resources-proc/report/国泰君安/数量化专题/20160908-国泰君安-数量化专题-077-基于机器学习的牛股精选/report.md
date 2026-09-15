@@ -132,7 +132,7 @@ Alpha 策略是一种中性策略。它通过构造优于指数的股票组合�
 ![](images/0443c35e46333f487dcbd667f59a23e856c558ed30b16cb011734072a5f92352.webp)
 资料来源:国泰君安证券研究
 
-概括的说，决策树算法实现了对样本空间的分组。假设我们选出了 n 个指标 $\mathrm{X}_{1},\mathrm{X}_{2},\cdots,\mathrm{X}_{\mathrm{n}},$ ，它们从 n个维度对证券价格变动进行了解释。在此基础上，我们根据 n个指标对总样本进行 N次分裂。最终，将原有的样本分为 $\mathbf{N}^{2}$ 个互不重叠的区域（即树中的叶节点） $\mathbf{R}_{1},\mathbf{R}_{2},\ldots,\mathbf{R}_{\mathrm{n}}{\mathrm{~c~}}$ 。其中，对于单一叶节点 $\scriptstyle\mathrm{\mathbf{R}}_{\mathrm{n}}$ 来说，我们根据该节点中上涨或下跌样本的占比多少作为该节点的标签。同时，标签类别样本占该节点总样本的比例，作为该节点的纯度。例如， ${\bf R}_{\mathrm{n}}$ 节点中，70%的样本相对指数能够产生超额收益，则我们定义 $\scriptstyle\mathrm{\mathbf{R}}_{\mathrm{n}}$ 节点是有正超额收益的，其纯度为 70%。
+概括的说，决策树算法实现了对样本空间的分组。假设我们选出了 n 个指标 $\mathrm{X}_{1},\mathrm{X}_{2},\ldots,\mathrm{X}_{\mathrm{n}},$ ，它们从 n个维度对证券价格变动进行了解释。在此基础上，我们根据 n个指标对总样本进行 N次分裂。最终，将原有的样本分为 $\mathrm{N}^{2}$ 个互不重叠的区域（即树中的叶节点） $\mathrm{R}_{1},\mathrm{R}_{2},\ldots,\mathrm{R}_{\mathrm{n}}$ 。其中，对于单一叶节点 $\mathtt{R_{n}}$ 来说，我们根据该节点中上涨或下跌样本的占比多少作为该节点的标签。同时，标签类别样本占该节点总样本的比例，作为该节点的纯度。例如， $\mathbf{R_{n}}$ 节点中，70%的样本相对指数能够产生超额收益，则我们定义 $\mathtt{R_{n}}$ 节点是有正超额收益的，其纯度为 70%。
 
 如何对区域进行划分是接下来要详细解释的问题。首先，从简化模型、便于解释的角度出发，决策树算法设臵区域划分的形状为矩形，即我们根据指标通过找到唯一的最优分割点，将样本直接切分为两个部分。此外，针对多个指标的综合运用方面，考虑到机器学习中常见的过度拟合问题以及程序实现的复杂度，决策树算法采用了贪婪的递归二元划分法。具体来说，贪婪体现于在每次分支时，决策树总产生在当前节点下的最优分割，即在选择最优解释变量的最优分割点时，实现的仅仅是该节点局部最优，而非决策树整体最优。简而言之，递归体现在对母数据集分割之后，递归地对每一个子节点进行分类，直至每个分支下都是一国泰君安版权所有发送给国投瑞银基金管理有限公司.公用邮箱:res@ubs dic. om p5样的分类，或者分类无法进一步改进为止。
 
@@ -154,12 +154,12 @@ Alpha 策略是一种中性策略。它通过构造优于指数的股票组合�
 Gini 不纯度指标的定义为：
 
 $$
-\mathsf{Gini}=\sum_{\mathbf{k}=1}^{\mathbf{K}}\mathsf{P}(\mathbf{m},\mathbf{k})\left(1-\mathsf{P}(\mathbf{m},\mathbf{k})\right)
+\mathrm{Gini}=\sum_{\mathrm{k}=1}^{\mathrm{K}}\mathrm{P}(\mathrm{m},\mathrm{k})(1-\mathrm{P}(\mathrm{m},\mathrm{k}))
 $$
 
-P(m,k)表示的是在第 m 个节点内第 k 个类别的观测点在总数目中的比例。在本文中，由于每次切分后生成两个新的节点，同时，节点内只分国泰君安版权所有发送给国投瑞银基金管理有限公司.公用邮箱:res@ubs dic. om p6上涨和下跌的股票，所以本文中 m=2、k=2。此外，每次切分后，我们将切分之后的两个子节点不纯度累加起来，作为本次切割的 Gini 值。不难看出，当两个子节点的 $\mathrm{P(m,k)}$ 等于 0或者 1时，Gini 不纯度指标值达到最小。换言之，模型完美的对母样本中上涨和下跌的个股进行了区分。
+P(m,k)表示的是在第 m 个节点内第 k 个类别的观测点在总数目中的比例。在本文中，由于每次切分后生成两个新的节点，同时，节点内只分国泰君安版权所有发送给国投瑞银基金管理有限公司.公用邮箱:res@ubs dic. om p6上涨和下跌的股票，所以本文中 m=2、k=2。此外，每次切分后，我们将切分之后的两个子节点不纯度累加起来，作为本次切割的 Gini 值。不难看出，当两个子节点的 $\mathrm{P(m,}\mathrm{k)}$ 等于 0或者 1时，Gini 不纯度指标值达到最小。换言之，模型完美的对母样本中上涨和下跌的个股进行了区分。
 
-举例来说，我们运用决策树的方法对母节点的 400只股票进行切割，生成两个子节点 A和 B，每个子节点分别有 200只股票。此时，如果子节点 A的 200只股票全部为上涨，子节点 B的 200只股票全部为下跌，则此时 Gini 值达到最小值 0。相反地，如果子节点 A的股票样本皆为一半上涨，一半下跌，而子节点 B 的股票样本为 60%上涨，40%下跌。则Gini 值为 $0.5^{*}~(~1.0.5~)~+0.6^{*}~(~1.0.6~)~=0.49$
+举例来说，我们运用决策树的方法对母节点的 400只股票进行切割，生成两个子节点 A和 B，每个子节点分别有 200只股票。此时，如果子节点 A的 200只股票全部为上涨，子节点 B的 200只股票全部为下跌，则此时 Gini 值达到最小值 0。相反地，如果子节点 A的股票样本皆为一半上涨，一半下跌，而子节点 B 的股票样本为 60%上涨，40%下跌。则Gini 值为 $0.5^{\ast}\left(1-0.5\right)+0.6^{\ast}\left(1-0.6\right)=0.49$
 
 ## 3.2.2. 剪枝
 
@@ -171,13 +171,13 @@ P(m,k)表示的是在第 m 个节点内第 k 个类别的观测点在总数目�
 
 ## 3.3. 决策树算法实例
 
-下面我们通过实例加以说明， $\mathbf{X}_{1}$ ， ${\bf X}_{2}$ 是两个技术指标，Y 是二元变量，取值为 0 或者 1。首先，我们取得市场上所有的股票作为样本池。其次，国泰君安版权所有发送给国投瑞银基金管理有限公司.公用邮箱:res@ubs dic. om p7如图 4 所示，根据 $\mathbf{X}_{1}$ ， ${\bf X}_{2}$ 的取值，每只股票的超额收益方向由 Y的取值来表示，红色代表属于类别 0（负收益），蓝色代表属于类别 1（正收益）。
+下面我们通过实例加以说明， $\mathbf{X}_{1}$ ， $\mathbf{X}_{2}$ 是两个技术指标，Y 是二元变量，取值为 0 或者 1。首先，我们取得市场上所有的股票作为样本池。其次，国泰君安版权所有发送给国投瑞银基金管理有限公司.公用邮箱:res@ubs dic. om p7如图 4 所示，根据 $\mathbf{X}_{1}$ ， $\mathbf{X}_{2}$ 的取值，每只股票的超额收益方向由 Y的取值来表示，红色代表属于类别 0（负收益），蓝色代表属于类别 1（正收益）。
 
 ![](images/2ce6f1e7a33a70479c73b8ab089beabaf0796503a5f62c400c34cc702d6e36f4.webp)
 图 5 决策树算法过程
 资料来源:国泰君安证券研究国泰君安版权所有发送给国投瑞银基金管理有限公司.公用邮箱:res@ub
 
-从图 4 中可以大致看出， ${\bf X}_{2}$ 是决定 Y 变量取值的首要的因素，当 $\mathbf{X}_{2}$ 小于 1.05 或者大于 8.55 的时候，无论 $\mathbf{X}_{1}$ 为何值，Y 变量的取值都为 1。相对地，只有当 $\mathbf{X}_{2}$ 在处于 1.05 和 8.55 的范围内的时候，Y 变量的取值由 $\mathbf{X}_{1}$ 决定。其中，如何找出 Y 变量取值为 1 的区域则是机器学习的核心部分。
+从图 4 中可以大致看出， $\mathbf{X}_{2}$ 是决定 Y 变量取值的首要的因素，当 $\mathbf{X}_{2}$ 小于 1.05 或者大于 8.55 的时候，无论 $\mathbf{X}_{1}$ 为何值，Y 变量的取值都为 1。相对地，只有当 $\mathbf{X}_{2}$ 在处于 1.05 和 8.55 的范围内的时候，Y 变量的取值由 $\mathbf{X}_{1}$ 决定。其中，如何找出 Y 变量取值为 1 的区域则是机器学习的核心部分。
 
 图 4 决策树算法实例
 ![](images/b932d73a4d1be03aa61959b2ed4f2a1559eeb135757071de1b160b08940a935a.webp)
@@ -224,7 +224,7 @@ P(m,k)表示的是在第 m 个节点内第 k 个类别的观测点在总数目�
 变动速率 ROC 反映的是价格的动量，定义为当期价格与十周前价格的比例:
 
 $$
-{\mathrm{ROC}}={\frac{\mathrm{close}_{\mathrm{t}}}{\mathrm{close}_{\mathrm{t}-10}}}
+\mathrm{ROC}=\frac{\mathrm{close}_{\mathrm{t}}}{\mathrm{close}_{\mathrm{t}-10}}
 $$
 
 ## 4.1.2. 平滑异同移动平均线 MACD
@@ -244,15 +244,15 @@ MACD=2（DEA-DIF）
 TP= (high+close+low)/3国泰君安版权所有发送给国投瑞银基金管理有限公
 
 $$
-\mathsf{MA}=\frac{\sum_{\mathrm{n=0}}^{11}\mathsf{close}_{\mathrm{t-n}}}{\mathrm{n}}
+\mathrm{MA}=\frac{\sum_{\mathrm{n}=0}^{11}\mathrm{close}_{\mathrm{t}-\mathrm{n}}}{\mathrm{n}}
 $$
 
 $$
-\mathrm{MD}=\sum_{\mathrm{n}=0}^{11}|\mathrm{MA}-\mathrm{close}_{\mathrm{t-n}}|
+\mathrm{MD}=\sum_{\mathrm{n}=0}^{11}\left|\mathrm{MA}-\mathrm{close}_{\mathrm{t}-\mathrm{n}}\right|
 $$
 
 $$
-\mathrm{CCI}{=}\left(1/0.015\right)^{\ast}\mathrm{(TP-MA)/MD}
+\mathrm{CCI}=(1/0.015)^{\mathrm{~*~}}(\mathrm{TP}-\mathrm{MA})/\mathrm{MD}
 $$
 
 ## 4.1.4. 抛物线指标 SAR
@@ -260,7 +260,7 @@ $$
 抛物线指标 SAR 又叫或停损转向操作点指标，它把股票趋势分为上升式与下降式，当股价穿过 SAR 止损线时，则表明趋势改变。SAR 的计算公式为：
 
 $$
-\begin{array}{rl}&{\mathrm{~\_~E_{\ell}|^{4}*|_{\ell}^{4}*|_{\ell}SAR\_t{-}^{\ell=SAR\_(t-1)+AF(high\_(t-1)-SAR\_(t-1))}}}\\&{\mathrm{~\_~F_{\ell}|^{4}*|_{\ell}SAR\_t{-}^{\ell=SAR\_(t-1)+AF(low\_(t-1)-SAR\_(t-1))}}}\end{array}
+\begin{aligned}&上升式\;SAR\_t=SAR\_(t-1)+AF(high\_(t-1)-SAR\_(t-1))\\&下降式\;SAR\_t=SAR\_(t-1)+AF(low\_(t-1)-SAR\_(t-1))\\\end{aligned}
 $$
 
 式中 AF 为加速因子，基值为 0.02，当价格每创新高(上升式)或新低(下降式)时按 0.02增加，直到 0.2为止，即 AF 取值范围在 0.02到 0.2之间。SAR 给出了止损价格，我们再根据 SAR 止损价格与当前股价的比值来衡量股价和止损点之间的相对距离。
@@ -270,17 +270,17 @@ $$
 收集派发指标 AD的思想是大成交量的价格波动更加重要，它的定义是：
 
 $$
-{\mathrm{ADL}}=\sum{\frac{({\mathrm{close-low}})-({\mathrm{high-close}})}{\mathrm{high-low}}}\cdot{\mathrm{volume}}
+\mathrm{ADL}=\sum\frac{(\mathrm{close}-\mathrm{low})-(\mathrm{high}-\mathrm{close})}{\mathrm{high}-\mathrm{low}}\cdot\mathrm{volume}
 $$
 
 在其基础上有佳庆震荡指标，其常见的定义为 3 期 ADL 的移动平均与10 期的差值，即：
 
 $$
-\mathrm{\ ema_{i}=\frac{2}{i+1}ADL+\frac{i-1}{i+1}\mathrm{em}a_{t-1}}
+\mathrm{ema_{i}=\frac{2}{i+1}ADL+\frac{i-1}{i+1}ema_{t-1}}
 $$
 
 $$
-\mathrm{AD0}=\mathrm{ema_{3}}-\mathrm{ema_{10}}
+\mathrm{AD0=ema_{3}-ema_{10}}
 $$
 
 ## 4.1.6. 布林线
@@ -290,15 +290,15 @@ $$
 其定义为：
 
 $$
-\mathrm{Middleband}=\frac{\sum_{n=0}^{10}\mathrm{close}_{\mathrm{t-n}}}{\mathrm{n}}
+\mathrm{Middleband}={\frac{\sum_{n=0}^{10}{\mathrm{close}}_{t-n}}{n}}
 $$
 
 $$
-\mathrm{\sf MD}=\sqrt{\frac{\sum_{\mathrm{n}=0}^{10}(\mathrm{close}_{\mathrm{t-n}}-\mathrm{Middleband})^{2}}{\mathrm{n}}}
+\mathrm{MD}=\sqrt{\frac{\sum_{\mathrm{n}=0}^{10}(\mathrm{close}_{\mathrm{t}-\mathrm{n}}-\mathrm{Middlelband})^{2}}{\mathrm{n}}}
 $$
 
 $$
-\begin{array}{r}{\mathrm{Upperband}=\mathrm{Middleband}+2\mathrm{MD}}\\{\mathrm{Lowerband}=\mathrm{Middleband}-2\mathrm{MD}}\end{array}
+\begin{aligned}&\mathrm{Upperband}=\mathrm{Middlelband}+2\mathrm{MD}\\&\mathrm{Lowerband}=\mathrm{Middlelband}-2\mathrm{MD}\\\end{aligned}
 $$
 
 为了反映当前股价所在布林带的相对位臵，我们分别以布林线三条轨除以当期收盘价。
@@ -310,10 +310,10 @@ $$
 即
 
 $$
-\mathrm{Y_{t}^{i}}=\left\{\begin{array}{rl}{1,\quad}&{\mathrm{R}_{t+1}^{\mathrm{i}}>\mathrm{R}_{t+1}^{\mathrm{m}}}\\{0,\quad}&{\mathrm{R}_{t+1}^{\mathrm{i}}<\mathrm{R}_{t+1}^{\mathrm{m}}}\end{array}\right.
+\mathbb{Y}_{\mathsf{t}}^{\mathrm{i}}=\left\{\begin{aligned}&1,&\quad\mathbb{R}_{\mathsf{t}+1}^{\mathrm{i}}>\mathbb{R}_{\mathsf{t}+1}^{\mathrm{m}}\\&0,&\quad\mathbb{R}_{\mathsf{t}+1}^{\mathrm{i}}<\mathbb{R}_{\mathsf{t}+1}^{\mathrm{m}}\end{aligned}\right.
 $$
 
-式中， $\textrm{ \textbf { R } }_{-1+1}^{\textrm{ i }}$ 表示第 i 个股票在 t+1 月的涨跌幅。 $\mathrm{~R~}_{-1+1}^{\mathrm{~m~}}$ 表示中证 500指数在 t+1月的涨跌幅。
+式中， $\mathbf{R_{\_t+1}}^{\dot{\mathbf{i}}}$ 表示第 i 个股票在 t+1 月的涨跌幅。 ${\mathbf{R}_{\mathrm{-t+1}}}^{\mathrm{m}}$ 表示中证 500指数在 t+1月的涨跌幅。
 
 ## 4.3. 核心指标选择
 

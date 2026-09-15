@@ -104,50 +104,50 @@ liufubing008481@gtjas.com
 
 我们知道 Kelly 准则等同于组合的几何增长率最大化，为此我们从几何增长率入手，在无分布假设下推导 Kelly 准则。
 
-假定一只股票第t 期收益率为 $\boldsymbol{R}_{\mathbf{\Phi}_{t}}$ ，该股票的几何增长率为G R( ) ，则
+假定一只股票第t 期收益率为 $R_{\textit{ t }}$ ，该股票的几何增长率为G R( ) ，则
 
 $$
-1+G\left(R\right)=\left\{\Pi_{{t=1}}^{{^T}}(1+R_{{t}})\right\}^{1/T}
+1+G(R)=\{\Pi_{_{t=1}}^{^{T}}(1+R_{_{t}})\}^{1/T}
 $$
 
 其中 T表示样本期数，对上面等式两边去对数，则有
 
 $$
-\ln(1+G(R))=\operatorname*{lim}_{T\infty}\frac{1}{T}{\sum}^{T}_{t=1}\ln(1+R_{t})=E\ln(1+R_{t})
+\ln\left(1+G\left(R\right)\right)=\lim_{T\rightarrow\infty}\frac{1}{T}\sum_{_{t=1}}^{^{T}}\ln\left(1+R_{_{t}}\right)=E\ln\left(1+R_{_{t}}\right)
 $$
 
-将函数 $\ln(1+R_{_t})$ 在其均值 $E\left(R_{,}\right)=\mu$ 上进行泰勒展开，有
+将函数 $\ln{(1+R_{_t})}$ 在其均值 $E\left(R_{_t}\right)=\mu$ 上进行泰勒展开，有
 
 $$
-\ln(1+R_{_{t}})\approx\ln(1+\mu)+{\frac{R-\mu}{1+\mu}}-{\frac{\left(R-\mu\right)^{2}}{2\Sigma(1+\mu)^{2}}}+{\frac{\left(R-\mu\right)^{3}}{3\Sigma(1+\mu)^{3}}}-{\frac{\left(R-\mu\right)^{4}}{4\Sigma(1+\mu)^{4}}}+\cdot\cdot\cdot,
+\ln\left(1+R_{_{t}}\right)\approx\ln\left(1+\mu\right)+\frac{R-\mu}{1+\mu}-\frac{\left(R-\mu\right)^{2}}{2\left(1+\mu\right)^{2}}+\frac{\left(R-\mu\right)^{3}}{3\left(1+\mu\right)^{3}}-\frac{\left(R-\mu\right)^{4}}{4\left(1+\mu\right)^{4}}+\cdots,
 $$
 
 对上式取期望值可得
 
 $$
-E\ln(1+R_{\star})\approx\ln(1+\mu)-\frac{E\left[\left(R-\mu\right)\right]^{2}}{2\Omega(1+\mu)^{2}}+\frac{E\left[\left(R-\mu\right)\right]^{3}}{3\Omega(1+\mu)^{3}}-\frac{E\left[\left(R-\mu\right)\right]^{4}}{4\Omega(1+\mu)^{4}}+\cdot\cdot\cdot,
+E\ln\left(1+R_{_{t}}\right)\approx\ln\left(1+\mu\right)-\frac{E\left[\left(R-\mu\right)\right]^{^{2}}}{2\left[\left(1+\mu\right)^{^{2}}\right.}+\frac{E\left[\left(R-\mu\right)\right]^{^{3}}}{3\left[\left(1+\mu\right)^{^{3}}\right.}-\frac{E\left[\left(R-\mu\right)\right]^{^{4}}}{4\left[\left(1+\mu\right)^{^{4}}\right.}+\cdots,
 $$
 
 忽略高阶项，我们可以近似算出G R( ) 的表达式：
 
 $$
-G\left(R\right)=\exp\left\{{E\ln\left(1+R_{t}\right)}\right\}-1\approx\exp\left\{{\ln\left(1+\mu\right)-\frac{\sigma^{2}}{2\perp(1+\mu)^{2}}}\right\}-1
+G\left(R\right)=\operatorname{exp}\left\{E\ln\left(1+R_{_{t}}\right)\right\}-1\approx\operatorname{exp}\left\{\ln\left(1+\mu\right)-\frac{\sigma^{^{2}}}{2\left[\left(1+\mu\right)^{^{2}}\right]}\right\}-1
 $$
 
-其中 $\sigma^{\ :^{2}}=E\left[\left(R-\mu\right)\right]^{2}$
+其中 $\sigma^{^2}=E\left[\left(R-\mu\right)\right]^{^2}$
 
-假定一投资组合 P，其在 n只股票上的投资权重为 $\textbf{ w }^{\textbf{ T }}=(w_{\textbf{ \ i }},w_{\textbf{ \ i }},\iiint,w_{\textbf{ \ i }})$ 则组合 P 的均值、方差为
-
-$$
-{\mu}_{_P}=E(R_{_P})={\bf w}^{\mathrm{~T~}}{\bf\mu},\sigma_{_P}^{^2}=\textbf{ w }^{\mathrm{~T~}}\Sigma\textbf{ w }
-$$
-
-其中 $\boldsymbol{\mu}=(\mu_{_1},\mu_{_2},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},\boldsymbol{\mu},$ 表示收益率的方差协方差矩阵
-
-由于 kelly 准则等同于 $G\ :(\boldsymbol{R}_{\scriptscriptstyle P})$ 最大化，因此 Kelly 准则的确定大致等同于如下优化问题：
+假定一投资组合 P，其在 n只股票上的投资权重为 $\mathbf{w}^{\mathrm{T}}=(w_1,w_2,\square,w_n)$ 则组合 P 的均值、方差为
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{max}_{\bf{w}}\ln{(1+{\bf{w}}^{\mathrm{{~T~}}}{\bf{\mu}})}-\frac{1}{2}\frac{{\bf{w}}^{\mathrm{{~T~}}}\Sigma{\bf{w}}}{{(1+{\bf{w}}^{\mathrm{{~T~}}}{\bf{\mu}})}^{2}}}\\{\displaystyle{\bf{w}}^{\mathrm{{~T~}}}{\bf{1}}=1}\end{array}
+\mu_{_{P}}\;=\;E\:(\:R_{_{P}}\:)\:=\:\mathbf{w}^{^{\mathrm{\tiny~T}}}\pmb{\mu}\:,\sigma_{_{P}}^{^{\mathrm{\tiny~2}}}\:=\:\mathbf{w}^{^{\mathrm{\tiny~T}}}\Sigma\:\mathbf{w}
+$$
+
+其中 $\boldsymbol{\mu}=(\mu_{1},\mu_{2},\square\square,\mu_{n}),\boldsymbol{\Sigma}=(\sigma_{ij})_{n\times n}$ 表示收益率的方差协方差矩阵
+
+由于 kelly 准则等同于 $G\left(R_{_{P}}\right)$ 最大化，因此 Kelly 准则的确定大致等同于如下优化问题：
+
+$$
+\begin{array}{rl}&{\underset{\textbf{ w }}{\mathrm{~m~a~x~}}\ln{(1+\textbf{ w }^{^{\mathrm{\tiny~T~}}}\boldsymbol{\mu})}-\frac{1}{2}\frac{\textbf{ w }^{^{\mathrm{\tiny~T~}}}\boldsymbol{\Sigma}\textbf{ w }}{(1+\textbf{ w }^{^{\mathrm{\tiny~T~}}}\boldsymbol{\mu})^{^{2}}}}\\&{\textbf{ w }^{^{\mathrm{\tiny~T~}}}\mathbf{1}=1}\end{array}
 $$
 
 由上面的优化问题可以看出，与 Markowitzs 的均值方差理论一样，Kelly准则同样不喜欢波动，因为波动会降低组合的几何增长率。
@@ -184,16 +184,16 @@ $$
 由第一部分的推导，我们知道，Kelly 准则大致等同于最大化下述函数
 
 $$
-\ln{(1+\textbf{ w }^{\mathrm{T}}\mu)}-\frac{1}{2}\frac{\textbf{ w }^{\mathrm{T}}\Sigma\textbf{ w }}{\left(1+\textbf{ w }^{\mathrm{T}}\mu\right)^{2}}
+\ln{(1+\textbf{ w }^{^{\mathrm{\tiny~T~}}}\boldsymbol{\mu})}-\frac{1}{2}\frac{\textbf{ w }^{^{\mathrm{\tiny~T~}}}\boldsymbol{\Sigma}\textbf{ w }}{(1+\textbf{ w }^{^{\mathrm{\tiny~T~}}}\boldsymbol{\mu})^{^{2}}}.
 $$
 
-事实上，当 ${\boldsymbol{\mu}}=(\mu_{_1},\mu_{_2},\varinjlim,\mu_{_n})$ 较小时， $\textbf{ w }^{\mathbf{T}}\mu$ 也较小，上式近似等于
+事实上，当 $\boldsymbol{\mu}=(\mu_{1},\mu_{2},\Box\Box,\mu_{n})$ 较小时， $\textbf{ w }^{\mathrm{~T~}}\pmb{\mu}$ 也较小，上式近似等于
 
 $$
-\textbf{ w }^{\mathrm{T}}\mathbf{\mu}-\frac{1}{2}\frac{\textbf{ w }^{\mathrm{T}}\Sigma\textbf{ w }}{\left(1+\textbf{ w }^{\mathrm{T}}\mathbf{\mu}\right)^{2}}\approx\textbf{ w }^{\mathrm{T}}\mathbf{\mu}-\frac{1}{2}\textbf{ w }^{\mathrm{T}}\Sigma\textbf{ w }
+\mathbf{w}^{^{\mathrm{\tiny~T}}}\pmb{\mu}-\frac{1}{2}\frac{\mathbf{w}^{^{\mathrm{\tiny~T}}}\Sigma\mathbf{w}}{(1+\mathbf{w}^{^{\mathrm{\tiny~T}}}\pmb{\mu})^{^2}}\approx\mathbf{w}^{^{\mathrm{\tiny~T}}}\pmb{\mu}-\frac{1}{2}\mathbf{w}^{^{\mathrm{\tiny~T}}}\Sigma\mathbf{w}
 $$
 
-而 $\textbf{ w }^{\textbf{ r }}\mu-\frac{1}{2}\textbf{ w }^{\textbf{ r }}\Sigma\textbf{ w }$ 正是风险厌恶系数为 1 时的均值方差组合的目标函数。
+而 $\textbf{ w }^{\mathrm{\tiny~T~}}\pmb{\mu}\:-\:\frac{1}{2}\:\mathbf{w}^{\mathrm{\tiny~T~}}\boldsymbol{\Sigma}\:\mathbf{w}$ 正是风险厌恶系数为 1 时的均值方差组合的目标函数。
 
 因此，从理论上说，当标的的收益率较小时，Kelly 准则是均值方差理论的一个特殊形式。从实证来看，Kelly 策略与风险厌恶系数为 1 的均值方差组合也是一致的。
 
@@ -212,27 +212,27 @@ $$
 的一定比例作为 Kelly 策略的替代。同时，学术界已经证明，FractionalKelly 策略，事实上就是效用函数为幂函数时预期效用最大化的最优投资比例，即
 
 $$
-FractionalKelly=\arg\operatorname*{max}{E[\frac{1}{1-\gamma}x^{1-\gamma}]}
+FractionalKelly=\arg\max E\left[\frac{1}{1-\gamma}x^{1-\gamma}\right]
 $$
 
-其中 是投资者的风险厌恶系数。 $\bar{\hbar}$ 且，Fractional Kelly 策略相对于Kelly 策略的比例就是1 /• 。
+其中 是投资者的风险厌恶系数。 $而$ 且，Fractional Kelly 策略相对于Kelly 策略的比例就是1 /• 。
 
 我们可以详细分析下效用函数为幂函数时对应的情况。将该函数在均值处进行泰勒展开有
 
 $$
-E[\frac{1}{1-\gamma}(1+R_{\iota})^{1-\gamma}]\approx\frac{1}{1-\gamma}(1+\mu)^{1-\gamma}-\frac{\gamma}{2}E[R_{\iota}-\mu]^{2}\Omega(1+\mu)^{-\gamma-1}
+E\left[\frac{1}{1-\gamma}\left(1+R_{_{t}}\right)^{^{1-\gamma}}\right]\approx\frac{1}{1-\gamma}\left(1+\mu\right)^{^{1-\gamma}}-\frac{\gamma}{2}E\left[R_{_{t}}-\mu\right]^{^{2}}\square(1+\mu)^{^{-\gamma-1}}
 $$
 
 当 $\mu$ 较小时，上述函数又近似等价于如下函数：
 
 $$
-E[\frac{1}{1-\gamma}(1+R_{\iota})^{1-\gamma}]\approx\frac{1}{1-\gamma}+\mu-\frac{\gamma}{2}E[R_{\iota}-\mu]^{2}
+E\left[\frac{1}{1-\gamma}\left(1+R_{_{t}}\right)^{^{1-\gamma}}\right]\approx\frac{1}{1-\gamma}+\mu-\frac{\gamma}{2}E\left[R_{_{t}}-\mu\right]^{^{2}}
 $$
 
-因此优化问题 $\operatorname*{m}{\arg E[\frac{1}{1-\gamma}(1+R_{t})}^{1-\gamma}]$ 近似等价于如下优化问题
+因此优化问题 $\operatorname*{max}\;E[\frac{1}{1-\gamma}(1+R_{_{t}})^{^{1-\gamma}}]$ 近似等价于如下优化问题
 
 $$
-\mathrm{~m~a~x~}\{\ \mu\ -\ \frac{\gamma}{2}E[R_{\ \mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}}-\ \mu\mathrm{~}]^{2}\}
+\mathrm{~m~a~x~}\{\;\mu\;-\;\frac{\gamma}{2}E[R_{_{t}}\;-\;\mu\;]^{^{2}}\}
 $$
 
 这恰恰是风险厌恶系数为 时的 Markowitzs 均值方差理论。

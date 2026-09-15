@@ -135,53 +135,53 @@ le_Summary]股票价格在成交量的作用下的涨跌过程类似于弹簧在
 为了定量刻画股价的塑性大小，我们构建股票的塑性模型。直观来看，股票的塑性变形大小，即均衡价格的移动距离，由每笔交易的成交量和股价偏离均衡价格的大小两者共同决定。在其他因素不变的情况下，成交量越大或股价偏离均衡价格越多，则塑性变形越大。从上述逻辑出发，可构建包含高频数据的塑性模型，其数学表达式为：
 
 $$
-\begin{array}{llllll}{{{\displaystyle B_{_K}}}}&{{-}}&{{{\displaystyle B_{_K-1}}}}&{{=}}&{{\displaystyle\sum_{i=1}^{N}{\cal Q}_{_K}^{_i}({P_{_K}}^{_i}-{B_{_K}})}}&{{}}&{{}}\\{{{\displaystyle B_{_K}}}}&{{-}}&{{{\displaystyle B_{_K-1}}}}&{{=}}&{{\displaystyle\alpha}}&{{{\displaystyle\frac{i\mathrm{~\sigma~}_{_K}}{\mathrm{~\sigma~}}}}}&{{{\displaystyle Q_{_K}^{_F}}}}\end{array}+{_L_{_K}}
+B_{_{K}}-B_{_{K-1}}=\alpha\frac{\displaystyle\sum_{_{i=1}}^{^{N}}Q_{_{K}}^{^{i}}(P_{_{K}}^{^{i}}-B_{_{K}}^{^{}})}{Q_{_{K}}^{^{F}}}+\varepsilon_{_{K}}
 $$
 
 其中,
 
-$B_{\scriptscriptstyle{K}}\mathrm{~.~}$ 第 K 日的均衡价格（Balance Price）
+$\boldsymbol{B}_{\textit{ K }},$ 第 K 日的均衡价格（Balance Price）
 
-${Q}_{\kappa}^{i}$ 第 K 日中第 i 笔交易的成交量
+$|\boldsymbol{\mathcal{Q}}_{\boldsymbol{\mathcal{N}}}^{\textit{ i }}$ 第 K 日中第 i 笔交易的成交量
 
-${P_{\ K}}^{i}\ .$ 第 K日中第i笔交易的价格，
+${\boldsymbol{P}}_{\mathit{K}}^{\textit{ i }}.$ 第 K日中第i笔交易的价格，
 
-${Q}_{\ K}^{\ F}$ 股票第K日的自由流通股数量
+$\boldsymbol{\mathcal{Q}}_{\boldsymbol{\mathit{K}}}^{\boldsymbol{\mathit{F}}}$ 股票第K日的自由流通股数量
 
 ：第 K 日中的交易笔数
 
-$\varepsilon_{\scriptscriptstyle K}$ ：随机误差项
+$\mathcal{E}_{\mathrm{~}_{\mathit{K}}}$ ：随机误差项
 
-其中，等式左边 $B_{\scriptscriptstyle K}\mathrm{~~{~-~}~}B_{\scriptscriptstyle K-1}$ 表示第 K 日均衡价格的变动幅度,代表塑性变形程度;等式右边刻画了当日逐笔交易对均衡价格的冲击。 ${P_{\ K}}^{i}\mathrm{~-~}\boldsymbol{B}_{i}$ 代表每笔交易偏离均衡价格的程度，对应于弹簧偏离平衡位置的距离；${Q}_{\kappa}^{i}$ 为每笔交易的成交量，对应于弹簧所受作用力大小,分母 ${Q}_{\ K}^{\ F}$ 为第 K日的自由流通股数，它对交易的冲击进行了标准化 。模型基本刻画出了塑性变形大小 $B_{\scriptscriptstyle K}\mathrm{~~{~-~}~}B_{\scriptscriptstyle K-}$ 与偏离程度 ${P_{K}}^{i}\mathrm{~-~}B_{\it1}$ 和成交量 ${Q}_{\ K}^{i}$ 的正相关关系，大致符合股价在成交量推动下的变动规律的经济学判断。
+其中，等式左边 $B_{_{\textit{ K }}}\mathrm{~-~}B_{_{\textit{ K - }1}}$ 表示第 K 日均衡价格的变动幅度,代表塑性变形程度;等式右边刻画了当日逐笔交易对均衡价格的冲击。 $P_{_K}^{^{\textit{ i }}}\mathrm{~-~}\textit{ B }_{_K}$ 代表每笔交易偏离均衡价格的程度，对应于弹簧偏离平衡位置的距离；$|\boldsymbol{\mathcal{Q}}_{\boldsymbol{\mathcal{N}}}^{\textit{ i }}$ 为每笔交易的成交量，对应于弹簧所受作用力大小,分母 $\boldsymbol{\mathcal{Q}}_{\boldsymbol{\mathit{K}}}^{\textit{ F }}$ 为第 K日的自由流通股数，它对交易的冲击进行了标准化 。模型基本刻画出了塑性变形大小 $B_{_{\textit{ K }}}\mathrm{~-~}B_{_{\textit{ K }-}}$ 与偏离程度 $P_{_K}^{^{\textit{ i }}}\mathrm{~-~}\;B_{_I}$ 和成交量 $\boldsymbol{\mathcal{Q}}_{\boldsymbol{\mathcal{K}}}^{\textit{ i }}$ 的正相关关系，大致符合股价在成交量推动下的变动规律的经济学判断。
 
-股票每日的均衡价格 $B_{\scriptscriptstyle K}$ 是股票短期的供需平衡点。作为潜在的不可测变量，我们必须寻找合理的代理变量。鉴于每日的价格波动可近似看作围绕其日均价波动，我们简单地使用股票日均价（日开高收低的均值）的 T 日平均作为股票均衡价格的代理变量,即:
-
-$$
-B_{_K}\ =\ \frac{\sum_{i=0}^{T-1}\left(open_{\ _{K-i}}\ +\ high_{\ _{K-i}}\ +\ Iow_{\ _{K-i}}\ +\ close_{\ _{K-i}}\ \right)}{T}
-$$
-
-将上述基础模型两边同除以 $B_{\textit{ K }-1}$ ，则模型变为：
+股票每日的均衡价格 $B_{\textit{ K }}$ 是股票短期的供需平衡点。作为潜在的不可测变量，我们必须寻找合理的代理变量。鉴于每日的价格波动可近似看作围绕其日均价波动，我们简单地使用股票日均价（日开高收低的均值）的 T 日平均作为股票均衡价格的代理变量,即:
 
 $$
-\frac{\textit{ B }_{{\kappa}}\textsuperscript{-}\textit{ B }_{{\kappa}-1}}{\textit{ B }_{{\kappa}-1}}\ =\ \alpha\ \frac{\displaystyle\sum_{i=1}^{N}{\theta_{{\kappa}}^{\ i}(P_{{\kappa}}\textsuperscript{-}{B}_{{\kappa}})}}{\displaystyle Q_{{\kappa}}^{{F}}B_{{\kappa}-1}}\ +\ \varepsilon_{\kappa}
+B_{_{K}}=\frac{\sum_{_{i=0}}^{^{T-1}}(open_{_{K-i}}+high_{_{K-i}}+Iow_{_{K-i}}+close_{_{K-i}})}{T}
+$$
+
+将上述基础模型两边同除以 $\boldsymbol{B}_{\textit{ K - 1 }}$ ，则模型变为：
+
+$$
+\frac{B_{_{K}}-B_{_{K\mathrm{~-~1~}}}}{B_{_{K\mathrm{~-~1~}}}}=\alpha\frac{\displaystyle\sum_{_{i=1}}^{^{N}}\mathcal{Q}_{_{K}}^{^{i}}(P_{_{K}}^{^{i}}-B_{_{K}}^{^{}})}{\mathcal{Q}_{_{K}}^{^{F}}B_{_{K\mathrm{~-~1~}}}}+\varepsilon_{_{K}}
 $$
 
 $$
-\begin{array}{lllllll}{{\dot{\imath}\mathbb{Z}:}}&{{VRBP}}&{{=}}&{{\displaystyle\frac{B_{_K}\mathrm{~~\tau~}-\mathrm{~~\nabla~}B_{_K-1}}{B_{_K-1}}~,}}&{{SPPI}}&{{=}}&{{\displaystyle\frac{\sum_{i=1}^{N}Q_{_K}^{~i}(P_{_K}^{~i}\mathrm{~~\tau~}-\mathrm{~~\nabla~}B_{_K})}{Q_{_K}^{~F}B_{_K-1}}}}\end{array}
+VRBP=\frac{B_{_{K}}-B_{_{K-1}}}{B_{_{K-1}}},\quad SPPI=\frac{\sum_{_{i=1}}^{^{N}}\mathcal{Q}_{_{K}}^{^{i}}(P_{_{K}}^{^{i}}-B_{_{K}})}{\mathcal{Q}_{_{K}}^{^{F}}B_{_{K-1}}}
 $$
 
 其中，VRBP（variation rate of balanced price）代表了均衡价格的变动率。SPPI(stock price plasticity index)表示股价塑性冲击指数。SPPI的表达式虽然使用了高频数据，但经简单的恒等变形后，使用日频
 
-数据的成交量 $Q_{_{K}}$ 和成交额 ${\boldsymbol{W}}_{\boldsymbol{k}}$ 即可计算出每日的SPPI。
+数据的成交量 $Q_{\textit{ h }}$ 和成交额 $W_{\hbar}$ 即可计算出每日的SPPI。
 
 $$
-\begin{array}{c}\begin{array}{rcl}{SPPI}&{}&{{\displaystyle\sum_{{\scriptstyle k}\ =1}^{N}{{\cal Q}_{_{K}}^{\ i}}(P_{_{K-1}}^{\ i}\ -\ B_{_{K}})}}\\{SPPI}&{}&{{\displaystyle={\frac{i=1}{{\cal Q}_{_{K}}^{\ F}{\cal B}_{_{K-1}}}}}\quad={\frac{}{}}\end{array}}{\displaystyle\sum_{{\scriptstyle i=1}}^{N}{{\cal Q}_{_{K}}^{\ i}P_{_{K}}^{\ i}\ -\ B_{_{K}}\displaystyle\sum_{i=1}^{N}{{\cal Q}_{_{K}}^{\ i}}}\quad={\frac{{\cal W}_{_{K}}\ -\ B_{_{K}}\varrho_{_{K}}}{\displaystyle{\cal Q}_{_{K}}^{\ F}{\cal B}_{_{K-1}}}}}\end{array}
+SPPI=\frac{\sum_{i=1}^{s}\mathcal{Q}_{g}^{i}(P_{g}^{i}-B_{g})}{\mathcal{Q}_{g}^{p}B_{g-1}}=\frac{\sum_{i=1}^{s}\mathcal{Q}_{g}^{i}P_{g}^{i}-B_{g}\sum_{i=1}^{s}\mathcal{Q}_{g}^{i}}{\mathcal{Q}_{g}^{p}B_{g-1}}=\frac{\mathcal{H}_{g}-B_{g}\mathcal{Q}_{g}}{\mathcal{Q}_{g}^{p}B_{g-1}}
 $$
 
 故模型可简记为：
 
 $$
-\begin{array}{rlr}{VRBP}&{{}=}&{\alpha\mathrm{~~\cdot~}SPPI+\frac{}{}\varepsilon}\end{array}
+\begin{array}{rlrlrl}{V_{\mathit{RBP}}}&{{}=}&{\alpha}&{{}\cdot\mathit{SPPI}}&{{}+}&{\varepsilon}\end{array}
 $$
 
 VRBP对SPPI零截距回归的回归系数 体现了股价的塑性。 越大，股价塑性越大，即在 SPPI 一定时，均衡价格变动幅度越大。由于冲击方向与变形方向同向，故理论上模型的 应大于0。
@@ -215,13 +215,13 @@ Durbin-Watson 反映了序列的一阶自相关性，DW 值越趋近于 0，正�
 材料力学中，当作用力较大时，材料变形程度不再与作用力大小与偏离程度成正比。考虑到力学中塑性公式中包含幂函数形式的表达式，VRBP与 SPPI 可能不是简单的线性关系，因而考虑使用简单的二次根式表达式改进基本模型：
 
 $$
-\begin{array}{rl}{VRBP}&{{}=\alpha\ \cdot\ \sqrt{SPPI}+\ \varepsilon}\end{array}
+\begin{array}{rlrl}{{\it VRBP}}&{{}=}&{\alpha\cdot\sqrt{{\it SPPI}}}&{+\varepsilon}\end{array}
 $$
 
 由于上述形式对 SPPI 的定义域必须存在为非负值的要求，所以，对上式进行合理改写，避免定义域问题对模型的影响。
 
 $$
-VRBP\quad=\quad\alpha\ \cdot\ sign(SPPI)\ \cdot\ \sqrt{abs(SPPI)}\ +\varepsilon
+VRBP=\alpha\cdot sign(SPPI)\cdot\sqrt{abs(SPPI)}+\varepsilon
 $$
 
 同样使用2017年 5月 31日全部A股数据过去20日数据,比较原基础模型和改进后的二次根式模型，其统计结果如下：
@@ -256,27 +256,27 @@ $$
 
 ## 3.2. 塑性系数与锁仓比的数学关系
 
-其具体证明如下，假设 ${Q}_{\ K}^{\ L}$ 为股票的锁仓量， $Q_{\phantom{~}_{K}}^{\phantom{~L~}}~/~Q_{\phantom{~}_{K}}^{\phantom{~F~}}$ 即锁仓比。假设
+其具体证明如下，假设 $\boldsymbol{\mathcal{Q}}_{\boldsymbol{\mathcal{K}}}^{\textit{ L }}$ 为股票的锁仓量， $\boldsymbol{\mathcal{Q}}_{\mathit{K}}^{\mathit{L}}\mathrm{~~/~}\boldsymbol{\mathcal{Q}}_{\mathit{K}}^{\mathit{F}}$ 即锁仓比。假设
 
-理论上当股票锁仓比为 0 时，股价塑性系数为 $\alpha_{\mathrm{~0~}}$ ，即有
+理论上当股票锁仓比为 0 时，股价塑性系数为 $\alpha_{\mathrm{~}_{0}}$ ，即有
 
 $$
-\begin{array}{rl}{VR\boldsymbol{B}\boldsymbol{P}}&{{}=\textbf{ \alpha }_{0}\cdot\boldsymbol{s}\dot{i}g\pi\textbf{ \alpha }(\frac{\dot{\textbf{ \textit { x } }}}{(Q_{K}^{\mathrm{~\scriptsize~{~1~}~}}-\textbf{ \alpha }_{K}^{L})B_{K-1}})\cdot\sqrt{\frac{\sum_{\alpha}^{\nu}Q_{\hbar}^{\mathrm{~\scriptsize~{~i~}~}}(P_{\hbar}^{\mathrm{~\scriptsize~{~i~}~}}-\textbf{ \alpha }_{B_{K}})}{(Q_{K}^{\mathrm{~\scriptsize~{~i~}~}}-\textbf{ \alpha }_{\mathrm{~e~f~}}^{L})B_{K-1}}})}\end{array}
+\mathcal{VRBP}=\alpha_{0}\cdot\operatorname{sign}\left(\frac{\sum\limits_{j=1}^{x}\mathcal{Q}_{\kappa}^{j}(P_{\kappa}^{j}-B_{\kappa})}{(\mathcal{Q}_{\kappa}^{j}-\mathcal{Q}_{\kappa}^{j})B_{\kappa-1}}\right)\cdot\sqrt{\operatorname{abs}\left(\frac{\sum\limits_{j=1}^{x}\mathcal{Q}_{\kappa}^{j}(P_{\kappa}^{j}-B_{\kappa})}{(\mathcal{Q}_{\kappa}^{j}-\mathcal{Q}_{\kappa}^{j})B_{\kappa-1}}\right)}
 $$
 
 联立原方程
 
 $$
-\begin{array}{r}{VRBP\vphantom{\int_{\mathbb{R}}^{\infty}}=\textbf{ { \alpha } }\cdot sign\textbf{ { ( } }\frac{i=1}{Q_{\kappa}^{\textit{ ^ { r } }}B_{\kappa-1}}\textbf{ ) }\cdot\sqrt{\displaystyle{\left[abs\begin{array}{cc}{\displaystyle\sum_{\kappa}^{\kappa}Q_{\kappa}^{\textit{ ^ i }}(P_{\kappa}^{\textit{ ^ i }}-B_{\kappa})}\\{\displaystyle abs\ (\frac{i=1}{Q_{\kappa}^{\textit{ ^ r }}B_{\kappa-1}})}\end{array}\right]}}}\end{array}
+\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ \text { } }\text{ }\text{ \text { } }\text{ \text { } }\text{ }\text{ \text { } }\text{ }\text{ \text { } }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }}\text{ \text { } }\text{ }\text{ }\text{ }
 $$
 
 可得锁仓比与塑性系数的关系为：
 
 $$
-\frac{Q_{\phantom{}_{K}}^{\phantom{}\ l}}{Q_{\phantom{}_{K}}^{\phantom{}\ F}}\ =\ 1\ -\ \frac{\alpha_{\phantom{}_{0}}^{\ 2}}{\alpha^{\ 2}}
+\frac{Q_{_K}^{^{^{L}}}}{Q_{_K}^{^{^{F}}}}=1-\frac{\alpha_{_0}^{^{^{2}}}}{\alpha^{^{^{2}}}}.
 $$
 
-上式表明，塑性系数 与锁仓比 $Q_{\phantom{}_{K}}^{\phantom{}L}\ /\ \mathcal{Q}_{\phantom{}_{K}}^{\phantom{}F}$ 成正相关关系。直观上，若少量资金且无须大幅拉升或打压股价能推动股价均衡位置的变化，表明了股票的实际参与交易的流通盘较小，故塑性系数能够反映股票的锁仓比。
+上式表明，塑性系数 与锁仓比 $\left\{\boldsymbol{\mathcal{Q}}_{\mathit{K}}^{\mathit{L}}\mathrm{~~\middle/~}\boldsymbol{\mathcal{Q}}_{\mathit{K}}^{\mathit{F}}\right.$ 成正相关关系。直观上，若少量资金且无须大幅拉升或打压股价能推动股价均衡位置的变化，表明了股票的实际参与交易的流通盘较小，故塑性系数能够反映股票的锁仓比。
 
 ## 3.3. 塑性系数的因子检验
 
@@ -335,12 +335,12 @@ $$
 
 ## 4.1.3. 策略构建
 
-首先，由于塑性系数来源于回归系数，受数据质量、拟合效果等影响，其稳健性相对较差，因而有必要对塑性系数作平滑处理。我们对每月塑性系数进行指数加权平均，其指数权重 $\begin{array}{rlr}{w_{\mathrm{~\it~i~}}}&{{}=}&{\left(\mathrm{~1~~-~}\alpha\mathrm{~}\right)^{i}}\end{array}$ ， 其 中
+首先，由于塑性系数来源于回归系数，受数据质量、拟合效果等影响，其稳健性相对较差，因而有必要对塑性系数作平滑处理。我们对每月塑性系数进行指数加权平均，其指数权重 $\begin{array}{rlr}{\boldsymbol{w}_{\textit{ i }}}&{{}=}&{\left(\mathrm{~1~}-\mathrm{~}\alpha\mathrm{~}\right)^{\textit{ i }}}\end{array}$ ， 其 中
 
-$\alpha~=~{\cfrac{2}{1~+~{\mathrm{N}}}}$ ，参数N取 12月，则指数加权平均公式为：
+$\alpha\quad=\quad\frac{2}{\mathrm{~1~+~N~}}$ ，参数N取 12月，则指数加权平均公式为：
 
 $$
-\tilde{\textbf{ x }}_{t}~=~\mathrm{EMA}~(~x~_{t})~=~\frac{\sum_{\textit{ i }=0}^{t}w_{\textit{ i }}x_{\textit{ t - i }}}{\sum_{\textit{ i }=0}^{t}w_{\textit{ i }}}~,~w_{\textit{ i }}~=~(1~-~\alpha~)^{\textit{ i }}
+\widetilde{\mathbf{x}}_{_{t}}=\mathrm{EMA}\quad(x_{_{t}})=\frac{\sum_{_{i=0}}^{^{t}}w_{_{i}}x_{_{t-i}}}{\sum_{_{i=0}}^{^{t}}w_{_{i}}},\quad w_{_{i}}=(1-\alpha)^{^{\prime}}
 $$
 
 指数加权平均后的~x 保证了塑性系数的稳健性，同时兼顾了因子没有严重的滞后性。

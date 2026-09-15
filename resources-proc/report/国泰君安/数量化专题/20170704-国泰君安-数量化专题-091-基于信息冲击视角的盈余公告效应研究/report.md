@@ -156,23 +156,23 @@ $$
 Step1. 用估计窗内的个股收益序列拟合因子模型，并计算相关因子载荷。在因子模型的选取上，本文选取最常用的Fama-French三因素模型，如式(1.1)所示。其中 为市场因子、 $SMB_{t}$ 为市值因子， 代表成长性因子，各因子的具体计算方法可参照 Fama and French(1993)。等式左边的 $R_{it}-r_{ft}$ 为股票 i在 t日的超额收益。
 
 $$
-R_{it}-r_{ft}=\beta_{i1}RMRF_{t}+\beta_{i2}SMB_{t}+\beta_{i3}HML_{t}+u_{it}~\tan{\ :(-220,-21)}\tag{1.1}
+R_{it}-r_{ft}=\beta_{i1}RMRF_{t}+\beta_{i2}SMB_{t}+\beta_{i3}HML_{t}+u_{it}t\in(-220,-21)\tag{1.1}
 $$
 
 通过估计窗内的数据拟合模型（1.1），我们可以得到各股在各因子上的因子载荷 的估计值。
 
-Step2. 将估计窗内得到的 $\widehat{\beta_{\imath,{\tau}}}$ 、 $\widehat{\beta_{\imath1}}$ 、 $\widehat{\beta_{\imath2}}$ 和 $\widehat{\beta_{\imath3}}$ 带入到事件窗，计算正常收益$\widehat{R_{\iota t}}.$
+Step2. 将估计窗内得到的 $\widehat{\beta_{\imath,0}}$ 、 $\widehat{\beta_{\mathfrak{i}1}}$ 、 $\widehat{\beta_{\imath2}}$ 和 $\widehat{\beta_{\imath3}}$ 带入到事件窗，计算正常收益$\widetilde{R_{\imath\pm}}:$
 
 $$
-\widehat{R_{\iota t}}=\widehat{\beta_{\iota,0}}+\widehat{\beta_{\iota,1}}RMRF_{t}+\widehat{\beta_{\iota,2}}SMB_{i,t}+\widehat{\beta_{\iota,3}}HML_{i,t}\quad\mathrm{~t\in(-20,~60)~}\tag{1.2}
+\widehat{R_{tt}}=\widehat{\beta_{t,0^+}}+\widehat{\beta_{t,1}}RMRF_t+\widehat{\beta_{t,2}}SMB_{i,t}+\widehat{\beta_{t,3}}HML_{i,t}\quad t\in(-20,\ 60)\tag{1.2}
 $$
 
-（1.2）的含义是，在计算正常收益时，假设个股的因子载荷不变，对估计窗内得到的因子载荷估计值与事件窗内的实际因子表现计算相乘再相加。 $\widehat{R_{\iota t}}$ 为定价模型给出的个股 i在事件窗内t日的理论收益，不受外部事件的干扰。
+（1.2）的含义是，在计算正常收益时，假设个股的因子载荷不变，对估计窗内得到的因子载荷估计值与事件窗内的实际因子表现计算相乘再相加。 $\widehat{R_{\imath\imath}}$ 为定价模型给出的个股 i在事件窗内t日的理论收益，不受外部事件的干扰。
 
-Step3. 计算事件窗内的异常收益 $AR_{it}$ ：
+Step3. 计算事件窗内的异常收益 $.AR_{it}$ ：
 
 $$
-AR_{it}=R_{it}-\widehat{R_{\ it}}\tag{1.3}
+AR_{it}=R_{it}-\widehat{R_{it}}\tag{1.3}
 $$
 
 由于个股的实际收益中同时包含市场因素、风格因素以及事件驱动因素，计算异常收益的目的就是从原始收益中提取出由事件驱动产生的部分。

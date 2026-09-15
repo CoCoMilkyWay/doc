@@ -86,25 +86,25 @@ zhanghuishu@orientsec.com.cn
 - COSKEW——协偏度（Coskewness）。协偏度衡量了一个变量相对于另一个变量的变化的偏差情况:
 
 $$
-\begin{array}{r}{\mathrm{CS}=\frac{\sum_{\mathrm{t=1}}^{\mathrm{n}}\left[\left(\mathrm{r}_{1,\mathrm{t}}-\overline{{\mathrm{r}}}_{1}\right)\left(\mathrm{r}_{2,\mathrm{t}}-\overline{{\mathrm{r}}}_{2}\right)^{2}\right]}{\sum_{\mathrm{t=1}}^{\mathrm{n}}\left[\left(\mathrm{r}_{2,\mathrm{t}}-\overline{{\mathrm{r}}}_{2}\right)^{3}\right]},}\end{array}
+\begin{array}{r}{\mathrm{CS}=\frac{\sum_{\mathrm{t}=1}^{\mathrm{n}}\left[\left(\mathrm{r}_{1,\mathrm{t}}-\bar{\mathrm{r}}_{1}\right)\left(\mathrm{r}_{2,\mathrm{t}}-\bar{\mathrm{r}}_{2}\right)^{2}\right]}{\sum_{\mathrm{t}=1}^{\mathrm{n}}\left[\left(\mathrm{r}_{2,\mathrm{t}}-\bar{\mathrm{r}}_{2}\right)^{3}\right]},}\end{array}
 $$
 
-其中 $^{|r_{1,\mathrm{t}}|}$ 为股票在 t 时刻的收益率， ${r}_{2,\mathrm{t}}$ 为基准在 t 时刻的收益率。COSKEW 可以用来衡量股票相对于基准指数的风险非对称性。根据 NYSE 和 Amex从 1926-1997年的股票数据，作者研究发现买入过去低协偏度的股票组合可以获得超额收益[3]。
+其中 ${|r_{1,\mathrm{t}}}$ 为股票在 t 时刻的收益率， $r_{2,\mathrm{t}}$ 为基准在 t 时刻的收益率。COSKEW 可以用来衡量股票相对于基准指数的风险非对称性。根据 NYSE 和 Amex从 1926-1997年的股票数据，作者研究发现买入过去低协偏度的股票组合可以获得超额收益[3]。
 
 - SILLIQ——卖单非流动性（Sell-orderilliquidity）。卖单非流动性衡量了高频数据下主动卖出的交易金额对于股票价格变动的影响：
 
 $$
-\mathrm{r_{i,t}}=\alpha+\beta_{1}*S_{i,t}+\beta_{2}*B_{i,t}+\epsilon_{it},
+\mathbf{r}_{\mathrm{i},\mathrm{t}}=\alpha+\beta_{1}*S_{i,t}+\beta_{2}*B_{i,t}+\epsilon_{it},
 $$
 
-其中 $\beta_{1}$ 为卖出非流动性系数， $\beta_{2}$ 为买入非流动性系数， $S_{i,t}$ 为股票 i在 t时间区间内的主动卖出金额， $B_{i,t}$ 为股票 i 在 t 时间区间内的主动买入金额。根据 NYSE 从 1993-2008 年的股票订单数据，作者研究发现卖单非流动性在控制风险后的Fama-MacBeth截面回归对收益率显著，且卖单非流动性的预测效果要好于买单非流动性，这是主要是由于投资者存在亏损厌恶的心理[4]。
+其中 $1\beta_{1}$ 为卖出非流动性系数， $\beta_{2}$ 为买入非流动性系数， $S_{i,t}$ 为股票 i在 t时间区间内的主动卖出金额， $B_{i,t}$ 为股票 i 在 t 时间区间内的主动买入金额。根据 NYSE 从 1993-2008 年的股票订单数据，作者研究发现卖单非流动性在控制风险后的Fama-MacBeth截面回归对收益率显著，且卖单非流动性的预测效果要好于买单非流动性，这是主要是由于投资者存在亏损厌恶的心理[4]。
 
 - BILLIQ——买单非流动性（Buy-order illiquidity）。买单非流动性衡量了高频数据下主买入的交易金额对于股票价格变动的影响。根据 NYSE 从 1993-2008年的股票订单数据，作者研究发现买单非流动性在控制风险后的 Fama-MacBeth截面回归对收益率显著，但买单非流动性的预测效果要弱于卖单非流动性，这是主要是由于投资者存在亏损厌恶的心理[4]。
 
 - NCSKEW——负偏度系数（negative coefficient of skewness）。负偏度系数计算了股票收益率的历史负偏度：
 
 $$
-\begin{array}{r}{\mathrm{NCSKEW}_{i}=\frac{-\left(\mathrm{n(n-1)}\right)^{1.5}\sum(r_{it}-\overline{{r_{l}}})^{3}}{(n-1)(n-2)(\sum(r_{it}-\overline{{r_{l}}})^{2})^{1.5}},}\end{array}
+\mathrm{NCSKEW}_{i}=\frac{-(\mathrm{n}(\mathrm{n}-1))^{1.5}\sum(r_{it}-\bar{r}_{i})^{3}}{(\mathrm{n}-1)(\mathrm{n}-2)\sum(r_{it}-\bar{r}_{i})^{2})^{1.5}}
 $$
 
 其中 $r_{it}$ 是股票 i 在 t 时刻收益率。这是一个衡量股价暴跌可能性的指标，学界通常认为NCSKEW高的股票有着更高的暴跌可能，也就有着期望更高的风险溢价。根据NYSE和Amex从1962-1999年的股票数据计算，NCSKEW与未来的超额收益率有着显著的正相关关系[5]。
@@ -112,7 +112,7 @@ $$
 - DUVOL——上下行波动率（down to up volatility）。上下行波动率是历史收益率低于平均收益率的下行波动率比上历史收益率高平均收益率的上行波动率的比率:
 
 $$
-\begin{array}{r}{\mathrm{DUVOL}_{\mathrm{i}}=\log\left(\frac{(n_{u}-1)\sum_{d}(r_{it}-\overline{{r_{i}}})^{2}}{(n_{d}-1)\sum_{u}(r_{it}-\overline{{r_{i}}})^{2}}\right),}\end{array}
+\mathrm{DUVDL}_{i}=\log\left(\frac{(n_{u}-1)\sum_{d}(r_{it}-\bar{r}_{i})^{2}}{(n_{d}-1)\sum_{u}(r_{it}-\bar{r}_{i})^{2}}\right),
 $$
 
 其中， $n_{u}$ 为大于平均复合收益率的天数， $n_{d}$ 为小于平均复合收益率的天数。这是一个衡量股价暴跌可能性的指标，学界通常认为 DUVOL 较高的股票有着更高的暴跌可能，因此也就有着期望更高的风险溢价。根据NYSE 和 Amex从 1962-1999年的股票数据计算，DUVOL与未来的超额收益率有着显著的正相关关系[5]。
@@ -120,7 +120,7 @@ $$
 - CVTURN——换手率的变异系数（Coefficient of Variation of turnover）。换手率的变异系数计算了换手率的波动率比上均值的比率:
 
 $$
-\begin{array}{r}{\mathrm{CVTURN}_{i}=\frac{\sigma(TURN_{i})}{TURN_{l}},}\end{array}
+\mathrm{CVTURN}_{i}=\frac{\sigma(\mathrm{TURN}_{i})}{\mathrm{TURN}_{i}}
 $$
 
 如果 CVTURN 较高，说明换手率的波动较大，也就是说对于持有股票的投资者在未来卖出股票有着更高的交易成本不确定性，所以这类股票就需要有更高的风险溢价来补偿这些不确定性。根据 NYSE 和 Amex 从 1966-1995 年的股票数据计算，CVTURN 与未来的超额收益率有着显著的正相关关系[6]。
@@ -128,11 +128,11 @@ $$
 - CVILLIQ——非流动性的变异系数（Coefficient of Variation of ILLIQ）。非流动性的变异系数计算了非流动性指标的波动率比上均值的比率:
 
 $$
-\begin{array}{r}{\mathrm{ILLIQ}_{i,t}=\frac{\left|r_{i,t}\right|}{Amount_{i,t}},}\end{array}
+\mathrm{ILLIQ}_{i,t}=\frac{|r_{i,t}|}{Amount_{i,t}},
 $$
 
 $$
-\begin{array}{r}{\mathrm{CVILIQ}_{i}=\frac{\sigma(\mathrm{ILLIQ}_{i})}{\overline{{\mathrm{ILLIQ}_{\iota}}}},}\end{array}
+\begin{array}{r}{\mathrm{CVILLIQ}_{i}=\frac{\sigma(\mathrm{ILLIQ}_{i})}{\overline{{\mathrm{ILLIQ}_{i}}}},}\end{array}
 $$
 
 其中 $Amount_{i,t}$ 为股票 i在 t时刻的交易金额，如果 CVILLIQ较高，说明非流动性的波动较大，也就是说对于持有股票的投资者在未来卖出股票有着更高的交易成本不确定性，所以这类股票就需要有更高的风险溢价来补偿这些不确定性。根据 NYSE 和 Amex 从 1964-2009 年的股票数据计算，CVTURN 与未来的超额收益率有着显著的正相关关系[7]。
@@ -140,7 +140,7 @@ $$
 - BSI——散户的买卖非平衡性(buy–sell imbalance)，散户的买卖非平衡性计算了散户买卖单的非平衡情况：
 
 $$
-\textstyle\mathrm{{BSI}}={\frac{B-S}{B+S}}.
+\begin{array}{r}{\mathrm{BSI}=\cfrac{B-S}{B+S}.}\end{array}
 $$
 
 其中 是散户的买单金额，S是散户的买单金额。根据统计的结果来看，散户的交易情绪对于股票价格的影响较大，若 BSI 较大，说明散户在过去持续的买入，股票未来的短期收益率也较好，反之亦然。根据 1983-2001 的交易数据计算，BSI 与股票未来的短期收益率（一周）有着显著的正相关关系[8]。
@@ -148,21 +148,21 @@ $$
 - Dbeta——下行 beta (downside beta)，下行 beta 衡量了股票的下行风险:
 
 $$
-\begin{array}{r}{\beta^{-}=\frac{cov(r_{i},r_{m}|r_{m}<\mu_{m})}{var(r_{m}|r_{m}<\mu_{m})},}\end{array}
+\beta^{-}=\frac{cov(r_{i},r_{m}|r_{m}<\mu_{m})}{var(r_{m}|r_{m}<\mu_{m})},
 $$
 
-其中 $\mid\mu_{m}$ 为相对于市场的平均超额收益率。对下行风险更加敏感的投资者对于下行 beta 高的股票会要求更大的风险补偿，所以理论上说 Dbeta越大，股票的期望收益率越高。根据 NYSE从 1963-2001 的股票数据，Dbeta 因子对当期收益率有很好的解释，但用于预测效果有限（过去的 downside beta 并不能很好预测未来）[9]。
+其中 $|\mu_{m}$ 为相对于市场的平均超额收益率。对下行风险更加敏感的投资者对于下行 beta 高的股票会要求更大的风险补偿，所以理论上说 Dbeta越大，股票的期望收益率越高。根据 NYSE从 1963-2001 的股票数据，Dbeta 因子对当期收益率有很好的解释，但用于预测效果有限（过去的 downside beta 并不能很好预测未来）[9]。
 
 - TSMON——时间序列动量(time series momentum)，传统动量因子考虑个股在行业内过去一段时间的相对表现，时间序列动量考虑个股本身过去一段时间的绝对表现：
 
 $$
-\begin{array}{r}{\mathrm{TSMOM}_{\mathrm{mi}}=sign\left(\frac{1}{N}(\sum_{j=1}^{12}\hat{r}_{m-j,i}\right)\ast\hat{r}_{m,i}/\widehat{\sigma}_{m,i},}\end{array}
+\begin{array}{r}{\mathrm{TSMOM}_{\mathrm{mi}}=sign\left(\frac{1}{N}(\sum_{j=1}^{12}\hat{r}_{m-j,i})*\hat{r}_{m,i}/\widehat{\sigma}_{m,i}\right)}\end{array}
 $$
 
 其中 m为月份，i 代表股票， $\hat{r}_{m,i}$ 表示股票 i第 m月相时间序列上的超额收益，计算方法为个股受益率减去之前月份收益率的指数移动平均值。
 
 $$
-\begin{array}{c}{\hat{r}_{m,i}={\mathrm{r}}_{m,i}-{\bar{\mathrm{r}}}_{m,i},}\\{{\bar{\mathrm{r}}}_{mi}=\sum_{\mathrm{j}=0}^{\infty}(1-\delta)*\delta^{j}*{\mathrm{r}}_{m-j,i},}\\{{\hat{\sigma}}_{\mathrm{m,i}}^{2}=\sum_{j=0}^{\infty}(1-\delta)*\delta^{j}*\left({\mathrm{r}}_{m-1-j,i}-{\bar{\mathrm{r}}}_{m-1-j,i}\right)^{2},}\end{array}
+\begin{array}{c}{\hat{r}_{m,i}=\mathbf{r}_{m,i}-\bar{\mathbf{r}}_{m,i},}\\{\bar{\mathbf{r}}_{mi}=\sum_{\mathrm{j}=0}^{\infty}(1-\delta)*\delta^{j}*\mathbf{r}_{m-j,i},}\\{\hat{\sigma}_{\mathrm{m},\mathrm{i}}^{2}=\sum_{j=0}^{\infty}(1-\delta)*\delta^{j}*\left(\mathbf{r}_{m-1-j,i}-\bar{\mathbf{r}}_{m-1-j,i}\right)^{2},}\end{array}
 $$
 
 根据期货市场 1963—2001 的数据，TSMON 与未来收益率有着显著的反相关关系[10]。
@@ -170,7 +170,7 @@ $$
 EDR——极端下行风险（Extreme Downside Risk），因子度量了股票收益率分布尾部厚度，利用个股过去两年 Fama-French三因子回归的残差收益率月极小值数据，通过极值分布和极大似然估计得到刻画分布尾部厚度的参数。极值分布函数可表示为：
 
 $$
-\begin{array}{r}{\mathrm{H(x)}=1-\exp[-\left(1-\gamma*\frac{x-\mu}{\sigma}\right)^{-\frac{1}{\gamma}}],}\\{1-\gamma*\frac{x-\mu}{\sigma}>0,\ \gamma\neq0,}\end{array}
+\begin{array}{rl}&{\mathrm{H(x)}=1-\exp[-\left(1-\gamma\ast\frac{x-\mu}{\sigma}\right)^{-\frac{1}{\gamma}}],}\\&{\quad1-\gamma\ast\frac{x-\mu}{\sigma}>0,\quad\gamma\neq0,}\end{array}
 $$
 
 其中 度量尾部厚度， 为均值， 为标准差。根据美股全市场股票从 1967-2005 年的数据，EDR与期望收益率有着显著的正相关关系[11]。
@@ -181,14 +181,14 @@ $$
 \begin{array}{r}{\mathrm{IV}_{t,\mathrm{i}}^{2}=\frac{1}{\sum w_{k}}\sum_{k=0}^{\tau}w_{k}*(\varepsilon_{m-k,i})^{2},}\end{array}
 $$
 
-其中权重 $w_{k}=0.9^{\mathrm{k}},\varepsilon_{m-k,i}$ 为第 i 个股票在第 m-k 月的三因子回归残差。根据 NYSE、Amex和 Nasaq 从 1963—2008 年的全部股票数据，IVmonthly 与股票的未来收益率有显著的负相关性[12]。
+其中权重 $\langle w_{k}=0.9^{\mathrm{k}},\quad\varepsilon_{m-k,i}$ 为第 i 个股票在第 m-k 月的三因子回归残差。根据 NYSE、Amex和 Nasaq 从 1963—2008 年的全部股票数据，IVmonthly 与股票的未来收益率有显著的负相关性[12]。
 
 - IVlong——长期特质波动率（long-run idiosyncratic volatilities），特质波动率一般认为衡量了去过对股票投机的程度，与股票未来收益率呈现显著的负相关。学界认为特质波动率分为长期特质波动率（趋势项）和短期特质波动率（噪音项），市场给长期特质波动正的风险补偿，短期特质波动由市场中的噪声交易者带来，衡量了过去一段时间个股的投机程度，与未来收益率呈负相关。过去一至两年特质波动率为长期和短期特质波动的总和，两者效果相反，这也就是说单纯的特质波动率的效果会弱于同方向的短期特质波动率。
 
 长期和短期特质波动通过对月度的特质波动做趋势噪声分解得到，分解方法为极小化均方误差与二阶差分（二次倒数的数值近似，衡量光滑程度）之和：
 
 $$
-\mathrm{min}\sum_{\mathrm{k=1}}^{\mathrm{K}}\left[\left(\mathrm{IV}_{\mathrm{m,i}}-\mathrm{IVlong}_{\mathrm{m,i}}\right)^{2}+\lambda*\left(\mathrm{IVlong}_{\mathrm{m,i}}-2*\mathrm{IVlong}_{\mathrm{m-1,i}}+\mathrm{IVlong}_{\mathrm{m-2,i}}\right)\right].
+\begin{array}{r}{\operatorname*{min}\sum_{\mathrm{k}=1}^{\mathrm{K}}\left[\left(\mathrm{IV}_{\mathrm{m},\mathrm{i}}-\mathrm{IV}\mathrm{long}_{\mathrm{m},\mathrm{i}}\right)^{2}+\lambda*\left(\mathrm{IV}\mathrm{long}_{\mathrm{m},\mathrm{i}}-2*\mathrm{IV}\mathrm{long}_{\mathrm{m}-1,\mathrm{i}}+\mathrm{IV}\mathrm{long}_{\mathrm{m}-2,\mathrm{i}}\right)\right].}\end{array}
 $$
 
 其中惩罚系数 一般取 40000。根据 NYSE、Amex 和 Nasaq 从 1963—2008 年的全部股票数据，IVlong与股票的未来收益率有显著的正相关性[12]。
@@ -198,10 +198,10 @@ $$
 - NEGILLIQ——负收益非流动性（Amihud measure of illiqudity when return is negtive），度量了股票收益率为负的时候的流动性：
 
 $$
-\begin{array}{r}{\mathrm{ILLIQ}_{i,t}=\frac{1}{n_{d}}\sum_{k\in d}\frac{\left|r\mathrm{d}_{i,t-k}\right|}{Amount_{i,t-k}},}\end{array}
+\begin{array}{r}{\mathrm{ILLIQ}_{i,t}=\frac{1}{n_{d}}{\sum_{k\in d}}\frac{\left|r\mathsf{d}_{i,t-k}\right|}{Amount_{i,t-k}}.}\end{array}
 $$
 
-其中 $\mathrm{n_{d}}$ 为下跌的天数，若股票负的非流动性较大，则需要更高的风险溢价来补偿非流动性风险。据 NYSE 和 Amex 股票从 1971-2009 年的数据计算，NEGILLIQ 与股票的未来收益率有显著的正相关性，且相关性的绝对数值远大于正收益非流动性，这是由于投资者的亏损厌恶所导致的[13]。
+其中 $\mathbf{n_{d}}$ 为下跌的天数，若股票负的非流动性较大，则需要更高的风险溢价来补偿非流动性风险。据 NYSE 和 Amex 股票从 1971-2009 年的数据计算，NEGILLIQ 与股票的未来收益率有显著的正相关性，且相关性的绝对数值远大于正收益非流动性，这是由于投资者的亏损厌恶所导致的[13]。
 
 ## 二、因子测试结果
 

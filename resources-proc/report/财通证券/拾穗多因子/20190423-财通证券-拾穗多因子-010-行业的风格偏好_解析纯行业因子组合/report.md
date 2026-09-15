@@ -171,19 +171,19 @@ $$
 其中， $X_{ni}$ 代表股票 n 在行业因子 i 上的暴露值，我们采用 0-1 变量表示。由于每只股票属于且只属于一个行业，因此截距项因子与行业因子之间存在完全共线性，我们必须为其增加一个约束条件才能求得唯一解。常用的做法是使得单个行业因子收益的市值加权平均等于 0，即：
 
 $$
-\sum_{i}W_{i}f_{i}^{s}=0
+\sum_{i}W_{i}f_{i}^{S}=0
 $$
 
 其中 $W_{i}$ 表示行业 i 的市值权重，所有行业的市值权重加总等于 1。对以上公式进行求解，有：
 
 $$
-f_{c}^{S}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{v_{n}r_{n}}{V_{i}}\right)~f_{i}^{S}=\frac{1}{V_{i}}\sum_{n\in i}v_{n}r_{n}-f_{c}^{S}
+f_{c}^{S}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{v_{n}r_{n}}{V_{i}}\right)\quad f_{i}^{S}=\frac{1}{V_{i}}\sum_{n\in i}v_{n}r_{n}-f_{c}^{S}
 $$
 
-其中， $V_{i}$ 表示行业 i 中所有股票的回归权重之和， $W_{i}$ 表示行业 i 中所有股票的市值权重之和。由此可知，对于简单行业因子组合中的市场因子组合fS而言，它是一个纯多头组合，且该组合中的成分股权重之和等于 1，它对于每个行业是市值加权的，但是对于行业内部的成分股则采用的是回归权重加权。对于简单行业因子组合 $f_{i}^{S}$ 而言，它可以通过做多单个行业成分股中回归权重加权组合、同时做空市场因子组合得到。但是，如果我们采用股票的市值加权作为其回归权重，那么市场收益即为所有股票的市值加权收益，行业收益即为单个行业的实际收益与市场指数收益之间的差值，即行业的实际超额收益：
+其中， $V_{i}.$ 表示行业 i 中所有股票的回归权重之和， $W_{i}$ 表示行业 i 中所有股票的市值权重之和。由此可知，对于简单行业因子组合中的市场因子组合fS而言，它是一个纯多头组合，且该组合中的成分股权重之和等于 1，它对于每个行业是市值加权的，但是对于行业内部的成分股则采用的是回归权重加权。对于简单行业因子组合 $f_{i}^{S}$ 而言，它可以通过做多单个行业成分股中回归权重加权组合、同时做空市场因子组合得到。但是，如果我们采用股票的市值加权作为其回归权重，那么市场收益即为所有股票的市值加权收益，行业收益即为单个行业的实际收益与市场指数收益之间的差值，即行业的实际超额收益：
 
 $$
-f_{c}^{S}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{w_{n}r_{n}}{W_{i}}\right)=\sum_{n}w_{n}r_{n}~f_{i}^{S}=\frac{1}{W_{i}}\sum_{n\in i}w_{n}r_{n}-f_{c}^{S}
+f_{c}^{S}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{w_{n}r_{n}}{W_{i}}\right)=\sum_{n}w_{n}r_{n}\quad f_{i}^{S}=\frac{1}{W_{i}}\sum_{n\in i}w_{n}r_{n}-f_{c}^{S}
 $$
 
 同样的，如果在上述回归中不加上截距项，那么回归得到的行业因子的收益将与实际的中信一级行业指数的收益完全相同（就误差范围之内而言），此时不需要减去市场指数的收益。
@@ -194,7 +194,7 @@ $$
 r_{n}=f_{c}^{P}+\sum_{i}X_{ni}f_{i}^{P}+\sum_{s}X_{ns}f_{s}^{P}+u_{n}^{P}
 $$
 
-其中， $X_{ni}$ 表示股票n在行业因子i上的暴露度， $X_{ns}$ 表示股票n在风格因子s上的暴露度。由于截距项因子 $\underline{{\boldsymbol{{E}}}}$ 行业因子之间存在完全共线性，我们需加入行业因子收益的市值加权均值等于0的约束条件，以使得方程有唯一解：
+其中， $X_{ni}$ 表示股票n在行业因子i上的暴露度， $X_{ns}$ 表示股票n在风格因子s上的暴露度。由于截距项因子 $与$ 行业因子之间存在完全共线性，我们需加入行业因子收益的市值加权均值等于0的约束条件，以使得方程有唯一解：
 
 $$
 \sum_{n}W_{i}f_{i}^{P}=0
@@ -463,17 +463,17 @@ $$
 
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
 | --- | --- | --- | --- | --- |
-| Beta | BETA | $\mathrm{r_{t}}=\alpha+\beta\mathrm{R_{t}}+\mathrm{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63 天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3) 若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
+| Beta | BETA | $\mathbf{r_{t}}=\alpha+\beta\mathbf{R_{t}}+\mathbf{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63 天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3) 若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathsf{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathsf{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r_{t}}=\mathrm{P_{t}}/\mathrm{P_{t-1}}-1,\ \mathrm{T}{=}504,\ \mathrm{L}{=}21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
-|  | CMRA | $\$123,456,7$ $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathrm{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathrm{T})),}\end{array}$ $\begin{array}{r}{\sharp\sharp\sharp\sharp\operatorname{Z}(\operatorname{T})=\exp\bigl(\sum_{\mathrm{t=1}}^{\mathrm{T}}\ln(1+\mathfrak{r}_{\mathrm{t}})\bigr)-1}\\{\sharp\cdot\operatorname{T}\bigwedge\cdot\sharp\sharp\sharp\sharp\frac{\dot{\lesssim}^{\circ}}{\sharp\dot{\widehat{\pi}}}\frac{\dot{\lesssim}^{\circ}}{\sharp}\qquad}\end{array}$ 表示过 | 0.15 | 以 21 天为 1 个月 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t}=\mathrm{L}}^{\mathrm{T}+\mathrm{L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
+|  | CMRA | $\boxed{表示过去\;12\;个月的波动幅度,}$ $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ $\mathrm{Z}(\mathrm{T})=\exp(\sum_{\mathrm{t}=1}^{\mathrm{T}}\ln(1+\mathrm{r}_{\mathrm{t}}))-1$ 表示过 | 0.15 | 以 21 天为 1 个月 |
 |  | HSIGMA | 计算 Beta 时残差的标准差， Hsigma = std(ei) | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |
-| 流动性(对市值因子进行正交化） | STOM | 月度换手率， $\mathsf{STOM}=\ln(\operatorname*{mean}(\sum_{t=1}^{21}(V_{t}/S_{t})))$ 其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2）剔除未上市、停牌日期的数据 |
-|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\operatorname*{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
-|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_{t}/S_{t}))),$ | 0.25 | 同 STOQ 因子的计算 |
+| 流动性(对市值因子进行正交化） | STOM | 月度换手率， $\mathrm{STOM}=\ln(\mathrm{mean}(\sum_{t=1}^{21}(V_t/S_t)))$ 其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2）剔除未上市、停牌日期的数据 |
+|  | STOQ | 季度换手率， $\mathrm{STOQ}=\ln(\mathrm{mean}(\sum_{t=1}^{63}(V_t/S_t)))$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOA | 年度换手率， $\mathrm{STOA}=\ln(\mathrm{mean}(\sum_{t=1}^{252}(V_t/S_t))),$ | 0.25 | 同 STOQ 因子的计算 |
 | 盈利 | CETOP | 过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数 | 1/2 | 采用 Wind 中的 PCF_OCF_ttm 因子的倒数 |
 |  | ETOP | 过去滚动12个月的利润除以当前市值实际计算中取市盈率 PETTM 的倒数 | 1/2 | 采用 Wind 中的 PE_ttm 因子的倒数 |
 | 成长 | YOYProfit | 单季度净利润同比增长率 | 1/2 | 为避免使用未来数据，需要根据季报公布时间进行调整 |

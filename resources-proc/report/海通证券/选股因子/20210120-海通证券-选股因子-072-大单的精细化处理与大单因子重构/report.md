@@ -69,19 +69,19 @@ Email:ylq9619@htsec.com
 本文在界定大单时使用了多日买卖单成交单数据对数调整后的“均值+1 倍标准差”作为大单筛选阈值。（由于标准差阈值的设定会直接影响因子的选股能力，后文中也会讨论不同标准差阈值设定下因子的选股能力。）基于前文提出的计算方法，可界定大单并构建选股因子刻画大单买入行为：
 
 $$
-\begin{array}{rl}&{\qquad\texttt{\texttt{AFSR1,E1L_{i,t}}}=\frac{\sum_{j=1}^{N}\texttt{\texttt{AKFSA}}\cdot\texttt{SB}_{i,t-j}}{\sum_{j=1}^{N}\texttt{\texttt{AKFS}}_{i,t-j}}}\\&{\qquad\texttt{\texttt{AFSA2-ASkL_{i,t}}}=\frac{\sum_{j=1}^{N}(\texttt{AKF-AK}\cdot\texttt{SB}_{i,t-j}-\texttt{K7Sk-A7}_{i,t-j})}{\sum_{j=1}^{N}\texttt{\texttt{AKFS}}_{i,t-j}}}\end{array}
+\begin{array}{l}大光买入占比_{i,t}=\frac{\sum_{j=1}^{N}大买光成交额_{i,t-j}}{\sum_{j=1}^{N}成交额_{i,t-j}}\\大光净买入占比_{i,t}=\frac{\sum_{j=1}^{N}(大买光成交额_{i,t-j}-大买光成交额_{i,t-j})}{\sum_{j=1}^{N}成交额_{i,t-j}}\end{array}
 $$
 
 除了大单买入占比以及大单净买入占比外，还可构建大单买入强度以及大单净买入强度刻画大单买入序列的稳健性。具体计算公式如下所示：
 
 $$
-\begin{array}{rl}&{\mathcal{L}\not\equiv\mathcal{\vec{R}}\lambda\not{\partial}\vec{\mathcal{R}}\lambda\not{\partial}\vec{\mathcal{R}}}_{i,t}^{\pm}=\frac{mean(\mathcal{L}\not{\partial},t\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}_{i,t-j}^{\pm})}{std(\mathcal{L}\not{\partial},t\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}_{i,t-j}^{\pm})}\\&{\mathcal{L}\not{\partial}\vec{\mathcal{L}}\lambda\not{\partial}\vec{\mathcal{R}}\lambda\not{\partial}\vec{\mathcal{R}}_{i,t}^{\pm}=\frac{mean(\mathcal{L}\not{\partial},t\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}_{i,t-j}^{\pm}-\mathcal{L}\not{\mathcal{R}}\not{\partial},t\dot{\mathcal{R}}\dot{\mathcal{R}}_{i,t-j}^{\pm})}{std(\mathcal{L}\not{\partial},t\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}_{i,t-j}^{\pm}-\mathcal{L}\not{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}_{i,t-j}^{\pm})}}\end{array}
+\begin{aligned}&大光关入强度_{i,t}=\frac{mean\left(大光光成交额_{i,t-j}\right)}{std\left(大光光成交额_{i,t-j}\right)}\\&大光净买天入强度_{i,t}=\frac{mean\left(大兴光成交额_{i,t-j}-大光光成交额_{i,t-j}\right)}{std\left(大兴光成交额_{i,t-j}-大光光成交额_{i,t-j}\right)}\end{aligned}
 $$
 
 由于大单因子旨在刻画具有信息优势的投资者的交易行为，因此除了可使用全天数据计算因子外，还可考虑聚焦于开盘后的 30 分钟，仅使用开盘后 30分钟的数据计算因子。（更多关于日内不同时段数据与高频因子选股能力的讨论可参考《选股因子系列研究（七十）——日内市场微观结构与高频因子选股能力》）
 
 $$
-\begin{array}{rl}&{\mathcal{L}\mathcal{\bar{HK}}\mathcal{A}\mathcal{EK}\mathcal{L}_{i,t}=\frac{\sum_{j=1}^{N}\mathcal{K}\mathcal{HK}_{i,t-j,0}\mathcal{B}_{i}\mathcal{C}_{i-1,0-10}}{\sum_{j=1}^{N}\mathcal{K}\mathcal{HK}_{i,t-j,0;0}\ldots\operatorname{I0}0}}\\&{\mathcal{L}\mathcal{\bar{HK}}\mathcal{L}\mathcal{K}\mathcal{K}\mathcal{K}\mathcal{L}_{i,t}\mathcal{K}\mathcal{K}_{i,t}=\frac{\sum_{j=1}^{N}\mathcal{K}\mathcal{K}\mathcal{HK}_{i,t-j,0}\mathcal{B}_{i}\mathcal{K}_{i-10;0;0}\ldots\operatorname{I0}\mathcal{I}_{i}\mathcal{D}_{i-1,t-j,0;0}\mathcal{K}\mathcal{K}\mathcal{K}_{i,t-j,0;30-10;0}}{\sum_{j=1}^{N}\mathcal{K}\mathcal{K}\mathcal{K}_{i,t-j,0;0}\ldots\operatorname{I0}\mathcal{I}_{i}\mathcal{D}_{i,t-j,0;0-10;0}}}\\&{\mathcal{L}\mathcal{\bar{HK}}\mathcal{L}\mathcal{K}\mathcal{L}\mathcal{K}\mathcal{K}\mathcal{MK}_{i,t}}\\&{\mathcal{L}\mathcal{\bar{HK}}\mathcal{K}\mathcal{L}\mathcal{K}\mathcal{K}\mathcal{L}_{i,t}=\frac{mean(\mathcal{K}\mathcal{L}\mathcal{HK}\mathcal{K}\mathcal{K}_{i,t-j,0;30-10;0})}{std(\mathcal{K}\mathcal{K}\mathcal{L}\mathcal{HK}_{i,t-j,0;30-10;0})}}\\&\mathcal{L}\mathcal{\bar{HK}}\mathcal{L}\mathcal{K}\mathcal{K}\mathcal{K}\mathcal K\end{array}
+\begin{aligned}&大光关入占比_{i,t}=\frac{\sum_{j=1}^{N_{j}}大光光成交额_{i,t-j,9:30\sim10:00}}{\sum_{j=1}^{N_{j}}成交额_{i,t-j,9:30\sim10:00}}\\&大光净买关入占比_{i,t}=\frac{\sum_{j=1}^{N_{j}}大光光成交额_{i,t-j,9:30\sim10:00}-大光光成交额_{i,t-j,9:30\sim10:00}}{\sum_{j=1}^{N_{j}}成交额_{i,t-j,9:30\sim10:00}}\\&大光光入煤度_{i,t}=\frac{mean(大光光成交额_{i,t-j,9:30\sim10:00})}{std(大光光成交额_{i,t-j,9:30\sim10:00})}\\&大光净买入煤度_{i,t}=\frac{mean(大光光成交额_{i,t-j,9:30\sim10:00}-大光光成交额_{i,t-j,9:30\sim10:00})}{std(大光光成交额_{i,t-j,9:30\sim10:00}-大光光成交额_{i,t-j,9:30\sim10:00})}\end{aligned}
 $$
 
 ## 2. 因子选股能力回测

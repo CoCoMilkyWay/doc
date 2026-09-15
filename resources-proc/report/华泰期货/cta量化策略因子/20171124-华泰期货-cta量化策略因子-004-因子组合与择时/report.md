@@ -33,13 +33,13 @@
 权重：多空组合中各合约等权重/等波动率；
 
 $$
-\frac{4}{4}\div14.12\dot{x}\frac{3\dot{\theta}}{20}\frac{3\dot{x}}{4}=\frac{\sum_{i=0}^{t}\left(\frac{3\dot{y}}{20}+\frac{1}{20}-\frac{3\dot{y}}{20}+\frac{3\dot{x}}{20}\right)-1}{1}\ast250(\mathrm{N}:301+\frac{3\dot{x}}{20}\sqrt{6})\frac{4y}{40}\vert y\vert\vert x\frac{3\dot{x}}{20})
+年化收益率=\frac{\sum_{i=0}^{t}\left(期末收益-期初本全\right)-1}{t}\times250\quad(N:测试周期内天数)
 $$
 
 夏普比率(Sharpe) = 年化收益率/年化标准差 （年化标准差：日收益率标准差*√250）
 
 $$
-\sharp\star\Theta_{\mathbf{A}}\sharp\sharp_{\hbar}\mathtt{h}\mathtt{h}=\mathrm{Min}(1-\sharp\star\mathrm{\tiny~\cdot}\partial\sharp\mathbf{\cdot}\mathbf{\nabla}\mathrm{t}\sharp_{\mathbf{A}}/\ddagger\mathrm{\varkappa}\mathrm{\mathtt{A}}\mathbf{\cdot}\mathbf{\nabla}\mathrm{t}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}\overline{{\mathtt{h}}}\mathbf{\cdot}
+最大回撤=Min\left(1-当天净值/初始资金\right)
 $$
 
 卡尔马比率(Calmar) = 年化收益率/最大回撤

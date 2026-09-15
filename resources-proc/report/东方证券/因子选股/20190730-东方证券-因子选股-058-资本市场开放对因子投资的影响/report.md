@@ -555,7 +555,7 @@ $$
 我们此处所用到的基于双重差分法的面板 OLS 回归模型表示如下：
 
 $$
-{IVOL}_{i,t}=\alpha_{1}Dt_{t}+\alpha_{2}Dg_{i}+\alpha_{1}Dt_{i}\times\alpha_{2}Dg_{i}+\sum{control}_{i,t}+{IND}_{i,t}+{\ Date}_{t}+\epsilon_{i,t}
+IVOL_{i,t}=\alpha_{1}Dt_{t}+\alpha_{2}Dg_{i}+\alpha_{1}Dt_{i}\times\alpha_{2}Dg_{i}+\sum control_{i,t}+IND_{i,t}+Date_{t}+\epsilon_{i,t}
 $$
 
 双重差分模型的构建细节如下：
@@ -672,7 +672,7 @@ $$
 在每只股票的每个交易日，日内的 48 个 K 线对应着 48 个 5 分钟收益率（不考虑开盘价相对昨日收盘的跳开），利用这 48 个收益率我们分别计算股票 i 在交易 t 的日内 5 分钟收益率的波动率RVOLi,t：
 
 $$
-\sqrt{{\frac{1}{K}}\sum_{k=1}^{K=48}\left(r_{k}-{\bar{r}}\right)^{2}}
+\sqrt{\frac{1}{K}{\sum}_{k=1}^{K=48}\left(r_{k}-\bar{r}\right)^{2}}
 $$
 
 我们分季度统计了北上资金重仓股、中证全指中其余股票的日内收益率的波动率。

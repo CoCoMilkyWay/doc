@@ -115,19 +115,19 @@ zhangsl@bhzq.com
 
 | 模型 | 模型定义 | 说明 |
 | --- | --- | --- |
-| $\mathrm{T}{-}\mathbb{M}$ | $R_{p}-R_{f}=\alpha+\beta_{1}\big(R_{m}-R_{f}\big)+\beta_{2}\big(R_{m}-R_{f}\big)^{2}+\varepsilon_{p}$ | 1)α为选股能力指标，如果值大于零且越大，则表明基金经理具备较强的选股能力；2) $\beta_{2}$ 为择时能力指标，如果 ${\bf\nabla}_{\cdot}\beta_{2}$ 大于零，表明基金经理具有择时能力。 |
-| H-M | $R_{it}-R_{ft}=\propto_{i}+\beta_{i0}\big(R_{mt}-R_{ft}\big)+\gamma_{i}\big[D\big(R_{mt}-R_{ft}\big)\big]+\varepsilon$ 其中，当 $R_{mt}-R_{ft}$ 大于0时，隐变量D取1；反之，D取0 | 如果 $\propto_{i}$ 显著为正，则我们认为基金经理具有选股能力；如果 $\gamma_{i}$ 显著为正，认为基金经理具有择时能力。 |
-| $\mathrm{C-L}$ | $R_{pt}-R_{ft}=\alpha_{p}+\beta_{1}Min\big(0,R_{mt}-R_{ft}\big)+\beta_{2}Max\big(0,R_{mt}-R_{ft}\big)+\varepsilon_{pt}$ $R_{mt}-R_{ft}$ 小于0时，有且仅有含有 $\dot{\beta}_{1}$ 项的存在 $R_{mt}-R_{ft}$ 大于0时，有且仅有含有 $\dot{\beta}_{2}$ 项的存在 | $1)\beta_{1}$ 代表空头的 beta系数 ${},{\beta}_{2}$ 代表多头的 beta系数；2) 利用 $(\beta_{2}-\beta_{1})$ 可判断基金的择时能力，若其显著大于零且为正代表基金具有择时能力；3)α显著大于零代表基金经理具有选股能力。 $\alpha_{p}$ |
+| $\mathbb{T}\mathbb{-M}$ | $R_{p}-R_{f}=\alpha+\beta_{1}\big(R_{m}-R_{f}\big)+\beta_{2}\big(R_{m}-R_{f}\big)^{2}+\varepsilon_{p}$ | 1)α为选股能力指标，如果值大于零且越大，则表明基金经理具备较强的选股能力；2) $\beta_{2}$ 为择时能力指标，如果 $.\beta_{2}$ 大于零，表明基金经理具有择时能力。 |
+| H-M | $R_{it}-R_{ft}=\propto_{i}+\beta_{i0}\big(R_{mt}-R_{ft}\big)+\gamma_{i}\big[D\big(R_{mt}-R_{ft}\big)\big]+\varepsilon$ 其中，当 $R_{mt}-R_{ft}$ 大于0时，隐变量D取1；反之，D取0 | 如果 $\alpha_{i}$ 显著为正，则我们认为基金经理具有选股能力；如果 $\gamma_{i}$ 显著为正，认为基金经理具有择时能力。 |
+| $\mathrm{C}\mathrm{-L}$ | $R_{pt}-R_{ft}=\alpha_{p}+\beta_{1}Min\big(0,R_{mt}-R_{ft}\big)\\+\beta_{2}Max\big(0,R_{mt}-R_{ft}\big)+\varepsilon_{pt}$ $R_{mt}-R_{ft}$ 小于0时，有且仅有含有 $\cdot_{\beta_{1}}$ 项的存在 $R_{mt}-R_{ft}$ 大于0时，有且仅有含有 $:\beta_{2}$ 项的存在 | $1)\beta_{1}$ 代表空头的 beta系数 $,\beta_{2}$ 代表多头的 beta系数；2) 利用 $(\beta_{2}-\beta_{1})$ 可判断基金的择时能力，若其显著大于零且为正代表基金具有择时能力；3)α显著大于零代表基金经理具有选股能力。 $\alpha_{p}$ |
 | F三因子 | $R_{i,t}-R_{ft}=a_{i}+\beta_{i}\big(R_{mt}-R_{ft}\big)+s_{i}SMB_{t}+h_{i}HML_{t}+\varepsilon_{it}$ | $R_{i,t}$ 为投资组合的期望收益率； $R_{ft}$ 为市场无风险收益率; $R_{mt}$ 为市场组合的收益率; $SMB_{t}$ 为规模因子，为小盘股票组合与大盘股票组合收益率之差; $HML_{t}$ 为估值因子，为高账面市值比组合与低账面市值比组合收益率之差 |
 | Carhart 四因子 | $R_{i,t}-R_{ft}=a_{i}+\beta_{i}\big(R_{mt}-R_{ft}\big)+\beta_{i,SMB}SMB_{t}+\beta_{i,HML}HML_{t}$ + βi,uMDUMDt + εit | 在FF三因子模型的基础上，引入动量因子UMD(高收益率股票组合与低收益率股票组合收益率之差) |
-| FF五因子 | $R_{it}-R_{ft}=a_{i}+b_{i}(R_{Mt}-R_{Ft})+s_{i}SMB_{t}+h_{i}HML_{t}+r_{i}RMW_{t}$ $+c_{i}CMA_{t}+e_{it}$ | 在FF三因子模型基础上,增加了盈利因子 RMW,（高 ROE 组合与低 ROE 组合收益率之差）和投 |
+| FF五因子 | $R_{it}-R_{ft}=a_i+b_i(R_{Mt}-R_{Ft})+s_iSMB_t+h_iHML_t+r_iRMW_t$ $+c_{i}CMA_{t}+e_{it}$ | 在FF三因子模型基础上,增加了盈利因子 RMW,（高 ROE 组合与低 ROE 组合收益率之差）和投 |
 
 请务必阅读正文之后的免责声明
 
 |  |  | 资因子CMA（低总资产增长率组合与高资产增 长率组合收益率之差) |
 | --- | --- | --- |
-| $_{\mathrm{~H-X-Z~q~}}$ 因子 | $E\big[r^{i}\big]-r^{f}=\beta_{MKT}^{i}E[MKT]+\beta_{ME}^{i}E[r_{ME}]+\beta_{\Delta A/A}^{i}E\big[r_{\Delta A/A}\big]$ $+\beta_{ROE}^{i}E[r_{ROE}]$ | 来自投资中的 $\mathsf{q}$ 理论，E[MKT]、 $E[r_{ME}]$ $E\big[r_{\Delta A/A}\big]$ $E[r_{ROE}]$ 为预期的因子收益，其中∆A /A以总资产的年增长率代表投资因子 |
-| $\mathrm{H-X{-}Z~}~\mathrm{q}^{\mathrm{\tiny\wedge}}5$ | $\begin{array}{c}{E\bigl[R_{i}-R_{f}\bigr]=\beta_{Mkt}^{i}E[R_{Mkt}]+\beta_{Me}^{i}E[R_{Me}]+\beta_{I/A}^{i}E\bigl[R_{I/A}\bigr]+\beta_{Roe}^{i}E[R_{Roe}]}\\{+\beta_{Eg}^{i}[R_{Eg}]}\end{array}$ | $R_{Mkt}$ 为市值因子； $R_{Me}$ 为规模因子; $R_{I/A}$ 为投 资因子; $R_{Roe}$ 为盈利因子; $R_{Eg}$ 为在 q 因子 模 型的基础上加入的预期投资增长因子 |
+| $\scriptstyle\mathrm{H}-\mathrm{X}-\mathrm{Z}\quad\mathrm{q}$ 因子 | $E\big[r^{i}\big]-r^{f}=\beta_{MKT}^{i}E[MKT]+\beta_{ME}^{i}E[r_{ME}]+\beta_{\Delta A/A}^{i}E\big[r_{\Delta A/A}\big]$ $+\beta_{ROE}^{i}E[r_{ROE}]$ | 来自投资中的 $\mathsf{q}$ 理论，E[MKT]、 $E[r_{ME}]$ $E\big[r_{\Delta A/A}\big]$ $E[r_{ROE}]$ 为预期的因子收益，其中∆A /A以总资产的年增长率代表投资因子 |
+| $\mathrm{H}-\mathrm{X}-\mathrm{Z}\mathrm{~q}^{\wedge}5$ | $\begin{aligned}E\big[R_{i}-R_{f}\big]=\beta_{Mkt}^{i}&E[R_{Mkt}]+\beta_{Me}^{i}E[R_{Me}]+\beta_{I/A}^{i}E\big[R_{I/A}\big]+\beta_{Roe}^{i}E[R_{Roe}]\\&+\beta_{Eg}^{i}[R_{Eg}]\end{aligned}$ | $R_{Mkt}$ 为市值因子； $R_{Me}$ 为规模因子; $R_{I/A}$ 为投 资因子; $R_{Roe}$ 为盈利因子; $R_{Eg}$ 为在 q 因子 模 型的基础上加入的预期投资增长因子 |
 | Liu 三因子 | $R_{t}=\alpha+\beta_{MKT}MKT_{t}+\beta_{SMB}SMB_{t}+\beta_{VMG}VMG_{t}+\epsilon_{t}$ | MKT为市场超额收益，SMB为对数市值因子，VMG 因子以EP 代替 BP 来构建 加入了换手率因子 PMO（Pessimistic Minus |
 | Liu 四因子 | $R_{t}=\alpha+\beta_{MKT}MKT_{t}+\beta_{SMB}SMB_{t}+\beta_{VMG}VMG_{t}+\beta_{PMO}PMO_{t}+\epsilon_{t}$ | Optimistic），为低换手率组合与高换手率组 合收益率之差 |
 
@@ -139,7 +139,7 @@ zhangsl@bhzq.com
 
 ## Brinson 归因模型
 
-假定组合中的证券全部属于 I 个行业。以 $W_{i}.$ 表示基准组合中行业 i 的权重， $w_{i}$ 表示实际组合中行业i 的权重； $R_{i}$ 表示基准组合中行业i的收益， $r_{i\cdot}$ 表示实际组合中行业i 的收益。则如图所示，Brinson模型将组合按照行业将超额收益分解如下：
+假定组合中的证券全部属于 I 个行业。以 $W_{i}.$ 表示基准组合中行业 i 的权重， $w_{i}.$ 表示实际组合中行业i 的权重； $R_{i}$ 表示基准组合中行业i的收益， $r_{i}.$ 表示实际组合中行业i 的收益。则如图所示，Brinson模型将组合按照行业将超额收益分解如下：
 
 图 7：Brinson 归因模型
 
@@ -151,29 +151,29 @@ zhangsl@bhzq.com
 
 资料来源：渤海证券研究所
 
-图中的 4 个组合分别为基准组合 $P_{1}$ ，主动配置组合 ${\bf\nabla}\cdot{\cal P}_{2}$ ，主动选择组合 ${\bf\cdot}P_{3}$ ，实际投资组合 $P_{4}$ 。超额收益表示为实际组合 $P_{4}$ 与基准组合 $P_{1}$ 之间的收益差额 $R_{e}=P_{4}-P_{1}$ 基于4 个组合，可以将 $R_{e}$ 分解为资产配置收益（AR）、选择收益（SR）和交互收益（IR）。
+图中的 4 个组合分别为基准组合 $P_{1}$ ，主动配置组合 $P_{2}$ ，主动选择组合 $P_{3}$ ，实际投资组合 $P_{4}$ 。超额收益表示为实际组合 $P_{4}$ 与基准组合 $P_{1}$ 之间的收益差额 $R_{e}=P_{4}-P_{1}$ 基于4 个组合，可以将 $R_{e}$ 分解为资产配置收益（AR）、选择收益（SR）和交互收益（IR）。
 
 $$
-R_{e}={\tt A}{\tt R}+{\tt S}{\tt R}+{\tt I}{\tt R}
-$$
-
-$$
-\mathrm{AR}=P_{2}-P_{1}=\sum_{i=1}^{l}(w_{i}-W_{i})r_{i}
+R_{e}=\mathrm{AR}+\mathrm{SR}+\mathrm{IR}
 $$
 
 $$
-{\mathrm{SR}}=P_{3}-P_{1}=\sum_{i=1}^{l}W_{i}(r_{i}-b_{i})
+\mathrm{AR}=P_{2}-P_{1}={\sum}_{i=1}^{l}(w_{i}-W_{i})r_{i}
 $$
 
 $$
-\mathrm{IR}=R_{e}-AR-SR=\sum_{i=1}^{l}(w_{i}-W_{i})(r_{i}-b_{i})
+\mathrm{SR}=P_{3}-P_{1}={\sum}_{i=1}^{l}W_{i}(r_{i}-b_{i}),
+$$
+
+$$
+\mathrm{IR}=R_{e}-AR-SR={\sum}_{i=1}^{l}(w_{i}-W_{i})(r_{i}-b_{i}),
 $$
 
 从而配置效应 AR 为相对基准超配收益为正的行业，相对基准低配收益为负的行业获得的超额收益；选择效应 SR 为保持行业配置与基准一致时，在行业内通过主动选股获得的超额收益；交互效应 IR表示剩余收益部分。
 
 以上模型由 Brinson、Hood 和 Beebower 提出，简称为 BHB 版本的 Brinson 模型。Brinson 和 Fachler 提出的 BF 版本的 Brinson 模型，在 BHB 版本的基础上作出了两个改进：
 
-1）将配置效应AR变为 $\begin{array}{r}{\sum_{i=1}^{l}(w_{i}-W_{i})(r_{i}-b_{i})}\end{array}$ ，即超配相对基准上涨的行业，并低配相对基准下跌的行业，获得的超额收益即为配置效应，可以看出，改变前后，配置效应的大小不变；
+1）将配置效应AR变为 $\textstyle\sum_{i=1}^{l}(w_{i}-W_{i})(r_{i}-b_{i})$ ，即超配相对基准上涨的行业，并低配相对基准下跌的行业，获得的超额收益即为配置效应，可以看出，改变前后，配置效应的大小不变；
 
 2）考虑到交互效应IR 的定义仅为扣除AR和SR之后的剩余超额收益，在实际投资与归因操作中难以解释，因此将IR 项与SR项合并，从而合并后的选股效应SR 包含原来的交互效应 IR： $\begin{array}{r}{\mathrm{SR}=\sum_{i=1}^{l}w_{i}(r_{i}-b_{i})}\end{array}$
 
@@ -224,7 +224,7 @@ $$
 由此，个股的超额收益被分解为行业收益、风格因子收益和特质性收益，前两者为对应相对基准的超额因子暴露与截面回归得到的因子收益之间的乘积：
 
 $$
-R_{A}=\sum_{i}X_{i}^{A}f_{i}+\sum_{k}X_{k}^{A}f_{k}+\sum_{n}w_{n}^{A}u_{n}
+R_{A}=\sum_{i}X_{i}^{A}f_{i}+\sum_{k}X_{k}^{A}f_{k}+\sum_{n}w_{n}^{A}u_{n},
 $$
 
 其中， $w_{n}^{A}$ 是股票n的相对权重，即实际组合中的个股权重与基准组合中的对应权重之差； $X_{k}^{A}$ 为组合相对于基准在因子 上的暴露，为组合内个股的持仓权重加权暴露（基准组合的因子暴露值为 0）。

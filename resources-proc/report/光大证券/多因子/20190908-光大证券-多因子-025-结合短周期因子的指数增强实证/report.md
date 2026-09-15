@@ -212,15 +212,15 @@ $$
 $$
 
 $$
-x_{lower}\le X(w-w_{bench})\le x_{upper}
+x_{lower}\leq X(w-w_{bench})\leq x_{upper}
 $$
 
 $$
-i_{lower}\le I(w-w_{bench})\le i_{upper}
+i_{lower}\leq I(w-w_{bench})\leq i_{upper}
 $$
 
 $$
-D_{bench}w\ge b
+D_{bench}w\geq b
 $$
 
 其中：
@@ -233,9 +233,9 @@ $w_{pre}$ 为上一期持仓权重向量；
 
 l为个股权重上限；
 
-X为风格因子暴露矩阵， $x_{lower}\#\alpha_{upper}$ 分别为上下限；
+X为风格因子暴露矩阵， $x_{lower}和x_{upper}$ 分别为上下限；
 
-I为行业哑变量矩阵， $i_{lower}\mathcal{\bar{\mathsf{F}}}^{\mathsf{\Pi}}i_{upper}$ 分别为上下限；
+I为行业哑变量矩阵， $i_{lower}和i_{upper}$ 分别为上下限；
 
 $D_{bench}$ 为成分股哑变量，属于成分股则为 1；
 

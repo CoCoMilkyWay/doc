@@ -78,7 +78,7 @@ Ross[1]和Andersen[2]分别通过理论和实证研究，发现股票价格的�
 （3）每只股票，计算 20 个 Vol_daily 的平均值，衡量该股票当月每日波动率的平均水平 mean（Vol_daily）；将 std（Vol_daily）除以 mean（Vol_daily），再做市值中性化处理，得到每只股票的信息分布均匀度 UID因子，即
 
 $$
-100\div(20\div7)+32\div75\times10=\frac{\frac{3}{10}+32}{\frac{3}{10}+32}\times12\div7\times10=\frac{3}{(100)}\times10=\frac{3}{(100)}\times10=115\times10=115\times12=115(1001\textmd{o}120+115)
+\frac{高频波动率的标准差\times(Vol\_dality)}{高频波动率的平均值\ mean(Vol\_dality)}
 $$
 
 接下来，对上述操作步骤的逻辑和含义，逐一作出解释：

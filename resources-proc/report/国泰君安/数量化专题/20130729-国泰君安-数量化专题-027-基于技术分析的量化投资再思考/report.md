@@ -222,7 +222,7 @@ S0880113070047
 如果说 Pearson 相关是检验两个变量形式的，那么 Spearman 相关就是检验数据序列稳定性的。因为 Spearman 相关是与变量 X 和变量 Y 值所对应的等级有关的，而不管 X 和 Y 具体的取值；而 Pearson 相关是以具体的数值来计算的，很大程度上受具体数值的影响，而 Spearman 相关中，具体数值被转化为依次的排序。因此，当我们关心的是两个变量之间关系的稳定性而不是关系的形式时，可以使用 Spearman 相关。考虑极端情况， 比如两个序列都是严格单调增长或单调递减的， 其Spearman 相关系数要么是+1 要么是-1，而 Pearson 相关系数的大小要取决于两列数据的形式。Spearman 等级相关系数计算公式：
 
 $$
-\rho=1-\frac{6\sum d_{i}^{2}}{n\left(n^{2}-1\right)},n\quad\nk\ll\frac{\rho}{\tilde{\mathcal{Z}}}\tilde{\mathcal{Z}}\lvert\lvert\mathcal{Z}\rvert\ll\beta\rvert\ll\frac{\rho}{\mathcal{Z}},d_{i}\quad\tilde{\mathcal{K}}\tilde{\mathcal{T}}\tilde{\tilde{\mathcal{Z}}}\tilde{\mathcal{Z}}\tilde{\mathcal{Z}}_{\tilde{\mathcal{Z}}}\lesssim\frac{\rho^{2}}{\mathcal{Z}},
+$\rho=1-\cfrac{6\sum\displaystyle d_{i}^{\;2}}{n\left(n^{\;2}-1\right)}\quad,\quad n$代表序列长度,$d_{\quad i}$表示等级差。
 $$
 
 表 2：Spearman 等级相关系数计算示例
@@ -303,7 +303,7 @@ $$
 ![](images/3979425edd276b6937022bfbb2ad64576d2169277c6ce1650b78b9c6e0ae1f09.webp)
 数据来源：国泰君安证券研究
 
-BS模型： $\frac{dS_{\scriptscriptstyle t}}{dt}=rdt+\sigma dB_{\scriptscriptstyle t}$
+BS模型： $\frac{dS_{_t}}{dt}=rdt+\sigma dB_{_t}$
 
 图 9 随机价格序列（ r = 3% ，σ = 25% ）
 ![](images/4643a11105ded6bab9c9a166cf3e3be0299b5bc8c32471e92d63a5c208c292fe.webp)
@@ -314,7 +314,7 @@ BS模型： $\frac{dS_{\scriptscriptstyle t}}{dt}=rdt+\sigma dB_{\scriptscriptst
 很多基于技术指标构建的量化投资模型都含有参数，常见的方法，是基于样本内数据拟合参数，然后用来对样本外数据检验。如果存在一个这样的量化投资模型，把它用在随机价格序列上，最后能够长期稳定战胜随机价格序列，这可能说明生成随机价格序列的伪随机数发生器（Pseudo-random number generators）存在某种固定的模式，而这种模式恰好被量化投资模型给捕获。常见的伪随机数发生器：
 
 $$
-X_{\mathrm{\Lambda}_{n+1}}=\left(aX{\mathrm{\Lambda}}_{n}+b\right)\mathrm{\large~m\mathrm{\Lambda}}0\mathrm{d}\mathrm{\quad}m
+X_{n+1}=\left(aX_{n}+b\right)\bmod{m}
 $$
 
 这种伪随机数发生器能够满足一般的计算任务，如果用到复杂的数值分析等领域，还需要提供更高质量随机性的随机数发生器如梅森旋转算法
@@ -326,16 +326,16 @@ $$
 八均线多头排列的概率理论值：
 
 $$
-P\left({\textstyle\frac{1}{t_{1}}}\int_{0}^{t_{1}}S_{t}dt>{\textstyle\frac{1}{t_{2}}}\int_{0}^{t_{2}}S_{t}dt>.......>{\textstyle\frac{1}{t_{8}}}\int_{0}^{t_{8}}S_{t}dt\right)=\ ?
+P\left(\frac{1}{t_{1}}\int_{0}^{t_{1}}S_{t}dt>\frac{1}{t_{2}}\int_{0}^{t_{2}}S_{t}dt>\ldots\ldots>\frac{1}{t_{8}}\int_{0}^{t_{8}}S_{t}dt\right)=?
 $$
 
 八均线空头排列的概率理论值：
 
 $$
-P\left({\textstyle\frac{1}{t_{1}}}\int_{0}^{t_{1}}S_{t}dt<{\textstyle\frac{1}{t_{2}}}\int_{0}^{t_{2}}S_{t}dt<\ldots\ldots<{\textstyle\frac{1}{t_{8}}}\int_{0}^{t_{8}}S_{t}dt\right)=\ ?
+P\left(\frac{1}{t_{1}}\int_{0}^{t_{1}}S_{t}dt<\frac{1}{t_{2}}\int_{0}^{t_{2}}S_{t}dt<\cdots<\frac{1}{t_{s}}\int_{0}^{t_{s}}S_{t}dt\right)=?
 $$
 
-其中 $t_{_1}=8,t_{_2}=13,......,t_{_8}=\ 233$ 。这种概率表达式理论上是存在解析解的，但考虑到不等式中每一项彼此并不是独立的，计算八个随机变量的联合分布也会非常复杂，所以我们可以简单地用 Monte-CarloSimulation 来计算概率值。
+其中 $t_{1}=8,t_{2}=13,\ldots,t_{8}=233$ 。这种概率表达式理论上是存在解析解的，但考虑到不等式中每一项彼此并不是独立的，计算八个随机变量的联合分布也会非常复杂，所以我们可以简单地用 Monte-CarloSimulation 来计算概率值。
 
 选用布朗运动样本数据 63800个，计算所得：价格形态强弱系数为 1的概率为 6.8%，即八条均线严格多头排列；价格形态强弱系数为负 1的概率为 6.3%，即八条均线严格空头排列。而价格形态强弱系数大于 0.9占比 20.1%，小于-0.9 占比 18.2%。
 
@@ -346,14 +346,14 @@ $$
 对 BS 模型产生的随机价格序列，我们取样本数据 234600个，计算结果显示：价格形态强弱系数为 1的概率为 6.8%，即八条均线严格多头排列；价格形态强弱系数为负 1的概率为 6.8%，即八条均线严格空头排列。而价格形态强弱系数大于 0.9占比 19.5%，小于-0.9占比 19.6%。也就是说：
 
 $$
-P\left({\textstyle\frac{1}{t_{1}}}\int_{0}^{t_{1}}S_{_{t}}dt>\frac{1}{t_{2}}\int_{0}^{t_{2}}S_{_{t}}dt>.......>{\frac{1}{t_{8}}}\int_{0}^{t_{8}}S_{_{t}}dt\right)=6.8\%
+P\left(\frac{1}{t_{1}}\int_{0}^{t_{1}}S_{t}dt>\frac{1}{t_{2}}\int_{0}^{t_{2}}S_{t}dt>\cdots>\frac{1}{t_{s}}\int_{0}^{t_{s}}S_{t}dt\right)=6.8\%
 $$
 
 $$
-P\left({\textstyle\frac{1}{t_{1}}}\int_{0}^{t_{1}}S_{t}dt<\frac{1}{t_{2}}\int_{0}^{t_{2}}S_{t}dt<\ldots\ldots<\frac{1}{t_{s}}\int_{0}^{t_{s}}S_{t}dt\right)=6.8\%
+P\left(\frac{1}{t_{1}}\int_{0}^{t_{1}}S_{t}dt<\frac{1}{t_{2}}\int_{0}^{t_{2}}S_{t}dt<\cdots<\frac{1}{t_{s}}\int_{0}^{t_{s}}S_{t}dt\right)=6.8\%
 $$
 
-需要指出的是均线多头和空头排列的概率为 6.8%，不仅仅依赖于八均线的选取 $t_{\scriptscriptstyle1}=8,t_{\scriptscriptstyle2}=13,\ldots\ldots,t_{\scriptscriptstyle8}=233$ ，也依赖于无风险收益率和波动率两个参数r • 3% , $\sigma=25\%$
+需要指出的是均线多头和空头排列的概率为 6.8%，不仅仅依赖于八均线的选取 $t_{1}=8,t_{2}=13,\ldots,t_{8}=233$ ，也依赖于无风险收益率和波动率两个参数r • 3% , $\sigma=25\%$
 
 图 11 随机序列价格形态强弱系数占比分布（Monte-Carlo Simulation）
 ![](images/f2a7987de80d909774d391aecfa04c79b09ea9afce1de5fd9de4c4509b5acf94.webp)

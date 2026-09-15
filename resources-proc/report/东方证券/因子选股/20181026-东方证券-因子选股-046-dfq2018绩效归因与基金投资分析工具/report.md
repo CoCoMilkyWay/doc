@@ -91,7 +91,7 @@ $$
 R_{p}-R_{f}=\alpha_{p}+\beta_{1}\big(R_{m}-R_{f}\big)+\beta_{2}\big(R_{m}-R_{f}\big)\cdot D+\varepsilon_{p}
 $$
 
-其中 $R_{p}$ 、 $R_{f}$ $R_{m}$ 分别代表了投资组合收益、无风险收益以及市场组合收益，D是一个虚拟变量，当 $R_{m}-R_{f}>0\forall\mathrm{D}=1$ ，否则D = 0， $\beta_{1}$ 代表了系统性风险， $\beta_{2}>0\sharp\bar{\cdot}$ 表明组合管理人具有择时能力， $\beta_{2}$ 越大择时能力越强， $\alpha_{p}>$ 0时表明组合管理人具有证券选择能力， $\alpha_{p}$ 越大证券选择能力越强， $\varepsilon_{p}$ 为随机误差项。
+其中 $R_{p}$ 、 $R_{f}$ $R_{m}$ 分别代表了投资组合收益、无风险收益以及市场组合收益，D是一个虚拟变量，当 $R_{m}-R_{f}>0时D=1$ ，否则D = 0， $\beta_{1}$ 代表了系统性风险， $\beta_{2}>0$ 表明组合管理人具有择时能力， $\beta_{2}$ 越大择时能力越强， $\alpha_{p}>$ 0时表明组合管理人具有证券选择能力， $\alpha_{p}$ 越大证券选择能力越强， $\varepsilon_{p}$ 为随机误差项。
 
 ## 2.3 C-L 模型
 
@@ -134,7 +134,7 @@ $$
 CL-FF3 的回归方程为：
 
 $$
-R_{p}-R_{f}=\alpha_{p}+\beta_{1}\cdot min\big(0,R_{m}-R_{f}\big)+\beta_{2}\cdot max\big(0,R_{m}-R_{f}\big)+\theta_{1}SMB+\theta_{2}HML+\varepsilon_{p}SM^{\prime},
+R_{p}-R_{f}=\alpha_{p}+\beta_{1}\cdot min\big(0,R_{m}-R_{f}\big)+\beta_{2}\cdot max\big(0,R_{m}-R_{f}\big)+\theta_{1}SMB+\theta_{2}HML+\varepsilon_{p}
 $$
 
 ## 三、基于组合持仓的绩效归因
@@ -151,8 +151,8 @@ Brinson收益的分解可以用如下表格来描述：
 
 |  | 实际组合收益r | 基准组合收益rb： |
 | --- | --- | --- |
-| 实际组合权重w? | $\begin{array}{r}{Q_{4}:\sum_{i}w_{i}^{\mathcal{P}}*r_{i}^{\mathcal{P}}}\end{array}$ | $\begin{array}{r}{Q_{z}:\sum_{i}w_{i}^{\mathfrak{p}}*r_{i}^{\mathfrak{b}}}\end{array}$ |
-| 基准组合权重w | $\begin{array}{r}{Q_{3}:\sum_{i}w_{i}^{\ b}*r_{i}^{\ p}}\end{array}$ | $\begin{array}{r}{Q_{1}:\sum_{i}w_{i}^{\ b}*r_{i}^{\ b}}\end{array}$ |
+| 实际组合权重w? | $Q_{4}:\stackrel{\cdot}{\sum_{i}w_{i}^{p}}*\tau_{i}^{p},$ | $\begin{array}{r}{Q_{\mathtt{2}}:\sum_{i}w_{i}^{\mathtt{p}}*r_{i}^{\mathtt{\mathit{b}}}}\end{array}$ |
+| 基准组合权重w | $\begin{array}{r}{Q_{\mathtt{s}}:\sum_{i}w_{i}^{\mathtt{b}}*r_{i}^{\mathtt{p}}.}\end{array}$ | $\begin{array}{r}{Q_{\mathtt{i}}:\sum_{i}w_{i}^{\flat}*r_{i}^{\flat}}\end{array}$ |
 
 数据来源：东方证券研究所
 
@@ -163,7 +163,7 @@ Brinson收益的分解可以用如下表格来描述：
 资产配置收益反映了组合资产配置比例与基准组合的资产配置比例不同而带来的收益差异，组合管理人可以自主选择资产配置比例，但是在每个资产内部则完全按照该类资产的业绩基准配置，即每个资产的收益率等于该资产的基准收益率。因此资产配置收益为：
 
 $$
-Q_{2}-Q_{1}=\sum_{i}\left(w_{i}^{p}-w_{i}^{b}\right)*r_{i}^{b}
+Q_{2}-Q_{1}=\sum_{i}\bigl(w_{i}^{p}-w_{i}^{b}\bigr)*r_{i}^{b}
 $$
 
 ## 2) 证券选择收益
@@ -189,15 +189,15 @@ $$
 多因子模型将股票的收益分解为系统性收益（风格与行业因子）和特质收益，可以用如下式子来表达：
 
 $$
-r_{n}=\sum_{k}X_{nk}f_{k}+u_{n}
+r_{n}=\sum_{k}X_{nk}f_{k}+u_{n},
 $$
 
-其中 $r_{n}$ 指第 n个资 $\vec{\mathcal{T}}$ 的收益率， $X_{nk}$ 指第 n种资产在第 k个因子上的暴露， $f_{k}$ 是因子收益率， $u_{n}$ 指特质收益。
+其中 $r_{n}$ 指第 n个资 $\begin{aligned}产\end{aligned}$ 的收益率， $X_{nk}$ 指第 n种资产在第 k个因子上的暴露， $f_{k}$ 是因子收益率， $u_{n}$ 指特质收益。
 
 将上述式子归因到组合层面，即投资组合的超额收益可以写为：
 
 $$
-R^{p}=\sum_{k}X_{k}^{p}f_{k}+\sum_{n}w_{n}^{p}u_{n}
+R^{p}=\sum_{k}X_{k}^{p}f_{k}+{\sum}_{n}w_{n}^{p}u_{n}.
 $$
 
 其中 $X_{k}^{p}$ 指组合在第 k 个因子上的主动暴露， $w_{n}^{p}$ 是第 n 中资产相对基准的主动权重，因此 $X_{k}^{p}f_{k}$ 就是第 k个因子对整个组合超额收益的贡献。所以我们只要知晓各个资产上的因子暴露、资产权重以及因子收益率，就可以将组合超额收益进行分解。
@@ -221,20 +221,20 @@ $$
 Menchero(2004)虽然介绍了多种方法，但是只有一种方法同时具备上述 4 种属性，即优化连接系数方法（Optimized Linking Coefficient Approaches），这是一种算术方法，多期收益不能通过每期收益的简单相加，但是如果每期收益都乘以一个连接系数，那么就可以相加成组合总超额收益，并且没有残差。可以用如下式子表达这个过程：
 
 $$
-R-\widetilde{R}=\sum_{t=1}^{T}\beta_{t}(R_{t}-\widetilde{R_{t}})
+R-\widetilde{R}=\sum_{t=1}^{T}\beta_{t}(R_{t}-\widetilde{R_{t}}).
 $$
 
-其中R表示组合实际收益， ${\tilde{R}};$ 表示基准收益， $\beta_{t}$ 表示每期的连接系数，T表示期数。
+其中R表示组合实际收益， $\tilde{R};$ 表示基准收益， $\beta_{t}$ 表示每期的连接系数，T表示期数。
 
 $\beta_{t}$ 可以用下列式子得到：
 
 $$
-\begin{array}{c}{\beta_{t}=\mathrm{A}+\alpha_{t}=\mathrm{A}+\mathrm{C}(R_{t}-\widetilde{R_{t}})}\\{\mathrm{A}=\displaystyle\frac{(R-\widetilde{R})/T}{(1+R)^{1/T}-(1+\widetilde{R})^{1/T}}\qquad\mathrm{C}=\frac{R-\widetilde{R}-A\sum_{j=1}^{T}(R_{j}-\widetilde{R}_{j})}{\sum_{j=1}^{T}(R_{j}-\widetilde{R_{j}})^{2}}}\end{array}
+\begin{aligned}\beta_{t}&=\mathrm{A}+\alpha_{t}=\mathrm{A}+\mathbb{C}(R_{t}-\widetilde{R_{t}})\\\mathrm{A}=&\frac{(R-\widetilde{R})/T}{(1+R)^{1/T}-(1+\widetilde{R})^{1/T}}\quad\mathrm{C}=\frac{R-\widetilde{R}-A\sum_{j=1}^{T}(R_{j}-\widetilde{R_{j}})}{\sum_{j=1}^{T}(R_{j}-\widetilde{R_{j}})^{2}}\end{aligned}
 $$
 
-A 是通过式子 $\begin{array}{r}{{\cal R}-\widetilde{\cal R}\approx{\cal A}\sum_{t=1}^{T}({\cal R}_{t}-\widetilde{{\cal R}_{t}})}\end{array}$ 估计的， $\alpha_{t}$ 是残差项。
+A 是通过式子 $\begin{array}{r}{\cdot R-\widetilde{R}\approx A\sum_{t=1}^{T}(R_{t}-\widetilde{R_{t}})}\end{array}$ 估计的， $\alpha_{t}$ 是残差项。
 
-因此通过这种多期归因方法，无论是 Brinson 模型还是多因子模型，我们都可以将多期的收益汇总在一起进行归因，例如对于 Brinson模型来说，首先计算 $\overleftrightarrow{\boxplus}$ 期的连接系数β ，然后将每期资产配置收益、证券选择收益和交互收益分别乘以连接系数，然后相加起来，就得到多期汇总的资产配置收益、证券选择收益和交互收益，这三项加起来应该等于整个时间区间的超额收益。
+因此通过这种多期归因方法，无论是 Brinson 模型还是多因子模型，我们都可以将多期的收益汇总在一起进行归因，例如对于 Brinson模型来说，首先计算 $得$ 期的连接系数β ，然后将每期资产配置收益、证券选择收益和交互收益分别乘以连接系数，然后相加起来，就得到多期汇总的资产配置收益、证券选择收益和交互收益，这三项加起来应该等于整个时间区间的超额收益。
 
 ## 五、风险归因
 
@@ -246,7 +246,7 @@ Menchero (2006)在文中对风险归因进行了系统化的探讨，风险归�
 
 事前风险归因依据的是多因子模型，将组合的风险归因到各个因子上，是基于某个时间点的股票持仓做的预测型风险，在理解预测性质之前首先描述一下组合的风险。
 
-组合总体的方差为 $\sigma^{2}=\boldsymbol{w}^{T}\cdot\boldsymbol{\Sigma}\cdot\boldsymbol{w}$ ，在结构化因子模型的假设下，股票协方差矩阵Σ可以写成如下形式：
+组合总体的方差为 $\sigma^{2}=w^{T}\cdot\varSigma\cdot w$ ，在结构化因子模型的假设下，股票协方差矩阵Σ可以写成如下形式：
 
 $$
 \Sigma=X\cdot F\cdot X^{T}+D
@@ -255,7 +255,7 @@ $$
 其中X是 n个股票在 k个公共风险因子上的因子暴露矩阵(n x k)，F是 k个公共因子收益率的协方差矩阵(k x k)，D是 n个股票的残差收益率方差矩阵(n x n)，因此可以得到组合总体方差为：
 
 $$
-\sigma^{2}=w^{T}\cdot{\boldsymbol{\Sigma}}\cdot w=w^{T}\cdot({\boldsymbol{X}}\cdot F\cdot{\boldsymbol{X}}^{T}+D)\cdot w=w^{T}\cdot({\boldsymbol{X}}\cdot F\cdot{\boldsymbol{X}}^{T})\cdot w+w^{T}\cdot D\cdot w
+\sigma^{2}=w^{T}\cdot\Sigma\cdot w=w^{T}\cdot\left(X\cdot F\cdot X^{T}+D\right)\cdot w=w^{T}\cdot\left(X\cdot F\cdot X^{T}\right)\cdot w+w^{T}\cdot D\cdot w
 $$
 
 又因为组合在第 k个因子上的暴露为 $f=X_{k}^{T}\cdot w$ ，所以组合方差最终可以写为：
@@ -268,23 +268,23 @@ $$
 
 所以从上面的公式可以看出组合风险依赖于因子暴露、因子协方差矩阵和股票残差收益率方差矩阵，因子暴露依据的是当前时间点的持仓，因子协方差矩阵以及股票残差收益率都是通过历史的因子收益率估计得到，因此根据多因子模型计算的组合风险实际上不是已经实现的组合波动，而是一种对未来组合风险的预测。
 
-在用多因子模型进行风险归因前，首先用最简单的公式表达组合收益，其中 $x_{m}$ 为在因子 m 上的暴露， $g_{m}$ 是因子 m 的收益率，那么组合的收益率可以写为 $\begin{array}{r}{R=\sum_{m}x_{m}g_{m}}\end{array}$ ，组合的方差可以进行如下推导：
+在用多因子模型进行风险归因前，首先用最简单的公式表达组合收益，其中 $x_{m}$ 为在因子 m 上的暴露， $g_{m}$ 是因子 m 的收益率，那么组合的收益率可以写为 $\textstyle R=\sum_{m}x_{m}g_{m}$ ，组合的方差可以进行如下推导：
 
 $$
 Var(R)=cov(R,R)=cov\left(\sum_{i=1}^{m}x_{i}g_{i},\sum_{j=1}^{m}\frac{1}{m}*R\right)=\sum_{i=1}^{m}\sum_{j=1}^{m}cov(x_{i}g_{i},\frac{1}{m}*R)=\sum_{m}x_{m}cov(g_{m},R)
 $$
 
-$cov(g_{m},R)$ 也可以通过类似的方推导写成∑ mi=1 $\Sigma_{j=1}^{m}x_{i}cov(g_{i},g_{j})$ ，而 $\textstyle\sum_{i=1}^{m}\sum_{j=1}^{m}cov(g_{i},g_{j})$ 实际上就是因子收益率的协方差矩阵F，所以我们将公式代入到多因子模型当中，写成矩阵的形式，组合的风险可以分解为：
+$cov(g_{m},R)$ 也可以通过类似的方推导写成∑ mi=1 $\textstyle\prod_{j=1}^{m}x_{i}cov(g_{i},g_{j})$ ，而 $\textstyle\sum_{i=1}^{m}\sum_{j=1}^{m}cov(g_{i},g_{j})$ 实际上就是因子收益率的协方差矩阵F，所以我们将公式代入到多因子模型当中，写成矩阵的形式，组合的风险可以分解为：
 
 $$
-Var(R^{p})=\sum_{k}X_{k}^{p}cov(f_{k},R^{p})+\sum_{n}w_{n}^{p}cov(u_{n},R^{p})=\sum_{k}X_{k}^{p}(F*X^{p})_{k}+\sum_{n}w_{n}^{p}(u*w^{p})_{n}
+Var(R^{p})=\sum_{k}X_{k}^{p}cov(f_{k},R^{p})+\sum_{n}w_{n}^{p}cov(u_{n},R^{p})\\=\sum_{k}X_{k}^{p}(F*X^{p})_{k}+\sum_{n}w_{n}^{p}(u*w^{p})_{n}.
 $$
 
 $$
-\sigma(R^{p})=(\sum_{k}X_{k}^{p}(F*X^{p})_{k}+\sum_{n}w_{n}^{p}(u*w^{p})_{n}){\mathbf\Omega}/{\mathbf\Gamma}\sigma(R^{p})
+\sigma(R^{p})=(\sum_{k}X_{k}^{p}(F*X^{p})_{k}+\sum_{n}w_{n}^{p}(u*w^{p})_{n})\quad\left/\quad\sigma(R^{p})\right.
 $$
 
-其中 $\begin{array}{r}{\sum_{k}X_{k}^{p}(F*X^{p})_{k}/\sigma(R^{p})}\end{array}$ 是公共因子对组合风险的贡献比例， ${\textstyle,}\sum_{n}w_{n}^{p}(u*w^{p})_{n}/\sigma(R^{p})$ 是特质因子对组合风险的贡献比例， $X_{k}^{p}(F*X^{p})_{k}/\sigma(R^{p})$ 是单个公共因子对组合风险的贡献比例。
+其中 $\textstyle\sum_{k}X_{k}^{p}(F*X^{p})_{k}/\sigma(R^{p})$ 是公共因子对组合风险的贡献比例， $\begin{array}{r}{,\sum_{n}w_{n}^{p}(u*w^{p})_{n}/\sigma(R^{p})}\end{array}$ 是特质因子对组合风险的贡献比例， $X_{k}^{p}(F*X^{p})_{k}/\sigma(R^{p})$ 是单个公共因子对组合风险的贡献比例。
 
 如果存在多种资产，假设是股票和现金，那么整个资产组合的方差可以写为 $Var(R^{p})=$ $Var(w_{cash}R_{cash}+w_{stock}R_{stock})$ ， 假 设 现 金 部 分 的 风 险 为 0， 那 么 组 合 的 方 差 就 等 于${w_{stock}}^{2}Var(R_{stock})$ o
 
@@ -292,16 +292,16 @@ $$
 
 事前风险归因是个时间点的概念，而事后风险归因是多期的结果，依据的是组合已实现的波动率（Realized Volatility）。
 
-首先用如下式子定义组合已实现方差，其中 T是期数， $R_{t}$ 为第 t期组合收益， $\bar{R}$ 为多期平均收益：
+首先用如下式子定义组合已实现方差，其中 T是期数， $R_{t}$ 为第 t期组合收益， $\bar{R}_{\perp}$ 为多期平均收益：
 
 $$
 \tilde{\sigma}^{2}(R^{p})=\frac{\sum_{t}(R_{t}-\bar{R})^{2}}{T-1}
 $$
 
-假设单期收益 $R_{t}$ 由 m 个收益来源组成， $Q_{mt}$ 为单期第 m 个因素的收益，那么 $\textstyle R_{t}=\sum_{m}Q_{mt}$ 所以 $\begin{array}{r}{R_{t}-\bar{R}=\sum_{m}(Q_{mt}-\bar{Q}_{m})}\end{array}$ $\bar{Q}_{m}$ 为第 m 个因素多期平均收益，因此：
+假设单期收益 $R_{t}$ 由 m 个收益来源组成， $Q_{mt}$ 为单期第 m 个因素的收益，那么 $\begin{array}{r}{R_{t}=\sum_{m}Q_{mt}}\end{array}$ 所以 $\begin{array}{r}{R_{t}-\bar{R}=\sum_{m}(Q_{mt}-\bar{Q}_{m})}\end{array}$ $\bar{Q}_{m}$ 为第 m 个因素多期平均收益，因此：
 
 $$
-\tilde{\sigma}^{2}(R^{p})=\frac{\sum_{t}(\sum_{m}(Q_{mt}-\overline{{Q}}_{m}))(R_{t}-\bar{R})}{T-1}=\sum_{m}\frac{\sum_{t}(Q_{mt}-\overline{{Q}}_{m})(R_{t}-\bar{R})}{T-1}=\sum_{m}\widetilde{cov}(Q_{m},R^{p})
+\bar{\sigma}^{2}(R^{p})=\frac{\sum_{t}(\sum_{m}(Q_{mt}-\bar{Q}_{m}))(R_{t}-\bar{R})}{T-1}=\sum_{m}\frac{\sum_{t}(Q_{mt}-\bar{Q}_{m})(R_{t}-\bar{R})}{T-1}=\sum_{m}c\bar{\sigma}\bar{\nu}(Q_{m},R^{p})
 $$
 
 所以组合已实现方差就等于 m 个因素收益率与组合收益率的已实现协方差之和，可以看到这个公式的形式和事前方差的分解有相似之处，不过已实现方差不依赖于组合的因子暴露。
@@ -309,13 +309,13 @@ $$
 根据方差与波动率和相关系数的关系，我们继续分解组合的已实现方差：
 
 $$
-\widetilde\sigma^{2}(R^{p})=\sum_{m}\widetilde{cov}(Q_{m},R^{p})=\sum_{m}\widetilde\sigma(R^{p})*\widetilde\sigma(Q_{m})*\widetilde\rho(Q_{m},R^{p})
+\tilde{\sigma}^{2}(R^{p})=\sum_{m}\widetilde{cov}(Q_{m},R^{p})=\sum_{m}\tilde{\sigma}(R^{p})*\tilde{\sigma}(Q_{m})*\tilde{\rho}(Q_{m},R^{p}).
 $$
 
 最终组合的已实现波动率为：
 
 $$
-\tilde{\sigma}(R^{p})=\sum_{m}\widetilde{cov}(Q_{m},R^{p})=\sum_{m}\tilde{\sigma}(Q_{m})*\tilde{\rho}(Q_{m},R^{p})
+\tilde{\sigma}(R^{p})=\sum_{m}\widetilde{cov}(Q_{m},R^{p})=\sum_{m}\tilde{\sigma}(Q_{m})*\tilde{\rho}(Q_{m},R^{p}).
 $$
 
 这个公式表示组合的已实现风险可以分解为：第 m个因素收益率的已实现波动率乘以第 m个因素收益率与组合收益率的已实现相关系数。事后风险归因本质上是组合已实现波动率与因子已实现波动率存在的线性关系。
@@ -724,7 +724,7 @@ DFQ-2018风险模型的一大特点是可以根据不同的股票池生成专属
 
 ## 1) 基金代码
 
-该字段是文本格式，不需要添加“.OF”后缀，例如 $"000001.05"$ ，只需要填写为“000001”，不可以填“1”。
+该字段是文本格式，不需要添加“.OF”后缀，例如 $\text{" }00001.0\text{" }$ ，只需要填写为“000001”，不可以填“1”。
 
 ## 2) 起始日期、截止日期
 

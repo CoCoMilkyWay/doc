@@ -100,7 +100,7 @@ $$
 c(u)=\sum_{s,t\neq u}\frac{n_{st}(u)}{N_{st}}.
 $$
 
-其中，c(u)为公司 u 的中心性， $\mathsf{n}_{\mathsf{st}}(\mathsf{u})$ 是从 s 到 t 且穿过节点 u 的最短路径数，$\mathsf{N}_{\mathsf{st}}$ 是从 s 到 t 的最短路径总数。
+其中，c(u)为公司 u 的中心性， $n_{\mathrm{st}}(\mathsf{u})$ 是从 s 到 t 且穿过节点 u 的最短路径数，$\mathbb{N}_{\mathrm{st}}$ 是从 s 到 t 的最短路径总数。
 
 - 溢出效应因子：股价相关性网络中，与公司 u有关联关系的公司，过去 N日的平均涨幅。
 

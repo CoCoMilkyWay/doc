@@ -207,7 +207,7 @@ $$
 以每笔成交量数据为例，本文依照上述思路构建了每笔成交量差分标准差因子：
 
 $$
-\begin{array}{c}{{diff_{i}=volb_{i}-volb_{i-1}}}\\{{{}}}\\{{diff_{-}std_{day}=\displaystyle\frac{std(\{diff_{i}\})}{mean(\{volb_{i}\})}}}\\{{{}}}\\{{diff_{-}std_{volb}=mean(\{diff_{-}std_{day}\})}}\end{array}
+\begin{aligned}diff_{i}&=vold_{i}-vold_{i-1}\\diff_{-}std_{day}&=\frac{std(\{diff_{i}\})}{mean(\{vold_{i}\})}\\diff_{-}std_{vold}&=mean(\{diff_{-}std_{day}\})\end{aligned}
 $$
 
 其中volbi为个股日内 240 根 1 分钟 K线的每笔成交量(成交量/成交笔数)，diff_stdday取过去20个交易日数据。
@@ -257,17 +257,17 @@ $$
 上述差分标准差因子的构建过程在数学上可以作如下变换：
 
 $$
-\begin{array}{c}{{diff_{\_std}=\displaystyle\frac{1}{T}\sum_{t=1}^{T}\frac{\sqrt{\frac{1}{K-2}\sum_{k=1}^{K-1}(x_{k+1}-x_{k}-\overline{{x_{k+1}-x_{k}}})^{2}}}{\overline{{x_{k}}}}}}\\{{\approx\displaystyle\frac{1}{T}\sum_{t=1}^{T}\sqrt{\frac{1}{K-2}\sum_{k=1}^{K-1}(\frac{x_{k+1}-x_{k}}{\overline{{x_{k}}}})^{2}}}}\end{array}
+\begin{aligned}diff\_std=\frac{1}{T}\sum_{t=1}^{T}&\frac{\sqrt{\frac{1}{K-2}\sum_{k=1}^{K-1}(x_{k+1}-x_{k}-\overline{x_{k+1}-x_{k}})^{2}}}{\overline{x_{k}}}\\&\approx\frac{1}{T}\sum_{t=1}^{T}\sqrt{\frac{1}{K-2}\sum_{k=1}^{K-1}(\frac{x_{k+1}-x_{k}}{\overline{x_{k}}})^{2}}\end{aligned}
 $$
 
-其中 $x_{k}$ 为个股日内 240 根 1 分钟 K 线的数据， $T=20$ 为信息区间的长度(天数)，$\overline{{x_{k}}},\overline{{x_{k+1}-x_{k}}}$ 分别为原序列和差分序列均值， $\begin{array}{r}{\overline{{x_{k+1}-x_{k}}}=\frac{1}{K-1}{\sum_{k=1}^{K}}(x_{k+1}-x_{k})=}\end{array}$ $\frac{1}{K-1}(x_{K}-x_{1})$ 在K较大时为一个十分接近0的数，因而上式约等号成立。因此，差分标准差因子也可理解为数据差分后先除以原序列均值再求标准差的过程，即由于差分序列均值为一个接近0的数，除以均值去量纲与求标准差的过程可以互换顺序。
+其中 $x_{k}$ 为个股日内 240 根 1 分钟 K 线的数据， $T=20$ 为信息区间的长度(天数)，$\overline{{x_{k}}},\overline{{x_{k+1}-x_{k}}}$ 分别为原序列和差分序列均值， $\begin{array}{r}{\overline{{x_{k+1}-x_{k}}}=\frac{1}{K-1}{\sum_{k=1}^{K}}(x_{k+1}-x_{k})=}\end{array}$ $\textstyle{\frac{1}{K-1}}(x_{K}-x_{1})$ 在K较大时为一个十分接近0的数，因而上式约等号成立。因此，差分标准差因子也可理解为数据差分后先除以原序列均值再求标准差的过程，即由于差分序列均值为一个接近0的数，除以均值去量纲与求标准差的过程可以互换顺序。
 
 上一小节指出，对差分标准差因子而言计算其20日均值要比计算20日标准差构建出的因子更为有效，原因在于计算标准差所度量的日间波动具有的负向收益能力会抵消因子的一部分正向收益能力。而在做完上面的变换后我们发现，在日内求标准差同样是不必要的一步，其度量的日内波动也可能抵消因子的一部分正向收益能力，进而也应该被求均值所替代。与日间的情况稍有不同的是，求日内标准差前差分序列并非全部为正，因此在求均值之前先对序列取绝对值。
 
 仍以每笔成交量数据为例，本文依照上述思路构建了每笔成交量差分绝对值均值因子：
 
 $$
-\begin{array}{c}{diff_{i}=volb_{i}-volb_{i-1}}\\{{}}\\{diff_{-}mean_{day}=mean(abs\left(\frac{diff_{i}}{mean(\{volb_{i}\})}\right))}\\{{}}\\{diff_{-}mean_{volb}=mean(\{diff_{-}mean_{day}\})}\end{array}
+\begin{aligned}&diff_{i}=volb_{i}-volb_{i-1}\\&\\diff_{\_}mean_{day}=mean(abs\left(\frac{diff_{i}}{mean(\{volb_{i}\})}\right))\\&\\diff_{\_}mean_{volb}=mean(\{diff_{\_}mean_{day}\})\\\end{aligned}
 $$
 
 其中volbi为个股日内240根1分钟K线的每笔成交量(成交量/成交笔数)，abs()为绝对值函数， $diff\_mean_{day}$ 取过去20个交易日数据。

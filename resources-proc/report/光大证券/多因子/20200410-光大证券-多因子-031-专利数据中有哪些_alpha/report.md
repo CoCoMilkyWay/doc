@@ -413,7 +413,7 @@ IPC号（国际专利分类号）是唯一国际通用的专利文献分类和�
 因子的构造上，将主要使用一段时间内的研发授权、研发公布、实用新型和外观设计这四类专利数量与公司在相应时间段内的研发费用数据，构造研发效率因子。
 
 $$
-Factor\_RD\_xx\_yy=RD\_yy/Factor\_xx\_yy\_num
+Factor\_RD\_xx\_yy\ =RD\_yy/Factor\_xx\_yy\_num
 $$
 
 其中：
@@ -561,7 +561,7 @@ $$
 s.t.
 
 $$
-\begin{array}{c}{{0\leq w\leq l}}\\{{}}\\{{\displaystyle\sum_{w=1}w=1}}\\{{\displaystyle x_{lower}\leq X(w-w_{bench})\leq x_{upper}}}\\{{\displaystyle i_{lower}\leq I(w-w_{bench})\leq i_{upper}}}\\{{}}\\{{D_{bench}w\geq b}}\end{array}
+\begin{aligned}0&\leq w\leq l\\\sum w&=1\\x_{lower}\leq X(w-w_{bech})&\leq x_{upper}\\i_{lower}\leq I(w-w_{bech})&\leq i_{upper}\\D_{bech}&w\geq b\end{aligned}
 $$
 
 其中：
@@ -570,9 +570,9 @@ $$
 
 l为个股权重上限；
 
-X为风格因子暴露矩阵， $x_{lower}\#\alpha_{upper}$ 分别为上下限；
+X为风格因子暴露矩阵， $x_{lower}和x_{upper}$ 分别为上下限；
 
-I为行业哑变量矩阵， $i_{lower}$ 和 $\cdot i_{upper}$ 分别为上下限；
+I为行业哑变量矩阵， $i_{lower}$ 和 $\imath i_{upper}$ 分别为上下限；
 
 $D_{bench}$ 为成分股哑变量，属于成分股则为 1；
 

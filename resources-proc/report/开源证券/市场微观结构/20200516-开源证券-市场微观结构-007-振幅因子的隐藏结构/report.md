@@ -155,7 +155,7 @@ sujunhao@kysec.cn
 为了提升高价振幅因子V_high 的选股稳定性，我们考虑在横截面上对高价振幅因子进行标准化处理。这里标准化的做法是：在同一切割比例λ下，我们将高价振幅因子 V_high 与低价振幅因子 V_low 作差，构造得到理想振幅因子 V，表达式如下：
 
 $$
-\mathrm{V(\lambda)}=\mathrm{V\_high(}\lambda\mathrm{)}\mathrm{-}\mathrm{V\_low(}\lambda\mathrm{)}
+\mathrm{V}(\lambda)=\mathrm{V}_{\text{high}}(\lambda)-\mathrm{V}_{\text{low}}(\lambda)
 $$
 
 完成理想振幅因子的构造后，我们首先对不同切割比例下高价振幅因子和低价振幅因子的 IC 均值结构进行对比。从图 8 可以看出：随着λ值的逐渐减小，V_high与 V_low 因子 IC 均值的差距逐渐增加，图形上的效果则是呈现出“>”形状。因此我们预期：随着切割比例λ值的逐渐减小，对应的理想振幅因子V(λ)的选股能力会呈现出逐渐增强趋势。

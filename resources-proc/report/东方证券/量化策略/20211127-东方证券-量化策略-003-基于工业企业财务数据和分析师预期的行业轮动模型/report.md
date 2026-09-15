@@ -602,23 +602,23 @@ A股：工业企业利润总额-累计同比统计局：工业企业利润总额
 指数增强组合构建时，我们选取七个大类 Alpha 因子构建多因子模型，按照机构持股比例分域加权，得到个股 zscore 得分，再线性转换成预测收益率 $\mathsf{f}_{\circ}$ 风险模型采用 DFQ2020 风险模型（具体内容参见报告：《东方 A 股因子风险模型——DFQ-2020》）。组合优化时将风险项作为惩罚项加入目标函数，控制市值适当暴露，约束个股权重上下限，调仓手续费设置双边千三。历史回测区间为 2009.12.31 — 2021.10.29。组合优化问题设置如下：
 
 $$
-\begin{array}{r}\operatorname*{max}\colon(\mathrm{f}+\mathrm{f}_{adj})^{\prime}\mathbf{w}-\lambda\mathbf{w}^{\prime}\Sigma\mathbf{w}--\boxed{\mathrm{f}\overline{{\mathfrak{M}}}\overline{{\mathfrak{M}}}\overline{{\mathfrak{S}}}}\end{array}
+\max:(\mathrm{f}+\mathrm{f}_{adj})^{\prime}\mathrm{w}-\lambda\mathrm{w}^{\prime}\Sigma\mathrm{w}——目标函数
 $$
 
 $$
-\mathrm{st};\quad i_{\mathrm{min}}<\mathbf{w}^{\prime}\mathbf{I}<i_{\mathrm{max}}--\mathcal{\bar{I}}\overline{{\mathbb{I}}}\underline{{{\vert\vert I\pm\bar{\mathbf{z}}\vert}}}]\frac{\mathrm{sgs}}{\mathrm{s}\mathrm{s}\mathrm{e}\mathrm{s}}\underline{{{\underline{{z}}}}}\mathbf{\hat{\mathbf{\imath}}}]\frac{\mathrm{~}}{\mathrm{s}\mathrm{R}}
+\begin{aligned}st:\quad\boldsymbol{i}_{\min}<\mathbf{w}^{\prime}\mathbf{I}<\boldsymbol{i}_{\max}一一行业主动基露约束\end{aligned}
 $$
 
 $$
-m_{\mathrm{min}}<\mathrm{w^{\prime}MV}<m_{\mathrm{min}}--\mp|\mathrm{\pm}|\pm\pm\mp|\mathrm{\Xi}|\mp\mathrm{\Xi}|\mathrm{\bar{\Sigma}}|\mp\mathrm{\bar{\Sigma}}|\mp|\mathrm{\bar{\Sigma}}|
+m_{\min}<w'MV<m_{\min}——市值主动墓露约束
 $$
 
 $$
-w_{\mathrm{min}}<\infty<w_{\mathrm{min}}--\pm\exists)\nmid\times\equiv\pm\infty<\mathrm{P}\nmid\times\frac{4<\cdot>\neq}{\sqrt{2}}
+w_{\min}<w<w_{\min}-主动权重上下限约束
 $$
 
 $$
-\mathbf{w}^{\prime}\mathrm{Ind}=\mathbf{0}\mathrm{--}\pmb{\bar{\Sigma}}\bar{\mathbf{u}}\mathbf{)}\mathbf{\Sigma}\bar{\mathbf{k}}\equiv\mathbf{0}\mathbf{\Sigma}\mathbf{\Sigma}\mathbf{\Sigma}\mathbf{\bar{\Sigma}}\mathbf{\Sigma}\mathbf{\Sigma}\mathbf{\bar{\Sigma}}\mathbf{\Sigma}\mathbf{\Sigma}\mathbf{\Sigma}\mathbf{\bar{\Sigma}}\mathbf{0}
+\mathbf{w}'\mathrm{Ind}=\mathbf{0}——主动权重的总和等于\mathbf{0}
 $$
 
 其中 w 为主动权重， f 为预期收益率向量，Σ为预期月度协方差矩阵,λ为风险厌恶系数。第一个约束条件为控制每个行业的主动暴露；第二个约束条件为控制主动市值暴露；第三个约束条件为控制主动权重的上下限；第四个约束条件为主动权重的总和等于 $0_{\circ}$ 通过二次规划得到每个股票的主动权重，再加上基准权重即可得到总的股票权重。

@@ -140,13 +140,13 @@ le_Summary]截至 7 月 29 日，上证综指的大盘均线强弱指数回落�
 
 p ，那么：
 
-如果 $p\geq\operatorname*{max}\left\{MA,1\leq i\leq8\right\}$ ， 记为 9 分；
+如果 $p\geq\max\left\{MA_{i},1\leq i\leq8\right\}$ ， 记为 9 分；
 
 如果存在 j ，满足
 
-$p\ <\ MA\ ,p\ge\operatorname*{max}\left\{\ MA\ ,1\le i\le8,i\ne j\right\}$ ，记 8分；
+$p<MA_{i},p\geq\max\{MA_{i},1\leq i\leq8,i\neq j\}$ ，记 8分；
 
-如果 $p<\mathsf{min}\{MA,1\leq i\leq8\}$ ，记为 1 分
+如果 $p<\min\left\{MA,1\leq i\leq8\right\}$ ，记为 1 分
 
 如果我们用申万 23 个一级行业来分析的话，对当前每一个行业进行上述打分，最后对 23个行业的分数求和，可知理论最高分为 207，最低分为 23 分，通过所有行业得分之和来判断大盘是否处于极强或者极弱走势，以此对大盘进行择时，这个分数之和称为均线强弱指数。
 
@@ -199,10 +199,10 @@ $p\ <\ MA\ ,p\ge\operatorname*{max}\left\{\ MA\ ,1\le i\le8,i\ne j\right\}$ ，�
 广义自回归条件异方差模型 GARCH 是用历史交易数据对未来波动率的做出预测的数学模型。GARCH 模型主要捕捉金融时间序列的两种特性，一种是最近发生的事件对交易价格的冲击大于过去的事件，也就是说最新的价格变动较更早的历史数据对未来价格变动有更大的影响；另一种是“集束力量(clustering force)，大幅涨跌的价格后面往往出现大幅涨跌，而较平缓的价格往往是后续价格的平缓。用数学公式表示就是，
 
 $$
-\sigma_{{n+1}}^{~2}~=~\omega~+~\alpha~\left(u_{{n}}^{~}-\mu\right)^{2}~+~\beta~\sigma_{{n}}^{~2}
+\sigma_{n+1}^{2}=\omega+\alpha\left(u_{n}-\mu\right)^{2}+\beta\sigma_{n}^{2}
 $$
 
-其中， $\sigma_{{\scriptscriptstyle n+1}}$ 代表在当日对下一个交易日的波动率的预测， 表示增长率的平均值，u 代表当日的价格变化率， ， 分别表示当日变化率和最新方差的权重，并且 ， 满足约束条件:
+其中， $\sigma_{{n+1}}$ 代表在当日对下一个交易日的波动率的预测， 表示增长率的平均值，u 代表当日的价格变化率， ， 分别表示当日变化率和最新方差的权重，并且 ， 满足约束条件:
 
 $$
 \alpha+\beta<1,\alpha>0,\beta>0

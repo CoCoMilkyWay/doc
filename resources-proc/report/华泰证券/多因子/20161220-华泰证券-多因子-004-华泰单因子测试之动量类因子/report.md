@@ -77,7 +77,7 @@ linxiaoming@htsc.com
 在本章前两个小节中，我们分析了成长因子在不同行业的分布差异性及成长因子与市值因子的相关性，接下来，我们将计算各成长因子之间的相关性。假设因子 A和 B之间的月度相关系数序列为 $\{Corr_{i}^{AB}\}$ ，其中 $Corr_{i}^{AB}$ 是在第i个月月末这一截面上因子 A、B在所有个股上的因子暴露度的相关系数，我们构造了一个相关强度指标：
 
 $$
-C_{AB}={\frac{mean(Corr_{i}^{AB}|\mathrm{i}=1,\dots,\mathrm{N})}{\mathrm{std}(Corr_{i}^{AB}|\mathrm{i}=1,\dots,\mathrm{N})}}
+C_{AB}=\frac{mean(Corr_{i}^{AB}|i=1,\ldots,N)}{std(Corr_{i}^{AB}|i=1,\ldots,N)}
 $$
 
 该指标结合了因子平均相关系数和相关系数的稳定性，能够综合反映因子之间的相关情况。我们分别计算各因子两两之间在过去 36 个月（2013 年 12 月到 2016 年 11 月）内的相关强度指标，如图表 3 所示。计算过程中涉及的相关系数均值和方差详细展示在图表 4 和 5中。通过观察可以发现，各动量因子两两之间普遍具有比较强的正相关性，与之前测试过的估值、成长类因子对比，相关性显得更加突出。如果要组合使用各动量因子构建选股模型，需要注意处理多重共线性问题。
@@ -128,48 +128,48 @@ r_{i}^{T+1}=\sum_{j}X_{j}^{T}f_{ji}^{T}+X_{d}^{T}d_{i}^{T}+\mu_{i}^{T}
 $$
 
 $$
-r_{i}^{T+1}\colon\sharp_{\sf{X}}^{\tt{t}}\triangleq\mathrm{~i~}/\pounds\succcurlyeq\mathrm{~T~}+1
+$r_{i}^{T+1}\text{:}股票\text{ i }在第\;\mathrm{T}+1$期的收益率
 $$
 
 $$
-d_{i}^{T}\colon\mathbb{H}^{\underline{{\pi}}}\triangleq\mathrm{~i~}/\pm\sqrt{\pm\frac{\mu}{\beta}}\mathrm{~T~}\Zeta\mapsto\forall\mathrm{~d~}\bot\mathrm{~d~}\underline{{\Sigma}}\not\in\{\frac{\mu}{\beta}\}\frac{\Xi}{\bar{\Sigma}\bar{\Sigma}}\ Z_{\beta}^{\mp}\to\ Z
+$d_{i}^{T}:$$\mathrm{股票}\;\mathrm{i}$在在第T期因子d上的暴露度
 $$
 
-$f_{ji}^{T}$ :股票 i 在第 T 期第 $\mathrm{j}$ 个行业因子上的暴露度(属于该行业则为 1，否则为 0)
+$f_{ji}^{T}$ :股票 i 在第 T 期第 $\mathbf{j}$ 个行业因子上的暴露度(属于该行业则为 1，否则为 0)
 
 $$
-X_{j}^{T}(\precn_{\mathbb{X}}^{T}X_{d}^{T})\colon\stackrel{\star\star}{\hat{\mathcal{H}}}\mathinner{\uparrow}\stackrel{\star\star}{\mathcal{H}}\mathinner{\uparrow}\stackrel{\star\star}{\mathcal{H}}\mathinner{\downarrow}\hat{\mathcal{H}}\mathinner{\downarrow}\uparrow\downarrow\downarrow\downarrow\mathcal{H}\mathinner{\downarrow}\uparrow\downarrow\downarrow\downarrow\mathcal{H}\mathinner{\downarrow}\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow
+$X_{j}^{T}\big(或X_{d}^{T}\big);$第T期第j个行业因子(或因子d)的因子收益率,需回归拟合.
 $$
 
 $$
-\mu_{i}^{T}{:\mathbb{H}}{\stackrel{\#}{\approx}}\mathrm{~i~}\not{U}\not{\equiv}\not{\widehat{\vec{\mathcal{H}}}{\mathrm{~T~}}}\not{}\mathrm{~\ i~}\not{}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}\not{\cong}\mathrm{~\ i~}
+$\mu_{i}^{T}\mathrm{:}$股票i在第T期的残差收益率
 $$
 
 在所有截面期上，我们对因子d进行回归测试，能够得到该因子的因子收益率序列（即所有截面期回归系数 $X_{d}^{T}$ 构成的序列）和对应的 t 值序列。t 值指的是对单个回归系数 $X_{d}^{T}$ 的 t检验统计量，描述的是单个变量显著性，t 值的绝对值大于临界值说明该变量是显著的，即该解释变量（T期个股在因子 d的暴露度）是真正影响因变量（T+1期个股收益率）的一个因素。也就是说，在每个截面期上，对于每个因子的回归方程，我们设
 
 $$
-\begin{array}{r}{1_{\mathbb{R}}^{px}\dot{\pi}\stackrel{\gamma\pi}{\mathcal{K}}\dot{\pi}\stackrel{\wedge}{\dots}\dot{\pi}\stackrel{\wedge}{\dots}{\cal H}_{0}:X_{d}^{T}=0}\\{\quad\stackrel{\mathcal{K}}{\underset{\mathbb{H}}{\mathcal{K}}}\dot{\mathcal{K}}\dot{\pi}\stackrel{\rho\pi}{\mathcal{K}}\dot{\pi}\stackrel{\wedge}{\mathcal{K}}{\cal H}_{1}:X_{d}^{T}\neq0}\end{array}
+\begin{aligned}&假设检验\;H_0:X_d^T=0\\&备择假设\;H_1:X_d^T\neq0\\\end{aligned}
 $$
 
 该假设检验对应的 t统计量为
 
 $$
-\mathsf{t}=\frac{X_{d}^{T}}{SE(X_{d}^{T})}
+\mathbf{t}=\frac{X_{d}^{T}}{SE(X_{d}^{T})}
 $$
 
-其中 $SE(X_{d}^{T})$ 代表回归系数 $X_{d}^{T}$ 的标准差的无偏估计量。一般 t值绝对值大于 2 我们就认为本期回归系数 $X_{d}^{T}$ 是显著异于零的（也就是说，本期因子 d对下期收益率具有显著的解释作用）。注意，我们在回归模型中加入了行业因素，能在一定程度上规避行业因素对成长因子的影响。并且回归法单因子测试中并未对市值因素的影响进行调整，但是在后续计算因子 IC值的部分会做一些调整。
+其中 $SE(X_{d}^{T})$ 代表回归系数 $X_{d}^{T}$ 的标准差的无偏估计量。一般 t值绝对值大于 2 我们就认为本期回归系数 $[X_{d}^{T}]$ 是显著异于零的（也就是说，本期因子 d对下期收益率具有显著的解释作用）。注意，我们在回归模型中加入了行业因素，能在一定程度上规避行业因素对成长因子的影响。并且回归法单因子测试中并未对市值因素的影响进行调整，但是在后续计算因子 IC值的部分会做一些调整。
 
 1． 股票池：全 A股，剔除 ST、PT 股票，剔除每个截面期下一交易日停牌的股票。
 
 2． 回溯区间：2005-04-29 至 2016-11-30。
 
-3． 截面期：每个自然月的最后一个交易日计算因子暴露度，与下一整个自然月的个股超额收益（以 $\dot{\mathcal{P}}$ 深 300 指数为基准）进行回归。
+3． 截面期：每个自然月的最后一个交易日计算因子暴露度，与下一整个自然月的个股超额收益（以 $沪$ 深 300 指数为基准）进行回归。
 
 4． 数据处理方法：
 
 a) 因子暴露度的计算方法已在图表 1 中进行说明，个股收益率均用 Wind 后复权收盘价核算，换手率因子也取自Wind，因子如有缺失值暂时不处理；
 
-b) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},\ D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1};$
+b) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},~D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1};$
 
 c) 标准化：将去极值处理后的因子暴露度序列减去其现在的均值、除以其标准差，得到一个新的近似服从N(0,1)分布的序列，这样做可以让不同因子的暴露度之间具有可比性；
 
@@ -195,7 +195,7 @@ $$
 IC_{d}^{T}=\operatorname{corr}(\overrightarrow{R^{T+1}},\overrightarrow{d^{T}})
 $$
 
-其中，ICT代表因子 d 在第 T 期的 IC 值， $\overrightarrow{R^{T+1}}$ 代表所有个股第 T+1 期的收益率向量， $\overrightarrow{d^{T}}A+$ 表所有个股第 T 期在因子 d上的暴露度向量。
+其中，ICT代表因子 d 在第 T 期的 IC 值， $\overrightarrow{R^{T+1}},$ 代表所有个股第 T+1 期的收益率向量， $\overrightarrow{d^{T}}代$ 表所有个股第 T 期在因子 d上的暴露度向量。
 
 1. 股票池、回溯区间、截面期均与回归法相同。
 
@@ -223,7 +223,7 @@ $$
 [corr(X,Y)]^{2}=R^{2}
 $$
 
-其中 $R^{2}$ 为线性回归Y = aX +b或线性回归 $\mathrm{X}=aY+b$ 的可决系数（其中a，b是待回归系数）。
+其中 $R^{2}$ 为线性回归Y = aX +b或线性回归 $\mathtt{X}=aY+b$ 的可决系数（其中a，b是待回归系数）。
 
 如果我们在单因子测试（线性回归法）中使用模型
 

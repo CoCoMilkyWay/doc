@@ -74,15 +74,15 @@ $$
 E(R_{i})=R_{f}+\beta_{i}*(E(R_{m})-R_{f})
 $$
 
-$E(R_{i})$ 是风险资 $\cdot\vec{j^{z}}$ i的预期收益率；
+$E(R_{i})$ 是风险资 $\cdot 产$ i的预期收益率；
 
 $R_{f}$ 是无风险收益率；
 
 $E(R_{m})$ 是市场整体的预期收益率；
 
-$\beta_{i}$ 是风险资产i与市场整体的系统性风险系数。
+$\beta_{i}.$ 是风险资产i与市场整体的系统性风险系数。
 
-其中 $\begin{array}{r}{\beta_{i}=\frac{cov(R_{i},R_{M})}{var(R_{M})}}\end{array}$ 刻画了资产收益率对市场收益的敏感程度，即我们常说的市场（Beta，或β）因子。
+其中 $\beta_{i}=\frac{cov(R_{i},R_{M})}{var(R_{M})}$ 刻画了资产收益率对市场收益的敏感程度，即我们常说的市场（Beta，或β）因子。
 
 CAPM模型简单清晰，但是诸如完全竞争市场、同质性预期和理性投资者等假设相对严苛。早期的研究成果，诸如Markowitz（1959）、Hogan and Warren（1972，1974）均提出传统Beta因子的假设情形过于简单化。同样诸多研究也显示了单凭Beta因子较难以解释不同资产（如股票）收益的截面差异。
 
@@ -131,10 +131,10 @@ Ang等（2006）发现，相比于传统Beta因子，只聚焦于市场下跌状
 基于上述研究背景，Bollerslev（2021）提出SemiBeta概念，即基于个股收益和市场基准收益方向的不同，将传统Beta因子拆解为4部分。
 
 $$
-\begin{array}{c}{{\beta\equiv\displaystyle\frac{Cov\big(R_{i},~R_{m}\big)}{Var(R_{m})}=\displaystyle\frac{N+P+M^{+}+M^{-}}{Var(R_{m})}}}\\{{\equiv\beta^{N}+\beta^{P}-\beta^{M^{+}}-\beta^{M^{-}}}}\end{array}
+\begin{aligned}\beta&\equiv\frac{Cov(R_{i},\ R_{m})}{Var(R_{m})}=\frac{N+P+M^{+}+M^{-}}{Var(R_{m})}\\&\equiv\beta^{N}+\beta^{P}-\beta^{M^{+}}-\beta^{M^{-}}\end{aligned}
 $$
 
-其中 $R_{i}$ 表示某风险资产收益率， $R_{m}$ 表示市场基准收益率，N、P、 $M^{+}$ 、M−分别对应4个不同的组成结构。N表示市场和风险资产均为负收益，P表示市场和风险资产均为正收益，M+表示市场收益为正但风险资产为负，M−表示市场收益为负但风险资产为正。而为了方便描述，参考原文，报告后续采取同样的设定，即：
+其中 $R_{i}.$ 表示某风险资产收益率， $R_{m}$ 表示市场基准收益率，N、P、 $M^{+}$ 、M−分别对应4个不同的组成结构。N表示市场和风险资产均为负收益，P表示市场和风险资产均为正收益，M+表示市场收益为正但风险资产为负，M−表示市场收益为负但风险资产为正。而为了方便描述，参考原文，报告后续采取同样的设定，即：
 
 $$
 \beta^{M^{+}}\equiv-\frac{M^{+}}{Var(R_{m})}
@@ -150,9 +150,9 @@ $$
 
 如果基于传统CAPM模型，那么这4个资产应当有相同的预期收益率。
 
-引入SemiBeta模型，Panel A中的资产（后续称为资产A，其他资产采取类似处理）Beta保持稳定，而资产B的Beta在市场整体下跌时要低于市场整体上涨时的Beta，即 $\beta^{N}<\beta^{P}$ 。那么基于相关理论，投资者仅厌恶下行风险，因此相应资产若能在下跌环境中提供预期相对稳定的收益，则愿意接受相对较低的预期收益率，即意味资产B的预期回报率要低于资产A。
+引入SemiBeta模型，Panel A中的资产（后续称为资产A，其他资产采取类似处理）Beta保持稳定，而资产B的Beta在市场整体下跌时要低于市场整体上涨时的Beta，即 $\left\langle\beta^{N}<\beta^{P}\right.$ 。那么基于相关理论，投资者仅厌恶下行风险，因此相应资产若能在下跌环境中提供预期相对稳定的收益，则愿意接受相对较低的预期收益率，即意味资产B的预期回报率要低于资产A。
 
-相似的，资 $\dot{\ J}^{\ 2}\mathsf{C}$ 与资产B特征相反，则资 $\therefore c$ 要求相对高于资产A和资产B的预期回报率。而资产D相比于资产C有相对更好的对冲特性，因此资产D的预期回报率要低于资产C。
+相似的，资 $\cdot 产\mathbf{C}.$ 与资产B特征相反，则资 $\cdot 产\mathbf{C}_{1}$ 要求相对高于资产A和资产B的预期回报率。而资产D相比于资产C有相对更好的对冲特性，因此资产D的预期回报率要低于资产C。
 
 图2：不同SemiBeta结构的资产对比
 ![](images/7d6819862f23207ac9224c2b2a7cf5fbab7421453d0f93e9c28b4ffdea22e9b2.webp)
@@ -206,23 +206,23 @@ $$
 
 $r_{t,k,i}$ 表示股票i在第t期，回溯第k个交易日的日度收益率数据；
 
-$f_{t,k}$ 表示市场基准在第t期，回溯第k个交易日的日度收益率数据。
+$f_{t,k1}$ 表示市场基准在第t期，回溯第k个交易日的日度收益率数据。
 
-其中 $\therefore r_{t,k,i}$ 为例：
+其中 $以r_{t,k,i}$ 为例：
 
 $$
-\begin{array}{r}{\boldsymbol{r}_{t,k,i}^{+}=\operatorname*{max}\left(\boldsymbol{r}_{t,k,i},0\right)}\\{\boldsymbol{r}_{t,k,i}^{-}=\operatorname*{min}\left(\boldsymbol{r}_{t,k,i},0\right)}\end{array}
+\begin{aligned}r_{t,k,i}^{+}&=\max\left(r_{t,k,i},0\right)\\r_{t,k,i}^{-}&=\min\left(r_{t,k,i},0\right)\end{aligned}
 $$
 
-为方便表述，针对A股构建的SemiBeta因子，我们以符号N、P、MN、MP表示$\beta_{t,i}^{N}\setminus\beta_{t,i}^{P}\setminus\beta_{t,i}^{M^{-}}\ndot{\nbarwedge}\mu\beta_{t,i}^{M^{+}}$
+为方便表述，针对A股构建的SemiBeta因子，我们以符号N、P、MN、MP表示$\beta_{t,i}^{N}、\beta_{t,i}^{P}、\beta_{t,i}^{M^{-}}和\beta_{t,i}^{M^{+}}$
 
 每期回溯的时间区间，我们分别采取20、60、120个交易日，即对应1个月、3个月和半年；市场基准方面，我们分别以沪深300、中证500、中证1000和创业板指作为市场基准。
 
-将4个SemiBeta原始结构、3类回溯时间、4个比较基准进行排列组合，合计构建了48个后续用于A股实证检验的SemiBeta因子。如fBeta_MN_120_S000852，表示以中证1000作为基准（s000852）,每期回溯120个交易日（120）构建的 $\beta_{t,i}^{M^{-}}\ (\mathsf{MN})$ 因子，并用于全市场选股（fBeta）。
+将4个SemiBeta原始结构、3类回溯时间、4个比较基准进行排列组合，合计构建了48个后续用于A股实证检验的SemiBeta因子。如fBeta_MN_120_S000852，表示以中证1000作为基准（s000852）,每期回溯120个交易日（120）构建的 $\beta_{t,i}^{M^{-}}\left(\mathsf{MN}\right)$ 因子，并用于全市场选股（fBeta）。
 
 表2：48个SemiBeta因子信息
 
-| $\frac{18}{100}=\frac{18}{100}$ 因子 | $12-1=12$ 因子 | $100-1=10$ | $\frac{16}{10}-\frac{1}{2}=\frac{1}{2}$ |
+| $16200$ 因子 | $16\times10=1000$ 因子 | $63\times3=133$ | $632$ |
 | --- | --- | --- | --- |
 | fBeta_MN_120_S000852 | fBeta_MP_120_S000852 | fBeta_N_120_S000852 | fBeta_P_120_S000852 |
 | fBeta_MN_120_S399006 | fBeta_MP_120_S399006 | fBeta_N_120_S399006 | fBeta_P_120_S399006 |

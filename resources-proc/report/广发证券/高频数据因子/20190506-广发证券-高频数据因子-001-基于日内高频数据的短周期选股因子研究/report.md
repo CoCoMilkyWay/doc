@@ -119,16 +119,16 @@ anningning@gf.com.cn
 
 具体因子指标构建如下：
 
-- 对于每个个股在交易日t，首先计算个股在特定分钟频率下第i个的收益率$r_{t,i},\ r_{t,i}=p_{t,i}-p_{t,i-1}$ ，其中 $p_{t,i}$ 表示在交易日t，个股在第i个特定分钟频率下的对数价格， $p_{t,i-1}$ 表示在交易日t，个股在第i−1个特定分钟频率下的对数价格。
+- 对于每个个股在交易日t，首先计算个股在特定分钟频率下第i个的收益率$r_{t,i},~r_{t,i}=p_{t,i}-p_{t,i-1}$ ，其中 $p_{t,i}$ 表示在交易日t，个股在第i个特定分钟频率下的对数价格， $p_{t,i-1}$ 表示在交易日t，个股在第i−1个特定分钟频率下的对数价格。
 
-- 对于每个个股，根据 ${\boldsymbol{r}}_{t,i}$ 分别计算个股在交易日t下的已实现方差（RealizedVariance） $RDVar_{t}$ 、已实现偏度（Realized Skewness） $RDSkew_{t}$ ，已实现峰度（Realized kurtosis） $RDKurt_{t}$ 。其中：
-
-$$
-RDVar_{t}=\sum_{i=1}^{N}r_{t,\mathrm{i}}^{2}
-$$
+- 对于每个个股，根据 $r_{t,i}$ 分别计算个股在交易日t下的已实现方差（RealizedVariance） $RDVar_{t}$ 、已实现偏度（Realized Skewness） $RDSkew_{t}$ ，已实现峰度（Realized kurtosis） $RDKurt_{t}$ 。其中：
 
 $$
-RDSkew_{t}=\frac{\sqrt{N}\sum_{I=1}^{N}r_{t.\mathrm{i}}^{3}}{RDVar_{t}^{3/2}}
+RDVar_{t}=\sum_{i=1}^{N}r_{t,i}^{2}
+$$
+
+$$
+RDSkew_{t}=\frac{\sqrt{N}\sum_{I=1}^{N}r_{t,\mathbf{i}}^{3}}{RDVar_{t}^{3/2}}
 $$
 
 $$
@@ -137,12 +137,12 @@ $$
 
 N表示个股在交易日t中特定频率的分钟级别数据个数，如在5分钟级别下，交
 
-易日t下共有的数据个数N为 $48(60^{\star}4/5{=}48)$
+易日t下共有的数据个数N为 $48(60^{\star}4/5=48)$
 
 - 对于每个个股，在交易日t计算累计已实现波动（Realized Volatility） $)RVol_{t}$ 已实现偏度（Realized Skewness）RSkewt、已实现峰度（Realized Kurtosis）$RKurt_{t}$ ，其中：
 
 $$
-RVol_{t}=\left(\frac{242}{n}\sum_{i=0}^{n}RDVar_{t-i}\right)^{1/2}
+RVol_{t}=\left(\frac{242}{n}{\sum_{i=0}^{n}RDVar_{t-i}}\right)^{1/2}
 $$
 
 $$
@@ -150,10 +150,10 @@ RSkew_{t}=\frac{1}{n}\sum_{i=0}^{n}RDSkew_{t-i}
 $$
 
 $$
-RKurt_{t}=\frac{1}{n}\sum_{i=0}^{n}RDKurt_{t-i}
+RKurt_{t}=\frac{1}{n}\sum_{i=0}^{n}RDKurt_{t-i},
 $$
 
-在每期调仓日截面上，按照上述公式计算每个个股的已实现波动（RealizedVolatility） $RVol_{t}$ ，已实现偏度（Realized Skewness） $RSkew_{t}$ 、已实现峰度（Realized Kurtosis） $RKurt_{t}.$ 指标，针对每个由高频数据计算得到的因子指标在历史上的分档组合表现，试图寻找出相对有效的因子指标。
+在每期调仓日截面上，按照上述公式计算每个个股的已实现波动（RealizedVolatility） $RVol_{t}$ ，已实现偏度（Realized Skewness） $RSkew_{t}$ 、已实现峰度（Realized Kurtosis） $RKurt_{t^{1}}$ 指标，针对每个由高频数据计算得到的因子指标在历史上的分档组合表现，试图寻找出相对有效的因子指标。
 
 ## 三、 实证分析
 
@@ -171,11 +171,11 @@ $$
 
 - 选股范围：全市场、中证500历史成分股，剔除上市不满一年的股票，剔除ST股票、*ST股票，剔除交易日停牌的股票
 
-- 分档方式：根据当期个股计算的因子值：已实现波动（Realized Volatility）$RVol_{t}$ ，已实现偏度（Realized Skewness） $RSkew_{t}$ 、已实现峰度（RealizedKurtosis） $RKurt_{t}.$ ，从小到大分为5档
+- 分档方式：根据当期个股计算的因子值：已实现波动（Realized Volatility）$RVol_{t}$ ，已实现偏度（Realized Skewness） $RSkew_{t}$ 、已实现峰度（RealizedKurtosis） $RKurt_{t},$ ，从小到大分为5档
 
 - 调仓周期：周频换仓，Q1档为因子值最小的，Q5档为因子值最大的。
 
-- 参数说明： $N{=}48,n{=}5$
+- 参数说明： $N=48,\ n=5$
 
 ## 因子特征
 

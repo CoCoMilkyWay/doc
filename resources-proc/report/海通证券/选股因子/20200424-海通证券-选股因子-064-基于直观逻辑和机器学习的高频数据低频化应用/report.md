@@ -85,19 +85,19 @@ Email:ylq9619@htsec.com
 基于上述考虑，本章构建了买入意愿序列，该指标计算方法如下：
 
 $$
-\vec{\mathcal{F}}\wedge\dot{\vec{\mathcal{E}}},\vec{\mathcal{M}}_{1,\mathsf{T},\mathsf{k}}=:\dot{\vec{\mathcal{G}}}\mathbin{\blacktriangle}\mathbin{\overrightarrow{\mathcal{F}}}\mathbin{\vrule h\dag\dag\dag}\mathscr{F}\mathbin{\vrule h\dag\dag\dag}\mathscr{F}\mathbin{\vrule h\dag\dag\dag}+\dot{\mathcal{G}}\mathbin{\vrule h\dag\dag\dag}\mathscr{F}\mathbin{\vrule h\dag\dag\dag},\mathsf{k},
+买入意愿_{i,\mathsf{T},\mathsf{k}}=净委买变化额_{i,\mathsf{T},\mathsf{k}}+净主买成交额_{i,\mathsf{T},\mathsf{k}}
 $$
 
-其中，买入意愿 $^{\mathrm{i,T,k}}$ 为股票 i在交易日 T 的第 k 分钟的买入意愿，净委买变化额 $^{\mathrm{i,T,k}}$ 为股票 在交易日 的第 分钟的净委买变化额。净委买变化额的计算考虑了盘口的变化，更多细节可参考系列前期报告或联系报告作者。净主买成交额 $^{\mathrm{i,T,k}}$ 为股票 i在交易日 T 的第 k 分钟的主动买入额与主动卖出额的差值。
+其中，买入意愿 $\mathsf{i},\mathsf{T},\mathsf{k}$ 为股票 i在交易日 T 的第 k 分钟的买入意愿，净委买变化额 $\mathsf{i},\mathsf{T},\mathsf{k}$ 为股票 在交易日 的第 分钟的净委买变化额。净委买变化额的计算考虑了盘口的变化，更多细节可参考系列前期报告或联系报告作者。净主买成交额 $\mathsf{i},\mathsf{T},\mathsf{k}$ 为股票 i在交易日 T 的第 k 分钟的主动买入额与主动卖出额的差值。
 
 结合《选股因子系列研究（五十七）——基于主动买入行为的选股因子》一文中因子的构建思路，本章构建了买入意愿占比以及日内买入意愿强度。股票 i在交易日 T 的指标计算方法如下：
 
 $$
-\vec{\mathcal{F}}\wedge\hat{\Xi}\sqrt{\Xi}\stackrel{\star}{\lesssim}\boldsymbol{\mathrm{E}}\boldsymbol{\mathrm{E}}_{\mathrm{i,T}}=\frac{\sum\vec{\mathcal{F}}\wedge\hat{\Xi}\sqrt{\Xi}}{\sum\hbar\dot{\Xi}\hat{\mathcal{K}}\hat{\Xi}}\boldsymbol{\cdot}\hat{\mathcal{B}}\boldsymbol{\mathrm{B}}_{\mathrm{i,T,k}}^{\pi}
+买入意愿占比_{i,T}=\frac{\sum 买入意愿_{i,T,k}}{\sum 成交金额_{i,T,k}}
 $$
 
 $$
-\frac{1}{4}\wedge\frac{\pm}{\Theta}\sqrt{\frac{\pi}{\Theta}}\sqrt{\frac{\eta}{\Theta}}\sqrt{\frac{\pm}{\Theta}}_{\mathrm{i,T}}=\frac{mean(\mp\sqrt{\frac{\pi}{\Theta}}\sqrt{\frac{\pi}{\Theta}}\sqrt{\frac{\pi}{\Theta}}_{\mathrm{i,T,k}})}{std(\mp\sqrt{\frac{\pi}{\Theta}}\sqrt{\frac{\pi}{\Theta}}\sqrt{\frac{\pi}{\Theta}}_{\mathrm{i,T,k}})}
+买入意愿强度_{i,T}=\frac{mean(买入意愿_{i,T,k})}{std(买入意愿_{i,T,k})}
 $$
 
 为了满足不同调仓频率的需求，我们在进行因子计算时首先计算日度指标，并在相应调仓时点计算指标在回看窗口中的日度均值，将指标的日度均值作为因子的因子值。更多细节可联系报告作者。

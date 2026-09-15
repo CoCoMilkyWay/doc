@@ -88,7 +88,7 @@ S1090519070004
 
 任意交易日开始之前，自然决定了是否发生与资产价值有关的信息事件。信息事件独立分布，发生概率为 。其中，该事件是好消息的概率为 δ，是坏消息的概率为δ。在当天交易结束之后、出现新信息之前，资产的价格等于其完全信息价值。
 
-令随机变量 $(V_{i})_{i=1}^{I}$ 表示交易日 $(\mathsf{i}\mathsf{-}1,\ldots,\mathsf{I})$ 结束时的资产价格。这些价格自然是相关的，由于分析中不需要，作者不对相关性做任何具体假设。令V̅表示第 i 个交易日出现好消息时的资产价值，V表示第 i 个交易日出现坏消息时的资产价值，V∗表示第 i 个交易日没有消息出现时的资产价值。假定 $\underline{{V_{i}}}<V_{i}^{*}<\bar{V}_{i}$ 。
+令随机变量 $(V_{i})_{i=1}^{I}$ 表示交易日 $(\mathsf{i}=1,\ldots,1)$ 结束时的资产价格。这些价格自然是相关的，由于分析中不需要，作者不对相关性做任何具体假设。令V̅表示第 i 个交易日出现好消息时的资产价值，V表示第 i 个交易日出现坏消息时的资产价值，V∗表示第 i 个交易日没有消息出现时的资产价值。假定 $\underline{{V_{i}}}<V_{i}^{*}<\bar{V}_{i}$ 。
 
 交易来自（已看到信号的）知情交易者和非知情交易者。在任意交易日内，非知情买方和卖方的到达率均独立服从期望值为ε的泊松分布，该比率每分钟更新一次。当信息事件发生时，知情交易者也进场交易。假设所有的知情交易者都是风险中性的并且存在竞争。若发现利好信号，使交易者利润最大化的交易策略是买入股票；反之，若发现利空信号，交易者将卖出股票。假设信息一次到达一个交易者，其之后的市场到达率服从期望值为μ的泊松分布。假定所有交易者的交易过程相互独立。
 
@@ -100,9 +100,9 @@ S1090519070004
 
 ## 交易和价格
 
-每天自然选择树状图三个分支中的一个。做市商知道每个分支的发生概率和各分支下的订单流交易过程，但并不知道自然会选择哪一个分支。假设做市商是“贝叶斯人”，利用交易的到达和交易率来更新他对信息事件发生概率的预期。交易日之间相互独立，因此可以在每个交易日单独分析其预期的变化。令 $\mathrm{P(t)}=(P_{n}(\mathrm{t}),P_{b}(\mathrm{t}),P_{g}(\mathrm{t}))$ 表示做市商在 t时刻对事件“无消息”(n)、“是坏消息”(b)、“是好消息 $"({\mathfrak{g}})$ 的先验概率。因此在 0时刻，他的先验概率为 $\mathrm{P}(0)=(1-\alpha,\alpha\delta,\alpha(1-\delta))$ 。
+每天自然选择树状图三个分支中的一个。做市商知道每个分支的发生概率和各分支下的订单流交易过程，但并不知道自然会选择哪一个分支。假设做市商是“贝叶斯人”，利用交易的到达和交易率来更新他对信息事件发生概率的预期。交易日之间相互独立，因此可以在每个交易日单独分析其预期的变化。令 $\mathsf{P}(\mathsf{t})=(P_{n}(\mathsf{t}),P_{b}(\mathsf{t}),P_{g}(\mathsf{t}))$ 表示做市商在 t时刻对事件“无消息”(n)、“是坏消息”(b)、“是好消息 $\Gamma(\mathbf{{\mathfrak{g}}})$ 的先验概率。因此在 0时刻，他的先验概率为 $\mathrm{P}(0)=(1-\alpha,\alpha\delta,\alpha(1-\delta))$ 。
 
-为了确定t时刻的报价，做市商会根据相关类型订单的到达情况更新其先验条件。例如，t时刻的买入价 b(t)等于资产的期望价值，该期望值取决于t时刻订单到达之前的历史交易过程（由统计量 P(t)表示）和 t 时刻的单位资产出售情况。令 $\cdot S_{t}$ 表示事件“时刻 t 到达1 个卖单”， $\mathsf{B}_{t}$ 表示事件“时刻 t 到达 1 个买单”， $\mathrm{P}(\operatorname{t}|S_{t})$ 表示做市商以 t 时刻之前的交易历史和 t时刻的卖单到达情况为条件更新的后验概率。
+为了确定t时刻的报价，做市商会根据相关类型订单的到达情况更新其先验条件。例如，t时刻的买入价 b(t)等于资产的期望价值，该期望值取决于t时刻订单到达之前的历史交易过程（由统计量 P(t)表示）和 t 时刻的单位资产出售情况。令 $-S_{t}$ 表示事件“时刻 t 到达1 个卖单”， $\mathsf{B}_{t}$ 表示事件“时刻 t 到达 1 个买单”， $\mathrm{P}(\mathfrak{t}|S_{t})$ 表示做市商以 t 时刻之前的交易历史和 t时刻的卖单到达情况为条件更新的后验概率。
 
 根据贝叶斯规则，如果 t时刻到达一个卖单，做市商在t时刻对“当天没有信息事件发生”的后验概率为：
 
@@ -122,61 +122,61 @@ $$
 P_{g}(t|S_{t})=\frac{P_{g}(t)\varepsilon}{\varepsilon+P_{b}(t)\mu}\tag{3}
 $$
 
-在任意时刻 t，预期获利为0 的买入价 $\mathsf{b}(\mathsf{t})$ 是做市商以t时刻之前的交易历史和 $\cdot S_{t}$ 为条件对资 $\dot{\bar{y}}$ 的期望价值。因此，在第 i个交易日内t时刻的买入价为：
+在任意时刻 t，预期获利为0 的买入价 ${\bf b}({\bf t})$ 是做市商以t时刻之前的交易历史和 $\imath S_{t}$ 为条件对资 $产$ 的期望价值。因此，在第 i个交易日内t时刻的买入价为：
 
 $$
-\mathsf{b}(\mathrm{t})=\frac{P_{n}(t)\varepsilon V_{i}^{*}+P_{b}(t)(\varepsilon+\mu)\underline{{V_{i}}}+P_{g}(t)\varepsilon\overline{{V}}_{i}}{\varepsilon+P_{b}(t)\mu}\tag{4}
+\mathrm{b}(\mathrm{t})=\frac{P_{n}(t)\varepsilon V_{i}^{*}+P_{b}(t)(\varepsilon+\mu)\underline{V_{i}}+P_{g}(t)\varepsilon\overline{V_{i}}}{\varepsilon+P_{b}(t)\mu}\tag{4}
 $$
 
 类似得到 t时刻的卖出价：
 
 $$
-\mathrm{a(t)}=\frac{P_{n}(t)\varepsilon V_{i}^{\ast}+P_{b}(t)\varepsilon V_{i}+P_{g}(t)(\varepsilon+\mu)\overline{{V}}_{i}}{\varepsilon+P_{b}(t)\mu}\tag{5}
+\mathrm{a}(\mathrm{t})=\frac{P_{n}(t)\varepsilon V_{i}^{*}+P_{b}(t)\varepsilon\underline{V_{i}+P_{g}(t)(\varepsilon+\mu)\overline{V_{i}}}}{\varepsilon+P_{b}(t)\mu}\tag{5}
 $$
 
 为了更好地解释报价，将 时刻的买入价与卖出价同 时刻资产的先验期望价值联系起来。以 t时刻之前的交易历史为条件的资产的期望价值为：
 
 $$
-\begin{array}{r}{\mathrm{E}[V_{i}|\mathrm{t}]=P_{n}(t)V_{i}^{\ast}+P_{b}(t)\underline{{V_{i}}}+P_{g}(t)\overline{{V_{i}}}}\end{array}\tag{6}
+\mathrm{E}[V_{i}|\mathsf{t}]=P_{n}(t)V_{i}^{*}+P_{b}(t)\underline{{V_{i}}}+P_{g}(t)\overline{{V_{i}}}\tag{6}
 $$
 
 将公式(6)分别代入买入价公式(4)和卖出价公式(5)，有：
 
 $$
-\mathsf{b}(\mathrm{t})=\mathtt{E}[V_{i}|\mathrm{t}]-\frac{\mu P_{b}(t)}{\varepsilon+\mu P_{b}(t)}\big(\mathtt{E}[V_{i}|\mathrm{t}]-\underline{{V}}_{i}\big)\tag{7}
+\mathbf{b}(\mathbf{t})=\mathbb{E}[V_{i}|\mathbf{t}]-\frac{\mu P_{b}(t)}{\varepsilon+\mu P_{b}(t)}\left(\mathbb{E}[V_{i}|\mathbf{t}]-\underline{{V_{i}}}\right)\tag{7}
 $$
 
 且
 
 $$
-\mathsf{a}(\mathrm{t})=\mathrm{E}[V_{i}|\mathrm{t}]+\frac{\mu P_{g}(t)}{\varepsilon+\mu P_{g}(t)}\bigl(\overline{{V}}_{i}-\mathrm{E}[V_{i}|\mathrm{t}]\bigr)\tag{8}
+\mathbf{a}(\mathbf{t})=\operatorname{E}[V_{i}|\mathbf{t}]+{\frac{\mu P_{g}(t)}{\varepsilon+\mu P_{g}(t)}}{\big(}{\overline{{V}}}_{i}-\operatorname{E}[V_{i}|\mathbf{t}]{\big)}.\tag{8}
 $$
 
-这些公式表明知情和非知情交易者进场对交易价格的影响显著。如果不存在知情交易者$(\mu=0)$ ，交易将不反映新信息，因此资产的买卖报价均等于其先验期望价值；如果不存在非知情交易者 $(\varepsilon=0)$ ，则在任意时刻 t， ${\sf b}({\sf t})=V_{i},{\sf a}({\sf t})=\overline{{V}}_{i}.$ 。在这种价格下，由于没有非知情交易者参与交易，市场实际上关闭了。而通常市场中既有知情交易者又有非知情交易者，因此资产的买入价低于E[V|t]，卖出价则高于 $\cdot\mathrm{E}[V_{i}|\mathrm{t}]$ 。做市商通过设置价差来保护自己避免因非知情交易者而遭受损失。
+这些公式表明知情和非知情交易者进场对交易价格的影响显著。如果不存在知情交易者$(\mu=0)$ ，交易将不反映新信息，因此资产的买卖报价均等于其先验期望价值；如果不存在非知情交易者 $(\varepsilon=0)$ ，则在任意时刻 t， $\mathbf{b}(\mathbf{t})=\underline{{V_{i}}},\quad\mathbf{a}(\mathbf{t})=\overline{{V_{i}}}.$ 。在这种价格下，由于没有非知情交易者参与交易，市场实际上关闭了。而通常市场中既有知情交易者又有非知情交易者，因此资产的买入价低于E[V|t]，卖出价则高于 $\mathrm{{:}E[}V_{i}|\mathfrak{t}{]}$ 。做市商通过设置价差来保护自己避免因非知情交易者而遭受损失。
 
-明确地写出价差公式会更容易确定价差的影响因素。令 $\Sigma({\mathrm{t}})={\mathsf{a}}({\mathsf{t}})-{\mathsf{b}}({\mathsf{t}})$ 表示 t 时刻的价差，计算得：
+明确地写出价差公式会更容易确定价差的影响因素。令 $\mathbf{\Sigma}(\mathbf{t})=\mathbf{a}(\mathbf{t})-\mathbf{b}(\mathbf{t})$ 表示 t 时刻的价差，计算得：
 
 $$
-\Sigma({\mathrm{t}})=\frac{\mu P_{g}(t)}{\varepsilon+\mu P_{g}(t)}\big(\overline{{V}}_{i}-\mathrm{E}[V_{i}|{\mathrm{t}}]\big)+\frac{\mu P_{b}(t)}{\varepsilon+\mu P_{b}(t)}\big(\mathrm{E}[V_{i}|{\mathrm{t}}]-\underline{{V}}_{i}\big)\tag{9}
+\Sigma(\mathrm{t})=\frac{\mu P_{g}(t)}{\varepsilon+\mu P_{g}(t)}\left(\overline{{V}}_{i}-\mathbb{E}[V_{i}|\mathrm{t}]\right)+\frac{\mu P_{b}(t)}{\varepsilon+\mu P_{b}(t)}\left(\mathbb{E}[V_{i}|\mathrm{t}]-\underline{{V}}_{i}\right)\tag{9}
 $$
 
 t 时刻的价差等于买方是知情交易者的概率与其预期损失的乘积，加上卖方是知情交易者的概率与之预期损失的乘积。t时刻发生知情交易的概率是这些概率的总和，即：
 
 $$
-\operatorname{PI}(\operatorname{t})={\frac{\mu{\bigl(}1-P_{n}(t){\bigr)}}{\mu{\bigl(}1-P_{n}(t){\bigr)}+2\varepsilon}}\tag{10}
+\mathrm{PI}(t)=\frac{\mu(1-P_{n}(t))}{\mu(1-P_{n}(t))+2\varepsilon}\tag{10}
 $$
 
-这一概率取决于知情交易和非知情交易的比例，以及做市商对信息事件发生和构成的预期。因此，如果市场中没有新信息 $(P_{n}(t)=1)$ 或者没有人基于私人信息交易 $(\mu=0)$ ，那$\boldsymbol{\mathcal{Z}}\operatorname{PI}(\operatorname{t})=0$ ，不存在买卖价差；如果所有交易都是含有私人信息的交易 $(\varepsilon=0)$ ，那么$\mathrm{PI}(\mathrm{t})=1$ ，价差足够大 $(\overline{{V}}_{i}-\underline{V}_{i})$ 以防止任何人利用私人信息获利。
+这一概率取决于知情交易和非知情交易的比例，以及做市商对信息事件发生和构成的预期。因此，如果市场中没有新信息 $(P_{n}(t)=1)$ 或者没有人基于私人信息交易 $(\mu=0)$ ，那$\mathrm{PI}(\mathrm{t})=0$ ，不存在买卖价差；如果所有交易都是含有私人信息的交易 $(\varepsilon=0)$ ，那么$\mathrm{PI}(\mathrm{t})=1$ ，价差足够大 $(\overline{{V}}_{i}-\underline{{V}}_{i})$ 以防止任何人利用私人信息获利。
 
-自然情况下，开盘时发生利好事件与利空事件的可能性相等，因此开盘报价的价差形式特别简单：令 $\delta=1-\delta$ ，有
+自然情况下，开盘时发生利好事件与利空事件的可能性相等，因此开盘报价的价差形式特别简单：令 $\cdot\delta=1-\delta$ ，有
 
 $$
-\Sigma(0)={\frac{\alpha\mu}{\alpha\mu+2\varepsilon}}\bigl[\bar{V}_{i}-\underline{{V_{i}}}\bigr]\tag{11}
+\Sigma(0)=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}\big[\bar{V}_{i}-\underline{{V_{i}}}\big]\tag{11}
 $$
 
 该式的第一项代表当天第一笔交易是知情交易的概率。交易对手方是知情交易者的风险是影响价差大小的关键因素。如果这一概率存在个股差异，那么模型将预测初始价差如何变化，这提供了一种方法来检测知情交易差异对价的影响。
 
-如果能够像做市商一样知道问题的参数 $\boldsymbol{\Theta}=(\alpha,\delta,\varepsilon,\mu)$ ，并观察到订单的到达过程，那么就可以计算买入价与卖出价的随机过程，以直接检验新信息对价差的影响。实际上，虽然可以观察到订单的到达过程，却不知道参数，而这些参数可以通过订单流数据估计得到。接下来将介绍这一问题。
+如果能够像做市商一样知道问题的参数 $\boldsymbol{\theta}=(\alpha,\delta,\varepsilon,\mu)$ ，并观察到订单的到达过程，那么就可以计算买入价与卖出价的随机过程，以直接检验新信息对价差的影响。实际上，虽然可以观察到订单的到达过程，却不知道参数，而这些参数可以通过订单流数据估计得到。接下来将介绍这一问题。
 
 ## 似然函数
 
@@ -206,16 +206,16 @@ $$
 
 从公式(12)、(13)、(14)可以看出，对于给定的时间 T，买卖单的数量(B,S)是充分统计量。因此，要估计交易过程中的买卖单到达率，只需要考虑任意交易日内的买单总数B与卖单总数 S。
 
-以三种类型交易日的发生概率为权数，对公式(12)、(13)、(14)加权平均，计算未知类型交易日内到达 B 个卖单和 S 个卖单的可能性。已知交易日当天无消息、出现利空消息、出现利好消息的概率分别为 $1-\alpha_{\cdot}\ \alpha\delta_{\cdot}\ \alpha(1-\delta)$ ，则似然函数为：
+以三种类型交易日的发生概率为权数，对公式(12)、(13)、(14)加权平均，计算未知类型交易日内到达 B 个卖单和 S 个卖单的可能性。已知交易日当天无消息、出现利空消息、出现利好消息的概率分别为 $1-\alpha、\alpha\delta、\alpha(1-\delta)$ ，则似然函数为：
 
 $$
-\begin{array}{l}{{\displaystyle\mathrm{L}\big((\mathrm{B},\mathrm{S})\big|\theta\big)=(1-\alpha)*e^{-\varepsilon T}\frac{(\varepsilon T)^{B}}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^{S}}{S!}\ }}\\{~+\alpha\delta*e^{-\varepsilon T}\frac{(\varepsilon T)^{B}}{B!}e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^{S}}{S!}\ ~}\\{~+\alpha(1-\delta)*e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^{B}}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^{S}}{S!}}\end{array}\tag{15}
+\begin{aligned}\mathrm{L}\big((\mathrm{B},&\mathrm{S})\big|\boldsymbol{\theta}\big)=(1-\alpha)*e^{-\varepsilon T}\frac{(\varepsilon T)^B}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^S}{S!}\\&+\alpha\delta*e^{-\varepsilon T}\frac{(\varepsilon T)^B}{B!}e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^S}{S!}\\&+\alpha(1-\delta)*e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^B}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^S}{S!}\end{aligned}\tag{15}
 $$
 
-对于任意给定的交易日，信息事件参数α和δ的最大似然估计值是 0或1，表明一天至多发生一次信息事件。而在数天内，这些参数可以根据日内买卖单的数量估计得到。因此，在模型中，使用日内数据估计交易者的选择概率，使用日间数据估计信息事件参数。由于交易日之间相互独立，在 I天内观测到订单量 $\mathsf{M}=(B_{i},S_{i})_{i=1}^{I}$ 的可能性等于每日可能性的乘积：
+对于任意给定的交易日，信息事件参数α和δ的最大似然估计值是 0或1，表明一天至多发生一次信息事件。而在数天内，这些参数可以根据日内买卖单的数量估计得到。因此，在模型中，使用日内数据估计交易者的选择概率，使用日间数据估计信息事件参数。由于交易日之间相互独立，在 I天内观测到订单量 $\mathbb{M}=(B_{i},S_{i})_{i=1}^{I}$ 的可能性等于每日可能性的乘积：
 
 $$
-\mathrm{L}(\boldsymbol{\mathrm{M}}|\boldsymbol{\Theta})=\prod_{i=1}^{I}L(\boldsymbol{\theta}|B_{i},S_{i})\tag{16}
+\mathrm{L}(\mathsf{M}|\boldsymbol{\theta})=\prod_{i=1}^{I}L(\boldsymbol{\theta}|B_{i},S_{i}),\tag{16}
 $$
 
 为了从数据集 M 中估计参数向量θ，将公式(16)定义的似然函数最大化，以直接估计对于特定股票，知情交易和非知情交易的比率，以及与该股票紧密相关的信息事件结构。
@@ -380,13 +380,13 @@ $$
 回到公式(11)中的开盘价差，其中好消息与坏消息近似等概率出现，与实证结果一致。因此，第i 个交易日的开盘价差可以表示为：
 
 $$
-\Sigma=\left[\overline{{V}}_{i}-\underline{{V}}_{i}\right]\mathrm{PI}\tag{18}
+\Sigma=\big[\overline{{V}}_{i}-\underline{{V}}_{i}\big]\mathrm{PI}\tag{18}
 $$
 
 其中，括号内是资产的报价范围，右边是知情交易者参与开盘交易的概率。假设股票的报价范围是股价的线性函数，表示为 V，则开盘价差可以重新表示为：
 
 $$
-\Sigma=\boldsymbol{\beta}_{1}\cdot\boldsymbol{V}\cdot\mathsf{PI}\tag{19}
+\Sigma=\beta_{1}\cdot V\cdot\mathrm{PI}\tag{19}
 $$
 
 $\beta_{1}$ 是比例系数。从公式(19)可以直接看出，股票的买卖价差正比于发生知情交易的概率。
@@ -419,7 +419,7 @@ $$
 
 资料来源：《Liquidity, information, and infrequently traded stocks》、招商证券定量组整理
 
-接下来分析回归中每个变量的单独解释力。首先令V* PI的系数 $\beta_{1}$ 为 $^{0,}$ ，单独看成交量在确定价差中的作用，结果如表 4 第 2 列所示。价差对成交量的回归系数如预期为负，但不具有统计意义；此外，这一受约束回归的 $R^{2}$ 仅为 4.02%，说明成交量单独没有太大解释力。然后令成交量系数 $\beta_{2}$ 为 0，分析信息变量的影响，结果如表 4 第 3 列所示。知情交易概率的系数仍然显著为正，R2为 41.34，F值为 63.7，与模型的结论一致。至少在作者的样本中，知情交易概率比成交量对价差有更好的预测作用。结合前面的分析，说明对于不同成交量的股票，其知情交易差异至少可以部分地解释价差差异。
+接下来分析回归中每个变量的单独解释力。首先令V* PI的系数 $\beta_{1}$ 为 $0,$ ，单独看成交量在确定价差中的作用，结果如表 4 第 2 列所示。价差对成交量的回归系数如预期为负，但不具有统计意义；此外，这一受约束回归的 $R^{2}$ 仅为 4.02%，说明成交量单独没有太大解释力。然后令成交量系数 $\cdot\beta_{2}$ 为 0，分析信息变量的影响，结果如表 4 第 3 列所示。知情交易概率的系数仍然显著为正，R2为 41.34，F值为 63.7，与模型的结论一致。至少在作者的样本中，知情交易概率比成交量对价差有更好的预测作用。结合前面的分析，说明对于不同成交量的股票，其知情交易差异至少可以部分地解释价差差异。
 
 ## 原文结论
 

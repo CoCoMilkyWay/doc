@@ -66,7 +66,7 @@ leiyun@orientsec.com.cn
 1. 样本协方差矩阵：在资产收益率多元正态分布的假定下，样本协方差矩阵是总体协方差矩阵的无偏估计量。当投资组合中有 N 个资产时，需要估计的波动率个数为 N，需要估计的协方差个数为 N(N-1)/2。样本协方差的矩阵化表达式如下：
 
 $$
-\mathsf{S}=\frac{1}{T}\sum_{t=1}^{T}X_{t}X_{t}^{\prime}
+S=\frac{1}{T}\sum_{t=1}^{T}X_{t}X_{t}^{\prime}
 $$
 
 其中 $X_{t}$ 是包含所有股票在时刻 t 收益率的 N×1 的列向量。然而，除了需要估计的参数个数过多以外，样本协方差矩阵的致命弱点是当资产个数 N 大于样本个数 T 时，样本协方差矩阵成为奇异矩阵，直观而言，就是我们可以找到一组特定的权重，使得以该权重构建的组合波动率为 0，然而这明显是违背现实情况的。与此同时，在 Markowitz 均值方差优化过程中，优化器会放大样本协方差矩阵的估计误差：优化器会给予那些表面上风险较小的股票过高的权重并且给予表面上风险较大的股票过低的权重。具体讨论可以参考 Michaud(1989)文章中提到的Error maximization 问题。
@@ -74,15 +74,15 @@ $$
 2. 基本面因子模型：目前较为主流的风险模型当属这一类，而且市场上有非常成熟的商业化解决方案（MSCI Barra, Axioma, Northfield）。在基本面因子模型中，股票收益的系统性风险部分能够被一组公共的因子所解释。而这些因子通常由行业因子和风格因子所组成:
 
 $$
-\mathrm{r}_{t,i}=\alpha_{i}+\beta_{i,1}^{t}f_{t,1}+\beta_{i,2}^{t}f_{t,2}+\beta_{i,3}^{t}f_{t,3}+\cdots+\beta_{i,K}^{t}f_{t,K}+\varepsilon_{t,i}
+\mathbf{r}_{t,i}=\alpha_{i}+\beta^{t}_{i,1}f_{t,1}+\beta^{t}_{i,2}f_{t,2}+\beta^{t}_{i,3}f_{t,3}+\cdots+\beta^{t}_{i,K}f_{t,K}+\varepsilon_{t,i}
 $$
 
-其中， $\Gamma_{t,i}$ 是第 i 只股票在期间 t 的收益率， $\beta_{i,K}^{t}$ 是期间 t 开始时股票 i 在第 k 个因子上的暴露，$f_{t,{\bf k}}$ 是第 k个因子在期间 t的收益率, $\varepsilon_{t,i}$ 是第 i只股票在期间 t的残差收益率.
+其中， $\mathbf{r}_{t,i}$ 是第 i 只股票在期间 t 的收益率， $\beta_{i,K}^{t}$ 是期间 t 开始时股票 i 在第 k 个因子上的暴露，$f_{t,\mathbf{k}}$ 是第 k个因子在期间 t的收益率, $\varepsilon_{t,i}$ 是第 i只股票在期间 t的残差收益率.
 
 假定每只股票的残差收益率和公共因子收益率不相关并且每只股票的残差收益率也不相关的情况下，股票组合的协方差矩阵可以表示如下：
 
 $$
-\mathsf{S}=\mathsf{BF}B^{\prime}+E
+S=\mathrm{BF}B'+E
 $$
 
 其中 B 是 N 个股票在 K 个公共风险因子的上的因子暴露矩阵(N×K), F 是 K 个公共因子收益率的协方差矩阵(K×K)，E 是 N 个股票的残差收益率方差矩阵(N×N)。在基本面因子模型中，我们已知每期 N 个股票在 K 个因子上的暴露，通过加权最小二乘法(WLS)进行横截面回归就可以得到 K 个因子当期的因子收益率。再通过计算因子收益率之间的样本协方差矩阵就可以间接得到组合的协方差矩阵。基本面因子模型通过一组公共的因子来捕捉市场股票的波动，降低了需要估计的参数的数量，同时在一定程度上避开了股票历史价格波动带来的噪音。
@@ -105,21 +105,21 @@ $$
 \Sigma_{shrink}=(1-\beta)F+\beta S
 $$
 
-其中 S是样本协方差矩阵，F是一个高度结构化的风险模型， 称为压缩强度(Shrink Intensity), 是一个取值在 0 到 1 之间的参数。样本协方差的压缩估计量 $\mathbf{\nabla}\cdot\sum_{s\mathrm{hrink}}$ 则是 F 和 S 的凸线性组合。
+其中 S是样本协方差矩阵，F是一个高度结构化的风险模型， 称为压缩强度(Shrink Intensity), 是一个取值在 0 到 1 之间的参数。样本协方差的压缩估计量 $\mathbf{\Sigma_{\mathrm{shrink}}}$ 则是 F 和 S 的凸线性组合。
 
 接下来的问题就是选择 F 作为压缩目标(Shrink Target)和最优的压缩强度(Shrink Intensity). 我们按照 Ledoit and Wolf(2003) 提出的方法，采用固定相关系数模型(constant correlation model)作为压缩目标 F。该模型假定每对股票之间的相关系数相等，用所有样本相关系数的平均值作为任意两只股票之间的相关系数的估计量。矩阵 F的结构如下：
 
 $$
-\begin{array}{l}{f_{ii}=\sigma_{i}^{2}}\\{f_{ij}=\overline{{\rho}}\sigma_{i}\sigma_{j}}\\{\overline{{\rho}}=\displaystyle\frac{2}{(N-1)N}\displaystyle\sum_{i=1}^{N-1}\sum_{j=i+1}^{N}\frac{Co\nu(r_{i},r_{j})}{\sigma_{i}\sigma_{j}}}\end{array}
+\begin{aligned}f_{_{ii}}&=\sigma_{_i}^{^2}\\f_{_{ij}}&=\overline{\rho}\sigma_{_i}\sigma_{_j}\\\overline{\rho}&=\frac{2}{(N-1)N}\sum_{_{i=1}}^{^{N-1}}\sum_{_{j=i+1}}^{^{N}}\frac{Cov(r_{_i},r_{_j})}{\sigma_{_i}\sigma_{_j}}\end{aligned}
 $$
 
 其中 $f_{ii}$ 是矩阵 F 的对角元素， $f_{ij}$ 是矩阵 F 的非对角元素， $\sigma_{i}$ 是第 i 只股票的样本方差 。接下来，我们的目标是找到一个最优的参数 ，使得如下的二次损失函数期望值最小化：
 
 $$
-L(\beta)=\left\|(1-\beta)F+\beta S-\Sigma\right\|^{2}
+L(\beta)=\left\|(1-\beta)F+\beta S-\Sigma\right\|^2
 $$
 
-关于如何得到最优的参数 $\beta$ ，由于篇幅限制本文将不做详细推导，具体可以参考 Ledoit andWolf(2003)。下面只是简要介绍最优参数 $\beta$ 背后的逻辑。为了方便解释，我们假定 F 的非对角元素 $f_{ij}^{\mathrm{~~}}=0$ ,对角元素 $f_{ii}=\frac{1}{N}\sum_{i}^{N}\sigma_{i}^{2}$ . 这样，压缩目标 F可以写成 $\overline{{\sigma}}I$ . 最优的压缩强度被证明可以写成如下形式：
+关于如何得到最优的参数 $\beta$ ，由于篇幅限制本文将不做详细推导，具体可以参考 Ledoit andWolf(2003)。下面只是简要介绍最优参数 $\beta$ 背后的逻辑。为了方便解释，我们假定 F 的非对角元素 $f_{ij}^{\mathrm{~~}}{=}0$ ,对角元素 $f_{ii}=\frac{1}{N}\sum_{i}^{N}\sigma_{i}^{2}$ . 这样，压缩目标 F可以写成 $\overline{{\sigma}}I$ . 最优的压缩强度被证明可以写成如下形式：
 
 $$
 \beta=\frac{\delta^{2}}{\omega^{2}+\delta^{2}}
@@ -130,27 +130,27 @@ $$
 直观来看，当 $\omega^{2}$ 趋近于 0 时， $\beta$ 趋近于 1，说明当样本协方差的估计误差越小时压缩估计量更大的权重放在了样本协方差矩阵上。当 $\delta^{2}$ 趋近于 0 时， $\beta$ 趋近于 0 ，说明当压缩目标的模型设定偏误越小时，压缩估计量更大的权重放在压缩目标上。 这也符合我们最初的预期。由于真实的协方差矩阵是未知的，我们需要对这两个参数进行估计。我们定义 $\omega^{2}$ 为样本协方差矩阵和真实协方差矩阵之间的距离（Frobenius 范数）
 
 $$
-\omega^{2}=E[\left.S-\Sigma\right.^{2}]
+\omega^{2}=E[\left\|S-\Sigma\right\|^{2}]
 $$
 
 利用横截面的信息，我们可以得到 $\omega^{2}$ 的估计量：
 
 $$
-\omega^{2}=\frac{1}{T(T-1)}{\sum_{t=1}^{T}}\bigl\|X_{t}X_{t}^{'}-S\bigr\|^{2}
+\omega^{2}=\frac{1}{T(T-1)}\sum_{t=1}^{T}\left\|X_{t}X_{t}^{'}-S\right\|^{2}
 $$
 
-其中其中 $X_{t}$ 是包含所有股票在时刻 t收益率的 ${\mathsf{N}}\times1$ 的列向量。
+其中其中 $X_{t}$ 是包含所有股票在时刻 t收益率的 $\mathbb{N}\times1$ 的列向量。
 
 类似的，我们定义 $\delta^{2}$ 为压缩目标 F 与真实协方差之间的距离：
 
 $$
-\delta^{2}=\left\|\Sigma-F\right\|^{2}
+\delta^{2}=\left\|\boldsymbol{\Sigma}-\boldsymbol{F}\right\|^{2}
 $$
 
 然后通过如下的分解：
 
 $$
-\begin{array}{rl}&{E[\left.S-F\right.^{2}]=E[\left.S-\Sigma+\Sigma-F\right.^{2}]}\\&{\qquad=E[\left.S-\Sigma\right.^{2}]+\left.\Sigma-F\right.^{2}}\\&{\qquad=\omega^{2}+\delta^{2}}\end{array}
+\begin{aligned}E[\left\|S-F\right\|^2]&=E[\left\|S-\Sigma+\Sigma-F\right\|^2]\\&=E[\left\|S-\Sigma\right\|^2]+\left\|\Sigma-F\right\|^2\\&=\omega^2+\boldsymbol{\delta}^2\end{aligned}
 $$
 
 这样，我们就可以间接地得到 $\delta^{2}$ 的估计量：
@@ -162,7 +162,7 @@ $$
 整理后就可以得到 $\beta$ 的估计量：
 
 $$
-\beta=1-{\frac{1}{T(T-1)}}{\frac{\sum_{t=1}^{T}\left\|X_{t}X_{t}^{'}-S\right\|^{2}}{\left\|S-{\overline{{\sigma}}}I\right\|^{2}}}
+\beta=1-\frac{1}{T(T-1)}\frac{\sum\limits_{t=1}^{T}\left\|X_{t}X_{t}^{'}-S\right\|^{2}}{\left\|S-\overline{\sigma}I\right\|^{2}}
 $$
 
 协方差矩阵的压缩估计量为：
@@ -219,7 +219,7 @@ $$
 由于本文的重点放在风险模型构建和投资组合优化上，简单起见，我们只采用单个因子过去 24 个月滚动 IR进行加权，得到合成的因子值。各个因子的权重具体为：
 
 $$
-w=[w_{1},w_{2},...,w_{k}]=[\frac{E[IC_{1}]}{std(IC_{1})},\frac{E[IC_{1}]}{std(IC_{1})},...,\frac{E[IC_{k}]}{std(IC_{k})}]
+w=[w_1,w_2,\ldots,w_k]=[\frac{E[IC_1]}{std(IC_1)},\frac{E[IC_1]}{std(IC_1)},\ldots,\frac{E[IC_k]}{std(IC_k)}]
 $$
 
 ## 1.4 交易成本模型的构建
@@ -229,7 +229,7 @@ $$
 交易成本通常可以分为固定成本和可变成本。固定成本包括交易佣金，印花税和买卖价差(bid-askspread)。可变成本则包括冲击成本和机会成本。由固定成本的定义可知，固定成本与组合的权重变化的绝对值成线性关系，可以表示成如下：
 
 $$
-c(\Delta w)=\tau^{\prime}\big|\Delta w\big|
+c(\Delta w)=\tau^{\prime}\left|\Delta w\right|
 $$
 
 对于不同的股票， 可以取不同的值。虽然交易佣金和印花税是相同的，但是流动性不同的股票买卖价差区别也通常较大。
@@ -242,9 +242,9 @@ $$
 
 在估计出参数以后，我们就可以把交易成本嵌入到优化的目标函数中。由于参数的估计需要涉及到高频的数据，在本文的实证分析中只采用如下固定交易成本的简化假定：
 
-1. 买入交易成本 1.8‰（佣金 0.8‰ + 冲击成本 $1.0\text{‰}$ ，卖出交易成本 2.8‰（佣金 0.8‰ + 印花税 1.0‰ + 冲击成本 1.0‰）
+1. 买入交易成本 1.8‰（佣金 0.8‰ + 冲击成本 $1.0\%$ ，卖出交易成本 2.8‰（佣金 0.8‰ + 印花税 1.0‰ + 冲击成本 1.0‰）
 
-2. 假定每次买入金额等于卖出金额，参数 $\tau=0.5*\ (2.8\%+1.8\%)\ =2.4\%$
+2. 假定每次买入金额等于卖出金额，参数 $\tau=0.5^{\circ}\left(2.8\%+1.8\%\right)=2.4\%$
 
 我们将在后期对 A股交易的冲击成本作进一步研究。
 
@@ -257,17 +257,17 @@ $$
 我们采用经过风险和交易成本调整后的 alpha作为优化的目标函数：
 
 $$
-\begin{array}{rl}{Max_{_w}}&{\alpha^{\prime}w-\mu w^{\prime}\Sigma w-\lambda\tau^{\prime}\big|w-w_{0}\big|}\\{s.t.}&{\mathrm{R^{\prime}}w=R^{\prime}w_{bench}}\\&{\mathrm{\bf1^{\prime}}w=1}\\&{0\leq w_{i}\leq\operatorname*{min}(\operatorname*{maxposition},w_{0,i}+\operatorname*{maxtradesize}_{i}/booksize_{_i})}\end{array}
+\begin{aligned}Max_{w}&\quad\alpha^{\prime}w-\mu w^{\prime}\Sigma w-\lambda\tau^{\prime}\left|w-w_{0}\right|\\s.t.\quad&\mathbf{R}^{\prime}w=\mathbf{R}^{\prime}w_{\mathit{bech}}\\&\mathbf{I}^{\prime}w=1\\&0\leq w_{i}\leq\min(\maxposition,w_{0,i}+\maxtradesize_{i}/\mathit{bobsize}_{i})\end{aligned}
 $$
 
-其中 $w_{bench}$ 是基准在时刻 t 的权重， $w_{0}$ 是组合优化前的权重，w是组合优化后的权重，
+其中 $W_{bench}$ 是基准在时刻 t 的权重， $w_{0}$ 是组合优化前的权重，w是组合优化后的权重，
 
-- 是协方差矩阵的压缩估计量， $\mu$ 是风险厌恶参数， 是交易成本参数，用来控制组合的换手率。R 是一个 $n\times\rho$ 的行业虚拟变量矩阵，当股票 i属于行业j时， $\mathbf{R}(\mathrm{i},\mathrm{j})=1$ 。 当股票 i 不属于行业 j时， $\mathsf{R}(\mathrm{i},\mathrm{j}){=}0$ . Maxposition 是单个股票在组合内的权重上限，Maxtradesize 是每次调仓时单个股票的最大买入金额。Booksize 是换仓时刻组合的总资产规模。
+- 是协方差矩阵的压缩估计量， $\mu$ 是风险厌恶参数， 是交易成本参数，用来控制组合的换手率。R 是一个 $n\times\rho$ 的行业虚拟变量矩阵，当股票 i属于行业j时， $\mathrm{R}(\mathbf{i},\mathbf{j})\;=\;1$ 。 当股票 i 不属于行业 j时， $\mathsf{R}(\mathsf{i},\mathsf{j}){=}0$ . Maxposition 是单个股票在组合内的权重上限，Maxtradesize 是每次调仓时单个股票的最大买入金额。Booksize 是换仓时刻组合的总资产规模。
 
 当加上显性跟踪误差约束条件时，优化的目标函数变为：
 
 $$
-\begin{array}{rl}{Max_{_{w}}}&{\alpha^{\prime}w-\lambda\tau^{\prime}|w-w_{0}|}\\{s.t.}&{\mathrm{R^{\prime}}w=R^{\prime}w_{bench}}\\&{(w-w_{bench})^{\prime}\Sigma~(w-w_{bench})\le\displaystyle\frac{TE^{2}}{252}}\\&{\mathbf{1^{\prime}}w=1}\\&{0\le w_{i}\le\operatorname*{min}(\operatorname*{maxposition},w_{0,i}+\operatorname*{maxtradesize}_{i}/bookize_{t})}\end{array}
+\begin{aligned}&Max_{w}\quad\alpha^{\prime}w-\lambda\tau^{\prime}\left|w-w_{0}\right|\\&s.t.\quad\mathbf{R}^{\prime}w=\mathbf{R}^{\prime}w_{bench}\\&\quad\left(w-w_{bench}\right)^{\prime}\Sigma\left(w-w_{bench}\right)\leq\frac{TE^{2}}{252}\\&\quad\mathbf{I}^{\prime}w=1\\&\quad0\leq w_{i}\leq\min(\mathrm{maxposition},w_{0,i}+\mathrm{maxtradesize}_{i}/\mathrm{bossize}_{i})\\\end{aligned}
 $$
 
 其中 TE为预先给定的目标年化跟踪误差
@@ -276,30 +276,30 @@ $$
 
 值得注意的是，当交易成本是组合权重变化的线性函数时，目标函数中出现了绝对值项。这使得该优化问题不能作为标准的二次规划问题求解。如果不对绝对值作处理而直接采用非线性优化器求解，优化器可能找不到可行解或者只能找到局部而非全局最优解。我们给如下方法解决绝对值的问题：
 
-1. 变量代换。 定义 $\boldsymbol{w}_{B}=\operatorname*{max}(\boldsymbol{w}-\boldsymbol{w}_{0},0),\boldsymbol{w}_{S}=\operatorname*{max}(\boldsymbol{w}_{0}-\boldsymbol{w},0)$ . 其中 $w_{B}$ 是买入而增加的权重，$w_{s}$ 是卖出而减少的权重，并且 $w_{\scriptscriptstyle B}\geq0\bar{\ast}\jmath w_{\scriptscriptstyle S}\geq0$ 然后就有 $w=w_{0}+w_{B}-w_{S}$ .这样我们就可以把绝对值项转化为： $\left|w-w_{0}\right|=w_{B}+w_{S}$
+1. 变量代换。 定义 $w_{B}=\max(w-w_{0},0),w_{S}=\max(w_{0}-w,0)$ . 其中 $w_{B}$ 是买入而增加的权重，$w_{s}$ 是卖出而减少的权重，并且 $w_{B}\geq0和w_{S}\geq0$ 然后就有 $w=w_{0}+w_{B}-w_{S}$ .这样我们就可以把绝对值项转化为： $\left|w-w_{0}\right|=w_{B}+w_{S}$
 
 相应的，优化的目标向量转换为:
 
 $$
-W={\binom{w_{B}}{w_{S}}}
+W=\begin{pmatrix}w_{_B}\\w_{_S}\end{pmatrix}
 $$
 
 这样，原来的问题就转化成一个标准的二次规划问题，代价是优化变量的个数增加了一倍；2. 分阶段优化。 我们首先求解不带交易成本项的二次规划问题：
 
 $$
-Max_{_w}\alpha^{\prime}w-\mu w^{\prime}\Sigma w
+\mathrm{Max}_{w}\alpha^{\prime}w-\mu w^{\prime}\Sigma w
 $$
 
 其中约束条件仍然保持不变。得到上述问题的解 $w^{*}$ 后，重新定义交易成本向量 $\tau$
 
 $$
-\tau_{i}^{*}=\left\{\tau_{i},ifw_{i}^{*}>w_{0,i}\right.
+\tau_{i}^{*}=\left\{\begin{aligned}\tau_{i},&ifw_{i}^{*}>w_{0,i}\\-\tau_{i},&ifw_{i}^{*}<w_{0,i}\end{aligned}\right.
 $$
 
 这样，我们通过第一次优化结果判断具体应该购买哪些股票和出售哪些股票，然后用新的交易成本向量 $\tau^{*}$ 替换 ，并求解如下问题：
 
 $$
-\begin{array}{rl}{Max_{w}}&{\alpha^{\prime}w-\mu w^{\prime}\Sigma w-\lambda{\tau^{*}}\big(w-w_{0}\big)}\\{s.t.}&{\mathrm{R}^{\prime}w=R^{\prime}w_{bench}}\\&{\mathbf{1}^{\prime}w=1}\\&{0\leq w_{i}<w_{0,i},if{\tau_{i}^{*}}<0}\\&{w_{0,i}<w_{i}\leq\operatorname*{maxposition},if{\tau_{i}^{*}}>0}\end{array}
+\begin{aligned}&Max_{w}\quad\alpha^{\prime}w-\mu w^{\prime}\Sigma w-\lambda\tau^{*^{\prime}}\left(w-w_{0}\right)\\&s.t.\quad\mathbf{R}^{\prime}w=R^{\prime}w_{k\mathit{ench}}\\&\quad\mathbf{1}^{\prime}w=1\\&\quad0\leq w_{i}<w_{0,i},if\tau_{i}^{*}<0\\&\quad w_{0,i}<w_{i}\leq\maxposition,if\tau_{i}^{*}>0\\\end{aligned}
 $$
 
 上述问题的解就是我们最终需要的结果。这样一来，原来的优化问题转化成两个标准的二次规划问题，代价是需要优化两次。由于本文实证检验中最优化问题的规模较大，股票个数可能超过 2000，采用第一种方法时会产生严重的性能问题。综合考虑计算性能和结果，本文考虑采用第二种处理方法。
@@ -331,7 +331,7 @@ b. 每月末的中证全指成分股
 7） 每月利用过去 252个交易日的收益率重新计算协方差矩阵的压缩估计量，更新风险矩阵•我们采用不带显性跟踪误差约束条件的优化函数，在对基准保持行业中性的同时，最大化经过风险和交易成本调整后的 alpha. 优化问题具体设置如下：
 
 $$
-\begin{array}{rl}{Max_{_w}}&{\alpha^{\prime}w-\mu w^{\prime}\Sigma w-\lambda\tau^{\prime}\big|w-w_{0}\big|}\\{s.t.}&{\mathrm{R}^{\prime}w=R^{\prime}w_{bench}}\\&{\mathrm{\ }\mathbf{1}^{\prime}w=1}\\&{0\leq w_{i}\leq\operatorname*{min}(1.5\%,w_{0,i}+20\%ADTV_{i}/booksize_{t})}\end{array}
+\begin{aligned}&Max_{_w}\alpha^{\prime}w-\mu w^{\prime}\Sigma w-\lambda\tau^{\prime}\left|w-w_{_0}\right|\\&s.t.\quad\mathbf{R}^{\prime}w=R^{\prime}w_{_{bench}}\\&\quad\mathbf{I}^{\prime}w=1\\&\quad0\leq w_{_i}\leq\min(1.5\%,w_{_{0,i}}+20\%ADTV_{_i}/booksize_{_t})\\\end{aligned}
 $$
 
 当回测的股票池为中证 500 成分股时，策略结果如下：
@@ -452,7 +452,7 @@ $$
 相比于主动投资基金，指数增强基金更为关注的是组合的跟踪误差。基金经理的投资目标是满足目标最大年化跟踪误差基础上获得相对基准最大的超额收益。从前面的实证分析结果可以知道，当组合相对基准保持行业中性时，在正常年份组合的年化跟踪误差能够保持在 5%到 6%左右，而在 2015年这样的极端年份，跟踪误差可能放大到 10%以上。据我们了解，目前国内指数增强基金的目标年化跟踪误差大多在 7%到 8%之间。在保持行业中性的限制下，组合的实际跟踪误差在大多数情况可以控制在目标跟踪误差内。我们考虑能否在约束条件中加上跟踪误差的上限，更加精确地控制跟踪误差。因此，我们考虑如下带跟踪误差约束条件的优化问题：
 
 $$
-\begin{array}{rl}{Max_{w}}&{\alpha^{\prime}w}\\{s.t.}&{\mathrm{R}^{\prime}w=R^{\prime}w_{bench}}\\&{(w-w_{benck})^{\prime}\Sigma~(w-w_{bench})\le\displaystyle\frac{TE^{2}}{252}}\\&{\mathrm{\bf1}^{\prime}w=1}\\&{\displaystyle\sum_{i\in L}w_{i}\ge0.8}\\&{0\le w_{i}\le\operatorname*{min}(1.5\%w_{0,i}+209GADTV_{i}/book{size_{i}})}\end{array}
+\begin{aligned}&Max_{_w}\quad\alpha^{\prime}w\\&s.t.\quad\mathbf{R}^{\prime}w=R^{\prime}w_{_{bench}}\\&\quad(w-w_{_{bench}})^{\prime}\Sigma(w-w_{_{bench}})\leq\frac{TE^{2}}{252}\\&\quad\mathbf{1}^{\prime}w=1\\&\sum_{i\in L}w_{i}\geq0.8\\&\quad0\leq w_{i}\leq\min(1.5\%,w_{_{0,i}}+20\%ADTV_{_i}/booksize_{_t})\\\end{aligned}
 $$
 
 优化的相关参数设置如下：

@@ -171,7 +171,7 @@ Andrew（2014）将因子定义为“长期来看具有高收益的投资风格�
 Ang & Ulrich(2012) 从学术角度介绍了一种基于宏观因子的投资模型。他们从决定美国联邦基金利率（The Fed Funds Rate）的公式出发，考虑了通货膨胀和经济增长对实际债券（Real Bonds）、名义债券（Nominal Bonds）和股票（Equity）的决定作用。联邦基金利率（名义短期利率）被认为是当前总产出缺口（Output Gap）、通货膨胀预期（Inflation Expectation）以及货币政策冲击(Monetary Policy Shock)的线性函数。在给定期限下，股票资产的预期收益被分解为实际短期利率（Real Short Rate）、实际久期风险溢价（Real Duration Premium）、通胀风险溢价（Inflation Risk Premium）、预期通胀（Expected Inflation）以及实际现金流风险溢价（Real Cashflow Risk Premium）之和：
 
 图 4 Ang & Ulrich(2012)对股票预期收益率的分解
-$\mathrm{E}_{t}[R_{t}^{E,\mathbb{S}}(k)]=\mathrm{E}_{t}[R_{t}^{E,r}(k)]+\mathrm{E}_{t}[\pi_{t}(k)]$ Total equity return 
+$\mathrm{E}_{t}[R_{t}^{E,\S}(k)]=\mathrm{E}_{t}[R_{t}^{E,r}(k)]+\mathrm{E}_{t}[\pi_{t}(k)]$ Total equity return 
 rt Real short rate, rt 
 (yt(k) − rt) Real duration premium, DPt(k) 
 + Inflation risk premium, I RPt(k) 
@@ -483,18 +483,18 @@ Ananth et al. (2017) 基于 Barra 股票风险模型给出了一个用纯多头�
 Ananth et al. (2017) 的研究指出，美国市场主流的市值加权指数可以有效地被2 个或3个因子指数所复制。通过这样的方法，资产管理人可以非常容易地将现有对市场指数的配置方案应用到相应的因子投资组合上，在不改变原有大类资产配置比例的同时获得稳定配置风格因子带来的风险收益表现的提升。利用前文所构建的因子组合，我们在2010年至 2018 年的每个季度末，通过最小化跟踪误差的方法对沪深 300 指数和中证 500 指数进行了“复制”。具体来说，在每个季末的时间截面上，我们对如下的优化问题进行求解：
 
 $$
-\begin{array}{l}{\operatorname*{min}w^{T}\Sigma w}\\{s.t.\Sigma=F_{active}\Sigma_{f}F_{active}^{T}}\\{w^{T}I=1}\\{w\geq0}\end{array}
+\begin{aligned}&\min w^{T}\Sigma w\\&s.t.\Sigma=F_{active}\Sigma_{f}F_{active}^{T}\\&w^{T}I=1\\&w\geq0\\\end{aligned}
 $$
 
-其中， 为各风格因子组合的权重向量， 为各风格因子相对被复制指数的主动风险暴露所形成的方差协方差矩阵，以 $\Sigma=F_{acti\nu e}\Sigma_{f}F_{acti\nu e}^{T}$ 进行计算。 $F_{active}$ 为各风格因子组合相对被复制指数的主动风险暴露矩阵， $\Sigma_{f}$ 为风险因子间的方差协方差矩阵。
+其中， 为各风格因子组合的权重向量， 为各风格因子相对被复制指数的主动风险暴露所形成的方差协方差矩阵，以 $\Sigma=F_{active}\Sigma_{f}F_{active}^{T}$ 进行计算。 $F_{active}$ 为各风格因子组合相对被复制指数的主动风险暴露矩阵， $\Sigma_{f}$ 为风险因子间的方差协方差矩阵。
 
 为了便于理解，上面的最小化问题可以等价于求解如下的优化问题：
 
 $$
-\begin{array}{rl}&{\operatorname*{min}(F_{active}^{T}w)^{T}\Sigma_{f}F_{active}^{T}w}\\&{s.t.w^{T}I=1}\\&{w\geq0}\end{array}
+\begin{aligned}&\min(F_{active}^{T}w)^{T}\Sigma_{f}F_{active}^{T}w\\&s.t.w^{T}I=1\\&w\geq0\\\end{aligned}
 $$
 
-其中， $F_{active}^{T}w$ 为整体组合相对被复制指数在各风险因子上的主动风险暴露的向量，整个优化问题也就等价于最小化由于主动暴露风险因子带来的跟踪误差。
+其中， $\cdot F_{active}^{T}w$ 为整体组合相对被复制指数在各风险因子上的主动风险暴露的向量，整个优化问题也就等价于最小化由于主动暴露风险因子带来的跟踪误差。
 
 利用所构建的风格因子组合对沪深300指数和中证500指数的复制效果如下表所示。其中，复制沪深300组合的效果较好，年化跟踪误差为 3.74%，年化超额收益达到 6.11%，IR 1.63，年化换手率 309%，月胜率70.40%。对中证500指数的复制效果稍差，年化跟踪误差为 6.32%，年化超额收益率 2.89%，IR 0.46，年化换手率 140%，月胜率 55.10%。
 
@@ -591,7 +591,7 @@ $$
 （2） 将样本股的各个指标的Z-score值按照其对应的风格方向等权相加，再在行业内进行标准化和三倍标准差的缩尾处理，得到各样本股对应的得分（Z）。然后，将各样本股的得分进行如下变换，得到最终的因子得分：
 
 $$
-{\mathrm{Final~Score}}=\left\{{\frac{1+Z}{1-Z}}\ Z\geq0\right.
+\operatorname{Final\:Score}=\left\{\begin{aligned}{}&{{}1+Z}&{Z\geq0,}\\{}&{{}\frac{1}{1-Z}}&{Z<0.}\end{aligned}\right.
 $$
 
 （3） 在每个行业内，选取因子得分最高的一个股票进入组合。再将剩余样本股按照因子得分进行排序，得分高者进入组合，直到股票个数达到200。

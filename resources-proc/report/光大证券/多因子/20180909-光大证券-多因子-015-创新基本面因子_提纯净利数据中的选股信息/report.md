@@ -108,7 +108,7 @@ hujicong@ebscn.com
 通过构造不同财务数据间的滚动线性回归模型：
 
 $$
-\begin{array}{c}{{Funda_{Y}=\beta_{\alpha}+\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+\cdots+}}\\{{\beta_{X}*Funda_{X}+\varepsilon\#(1)}}\end{array}
+\begin{array}{c}Funda_{Y}=\beta_{\alpha}+\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+\cdots+\\\beta_{X}*Funda_{X}+\varepsilon\#(1)\end{array}
 $$
 
 或者，更常用的简化形式，仅考虑两个不同财务数据间的简单线性回归：
@@ -140,7 +140,7 @@ $$
 将净利润时间序列作为 Y值，将其它一些能影响到净利润数值的财务数据作为解释变量，通过滚动线性回归的方式，我们可以找出净利润数据中大概率能被解释变量以线性方式解释的那部分，那么回归后最近一期的残差就可以认为是剔除相关噪音后更纯化的信息。
 
 $$
-Net\_Profit=\beta_{\alpha}+\beta_{X}*Funda_{X}+\varepsilon\#(3)
+Net_{-}Profit=\beta_{\alpha}+\beta_{X}*Funda_{X}+\varepsilon\#(3)
 $$
 
 这里需要注意的是，不少财务数据与净利润的关系更偏向于非线性的关系，那么这种噪音项我们是无法通过我们线性研究框架来处理的；我们只能找到大概率是与利润有线性关系的财务数据引入的噪音信息。
@@ -206,10 +206,10 @@ $$
 
 ## 2.2、处理财务数据共线性与多元回归下的提纯效果
 
-观察上述近 50 个净利润相关因子之间的相关系数矩阵，会发现大部分因子之间的 IC相关系数高达 0.7以上，因此单纯地把这些解释变量全部放在一起进行多元回归并不合适，因此我们首先通过聚类的方式挑选从 IC 序列角度来看大概率涵盖不同解释信息的解释变量。从聚类的树状图，我们挑选出 4 个从 IC 序列里体现出明显不同的解释变量：营业外收入 $.(Funda_{A})$ ，非流动资产处置净损失 $(Funda_{B})$ ，取得投资收益收到的现金 $(Funda_{C})$ ，处置固定资产、无形资产和其它长期资产收回的现金净额 $(Funda_{D})$ 0
+观察上述近 50 个净利润相关因子之间的相关系数矩阵，会发现大部分因子之间的 IC相关系数高达 0.7以上，因此单纯地把这些解释变量全部放在一起进行多元回归并不合适，因此我们首先通过聚类的方式挑选从 IC 序列角度来看大概率涵盖不同解释信息的解释变量。从聚类的树状图，我们挑选出 4 个从 IC 序列里体现出明显不同的解释变量：营业外收入 $(Funda_{A})$ ，非流动资产处置净损失 $(Funda_{B})$ ，取得投资收益收到的现金 $(Funda_{C})$ ，处置固定资产、无形资产和其它长期资产收回的现金净额 $(Funda_{D})$ 0
 
 $$
-\begin{array}{c}{{Net\_Profit=\beta_{\alpha}+\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+}}\\{{\beta_{D}*Funda_{D}+\varepsilon\#(4)}}\end{array}
+\begin{aligned}Net\_Profit=\beta_{\alpha}+\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+\\\beta_{D}*Funda_{D}+\varepsilon\#(4)\end{aligned}
 $$
 
 图1：按净利润相关因子 IC序列聚类的树状图
@@ -299,7 +299,7 @@ $$
 - 截面标准化处理：通过横截面 z-score方法，以每个时间截面t上的所有股票的为样本，分别计算其均值和标准差得到如下所示 stand(factor)。此标准化方式属于因子的线性变换，并不会改变原始因子的分步特征。
 
 $$
-s\mathrm{tand}(factor)_{jt}=\frac{factor_{jt}-\overline{{factor_{t}}}}{std(factor)_{t}}\#(5)
+\mathrm{standard}(factor)_{jt}=\frac{factor_{jt}-\overline{factor_{t}}}{std(factor)_{t}}\#(5)
 $$
 
 - 有效性及预测能力检验：我们计算行业中性与市值中性处理后的RankIC（因子值与股票次月收益率的秩相关系数），通过以下几个与IC 值相关的指标来判断因子的有效性和预测能力：IC 值的均值、IC值的标准差、IC 大于0 的比例、IC 绝对值大于0.02 的比例、ICIR。
@@ -546,7 +546,7 @@ LPNP 因子在不同行业内的预测能力差异较大，我们按中信一级
 我们将通过横截面回归取残差的方式，同时剔除上述因子对 LPNP 因子的影响，对所有的因子均做截面标准化和极值处理：
 
 $$
-\begin{array}{c}{{LPNP_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+}}\\{{\beta_{3}*ROE_{i}+\cdots+\varepsilon_{i}\#(6)}}\end{array}
+\begin{array}{c}LPNP_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+\\\beta_{3}*ROE_{i}+\cdots+\varepsilon_{i}\#(6)\end{array}
 $$
 
 对LPNP因子中性化处理后因子的有效性检验等结果仍然十分显著，IC均值为4.28%，IC大于零的比例为 91.2%；而 IR高达 1.27，相比中性化处理之前的 0.87 有明显提升，说明中性化处理起到了信息提纯的作用，使得因子的预测能力与稳定性都得到进一步提升。

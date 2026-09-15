@@ -105,7 +105,7 @@ Barra对模型的表现主要通过如下四个核心指标来评估：
 3. 因子是否存在共线性：因子方差膨胀系数（VIF），通过对每个因子，用其他N个因子进行回归解释来计算各个因子的 VIF，公式如下，其中 R2（i）为第 i个因子被其他所有因子解释的拟合优度。通常认为 VIF（i）小于 5 的模型的解释变量不存在验证的共线性。
 
 $$
-\mathsf{V}\mathsf{IF\mathrm{~\left(~\mathsf{i}~\right)~\mathsf{\Omega}=1~/~\left(~1-R^{2}\mathrm{~\left(~\mathsf{i}~\right)~\mathsf{\Omega}}\right)~}}
+VIF\ (i)\ =1/\ (1-R^2\ (i))
 $$
 
 4. 因子对 A股收益率的整体解释度：调整后拟合优度（AdjTotal R-Square）。这里需要特别强调的是 Barra对调整R-Square是用“非中心化”拟合优度（TotalR-Square）来定义的，而常规计量学中的定义为“中心化”拟合优度（Relative R-Square）。
@@ -222,8 +222,8 @@ Rho = 全市场规模加权指数 1年滚动波动率/个股 1年滚动波动率
 | 2 | Beta | BETA | 1 | 贝塔 | 为股票超额收益日序列和市值加权指数超额收益日序列进行WLS的回归系数，beta表示股票相对于指数涨跌的弹性大小，计算如下： $r_{t}-r_{ft}=\alpha+\beta R_{t}+e_{t}$ 其中rf是无风险收益日序列，rt是股票收益日序列，Rt是市值加权指数（如中证全指、万德全A指数）超额收益日序列，回归系数采取过去252交易日的收益数据，回归权重采用指数加权移动平均，半衰期为63个交易日 |
 | 3 | Momentum | RSTR | 1 | 动量 | 此动量为长期动量减去短期动量，采用指数加权移动平均方法，其中长期动量周期T = 504，短期动量周期L = 21，rf是无风险收益，w(i)是指数加权权重，半衰期为126个交易日 $rstr=\sum_{t=L}^{T+L}w_{t}ln(1+r_{t})-\sum_{t=L}^{T+L}w_{t}ln(1+r_{ft})$ |
 | 4 | ResidualVolatility | DASTD | 0.74 | 超额收益年化波动 | 是过去252个交易日日超额收益率波动率，按照指数加权权重，半衰期为42个交易日 $dastd=\frac{1}{n}\sum_{t=1}^{n}w_{t}(r_{et}-\bar{r_{e}})^{2}$ |
-|  |  | CMRA | 0.16 | 年度超额收益率离差 | CMRA是过去12个月超额收益的离差，也是表征股票收益率的波动大小，Z(T)是过去T个月超额收益对数值得累计值，Z(T)是一个时间序列， ${\textsf{T}}=\ 1,2,3,\cdots,12$ $Z(T)=\sum_{t=1}^{T}[ln(1+r_{t})-ln(1+r_{ft})$ $crma=ln(1+Zmax)-ln(1+Zmin)$ 注：由于实际计算时可能出现 $Zmax<-1或Zmin<-1$ 导致无法进行Iog计算，因此实际测算采用CMRA = Zmax - Zmin进行调整 |
-|  |  | HSIGMA | 0.1 | Beta回归残差年化波动率 | hsigma是计算beta收益之时的残差收益率的波动率，表示股票不能被beta所解释部分收益的波动率，数据为过去252个交易日，按照指数加权权重，半衰期为63个交易日 $hsigma=std(e_{t})$ HSIGMA因子要和BETA因子和SIZE因子做回归，去除其共线性关系 |
+|  |  | CMRA | 0.16 | 年度超额收益率离差 | CMRA是过去12个月超额收益的离差，也是表征股票收益率的波动大小，Z(T)是过去T个月超额收益对数值得累计值，Z(T)是一个时间序列， $\mathsf{T}=1,2,3,\cdots,12$ $Z(T)=\sum_{t=1}^{T}\left[ln(1+r_{t})-ln(1+r_{ft})\right]$ $crma=ln(1+Zmax)-ln(1+Zmin)$ 注：由于实际计算时可能出现 $Zmax<-1或Zmin<-1$ 导致无法进行Iog计算，因此实际测算采用CMRA = Zmax - Zmin进行调整 |
+|  |  | HSIGMA | 0.1 | Beta回归残差年化波动率 | hsigma是计算beta收益之时的残差收益率的波动率，表示股票不能被beta所解释部分收益的波动率，数据为过去252个交易日，按照指数加权权重，半衰期为63个交易日 $\begin{array}{r}{hsigma=std(e_{t})}\end{array}$ HSIGMA因子要和BETA因子和SIZE因子做回归，去除其共线性关系 |
 | 5 | Non-linearSize | NLSIZE | 1 | 非线性因子 | NLSIZE为SIZE因子的立方，之后将结果和SIZE因子回归取残差去除其和SIZE因子的共线性，残差值再进行缩尾处理(winsorized)和标准化(standardized) |
 | 6 | Book-to-Price | BTOP | 1 | 账面市值比 | 就是上个季报公司普通股权账面价值（就是净资产）除以公司当前的市值 |
 | 7 | LIQUIDITY | STOMSTOQSTOA | 0.350.350.3 | 月度换手率季度换手率年度换手率 | STOM是最近一个月的换收率和的对数值，Vt是t日的交易量，St是t日的流通股本 $stom=ln(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}})$ STOM是季度换收率STOA是年度换收率 |
@@ -234,7 +234,7 @@ Rho = 全市场规模加权指数 1年滚动波动率/个股 1年滚动波动率
 |  |  | EGRSF | 0.11 | 短期净利润预期 | EGRSF是未来1年分析师预期盈利增长率 |
 |  |  | EGRO | 0.24 | 长期历史净利率 | EGR0是过去5年盈利增长率（采用回归方法），即使用最近5个财政年度的净利润额对时间的回归的斜率值，除以年平均净利润 |
 |  |  | SGRO | 0.47 | 长期历史销售率 | SGR0是过去5年营业收入增长率(采用回归法)，即使用最近5个财政年度的营业收入对时间的回归的斜率值，除以年平均营业收入 |
-| 10 | Leverage | MLEV | 0.38 | 市场杠杆 | me是普通股市值，pe是优先股账面价值，Id是长期负债账面价值 $mlev={\frac{me+pe+ld}{me}}$ |
+| 10 | Leverage | MLEV | 0.38 | 市场杠杆 | me是普通股市值，pe是优先股账面价值，Id是长期负债账面价值 $mlev=\frac{me+pe+ld}{me}$ |
 |  |  | DTOA | 0.35 | 资产负债比 | td是总负债账面价值，ta是总资产账面价值 $dtoa=\frac{td}{ta}$ |
 |  |  | BLEV | 0.27 | 账面杠杆 | be是普通股账面价值，pe是优先股账面价值，Id是长期负债账面价值 $blev={\frac{be+pe+ld}{be}}$ |
 

@@ -335,11 +335,11 @@ $$
 
 | 因子表示 | 因子含义 | 计算公式 |
 | --- | --- | --- |
-| M(S, T) | 金融论坛评论区对具体股票讨论的情感分数总和 | $\mathsf{M}(\mathsf{S},\mathrm{T})=\sum_{T-1}^{T}Score_{t}$ |
-| M_mean (S, T) | 金融论坛评论区对具体股票讨论的情感分数的平均值 | $\overset{\ u(\mathrm{S},\mathrm{T})_{mean}}{\mathop{\mathrm{C}}}=\frac{\overset{\mathrm{M}}{\left(\mathrm{S},\mathrm{T}\right)}}{\overset{\mathrm{C}}{\left(\mathrm{S},\mathrm{T}\right)}}$ |
-| M_positive(S,T) | 金融论坛评论区对具体股票讨论的乐观情感分数总和 | $\mathsf{M}(\mathsf{S},\mathsf{T})_{positive}=\sum_{T-1}^{T}Score_{t},Score_{t}>0$ |
-| M_negative(S, T) | 金融论坛评论区对具体股票讨论的悲观情感分数总和 | $\mathrm{M(S,T)}_{negative}=\sum_{T-1}^{T}Score_{t},Score_{t}<0$ |
-| M_posdneg (S, T) | 具体股票讨论的乐观情感分数总和除以悲观情感分数总和 | $\mathsf{M}(\mathsf{S},\mathsf{T})_{\mathrm{posdneg}}=\frac{\mathsf{M}(\mathsf{S},\mathsf{T})_{positive}}{\mathsf{M}(\mathsf{S},\mathsf{T})_{negative}}$ |
+| M(S, T) | 金融论坛评论区对具体股票讨论的情感分数总和 | $\mathbb{M}(\mathsf{S},\mathrm{T})=\sum_{T=1}^{T}Score_{t}.$ |
+| M_mean (S, T) | 金融论坛评论区对具体股票讨论的情感分数的平均值 | $\mathrm{M}(\mathrm{S},\mathrm{T})_{mean}=\frac{\mathrm{M}(\mathrm{S},\mathrm{T})}{\mathrm{C}(\mathrm{S},\mathrm{T})}$ |
+| M_positive(S,T) | 金融论坛评论区对具体股票讨论的乐观情感分数总和 | $\mathsf{M}(\mathrm{S},\mathrm{T})_{positive}=\sum_{T=1}^{T}Score_{t},Score_{t}>0$ |
+| M_negative(S, T) | 金融论坛评论区对具体股票讨论的悲观情感分数总和 | $\mathbb{M}(\mathbb{S},\mathbb{T})_{negative}=\sum_{T=1}^{T}Score_{t},Score_{t}<0.$ |
+| M_posdneg (S, T) | 具体股票讨论的乐观情感分数总和除以悲观情感分数总和 | $\mathrm{M(S,T)_{posimage}}=\frac{\mathrm{M(S,T)_{positive}}}{\mathrm{M(S,T)_{negative}}}$ |
 | Corr (S, T) | 评价周期（每月）股票讨论的情感分数与时间的相关系数 | Corr(S,T) = corr (Rank(Scores,t), Rank(t)) |
 
 来源：国金证券研究所

@@ -251,10 +251,10 @@ $$
 ![](images/fc4c390e9cb8babd7ba2746f3a03c055c15ac1ee36da41cf5497944a2d20c456.webp)
 资料来源：华泰研究
 
-模型在样本内训练完成后，我们在样本外进行测试。forecast_adj_txt 因子生成的频率为每个月末，在月末截面期追溯过去一个季度的全市场分析师盈利预测调整样本，使用训练好的模型进行预测，得到每条样本在每个类别上的概率估计值 ${\it\cdot}p_{c}(x)$ ，以此我们计算其 log-odds值 $L_{c}(x)$ ：
+模型在样本内训练完成后，我们在样本外进行测试。forecast_adj_txt 因子生成的频率为每个月末，在月末截面期追溯过去一个季度的全市场分析师盈利预测调整样本，使用训练好的模型进行预测，得到每条样本在每个类别上的概率估计值 $\_p_{c}(x)$ ，以此我们计算其 log-odds值 $L_{c}(x)$ ：
 
 $$
-\begin{array}{clcr}{{\displaystyle{{\cal L}_{c\in\{h,m,l\}}(x)=log\frac{p_{c}(x)}{1-p_{c}(x)}}}}\\{{\mathrm{}}}\\{{forecast\_adj\underline{{{t}}}xt={\cal L}_{h}(x)-{\cal L}_{l}(x)}}\end{array}
+\begin{aligned}L_{c\in\{h,m,l\}}(x)&=log\frac{p_{c}(x)}{1-p_{c}(x)}\\forecast_{-}&adj_{-}txt=L_{h}(x)-L_{l}(x)\end{aligned}
 $$
 
 其中 $c\in\{h,m,l\}$ 为三个类别标签，分别表示上涨、震荡、下跌。我们计算其上涨和下跌类别的log-odds值之差作为文本因子值。
@@ -479,7 +479,7 @@ $$
 前文我们默认分类数为 3 类，这里我们对更多类别参数进行讨论。每组分类方式下，我们按如下方式生成 forecast_adj_txt 因子：
 
 $$
-\begin{array}{c}{{forecast\_adj\_txt=\mathrm{L}_{h}(x)-\mathrm{L}_{l}(x)}}\\{{\displaystyle{}}}\\{{\displaystyle L_{c\in\{h,l\}}=\log\frac{p_{c}(x)}{1-p_{c}(x)}}}\end{array}
+\begin{aligned}&forecost\_adj\_txt=\mathrm{L}_h(x)-\mathrm{L}_l(x)\\&\quad L_{c\in\{h,l\}}=\log\frac{p_c(x)}{1-p_c(x)}\\\end{aligned}
 $$
 
 其中ℎ表示分位数最高的类别，l表示分位数最低的类别，例如在标签设置为5类的条件下，ℎ表示收益率前20%的类别，l表示收益率后20%的类别；对比结果如下图所示。
@@ -582,10 +582,10 @@ $$
 本小节我们对forecast_adj_txt因子进行扩展讨论。传统对分析师盈利预测调整进行分析时，我们更多会使用分析师盈利预测调整的幅度来构建因子。例如以下计算的分析师盈利预测调整因子为常见的构建方法：
 
 $$
-forecast_{-}adj_{s,T}=\operatorname*{median}_{i,t}(\frac{forecast_{-}new_{s,i,t}-forecast_{-}last_{s,i,t}}{forecast_{-}last_{s,i,t}}),T-1<t\leq T
+forecast\_adj_{s,T}=\operatorname*{median}_{i,t}(\frac{forecast\_new_{s,i,t}-forecast\_last_{s,i,t}}{forecast\_last_{s,i,t}}),T-1<t\leq T
 $$
 
-上述表达式中，forecast $\mathcal{a}dj_{s,T}$ 表示某只股票S在截面期T的因子值，T一般取为月末截面期。$forecast\_new_{s,i,t}$ 为分析师i对于股票S在时间t给出的盈利预测，forecast $\mathit{last}_{s,i,t}$ 为分析师i对于股票S上一次给出的盈利预测，我们统计过去一个月所有分析师盈利预测调整幅度的中位数作为因子值。该因子的分层回测结果如下图所示：
+上述表达式中，forecast $\_adj_{s,T}$ 表示某只股票S在截面期T的因子值，T一般取为月末截面期。$forecast\_new_{s,i,t}$ 为分析师i对于股票S在时间t给出的盈利预测，forecast $\_last_{s,i,t}$ 为分析师i对于股票S上一次给出的盈利预测，我们统计过去一个月所有分析师盈利预测调整幅度的中位数作为因子值。该因子的分层回测结果如下图所示：
 
 图表59： forecast_adj 因子分 10 层回测
 ![](images/2e479a384d04722cbec691f0c47d0b75313bf2ce47cee1a384307d8ec857dbfa.webp)

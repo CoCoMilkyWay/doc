@@ -47,10 +47,10 @@ Email：zxw6607@htsec.com
 Fama和French 在 1993 年构建了Fama-French三因子模型，模型认为，一个投资组合的超额收益可由它对三个因子的暴露来解释，这三个因子是：市场资产组合(Rm−Rf)、市值因子(SMB)、账面市值比因子(HML)。这个多因子定价模型可以表示如下：
 
 $$
-R_{it}-R_{tt}=\pmb{\alpha}_{i}+\pmb{\beta}_{i}\mathbb{Z}(R_{mt}-R_{tt})+s_{i}\mathbb{Z}\pmb{M}\pmb{B}_{t}+h_{i}\mathbb{Z}(\pmb{M}_{it}+\pmb{\varepsilon}_{it}
+R_{it}-R_{it}=\alpha_{i}+\beta_{i}\square(R_{mt}-R_{it})+s_{i}\square SMB_{t}+h_{i}\square HM_{it}+\varepsilon_{it}
 $$
 
-其中 $R_{mt}$ 表示 时刻的市场收益率，t $R_{\mathrm{\it ft}}$ 表示 时刻的无风险利率，t $R_{mt}-R_{ft}$ 代表市场风险溢价， 代表市值因子，SMB $HM_{it}$ 代表账面市值比因子。
+其中 $R_{mt}$ 表示 时刻的市场收益率，t $R_{\bar{t}\bar{t}}$ 表示 时刻的无风险利率，t $R_{_{mt}}-R_{_{\bar{t}t}}$ 代表市场风险溢价， 代表市值因子，SMB $HM_{it}$ 代表账面市值比因子。
 
 需要指出的是，在实践中，诸如估值、动量反转、一致预期等因素也被认为是影响股价的重要因素，而 FF3因素模型中并未包含这些因素，现在广泛应用的多因子模型通常会包含几十甚至上百个可能影响股价的因子。
 
@@ -80,7 +80,7 @@ $$
 
 因子库的搭建在前面已经介绍，对于因子的赋权，我们通常采用等权的方式处理，本文的重点放在有效因子的甄别上。我们于 2010 年构建了海通多因子选股模型，该模型主要依据因子表现与下期收益间的相关性来甄别有效因子。
 
-假定 $F_{1},F_{2},\cdots,F_{n}$ 为因子库中的因子，给定考察时点，样本空间内的股票在因子上会有排名 $S_{i,1},S_{i,2},\cdots,S_{i,m}$ ，同样这些股票在下个考察期内的收益率会有相应的排名 $R_{1},R_{2},\cdots,R_{m}$ ，我们用过去 24期的因子排名和收益率排名数据做相关性分析，在
+假定 $F_{1},F_{2},\cdots\cdots,F_{n}$ 为因子库中的因子，给定考察时点，样本空间内的股票在因子上会有排名 $S_{i,1},S_{i,2},\cdots\cdots,S_{i,m}$ ，同样这些股票在下个考察期内的收益率会有相应的排名 $R_{1},R_{2},\cdots\cdots,R_{m}$ ，我们用过去 24期的因子排名和收益率排名数据做相关性分析，在
 
 给定的置信水平下，能通过检验的因子我们视为当期的有效因子，对于有效因子，我们同时会关注其与下期收益之间的相关系数，如相关系数为正数，则视该因子对收益有正向的贡献，因子打分时给予正权重，如果相关系数为负数，则视该因子对收益有负向的贡献，因子打分时给予负权重，具体流程参见图 1。
 
@@ -120,7 +120,7 @@ $$
 从上面的例子来看，从极值因子组股票收益的分化度来选择因子或许也是一种有效的因子筛选方法。我们采用过去 24个月的滚动窗口数据来进行极值因子筛选，假定因子为候选因子，当前时点为 ，以月度为考察期，将股票按因子从小到大等分为 5组，分别计算组内股票因子和下月收益率的平均值，分别记录为：
 
 $$
-F_{T,1},F_{T,2},\cdots\cdots,F_{T,5}\not\approx R_{T,1},R_{T,2},\cdots\cdots,R_{T,5}
+F_{T,1},F_{T,2},\cdots\cdots,F_{T,5}和R_{T,1},R_{T,2},\cdots\cdots,R_{T,5}
 $$
 
 从该角度来进行因子的筛选，我们认为至少有以下三点是应该纳入考察范畴的：
@@ -128,24 +128,24 @@ $$
 1）分化性：我们希望极值因子组的收益差越明显越好，当然某几个月的收益差显著不能说明问题，我们用过去24个月的平均收益差来度量极值因子组的收益分化度，比如说我们给定阈值 ，当下式成立时，我们认为 因子具备分化性：
 
 $$
-abs\Big(\underset{i=1:24}{mean}\big(R_{r-i,5}-R_{r-i,1}\big)\Big)>R
+abs\left(\max_{i=1:24}\left(R_{T-i,5}-R_{T-i,1}\right)\right)>R
 $$
 
 2）极值性：前面我们提到投资者通常关注因子的极端值，所以我们可以忽略因子中间值组的相对表现，但必须保证因子极端值组的收益极端性，即满足下式：
 
 $$
-\overline{{R}}_{T,1}=\underset{i=1.5}{Min}\left(\overline{{R}}_{T,i}\right)\ ,\ \overline{{R}}_{T,5}=\underset{i=1.5}{Max}\left(\overline{{R}}_{T,i}\right)\ \overset{*}{\underset{i\times}{\vec{\operatorname*{m}}}}\ \overline{{R}}_{T,1}=\underset{i=1.5}{Max}\left(\overline{{R}}_{T,i}\right)\ ,\ \overline{{R}}_{T,5}=\underset{i=1.5}{Min}\left(\overline{{R}}_{T,i}\right)
+\bar{R}_{T,1}=\operatorname{Min}(\bar{R}_{T,i}),\quad\bar{R}_{T,5}=\operatorname{Max}(\bar{R}_{T,i})\quad 或\quad\bar{R}_{T,1}=\operatorname{Max}(\bar{R}_{T,i}),\quad\bar{R}_{T,5}=\operatorname{Min}(\bar{R}_{T,i})
 $$
 
-其中： $\overline{{R}}_{T,i}=\underset{j=1:24}{mean}\Big(R_{T-j,i}\Big)$
+其中： $\overline{R}_{T,i}=\max_{j=1:24}\left(R_{T-j,i}\right)$
 
 3）稳定性：在分化性中我们要求过去 24个月极值因子的月平均收益差显著，但可能主要的收益差贡献是集中在几个月中的，利用这样的因子选出股票的胜率不高，组合的稳定性也差，所以我们要求极值因子的胜率达到一定阈值之上，即：
 
 $$
-\underset{i=1;24}{sutm}\Big(R_{T-i,5}-R_{T-i,1}\Big)_{+}\Big/24>w_{u}\quad\mathring{\mathfrak{L}}_{\lambda}\quad\underset{i=1;24}{sum}\Big(R_{T-i,5}-R_{T-i,1}\Big)_{+}\Big/24<w_{d}
+\sup_{j=1,24}\left(R_{T-i,5}-R_{T-i,1}\right)_{+}/24>w_{u}\quad 或\quad\sup_{j=1,24}\left(R_{T-i,5}-R_{T-i,1}\right)_{+}/24<w_{d}
 $$
 
-其中 $R_{+}=1~if~R>0,R_{+}=0~if~R\leq0~\mathrm{w}_{u},{\bf w}_{d}$ 分别为月胜率阈值上下限
+其中 $R_{+}=1\ \text{if }R>0,R_{+}=0\ \text{if }R\leq0\text{ if }w_{u},w_{d}$ 分别为月胜率阈值上下限
 
 我们将上述三点做成流程图（见图 3），以便更清晰地展示极值因子的选股流程。
 
@@ -274,7 +274,7 @@ $$
 
 3）构建比较基准：[0,1]均匀分布的 Logistic 变换；
 
-4）比较 2）中 $p_{i}^{*}$ 的分布与 3）中基准分布评价选股效果。
+4）比较 2）中 $\boldsymbol{\rho}_{i}^{*}$ 的分布与 3）中基准分布评价选股效果。
 
 图 10 中证 500多头精选组合表现
 ![](images/78bf2f2262a5740b2e5985633de4c37c7b7ef6d2fae97b9e05d40bcd65198fcc.webp)

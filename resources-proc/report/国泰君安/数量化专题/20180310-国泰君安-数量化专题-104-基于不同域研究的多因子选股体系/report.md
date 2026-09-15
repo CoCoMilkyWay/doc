@@ -174,17 +174,17 @@ lichen@gtjas.com
 
 本篇报告中，我们将采用全域风险调整后子域相关系数统计的检验方式，即首先利用风险模型对全域股票因子截面和股票收益率进行风险调整，剔除市场大类风格因素影响，得到风险调整后因子载荷截面与风险调整后股票收益截面；其次，在风险调整后因子载荷截面与风险调整后股票收益截面中，提取对应子域向量，计算两者相关系数；最后，统计时间序列上，相关系数序列的统计显著性，得到域内目标因子的检验结果。详细步骤如下：
 
-Step 1. 计算 t期原始因子值，并做去极值标准化处理，得到标准化原值因子载荷截面 $x_{t}$ ；
+Step 1. 计算 t期原始因子值，并做去极值标准化处理，得到标准化原值因子载荷截面 $x_{_t}$ ；
 
-Step 2. 计算风险调整后因子载荷截面 $\boldsymbol{\varepsilon}_{t}$ ，即 $x_{_t}=\beta_{_t}\cdot X_{_t}^{{\textit{ r i s k }}}+\varepsilon_{_t}$ ，其中$\boldsymbol{X}_{\_risk}$ 包含行业哑变量矩阵及 10类风险因子载荷矩阵；
+Step 2. 计算风险调整后因子载荷截面 $\mathcal{E}_{\mathrm{~}t}$ ，即 $x_{_t}=\beta_{_t}\cdot X_{_t}^{^{risk}}+\varepsilon_{_t}$ ，其中$\textbf{ \textit { X } }_{risk}$ 包含行业哑变量矩阵及 10类风险因子载荷矩阵；
 
-Step 3. 计算风险调整后个股收益残差截面 $\varepsilon r_{\mathrm{\scriptsize~,~}}$ ，即 $R_{_t}=\beta_{_t}\cdot X_{_t}^{{\scriptsize{risk}}}+\varepsilon r_{_t}$ 其中 $R_{_t}$ 为股票收益率截面, $\textit{ X }_{\mathrm{\Delta}_{risk}}$ 同上定义；
+Step 3. 计算风险调整后个股收益残差截面 $\varepsilon r_{_t}$ ，即 $R_{_t}=\beta_{_t}^{^{\cdot}}\cdot X_{_t}^{^{risk}}+\varepsilon r_{_t}$ 其中 $R_{\phantom{}_{t}}$ 为股票收益率截面, $\boldsymbol{X}_{risk}$ 同上定义；
 
-Step 4. 选取 $\boldsymbol{\varepsilon}_{\scriptscriptstyle t}$ 和 $\varepsilon r_{\mathrm{{\scriptsize~\mathrm{~\it~~}~}}}$ 截面中，截取对应目标域对应个股的因子载荷截
+Step 4. 选取 $\mathcal{E}_{\mathrm{~r~}}$ 和 $\mathcal{E}\:r_{\iota}$ 截面中，截取对应目标域对应个股的因子载荷截
 
-面 $\mathcal{E}_{t}^{^{contextual}}$ 和 $\varepsilon r_{t}^{^{contextual}}$ 收益残差截面，并进行标准化处理；
+面 $\mathcal{E}_{t}^{\textit{ c o n t e x t u a l }}$ 和 $\mathcal{E}r_{_t}^{^{contextual}}$ 收益残差截面，并进行标准化处理；
 
-Step 5 计算截面 $\mathcal{E}_{t}^{\textit{ c o n t e x t u a l }}$ 与截面 $\varepsilon r_{_t}^{^{contextual}}$ 的相关系数 $IC_{\ t}$ ；
+Step 5 计算截面 $\mathcal{E}_{t}^{\textit{ c o n t e x t u a l }}$ 与截面 $\mathcal{E}r_{_t}^{^{contextual}}$ 的相关系数 $IC_{\textit{ t }}$ ；
 
 Step 6 重复上述过程，得到 T时间内段的IC 序列，并统计IC 序列的相关统计检验指标。
 
@@ -1938,9 +1938,9 @@ TMT板块受交易行为、市场情绪因子影响较大，波动率高，交�
 
 ## 4.1.1. 沪深 300 成分股增强
 
-我们首先根据沪深300 成分域有效因子的筛选，计算模型预测精度IC。具体而言， $E\left(\varepsilon r_{t+1}\right)$ 为阿尔法模型预测的残差收益截面， $\sqrt{n}\ \varepsilon r_{t+1}$ 为实际残差收益截面，计算两者的相关系数称为模型预测精度 IC，该数值越高显著性越强，表明阿尔法模型的预测能力越强。
+我们首先根据沪深300 成分域有效因子的筛选，计算模型预测精度IC。具体而言， $E(\varepsilon r_{_{t+1}})$ 为阿尔法模型预测的残差收益截面， $而$\varepsilon$$r_{_{t+1}}$$ 为实际残差收益截面，计算两者的相关系数称为模型预测精度 IC，该数值越高显著性越强，表明阿尔法模型的预测能力越强。
 
-其中，阿尔法模型的预测残差收益截面由当期因子载荷截面加权得到，即 $E(\varepsilon r_{t+1})=\sum w_{t}^{~j}\cdot\varepsilon_{t}^{~j}$ ；
+其中，阿尔法模型的预测残差收益截面由当期因子载荷截面加权得到，即 $E\left(\varepsilon r_{_{t+1}}\right)=\sum w_{_t}^{^j}\cdot\varepsilon_{_t}^{^j}$ ；
 
 其中因子权重w 我们选择因子历史 12个月的ICIR。
 
@@ -2104,14 +2104,14 @@ Step 1. 根据行业内有效因子载荷及历史 IC 序列，计算得到行�
 Step 2. 选择预期超额收益截面中排名靠前 1/3的股票作为 Top组合，其中组合权重根据流通市值经预期超额收益调整后得到，即
 
 $$
-w_{_{i}}=w_{_{i}}^{\prime}/\sum_{_{n}}w_{_{i}}^{\prime},
+w_{\phantom{\prime}_{i}}=\;w_{\phantom{\prime}_{i}}^{\phantom{\prime}}\;/\;\sum_{\phantom{\prime}_{n}}\;w_{\phantom{\prime}_{i}}^{\phantom{\prime}}\;,
 $$
 
 $$
-\ddag\begin{array}{l}{\ddag\begin{array}{l}{\ddag\ast\mathrm{~{~\psi~}}_{i}^{\prime}=\begin{array}{l}{w_{i}^{\phantom{\mu}\nu t}\cdot(\mathrm{~~1~}+\mathrm{~\boldsymbol~{~\nu~}}_{\varepsilon})}\end{array},\quad w_{\varepsilon}=\varepsilon r_{i}/\sum_{n}\varepsilon r_{i},\quad w_{i}^{\textrm{ \tiny { m } }kt}=mkt_{i}/\sum_{n}mkt_{i}}\end{array}}\end{array}
+w_{_i}^{\prime}=w_{_i}^{^{m\cdot k\cdot t}}\cdot(1+w_{_{\varepsilon}}),\quad w_{_{\varepsilon}}=\varepsilon r_{_i}/\sum_{_n}\varepsilon r_{_i},\quad w_{_i}^{^{m\cdot k\cdot t}}=mkt_{_i}/\sum_{_n}mkt_{_i}
 $$
 
-m k t 表示个股流通市值， $\varepsilon r_{_i}$ 为预期超额收益。
+m k t 表示个股流通市值， $\mathcal{E}\boldsymbol{r}_{i}$ 为预期超额收益。
 
 Step 3. 选择预期超额收益截面中排名靠后 1/3 的股票作为 Bottom 组合，权重构建方式同上。
 
@@ -2545,7 +2545,7 @@ Step 3. 选择预期超额收益截面中排名靠后 1/3 的股票作为 Bottom
 | 28 | currentLiabRatio | 杠杆因子 | 流动负债/总资产 | 流动负债，总资产 |
 | 29 | dbeta | 其他 | 过去一年市场下行条件下的BETA,即取市场收益率为负时的数据 计算个股 BETA | 收盘价，市场指数收盘价 |
 | 30 | DIFF | 交易行为 | EMA(CLOSE,12)-EMA(CLOSE,26) | 收盘价 |
-| 31 | disposition | 交易行为 | 收盘价/RP-1，其中， $RP_{t}=\frac{\sum_{n=1}^{\dot{6}0}(TURN_{t-n}\prod_{r=1}^{n-1}(1-TURN_{t-n+r}))CLOSE_{t-n}}{\sum_{n=1}^{60}(TURN_{t-n}\prod_{r=1}^{n-1}(1-TURN_{t-n+r}))}$ | 收盘价，换手率 |
+| 31 | disposition | 交易行为 | 收盘价/RP-1，其中， $RP_{t}=\frac{\sum_{n=1}^{60}(TURN_{t-n}\prod_{r=1}^{n-1}(1-TURN_{t-n+r}))CLOSE_{t-n}}{\sum_{n=1}^{60}(TURN_{t-n}\prod_{r=1}^{n-1}(1-TURN_{t-n+r}))}$ | 收盘价，换手率 |
 | 32 | Dist_High | 交易行为 | 过去一年股价最高点距离当前时点的交易日天数 | 最高价 |
 | 33 | dividendyield2 | 估值因子 | 股息率 | 股息率 |
 | 34 | ebit_ev | 估值因子 | EBIT/EV，其中 EBIT 是息税前利润，EV 是企业价值（ev1，是否 包含货币资金) | 息税前利润，企业价值 |
@@ -2669,8 +2669,8 @@ Step 3. 选择预期超额收益截面中排名靠后 1/3 的股票作为 Bottom
 | 150 | tax_q_growth | 成长因子 | (本期报告期单季度税收-上期单季度税收)/上期单季度税收绝对值 | 税收 |
 | 151 | total_assets | 规模因子 | 总资产 | 总资产 |
 | 152 | totLiab_mkt | 财务质量 | 负债合计/总市值 | 负债合计，总市值 |
-| 153 | tsmon | 交易行为 | $TSMON_{i,j}=sign\biggl(\sum_{k=1}^{20}\hat{r}_{i-k,j}\biggr)*\frac{\hat{r}_{i,j}}{\hat{\delta}_{i,j}}$ 其中，i表示时间，j表示股票 $\hat{r}_{i,j}=r_{i,j}-\dot{r_{i,j}},\dot{r_{i,j}}$ 是收益的指数移动平均 平方的的指数移动平均值 | 收盘价 |
-| 154 | Turn_1M_3M | 市场情绪 | $\hat{\delta}_{i,j}\varkappa\hat{\Xi}_{i,j}$ 过去1个月日均换手率/过去三个月日均换手率 | 换手率 |
+| 153 | tsmon | 交易行为 | $TSMON_{i,j}=sign\left(\sum_{k=1}^{20}\hat{r}_{i-k,j}\right)*\frac{\hat{r}_{i,j}}{\hat{\delta}_{i,j}}$ 其中，i表示时间，j表示股票 $\hat{r}_{i,j}=r_{i,j}-\bar{r_{i,j}},\bar{r_{i,j}}$ 是收益的指数移动平均 平方的的指数移动平均值 | 收盘价 |
+| 154 | Turn_1M_3M | 市场情绪 | $\hat{\delta}_{i,j}是\hat{r}_{i,j}$ 过去1个月日均换手率/过去三个月日均换手率 | 换手率 |
 | 155 | Turn_CoV_1M | 交易行为 | 过去1个月换手率的标准差/过去一个月换手率的均值 | 换手率 |
 | 156 | Turn_Mean_1M | 市场情绪 | 过去1个月的日均换手率 | 换手率 |
 | 157 | Turn_Mean_3M | 市场情绪 | 过去3个月的日均换手率 | 换手率 |

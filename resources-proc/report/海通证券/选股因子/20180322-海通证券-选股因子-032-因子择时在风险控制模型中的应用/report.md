@@ -57,10 +57,10 @@ Email:ylq9619@htsec.com
 简单的说，对于一个风险控制组合，因子择时可通过调整组合在各因子上的敞口的上限以及下限来实现。让我们通过一个较为简单的例子来说明这一结论。投资者往往通过组合优化的方法基于某一基准指数来构建风险控制组合。以下展示了一个简单的组合优化问题：
 
 $$
-\begin{array}{c}{{maxw*r}}\\{{w}}\\{{s.t}}\\{{w*f-f_{b}\geq f_{lb}}}\\{{}}\\{{w*f-f_{b}\leq f_{ub}}}\\{{w*1}}\\{{w\geq w_{lb}}}\\{{w\leq w_{ub}}}\end{array}
+\begin{aligned}&s.t\quad\underset{w}{max}w*r\\s.t\quad&w*f-f_{b}\geq f_{lb}\\&w*f-f_{b}\leq f_{ub}\\&w*1=1\\&w\geq w_{lb}\\&w\leq w_{ub}\\\end{aligned}
 $$
 
-其中，w为股票在组合中的权重向量，r为股票收益预期向量，f 为股票在各因子上的敞口矩阵， $\mathsf{f}_{\mathsf{b}}$ 为基准组合在各因子上的敞口向量， $\mathsf{f}_{\mathsf{ub}}$ 为因子相对于基准的敞口的上限向量，$\mathsf{f}_{\mathsf{I}\mathsf{b}}$ 为因子相对于基准的敞口的下限向量， ${\mathsf{W}}_{\mathsf{Ub}}$ 为股票权重上限向量， $W_{\vert b}$ 为股票权重下限向量。（需要说明的是，在实际的组合构建中，组合优化的目标函数可能更为复杂，优化限制条件可能更多。此处为了方便说明，将优化目标设定为最大化组合收益预期，风控控制手段仅有敞口限制。）
+其中，w为股票在组合中的权重向量，r为股票收益预期向量，f 为股票在各因子上的敞口矩阵， $f_{b}$ 为基准组合在各因子上的敞口向量， $\mathsf{f}_{\mathsf{ub}}$ 为因子相对于基准的敞口的上限向量，$f_{\mathrm{lb}}$ 为因子相对于基准的敞口的下限向量， $\mathsf{w}_{\mathsf{ub}}$ 为股票权重上限向量， $\mathsf{w}_{\mathsf{lb}}$ 为股票权重下限向量。（需要说明的是，在实际的组合构建中，组合优化的目标函数可能更为复杂，优化限制条件可能更多。此处为了方便说明，将优化目标设定为最大化组合收益预期，风控控制手段仅有敞口限制。）
 
 在多因子模型中，股票收益预期又可进一步表达为下式，
 
@@ -70,7 +70,7 @@ $$
 
 其中， $\beta$ 为因子收益预期向量，f 为股票在各因子上的敞口矩阵。
 
-由于投资者在构建组合时已知因子值 f，因此因子收益预期 $\beta$ 最终决定了股票收益预期 $\boldsymbol{\mathsf{r}}_{\circ}$ 。基于这一结论，我们在系列前期的报告中通过修正因子收益预期 $\beta$ 来影响股票收益预期 并最终影响组合优化的结果。（详细内容请参考专题报告《选股因子系列研究（三十）——因子择时模型改进与择时指标库构建》以及专题报告《选股因子系列研究
+由于投资者在构建组合时已知因子值 f，因此因子收益预期 $\beta$ 最终决定了股票收益预期 $\mathsf{r}_{\circ}$ 。基于这一结论，我们在系列前期的报告中通过修正因子收益预期 $\beta$ 来影响股票收益预期 并最终影响组合优化的结果。（详细内容请参考专题报告《选股因子系列研究（三十）——因子择时模型改进与择时指标库构建》以及专题报告《选股因子系列研究
 
 ## （三十一）——因子择时指标的筛选》）
 
@@ -95,10 +95,10 @@ $$
 在回归法的视角下，因子当期的收益以及组合相对于基准在因子上的敞口共同决定了组合的超额收益。详细推导可见下式，
 
 $$
-\begin{array}{l}{{r_{p,t}-r_{b,t}=\displaystyle\sum_{i=1}^{N}w_{i,t}(r_{i,t}-r_{b,t})=\displaystyle\sum_{i=1}^{N}w_{i,t}\sum_{k=1}^{K}\beta_{k,t}\big(f_{t,k}^{i}-f_{t,k}^{b}\big)}}\\{{\displaystyle\qquad=\sum_{k=1}^{K}\beta_{k,t}\sum_{i=1}^{N}w_{i,t}\big(f_{t,k}^{i}-f_{t,k}^{b}\big)}}\\{{\displaystyle\qquad=\sum_{k=1}^{K}\beta_{k,t}\big(f_{t,k}^{p}-f_{t,k}^{b}\big)}}\end{array}
+\begin{aligned}r_{p,t}-r_{b,t}&=\sum_{i=1}^{N}w_{i,t}\big(r_{i,t}-r_{b,t}\big)=\sum_{i=1}^{N}w_{i,t}\sum_{k=1}^{K}\beta_{k,t}\big(f_{t,k}^i-f_{t,k}^b\big)\\&=\sum_{k=1}^{K}\beta_{k,t}\sum_{i=1}^{N}w_{i,t}\big(f_{t,k}^i-f_{t,k}^b\big)\\&=\sum_{k=1}^{K}\beta_{k,t}\big(f_{t,k}^p-f_{t,k}^b\big)\\\end{aligned}
 $$
 
-其中， $\boldsymbol{\mathsf{r}}_{\mathsf{p},\mathsf{t}}$ 为组合在 t至 t+1 之间的收益， $\boldsymbol{\mathsf{r}}_{\mathsf{b,t}}$ 为基准组合在 t至 t+1 之间的收益， $\mathsf{W}_{\mathrm{i,t}}$ 为股票 i在组合中的权重， $\beta_{\mathrm{k,t}}$ 为因子 k 在 t至 t+1 之间的收益， $\mathsf{f}_{\mathsf{t},\mathsf{k}}^{\mathsf{i}}$ 为股票 i在 t时刻对于因子 k 的敞口， $\mathsf{f}_{\mathrm{\Pi_{t,k}^{b}}}^{\mathsf{b}}$ 为基准组合在 t时刻对于因子 k 的敞口。
+其中， $\mathsf{r_{p,t}}$ 为组合在 t至 t+1 之间的收益， $\mathsf{r}_{\mathsf{b},\mathsf{t}}$ 为基准组合在 t至 t+1 之间的收益， $\mathsf{w_{i,t}}$ 为股票 i在组合中的权重， $\beta_{\mathrm{k,t}}$ 为因子 k 在 t至 t+1 之间的收益， $\dot{\mathsf{f}}_{\mathsf{t},\mathsf{k}}^{\mathsf{i}}$ 为股票 i在 t时刻对于因子 k 的敞口， $\mathbf{f}_{t,k}^{b}$ 为基准组合在 t时刻对于因子 k 的敞口。
 
 上式中的 $\beta_{\mathrm{k,t}}$ 为回归法下因子的收益，回归模型见下式，
 
@@ -113,11 +113,11 @@ $$
 在设定敞口上限时，投资者需要考虑因子收益为负时所带来的风险，而在设定敞口下限时，投资者则需要考虑因子收益为正时所带来的风险。一种较为简单的衡量因子收益为正/负时带来的风险的方法是计算因子的平均正收益以及平均负收益（当然，投资者可在实际应用时使用其他方法度量风险，如，VaR 等）。因子敞口上、下限的计算公式如下：
 
 $$
-\textcircled{1}F\frac{1}{10}\times\pi-FE=-\frac{\textcircled{1}+\frac{1}{4}\times\pi+\pi}{\frac{1}{4}\times\frac{1}{5}\times\frac{1}{4}\times\frac{2}{5}}
+因子敞口上限=-\frac{因子最大损失}{平均负收益}
 $$
 
 $$
-\textcircled{1}F\cdot\frac{2}{10}\times\pi+FR=-\frac{\textcircled{1}+\frac{1}{2}\times\pi+4\pi}{\frac{1}{4}\times5}\times\frac{2}{4}
+因子敞口下限=-\frac{因子最大损失}{平均正收益}
 $$
 
 例如，假定投资者在某一期在因子 K上可承受的最大损失为 100bps（本报告会在后文中讨论如何确定因子的最大损失），因子平均正收益为 200bps，平均负收益为-100bps。那么因子的敞口上限为 1，敞口下限为-0.5。
@@ -141,7 +141,7 @@ $$
 简单来说，因子最大损失可表述为下式：
 
 $$
-\textcircled{1}Fig\frac{\sin\angle\frac{\pi}{2}}{\sin\angle\frac{\pi}{2}}+\frac{\cos(\textcircled{1}-1)}{\frac{1+\pi}{2}\times\frac{\sin\angle\frac{\pi}{2}}{\sin\angle\frac{\pi}{2}}\times\frac{\sin\angle\frac{\pi}{2}}{\sin\angle\frac{\pi}{2}}\times\frac{\sin\frac{\pi}{2}}{\sin\angle\frac{\pi}{2}}}
+因子最大损失=\frac{abs(因子收益预期)}{投资者风险厌恶度}
 $$
 
 当然，投资者可根据自身的需求对于上述公式进行个性化的修正。那么如何理解投资者风险厌恶度呢？投资者可从盈亏比的角度来理解，该指标可简单理解为投资者每承担 1%的风险所要求获得的回报。例如，投资者风险厌恶度为 8，则代表投资者每承担1%的风险所要求获得的回报为 8%。
@@ -151,11 +151,11 @@ $$
 基于上述讨论，因子敞口的上限以及下限的计算方法如下式所示：
 
 $$
-\mathbb{E}\int\mathbb{P}\mathbb{R}^{\mu}\mathbb{R}\mathbb{1}\bot\mathbb{R}=-\frac{\mathrm{abs}(\mathbb{R})+\|\mathbb{X}\frac{\mu^{2}}{2\mu}\mathbb{H}\frac{\mu^{2}}{2\mu}\mathbb{H}\|)}{\frac{1}{\sqrt{2}}\frac{\mu^{2}}{2\mu}\|\mathbb{X}\frac{\mu^{2}}{2\mu}\mathbb{H}\frac{\mu^{2}}{2\mu}\mathbb{H}\frac{\mu^{2}}{2\mu}\mathbb{X}\frac{\mu^{2}}{2\mu}\mathbb{X}\|\frac{\mu}{2\mu}\mathbb{H}\frac{\mu}{2\mu}\mathbb{H}\frac{\mu}{2\mu}\mathbb{X}\frac{\mu}{2\mu}\mathbb{X}}
+因子敞口上限=-\frac{abs(因子收益预期)}{平均负收益*投资者风险厌恶度}
 $$
 
 $$
-\mathbb{E}]\det\det\pi-\det\det\det=-\det\det\det\det=\det\det\det\det\det\det\det=\det\det\det\det\det=\det\det\det=\det\det\det=\det\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det==\det=\det==\det=\det==\det=\det==\det=\det==\det=\det=\det==\det=\det=\det==\det=\det=\det==\det=\det=\det=\det==\det=\det=\det=\det=\det=\det==\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det=\det\det=\det=\det=\det=\det\det=\det=\det\det=\det=\det\det=\det\det=\det\det=\det\det=\det=\det\det\det=\det\det=\det\det=\det\det\det=\det\det\det=\det\det\det=\det\det\det\det=\det\det\det=\det\det\det=\det\det\det\det\det\det=\det\det\det\det\det=\det\det\det\det\det\det\det=\det\det\det\det\det\det\det\det=\det\det\det\det\det\det\det\det\det=\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\det\ w\ w\ w\ w=\ w\ w\ w\ w\ w\ w\ w\ w\ w=\ w\ w\ w\ w\ w=\ w\ w=\ w\ w\ w\ w\ w\ w=\ w\ w\ w\ w\ w\ w\ w=\ w=\ w\ w\ w\ w\ w\ w\ w\ w=\ w=\ w\ w\ w\ w\ w\ w\ w=\ w\ w\ w=\ w\ w=\ w\ w\ w\ w\ w=\ w\ w\ w
+因子敞口下限=-\frac{abs(因子收益预期)}{平均正收益*投资者风险厌恶度}
 $$
 
 上述计算方法基本能够体现模型建立前所设定的因子风险、因子收益预期以及投资者风险偏好，这三个重要因素。在上述表达式的基础之上，我们可进行小幅修正使其更加符合实际应用。在因子收益预期为正时，可将因子敞口下限设定为 0，反之，在因子收益预期为负时，可将因子敞口上限设定为 0。
@@ -163,7 +163,7 @@ $$
 在因子收益预期为正时，
 
 $$
-\mathbb{E}\breve{\ J}\mathbin{\mathbb{X}\not\cup\mathbb{X}\not\cup\underline{{\textrm{ L R }}}}=-\frac{\mathbb{E}\breve{\ J}\breve{\ J}\breve{\ J}}{\bar{\Phi}\bar{\ J}\bar{\ J}\breve{\|}\bar{\mathcal{X}}\bar{\underline{{\hat{Z}}}}}+\bar{\mathcal{X}}\bar{\mathcal{X}}\bar{\overline{{\hat{Z}}}}+\bar{\mathcal{X}}\bar{\mathcal{X}}\bar{\mathcal{X}}\bar{\mathcal{X}}\bar{\underline{{\Psi}}}
+因子敞口上限=-\frac{因子收益预期}{平均负收益*投资者风险厌恶度}
 $$
 
 因子敞口下限= 0
@@ -173,7 +173,7 @@ $$
 因子敞口上限= 0
 
 $$
-\textcircled{1}Fig\frac{1}{4}+Fig\frac{1}{4}+Fig\frac{1}{4}=\frac13\times\frac{3}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}+3\times\frac{1}{4}
+因子敞口下限=\frac{因子收益预期}{平均正收益*投资者风险厌恶度}
 $$
 
 从整体架构上看，模型需要投资者分别在收益预测模型中以及风险控制模型中对于因子未来收益进行预测。虽然两处都需要因子收益预测，但是因子收益的预测方法不一定需要一致。投资者可以根据自身需求进行个性化的选择。（本文会在下一章的回测中对于不同组合下的模型表现进行回测。）

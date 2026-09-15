@@ -118,7 +118,7 @@ le_Summary] 回顾 A 股风格切换的重要节点，投资风格和风险偏�
 
 投资组合的风险来源真的如传统因子模型所分析的那样，可以由风格、行业、公司因子和特质风险全部解释吗，宏观波动在这过程中又扮演什么角色？ Qontigo 和 State Street Global Advisors 合作的论文《QuantifyingMacroeconomic Risk》主要围绕上述问题进去展开分析。
 
-传统风险模型具有清晰的经济含义，并被反复验证能够捕捉与标的资 $\cdot\dot{\bar{r}}$ 相关的大部分系统性风险。但在全球经济复苏大背景下，人们预期乐观，风险偏好上升，导致个股与宏观层面因素相关性上升，关注传统风险模型中所缺失的对宏观风险的考虑显得尤为重要。
+传统风险模型具有清晰的经济含义，并被反复验证能够捕捉与标的资 $\cdot 产$ 相关的大部分系统性风险。但在全球经济复苏大背景下，人们预期乐观，风险偏好上升，导致个股与宏观层面因素相关性上升，关注传统风险模型中所缺失的对宏观风险的考虑显得尤为重要。
 
 以往的文献通过两种解决方法来加入对宏观因子的考虑。第一种方法是在构建传统风险模型的同时，对宏观因子单独构建一个类似的时间序列模型；第二种方法是将宏观因子与原有的基本面因子同时作为风险模型的自变量输入，得到一个整体的时间序列模型。这两种方法的缺点在于基本面因子和宏观因子之间存在（高度）相关性。
 
@@ -133,15 +133,15 @@ le_Summary] 回顾 A 股风格切换的重要节点，投资风格和风险偏�
 文章首先给出单个国家的多因子模型如下，
 
 $$
-\begin{array}{r}{r=Xf+\varepsilon}\end{array}\tag{1}
+r=Xf+\varepsilon\tag{1}
 $$
 
 其中r 代表标的资产收益率，X为基本面因子暴露度向量，f为基本面因子收益向量，ε为特质风险回报。文章使用的多因子模型为 AXWW4 模型，其中根据因子性质，包括了风格因子、行业因子和公司因子三类基本面因子。
 
-由多因子模型可以推导得到传统风险模型。具体地，对多因子模型等式两边同时求方差，并假设 $\boldsymbol{cov}(f,\varepsilon)=0$ ，可得
+由多因子模型可以推导得到传统风险模型。具体地，对多因子模型等式两边同时求方差，并假设 $cov(f,\varepsilon)\;=\;0$ ，可得
 
 $$
-var(r)=X\Sigma_{ff}X^{\prime}+\Sigma_{\varepsilon\varepsilon}\tag{2}
+var(r)\;=\;X\Sigma_{ff}X^{\prime}\;+\;\Sigma_{\varepsilon\varepsilon}\tag{2}
 $$
 
 其中 $\Sigma_{ff}$ 代表基本面因子收益方差协方差矩阵， $\Sigma_{\varepsilon\varepsilon}$ 代表特质风险方差。接下来，根据之前的思路，文章将引入捕捉宏观风险效应机制。假设基本面因子收益是宏观因子收益的线性组合，即
@@ -155,19 +155,19 @@ $$
 将公式3 带入多因子模型，可得宏观因子模型，即
 
 $$
-r=X\beta g\mathrm{~+~}X\delta+\varepsilon\tag{4}
+r\;=\;X\beta g\;+\;X\delta\;+\;\varepsilon\tag{4}
 $$
 
 以及新的风险模型如下
 
 $$
-var(r)=[X\beta\quad X]\left[\begin{array}{cc}{{\Sigma_{gg}}}&{{\Sigma_{g\delta}}}\\{{\Sigma^{\prime}{}_{g\delta}}}&{{\Sigma_{\delta\delta}}}\end{array}\right][{}^{\beta^{\prime}X^{\prime}}]+\Sigma_{\varepsilon\varepsilon}\tag{5}
+var(r)\;=\;[X\beta\quad X]\begin{bmatrix}\Sigma_{gg}&\Sigma_{g\delta}\\\Sigma^{\prime}{}_{g\delta}&\Sigma_{\delta\delta}\end{bmatrix}[\begin{matrix}\beta^{\prime}X^{\prime}\\X^{\prime}\end{matrix}]+\Sigma_{\varepsilon\varepsilon}\tag{5}
 $$
 
-假设 $.cov(g,\delta)=0$ ，我们得到简化的宏观风险模型，即
+假设 $\begin{array}{r}{(cov(g,\delta)\;=\;0}\end{array}$ ，我们得到简化的宏观风险模型，即
 
 $$
-var(r)=[X\beta\quad X]\left[\begin{array}{cc}{{\Sigma_{gg}}}&{{0}}\\{{0}}&{{\Sigma_{ff}-\left.\beta\Sigma_{gg}\beta^{\prime}\right][\beta^{\prime}X^{\prime}]+\Sigma_{\varepsilon\varepsilon}}}\end{array}\right.\tag{6}
+\begin{array}{r}{var(r)=[X\beta\quad X]\left[\begin{matrix}{\Sigma_{gg}}&{0}\\{0}&{\Sigma_{ff}-\beta\Sigma_{gg}\beta^{\prime}}\end{matrix}\right][\begin{matrix}{\beta^{\prime}X^{\prime}}\\{X^{\prime}}\end{matrix}]+\Sigma_{\varepsilon\varepsilon}}\end{array}\tag{6}
 $$
 
 对比传统风险模型和简化后的宏观风险模型，可以发现两者衡量的风险大小相同，不同的是宏观风险模型优先使用宏观因子来解释组合风险，强调了宏观因子模型是多因子模型的线性变换。

@@ -121,13 +121,13 @@ A、H股同时上市的公司由于基本面情况相同，两者股价差在中
 假设存在无风险利率 r，则无风险资产 M（t）满足动态方程
 
 $$
-\mathbf{dM(t)}=\mathbf{rM(t)dt}
+\mathbf{dM(t)=rM(t)dt}
 $$
 
 假定 A(t) 和 B(t)分别代表股票对 A 和 B 在时间 t 时的价格，且股票 B的价格遵循几何布朗运动
 
 $$
-\mathbf{dB}(\mathbf{t})=\mu\mathbf{B}(\mathbf{t})\mathbf{d}\mathbf{t}+\sigma\mathbf{B}(\mathbf{t})\mathbf{d}\mathbf{Z}(\mathbf{t})
+\mathbf{d}\mathbf{B}(\mathbf{t})=\mathbf{\mu}\mathbf{B}(\mathbf{t})\mathbf{d}\mathbf{t}+\mathbf{\sigma}\mathbf{B}(\mathbf{t})\mathbf{d}\mathbf{Z}(\mathbf{t})
 $$
 
 股票价格的波动率,Z(t)标准布朗运动
@@ -135,42 +135,42 @@ $$
 若X(t)代表两只股票在时间 t时的对数价差，则
 
 $$
-\mathbf{X}(\mathbf{t})=\mathbf{ln}\big(\mathbf{A}(\mathbf{t})\big)-\mathbf{ln}(\mathbf{B}(\mathbf{t}))
+\mathbf{X(t)}=\mathbf{ln(A(t))}-\mathbf{ln(B(t))}
 $$
 
 配对交易的理论基础是价差序列具有均值回复的特点,而随机过程中的Ornstein-Uhlenbeck 过程能很好的描述具有均值回复特性的序列，即假定：
 
 $$
-\mathbf{dX}(\mathbf{t})=\mathbf{k}\big(\mathbf{\theta}-\mathbf{X}(\mathbf{t})\big)\mathbf{dt}+\boldsymbol{\eta}\mathbf{dW}(\mathbf{t})
+\mathbf{d}\mathbf{X}(\mathbf{t})=\mathbf{k}\left(\mathbf{\theta}-\mathbf{X}(\mathbf{t})\right)\mathbf{d}\mathbf{t}+\eta\mathbf{d}\mathbf{W}(\mathbf{t})
 $$
 
-其中 $\mathbf{k}\big(\pmb{\theta}-\mathbf{X}(\mathbf{t})\big)$ 是漂移项，代表价差在时间 t 时的瞬间变化，θ是长期稳定的均值水平，k 是均值回复速率，η等于价差的波动率，W(t)标准布朗运动，ρ为 W(t)和Z(t)之间的相关系数： $\mathbb{E}[{\bf dW(t)dZ(t)}]=\boldsymbol{\rho}\mathbf{dt}$ 根据伊藤引理，我们可以得到A(t)的状态方程：
+其中 $\mathbf{k}{\big(}\mathbf{\theta}-\mathbf{X}(\mathbf{t}){\big)}$ 是漂移项，代表价差在时间 t 时的瞬间变化，θ是长期稳定的均值水平，k 是均值回复速率，η等于价差的波动率，W(t)标准布朗运动，ρ为 W(t)和Z(t)之间的相关系数： $\mathbf{E}[\mathbf{d}\mathbf{W}(\mathbf{t})\mathbf{d}\mathbf{Z}(\mathbf{t})]=\mathbf{p}\mathbf{d}\mathbf{t}.$ 根据伊藤引理，我们可以得到A(t)的状态方程：
 
 $$
-\begin{array}{c}{\displaystyle\mathbf{dA(t)}=\left(\mathbf{\boldsymbol{\mu}}+\mathbf{k}\big(\mathbf{0}-\mathbf{X(t)}\big)+\frac{1}{2}\eta^{2}+\rho\sigma\eta\right)A(t)dt+\sigma A(t)dZ(t)}\\{+\eta A(t)dW(t)}\end{array}
+\begin{aligned}\mathbf{d}\mathbf{A}(\mathbf{t})=&\left(\boldsymbol{\mu}+\mathbf{k}(\boldsymbol{\theta}-\mathbf{X}(\mathbf{t}))+\frac{1}{2}\boldsymbol{\eta}^2+\boldsymbol{\rho}\boldsymbol{\sigma}\boldsymbol{\eta}\right)\mathbf{A}(\mathbf{t})\mathbf{d}\mathbf{t}+\boldsymbol{\sigma}\mathbf{A}(\mathbf{t})\mathbf{d}Z(\mathbf{t})\\&\quad+\boldsymbol{\eta}\mathbf{A}(\mathbf{t})\mathbf{d}W(\mathbf{t})\end{aligned}
 $$
 
-设 V(t)为配对交易投资组合的价值， $\mathrm{h(t)}\mathscr{F}^{\widetilde{\mathbf{\Gamma}}}\widetilde{h}(t)$ 分别代表股票对 A 和 B时间t时在投资组合中的权重。由于我们每次交易的股票对A和 B的价值是相同的，即每次买入一定价值的一只股票，也会卖出同等价值的另外一只股票，所以 $\mathrm{h(t)}\mathcal{F}_{}|\tilde{h}(t)$ 满足关系：
+设 V(t)为配对交易投资组合的价值， $\mathbf{h}(t)和\widetilde{\mathbf{h}}(t)$ 分别代表股票对 A 和 B时间t时在投资组合中的权重。由于我们每次交易的股票对A和 B的价值是相同的，即每次买入一定价值的一只股票，也会卖出同等价值的另外一只股票，所以 $\mathbf{h}(\mathbf{t})和\widetilde{\mathbf{h}}(\mathbf{t})$ 满足关系：
 
 $$
-{\bf h}({\bf t})=-\widetilde{h}(t)
+\mathbf{h}(\mathbf{t})=-\widetilde{\mathbf{h}}(\mathbf{t})
 $$
 
 由以上方程我们能得出V(t)的动态方程
 
 $$
-{\bf d}{\bf V}({\bf t})={\bf V}({\bf t})\{{\bf h}({\bf t})\frac{dA(t)}{A(t)}+\widetilde{h}(t)\frac{dB(t)}{B(t)}+\frac{dM({\bf t})}{M(t)}
+\mathbf{dV(t)}=\mathbf{V(t)}[\mathbf{h(t)}\frac{\mathbf{dA(t)}}{\mathbf{A(t)}}+\mathbf{\widetilde{h}(t)}\frac{\mathbf{dB(t)}}{\mathbf{B(t)}}+\frac{\mathbf{dM(t)}}{\mathbf{M(t)}}]
 $$
 
 将 A(t)、B(t)、M(t)的过程代入上式，则 V(t)可以改写为：
 
 $$
-\begin{array}{r}\mathbf{d}\mathbf{V}(\mathbf{t})=\mathbf{V}(\mathbf{t})\{[\mathbf{h}(\mathbf{t})(\mathbf{\ k}(\theta-\mathbf{X}(\mathbf{t}))+\frac{1}{2}\eta^{2}+\rho\sigma\eta+r]d\mathbf{\}t+\eta dW(t)\}}\end{array}
+\mathbf{dV}(\mathbf{t})=\mathbf{V}(\mathbf{t})\{[\mathbf{h}(\mathbf{t})\left(\mathbf{k}(\mathbf{\theta}-\mathbf{X}(\mathbf{t}))+\frac{1}{2}\mathbf{\eta}^{2}+\mathbf{\rho}\mathbf{\sigma}\mathbf{\eta}+\mathbf{r}\right)\mathbf{dt}+\mathbf{\eta}dW(\mathbf{t})\}
 $$
 
 ## 2.2. 最优化控制
 
-假设投资者的偏好可以用效用函数 ${\mathbf U}({\mathbf V})=\textstyle{\frac{1}{\gamma}}{W}$ 表示，则该配对交易问题
+假设投资者的偏好可以用效用函数 $\mathbf{U}(\mathbf{V})={\frac{1}{\gamma}}\mathbf{V}^{\gamma}$ 表示，则该配对交易问题
 
 可以用随机系统最优化控制的方法来解决，即寻找 h(t)的最优化解使得效用函数在周期T 时的最大值。
 
@@ -181,25 +181,25 @@ $$
 满足限制条件: V(0) = v0 X(0) = x0
 
 $$
-\mathbf{dX}(\mathbf{t})=\mathbf{k}\big(\mathbf{\theta}-\mathbf{X}(\mathbf{t})\big)\mathbf{dt}+\boldsymbol{\eta}\mathbf{dW}(\mathbf{t})
+\mathbf{d}\mathbf{X}(\mathbf{t})=\mathbf{k}\left(\mathbf{\theta}-\mathbf{X}(\mathbf{t})\right)\mathbf{d}\mathbf{t}+\eta\mathbf{d}\mathbf{W}(\mathbf{t})
 $$
 
 $$
-\mathbf{d}\mathbf{V(t)}=\mathbf{V(t)}\{[\mathbf{h(t)}\left(\mathbf{k{\big(}}\mathbf{\theta-X(t)}\right)+{\frac{1}{2}}\eta^{2}+\rho\sigma\eta+r]dt+\eta dW(t)\}
+\mathbf{dV}(\mathbf{t})=\mathbf{V}(\mathbf{t})\{[\mathbf{h}(\mathbf{t})\left(\mathbf{k}(\mathbf{\theta}-\mathbf{X}(\mathbf{t}))+\frac{1}{2}\mathbf{\eta}^{2}+\mathbf{\rho}\mathbf{\sigma}\mathbf{\eta}+\mathbf{r}\right)\mathbf{dt}+\mathbf{\eta}\mathbf{dW}(\mathbf{t})\}
 $$
 
-利用最优化控制理论的 $\mathrm{Hamilton-Jacobi-Bellman}$ (HJB)方程，我们可以计算出h(t)的最优化解 $\mathbf{\nabla}\cdot\mathbf{\vec{n}}^{*}(t,x)$ 为满足上确界的最优化解：
+利用最优化控制理论的 $\mathrm{Hami\:l\:ton-Jacobi\:-\:Be\:l\:lman}$ (HJB)方程，我们可以计算出h(t)的最优化解 $\mathbf{\nabla}\cdot\pmb{h}^{*}(\pmb{t},\pmb{x})$ 为满足上确界的最优化解：
 
 $$
-h^{\ast}(t,x)=\frac{1}{1-\gamma}[\beta(t)+2x\alpha(t)-\frac{k(x-\theta)}{\eta^{2}}+\frac{\rho\sigma}{\eta}+\frac{1}{2}]
-$$
-
-$$
-\begin{array}{rl}{\frac{\ddagger{}}{\sqrt{\star}}\Psi}&{{}\alpha(\mathbf{t})=\frac{k}{2\eta^{2}}[\bigl(1-\sqrt{1-\gamma}\bigr)+\frac{2\sqrt{1-\gamma}}{1+\left(1-\frac{2}{1-\sqrt{1-\gamma}}\right)\exp(\frac{2k}{\sqrt{1-\gamma}}(T-t))}}\end{array}
+\boldsymbol{h}^{*}(t,x)=\frac{1}{1-\gamma}\left[\boldsymbol{\beta}(t)+2x\boldsymbol{\alpha}(t)-\frac{\boldsymbol{k}(x-\theta)}{\eta^{2}}+\frac{\rho\boldsymbol{\sigma}}{\eta}+\frac{1}{2}\right]
 $$
 
 $$
-\beta(t)=\frac{k\theta}{\eta^{2}}(1+\sqrt{1-\gamma})~\frac{exp\left(\frac{2k}{\sqrt{1-\gamma}}(T-t)\right)-1}{1+\left(1-\frac{2}{1-\sqrt{1-\gamma}}\right)exp(\frac{2k}{\sqrt{1-\gamma}}(T-t))}
+\alpha(t)=\frac{k}{2\eta^{2}}\left[\left(1-\sqrt{1-\gamma}\right)+\frac{2\sqrt{1-\gamma}}{1+\left(1-\frac{2}{1-\sqrt{1-\gamma}}\right)\exp\left(\frac{2k}{\sqrt{1-\gamma}}(T-t)\right)}\right]
+$$
+
+$$
+\beta(t)=\frac{k\theta}{\eta^{2}}\left(1+\sqrt{1-\gamma}\right)\frac{exp\left(\frac{2k}{\sqrt{1-\gamma}}(T-t)\right)-1}{1+\left(1-\frac{2}{1-\sqrt{1-\gamma}}\right)exp\left(\frac{2k}{\sqrt{1-\gamma}}(T-t)\right)}
 $$
 
 ## 2.3.策略实际操作流程

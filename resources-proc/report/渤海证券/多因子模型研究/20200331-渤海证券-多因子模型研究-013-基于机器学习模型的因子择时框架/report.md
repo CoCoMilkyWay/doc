@@ -133,11 +133,11 @@ SAC NO：S1150517100002
 配对相关性是分层组合每一层内部个股和组合整体收益相关性的平均值。
 
 $$
-1),13,2,3;41\times12=12\times(\mathrm{Corr}(13,2\times12\times3\times12\times12\times24\times12\times2\times3\times12\times3\times4\times12\times3\times4\times24))
+顶层相关性=Mean\left(Corr\left(顶层个股3个月收益率,顶层组合3个月收益率\right)\right)
 $$
 
 $$
-11\div x+15+\frac{1}{5}=13\times\frac{2}{20}+11=11\div\frac{2}{5}+11=14
+配对相关性=顶层相关性+底层相关性
 $$
 
 配对相关性升高时，组合内部股票表现为同涨同跌，因子热度上升。通过计算 IC值可以看出，配对相关性与与市值因子的未来收益呈现较明显的负相关关系。
@@ -188,7 +188,7 @@ $$
 验证集为 2016 年-2020 年数据。我们的预测目标是因子收益的历史移动平均与实际因子收益的差距。
 
 $$
-Y_{T+1}=\left\{\begin{array}{cc}{{1,}}&{{ifmean\big(\mathcal{B}\mathcal{J}\mathcal{J}\mathcal{H}\mathcal{\ddot{Z}}\mathcal{\ddot{Z}}\mathcal{\ddot{Z}}_{1:T}\big)\stackrel{_{\textstyle\downarrow}}{\downarrow}\mathcal{B}\mathcal{J}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{\ddot{Z}}\mathcal{\ddot{P}}_{T+1}\mathcal{\dot{Z}}\mathcal{\ddot{Z}}_{T+1}\mathcal{\dot{Z}}\mathcal{\dot{Z}}\mathcal{\dot{H}}\mathcal{R}\big\}}}\\{{0,}}&{{else}}\end{array}\right.
+Y_{T+1}=\left\{\begin{aligned}1,\quad&ifmean(历子收益率_{1:T})与历子收益率_{T+1}符号相同\\&0,\quad else\end{aligned}\right.
 $$
 
 在传统多因子模型中，我们使用因子历史收益的移动平均值来预测因子的当期收益率。如果预测的因子收益为正，而当期因子收益实际为负值，则在模型中正向暴露该因子会给模型带来较大收益回撤，反之亦然。故在因子择时模型中，我们将预测目标设成二者符号相反的概率。
@@ -240,15 +240,15 @@ $$
 我们使用线性规划来构建多因子模型，优化目标为组合收益，限制条件为行业中性，以及组合在风险因子上的暴露为 0：
 
 $$
-max\qquad\alpha^{\prime}w\tag{1}
+max\quad\alpha^{\prime}w\tag{1}
 $$
 
 $$
-s.t.\qquad X_{f}\cdot(w-w_{b})=0\tag{2}
+\begin{array}{rlr}{s.t.}&{{}}&{X_{f}\cdot(w-w_{b})=0}\end{array}\tag{2}
 $$
 
 $$
-\boldsymbol{H}\cdot(\boldsymbol{w}-\boldsymbol{w_{b}})=0
+H\cdot(w-w_{b})=0
 $$
 
 $$
@@ -258,7 +258,7 @@ $$
 (4)
 
 $$
-{\bf1^{\prime}}w=1\tag{5}
+\mathbf{1}^{\prime}w=1\tag{5}
 $$
 
 其中 为待求解的组合权重，（1）为待优化的目标函数，（2）-（6）需满足的条件限制。

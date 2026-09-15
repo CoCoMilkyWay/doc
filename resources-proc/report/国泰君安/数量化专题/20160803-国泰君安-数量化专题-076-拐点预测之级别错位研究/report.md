@@ -165,7 +165,7 @@ le_Summary]级别错位现象是指日线级别趋势 “终点”对应的时�
 - 大级别在 $[T_{A},T_{e}]$ 时间区间内的最低点 B 位于 [a , c] 区间内，即：
 
 $$
-\mathrm{MIN}\{\left.\mathrm{P}_{\mathrm{\tiny~T}}\ast\pi_{\beta}\right||\mathrm{\tiny~T}_{\ast\ast\beta||}\in[T_{A},T_{e}]\}\ \in\ [a,c]
+\mathrm{MIN}\{\mathrm{P}_{\mathrm{T}大级别}\mid\mathrm{T}_{大级别}\in[T_A,T_e]\}\in[a,c]
 $$
 
 图 5 后错位（大级别处于下跌行情）示意图
@@ -179,7 +179,7 @@ $$
 - 大级别在 $[T_{A},T_{e}]$ 时间区间内的最高点 B 位于 [a , c] 区间内，即：
 
 $$
-\mathrm{MAX}\{\left.\mathrm{P}_{\mathrm{\scriptsize~T}}\pm\mathcal{R}_{\mathrm{\scriptsize~\mathrm{J}}}\right|\big|\mathrm{\scriptsize~T}_{\mathrm{\scriptsize~\star~a~n~f~l~}}\}\in\mathrm{~}[T_{A},T_{e}]\mathrm~\scriptsize~\}\in\mathrm{~\scriptsize~[\it~a~,\it~c]~}
+\mathrm{MAX}\{\mathrm{P}_{\mathrm{T}^{大级别}}\mid\mathrm{T}_{\mathrm{大级别}}\in[T_{A},T_{e}]\}\in[a,c]
 $$
 
 图 6 后错位（大级别处于上涨行情）示意图
@@ -193,7 +193,7 @@ $$
 - 大级别在 $[\mathrm{T_{A}},\mathrm{T_{e}}]$ 时间区间内的最低点B 位于 [c , e] 区间内，即
 
 $$
-\mathrm{MIN}\{\mathrm{P_{T}}\ast\mathrm{aga}||\mathrm{T}\ast\mathrm{aga}\}\in[T_{A},T_{e}]\ \}\ \in\ [c,e]
+\mathrm{MIN}\{\mathrm{P}_{\mathrm{T}大级别}\mid\mathrm{T}_{大级别}\in[T_A,T_e]\}\in[c,e]
 $$
 
 图 7 前错位（大级别处于下跌行情）示意图
@@ -207,7 +207,7 @@ $$
 - 大级别在 $[\mathrm{T_{A}},\mathrm{T_{e}}]$ 时间区间内的最高点B 位于 [c , e] 区间内，即
 
 $$
-\mathbf{MAX\{\exp_{T}\nmid T_{\lambda}\nmid\in\Sigma[T_{A},T_{e}]\}}\ \in\ [c,e]
+\mathrm{MAX}\{\mathrm{P}_{\mathrm{T}_{大级别}}\mid\mathrm{T}_{大级别}\in[T_{A},T_{e}]\}\in[c,e]
 $$
 
 图 8 前错位（大级别处于上涨行情）示意图
@@ -311,11 +311,11 @@ $$
 
 收益率：
 
-- 反转策略收益率（以下简称反转收益率） $\mathbf{\Phi}\mathrm{~~\cdot~}=\left(\mathbf{\Phi}\mathbf{P}_{SI}-\mathbf{P}_{B}\right)\mathbf{\Phi}/\mathbf{P}_{B}\times100\%$
+- 反转策略收益率（以下简称反转收益率） $\mathrm{I}=\left(P_{SI}-P_{B}\right)/P_{B}\times100\%$
 
-- 动量策略收益率（以下简称动量收益率） $=\left(P_{S2}-P_{B}\right)/P_{B}\times100\%$
+- 动量策略收益率（以下简称动量收益率） $\left(\boldsymbol{P}_{S2}-\boldsymbol{P}_{B}\right)/\boldsymbol{P}_{B}\times100\%$
 
-- 止损操作收益率（以下简称止损收益率 $)=(P_{S3}-P_{B})/P_{B}\times100\%$
+- 止损操作收益率（以下简称止损收益率 $\left(P_{S3}-P_{B}\right)/P_{B}\times100\%$
 
 图 10 预测日线级别行情底部的交易时点
 ![](images/b59c0e726f64a9bd1e8d252209cdb47f8a21a91512cefc370d7b3314e7481934.webp)
@@ -331,11 +331,11 @@ $$
 
 ## 收益率：
 
-- 反转策略收益率（以下简称反转收益率 $)=(P_{S}-P_{BI})/P_{S}\times100\%$
+- 反转策略收益率（以下简称反转收益率 $\left(\boldsymbol{P}_{S}-\boldsymbol{P}_{BI}\right)/\boldsymbol{P}_{S}\times100\%$
 
-- 动量策略收益率（以下简称动量收益率 $)=(P_{S}-P_{B2})/P_{S}\times100\%$
+- 动量策略收益率（以下简称动量收益率 $\left(P_{S}-P_{B2}\right)/P_{S}\times100\%$
 
-- 止损操作收益率（以下简称止损收益率 $)=(P_{S}-P_{B3})/P_{S}\times100\%$
+- 止损操作收益率（以下简称止损收益率 $\left(P_{S}-P_{B3}\right)/P_{S}\times100\%$
 
 图 11 预测日线级别行情顶部的交易时点
 ![](images/888de8bd5ef45375831f6f8b779118a677d01d45f2a9e427498e5e946e947941.webp)

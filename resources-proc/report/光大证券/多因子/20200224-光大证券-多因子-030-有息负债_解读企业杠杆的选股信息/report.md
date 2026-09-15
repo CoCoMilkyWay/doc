@@ -273,7 +273,7 @@ liujunwei@ebscn.com
 业绩增长加速度：利用连续N 个季度的单季度归母净利润，对期数的二次方程进行回归，取二次项系数作为业绩增长加速度的代理变量。回归公式如下：
 
 $$
-{\mathrm{NetProfit}}_{t}=\alpha\times t^{2}+\beta\times t+c\tag{1}
+\mathsf{NetProfit}_{t}=\alpha\times t^{2}+\beta\times t+c\tag{1}
 $$
 
 其中，NetProfit为单季度归母净利润，t 为季度数， 为上市公司业绩增长加速度的代理变量， 越高，表示业绩增长的加速度越高。

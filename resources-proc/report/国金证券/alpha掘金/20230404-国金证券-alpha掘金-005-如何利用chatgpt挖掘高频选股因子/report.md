@@ -277,7 +277,7 @@ Wei et al(2022)发现利用思维链（Chain of thought）能够极大提升大�
 流动性。此外，我们考虑对因子进行适当变形，将两者变异系数相除，得到新的变异系数因子（LI2VLI）。利用日频的量价数据，取过去 5天的价格和成交量变异系数进行计算，对该因子进行构建：
 
 $$
-LI={\frac{\sigma_{price}}{\mu_{price}}}
+LI=\frac{\sigma_{price}}{\mu_{price}}
 $$
 
 $$
@@ -337,15 +337,15 @@ $$
 由此，我们根据模型所给出的因子构建方式，利用已有的 A 股 tick 数据进行构建并进行因子测试。使用与前期系列报告中相似的处理方式，对每只股票每天的 3 秒快照数据分别求出前十档的买入委托价、买入委托量和卖出委托价、卖出委托量，最终每个交易日求出均值得到买盘力量、卖盘力量和买卖盘力量差异因子。此处买卖盘力量差异因子我们考虑到逻辑合理性，需要做标准化以做到横截面可比，因此构建过程中我们对因子进行了修正。
 
 $$
-BForce=\mathrm{BVol}*(1-\frac{\overline{{pruce_{bud}}}}{\mathrm{price}})
+BFore=BVol*(1-\frac{\overline{price}_{bld}}{\overline{price}})
 $$
 
 $$
-SForce=\mathrm{SVol}*(\overline{{\frac{pruce_{ask}}{\mathrm{price}}}}-1)
+SForce=\mathrm{SVol}*(\frac{\overline{{price_{ask}}}}{\mathrm{price}}-1)
 $$
 
 $$
-BSForce=\frac{BForce-SForce}{BForce+SForce}
+BSForce={\frac{BForce-SForce}{BForce+SForce}}
 $$
 
 我们首先对因子进行了日频调仓的测试，测试时间范围为2016年1 月-2022年 8月，股票范围为所有中证 1000指数成份股。以次日开盘价作为买入价格，测试结果如下：

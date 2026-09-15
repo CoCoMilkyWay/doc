@@ -61,20 +61,20 @@ Email:ylq9619@htsec.com
 本文中使用的净委买变化率沿用了《选股因子系列研究（四十七）——捕捉投资者的交易意愿》中的定义，相关指标的计算方法如下所示：
 
 $$
-\begin{array}{rl}&{\check{\mathcal{\bar{\Phi}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\hat{\mathcal{\bar{\mathcal{K}}}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}\underset{\mathbf{\bar{\mathcal{K}}},t}{\mathcal{\bar{K}}}\underset{k,t}{\overset{\mathcal{T}}{\mathcal{\bar{\Psi}}}}=\overset{\underset{\tilde{\mathcal{H}}}{\hat{\mathcal{\bar{\Phi}}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}\underset{k,t}{\mathcal{\bar{Z}}}}{\overset{T}{\mathcal{\bar{\Psi}}}}}\\&\underset{\mathrm{\mathcal{\bar{\Phi}}}}{\overset{\mathcal{\bar{L}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}\underset{\mathbf{\bar{\mathcal{L}}}}{\mathcal{\bar{L}}}\underset{k,t}{\mathcal{\bar{Z}}}=\overset{k}{\underset{j=1}{\overset{k}{\mathcal{\bar{L}}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}\underset{\mathbf{\bar{\mathcal{K}}}}{\mathcal{\bar{Z}}}\underset{j,t}{\mathcal{\bar{Z}}}-\underset{j=1}{\overset{k}{\sum}}\underset{\mathbf{\bar{\mathcal{K}}}}{\overset{\mathcal{\bar{L}}}\underset{\mathbf{\bar{\mathcal{H}}}}{\mathcal{\bar{Z}}}}\underset\mathbf{\bar{\mathcal{L}}}\end{array}
+\begin{aligned}&净委买变化率_{k,t}^{T}=\frac{净委买变化量_{k,t}^{T}}{流通股本_{T}}\\&净委买变化量_{k,t}^{T}=\sum_{j=1}^{k}委买变化量_{j,t}^{T}-\sum_{j=1}^{k}委卖变化量_{j,t}^{T}\\\end{aligned}
 $$
 
-其中，净委买变化率 $\mathsf{T}_{\mathsf{k,t}}$ 为 T 日 t至 t+1 时刻间，使用前 k 档数据计算得到的净委买变化率，净委买变化量 $\mathsf{T}_{\mathsf{k},\mathsf{t}}$ 为 T 日 t至 t+1 时刻间，使用前 k 档数据计算得到的净委买变化量,流通股本 为 日股票的流通股本，委买变化量 $\tau_{\mathrm{j,t}}$ 为 日 至 时刻间，第 档委买的变化量，委卖变化量 $\tau_{\mathrm{j,t}}$ 为 T 日 t至 t+1 时刻间，第 j档委卖的变化量。（需要说明的是，委买变化量以及委卖变化量的计算需要考虑盘口的变动，对于涨停以及跌停的股票也需要进行处理。更多处理细节可咨询报告作者。）
+其中，净委买变化率 $\intercal_{\mathsf{k},\mathsf{t}}$ 为 T 日 t至 t+1 时刻间，使用前 k 档数据计算得到的净委买变化率，净委买变化量 $\mathsf{\Gamma}_{\mathsf{k},\mathsf{t}}$ 为 T 日 t至 t+1 时刻间，使用前 k 档数据计算得到的净委买变化量,流通股本 为 日股票的流通股本，委买变化量 $\mathsf{\Gamma}_{\mathsf{j},\mathsf{t}}^{\mathsf{T}}$ 为 日 至 时刻间，第 档委买的变化量，委卖变化量 $\mathsf{\Gamma}_{\mathsf{j},\mathsf{t}}^{\mathsf{T}}$ 为 T 日 t至 t+1 时刻间，第 j档委卖的变化量。（需要说明的是，委买变化量以及委卖变化量的计算需要考虑盘口的变动，对于涨停以及跌停的股票也需要进行处理。更多处理细节可咨询报告作者。）
 
 ## 1.2 因子计算
 
 基于上文的思路，本文构建了委托成交相关性因子。股票 i在 T 日使用前 1档委托挂单数据计算得到的委托成交相关性如下：
 
 $$
-\mathop{\ddag}{\hat{\ddag}{\dot{\mathcal{A}}}\times{\dot{\overline{{\mathcal{A}}}}\times{\dot{\mathcal{H}}}\times\not|{\dot{\mathcal{H}}}\cdot\not|{\vphantom{\dot{\mathcal{H}}}{\dot{\mathcal{H}}}}_{T}^{i}}}=corr(r_{T,t}^{i},netBid_{T,t}^{i})
+委托成交相关性_{T}^{i}=corner(r_{T,t}^{i},netBid_{T,t}^{i})
 $$
 
-其中， $\{\boldsymbol{\mathsf{r}}_{\mathsf{T},\mathsf{t}}^{\mathsf{i}}\}$ 为股票 i在 T 日的高频收益序列， $\{\boldsymbol{\mathrm{netBid}}_{\top,\mathrm{t}}^{\boldsymbol{\mathrm{1}}}\}$ 为股票 i在 T 日使用前 1 档委托挂单数据计算得到净委买变化率序列。在任意时点上，可使用回看窗口中股票的委托成交相关性均值作为因子值。
+其中， $\{r^{i},t\}$ 为股票 i在 T 日的高频收益序列， $\{\mathsf{netBid}_{\mathsf{T},\mathsf{t}}^{\mathsf{i}}\}$ 为股票 i在 T 日使用前 1 档委托挂单数据计算得到净委买变化率序列。在任意时点上，可使用回看窗口中股票的委托成交相关性均值作为因子值。
 
 考虑到投资者在开盘后以及收盘前的交易行为更能够体现出投资者对于信息的反馈以及交易意愿，本文不仅使用全天数据计算因子，还围绕开盘、收盘时点选取 30 分钟的时间段计算因子。本文将 9:30~14:57 简称为全天，9:30~10:00 简称为开盘后，将14:26~14:57 简称为收盘前，将 10:00~14:26 简称为盘中。
 

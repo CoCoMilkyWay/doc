@@ -63,7 +63,7 @@ Email:yhm9591@haitong.com
 于是，我们可定义收益保留比例为：
 
 $$
-RevenueRatio(\frac{ClosePrice}{TradePrice}-1)\middle/(\frac{ClosePrice}{PreClosePrice}-1)
+RevenueRatio=\left(\frac{Classprice}{Totalprice}-1\right)/\left(\frac{Classprice}{Precloseprice}-1\right)
 $$
 
 即，成交价（TradePrice）相对今收盘价的收益率与前收盘价相对今收盘价的收益率之比。为避免歧义，上述定义暂不考虑前收盘价和今收盘价相等的情形。该比值越大，代表交易的保留收益越高。若比值大于 1，则代表从交易中获取了超额收益；若比值小于1，则代表交易过程产生了损失。
@@ -190,7 +190,7 @@ $$
 我们定义，价格波动导致的成本约等于分钟成交价相对前收盘价收益率的标准差。
 
 $$
-VolCost=SD\left(\frac{TradePrice}{Preclose}-1\right)
+VolCost=SD\left(\frac{Tradeprice}{Precision}-1\right)
 $$
 
 由于收益率的波动有聚集性，因此预测第 i分钟的波动率时，我们使用了过去五个交易日的第 i分钟价格波动的滑动平均作为预测值。如下图所示，开盘后的一分钟，全市场股票价格波动的平均预测误差（预测误差：预测值和真实值之差的绝对值，下同）的均值为 14bps，80%分位数为 17bps，均为 10 点前峰值。随后，平均预测误差的均值逐步下降至 4bps左右，80%分位数也同步下降至 5bps 左右，并同时保持稳定。虽然开盘后的误差较大，但平均误差百分比始终在 44%至 50%之间，与交易时段无关。
@@ -215,14 +215,14 @@ $$
 有了这三个要素的预测，纯市价单策略相对于同时段 TWAP的成本可写为，
 
 $$
-Cost_{min}=VolCost_{min}+DiffCost_{min}+SheetLiqCost_{min}
+Cost_{min}=VolCost_{min}+diffCost_{min}+SbestLiqCost_{min}
 $$
 
 其中， $VolCost_{min}$ 表示价格波动成本， $DiffCost_{min}$ 表示买卖价差成本， $SheetLiqCost_{min}$ 表示盘口流动性成本。
 
 但需要注意的是，图 6-8 展示的预测都假设每秒交易 1次，即每分钟交易 60次。但在实际交易中，囿于网络延迟、柜台处理能力不足等因素，很难实现每秒交易。因此，真实的成本也将受到交易次数的影响。
 
-我们假设每分钟的交易次数为n（ $\scriptstyle\mathsf{n}<=6\ )$ ，那么价格波动成本变为在样本数为 ${\sf N}(=60)$ 的总体中抽取 n个样本后，这些样本的标准差：
+我们假设每分钟的交易次数为n（ $n{<}{=}6)$ ，那么价格波动成本变为在样本数为 $N=60$ 的总体中抽取 n个样本后，这些样本的标准差：
 
 $$
 VolCost_{min}=\beta*\sqrt{\frac{N-n}{N-1}}*\left(\frac{PreVolCost_{min}}{\sqrt{n}}\right)
@@ -317,10 +317,10 @@ $$
 限价单优先策略是指，先尽可能以限价单形式成交，再将未成交部分以市价单强制成交。所以，在预测成本时，也要对限价成交和强制市价成交两部分单独进行，再按成交比例合成。由于限价成交部分的成本只与价格波动有关，因此，最终的预测成本为，
 
 $$
-Cost_{min}=Weight_{i,\mathrm{min}}*Vol\ Cost_{i,\mathrm{min}}+Weight_{m,\mathrm{min}}*(Vol\ Cost_{m,\mathrm{min}}+DiffCost_{m,\mathrm{in}}+SheetLiqCost_{m,\mathrm{in}})
+Cost_{min}=Weight_{min}*VolCost_{min}+Weight_{m,min}*(VolCost_{m,min}+DiffCost_{min}+SheetLiqCost_{min})
 $$
 
-其中， $VolCost_{l,min}\hat{\square}VolCost_{m,min}$ 分别代表限价单和市价单的价格波动成本，它们的计算公式相同，但下单次数 n会随不同的下单策略变化。 $Weight_{l,min}$ 与 $Weight_{m,min}$ 分别代表限价单和市价单的成交占比，具体数值由下单策略、股票价格走势等多重因素决定。而由前文可知，该参数的预测难度很大，故后文将通过人为设定，对其进行简化。
+其中， $VolCost_{l,min}与VolCost_{m,min}$ 分别代表限价单和市价单的价格波动成本，它们的计算公式相同，但下单次数 n会随不同的下单策略变化。 $Weight_{l,min}$ 与 $Weight_{m,min}$ 分别代表限价单和市价单的成交占比，具体数值由下单策略、股票价格走势等多重因素决定。而由前文可知，该参数的预测难度很大，故后文将通过人为设定，对其进行简化。
 
 ## 2.3.2基于TWAP 的限价单优先策略的成本预测效果
 

@@ -39,11 +39,11 @@
 本文讨论的组合主要指指数增强组合，对于指数增强组合单期的组合优化一般有如下形式：
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{{}\pmb{h}^{T}\cdot\pmb{\alpha}-\lambda\cdot\pmb{h}^{T}\pmb{\Sigma}\pmb{h}}\end{array}
+\max\quad\boldsymbol{h}^{T}\cdot\boldsymbol{\alpha}-\lambda\cdot\boldsymbol{h}^{T}\Sigma\boldsymbol{h}
 $$
 
 $$
-s.t.\quad h\in C
+s.t.\quad{\pmb h}\in C
 $$
 
 其中，h表示股票相对基准的权重向量，α表示股票的预期收益率向量（alpha），Σ表示股票的协方差矩阵，λ为风险惩罚系数，C表示股票权重向量所受的约束空间（比如风格暴露的约束、权重上下限限制等）。
@@ -81,10 +81,10 @@ $$
 我们将采用如下组合优化的形式对组合换手率进行惩罚，换手率惩罚系数c取值 0，表示构建组合时不考虑换手率的影响，随着c取值的增大，对换手的惩罚越严格，相应的组合换手率也越低。
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{\ h^{T}\cdot\alpha-\lambda\cdot h^{T}\Sigma h-c\cdot|h-h_{0}|}\\&{}\\{\qquad}&{\ s.t.\quad h\in C}\end{array}
+\begin{aligned}\max\quad\boldsymbol{h}^{T}\cdot\boldsymbol{\alpha}-\lambda\cdot\boldsymbol{h}^{T}\Sigma\boldsymbol{h}-c\cdot|\boldsymbol{h}-\boldsymbol{h}_{0}|\\s.t.\quad\boldsymbol{h}\in C\end{aligned}
 $$
 
-其中，h表示股票相对基准的目标权重向量， $\pmb{h_{0}}$ 表示股票相对基准的初始权重向量，α表示股票的预期收益率向量（alpha，经年化处理），Σ表示股票的协方差矩阵，λ为风险惩罚系数，C表示股票权重所受的约束空间（比如风格暴露的约束、权重上下限约束等），c表示对当期换手率的惩罚系数。
+其中，h表示股票相对基准的目标权重向量， $h_{0}$ 表示股票相对基准的初始权重向量，α表示股票的预期收益率向量（alpha，经年化处理），Σ表示股票的协方差矩阵，λ为风险惩罚系数，C表示股票权重所受的约束空间（比如风格暴露的约束、权重上下限约束等），c表示对当期换手率的惩罚系数。
 
 我们对全市场增强沪深 300 组合和中证 500 组合在 20101231-20191129 的表现简单做了测试，为了对比研究换手惩罚的影响，我们测算了大类等权的加权方式（基本面为主，换手低）和最大 RankIC（交易面为主，换手高）两种加权方式下、月频调仓和周频调仓两种交易频率下的结果，在风险厌恶系数、风格因子约束、权重上下限约束等变量完全一样的情况下研究换手惩罚系数c对组合业绩的影响。
 
@@ -155,25 +155,25 @@ $$
 Gerard 等 (2013)在 Sneddon（2011）的基础上更精确的描述了交易成本惩罚的影响，为了获得更好的解析性质，Gerard 假设股票的交易成本和股票协方差矩阵相关，采用如下形式的组合优化惩罚交易成本。
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{\ \displaystyle h_{t}^{T}\cdot\alpha_{t}-\frac{1}{2}\cdot\lambda\cdot h_{t}^{T}\cdot\Sigma_{t}\cdot h_{t}-\frac{1}{2}\cdot\eta\cdot(h_{t}-h_{t-1})^{T}\cdot\Sigma_{t}\cdot(h_{t}-h_{t-1})}\\{\mathrm{max}}&{\ }\\{s.t.}&{\ \displaystyle h_{t}^{T}\cdot X_{t}=0}\end{array}
+\begin{aligned}&\max\quad\boldsymbol{h}_{t}^{T}\cdot\boldsymbol{\alpha}_{t}-\frac{1}{2}\cdot\lambda\cdot\boldsymbol{h}_{t}^{T}\cdot\boldsymbol{\Sigma}_{t}\cdot\boldsymbol{h}_{t}-\frac{1}{2}\cdot\eta\cdot(\boldsymbol{h}_{t}-\boldsymbol{h}_{t-1})^{T}\cdot\boldsymbol{\Sigma}_{t}\cdot(\boldsymbol{h}_{t}-\boldsymbol{h}_{t-1})\\&\\&s.t.\quad\boldsymbol{h}_{t}^{T}\cdot\boldsymbol{X}_{t}=0\\\end{aligned}
 $$
 
-其中， $h_{t}$ 表示组合第 t 期的权重向量， $\alpha_{t}$ 表示股票第 t 期的预期收益率向量， $X_{t}$ 表示股票第 t期的风险因子暴露矩阵， $\Sigma_{t}$ 表示第 t 期的股票协方差矩阵， $\begin{array}{r}{\frac{1}{2}\cdot\lambda\cdot h_{t}^{T}\cdot\Sigma_{t}\cdot h_{t}}\end{array}$ 表示风险惩罚项， $\begin{array}{r}{\frac{1}{2}\cdot\eta\cdot}\end{array}$ $(h_{t}-h_{t-1})^{T}\cdot\Sigma_{t}\cdot(h_{t}-h_{t-1})$ 表示交易成本惩罚项。
+其中， $h_{t}$ 表示组合第 t 期的权重向量， $\alpha_{t}$ 表示股票第 t 期的预期收益率向量， $X_{t}$ 表示股票第 t期的风险因子暴露矩阵， $\Sigma_{t}$ 表示第 t 期的股票协方差矩阵， $\textstyle{\frac{1}{2}}\cdot\lambda\cdot h_{t}^{T}\cdot\Sigma_{t}\cdot h_{t}$ 表示风险惩罚项， ${\frac{1}{2}}\cdot\eta\cdot$ $(h_{t}-h_{t-1})^{T}\cdot\Sigma_{t}\cdot(h_{t}-h_{t-1})$ 表示交易成本惩罚项。
 
-在这个框架下，如果我们进一步假设风险因子 $X_{t}$ 比较稳定不随时间变化，而且股票协方差矩阵 $\overline{{\overline{{\mathbf{\alpha}}}}}\mathbf{\Sigma}\Sigma_{t}$ 满足结构化风险形式，那么上面的最优化问题有显式最优解（具体可以参考“Integrated AlphaModeling”的附录 1）。
-
-$$
-\pmb{h}_{t}=\frac{\widetilde{\pmb{\alpha}}_{t}+\eta\cdot\pmb{h}_{t-1}}{\lambda+\eta}
-$$
-
-其中， $\widetilde{\alpha}_{t}=\widehat{\alpha}_{t}/\sigma^{2}$ $\widehat{\alpha}_{t}$ 表示经过风格因子调整后的 alpha， $\sigma^{2}$ 表示股票不能被风险因子解释的残差风险。
-
-从上述表达式我们可以得到如下启示：（1）如果没有换手惩罚 $\left(\eta=0\right)$ ，组合的权重由当前的 alpha 信息决定，组合能够及时反应最新的选股信息；（2）当组合优化考虑换手惩罚 $\left(\eta>0\right)$ 时，组合的权重不仅受最新一期 alpha 的影响而且跟组合初始权重有关，换手惩罚系数η越大，受当前 alpha 影响越小，跟组合初始权重关系越大。
-
-如果不考虑两次调仓期间股票相对收益率的影响，组合原有的权重 $\cdot h_{t-1}$ 可以无限向前迭代，因此组合当期的权重可以写成如下形式：
+在这个框架下，如果我们进一步假设风险因子 $X_{t}$ 比较稳定不随时间变化，而且股票协方差矩阵 $\bar{\Sigma}_{t}$ 满足结构化风险形式，那么上面的最优化问题有显式最优解（具体可以参考“Integrated AlphaModeling”的附录 1）。
 
 $$
-\pmb{h}_{t}=\sum_{p=0}^{\infty}\frac{\eta^{p}}{(\lambda+\eta)^{p+1}}\cdot\widetilde{\pmb{\alpha}}_{t-p}
+\boldsymbol{h}_{t}=\frac{\widetilde{\boldsymbol{\alpha}}_{t}+\eta\cdot\boldsymbol{h}_{t-1}}{\lambda+\eta}
+$$
+
+其中， $\tilde{\alpha}_{t}=\hat{\alpha}_{t}/\sigma^{2}$ $\hat{\alpha}_{t}$ 表示经过风格因子调整后的 alpha， $\sigma^{2}$ 表示股票不能被风险因子解释的残差风险。
+
+从上述表达式我们可以得到如下启示：（1）如果没有换手惩罚 $\left(\;\eta=0\;\right)$ ，组合的权重由当前的 alpha 信息决定，组合能够及时反应最新的选股信息；（2）当组合优化考虑换手惩罚 $\left(\;\eta>0\;\right)$ 时，组合的权重不仅受最新一期 alpha 的影响而且跟组合初始权重有关，换手惩罚系数η越大，受当前 alpha 影响越小，跟组合初始权重关系越大。
+
+如果不考虑两次调仓期间股票相对收益率的影响，组合原有的权重 $[h_{t-1}$ 可以无限向前迭代，因此组合当期的权重可以写成如下形式：
+
+$$
+\boldsymbol{h}_{t}=\sum_{p=0}^{\infty}\frac{\eta^{p}}{(\lambda+\eta)^{p+1}}\cdotp\widetilde{\boldsymbol{\alpha}}_{t-p},
 $$
 
 上述表达式从数学上论证了，当组合优化存在交易成本惩罚时，组合权重不仅和最新一期的因子取值有关还与过去多期的因子取值有关，越早期的因子取值对当期组合权重影响越小。
@@ -181,7 +181,7 @@ $$
 在已知组合权重的基础上，很容易推算组合的预期收益，参考“Integrated Alpha Modeling”的附录 3，我们可以证明组合在 t 期的收益率可以表示成如下形式：
 
 $$
-r_{t}^{p}=\pmb{h}_{t}\cdot\pmb{r}_{t}=\frac{\sigma_{\check{r}}\cdot N}{\lambda}{\sum_{p=0}^{\infty}\left(\frac{\eta}{\lambda+\eta}\right)^{p}\cdot IC_{t}^{p}}
+r_{t}^{p}=\boldsymbol{h}_{t}\cdot\boldsymbol{r}_{t}=\frac{\sigma_{\check{r}}\cdot N}{\lambda}\sum_{p=0}^{\infty}\left(\frac{\eta}{\lambda+\eta}\right)^{p}\cdot IC_{t}^{p}
 $$
 
 其中， $r_{t}^{p}$ 表示组合 t 期的收益率， $\sigma_{\check{r}}$ 表示股票风险调整收益的截面标准差， $IC_{t}^{p}$ 表示 alpha 滞后 $\mathsf{p}$ 期的风险调整 IC，即风格调整的 alpha 因子值和接下来第（p+1）期风格调整的股票收益率的相关系数。
@@ -198,29 +198,29 @@ $$
 r\propto\sum_{p=0}^{\infty}\rho^{p}\cdot IC_{t}^{p}
 $$
 
-其中， $\rho$ 是 0 到 1 之间的参数， $\rho=0{\mathbb{H}}\ b{\ ]}$ $r\propto IC$ 就是我们熟知的不考虑交易成本惩罚的结果，理论上讲ρ应该由交易成本惩罚系数λ和风险惩罚系数η决定，η相对λ越大， $\rho]$ 取值越大，对因子后期的表现应该给予更大的权重，但ρ和λ、 $\eta.$ 之间的关系是建立在一系列强假设的前提下得到的，实际投资中受到做空约束等影响，交易成本大概率也不能满足股票协方差矩阵的二次型函数。因此，对于参数ρ，我们更加建议通过历史数据调试获得，虽然ρ的取值可能带有一定的样本内性质，但只要参数比较稳健，依然是一种比较可取的方式。
+其中， $\rho_{l}$ 是 0 到 1 之间的参数， $\rho=0时$ $r\propto IC$ 就是我们熟知的不考虑交易成本惩罚的结果，理论上讲ρ应该由交易成本惩罚系数λ和风险惩罚系数η决定，η相对λ越大， $\rho^{\mathrm{l}}$ 取值越大，对因子后期的表现应该给予更大的权重，但ρ和λ、 $\eta.$ 之间的关系是建立在一系列强假设的前提下得到的，实际投资中受到做空约束等影响，交易成本大概率也不能满足股票协方差矩阵的二次型函数。因此，对于参数ρ，我们更加建议通过历史数据调试获得，虽然ρ的取值可能带有一定的样本内性质，但只要参数比较稳健，依然是一种比较可取的方式。
 
-对于 m 个alpha 因子线性组合 $\textstyle{\big(}f^{c}=\sum_{j=1}^{m}w_{j}\cdot f^{j}{\big)}$ 的 IC 有如下表达形式：
+对于 m 个alpha 因子线性组合 $\begin{array}{r}{\big(\;f^{c}=\sum_{j=1}^{m}w_{j}\cdot f^{j}\;\big)}\end{array}$ 的 IC 有如下表达形式：
 
 $$
-IC^{c}=\frac{\boldsymbol{w}^{T}\cdot\boldsymbol{IC}}{\boldsymbol{w}^{T}\cdot\Sigma_{f}\cdot\boldsymbol{w}}
+IC^{c}=\frac{\boldsymbol{w}^{T}\cdot IC}{\boldsymbol{w}^{T}\cdot\boldsymbol{\Sigma}_{f}\cdot\boldsymbol{w}}
 $$
 
-其中，w表示各个 alpha 因子的权重向量序列，IC表示各个 alpha 因子的 IC 向量， $\Sigma_{f}$ 表示因子值的协方差矩阵（标准化后的因子值的相关系数矩阵）。
+其中，w表示各个 alpha 因子的权重向量序列，IC表示各个 alpha 因子的 IC 向量， $\pmb{\Sigma}_{f}$ 表示因子值的协方差矩阵（标准化后的因子值的相关系数矩阵）。
 
 因此，多个 alpha 因子线性组合的收益率有如下形式：
 
 $$
-r\propto\sum_{p=0}^{\infty}\rho^{p}\cdot\frac{{\bf{\nabla}}w^{T}\cdot IC^{p}}{w^{T}\cdot\Sigma_{f}^{p}\cdot w}
+r\propto\sum_{p=0}^{\infty}\rho^{p}\cdot\frac{w^{T}\cdot IC^{p}}{w^{T}\cdot\Sigma_{f}^{p}\cdot w}
 $$
 
-假设因子值的相关系数 $\Sigma_{f}$ 比较稳定，那么上式可以进一步写成：
+假设因子值的相关系数 $\pmb{\Sigma}_{f}$ 比较稳定，那么上式可以进一步写成：
 
 $$
-r\propto\frac{{\mathbf{}}{\mathbf{}}{\mathbf{}}\mathbf{}{\mathbf{}}\mathbf{{\mathbf{}}}\left(\sum_{p=0}^{\infty}\rho^{p}\cdot{\mathbf{}}{\mathbf{}}{\mathbf{}}{C}^{p}\right)}{{\mathbf{}}{\mathbf{}}{\mathbf{}}{\mathbf{}}{\mathbf{}}{\mathbf{}}^{T}\cdot\sum_{f}\cdot{\mathbf{}}{\mathbf{}}{\mathbf{}}}
+r\propto\frac{w^{T}\cdot\left(\sum_{p=0}^{\infty}\rho^{p}\cdot IC^{p}\right)}{w^{T}\cdot\Sigma_{f}\cdot w}
 $$
 
-考虑多期问题的最大化 IC 加权方法就是选取一组因子权重w使得上式最大化，当 $\rho=0\mathbb{H}\overline{{\mathbf{\Lambda}}}$ 退化为单期的最大化 IC 方法。
+考虑多期问题的最大化 IC 加权方法就是选取一组因子权重w使得上式最大化，当 $\rho=0时$ 退化为单期的最大化 IC 方法。
 
 从上述的分析我们可知，考虑交易成本惩罚后，与组合收益率相对应的不再是因子当期的 IC而是多期 IC 的指数加权平均值，在最大化 IC 的加权框架下，影响因子权重的也不再是因子当期的IC，而是多期加权平均的 IC，这也对我们的因子评价产生了深刻的影响，考察因子应不单关注因子对当期收益的影响，也要关注因子对后续收益的预测效果（不仅要考察当前 RankIC 也要考察RankIC 的期限结构）。
 

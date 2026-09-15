@@ -51,7 +51,7 @@
 在负向 alpha 系列报告《如何利用负面因子做指数增强？——高频因子篇》中，我们提出了以每个时间段内成交量和收盘价的相关性构建量价相关性因子，衡量成交量和股价之间的趋同或背离程度，趋同程度高（即价格高时成交量高，价格低时成交量低）反映了股票交易行为中存在着羊群效应，从而进一步导致了短期的过度反应和随后的收益反转效应，因子构建方法如下：
 
 $$
-\Xi\{\uparrow\uparrow/\exists\vdash/\downarrow\vdash/\downarrow\equiv corr(\{vol_{t}\},\{close_{t}\})
+量价相关性因子=Corr(\{vol_t\},\{close_t\})
 $$
 
 其中vol 为每个时间段的成交量，close 为每个时间段的收盘价。
@@ -110,7 +110,7 @@ $$
 故可以将成交量加权的收盘价求和同收盘价等权求和的比值，作为个股在高位成交密集水平的刻画，构建加权收盘价比因子：
 
 $$
-\mathrm{\bf\mathrm{\uparrow}}\mathrm{\mathrm{\bf{\mathrm{I}}}}\mathrm{\mathbb{\mathrm{\uparrow}}}\mathrm{\mathbb{\mathrm{X}}}\mathrm{\mathrm{\bf{\mathrm{\downarrow}}}}\mathrm{\overleftrightarrow{\mathrm{\bf{\mathrm{\downarrow}}}}\mathrm{\overleftrightarrow{\mathrm{\bf{\downarrow}}}\mathrm{\uparrow}}\mathrm{\bf{\mathrm{\downarrow}}}\mathrm{\overleftarrow{\mathrm{\bf{\downarrow}}}}}=\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VOL}close_{t}}{\frac{\sum_{t=1}^{T}close_{t}}{T}}
+加权收盘价比=\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VolL}close_{t}}{\frac{\sum_{t=1}^{T}close_{t}}{T}}
 $$
 
 其中 $\begin{array}{r}{VOL=\sum_{t=1}^{T}vol_{t}}\end{array}$ 为整个时间段总成交量，T为划分时间段个数。
@@ -159,10 +159,10 @@ $$
 偏度是一种直接刻画数据分布偏斜方向和程度的度量，是统计数据分布非对称程度的数字特征。假设每个时间段成交量均相等，则价格的偏度即刻画了整个时间段价格相比平均值不对称的程度，当偏度大于 0 时，大于价格均值的价格比小于价格均值的价格少，个股成交集中在价格相对较低的水平，反之当偏度小于 0 时，个股成交集中在价格相对较高水平。问题在于每个时刻的成交量并非完全相等，成交量较高的时间段本身应该在计算偏度时占有更大比例。故本节以成交量加权的方式计算过去一段时间价格分布的偏离程度，如果负偏态越明显，则个股在价格高位成交越多：
 
 $$
-\pi\sharp\mathbb{X}\ /|\dot{\mathbb{H}}|\widecheck{\mathbb{S}}|=\frac{\sum_{t=1}^{T}w_{t}(close_{t}-\overline{{close}})^{3}}{close_{\sigma}^{3}}
+加权偏度=\frac{\sum_{t=1}^{T}w_{t}(close_{t}-\overline{close})^{3}}{close_{\sigma}^{3}}
 $$
 
-其中 $\begin{array}{r}{w_{t}=\frac{vol_{t}}{VOL}}\end{array}$ 为正比于成交量的权重，close̅̅̅̅̅̅̅为个股收盘价均值， $close_{\sigma}$ 为个股收盘价标准差。
+其中 $\begin{array}{r}{w_{t}=\frac{vol_{t}}{VOL}.}\end{array}$ 为正比于成交量的权重，close̅̅̅̅̅̅̅为个股收盘价均值， $close_{\sigma}$ 为个股收盘价标准差。
 
 下图分别展示了该因子自 2005 年以来在全市场及中证 800内表现，并在下表中给出了其分年风险指标，可以看到：
 
@@ -208,12 +208,12 @@ $$
 加权收盘价比可以进行如下变换：
 
 $$
-\mathrm{j}\mathrm{J}\mathrm{I}\mathrm{\dot{X}}\mathrm{\dot{X}}\mathrm{\dot{X}}\mathrm{\dot{F}}\mathrm{\dot{F}}\mathrm{\dot{F}}=\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VOL}close_{t}}{\displaystyle{\frac{\sum_{t=1}^{T}close_{t}}{T}}}=T\times\sum_{t=1}^{T}\frac{vol_{t}}{VOL}\frac{close_{t}}{CLOSE}
+\frac{\sum_{t=1}^{T}\frac{vol_{t}}{VOL}close_{t}}{\sum_{t=1}^{T}\frac{close_{t}}{T}}=T\times\sum_{t=1}^{T}\frac{vol_{t}}{VOL}\frac{close_{t}}{CLOSE}
 $$
 
 其中 $\begin{array}{r}{CLOSE=\sum_{t=1}^{T}close_{t}}\end{array}$ 为整个时间段总收盘价。从量纲上看相当于每个时刻的成交量占比和收盘价占比的乘积求和，是一种量纲单位 1 化后的成交额，后文中称为单位一成交额占比。由排序不等式性质：
 
-设两组数列 $\{a_{i}\},\{b_{i}$ }满足 $a_{1}\leq a_{2}\leq\cdots\leq a_{n},b_{1}\leq b_{2}\leq\cdots\leq b_{n},\ \{c_{i}\}$ 为{bi}的乱序排列， 则有 $\dot{a}_{1}b_{n}+a_{2}b_{n-1}+\cdots+a_{n}b_{1}\leq a_{1}c_{1}+a_{2}c_{2}+\cdots+a_{n}c_{n}\leq a_{1}b_{1}+a_{2}b_{2}+\cdots+a_{n}b_{n}\diamond$
+设两组数列 $\{a_{i}\},\{b_{i}$ }满足 $\left|a_{1}\leq a_{2}\leq\cdots\leq a_{n},b_{1}\leq b_{2}\leq\cdots\leq b_{n}\right.,\left\{c_{i}\right\}$ 为{bi}的乱序排列， 则有 $\left[a_{1}b_{n}+a_{2}b_{n-1}+\cdots+a_{n}b_{1}\leq a_{1}c_{1}+a_{2}c_{2}+\cdots+a_{n}c_{n}\leq a_{1}b_{1}+a_{2}b_{2}+\cdots+a_{n}b_{n}\right.。$
 
 可知如果成交量和价格匹配度较高时，成交量占比和收盘价占比排序相对一致，加权收盘价比较大，反之当两者匹配度较低时，加权收盘价较小。所以加权收盘价因子相当于将成交量和收盘价做权重化处理后，以排序不等式的角度刻画成交体系的混乱程度：
 
@@ -226,10 +226,10 @@ $$
 而在衡量体系混乱程度时，信息熵的定义也可以参考：
 
 $$
-\mathrm{H}(p_{1},p_{2},\ldots,p_{n})=-\sum_{i=1}^{N}p_{i}\ln(p_{i})
+\mathrm{H}(p_{1},p_{2},\ldots,p_{n})=-\sum_{i=1}^{N}p_{i}\ln(p_{i}),
 $$
 
-其中 $\displaystyle{{\mid}p_{i}}$ 为每个状态的发生概率， $\begin{array}{r}{\sum_{i=1}^{N}p_{i}=1}\end{array}$ ，信息熵越大则体系越稳定。信息熵有如下重要性质：
+其中 $1p_{i}$ 为每个状态的发生概率， $\textstyle\sum_{i=1}^{N}p_{i}=1$ ，信息熵越大则体系越稳定。信息熵有如下重要性质：
 
 $$
 \mathrm{H}(p_{1},p_{2},\ldots,p_{n})\leq\mathrm{H}\left({\frac{1}{n}},{\frac{1}{n}},\ldots,{\frac{1}{n}}\right)
@@ -238,7 +238,7 @@ $$
 即在相同状态个数的情况下，所有状态发生的概率相同时，体系最为稳定，每个状态发生的概率差距越小，体系越稳定，状态发生概率差距越大，体系越混乱。故沿着加权成交价比的思路，以单位一成交额占比作为每一个时间段状态的发生概率，以熵的定义刻画成交的混乱程度，构建单位一成交额占比熵因子：
 
 $$
-\sharp\sharp\ "{\longrightarrow}\vec{\Delta\chi}\dot{\widetilde{\mathcal{Z}}}\ddot{\widetilde{\Xi\mathcal{W}}}\ "\xi\dot{\mathrm{I}}\xi\dot{\mathrm{I}}\dot{\widetilde{\Xi\mathcal{W}}}=\mathrm{H}(\frac{vol_{1}}{VOL}\frac{close_{1}}{CLOSE},\frac{vol_{2}}{VOL}\frac{close_{2}}{CLOSE},\ldots,\frac{vol_{N}}{VOL}\frac{close_{N}}{CLOSE})
+\mathrm{H}(\frac{vol_{1}}{VOL}\frac{close_{1}}{CLOSE},\frac{vol_{2}}{VOL}\frac{close_{2}}{CLOSE},\ldots,\frac{vol_{N}}{VOL}\frac{close_{N}}{CLOSE})
 $$
 
 下图分别展示了该因子自 2005 年以来在全市场及中证 800内表现，并在下表中给出了其分年风险指标，可以看到：
@@ -283,10 +283,10 @@ $$
 除此之外，还可以直接成交额占比作为每一个时间段状态的发生概率，构建成交额占比熵因子：
 
 $$
-\mathbb{H}\mathring{\mathbb{X}}\mathring{\mathbb{X}}\mathring{\mathbb{Z}}\mathring{\mathbb{M}}\Pi\ E\mathrm{t}^{{\boldsymbol{\imath}}}\mathring{\mathbb{M}}\mathring{\mathbb{H}}=\mathrm{H}(\frac{amount_{1}}{AMOUNT},\frac{amount_{2}}{AMOUNT},\dots,\frac{amount_{N}}{AMOUNT})
+\mathrm{H}(\frac{amount_{1}}{AMOUNT},\frac{amount_{2}}{AMOUNT},\ldots,\frac{amount_{N}}{AMOUNT})
 $$
 
-其中 $\begin{array}{r}{\mathsf{l}amount_{t}=close_{t}\times vol_{t},\mathsf{A}MOUNT=\sum_{t=1}^{T}amount_{t}}\end{array}$ 。下图分别展示了该因子自2005 年以来在全市场及中证 800 内表现，并在下表中给出了其分年风险指标，可以看到：
+其中 $\begin{array}{r}{\verb|amount_{t}=close_{t}\times vol_{t},\quad AMOUNT=\sum_{t=1}^{T}amount_{t}}\end{array}$ 。下图分别展示了该因子自2005 年以来在全市场及中证 800 内表现，并在下表中给出了其分年风险指标，可以看到：
 
 全历史时间段，因子在全市场和中证 800 内均可以获得一定的超额收益和多空收益，因子选股的分组线性较好，从多空净值曲线上看，因子在全市场和中证 800 内表现均较稳定；
 

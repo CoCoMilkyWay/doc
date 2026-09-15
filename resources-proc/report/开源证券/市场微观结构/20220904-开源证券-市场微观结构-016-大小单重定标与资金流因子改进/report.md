@@ -167,13 +167,13 @@ MOD修正法：从资金流动力学的角度理解，大单资金流与涨跌�
 
 | 因子代码 | 因子简称 | 计算公式 |
 | --- | --- | --- |
-| Net_Inflow (NI) | $\sum_{i}^{N}(B_{i}-S_{i})$ 净流入 |  |
-|  | 其中， $B_{i}\notin S_{i}$ 分别表示大单资金在交易日i的买入金额和卖出金额。 |  |
-| Net_Inflow_Ratio (NIR) | 净流入率 | ${\sum_{i}^{N}}(B_{i}-S_{i}){\Big/}{\sum_{i}^{N}}(B_{i}+S_{i})$ |
-| Net_Inflow_PCT (NIPCT) | ${\sum_{i}^{N}(B_{i}-S_{i})\mathord{\left/{\vphantom{\sum_{i}^{N}(B_{i}-S_{i})\int MV_{Free}\ Float}}\right.\kern-delimiterspace}}$ 净流入占比 $MV_{Free\ Float}$ 为股票的流通市值。 | 其中， |
-| Net_Inflow_ACT (NI_ACT) | $\sum_{i}^{N}B_{ACT,i}-S_{ACT,i}$ 主动净流入 其中， $B_{ACT,i}\mathcal{\dot{\bar{\pi}}}S_{ACT,i}$ 分别表示大单资金在交易日i的主动买入金额和主动卖出金额。 |  |
-| Net_Inflow_Ratio_ACT (NIR_ACT) | 主动净流入率 | ${\sum}_{i}^{N}\bigl(B_{ACT,i}-S_{ACT,i}\bigr)\Bigl/{\sum}_{i}^{N}\bigl(B_{ACT,i}+S_{ACT,i}\bigr)$ |
-| Net Inflow PCT ACT (NIPCT_ACT) | ${\sum}_{i}^{N}\big(B_{ACT,i}-S_{ACT,i}\big)/MV_{Free\ Float}$ 主动净流入占比 |  |
+| Net_Inflow (NI) | $\sum^{N}(B_{i}-S_{i})$ 净流入 |  |
+|  | 其中， $B_{i}和S_{i}$ 分别表示大单资金在交易日i的买入金额和卖出金额。 |  |
+| Net_Inflow_Ratio (NIR) | 净流入率 | ${\sum}_{i}^{N}(B_{i}-S_{i}){\Big/}{\sum}_{i}^{N}(B_{i}+S_{i})$ |
+| Net_Inflow_PCT (NIPCT) | ${\sum}_{i}^{N}(B_{i}-S_{i})\big/MV_{FreeFloat},$ 净流入占比 $MV_{Free~Float}$ 为股票的流通市值。 | 其中， |
+| Net_Inflow_ACT (NI_ACT) | ${\sum}_{i}^{N}B_{ACT,i}-S_{ACT,i}$ 主动净流入 其中， $B_{ACT,i}和S_{ACT,i}$ 分别表示大单资金在交易日i的主动买入金额和主动卖出金额。 |  |
+| Net_Inflow_Ratio_ACT (NIR_ACT) | 主动净流入率 | ${\sum}_{i}^{N}\big(B_{ACT,i}-S_{ACT,i}\big){\Big/}{\sum}_{i}^{N}\big(B_{ACT,i}+S_{ACT,i}\big)$ |
+| Net Inflow PCT ACT (NIPCT_ACT) | ${\sum}_{i}^{N}\big(B_{ACT,i}-S_{ACT,i}\big)\big/MV_{FreeFloat},$ 主动净流入占比 |  |
 
 资料来源：开源证券研究所，注：回溯窗口 N通常设为 20个交易日
 
@@ -249,11 +249,11 @@ $$
 （3）基于修正系数反算大单买入和大单卖出的比例关系，并重新分配大单买入和卖出的成交金额。
 
 $$
-\widehat{B}=\frac{e^{\varepsilon}}{1+e^{\varepsilon}}\times(B+S)
+\hat{B}=\cfrac{e^{\varepsilon}}{1+e^{\varepsilon}}\times(B+S)
 $$
 
 $$
-\hat{S}=\frac{1}{1+e^{\varepsilon}}\times\left(B+S\right)
+\hat{S}=\cfrac{1}{1+e^{\varepsilon}}\times(B+S).
 $$
 
 基于上述步骤的修正方法，记为 MOD修正法。基于该方法，我们可以剥离反转因素的干扰，重新测试上述资金流因子，结果如图 9 所示。笔者将原始资金流加以修正后的资金流数据，用以构造的因子代码后附加上 MOD作为区分标识。
@@ -339,7 +339,7 @@ $$
 进一步探究资金的行为特征，我们需要调整一下参数测试的框架：基于相邻两个阈值计算小区间的大单资金流向数据，得到若干组区间资金流后再分别构造因子进行测试。此外，我们将NIR_MOD因子单独拆解成净流入（NI_MOD）和成交金额（AMT）两部分，最后再单独进行参数敏感性测试。
 
 $$
-NIR\_MOD=NI\_MOD/AMT
+NIR\_MOD=NI_{-}MOD/AMT
 $$
 
 图 18 和图 19 分别展示了不同区间的净流入因子和成交金额因子的多空 IR，其中，红色的折线表示因子的多空 IR，对应左侧的坐标轴；蓝色的阴影部分的大小表示多空对冲收益，为了更直观显示并未对因子方向进行调整，横轴对应收益为0。
@@ -491,7 +491,7 @@ $$
 | 顺序 | 计算方法 |
 | --- | --- |
 | 第一步 | 分别计算主力资金的买入金额 $B_{P}$ 和卖出金额Sp: $B_{P}=B_{Extra}+B_{Large}+B_{Med}$ $S_{P}=S_{Extra}+S_{Large}+S_{Med}$ |
-| 第二步 | 利用日涨跌幅来修正主力资金的买入金额 ${\hat{B}}_{P}$ 和卖出金额Sp: $\begin{array}{r}{ln(B_{P}/S_{P})=\alpha+\beta Ret+\varepsilon}\\{\varepsilon=\ ln\big(\hat{B}_{P}/\hat{S}_{P}\big)}\end{array}$ |
+| 第二步 | 利用日涨跌幅来修正主力资金的买入金额 $\hat{B}_{P}$ 和卖出金额Sp: $\begin{aligned}&ln(\hat{B}_{P}/\hat{S}_{P})=\alpha+\beta Ret+\varepsilon\\&\quad\varepsilon=\quad ln\big(\hat{B}_{P}/\hat{S}_{P}\big)\\\end{aligned}$ |
 | 第三步 | 计算主力资金的净流入占比，即为NIR因子： $CNIR=\frac{\sum_{i}^{N}\left(\hat{B}_{P,i}-\hat{S}_{P,i}\right)}{\sum_{i}^{N}\left(\hat{B}_{P,i}+\hat{S}_{P,i}\right)}$ |
 
 资料来源：开源证券研究所

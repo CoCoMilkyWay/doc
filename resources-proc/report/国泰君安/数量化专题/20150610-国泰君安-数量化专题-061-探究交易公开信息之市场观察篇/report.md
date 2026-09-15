@@ -154,7 +154,7 @@ S0880114090056
 （一） 日收盘价格涨跌幅偏离值达到±7%的各前三只股票（基金）；收盘价格涨跌幅偏离值
 
 $$
-=37.5\times12\times\frac{4}{25}\times(\frac{12}{25}-\frac{1}{25})\times2\times\frac{1}{25}\times\frac{1}{25}-\times5\times\frac{1}{25}\times\frac{1}{25}\times\frac{1}{25}\times(\frac{12}{25}-\frac{1}{25})\times\frac{1}{25}
+=单只股票\big(基金\big)涨跌幅-对应分类指数涨跌幅
 $$
 
 其中，对应分类指数包括上证 A 股指数、上证 B 股指数和上证基金指数等。

@@ -250,7 +250,7 @@ linxiaoming@htsc.com
 在本章前两个小节中，我们分析了资金流向因子在不同行业的分布差异性及资金流向因子与市值因子的相关性，接下来，我们将计算各资金流向因子之间的相关性。假设因子 A和B 之间的日度相关系数序列为 $\{Corr_{i}^{AB}\}$ ，其中 $Corr_{i}^{AB}$ 是在第i日日末这一截面上因子 A、B在所有个股上的因子暴露度的相关系数，我们构造了一个相关强度指标：
 
 $$
-C_{AB}=mean~(Corr_{i}^{AB}|\mathrm{i}=1,\dots,\mathrm{N})
+C_{AB}=mean\quad(Corr_{i}^{AB}|i=1,\ldots,\mathsf{N})
 $$
 
 我们在八类因子中选取特定因子作为代表（同一类别内因子相关性较高），分别计算代表因子两两之间在 20140103 至 20180320 内的相关强度指标，如图表 6所示。通过观察可以发现，除了 mfd_buyord（主力流入单数）与 mfd_sellord（主力流出单数）相关性较强，其余因子间相关性并不显著。如果要组合使用各资金流向因子构建选股模型，需要注意处理多重共线性问题。
@@ -284,40 +284,40 @@ r_{i}^{T+1}=\sum_{j}X_{j}^{T}f_{ji}^{T}+X_{d}^{T}d_{i}^{T}+\mu_{i}^{T}
 $$
 
 $$
-r_{i}^{T+1}\colon\sharp\sharp\ :\frac{\ d\mathbb{D}}{\ d\cdot\ d{\tau}}\mathrm{~i~}/\ddagger\ddot{\mathcal{H}}\mathrm{~T~}+1\xrightarrow{\ddagger\ d{\romannumeral1}}\sharp\sharp\big\lim\frac{\ d{\tau}}{\ d{\tau}}\frac{\ d\dot{\xi}^{\star}}{\ d{\tau}^{\star}}\ :\frac{\ d{\tau}}{\ d{\tau}^{\star}}
+$r_{i}^{T+1}\colon 股票\;\mathrm{i}\;在第\;\mathrm{T}+1$期的收益率
 $$
 
 $$
-d_{i}^{T}\colon\sharp\mathring{\mathfrak{L}}\triangleq\mathrm{~i~}/\ I\mapsto\mathring{\mathfrak{H}}\ \mathrm{T}\ \mathring{\ast}\oplus\ E\ \mp\ \mathrm{d}\ \perp\ \mathrm{d}\ \perp\ \mathrm{d}\ \perp\frac{\sharp}{\ \mathrm{d}\ \mathrm{s}}\ \mathrm{s}\sharp\neq\ \mathring{\mathfrak{L}}
+$d_{i}^{T}:$$股票$i$在在第T期因子d$上的暴露度
 $$
 
-$f_{ji}^{T}{:}$ : 股票 i 在第 T 期第 j 个行业因子上的暴露度(属于该行业则为 1，否则为 0)
+$f_{ji}^{T};$ : 股票 i 在第 T 期第 j 个行业因子上的暴露度(属于该行业则为 1，否则为 0)
 
 $$
-X_{j}^{T}(\ddot{\mathfrak{s}}_{\mathrm{X}}X_{d}^{T})\colon\stackrel{\ast\ast}{\hat{\eta}^{\sharp}}\textstyle\textsc{T}\stackrel{\ast\ast}{\hat{\eta}^{\sharp}}\textstyle{\frac{\ast\ast}{\hat{\eta}^{\sharp}}}\textstyle{\textrm{ j }}\wedge\lbrace\hat{\daleth}\stackrel{\ast}{\hat{\mathbb{Z}}}\mathbb{E}\mathbb{E}\mathbb{Z}(\vec{\mathfrak{s}}_{\mathrm{X}}\mathbb{E})\mp(\vec{\mathfrak{s}}_{\mathrm{X}}\mathbb{E})\hat{\Psi}\mathbb{Z}\mathbb{E}]\lesssim\mathbb{i}\mathbb{k}\underline{{\hat{s}}}_{\mathrm{X}\hat{\Omega}}\stackrel{\ast}{\hat{\eta}^{\sharp}},\quad\stackrel{\ast\ast}{\hat{\eta}^{\sharp}}\mathbb{E}\mathbb{Z}\mathbb{i}\mathbb{Z}\stackrel{\wedge}{\hat{\eta}^{\sharp}}\mathbb{E}\mathbb{Z}
+$X_{j}^{T}\big(或X_{d}^{T}\big);$第T期第$\mathrm{j}$个行业因子$\left(或因子\;\mathrm{d}\right)$的因子收益率,1需回归拟合.
 $$
 
 $$
-\mu_{i}^{T}\colon\sharp_{\mathcal{X}}^{\pi}\mathbin{\frac{\ni}{\operatorname{\ Pr}}}\mathrm{~i~}\mathbin{/\pm}\frac{\varkappa_{\mathcal{W}}}{\sharp_{\mathcal{W}}}\mathrm{~T~}\mathbin{\sharp_{\mathcal{A}}\mathbin{\lrcorner}}\xi_{\mathcal{X}}^{\pm}\mathbin{\frac{\varkappa_{\mathcal{Z}}}{\operatorname{\mathscr{Z}}}}\mathrm{~\neq~}\mathrm{\ j}\big\downarrow\mathbin{\mathbb{Z}}\frac{\varkappa_{\mathcal{Z}}^{\star}}{\operatorname{\ Pr}}\mathord{\frac{\varkappa_{\mathcal{W}}^{\star}}{\operatorname{\ Pr}}}\mathord{\frac{\varkappa_{\mathcal{W}}^{\star}}{\operatorname{\ Pr}}}
+$\mu_{i}^{T}\mathrm{:}$股票i在第T期的残差收益率
 $$
 
 在所有截面期上，我们对因子d进行回归测试，能够得到该因子的因子收益率序列（即所有截面期回归系数 $X_{d}^{T}$ 构成的序列）和对应的 t 值序列。t 值指的是对单个回归系数 $X_{d}^{T}$ 的 t检验统计量，描述的是单个变量显著性，t 值的绝对值大于临界值说明该变量是显著的，即该解释变量（T期个股在因子 d的暴露度）是真正影响因变量（T+1期个股收益率）的一个因素。也就是说，在每个截面期上，对于每个因子的回归方程，我们设
 
 $$
-17\times12\times12\div2\cdots110:X_{d}^{T}=0
+假设检验$H_{0}\colon X_{d}^{T}=0$
 $$
 
 $$
-\ O_{\mathbb{H}}^{\mathcal{R}}\dot{\Game}_{+}^{\mathcal{R}}\dot{\lvert\ast\mathcal{R}\rvert}\dot{\mathcal{R}}\dot{H}_{1}\colon X_{d}^{T}\ne0
+备择假设$H_{1}\colon X_{d}^{T}\neq0$
 $$
 
 该假设检验对应的 t统计量为
 
 $$
-\mathsf{t}=\frac{X_{d}^{T}}{SE~(X_{d}^{T})}
+\mathbf{t}=\frac{X_{d}^{T}}{SE\quad\langle X_{d}^{T}\rangle}
 $$
 
-其中SE $(X_{d}^{T})$ 代表回归系数 $X_{d}^{T}$ 的标准差的无偏估计量。一般 t 值绝对值大于 2 我们就认为本期回归系数 $X_{d}^{T}$ 是显著异于零的（也就是说，本期因子 d 对下期收益率具有显著的解释作用）。注意，我们在回归模型中加入了行业因素，能在一定程度上规避行业因素对因子的影响。回归法单因子测试中并未对市值因素的影响进行调整，但是在后续计算因子 IC值的部分会做一些调整。
+其中SE $(X_{d}^{T})$ 代表回归系数 $|X_{d}^{T}|$ 的标准差的无偏估计量。一般 t 值绝对值大于 2 我们就认为本期回归系数 $X_{d}^{T}$ 是显著异于零的（也就是说，本期因子 d 对下期收益率具有显著的解释作用）。注意，我们在回归模型中加入了行业因素，能在一定程度上规避行业因素对因子的影响。回归法单因子测试中并未对市值因素的影响进行调整，但是在后续计算因子 IC值的部分会做一些调整。
 
 1． 股票池：全 A股，剔除 ST、PT 股票，剔除每个截面期下一交易日停牌的股票。
 
@@ -350,7 +350,7 @@ t 值序列均值的绝对值除以 t 值序列的标准差——结合显著性
 因子的 IC值是指因子在第 T 期的暴露度与 T+1 期的股票收益的相关系数，即
 
 $$
-{\cal IC}_{d}^{T}=\mathrm{corr~}(\overrightarrow{R^{T+1}},\overrightarrow{d^{T}})
+IC_{d}^{T}=\mathrm{corr}\quad(\overrightarrow{R^{T+1}},\overrightarrow{d^{T}})
 $$
 
 其中， $IC_{d}^{T}$ 代表因子 d 在第 T 期的 IC 值， $\overrightarrow{R^{T+1}}$ 代表所有个股第 T+1 期的收益率向量， $\overrightarrow{d^{T}}$ 代表所有个股第 T 期在因子 d上的暴露度向量。
@@ -391,7 +391,7 @@ $$
 
 （r是股票收益率，X 是因子暴露度，c是常数项，c可以理解为市场因子）并且假设我们在计算因子 IC 值的时候，不预先对因子暴露度进行市值、行业调整了，就使用原始的因子暴露度 X，则本期因子 IC值为 $corr(X,r)$ ，根据引理，因子 IC 值的平方就等于单因子测试的回归模型的R2。
 
-所以，因子 IC 值本质上反映的是下期收益率和本期因子暴露度的线性相关程度（R2的平方根），是使用该因子预测收益率的稳健性（IC 值越大，这个因子的收益越稳定，波动越小）；而回归法中计算出的因子收益率本质上是一个斜率，反映的是从该因子可能获得的收益率的大小，这并不能说明任何关于线性拟合优度的信息（也就是说，因子收益率很大时，也可能出现R2很小的情形）；至于回归法中计算出的 t值，在一元线性回归中 t值与R2反映的信息一致（二者对应关系为，当 $R^{2}=0\mathbb{H}\mathbf{\Sigma}\mathbf{t}$ 值也为 0，当 $R^{2}=1$ 时 t 值为无穷大），但是由于我们所采用的回归模型包括了行业变量，所以 t 值仅代表被测因子对股票收益的解释能力（而不能代表模型的整体拟合优度）。
+所以，因子 IC 值本质上反映的是下期收益率和本期因子暴露度的线性相关程度（R2的平方根），是使用该因子预测收益率的稳健性（IC 值越大，这个因子的收益越稳定，波动越小）；而回归法中计算出的因子收益率本质上是一个斜率，反映的是从该因子可能获得的收益率的大小，这并不能说明任何关于线性拟合优度的信息（也就是说，因子收益率很大时，也可能出现R2很小的情形）；至于回归法中计算出的 t值，在一元线性回归中 t值与R2反映的信息一致（二者对应关系为，当 $R^{2}=0时\mathbf{t}$ 值也为 0，当 $R^{2}=1$ 时 t 值为无穷大），但是由于我们所采用的回归模型包括了行业变量，所以 t 值仅代表被测因子对股票收益的解释能力（而不能代表模型的整体拟合优度）。
 
 总结一下，IC 值反映模型整体线性拟合优度，t 值反映被测单因子对模型的解释能力是否显著，因子收益率与前两者差别较大，它反映的是可能获得的收益率的大小，而对这个收益是否稳健未知。
 

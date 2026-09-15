@@ -121,19 +121,19 @@ E. O. Thorp，美国麻省理工学院数学教授、数学博士，被博彩界
 X 表示第 N期的财富值。则
 
 $$
-G=\operatorname*{lim}_{{N\infty}}(1/N)\ln(X_{_{N}}/X_{_{0}})
+G=\lim_{N\to\infty}(1/N)\ln(X_{_N}/X_{_0})
 $$
 
 假定一个游戏，投资者赢则赚 1单位，输了则损失全部，假定每次投资者的下注比例为 f，则，经过 N次游戏后，其财富值为
 
 $$
-X_{\mathrm{~\it~N~}}=\mathrm{~\it~X~}_{0}\left(1+\mathrm{~\it~f~}\right)^{\mathrm{~\it~W~}}\left(1-\mathrm{~\it~f~}\right)^{\mathrm{~\it~L~}}
+X_{_{\scriptsize{\mathrm{~\scriptsize~N~}}}}=X_{_{\scriptsize{\mathrm{~\scriptsize~0~}}}}(1+\;f\;)^{^{W}}\;(1-\;f\;)^{^{\scriptsize{\mathrm{~\scriptsize~}}}}
 $$
 
 其中 W表示N次游戏中赢的次数，L 表示 N次游戏中输得次数。将上式带入 G的表达式，我们可以得到：
 
 $$
-G(f)=\operatorname*{lim}_{N\infty}_{}(1/N)(W\ln(1+f)+L\ln(1-f))=p\ln(1+f)+q\ln(1-f)
+G\left(f\right)=\lim_{N\to\infty}\left(1/N\right)\left(W\ln\left(1+f\right)+L\ln\left(1-f\right)\right)=p\ln\left(1+f\right)+q\ln\left(1-f\right)
 $$
 
 其中 p 表示投资者赢得游戏的概率，q=1-p表示输掉游戏的概率。
@@ -141,17 +141,17 @@ $$
 对G f( ) 关于 f求导，并令导数为 0，则有
 
 $$
-\frac{p}{1+f}-\frac{q}{1-f}=0
+\frac{p}{1+f}-\frac{q}{1-f}=0.
 $$
 
 $$
 f^{*}=p-q=2p-1
 $$
 
-f*就是 Kelly公式，将其带 $\textstyle\bigwedge_{\mathbf{\alpha}}G\left(\mathbf{\alpha}f\right)$ 中，则有
+f*就是 Kelly公式，将其带 $入G\left(f\right)$ 中，则有
 
 $$
-G(f^{*})=p\ln p+\ln q+\ln2
+G\left(f^{*}\right)=p\ln p+\ln q+\ln2
 $$
 
 上式表示投资回报的最大几何增长率。
@@ -161,19 +161,19 @@ $$
 我们可以将单只股票的收益分布简化为贝努利分布：假定其上涨的概率为 p，下跌概率为 q，盈亏比为 WL，则
 
 $$
-G\left(f\right)={p}\ln(1+WLf)+q\ln(1-f)
+G\left(\textit{ f }\right)=p\ln\left(1+WLf\right)+q\ln\left(1-\textit{ f }\right)
 $$
 
 由此我们可求得单只股票最优的投资比例为：
 
 $$
-f^{*}=\frac{pWL-q}{WL}
+f^{*}=\frac{\textit{ p W L - q }}{\textit{ W L }}
 $$
 
 相应地最优几何增长率为
 
 $$
-G\left(f^{*}\right)=p\ln(WL+1)+q\ln\{\frac{q+(1+WL)}{WL}\}
+G\left(f^{*}\right)=p\ln\left(WL+1\right)+q\ln\big\{\frac{q+\left(1+WL\right)}{WL}\big\}
 $$
 
 以申万 23个一级行业为例，我们利用 2007年至今的数据估算各个行业的胜率、盈亏比、Kelly 投资比例以及预期几何增长率，如下表所示：
@@ -223,10 +223,10 @@ $$
 我们可以利用上述准则构建如下最优投资组合
 
 $$
-\begin{array}{rl}&{\underset{i=1}{\overset{N}{\sum}}f_{i}R_{i}}\\&{\in\quad f_{i}\leq f_{i}\overset{*}{\underset{i=1}{\overset{N}{\sum}}}}\\&{f_{i}\geq0}\\&{\quad\underset{i=1}{\overset{N}{\sum}}f_{i}=1}\end{array}
+\begin{aligned}&\max\sum_{_{i=1}}^{^{N}}f_{_{i}}R_{_{i}}\\&\in\quad f_{_{i}}\leq f_{_{i}}*0\\&\quad f_{_{i}}\geq0\\&\quad\sum_{_{i=1}}^{^{N}}f_{_{i}}=1\end{aligned}
 $$
 
-其中 $f_{i}\ast$ 表示各资产的 Kelly 投资比例。
+其中 $f_{i}^{\mathrm{~*~}}$ 表示各资产的 Kelly 投资比例。
 
 这样我们就将行业配置转换成了一个简单的线性优化问题。
 

@@ -142,7 +142,7 @@ $$
 E(R)=r_{f}+B\cdot RP
 $$
 
-其中 $\boldsymbol{r}_{f}\in R^{N\times1}$ 为无风险利率， $RP\in R^{K\times1}$ 为因子的风险溢价。众多著名的因子模型都采用了这个模型，比如 Fama, and French (1993), Carhart(1997), Hou, Xue, and Zhang (2015), 和 Fama and French (2015).
+其中 $r_{f}\in R^{N\times1}$ 为无风险利率， $RP\in R^{K\times1}$ 为因子的风险溢价。众多著名的因子模型都采用了这个模型，比如 Fama, and French (1993), Carhart(1997), Hou, Xue, and Zhang (2015), 和 Fama and French (2015).
 
 虽然多因子模型已经深入人心，但许多资产配置方法只考虑资产的分散化，并未考虑系统性风险即因子风险的分散化。即使在配置过程中考虑了某个特定因子(以下称为风格因子)，通常也不会系统地跨多个资产类别和风格因子。而宏观因子投资框架可以做到这一点。
 
@@ -216,7 +216,7 @@ $$
 
 其中F为 K个因子的收益率向量，B为N个资产在K个因子上的因子暴露矩阵，b为投资组合的因子暴露向量。
 
-设R的协方差阵为Σ, F的协方差矩阵为 $\Sigma_{F}.$ ，则有
+设R的协方差阵为Σ, F的协方差矩阵为 $\Sigma_{F1}$ ，则有
 
 $$
 \Sigma=B\Sigma_{F}B^{T}+U
@@ -226,13 +226,13 @@ $$
 
 我们首先试图对Rw进行正交分解，以得到多个正交因子。常用的分解是主成分分析，但这种方法得到的正交因子（主成分）往往不具备经济含义，并且估计协方差矩阵时产生的误差会使该方法的稳定性较差（ Bernardi, Leippold and Lohre, 2018 ）。 因 此 ， 本 文 使 用 Meucci,Santangelo and Deguest (2015)中的方法进行因子正交化。这种方法的关键在于追求正交后因子与原因子F的差距最小，以保持其可解释性。
 
-具体来说，寻找“最小误差变换矩阵 ${}^{\ '}t_{orth}$ ，满足
+具体来说，寻找“最小误差变换矩阵 ${{}^{\circ}}t_{orth}$ ，满足
 
 $$
-t_{orth}=\underset{Cor(tF)=Id_{K}}{\arg\operatorname*{min}}\sqrt{\frac{1}{K}\sum_{k=1}^{K}Var(\frac{(tF)_{k}-F_{k}}{\sigma_{k}^{F}})}
+t_{orth}=\operatorname*{argmin}_{Cor(tF)=Id_{K}}\sqrt{\frac{1}{K}{\sum_{k=1}^{K}Var(\frac{(tF)_{k}-F_{k}}{\sigma_{k}^{F}})}},
 $$
 
-其中 $Id_{k}$ 为单位矩阵， $\sigma^{F}$ 为原因子F的方差向量。则变换后的因子 $\cdot F_{orth}=$ $t_{orth}F$ ，协方差矩阵 $\cdot\Sigma_{orth}=t_{orth}^{T}\Sigma_{F}t_{orth}$ . 从而有
+其中 $Id_{k}$ 为单位矩阵， $\sigma^{F}$ 为原因子F的方差向量。则变换后的因子 $F_{orth}=$ $t_{orth}F$ ，协方差矩阵 $\cdot\Sigma_{orth}=t_{orth}^{T}\Sigma_{F}t_{orth}$ . 从而有
 
 $$
 \Sigma=B\Sigma_{F}B^{T}+U=(t_{orth}^{-1}B^{T})^{T}\Sigma_{orth}(t_{orth}^{-1}B^{T})+U
@@ -255,18 +255,18 @@ Meucci(2009)和 Meucci, Santangelo, and Deguest(2015)提出了不相关风险源
 投资组合的方差满足：
 
 $$
-Var(R^{\omega})=\omega^{T}\Sigma\omega=\omega_{orth}^{T}\Sigma_{orth}\omega=\sum_{k=1}^{K}\omega_{orth,k}^{2}\sigma_{orth,k}^{2}
+Var(R^{\omega})=\omega^{T}\Sigma\omega=\omega_{orth}^{T}\Sigma_{orbit}\omega=\sum_{k=1}^{K}\omega_{orth,k}^{2}\sigma_{orth,k}^{2}
 $$
 
-定义正交因子 k 的风险贡献为 $\begin{array}{r}{\rho_{k}=\frac{\omega_{orth,k}^{2}\sigma_{orth,k}^{2}}{Var(R^{\omega})}=\frac{\omega_{orth,k}^{2}\sigma_{orth,k}^{2}}{\sum_{k=1}^{K}\omega_{orth,k}^{2}\sigma_{orth,k}^{2}}}\end{array}$ Meucci(2009)提出用分布熵来衡量投资组合的分散化程度，这对应于驱动投资组合风险的正交的有效押注数量
+定义正交因子 k 的风险贡献为 $\rho_{k}=\frac{\omega_{orth,k}^{2}\sigma_{orth,k}^{2}}{Var(R^{\omega})}=\frac{\omega_{orth,k}^{2}\sigma_{orth,k}^{2}}{\sum_{k=1}^{K}\omega_{orth,k}^{2}\sigma_{orth,k}^{2}}$ Meucci(2009)提出用分布熵来衡量投资组合的分散化程度，这对应于驱动投资组合风险的正交的有效押注数量
 
 $$
-N_{Ent}=\exp(-{\sum_{k=1}^{K}\rho_{k}\ln(\rho_{k})})
+N_{Ent}=\exp(-\sum_{k=1}^{K}\rho_{k}\ln(\rho_{k})),
 $$
 
-显然，若组合风险只由一个风险源驱动，则 $\rho_{k}=1$ ,有效投注数量 $N_{Ent}=1$ 若组合风险由K个风险源驱动，且这K个风险源的贡献均等（即 $\begin{array}{r}{\rho_{k}=\frac{1}{K})}\end{array}$ 时，有效投注数量最大（即 $N_{Ent}=K\ )$
+显然，若组合风险只由一个风险源驱动，则 $\rho_{k}=1$ ,有效投注数量 $N_{Ent}=1$ 若组合风险由K个风险源驱动，且这K个风险源的贡献均等（即 $\begin{array}{r}{\rho_{k}=\frac{1}{K})}\end{array}$ 时，有效投注数量最大（即 $N_{Ent}=K~)$
 
-资产配置要确定的是各资产的权重ω，为此需要先确定 $.\omega_{orth}$ 使得有效投注数量最大。根据 $\begin{array}{r}{{\rho_{k}}=\frac{1}{K},}\end{array}$ ，我们可以选取
+资产配置要确定的是各资产的权重ω，为此需要先确定 $.\omega_{orth}$ 使得有效投注数量最大。根据 $\begin{array}{r}{\cdot\rho_{k}=\frac{1}{K},}\end{array}$ ，我们可以选取
 
 $$
 \omega_{orth}=\Sigma_{orth}^{-\frac{1}{2}}
@@ -281,7 +281,7 @@ $$
 并归一化：
 
 $$
-\omega^{*}=\frac{\omega}{\mathbf{1}^{T}\omega}=\frac{(t_{orth}^{T}B^{-1})^{T}\boldsymbol{\Sigma}_{orth}^{-\frac{1}{2}}}{\mathbf{1}^{T}(t_{orth}^{T}B^{-1})^{T}\boldsymbol{\Sigma}_{orth}^{-\frac{1}{2}}}
+\omega^{*}=\frac{\omega}{\mathbf{1}^{T}\omega}=\frac{(t_{orth}^{T}B^{-1})^{T}\Sigma_{orth}^{-\frac{1}{2}}}{\mathbf{1}^{T}(t_{orth}^{T}B^{-1})^{T}\Sigma_{orth}^{-\frac{1}{2}}}
 $$
 
 其中1为元素全为 1 的 K维向量。
@@ -333,13 +333,13 @@ $$
 
 ## 4.3. 将已有组合向宏观因子组合调整
 
-如果我们有一个基准配置（比如 组合），我们可以将某个宏观因子模拟组合 MFMP 或风险平价组合 MFRP 作为目标，对基准配置进行调整，在组合权重变动尽可能小的情况下加大其分散程度并接近目标组合。以目标为 MFRP 组合为例，首先计算出 MFRP 中各资产应有的权重 $\omega^{*}$ ，令期望收益 ${\mathbf{\Omega}}.\mu=\gamma\Sigma\omega^{*}$ ，Γ和 $\Omega_{TC}$ 为交易成本矩阵和换算因数。最终目标ω和原权重 $\omega_{0}$ 间的差 $\Delta\omega=\omega-\omega_{0}$ 即为需要调整的权重，满足
+如果我们有一个基准配置（比如 组合），我们可以将某个宏观因子模拟组合 MFMP 或风险平价组合 MFRP 作为目标，对基准配置进行调整，在组合权重变动尽可能小的情况下加大其分散程度并接近目标组合。以目标为 MFRP 组合为例，首先计算出 MFRP 中各资产应有的权重 $\omega^{*}$ ，令期望收益 $.\mu=\gamma\Sigma\omega^{*}$ ，Γ和 $\imath\lambda_{TC}$ 为交易成本矩阵和换算因数。最终目标ω和原权重 $\left[\omega_{0}\right.$ 间的差 $\Delta\omega=\omega-\omega_{0}$ 即为需要调整的权重，满足
 
 $$
 \operatorname*{max}_{\omega}(\omega^{\prime}(\mu+2\lambda_{TC}\Gamma\omega_{0})-\omega^{\prime}\left(\frac{\gamma}{2}\Sigma+\lambda_{TC}\Gamma\right)\omega)
 $$
 
-根据 Dichtl, Drobetz, Lohre, and Rother (2021)，设置 $\lambda_{TC}=0.3,\gamma=5$ . 求解后结果如图 6 所示。以加入防御因子为例，原 60/40 组合的风险以经济增长风险为主，全样本的年化收益为 7.34%，最大回撤 36.54%，夏普比率为 0.73，衡量分散程度的有效投注数量为 1.27%；加入防御因子后，年化收益提升至 11.79%，最大回撤降至 22.95%，夏普比率升至 1.12，有效投注数量增至 2.47.
+根据 Dichtl, Drobetz, Lohre, and Rother (2021)，设置 $\lambda_{TC}=0.3,\gamma=5.$ . 求解后结果如图 6 所示。以加入防御因子为例，原 60/40 组合的风险以经济增长风险为主，全样本的年化收益为 7.34%，最大回撤 36.54%，夏普比率为 0.73，衡量分散程度的有效投注数量为 1.27%；加入防御因子后，年化收益提升至 11.79%，最大回撤降至 22.95%，夏普比率升至 1.12，有效投注数量增至 2.47.
 
 图 6：60/40 组合向宏观因子组合调整后的各资产权重及风险贡献
 ![](images/a66a44e663be9b88cc5e380b15a4119bce4e28f7e6b2ed80f69a80d12f901068.webp)

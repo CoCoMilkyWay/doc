@@ -89,7 +89,7 @@ c、分布适应性。树模型能够更好地适应样本的分布，避免受�
 决策树具体算法中，CART（Classification and Regression Tree）算法既可用于分类任务，也可用于回归任务。CART 回归树使用均方差的大小来度量特征的各个划分点的优劣情况。我们通过优化以下目标函数来寻找最优的划分特征 A 与划分点 s，其中 $c_{1}$ 与 $c_{2}$ 分别是划分后两个数据集对应的标签均值：
 
 $$
-\operatorname*{min}_{A,s}[\operatorname*{min}_{c_{1}}\Sigma_{x_{i}\in D_{1}(A,s)}(y_{i}-c_{1})^{2}+\operatorname*{min}_{c_{2}}\Sigma_{x_{i}\in D_{2}(A,s)}(y_{i}-c_{2})^{2}]
+\min_{A,s}\left[\min_{c_1}\Sigma_{x_i\in D_1(A,s)}(y_i-c_1)^2+\min_{c_2}\Sigma_{x_i\in D_2(A,s)}(y_i-c_2)^2\right]
 $$
 
 而单一的决策树有时难以达到令人满意的预测效果，此时进行性能增强就需要用到集成学习的方法，主要分为 Bagging 和 Boosting 两类。两类方法都是通过训练多个树模型弱学习器，并将结果进行结合从而增强预测效果。
@@ -99,7 +99,7 @@ Bagging 的核心思路是重复取样，其代表模型就是 RF（Random Fores
 Boosting 算法每次生成训练学习器时，会更加关注前一个学习器预测错误的部分，增大相应的权重并用于训练下一个学习器，最后将所有学习器的结果进行加权结合，给出预测。GBDT（Gradient Boosting Decision Tree）是代表性的 Boosting 算法之一，将前一棵树的预测残差作为后一棵树的目标值，如此迭代，相当于每一棵树都是在修正前一棵树的预测误差部分，其优化问题可以写为：
 
 $$
-argmin\ L{\big(}y,f_{t}(x){\big)}=argmin\ L(y,f_{t-1}(x)+h_{t}(x))
+\begin{array}{r}{\mathop{argmin}\quad L\big(y,f_{t}(x)\big)=\mathop{argmin}\quad L(y,f_{t-1}(x)+h_{t}(x))}\end{array}
 $$
 
 其中 $h_{t}(x)$ 就是第t轮需要计算的决策树拟合函数。
@@ -467,7 +467,7 @@ $$
 我们将因子值作为各资产的预期收益率，目标函数为最大化组合的预期收益，并添加组合目标波动率的约束。求解优化问题如下：
 
 $$
-\begin{array}{c}{\displaystyle{\operatorname*{max}_{w}w^{T}f}}\\{\displaystyle{}}\\{\Sigma_{i=1}^{N}w_{i}=1}\\{0\leq w_{i}\leq1,i=1..N}\\{\sqrt{w^{T}\Sigma w}\leq vol^{target}}\end{array}\tag{𝑠.𝑡.}
+\begin{aligned}&\max_{w}w^{T}f\\&=\begin{vmatrix}\\&\Sigma_{i=1}^{N}w_{i}=1\\&0\leq w_{i}\leq1,i=1..N\\&\sqrt{w^{T}\Sigma w}\leq vol^{target}\\&\end{vmatrix}\\\end{aligned}\tag{𝑠.𝑡.}
 $$
 
 其中，w是各资产在组合中的权重，f为模型对各资产在当期的预测值，voltarget 为组合目标波动率，Σ为资产的协方差矩阵。我们使用滚动过去一年的收益率来计算协方差数据。在本篇报告中，我们将组合的年化波动率控制为最大不能超过 6%，并给出相应的波动约束版全球大类资产配置策略。

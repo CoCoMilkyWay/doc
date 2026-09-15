@@ -133,10 +133,10 @@ S0880519090002
 一种可行的方法是从这些变量的历史行为推断它们的未来行为。假设决定现值的关键变量在未来保持不变，则未来股息的现值可以表示为：
 
 $$
-\mathrm{PV}=\pi_{0}=\sum_{t=1}^{\infty}\frac{(1+g)^{t}\alpha E}{(1+\rho)^{t}}=\frac{(1+g)\alpha E}{\rho-g}
+\mathrm{PV}=\pi_{0}=\sum_{t=1}^{\infty}{\frac{(1+g)^{t}\alpha E}{(1+\rho)^{t}}}={\frac{(1+g)\alpha E}{\rho-g}}
 $$
 
-式中， $\pi_{0}$ 为第 0 期股价； $g$ 为盈利增长率；α是作为股息支付的收益的比例（股息支付率）；E为当期收益； $\rho.$ 是投资者要求的股票收益率，是由无风险收益率和要求的股权溢价（DEP）组成的贴现率。
+式中， $\pi_{0}$ 为第 0 期股价； $g$ 为盈利增长率；α是作为股息支付的收益的比例（股息支付率）；E为当期收益； $\rho_{1}$ 是投资者要求的股票收益率，是由无风险收益率和要求的股权溢价（DEP）组成的贴现率。
 
 从上式中，可以推导出市盈率为
 
@@ -183,13 +183,13 @@ Park（2000）将 PERC 对未来（1-10 年）的盈利增长率和未来无风�
 在本文中，使用 REP 作为主要的衡量股价表现的指标。REP 是允许股息再投资的年度股票回报率的几何平均值减去 3个月国债利率的几何平均值。为了计算 REP，本文假设投资者以当前价格对股息进行再投资，并在投资期结束时以市场价格出售其股票，具体计算过程如下。首先，考虑投资者在第0年购买1股股票，在接下来的n年再投资该股票的股息，并在第 n 年出售所有股票。该投资的未来价值为
 
 $$
-\mathrm{FV}=(1+\mathrm{a})\pi_{n}=\left(1+\sum_{i=1}^{n}{\frac{d_{i}}{\pi_{i}}}\right)\pi_{n}=\pi_{0}(1+r)^{n}
+\mathrm{FV}=(1+\mathsf{a})\pi_n=\left(1+\sum_{i=1}^{n}\frac{d_i}{\pi_i}\right)\pi_n=\pi_0(1+r)^n.
 $$
 
 其中，a为通过股息再投资获得的额外股份数量，π为股价，d为股息，r为使初始投资等于FV的收益率。下标为年份。在第 i 期，股息为 $d_{i}$ ，投资者购买了 $\frac{d_{i}}{\pi_{i}}$ 的股票。则 REP 由下式计算得到
 
 $$
-{\mathrm{REP}}=\left({\frac{\mathrm{FV}}{\pi_{0}}}\right)^{\frac{1}{n}}-1-r_{f}
+\mathrm{REP}=\left(\cfrac{\mathrm{FV}}{\pi_{0}}\right)^{\cfrac{1}{n}}-1-r_{f}.
 $$
 
 其中 $r_{f}$ 为投资期内的无风险回报率的几何平均值。
@@ -197,13 +197,13 @@ $$
 本文还试验了假设的股权溢价（REP-HH），如果投资期结束时的股票价格使市盈率达到其历史平均值（历史市盈率一致价格），那么将实现该假设的股权溢价。对于 REP-HH的计算，假设投资者以基于历史市盈率一致价格调整的价格对股息进行再投资，并以历史市盈率一致价格出售。假设价格为 100美元，投资期结束时市盈率为 20，历史平均市盈率为15。那么，历史市盈率一致价格为 $100\times15/20$ ，即 75 美元。本文还使用投资期间实际价格的平均值与初始价格平均值和历史市盈率一致价格平均值的比率，来调整通过股息再投资获得的股份数量；如果最终价格不同，中间价格也会不同。REP-HH 的具体计算过程如下：在假设下，投资的未来价值为
 
 $$
-\mathrm{FV}_{H}=(1+\mathrm{a}_{H})\pi_{nH}=\biggl(1+\frac{2\mathrm{Avg}(\pi_{i})}{\pi_{0}+\pi_{nH}}\mathrm{a}\biggr)\frac{\mathrm{PER}_{\mathrm{A}}}{\mathrm{PER}_{\mathrm{n}}}\pi_{n}=\pi_{0}(1+r)^{n}
+\mathrm{FV}_{H}=(1+a_{H})\pi_{nH}=\left(1+\frac{2\mathrm{Avg}(\pi_{i})}{\pi_{0}+\pi_{nH}}a\right)\frac{\mathrm{PER}_{A}}{\mathrm{PER}_{n}}\pi_{n}=\pi_{0}(1+r)^{n}
 $$
 
-其中 $\pi_{nH}$ 是使市盈率在第 n 年达到历史平均水平的股价， $\operatorname{Avg}(\pi_{i})$ 是第 1年到第 $n$ 年的平均股价，PER $\mathbf{\nabla}\cdot\mathbf{A}\cdot\mathbf{\nabla}$ 是市盈率的历史平均水平，PER 是第 $\mathbf{\nabla}\cdot\mathbf{n}\cdot$ $n$ 年的市盈率，下标 H表示假设情况。如果价格从 $\scriptstyle{\mathcal{\pi}}_{0}$ 变化到 $\pi_{nH}$ ，而不是 $\scriptstyle{\pi_{n}}$ ，第 年和第 $n$ 年之间的价格也会不同，因此投资者可以通过股息获得的股票数量也会不同。因此，a 通过 n 年期间的平均价格与该期间假设的平均价格的比率进行调整 $\frac{\pi_{0}+\pi_{nH}}{2}$ 。假设价格在0年到n年之间线性变化。我们可以创建每个 n 年周期的假设的价格路径，并直接计算 $\cdot\mathsf{a}_{H}$ 。然而，由于 n 年周期的重叠数量非常多(当 n 为 10 时超过 1600 次)，数据工作将过于庞大，而且容易出错。相应的 REP-HH由下列公式计算得到
+其中 $\pi_{nH}$ 是使市盈率在第 n 年达到历史平均水平的股价， $\mathrm{Avg}(\pi_{i})$ 是第 1年到第 $n$ 年的平均股价，PER $\cdot\mathbf{A}$ 是市盈率的历史平均水平，PER 是第 $\mathbf{\nabla}^{\ast}\mathbf{n}\cdot$ $n$ 年的市盈率，下标 H表示假设情况。如果价格从 $\pi_{0}$ 变化到 $\pi_{nH}$ ，而不是 $\pi_{n}$ ，第 年和第 $n$ 年之间的价格也会不同，因此投资者可以通过股息获得的股票数量也会不同。因此，a 通过 n 年期间的平均价格与该期间假设的平均价格的比率进行调整 $\frac{\pi_{0}{+}\pi_{nH}}{2}$ 。假设价格在0年到n年之间线性变化。我们可以创建每个 n 年周期的假设的价格路径，并直接计算 $\cdot\mathbf{a}_{H}$ 。然而，由于 n 年周期的重叠数量非常多(当 n 为 10 时超过 1600 次)，数据工作将过于庞大，而且容易出错。相应的 REP-HH由下列公式计算得到
 
 $$
-{\mathrm{REP-HH}}=\Big(\frac{\mathrm{FV}_{H}}{\pi_{0}}\Big)^{\frac{1}{n}}-1-r_{f}
+\mathrm{REP-HH}=\left(\frac{\mathrm{FV}_{H}}{\pi_{0}}\right)^{\frac{1}{n}}-1-r_{f}
 $$
 
 REP-HH 的关键假设是，投资者估计相关经济变量在未来某一段时间内的走势，并期望这些变量在可预见的时期结束时回到历史平均水平。为简单起见，假设收益增长是唯一相关变量。第 0 年的投资者正确地估计了未来 年的快速盈利增长和此后的正常盈利增长。 年的快速盈利增长将使未来现金流的现值提高 30%。那么，市盈率在第 0 年将高于历史平均水平 30%，在第 10 年将回到历史平均水平，而 10 年期间的 REP-HH将是历史平均水平，因为更高的买入价格完全反映了这 10 年更高的收益。在这种情况下，市盈率和 REP-HH之间不存在相关性。然而，如果对 10 年期间收益增长的正确估计是历史平均水平，那么第 0 年的高市盈率将导致 10 年期间相应的低 REP-HH。
@@ -234,31 +234,31 @@ REP 作为衡量股市表现的指标有几个优点。它考虑了利率（或�
 公平市盈率是第 0 年的公平价格与收益的比率。公平价格是产生 DEP 的价格，它被假定为整个样本期间 REP 的几何平均值。公平价格为
 
 $$
-\pi_{0F}=\frac{(1+\mathsf{a}_{F})\pi_{n}}{(1+r_{D})^{n}}=\frac{\left(1+\frac{2\mathsf{Avg}(\pi_{i})}{\pi_{0F}+\pi_{n}}\mathsf{a}\right)\pi_{n}}{\left(1+\mathsf{DEP}+r_{f}\right)^{n}}
+\pi_{0F}=\frac{(1+a_F)\pi_n}{(1+r_D)^n}=\frac{\left(1+\frac{2\mathrm{Avg}(\pi_i)}{\pi_{0F}+\pi_n}a\right)\pi_n}{\left(1+\mathrm{DEP}+r_f\right)^n}
 $$
 
-其中 $r_{D}$ 为要求的回报率，等于 DEP 加 $\mathtt{L}r_{f}$ 。在计算 $\cdot\mathsf{a}_{F}$ 时，假设在投资期内价格从 $\scriptstyle{\mathcal{\pi}}_{0F}$ 到 $\pi_{n}$ 呈线性变化。因为 $\mathtt{a}_{F}$ 是 $\scriptstyle\pi_{0F}$ 的函数，代数关系很复杂。要得到 $\pi_{0F}$ ，必须使用二次公式解出下面的二次方程。
+其中 $r_{D}$ 为要求的回报率，等于 DEP 加 $上r_{f}$ 。在计算 $\cdot\mathbf{a}_{F}$ 时，假设在投资期内价格从 $\pi_{0F}$ 到 $\pi_{n}$ 呈线性变化。因为 $\mathbf{a}_{F}$ 是 $\pi_{0F}$ 的函数，代数关系很复杂。要得到 $\pi_{0F}$ ，必须使用二次公式解出下面的二次方程。
 
 $$
-{\pi_{0}}{r^{2}}+\left[\frac{\{(1+r_{D})^{n}-1\}\pi_{n}}{(1+r_{D})^{n}}\right]\pi_{0F}-\frac{{\left(\pi_{n}+2\mathrm{aAvg}(\pi_{i})\right)}\pi_{n}}{(1+r_{D})^{n}}=0
+\pi_{0F}^{2}+\left[\frac{\left\{(1+r_{D})^{n}-1\right\}\pi_{n}}{(1+r_{D})^{n}}\right]\pi_{0F}-\frac{\left(\pi_{n}+2a\mathrm{Avg}(\pi_{i})\right)\pi_{n}}{(1+r_{D})^{n}}=0
 $$
 
-用于计算第 0 年市盈率 $(\mathrm{PER}_{0})$ 的收益为 $\mathfrak{\pi}_{0}/\mathrm{PER}_{0},$ 因此基于第 n 年已实现价格的第 0 年公平市盈率（公平 PER-R）为
+用于计算第 0 年市盈率 $(\mathrm{PER}_{0})$ 的收益为 $\pi_{0}/\mathrm{PER}_{0},$ 因此基于第 n 年已实现价格的第 0 年公平市盈率（公平 PER-R）为
 
 $$
-\mathrm{PER}_{0\mathrm{F}}=\frac{\pi_{0F}}{\pi_{0}}\mathrm{PER}_{0}
+\mathrm{PER}_{0\mathrm{F}}=\frac{\pi_{0\mathrm{F}}}{\pi_{0}}\mathrm{PER}_{0}
 $$
 
 基于假设的第 n 年价格，第 0 年的公平价格为
 
 $$
-\pi_{0FH}=\frac{\displaystyle(1+{\bf a}_{FH})\pi_{nH}}{\displaystyle\big(1+{\bf DEP}+r_{f}\big)^{n}}=\frac{\displaystyle\left(1+\frac{2\mathrm{Avg}(\pi_{i})}{\pi_{0FH}+\pi_{nH}}{a}\right)\pi_{nH}}{\displaystyle\big(1+{\bf DEP}+r_{f}\big)^{n}}
+\pi_{0FH}=\frac{\left(1+a_{FH}\right)\pi_{nH}}{\left(1+\mathrm{DEP}+r_{f}\right)^{n}}=\frac{\left(1+\frac{2\mathrm{Avg}\left(\pi_{i}\right)}{\pi_{0FH}+\pi_{nH}}a\right)\pi_{nH}}{\left(1+\mathrm{DEP}+r_{f}\right)^{n}}
 $$
 
 则相应的基于假设的第 n 年价格，第 0 年公平市盈率（公平 PER-HH）为
 
 $$
-\mathrm{PER}_{0\mathrm{FH}}=\frac{\pi_{0FH}}{\pi_{0}}\mathrm{PER}_{0}
+\mathrm{PER}_{0\mathrm{FH}}=\frac{\pi_{0\mathrm{FH}}}{\pi_0}\mathrm{PER}_{0}
 $$
 
 图 3 比较了 CAPE、基于已实现价格的公平 CAPE（公平 CAPE-R）和基于历史 CAPE 一致价格的公平 CAPE（公平 CAPE-HH）。CAPE 和两个公平 CAPE 经常朝着同一方向移动，但这种正向关系并不强。在图 4中，绘制了 PERC、基于已实现价格的 PERC（公平 PERC-R）和基于历史PERC 一致价格的 PERC（公平 PERC-HH）的关系。PERC 和公平 PERC之间的正向关系看起来更强。PERC 和公平 PERC 在大多数情况下都是一起变化的，但有两个显著的例外：20 世纪 40 年代上半年和 90 年代末。投资者在第二次世界大战中期持悲观态度是不足为奇的。只有上世纪 90 年代末的科技泡沫才是真正的例外，它违背了市场基本面。

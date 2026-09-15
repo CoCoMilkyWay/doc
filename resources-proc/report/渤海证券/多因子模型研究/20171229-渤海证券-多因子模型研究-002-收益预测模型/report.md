@@ -139,11 +139,11 @@ $$
 小的权重。具体计算公式如下：
 
 $$
-EWMA({\mathrm{t}})=\lambda\cdot Y_{t}+(1-\lambda)\cdot EWMA(t-1)
+EWMA(t)=\lambda\cdot Y_{t}+(1-\lambda)\cdot EWMA(t-1)
 $$
 
 $$
-\mathrm{for\ t}=1,2,3,\cdots\mathrm{n}
+\mathrm{for}\quad\mathrm{t}=1{,}2{,}3{,}\cdots\mathrm{n}
 $$
 
 EWMA(t)：t 时刻估计值；
@@ -194,23 +194,23 @@ $Y_{t}$ ：t时刻观测值；
 
 因子的 IC 值定义为横截面上全部股票的因子暴露值与其下期回报率的相关系数，在相关系数的计算时可以选择 Pearson 或者 Spearman 相关系数，这里我们选择了后者，即因子的 Rank IC。因子的信息比率 IR 定义为因子 IC 的均值和因子 IC的标准差的比值。
 
-假设有 M 个因子，其 IC 均值向量为 $\overrightarrow{IC}^{T}=~(\overline{{{IC}}}_{1},~\overline{{{IC}}}_{2},~\cdots,~\overline{{{IC}}}_{M})$ ，协方差矩阵为 $\Sigma_{IC}$ ，各因子权重向量为 $\vec{v}^{T}=(v_{1},v_{2},\cdots,v_{M})$ 。则复合因子的 IR 值为
+假设有 M 个因子，其 IC 均值向量为 $\overrightarrow{IC}^{T}=\quad(\overrightarrow{IC}_{1},\quad\overrightarrow{IC}_{2},\quad\cdots,\quad\overrightarrow{IC}_{M})$ ，协方差矩阵为 $\Sigma_{IC}$ ，各因子权重向量为 $\vec{v}^{T}=(v_{1},v_{2},\cdots,v_{M})$ 。则复合因子的 IR 值为
 
 $$
-\mathrm{IR}={\frac{{\vec{v}}^{\prime}\cdot{\overrightarrow{IC}}}{\sqrt{{\vec{v}}^{\prime}\cdot\Sigma_{IC}\cdot{\vec{v}}}}}
+\mathrm{IR}=\frac{\vec{v}^{\prime}\cdot\overrightarrow{IC}}{\sqrt{\vec{v}^{\prime}\cdot\Sigma_{IC}\cdot\vec{v}^{\prime}}}
 $$
 
 我们希望找到一组权重，使得当前因子的预测 IR 值最大。通过简单的微积分知识，可以给出该问题的解析解
 
 $$
-{\vec{v}}^{*}=s\Sigma_{IC}^{-1}{\overrightarrow{IC}}
+\vec{v}^{*}=s\Sigma_{IC}^{-1}\overrightarrow{IC}
 $$
 
 其中 s为任意正数，可通过赋值使最终的权重之和为1。
 
 该方法得到的权重理论上可以使模型的 IR 值达到最大，即在追求收益率的同时，也尽量减小因子 IC的波动，使模型的因子取值更稳定。
 
-但是通过回测我们发现，该模型选股结果并不十分理想，虽然回测的波动率相比均值模型有了一定下降，但是收益也大幅降低。究其原因，可能是因为在对于因子的协方差矩阵估计准确性存在问题。实际上，协方差矩阵的估计误差与 $\frac{T}{T-M-2}$ 成正比，其中 T 为样本期个数，M 为因子个数，当样本期长度与因子个数比较接近时，模型估计的误差会非常大。通过回测图也可以发现，当样本期长度从 24个月上升至48 个月时，模型的回测结果也有所上升。这大概就是因为模型协方差矩阵的估计误差减小导致的。
+但是通过回测我们发现，该模型选股结果并不十分理想，虽然回测的波动率相比均值模型有了一定下降，但是收益也大幅降低。究其原因，可能是因为在对于因子的协方差矩阵估计准确性存在问题。实际上，协方差矩阵的估计误差与 $\frac{T}{T{-}M{-}2},$ 成正比，其中 T 为样本期个数，M 为因子个数，当样本期长度与因子个数比较接近时，模型估计的误差会非常大。通过回测图也可以发现，当样本期长度从 24个月上升至48 个月时，模型的回测结果也有所上升。这大概就是因为模型协方差矩阵的估计误差减小导致的。
 
 因此，我们需要一种新的方法，减小协方差矩阵的估计误差。于是，我们引入了下一节的压缩矩阵模型。
 

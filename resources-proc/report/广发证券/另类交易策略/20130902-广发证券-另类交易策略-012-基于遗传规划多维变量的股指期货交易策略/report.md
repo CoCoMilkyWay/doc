@@ -67,7 +67,7 @@ ann@gf.com.cn
 信号值的计算公式为
 
 $$
-y=\cos\left(tt\right)+2\sin\left(\frac{\cos\left(ll+tt\right)}{\operatorname{acos}\left(\sin\left(ll\right)^{tt}\right)}\right)
+y=\cos\left(tt\right)+2\sin\left(\frac{\cos\left(ll+tt\right)}{\cos\left(\sin\left(ll\right)^{n}\right)}\right)
 $$
 
 其中，ll为5分钟K线最低价，tt为5分钟K线当日累计K线数量，相应的函数树形结构如图1所示。
@@ -175,7 +175,7 @@ $$
 
 ## （3）函数体的表现形式
 
-遗传规划算法中，我们通常需要将函数表达式表示成一种树的形式，例如可以将函数表达式 $\operatorname*{max}{\bigl(}x+x,x+3\times y{\bigr)}$ 转换成如下的树的形式，如下图，其中圆圈部分代表内部节点（max、+、*）称为函数（functions），叶节点上的自变量以及常数称为终端（terminals）。遗传规划算法中需要我们事先给定函数集（functions set）和终端集（terminals set）。
+遗传规划算法中，我们通常需要将函数表达式表示成一种树的形式，例如可以将函数表达式 $\max(x+x,x+3\times y)$ 转换成如下的树的形式，如下图，其中圆圈部分代表内部节点（max、+、*）称为函数（functions），叶节点上的自变量以及常数称为终端（terminals）。遗传规划算法中需要我们事先给定函数集（functions set）和终端集（terminals set）。
 
 图5：遗传规划函数树状结构图
 ![](images/3376b90911437c3c47bcb96874258074aee7d37b3ffe76ce54ced6a09e730745.webp)
@@ -191,7 +191,7 @@ $$
 
 上一代群体中适应度最高的若干个个体或者一定比例的个体直接作为新个体放入下一代群体，这一部分个体数量占群体大小的比例为 $p_{e}$
 
-（6）遗传算子：复制算子（reproduction）按照等比例于适应度的选择概率在上一代群体中选择个体放入下一代群体，如此产生的个体数量占群体大小的比例为 ${\boldsymbol{p}}_{r}$ 。
+（6）遗传算子：复制算子（reproduction）按照等比例于适应度的选择概率在上一代群体中选择个体放入下一代群体，如此产生的个体数量占群体大小的比例为 $p_{r}$ 。
 
 （7）遗传算子：交叉算子（crossover）
 
@@ -276,11 +276,11 @@ $$
 记 $F_{1}$ 为开仓成交价， $F_{2}$ 为平仓成交价，c为单边手续费率，I 为单边冲击成本，M 为杠杆倍数，则单次交易收益率为
 
 $$
-r_{long}=\left[\frac{(F_{2}-I)\times(1-c)-(F_{1}+I)\times(1+c)}{\left(F_{1}+I\right)\times\left(1+c\right)}\right]\times M
+r_{long}=\left[\frac{(F_2-I)\times(1-c)-(F_1+I)\times(1+c)}{(F_1+I)\times(1+c)}\right]\times M
 $$
 
 $$
-r_{short}=\left[\frac{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1-c\big)-\big(F_{\scriptscriptstyle2}+I\big)\times\big(1+c\big)}{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1+c\big)}\right]\times M
+r_{short}=\left[\frac{\left(F_1-I\right)\times(1-c)-(F_2+I)\times(1+c)}{(F_1-I)\times(1+c)}\right]\times M
 $$
 
 此处模拟交易相关设定为：

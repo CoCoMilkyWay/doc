@@ -76,7 +76,7 @@ zhouxiaoxiao@ebscn.com
 集合竞价阶段的交易数据是日内高频数据的特有部分，我们以成交量为切入点，以相对指标个股集合竞价成交量占比（集合竞价阶段成交量/日内总成交量）为日内高频指标，采用技术分析中最常用指标构造方式——简单移动平均（MA）构造开盘集合竞价成交量占比因子 OCVP（opening call auction volume percent），作为月初选股的指标。
 
 $$
-OCVP_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{VOL_{call}}{VOL_{total}}\right)_{t-i}
+OCVP_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{VOL_{call}}{VOL_{total}}\right)_{t-i}.
 $$
 
 其中： $VOL_{call}$ ：表示每日开盘前集合竞价阶段成交量
@@ -92,7 +92,7 @@ d：表示第 t日向前移动平均的交易日个数
 指数移动平均（EMA）也是理想的趋势抓取工具，相比于简单移动平均，它赋予最近期信息的权重最大，也不摒弃远期信息，只是赋予呈指数式衰减的权重。
 
 $$
-TWOCVP_{t}=\sum_{i=1}^{\infty}w_{t-i}*CVP_{t-i}
+TWOCVP_{t}=\sum_{i=1}^{\infty}w_{t-i}*CVP_{t-i},
 $$
 
 其中
@@ -101,14 +101,14 @@ $\begin{array}{r}{CVP_{t-i}=\left(\frac{VOL_{call}}{VOL_{total}}\right)_{t-i}}\e
 
 α：信息的衰减强度， $\begin{array}{r}{\alpha=\frac{2}{1+d};}\end{array}$
 
-$\begin{array}{r}{w_{t-i}=\frac{(1-\alpha)^{i-1}}{\sum_{i=1}^{\infty}(1-\alpha)^{i-1}}\colon}\end{array}$ 为时间权重因子。
+$w_{t-i}=\frac{(1-\alpha)^{i-1}}{\sum_{i=1}^{\infty}(1-\alpha)^{i-1}}$ 为时间权重因子。
 
 ## 尾盘效应代理变量：收盘前 5 分钟成交量占比
 
 由于沪深两市交易制度的细微差异，深圳证券交易收盘前 3分钟属于收盘集合竞价阶段，而上海证券交易所仍处于连续竞价阶段。如果开盘集几分钟则是白天交易期间累积情绪的最后释放时间，其中的交易者行为同样蕴含着额外的信息量。为了统一沪深两市，我们选择收盘前5 分钟的交易信息作为尾盘效应时段，以与OCVP 同样的方式构造收盘前成交量占比因子 BCVP（before closing volume percent）。
 
 $$
-BCVP_{t}=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{VOL_{close}}{VOL_{total}}\right)_{t-i}
+BCVP_t=\frac{1}{d}\sum_{i=1}^{d}\left(\frac{VOL_{close}}{VOL_{total}}\right)_{t-i}
 $$
 
 其中：
@@ -198,7 +198,7 @@ OCVP因子存在一定的行业和市值差异性。为了排除股票所属行�
 （3）标准化处理：通过横截面 z-score方法，以每个时间截面 t上的所有股票的为样本，分别计算其均值和标准差得到如下所示的 stand(OCVP)。此标准化方式属于因子的线性变换，并不会改变原始OCVP因子的分布特征。
 
 $$
-{\mathrm{stand}}(OCVP)_{jt}={\frac{OCVP_{jt}-{\overline{{OCVP_{t}}}}}{std(OCVP)_{t}}}
+\mathrm{standard}(OCVP)_{jt}=\frac{OCVP_{jt}-\overline{OCVP_{t}}}{std(OCVP)_{t}}
 $$
 
 ## 3.2.2、因子有效性检验
@@ -492,7 +492,7 @@ OBCVP 因子月度选股的多头策略收益可观。从 2010 年至 2017 年�
 OBCVP因子与低频的VSTD因子相关性较高。分别计算规模因子、动量因子、技术因子、波动因子及流动性因子中单因子测试显著性较高的几个因子与OBCVP因子与之间历史IC值的相关性，从下图的结果发现：OBCVP 因子与流动性因子VSTD（成交额/收益波动率）之间具有较高的正相关性。由于VSTD单因子测试效果突出，为了进一步证明OBCVP因子自身具备选股能力，我们将通过横截面回归取残差的方式，剔除了 VSTD的影响，同时剔除了市值、一个月动量、和行业因素。
 
 $$
-OBCVP_{i}=\beta_{1}*VSTD_{i}+\beta_{2}*Momentum_{i}+\beta_{3}*MC_{i}+\beta_{4}*Industry_{i}+\varepsilon_{i}
+OBCVP_{i}=\beta_{1}*VSTD_{i}+\beta_{2}*Monmentum_{i}+\beta_{3}*MC_{i}+\beta_{4}*Industry_{i}+\varepsilon_{i}
 $$
 
 图 22：OBCVP 与其他大类因子历史 IC值相关性检验

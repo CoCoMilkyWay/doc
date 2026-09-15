@@ -133,7 +133,7 @@ CTA 策略的第一篇以股指期货的开盘动量效应为基底，经逐步�
 具体公式如下：
 
 $$
-\begin{array}{ll}{{UpLine=MA_{close}+N*STD_{close}}}&{{N>0}}\\{{}}&{{}}\\{{DownLine=MA_{close}-N*STD_{close}}}&{{N>0}}\end{array}
+\begin{aligned}&Up\ Line=MA_{close}+N*STD_{close}\quad N>0\\&Down\ Line=MA_{close}-N*STD_{close}\quad N>0\\\end{aligned}
 $$
 
 其中，Up（Down）Line 为布林通道中的上下轨道线， $MA_{close}$ 为布林通道中的均线， $STD_{close}$ 为收盘价的标准差。
@@ -205,7 +205,7 @@ $$
 为使得策略在所有不同品种上面的波动幅度可控，我们需要根据不同品种的波动幅度进行交易量的调整。这里所说的波动幅度通常使用真实波动幅度均值（Average True Range，ATR）来度量。其中，ATR 指标的具体计算公式如下所示：
 
 $$
-TR=Max[(high-low),abs(high-preclose),abs(low-preclose)]
+TR=Max[(high-low),abs(high-precoders),abs(low-precclose)]
 $$
 
 $$
@@ -229,7 +229,7 @@ Pos=\frac{1}{Close}
 $$
 
 $$
-\begin{array}{c}{{Lev_{ATR}=\displaystyle\frac{Pos_{ATR}}{Pos}}}\\{{=\displaystyle\frac{0.5^{0}/\phantom{1}_{0}}{ATR}\ast Close}}\end{array}
+\begin{aligned}Lev_{ATR}&=\frac{Pos_{ATR}}{Pos}\\&=\frac{0.5\%}{ATR}*Close\end{aligned}
 $$
 
 其中， $Pos_{ATR}$ 为 1 单位 ATR 对应资金规模 0.5%波动的应开手数,Pos为全部资金对应无杠杆满仓可开手数，Close为收盘价， $Lev_{ATR}$ 为应开手数除以无杠杆满仓可开手数的开仓杠杆率。由上面算法计算出来的开仓杠杆率具有根据 ATR波动调整杠杆率大小的特性，当一个品种的日均波动较大时，我们倾向于给予该品种较低的杠杆，而反之，如果一个品种的日均波动较小，我们则可以给该品种较高的杠杆。从风险控制的角度如果一个品种的波动较大，给予较小杠杆也是出于对资金安全的考虑，防止由于较大的波动幅度而触发穿仓风险。
@@ -742,10 +742,10 @@ $$
 Return_{i}=\frac{Close_{i,new}}{Close_{i-1,old}}-1
 $$
 
-当新主力合约价格与旧主力合约价格出现跳空时，该收益率会出现异常值， $\bar{\hbar}$ 使用复权因子之后收益率的计算变为：
+当新主力合约价格与旧主力合约价格出现跳空时，该收益率会出现异常值， $而$ 使用复权因子之后收益率的计算变为：
 
 $$
-\begin{array}{l}{{Return_{i}=\displaystyle\frac{AdjFactor_{i}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1}}\\{{\ }}\\{{=\displaystyle\frac{AdjFactor_{i-1}\cdot\frac{Close_{i-1,old}}{Close_{i-1,new}}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1}}\\{{\ }}\\{{=\displaystyle\frac{Close_{i,new}}{Close_{i-1,new}}-1}}\end{array}
+\begin{aligned}Return_{i}&=\frac{AdjFactor_{i}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1\\&=\frac{AdjFactor_{i-1}\cdot\frac{close_{i-1,old}}{Close_{i-1,new}}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1\\&=\frac{Close_{i,new}}{Close_{i-1,new}}-1\end{aligned}
 $$
 
 可以看到，这样计算出来的收益率即为实际收益率，进而避免了因合约切换导致的策略信号漂移或者收益率无法计算的情况。

@@ -69,53 +69,53 @@ Cheridito, P., and Kromer, E. Reward-risk ratios. Journal of Investment Strategi
 在符号上，我们有
 
 $$
-\left\{\begin{array}{rl}{\left(\Omega,\mathcal{F},\mathbb{P}\right)=\frac{1+\beta\mathcal{Z}}{16\lambda}\frac{\mathcal{Z}}{\mathcal{Z}}\frac{\mathcal{Z}}{\mathcal{Z}}|\mathrm{\ddot{z}}]}&{}\\{\mathcal{X}}&{=\left(\Omega,\mathcal{F},\mathbb{P}\right)\bot\mathbb{E}\mathbb{H}\dot{\mathcal{Z}}\frac{1}{\mathcal{Z}}\frac{\mathcal{S}}{\mathcal{Z}}\frac{\mathcal{Z}}{\mathcal{Z}}\mathbb{H}\dot{\mathcal{Z}}\frac{\dot{\mathcal{Z}}}{\mathcal{Z}}\frac{\mathcal{Z}}{\mathcal{F}}\frac{\dot{\mathcal{Z}}}{\mathcal{Z}}\frac{\dot{\mathcal{Z}}}{\mathcal{F}}}\\{\mathbb{E}}&{=\mathbb{E}_{\mathbb{P}}=\mathbb{P}\mathrm{\ al}/\frac{\dot{\mathcal{Z}}}{\mathcal{Z}}\mathcal{F}\dot{\mathcal{Z}}\frac{\dot{\mathcal{Z}}\dot{\mathcal{Z}}}{\mathcal{F}}\frac{\dot{\mathcal{Z}}\dot{\mathcal{Z}}}{\mathcal{Z}}}\\{\mathbb{E}_{\mathbb{Q}}}&{=\mathbb{Q}\mathrm{\ al}/\frac{\dot{\mathcal{Z}}}{\mathcal{Z}}\mathcal{F}\dot{\mathcal{Z}}\frac{\dot{\mathcal{Z}}\dot{\mathcal{Z}}}{\mathcal{F}}\frac{\dot{\mathcal{Z}}\dot{\mathcal{Z}}}{\mathcal{Z}}}\end{array}\right.
+\left\{\begin{aligned}\left(\Omega,&\mathcal{F},\mathbb{P}\right)=概率空间\\&\mathcal{X}\quad=\left(\Omega,\mathcal{F},\mathbb{P}\right)上随机变量组成的凸集\\&\mathbb{E}\quad=\mathbb{E}_{\mathbb{P}}=\mathbb{P}测度下的期望\\&\mathbb{E}_{\mathbb{Q}}\quad=\mathbb{Q}测度下的期望\end{aligned}\right.
 $$
 
 对于不同的随机变量 X 和 Y，其大小关系是指在概率测度ℙ的意义下成立，即：
 
 $$
-\mathtt{X}\ge\mathtt{Y}\Leftrightarrow\mathbb{P}[\mathtt{X}\ge\mathtt{Y}]=1
+\mathrm{X}\geq\mathrm{Y}\Leftrightarrow\mathbb{P}[\mathrm{X}\geq\mathrm{Y}]=1
 $$
 
 在本报告中，任取
 
 $$
-\mathrm{X}\in{\mathcal{X}}
+\mathtt{X}\in\mathcal{X}
 $$
 
 均将其视为期限
 
 $$
-\mathrm{T}\in\mathbb{R}_{\geq0}
+\mathbf{T}\in\mathbb{R}_{\geq0}
 $$
 
-上的金融资 $\cdot\dot{\bar{r}}$ 回报。例如，X 的具体形式可以是
+上的金融资 $\text{: }\begin{aligned}&\text{" }\\&\text{" }\end{aligned}$ 回报。例如，X 的具体形式可以是
 
 $$
-\mathsf{V}_{\mathrm{T}},\frac{\mathsf{V}_{\mathrm{T}}}{\mathsf{V}_{0}},\mathsf{V}_{\mathrm{T}}-\mathsf{V}_{0},\frac{\mathsf{V}_{\mathrm{T}}}{\mathsf{V}_{0}}-1
+\mathrm{V_{T},}\frac{\mathrm{V_{T}}}{\mathrm{V_{0}}}\mathrm{,V_{T}-V_{0},}\frac{\mathrm{V_{T}}}{\mathrm{V_{0}}}\mathrm{-1}
 $$
 
 中的任何一种，其中下标分别对应于期初 0 和期末 T。进一步地，对于某个给定的基准组合 B，X 可能形如：
 
 $$
-\begin{array}{rl}&{\underbrace{\mathrm{V_{T}}}_{\mathrm{B_{T}}},\underbrace{\mathrm{V_{T}}\mathrm{B_{0}}}_{\mathrm{V_{0}B_{T}}},\mathrm{V_{T}}-\mathrm{B_{T}},\mathrm{V_{T}}-\mathrm{V_{0}}-\mathrm{B_{T}}+\mathrm{B_{0}},\underbrace{\mathrm{V_{T}}-\mathrm{V_{0}}}_{\mathrm{B_{T}}-\mathrm{B_{0}}},}\\&{\qquad\underbrace{\mathrm{V_{T}}}_{\mathrm{B_{T}}}-1,\underbrace{\mathrm{V_{T}}}_{\mathrm{V_{0}}}-\underbrace{\mathrm{B_{T}}}_{\mathrm{B_{0}}},\underbrace{\mathrm{V_{T}}-\mathrm{V_{0}}}_{\mathrm{V_{0}}}\underbrace{\mathrm{B_{0}}}_{\mathrm{B_{T}}-\mathrm{B_{0}}}}\end{array}
+\begin{aligned}\frac{\mathrm{V}_{\mathrm{T}}}{\mathrm{B}_{\mathrm{T}}},&\frac{\mathrm{V}_{\mathrm{T}}\mathrm{B}_{0}}{\mathrm{V}_{0}\mathrm{B}_{\mathrm{T}}},\mathrm{V}_{\mathrm{T}}-\mathrm{B}_{\mathrm{T}},\mathrm{V}_{\mathrm{T}}-\mathrm{V}_{0}-\mathrm{B}_{\mathrm{T}}+\mathrm{B}_{0},\frac{\mathrm{V}_{\mathrm{T}}-\mathrm{V}_{0}}{\mathrm{B}_{\mathrm{T}}-\mathrm{B}_{0}},\\&\frac{\mathrm{V}_{\mathrm{T}}}{\mathrm{B}_{\mathrm{T}}}-1,\frac{\mathrm{V}_{\mathrm{T}}}{\mathrm{V}_{0}}-\frac{\mathrm{B}_{\mathrm{T}}}{\mathrm{B}_{0}},\frac{\mathrm{V}_{\mathrm{T}}-\mathrm{V}_{0}}{\mathrm{V}_{0}}\frac{\mathrm{B}_{0}}{\mathrm{B}_{\mathrm{T}}-\mathrm{B}_{0}}\end{aligned}
 $$
 
 本报告的主要研究对象是满足如下形式的回报风险比率：
 
 $$
-\alpha(\mathrm{X})=\theta(\mathrm{X})^{+}/\rho(\mathrm{X})^{+}
+\alpha(\mathrm{X})=\Theta(\mathrm{X})^{+}/\rho(\mathrm{X})^{+}
 $$
 
 $$
-\theta,\rho;\mathcal{X}\mathbb{R}\cup\{\pm\infty\}
+\boldsymbol{\theta},\boldsymbol{\rho}\colon\mathcal{X}\to\mathbb{R}\cup\{\pm\infty\}
 $$
 
 分别称为回报测度和风险测度，分子和分母上的加号
 
 $$
-\mathbf{x}^{+}=\mathrm{max}(\mathbf{x},0)=x\lor0
+\mathrm{x}^{+}=\max(\mathrm{x},0)=x\lor0
 $$
 
 为正向截断函数。相似地，我们可以定义
@@ -127,22 +127,22 @@ $$
 特别地，为了使得 X 的具体形式都是良定义的，我们约定
 
 $$
-{\frac{\infty}{\infty}}=0={\frac{0}{0}}
+\frac{\infty}{\infty}=0=\frac{0}{0}
 $$
 
 本报告的回报风险比率必须满足如下公理：
 
-（M）单调性（monotonicity）： $\mathbf{X},\mathbf{Y}\in{\mathcal{X}},\mathbf{X}\geq\mathbf{Y}\Rightarrow\mathbf{\alpha}\mathbf{\alpha}(\mathbf{X})\geq\mathbf{\alpha}\mathbf{\alpha}(\mathbf{Y})$
+（M）单调性（monotonicity）： $\mathbf{X},\mathbf{Y}\in\mathbf{X},\mathbf{X}\geq\mathbf{Y}\Rightarrow\mathbf{\alpha}(\mathbf{X})\geq\mathbf{\alpha}(\mathbf{Y}).$
 
-（Q） 拟 凹 性（ quasi-concavity）： $\mathbf{X},\mathbf{Y}\in{\mathcal{X}},\lambda\in[\mathbf{0},1]\Rightarrow\alpha(\lambda\mathbf{X}+(1-$ ${\mathfrak{A}})\mathbf{Y})\geq\mathbf{\pmb{\alpha}}(\mathbf{X})\wedge\mathbf{\pmb{\alpha}}(\mathbf{Y})$
+（Q） 拟 凹 性（ quasi-concavity）： $\mathbf{X},\mathbf{Y}\in\mathbf{X},\lambda\in[\mathbf{0},\mathbf{1}]\Rightarrow\mathbf{\alpha}(\lambda\mathbf{X}+(\mathbf{1}-$ $\lambda)\mathrm{Y})\geq\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})$
 
 简单来说，单调性意味着在收益层面多优于少，拟凹性意味着在风险层面鼓励分散。特别地，拟凹性对应的风险厌恶意味着此时的回报风险比率更加关注平均值而非极端值，参考 Schmeidler（1989），Cerreia-Vioglioet al.（2011）或者 Drapeau and Kupper（2013）。否则，对于非拟凹的业绩评价指标，将会导致风险的集中而非分散，参见 Artzneret al.（1999）。
 
 而在既有的文献中，许多回报风险比率还满足
 
-（ S） 数 乘 不 变 性 （ scale-invariance ）： $\mathbf{X}\in{\mathcal{X}},\lambda\in(\mathbf{0},\infty),\lambda\mathbf{X}\in{\mathcal{X}}\Rightarrow$ ${\pmb{\alpha}}(\pmb{\lambda}\mathbf{X})={\pmb{\alpha}}(\mathbf{X})$
+（ S） 数 乘 不 变 性 （ scale-invariance ）： $\mathbf{X}\in\mathbf{X},\lambda\in(\mathbf{0},\infty),\lambda\mathbf{X}\in\mathbf{X}\Rightarrow$ $\alpha(\lambda\mathbf{X})=\alpha(\mathbf{X})$
 
-（D）唯分布依赖性（distribution-based）:X $\in{\mathcal{X}}\Rightarrow\alpha(\mathbf{X})=\mathbf{\alpha}\mathbf{\alpha}\mathbf{(F_{X})}$ ，其中$\mathbf{F}_{\mathbf{X}}\colon\mathbb{R}\to[\mathbf{0},\mathbf{1}]$ 是随机变量 X的累计分布函数。
+（D）唯分布依赖性（distribution-based）:X $\in\mathcal{X}\Rightarrow\alpha(\bar{\mathbf{X}})=\alpha(\mathbf{F}_{\mathbf{X}})$ ，其中$\mathbf{F_{X}}\mathbf{:}\;\mathbb{R}\rightarrow[\mathbf{0},\mathbf{1}]$ 是随机变量 X的累计分布函数。
 
 需要指出的是，（S）性质虽然能够在一定程度上简化计算，但是回报风险比率与回报的大小无关这一性质，其实既无经济学的解释也无决策论的支撑。Chernyand Madan（2009）对单调的、拟凹、数乘不变度量给出了一个刻画。而性质（D）则是一个比较自然的“信仰”：如果我们将观察数据得到的经验分布视为真实的话，参见 Beutner and Zahle（2010），Pflug and Wozabal（2010）或者 Belomestny and Kratschmer（2012）。但对于很多金融场景，不确定事件的概率分布是未知的，因此模型的参数估计与其追求准确，不如采用更加稳健的方法考虑参数的动态匹配问题。对于上述情况，追求唯分布依赖性是没有道理的。
 
@@ -151,20 +151,20 @@ $$
 命题 I：设
 
 $$
-\mathfrak{\alpha}(-)=\mathfrak{\theta}(-)^{+}/\mathfrak{p}(-)^{+}
+\boldsymbol{\alpha}(-)=\boldsymbol{\theta}(-)^{+}/\boldsymbol{\rho}(-)^{+}
 $$
 
 $$
-\lambda>\mathbf{0},\{\mathbf{X},\mathbf{Y},\lambda\mathbf{X}\}\subset\mathcal{X}
+\lambda>0,\left\{X,Y,\lambda X\right\}\subset X
 $$
 
-1. 取 $\mathbf{X}{\geq}\mathbf{Y},$ ，如果始终有 ${\mathfrak{\mathbf{\theta}}}(\mathbf{X}){\ge}{\mathfrak{\mathbf{\theta}}}(\mathbf{Y})$ 而且 $\mathbf{\rho}(\mathbf{X}){\leq}\mathbf{\rho}(\mathbf{Y})$ ，那么α满足单调性（M）。
+1. 取 $\mathbf{X}{\geq}\mathbf{Y},$ ，如果始终有 $\mathbf{\theta}(\mathbf{X})\geq\mathbf{\theta}(\mathbf{Y})$ 而且 $\mathbf{p}(\mathbf{X}){\leq}\mathbf{p}(\mathbf{Y})$ ，那么α满足单调性（M）。
 
 2. 如果 θ 凹 ρ 凸，那么 α满足拟凹性（Q）。
 
-3. 如果 $\scriptstyle\mathbf{p}(\lambda\mathbf{X})=\lambda\mathbf{p}(\mathbf{X}),\mathbf{\theta}(\lambda\mathbf{X})=\lambda\mathbf{\theta}(\mathbf{X})$ ，那么 α满足数乘不变性（S）。
+3. 如果 $\rho(\lambda\mathbf{X})=\lambda\rho(\mathbf{X}),\theta(\lambda\mathbf{X})=\lambda\theta(\mathbf{X})$ ，那么 α满足数乘不变性（S）。
 
-4. 如果 $\mathbf{\rho},\mathbf{\theta}$ 满足（D），那么α 满足唯分布依赖性（D）。
+4. 如果 $\mathbf{p},\mathbf{\theta}$ 满足（D），那么α 满足唯分布依赖性（D）。
 
 证明：1、3、4 是直接的结论，下面仅证明 2。如果
 
@@ -175,13 +175,13 @@ $$
 那么结论自然成立，否则
 
 $$
-\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})>0\Rightarrow\Theta(\mathrm{X})\wedge\Theta(\mathrm{Y})>0\Rightarrow\Theta(\mathrm{X}),\Theta(\mathrm{Y})>0
+\alpha(\mathrm{X})\land\alpha(\mathrm{Y})>0\Rightarrow\theta(\mathrm{X})\land\theta(\mathrm{Y})>0\Rightarrow\theta(\mathrm{X}),\theta(\mathrm{Y})>0
 $$
 
 而利用θ的凹性可以得到：
 
 $$
-\begin{array}{rl}&{\qquad\Theta(\lambda\mathrm{X}+(1-\lambda)\mathrm{Y})^{+}\geq\bigl(\lambda\Theta(\mathrm{X})+(1-\lambda)\Theta(\mathrm{Y})\bigr)^{+}=\lambda\Theta(\mathrm{X})^{+}+(1-\lambda)\Theta(\mathrm{Y})^{+}}\\&{=\lambda\alpha(\mathrm{X})\mathrm{\rho}(\mathrm{X})^{+}+(1-\lambda)\alpha(\mathrm{Y})\mathrm{\rho}(\mathrm{Y})^{+}\geq\bigl(\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})\bigr)(\lambda\mathrm{\rho}(\mathrm{X})^{+}+(1-\lambda)\mathrm{\rho}(\mathrm{Y})^{+})}\\&{\geq\bigl(\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})\bigr)\bigl(\lambda\mathrm{\rho}(\mathrm{X})+(1-\lambda)\mathrm{\rho}(\mathrm{Y})\bigr)^{+}\geq\bigl(\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})\bigr)\bigl(\lambda\mathrm{\rho}(\lambda\mathrm{X}+(1-\lambda)\mathrm{Y})\bigr)^{+}}\end{array}
+\begin{align*}&\quad\Theta(\lambda\mathrm{X}+(1-\lambda)\mathrm{Y})^{+}\geq\big(\lambda\Theta(\mathrm{X})+(1-\lambda)\Theta(\mathrm{Y})\big)^{+}=\lambda\Theta(\mathrm{X})^{+}+(1-\lambda)\Theta(\mathrm{Y})^{+}\\&=\lambda\alpha(\mathrm{X})\rho(\mathrm{X})^{+}+(1-\lambda)\alpha(\mathrm{Y})\rho(\mathrm{Y})^{+}\geq\big(\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})\big)(\lambda\rho(\mathrm{X})^{+}+(1-\lambda)\rho(\mathrm{Y})^{+})\\&\geq\big(\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})\big)\big(\lambda\rho(\mathrm{X})+(1-\lambda)\rho(\mathrm{Y})\big)^{+}\geq\big(\alpha(\mathrm{X})\wedge\alpha(\mathrm{Y})\big)\big(\lambda\rho(\lambda\mathrm{X}+(1-\lambda)\mathrm{Y})\big)^{+}\end{align*}
 $$
 
 ## 4. 三类回报风险比率
@@ -189,75 +189,75 @@ $$
 本节将引入三类回报风险比率，它们之间的关系是
 
 $$
-132\div3=\square\overrightarrow{AB}\bot\overrightarrow{AB}\bot\overrightarrow{AB}\bot\overrightarrow{AB}\bot\textnormal{(RRR)C(M)\cap(Q)}
+稳健回报风险比率(RRRR)\subset(M)\cap(Q)
 $$
 
 $$
-\Zmathring{\ J}\le\ Z\mathring{\|}\ Z\mathring{\pm}\ \dotsc\ Z\in\ Z\mathring{\mp}\ \left(\mathrm{RER}\right)\subset\left(\textbf{ M }\right)\ \cap\ \left(\textbf{ Q }\right)\ \cap\ \left(\textbf{ S }\right)
+稳健期望比率$\mathrm{~(~RER~)~}{\subset}\mathrm{~(~M~)~}{\cap}\mathrm{~(~Q~)~}{\cap}\mathrm{~(~S~)~}$
 $$
 
 畸变回报风险比率（DRRR）⊂（M）∩（Q）∩（S）∩（D）
 
 ## 4.1. 稳健回报风险比率（robustRRRs）
 
-假设 ${\mathcal{P}},{\mathcal{Q}}.$ 是两个非空的概率测度，且关于ℙ绝对连续。定义
+假设 $\mathcal{P},Q,$ 是两个非空的概率测度，且关于ℙ绝对连续。定义
 
 $$
-\displaystyle\theta(\mathrm{X})=\operatorname*{inf}_{\mathbb{Q}\in\mathcal{P}}\mathbb{E}_{\mathbb{Q}}[\mathrm{X}],\mathrm{\mathrm{,~}}\mathrm{}\mathrm{}\mathrm{,~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}\mathrm{~}
+\Theta(\mathsf{X})=\operatorname*{inf}_{\mathbb{Q}\in\mathcal{P}}\mathbb{E}_{\mathbb{Q}}[\mathsf{X}],\mathsf{p}(\mathsf{X})=\operatorname*{sup}_{\mathbb{Q}\in\mathcal{Q}}\bigl(\mathbb{E}_{\mathbb{Q}}[((\mathsf{m}-\mathsf{X})^{+})^{\mathsf{p}}]\bigr)^{\beta/\mathsf{p}},\mathsf{m}\in\mathbb{R},\mathsf{p},\beta\geq1
 $$
 
 此时需要适当选择X使得所有的期望存在且有限。此时
 
 $$
-\theta{:}\mathcal{X}\{-\infty\}\cup\mathbb{R}
+\Theta\colon\mathcal{X}\to\{-\infty\}\cup\mathbb{R}
 $$
 
 显然是满足（M）+（S）的凹函数；而
 
 $$
-{\rho}{:}\mathcal{X}\mathbb{R}_{\geq0}\cup\{\infty\}
+\rho\colon\mathcal{X}\to\mathbb{R}_{\geq0}\cup\{\infty\}
 $$
 
 为凸函数，并且满足
 
 $$
-\mathtt{X}\ge\mathtt{Y}\Rightarrow\rho(\mathrm{X})\le\rho(\mathrm{Y})
+\mathrm{X}\geq\mathrm{Y}\Rightarrow\rho(\mathrm{X})\leq\rho(\mathrm{Y})
 $$
 
 根据命题 I，我们知道回报风险比率满足（M）+（Q）
 
 $$
-\alpha(\mathrm{X})=\frac{\left(\underset{\mathbb{Q}\in\mathcal{P}}{\operatorname*{inf}}\mathbb{E}_{\mathbb{Q}}[\mathrm{X}]\right)^{+}}{\underset{\mathbb{Q}\in\mathcal{Q}}{\operatorname*{sup}}\big(\mathbb{E}_{\mathbb{Q}}[((\mathrm{m}-\mathrm{X})^{+})^{\mathrm{p}}]\big)^{\beta/\mathrm{p}}}\Rightarrow\alpha\in\left(\mathrm{M}\right)\cap\left(\mathrm{Q}\right)
+\alpha(X)=\frac{\left(\inf_{Q\in\mathcal{P}}\mathbb{E}_{Q}[X]\right)^{+}}{\sup_{Q\in\mathcal{Q}}\left(\mathbb{E}_{Q}\left[\left((m-X)^{+}\right)^{p}\right]\right)^{\beta/p}}\Rightarrow\alpha\in(M)\cap(Q).
 $$
 
 此类回报风险比率被称为稳健回报风险比率（RRRR）。可以证明
 
 $$
-\begin{array}{rl}&{\mathrm{(~a_)}~\mathcal{P}=\mathcal{Q}=\{{\mathbb P}\}\Rightarrow\alpha\in\mathrm{(M)}\cap\mathrm{(Q)}\cap\mathrm{(D)}}\\&{\mathrm{(~b_)}~\mathrm{m}=0,\beta=1\Rightarrow\mathrm{\rho}(\lambda\mathrm{X})=\lambda\mathrm{\rho}(\mathrm{X})\Rightarrow\alpha\in\mathrm{(M)}\cap\mathrm{(Q)}\cap\mathrm{(S)}}\end{array}
+\begin{aligned}&\left(\;a\;\right)\;\mathcal{P}=\mathcal{Q}=\left\{\mathbb{P}\right\}\Rightarrow\alpha\in\left(\mathbb{M}\right)\cap\left(\mathbb{Q}\right)\cap\left(\mathbb{D}\right)\\&\left(\;b\;\right)\;\mathfrak{m}=0,\mathbb{\beta}=1\Rightarrow\rho(\lambda\mathtt{X})=\lambda\rho(\mathtt{X})\Rightarrow\alpha\in\left(\mathbb{M}\right)\cap\left(\mathbb{Q}\right)\cap\left(\mathbb{S}\right)\\\end{aligned}
 $$
 
 Sortino and Satchell（2001）引入的 Sortino-Satchell 比率（Sortino-Satchellratio）就满足（a）+（b），形如
 
 $$
-\mathrm{SSR}(\mathrm{X}){:=}(\mathbb{E}[\mathrm{X}])^{+}/\|\mathrm{X}^{-}\|_{\mathrm{p}},\mathrm{p}\geq1
+\mathrm{SSR}(\mathrm{X}):=(\mathbb{E}[\mathrm{X}])^{+}/\|\mathrm{X}^{-}\|_{\mathrm{p}},\mathrm{p}\geq1
 $$
 
-该指标满足 $(\mathbf{M})+(\mathbf{Q})+(\mathbf{S})+(\mathbf{D})\ l_{\circ}\ \mathbf{p}\ l=1$ 时的特例，即是 Bernardoand Ledoit（2000）引入的得失比率（gains-loss ratio，GLR）。需要注意的是，（a）其实定义了广义的 Sortino-Satchell比率，其中 m 代表了收益的平移， $\beta>1$ 则给出了风险测度的一个凸畸变（distortion）。
+该指标满足 $(\mathrm{~M~})+(\mathrm{~Q~})+(\mathrm{~S~})+(\mathrm{~D~}),\quad\mathrm{~p{=}1~}$ 时的特例，即是 Bernardoand Ledoit（2000）引入的得失比率（gains-loss ratio，GLR）。需要注意的是，（a）其实定义了广义的 Sortino-Satchell比率，其中 m 代表了收益的平移， $\beta>1$ 则给出了风险测度的一个凸畸变（distortion）。
 
 在（b）中，如果分子和分母取不同的概率测度，可以得到：
 
 $$
-\alpha_{\mathcal{P},\mathcal{Q}}(\mathrm{X})=\left(\underset{\mathbb{Q}\in\mathcal{P}}{\operatorname*{inf}}\mathbb{E}_{\mathbb{Q}}[\mathrm{X}]\right)^{+}/\underset{\mathbb{Q}\in\mathcal{Q}}{\operatorname*{sup}}\mathbb{E}_{\mathbb{Q}}[\mathrm{X}^{-}]
+\alpha_{\mathcal{P},\mathcal{Q}}(\mathtt{X})=\left(\operatorname*{inf}_{\mathbb{Q}\in\mathcal{P}}\mathbb{E}_{\mathbb{Q}}[\mathtt{X}]\right)^{+}/\operatorname*{sup}_{\mathbb{Q}\in\mathcal{Q}}\mathbb{E}_{\mathbb{Q}}[\mathtt{X}^{-}]
 $$
 
-在金融学的解释上，分子端的概率测度反映的是不同投资者的信念， $\bar{\hbar}$ 分母端的概率测度了反映了不同的压力场景。
+在金融学的解释上，分子端的概率测度反映的是不同投资者的信念， $而$ 分母端的概率测度了反映了不同的压力场景。
 
 表 1：稳健回报风险比率的性质
 
-|  | $\mathbf{\Omega}(\mathbf{\Omega}\mathbf{M}\mathbf{\Omega})$ | (Q) | (S) | (D) |
+|  | $(\mathbf{M})$ | (Q) | (S) | (D) |
 | --- | --- | --- | --- | --- |
 | RRRR | $\checkmark$ | $\checkmark$ |  |  |
-| $\textbf{ ( a ) }$ | $\checkmark$ | $\checkmark$ |  | $\checkmark$ |
+| $(\textrm{ a })$ | $\checkmark$ | $\checkmark$ |  | $\checkmark$ |
 | (b) | $\checkmark$ | $\checkmark$ | $\checkmark$ |  |
 | SSR | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
 | GLR | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
@@ -269,10 +269,10 @@ $$
 与稳健回报风险比率不同的是，稳健期望比率（RER）形如
 
 $$
-\alpha_{\mathcal{P},\mathcal{Q}}(\mathrm{X})=\left(\operatorname*{inf}_{\mathbb{Q}\in\mathcal{P}}\mathbb{E}_{\mathbb{Q}}[\mathrm{X}]\right)^{+}/\left(\operatorname*{sup}_{\mathbb{Q}\in\mathcal{Q}}\mathbb{E}_{\mathbb{Q}}[-\mathrm{X}]\right)^{+}
+\alpha_{\mathcal{P},\mathcal{Q}}(\mathsf{X})=\left(\operatorname*{inf}_{\mathbb{Q}\in\mathcal{P}}\mathbb{E}_{\mathbb{Q}}[\mathsf{X}]\right)^{+}/\left(\operatorname*{sup}_{\mathbb{Q}\in\mathcal{Q}}\mathbb{E}_{\mathbb{Q}}[-\mathsf{X}]\right)^{+}
 $$
 
-此时的回报风险比率满足 $(\mathbf{M})+\left(\mathbf{Q}\right)+\left(\mathbf{S}\right)$
+此时的回报风险比率满足 $(M)+(Q)+(S)$
 
 表 2：稳健期望比率的性质
 
@@ -287,41 +287,41 @@ $$
 对于一个概率分布函数测度，我们定义畸变函数
 
 $$
-\varphi\colon[0,1]\to[0,1],\mathbb{P}_{\varphi}[\mathrm{A}]:=\varphi(\mathbb{P}[\mathrm{A}]),\forall\mathrm{A}\in\mathcal{F}
+\varphi\mathrm{:}\;[0\mathrm{,}1]\rightarrow[0\mathrm{,}1]\mathrm{,}\mathbb{P}_{\varphi}[\mathrm{A}]\mathrm{:=}\;\varphi(\mathbb{P}[\mathrm{A}])\mathrm{,}\forall\mathrm{A\in\mathcal{F}}
 $$
 
 再定义畸变期望（distorted expectation）作为 Choquet 积分如下：
 
 $$
-\mathbb{E}_{\varphi}[\mathrm{X}]=\int_{0}^{\infty}\mathbb{P}_{\varphi}[\mathrm{X}>\mathrm{t}]\mathrm{dt}+\int_{-\infty}^{0}(\mathbb{P}_{\varphi}[\mathrm{X}>\mathrm{t}]-1)\mathrm{dt}
+\mathbb{E}_{\varphi}[\mathrm{X}]=\int_{0}^{\infty}\mathbb{P}_{\varphi}[\mathrm{X}>\mathrm{t}]\mathrm{dt}+\int_{-\infty}^{0}(\mathbb{P}_{\varphi}[\mathrm{X}>\mathrm{t}]-1)\mathrm{dt}.
 $$
 
 可以证明
 
-(i) $\mathrm{X}\geq\mathrm{Y}\Rightarrow\mathbb{E}_{\varphi}\left[\mathrm{X}\right]\geq\mathbb{E}_{\varphi}\left[\mathrm{Y}\right]$
+(i) $\mathrm{X}\geq\mathrm{Y}\Rightarrow\mathbb{E}_{\varphi}\big[\mathrm{X}\big]\geq\mathbb{E}_{\varphi}\big[\mathrm{Y}\big]$
 
-(ii) $\lambda\geq0\Rightarrow\mathbb{E}_{\varphi}\left[\lambda\mathrm{X}\right]=\lambda\mathbb{E}_{\varphi}\left[\mathrm{X}\right]$
+(ii) $\lambda\geq0\Rightarrow\mathbb{E}_{\varphi}[\lambda\mathrm{X}]=\lambda\mathbb{E}_{\varphi}[\mathrm{X}]$
 
-(iii) ${\mathrm{m}}\in\mathbb{R}\Rightarrow\mathbb{E}_{\varphi}[\mathrm{X}+{\mathrm{m}}]=\mathbb{E}_{\varphi}[\mathrm{X}]+{\mathrm{m}}$
+(iii) $\begin{array}{r}{\mathfrak{m}\in\mathbb{R}\Rightarrow\mathbb{E}_{\varphi}[\mathrm{X}+\mathfrak{m}]=\mathbb{E}_{\varphi}[\mathrm{X}]+\mathfrak{m}}\end{array}$
 
-(iv) $\exists\mathrm{f}(\mathbb{E}_{\varphi}[\mathrm{X}]=\mathrm{f}(\mathrm{F}_{\mathrm{X}}))$ ，即唯分布依赖性。
+(iv) $\exists\mathbf{f}(\mathbb{E}_{\varphi}[\mathbf{X}]=\mathbf{f}(\mathbf{F}_{\mathbf{X}}))$ ，即唯分布依赖性。
 
-(v) 若 $\varphi.$ 是凸函数，那么 $\mathbb{E}_{\varphi}$ 是凹函数，并且
-
-$$
-\mathbb{E}_{\varphi}\left[\mathrm{X}\right]=\operatorname*{inf}_{\mathbb{Q}\in\mathcal{P}_{\varphi}}\mathbb{E}_{\mathbb{Q}}\left[\mathrm{X}\right],\mathcal{P}_{\varphi}:=\left\{\mathbb{Q}:\mathbb{Q}\left[\boldsymbol{A}\right]\leq\mathbb{P}_{\varphi}\left[\boldsymbol{A}\right],\forall\boldsymbol{A}\in\mathcal{F}\right\}
-$$
-
-(vi) 若 $\varphi$ 是凹函数，那么 $\mathbb{E}_{\varphi}$ 是凸函数，并且
+(v) 若 $\varphi$ 是凸函数，那么 $\mathbb{E}_{\varphi}$ 是凹函数，并且
 
 $$
-\mathbb{E}_{\varphi}\left[\mathrm{X}\right]=\operatorname*{inf}_{\mathbb{Q}\in\mathcal{Q}_{\varphi}}\mathbb{E}_{\mathbb{Q}}\left[\mathrm{X}\right],\mathcal{Q}_{\varphi}:=\left\{\mathbb{Q}:\mathbb{Q}\left[\boldsymbol{A}\right]\geq\mathbb{P}_{\varphi}\left[\boldsymbol{A}\right],\forall\boldsymbol{A}\in\mathcal{F}\right\}
+\mathbb{E}_{\varphi}[\mathrm{X}]=\operatorname*{inf}_{\mathbb{Q}\in\mathcal{P}_{\varphi}}\mathbb{E}_{\mathbb{Q}}[\mathrm{X}],\mathcal{P}_{\varphi}:=\left\{\mathbb{Q}:\mathbb{Q}[\mathrm{A}]\leq\mathbb{P}_{\varphi}[\mathrm{A}],\forall\mathrm{A}\in\mathcal{F}\right\}
 $$
 
-证明参见 Schmeidler（1985）、Denneberg（1997）或者 Delbaen（2002）。因此一旦选择凸的畸变函数 $.\varphi$ 和凹的畸变函数ψ，那么对应的畸变回报风险比率（DRRR）
+(vi) 若 $\varphi$ 是凹函数，那么 $\mathbb{E}_{\varphi}.$ 是凸函数，并且
 
 $$
-\begin{array}{r}{\alpha_{\varphi,\psi}(\mathrm{X})=\big(\mathbb{E}_{\varphi}\left[\mathrm{X}\right]\big)^{+}/\big(\mathbb{E}_{\Psi}[-\mathrm{X}]\big)^{+},\mathrm{X}\in\mathcal{X}}\end{array}
+\mathbb{E}_{\varphi}[\mathrm{X}]=\operatorname*{inf}_{\mathbb{Q}\in\mathcal{Q}_{\varphi}}\mathbb{E}_{\mathbb{Q}}[\mathrm{X}],\mathcal{Q}_{\varphi}:=\left\{\mathbb{Q}:\mathbb{Q}[\mathrm{A}]\geq\mathbb{P}_{\varphi}[\mathrm{A}],\forall\mathrm{A}\in\mathcal{F}\right\}
+$$
+
+证明参见 Schmeidler（1985）、Denneberg（1997）或者 Delbaen（2002）。因此一旦选择凸的畸变函数 $\mathrm{{^{\circ}}}\varphi$ 和凹的畸变函数ψ，那么对应的畸变回报风险比率（DRRR）
+
+$$
+\alpha_{\varphi,\psi}(\mathtt{X})=\big(\mathbb{E}_{\varphi}[\mathtt{X}]\big)^{+}/\big(\mathbb{E}_{\psi}[-\mathtt{X}]\big)^{+},\mathtt{X}\in\mathcal{X}
 $$
 
 就满足（M）+（Q）+（S）+（D）。而从(v)和(vi)可以得到，畸变回报风险比率都是稳健期望比率。
@@ -331,7 +331,7 @@ $$
 - Wang（1995）的比例风险变换（proportional hazard transform，PHT）：
 
 $$
-\Psi^{\mathrm{(x)}}=\mathbf{x}^{1/\gamma},\gamma\geq1
+\Psi(\mathrm{x})=\mathrm{x}^{1/\gamma},\gamma\geq1
 $$
 
 该方法将增加较高损失的比重。
@@ -339,43 +339,43 @@ $$
 - Wang（2000）的 Wang 变换：
 
 $$
-\Psi^{\mathrm{(x)}}=\Phi(\Phi^{-1}({\mathrm{x}})+\gamma),\gamma\geq0
+\begin{array}{r}{\psi(\mathtt{x})=\Phi(\Phi^{-1}(\mathtt{x})+\gamma),\gamma\geq0}\end{array}
 $$
 
 - 其中Φ是标准的正态分布的累计分布函数。该方法同样将增加较高损失的比重。例如
 
 $$
-\mathrm{X}\sim\mathrm{N}(\mu,\sigma)\Rightarrow\mathbb{E}_{\psi}[-\mathrm{X}]\sim\mathrm{N}(\mu-\sigma\gamma,\sigma)
+\mathrm{X}\sim\mathrm{N}(\mu,\sigma)\Rightarrow\mathbb{E}_{\mu}[-\mathrm{X}]\sim\mathrm{N}(\mu-\sigma\gamma,\sigma)
 $$
 
 - Cherny and Madan（2009）的 MINVAR 畸变函数：
 
 $$
-\Psi^{\mathrm{(x)}}=1-(1-\mathrm{x})^{1+\gamma},\gamma\geq0
+\begin{array}{r}{\psi(\mathrm{x})=1-(1-\mathrm{x})^{1+\gamma},\gamma\geq0}\end{array}
 $$
 
 可以证明当γ ∈ ℕ时：
 
 $$
-\mathbb{E}_{\Psi}[-\mathrm{X}]=\mathbb{E}\big[-\operatorname*{min}\big\{\mathrm{X}_{1},\mathrm{X}_{2},\dots,\mathrm{X}_{\gamma+1}\big\}\big],\mathrm{X}_{\mathrm{i}}\sim_{\mathrm{iid}}\mathrm{~X~}
+\mathbb{E}_{\psi}[-\mathbf{X}]=\mathbb{E}[-\min\{\mathbf{X}_1,\mathbf{X}_2,\ldots,\mathbf{X}_{\gamma+1}\}],\mathbf{X}_i\sim_{\mathrm{id}}\mathbf{X}
 $$
 
 - Cherny and Madan（2009）的 MINMAXVAR 畸变函数：
 
 $$
-\Psi(\mathbf{x})=1-\left(1-\mathbf{x}^{\frac{1}{1+\gamma}}\right)^{1+\gamma},\gamma\geq0
+\begin{array}{r}{\psi(\mathrm{x})=1-\bigg(1-\mathrm{x}^{\frac{1}{1+\gamma}}\bigg)^{1+\gamma},\gamma\geq0.}\end{array}
 $$
 
 可以证明当γ ∈ ℕ时
 
 $$
-\mathbb{E}_{\Psi}[-\mathrm{X}]=\mathbb{E}\big[-\operatorname*{min}\big\{\mathrm{Z}_{1},\mathrm{Z}_{2},\dots,\mathrm{Z}_{\gamma+1}\big\}\big]
+\mathbb{E}_{\boldsymbol{\psi}}[-\mathrm{X}]=\mathbb{E}[-\operatorname*{min}\{\mathrm{Z}_{1},\mathrm{Z}_{2},\dots,\mathrm{Z}_{\gamma+1}\}]
 $$
 
 并且此时满足
 
 $$
-\mathrm{max}\{\mathrm{Z}_{1},\mathrm{Z}_{2},\dots,\mathrm{Z}_{\gamma+1}\}\sim\mathrm{X}
+\operatorname*{max}\{\mathrm{Z}_{1},\mathrm{Z}_{2},\dots,\mathrm{Z}_{\gamma+1}\}\sim\mathrm{X}
 $$
 
 表 3：畸变回报风险比率的性质
@@ -401,24 +401,24 @@ $$
 $$
 
 $$
-\boldsymbol{\sigma}(\mathrm{X})=\|\mathrm{X}-\mathbb{E}[\mathrm{X}]\|_{2}
+\sigma(\mathrm{X})=\left\|\mathrm{X}-\mathbb{E}[\mathrm{X}]\right\|_{2}
 $$
 
 Rockafellar et al.（2006）引入了一族偏差测度：
 
 $$
-\mathcal{D}{:}\mathrm{L}^{2}\mathbb{R}_{\ge0}\cup\{+\infty\}
+\mathcal{D}\colon{\mathrm{L}}^{2}\to{\mathbb{R}}_{\geq0}\cup\{+\infty\}
 $$
 
 满足如下公理
 
-（D1） $\mathbf{X}\in\mathbf{L}^{2},\mathbf{m}\in\mathbb{R}\Rightarrow\pmb{\mathcal{D}}(\mathbf{X}+\mathbf{m})=\pmb{\mathcal{D}}(\mathbf{X})$
+（D1） $\mathbf{X}\in\mathbf{L}^{2},\mathbf{m}\in\mathbb{R}\Rightarrow\pmb{\mathscr{D}}(\mathbf{X}+\mathbf{m})=\pmb{\mathscr{D}}(\mathbf{X})$
 
-（D2） $\mathbf{X}\in\mathbf{L}^{2},\lambda\in\mathbb{R}_{>0}\Rightarrow\pmb{\mathcal{D}}(\mathbf{0})=\mathbf{0},\pmb{\mathcal{D}}(\lambda\mathbf{X})=\lambda\pmb{\mathcal{D}}(\mathbf{X})$
+（D2） $\mathbf{X}\in\mathbf{L}^{2},\mathbf{\lambda}\in\mathbb{R}_{>\mathbf{0}}\Rightarrow\mathbf{\mathcal{D}}(\mathbf{0})=\mathbf{0},\mathbf{\mathcal{D}}(\mathbf{\lambda}\mathbf{X})=\mathbf{\lambda}\mathbf{\mathcal{D}}(\mathbf{X})$
 
-（D3） $\mathbf{X},\mathbf{Y}\in\mathbf{L}^{2}\Rightarrow{\mathcal{D}}(\mathbf{X}+\mathbf{Y})\leq{\mathcal{D}}(\mathbf{X})+{\mathcal{D}}(\mathbf{Y})$
+（D3） $\mathbf{X},\mathbf{Y}\in\mathbf{L}^{2}\Rightarrow\mathbf{\mathcal{D}}(\mathbf{X}+\mathbf{Y})\leq\mathbf{\mathcal{D}}(\mathbf{X})+\mathbf{\mathcal{D}}(\mathbf{Y})$
 
-（D4） $\mathbf{X}\equiv\mathbf{c}\in\mathbb{R}\Rightarrow\pmb{\mathcal{D}}(\mathbf{X})=\mathbf{0},\mathbf{X}\not\equiv\mathbf{c}\in\mathbb{R}\Rightarrow\pmb{\mathcal{D}}(\mathbf{X})>\mathbf{0}$
+（D4） $\mathbf{X}\equiv\mathbf{c}\in\mathbb{R}\Rightarrow\mathbf{D}(\mathbf{X})=\mathbf{0},\mathbf{X}\neq\mathbf{c}\in\mathbb{R}\Rightarrow\mathbf{D}(\mathbf{X})>\mathbf{0}$
 
 显然，任意给定一个偏差测度，就会得到一个相应的均值偏差比率
 
@@ -428,18 +428,18 @@ $$
 
 此时的均值偏差测度满足（Q）+（S）。更进一步地，我们有
 
-定理 设 $\mathbf{\Delta}\cdot\mathbf{p}\in[1,\infty]$ ，函数θ: $\mathbf{L}^{\mathbf{p}}\mathbb{R}\cup\{\pm\infty\}$ 满足
+定理 设 $\mathbf{.p}\in[\mathbf{1},\infty]$ ，函数θ: $\mathbf{L}^{\mathbf{p}}\rightarrow\mathbb{R}\cup\{\pm\infty\}$ 满足
 
 $$
-\mathbf{X}\in\mathbf{L}^{\mathbf{p}},\mathbf{m}\in\mathbb{R},\lambda\in\mathbb{R}_{>0}\Rightarrow\mathbf{\theta}(\mathbf{X}+\mathbf{m})=\mathbf{\theta}(\mathbf{X}),\mathbf{\theta}(\lambda\mathbf{X})=\lambda\mathbf{\theta}(\mathbf{X})
+\mathbf{X}\in\mathbf{L}^{p},\mathbf{m}\in\mathbb{R},\mathbf{\lambda}\in\mathbb{R}_{>\mathbf{0}}\Rightarrow\pmb{\Theta}(\mathbf{X}+\mathbf{m})=\pmb{\Theta}(\mathbf{X}),\pmb{\Theta}(\mathbf{\lambda}\mathbf{X})=\mathbf{\lambda}\pmb{\Theta}(\mathbf{X})
 $$
 
-如果偏差测度 $\pmb{\mathcal{D}}\colon\mathbf{L}^{\mathbf{p}}\mathbb{R}_{\geq\mathbf{0}}\cup\{+\infty\}$ 满足（D1）+（D2），那么一定存在 ${\bf Z}\geq$ $\mathbf{0},\mathbf{\boldsymbol{\Theta}}(\mathbf{Z})\in\mathbb{R}_{\geq0},\mathbf{\mathcal{D}}(\mathbf{Z})>\mathbf{0}$ 使得回报风险比率 ${\bf{\sigma}}\bullet({\bf{X}})={\bf{\sigma}}{\bf{\otimes}}({\bf{X}})^{+}/{\pmb{\mathcal{D}}}(\bf{X})$ 违背单调性（M）。
+如果偏差测度 $\mathbf{\cdot}\mathbf{\mathcal{D}}\mathbf{:}\mathbf{L^{p}}\rightarrow\mathbb{R}_{\geq\mathbf{0}}\cup\{+\infty\}$ 满足（D1）+（D2），那么一定存在 $.\mathbf{Z}\geq$ $\mathbf{0},\mathbf{\Theta}(\mathbf{Z})\in\mathbb{R}_{\geq\mathbf{0}},\mathbf{\mathcal{D}}(\mathbf{Z})>\mathbf{0}$ 使得回报风险比率 $\alpha(\mathbf{X})=\Theta(\mathbf{X})^{+}/\mathcal{D}(\mathbf{X})$ 违背单调性（M）。
 
-证明：假设 $\mathrm{Z}\in\mathrm{L}^{\mathrm{p}},\mathrm{Z}\geq0,\theta(\mathrm{Z})\in\mathbb{R}_{\geq0},\mathcal{D}(\mathrm{Z})\in\mathbb{R}_{>0}$ 。选择常数 $^{\mathrm{a,b,c>0}}$ ，满足 $\mathrm{a{>}c,b{>}l,bc{>}a}$ ，定义 $\scriptstyle\mathrm{X=a+bZ,Y=c+Z}.$ ，于是有 $\mathrm{X}{>}\mathrm{Y},$ ，但是
+证明：假设 $\mathrm{Z}\in\mathrm{L}^{\mathrm{p}},\mathrm{Z}\geq0,\theta(\mathrm{Z})\in\mathbb{R}_{\geq0},\mathcal{D}(\mathrm{Z})\in\mathbb{R}_{\geq0}$ 。选择常数 $a,b,c>0$ ，满足 $\mathrm{a}\mathrm{>}\mathrm{c}\mathrm{,b}\mathrm{>}1\mathrm{,bc}\mathrm{>}\mathrm{a}$ ，定义 $\mathbf{X}=\mathbf{a}+\mathbf{b}\mathbf{Z},\quad\mathbf{Y}=\mathbf{c}+\mathbf{Z},$ ，于是有 $\mathbf{X}\mathbf{>}\mathbf{Y},$ ，但是
 
 $$
-\alpha(\mathrm{X})=\frac{\mathbb{E}[\mathrm{X}]}{\mathcal{D}(\mathrm{X})}=\frac{\mathrm{a}+\mathrm{b}\mathbb{E}[\mathrm{Z}]}{\mathrm{b}\mathcal{D}(\mathrm{Z})}<\frac{\mathrm{c}+\mathbb{E}[\mathrm{Z}]}{\mathcal{D}(\mathrm{Z})}=\frac{\mathbb{E}\left[\mathrm{Y}\right]}{\mathcal{D}(\mathrm{Y})}=\alpha(\mathrm{Y})
+\alpha(X)=\frac{\mathbb{E}[X]}{\mathcal{D}(X)}=\frac{a+b\mathbb{E}[Z]}{b\mathcal{D}(Z)}<\frac{c+\mathbb{E}[Z]}{\mathcal{D}(Z)}=\frac{\mathbb{E}[Y]}{\mathcal{D}(Y)}=\alpha(Y)
 $$
 
 这表明回报风险比率会违反（M）。
@@ -447,13 +447,13 @@ $$
 显然，我们可以更换 Sharpe 比率分母中的标准差为
 
 $$
-\begin{array}{r}{\sigma_{\mathrm{p}}(\mathrm{X})=\Vert\mathbb{E}[\mathrm{X}]-\mathrm{X}\Vert_{\mathrm{p}}\enspace\stackrel{\mathrm{35}}{}\enspace\enspace\sigma_{\mathrm{p}}^{-}\enspace(\mathrm{X})=\Vert(\mathbb{E}[\mathrm{X}]-\mathrm{X})^{+}\Vert_{\mathrm{p}}}\end{array}
+\sigma_{\mathrm{p}}(\mathrm{X})=\left\|\mathbb{E}[\mathrm{X}]-\mathrm{X}\right\|_{\mathrm{p}}\quad 或者\quad\sigma_{\mathrm{p}}^{-}(\mathrm{X})=\left\|\left(\mathbb{E}[\mathrm{X}]-\mathrm{X}\right)^{+}\right\|_{\mathrm{p}}
 $$
 
 可以证明均值 p-偏差比率（mean-p-deviation ratio，MPDR）和均值 p-半偏差比率（mean-p-semi-deviation ratio，MPSDR），即
 
 $$
-(\mathbb{E}[\mathrm{X}])^{+}/\sigma_{\mathrm{p}}(\mathrm{X})\xrightarrow{\pm}\mathbb{X}\xrightarrow{\pm}\mathbf{\Gamma}(\mathbb{E}[\mathrm{X}])^{+}/\sigma_{\mathrm{p}}^{-}(\mathrm{X})
+(\mathbb{E}[\mathrm{X}])^{+}/\sigma_{\mathrm{p}}(\mathrm{X})或者\left(\mathbb{E}[\mathrm{X}]\right)^{+}/\sigma_{\mathrm{p}}^{-}(\mathrm{X})
 $$
 
 都满足（Q）+（S）+（D），但 Sharpe 比率一样，它们不满足单调性（M）。该类型回报风险比率的例子包括：
@@ -465,19 +465,19 @@ Konno and Yamazaki（1991） 引入 的均值 绝对 偏差比 率（ mean-absol
 - Zakamouline and Koekebakker（2008）引入的斜调整 Sharpe 比率（skewness adjusted Sharpe ratio，SASR）：
 
 $$
-\mathrm{SASR}_{\mathrm{b}}(\mathrm{X}):=\mathrm{SR}(\mathrm{X})\sqrt{1+\frac{\mathrm{b}}{3}\cdot\mathbb{E}\left[\left(\frac{\mathrm{X}-\mathbb{E}[\mathrm{X}]}{\sigma(\mathrm{X})}\right)^{3}\right]}
+\mathrm{SASR}_{\mathrm{b}}(\mathrm{X}):=\mathrm{SR}(\mathrm{X})\sqrt{1+\frac{\mathrm{b}}{3}\cdot\mathbb{E}\left[\left(\frac{\mathrm{X}-\mathbb{E}[\mathrm{X}]}{\sigma(\mathrm{X})}\right)^3\right]}
 $$
 
 和调整后斜 Sharpe 比率（adjusted for skewness Sharpe ratio，ASSR）:
 
 $$
-\operatorname{ASSR}_{\mathrm{b}}(\mathrm{X}):=\operatorname{SR}(\mathrm{X}){\sqrt{1+{\frac{\mathrm{b}}{3}}\cdot\operatorname{\mathbb{E}}\left[\left({\frac{\mathrm{X}-\operatorname{\mathbb{E}}[\mathrm{X}]}{\mathrm{~o}(\mathrm{X})}}\right)^{3}\right]\cdot\operatorname{SR}(\mathrm{X})}}
+\mathrm{ASSR}_{\mathrm{b}}(\mathrm{X}):=\mathrm{SR}(\mathrm{X})\sqrt{1+\frac{\mathrm{b}}{3}\cdot\mathbb{E}\left[\left(\frac{\mathrm{X}-\mathbb{E}[\mathrm{X}]}{\sigma(\mathrm{X})}\right)^3\right]\cdot\mathrm{SR}(\mathrm{X})}
 $$
 
 - Treynor and Black（1973）基于基准组合 B 引入的 Black-Treynor 比率：
 
 $$
-\mathrm{BTR}(\mathrm{X})=\frac{(\mathbb{E}[\mathrm{X}])^{+}\cdot\mathrm{Var}(\mathrm{B})}{\bigl(\mathrm{Cov}(\mathrm{X},\mathrm{B})\bigr)^{+}}
+\mathrm{BTR}(\mathrm{X})=\frac{(\mathbb{E}[\mathrm{X}])^{+}\cdot\operatorname{Var}(\mathrm{B})}{(\operatorname{Cov}(\mathrm{X},\mathrm{B}))^{+}}
 $$
 
 表 4：均值偏差比率的性质
@@ -492,14 +492,14 @@ $$
 | MADR |  | $\checkmark$ | $\checkmark$ | $\checkmark$ |
 | SASR |  |  | $\checkmark$ | $\checkmark$ |
 | ASSR |  |  | $\checkmark$ | $\checkmark$ |
-| BTR |  | $\boldsymbol{\mathscr{v}}$ | $\checkmark$ |  |
+| BTR |  | $\checkmark$ | $\checkmark$ |  |
 
 数据来源：Cheridito and Kromer（2013），国泰君安证券研究
 
 其中 ASSR 虽然不满足前述定理的条件，但同样也不满足单调性。而SASR 和 ASSR 的（Q）性质反例为
 
 $$
-\begin{array}{r}{(\mathrm{X},\mathrm{Y})=\left\{\begin{array}{ll}{(4,2),\quad\mathbb{P}=0.5}\\{(-1,4),\ \mathbb{P}=0.4}\\{(-2,-4),\mathbb{P}=0.1}\end{array}\right.}\end{array}
+\left(\mathrm{X},\mathrm{Y}\right)=\left\{\begin{matrix}(4,2),\ \mathbb{P}=0.5,\\(-1,4),\ \mathbb{P}=0.4,\\(-2,-4),\mathbb{P}=0.1.\end{matrix}\right.
 $$
 
 而 BTR 由于使用到了(X,B)的联合分布，当然不满足唯收益依赖性。
@@ -509,39 +509,39 @@ $$
 考虑映射
 
 $$
-\rho\colon\mathrm{L}^{\mathrm{p}}\mathbb{R}\cup\{\infty\}
+\rho\colon\mathrm{L}^{\mathtt{p}}\to\mathbb{R}\cup\{\infty\}
 $$
 
 首先列举风险度量公理如下：
 
 （R1） $\mathbf{X}\leq\mathbf{Y}\Rightarrow\mathbf{\rho}(\mathbf{X})\geq\mathbf{\rho}(\mathbf{Y})$
 
-（R2） $\mathbf{X}\in{\mathcal{X}},\mathbf{m}\in\mathbb{R}\Rightarrow\mathbf{\pmb{\rho}}(\mathbf{X}+\mathbf{m})=\mathbf{\rho}\mathbf{\vec{\rho}}(\mathbf{X})-\mathbf{m}$
+（R2） $\mathbf{X}\in\mathbf{X},\mathbf{m}\in\mathbb{R}\Rightarrow\mathbf{\rho}(\mathbf{X}+\mathbf{m})=\mathbf{\rho}(\mathbf{X})-\mathbf{m}$
 
-（R3） $\mathbf{X},\mathbf{Y}\in{\mathcal{X}},\lambda\in(\mathbf{0},1)\Rightarrow\mathbf{\rho}(\lambda\mathbf{X}+(\mathbf{1}-\lambda)\mathbf{Y})\leq\lambda\mathbf{\rho}(\mathbf{X})+(\mathbf{1}-\lambda)\mathbf{\rho}(\mathbf{Y})$
+（R3） $\mathbf{X},\mathbf{Y}\in\mathbf{\mathcal{X}},\mathbf{\lambda}\in(\mathbf{0},\mathbf{1})\Rightarrow\mathbf{\rho}(\mathbf{\lambda}\mathbf{X}+(\mathbf{1}-\mathbf{\lambda})\mathbf{Y})\leq\mathbf{\lambda}\mathbf{\rho}(\mathbf{X})+(\mathbf{1}-\mathbf{\lambda})\mathbf{\rho}(\mathbf{Y})$
 
-（R4） $\mathbf{X}\in{\mathcal{X}},\lambda\in\mathbb{R}_{\geq0}\Rightarrow\mathbf{\boldsymbol{\mathsf{p}}}(\lambda\mathbf{X})=\lambda\mathbf{\boldsymbol{\mathsf{p}}}(\mathbf{\boldsymbol{X}})$
+（R4） $\mathbf{X}\in\mathbf{X},\mathbf{\lambda}\in\mathbb{R}_{\geq\mathbf{0}}\Rightarrow\mathbf{\rho}(\mathbf{\lambda}\mathbf{X})=\mathbf{\lambda}\mathbf{\rho}(\mathbf{X})$
 
-其中，如果满足（R1）+（R2）则称ρ为货币（monetary）风险度量，如果满足 $(\mathbf{R}\mathbf{1})+\left(\mathbf{R}2\right)+\left(\mathbf{R}3\right)$ 则称ρ为凸性（convex）风险度量，如果满足 $(\mathbf{\thinspace R1})+\left(\mathbf{\thinspace R2}\right)+\left(\mathbf{\thinspace R3}\right)+\left(\mathbf{\thinspace R4}\right)$ 则称ρ为一致（coherent）风险度量。
+其中，如果满足（R1）+（R2）则称ρ为货币（monetary）风险度量，如果满足 $(R1)+(R2)+(R3)$ 则称ρ为凸性（convex）风险度量，如果满足 $\left(\textrm{R1}\right)+\left(\textrm{R2}\right)+\left(\textrm{R3}\right)+\left(\textrm{R4}\right)$ 则称ρ为一致（coherent）风险度量。
 
 ## 5.2.1. VaR 比率
 
 Favre and Galeano（2002）引入了所谓 VaR 比率（VaR ratio，VaRR）
 
 $$
-\mathrm{VaRR}_{\gamma}(\mathrm{X}):=(\mathbb{E}[\mathrm{X}])^{+}/\Bigl(\mathrm{VaR}_{\gamma}(\mathrm{X})\Bigr)^{+}
+\mathrm{VaRR}_{\gamma}(\mathrm{X}):=(\mathbb{E}[\mathrm{X}])^{+}/\left(\mathrm{VaR}_{\gamma}(\mathrm{X})\right)^{+}
 $$
 
 其中 VaR 的计算公式为
 
 $$
-\operatorname{VaR}_{\gamma}(\mathrm{X})=\operatorname*{inf}\{\mathrm{m}\in\mathbb{R}\colon\mathbb{P}[\mathrm{X}+\mathrm{m}<0]\leq\gamma\},\gamma\in(0,1)
+\mathrm{VaR}_{\gamma}(\mathrm{X})=\inf\{\mathrm{m}\in\mathbb{R}:\mathbb{P}[\mathrm{X}+\mathrm{m}<0]\leq\gamma\},\gamma\in(0,1)
 $$
 
-众所周知的是，VaR 满足 $(\mathrm{~D~})+(\mathrm{~R1~})+(\mathrm{~R2~})+(\mathrm{~R4~})$ ，但是不满足（R3）；因此 VaRR 满足 $\left(\mathbf{M}\right)+\left(\mathbf{S}\right)+\left(\mathbf{D}\right)$ ，但是不满足（Q）。（Q）的反例如下，考虑 iid 的分布 X 和 Y
+众所周知的是，VaR 满足 $\left(\textrm{D}\right)+\left(\textrm{R}1\right)+\left(\textrm{R}2\right)+\left(\textrm{R}4\right)$ ，但是不满足（R3）；因此 VaRR 满足 $\left(\textrm{M}\right)+\left(\textrm{S}\right)+\left(\textrm{D}\right)$ ，但是不满足（Q）。（Q）的反例如下，考虑 iid 的分布 X 和 Y
 
 $$
-\mathrm{X=Y=}\left\{\begin{array}{ll}{-30,\mathbb{P}=0.03}\\{-10,\mathbb{P}=0.03}\\{5,\mathbb{P}=0.94}\end{array}\right.
+\mathrm{X}=\mathrm{Y}=\left\{\begin{matrix}-30,\mathbb{P}=0.03,\\-10,\mathbb{P}=0.03,\\5,\ \mathbb{P}=0.94.\end{matrix}\right.
 $$
 
 令γ=0.05，可以得到
@@ -553,7 +553,7 @@ $$
 而
 
 $$
-\operatorname{VaRR}_{\gamma}\left({\frac{\mathrm{X+Y}}{2}}\right)=\operatorname{VaRR}_{\gamma}(\mathrm{X+Y})={\frac{7}{25}}<{\frac{7}{20}}=\operatorname{VaRR}_{\gamma}(\mathrm{X})\wedge\operatorname{VaRR}_{\gamma}(\mathrm{Y})
+\mathrm{VaRR}_{\mathrm{Y}}\left(\frac{\mathrm{X}+\mathrm{Y}}{2}\right)=\mathrm{VaRR}_{\mathrm{Y}}(\mathrm{X}+\mathrm{Y})=\frac{7}{25}<\frac{7}{20}=\mathrm{VaRR}_{\mathrm{Y}}(\mathrm{X})\wedge\mathrm{VaRR}_{\mathrm{Y}}(\mathrm{Y})
 $$
 
 ## 5.2.2. 凸性风险度量型均值风险比率
@@ -567,7 +567,7 @@ $$
 或者 Tsanakas（2009）引入的均值畸变熵比率（mean-distortion-entropicratio）
 
 $$
-\mathrm{MDER}_{\gamma,\Psi}(\mathrm{X}):=(\mathbb{E}[\mathrm{X}])^{+}/\big(\gamma^{-1}\ln{\mathbb{E}_{\Psi}[\exp(-\gamma\mathrm{X})]}\big)^{+}
+\mathrm{MDER}_{\gamma,\psi}(\mathrm{X}):=\left(\mathbb{E}[\mathrm{X}]\right)^{+}/\left(\gamma^{-1}\ln\mathbb{E}_{\psi}\left[\exp(-\gamma\mathrm{X})\right]\right)^{+}
 $$
 
 ## 5.2.3. 一致风险度量型均值风险比率
@@ -575,7 +575,7 @@ $$
 对于一致风险度量ρ而言，均值风险比率
 
 $$
-\left(\mathbb{E}[\mathrm{X}]\right)^{+}/{\bigl(}\rho(\mathrm{X}){\bigr)}^{+}
+(\mathbb{E}[\mathrm{X}])^{+}/(\rho(\mathrm{X}))^{+}
 $$
 
 满足（M）+（Q）+（S）。特别地，下面列出的例子也都满足（D）。
@@ -587,7 +587,7 @@ $$
 $$
 
 $$
-{\mathrm{AVaR}}_{\gamma}{\mathrm{(X)}}{\mathrm{:}}=\gamma^{-1}\int_{0}^{\gamma}{\mathrm{VaR}}_{\mathrm{u}}{\mathrm{(X)}}{\mathrm{du}},\gamma\in(0,1]
+\mathrm{AVaR}_{\gamma}(\mathrm{X}):=\gamma^{-1}\int_{0}^{\gamma}\mathrm{VaR}_{\mathrm{u}}(\mathrm{X})\mathrm{du},\gamma\in(0,1]
 $$
 
 为平均 VaR。
@@ -595,7 +595,7 @@ $$
 Young（1998）引入了 MiniMax 比率
 
 $$
-\mathsf{MMR}_{\gamma}(\mathrm{X})=(\mathbb{E}[\mathrm{X}])^{+}/\|\mathrm{X}^{-}\|_{\infty}
+\mathrm{MMR}_{\gamma}(\mathrm{X})=(\mathbb{E}[\mathrm{X}])^{+}/\|\mathrm{X}^{-}\|_{\infty}
 $$
 
 Shalit and Yitzhaki（1994）引入了 Gini 比率：
@@ -605,7 +605,7 @@ $$
 $$
 
 $$
-\Gamma_{\mathrm{X}}(\gamma):=\mathbb{E}[\mathrm{X}]-\gamma\int_{0}^{1}(1-\mathbf{u})^{\gamma-1}\mathrm{F}_{\mathrm{X}}^{-1}(\mathbf{u})\mathrm{d}\mathbf{u}\mathrm{~},\gamma>1
+\Gamma_{\mathrm{X}}(\gamma):=\mathbb{E}[\mathrm{X}]-\gamma\int_{0}^{1}(1-\mathrm{u})^{\gamma-1}\mathrm{F}_{\mathrm{X}}^{-1}(\mathrm{u})\mathrm{du},\gamma>1
 $$
 
 而
@@ -618,7 +618,7 @@ $$
 
 表 5：货币风险度量型均值风险比率的性质
 
-|  | $\mathbf{\Omega}(\mathbf{\Omega}\mathbf{M}\mathbf{\Omega})$ | $\mathbf{\Omega}^{(\mathrm{~Q~})}$ | $\mathbf{\Xi}(\mathbf{\Lambda}\mathbf{S\Lambda})$ | $\left(\textrm{ D }\right)$ |
+|  | $(\mathbf{M})$ | $(\textbf{ Q })$ | $(\textbf{ S })$ | $(\textrm{ D })$ |
 | --- | --- | --- | --- | --- |
 | VaRR | $\checkmark$ |  | $\checkmark$ | $\checkmark$ |
 | MER | $\checkmark$ | $\checkmark$ |  | $\checkmark$ |
@@ -634,19 +634,19 @@ $$
 Farinelli and Tibiletti（2008）引入了 Farinelli-Tibiletti 比率：
 
 $$
-\operatorname{FTR}(\mathrm{X}):=\Vert(\mathrm{X}-\mathrm{m})^{+}\Vert_{\mathrm{p}}/\Vert(\mathrm{n}-\mathrm{X})^{+}\Vert_{\mathrm{q}},\mathrm{m},\mathrm{n}\in\mathbb{R},\mathrm{p},\mathrm{q}>0
+\mathrm{FTR}(\mathrm{X}):=\|(\mathrm{X}-\mathrm{m})^{+}\|_{\mathrm{p}}/\|(\mathrm{n}-\mathrm{X})^{+}\|_{\mathrm{q}},\mathrm{m},\mathrm{n}\in\mathbb{R},\mathrm{p},\mathrm{q}>0
 $$
 
 该类型的指标只满足（M）+（D）。如果 m=n=0，那么此时指标还会满足（S），但始终不会满足（Q）。反例为：
 
 $$
-\left(X,Y\right)=\left\{{\overset{\left(-10,1\right),\mathbb{P}}{\left(1,3\right)}}=0.2\right.
+(X,Y)=\left\{\begin{matrix}{(-10,1),\mathbb{P}=0.5,}\\{(1,3),\quad\mathbb{P}=0.2,}\\{(2,-6),\mathbb{P}=0.3.}\end{matrix}\right.
 $$
 
 此时令 m=n=p=q=1 有
 
 $$
-\mathrm{FTR(X)}={\frac{3}{55}},\mathrm{FTR(Y)}={\frac{4}{21}}
+\mathrm{FTR}(\mathrm{X})=\frac{3}{55},\mathrm{FTR}(\mathrm{Y})=\frac{4}{21}
 $$
 
 取 λ=0.75 即有
@@ -658,70 +658,70 @@ $$
 Watanabe（2006）引入了偏度峰度比率（skewness-kurtosis ratio）
 
 $$
-\operatorname{SKR}(\mathrm{X})=(\mathbb{E}[\Phi(\mathrm{X})^{3}])^{+}/\mathbb{E}[\Phi(\mathrm{X})^{4}]
+\mathrm{SNR}(\mathrm{X})=\left(\mathbb{E}[\phi(\mathrm{X})^3]\right)^+/\mathbb{E}[\phi(\mathrm{X})^4]
 $$
 
 $$
-\Phi^{\mathbf{(}\mathrm{X})}=\frac{\mathbf{\operatorname{X}}-\mathbb{E}[\mathbf{\operatorname{X}}]}{\mathbf{\operatorname{\sigma}}\sigma\mathbf{(}\mathbf{\operatorname{X}})}
+\phi(\mathrm{X})=\frac{\mathrm{X}-\mathbb{E}[\mathrm{X}]}{\sigma(\mathrm{X})}
 $$
 
-该指标满足（S）+（D），但是不满足 $\left(\mathbf{M}\right)+\left(\mathbf{0}\right)$ 。（M）的反例为
+该指标满足（S）+（D），但是不满足 $(\mathbf{M})+(\mathbf{Q})$ 。（M）的反例为
 
 $$
-\begin{array}{r}{\left(\mathrm{X},\mathrm{Y}\right)=\left\{\begin{array}{ll}{(3,1),\mathbb{P}=0.25}\\{(2,0),\mathbb{P}=0.5}\\{(1,0),\mathbb{P}=0.25}\end{array}\right.}\end{array}
+\left(\mathtt{X},\mathtt{Y}\right)=\left\{\begin{aligned}{}&{{}(3\mathtt{,}1)\mathtt{,}\mathbb{P}=0.25}\\{}&{{}(2\mathtt{,}0)\mathtt{,}\mathbb{P}=0.5}\\{}&{{}(1\mathtt{,}0)\mathtt{,}\mathbb{P}=0.25}\end{aligned}\right.
 $$
 
-其中 $\mathrm{X}{>}\mathrm{Y}.$ ，但是
+其中 $\mathbf{X}\mathbf{>}\mathbf{Y},$ ，但是
 
 $$
-\mathrm{SKR}(\mathrm{X})=0<{\frac{2\sqrt{3}}{7}}=\mathrm{SKR}(\mathrm{Y})
+\mathrm{SNR}(\mathrm{X})=0<\frac{2\sqrt{3}}{7}=\mathrm{SNR}(\mathrm{Y})
 $$
 
 而（Q）的反例为
 
 $$
-\begin{array}{r}{(\mathrm{X},\mathrm{Y})=\left\{\begin{array}{ll}{(-10,1),\mathbb{P}=0.5}\\{(1,3),\ \mathbb{P}=0.2}\\{(2,-1),\mathbb{P}=0.3}\end{array}\right.}\end{array}
+\left(\mathrm{X},\mathrm{Y}\right)=\left\{\begin{matrix}{(-10,}\\{(1,}\\{(1,}\\\end{matrix}\right),\mathbb{P}=0.5,
 $$
 
 取 $\lambda{=}0.7$ 有
 
 $$
-\mathrm{SKR}(\lambda\mathrm{X}+(1-\lambda)\mathrm{Y})\approx0.0056<0.0104\approx\mathrm{SKR}(\mathrm{X})\wedge\mathrm{SKR}(\mathrm{Y})
+\mathrm{SNR}(\lambda\mathrm{X}+(1-\lambda)\mathrm{Y})\approx0.0056<0.0104\approx\mathrm{SNR}(\mathrm{X})\wedge\mathrm{SNR}(\mathrm{Y})
 $$
 
-Biglova et al.（2004）引 $\lambda\vec{\textbf{ J }}$ Rachev 比率和广义 Rachev 比率（generalizedRachev ratio）：
+Biglova et al.（2004）引 $入了$ Rachev 比率和广义 Rachev 比率（generalizedRachev ratio）：
 
 $$
-\begin{array}{rl}{\mathrm{RR}_{\mathsf{\beta},\mathsf{\gamma}}(\mathrm{X}):=\mathrm{AVaR}_{\mathsf{\beta}}(-\mathrm{X})/\mathrm{AVaR}_{\mathsf{\gamma}}(\mathrm{X})}&{}\\{\mathrm{GRR}_{\mathsf{\beta},\mathsf{\gamma},\mathsf{\delta},\mathsf{\epsilon}}(\mathrm{X}):=\mathrm{AVaR}_{\mathsf{\beta},\mathsf{\gamma}}(-\mathrm{X})/\mathrm{AVaR}_{\mathsf{\gamma},\mathsf{\epsilon}}(\mathrm{X})}&{}\end{array}
+\begin{aligned}\mathrm{RR}_{\beta,\gamma}(\mathrm{X})&:=\mathrm{AVaR}_{\beta}(-\mathrm{X})/\mathrm{AVaR}_{\gamma}(\mathrm{X})\\\mathrm{GRR}_{\beta,\gamma,\delta,\epsilon}(\mathrm{X})&:=\mathrm{AVaR}_{\beta,\gamma}(-\mathrm{X})/\mathrm{AVaR}_{\gamma,\epsilon}(\mathrm{X})\end{aligned}
 $$
 
 $$
-\mathrm{AVaR}_{\mathsf{\beta},\gamma}(\mathrm{X}):=\beta^{-1}\int_{0}^{\beta}(\mathrm{max}(-\mathrm{F}_{\mathrm{X}}^{-1}(\mathrm{u}),0))^{\gamma}\mathrm{d}\mathrm{u}
+\mathrm{AVaR}_{\beta,\gamma}(X):=\beta^{-1}\int_{0}^{\beta}\left(\max\left(-\mathrm{F}_{X}^{-1}(u),0\right)\right)^{\gamma}\mathrm{d}u
 $$
 
-Stoyanov et al. （2007） 则 $31\wedge$ 了修正广义 Rachew 比率（modifiedgeneralized Rachev ratio）：
+Stoyanov et al. （2007） 则 $引入$ 了修正广义 Rachew 比率（modifiedgeneralized Rachev ratio）：
 
 $$
-\begin{array}{r}{\operatorname{MGRR}_{\beta,\gamma,\delta,\epsilon}(\mathrm{X}):=\operatorname{AVaR}_{\beta,\gamma}(-\mathrm{X})^{\frac{1}{\gamma}}/\operatorname{AVaR}_{\gamma,\epsilon}(\mathrm{X})^{\frac{1}{\epsilon}}}\end{array}
+\mathrm{MGRR}_{\beta,\gamma,\delta,\epsilon}(\mathrm{X}):=\mathrm{AVA}_{\beta,\gamma}(-\mathrm{X})^{\frac{1}{\gamma}}/\mathrm{AVA}_{\gamma,\epsilon}(\mathrm{X})^{\frac{1}{\epsilon}}
 $$
 
 ## （Q）性质的反例为
 
 $$
-\begin{array}{r}{\left(\mathrm{X},\mathrm{Y}\right)=\left\{\begin{array}{ll}{\left(-500,-1000\right),\mathbb{P}=0.02}\\{\left(4,5\right),\quad\quad\mathbb{P}=0.03}\\{\left(1,6\right),\quad\quad\mathbb{P}=0.95}\end{array}\right.}\end{array}
+\begin{array}{r}{(\mathtt{X},\mathtt{Y})=\left\{\begin{matrix}{(-500,-1000),\mathbb{P}=0.02,}\\{(4{,}5),\qquad\mathbb{P}=0.03,}\\{(1{,}6),\qquad\mathbb{P}=0.95.}\end{matrix}\right.}\end{array}
 $$
 
 此时有
 
 $$
-\mathrm{RR}_{0.05,0.05}\left(\frac{\mathrm{X}+\mathrm{Y}}{2}\right)=\frac{5}{429}<\frac{14}{997}=\mathrm{RR}_{0.05,0.05}\left(\mathrm{X}\right)\wedge\mathrm{RR}_{0.05,0.05}\left(\mathrm{Y}\right)
+\mathrm{RR}_{0.05,0.05}\left(\frac{\mathrm{X}+\mathrm{Y}}{2}\right)=\frac{5}{429}<\frac{14}{997}=\mathrm{RR}_{0.05,0.05}(\mathrm{X})\wedge\mathrm{RR}_{0.05,0.05}(\mathrm{Y})
 $$
 
 表 6：非拟凹回报风险比率的性质
 
-|  | $\mathbf{\Omega}(\mathbf{\Omega}\mathbf{M}\mathbf{\Omega})$ | (Q) | (S) | (D) |
+|  | $(\mathbf{M})$ | (Q) | (S) | (D) |
 | --- | --- | --- | --- | --- |
-| FTR | $\checkmark$ |  | $\checkmark$ | $\checkmark$ |
+| FTR | $v$ |  | $\checkmark$ | $\checkmark$ |
 | SKR |  |  | $\checkmark$ | $\checkmark$ |
 | RR | $\checkmark$ |  | $\checkmark$ | $\checkmark$ |
 | GRR | $\checkmark$ |  |  | $\checkmark$ |
@@ -734,21 +734,21 @@ $$
 本节中的很多例子都可以表达为畸变回报风险比率。例如：
 
 $$
-\Psi_{\gamma}^{\mathrm{VaR}}(\mathbf{x})=\left\{{0,0\leq\mathbf{x}<\gamma\atop1,\gamma\leq\mathbf{x}\leq1}\Rightarrow\mathrm{VaR}_{\gamma}(\mathbf{X})=\mathbb{E}_{\Psi_{\gamma}^{\mathrm{VaR}}}[-\mathbf{X}]\right.
+\Psi_{\mathsf{Y}}^{\mathsf{VaR}}(\mathsf{x})=\left\{\begin{aligned}{0,}&{{}0\leq\mathsf{x}<\mathsf{Y}}\\{1,}&{{}\mathsf{y}\leq\mathsf{x}\leq1}\end{aligned}\right.\Rightarrow\mathsf{VaR}_{\mathsf{Y}}(\mathsf{X})=\mathbb{E}_{\mathsf{\psi}_{\mathsf{Y}}^{\mathsf{VaR}}}[-\mathsf{X}]
 $$
 
 $$
-\Psi_{\gamma}^{\mathrm{AVaR}}(\mathbf{x})=\left\{\begin{array}{l}{\displaystyle\mathrm{x}/\gamma,0\leq\mathbf{x}<\gamma}\\{\displaystyle1,\gamma\leq\mathbf{x}\leq1}\end{array}\right.\Rightarrow\mathrm{AVaR}_{\gamma}(\mathbf{X})=\mathbb{E}_{\Psi_{\gamma}^{\mathrm{AVaR}}}[-\mathbf{X}]
+\Psi_{\mathsf{Y}}^{\mathrm{AVaR}}(\mathsf{x})=\left\{\begin{matrix}{\mathsf{x}/\gamma,0\leq\mathsf{x}<\gamma}\\{1,\gamma\leq\mathsf{x}\leq1}\end{matrix}\right.\Rightarrow\mathrm{AVaR}_{\mathsf{Y}}(\mathsf{X})=\mathbb{E}_{\psi_{\mathsf{Y}}^{\mathrm{AVaR}}}[-\mathsf{X}]
 $$
 
 $$
-\Psi_{\gamma}^{\mathrm{Gini}}(\mathbf{x})=(1-\mathbf{x})^{\gamma},\gamma>1\Rightarrow\Gamma_{\mathrm{X}}(\gamma)-\mathbb{E}[\mathrm{X}]=\mathbb{E}_{\Psi_{\gamma}^{\mathrm{Gini}}}[-\mathrm{X}]
+\psi_{Y}^{\mathrm{Gini}}(\mathrm{x})=(1-\mathrm{x})^{\gamma},\gamma>1\Rightarrow\Gamma_{\mathrm{X}}(\gamma)-\mathbb{E}[\mathrm{X}]=\mathbb{E}_{\psi_{Y}^{\mathrm{Gini}}}[-\mathrm{X}]
 $$
 
 而修正广义 Rachev 比率则等于
 
 $$
-\begin{array}{r}{\mathrm{MGRR}_{\beta,\gamma,\delta,\epsilon}(\mathrm{X}):=\left(\mathbb{E}_{\Psi_{\mathfrak{g}}^{\mathrm{AVaR}}}[(\mathrm{X}^{+})^{\gamma}]\right)^{\frac{1}{\gamma}}/\left(\mathbb{E}_{\Psi_{\delta}^{\mathrm{AVaR}}}[((-\mathrm{X})^{+})^{\epsilon}]\right)^{1/\epsilon}}\end{array}
+\begin{array}{r}{\mathsf{MGRR}_{\beta,\gamma,\delta,\epsilon}(\mathsf{X}):=\left(\mathbb{E}_{\psi_{\beta}^{\mathsf{AVaR}}}[(\mathsf{X}^{+})^{\gamma}]\right)^{\frac{1}{\gamma}}/\left(\mathbb{E}_{\psi_{\delta}^{\mathsf{AVaR}}}[((-\mathsf{X})^{+})^{\epsilon}]\right)^{1/\epsilon}}\end{array}
 $$
 
 ## 5.5. 性质总结

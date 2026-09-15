@@ -100,13 +100,13 @@ Simonian J, Wu C. Great Expectations: A Tactical Asset Allocation Framework for 
 
 | 变量计算 |  |  |
 | --- | --- | --- |
-| 1. 通胀的 |  | $\begin{array}{r}{\mathbf{z}\mathrm{-score};\mathrm{z}\mathrm{-}s\mathrm{core}=\frac{\|\frac{\frac{1+\frac{\gamma}{2}}{819}}{19}\|\frac{16}{15}\frac{\gamma}{15}-\frac{1}{19}\|\frac{16}{15}\frac{\gamma}{15}\|\frac{1+\frac{\gamma}{2}}{36}+36\mathrm{~}\mathrm{/~}\frac{15}{15}\frac{\gamma}{15}\|}{\frac{17}{15}\mathrm{~/}15\mathrm{~/}15\mathrm{~/}15\mathrm{~/}15\mathrm{~/}15}}\end{array}$ |
-|  |  | $\begin{array}{rl}{2},\quad\frac{\mathrm{sg}}{\mathrm{R}}\vec{p}^{\pm}\mathrm{\#}\vec{y}\mathrm{\#}\mathrm{t-stat:}\quad\mathrm{t}_{\mathrm{ij}}=\frac\mathrm{\#}\vec{p}^{\pm}\mathrm{as}\mathrm{e}\in\mathrm{t}_{1}\not\in\mathrm{A}\not\in\mathrm{B}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\vec{p}\ :\mathrm{\#}\ :\vec{p}\ :\mathrm{\#}\ :\vec{p}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm{\#}\ :\mathrm\ \end{array}$ |
+| 1. 通胀的 |  | $z-score:z-score=\frac{\left\|当前通胀值-通胀值过去36月均值\right\|}{通胀值过去36月标准差}$ |
+|  |  | $2.\quad 资产的\quad t-stat:\quad t_{ij}=\frac{资产asset_{i}在通胀状态\quad j\quad 中的历史平均回报}{资产asset_{i}在通胀状态\quad j\quad 中的历史平均标准差}\times\sqrt{通胀状态\quad j\quad 的持续时间}$ |
 | 交易规则 |  |  |
-|  | 1. 计算通胀状态（异常状态对应 $_\mathrm{z}-score\ge1$ ，正常状态对 $\dot{\overline{{{\mathcal{P}}}}}\mathbf{z}-\mathrm{score}<1{\mathrm{)}}$ |  |
+|  | 1. 计算通胀状态（异常状态对应 $\mathrm{.z-score\geq1}$ ，正常状态对 $应z-score<1)$ |  |
 |  | 2. 计算资产的 t-stat: tij; |  |
-|  | 3. 定义阈值 $\mathrm{t}_{\mathrm{threshold}};$ |  |
-|  | $\begin{array}{r}{\mathrm{l_{i}=\left\{\begin{array}{ll}{1,}&{\mathrm{t_{ij}\geq t_{threshold}}}\\{0,}&{\mathrm{-t_{threshold}<t_{ij}<t_{threshold}}}\\{-1}&{\mathrm{t_{ij}\leq-t_{threshold}}}\end{array}\right.}}\end{array}$ |  |
+|  | 3. 定义阈值 $\mathbf{t_{threshold}};$ |  |
+|  | $\mathrm{d}_{\mathrm{i}}=\begin{cases}1,&\mathrm{t}_{\mathrm{ij}}\geq\mathrm{t}_{\mathrm{threshold}}\\0,&-\mathrm{t}_{\mathrm{threshold}}<\mathrm{t}_{\mathrm{ij}}<\mathrm{t}_{\mathrm{threshold}}\\-1&\mathrm{t}_{\mathrm{ij}}\leq-\mathrm{t}_{\mathrm{threshold}}\end{cases}$ |  |
 |  | 4. 标注资产类别 |  |
 | 权重设置 |  |  |
 |  | 1. 如果存在1类资产，则在1类资产中等权重配置； |  |
@@ -135,7 +135,7 @@ Simonian J, Wu C. Great Expectations: A Tactical Asset Allocation Framework for 
 ![](images/5a84c800c299b5381e897f729d9345f07c4cdef9732233b3e13a0424ee12bfe7.webp)
 
 $$
-\widehat{\mathrm{PSR}}(\mathrm{SR}^{*})=\mathrm{Z}\left[\frac{(\widehat{\mathrm{SR}}-\mathrm{SR}^{*})\sqrt{\mathrm{n}-1}}{\sqrt{1-\widehat{\gamma}_{3}\mathrm{SR}^{*}+\frac{\widehat{\gamma}_{4}-1}{4}\widehat{\mathrm{SR}}^{2}}}\right]
+\mathrm{PSR}(\mathrm{SR}^*)=\mathrm{Z}\left[\frac{(\mathrm{SR}-\mathrm{SR}^*)\sqrt{\mathrm{n}-1}}{\sqrt{1-\hat{\gamma}_3\mathrm{SR}^*+\frac{\hat{\gamma}_4-1}{4}\mathrm{SR}^2}}\right]
 $$
 
 Panel C: Cumulative Returns Using Expected and Unexpected Inflation as Signal and Threshold = 1

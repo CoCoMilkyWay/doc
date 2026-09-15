@@ -127,7 +127,7 @@ ann@gf.com.cn
 每个因子都采用分位数变换进行标准化，只保留因子排名信息，这种标准化方法的优点是可以避免极端值的影响。具体做法是，对于每一个因子，每只股票先根据因子值进行排序得到 $Rank(stock_{i},factor_{j})$ ，这样，第i只股票在第j个因子上的取值为
 
 $$
-Score(stock_{i},factor_{j})=\frac{Rank\left(stock_{i},factor_{j}\right)}{N}
+Score(stock_{i},factor_{j})=\frac{Rank(stock_{i},factor_{j})}{N}
 $$
 
 其中N表示参与排名的股票总数。
@@ -136,7 +136,7 @@ $$
 
 A股市场受市场交易行为以及宏观经济因素的影响较大，因此风格因子的有效性也与市场变量和宏观变量密切相关。本报告选择了6个市场变量，其中沪深300过去20日的涨跌幅和中证500过去20日的涨跌幅用来表征大小盘市场的强弱，沪深300过去20日的波动率和中证500过去20日的波动率用来表征市场波动性的高低，沪深300过去20日平均换手率和中证500过去20日平均换手率用来表征市场流动性的好坏。选择了7个关键的宏观经济变量：CPI同比、M1同比、M2同比、一周上海银行间同业拆放利率（SHIBOR1W）、PPI同比、PMI和美元兑人民币汇率。
 
-值得注意的是宏观经济类的数据通常在次月公布，因此实际应用时，此类数据有一个月的滞后期。此外，有些宏观变量在时间轴上的分布非平稳，不同时期的取值可能存在很大的差别，不具备可比性。如下图所示，2009年下半年M2同比创下新高，此后保持一种下降的趋势。可以通过对其作一阶差分，得到更加平稳的时间序列，使不同历史时期的取值具有可比性。假设因子Factor在第i个月取值为 $x_{i}$ ，第i+1个月取值为 $x_{i+1}$ ，则第i+1个月因子的一阶差分为 ${\mathrm{diff}}=x_{i+1}-x_{i}$ 。此外，从实际的角度来说，人们有时候对变量取值变化的敏感度要超过对变量取值本身，因此差分处理是合适的。
+值得注意的是宏观经济类的数据通常在次月公布，因此实际应用时，此类数据有一个月的滞后期。此外，有些宏观变量在时间轴上的分布非平稳，不同时期的取值可能存在很大的差别，不具备可比性。如下图所示，2009年下半年M2同比创下新高，此后保持一种下降的趋势。可以通过对其作一阶差分，得到更加平稳的时间序列，使不同历史时期的取值具有可比性。假设因子Factor在第i个月取值为 $(x_{i}$ ，第i+1个月取值为 $x_{i+1}$ ，则第i+1个月因子的一阶差分为 $\mathrm{diff}=x_{i+1}-x_{i}$ 。此外，从实际的角度来说，人们有时候对变量取值变化的敏感度要超过对变量取值本身，因此差分处理是合适的。
 
 图3：宏观因子处理前后分布对比图（%）
 ![](images/acbb202a602b2bf2e81c350901123fd08a996e42af6528259c6fc0ad70fc9702.webp)
@@ -193,27 +193,27 @@ $$
 
 其中， $x_{i}=(x_{i1},x_{i2},\ldots,x_{im}),x_{ij}$ 表示第i个样本的第j维特征。
 
-与图4所示的例子类似，一个回归树最终要把输入空间划分成K个空间$(R_{1},R_{2},\dots,R_{K})$ ，在每个空间都有一个输出值 $.c_{k}$ ，于是回归树模型可以表示为：
+与图4所示的例子类似，一个回归树最终要把输入空间划分成K个空间$(\;R_{1},R_{2},\dots,R_{K}\;)$ ，在每个空间都有一个输出值 $.c_{k}$ ，于是回归树模型可以表示为：
 
 $$
-f(x)=\sum_{k=1}^{K}c_{k}I(x\in R_{k})
+f(x)={\sum}_{k=1}^{K}c_{k}I(x\in R_{k})
 $$
 
-其中当且仅当 $\boldsymbol{x}\in R_{k}$ 时， $I(x\in R_{k})=1$ ，否则取0。
+其中当且仅当 $x\in R_{k}$ 时， $I(x\in R_{k})=1$ ，否则取0。
 
-那我们怎么对输入空间进行划分呢？我们采用启发式的方法，选择第j个特征 $:x^{j}$ 为切分变量，取切分点为s，则可以得到两个区域：
+那我们怎么对输入空间进行划分呢？我们采用启发式的方法，选择第j个特征 $ix^{j}$ 为切分变量，取切分点为s，则可以得到两个区域：
 
 $$
-R_{1}(j,s)=\left\{x\middle|x^{j}\leq s\right\}\mathcal{\vec{H}}R_{2}(j,s)=\left\{x\middle|x^{j}>s\right\}
+R_{1}(j,s)=\left\{x\middle|x^{j}\leq s\right\}和R_{2}(j,s)=\left\{x\middle|x^{j}>s\right\}
 $$
 
 对于寻找j和s，就是求解
 
 $$
-min\left[min\sum_{c_{1}}(y_{i}-c_{1})^{2}+min\sum_{c_{2}}(y_{i}-c_{2})^{2}\right]
+\min_{j,s}\left[\min_{c_1}\sum_{x_j\in R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_j\in R_2(j,s)}(y_i-c_2)^2\right]
 $$
 
-对于固定的输入变量j，我们可以通过遍历可能的切分点找到最优切分点s。对于输出值，显然 ${\widehat{c_{1}}}=ave{\big(}y_{i}{\big|}x_{i}\in R_{1}(j,s){\big)},\ {\widehat{c_{2}}}=ave(y_{i}|x_{i}\in R_{2}(j,s))$
+对于固定的输入变量j，我们可以通过遍历可能的切分点找到最优切分点s。对于输出值，显然 $\widehat{c_{1}}=ave\big(y_{i}\big|x_{i}\in R_{1}(j,s)\big),\quad\widehat{c_{2}}=ave(y_{i}|x_{i}\in R_{2}(j,s))$
 
 这样遍历所有的输入变量，找到最优的切分变量j，构成一个对(j,s)，依此将输入空间划分成两个区域。接着对每个区域重复上述划分过程，直到满足停止条件为止。
 
@@ -234,7 +234,7 @@ $$
 提升树模型（以下指代XGBoost模型）可表示为决策树的加法模型，采用前向分步法，首先确定初始提升树 $\hat{y}_{i}^{0}=f_{0}(x_{i})=0$ ，第t步求解的模型是：
 
 $$
-\hat{y}_{i}^{t}=et{}{'}\sum_{k=1}f_{k}(x_{i})=\hat{y}_{i}^{t-1}+f_{t}(x_{i})
+\hat{y}_{i}^{t}={\sum}_{k=1}^{t}f_{k}(x_{i})=\hat{y}_{i}^{t-1}+f_{t}(x_{i}).
 $$
 
 其中， $\hat{y}_{i}^{t}.$ 表示总共t棵决策树组成的模型， $f_{t}(x_{i})$ 表示第t课决策树。
@@ -242,47 +242,47 @@ $$
 求解第t棵决策树时，最小化以下目标函数：
 
 $$
-\begin{array}{c}{{Obj^{t}=\displaystyle\sum_{i=1}^{n}l(y_{i},\hat{y}_{i}^{t})+\displaystyle\sum_{i=1}^{t}\varOmega(f_{i})}}\\{{=\displaystyle\sum_{i=1}^{n}l\big(y_{i},\hat{y}_{i}^{t-1}+f_{t}(x_{i})\big)+\varOmega(f_{t})+constant}}\end{array}
+\begin{aligned}&Obj^{t}=\sum_{i=1}^{n}l(y_{i},\hat{y}_{i}^{t})+\sum_{i=1}^{t}\varOmega(f_{i})\\&\\=\sum_{i=1}^{n}l\big(y_{i},\hat{y}_{i}^{t-1}+f_{t}(x_{i})\big)+\varOmega(f_{t})+constant.\\\end{aligned}
 $$
 
 其中， $\varOmega(f_{i})$ 表示决策树的复杂度。
 
-对上述目标函数在 $\hat{y}_{i}^{t-1}$ 附近作二阶泰勒展开可得：
+对上述目标函数在 $\cdot\hat{y}_{i}^{t-1}$ 附近作二阶泰勒展开可得：
 
 $$
-Obj^{t}=\sum_{i=1}^{n}\left[l\big(y_{i},\hat{y}_{i}^{t-1}\big)+g_{i}f_{t}(x_{i})+\frac{1}{2}h_{i}f_{t}^{2}(x_{i})\right]+\varOmega(f_{t})+constant
+Obj^{t}=\sum_{i=1}^{n}\left[l\big(y_{i},\hat{y}_{i}^{t-1}\big)+g_{i}f_{t}(x_{i})+\frac{1}{2}h_{i}f_{t}^{2}(x_{i})\right]+\varOmega(f_{t})+constant.
 $$
 
-其中， $g_{i}=\partial_{\hat{y}_{i}^{t-1}}\left(l\big(y_{i},\hat{y}_{i}^{t-1}\big)\right),h_{i}=\partial_{\hat{y}_{i}^{t-1}}^{2}\left(l\big(y_{i},\hat{y}_{i}^{t-1}\big)\right)$
+其中， $g_{i}=\partial_{\hat{y}_{i}^{t-1}}\left(l\left(y_{i},\hat{y}_{i}^{t-1}\right)\right),\quad h_{i}=\partial_{\hat{y}_{i}^{t-1}}^{2}\left(l\left(y_{i},\hat{y}_{i}^{t-1}\right)\right)$
 
-如图5所示，每棵决策树都包含T个叶子节点，取值分别为 $w_{1},~w_{2},~\ldots,~w_{T}$ 那么第t棵决策树可表示为：
+如图5所示，每棵决策树都包含T个叶子节点，取值分别为 $w_{1},\quad w_{2},\quad\ldots,\quad w_{T}$ 那么第t棵决策树可表示为：
 
 $$
-f_{t}(x)=w_{q(x)},\ w\in R^{T},\ q{:}R^{d}\to\{1,2,\dots,T\}
+f_{t}(x)=w_{q(x)},\quad w\in R^{T},\quad q{:}R^{d}\to\{1{,}2,\ldots,T\}
 $$
 
 决策树的复杂度 $\varOmega(f_{i})$ 定义为：
 
 $$
-\varOmega(f_{i})=\gamma T+\frac{1}{2}\lambda\sum_{j=1}^{T}w_{j}^{2}
+\varOmega(f_{i})=\gamma T+\frac{1}{2}\lambda{\sum}_{j=1}^{T}w_{j}^{2}
 $$
 
-其中 $\gamma{\mathrm{:}}$ 和λ分别都表示惩罚系数。
+其中 $\gamma;$ 和λ分别都表示惩罚系数。
 
 然后，抹去常数项，我们将目标函数改写为：
 
 $$
-\begin{array}{cl}{{}}&{{Obj^{t}=\displaystyle\sum_{i=1}^{n}\left[g_{i}f_{t}(x_{i})+\frac12h_{i}f_{t}^{2}(x_{i})\right]+\varOmega(f_{t})}}\\{{}}&{{}}\\{{}}&{{=\displaystyle\sum_{i=1}^{n}\left[g_{i}w_{q(x_{i})}+\frac12h_{i}w_{q(x_{i})}^{2}\right]+\gamma T+\frac12\lambda\sum_{j=1}^{T}w_{j}^{2}}}\\{{}}&{{}}\\{{}}&{{=\displaystyle\sum_{j=1}^{T}\left[\left(\sum_{i\in I_{j}}g_{i}\right)w_{j}+\frac12\biggl(\sum_{i\in I_{j}}h_{i}+\lambda\biggr)w_{j}^{2}\right]+\gamma T}}\end{array}
+\begin{aligned}&Obj^{t}=\sum_{i=1}^{n}\left[g_{i}f_{t}(x_{i})+\frac{1}{2}h_{i}f_{t}^{2}(x_{i})\right]+\varOmega(f_{t})\\=&\sum_{i=1}^{n}\left[g_{i}w_{q(x_{i})}+\frac{1}{2}h_{i}w_{q(x_{i})}^{2}\right]+\gamma T+\frac{1}{2}\lambda\sum_{j=1}^{T}w_{j}^{2}\\=&\sum_{j=1}^{T}\left[\left(\sum_{i\in I_{j}}g_{i}\right)w_{j}+\frac{1}{2}\left(\sum_{i\in I_{j}}h_{i}+\lambda\right)w_{j}^{2}\right]+\gamma T\end{aligned}
 $$
 
-其中 $I_{j}$ 表示属于第j个叶子节点的样本集合。上式是关于 $\mathbf{w_{j}}$ 的一元二次方程，因此能够找到使目标函数取值最小的 $\mathbf{w_{j}}$ 。
+其中 $I_{j}.$ 表示属于第j个叶子节点的样本集合。上式是关于 $w_{\mathrm{j}}$ 的一元二次方程，因此能够找到使目标函数取值最小的 $w_{\mathrm{j}}$ 。
 
-定义： $\begin{array}{r}{G_{j}=\sum_{i\in I_{j}}g_{i},H_{j}=\sum_{i\in I_{j}}h_{i}}\end{array}$ ，则可通过一元二次函数求极值的方式求出，当 $\begin{array}{r}{\mathbf{w}_{j}^{*}=-\frac{G_{j}}{H_{j}+\lambda}\mathbb{E}}\end{array}$ 时，目标函数取最小值： $\begin{array}{r}{Obj=-\frac{1}{2}\sum_{j=1}^{T}\frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T.}\end{array}$
+定义： $\begin{array}{r}{G_{j}=\sum_{i\in I_{j}}g_{i},\quad H_{j}=\sum_{i\in I_{j}}h_{i}}\end{array}$ ，则可通过一元二次函数求极值的方式求出，当 $\begin{array}{r}{\mathbf{w}_{j}^{*}=-\frac{G_{j}}{H_{j}+\lambda}\mathbb{I}}\end{array}$ 时，目标函数取最小值： $\begin{array}{r}{Obj=-\frac{1}{2}{\sum_{j=1}^{T}}\frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T_{\circ}}\end{array}$
 
 每一次决策树分裂时，一个节点分裂成左右两个子节点，该次分裂的信息增益可通过比较分裂前后目标函数值来表示，即：
 
 $$
-Gain={\frac{G_{L}^{2}}{H_{L}+\lambda}}+{\frac{G_{R}^{2}}{H_{R}+\lambda}}-{\frac{(G_{L}+G_{R})^{2}}{H_{L}+G_{R}+\lambda}}-\gamma
+Gain=\frac{G_{L}^{2}}{H_{L}+\lambda}+\frac{G_{R}^{2}}{H_{R}+\lambda}-\frac{(G_{L}+G_{R})^{2}}{H_{L}+G_{R}+\lambda}-\gamma
 $$
 
 对于每个特征，事先已经按照特征取值，将所有样本排序储存起来。实际分裂时，遍历每个特征的每个可能的分裂点，使Gain值最大的特征及对应的分裂点即为该次分裂的最优切分变量和切分点。我们也可以给Gain设置一个阈值，只有当Gain超过该阈值时，决策树才会分裂，否则停止分裂，这可以控制模型的复杂度，防止过拟合。
@@ -347,7 +347,7 @@ XGBoost提供了3种方式来作特征重要性分析：
 在本报告2.3.3节中，我们介绍了利用XGBoost模型来分析特征的重要性。分类树每次节点分裂时，都会从备选特征中选择使目标函数下降最多的特征作为分裂依据。因此，特征被用来当作节点分裂依据的次数代表了特征的重要程度，即被用作分裂依据的次数越多，说明特征越重要。我们通过以下方式对特征重要性做了归一化：
 
 $$
-relativeimportance(i)=\frac{n_{i}}{\sum_{j=1}^{N}n_{i}}
+relative\;importance(i)=\frac{n_{i}}{\sum_{j=1}^{N}n_{i}}
 $$
 
 其中，N表示了特征的个数， $n_{i}$ 表示第i个特征被用作节点分裂依据的次数。每个特征的相对重要性等于该特征被用来作为节点分裂依据的次数比上总分裂次数。
@@ -367,7 +367,7 @@ $$
 考虑到模型预测周期较短（5个工作日），风格因子具有一定的动量效应，我们拿上一期因子的IC值作为下一期IC值的估计值，将这个估计值作为基准，来比较模型的预测效果。我们选择的指标为平均绝对误差（Mean Absolute Error,MAE），即：
 
 $$
-MAE=\frac{1}{N}\sum_{t=1}^{N}\left|f_{t}-y_{t}\right|
+MAE=\frac{1}{N}{\sum_{t=1}^{N}|f_{t}-y_{t}|}
 $$
 
 其中， $f_{t}$ ， $y_{t}$ 分别表示预测值和真实值，N表示样本外的样本数。
@@ -438,9 +438,9 @@ $$
 
 1) 在t时刻，通过XGBoost模型对因子i未来一期选股的IC值进行预测，得到$IC_{i,t}$ ；
 
-2) 对于正向因子，当 $IC_{i,t}>0$ 时，权值 $.w_{i,t}=IC_{i,t}$ ，否则认为因子未来一期失效，权值 ${\mathbf{}}_{{W}_{i,t}}=0;$
+2) 对于正向因子，当 $IC_{i,t}>0$ 时，权值 $w_{i,t}=IC_{i,t}$ ，否则认为因子未来一期失效，权值 $w_{i,t}=0;$
 
-3) 对于负向因子，当 $IC_{i,t}<0$ 时，权值 $w_{i,t}=-IC_{i,t}$ ，否则认为因子未来一期失效，权值 ${w_{i,t}}=0$
+3) 对于负向因子，当 $IC_{i,t}<0$ 时，权值 $w_{i,t}=-IC_{i,t}$ ，否则认为因子未来一期失效，权值 $w_{i,t}=0$
 
 4) 对 $w_{i,t}$ 进行归一化，使得∑ $w_{i,t}=1$ ，如果预测未来一期所有因子都失效，则采取基准的因子等权方式，即 $w_{i,t}=1/7$
 

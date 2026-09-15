@@ -66,10 +66,10 @@ chenshengrui @csc.com.cn
 因子 IC 的时间衰减是被提及最多的一个因子衰减概念，用以衡量一个因子对未来的预测能力能持续多久。当一个指标时间衰减过快时，可能会导致组合较高的换手，交易成本会大幅侵蚀模型的盈利能力。通过计算当期（t）因子值和滞后 n 期的收益率，我们可以得到 IC 的时间序列：
 
 $$
-IC_{n}=\mathrm{cor}(Factor_{t},Ret_{t+1+n})
+IC_{n}=\mathrm{cor}(Factor_{t},Ref_{t+1+n})
 $$
 
-可以简单的用 IC 半衰期来衡量 IC 时间衰减的快慢，由于我们这边主要是以月频来计算因子的 IC，因此 IC半衰期可定义为月度 IC 第一次下降到一半或一半以下所用的时间。同理，我们也可以计算 ${|\mathsf{C}}\_{\mathsf{R}}$ 的半衰期和衰减速度。
+可以简单的用 IC 半衰期来衡量 IC 时间衰减的快慢，由于我们这边主要是以月频来计算因子的 IC，因此 IC半衰期可定义为月度 IC 第一次下降到一半或一半以下所用的时间。同理，我们也可以计算 $1\mathsf{C}\_1\mathsf{R}$ 的半衰期和衰减速度。
 
 ## 二、单因子衰减分析
 
@@ -380,13 +380,13 @@ $$
 一般采用的 IC 均值加权方式相当于为对过去每期的因子 IC 等权分配权重，假定因子 i 过去N 期的因子 IC向量 $IC_{i}=(IC_{i}^{1},IC_{i}^{1},\ldots,IC_{i}^{N})$ ，则因子 i 的当期权重为：
 
 $$
-\begin{array}{r}{{\cal W}_{i}=w_{1}*IC_{i}^{1}+w_{2}*IC_{i}^{2}+\cdots w_{N}*IC_{i}^{N}={\cal W}_{N}*IC_{i},\sharp\sharp\sharp,\quad{\cal W}_{N}=\frac{1}{N}\displaystyle(\frac{1}{IC_{i}}+\frac{1}{IC_{i}}+\frac{1}{IC_{i}}+\frac{1}{IC_{i}})\wedge\nabla C_{i}.}\end{array}
+W_{i}=w_{1}*IC_{i}^{1}+w_{2}*IC_{i}^{2}+\cdots w_{N}*IC_{i}^{N}=W_{N}*IC_{i},其中,\quad W_{N}=\frac{1}{N}
 $$
 
-从前面的单因子衰减分析可知大部分因子的 IC 衰减速度较快，所以在做因子 IC 加权时理应对因子近期的 IC给与更大的权重分配，这样才能更好地适应市场短期的变化。这里，我们引入半衰期权重来衡量其影响。半衰期权重可以定义为，给定一个半衰期H，每隔H期 IC 的权重值会以指数下降的方式降低一半。即给定半衰期H，IC 序列长度N，则半衰期权重向量 $W_{N}=(w_{1},w_{2},\cdots,\ w_{N})$ ，其中
+从前面的单因子衰减分析可知大部分因子的 IC 衰减速度较快，所以在做因子 IC 加权时理应对因子近期的 IC给与更大的权重分配，这样才能更好地适应市场短期的变化。这里，我们引入半衰期权重来衡量其影响。半衰期权重可以定义为，给定一个半衰期H，每隔H期 IC 的权重值会以指数下降的方式降低一半。即给定半衰期H，IC 序列长度N，则半衰期权重向量 $W_{N}=(w_{1},w_{2},\cdots,w_{N})$ ，其中
 
 $$
-w_{i}=\frac{2^{\frac{i-N-1}{H}}}{\sum_{t=1}^{N}2^{\frac{-t}{H}}},w_{i}\ YH_{\bigstar}\bigstar_{\bigstar}\bigstar_{\bigstar}\bigstar_{\bigstar}\bigstar_{i=1}w_{i}=1,
+w_{i}=\frac{2^{\frac{i-N-1}{H}}}{\sum_{t=1}^{N}2^{\frac{-t}{H}}},w_{i}满足\ \sum_{i=1}^{N}w_{i}=1\text{。 }
 $$
 
 下面，我们看下半衰期H=2，序列长度N=12 时的各期 IC 权重值序列：
@@ -734,25 +734,25 @@ $$
 
 ## 5.2、单因子时间序列衰减加权方法（最大化复合因子 IC_IR加权方法介绍）
 
-下面我们来简单介绍下复合因子 IC_IR 最大化的方法。假设我们有 N 个因子，各因子的 IC 均值为IC̅̅̅ =$(\overline{{IC_{1}}},\overline{{IC_{2}}},\dots,\overline{{IC_{N}}})$ ，IC 的协方差矩阵我们定义为Σ。每个因子的权重我们定义为 $w{=}(w_{1},w_{2},\cdots,\ w_{N})$ ，则可得：
+下面我们来简单介绍下复合因子 IC_IR 最大化的方法。假设我们有 N 个因子，各因子的 IC 均值为IC̅̅̅ =$(\overline{{IC_{1}}},\overline{{IC_{2}}},\dots,\overline{{IC_{N}}})$ ，IC 的协方差矩阵我们定义为Σ。每个因子的权重我们定义为 $w{=}(w_{1},w_{2},\cdots,w_{N})$ ，则可得：
 
 $$
-IR=\frac{w^{\prime}*\overline{{IC}}}{\sqrt{w^{\prime}*\sum*\mathbf{w}}}
+\mathit{IR}=\frac{w^{\prime}*\overrightarrow{IC}}{\sqrt{w^{\prime}*\sum*w}}
 $$
 
 其中 IR 为复合因子的 IC_IR，为了使得 IR 最大化，可以对因子权重 w 求偏导数，得到：
 
-$\begin{array}{r}{\frac{\partial IR}{\partial\mathbf{w}}=\frac{\overline{{IC}}}{\sqrt{w^{\prime}}*\sum*\mathbf{w}}-\frac{\left(w^{\prime}*\overline{{IC}}\right)*\sum*\mathbf{w}}{(w^{\prime}*\sum*\mathbf{w})^{\frac{3}{2}}}}\end{array}$ 。最后，令 $\begin{array}{r}{\frac{\partial IR}{\partial w}=0}\end{array}$ ， 即可得到因子的最优化权重为 $w^{*}=s*\Sigma^{-1}*\overline{{IC}}$ ， 其中 s 为任意正数。
+$\frac{\partial IR}{\partial w}=\frac{\overline{IC}}{\sqrt{w'}*\sum*w}-\frac{\left(w'*\overline{IC}\right)*\sum*w}{\left(w'*\sum*w\right)^{\frac{3}{2}}}$ 。最后，令 $\begin{array}{r}{\frac{\partial IR}{\partial w}=0}\end{array}$ ， 即可得到因子的最优化权重为 $w^{*}=s*\Sigma^{-1}*\overline{{IC}}$ ， 其中 s 为任意正数。
 
 从上式可知，因子 IC 的均值IC̅̅̅和因子 IC 的协方差矩阵Σ决定了因子的最优化权重。但在实际情况中，我们对未来的IC̅̅̅和Σ只能通过历史数据来估计，对这两者的估计质量直接决定了复合因子的 IC_IR 准确度。
 
 我们在计算因子IC的协方差矩阵时，最简单的是使用协方差矩阵的无偏估计即样本协方差阵。但问题在于，如果我们的因子数量较多，其协方差矩阵就不一定可逆。即便它是可逆的，样本协方差矩阵的逆矩阵也不是协方差矩阵逆矩阵的无偏估计。
 
-实际上在 Bai(2011)证明了如果在正态分布假设下有： $\begin{array}{r}{E(\Sigma^{-1})=\frac{T}{T-N-2}\Sigma^{-1}}\end{array}$
+实际上在 Bai(2011)证明了如果在正态分布假设下有： $\begin{array}{r}{E(\stackrel{\wedge}{\Sigma^{-1}})=\frac{T}{T-N-2}\Sigma^{-1}}\end{array}$
 
 其中 N 指的是因子个数，T 指的是样本期（即往前取几期的数据），如果 T接近或小于 N，样本协方差矩阵逆的估计偏差将非常之大。
 
-基于以上问题， Ledoit 在 2004 年提出了一种压缩估计的估计方法。它的基本思想使用一个方差小但偏差大的协方差矩阵估计量 $\hat{\cdot}\overset{\wedge}{\boldsymbol{\theta}},$ 作为目标估计量，和样本协方差矩阵做一个加权，以牺牲部分偏差来获得更稳健的估计量： $\hat{{\cal{\Sigma}}}_{shrink}={\bf{u}}*\hat{\bf{\theta}}+(1-{\bf{u}})*\hat{\bf{\mu}}$
+基于以上问题， Ledoit 在 2004 年提出了一种压缩估计的估计方法。它的基本思想使用一个方差小但偏差大的协方差矩阵估计量 $\overset{\wedge}{\underset{\cdot}{\cdot}\theta},$ 作为目标估计量，和样本协方差矩阵做一个加权，以牺牲部分偏差来获得更稳健的估计量： $\hat{\Sigma}_{shrink}=\mathrm{u}*\overset{\wedge}{\boldsymbol{\theta}}+(1-\mathrm{u})*\overset{\wedge}{\Sigma}$
 
 参数 u 通过最小化估计量的二次偏差得到，至于估计量θ的选择，我们主要采用单参数形式，即θ可以表示为方差乘以一个单位矩阵。
 

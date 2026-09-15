@@ -57,7 +57,7 @@
 在《高频因子（十）：量价关系中的反转微观结构》中，我们通过成交量、收益率绝对值以及每笔成交量，对 k 线下收益率进行了分组筛选，发现在不同的组下个股的价格变动呈现不同的属性，以每笔成交量为例，筛选因子的构建方式如下式所示：
 
 $$
-\begin{array}{r}{\overleftrightarrow{\mathbb{E}}\overleftrightarrow{\mathbb{E}}\overleftrightarrow{\mathbb{X}}\overleftrightarrow{\mathbb{Z}}\overbrace{\mathbb{I}\dag}\overleftrightarrow{\mathbb{I}}\overleftrightarrow{\mathbb{I}}\overleftrightarrow{\mathbb{I}}\overleftrightarrow{\mathbb{I}}\overleftrightarrow{\mathbb{Z}}\overleftrightarrow{\mathbb{I}}\overline{{\mathbb{Z}}}=\operatorname{sum}\big(\{ret_{i}\big|q_{j}(pvol_{i})<pvol_{i}<q_{j+1}(pvol_{i})\}\big)}\end{array}
+每笔成交量筛选的局部反转因子_{j}=sum\left(\left\{ret_{i}\middle|q_{j}(pvol_{i})<pvol_{i}<q_{j+1}(pvol_{i})\right\}\right)
 $$
 
 其中reti为每个时间段的对数收益率，pvoli为每个时间段每笔成交量，qj 为分位数函数。因为从传统反转因子（即过去 21 天个股收益率）上看，个股的价格变动和其未来的预期收益率呈现反向关系，故下文展示各个分组下的每笔成交量筛选的局部反转因子均默认其方向为负。下图分别展示了各个分组下局部反转因子的 ICIR 及多空收益率，从分组的情况，可以看到每笔成交量最小组的价格变动呈现动量效应，每笔成交量最大组的价格变动呈现反转效应，且这种动量和反转间的转换呈现线性变化，即不同成交量属性划分下的价格变动，呈现不同的属性。
@@ -111,7 +111,7 @@ $$
 反转因子参考《高频因子（二）：结构化反转因子》中高频因子的计算方法：
 
 $$
-\mathrm{Rev}_{vol}=\sum_{i=1}^{period}w_{i}\log\frac{Close_{t-i+1}}{Close_{t-i}},w_{i}\propto volume_{i}
+\mathrm{Rev}_{vol}=\sum_{i=1}^{period}w_i\log\frac{Class_{t-i+1}}{close_{t-i}},w_i\propto volume_i
 $$
 
 其中Close 为i时间段的收盘价，volume 为i时间段的成交量， $w_{i}$ 为正比于成交量的权重，period为总时间段个数。下图分别展示了在全市场和中证 800 的范围内，风格行业线性剥离前后不同区间计算的反转因子全时间段1的分组2收益。从分组收益的排序情况上看：
@@ -221,7 +221,7 @@ $$
 流动性因子参考《高频因子（五）：高频因子和交易行为》中流动性因子的计算方法：
 
 $$
-illiq_{guiji}=\frac{\log\Pi(1+|Ret_{i}|)}{\sum Amount_{i}}
+illiq_{guiji}=\frac{\log\prod(1+|Ret_{i}|)}{\sum Amount_{i}}
 $$
 
 其中Ret 为时间段i的收益率，∏ 为累乘函数，Amount 为时间段i的成交额，下图分别展示了在全市场和中证 800 的范围内，风格行业线性剥离前后不同区间计算的流动性因子全时间段的分组收益，从分组收益的排序情况上看：

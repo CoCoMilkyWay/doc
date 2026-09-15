@@ -75,79 +75,79 @@ zhouxiaoxiao@ebscn.com
 假设某个截面上，全市场股票数量为N，入选因子数量为 M，则截面上的因子载荷矩阵可以表示为：
 
 $$
-F_{N\times M}=\left[{\begin{array}{ccc}{f_{1}^{1}}&{\cdots}&{f_{1}^{M}}\\{\vdots}&{\ddots}&{\vdots}\\{f_{N}^{1}}&{\cdots}&{f_{N}^{M}}\end{array}}\right]\#(1)
+F_{N\times M}=\begin{bmatrix}f_{1}^{1}&\cdots&f_{1}^{M}\\\vdots&\ddots&\vdots\\f_{N}^{1}&\cdots&f_{N}^{M}\end{bmatrix}\#(1).
 $$
 
 其中，因子 m 的载荷向量可表示为：
 
 $$
-{{f}^{m}}=\ [{{f}_{1}^{m}},{{f}_{2}^{m}},{{f}_{3}^{m}}\cdots,{{f}_{N}^{m}}]^{\prime}\#(2)
+f^{m}=[f_{1}^{m},f_{2}^{m},f_{3}^{m}\cdots,f_{N}^{m}]^{\prime}\#(2)
 $$
 
-且有： ${\overline{{f^{m}}}}=0$ , $\lvert f^{m}\rvert\rvert=1$
+且有： ${\overline{{f^{m}}}}=0$ , $\|f^{m}\|=1$
 
-我们希望得到一个新的列向量两两正交的正交矩阵 $F_{N\times M}^{\perp}$ ，定义一个过渡矩阵（线性变换矩阵） $S_{M\times M}$ ，使得：
-
-$$
-F_{N\times M}^{\perp}=\ F_{N\times M}S_{M\times M}\#(3)
-$$
-
-因此，为了得到正交矩阵 $F_{N\times M}^{\perp}$ ，我们需要首先得到 $S_{M\times M}$ ，第一步是计算 $F_{N\times M}$ 的协方差矩阵 $\Sigma_{M\times M}$ ，并得到Overlap Matrix（重叠矩阵） $)P_{M\times M}=(N-1)\Sigma_{M\times M}.$
+我们希望得到一个新的列向量两两正交的正交矩阵 $.F_{N\times M}^{\perp}$ ，定义一个过渡矩阵（线性变换矩阵） $S_{M\times M}$ ，使得：
 
 $$
-P_{M\times M}=\left[\begin{array}{ccc}{{(f^{1})^{\prime}(f^{1})}}&{{\cdots}}&{{(f^{1})^{\prime}(f^{M})}}\\{{\vdots}}&{{\ddots}}&{{\vdots}}\\{{(f^{M})^{\prime}(f^{1})}}&{{\cdots}}&{{(f^{M})^{\prime}(f^{M})}}\end{array}\right]\#(4)
+F_{N\times M}^{\perp}=\;F_{N\times M}S_{M\times M}\#(3)
 $$
 
-由于 $F_{N\times M}^{\perp}$ 为标准正交矩阵（Orthonormal），因此有：
+因此，为了得到正交矩阵 $.F_{N\times M}^{\perp}$ ，我们需要首先得到 $S_{M\times M}$ ，第一步是计算 $F_{N\times M}$ 的协方差矩阵 $.\Sigma_{M\times M}$ ，并得到Overlap Matrix（重叠矩阵） $)P_{M\times M}=(N-1)\Sigma_{M\times M}.$
 
 $$
-\begin{array}{rl}&{(F_{N\times M}^{\perp})^{\prime}(F_{N\times M}^{\perp})=(F_{N\times M}S_{M\times M})^{\prime}(F_{N\times M}S_{M\times M})={S_{M\times M}}^{\prime}(F_{N\times M}{}^{\prime}F_{N\times M})S_{M\times M}}\\&{\phantom{=}={S_{M\times M}}^{\prime}(P_{M\times M}){S_{M\times M}}={I_{M\times M}}\#(5)}\end{array}
+P_{M\times M}=\begin{bmatrix}(f^1)'(f^1)&\cdots&(f^1)'(f^M)\\\vdots&\ddots&\vdots\\(f^M)'(f^1)&\cdots&(f^M)'(f^M)\end{bmatrix}\#(4).
+$$
+
+由于 $\cdot F_{N\times M}^{\perp}$ 为标准正交矩阵（Orthonormal），因此有：
+
+$$
+\begin{align*}(F_{N\times M}^{\perp})'(F_{N\times M}^{\perp})=&(F_{N\times M}S_{M\times M})'(F_{N\times M}S_{M\times M})=S_{M\times M}{}'(F_{N\times M}{}'F_{N\times M})S_{M\times M}\\&=S_{M\times M}{}'(P_{M\times M})S_{M\times M}=I_{M\times M}\#(5)\end{align*}
 $$
 
 也即：
 
 $$
-S_{M\times M}S_{M\times M}{}^{\prime}=\ P_{M\times M}^{-1}\#(6)
+{S_{M\times M}S_{M\times M}}^{\prime}=\:P_{M\times M}^{-1}\#(6)
 $$
 
 上式（6）的通解可以表示为：
 
 $$
-S_{M\times M}=\ P_{M\times M}^{-1/2}C_{M\times M}\#(7)
+S_{M\times M}=\;P_{M\times M}^{-1/2}C_{M\times M}\#(7)
 $$
 
-其中， $C_{M\times M}$ 为任意的 $\ I^{\ E}$ 交矩阵。
+其中， $C_{M\times M}$ 为任意的 $证$ 交矩阵。
 
-为了得到 $S_{M\times M}$ ，我们定义一个可以将 $P_{M\times M}$ 变换为对角矩阵形式 ${\cal D}_{M\times M}$ 的正交矩阵 ${\cal{O}}_{M\times M}$ ，即：
-
-$$
-P_{M\times M}=\ {O_{M\times M}}{D_{M\times M}}{O_{M\times M}}^{-1}\#(8)
-$$
-
-其中， $O_{M\times M}$ 的第 m 列向量为 $P_{M\times M}$ 的第 m 个特征向量，对角矩阵 $D_{M\times M}$ 的对角值则是对应的特征值λ，即 $D_{mm}=\lambda_{m}(m\in[1,M])$
-
-从而可以求得 $\boldsymbol{\cdot}\boldsymbol{S_{M\times M}}$
+为了得到 $S_{M\times M}$ ，我们定义一个可以将 $\cdot P_{M\times M}$ 变换为对角矩阵形式 $D_{M\times M}$ 的正交矩阵 $.O_{M\times M}$ ，即：
 
 $$
-S_{M\times M}=\ O_{M\times M}D_{M\times M}{}^{-1/2}O_{M\times M}{}^{'}C_{M\times M}\#(9)
+P_{M\times M}={O_{M\times M}D_{M\times M}O_{M\times M}}^{-1}\#(8)
+$$
+
+其中， $O_{M\times M}$ 的第 m 列向量为 $P_{M\times M}$ 的第 m 个特征向量，对角矩阵 $.D_{M\times M}$ 的对角值则是对应的特征值λ，即 $D_{mm}=\lambda_{m}(m\in[1,M])$
+
+从而可以求得 ${\cdot}S_{M\times M}$
+
+$$
+S_{M\times M}=~{\cal O}_{M\times M}{{\cal D}_{M\times M}}^{-1/2}{{\cal O}_{M\times M}}^{\prime}C_{M\times M}\#(9)
 $$
 
 其中：
 
 $$
-D_{M\times M}^{-\frac{1}{2}}=\left[\begin{array}{ccc}{{1\bigg/\sqrt{\lambda_{1}}}}&{{\cdots}}&{{0}}\\{{}}&{{}}&{{}}\\{{\vdots}}&{{\ddots}}&{{\vdots}}\\{{0}}&{{\cdots}}&{{1\bigg/\sqrt{\lambda_{M}}\left[\begin{array}{c}{{\#(10)}}\\{{}}\end{array}\right]}}\end{array}\right]\#(10)
+{D_{M\times M}}^{-\frac{1}{2}}=\left[\begin{matrix}{1\Bigg/_{\sqrt{\lambda_{1}}}}&{\cdots}&{0}\\{\vdots}&{\ddots}&{\vdots}\\{0}&{\cdots}&{1\Bigg/_{\sqrt{\lambda_{M}}}}\\\end{matrix}\right]\#(10).
 $$
 
-这里矩阵 ${\cal{L}}_{M\times M}$ 的不同选择就对应了不同的正交方法，下表中统计了三种不同正交方法中对于 $C_{M\times M}$ 或者 $S_{M\times M}$ 的不同定义方式:
+这里矩阵 $.C_{M\times M}$ 的不同选择就对应了不同的正交方法，下表中统计了三种不同正交方法中对于 $\cdot C_{M\times M}$ 或者 ${\cdot}S_{M\times M}$ 的不同定义方式:
 
-表1：不同正交方法下的 $C_{M\times M}$ 与 $\pmb{S}_{M\times M}$ 定义方式
+表1：不同正交方法下的 $C_{M\times M}$ 与 $S_{M\times M}$ 定义方式
 
-| 正交方法 | $\mathtt{Gm}$ 与 $\mathfrak{sm}$ 定义方式 |
+| 正交方法 | $(0.5000)$ 与 $\textcircled{5}\textcircled{7}\textcircled{1}\textcircled{2}\textcircled{1}$ 定义方式 |
 | --- | --- |
-| 施密特正交 | $S_{M\times M}$ 为上三角矩阵 $C_{M\times M}=\ {\cal O}_{M\times M}{\cal D}_{M\times M}^{-1/2}{\cal O}_{M\times M}^{\prime}S_{M\times M}$ |
-| 对称正交 | $C_{M\times M}=\ I_{M\times M}$ |
-|  | $S_{M\times M}=\ O_{M\times M}D_{M\times M}{}^{-1/2}O_{M\times M}{}^{'}$ $C_{M\times M}=\ O_{M\times M}$ |
-| 规范正交 | $S_{M\times M}=\ O_{M\times M}D_{M\times M}{}^{-1/2}$ |
+| 施密特正交 | $S_{M\times M}$ 为上三角矩阵 $C_{M\times M}=~O_{M\times M}D_{M\times M}^{-1/2}{O_{M\times M}}^{\prime}S_{M\times M}$ |
+| 对称正交 | $C_{M\times M}=\;I_{M\times M}$ |
+|  | $S_{M\times M}={O_{M\times M}}{D_{M\times M}}^{-1/2}{O_{M\times M}}^{\prime}$ $C_{M\times M}=\;O_{M\times M}$ |
+| 规范正交 | $S_{M\times M}={O_{M\times M}}{D_{M\times M}}^{-1/2}$ |
 
 资料来源：光大证券研究所
 
@@ -228,13 +228,13 @@ $$
 逻辑回归方法使用Sigmoid函数来归一化回归方程中的预测值Y，使Y的取值保持在（0，1）区间内，从而将分类问题映射到回归方程：
 
 $$
-\mathrm{P}(x_{1})=\frac{e^{w_{0}+w_{1}x_{1}+\dots+w_{p}x_{p}}}{1+e^{w_{0}+w_{1}x_{1}+\dots+w_{p}x_{p}}}
+\mathrm{P}(x_{1})=\frac{e^{w_{0}+w_{1}x_{1}+\cdots+w_{p}x_{p}}}{1+e^{w_{0}+w_{1}x_{1}+\cdots+w_{p}x_{p}}}
 $$
 
 因此回归方程也可以写为：
 
 $$
-\log\left({\frac{P(x)}{1-P(x)}}\right)=w_{0}+w_{1}x_{1}+\cdots+w_{p}x_{p}
+\log\left({\frac{P(x)}{1-P(x)}}\right)=w_{0}+w_{1}x_{1}+\cdots+w_{p}x_{p}.
 $$
 
 逻辑回归相较于线性回归，在处理分类问题时，不易受极端值的影响，可以提高分类的准确率。

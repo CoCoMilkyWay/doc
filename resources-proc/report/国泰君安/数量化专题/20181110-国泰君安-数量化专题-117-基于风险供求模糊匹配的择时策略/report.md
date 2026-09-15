@@ -116,31 +116,31 @@ le_Summary]本篇报告中，我们从供需变化的角度着手，以风险回
 
 ## 2.1.1. 供给端
 
-周夏普比代表当周市场为单位资 $\cdot\dot{\bar{r}}$ 风险提供的实际回报，是风险回报的供给端：
+周夏普比代表当周市场为单位资 $\cdot 产$ 风险提供的实际回报，是风险回报的供给端：
 
 $$
-Sharp\_ratio\ =\frac{E\left(R\right)}{\sigma_{\scriptscriptstyle R}}
+Sharp\;_{-}\;ratio\;=\;\frac{E\left(R\;\right)}{\sigma_{_{R}}}.
 $$
 
-其中 $E\left(R\right)$ 为当周上证综指日收益率的均值， 为当周上证综指日收益 $\sigma_{\textit{ R }}$ 率的标准差。
+其中 $E\left(R\right)$ 为当周上证综指日收益率的均值， 为当周上证综指日收益 $\sigma_{{R}}$ 率的标准差。
 
 ## 2.1.2. 需求端
 
 风险溢价率ERP 为投资者对于资产风险的要求回报，是风险回报的需求端。ERP 可通过DDM模型求得：将资产要求回报率 R拆分为无风险收益率Rf和ERP，以盈利E代替股息D，得到 ERP 如下所示：
 
 $$
-P_{\mathrm{~0~}}=\frac{D_{\mathrm{~1~}}}{R\mathrm{~-~}g}=\frac{D_{\mathrm{~1~}}}{R_{\mathrm{~f~}}+ERP\mathrm{~-~}g}
+P_{_0}=\frac{D_{_1}}{R-g}=\frac{D_{_1}}{R_{_f}+ERP-g}
 $$
 
 $$
-ERP\ =\ \frac{D_{\mathrm{~}_{1}}}{P_{\circ}}+\ g\ -\ R_{\textit{ f }}
+ERP=\frac{D_{_{_{1}}}}{P_{_{0}}}+g-R_{_{f}},
 $$
 
 $$
-\approx\frac{1}{PE}+\ g\ -\ R_{\ f}
+\approx\frac{1}{PE}+g-R_{_{f}}
 $$
 
-其中 $\frac{1}{PE}$ 为上证综指日 PE(ttm)的倒数，g 为滞后一季的 GDP 季度增长率，每季度第一个季月的最后一天更新， $\boldsymbol{R}_{\textit{ f }}$ 为当日十年期国债日到期收益率。以当周日ERP 的均值作为当周的ERP。
+其中 $\frac{1}{PE}$ 为上证综指日 PE(ttm)的倒数，g 为滞后一季的 GDP 季度增长率，每季度第一个季月的最后一天更新， $R_{\mathrm{~}_{f}}$ 为当日十年期国债日到期收益率。以当周日ERP 的均值作为当周的ERP。
 
 ## 2.2. 模型框架
 
@@ -165,23 +165,23 @@ $$
 对于其历史序列在低/中/高各档位上的中心点 vw 的距离（近 60 周 x 的最小/中间/最大值）：
 
 $$
-w_{_\nu}=\nu\Delta+{\bf m}\mathrm{in}(x)\nu=0,1,
+w_{_{\nu}}=\nu\Delta+\mathrm{~m~in}(x)\qquad\nu=0\mathrm{~,~}1\mathrm{~,~}
 $$
 
 $$
-\Delta\ =\ {\frac{\ m\ ax(\ x)-\ m\ in(\ x)}{2}}
+\Delta\;=\;\frac{\mathrm{max}\left(x\right)-\mathrm{min}\left(x\right)}{2}
 $$
 
 其中，档位数v取 0/1/2，对应低/中/高档位。
 
-第二步，模型将当周 x 值与各档中心点的距离转换为各档隶属度 $\mu_{\phantom{x}_{t},\nu}$ 当周x值越接近各档中心点，则x 属于该档的“程度”越高，该档隶属度 $\mu_{\textit{ x }_{t},\nu}$ 越接近于 1。隶属度有内定阈值（通常 0.9），若当周x值与某档位中心点足够接近，使得存在 $\mu_{\mathbf{\Phi}_{x_{t},\nu}}\quad>$ 阈值，则认为当周x属于 v档位，否则认为x状态模糊，不属于任何档位。
+第二步，模型将当周 x 值与各档中心点的距离转换为各档隶属度 $\mu_{{x}_{t},\nu}$ 当周x值越接近各档中心点，则x 属于该档的“程度”越高，该档隶属度 $\mu_{{}_{x_{{}_{t}},{}_{v_{{}_{t}}}}}$ 越接近于 1。隶属度有内定阈值（通常 0.9），若当周x值与某档位中心点足够接近，使得存在 $\mu_{_{\tiny{~x_{_t},\nu~}}}>$ 阈值，则认为当周x属于 v档位，否则认为x状态模糊，不属于任何档位。
 
 $$
-\boldsymbol\mu_{x_{t},\nu}\ :=\ :\mathrm{exp}(\frac{-\left(\boldsymbol x_{t}-\boldsymbol w_{\nu}\right)^{2}}{2\sigma^{2}})
+\mu_{_{x_{_t},v}}=\exp\left(\frac{-(x_{_t}-w_{_v})^{^2}}{2\sigma^{^2}}\right)
 $$
 
 $$
-\sigma={\frac{\Delta}{q}}
+\sigma\;=\;{\frac{\Delta}{q}}
 $$
 
 其中，q为决定钟形隶属函数形状的常数，取2.35。

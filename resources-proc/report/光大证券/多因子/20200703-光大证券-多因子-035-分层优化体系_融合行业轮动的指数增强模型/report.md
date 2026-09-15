@@ -63,7 +63,7 @@ liujunwei@ebscn.com
 1. 确定超/低配调整后的指数内行业权重：通过组合优化，得到指数优化后的行业权重配比。复合指标信息将同时通过参与目标函数及约束条件，来达到信息传递。具体优化模型及参数设置为：
 
 $$
-Minimize_{w}\ \frac{1}{2}w^{T}\varSigma w-w^{T}\mu
+Minimize_{w}\quad\frac{1}{2}w^{T}\Sigma w-w^{T}\mu
 $$
 
 s.t.
@@ -73,7 +73,7 @@ $$
 $$
 
 $$
-\begin{array}{rlr}{{\sum w=1}}\\&{}&{x_{lower\_fix}\le w-w_{bench}\le x_{upper\_fix}}\\&{}&{x_{lower\_dynamiv}\le w-w_{bench}\le x_{upper\_dynamir}}\end{array}
+\begin{aligned}\sum w&=1\\x_{lower\_fix}\leq w-w_{bench}&\leq x_{upper\_fix}\\x_{lower\_dynamic}\leq w-w_{bench}&\leq x_{upper\_dynamic}\end{aligned}
 $$
 
 其中，
@@ -93,7 +93,7 @@ xlower_dynamic 和 xupper_dynamic 分别为行业相对基准基于行业截面�
 2. 按超/低配调整后的行业权重，调整成分股权重：对于每个指数成分股，其权重等于原始权重乘以调整后的行业权重与原始权重的比值。即不改变指数内同一行业的成分股之间的权重比例：
 
 $$
-1)gggrgespace\gamma ogiventof1.3gg-3gg\gamma giventof2.3gg-3gg\gamma giventof3gg-3gg\gamma giventof3gg-3gg\gamma giventof3gg-3gg\gamma giventof4.3gg
+调整后成分股权重=成分股原始权重\times\frac{调整后所属行业权重}{所属行业原始权重}
 $$
 
 ## 1.2、基于复合选股因子优化成分股权重
@@ -101,13 +101,13 @@ $$
 第二层优化运用个股的复合因子得分通过优化器来确定个股持仓权重。这跟目前主流的因子组合优化的操作方式基本相同，唯一不同的地方在于约束条件中行业约束与个股约束中，对应的基准不再是指数原本的配置，而是经过上一节优化后的配置。具体优方式如下：
 
 $$
-Minimize_{w}\ w^{T}\mu
+Minimize_{w}w^{T}\mu
 $$
 
 s.t.
 
 $$
-\begin{array}{c}{{0\leq w\leq1}}\\{{}}\\{}\\{{\displaystyle\sum w=1}}\\{{\displaystyle X_{lower}\leq X(w-w_{bench\_opt})\leq X_{upper}}}\\{{}}\\{{I_{lower}\leq I(w-w_{bench\_opt})\leq I_{upper}}}\\{{}}\\{{\displaystyle x_{lower\_fix}\leq w-w_{bench\_opt}\leq x_{upper\_fix}}}\end{array}
+\begin{aligned}0\leq w&\leq1\\\sum w&=1\\X_{lower}\leq X(w-w_{bench\_opt})&\leq X_{upper}\\I_{lower}\leq I(w-w_{bench\_opt})&\leq I_{upper}\\x_{lower\_fix}\leq w-w_{bench\_opt}&\leq x_{upper\_fix}\end{aligned}
 $$
 
 其中，
@@ -116,11 +116,11 @@ w：个股权重向量；
 
 wbencℎ_opt：经过行业优化后的个股权重向量基准；
 
-$\mu{:}$ 个股复合因子向量 AS；
+$\mu;$ 个股复合因子向量 AS；
 
 X为风格因子暴露矩阵， $X_{lower}$ 和 $X_{upper}$ 分别为上下限；
 
-I为行业哑变量矩阵， $I_{lower}$ 和 $tI_{upper}$ 分别为上下限;
+I为行业哑变量矩阵， $I_{lower}$ 和 $\imath I_{upper}$ 分别为上下限;
 
 xlower_fix 和 xupper_fix 分别为个股权重相对基准的偏离约束.
 
@@ -459,7 +459,7 @@ EBQC 综合质量因子是一个能体现出公司综合质量的复合因子。
 SAMI 行业轮动指标是个复合指标，由多个 SAMI 单指标构成。而对于每个SAMI单指标，其构建逻辑较为简单，即通过将相应成分股因子按照自由流通市值加权的方式映射成行业指标即可。
 
 $$
-SAMI_{t}(sector,alpha)=\sum_{i\in sector}w_{it}*alpha_{it}\ \#
+SAMI_{t}(sector,alpha)=\sum_{i\in sector}w_{it}*alpha_{it}\#
 $$
 
 其中，
@@ -468,7 +468,7 @@ $$
 
 参数 sector 表示行业，alpℎa 表示个股因子；
 
-w 表示权重，对任意 t 与 sector，满足 $\begin{array}{r}{\sum_{i\in sector}w_{it}=1}\end{array}$ C
+w 表示权重，对任意 t 与 sector，满足 $\textstyle\sum_{i\in sector}w_{it}=1$ C
 
 最终的SAMI行业轮动指标是由 6个不同因子映射出的单指标，通过简单等权相加的方式构建而成，具体细分单指标如下表：
 
@@ -502,19 +502,19 @@ ADC_Revise 轮动指标是在 ADC 轮动模型的基础上针对分层优化体�
 - 同时被两个模型推荐：
 
 $$
-Score_{adjust}=\left\{\begin{array}{rlrl}{0,}&{}&{x<0}\\{Score_{origin},}&{}&{x\ge0}\end{array}\right.
+Score_{adjust}=\left\{\begin{matrix}0,&\quad x<0\\Score_{origin},&\quad x\geq0\end{matrix}\right.
 $$
 
 - 仅被一个模型推荐：
 
 $$
-Score_{adjust}=\frac{1}{2}Score_{origin}
+Score_{adjust}=\frac{1}{2}\;Score_{origin}
 $$
 
 - 不被任何一个模型推荐：
 
 $$
-Score_{adjust}=\left\{\begin{array}{rlr}{{Score}_{origin},}&{{}}&{x<0}\\{0,}&{{}}&{x\ge0}\end{array}\right.
+Score_{adjust}=\left\{\begin{aligned}Score_{origin},\quad&\quad x<0\\0,\quad&\quad x\geq0\end{aligned}\right.
 $$
 
 其中：

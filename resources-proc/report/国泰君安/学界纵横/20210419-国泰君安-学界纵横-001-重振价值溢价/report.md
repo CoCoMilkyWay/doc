@@ -158,7 +158,7 @@ Fama and French（1993）使用账面市值比 B/M 和市值指标构造双重�
 将每组中的股票收益率按市值加权得到六个投资组合，并构造 HML 因子
 
 $$
-\mathrm{HML}{=}\frac{1}{2}\left(\mathrm{S}/\mathrm{H}{-}\mathrm{S}/\mathrm{L}\right){+}\frac{1}{2}(\mathrm{B}/\mathrm{H}{-}\mathrm{B}/\mathrm{L})
+\mathrm{HML}=\frac{1}{2}\left(\mathrm{S}/\mathrm{H}-\mathrm{S}/\mathrm{L}\right)+\frac{1}{2}\left(\mathrm{B}/\mathrm{H}-\mathrm{B}/\mathrm{L}\right)
 $$
 
 由上式可以看出，HML定义为小盘HML和大盘HML的等权平均。采用 Prof. Kenneth French 的在线公开数据库中的数据，本文研究了 HML因子在美国，新兴市场和美国外发达国家的表现。
@@ -204,7 +204,7 @@ CMA 真的可以完全替代 HML 吗？本文对此进行了研究。CMA 因子�
 将每组中的股票收益率按市值加权得到六个投资组合，并构造 CMA 因子
 
 $$
-\mathbf{CMA}{=}{\textstyle{\frac{1}{2}}}(\mathbf{S}/\mathbf{C}{-}\mathbf{S}/\mathbf{A}){+}{\textstyle{\frac{1}{2}}}(\mathbf{B}/\mathbf{C}{-}\mathbf{B}/\mathbf{A})
+\mathrm{CMA}=\frac{1}{2}(\mathrm{S}/\mathrm{C}-\mathrm{S}/\mathrm{A})+\frac{1}{2}(\mathrm{B}/\mathrm{C}-\mathrm{B}/\mathrm{A})
 $$
 
 类似HML，CMA 定义为小盘CMA 和大盘CMA的等权平均。
@@ -349,7 +349,7 @@ NPY(net payout yield)：净支付率=（股利$+股票回购$-股票发行$）/�
 
 表 7：增强价值因子收益对估值差异变化的回归结果5
 
-| 市场 | 指标 | Return adj.(ann.) | Beta ∆spread | ${\mathrm{Adj}}.R^{2}$ |
+| 市场 | 指标 | Return adj.(ann.) | Beta ∆spread | $\mathsf{Adj.}\pmb{R}^{2}$ |
 | --- | --- | --- | --- | --- |
 | US | estimate | 7.93*** | -0.70** | 56% |
 |  | t-statistic | (4.16) | (-5.59) |  |

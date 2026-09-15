@@ -100,19 +100,19 @@ GAN 的潜在应用场景包括数据增强、检测过拟合等方面，在各�
 市场组合是这样一种投资组合：给定资产组成，市场组合在不同权重的投资组合中，具有最高的夏普比率（Makowitz, 1959）。记 r为资产收益率向量，Σ为资产协方差矩阵，w为各资产的权重向量，rf为无风险利率。如果我们以方差（或标准差）来度量投资组合的风险，则投资组合的整体收益和风险分别为：
 
 $$
-\begin{array}{c}{{r_{p}=w^{\prime}r}}\\{{\sigma_{p}^{2}=w^{\prime}\Sigma w}}\end{array}
+\begin{array}{c}{{r_{p}=\boldsymbol{w}^{\prime}\boldsymbol{r}}}\\{{\sigma_{p}^{2}=\boldsymbol{w}^{\prime}\boldsymbol{\varSigma}\boldsymbol{w}}}\end{array}
 $$
 
 投资组合的夏普比率等于：
 
 $$
-SR=\frac{r_{p}-r_{f}}{\sigma_{p}}=\frac{w^{\prime}r-r_{f}}{\sqrt{w^{\prime}\Sigma w}}
+\frac{r_{p}-r_{f}}{\sigma_{p}}=\frac{w^{\prime}r-r_{f}}{\sqrt{w^{\prime}\Sigma w}}
 $$
 
 根据市场组合的定义，市场组合中各资产权重就是以下优化问题的解：
 
 $$
-\begin{array}{c}{{\displaystyle\operatorname*{argmax}_{w}\frac{w^{\prime}r-r_{f}}{\sqrt{w^{\prime}\Sigma w}}}}\\{{\displaystyle s.t.\sum_{i=1}^{K}w_{i}=1}}\\{{0\le w_{i}\le1,i=1,2,\ldots,K}}\end{array}
+\begin{aligned}\underset{\boldsymbol{w}}{\arg\max}\frac{\boldsymbol{w}^{\prime}\boldsymbol{r}-\boldsymbol{r}_{f}}{\sqrt{\boldsymbol{w}^{\prime}\boldsymbol{\Sigma}\boldsymbol{w}}}\\s.t.\sum_{i=1}^{K}&w_{i}=1\\0\leq w_{i}\leq1,i=1,2,\ldots,K\end{aligned}
 $$
 
 ## 风险平价模型
@@ -123,22 +123,22 @@ $$
 MRC_{i}=\frac{\partial\sigma_{p}}{\partial w_{i}}=\frac{[\pmb{\Sigma}\pmb{w}]_{i}}{\sigma_{p}}
 $$
 
-资产i的风险贡献率等于边际风险乘以资 $\dot{\bar{y}}$ i的权重，再除以投资组合的整体风险：
+资产i的风险贡献率等于边际风险乘以资 $产$ i的权重，再除以投资组合的整体风险：
 
 $$
-RC_{i}=\frac{w_{i}*MRC_{i}}{\sigma_{p}}=\frac{w_{i}[\boldsymbol{\Sigma}\boldsymbol{w}]_{i}}{\boldsymbol{w}^{\prime}\boldsymbol{\Sigma}\boldsymbol{w}}
+RC_{i}=\frac{w_{i}*MRC_{i}}{\sigma_{p}}=\frac{w_{i}[\Sigma w]_{i}}{w^{\prime}\Sigma w}
 $$
 
 根据风险平价组合的定义，风险平价组合中各资产权重需要满足的条件为：
 
 $$
-\frac{w_{i}[\boldsymbol{\Sigma}w]_{i}}{w^{\prime}\Sigma w}=\frac{1}{K},i=1,2,\dots,K
+\frac{w_{i}[\Sigma w]_{i}}{w^{\prime}\Sigma w}=\frac{1}{K},i=1{,}2,\ldots,K
 $$
 
 该方程组通常难以求得解析解，因此需要将其转化为以下优化问题：
 
 $$
-\begin{array}{c}{\underset{w}{\mathrm{argmin}}\displaystyle\sum_{i}\left(\frac{w_{i}\left[\boldsymbol{\Sigma}\boldsymbol{w}\right]_{i}}{w^{\prime}\boldsymbol{\Sigma}w}-\frac{1}{K}\right)^{2}}\\{s.t.\displaystyle\sum_{i=1}^{K}w_{i}=1,0\leq w_{i}\leq1,i=1,2,\ldots,K}\end{array}
+\begin{aligned}\underset{\boldsymbol{w}}{\arg\min}\sum_{\boldsymbol{w}}\left(\frac{\boldsymbol{w}_{i}[\boldsymbol{\Sigma}\boldsymbol{w}]_{i}}{\boldsymbol{w}^{\prime}\boldsymbol{\Sigma}\boldsymbol{w}}-\frac{1}{K}\right)^{2}\\s.t.\sum_{i=1}^{K}\boldsymbol{w}_{i}=1,0\leq\boldsymbol{w}_{i}\leq1,i=1,2,\ldots,K\end{aligned}
 $$
 
 该优化问题可用循环坐标下降（Cyclic Coordinate Descent，简称 CCD）算法求解，详见华泰金工研报《行业轮动系列之七：“华泰周期轮动”基金组合改进版》（2019-05-14）。
@@ -159,23 +159,23 @@ $$
 
 著名的蒙提霍尔问题（三门问题）是应用贝叶斯思想解决的典型案例：最初，玩家面对三扇关闭的门，其中一扇门的后面是一辆汽车，另外两扇门后面没有任何奖品。当玩家选定了一扇门（假定是 a 门）之后，主持人将开启剩下两扇门的其中一扇（假定是 c门），里面没有任何奖品。此时玩家面临的问题是：是否应该更换最初的选择，而选择 b门？
 
-从直觉上来看，在剩下的两扇门中选择任何一扇门都有 50%的概率中奖。设在不更换选择（仍然选择 a门）的情况下中奖为事件 A，在更换选择（选择 b门）的情况下中奖为事件 B，根据直觉，玩家的先验分布为 $\mathsf{P}(\mathsf{A})=\mathsf{P}(\mathsf{B})=0.5.$ 。然而，主持人的行为为玩家提供了信息。设主持人为了给玩家展示一扇空门而选择 c 门为事件 C。假设事件 A 发生，那么主持人可以随机在 b 门和 c 门中开一扇向玩家展示，事件 C发生的条件概率 $\mathsf{P}(\mathsf{C}|\mathsf{A}){=}0.5$ ；假设事件B发生，那么主持人只能将 c 门打开，事件 C 发生的条件概率 $\mathsf{P}(\mathsf{C}|\mathsf{B})=1$ o
+从直觉上来看，在剩下的两扇门中选择任何一扇门都有 50%的概率中奖。设在不更换选择（仍然选择 a门）的情况下中奖为事件 A，在更换选择（选择 b门）的情况下中奖为事件 B，根据直觉，玩家的先验分布为 $\mathsf{P}(\mathsf{A})=\mathsf{P}(\mathsf{B})=0.5.$ 。然而，主持人的行为为玩家提供了信息。设主持人为了给玩家展示一扇空门而选择 c 门为事件 C。假设事件 A 发生，那么主持人可以随机在 b 门和 c 门中开一扇向玩家展示，事件 C发生的条件概率 $\mathsf{P}(\mathsf{C}|\mathsf{A})=0.5$ ；假设事件B发生，那么主持人只能将 c 门打开，事件 C 发生的条件概率 $P(C|B)=1$ o
 
 根据贝叶斯公式可知，如果玩家能够利用主持人提供的信息及时修正先验分布，更换选择，那么中奖的概率将增大：
 
 $$
-{\frac{P(B|C)}{P(A|C)}}={\frac{P(C|B)P(B)}{P(C|A)P(A)}}=2
+\frac{P(B|C)}{P(A|C)}=\frac{P(C|B)P(B)}{P(C|A)P(A)}=2
 $$
 
 为了将这种思想应用于风险管理，同时将资产价格序列中蕴含的非线性信息体现在对风险的度量中，本文尝试使用 cGAN 来重新定义风险，如图表 1 所示。市场未来运行状态由隐空间中的状态 z决定，z无法预知，因此资产未来收益率存在不确定性，即风险。z的分布即先验分布 p(z)，一般用标准多元正态分布 N(0,I)刻画。
 
-我们基于历史信息，对 z的先验分布进行修正。记条件序列为 $\mathsf{R}_{\mathsf{W}}$ ，代表历史信息；记对照序列为 $\mathsf{RT}_{:}$ ，代表未来信息。我们将两者之间的映射关系记作 ${\sf Rw}^{}{\sf R}\tau$ ，并将这种关系在特定市场状况下的分布（即市场规律）记作 $\mathsf{p}(\mathsf{Rw{\mathrm{-}}R}\tau|z)$ 。以一系列 RW→RT|z 的样本对 cGAN开展半监督学习。通过反向传播算法，得到 z 的后验分布 p(z|RW→RT|)。整个半监督学习的过程可以用贝叶斯公式描述：
+我们基于历史信息，对 z的先验分布进行修正。记条件序列为 $\mathsf{Rw}$ ，代表历史信息；记对照序列为 $\mathsf{R}\tau,$ ，代表未来信息。我们将两者之间的映射关系记作 $\mathsf{R}_{\mathsf{W}}{\rightarrow}\mathsf{R}_{\mathsf{T}}$ ，并将这种关系在特定市场状况下的分布（即市场规律）记作 $\mathsf{p}(\mathsf{R}_{\mathsf{W}}{\to}\mathsf{R}_{\mathsf{T}}|\mathsf{Z})$ 。以一系列 RW→RT|z 的样本对 cGAN开展半监督学习。通过反向传播算法，得到 z 的后验分布 p(z|RW→RT|)。整个半监督学习的过程可以用贝叶斯公式描述：
 
 $$
-p(z|R_{W}R_{T})\propto p(R_{W}R_{T}|z)p(z)
+p(\boldsymbol{z}|\boldsymbol{R}_{W}\rightarrow\boldsymbol{R}_{T})\propto p(\boldsymbol{R}_{W}\rightarrow\boldsymbol{R}_{T}|\boldsymbol{z})p(\boldsymbol{z})
 $$
 
-给定一组新的 $\mathsf{R}_{\mathsf{W}}$ ，我们对 $\mathsf{p}(z|\mathsf{Rw}\to\mathsf{R}_{\mathsf{T}})$ 进行随机采样，经过 cGAN 的一系列线性和非线性变换，预测出不同的 $\mathsf{R}\tau$ ，据此可以近似拟合 $\mathsf{R}_{\mathsf{T}}$ 的后验分布。我们可以根据 $\mathsf{R}\tau$ 的后验分布来估计未来时期 T 的资产协方差矩阵。此外，cGAN 基于深度神经网络构建，能够提取出$\mathsf{R}_{\mathsf{W}}$ 中蕴含的非线性信息。综上所述，cGAN 克服了传统方法的三大缺陷。
+给定一组新的 $\mathsf{Rw}$ ，我们对 $\mathsf{p}(\mathsf{z}|\mathsf{R}_{\mathsf{W}}{\to}\mathsf{R}_{\mathsf{T}})$ 进行随机采样，经过 cGAN 的一系列线性和非线性变换，预测出不同的 $\mathsf{Rr}$ ，据此可以近似拟合 $\mathsf{Rr}$ 的后验分布。我们可以根据 $\mathsf{Rr}$ 的后验分布来估计未来时期 T 的资产协方差矩阵。此外，cGAN 基于深度神经网络构建，能够提取出$\mathsf{Rw}$ 中蕴含的非线性信息。综上所述，cGAN 克服了传统方法的三大缺陷。
 
 图表1： 频率学派视角与贝叶斯学派视角下的风险定义对比
 ![](images/b0a969d1f0032952d48e3122dd527fea625c76f0480567106d7dd0608fd7ad27.webp)
@@ -193,7 +193,7 @@ GAN 和 cGAN 的区别在于，除了以随机数为输入之外，cGAN 还需�
 
 ## 条件生成器的基本结构及参数
 
-条件生成器网络采用类似于自编码器的结构，如图表 2所示。首先，K个资产长度为W 的条件序列矩阵 M 被排列为长度为 W、通道数为 K 的形式，通过一维卷积层和全连接层的作用，每个资产的特征数均被降维至 6。然后，提取的特征序列与相同长度的随机数序列拼接，使每个资产维度均达到 12。最后，拼接序列通过全连接层和转置卷积层的作用，被升维至长度为 T、通道数为 K的生成序列矩阵 $\widetilde{\mathbf{M}}_{\mathrm{f}^{\circ}}$ 。其中，每一通道代表一种资产的生成序列。转置卷积的概念请参考华泰金工研报《人工智能 44：深度卷积 GAN 实证》（2021-04-13）。
+条件生成器网络采用类似于自编码器的结构，如图表 2所示。首先，K个资产长度为W 的条件序列矩阵 M 被排列为长度为 W、通道数为 K 的形式，通过一维卷积层和全连接层的作用，每个资产的特征数均被降维至 6。然后，提取的特征序列与相同长度的随机数序列拼接，使每个资产维度均达到 12。最后，拼接序列通过全连接层和转置卷积层的作用，被升维至长度为 T、通道数为 K的生成序列矩阵 $\cdot\widetilde{\mathbf{M}}_{\mathbf{f}^{\circ}}$ 。其中，每一通道代表一种资产的生成序列。转置卷积的概念请参考华泰金工研报《人工智能 44：深度卷积 GAN 实证》（2021-04-13）。
 
 图表2： 条件生成器网络的基本结构
 ![](images/f1824b6eb873f46cbbc7d1553f9d1c3aed77711e98570bd7c0766fb93bba1ad0.webp)
@@ -210,11 +210,11 @@ GAN 和 cGAN 的区别在于，除了以随机数为输入之外，cGAN 还需�
 条件生成器网络的结构参数详见图表 3。其中，步长为 2 的卷积核能够在提取序列特征时保证时序因果关系，与时间卷积网络（详见附录）有异曲同工之妙。需要注意的是，无论是时间序列维度还是截面维度，资产的收益率和波动率均可能存在较大差异，易造成训练过程中梯度剧烈变化，导致模型收敛困难。对此，在训练之前，我们还需要对输入数据进行标准化，具体做法是采用 3σ 标准化。对于每一种资产的对数收益率序列 x，我们首先对其减去均值，然后除以三倍标准差，使绝大部分数值在-1和 1 之间；相应地，对于生成序列ỹ ，我们再使用条件序列的均值和标准差对其进行反标准化：
 
 $$
-x_{t}\frac{x_{t}-\bar{x}_{t}}{3\sigma(x_{t})}
+x_{t}\rightarrow\frac{x_{t}-\bar{x}_{t}}{3\sigma(x_{t})}
 $$
 
 $$
-\tilde{y}_{t}3\tilde{y}_{t}\sigma(x_{t})+\bar{x}_{t}
+\tilde{y}_{t}\rightarrow3\tilde{y}_{t}\sigma(x_{t})+\bar{x}_{t}
 $$
 
 图表3： 条件生成器网络结构参数说明
@@ -255,13 +255,13 @@ $$
 cGAN 的训练过程与普通的 GAN 相同，即条件判别器和条件生成器的训练交替进行。原始GAN存在训练不稳定、模式崩溃等问题（Goodfellow et al.，2014），对此本文采用WGAN-GP中使用的损失函数（Gulrajani et al.，2017）。WGAN-GP 在华泰金工前期研报《人工智能35：WGAN 应用于金融时间序列生成》（2020-08-28）已有介绍。记 G为条件生成器函数，是随机数序列的函数，输出生成序列；D为条件生成器函数，以对照序列或者生成序列为输入，输出判别值；p(z)为随机数序列先验概率密度分布；p(data)为真实序列的概率密度分布。条件生成器的目标是“欺骗”条件判别器，“想方设法”让条件判别器给予生成序列尽可能大的判别值。对于小批次训练来说，条件生成器的目标等于最大化期望判别值，如下式所示：
 
 $$
-\operatorname*{max}_{G}\mathbb{E}_{z\sim p(z)}\big[D\big(G(z)\big)\big]
+\operatorname*{max}_{G}\mathbb{E}_{\mathbf{z}\sim p(\mathbf{z})}[D(G(\mathbf{z}))]
 $$
 
 条件判别器的目标是尽可能地区分对照序列和生成序列，给予对照序列尽可能大的判别值，给予生成序列尽可能小的判别值，等价于最大化对照序列判别值和生成序列判别值之差，即 Wasserstein 距离（Arjovsky et al., 2017）。这便是 WGAN 中“W”的来源。此外，为了获得稳定的梯度分布，WGAN-GP 进一步在 Wasserstein 距离的基础上增加了梯度惩罚项。梯度惩罚项基于判别值对输入序列的平均梯度构建，旨在将梯度大小控制在一定范围内，既不会导致梯度爆炸，也不会导致梯度消失，其中，ϵ~U(0,1)。至此，对于小批次训练来说，条件判别器的目标可用下式表达：
 
 $$
-\operatorname*{max}_{D}\mathbb{E}_{\boldsymbol{x}\sim p(data)}[D(\boldsymbol{x})]-\mathbb{E}_{\boldsymbol{z}\sim p(\boldsymbol{z})}\big[D\big(G(\boldsymbol{z})\big)\big]-\lambda\mathbb{E}_{\boldsymbol{\overline{{x}}}\sim p(\boldsymbol{\epsilon}data+(1-\boldsymbol{\epsilon})G(\boldsymbol{z}))}[\|\nabla_{\boldsymbol{\bar{x}}}D(\boldsymbol{\overline{{x}}})\|_{2}-1]^{2}
+\max_{D}\mathbb{E}_{\boldsymbol{x}\sim p(\boldsymbol{d}\boldsymbol{a}\boldsymbol{t}\boldsymbol{a})}[D(\boldsymbol{x})]-\mathbb{E}_{\boldsymbol{z}\sim p(\boldsymbol{z})}[D(G(\boldsymbol{z}))]-\lambda\mathbb{E}_{\boldsymbol{x}\sim p(\boldsymbol{e}\boldsymbol{d}\boldsymbol{a}\boldsymbol{t}\boldsymbol{a}+(1-\epsilon)G(\boldsymbol{z}))}[\|\nabla_{\boldsymbol{x}}D(\boldsymbol{x})\|_2-1]^2
 $$
 
 在使用 pytorch 等深度学习框架对其进行训练时，由于优化器默认使用随机梯度下降算法开展损失函数的最小化，因此相关的损失函数需要取相反数。需要注意的是，条件判别器不能使用批标准化，一方面是因为条件判别器需要独立评价每个样本的真实性，另一方面是因为 WGAN-GP 对小批次中的每个样本独立地施加梯度惩罚，而批标准化会引入样本之间的相互依赖关系。其它训练参数详见图表 6。
@@ -290,17 +290,17 @@ $$
 R_{T}=e^{\sum_{t=1}^{T}[log(P_{t})-log(P_{t-1})]}-1
 $$
 
-对于资产 k，我们可以计算 n 个 T 日收益率的预测值 $\{R_{k}^{1},R_{k}^{2},\dots,R_{k}^{n}\}$ ，该结果近似代表了资产 k 未来 T 日收益率的后验分布 $\widetilde{R}_{k}.$ 。最后，基于各资产的 T 日收益率后验分布，容易估计未来 T 日的资产协方差矩阵：
+对于资产 k，我们可以计算 n 个 T 日收益率的预测值 $.\{R_{k}^{1},R_{k}^{2},\ldots,R_{k}^{n}\}$ ，该结果近似代表了资产 k 未来 T 日收益率的后验分布 $\widetilde{\pmb{R}}_{\pmb{k}},$ 。最后，基于各资产的 T 日收益率后验分布，容易估计未来 T 日的资产协方差矩阵：
 
 $$
-\widetilde{\pmb{\Sigma}}_{T}=\left[\begin{array}{cccc}{var(\widetilde{R}_{1})}&{cov\big(\widetilde{R}_{1},\widetilde{R}_{2}\big)}&{\cdots}&{cov\big(\widetilde{R}_{1},\widetilde{R}_{K}\big)}\\{cov\big(\widetilde{R}_{2},\widetilde{R}_{1}\big)}&{var(\widetilde{R}_{2})}&{\cdots}&{cov\big(\widetilde{R}_{2},\widetilde{R}_{K}\big)}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{cov\big(\widetilde{R}_{K},\widetilde{R}_{1}\big)}&{cov\big(\widetilde{R}_{K},\widetilde{R}_{2}\big)}&{\cdots}&{var(\widetilde{R}_{K})}\end{array}\right]
+\widetilde{\boldsymbol{\Sigma}}_{T}=\begin{bmatrix}var(\widetilde{\boldsymbol{R}}_{1})&cov(\widetilde{\boldsymbol{R}}_{1},\widetilde{\boldsymbol{R}}_{2})&\cdots&cov(\widetilde{\boldsymbol{R}}_{1},\widetilde{\boldsymbol{R}}_{K})\\cov(\widetilde{\boldsymbol{R}}_{2},\widetilde{\boldsymbol{R}}_{1})&var(\widetilde{\boldsymbol{R}}_{2})&\cdots&cov(\widetilde{\boldsymbol{R}}_{2},\widetilde{\boldsymbol{R}}_{K})\\\vdots&\vdots&\ddots&\vdots\\cov(\widetilde{\boldsymbol{R}}_{K},\widetilde{\boldsymbol{R}}_{1})&cov(\widetilde{\boldsymbol{R}}_{K},\widetilde{\boldsymbol{R}}_{2})&\cdots&var(\widetilde{\boldsymbol{R}}_{K})\end{bmatrix}
 $$
 
 ## 随机数序列的生成
 
-使 $\widetilde{R}_{k}$ 尽可能接近真实的 T 日收益率后验分布的前提是，在随机数序列的先验空间进行随机采样时，要尽可能使样本均匀分布在整个概率空间[0,1]6K。然而，蒙特卡洛采样的结果容易受随机数种子的影响，当 n 不是非常大时，采样结果的均匀性可能并是不特别理想，将导致重复实验的结果产生较大差异。
+使 $|\widetilde{\boldsymbol{R}}_{k}|$ 尽可能接近真实的 T 日收益率后验分布的前提是，在随机数序列的先验空间进行随机采样时，要尽可能使样本均匀分布在整个概率空间[0,1]6K。然而，蒙特卡洛采样的结果容易受随机数种子的影响，当 n 不是非常大时，采样结果的均匀性可能并是不特别理想，将导致重复实验的结果产生较大差异。
 
-自然而然能想到的一种解决方式是网格采样法，具体做法是：首先对概率空间的每一维度进行 s 等分，从而将整个 d 维概率空间划分为了 sd个边长为 1/s 的超立方体，然后再对每个超立方体进行蒙特卡洛采样，最终将得到 sd 组样本。不难理解，s 越大，概率空间被划分得越细，采样结果越接近真实分布。但是，这种做法面临“维度的诅咒”。以三资产场景为例，输入条件生成器的随机数高达 18 维，即使对每一维度只进行二等分，采样次数也将高达 $2^{18}{\approx}3\times10^{5}$ ，更何况二等分无法保证采样均匀性。因此，由于采样效率限制，网格采样只适合低维简单的应用场景。
+自然而然能想到的一种解决方式是网格采样法，具体做法是：首先对概率空间的每一维度进行 s 等分，从而将整个 d 维概率空间划分为了 sd个边长为 1/s 的超立方体，然后再对每个超立方体进行蒙特卡洛采样，最终将得到 sd 组样本。不难理解，s 越大，概率空间被划分得越细，采样结果越接近真实分布。但是，这种做法面临“维度的诅咒”。以三资产场景为例，输入条件生成器的随机数高达 18 维，即使对每一维度只进行二等分，采样次数也将高达 $2^{18}{\approx}3{\times}10^{5}$ ，更何况二等分无法保证采样均匀性。因此，由于采样效率限制，网格采样只适合低维简单的应用场景。
 
 对此，本文使用一种更高效的随机采样方法——拉丁超立方采样来估计资产协方差矩阵。与网格采样相同的是，拉丁超立方采样同样需要对概率空间的每一维度进行 s 等分；与网格采样不同的是，拉丁超立方采样并不对每个超立方体都进行蒙特卡洛采样，而是只对其中 s 个超立方体进行采样，且采样的结果需满足类似“数独”的规则，即正交于任何轴的任一超平面最多只有一个样本，从而将采样复杂度从 O(sd)降低至 O(s)。
 
@@ -350,7 +350,7 @@ $$
 $$
 
 $$
-AC=\frac{1}{k}\sum_{s=1}^{k}\rho_{s}
+AC={\frac{1}{k}}{\sum}_{s=1}^{k}\rho_{s}
 $$
 
 自相关性衡量了收益率序列是否存在自回归（Autoregressive, AR）的成分。如果收益率序列存在 AR 的成分，那么自相关系数将随着滞后阶数的增加呈现拖尾的特征，使自相关性指标显著不为 0。在弱有效市场中，如果不考虑资产收益的再投资，那么收益率序列不存在自相关，该指标接近 0；如果考虑收益的再投资，那么该指标应大于 0。
@@ -376,17 +376,17 @@ $$
 $$
 
 $$
-PAC=\frac{1}{k}\sum_{s=1}^{k}\varphi_{ss}
+PAC=\frac{1}{k}{\sum}_{s=1}^{k}\varphi_{ss}
 $$
 
-偏自相关系数 $\varphi\mathsf{ss}$ 评价了 rt和 $\mathsf{r}_{\mathsf{t+S}}$ 在排除了 $\mathsf{r}_{\mathsf{t}+\mathsf{1}}$ 至 rt+s-1影响后的相关性。偏自相关性衡量了收益率序列是否存在滑动平均（Moving Average, MA）的成分。如果收益率序列存在 MA的成分，那么偏自相关系数将随着滞后阶数的增加呈现拖尾的特征，使偏自相关性指标显著不为 $0_{\circ}$ 在弱有效市场中，如果不考虑资产收益的再投资，那么收益率序列不存在偏自相关，该指标接近 0；如果考虑收益的再投资，那么该指标应大于 0。
+偏自相关系数 $\Phi\mathrm{ss}$ 评价了 rt和 $r_{t+s}$ 在排除了 $\Gamma(+1$ 至 rt+s-1影响后的相关性。偏自相关性衡量了收益率序列是否存在滑动平均（Moving Average, MA）的成分。如果收益率序列存在 MA的成分，那么偏自相关系数将随着滞后阶数的增加呈现拖尾的特征，使偏自相关性指标显著不为 $0_{\circ}$ 在弱有效市场中，如果不考虑资产收益的再投资，那么收益率序列不存在偏自相关，该指标接近 0；如果考虑收益的再投资，那么该指标应大于 0。
 
 ## 非正态性
 
 对于真实序列而言，资产收益率通常不服从正态分布，一是呈现厚尾，二是呈现右偏，这是因为“黑天鹅”事件发生的频率更高。不过，由于随机数序列出现重大利好环境和出现重大利空环境的概率是相等的，因此我们对生成序列的要求从右偏放宽到有偏。其中，厚尾可用峰度（kurtosis）评价，有偏可用偏度（skewness）评价。Jarque-Bera统计量同时考虑了峰度和偏度，我们据此构建非正态性指标。首先，偏度和峰度计算公式如下：
 
 $$
-\begin{array}{l}{Skew=\displaystyle\frac{E[(r_{t}-\mu)^{3}]}{\sigma^{3}}}\\{Kurt=\displaystyle\frac{E[(r_{t}-\mu)^{4}]}{\sigma^{4}}}\end{array}
+\begin{aligned}&Skew=\frac{E[(r_t-\mu)^3]}{\sigma^3}\\&Kurt=\frac{E[(r_t-\mu)^4]}{\sigma^4}\\\end{aligned}
 $$
 
 Jarque-Bera统计量基于偏度和峰度计算：
@@ -412,7 +412,7 @@ $$
 平均波动率指标等于 vol 的中位数，衡量了资产收益率在较长时期内的平均波动水平：
 
 $$
-\overline{{vol}}=median(vol_{t})
+\overline{vol}=median(vol_{t})
 $$
 
 实证检验表明，权益类资产的平均波动率一般大于债权类资产的平均波动率。
@@ -432,11 +432,11 @@ $$
 定义过去 5 个交易日的区间收益率（即周收益率）的绝对值为粗波动率，定义过去 5 个交易日的日收益率绝对值之和为细波动率，粗细波动率相关指标使用粗波动率领先细波动率 5阶（可视作一周）的相关系数以及粗波动率滞后细波动率 5 阶的相关系数之差定义：
 
 $$
-v_{c}^{\tau}(t)=\left|et{}{'}\sum_{i=1}r_{t-i}\right|
+v_{c}^{\tau}(t)=\biggl|{\sum}_{i=1}^{\tau}r_{t-i}\biggr|.
 $$
 
 $$
-v_{f}^{\tau}(t)=\sum_{i=1}^{\tau}|r_{t-i}|
+v_{f}^{\tau}(t)={\sum}_{i=1}^{\tau}|r_{t-i}|
 $$
 
 $$
@@ -450,13 +450,13 @@ $$
 平均交叉相关性是单资产自相关性在两资产场景下的推广，衡量了一段较长时期内两种资产的平均相关关系。我们首先两种资产收益率序列的相关系数：
 
 $$
-corr_{-}0_{ij}=\frac{E\big[(r_{i}^{t}-\mu_{i})\big(r_{j}^{t}-\mu_{j}\big)\big]}{\sigma_{i}\sigma_{j}}
+corr\_0_{ij}=\frac{E\big[(r_{i}^{t}-\mu_{i})\big(r_{j}^{t}-\mu_{j}\big)\big]}{\sigma_{i}\sigma_{j}}
 $$
 
 然后，考虑到两资产之间可能存在资产 i影响资产j 的价格走势或者资产j影响资产 i的价格走势的关系，我们仿照单资产滞后 k 阶自相关系数的计算方式，计算两种资产收益率序列的 k 期时滞交叉相关系数：
 
 $$
-corr_{-}k_{ij}=\frac{E\big[\big(r_{i}^{t+k}-\mu_{i}\big)\big(r_{j}^{t}-\mu_{j}\big)\big]}{\sigma_{i}\sigma_{j}}
+corr\_k_{ij}=\frac{E\big[\big(r_{i}^{t+k}-\mu_{i}\big)\big(r_{j}^{t}-\mu_{j}\big)\big]}{\sigma_{i}\sigma_{j}}
 $$
 
 $$
@@ -464,13 +464,13 @@ corr\_k_{ji}=\frac{E\big[(r_{i}^{t}-\mu_{i})\big(r_{j}^{t+k}-\mu_{j}\big)\big]}{
 $$
 
 $$
-\overline{{corr\_k}}_{ij}=\frac{corr\_k_{ij}+corr\_k_{ji}}{2}
+\frac{\overline{corr_{-}k}_{ij}}{}=\frac{corr_{-}k_{ij}+error_{-}k_{ji}}{2}
 $$
 
 平均交叉相关性指标用相关系数和 k 期时滞交叉相关系数（本研究取 k=1）定义：
 
 $$
-\overline{{corr}}_{ij}=\frac{corr_{-}0_{ij}+\sum_{s=1}^{k}\overline{{corr_{-}k}}_{ij}}{k+1}
+\frac{\overline{corr_{ij}}=\frac{corr_{-}0_{ij}+\sum_{s=1}^{k}\overline{corr_{-}k}_{ij}}{k+1}}{}
 $$
 
 如果平均交叉相关性指标显著大于 0，表明两种资产的收益率序列长期呈现正相关关系；如果平均交叉相关性指标显著小于 0，表明两种资产的收益率序列长期呈现负相关关系；如果平均交叉相关性指标接近 0，表明两种资产的收益率序列不存在长期相关关系。
@@ -482,13 +482,13 @@ $$
 为了获得相关系数分布，我们采用与计算平均波动率指标相似的方式。取窗口宽度等于生成序列长度 T，移动步长取 1，将移动窗口分别作用于资产 i 和资产 j 的全收益率序列，得到一系列长度为 T 的收益率子序列，我们依次计算每一个移动窗口内两资产收益率子序列的相关系数，从而得到相关系数分布：
 
 $$
-corr_{-}0_{ij}^{t}=\frac{E\big[(r_{i}^{t}-\mu_{i}^{t})\big(r_{j}^{t}-\mu_{j}^{t}\big)\big]}{\sigma_{i}^{t}\sigma_{j}^{t}}
+corr\_0_{ij}^{t}=\frac{E\left[\left(r_{i}^{t}-\mu_{i}^{t}\right)\left(r_{j}^{t}-\mu_{j}^{t}\right)\right]}{\sigma_{i}^{t}\sigma_{j}^{t}}
 $$
 
 于是，相关关系不稳定性指标是：
 
 $$
-\Delta corr_{ij}=\mathrm{percentile}\left(corr_{-}0_{ij}^{t},0.75\right)-\mathrm{percentile}\left(corr_{-}0_{ij}^{t},0.25\right)
+\Delta corr_{ij}=\mathrm{percentile}\left(corr\_0_{ij}^{t},0.75\right)-\mathrm{percentile}\left(corr\_0_{ij}^{t},0.25\right)
 $$
 
 相关关系不稳定性指标越大，表明在较长时期内，两资产之间的短期相关关系越不稳定。

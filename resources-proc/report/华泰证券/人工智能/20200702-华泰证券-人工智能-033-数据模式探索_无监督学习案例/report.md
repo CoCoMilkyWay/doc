@@ -199,7 +199,7 @@ liziyu@htsc.com
 本章中，我们将对股票按照所属产业概念进行聚类，以观察 A股概念的分布情况，股票的概念数据来自于 Wind。从图表 10 可知，聚类算法的模型输入是样本间的相似度或距离，我们使用股票概念的余弦相似度来衡量股票的相似度：
 
 $$
-\mathit{Similarity}(A,B)=\frac{|A\cap B|}{\sqrt{|A|*|B|}}
+Similarity(A,B)={\frac{|A\cap B|}{\sqrt{|A|*|B|}}}
 $$
 
 其中 A 为股票 1 所属概念集合，B为股票 2 所属概念集合。例如股票 1 所属概念集合为：{干细胞;肺炎概念;创新药;生物疫苗;国产化创新;大消费}，股票 2 所属概念集合为：{大消费;国产化创新;流感;肺炎概念;生物疫苗;血液制品;创新药}，则它们的余弦相似度为：
@@ -207,19 +207,19 @@ $$
 Sim(股票 1, 股票 2)
 
 $$
-=\begin{array}{cl}{\displaystyle}&\displaystyle=\frac{length\{\ddot{\beta}\}\dot{\beta}\dot{\xi}\cdot\overrightarrow{\beta}\dot{\xi}\cdot\overrightarrow{\beta}\dot{\xi}\}\ \frac{\dot{\beta}\dot{\xi}}{(\dot{\bf{z}}\cdot\overrightarrow{\beta})\dot{\xi}\dot{\xi}};\ \frac{\dot{\beta}\dot{\xi}}{2}\sqrt{2\dot{\gamma}\dot{\beta}\dot{\xi}}\ \frac{\dot{\alpha}\dot{\beta}}{\mathrm{Re}};\ \frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}};\ \frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}}\{\dot{\beta}\}\dot{\eta};\ \dot{\xi}\frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}}\frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}}\frac{\dot{\beta\xi}}{\mathrm{\beta}}\ \frac{\dot{\beta}\dot{\xi}}{\mathrm{\beta}}}\\{\displaystyle}&\displaystyle=\frac length\{\ddot{\beta}\}\big\{\dot{\beta}\dot{\xi}\cdot\dot{\bf{z}}\ \ \ddot{\beta}\big\}\dot{\xi}\ \frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}};\ \frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}};\ \dot{\xi}\big{\beta}\big\}\frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}};\ \frac{\dot{\beta}\dot{\xi}}{\mathrm{\beta}\dot{\xi}\dot{\xi}};\ \frac{\dot{\beta}\dot{\xi}\dot{\eta}\dot{\beta}\dot{\xi}}{\mathrm{\beta}\dot{\xi}\dot{\eta}};\ \frac{\dot{\beta}\dot{\xi}}{\mathrm{Re}};\frac{\dot{\beta}\dot{\beta}\dot{\xi}}{\mathrm{Re}};\frac\end{array}
+\begin{aligned}&=\frac{length\{师炎概念;创新药;生物疫啬;国产化创新;大消费\}}{\sqrt{length\{干细胞;师炎概念;创新药;生物疫啬;国产化创新;大消费\}*}}=\frac{5}{\sqrt{6*7}}\\&\sqrt{length\{大消费;国产化创新;流感;师炎概念;生物疫啬;血波制品;创新药\}}\\&\approx0.77\\\end{aligned}
 $$
 
 计算两两股票之间的相似度就可得到相似度矩阵：
 
 $$
-\begin{array}{r}{\left[\begin{array}{llll}{Sim_{1,1}}&{Sim_{1,2}\cdots}&{Sim_{1,n}}\\{\vdots}&{\ddots}&{\vdots}\\{Sim_{n,1}}&{\cdots}&{Sim_{n,n}}\end{array}\right]}\end{array}
+\begin{bmatrix}Sim_{1,1}&Sim_{1,2}\cdots&Sim_{1,n}\\\vdots&\ddots&\vdots\\Sim_{n,1}&\cdots&Sim_{n,n}\end{bmatrix}
 $$
 
-其中， $Sim_{i,j}$ 表示股票 i 与股票 j 之间的相似度， $Sim_{i,i}=0_{\circ}\ Sim_{i,j}$ 越大，则股票概念越相似，股票在高维空间中越靠近。由于股票相似度和距离呈现负相关，可取 $(1-Sim_{i,j}$ )作为距离矩阵中的元素，得到距离矩阵：
+其中， $Sim_{i,j}$ 表示股票 i 与股票 j 之间的相似度， $Sim_{i,i}=0。Sim_{i,j}$ 越大，则股票概念越相似，股票在高维空间中越靠近。由于股票相似度和距离呈现负相关，可取 $(1-Sim_{i,j}$ )作为距离矩阵中的元素，得到距离矩阵：
 
 $$
-\begin{array}{r}{\left[\begin{array}{ccc}{1-Sim_{1,1}}&{1-Sim_{1,2}\cdots}&{1-Sim_{1,n}}\\{\vdots}&{\ddots}&{\vdots}\\{1-Sim_{n,1}}&{\cdots}&{1-Sim_{n,n}}\end{array}\right]}\end{array}
+\begin{bmatrix}1-Sim_{1,1}&1-Sim_{1,2}\cdots&1-Sim_{1,n}\\\vdots&\ddots&\vdots\\1-Sim_{n,1}&\cdots&1-Sim_{n,n}\end{bmatrix}
 $$
 
 从图表 10 可知，5 种聚类算法中只有 K-Means，谱聚类和层次聚类能指定聚类数目。因此我们将对这三种聚类算法指定相同的聚类数目(9 类)，以方便使用评价指标对算法进行对比。图表 12 展示了对沪深 300 成分股进行聚类后三种评价指标的结果，图表 13 展示了对中证 500 成分股进行聚类后三种评价指标的结果。
@@ -318,28 +318,28 @@ $$
 r_{t}=\beta\gamma+\beta\nu_{t}+u_{t}\tag{1}
 $$
 
-其中， $\nu_{t}$ 代表 p 个不可观测的真实因子的新息(innovation)，即原始数据减去均值后的结果，$r_{t}$ 代表 n 个资产的超额收益， $u_{t}$ 是误差项， $\beta\cdot$ 代表因子载荷，γ代表 p 个因子的风险溢价。$\mathrm{E}(\nu_{t})=\mathrm{E}(u_{t})=0$ 并且 $\mathrm{Cov}(\nu_{t},u_{t})=0$ 。进一步，假定待估计的可观测因子 $g_{t}$ 与不可观测的真实因子 $\nu_{t}$ 呈现线性关系：
+其中， $\nu_{t}$ 代表 p 个不可观测的真实因子的新息(innovation)，即原始数据减去均值后的结果，$r_{t}$ 代表 n 个资产的超额收益， $u_{t}$ 是误差项， $\beta_{1}$ 代表因子载荷，γ代表 p 个因子的风险溢价。$\mathrm{E}(\nu_{t})=\mathrm{E}(u_{t})=0$ 并且 $\mathrm{Cov}(\nu_{t},u_{t})=0$ 。进一步，假定待估计的可观测因子 $g_{t}$ 与不可观测的真实因子 $\nu_{t}$ 呈现线性关系：
 
 $$
 g_{t}=\delta+\eta\nu_{t}+z_{t}\tag{2}
 $$
 
-其中， $\scriptstyle{z_{t}}$ 为观测误差， $\mathtt{E}(z_{t})=0\mathtt{E}\mathtt{LCov}(\nu_{t},z_{t})=0$
+其中， $z_{t}$ 为观测误差， $\mathrm{E}(z_t)=0且\mathrm{Cov}(v_t,z_t)=0.$
 
 基于(1)(2)可知，可观测因子的风险溢价为 $\gamma_{g}=\eta\gamma$ 。Giglio 与 Xiu 提出三个步骤得到 $\gamma_{g}$ 的估计值：
 
-1. 设n为资产数目，T为截面数，R是大小为 $n^{\star}T$ 的超额收益矩阵，R̅是R去均值后的矩阵。使用 PCA算法从 $n^{-1}T^{-1}\bar{R}^{-1}\bar{R}$ 矩阵中提取主成分：
+1. 设n为资产数目，T为截面数，R是大小为 $n^{\star}T$ 的超额收益矩阵，R̅是R去均值后的矩阵。使用 PCA算法从 $.n^{-1}T^{-1}\bar{R}^{-1}\bar{R}$ 矩阵中提取主成分：
 
 $$
-\hat{V}=T^{\frac{1}{2}}\big(\xi_{1}{:}\xi_{2}{:}\ldots{:}\xi_{p}\big)^{T}
+\hat{V}=T^{\frac{1}{2}}\big(\xi_{1}\colon\xi_{2}\colon...\colon\xi_{p}\big)^{T}
 $$
 
-其中 $(\xi_{1}{:}\xi_{2}{:}\ldots{:}\xi_{p})$ 为矩阵的前 p个主成分，并得到系数 $\hat{\beta}=T^{-1}\bar{R}\hat{V}^{T}$ 。为方便计算将V̂标准化： $\hat{V}\hat{V}^{\prime}=I_{\hat{P}};$
+其中 $(\xi_{1};\xi_{2};\ldots;\xi_{p})$ 为矩阵的前 p个主成分，并得到系数 $\hat{\beta}=T^{-1}\overline{{R}}\hat{V}^{T}$ 。为方便计算将V̂标准化： $\hat{V}\hat{V}^{\prime}=I_{\hat{P}};$
 
 2. 截面回归：用平均收益r̅对潜在因子暴露 $\hat{\beta}$ 进行截面回归，得到平均收益和主成分的回归系数，即主成分因子的因子溢价 $\hat{\gamma}$ ：
 
 $$
-{\hat{\boldsymbol{\gamma}}}=({\hat{\beta}}^{T}{\hat{\beta}})^{-1}{\hat{\beta}}^{T}{\bar{\boldsymbol{r}}}
+\hat{\gamma}=(\hat{\beta}^{T}\hat{\beta})^{-1}\hat{\beta}^{T}\bar{r}
 $$
 
 3. 时序回归：设G是大小为d*T的可观测因子矩阵，d 为需要估计因子溢价的可观测因子数目，G̅为G去均值后的矩阵，通过时序回归 $\bar{G}=\hat{\eta}\hat{V}$ 可得到η̂：
@@ -351,7 +351,7 @@ $$
 最终，可观测因子的因子溢价为：
 
 $$
-\hat{\gamma}_{g}=\hat{\eta}\hat{\gamma}=\bar{G}\hat{V}^{T}(\hat{V}\hat{V}^{T})^{-1}(\hat{\beta}^{T}\hat{\beta})^{-1}\hat{\beta}^{T}\bar{r}
+\hat{\gamma}_{g}=\hat{\eta}\hat{\gamma}=\bar{G}\hat{V}^{T}(\hat{V}\hat{V}^{T})^{-1}(\hat{\beta}^{T}\hat{\beta})^{-1}\hat{\beta}^{T}\bar{r}.
 $$
 
 该方法之所以有效，是基于两个重要性质：(1)线性因子模型的旋转不变性；(2)只要真实因子 $\nu_{t}$ 足够显著，PCA总是可以还原对因子空间的某个线性变换。
@@ -422,17 +422,17 @@ Note: For each factor, the table reports the risk premia estimates using differe
 Silhouette Coefficient 又被成为轮廓系数，用于无法获得真实标签情况下聚类效果的评估。该系数反应了不同簇类之间的分离度，值域为[-1，1]，值越大说明簇与簇之间距离越明显。轮廓系数公式如下:
 
 $$
-s=\frac{b-a}{max(a,b)}
+s={\frac{b-a}{max(a,b)}}
 $$
 
-其中，a是样本到同簇其他样本的平均距离，a越小说明样本越应该被聚类到该簇；b是样本到邻近簇所有样本的平均距 $\frac{\frac{1}{2}\pi}{12}$ ，b越大说明簇分离效果越好。对于样本集合，其轮廓系数是所有样本轮廓系数平均数。
+其中，a是样本到同簇其他样本的平均距离，a越小说明样本越应该被聚类到该簇；b是样本到邻近簇所有样本的平均距 $离$ ，b越大说明簇分离效果越好。对于样本集合，其轮廓系数是所有样本轮廓系数平均数。
 
 ## 2. Calinski-Harabasz Index
 
 Calinski-Harabasz Index 又被称为方差比准则，其公式为:
 
 $$
-s=\frac{tr(B_{k})}{tr(W_{k})}\cdot\frac{m-k}{k-1}
+s=\frac{tr(B_k)}{tr(W_k)}\cdot\frac{m-k}{k-1}
 $$
 
 其中 m 为训练集样本数，k 为类别数。 $B_{k}$ 为类别之间的协方差矩阵， $W_{k}$ 为类别内部数据的协方差矩阵， $tr(*)$ 为矩阵的迹。类别内部数据的协方差越小越好，类别之间的协方差越大越好，Calinski-Harabasz 值越高。
@@ -442,13 +442,13 @@ $$
 Davies-Bouldin Index 又称为分类适确性指标，该指标是每个簇类和最邻近簇类相似度的均值。值域大于 0，值越小表示聚类效果越好。其相似度的定义如下：
 
 $$
-R_{ij}=\frac{s_{i}+s_{j}}{d}
+\stackrel{\cdot}{R}_{ij}=\frac{s_{i}+s_{j}}{d}
 $$
 
 其中， $s_{i}$ dij 是簇类i中每个样本点和簇类中心的平均距离， $d_{ij}$ 是簇类i中心和簇类j中心的距离。Davies-Bouldin Index 公式如下：
 
 $$
-DB=\frac{1}{k}\sum_{i=1}^{k}\operatorname*{max}_{i\neq j}R_{ij}
+DB=\frac{1}{k}\sum_{i=1}^{k}\operatorname*{max}_{i\neq j}R_{ij}.
 $$
 
 ## 免责声明

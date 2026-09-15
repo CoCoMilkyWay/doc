@@ -121,7 +121,7 @@ S0880519080013
 最大回撤 MDD 出自 Garcia and Gould， 1987，衡量在选定周期内任一历史时点往后推，产品净值走到最低点时的收益率回撤幅度的最大值，计算公式为：
 
 $$
-MDD=\frac{TroughValue-PeakValue}{PeakValue}\tag{1}
+MDD=\frac{TroughValue-PeakValue}{peakValue}\tag{1}
 $$
 
 最大回撤用来描述买入产品后可能出现的最糟糕的情况，是最重要的风险指标之一，也是在购买和评价基金时必须参考的标准指标，对于对冲基金和数量化策略交易，该指标比波动率还重要。
@@ -140,19 +140,19 @@ $$
 
 ## 2.2. 回撤指标的统一框架：加权回撤框架(wDD)
 
-上节提到的所有回撤指标都可以纳入到一个统一框架之中，及加权回撤框架(Weighted Drawdown Framework, wDD)。假设投资期间为 0 到 N 期，相应的资产价格为 $S_{0}$ 到 $S_{1}$ ，则任意一个加权回撤指标都可表示为：
+上节提到的所有回撤指标都可以纳入到一个统一框架之中，及加权回撤框架(Weighted Drawdown Framework, wDD)。假设投资期间为 0 到 N 期，相应的资产价格为 $S_{01}$ 到 $S_{1}$ ，则任意一个加权回撤指标都可表示为：
 
 $$
-wDD=\sum_{i=1}^{N}\omega_{i}D_{i},\quad0\le\omega_{i}\le1,\sum_{i=1}^{N}\omega_{i}=1\tag{2}
+wDD=\sum_{i=1}^{N}\omega_{i}D_{i},\quad0\leq\omega_{i}\leq1,\sum_{i=1}^{N}\omega_{i}=1.\tag{2}
 $$
 
-其中 $\begin{array}{r}{D_{i}:=\frac{M_{i}-S_{i}}{M_{i}}}\end{array}$ 为i时刻的回撤， $M_{i}:=max_{t=0,\ldots,i}S_{t},$ 为i时刻前的最高点。回撤 $D_{i}$ 的时间序列被称作回撤图。
+其中 $\begin{array}{r}{D_{i}:=\frac{M_{i}-S_{i}}{M_{i}}}\end{array}$ 为i时刻的回撤， $M_{i}:=max_{t=0,\dots,i}S_{t},$ 为i时刻前的最高点。回撤 $D_{i}$ 的时间序列被称作回撤图。
 
-通过对权重ω的不同选择，wDD能够得到不同的回撤指标，反映投资者关心的不同方面。ADD对所有 $D_{i}$ 取等权重 $\cdot\frac{1}{N}$ ，MDD在回撤的最大点取1，其他处取0。 $ADD$ 2用 $D_{i}$ 本身进行加权，即 $\begin{array}{r}{\omega_{i}=\frac{D_{i}}{\sum_{j=1}^{N}D_{j}}\mathrm{.}}\end{array}$
+通过对权重ω的不同选择，wDD能够得到不同的回撤指标，反映投资者关心的不同方面。ADD对所有 $D_{i}$ 取等权重 $\Gamma\frac{1}{N}$ ，MDD在回撤的最大点取1，其他处取0。 $ADD$ 2用 $D_{i}$ 本身进行加权，即 $\begin{array}{r}{\omega_{i}=\frac{D_{i}}{\sum_{j=1}^{N}D_{j}}.}\end{array}$
 
-在wDD框架下，自创指标非常容易。例如，希望更关注投资末期的回撤，那么可以让权重随着时期t线性增加，取 $\begin{array}{r}{{\omega_{i}^{*}=\frac{i}{N}};}\end{array}$ 再进行标准化，使权重之和为1。这个回撤指标被称作线性加权回撤(Linearly WeightedDrawdown, lwDD).
+在wDD框架下，自创指标非常容易。例如，希望更关注投资末期的回撤，那么可以让权重随着时期t线性增加，取 $\begin{array}{r}{.\omega_{i}^{*}=\frac{i}{N},}\end{array}$ 再进行标准化，使权重之和为1。这个回撤指标被称作线性加权回撤(Linearly WeightedDrawdown, lwDD).
 
-回撤之前的价格走势也会对回撤的重要性产生影响。如果回撤发生前投资有正收益的话，回撤只是减少了盈利。但如果刚经历了暴跌，回撤对投资者而言则更加痛苦。趋势加权回撤(Trend Weighted Drawdown, twDD)反映了这一心理。如果i时刻的前一个月收益为正，则 $\omega_{i}=0$ ，否则，$\begin{array}{r}{\omega_{i}=\frac{1}{N^{*}}}\end{array}$ ，N*为权重不等于0的总期数。
+回撤之前的价格走势也会对回撤的重要性产生影响。如果回撤发生前投资有正收益的话，回撤只是减少了盈利。但如果刚经历了暴跌，回撤对投资者而言则更加痛苦。趋势加权回撤(Trend Weighted Drawdown, twDD)反映了这一心理。如果i时刻的前一个月收益为正，则 $\omega_{i}=0$ ，否则，$\omega_{i}=\frac{1}{N^{*}}$ ，N*为权重不等于0的总期数。
 
 图1展示了上述回撤指标对同一回撤图的不同模式。从图中可以直观地看到不同回撤指标的加权模式之间的区别与联系：ADD、lwDD、 $ADD_{2}$ 的权重一般不为0，而 MDD 只在一点不为0，twDD的不为0 个数与价格趋势相关；ADD、lwDD的权重在期初就已经决定，而MDD、twDD、
 
@@ -219,7 +219,7 @@ $ADD_{2}$ 的权重在期末才能确定；lwDD强调投资期末的回撤，而
 
 ## 3.3. 基于回撤的业绩评价指标的相似性
 
-除了作为风险度量指标，回撤也可用于构造业绩评价指标。业绩评价指标的常见形式是用超额收益率除以相应的风险指标，例如夏普比率。业界和学界也构造了许多基于回撤的业绩评价指标，如Calmar比率描述收益和MDD之间的关系、痛苦比率(pain ratio)用ADD 作为分母、Ulcer比率用 $ADD^{\mathrm{{i}}}$ 作分母。在本文中，用下标r表示相应分母的业绩评价指标。例如， $MDD_{r}$ 表示 $\begin{array}{r}\mathrm{Calmar\ }\mathbf{\Pi}\mathbf{\Pi}\mathbf{\tilde{{g}}}\mathbf{\tilde{{t}}}\mathbf{\tilde{{\mathcal{T}}}}{=}\frac{\mathbf{\tilde{{t}}}\mathbf{\tilde{{e}}}^{\tilde{{t}}}\mathbf{\tilde{{g}}}\mathbf{\tilde{{\mathcal{T}}}}{=}\tilde{\mathbf{\Pi}}\mathbf{\tilde{{t}}}\mathbf{\tilde{{\mathcal{T}}}}{=}\tilde{\mathbf{\Pi}}}{\frac{\mathbf{\tilde{{t}}}\mathbf{\tilde{{e}}}^{\tilde{{t}}}\mathbf{\tilde{{t}}}\mathbf{\tilde{{t}}}\mathbf{\tilde{{t}}}\mathbf{\tilde{{t}}}}{\tilde{\mathcal{R}}}\mathbf{\tilde{{{t}}}}\mathbf{\tilde{{{\mathcal{T}}}}}{=}}\end{array}$ 本节使用基于回撤的业绩评价指标进行上2节的实验，即组合排序和能力挖掘。
+除了作为风险度量指标，回撤也可用于构造业绩评价指标。业绩评价指标的常见形式是用超额收益率除以相应的风险指标，例如夏普比率。业界和学界也构造了许多基于回撤的业绩评价指标，如Calmar比率描述收益和MDD之间的关系、痛苦比率(pain ratio)用ADD 作为分母、Ulcer比率用 $ADD^{2}$ 作分母。在本文中，用下标r表示相应分母的业绩评价指标。例如， $MDD_{r}$ 表示 $\mathrm{Callner~指标}=\frac{超额收益}{层大回痕}$ 本节使用基于回撤的业绩评价指标进行上2节的实验，即组合排序和能力挖掘。
 
 表3给出了不同指标的秩相关系数，均落在0.443至0.937之间。与表2 进行对比可以看出，使用业绩评价指标比单纯的回撤指标之间的相关性更高，这或许是因为它们都共用了相同的分子。各指标之间的关系模式没有发生改变， $eopDD_{r}$ 依旧是相关性最低的。 $ADD_{r}$ $ADD_{r}^{2}$ 与 $lwDD_{r}$ 之间的相关性仍保持最强。
 

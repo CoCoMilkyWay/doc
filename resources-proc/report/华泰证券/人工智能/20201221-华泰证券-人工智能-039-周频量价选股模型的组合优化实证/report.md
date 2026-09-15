@@ -77,40 +77,40 @@ wangchenyu@htsc.com
 本章我们选取华泰金工人工智能选股周报中的周频调仓 AlphaNet 模型进行业绩归因分析，该模型的组合优化较为简单，构建方法如下：
 
 $$
-\operatorname*{max}r^{\prime}\mathbf{x}\tag{1}
+\operatorname*{max}_{}{r^{\prime}}_{\mathbf{X}}\tag{1}
 $$
 
 $$
-\begin{array}{r}{\mathsf{s.t.~\ x=w-w_{b}}}\end{array}\tag{2}
+\begin{array}{rl}{\mathrm{s.t.}}&{{}\mathrm{x}=\mathrm{w}-\mathrm{w_{b}}}\end{array}\tag{2}
 $$
 
 $$
-\lvert\mathrm{w}-\mathrm{w}_{0}\rvert\leq\delta\tag{3}
+|\mathsf{w}-\mathsf{w}_{0}|\leq\delta\tag{3}
 $$
 
 $$
-{\Chi}_{\mathrm{mkt}}{\mathbf{x}}=0\tag{4}
+\mathbf{X_{mkt}}\mathbf{x}=0\tag{4}
 $$
 
 $$
-\mathrm{X}_{\mathrm{industry}}\mathrm{X}=0\tag{5}
+\mathbf{X}_{\mathrm{industry}}\mathbf{x}=0\tag{5}
 $$
 
 $$
-\mathbf{x}\leq\mathbf{w_{\mathrm{upper}}}\tag{6}
+\mathbf{x}\leq\mathbf{w}_{\mathrm{upper}}\tag{6}
 $$
 
 $$
-\mathbf{e}^{\prime}\mathbf{x}=1-\mathbf{e}^{\prime}\mathbf{w_{b}}\tag{7}
+\mathbf{e}^{\prime}\mathbf{x}=1-\mathbf{e}^{\prime}\mathbf{w}_{\mathbf{b}}\tag{7}
 $$
 
 (1)式为优化目标。其中r为股票的预期收益向量，x为股票的主动权重向量，优化目标为线性优化，不包含结构化风险模型。
 
-(2)式为股票主动权重和绝对权重的关系， $\mathrm{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
+(2)式为股票主动权重和绝对权重的关系， $\mathbf{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
 
 (3)式为换手率约束， $\mathbf{w}_{0}$ 为股票上一期权重向量，δ为换手率上限。
 
-(4)式为市值中性约束， $\Chi_{\mathrm{mkt}}$ 为 Barra 市值因子暴露。
+(4)式为市值中性约束， $\mathrm{X_{mkt}}$ 为 Barra 市值因子暴露。
 
 (5)式为行业中性约束， $\mathrm{X_{industry}}$ 为行业因子暴露。
 
@@ -152,15 +152,15 @@ $$
 股票收益率可以表示为市场收益率、行业收益率、风格因子收益率以及特质收益率的线性组合：
 
 $$
-r_{n}=f_{m}+\sum_{i}X_{i}^{I}f_{i}^{I}+\sum_{i}X_{i}^{S}f_{i}^{S}+u_{n}
+r_{n}=f_{m}+\sum_{i}X_{i}^{I}f_{i}^{I}+\sum_{i}X_{i}^{S}f_{i}^{S}+u_{n},
 $$
 
-上式中， $r_{n}$ 为未来 5 个交易日的股票收益率， $f_{m}$ 为市场收益， $f_{i}^{I}$ 为行业i的因子收益， $f_{i}^{S}$ 为风格i的因子收益，XI和 $\mathbf{\nabla}\cdot\mathbf{{\mathit{X}}}_{i}^{S}$ 分别为股票 n对行业i、风格i的因子暴露， $u_{n}$ 为特质收益率。由于股票收益率存在异方差性，因此以根号市值作为权重，使用加权最小二乘法(WeightedLeast Squares, WLS)估计以上模型。
+上式中， $r_{n}$ 为未来 5 个交易日的股票收益率， $f_{m}$ 为市场收益， $f_{i}^{I}$ 为行业i的因子收益， $f_{i}^{s}$ 为风格i的因子收益，XI和 $tX_{i}^{s}$ 分别为股票 n对行业i、风格i的因子暴露， $u_{n}$ 为特质收益率。由于股票收益率存在异方差性，因此以根号市值作为权重，使用加权最小二乘法(WeightedLeast Squares, WLS)估计以上模型。
 
 在每个截面上，都可回归得到因子收益率和特质收益率，然后可通过下式计算因子k对组合的因子收益贡献。
 
 $$
-RC_{k}=X_{k}^{P}f_{k}=\sum_{n}w_{n}^{P}X_{nk}\cdot f_{k}
+RC_{k}=X_{k}^{P}f_{k}=\sum_{n}w_{n}^{P}X_{nk}\cdot f_{k}.
 $$
 
 上式中， $X_{k}^{P}$ 为组合在因子k上的暴露，是个股因子暴露的加权平均， $f_{k}$ 为因子k的因子收益率， $w_{n}^{P}$ 为组合中股票n的权重， $X_{nk}$ 为股票n在因子k上的暴露。此外，可以认为组合的 alpha收益为风格因子所不能解释的特质收益率，可通过下式计算。
@@ -169,7 +169,7 @@ $$
 RC_{\alpha}=w_{n}^{P}u_{n}
 $$
 
-将每个截面的 $RC_{k}$ 和 $RC_{\alpha}$ 累加，即可得组合累计因子收益贡献。图表 3 为行业市值中性下周频调仓的 AlphaNet的因子收益贡献分析。
+将每个截面的 $RC_{k}$ 和 $iRC_{\alpha}$ 累加，即可得组合累计因子收益贡献。图表 3 为行业市值中性下周频调仓的 AlphaNet的因子收益贡献分析。
 
 图表3： 行业市值中性下周频调仓的 AlphaNet的因子收益贡献分析
 ![](images/a165caa5e06c561f32f89b0260bba87f8bee7250ec932e80035555ae0600d42d.webp)
@@ -200,15 +200,15 @@ $$
 对于因子收益协方差收益矩阵而言，ex-ante 的风险调整中第一步 Newey-West 调整的目的是构造一个符合预测期限 H 的因子收益协方差矩阵的相合估计量。具体来说，对于滚动过去 T 个交易日的预测期限为 H 的因子收益协方差矩阵，它的 Newey-West 调整具有如下形式：
 
 $$
-\mathrm{F_{T}^{NW}}=\mathrm{H}\times\widehat{\Omega}=\mathrm{H}\times\left[\mathrm{F_{T}^{Raw}}+\sum_{d=1}^{D}\left(1-\frac{d}{D+1}\right)\times\left(\widehat{\Omega_{d}}+\widehat{\Omega_{d}}^{\prime}\right)\right]
+\mathrm{F}_{\mathrm{T}}^{\mathsf{NW}}=\mathrm{H}\times\widehat{\Omega}=\mathrm{H}\times\left[\mathrm{F}_{\mathrm{T}}^{\mathsf{Raw}}+\sum_{d=1}^{D}\left(1-\frac{d}{D+1}\right)\times\left(\widehat{\Omega_{d}}+\widehat{\Omega_{d}}^{\prime}\right)\right]
 $$
 
 $$
-\widehat{\Omega_{d}}=\sum_{t=1}^{T-d}\lambda^{T-d-t}f_{t}f_{t+d}^{\prime}\Big/\sum_{t=1}^{T-d}\lambda^{T-d-t}
+\widehat{\Omega_{d}}=\sum_{t=1}^{T-d}\lambda^{T-d-t}f_{t}f_{t+d}^{\prime}/\sum_{t=1}^{T-d}\lambda^{T-d-t}.
 $$
 
 $$
-\begin{array}{r}{\mathbf{F}_{\mathrm{T}}^{\mathrm{Raw}}=\left(\mathrm{F}_{\mathrm{k},1}^{\mathrm{Raw}}\right)_{k,l}=\displaystyle\sum_{s=0}^{h}\lambda_{T-s}(f_{k,T-s}-\overline{{f_{k}}})(f_{l,T-s}-\overline{{f_{l}}})/\sum_{s=0}^{h}\lambda_{T-s}}\\{\lambda_{T-s}=0.5^{s/\tau}\qquad}\end{array}
+\begin{aligned}\mathbb{F}_{\mathrm{T}}^{\mathrm{Raw}}=\left(\mathbb{F}_{\mathrm{k},\mathrm{l}}^{\mathrm{Raw}}\right)_{k,l}=\sum_{s=0}^{h}&\lambda_{T-s}(f_{k,T-s}-\overline{f_k})(f_{l,T-s}-\overline{f_l})\left/\sum_{s=0}^{h}\lambda_{T-s}\right.\\&\left.\lambda_{T-s}=0.5^{s/\tau}\right.\end{aligned}
 $$
 
 上式中，FRaw是原本的因子收益协方差矩阵， $f_{t}$ 是截面 t上的所有因子收益率序列， $f_{k,t}$ 代表截面 t 上的第 k 个因子的因子收益率。当调仓周期为周频时，H=5。Newey-West 调整的其他参数取值与前期华泰金工多因子风险模型中的参数取值一致，其中权重半衰期τ=90，滞后期长度 D=2，计算原始因子收益协方差矩阵时用到的时间窗长度为 252。
@@ -222,7 +222,7 @@ $$
 在因子收益协方差矩阵的 ex-post 风险调整涉及的波动率偏误调整中，需要对截面 t 的因子总偏误统计量进行调整，即对于因子总偏误统计量，当预测期限为 H时，其计算公式修正为：
 
 $$
-\mathbf{B}_{\mathrm{t}}^{\mathrm{F}}=\sqrt{\frac{1}{K}\sum_{k=1}^{K}\left(\frac{f_{k,t\sim t+H}}{\widehat{\sigma_{k,t}}}\right)^{2}}
+\mathrm{B_{t}^{F}}=\sqrt{\frac{1}{K}\sum_{k=1}^{K}\left(\frac{f_{k,t\sim t+H}}{\widehat{\sigma_{k,t}}}\right)^{2}},
 $$
 
 其中， $f_{k,t\sim t+H}$ 代表第 k 个因子在截面 t 到未来第 t+H 个截面的累计收益率，而 $\widehat{\sigma_{k,t}}$ 表示截面 t 时刻做出的对于 t~t+H 区间收益波动率的预测。
@@ -233,18 +233,18 @@ $$
 
 ## Newey-West 调整
 
-对于滚动过去 T 个交易日的预测期限为 H的特异性收益协方 $\ncong$ 矩阵的 Newer-West 调整，具体形式如下：
+对于滚动过去 T 个交易日的预测期限为 H的特异性收益协方 $差$ 矩阵的 Newer-West 调整，具体形式如下：
 
 $$
-(\sigma^{\mathrm{NW}})^{2}=\mathrm{H}\times\left[\widehat{\Omega_{0}}+\sum_{d=1}^{D}\left(1-\frac{d}{D+1}\right)\times\left(\widehat{\Omega_{d}}+\widehat{\Omega_{d}}^{\prime}\right)\right]
-$$
-
-$$
-\widehat{\Omega_{d}}=\sum_{t=1}^{T-d}\lambda^{T-d-t}diag(u_{t}u_{t+d}^{\prime})/\sum_{t=1}^{T-d}\lambda^{T-d-t}
+(\sigma^{\mathsf{NW}})^{2}=\mathrm{H}\times\left[\widehat{\Omega_{0}}+\sum_{d=1}^{D}\left(1-\frac{d}{D+1}\right)\times\left(\widehat{\Omega_{d}}+\widehat{\Omega_{d}}^{\prime}\right)\right]
 $$
 
 $$
-\widehat{\Omega_{0}}=\sum_{s=0}^{h}\lambda_{T-s}\big(u_{n,T-s}-\overline{{u_{n}}}\big)^{2}/\sum_{s=0}^{h}\lambda_{T-s}
+\widehat{\Omega_{d}}=\sum_{t=1}^{T-d}\lambda^{T-d-t}diag(u_{t}u_{t+d}^{\prime})\left/\sum_{t=1}^{T-d}\lambda^{T-d-t}\right.
+$$
+
+$$
+\begin{aligned}\widehat{\Omega_{0}}=\sum_{s=0}^{h}\lambda_{T-s}\big(u_{n,T-s}-\overline{u_{n}}\big)^{2}\Big/\sum_{s=0}^{h}\lambda_{T-s}\\\lambda_{T-s}=0.5^{s/\tau}\end{aligned}
 $$
 
 上式中， $u_{t}$ 代表截面 t 上的所有股票的特异性收益率序列， $u_{n,t}$ 是截面 t上第 n 个股票的特异性收益率。当调仓周期为周频时，H=5。Newey-West 调整的其他参数取值与前期华泰金工多因子风险模型中的参数取值一致。其中权重半衰期τ=90，滞后期长度 D=5，计算特异性收益方差矩阵时用到的时间窗长度为 252。
@@ -254,7 +254,7 @@ $$
 特异性收益协方差矩阵的波动率偏误调整中，需要对时间截面 t 上的所有股票的特异性风险的总偏误统计量进行调整。当预测期限为 H 时，截面 t 上的所有股票特异风险的总偏误统计量的计算公式为：
 
 $$
-\mathrm{B}_{\mathrm{t}}^{\mathrm{S}}=\sqrt{\sum_{n=1}^{N}w_{n,t}\left(\frac{u_{n,t\sim t+H}}{\widehat{\sigma_{n,t}}}\right)^{2}}
+\mathbb{B}_{\mathrm{t}}^{\mathrm{S}}=\sqrt{\sum_{n=1}^{N}w_{n,t}\left(\frac{u_{n,t\sim t+H}}{\widehat{\sigma_{n,t}}}\right)^{2}},
 $$
 
 其中， $w_{n,t}$ 表示第 n个股票的流通 A股市值权重， $u_{n,t}$ 表示第 n 个股票在第 t个截面到未来第 t+H 个截面的累计特异性收益率，而 $\widehat{\sigma_{n,t}}$ 代表在截面 t 时刻做出的关于从 t~t+H 时间区间的股票的特异性波动率的预测值。
@@ -264,16 +264,16 @@ $$
 对于一个优秀的因子风险模型而言，ex-ante 调整后的风险预测效果极为重要。本节使用数值模拟的方法，计算不同预测期限(周频、双周频，月频)下的风险模型的表现。为了衡量风险模型的准确度，首先需要引入一个统计量，参考 Briner et al.(2008)以及 Barra USE4，使用偏误统计量(bias statistics)衡量真实测度下风险模型预测的准确程度。对于个股或资产组合 k, b统计量在时间截面 t 计算方式如下：
 
 $$
-b_{k,t}=\frac{r_{k,t\sim t+\delta}}{\sigma_{k,t}}
+b_{k,t}=\frac{\hat{r}_{k,t\sim t+\delta}}{\hat{\sigma_{k,t}}}
 $$
 
 直观理解为使用 t 时间点(使用的数据不包含 t)得到的波动率估计对截面 t 到未来第t+δ个截面的收益进行标准化。在理想情况下，如果预测完全准确，则对于一系列 $\{b_{k,t_{i}}\}$ i=1,2,…,N,对于偏误统计量，有：
 
 $$
-B_{k}=\sqrt{\frac{1}{N-1}\big(b_{k,t_{i}}-\overline{{b_{k}}}\big)^{2}}=1
+B_{k}=\sqrt{\frac{1}{N-1}\big(b_{k,t_{i}}-\overline{{b_{k}}}\big)^{2}}=1.
 $$
 
-如果模型对风险存在低估，那么偏误统计量 $\mathrm{B_{k}}>1$ ；如果模型对于风险存在高估，那么偏误统计量 $B_{k}<1$ 。另外，根据 Connor(2000)给出的推导，偏误统计量有如下 95%置信区间(CI)，即，如果风险预测是准确的， $B_{k}$ 应该落在 95%的置信区间之内。
+如果模型对风险存在低估，那么偏误统计量 $\mathrm{B_{k}}>1$ ；如果模型对于风险存在高估，那么偏误统计量 ${\cal B}_{k}<1$ 。另外，根据 Connor(2000)给出的推导，偏误统计量有如下 95%置信区间(CI)，即，如果风险预测是准确的， $B_{k}$ 应该落在 95%的置信区间之内。
 
 $$
 \mathrm{CI}=\left[1-{\sqrt{\frac{2}{N}}},1+{\sqrt{\frac{2}{N}}}\right].
@@ -406,44 +406,44 @@ $$
 ## 测试 1：考察周频风险模型对 AlphaNet组合表现的影响
 
 $$
-\operatorname*{max}{r^{\prime}x}-\lambda x^{\prime}\Sigma x\tag{1}
+\max\;r^{\prime}x-\lambda x^{\prime}\Sigma x\tag{1}
 $$
 
 $$
-\mathsf{s.t.\ x=w-w_{b}}\tag{2}
+\mathrm{s.t.~x}=\mathrm{w}-\mathrm{w_b}\tag{2}
 $$
 
 $$
-\lvert\mathrm{w}-\mathrm{w}_{0}\rvert\leq\delta\tag{3}
+|\mathsf{w}-\mathsf{w}_{0}|\leq\delta\tag{3}
 $$
 
 $$
-{\Chi}_{\mathrm{mkt}}{\mathbf{x}}=0\tag{4}
+\mathbf{X}_{\mathrm{mkt}}\mathbf{x}=0\tag{4}
 $$
 
 $$
-\mathrm{X}_{\mathrm{industry}}\mathrm{X}=0\tag{5}
+\mathbf{X}_{\mathrm{industry}}\mathbf{x}=0\tag{5}
 $$
 
 $$
-\mathbf{x}\leq\mathbf{w_{\mathrm{upper}}}\tag{6}
+\mathbf{x}\leq\mathbf{w}_{\mathrm{upper}}\tag{6}
 $$
 
 $$
-\mathrm{e^{\prime}x}=1-\mathrm{e^{\prime}w_{b}}\tag{7}
+\mathbf{e}^{\prime}\mathbf{x}=1-\mathbf{e}^{\prime}\mathbf{w}_{\mathbf{b}}\tag{7}
 $$
 
 (1)式为优化目标。其中r为股票的预期收益向量，x为股票的主动权重向量，优化目标为最大化风险调整后收益。在测试中会遍历风险厌恶系数λ的取值。
 
-(2)式为股票主动权重和绝对权重的关系， $\mathrm{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
+(2)式为股票主动权重和绝对权重的关系， $\mathbf{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
 
-(3)式为换手率约束， $\mathrm{w}_{0}$ 为股票上一期权重向量，δ为换手率上限，测试中δ=0.3。
+(3)式为换手率约束， $\mathbf{w}_{0}$ 为股票上一期权重向量，δ为换手率上限，测试中δ=0.3。
 
-(4)式为市值中性约束， $\Chi_{\mathrm{mkt}}$ 为 Barra 市值因子暴露。
+(4)式为市值中性约束， $\mathrm{X_{mkt}}$ 为 Barra 市值因子暴露。
 
-(5)式为行业中性约束， ${\mathrm{X}}_{\mathrm{industry}}$ 为 Barra 行业因子暴露。
+(5)式为行业中性约束， $\tt X_{industry}$ 为 Barra 行业因子暴露。
 
-(6)式为股票主动权重的上下限约束，测试中 $\mathsf{w}_{\mathrm{upper}}{=}0.01$ ，不允许做空。
+(6)式为股票主动权重的上下限约束，测试中 $\mathrm{w_{upper}}{=}0.01$ ，不允许做空。
 
 (7)式为股票组合总权重和为 1 的限制，e代表一个全 1 列向量。
 
@@ -494,40 +494,40 @@ $$
 ## 测试 2：考察不同的 Barra 风格因子约束下 AlphaNet 组合的表现
 
 $$
-\operatorname*{max}r^{\prime}x\tag{1}
+\operatorname*{max}_{}{r^{\prime}x}\tag{1}
 $$
 
 $$
-\mathsf{s.t.\ x=w-w_{b}}\tag{2}
+\mathrm{s.t.~x}=\mathrm{w}-\mathrm{w_b}\tag{2}
 $$
 
 $$
-|\mathrm{w}-\mathrm{w}_{0}|\leq\delta\tag{3}
+|\mathsf{w}-\mathsf{w}_{0}|\leq\delta\tag{3}
 $$
 
 $$
-{\Chi}_{\mathrm{mkt}}{\mathbf{x}}=0\tag{4}
+\mathbf{X_{mkt}}\mathbf{x}=0\tag{4}
 $$
 
 $$
-\mathrm{X}_{\mathrm{industry}}\mathrm{X}=0\tag{5}
+\mathbf{X}_{\mathrm{industry}}\mathbf{x}=0\tag{5}
 $$
 
 $$
-{\tt X}_{\mathrm{f}}{\tt X}=0\tag{6}
+\mathbf{X}_{\mathrm{f}}\mathbf{x}=0\tag{6}
 $$
 
 $$
-\mathbf{x}\leq\mathbf{w_{\mathrm{upper}}}\tag{7}
+\mathbf{x}\leq\mathbf{w}_{\mathrm{upper}}\tag{7}
 $$
 
 $$
-\mathbf{e}^{\prime}\mathbf{x}=1-\mathbf{e}^{\prime}\mathbf{w_{b}}\tag{8}
+\mathbf{e}^{\prime}\mathbf{x}=1-\mathbf{e}^{\prime}\mathbf{w}_{\mathbf{b}}\tag{8}
 $$
 
 (1)式为优化目标。其中r为股票的预期收益向量，x为股票的主动权重向量，优化目标为线性优化，不包含结构化风险模型。
 
-(2)式为股票主动权重和绝对权重的关系， $\mathrm{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
+(2)式为股票主动权重和绝对权重的关系， $\mathbf{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
 
 (3)式为换手率约束， $\mathbf{w}_{0}$ 为股票上一期权重向量，δ为换手率上限，测试中δ=0.3。
 
@@ -597,44 +597,44 @@ $$
 ## 测试 3：考察 AlphaNet 组合在允许行业偏配时的表现
 
 $$
-\operatorname*{max}r^{\prime}x\tag{1}
+\operatorname*{max}_{}{r^{\prime}x}\tag{1}
 $$
 
 $$
-\mathsf{s.t.}~\mathrm{x=w-w_{b}}\tag{2}
+\mathrm{s.t.~x=w-w_{b}}\tag{2}
 $$
 
 $$
-\lvert\mathrm{w}-\mathrm{w}_{0}\rvert\leq\delta\tag{3}
+|\mathsf{w}-\mathsf{w}_{0}|\leq\delta\tag{3}
 $$
 
 $$
-{\Chi}_{\mathrm{mkt}}{\mathbf{x}}=0\tag{4}
+\mathbf{X_{mkt}}\mathbf{x}=0\tag{4}
 $$
 
 $$
-\mathrm{X}_{\mathrm{industry}}\mathrm{X}\leq\theta\tag{5}
+\mathrm{X_{industry^{X}}}\leq\theta\tag{5}
 $$
 
 $$
-\mathbf{x}\leq\mathbf{w_{\mathrm{upper}}}\tag{6}
+\mathbf{x}\leq\mathbf{w_{upper}}\tag{6}
 $$
 
 $$
-\mathbf{e}^{\prime}\mathbf{x}=1-\mathbf{e}^{\prime}\mathbf{w_{b}}\tag{7}
+\mathbf{e}^{\prime}\mathbf{x}=1-\mathbf{e}^{\prime}\mathbf{w}_{\mathbf{b}}\tag{7}
 $$
 
 (1)式为优化目标。其中r为股票的预期收益向量，x为股票的主动权重向量，优化目标为线性优化，不包含结构化风险模型。
 
-(2)式为股票主动权重和绝对权重的关系， $\mathrm{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
+(2)式为股票主动权重和绝对权重的关系， $\mathbf{w_{b}}$ 为基准中股票权重向量，基准为中证 500。
 
-(3)式为换手率约束， $\mathrm{w}_{0}$ 为股票上一期权重向量，δ为换手率上限，测试中δ=0.3。
+(3)式为换手率约束， $\mathbf{w}_{0}$ 为股票上一期权重向量，δ为换手率上限，测试中δ=0.3。
 
 (4)式为市值中性约束。
 
 (5)式为行业因子暴露约束，暴露上限为θ。
 
-(6)式为股票主动权重的上限约束，测试中 $\mathrm{w_{upper}}{=}0.01$ ，不允许做空。
+(6)式为股票主动权重的上限约束，测试中 $\scriptstyle\mathbf{w}_{\mathrm{upper}}=0.01$ ，不允许做空。
 
 (7)式为股票组合总权重和为 1 的限制。
 

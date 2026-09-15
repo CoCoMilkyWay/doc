@@ -86,50 +86,50 @@ Carhart 四因子模型：Carhart 四因子模型由 Fama-French 三因子模型
 基于 CAPM 模型的特质波动率(Vcapm):
 
 $$
-\boldsymbol{r}_{i,t}=\boldsymbol{\alpha}_{i,t}+\boldsymbol{\beta}_{i,t}Rm\boldsymbol{t}_{t}+\boldsymbol{\varepsilon}_{i,t}
+r_{i,t}=\alpha_{i,t}+\beta_{i,t}Rmt_{t}+\varepsilon_{i,t}
 $$
 
 其中：
 
 1） $r_{i,t}$ 为股票 i 在 t 时间的收益，
 
-2） $Rm\ t_{t}$ 为市场在 t 时间的收益，此处用中证全指收益表示。
+2） $Rmt_{_t}$ 为市场在 t 时间的收益，此处用中证全指收益表示。
 
 Fama-French 三因子模型的特质波动率(Vff3):
 
 $$
-r_{i,t}=\alpha_{i,t}+\beta_{i,t}Rmt_{t}+S_{i,t}SMB_{t}+H_{i,t}HML_{t}+\varepsilon_{i,t}
+r_{_{i,t}}=\alpha_{_{i,t}}+\beta_{_{i,t}}Rm_{_{t}}+S_{_{i,t}}SMB_{_{t}}+H_{_{i,t}}HML_{_{t}}+\varepsilon_{_{i,t}}
 $$
 
 其中：
 
 1） S M $B_{_t}$ 为市值因子，即月底按流动市值排名后三分之一股票组合(即小市值股票组合)的收益减去流动市值排名前三分之一股票组合(即大市值股票组合)的收益。
 
-2）HM $L_{\mathrm{\Lambda}_{t}}$ 为估值因子，即月底按账面市值比前三分之一股票组合(即低市净率股票组合)的收益减去账面市值比排名后三分之一股票组合(即高市净率股票组合)的收益。
+2）HM $L_{t}$ 为估值因子，即月底按账面市值比前三分之一股票组合(即低市净率股票组合)的收益减去账面市值比排名后三分之一股票组合(即高市净率股票组合)的收益。
 
 Fama-French 五因子模型的特质波动率(Vff5):
 
 $$
-r_{i,t}=\alpha_{i,t}+\beta_{i,t}Rmt_{t}+S_{i,t}SMB_{t}+H_{i,t}HML_{t}+R_{i,t}RMW_{t}+C_{i,t}CMA_{t}+\varepsilon_{i,t}RMA_{t},
+r_{_{i,t}}=\alpha_{_{i,t}}+\beta_{_{i,t}}Rmt_{_t}+S_{_{i,t}}SMB_{_t}+H_{_{i,t}}HML_{_t}+R_{_{i,t}}RMW_{_t}+C_{_{i,t}}CMA_{_t}+\varepsilon_{_{i,t}}
 $$
 
 其中：
 
-1） $RM\ W_{_t}$ 为盈利因子，即月底按 ROE 排名前三分之一股票组合(即高 ROE 股票组合)的收益减去 ROE 排名后三分之一股票组合(即低 ROE 股票组合)的收益。
+1） $RMW_{_t}$ 为盈利因子，即月底按 ROE 排名前三分之一股票组合(即高 ROE 股票组合)的收益减去 ROE 排名后三分之一股票组合(即低 ROE 股票组合)的收益。
 
 2）C M $A_{_t}$ 为投资水平因子，即月底按净资产变化率后三分之一股票组合(即低净资产变化率股票组合)的收益减去净资产变化率排名前三分之一股票组合(即高净资产变化率股票组合)的收益。
 
 Carhart 四因子模型的特质波动率(VCarhart):
 
 $$
-r_{i,t}=\alpha_{i,t}+\beta_{i,t}Rmt_{t}+S_{i,t}SMB_{t}+H_{i,t}HML_{tt}+U_{i,t}UMD_{t}+\varepsilon_{i,t}
+r_{_{i,t}}=\alpha_{_{i,t}}+\beta_{_{i,t}}Rmt_{_t}+S_{_{i,t}}SMB_{_t}+H_{_{i,t}}HML_{_{tt}}+U_{_{i,t}}UMD_{_t}+\varepsilon_{_{i,t}}
 $$
 
 其中：
 
-1） UM $D_{\mathbf{\Phi}_{t}}$ 为动量因子，即月底按当月累积收益排名前三分之一股票组合(即高 1 个月动量股票组合)的收益减去当月累积收益排名后三分之一股票组合(即低 1 个月动量股票组合)的收益。
+1） UM $D_{\textit{ t }}$ 为动量因子，即月底按当月累积收益排名前三分之一股票组合(即高 1 个月动量股票组合)的收益减去当月累积收益排名后三分之一股票组合(即低 1 个月动量股票组合)的收益。
 
-以上模型符号若相同，则意义也相同，比如 CAPM 模式中 $Rmt_{t}$ 与其它模型中 $Rmt_{t}$ 表示意义一致，故其它模型没有重复说明。模型中没有标注的为待回归求解变量。特质波动率即为模型的残差 $\boldsymbol{\varepsilon}_{i,t}$ 在某个时间段内的波动率。在本文中，组合是月度调仓的，故模型的回归时间序列长度为 1 个月。即特质波动率为个股近 20 个交易日回归得到的 20 个残差的年化波动率。
+以上模型符号若相同，则意义也相同，比如 CAPM 模式中 $Rmt_{_t}$ 与其它模型中 $Rmt_{_t}$ 表示意义一致，故其它模型没有重复说明。模型中没有标注的为待回归求解变量。特质波动率即为模型的残差 $\mathcal{E}_{i,t}$ 在某个时间段内的波动率。在本文中，组合是月度调仓的，故模型的回归时间序列长度为 1 个月。即特质波动率为个股近 20 个交易日回归得到的 20 个残差的年化波动率。
 
 ## 二、因子特征分析
 
@@ -324,15 +324,15 @@ b. 新股一个月之内不能作为候选股（上市小于 20 个交易日）�
 假设我们组合有 n 支股票，m 个因子，则传统多因子模型的一般形式为：
 
 $$
-{\left[\begin{array}{llllllll}{r_{1}-r_{f}}&{7}&{\Gamma_{1_{11}}}&{\Gamma_{1_{12}}}&{\Gamma_{1_{22}}}&{\Gamma_{1_{12}}}&{\Gamma_{1_{12}}}&{\Gamma_{1_{11}}}&{\Gamma_{1_{11}}}\\{r_{2}-r_{f}}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}\\{\vdots}&{|}&{=}&{|}&{x_{21}}&{|}&{f_{1}+|}&{|}&{f_{22}}&{|}\\{\vdots}&{|}&{|}&{|}&{|}&{|}&{\vdots}&{|}&{|}&{|}&{|}\\{r_{n}-r_{f}}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}\end{array}\right]},\quad\quad\ell_{n_{1}}={\left[\begin{array}{lllllll}{x_{22}}&{|}&{|}&{|}&{|}&{|}&{|}\\{x_{22}}&{|}&{|}&{|}&{|}&{|}&{|}\\{|}&{\vdots}&{|}&{|}&{|}&{|}&{|}\\{|}&{|}&{|}&{|}&{|}&{|}&{|}\\{x_{nm}}&{\rfloor}&{|}&{|}&{|}&{|}&{|}\end{array}\right]}
+\left\{\begin{array}{l}r_{_{1}}-r_{_{f}}^{^{\phantom{\dagger}}}\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{array}{l}x_{_{11}}\end{array}\right|\end{array}\right|\end{array}\right.\left|\begin{array}{l}\left|\begin{array}{l}x_{_{12}}\end{array}\right|\end{array}\right|\end{array}\right.\left|\begin{array}{l}\left|\begin{array}{l}x_{_{1m}}\end{array}\right|\end{array}\right.\left|\begin{array}{l}\left|\begin{array}{l}x_{_{1m}}\end{array}\right|\end{array}\right.\left|\begin{array}{l}\left|\begin{array}{l}u_{_{1}}\end{array}\right|\end{array}\right.\\r_{_{2}}-r_{_{f}}^{^{\phantom{\dagger}}}\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{array}{l}x_{_{21}}\end{array}\right|\end{array}\right|\end{array}\right.=\left|\begin{array}{l}\left|\begin{array}{l}x_{_{21}}\end{array}\right|\end{array}\right|\begin{array}{l}f_{_{1}}+\left|\begin{array}{l}x_{_{22}}\end{array}\right|\left|\begin{array}{l}f_{_{2}}+\cdots+\left|\begin{array}{l}x_{_{2m}}\end{array}\right|\end{array}\right|\begin{array}{l}f_{_{2}}+\left|\begin{array}{l}u_{_{2}}\end{array}\right|\end{array}\right.\\\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{l}\end{array}\end{array}\right|\end{array}\right|\end{array}\right|\end{array}\right.\left|\begin{array}{l}\left|\begin{array}{l}x_{_{11}}\end{array}\right|\end{array}\right|\end{array}\left|\begin{array}{l}f_{_{2}}+\cdots+\left|\begin{array}{l}x_{_{2m}}\end{array}\right|\end{array}\right|\begin{array}{l}f_{_{m}}+\left|\begin{array}{l}u_{_{2}}\end{array}\right|\end{array}\right.\\\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{array}{l}\end{array}\right|\end{array}\right|\end{array}\right.\\r_{_{n}}-r_{_{f}}^{^{\phantom{\dagger}}}\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{array}{l}\end{array}\right|\end{array}\right|\end{array}\right.\left|\begin{array}{l}\left|\begin{array}{l}\left|\begin{array}{l}\end{array}\right|\end{array}\right|\end{array}\right.\left|\begin{array}
 $$
 
-其中，r 为无风险收益， $r_{f}$ $r_{i}$ 为第 i 只股票的收益，x 为每 i 只股票在第j 个因子上的暴露度， $x_{ij}$ $f_{j}$ 为因子收益， $\boldsymbol{u}_{\ i}$ 为误差部分。
+其中，r 为无风险收益， $r_{f}$ $r_{i}$ 为第 i 只股票的收益，x 为每 i 只股票在第j 个因子上的暴露度， $x_{ij}$ $f_{j}$ 为因子收益， $u_{\mathrm{~}i}$ 为误差部分。
 
 简写为矩阵形式为：
 
 $$
-{\sf R}=\mathsf{X}\mathsf{F}+\mathsf{U}
+\mathsf{R}=\mathsf{X}\mathsf{F}+\mathsf{U}
 $$
 
 其中，R 为股票对无风险收益的超额收益部分向量，X 为因子暴露度矩阵，F 为因子收益向量，U 为误差向量。为了求模型中 F 的解，核心是对横截面数据进行回归。
@@ -340,34 +340,34 @@ $$
 通过模型求解 F，用向量形式表示为：
 
 $$
-{\left[\begin{array}{l}{f_{1}{\mathrm{~7~}}}\\{\vdots{\mathrm{~1~}}}\\{f_{2}{\mathrm{~}}}\\{\vdots{\mathrm{~1~}}}\\{\vdots{\mathrm{~}}}\\{f_{m}{\mathrm{~}}}\end{array}\right]}={\left[\begin{array}{llll}{w_{11}w_{12}\cdots}&{w_{1n}}&{{\mathrm{~7~}}{\mathrm{~r~}}_{1}{\mathrm{~7~}}}\\{w_{21}w_{22}\cdots}&{w_{2n}}&{{\mathrm{~|~}}{\mathrm{~r~}}_{2}{\mathrm{~|~}}}\\{{\mathrm{~|~}}}&{{\vdots}}&{{\mathrm{~|~}}{\vdots{\mathrm{~1~}}}}\\{{\mathrm{~|~}}}&{{\vdots}}&{{\mathrm{~|~}}}\\{w_{m1}w_{m2}\cdots}&{w_{mn}{\mathrm{~}}{\mathrm{~]~}}{\left\right\}\lfloor r_{n}{\mathrm{~rfloor~}}}\end{array}}\right]
+\left\{\begin{array}{l}f_{_{1}}\left|\begin{array}{cccc}&\left|\begin{array}{cccc}w_{_{11}}w_{_{12}}&\cdots&w_{_{1n}}\end{array}\right|\left|\begin{array}{c}\mathbf{r}_{_{1}}\end{array}\right|\end{array}\right.\\f_{_{2}}\left|\begin{array}{cccc}&\left|\begin{array}{cccc}w_{_{21}}w_{_{22}}&\cdots&w_{_{2n}}\end{array}\right|\left|\begin{array}{c}\mathbf{r}_{_{2}}\end{array}\right|\end{array}\right.\\\vdots\quad\left|\begin{array}{cccc}&\vdots&&\vdots&\vdots\\&&&\end{array}\right|\left|\begin{array}{c}\mathbf{r}_{_{2}}\end{array}\right|\end{array}\right.\\\left\{\begin{array}{cccc}f_{_{m}}\left|\begin{array}{cccc}&\left|\begin{array}{cccc}w_{_{m1}}w_{_{m2}}&\cdots&w_{_{mn}}\end{array}\right|\left|\begin{array}{c}\mathbf{r}_{_{2}}\end{array}\right|\end{array}\right.\end{array}\right.
 $$
 
-其中，w 为投资组合中因子 i 对应股票j 的权重， $\boldsymbol{w}_{ij}$ $r_{i}$ 为第 i 只股票的相对无风险收益的超额部分。容易验证 $f_{j}$ 即为纯因子收益。以第j 个因子为例，可以得到 ：
+其中，w 为投资组合中因子 i 对应股票j 的权重， $w_{_{ij}}$ $r_{i}$ 为第 i 只股票的相对无风险收益的超额部分。容易验证 $f_{j}$ 即为纯因子收益。以第j 个因子为例，可以得到 ：
 
 $$
-\begin{array}{rl}{\left[\begin{array}{l}{\mathbf{r}_{1}}\end{array}\right]}&{}\\{\left[\begin{array}{l}{\mathbf{r}_{1}}\end{array}\right]}\\{f_{j}}&{=\left[\begin{array}{lll}{w_{j1}w_{j2}\cdots}&{\cdots}&{w_{jn}}\end{array}\right]\left|\begin{array}{l}{r_{2}}\end{array}\right|}&{={W}_{j}^{T}\textsf{R}={W}_{j}^{T}\left(\mathsf{X}\mathsf{F}+\mathsf{U}\right)=\big(W_{j}^{T}\textsf{X}\big)\mathsf{F}+{W}_{j}^{T}\textsf{U}}\\{\big|}&{\big|}\\{\lfloor\ r_{n}\rfloor}\end{array}
+f_{_j}\ =\left[w_{_{j1}}w_{_{j2}}\cdots\ w_{_{jn}}\right]_{\left[\begin{array}{c}\left[\begin{array}{c}\mathbf{r}_{_1}\\\end{array}\right]\\\left[\begin{array}{c}r_{_2}\\\end{array}\right]\\\vdots\\\left[\begin{array}{c}\mathbf{r}_{_n}\\\end{array}\right]\\\end{array}\right]}^{\left[\begin{array}{c}\mathbf{r}_{_1}\\\end{array}\right]}=W_{_j}^{\ T}\mathsf{R}=W_{_j}^{\ T}\left(\mathsf{X}\mathsf{F}+\mathsf{U}\right)=\left(W_{_j}^{\ T}\mathsf{X}\right)\mathsf{F}+W_{_j}^{\ T}\mathsf{U}
 $$
 
-在组合充分分散的情况下， $\boldsymbol{W}_{\ j}^{\textit{ T }}$ U 为 0，而要等式左右两边相等，则 $\boldsymbol{W}_{\ j}^{\textit{ T }}$ X 必定为 $(0,0^{\cdots},1,\cdots,0)$ 即只对第 j 个因子组合暴露为 1，对其它因子暴露为 0，这便是纯因子组合定义。由此可见，纯因子收益即为横截面回归得到的因子收益。
+在组合充分分散的情况下， $\boldsymbol{W}_{\boldsymbol{j}}^{\textit{ T }}$ U 为 0，而要等式左右两边相等，则 $\boldsymbol{W}_{\boldsymbol{j}}^{\textit{ T }}$ X 必定为 $(0,\ 0\cdots,\ 1,\ \cdots,\ 0)$ 即只对第 j 个因子组合暴露为 1，对其它因子暴露为 0，这便是纯因子组合定义。由此可见，纯因子收益即为横截面回归得到的因子收益。
 
 ## 7.1 Barra 纯因子收益求解
 
 前面我们探讨了如何计算纯因子收益，接下来，我们将具体展示如何得到纯因子收益的计算过程。
 
-根据 ${\sf R}=\mathsf{X}\mathsf{F}+\mathsf{U}$ ，根据普通最小二乘法容易得到参数估计量：
+根据 $\mathsf{R}=\mathsf{X}\mathsf{F}+\mathsf{U}$ ，根据普通最小二乘法容易得到参数估计量：
 
 $$
-\boldsymbol{\mathsf{F}}=\textbf{ ( }\boldsymbol{X}^{\textit{ T }}\boldsymbol{X}\textbf{ ) }^{-1}\boldsymbol{X}^{\textit{ T }}\boldsymbol{R}
+\mathsf{F}=\mathrm{~\bf~(~}X^{^{\scriptsize~T}}X\mathrm{~\bf)}^{^{-1}}X^{^{\scriptsize~T}}R
 $$
 
 我们知道，模型的残差与股票市值大小有一定的相关性，即模型具有异方差性，不建议用普通最小二乘求解，一般情况下，根据 Barra 的建议，我们使用流动市值平方根加权的最小二乘进求解（Barra 建议用总市值平方根加权，但我们觉得 A 股用流动市值平方根加权可能更合理，虽然区别并不大）。根据加权最小二乘法，可以得到参数估计量为：
 
 $$
-\mathsf{\Sigma}\mathsf{F}=\mathsf{\Sigma}\left(\boldsymbol{X}^{\textit{ \texttt { T } }}WX\right)^{-1}\boldsymbol{X}^{\textit{ \texttt { T } }}WR
+\mathsf{F}=\mathrm{~(~}X^{^{\scriptsize~T}}WX\mathrm{~)~}^{^{-1}}X^{^{\scriptsize~T}}WR
 $$
 
-其中，W 即为市值的平方根。可以知道，纯因子组合权重即为 ${\left({X}^{\textit{ T }}WX\right)}^{-1}X^{\textit{ T }}W$ o
+其中，W 即为市值的平方根。可以知道，纯因子组合权重即为 $(\boldsymbol{X}^{^{T}}\boldsymbol{W}\boldsymbol{X})^{^{-1}}\boldsymbol{X}^{^{T}}\boldsymbol{W}$ o
 
 ## 注意事项：
 
@@ -376,10 +376,10 @@ $$
 线性回归模型中，需要对自变量进行共线性检测，根据方差膨胀因子（ ）大小来判断，若 ，表明该自变量因子与其它自变量因子有较强的共线性，需要做正交化处理。此处我们以其它因子为自变量，回归正交化取残差取代该自变量因子。方差膨胀因子公式为：
 
 $$
-VIF_{_j{}j}=\frac{1}{1-{R_{_j}}^{2}}
+VIF_{_{j}}=\frac{1}{1-R_{_{j}}^{^{2}}}
 $$
 
-其中 ${R}_{\mathrm{~j~}}^{2}$ 为 R-square 即其它因子对该因子的拟合度。
+其中 $\boldsymbol{R}_{\mathrm{~j~}}^{2}$ 为 R-square 即其它因子对该因子的拟合度。
 
 ## 7.2 传统因子对特质波动率解释度并不明显
 

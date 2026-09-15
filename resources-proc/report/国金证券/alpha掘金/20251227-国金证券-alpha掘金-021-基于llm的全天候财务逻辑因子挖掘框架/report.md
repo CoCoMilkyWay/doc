@@ -65,13 +65,13 @@ gaozhiw@gjzq.com.cn
 此前，我们通过 MMR（Maximal Marginal Relevance）控制因子之间的相关性：
 
 $$
-MMR(f_{i})=\lambda\cdot IC(f_{i})-(1-\lambda)\cdot max_{f_{j}\in S}Rel\big(f_{i},f_{j}\big)
+MMR(f_{i})=\lambda\cdot IC(f_{i})-(1-\lambda)\cdot max_{f_{j}\in S}Rel(f_{i},f_{j})
 $$
 
 然而，在先前基于 MMR的因子相关性控制中，我们意识到原有 Rel函数的设计存在两点不足：一是仅关注截面相关性，而忽略了因子在时序维度上的相关性，导致新因子带来的增量收益难以保障；二是仅聚焦于挖掘因子内部的相关性，而未充分考虑其与常见风格因子及Barra 风险因子之间的外部关联，致使整体组合可能在低流动性与低波动率等风险信号上过度暴露。为弥补上述缺陷，我们重新设计了 MMR计算方法——在保留截面相关性控制的基础上，引入时序相关性评估机制，确保新因子具备持续稳定的增益能力；同时，将Barra 风险因子纳入相关性计算体系，从而在早期挖掘阶段就有效规避系统性风险暴露，提升因子的实用性与组合安全性。
 
 $$
-MMR(f_{i})=\lambda\cdot IC(f_{i})-(1-\lambda)\cdot max_{f_{j}\in S_{s}\cup S_{m}}(\alpha\cdot Rel_{cs}{\left(f_{i},f_{j}\right)}+(1-\alpha)\cdot Rel_{ts}{\left(f_{i},f_{j}\right)})
+MMR(f_{i})=\lambda\cdot IC(f_{i})-(1-\lambda)\cdot max_{f_{j}\in S_{s}\cup S_{m}}(\alpha\cdot Rel_{cs}\big(f_{i},f_{j}\big)+(1-\alpha)\cdot Rel_{ts}\big(f_{i},f_{j}\big))
 $$
 
 在样本内检验环节，先前版本因考虑到 LLM挖掘因子具备较强的可解释性，采用了全样本内挖掘方式。然而，这种做法实际上仍会部分暴露未来信息，导致因子在样本外期间的表现难以得到有效保证。为解决这一问题，我们在本篇报告中优化了检验流程：严格限定因子挖掘仅基于 2010年至 2019 年共 10 年的历史数据进行分析与筛选，最终仅在因子入库阶段，才对 2020年1 月 1 日至 2025 年 4 月 30 日的样本外数据进行验证，并依据预设的IC 值与多头超额收益阈值决定是否纳入因子库，从而有效避免信息泄露，增强因子在真实交易场景下的稳健性与可移植性。

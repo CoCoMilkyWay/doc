@@ -169,11 +169,11 @@ le_Summary] 深度学习在语音、视频、自然语言处理等领域的成�
 下面我们来说明怎么通过深度组合的框架来解释 Markowitz 的均值方差模型。均值方差模型其实是通过均值和协方差矩阵进行了“编码”：
 
 $$
-\overline{{{X}}}=\frac{1}{T}\sum_{t\ :=1}^{T}X_{\ :it}
+\overline{{\textit{ X }}}=\frac{1}{T}\sum_{\textit{ t = 1 }}^{T}\textit{ X }_{\textit{ i t }}
 $$
 
 $$
-\chi{X^{\textit{ \texttt { T } }}}=\frac{1}{T}\sum_{t=1}^{T}\left(\boldsymbol{X}_{it}-\overline{{X}}\right)\left(\boldsymbol{X}_{it}-\overline{{X}}\right)^{T}
+\textit{ X X }^{\textit{ \tiny { T } }}=\frac{1}{\textit{ T }}\sum_{\textit{ t }=1}^{\textit{ T }}\big(\textit{ X }_{\textit{ i t }}-\textit{ X }\big)\big(\textit{ X }_{\textit{ i t }}-\textit{ X }\big)^{\textit{ T }}
 $$
 
 用统计学术语来说，如果市场收益是具有常数预期收益和协方差的多元正态分布，则上述的指标已经能足够反应市场特征。相当于我们把N*T的观测数据“降维”到了N 个平均值和N(N-1)/2<<T 个方差值。
@@ -206,37 +206,37 @@ $$
 ![](images/c7e752047f447742dbc76ee1a7be3a463107ef3f3d78a540371d24e99e807761.webp)
 数据来源：国泰君安证券研究
 
-如图 2，是一个简化的自编码网络示意图。图中的神经网络共有三层节点，其中第一层节点是输入层，输入信息是原始的股票价格信息，这里我们使用个股120日收益率作为输入，记为向量X。中间层的节点为隐含层节点，也是我们希望通过编码方式找到的特征的节点，记为向量 Z。输出层节点则是我们经过编码、解码过程之后希望复原的信息，记为Y。从原始的 n 维数据 $(\mathbf{x}1,\mathbf{x}2,...,\mathbf{x}\mathbf{N})$ 到通过函数 H(X)作用到隐含层特征(z1 $,z2,...,z\mathrm{K})$ 的过程即为编码过程，编码过程中使用的参数记为矩阵，其维度 $\mathbf{N}^{*}\mathbf{K}$ 对应输入层节点数 N 和隐含层节点数 K。从隐含层特征(z1,z2,…,zK)通过函数 G(X)再映射到输出层数据的过程即为解码过程，解码过程中使用的参数记为矩阵 ${\cal W}_{_2}{^{kj}}\left(\frac{}{}k\in\frac{}{}[1,\frac{}{}K],\frac{}{}j\in\frac{}{}[1,\frac{}{}N]\right)$ ，其维度K*N也对应隐含层节点数 K和输出层节点数N。为了表达方便，我们将通过编码解码过程得到结果Y的函数记为 $F_{_{\psi}}\left(\boldsymbol{X}_{}\right)$ ，其满足：
+如图 2，是一个简化的自编码网络示意图。图中的神经网络共有三层节点，其中第一层节点是输入层，输入信息是原始的股票价格信息，这里我们使用个股120日收益率作为输入，记为向量X。中间层的节点为隐含层节点，也是我们希望通过编码方式找到的特征的节点，记为向量 Z。输出层节点则是我们经过编码、解码过程之后希望复原的信息，记为Y。从原始的 n 维数据 $(\mathrm{x1,}\mathrm{x2,}\ldots\mathrm{,}\mathrm{xN})$ 到通过函数 H(X)作用到隐含层特征(z1 $\mathrm{,}\mathrm{z2,}\mathrm{\ldots,}\mathrm{zK)}$ 的过程即为编码过程，编码过程中使用的参数记为矩阵，其维度 $\mathrm{N^{*}K}$ 对应输入层节点数 N 和隐含层节点数 K。从隐含层特征(z1,z2,…,zK)通过函数 G(X)再映射到输出层数据的过程即为解码过程，解码过程中使用的参数记为矩阵 $W_{2}^{kj}(k\in[1,K],j\in[1,N])$ ，其维度K*N也对应隐含层节点数 K和输出层节点数N。为了表达方便，我们将通过编码解码过程得到结果Y的函数记为 $F_{_{\mathrm{F}}}\left(\;X\;\right)$ ，其满足：
 
 $$
-F_{_w}\left(X\right)\ =\ H\left(G\left(X\right)\right)
+F_{_W}\left(\textit{X}\right)=H\left(G\left(\textit{X}\right)\right)
 $$
 
 其中第 j 项结果即：
 
 $$
-\begin{array}{lllll}{{{\displaystyle F_{_{\nu}}\left(\left.X\right.\right)_{_{j}}}}}&{{=}}&{{\displaystyle\sum_{k=1}^{K}{{{\cal W}_{_{2}}}^{kj}{{\cal G}}(\sum_{i=1}^{N}{{{\cal W}_{_{1}}}^{ik}{{\cal X}_{_{i}}}})}}}\\{{}}&{{}}&{{}}\\{{=}}&{{\displaystyle\sum_{k=1}^{K}{{{\cal W}_{_{2}}}^{kj}{{\cal Z}}_{_{k}}for{\cal Z}_{_{k}}}}}&{{=}}&{{{\cal G}(\sum_{i=1}^{N}{{{\cal W}_{_{1}}}^{ik}{{\cal X}_{_{i}}}})}}\end{array}
+\begin{aligned}&F_{_W}\left(\boldsymbol{X}\right)_{_{j}}=\sum_{_{k=1}}^{^{K}}\mathcal{W}_{_{2}}^{^{kj}}G\left(\sum_{_{i=1}}^{^{N}}\mathcal{W}_{_{1}}^{^{ik}}\boldsymbol{X}_{_{i}}\right)\\&=\sum_{_{k=1}}^{^{K}}\mathcal{W}_{_{2}}^{^{kj}}\boldsymbol{Z}_{_{k}}for\boldsymbol{Z}_{_{k}}=G\left(\sum_{_{i=1}}^{^{N}}\mathcal{W}_{_{1}}^{^{ik}}\boldsymbol{X}_{_{i}}\right)\\\end{aligned}
 $$
 
-为了表征编码、解码之后的结果 $F_{_{W}}\left(X\right)$ 与原始信息的差异，我们定义偏差项 $\Delta\left(W\right)=\left.X-F_{_{\pi}}\left(X\right)\right.^{2}$ 。另外，为了使得模型不过于拟合，使用 L2的惩罚项 $\Phi\left(\boldsymbol{W}\right)$ 来对目标函数进行矫正。因此，自编码网络的优化目标为：
+为了表征编码、解码之后的结果 $F_{_{\mathrm{~F~}}}(\mathrm{~}X\mathrm{~})$ 与原始信息的差异，我们定义偏差项 $\Delta\left(\textit{ W }\right)\quad=\quad\left\|\textit{ X }\quad-\quad F_{_{\textit{ w }}}\left(\textit{ X }\right)\right\|^{2}$ 。另外，为了使得模型不过于拟合，使用 L2的惩罚项 $\Phi\left(W\right)$ 来对目标函数进行矫正。因此，自编码网络的优化目标为：
 
 $$
-\zeta(W)\ =\ \arg\quad\operatorname*{min}_{\scriptstyle\mathrm{~~}}\ \Delta(W)\ +\ \lambda\Phi(W)
-$$
-
-$$
-\Delta\left(W\right)=\left.X-F_{_{W}}\left(X\right)\right.^{2}
+\zeta\left(\mathcal{W}\right)=\arg\min_{\mathcal{F}}\Delta\left(\mathcal{W}\right)+\lambda\Phi\left(\mathcal{W}\right)
 $$
 
 $$
-\zeta\left(W\right)~=~\sum_{\mathrm{\scriptsize\textit{ i , j , k }}}\left|W_{1}^{\mathrm{\scriptsize\textit{ i k }}}\right|^{2}~+~\left|W_{2}^{\mathrm{\scriptsize\textit{ k j }}}\right|^{2}
+\Delta\left(\textit{ W }\right)\quad=\quad\left\|\textit{ X }\quad-\quad F_{_{\textit{ W }}}\left(\textit{ X }\right)\right\|^{2}
 $$
 
-那么，上述优化的过程即为学习出 ${W_{1}}^{ik}$ 的过程。当然，优化目标 $\Delta\left(\mathcal{W}\right)$ 的作用远不止学习参数 $\boldsymbol{\it W}_{1}^{\ ik}$ 这么简单，其更重要的作用是衡量了我们在编码过程中丢失的信息量。显然，如果在这个特征提取的过程中信息损耗较大，则 $\Delta\left(\mathcal{W}\right)$ 会很大。也就是说， $\Delta\left(\mathcal{W}\right)$ 的大小直接衡量了该模型提取特征的准确度。因此，我们将 $\Delta\left(\mathcal{W}\right)$ 作为一个检验指标，分别对以下两种情况进行检验：
+$$
+\zeta\left(\mathcal{W}\right)~=~\sum_{_{i\;,j\;,k}}\left|\mathcal{W}_{_{1}}^{^{ik}}\right|^{2}~+~\left|\mathcal{W}_{_{2}}^{^{kj}}\right|^{2}
+$$
 
-(a) 针对个股的检验。在 T 时期，对于某只股票 S，通过学习到的参数W对股票S 进行编码，编码解码后的损失函数 $\Delta\left(\mathcal{W}\right)$ 大于某一阈值Δ'，则说明该个股的编码信息损失很高，使用该编码结果进行下一步$\mathrm{T}{+}1$ 时期的预测很不可信，因此可以直接剔除该股票；
+那么，上述优化的过程即为学习出 ${\boldsymbol{{\boldsymbol{{\mathcal{W}}}}}_{1}}^{ik}$ 的过程。当然，优化目标 $\Delta(W)$ 的作用远不止学习参数 ${{{\bf{\Psi}}_{1}}^{ik}}$ 这么简单，其更重要的作用是衡量了我们在编码过程中丢失的信息量。显然，如果在这个特征提取的过程中信息损耗较大，则 $\Delta(W)$ 会很大。也就是说， $\Delta(W)$ 的大小直接衡量了该模型提取特征的准确度。因此，我们将 $\Delta(W)$ 作为一个检验指标，分别对以下两种情况进行检验：
 
-(b) 针对模型的检验。上述情况的一个极端情况是，如果对于选股池中所有股票，损失函数 $\Delta\left(\mathcal{W}\right)$ 的均值 $\Delta\left(\mathcal{W}\right)$ 大于某一个阈值 $\Delta^{\prime\prime}.$ ，则说明在当期，大部分股票使用编码方式得到的结果都不可信，那么模型可能已经失效，因此可以在该时刻放弃策略，或者切换到其他策略。导致模型失效的原因很多，有可能市场风格的切换导致失效，也可能我们在2.3节提到的强假设在该阶段不成立了，总之，如果我们找到的指标 $\Delta\left(\boldsymbol{W}\right)$ 满足相关度高、非滞后这两个条件，则说明这是一个可信的判断市场是否失效的指标。
+(a) 针对个股的检验。在 T 时期，对于某只股票 S，通过学习到的参数W对股票S 进行编码，编码解码后的损失函数 $\Delta(W)$ 大于某一阈值Δ'，则说明该个股的编码信息损失很高，使用该编码结果进行下一步$\mathbf{T}\mathbf{+1}$ 时期的预测很不可信，因此可以直接剔除该股票；
+
+(b) 针对模型的检验。上述情况的一个极端情况是，如果对于选股池中所有股票，损失函数 $\Delta(W)$ 的均值 $\Delta\left(\mathcal{W}\right)$ 大于某一个阈值 $\Delta^{\prime\prime}.$ ，则说明在当期，大部分股票使用编码方式得到的结果都不可信，那么模型可能已经失效，因此可以在该时刻放弃策略，或者切换到其他策略。导致模型失效的原因很多，有可能市场风格的切换导致失效，也可能我们在2.3节提到的强假设在该阶段不成立了，总之，如果我们找到的指标 $\Delta\left(\mathcal{W}\right)$ 满足相关度高、非滞后这两个条件，则说明这是一个可信的判断市场是否失效的指标。
 
 ## 4.2.转化为经典分类问题
 
@@ -249,16 +249,16 @@ $$
 如图 3，隐含层 Z 左侧的节点从编码阶段的结果保留，输入依然是时间价格序列，Z 依然是提取到的特征，Wik 是已经学习到的参数。将输出层的节点根据个股在 T+1 期是否战胜指数分为两个节点，假设 Y1 代表战胜指数，则如果样本战胜指数，标记 Y1 为 1，Y2 为 0，这样就转化为了机器学习中经典的分类问题。优化目标即为交叉熵：
 
 $$
-\Gamma(W)=-\sum_{\textit{ i }=1}^{\textit{ n }}{\boldsymbol{y}_{\textit{ i }}*\log(\hat{\textit{ y }_{i}})}
+\Gamma\left(\textit{ W }\right)~=~-\sum_{_{i\mathrm{~=~}1}}^{^{\textit{ H }}}\textit{ y }_{_{i}}~*~1\mathrm{og}\left(\hat{\textit{ \textit { y } }_{_{i}}}\right)
 $$
 
-其中 表示样本的真实概率分布， $\textit{ y }_{i}$ $\hat{\textbf{ \textit { y } }}_{i}$ 表示预测概率分布。当然，如果输出项是十分位指标或者其他非二分类问题，也依然可以用上式计算，只是对预测的 $\hat{\textbf{ \textit { y } }}_{i}$ 需要增加一个 softmax 函数，具体来说，如果输出层的输入项是 $\mathbf{\nabla}_{\Theta}$ ，则：
+其中 表示样本的真实概率分布， $y_{\textit{ i }}$ $\hat{\textbf{ \textit { Y } }}_{i}$ 表示预测概率分布。当然，如果输出项是十分位指标或者其他非二分类问题，也依然可以用上式计算，只是对预测的 $\hat{\textbf{ y }}_{i}$ 需要增加一个 softmax 函数，具体来说，如果输出层的输入项是 $.\Theta$ ，则：
 
 $$
-\hat{\bar{y}}_{\ i}=soft\quad\operatorname*{max}(\ \Theta_{\ i})=\frac{\exp(\ \Theta_{\ i})}{\sum_{\ j}\exp(\ \Theta_{\ i})}
+\hat{\mathcal{V}}_{i}=soft\max\left(\boldsymbol{\Theta}_{i}\right)=\frac{\exp\left(\boldsymbol{\Theta}_{i}\right)}{\sum_{j}\exp\left(\boldsymbol{\Theta}_{i}\right)}
 $$
 
-那么，通过对 $\Gamma(\boldsymbol{\mathcal{W}})$ 的优化，整个神经网络参数就可以学习出来。当然，这里只是一个简单的示意，实际使用中，需要用更多层次的网络结构。那么，如果选择网络结构就涉及下一个话题，模型选择问题。
+那么，通过对 $\Gamma(W)$ 的优化，整个神经网络参数就可以学习出来。当然，这里只是一个简单的示意，实际使用中，需要用更多层次的网络结构。那么，如果选择网络结构就涉及下一个话题，模型选择问题。
 
 ## 4.3.模型选择及验证
 
@@ -425,7 +425,7 @@ $$
 
 ## 5.4.策略指标分析
 
-上文中提到，损失函数 $\Delta\left(\mathcal{W}\right)$ 的均值 $\overline{{\mathbf{A}}}(\ vn)$ 可以作为策略是否失效的一个重要指标，来判断我们是否应该切换策略。下面，我们针对策略的分年度收益和指标 (W)的关系来进一步观察该指标的可靠性。一个指标对策略的收益判断是否有效，主要需要满足两个条件：
+上文中提到，损失函数 $\Delta(W)$ 的均值 $\stackrel{-}{.\Delta(\psi)}$ 可以作为策略是否失效的一个重要指标，来判断我们是否应该切换策略。下面，我们针对策略的分年度收益和指标 (W)的关系来进一步观察该指标的可靠性。一个指标对策略的收益判断是否有效，主要需要满足两个条件：
 
 (a) 相关性。即指标和策略收益、回撤表现出较高的相关性，具有相同的变化趋势，或者在统计意义上同向变化。
 
@@ -476,7 +476,7 @@ $$
 
 ## 5.5.利用损失函数优化策略
 
-根据损失函数对我们的启示，当 $\overline{{\Delta}}(\mu\prime)$ 较大时，策略具有较低的置信度水平，秉着不做不确定性收益的原则，我们可以在损失函数较大的时候放弃该策略，转向其他策略，或者最简单的，使用基准来构建组合。为了进一步证明该损失函数的有效性，我们构建了以下策略：对每个换仓日，如果损失函数Δ(W)超过某一静态阈值（这里选择∆(W)=100)，则本期仓位使用基准沪深300指数成分股代替。也就是说，对于置信度不高的时间区间，放弃策略，回测结果如图12所示。
+根据损失函数对我们的启示，当 $\stackrel{-}{\Delta}(\psi)$ 较大时，策略具有较低的置信度水平，秉着不做不确定性收益的原则，我们可以在损失函数较大的时候放弃该策略，转向其他策略，或者最简单的，使用基准来构建组合。为了进一步证明该损失函数的有效性，我们构建了以下策略：对每个换仓日，如果损失函数Δ(W)超过某一静态阈值（这里选择∆(W)=100)，则本期仓位使用基准沪深300指数成分股代替。也就是说，对于置信度不高的时间区间，放弃策略，回测结果如图12所示。
 
 图 12深度组合选股收益曲线
 ![](images/934aac41fec4fd0c6eda45170696953a2df4f34bd3a5c91ac1ce69f0276649d1.webp)

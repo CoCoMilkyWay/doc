@@ -68,15 +68,15 @@ Barra结构化风险模型是目前全球最知名的多因子模型之一。201
 | Volatility | Beta | BETA | 贝塔 | 股票收益率 $\cdot r_{t}$ 对沪深300收益率R,进行时间序列回归，取回归系数，回归时间窗口为252个交易日，半衰期63个交易日 $r_{t}=\alpha+\beta R_{t}+e_{t}$ |
 |  | ResidualVolatility | Hist sigma | 历史sigma | 在计算BETA所进行的时间序列回归中，取回归残差收益率的波动率 |
 |  |  | Daily std | 日标准差 | 日收益率在过去252个交易日的波动率，半衰期42个交易日 |
-|  |  | Cumulative range | 累积收益范围 | Z(T)为过去T个月累积对数收益率（每个月包含21个交易日)，即 $Z(T)={\sum}_{\tau=1}^{T}[\ln(1+r_{\tau})]$ 其中 $r_{\tau}$ 为股票在τ月的收益，从而定义累积收益范围如下： $\mathrm{CMRA}=Z_{max}-Z_{min}$ 其中 $Z_{max}=\operatorname*{max}{\{Z(T)\}},$ $Z_{min}=\operatorname*{min}{\{Z(T)\}}$ $T=1,\dots,12$ |
-| Liquidity | Liquidity | Monthly shareturnover | 月换手率 | 对最近21个交易日的股票换手率求和，然后取对数，即： $STOM=ln(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}})$ |
+|  |  | Cumulative range | 累积收益范围 | Z(T)为过去T个月累积对数收益率（每个月包含21个交易日)，即 $Z(T)={\sum}_{\tau=1}^{T}[\ln(1+r_{\tau})]$ 其中 $r_{\tau}$ 为股票在τ月的收益，从而定义累积收益范围如下： $\mathtt{CMRA}=Z_{max}-Z_{min}$ 其中 $Z_{max}=\operatorname*{max}\left\{Z(T)\right\},$ $Z_{min}=\min\left\{Z(T)\right\}$ $T=1,\ldots,12$ |
+| Liquidity | Liquidity | Monthly shareturnover | 月换手率 | 对最近21个交易日的股票换手率求和，然后取对数，即： $STOM=ln\:({\sum}_{t=1}^{21}\cfrac{V_{t}}{S_{t}})$ |
 |  |  |  |  | 其中 $V_{t}$ 为股票在t日的成交额， $S_{t}$ 为股票在t日的流通市值 |
-|  |  | Quarterly shareturnover | 季换手率 | $STOM_{\tau}$ 为τ月的换手率（每月包含21个交易日）季换手率定义为： $STOQ=ln\ :(\frac{1}{T}{\sum}^{T}{exp\ :(STOM_{\tau})})$ T=3 个月 |
-|  |  | Annual shareturnover | 年换手率 | STOM为τ月的换手率（每月包含21个交易日），年换手率定义为： $STOA=\ln{(\frac{1}{T})}\overline{{{2}}}_{\tau=1}^{T}\exp{(STOM_{\tau})})$ T=12 个月 |
+|  |  | Quarterly shareturnover | 季换手率 | $STOM_{\tau}$ 为τ月的换手率（每月包含21个交易日）季换手率定义为： $STOQ=ln\;(\frac{1}{T}{\sum}_{\tau=1}^{T}exp\;(STOM_{\tau}))$ T=3 个月 |
+|  |  | Annual shareturnover | 年换手率 | STOM为τ月的换手率（每月包含21个交易日），年换手率定义为： $STOA=\ln\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)\right)$ T=12 个月 |
 |  |  | Annualized tradedvalue ratio | 年化交易量比率 | 对日交易份额比率（换手率）进行加权求和，时间窗口252个交易日，半衰期63个交易日 |
-| Momentum | Short Termreversal | Short Termreversal | 短期反转 | 最近一个月的加权累积对数日收益率 $STREV(t)=\sum_{\tau\in T}w_{\tau-t-1}\left[\ln\bigl(1+r(\tau)\bigr)\right]$ r为算数平均股票收益率，w为半衰指数权重，时间窗口21个交易日，半衰期5个交易日， $\mathsf{T}=\{\mathsf{t}-1,\ldots\ldots,\mathsf{t}-\mathsf{n}\}$ |
-|  | Seasonality | Seasonality | 季节因子 | 过去五年的已实现次月收益率的平均值 $SEASON(t)=\frac{1}{Y}\sum_{y=1}^{Y}r_{y}$ $\Gamma_{\boldsymbol{\mathbf{y}}}$ 为滞后 $\mathsf{y}$ 年的月收益率 |
-|  | IndustryMomentum | Industry Momentum | 行业动量 | 该指标描述个股相对中信一级行业的强度：（1）个股相对强度定义为： $RS_{S}(t)=\sum_{\tau\epsilon T(t)}w_{\tau-t}[ln(1+r_{s}(\tau)]$ 式中， $r_{s}$ 为日股票收益率，w为半衰指数权重，时间窗口6个月，半衰期1个月， $T\left(\mathrm{t}\right)=\left\{\mathrm{t},\ldots,\mathrm{t}-\mathsf{n}\right\}$ (2) 行业 $\cdot I_{t}$ 的相对强度定义为： $RS_{I}(t)=\sum_{i\in I(t)}c_{i}(t)RS_{i}(t)$ 式中， $c_{i}(t)$ 为行业i内个股流通市值的平方根（3)最终该指标定义为： $\mathrm{INDMOM}_{s}(t)=-\big(c_{s}(t)RS_{s}(t)-RS_{I}(t)\big)$ |
+| Momentum | Short Termreversal | Short Termreversal | 短期反转 | 最近一个月的加权累积对数日收益率 $STREV(t)=\sum_{\tau\in T}w_{\tau-t-1}\left[\ln\bigl(1+r(\tau)\bigr)\right]$ r为算数平均股票收益率，w为半衰指数权重，时间窗口21个交易日，半衰期5个交易日， $\mathsf{T}=\{\mathsf{t}-1,\ldots,\mathsf{t}-\mathsf{n}\}$ |
+|  | Seasonality | Seasonality | 季节因子 | 过去五年的已实现次月收益率的平均值 $SEASON(t)=\frac{1}{Y}{\sum_{y=1}^{Y}{r_{y}}}$ $\mathbf{r_{y}}$ 为滞后 $\mathsf{y}$ 年的月收益率 |
+|  | IndustryMomentum | Industry Momentum | 行业动量 | 该指标描述个股相对中信一级行业的强度：（1）个股相对强度定义为： $RS_{S}(t)=\sum_{\tau\epsilon T(t)}w_{\tau-t}[ln\:(1+r_{s}(\tau)]$ 式中， $r_{s}$ 为日股票收益率，w为半衰指数权重，时间窗口6个月，半衰期1个月， $\mathsf{T}(\mathsf{t})=\{\mathsf{t},\ldots,\mathsf{t}-\mathsf{n}\}$ (2) 行业 $U_{t}$ 的相对强度定义为： $RS_{I}(t)=\sum_{i\in I(t)}c_{i}(t)RS_{i}(t)$ 式中， $c_{i}(t)$ 为行业i内个股流通市值的平方根（3)最终该指标定义为： $\mathrm{INDMOM}_{s}(t)=-\left(c_{s}(t)RS_{s}(t)-RS_{I}(t)\right)$ |
 |  | Momentum | Relative strength | 相对强度 | (1)计算非滞后的相对强度：对股票的对数收益率进行半衰指数加权求和，时间窗口252个交易日，半衰期126个交易日(2)以11个交易日为时间窗口，滞后11个交易日，取非滞后相对强度的等权平均值 |
 |  |  | Historical alpha | 历史 Alpha | 在计算BETA所进行的时间序列回归中，取回归截距项 |
 | Quality | Leverage | Market Leverage | 市场杠杆 | $MLEV=\frac{ME+PE+LD}{ME}$ |
@@ -89,14 +89,14 @@ Barra结构化风险模型是目前全球最知名的多因子模型之一。201
 |  | Variation inEarnings | 盈利波动率 | 过去五个财年的年净利润标准差除以平均年净利润 |
 |  | Variation inCash-Flows | 现金流波动率 | 过去五个财年的年现金及现金等价物净增加额标准差除以平均年现金及现金等价物净增加额 |
 |  | Standard deviationof AnalystForecastEarnings-to-Price | 分析师预测EP 比标准差 | 预测 12 月 eps 的标准差除以当前股价 |
-| EarningsQuality | AccrualsBalancesheetversion | 资产负债表应计项目 | (1)资产负债表应计项目总额计算公式为： $ACCR\_BS=NOA_{t}-NOA_{t-1}-DA_{t}$ $NOA_{}=(TA_{}-Cash)_{-}(TL_{}-TD)$ 其中，NOA 为净经营资产，Cash 为现金及现金等价物，TA为总资产，TL为总负债，TD为总带息债务（负债合计-无息流动负债-无息非流动负债），DA为折旧与摊销之和(2)将负的 ACCR_BS 除以总资产TA: $ABS={\frac{-ACCR_{-}BS}{TA}}$ |
-|  | Accruals Cashflowversion | 现金流量表应计项目 | (1)现金流量表应计项目总额计算公式为： $ACCR_{CF}=Ni_{t}-\left(CFO_{t}+CFI_{t}\right)+DA_{t}$ Ni为净利润，CFO为经营现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和(2)将负的 ACCR_CF 除以总资产TA: $ACF={\frac{-ACCR_{-}CF}{TA}}$ |
+| EarningsQuality | AccrualsBalancesheetversion | 资产负债表应计项目 | (1)资产负债表应计项目总额计算公式为： $_{ACCR\_BS=NOA_{t}-NOA_{t-1}-DA_{t}}$ $NOA=(TA-Cash)-(TL-TD)$ 其中，NOA 为净经营资产，Cash 为现金及现金等价物，TA为总资产，TL为总负债，TD为总带息债务（负债合计-无息流动负债-无息非流动负债），DA为折旧与摊销之和(2)将负的 ACCR_BS 除以总资产TA: $ABS=\frac{-ACCR\_BS}{TA}$ |
+|  | Accruals Cashflowversion | 现金流量表应计项目 | (1)现金流量表应计项目总额计算公式为： $ACCR_{CF}=Ni_{t}-\left(CFO_{t}+CFI_{t}\right)+DA_{t}$ Ni为净利润，CFO为经营现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和(2)将负的 ACCR_CF 除以总资产TA: $ACF=\frac{-ACCR\_CF}{TA}$ |
 | Profitability | Asset turnover | 资产周转率 | SalesATO =TASales为过去12 个月的营业收入，TA 为最近报告期的总资产 |
 
 |  |  | Grossprofitability | 资产毛利率 | $GP={\frac{Sales-COGS}{TA}}$ 其中 Sales、COGS 和TA 分别是上一个财务年度的营业收入、营业成本和总资产 |
 | --- | --- | --- | --- | --- |
 |  |  | Gross ProfitMargin | 销售毛利率 | $GPM=\frac{Sales-COGS}{Sales}$ 其中 Sales和COGS 分别为上一会计年度的营业收入和销货成本 |
-|  |  | Return on assets | 总资产收益率 | $ROA=\frac{Earnings}{TA}$ Earnings为过去12 个月的净利润，TA 为最近报告期的总资产 |
+|  |  | Return on assets | 总资产收益率 | $ROA=\frac{learning}{TA}$ Earnings为过去12 个月的净利润，TA 为最近报告期的总资产 |
 |  | InvestmentQuality | Total AssetsGrowth Rate | 总资产增长率 | 最近5个财政年度的总资产对时间的回归的斜率值，除以平均总资产，最后取相反数 |
 |  |  | Issuance growth | 股票发行量增长率 | 最近5 个财政年度的流通股本对时间的回归的斜率值，除以平均流通股本，最后取相反数 |
 |  |  | Capitalexpenditure growth | 资本支出增长率 | 将过去5 个财政年度的资本支出对时间的回归的斜率值，除以平均资本支出，最后取相反数 |
@@ -111,7 +111,7 @@ Barra结构化风险模型是目前全球最知名的多因子模型之一。201
 |  |  | Historicalearnings per sharegrowth rate | 每股收益增长率 | 过去5 个财政年度的每股收益对时间回归的斜率除以平均每股年收益 |
 |  |  | Historical salesper share growthrate | 每股营业收入增长率 | 过去5个财政年度的每股年营业收入对时间回归斜率除以平均每股年营业收入 |
 | Sentiment | Sentiment | Revision ratio | 调整比率 | 分析师调整比率的每月变动，定义为向上调整次数减去向下调整次数，除以总的调整次数 $RRIBS(t)=\sum_{l\in L}W_{l}\frac{UP(t-l*21)-DOWN(t-l*21)}{TOTAL(t-l*21)}$ L={0, 1, 2} |
-|  |  | Change inanalyst-predictedearnings-to-price | 分析师预测EP 比变化 | 分析师预测 EP比的加权变动 $EPIBS_{C(t)}$ $=\sum_{l\in L}w_{l}\frac{EPIBS(t-l*63)-EPIBS(t-(l+1)*63)}{EPIBS(t-(l+1)*63)}$ L= {0, 1, 2, 3} |
+|  |  | Change inanalyst-predictedearnings-to-price | 分析师预测EP 比变化 | 分析师预测 EP比的加权变动 $EPIBS_{C(t)}$ $\sum_{l\in L}w_{l}\frac{EPIBS(t-l*63)-EPIBS(t-(l+1)*63)}{EPIBS(t-(l+1)*63)}$ L= {0, 1, 2, 3} |
 |  |  | Change inanalyst-predictedearnings per share | 分析师预测的每股收益的变化 | 分析师预测每股收益的加权变化： $EARN_{C(t)}$ $=\sum_{l\in L}w_{l}\frac{EARN(t-l*63)-EARN(t-(l+1)*63)}{EARN(t-(l+1)*63)}$ L={0, 1, 2, 3} |
 | DividendYield | DividendYield | Dividend-to-priceratio | 股息率 | 最近12个月的每股股息除以上个月月末的股价 |
 |  |  | Analyst predicteddividend to priceratio | 分析师预测分红价格比 | 预测12个月的每股股息（DPS）除以当前价格 |
@@ -155,23 +155,23 @@ Barra结构化风险模型是目前全球最知名的多因子模型之一。201
 去极值：为避免数据中的极端值对回归结果产生过多影响，我们使用“中位数去极值法”，将超过上下限的极端值用上下限值代替。
 
 $$
-\widetilde\mathrm{{x}}_{\mathrm{i}}=\left\{\begin{array}{ll}{\mathrm{{x}_{M}+5\times\mathrm{{x}_{MAD},~\mathrm{x}_{i}>\mathrm{x}_{M}+5\times\mathrm{{x}_{MAD}}}}}\\{\mathrm{{x}_{i},~\mathrm{{x}_{M}-5\times\mathrm{{x}_{MAD}\leq\mathrm{x}_{i}\leq\mathrm{x}_{M}+5\times\mathrm{{x}_{MAD}}}}}}\\{\mathrm{{x}_{M}-5\times\mathrm{{x}_{MAD},~\mathrm{x}_{i}<\mathrm{x}_{M}-5\times\mathrm{{x}_{MAD}}}}}\end{array}\right.
+\begin{aligned}\tilde{\mathbf{x}}_{\mathbf{i}}=&\left\{\begin{aligned}\mathbf{x}_{\mathbf{M}}+&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}},\mathbf{x}_{\mathbf{i}}>\mathbf{x}_{\mathbf{M}}+5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\\\mathbf{x}_{\mathbf{i}},\mathbf{x}_{\mathbf{M}}-&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\leq\mathbf{x}_{\mathbf{i}}\leq\mathbf{x}_{\mathbf{M}}+5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\\\mathbf{x}_{\mathbf{M}}-&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}},\mathbf{x}_{\mathbf{i}}\leq\mathbf{x}_{\mathbf{M}}-5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\end{aligned}\right.\end{aligned}
 $$
 
 $$
-\begin{array}{rl}{\mathrm{x_{i}}\colon}&{{}|\overline{{\sharp}}\setminus\mathcal{U}_{\Xi}^{\angle}\mathinner{\vec{\mathcal{F}}{:}}\overline{{\xi}}|}\end{array}
+$\mathbf{x}_{\mathbf{i}}\mathbf{:}$原始序列
 $$
 
 $$
-\begin{array}{rl}{\mathbf{x}_{\mathbf{M}}:}&{}|\dot{\vec{\mathcal{F}}}\cdot\boldsymbol{\xi}||\mathbf{x_{i}}\notin\mathbf{\Xi}^{\sharp}\dag\dag\dag\dag\dag\dag\dot{\Xi}\dot{\ast}\dag\dag\begin{array}{rl}{\mathbf{x}_{\mathbf{i}}\notin\mathbf{\Xi}\times\mathbf{x}_{\mathbf{i}}\mathrm{~}\forall\dag\dag,}\end{array}\end{array}
+$\mathbf{x}_{\mathbf{M}}\mathbf{:}$序列{x}_{\mathrm{i}}的中位数
 $$
 
 $$
-x_{MAD}\colon\|\dot{\vec{\cdot}}\vec{\jmath}\|x_{i}-x_{M}|\sharp\breve{\jmath}\|\dot{\vec{\jmath}}\|\dot{\vec{\cdot}}\dot{\jmath}\|\partial x_{i}-\partial x_{M}\|\dot{\vec{\jmath}}\|\dot{\vec{\jmath}}\|\dot{\vec{\jmath}}\|\dot{\vec{\cdot}}\dot{\vec{\jmath}}\|\dot{\vec{\jmath}}
+x_{MAD}:序列|x_i-x_M|的中位数
 $$
 
 $$
-\tilde{\mathrm{x}}_{\mathrm{i}}{:}~\frac{1}{2}\ddag\mathcal{B}\ll|\pm\frac{1}{2}\mathcal{B}|\llangle\Xi\llangle\frac{1}{2}\iint\sqrt{\Xi}\mathrm{~}\rlap/\Psi\llap/\ P-\frac{1}{2}\jmath\tilde{\tau}\gg\overline{{\xi}}|\Big]
+$\tilde{\mathbf{x}}_{\mathbf{i}}\mathbf{:}$去极值处理后的新序列
 $$
 
 缺失值处理：提取出的因子可能会因为技术原因等情况出现缺失值，在缺失值少于 10%的情况下，因子缺失值使用行业中位数代替，当缺失值过多时，考虑更换数据源或使用其他因子。

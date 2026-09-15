@@ -217,10 +217,10 @@ CTA 基金于 2021 年大规模发行，但自 2023 年 5 月起，其发行数�
 
 ## 2.2.2、T-2 日时序反转策略
 
-接下来我们以 T-2 日的涨跌方向做为我们的反转因子，使用十年期国债期货主力合约构建一个最基础的反转策略，在 T-1 日收盘前计算前一日涨跌方向作为交易信号，即 $\mathsf{sign}(\mathsf{R}_{\mathrm{T}-2})$ ，然后在 T-1 日收盘时以收盘价进行如下操作
+接下来我们以 T-2 日的涨跌方向做为我们的反转因子，使用十年期国债期货主力合约构建一个最基础的反转策略，在 T-1 日收盘前计算前一日涨跌方向作为交易信号，即 $\mathrm{sign}(\mathsf{R}_{\mathrm{T}-2})$ ，然后在 T-1 日收盘时以收盘价进行如下操作
 
 $$
-\mathcal{H}\oplus=\left\{\begin{array}{ll}{\pm\oplus/\sharp\chi\el,\mathrm{sign}(\mathsf{R}_{\mathsf{T}-2})\leq0}\\{\ @\sharp\sharp\chi\vdash,\mathrm{sign}(\mathsf{R}_{\mathsf{T}-2})>0}\end{array}\right.
+开仓=\left\{\begin{aligned}&全仓做多,sign(R_{T-2})\leq0,\\&全仓做空,sign(R_{T-2})>0.\end{aligned}\right.
 $$
 
 在 T 日收盘前重复以上操作，若信号相同，则继续持仓；若信号相反，则反手做多或做空。
@@ -246,10 +246,10 @@ $$
 
 我们使用一个 20 天的时间窗口滚动计算每日波动率，发现市场波动率大多数集中在 0 到 0.5%之间，因此我们可以在滚动 20 日波动率低于 0.5%时，将此时定义为市场平稳状态，而将滚动 20 日波动率高于 0.5%时，定义为市场动荡状态，并由此对策略从仓位角度进行改进。
 
-策略思路：在 T-1 日收盘前计算前一日涨跌方向作为短周期信号，即$\mathrm{sign}(\mathsf{R}_{\mathrm{T}-2})$ ，然后计算收盘前 120 天移动平均线的涨跌方向，即 $\mathrm{sign}(\mathrm{R}_{\mathrm{T-1}}^{\mathrm{MA1}20})$ 最后则是计算过去 20 个交易日的波动率 $\mathbf{vol}_{\mathrm{T-1}}^{20}$ ，在 T-1 日收盘时以收盘价进行如下操作
+策略思路：在 T-1 日收盘前计算前一日涨跌方向作为短周期信号，即$\mathrm{sign}(\mathsf{R}_{\mathrm{T}-2})$ ，然后计算收盘前 120 天移动平均线的涨跌方向，即 $\mathrm{lsign}(\mathbb{R}_{\mathrm{T}-1}^{\mathrm{MA120}})$ 最后则是计算过去 20 个交易日的波动率 $\mathbf{vol}_{\mathrm{T-1}}^{20}$ ，在 T-1 日收盘时以收盘价进行如下操作
 
 $$
-\mathcal{H}\widehat{\boldsymbol{\Theta}}\widehat{\boldsymbol{\Xi}}|\ddot{\boldsymbol{\mathfrak{U}}}=\left\{\begin{array}{rlr}&{0.5\times\mathrm{sign}(\mathrm{R}_{\mathsf{T}-2})+0.5\times\mathrm{sign}(\mathrm{R}_{\mathsf{T}-1}^{\mathrm{MAl20}}),}&{\mathrm{vol}_{\mathsf{T}-1}^{20}\le0.5\mathsf{\Lambda}^{0}}\\&{}&{\mathrm{sign}(\mathrm{R}_{\mathsf{T}-2}),}\end{array}\right.
+\begin{aligned}&开仓仓位=\left\{\begin{aligned}\\&0.5\times sign(\mathbb{R}_{\mathbb{T}-2})+0.5\times sign(\mathbb{R}_{\mathbb{T}-1}^{MA120}),&vol_{\mathbb{T}-1}^{20}\leq0.5\%\\&sign(\mathbb{R}_{\mathbb{T}-2}),&vol_{\mathbb{T}-1}^{20}>0.5\%\\&\end{aligned}\right.\\\end{aligned}
 $$
 
 其中开仓仓位若为负，则代表做空对应的仓位水平。在 T 日收盘前重复以上操作，若信号给出的仓位相同，则继续持仓；若信号出现变换，则调整至最新信号对应的仓位。
@@ -392,13 +392,13 @@ $$
 建立 OLS 模型来拟合协整关系式；
 
 $$
-\ln P_{t}^{JPX}=\alpha+\beta_{1}\ln P_{t}^{INE}+\beta_{2}\ln P_{t}^{Rate}+\varepsilon_{t}
+\ln P_{t}^{JPX}=\;\alpha+\beta_{1}\ln P_{t}^{INE}+\;\beta_{2}\ln P_{t}^{Rate}+\;\varepsilon_{t}
 $$
 
 加入各自的流动性指标，再次回归；
 
 $$
-\ln P_{t}^{JPX}=\alpha+\beta_{1}\ln P_{t}^{INE}+\beta_{2}\ln P_{t}^{Rate}+\gamma_{1}L_{t}^{INE}+\gamma_{2}L_{t}^{Rate}+\varepsilon_{t}
+\ln P_{t}^{JPX}=\;\alpha+\beta_{1}\ln P_{t}^{INE}+\;\beta_{2}\ln P_{t}^{Rate}+\;\gamma_{1}L_{t}^{INE}+\;\gamma_{2}L_{t}^{Rate}+\;\varepsilon_{t}
 $$
 
 表 8：回归效果对比丨单位：无
@@ -415,7 +415,7 @@ $$
 对两次回归后的残差分别进行平稳性检验，从表中可以看出在控制各自的流动性后，回归方程的残差从不平稳变成平稳状态，所以我们将流动性指标纳入JPX 橡胶与 INE 橡胶的协整关系式中，从而拟合出二者的长期均衡模型：
 
 $$
-\ln P_{t}^{JPX}=-8.892+1.273\ln P_{t}^{INE}+0.887\ln P_{t}^{Rate}-0.002L_{t}^{INE}+0.017L_{t}^{Rate}+\varepsilon_{t}
+\ln P_{t}^{IPX}=-8.892+1.273\ln P_{t}^{INE}+0.887\ln P_{t}^{Rate}-0.002L_{t}^{INE}+0.017L_{t}^{Rate}+\varepsilon_{t}
 $$
 
 图 18：协整关系拟合图 | 单位：无
@@ -529,7 +529,7 @@ $$
 因子值:取周频的环比变化率的截面排名
 
 $$
-Factor=Rank\left({\frac{Stock_{t}}{Stock_{(t-1)}}}-1\right)
+Factor=Rank\left(\frac{Stock_{t}}{Stock_{(t-1)}}-1\right)
 $$
 
 关系:
@@ -582,7 +582,7 @@ Factor = Short Window Mean.percentileof (Long Window Distribution)
 因子公式：
 
 $$
-\begin{array}{c}{{BasisRate=\displaystyle\left(\frac{Spot_{t}}{Future_{t}}-1\right)*\displaystyle\frac{365}{Days_{t}}}}\\{{}}\\{{BasisRateDiff=BasisRate_{t}-BasisRate_{t-1}}}\end{array}
+\begin{aligned}BasisRate&=\left(\frac{Spot_{t}}{Future_{t}}-1\right)*\frac{365}{Days_{t}}\\BasisRateDiff&=BasisRate_{t}-BasisRate_{t-1}\end{aligned}
 $$
 
 其中 $Days_{t}$ 为当前期货主力合约离到期日的天数。
@@ -1068,7 +1068,7 @@ $$
 我们的预测目标是未来 10 个 Tick（5秒）的收益率，计算方式为未来一段时间内的平均成交价格与当前中间价的比值减一：
 
 $$
-\mathrm{Return}(T,\Delta,M)=\mathrm{Average}\left|P_{t}^{\mathrm{txn}}:t\in\mathbf{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{torward}}(T,\Delta,\mathrm{M})\right|/P_{T}-1.
+\mathrm{Return}(T,\Delta,M)=\mathrm{Average}\left[P_{t}^{\mathrm{txn}}:t\in\mathbf{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{torward}}(T,\Delta,\mathrm{M})\right]/P_{T}-1.
 $$
 
 考虑到实际交易时将不可避免存在延迟，我们将预测目标的计算向后延迟了一个 tick。公式中的 T 当前时点的下一个 Tick，Δ为区间长度（此处为 10 个Tick），M 为所选时钟（此处为日历时钟）。
@@ -1079,7 +1079,7 @@ $$
 
 我们训练模型的过程与原文献基本保持一致。训练具体流程如下：
 
-1.学习阶段（Learning）：对于每一组超参数和 t = T, T+5, T+10,...等时间点，使用从第 t 天到第 t+4 天（共 5个交易日）的数据来训练一个模型。在随后的 5 天区间[t+5, t+9]内评估这个模型，并为测试集中的每一天计算样本外 R²，即得到 $R_{t+5}^{2},\ \cdots\cdot R_{t+9}^{2}$
+1.学习阶段（Learning）：对于每一组超参数和 t = T, T+5, T+10,...等时间点，使用从第 t 天到第 t+4 天（共 5个交易日）的数据来训练一个模型。在随后的 5 天区间[t+5, t+9]内评估这个模型，并为测试集中的每一天计算样本外 R²，即得到 $R_{t+5}^{2},\cdots\cdots R_{t+9}^{2}$
 
 2.调参阶段（Tuning）：选择最大平均 R²值的超参数组合（计算从 T+5 到T+19 这段时间内所有测试日 R²值的平均值，共有 15 个测试日），并固定这组超参数用于下一步的预测。
 

@@ -48,7 +48,7 @@ Email:ll9773@htsec.com
 
 - 风险提示：模型误设风险，历史统计规律失效风险。
 
-将资产价格与现金流联系起来是资 $-\dot{\bar{y}}$ 定价理论的核心。对于固定收益证券而言，基于未来现金流的贴现预期来分析证券的风险，已有一套成熟缜密的分析框架。久期概念得到学者和从业者的广泛认可和应用，债券久期已成为一个重要且公认的风险指标。而关于 A股的久期，鲜有理论和实证分析。本文介绍了两种股票久期模型，考察了不同久期股票的基本面特征，并探索了久期因子的溢价和应用方式。
+将资产价格与现金流联系起来是资 $\cdot 产$ 定价理论的核心。对于固定收益证券而言，基于未来现金流的贴现预期来分析证券的风险，已有一套成熟缜密的分析框架。久期概念得到学者和从业者的广泛认可和应用，债券久期已成为一个重要且公认的风险指标。而关于 A股的久期，鲜有理论和实证分析。本文介绍了两种股票久期模型，考察了不同久期股票的基本面特征，并探索了久期因子的溢价和应用方式。
 
 ## 1. 股票久期的定义与估算
 
@@ -57,21 +57,21 @@ Email:ll9773@htsec.com
 债券久期的经典度量指标是麦考利久期，其计算公式如下所示：
 
 $$
-D=\frac{\sum_{t=1}^{T}t\times(CF_{t}/(1+r)^{t})}{P}\tag{1}
+D=\frac{\sum_{t=1}^{T}t\times\left(CF_{t}/(1+r)^{t}\right)}{P}\tag{1}
 $$
 
-其中， ${\mathsf{CF}}_{\mathrm{t}}$ 为 t时刻的现金流，r 为到期收益率，P为债券价格。久期是债券收到各期现金流时间的加权平均值，其权重是每期现金流对债券价值的相对贡献。简单来讲，久期代表债券承诺现金流的平均到期日。
+其中， $\mathbf{C}\mathsf{F}_{\mathsf{t}}$ 为 t时刻的现金流，r 为到期收益率，P为债券价格。久期是债券收到各期现金流时间的加权平均值，其权重是每期现金流对债券价值的相对贡献。简单来讲，久期代表债券承诺现金流的平均到期日。
 
 久期在债券分析中的主要作用是，衡量债券价格 P对到期收益率 r变化的敏感性。将债券价格对到期收益率求导，有：
 
 $$
-{\frac{\partial P}{\partial{\boldsymbol{r}}}}=-P\times{\frac{D}{1+{\boldsymbol{r}}}}\tag{2}
+\frac{\partial P}{\partial r}=-P\times\frac{D}{1+r}\tag{2}
 $$
 
 经过近似变化后，由下式可知，债券价格变化和到期收益率变化之间呈线性负相关，而久期则决定了后者对前者的影响程度。
 
 $$
-\frac{\Delta P}{P}\approx-\frac{D}{1+r}\Delta r\tag{3}
+\cfrac{\Delta P}{P}\approx-\cfrac{D}{1+r}\Delta r\tag{3}
 $$
 
 将久期的概念拓展到股票，主要面临两大问题：
@@ -83,7 +83,7 @@ $$
 为了解决第一个问题，参考 Dechow, Sloan, Soliman 2004 年发表的文章《ImpliedEquity Duration: A New Measure of Equity Risk》1，我们将公式（1）中的久期分解为时间长度为 T 的有限期，以及无限期两部分：
 
 $$
-\begin{array}{rl}&{D=\frac{\sum_{t=1}^{T}t\times CF_{t}/(1+r)^{t}}{\sum_{t=1}^{T}CF_{t}/(1+r)^{t}}\times\frac{\sum_{t=1}^{T}CF_{t}/(1+r)^{t}}{P}\downarrow}\\&{+\frac{\sum_{t=T+1}^{\infty}t\times CF_{t}/(1+r)^{t}}{\sum_{t=T+1}^{\infty}CF_{t}/(1+r)^{t}}\times\frac{\sum_{t=T+1}^{\infty}CF_{t}/(1+r)^{t}}{P}}\end{array}\tag{4}
+\begin{aligned}D=&\frac{\sum_{t=1}^{T}t\times CF_{t}/(1+r)^{t}}{\sum_{t=1}^{T}CF_{t}/(1+r)^{t}}\times\frac{\sum_{t=1}^{T}CF_{t}/(1+r)^{t}}{P}\downarrow\\&+\frac{\sum_{t=T+1}^{\infty}t\times CF_{t}/(1+r)^{t}}{\sum_{t=T+1}^{\infty}CF_{t}/(1+r)^{t}}\times\frac{\sum_{t=T+1}^{\infty}CF_{t}/(1+r)^{t}}{P}\end{aligned}\tag{4}
 $$
 
 由于我们讨论的是股票，所以 P 代表股票市值，CF代表向股东支付的净现金流，r 代表预期股权回报率。公式（4）表明，股票久期可以分解为有限期现金流久期和无限期现金流久期的价值加权之和。
@@ -97,24 +97,24 @@ $$
 因此，由时刻 T 开始的永续年金，其久期为 $\mathsf{T}+(1+\mathsf{r})/\mathsf{r};$ ；同时将公式（5）代入公式（4）可得：
 
 $$
-D={\frac{\sum_{t=1}^{T}t\times CF_{t}/(1+r)^{t}}{P}}+\left(T+{\frac{1+r}{r}}\right)\times{\frac{(P-\sum_{t=1}^{T}CF_{t}/(1+r)^{t})}{P}}\tag{6}
+D=\frac{\sum_{t=1}^{T}t\times CF_{t}/(1+r)^{t}}{P}+\left(T+\frac{1+r}{r}\right)\times\frac{\left(P-\sum_{t=1}^{T}CF_{t}/(1+r)^{t}\right)}{P}\tag{6}
 $$
 
 关于无限期现金流，通常是假设现金流以固定的增速增长。但假定无限期现金流为永续年金形式较为容易处理，且不失一般性。因为只要预测期足够长，足以耗尽公司或行业特定超正常增长的机会，最终增长率将是一个横截面常数，所以不会成为股票久期横截面差异的重要来源。由于永续年金的现值是从观察到的股票价格中推断出来的，因此我们将由此产生的久期称为“隐含”久期。换句话说，我们对股票久期的衡量，不是基于对未来现金流的必然理性预测，而是基于投资者的共识预期，这反映在股票价格中。
 
-以上讨论是关于股票无限期现金流的问题。要完成公式（6）的第二个问题是预测有限期内的现金支付， $\mathsf{CF}_{\mathrm{t}},0<\mathsf{t}\leqslant\mathsf{T}$ ，我们从会计恒等式开始。该恒等式反映了净现金支付与盈利、账面资 $\dot{\bar{y}}$ 价值之间的关系：
+以上讨论是关于股票无限期现金流的问题。要完成公式（6）的第二个问题是预测有限期内的现金支付， $\mathrm{CF_t,~0<t\leq T}$ ，我们从会计恒等式开始。该恒等式反映了净现金支付与盈利、账面资 $v产$ 价值之间的关系：
 
 $$
-CF_{t}=E_{t}-\left(BV_{t}-BV_{t-1}\right)\tag{7}
+CF_{t}=E_{t}-\left(BV_{t}-\widehat{BV}_{t-1}\right)\tag{7}
 $$
 
-其中， $\mathsf{E}_{\mathrm{t}}$ 为 t期末的会计盈利， $\mathsf{BV}_{\mathrm{t}}$ 为 t 期末的账面资产价值，公式（7）可进一步写为：
+其中， $\mathsf{E}_{\mathsf{t}}$ 为 t期末的会计盈利， $\mathrm{BV_{t}}$ 为 t 期末的账面资产价值，公式（7）可进一步写为：
 
 $$
-CF_{t}=BV_{t-1}\times\left[{\frac{E_{t}}{BV_{t-1}}}-{\frac{\left(BV_{t}-BV_{t-1}\right)}{BV_{t-1}}}\right]\tag{8}
+CF_{t}=BV_{t-1}\times\left[\frac{E_{t}}{BV_{t-1}}-\frac{(BV_{t}-BV_{t-1})}{BV_{t-1}}\right]\tag{8}
 $$
 
-公式（8）显示，要预测股票的净现金流，需要预测：（1）净资产收益率 ROE，即 $\mathsf E_{\mathrm{f}}/\mathsf E\mathsf V_{\mathrm{t-}}.$ 1；以及（2）股权增长率 g， $(\mathsf{BV}_{\mathrm{t}}{\mathsf{-BV}}_{\mathrm{t-1}})/\mathsf{BV}_{\mathrm{t}-1}$
+公式（8）显示，要预测股票的净现金流，需要预测：（1）净资产收益率 ROE，即 $E_{\mathrm{t}}/BV_{\mathrm{t-1}}$ 1；以及（2）股权增长率 g， $(\mathrm{BV_{t}-BV_{t-1}})/\mathrm{BV_{t-1}}$
 
 参考前文提到的《Implied Equity Duration》一文，ROE 遵循一个缓慢的均值回复过程：回归的平均值接近股权成本。因此，我们将净资产收益率建模为一阶自回归过程，自相关系数为净资产收益率的长期均值回归率，长期均值为权益成本（预期股权回报率）。
 
@@ -143,7 +143,7 @@ $$
 将每只股票相对无风险利率的超额收益对 10 年期国债的月度超额收益和股市月度超额收益进行滚动 5年的回归：
 
 $$
-\begin{array}{r}{r_{j,t}-r_{rf,t}=\alpha_{j}+\beta_{j}\big(r_{mkt}-r_{rf,t}\big)+b_{j}\big(r_{TY10}-r_{rf,t}\big)+\epsilon_{j,t},\forall t=\tau-T,\cdots,\tau.}\end{array}\tag{9}
+r_{j,t}-r_{rf,t}=\alpha_{j}+\beta_{j}\big(r_{mkt}-r_{rf,t}\big)+b_{j}\big(r_{TY10}-r_{rf,t}\big)+\epsilon_{j,t},\forall t=\tau-T,\cdots,\tau.\tag{9}
 $$
 
 其中，T=5 年，τ为当前时间，b 为股票 j的债券 beta，我们将经过波动率调整后的债券 beta 称为“债券相似度”。需要注意的是，为了区分股票特定债券 beta（这是我们试图捕捉的变量）和股市、债市波动之间的一般相关性，我们在上式中加入了股市超额收益作为控制变量。
@@ -197,12 +197,12 @@ $$
 将以上两式代入公式（6）可知，有限预测期内现金支付为年金形式（A）的股票，其隐含久期为：
 
 $$
-D=T+\frac{1+r}{r}-\frac{A/r}{P}\times T.\tag{12}
+D=T+{\frac{1+r}{r}}-{\frac{A/r}{P}}\times T.\tag{12}
 $$
 
 由上式可见，随着有限预测期内的现金支付增加，股票的隐含久期逐渐缩短。
 
-公式（12）是理解隐含久期与 PE、PB之间关系的关键。当我们假设有限预测期内，资产增长率 g为 0，且 ROE保持不变时（即 $\mathsf{E}_{\mathrm{f}}/\mathsf{BV}_{\mathrm{t}-1}{=}\mathsf{E}_{0}/\mathsf{BV}_{-1},$ 对于 0<t≤T），根据公式（8）有 ${\mathsf{CF}}_{\mathrm{t}}{=}\mathsf{E}_{0};$ ，即有限预测期的现金支付为年金形式，其等额支付值为 $\mathsf{E}_{0^{\circ}}$ 。相应地，股票隐含久期为：
+公式（12）是理解隐含久期与 PE、PB之间关系的关键。当我们假设有限预测期内，资产增长率 g为 0，且 ROE保持不变时（即 $\mathsf{E}_{\mathsf{t}}/\mathsf{B}\mathsf{V}_{\mathsf{t}-1}{=}\mathsf{E}_{0}/\mathsf{B}\mathsf{V}_{-1},$ 对于 0<t≤T），根据公式（8）有 $\mathsf{CF}_{\mathsf{t}}{=}\mathsf{E}_{0},$ ，即有限预测期的现金支付为年金形式，其等额支付值为 $\mathsf{E}_{0},$ 。相应地，股票隐含久期为：
 
 $$
 D=T+\frac{1+r}{r}-\frac{E_{0}}{P}\times\frac{T}{r}.\tag{13}
@@ -210,7 +210,7 @@ $$
 
 由上式可知，隐含久期和 PE正相关。因此，对于股权增长率 g较低且净资产收益率 ROE高度持续的公司，市盈率 PE很好地代表了股票的隐含久期。
 
-为了理解隐含久期与 PB之间的关系，我们假设有限预测期内，资产增长率 g 为 0，且净资产收益率 ROE在预测期的第一年即回复为股权成本（即 $\mathsf{E}_{\mathsf{f}}/\mathsf{BV}_{\mathsf{t}-1}{=}\mathsf{r},$ ，0<t≤T）。根据公式（8）有 ${\mathsf{CF}}_{\mathsf{t}}{=}\mathsf{r}^{\star}{\mathsf{BV}}_{0},$ ，即有限预测期的现金支付为年金形式，其等额支付值为$\mathsf{r}^{\star}\mathsf{BV}_{0}.$ 。相应地，股票隐含久期为：
+为了理解隐含久期与 PB之间的关系，我们假设有限预测期内，资产增长率 g 为 0，且净资产收益率 ROE在预测期的第一年即回复为股权成本（即 $\mathsf{E_t/BN_{t-1}=r}$ ，0<t≤T）。根据公式（8）有 $\mathrm{CF}_{\mathrm{t}}=\mathrm{r}^{\star}\mathrm{BV}_{0}$ ，即有限预测期的现金支付为年金形式，其等额支付值为$\mathsf{r}^{\star}\mathsf{B}\mathsf{V}_{0}.$ 。相应地，股票隐含久期为：
 
 $$
 D=T+\frac{1+r}{r}-\frac{BV_{0}}{P}\times T.\tag{14}
@@ -462,7 +462,7 @@ $$
 根据久期的定义，当预期股权回报率 r小幅变化时，股票收益率与 r的变化之间是久期的简单线性关系：
 
 $$
-\frac{\Delta P}{P}\approx-\frac{D}{1+r}\Delta r
+\cfrac{\Delta P}{P}\approx-\cfrac{D}{1+r}\Delta r.
 $$
 
 由上式可知，预期股权回报率 r上升，会导致股票价格下降。相对而言，短久期股票下降幅度更小，此时短久期股票更具吸引力；而预期股权回报率下降，会导致股票价格上升。相对而言，短久期股票上升幅度较小，此时短久期股票的吸引力下降。即，预期股权回报率变化与久期因子表现应呈正相关关系。

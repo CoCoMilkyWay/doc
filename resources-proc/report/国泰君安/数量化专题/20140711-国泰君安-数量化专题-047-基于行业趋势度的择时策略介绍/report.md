@@ -143,13 +143,13 @@ DD （Daily Down）记为申万二级行业中日线级别趋势向下的行业�
 周线级别行业趋势度定义为：
 
 $$
-w=\frac{\textbf{ W U }-\textbf{ W D }}{WU+WD}
+w=\frac{\mathrm{~W~U~}\mathrm{~-W~D~}}{WU+WD}
 $$
 
 日线级别行业趋势度定义为：
 
 $$
-d={\frac{\mathbf{D}\mathbf{U}-\mathbf{D}\mathbf{D}}{DU+DD}}
+d\;=\;\frac{\mathrm{\tiny~D~U~-D~D~}}{D\;U\;+\;D\;D}
 $$
 
 根据定义，趋势度指标 w和d 为一介于-1和 1之间的数字。

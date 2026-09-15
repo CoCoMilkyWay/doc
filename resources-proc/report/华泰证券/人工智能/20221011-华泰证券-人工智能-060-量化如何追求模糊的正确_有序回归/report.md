@@ -104,7 +104,7 @@ hekang@htsc.com
 有序回归的损失函数并不复杂，可表示为如下形式。其中 x 为样本特征，y 为样本真实值，f 为基模型，f(x)为模型预测值，K 为分类数，c 为分类阈值，sgn 为符号函数，h 为分类损失函数（如 logistic、exponential、hinge 损失）。具体含义将在后文展开介绍。
 
 $$
-\begin{array}{cll}{{loss(f;x,y)=\displaystyle\sum_{k=1}^{K-1}h(sgn(y-c_{k})(f(x)-c_{k}))}}\\{{}}\\{{sgn(y-c_{k})=\displaystyle\left\{_{+1}^{-1}\right.\quad y\ <c_{k}}}\end{array}
+\begin{aligned}loss(f;x,y)&=\sum_{k=1}^{K-1}h(sgn(y-c_{k})(f(x)-c_{k}))\\sgn(y-c_{k})&=\begin{cases}-1&\quad y<c_{k}\\+1&\quad y\geq c_{k}\end{cases}\end{aligned}
 $$
 
 在周频中证 500 指增模型中，测试有序回归损失函数超额收益表现，以加权 mse（wmse）回归损失函数为基线，核心结论：
@@ -131,15 +131,15 @@ $$
 
 ## 从二分类逻辑回归谈起
 
-为了理解有序回归的原理，不妨从基础的二分类逻辑回归谈起。尽管逻辑回归称为回归，其实质是一种分类算法。假设 x 是样本特征；y 是样本真实分类，正例 y＝1，反例 y＝－1；f 通常为线性模型， $\mathsf{f}(\mathsf{x}){=}\mathsf{\Theta}^{\mathsf{T}}\mathsf{x}$
+为了理解有序回归的原理，不妨从基础的二分类逻辑回归谈起。尽管逻辑回归称为回归，其实质是一种分类算法。假设 x 是样本特征；y 是样本真实分类，正例 y＝1，反例 y＝－1；f 通常为线性模型， $\mathsf{f}(\mathsf{x})=\mathsf{\Theta}^{\mathsf{T}}\mathsf{x}$
 
 Sigmoid 函数将 f(x)由实数域转换为[0,1]，如图表 6 所示：
 
 $$
-\pi(f(x)){=}{\frac{1}{1+e^{-f(x)}}}
+\Pi(f(x))=\frac{1}{1+e^{-f(x)}}
 $$
 
-此时，Π(f(x))代表预测样本属于正例的概率，1-Π(f(x))代表预测样本属于反例的概率。通常分类阈值 c＝0，当 $\mathsf{f}(\mathsf{x}){\geqslant}0$ 即Π $(\mathsf{f}(\mathsf{x})){\geqslant}0.5$ 时，判定样本属于正例，反之属于反例。
+此时，Π(f(x))代表预测样本属于正例的概率，1-Π(f(x))代表预测样本属于反例的概率。通常分类阈值 c＝0，当 $f(x)\geq0$ 即Π $(f(x))\geqslant0.5$ 时，判定样本属于正例，反之属于反例。
 
 图表5： 二分类逻辑回归的概率密度函数
 ![](images/f59f2975814654b630842ee57882b97512bf77cf10d4b3daa02659b7e4b003fd.webp)
@@ -152,7 +152,7 @@ $$
 交叉熵（cross entropy）衡量两个概率分布 p(x)和 q(x)的差异度：
 
 $$
-H=-\sum_{x}p(x)\log q(x)
+H=-{\sum}_{x}p(x)\log q(x)
 $$
 
 两个分布差异越大，交叉熵值越大。
@@ -162,13 +162,13 @@ $$
 1. 当 y＝1：真实值属于正例的概率为 1，属于反例的概率为 0；预测值属于正例的概率为Π(f(x))，属于反例的概率为 1-Π(f(x))。此时交叉熵为：
 
 $$
-\begin{array}{c}{{H=-\left[1\log\Pi\big(f(x)\big)+0\log\Big(1-\pi\big(f(x)\big)\Big)\right]=-\log\Pi\big(f(x)\big)}}\\{{{}}}\\{{=-\log\left(\displaystyle\frac{1}{1+e^{-f(x)}}\right)=\log(1+e^{-f(x)})}}\end{array}
+\begin{align*}H=-\left[1\log\varPi\big(f(x)\big)+0\log\Big(1-\varPi\big(f(x)\big)\Big)\right]=-\log\varPi\big(f(x)\big)\\=-\log\left(\frac{1}{1+e^{-f(x)}}\right)=\log(1+e^{-f(x)})\end{align*}
 $$
 
-2. 当 $y=-1$ ：真实值属于正例的概率为 0，属于反例概率为 1；预测值属于正例的概率为Π(f(x))，属于反例的概率为 1-Π(f(x))。此时交叉熵为：
+2. 当 $y{=}-1$ ：真实值属于正例的概率为 0，属于反例概率为 1；预测值属于正例的概率为Π(f(x))，属于反例的概率为 1-Π(f(x))。此时交叉熵为：
 
 $$
-\begin{array}{c}{{H=-\left[0\log\Pi\bigl(f(x)\bigr)+1\log\left(1-\pi\bigl(f(x)\bigr)\right)\right]=-\log\left(1-\pi\bigl(f(x)\bigr)\right)}}\\{{{}}}\\{{=-\log\left(1-\displaystyle\frac{1}{1+e^{-f(x)}}\right)=\log(1+e^{f(x)})}}\end{array}
+\begin{align*}H=-\left[0\log\varPi\big(f(x)\big)+1\log\Big(1-\varPi\big(f(x)\big)\Big)\right]=-\log\Big(1-\varPi\big(f(x)\big)\Big)\\=-\log\left(1-\frac{1}{1+e^{-f(x)}}\right)=\log(1+e^{f(x)})\end{align*}
 $$
 
 上述两种情况的交叉熵可以统一表示为：
@@ -184,7 +184,7 @@ $$
 二分类逻辑回归的 logistic 损失函数为：
 
 $$
-\begin{array}{r}{loss(f;x,y)=\log(1+e^{-yf(x)})}\end{array}
+loss(f;x,y)=\log(1+e^{-yf(x)})
 $$
 
 记函数 h 为：
@@ -193,26 +193,26 @@ $$
 h(yz)=\log(1+e^{-yz})
 $$
 
-当二分类阈值 $\mathtt{c}{=}0$ 时，logistic 损失可记为：
+当二分类阈值 $c=0$ 时，logistic 损失可记为：
 
 $$
-loss(f;x,y)=\ h\bigl(yf(x)\bigr)=\ h(sgn(y-0)(f(x)-0))
-$$
-
-$$
-sgn(y-0)=\left\{{\begin{array}{ll}{-1\quad}&{y<0}\\{+1\quad}&{y\geq0}\end{array}}\right.
-$$
-
-其中 sgn 为符号函数， $\mathsf{sgn}(\mathsf{y}-0)$ 代表真实值相对于分类阈值 c 的方向， $\mathsf{f}(\mathsf{x}){-}0$ 代表预测值相对于分类阈值 c的误差。
-
-二分类拓展至多分类时，将单分类阈值拓展至多分类阈值。如图表 8，假设为四分类情形，分类阈值分别为 $\mathsf C_{1},~\mathsf C_{2},~\mathsf C_{3}\circ$ 将四分类拆解成 3 组二分类，将 3组 logistic 损失相加，即可得到四分类有序回归的 logistic 损失：
-
-$$
-loss(f;x,y)=\sum_{k=1}^{4-1}h(sgn(y-c_{k})(f(x)-c_{k}))
+loss(f;x,y)=h\bigl(yf(x)\bigr)=h(sgn(y-0)(f(x)-0))
 $$
 
 $$
-sgn(y-c_{k})=\left\{{\begin{array}{ll}{-1\quad}&{y<c_{k}}\\{+1\quad}&{y\geq c_{k}}\end{array}}\right.
+sgn(y-0)=\left\{\begin{matrix}{-1}&{}&{y<0}\\{+1}&{}&{y\geq0}\end{matrix}\right.
+$$
+
+其中 sgn 为符号函数， $\operatorname{\mathsf{sgn}}(y-0)$ 代表真实值相对于分类阈值 c 的方向， ${\mathsf{f}}({\mathsf{x}}){\mathrm{-}}0$ 代表预测值相对于分类阈值 c的误差。
+
+二分类拓展至多分类时，将单分类阈值拓展至多分类阈值。如图表 8，假设为四分类情形，分类阈值分别为 ${\tt C}_{1},{\tt C}_{2},{\tt C}_{3},$ 将四分类拆解成 3 组二分类，将 3组 logistic 损失相加，即可得到四分类有序回归的 logistic 损失：
+
+$$
+loss(f;x,y)=\sum_{k=1}^{4-1}h(sgn(y-c_{k})(f(x)-c_{k})).
+$$
+
+$$
+sgn(y-c_{k})=\left\{\begin{matrix}{-1}&{}&{y<c_{k}}\\{+1}&{}&{y\geq c_{k}.}\end{matrix}\right.
 $$
 
 图表7： 多分类有序回归的概率密度函数
@@ -226,11 +226,11 @@ $$
 至此，我们得到任意 K分类有序回归损失函数的一般形式：
 
 $$
-\log s(f;x,y)=\sum_{k=1}^{K-1}h(sgn(y-c_{k})(f(x)-c_{k}))
+\mathrm{loss}(f;x,y)=\sum_{k=1}^{K-1}h(sgn(y-c_k)(f(x)-c_k))
 $$
 
 $$
-sgn(y-c_{l})=\left\{{\begin{array}{ll}{-1\quad}&{y<c_{k}}\\{+1\quad}&{y\geq c_{k}}\end{array}}\right.
+sgn(y-c_{l})=\left\{\begin{matrix}{-1}&{\quad y<c_{k}}\\{+1}&{\quad y\geq c_{k}}\end{matrix}\right.
 $$
 
 其中，f 除线性模型外，还可以是任意线性或非线性模型，如神经网络；h 除 logistic 损失外，还可以是其他损失函数形式，如 exponential 损失、hinge 损失等。
@@ -242,7 +242,7 @@ $$
 1. 0-1 损失：
 
 $$
-h(yz)=\left\{{\begin{array}{ll}{0}&{{\quad yz\geq0}}\\{1}&{{\quad yz<0}}\end{array}}\right.
+h(yz)=\Big\{\begin{aligned}&0&\quad yz\geq0\\&1&\quad yz<0\end{aligned}
 $$
 
 2. Logistic 损失：
@@ -260,19 +260,19 @@ $$
 4. Hinge 损失（铰链损失、合页损失）：
 
 $$
-h(yz)=\left\{\begin{array}{ll}{0}&{\ yz\ge1}\\{1-yz}&{\ yz<1}\end{array}\right.
+h(yz)=\Big\{\begin{aligned}&0&yz\geq1\\&1-yz&yz<1\end{aligned}
 $$
 
 5. Smoothed hinge 损失：
 
 $$
-h(yz)=\left\{\begin{array}{lr}{0}&{\qquad yz\geq1}\\{(1-yz)^{2}/2}&{\quad0<yz<1}\\{0.5-yz}&{\qquad yz\leq0}\end{array}\right.
+h(yz)=\begin{cases}0&\quad yz\geq1\\(1-yz)^2/2&\quad0<yz<1\\0.5-yz&\quad yz\leq0\end{cases}
 $$
 
 6. 改进最小二乘损失：
 
 $$
-h(yz)=\left\{\begin{array}{ll}{0}&{\ yz\geq1}\\{(1-yz)^{2}}&{\ yz<1}\end{array}\right.
+h(yz)=\left\{\begin{aligned}&0&\quad yz\geq1\\&(1-yz)^{2}&\quad yz<1\end{aligned}\right.
 $$
 
 部分二分类损失函数形态如下图，这里假定样本真实分类 y为 1。0-1 损失和 hinge 损失的缺点是不可导，无法用梯度下降法优化；exponential 损失的特点是预测误差较大时，惩罚力度较大，因此对异常值较敏感。

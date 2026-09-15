@@ -65,22 +65,22 @@ S0880511010023
 为解决单因子模型的缺陷，Merton(1973)及 Ross（1976）提出了套利定价理论（APT），由无套利原理推导出多因子结构，给出了资产期望收益与个数不确定的未识别因子之间的近似关系：
 
 $$
-r_{i}=a_{i}+\mathbf{b_{i}}^{\prime}\mathbf{f}+\varepsilon_{i}
+r_{_i}=a_{_i}+{\bf b_{i}}^{\prime}{\bf f}+\varepsilon_{_i}
 $$
 
-其中r 为资产i 的收益， $r_{i}$ $a_{\scriptscriptstyle i}$ 是因子模型截距， $\mathbf{b_{i}}$ 是资产i 的因子敏感性向量，f 是因子收益向量， $\mathcal{E}_{i}$ 是条件期望为 0、方差有限的扰动项。
+其中r 为资产i 的收益， $r_{i}$ $a_{i}$ 是因子模型截距， $\mathbf{b}_{\mathrm{~i~}}$ 是资产i 的因子敏感性向量，f 是因子收益向量， $\mathcal{E}_{i}$ 是条件期望为 0、方差有限的扰动项。
 
 ## 1.2. Famma-French 三因子模型
 
 APT 理论最大的缺陷在于没有明确具体的因子及因子个数，因此 APT的实际应用性较差。
 
-Fama 和 French 1993 年指出可以建立一个三因子模型来解释股票回报率。模型认为，一个投资组合(包括单个股票)的超额回报率可由它对三个因子的暴露来解释，这三个因子是：市场资产组合 $(R_{{\scriptscriptstyle m}}-R_{{\scriptscriptstyle f}})$ 、市值因子(SMB )、账面市值比因子(HML )。这个多因子均衡定价模型可以表示为：
+Fama 和 French 1993 年指出可以建立一个三因子模型来解释股票回报率。模型认为，一个投资组合(包括单个股票)的超额回报率可由它对三个因子的暴露来解释，这三个因子是：市场资产组合 $(R_{_m}-R_{_f})$ 、市值因子(SMB )、账面市值比因子(HML )。这个多因子均衡定价模型可以表示为：
 
 $$
-E[R_{it}]-R_{ft}=\beta_{i}E[R_{mt}-R_{ft}]+s_{i}E[SMB_{t}]+h_{i}E[HML_{t}]
+E[R_{_{it}}]-R_{_{ft}}=\beta_{_i}E[R_{_{mt}}-R_{_{ft}}]+s_{_i}E[SMB_{_t}]+h_{_i}E[HML_{_t}]
 $$
 
-其中 $\boldsymbol{R}_{\mathrm{\Omega}_{ft}}$ 表示时刻t 的无风险收益率， ${R}_{{m}t}$ 表示时刻 t的市场收益率， $R_{it}$ 表示资 $\dot{\mathcal{P}}i$ 在时刻t 的收益率， $E[R_{{\scriptscriptstyle mt}}-R_{{\scriptscriptstyle ft}}]$ 是市场风险溢价， $SMB_{t}$ 为时刻t 的市值(Size)因子的模拟组合收益率，HML 为时刻t 的账面市值比(Book-to-Market)因子的模拟组合收益率。
+其中 $R_{\textit{ f t }}$ 表示时刻t 的无风险收益率， $R_{_{mt}}$ 表示时刻 t的市场收益率， $R_{it}$ 表示资 $\cdot 产i$ 在时刻t 的收益率， $E[R_{_{mt}}-R_{_{ft}}]$ 是市场风险溢价， $SMB_{_t}$ 为时刻t 的市值(Size)因子的模拟组合收益率，HML 为时刻t 的账面市值比(Book-to-Market)因子的模拟组合收益率。
 
 ## 1.3.基于宏观变量的多因子模型
 

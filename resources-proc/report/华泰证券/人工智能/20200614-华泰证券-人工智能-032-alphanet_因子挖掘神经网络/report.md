@@ -179,7 +179,7 @@ AlphaNet 仿照 CNN 的方式，将个股量价数据整理为“数据图片”
 设 d=3，图表 X 展示了 ts_corr(X, Y, 3)网络层的工作机制。ts_corr(X, Y, 3)会在时间维度上和特征维度上对二维的数据进行遍历运算，与 CNN类似，步进大小 stride 是可调参数，例如 stride=1 时，下一次计算在时间维度上往右步进一步。在特征维度上的计算则体现出了与 CNN卷积的不同之处，CNN 卷积运算只能进行局部感知，但是 ts_corr(X, Y, 3)会对所有类型的数据进行遍历，其计算区域不一定要相邻，例如在图表8中，会遍历C2 = 36次。这避免了 CNN中局部感知所带来的数据排布问题，可以充分提取数据中的特征。ts_corr(X,Y, 3)的运算结果是一张二维的“特征图片”，针对该图片，可以直接展平(flatten)输入到全连接神经网络中，也可以继续在此基础上进行特征提取或池化。如果继续进行特征提取，则可实现运算符的嵌套，如：
 
 $$
-\mathtt{ts\_corr(ts\_corr(X,Y,3),ts\_corr(}Z,W,3),3)
+\mathsf{ts\_corr(ts\_corr(X,Y,3),ts\_corr(Z,W,3),}3\mathsf{)}
 $$
 
 与 ts_corr(X, Y, d)相似的还有 ts_cov(X, Y, d)，这里不再赘述。
@@ -241,11 +241,11 @@ $$
 
 BN(Batch Normalization)，中文为批标准化层，该层已经是目前神经网络中最常用的组件之一，在 AlphaNet 的特征标准化中起着重要作用。下面我们简要介绍 BN 的原理。设Zl为神经网络第l层的计算结果， m为每个 batch 中样本的数量，有：
 
-每个 batch 中样本在第l层的均值： $\begin{array}{r}{\mu=\frac{1}{m}\sum_{i=1}^{m}Z^{l(i)}}\end{array}$
+每个 batch 中样本在第l层的均值： $\begin{array}{r}{\mu=\frac{1}{m}{\sum_{i=1}^{m}Z^{l(i)}}}\end{array}$
 
-每个 batch 中样本在第l层的方差： $\begin{array}{r}{\sigma^{2}=\frac{1}{m}\sum_{i=1}^{m}(Z^{l(i)}-}&{{}\mu)^{2}}\end{array}$
+每个 batch 中样本在第l层的方差： $\begin{array}{r}{\sigma^{2}=\frac{1}{m}{\sum_{i=1}^{m}(Z^{l(i)}-\mu)^{2}}}\end{array}$
 
-则 BN 层的结果Ẑl为： $\begin{array}{r}{\hat{Z}^{l}=\gamma*\frac{Z^{l}-\mu}{\sqrt{\sigma^{2}+\varepsilon}}+\beta}\end{array}$
+则 BN 层的结果Ẑl为： $\begin{array}{r}{\hat{Z}^{l}=\gamma*\frac{Z^{l}-\mu}{\sqrt{\sigma^{2}+\varepsilon}}+\beta^{l}}\end{array}$
 
 上式中，为了增强 BN 层的表达能力，引入了两个可优化参数γ和β，如果没有γ和β，则BN 层的运算就为 z-score 标准化，因此 BN 层的数据标准化操作和我们常用的标准化方法是非常类似的。
 
@@ -272,7 +272,7 @@ BN层标准化后的特征分布
 AlphaNet 的池化层机制和 CNN 基本一致，都是对上一层的特征进行“模糊化”操作。ts_mean(X, d)对应 CNN 中的(1*d)mean_pooling，ts_max(X, d)对应 CNN 中的(1*d)max_pooling，ts_min(X, d)对应 CNN 中的(1*d) min_pooling。池化层也实现了运算符的嵌套，如：
 
 $$
-\mathsf{ts\_mean}(\mathsf{ts\_corr}(\mathsf{X},\mathsf{Y},3),3)
+\mathsf{ts\_mean(ts\_corr(X,Y,3),}3\mathrm{)}
 $$
 
 ## 全连接层
@@ -351,11 +351,11 @@ $$
 AlphaNet-v1 结构比较简单(只包含一层特征提取层和一层池化层)，如图表 15 所示，对于展平后的每个特征，可得出它是如何从特征提取层和池化层运算得到的，例如展平后的第一个和第二个特征分别为：
 
 $$
-{\mathsf{BN}}(\mathsf{ts\_mean}({\mathsf{BN}}(\mathsf{ts\_corr}(\mathsf{open},\mathsf{high},10)),3))
+\mathsf{BN}(\mathsf{ts\_mean}(\mathsf{BN}(\mathsf{ts\_corr}(\mathsf{open},\mathsf{high},\mathsf{10})),\mathsf{3}))
 $$
 
 $$
-{\mathsf{BN}}(\mathsf{ts\_mean}({\mathsf{BN}}(\mathsf{ts\_corr}({\mathsf{open}},\mathsf{low},10)),3))
+\mathsf{BN}(\mathsf{ts\_mean}(\mathsf{BN}(\mathsf{ts\_corr}(\mathsf{open},\mathsf{low},\mathsf{10})),\mathsf{3}))
 $$
 
 我们可以借助模型可解释性工具 SHAP 分析展平后的每个特征与预测目标的关系，得出特征重要性，从而辅助对模型的理解。SHAP的原理可参见华泰金工报告《揭开机器学习模型的“黑箱”》。
@@ -420,7 +420,7 @@ $$
 
 4. 多空组合收益计算方法：用 Top 组每天的收益减去 Bottom 组每天的收益，得到每日
 
-多空收益序列 $r_{1},r_{2},\cdots,r_{n}$ ，则多空组合在第 n天的净值等于 $\cdot(1+r_{1})(1+r_{2})\cdots(1+r_{n})$ o5. 为了分析合成因子的增量信息，会展示因子进行行业、市值、10 日收益率、10 日波动率、10 日换手率五因子中性化后的测试结果。
+多空收益序列 $r_{1},r_{2},\cdots,r_{n}$ ，则多空组合在第 n天的净值等于 $r(1+r_{1})(1+r_{2})\cdots(1+r_{n})$ o5. 为了分析合成因子的增量信息，会展示因子进行行业、市值、10 日收益率、10 日波动率、10 日换手率五因子中性化后的测试结果。
 
 6. 由于神经网络的训练受随机数种子影响较大，测试结果是 10 次测试的均值。
 

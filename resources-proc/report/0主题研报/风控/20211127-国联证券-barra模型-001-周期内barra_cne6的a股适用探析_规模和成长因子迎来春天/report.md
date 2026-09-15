@@ -149,10 +149,10 @@ $$
 2018 年 8 月，国际著名投行摩根斯坦利旗下的 MSCI 公司发布了最新一代面向中国股票市场的多因子模型 The Barra China Equity Model（简称 Barra-CNE6）。Barra-CNE6 模型包括一个国家因子、32 个行业因子和 9 大类风格因子的三级因子结构。大类风格因子分别为规模因子、波动率因子、流动性因子、动量因子、质量因子、价值因子、成长因子、情绪因子、红利因子，其又可进一步细分为包括20 个二级因子和 46 个三级因子的三层风格因子体系。在任意给定时点，CNE6 模型使用因子暴露和下期的个股收益率构建截面回归如下：
 
 $$
-\binom{r_{1}-r_{f}}{r_{N}}=\left[\begin{array}{c}{1}\\{\vdots}\\{r_{N}-r_{f}}\end{array}\right]=\left[\begin{array}{c}{1}\\{\vdots}\\{1}\end{array}\right]f_{C}+\left[\begin{array}{c}{X_{1}^{I_{1}}}\\{\vdots}\\{X_{N}^{I_{1}}}\end{array}\right]f_{I_{1}}+\dots+\left[\begin{array}{c}{X_{1}^{I_{P}}}\\{\vdots}\\{X_{N}^{I_{P}}}\end{array}\right]f_{I_{P}}+\left[\begin{array}{c}{X_{1}^{S_{1}}}\\{\vdots}\\{X_{N}^{S_{1}}}\end{array}\right]f_{S_{1}}+\left[\begin{array}{c}{X_{1}^{S_{Q}}}\\{\vdots}\\{X_{N}^{S_{Q}}}\end{array}\right]f_{S_{Q}}+\left[\begin{array}{c}{u_{1}}\\{\vdots}\\{u_{N}}\end{array}\right]
+\begin{bmatrix}r_{1}-r_{f}\\\vdots\\r_{N}-r_{f}\end{bmatrix}=\begin{bmatrix}1\\\vdots\\1\end{bmatrix}f_{C}+\begin{bmatrix}X_{1}^{I_{1}}\\\vdots\\X_{N}^{I_{1}}\end{bmatrix}f_{I_{1}}+\cdots+\begin{bmatrix}X_{1}^{I_{P}}\\\vdots\\X_{N}^{I_{P}}\end{bmatrix}f_{I_{P}}+\begin{bmatrix}X_{1}^{S_{1}}\\\vdots\\X_{N}^{S_{1}}\end{bmatrix}f_{S_{1}}+\begin{bmatrix}X_{1}^{S_{Q}}\\\vdots\\X_{N}^{S_{Q}}\end{bmatrix}f_{S_{Q}}+\begin{bmatrix}u_{1}\\\vdots\\u_{N}\end{bmatrix}
 $$
 
-其中r 是第N只股票的收益率， $r_{f}$ 是无风险收益率。 $X_{N}^{I_{\mathsf{P}}}$ 是股票N在行业P上的暴露，其取值为0 或1。 $X_{N}^{S_{Q}}$ 是股票N在风格因子Q上的暴露，其一般为标准化后的无量纲取值。 $u_{N}$ 则为股票 N 的超额收益中无法被因子解释的部分，即残差收益或异质性收益。f 、f、f 则分别是国家因子、行业因子和风格因子的因子收益率。
+其中r 是第N只股票的收益率， $r_{f}$ 是无风险收益率。 $X_{N}^{I_{\mathrm{P}}}$ 是股票N在行业P上的暴露，其取值为0 或1。 $X_{N}^{S_{Q}}$ 是股票N在风格因子Q上的暴露，其一般为标准化后的无量纲取值。 $u_{N}$ 则为股票 N 的超额收益中无法被因子解释的部分，即残差收益或异质性收益。f 、f、f 则分别是国家因子、行业因子和风格因子的因子收益率。
 
 barra模型的目的在于得到风险因子(beta)而非收益因子（alpha）。它适用于投资组合的风险管理和业绩归因，若要用来获得alpha收益还需考察因子的时序表现。为避免遗漏变量的问题，barra 模型把多个因子放在一起回归以保证构建出纯因子组合。对任一个风格因子，不同于按因子暴露分组构建的多空组合，纯因子组合仅在该因子上有1 单位的风险暴露，而对其他因子均无风险敞口。投资者可以据此构建因子投资组合，以追求 beta 因子的风险收益，但并不一定能获得无风险的 alpha 收益。在不同金融周期对应的市场环境中，barra 模型中的因子收益是有波动的。故考察barra 模型中的因子在不同周期状态下的表现也就是顺理成章的事情了。换句话说，因子兴衰自有时，因子投资要摸清因子适用的周期时段。
 
@@ -171,7 +171,7 @@ barra模型的目的在于得到风险因子(beta)而非收益因子（alpha）�
 | 波动率 | beta | beta | 个股收益率对 HS300 的滚动回归斜率，窗口 252天，收益率序列均进行半衰期63天的指数加权。若窗口期内有效数据不足42个则取值为空 |
 |  | resid vol | hsigma | BETA回归中的残差波动率 |
 |  |  | dastd | 日收益率的252天指数加权波动率，半衰期42天。若窗口期内有效数据不足42个则取值为空 |
-|  |  | cmra | Z(T)为过去T月累积对数收益率，定义累积收益范围： $\mathtt{CMRA}=Z\mathsf{max}-Z\mathsf{min}$ 其中 $Zmax=max\{Z(T)\}$ 5 $Z_{\min}=\min\{Z(\top)\}$ ${\sf T}{=}1,\ldots,\ 12$ |
+|  |  | cmra | Z(T)为过去T月累积对数收益率，定义累积收益范围： $\mathsf{CMRA}=\mathsf{Zmax}-\mathsf{Zmin}$ 其中 $Z\max=\max\{Z(T)\}$ 5 $Z\min=\min\{Z(T)\}$ $\mathsf{T}{=}1,\ldots,12$ |
 | 流动性 | liquidity | stom | 月度换手率对数 |
 |  |  | stoq | STOM 的3 月均值 |
 |  |  | stoa | STOM 的 12 月均值 |
@@ -181,7 +181,7 @@ barra模型的目的在于得到风险因子(beta)而非收益因子（alpha）�
 | 动量质量 | short termreversal | strev | 最近一个月的加权累计对数日收益率 |
 | --- | --- | --- | --- |
 |  | seasonality | season | 过去五年的已实现次月收益率均值 |
-|  | industrymomentum | indmom | (1)个股相对强度为： $RS_{s}(t)=\sum_{\tau\epsilon T(t)}w_{\tau-t}[\ln{(1+r_{s}(\tau)}]$ rs为日收益率，w为半衰指数权重，时间窗口6个月，半衰期1个月， ${\sf T}({\sf t})=\{{\sf t},...,{\sf t}-{\sf n}\}$ .(2)行业相对强度为： $RS_{I}(t)=\sum_{i\epsilon T(t)}c_{i}(t)RS_{i}(t)$ 其中 Ci(t)为行业i内个股流通市值的平方根(3)INDMOM 即为： $INDMOM_{S}(t)=-(C_{S}(t)RS_{S}(t)-RS_{t}(t))$ |
+|  | industrymomentum | indmom | (1)个股相对强度为： $RS_{s}(t)=\sum_{\tau\epsilon T(t)}w_{\tau-t}[\ln{(1+r_{s}(\tau)]}]$ rs为日收益率，w为半衰指数权重，时间窗口6个月，半衰期1个月， $\mathsf{T}(t)=\{t,\ldots,t-n\}$ .(2)行业相对强度为： $RS_{I}(t)=\sum_{i\epsilon T(t)}c_{i}(t)RS_{i}(t)$ 其中 Ci(t)为行业i内个股流通市值的平方根(3)INDMOM 即为： $INDMOM_{S}(t)=-(C_{S}(t)RS_{S}(t)-RS_{t}(t))$ |
 |  | momentum2 | rstr | (1)计算非滞后的相对强度：股票对数收益率的252日指数加权和，半衰期126日。窗口期内样本数据小于42个时取值为空。(2）滞后11个交易日，取（1）式值的等权均值。 |
 |  |  | halpha | 在计算beta所进行的时间序列回归中，取回归截距项 |
 |  | leverage | mlev | 最近财年：（市值+优先股+长期负债）/市值 |
@@ -190,8 +190,8 @@ barra模型的目的在于得到风险因子(beta)而非收益因子（alpha）�
 |  | earningsvariability | vsal | 过去5个财年的年营收标准差除以平均年营收 |
 |  |  | vern | 过去5个财年的年净利润标准差除以平均年净利润 |
 |  |  | vflo | 过去5个财年的年现金及现金等价物净增加额的标准差除以年均值 |
-|  | earningsquality | abs | 资产负债表应计项目 $ACCR_{BS}$ 占比。 $ACCR_{BS}=NOA_{t}-NOA_{t-1}-DA_{t}$ $NOA=(TA-Cash)-(TL-TD)$ $ABS={\frac{-ACCR_{BS}}{TA}}$ NOA 是净经营资产，DA 为折旧与摊销；TA 为总资产，Cash为现金及现金等价物，TL为总负债，TD为总带息债务 |
-|  |  | acf | 现金流量表应计项目 ACCR_CF占比。 $ACCR_{CF}=Ni_{t}-(CFO_{t}+CFI_{t})+DA_{t}$ $ACF={\frac{-ACCR_{CF}}{TA}}$ Ni为净利润，CFO为经营净现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和 |
+|  | earningsquality | abs | 资产负债表应计项目 $ACCR_{BS}$ 占比。 $\begin{aligned}ACCR_{BS}=&NOA_{t}-NOA_{t-1}-DA_{t}\end{aligned}$ $NOA=(TA-Cash)-(TL-TD)$ $\frac{-ACR_{BS}}{TA}$ NOA 是净经营资产，DA 为折旧与摊销；TA 为总资产，Cash为现金及现金等价物，TL为总负债，TD为总带息债务 |
+|  |  | acf | 现金流量表应计项目 ACCR_CF占比。 $\begin{aligned}ACCR_{CF}=\;Ni_{t}-(CFO_{t}+CFI_{t})+DA_{t}\end{aligned}$ $ACF=\frac{-ACCR_{CF}}{TA}$ Ni为净利润，CFO为经营净现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和 |
 |  | profitability | ato | 营业收入TTM/最近报告期总资产 |
 |  |  | gp | 最近财年的资产毛利率 |
 |  |  | gpm | 最近财年的销售毛利率 |
@@ -252,22 +252,22 @@ barra模型的目的在于得到风险因子(beta)而非收益因子（alpha）�
 
 来源：The Barra US Equity Model (USE4)，国联证券研究所
 
-最后，为进一步排除其他风险因子的干扰以精确测度目标因子的风险回报，本文参照 barra-CNE6多因子模型构造了纯因子组合。如前所述，Barra-CNE6是由1个国家因子、P 个行业因子和Q个风格因子组成的多因子模型，X 矩阵即为 $\mathsf{N}^{\star}(1+\mathsf{P}+\mathsf{Q})$ 阶的期初因子暴露矩阵。由于国家因子与所有行业因子间存在共线性，因此需要对行业因子施加约束条件为：
+最后，为进一步排除其他风险因子的干扰以精确测度目标因子的风险回报，本文参照 barra-CNE6多因子模型构造了纯因子组合。如前所述，Barra-CNE6是由1个国家因子、P 个行业因子和Q个风格因子组成的多因子模型，X 矩阵即为 $N^{\star}(1+P+Q)$ 阶的期初因子暴露矩阵。由于国家因子与所有行业因子间存在共线性，因此需要对行业因子施加约束条件为：
 
 $$
 S_{I_{1}}f_{I_{1}}+S_{I_{2}}f_{I_{2}}\cdots+S_{I_{P}}f_{I_{P}}=0
 $$
 
-其中 $S_{I_{1}}$ 为行业 $.I_{1}$ 的整体市值之和，该条件确保了行业因子收益率的加权和为 0。根据Ruud（2000），K个因子收益率间的约束条件可表达为：
+其中 $S_{I_{1}}$ 为行业 $I_{1}$ 的整体市值之和，该条件确保了行业因子收益率的加权和为 0。根据Ruud（2000），K个因子收益率间的约束条件可表达为：
 
 $$
-\left[\begin{array}{c}{f_{C}}\\{f_{I_{1}}}\\{\vdots}\\{f_{I_{P}}}\\{f_{S_{1}}}\\{\vdots}\\{f_{S_{Q}}}\end{array}\right]=\left[\begin{array}{cccccccc}{1}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{0}&{1}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{-\frac{S_{I_{1}}}{S_{I_{P}}}}&{-\frac{S_{I_{2}}}{S_{I_{P}}}}&{\cdots}&{-\frac{S_{I_{P-1}}}{S_{I_{P}}}}&{0}&{\cdots}&{0}\\{0}&{0}&{0}&{\cdots}&{0}&{1}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{1}\end{array}\right]\left[\begin{array}{c}{f_{C}}\\{f_{I_{1}}}\\{\vdots}\\{f_{I_{P-1}}}\\{f_{S_{1}}}\\{\vdots}\\{f_{S_{Q}}}\end{array}\right]+\left[\begin{array}{c}{0}\\{0}\\{\vdots}\\{0}\\{0}\\{\vdots}\\{0}\end{array}\right]
+\left[\begin{matrix}{f_{C}}\\{f_{I_{1}}}\\{\vdots}\\{f_{I_{P}}}\\{f_{I_{P}}}\\{f_{S_{1}}}\\{\vdots}\\{f_{S_{Q}}}\\\end{matrix}\right]=\left[\begin{matrix}{1}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{0}&{1}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{-\frac{s_{I_{1}}}{s_{I_{P}}}}&{-\frac{s_{I_{2}}}{s_{I_{P}}}}&{\cdots}&{-\frac{s_{I_{P-1}}}{s_{I_{P}}}}&{0}&{\cdots}&{0}\\{0}&{0}&{0}&{\cdots}&{0}&{1}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{1}\\\end{matrix}\right]\left[\begin{matrix}{f_{C}}\\{f_{I_{1}}}\\{\vdots}\\{f_{I_{P-1}}}\\{f_{I_{P-1}}}\\{f_{S_{1}}}\\{\vdots}\\{f_{S_{Q}}}\\\end{matrix}\right]+\left[\begin{matrix}{0}\\{0}\\{\vdots}\\{0}\\{0}\\{\vdots}\\{0}\\{\vdots}\\{0}\\\end{matrix}\right]
 $$
 
 右式的第一个矩阵即为K * （K-1）阶的约束矩阵R，可见行业P 的因子收益率$f_{I_{P}}$ 已由其他行业收益率的线性组合来表达，此即为施加约束后的结果。另外，为解决股票异质性风险导致的异方差问题，barra 还以市值的平方根作为权重实施了 WLS回归。因此，其回归权重矩阵即可记为 V:
 
 $$
-\begin{array}{r}{\mathbf{v}=\left[\begin{array}{cccc}{v_{1}}&{0}&{\cdot\cdot\cdot}&{0}\\{0}&{v_{2}}&{\cdot\cdot\cdot}&{0}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{\cdot\cdot\cdot}&{v_{N}}\end{array}\right]}\end{array}
+\mathbf{V}=\left[\begin{matrix}{v_{1}}&{0}&{\cdots}&{0}\\{0}&{v_{2}}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{\cdots}&{v_{N}}\\\end{matrix}\right]
 $$
 
 其中对角线元素 $v_{N}$ 即为股票N 的市值平方根权重。
@@ -275,7 +275,7 @@ $$
 综上，根据 Menchero 和 Lee（2015），纯因子投资组合的股票权重矩阵Ω即可由带约束条件的 WLS求解得到：
 
 $$
-\Omega=\mathrm{R}(R^{T}X^{T}VXR)^{-1}R^{T}X^{T}V
+\Omega=\mathbb{R}(R^{T}X^{T}VXR)^{-1}R^{T}X^{T}V
 $$
 
 Ω是为K*N 阶矩阵，其中第i 行即代表所有N 只股票在第 i个因子的纯因子投资组合中的权重。由此，纯因子组合 k 的当期收益率即为 $\Omega_{k}$ 与所有股票当期收益率的乘积：

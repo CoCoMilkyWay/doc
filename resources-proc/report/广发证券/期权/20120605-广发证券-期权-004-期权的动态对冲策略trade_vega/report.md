@@ -40,47 +40,47 @@ BS公式中引入了波动率作为期权定价的参数，类似于到期收益
 
 ## （一）BS定价过程揭示了动态对冲的思想
 
-BS 期权定价模型的诞生为日后金融工程技术的发展以及各类金融工具的 $\dot{\mathcal{P}}$ 生起着里程碑式的作用。其建立的基础为无套利定价模型，即在一定的条件下，期权收益可以通过标的资产和无风险债券进行复制。
+BS 期权定价模型的诞生为日后金融工程技术的发展以及各类金融工具的 $产$ 生起着里程碑式的作用。其建立的基础为无套利定价模型，即在一定的条件下，期权收益可以通过标的资产和无风险债券进行复制。
 
 在股价服从几何布朗运动以及其他若干假设下，根据Ito定理，任何期权以及标的资产的收益都受相同的随机因素dz(t)的影响，通过一定的股票与期权构造投资组合，可以消除该不确定性。相应的投资组合为：
 
 $$
--1\uparrow\frac{\partial}{\partial\mathbf{\mathscr{f}}}1\dot{\geq}\frac{\partial}{\partial\mathbf{\mathscr{f}}}1\dot{\geq}\frac{\partial\mathbf{\mathscr{f}}}{\partial\mathbf{\mathscr{f}}}1\dot{\geq}\frac{\partial\mathbf{\mathscr{f}}}{\partial\mathbf{\mathscr{s}}}\uparrow\pounds\frac{\partial\mathbf{\mathscr{f}}}{\partial\mathbf{\mathscr{s}}}1\dot{\geq}\frac{\partial}{\partial\mathbf{\mathscr{s}}}\frac{\partial\mathbf{\mathscr{s}}}{\partial\mathbf{\mathscr{s}}}
+$-\;1$个单位期权$+\;\cfrac{\widehat{\mathcal{O}}f}{\widehat{\mathcal{O}}s}$个单位股票.
 $$
 
 即，发行人卖出一个单位期权的同时，买入 $\frac{\partial f}{\partial s}$ 个单位股票进行对冲，通过构造该对冲组合II，在无套利的情况下，使得在极短的时间内，组合价值的变化独立于股价的变化，而只与市场中的无风险收益相关，即：
 
 $$
-dII=IIrdt
+d{\cal I}{\cal I}={\cal I}{\cal I}rdt
 $$
 
 通过一系列的数学推导，得到期权定价的 BS方程：
 
 $$
-{\frac{\partial f}{\partial t}}+{\frac{1}{2}}\sigma^{2}S^{2}{\frac{\partial^{2}f}{\partial S^{2}}}+rS{\frac{\partial f}{\partial S}}-rf=0
+\frac{\partial f}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial^{2}f}{\partial S^{2}}+rS\frac{\partial f}{\partial S}-rf=0.
 $$
 
 无套利定价原理不仅可以对各类期权进行定价，同时也表明了，期权可以通过标的资产与无风险收益债券进行动态复制。这也就是为什么当前国内没有期权市场，但是仍然可以动态对冲复制期权的原因。
 
 ## （二）Delta不是动态对冲的全部
 
-通过以上 BS 定价的过程可以发现，期权的沽出方买入 $\mathrm{Del}\mathrm{ta}~(\frac{\partial f}{\partial s}~)$ 份标的股票对冲风险，随着时间变化以及Delta 值的变化，连续调整组合中所持有的标的股票数量。这种只根据 Delta值的变化随时间调整对冲仓位的策略，通常被称为Delta中性策略。
+通过以上 BS 定价的过程可以发现，期权的沽出方买入 $\mathrm{De}\mathrm{1ta}\quad(\quad\frac{\partial f}{\partial s}\quad)$ 份标的股票对冲风险，随着时间变化以及Delta 值的变化，连续调整组合中所持有的标的股票数量。这种只根据 Delta值的变化随时间调整对冲仓位的策略，通常被称为Delta中性策略。
 
 然而对于期权这种非线性产品而言，仅仅对冲 Delta 是不够的。通过对期权价格关于各变量的偏导，得到：
 
 $$
-df=\frac{df}{ds}ds+\frac{d^{2}f}{2ds^{2}}ds^{2}+\frac{df}{d\sigma}d\sigma+\frac{df}{dt}dt+\frac{df}{dr}dr...
+df=\frac{df}{ds}ds+\frac{d^{2}f}{2ds^{2}}ds^{2}+\frac{df}{d\sigma}d\sigma+\frac{df}{dt}dt+\frac{df}{dr}dr.
 $$
 
 即：
 
 $$
-df=Deltads+\frac{1}{2}Gammads^{2}+Vegad\sigma+Thetadt+Phodr...
+df=Deltads+\frac{1}{2}Gammads^2+Vegad\sigma+Thetadt+Phodr\cdots
 $$
 
 通过上式可以看出，Delta风险管理不是动态对冲的全部， Gamma、Vega、Theta等风险同样重要，对于更复杂的期权而言，更高阶的风险依然不能忽视。
 
-由于 Gamma、Vega、Theta 等风险的对冲需要期权才能实施，当前国内期权市场的缺失使得这类风险无法对冲，为资产管理人发行类期权 $\dot{\mathcal{I}}$ 品仅实施 Delta对冲带来众多难度，包括：
+由于 Gamma、Vega、Theta 等风险的对冲需要期权才能实施，当前国内期权市场的缺失使得这类风险无法对冲，为资产管理人发行类期权 $\begin{aligned}\text{: }\quad\text{: }\quad\text{1 }\quad\text{2 }\quad\text{3 }\quad\text{4 }\quad\text{5 }\quad\text{6 }\quad\text{7 }\quad\text{6 }\quad\text{7 }\quad\text{8 }\quad\text{1 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{2 }\quad\text{3 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{2 }\quad\text{3 }\quad\text{4 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{2 }\quad\text{3 }\quad\text{4 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{2 }\quad\text{3 }\quad\text{4 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{2 }\quad\text{3 }\quad\text{4 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{2 }\quad\text{3 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{3 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{3 }\quad\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\text{1 }\quad\text{1 }\quad\text{1 }\quad\text{2 }\quad\quad\text{1 }\quad\text{1 }\quad\text{3 \quad \quad \text{1 } \quad \text{2 } \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{3 } \quad \quad \text{1 } \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{1 } \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{1 } \quad \text{1 } \quad \text{2 \quad \quad \text{2 } \quad \quad \text{2 } \quad \quad \text{1 } \quad \text{1 } \quad \text{1 } \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{1 } \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{2 \quad \quad \text{2 } \quad \quad \text{2 } \quad \quad \text{1 } \quad \text{1 } \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{2 } \quad \quad \text{1 } \quad \text{1 } \quad \text{2 \quad \quad \text{2 } \quad \quad \text{2 } \end{aligned}$ 品仅实施 Delta对冲带来众多难度，包括：
 
 I）Gamma反应了股价变化时Delta的变化幅度，过高的 Gamma导致 Delta变化加大，在对冲交易中面临冲击成本以及交易成本较高等难点。尤其是对于股票价格波动较大的市场中持有较高的 Short Gamma头寸，发行人将在高买低卖的Delta 对冲中直接实现亏损。
 
@@ -163,15 +163,15 @@ BS 公式中首次引人了波动率做为期权定价的参数，类似于到�
 对于持有欧式认购期权的多头投资者，同时卖空 Delta份股票进行动态对冲。当标的资产价格瞬间∂t内变化幅度为∂s，当隐含波动率、无风险利率保持不变的假设下，由于 Gamma以及Theta的存在，投资组合的净收益为：
 
 $$
-\frac{1\hbar}{2}\frac{\varkappa}{\varkappa}\frac{\varkappa}{\varkappa}\frac{\angle}{\varrho}\mathbb{I}\longleftrightarrow\mathbb{I}\Bigg|\mathcal{E}\frac{\breve{\varkappa}}{\bar{\mathfrak{m}}}=\frac{1}{2}gamma\hat{\oslash}s^{2}-theta\hat{\oslash}t=\frac{1}{2}gamma(\hat{\oslash}s^{2}-\sigma^{2}s^{2}\hat{\oslash}t)
+投资组合收益=\frac{1}{2}gamma\widehat{c}s^{2}-\frac{1}{2}\frac{1}{2}gamma(\widehat{c}s^{2}-\sigma^{2}s^{2}\widehat{c}t)
 $$
 
-由此，我们可以发现Delta对冲的投资组合收益与股票实际波动率、期权隐含波动率存在相关性。当 $\sigma=\frac{\widehat{\partial}s}{s}\sqrt{\widehat{\partial}t}$ 时，瞬间•t时间内投资组合的收益为 0。而通过方差的表达式可以把 $\frac{\partial s}{s}\sqrt{\partial t}$ 理解为•t时间内股票的实际波动率。尽管每天的 gamma不一样，但是，我们由此能看出来如果实际波动率与隐含波动率存在较大的差异，我们可以用Delta动态对冲的手段从中套利。
+由此，我们可以发现Delta对冲的投资组合收益与股票实际波动率、期权隐含波动率存在相关性。当 $\sigma=\frac{\hat{\partial}s}{s}\sqrt{\hat{\sigma}t}$ 时，瞬间•t时间内投资组合的收益为 0。而通过方差的表达式可以把 $\frac{\widehat{\mathcal{O}}\overline{{s}}}{\overline{{s}}}\sqrt{\overline{{\mathcal{O}}}t}$ 理解为•t时间内股票的实际波动率。尽管每天的 gamma不一样，但是，我们由此能看出来如果实际波动率与隐含波动率存在较大的差异，我们可以用Delta动态对冲的手段从中套利。
 
 当然，如果要精确的获取股票实际方差与隐含波动率的平方之间差的收益，需要构造期权组合使得组合 gamma 与 $\frac{1}{s^{2}}$ 成比例，假设比例系数为 m，投资组合期末收益为：
 
 $$
-\mathrm{PL}=\frac{1}{2}m^{*}(\frac{\displaystyle\sum_{i=0}^{T-1}(\frac{\partial s_{i}}{s_{i}})^{2}}{T-1}-\sigma^{2})
+\mathrm{PL}=\frac{1}{2}m*(\frac{\sum_{i=0}^{T-1}(\frac{\widehat{\mathcal{O}}s_i}{s_i})^2}{T-1}-\sigma^2)
 $$
 
 以下的图 4、图5展示了对冲组合的PL产生过程。

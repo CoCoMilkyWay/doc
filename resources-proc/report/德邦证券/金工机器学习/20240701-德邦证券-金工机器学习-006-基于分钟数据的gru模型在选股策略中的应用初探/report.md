@@ -61,14 +61,14 @@ RNN（循环神经网络）在1980年代开始出现，用于处理序列数据�
 GRU网络的数学表达式为：
 
 $$
-\begin{array}{rl}&{\mathsf{R}_{t}=\sigma\big(X_{t}W_{xr}+H_{t-1}W_{hr}+b_{r}\big)}\\&{\mathsf{Z}_{t}=\sigma\big(X_{t}W_{xz}+H_{t-1}W_{hz}+b_{z}\big)}\\&{\widetilde{\mathsf{H}}_{t}=\mathrm{tanh}\big(X_{t}W_{xh}+\big(\mathbf{R}_{t}\otimes\mathbf{H}_{t-1}\big)W_{hh}+b_{h}\big)}\\&{\mathsf{H}_{t}=\mathbf{Z}_{t}\otimes\mathsf{H}_{t-1}+\big(1-\mathbf{Z}_{t}\big)\otimes\widetilde{\mathsf{H}}_{t}}\end{array}
+\begin{aligned}\mathbf{R}_{t}&=\sigma(\mathbf{X}_{t}W_{xr}+H_{t-1}W_{hr}+b_{r})\\\mathbf{Z}_{t}&=\sigma(\mathbf{X}_{t}W_{xz}+H_{t-1}W_{hz}+b_{z})\\\widetilde{\mathbf{H}}_{t}&=\tanh(\mathbf{X}_{t}W_{xh}+(\mathbf{R}_{t}\otimes\mathbf{H}_{t-1})W_{hh}+b_{h})\\\mathbf{H}_{t}&=\mathbf{Z}_{t}\otimes\mathbf{H}_{t-1}+(1-\mathbf{Z}_{t})\otimes\widetilde{\mathbf{H}}_{t}\end{aligned}
 $$
 
 其中 $\mathbf{R_{t}}$ 为重置门， $\mathbf{Z}_{t}$ 为更新门， 表示按元素乘积运算符。
 
-在候选隐状态 $\widetilde{\mathbf{H}}_{\mathbf{t}}$ 中，使用重置门系数 $\mathbf{R_{t}}$ 控制了在加工输入信息的时候使用上一步的隐藏状态中的信息。 $\mathbf{R_{t}}$ 接近 0 时新输入的信息 $\mathbf{\nabla}\cdot\mathbf{X_{t}}$ 占主导地位，说明当前步的输入包含的信息与前面的信息关联性很小； $\mathbf{R_{t}}$ 接近 1 时新输入的信息和前面的长期信息有较大关联性，需要综合考虑来 $\dot{\bar{y}}$ 生当前步的信息。
+在候选隐状态 $\widetilde{\mathbf{H}}_{\mathbf{t}}$ 中，使用重置门系数 $\mathbf{R_{t}}$ 控制了在加工输入信息的时候使用上一步的隐藏状态中的信息。 $\mathbf{R_{t}}$ 接近 0 时新输入的信息 $\mathbf{.X_{t}}$ 占主导地位，说明当前步的输入包含的信息与前面的信息关联性很小； $\mathbf{R_{t}}$ 接近 1 时新输入的信息和前面的长期信息有较大关联性，需要综合考虑来 $产$ 生当前步的信息。
 
-最后，计算时间 t 时刻的隐状态的输出，它结合更新门 $\mathbf{Z_{t}}$ 以及上一步隐状态$\widetilde{\mathbf{H}}_{\mathbf{t}-1}$ 和本步新的候选隐状态 $\widetilde{\mathbf{H}}_{\mathbf{t}}$ 来计算最终的输出。
+最后，计算时间 t 时刻的隐状态的输出，它结合更新门 $\mathbf{Z_{t}}$ 以及上一步隐状态$\mathbf{\widetilde{H}_{t-1}}$ 和本步新的候选隐状态 $\widetilde{\mathbf{H}}_{\mathbf{t}}$ 来计算最终的输出。
 
 这些设计一方面可以帮助我们处理循环神经网络中的梯度消失问题，另一方面可以更好地捕获股票时间序列中的信息，类似时间序列中常用的指数移动平均的方式，历史信息不断衰减，最新的信息占有更大的权重。
 

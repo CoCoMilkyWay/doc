@@ -177,18 +177,18 @@ anningning@gf.com.cn
 
 本篇报告定义地理相关系数因子(GEOGCORR)，用以度量个股与其地理关联公司股票之间的整体相关程度，具体由个股和地理关联公司股票相关系数均值表示。
 
-以股票i在t月月末的地理相关系数因子为例，具体计算方式如下。首先，在全市场范围剔除t月的st股 ∗st股、停牌股以及上市不满一年的股票；其次，筛选出与股票i办公地所属省份相同、申万一级行业不同的全部共N支股票j，并分别计算与股票i在t月日频收益序列的皮尔森相关系数，即 $CORR_{i,j,t^{\circ}}$ 最后，对所有相关系数进行加权求和(若不做特殊说明， $w_{j,t}$ 均设置为 $1/N$ ，即等权)，得到股票i在t月月末换仓日的地理相关系数因子 $GEOGCORR_{i,t}$ o
+以股票i在t月月末的地理相关系数因子为例，具体计算方式如下。首先，在全市场范围剔除t月的st股 ∗st股、停牌股以及上市不满一年的股票；其次，筛选出与股票i办公地所属省份相同、申万一级行业不同的全部共N支股票j，并分别计算与股票i在t月日频收益序列的皮尔森相关系数，即 $CORR_{i,j,t},$ 最后，对所有相关系数进行加权求和(若不做特殊说明， $w_{j,t}$ 均设置为 $1/N$ ，即等权)，得到股票i在t月月末换仓日的地理相关系数因子 ${\cdot}GEOGCORR_{i,t}$ o
 
 $$
-CORR_{i,j,t}=\frac{cov\bigl(R_{i},R_{j}\bigr)}{std(R_{i})*std(R_{j})}
-$$
-
-$$
-GEOGCORR_{i,t}=\sum_{j=1}^{N}w_{j,t}*CORR_{i,j,t}
+CORR_{i,j,t}=\frac{cov(R_{i},R_{j})}{std(R_{i})*std(R_{j})}
 $$
 
 $$
-\begin{array}{c}{{geog_{i}=geog_{j}}}\\{{\ }}\\{{industry_{i}\not=industry_{j}}}\end{array}
+GEOGCOR_{i,t}=\sum_{j=1}^{N}w_{j,t}*CORR_{i,j,t}
+$$
+
+$$
+\begin{aligned}geog_{i}&=geog_{j}\\industry_{i}&\neq industry_{j}\end{aligned}
 $$
 
 其中， $geog_{i}(geog_{j})$ 分别为股票i(j)的办公地归属省份。 $industry_{i}\big(industry_{j}\big)$ 为股票i(j)的申万一级行业分类。
@@ -197,7 +197,7 @@ $$
 
 为研究个股与地理关联公司股票的相关程度变动，是否影响地理关联特征对个股的收益预测能力，本报告定义地理相关系数变动因子(GEOGCORRCHG)，用以度量个股与关联公司股票整体相关程度的变动情况。
 
-以股票i在t期的因子为例，具体计算方式如下。首先，按照地理相关系数的计算方式，分别计算股票i与股票j的t月日频收益序列的相关系数 $CORR_{i,j,t}$ 、两者在 $.t-2$ 至t月共3个月的日频收益序列的相关系数 $CORR_{i,j,t-2,t};$ ；其次，对任意股票j，计算1月相关系数与3个月相关系数的差值，衡量股票i与股票j之间相关性变动程度；最后，对N个股票j的相关系数差值进行加权求和，得到股票i在t月月末的地理相关系数变动因子 $GEOGCORRCHG_{i,t}$
+以股票i在t期的因子为例，具体计算方式如下。首先，按照地理相关系数的计算方式，分别计算股票i与股票j的t月日频收益序列的相关系数 $[CORR_{i,j,t}$ 、两者在 $.t-2$ 至t月共3个月的日频收益序列的相关系数 $CORR_{i,j,t-2,t};$ ；其次，对任意股票j，计算1月相关系数与3个月相关系数的差值，衡量股票i与股票j之间相关性变动程度；最后，对N个股票j的相关系数差值进行加权求和，得到股票i在t月月末的地理相关系数变动因子 $GEOGCORRCHG_{i,t}$
 
 $$
 GEOGCORRCHG_{i,t}=\sum_{j=1}^{N}w_{j,t}*(CORR_{i,j,t}-CORR_{i,j,t-2,t})
@@ -207,26 +207,26 @@ $$
 
 Bollerslev等(2022)[2]在发表论文《Realized semibetas: Disentangling “good”and “bad” downside risks》(Journal of Financial Economics)中，根据市场收益与资产收益序列的符号将传统市场贝塔拆分为四个半贝塔，并实证说明了基于负市场收益与负资产收益序列协方差构建的半贝塔与资产未来收益显著正相关，基于负市场收益与正资产收益序列协方差构建的半贝塔与资产未来收益显著负相关。这一结论对本报告的启示在于：基于不同数值方向收益序列构建的相关系数，可能蕴含的信息量也存在差异。因此，本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的地理相关系数拆解因子(GEOGCORRP、GEOGCORRN、GEOGCORRIP与GEOGCORRJP)，用以度量个股与地理关联公司股票的调整后收益序列的相关程度。
 
-以股票i在t月的地理相关系数拆解因子 $(GEOGCORRP_{i,t})$ 为例，具体计算方式如下。首先，对于股票i与全部N个股票j，利用 $R_{i}^{+}$ 公式对其日度收益序列进行调整，也就是将负日度收益调整为0。其次，根据地理相关系数因子构造步骤，得到地理相关系数拆解因子 $GEOGCORRP_{i,t}$ 。其余三种地理相关系数拆解因子 $(GEOGCORRN_{i,t}$ $GEOGCORRIP_{i,t}$ 与 $GEOGCORRJP_{i,t})$ 构造方式同理可得。
+以股票i在t月的地理相关系数拆解因子 $\left(GEOGCORRP_{i,t}\right)$ 为例，具体计算方式如下。首先，对于股票i与全部N个股票j，利用 $R_{i}^{+}$ 公式对其日度收益序列进行调整，也就是将负日度收益调整为0。其次，根据地理相关系数因子构造步骤，得到地理相关系数拆解因子 ${\cdot}GEOGCORRP_{i,t}$ 。其余三种地理相关系数拆解因子 $(GEOGCORRN_{i,t}$ $GEOGCORRIP_{i,t}$ 与 $\overline{{GEOGCORRJP_{i,t})}}$ 构造方式同理可得。
 
 $$
-R_{i}^{+}=max(R_{i},0)R_{i}^{-}=min(R_{i},0)
-$$
-
-$$
-GEOGCORRP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{+},R_{j}^{+}\big)
+R_{i}^{+}=max(R_{i},0)\quad R_{i}^{-}=min(R_{i},0)
 $$
 
 $$
-GEOGCORRN_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\bigl(R_{i}^{-},R_{j}^{-}\bigr)
+GEOGCOR_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{+},R_{j}^{+}\big)
 $$
 
 $$
-GEOGCORRIP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\bigl(R_{i}^{+},R_{j}^{-}\bigr)
+GEOGCOR_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{-},R_{j}^{-}\big)
 $$
 
 $$
-GEOGCORRJP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{-},R_{j}^{+}\big)
+GEOGCORRI_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{+},R_{j}^{-}\big)
+$$
+
+$$
+GEOGCORIP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{-},R_{j}^{+}\big)
 $$
 
 ## （二）因子特征分析
@@ -635,12 +635,12 @@ CNE6版本的BARRA因子模型将股票因子划分为市场、价值、成长�
 | investment quality | AGRO | 用过去五年的总资产对时间做回归，得到的斜率再除以五年的平均值。数值乘-1 |
 | leverage | MLEV | 长期资本与股东权益的比值，其中长期资本包括普通股市值、最新优先股市值以及付 息债券市值 |
 | liquidity | STOM | 过去21个交易日的换手率之和的对数值 |
-| long term reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益率 的差额累计和，得到 RSTR因子 $RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})]$ |
+| long term reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益率 的差额累计和，得到 RSTR因子 $RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})],$ |
 | mid capitalization | MIDCAP | 用截面上个股的对数流通市值的三次方对对数流通市值进行回归，对回归残差进行 MAD去极值与中性化处理，获得MIDCAP因子 |
 | momentum | HALPHA | 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回归， 得到截距项 α 为 HALPHA 因子 |
-| profitability | ROA | $r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}$ 个股历史12个月滚动净利润与最新报告的总资产的比值 |
+| profitability | ROA | $\boxed{r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}}$ 个股历史12个月滚动净利润与最新报告的总资产的比值 |
 | residual volatility | HSIGMA | 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回归， 得到残差的标准差即为 HSIGMA 因子 |
-| size | LNCAP | $r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}$ 个股的对数流通市值 |
+| size | LNCAP | $\boxed{r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}}$ 个股的对数流通市值 |
 
 数据来源：Wind，广发证券发展研究中心
 

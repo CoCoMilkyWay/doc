@@ -136,7 +136,7 @@ $$
 首先，我们在分钟频度上构建初始因子 COPA(Correlationcoefficient between Price and Amount)，衡量分钟价格和分钟成交额的相关程度：
 
 $$
-COPA=corr(P_{t},A_{t}),t\in[1,240]
+COPA=corr(P_{t},A_{t}),\quad t\in[1{,}240]
 $$
 
 其中 $P_{t}$ 为个股日内第 分钟的收盘价， $A_{t}$ 为个股日内第 分钟的成交额。每只股票每日可以得到一个日内量价相关系数，为了得到月度因子值，我们以月末为基日，前溯 个交易日，取 日因子平均值作为月度因子值（参数敏感性测试见 5.3节）。研究发现使用成交额、成交量或者换手率区别不大，原因是个股的价格在日内变动有限。隔日价格变动相较于日内价格变动跳跃较大，因此逐日计算因子值多日平均的效果，可能好于多日数据拼齐计算相关性。
@@ -156,7 +156,7 @@ $$
 其次，我们关注成交额与价格变动之间的互动关系，我们使用收益率的绝对值来表示价格的变动幅度。以此构建因子 CORA（Correlation coefficient between Return and Amount），衡量分钟价格变动幅度与分钟成交额之间的相关程度：
 
 $$
-CORA=corr(|Ret_{t}|,A_{t}),\ t\in[1,240]
+CORA=corr(|Ret_{t}|,A_{t}),\quad\mathfrak{t}\in[1{,}240]
 $$
 
 其中 $|Ret_{t}|$ 为个股日内第 t分钟的对数收益率的绝对值， $A_{t}$ 为个股日内第t分钟的成交额，月度因子值同样取10日平均。
@@ -263,7 +263,7 @@ $$
 特别的，我们发现当日涨跌幅与当日成交额的关系没有预测能力，领先的成交额与滞后的涨跌幅之间含有 Alpha。当我们剔除当日量价关系后，隔日量价关系的选股效果大幅提升，因此表明更纯粹的“量价抢跑”现象。
 
 $$
-\begin{array}{r}{Turn_{t-1}=\alpha+\beta*Turn_{t}+{\varepsilon}_{t-1}}\\{FR_{pure}=corr({\varepsilon}_{t-1},Ret_{t})\qquad}\end{array}
+\begin{array}{c}{Turn_{t-1}=\alpha+\beta*Turn_{t}+\varepsilon_{t-1}}\\{FR_{pure}=corr(\varepsilon_{t-1},Ret_{t})}\end{array}
 $$
 
 在高频的世界里，我们也得到了相似的结论。相较于同期成交额与涨跌幅关系的CORA 因子，错期因子CORA_A和CORA_R 的独立预测能力大幅提升。
@@ -283,7 +283,7 @@ $$
 与之对应，我们猜测价先于量的提前变动可能也蕴含着一些微观交易行为的变化，如果市场投资者对股票价格极度敏感，股价发生变动后，大量投资者急于成交手中的股票，则会造成价在量前提前波动。因此，我们在分钟频度上构建错期价在量先因子 CORA_R (Correlationcoefficient between Return and Amount _Return before Amount)，衡量前一分钟的价与后一分钟的量的协同运动情况。
 
 $$
-CORA\_R=corr(|Ret_{t-1}|,A_{t})
+CORA_{-}R=corr(|Ret_{t-1}|,A_{t})
 $$
 
 该因子值越大，表示市场交易情绪受股价涨跌的影响程度越高，两者均可以用来衡量股票的短期交易热度。
@@ -452,7 +452,7 @@ CORA_A 和 CORA_R 的空头因子均值从 0.19 上升至 0.3 附近，空头组
 为剔除成交量在日内天然分布所带来的影响，我们对每一分钟的成交额进行标准化，标准化后的成交额捕捉的是该分钟成交额相对于正常情况下的异常波动，方法是用前 20 交易日的该分钟成交额进行调整。
 
 $$
-\begin{array}{c}{\displaystyle\mu_{i,t}=\frac{\sum_{d=1}^{20}A_{i,t,d}}{20}}\\{\displaystyle\sigma_{i,t}=\sqrt{\frac{1}{20}\sum_{d=1}^{20}(A_{i,t,d}-\mu_{i,t})^{2}}}\\{\displaystyle adjA_{i,t}=\frac{A_{i,t}-\mu_{i,t}}{\sigma_{i,t}}}\end{array}
+\begin{aligned}\mu_{i,t}=&\frac{\sum_{d=1}^{20}A_{i,t,d}}{20}\\\sigma_{i,t}=&\sqrt{\frac{1}{20}\sum_{d=1}^{20}(A_{i,t,d}-\mu_{i,t})^2}\\&adjA_{i,t}=\frac{A_{i,t}-\mu_{i,t}}{\sigma_{i,t}}\end{aligned}
 $$
 
 *公式中t为分钟标记 d为日标记 i 为股票标记
@@ -476,7 +476,7 @@ $$
 研究发现，CORA_A 和CORA_R的效果大幅提升。
 
 $$
-\begin{array}{c}{{adj_{-}CORA_{-}A=corr(adjA_{t-1},|Ret_{t}|),Ret_{t}\ne0}}\\{{adj_{-}CORA_{-}R=corr(|Ret_{t-1}|,adjA_{t}),Ret_{t-1}\ne0}}\end{array}
+\begin{aligned}adj_{-}CORA_{-}A&=corner(adjA_{t-1},\left|Ref_{t}\right|),\;Ref_{t}\neq0\\adj_{-}CORA_{-}R&=error(\left|Ref_{t-1}\right|,adjA_{t}),\;Ref_{t-1}\neq0\end{aligned}
 $$
 
 图表39：CORA_A 时序分布
@@ -575,7 +575,7 @@ $$
 
 图表 53 绘制了N期量在价前错期因子
 
-$CORA\_A=corr(A_{t-n},|Ret_{t}|)$ 的因子值分布图；图表 54绘制了N 期价在量前错期因子 $\cdot CORA_{-}R=corr(|Ret_{t-n}|,A_{t})$ 的因子值分布图。图表中N取值 0-5，特别的当 N=0时，即为当期因子CORA。
+$CORA_{-}A=corr(A_{t-n},|Ret_{t}|)$ 的因子值分布图；图表 54绘制了N 期价在量前错期因子 $\cdot CORA_{-}R=corr(|Ret_{t-n}|,A_{t})$ 的因子值分布图。图表中N取值 0-5，特别的当 N=0时，即为当期因子CORA。
 
 我们发现，随着 的增加，因子分布的均值越来越趋向于 ，相关程度越来越低。我们在第三章计算过当期涨跌幅与成交额相关性因子CORA 的选股效果，结果显示该因子的独立增量Alpha较少，而错期涨跌幅与量因子CORA_A和 CORA_R独特的增量Alpha较多。这表明在量价关系分析的第二个角度：涨跌幅与成交额的关系上，当期涨跌幅和当期成交额蕴含的信息较少，但错期涨跌幅与错期成交额能够带来新的Alpha，但是随着错期的增大，这种增量Alpha也会慢慢衰减。
 
@@ -676,7 +676,7 @@ $CORA\_A=corr(A_{t-n},|Ret_{t}|)$ 的因子值分布图；图表 54绘制了N �
 最后，我们合成效果较优的高频价量因子。为了避免数据挖掘，我们没有使用复杂的 ICIR 等加权方法，仅使用简单等权方法进行合成，合成因子的算法如下：
 
 $$
-\mathop{\triangle}\mathop{\star}\vec{\chi}\ :|\vec{\mathcal{X}}|\vec{\mathcal{X}}=\ :COPA+adj_{-}CORA_{-}A+adj_{-}CORA_{-}R
+会成因子=COPA+adj\_CORA\_A+adj\_CORA\_R
 $$
 
 对市值、行业、换手、波动、反转中性后，合成高频量价关系因子具有不俗的表现，其月度 IC 序列为负的概率为 87.32%，月度表现十分稳定。IC 均值为-0.0503，RankIC 均值为-0.0573，年化 ICIR 为-4.3146。按因子大小值分为 10 组后，分组之间具有显著的单调性。多空组年化收益达到22.51%，年化波动5.48%，年化 IR 达到 4.1061，胜率超过85%，最大回撤仅 4.92%。总体来说，合成高频量价因子具有很强的预测能力。

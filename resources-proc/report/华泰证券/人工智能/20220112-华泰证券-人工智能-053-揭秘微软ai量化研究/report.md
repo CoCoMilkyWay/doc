@@ -203,11 +203,11 @@ TRA模型的核心是注意力机制 Attention。构建方式如下：
 
 1. 输入为因子时间序列 x，首先通过 LSTM层提取隐状态 $\mathsf{h}_{\mathsf{c}}$
 
-2. 不考虑 Attention 的情况下，将 h 送至多个预测器，假设有 K个预测器，可得到不同预测值 $\hat{y}_{1}\setminus\hat{y}_{2}\setminus\hat{y}_{3}\setminus\ldots\hat{y}_{K}$ （下标 i代表预测器）。
+2. 不考虑 Attention 的情况下，将 h 送至多个预测器，假设有 K个预测器，可得到不同预测值 $\hat{y}_{1}、\hat{y}_{2}、\hat{y}_{3}、\ldots、\hat{y}_{K}$ （下标 i代表预测器）。
 
 3. 计算各预测器预测误差，每个样本（单只股票单个交易日）得到误差向量i （l K维向量）；每个样本取过去一段时间窗的预测误差，构成误差矩阵 ei（维数为时间窗长度×K）。
 
-4. 对每个样本 i，计算隐状态 hi和误差矩阵 ei的注意力系数 ai（K维向量），归一化可得到标准化注意力系数 qi；以 ${\mathfrak{q}}_{1}$ 为权重对 $\hat{y}_{i}$ （下标 i代表样本）求加权平均，得到最终收益预测值 $\hat{\mathbf{\nabla}}\cdot\hat{p}_{i}$ 。
+4. 对每个样本 i，计算隐状态 hi和误差矩阵 ei的注意力系数 ai（K维向量），归一化可得到标准化注意力系数 qi；以 $\mathbf{q}_{\mathrm{i}}$ 为权重对 $\hat{y}_{i}$ （下标 i代表样本）求加权平均，得到最终收益预测值 $\hat{-p_{i}}$ 。
 
 图表8： TRA网络结构
 ![](images/746e3c62578b65f66d499afbcf84508539a268fba0dd2ee497a6f4f2489d1a81.webp)
@@ -216,12 +216,12 @@ TRA模型的核心是注意力机制 Attention。构建方式如下：
 图表9： TRA注意力计算过程
 
 $$
-\begin{array}{rl}&{\mathbf{a}_{i}=\pi(\mathbf{h}_{i},\mathbf{e}_{i}),}\\&{\mathbf{q}_{i}=\frac{\exp(\mathbf{a}_{i})}{\operatorname{sum}(\exp(\mathbf{a}_{i}))},}\\&{\hat{\mathsf{p}}_{i}=\mathbf{q}_{i}^{\mathsf{T}}\hat{\mathbf{y}}_{i}}\end{array}
+\begin{aligned}\mathbf{a}_{i}&=\pi(\mathbf{h}_{i},\mathbf{e}_{i}),\\\mathbf{q}_{i}&=\frac{\exp(\mathbf{a}_{i})}{\operatorname{sum}(\exp(\mathbf{a}_{i}))},\\\hat{\mathbf{p}}_{i}&=\mathbf{q}_{i}^{\top}\hat{\mathbf{y}}_{i}\end{aligned}
 $$
 
 资料来源：Lin et al. (2021). Learning Multiple Stock Trading Patterns with Temporal Routing Adaptor and Optimal Transport. KDD，华泰研究
 
-此外，为了防止注意力权重 qi集中在个别预测器，损失函数中增加惩罚项，用来平衡 ${\mathfrak{q}}_{\mathrm{i}}$ 中的样本，这一过程称为最优传输（Optimal Transport，简称 OT）。OT 最早用于解决最优运输以及物资分配问题，近年来为机器学习领域关注，生成对抗网络的变式WGAN就蕴含了OT 的思想。
+此外，为了防止注意力权重 qi集中在个别预测器，损失函数中增加惩罚项，用来平衡 $\mathbf{q}_{\mathrm{i}}$ 中的样本，这一过程称为最优传输（Optimal Transport，简称 OT）。OT 最早用于解决最优运输以及物资分配问题，近年来为机器学习领域关注，生成对抗网络的变式WGAN就蕴含了OT 的思想。
 
 TRA 研究参考 Cuturi 在 2013 年 NIPS 神经信息处理系统大会发表的论文 Learning MultipleStock Trading Patterns with Temporal Routing Adaptor and Optimal Transport，提出了TRA+OT 的损失函数，如下图所示。
 
@@ -232,23 +232,23 @@ TRA 研究参考 Cuturi 在 2013 年 NIPS 神经信息处理系统大会发表�
 图表10： TRA+OT 损失函数
 
 $$
-\operatorname*{min}_{\mathbf{P}}{\langle\mathbf{P},\mathbf{L}\rangle},
+\operatorname*{min}_{\mathbf{P}}\langle\mathbf{P},\mathbf{L}\rangle,
 $$
 
 $$
-s.t.\sum_{i=1}^{N}\mathbf{P}_{ik}=\nu_{k}*N,\forall k=1...K
+s.t.\sum_{i=1}^{N}\mathbf{P}_{ik}=\nu_{k}*N,\;\forall k=1...K.
 $$
 
 $$
-\sum_{k=1}^{K}\mathbf{P}_{ik}=1,\forall i=1...N
+\sum_{k=1}^{K}\mathbf{P}_{ik}=1,\;\forall i=1...N
 $$
 
 $$
-\mathrm{P}_{ik}\in\{0,1\},\ \forall i=1...N,k=1...K,
+\mathbb{P}_{ik}\in\{0,1\},\;\forall i=1...N,k=1...K,
 $$
 
 $$
-\begin{array}{rl}&{\underset{\Theta,\pi,\psi}{\operatorname*{min}}\ :\mathbb{E}_{(\mathbf{x}_{i},\mathbf{y}_{i})\in\mathcal{D}^{\mathrm{train}}}\left[\ell(\mathbf{x}_{i},\mathbf{y}_{i};\Theta,\pi,\psi)-\lambda\sum_{k=1}^{K}\mathrm{P}_{ik}\mathrm{log}(q_{ik})\right]}\end{array}
+\begin{array}{r}{\underset{\Theta,\pi,\psi}{\operatorname*{min}}\mathbb{E}_{(\mathbf{x}_{i},\mathbf{y}_{i})\in\mathcal{D}^{\mathrm{train}}}\left[\ell(\mathbf{x}_{i},\mathbf{y}_{i};\Theta,\pi,\psi)-\lambda\sum_{k=1}^{K}\mathbb{P}_{ik}\mathrm{log}(q_{ik})\right]}\end{array}
 $$
 
 资料来源：Lin et al. (2021). Learning Multiple Stock Trading Patterns with Temporal Routing Adaptor and Optimal Transport. KDD，华泰研究
@@ -293,9 +293,9 @@ REST 网络构建方式如下：
 
 ## 二阶学习范式框架如下：
 
-1. 一阶模型：学习从因子 X到收益 Y的映射关系 F。假设存在 4种时间尺度的线性模型，训练集长度分别为 s＝1、5、10、20 天，分别学习不同时间尺度下的规律。在 t时刻，每个子模型可表示为 $F_{\theta_{t}^{s}}$ ，其中参数表示为 $\theta_{\mathrm{t}}^{s}$ 。
+1. 一阶模型：学习从因子 X到收益 Y的映射关系 F。假设存在 4种时间尺度的线性模型，训练集长度分别为 s＝1、5、10、20 天，分别学习不同时间尺度下的规律。在 t时刻，每个子模型可表示为 $F_{\theta_{t}^{s}}$ ，其中参数表示为 $\theta_{\mathrm{t}}s$ 。
 
-2. 二阶模型：学习不同映射关系 F 的注意力权重。在 t 时刻，将每个子模型参数 θs历史序列送至 LSTM，提取 t 时刻隐状态 $\mathsf{h}_{\mathsf{t}}\mathsf{s}_{\mathsf{\circ}}$ 在此后的 T 时刻，采用注意力机制，对各子模型参数的隐状态进行合成，得到合成参数 $\widehat{\theta_{T}}$ 。使用合成参数预测股票收益，使用预测误差优化包括 LSTM、注意力机制在内的所有参数。
+2. 二阶模型：学习不同映射关系 F 的注意力权重。在 t 时刻，将每个子模型参数 θs历史序列送至 LSTM，提取 t 时刻隐状态 ${\mathsf{ht}}^{s}\circ$ 在此后的 T 时刻，采用注意力机制，对各子模型参数的隐状态进行合成，得到合成参数 $\widehat{\theta_{T}}$ 。使用合成参数预测股票收益，使用预测误差优化包括 LSTM、注意力机制在内的所有参数。
 
 以全 A 股为股票池，以 Alpha101 为选股因子，测试结果显示，回测期内（2017 年）二阶学习范式表现优于单个一阶模型，多头组合的年化收益率、夏普比率均更高。
 
@@ -359,7 +359,7 @@ TTIO 技术指标优化算法研究由微软亚研院、上海交通大学和清
 
 1. 根据基金持仓构建二分图，可表示为 G＝(U, V, E)，其中 U 为股票节点 u 构成的集合，V 为基金节点 v 构成的集合，E 为边的集合，每条边的权值 wfj,si代表股票 i 在基金 j 的持仓比例。
 
-2. 将二分图中边的权值视作转移概率，构建股票节点随机游走序列。假定以股票 i为随机游走起点，股票 i到基金j的转移概率为归一化后的 w ，基金j到股票 i'的转移概率为归一化后的 ${\mathsf{W}}_{\mathrm{fj},\mathsf{Si}^{\prime}\circ}$ 。基于上述转移概率进行随机游走，每两步输出节点，即跳过基金节点，保留股票节点，得到一系列股票节点随机游走序列。序列中股票的邻接关系，可类比为句子中单词的上下文关系。
+2. 将二分图中边的权值视作转移概率，构建股票节点随机游走序列。假定以股票 i为随机游走起点，股票 i到基金j的转移概率为归一化后的 w ，基金j到股票 i'的转移概率为归一化后的 $\mathsf{W}_{\mathsf{fj},\mathsf{Si}^{\prime}\circ}$ 。基于上述转移概率进行随机游走，每两步输出节点，即跳过基金节点，保留股票节点，得到一系列股票节点随机游走序列。序列中股票的邻接关系，可类比为句子中单词的上下文关系。
 
 3. 采用Skip-Gram算法训练神经网络模型g，g(u)即股票u在基金-股票二分图中的嵌入。Skip-Gram 算法源于自然语言处理的词嵌入（Word Embedding），核心思想是最大化邻居单词的条件概率。应用于图嵌入场景时，目标函数为最大化前述股票节点随机游走序列中邻居股票的条件概率。
 
@@ -369,7 +369,7 @@ TTIO 技术指标优化算法研究由微软亚研院、上海交通大学和清
 
 得到股票的图嵌入后，基于嵌入值训练尺度变换网络，得到各股票技术指标仿射变换参数，并使用变换后的技术指标预测股票收益。网络具体构建方式为：
 
-1. 尺度变换网络（Re-scaling Network）：输入为股票 i 的嵌入值 gi，通过简单的单层神经网络，技术指标 j 对应的网络自由参数为 wj，输出为股票 i 技术指标 j 的原始缩放权重$\mathsf{r}_{\mathsf{ij}}{=}{\mathsf{w}}_{\mathsf{j}}\mathsf{T}{\mathsf{g}}_{\mathsf{i}}$ 。再将 rij进行 softmax 归一化，得到归一化权重 ${\tt G}_{\mathrm{lj}}$
+1. 尺度变换网络（Re-scaling Network）：输入为股票 i 的嵌入值 gi，通过简单的单层神经网络，技术指标 j 对应的网络自由参数为 wj，输出为股票 i 技术指标 j 的原始缩放权重$\mathbf{r}_{\mathrm{ij}}=\mathbf{w}_{\mathrm{i}}^{\top}\mathbf{g}_{\mathrm{i}}$ 。再将 rij进行 softmax 归一化，得到归一化权重 $\mathfrak{a}_{\mathrm{ij}}$
 
 2. 技术指标最优缩放（Optimizing Indicator via Weighted Re-scaling）。将原始技术指标Iij和归一化权重 αij相乘，得到缩放后的技术指标 Iij’。网络的目标函数是最大化缩放后的技术指标与股票收益的 IC 值绝对值：max|corr(Ij’, R)|。
 
@@ -393,9 +393,9 @@ HAN 舆情深度学习选股研究由微软亚研院和北京大学在 2017 年 
 
 2. 舆情间注意力（News-level Attention）：将个股 s 日期 t 的全部 L 个舆情向量送至Attention 层，学习相同日期舆情间的关系，加权求和得到汇总舆情向量 dt。
 
-3. 序列建模（Sequential Modeling）：将个股 s 在日期 1~N 的汇总舆情向量 ${\mathsf{d}}_{1}$ 、d2、…、${\mathsf{d}}_{\mathsf{N}}$ 送至双向 GRU 层，得到每日舆情隐状态 $\widehat{h}_{t}\star\mathsf{e}\overleftarrow{h}_{t}$ o
+3. 序列建模（Sequential Modeling）：将个股 s 在日期 1~N 的汇总舆情向量 $\mathbf{d}_{1}$ 、d2、…、$\mathsf{d}_{\mathbb{N}}$ 送至双向 GRU 层，得到每日舆情隐状态 $\vec{h}_{t}和\overleftarrow{h}_{t}$ o
 
-4. 时序注意力（Temporal Attention）：将个股 s 每日舆情隐状态送至 Attention 层，学习不同日期舆情的上下文关系，加权求和得到汇总舆情隐状态 $\vee_{\circ}$
+4. 时序注意力（Temporal Attention）：将个股 s 每日舆情隐状态送至 Attention 层，学习不同日期舆情的上下文关系，加权求和得到汇总舆情隐状态 $\nabla_{\circ}$
 
 5. 趋势预测（Trend Prediction）：将个股 s 的汇总舆情隐状态 V送至 MLP层，得到上涨/下跌/震荡三分类预测。
 
@@ -410,15 +410,15 @@ HAN 舆情深度学习选股研究由微软亚研院和北京大学在 2017 年 
 图表18： 引入自步学习的 HAN损失函数
 
 $$
-\operatorname*{min}_{w,v\in[0,1]^{n}}E(w,v,\lambda)=\sum_{i=1}^{n}v_{i}L(y_{i},HAN(x_{i},w))+f(v;\lambda)
+\min_{w,v\in[0,1]^{n}}E(w,v,\lambda)=\sum_{i=1}^{n}v_{i}L(y_{i},HAN(x_{i},w))+f(v;\lambda)
 $$
 
 $$
-f(v;\lambda)={\frac{1}{2}}\lambda\sum_{i=1}^{n}(v_{i}^{2}-2v_{i})
+f(\boldsymbol{\upsilon};\lambda)=\frac{1}{2}\lambda\sum_{i=1}^{n}(\upsilon_{i}^{2}-2\upsilon_{i}).
 $$
 
 $$
-\boldsymbol v_{i}^{*}=argmin_{v}E(\boldsymbol w^{*},\boldsymbol v,\lambda)=\left\{\begin{array}{rlr}{-\frac{1}{\lambda}l_{i}+1}&{l_{i}<\lambda}\\&{0}&{l_{i}\ge\lambda}\end{array}\right.
+v_{i}^{*}=argmin_{\upsilon}E(w^{*},\upsilon,\lambda)=\left\{\begin{aligned}-\frac{1}{\lambda}l_{i}+1\quad l_{i}<\lambda\\0\quad l_{i}\geq\lambda\end{aligned}\right.
 $$
 
 资料来源：Hu et al. (2017). Listening to Chaotic Whispers: A Deep Learning Framework for News-oriented Stock Trend Prediction. arXiv，华泰研究
@@ -463,7 +463,7 @@ b. 后半项为风险因子协方差矩阵的逆的迹，等价于方差膨胀�
 图表20： 深度风险模型 Deep Risk Model 损失函数
 
 $$
-\operatorname*{min}_{\theta}\frac{1}{T}\sum_{t=1}^{T}\Big[\frac{1}{H}\sum_{h=1}^{H}\frac{\big\|\mathbf{y}_{\cdot,\mathbf{t}+\mathbf{h}}-\mathbf{F}_{\cdot t}(\mathbf{F}_{\cdot t}^{\top}\mathbf{F}_{\cdot t})^{-1}\mathbf{F}_{\cdot t}^{\top}\mathbf{y}_{\cdot\mathbf{t}}\big\|_{2}^{2}}{\|\mathbf{y}_{\cdot,\mathbf{t}+\mathbf{h}}\|_{2}^{2}}+\lambda\mathrm{tr}\big((\mathbf{F}_{\cdot t}^{\top}\mathbf{F}_{\cdot t})^{-1}\big)\Big]
+\min_{\theta}\frac{1}{T}\sum_{t=1}^{T}\Big[\frac{1}{H}\sum_{h=1}^{H}\frac{\left\|\mathbf{y}_{\cdot,\mathbf{t}+\mathbf{h}}-\mathbf{F}_{\cdot t}(\mathbf{F}_{\cdot,t}^{\top}\mathbf{F}_{\cdot t})^{-1}\mathbf{F}_{\cdot,t}^{\top}\mathbf{y}_{\cdot t}\right\|_2^2}{\|\mathbf{y}_{\cdot,\mathbf{t}+\mathbf{h}}\|_2^2}+\lambda\mathrm{tr}\big((\mathbf{F}_{\cdot t}^{\top}\mathbf{F}_{\cdot t})^{-1}\big)\Big]
 $$
 
 资料来源：Lin et al. (2021). Deep Risk Model: A Deep Learning Solution for Mining Latent Risk Factors to Improve Covariance Matrix Estimation. ICAIF，华泰研究
@@ -485,7 +485,7 @@ OPD 的核心思想是：以基于历史数据进行强化学习的模型作为 
 拆单算法的问题表述：假设 Q 为目标卖出数量，pt为 t 时刻股票价格（该研究中为分钟线价格），qt为 t 时刻卖出数量，t时刻下单将在 t+1 时刻成交，那么交易算法的目标是在卖出数量为 Q 约束下，最大化总成交金额Σqp：
 
 $$
-\operatorname{argmax}\sum_{t=0}^{T-1}(q_{t+1}\cdot p_{t+1}),\mathrm{s.t.}\sum_{t=0}^{T-1}q_{t+1}=Q
+\underset{}{\operatorname{argmax}}{\sum}_{t=0}^{T-1}(q_{t+1}\cdot p_{t+1}),\mathrm{s.t.}\underset{}{\sum}_{t=0}^{T-1}q_{t+1}=Q.
 $$
 
 强化学习的基础概念包含状态（State，s）、动作（Action，a）和奖赏（Reward，R）。强化学习的目标是学习一个从状态到决策的最优映射 a＝π(s)，称为策略（Policy，π）。本文中强化学习的损失函数大致分为策略优化（Policy Optimization）和策略蒸馏（PolicyDistillation）两部分。其中策略优化 Policy Optimization 的目标是优化交易策略，核心是奖赏 R 的设计，又可分为交易获利奖励R̂+和市场冲击惩罚R̂−两部分，如下图所示。
@@ -493,7 +493,7 @@ $$
 图表22： 强化学习奖赏 R和目标函数的策略优化（Policy Optimization）部分
 
 $$
-\hat{R}_{t}^{+}(s_{t},a_{t})=\frac{q_{t+1}}{Q}\cdot\overbrace{\left(\frac{p_{t+1}-\tilde{p}}{\tilde{p}}\right)}^{\mathrm{price~normalization}}=a_{t}\left(\frac{p_{t+1}}{\tilde{p}}-1\right)
+\hat{R}_{t}^{+}(\mathbf{s}_{t},a_{t})=\frac{q_{t+1}}{Q}\cdot\overbrace{\left(\frac{p_{t+1}-\tilde{p}}{\tilde{p}}\right)}^{\operatorname{price}\operatorname{normalization}}=a_{t}\left(\frac{p_{t+1}}{\tilde{p}}-1\right)
 $$
 
 $$
@@ -501,11 +501,11 @@ $$
 $$
 
 $$
-\begin{array}{rlr}&{}&{R_{t}(\pmb{s}_{t},a_{t})=\hat{R}_{t}^{+}(\pmb{s}_{t},a_{t})+\hat{R}_{t}^{-}(\pmb{s}_{t},a_{t})\quad}\\&{}&{\quad=\left(\frac{p_{t+1}}{\tilde{p}}-1\right)a_{t}-\alpha\left(a_{t}\right)^{2}}\end{array}
+\begin{aligned}{R_{t}(\mathbf{s}_{t},a_{t})}&{{}=\hat{R}_{t}^{+}(\mathbf{s}_{t},a_{t})+\hat{R}_{t}^{-}(\mathbf{s}_{t},a_{t})}\\{}&{{}=\left(\frac{p_{t+1}}{\tilde{p}}-1\right)a_{t}-\alpha\left(a_{t}\right)^{2}}\\\end{aligned}
 $$
 
 $$
-\underset{\pi}{\arg\operatorname*{max}}\mathbb{E}_{\pi}\Big[\sum_{t=0}^{T-1}\gamma^{t}R_{t}\big(\pmb{s}_{t},a_{t}\big)\Big]
+\mathop{\operatorname{arg}\operatorname*{max}}_{\pi}\mathbb{E}_{\pi}\Big[\sum_{t=0}^{T-1}\gamma^{t}R_{t}(\mathbf{s}_{t},a_{t})\Big]
 $$
 
 资料来源：Fang et al. (2021). Universal Trading for Order Execution with Oracle Policy Distillation. AAAI，华泰研究
@@ -515,7 +515,7 @@ $$
 图表23： 目标函数的策略蒸馏（Policy Distillation）部分
 
 $$
-L_{d}=-\mathbb{E}_{t}\left[\log\operatorname*{Pr}(a_{t}=\tilde{a}_{t}|\pi_{\theta},s_{t};\pi_{\phi},\tilde{s}_{t})\right]
+L_{d}=-\mathbb{E}_{t}\left[\log\operatorname*{Pr}(a_{t}=\tilde{a}_{t}|\pi_{\pmb{\theta}},\pmb{s}_{t};\pi_{\phi},\tilde{\pmb{s}}_{t})\right]
 $$
 
 资料来源：Fang et al. (2021). Universal Trading for Order Execution with Oracle Policy Distillation. AAAI，华泰研究
@@ -556,15 +556,15 @@ d. 对抗市场收益预测器为分类模型，输入为超额特征，输出�
 
 ## Disentanglement 解耦框架采用对抗训练方式，包含两个相互对抗的损失函数：
 
-1. 损失函数 L1为直接预测器损失 ${\mathsf{L}}{\mathsf{Pre}}\cdot$ 、负对抗预测器损失-Ladv、解码器重构损失 $\mathsf{L}_{\mathsf{rec}}$ 三项之和。
+1. 损失函数 L1为直接预测器损失 $\mathsf{L}_{\mathsf{Pre}}.$ 、负对抗预测器损失-Ladv、解码器重构损失 $\mathsf{L}_{\mathsf{rec}}$ 三项之和。
 
-a. 直接预测器损失 $\mathsf{L}\mathsf{Pre}$ 是下面两项的加总：真实个股超额收益 YE和超额收益预测器预测个股超额收益 PreE(fE)的 MSE，真实大盘涨跌方向 ${\mathsf{Y}}_{\mathsf{M}}$ 和市场收益预测器预测大盘涨跌方向 $\mathsf{Pre}_{\mathsf{M}}(\mathsf{f}_{\mathsf{M}})$ 的交叉熵 CE。
+a. 直接预测器损失 $\mathsf{L}_{\mathsf{Pre}}$ 是下面两项的加总：真实个股超额收益 YE和超额收益预测器预测个股超额收益 PreE(fE)的 MSE，真实大盘涨跌方向 $Y_{M}$ 和市场收益预测器预测大盘涨跌方向 $\operatorname*{Pre}_{M}(f_{M})$ 的交叉熵 CE。
 
-b. 负对抗预测器损失 $\mathtt{-L}_{\mathsf{adv}}$ 是对抗预测器损失 ${\mathsf{L}}_{\mathsf{adv}}$ 的相反数。 ${\mathsf{L}}_{\mathsf{adv}}$ 是下面两项的加总：真实个股超额收益 $\mathsf{Y}_{\mathsf{E}}$ 和对抗超额收益预测器预测个股超额收益 $\mathsf{Adv}_{\mathsf{E}}(\mathsf{f}_{\mathsf{M}})$ 的 MSE，真实大盘涨跌方向 ${\mathsf{Y}}_{\mathsf{M}}$ 和市场收益预测器预测大盘涨跌方向 $\mathsf{Adv}_{\mathsf{M}}(\mathsf{f}_{\mathsf{E}})$ 的交叉熵 CE。
+b. 负对抗预测器损失 $-L_{adv}$ 是对抗预测器损失 $\mathsf{L_{adv}}$ 的相反数。 $\mathsf{L_{adv}}$ 是下面两项的加总：真实个股超额收益 $Y_{E}$ 和对抗超额收益预测器预测个股超额收益 $\mathsf{Adv}_{E}(f_{M})$ 的 MSE，真实大盘涨跌方向 $Y_{M}$ 和市场收益预测器预测大盘涨跌方向 $\mathsf{Adv}_{\mathsf{M}}(\mathsf{f}_{\mathsf{E}})$ 的交叉熵 CE。
 
-c. 解码器重构损失 $\mathsf{L}\mathsf{rec:}$ 原始因子 X和重构解码器生成虚假因子X̂的 MSE。
+c. 解码器重构损失 $\mathsf{L_{rec}}\colon$ 原始因子 X和重构解码器生成虚假因子X̂的 MSE。
 
-2. 损失函数 L 为对抗预测器损失 $\mathsf{Ladv}\circ$
+2. 损失函数 L 为对抗预测器损失 $\mathsf{Ladvo}$
 
 两者交替进行优化，类似于“左右互搏”，L 为训练主目标，L 协助训练。最终的效果是：
 
@@ -577,11 +577,11 @@ c. 解码器重构损失 $\mathsf{L}\mathsf{rec:}$ 原始因子 X和重构解码
 图表25： ADD 损失函数
 
 $$
-\mathcal{L}_{Pre}=\mathtt{MSE}\big(\mathtt{Pre}_{E}(f_{E}),Y_{E}\big)+\mathtt{CE}\big(\mathtt{Pre}_{M}(f_{M}),Y_{M}\big),
+\mathcal{L}_{Pre}=\mathtt{MSE}(\mathtt{Pre}_{E}(f_{E}),Y_{E})+\mathtt{CE}(\mathtt{Pre}_{M}(f_{M}),Y_{M}),
 $$
 
 $$
-\begin{array}{r}{\mathcal{L}_{Adv}=\mathtt{MSE}(\mathtt{Adv}_{E}(f_{M}),Y_{E})+\mathtt{CE}(\mathtt{Adv}_{M}(f_{E}),Y_{M}),}\end{array}
+\mathcal{L}_{Adv}=\mathtt{MSE}(\mathtt{Adv}_{E}(f_{M}),Y_{E})+\mathtt{CE}(\mathtt{Adv}_{M}(f_{E}),Y_{M}),
 $$
 
 $$
@@ -589,14 +589,14 @@ $$
 $$
 
 $$
-\begin{array}{c}{min_{\left.\begin{array}{l}{{\cal L}_{1}={\mathcal L}_{Pre}-\lambda*{\mathcal L}_{Adv}+\mu*{\mathcal L}_{Rec}},\right.}\\{\theta_{Enc},\theta_{Pre},\theta_{Dec}}\end{array}}\\{min{\mathcal L}_{2}={\mathcal L}_{Adv}.}\end{array}
+\begin{aligned}{\mathop{min}_{\theta_{{Enc}},\theta_{{Pre}},\theta_{{Dec}}}\mathcal{L}_{1}}&{{}=\mathcal{L}_{{Pre}}-\lambda*\mathcal{L}_{{Adv}}+\mu*\mathcal{L}_{{Rec}},}\\{\mathop{min}_{\theta_{{Adv}}}\mathcal{L}_{2}}&{{}=\mathcal{L}_{{Adv}}.}\\\end{aligned}
 $$
 
 资料来源：Tang et al. (2020). ADD: Augmented Disentanglement Distillation Framework for Improving Stock Trend Forecasting. arXiv，华泰研究
 
 其次介绍Self-Distillation自蒸馏技术。前述OPD强化学习算法交易研究中已介绍策略蒸馏，使用训练较好的 Teacher 模型引导 Student 模型训练。ADD 研究中，每轮迭代会将上一轮基于数据集 D 训练好的编码器视作 Teacher，借助 Data Augmentation 技术生成虚假数据D̂（具体生成方式见后文），D 和D̂构成新数据集，在新数据集上使用 Teacher“蒸馏”出的知识，引导编码器 Student 训练。
 
-Self-Distillation 的具体实现方式是在前述损失函数 $\llcorner$ 中增加 $L_{\mathrm{dis}}$ 自蒸馏项，核心是对样本进行赋权，提升预测误差较大的交易日及个股权重。损失函数如下图所示。其中：
+Self-Distillation 的具体实现方式是在前述损失函数 $\mathsf{L}_{1}$ 中增加 $L_{\mathsf{dis}}$ 自蒸馏项，核心是对样本进行赋权，提升预测误差较大的交易日及个股权重。损失函数如下图所示。其中：
 
 1. wdj 表示由 IC 计算的第 j 个交易日样本权重。如果某个交易日 IC 较低，表明预测误差较大，那么权重 wdj 将较大。
 
@@ -604,16 +604,16 @@ Self-Distillation 的具体实现方式是在前述损失函数 $\llcorner$ 中�
 
 3. wij 表示最终确定的第 j个交易日第 i个股票样本权重，是 wdj 和 wsij 的加权和。
 
-4. 以上一轮迭代训练的编码器为 Teacher，输出编码结果 h；使用新数据集训练 Student编码器，输出编码结果 hs。自蒸馏损失项 $L_{\mathrm{dis}}$ 是 ht和 $\mathsf{h}_{\mathsf{s}}$ 的加权 MSE，样本权重为上一轮迭代的 wij。
+4. 以上一轮迭代训练的编码器为 Teacher，输出编码结果 h；使用新数据集训练 Student编码器，输出编码结果 hs。自蒸馏损失项 $\mathsf{L}_{\mathsf{dis}}$ 是 ht和 $\mathsf{h_{S}}$ 的加权 MSE，样本权重为上一轮迭代的 wij。
 
 图表26： 引入自蒸馏 Self-Distillation 的 ADD 损失函数
 
 $$
-wd^{j}=\beta_{day}+\left(1-\beta_{day}\right)\ast\frac{ic_{max}-ic^{j}}{ic_{max}-ic_{min}},
+wd^{j}=\beta_{{day}}+(1-\beta_{{day}})*\frac{ic_{{max}}-ic^{j}}{ic_{{max}}-ic_{{min}}},
 $$
 
 $$
-ws_{i}^{j}=\beta_{sample}+\left(1-\beta_{sample}\right)\ast\frac{mse_{max}-mse_{i}^{j}}{mse_{max}-mse_{min}},
+ws_{i}^{j}=\beta_{sample}+(1-\beta_{sample})*\frac{mse_{max}-mse_{i}^{j}}{mse_{max}-mse_{min}},
 $$
 
 $$
@@ -625,12 +625,12 @@ $$
 $$
 
 $$
-\begin{array}{c}{min_{\theta_{Enc},\theta_{Pre},\theta_{Dec}}\mathcal{L}_{1}=\mathcal{L}_{Pre}-\lambda*\mathcal{L}_{Adv}+\mu*\mathcal{L}_{Rec}+\xi*\mathcal{L}_{Dis},}\\{min\mathcal{L}_{2}=\mathcal{L}_{Adv}.}\end{array}
+\begin{aligned}{\mathop{min}_{\theta_{{Enc}},\theta_{{Pre}},\theta_{{Dec}}}\mathcal{L}_{1}}&{{}=\mathcal{L}_{{Pre}}-\lambda*\mathcal{L}_{{Adv}}+\mu*\mathcal{L}_{{Rec}}+\xi*\mathcal{L}_{{Dis}},}\\{\mathop{min}_{\theta_{{Adv}}}\mathcal{L}_{2}}&{{}=\mathcal{L}_{{Adv}}.}\\\end{aligned}
 $$
 
 资料来源：Tang et al. (2020). ADD: Augmented Disentanglement Distillation Framework for Improving Stock Trend Forecasting. arXiv，华泰研究
 
-最后介绍 Augmented 数据增强。数据增强的目标是生成更多虚假样本参与模型训练，实现方式是将编码器得到的相邻两个交易日的超额特征 $f_{\ E}^{{\mathfrak{p}}}$ 和市场特征 $\mathbf{f}_{\mathbf{M}}\mathbf{\circ}_{:}$ ，送至解码器，最终得到“融合”后的假样本。
+最后介绍 Augmented 数据增强。数据增强的目标是生成更多虚假样本参与模型训练，实现方式是将编码器得到的相邻两个交易日的超额特征 $f_{E}p$ 和市场特征 $f_{M}^{q},$ ，送至解码器，最终得到“融合”后的假样本。
 
 图表27： 数据增强 Data Augmentation，将 Day1 超额特征和 Day2 市场特征融合，得到假样本
 ![](images/f9ff405a1cb4c8fc4ae2560a497ee3d8f30f7077480b2cb3f247fe2c68c51340.webp)

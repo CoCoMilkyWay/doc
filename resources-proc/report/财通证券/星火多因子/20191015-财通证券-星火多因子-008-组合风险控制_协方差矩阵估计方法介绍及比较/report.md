@@ -133,7 +133,7 @@ $$
 事实上，协方差矩阵的引入正是帮助投资者进行更为精确的跟踪误差限制。在指数增强型研究产品的构建中，通常采用组合优化的方法构建投资组合。简单来讲：
 
 $$
-\begin{array}{rlr}&{}&{max(w-w_{B})^{\prime}\alpha}\\&{}&{(w-w_{B})^{\prime}V(w-w_{B})\leq7.75\%}\\&{}&{X_{S}^{lower}\leq(w-w_{B})^{\prime}X_{S}\leq X_{S}^{upper}}\\&{}&{X_{I}^{lower}\leq(w-w_{B})^{\prime}X_{I}\leq X_{I}^{upper}}\\&{}&{w^{\prime}1=1}\\&{}&{w^{lower}\leq w\leq w^{upper}}\end{array}
+\begin{array}{c}{max(w-w_{B})^{\prime}\alpha}\\{(w-w_{B})^{\prime}V(w-w_{B})\leq7.75\%}\\{X_{S}^{lower}\leq(w-w_{B})^{\prime}X_{S}\leq X_{S}^{upper}}\\{X_{I}^{lower}\leq(w-w_{B})^{\prime}X_{I}\leq X_{I}^{upper}}\\{w^{\prime}1=1}\\{w^{lower}\leq w\leq w^{upper}}\end{array}
 $$
 
 其中，w 表示组合权重（N×1 向量）， $w_{B}$ 表示基准组合权重（N×1 向量），α表示个股期望收益或因子值。上述优化的主要目的是在给定个股权重上下限以及满足组合相对基准在行业和风格上的偏离后，尽可能最大化组合在 Alpha 因子上的暴露，同时控制其相对基准的跟踪误差在 7.75%以内。
@@ -143,7 +143,7 @@ $$
 与指数增强型组合的控制类似，因子组合的构建通常也需要用到股票的协方差矩阵。其中，纯因子组合的构建可以参考财通金工“星火”专题（三）《Barra模型深化：纯因子组合构建》，最小波动因子组合的构建可以参考“星火”专题（七）《借因子组合之力，优化 Alpha 因子合成》。以最小波动因子组合为例，其是所有在目标因子上有单位暴露的组合中，预期风险最小的组合：
 
 $$
-\begin{array}{c}{{\displaystyle{\operatorname*{min}_{w}w^{\prime}Vw}}}\\{{s.t.w^{\prime}X_{k}=1}}\end{array}
+\begin{array}{c}{{\displaystyle\operatorname*{min}_{w}w^{\prime}Vw}}\\{{s.t.w^{\prime}X_{k}=1}}\end{array}
 $$
 
 通过拉格朗日乘数法，即可求得最小波动组合权重的显式解：
@@ -156,16 +156,16 @@ $$
 
 ## 1.4 最大化 ICIR 因子合成
 
-将单因子合成为多因子的过程中，协方差矩阵的估计同样能够发挥其用武之地。在前述研究中，我们介绍了 Qian（2007）提出的最大化 ICIR 方法来进行多个因子的合成。与个股收益率协方差矩阵估计不同，此处估计的是单个因子 IC或者 RankIC的协方差矩阵。它将一个因子视为一个股票，因子的IC或者RankIC即为这只股票的收益率，将单个因子的期望 IC 值用其均值表示 $\overline{{IC}}(K\times1)$ ，因子IC 之间的协方差矩阵 $\mathbb{H}\Sigma_{IC}(K\times K)$ 表示。那么，我们即可求解出一个最优组合权重，使得整个组合的预期收益与预期波动的比值（即预期信息比率）最大。具体来讲：
+将单因子合成为多因子的过程中，协方差矩阵的估计同样能够发挥其用武之地。在前述研究中，我们介绍了 Qian（2007）提出的最大化 ICIR 方法来进行多个因子的合成。与个股收益率协方差矩阵估计不同，此处估计的是单个因子 IC或者 RankIC的协方差矩阵。它将一个因子视为一个股票，因子的IC或者RankIC即为这只股票的收益率，将单个因子的期望 IC 值用其均值表示 $\overline{{IC}}(K\times1)$ ，因子IC 之间的协方差矩阵 $用\Sigma_{IC}(K\times K)$ 表示。那么，我们即可求解出一个最优组合权重，使得整个组合的预期收益与预期波动的比值（即预期信息比率）最大。具体来讲：
 
 $$
-maxICIR={\frac{w^{\prime}{\overline{{IC}}}}{\sqrt{w^{\prime}\Sigma_{IC}w}}}
+\mathop{max}_{w}ICIR=\frac{w^{\prime}\overline{{IC}}}{\sqrt{w^{\prime}\Sigma_{IC}w}}
 $$
 
 将目标函数对权重求一阶导，即可得到最优解：
 
 $$
-w^{*}=\delta\Sigma_{IC}^{-1}\overline{{IC}}
+w^{*}=\delta\Sigma_{IC}^{-1}\widetilde{IC}
 $$
 
 其中δ为任意正数，可用于对权重进行归一化。由此可见，在单因子合成过程中，也需要用到因子 IC 的协方差矩阵的逆。
@@ -184,10 +184,10 @@ $$
 样本协方差是协方差矩阵估计方式中最为简单的方式，其计算方法方式完全根据个股在样本内的收益率计算得到。具体来讲：
 
 $$
-S_{ij}={\frac{1}{T}}{\sum_{t=1}^{T}}(x_{it}-{\bar{x}}_{i})*{\left(x_{jt}-{\bar{x}}_{j}\right)}
+S_{ij}=\frac{1}{T}{\sum_{t=1}^{T}}(x_{it}-\bar{x}_{i})*\left(x_{jt}-\bar{x}_{j}\right)
 $$
 
-其中， $S_{ij}$ 表示协方差矩阵第 i 行第j 列的元素， $x_{it}$ 表示股票 i 在第 t 期的收益率， ${\bar{x}}_{i}$ 是股票 i 收益率的平均值。采用矩阵方式即可表示为：
+其中， $S_{ij}$ 表示协方差矩阵第 i 行第j 列的元素， $x_{it}$ 表示股票 i 在第 t 期的收益率， ${\bar{x}}_{i}.$ 是股票 i 收益率的平均值。采用矩阵方式即可表示为：
 
 $$
 S={\frac{1}{T}}X\left(I-{\frac{1}{T}}11^{\prime}\right)X
@@ -210,7 +210,7 @@ $$
 - 最后，尽管样本协方差矩阵是真实协方差的无偏估计量，但其逆矩阵却并不是真实协方差矩阵的逆的无偏估计量。当 T>N 时，样本协方差矩阵 S 的逆矩阵与真实协方差Σ的逆矩阵满足如下关系（在收益率满足正态分布的假设下）：
 
 $$
-E(S^{-1})={\frac{T}{T-N-2}}\varSigma^{-1}
+E(S^{-1})=\frac{T}{T-N-2}\Sigma^{-1}
 $$
 
 这意味着虽然S是Σ的无偏估计，但S−1却是Σ−1的有偏估计，且当 N 越来越大时，二者之间的偏差将越来越大。Fan(2008)认为，在估计协方差矩阵的逆时，多因子模型比样本协方差具有明显的优势，而在估计组合的方差时（不需要求逆），多因子模型的优势会削弱。
@@ -226,16 +226,16 @@ $$
 在单因子模型中，最为常用的属于市场指数模型，它是根据 CAPM 模型演化而来。Sharpe (1963)认为股票收益来源于其对系统性风险承担的回报，个股对于市场风险的承担大小可用β值进行衡量：
 
 $$
-x_{it}=\ \alpha_{i}+\beta_{i}\ *x_{mt}+\varepsilon_{it}
+x_{it}{=}\alpha_{i}+\beta_{i}*x_{mt}+\varepsilon_{it}
 $$
 
 其中， $x_{it}$ 表示个股收益， $x_{mt}$ 表示市场收益， $\varepsilon_{it}$ 为无法被市场风险解释的个股收益。由单因子模型估计出来的股票协方差矩阵即可表示为：
 
 $$
-V=\sigma_{m}^{2}*\left(\beta\beta^{\prime}\right)+\varDelta
+V=\sigma_{m}^{2}*(\beta\beta^{\prime})+\varDelta
 $$
 
-其中， $\sigma_{m}^{2}$ 是市场收益的方差， $\beta$ 是由个股 $\mathcal{B}_{i}$ 值构成的列向量（N×1 维），Δ是由个股残差收益 $\mathbf{\mathcal{E}}_{it}$ 的方差构成的对角阵。在上述模型中，个股的β值一般可由时间序列回归直接得到。然而，个股的β值并不是维持不变的，我们还可以采用不同的方法对其未来 $_{\cdot\beta}$ 值进行估计，常用的方法有 Blume(1971)调整和 Vasicek(1973)调整等，对于个股 Beta 因子的估计我们将在后续的专题报告中进行介绍。
+其中， $\sigma_{m}^{2}$ 是市场收益的方差， $\beta$ 是由个股 $\beta_{i}$ 值构成的列向量（N×1 维），Δ是由个股残差收益 $.\varepsilon_{it}$ 的方差构成的对角阵。在上述模型中，个股的β值一般可由时间序列回归直接得到。然而，个股的β值并不是维持不变的，我们还可以采用不同的方法对其未来 $:\beta:$ 值进行估计，常用的方法有 Blume(1971)调整和 Vasicek(1973)调整等，对于个股 Beta 因子的估计我们将在后续的专题报告中进行介绍。
 
 ## 2.2.2 多因子模型
 
@@ -248,7 +248,7 @@ $$
 其中，r表示股票的收益率向量（N×1 维），X表示股票在 K 个因子上的暴露度（N×K 维），f表示因子收益率向量（K×1 维），u表示股票特质收益率向量（N×1 维）。在多因子模型假设下，个股收益率的协方差矩阵即可表示为：
 
 $$
-V=XFX^{\prime}+\varDelta
+V=XFX^{\prime}+\Delta
 $$
 
 其中，F是因子收益的协方差矩阵，Δ是特质收益率的方差构成的对角阵。有关多因子模型的风险预测方法，财通金工在“星火”系列（二）《Barra 模型进阶：多因子风险预测》和“拾穗”系列（11）《多因子模型风险预测：从怎么做到为什么》均有着十分深入的介绍，此处不做过多赘述。
@@ -284,10 +284,10 @@ $$
 Ledoit & Wolf（2003）将压缩估计的方法用于协方差矩阵的估计中，提出了最为经典的三种线性压缩目标，这也是本文主要关注的三种线性压缩方式。值得一提的是近年来又出现了许多非线性压缩方法，这些非线性压缩方法计算较为复杂且效果提升有限，因此本文对这些方法暂时不做过多阐述。LW 线性压缩的核心思想可以表示为：
 
 $$
-{{\cal{L}}_{shrink}}=\alpha*F+(1-\alpha)*S
+\Sigma_{shrink}=\alpha*F+(1-\alpha)*S
 $$
 
-其中， $\Sigma_{shrink}$ 表示根据压缩估计方法得到的协方差矩阵，F表示压缩目标，它通常可以通过设置一定的结构（如因子模型结构）使其估计误差较小，但同时可能会存在一定的模型设定偏误。S表示股票的样本协方差矩阵，其待估参数较多、估计误差大，但胜在是真实协方差矩阵的无偏估计。α表示压缩强度，是一个介于 0 和1 之间的常数，它通常可以表示研究者在模型偏差和模型误差之间的取舍。
+其中， $\Sigma_{shrink},$ 表示根据压缩估计方法得到的协方差矩阵，F表示压缩目标，它通常可以通过设置一定的结构（如因子模型结构）使其估计误差较小，但同时可能会存在一定的模型设定偏误。S表示股票的样本协方差矩阵，其待估参数较多、估计误差大，但胜在是真实协方差矩阵的无偏估计。α表示压缩强度，是一个介于 0 和1 之间的常数，它通常可以表示研究者在模型偏差和模型误差之间的取舍。
 
 由以上分析可知，压缩矩阵估计的出发点在于兼顾样本协方差矩阵的无偏性和结构化模型的较小误差性，二者之间的权重由α决定。α越大，代表研究者越想减少模型的估计误差；α越小，则表示研究者越想保证估计的无偏性。α的选取非常关键，LW 在他们的论文中给出了具体的计算方法。下图是对 LW 线性压缩的一种更形象的解释，它表示在 F 和S 中间寻找到一个中和，从而使得最终得到的压缩矩阵结果离真实协方差矩阵的距离最近。
 
@@ -298,16 +298,16 @@ $$
 关于压缩强度α的估计，LW 在其原文中有详细的推导方式，其主要思想是使得估计得到的协方差矩阵尽可能地与真实的协方差矩阵靠拢。具体来讲，采用 Frobenius 距离定义估计协方差与真实协方差之间的相似度，不同于其他方式的损失函数，Frobenius 形式不需要使用到矩阵的逆，因此在矩阵不满秩时该度量方法仍然有效。该损失函数具体可表示为如下形式：
 
 $$
-L(\alpha)=||\alpha F+(1-\alpha)S-\itSigma_{true}||^{2}=\sum_{i=1}^{N}\sum_{j=1}^{N}(\alpha f_{ij}+(1-\alpha)s_{ij}-\sigma_{ij})^{2}
+L(\alpha)=||\alpha F+(1-\alpha)S-\Sigma_{true}||^{2}=\sum_{i=1}^{N}\sum_{j=1}^{N}(\alpha f_{ij}+(1-\alpha)s_{ij}-\sigma_{ij})^{2}
 $$
 
-其中 $f_{ij},\ s_{ij},\ \sigma_{ij}$ 分别对应F，S， $\Sigma_{true}$ 中的各个元素。随后我们令L(α)的一阶导等于 0，即有 $\begin{array}{r}{\frac{dE(L(\alpha))}{d\alpha}=0,\frac{d^{2}E(L(\alpha))}{d\alpha^{2}}>0}\end{array}$ ，从而可以得到α的最优估计值：
+其中 $f_{ij},~s_{ij},~\sigma_{ij}$ 分别对应F，S， $\Sigma_{true}$ 中的各个元素。随后我们令L(α)的一阶导等于 0，即有 $\begin{array}{r}{\frac{dE(L(\alpha))}{d\alpha}=0\quad,\quad\frac{d^{2}E(L(\alpha))}{d\alpha^{2}}>0}\end{array}$ ，从而可以得到α的最优估计值：
 
 $$
-\alpha^{*}=\frac{\sum_{i=1}^{N}\sum_{j=1}^{N}Var\big(s_{ij}\big)-Cov(f_{ij},s_{ij})}{\sum_{i=1}^{N}\sum_{j=1}^{N}Var\big(f_{ij}-s_{ij}\big)+(\phi_{ij}-\sigma_{ij})^{2}}
+\alpha^{*}=\frac{\sum_{i=1}^{N}\sum_{j=1}^{N}Var\left(s_{ij}\right)-Cov\left(f_{ij},s_{ij}\right)}{\sum_{i=1}^{N}\sum_{j=1}^{N}Var\left(f_{ij}-s_{ij}\right)+(\phi_{ij}-\sigma_{ij})^{2}}
 $$
 
-其中 $E(f_{ij})=\phi_{ij},E(s_{ij})=\sigma_{ij}$ 。Ledoit & Wolf（2003）指出， $\begin{array}{r}{\alpha^{*}={\frac{\kappa}{T}}+O(\frac{1}{T^{2}})}\end{array}$ 其中κ是一个常数，其值渐进协方差有关，可由收益率数据估计得到，κ的估计方法和压缩目标有关。由此可见，当 T 趋近于无穷大时， $\pmb{\alpha}^{*}$ 趋近于 $\mathbf{0},$ 这也符合我们直观的理解，即当样本数据量足够多时，只用样本协方差便能够得到较好的估计效果。
+其中 $E(f_{ij})=\phi_{ij},E(s_{ij})=\sigma_{ij}$ 。Ledoit & Wolf（2003）指出， $\alpha^{*}=\frac{\kappa}{T}+O(\frac{1}{T^{2}})$ 其中κ是一个常数，其值渐进协方差有关，可由收益率数据估计得到，κ的估计方法和压缩目标有关。由此可见，当 T 趋近于无穷大时， $\pmb{\alpha}^{*}$ 趋近于 $\mathbf{0},$ 这也符合我们直观的理解，即当样本数据量足够多时，只用样本协方差便能够得到较好的估计效果。
 
 在 LW 先后发布的三篇论文中，作者分别给出了三种不同的线性压缩目标F。不同的压缩目标分别对应了不同的压缩强度估计方式：
 
@@ -316,7 +316,7 @@ $$
 等方差模型是将所有个股的波动视为同一水平，即所有个股波动的均值，具体来讲：
 
 $$
-\begin{array}{r}{F=I*(\frac{1}{T}\sum_{i=1}^{N}s_{ii})}\end{array}
+\begin{array}{r}{F=I*(\frac{1}{T}{\sum_{i=1}^{N}s_{ii}})}\end{array}
 $$
 
 其中，I表示单位矩阵， $s_{ii}$ 即为股票 i 收益率的样本方差。可以看到，等方差模型下压缩目标 F 是一个对角矩阵，其对角线上的元素相等，为个股方差的平均值，非对角线上的元素为 0。
@@ -336,10 +336,10 @@ $$
 等相关系数模型是实际应用中最为常用的压缩目标模型，其具体表示如下：
 
 $$
-f_{ii}=s_{ii},\ f_{ij}=\bar{r}*\sqrt{s_{ii}*s_{jj}}
+f_{ii}=s_{ii},\quad f_{ij}=\bar{r}*\sqrt{s_{ii}*s_{jj}}
 $$
 
-其中， $\begin{array}{r}{\bar{r}=\frac{2}{(N-1)N}{\sum_{I=1}^{N}}\sum_{J=I+1}^{N}r_{ij},r_{ij}=\frac{s_{ij}}{\sqrt{s_{ii}*s_{jj}}}\circ}\end{array}$ 在等相关系数模型中，压缩目标 F 的对角线上的元素与样本协方差对角线上的元素保持一致。而其非对角线上的元素 $f_{ij}$ （即协方差）则由相关系数（r̅）与个股的波动乘积 $(s_{ii},s_{jj})$ 确定，不同的是所有协方差计算中的相关系数r̅是由样本协方差估计出来的相关系数的平均值。
+其中， $\begin{array}{r}{\bar{r}=\frac{2}{(N-1)N}{\sum_{I=1}^{N}}{\sum_{J=I+1}^{N}}r_{ij},\quad r_{ij}=\frac{s_{ij}}{\sqrt{s_{ii}*s_{jj}}}.}\end{array}$ 在等相关系数模型中，压缩目标 F 的对角线上的元素与样本协方差对角线上的元素保持一致。而其非对角线上的元素 $f_{ij}$ （即协方差）则由相关系数（r̅）与个股的波动乘积 $(s_{ii},s_{jj})$ 确定，不同的是所有协方差计算中的相关系数r̅是由样本协方差估计出来的相关系数的平均值。
 
 压缩估计方法的推导过程看似复杂，但在实际应用中它有着非常大的优点，具体可总结为如下两个方面：
 
@@ -354,16 +354,16 @@ $$
 除了上述介绍的样本协方差矩阵、因子模型协方差矩阵和压缩估计矩阵之外，学术界也提出了一些其他方法对协方差矩阵的估计做出改进。其中，Jagannathan& Ma（2000）提出将市场模型、样本协方差和个股方差的对角阵这三种协方差矩阵进行组合，得到最终的估计量：
 
 $$
-{\boldsymbol{\Sigma}}={\frac{1}{3}}{\boldsymbol{F}}+{\frac{1}{3}}{\boldsymbol{S}}+{\frac{1}{3}}{\boldsymbol{D}}
+\Sigma={\frac{1}{3}}F+{\frac{1}{3}}S+{\frac{1}{3}}D
 $$
 
 其中，F表示采用市场单因子模型估计得到的协方差，S 表示样本协方差，D表示由个股样本方差构成的对角矩阵。这种组合方法在本质上也是一种压缩估计，其区别在于压缩强度的选择较为主观，因为上式可以被改写为：
 
 $$
-{\cal{\Sigma}}=\frac{2}{3}*\left(\frac{1}{2}F+\frac{1}{2}D\right)+\frac{1}{3}*{\cal{S}}
+\Sigma=\frac{2}{3}*\left(\frac{1}{2}F+\frac{1}{2}D\right)+\frac{1}{3}*S
 $$
 
-由此可以看出，估计量组合是压缩估计的一种特殊形式，其压缩目标被选取为 ${\frac{1}{2}}F+{\frac{1}{2}}D$ ，压缩强度为 $\begin{array}{r}{\alpha=\frac{2}{3}.}\end{array}$
+由此可以看出，估计量组合是压缩估计的一种特殊形式，其压缩目标被选取为 $\textstyle{\cdot{\frac{1}{2}}F+{\frac{1}{2}}D}$ ，压缩强度为 $\alpha={\frac{2}{3}},$
 
 ## 2.4.2 GARCH+时变模型
 
@@ -392,10 +392,10 @@ $$
 平均绝对误差 MAD （Mean Absolute Deviation） 和均方根误差 RMSE （RootMean Square Error） 是度量协方差估计值和真实值距离最直观的统计方法，二者的计算方式如下：
 
 $$
-MAD=\frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{N}|s_{ij}-\sigma_{ij}|\quad\quad RMSE=\sqrt{\frac{1}{N^{2}}\sum_{i=1}^{N}\sum_{j=1}^{N}(s_{ij}-\sigma_{ij})^{2}}
+{MAD=}\frac{1}{N}{\sum_{i=1}^{N}}\sum_{j=1}^{N}|s_{ij}-\sigma_{ij}|\quad RMSE=\sqrt{\frac{1}{N^{2}}{\sum_{i=1}^{N}}\sum_{j=1}^{N}(s_{ij}-\sigma_{ij})^{2}}
 $$
 
-其中， $s_{\mathrm{ij}}$ 表示协方差矩阵的估计值， $\sigma_{\mathrm{ij}}$ 表示真实协方差矩阵的对应元素。由从 RMSE和 MAD 的计算方式可以看出，二者实际上度量的是估计协方差与真实协方差在每个元素上的距离，这种距离分别用 L1 范式和L2 范式（即前面提到的Frobenius 距离）来衡量。然而，这两种度量方式为协方差矩阵中的每个元素都赋予了相同的权重，且计算出来的结果缺乏实际含义，对实际投资并不具备指导意义。
+其中， $s_{\mathrm{ij}}$ 表示协方差矩阵的估计值， $\mathbf{\sigma_{ij}}$ 表示真实协方差矩阵的对应元素。由从 RMSE和 MAD 的计算方式可以看出，二者实际上度量的是估计协方差与真实协方差在每个元素上的距离，这种距离分别用 L1 范式和L2 范式（即前面提到的Frobenius 距离）来衡量。然而，这两种度量方式为协方差矩阵中的每个元素都赋予了相同的权重，且计算出来的结果缺乏实际含义，对实际投资并不具备指导意义。
 
 ## 3.1.2 组合绝对风险度量
 
@@ -405,14 +405,14 @@ $$
 D=w^{\prime}\varSigma_{estimate}w-w^{\prime}\varSigma_{true}w
 $$
 
-其中，w表示投资组合的权重向量， $\Sigma_{estimate}$ 表示估计出来的协方差矩阵，$\Sigma_{true}$ 表示真实的协方差矩阵, $w^{\prime}\Sigma_{estimate}$ w是对组合风险的估计，而 $w^{\prime}\Sigma_{True}w$ 代表了组合的真实风险。这种评价方式的最大问题在于如何对权重向量进行随机选择，因为不同权重向量的选取对评价结果的影响很大。
+其中，w表示投资组合的权重向量， $\Sigma_{estimate}$ 表示估计出来的协方差矩阵，$\Sigma_{true}$ 表示真实的协方差矩阵, $w^{\prime}\varSigma_{estimate}$ w是对组合风险的估计，而 $w^{\prime}\varSigma_{True}w$ 代表了组合的真实风险。这种评价方式的最大问题在于如何对权重向量进行随机选择，因为不同权重向量的选取对评价结果的影响很大。
 
 ## 3.1.3 基于特征距离的评价方法
 
 Lan Liu(2007)提出了一种基于特征距离的方法来度量估计协方差矩阵与真实协方差矩阵之间的距离，其定义方式如下：
 
 $$
-d(\boldsymbol{\Sigma_{estimate}},\boldsymbol{\Sigma_{true}})=\log\left(\frac{max_{x}\frac{\dot{x^{\cdot}}{\boldsymbol{\Sigma_{estimate}}}x}{\dot{x^{\cdot}}\boldsymbol{\Sigma_{true}}x}}{min_{y}\frac{\dot{y^{\cdot}}\boldsymbol{\Sigma_{estimate}}y}{y^{\cdot}\boldsymbol{\Sigma_{true}}y}}\right)
+d(\varSigma_{estimate},\varSigma_{true})=\log\left(\frac{max_{x}\frac{x^{'}\Sigma_{estimate}x}{x^{'}\Sigma_{true}x}}{min_{y}\frac{y^{'}\Sigma_{estimate}y}{y^{'}\Sigma_{true}y}}\right)
 $$
 
 其中，log 中的分子部分代表“使用估计出来的协方差矩阵，对组合的风险最大能高估多少”，分母部分代表“使用估计出来的协方差矩阵，对组合的风险最低能低估多少”。Lan Liu(2007)为上式提供了一种解析解方法，感兴趣的读者可参考原文介绍。
@@ -421,7 +421,7 @@ $$
 
 ## 3.1.4 小结
 
-本部分我们介绍了三种判断真实协方差矩阵与估计协方差矩阵之间的相似度的方法，然而在实际运用时我们并不推荐这种需要真实协方差矩阵 $\scriptstyle\cdot\Sigma_{true}$ 的评价方法。要确定真实协方差矩阵是很困难的，大部分研究者都使用组合持仓期内收益率数据算出来的样本协方差作为其真实协方差矩阵的估计，即在 时刻使用未来收益数据算出来样本协方差作为真实协方差矩阵。然而，当股票数量较多时，这种对 $\Sigma_{true}$ 的估计方式本来就存在很大误差，此时再去比较 $\Sigma_{estimate}\acute{\pi}\Sigma_{true}$ 的差距实在难以让人信服。
+本部分我们介绍了三种判断真实协方差矩阵与估计协方差矩阵之间的相似度的方法，然而在实际运用时我们并不推荐这种需要真实协方差矩阵 $\mathbf{\cdot}\pmb{\Sigma}_{true}$ 的评价方法。要确定真实协方差矩阵是很困难的，大部分研究者都使用组合持仓期内收益率数据算出来的样本协方差作为其真实协方差矩阵的估计，即在 时刻使用未来收益数据算出来样本协方差作为真实协方差矩阵。然而，当股票数量较多时，这种对 $\Sigma_{true}$ 的估计方式本来就存在很大误差，此时再去比较 $\Sigma_{estimate}和\Sigma_{true}$ 的差距实在难以让人信服。
 
 当然，也有研究者利用仿真模拟的方式，通过预设一个真实的协方差矩阵再进行蒙特卡洛模拟生成对应的收益率序列，随后根据模拟生成的收益率序列进行协方差矩阵估计，最后再来比较真实协方差矩阵与估计协方差矩阵之间距离的方式。也就是说，研究者首先给定一个协方差矩阵，并假设收益率服从某种特定的分布（一般为多元正态分布），然后根据这种分布去生成仿真收益率数据，再由仿真数据去估计协方差矩阵。在这种方法下，真实协方差矩阵的确是已知的，但是仿真的方法和实际之间仍然存在差距，其中最大问题在于很难保证“分布的假设是合理的”。实际的金融资产收益率数据通常存在尖峰、厚尾等特征，单纯的正态分布假设并不合理，要找到合理的分布存在很大困难。由此，我们在下一节中介绍几种不需要真实协方差矩阵的评价方法，它主要是根据构建组合的样本外表现观察得到。
 
@@ -432,27 +432,27 @@ $$
 与上一小节中提到的组合绝对风险度量方式类似，不同的在于此处比较的是组合的预估风险与实际波动之间的差别，具体来讲：
 
 $$
-D=(w^{\prime}{\cal{S}}_{estimate}w)-Var(R_{t})
+D=(w^{\prime}\Sigma_{estimate}w)-Var(R_{t})
 $$
 
-其中， $w^{\prime}\Sigma_{estimate}v$ 表示组合的预测方差， $Var(R_{t})$ 表示组合在未来一段时间内的实际收益率的方差。这种计算方式与前一小节提到的方式非常类似，区别在于后者使用真实协方差矩阵计算真实风险，而这里使用组合未来的实际收益来计算真实风险。在后面的实证部分，我们将以特定的指数为例，计算指数的预测波动与实际波动之间的相关系数来评价各种预测方法的优劣。
+其中， $w^{\prime}\varSigma_{estimate}v$ 表示组合的预测方差， $Var(R_{t})$ 表示组合在未来一段时间内的实际收益率的方差。这种计算方式与前一小节提到的方式非常类似，区别在于后者使用真实协方差矩阵计算真实风险，而这里使用组合未来的实际收益来计算真实风险。在后面的实证部分，我们将以特定的指数为例，计算指数的预测波动与实际波动之间的相关系数来评价各种预测方法的优劣。
 
 ## 3.2.2 GMV 组合样本外表现
 
 GMV 组合检验是通过观察最小方差组合（Global Minimum Variance）的实际波动情况来比较各种不同估计方法优劣的评价方法。最小方差组合检验法最早由 Karceski & Laknoishok (1999)使用，后来的许多研究者也延续了这种方法去评价协方差矩阵的估计效果。该组合的构建方法如下:
 
 $$
-\begin{array}{l}{{min~w^{\prime}{\Sigma}_{estimate}w}}\\{{\mathrm{}}}\\{{s.t.\quad w^{\prime}{\bf1}=1}}\\{{\mathrm{}}}\\{{\mathrm{}\quad\rlap/{\chi}\vec{\bf{\Sigma}}\vec{\bf{\Sigma}}\vec{\bf{\Sigma}}\vec{\bf{\Sigma}}\overline{{{F}}}{\bf{\Sigma}}^{\mathrm{}}\mathrm{\Sigma}\vec{\bf{\Sigma}}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}\mathrm{\Sigma}}}\end{array}
+\begin{aligned}&\min w^{\prime}\Sigma_{estimate}w\\&\quad s.t.\quad w^{\prime}\mathbf{1}=1\\&\quad 叔罢上万厌(可递)\\\end{aligned}
 $$
 
 GMV 检验主要存在两个问题，第一个问题是这种比较方法仍然只使用了单一组合进行检验，第二个问题在于组合构建过程中是否需要添加权重上下限。如果不加权重上下限的限制，那么得到的组合可能是非常极端的组合；但如果添加了权重上下限约束，根据 Jagannathan and Ma (2003)，这种方法实际上等价于对协方差矩阵进行特殊的压缩估计。
 
 ## 3.2.3 均值方差最优（MVO）组合样本外表现
 
-此处介绍的第三种评价方法是通过观察均值方差最优 MVO 组合（Mean-Variance Optimization Portfolio）的样本外表现来评价各种方式的优劣，从直观意义上 $\mathcal{F}\frac{\ d}{\ d\Xi}$ ，这种组合构建方式更加接近实际的投资组合，为指数增强型产品的构建提供更为精细化的指导。构建 MVO 组合的一般形式为：
+此处介绍的第三种评价方法是通过观察均值方差最优 MVO 组合（Mean-Variance Optimization Portfolio）的样本外表现来评价各种方式的优劣，从直观意义上 $,而言$ ，这种组合构建方式更加接近实际的投资组合，为指数增强型产品的构建提供更为精细化的指导。构建 MVO 组合的一般形式为：
 
 $$
-\begin{array}{c}{max~\omega^{\prime}R}\\{s.t.\omega^{\prime}\mathbf{1}=1}\\{\omega^{\prime}\itSigma_{estimate}\omega\leq TE}\\{\textit{ * }\lambda^{\prime}\underline{\mathcal{E}}\mathcal{L}\mathcal{H}\lambda(\overline{{\textit{ v }}}\mathbf{1}\mathbf{\lambda}\mathbf{\dot{\mathcal{E}}}^{\prime}\mathbf{1}^{\prime}\mathbf{\lambda}\mathbf{\lambda}^{\prime})}\end{array}
+\begin{aligned}max&\omega^{\prime}R\\s.t.&\omega^{\prime}\mathbf{1}=1\\\omega^{\prime}\Sigma_{estimate}&\omega\leq TE\\灰麦二万厌&\langle 可逆\rangle\end{aligned}
 $$
 
 其他限制（行业中性、跟踪误差约束等）
@@ -503,7 +503,7 @@ $$
 我们选取 Wind 全 A指数、沪深 300 指数、中证 500 指数作为样本指数，以指数成分股的流通市值权重作为样本股的权重。值得注意的是，由于中证指数公司对于指数编制过程通常采用分级靠档的方法来赋予个股权重，因此成分股流通市值加权仅能作为真实权重的一种近似，二者并不完全一致。财通金工根据每日得到的协方差矩阵估计指数未来 21 天的波动情况，随后计算指数在未来 21 天日度收益率的真实波动，进而通过计算估计波动率与真实波动率之间的相关系数，评价不同估计方法之间的优劣。
 
 $$
-\begin{array}{rl}&{Risk_{Estimate}=\sqrt{w^{\prime}\varSigma_{estimate}w}}\\&{~Risk_{True}=std(R_{t})}\end{array}
+\begin{aligned}Risk_{Estime}&=\sqrt{w'\Sigma_{estimate}w}\\Risk_{Trule}&=std(R_t)\end{aligned}
 $$
 
 表4 展示了对于 Wind 全 A指数、沪深 300 指数和中证 500 指数，每日对指数未来 21 天收益波动进行预测的风险与其实际风险之间的相关系数。可以看到，对 全 市 场 指 数 而 言 表 现 最 好 的 是 经 过 多 步 调 整 的 多 因 子 模 型（MultiFactor_VRA），其预测风险与实际风险之间相关系数能够达到 0.708，而其他的协方差估计方法的相关系数普遍在 0.4 左右，相差较大。
@@ -578,7 +578,7 @@ GMV 检验通过比较最小预期风险组合的实际波动率大小来评价�
 选定 Wind 全 A 指数作为回测样本，选定 2010.2.26-2019.6.28 为回测区间，我们最大化组合在合成 Alpha 因子上的暴露，同时控制组合相对基准的跟踪误差在年化 7.5%以内。有关组合是否需要控制其他行业和风格的偏离，我们进行两种测试：
 
 $$
-\begin{array}{c}{max~w^{\prime}R}\\{s.t.w^{\prime}{\bf1}=1}\\{w^{\prime}{\itSigma}_{estimate}w\leq0.075/252}\\{w\geq0}\\{\rule{0.3cm}{0ex}}\end{array}
+\begin{aligned}max\ w^{\prime}R&\\s.t.w^{\prime}\mathbf{1}&=1\\w^{\prime}\varSigma_{estimate}w&\leq0.075/252\\w&\geq0\\其他厌劾\ (存业少丝、风疹少丝孝)&\\\end{aligned}
 $$
 
 如表 6 所示，我们合成的 Alpha 因子主要来盈利、成长、杠杆、流动性、动量、质量、估值、波动和特色因子等多个维度选取的 14 个 Alpha 单因子，随后采用 Qian（2007）的最大化 ICIR 方法进行了合成。关于因子选取和因子合成的具体细节，可以参考财通金工“星火”专题（六）《Alpha 因子重构：引入协方差矩阵的因子有效性检验》。

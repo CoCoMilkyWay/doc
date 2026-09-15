@@ -119,22 +119,22 @@ S0880512110001
 地震模型用于金融市场泡沫研究，是基于交易者之间的相互模仿，这些局部相互作用可形成正反馈，从而导致泡沫和反泡沫的产生，因此可用于金融泡沫和反泡沫的建模和预测。金融市场反泡沫表现在价格演化中，即价格演化呈现出对数周期性振荡且振荡周期不断延长。金融泡沫恰好与之相反，表现为振荡周期不断缩短。该模型可以很好的预测、量化投机性泡沫的市场崩盘，而且这类崩盘具有一个很明显的特征：市场价格价格为对数周期震荡且呈现幂律法则加速，系统越靠近临界点会出现一连串的逐渐缩短的震荡循环。具体函数形式如下：
 
 $$
-\ln p\left(t\right)=A+B\left(t_{c}-t\right)^{m}+C\left(t_{c}-t\right)^{m}\cos\left[\omega\ln(t_{c}-t)-\varphi\right]
+\ln p\left(t\right)=A+B\left(t_{_{c}}-t\right)^{^{m}}+C\left(t_{_{c}}-t\right)^{^{m}}\cos\left[\omega\ln\left(t_{_{c}}-t\right)-\varphi\right]
 $$
 
 其中
 
 $p\left(t\right)>0$ 在时间为 t时的价格（指数）
 
-$A>0$ ,是指假如泡沫持续到临界时间 $t_{_{c}}$ ，则 $p\left(t\right)$ 将可能达到的价格;
+$A>0$ ,是指假如泡沫持续到临界时间 $t_{c}$ ，则 $p\left(t\right)$ 将可能达到的价格;
 
 $B<0$ 是表明价格是向上的加速过程。
 
 C 是围绕指数增长的一个波动幅度量值，量化对数周期震动
 
-$t_{c}>0$ 是泡沫破裂的临界时间；
+$t_{_{c}}>0$ 是泡沫破裂的临界时间；
 
-$t<t_{c}$ 是泡沫破灭前的任意时间
+$t<t_{_c}$ 是泡沫破灭前的任意时间
 
 $0<m<1$ 是幂指数，衡量价格上涨的加速程度
 
@@ -142,7 +142,7 @@ $0<m<1$ 是幂指数，衡量价格上涨的加速程度
 
 $0<\varphi<2\pi$ ，表示周期波动的初相位。
 
-$B\left(t_{c}\mathrm{~-~}t\right)^{m}$ 幂 律 项 描 述 了 价 格 的 加 速 来 自 正 向 反 馈 机 制 ，$C\left(t_{c}-t\right)^{m}\mathrm{~c~}\mathsf{oas}[t_{c}]\mathsf{-}\mathsf{n}t\left(-\varphi\right)$ ) ]项中的周期项对超指数行为的修正。
+$B\left(t_{_{c}}-t\right)^{^{m}}$ 幂 律 项 描 述 了 价 格 的 加 速 来 自 正 向 反 馈 机 制 ，$C\left(t_{c}-t\right)^{n}\mathrm{~c~o~e~s~}\left[t_{c}\mathrm{l-n}t\left(-\varphi\right)\right]$ ) ]项中的周期项对超指数行为的修正。
 
 由地震模型的表达式可以看出，地震模型存在两个显著特征：
 
@@ -163,51 +163,51 @@ $B\left(t_{c}\mathrm{~-~}t\right)^{m}$ 幂 律 项 描 述 了 价 格 的 加 �
 有时候数学就如同魔法师，通过一些简单的变换与手法，就能达到意想不到的效果。在中学我们都学过三角函数的两角差公式，其中有一个公式是：
 
 $$
-\cos(X-Y)=\cos X\cos Y+\sin X\sin Y
+\cos\left(X-Y\right)=\cos X\cos Y+\sin X\sin Y
 $$
 
 利用该公式，我们可以将原来的地震模型重新写为：
 
 $$
-\mathrm{~ln~}p\left(t\right)=A+B\left(t_{c}-t\right)^{m}+C\left(t_{c}-t\right)^{m}\cos\left[\omega\ln(t_{c}-t)\right]\cos\varphi+C\left(t_{c}-t\right)^{m}\sin\left[\omega\ln(t_{c}-t)\right]\sin\varphi
+\ln p(t)=A+B(t_{_f}-t)^m+C(t_{_f}-t)^m\cos[\omega\ln(t_{_f}-t)]\cos\varphi+C(t_{_f}-t)^m\sin[\omega\ln(t_{_f}-t)]\sin\varphi
 $$
 
 令
 
 $$
-C_{_1}=C\cos\varphi,C_{_2}=C\sin\varphi
+C_{1}=C\cos\varphi,\quad C_{2}=C\sin\varphi
 $$
 
 则地震模型可以改写为：
 
 $$
-\mathrm{~ln~}p\left(t\right)=A+B\left(t_{c}-t\right)^{m}+C_{1}\left(t_{c}-t\right)^{m}\cos\left[\omega\ln\left(t_{c}-t\right)\right]+C_{2}\left(t_{c}-t\right)^{m}\sin\left[\omega\ln\left(t_{c}-t\right)\right].
+\ln p\left(t\right)=A+B\left(t_{_c}-t\right)^{^m}+C_{_1}(t_{_c}-t)^{^m}\cos\left[\omega\ln\left(t_{_c}-t\right)\right]+C_{_2}(t_{_c}-t)^{^m}\sin\left[\omega\ln\left(t_{_c}-t\right)\right]
 $$
 
 利用最小二乘思想,我们设目标函数为:
 
 $$
-F\left(t_{c},\omega,\varphi,A,B,C_{1},C_{2}\right)=\sum_{i=1}^{n}\left[\ln p\left(t_{i}\right)-A-B\left(t_{c}-t_{i}\right)^{m}-C_{1}\left(t_{c}-t_{i}\right)^{m}\cos\left[\omega\ln(t_{c}-t_{i})\right]\right]^{\theta},
+F\left(t_{_c},\omega,\varphi,A,B,C_{_1},C_{_2}\right)=\sum_{_{i=1}}^{^{^{n}}}\left[\ln\ p\left(t_{_i}\right)-A-B\left(t_{_c}-t_{_i}\right)^{^{m}}-C_{_1}(t_{_c}-t_{_i})^{^{m}}\cos\left[\omega\ln(t_{_c}-t_{_i})\right]\right.\\\left.-C_{_2}(t_{_c}-t_{_i})^{^{m}}\sin\left[\omega\ln(t_{_c}-t_{_i})\right]\right]^{2}
 $$
 
 $$
-\mathbb{M}\lVert(\hat{t}_{c},\hat{\omega},\hat{\varphi},\hat{A},\hat{B},\hat{C}_{1},\hat{C}_{2})=\underset{t_{c},\omega,\varphi,A,B,C_{1},C_{2}}{\arg\operatorname*{min}}F\left(t_{c},\omega,\varphi,A,B,C_{1},C_{2}\right)
+则$(\hat{t_{_c}},\hat{\omega},\hat{\phi},\hat{A},\hat{B},\hat{C_{_1}},\hat{C_{_2}})=\underset{_{t_{_c},\omega,\phi,A,B,C_{_1},C_{_2}}}{\arg\operatorname*{min}}F\left(t_{_c},\omega,\phi,A,B,C_{_1},C_{_2}\right)$
 $$
 
 事实上,可以证明
 
 $$
-\big(\hat{t}_{_c},\hat{\omega},\hat{\varphi}\big)=\underset{t_{c},\omega,\varphi}{\mathrm{arg~m~in~}}F_{_1}(t_{_c},\omega,\varphi)
+(\hat{t}_{_{c}},\hat{\omega},\hat{\varphi})=\underset{t_{_{c}},\omega,\varphi}{\arg\min}F_{_{1}}(t_{_{c}},\omega,\varphi)
 $$
 
 $$
-F_{\scriptscriptstyle1}(t_{\scriptscriptstyle c},\omega,\varphi)=\operatorname*{min}_{\substack{A,B,C_{1},C_{2}}}F\left(t_{\scriptscriptstyle c},\omega,\varphi,A,B,C_{\scriptscriptstyle1},C_{\scriptscriptstyle2}\right)
+F_{1}(t_{c},\omega,\varphi)=\min_{A,B,C_{1},C_{2}}F(t_{c},\omega,\varphi,A,B,C_{1},C_{2})
 $$
 
 线性参数估计 $(\hat{A},\hat{B},\hat{C}_{1},\hat{C}_{2})$ 可以通过如下方程来求解：
 
 $$
-\begin{array}{rl}&{\lceil\begin{array}{llllll}{N}&{\sum f_{i}}&{\sum g_{i}}&{\sum h_{i}}&{\prod\ A}&{|\ \Gamma\ne\ \ln\ p_{i}}\\{\sum f_{i}}&{\sum f_{i}^{2}}&{\sum f_{i}g_{i}}&{\sum f_{i}h_{i}}&{|\ \prod\ B|}&{|\ \sum\ f_{i}\ln\ p_{i}}\\{\sum g_{i}}&{\sum f_{i}g_{i}}&{\sum g_{i}^{2}}&{\sum g_{i}h_{i}}&{|\ \ \Gamma|_{1}}&{|\ \sum\ g_{i}\ln\ p_{i}}\end{array}\rceil}\\&{\lfloor\begin{array}{ll}{\sum h_{i}}&{\sum f_{i}h_{i}}&{\sum g_{i}^{2}}&{\sum g_{i}h_{i}}\\{\sum h_{i}}&{\sum f_{i}h_{i}}&{\sum g_{i}h_{i}}&{\sum h_{i}^{2}}&{\displaystyle\lfloor C_{2}\rfloor}&{\displaystyle\lfloor C_{i}\ln\ p_{i}\rfloor}\end{array}\rfloor}\\&{\lfloor\begin{array}{ll}{\sum h_{i}\ln\ p_{i}}&{\sum g_{i}h_{i}}&{\sum\ h_{i}}\end{array}\rfloor\lfloor\begin{array}{ll}{C_{1}}\\{C_{2}}\end{array}\rfloor}&{\lfloor\begin{array}{ll}{\sum h_{i}\ln\ p_{i}}\\{\sum h_{i}\ln\ p_{i}}\end{array}\rfloor}\\&\lfloor\begin{array}{ll}{\sum h_{i}\ln(\int(\frac{-\tau_{i}}{\tau_{i}}))}&\displaystyle\lfloor C_{2}\ln(\int(\frac{-\tau_{i}}{\tau_{i}}\end{array}\end{array}
+\begin{aligned}&\left\{\begin{array}{cccc}N&\sum f_{i}&\sum g_{i}&\sum h_{i}\\\sum f_{i}&\sum f_{i}^{2}&\sum f_{i}g_{i}&\sum f_{i}h_{i}\\\end{array}\right|\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\end{array}\right.\end{array}\right.\right.\end{array}\right.\right.\end{array}\right|\left|\begin{array}{c}\sum\sum\ln p_{i}\\\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\end{array}\right.\right.\end{array}\right.\right.\end{array}\right.\right.\end{array}\right.\\\sum g_{i}&\sum f_{i}g_{i}&\sum g_{i}h_{i}\\\end{array}\right.\left.\left.\begin{array}{c}\sum g_{i}h_{i}&\sum g_{i}h_{i}\\\sum g_{i}h_{i}&\sum h_{i}h_{i}\\\end{array}\right.\left.\begin{array}{c}\sum g_{i}h_{i}&\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{c}\end{array}\right.\right.\end{array}\right.\right.\end{array}\right.\right|\end{array}\left|\begin{array}{c}\sum g_{i}\ln p_{i}\\\sum h_{i}\ln p_{i}\\\end{array}\right.\end{array}\right]\\&\sum h_{i}\quad\sum f_{i}h_{i}\quad\sum g_{i}h_{i}\quad\sum g_{i}h_{i}\quad\sum h_{i}\quad\sum h_{i}^{2}\quad\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{array}{c}\left|\begin{c}\left|\begin{array}{c}\left|\begin{c}\left|\begin{array}{c}\left|\begin{c}\left|\begin{array}{c}\left|\begin{c}\end{c}\right.\right.\right.\end{array}\right.\right.\end{array}\right.\right.\end{array}\right.\end{array}\right.\end{array}\right|\left|\begin{array}{c}\sum g_{i}\ln p_{i}\\\sum h_{i}\ln p_{i}\\\end{array}\right.\end{array}\right|\\其中\\f_{i}=(t_{_{c}}-t_{_{i}})^{^{m}}\\g_{_{i}}=(t_{_{c}}-t_{_{i}})^{^{m}}\cos[\omega\ln(t_{_{c}}-t_{_{i}})]\\h_{_{i}}=(t_{_{c}}-t_{_{i}})^{^{m}}\sin[\omega\ln(t_{_{c}}-t_{_{i}})]\end{array}\right.\end{aligned}\end{array}\end{array}\end{array}\end{array}
 $$
 
 如此，非线性参数估计由 4 维空间降到了 3 维空间，只需要要估计( , , )t m • 即可。
@@ -227,23 +227,23 @@ $$
 
 ## 2.2. 非线性参数估计-Critical Time 是关键
 
-基于临界点 $\boldsymbol{\cdot}\boldsymbol{t}_{\iota}$ 在预测拐点中的重要性，我们需要对该参数给予格外重视。受线性参数与非线性参数估计分离的启发，我们引入参数之间存在函数隶属关系的思想，即：在所有的参数中， $t_{c}$ 是最重要的， $\sqrt{n}(m,\omega)$ 都可以表示成 $\boldsymbol{\cdot}\boldsymbol{t}_{c}$ 的函数 $(m\left(t_{_c}\right),\omega\left(t_{_c}\right))$ 。则对非线性参数的估计可以分步优化求解，其中 $t_{_{c}}$ 的最优估计为：
+基于临界点 $,t_{c}$ 在预测拐点中的重要性，我们需要对该参数给予格外重视。受线性参数与非线性参数估计分离的启发，我们引入参数之间存在函数隶属关系的思想，即：在所有的参数中， $t_{c}$ 是最重要的， $而\left(m,\omega\right)$ 都可以表示成 $\mathrm{~\textit~{~}~}t_{\mathrm{~c~}}$ 的函数 $(m\left(t_{c}\right),\omega\left(t_{c}\right))$ 。则对非线性参数的估计可以分步优化求解，其中 $t_{c}$ 的最优估计为：
 
 $$
-\hat{t}_{{}_{c}}=\underset{{t}_{c}}{\mathrm{arg}}\underset{{t}_{c}}{\mathrm{min}}F_{{}_{2}}(t_{c})
+\hat{t}_{c}=\underset{t_{c}}{\arg\min}F_{2}(t_{c})
 $$
 
 $$
-\sharp\sharp\ :\mathcal{F}_{2}(t_{c})=\ :\operatorname*{min}_{m,\omega}\ :F_{1}(t_{c},m,\omega)
+F_{_2}(t_{_c})=\min_{_{m,\omega}}F_{_1}(t_{_c},m,\omega)
 $$
 
-而 $(m\left(t_{_c}\right),\omega\left(t_{_c}\right))$ 的最优估计 $(\hat{m}\left(t_{c}\right),\hat{\omega}\left(t_{c}\right))$ 为
+而 $(m\left(t_{c}\right),\omega\left(t_{c}\right))$ 的最优估计 $(\hat{m}\left(t_{_{c}}\right),\hat{\omega}\left(t_{_{c}}\right))$ 为
 
 $$
-(\hat{m}(t_{c}),\hat{\omega}(t_{c}))=\underset{m,\omega}{\mathrm{arg}}\mathrm{min}F_{1}(t_{c},m,\omega)
+(\hat{m}(t_{_{c}}),\hat{\omega}(t_{_{c}}))=\underset{_{m,\omega}}{\arg\operatorname*{min}}F_{_{1}}(t_{_{c}},m,\omega)
 $$
 
-如此，我们在估计 $t_{_{c}}$ 时，只要一维参数，即便是在 $(m\left(t_{c}\right),\omega\left(t_{c}\right))$ 的估计过程中也只用到了 2维，大大提高了参数估计的稳定性。
+如此，我们在估计 $t_{c}$ 时，只要一维参数，即便是在 $(m\left(t_{c}\right),\omega\left(t_{c}\right))$ 的估计过程中也只用到了 2维，大大提高了参数估计的稳定性。
 
 ## 2.3.模型改进后的效果
 

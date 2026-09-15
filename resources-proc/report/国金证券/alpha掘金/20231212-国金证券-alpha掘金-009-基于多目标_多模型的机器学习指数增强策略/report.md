@@ -42,10 +42,10 @@ wangxiaokang@gjzq.com.cn
 
 ## 1.1 基于决策树的各类GBDT 模型
 
-决策树是一种目前在 Kaggle 各类比赛中受到广泛欢迎的一种机器学习算法，具有可解释性强、易于理解的特点，即可用于回归类任务，也可以用于分类任务。这类决策树一般也被称为 CART(Classification and Regression Tree)，该模型从根节点出发，对每一个特征进行判断，将样本划分到对应的子节点中。判断时采用基尼系数的大小来度量特征的各个划分点，从而使得对于任意划分点 s 两边的样本 $D_{1}\hbar\pmb{\operatorname{D}}D_{2}\hbar$ 所求出的均方差最小，直到样本个数小于阈值或已无其他特征。
+决策树是一种目前在 Kaggle 各类比赛中受到广泛欢迎的一种机器学习算法，具有可解释性强、易于理解的特点，即可用于回归类任务，也可以用于分类任务。这类决策树一般也被称为 CART(Classification and Regression Tree)，该模型从根节点出发，对每一个特征进行判断，将样本划分到对应的子节点中。判断时采用基尼系数的大小来度量特征的各个划分点，从而使得对于任意划分点 s 两边的样本 $.D_{1}和D_{2}月$ 所求出的均方差最小，直到样本个数小于阈值或已无其他特征。
 
 $$
-\operatorname*{min}_{s}\left[\operatorname*{min}_{{{{\mathrm{\small~c1}}}\atop{{\scriptstyle xi}\in{{\cal D}1}}}}\sum_{}(x_{i}-c_{1})^{2}+\operatorname*{min}_{{{\scriptstyle c2}}}\sum_{yi\in{{\cal D}2}}(y_{i}-c_{2})^{2}\right]
+\operatorname*{min}_{s}\left[\operatorname*{min}_{c1}\sum_{xi\in D1}(x_{i}-c_{1})^{2}+\operatorname*{min}_{c2}\sum_{yi\in D2}(y_{i}-c_{2})^{2}\right]
 $$
 
 由于决策树在训练过程中会尽可能拟合样本，可能会导致过拟合。因此又引入了剪枝（pruning）操作，即考虑每个非叶节点替换成叶节点后模型的泛化能力的变化。通过剪枝操作可以降低树的高度，尽可能减少过拟合的风险。
@@ -67,7 +67,7 @@ $$
 在每轮迭代中，基模型需要不断逼近真实值 y，只需要学习前一个基模型的残差，而残差就是 MSE 损失函数关于预测值的反向梯度。因此，GBDT 的每一步残差计算其实都变相增大了被错分样本的权重，正确样本的权重趋于 0。
 
 $$
--\frac{\partial(1/2(y-F_{k}(\mathbf{x}))^{2})}{\partial F_{k}(\mathbf{x})}=\mathbf{y}-F_{k}(\mathbf{x})
+-\frac{\partial(1/2(y-F_{k}(\mathbf{x}))^{2})}{\partial F_{k}(\mathbf{x})}=y-F_{k}(\mathbf{x})
 $$
 
 - XGBoost:
@@ -75,7 +75,7 @@ $$
 而 XGBoost 是一种大规模并行 Boosting 的算法，可以视为 GBDT 的一种改进版本，其与GBDT 的最大不同在于目标函数的定义。对于每个决策树，其目标函数都引入了偏差变量，第 t 个决策树的目标函数为：
 
 $$
-\mathcal{L}^{(t)}=\sum_{i=1}^{n}l(y_{i},\hat{y}_{i}^{\ :(t-1)}+f_{t}(x_{i}))+\Omega(f_{t})
+\mathcal{L}^{(t)}=\sum_{i=1}^{n}l(y_{i}{,}\hat{y}_{i}{}^{(t-1)}+f_{t}(x_{i}))+\Omega(f_{t})
 $$
 
 即，总体 K 棵树对样本 i 的预测值=前 k-1 棵树的预测值+第 k棵树的预测值。通过泰勒展开对函数进行化简，利用损失函数的二阶导进行训练。
@@ -447,11 +447,11 @@ $$
 为进一步贴近投资实际，我们此处构建了基于上述机器学习模型的指数增强策略。通过马科维茨的均值方差优化模型，对投资组合的跟踪误差进行限制，最大化预期超额收益率。
 
 $$
-Max~w^{T}f
+Maxw^{T}f
 $$
 
 $$
-s.~t.~\sqrt{(w-w_{bench})\Sigma(w-w_{bench})^{\prime}}\leq target\_TE
+s.t.\quad\sqrt{(w-w_{bench})\Sigma(w-w_{bench})^{\prime}}\leq target\_TE
 $$
 
 其中，f 为模型的预测信号， $w_{bench}$ 为基准权重向量，tartget_TE 为目标跟踪误差。

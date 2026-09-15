@@ -117,7 +117,7 @@ Tan, Chiang, Mason (2008)等人的研究表明羊群行为会增加市场波动�
 图4：定向谱聚类算法特征
 
 $$
-\begin{array}{rlr}{\mathbf{NF}(C_{\mathrm{lead}},C_{\mathrm{lag}})=\displaystyle\sum_{i\in C_{\mathrm{lead}},j\in C_{\mathrm{lag}}}\mathbf{A}_{ij}-\mathbf{A}_{ji}}&{\mathbf{TF}(C_{\mathrm{lead}},C_{\mathrm{lag}})=\displaystyle\sum_{i\in C_{\mathrm{lead}},j\in C_{\mathrm{lag}}}\mathbf{A}_{ij}+\mathbf{A}_{ji}}&\\{\mathbf{\Delta}}&{\mathbf{\Delta}}&{\mathbf{\Delta}}\\{\displaystyle\operatorname*{max}_{C_{\mathrm{lead}},C_{\mathrm{lag}}}\log\left(\frac{1-\eta}{\eta}\right)\mathbf{NF}(C_{\mathrm{lead}},C_{\mathrm{lag}})+\log\left(\frac{1}{4\eta(1-\eta)}\right)\mathbf{TF}(C_{\mathrm{lead}},C_{\mathrm{lag}}).}&\end{array}
+\begin{aligned}{\mathbf{NF}(C_{\operatorname{lead}},C_{\operatorname{lag}})=\sum_{i\in C_{\operatorname{lead}},j\in C_{\operatorname{lag}}}}&{{}\mathbf{A}_{ij}-\mathbf{A}_{ji}}&{\mathbf{TF}(C_{\operatorname{lead}},C_{\operatorname{lag}})=\sum_{i\in C_{\operatorname{lead}},j\in C_{\operatorname{lag}}}\mathbf{A}_{ij}+\mathbf{A}_{ji}}\\{}&{{}\bigvee}&{\nearrow}\\{}&{{}\underbrace{\operatorname*{max}_{C_{\operatorname{lead}},C_{\operatorname{lag}}}\operatorname{log}\left(\frac{1-\eta}{\eta}\right)\mathbf{NF}(C_{\operatorname{lead}},C_{\operatorname{lag}})+\operatorname{log}\Bigl(\frac{1}{4\eta(1-\eta)}\Bigr)\mathbf{TF}(C_{\operatorname{lead}},C_{\operatorname{lag}})}.}\\\end{aligned}
 $$
 
 数据来源：《A tug of war across the market: overnight-vs-daytime lead-lag networks andclustering-based portfolio strategies》，广发证券发展研究中心
@@ -129,13 +129,13 @@ $$
 2 Initialize: Randomly set initial values for directed SBM parameters η; 
 3 for i = 1 : m do 
 4 Compute the Hermitian matrix 
-$\begin{array}{r}{\mathbf{H}=i\log\left(\frac{1-\eta}{\eta}\right)(\mathbf{A}_{t}-\mathbf{A}_{t}^{T})+\log\left(\frac{1}{4\eta(1-\eta)}\right)(\mathbf{A}_{t}+\mathbf{A}_{t}^{T}).}\end{array}$ 
+$\begin{array}{l}{{\bf{H}}=i\operatorname{log}\Bigl({\frac{{1-\eta}}{\eta}}\Bigr)\left({{{\bf{A}}_{t}}-{\bf{A}}_{t}^{T}}\right)+\operatorname{log}\Bigl({\frac{1}{{4\eta(1-\eta)}}}\Bigr)\left({{{\bf{A}}_{t}}+{\bf{A}}_{t}^{T}}\right)}\\\end{array}.$ 
 5 Compute the top eigenvector $\mathbf{v_{1}}$ of H; 
-6 Form the embedding $\left[\Re(\mathbf{v}_{1}),\Im(\mathbf{v}_{1})\right]$ and cluster into two communities $C_{\mathrm{lead}}$ 
+6 Form the embedding $[\Re(\mathbf{v}_{1}),\:\Im(\mathbf{v}_{1})]$ and cluster into two communities $C_{\mathrm{lead}}$ 
 and $C_{\mathrm{lag}}$ via k-means; 
 7 Update the directed SBM parameter 
-$\eta\mathrm{min}\bigg\{\frac{\vert C_{\mathrm{lead}}C_{\mathrm{lag}}\vert}{\mathbf{TF}(C_{\mathrm{lead}},C_{\mathrm{lag}})},\ \frac{\vert C_{\mathrm{lag}}C_{\mathrm{lead}}\vert}{\mathbf{TF}(C_{\mathrm{lead}},C_{\mathrm{lag}})}\bigg\}$ 
-where $\begin{array}{r}{|C_{1}\to C_{2}|=\sum_{i\in C_{1},j\in C_{2}}(\mathbf{A}_{t})_{ij}}\end{array}$ denotes the total directed flow from 
+$\eta\leftarrow\operatorname*{min}\biggl\{\frac{|C_{\operatorname{lead}}\to C_{\operatorname{lag}}|}{\mathbf{TF}(C_{\operatorname{lead}},C_{\operatorname{lag}})},\frac{|C_{\operatorname{lag}}\to C_{\operatorname{lead}}|}{\mathbf{TF}(C_{\operatorname{lead}},C_{\operatorname{lag}})}\biggr\}$ 
+where $\textstyle|C_{1}\to C_{2}|=\sum_{i\in C_{1},j\in C_{2}}(\mathbf{A}_{t})_{ij}$ denotes the total directed flow from 
 community $C_{1}$ to $C_{2}.$ 
 8 end 
 9 Output: Lead-lag communities $C_{\mathrm{lead}}$ and $C_{\mathrm{lag}}$
@@ -157,27 +157,27 @@ community $C_{1}$ to $C_{2}.$
 图6：投资组合构建流程
 
 $$
-S_{ab}(t)=\frac{1}{|C_{a}||C_{b}|}\sum_{i\in C_{a}}\sum_{j\in C_{b}}(\mathbf{A}_{t})_{i,j}.
+S_{a\to b}(t)=\frac{1}{|C_{a}||C_{b}|}\sum_{i\in C_{a}}\sum_{j\in C_{b}}(\mathbf{A}_{t})_{i,j}.
 $$
 
 $$
-(C_{\mathrm{lead}},C_{\mathrm{lag}})=\arg\operatorname*{max}_{a\neq b}S_{ab}(t).
+(C_{\operatorname{lead}},C_{\operatorname{lag}})=\operatorname{arg}\operatorname*{max}_{a\neq b}S_{a\to b}(t).
 $$
 
 $$
-\operatorname{LeadScore}_{i}(t)=\sum_{j}(\mathbf{A}_{t})_{i,j},\quad i\in C_{\mathrm{lead}}.
+\operatorname{LeadScore}_{i}(t)=\sum_{j}(\mathbf{A}_{t})_{i,j},\quad i\in C_{\operatorname{lead}}.
 $$
 
 $$
-\mathrm{Signal}(t)=\frac{1}{|\mathcal{T}_{\mathrm{lead}}|}\sum_{i\in\mathcal{T}_{\mathrm{lead}}}r_{i,t},
+\operatorname{Signal}(t)=\frac{1}{|\mathcal{T}_{\operatorname{lead}}|}\sum_{i\in\mathcal{T}_{\operatorname{lead}}}r_{i,t},
 $$
 
 $$
-\operatorname{LagScore}_{j}(t)=\sum_{i\in C_{\mathrm{lead}}}(\mathbf{M}_{t})_{i,j}.
+\operatorname{LagScore}_{j}(t)=\sum_{i\in C_{\operatorname{lead}}}(\mathbf{M}_{t})_{i,j}.
 $$
 
 $$
-R_{t+1}^{\mathrm{{port}}}=\mathrm{{sgn}}({\mathrm{Signal}}(t))\left({\frac{1}{|T_{\mathrm{{top}}}|}}\sum_{j\in\mathcal{T}_{\mathrm{{top}}}}r_{j,t+1}-{\frac{1}{|T_{\mathrm{{bottom}}}|}}\sum_{j\in\mathcal{T}_{\mathrm{{bottom}}}}r_{j,t+1}\right)
+R_{t+1}^{\operatorname{port}}=\operatorname{sgn}(\operatorname{Signal}(t))\left(\frac{1}{|\mathcal{T}_{\operatorname{top}}|}\sum_{j\in\mathcal{T}_{\operatorname{top}}}r_{j,t+1}-\frac{1}{|\mathcal{T}_{\operatorname{bottom}}|}\sum_{j\in\mathcal{T}_{\operatorname{bottom}}}r_{j,t+1}\right)
 $$
 
 数据来源：《A tug of war across the market: overnight-vs-daytime lead-lag networks andclustering-based portfolio strategies》，广发证券发展研究中心

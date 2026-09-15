@@ -131,7 +131,7 @@ X3 为非线性因子，当因子值较大或较小时，样本倾向于属于�
 特征重要性的计算始于信息论中的概念——Gini指数（Gini Index）。Gini指数用来定义决策树分裂前后的信息增益程度。分类问题中，假设有 K个分类，样本集 D中的点属于第 k类的概率为 $P_{k}$ ，则分裂前的 Gini 指数为：
 
 $$
-Gini(D)=\sum_{k=1}^{K}P_{k}(1-P_{k})=1-\sum_{k=1}^{K}P_{k}^{2}
+Gini(D)={\sum}_{k=1}^{K}P_{k}(1-P_{k})=1-{\sum}_{k=1}^{K}P_{k}^{2}
 $$
 
 Gini(D)反映了从数据集 D 中随机抽取两个样本，其类别标记不一致的概率。Gini(D)越小，数据集 D 的纯度越高。理解 Gini 指数时可以类比经济学中的基尼系数，一个国家随机抽取两个人，财富差距的期望越小，基尼系数越小，这个国家的贫富差距就越小。
@@ -179,13 +179,13 @@ ICE（Individual Conditional Expectation）和 PDP（Partial Dependence Plot）�
 假设需要解释的原模型为 f，特征为 X，标签为 Y，X 包含 N 条样本和 p 项特征，那么 X的第 i条样本可表示为：
 
 $$
-\boldsymbol{x}^{(i)}=[x_{1}^{(i)},x_{2}^{(i)},\dots,x_{p}^{(i)}]
+x^{(i)}=[x_{1}^{(i)},x_{2}^{(i)},\ldots,x_{p}^{(i)}]
 $$
 
 X 的第j 项特征可表示为：
 
 $$
-X_{j}=[x_{j}^{(1)},x_{j}^{(2)},\dots,x_{j}^{(N)}]
+X_{j}=[x_{j}^{(1)},x_{j}^{(2)},\ldots,x_{j}^{(N)}]
 $$
 
 如果将某项特征 Xj全部设为常数 c，其余特征保持不变，可得到一组新的模型输入 X’。此时模型的输出：
@@ -231,13 +231,13 @@ SDT（Surrogate Decision Trees）的核心思想是用单棵决策树解释其�
 延续上节原模型 f、特征 X、标签 Y的定义，利用算法A得到原模型 f 的训练过程可记作：
 
 $$
-\mathcal{A}\colon X,Y\ \stackrel{\mathcal{A}}{\to}\ f
+\mathcal{A}\colon X,Y{\stackrel{\mathcal{A}}{\to}}f
 $$
 
 该原模型预测的结果记为 f(X)，可以利用这个预测结果重新训练一个决策树模型 g，来解释原模型的输出：
 
 $$
-\mathcal{A}\colon X,f(X)\ {\stackrel{\mathcal{A}}{\to}}\ g
+{\mathcal{A}}{\colon}X,f(X){\stackrel{\mathcal{A}}{\to}}g
 $$
 
 由此得到的决策树模型 g 即为最终的 SDT。
@@ -268,27 +268,27 @@ LIME 的概念相对复杂，首先我们以图示说明。下图引自 LIME 的
 
 在该样本的邻域随机生成一部分新样本 z，通过原模型计算其预测值 f(z)，以红色十字和蓝色圆形表示。我们希望寻找一个简单的分类器 g，使用包含更少特征的样本 z’，就能将两类样本分开，即原模型 f 的预测值 f(z)和代理模型 g 的预测值 g(z’)尽可能接近。用公式表示，对于在 x邻域内随机生成的单条样本，即希望(f(z)－g(z’))2 尽可能小。实际操作中，可以给单条样本 x加上均值为 0、标准差为定值的高斯噪音，生成一系列新样本 z。
 
-同时，随机生成的样本 z 并非等权，而是根据其与 x 的距离加权，距离越近权重 $\pi_{\mathsf{X}}(z)$ 越高，在上图中以红色十字和蓝色圆形的大小表示。用公式表示，对于在 x邻域内随机生成的一系列样本 z，希望下列式子尽可能小：
+同时，随机生成的样本 z 并非等权，而是根据其与 x 的距离加权，距离越近权重 $\pi_{\mathsf{X}}(\mathsf{Z})$ 越高，在上图中以红色十字和蓝色圆形的大小表示。用公式表示，对于在 x邻域内随机生成的一系列样本 z，希望下列式子尽可能小：
 
 $$
-\mathcal{L}(f,g,\pi_{x})=\sum_{z,z^{\prime}\in Z}\pi_{x}(z)(f(z)-g(z^{\prime}))^{2}
+\mathcal{L}(f,g,\pi_{x})=\sum_{z,z^{\prime}\epsilon Z}\pi_{x}(z)(f(z)-g(z^{\prime}))^{2}
 $$
 
-其中 L(f, g, πx) 代表在 $\pi_{\mathsf{X}}$ 的范围内用 g 估计 f 的不可置信度，即在 x 的某个邻域内 g 与 f间的差距；Z 代表在 x邻域内随机生成的全部样本构成的集合。
+其中 L(f, g, πx) 代表在 $\Pi x$ 的范围内用 g 估计 f 的不可置信度，即在 x 的某个邻域内 g 与 f间的差距；Z 代表在 x邻域内随机生成的全部样本构成的集合。
 
 更进一步，我们希望得到的代理模型 g 尽可能简单。定义 Ω(g)作为代理模型 g 的复杂度，决策树的 Ω(g)可以是叶子节点个数，线性回归的 Ω(g)可以是 L1 或 L2 正则化项，我们希望 Ω(g)尽可能小。假设 G 是一个包含许多具有潜在可解释性模型的集合，我们在 G 中寻找满足 L(f, g, πx)和 Ω(g)同时尽可能小的代理模型 g：
 
 $$
-g(x)=argmin[\mathcal{L}(f,g,\pi_{x})+\varOmega(g)]
+g(x)=\underset{g\in G}{argmin}[\mathcal{L}(f,g,\pi_{x})+\varOmega(g)]
 $$
 
 当G为线性回归模型构成的集合，Ω(g)为L1正则化项时，代理模型g等价于Lasso回归：
 
 $$
-Z,f(Z)\ {\overset{{\mathcal{A}}_{LASSO}}{\longrightarrow}}\ g
+Z,f(Z)\xrightarrow{\mathcal{A}_{LASSO}}g
 $$
 
-此时 Lasso回归模型记作 $\mathsf{g}(\mathsf{Z}^{\prime})\mathsf{=w}\cdot\mathsf{Z}^{\prime}$ ，w 为 Lasso 回归系数。LIME 可由 Python 的 LIME库实现（https://github.com/marcotcr/lime），LIME 库输出每项特征及其对应回归系数的乘积，即该特征对于模型输出的贡献。
+此时 Lasso回归模型记作 $g(Z)=w\cdot Z$ ，w 为 Lasso 回归系数。LIME 可由 Python 的 LIME库实现（https://github.com/marcotcr/lime），LIME 库输出每项特征及其对应回归系数的乘积，即该特征对于模型输出的贡献。
 
 图表11： 局部代理 LIME示意图 2
 ![](images/6b3b9ac854f88b3b5092649241bc18bfd9979fb0c7aecc9937d1663fb7c301c8.webp)
@@ -324,16 +324,16 @@ LIME 的优点在于能够解释单条样本，例如回答机器学习模型为
 
 Shapley 值（Shapley Value，简记为 SHAP）的概念源于博弈论，核心思想是计算特征对模型输出的边际贡献。SHAP 值的概念较为复杂，我们先以一个简单案例说明。
 
-假设 A、B、C三人合作完成一项工作，总产出 $\mathsf{V}(\{\mathsf{A},\mathsf{B},\mathsf{C}\})=100$ 。如何计算三人各自的贡献？首先将工作单独分配给 A、B或 C，计算每个人的独立产出：
+假设 A、B、C三人合作完成一项工作，总产出 $\mathrm{V}(\{\mathrm{A},\mathrm{B},\mathrm{C}\})=100.$ 。如何计算三人各自的贡献？首先将工作单独分配给 A、B或 C，计算每个人的独立产出：
 
 $$
-\mathsf{V}(\{\mathsf{A}\})=10,\mathsf{V}(\{\mathsf{B}\})=10,\mathsf{V}(\{\mathsf{C}\})=20
+\mathsf{V}(\{\mathsf{A}\})=10,\quad\mathsf{V}(\{\mathsf{B}\})=10,\quad\mathsf{V}(\{\mathsf{C}\})=20
 $$
 
 其次将工作分配给任意两人，计算任意两个人的联合产出：
 
 $$
-\vee(\{\mathsf{A},\mathsf{B}\})=40,~\vee(\{\mathsf{A},\mathsf{C}\})=30,~\vee(\{\mathsf{B},\mathsf{C}\})=60
+\mathsf{V}(\{\mathsf{A},\mathsf{B}\})=40,\quad\mathsf{V}(\{\mathsf{A},\mathsf{C}\})=30,\quad\mathsf{V}(\{\mathsf{B},\mathsf{C}\})=60
 $$
 
 假设三人合作时按A→B→C的顺序，我们可以计算三个各自的边际贡献。第一个人A的边际贡献为 V({A})＝10。第二个人 B 的边际贡献为 V({A,B})－V({A})＝40－10＝30。第三个人 C 的边际贡献为 V({A,B,C})－V({A,B})＝100－40＝60。对应下表 A•B•C 所在的行。
@@ -362,7 +362,7 @@ $$
 \Delta_{i}(S)=f_{X}(S\cup\{i\})-f_{X}(S)
 $$
 
-其中 $\mathsf{f}_{\mathsf{X}}$ 代表以特征集合 S为输入时，原模型 f 输出的期望：
+其中 $f_{X}$ 代表以特征集合 S为输入时，原模型 f 输出的期望：
 
 $$
 f_{X}(S)=E[f(X)|X_{S}]
@@ -371,7 +371,7 @@ $$
 此时，特征 i的 SHAP值为：
 
 $$
-\phi_{i}=\frac{1}{|N|!}\sum_{R\in\mathcal{R}}\Delta_{i}{\big(S_{i}(R)\big)}\quad(\forall i\in N)
+\phi_{i}=\frac{1}{|N|!}{\sum_{R\in\mathcal{R}}\Delta_{i}\big(S_{i}(R)\big)}\quad(\forall i{\in}N).
 $$
 
 其中ℛ为 N 的全排列集合；对于某个具体排列的 R，在特征 i 之前的其它特征的排列记为Si(R)；对每一种排列 Si(R)计算 i 的边际贡献，全排列共有|N|!种，对全部|N|!个边际贡献求均值，最终得到特征 i的 SHAP 值。
@@ -379,7 +379,7 @@ $$
 下表展示了当特征为 X1、X2、X3 和 X4 时，取 X3 计算 SHAP 值的过程。X1~X4 的全排列共有 4!=24 种，每行代表可能的排列方式，最右侧一列代表该排列方式下 X3 的边际贡献。X3 的 SHAP值为最右侧一列的加权平均，权重为第 2 列排列个数：
 
 $$
-\begin{array}{c}{\displaystyle{\phi_{X3}=\frac{1}{24}\left(6\Delta i(\emptyset)+2\Delta i(\{X1\})+2\Delta i(\{X2\})+2\Delta i(\{X4\})+2\Delta i(\{X1,X2\})+2\Delta i(\{X1,X4\})\right.}}\\{\displaystyle{\left.+2\Delta i(\{X2,X4\})+6\Delta i(\{X1,X2,X4\})\right)}}\end{array}
+\begin{aligned}\phi_{X3}=&\frac{1}{24}(6\Delta i(\varnothing)+2\Delta i(\{X1\})+2\Delta i(\{X2\})+2\Delta i(\{X4\})+2\Delta i(\{X1,X2\})+2\Delta i(\{X1,X4\})\\&\quad+2\Delta i(\{X2,X4\})+6\Delta i(\{X1,X2,X4\}))\end{aligned}
 $$
 
 图表15： SHAP 值计算实例（X1~X4四项特征，计算 X3的 SHAP值）
@@ -401,7 +401,7 @@ $$
 SHAP 值还可以按下面的简化方式定义：
 
 $$
-\phi_{i}=\sum_{S\subseteq N\setminus\{i\}}{\frac{|S|!(N-|S|-1)!}{N!}}[f_{X}(S\cup\{i\})-f_{X}(S)]
+\phi_{i}=\sum_{S\subseteq N\backslash\{i\}}\frac{|S|!(N-|S|-1)!}{N!}[f_{X}(S{\cup\{i\}})-f_{X}(S)].
 $$
 
 对于 N 项特征的某种排列，总是可以划分为三部分：i 之前的特征集合 S，特征 i，i 之后的其余特征。模型输出值 fX(S)与 fX(S∪{i})不受排列顺序影响，因此可将 i 之前的|S|项特征全排列得到|S|!种结果，i 之后的(N-|S|-1)!项特征全排列得到(N-|S|-1)!种结果。将|S|!(N-|S|-1)!种结果合并，可以简化 SHAP 值的计算过程。SHAP 可由 Python 的 shap 库实现（https://github.com/slundberg/shap）。
@@ -540,7 +540,7 @@ b) 回测区间：2011 年 2 月 1 日至 2020 年 2 月 3 日。
 
 3． 特征预处理：
 
-a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i}$ ， $D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i}$ ， $D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 ${}^{1}D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 b) 缺失值处理：得到新的因子暴露度序列后，将因子暴露度缺失的地方设为中信一级行业相同个股的平均值；
 

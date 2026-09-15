@@ -146,18 +146,18 @@ $$
 SUE_{i,t}=\frac{Q_{i,t}-E\big(Q_{i,t}\big)}{\sigma_{i,t}}
 $$
 
-其中， $Q_{i,t}$ 表示个股在t 季度实际公布的单季度净利润数据，它可以从公司披露的财务报表中直接获得。 $E\left(Q_{i,t}\right)$ 表示个股在 t 季度的预期单季度净利润数据，它可以事先通过公司过往的单季度净利润计算得到。 $\sigma_{i,t}$ 表示公司单季度净利润增长的标准差。Jegadeesh 和 Livnat（2006）认为，个股的单季度净利润服从一个带有漂移项的季节性随机游走过程（Seasonal Random Walk With Drift），因此公司的预期单季度净利润可以表示为：
+其中， $Q_{i,t}$ 表示个股在t 季度实际公布的单季度净利润数据，它可以从公司披露的财务报表中直接获得。 $E\big(Q_{i,t}\big)$ 表示个股在 t 季度的预期单季度净利润数据，它可以事先通过公司过往的单季度净利润计算得到。 $\sigma_{i,t}$ 表示公司单季度净利润增长的标准差。Jegadeesh 和 Livnat（2006）认为，个股的单季度净利润服从一个带有漂移项的季节性随机游走过程（Seasonal Random Walk With Drift），因此公司的预期单季度净利润可以表示为：
 
 $$
-\begin{array}{c}{E\left(Q_{i,t}\right)=Q_{i,t-4}+\delta_{i,t}}\\{\delta_{i,t}=\frac{\sum_{j=1}^{8}\left(Q_{i,t-j}-Q_{i,t-j-4}\right)}{8}}\\{\sigma_{i,t}=\cfrac{1}{7}\displaystyle\sqrt{\sum_{j=1}^{8}\left(Q_{i,t-j}-Q_{i,t-j-4}-\delta_{i,t}\right)^{2}}}\end{array}
+\begin{aligned}E\big(Q_{i,t}\big)&=Q_{i,t-4}+\delta_{i,t}\\\delta_{i,t}&=\frac{\sum_{j=1}^{8}\bigl(Q_{i,t-j}-Q_{i,t-j-4}\bigr)}{8}\\\sigma_{i,t}=\frac{1}{7}\sqrt{\sum_{j=1}^{8}\bigl(Q_{i,t-j}-Q_{i,t-j-4}-\delta_{i,t}\bigr)^2}\end{aligned}
 $$
 
-可以看到，t 季度的预期单季度净利润 $(E(Q_{i,t}))$ ）等于去年同期的实际单季度净利润 $(Q_{i,t-4})$ 与漂移项 $\delta_{i,t}$ 的加总，而该漂移项的值可通过过去 8 个季度的单季度净利润同比增长 $(Q_{i,t-j}-Q_{i,t-j-4}$ ，也就是上文所说的漂移项）的平均计算得到。分母的 $\sigma_{i,t}$ 部分为过去 8 个季度中每个季度的实际单季度净利润 $(Q_{i,t-j})$ 与预期单季度净利润 $(Q_{i,t-j-4}+\delta_{i,t})$ 之差的标准差计算得到，换句话说 $\sigma_{i,t}$ 计算的是过去 8 个季度中公司单季度超预期净利润的标准差。
+可以看到，t 季度的预期单季度净利润 $(E(Q_{i,t}))$ ）等于去年同期的实际单季度净利润 $(Q_{i,t-4})$ 与漂移项 $\delta_{i,t}$ 的加总，而该漂移项的值可通过过去 8 个季度的单季度净利润同比增长 $\langle Q_{i,t-j}-Q_{i,t-j-4}$ ，也就是上文所说的漂移项）的平均计算得到。分母的 $\sigma_{i,t}$ 部分为过去 8 个季度中每个季度的实际单季度净利润 $(Q_{i,t-j})$ 与预期单季度净利润 $\langle Q_{i,t-j-4}+\delta_{i,t}\rangle$ 之差的标准差计算得到，换句话说 $\sigma_{i,t}$ 计算的是过去 8 个季度中公司单季度超预期净利润的标准差。
 
 除了以标准化预期外盈利（SUE）作为个股业绩超预期幅度的代理变量之外，很多学者还提出采用标准化预期外营业收入（SUR）进行辅助参考。SUR 的计算方式与 SUE的计算完全一致，所不同的是 SUR 的计算不再以公司的净利润为基础数据，而是以其营业收入进行衡量：
 
 $$
-\mathit{SUR}_{i,t}=\frac{REV_{i,t}-E\big(REV_{i,t}\big)}{\xi_{i,t}}
+SUR_{i,t}=\frac{REV_{i,t}-E\big(REV_{i,t}\big)}{\xi_{i,t}}
 $$
 
 其中， $REV_{i,t}$ 表示个股 i 在 t 季度的单季度营业收入， $E\left(REV_{i,t}\right)$ 表示其预期的单季度营业收入， $\xi_{i,t}$ 表示单季度营业收入增长的标准差。
@@ -277,13 +277,13 @@ $$
 在选定好基础数据之后，即可根据 3.1 小节介绍的方法构建 SUE 因子。由于公司的业绩快报数据通常会对其净利润、营业收入等进行直接披露，因此业绩快报数据是质量仅次于正式财务报告的信息来源。而对于业绩预告数据来讲，尽管其披露时间最早，但是业绩预告往往只披露公司在该报告期的净利润（或者净利润增长率）上限和下限，对于某些公司而言其披露的上下限之间的差别十分巨大，因此我们仅能够对其上下限取平均值进行估算：
 
 $$
-\sharp\langle\frac{\pm}{\ dt}\rangle\langle\frac{\langle\pm\rangle}{\ dt}\rangle|\langle\rangle\rangle\langle\frac{\left(\sharp\widehat{\eta}\frac{\pm}{\ dt}\rangle\langle\dot{\bar{\eta}}\rangle\right)\langle\dot{\varrho}\rangle}{\ dt}\bot\left.\dot{\eta}\right.\frac{\pm\sharp\widehat{\eta}\vert\frac{\pm}{\ dt}\rangle\langle\dot{\bar{\eta}}\vert\dot{\eta}\vert\cdot\vert\vert\dot{\eta}\vert}{\ dt}\big\rangle\qquad
+预告净利润=\frac{\left(预告净利润上限+预告净利润下限\right)}{2}
 $$
 
 最后还有一个细节值得注意，部分公司在发布业绩预告时，仅披露其净利润的同比增长率范围，而并不对其净利润的上下限进行公告。如图8 所示，岳阳兴长（000819.SZ）仅预告其 2019 年净利润在 0-20%之间（未经审计），为了估算其 2019 年的净利润，我们必须先获取其 2018 年的净利润，随后根据增长率的平均值进行估算：
 
 $$
-\langle|\pm\rangle+\langle|\pm\rangle|\rangle|\langle|\pm|=\perp\langle|\partial|\rangle|\langle|\partial|\rangle|\langle|\pmb{\dot{\tau}}+\pmb{\dot{\tau}}||\rangle|\rangle|\times\left(1+\frac{\left(\frac{\kappa_{1}}{19},\frac{\pm}{15},\frac{\gamma_{0}}{16},\frac{\gamma_{\mathrm{e}}}{6},\pm\frac{1}{4},\pm\frac{1}{18},\frac{\pm}{18},\frac{1}{6},\pm\frac{\gamma_{\mathrm{e}}}{6},\mp\frac{1}{18},\mp\frac{1}{6},\mp\frac{1}{6},\mp\frac{1}{6},\mp\frac{1}{6},\mp\frac{1}{6},\mp\frac{1}{6},\mp\frac{1}{6},\mp\frac{1}{6},\mp\frac{1}{6},\right)}{2}\right)
+估计净利润=上年同期净利润\times\left(1+\frac{\left(预告增长率上限+预告增长率下限\right)}{2}\right)
 $$
 
 ## 图 8：岳阳兴长（000819.SZ）2020.2.10 发布的公告
@@ -303,7 +303,7 @@ $$
 不过，在我们后续的实证研究中并没有对在业绩预告中仅披露净利润增长率而没有披露具体净利润的数据进行补齐，其主要原因在于通过增长率计算得到的数据误差较大。我们可以通过如下统计量衡量估计误差：
 
 $$
-1\pm i+i\neq\frac{1}{\pm}=\frac{\left|1\pm i+1\pmb{\operatorname{\neq}}-\frac{1}{\pmb{\operatorname{\neq}}}\pmb{\operatorname{\^*{\pm}}}/\pmb{\operatorname{\neq}}\right|}{\pmb{\operatorname{\neq}}}
+估计误差=\frac{\left|估计值-真实值\right|}{真实值}
 $$
 
 表 6：各种方式计算的净利润与实际净利润误差统计量（2009.12.31-2019.6.30）

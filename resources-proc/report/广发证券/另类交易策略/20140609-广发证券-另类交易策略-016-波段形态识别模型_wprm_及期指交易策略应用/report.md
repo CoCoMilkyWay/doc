@@ -107,9 +107,9 @@ ann@gf.com.cn
 ![](images/6f485633a88fd865e078af16f679f1ed9878b7a9301df34f114f4b6fba221a60.webp)
 数据来源：广发证券发展研究中心
 
-目前常用的相似性匹配策略大多取固定时间窗口，然后在历史数据中进行相似性匹配。匹配的度量主要是将图像正规标准化后，在 $L_{\phantom{}_{p}}$ 空间上计算欧氏距离，或者计算相关性系数。
+目前常用的相似性匹配策略大多取固定时间窗口，然后在历史数据中进行相似性匹配。匹配的度量主要是将图像正规标准化后，在 $L_{p}$ 空间上计算欧氏距离，或者计算相关性系数。
 
-但是，固定大小的窗口使得空间价格变化受制于时间窗口的限制，导致 $L_{\ L_{p}}$ 空间上的欧氏距离的识别效果往往不佳。
+但是，固定大小的窗口使得空间价格变化受制于时间窗口的限制，导致 $L_{p}$ 空间上的欧氏距离的识别效果往往不佳。
 
 如下图中，两段上行行情的走势极为相似，但是由于走势的时间区间不同，若利用传统的欧氏距离度量，两图像相似性较小。
 
@@ -166,15 +166,15 @@ ann@gf.com.cn
 %b指标源自布林通道。布林通道是技术分析中常用的工具，该技术分析工具由三种不同的指标构成。中间线为p期的移动均值，上轨线又称为压力线，为中间线加两倍的标准差，下轨线又称为支撑线，为中间线减去两倍的标准差。通常认为股票价格一般在上下轨线之间摆动，通过观察股票价格位于布林通道中的位置，我们可以做出关于股价的相应的预测。
 
 $$
-\Rightarrow1012-x=0.259+3.257+2.37151
+中间线=p期移动均值
 $$
 
 $$
-\bot AB=BA+B=AB+BC=\frac{1}{2}AB+BC+\frac{1}{2}AB+2\angle B+\frac{1}{2}BD+\frac{1}{2}BC
+上轨线=p期移动均值+2*p期标准差
 $$
 
 $$
-T:t\dot{4}t\dot{2}\dot{3}=0+5H+3-2+3H+3-2+0+4H+\sqrt{5}-1\dot{2}=
+下轨线=$\mathtt{p}$期移动均值$-2*\mathtt{p}$期标准差
 $$
 
 图16：股指期货收盘价
@@ -188,7 +188,7 @@ $$
 %b指标描述的正是股票价格位于布林通道的相对位置。
 
 $$
-\%b=\frac{117\div1}{5\div11\div2\times\cdots1}\div125
+\%b=\frac{收盘价-下轨线}{上轨线-下轨线}
 $$
 
 图18：股指期货%b指标
@@ -211,7 +211,7 @@ $$
 
 不同于常用的等时间窗口划分法，我们采用不等时的窗口对数据进行分割，这样一方面保证了划分后的数据为Z字形，以便于以后的裁剪，另一方面在减小噪音的基础上保证了对于点位事变的敏感性。具体的分割方法如图：
 
-假设当前点位为点3，我们以点3为起始点，若后续点位为上涨，则向后移动，增加窗口大小，点7和点8高度相同，我们以后一点位为高点。点9点10则均低于先前点位，但当前点为点10时，该点到最高点的距离超过了我们事先设定的阈值 $\delta_{\ i}$ ，故我们以点10为该窗口的结束点。
+假设当前点位为点3，我们以点3为起始点，若后续点位为上涨，则向后移动，增加窗口大小，点7和点8高度相同，我们以后一点位为高点。点9点10则均低于先前点位，但当前点为点10时，该点到最高点的距离超过了我们事先设定的阈值 $\delta_{1}$ ，故我们以点10为该窗口的结束点。
 
 同理，点8将成为下一个分割的起始点，然后我们开始下一次划分。由此我们得到Z字形分割。此处，点8至点10为确认一个可能的高点或低点所需的时间。
 
@@ -229,13 +229,13 @@ $$
 
 给定当前点 $P_{j}(\mathbf{X}_{j},\mathbf{t}_{j})$ ，则该窗口的高点 $P_{i}(\mathbf{X}_{i},\mathbf{t}_{i})$ 满足如下条件：
 
-$\mathrm{X}_{i}$ 是当前窗口的最大值。
+$\mathbf{X}_{i}$ 是当前窗口的最大值。
 
-2. $\mathrm{X}_{i}>X_{j}+\delta_{1}$
+2. $\mathbf{X}_{i}>X_{j}+\delta_{1}$
 
 3. $P_{i}(\mathbf{X}_{i},\mathbf{t}_{i})$ 是满足以上两个条件的最后一个点。
 
-下图a为分割之前的一段%b指数，图b为分割之后的%b指数。我们将阈值 $\delta_{\ i}$ 设得较小，以在减小噪音的情况下尽量缩短确认一个可能的高低点位所需的时间。分割之后大体形状和趋势未发生显著改变，但已完全转化为Z字形。
+下图a为分割之前的一段%b指数，图b为分割之后的%b指数。我们将阈值 $\delta_{1}$ 设得较小，以在减小噪音的情况下尽量缩短确认一个可能的高低点位所需的时间。分割之后大体形状和趋势未发生显著改变，但已完全转化为Z字形。
 
 图22：股指期货%b指标分割前
 ![](images/d0f577a6d8b3e1b5a2b18abe5efe0fe36b74d5b15bd48bcbd246231ca5ccb4fc.webp)
@@ -312,16 +312,16 @@ $\mathrm{X}_{i}$ 是当前窗口的最大值。
 
 此处我们采用图形高低点位的排列顺序作为判断相似性依据的第一条件，具体如下：
 
-取长度为n的一列点位 $S=\{(\mathrm{X}_{1},\mathrm{t}_{1}),(\mathrm{X}_{2},\mathrm{t}_{2}),^{\cdots\cdots\times},(\mathrm{X}_{n},\mathrm{t}_{n})\}$ ，然后将其分为高点和低点两类集合
+取长度为n的一列点位 $S=\{(\mathrm{X}_1,\mathrm{t}_1),(\mathrm{X}_2,\mathrm{t}_2),\cdots\cdots,(\mathrm{X}_n,\mathrm{t}_n)\}$ ，然后将其分为高点和低点两类集合
 
 $$
-\begin{array}{rl}&{S_{1}^{\prime}=\{(\mathrm{X}_{1},\mathrm{t}_{1}),(\mathrm{X}_{3},\mathrm{t}_{3}),^{\cdots\cdots},(\mathrm{X}_{n-1},\mathrm{t}_{n-1})\}}\\&{S_{2}^{\prime}=\{(\mathrm{X}_{2},\mathrm{t}_{2}),(\mathrm{X}_{4},\mathrm{t}_{4}),^{\cdots\cdots},(\mathrm{X}_{n},\mathrm{t}_{n})\}}\end{array}
+\begin{aligned}&S_{1}^{\prime}=\{(\mathrm{X}_{1},\mathrm{t}_{1}),(\mathrm{X}_{3},\mathrm{t}_{3}),\cdots\cdots,(\mathrm{X}_{n-1},\mathrm{t}_{n-1})\}\\&S_{2}^{\prime}=\{(\mathrm{X}_{2},\mathrm{t}_{2}),(\mathrm{X}_{4},\mathrm{t}_{4}),\cdots\cdots,(\mathrm{X}_{n},\mathrm{t}_{n})\}\\\end{aligned}
 $$
 
 分别对于高点和低点两类集合进行由小到大的重新排序之后，我们得到排列
 
 $$
-\begin{array}{rl}&{S_{1}^{\prime\prime}{=}\{(\mathrm{X}_{i_{1}},\mathrm{t}_{i_{1}}),(\mathrm{X}_{i_{3}},\mathrm{t}_{i_{3}}),^{\ldots\dots},(\mathrm{X}_{i_{n-1}},\mathrm{t}_{i_{n-1}})\}}\\&{S_{2}^{\prime\prime}{=}\{(\mathrm{X}_{i_{2}},\mathrm{t}_{i_{2}}),(\mathrm{X}_{i_{4}},\mathrm{t}_{i_{4}}),^{\ldots},(\mathrm{X}_{i_{n}},\mathrm{t}_{i_{n}})\}}\end{array}
+\begin{aligned}&S_{1}^{\prime\prime}=\{(\mathrm{X}_{i_{1}},\mathrm{t}_{i_{1}}),(\mathrm{X}_{i_{3}},\mathrm{t}_{i_{3}}),\cdots\cdots,(\mathrm{X}_{i_{n-1}},\mathrm{t}_{i_{n-1}})\}\\&S_{2}^{\prime\prime}=\{(\mathrm{X}_{i_{2}},\mathrm{t}_{i_{2}}),(\mathrm{X}_{i_{4}},\mathrm{t}_{i_{4}}),\cdots\cdots,(\mathrm{X}_{i_{n}},\mathrm{t}_{i_{n}})\}\\\end{aligned}
 $$
 
 我们将排序顺序相同作为我们相似性匹配的必要条件。
@@ -342,37 +342,37 @@ $$
 为了避免这种情况的发生，我们引入一种新的测度，对于高低点位的距离差加以约束。
 
 $$
-d(\mathbf{S},\mathbf{S}^{\prime})=\frac{1}{n-1}\left(\alpha\cdot\sum_{i=1}^{n-1}\bigl\|X_{i+1}-X_{i}\bigr\|-\bigl|X_{i+1}^{\prime}-X_{i}^{\prime}\bigr|\bigr|+\beta\cdot\sum_{i=1}^{n-1}\bigl\|t_{i+1}-t_{i}\bigr|-\bigl|t_{i+1}^{\prime}-t_{i}^{\prime}\bigr|\right)
+d(S,S')=\frac{1}{n-1}\left(\alpha\cdot\sum_{i=1}^{n-1}\left|X_{i+1}-X_{i}\right|-\left|X_{i+1}^{\prime}-X_{i}^{\prime}\right|+\beta\cdot\sum_{i=1}^{n-1}\left|t_{i+1}-t_{i}\right|-\left|t_{i+1}^{\prime}-t_{i}^{\prime}\right|\right)
 $$
 
 下面我们证明该函数是一个距离。
 
-引理1：若 $a,b,c\geq0$ ，则 ${\big|}a-b{\big|}\leq{\big|}a-c{\big|}+{\big|}c-b{\big|}$
+引理1：若 $a,b,c\geq0$ ，则 $\left|a-b\right|\le\left|a-c\right|+\left|c-b\right|$
 
-引理2：若 $a,b,c,X_{1},X_{2},Y_{1},Y_{2}\geq0,X_{1}\leq X_{2}$ 且 $Y_{1}\leq Y_{2}$ ，则
+引理2：若 $a,b,c,X_{1},X_{2},Y_{1},Y_{2}\geq0,\quad X_{1}\leq X_{2}$ 且 $Y_{1}\leq Y_{2}$ ，则
 
 $$
-a({\mathbf{b}}\mathbf{X}_{1}+\mathbf{c}\mathbf{Y}_{1})\leq a({\mathbf{b}}\mathbf{X}_{2}+\mathbf{c}\mathbf{Y}_{2})
+a(bX_{1}+cY_{1})\leq a(bX_{2}+cY_{2})
 $$
 
 两条引理均容易证得。
 
-显然， ${\mathrm{d}}(\mathrm{S},\mathrm{S}^{\prime})={\mathrm{d}}(\mathrm{S}^{\prime},\mathrm{S}),{\mathrm{d}}(\mathrm{S},\mathrm{S})=0$ ，我们仅需证明$\mathrm{d}(\mathrm{S},\mathrm{S}^{\prime})\leq\mathrm{d}(\mathrm{S},\mathrm{S}^{\prime\prime})+\mathrm{d}(\mathrm{S}^{\prime\prime},\mathrm{S}^{\prime})$
+显然， $\mathrm{d}(\mathrm{S},\mathrm{S}')=\mathrm{d}(\mathrm{S}',\mathrm{S}),\quad\mathrm{d}(\mathrm{S},\mathrm{S})=0$ ，我们仅需证明$\mathrm{d}(\mathrm{S},\mathrm{S}')\leq\mathrm{d}(\mathrm{S},\mathrm{S}'')+\mathrm{d}(\mathrm{S}'',\mathrm{S}')$
 
-令 $\Delta X_{i}=\left|X_{i+1}-X_{i}\right|,\Delta t_{i}=t_{i+1}-t_{i}$ ，由引理1和引理2我们易得
-
-$$
-\sum_{i=1}^{n-1}{\bigl(}{\bigl|}\Delta\mathbf{X}_{i}-\Delta\mathbf{X}_{i}^{\prime}{\bigr|}{\bigr)}\leq\sum_{i=1}^{n-1}{\bigl(}{\bigl|}\Delta\mathbf{X}_{i}-\Delta\mathbf{X}_{i}^{\prime\prime}{\bigr|}+{\bigl|}\Delta\mathbf{X}_{i}^{\prime\prime}-\Delta\mathbf{X}_{i}^{\prime}{\bigr|}{\bigr)}
-$$
+令 $\Delta X_{i}=\left|X_{i+1}-X_{i}\right|,\quad\Delta t_{i}=t_{i+1}-t_{i}$ ，由引理1和引理2我们易得
 
 $$
-\sum_{i=1}^{n-1}\left(\left|\Delta t_{i}-\Delta t_{i}^{\prime}\right|\right)\leq\sum_{i=1}^{n-1}\left(\left|\Delta t_{i}-\Delta t_{i}^{\prime}\right|+\left|\Delta t_{i}^{\prime\prime}-\Delta t_{i}^{\prime}\right|\right)
+\sum_{i=1}^{n-1}\left(\left|\Delta\mathbf{X}_{i}-\Delta\mathbf{X}_{i}^{\prime}\right|\right)\leq\sum_{i=1}^{n-1}\left(\left|\Delta\mathbf{X}_{i}-\Delta\mathbf{X}_{i}^{\prime\prime}\right|+\left|\Delta\mathbf{X}_{i}^{\prime\prime}-\Delta\mathbf{X}_{i}^{\prime\prime}\right|\right)
+$$
+
+$$
+\sum_{i=1}^{n-1}\left(\left|\Delta t_{i}-\Delta t_{i}^{\prime}\right|\right)\leq\sum_{i=1}^{n-1}\left(\left|\Delta t_{i}-\Delta t_{i}^{\prime\prime}\right|+\left|\Delta t_{i}^{\prime\prime}-\Delta t_{i}^{\prime}\right|\right)
 $$
 
 因此，
 
 $$
-d(\mathbf{S},\mathbf{S}^{\prime})=\frac{1}{n-1}(\alpha\cdot\sum_{i=1}^{n-1}X_{i+1}-X_{i}-X_{i+1}^{\prime}-X_{i}^{\prime}+\beta\cdot\sum_{i=1}^{n-1}t_{i+1}-t_{i}-t_{i+1}^{\prime}-t_{i}^{\prime})
+d(S,S')=\frac{1}{n-1}\left(\alpha\cdot\sum_{i=1}^{n-1}\left\|X_{i+1}-X_{i}\right\|-\left\|X_{i+1}'-X_{i}'\right\|+\beta\cdot\sum_{i=1}^{n-1}\left\|t_{i+1}-t_{i}\right\|-\left\|t_{i+1}'-t_{i}'\right\|\right)
 $$
 
 是一个距离。
@@ -386,7 +386,7 @@ $$
 （2） $d(\mathbf{S},\mathbf{S}^{\prime})\leq\gamma$ 其中
 
 $$
-d(\mathbf{S},\mathbf{S}^{\prime})=\frac{1}{n-1}\left(\alpha\cdot\sum_{i=1}^{n-1}\bigl\|X_{i+1}-X_{i}\bigr\|-\bigl|X_{i+1}^{\prime}-X_{i}^{\prime}\bigr|\bigr|+\beta\cdot\sum_{i=1}^{n-1}\bigl\|t_{i+1}-t_{i}\bigr|-\bigl|t_{i+1}^{\prime}-t_{i}^{\prime}\bigr|\right)
+d(S,S')=\frac{1}{n-1}\left(\alpha\cdot\sum_{i=1}^{n-1}\left|X_{i+1}-X_{i}\right|-\left|X_{i+1}^{\prime}-X_{i}^{\prime}\right|+\beta\cdot\sum_{i=1}^{n-1}\left|t_{i+1}-t_{i}\right|-\left|t_{i+1}^{\prime}-t_{i}^{\prime}\right|\right)
 $$
 
 则两列序列可以进行相似性匹配。
@@ -436,11 +436,11 @@ $$
 
 我们事先设定阈值ε.
 
-若 $\operatorname{E}[\mathbf{P}_{k}]\geq\operatorname{E}[\mathbf{P}]+\varepsilon$ ，我们预测趋势为上涨，
+若 $\mathrm{E}[\mathrm{P}_k]\geq\mathrm{E}[\mathrm{P}]+\varepsilon$ ，我们预测趋势为上涨，
 
-若 $\operatorname{E}[\mathbf{P}_{k}]\leq\operatorname{E}[\mathbf{P}]-\varepsilon$ ，我们预测趋势为下跌，
+若 $\mathrm{E}[\mathrm{P}_k]\leq\mathrm{E}[\mathrm{P}]-\varepsilon$ ，我们预测趋势为下跌，
 
-$\dddot{\Xi}\operatorname{E}[\operatorname{P}]-\varepsilon<\operatorname{E}[\operatorname{P}_{k}]<\operatorname{E}[\operatorname{P}]+\varepsilon$ ，我们预测为无趋势。
+$\mathrm{E}[\mathrm{P}]-\varepsilon<\mathrm{E}[\mathrm{P}_k]<\mathrm{E}[\mathrm{P}]+\varepsilon$ ，我们预测为无趋势。
 
 如下图中，虽然我们预测点4相对于点2会上涨，但上涨幅度小于1，于是我们判断为无趋势，而点5相对于点3，点6相对于点4预测均有1个点位以上的上涨，因此我们预测为上涨。
 

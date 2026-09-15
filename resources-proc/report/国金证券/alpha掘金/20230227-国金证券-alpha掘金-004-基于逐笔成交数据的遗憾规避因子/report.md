@@ -80,19 +80,19 @@ $$
 卖出反弹占比因子（LCVOL）：
 
 $$
-\mathit{LCVOL}=\frac{\sum_{i}^{N}\mathit{volum}e_{selli}*I_{p_{selli}<close}}{\mathit{total\_volume}}
+LCVOL=\frac{\sum_{i}^{N}volume_{selli}*I_{p_{selli}<close}}{total_{-}volume}
 $$
 
 买入浮亏偏离因子（HCP）：
 
 $$
-HCP=\frac{\sum_{i}^{N}\overline{{price}}_{buyi}*I_{p_{buyi}>close}}{close}-1
+\frac{\sum_{i}^{N}\overline{price}_{buyi}*I_{buyi>close}}{close}-1
 $$
 
 卖出反弹偏离因子（LCP）：
 
 $$
-LCP=\frac{\sum_{i}^{N}\overline{{{price}}}_{selli}*I_{p_{selli}<close}}{close}-1
+\frac{\sum_{i}^{N}\overline{price}_{sell}*I_{p_{sell}<close}}{close}-1
 $$
 
 上述因子的基本思路为：高于收盘价买入成交量占比越高，则投资者当天买入情绪较高，且浮亏占比较高，未来抛压较低，有着更高的预期收益。同理，高于收盘价买入的价格相较于收盘价偏离幅度越大，则投资者浮亏现象越严重，也会有更低的抛压，带来更高的预期收益。而低于收盘价卖出成交量占比越高、或价格相较于收盘价向下偏离越大的股票，投资者受到卖出行为的影响，不愿轻易再次买回，因此此类股票未来买入动力较低，有更低的预期收益。
@@ -142,25 +142,25 @@ $$
 买入浮亏占比小单因子（HCVOLS）：
 
 $$
-HCVOLS=\frac{\sum_{i}^{N}{volume}_{buyi}*I_{p_{selli}>close}*I_{vol<vol_{mean}}}{total\_volume}
+HCVOLS=\frac{\sum_{i}^{N}volume_{buyi}*I_{p_{sell}>close}*I_{vol<vol_{mean}}}{total_{volume}}
 $$
 
 卖出反弹占比小单因子（LCVOLS）：
 
 $$
-\mathit{LCVOLS}=\frac{\sum_{i}^{N}\mathit{volume}_{selli}*I_{p_{selli}<close}*I_{vol<vol_{mean}}}{\mathit{total}_{-}\mathit{volume}}
+LCVOLS=\frac{\sum_{i}^{N}volume_{sell}*I_{p_{sell}<close}*I_{vol<vol_{mean}}}{total_{v}volume}
 $$
 
 买入浮亏偏离小单因子（HCPS）：
 
 $$
-HCPS=\frac{\sum_{i}^{\mathrm{N}}price}{{buyi}}{*I_{p_{buyi}>close}*I_{vol<vol_{mean}}}{close}-1
+HCPS=\frac{\sum_{i}^{\mathbb{N}}\overline{{price}}_{buyi}*I_{p_{buyi}>close}*I_{vol<vol_{mean}}}{close}-1.
 $$
 
 卖出反弹偏离小单因子（LCPS）：
 
 $$
-LCPS=\frac{\sum_{i}^{\mathrm{N}}\overline{{{price}}}_{selli}*I_{p_{selli}<close}*I_{vol<vol_{mean}}}{close}-1
+\frac{\sum_{i}^{\mathbb{N}}\overline{price}_{sell}*I_{p_{sell}<close}*I_{vol*vol_{mean}}}{close}-1
 $$
 
 利用小单改进的 4 个因子 IC 指标和十分组测试的几个关键指标如下，可以看出相较于原因子，4 个小单因子的 IC均值均有一定程度改进，风险调整后 IC 也有不同程度上升。LCPS 的风险调整后 IC 达到 0.45。
@@ -200,37 +200,37 @@ $$
 买入浮亏占比尾盘因子（全天）（HCVOLE1）
 
 $$
-HCVOLE1=\frac{\sum_{i}^{N}{volume}_{buyi}*I_{p_{buyi}>close}*I_{t\in[14:30,14:57)}}{total_{-}volume}
+HCVOLE1=\frac{\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{t\in[14:30,14:57)}}{total_{-}volume}
 $$
 
 买入浮亏占比尾盘因子（尾盘）（HCVOLE2）
 
 $$
-HCVOLE2=\frac{\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{t\in[14:30,14:57)}}{total_{-}volume_{end}}
+HCVOLE2=\frac{\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{t\in[14:30,14:57)}}{total\_volume_{end}}
 $$
 
 卖出反弹占比尾盘因子（全天）（LCVOLE1）
 
 $$
-\mathit{LCVOLE1}=\frac{\sum_{i}^{N}\mathit{volume}_{selli}*I_{p_{selli}<close}*I_{t\in[14:30,14:57)}}{\mathit{total}_{-}\mathit{volume}}
+LCVOLE1=\frac{\sum_{i}^{N}volume_{sell}*I_{p_{sell}<close}*I_{t\in[14:30,14:57)}}{total_{volume}}
 $$
 
 卖出反弹占比尾盘因子（尾盘）（LCVOLE2）
 
 $$
-LCVOLE2=\frac{\sum_{i}^{N}{volume}_{selli}*I_{p_{selli}<close}*I_{t\in[14:30,14:57)}}{total_{-}volume_{end}}
+LCVOLE2=\frac{\sum_{i}^{N}volume_{sell}*I_{p_{sell}<close}*I_{t\in[14:30,14:57)}}{total_{v}-volume_{end}}
 $$
 
 买入浮亏偏离尾盘因子（HCPE）
 
 $$
-HCPE=\frac{\sum_{i}^{N}\overline{{{price}}}_{buyi}*I_{p_{buyi}>close}*I_{t\in[14:30,14:57)}}{close}-1
+\frac{\sum_{i}^{N}\overline{price}_{buyi}*I_{p_{buyi}>close}*I_{t\in[14:30,14:57)}}{close}-1
 $$
 
 卖出反弹偏离尾盘因子（LCPE）
 
 $$
-LCPE=\frac{\sum_{i}^{N}\overline{{price}}_{selli}*I_{p_{selli}<close}*I_{t\in[14:30,14:57)}}{close}-1
+LCPE=\frac{\sum_{i}^{N}\overline{{price}}_{selli}*I_{p_{selli}<close}*I_{t\in[14:30,14:57)}}{close}-1.
 $$
 
 用尾盘改进的 6 个因子 IC 指标和十分组测试的几个关键指标如下，可以看出相较于原因子，6 个尾盘因子的 IC均值均有一定程度改进，其中买入浮亏占比因子的尾盘成交占尾盘比例效果较好，卖出反弹占比因子的尾盘成交占全天比例效果较好。

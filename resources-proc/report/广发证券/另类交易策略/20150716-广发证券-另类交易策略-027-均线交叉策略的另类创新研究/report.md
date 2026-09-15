@@ -38,19 +38,19 @@ zhangchao@gf.com.cn
 
 移动平均线（Moving Average，简称MA）是技术分析中的常用工具。移动平均线作为一类非常简单的数学模型，被广泛用于股票、期货、外汇等金融市场的分析中，可谓简单、有效、应用广。另一方面，许多其他的技术指标，也建立在移动平均线的基础上。因此，移动平均线在技术分析领域占有重要地位。
 
-我们先对移动平均的定义做一个准确的数学描述。设某证券的收盘价为 Pt，该证券 k个时间单位的移动平均为 $\mathrm{M}_{\mathrm{t}}\left(\mathrm{k}\right)$ ，则有
+我们先对移动平均的定义做一个准确的数学描述。设某证券的收盘价为 Pt，该证券 k个时间单位的移动平均为 $\mathbb{M}_{\mathrm{t}}\left(\mathrm{k}\right)$ ，则有
 
 $$
-{M}_{{t}}(k)=\frac{1}{k}\sum_{j=0}^{k-1}P_{{t}-j}\tag{1}
+M_{_{t}}(k)=\frac{1}{k}\sum_{j=0}^{k-1}P_{_{t-j}}\tag{1}
 $$
 
-基于移动平均的交易策略非常多，本篇报告主要研究均线交叉策略。当快速均线（k值较小）上穿慢速均线（k值较大）时，均线交叉策略发出做多信号，此时的均线形态一般称为“金叉”；当快速均线（k值较小）下穿慢速均线（k值较大）时，均线交叉策略发出做空信号，此时的均线形态一般称为“死叉”。同样地，我们通过公式对该策略做一个准确的数学描述。当两条均线交叉时，设 $\mathbf{S}_{\mathrm{t}+\tau}\left(\mathbf{k}_{1},\mathbf{k}_{2}\right)$ 为信号变量，k1、k2分别为使用的均线周期，则有
+基于移动平均的交易策略非常多，本篇报告主要研究均线交叉策略。当快速均线（k值较小）上穿慢速均线（k值较大）时，均线交叉策略发出做多信号，此时的均线形态一般称为“金叉”；当快速均线（k值较小）下穿慢速均线（k值较大）时，均线交叉策略发出做空信号，此时的均线形态一般称为“死叉”。同样地，我们通过公式对该策略做一个准确的数学描述。当两条均线交叉时，设 $\mathrm{S}_{\mathrm{t}+\tau}\left(\mathrm{k}_1,\mathrm{k}_2\right)$ 为信号变量，k1、k2分别为使用的均线周期，则有
 
 $$
-S_{t+\tau}(k_{1},k_{2})=\left\{\begin{array}{ll}{{1,}}&{{M_{t-1+\tau}(k_{1})\geq M_{t-1+\tau}(k_{2})}}\\{{0,}}&{{M_{t-1+\tau}(k_{1})<M_{t-1+\tau}(k_{2})}}\end{array}\right.\tag{2}
+S_{t+\tau}(k_1,k_2)=\left\{\begin{aligned}1,\ M_{t-1+\tau}(k_1)\geq M_{t-1+\tau}(k_2)\\0,\ M_{t-1+\tau}(k_1)<M_{t-1+\tau}(k_2)\end{aligned}\right.\tag{2}
 $$
 
-其中， $\tau=0,1,2\cdots$ 且 k1<k2， $\mathbf{S}_{\mathrm{t}+\tau}\left(\mathbf{k}_{1},\mathbf{k}_{2}\right){=}1$ 时为做多信号， $\mathbf{S}_{\mathrm{t}+\tau}\left(\mathbf{k}_{1},\mathbf{k}_{2}\right)=0$ 时为做空信号。在均线交叉策略中，常用的均线周期（即k值）有 5、10、20、30、60、120、240 等。
+其中， $\tau=0,1,2\cdot\cdot\cdot\cdot\cdot\cdot$ 且 k1<k2， $\mathrm{S}_{\mathrm{t}+\tau}(\mathrm{k}_1,\mathrm{k}_2)=1$ 时为做多信号， $\mathrm{S}_{\mathrm{t}+\tau}(\mathrm{k}_1,\mathrm{k}_2)=0$ 时为做空信号。在均线交叉策略中，常用的均线周期（即k值）有 5、10、20、30、60、120、240 等。
 
 ## （二）传统均线交叉策略表现
 
@@ -92,37 +92,37 @@ $$
 
 ## （一）策略介绍
 
-介绍策略之前，我们先介绍一下凸组合。策略的基本思想将根据凸组合提出。设实向量空间中的一组有限数据点 ${\bf X}_{1},\quad{\bf X}_{2},\quad\ldots\ldots,\quad{\bf X}_{\mathrm{n}},$ ，则定义x为这些数据点的一个凸组合，如果x满足
+介绍策略之前，我们先介绍一下凸组合。策略的基本思想将根据凸组合提出。设实向量空间中的一组有限数据点 $\mathrm{X}_{1},\mathrm{X}_{2},\ldots,\mathrm{X}_{n}$ ，则定义x为这些数据点的一个凸组合，如果x满足
 
 $$
-x=\alpha_{1}x_{1}+\alpha_{2}x_{2}+\cdots\cdots+\alpha_{n}x_{n}\tag{3}
+x=\alpha_{1}x_{1}+\alpha_{2}x_{2}+\cdots+\alpha_{n}x_{n}\tag{3}
 $$
 
-其中实数 $\alpha_{i}(\mathrm{~i=1,~}2,\dots\dots,\mathrm{n})$ 满足 $\alpha_{i}{>}0$ 且 $\alpha_{1}+\alpha_{2}+\ldots+\alpha_{n}=1$ 。根据定义，凸组合可以看成是数据组的一个“期望”。
+其中实数 $\alpha_{i}\left(\mathrm{i}=1,2,\ldots\ldots,\mathrm{n}\right)$ 满足 $\alpha_{i}>0$ 且 $\alpha_{1}+\alpha_{2}+\cdots+\alpha_{n}=1$ 。根据定义，凸组合可以看成是数据组的一个“期望”。
 
 提出的改进均线交叉策略，主要是改变传统策略的平仓条件。开仓条件仍由传统的金叉、死叉确定，平仓条件则是由开仓价格与当前价格来确定。若当前价格不小于开仓价与当前价的凸组合，则继续持有多单，无需平仓；若当前价格不大于开仓价与当前价的凸组合，则继续持有空单，无需平仓。
 
-同样地，我们使用数学语言对策略的开平仓条件进行描述。策略的开仓条件与传统策略相同，即金叉开多单，死叉开空单。如报告第一部分所述，传统策略的开平仓信号为 $\mathbf{S}_{\mathrm{t}}\left(\mathbf{k}_{1},\mathbf{k}_{2}\right)$ ，t为信号发出的时刻。设开仓时间为ti，开仓价格为 $\mathrm{P_{ti}}$ ，当前价格为 $\mathrm{P}_{\mathrm{ti+\tau}},$ ，其中 $\tau>0$ 。那么，若已持有多单，在任一时间点继续持有多单的概率为$\mathrm{~P~}[\mathrm{S}_{\mathrm{ti}+\tau}\ (\mathbf{k}_{1},\mathbf{k}_{2})=1]$ ，平仓多单的概率为P $\left[\operatorname{S}_{\mathrm{ti}+\tau}\left(\mathrm{k}_{1},\mathrm{k}_{2}\right)=0\right]=1-\mathrm{P}\left[\operatorname{S}_{\mathrm{ti}+\tau}\left(\mathrm{k}_{1},\mathrm{k}_{2}\right)=0\right]$ ，已持有空单的情况同理。我们将开仓价格 $\cdot\mathrm{P}_{\mathrm{ti}}$ 与当前价格 $\cdot\mathrm{P}_{\textrm{ t i + \tau }}$ 的凸组合定义为证券价格的“期望” $\mathrm{P^{*}}_{\mathrm{{ti+}}}$ τ
+同样地，我们使用数学语言对策略的开平仓条件进行描述。策略的开仓条件与传统策略相同，即金叉开多单，死叉开空单。如报告第一部分所述，传统策略的开平仓信号为 $\mathrm{S_{t}(k_{1},k_{2})}$ ，t为信号发出的时刻。设开仓时间为ti，开仓价格为 $\mathrm{P_{ti}}$ ，当前价格为 $\mathrm{P}_{\mathrm{ti}+\tau,}$ ，其中 $\tau>0$ 。那么，若已持有多单，在任一时间点继续持有多单的概率为$\mathrm{P}\left[\mathrm{S}_{\mathrm{ti}+\tau}\left(\mathrm{k}_{1},\mathrm{k}_{2}\right)=1\right]$ ，平仓多单的概率为P $\left[\mathrm{S}_{\mathrm{ti}+\mathrm{\tau}}\left(\mathrm{k}_1,\mathrm{k}_2\right)=0\right]=1-\mathrm{P}\left[\mathrm{S}_{\mathrm{ti}+\mathrm{\tau}}\left(\mathrm{k}_1,\mathrm{k}_2\right)=0\right]$ ，已持有空单的情况同理。我们将开仓价格 $\cdot\mathsf{P}_{\mathrm{ti}}$ 与当前价格 $\mathrm{{\cdot P}_{ti+\tau}}$ 的凸组合定义为证券价格的“期望” $\mathrm{P}_{\mathrm{~ti^{+}~}}^{*}$ τ
 
 $$
 P_{t_{i}+\tau}^{*}=\mathrm{P}[S_{t_{i}+\tau}(k_{1},k_{2})=1]P_{t_{i}}+(1-\mathrm{P}[S_{t_{i}+\tau}(k_{1},k_{2})=1])P_{t_{i}+\tau}\tag{4}
 $$
 
-非常自然地，我们希望证券的当前价格大于或等于 $\mathrm{P^{*}}_{\mathrm{\ ti+\tau}}$ ，才有足够的理由继续持有多单。换句话说，继续持有多单的条件为 $\mathrm{P_{ti+\tau}}\geqslant\mathrm{P^{*}}_{\mathrm{ti+\tau}};$ ；同理，继续持有空单的条件为$\mathsf{P}_{\mathrm{ti}+\tau}\leqslant\mathsf{P}_{\mathrm{ti}+\tau}^{*},$ 。通过求解上述两个不等式可以知道，在概率无法估计的情况下，继续持有多单的条件为 $\mathrm{P}_{\mathrm{ti+\tau}}\geqslant\mathrm{P}_{\mathrm{ti}}$ ，继续持有空单的条件为 $\mathsf{P}_{\mathrm{ti}+\tau}\leqslant\mathsf{P}_{\mathrm{ti}}$
+非常自然地，我们希望证券的当前价格大于或等于 $\mathrm{P}_{\mathrm{~t~i+}\tau}^{*}$ ，才有足够的理由继续持有多单。换句话说，继续持有多单的条件为 $\mathrm{P}_{\mathrm{t}_{\mathrm{i}+\tau}}\geqslant\mathrm{P}_{\mathrm{t}_{\mathrm{i}+\tau}}^*;$ ；同理，继续持有空单的条件为$\mathrm{P}_{\mathrm{ti}+\tau}\leqslant\mathrm{P}_{\mathrm{ti}+\tau}^{*},$ 。通过求解上述两个不等式可以知道，在概率无法估计的情况下，继续持有多单的条件为 $\mathrm{P}_{\mathrm{ti}+\tau}\geqslant\mathrm{P}_{\mathrm{ti}}$ ，继续持有空单的条件为 $\mathrm{P}_{\mathrm{ti}+\tau}\leqslant\mathrm{P}_{\mathrm{ti}}$
 
-非常重要的一点是，在持仓过程中，Pti的值有可能发生改变，否则策略将永远在亏损时平仓。以开多仓的情况为例：均线金叉时开多仓；随后均线死叉时，若仍满足 $\mathrm{P}_{\mathrm{ti+\tau}}\geqslant\mathrm{P}_{\mathrm{ti}}$ ，则继续持仓；随后再次出现金叉，则Pti替换为最新的金叉价 $\cdot\mathrm{P}_{\mathrm{ti}2}$ ，此后继续持仓的条件则变为 $\mathrm{P}_{\mathrm{ti+}\tau}\geqslant\mathrm{P}_{\mathrm{ti}2}$ 。以数学语言描述此过程，有：
+非常重要的一点是，在持仓过程中，Pti的值有可能发生改变，否则策略将永远在亏损时平仓。以开多仓的情况为例：均线金叉时开多仓；随后均线死叉时，若仍满足 $\mathrm{P}_{\mathrm{ti}+\tau}\geqslant\mathrm{P}_{\mathrm{ti}}$ ，则继续持仓；随后再次出现金叉，则Pti替换为最新的金叉价 $\mathrm{{\cdot}\mathrm{{P}}_{\mathrm{{ti2}}}}$ ，此后继续持仓的条件则变为 $\mathrm{P}_{\mathrm{ti}^{+}\tau}\geqslant\mathrm{P}_{\mathrm{ti}2}$ 。以数学语言描述此过程，有：
 
 $$
 t_{i}(k_{1},k_{2})=t_{i}=\left\{t\in N_{+}:S_{t}(k_{1},k_{2})>S_{t-1}(k_{1},k_{2})\right\}\tag{5}
 $$
 
-其中ti为传统策略中每次发出金叉信号的时刻。对于所有小于等于t的ti，令$\mathrm{{t}_{L}=max\left(\mathrm{{t}_{i}}}\right)$ ，表示最新的金叉时刻。那么，改进的均线交叉策略的多单平仓信号可以定义为，均线交叉时：
+其中ti为传统策略中每次发出金叉信号的时刻。对于所有小于等于t的ti，令$\mathrm{t}_{\mathrm{L}}=\max\left(\mathrm{t}_{\mathrm{i}}\right)$ ，表示最新的金叉时刻。那么，改进的均线交叉策略的多单平仓信号可以定义为，均线交叉时：
 
 $$
-C_{t+\tau}(k_{1},k_{2},t_{L})=\left\{{1,}\atop{}\ {P_{t-1+\tau}\leq P_{t_{L}}}\right.\tag{6}
+C_{t+\tau}(k_1,k_2,t_L)=\left\{\begin{aligned}1,\ P_{t-1+\tau}\geq P_{t_L}\\0,\ P_{t-1+\tau}<P_{t_L}\end{aligned}\right.\tag{6}
 $$
 
-当 $\mathrm{C}_{\mathrm{t}+\tau}\left(\mathrm{k}_{1},\mathrm{k}_{2},\mathrm{t}_{\mathrm{L}}\right){=}1$ 时继续持有多单,当 $\mathrm{C}_{\mathrm{t}+\tau}\left(\mathrm{k}_{1},\mathrm{k}_{2},\mathrm{t}_{\mathrm{L}}\right){=}0\mathrm{1}$ 时平仓多单。对于开空仓的情况同理可得。
+当 $\mathrm{C}_{\mathrm{t}+\mathrm{r}}\left(\mathrm{k}_{1},\mathrm{k}_{2},\mathrm{t}_{\mathrm{L}}\right)=1$ 时继续持有多单,当 $\mathrm{C}_{\mathrm{t}+\tau}\left(\mathrm{k}_{1},\mathrm{k}_{2},\mathrm{t}_{\mathrm{L}}\right)=0$ 时平仓多单。对于开空仓的情况同理可得。
 
 识别风险，发现价值
 
@@ -130,9 +130,9 @@ $$
 
 1. 开仓信号由传统策略的金叉、死叉决定：金叉开多仓，死叉开空仓；
 
-2. 一旦开仓，则平仓信号由上述的 $\mathrm{C}_{\mathrm{t}+\tau}\left(\mathbf{k}_{1},\mathbf{k}_{2},\mathrm{t}_{\mathrm{L}}\right)$ 信号决定；
+2. 一旦开仓，则平仓信号由上述的 $\mathrm{C}_{\mathrm{t}+\tau}\left(\mathrm{k}_1,\mathrm{k}_2,\mathrm{t}_{\mathrm{L}}\right)$ 信号决定；
 
-3. 当传统策略发出一次开仓信号后，又发出一次平仓信号和一次开仓信号，而在此期间 $\mathrm{C}_{\mathrm{t}+\tau}\left(\mathbf{k}_{1},\mathbf{k}_{2},\mathrm{t}_{\mathrm{L}}\right)$ 信号没有发生改变，则平仓条件中 $\mathrm{P_{ti}}$ 的具体值会发生改变；
+3. 当传统策略发出一次开仓信号后，又发出一次平仓信号和一次开仓信号，而在此期间 $\mathrm{C}_{\mathrm{t}+\tau}\left(\mathrm{k}_1,\mathrm{k}_2,\mathrm{t}_{\mathrm{L}}\right)$ 信号没有发生改变，则平仓条件中 $\mathrm{P_{ti}}$ 的具体值会发生改变；
 
 4. 改进策略和传统策略的平仓信号并不同步。
 
@@ -195,7 +195,7 @@ $$
 EMA 为指数移动平均线（Exponential Moving Average）。EMA 的计算公式为
 
 $$
-EMA(T)=\left\{{p(1)},\atop{\alpha^{*}p(T)+(1-\alpha)^{*}EMA(T-1),}T\geq1\right.\tag{7}
+EMA(T)=\left\{\begin{aligned}&p(1),T=1\\&\alpha*p(T)+(1-\alpha)*EMA(T-1),T\geq2\end{aligned}\right.\tag{7}
 $$
 
 $$
@@ -207,13 +207,13 @@ $$
 WMA 为加权移动平均线（Weighted Moving Average）。WMA 的计算公式为
 
 $$
-WMA(T)=\left\{\frac{p(T),0<T<d}{d+\displaystyle{\frac{d^{*}p(T)+(d-1)^{*}p(T-1)+\cdots+p(T-d+1)}{d+(d-1)+\cdots+1}},T\geq d}\right.\tag{9}
+WMA(T)=\left\{\begin{aligned}&p(T),0<T<d\\&\frac{d*p(T)+(d-1)*p(T-1)+\cdots+p(T-d+1)}{d+(d-1)+\cdots+1},T\geq d\end{aligned}\right.\tag{9}
 $$
 
 LLT 为低延迟趋势线，在我们前期的报告《低延迟趋势线与交易性择时》中对其做了详细的介绍。LLT的计算公式为
 
 $$
-LLT(T)=\left\{\begin{array}{ll}{p(T),0<T\leq2}\\{(\alpha-\alpha^{2}/4)*p(T)+(\alpha^{2}/2)*p(T-1)}\\{-(\alpha-3\alpha^{2}/4)*p(T-2)+2(1-\alpha)*LLT(T-1)}\\{-(1-\alpha)^{2}*LLT(T-2),T\geq3}\end{array}\right.\tag{10}
+\begin{aligned}&LLT(T)=\left\{\begin{aligned}\\&p(T),0<T\leq2\\&(\alpha-\alpha^{2}/4)*p(T)+(\alpha^{2}/2)*p(T-1)\\&-(\alpha-3\alpha^{2}/4)*p(T-2)+2(1-\alpha)*LLT(T-1)\\&-(1-\alpha)^{2}*LLT(T-2),T\geq3\\&\end{aligned}\right.\\\end{aligned}\tag{10}
 $$
 
 图 5给出了根据沪深 300股指期货日行情数据计算所得的三种均线，其中时间参数 d取120天。

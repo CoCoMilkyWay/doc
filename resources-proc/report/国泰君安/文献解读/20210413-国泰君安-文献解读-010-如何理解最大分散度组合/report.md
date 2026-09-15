@@ -91,12 +91,12 @@ The Journal of Portfolio Management, 35(1), 40-51.
 
 我们首先给出组合分散度度量的定义。
 
-假设 $x_{1},\ x_{2},\cdots,\ x_{N}$ 是投资域U中的风险资产。为了简化分析，我们在这里假设x 对应了股票资产。以V 代表风险资产的协方差矩阵，并以C代表了风险资产的相关性矩阵。同时假设 $\Sigma=[\sigma_{1},\sigma_{2},\ldots,\sigma_{N}]^{1}$ 对应了风险资产的波动率向量。
+假设 $x_{1},\;x_{2},\cdots,\;x_{N}$ 是投资域U中的风险资产。为了简化分析，我们在这里假设x 对应了股票资产。以V 代表风险资产的协方差矩阵，并以C代表了风险资产的相关性矩阵。同时假设 $\Sigma=[\sigma_{1},\sigma_{2},\cdots,\sigma_{N}]^{T}$ 对应了风险资产的波动率向量。
 
-对于任意权重为 $\mathrm{~P~}=\ [w_{p1},w_{p2},\dotsc,w_{pN}]^{T},\dotsc w_{pi}=1$ 的组合，我们定义组合 P 的分散度(diversification ratio) D(P)为公式 1：
+对于任意权重为 $\begin{array}{r}{\mathbb{P}\;=\;[w_{p1},w_{p2},\dots,w_{pN}\;]^{T},\sum_{i=1}^{N}w_{pi}\;=1}\end{array}$ 的组合，我们定义组合 P 的分散度(diversification ratio) D(P)为公式 1：
 
 $$
-\begin{array}{r}{\mathsf{D}(\mathsf{P})=\frac{\mathsf{P}^{\mathrm{T}}\Sigma}{\sqrt{\mathsf{P}^{\mathrm{T}}\mathsf{V}\mathsf{P}}}}\end{array}\tag{1}
+\begin{array}{r}{\mathrm{D(P)\;=\;\frac{P^{T}\Sigma}{\sqrt{P^{T}VP}}}}\end{array}\tag{1}
 $$
 
 组合的分散度以该组合的加权波动率与组合波动率的比值衡量。
@@ -121,20 +121,20 @@ $$
 
 参考分散度的定义，可以发现，任意多头组合的分散度都是大于 1 的。只有当所有资产之间相关性都为0 的时候，组合的分散度指标才有可能等于1。
 
-当资产的预期超额收益率与他们的波动率成比例时(所有的资产具有相同的夏普比率)，最大分散度组合(Most-Diversified Portfolio)就是最优的切线组合(Tangency Portfolio)。此时 $\mathrm{ER}(\mathrm{P})=\mathrm{kP}^{\mathrm{T}}\Sigma$ ，K 是一个常数，最大化分散度的优化等价于最大化夏普比率 $(\frac{ER(P)}{\sqrt{\mathrm{P}^{\mathrm{T}}\mathrm{VP}}})$ 优化。
+当资产的预期超额收益率与他们的波动率成比例时(所有的资产具有相同的夏普比率)，最大分散度组合(Most-Diversified Portfolio)就是最优的切线组合(Tangency Portfolio)。此时 $\mathrm{ER}(\mathrm{P})=\mathrm{k}\mathrm{P}^{\mathrm{T}}\Sigma$ ，K 是一个常数，最大化分散度的优化等价于最大化夏普比率 $\langle\frac{ER(P)}{\sqrt{\mathrm{P^{T}VP}}}\rangle$ 优化。
 
 为了便于更好的理解这一结果，我们简化了数学运算，假设所有股票具有相等的预期波动率。同样假设投资者可以以相等的利率任意去借入或借出资金。使用公式 2 定义合成资产(synthetic asset) $Y_{1}$ , Y2,…, $Y_{N}$
 
 $$
-\begin{array}{r}{\mathrm{Y_{i}}=\frac{\mathrm{X_{i}}}{\mathrm{\sigma_{i}}}+(1-\frac{1}{\mathrm{\sigma_{o_{i}}}})\mathrm{r_{f}}}\end{array}\tag{2}
+\begin{array}{r}{\mathrm{Y_{i}=\frac{X_{i}}{\sigma_{i}}+(1-\frac{1}{\sigma_{i}})r_{f}}}\end{array}\tag{2}
 $$
 
-其中 $\boldsymbol{\mathrm{r_{f}}}$ 对应了无风险资 $\dot{\bar{y}}$ 收益。此时我们获得了一个由合成资 $\dot{\bar{y}}$ 构成的新的投资域 $\mathrm{U}_{s}$ 。在这个投资域内，所有资 $\dot{\bar{y}}$ 的波动率 $\sigma_{\mathrm{si}}$ 都等于1，也因此 $\Sigma_{s}=(1,1,\ldots,1)^{T}$
+其中 $\mathbf{r_{f}}$ 对应了无风险资 $产$ 收益。此时我们获得了一个由合成资 $产$ 构成的新的投资域 $\mathrm{U}_{s}$ 。在这个投资域内，所有资 $v产$ 的波动率 $\mathbf{\sigma_{si}}$ 都等于1，也因此 $\boldsymbol{\Sigma}_{s}=(1,1,\ldots,1)^{T}$
 
-在这一投资域内，由合成资产组成的组合S的分散度可以表达为 $D(S)=$ $\frac{S^{\mathrm{T}}\Sigma_{s}}{\sqrt{S^{\mathrm{T}}\mathsf{V}_{s}S}}$ 。 $V_{s}$ 是合成资 $\dot{\bar{y}}$ 的协方差矩阵。当 $\mathsf{S}^{\mathrm{T}}\Sigma_{s}=1$ 时，最大化 D(S)的优化等价于最大化 $\frac{1}{\sqrt{\mathsf{S}^{\mathrm{T}}\mathsf{V}_{s}\mathsf{S}}}$ 的优化。这是因为所有的合成资产都具有相等的波动率 1，而资 $\dot{\bar{y}}$ 的相关性却不随杠杆的缩放而产生变化。 $\mathrm{V}_{s}$ 与原投资于的相关性矩阵C 是相等的，此时最大化分散度的优化可以写为最小化公式3的优化。
+在这一投资域内，由合成资产组成的组合S的分散度可以表达为 $D(S)=$ $\frac{\mathbf{\boldsymbol{S}}^{\mathrm{T}}\mathbf{\boldsymbol{\Sigma}}_{s}}{\sqrt{\mathbf{\boldsymbol{S}}^{\mathrm{T}}\mathbf{\boldsymbol{V}}_{s}\mathbf{\boldsymbol{S}}}}$ 。 $V_{s}$ 是合成资 $产$ 的协方差矩阵。当 $\mathbb{S}^{\mathrm{T}}\Sigma_{s}=1$ 时，最大化 D(S)的优化等价于最大化 $\mathrm{i}\frac{1}{\sqrt{\mathrm{S^{T}V_{S}S}}}$ 的优化。这是因为所有的合成资产都具有相等的波动率 1，而资 $产$ 的相关性却不随杠杆的缩放而产生变化。 $\mathrm{V}_{s}$ 与原投资于的相关性矩阵C 是相等的，此时最大化分散度的优化可以写为最小化公式3的优化。
 
 $$
-S^{\mathrm{T}}CS\tag{3}
+\mathbf{S}^{\mathrm{T}}\mathbf{C}\mathbf{S}\tag{3}
 $$
 
 也因此，在一个所有资产具有相等波动率的世界里，最大分散度组合等价于最小方差组合。
@@ -142,14 +142,14 @@ $$
 而如果把无风险资产也纳入考虑，则此时的最大分散度组合如公式 4：
 
 $$
-\begin{array}{r}{M=(\frac{w_{s1}}{\sigma_{1}},\frac{w_{s2}}{\sigma_{2}},\dots,\frac{w_{sN}}{\sigma_{N}},(1-\sum_{i=1}^{N}\frac{w_{si}}{\sigma_{i}}))}\end{array}\tag{4}
+\begin{array}{r}{M\;=\;(\frac{w_{s1}}{\sigma_{1}},\frac{w_{s2}}{\sigma_{2}},\ldots,\frac{w_{sN}}{\sigma_{N}},(1-{\sum_{i=1}^{N}}\frac{w_{si}}{\sigma_{i}}))}\end{array}\tag{4}
 $$
 
-其中最后一项对应了组合中投资于无风险资 $\dot{\bar{y}}$ 的权重。
+其中最后一项对应了组合中投资于无风险资 $产$ 的权重。
 
 ## 4.2. 其他组合特征
 
-当相关性矩阵C可逆，在构建最大分散度组合的过程中没有引入任何约束的情况下，此时 $S=M(\Gamma_{s},U_{s})$ 是唯一存在的，且具有如下式的解析结果
+当相关性矩阵C可逆，在构建最大分散度组合的过程中没有引入任何约束的情况下，此时 ${\cal{S}}\;=\;{\cal{M}}(\Gamma_{s},U_{s})$ 是唯一存在的，且具有如下式的解析结果
 
 $$
 S\propto C^{-1}1\tag{5}
@@ -158,19 +158,19 @@ $$
 合成资产的权重S 等于相关性矩阵的逆乘以 1向量。我们可以通过使用原资产波动率进行放缩的方式将公式5 转化为原资产的组合：
 
 $$
-\mathsf{M}\propto\mathsf{\sigma}^{-1}\mathsf{C}^{-1}\mathsf{1}\tag{6}
+\mathtt{M}\propto\sigma^{-1}\mathtt{C}^{-1}\mathtt{1}\tag{6}
 $$
 
 接下来我们观察最大分散度组合所能具备的性质。我们可以计算任意一个组合P与最大分散度组合M的相关性，因为M与σ和C是成比例的，我们可以将最大分散度组合M写成如下形式：
 
 $$
-\mathsf{M}=\mathsf{k}\sigma^{-1}\mathsf{C}^{-1}\mathsf{1}\tag{7}
+\mathrm{~M~}=\mathrm{~k~}\sigma^{-1}\mathrm{~C^{-1}1~}\tag{7}
 $$
 
 此处k是一个常数，则任意一个组合P 与最大分散度组合的相关性可以写作：
 
 $$
-\begin{array}{l}{\rho_{P,M}=\frac{P^{T}\sigma C\sigma M}{\sigma_{P}\sigma_{M}}=\frac{P^{T}\sigma C\sigma\operatorname{k}\sigma^{-1}\operatorname{C}^{-1}1}{\sigma_{P}\sigma_{M}}}\\{\ =\frac{\sum_{i}w_{i}\sigma_{i}}{\sigma_{P}}\frac{k}{\sigma_{M}}=D(P)\frac{k}{\sigma_{M}}}\end{array}\tag{8}
+\begin{aligned}\rho_{P,M}\:=\:&\frac{P^{T}\sigma C\sigma M}{\sigma_{P}\sigma_{M}}\:=\:\frac{P^{T}\sigma C\sigma\:\mathrm{k}\:\sigma^{-1}\:\mathsf{C}^{-1}1}{\sigma_{P}\sigma_{M}}\\\:=\:&\frac{\textstyle\sum_{i}w_{i}\sigma_{i}}{\textstyle\sigma_{P}}\frac{\textstyle k}{\textstyle\sigma_{M}}\:=\:D(P)\frac{\textstyle k}{\textstyle\sigma_{M}}\end{aligned}\tag{8}
 $$
 
 参考公式 8 可以发现，任意一个组合 P 与最大分散度组合 M 的相关性和组合P自身的最大分散度 D(P)成比例。
@@ -186,7 +186,7 @@ $$
 当P就是最大分散度组合时，可以带入公式8求解常数 k，常数k等于：
 
 $$
-\begin{array}{r}{k\mathrm{~=~}\frac{\sigma_{M}}{D(M)}}\end{array}\tag{10}
+\begin{array}{r}{k\;=\;\frac{\sigma_{M}}{D(M)}}\end{array}\tag{10}
 $$
 
 把k的值带入公式8中，我们可以得到任意组合P与最大分散度组合的相关性:
@@ -198,10 +198,10 @@ $$
 在获得了任意资产相对最大分散度组合的相关性后，我们可以类比CAPM的方式构建以分散度为单因子的因子模型：
 
 $$
-\begin{array}{r}{\mathrm{R_{p}=\alpha\alpha_{p}+\frac{\sigma_{P}}{\sigma_{M}}\frac{D(P)}{D(M)}R_{M}+\varepsilon_{p}}}\end{array}\tag{12}
+\begin{array}{r}{\mathrm{R}_{\mathrm{p}}\;=\;\alpha_{\mathrm{p}}\;+\;\frac{\sigma_{\mathrm{P}}}{\sigma_{\mathrm{M}}}\frac{\mathrm{D}(\mathrm{P})}{\mathrm{D}(\mathrm{M})}\mathrm{R}_{\mathrm{M}}\;+\;\varepsilon_{\mathrm{p}}}\end{array}\tag{12}
 $$
 
-其中 $\mathrm{R_{p}}$ 代表了组合p 相比现金的超额收益率，而 $\alpha_{\mathrm{p}}$ 与 $\varepsilon_{\mathrm{{p}}}$ 分别代表了由回归得到的常数项以及残差项。
+其中 $\mathtt{R_{p}}$ 代表了组合p 相比现金的超额收益率，而 $\mathbf{a_{p}}$ 与 $\varepsilon_{\mathbf{p}}$ 分别代表了由回归得到的常数项以及残差项。
 
 在现实世界中，投资者通常在组合构建中添加约束限制，也因此Γ并不会是空集。禁止空头仓位就是最为常见的线性约束之一。前一节中提及的最大分散度组合所具备的性质也需要更进一步的分析。接下来我们将更为关注多头下的最大分散度组合的性质。
 
@@ -335,13 +335,13 @@ $$
 
 我们先来回顾使得这三种组合是最优组合所需对应的资产预期收益率假设。
 
-当资产的预期收益率与资产波动率成比率时，最大分散度组合是最优组合。此时 $\mathrm{E(R_{i})=K\sigma_{i}}$ ,其中 k 是一个常数。当资产的预期收益率由其相对于市场组合M的敏感性决定时，市值加权组合是最优组合。这一描述也对应了资本资产定价模型下对预期收益率决定因素的描述(公式13)
+当资产的预期收益率与资产波动率成比率时，最大分散度组合是最优组合。此时 $\mathrm{E}(\mathrm{R}_{\mathrm{i}})=\mathrm{K}\sigma_{\mathrm{i}}$ ,其中 k 是一个常数。当资产的预期收益率由其相对于市场组合M的敏感性决定时，市值加权组合是最优组合。这一描述也对应了资本资产定价模型下对预期收益率决定因素的描述(公式13)
 
 $$
-\mathrm{{E}(R_{i})=\ \beta_{i}\mathrm{{E}(R_{B})=\ \rho_{i,B}\frac{\sigma_{i}}{\sigma_{B}}\mathrm{{E}(R_{B})}}}\tag{13}
+\mathrm{E}(\mathrm{R}_{\mathrm{i}})=\beta_{\mathrm{i}}\mathrm{E}(\mathrm{R}_{\mathrm{B}})=\rho_{\mathrm{i},\mathrm{B}}\frac{\sigma_{\mathrm{i}}}{\sigma_{\mathrm{B}}}\mathrm{E}(\mathrm{R}_{\mathrm{B}})\tag{13}
 $$
 
-这里为了简化分析，我们假设无风险收益为 0，更进一步的，如果我们假设市场组合的预期收益率E $\left(\operatorname{R}_{\mathrm{B}}\right)$ 以及波动率 $\sigma_{\mathrm{B}}$ 已经给定,则资产预期收益率假设可以简化为与资产波动率和相关性乘积成比例(如公式 14)。
+这里为了简化分析，我们假设无风险收益为 0，更进一步的，如果我们假设市场组合的预期收益率E $(\mathrm{R_{B}})$ 以及波动率 $\mathbf{\nabla}\mathbf{\sigma_{B}}$ 已经给定,则资产预期收益率假设可以简化为与资产波动率和相关性乘积成比例(如公式 14)。
 
 $$
 \mathrm{E}(\mathrm{R}_{\mathrm{i}})=\mathrm{K}\rho_{i,B}\sigma_{\mathrm{i}}\tag{14}

@@ -122,12 +122,12 @@ EMDT 策略将股指期货的时间序列分为噪声部分（震荡部分）和
 
 ## （一）噪声累积量的构建
 
-日内1分钟收盘价格序列为 $p(t),\ t=1,2,3,\cdots$
+日内1分钟收盘价格序列为 $p(t),t=1{,}2{,}3,\cdots$
 
 均线参数为 N，则移动平均线
 
 $$
-\begin{array}{lll}{\displaystyle{\tilde{p}(t)=MA(p,N)=\frac{1}{\mathrm{N}}{\sum}_{\mathrm{i=0}}^{N-1}p(t-i)}}\\{\displaystyle{\ }}&{\mathrm{=}}&{\mathrm{(}p(t-N+1)+\cdots+p(t))/N}\end{array}
+\begin{aligned}&\tilde{p}(t)=MA(p,N)=\frac{1}{N}\sum_{i=0}^{N-1}p(t-i)\\&\ =\ (p(t-N+1)+\cdots+p(t))/N\\\end{aligned}
 $$
 
 噪声
@@ -139,24 +139,24 @@ $$
 定义噪声累积量（窗口大小为 L）
 
 $$
-\begin{array}{cl}{{}}&{{\displaystyle S_{L}(t)=\sum_{\mathrm{i}=0}^{L-1}\varepsilon(t-i)}}\\{{}}&{{=\varepsilon(t)+\varepsilon(t-1)+\cdots+\varepsilon(t-L+1)}}\end{array}
+\begin{aligned}&S_{L}(t)=\sum_{\mathrm{i}=0}^{L-1}\varepsilon(t-i)\\&=\varepsilon(t)+\varepsilon(t-1)+\cdots+\varepsilon(t-L+1).\\\end{aligned}
 $$
 
 噪声的移动标准差为
 
 $$
-\sigma(t)=\sqrt{\sum_{i=0}^{N-1}\{p(t-i)-\tilde{p}(t)\}^{2}/(N-1)}
+\sigma(t)=\sqrt{{\sum}_{i=0}^{N-1}\{p(t-i)-\tilde{p}(t)\}^{2}/(N-1)}.
 $$
 
 噪声累积量标准差
 
 $$
-\Sigma_{L}(t)=\sqrt{{\sum_{\mathrm{i}=0}^{L-1}\sigma^{2}(t-i)}}
+\Sigma_{L}(t)=\sqrt{{\sum}_{\mathrm{i=0}}^{L-1}\sigma^{2}(t-i)}.
 $$
 
 ## （二）趋势市场和非趋势市场统计量的分布
 
-在没有明显趋势的市场，我们可以用布朗运动对股价进行建模，设股价序列为$p(t)$ $t=1,2,3,\cdots$ ，则单位时刻股价的变化 $\begin{array}{r}{.dp(t)=p(t)-p(t-1)}\end{array}$ 。在短线情况下，可以用如下布朗运动描述股价
+在没有明显趋势的市场，我们可以用布朗运动对股价进行建模，设股价序列为$p(t)$ $t=1{,}2{,}3{,}\cdots$ ，则单位时刻股价的变化 $\iota dp(t)=p(t){-}p(t-1)$ 。在短线情况下，可以用如下布朗运动描述股价
 
 $$
 dp(t)=\sigma dW(t)
@@ -165,18 +165,18 @@ $$
 则周期N的股价均值为
 
 $$
-\tilde{p}(t)=\frac{p(t-N+1)+\cdots+p(t)}{N}=p(t-N)+f_{1}(dW)
+\tilde{p}(t)=\cfrac{p(t-N+1)+\cdots+p(t)}{N}=p(t-N)+f_{1}(dW).
 $$
 
-其中， $f_{1}(dW)$ 为 $\mathrm{d}W(t)$ 的线性函数，期望为 0。
+其中， $f_{1}(dW)$ 为 $\mathsf{d}W(t)$ 的线性函数，期望为 0。
 
 因此，有
 
 $$
-\begin{array}{c}{{\varepsilon(t)=p(t)-\tilde{p}(t)=f_{2}(dW)}}\\{{S_{L}(t)=f_{3}(dW)}}\end{array}
+\begin{aligned}\varepsilon(t)&=p(t)-\tilde{p}(t)=f_{2}(dW)\\&\quad S_{L}(t)=f_{3}(dW)\end{aligned}
 $$
 
-其中， $f_{2}(dW),f_{3}(dW)$ 都是 $\mathbf{d}W(t)$ 的线性函数，期望均为0
+其中， $f_{2}(dW),\quad f_{3}(dW)$ 都是 $\mathbf{\mathbb{d}}W(t)$ 的线性函数，期望均为0
 
 由此可见，统计量 $S_{L}(t)$ 的期望为 0，即
 
@@ -192,7 +192,7 @@ $$
 dp(t)=vdt+\sigma dW(t)
 $$
 
-$v>0$ 表示市场处于上涨趋势， $v<0.$ 表示市场处于下跌趋势。
+$v>0.$ 表示市场处于上涨趋势， $v<0.$ 表示市场处于下跌趋势。
 
 市场没有明显趋势的时候， $v=0$
 
@@ -205,7 +205,7 @@ $$
 噪声及其累积量为
 
 $$
-\begin{array}{c}{{\varepsilon(t)=0.5(N+1)vdt+f_{2}(dW)}}\\{{S_{L}(t)=0.5L(N+1)vdt+f_{3}(dW)}}\end{array}
+\begin{aligned}\varepsilon(t)&=0.5(N+1)vdt+f_{2}(dW)\\S_{L}(t)&=0.5L(N+1)vdt+f_{3}(dW)\end{aligned}
 $$
 
 因此，当股价有趋势的时候， $E\{S_{L}(t)\}\neq0$ ，有
@@ -218,25 +218,25 @@ $$
 
 可以通过对噪声累积量的监测来判断市场是否有趋势。
 
-对 $S_{L}$ 建立监测区间， $(-2\Sigma_{L}(t),2\Sigma_{L}(t))$ ，当 $S_{L}$ 突破此区间时，认为当前市场具有趋势： $S_{L}(t)<-2\Sigma_{L}(t)$ 时，认为市场具有向下趋势； $S_{L}(t)>2\Sigma_{L}(t)$ 时，认为市场具有向上趋势。
+对 $S_{L}$ 建立监测区间， $(-2\varSigma_{L}(t),2\varSigma_{L}(t))$ ，当 $S_{L}$ 突破此区间时，认为当前市场具有趋势： $S_{L}(t)<-2\varSigma_{L}(t)$ 时，认为市场具有向下趋势； $S_{L}(t)>2\varSigma_{L}(t)$ 时，认为市场具有向上趋势。
 
 因此，策略的开仓信号如下：
 
 1）空头信号
 
 $$
-S_{L}(t)<-2\Sigma_{L}(t)
+S_{L}(t)<-2\varSigma_{L}(t)
 $$
 
 ## 2）多头信号
 
 $$
-S_{L}(t)>2\Sigma_{L}(t)
+S_{L}(t)>2\varSigma_{L}(t)
 $$
 
 建仓之后，按照建仓价格的一定比例进行止损，或者收盘前平仓。
 
-采用2倍标准差来监测时，在 $S_{L}(t)$ 服从正态分布的条件下，约有4.6%的误报率，即在市场没有趋势的情况下，有4.6%的概率会产生“错误的”趋势信号。
+采用2倍标准差来监测时，在 ${\boldsymbol{\cdot}}{\boldsymbol{S}}_{L}(t)$ 服从正态分布的条件下，约有4.6%的误报率，即在市场没有趋势的情况下，有4.6%的概率会产生“错误的”趋势信号。
 
 ## （三）趋势识别示意图
 

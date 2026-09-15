@@ -75,7 +75,7 @@ GAN 是具有代表性的一种生成模型。生成模型的目标是基于真�
 在 Goodfellow 等（2014）论文中，原版 GAN 的公式如下：
 
 $$
-\operatorname*{min}_{G}\operatorname*{max}_{D}V(D,G)=\mathbb{E}_{x\sim p_{data}(x)}[\log D(x)]+\mathbb{E}_{z\sim p_{z}(z)}[\log(1-D(G(z)))]
+\min_{G}\max_{D}V(D,G)=\mathbb{E}_{\boldsymbol{x}\sim p_{data}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z}\sim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log(1-D(G(\boldsymbol{z})))]
 $$
 
 上式理解起来并不轻松。其中：
@@ -92,7 +92,7 @@ $$
 
 6. 对判别器 D 的输出取对数 log，如 logD(x)及 log(1-D(G(z)))，是常见的判别模型损失函数构建方式。对数的作用是将[0,1]区间内的数映射到(-∞,0]的范围，以便对其求导而后进行梯度下降优化。
 
-7. Ex~pdata(x)[logD(x)]代表判别器对真实样本判断结果的期望。对于最优判别器 D*，真实样本判断结果 D(x)应为 1，logD(x)为 0；若判别器非最优，logD(x)小于 0。换言之，若希望判别器达到最优， $\mathsf{E}_{\mathsf{x}\sim\mathsf{pdata}(\mathsf{x})}[\mathsf{logD}(\mathsf{x})]$ 应越大越好。
+7. Ex~pdata(x)[logD(x)]代表判别器对真实样本判断结果的期望。对于最优判别器 D*，真实样本判断结果 D(x)应为 1，logD(x)为 0；若判别器非最优，logD(x)小于 0。换言之，若希望判别器达到最优， $\mathsf{E}_{\mathsf{x}\sim\mathsf{pdata}(\mathsf{x})}[\mathsf{IogD}(\mathsf{x})]$ 应越大越好。
 
 8. 类似地，Ez~pz(z)[log(1-D(G(z)))]代表判别器对虚假样本判断结果的期望。对于最优判 别器 D*，虚假样本判断结果 D(G(z))应为 0，1-D(G(z))为 1，log(1-D(G(z)))为 0；若 判别器非最优，log(1-D(G(z)))小于 0。换言之，若希望判别器达到最优， Ez~pz(z)[log(1-D(G(z)))]应越大越好。
 
@@ -117,12 +117,12 @@ GAN 训练算法的伪代码如下所示。
 ## 图表2： GAN训练算法的伪代码
 
 输入：迭代次数 T，每轮迭代判别器 D训练次数 K，小批量（minibatch）样本数量 m
-1 随机初始化 D网络参数 $\mathsf{\Omega}\Theta_{\mathsf{d}}$ 和 G网络参数 $\theta_{\mathfrak{g}}$ 
+1 随机初始化 D网络参数 $\Theta_{\tt d}$ 和 G网络参数 $\Theta_{\mathtt{g}}$ 
 2 for t • 1 to T do
 # 训练判别器 D
 3 for k • 1 to K do
 # 采集小批量样本
-4从标准正态分布 p (z)中采集m 条样本 $\{z^{(\mathsf{m})}\}$ 
+4从标准正态分布 p (z)中采集m 条样本 $\{Z^{(m)}\}$ 
 5从训练集 pdata(x)中采集 m 条样本{x(m)}
 6使用随机梯度上升更新判别器 D，梯度为：
 $\nabla_{\theta_{d}}\frac{1}{m}{\sum}_{i=1}^{m}[\log D\big(x^{(i)}\big)+\log(1-D(G(z^{(i)})))]$ 
@@ -130,7 +130,7 @@ $\nabla_{\theta_{d}}\frac{1}{m}{\sum}_{i=1}^{m}[\log D\big(x^{(i)}\big)+\log(1-D
 # 训练生成器 G
 8从标准正态分布 p (z)中采集 m条样本{z(m)}
 9使用随机梯度上升更新生成器 G，梯度为：
-$\nabla_{\theta_{g}}\frac{1}{m}{\sum_{i=1}^{m}\log(1-D(G(z^{(i)})))}$ 
+$\nabla_{\theta_{g}}\frac{1}{m}{\sum}_{i=1}^{m}\log(1-D(G(z^{(i)})))$ 
 10 end
 输出：生成器 G
 资料来源：Generative Adversarial Nets，华泰证券研究所
@@ -139,13 +139,13 @@ $\nabla_{\theta_{g}}\frac{1}{m}{\sum_{i=1}^{m}\log(1-D(G(z^{(i)})))}$
 
 对于大部分GAN的使用者，分别从通俗意义、minimax公式和训练算法三个层次理解GAN已经足够。GAN 的理论证明部分难度较大，往往被大家忽视。然而理解 GAN 的理论证明，有助于理解 GAN 的一系列变式，以及 GAN 与其它生成模型的关系。故本节参考 IanGoodfellow 等（2014）原作以及 Scott Rome 的详细推导笔记（http://srome.github.io），展示 GAN 的理论证明。
 
-如前所述，真实数据 x 服从某个特定的联合分布 $\mathsf{pdata}(\mathsf{x})$ 。一个朴素的想法是：我们希望生成器 G 学习一个分布 ${\mathsf p}_{9}$ ，使得 $\mathsf{p}_{9}{=}\mathsf{p}_{\mathsf{data}}$ ，即两个分布的“距离”越接近越好。由此产生三个问题：
+如前所述，真实数据 x 服从某个特定的联合分布 $\mathsf{poiata}(\mathsf{x})$ 。一个朴素的想法是：我们希望生成器 G 学习一个分布 $\mathsf{p}_{9}$ ，使得 $\mathsf{p_{g}}{=}\mathsf{p_{data}}$ ，即两个分布的“距离”越接近越好。由此产生三个问题：
 
 1. 如何度量两个分布的“距离”？
 
-2. $\mathsf{p}_{9}{=}\mathsf{p}_{\mathsf{data}}$ 是否为生成器 G的全局最优解？
+2. $\mathsf{p_{9}}{=}\mathsf{p_{data}}$ 是否为生成器 G的全局最优解？
 
-3. 前述的训练算法能否使得 $\mathsf{p}_{\mathsf{9}}$ 收敛于 $\mathsf{pdata?}$
+3. 前述的训练算法能否使得 $\mathsf{p}_{9}$ 收敛于 $\mathsf{pdata?}$
 
 ## KL 散度和 JS散度
 
@@ -154,44 +154,44 @@ KL 散度（Kullback-Leibler Divergence）和 JS 散度（Jensen-Shannon Diverge
 对于两个连续的概率分布 p和 q，KL 散度定义为：
 
 $$
-KL(p||q)=\int_{-\infty}^{\infty}p(x)\log{\frac{p(x)}{q(x)}}dx
+KL(p||q)=\int_{-\infty}^{\infty}p(x)\log\frac{p(x)}{q(x)}dx.
 $$
 
-KL 散度具有非负性。当两个分布完全相同，对于任意 $\mathsf{x},$ ，有 $\mathsf{p}(\mathsf{x}){=}\mathsf{q}(\mathsf{x})$ ，此时 $\mathsf{log}(\mathsf{p}(\mathsf{x})/\mathsf{q}(\mathsf{x}))$ 为 0，KL 散度为 0。当两个分布不完全相同，根据吉布斯不等式（Gibbs' Inequality）可证明 KL 散度为正数。注意到 KL 散度不满足对称性，即 $\mathsf{KL}(\mathsf{p}||\mathsf{q})\neq\mathsf{KL}(\mathsf{q}||\mathsf{p})$
+KL 散度具有非负性。当两个分布完全相同，对于任意 ${\sf X},$ ，有 $\mathbf{p}(\mathbf{x})=\mathbf{q}(\mathbf{x})$ ，此时 $\log(p(x)/q(x))$ 为 0，KL 散度为 0。当两个分布不完全相同，根据吉布斯不等式（Gibbs' Inequality）可证明 KL 散度为正数。注意到 KL 散度不满足对称性，即 $\mathsf{KL}(\mathsf{p}||\mathsf{q})\neq\mathsf{KL}(\mathsf{q}||\mathsf{p})$
 
 JS散度解决了 KL 散度不对称的问题。JS散度定义为：
 
 $$
-JS(p||q)=\frac{1}{2}KL(p||\frac{p+q}{2})+\frac{1}{2}KL(q||\frac{p+q}{2})
+\mathit{JS}(p||q)=\frac{1}{2}\mathit{KL}(p||\frac{p+q}{2})+\frac{1}{2}\mathit{KL}(q||\frac{p+q}{2})
 $$
 
-JS散度为两项 KL 散度之和。当 p 和 q两个分布完全相同，两项 KL 散度均为 0，JS散度也为 0。JS 散度同样满足非负性。JS 散度和 KL 散度的不同之处在于：1）KL 散度无上界，JS 散度存在上界 log2，JS 散度上界的证明过程可参考原始论文（Lin，1991）；2）KL 散度不满足对称性，而 JS散度满足对称性， $\mathsf{JS}(\mathsf{p}||\mathsf{q})=\mathsf{JS}(\mathsf{q}||\mathsf{p})$ o
+JS散度为两项 KL 散度之和。当 p 和 q两个分布完全相同，两项 KL 散度均为 0，JS散度也为 0。JS 散度同样满足非负性。JS 散度和 KL 散度的不同之处在于：1）KL 散度无上界，JS 散度存在上界 log2，JS 散度上界的证明过程可参考原始论文（Lin，1991）；2）KL 散度不满足对称性，而 JS散度满足对称性， $\mathsf{JS(p||q)=JS(q||p)}$ o
 
 总的来看，KL 散度和 JS散度反映了两个分布的“距离”，当两个分布完全相同，KL 散度和 JS 散度取最小值 0；两个分布差异越大，KL 散度和 JS散度也越大。
 
 ## GAN 的全局最优解
 
-本节我们证明 $\mathsf{p}_{9}{=}\mathsf{p}_{\mathsf{data}}$ 是生成器 G 的全局最优解。证明又可以细分为三步：
+本节我们证明 $\mathsf{p_{9}}{=}\mathsf{p_{data}}$ 是生成器 G 的全局最优解。证明又可以细分为三步：
 
 1. 证明 D的最优解形式；
 
 2. 将 minimax 问题中 G 的目标函数重写为另一种形式 C(G)；
 
-3. 证明 $\mathsf{p}_{9}{=}\mathsf{p}_{\mathsf{data}}$ 是 C(G)取全局最小值的充要条件。
+3. 证明 $\mathsf{p_{9}}{=}\mathsf{p_{data}}$ 是 C(G)取全局最小值的充要条件。
 
 首先，对于任意给定的 G，D 的训练目标是最大化价值函数 V(G,D)，而 V(G,D) 可写为在x 上的积分，也就是将数学期望展开为积分形式：
 
 $$
-V(G,D)=\int_{x}\ p_{data}(x)\log(D(x))dx+\int_{z}\ p_{z}(z)\log(1-D(G(z)))dz
+V(G,D)=\int_{x}p_{data}(x)\log(D(x))dx+\int_{z}p_{z}(z)\log(1-D(G(z)))dz.
 $$
 
 考察上式的后一半，令 $\mathsf{x}=\mathsf{G}(\mathsf{z})$ 进行换元，再将前后两半合并，得到：
 
 $$
-V(G,D)=\int_{x}\ p_{data}(x)\log(D(x))dx+p_{g}(x)\log(1-D(x))dx
+V(G,D)=\int_{x}p_{data}(x)\log(D(x))dx+p_{g}(x)\log(1-D(x))dx.
 $$
 
-在给定 x 和 G 的前提下， $\mathsf{pdata}(\mathsf{X})\star\mathsf{e}p_{\mathsf{g}}(\mathsf{X})$ 可视作常数，记作 a 和 b，那么上式可以写作：
+在给定 x 和 G 的前提下， $\mathsf{p_{data}(x)}和\mathsf{p_{g}(x)}$ 可视作常数，记作 a 和 b，那么上式可以写作：
 
 $$
 V(D)=a\log(D)+b\log(1-D)
@@ -200,7 +200,7 @@ $$
 上式两边对 D求导，得到：
 
 $$
-\frac{dV(D)}{dD}=a\frac{1}{D}-b\frac{1}{1-D}
+\cfrac{dV(D)}{dD}=a\cfrac{1}{D}-b\cfrac{1}{1-D}
 $$
 
 当目标函数 V 取最大值，导数为 0，此时判别式 D 为最优解 $\mathsf{D}^{\star}$ ，即：
@@ -212,7 +212,7 @@ $$
 解得：
 
 $$
-D^{*}=\frac{a}{a+b}
+D^{*}={\frac{a}{a+b}}
 $$
 
 因此，对于任意给定的 G，D 的最优解有如下形式：
@@ -224,43 +224,43 @@ $$
 此时，minimax 问题中 G 的目标函数可重写为 C(G)的形式：
 
 $$
-\begin{array}{rl}&{C(G)=\underset{D}{\operatorname*{max}}V(G,D)=\mathbb{E}_{x\sim p_{data}(x)}[\log D_{G}^{*}(x)]+\mathbb{E}_{z\sim p_{z}(z)}[\log(1-D_{G}^{*}(G(z)))]}\\&{\qquad=\mathbb{E}_{x\sim p_{data}(x)}[\log D_{G}^{*}(x)]+\mathbb{E}_{z\sim p_{z}(z)}[\log(1-D_{G}^{*}(x))]}\\&{\qquad=\mathbb{E}_{x\sim p_{data}(x)}\left[\log\frac{p_{data}(x)}{p_{data}(x)+p_{g}(x)}\right]+\mathbb{E}_{z\sim p_{z}(z)}[\log\frac{p_{g}(x)}{p_{data}(x)+p_{g}(x)}]}\end{array}
+\begin{aligned}C(G)&=\max_{D}V(G,D)=\mathbb{E}_{\boldsymbol{x}\sim p_{data}(\boldsymbol{x})}[\log D_{G}^{*}(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z}\sim p_{z}(\boldsymbol{z})}[\log(1-D_{G}^{*}(G(\boldsymbol{z})))]\\&\quad=\mathbb{E}_{\boldsymbol{x}\sim p_{data}(\boldsymbol{x})}[\log D_{G}^{*}(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z}\sim p_{z}(\boldsymbol{z})}[\log(1-D_{G}^{*}(\boldsymbol{x}))]\\&\quad=\mathbb{E}_{\boldsymbol{x}\sim p_{data}(\boldsymbol{x})}\left[\log\frac{p_{data}(\boldsymbol{x})}{p_{data}(\boldsymbol{x})+p_{g}(\boldsymbol{x})}\right]+\mathbb{E}_{\boldsymbol{z}\sim p_{z}(\boldsymbol{z})}[\log\frac{p_{g}(\boldsymbol{x})}{p_{data}(\boldsymbol{x})+p_{g}(\boldsymbol{x})}]\end{aligned}
 $$
 
-当 $\mathsf{p}_{9}{=}\mathsf{p}_{\mathsf{data}}$ 时，易知 $\mathsf{D}\mathsf{G}^{\star}(\mathsf{x}){=}1/2$ ，代入上式得到 $\mathsf{C}(\mathsf{G})=\mathsf{log}(-1/2)+\mathsf{log}(-1/2)=-\mathsf{log}4.$ 对于任意 ${\mathsf p}_{9}$ ，首先将新目标函数 ${\mathsf{C}}({\mathsf{G}})$ 的期望改写成积分形式：
+当 $\mathsf{p_{9}}{=}\mathsf{p_{data}}$ 时，易知 $\log^{\star}(x)=1/2$ ，代入上式得到 $\mathrm{C}(\mathrm{G})=\log(-1/2)+\log(-1/2)=-\log4$ 对于任意 $\mathsf{p}_{9}$ ，首先将新目标函数 $\mathbf{C}(\mathbf{G})$ 的期望改写成积分形式：
 
 $$
-C(G)=\int_{x}\ [p_{data}(x)\log\left(\frac{p_{data}(x)}{p_{data}(x)+p_{g}(x)}\right)+p_{g}(x)\log\left(\frac{p_{g}(x)}{p_{data}(x)+p_{g}(x)}\right)]dx
+C(G)=\int_{x}[p_{data}(x)\log\left(\frac{p_{data}(x)}{p_{data}(x)+p_{g}(x)}\right)+p_{g}(x)\log\left(\frac{p_{g}(x)}{p_{data}(x)+p_{g}(x)}\right)]dx
 $$
 
 接下来是一个简单的代数技巧，对积分内的两项均同时减去和加上 log2：
 
 $$
-\begin{array}{rl}{\displaystyle C(G)=\int_{x}}&{\left\{p_{data}(x)\left[-\log2+\log\left(\frac{p_{data}(x)}{p_{data}(x)+p_{g}(x)}\right)+\log2\right]\right.}\\&{\qquad\left.+p_{g}(x)\left[-\log2+\log\left(\frac{p_{g}(x)}{p_{data}(x)+p_{g}(x)}\right)+\log2\right]\right\}dx}\end{array}
+\begin{aligned}C(G)=\int_{x}\left\{&p_{data}(x)\left[-\log2+\log\left(\frac{p_{data}(x)}{p_{data}(x)+p_{g}(x)}\right)+\log2\right]\right.\\&\left.+p_{g}(x)\left[-\log2+\log\left(\frac{p_{g}(x)}{p_{data}(x)+p_{g}(x)}\right)+\log2\right]\right\}dx\end{aligned}
 $$
 
 移项整理可得 C(G)是下列三项积分项之和：
 
 $$
-\begin{array}{c}{{C(G)=\displaystyle-\log2\int_{x}\left[p_{data}(x)+p_{g}(x)\right]dx+\displaystyle\int_{x}p_{data}(x)\log[\displaystyle\frac{p_{data}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx}}\\{{+\displaystyle\int_{x}p_{g}(x)\log[\displaystyle\frac{p_{g}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx}}\end{array}
+\begin{aligned}C(G)=-\log2\int_{x}&\left[p_{data}(x)+p_{g}(x)\right]dx+\int_{x}p_{data}(x)\log[\frac{p_{data}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx\\+&\int_{x}p_{g}(x)\log[\frac{p_{g}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx\end{aligned}
 $$
 
 由概率密度的定义可知，上式的第一项积分项为常数：
 
 $$
--\log2\int_{x}\ \big[p_{data}(x)+p_{g}(x)\big]dx=-2\log2=-\log4
+-\log2\int_{x}\big[p_{data}(x)+p_{g}(x)\big]dx=-2\log2=-\log4.
 $$
 
 由此前的先导概念可知，上式的后两项积分项正好等价于 KL 散度：
 
 $$
-\begin{array}{l}{{\displaystyle\int_{x}{\ p_{data}(x)\log[\frac{p_{data}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx}=KL(p_{data}||\frac{p_{data}+p_{g}}{2})}}\\{{\displaystyle\int_{x}{\ p_{g}(x)\log[\frac{p_{g}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx}=KL(p_{g}||\frac{p_{data}+p_{g}}{2})}}\end{array}
+\begin{aligned}\int_{x}^{x}p_{data}(x)\log[\frac{p_{data}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx&=KL(p_{data}||\frac{p_{data}+p_{g}}{2})\\\int_{x}^{x}p_{g}(x)\log[\frac{p_{g}(x)}{(p_{data}(x)+p_{g}(x))/2}]dx&=KL(p_{g}||\frac{p_{data}+p_{g}}{2})\end{aligned}
 $$
 
 再由此前的先导概念可知，上述两式相加正好等价于 JS散度：
 
 $$
-KL(p_{data}||\frac{p_{data}+p_{g}}{2})+KL(p_{g}(x)||\frac{p_{data}+p_{g}}{2})=2JS(p_{data}||p_{g})
+KL(p_{data}||\frac{p_{data}+p_g}{2})+KL(p_g(x)||\frac{p_{data}+p_g}{2})=2JS(p_{data}||p_g)
 $$
 
 将各项积分项合并，最终得到生成器 G目标函数的最终形式：
@@ -269,21 +269,21 @@ $$
 C(G)=-\log4+2JS(p_{data}||p_{g})
 $$
 
-根据 JS 散度概念，JS 散度为非负数，当且仅当 $\mathsf{p}_{9}\mathrm{=}\mathsf{p}\mathsf{d}\mathsf{a}\mathsf{t}\mathsf{a}$ 时，JS 散度取最小值 0，此时${\mathsf{C}}({\mathsf{G}})$ 取全局最小值－log4，因此 $\mathsf{p}_{9}{=}\mathsf{p}_{\mathsf{data}}$ 是生成器 G全局最优解的充要条件，证明完毕。
+根据 JS 散度概念，JS 散度为非负数，当且仅当 $\mathsf{p_{9}}{=}\mathsf{p_{data}}$ 时，JS 散度取最小值 0，此时$\mathbb{C}(\mathbb{G})$ 取全局最小值－log4，因此 $\mathsf{p_{g}}{=}\mathsf{p_{data}}$ 是生成器 G全局最优解的充要条件，证明完毕。
 
 ## GAN 的收敛性
 
-Goodfellow 等（2014）原作证明，如果 G 和 D 有足够的学习能力，那么给定 G，D 可以达到其最优解，并且 ${\mathsf p}_{9}$ 可以通过前述的训练算法对下式进行优化：
+Goodfellow 等（2014）原作证明，如果 G 和 D 有足够的学习能力，那么给定 G，D 可以达到其最优解，并且 $\mathsf{p}_{9}$ 可以通过前述的训练算法对下式进行优化：
 
 $$
-\mathbb{E}_{{\boldsymbol{x}}\sim p_{data}({\boldsymbol{x}})}[\log D_{G}^{*}({\boldsymbol{x}})]+\mathbb{E}_{{\boldsymbol{z}}\sim p_{z}({\boldsymbol{z}})}[\log(1-D_{G}^{*}({\boldsymbol{x}}))]
+\mathbb{E}_{x\sim p_{data}(x)}[\log D_{G}^{*}(x)]+\mathbb{E}_{z\sim p_{z}(z)}[\log(1-D_{G}^{*}(x))]
 $$
 
-使得 $\mathsf{p}_{9}$ 收敛于 pdata。
+使得 $\mathsf{p}_{\mathsf{9}}$ 收敛于 pdata。
 
 事实上，原作中对于这部分证明的着墨不多，也缺少相关参考资料，我们暂不展开讨论。
 
-对 GAN 的理论证明做简要小结：GAN 的训练目标是最小化生成数据分布 ${\mathfrak{p}}_{\mathfrak{g}}$ 和真实数据分布 $\pmb{\mathsf{p}}_{\mathsf{data}}$ 的 JS散度，而该训练目标可以通过 G和 D交替训练结合梯度下降实现。
+对 GAN 的理论证明做简要小结：GAN 的训练目标是最小化生成数据分布 $\mathbf{p_{9}}$ 和真实数据分布 $\mathbf{p}_{\mathbf{data}}$ 的 JS散度，而该训练目标可以通过 G和 D交替训练结合梯度下降实现。
 
 ## GAN 的优势和劣势
 
@@ -432,7 +432,7 @@ $$
 
 1. 计算分布的峰度（Kurtosis），即四阶矩。正态分布峰度为 3，厚尾分布峰度大于 3。
 
-2. 记标准化真实收益率的概率密度函数为 $\mathsf{P}({\mathsf{r}})$ ，对 r＞0 一侧部分的衰减拟合幂律函数：
+2. 记标准化真实收益率的概率密度函数为 $\mathsf{P}(\mathsf{r})$ ，对 r＞0 一侧部分的衰减拟合幂律函数：
 
 $$
 P(r)\propto r^{-\alpha}
@@ -465,13 +465,13 @@ $$
 粗细波动率相关（Coarse-Fine Volatility Correlation）相比于上述 4 个评价指标而言略不常见。定义过去 5个交易日（视为 1周）区间收益率（即周收益率）的绝对值为粗波动率，公式中的 τ＝5：
 
 $$
-v_{c}^{\tau}(t)=\left|et{}{'}\sum_{i=1}r_{t-i}\right|
+v_{c}^{\tau}(t)=\biggl|{\sum}_{i=1}^{\tau}r_{t-i}\biggr|.
 $$
 
-定义过去 5 个交易日的日收益率绝对值之和为细波动率，同样公式中的 $\mathtt{T}=5$ ：
+定义过去 5 个交易日的日收益率绝对值之和为细波动率，同样公式中的 $_{\mathrm{T}}{=}5$ ：
 
 $$
-v_{f}^{\tau}(t)=\sum_{i=1}^{\tau}|r_{t-i}|
+v_{f}^{\tau}(t)={\sum}_{i=1}^{\tau}|r_{t-i}|
 $$
 
 计算当前细波动率和未来粗波动率的滞后 k 阶相关系数：
@@ -483,7 +483,7 @@ $$
 当 k 为负数时，则是计算当前粗波动率和未来细波动率的相关系数。朴素地想，当前细波动率（信息量较多）对未来粗波动率的预测能力，应优于当前粗波动率（信息量较少）对未来细波动率的预测能力。换言之，上述 k 阶和-k 阶相关系数不对称。我们用两者之差刻画这种不对称性：
 
 $$
-\begin{array}{r}{\Delta\rho_{cf}^{\tau}(k)=\rho_{cf}^{\tau}(k)-\rho_{cf}^{\tau}(-k)}\end{array}
+\Delta\rho_{cf}^{\tau}(k)=\rho_{cf}^{\tau}(k)-\rho_{cf}^{\tau}(-k)
 $$
 
 真实序列当 k 较小时Δ值小于 0。但也有学者认为该指标存在噪音较大的缺陷。
@@ -493,7 +493,7 @@ $$
 盈亏不对称性的通俗理解是市场涨得慢跌得快，计算方法为以任一交易日为起点，统计未来涨跌超过一定幅度（如 10%）所需最少交易日数的分布：
 
 $$
-T_{wait}^{t}(\theta)=\smash{\left\{\operatorname*{inf}_{\mathrm{inf}\{t^{\prime}\vert r_{t\sim t+t^{\prime}}\leq\theta,t^{\prime}>0\}}(\theta>0)\right.}_{\left(\mathrm{inf}\{t^{\prime}\vert r_{t\sim t+t^{\prime}}\leq\theta,t^{\prime}>0\}\ (\theta<0)\right.}
+T_{wait}^{t}(\theta)=\left\{\begin{aligned}&\inf\{t^{\prime}|r_{t\sim t+t^{\prime}}\geq\theta,t^{\prime}>0\}(\theta>0)\\&\inf\{t^{\prime}|r_{t\sim t+t^{\prime}}\leq\theta,t^{\prime}>0\}(\theta<0)\end{aligned}\right.
 $$
 
 其中 r 代表第 t 日和第 t+t’日之间的区间收益率，inf 代表下确界。对于日频收益率序列θ 取 0.1。T(θ)代表实现涨跌幅 θ 所需最少天数 t’的分布。一般而言，下跌超过 10%所需最少天数的分布 T(-0.1)位于上涨超过 10%所需最少天数的分布 T(0.1)的左侧，表现出盈亏不对称性。

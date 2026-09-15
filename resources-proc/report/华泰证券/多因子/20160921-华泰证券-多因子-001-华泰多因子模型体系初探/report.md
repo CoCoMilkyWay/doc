@@ -28,7 +28,7 @@ $$
 
 ## f̃ : 因子k的因子收益
 
-$\widetilde{u_{\ j}}\colon$ 股票j的残差收益率
+$\widetilde{u}_{J}\colon$ 股票j的残差收益率
 
 多因子模型本质是将对N只股票的收益-风险预测转变成对于K个因子的收益-风险预测，将估算个股收益率的协方差阵转化为估算因子收益率的协方差阵，极大地降低了预测工作量，提高了准确度。
 
@@ -108,14 +108,14 @@ $\widetilde{u_{\ j}}\colon$ 股票j的残差收益率
 7. 证券投资组合与基准的偏差只有当不确定性足够小时才是合理的。主动定量管理本质是统计套利，关注点是因子（共性），而非股票（个性）。经典的多因子模型表达式：
 
 $$
-\widetilde{r_{j}}=\sum_{k=1}^{K}X_{jk}*\widetilde{f_{k}}+\widetilde{u_{J}}
+\widetilde{\tau_{j}}=\sum_{k=1}^{K}X_{jk}*\widetilde{f_{k}}+\widetilde{u_{j}}
 $$
 
-$\widetilde{f_{k}}\colon$ 因子k的因子收益
+$\widetilde{f}_{k};$ 因子k的因子收益
 
 ũ:股票j的残差收益率
 
-定量管理主要从统计的角度研究因子收益率的变化规律，并且从组合的角度对因子暴露进行管理以超越基准；定性管理主要研究个股的残差收益率，即从因子角度无法解释的超额收益率。定量管理主要研究∑ K k=1 $X_{jk}*{\widetilde{f}}_{k}$ ，定性管理主要研究ũj。
+定量管理主要从统计的角度研究因子收益率的变化规律，并且从组合的角度对因子暴露进行管理以超越基准；定性管理主要研究个股的残差收益率，即从因子角度无法解释的超额收益率。定量管理主要研究∑ K k=1 $X_{jk}*\widetilde{f}_{k}$ ，定性管理主要研究ũj。
 
 即从投资标的而言，定量管理和定性管理是显著不同的，定量管理的投资标的是因子，主要关注股票市场的共性；而定性管理的投资标的是个股，主要关注股票的个性。
 
@@ -156,7 +156,7 @@ Std(\tilde{r})=\sqrt{Var(\tilde{r})}
 $$
 
 $$
-Var(\tilde{r})={\cal E}[(\tilde{r}-\bar{r})^{2}]
+Var(\tilde{r})=E[(\tilde{r}-\bar{r})^{2}]
 $$
 
 r̃: 收益率
@@ -166,11 +166,11 @@ r̅:预期回报或者平均回报率
 Std(x): x的标准差
 
 $$
-Var(x){:}x\not\in\mathfrak{H}\not{\cdot}\dot{\overline{{\mathcal{1}}}}\mathbin{\dot{\mathcal{Z}}}
+Var(x):x的方差
 $$
 
 $$
-E(x)\colon x^{\sharp^{\prime}}{\mathfrak{I}}^{\sharp}{\mathfrak{K}}\mathrel{\mathop{}}\mathfrak{H}/\mathfrak{I}
+E(x):x的预期值
 $$
 
 图3： 收益率的正态分布
@@ -192,7 +192,7 @@ BARRA Handbook USE3 ,
 一个最简单的例子是：投资组合P由股票A和股票B组成，股票A和股票B各占50%的权重，它们收益率的相关系数为 $\rho_{AB}$ ，那么：
 
 $$
-\sigma_{P}={\sqrt{(0.5*\sigma_{A})^{2}\ +\ (0.5*\sigma_{B})^{2}\ +\ 2*(0.5*\sigma_{A})*(0.5*\sigma_{B})*\rho_{AB}}}
+\sigma_{P}=\sqrt{(0.5*\sigma_{A})^{2}+(0.5*\sigma_{B})^{2}+2*(0.5*\sigma_{A})*(0.5*\sigma_{B})*\rho_{AB}}.
 $$
 
 并且
@@ -203,16 +203,16 @@ $$
 
 等号成立当且仅当两支股票收益率完全线性相关，即 $\rho_{AB}=1$ o
 
-第二个例子：考虑一个有N只股票组成的等权重投资组合，每只股票的风险都是 $\boldsymbol{\sigma}$ ，并且股票之间的收益率互不相关，那么该组合的风险是：
+第二个例子：考虑一个有N只股票组成的等权重投资组合，每只股票的风险都是 $.\sigma$ ，并且股票之间的收益率互不相关，那么该组合的风险是：
 
 $$
-\sigma_{P}={\frac{\sigma}{\sqrt{N}}}
+\sigma_{P}=\frac{\sigma}{\sqrt{N}}
 $$
 
-第三个例子：考虑一个有N只股票组成的等权重投资组合，每只股票的风险都是 $\boldsymbol{\sigma}$ ，并且任意两只股票收益率之间的相关系数都等于 $\mathbf{\epsilon}_{\mathbf{\lambda}}\mathbf{\dot{\rho}}_{\mathbf{\lambda}}$ ，那么该组合的风险是：
+第三个例子：考虑一个有N只股票组成的等权重投资组合，每只股票的风险都是 $.\sigma$ ，并且任意两只股票收益率之间的相关系数都等于 $\cdot\rho$ ，那么该组合的风险是：
 
 $$
-\begin{array}{r}{\sigma_{P}=\sigma*\sqrt{\frac{1+\rho*(N-1)}{N}}}\end{array}
+\begin{array}{r}{\sigma_{P}=\;\sigma*\sqrt{\frac{1+\rho*(N-1)}{N}}}\end{array}
 $$
 
 当组合中的股票数目N很大时，上式变为：
@@ -221,7 +221,7 @@ $$
 \sigma_{P}=\sigma*\sqrt{\rho}
 $$
 
-风险既不能沿着横截面也不能沿着时间相加。然而方差可以，只要任意不重叠的两段时间上收益率是不相关的。如果考察一只股票的月度收益率，并且观察到其月度收益率的标准差为$\sigma_{Monthly}$ ,那么风险的年化值是：
+风险既不能沿着横截面也不能沿着时间相加。然而方差可以，只要任意不重叠的两段时间上收益率是不相关的。如果考察一只股票的月度收益率，并且观察到其月度收益率的标准差为$\sigma_{Monthly},$ ,那么风险的年化值是：
 
 $$
 \sigma_{Annual}=\sqrt{12}*\sigma_{Monthly}
@@ -229,7 +229,7 @@ $$
 
 相对风险（跟踪误差）：
 
-如果投资组合被设置相应的业绩基准，那么 $\boldsymbol{r_{PA}}=\boldsymbol{r_{P}}-\boldsymbol{r_{B}}$ 称作组合的主动收益率（activereturn），相应的主动风险即主动收益率的标准差：
+如果投资组合被设置相应的业绩基准，那么 $r_{PA}=r_{P}-r_{B}$ 称作组合的主动收益率（activereturn），相应的主动风险即主动收益率的标准差：
 
 $$
 \sigma_{PA}=Std(r_{PA})=Std(r_{P}-r_{B})
@@ -244,7 +244,7 @@ $$
 我们可以将所有需要估计的参数总结到一个协方差（covariance）矩阵 V中：
 
 $$
-V=\left[{\begin{array}{cccc}{\sigma_{1}^{2}}&{\sigma_{12}}&{\cdots}&{\sigma_{1N}}\\{\sigma_{21}}&{\sigma_{2}^{2}}&{\cdots}&{\cdots}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{\sigma_{N1}}&{\cdots}&{\cdots}&{\sigma_{N}^{2}}\end{array}}\right]
+V=\begin{bmatrix}\sigma_{1}^{2}&\sigma_{12}&\cdots&\sigma_{1N}\\\sigma_{21}&\sigma_{2}^{2}&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\\sigma_{N1}&\cdots&\cdots&\sigma_{N}^{2}\end{bmatrix}
 $$
 
 协方差矩阵包含了计算投资组合风险所需的所有信息，风险模型的目标就是就是精准的预测协方差矩阵。由于随着股票数量N的增加，协方差矩阵包含的独立参数太多，这使得按照这种方式建立风险模型相当困难。
@@ -256,24 +256,24 @@ $$
 资本资产定价模型（Capital Asset Pricing Model, CAPM）是现代金融市场价格理论的支柱，由美国学者威廉·夏普（William Sharpe）等人于1964年在资产组合理论的基础上发展起来。它开启了资产风险分类的研究进程。
 
 $$
-\begin{array}{rl}&{E(\widetilde{r_{i}})-r_{F}=\beta_{i}*E(\widetilde{r_{M}}-r_{F})}\\&{\qquad\widetilde{r_{i}}\colon\dot{\mathbb{W}}\dot{j^{\ast}}i\notin\dot{\mathbb{W}}^{}\boxed{\Xi}\sharp}\\&{\qquad r_{F}\colon\mathcal{K}\ J_{\Xi}\boxed{|\check{\mathcal{W}}|^{2}}\sharp}\\&{\qquad\widetilde{r_{M}}\colon\dot{\overline{{\eta}}}\ddag\bar{\mathcal{W}}\lvert\xi_{\widetilde{\mathcal{W}}}\rvert\dddot{\xi}\dot{\overline{{\mathrm{m}}}}\dddot{\xi}}\end{array}
+\begin{aligned}E(\widetilde{r_{i}})-r_{F}&=\beta_{i}*E(\widetilde{r_{M}}-r_{F})\\\widetilde{r_{i}}&:资产i的回报\\r_{F}&:无风险回报\\\widetilde{r_{M}}&:市场收益率\end{aligned}
 $$
 
 $$
-\beta_{i}=\frac{Cov(\widetilde{r}_{i},\widetilde{r_{M}})}{Var(\widetilde{r_{M}})}
+\beta_{i}=\frac{Cov(\widetilde{r_{i}},\widetilde{r_{M}})}{Var(\widetilde{r_{M}})}
 $$
 
-在CAPM模型下，任何股票或者组合的预期只与其Beta有关，即预期超额收益率E $(\widetilde{r})-r_{F}$ 与股票或者组合的 Beta成正比（此处超额收益率是指超越市场无风险利率的收益率）。
+在CAPM模型下，任何股票或者组合的预期只与其Beta有关，即预期超额收益率E $(\widetilde{r_{l}})-r_{F}$ 与股票或者组合的 Beta成正比（此处超额收益率是指超越市场无风险利率的收益率）。
 
 股票或者组合的 Beta 定义为股票或者组合的超额收益率与市场组合（由市场上所有的股票组成的组合）超额收益率之间的协方差除以市场组合超额收益率的方差。
 
-股票或者组合的 Beta值由简单线性回归确定，用股票或者组合P在T个时间点上的超额收益率对同期市场超额收益率 ${\boldsymbol{r}}_{M}(t)$ 回归：
+股票或者组合的 Beta值由简单线性回归确定，用股票或者组合P在T个时间点上的超额收益率对同期市场超额收益率 $\cdot r_{M}(t)$ 回归：
 
 $$
-\begin{array}{r}{r_{P}(t)=\alpha_{P}+\beta_{P}*r_{M}(t)+\varepsilon_{P}(t),\ t=1,2,3,\dots,T}\end{array}
+r_{P}(t)=\alpha_{P}+\beta_{P}*r_{M}(t)+\varepsilon_{P}(t),t=1,2,3,\ldots,T
 $$
 
-回归分析得到的 $\beta_{P}$ 和 $\scriptstyle\mathbf{\alpha}_{P}$ 的估计值称为实现的或者历史的 Beta 和 Alpha，这个回归估计值显示了股票或者组合P与市场组合在历史上的相关关系，历史 Beta是对于未来实现的 Beta的一个合理预测。
+回归分析得到的 $\prime\beta_{P}$ 和 ${}^{\prime}\alpha_{P}$ 的估计值称为实现的或者历史的 Beta 和 Alpha，这个回归估计值显示了股票或者组合P与市场组合在历史上的相关关系，历史 Beta是对于未来实现的 Beta的一个合理预测。
 
 Beta 是一种将风险和收益分解为两个部分的工具，如果已知组合P的 Beta 值，就可以将它的超额收益分解为市场部分和残差部分：
 
@@ -306,7 +306,7 @@ $$
 $$
 
 $$
-\widetilde{f}_{k}\colon{\mathbb{E}}]\to k\not\cup\succ{\mathbb{E}}]\to4\xi\frac{\prime}{\sqrt{n}}
+\widetilde{f}_{k}:因子k的因子收益
 $$
 
 ũ:股票j的残差收益率
@@ -328,14 +328,14 @@ BARRA 对三种多因子模型都做过研究，基本面因子的模型效果�
 
 多因子模型识别这些共同的基本面因子，并且估计收益率对这些因子的敏感性，得出股票或者组合的预期收益率，最后通过风险模型，根据投资者的收益—风险偏好挑选合适的股票并进行权重分配。
 
-假设一个投资组合由N个股票组成，它们在组合中的权重分别是 $h_{P1},h_{P2},\dots,h_{PN}$ ，则组合的收益率为：
+假设一个投资组合由N个股票组成，它们在组合中的权重分别是 $[h_{P1},h_{P2},\ldots,h_{PN}$ ，则组合的收益率为：
 
 $$
-\widetilde{r_{P}}=\sum_{k=1}^{K}X_{Pk}*\widetilde{f_{k}}+\sum_{j=1}^{N}h_{Pj}*\widetilde{u_{j}}
+\widetilde{r_{P}}=\sum_{k=1}^{K}X_{Pk}*\widetilde{f_{k}}+\sum_{j=1}^{N}h_{Pj}*\widetilde{u_{P}}
 $$
 
 $$
-\sharp\Psi,X_{Pk}=\sum_{j=1}^{N}h_{Pj}\ast X_{jk}
+其中,\ X_{Pk}=\sum_{j=1}^{N}h_{Pj}*X_{jk}
 $$
 
 ## 多因子模型风险预测
@@ -343,34 +343,34 @@ $$
 对于一个包含N只股票和K个因子的系统，多因子模型本质上是将对于N只股票的收益—风险预测转变成对于K个因子的收益—风险预测。对于一个使用多因子模型的投资经理而言，她/他原本面对的操作对象是N只股票，通过多因子模型，操作对象转换成了K个因子。
 
 $$
-\left[\begin{array}{c}{\widetilde{\Gamma_{1}}}\\{\widetilde{\Gamma_{2}}}\\{\dots}\\{\widetilde{\Gamma_{N}}}\end{array}\right]=\left[\begin{array}{ccccc}{X_{11}}&{X_{12}}&{\dots}&{X_{1K}}\\{X_{21}}&{X_{22}}&{\dots}&{\dots}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{X_{N1}}&{\dots}&{\dots}&{X_{NK}}\end{array}\right]\left[\begin{array}{c}{\widetilde{f_{1}}}\\{\widetilde{f_{2}}}\\{\vdots}\\{\widetilde{f_{K}}}\end{array}\right]+\left[\begin{array}{c}{\widetilde{u_{1}}}\\{\widetilde{u_{2}}}\\{\vdots}\\{\widetilde{u_{N}}}\end{array}\right]
+\begin{aligned}\begin{bmatrix}\widetilde{\Gamma_{1}}\\\widetilde{\Gamma_{2}}\\\cdots\\\widetilde{\Gamma_{N}}\end{bmatrix}&=\begin{bmatrix}X_{11}&X_{12}&\cdots&X_{1K}\\X_{21}&X_{22}&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\X_{N1}&\cdots&\cdots&X_{NK}\end{bmatrix}\begin{bmatrix}\widetilde{f_{1}}\\\widetilde{f_{2}}\\\vdots\\\widetilde{f_{K}}\end{bmatrix}+\begin{bmatrix}\widetilde{u_{1}}\\\widetilde{u_{2}}\\\vdots\\\widetilde{u_{N}}\end{bmatrix}\end{aligned}
 $$
 
 多因子模型极大的降低了预测工作量，以一个1000只股票和20个因子组成系统而言，预测从1000只股票的预期收益和风险转换为对20个因子的预期收益和风险的预测。随着预测复杂程度的降低，预测的精度大幅提升。
 
-特别是对于风险的预测，前面已经提到过，若对1000只股票估计协方差矩阵，我们需要预$\mathfrak{N}*(N-1)/2=4950$ 个相关系数。协方差矩阵中包含的独立参数太多，如果采用历史数据的样本方差和协方差，估计值既不稳定也不合理。因为采用历史数据进行估计，采样时间长度为T，要求T > N（即T > 1000）。按照多因子模型最常规的月度频率，需要的数据超过80年，这显然不现实，同时也不合理，因为公司基本面数据是在不断发生变化的。
+特别是对于风险的预测，前面已经提到过，若对1000只股票估计协方差矩阵，我们需要预$则N*(N-1)/2=4950$ 个相关系数。协方差矩阵中包含的独立参数太多，如果采用历史数据的样本方差和协方差，估计值既不稳定也不合理。因为采用历史数据进行估计，采样时间长度为T，要求T > N（即T > 1000）。按照多因子模型最常规的月度频率，需要的数据超过80年，这显然不现实，同时也不合理，因为公司基本面数据是在不断发生变化的。
 
 多因子模型并不是一个因果关系的模型，即所谓的因子只是在统计上和收益率存在相关关系，是试图解释收益风险的维度，多因子模型并不关心他们是否存在因果关系。
 
-在多因子模型中，我们假设残差收益率 $\widetilde{u}_{\jmath}$ 与因子收益率 $\cdot\widetilde{f_{k}}$ 独立，并且不同股票的残差收益率之间也互相独立。在多因子模型的框架下，市场的风险结构变为：
+在多因子模型中，我们假设残差收益率 $.\widetilde{u}_{j}$ 与因子收益率 $\widetilde{f}_{k}$ 独立，并且不同股票的残差收益率之间也互相独立。在多因子模型的框架下，市场的风险结构变为：
 
 $$
-V_{i,j}=\sum_{k1,k2=1}^{K}X_{i,k1}*F_{k1,k2}*X_{j,k2}+\Delta_{i,j}
-$$
-
-$$
-V_{i,j}:\mathbb{H}^{\underline{{\pi}}}_{\ Z}\xrightarrow{\underline{{\pi}}}i\hat{\mathcal{H}}\pi\mathbb{H}^{\underline{{\pi}}}_{\ Z}\xrightarrow{\underline{{\pi}}}j\mathbb{H}^{\underline{{\eta}}}\Rsh+\jmath_{k}\xrightarrow{\mu}\frac{\mu}{Z}
+V_{i,j}=\sum_{k1,k2=1}^{K}X_{i,k1}*F_{k1,k2}*X_{j,k2}+\Delta_{i,j},
 $$
 
 $$
-x_{i,k1}:\sharp\sharp\sharp\sharp\sharp\sharp\sharp\lesssim\lvert\sharp1\rvert\sharp\sharp\lesssim\lvert\sharp\sharp\lesssim\vartheta\sharp\lesssim\ j\sharp\leqslant\big(\sharp\sharp\sharp\sharp\big)
+V_{i,j}:股票i和股票j的协方差
 $$
 
 $$
-F_{k1,k2}:\sharp\vec{\tau}\vec{\tau}\vec{\tau}\vec{\mu}\vec{\circ}\vec{\tau}\vec{\Xi}\vec{k}\vec{\nu}\vec{\Xi}\vec{k}\vec{\Xi}\vec{k}\vec{\Xi}\vec{\mathcal{Z}}\vec{k}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\mathcal{H}}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\mathcal{Z}}\vec{\Xi}\vec{\Xi}\vec{\mathcal{H}}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec\Xi\Xi\vec{}\Xi\vec{\Xi}\vec\Xi\Xi\vec{\Xi}\vec\Xi\Xi\vec{\Xi}
+X_{i,k1}:股票i对因子k1的暴露度《因子载荷》
 $$
 
-$\Delta_{i,j}\colon$ 股票i和股票j之间残差的协方差，i ≠j时为 0
+$$
+$F_{k1,k2}\colon 因子k1$和因子$k2$之间的收益率协方差
+$$
+
+$\Delta_{i,j};$ 股票i和股票j之间残差的协方差，i ≠j时为 0
 
 对于任意一个投资组合P都可以用一个N维向量 $h_{P}$ 来描述，其中 $h_{P}$ 是组合P在N只股票上的持仓权重。则组合P的因子暴露度是：
 
@@ -387,7 +387,7 @@ $$
 如果组合P存在业绩基准 $.B$ ，我们也可以根据类似的公式计算组合的主动风险（跟踪误差）。如果 $h_{B}$ 是业绩基准的持仓权重向量，那么我们可以给出如下定义：
 
 $$
-\begin{array}{c}{h_{PA}=h_{P}-h_{B}}\\{x_{PA}=X^{T}*h_{PA}}\\{\sigma_{PA}^{2}=x_{PA}^{T}*F*x_{PA}+h_{PA}^{T}*\Delta*h_{PA}=h_{PA}^{T}*V*h_{PA}}\end{array}
+\begin{aligned}h_{PA}&=h_P-h_B\\x_{PA}&=X^T*h_{PA}\\\sigma_{PA}^2=x_{PA}^T*F*x_{PA}+h_{PA}^T*\Delta*h_{PA}&=h_{PA}^T*V*h_{PA}\end{aligned}
 $$
 
 ## 多因子模型风险分解
@@ -410,13 +410,13 @@ $$
 
 ## Alpha 的定义
 
-Alpha 和 Beta 是相辅相成的，分别是使用线性回归将组合收益率分解为与业绩基准相关的部分和业绩基准不相关的残差部分。如果 ${\bf\nabla}_{r_{P}}(t)$ 是投资组合在时点t = 1,2,3,⋯,T上的超额收益率， $r_{B}(t)$ 是业绩基准在同时期的超额收益率，那么回归模型为：
+Alpha 和 Beta 是相辅相成的，分别是使用线性回归将组合收益率分解为与业绩基准相关的部分和业绩基准不相关的残差部分。如果 $.r_{P}(t)$ 是投资组合在时点t = 1,2,3,⋯,T上的超额收益率， $r_{B}(t)$ 是业绩基准在同时期的超额收益率，那么回归模型为：
 
 $$
-\begin{array}{r}{r_{P}(t)=\alpha_{P}+\beta_{P}*r_{B}(t)+\varepsilon_{P}(t)}\end{array}
+r_{P}(t)=\alpha_{P}+\beta_{P}*r_{B}(t)+\varepsilon_{P}(t)
 $$
 
-利用回归分析计算出来的 $\beta_{P}$ 和 $\scriptstyle\mathbf{\alpha}_{P}$ 的估计值称为实现的或者历史的 Beta和 Alpha。组合P的残差收益率是：
+利用回归分析计算出来的 $\cdot\beta_{P}$ 和 ${}^{\prime}\alpha_{P}$ 的估计值称为实现的或者历史的 Beta和 Alpha。组合P的残差收益率是：
 
 $$
 \theta_{P}(t)=\alpha_{P}+\varepsilon_{P}(t)
@@ -424,14 +424,14 @@ $$
 
 $\alpha_{P}$ 是平均残差收益率， $\varepsilon_{P}(t)$ 是残差收益率中均值为零的随机项。
 
-根据定义，业绩基准组合的残差收益率总是等于零，即 $\theta_{B}=0$ 总是成立。因此，业绩基准组合的 Alpha 必然等于零，即 $\alpha_{B}=0$ 。为了保证 ${\bf\nabla}.\alpha_{B}=0$ ，我们要求股票层面的 Alpha 列向量满足业绩基准中性的约束。
+根据定义，业绩基准组合的残差收益率总是等于零，即 $\theta_{B}=0$ 总是成立。因此，业绩基准组合的 Alpha 必然等于零，即 $\alpha_{B}=0$ 。为了保证 $.\alpha_{B}=0$ ，我们要求股票层面的 Alpha 列向量满足业绩基准中性的约束。
 
 ## 业绩的衡量
 
 业界最常用的业绩衡量指标是信息比率 IR（Information Ration），IR 是年化残差收益率对年化残差风险的比值。
 
 $$
-IR_{P}={\frac{\alpha_{P}}{\omega_{P}}}
+IR_{P}=\frac{\alpha_{P}}{\omega_{P}}
 $$
 
 由于主动管理是一个零和游戏，所以信息比率 IR 具有均值为零的对称分布，整体而言，费前信息比率的分布接近于表格 1 中的分布。
@@ -451,7 +451,7 @@ $$
 信息比例的一种分解方式是：
 
 $$
-IR=IC*\sqrt{BR}
+IR=IC*{\sqrt{BR}}
 $$
 
 即投资组合的信息比率 IR取决于投资策略的广度 BR（Breadth）和信息系数 IC（InformationCoefficient）。
@@ -617,26 +617,26 @@ $$
 由于少数极端值会因子和收益率之间的相关关系估计造成严重干扰，而多因子模型本身是一个追求投资宽度的模型，所以在进行因子载荷标准化之前，我们需要对极端值进行处理。比较常见的去极值方法是“中位数去极值法”：
 
 $$
-\widetilde{x}_{\iota}=\left\{\begin{array}{cc}{x_{M}+n\ast D_{MAD},}&{\quad if\ x_{i}>x_{M}+n\ast D_{MAD}}\\{x_{M}-n\ast D_{MAD},}&{\quad if\ x_{i}<x_{M}-n\ast D_{MAD}}\\{x_{i},}&{\quad else}\end{array}\right.
+\widetilde{x_{\iota}}=\left\{\begin{matrix}x_{M}+n*D_{MAD},&\quad if\ x_{i}>x_{M}+n*D_{MAD},\\x_{M}-n*D_{MAD},&\quad if\ x_{i}<x_{M}-n*D_{MAD},\\x_{i},&\quad else\end{matrix}\right.
 $$
 
 $x_{M}\colon$ 序列 $x_{i}$ 的中位数
 
-$D_{MAD}\mathrm{:}$ 序列 $|x_{i}-x_{M}|$ 的中位数
+$D_{MAD}\colon$ 序列 $|x_{i}-x_{M}|$ 的中位数
 
-$\widetilde{x_{\imath}}{:}x_{i}$ 去极值修正后的值
+$\widetilde{x_{i}};x_{i}$ 去极值修正后的值
 
 数据去极值后的序列再进行标准化：
 
 $$
-\widetilde{x}_{\iota}=\frac{x_{i}-u}{\sigma}
+\widetilde{x_{\iota}}=\frac{x_{i}-u}{\sigma}
 $$
 
 u:序列 $x_{i}$ 的均值
 
-σ: 序列 $x_{i}\not\in\not\Im$ 标准差
+σ: 序列 $x_{i}的$ 标准差
 
-$\widetilde{x_{\iota}}\colon$ 序列 $x_{i}$ 标准化之后的值
+${\widetilde{x}}_{l};$ 序列 $x_{i}$ 标准化之后的值
 
 方法二：因子载荷排序值标准化
 
@@ -645,7 +645,7 @@ $\widetilde{x_{\iota}}\colon$ 序列 $x_{i}$ 标准化之后的值
 第一步将原始序列转换为序关系序列；
 
 $$
-\begin{array}{c}{\widetilde{x_{\iota}}=rank(x_{i})}\\\widetilde{x_{\iota}}\colon x_{i}\notin\dot{\mathbb{F}}^{*}\lrcorner\Join\end{array}
+\begin{aligned}\widetilde{x}_{i}&=rank(x_{i})\\\widetilde{x}_{i}:x_{i}&在序列中的排序值\end{aligned}
 $$
 
 第二步标准化方法与前面的标准化方法一致。
@@ -671,10 +671,10 @@ $$
 实证中我们采用第二种方式，针对因子k，单因子的回归模型如下：
 
 $$
-\widetilde{r_{j}^{t}}=\sum_{s=1}^{S}X_{js}^{t}\ast\widetilde{f_{s}^{t}}+X_{jk}^{t}\ast\widetilde{f_{k}^{t}}+\widetilde{u_{J}^{t}}
+\widetilde{r_{j}^{t}}=\sum_{s=1}^{S}X_{js}^{t}*\widetilde{f_{s}^{t}}+X_{jk}^{t}*\widetilde{f_{k}^{t}}+\widetilde{u_{j}^{t}},
 $$
 
-$\widetilde{r_{\jmath}^{t}}$ :股票j在第t期的收益率
+$\tilde{r_{j}^{t}}$ :股票j在第t期的收益率
 
 Xt:股票j在第t期在行业s上的暴露f̃t:行业s在第t期的收益率
 Xjkt :股票j在第t期在因子k上的暴露f̃t: 因子k在第t期的收益率
@@ -693,17 +693,17 @@ GICS风格的行业分类，我们参考中证指数公司发布的中证行业�
 
 步骤二：因子收益率序列t检验
 
-f̃t是因子k在第t期的因子收益，为确定因子k在第t期是否和股票收益率显著相关，即 $\widetilde{f_{k}^{t}}$ 是否显著不等于0，我们需要对 $\widetilde{f_{k}^{t}}$ 进行t检验：
+f̃t是因子k在第t期的因子收益，为确定因子k在第t期是否和股票收益率显著相关，即 $\widetilde{f_{k}^{t}}$ 是否显著不等于0，我们需要对 $\widetilde{f_{k}^{t}}.$ 进行t检验：
 
 x̅ − ut =t:x的t统计量x̅:样本的均值u:总体的均值σ:样本的标准差n:样本的容量
 
 对于t检验，需要进行三个方面的分析：
 
-1. t值绝对值序列的均值：对于每一期的截面回归，都可以得到一个因子收益率 $\cdot\widetilde{f_{k}^{t}}$ 的t值。对于t值序列，首先取绝对值，然后计算|t|的均值，|t|是判断因子是否为有效因子的重要指标。之所以要取绝对值，是因为只要t值显著不等于0即可以认为在当期，因子和收益率存在明显的相关性。但是这种相关性有的时候为正，有的时候为负，如果不取绝对值，则很多正负抵消，会低估因子的有效性；
+1. t值绝对值序列的均值：对于每一期的截面回归，都可以得到一个因子收益率 $\widetilde{f_{k}^{t}}$ 的t值。对于t值序列，首先取绝对值，然后计算|t|的均值，|t|是判断因子是否为有效因子的重要指标。之所以要取绝对值，是因为只要t值显著不等于0即可以认为在当期，因子和收益率存在明显的相关性。但是这种相关性有的时候为正，有的时候为负，如果不取绝对值，则很多正负抵消，会低估因子的有效性；
 
 2. t值绝对值序列大于2的比例：检验|t| > 2的比例主要是为了保证|t|平均值的稳定性，避免出现少数数值特别大的样本值拉高均值；
 
-3. 因子收益率 $\widetilde{\mathbf{\mathcal{f}}_{k}^{t}}$ 序列的t值检验：对于每一期的截面回归，都可以得到一个因子收益率 $\widetilde{f_{k}^{t}}$ 对于 $\cdot\widetilde{f_{k}^{t}}$ 序列同样需要进行t检验，以观察因子收益率序列的方向一致性。
+3. 因子收益率 $\widetilde{f_{k}^{t}}$ 序列的t值检验：对于每一期的截面回归，都可以得到一个因子收益率 $\widetilde{f_{k}^{t}}$ 对于 $\widetilde{\boldsymbol{f}_{k}^{t}}$ 序列同样需要进行t检验，以观察因子收益率序列的方向一致性。
 
 有效因子的分类—收益类因子和风险类因子
 
@@ -758,21 +758,21 @@ x̅ − ut =t:x的t统计量x̅:样本的均值u:总体的均值σ:样本的标�
 1. 按月计算出因子载荷之间的相关系数矩阵和每个因子的因子收益率；
 
 $$
-\rho^{t}=\left[\begin{array}{cccc}{1}&{\rho_{12}^{t}}&{\cdots}&{\rho_{1K}^{t}}\\{\rho_{21}^{t}}&{1}&{\cdots}&{\cdots}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{\rho_{K1}^{t}}&{\cdots}&{\cdots}&{1}\end{array}\right]
+\rho^{t}=\begin{bmatrix}1&\rho_{12}^{t}&\cdots&\rho_{1K}^{t}\\\rho_{21}^{t}&1&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\\rho_{K1}^{t}&\cdots&\cdots&1\end{bmatrix}
 $$
 
 2. 然后根据M个月的相关系数进行检验，检验的方法包括相关系数绝对值的均值、中位数、t检验等方式。
 
 $$
-\left.\sum_{t=1}^{M}|\rho_{ij}^{t}|\right/_{M}
+\left.\Sigma_{t=1}^{M}\left|\rho_{ij}^{t}\right|\right/_{M}
 $$
 
 $$
-median\big(|\rho_{ij}^{t}|\big)\ t=1,2,\cdots M
+median\big(|\rho_{ij}^{t}|\big)\quad t=1,2,\cdots M
 $$
 
 $$
-t=\frac{\overline{{|\rho_{{\imath\jmath}}^{t}|}}-u}{\sigma}
+t=\frac{\overline{{|\rho_{ij}^{t}|}}-u}{\sigma\Big/_{\sqrt{M-1}}}
 $$
 
 ## 步骤二：因子取舍或者因子合成
@@ -789,7 +789,7 @@ $$
 
 2.2. 历史收益率加权法：所有相关性很高的因子，按照各自的历史收益率作为权重对因子载荷进行合成。这样可以获得最大解释力的大类因子，但是由于共线性问题通过回归计算出的因子收益率非常不稳定。还是以动量因子为例，如果这六个因子的历史收益率分别是1、2、3、4、5、6，则各自的权重分别是：4.76%、9.52%、14.29%、19.05%、23.81%、28.57%，然后再重新进行标准化处理；
 
-2.3. 历史信息比例加权法：所有相关性很高的因子，按照各自的历史 IC 值对因子载荷进行合成。具体来说，设N ×K维矩阵A为过去K个截面期上N个因子的历史 IC值， $N\times1$ 维向量b为A的行均值， $N\times N$ 维矩阵V为A的N个行向量的协方差矩阵，则以 $sV^{-1}k$ 作为因子在本期的权重，其中s是归一化常数。与历史收益率加权法的主要区别是，历史收益率加权法只考虑因子历史的收益率，而历史信息比例加权法同时考虑因子了历史收益率和波动率，更加稳健；
+2.3. 历史信息比例加权法：所有相关性很高的因子，按照各自的历史 IC 值对因子载荷进行合成。具体来说，设N ×K维矩阵A为过去K个截面期上N个因子的历史 IC值， $N\times1$ 维向量b为A的行均值， $N\times N$ 维矩阵V为A的N个行向量的协方差矩阵，则以 $\langle sV^{-1}b$ 作为因子在本期的权重，其中s是归一化常数。与历史收益率加权法的主要区别是，历史收益率加权法只考虑因子历史的收益率，而历史信息比例加权法同时考虑因子了历史收益率和波动率，更加稳健；
 
 2.4. 主成分分析：对相关性高的因子进行主成分分析，结合收益率排序选取一个或几个主成分的组合系数作为权重合成大类因子。此种做法较偏重技术分析，组合出来的指标可能不具有特殊的经济学含义，可根据实际情况适度采用。
 
@@ -804,15 +804,15 @@ $$
 对于回归模型：
 
 $$
-\widetilde{r_{j}}=\sum_{k=1}^{K}X_{jk}*\widetilde{f_{k}}+\widetilde{u_{J}}
+\widetilde{\tau_{j}}=\sum_{k=1}^{K}X_{jk}*\widetilde{f_{k}}+\widetilde{u_{j}}
 $$
 
-如果残差项的条件方差相同，即 $Var\bigl(\widetilde{u}_{j}\bigl|X_{j1},X_{j2},\dots X_{jK}\bigr)=\sigma^{2}$ ，则称为同方差性；
-如果残差项的条件方差不相同，即 $Var\bigl(\widetilde{u}_{j}\bigl|X_{j1},X_{j2},\dots X_{jK}\bigr)=\sigma_{j}^{2}$ ，则称为异方差性。
+如果残差项的条件方差相同，即 $Var\big(\widetilde{u_{j}}\big|X_{j1},X_{j2},\dots X_{jK}\big)=\sigma^{2}$ ，则称为同方差性；
+如果残差项的条件方差不相同，即 $Var\big(\widetilde{u_{j}}\big|X_{j1},X_{j2},\dots X_{jK}\big)=\sigma_{j}^{2}$ ，则称为异方差性。
 
 异方差性对普通最小二乘法（Ordinary Least Square，OLS）估计的影响，主要有三点：
 
-1. 回归系数的 OLS 估计量仍然是无偏的、一致的、并且不影响 $\scriptstyle{|R^{2}}$ 和调整的 $R^{2}$ 。
+1. 回归系数的 OLS 估计量仍然是无偏的、一致的、并且不影响 $1R^{2}$ 和调整的 $R^{2}$ 。
 
 2. 回归标准差的估计不再是无偏的，从而回归系数 OLS 估计量的方差不再是无偏的，OLS估计量不再是有效的和渐近有效的。
 
@@ -827,18 +827,18 @@ Y=\beta_{0}+\beta_{1}*X_{1}+\beta_{2}*X_{2}+\cdots+\beta_{K}*X_{K}+u
 $$
 
 $$
-Var(u|X_{1},X_{2},\dots,X_{K})=E(u^{2}|X_{1},X_{2},\dots,X_{K})=\alpha_{0}+\alpha_{1}*X_{1}+\dots+\alpha_{K}*X_{K}+v
+Var(u|X_{1},X_{2},\ldots,X_{K})=E(u^{2}|X_{1},X_{2},\ldots,X_{K})=\alpha_{0}+\alpha_{1}*X_{1}+\cdots+\alpha_{K}*X_{K}+v
 $$
 
-首先根据模型1估计出 $\widetilde{u^{2}}$ ，然后 $\Ddot{\chi}\widetilde{u^{2}}$ 为因变量，得到 $R_{u}^{2}$
+首先根据模型1估计出 $\widetilde{u^{2}}$ ，然后 $以\widetilde{u^{2}}$ 为因变量，得到 $R_{u}^{2}$
 
 $$
 \widetilde{u^{2}}=\alpha_{0}+\alpha_{1}*X_{1}+\cdots+\alpha_{K}*X_{K}+v
 $$
 
-计算模型的F统计量，或者构造统计量 $LM=nR_{u}^{2}{\sim}\chi^{2}(K)$
+计算模型的F统计量，或者构造统计量 $LM=nR_{u}^{2}{\sim}{\chi}^{2}(K)$
 
-对于 $H_{0}\colon\alpha_{1}=0,\alpha_{2}=0\ldots,\alpha_{K}=0$ ，如果F统计量或者LM统计量是显著的，则拒绝原假设，说明模型存在异方差。
+对于 ${}^{:}H_{0}{:}\alpha_{1}=0,\alpha_{2}=0\ldots,\alpha_{K}=0$ ，如果F统计量或者LM统计量是显著的，则拒绝原假设，说明模型存在异方差。
 
 White test：
 
@@ -846,17 +846,17 @@ $$
 Y=\beta_{0}+\beta_{1}*X_{1}+\beta_{2}*X_{2}+\cdots+\beta_{K}*X_{K}+u
 $$
 
-首先根据模型1估计出 $\widetilde{u^{2}}$ ，然后 $\Ddot{\chi}\widetilde{u^{2}}$ 为因变量，得到 $R_{u}^{2}$
+首先根据模型1估计出 $\widetilde{u^{2}}$ ，然后 $以\widetilde{u^{2}}$ 为因变量，得到 $R_{u}^{2}$
 
 $$
-\widetilde{u^{2}}=\alpha_{0}+\alpha_{1}*X_{1}+\dots+\alpha_{K}*X_{K}+\alpha_{K+1}*X_{1}^{2}+\dots+\alpha_{2K}*X_{K}^{2}+
+\widetilde{u^{2}}=\alpha_{0}+\alpha_{1}*X_{1}+\cdots+\alpha_{K}*X_{K}+\alpha_{K+1}*X_{1}^{2}+\cdots+\alpha_{2K}*X_{K}^{2}+
 $$
 
 $$
-\alpha_{2K+1}*X_{1}*X_{2}+\cdots+\alpha_{\frac{\mathbf{k}*(\mathbf{k}+3)}{2}}*X_{K-1}*X_{K+1}+v
+\alpha_{2K+1}*X_1*X_2+\cdots+\alpha_{\frac{\mathbf{k}*(\mathbf{k}+3)}{2}}*X_{K-1}*X_{K+1}+v
 $$
 
-计算模型的F统计量，或者构造统计量 $LM=nR_{u}^{2}{\sim}\chi^{2}(\frac{K(K+3)}{2})$对于 $H_{0}\colon\alpha_{1}=0,\alpha_{2}=0\ldots,\alpha_{K}=0$ ，如果F统计量或者LM统计量是显著的，则拒绝原假设，说明模型存在异方差。
+计算模型的F统计量，或者构造统计量 $\begin{array}{r}{LM=nR_{u}^{2}{\sim}{\chi}^{2}(\frac{K(K+3)}{2})}\end{array}$对于 ${}^{:}H_{0}{:}\alpha_{1}=0,\alpha_{2}=0\ldots,\alpha_{K}=0$ ，如果F统计量或者LM统计量是显著的，则拒绝原假设，说明模型存在异方差。
 
 对于存在异方差的模型，在进行回归的时候需要采用加权最小二乘法（Weighted LeastSquare，WLS）。
 
@@ -869,22 +869,22 @@ $$
 若已知方差：
 
 $$
-Var(u_{i}\vert X_{1i},X_{2i},\ldots,X_{Ki})=\sigma_{i}^{2}=\sigma^{2}*h(X_{1i},X_{2i},\ldots,X_{Ki})=\sigma^{2}*h_{i}
+Var(u_{i}|X_{1i},X_{2i},\ldots,X_{Ki})=\sigma_{i}^{2}=\sigma^{2}*h(X_{1i},X_{2i},\ldots,X_{Ki})=\sigma^{2}*h_{i}
 $$
 
 那么可以做如下变换：
 
 $$
-{\frac{Y_{i}}{\sqrt{h_{i}}}}={\frac{\beta_{0}}{\sqrt{h_{i}}}}+\beta_{1}*{\frac{X_{1i}}{\sqrt{h_{i}}}}+\beta_{2}*{\frac{X_{2i}}{\sqrt{h_{i}}}}+\cdots+\beta_{K}*{\frac{X_{Ki}}{\sqrt{h_{i}}}}+{\frac{u_{i}}{\sqrt{h_{i}}}}
+\frac{Y_{i}}{\sqrt{h_{i}}}=\frac{\beta_{0}}{\sqrt{h_{i}}}+\beta_{1}\cdot\frac{X_{1i}}{\sqrt{h_{i}}}+\beta_{2}\cdot\frac{X_{2i}}{\sqrt{h_{i}}}+\cdots+\beta_{K}\cdot\frac{X_{Ki}}{\sqrt{h_{i}}}+\frac{u_{i}}{\sqrt{h_{i}}}
 $$
 
-新 $\sharp\sharp$ 模型的残差记作 $\boldsymbol{u}_{i}^{*}$
+新 $的$ 模型的残差记作 $u_{i}^{*}$
 
 $$
-Var(u_{i}^{*}|X_{1i},X_{2i},\dots,X_{Ki})=E\bigl({u_{i}^{*}}^{2}\big|X_{1i},X_{2i},\dots,X_{Ki}\bigr)=\frac{\sigma^{2}*h_{i}}{h_{i}}=\sigma^{2}
+Var(u_{i}^{*}|X_{1i},X_{2i},\ldots,X_{Ki})=E\bigl(u_{i}^{*2}\big|X_{1i},X_{2i},\ldots,X_{Ki}\bigr)=\cfrac{\sigma^{2}*h_{i}}{h_{i}}=\sigma^{2}
 $$
 
-如果方差形式未知，首先需要对异方差的函数形式做估计，然后再采用加权最小二乘法进行估计，这种方法属于可行的 $\dot{\bar{\rho_{\mathbf{\theta}}}}$ 义最小二乘法（Feasible Generalized Least Square，GFLS）：
+如果方差形式未知，首先需要对异方差的函数形式做估计，然后再采用加权最小二乘法进行估计，这种方法属于可行的 $\begin{aligned}产\end{aligned}$ 义最小二乘法（Feasible Generalized Least Square，GFLS）：
 
 $$
 Y_{i}=\beta_{0}+\beta_{1}*X_{1i}+\beta_{2}*X_{2i}+\cdots+\beta_{K}*X_{Ki}+u_{i}
@@ -893,23 +893,23 @@ $$
 假设：
 
 $$
-\sigma_{i}^{2}=\sigma^{2}*exp(\alpha_{0}+\alpha_{1}*X_{1i}+\cdots+\alpha_{K}*X_{Ki})=\sigma^{2}*h_{i}
+\sigma_{i}^{2}=\sigma^{2}*exp(\alpha_{0}+\alpha_{1}*X_{1i}+\cdots+\alpha_{K}*X_{ki})=\sigma^{2}*h_{i}
 $$
 
 首先估计出 $\widetilde{u_{\iota}^{2}}$ ，然后根据方程：
 
 $$
-ln\widetilde{(u_{\iota}^{2})}=\alpha_{0}+\alpha_{1}*X_{1i}+\cdots+\alpha_{K}*X_{Ki}+v_{i}
+ln\big(\widetilde{u_{\iota}^{2}}\big)=\alpha_{0}+\alpha_{1}*X_{1i}+\cdots+\alpha_{K}*X_{Ki}+v_{i}
 $$
 
-计算 $ln\big(\widetilde{u_{\iota}^{2}}\big)$ 的估计值 $\widetilde{e_{\iota}^{2}}$ ：
+计算 $ln(\widetilde{u_{l}^{2}})$ 的估计值 $\widetilde{e_{i}^{2}}$ ：
 
 $$
-\begin{array}{c}{{\widetilde{e_{\iota}^{2}}=\widetilde{\alpha_{0}}+\widetilde{\alpha_{1}}*X_{1i}+\dots+\widetilde{\alpha_{K}}*X_{Ki}}}\\{{\widetilde{h_{\iota}}=exp(\widetilde{e_{\iota}^{2}})}}\end{array}
+\begin{aligned}\widetilde{e_{\iota}^{2}}=\widetilde{\alpha_{0}}+\widetilde{\alpha_{1}}*X_{1i}+\cdots+\widetilde{\alpha_{K}}*X_{Ki}\\\widetilde{h_{\iota}}=exp(\widetilde{e_{\iota}^{2}})\end{aligned}
 $$
 
 $$
-\frac{Y_{i}}{\sqrt{\widetilde{h_{\iota}}}}=\frac{\beta_{0}}{\sqrt{\widetilde{h_{\iota}}}}+\beta_{1}*\frac{X_{1i}}{\sqrt{\widetilde{h_{\iota}}}}+\beta_{2}*\frac{X_{2i}}{\sqrt{\widetilde{h_{\iota}}}}+\cdots+\beta_{K}*\frac{X_{Ki}}{\sqrt{\widetilde{h_{\iota}}}}+\frac{u_{i}}{\sqrt{\widetilde{h_{\iota}}}}
+\frac{Y_{i}}{\sqrt{\widetilde{h}_{i}}}=\frac{\beta_{0}}{\sqrt{\widetilde{h}_{i}}}+\beta_{1}\cdot\frac{X_{1i}}{\sqrt{\widetilde{h}_{i}}}+\beta_{2}\cdot\frac{X_{2i}}{\sqrt{\widetilde{h}_{i}}}+\cdots+\beta_{K}\cdot\frac{X_{Ki}}{\sqrt{\widetilde{h}_{i}}}+\frac{u_{i}}{\sqrt{\widetilde{h}_{i}}}
 $$
 
 ## 多元线性回归
@@ -927,22 +927,22 @@ $$
 在对因子集F4做残差的异方差分析处理之后，就可以正式进行多元线性回归，估计每期的因子收益序列。
 
 $$
-\widetilde{r_{j}^{t}}=\sum_{s=1}^{s}X_{js}^{t}*\widetilde{f_{s}^{t}}+\sum_{k=1}^{K}X_{jk}^{t}*\widetilde{f_{k}^{t}}+\widetilde{u_{J}^{t}}
+\widetilde{r_{j}^{t}}=\sum_{s=1}^{S}X_{js}^{t}*\widetilde{f_{s}^{t}}+\sum_{k=1}^{K}X_{jk}^{t}*\widetilde{f_{k}^{t}}+\widetilde{u_{j}^{t}},
 $$
 
-$\widetilde{r_{J}^{t}}\colon$ 股票j在第t期的收益率
+$\tilde{r_{j}^{t}};$ 股票j在第t期的收益率
 
 $X_{js}^{t}$ :股票j在第t期在行业s上的暴露
 
-${\widetilde{f_{s}^{t}}}\colon$ 行业s在第t期的收益率
+$\widetilde{f_{s}^{t}};$ 行业s在第t期的收益率
 
-$X_{jk}^{t}\mathrm{:}$ 股票j在第t期在因子k上的暴露
+$X_{jk}^{t};$ 股票j在第t期在因子k上的暴露
 
 $$
-\widetilde{f_{k}^{t}}\colon{\mathbb{Z}}{\mathcal{J}}{\mathcal{F}}{k}{\mathcal{J}}{\pm}{\overleftrightarrow{\mathcal{P}}}t{\stackrel{\mathrm{\#}}{\to}}{\mathcal{J}}{\mathcal{Q}}{\Huge\{\mathcal{J}}{\mathcal{J}}{\mathcal{Z}}{\Huge\underline{{\tilde{m}\tilde{m}}}}{\stackrel{\tilde{\mu}}{\to}}
+\widetilde{f_k}:四子k在第t励的收益率
 $$
 
-$\widetilde{u_{J}^{t}}\colon$ 股票j的残差收益率
+$\widetilde{u_{j}^{t}}\colon$ 股票j的残差收益率
 
 经典回归模型的基本假设：
 
@@ -952,20 +952,20 @@ $\widetilde{u_{J}^{t}}\colon$ 股票j的残差收益率
 
 3. 不存在完全共线性：每个解释变量具有一定变异并且自变量之间不存在完全的线性相关关系；
 
-4. 零条件均值： $E\big(u_{j}\big|X_{1j},X_{2j},\dots,X_{Kj}\big)=0$ ；
+4. 零条件均值： $E\bigl(u_{j}\bigl|X_{1j},X_{2j},\ldots,X_{Kj}\bigr)=0$ ；
 
-5. 同方差性： $V\mathrm{ar}\bigl(u_{j}\bigl|X_{1j},X_{2j},\ldots,X_{Kj}\bigr)=\sigma^{2}$
+5. 同方差性： $V\mathrm{ar}\big(u_{j}\big|X_{1j},X_{2j},\dots,X_{Kj}\big)=\sigma^{2}$
 
-6. 正态性： $u_{j}$ 独立于所有变量，并且 $.u_{j}{\sim}N(0,\sigma^{2})$ o
+6. 正态性： $u_{j}$ 独立于所有变量，并且 $.u_{j}{\sim}N(0,{\sigma}^{2})$ o
 
 所以前面的大类因子分析，因子共线性分析，残差异方差分析，本质都是让因子能够满足经典回归模型的基本假设。
 
 ## 估计因子预期收益
 
-多元线性回归，我们可以得到所有因子的历史收益率序列 $(\widetilde{f_{k}^{t}},k=1,2,3,\cdots,K;t=$ $1,2,3,\cdots,T)$ ）：
+多元线性回归，我们可以得到所有因子的历史收益率序列 $\langle\widetilde{f_{k}^{t}},k=1{,}2{,}3,\cdots,K;t=$ $1{,}2{,}3{,}\cdots{,}T)$ ）：
 
 $$
-F=\left[\overbrace{f_{1}^{2}}^{1}\overbrace{f_{2}^{2}}^{2}\cdots\overbrace{f_{K}^{1}}^{2}\right]
+\boldsymbol{F}=\begin{bmatrix}\widetilde{f_{1}^{1}}&\widetilde{f_{2}^{1}}&\cdots&\widetilde{f_{K}^{1}}\\\widetilde{f_{1}^{2}}&\widetilde{f_{2}^{2}}&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\\widetilde{f_{1}^{T}}&\cdots&\cdots&\widetilde{f_{K}^{T}}\end{bmatrix}
 $$
 
 对于T+1期因子的预期收益率的估计，可以采用以下几种方式：
@@ -973,7 +973,7 @@ $$
 1. 历史均值法：用前N期因子历史收益率的均值作为T+1期因子的预期收益率，
 
 $$
-\widetilde{f_{k}^{T+1}}=\frac{\sum_{\mathrm{t=T}-\mathrm{N}+1}^{T}\widetilde{f_{k}^{t}}}{N}
+\widetilde{f_{k}^{T+1}}=\frac{\sum_{\mathrm{t=T-N+1}}^{T}\widetilde{f_{k}^{t}}}{N}
 $$
 
 一般情况下，N的取值为36或者60，即前36个月或者60个月的均值；
@@ -981,29 +981,29 @@ $$
 2. 指数加权移动平均法（Exponentially Weighted Moving Average，EWMA）：由于因子收益率包含的信息有可能也是存在衰减，所以离当前越近的观测值权重越重，越远的观测值权重越轻。
 
 $$
-\begin{array}{c}{{EWMA(t)=\lambda\ast\widetilde{f_{k}^{t}}+(1-\lambda)\ast EWMA(t-1),t=1,2,3,\cdots,n}}\\{{\widetilde{f_{k}^{T+1}}=EWMA(t)}}\\{{EWMA(t)\colon t\sharp\sharp\sharp\sharp\sharp\sharp\sharp\ast\operatorname{\lrcorner}\sharp\sharp\div\widetilde{\sharp}}}\\{{\widetilde{f_{k}^{t}}\colon t\sharp\div\widetilde{\sharp}\operatorname{\lrcorner}\sharp\div\ j\widetilde{\chi}\stackrel{\ast\sharp}{\cong}\lambda\sharp\widetilde{\ast}\operatorname{\lrcorner}\sharp\widetilde{\mathbb{L}}}}\\{{\lambda\colon\sharp\mathfrak{L}\sharp\sharp}}\end{array}
+\begin{aligned}EWMA(t)=\lambda*\widetilde{f_k^t}+(1-\lambda)*EWMA(t-1),\ t&=1,2,3,\cdots,n\\\widetilde{f_k^{T+1}}&=EWMA(t)\\EWMA(t)&\colon t时刻的修正估计量\\\widetilde{f_k^t}&\colon t时刻因子收益率观察值\\\lambda&\colon 权重因子\end{aligned}
 $$
 
 $0<\lambda<1$ ，λ越接近1，则当前观察值权重越大，之前的历史值权重越小。λ数值越小，则估计值约平稳，受到数据突变的影响越小；
 
 3. 时间序列预测法：
 
-3.1 $AR(q)$ ，自回归模型（Auto-Regress，AR）：变量在时刻t的取值x(t)依赖于变量的 $q$ 个历史取值 $\{x(t-1),x(t-2),\cdots,x(t-q)\}$ 的加总和以及一个随机输入项e(t)：
+3.1 $AR(q)$ ，自回归模型（Auto-Regress，AR）：变量在时刻t的取值x(t)依赖于变量的 $q_{1}$ 个历史取值 $\{x(t-1),x(t-2),\cdots,x(t-q)\}$ 的加总和以及一个随机输入项e(t)：
 
 $$
 x(t)=a_{0}+a_{1}*x(t-1)+\cdots+a_{q}*x(t-q)+e(t)
 $$
 
-3.2 MA(p)，移动平均模型（Moving Average，MA）：变量在时刻t的取值等 $\mp p+1$ 个（独立的）随机输 $\setminus e(t),e(t-1),\cdots,e(t-p)$ 的加权平均之和：
+3.2 MA(p)，移动平均模型（Moving Average，MA）：变量在时刻t的取值等 $于p+1$ 个（独立的）随机输 $\neg e(t),e(t-1),\cdots,e(t-p)$ 的加权平均之和：
 
 $$
-x(t)=e(t)+c_{1}*e(t-1)+\cdots+c_{p}*e(t-p)+c_{0}
+x(t)=e(t)+c_1*e(t-1)+\cdots+c_p*e(t-p)+c_0
 $$
 
-3.3 $ARMA(q,p)$ ，自回归移动平均模型（Auto-Regress Moving Average，ARMA）：是 $AR(q)\not\Join MA(p)$ 的组合。
+3.3 $ARMA(q,p)$ ，自回归移动平均模型（Auto-Regress Moving Average，ARMA）：是 $AR(q)和MA(p)$ 的组合。
 
 $$
-\begin{array}{c}{{x(t)=a_{0}+a_{1}*x(t-1)+\cdots+a_{q}*x(t-q)}}\\{{+e(t)+c_{1}*e(t-1)+\cdots+c_{p}*e(t-p)}}\end{array}
+\begin{aligned}&x(t)=a_{0}+a_{1}*x(t-1)+\cdots+a_{q}*x(t-q)\\&\quad+e(t)+c_{1}*e(t-1)+\cdots+c_{p}*e(t-p)\\\end{aligned}
 $$
 
 自回归积分滑动平均模型(Autoregressive Integrated Moving Average Model，ARIMA)，是 ARMA模型在时间序列一阶差分上的应用；
@@ -1019,16 +1019,16 @@ $$
 估算出T+1期的因子收益率向量 $(\widetilde{f_{1}^{T+1}},\widetilde{f_{2}^{T+1}},\cdots,\widetilde{f_{k}^{T+1}})$ 后，以及计算出T+1期的因子载荷矩阵：
 
 $$
-X^{T+1}=\left[{\begin{array}{cccc}{X_{11}^{T+1}}&{X_{12}^{T+1}}&{\cdots}&{X_{1K}^{T+1}}\\{X_{21}^{T+1}}&{X_{22}^{T+1}}&{\cdots}&{\cdots}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{X_{N1}^{T+1}}&{\cdots}&{\cdots}&{X_{NK}^{T+1}}\end{array}}\right]
+X^{T+1}=\begin{bmatrix}X_{11}^{T+1}&X_{12}^{T+1}&\cdots&X_{1K}^{T+1}\\X_{21}^{T+1}&X_{22}^{T+1}&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\X_{N1}^{T+1}&\cdots&\cdots&X_{NK}^{T+1}\end{bmatrix}
 $$
 
 根据模型：
 
 $$
-\widetilde{r_{J}^{T+1}}=\sum_{k=1}^{K}X_{jk}^{T+1}*\widetilde{f_{k}^{T+1}}
+\widehat{r_{J}^{T+1}}=\sum_{k=1}^{K}X_{jk}^{T+1}*\widehat{f_{k}^{T+1}}
 $$
 
-就可以计算出T+1期每只股票的预期收益率向量 $(\widetilde{\mathrm{r}_{1}^{T+1}},\widetilde{\mathrm{r}_{2}^{T+1}},\cdots,\widetilde{\mathrm{r}_{N}^{T+1}})$ o
+就可以计算出T+1期每只股票的预期收益率向量 $(\widetilde{\mathbf{r}_{1}^{T+1}},\widetilde{\mathbf{r}_{2}^{T+1}},\cdots,\widetilde{\mathbf{r}_{N}^{T+1}})$ o
 
 ## 风险模型
 
@@ -1075,32 +1075,32 @@ $$
 多因子模型本质上是将对于N只股票的收益—风险预测转变成对于K个因子的收益—风险预测。对于一个使用多因子模型的投资经理而言，她/他原本面对的操作对象是N只股票，通过多因子模型，面对的操作对象转换成了K个因子。
 
 $$
-\left[\begin{array}{c}{\widetilde{\Gamma_{1}}}\\{\widetilde{\Gamma_{2}}}\\{\dots}\\{\widetilde{\Gamma_{N}}}\end{array}\right]=\left[\begin{array}{ccccc}{X_{11}}&{X_{12}}&{\dots}&{X_{1K}}\\{X_{21}}&{X_{22}}&{\dots}&{\dots}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{X_{N1}}&{\dots}&{\dots}&{X_{NK}}\end{array}\right]\left[\begin{array}{c}{\widetilde{f_{1}}}\\{\widetilde{f_{2}}}\\{\vdots}\\{\widetilde{f_{K}}}\end{array}\right]+\left[\begin{array}{c}{\widetilde{u_{1}}}\\{\widetilde{u_{2}}}\\{\vdots}\\{\widetilde{u_{N}}}\end{array}\right]
+\begin{aligned}\begin{bmatrix}\widetilde{\Gamma_{1}}\\\widetilde{\Gamma_{2}}\\\cdots\\\widetilde{\Gamma_{N}}\end{bmatrix}&=\begin{bmatrix}X_{11}&X_{12}&\cdots&X_{1K}\\X_{21}&X_{22}&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\X_{N1}&\cdots&\cdots&X_{NK}\end{bmatrix}\begin{bmatrix}\widetilde{f_{1}}\\\widetilde{f_{2}}\\\vdots\\\widetilde{f_{K}}\end{bmatrix}+\begin{bmatrix}\widetilde{u_{1}}\\\widetilde{u_{2}}\\\vdots\\\widetilde{u_{N}}\end{bmatrix}\end{aligned}
 $$
 
 $$
-X_{nk}\colon\sharp\mathring{\mathfrak{L}}\stackrel{\triangledown}{\cdot}n\vartheta\sharp\big|\mathfrak{L}\big|\vec{\mathfrak{L}}\big|\mathcal{R}\big|\big|_{\mathfrak{L}\nearrow}\frac{\mathfrak{L}}{\mathfrak{L}\mathfrak{L}\mathfrak{L}}\big|\big|\mathfrak{L}\big|\vec{\mathfrak{L}}\big|\big|\vec{\mathfrak{L}}\big|\big|\vec{\mathfrak{L}}\big|\big|\vec{\mathfrak{L}}\big|\big|\vec{\mathfrak{L}}\big|\big|\vec{\mathfrak{L}}\big|\big|\big|\mathfrak{L}\big|
+X_{nk}:股票n对因子k的风险暴露《因子载荷》
 $$
 
 多因子模型极大的降低了预测工作量，以一个1000只股票和20个因子组成系统而言，若对个股直接预测风险，则需要预测 $N*(N-1)/2=4950$ 个相关系数，协方差矩阵中包含的独立参数太多，估计值既不稳定也不合理。若转变为对因子风险进行预测，则只要估计不到200个相关系数就够了。
 
 在这里需要指出，多因子模型并不是一个因果关系的模型，即所谓的因子只是在统计上和收益率存在相关关系，是试图解释收益风险的维度，多因子模型并不关心他们是否存在因果关系。
 
-在多因子模型中，我们假设残差收益率ũj与因子收益率 $\cdot\widetilde{f_{k}}$ 不相关，并且不同股票的残差收益率之间也互不相关。在多因子模型的框架下，市场的风险结构变为：
+在多因子模型中，我们假设残差收益率ũj与因子收益率 $\widetilde{f}_{k}$ 不相关，并且不同股票的残差收益率之间也互不相关。在多因子模型的框架下，市场的风险结构变为：
 
 $$
-V_{i,j}=\sum_{k1,k2=1}^{K}X_{i,k1}*F_{k1,k2}*X_{j,k2}+\Delta_{i,j}
+V_{i,j}=\sum_{k1,k2=1}^{K}X_{i,k1}*F_{k1,k2}*X_{j,k2}+\Delta_{i,j},
 $$
 
-$V_{i,j}\colon$ 股票i和股票j的协方差
+$V_{i,j};$ 股票i和股票j的协方差
 
-$X_{i,k1}\colon$ 股票i对因子k1 的暴露度（因子载荷）
+$X_{i,k1}.$ 股票i对因子k1 的暴露度（因子载荷）
 
 $$
-F_{k1,k2}:\sharp\vec{\tau}\vec{\tau}\vec{\tau}\vec{\mu}\vec{\circ}\vec{\tau}\vec{\Xi}\vec{k}\vec{\nu}\vec{\Xi}\vec{k}\vec{\Xi}\vec{k}\vec{\Xi}\vec{\mathcal{Z}}\vec{k}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\mathcal{H}}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\mathcal{Z}}\vec{\Xi}\vec{\Xi}\vec{\mathcal{H}}\vec{\mathcal{H}}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec{\Xi}\vec\Xi\Xi\vec{}\Xi\vec{\Xi}\vec\Xi\Xi\vec{\Xi}\vec\Xi\Xi\vec{}\Xi
+$F_{k1,k2}\colon 因子k1$和因子$k2$之间的收益率协方差
 $$
 
-$\Delta_{i,j}\colon$ 股票i和股票j之间残差的协方差，i ≠ j时为 0
+$\Delta_{i,j};$ 股票i和股票j之间残差的协方差，i ≠ j时为 0
 
 对于任意一个投资组合P都可以用一个N维向量 $h_{P}$ 来描述，其中 $h_{P}$ 是组合P在N只股票上的持仓权重。则组合P的因子暴露度是：
 
@@ -1117,21 +1117,21 @@ $$
 如果组合P在业绩基准B，我们也可以根据类似的公式计算组合的主动风险（跟踪误差）。如果 $h_{B}$ 是业绩基准的持仓权重向量，那么我们可以给出如下定义：
 
 $$
-\begin{array}{c}{h_{PA}=h_{P}-h_{B}}\\{x_{PA}=X^{T}*h_{PA}}\\{\sigma_{PA}^{2}=x_{PA}^{T}*F*x_{PA}+h_{PA}^{T}*\Delta*h_{PA}=h_{PA}^{T}*V*h_{PA}}\end{array}
+\begin{aligned}h_{PA}&=h_P-h_B\\x_{PA}&=X^T*h_{PA}\\\sigma_{PA}^2=x_{PA}^T*F*x_{PA}+h_{PA}^T*\Delta*h_{PA}&=h_{PA}^T*V*h_{PA}\end{aligned}
 $$
 
 ## 因子协方差矩阵
 
-根据多元线性回归的结果，我们可以得到所有因子每期因子收益的历史序列值 $(\widetilde{f_{k}^{t}},k=$ $1,2,3,\cdots,K;t=1,2,3,\cdots,N)$ ）：
+根据多元线性回归的结果，我们可以得到所有因子每期因子收益的历史序列值 $(\widetilde{f_{k}^{t}},k=$ $\overline{{1,}}2,\overline{{3}},\cdots,K;t=1,\overline{{2,}}3,\cdots,N)$ ）：
 
 $$
-\left[\overbrace{f_{1}^{2}}^{f_{1}^{1}}\quad\overbrace{f_{2}^{2}}^{f_{1}^{1}}\quad\ldots\quad\widehat{f_{K}^{1}}\right]
+\begin{bmatrix}\widetilde{f_1^1}&\widetilde{f_2^1}&\cdots&\widetilde{f_K^1}\\\widetilde{f_1^2}&\widetilde{f_2^2}&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\\widetilde{f_1^N}&\cdots&\cdots&\widetilde{f_K^N}\end{bmatrix}
 $$
 
 根据N期的历史数据计算出因子收益率之间的协方差矩阵：
 
 $$
-F=\left[\begin{array}{cccc}{\sigma_{1}^{2}}&{\sigma_{12}}&{\cdots}&{\sigma_{1\mathrm{K}}}\\{\sigma_{21}}&{\sigma_{2}^{2}}&{\cdots}&{\cdots}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{\sigma_{K1}}&{\cdots}&{\cdots}&{\sigma_{K}^{2}}\end{array}\right]
+F=\begin{bmatrix}\sigma_{1}^{2}&\sigma_{12}&\cdots&\sigma_{1\mathrm{K}}\\\sigma_{21}&\sigma_{2}^{2}&\cdots&\cdots\\\vdots&\vdots&\ddots&\vdots\\\sigma_{K1}&\cdots&\cdots&\sigma_{K}^{2}\end{bmatrix}
 $$
 
 一般N的取值为36个月或者60个月。
@@ -1141,19 +1141,19 @@ $$
 为了估计股票的协方差矩阵，不仅需要估计因子收益率的协方差矩阵V，还需要估计特异风险矩阵∆。多因子模型并不能解释一只股票的特异收益 $u_{j}$ ，但是需要对于特异收益的方差u2进行建模（参考《主动投资组合管理》）：
 
 $$
-u_{j}^{2}(t)=S(t)\ast[1+v_{j}(t)]
+u_{j}^{2}(t)=S(t)*[1+v_{j}(t)]
 $$
 
 其中：
 
 $$
-\left({\frac{1}{N}}\right)*\sum_{n=1}^{N}u_{j}^{2}\left(t\right)=S(t)
+\Big(\frac{1}{N}\Big)*\sum_{n=1}^{N}u_{j}^{2}\left(t\right)=S(t),
 $$
 
 并且：
 
 $$
-\left({\frac{1}{N}}\right)*\sum_{n=1}^{N}v_{j}\left(t\right)=0
+\left(\frac{1}{N}\right)\ast\sum_{n=1}^{N}v_{j}\left(t\right)=0.
 $$
 
 S(t)衡量了股票空间上特异方差的平均水平，而v 则捕捉了特异方差在横截面上的起伏。为了预测特异风险，我们对S(t)建立时间序列模型，并对v (t)建立多因子模型。 $v_{j}(t)$ 的模型通常包含风险指数因子，以及衡量近期特意收益率平方的因子。关于 $v_{j}(t)$ 的模型的时间依赖性是由随时间变化的暴露度捕获的。我们通过剔除离群值的混合回归（即将多期横截面样本放在一起做面板回归）来估计模型系数。
@@ -1169,7 +1169,7 @@ S(t)衡量了股票空间上特异方差的平均水平，而v 则捕捉了特�
 一般二次规划问题可以表示成如下形式：
 
 $$
-\begin{array}{c}{{min\displaystyle\frac{1}{2}*H^{T}*Q*H+H^{T}*c}}\\{{s.t.~A^{T}*H\leq b}}\end{array}
+\begin{aligned}\min_{H}\frac{1}{2}&*H^{T}*Q*H+H^{T}*c\\&s.t.\ A^{T}*H\leq b\end{aligned}
 $$
 
 其中：
@@ -1177,7 +1177,7 @@ $$
 ## H: 需要求解的目标向量
 
 $$
-\begin{array}{rl}&{Q:\mathrm{H}\underset{\mathrm{H}}{\div}\mathrm{H}\underset{\mathrm{H}}{\div}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{H}^{\pm}\mathrm{H}^{\pm}\mathrm{H}^{\pm}=\langle\mathcal{K}\mathrm{L}\frac{\partial\mathrm{H}}{\partial\mathrm{L}}\underset{\mathrm{H}}{\div}\frac{\partial\mathrm{H}}{\partial\mathrm{L}}\lambda\mathrm{H}^{\pm}\mathrm{H}\mathrm{L}+\mathrm{L}\mathrm{L}\mathrm{L}\mathrm{H}^{\pm}\mathrm{H}^{\pm}}\\&{\quad\quad\quad\quad c:\mathrm{H}\underset{\mathrm{H}}{\leq}\frac{\partial\mathrm{L}}{\partial\mathrm{L}}\mathrm{L}\mathrm{L}\mathrm{L}\mathrm{L}\mathrm{H}^{\pm}\mathrm{H}+\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}^{\pm}\mathrm{H}^{\pm}\mathrm{L}\mathrm{H}^{\pm}\mathrm{L}\mathrm{L}\mathrm{L}\mathrm{L}^{\pm}\mathrm{L}^{\pm}}\\&{\quad\quad\quad\quad A:\mathrm{H}\mathrm{L}\mathrm{H}^{\pm}\mathrm{H}\mathrm{R}^{\pm}\mathrm{H}\mathrm{L}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}^{\pm}\mathrm{H}\mathrm{L}\mathrm{H}^{\pm}}\\&{\quad\quad\quad\quad b:\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}\mathrm{L}\mathrm{H}^{\pm}}\end{array}
+\begin{aligned}Q:&为最优化问题的二次项系数的对称半正定矩阵\\&\quad c:为与线性目标方程有关的系数向量\\&\quad A:为约束等式与非等式的系数矩阵\\&\quad b:为约束值的向量矩阵\end{aligned}
 $$
 
 二次与线性最优化的问题都可以通过一般二次规划最优化程序来解决。对于线性最优化问题，只要令 $Q=0$ ，则问题就变成一个线性规划问题。对于二次最优化而言，要使用恰当的Q。
@@ -1191,7 +1191,7 @@ $$
 2. 在预期收益不低于某一特定水平的条件下，选择投资组合使得预期风险最小。要求解的目标是投资组合P的权重向量 $h_{P}$ ，组合的预期收益率；
 
 $$
-\widetilde{r_{P}^{T+1}}=\sum_{j=1}^{N}\widetilde{r_{j}^{T+1}}*h_{j}
+\widehat{r_{P}^{T+1}}=\sum_{j=1}^{N}\widehat{r_{j}^{T+1}}*h_{j}.
 $$
 
 组合的预期风险为：
@@ -1200,31 +1200,31 @@ $$
 \sigma_{P}^{2}=x_{P}^{T}*F*x_{P}+h_{P}^{T}*\Delta*h_{P}=h_{P}^{T}*V*h_{P}
 $$
 
-注： $h_{P}^{T}$ 上的右角标T是转置的意思，不是代表第T期， $\pi_{\mathbb{P}}\widetilde{r_{P}^{T+1}}$ 的右角标T+1是代表第 $T+1$ 期。第一个模型是控制风险，最大化收益的模型：
+注： $h_{P}^{T}$ 上的右角标T是转置的意思，不是代表第T期， $而\widehat{r_{P}^{T+1}}$ 的右角标T+1是代表第 $T+1$ 期。第一个模型是控制风险，最大化收益的模型：
 
 $$
-\begin{array}{c}{{m{\displaystyle{ax\sum_{h_{j}}^{N}\widetilde{r_{j}^{T+1}}*h_{j}}}}}\\{{\mathrm{s.t.~}h_{P}^{T}*V*h_{P}\le\sigma^{2}}}\\{{\displaystyle{\sum_{j=1}^{N}h_{j}=1,h_{j}\ge0\ j=1,2,\cdots,N}}}\end{array}
+\begin{aligned}\max_{h_{j}}\sum_{j=1}^{N}\widetilde{r_{j}^{T+1}}*h_{j}\\s.t.h_{P}^{T}*V*h_{P}\leq\sigma^{2}\\\sum_{j=1}^{N}h_{j}=1,h_{j}\geq0j=1,&2,\cdots,N\\\end{aligned}
 $$
 
 第二个模型是保证收益，最小化风险的模型；
 
 $$
-\operatorname*{m}_{h_{P}}{h_{P}^{T}}*V*h_{P}
+\mathop{min}_{h_{P}}h_{P}^{T}*V*h_{P}
 $$
 
 $$
-s.t.\sum_{j=1}^{N}\widetilde{r_{j}^{T+1}}*h_{j}\geq r
+s.t.\sum_{j=1}^{N}\widetilde{r_{j}^{T+1}}*h_{j}\geq r.
 $$
 
 $$
-\sum_{j=1}^{N}h_{j}=1,h_{j}\geq0\ j=1,2,\cdots,N
+\sum_{j=1}^{N}h_{j}=1,h_{j}\geq0j=1,2,\cdots,N
 $$
 
 ## 个股上下限约束
 
 多因子模型本质是统计套利模型，并且强调投资的宽度（通过多个不同维度的因子），因此必须对个股的权重进行上限约束，避免风险在单只股票上分配过多的权重。另外本报告讨论的模型是利用多因子模型构建纯多头组合，并非多空模型，所以个股权重的下限约束是0，即不允许卖空。
 
-如果组合P存在业绩基准B，业绩基准B的个股权重向量 $\cdot h_{B}$ ，那么组合P的主动权重暴露 $.h_{PA}$ 是：
+如果组合P存在业绩基准B，业绩基准B的个股权重向量 $h_{B}$ ，那么组合P的主动权重暴露 $.h_{PA}$ 是：
 
 $$
 h_{PA}=h_{P}-h_{B}
@@ -1241,15 +1241,15 @@ $$
 则需要求解的权重向量变为 $h_{PA}$ ，个股权重为 $h_{PAj}$ ，个股权重上限为 $h_{j}^{upper}$ 优化的约束条件变为：
 
 $$
-max\sum_{h_{j}}^{N}\widetilde{r_{j}^{T+1}}*h_{PAj}
+\mathop{max}_{h_{j}}\sum_{j=1}^{N}\widetilde{r_{j}^{T+1}}*h_{PAj},
 $$
 
 $$
-s.t.\ h_{PA}^{T}*V*h_{PA}\leq\sigma^{2}
+s.t.h_{PA}^{T}*V*h_{PA}\leq\sigma^{2}
 $$
 
 $$
-\sum_{j=1}^{N}h_{PAj}=0,h_{j}^{upper}\geq h_{PAj}\geq-h_{Bj}\ j=1,2,\cdots,N
+\sum_{j=1}^{N}h_{PAj}=0,h_{j}^{upper}\geq h_{PAj}\geq-h_{Bj}j=1,2,\cdots,N
 $$
 
 ## 行业权重约束
@@ -1260,34 +1260,34 @@ $$
 
 2. 通过行业中性对冲组合的行业风险（以业绩基准的行业权重为基准进行对齐，即组合在每个行业上的权重分配与业绩基准一致）。
 
-对于任意一只股票，其行业哑变量 $(0,0,\cdots,1,\cdots0)$ ，对于所有股票组成的哑变量矩阵S：
+对于任意一只股票，其行业哑变量 $(0{,}0{,}\cdots{,}1{,}\cdots0)$ ，对于所有股票组成的哑变量矩阵S：
 
 $$
-S=\left[{\begin{array}{cccc}{s_{11}}&{s_{12}}&{\cdots}&{s_{1S}}\\{s_{21}}&{s_{22}}&{\cdots}&{\vdots}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{s_{N1}}&{\cdots}&{\cdots}&{s_{NS}}\end{array}}\right]
+S=\begin{bmatrix}s_{11}&s_{12}&\cdots&s_{1S}\\s_{21}&s_{22}&\cdots&\vdots\\\vdots&\vdots&\ddots&\vdots\\s_{N1}&\cdots&\cdots&s_{NS}\end{bmatrix}
 $$
 
 要求：
 
 $$
-\sum_{j=1}^{N}h_{PAj}*s_{ji}=0
+\sum_{j=1}^{N}h_{PAj}*s_{ji}=0.
 $$
 
 加上行业中性约束的最优化条件变为；
 
 $$
-max\sum_{h_{j}}^{N}\widetilde{\ df_{j}^{T+1}}\ast h_{PAj}
+\mathop{max}_{h_{j}}\sum_{j=1}^{N}\widetilde{r_{j}^{T+1}}*h_{PAj},
 $$
 
 $$
-s.t.\ h_{PA}^{T}*V*h_{PA}\leq\sigma^{2}
+s.t.h_{PA}^{T}*V*h_{PA}\leq\sigma^{2}
 $$
 
 $$
-\sum_{j=1}^{N}h_{PAj}=0,h_{j}^{upper}\geq h_{PAj}\geq-h_{Bj}~j=1,2,\cdots,N
+\sum_{j=1}^{N}h_{PAj}=0,h_{j}^{upper}\geq h_{PAj}\geq-h_{Bj}j=1{,}2,\cdots,N
 $$
 
 $$
-\sum_{j=1}^{N}h_{PAj}*s_{ji}=0~j=1,2,\cdots,N
+\sum_{j=1}^{N}h_{PAj}*s_{ji}=0\quad j=1{,}2,\cdots,N.
 $$
 
 ## 因子暴露约束
@@ -1301,29 +1301,29 @@ $$
 如果对于因子k的暴露上限为 $x_{k}$ ，则要求：
 
 $$
-|\sum_{j=1}^{N}h_{PAj}*X_{jk}|\leq x_{k}
+|\sum_{j=1}^{N}h_{PAj}*X_{jk}\:|\leq x_{k},
 $$
 
 最终的优化条件变为：
 
 $$
-max\sum_{h_{j}}^{N}\widetilde{r_{j}^{T+1}}*h_{PAj}
+\mathop{max}_{h_{j}}\sum_{j=1}^{N}\widetilde{r_{j}^{T+1}}*h_{PAj},
 $$
 
 $$
-s.t.\ h_{PA}^{T}*V*h_{PA}\leq\sigma^{2}
+s.t.h_{PA}^{T}*V*h_{PA}\leq\sigma^{2}
 $$
 
 $$
-\sum_{j=1}^{N}h_{PAj}=0,h_{j}^{upper}\geq h_{PAj}\geq-h_{Bj}~j=1,2,\cdots,N
+\sum_{j=1}^{N}h_{PAj}=0,h_{j}^{upper}\geq h_{PAj}\geq-h_{Bj}j=1{,}2,\cdots,N
 $$
 
 $$
-\sum_{j=1}^{N}h_{PAj}*s_{ji}=0~j=1,2,\cdots,N
+\sum_{j=1}^{N}h_{PAj}*s_{ji}=0\quad j=1{,}2,\cdots,N.
 $$
 
 $$
-|\sum_{j=1}^{N}h_{PAj}*X_{jk}|\leq x_{k}
+|\sum_{j=1}^{N}h_{PAj}*X_{jk}\:|\leq x_{k},
 $$
 
 ## 多因子模型的绩效分析
@@ -1333,31 +1333,31 @@ $$
 年化收益率：
 
 $$
-\begin{array}{c}{{exp\left\{\displaystyle{ln(v_{t})-ln(v_{0})]*\frac{12}{t}}\right\}-1}}\\{{{}}}\\{{v_{t}{:}t\ddag{\rlap/{\ p}{\ A^{\prime}}\succ\rlap/{\ p}{\ A^{\prime}}\bigg\}}}}\\{{{}}}\\{{v_{0}{:}\rlap/{\ A^{\prime}}\oslash{\ A^{\prime}}\rlap/{\ p}{\ A}}}\end{array}
+\begin{aligned}exp\left\{\left[ln(v_{t})-ln(v_{0})\right]*\frac{12}{t}\right\}-1\\v_{t}:t期的净值\\v_{0}:初始净值\end{aligned}
 $$
 
 最大回撤：
 
 $$
-min[ln\big(v_{j}\big)-ln(v_{i})]\quad i<j
+\min_{i,j}\left[ln(v_j)-ln(v_i)\right]\quad i<j
 $$
 
 ## 收益率回归
 
-基于收益率回归的 Jensen 业绩分析的基本形式是：用组合P的收益率序列对业绩基准B的时间序列做回归。回归的截距项和系数分别是组合的α和 $^{\tau\beta}$ 。
+基于收益率回归的 Jensen 业绩分析的基本形式是：用组合P的收益率序列对业绩基准B的时间序列做回归。回归的截距项和系数分别是组合的α和 $^{\circ}\beta$ 。
 
 $$
-\begin{array}{r}{r_{P}(t)=\alpha_{P}+\beta_{P}*r_{B}(t)+\varepsilon_{P}(t)}\end{array}
+r_{P}(t)=\alpha_{P}+\beta_{P}*r_{B}(t)+\varepsilon_{P}(t)
 $$
 
-回归分析将组合P的收益率分解成基准部分 $\beta_{P}*r_{B}(t)$ 和主动超越基准部分 $\theta_{P}(\mathfrak{t})=\alpha_{P}+$ $\varepsilon_{P}(t)$ 0
+回归分析将组合P的收益率分解成基准部分 $\cdot\beta_{P}*r_{B}(t)$ 和主动超越基准部分 $\cdot\theta_{P}(\mathsf{t})=\alpha_{P}+$ $\varepsilon_{P}(t)$ 0
 
-对于 $\mathbf{\Delta}_{\mathbf{X}_{P}}$ 可以采用t统计量进行检验，如果t统计量大于等于2则意味着组合的业绩表现来源于能力而非运气，因为在正态分布的假设下， $\alpha_{P}$ 是运气的概率仅5%。
+对于 $[\alpha_{P}$ 可以采用t统计量进行检验，如果t统计量大于等于2则意味着组合的业绩表现来源于能力而非运气，因为在正态分布的假设下， $\alpha_{P}$ 是运气的概率仅5%。
 
 $\alpha_{P}$ 的t统计量为：
 
 $$
-t_{P}{\sim}\left(\frac{{\alpha}_{P}}{{\omega}_{P}}\right)*{\sqrt{T}}
+t_{P}{\sim}\left(\frac{\alpha_{P}}{\omega_{P}}\right)*\sqrt{T}
 $$
 
 除了 $\alpha_{P}$ 及其t统计量 $t_{P}$ 的组合外，另外一个衡量业绩的指标就是信息比率（IR），信息比率是用年化超额收益除以年化残差风险。
@@ -1373,10 +1373,10 @@ $$
 对于业绩进行归因的时候，同样可以采用多因子模型的框架；
 
 $$
-r_{P}(t)=\sum_{j}x_{Pj}\left(t\right)*b_{j}(t)+u_{P}(t)
+r_{P}(t)=\sum_{j}x_{Pj}\left(t\right)*b_{j}(t)+u_{P}(t),
 $$
 
-通过对资产收益率的后验分析，在期初我们能够获得每个因子的暴露度 $x_{Pj}(t)$ ，第t期各个因子收益率 $\mathbf{\nabla}\cdot b_{j}(t)$ ，组合在第t期实现的投资收益。
+通过对资产收益率的后验分析，在期初我们能够获得每个因子的暴露度 $x_{Pj}(t)$ ，第t期各个因子收益率 $\cdot b_{j}(t)$ ，组合在第t期实现的投资收益。
 
 归因到因子j的组合收益率是：
 
@@ -1384,7 +1384,7 @@ $$
 r_{Pj}(t)=x_{Pj}(t)*b_{j}(t)
 $$
 
-组合的特异收益率是 $u_{P}(t)$ o
+组合的特异收益率是 $\overline{{u}}_{P}(t)$ o
 
 一般情况下，业绩归因模型使用和风险模型相同的因子。但是从理论上讲，这两者的因子不必完全相同。正如我们在“有效因子识别”章节中分析的，对于有效因子可以分成两类：收益类因子和风险类因子。两者的共同点是都跟股票收益率存在明显的相关性，不同点在于前者规律性很强，容易预测；而后者规律性很差，预测风险大。收益类因子是多因子模型收益的主要来源，风险类因子则主要用于风险控制。
 
@@ -1440,7 +1440,7 @@ $$
 x_{PA}^{T}*FMCAR=\frac{h_{PA}^{T}*V*h_{PA}-h_{PA}^{T}*\Delta*h_{PA}}{\sigma_{P}}
 $$
 
-因此我们可以将主动风险 $\sigma_{P}$ 归因到因子来源和特异来源上。因子j的风险边际贡献为$x_{PA}^{T}(j)\ast FMCAR(j)$ ，特异收益率的风险边际贡献 $h_{PA}^{T}*\Delta*h_{PA}/\sigma_{P}$ o
+因此我们可以将主动风险 $\sigma_{P}$ 归因到因子来源和特异来源上。因子j的风险边际贡献为$x_{PA}^{T}(j)*FMCAR(j)$ ，特异收益率的风险边际贡献 $\boldsymbol{\cdot}\boldsymbol{h}_{PA}^{T}*\boldsymbol{\Delta}*\boldsymbol{h}_{PA}/\sigma_{P}$ o
 
 ## 业绩归因形式
 

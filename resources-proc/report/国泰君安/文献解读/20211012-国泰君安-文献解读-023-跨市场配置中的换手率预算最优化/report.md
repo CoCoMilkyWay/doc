@@ -93,7 +93,7 @@ Hao, Yin. Optimal Turnover Constraints: Scarcity Is Everywhere[J]. The Journal o
 假设市场中一共有 N 种资产，并引入如下记号：
 
 $$
-\{\begin{array}{ll}{\mathbb{R}^{\mathrm{N}}\ni\boldsymbol{\mathrm{m}}(\mathbf{t})=\frac{\lambda+\frac{1}{2}\lambda+\frac{1}{2}\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{6}}\mathbb{E}\cdot\hat{\boldsymbol{\mathrm{e}}}_{\perp}^{\lambda}\hat{\mathrm{f}}_{\perp}\hat{\mathcal{X}}\cdot\frac{\hat{\boldsymbol{\mathrm{e}}}_{\perp}^{\lambda}}{\sqrt{7}}\frac{\lambda}{\sqrt{2}}}\\{\mathbb{R}^{\mathrm{N}}\ni\boldsymbol{\mathrm{p}}(\mathbf{t})=\frac{\lambda+\frac{1}{4}}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\mathbb{E}\cdot\hat{\boldsymbol{\mathrm{e}}}_{\perp}^{\lambda}\hat{\mathrm{f}}_{\perp}\hat{\mathcal{X}}\cdot\frac{\hat{\mathrm{e}}_{\perp}^{\lambda}}{\sqrt{7}}\frac{\lambda}{\sqrt{2}}}\\\mathbb{R}^{\mathrm{N}}\ni\boldsymbol{\mathrm{u}}(\mathbf{t})=\frac{\lambda}{\sqrt{5}}\int_{\mathrm{1}}^{\frac{1}{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\mathbb{E}\cdot\frac{\hat{\mathrm{e}}}{\sqrt{7}}\frac{\lambda}{\sqrt{6}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}{\sqrt{5}}\frac{\lambda}\end{array}
+\begin{cases}\mathbb{R}^{\mathbb{N}}\ni\mathbf{m}(\mathbf{t})=模型投资组合的权重向量\\\mathbb{R}^{\mathbb{N}}\ni\mathbf{p}(\mathbf{t})=持有投资组合的权重向量\\\mathbb{R}^{\mathbb{N}}\ni\mathbf{u}(\mathbf{t})=新信息在投资组合的权重向量上造成的影响\\\mathbb{R}_{\geq0}\ni\mathbf{d}=变易速度\\\mathbb{R}_{\geq0}\ni\mathbf{g}=信息流失速度\\\mathbb{R}_{\geq0}\ni\Delta\mathbf{t}=再平衡时间间隔\\\mathbb{R}^{\mathbb{N}\times\mathbb{N}}\ni\Omega=\mathbb{N}种资产之间的收益率方差-协方差矩阵\end{cases}
 $$
 
 其中，投资组合以Δt 为恒定间隔执行再平衡策略。表 1 中给出了不同频率的再平衡策略的时间间隔的具体数值。
@@ -111,7 +111,7 @@ $$
 假设权重向量满足如下演化方程：
 
 $$
-\begin{array}{rl}&{\{\Delta\mathrm{m}(\mathrm{t}):=\mathrm{m}(\mathrm{t})-\mathrm{m}(\mathrm{t}-\Delta\mathrm{t})=-\mathbf{g}\cdot\mathrm{m}(\mathrm{t}-\Delta\mathrm{t})\cdot\Delta\mathrm{t}+\mathrm{u}(\mathrm{t})}\\&{\{\Delta\mathrm{p}(\mathrm{t}):=\mathrm{p}(\mathrm{t})-\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})=\mathrm{d}\cdot[\mathrm{m}(\mathrm{t})-\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})]\cdot\Delta\mathrm{t}=\dot{\mathrm{p}}(\mathrm{t})\cdot\Delta\mathrm{t}}\end{array}
+\begin{cases}\Delta\mathrm{m}(\mathrm{t}):=\mathrm{m}(\mathrm{t})-\mathrm{m}(\mathrm{t}-\Delta\mathrm{t})=-\mathrm{g}\cdot\mathrm{m}(\mathrm{t}-\Delta\mathrm{t})\cdot\Delta\mathrm{t}+\mathrm{u}(\mathrm{t})\\\Delta\mathrm{p}(\mathrm{t}):=\mathrm{p}(\mathrm{t})-\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})=\mathrm{d}\cdot\left[\mathrm{m}(\mathrm{t})-\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})\right]\cdot\Delta\mathrm{t}=\dot{\mathrm{p}}(\mathrm{t})\cdot\Delta\mathrm{t}\end{cases}
 $$
 
 此处，d⋅Δt 可以解释为（当期）模型投资组合与（前期）持有投资组合之间的执行效率，在没有交易成本的情况下，d⋅Δt 将约等于 100%。尽管对 d 有不同的解释（例如，Grinold（2007）将其视为交易成本的摊销因子），但稍后可以看到其与投资组合的换手率水平直接相关。需要指出的是，Grinold 已经证明 d 的最优值取决于交易成本水平，这与投资经理使用交易成本模型来调整换手率预算的经验事实是相符的。
@@ -119,25 +119,25 @@ $$
 定义持有投资组合风险、模型投资组合风险和交易风险如下：
 
 $$
-\left\{\begin{array}{ll}{\omega_{\mathrm{P}}^{2}:=\mathbb{E}[\mathrm{p}^{\mathrm{T}}(\mathrm{t})\cdot\boldsymbol{\Omega}\cdot\mathrm{p}(\mathrm{t})]}\\{\omega_{\mathrm{M}}^{2}:=\mathbb{E}[\mathrm{m}^{\mathrm{T}}(\mathrm{t})\cdot\boldsymbol{\Omega}\cdot\mathrm{m}(\mathrm{t})]}\\{\omega_{\dot{\mathrm{P}}}^{2}:=\mathbb{E}[\dot{\mathrm{p}}^{\mathrm{T}}(\mathrm{t})\cdot\boldsymbol{\Omega}\cdot\dot{\mathrm{p}}(\mathrm{t})]}\end{array}\right.
+\begin{cases}\boldsymbol{\omega}_{\mathrm{P}}^{2}:=\mathbb{E}[\mathbf{p}^{\mathrm{T}}(\mathsf{t})\cdot\boldsymbol{\Omega}\cdot\mathbf{p}(\mathsf{t})]\\\boldsymbol{\omega}_{\mathrm{M}}^{2}:=\mathbb{E}[\mathbf{m}^{\mathrm{T}}(\mathsf{t})\cdot\boldsymbol{\Omega}\cdot\mathbf{m}(\mathsf{t})]\\\boldsymbol{\omega}_{\dot{\mathrm{P}}}^{2}:=\mathbb{E}[\dot{\mathbf{p}}^{\mathrm{T}}(\mathsf{t})\cdot\boldsymbol{\Omega}\cdot\dot{\mathbf{p}}(\mathsf{t})]\end{cases}
 $$
 
-在新信息 $\dot{\mathcal{P}}$ 生的权重改变满足零均值、且两种投资组合权重相互独立的假设下，利用上述演化方程，Grinold（2007）证明了：
+在新信息 $产$ 生的权重改变满足零均值、且两种投资组合权重相互独立的假设下，利用上述演化方程，Grinold（2007）证明了：
 
 $$
-\omega_{\dot{\mathrm{p}}}^{2}=\mathrm{gd}\cdot\omega_{\mathrm{p}}^{2}={\frac{\mathrm{gd}^{2}}{\mathrm{d}+\mathrm{g}}}\cdot\omega_{\mathrm{M}}^{2}
+\omega_{\mathrm{\acute{p}}}^{2}=\mathrm{g}\mathrm{d}\cdot\omega_{\mathrm{p}}^{2}=\frac{\mathrm{g}\mathrm{d}^{2}}{\mathrm{d}+\mathrm{g}}\cdot\omega_{\mathrm{M}}^{2}
 $$
 
 进一步地，可以证明 m(t)和 p(t)之间的相关系数满足
 
 $$
-\rho_{\mathrm{M,P}}=\sqrt{\frac{\mathrm{d}}{\mathrm{d}+\mathrm{g}}}
+\rho_{\mathrm{M,P}}=\sqrt{\frac{\mathrm{d}}{\mathrm{d}+\mathbf{g}}}
 $$
 
 而信息比率之间满足
 
 $$
-\mathrm{IR}_{\mathrm{P}}=\rho_{\mathrm{M,P}}\cdot\mathrm{IR}_{\mathrm{M}}
+\mathrm{IR_{P}}=\mathrm{\rho_{M,P}}\cdot\mathrm{IR_{M}}
 $$
 
 ## 3.2. 投资组合换手率
@@ -147,37 +147,37 @@ $$
 以下的理想状况虽然并不总是如实际发生的一样，但有助于帮助我们理解模型的基本逻辑。假设前一期持有投资组合与模型投资组合完美匹配，即跟踪误差为 0：
 
 $$
-\mathrm{p(t-}\Delta\mathrm{t)}=\mathrm{m(t-}\Delta\mathrm{t)}
+\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})=\mathrm{m}(\mathrm{t}-\Delta\mathrm{t})
 $$
 
 那么在 t 时刻的预期投资组合换手率可以被表示为
 
 $$
-\mathbb{E}[\mathrm{TR(t)}|\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})]
+\mathbb{E}[\mathrm{TR}(\mathrm{t})|\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})]
 $$
 
 注意到，实际换手率应该满足
 
 $$
-\mathbb{E}[\mathrm{TR(t)}]=\mathbb{E}\left[\frac{1_{\mathrm{N}}^{\mathrm{T}}\cdot|\Delta\mathrm{p(t)}|}{\left|1_{\mathrm{N}}^{\mathrm{T}}\cdot\mathrm{p(t-\Delta t)}\right|}\right]
+\mathbb{E}[\mathrm{TR}(\mathrm{t})]=\mathbb{E}\left[\frac{1_{\mathrm{N}}^{\mathrm{T}}\cdot|\Delta\mathrm{p}(\mathrm{t})|}{\left|1_{\mathrm{N}}^{\mathrm{T}}\cdot\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})\right|}\right]
 $$
 
 利用三角不等式，此处我们使用与实际换手率相比偏小的一个估计量作为代理变量
 
 $$
-\Phi_{\mathrm{t}}=\left|\mathbb{E}\left[\frac{1_{\mathrm{N}}^{\mathrm{T}}\cdot\Delta\mathrm{p(t)}}{1_{\mathrm{N}}^{\mathrm{T}}\cdot\mathrm{p}(\mathrm{t}-\Delta\mathrm{t})}\right]\right|\leq\mathbb{E}[\mathrm{TR}(\mathrm{t})]
+\mathbf{e}_{\mathrm{t}}=\left[\mathbb{E}\left[\frac{1_{\mathrm{N}}^{\mathrm{T}}\cdot\Delta\mathbf{p}(\mathrm{t})}{1_{\mathrm{N}}^{\mathrm{T}}\cdot\mathbf{p}(\mathrm{t}-\Delta\mathrm{t})}\right]\right]\leq\mathbb{E}[\mathrm{TR}(\mathrm{t})]
 $$
 
 利用演化方程
 
 $$
-\begin{array}{rl}&{\mathfrak{e}_{\mathrm{t}}=\mathrm{d}\Delta\mathfrak{t}\cdot\Bigg|\mathbb{E}\Bigg[\frac{1_{\mathrm{N}}^{\mathrm{T}}\cdot\{\mathrm{m}(\mathfrak{t})-\mathrm{p}(\mathfrak{t}-\Delta\mathfrak{t})\}}{1_{\mathrm{N}}^{\mathrm{T}}\cdot\mathrm{p}(\mathfrak{t}-\Delta\mathfrak{t})}\Bigg]\Bigg|}\\&{\qquad=\mathrm{d}\Delta\mathfrak{t}\cdot\Bigg|\mathbb{E}\Bigg[\frac{1_{\mathrm{N}}^{\mathrm{T}}\cdot\{(1-\mathrm{g}\Delta\mathfrak{t})\cdot\mathrm{m}(\mathfrak{t}-\Delta\mathfrak{t})+\mathrm{u}(\mathfrak{t})\}}{1_{\mathrm{N}}^{\mathrm{T}}\cdot\mathrm{p}(\mathfrak{t}-\Delta\mathfrak{t})}-1\Bigg]\Bigg|}\\&{\qquad=\mathrm{d}\Delta\mathfrak{t}\cdot(1-\mathrm{g}\Delta\mathfrak{t}-1)=\mathrm{d}\mathrm{g}\Delta\mathfrak{t}^{2}}\end{array}
+\begin{aligned}\mathsf{e}_{\mathsf{t}}=\mathsf{d}\Delta\mathsf{t}\cdot\left|\mathbb{E}\left[\frac{1_{\mathsf{N}}^{\mathsf{T}}\cdot\left\{\mathsf{m}(\mathsf{t})-\mathsf{p}(\mathsf{t}-\Delta\mathsf{t})\right\}}{1_{\mathsf{N}}^{\mathsf{T}}\cdot\mathsf{p}(\mathsf{t}-\Delta\mathsf{t})}\right]\right|\\&=\mathsf{d}\Delta\mathsf{t}\cdot\left|\mathbb{E}\left[\frac{1_{\mathsf{N}}^{\mathsf{T}}\cdot\left\{(1-\mathsf{g}\Delta\mathsf{t})\cdot\mathsf{m}(\mathsf{t}-\Delta\mathsf{t})+\mathsf{u}(\mathsf{t})\right\}}{1_{\mathsf{N}}^{\mathsf{T}}\cdot\mathsf{p}(\mathsf{t}-\Delta\mathsf{t})}-1\right]\right|\\&=\mathsf{d}\Delta\mathsf{t}\cdot(1-\mathsf{g}\Delta\mathsf{t}-1)=\mathsf{d}\mathsf{g}\Delta\mathsf{t}^2\end{aligned}
 $$
 
-如果取 Grinold（2007）中推荐的经验参数 d=3.00、g=2.50 和 $\Delta\mathrm{t}{=}1/12$ 那么此时的月度换手率将等于
+如果取 Grinold（2007）中推荐的经验参数 d=3.00、g=2.50 和 $\Delta{\mathfrak{t}}{=}1/12$ 那么此时的月度换手率将等于
 
 $$
-\mathbb{E}[\mathrm{TR(t)}|(\mathbf{g},\mathbf{d},\Delta\mathbf{t})=(2.5,3,1/12)]\approx5.21\%
+\mathbb{E}[\mathrm{TR}(\mathrm{t})|(\mathrm{g},\mathrm{d},\Delta\mathrm{t})=(2.5,3,1/12)]\approx5.21\%
 $$
 
 根据投资经验，这是一个比较合理的数字。
@@ -191,13 +191,13 @@ $$
 类似于上一节，我们引入如下记号：
 
 $$
-\{\begin{array}{ll}{\alpha_{\mathrm{Pi}}=\mp\mp\frac{\sqrt{3}}{9}\frac{1}{9}\frac{\sqrt{5}}{9}\frac{1}{16}\frac{\sqrt{6}}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{\sqrt{6}}{9}\frac{1}{9}\frac{\sqrt{5}}{16}\frac{\sqrt{6}}{9}\frac{1}{9}\frac{\sqrt{5}}{16}}\\{\omega_{\mathrm{Pi}}=\mp\mp\frac{\sqrt{3}}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{\sqrt{5}}{16}\frac{\sqrt{6}}{9}\frac{1}{9}\frac{1}{9}}\\{\omega_{\mathrm{Mi}}=\mp\mp\frac{\sqrt{3}}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{\sqrt{5}}{16}\frac{\sqrt{6}}{3}\frac{1}{9}\frac{1}{9}\frac{\sqrt{5}}{16}\frac{\sqrt{5}}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}}\\\omega_{\mathrm{Pi}}=\mp\mp\frac{\sqrt{3}}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\frac{1}{9}\ \end{array}
+\left\{\begin{aligned}\omega_{Pi}&=市场i的预期投资组合收益\\\omega_{Pi}&=市场i的持有投资组合风险\\\omega_{Mi}&=市场i的模型投资组合风险\\\omega_{Pi}&=市场i的交易风险\\\lambda_{i}&=市场i的风险规避系数\\\chi_{i}&=市场i的平均交易成本\end{aligned}\right.
 $$
 
 多市场优化的目标是最大化上述两个市场的经过风险调整的预期回报，目标函数形如：
 
 $$
-\mathrm{U_{P}}(\mathrm{d_{1}},\mathrm{d_{2}})=\sum_{\mathrm{i=1,2}}\left(\alpha_{\mathrm{Pi}}-\frac{\lambda_{\mathrm{i}}}{2}\cdot\omega_{\mathrm{Pi}}^{2}-\frac{\chi_{\mathrm{i}}}{2}\cdot\omega_{\mathrm{Pi}}^{2}\right)
+\mathrm{U}_{\mathrm{P}}(\mathrm{d}_{1},\mathrm{d}_{2})=\sum_{\mathrm{i}=1,2}\left(\alpha_{\mathrm{Pi}}-\frac{\lambda_{\mathrm{i}}}{2}\cdot\omega_{\mathrm{Pi}}^{2}-\frac{\chi_{\mathrm{i}}}{2}\cdot\omega_{\mathrm{Pi}}^{2}\right)
 $$
 
 之所以对不同市场进行差异化设置是因为，投资经理在不同的市场中往往具有不同的风险承受能力。例如，与发达国家相比，投资经理对发展中国家市场的风险可能更为敏感。因此，模型允许投资经理的风险厌恶水平随市场变化。同理，平均交易成本也是一个随市场变化的变量，但通常都假设交易成本与交易风险成正比。
@@ -205,43 +205,43 @@ $$
 注意到信息比率满足
 
 $$
-\mathrm{IR}_{\mathrm{Pi}}=\frac{\alpha_{\mathrm{Pi}}}{\omega_{\mathrm{Pi}}}
+\mathrm{IR_{Pi}}=\frac{\alpha_{\mathrm{Pi}}}{\omega_{\mathrm{Pi}}}
 $$
 
 利用各种风险之间的关系，目标函数可以改写成
 
 $$
-\mathrm{U}_{\mathrm{P}}(\mathrm{d}_{1},\mathrm{d}_{2})=\sum_{\mathrm{i}=1,2}\frac{\mathrm{d}_{\mathrm{i}}}{\mathrm{d}_{\mathrm{i}}+\mathrm{g}_{\mathrm{i}}}\bigg(\mathrm{IR}_{\mathrm{Mi}}\cdot\omega_{\mathrm{Mi}}-\frac{\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{i}}\mathrm{g}_{\mathrm{i}}}{2}\cdot\omega_{\mathrm{Mi}}^{2}\bigg)
+\mathrm{U}_{\mathrm{P}}(\mathrm{d}_{1},\mathrm{d}_{2})=\sum_{\mathrm{i}=1,2}\frac{\mathrm{d}_{\mathrm{i}}}{\mathrm{d}_{\mathrm{i}}+\mathrm{g}_{\mathrm{i}}}\left(\mathrm{IR}_{\mathrm{Mi}}\cdot\omega_{\mathrm{Mi}}-\frac{\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{i}}\mathrm{g}_{\mathrm{i}}}{2}\cdot\omega_{\mathrm{Mi}}^{2}\right)
 $$
 
-再利用目标函数关于模型投资组合风险 ${\bf{\dot{\omega}}}_{\omega_{\mathrm{{i}}}}$ 的一阶条件
+再利用目标函数关于模型投资组合风险 $\mathbf{\omega_{Mi}}$ 的一阶条件
 
 $$
-\omega_{\mathrm{Mi}}^{*}=\frac{\ I\mathrm{R_{Mi}}}{\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d_{i}}\mathrm{g_{i}}}
+\omega_{\mathrm{Mi}}^{*}=\frac{\mathrm{IR}_{\mathrm{Mi}}}{\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{ij}}\mathrm{g}_{\mathrm{i}}}
 $$
 
 得到：
 
 $$
-\mathrm{U_{P}^{*}(d_{1},d_{2})}=\sum_{\mathrm{i=1,2}}\frac{\mathrm{d_{i}}}{\mathrm{d_{i}+g_{i}}}\cdot\frac{\mathrm{IR_{Mi}^{2}}}{2}\cdot\frac{1}{\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d_{i}}\mathrm{g_{i}}}
+\mathrm{U}_{\mathrm{P}}^{*}(\mathrm{d}_{1},\mathrm{d}_{2})=\sum_{\mathrm{i}=1,2}\frac{\mathrm{d}_{\mathrm{i}}}{\mathrm{d}_{\mathrm{i}}+\mathrm{g}_{\mathrm{i}}}\cdot\frac{\mathrm{IR}_{\mathrm{Mi}}^{2}}{2}\cdot\frac{1}{\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{i}}\mathrm{g}_{\mathrm{i}}}
 $$
 
 假设全局换手率总预算为 D，那么此时的多市场优化问题即：
 
 $$
-\begin{array}{rl}{\displaystyle\operatorname*{max}_{\mathbf{d_{1}},\mathbf{d_{2}}}\quad}&{\mathbf{U_{p}^{*}}(\mathbf{d_{\rho1}},\mathbf{d_{2}})}\\{\displaystyle\mathbf{d_{1}g_{1}}+\mathbf{d_{2}g_{2}}=\mathbf{D}}\end{array}
+\max_{\substack{\mathbf{d}_{1},\mathbf{d}_{2}\\\mathbf{d}_{1}\mathbf{g}_{1}+\mathbf{d}_{2}\mathbf{g}_{2}=\mathrm{D}}}\mathrm{U}_{\mathrm{p}}^{*}(\mathbf{d}_{1},\mathbf{d}_{2})
 $$
 
 利用 Lagrange 乘子法我们有
 
 $$
-\mathcal{L}=\mathrm{U}_{\mathrm{p}}^{\ast}(\mathrm{d}_{1},\mathrm{d}_{2})-\kappa\cdot(\mathrm{d}_{1}\mathrm{g}_{1}+\mathrm{d}_{2}\mathrm{g}_{2}-\mathrm{D})
+\mathcal{L}=\mathrm{U}_{\mathrm{p}}^{*}(\mathrm{d}_{1},\mathrm{d}_{2})-\kappa\cdot(\mathrm{d}_{1}\mathrm{g}_{1}+\mathrm{d}_{2}\mathrm{g}_{2}-\mathrm{D})
 $$
 
 此时
 
 $$
-\partial_{\mathbf{d}_{\mathrm{i}}}\mathcal{L}=\frac{\mathrm{IR}_{\mathrm{Mi}}^{2}}{2}\cdot\frac{(\mathbf{d}_{\mathrm{i}}+\mathbf{g}_{\mathrm{i}})(\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathbf{d}_{\mathrm{i}}\mathbf{g}_{\mathrm{i}})-\mathbf{d}_{\mathrm{i}}(\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathbf{d}_{\mathrm{i}}\mathbf{g}_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathbf{d}_{\mathrm{i}}\mathbf{g}_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathbf{g}_{\mathrm{i}}^{2})}{(\mathbf{d}_{\mathrm{i}}+\mathbf{g}_{\mathrm{i}})^{2}(\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathbf{d}_{\mathrm{i}}\mathbf{g}_{\mathrm{i}})^{2}}-\kappa\cdot\mathbf{g}_{\mathrm{i}}
+\partial_{\mathrm{d}_{\mathrm{i}}}\mathcal{L}=\frac{\mathrm{IR}_{\mathrm{Mi}}^{2}}{2}\cdot\frac{(\mathrm{d}_{\mathrm{i}}+\mathrm{g}_{\mathrm{i}})(\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{i}}\mathrm{g}_{\mathrm{i}})-\mathrm{d}_{\mathrm{i}}(\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{i}}\mathrm{g}_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{i}}\mathrm{g}_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{g}_{\mathrm{i}}^{2})}{(\mathrm{d}_{\mathrm{i}}+\mathrm{g}_{\mathrm{i}})^{2}(\lambda_{\mathrm{i}}+\chi_{\mathrm{i}}\cdot\mathrm{d}_{\mathrm{i}}\mathrm{g}_{\mathrm{i}})^{2}}-\kappa\cdot\mathrm{g}_{\mathrm{i}}
 $$
 
 化简后即
@@ -253,13 +253,13 @@ $$
 消去乘子后即得到
 
 $$
-\begin{array}{rl}&{\cfrac{\mathrm{IR}_{\mathrm{M1}}^{2}}{2}\cdot\cfrac{\lambda_{1}-\chi_{1}\cdot\mathrm{d}_{1}^{2}}{(\mathrm{d}_{1}+\mathrm{g}_{1})^{2}\cdot(\lambda_{1}+\chi_{1}\cdot\mathrm{d}_{1}\mathrm{g}_{1})^{2}}}\\&{\qquad=\cfrac{\mathrm{IR}_{\mathrm{M2}}^{2}}{2}\cdot\cfrac{\lambda_{2}-\chi_{2}\cdot\mathrm{d}_{2}^{2}}{(\mathrm{d}_{2}+\mathrm{g}_{2})^{2}\cdot(\lambda_{2}+\chi_{2}\cdot\mathrm{d}_{2}\mathrm{g}_{2})^{2}}}\end{array}
+\frac{\mathrm{IR}_{\mathrm{M}1}^{2}}{2}\cdot\frac{\lambda_{1}-\chi_{1}\cdot\mathrm{d}_{1}^{2}}{(\mathrm{d}_{1}+\mathrm{g}_{1})^{2}\cdot(\lambda_{1}+\chi_{1}\cdot\mathrm{d}_{1}\mathrm{g}_{1})^{2}}=\frac{\mathrm{IR}_{\mathrm{M}2}^{2}}{2}\cdot\frac{\lambda_{2}-\chi_{2}\cdot\mathrm{d}_{2}^{2}}{(\mathrm{d}_{2}+\mathrm{g}_{2})^{2}\cdot(\lambda_{2}+\chi_{2}\cdot\mathrm{d}_{2}\mathrm{g}_{2})^{2}}
 $$
 
 可以看到，在单市场模型中，此时最优换手率（令分子等于零）总是等于：
 
 $$
-\mathrm{d}^{*}=\sqrt{\lambda/\chi}
+\mathbf{d}^{*}=\sqrt{\lambda/\chi}
 $$
 
 而在多市场模型中，换手率预算的最优取值确实将发生跨市场联动。
@@ -275,10 +275,10 @@ $$
 | 外生变量 | 推荐数值 |
 | --- | --- |
 | D | 10 |
-| $\mathrm{{IR}_{\mathrm{{Mi}}}}$ | 1 |
-| $\mathbf{g_{i}}$ | 2 |
+| $\mathrm{IR}_{\mathrm{Mi}}$ | 1 |
+| $\mathbf{g}_{\mathbf{i}}$ | 2 |
 | $\chi_{\mathrm{i}}$ | 1 |
-| $\lambda_{\mathrm{i}}$ | 16 |
+| $\lambda_{\mathbf{i}}$ | 16 |
 
 数据来源：Yin（2009）
 

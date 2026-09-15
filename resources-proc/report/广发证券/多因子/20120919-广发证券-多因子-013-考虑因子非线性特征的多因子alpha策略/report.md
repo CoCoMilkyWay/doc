@@ -45,10 +45,10 @@ eMail：lj33@gf.com.cn
 最早的多因子Alpha模型来源于套利定价理论（APT），APT模型假设每一只股票的预期收益由股票的因子头寸决定，即
 
 $$
-r_{i}=\nu_{i0}+\nu_{i1}F_{1}+....,+\nu_{ik}F_{k}+\varepsilon_{i}\tag{1}
+r_{i}=v_{i0}+v_{i1}F_{1}+\ldots+v_{ik}F_{k}+\varepsilon_{i}\tag{1}
 $$
 
-其中， $r_{\mathrm{i}}$ 为股票i的预期收益， $b_{il},b_{i2},....,b_{ik},$ 是股票在K个Alpha因子上的暴露， $I_{I},I_{2},...,$ $I_{k}\mathrm{.}$ 是因子回报， $u_{i}$ 是股票i的特殊回报。
+其中， $r_{\mathrm{i}}.$ 为股票i的预期收益， $b_{iI},b_{i2},....,b_{ik}$ 是股票在K个Alpha因子上的暴露， $I_{l},I_{2},\ldots,$ $I_{k},$ 是因子回报， $u_{i}$ 是股票i的特殊回报。
 
 根据式（1），股票预期收益是Alpha因子的一个线性组合，举一个最简单的例子，假设有A和B两只股票，其中A相对B具有更低的估值(以E/P为例)，而两只股票在其他各种因素上均无差异，那么根据式（1）投资者一定会选择股票A进行投资，因为A具有更高EP，从而具有更高的预期收益，即线性多因子模型中的“Bigger is always better”原则。
 
@@ -359,7 +359,7 @@ EP因子同样具有较好的线性特征，高EP的股票一个月内预期收�
 
 构造因子多项式的方法虽然简单但缺乏合理的经济解释，下面我们通过引入附加因子的方法来解决因子非线性问题。
 
-举个简单的例子，我们采用全样本统计发现换手率跟股票收益率有显著的负相关，但是具有一定的非线性特征；进一步，我们考虑把全部样本分为两部分：高市值样本和低市值样本，并且发现在两个不同样本内，换手率与股票收益的关系显著不同，基于这一结论，我们引入了流通市值作为换手率因子的附加因素，并构造一个虚拟变量$(\mathrm{\ dummy)\ d_{\it high\_cap},}$ 该变量在股票属于大小市值的时候分别取值为 0和 1。
+举个简单的例子，我们采用全样本统计发现换手率跟股票收益率有显著的负相关，但是具有一定的非线性特征；进一步，我们考虑把全部样本分为两部分：高市值样本和低市值样本，并且发现在两个不同样本内，换手率与股票收益的关系显著不同，基于这一结论，我们引入了流通市值作为换手率因子的附加因素，并构造一个虚拟变量$(\mathrm{dummy})d_{high\_cap},$ 该变量在股票属于大小市值的时候分别取值为 0和 1。
 
 ![](images/30502188d948990d07554926a7a16a2025582ad8cb6b3f63162eb76e0d474e66.webp)
 图 28.换手率与流通市值关系图
@@ -368,11 +368,11 @@ EP因子同样具有较好的线性特征，高EP的股票一个月内预期收�
 引入虚拟变量之后，重新构造了换手率与股票预期收益的非线性方程，如下所示。
 
 $$
-d_{\pm\underline{{\sf dd}}\sharp\sharp\sharp}=\left\{\begin{array}{rl}{1}&{{}\quad\sharp\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf d}}|\underline{{\sf d}}|\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf d}}\underline{{\sf\Pi}}\xi0\%}\\{0}&{{}\quad\overset{\mathcal{M}}{\sf H}|\underline{{\sf d}}|}\end{array}\right.
+d_{规模}=\left\{\begin{aligned}&1&\quad 流通市值在前&50\%\\&0&\quad 否则&\end{aligned}\right.
 $$
 
 $$
-r_{i}=\nu_{i0}+\nu_{i1}F_{\pmb{\mathscr{W}}\mp\pmb{\mathscr{Z}}}+\nu_{i2}d_{\pmb{\mathscr{W}}\mp\pmb{\mathscr{W}}\mp\pmb{\mathscr{W}}}F_{\pmb{\mathscr{W}}\mp\pmb{\mathscr{Z}}}+\varepsilon_{i}
+r_{i}=v_{i0}+v_{i1}F_{换手率}+v_{i2}d_{流通市值}F_{换手率}+\varepsilon_{i}
 $$
 
 这便是我们所采用的第二种方法。下面我们同样分别从单因子及多因子的角度来验证该方法的有效性。

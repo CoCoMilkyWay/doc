@@ -125,7 +125,7 @@ FOF收益的第一大来源为资产配臵，但是由于 FOF所配臵基金对�
 William F. Sharpe 于 1992 年结合资产因子模型（Asset class factor model）提出收益率分析法，将资产风格划分为大盘价值、大盘成长、中盘、小盘以及不同类债券和海外市场，利用多元线性回归方法，对基金收益率进行回归，以最小化残差平方和为目标，得到基金在各资产风格上的近似比例。
 
 $$
-\begin{array}{c}{R_{t}=\left[\delta_{1}x_{1,t}+\delta_{2}x_{2,t}+\cdots+\delta_{n}x_{n,t}\right]+\varepsilon_{t}}\\{s.t.\ \delta_{1}+\delta_{2}+\cdots+\delta_{n}=1,}\\{\delta_{i}\geq0,i=1,2,\ldots,n}\end{array}
+\begin{array}{c}{{R_{t}=\left[\delta_{1}x_{1,t}+\delta_{2}x_{2,t}+\cdots+\delta_{n}x_{n,t}\right]+\varepsilon_{t},}}\\{{\quad s.t.\quad\delta_{1}+\delta_{2}+\cdots+\delta_{n}=1,}}\\{{\quad\delta_{i}\geq0,i=1{,}2,\ldots,n}}\end{array}
 $$
 
 其中 $R_{t}$ 代表基金 t 期收益率， $x_{i,t}$ 代表资产风格 i 在 t 期收益率，回归系数代表基金在各资产风格上的近似配臵比例。模型假设基金不能做空、不能加杠杆。
@@ -133,7 +133,7 @@ $$
 在得到基金于各资产风格上的近似比例后，我们可以利用此比例构建基金 的 “ 历史 风 格 指数” 。 在 选定市 场 基 准指数后我们可以得到基金在考察期任意区间内超额收益率的一种分解形式：
 
 $$
-\begin{array}{rl}&{R_{t}-Benchmark_{t}}\\&{\qquad=[R_{t}-FundStyleIndex_{t}]}\\&{\qquad+[FundStyleIndex_{t}-Benchmark_{t}]}\end{array}
+\begin{aligned}R_{t}-Benchmax&k_{t}\\&=[R_{t}-FundStyleIndex_{t}]\\&+[FundStyleIndex_{t}-Benchmark_{t}]\end{aligned}
 $$
 
 分解的前半部分代表基金偏离其所选风格的超额收益，这部分收益可能来自三方面：
@@ -146,7 +146,7 @@ $$
 
 对于原因 1，本报告通过合理的风格基准选取，尽可能的提高模型的解
 
-释度来避免，模型解释度本报告用 $\begin{array}{r}{R^{2}=1-\frac{VAR(\varepsilon_{t})}{VAR(R_{t})},}\end{array}$ 代表。对于原因 3，
+释度来避免，模型解释度本报告用 $\begin{array}{r}{R^{2}=1-\frac{VAR(\varepsilon_{t})}{VAR(R_{t})}}\end{array}$ 代表。对于原因 3，
 
 由于其大部分为突发性原因，不具有持续性，对于长期分析不构成显著影响。因此在模型解释度较高的前提下，我们认为这部分收益大概率来自基金优选个股的能力。
 

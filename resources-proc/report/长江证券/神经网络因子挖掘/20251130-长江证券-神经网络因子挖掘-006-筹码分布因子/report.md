@@ -80,7 +80,7 @@
 2. 使用每日换手率，计算过去 n 日每日的筹码留存率：
 
 $$
-r_{T-t}=\prod_{i=1}^{t}(1-turnover_{T-i+1}),t=1,2,\dots,n-1
+r_{T-t}=\prod_{i=1}^{t}(1-turnover_{T-i+1}),t=1{,}2,\ldots,n-1.
 $$
 
 3. 过去 n 日成交量分布的筹码留存率加权之和即为当日的成交量筹码分布数据，再对成交量进行归一化处理，即可得到所有成交价上对应的筹码占比。
@@ -150,23 +150,23 @@ $$
 参考前期报告《神经网络因子挖掘（三）——开盘集合竞价因子》尝试二的思路，首先人为构造有逻辑的特征，能够充分反映过去一段时间的筹码分布以及变化信息。我们将以每种筹码分布特征为原始特征，加工出以下 5 个衍生代理变量——筹码均值、筹码标准差、筹码峰度、筹码偏度和筹码熵。其中Price 代表筹码价格（需除以当日收盘价剔除量纲）， $Ratio_{i}$ 代表该筹码价格下筹码分布特征对应的概率密度即占比，可以用成交量、成交笔数、快照数量、每笔成交量和每快照成交量进行计算。
 
 $$
-Mean=\sum Price_{i}\cdot Ratio_{i},i=1,2,\ldots,m
+Mean=\sum Price_{i}\cdot Ratio_{i},i=1{,}2,\ldots,m
 $$
 
 $$
-Std=\sqrt{\sum(Price_{i}-Mean)^{2}\cdot Ratio_{i}},i=1,2,\dots,m
+Std=\sqrt{\sum(Price_{i}-Mean)^{2}\cdot Ratio_{i}},i=1{,}2,\ldots,m
 $$
 
 $$
-Skew=\sum{\frac{(Price_{i}-Mean)^{3}}{Std}}\cdot Ratio_{i},i=1,2,\dots,m
+Skew=\sum\frac{(Price_{i}-Mean)^{3}}{Std}\cdot Ratio_{i},i=1{,}2,\ldots,m
 $$
 
 $$
-Kurt=\sum\frac{(Price_{i}-Mean)^{4}}{Std}\cdot Ratio_{i}-3,i=1,2,\dots,m
+Kurt=\sum\frac{(Price_{i}-Mean)^{4}}{Std}\cdot Ratio_{i}-3,i=1,2,\ldots,m
 $$
 
 $$
-Entropy=\sum log\frac{1}{Ratio_{i}}\cdot Ratio_{i},i=1,2,\ldots,m
+Entropy=\sum log\frac{1}{Ratio_{i}}\cdot Ratio_{i},i=1{,}2,\ldots,m
 $$
 
 考虑到在筹码分布的逻辑中，不理性投资者处于盈利状态和处于亏损状态时交易行为应该有较大差异，例如盈利时倾向于快速止盈或者亏损时倾向于长期抗跌，因此我们可以根据当日收盘价为筹码盈利与否的判断依据，对筹码数据进行分域，分成盈利筹码和亏损筹码。进而在盈利筹码和亏损筹码中分别计算以上 5 种衍生特征，表征更多不同的信息。最终我们构造出了 75 个筹码特征供后续模型学习。

@@ -86,7 +86,7 @@ ann@gf.com.cn
 我们构建了成份股的一致性指标 R为
 
 $$
-R={\frac{\lambda_{1}}{\sum_{i=1}^{300}\lambda_{i}}}\times100\%={\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}+\cdots+\lambda_{300}}}\times100\%
+R=\frac{\lambda_{1}}{\sum_{i=1}^{300}\lambda_{i}}\times100\%=\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}+\cdots+\lambda_{300}}\times100\%
 $$
 
 其中， $\lambda_{1},\lambda_{2},\ldots,\lambda_{300}$ 是成份股走势的协方差矩阵Σ的所有特征值，一致性指标 R 是主成分分析中，第一个主成分的方差贡献率。
@@ -151,12 +151,12 @@ $$
 y=\sigma(\sum_{i=1}^{D}w_{i}x_{i}+w_{0})
 $$
 
-其中，权重系数 $w_{0},\ w_{1},\ \dots,\ w_{D}$ 为模型参数。
+其中，权重系数 $w_{0},\quad w_{1},\quad\ldots\ldots,\quad w_{D}$ 为模型参数。
 
 一个完整的神经网络模型通常将节点分成若干层次：输入层、输出层和隐含层，如下图所示。输入层即给定的模型输入特征；输出层即通过神经网络“预测”的内容，例如样本的标签或者函数值；隐含层相当于网络系统的中间状态。对于回归神经网络，输出层节点的个数即我们所要预测的变量个数；对于分类神经网络，输出层节点的个数通常是可能的分类问题的总类别数。下图是包含一个隐层的神经网络，其中神经网络第 k个输出的数学表达式为
 
 $$
-y_{k}=\sigma\Big\{\sum_{j=1}^{M}(w_{kj}^{(2)}h(\sum_{i=1}^{D}w_{ji}^{(1)}x_{i}+w_{j0}^{(1)})+w_{k0}^{(2)})\Big\}
+y_{k}=\sigma\left\{\sum_{j=1}^{M}\left(w_{kj}^{(2)}h\left(\sum_{i=1}^{D}w_{ji}^{(1)}x_i+w_{j0}^{(1)}\right)+w_{k0}^{(2)}\right)\right\}
 $$
 
 其中 $\sigma(x)$ 和 $h(x)$ 分别为输出层和隐含层的激活函数。神经网络的参数为各层的网络系数 $w_{ij}$ ，可以一并记为向量w 。
@@ -168,7 +168,7 @@ $$
 神经网络模型的学习是利用我们已经有的输入输出数据（训练集），对参数w 进行优化，使得模型给出的输出 y 尽可能地接近于样本的真实标签 t，即要使得如下的预测误差（损失函数）最小化
 
 $$
-E(\mathbf{w})=\sum_{n=1}^{N}E_{n}(\mathbf{w})=\sum_{n=1}^{N}{\sum_{k=1}^{K}\big(y_{nk}-t_{nk}\big)^{2}}
+E(\mathbf{w})=\sum_{n=1}^{N}E_n(\mathbf{w})=\sum_{n=1}^{N}\sum_{k=1}^{K}\left(y_{nk}-t_{nk}\right)^2
 $$
 
 该目标函数的优化问题称之为最小化均方误差。对于分类问题，也可以构建其他形式的目标函数，例如，交叉熵（Cross Entropy）损失函数更适合作为分类神经网络模型优化的目标函数。
@@ -176,7 +176,7 @@ $$
 对于一般的机器学习优化问题，可以通过梯度下降方法进行迭代寻优，获取最优的参数w：
 
 $$
-w_{ij}^{(n)}:=w_{ij}^{(n-1)}-\alpha\frac{\partial}{\partial w_{ij}}E(\mathbf{w})
+w_{ij}^{(n)}:=w_{ij}^{(n-1)}-\alpha\frac{\hat{\mathcal{O}}}{\hat{\mathcal{O}}w_{ij}}E(\mathbf{w}),
 $$
 
 即，第n次迭代时，将第 n-1次迭代的参数沿梯度方向移动一定步长，获得最新的参数值。其中α为学习率，表示每一次迭代的步长。
@@ -203,13 +203,13 @@ $$
 ![](images/3823c32fe0ce4e210be2ca8825f746e984fa7f8a0be84c80182ba0dc57dc62a8.webp)
 数据来源：广发证券发展研究中心
 
-RNN 可以视为在时间维度上权值共享的神经网络。RNN 模型的输出为：$\mathbf{\nabla}y_{t}=\mathbf{\nabla}\sigma_{o}\big(\mathbf{W}_{y}\pmb{h}_{t}+\pmb{b}_{o}\big)$ ，模型输出依赖于该时刻的隐状态 $\pmb{h}_{t}$ 。隐状态 $\pmb{h}_{t}=\sigma_{h}(\pmb{W}_{x}\pmb{x}_{t}+$ ${\pmb W}_{h}{\pmb h}_{t-1}+{\pmb b}_{h})$ ，依赖于该时刻的输入 $\boldsymbol{x}_{t}$ 和上一时刻的隐状态 $\mathbf{\delta}\cdot\mathbf{h}_{t-1}$ 。由于隐状态具有时序依赖关系，因而 RNN模型的输出与此前时刻的输入信息有关系。
+RNN 可以视为在时间维度上权值共享的神经网络。RNN 模型的输出为：$\boldsymbol{y}_{t}=\sigma_{o}\big(\boldsymbol{W}_{y}\boldsymbol{h}_{t}+\boldsymbol{b}_{o}\big)$ ，模型输出依赖于该时刻的隐状态 $h_{t}$ 。隐状态 $\pmb{h}_{t}=\sigma_{h}(\pmb{W}_{x}\pmb{x}_{t}+$ $\pmb{W}_{h}\pmb{h}_{t-1}+\pmb{b}_{h})$ ，依赖于该时刻的输入 $x_{t}$ 和上一时刻的隐状态 $\cdot h_{t-1}$ 。由于隐状态具有时序依赖关系，因而 RNN模型的输出与此前时刻的输入信息有关系。
 
 图12：循环神经网络的参数
 ![](images/a268109f297ba60319bc94cc638c241fa523c5e3484f9f3940f011e175240270.webp)
 数据来源：广发证券发展研究中心
 
-可以这样来分析RNN模型与普通时间序列模型的关系。考虑单变量的情况， $\dot{\tau}\mathfrak{L}\mathfrak{x}_{t}=$ $x_{t}$ $\boldsymbol{W_{h}}=\boldsymbol{\beta},\ :\ :\boldsymbol{W_{x}}=\boldsymbol{\alpha}$ ，令输出 $y_{t}=h_{t}$ ，而且令 $\cdot\sigma_{h}$ 为恒等变换，则RNN 模型可写成
+可以这样来分析RNN模型与普通时间序列模型的关系。考虑单变量的情况， $记\boldsymbol{x}_{t}=$ $x_{t}$ $\boldsymbol{W}_{h}=\boldsymbol{\beta},\quad\boldsymbol{W}_{x}=\boldsymbol{\alpha}$ ，令输出 $\boldsymbol{y}_{t}=\boldsymbol{h}_{t}$ ，而且令 $\sigma_{h}$ 为恒等变换，则RNN 模型可写成
 
 $$
 y_{t}=\alpha x_{t}+\beta y_{t-1}+b
@@ -225,23 +225,23 @@ $$
 ![](images/f63315391dc8b1ae923377dd98d90541a793ed1801905aaba05ac03f82d7cced.webp)
 数据来源：广发证券发展研究中心
 
-如上图所示，我们通过链式法则进行求导。在求误差项 $\mathbf{}e_{t}$ 相对于参数 $W_{x}$ 的梯度时，在前向神经网络中，
+如上图所示，我们通过链式法则进行求导。在求误差项 $e_{t}$ 相对于参数 $W_{x}$ 的梯度时，在前向神经网络中，
 
 $$
 \frac{\partial\pmb{e}_{t}}{\partial\pmb{W}_{x}}=\frac{\partial\pmb{e}_{t}}{\partial\pmb{h}_{t}}\frac{\partial\pmb{h}_{t}}{\partial\pmb{W}_{x}}
 $$
 
-其中 $\scriptstyle\mathbf{e}_{t}$ 表示输出误差。
+其中 $e_{t}$ 表示输出误差。
 
-在 RNN模型中，由于RNN的隐状态 $\pmb{h}_{t}$ 受此前时刻的隐状态 $\pmb{h}_{t-1}$ 影响，因此RNN的梯度求取与时间有关。通过BPTT，在时间上对其进行展开，RNN梯度计算的公式为：
+在 RNN模型中，由于RNN的隐状态 $h_{t}$ 受此前时刻的隐状态 $\cdot h_{t-1}$ 影响，因此RNN的梯度求取与时间有关。通过BPTT，在时间上对其进行展开，RNN梯度计算的公式为：
 
 $$
-{\frac{\partial e_{t}}{\partial W_{x}}}={\frac{\partial e_{t}}{\partial h_{t}}}{\frac{\partial h_{t}}{\partial W_{x}}}+{\frac{\partial e_{t}}{\partial h_{t}}}{\frac{\partial h_{t}}{\partial h_{t-1}}}{\frac{\partial h_{t-1}}{\partial W_{x}}}+{\frac{\partial e_{t}}{\partial h_{t}}}{\frac{\partial h_{t}}{\partial h_{t-1}}}{\frac{\partial h_{t-1}}{\partial h_{t-2}}}{\frac{\partial h_{t-2}}{\partial W_{x}}}+\cdots
+\frac{\partial\boldsymbol{e}_{t}}{\partial\boldsymbol{W}_{x}}=\frac{\partial\boldsymbol{e}_{t}}{\partial\boldsymbol{h}_{t}}\frac{\partial\boldsymbol{h}_{t}}{\partial\boldsymbol{W}_{x}}+\frac{\partial\boldsymbol{e}_{t}}{\partial\boldsymbol{h}_{t}}\frac{\partial\boldsymbol{h}_{t}}{\partial\boldsymbol{h}_{t-1}}\frac{\partial\boldsymbol{h}_{t-1}}{\partial\boldsymbol{W}_{x}}+\frac{\partial\boldsymbol{e}_{t}}{\partial\boldsymbol{h}_{t}}\frac{\partial\boldsymbol{h}_{t}}{\partial\boldsymbol{h}_{t-1}}\frac{\partial\boldsymbol{h}_{t-1}}{\partial\boldsymbol{W}_{x}}+\cdots
 $$
 
 RNN 模型的主要问题是参数学习难，存在梯度消失（大部分情况）和梯度爆炸问题（小部分情况）。
 
-梯度消失问题发生的一个充分条件是 $\|\boldsymbol W_{h}\|<d$ 。例如，当隐层激活函数 $\sigma_{h}$ 为sigmoid函数时，d = 4。当隐层激活函数为线性函数时，d = 1。而当 $|W_{h}||>d$ 时，RNN模型容易发生梯度爆炸问题。梯度爆炸和梯度消失的原因的具体解释可以参考 R.Pascanu 等人的论文 On the difficulty of training recurrent neural networks。
+梯度消失问题发生的一个充分条件是 $\|W_{h}\|<d$ 。例如，当隐层激活函数 $\cdot\sigma_{h}$ 为sigmoid函数时，d = 4。当隐层激活函数为线性函数时，d = 1。而当 $\|\boldsymbol{W}_{h}\|>d$ 时，RNN模型容易发生梯度爆炸问题。梯度爆炸和梯度消失的原因的具体解释可以参考 R.Pascanu 等人的论文 On the difficulty of training recurrent neural networks。
 
 由于梯度爆炸和梯度消失问题，RNN 模型的参数难以训练好，导致 RNN 事实上很难对长周期时序依赖关系进行建模。
 
@@ -263,12 +263,12 @@ $$
 i_{t}=\sigma(\boldsymbol{W}^{xi}\boldsymbol{x}_{t}+\boldsymbol{W}^{hi}\boldsymbol{h}_{t-1}+b^{i})
 $$
 
-激活函数 $\sigma.$ 为 sigmoid 函数， $\mathbf{\boldsymbol{x}}_{t}$ 是当前时刻的输入向量， $\pmb{h}_{t-1}$ 为此前时刻的隐状态向量， ${\pmb W}^{xi}$ 和 $\tau W^{hi}$ 是参数，b 是偏置项。只考虑一个记忆单元时， $i_{t}$ 为 0 到 1 之间的数。$i_{t}=1$ 时，门打开，所有信息都可以输入细胞； $i_{t}=0\hat{\ H}_{\cdot}^{+}$ ，门关闭，信息不能输入细胞。
+激活函数 $[\sigma]$ 为 sigmoid 函数， $x_{t}$ 是当前时刻的输入向量， $h_{t-1}$ 为此前时刻的隐状态向量， $W^{xi}$ 和 $\imath W^{hi}$ 是参数，b 是偏置项。只考虑一个记忆单元时， $i_{t}$ 为 0 到 1 之间的数。$i_{t}=1$ 时，门打开，所有信息都可以输入细胞； $i_{t}=0时$ ，门关闭，信息不能输入细胞。
 
 2）遗忘门：决定内部记忆单元需要保存此前时刻的多少信息
 
 $$
-f_{t}=\sigma(W^{xf}x_{t}+W^{hf}h_{t-1}+b^{f})
+f_{t}=\sigma(\boldsymbol{W}^{xf}\boldsymbol{x}_{t}+\boldsymbol{W}^{hf}\boldsymbol{h}_{t-1}+b^{f})
 $$
 
 激活函数σ为 sigmoid 函数， $f_{t}$ 为 0到 1之间的数。 $f_{t}=1$ 时，门打开，前一时刻细胞状态全部输入细胞； $f_{t}=0$ 时，门关闭，舍弃前一时刻细胞状态。
@@ -276,15 +276,15 @@ $$
 3) 输出门：决定内部记忆单元输出多少信息
 
 $$
-o_{t}=\sigma(\boldsymbol{W}^{xo}x_{t}+\boldsymbol{W}^{ho}h_{t-1}+b^{o})
+o_{t}=\sigma(\boldsymbol{W}^{xo}\boldsymbol{x}_{t}+\boldsymbol{W}^{ho}\boldsymbol{h}_{t-1}+b^{o})
 $$
 
-激活函数σ为 sigmoid 函数， $o_{t}$ 为 0 到 1 之间的数。 $o_{t}=1$ 时，门打开，细胞状态可以输出； $o_{t}=0$ 时，门关闭，细胞状态不能输出。
+激活函数σ为 sigmoid 函数， $o_{t}$ 为 0 到 1 之间的数。 $o_{t}=1$ 时，门打开，细胞状态可以输出； $\rho_{t}=0$ 时，门关闭，细胞状态不能输出。
 
 内部记忆单元状态更新公式为：
 
 $$
-c_{t}=f_{t}c_{t-1}+i_{t}tanh((W^{xc}x_{t}+W^{hc}h_{t-1}+b^{c})
+c_{t}=f_{t}c_{t-1}+i_{t}tanh((\boldsymbol{W}^{xc}\boldsymbol{x}_{t}+\boldsymbol{W}^{hc}\boldsymbol{h}_{t-1}+\boldsymbol{b}^{c}))
 $$
 
 前一部分是上一时刻的细胞状态受遗忘门控制后的信息，后一部分是输入信息受输入门控制后的信息。
@@ -292,12 +292,12 @@ $$
 该 LSTM单元的输出为：
 
 $$
-h_{t}=o_{t}tanh(c_{t})
+h_{t}=o_{t}tanh(c_{_t})
 $$
 
 LSTM单元的输出作为RNN模型中的隐层状态。
 
-在 RNN模型中，用不同的LSTM 单元替代原来的RNN 隐状态节点，构建基于LSTM的 RNN 网络。在 LSTM-RNN 网络中，LSTM 单元的输出 $\pmb{h}_{t}$ 上添加RNN 的输出层，或者再添加其他的 LSTM层，构建深层（多个隐层）的RNN 网络。
+在 RNN模型中，用不同的LSTM 单元替代原来的RNN 隐状态节点，构建基于LSTM的 RNN 网络。在 LSTM-RNN 网络中，LSTM 单元的输出 $h_{t}$ 上添加RNN 的输出层，或者再添加其他的 LSTM层，构建深层（多个隐层）的RNN 网络。
 
 ## （四）RNN的不同应用场景
 
@@ -330,7 +330,7 @@ RNN 还可以与卷积神经网络结合进行图像描述自动生成。卷积�
 本报告采用了一个简单的指标来判断趋势策略能否盈利，定义趋势策略盈利指标为：
 
 $$
-R=\frac{|\tilde{\Xi}\cup\mathcal{Y}\ll\tilde{\Xi}\ll\mathcal{N}\uparrow\rangle}{\tilde{\Xi}\ \Theta\ \frac{\Theta}{\operatorname{R}\tilde{\Xi}}\ \tilde{\Xi}}-\frac{\cong}{\exists}\ \Theta\ \bar{\mathcal{H}}\underset{\tilde{\Xi}\ll\mathcal{N}\uparrow\uparrow}{\overleftrightarrow{\mathcal{H}}\ \frac{\partial}{\partial\mathcal{H}}\langle\hbar\vdash\big|}
+R=\frac{\left|当日收盘价-当日开盘价\right|}{当日最高价-当日最低价}
 $$
 
 这里R 就是当天日K 线的实体部分的占比。一般情况下，当R 值较大时，当天趋势策略容易盈利；否则，趋势策略不易获利。本报告中，按照 R>0.5 和R<0.5 将不同交易日期的趋势策略盈利状态分为两类，作为正、负样本用来训练机器学习模型。

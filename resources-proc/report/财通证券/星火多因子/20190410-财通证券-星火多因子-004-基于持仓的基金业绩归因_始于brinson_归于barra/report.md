@@ -150,20 +150,20 @@ Brinson，Hood 和 Beebower 提出 Brinson 模型的经典版本（以下记为 
 
 数据来源：财通证券研究所，Brinson，Hood 和 Beebower（1986）
 
-具体来讲，如果从行业配置的角度来看，假设 $w_{i}^{P}\mathcal{\ k_{P}}w_{i}^{B}$ 分别表示投资组合和基准组合中行业 i 的权重， $r_{\mathrm{i}}^{P}\hbar{^\alpha}r_{\mathrm{i}}^{B}$ 分别表示投资组合和基准组合中行业 的收益率，那么投资组合的收益率 $R^{P}$ 和基准组合的收益率 $\cdot R^{B}$ 可分别表示为：
+具体来讲，如果从行业配置的角度来看，假设 $w_{i}^{P}和w_{i}^{B}$ 分别表示投资组合和基准组合中行业 i 的权重， $r_{i}^{P}和r_{i}^{B}$ 分别表示投资组合和基准组合中行业 的收益率，那么投资组合的收益率 $\cdot R^{P}$ 和基准组合的收益率 $\cdot R^{B}$ 可分别表示为：
 
 $$
-R^{P}=\sum_{i=1}^{I}w_{i}^{P}r_{i}^{P},\quad\sharp\dag\dag\sum_{i=1}^{I}w_{i}^{P}=1
+R^{P}=\sum_{i=1}^{I}w_{i}^{P}r_{i}^{P},\ 其中\sum_{i=1}^{I}w_{i}^{P}=1
 $$
 
 $$
-R^{B}=\sum_{i=1}^{I}w_{i}^{B}r_{i}^{B},\sharp\sharp\sum_{i=1}^{I}w_{i}^{B}=1
+R^{B}=\sum_{i=1}^{I}w_{i}^{B}r_{i}^{B},其中\sum_{i=1}^{I}w_{i}^{B}=1
 $$
 
 其中，I 表示行业的个数。由此，投资组合的超额收益RA即可表示为：
 
 $$
-R^{A}=R^{P}-R^{B}=\sum_{i=1}^{I}w_{i}^{P}r_{i}^{P}-\sum_{i=1}^{I}w_{i}^{B}r_{i}^{B}
+R^{A}=R^{P}-R^{B}=\sum_{i=1}^{I}w_{i}^{P}r_{i}^{P}-\sum_{i=1}^{I}w_{i}^{B}r_{i}^{B}.
 $$
 
 BHB模型将组合超额收益拆解为配置收益（Allocation Return，AR）、选股收益（Selection Return，SR）和交互收益（Interaction Return，IR）三个部分，具体来讲：
@@ -174,11 +174,11 @@ $$
 
 其中，
 
-配置收益： $AR=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})r_{i}^{B}$
+配置收益： $AR=\sum_{i=1\atop i\neq j}^{I}(w_{i}^{P}-w_{i}^{B})r_{i}^{B}$
 
 选择收益： $SR=\sum_{i=1}^{I}w_{i}^{B}(r_{i}^{P}-r_{i}^{B})$
 
-交互收益： $IR=R^{A}-AR-SR=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})(r_{i}^{P}-r_{i}^{B})$
+交互收益： $\mathit{IR}=R^{A}-AR-SR=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})(r_{i}^{P}-r_{i}^{B}),$
 
 配置收益（AR）等于投资组合在每个行业上的超额权重与基准行业收益率的乘积（ 超额权重 基准行业收益率），它表示在行业内部不进行任何选股操作的前提下，持有与基准组合完全相同的行业，并通过超配收益为正、低配收益为负的行业所能够获取的超额收益。
 
@@ -192,13 +192,13 @@ $$
 
 在实际应用中，我们会发现 BHB模型存在诸多不足之处：
 
-首先，在配置效应 $\begin{array}{r}{AR=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})r_{i}^{B}}\end{array}$ 中，当某个行业的绝对收益为正时，BHB 模型认为通过超配该行业我们即可获取配置效应。但是，如果某些行业只是具有正收益 $(r_{\bar{\mathfrak{i}}}^{B}>0)$ 但却没能够跑赢基准指数 $(r_{\mathrm{{i}}}^{B}<R^{B})$ ）时，对这种行业的超额配置显然不能说是成功的。
+首先，在配置效应 $\begin{array}{r}{AR=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})r_{i}^{B}}\end{array}$ 中，当某个行业的绝对收益为正时，BHB 模型认为通过超配该行业我们即可获取配置效应。但是，如果某些行业只是具有正收益 $(r_{i}^{B}>0)$ 但却没能够跑赢基准指数 $(r_{i}^{B}<R^{B})$ ）时，对这种行业的超额配置显然不能说是成功的。
 
-另外，对于选择效应 $\begin{array}{r}{SR=\sum_{i=1}^{I}w_{i}^{B}(r_{i}^{P}-r_{i}^{B})\sqrt{\mathfrak{s}}\frac{\mathfrak{s}}{\overline{{\mathfrak{s}}}}}\end{array}$ ，当某个行业相对于基准行业确实存在超额收益，但如果组合对于该行业的权重配置低于基准权重配置$(w_{\bar{i}}^{P}<w_{\bar{i}}^{B})$ 时，如果仍然按照基准权重来计算其选择效应，其结果会存在一定程度的高估。
+另外，对于选择效应 $$SR=\sum_{i=1}^{I}w_{i}^{B}(r_{i}^{P}-r_{i}^{B})$而言$ ，当某个行业相对于基准行业确实存在超额收益，但如果组合对于该行业的权重配置低于基准权重配置$(w_{i}^{P}<w_{i}^{B})$ 时，如果仍然按照基准权重来计算其选择效应，其结果会存在一定程度的高估。
 
 此外，对于交互效应 $\begin{array}{r}{IR=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})(r_{i}^{P}-r_{i}^{B})}\end{array}$ 而言，该项收益的概念相对模糊。如果说配置效应是对超额收益为正的行业的超配、对超额收益为负的行业的低配带来的收益，选股效应是对超额收益为正的个股的超配、对超额收益为负的个股低配带来的收益，那么交互项收益部分很难从操作层面去解释，这为组合的管理带来了很大的难题。
 
-基于此，Brinson 和 Fachler 提出了改进版的 Brinson 模型——BF 模型，增加了基准收益 $R^{B}$ 对配置收益的影响，其基本框架如图 6 所示，其中仍以红色渲染部分表示投资组合的超额收益。
+基于此，Brinson 和 Fachler 提出了改进版的 Brinson 模型——BF 模型，增加了基准收益 $.R^{B}$ 对配置收益的影响，其基本框架如图 6 所示，其中仍以红色渲染部分表示投资组合的超额收益。
 
 图 6：改进版Brinson模型基本框架
 ![](images/16cda0bd253040edf2d47c7bb052562e971a78afb8ce05c0559282233a1af06b.webp)
@@ -210,18 +210,18 @@ $$
 AR_{BF}=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})(r_{i}^{B}-R^{B})
 $$
 
-由于资 $\dot{\bar{y}}$ 组合的权重 $\mathbf{\dot{\omega}}_{w_{i}^{P}}^{P}$ 和基准组合的权重 $w_{i}^{B}$ 加总起来均为 1，而 $R^{B}$ 可以看作是一个常数，因此
+由于资 $产$ 组合的权重 $[w_{i}^{P}]$ 和基准组合的权重 $[w_{i}^{B}]$ 加总起来均为 1，而 $R^{B}$ 可以看作是一个常数，因此
 
 $$
-\begin{array}{c}{{{\displaystyle\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})R^{B}=0}}}\\{{\displaystyle{AR_{BHB}=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})r_{i}^{B}=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})(r_{i}^{B}-R^{B})=A{R_{BF}}}}}\end{array}
+\begin{align*}\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})R^{B}&=0\\AR_{BHB}=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})r_{i}^{B}&=\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})(r_{i}^{B}-R^{B})=AR_{BF}\end{align*}
 $$
 
-也就是说，相较于 BHB模型 $\bar{\kappa}_{\mathfrak{h}}$ 言，BF 模型中对于基准收益的引入并不会改变其配置效应的大小，二者是完全等同的，但在直观解释上 BF 模型却与投资者的实际操作更为贴合，它认为：只有超配那些相较基准指数具有正向超额收益的行业、低配那些相较基准指数具有负向超额收益的行业，才能算是成功的行业配置策略。
+也就是说，相较于 BHB模型 $而$ 言，BF 模型中对于基准收益的引入并不会改变其配置效应的大小，二者是完全等同的，但在直观解释上 BF 模型却与投资者的实际操作更为贴合，它认为：只有超配那些相较基准指数具有正向超额收益的行业、低配那些相较基准指数具有负向超额收益的行业，才能算是成功的行业配置策略。
 
 此外，BF 模型还将 BHB模型中的选择效应和交互效应进行了合并，形成新的选股效应：
 
 $$
-SR_{BF}=SR_{BHB}+IR_{BHB}=\sum_{i=1}^{I}w_{i}^{B}(r_{i}^{P}-r_{i}^{B})+\sum_{i=1}^{I}(w_{i}^{P}-w_{i}^{B})(r_{i}^{P}-r_{i}^{B})=\sum_{i=1}^{I}w_{i}^{P}(r_{i}^{P}-r_{i}^{B})
+SR_{BF}=SR_{BHB}+IR_{BHB}=\sum_{i=1}^{I}w_i^B(r_i^P-r_i^B)+\sum_{i=1}^{I}(w_i^P-w_i^B)(r_i^P-r_i^B)=\sum_{i=1}^{I}w_i^P(r_i^P-r_i^B)
 $$
 
 因此，BF 模型就将投资组合的超额收益 $(R^{A})$ 分解到了对行业的配置效应（AR）和行业内部的选股效应（SR）两个部分：
@@ -243,31 +243,31 @@ $$
 那么，投资组合的收益即为成分股的收益加权：
 
 $$
-\begin{array}{c}{{{\displaystyle R^{P}=\sum_{n=1}^{N}w_{n}^{P}r_{n}=\sum_{n=1}^{N}w_{n}^{P}\left(R^{B}+\left(r_{i}^{B}-R^{B}\right)+\left(r_{n}-r_{i}^{B}\right)\right)}}}\\{{{}}}\\{{{=R^{B}+\sum_{n=1}^{N}w_{n}^{P}\left(r_{i}^{B}-R^{B}\right)+\sum_{n=1}^{N}w_{n}^{P}\left(r_{n}-r_{i}^{B}\right)}}}\end{array}
+\begin{aligned}R^{P}=\sum_{n=1}^{N}w_{n}^{P}r_{n}=&\sum_{n=1}^{N}w_{n}^{P}\left(R^{B}+\left(r_{l}^{B}-R^{B}\right)+\right.\left.\left(r_{n}-r_{l}^{B}\right)\right)\\=&\left.R^{B}+\sum_{n=1}^{N}w_{n}^{P}\left(r_{l}^{B}-R^{B}\right)+\sum_{n=1}^{N}w_{n}^{P}\left(r_{n}-r_{l}^{B}\right)\right.\end{aligned}
 $$
 
 上式中的第二项和第三项均是从个股层面出发的，我们可以将其提升至行业层面：
 
 $$
-\sum_{n=1}^{N}w_{n}^{P}\left(r_{i}^{B}-R^{B}\right)=\sum_{i=1}^{I}\sum_{n\in i}w_{n}^{P}\left(r_{i}^{B}-R^{B}\right)=\sum_{i=1}^{I}w_{i}^{P}\left(r_{i}^{B}-R^{B}\right)
+\sum_{n=1}^{N}w_{n}^{P}\left(r_{\imath}^{B}-R^{B}\right)=\sum_{i=1}^{I}\sum_{n\in i}w_{n}^{P}\left(r_{\imath}^{B}-R^{B}\right)=\sum_{i=1}^{I}w_{i}^{P}\left(r_{\imath}^{B}-R^{B}\right)
 $$
 
-上式中第二步成立的原因在于，对于同一个行业 $\mathcal{F}_{\mathfrak{p}}\frac{\mathfrak{s}}{\bar{\Xi}}$ ，其 $r_{\mathrm{i}}^{B}-R^{B}$ 是完全相同的，因此可以对行业内成分股的权重直接加总。
+上式中第二步成立的原因在于，对于同一个行业 $而言$ ，其 $r_{i}^{B}-R^{B}$ 是完全相同的，因此可以对行业内成分股的权重直接加总。
 
 $$
-\begin{array}{c}{{\displaystyle\sum_{n=1}^{N}w_{n}^{P}(r_{n}-r_{i}^{B})=\displaystyle\sum_{i=1}^{I}\sum_{n\in i}w_{n}^{P}(\ r_{n}-r_{i}^{B})=\displaystyle\sum_{i=1}^{I}(\sum_{n\in i}w_{n}^{P}r_{n}-\sum_{n\in i}w_{n}^{P}r_{i}^{B})}}\\{{\displaystyle\qquad=\sum_{i=1}^{I}(\frac{\sum_{n\in i}w_{n}^{P}r_{n}}{w_{i}^{P}}w_{i}^{P}-r_{i}^{B}w_{i}^{P})=\displaystyle\sum_{i=1}^{I}w_{i}^{P}(r_{i}^{P}-r_{i}^{B})}}\end{array}
+\begin{align*}\sum_{n=1}^{N}w_{n}^{P}\left(r_{n}\right.-r_{l}^{B})&=\sum_{i=1}^{I}\sum_{n\in i}w_{n}^{P}\left(r_{n}-r_{l}^{B}\right)=\sum_{i=1}^{I}\left(\sum_{n\in i}w_{n}^{P}r_{n}-\sum_{n\in i}w_{n}^{P}r_{l}^{B}\right)\\&=\sum_{i=1}^{I}\left(\frac{\sum_{n\in i}w_{n}^{P}r_{n}}{w_{i}^{P}}w_{i}^{P}-r_{l}^{B}w_{i}^{P}\right)=\sum_{i=1}^{I}w_{i}^{P}\left(r_{l}^{P}-r_{l}^{B}\right)\end{align*}
 $$
 
 将上式推导进行代入，即有：
 
 $$
-R^{P}=R^{B}+\sum_{i=1}^{I}w_{i}^{P}\big(r_{i}^{B}-R^{B}\big)+\sum_{i=1}^{I}w_{i}^{P}\big(r_{i}^{P}-r_{i}^{B}\big)
+R^{P}=R^{B}+\sum_{i=1}^{I}w_{i}^{P}\bigl(r_{i}^{B}-R^{B}\bigr)+\sum_{i=1}^{I}w_{i}^{P}\bigl(r_{i}^{P}-r_{i}^{B}\bigr).
 $$
 
 若是该组合为基准组合，则有：
 
 $$
-R^{B}=R^{B}+\sum_{i=1}^{I}w_{i}^{B}\big(r_{i}^{B}-R^{B}\big)+\sum_{i=1}^{I}w_{i}^{B}\big(r_{i}^{B}-r_{i}^{B}\big)
+R^{B}=R^{B}+\sum_{i=1}^{I}w_{i}^{B}\bigl(r_{i}^{B}-R^{B}\bigr)+\sum_{i=1}^{I}w_{i}^{B}\bigl(r_{i}^{B}-r_{i}^{B}\bigr).
 $$
 
 其中最后一项等于 0，将以上两式相减，有：
@@ -386,19 +386,19 @@ $$
 r_{n}=f_{c}^{S}+\sum_{i}X_{ni}f_{i}^{S}+u_{n}^{S}
 $$
 
-其中， ${{X}_{ni}}\mathrm{{\ddot{\Omega}}}$ 表股票 n 在行业因子 i 上的暴露值，我们采用 0-1 变量表示。由于每只股票属于且只属于一个行业，因此截距项因子与行业因子之间存在完全共线性，我们必须为其增加一个约束条件才能求得唯一解。常用的做法是使得单个行业因子收益的市值加权平均等于 0，即：
+其中， $X_{ni}代$ 表股票 n 在行业因子 i 上的暴露值，我们采用 0-1 变量表示。由于每只股票属于且只属于一个行业，因此截距项因子与行业因子之间存在完全共线性，我们必须为其增加一个约束条件才能求得唯一解。常用的做法是使得单个行业因子收益的市值加权平均等于 0，即：
 
 $$
-\sum_{i}W_{i}f_{i}^{s}=0
+\sum_{i}W_{i}f_{i}^{S}=0
 $$
 
 其中 $W_{i}$ 表示行业 i 的市值权重，所有行业的市值权重加总等于 1。采用加权最小二乘对上式进行求解，有：
 
 $$
-f_{c}^{S}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{v_{n}r_{n}}{V_{i}}\right)~f_{i}^{S}=\frac{1}{V_{i}}\sum_{n\in i}v_{n}r_{n}-f_{c}^{S}
+f_{c}^{S}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{v_{n}r_{n}}{V_{i}}\right)\quad f_{i}^{S}=\frac{1}{V_{i}}\sum_{n\in i}v_{n}r_{n}-f_{c}^{S}
 $$
 
-其中， $V_{i}.$ 表示行业 i 中所有股票的回归权重之和， $W_{i}$ 表示行业 i 中所有股票的市值权重之和。由于股票异方差性的存在，在回归中我们通常会采用市值的平方根加权作为回归权重 $v_{n}.$ 。但在财通金工“拾穗”多因子系列（七）《从纯因子组合的角度看待多重共线性》中，我们提到这并不是唯一的赋权方法，其他能够达到类似效果的权重选择我们认为都是合意的。如果我们采用的回归权重是股票的市值权重，那么简单市场因子即为全市场股票的市值加权平均（即指数收益），而单个行业因子的收益即为组合的行业收益与基准收益之差。因此，在后文的简单行业因子组合的构建中，我们采用市值加权 $w_{n}$ 作为回归权重 $v_{n}$ ，即：
+其中， $V_{i}.$ 表示行业 i 中所有股票的回归权重之和， $W_{i}$ 表示行业 i 中所有股票的市值权重之和。由于股票异方差性的存在，在回归中我们通常会采用市值的平方根加权作为回归权重 $\left[v_{n}\right.\scriptstyle\mathrm{{}^{\circ}}$ 。但在财通金工“拾穗”多因子系列（七）《从纯因子组合的角度看待多重共线性》中，我们提到这并不是唯一的赋权方法，其他能够达到类似效果的权重选择我们认为都是合意的。如果我们采用的回归权重是股票的市值权重，那么简单市场因子即为全市场股票的市值加权平均（即指数收益），而单个行业因子的收益即为组合的行业收益与基准收益之差。因此，在后文的简单行业因子组合的构建中，我们采用市值加权 $.w_{n}$ 作为回归权重 $v_{n}$ ，即：
 
 $$
 w_{n}=v_{n}
@@ -415,13 +415,13 @@ $$
 在基于行业的多因子模型收益归因中，股票收益被拆分到基准收益、行业收益和特质收益三个部分：
 
 $$
-r_{n}=f_{B}+\sum_{i}X_{ni}f_{i}+\ u_{n}s.t.\sum_{i}W_{i}f_{i}=0
+\dot{r_{n}}=f_{B}+\sum_{i}X_{ni}\quad f_{i}+\quad u_{n}\quad s.t.\sum_{i}W_{i}f_{i}=0,
 $$
 
 在上式中，所有的行业因子都是 0-1 暴露的，回归模型的样本空间是基准指数中的所有成分股。我们采用股票的市值权重作为回归权重进行最小二乘拟合，根据上一节的分析，有：
 
 $$
-\begin{array}{c}{{f_{B}=\displaystyle\sum_{i}W_{i}\sum_{n\in i}\left(\frac{w_{n}r_{n}}{W_{i}}\right)=\sum_{n}w_{n}r_{n}=R^{B}}}\\{{f_{i}=\displaystyle\frac{1}{W_{i}}\sum_{n\in i}w_{n}r_{n}-f_{B}=r_{i}^{B}-R^{B}}}\end{array}
+\begin{aligned}&f_{B}=\sum_{i}W_{i}\sum_{n\in i}\left(\frac{w_{n}r_{n}}{W_{i}}\right)=\sum_{n}w_{n}r_{n}=R^{B}\\&\quad f_{i}=\frac{1}{W_{i}}\sum_{n\in i}w_{n}r_{n}-f_{B}=r_{i}^{B}-R^{B}\\\end{aligned}
 $$
 
 其中， $R^{B}$ 表示基准收益率， $r_{i}^{B}$ 表示基准中行业 i 的收益率，因此特质收益可以表示为：
@@ -678,13 +678,13 @@ $$
 经过前文的分析，我们可以看到基于行业的多因子模型收益归因与 Brinson模型是完全等同的。在本部分，我们对多因子模型进行扩展，加入风格因子，将股票收益分解到基准收益、行业收益、风格收益和特质收益四个部分。
 
 $$
-r_{n}=f_{c}^{P}+\sum_{i}X_{ni}f_{i}^{P}+\sum_{s}X_{ns}f_{s}^{P}+u_{n}^{P}
+\begin{aligned}&r_{n}=f_{c}^{P}+\sum_{i}X_{ni}f_{i}^{P}+\sum_{s}X_{ns}f_{s}^{P}+u_{n}^{P}\\&\quad s.t.\sum_{n}W_{i}f_{i}^{P}=0\\\end{aligned}
 $$
 
 在财通金工“拾穗”多因子系列一《带约束的加权最小二乘：一种解析解法》中，我们介绍了一种解析解法对如上模型进行求解，因此组合的超额收益就可表示为：
 
 $$
-\begin{array}{r}{R^{A}=\displaystyle\sum_{n}w_{n}^{A}r_{n}=\displaystyle\sum_{n}w_{n}^{A}\left(\displaystyle\sum_{k}X_{nk}f_{k}+u_{n}\right)=\displaystyle\sum_{n}w_{n}^{A}\sum_{k}X_{nk}f_{k}+\displaystyle\sum_{n}w_{n}^{A}u_{n}}\\{=\displaystyle\sum_{k}\left(\displaystyle\sum_{n}w_{n}^{A}X_{nk}\right)f_{k}+\displaystyle\sum_{n}w_{n}^{A}u_{n}=\displaystyle\sum_{k}X_{k}^{A}f_{k}+\displaystyle\sum_{n}w_{n}^{A}u_{n}}\end{array}
+\begin{align*}R^{A}=\sum_{n}w_{n}^{A}r_{n}=\sum_{n}w_{n}^{A}\left(\sum_{k}X_{nk}f_{k}+u_{n}\right)=\sum_{n}w_{n}^{A}\sum_{k}X_{nk}f_{k}+\sum_{n}w_{n}^{A}u_{n}\\=\sum_{k}\left(\sum_{n}w_{n}^{A}X_{nk}\right)f_{k}+\sum_{n}w_{n}^{A}u_{n}=\sum_{k}X_{k}^{A}f_{k}+\sum_{n}w_{n}^{A}u_{n}.\end{align*}
 $$
 
 其中，XA表示组合在因子 k 上相对基准的主动暴露。将组合 A和组合 B的收益根据扩展版的多因子模型进行分解，其结果如表 6 和表7 所示。其中表中的因子收益是根据上述公式进行回归得到的，它表示每个纯因子的收益。由于股票收益的拟合是在基准指数中进行的，因此基准指数在风格因子上的暴露完全为0。值得注意的是，这里的行业因子收益是指行业在剔除了其他风格因子的影响后的收益大小，因此它和仅基于行业因子回归得到的收益是不相同的。
@@ -732,20 +732,20 @@ $$
 在对风险进行归因之前，我们先来明晰一下风险的定义。假设投资组合的收益率可以被分解为不同的因子暴露与因子收益的乘积之和：
 
 $$
-R=\sum_{k}x_{k}r_{k}=X^{\prime}r
+R=\sum_{k}x_{k}r_{k}=X^{\prime}r^{\prime}
 $$
 
 其中 表示组合的收益率， $x_{k}$ 表示组合在因子 上的暴露度， $r_{k}$ 表示因子在当期的收益率，X 是因子暴露的向量形式（K×1），r为因子收益的向量形式（K×1），那么该组合的风险即可用组合收益率的标准差进行衡量：
 
 $$
-\begin{array}{r}{\sigma(R)=\sigma(X^{\prime}r)=\sqrt{X^{\prime}\Sigma X}}\end{array}
+\sigma(R)=\sigma(X^{\prime}r)=\sqrt{X^{\prime}\Sigma X}
 $$
 
 其中，Σ为股票收益率的协方差矩阵，财通金工“星火”多因子系列二《Barra模型进阶：多因子风险预测》的所有工作即是对其进行稳健估计。
 
 ## 4.1 单一波动分解法
 
-单一波动分解法，是将每个因子进行单独考虑，计算其对组合整体风险贡献度的方法。对于因子k 而言，它对组合的收益贡献为 $x_{k}r_{k}$ ，那么在单一波动分解法中，它对组合的风险贡献就是 $\sigma(x_{k}r_{k})$ o
+单一波动分解法，是将每个因子进行单独考虑，计算其对组合整体风险贡献度的方法。对于因子k 而言，它对组合的收益贡献为 $x_{k}r_{k}$ ，那么在单一波动分解法中，它对组合的风险贡献就是 $\mathbf{\nabla}_{\mathbf{\nabla}}\sigma(x_{k}r_{k})$ o
 
 单一波动分解法将每个因子看成完全独立的板块，在计算上十分简单，但是它没有考虑到因子与因子之间的相关影响，因此单个因子风险贡献度的加总并不等于整个投资组合的风险，也就是说它不具备可加性。
 
@@ -760,7 +760,7 @@ $$
 边际风险分解法是将组合风险分解为因子暴露度与因子边际风险贡献的乘积得到的。由于标准差函数是线性齐次函数，即对于任意的常数 c≥0，有：
 
 $$
-\sigma(cX)=\sqrt{(cX)^{\prime}\Sigma(cX)}=c\sqrt{X^{\prime}\Sigma X}=c\sigma(x)
+\sigma(cX)={\sqrt{(cX)^{\prime}\Sigma(cX)}}=c{\sqrt{X^{\prime}\Sigma X}}=c\sigma(x)
 $$
 
 那么根据欧拉定理，就可以将其分解为单个因子边际贡献度与因子权重的乘积。具体来讲，记风险函数对因子权重的一阶偏导为边际风险贡献 MCR（MarginalContribution to Risk）：
@@ -772,13 +772,13 @@ $$
 它衡量的是组合每增加 1 单位的暴露对整个组合风险的贡献度，那么根据欧拉定理，即可进行如下分解：
 
 $$
-\sigma(R)=\sum_{k}x_{k}{\frac{\partial\sigma(R)}{\partial x_{k}}}=\sum_{k}x_{k}MCR_{k}=\sum_{k}CR_{k}
+\sigma(R)=\sum_{k}x_{k}{\frac{\partial\sigma(R)}{\partial x_{k}}}=\sum_{k}x_{k}MCR_{k}=\sum_{k}CR_{k}.
 $$
 
 其中， $CR_{k}$ 表示因子 k 对组合风险的风险贡献度（Contribution to Risk），那么因子 k 对组合的风险贡献比例 PCR（Percentage Contribution to Risk）即可表示为：
 
 $$
-PCR_{k}={\frac{CR_{k}}{\sum_{k}CR_{k}}}={\frac{CR_{k}}{\sigma(R)}}
+PCR_{k}=\frac{CR_{k}}{\sum_{k}CR_{k}}=\frac{CR_{k}}{\sigma(R)}
 $$
 
 在多因子模型风险预测中，我们将股票协方差矩阵拆分为共同风险矩阵F 和特质风险矩阵Δ两个部分：
@@ -790,13 +790,13 @@ $$
 其中X表示所有股票的因子暴露矩阵（N×K），那么组合的风险即可表示为：
 
 $$
-\sigma(R)=\sqrt{w^{\prime}VW}=\sqrt{w^{\prime}(XFX^{\prime}+\Delta)w}=\sqrt{(X^{P})^{\prime}FX^{P}+w^{\prime}\Delta w}
+\sigma(R)={\sqrt{w^{\prime}Vw}}={\sqrt{w^{\prime}(XFX^{\prime}+\Delta)w}}={\sqrt{(X^{P})^{\prime}FX^{P}+w^{\prime}\Delta w}}
 $$
 
 其中， $X^{P}$ 组合在所有因子上的暴露度，它是一个 $K\times1$ 向量。共同风险可以表示为 $(X^{P})^{\prime}FX^{P}$ ，特质风险可以表示为 $w^{\prime}\Delta w$ ，我们通常只对共同风险部分进行拆解，那么因子 k 对共同风险的贡献比例就可被表示为：
 
 $$
-PCR_{k}=\frac{X_{i}^{P}\left(FX^{P}\right)_{k}}{(X^{P})^{\prime}FX^{P}}
+PCR_{k}=\frac{X_{i}^{P}(FX^{P})_{k}}{(X^{P})^{\prime}FX^{P}}
 $$
 
 ## 4.3 波动率的三要素法：x-sigma-rho
@@ -816,33 +816,33 @@ $$
 对波动的三要素分解法的推导十分简单，它实际上只用到了协方差的计算公式而已：
 
 $$
-{\begin{array}{c}{\displaystyle{R=\sum_{k}x_{k}r_{k}}}\\{{\boldsymbol{var}(R)=cov{(R,R)}=\sum_{k}cov{(x_{k}r_{k},R)}=\sum_{k}x_{k}cov{(r_{k},R)}}}\\{\displaystyle{\sigma{(R)}\sigma{(R)}=\sum_{k}x_{k}\sigma{(r_{k})}\sigma{(R)}\rho{(r_{k},R)}}}\end{array}}
+\begin{array}{c}{{R=\displaystyle\sum_{k}x_{k}r_{k}}}\\{{var(R)=cov\left(R,R\right)=\displaystyle\sum_{k}cov\left(x_{k}r_{k},R\right)=\displaystyle\sum_{k}x_{k}cov\left(r_{k},R\right)}}\\{{\sigma(R)\sigma(R)=\displaystyle\sum_{k}x_{k}\sigma(r_{k})\sigma(R)\rho(r_{k},R)}}\end{array}
 $$
 
-上式实际上是将协方差的计算公式拆解为相关系数与标准差的乘积而 $\sqsubset$ ，将两边同时除以收益标准差，即有：
+上式实际上是将协方差的计算公式拆解为相关系数与标准差的乘积而 $乙$ ，将两边同时除以收益标准差，即有：
 
 $$
-\sigma^{\aa}(R)=\sum_{k}x_{k}\sigma(r_{k})\rho(r_{k},R)
+\left\{\sigma(R)=\sum_{k}x_{k}\sigma(r_{k})\rho(r_{k},R)\right.
 $$
 
-其中， $x_{k}\notin\#\pi\sigma(r_{k})$ 相对更容易理解， $x_{k}$ 是指组合在因子k 上的暴露大小（x），在给定组合权重之后即可对其进行计算。 $\sigma(\boldsymbol{r}_{k})$ 是指因子k 的波动率（sigma），我们以因子的日度收益标准差对其进行衡量。
+其中， $x_{k}和\sigma(r_{k})$ 相对更容易理解， $x_{k}$ 是指组合在因子k 上的暴露大小（x），在给定组合权重之后即可对其进行计算。 $\sigma(r_{k})$ 是指因子k 的波动率（sigma），我们以因子的日度收益标准差对其进行衡量。
 
 图 14：三要素分解法与单一波动分解和边际风险分解法相通性
 
-$\rho(\boldsymbol{r}_{k},R)$ 在理解上则稍有难度，它是指单个因子的收益与资产组合收益之间的相关系数，这里的资产组合收益是指与当前组合具有相同因子暴露的组合在历史样本期间的收益情况。但是，即便对于不做任何调仓的指数组合而言，它在历史样本期内在每个风格因子上的暴露都是不断变化的，因此我们这里计算出来的资产组合收益率实际上是一个模拟收益率。
+$\rho(r_{k},R)$ 在理解上则稍有难度，它是指单个因子的收益与资产组合收益之间的相关系数，这里的资产组合收益是指与当前组合具有相同因子暴露的组合在历史样本期间的收益情况。但是，即便对于不做任何调仓的指数组合而言，它在历史样本期内在每个风格因子上的暴露都是不断变化的，因此我们这里计算出来的资产组合收益率实际上是一个模拟收益率。
 
 值得注意的是，风险的三要素分解法与单一波动分解法和边际风险分解法具有共通性。如图 14 所示，因子暴露（x）与因子波动（sigma）的乘积即为单一风险分解中单个因子对风险的贡献，因子波动（sigma）与因子-组合相关系数（rho）的乘积即为边际风险分解法中单个因子的边际风险贡献度（MCR）。在下一小节的实证部分，我们会看到二者之间是非常类似的。
 
 $$
-\sigma(r_{k})\rho(r_{k},R)=MCR_{k}=\frac{\partial\sigma(R)}{\partial x_{k}}
+\sigma(r_{k})\rho(r_{k},R)=MCR_{k}={\frac{\partial\sigma(R)}{\partial x_{k}}}
 $$
 
 $$
-\begin{array}{l}{{\displaystyle\sigma(R)=\sum_{k}^{1}\jmath_{k}^{--\ --\ -\gamma}}{\displaystyle\sum_{k}^{1}\jmath_{k}\sigma(r_{k})\overset{1}{\ p}(r_{k},R)}}\\{{\displaystyle\qquad\prod_{k=\frac{1}{2}}^{-\ -\ -\gamma}}{\displaystyle\sum_{k=\frac{1}{2}}^{1}\jmath_{k}^{-\ -\gamma}}{\displaystyle\sum_{k=\frac{1}{2}}^{1}\jmath_{k}^{-\gamma}}}\\{{\displaystyle\qquad\ncong-\mathcal{K}\cup\underset{k=1}{\underbrace{|\mathbb{K}\circ\mathbb{S}\cap\mathbb{R}\mathscr{S}\cap\mathbb{R}\mathscr{S}\cap\mathbb{R}\mathscr{L}}}}}\end{array}
+\sigma(R)=\sum_{k}\stackrel{\underset{\sigma(r_{k})\rho(r_{k})}{=}}{\underset{\rho}{\sum}}\stackrel{\underset{\sigma(r_{k})\rho(r_{k})}{=}}{\underset{\rho}{\sum}}\frac{\underset{\sigma(r_{k})\rho(r_{k})}{\sum}}{\underset{\rho}{\sum}}
 $$
 
 $$
-\sigma(R)=\sum_{k}x_{k}^{{\mathrm{~i~}}^{-}}\sigma(r_{k})\rho(r_{k},R)\mathbf{\phi}_{\mathrm{i}}^{{\mathrm{~i~}}}
+\sigma(R)=\sum_{k}x^{\prod\limits_{k}\sigma(r_{k})\rho(r_{k},R)\prod\limits_{k}}_{\underbrace{\cdots\cdots\cdots\cdots\cdots\cdots\cdots}_{k}}
 $$
 
 数据来源：财通证券研究所

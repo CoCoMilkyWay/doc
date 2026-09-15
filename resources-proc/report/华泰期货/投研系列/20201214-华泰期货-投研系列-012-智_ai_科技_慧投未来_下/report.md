@@ -91,12 +91,12 @@
 期限结构因子：
 
 $$
-\mathrm{Roll}_{\mathrm{t}}^{\mathrm{c}}=\mathrm{ln}(\frac{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{spot}}}{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{dom}}})\times\frac{365}{\mathrm{t}_{\mathrm{c},\mathrm{dom}}-\mathrm{t}_{\mathrm{c},\mathrm{spot}}}
+\mathrm{Roll_{t}^{c}=\ln(\frac{P_{t}^{c,sport}}{P_{t}^{c,dom}})\times\frac{365}{t_{c,dom}-t_{c,sport}}}
 $$
 
-其中 $\mathrm{P_{t}^{c,spot}}\mathcal{F}^{\mathrm{{c,dom}}}$ 分别为在t时刻期货品种 c的近月合约价格和主力合约价格， $\mathrm{t}_{\mathrm{c},\mathrm{spot}}$ 和
+其中 $\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{s}\mathrm{p}\mathrm{ot}}和\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{d}\mathrm{o}\mathrm{m}}$ 分别为在t时刻期货品种 c的近月合约价格和主力合约价格， $\mathbf{t}_{\mathsf{c},\mathsf{spot}}$ 和
 
-$\mathrm{\sf t}_{\mathrm{c,dom}}$ 分别为期货品种近月合约到期日剩余天数和期货品种 c主力合约到期日剩余天数。
+$\mathbf{t}_{\mathsf{c,dom}}$ 分别为期货品种近月合约到期日剩余天数和期货品种 c主力合约到期日剩余天数。
 
 图3: 展期收益率的计算原理（原则上贴水越深展期收益率越大）
 ![](images/2bbc11814b23a76db886c222051fb2de716deff6af555c9c0f3c441a683af258.webp)
@@ -109,10 +109,10 @@ $\mathrm{\sf t}_{\mathrm{c,dom}}$ 分别为期货品种近月合约到期日剩�
 价值因子：
 
 $$
-\mathrm{value_{t}^{c}=\mathrm{ln}(\frac{\mathrm{P_{t}^{c,spot}}}{\mathrm{P_{t}^{c,near\_1y}}})\times\frac{12}{\mathrm{t_{c,near\_1y}-t_{c,spot}}}}
+\mathrm{value}_{\mathrm{t}}^{\mathrm{c}}=\ln\left(\frac{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{spot}}}{\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\text{near }_{-}1\mathrm{y}}}\right)\times\frac{12}{\mathrm{t}_{\mathrm{c},\text{near }_{-}1\mathrm{y}}-\mathrm{t}_{\mathrm{c},\text{s p o t}}}
 $$
 
-其中 $\mathrm{P_{t}^{c,spot}\#}\mathcal{F}^{\mathrm{{c,near\mathrm{.}1y}}}$ 分别为在t时刻期货品种 c的近月合约（现货）价格和距到期最接近一年的合约价格。 $\mathrm{t}_{\mathrm{c,near}_{-}1\mathrm{y}}$ 和 $\mathrm{t}_{\mathrm{c},\mathrm{spot}}$ 为期货品种 c 距到期期限最接近一年的合约的到期日剩余月数。
+其中 $\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{s}\mathrm{p}\mathrm{ot}}和\mathrm{P}_{\mathrm{t}}^{\mathrm{c},\mathrm{n}\mathrm{e}\mathrm{ar}\_1\mathrm{y}}$ 分别为在t时刻期货品种 c的近月合约（现货）价格和距到期最接近一年的合约价格。 $\mathbf{t}_{\mathtt{c,near\_ly}}$ 和 $\mathbf{t}_{\mathsf{c},\mathsf{spot}}$ 为期货品种 c 距到期期限最接近一年的合约的到期日剩余月数。
 
 图4: 价值因子计算示例
 ![](images/2ac3957305cabdb19c5c636e96a3b777c7b3b11967b4c0967bcfa1e69f639c5f.webp)

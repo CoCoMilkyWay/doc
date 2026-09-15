@@ -97,10 +97,10 @@ SAC No. S0570119110038 wangchenyu@htsc.com
 
 谱域图卷积网络（Spectral-based GCN）为后续空间域图卷积网络（Spatial-based GCN）提供了强有力的理论基础，方便我们理解图神经网络如何发展而来。我们首先给出图及谱图理论的一些基本定义。
 
-对于一个图 $G=(V,E)$ ，V 代表节点集合，E 代表边的集合。拉普拉斯矩阵 $.L=D-W$ 是表示图拓扑结构的一种矩阵，是谱图理论中的一个有效算子。其中W 可以是邻接矩阵，若节点 $v_{i}\hbar^{\alpha}$ 节点vj有边连接则有 $w_{ij}=1$ ，否则 $w_{ij}=0$ ；W 也可以是加权邻接矩阵，即 $w_{ij}$ 可以是由高斯核权重函数定义的边权。对角矩阵 $D=diag(d_{1},d_{2},\cdots,d_{n})$ 称为度矩阵，其中 $d_{i}=$ $\textstyle\sum_{j=1}^{n}w_{ij}$ 。对拉普拉斯矩阵 L 对称标准化得到标准化拉普拉斯矩阵： $L_{sym}=D^{-1/2}LD^{-1/2}=$ $I_{n}-D^{-1/2}WD^{-1/2}$ 。以未加权的邻接矩阵为例，L 的元素级定义如下：
+对于一个图 $G=(V,E)$ ，V 代表节点集合，E 代表边的集合。拉普拉斯矩阵 $\cdot L=D-W$ 是表示图拓扑结构的一种矩阵，是谱图理论中的一个有效算子。其中W 可以是邻接矩阵，若节点 $v_{i}和$ 节点vj有边连接则有 $\left[w_{ij}=1\right.$ ，否则 $w_{ij}=0$ ；W 也可以是加权邻接矩阵，即 $w_{ij}$ 可以是由高斯核权重函数定义的边权。对角矩阵 $D=diag(d_1,d_2,\cdots,d_n)$ 称为度矩阵，其中 $d_{i}=$ $\textstyle\sum_{j=1}^{n}w_{ij}$ 。对拉普拉斯矩阵 L 对称标准化得到标准化拉普拉斯矩阵： $L_{sym}=D^{-1/2}LD^{-1/2}=$ $I_{n}-D^{-1/2}WD^{-1/2}$ 。以未加权的邻接矩阵为例，L 的元素级定义如下：
 
 $$
-L_{ij}=\left\{{\begin{array}{cc}{d_{i},}&{~if~i=j}\\{-1,}&{~if~w_{ij}=1}\\{0,}&{~otherwise}\end{array}}\right.
+L_{ij}=\left\{\begin{matrix}d_{i},&ifi=j\\-1,&ifw_{ij}=1\\0,&otherwise\end{matrix}\right.
 $$
 
 图表1： 图结构数据 G和图信号 X举例
@@ -111,16 +111,16 @@ $$
 例如对于上图的图结构数据 G，可以得到如下三个矩阵：
 
 $$
-W={\left[\begin{array}{llll}{0}&{1}&{0}&{1}\\{1}&{0}&{1}&{1}\\{0}&{1}&{0}&{0}\\{1}&{1}&{0}&{0}\end{array}\right]}D={\left[\begin{array}{llll}{2}&{0}&{0}&{0}\\{0}&{3}&{0}&{0}\\{0}&{0}&{1}&{0}\\{0}&{0}&{0}&{2}\end{array}\right]}L={\left[\begin{array}{llll}{2}&{-1}&{0}&{-1}\\{-1}&{3}&{-1}&{-1}\\{0}&{-1}&{1}&{0}\\{-1}&{-1}&{0}&{2}\end{array}\right]}
+W=\begin{bmatrix}0&1&0&1\\1&0&1&1\\0&1&0&0\\1&1&0&0\end{bmatrix}D=\begin{bmatrix}2&0&0&0\\0&3&0&0\\0&0&1&0\\0&0&0&2\end{bmatrix}L=\begin{bmatrix}2&-1&0&-1\\-1&3&-1&-1\\0&-1&1&0\\-1&-1&0&2\end{bmatrix}
 $$
 
-关于拉普拉斯矩阵 L 的性质，可证明 L 是实对称矩阵和半正定矩阵，并且特征值为非负实数，最小特征值为零，即 $0=\lambda_{1}\leq\lambda_{2}\leq\cdots\leq\lambda_{n}$ ，对应单位正交的特征向量 $U=[u_{1},u_{2},\cdots,u_{n}]$ U 是正交矩阵，有 $UU^{T}=I;$ ；实对称矩阵 L可以被正交对角化 $.L=U\Lambda U^{T}$ ，其中Λ是由 L 的特征值从小到大排列组成的对角矩阵。图表 1中 G的拉普拉斯矩阵 L可以分解为：
+关于拉普拉斯矩阵 L 的性质，可证明 L 是实对称矩阵和半正定矩阵，并且特征值为非负实数，最小特征值为零，即 $\begin{array}{r}{{}^{!}0=\lambda_{1}\leq\lambda_{2}\leq\cdots\leq\lambda_{n},}\end{array}$ ，对应单位正交的特征向量 $U=[u_{1},u_{2},\cdots,u_{n}]$ U 是正交矩阵，有 $UU^{T}=I;$ ；实对称矩阵 L可以被正交对角化 $L=U\Lambda U^{T}$ ，其中Λ是由 L 的特征值从小到大排列组成的对角矩阵。图表 1中 G的拉普拉斯矩阵 L可以分解为：
 
 $$
-U\Lambda U^{T}=\left[\begin{array}{cccc}{0.50}&{0.41}&{0.71}&{-0.29}\\{0.50}&{0}&{0}&{0.87}\\{0.50}&{-0.82}&{0}&{-0.29}\\{0.50}&{0.41}&{-0.71}&{-0.29}\end{array}\right]\left[\begin{array}{cccc}{0}&{0}&{0}&{0}\\{0}&{1}&{0}&{0}\\{0}&{0}&{3}&{0}\\{0}&{0}&{0}&{4}\end{array}\right]\left[\begin{array}{cccc}{0.50}&{0.50}&{0.50}&{0.50}\\{0.41}&{0}&{-0.82}&{0.41}\\{0.71}&{0}&{0}&{-0.71}\\{-0.29}&{0.87}&{-0.29}&{-0.29}\end{array}\right]
+U\Lambda U^{T}=\begin{bmatrix}0.50&0.41&0.71&-0.29\\0.50&0&0&0.87\\0.50&-0.82&0&-0.29\\0.50&0.41&-0.71&-0.29\end{bmatrix}\begin{bmatrix}0&0&0&0\\0&1&0&0\\0&0&3&0\\0&0&0&4\end{bmatrix}\begin{bmatrix}0.50&0.50&0.50&0.50\\0.41&0&-0.82&0.41\\0.71&0&0&-0.71\\-0.29&0.87&-0.29&-0.29\end{bmatrix}
 $$
 
-在图信号处理中，图信号描述节点集 V 到实数域 R 的一种映射，V 上节点的信号值对应向量 $X=[x_{1},x_{2},\cdots,x_{n}]^{T}\in R^{n}$ ，如上述 G中节点 $v_{i}$ 上的竖线代表该节点的信号值 $x_{i}\mathrm{.}$ 。一维图信号 $X\in R^{n}$ 可以推广至多维，得到图信号矩阵X $\in R^{n\times c}$ ，其中 c为通道数量，即节点的特征维度大小。例如对股票市场建图，一只股票是一个节点，连边表示两只股票间存在某种关系，节点上的 c 维信号值分别对应该股票的 c 个因子特征。下文将以图表 1 中 G 的一维图信号$X=[x_{1},x_{2},x_{3},x_{4}]^{T}$ 为例，进行后续概念的解释。
+在图信号处理中，图信号描述节点集 V 到实数域 R 的一种映射，V 上节点的信号值对应向量 ${\boldsymbol{\imath}}X=[x_{1},x_{2},\cdots,x_{n}]^{T}\in R^{n}$ ，如上述 G中节点 $v_{i}$ 上的竖线代表该节点的信号值 $x_{i},$ 。一维图信号 $X\in R^{n}$ 可以推广至多维，得到图信号矩阵X $\in R^{n\times c}$ ，其中 c为通道数量，即节点的特征维度大小。例如对股票市场建图，一只股票是一个节点，连边表示两只股票间存在某种关系，节点上的 c 维信号值分别对应该股票的 c 个因子特征。下文将以图表 1 中 G 的一维图信号$X=[x_{1},x_{2},x_{3},x_{4}]^{T}$ 为例，进行后续概念的解释。
 
 ## 图傅里叶变换
 
@@ -143,37 +143,37 @@ $$
 图傅里叶变换（Graph Fourier Transform，简称 GFT）由经典傅里叶变换扩展而来（Shumanet al.，2013），它计算了图信号 X在拉普拉斯矩阵特征向量上的投影。对于 G上的任意图信号 X，定义图信号 X 在拉普拉斯矩阵 L的第 k 个特征向量 $u_{k}$ 上的图傅里叶变换：
 
 $$
-\alpha_{k}=\sum_{i=1}^{N}u_{ki}*x_{i}=u_{k}^{T}X
+\alpha_{k}={\sum}_{i=1}^{N}u_{ki}*x_{i}=u_{k}^{T}X
 $$
 
 其中特征向量 $u_{k}$ 和系数 $\alpha_{k}$ 分别称为傅里叶基和傅里叶系数，写成矩阵形式如下：
 
 $$
-{\vec{\alpha}}=U^{T}X=\left[{\begin{array}{c}{u_{1}^{T}}\\{u_{2}^{T}}\\{\vdots}\\{u_{n}^{T}}\end{array}}\right]X=\left[{\begin{array}{c}{\alpha_{1}}\\{\alpha_{2}}\\{\vdots}\\{\alpha_{n}}\end{array}}\right]
+\vec{\alpha}=U^{T}X=\begin{bmatrix}u_{1}^{T}\\u_{2}^{T}\\\vdots\\u_{n}^{T}\end{bmatrix}X=\begin{bmatrix}\alpha_{1}\\\alpha_{2}\\\vdots\\\alpha_{n}\end{bmatrix}
 $$
 
 可以看到，计算结果是将图信号 X 投影到每个特征向量上，得到谱域上的 n 个傅里叶系数：$\vec{\alpha}=[\alpha_{1},\alpha_{2},\cdots,\alpha_{n}]^{T}$ ，称该向量为频谱（spectrum），衡量了图信号与傅里叶基之间的相似程度。
 
-由于 $UU^{T}=I_{n}$ ，则有 $U\vec{\alpha}=UU^{T}X=X$ ，即对频谱α⃑左乘 U，将会返回到原始空间域上的图信号 X，因此称 $\begin{array}{r}{X=U\vec{\alpha}=\sum_{k=1}^{n}\alpha_{k}u_{k}}\end{array}$ 为逆图傅里叶变换（Inverse Graph Fourier Transform，简称 IGFT）。IGFT 的含义是图信号可以分解到空间中的傅里叶基上， $\bar{\mathsf{m}}$ 系数则为基对应的傅里叶系数。只要给定图 G和频谱特征α⃑，便可以通过 IGFT 得到空间域的图信号 X。与在欧几里得空间上的操作一样，这样的变换使得图数据上的卷积操作成为可能。
+由于 ${}^{\cdot}UU^{T}=I_{n}$ ，则有 $U{\vec{\alpha}}=UU^{T}X=X$ ，即对频谱α⃑左乘 U，将会返回到原始空间域上的图信号 X，因此称 $\begin{array}{r}{X=U\vec{\alpha}=\sum_{k=1}^{n}\alpha_{k}u_{k}}\end{array}$ 为逆图傅里叶变换（Inverse Graph Fourier Transform，简称 IGFT）。IGFT 的含义是图信号可以分解到空间中的傅里叶基上， $而$ 系数则为基对应的傅里叶系数。只要给定图 G和频谱特征α⃑，便可以通过 IGFT 得到空间域的图信号 X。与在欧几里得空间上的操作一样，这样的变换使得图数据上的卷积操作成为可能。
 
 ## 总变差及图平滑度分析
 
 在介绍图卷积运算之前，我们先给出与拉普拉斯矩阵L相关的变差（Variation）、总变差（TotalVariation）的定义，以及图平滑度分析。图平滑度分析将帮助读者直观理解后续的图卷积运算过程。关于变差，将 L 作用在 X上得到 LX，对每个节点 $v_{i}$ 有：
 
 $$
-(LX)_{i}=\sum_{v_{j}\in N(v_{i})}w_{ij}(x_{i}-x_{j})
+(LX)_{i}={\sum}_{v_{j}\in N(v_{i})}w_{ij}(x_{i}-x_{j})
 $$
 
 将 $(LX)_{i}$ 称为节点 $v_{i}$ 的变差，它是节点与其邻居节点之间信号值的差值之和，衡量了节点信号值的局部平滑度，以图表 1 中 G举例：
 
 $$
-LX={\left[\begin{array}{llll}{2}&{-1}&{0}&{-1}\\{-1}&{3}&{-1}&{-1}\\{0}&{-1}&{1}&{0}\\{-1}&{-1}&{0}&{2}\end{array}\right]}{\left[\begin{array}{l}{x_{1}}\\{x_{2}}\\{x_{3}}\\{x_{4}}\end{array}\right]}={\left[\begin{array}{lll}{(x_{1}-x_{2})+(x_{1}-x_{4})}&{-x_{3}}\\{(x_{2}-x_{1})+(x_{2}-x_{3})+(x_{2}-x_{4})}\\{(x_{3}-x_{2})}&{}\\{(x_{4}-x_{1})+(x_{4}-x_{2})}\end{array}\right]}
+LX=\begin{bmatrix}2&-1&0&-1\\-1&3&-1&-1\\0&-1&1&0\\-1&-1&0&2\end{bmatrix}\begin{bmatrix}x_{1}\\x_{2}\\x_{3}\\x_{4}\end{bmatrix}=\begin{bmatrix}(x_{1}-x_{2})+(x_{1}-x_{4})\\(x_{2}-x_{1})+(x_{2}-x_{3})+(x_{2}-x_{4})\\(x_{3}-x_{2})\\(x_{4}-x_{1})+(x_{4}-x_{2})\end{bmatrix}
 $$
 
 变差仅考虑单个节点的局部信号变化，对 LX 左乘 X 的转置后得到整张图上的平滑度，称为图平滑度即总变差，是图上全部有边相连的节点对之间信号值差值的平方和，如式(2)：
 
 $$
-X^{T}LX=\sum_{v_{i}}\sum_{{v_{j}}\in N(v_{i})}w_{ij}(x_{i}-x_{j})=\sum_{i\sim j}w_{ij}\big(x_{i}-x_{j}\big)^{2}\tag{2}
+X^{T}LX={\sum}_{v_{i}}{\sum}_{v_{j}\in N(v_{i})}w_{ij}(x_{i}-x_{j})={\sum}_{i\sim j}w_{ij}{\left(x_{i}-x_{j}\right)}^{2}\tag{2}
 $$
 
 以图表 1中 G为例：
@@ -185,7 +185,7 @@ $$
 有了上述概念后，我们回到总变差，将式(2)中的 X 替换成逆变换Uα⃑，化简后得到的总变差是所有特征值的线性组合，系数为傅里叶系数平方项，如式(3)：
 
 $$
-{\cal X}^{T}L{\cal X}={\cal X}^{T}U\Lambda U^{T}{\cal X}=(U{\vec{\alpha}})^{T}U\Lambda U^{T}(U{\vec{\alpha}})={\vec{\alpha}}^{T}U^{T}U\Lambda U^{T}U{\vec{\alpha}}={\vec{\alpha}}^{T}\Lambda{\vec{\alpha}}=\sum_{i=1}^{n}\alpha_{i}^{2}\lambda_{i}\tag{3}
+X^{T}LX=X^{T}U\Lambda U^{T}X=(U\ddot{\alpha})^{T}U\Lambda U^{T}(U\ddot{\alpha})=\ddot{\alpha}^{T}U^{T}U\Lambda U^{T}U\ddot{\alpha}=\ddot{\alpha}^{T}\Lambda\ddot{\alpha}=\sum_{i=1}^{n}\alpha_{i}^{2}\lambda_{i}\tag{3}
 $$
 
 称拉普拉斯矩阵的特征值 $\lambda_{i}$ 为频率，傅里叶系数 $\alpha_{i}$ 为图信号在该频率分量 $\lambda_{i}$ 上的强度或能量。与经典傅里叶变换类似，特征值同样具有频率的意义，如果将拉普拉斯特征向量作为图信号表示在图上，则与低频相关的特征向量在图中变化缓慢，与高频相关的特征向量振荡得更快。
@@ -193,22 +193,22 @@ $$
 我们以最小化总变差为例，该过程是使图平滑度更高、图信号更加平滑的过程，可以帮助读者理解后文中图卷积的作用。根据式(4)从空间域和频谱域两个角度分析该过程：
 
 $$
-\operatorname*{min}X^{T}LX=\operatorname*{min}\sum_{i\sim j}w_{ij}\big(x_{i}-x_{j}\big)^{2}=\operatorname*{min}\sum_{i=1}^{n}\alpha_{i}^{2}\lambda_{i}\tag{4}
+\min X^{T}LX=\min\sum_{i\sim j}w_{ij}(x_{i}-x_{j})^{2}=\min\sum_{i=1}^{n}\alpha_{i}^{2}\lambda_{i}\tag{4}
 $$
 
 1. 空间域角度，即相连节点对之间信号值差值的平方和，对应式(4)的第一个等号：
 
-a) 权值 $w_{ij}$ 较大时，最小化总变差就需要 $x_{i}=x_{j}$ 两信号尽可能相似，即高权值的节点间具有高相似度；
+a) 权值 $.w_{ij}$ 较大时，最小化总变差就需要 $\cdot x_{i}=x_{j}$ 两信号尽可能相似，即高权值的节点间具有高相似度；
 
-b) 权值 $w_{ij}$ 较小时， $x_{i}$ 和 $x_{j}$ 之间的差值对总变差影响不大；
+b) 权值 $w_{ij}$ 较小时， $x_{i}1$ 和 ${}^{\prime}x_{j}$ 之间的差值对总变差影响不大；
 
 综合 a和 b，通过最小化总变差，高权值节点间的信号值趋于一致，图平滑度更高。
 
 2. 频谱域角度，即所有频率的线性组合，对应式(4)的第二个等号：
 
-a) 频率 $\cdot\lambda_{i}$ 较大时，最小化总变差就需要强度 $\alpha_{i}$ 越小越好，即剔除图上的高频信息；
+a) 频率 $\lambda_{i}$ 较大时，最小化总变差就需要强度 $\alpha_{i}$ 越小越好，即剔除图上的高频信息；
 
-b) 频率 $\cdot\lambda_{i}$ 较小时，强度 $\alpha_{i}$ 的大小对总变差影响不大，强度 $\alpha_{i}$ 可以大一些，即保留图上的低频信息；
+b) 频率 $\lambda_{i}$ 较小时，强度 $.\alpha_{i}$ 的大小对总变差影响不大，强度 $\cdot\alpha_{i}$ 可以大一些，即保留图上的低频信息；
 
 通过最小化总变差，图平滑度更高，剔除了图中的高频信息并保留了低频信息，相当于对图信号作了低通滤波过滤。
 
@@ -245,7 +245,7 @@ b) 频率 $\cdot\lambda_{i}$ 较小时，强度 $\alpha_{i}$ 的大小对总变�
 以图 3（空间域）和图 4 （频谱域）的左上子图为例。空间域中四个节点颜色相同，信号值均为 0.5，沿着图的拓扑结构来看，信号值没有变化，具有很高的图平滑度。频谱域中在频率为 0 的低频分量上取得傅里叶系数的最大值，同样说明该图信号的图平滑度更高。频谱向量计算过程如下：
 
 $$
-\vec{\alpha}_{0}=U^{T}X=\left[\begin{array}{cccc}{0.50}&{0.50}&{0.50}&{0.50}\\{0.41}&{0}&{-0.82}&{0.41}\\{0.71}&{0}&{0}&{-0.71}\\{-0.29}&{0.87}&{-0.29}&{-0.29}\end{array}\right]\left[\begin{array}{c}{0.50}\\{0.50}\\{0.50}\\{0.50}\end{array}\right]=\left[\begin{array}{c}{1}\\{0}\\{0}\\{0}\end{array}\right]
+\vec{\alpha}_{0}=U^{T}X=\begin{bmatrix}0.50&0.50&0.50&0.50\\0.41&0&-0.82&0.41\\0.71&0&0&-0.71\\-0.29&0.87&-0.29&-0.29\end{bmatrix}\begin{bmatrix}0.50\\0.50\\0.50\\0.50\end{bmatrix}=\begin{bmatrix}1\\0\\0\\0\end{bmatrix}
 $$
 
 再以图 3（空间域）和图 4 （频谱域）的右下子图为例。空间域中四个节点的图信号值为X = [−0.29, 0.87, −0.29, −0.29]T，即节点 $v_{2}$ 与其他三个邻居节点的信号值均存在较大差异，信号值变化剧烈，图平滑度较低。频谱域中在频率为 4 的高频分量上取得傅里叶系数的最大值，同样说明该图信号的图平滑度较低。
@@ -256,13 +256,13 @@ $$
 
 有了拉普拉斯矩阵和图傅里叶变换的定义后，我们对图信号先转换到谱域，对其在谱域上进行滤波操作，提取滤波器想要提取的特征，再对两者在谱域上的乘积做逆图傅里叶变换，得到空间域上新的图信号。由于滤波操作相当于卷积，因此上述运算也称为图卷积运算。
 
-在式(1)的基础上，定义谱域中的图卷积操作 $^*{_G}$ 如下：
+在式(1)的基础上，定义谱域中的图卷积操作 $^{*}G$ 如下：
 
 $$
-g_{\ast_{G}}X=\mathrm{U}(\mathrm{U}^{T}g_{\odot}\mathrm{U}^{T}X)=\mathrm{U}g_{\theta}\mathrm{U}^{T}X\tag{5}
+g*_{G}X=\mathrm{U}(\mathrm{U}^{T}g\odot\mathrm{U}^{T}X)=\mathrm{U}g_{\theta}\mathrm{U}^{T}X\tag{5}
 $$
 
-其中 $g_{n*1}$ 为卷积滤波器（Filter），U 为拉普拉斯矩阵 L正交分解后的特征向量矩阵，⨀是哈达 玛 积 ， $g_{\theta}$ 为 经 过 图 傅 里 叶 变 换 后 的 谱 域 卷 积 滤 波 器 , 即 $g_{\theta}=diag(\mathrm{U}^{T}g)=$ $diag(\hat{g}(\lambda_{1}),\hat{g}(\lambda_{2}),\cdots,\hat{g}(\lambda_{n}))$ ，对角线上的元素是卷积滤波器 g 在相应特征向量 $u_{i}$ 上的投影$\hat{g}(\lambda_{i})=u_{i}^{T}g$
+其中 $g_{n*1}$ 为卷积滤波器（Filter），U 为拉普拉斯矩阵 L正交分解后的特征向量矩阵，⨀是哈达 玛 积 ， $g_{\theta}$ 为 经 过 图 傅 里 叶 变 换 后 的 谱 域 卷 积 滤 波 器 , 即 $g_{\theta}=diag(\mathbf{U}^{T}g)=$ $diag(\hat{g}(\lambda_{1}),\hat{g}(\lambda_{2}),\cdots,\hat{g}(\lambda_{n}))$ ，对角线上的元素是卷积滤波器 g 在相应特征向量 $u_{i}$ 上的投影$\hat{g}(\lambda_{i})=u_{i}^{T}g$
 
 我们以一组特殊的滤波器为例进行解释，以拉普拉斯矩阵 L 的特征值对角矩阵Λ作为谱域卷积滤波器，即 $g_{\theta}=\Lambda=diag(\lambda_{1},\lambda_{2},\cdots,\lambda_{n})$ ，此时式(5)的图卷积可以写成如下结果：
 
@@ -272,9 +272,9 @@ $$
 
 对上述公式由右向左理解图卷积UΛUTX的过程，主要分为三步：
 
-1. $U^{T}X\colon{\cal U}^{T}X$ 表示图傅里叶变换，结果是将图信号 X投影到每个傅里叶基，得到谱域上的频谱 $\mathbf{\Psi}_{\vec{\tau}}^{\vec{\tau}}\vec{\alpha}=[\alpha_{1},\alpha_{2},\cdots,\alpha_{n}]^{T}$ ；
+1. $U^{T}X{\colon\thinspace}U^{T}X$ 表示图傅里叶变换，结果是将图信号 X投影到每个傅里叶基，得到谱域上的频谱 $\vec{\alpha}=[\alpha_{1},\alpha_{2},\cdots,\alpha_{n}]^T$ ；
 
-2. $\Lambda U^{T}X=\Lambda\vec{\alpha}:$ 通过对角矩阵Λ中 的特征值，将α⃑ 放缩过滤得到向量 $\vec{\alpha}_{scale}=$ $[\lambda_{1}\alpha_{1},\lambda_{2}\alpha_{2},\cdots,\lambda_{n}\alpha_{n}]^{T}$ ；滤波操作后，低频上的强度被削弱，高频上的强度被增强，其本质是高通滤波；
+2. $\Lambda U^{T}X=\Lambda\vec{\alpha}:$ 通过对角矩阵Λ中 的特征值，将α⃑ 放缩过滤得到向量 $\bar{\alpha}_{scale}=$ $[\lambda_{1}\alpha_{1},\lambda_{2}\alpha_{2},\cdots,\lambda_{n}\alpha_{n}]^{T}$ ；滤波操作后，低频上的强度被削弱，高频上的强度被增强，其本质是高通滤波；
 
 3. $U\Lambda U^{T}X=U\vec{\alpha}_{scale}$ ：完成上一步滤波后，对其左乘矩阵 U，即逆图傅里叶变换，作用是将谱域信息返回到空间域上，得到滤波后的图信号 Y。
 
@@ -282,24 +282,24 @@ $$
 ![](images/fc1cac135f02d1d573a246d234545169aa604ec2dab84d9ac9a13ceaf6512965.webp)
 资料来源：华泰研究
 
-称式(5)中的 $\mathsf{U}g_{\theta}\mathsf{U}^{T}$ 为图滤波器 H，定义为对给定图信号上的各频率分量的强度进行增强或削弱，再返回到空间域的转换操作。此时谱域上图卷积过程可以写成图滤波的形式 Y＝HX，该式从空间域的角度，描述了将一阶邻居节点信号 X 作用于每个中心节点，最终得到新信号 Y的转换过程，其作用仍是调节图信号的平滑度。
+称式(5)中的 $\mathrm{U}g_{\theta}\mathrm{U}^{T}$ 为图滤波器 H，定义为对给定图信号上的各频率分量的强度进行增强或削弱，再返回到空间域的转换操作。此时谱域上图卷积过程可以写成图滤波的形式 Y＝HX，该式从空间域的角度，描述了将一阶邻居节点信号 X 作用于每个中心节点，最终得到新信号 Y的转换过程，其作用仍是调节图信号的平滑度。
 
-上述例子中的图滤波器是拉普拉斯矩阵 $U\Lambda U^{T}=L$ ，属于高通滤波器。图滤波器还可以选择邻接矩阵或拉普拉斯矩阵的变体等，也可以是设计的图滤波器（Tremblay et al.，2018）。后文中的 U 和特征值不作额外说明的话仍然是对拉普拉斯矩阵 L分解得到。
+上述例子中的图滤波器是拉普拉斯矩阵 $\cdot U\Lambda U^{T}=L$ ，属于高通滤波器。图滤波器还可以选择邻接矩阵或拉普拉斯矩阵的变体等，也可以是设计的图滤波器（Tremblay et al.，2018）。后文中的 U 和特征值不作额外说明的话仍然是对拉普拉斯矩阵 L分解得到。
 
 图表6： 低通滤波器去噪实验
 ![](images/c148e6b23c10880ad4d8f519e918726ac863ec2d687d242f527d6f5c1a919b3c.webp)
 资料来源：Tremblay, Gonçalves, & Borgnat. (2018). Design of graph filters and filterbanks. Cooperative and Graph Signal Processing，华泰研究
 
-我们再举一例，展示低通滤波器进行去噪声的过程，借助图 6 可以更形象地理解图卷积运算在空间域和谱域上的过程和表现。x 是低频数据加入高斯噪声后的信号值，通过图卷积运算 $\cdot x_{d}=Uh(\Lambda)U^{T}x{\mathcal{E}}$ ，得到去噪后的图信号 $x_{d}.$ 。三条箭头实线分别对应图卷积的三步过程。从频谱域看（左下和右下子图），横坐标为频率，纵坐标为傅里叶系数平方项，因此曲线下的面积等价于总变差（见式(3)推导）。对比第二步滤波操作 $\hat{x}_{d}=h(\Lambda)$ x̂前后：高频信息被削弱，低频信息得以保留，曲线下面积即总变差变小，图平滑度提高，表现在空间域上（左上和右上子图）为相邻节点间的信号值变得更加相似，达到了去噪的目的。
+我们再举一例，展示低通滤波器进行去噪声的过程，借助图 6 可以更形象地理解图卷积运算在空间域和谱域上的过程和表现。x 是低频数据加入高斯噪声后的信号值，通过图卷积运算 $\cdot x_{d}=Uh(\Lambda)U^{T}x后$ ，得到去噪后的图信号 $[x_{d},$ 。三条箭头实线分别对应图卷积的三步过程。从频谱域看（左下和右下子图），横坐标为频率，纵坐标为傅里叶系数平方项，因此曲线下的面积等价于总变差（见式(3)推导）。对比第二步滤波操作 $\hat{x}_{d}=h(\Lambda)$ x̂前后：高频信息被削弱，低频信息得以保留，曲线下面积即总变差变小，图平滑度提高，表现在空间域上（左上和右上子图）为相邻节点间的信号值变得更加相似，达到了去噪的目的。
 
 ## 谱域图卷积网络
 
 ## 参数化
 
-通过以拉普拉斯矩阵作为图滤波器，我们得到了图信号的新表示 ${\mathsf{Y}},$ ，因此谱域上图卷积运算的核心是谱域卷积滤波器 $g_{\theta}$ 的设计。如果是对图数据进行学习训练，那么可以将其设置为一个可学习的参数化对角矩阵 $\Theta=diag(\theta_{1},\theta_{2},\cdots\theta_{n})$ （Bruna et al.，2013）。其中 $\theta=$ $(\theta_{1},\theta_{2},\cdots,\theta_{n})\in R^{n}$ ，对应的图卷积操作如下：
+通过以拉普拉斯矩阵作为图滤波器，我们得到了图信号的新表示 $Y,$ ，因此谱域上图卷积运算的核心是谱域卷积滤波器 $g_{\theta}$ 的设计。如果是对图数据进行学习训练，那么可以将其设置为一个可学习的参数化对角矩阵 $\Theta=diag(\theta_{1},\theta_{2},\cdots\theta_{n})$ （Bruna et al.，2013）。其中 $\theta=$ $(\theta_{1},\theta_{2},\cdots,\theta_{n})\in R^{n}$ ，对应的图卷积操作如下：
 
 $$
-Y=g*_{G}X=\mathbf{U}\Theta U^{T}X
+Y=g*_{G}X=\mathbb{U}\Theta U^{T}X
 $$
 
 上述参数化主要存在三个问题：
@@ -308,45 +308,45 @@ $$
 
 2. 运算复杂度高，矩阵的特征分解复杂度为 $0(n^{3})$ ，图傅里叶变换的复杂度为 $0(n^{2})$
 
-3. 不具有空间域局部特征，如没有考虑 K-hop 的邻居信 $\angles{\Theta}_{\cdot}\mathopen{}\mathclose\bgroup L^{K}$ ，这里 K-hop 邻居指从中心节点出发，路径长度不超过K的节点集合。
+3. 不具有空间域局部特征，如没有考虑 K-hop 的邻居信 $息L^{K}$ ，这里 K-hop 邻居指从中心节点出发，路径长度不超过K的节点集合。
 
 ## 多项式图卷积
 
 上述问题可以通过多项式逼近参数的方法加以克服（Defferrard et al.，2016），将谱域卷积滤波器 $g_{\theta}(\Lambda)$ 表示成关于Λ的 K-1 阶多项式：
 
 $$
-g_{\theta}(\Lambda)=\sum_{k=0}^{K-1}\theta_{k}\Lambda^{k}\tag{6}
+g_{\theta}(\Lambda)={\sum}_{k=0}^{K-1}\theta_{k}\Lambda^{k}\tag{6}
 $$
 
 其矩阵形式为：
 
 $$
-g_{\theta}(\Lambda)=\left[\begin{array}{cccc}{{\sum_{k=0}^{K-1}\theta_{k}\lambda_{1}^{k}}}&{{}}&{{}}&{{}}\\{{}}&{{\ddots}}&{{}}&{{}}\\{{}}&{{}}&{{}}&{{\sum_{k=0}^{K-1}\theta_{k}\lambda_{n}^{k}}}\end{array}\right]
+g_{\theta}(\Lambda)=\left[\begin{aligned}{\sum}&{{}_{k=0}^{K-1}\theta_{k}\lambda_{1}^{k}}\\&{}&{\ddots}\\&{}&{}&{\sum}&{{}_{k=0}^{K-1}\theta_{k}\lambda_{n}^{k}}\end{aligned}\right].
 $$
 
 其中 $\theta\in R^{K}$ 是需要学习的参数。进一步化简有：
 
 $$
-\begin{array}{c}{{\displaystyle Y=g*_{G}X=\mathrm{U}g_{\theta}(\Lambda)U^{T}X=\mathrm{U}\sum_{k=0}^{K-1}\theta_{k}\Lambda^{k}U^{T}X}}\\{{\displaystyle\ =\sum_{k=0}^{K-1}\theta_{k}U\Lambda^{k}U^{T}X=\sum_{k=0}^{K-1}\theta_{k}L^{k}X}}\end{array}
+\begin{align*}Y=g*_{G}X=\mathsf{U}g_{\theta}(\Lambda)U^{T}X&=\mathsf{U}et{}{_{k=0}^{K-1}}\sum\theta_{k}\Lambda^{k}U^{T}X\\=et{}{_{k=0}^{K-1}}\sum\theta_{k}U\Lambda^{k}U^{T}X&=et{}{_{k=0}^{K-1}}\sum\theta_{k}L^{k}X\end{align*}
 $$
 
-其中 $\theta\in R^{K}$ 是多项式的系数向量，可以看到通过多项式逼近，参数数量由 n 缩减到 $\mathsf{K},$ ，并且用拉普拉斯矩阵多项式表示的图滤波器含有多跳邻居信息。K可以理解为感受野范围，即在空间域上是 K-1 跳邻居可达的。例如考虑LK作为图滤波器则有 $Y=L^{K}X=L(L^{K-1}X)=$ $LX^{(K-1)}$ ，将X(K−1)看作是节点的 K-1跳特征表示，则 Y是对节点的 K-1 跳特征表示 $X^{(K-1)}$ 再通过左乘一个 L图滤波器得到的 K跳特征表示。
+其中 $\theta\in R^{K}$ 是多项式的系数向量，可以看到通过多项式逼近，参数数量由 n 缩减到 $K,$ ，并且用拉普拉斯矩阵多项式表示的图滤波器含有多跳邻居信息。K可以理解为感受野范围，即在空间域上是 K-1 跳邻居可达的。例如考虑LK作为图滤波器则有 $Y=L^{K}X=L(L^{K-1}X)=$ $LX^{(K-1)}$ ，将X(K−1)看作是节点的 K-1跳特征表示，则 Y是对节点的 K-1 跳特征表示 $X^{(K-1)}$ 再通过左乘一个 L图滤波器得到的 K跳特征表示。
 
 ## 截断切比雪夫多项式图卷积：ChebNet
 
-切比雪夫多项式具有数值稳定的优势（Hammond et al.，2011），其递推关系式为 $T_{k}(x)=$ $2xT_{k-1}(x)-T_{k-2}(x)$ ，且 $.T_{0}(x)=1,T_{1}(x)=x$ 。因此使用 K-1 阶截断的切比雪夫多项式 ${\cal T}_{k}(x)$ 来近似式(6)中的多项式卷积（Defferrard et al.，2016）：
+切比雪夫多项式具有数值稳定的优势（Hammond et al.，2011），其递推关系式为 $T_{k}(x)=$ $2xT_{k-1}(x)-T_{k-2}(x)$ ，且 $T_{0}(x)=1,T_{1}(x)=x$ 。因此使用 K-1 阶截断的切比雪夫多项式 $\mathinner{|{T_{k}(x)}\rangle}$ 来近似式(6)中的多项式卷积（Defferrard et al.，2016）：
 
 $$
-g_{\theta}(\Lambda)=\sum_{k=0}^{K-1}\theta_{k}T_{k}(\widetilde{\Lambda})
+g_{\theta}(\Lambda)={\sum}_{k=0}^{K-1}\theta_{k}T_{k}(\widetilde{\Lambda})
 $$
 
-其中 $\theta\in R^{K}$ 是切比雪夫系数向量，即需要学习的参数； $T_{k}({\widetilde{\Lambda}})\in R^{n\times n}$ 是通过Λ̃来计算的 k 阶切比雪夫多项式；Λ̃是Λ经特征值放缩到[-1, 1]上的特征值对角矩阵： $\widetilde{\Lambda}=2\Lambda/\lambda_{max}-I_{n};\lambda_{max}$ 是 L 的最大特征值。这里进行放缩是因为切比雪夫多项式的输入要求在[-1,1]之间。此时，切比雪夫多项式图卷积可以表示为：
+其中 $\theta\in R^{K}$ 是切比雪夫系数向量，即需要学习的参数； $T_{k}(\widetilde{\Lambda})\in R^{n\times n}$ 是通过Λ̃来计算的 k 阶切比雪夫多项式；Λ̃是Λ经特征值放缩到[-1, 1]上的特征值对角矩阵： $\widetilde{\Lambda}=2\Lambda/\lambda_{max}-I_{n};\lambda_{max}$ 是 L 的最大特征值。这里进行放缩是因为切比雪夫多项式的输入要求在[-1,1]之间。此时，切比雪夫多项式图卷积可以表示为：
 
 $$
-\boldsymbol{Y}=\boldsymbol{g}\ast_{G}\boldsymbol{X}=\boldsymbol{U}\boldsymbol{g}_{\boldsymbol{\theta}}(\boldsymbol{\Lambda})\boldsymbol{U}^{T}\boldsymbol{X}=\boldsymbol{U}\sum_{k=0}^{K-1}\theta_{k}T_{k}(\widetilde{\boldsymbol{\Lambda}})\boldsymbol{U}^{T}\boldsymbol{X}=\sum_{k=0}^{K-1}\theta_{k}T_{k}\left(\widetilde{\boldsymbol{L}}\right)\boldsymbol{X}\tag{7}
+Y=g*_{G}X=Ug_{\theta}(\Lambda)U^{T}X=U{\sum}_{k=0}^{K-1}\theta_{k}T_{k}(\widetilde{\Lambda})U^{T}X={\sum}_{k=0}^{K-1}\theta_{k}T_{k}\big(\widetilde{L}\big)X.\tag{7}
 $$
 
-其中 $T_{k}(\tilde{L})\in R^{n\times n}$ 是基于放缩的拉普拉斯矩阵 $\tilde{L}=2L/\lambda_{max}-I_{n}$ 计算的 k 阶切比雪夫多项式。记 $\bar{X}_{k}=T_{k}(\tilde{L})X\in R^{n}$ ，通过递推关系可以得到： $\bar{X}_{k}=2\tilde{L}\bar{X}_{k-1}-\bar{X}_{k-2}$ ，其中 $\bar{X}_{0}=X,\bar{X}_{1}=\tilde{L}X$ 则 $Y=[\bar{X}_{0},\bar{X}_{1},\cdots,\bar{X}_{K-1}]\theta,\theta=(\theta_{0},\theta_{1},\cdots,\theta_{K-1})\in R^{K}$ o
+其中 $T_{k}(\tilde{L})\in R^{n\times n}$ 是基于放缩的拉普拉斯矩阵 $\tilde{L}=2L/\lambda_{max}-I_{n}$ 计算的 k 阶切比雪夫多项式。记 $\bar{X}_{k}=T_{k}(\tilde{L})X\in R^{n}$ ，通过递推关系可以得到： $\bar{X}_{k}=2\tilde{L}\bar{X}_{k-1}-\bar{X}_{k-2}$ ，其中 $\bar{X}_{0}=X,\bar{X}_{1}=\tilde{L}X$ 则 $Y=[\bar{X}_{0},\bar{X}_{1},\cdots,\bar{X}_{K-1}]\theta,\quad\theta=(\theta_{0},\theta_{1},\cdots,\theta_{K-1})\in R^{K}$ o
 
 上述图卷积通过递推关系每次对 $\bar{X}_{k-1}$ 左乘L̃，需要递推 K次，复杂度降低为Ο(K|ℰ|)，其中|ℰ|为图 G 中边的数量。上述图卷积操作的参数数量为 K，具有空间域局部特征，不需要进行特征分解，需要额外计算 L的最大特征值。作者将式(7)称为快速局部谱滤波（Fast LocalizedSpectral Filtering），或简称为 ChebNet。
 
@@ -356,13 +356,13 @@ $$
 
 ## GCN：谱域向空间域的经典过渡
 
-进一步精简ChebNet，将式(7)的K设置为2，即考虑一阶切比雪夫多项式（Kipf et al.，2016）来近似图卷积，并将 $\lambda_{max}$ 近似为 2，作者希望这样的近似在参数训练过程中可以被自动适应。另外可以证明标准化拉普拉斯矩阵 $\cdot L_{svm}=D^{-1/2}LD^{-1/2}=I_{n}-D^{-1/2}WD^{-1/2}$ 的特征值的上界为 2（Chung et al.，1997）。因此有 $\tilde{L}=2L/\lambda_{max}-I_{n}\approx2L_{sym}/2-I_{n}=L_{sym}-I_{n}$ ，将其代入式(7)得到线性图卷积如下：
+进一步精简ChebNet，将式(7)的K设置为2，即考虑一阶切比雪夫多项式（Kipf et al.，2016）来近似图卷积，并将 $\lambda_{max}$ 近似为 2，作者希望这样的近似在参数训练过程中可以被自动适应。另外可以证明标准化拉普拉斯矩阵 $\cdot L_{sym}=D^{-1/2}LD^{-1/2}=I_{n}-D^{-1/2}WD^{-1/2}$ 的特征值的上界为 2（Chung et al.，1997）。因此有 $\tilde{L}=2L/\lambda_{max}-I_{n}\approx2L_{sym}/2-I_{n}=L_{sym}-I_{n}$ ，将其代入式(7)得到线性图卷积如下：
 
 $$
-Y=\sum_{k=0}^{K-1}\theta_{k}^{\prime}T_{k}\bigl(\widetilde{L}\bigr)X\approx\theta_{0}^{\prime}X+\theta_{1}^{\prime}\bigl(L_{sym}-I_{n}\bigr)X=\theta_{0}^{\prime}X-\theta_{1}^{\prime}D^{-1/2}WD^{-1/2}X
+Y={\sum}_{k=0}^{K-1}\theta_{k}^{\prime}T_{k}\big(\bar{L}\big)X\approx\theta_{0}^{\prime}X+\theta_{1}^{\prime}\big(L_{sym}-I_{n}\big)X=\theta_{0}^{\prime}X-\theta_{1}^{\prime}D^{-1/2}WD^{-1/2}X
 $$
 
-减少参数量可以防止过拟合的发生，并减少矩阵乘法的运算量。 $i\vec{\mathbb{z}}\theta=\theta_{0}^{\prime}=-\theta_{1}^{\prime}$ 得到：
+减少参数量可以防止过拟合的发生，并减少矩阵乘法的运算量。 $记\theta=\theta_{0}^{\prime}=-\theta_{1}^{\prime}$ 得到：
 
 $$
 Y\approx\theta(I_{n}+D^{-1/2}WD^{-1/2})X
@@ -371,21 +371,21 @@ $$
 注意到 $I_{n}+D^{-1/2}WD^{-1/2}$ 的特征值范围是[0,2]。如果在深度神经网络中多次堆叠（堆叠指代叠加多层图卷积层），上述图卷积可能会导致数值不稳定、梯度消失和梯度爆炸的情形发生。因此作者引入了一个再标准化的技巧：
 
 $$
-\begin{array}{r}{I_{n}+D^{-1/2}WD^{-1/2}\to\widetilde{D}^{-1/2}\widetilde{W}\widetilde{D}^{-1/2},\enskip\ddagger\Psi:\enskip\widetilde{W}=W+I_{n},\enskip\widetilde{D}_{ii}=\sum_{j}\widetilde{W}_{ij}}\end{array}
+I_{n}+D^{-1/2}WD^{-1/2}\rightarrow\widetilde{D}^{-1/2}\widetilde{W}\widetilde{D}^{-1/2},\textrm{ 其 中: }\widetilde{W}=W+I_{n},\begin{array}{l}\widetilde{D}_{ii}=\sum_{j}\widetilde{W}_{ij}\end{array}
 $$
 
-这里的再标准化指给图上的每个节点加入一个自环，结果是增强了中 $\therefore\Delta$ 节点本身的特征所带来的影响。再标准化式子中使用箭头而非等号，表示该式不是恒等变换。
+这里的再标准化指给图上的每个节点加入一个自环，结果是增强了中 $心$ 节点本身的特征所带来的影响。再标准化式子中使用箭头而非等号，表示该式不是恒等变换。
 
 推广到图信号矩阵X $\in R^{n\times c}$ 上，c 为节点的特征维度，图卷积操作数量为 f，即特征映射到f 维，得到如下矩阵表示的卷积结果，称式(8)为图卷积层：
 
 $$
-Z=\sigma({\widehat{W}}X\Theta)\tag{8}
+Z=\sigma(\widehat{W}X\Theta)\tag{8}
 $$
 
-其中 $\widehat{W}=\widetilde{D}^{-1/2}\widetilde{W}\widetilde{D}^{-1/2},\Theta\in R^{c\times f}$ 是参数矩阵，经过一阶图卷积和非线性变换后得到新的网络表示Z $\in R^{n\times f}$ ，上述卷积的时间复杂度为 $0(|\mathcal{E}|fc)$ 。作者通过堆叠两次图卷积层，得到两层的图卷积网络（Graph Convolutional Network，简称 GCN）：
+其中 $\widehat{W}=\widetilde{D}^{-1/2}\widetilde{W}\widetilde{D}^{-1/2},\quad\Theta\in R^{c\times f}$ 是参数矩阵，经过一阶图卷积和非线性变换后得到新的网络表示Z $\in R^{n\times f}$ ，上述卷积的时间复杂度为 $0(|\mathcal{E}|fc)$ 。作者通过堆叠两次图卷积层，得到两层的图卷积网络（Graph Convolutional Network，简称 GCN）：
 
 $$
-Z=f\bigl(X,\widehat{W}\bigr)=softmax\bigl(\widehat{W}ReLU\bigl(\widehat{W}X\Theta^{(0)}\bigr)\Theta^{(1)}\bigr)\tag{9}
+Z=f\big(X,\widehat{W}\big)=softmax\big(\widehat{W}ReLU\big(\widehat{W}X\Theta^{(0)}\big)\Theta^{(1)}\big)\tag{9}
 $$
 
 其中， $\Theta^{(0)}\in R^{c\times h}$ 是包含 h个特征映射的隐藏层参数矩阵， $\Theta^{(1)}\in R^{h\times f}$ 是包含 f 个特征映射的输出层参数矩阵。图 7 展示两层图卷积网络用于半监督学习的过程，网络结构（黑色连边）在层上共享，标签为Yi，节点 2 和节点 3 的标签通过该模型半监督学习预测得出。
@@ -398,19 +398,19 @@ Ŵ 相当于图滤波器 H，下面我们从谱域和空间域两个角度分�
 
 ## 谱域
 
-图卷积运算一节中提到图滤波器用来调节图信号的平滑度。记加入自环后的标准化拉普拉斯矩阵 $\hat{L}_{sym}=I_{n}-\widehat{W}$ ，可 $\hbar\mu_{sym}$ 的最大特征值严格小于 2（Wuet al.，2019），即它的最小特征值为 0，最大特征值被缩小。此时图滤波器Ŵ 可以写成：
+图卷积运算一节中提到图滤波器用来调节图信号的平滑度。记加入自环后的标准化拉普拉斯矩阵 $\hat{L}_{sym}=I_{n}-\widehat{W}$ ，可 $\mathrm{知}\widehat{L}_{sym}$ 的最大特征值严格小于 2（Wuet al.，2019），即它的最小特征值为 0，最大特征值被缩小。此时图滤波器Ŵ 可以写成：
 
 $$
 \widehat{W}=I_{n}-\widehat{L}_{sym}=I_{n}-U_{l}\Lambda_{l}U_{l}^{T}=U_{l}(I_{n}-\Lambda_{l})U_{l}^{T}
 $$
 
-其中 $\Lambda_{l}$ 为 $\widehat{L}_{sym}$ 的特征值对角矩阵，Ŵ 中对应的谱域卷积滤波器 $g_{\theta}=I_{n}-\Lambda_{l}$ 是一个关于特征值线性收缩的函数，频率（即特征值）响应的取值范围是(−1,1]，其结果是平滑了图信号的特征。前文的图平滑度分析和图卷积运算中的低通滤波器去噪实验示意图给出了详细解释。
+其中 $\Lambda_{l}$ 为 $\hat{L}_{sym}$ 的特征值对角矩阵，Ŵ 中对应的谱域卷积滤波器 $g_{\theta}=I_{n}-\Lambda_{l}$ 是一个关于特征值线性收缩的函数，频率（即特征值）响应的取值范围是(−1,1]，其结果是平滑了图信号的特征。前文的图平滑度分析和图卷积运算中的低通滤波器去噪实验示意图给出了详细解释。
 
-此外，简单图卷积（Simple Graph Convolution，简称 SGC）（Wu et al.，2019）直接将式(9)中多层堆叠简化为Ŵ 的 K次多跳σ(Ŵ KXΘ)，参数只有一个Θ矩阵。考虑其幂形式 $.g_{\theta}(\Lambda_{l})=$ $(1-\Lambda_{l})^{K}$ ，当 K>1 时，SGC 实际上相当于一个加强版低通滤波器，K越大，其收缩过滤效果越强，并且通过Ŵ 使得频率限制在[0,2)上。
+此外，简单图卷积（Simple Graph Convolution，简称 SGC）（Wu et al.，2019）直接将式(9)中多层堆叠简化为Ŵ 的 K次多跳σ(Ŵ KXΘ)，参数只有一个Θ矩阵。考虑其幂形式 $\_g_{\theta}(\Lambda_{l})=$ $(1-\Lambda_{l})^{K}$ ，当 K>1 时，SGC 实际上相当于一个加强版低通滤波器，K越大，其收缩过滤效果越强，并且通过Ŵ 使得频率限制在[0,2)上。
 
 ## 空间域
 
-图滤波器作用于 X，将 X看作行向量矩阵，则Ŵ X按照行向量矩阵乘法可以理解为其每一行$(\widehat WX)_{i,:}$ 是 X 所有行向量的线性组合，对应权重系数为 $\widehat{W}_{ij}$ ，即 $\begin{array}{r}{(\widehat{W}X)_{i,:}=\sum_{j=1}^{n}\widehat{W}_{ij}X_{j,:}}\end{array}$ ，因此从空间域来看图卷积层分为三步：
+图滤波器作用于 X，将 X看作行向量矩阵，则Ŵ X按照行向量矩阵乘法可以理解为其每一行$(\widehat{W}X)_{i,:}$ 是 X 所有行向量的线性组合，对应权重系数为 $\widehat{W}_{ij}$ ，即 $\begin{array}{r}{(\widehat{W}X)_{i,:}=\sum_{j=1}^{n}\widehat{W}_{ij}X_{j,:}}\end{array}$ ，因此从空间域来看图卷积层分为三步：
 
 1. 邻居聚合：上述行向量矩阵乘法相当于将中心节点 $v_{i}$ 和邻居节点的特征分别以权重 $\widehat{W}_{ij}$ 传递聚合给中心节点，从而更新中心节点的特征表示；
 
@@ -418,7 +418,7 @@ $$
 
 3. 非线性激活：最后通过一层非线性变换得到节点最终的特征表示。
 
-当堆叠多层图卷积层时如式(9)的两层 GCN，空间域上是节点先聚合一跳邻居节点特征得到$Z^{(1)}$ ，注意此时 ${\cal Z}^{(1)}$ 中每个节点特征已包含了其邻居节点的特征，接着在下一层聚合 ${\cal Z}^{(1)}$ 即可获取邻居的邻居节点特征，最终结果是每个节点聚合了共计两跳的邻居节点特征。而 SGC通过 $\widehat{W}^{K}$ 直接将 K跳邻居节点特征一次性聚合到中心节点上，参数数量相比 GCN来说更少。
+当堆叠多层图卷积层时如式(9)的两层 GCN，空间域上是节点先聚合一跳邻居节点特征得到$Z^{(1)}$ ，注意此时 $\boldsymbol{Z}^{(1)}$ 中每个节点特征已包含了其邻居节点的特征，接着在下一层聚合 $\cdot Z^{(1)}$ 即可获取邻居的邻居节点特征，最终结果是每个节点聚合了共计两跳的邻居节点特征。而 SGC通过 $.\widehat{W}^{K}$ 直接将 K跳邻居节点特征一次性聚合到中心节点上，参数数量相比 GCN来说更少。
 
 ## GraphSAGE：聚合器实现归纳学习，可应用于动态图
 
@@ -469,27 +469,27 @@ Output : Vector representations z for all v ∈ B
 
 ## 1. 由内到外采样
 
-为了提高计算效率，作者随机采样一个固定大小的邻域集，由于每个中心节点及其采样的邻居数量相同，使得计算树具有相同结构，因此可以在 GPU 上进行小批量训练。具体做法是对第 k 层的每个节点固定采样数量为 Sk，当邻居数量小于 $\mathsf{S}\mathsf{k}$ 时，采用放回抽样，否则采用无放回抽样。对于一个批次的目标节点集 B来讲，其空间和时间复杂度为 $\scriptstyle0(\prod_{k=1}^{K}S_{k})$
+为了提高计算效率，作者随机采样一个固定大小的邻域集，由于每个中心节点及其采样的邻居数量相同，使得计算树具有相同结构，因此可以在 GPU 上进行小批量训练。具体做法是对第 k 层的每个节点固定采样数量为 Sk，当邻居数量小于 $\mathbb{S}_{\mathrm{k}}$ 时，采用放回抽样，否则采用无放回抽样。对于一个批次的目标节点集 B来讲，其空间和时间复杂度为 $\begin{array}{r}{\mathbb{O}(\prod_{k=1}^{K}S_{k})}\end{array}$
 
 采样阶段对应图9算法的2~7行。从Layer-K层开始，即目标节点集BK；接着采样Layer-(K-1)层得到 BK-1 采样结果，包含了目标节点和其 1 跳邻居节点；由内到外直到 Layer-0 层得到B0，包含了目标节点和其 1跳、2跳、……、K跳邻居节点。
 
 ## 2. 由外到内聚合
 
-完成采样后进入聚合阶段，对应图 9 算法的 9~15 行。在每一轮循环 k 中，对每个节点 u，先对 u的 k-1 层（即上一层）采样节点进行邻居聚合得到 $h_{N(u)}^{k}$ ，再将 $\ i_{N(u)}^{k}$ 与节点 u的第 k-1层表示 $h_{u}^{k-1}$ 拼接，通过全连接层转换后得到 u 在第 k 层的节点嵌 $\lambda h_{u}^{k}.$ 。与采样阶段相反，聚合阶段是由外向内迭代聚合：首先对 k=1 即 $B^{1}$ 中的节点进行聚合，需要的采样邻居为最外层 $B^{0}$ 中的节点；直到把 $B^{K-1}$ 中的节点特征聚合给目标节点集 $B^{K}$ 。
+完成采样后进入聚合阶段，对应图 9 算法的 9~15 行。在每一轮循环 k 中，对每个节点 u，先对 u的 k-1 层（即上一层）采样节点进行邻居聚合得到 $h_{N(u)}^{k}$ ，再将 $\mathfrak{n}_{N(u)}^{k}$ 与节点 u的第 k-1层表示 $h_{u}^{k-1}$ 拼接，通过全连接层转换后得到 u 在第 k 层的节点嵌 $入h_{u}^{k},$ 。与采样阶段相反，聚合阶段是由外向内迭代聚合：首先对 k=1 即 $B^{1}$ 中的节点进行聚合，需要的采样邻居为最外层 $\cdot B^{0}$ 中的节点；直到把 $\cdot B^{K-1}$ 中的节点特征聚合给目标节点集 $.B^{K}$ 。
 
 算法第 11~12 行的聚合过程可以表示为：
 
 $$
-\begin{array}{r}{h_{u}^{k}=\sigma(W_{k}\cdot[h_{u}^{k-1}\parallel AGG\left(\left\{h_{u^{\prime}}^{k-1},\forall u^{\prime}\in N(u)\right\}\right)])}\end{array}
+h_{u}^{k}=\sigma(W_{k}\cdot[h_{u}^{k-1}\parallel AGG\big(\big\{h_{u^{\prime}}^{k-1},\forall\pmb{u}^{\prime}\in N(\pmb{u})\big\}\big)])
 $$
 
-其中||表示拼接操作， $W_{k}$ 为中 $\therefore\Delta$ 节点特征 $\boldsymbol{\underline{E}}$ 聚合邻居特征的共享参数。另外，也有研究者将两者参数分别训练，再进行拼接操作，对应的参数分别为 $W_{k}\#\#\Psi_{k}$ ，过程如下：
+其中||表示拼接操作， $W_{k}$ 为中 $心$ 节点特征 $与$ 聚合邻居特征的共享参数。另外，也有研究者将两者参数分别训练，再进行拼接操作，对应的参数分别为 $W_{k}和\Psi_{k}$ ，过程如下：
 
 $$
-\begin{array}{r}{h_{u}^{k}=\sigma([\Psi_{k}h_{u}^{k-1}\ \lVert\ W_{k}\cdot AGG\big(\{h_{u^{\prime}}^{k-1},\forall u^{\prime}\in N(u)\}\big)])}\end{array}
+h_{u}^{k}=\sigma([\Psi_{k}h_{u}^{k-1}\parallel W_{k}\cdot AGG\big(\big\{h_{u^{\prime}}^{k-1},\forall u^{\prime}\in N(\boldsymbol{u})\big\}\big)])
 $$
 
-在 GraphSAGE 原文（Hamilton et al.，2017）中，作者分析了聚合器 AGG 需具备的条件。首先聚合器必须是对称的，即运算结果不受节点顺序的影响， $\mathsf{AGG}(\mathsf{x},\mathsf{y}){=}\mathsf{AGG}(\mathsf{y},\mathsf{x})$ 。其次希望聚合器可训练并保持较高的表达能力。作者提出三种满足条件的聚合器：
+在 GraphSAGE 原文（Hamilton et al.，2017）中，作者分析了聚合器 AGG 需具备的条件。首先聚合器必须是对称的，即运算结果不受节点顺序的影响， $\mathsf{AGG}(\mathsf{x},\mathsf{y})=\mathsf{AGG}(\mathsf{y},\mathsf{x})$ 。其次希望聚合器可训练并保持较高的表达能力。作者提出三种满足条件的聚合器：
 
 1. Mean 聚合器。对邻居节点的特征逐元素取平均：
 
@@ -514,7 +514,7 @@ $$
 3. Pool聚合器。对每个邻居节点特征独立通过一个全连接网络（也可以是多层深度网络），最后对输出进行逐元素的最大池化或平均池化操作：
 
 $$
-AGG=\operatorname*{max}(\{\sigma\big(W_{pool}h_{u^{\prime}}^{k-1}+b\big),\forall u^{\prime}\in N(u)\})
+AGG=\max(\{\sigma(W_{pool}h_{u'}^{k-1}+b),\forall u'\in N(u)\})
 $$
 
 通过采样阶段和聚合阶段训练后，只要基于某一节点及其 K 阶邻居节点的特征和关系，就可以通过该聚合器得到节点的嵌入表示。GraphSAGE 是空间域视角下 GCN 走向工业落地的代表性变体。
@@ -526,15 +526,15 @@ $$
 普通图神经网络最基本的节点级别邻居特征聚合过程可以表示为：
 
 $$
-h_{i}^{k}=\sigma(\Theta_{\mathrm{k}}\sum_{j\in N(i)}\frac{W_{ij}}{|N(i)|}h_{j}^{k-1}+\Psi_{k}h_{i}^{k-1})\tag{10}
+h_{i}^{k}=\sigma(\Theta_{\mathbf{k}}\sum_{j\in N(i)}\frac{W_{ij}}{|N(i)|}h_{j}^{k-1}+\Psi_{k}h_{i}^{k-1}),\tag{10}
 $$
 
-其中 $\Theta_{\mathbf{k}}$ 和 $\Psi_{k}$ 是第 k 层中需要学习的参数； $h_{j}^{k-1}$ 为上一层第 k-1层邻居节点的特征； $W_{ij}$ 是已知中心节点 i 和邻居节点 j 在邻接矩阵 W 上的元素值；第 0 层 $h_{i}^{0}=x_{i}$ 为节点的初始特征；聚合第 k-1 层邻居节点特征和自身特征后，通过全连接层即可得到第 k 层特征，如此重复 K层聚合后，得到最终每个节点的 K跳嵌 $\lambda{z_{i}}=h_{i}^{K}$ 0
+其中 $\Theta_{\mathrm{k}}$ 和 $\Psi_{k}$ 是第 k 层中需要学习的参数； $h_{j}^{k-1}$ 为上一层第 k-1层邻居节点的特征； $W_{ij}$ 是已知中心节点 i 和邻居节点 j 在邻接矩阵 W 上的元素值；第 0 层 $h_{i}^{0}=x_{i}$ 为节点的初始特征；聚合第 k-1 层邻居节点特征和自身特征后，通过全连接层即可得到第 k 层特征，如此重复 K层聚合后，得到最终每个节点的 K跳嵌 $\lambda z_{i}=h_{i}^{K}$ 0
 
-$\mathcal{\bar{\sf{H}}}$ GCN 中的Ŵ 考虑了自环和邻居节点度标准化技巧（对应式(8)的矩阵形式），其节点级别邻居特征聚合的更新过程表示为：
+$而$ GCN 中的Ŵ 考虑了自环和邻居节点度标准化技巧（对应式(8)的矩阵形式），其节点级别邻居特征聚合的更新过程表示为：
 
 $$
-h_{i}^{k}=\sigma(\Theta_{\mathrm{k}}\sum_{j\in N(i)\cup i}\frac{W_{ij}}{\sqrt{(|N(i)|+1)(|N(j)|+1)}}h_{j}^{k-1})\tag{11}
+h_{i}^{k}=\sigma(\Theta_{\mathrm{k}}\sum_{j\in N(i)\cup i}\frac{W_{ij}}{\sqrt{(|N(i)|+1)(|N(j)|+1)}}h_{j}^{k-1}),\tag{11}
 $$
 
 观察式(10)图神经网络的邻居节点聚合过程，每一个邻居节点 j 的信息对中心节点 i 的影响是相同的，其影响显式定义为 $\alpha_{ij}=W_{ij}/|N(i)|$ 。然而在现实中，邻居节点对中心节点的影响往往不同，就像人类将视觉聚焦在一张图片最关键的位置，而不是将注意力平均分配给图片中的每个像素。
@@ -544,24 +544,24 @@ $$
 如果采用注意力机制，就可以克服上述问题。近年来注意力机制（Attention Mechanism）被成功应用在计算机视觉和自然语言处理任务中，其优势是允许处理不同规模的输入信息，专注于输入信息中最相关的部分来做出决定。给定一个查询 Query和 Source 中的一系列键值对（Key，Value），则注意力机制的本质是计算基于查询和相应键值的加权和，即查询和键之间的关系决定了哪些值需要重点关注：
 
 $$
-Attention(Query,Source)=\sum_{i=1}^{L_{x}}Similarity(Query,Key_{i})*Value_{i}
+Attention(Query,Source)=\sum_{i=1}^{L_x}Similarity(Query,Key_i)*Value_i
 $$
 
 其中 $L_{x}$ 为 Source 的长度，首先计算 Query 和 Key 的相似度，称为注意力系数，通过该系数加权求和 Value，即可得到查询结果。
 
-我们将注意力机制的思想迁移到图神经网络。将中心节点 i的特征向量看作 Query，将所有邻居节点的特征向量看作 Source，则结果Attention(Query, Source)就是中心节点 i 经过所有邻居节点特征聚合后新的特征向量。事实上这一操作属于自注意力机制（Self-Attention），有 $Query=Key=Value=W_{k}\overrightarrow{h}_{i}^{k-1}$ ，即节点特征和节点特征自己求相似度，再和节点特征本身相乘，得到查询结果。
+我们将注意力机制的思想迁移到图神经网络。将中心节点 i的特征向量看作 Query，将所有邻居节点的特征向量看作 Source，则结果Attention(Query, Source)就是中心节点 i 经过所有邻居节点特征聚合后新的特征向量。事实上这一操作属于自注意力机制（Self-Attention），有 $\begin{array}{r}{\mathopen{}\mathclose\bgroup\left\{\begin{array}{rlrl}\end{array}\aftergroup\egroup\right.Query=Key=Value=W_{k}\vec{h}_{i}^{k-1}}\end{array}$ ，即节点特征和节点特征自己求相似度，再和节点特征本身相乘，得到查询结果。
 
 图注意力网络 GAT（Veličković et al.，2017）通过上述注意力机制，隐式地训练学习邻居节点j对中心节点 i消息传递的重要性，根据重要性对邻居节点特征加权求和，得到新的节点嵌入。GAT 的实现过程主要分为如下三个步骤：
 
 ## 1. 计算注意力系数
 
-为了获得更好的表达能力，先将第k-1层的节点特征 $\overline{{h}}_{i}^{k-1}$ 通过一层线性变换，共享参数为 $W_{k}$ 。随后在节点上执行自注意力机制，得到注意力系数 $e_{ij}$ ，代表节点 j 特征对节点 i的重要性：
+为了获得更好的表达能力，先将第k-1层的节点特征 $\bar{h}_{i}^{k-1}$ 通过一层线性变换，共享参数为 $W_{k}$ 。随后在节点上执行自注意力机制，得到注意力系数 $e_{ij}$ ，代表节点 j 特征对节点 i的重要性：
 
 $$
-e_{ij}=a(W_{k}\overrightarrow{h}_{i}^{k-1},W_{k}\overrightarrow{h}_{j}^{k-1})
+e_{ij}=a(W_{k}\vec{h}_{i}^{k-1},W_{k}\vec{h}_{j}^{k-1})
 $$
 
-其中 $\boldsymbol{a}\colon\boldsymbol{R^{F^{\prime}}}\times\boldsymbol{R^{F^{\prime}}}\to\boldsymbol{R}$ 是用来计算注意力系数的共享注意力机制； $F^{\prime}$ 为 $\vec{h}_{i}^{k-1}$ 通过线性变换后的特征维度。
+其中 $a\colon R^{F^{\prime}}\times R^{F^{\prime}}\to R$ 是用来计算注意力系数的共享注意力机制； $F^{\prime}$ 为 $\vec{h}_{i}^{k-1}$ 通过线性变换后的特征维度。
 
 GAT 原文（Veličković et al.，2017）中，作者同时还将图结构信息注入给上式，相当于只考虑节点 i 与其所有 1 跳邻居节点之间的注意力系数。这样的方式称为 MaskedSelf-Attention，即注意力机制的运算只在邻居节点间进行。
 
@@ -573,10 +573,10 @@ $$
 \alpha_{ij}=softmax_{j}(e_{ij})=\frac{\exp(e_{ij})}{\sum_{k\in N(i)}\exp(e_{ik})}
 $$
 
-GAT 原文中，作者将注意力机制a(∙)设置为一个单层前馈神经网络，参数为a⃑ $\in{\cal R}^{2F^{\prime}}$ ，符号||表示拼接操作。另外，将注意力系数通过一层 LeakyReLU 非线性变换，过程如图 10 左侧子图。这样标准化注意力系数 $\alpha_{ij}$ 可表示为：
+GAT 原文中，作者将注意力机制a(∙)设置为一个单层前馈神经网络，参数为a⃑ $\in R^{2F^{\prime}}$ ，符号||表示拼接操作。另外，将注意力系数通过一层 LeakyReLU 非线性变换，过程如图 10 左侧子图。这样标准化注意力系数 $\alpha_{ij}$ 可表示为：
 
 $$
-\alpha_{ij}=\frac{\exp(LeakReLU(\vec{a}^{T}[W_{k}\vec{h}_{i}^{k-1}\parallel W_{k}\vec{h}_{j}^{k-1}]))}{\sum_{k\in N(i)}\exp(LeakReLU(\vec{a}^{T}[W_{k}\vec{h}_{i}^{k-1}\parallel W_{k}\vec{h}_{k}^{k-1}]))}\tag{12}
+\alpha_{ij}=\frac{\exp(LeakReLU(\vec{a}^T[W_k\vec{h}_i^{k-1}\parallel W_k\vec{h}_j^{k-1}]))}{\sum_{k\in N(i)}\exp(LeakReLU(\vec{a}^T[W_k\vec{h}_i^{k-1}\parallel W_k\vec{h}_k^{k-1}]))}\tag{12}
 $$
 
 ## 3. 加权求和
@@ -584,7 +584,7 @@ $$
 获得标准化注意力系数后，对邻居节点特征进行加权求和，得到聚合特征。再进行非线性变换后，即可得到节点 i在第 k 层的特征表示：
 
 $$
-\Vec{h}_{i}^{k}=\sigma(\sum_{j\in N(i)}\alpha_{ij}W_{k}\Vec{h}_{j}^{k-1})\tag{13}
+\vec{h}_{i}^{k}=\sigma({\sum}_{j\in N(i)}\alpha_{ij}W_{k}\vec{h}_{j}^{k-1})\tag{13}
 $$
 
 图表10： 图注意力机制和多头注意力机制示意图
@@ -594,7 +594,7 @@ $$
 为了使上述注意力机制运算过程更稳定，作者还借鉴多头注意力机制的思想，对上述过程独立重复 M 次，将 M 次特征结果取简单平均，并进行非线性变换，得到节点 i在第 k 层的最新特征表示：
 
 $$
-\vec{h}_{i}^{k}=\sigma(\frac{1}{M}\sum_{m=1}^{M}\sum_{j\in N(i)}\alpha_{ij}^{m}W_{k}^{m}\vec{h}_{j}^{k-1})
+\overrightarrow{h}_{i}^{k}=\sigma(\frac{1}{M}{\sum}_{m=1}^{M}{\sum}_{j\in N(i)}\alpha_{ij}^{m}W_{k}^{m}\overrightarrow{h}_{j}^{k-1})
 $$
 
 多头注意力机制的直观解释如图10右侧子图，不同颜色的波浪线代表不同的图注意力机制。
@@ -612,7 +612,7 @@ $$
 
 在 GCN一节中，我们从谱域角度论证 GCN是一个使得节点信号值变得平滑的低通滤波器。下面将在空间域上分析 GCN 和 GAT 也属于低通滤波器：
 
-1. GCN 的节点表示将邻居节点特征 $\nu\lambda W_{ij}/\sqrt{(|N(i)|+1)(|N(j)|+1)}$ 的权重聚合给自己。注意到该权重大于 0，自身中心节点的权重也大于 0，相当于通过邻居节点给自己的特征作了平滑，因此是一个低通滤波器；如果 $\Theta_{\mathbf{k}}$ 为负，将负号提出相当于对聚合后的特征取个相反数，本质仍然是低通滤波器。
+1. GCN 的节点表示将邻居节点特征 $以W_{ij}/\sqrt{(|N(i)|+1)(|N(j)|+1)}$ 的权重聚合给自己。注意到该权重大于 0，自身中心节点的权重也大于 0，相当于通过邻居节点给自己的特征作了平滑，因此是一个低通滤波器；如果 $\mathbf{\Theta_{k}}$ 为负，将负号提出相当于对聚合后的特征取个相反数，本质仍然是低通滤波器。
 
 2. GAT 在对注意力系数标准化时，通过了一层 softmax 函数，因此计算的标准化注意力系数 $\alpha_{ij}$ 即权重大于 0，以正权重的邻居节点特征聚合给正权重的中心节点特征上，因此 GAT 也属于低通滤波器。
 
@@ -623,25 +623,25 @@ $$
 | 模型 | 核心公式 | 理解视角核心思想 |  | 分析 |
 | --- | --- | --- | --- | --- |
 | GCN | 一层 GCN: |  | 频谱域一阶切比雪夫多项式近似化简，加入再标准 | 优点：由频谱域过渡到空间域，为图 |
-|  | $Z=\sigma\big(\widehat{W}X\Theta\big)$ |  | 化邻接矩阵。W相当于低通滤波器，对图信 | 神经网络在空间域上的发展提供了 |
-|  | 两层 GCN： $Z=f\bigl(X,\widehat{W}\bigr)=softmax\bigl(\widehat{W}ReLU\bigl(\widehat{W}X\Theta^{(0)}\bigr)\Theta^{(1)}\bigr)$ |  | 号进行平滑。 | 设计思路。 |
+|  | $Z=\sigma{\bigl(}{\widehat{W}}X\Theta{\bigr)}$ |  | 化邻接矩阵。W相当于低通滤波器，对图信 | 神经网络在空间域上的发展提供了 |
+|  | 两层 GCN： $Z=f\left(X,\widehat{W}\right)=softmax\left(\widehat{W}ReLU\left(\widehat{W}X\Theta^{(0)}\right)\Theta^{(1)}\right)$ |  | 号进行平滑。 | 设计思路。 |
 | GraphSAGE |  |  |  | 不足：GCN属于转导学习，需要输 |
 |  | 节点表示： |  | 空间域由行向量矩阵乘法可以得到空间域上的理 | 入整张图的邻接矩阵；全图方式训 |
 |  |  |  | 解，将邻居节点特征以 $W_{ij}/$ | 练，占用内存较高。 |
-|  | $h_{i}^{k}=\sigma(\Theta_{\mathbf{k}}\sum_{j\in N(i)\cup i}\frac{W_{ij}}{\sqrt{(\|N(i)\|+1)(\|N(j)\|+1)}}h_{j}^{k-1})$ |  | √(\|N(i)\|+1)(\|N(j)\|+1)的权重聚合给中心 节点。 |  |
-|  | $\begin{array}{r}{h_{u}^{k}=\sigma(W_{k}\cdot[\ h_{u}^{k-1}\ \lVert\ AGG\bigr(\bigl\{h_{u^{\prime}}^{k-1},\forall u^{\prime}\in N(u)\bigr\}\bigr)])}\end{array}$ | 的聚合； | 空间域1. 采样固定数量的邻居节点，进行空间域上 | 优点：采样使得训练可以在GPU上 以批训练的方式进行；聚合器不依赖 |
+|  | $h_{i}^{k}=\sigma(\Theta_{\mathbf{k}}\sum_{j\in N(i)\cup i}\frac{W_{ij}}{\sqrt{(\|N(i)\|+1)(\|N(j)\|+1)}}h_{j}^{k-1}).$ |  | √(\|N(i)\|+1)(\|N(j)\|+1)的权重聚合给中心 节点。 |  |
+|  | $h_{u}^{k}=\sigma(W_{k}\cdot[\;h_{u}^{k-1}\;\\|\;AGG\big(\big\{h_{u^{\prime}}^{k-1},\forall\pmb{u}^{\prime}\in N(\pmb{u})\big\}\big)])$ | 的聚合； | 空间域1. 采样固定数量的邻居节点，进行空间域上 | 优点：采样使得训练可以在GPU上 以批训练的方式进行；聚合器不依赖 |
 |  | 关于 AGG: |  | 2. 设计聚合方式为一个可训练的聚合器，比 | 于GCN中的邻接矩阵，而是将训练 |
 |  |  |  | 如 LSTM 和 Pool 聚合器。 | 好的聚合器用在邻居节点上，因此可 以用于转导学习和归纳学习。 |
-|  | $AGG=\sum_{u^{\prime}\in N(u)}\frac{h_{u^{\prime}}^{k-1}}{\|N(u)\|}$ |  |  |  |
-| $AGG=\operatorname*{max}(\{\sigma\big(W_{pool}h_{u^{\prime}}^{k-1}+b\big),\forall u^{\prime}\in N(u)\})$ | $AGG=LSTM([h_{u^{\prime}}^{k-1},\forall u^{\prime}\in\pi(N(u))])$ |  |  |  |
+|  | $AGG={\sum}_{u^{\prime}\in N(u)}\frac{h_{u^{\prime}}^{k-1}}{\|N(u)\|}$ |  |  |  |
+| $AGG=\max(\{\sigma(W_{pool}h_{u'}^{k-1}+b),\forall u'\in N(u)\})$ | $AGG=LSTM([h_{u^{\prime}}^{k-1},\forall u^{\prime}\in\pi(N(u))])$ |  |  |  |
 | GAT |  |  |  |  |
 |  |  |  |  | 不足：设计的聚合器未考虑邻居节点 |
 |  |  |  |  | 对中心节点的影响不同。 |
 |  | 1. 注意力系数 | 空间域 | 以注意力机制的方式，学习邻居节点对中心 | 优点：关注更加重要的邻居节点；通 |
-|  | $e_{ij}=a(W_{k}\overrightarrow{h}_{i}^{k-1},W_{k}\overrightarrow{h}_{j}^{k-1})$ |  | 节点的不同影响，得到训练好的注意力机制， | 过多头注意力机制为同一邻居分配 |
+|  | $e_{ij}=a(W_{k}\vec{h}_{i}^{k-1},W_{k}\vec{h}_{j}^{k-1})$ |  | 节点的不同影响，得到训练好的注意力机制， | 过多头注意力机制为同一邻居分配 |
 |  | 2. 标准化注意力系数 |  | 以及中心节点和邻居节点的特征，计算出聚 合权重，进而进行加权求和。 | 不同的重要性，鲁棒性更强；可以用 |
 |  |  |  |  | 于转导学习和归纳学习。 |
-|  | $\alpha_{ij}=\frac{\exp{\left(LeakReLU\left(\vec{a}^{T}\big[W_{k}\vec{h}_{i}^{k-1}\mid\mid W_{k}\vec{h}_{j}^{k-1}\big]\right)\right)}}{\sum_{k\in N(i)}\exp{\left(LeakReLU\left(\vec{a}^{T}\big[W_{k}\vec{h}_{i}^{k-1}\mid\mid W_{k}\vec{h}_{k}^{k-1}\big]\right)\right)}}$ |  |  |  |
+|  | $\alpha_{ij}=\frac{\exp\left(LeakReLU\left(\vec{a}^T\left[W_k\vec{h}_i^{k-1}\parallel W_k\vec{h}_j^{k-1}\right]\right)\right)}{\sum_{k\in N(i)}\exp\left(LeakReLU\left(\vec{a}^T\left[W_k\vec{h}_i^{k-1}\parallel W_k\vec{h}_k^{k-1}\right]\right)\right)}$ |  |  |  |
 |  |  |  |  | 不足：和GCN一样也是全图的训练 |
 |  | 3. 节点表示（加权求和） |  |  | 方式，可以参考 GraphSAGE的采样 |
 | hk = σ(∑i | αijWkhk−1) |  |  | 方式在 GPU 上训练。 |
@@ -669,11 +669,11 @@ $$
 
 图 13 展示了 RSR 框架，该框架主要包括三层，由下而上依次是顺序嵌入层、关系嵌入层以及预测层。同一层的 LSTM 单元和全连接层 FC 单元的权重是共享的。选股思路如下：
 
-1. 首先，将每只股票的历史时间序列数据输入到同一个 LSTM 中，捕获序列自身相关性，得到股票的顺序嵌 $\lambda E^{t}$ ；
+1. 首先，将每只股票的历史时间序列数据输入到同一个 LSTM 中，捕获序列自身相关性，得到股票的顺序嵌 $入E^{t}$ ；
 
-2. 其次，使用时间图卷积组件（Temporal Graph Convolution，简称 TGC）在股票关系的基础上，加入一种时间敏感的方式，对顺序嵌入Et进行修正，得到关系嵌 $\lambda EG^{t}$ ；
+2. 其次，使用时间图卷积组件（Temporal Graph Convolution，简称 TGC）在股票关系的基础上，加入一种时间敏感的方式，对顺序嵌入Et进行修正，得到关系嵌 $入EG^{t}$ ；
 
-3. 最后，将顺序嵌入和关系嵌入拼接，输入到同一个全连接层，得到每只股票的排序得分$\hat{r}^{t+1}=f(\boldsymbol{X}^{t})$
+3. 最后，将顺序嵌入和关系嵌入拼接，输入到同一个全连接层，得到每只股票的排序得分$\hat{r}^{t+1}=f(X^{t})$
 
 RSR 框架将 N只股票映射到一个排名列表上，预测排序得分越高的股票在未来将获得更高的投资收益。
 
@@ -684,10 +684,10 @@ RSR 框架将 N只股票映射到一个排名列表上，预测排序得分越�
 具体而言，将股票 i 在交易日 t 的历史特征序列Xt输入到 LSTM，并提取最后一个隐藏层状态 $e_{i}^{t}$ 作为股票的顺序嵌入：
 
 $$
-E^{t}=\ LSTM(X^{t})
+E^{t}=LSTM(X^{t})
 $$
 
-其中 $X^{t}\in R^{N\times S\times F}=[X_{1}^{t},\cdots,X_{N}^{t}]^{T}$ 是N只股票 $\#$ 交易日t的历史特征序列；S为时间序列长度；F 为原始特征维度； $E^{t}=[e_{1}^{t},\cdots,e_{N}^{t}]^{T}\in R^{N\times F^{\prime}}$ 为所有股票的顺序嵌入表示； $F^{\prime}$ 表示嵌入大小，即 LSTM 中隐藏单元的数量。选择 LSTM是因为它能够捕捉长期依赖关系。
+其中 $\begin{array}{r}{[X^{t}\in R^{N\times S\times F}=[X_{1}^{t},\cdots,X_{N}^{t}]^{T}}\end{array}$ 是N只股票 $在$ 交易日t的历史特征序列；S为时间序列长度；F 为原始特征维度； $E^{t}=[e_{1}^{t},\cdots,e_{N}^{t}]^{T}\in R^{N\times F^{\prime}}$ 为所有股票的顺序嵌入表示； $F^{\prime}$ 表示嵌入大小，即 LSTM 中隐藏单元的数量。选择 LSTM是因为它能够捕捉长期依赖关系。
 
 ## 关系嵌入层
 
@@ -695,24 +695,24 @@ $$
 
 为了在股票历史数据中捕捉上述模式带来的影响，RSR 框架中显式地建立了股票关系图，给定 Q 种类型的关系，将两支股票 i 和 j 之间的关系编码为一个 Q 维二进制股票关系向量$a_{ji}\in R^{Q}$ ，它的每个元素表示 i和 j之间是否存在对应类型的关系。
 
-关系嵌入层设计了一种新的神经网络组件——时间图卷积（Temporal Graph Convolution，简称 TGC），根据显式的股票关系图，以动态时间敏感的方式修正顺序嵌入层的结果，得到关系嵌 $\lambda EG^{t}$ 。RSR 原文（Feng et al.，2019）中，作者由浅入深介绍了如下三种关系嵌入方式，其中第三种方式正是 TGC。
+关系嵌入层设计了一种新的神经网络组件——时间图卷积（Temporal Graph Convolution，简称 TGC），根据显式的股票关系图，以动态时间敏感的方式修正顺序嵌入层的结果，得到关系嵌 $入EG^{t}$ 。RSR 原文（Feng et al.，2019）中，作者由浅入深介绍了如下三种关系嵌入方式，其中第三种方式正是 TGC。
 
-## 1. 一致嵌入传播（Uniform Embedding Propagation）：仅考虑 $\mathbf{\nabla}\cdot\mathbf{d}_{j}$ 的显式关系
+## 1. 一致嵌入传播（Uniform Embedding Propagation）：仅考虑 $.d_{j}$ 的显式关系
 
 第一个灵感来自于链接分析研究，一个节点对另一个节点的影响可以通过在图中传播信息来获得。一个著名的例子是 PageRank 方法，它将一个节点的重要性分数传播到邻居节点。由于股票关系向量编码了两个连接股票节点之间的某种相似信息，借鉴链接分析中相似的传播过程来关联连接节点的嵌入：
 
 $$
-eg_{i}^{t}=\sum_{\{j|sum(a_{ji})>0\}}{\frac{1}{d_{j}}}e_{j}^{t}
+eg_{i}^{t}={\sum}_{\left\{j\mid sum(a_{ji})>0\right\}}\frac{1}{d_{j}}e_{j}^{t}.
 $$
 
-$sum(a_{ji})$ 表示 j 和 i 之间有几种类型关系的连接，只要大于 0 说明两者是邻居关系，将邻居节点j的特征 $e_{j}^{t}$ 传播给节点 i，聚合方式为加权平均，加权系数为邻居节点 j 度数 $\boldsymbol{\mathcal{A}}_{j}$ 的倒数。这里的 $d_{j}$ 指满足条件 $sum(a_{ji})>0$ 的股票数量，即 j 和 i 可能有多种类型关系，但数量只记一次。另外，上述嵌入传播类似于 1阶 GCN 图卷积，聚合方式为 $f(F,X)=WX$ o
+$sum(a_{ji})$ 表示 j 和 i 之间有几种类型关系的连接，只要大于 0 说明两者是邻居关系，将邻居节点j的特征 $\cdot e_{j}^{t}$ 传播给节点 i，聚合方式为加权平均，加权系数为邻居节点 j 度数 $\cdot d_{j}$ 的倒数。这里的 $d_{j}$ 指满足条件 $sum(a_{ji})>0$ 的股票数量，即 j 和 i 可能有多种类型关系，但数量只记一次。另外，上述嵌入传播类似于 1阶 GCN 图卷积，聚合方式为 $f(F,X)=WX$ o
 
 ## 2. 加权嵌入传播（Weighted Embedding Propagation）：通过关系－强度函数
 
 考虑到两只股票之间不同的类型关系会对其价格产生不同影响，可在嵌入传播时采用加权聚合方式：
 
 $$
-eg_{i}^{t}=\sum_{\{j|sum(a_{ji})>0\}}\frac{g(a_{ji})}{d_{j}}e_{j}^{t}
+eg_{i}^{t}=\sum_{\{j|sum(a_{ji})>0\}}\frac{g(a_{ji})}{d_{j}}e_{j}^{t}.
 $$
 
 其中 g 是一个映射函数，称为关系－强度函数，目的是用来学习股票关系向量中不同类型关系的影响强度。我们认为，加权嵌入相当于一个考虑不同类型连接边的注意力机制，既显式应用了图的局部拓扑结构信息，也通过关系－强度函数学习了关系类型的语义信息。
@@ -722,7 +722,7 @@ $$
 上述加权嵌入传播的一个缺点是关系向量是固定不变的，因此通过关系－强度函数返回的是固定强度，并未考虑不同时间步长的演化对强度的影响。由于市场是高度动态的，股票的状态和关系的强度在不断变化，因此作者提出将时间信息即顺序嵌入et注入关系强度函数，得到时间敏感的嵌入传播过程如下：
 
 $$
-eg_{i}^{t}=\sum_{\{j|sum(a_{ji})>0\}}\frac{g(a_{ji},e_{i}^{t},e_{j}^{t})}{d_{j}}e_{j}^{t}\tag{14}
+eg_{i}^{t}={\sum}_{\left\{j\:|\:sum(a_{ji})>0\right\}}\frac{g(a_{ji},e_{i}^{t},e_{j}^{t})}{d_{j}}e_{j}^{t},\tag{14}
 $$
 
 关于上述关系－强度函数 g 的形式，作者设计了如下两种时间敏感的学习函数，它们的区别在于通过显式或隐式的方式来捕捉两只股票之间的关系强度。
@@ -730,7 +730,7 @@ $$
 显式建模的关系－强度函数 g 如下是时间相似度和关系重要性的乘积：
 
 $$
-g\big(a_{ji},e_{i}^{t},e_{j}^{t}\big)=\underbrace{e_{i}^{t^{T}}e_{j}^{t}}_{timesimilarity}\times\underbrace{\varnothing\big(w^{T}a_{ji}+b\big)}_{relationimportance}
+g\big(a_{ji},e_{i}^{t},e_{j}^{t}\big)=\underbrace{e_{i}^{t^{T}}e_{j}^{t}}_{time\:similarity}\times\underbrace{\emptyset\big(w^{T}a_{ji}+b\big)}_{relation\:importance}
 $$
 
 第一项度量了当前时间步长下两只股票间的相似性，使用内积来估计相似度，这两只股票当前越相似，它们之间的关系就越有可能在未来影响它们的价格。第二项是关于股票关系向量的一层全连接网络，用来学习股票j 和股票 i之间关系的重要性。其中 $w\in R^{Q}$ 和偏置 b是训练参数，∅是一个激活函数。由于这两项可被显式解释，因此称之为显式建模。
@@ -738,20 +738,20 @@ $$
 隐式建模将顺序嵌入和关系向量输入到一个全连接层中来计算关系强度：
 
 $$
-g\big(a_{ji},e_{i}^{t},e_{j}^{t}\big)=\varnothing(w^{T}\left[e_{i}^{t^{T}},e_{j}^{t^{T}},a_{ji}^{T}\right]^{T}+b)\tag{15}
+g\big(a_{ji},e_{i}^{t},e_{j}^{t}\big)=\varnothing(w^{T}\left[{e_{i}^{t}}^{T},{e_{j}^{t}}^{T},a_{ji}^{T}\right]^{T}+b)\tag{15}
 $$
 
-同样 $w\in R^{2F^{\prime}+Q}$ 和偏置 b是训练参数，∅是一个激活函数。由于这种交互方式是由参数隐式捕获的，所以称之为隐式建模。
+同样 $\cdot w\in R^{2F^{\prime}+Q}$ 和偏置 b是训练参数，∅是一个激活函数。由于这种交互方式是由参数隐式捕获的，所以称之为隐式建模。
 
 ## 预测层
 
 RSR 框架最后将顺序嵌入层和关系嵌入层的结果进行拼接，输入到一个全连接层，以预测各股票收益率的排名得分，根据预测得分构建投资组合。为了优化模型，作者提出了一个点对回归损失和成对排序损失加和的目标函数：
 
 $$
-l(\hat{r}^{t+1},r^{t+1})=\|\hat{r}^{t+1}-r^{t+1}\|^{2}+\alpha\sum_{i=0}^{N}\sum_{j=0}^{N}\operatorname*{max}(0,-(\hat{r}_{i}^{t+1}-\hat{r}_{j}^{t+1})(r_{i}^{t+1}-r_{j}^{t+1}))
+l(\hat{r}^{t+1},r^{t+1})=\|\hat{r}^{t+1}-r^{t+1}\|^{2}+\alpha\sum_{i=0}^{N}\sum_{j=0}^{N}\max(0,-(\hat{r}_{i}^{t+1}-\hat{r}_{j}^{t+1})(r_{i}^{t+1}-r_{j}^{t+1}))
 $$
 
-其中 $\begin{array}{r}{{\mathrm{{~\psi~}}}_{r}^{t+1}=[r_{1}^{t+1},\cdots,r_{N}^{t+1}],{\mathrm{{~\hat{r}}{}^{t+1}=[\hat{r}_{1}^{t+1},\cdots,\hat{r}_{N}^{t+1}]\in R^{N}}}}\end{array}$ 分别表示 N 只股票的真实和预测得分向量，α是超参数用来平衡两个损失项。
+其中 $r^{t+1}=[r_1^{t+1},\cdots,r_N^{t+1}],\enspace\hat{r}^{t+1}=[\hat{r}_1^{t+1},\cdots,\hat{r}_N^{t+1}]\in R^N$ 分别表示 N 只股票的真实和预测得分向量，α是超参数用来平衡两个损失项。
 
 上述目标函数中第一个回归项惩罚了真实值和预测得分之间的差异，第二项是成对的最大边际损失，它鼓励股票对的预测分数与真实值保持相同的相对顺序。这样一来有如下好处：
 
@@ -772,10 +772,10 @@ RSR 框架首先根据股票间多种类型关系得到股票关系图，随后�
 我们将式(15)得到的强度通过 softmax 函数标准化使邻居间可比，代入式(14)得到如下关系嵌入：
 
 $$
-eg_{i}^{t}=\sum_{\left\{j\mid sum(a_{ji})>0\right\}}\frac{softmax_{j}(\emptyset(w^{T}\left[e_{i}^{t^{T}},e_{j}^{t^{T}},a_{ji}^{T}\right]^{T}+b))}{d_{j}}e_{j}^{t}\tag{16}
+eg_{i}^{t}=\sum_{\{j|sum(a_{ji})>0\}}\frac{softmax_{j}(\varnothing(w^{T}\left[e_{i}^{t^{T}},e_{j}^{t^{T}},a_{ji}^{T}\right]^{T}+b))}{d_{j}}e_{j}^{t}.\tag{16}
 $$
 
-将上述关系嵌入与图注意力网络 GAT 中式(12)代入式(13)后的特征表示 $\overrightarrow{h}_{i}^{k}$ 进行对比，我们发现两者在结构上是类似的，均采用注意力机制的方式，将信息聚焦到更重要的邻居节点上再进行加权求和。只不过 GAT 中是将静态的特征节点进行拼接，而 RSR 框架中使用的节点特征为时间敏感的节点特征，并且额外拼接了关系向量。前文中 GAT 的优势在 RSR中同样具备。
+将上述关系嵌入与图注意力网络 GAT 中式(12)代入式(13)后的特征表示 $\vec{h}_{i}^{k}$ 进行对比，我们发现两者在结构上是类似的，均采用注意力机制的方式，将信息聚焦到更重要的邻居节点上再进行加权求和。只不过 GAT 中是将静态的特征节点进行拼接，而 RSR 框架中使用的节点特征为时间敏感的节点特征，并且额外拼接了关系向量。前文中 GAT 的优势在 RSR中同样具备。
 
 ## 微软 Qlib 平台 GATs_ts 模型的应用介绍
 
@@ -817,7 +817,7 @@ $$
 
 在关系嵌入这一步，GATs_ts 采用 GAT 中注意力机制的 Global Self-Attention 全局方式，这种方式不需要像 RSR 那样构建显式的股票关系图，而是对每一个中心节点计算其它所有节点的特征聚合。
 
-关系嵌入的具体方式与 RSR 类似，采用将动态特征（即顺序嵌入 hidden）注入注意力机制的全局方式，由于无需显式构图因而省略关系向量 $a_{ji}$ ，此时节点j 对节点 i的标准化注意力系数为：
+关系嵌入的具体方式与 RSR 类似，采用将动态特征（即顺序嵌入 hidden）注入注意力机制的全局方式，由于无需显式构图因而省略关系向量 $[a_{ji}$ ，此时节点j 对节点 i的标准化注意力系数为：
 
 $$
 att_{-}weight_{ji}=softmax_{j}(leaky\_relu(a^{T}[W\cdot hidden_{i}\parallel W\cdot hidden_{j}]))
@@ -832,7 +832,7 @@ R2ℎidden_size×1是注意力机制，即一层全连接网络。
 得到注意力系数后，将所有的节点j的特征加权聚合给节点i，这样就得到节点i的特征表示，代码中加入了节点 i的自身特征，相当于引入一个自环：
 
 $$
-hidden_{i}^{\prime}=hidden_{i}+\sum_{j\in V}att_{-}weight_{ij}\times hidden_{j}
+hidden_{i}^{\prime}=hidden_{i}+{\sum}_{j\in V}att_{-}weight_{ij}\times hidden_{j}
 $$
 
 完成上述所有节点特征的聚合更新后，图 15 代码中最后将聚合结果依次送入全连接层 fc、非线性激活层 leaky_relu 以及最后一层全连接层 fc_out。最后一层全连接层输出预测股票收益率。

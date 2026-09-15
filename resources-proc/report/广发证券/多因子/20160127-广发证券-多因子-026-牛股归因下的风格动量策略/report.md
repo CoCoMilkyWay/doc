@@ -321,11 +321,11 @@ sqs@gf.com.cn
 3、多个风格因子满足开仓条件时的判断。若该行业同时具有多个风格因子满足开仓条件时，则按照各个风格因子的C1(风格因子值最小的20%个股集合与收益率最大的20%个股集合的重叠比例)和C2(风格因子值最大的20%个股集合与收益率最大的20%个股集合的重叠比例)的大小进行判断。按照下面的公式计算每个风格因子的得分。
 
 $$
-\Re(+k)=1\mp4\neq\Im((\#1\div0)\div\Re\cdot\Re)=\left\{\begin{array}{c}{{\displaystyle\mathrm{C1}*100,\frac{\psi}{\vartheta}\mathrm{C2}=0\#}}\\{{\displaystyle\frac{\mathrm{C1}}{\mathrm{C2}},\frac{\psi}{\vartheta}\mathrm{C2}>0,\mathrm{C1}>C2\#}}\end{array}\right.
+风格因子得分(负向或不定)=\left\{\begin{aligned}&\text{∠ }\complement1*100,当\complement2=0时\\&\text{∠ }\complement2\end{aligned}\right.,当\complement2>0、\complement1>C2时.
 $$
 
 $$
-\Re(+k|\mathbf{\vec{s}}|\mathbf{\vec{s}})\mp\lambda\mathbf{\vec{s}}\Im((\mathtt{1}\mathtt{E}|\mathbf{\vec{s}})\vec{s}\vec{\lambda}\cdot\vec{\lambda}\vec{\mathfrak{x}})=\{\begin{array}{ll}{\begin{array}{rl}{\mathrm{C}2*100,\frac{\mathtt{k}}{\mathtt{d}}\mathrm{C}1=0\mathbb{H}\breve{\mathfrak{s}}}&{}\\{\mathrm{C}2}\\{\mathrm{C}1}\end{array},\frac{\mathtt{k}}{\mathtt{d}}\mathrm{C}1>0,\mathrm{C}2>C1\mathbb{H}\breve{\mathfrak{s}}}&{}\end{array}
+风格因子得分(正向或不定)=\left\{\begin{aligned}&\mathbb{C}2*100,当\mathbb{C}1=0时\\&\frac{\mathbb{C}2}{\mathbb{C}1},当\mathbb{C}1>0、\mathbb{C}2>C1时\end{aligned}\right.
 $$
 
 可以看出，PB因子只适用第一个公式、ROE因子只适用第二个公式、流通市值因子和长期资本负债率因子同时适用于两个公式(若满足开仓条件时，两个公式中有且仅有一个公式满足)。

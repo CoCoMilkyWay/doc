@@ -120,7 +120,7 @@ jiangxin@swsresearch.com
 
 1）股息贡献：使用“（1+中证全收益指数收益率）/（1+中证红利收益率）-1”计算
 
-2）估值贡献：取每一年末的中证红利成分股，以申万一级行业做划分。对于非周期行业，使用加权规模净利润TTM 与加权总市值，计算这些成分股的平均市盈率；取该年末与下年末的市盈率数据 $\mathsf{PE}_{\mathsf{T}+1}$ 与 $\mathsf{PE}_{\mathsf{T}}$ ，则估值贡献为 $^{\prime\prime}{\sf PE}_{\sf T+1}/{\sf PE}_{\sf T}-1^{\prime\prime}$ 。对于周期行业，其净利润变化在年间的波动可能较大，我们假设其收益与 GDP 同比例增长变，并由此计算估值贡献 $^{\prime\prime}{\sf PE}_{\sf T+1}/{\sf PE}_{\sf T}-1^{\prime\prime}$ 。对每一行业的估值贡献加权求和，即为估值贡献收益率。
+2）估值贡献：取每一年末的中证红利成分股，以申万一级行业做划分。对于非周期行业，使用加权规模净利润TTM 与加权总市值，计算这些成分股的平均市盈率；取该年末与下年末的市盈率数据 $\mathsf{PE}_{\mathsf{T}+1}$ 与 $\mathsf{PE}_{\mathrm{T}}$ ，则估值贡献为 ${}^{\prime\prime}\mathsf{P}\mathsf{E}_{\mathsf{T}^{+}}\mathsf{1}/\mathsf{P}\mathsf{E}_{\mathsf{T}^{-}}\mathsf{1}^{\prime\prime}$ 。对于周期行业，其净利润变化在年间的波动可能较大，我们假设其收益与 GDP 同比例增长变，并由此计算估值贡献 ${}^{\prime\prime}\mathsf{P}\mathsf{E}_{\mathsf{T}^{+}}\mathsf{1}/\mathsf{P}\mathsf{E}_{\mathsf{T}^{-}}\mathsf{1}^{\prime\prime}$ 。对每一行业的估值贡献加权求和，即为估值贡献收益率。
 
 3）盈利贡献：中证指数收益中，超过估值贡献的部分，即 （1+中证指数收益率）/（1+估值贡献收益率） -1
 

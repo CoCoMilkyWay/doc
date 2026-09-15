@@ -55,15 +55,15 @@ SAC NO：S1150517100002
 组合优化模型可以表现为如下形式，该模型为经典二次优化模型的变体，可以直接求解：
 
 $$
-max\qquad\alpha^{\prime}w-{\frac{1}{2}}\lambda w^{\prime}\Sigma w\tag{1}
+max\quad\alpha^{\prime}w-\frac{1}{2}\lambda w^{\prime}\Sigma w\tag{1}
 $$
 
 $$
-\quad s.t.\qquad f_{l}\leq X_{f}\cdot(w-w_{b})\leq f_{u}\tag{2}
+\begin{array}{rlr}{s.t.}&{{}}&{f_{l}\leq X_{f}\cdot(w-w_{b})\leq f_{w}}\end{array}\tag{2}
 $$
 
 $$
-h_{l}\le H\cdot(w-w_{b})\le h_{u}\tag{3}
+h_{l}\leq H\cdot(w-w_{b})\leq h_{u}\tag{3}
 $$
 
 $$
@@ -71,7 +71,7 @@ $$
 $$
 
 $$
-{\bf1^{\prime}}w=1\tag{5}
+\mathbf{1}^{\prime}w=1\tag{5}
 $$
 
 其中 $w$ 为待求解的组合权重，（1）为待优化的目标函数，（2）-（6）需满足的条件限制。
@@ -97,7 +97,7 @@ $$
 另一种风险模型的估计方法来源于 Barra 模型，它将组合协方差矩阵 分为两个部分：
 
 $$
-\Sigma=X_{f}FX_{f}{'}+\Delta
+\Sigma=X_{f}F{X_{f}}^{\prime}+\Delta
 $$
 
 其中 $X_{f}$ 为组合中股票的因子暴露矩阵， 为因子收益率之间的协方差矩阵， 为个股残差波动率组成的对角矩阵。
@@ -295,15 +295,15 @@ $$
 回顾在第1 节中提到的组合优化模型：
 
 $$
-max\qquad\alpha^{\prime}w-{\frac{1}{2}}\lambda w^{\prime}\Sigma w\tag{1}
+max\quad\alpha^{\prime}w-\frac{1}{2}\lambda w^{\prime}\Sigma w\tag{1}
 $$
 
 $$
-\quad s.t.\qquad f_{l}\leq X_{f}\cdot(w-w_{b})\leq f_{u}\tag{2}
+\begin{array}{rlr}{s.t.}&{{}}&{f_{l}\leq X_{f}\cdot(w-w_{b})\leq f_{w}}\end{array}\tag{2}
 $$
 
 $$
-h_{l}\le H\cdot(w-w_{b})\le h_{u}\tag{3}
+h_{l}\leq H\cdot(w-w_{b})\leq h_{u}\tag{3}
 $$
 
 $$
@@ -316,7 +316,7 @@ $$
 
 通过对条件（2）中因子暴露的控制，可以得到针对特定因子中性的优化模型。在上面的业绩归因中，我们发现组合对市值因子的暴露存在一定的不确定性，为控制这种不确定性带来的风险，可构建针对市值中性的投资组合。
 
-使 和 $f_{u}$ 分别为 、 、 、 、 ，即控制组合关于市值的因子暴露与业绩基准（沪深 300 指数）一致，仅允许 1%至 5%的追踪误差。通过历史回测可以看出，市值中性模型相对于未做市值中性处理的原始模型来讲，收益率有一定降低，换手率降低，对冲业绩基准后的夏普比率有所提高。而对于追踪误差的暴露来说，1%-5%并没有显著变化。
+使 和 $tf_{u}$ 分别为 、 、 、 、 ，即控制组合关于市值的因子暴露与业绩基准（沪深 300 指数）一致，仅允许 1%至 5%的追踪误差。通过历史回测可以看出，市值中性模型相对于未做市值中性处理的原始模型来讲，收益率有一定降低，换手率降低，对冲业绩基准后的夏普比率有所提高。而对于追踪误差的暴露来说，1%-5%并没有显著变化。
 
 表 9：沪深 300市值中性模型回测结果
 

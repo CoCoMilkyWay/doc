@@ -25,18 +25,18 @@
 多因 模型 般定义为
 
 $$
-R_{t}^{a}=\beta_{t-1}f_{t}+\varepsilon_{t}\tag{1.1}
+\pmb{R}_{t}^{a}=\pmb{\beta}_{t-1}\pmb{f}_{t}+\pmb{\varepsilon}_{t}\tag{1.1}
 $$
 
-其中 $\pmb{R}_{t}\pmb{\mathscr{a}}$ 表 类型资产在 期的收益率向量，设 类型资产共有 只，截 均值为0。 a t a N $\pmb{f}_{t}$ 是 期 个因 收t K益率组成的均值为0的向量， $\pmb{\beta}_{t-1}$ 是 期 为 的因 载荷矩阵，t-1 N×K $\varepsilon_{t}$ 是 期 类型资产的特异性收益率，假t a设 $\varepsilon_{t}$ 的协 差矩阵是对 阵， $\varepsilon_{t}$ 截 均值为 ${\mathsf{I}}{\mathsf{O}}_{\circ}$ 。由于 期因 载荷能对未来 期的资产横截 收益率有预测能t-1 t，为了获取超额收益，学界与业界前仆后继地发现了成百上千个有效因 。
+其中 $\pmb{R}_{t}\pmb{\sigma}$ 表 类型资产在 期的收益率向量，设 类型资产共有 只，截 均值为0。 a t a N $f_{t}$ 是 期 个因 收t K益率组成的均值为0的向量， $\beta_{t-1}$ 是 期 为 的因 载荷矩阵，t-1 N×K $\mathcal{E}_{t}$ 是 期 类型资产的特异性收益率，假t a设 $\varepsilon_{t}$ 的协 差矩阵是对 阵， $\varepsilon_{t}$ 截 均值为 $10_{\circ}$ 。由于 期因 载荷能对未来 期的资产横截 收益率有预测能t-1 t，为了获取超额收益，学界与业界前仆后继地发现了成百上千个有效因 。
 
-除了对超额收益的不断追求外，许多学者也发现因 对于资产收益率的协 差矩阵也有预测效 。根据（1.1）式，由 $\Sigma_{\ q}=R^{\ q}R^{\ aT}$ （此处省略时间下标，假设 $R^{a}$ 截 均值为0），可以得到
+除了对超额收益的不断追求外，许多学者也发现因 对于资产收益率的协 差矩阵也有预测效 。根据（1.1）式，由 $\Sigma_{\;q}=R^{\;q}\;R^{\;qT}$ （此处省略时间下标，假设 $R^{\alpha}$ 截 均值为0），可以得到
 
 $$
-\boldsymbol{\Sigma_{a}}=\beta\boldsymbol{\Sigma_{f}}\boldsymbol{\beta}^{T}+\boldsymbol{\Sigma_{\varepsilon}}\tag{1.2}
+\Sigma_{a}=\beta\Sigma_{f}\beta^{T}+\Sigma_{\varepsilon}\tag{1.2}
 $$
 
-$\pmb{\Sigma}_{\pmb{q}}$ 表 类型资产收益率的协 差矩阵，a $\Sigma_{f}$ ， $\pmb{\Sigma}_{\pmb{\varepsilon}}$ 表 对应因 收益率与特异性收益率的协 差矩阵。在（1.2）式中，除了因 暴露矩阵 $\pmb{\beta}$ 已知外，因 协 差矩阵 $\Sigma_{f}$ 和个股特质性收益率的协 差矩阵 $\pmb{\Sigma}_{\pmb{\varepsilon}}$ 均估计，且$\Sigma_{\pmb{q}}$ 估计的准确性取决于等式右侧估计的准确性。因此，存在特定因 ，能够解释资产收益率的协 差矩阵的运动，我们把这类对于资产协 差矩阵有解释效 的因 称为 险因 ，（1.2）式对应的多因 模型称为 险因模型。
+$\pmb{\Sigma}_{\pmb{a}}$ 表 类型资产收益率的协 差矩阵，a $\varepsilon_{f}$ ， $\pmb{\Sigma}_{\pmb{\varepsilon}}$ 表 对应因 收益率与特异性收益率的协 差矩阵。在（1.2）式中，除了因 暴露矩阵 $\beta$ 已知外，因 协 差矩阵 $\Sigma_{f}$ 和个股特质性收益率的协 差矩阵 $\pmb{\Sigma}_{\pmb{\varepsilon}}$ 均估计，且$\pmb{\Sigma}_{\pmb{a}}$ 估计的准确性取决于等式右侧估计的准确性。因此，存在特定因 ，能够解释资产收益率的协 差矩阵的运动，我们把这类对于资产协 差矩阵有解释效 的因 称为 险因 ，（1.2）式对应的多因 模型称为 险因模型。
 
 结合（1.1）式与（1.2）式来看，似乎解释波动率的 险因 与解释收益的因 是 模 样的。但 险因 在预测作 上的 处与解释收益的Alpha因 不尽相同：
 
@@ -45,38 +45,38 @@ $\pmb{\Sigma}_{\pmb{q}}$ 表 类型资产收益率的协 差矩阵，a $\Sigma_{
 存在某类特异性极强的Alpha因 ，它们能解释横截 资产收益率的差异，但不能解释资产收益率协 差的运动。这类因 的因 收益率协 差矩阵可能是对 阵
 
 $$
-\Sigma_{alpha}=\left(\begin{array}{ccc}{{\sigma_{11}}}&{{\cdots}}&{{0}}\\{{\vdots}}&{{\ddots}}&{{\vdots}}\\{{0}}&{{\cdots}}&{{\sigma_{KK}}}\end{array}\right)\tag{1.3}
+\boldsymbol{\Sigma}_{alpha}=\begin{pmatrix}\sigma_{11}&\cdots&0\\\vdots&\ddots&\vdots\\0&\cdots&\sigma_{KK}\end{pmatrix}\tag{1.3}
 $$
 
-此时 $\textstyle{\sum_{\varepsilon}}$ 的 对 元素就不再严格为0，资产协 差矩阵的估计将出现较 误差。为了得到对资产协 差更精准用的解释，实践上可以采 结构化的 法重新刻画（1.2）式。结构化 险模型的本质是重新选取适合作为 险因纳 险模型，且 险因 的个数 于资产个数，以满 可解释性或普适性。
+此时 $\sum_{\xi}$ 的 对 元素就不再严格为0，资产协 差矩阵的估计将出现较 误差。为了得到对资产协 差更精准用的解释，实践上可以采 结构化的 法重新刻画（1.2）式。结构化 险模型的本质是重新选取适合作为 险因纳 险模型，且 险因 的个数 于资产个数，以满 可解释性或普适性。
 
 ## 2）结构化 险模型可以提 对于资产协 差估计的准确性
 
 在估计协方差矩阵时，我们通常需要回望过去一段时间T。当协方差矩阵的样本数为T时，若因子数量 $K>T$ ，那么样本协方差矩阵（SCM）是奇异矩阵
 
 $$
-\ SCM_{ij}={\frac{1}{T-1}}{\sum_{t=1}^{T}}X_{it}X_{jt}\tag{1.4}
+SCM_{ij}=\frac{1}{T-1}{\sum_{t=1}^{T}X_{it}X_{jt}},\tag{1.4}
 $$
 
-$\begin{array}{r}{X_{it}=f_{it}-\overline{{f}}_{\imath},\overline{{f}}_{\imath}=\frac{1}{T}\sum_{t=1}^{T}f_{it}}\end{array}$ 。因为 $\begin{array}{r}{\sum_{t=1}^{T}X_{it}=0}\end{array}$ ，所以X只有T－1列相互独立，那么
+$\begin{array}{r}{X_{it}=f_{it}-\overline{{f_{i}}},\overline{{f_{i}}}=\frac{1}{T}{\sum_{t=1}^{T}f_{it}}}\end{array}$ 。因为 $\textstyle\sum_{t=1}^{T}X_{it}=0$ ，所以X只有T－1列相互独立，那么
 
 $$
 r(XX^{T})\leq T-1<K\tag{1.5}
 $$
 
-所以SCM是奇异矩阵。当SCM是奇异矩阵时， $\widehat{\boldsymbol{\Sigma_{a}}}^{-1}=\left(\beta SCM\beta^{T}+\widehat{\boldsymbol{\Sigma_{\varepsilon}}}\right)^{-1}$ 不一定存在，基于 $\widehat{\pmb{\mathscr{L}}_{a}}^{-1}$ 计算的均值-方差优化模型、最大夏普优化模型等无法求出可行解。当样本数T接近于因子数K时， $SCM^{T}$ 估计误差增大得非常快。因此，结构化的风险模型通常需要使用较少的因子个数K对资产组合的协方差矩阵进行更为精准地预测。
+所以SCM是奇异矩阵。当SCM是奇异矩阵时， $\widehat{\pmb{\Sigma}_{a}}^{-1}=\left(\pmb{\beta}\pmb{S}\pmb{C}\pmb{M}\pmb{\beta}^{T}+\widehat{\pmb{\Sigma}_{\varepsilon}}\right)^{-1}$ 不一定存在，基于 $\widehat{\pmb{\Sigma}_{\pmb{a}}}^{-1}$ 计算的均值-方差优化模型、最大夏普优化模型等无法求出可行解。当样本数T接近于因子数K时， $SCM^{T}$ 估计误差增大得非常快。因此，结构化的风险模型通常需要使用较少的因子个数K对资产组合的协方差矩阵进行更为精准地预测。
 
 由此，为了区别于（1.1）式收益模型中的因 ，我们把 险因 记为，得到结构化的 险因 模型
 
 $$
-\pmb{\Sigma_{a}}=\pmb{\beta}\pmb{\Sigma_{k}}\pmb{\beta}^{T}+\pmb{\Sigma_{\varepsilon}}\tag{1.6}
+\pmb{\varSigma}_{a}=\pmb{\beta}\pmb{\varSigma}_{k}\pmb{\beta}^{T}+\pmb{\varSigma}_{\varepsilon}\tag{1.6}
 $$
 
 ## 把K对应的多因 称为 险因 。
 
 作为多因 投资体系不可或缺的重要 环， 险模型是与Alpha模型并 的、以投资组合 险预测和分解为主要 的的重要模块。主动投资的本质，某种意义上讲就是收益与 险的权衡，资产的权重往往与超额收益正相关，与 险负相关。在量化投资实践中， 险模型有着 泛的应 ，投资者使 险模型的情景主要有以下 种：
 
-(1） 预测资产未来的波动性和相关性，进而配合Alpha模型构建最优投资组合：依照（1.6）式，只需要知道t－1因子暴露 $\pmb{\beta}$ ，通过统计方法计算出t期的$\widehat{\pmb{\Sigma}_{k}}$ 与 $\widehat{\pmb{\Sigma}_{\varepsilon}}$ ，那么就可以在t－1期预测t期的资产组合收益率的协方差矩阵 $\widehat{\pmb{\mathscr{L}}_{\pmb{a}}}$ 这也是Barra模型常常采用的估计协方差矩阵的方法;
+(1） 预测资产未来的波动性和相关性，进而配合Alpha模型构建最优投资组合：依照（1.6）式，只需要知道t－1因子暴露 $\beta$ ，通过统计方法计算出t期的$\widehat{\pmb{\Sigma}_{k}}$ 与 $\widehat{\Sigma_{\varepsilon}}$ ，那么就可以在t－1期预测t期的资产组合收益率的协方差矩阵 $\widehat{\pmb{\Sigma}_{\pmb{a}}}$ 这也是Barra模型常常采用的估计协方差矩阵的方法;
 
 (2） 将资产的收益和风险分解到不同的维度下，从风险因子的角度去理解资产表现；
 
@@ -102,19 +102,19 @@ $$
 
 a) 常规变量：t表示日期，k, k = 1,2,..,K表示风险因子；i,i = 1,2,...,N表示高频因子；
 
-b)高频因子组合设定：在以高频因子组合作为分析对象时，我们需要考虑多头组合、空头组合以及多空组合三种类型： $ls_{i}$ 表示高频因子i多空组合、 $l_{i}$ 表示高频因子i多头组合、 $s_{i}$ 表示高频因子i空头组合;
+b)高频因子组合设定：在以高频因子组合作为分析对象时，我们需要考虑多头组合、空头组合以及多空组合三种类型： $ls_{i}.$ 表示高频因子i多空组合、 $l_{i}.$ 表示高频因子i多头组合、 $s_{i}$ 表示高频因子i空头组合;
 
-c) 高频因子组合收益率列向量： $\pmb{R}_{t}=[\pmb{R}_{l,t},\pmb{R}_{s,t}]^{T}$ 表示高频因子多头和空头组合 的收益率列向量，其中 $r_{l_{i},t}$ 为时段[t-1,t]高频因子i多头组合收益率,rsit为时 $\mathcal{r}_{s_{i},t}$ 段[t-1,t]高频因子s空头组合收益率;
+c) 高频因子组合收益率列向量： $\pmb{R}_{t}=[\pmb{R}_{l,t},\pmb{R}_{s,t}]^{T}$ 表示高频因子多头和空头组合 的收益率列向量，其中 $r_{l_{i},t}$ 为时段[t-1,t]高频因子i多头组合收益率,rsit为时 $\boldsymbol{\cdot}\boldsymbol{r}_{s_{i},t}$ 段[t-1,t]高频因子s空头组合收益率;
 
-d) 风险因子载荷矩阵： $\pmb{\beta}_{t}=\left\{\beta_{[l,s]k,t}\right\}_{N\times K}$ 是t时刻多头和多空组合的因子载荷矩阵，其中 $\beta_{l_{i}k,t}$ 是时刻t高频因子i多头组合i在风险因子k上的暴露； $\beta_{s_{i}k,t}$ 是时刻t高频因子i空头组合i在风险因子k上的暴露； $\beta_{t}^{ls}=\left\{\beta_{lsk,t}\right\}_{N\times K}$ 是多空组合的因子载荷矩阵，其中 $\beta_{ls_{i}k,t}$ 是时刻t高频因子i多空组合在风险因子k上暴露;
+d) 风险因子载荷矩阵： $\pmb{\beta}_{\pmb{t}}=\left\{\beta_{[l,s]k,t}\right\}_{N\times K}$ 是t时刻多头和多空组合的因子载荷矩阵，其中 $\beta_{l_{i}k,t}$ 是时刻t高频因子i多头组合i在风险因子k上的暴露； $\beta_{s_{i}k,t}$ 是时刻t高频因子i空头组合i在风险因子k上的暴露； $\pmb{\beta}_{t}^{ls}=\left\{\beta_{lsk,t}\right\}_{N\times K}$ 是多空组合的因子载荷矩阵，其中 $\beta_{ls_{i}k,t}$ 是时刻t高频因子i多空组合在风险因子k上暴露;
 
-e) 风险因子收益率向量： $\pmb{f}_{t}=\left(f_{1,t},f_{2,t},\ldots,f_{K,t}\right)^{T}$ 表示回归得到风险因子的收益率列向量，其中 $f_{k,t}$ 为时段[t—1,t]风险因子k的收益率；
+e) 风险因子收益率向量： $\boldsymbol{\mathbf{f}}_{t}=\left(f_{1,t},f_{2,t},\ldots,f_{K,t}\right)^{T}$ 表示回归得到风险因子的收益率列向量，其中 $f_{k,t}$ 为时段[t—1,t]风险因子k的收益率；
 
-f)高频因子特质性收益率： $\pmb{\varepsilon}_{t}=[\pmb{\varepsilon}_{l,t},\pmb{\varepsilon}_{s,t}]^{T}$ 表示高频因子多头和空头组合特质性 收益率列向量，其中 $\varepsilon_{l_{i},t}$ 为时段[t-1,t]高频因子i多头组合的特质性收益 率， $\varepsilon_{s_{i},t}$ 为时段[t-1,t]高频因子s空头组合的特质性收益率； $\varepsilon_{t}^{ls}=$ ${\left(\varepsilon_{ls_{1},t},\varepsilon_{ls_{2},t},\ldots,\varepsilon_{ls_{N},t}\right)}^{T}$ 表示高频因子多空组合的特质性收益率列向量，其中 $\varepsilon_{ls_{i},t}$ 为时段[t-1,t]高频因子i多空的特质性组合收益率;
+f)高频因子特质性收益率： $\pmb{\varepsilon}_{\pmb{t}}=[\pmb{\varepsilon}_{l,t},\pmb{\varepsilon}_{s,t}]^{T}$ 表示高频因子多头和空头组合特质性 收益率列向量，其中 $\varepsilon_{l_{i},t}$ 为时段[t-1,t]高频因子i多头组合的特质性收益 率， $\varepsilon_{s_{i},t}$ 为时段[t-1,t]高频因子s空头组合的特质性收益率； $\pmb{\varepsilon}_{\pmb{t}}^{ls}=$ $\left(\varepsilon_{ls_{1},t},\varepsilon_{ls_{2},t},\ldots,\varepsilon_{ls_{N},t}\right)^{T}$ 表示高频因子多空组合的特质性收益率列向量，其中 $\varepsilon_{ls_{i},t}$ 为时段[t-1,t]高频因子i多空的特质性组合收益率;
 
-g)风险因子收益率协方差矩阵： $\boldsymbol{\Sigma}_{k,t}=\left\{\boldsymbol{F}_{k_{1}k_{2},t}\right\}_{K\times K}$ 是风险因子收益率的协方差矩阵，其中 $F_{k_{1}k_{2},t}$ 是t时刻因子 $k_{1}$ 和因子 $\cdot k_{1}$ 收益率的协方差；
+g)风险因子收益率协方差矩阵： $\boldsymbol{\varSigma}_{\boldsymbol{k},t}=\left\{F_{k_{1}k_{2},t}\right\}_{\boldsymbol{K}\times\boldsymbol{K}}$ 是风险因子收益率的协方差矩阵，其中 $F_{k_{1}k_{2},t}$ 是t时刻因子 $k_{1}$ 和因子 $k_{1}$ 收益率的协方差；
 
-h)高频因子组合收益率协方差矩阵： $\mathcal{\Sigma}_{i,t}^{ls}=\left\{A_{ls_{1}ls_{2},t}\right\}_{N\times N}$ 是高频因子多空组合的 收益率的协方差矩阵，其中 $A_{ls_{1}ls_{2},t}$ 是t时刻高频因子多空组合 $\boldsymbol{ls}_{1}$ 和高频因子 多空组合 $\boldsymbol{ls}_{2}$ 收益率的协方差；
+h)高频因子组合收益率协方差矩阵： $\Sigma_{i,t}^{ls}=\left\{A_{ls_{1}ls_{2},t}\right\}_{N\times N}$ 是高频因子多空组合的 收益率的协方差矩阵，其中 $A_{ls_{1}ls_{2},t}$ 是t时刻高频因子多空组合 $\cdot ls_{1}$ 和高频因子 多空组合 $\cdot ls_{2}$ 收益率的协方差；
 
 i) 高频因子组合特质性收益率协方差矩阵： $\Sigma_{\varepsilon,t}^{ls}=\left\{\delta_{ls_{1}ls_{2},t}\right\}_{N\times N}$ 是高频因子多空 组合的特质性收益率的协方差矩阵，其中 $\delta_{ls_{1}ls_{2},t}$ 是t时刻高频因子多空组合 $ls_{1}$ 和高频因子多空组合 $\cdot ls_{2}$ 的特质性收益率的协方差
 
@@ -122,7 +122,7 @@ i) 高频因子组合特质性收益率协方差矩阵： $\Sigma_{\varepsilon,t
 
 | 变量 | 多空组合 | 多头组合 | 空头组合 |
 | --- | --- | --- | --- |
-| 组合收益率列向量 | 单独使用 | 共同使用 | $\scriptstyle R_{t}$ |
+| 组合收益率列向量 | 单独使用 | 共同使用 | $R_{t}$ |
 | 组合收益率协方差矩阵 | 单独使用Σ | 单独使用 | 不使用 |
 
 资料来源：兴业证券经济与金融研究院整理
@@ -171,10 +171,10 @@ $$
 DASTD^{t}=\sqrt{\sum_{s=t-T+1}^{t}w_{t-s}\cdot\left(r_{i,s}\right)^{2}}\tag{2.1}
 $$
 
-其中， $r_{i,s}$ 为股票i在超额收益率；T=20（一个月）； $w_{t-s}$ 是指数衰减权重，半衰期为 10日。其次是 CMRA累积幅度（Cumulative Range)，该指标为过去4周周收益率累积收益率的波动幅度。记时刻t股票回溯一周的周收益率为 $R^{t}=$ $\textstyle\prod_{s=0}^{5}\bigl(1+r^{t-s}+r_{f}^{t-s}\bigr)-1$ ，无风险月收益率为 $\begin{array}{r}{R_{f}^{t}=\prod_{s=0}^{5}\bigl(1+r_{f}^{t-s}\bigr)-1}\end{array}$ ，定义：
+其中， $r_{i,s}$ 为股票i在超额收益率；T=20（一个月）； $w_{t-s}$ 是指数衰减权重，半衰期为 10日。其次是 CMRA累积幅度（Cumulative Range)，该指标为过去4周周收益率累积收益率的波动幅度。记时刻t股票回溯一周的周收益率为 $R^{t}=$ $\begin{array}{r}{\prod_{s=0}^{5}\bigl(1+r^{t-s}+r_{f}^{t-s}\bigr)-1}\end{array}$ ，无风险月收益率为 $\begin{array}{r}{R_{f}^{t}=\prod_{s=0}^{5}\bigl(1+r_{f}^{t-s}\bigr)-1}\end{array}$ ，定义：
 
 $$
-Z(K)=\sum_{k=0}^{K-1}[ln(1+R^{t-k*5})-ln\big(1+R_{f}^{t-k*5}\big)]\tag{2.2}
+Z(K)=\sum_{k=0}^{K-1}\bigl[ln(1+R^{t-k*5})-ln\bigl(1+R_{f}^{t-k*5}\bigr)\bigr].\tag{2.2}
 $$
 
 $$
@@ -198,10 +198,10 @@ $$
 Barra模型的Momentum因 的计算 法为 期动量减去短期动量，或者以跳过短期动量的 式进 构建。我们沿 此想法，但将时间周期调短。具体来说，我们假设 期动量为过去20 收益率的半衰加权；短期动量为过去5 的收益率半衰加权减去市场收益率半衰期加权；最后将 期动量减去短期动量，以此构建短期动量 险因
 
 $$
-mom_{-}risk=\sum_{s=t-T+1}^{t}w_{t-s}\big(ln\big(1+r_{i,s}\big)\big)-\sum_{s=t-T^{\prime}+1}^{t}w_{t-s}\big(ln\big(1+r_{alpha,s}\big)\big)\tag{2.6}
+mom\_risk=\sum_{s=t-T+1}^{t}w_{t-s}\big(ln\big(1+r_{i,s}\big)\big)-\sum_{s=t-T^{\prime}+1}^{t}w_{t-s}\big(ln\big(1+r_{alpha,s}\big)\big)\tag{2.6}
 $$
 
-其中 $r_{i,s}$ 是股票收益率， $r_{alpha,s}$ 为股票的超额收益率； $w_{t-s}$ 是指数衰减权重， ${\cal T}{=}20$ ${T}^{\prime}{=}5$ 。为了使各高频风险因子间时序相关性较低，我们将动量风险因子对特质性波动率因子进行回归，取残差作为新的动量风险因子。
+其中 $r_{i,s}$ 是股票收益率， $r_{alpha,s}$ 为股票的超额收益率； $w_{t-s}$ 是指数衰减权重， $T{=}20$ $T^{\prime}{=}5$ 。为了使各高频风险因子间时序相关性较低，我们将动量风险因子对特质性波动率因子进行回归，取残差作为新的动量风险因子。
 
 其次， 频量价类因 通常与 内交易情绪存在着较强的关联性。事实上， 频因 本质上是寻找 内交易模式异常处的套利机会， 交易模型的异常 为通常会体现在个股的 内流动性上。我们参考 献中针对个股 内交易特征的刻画，结合 险因 的波动特征以及模型增量，选择了 个具有代表性的指标，作为 频因 的对应 险。
 
@@ -214,7 +214,7 @@ $$
 内集中性 险因 被定义为分钟成交量占 的偏度。
 
 $$
-con\_risk=skew\left(\frac{volume_{t}}{sum(volume_{t})}\right)\tag{2.7}
+con\_risk=skew\left(\cfrac{volume_{t}}{sum(volume_{t})}\right)\tag{2.7}
 $$
 
 其中 为个股分钟级成交量。该指标 先计算得到各个分钟上成交量占全天交易量的 值，并进 步计volumet算得到当 成交量占 序列的偏度。当交易量均匀分布在 内每 分钟时， 内交易集中性低，该指标较 。 内集中性 险因 需要分别对特质性波动率、动量与流动性 险因 进 回归取残差作为新的集中性 险因 。
@@ -232,22 +232,22 @@ $$
 在构建完 频基本 险因 之后，我们进 步构建 频统计 险因 。在此我们需要引 统计 险模型的相关定义。随着时代的发展，投资者发现可以在结构化 险模型领域引 机器学习 段解决上述的问题。 先，依然假设收益率是因 关于因 载荷的线性变换，并进 步引 结构化 险因 模型。
 
 $$
-\begin{array}{r}{\Sigma_{i,t}^{ls}=\beta_{t-1}^{ls}\Sigma_{k,t}(\pmb{\beta}_{t-1}^{ls})^{T}+\Sigma_{\varepsilon,t}^{ls}}\end{array}\tag{2.9}
+\boldsymbol{\Sigma}_{i,t}^{ls}=\boldsymbol{\beta}_{t-1}^{ls}\boldsymbol{\Sigma}_{k,t}(\boldsymbol{\beta}_{t-1}^{ls})^{T}+\boldsymbol{\Sigma}_{\varepsilon,t}^{ls}\tag{2.9}
 $$
 
-$\Sigma_{i,t}^{ls}$ 是高频因子多空组合收益率的协方差矩阵。此时我们仅关注资产的协方差矩阵 $\cdot\Sigma_{i,t}^{ls}$ ，已知 $\lambda_{1}\geq\lambda_{2}\geq.$ ...为 $\itSigma_{i,t}^{ls}$ 的特征根， $u_{1},u_{2}.$ ....为对应的标准化的特征向量，U为特征向量对应矩阵。根据矩阵特征根分解，此时结构化风险模型公式左侧变为
+$\pmb{\Sigma}_{i,\pmb{t}}^{ls}$ 是高频因子多空组合收益率的协方差矩阵。此时我们仅关注资产的协方差矩阵 $\cdot\pmb{\Sigma}_{i,t}^{ls}$ ，已知 $\lambda_{1}\geq\lambda_{2}\geq.$ ...为 $\Sigma_{i,t}^{ls}$ 的特征根， $u_{1},u_{2},$ ....为对应的标准化的特征向量，U为特征向量对应矩阵。根据矩阵特征根分解，此时结构化风险模型公式左侧变为
 
 $$
-\pmb{\Sigma}_{i,t}^{ls}=U\left[\begin{array}{ccc}{\pmb{\sigma}_{1}^{2}}&{\cdots}&{0}\\{\vdots}&{\ddots}&{\vdots}\\{0}&{\cdots}&{\pmb{\sigma}_{n}^{2}}\end{array}\right]U^{\prime}=\left[\sqrt{\lambda_{1}}u_{1},\sqrt{\lambda_{2}}u_{2},\ldots,\sqrt{\lambda_{n}}u_{n}\right]\left[\begin{array}{c}{\sqrt{\lambda_{1}}u^{\prime}_{1}}\\{\sqrt{\lambda_{2}}u^{\prime}_{2}}\\{\cdots}\\{\sqrt{\lambda_{n}}u^{\prime}_{n}}\end{array}\right]\tag{2.10}
+\boldsymbol{\Sigma}_{i,t}^{ls}=U\begin{bmatrix}\sigma_{1}^{2}&\cdots&0\\\vdots&\ddots&\vdots\\0&\cdots&\sigma_{n}^{2}\end{bmatrix}U^{\prime}=\left[\sqrt{\lambda_{1}}u_{1},\sqrt{\lambda_{2}}u_{2},\ldots,\sqrt{\lambda_{n}}u_{n}\right]\begin{bmatrix}\sqrt{\lambda_{1}}u^{\prime}_{1}\\\sqrt{\lambda_{2}}u^{\prime}_{2}\\\ldots\\\sqrt{\lambda_{n}}u^{\prime}_{n}\end{bmatrix}\tag{2.10}
 $$
 
-上式给出的 $\Sigma_{i,t}^{ls}$ 的表达式是精确的，然而，它实际上是没有价值的，因为我们目的是寻求少数几个风险因子去解释。因此，我们基于PCA主成分分析的方式，选择解释力度排名靠前的k个主成分，此时公式变为
+上式给出的 $\pmb{\varSigma}_{i,\pmb{t}}^{ls}$ 的表达式是精确的，然而，它实际上是没有价值的，因为我们目的是寻求少数几个风险因子去解释。因此，我们基于PCA主成分分析的方式，选择解释力度排名靠前的k个主成分，此时公式变为
 
 $$
-\begin{array}{r}{\Sigma_{i,t}^{ls}\approx\beta_{t}^{ls}\Sigma_{k,t}{\beta_{t}^{ls}}^{T}+\Sigma_{\varepsilon,t}^{ls}=[\sqrt{\lambda_{1}}u_{1},\sqrt{\lambda_{2}}u_{2},\dots,\sqrt{\lambda_{k}}u_{k}][\sqrt{\lambda_{2}}u^{\prime}_{2}]+\Sigma_{\varepsilon,t}^{ls}}\\{\dots}\\{\sqrt{\lambda_{k}}u^{\prime}_{k}]}\end{array}\tag{2.11}
+\boldsymbol{\Sigma}_{i,t}^{ls}\approx\boldsymbol{\beta}_{t}^{ls}\boldsymbol{\Sigma}_{k,t}\boldsymbol{\beta}_{t}^{ls^{T}}+\boldsymbol{\Sigma}_{\varepsilon,t}^{ls}=\left[\sqrt{\lambda_{1}}u_{1},\sqrt{\lambda_{2}}u_{2},\ldots,\sqrt{\lambda_{k}}u_{k}\right]\begin{bmatrix}\sqrt{\lambda_{1}}u^{\prime}_{1}\\\sqrt{\lambda_{2}}u^{\prime}_{2}\\\ldots\\\sqrt{\lambda_{k}}u^{\prime}_{k}\end{bmatrix}+\boldsymbol{\Sigma}_{\varepsilon,t}^{ls}\tag{2.11}
 $$
 
-与前 保持 致，此时我们的 险模型仍然是针对 频因 的组合进 分析。因此在统计 险模型中，公式左$\sum_{i,t}Is$ 为 频因 的多空组合收益率的协 差矩阵。模型的 标是找出能够对 频因 多空组合共同运动 向高 风准备预测的主成分,与 频 险因 的定义 致。不难看出，统计 险模型在最终 的上与基本 险模型类似，但也存在着较 区别：
+与前 保持 致，此时我们的 险模型仍然是针对 频因 的组合进 分析。因此在统计 险模型中，公式左$\scriptstyle\boldsymbol{\Sigma}_{i,t}^{\mathrm{~\it~Is~}}$ 为 频因 的多空组合收益率的协 差矩阵。模型的 标是找出能够对 频因 多空组合共同运动 向高 风准备预测的主成分,与 频 险因 的定义 致。不难看出，统计 险模型在最终 的上与基本 险模型类似，但也存在着较 区别：
 
 1.在基本 险模型和统计 险模型中，我们均假设 个资产的收益率可以 个因 通过他们不同的载荷来N K预测和决定，为了稳健估计，我们需要假设 $K<<T$ ；
 
@@ -306,7 +306,7 @@ $$
 在确定好 险因 的特征与特异性之后，我们需要针对 险模型的解释 度进 测试。横截 回归的 $R^{2}$ 通常 来度量 险因 对股票收益的解释程度。在Barra Risk Model Handbook中提及， $R^{2}$ 通常 来描述投资组合（回归模型左侧）中与已知 险（回归右侧）相关的 例：
 
 $$
-R^{2}=1-\frac{\hbar\hbar\lambda+\frac{4}{16}\hbar\lambda\pm\frac{4}{16}\hbar\lambda\neq649\lambda\neq}{\frac{4}{16}\lambda\hbar\lambda\neq\pm\frac{4}{16}\lambda\hbar\lambda\neq}\tag{3.1}
+R^{2}=1-\frac{未被模型解释的方差}{投资组合的总体方差}\tag{3.1}
 $$
 
 除 $R^{2}$ 之外， $AjustedR^{2}$ 在 险模型中参考意义更 ：通常来说，引 的 险因 越多， $R^{2}$ 越 ，但 险因 的个数不应该过多； $AjustedR^{2}$ 风针对引 的 变量个数对 $R^{2}$ 子 高进 调整，以判断模型是否在较少的 险因 之下，解释投资组合总体 差的 平更 ；
@@ -314,12 +314,12 @@ $$
 我们设置 频因 多头组合以及空头组合（70×1）作为因变量 （此处也可以 频因 多空组合），以BarraR t因 载荷以及 频 险因 载荷 $\beta_{t-1}$ 作为因变量进 线性回归，检验其过去250个交易 的移动平均 $AjustedR^{2}$ o
 
 $$
-R_{t}=\beta_{t-1}f_{t}+\varepsilon_{t}\tag{3.2}
+\pmb{R}_{t}=\pmb{\beta}_{t-1}\pmb{f}_{t}+\pmb{\varepsilon}_{t}\tag{3.2}
 $$
 
 从结果上看，在以因 多头以及空头组合为收益率的回归模型中，基于 频复合 险模型（即 频基本 险模型+统计 险模型）的解释 度相对强于基于Barra的 险模型： $AjustedR^{2}$ 均值 致在75%左右，Barra解释 度略逊于 频 险模型，且在时间段早期差异较 。
 
-图9、基于高频因子多头与空头组合的横截面回归Adjusted $R^{2}$ 移动均值
+图9、基于高频因子多头与空头组合的横截面回归Adjusted $R^{2};$ 移动均值
 ![](images/0ba4c3e705481ab71e90b16bf921f86568c422c36cbcd59e7f0107abb2534777.webp)
 资料来源：上交所、深交所行情数据，Wind，聚源，兴业证券经济与金融研究院整理
 
@@ -332,34 +332,34 @@ $$
 上 中提及， 险模型最重要的应 场景之 便是协 差矩阵的估计。依然假设收益率是因 关于因 载荷的线性变换，并进 步引 结构化 险因 模型：
 
 $$
-\Sigma_{i,t}^{ls}=\beta_{t}^{ls}\Sigma_{k,t}(\pmb{\beta}_{t}^{ls})^{T}+\Sigma_{\varepsilon,t}^{ls}\tag{4.1}
+\boldsymbol{\Sigma}_{i,t}^{ls}=\boldsymbol{\beta}_{t}^{ls}\boldsymbol{\Sigma}_{k,t}(\boldsymbol{\beta}_{t}^{ls})^{T}+\boldsymbol{\Sigma}_{\varepsilon,t}^{ls}\tag{4.1}
 $$
 
-需要注意的是，此时我们公式左侧的资产类型为基于高频因子构建的多空组合1。与之前不同的是，此时我们已经根据上文构建了风险因子，对应的因子载荷，并可以根据横截面回归得到风险因子收益率。在本章中，我们希望通过风险模型，估计高频因子组合的协方差矩阵 $\widehat{\pmb{\Sigma}}_{i,t+1}^{ls}$ ，并以此构建复合高频因子。我们的具体步骤主要分两大步：协方差矩阵的估计与最优化模型。我们首先介绍协方差矩阵的估计，具体如下：
+需要注意的是，此时我们公式左侧的资产类型为基于高频因子构建的多空组合1。与之前不同的是，此时我们已经根据上文构建了风险因子，对应的因子载荷，并可以根据横截面回归得到风险因子收益率。在本章中，我们希望通过风险模型，估计高频因子组合的协方差矩阵 $\cdot\widehat{\Sigma}_{i,t+1}^{ls}$ ，并以此构建复合高频因子。我们的具体步骤主要分两大步：协方差矩阵的估计与最优化模型。我们首先介绍协方差矩阵的估计，具体如下：
 
-（1）回归得到因子收益率与残差收益率：在每天横截面上，用当天的多空组合收益率对上一天的高频风险因子暴露(五个基本面风险因子和五个统计风险因子）做加权的稳健回归，由此得到风险因子当天的收益率 $\mathbf{\nabla}f_{t}$ ，和组合当天的残差收益率 $\pmb{\varepsilon}_{t}$
+（1）回归得到因子收益率与残差收益率：在每天横截面上，用当天的多空组合收益率对上一天的高频风险因子暴露(五个基本面风险因子和五个统计风险因子）做加权的稳健回归，由此得到风险因子当天的收益率 $.f_{t}$ ，和组合当天的残差收益率 $\varepsilon_{t}$
 
-（2）风险因子收益率协方差矩阵&特质性收益率协方差估计：我们根据上一步得到的过去20日的风险因子收益率以及特质性收益率，计算当期风险因子收益率协方差矩阵 $\scriptstyle\pmb{\Sigma}_{k,t}$ 以及特质性收益率协方差矩阵 $\pmb{\mathscr{L}}_{\varepsilon,t}^{ls}$ 由于需要对下一期的高频因子组合协方差组合 $\widehat{\pmb{\Sigma}}_{i,t+1}^{ls}$ 进行估计，我们进一步使用Ledoit-Wolf方法估计风险因子收益率的协方差矩阵$\widehat{\Sigma}_{k,t+1}$ 与特质性收益率协方差矩阵 $\widehat{\Sigma}_{\varepsilon,t+1}^{ls}$
+（2）风险因子收益率协方差矩阵&特质性收益率协方差估计：我们根据上一步得到的过去20日的风险因子收益率以及特质性收益率，计算当期风险因子收益率协方差矩阵 $\pmb{\mathscr{L}}_{\pmb{k},\pmb{t}}$ 以及特质性收益率协方差矩阵 $\cdot\Sigma_{\varepsilon,t}^{ls}$ 由于需要对下一期的高频因子组合协方差组合 $\cdot\widehat{\Sigma}_{i,t+1}^{ls}$ 进行估计，我们进一步使用Ledoit-Wolf方法估计风险因子收益率的协方差矩阵$\widehat{\pmb{\Sigma}}_{k,\pmb{t}+\mathbf{1}}$ 与特质性收益率协方差矩阵 $\mathbf{:}\widehat{\pmb{\Sigma}}_{\varepsilon,\pmb{t}+\mathbf{1}}^{ls}$
 
 (3） 引入结构化风险模型估计多空组合下一期的协方差矩阵：根据结构化风险模型的公式：
 
 $$
-\widehat{\Sigma}_{i,t+1}^{ls}=\beta_{t}^{ls}\widehat{\Sigma}_{k,t+1}(\beta_{t}^{ls})^{T}+\widehat{\Sigma}_{\varepsilon,t+1}^{ls}\tag{3.2}
+\widehat{\pmb{\Sigma}}_{i,t+1}^{ls}=\pmb{\beta}_{t}^{ls}\widehat{\pmb{\Sigma}}_{k,t+1}(\pmb{\beta}_{t}^{ls})^{T}+\widehat{\pmb{\Sigma}}_{\varepsilon,t+1}^{ls}\tag{3.2}
 $$
 
-其中 $\beta_{t}^{ls}$ 是t期N个高频因子多空组合在K个风险因子的上的因子暴露矩阵， $\widehat{\Sigma}_{k,t+1}$ 是K个风险因子收益率的协方差矩阵， $\widehat{\Sigma}_{\varepsilon,t+1}^{ls}$ 是N个高频因子多空组合的特质性收益率方差矩阵， $\widehat{\pmb{\Sigma}}_{i,t+1}^{ls}$ 则是最终估计得到的高频因子组合的协方差矩阵。
+其中 $\beta_{t}^{ls}$ 是t期N个高频因子多空组合在K个风险因子的上的因子暴露矩阵， $\widehat{\boldsymbol{\Sigma}}_{k,t+1}$ 是K个风险因子收益率的协方差矩阵， $\widehat{\pmb{\Sigma}}_{\pmb{\varepsilon},\pmb{t}+\mathbf{1}}^{ls}$ 是N个高频因子多空组合的特质性收益率方差矩阵， $\widehat{\Sigma}_{i,t+1}^{ls}$ 则是最终估计得到的高频因子组合的协方差矩阵。
 
-在得到高频因子组合未来一期的协方差矩阵的估计之后，我们进一步将估计得到的协方差矩阵 $\widehat{\Sigma}_{i,t+1}^{ls}$ 带入最大化夏普优化函数中，最优化后即为因子的权重：
-
-$$
-\operatorname*{max}\ \frac{\omega\cdot\widehat{R}}{\omega\cdot\widehat{\Sigma}_{i,t+1}^{ls}\cdot\omega^{\prime}}\tag{3.3}
-$$
+在得到高频因子组合未来一期的协方差矩阵的估计之后，我们进一步将估计得到的协方差矩阵 $\hat{\Sigma}_{i,t+1}^{ls}$ 带入最大化夏普优化函数中，最优化后即为因子的权重：
 
 $$
-s.t.\quad\quad\omega_{i}\geq0,\sum\omega_{i}=1
+\max\quad\frac{\boldsymbol{\omega}\cdot\widehat{\boldsymbol{R}}}{\boldsymbol{\omega}\cdot\widehat{\boldsymbol{\Sigma}}_{i,t+1}^{ls}\cdot\boldsymbol{\omega}'}\tag{3.3}
 $$
 
-其中， $\widehat{R}$ 用过去20日所有因子组合收益率均值作为估计， $\widehat{\Sigma}_{i,t+1}^{ls}$ 为估计出的组合协方差矩阵， $\pmb{\omega}$ 为不同高频因子权重向量。
+$$
+s.t.\quad\omega_{i}\geq0,\sum\omega_{i}=1
+$$
+
+其中， $\widehat{R}$ 用过去20日所有因子组合收益率均值作为估计， $\widehat{\Sigma}_{i,t+1}^{ls}$ 为估计出的组合协方差矩阵， $\omega$ 为不同高频因子权重向量。
 
 最终，我们在每个周末根据各个 频因 组合过去20 的数据，最优化后得到权重，并最终根据权重复合得到当周复合因 值。其中，协 差矩阵的估计步骤中存在因 多空与多头组合两种 式。若要使 多头组合进 复合，则最终是以最 化多头组合夏普 率作为 标。因此，我们可以得到两个复合因 ，分别记为最 化Top夏普复合除此之外，我们同样可以将 频 险因 替换为Barra 险因 ，重复上述步因 以及最 化多空夏普复合因 。骤构建基于Barra复合因 ，作为 较基准。若 险模型对于组合协 差的估计更精准，其复合因 的表现应当更为优秀。
 

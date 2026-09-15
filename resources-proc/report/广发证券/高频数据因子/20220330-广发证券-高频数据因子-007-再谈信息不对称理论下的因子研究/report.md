@@ -95,7 +95,7 @@ anningning@gf.com.cn
 ## 1. 模型推导
 
 $$
-PIN={\frac{\alpha\mu}{\alpha\mu+2\varepsilon}}
+PIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}
 $$
 
 没有好/坏消息时，信息优势交易者不参与交易，因此交易双方的委托单到达率均为ε。当信息事件发生时，有以下两种情况。当利好消息发生，信息优势的交易者将事先得知该消息并买入股票，非信息优势交易者可能买入股票也可能卖出股票，此时买方与卖方委托单到达率分别为ε+μ、ε。同理，当利空消息发生，信息优势交易者将利用该消息并卖出股票，非信息优势交易者可能买入或卖出股票，此时买方与卖方委托单到达率分别为ε、ε+μ。具体买卖订单流二叉树如下图所示：
@@ -104,7 +104,7 @@ $$
 ![](images/eee959823d01690f79416afc41e43217d8fda38b31140c321e0c6db43ae3908f.webp)
 数据来源：Wind，广发证券发展研究中心
 
-因此 $\begin{array}{r}{PIN=\frac{\alpha\mu}{\alpha(\mu+2\varepsilon)+2\varepsilon(1-\alpha)}=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}}\end{array}$
+因此 $PIN=\frac{\alpha\mu}{\alpha(\mu+2\varepsilon)+2\varepsilon(1-\alpha)}=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}$
 
 ## 2. 极大似然估计法参数
 
@@ -113,13 +113,13 @@ PIN模型假设买卖订单服从泊松分布，其实求解PIN的重点在于�
 没有消息的时候，有B笔卖单S笔卖单的概率为：
 
 $$
-(1-\alpha)e^{-\varepsilon T}{\frac{(\varepsilon T)^{B}}{B!}}e^{-\varepsilon T}{\frac{(\varepsilon T)^{S}}{S!}}
+(1-\alpha)e^{-\varepsilon T}\frac{(\varepsilon T)^{B}}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^{S}}{S!}
 $$
 
 发生利好消息的时候，有B笔买单S笔卖单的概率为：
 
 $$
-(1-\delta)e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^{B}}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^{S}}{S!}
+(1-\delta)e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^B}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^S}{S!}
 $$
 
 发生利空消息的时候，有B笔买单S笔卖单的概率为：
@@ -129,12 +129,12 @@ $$
 $$
 
 $$
-\begin{array}{l}{{{\cal L}((B,S)|\theta)=(1-\alpha)e^{-\varepsilon T}\displaystyle\frac{(\varepsilon T)^{B}}{B!}e^{-\varepsilon T}\displaystyle\frac{(\varepsilon T)^{S}}{S!}+\alpha\delta e^{-\varepsilon T}\displaystyle\frac{(\varepsilon T)^{B}}{B!}e^{-(\mu+\varepsilon)T}\displaystyle\frac{[(\mu+\varepsilon)T]^{S}}{S!}}}\\{{\ ~+\alpha(1-\delta)e^{-(\mu+\varepsilon)T}\displaystyle\frac{[(\mu+\varepsilon)T]^{B}}{B!}e^{-\varepsilon T}\displaystyle\frac{(\varepsilon T)^{S}}{S!}}}\end{array}
+\begin{align*}L((B,S)|\theta)=&(1-\alpha)e^{-\varepsilon T}\frac{(\varepsilon T)^B}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^S}{S!}+\alpha\delta e^{-\varepsilon T}\frac{(\varepsilon T)^B}{B!}e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^S}{S!}\\&+\alpha(1-\delta)e^{-(\mu+\varepsilon)T}\frac{[(\mu+\varepsilon)T]^B}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^S}{S!}\end{align*}
 $$
 
 假设观察到的第一天的数据： $M=(B_{i},S_{i})_{i=1}^{I}$
 
-那么（B,S）的似然函数可写为： $\begin{array}{r}{L(M|\theta)=\prod_{i=1}^{I}L\bigl(\theta|(B_{i},S_{i})\bigr)}\end{array}$ ，求解即可解出参数值。
+那么（B,S）的似然函数可写为： $\begin{array}{r}{L(M|\theta)=\prod_{i=1}^{I}L\big(\theta|(B_{i},S_{i})\big)}\end{array}$ ，求解即可解出参数值。
 
 ## 3. 缺点
 
@@ -150,10 +150,10 @@ $$
 
 ## 2. 基于正态分布假设对交易方向进行判断
 
-为刻画交易量的不平衡性，需要先将交易方向进行划分，得到卖方交易量VS与买方交易量 $\cdot\mathrm{V}^{\mathrm{B}}$ 。假设τ = 1,2…n为交易篮子的下标，那么单个交易篮子的总交易量为 $\mathsf{V}_{\tau}=V_{\tau}^{B}+V_{\tau}^{S}$ 。可以得到如下交易量计算公式：
+为刻画交易量的不平衡性，需要先将交易方向进行划分，得到卖方交易量VS与买方交易量 $\mathrm{V^{B}}$ 。假设τ = 1,2…n为交易篮子的下标，那么单个交易篮子的总交易量为 $\mathbb{V}_{\tau}=V_{\tau}^{B}+V_{\tau}^{S}$ 。可以得到如下交易量计算公式：
 
 $$
-\mathrm{V}_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z\Bigl(\frac{P_{i}-P_{i-1}}{\sigma_{\nabla P}}\Bigr)
+\mathrm{V}_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{\nabla P}}\right)
 $$
 
 $$
@@ -169,12 +169,12 @@ $$
 最后将每个交易篮子中的交易不平衡量除以篮子大小，再求平均值，即可得到VPIN值。
 
 $$
-\mathrm{VPIN}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}=\frac{\alpha\mu}{V}\approx\frac{\sum_{\tau=1}^{n}|V_{\tau}^{S}-V_{\tau}^{B}|}{nV}
+\mathrm{VPIN}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}=\frac{\alpha\mu}{V}\approx\frac{\sum_{\tau=1}^{n}\left|V_{\tau}^{S}-V_{\tau}^{B}\right|}{nV}
 $$
 
 ## 3. 优缺点及改进
 
-不论是计算复杂程度还是构建思路，VPIN模型相较于PIN模型 $\bar{\hbar}$ 言，都更加贴合实际情况的需要，但是VPIN模型仍然具有改进的空间。一方面，VPIN模型没有考虑到信息优势交易者为隐藏其意图而拆小单进行交易的情况，其计算公式只反映了交易量的不平衡性，未能反映订单数量的不平衡性；另一方面，该模型需要提前利用长期历史数据确定交易篮子的总交易量V，只能对历史数据进行回测。
+不论是计算复杂程度还是构建思路，VPIN模型相较于PIN模型 $而$ 言，都更加贴合实际情况的需要，但是VPIN模型仍然具有改进的空间。一方面，VPIN模型没有考虑到信息优势交易者为隐藏其意图而拆小单进行交易的情况，其计算公式只反映了交易量的不平衡性，未能反映订单数量的不平衡性；另一方面，该模型需要提前利用长期历史数据确定交易篮子的总交易量V，只能对历史数据进行回测。
 
 针对上述两个问题，李平等人于2020年在论文《知情交易概率于风险定价——基于不同PIN测度方法的比较研究》中，提出了VWPIN模型。
 
@@ -183,10 +183,10 @@ $$
 基于物理时间和交易量加权的知情交易概率(volume-weighted probability ofinformed trading)模型，简称VWPIN模型，继承了VPIN模型的基本思路，认为不同的交易量反映的信息量也不同，同时基于知情交易者可能存在大单交易，或为隐藏知情交易意图而拆小单进行交易的实际情况，将订单数量的不平衡性加入模型的考虑范围。具体而言，VWPIN模型计算了固定时间范围内，交易量加权的订单数量不平衡程度。具体计算步骤如下：
 
 $$
-\begin{array}{rcl}{{\displaystyle\mathrm{VWPIN}=\sum_{i=1}^{n}w_{i}Pin_{i}=\sum_{i=1}^{n}w_{i}\frac{|S_{i}-B_{i}|}{S_{i}+B_{i}}}}\\{{\displaystyle\mathrm{w_{i}=\frac{\it TradVol_{i}}{\sum_{i=1}^{n}\it TradVol_{i}}}}}\end{array}
+\begin{aligned}&\mathrm{VWPIN}=\sum_{i=1}^{n}w_{i}Pin_{i}=\sum_{i=1}^{n}w_{i}\frac{\left|S_{i}-B_{i}\right|}{S_{i}+B_{i}}\\&\\&\quad\mathrm{w_{i}}=\frac{TradVol_{i}}{\sum_{i=1}^{n}TradVol_{i}}\\\end{aligned}
 $$
 
-其中，n为固定时间范围内划分的交易区间个数， $\mathrm{Pin_{i}}$ 第i个区间的知情交易概率， $\mathrm{S_{i}}$ 为第i个交易区间的卖单数量， $\mathrm{B_{i}}$ 为第i个交易区间的买单数量， $\mathbf{w_{i}}$ 为第i个交易区间的交易量加权系数，TradVol 为第i个交易区间的交易量。
+其中，n为固定时间范围内划分的交易区间个数， $\mathrm{Pin_{i}}$ 第i个区间的知情交易概率， $\mathsf{S}_{\mathrm{i}}$ 为第i个交易区间的卖单数量， $\mathrm{B_{i}}$ 为第i个交易区间的买单数量， $w_{\mathrm{i}}$ 为第i个交易区间的交易量加权系数，TradVol 为第i个交易区间的交易量。
 
 相比之前的模型，VWPIN模型具有计算简便、综合考虑订单数量和交易量、不受估计区间限制等优点。
 
@@ -198,11 +198,11 @@ $$
 
 ## （二）VPIN 因子计算步骤
 
-VPIN模型的计算是利用个股的区间i的交易量 $V_{i}$ 、价格 $\mathbf{\nabla}\cdot P_{i}$ 来实现的。具体计算如下：
+VPIN模型的计算是利用个股的区间i的交易量 $\cdot V_{i}$ 、价格 $\cdot P_{i}$ 来实现的。具体计算如下：
 
-首先，将按时间排列的交易数据分成等交易量的交易篮子，每个交易篮子所包含的交易量定为 $V_{t}$ （本文定为前三个月的日均成交量的五十分之一），如果上一笔交易装满了一个篮子且还有剩余，那么余下的部分将会被分配给下一个篮子，令$\tau=1,2\dots\mathrm{n}$ 为所有等交易量的交易篮子其次，根据第t天个股的区间交易量、区间价格，计算当天每个交易时段的价格变动（ΔP），计算当天所有交易时段价格变动的标准差 $(\sigma_{{\Delta P}})$ ，并计算每个交易时段的价格变动的正态分布分位数Z $(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}})$
+首先，将按时间排列的交易数据分成等交易量的交易篮子，每个交易篮子所包含的交易量定为 $V_{t}$ （本文定为前三个月的日均成交量的五十分之一），如果上一笔交易装满了一个篮子且还有剩余，那么余下的部分将会被分配给下一个篮子，令$\tau=1,2\ldots\eta$ 为所有等交易量的交易篮子其次，根据第t天个股的区间交易量、区间价格，计算当天每个交易时段的价格变动（ΔP），计算当天所有交易时段价格变动的标准差 $(\sigma_{\Delta P})$ ，并计算每个交易时段的价格变动的正态分布分位数Z $(\frac{P_{i}-P_{i-1}}{\sigma_{_{\Delta P}}})$
 
-再次，将每个交易时段的成交量与价格变动的正态分布分位数相乘，计算第τ个交易篮子的买单交易量 $\begin{array}{r}{V_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}})}\end{array}$ ，计算卖单交易量 $V_{\tau}^{S}=$ $\begin{array}{r}{\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*[1-Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}}\right)]}\end{array}$ ，再计算交易不平衡量 $OI_{\tau}=|V_{\tau}^{S}-V_{\tau}^{B}|$
+再次，将每个交易时段的成交量与价格变动的正态分布分位数相乘，计算第τ个交易篮子的买单交易量 $\begin{array}{r}{{\cdot}V_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z(\frac{P_{i}-P_{i-1}}{\sigma_{_{\Delta P}}})}\end{array}$ ，计算卖单交易量 $V_{\tau}^{S}=$ $\begin{array}{r}{\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*[1-Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{_{\Delta P}}}\right)],}\end{array}$ ，再计算交易不平衡量 $\cdot OI_{\tau}=|V_{\tau}^{S}-V_{\tau}^{B}|$
 
 最后，将个股在第t天所有交易篮子内的交易不平衡量OI取平均，得到第t天的VPIN值，对个股在日历周内的VPIN值数据求均值，得到VPIN因子。
 
@@ -220,11 +220,11 @@ VPIN模型的计算是利用个股的区间i的交易量 $V_{i}$ 、价格 $\mat
 
 数据来源：Wind，广发证券发展研究中心
 
-假设提取到的数据如图3所示，此时我们假设过去三个月日均成交量为5000，那么一个交易篮子的量为5000/50=100，当某一个交易时段的数据填满桶还有剩余，那么将一部分成交量填满上一个交易篮子，剩余部分成交量分给下一个交易篮子。计算每个时间区间的价格变动（ΔP），根据价格变动计算所有样本价格变动的标准差 $(\sigma_{{\Delta P}})$ ，以及价格变动的正态分布分位数Z $(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}})$
+假设提取到的数据如图3所示，此时我们假设过去三个月日均成交量为5000，那么一个交易篮子的量为5000/50=100，当某一个交易时段的数据填满桶还有剩余，那么将一部分成交量填满上一个交易篮子，剩余部分成交量分给下一个交易篮子。计算每个时间区间的价格变动（ΔP），根据价格变动计算所有样本价格变动的标准差 $(\sigma_{_{\Delta P}})$ ，以及价格变动的正态分布分位数Z $(\frac{P_{i}-P_{i-1}}{\sigma_{_{\Delta P}}})$
 
 图 3：拆分交易篮子操作示例图
 
-| 时间 | 股票代码 | 成交量 | 时点当日累积成交量 | Bucket | ΔP | $\sigma_{\Delta P}$ | $z(\frac{P_{i}-P_{i-1}}{\sigma_{A}p})$ |
+| 时间 | 股票代码 | 成交量 | 时点当日累积成交量 | Bucket | ΔP | $\sigma_{\pmb{\Delta}\pmb{P}}$ | $\frac{\overline{Z(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}})}}{}$ |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 9:31 | SZ300750 | 20 | 20 | 1 | 0 | 3.61881 | 0.5 |
 | 9:32 | SZ300750 | 40 | 60 | 1 | 1 | 3.61881 | 0.6238 |
@@ -241,7 +241,7 @@ VPIN模型的计算是利用个股的区间i的交易量 $V_{i}$ 、价格 $\mat
 
 图 4：买单量与卖单量计算示例图-1
 
-| 时间 | 股票代码 | Bucket | $z(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta\rho}})$ | 成交量V | $V_{\mathrm{i}}*Z(\frac{P_{\mathrm{i}}-P_{\mathrm{i-1}}}{\sigma_{\Delta^{\mathbf{a}}}})$ | $\begin{array}{l}{{\displaystyle V_{i}*[1}}\\{{\displaystyle-Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}}\right)]}}\end{array}$ |
+| 时间 | 股票代码 | Bucket | $Z(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta\mathbb{P}}})$ | 成交量V | $V_{i}*Z(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta\rho}})$ | $\begin{array}{r}{\left[\begin{array}{l}{V_{i}*[1}\\{\displaystyle-Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta p}}\right)]}\end{array}\right]}\end{array}$ |
 | --- | --- | --- | --- | --- | --- | --- |
 | 9:31 | SZ300750 | 1 | 0.5 | 20 | 10 | 10 |
 | 9:32 | SZ300750 | 1 | 0.6238 | 40 | 24.952 | 15.048 |
@@ -252,13 +252,13 @@ VPIN模型的计算是利用个股的区间i的交易量 $V_{i}$ 、价格 $\mat
 
 数据来源：Wind，广发证券发展研究中心
 
-买单交易量： $\begin{array}{r}{V_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}})}\end{array}$
+买单交易量： $\begin{array}{r}{V_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z(\frac{P_{i}-P_{i-1}}{\sigma_{_{\Delta P}}})}\end{array}$
 
 卖单交易量： $\begin{array}{r}{V_{\tau}^{S}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*[1-Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}}\right)]}\end{array}$
 
 图 5：买单量与卖单量计算示例图-2
 
-| $\underline{{\overline{{\boldsymbol{v}_{i}*z(\frac{\boldsymbol{p}_{i}-\boldsymbol{p}_{i-1}}{\sigma_{\Delta P}})}}}}$ | $\frac{\ d}{\ dt}$ | $\pmb{V}_{\pmb{\tau}}^{\pmb{B}}$ | $\pmb{V}_{\pmb{\tau}}^{S}$ |
+| $\boxed{V_{i}*Z(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}})}$ | $\boxed{V_{i}*\big[1-Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{\Delta P}}\right)\big]}$ | $\pmb{V}_{\pmb{\tau}}^{\pmb{B}}$ | $\pmb{V}_{\pmb{\tau}}^{s}$ |
 | --- | --- | --- | --- |
 | 10 | 10 |  |  |
 | 24.952 | 15.048 |  |  |
@@ -272,7 +272,7 @@ VPIN模型的计算是利用个股的区间i的交易量 $V_{i}$ 、价格 $\mat
 
 图 6：不平衡订单量计算示例图
 
-| 股票代码 | Bucket | $\overline{{V_{\tau}^{B}}}$ | $\overline{{V_{\tau}^{S}}}$ | 01 | 开始时间 | 结束时间 |
+| 股票代码 | Bucket | $\overline{{\|V_{\tau}^{B}\|}}$ | $\overline{{\|V_{\tau}^{S}\|}}$ | 01 | 开始时间 | 结束时间 |
 | --- | --- | --- | --- | --- | --- | --- |
 | SZ300750 | 1 | 54.952 | 45.078 | 9.874 | 9:31 | 9:33 |
 | SZ300750 | 2 | 48.762 | 51.238 | 2.476 | 9:33 | 9:36 |
@@ -281,7 +281,7 @@ VPIN模型的计算是利用个股的区间i的交易量 $V_{i}$ 、价格 $\mat
 日度VPIN值：
 
 $$
-VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}=\frac{\sum_{\tau=1}^{n}|V_{\tau}^{S}-V_{\tau}^{B}|}{nV}=\frac{\sum_{\tau=1}^{n}|OI_{\tau}|}{nV}
+VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}=\frac{\sum_{\tau=1}^{n}\left|V_{\tau}^{S}-V_{\tau}^{B}\right|}{nV}=\frac{\sum_{\tau=1}^{n}\left|OI_{\tau}\right|}{nV}
 $$
 
 计算VPIN的周度平均值，计为VPIN因子值。
@@ -965,7 +965,7 @@ CNE6版本的BARRA因子模型将股票因子划分为市场、价值、成长�
 | leverage | MLEV | 长期资本与股东权益的比值，其中长期资本包括普通股市值、最新优先股市值以及 |
 | liquidity | STOM | 付息债券市值 过去21个交易日的换手率之和的对数值 |
 | long_term_reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益 率的差额累计和，得到RSTR因子 |
-| mid_capitallization | MIDCAP | $RSTR=\sum_{L}^{T+L}w_{t}[\ln\left(1+r_{t}^{i}\right)-\ln(1+r_{t}^{f})]$ 用截面上个股的对数流通市值的三次方对对数流通市值进行回归，对回归残差进行 去MAD 去极值与中性化处理，获得MIDCAP 因子 |
+| mid_capitallization | MIDCAP | $:RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})]\;,$ 用截面上个股的对数流通市值的三次方对对数流通市值进行回归，对回归残差进行 去MAD 去极值与中性化处理，获得MIDCAP 因子 |
 | momentum | HALPHA | 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回 归，得到截距项 α 为 HALPHA 因子 |
 | profitability | ROA | $r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}$ 个股历史12个月滚动净利润与最新报告的总资产的比值 |
 | residual_volatility | HSIGMA | 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回 归，得到残差的标准差即为HSIGMA 因子 |

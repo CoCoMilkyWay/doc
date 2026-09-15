@@ -125,14 +125,14 @@ Easley等人在其发表论文《Price, trade size, and information in securitie
 
 由于在交易过程中，假设做市商已知买卖订单流每种情况的发生概率，但是具体何种事件发生未知，做市商采用贝叶斯法则对信息是否发生的认知进行更新。同时做出如下假定：
 
-做市商在“没有消息”、“坏消息”、“好消息”情况下的先验概率分别为： $\mathrm{P(t)}=$ $(\mathrm{P_{n(t)}},P_{b(t)},P_{g(t)}),\forall\mathrm{t}=0\forall\mathrm{,~}\mathrm{P}(0)=(1-\alpha,\alpha\delta,\alpha(1-\delta))$ ；
+做市商在“没有消息”、“坏消息”、“好消息”情况下的先验概率分别为： $\mathrm{P}(\mathrm{t})=$ $\left(\mathbb{P}_{n(t)},P_{b(t)},P_{g(t)}\right),\quad 且\quad t=0时,\quad\mathbb{P}(0)=\left(1-\alpha,\alpha\delta,\alpha(1-\delta)\right)$ ；
 
-资产价格在“没有消息”、“坏消息”、“好消息”情况下分别为： ${\mathsf{V}}_{\mathrm{i}}^{*}\cdot\underbrace{V_{i}}_{=}\cdot\mathbf{\sigma}\overline{{V_{i}}}.$ ，且满足${\underline{{V_{i}}}}<{\mathrm{V_{i}^{*}}}<{\overline{{V_{i}}}};$
+资产价格在“没有消息”、“坏消息”、“好消息”情况下分别为： $\mathrm{V}_{\mathrm{i}}^{*}、\underline{V_{i}}、\overline{V_{i}},$ ，且满足$\underline{{V_{i}}}<\mathrm{V_{i}^{*}}<\overline{{V_{i}}};$
 
 根据不同信息事件的发生概率，可以得到t时刻的期望价格：
 
 $$
-\mathrm{E}(\mathrm{V_{i}}|\mathrm{t})=\mathrm{P_{n}}(t)V_{t}^{\ast}+P_{b}(t)\underline{{V_{t}}}+P_{-}g(t)\overline{{V_{t}}}
+\mathrm{E}(\mathrm{V}_{\mathrm{i}}|\mathrm{t})=\mathrm{P}_{\mathrm{n}}(t)V_{t}^{*}+P_{b}(t)\underline{V_{t}}+P_{-}g(t)\overline{V_{t}}.
 $$
 
 根据贝叶斯法则，在t时刻，卖单到来时的信息事件后验概率如下：
@@ -140,7 +140,7 @@ $$
 当信息事件不发生时：
 
 $$
-\operatorname*{P}_{\mathrm{n}}(t|S_{t})=\frac{P_{n}(t)\epsilon}{\epsilon+P_{b}(t)\mu}
+\mathbb{P}_{\mathrm{n}}(t|S_{t})=\frac{P_{n}(t)\epsilon}{\epsilon+P_{b}(t)\mu}
 $$
 
 当信息事件发生且为利好消息时：
@@ -152,31 +152,31 @@ $$
 当信息事件发生且为利空消息时：
 
 $$
-\mathrm{P}_{\mathrm{b}}(t|S_{t})=\frac{P_{b}(t)(\epsilon+\mu)}{\epsilon+P_{b}(t)\mu}
+P_{\mathrm{b}}(t|S_{t})=\frac{P_{b}(t)(\epsilon+\mu)}{\epsilon+P_{b}(t)\mu}
 $$
 
 因此，做市商给出的买入报价为：
 
 $$
-\mathsf{b}(\mathrm{t})=\mathrm{E}[\mathrm{V}_{\mathrm{i}}|\mathrm{t}]-\frac{\mu\mathrm{P}_{\mathrm{b}}(t)}{\epsilon+\mu P_{b}(t)}(E[V_{i}|t]-\underline{{V}}_{i})
+\mathbf{b}(\mathbf{t})=\mathrm{E}[V_{\mathrm{i}}|\mathbf{t}]-\frac{\mu P_{\mathrm{b}}(t)}{\epsilon+\mu P_{\mathrm{b}}(t)}\left(\mathrm{E}[V_{\mathrm{i}}|t]-\underline{V_{\mathrm{i}}}\right)
 $$
 
 同理，可以推导出做市商给出的卖出报价为：
 
 $$
-\alpha(\mathrm{t})=\mathrm{E}[\mathrm{V_{i}}|\mathrm{t}]-\frac{\mu\mathrm{P_{g}(t)}}{\epsilon+\mu\mathrm{P_{g}(t)}}(\overline{{V_{i}}}-E[V_{i}|t])
+\alpha(t)=\mathrm{E}[V_i|t]-\frac{\mu\mathrm{P}_g(t)}{\epsilon+\mu\mathrm{P}_g(t)}\left(\overline{V_i}-\mathrm{E}[V_i|t]\right)
 $$
 
 基于买入报价与卖出报价，可以得出不同市场情况下的买卖价差公式。一般情况下，市场中同时存在信息优势交易者与非信息优势交易者，这些交易者分别根据自身掌握的信息情况做出交易决策，此时的买卖价差公式如下。其中，第一项表示当利好消息出现时，信息优势交易概率与信息优势交易者买入交易预期损失的乘积，第二项表示当利空消息出现时，信息优势交易概率与信息优势交易者卖出交易预期损失的乘积。那么，总的PIN即为上述两种情况下概率之和。通过上述公式，可以推导出PIN模型公式。
 
 $$
-\begin{array}{rlr}{{\sum(t)=\alpha(t)-b(\mathrm{t})=\frac{\mathrm{\#P}_{\mathbb{g}}(\mathrm{t})}{\epsilon+\|\mathrm{P}_{\mathbb{g}}(\mathrm{t})}\bigl(\overline{{V_{i}}}-E[V_{i}|t]\bigr)+\frac{\mathrm{\#P}_{\mathrm{b}}(t)}{\epsilon+\mu P_{b}(t)}(E[V_{i}|t]-\underline{V}_{i})}}\\&{}&{\mathrm{PI}(\mathrm{t})=\frac{\mathrm{\#}\bigl(1-\mathrm{P_n}(t)\bigr)}{\mu\bigl(1-P_{n}(t)\bigr)+2\epsilon}}\end{array}
+\begin{aligned}\sum(t)=\alpha(t)-b(t)=\frac{\mu\mathrm{P}_{\mathrm{g}}(t)}{\epsilon+\mu\mathrm{P}_{\mathrm{g}}(t)}\left(\overline{V}_{i}-E[V_{i}|t]\right)+\frac{\mu\mathrm{P}_{\mathrm{b}}(t)}{\epsilon+\mu\mathrm{P}_{\mathrm{b}}(t)}\left(E[V_{i}|t]-\underline{V}_{i}\right)\\\mathrm{PI}(t)=\frac{\mu\left(1-\mathrm{P}_{\mathrm{n}}(t)\right)}{\mu\left(1-\mathrm{P}_{\mathrm{n}}(t)\right)+2\epsilon}\end{aligned}
 $$
 
 根据上述给出的关于P(0)的先验概率假设，可以求得第一个交易时段的PIN模型：
 
 $$
-\mathrm{PIN}=\frac{\mu\big(1-\mathrm{P_{n}}(0)\big)}{\mu\big(1-\mathrm{P}_{n}(0)\big)+2\epsilon}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}
+\mathrm{PIN}=\frac{\mu(1-P_{\mathrm{n}}(0))}{\mu(1-P_{\mathrm{n}}(0))+2\epsilon}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}
 $$
 
 ## 4. 极大似然估计法进行混合泊松分布参数估计
@@ -186,7 +186,7 @@ $$
 当信息事件不发生时：
 
 $$
-\mathrm{e}^{-\epsilon T}{\frac{(\epsilon T)^{B}}{B!}}e^{-\epsilon T}{\frac{(\epsilon T)^{S}}{S!}}
+\mathbf{e}^{-\epsilon T}\frac{(\epsilon T)^{B}}{B!}e^{-\epsilon T}\frac{(\epsilon T)^{S}}{S!}
 $$
 
 当信息事件发生且为利好消息时：
@@ -204,13 +204,13 @@ $$
 基于第（1）步关于信息事件发生概率的假设，可以得到以下混合泊松似然函数：
 
 $$
-\begin{array}{c}{{\mathrm{L<(B,S)}|\Theta>=\displaystyle(1-\alpha)*\mathrm{e}^{-\epsilon\mathrm{T}}\frac{(\epsilon T)^{B}}{B!}e^{-\epsilon T}\frac{(\epsilon T)^{S}}{S!}+\alpha\delta}}\\{{*e^{-\epsilon T}\frac{(\varepsilon T)^{B}}{B!}e^{-(\epsilon+\mu)T}\frac{\bigl((\epsilon+\mu)T\bigr)^{S}}{S!}+\alpha(1-\delta)}}\\{{*e^{-(\mu+\epsilon)T}\frac{\bigl((\varepsilon+\mu)T\bigr)^{B}}{B!}e^{-\epsilon T}\frac{(\epsilon T)^{S}}{S!}}}\end{array}
+\begin{aligned}\mathrm{L}<(\mathrm{B},S)|\boldsymbol{\theta}>=&(1-\alpha)*\mathbf{e}^{-\epsilon T}\frac{(\epsilon T)^B}{B!}e^{-\epsilon T}\frac{(\epsilon T)^S}{S!}+\alpha\delta\\&*e^{-\epsilon T}\frac{(\varepsilon T)^B}{B!}e^{-(\epsilon+\mu)T}\frac{\left((\epsilon+\mu)T\right)^S}{S!}+\alpha(1-\delta)\\&*e^{-(\mu+\epsilon)T}\frac{\left((\varepsilon+\mu)T\right)^B}{B!}e^{-\epsilon T}\frac{(\epsilon T)^S}{S!}\end{aligned}
 $$
 
-基于第（1）对样本区间T的I个交易区间的假设，结合交易方向的数据M =$(\mathsf{B}_{\mathrm{i}},\mathsf{S}_{\mathrm{i}})_{i=1}^{I}$ ，可以获得下述似然函数，并通过极大似然估计最终获得PIN模型的相关参数α、δ、ε以及μ。
+基于第（1）对样本区间T的I个交易区间的假设，结合交易方向的数据M =$(\mathrm{B_{i}},\mathrm{S_{i}})_{i=1}^{I}$ ，可以获得下述似然函数，并通过极大似然估计最终获得PIN模型的相关参数α、δ、ε以及μ。
 
 $$
-\mathrm{L}(\boldsymbol{\mathrm{M}}|\boldsymbol{\Theta})=\prod_{i=1}^{I}L(B_{i},S_{i}|\boldsymbol{\theta})
+\mathrm{L}(\mathsf{M}|\boldsymbol{\theta})=\prod_{i=1}^{I}L(B_{i},S_{i}|\boldsymbol{\theta}),
 $$
 
 PIN模型的产生，从理论与实践两方面使得直接测度信息不对称风险成为可以实现的内容。但是，该模型仍然存在缺陷。首先，PIN模型所需的数据时间跨度长，易导致数据蕴含的非公开信息被稀释或丢失；其次，PIN因子实际包含了非公开信息与市场非流动性信息，而后者在此为冗余信息；最后，部分股票由于数据量过于庞大，用极大似然估计法计算PIN参数过程中，存在数值溢出问题。因此，Easley等学者在《Flow Toxicity and Liquidity in a High-frequency World》(2012)一文中，根据买卖双方交易量的不平衡性提出了改进的知情交易概率模型，即交易量实时更新的知情交易概率(VPIN)模型。
@@ -221,14 +221,14 @@ PIN模型的产生，从理论与实践两方面使得直接测度信息不对�
 
 ## 1. 划分等交易量的交易区间
 
-将按时间排列的交易数据分成等交易量的交易篮子，每个交易篮子所包含的交易量定为V，如果上一笔交易装满了一个篮子且还有剩余，那么余下的部分将会被分配给下一个篮子，令 $\cdot\tau=1,2\dots\mathrm{n}$ 为所有等交易量的交易篮子。
+将按时间排列的交易数据分成等交易量的交易篮子，每个交易篮子所包含的交易量定为V，如果上一笔交易装满了一个篮子且还有剩余，那么余下的部分将会被分配给下一个篮子，令 $\boldsymbol{\cdot}\boldsymbol{\tau}=1,2\ldots\boldsymbol{\mathsf{n}}$ 为所有等交易量的交易篮子。
 
 ## 2. 基于正态分布假设对交易方向进行判断
 
-为刻画交易量的不平衡性，需要先将交易方向进行划分，得到卖方交易量VS与买方交易量 $\cdot\mathrm{V}^{\mathrm{B}}$ 。假设 $\mathfrak{r}=1,2\ldots\mathfrak{n}$ 为交易篮子的下标，那么单个交易篮子的总交易量为 $\mathsf{V}_{\tau}=V_{\tau}^{B}+V_{\tau}^{S}.$ 。根据Easley等人在《Flow toxicity and volatility in a high frequency world》(2011)论文中给出的BVC算法，可以得到如下交易量计算公式：
+为刻画交易量的不平衡性，需要先将交易方向进行划分，得到卖方交易量VS与买方交易量 $\mathrm{V^{B}}$ 。假设 $\mathbf{\tau}=1,2\ldots\mathbf{n},$ 为交易篮子的下标，那么单个交易篮子的总交易量为 $\begin{array}{r}{\mathbb{V}_{\tau}=V_{\tau}^{B}+V_{\tau}^{S}.}\end{array}$ 。根据Easley等人在《Flow toxicity and volatility in a high frequency world》(2011)论文中给出的BVC算法，可以得到如下交易量计算公式：
 
 $$
-\mathrm{V}_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z\Bigl(\frac{P_{i}-P_{i-1}}{\sigma_{\nabla P}}\Bigr)
+\mathrm{V}_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}*Z\left(\frac{P_{i}-P_{i-1}}{\sigma_{\nabla P}}\right)
 $$
 
 $$
@@ -242,17 +242,17 @@ $$
 在PIN模型的建模过程中，已经知道了信息事件发生的概率情况，并且假定买单与卖单均服从泊松分布，参数分别为ε+μ、ε。据此可以得到交易量的不平衡度量，即买卖委托单数量差额的绝对值的期望，以及总交易量的度量，具体公式如下：
 
 $$
-\operatorname{E}\big[\big|\mathrm{V}_{\tau}^{\mathrm{S}}-\mathrm{V}_{\tau}^{\mathrm{B}}\big|\big]=\frac{1}{\mathrm{n}}\sum_{\tau=1}^{n}|V_{\tau}^{S}-V_{\tau}^{B}|=\alpha\mu
+\mathrm{E}[\left|V_{\tau}^{\mathrm{S}}-V_{\tau}^{\mathrm{B}}\right|]=\frac{1}{n}\sum_{\tau=1}^{n}\left|V_{\tau}^{\mathrm{S}}-V_{\tau}^{\mathrm{B}}\right|=\alpha\mu
 $$
 
 $$
-\operatorname{E}[\mathrm{V}_{\tau}^{\mathrm{S}}+\mathrm{V}_{\tau}^{\mathrm{B}}]={\frac{1}{\mathrm{n}}}\sum_{\tau=1}^{n}(V_{\tau}^{\mathrm{S}}+V_{\tau}^{B})=V=\alpha\mu+2\epsilon
+\mathrm{E}[\mathrm{V}_{\tau}^{S}+\mathrm{V}_{\tau}^{B}]=\frac{1}{n}\sum_{\tau=1}^{n}(V_{\tau}^{S}+V_{\tau}^{B})=V=\alpha\mu+2\epsilon
 $$
 
 因此，交易量实时更新的知情交易概率(VPIN)计算公式为：
 
 $$
-\mathrm{VPIN}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}=\frac{\alpha\mu}{V}\approx\frac{\sum_{\tau=1}^{n}|V_{\tau}^{S}-V_{\tau}^{B}|}{nV}
+\mathrm{VPIN}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}=\frac{\alpha\mu}{V}\approx\frac{\sum_{\tau=1}^{n}\left|V_{\tau}^{S}-V_{\tau}^{B}\right|}{nV}
 $$
 
 不论是计算复杂程度还是构建思路，VPIN模型相较于PIN模型而言，都更加贴合实际情况的需要，但是VPIN模型仍然具有改进的空间。一方面，VPIN模型没有考虑到知情交易者为隐藏其意图而拆小单进行交易的情况，其计算公式只反映了交易量的不平衡性，未能反映订单数量的不平衡性；另一方面，该模型需要提前利用长期历史数据确定交易篮子的总交易量V，只能对历史数据进行回测，不适用于对证券市场的信息不对称风险实时监测。针对上述两个问题，李平等人于2020年在论文《知情交易概率于风险定价——基于不同PIN测度方法的比较研究》中，考虑了VWPIN模型。
@@ -262,14 +262,14 @@ $$
 基于物理时间和交易量加权的volume-weighted probability of informed trading模型，简称VWPIN模型，继承了VPIN模型的基本思路，认为不同的交易量反映的信息量也不同，同时基于信息优势交易可能存在大单交易，或为隐藏其交易意图而拆小单进行交易的实际情况，将订单数量的不平衡性加入模型的考虑范围。具体而言，VWPIN模型计算了固定时间范围内，交易量加权的订单数量不平衡程度。具体计算步骤如下：
 
 $$
-\mathrm{{VWPIN}}=\sum_{i=1}^{n}{w_{i}Pin_{i}}=\sum_{i=1}^{n}{w_{i}{\frac{|S_{i}-B_{i}|}{S_{i}+B_{i}}}}
+\mathrm{VWPIN}=\sum_{i=1}^{n}w_{i}Pin_{i}=\sum_{i=1}^{n}w_{i}\frac{|S_{i}-B_{i}|}{S_{i}+B_{i}}
 $$
 
 $$
-\mathrm{w_{i}}={\frac{TradVol_{i}}{\sum_{i=1}^{n}{TradVol_{i}}}}
+\mathbf{w}_{i}=\frac{TradVol_{i}}{\sum_{i=1}^{n}TradVol_{i}}
 $$
 
-其中，n为固定时间范围内划分的交易区间个数， $\mathrm{Pin}_{\mathrm{i}}$ 第i个区间的知情交易概率，$\mathrm{S_{i}}$ 为第i个交易区间的卖单数量， $\mathrm{B_{i}}$ 为第i个交易区间的买单数量， $\mathbf{w_{i}}$ 为第i个交易区间的交易量加权系数， $\mathrm{TradVol_{i}}$ 为第i个交易区间的交易量。
+其中，n为固定时间范围内划分的交易区间个数， $\mathrm{Pin_{i}}$ 第i个区间的知情交易概率，$\mathsf{S}_{\mathrm{i}}$ 为第i个交易区间的卖单数量， $\mathrm{B_{i}}$ 为第i个交易区间的买单数量， $w_{\mathrm{i}}$ 为第i个交易区间的交易量加权系数， $\mathrm{TradVol_{i}}$ 为第i个交易区间的交易量。
 
 相比之前的知情交易概率模型，VWPIN模型具有计算简便、综合考虑订单数量和交易量、不受估计区间限制等优点，能够适应不同股票市场，作为信息不对称程度更为准确的直接度量。
 
@@ -297,10 +297,10 @@ VWPIN模型的计算是利用个股的区间交易量、区间主买(卖)成交�
 
 | 交易 区间 | 区间主买成 交笔数 | 区间主卖成 交笔数 | 区间 知情交易概率 | 区间 交易量 |  | 区间 交易量权重 | 区间加权 知情交易概率 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | $B_{1}$ | $S_{1}$ | $Pin_{1}=\frac{\|B_{1}-S_{1}\|}{B_{1}+S_{1}}$ | TradVol1 |  | $w_{1}=\frac{T\mathrm{{rad}}Vol_{1}}{\sum TradVol_{i}}$ | $w_{1}Pin_{1}$ |
-| 2 | $B_{2}$ | $S_{2}$ | $Pin_{2}=\frac{\|B_{2}-S_{2}\|}{B_{2}+S_{2}}$ |  | $TradVol_{2}$ | $w_{2}=\frac{T\mathrm{rad}Vol_{2}}{\sum TradVol_{i}}$ | $w_{2}Pin_{2}$ |
-| 47 | $B_{47}$ | $S_{47}$ | $Pin_{47}=\frac{\|B_{47}-S_{47}\|}{B_{47}+S_{47}}$ | $TradVol_{47}$ |  | $w_{47}=\frac{T\mathrm{rad}Vol_{47}}{\sum TradVol_{i}}$ | $w_{47}Pin_{47}$ |
-| 48 | $B_{48}$ | $S_{48}$ | $Pin_{48}=\frac{\|B_{48}-S_{48}\|}{B_{48}+S_{48}}$ | TradVol₄8 |  | $w_{48}=\frac{T\mathrm{rad}Vol_{48}}{\sum TradVol_{i}}$ | $w_{48}Pin_{48}$ $\sum_{\mathrm{i}=1}^{48}w_{i}Pin_{i}$ |
+| 1 | $B_{1}$ | $S_{1}$ | $Pin_{1}=\frac{\|B_{1}-S_{1}\|}{B_{1}+S_{1}}$ | TradVol1 |  | $w_{1}=\frac{TradVol_{1}}{\sum TradVol_{i}}$ | $w_{1}Pin_{1}$ |
+| 2 | $B_{2}$ | $S_{2}$ | $Pin_{2}=\frac{\|B_{2}-S_{2}\|}{B_{2}+S_{2}}$ |  | $TradVol_{2}$ | $w_{2}=\frac{TradVol_{2}}{\sum TradVol_{i}}$ | $w_{2}Pin_{2}$ |
+| 47 | $B_{47}$ | $S_{47}$ | $Pin_{47}=\frac{\|B_{47}-S_{47}\|}{B_{47}+S_{47}}$ | $TradVol_{47}$ |  | $w_{47}=\frac{TradVol_{47}}{\sum TradVol_{i}}$ | $w_{47}Pin_{47}$ |
+| 48 | $B_{48}$ | $S_{48}$ | $Pin_{48}=\frac{\|B_{48}-S_{48}\|}{B_{48}+S_{48}}$ | TradVol₄8 |  | $w_{48}=\frac{TradVol_{48}}{\sum TradVol_{i}}$ | $w_{48}Pin_{48}$ $\sum_{\mathrm{i}=1}^{48}w_{i}Pin_{i}$ |
 
 数据来源：Wind，广发证券发展研究中心
 
@@ -1470,12 +1470,12 @@ CNE6版本的BARRA因子模型将股票因子划分为市场、价值、成长�
 | investment_quality | AGRO | 用过去五年的总资产对时间做回归，得到的斜率再除以五年的平均值。数值乘-1 |
 | leverage | MLEV | 长期资本与股东权益的比值，其中长期资本包括普通股市值、最新优先股市值以及付 息债券市值 |
 | liquidity | STOM | 过去21个交易日的换手率之和的对数值 |
-| long_term_reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益率 的差额累计和，得到 RSTR 因子 $RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})]$ |
+| long_term_reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益率 的差额累计和，得到 RSTR 因子 $RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})],$ |
 | mid_capitallization | MIDCAP | 用截面上个股的对数流通市值的三次方对对数流通市值进行回归，对回归残差进行 MAD 去极值与中性化处理，获得MIDCAP因子 |
 | momentum | HALPHA | 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回归， 得到截距项 α 为 HALPHA 因子 |
 | profitability | ROA | $r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}$ 个股历史12个月滚动净利润与最新报告的总资产的比值 |
 | residual_volatility | HSIGMA | 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回归， 得到残差的标准差即为HSIGMA 因子 |
-|  |  | $r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}$ |
+|  |  | $\boxed{r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}}$ |
 | size | LNCAP | 个股的对数流通市值 |
 
 数据来源：Wind，广发证券发展研究中心

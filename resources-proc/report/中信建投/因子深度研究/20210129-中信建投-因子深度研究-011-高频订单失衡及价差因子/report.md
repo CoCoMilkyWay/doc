@@ -70,15 +70,15 @@ SAC 执证编号：S1440515020001
 在第一篇高频量价选股因子研究中（具体参考《因子深度研究系列：高频量价选股因子初探》），我们提出了一个衡量订单不平衡性质的 OIR 因子，在本文中，为了分别研究盘口各档的订单不平衡因子的选股能力，我们提出了 SOIR (i=1,2,3,4,5)这一组逐档订单失衡率因子，其中每个因子仅包含第 i 档的信息。最后，为了充分利用盘口各档数据信息，我们采用衰减加权的方法对 SOIR 加权得到 SOIR 因子，根据对买卖压力的影响力的不同将不同档位赋予相应权重，赋予靠近交易价格档位更高的权重。具体公式如下：
 
 $$
-\mathit{SOIR}_{i,t}=\frac{V_{i,t}^{\ B}-V_{i,t}^{\ A}}{V_{i,t}^{\ B}+V_{i,t}^{\ A}}
+SOIR_{i,t}=\frac{V_{i,t}{}^{B}-V_{i,t}{}^{A}}{V_{i,t}{}^{B}+V_{i,t}{}^{A}}
 $$
 
 $$
-SOIR_{t}=\frac{\sum_{i=1}^{5}{w_{i}SOIR_{i,t}}}{\sum_{i=1}^{5}{w_{i}}}
+SOIR_{t}=\frac{\sum_{i=1}^{5}w_{i}SOIR_{i,t}}{\sum_{i=1}^{5}w_{i}}
 $$
 
 $$
-w{=}1{-}(\mathsf{i}{-}1)/5,\quad\mathsf{i}{=}1,2,3,4,5
+w=1-(\mathsf{i}-1)/5,\quad\mathsf{i}=1,2,3,4,5
 $$
 
 由于订单簿上的委托量反应了交易者们对于股票未来价格的预期，当交易者预期股票未来价格上升，他们将通过下买单持有更多的股票多头头寸，这将导致买盘的委托量增加，反之亦然。因此，买卖盘委托量的不平衡可以反应市场的总体情绪和方向。
@@ -171,20 +171,20 @@ $P_{t}^{B}$ 和 $P_{t}^{A}$ 分别为 t 时刻的买一价和卖一价，市场�
 为刻画市场中间价的极端变动情况，我们构建了分钟频 MPC 因子的日频最大值即 MPCmax 因子，和分钟频MPC 因子的日频偏度即 MPCskew 因子，前者直接描述了中间价的最大变动幅度，MPCmax 越大，则股票长期下跌的概率越大，反之亦然；后者则描述了中间价的极端变动偏离平均值的幅度。MPCskew 越大，则股票长期下跌的概率越大，反之亦然。具体公式如下所示：
 
 $$
-MPCmax_{d,k}=max\{MPC_{d,t,k},t=k+1,\mathrm{~}...,N_{d}\}
+MPCmax_{d,k}=max\big\{MPC_{d,t,k},t=k+1,\dots,N_{d}\big\}
 $$
 
 $$
-MPCskew_{d,k}=\frac{1}{N_{d}-k-1}\sum_{t=k+1}^{N_{d}}\left(\frac{MPC_{d,t,k}-\overline{{MPC_{d,t,k}}}}{\sigma_{d,t,k}}\right)^{3}
+MPCskew_{d,k}=\frac{1}{N_d-k-1}\sum_{t=k+1}^{N_d}\left(\frac{MPC_{d,t,k}-\overline{MPC_{d,t,k}}}{\sigma_{d,t,k}}\right)^3
 $$
 
 $$
-MPC_{d,t,k}={\frac{M_{d,t}-M_{d,t-k}}{M_{d,t-k}}}
+MPC_{d,t,k}=\frac{M_{d,t}-M_{d,t-k}}{M_{d,t-k}}
 $$
 
-$MPCmax_{d,k}$ 为日期 d 当天分钟频 $MPC_{t,k}$ 因子的最大值， $MPC_{d,t,k}$ 代表日期 d 的 t 时刻的M $PC_{t,k}$ 因子， $N_{d}$ 代表日期 d 的交易分钟数。
+$MPCmax_{d,k}$ 为日期 d 当天分钟频 $MPC_{t,k}$ 因子的最大值， $MPC_{d,t,k}$ 代表日期 d 的 t 时刻的M $|PC_{t,k}$ 因子， $N_{d}$ 代表日期 d 的交易分钟数。
 
-$MPCskew_{d,k}$ 为日期d当天分钟频M $PC_{t,k}$ 因子的偏度， $\overline{{MPC_{d,t,k}}}$ 代表日期d当天分钟频 $MPC_{t,k}$ 因子的平均值，$\sigma_{d,t,k}$ 代表日期 d 当天分钟频 $MPC_{t,k}$ 因子的标准差。
+$MPCskew_{d,k}$ 为日期d当天分钟频M $|PC_{t,k}$ 因子的偏度， $\overline{{MPC_{d,t,k}}}$ 代表日期d当天分钟频 $MPC_{t,k}$ 因子的平均值，$\sigma_{d,t,k}$ 代表日期 d 当天分钟频 $MPC_{t,k}$ 因子的标准差。
 
 下面我们举个例子来说明 MPC1 因子低频化后的反转逻辑（SOIR 因子也是类似逻辑），2020 年 7 月 15 日 14时 30 分，股票 C 的 MPC1 因子突增为 6.09%，表面看是主力的大单主动买入行为，但实际上是主力的“对倒”行为，其目的主要是吸引散户，当价格涨到高位后主力再用早已准备好的小单与散户进行成交，其目的在于拉抬价格以便更好地抛售，我们看到当天的 MPCmax 因子为 6.09%，MPCskew 因子为 9.01，但由右图的走势可见，由于价格被拉高，第二天的股价出现大幅回落。
 
@@ -201,19 +201,19 @@ $MPCskew_{d,k}$ 为日期d当天分钟频M $PC_{t,k}$ 因子的偏度， $\overl
 第一节我们主要介绍三类分钟级别的高频因子，下面我们采用具体流程把分钟高频因子转为我们常用的月度低频选股因子。首先因为股票的盘口挂单强弱受到市场总体走势的影响，因此我们需要对各股票进行横截面标准化以剔除市场对个股的影响。下面 $Factor_{i,j,k}$ 为股票 k 第j 天 i 分钟的因子值， $M\_Factor_{i,j,k}$ 为横截面因子均值， $Std\_Factor_{i,j,k}$ 为横截面因子的标准差：
 
 $$
-\widehat{\mathrm{Factor}_{\mathrm{1,l,k}}}=\frac{\mathrm{Factor}_{\mathrm{i,j,k}}-M\mathrm{_-}\mathrm{Factor}_{\mathrm{i,j,k}}}{Std\mathrm{_-}\mathrm{Factor}_{\mathrm{i,j,k}}}
+\widehat{\mathrm{Factor_{i,j,k}}}=\frac{\widehat{\mathrm{Factor_{i,j,k}}}-M\_\mathrm{Factor_{i,j,k}}}{\widehat{\mathrm{Std\_Factor_{i,j,k}}}}
 $$
 
 然后我们把标准化后的分钟因子转换成日频因子，我们采用了等权的方法。下面是日频因子的构造方法，其中 N 为第j 天总共交易的分钟数：
 
 $$
-\widehat{\mathrm{Factor}}_{\mathrm{{J,k}}}=\frac{\sum\mathrm{Fa\widehat{ctor}_{\mathrm{{1,}\mathrm{{J,k}}}}}}{\mathrm{N}}
+\widehat{\mathrm{Factor}_{\mathrm{j,k}}}=\frac{\sum\widehat{\mathrm{Factor}_{\mathrm{i,j,k}}}}{\mathrm{N}}
 $$
 
 最后我们把日频因子转换成月频因子，我们按距离每月最后一个交易日（假设为组合调仓日）的时间远近进行加权，考虑到信息的时效性，距离调仓日越远其信息的有效性越弱，因此采用衰减加权的方法对日频因子加权。n 为当月交易日天数，j 为当月的第j 个交易日：
 
 $$
-{\widehat{\mathrm{Factor}_{\mathrm{{J}}}}}={\frac{1}{\sum_{j=1}^{n}{\frac{\mathrm{{j}}}{\mathrm{{n}}}}}}\times\sum_{j=1}^{n}{\widehat{\mathrm{Factor}_{\mathrm{{J}},\mathrm{{k}}}}}\times{\frac{\mathrm{{j}}}{\mathrm{{n}}}}
+\mathrm{F\widehat{actor_{j}}}=\frac{1}{\sum_{j=1}^{n}\frac{\mathrm{j}}{\mathrm{n}}}\times\sum_{j=1}^{n}\mathrm{F\widehat{actor_{j,k}}}\times\frac{\mathrm{j}}{\mathrm{n}}
 $$
 
 ## 2.2、高频量价因子高频和低频 IC对比

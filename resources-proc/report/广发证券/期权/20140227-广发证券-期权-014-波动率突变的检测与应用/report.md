@@ -67,7 +67,7 @@ gfwangxin@gf.com.cn
 对于序列 $r_{t},t=1,\ldots,T$ ，令
 
 $$
-a_{t}=r_{t}-\frac{1}{T}\sum_{i=1}^{T}r_{i}
+a_{t}=r_{t}-\frac{1}{T}{\sum_{i=1}^{T}r_{i}}
 $$
 
 $$
@@ -75,39 +75,39 @@ C_{t}=\sum_{i=1}^{t}a_{i}^{2}
 $$
 
 $$
-D_{t}=\frac{C_{t}}{C_{T}}-\frac{t}{T}
+D_{t}=\frac{C_{t}}{C_{T}}{-\frac{t}{T}}
 $$
 
-其中 $C_{t}$ 就是是累积平方和，而 $D_{t}$ 则是对 $C_{t}$ 的标准化或者中心化。统计上，如果序列 $r_{t^{\prime}}$ 存在波动率的突变，则 $D_{t}$ 会突破某个阈值。
+其中 $C_{t}$ 就是是累积平方和，而 $D_{t}$ 则是对 $C_{t}$ 的标准化或者中心化。统计上，如果序列 $r_{t}.$ 存在波动率的突变，则 $D_{t}]$ 会突破某个阈值。
 
-图1展示的分别是模拟的标准正态分布、包含波动率突变的正态分布（前三分之一的数据用标准正态分布 $\dot{\bar{y}}$ 生，后三分之二的数据用方差为0.5的正态分布产生）、沪深300指数的累积平方和与中心化平方和。
+图1展示的分别是模拟的标准正态分布、包含波动率突变的正态分布（前三分之一的数据用标准正态分布 $产$ 生，后三分之二的数据用方差为0.5的正态分布产生）、沪深300指数的累积平方和与中心化平方和。
 
 图2：N(0,1)（左）、N(0,1) “+” N(0,0.5)（中）、沪深300指数收益率（右）的累积平方和对比
 ![](images/1e8b76e085970ccad3a07df6d7f91d82a1f3be5f2435f23f4c57d901c0c42a89.webp)
 数据来源：Wind资讯、广发证券发展研究中心
 
-从 $D_{t}$ 的公式可以知道， $D_{0}=D_{T}=0$ ，即不论原始序列的分布如何、波动率是否发生变化， $D_{t}$ 曲线的一定是固定在0。
+从 $.D_{t}$ 的公式可以知道， $D_{0}=D_{T}=0$ ，即不论原始序列的分布如何、波动率是否发生变化， $D_{t}$ 曲线的一定是固定在0。
 
 图1中模拟标准正态分布（左）的 $D_{t}$ 曲线偏离0较少，最多只偏离了不到0.02，而包含波动率突变的正态分布（中）与沪深300指数收益率序列（右）的 $D_{t}$ 曲线的偏离则接近或者超过了0.2 ——标准正态分布（左）的10倍以上。
 
-统计上认为如果 $.r_{t}{\sim}iid(0,\sigma^{2}),E(r_{t}^{4})\equiv\eta_{4}<\infty$ ,则
+统计上认为如果 $.r_{t}{\sim}iid(0,\sigma^{2}){,}E(r_{t}^{4})\equiv\eta_{4}<\infty$ ,则
 
 $$
-\left.sup\left|\sqrt{\frac{T}{2}}D_{t}\right|\quad\right.\quad\sqrt{\frac{\eta_{4}-\sigma^{4}}{2\sigma^{4}}}\underset{t}{sup}\left|W^{*}(\frac{t}{T})\right|
+\operatorname*{sup}_{t}\left|\sqrt{\frac{T}{2}}D_{t}\right|\quad\rightarrow\quad\sqrt{\frac{\eta_{4}-\sigma^{4}}{2\sigma^{4}}}\operatorname*{sup}_{t}\left|W^{*}(\frac{t}{T})\right|
 $$
 
 其中 $W^{*}(r)\equiv W(r)-r*W(1)$ 为标准布朗桥过程， 为标准的布朗运动过程。
 
-特别的，如果 ${\it r}_{t}{\sim}iid~N(0,\sigma^{2})$ ，则有 $\eta_{4}=3\sigma^{4}$ ，于是
+特别的，如果 $.r_{t}{\sim}iidN(0,\sigma^{2})$ ，则有 $\eta_{4}=3\sigma^{4}$ ，于是
 
 $$
-s\mathrm{up}\left|\sqrt{\frac{T}{2}}D_{t}\right|~\to~\operatorname*{sup}_{t}|W^{*}(t)|
+\operatorname*{sup}_{t}\left|\sqrt{\frac{T}{2}}D_{t}\right|\quad\to\quad\operatorname*{sup}_{t}\lvert W^{*}(t)\rvert.
 $$
 
 所以，我们可以通过检验
 
 $$
-\kappa=\operatorname*{sup}_{t}\left|\frac{1}{\sqrt{T}}B_{t}\right|=\operatorname*{sup}_{t}\left|\frac{1}{\sqrt{T}}\frac{C_{t}-\frac{t}{T}C_{T}}{\sqrt{\hat{\eta}_{4}-\hat{\sigma}^{4}}}\right|
+\kappa=\sup_{t}\left|\frac{1}{\sqrt{T}}B_{t}\right|=\sup_{t}\left|\frac{1}{\sqrt{T}}\frac{C_{t}-\frac{t}{T}C_{T}}{\sqrt{\hat{\eta}_{4}-\hat{\sigma}^{4}}}\right|
 $$
 
 是否达到某个阈值来判断关于波动率维持不变的假设是否合理。而这个阈值则可以通过对布朗桥过程的蒙特卡洛模拟而获得。
@@ -122,7 +122,7 @@ $$
 对于沪深300指数2005/01/04~2013/12/31共2182个日收益率数据（图1右），对应的
 
 $$
-\kappa=\operatorname*{sup}_{t}\left|\frac{1}{\sqrt{T}}B_{t}\right|=\operatorname*{sup}_{t}\left|\frac{1}{\sqrt{T}}\frac{C_{t}-\frac{t}{T}C_{T}}{\sqrt{\hat{\eta}_{4}-\hat{\sigma}^{4}}}\right|=4.237
+\kappa=\sup_{t}\left|\frac{1}{\sqrt{T}}B_{t}\right|=\sup_{t}\left|\frac{1}{\sqrt{T}}\frac{C_{t}-\frac{t}{T}C_{T}}{\sqrt{\hat{\eta}_{4}-\hat{\sigma}^{4}}}\right|=4.237
 $$
 
 远超过模拟得到的99%分位点，所以沪深300指数在2005/01/04~2013/12/31这段时间发生过波动率突变。
@@ -135,13 +135,13 @@ $$
 
 我们通过ICSS迭代算法来寻找波动率发生突变的时点。另外，我们使用蒙特卡洛模拟的方法获得标准布朗桥过程最大绝对偏移的分位点，其中 表示序列的长度。在迭代过程中使用到不同长度的序列，对不同长度的序列，分位点可能有所不同，所以我们对 时的情况都做了模拟，我们发现序列长度对阈值影响不大。为简单计，迭代过程中我们选择的置信度为5%，并保守地将所有序列长度下的阈值都设置为各种长度下模拟得到的最大值1.362。
 
-将ICSS算法应用于沪深300指数（2005/01/04~2013/12/31），得到的波动率突变点如表1所示，其中“序号”表示将从2005/01/04开始的交易日用1 $^{,2,3,}$ …编号。
+将ICSS算法应用于沪深300指数（2005/01/04~2013/12/31），得到的波动率突变点如表1所示，其中“序号”表示将从2005/01/04开始的交易日用1 $,2,3,$ …编号。
 
 表1：沪深300指数波动率突变点（2005/01/04~2013/12/31）
 
 | 时点 | 2006-12-07 | 2008-01-18 | 2008-11-19 | 2009-10-09 | 2011-02-22 |
 | --- | --- | --- | --- | --- | --- |
-| 序号 $\cdot(T_{k})$ | 467 | 738 | 941 | 1156 | 1488 |
+| 序号 $\boldsymbol{\cdot}(T_{k})$ | 467 | 738 | 941 | 1156 | 1488 |
 
 数据来源：广发证券发展研究中心
 
@@ -176,7 +176,7 @@ $$
 我们使用GARCH(1,1)模型来研究序列的波动相关性
 
 $$
-r_{t}=\mu+\epsilon_{t},\epsilon_{t}=z_{t}\sqrt{h_{t}},z_{t}{\sim}N(0,1)
+r_{t}=\mu+\epsilon_{t},\epsilon_{t}=z_{t}\sqrt{h_{t}},z_{t}{\sim}N(0{,}1)
 $$
 
 $$
@@ -197,19 +197,19 @@ $$
 
 下面，我们就对原始的GARCH模型作一些修正，将突变点作为虚拟变量加入到GARCH模型中。
 
-假设已知序列 $\{r_{t}\}$ 中存在n个波动率突变点，对应时点为 $\mathrm{T}_{1},\mathrm{T}_{2},\ldots,\mathrm{T}_{\mathrm{n}}$ ，令
+假设已知序列 $\{r_{t}\}$ 中存在n个波动率突变点，对应时点为 $\mathrm{T}_{1},\mathrm{T}_{2},\dots,\mathrm{T}_{\mathrm{n}}$ ，令
 
 $$
-D_{k,t}={\left\{\begin{array}{ll}{0,t<T_{k}}\\{1,t\geq T_{k}}\end{array}\right.}
+D_{k,t}=\Big\{\begin{matrix}{0,t<T_{k}}\\{1,t\geq T_{k}}\end{matrix}
 $$
 
 则可以将考虑了波动率突变的GARCH(1,1)模型表示为：
 
 $$
-\begin{array}{c}{r_{t}=\mu+\epsilon_{t},\epsilon_{t}=z_{t}\sqrt{h_{t}},z_{t}{\sim}N(0,1)}\\{\ }\\{h_{t}=\omega+d_{1}*D_{1,t}+\cdots+d_{n}*D_{n,t}+\alpha\epsilon_{t-1}^{2}+\beta h_{t-1}}\end{array}
+\begin{aligned}r_{t}=\mu+\epsilon_{t},\epsilon_{t}=z_{t}\sqrt{h_{t}},z_{t}\sim&N(0,1)\\h_{t}=\omega+d_{1}*D_{1,t}+\cdots+d_{n}*D_{n,t}+\alpha\epsilon_{t-1}^{2}+\beta h_{t-1}\end{aligned}
 $$
 
-其中 $\omega>0,\alpha\geq0,\beta\geq0,\alpha+\beta<1$
+其中 $(\alpha>0,\alpha\geq0,\beta\geq0,\alpha+\beta<1$
 
 对于沪深300指数（2005/01/04 ~ 2013/12/31），我们已经通过ICSS迭代方法找到了5个波动率的突变点，其发生时点如表1所示。
 

@@ -59,13 +59,13 @@ linxiaoming@htsc.com
 目前主流的决策树算法包括 C4.5和 CART：C4.5 每个节点可分裂成多个子节点，不支持特征的组合，只能用于分类问题；CART 每个节点只分裂成两个子节点，支持特征的组合，可用于分类和回归问题。而在随机森林中，通常采用 CART 算法来选择划分属性，并使用“基尼指数”（Gini Index）来定义信息增益程度。分类问题中，假设有 K个类，样本集 D中的点属于第 k 类的概率为 $P_{k}$ ，则其 Gini指数为
 
 $$
-\begin{array}{r}{\mathrm{Gini}(\mathrm{D})=\sum_{k=1}^{K}P_{k}(1-P_{k})=1-\sum_{k=1}^{K}P_{k}^{2}}\end{array}
+\begin{array}{r}{\mathrm{Gini(D)}=\sum_{k=1}^{K}P_{k}(1-P_{k})=1-\sum_{k=1}^{K}P_{k}^{2}}\end{array}
 $$
 
 Gini(D)反映了从数据集 D 中随机抽取两个样本，其类别标记不一致的概率，Gini(D)越小，数据集 D 的纯度越高。二分类问题中，若对于给定的样本集合 D（|D|表示集合元素个数），根据特征 A分裂为 $D_{1}$ 和 $D_{2}$ 两不相交部分，则分裂后的
 
 $$
-\begin{array}{r}{\mathrm{Gini}(\mathrm{D},\mathrm{A})=\frac{|\mathrm{D}_{1}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{1})+\frac{|\mathrm{D}_{2}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{2})}\end{array}
+\mathrm{Gini}(\mathrm{D},\mathrm{A})=\frac{|\mathrm{D}_{1}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{1})+\frac{|\mathrm{D}_{2}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{2})
 $$
 
 从根节点开始，递归地在每个结点分裂时选取Gini(D,A)最小的特征 A为划分属性，将训练集依特征分配到两个子结点中去。照此逐层划分，直至结点中样本个数小于预定阈值，或样本集的 Gini指数小于预定阈值，或者没有更多特征，即生成了一棵可进行分类预测的决策树。下面我们试举一例说明。
@@ -87,38 +87,38 @@ $$
 
 资料来源：华泰证券研究所
 
-前面提到，节点分裂的原则是使得分裂后的信息增益最大，即挑选Gini(D,A)最小的特征 A为划分属性。第一步分裂前，全部 8 个样本中有 3个属于“涨”类别，概率为 $P\big(\omega\ddot{\mathfrak{H}}\ddot{\mathbb{K}}\big)=3/8$ ；5 个属于“跌”类别，概率为 $P\big(\omega^{\mathrm{g}}\big|\big)=5/8$ 。因此分裂前的 Gini指数为：
+前面提到，节点分裂的原则是使得分裂后的信息增益最大，即挑选Gini(D,A)最小的特征 A为划分属性。第一步分裂前，全部 8 个样本中有 3个属于“涨”类别，概率为 $P(\omega 涨)=3/8$ ；5 个属于“跌”类别，概率为 $P\big(\omega 跌\big)=5/8$ 。因此分裂前的 Gini指数为：
 
 $$
-\mathrm{Gini(D)}=1-\left({\frac{3}{8}}\right)^{2}-\left({\frac{5}{8}}\right)^{2}=0.4688
+\mathrm{Gini}(\mathrm{D})=1-\left(\frac{3}{8}\right)^2-\left(\frac{5}{8}\right)^2=0.4688
 $$
 
-如果我们以“是否为大市值”作为规则将全样本分裂成两个子节点，在 2 个大市值样本中属于“涨”类别的概率为 $P\big(\omega\mathfrak{W}\mathbb{K}\big)=0$ ，属于“跌”类别的概率为 $P(\omega^{*\sharp})=1$ ，该子节点的Gini 指数为
+如果我们以“是否为大市值”作为规则将全样本分裂成两个子节点，在 2 个大市值样本中属于“涨”类别的概率为 $P\big(\omega 涨\big)=0$ ，属于“跌”类别的概率为 $P\big(\omega 跌\big)=1$ ，该子节点的Gini 指数为
 
 $$
-{\mathrm{Gini}}\left({\mathrm{D}}_{\star\ \ddag\langle\ddag}\right)=1-0^{2}-1^{2}=0
+Gini\left(D_{大市值}\right)=1-0^{2}-1^{2}=0
 $$
 
 类似地，中小市值子节点的 Gini指数为：
 
 $$
-\mathrm{Gini}\left(\mathrm{D}_{\Phi\cdot\downarrow\cdot\vec{\eta}^{*}\cdot\downarrow\hat{\mathrm{t}}}\right)=1-\left(\frac{1}{6}\right)^{2}-\left(\frac{5}{6}\right)^{2}=0.2778
+Gini\left(D_{中小市值}\right)=1-\left(\frac{1}{6}\right)^{2}-\left(\frac{5}{6}\right)^{2}=0.2778
 $$
 
-上述分裂过程中，分裂到大市值的概率为P(ω大市值) = 2⁄8，分裂到中小市值的概率为$P\left(\omega\Psi,\mathbb{1},\ddagger\smash{\not\langle\Xi\left(\frac{2}{\delta}\right)}=6/8\right)$ 。因此Gini(D, 市值)为：
+上述分裂过程中，分裂到大市值的概率为P(ω大市值) = 2⁄8，分裂到中小市值的概率为$P\big(\omega 中小市值\big)=6/8。$ 。因此Gini(D, 市值)为：
 
 $$
-\begin{array}{l}{{\mathrm{Gini}\displaystyle\left(\mathrm{D},\vec{\eta}:\vert\mathbf{j}\mathbf{j}\mathbf{j}\mathbf{j}\right)=\displaystyle\frac{\vert\mathrm{D}_{{\boldsymbol{\star}},{\vec{\eta}}/{\hat{\mathbf{a}}}}\vert}{\vert\mathrm{D}\vert}\mathrm{Gini}\left(\mathrm{D}_{{\boldsymbol{\star}},{\vec{\eta}}/{\hat{\mathbf{a}}}}\right)+\displaystyle\frac{\vert\mathrm{D}_{{\boldsymbol{\star}},{\vec{\eta}}/{\hat{\mathbf{a}}}}\vert}{\vert\mathrm{D}\vert}\mathrm{Gini}\left(\mathrm{D}_{{\boldsymbol{\phi}},{\boldsymbol{\downarrow}},{\vec{\eta}}/{\hat{\mathbf{a}}}}\right)}}\\{{\displaystyle\ =\frac{2}{8}\times0+\frac{6}{8}\times0.2778=0.2083}}\end{array}
+\begin{aligned}Gini(D,市值)=&\frac{|D_{大市值}|}{|D|}Gini(D_{大市值})+\frac{|D_{中小市值}|}{|D|}Gini(D_{中小市值})\\=&\frac{2}{8}\times0+\frac{6}{8}\times0.2778=0.2083\end{aligned}
 $$
 
 如果换成“是否为小市值”或“是否为消费类”作为分裂规则，计算出 Gini指数为：
 
 $$
-\operatorname{Gini}\left(\mathrm{D},\mathrm{*}\mathrm{l}{\cdot}\dot{\vec{\pi}}/\dddot{\mathfrak{L}}\right)=\frac{3}{8}\times0-\frac{5}{8}\times0.48=0.3
+Gini(D,小市值)=\frac{3}{8}\times0-\frac{5}{8}\times0.48=0.3
 $$
 
 $$
-\mathrm{Gini}\big(\mathrm{D},\mathrm{\dot{\ y}_{\mathrm{~\scriptsize~1}}^{\ddagger}}\mathrm{\Pi}_{\mathfrak{M}}^{\ddagger}\big)=\frac{3}{8}\times0.4444+\frac{5}{8}\times0.48=0.3667
+Gini(D,消费)=\frac{3}{8}\times0.4444+\frac{5}{8}\times0.48=0.3667
 $$
 
 事实上，在所有可能的分裂规则中，“是否为大市值”的 Gini 指数最小。我们据此进行首次分裂，如图表 2所示。接下来依照相同办法，继续对子节点进行分裂，直到每个样本都归入终端的叶子节点，如图表 3 所示，最终完成整棵决策树的学习。
@@ -138,7 +138,7 @@ $$
 特征影响力的计算需要借助于结点分裂时 Gini指数，方法如下：
 
 $$
-\begin{array}{l}{{I_{i}(A)=\mathrm{Gini}(D_{i})-\mathrm{Gini}(D_{i},A)}}\\{{S(A)=\displaystyle\sum_{i}I_{i}(A)}}\end{array}
+\begin{aligned}I_{i}(A)&=\mathrm{Gini}(D_{i})-\mathrm{Gini}(D_{i},A)\\&\quad S(A)=\sum_{i}I_{i}(A)\end{aligned}
 $$
 
 其中， $I_{i}(A)$ 表示结点 i根据特征 A分裂为两个子结点后，Gini指数相对于母结点分裂前的下降值。故而可定义特征A的绝对重要性S(A)为所有按特征A分裂的结点处的I (A)之和。将所有特征的绝对重要性归一化，即可得到各个特征的重要性评分（所有特征重要性评分之和为 1）。
@@ -179,7 +179,7 @@ $$
 
 后剪枝（Post-Pruning）的剪枝过程是在决策树构造完成后删除一些子树，往往是递归地自上而下或自下而上进行。后剪枝常见的算法包括：错误率降低剪枝（Reduced-ErrorPruning）、悲观剪枝（Pessimistic Error Pruning）、代价复杂度剪枝（Cost-ComplexityPruning）、基于错误的剪枝（Error-Based Pruning），我们以代价复杂度剪枝为例来认识一下后剪枝的过程。
 
-设树 T 的叶节点个数为|T|，t 是树 T 的叶节点，该叶节点有 $N_{t}$ 个样本点，其中 k 类的样本点有 $N_{tk}$ 个， $\mathsf{k}{=}1,2,...,\mathsf{K},\ H_{t}(T)$ 为叶节点 t上的经验熵， $\alpha\geq0$ 为参数，则决策树学习的损失函数可以定义为
+设树 T 的叶节点个数为|T|，t 是树 T 的叶节点，该叶节点有 $N_{t}$ 个样本点，其中 k 类的样本点有 $N_{tk}$ 个， $\mathsf{k}{=}1{,}2{,}...{,}\mathsf{K}{,}\quad H_{t}(T)$ 为叶节点 t上的经验熵， $\alpha\geq0$ 为参数，则决策树学习的损失函数可以定义为
 
 $$
 \begin{array}{r}{C_{\alpha}(T)=\sum_{t=1}^{|T|}N_{t}H_{t}(T)+\alpha|T|}\end{array}
@@ -189,8 +189,8 @@ $$
 输出：修剪后的子树T 。
 1. 计算每个结点的经验熵。
 2. 递归地从树的叶结点向上回缩。
-设一组叶结点回缩到其父结点之前与之后的整体树分别为 $T_{B}\mathcal{\underline{{{E}}}}T_{A}$ ，其对应的损失函数值分别为 $C_{\alpha}(T_{B})$ 与
-$C_{\alpha}(T_{A})$ ，如果 ${\cal C}_{\alpha}(T_{A})\leq{\cal C}_{\alpha}(T_{B})$ ，则进行剪枝，即将父结点变为新的叶结点。
+设一组叶结点回缩到其父结点之前与之后的整体树分别为 $T_{B}与T_{A}$ ，其对应的损失函数值分别为 $C_{\alpha}(T_{B})$ 与
+$C_{\alpha}(T_{A})$ ，如果 $C_{\alpha}(T_{A})\leq C_{\alpha}(T_{B})$ ，则进行剪枝，即将父结点变为新的叶结点。
 3. 返回 2，直至不能继续为止，得到损失函数最小的子树 T_α。
 注：只考虑两个树的损失函数差，计算可在局部进行，故剪枝算法可以由一种动态规划的算法实现。
 资料来源：华泰证券研究所
@@ -213,7 +213,7 @@ $$
 C_{\alpha}(T)=C(T)+\alpha|T|
 $$
 
-其中，C(T)表示模型对训练数据的预测误差，即模型 $\boldsymbol{\underline{E}}$ 训练数据的拟合程度，|T|表示模型复杂度，参数α ≥ 0控制两者之间的影响。简言之，后剪枝就是在给定α下选择损失函数最小的子树。损失函数刻画出了训练集拟合程度与模型复杂度之间的平衡，通过优化损失函数在进行更好拟合的同时考虑了减小模型复杂度。
+其中，C(T)表示模型对训练数据的预测误差，即模型 $与$ 训练数据的拟合程度，|T|表示模型复杂度，参数α ≥ 0控制两者之间的影响。简言之，后剪枝就是在给定α下选择损失函数最小的子树。损失函数刻画出了训练集拟合程度与模型复杂度之间的平衡，通过优化损失函数在进行更好拟合的同时考虑了减小模型复杂度。
 
 ## 图表7： 树的后剪枝算法
 
@@ -251,7 +251,7 @@ b) 回测区间：2011-01-31 至 2017-07-31。
 
 ## 3． 特征预处理：
 
-a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i}$ ， $D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$
+a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i}$ ， $D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $\lvert D_{i}{-}D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$
 
 b) 缺失值处理：得到新的因子暴露度序列后，将因子暴露度缺失的地方设为中信一级行业相同个股的平均值。
 
@@ -261,7 +261,7 @@ d) 标准化：将中性化处理后的因子暴露度序列在横截面上取�
 
 ## 4． 训练集和交叉验证集合成：
 
-在每个月末截面期，选取下月收益排名前 30%的股票作为正例 $(\mathsf{y}=1)$ ），后 30%的股票作为负例 $\left(\mathbf{y}=0\right)$ 0
+在每个月末截面期，选取下月收益排名前 30%的股票作为正例 $(\mathbf{y}=1)$ ），后 30%的股票作为负例 $(\mathbf{y}=0)$ 0
 
 a) 全 A选股模型：将当前年份往前推 72 个月的样本合并，随机选取 90%的样本作为训练集，余下 10%的样本作为交叉验证集。
 

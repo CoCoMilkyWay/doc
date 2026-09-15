@@ -84,14 +84,14 @@ Ledoit, O. , and M. Wolf . "Improved estimation of the covariance matrix of stoc
 
 ## 记号提示：
 
-本文中的撇号若无特别交代均代表矩阵转置。矩阵的形状由 a×b 的下标给出。例如一个 3×5 的矩阵 A 直接记为 $\mathsf{A}_{3\times5}$ 。而行、列向量分别写作：
+本文中的撇号若无特别交代均代表矩阵转置。矩阵的形状由 a×b 的下标给出。例如一个 3×5 的矩阵 A 直接记为 $\mathrm{A}_{3\times5}$ 。而行、列向量分别写作：
 
 $$
-A_{\mathrm{i-}}\mathrm{:=}\mathrm{A}\not\not\equiv\not\Theta\not\Im\not\ni\mathrm{~i~}\not\Im
+$\mathrm{A_{i-}\mathrm{:=A}}$矩阵的第i行
 $$
 
 $$
-\mathsf{A}_{-\mathrm{j}}\colon=\mathsf{A}\ \pm\mathsf{E}\left.\ddag\lbrack\dot{\mp}\dot{\Psi}^{\mathrm{j}}\stackrel{\star\star}{\doublebarwedge}\ \mathrm{j}\ \bar{\hbar}\right.
+$\mathrm{A}_{-\mathrm{j}}\mathrm{:=A}$矩阵的第$\mathrm{j}$列
 $$
 
 ## 2. 协方差矩阵的缩减估计
@@ -101,7 +101,7 @@ $$
 假设 N 支股票一共 T 期的收益率由矩阵 X 给出：
 
 $$
-\mathrm{X=X_{N\times T}:=\left(\begin{array}{ccc}{X_{11}}&{\cdots}&{X_{1T}}\\{\vdots}&{\ddots}&{\vdots}\\{X_{N1}}&{\cdots}&{X_{NT}}\end{array}\right)}
+\mathrm{X}=\mathrm{X}_{\mathrm{N}\times\mathrm{T}}\mathrm{:=}\begin{pmatrix}\mathrm{x}_{11}&\cdots&\mathrm{x}_{1\mathrm{T}}\\\vdots&\ddots&\vdots\\\mathrm{x}_{\mathrm{N}1}&\cdots&\mathrm{x}_{\mathrm{NT}}\end{pmatrix}
 $$
 
 并假设：
@@ -113,7 +113,7 @@ $$
 假设 3：不同股票收益率之间的任意 4 阶矩有限：
 
 $$
-\mathbb{E}\big[\big|\mathrm{x}_{\mathrm{it}}\mathrm{x}_{\mathrm{jt}}\mathrm{x}_{\mathrm{kt}}\mathrm{x}_{\mathrm{lt}}\big|\big]<\infty,\forall\mathrm{i},\mathrm{j},\mathrm{k},\mathrm{l}=1,\dots,\mathrm{N},\forall\mathrm{t}=1,\dots,\mathrm{T}
+\mathbb{E}\big[\big|\mathbf{x}_{\mathrm{it}}\mathbf{x}_{\mathrm{jt}}\mathbf{x}_{\mathrm{kt}}\mathbf{x}_{\mathrm{lt}}\big|\big]<\infty,\forall\mathrm{i},\mathrm{j},\mathrm{k},\mathrm{l}=1,\ldots,\mathsf{N},\forall\mathrm{t}=1,\ldots,\mathsf{T}
 $$
 
 此处并不要求股票的收益率服从某一正态分布。
@@ -123,13 +123,13 @@ $$
 首先，股票收益率的样本均值向量 m 和样本协方差矩阵 S 可以写成：
 
 $$
-\left\{\begin{array}{ll}{\displaystyle\mathrm{m=(m_{i})_{i\in[N]}=m_{N\times1}:=\frac{1}{T}X_{N\times T}1_{T\times1}=\frac{1}{T}X1}}\\{\displaystyle\mathrm{S=\binom{S_{ij}}{ij}_{ij\in[N]}=S_{N\times N}:=\frac{1}{T}X_{N\times T}\left({\mathrm{I}_{T\times T}-\frac{1}{T}1_{T\times1}1_{1\times\mathrm{T}}}\right)X_{T\times N}^{\prime}=\frac{1}{T}X\Big([-\frac{1}{T}11^{\prime}\Big)X^{\prime}\Big)}}\end{array}\right.
+\left\{\begin{aligned}\mathsf{m}=&(\mathsf{m_i})_{\mathsf{i}\in[\mathsf{N}]}=\mathsf{m_{N\times1}}:=\frac{1}{\mathsf{T}}\mathsf{X_{N\times\mathsf{T}}}\mathsf{1_{T\times1}}=\frac{1}{\mathsf{T}}\mathsf{X}\mathsf{1}\\\mathsf{S}=&\left(\mathsf{s_{i}}\right)_{\mathsf{i}\in[\mathsf{N}]}=\mathsf{S_{N\times\mathsf{N}}}:=\frac{1}{\mathsf{T}}\mathsf{X_{N\times\mathsf{T}}}\left(\mathsf{1_{T\times\mathsf{T}}}-\frac{1}{\mathsf{T}}\mathsf{1_{T\times1}}\mathsf{1_{1\times\mathsf{T}}}\right)\mathsf{X_{T\times\mathsf{N}}}=\frac{1}{\mathsf{T}}\mathsf{X}\left(\mathsf{1}-\frac{1}{\mathsf{T}}\mathsf{1}\mathsf{1}^{\prime}\right)\mathsf{X}^{\prime}\end{aligned}\right.
 $$
 
 各等式中最后出现的 1 代表的是与矩阵乘法相匹配的幺元矩阵（各分量均为 1）。由上述矩阵分解可以看到，样本协方差 S 在 $\mathrm{N}{\geq}\mathrm{T}$ 时必定是奇异矩阵。这是因为 S 的秩最多等于
 
 $$
-\mathrm{~X}\left(\mathrm{I}-\frac{1}{\mathrm{T}}\boldsymbol{1}\boldsymbol{1}^{\prime}\right)\mathrm{X}^{\prime}
+\mathrm{X}\left(\mathrm{I}-{\frac{1}{\mathrm{T}}}11^{\prime}\right)\mathrm{X}^{\prime}
 $$
 
 的秩 T-1（只用注意到各行向量之和等于 0）。换句话说，当观察期数T≤N+1 时，样本协方差矩阵必定是一个秩亏（rank-deficient）矩阵，而这势必将会带来一系列技术上的问题。
@@ -139,23 +139,23 @@ $$
 在 Sharpe（1963）的 CAPM 模型中，股票 i的收益率满足
 
 $$
-\mathrm{x_{it}=\alpha_{i}+\beta_{i}\mathrm{x_{Mt}+\varepsilon\varepsilon_{it}}}
+\mathrm{x}_{\mathrm{it}}=\alpha_{\mathrm{i}}+\beta_{\mathrm{i}}\mathrm{x}_{\mathrm{Mt}}+\varepsilon_{\mathrm{it}}
 $$
 
 $$
-\left\{\begin{array}{ll}{\mathrm{x_{Mt}=\Delta\Psi\Sigma}\pm3\mathrm{\Im}\psi\mathrm{\downarrow}\mp\frac{\mathrm{\Im}^{2}}{\mathrm{\Im}\mathrm{\Im}}\mp}\\{\varepsilon_{\mathrm{it}}=\xi_{\mathrm{\pm}}^{\mathrm{k}}\frac{\mathrm{\partial\xi}}{\pm}\mathrm{\downarrow}\xi_{\mathrm{\mp}}\frac{\mathrm{{\bf\Sigma}}^{\prime}}{\mathrm{\Im}\mathrm{\Im}}\frac{\dddot{\mathrm{\Im}}^{2}}{\mathrm{\partial\xi}}}\end{array}\right.
+\left\{\begin{aligned}x_{Mt}&=市场收益率\\\varepsilon_{it}&=残差收益率\end{aligned}\right.
 $$
 
 因此，市场协方差矩阵可以被表达为
 
 $$
-\begin{array}{c}{{\Phi=\left(\Phi_{\mathrm{ij}}\right)_{\mathrm{i,j\in[N]}}=\Phi_{\mathrm{N\times N}}=\sigma_{\mathrm{MM}}^{2}\beta_{\mathrm{N\times1}}\beta_{1\times\mathrm{N}}^{\prime}+\Delta_{\mathrm{N\times N}}=\sigma_{\mathrm{MM}}^{2}\beta\beta^{\prime}+\Delta}}\\{{\Delta=\mathrm{diag}(\delta_{11},\ldots,\delta_{\mathrm{NN}}),\delta_{\mathrm{jj}}=\mathrm{Var}\left(\varepsilon_{\mathrm{j}}\right)}}\end{array}
+\begin{aligned}\Phi=\left(\phi_{ij}\right)_{ij\in[N]}&=\Phi_{N\times N}=\sigma_{MM}^2\beta_{N\times1}\beta_{1\times N}^{\prime}+\Delta_{N\times N}=\sigma_{MM}^2\beta_{j}^{\prime}+\Delta_{j}\\\Delta&=diag(\delta_{11},\ldots,\delta_{NN}),\delta_{ij}=Var(\varepsilon_{j})\end{aligned}
 $$
 
 对应的回归估计量为（注意拉丁字母与希腊字母之间的对应）：
 
 $$
-\mathrm{F}=\left(\mathrm{f_{ij}}\right)_{\mathrm{ij\in[N]}}=\mathrm{F_{N\times N}}=s_{\mathrm{MM}}^{2}\mathrm{b_{N\times1}}\mathrm{b_{1\times N}^{\prime}}+\mathrm{D_{N\times N}}=s_{\mathrm{MM}}^{2}\mathrm{b}\mathrm{b^{\prime}}+\mathrm{D}
+\begin{array}{r}{\mathbb{F}=\left(\mathbf{f}_{\mathrm{ij}}\right)_{\mathrm{ij}\in[\mathrm{N}]}=\mathbb{F}_{\mathrm{N}\times\mathrm{N}}=\mathsf{s}_{\mathsf{MM}}^{2}\mathsf{b}_{\mathrm{N}\times1}\mathsf{b}_{1\times\mathrm{N}}^{\prime}+\mathsf{D}_{\mathrm{N}\times\mathrm{N}}=\mathsf{s}_{\mathsf{MM}}^{2}\mathsf{b}\mathsf{b}^{\prime}+\mathsf{D}}\end{array}
 $$
 
 更进一步地，本文还需要如下技术性假设：
@@ -181,19 +181,19 @@ $$
 定理 1 假设对称矩阵
 
 $$
-\mathbf{A}=\left(\mathbf{a_{ij}}\right)_{\mathbf{i,j\in[N]}}=\mathbf{A_{N\times N}}
+\mathbf{A}=\left(\mathbf{a}_{\mathrm{ij}}\right)_{\mathrm{i},\mathrm{j}\in[\mathbf{N}]}=\mathbf{A}_{\mathbf{N}\times\mathbf{N}}
 $$
 
 的特征值组成的集合为
 
 $$
-\{\lambda_{\mathrm{i}}\}_{\mathrm{i\in[N]}}
+\{\lambda_{i}\}_{i\in[N]}
 $$
 
 则矩阵 A的 Frobenius 范数的平方等于所有特征值的平方和：
 
 $$
-\|\mathbf{A}\|^{2}:=\mathbf{tr}(\mathbf{A}^{2})=\sum_{\mathrm{ij}}\mathbf{a}_{\mathrm{ij}}^{2}=\sum_{\mathrm{i}}\lambda_{\mathrm{i}}^{2}
+\|\mathbf{A}\|^{2}:=\mathbf{tr}(\mathbf{A}^{2})=\sum_{\mathbf{ij}}\mathbf{a}_{\mathbf{ij}}^{2}=\sum_{\mathbf{i}}\mathbf{\lambda}_{\mathbf{i}}^{2}.
 $$
 
 本文使用的损失函数如下
@@ -205,55 +205,55 @@ $$
 对应的风险函数即损失函数的期望：
 
 $$
-\begin{array}{rl}{{\mathbb{E}[\mathrm{L}(\alpha)]=\sum_{\mathrm{ij}}\mathbb{E}[(\alpha t_{\mathrm{ij}}+(1-\alpha)s_{\mathrm{ij}}-\sigma_{\mathrm{ij}})^{2}]=\sum_{\mathrm{ij}}(\mathrm{Var}\big(\alpha t_{\mathrm{ij}}+(1-\alpha)s_{\mathrm{ij}}\big)+\mathbb{E}\big[\alpha t_{\mathrm{ij}}+(1-\alpha)s_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big]^{2})}}\\&{=\sum_{\mathrm{ij}}(\alpha^{2}\mathrm{Var}\big(t_{\mathrm{ij}}\big)+(1-\alpha)^{2}\mathrm{Var}\big(s_{\mathrm{ij}}\big)+2\alpha(1-\alpha)\mathrm{Cov}\big(t_{\mathrm{ij}},s_{\mathrm{ij}}\big)+\big(\alpha\phi_{\mathrm{ij}}+(1-\alpha)\sigma_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)^{2})}\\&{=\displaystyle\sum_{\mathrm{ij}}(\alpha^{2}\mathrm{Var}\big(t_{\mathrm{ij}}\big)+(1-\alpha)^{2}\mathrm{Var}\big(s_{\mathrm{ij}}\big)+2\alpha(1-\alpha)\mathrm{Cov}\big(t_{\mathrm{ij}},s_{\mathrm{ij}}\big)+\alpha^{2}\big(\phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)^{2})=:\mathrm{R}(\alpha)}\end{array}
+\begin{aligned}\mathbb{E}[\mathrm{L}(\alpha)]=&\sum_{\mathrm{ij}}\mathbb{E}\left[\left(\alpha\mathrm{f}_{\mathrm{ij}}+(1-\alpha)\mathrm{s}_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right)^2\right]=\sum_{\mathrm{ij}}\left(\mathrm{Var}\left(\alpha\mathrm{f}_{\mathrm{ij}}+(1-\alpha)\mathrm{s}_{\mathrm{ij}}\right)+\mathbb{E}\left[\alpha\mathrm{f}_{\mathrm{ij}}+(1-\alpha)\mathrm{s}_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right]^2\right)\\=&\sum_{\mathrm{ij}}\left(\alpha^2\mathrm{Var}(\mathrm{f}_{\mathrm{ij}})+(1-\alpha)^2\mathrm{Var}(\mathrm{s}_{\mathrm{ij}})+2\alpha(1-\alpha)\mathrm{Cov}\left(\mathrm{f}_{\mathrm{ij}},\mathrm{s}_{\mathrm{ij}}\right)+\left(\alpha\Phi_{\mathrm{ij}}+(1-\alpha)\sigma_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right)^2\right)\\=&\sum_{\mathrm{ij}}\left(\alpha^2\mathrm{Var}(\mathrm{f}_{\mathrm{ij}})+(1-\alpha)^2\mathrm{Var}(\mathrm{s}_{\mathrm{ij}})+2\alpha(1-\alpha)\mathrm{Cov}\left(\mathrm{f}_{\mathrm{ij}},\mathrm{s}_{\mathrm{ij}}\right)+\alpha^2\left(\Phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right)^2\right)=:\mathbb{R}(\alpha)\end{aligned}
 $$
 
 于是对应的一阶条件（FOC）变为
 
 $$
-\begin{array}{l}{\displaystyle\partial_{\alpha}\mathrm{R}(\alpha)=2\sum_{\mathrm{ij}}\left(\alpha\mathrm{Var}\big(\mathrm{f}_{\mathrm{ij}}\big)-(1-\alpha)\mathrm{Var}\big(s_{\mathrm{ij}}\big)+(1-2\alpha)\mathrm{Cov}\big(\mathrm{f}_{\mathrm{ij}}-s_{\mathrm{ij}}\big)+\alpha\big(\phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)^{2}\right)}\\{\displaystyle\partial_{\alpha}^{2}\mathrm{R}(\alpha)=2\sum_{\mathrm{ij}}\left(\mathrm{Var}\big(\mathrm{f}_{\mathrm{ij}}-\mathrm{s}_{\mathrm{ij}}\big)+\big(\phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)^{2}\right)\geq0}\end{array}
+\begin{aligned}&\partial_{\alpha}\mathsf{R}(\alpha)=2\sum_{\mathrm{ij}}\left(\alpha\mathsf{Var}\big(\mathsf{f}_{\mathrm{ij}}\big)-(1-\alpha)\mathsf{Var}\big(\mathsf{s}_{\mathrm{ij}}\big)+(1-2\alpha)\mathsf{Cov}\big(\mathsf{f}_{\mathrm{ij}}-\mathsf{s}_{\mathrm{ij}}\big)+\alpha\big(\phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)^{2}\right)\\&\partial_{\alpha}^{2}\mathsf{R}(\alpha)=2\sum_{\mathrm{ij}}\left(\mathsf{Var}\big(\mathsf{f}_{\mathrm{ij}}-\mathsf{s}_{\mathrm{ij}}\big)+\big(\phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)^{2}\right)\geq0\\\end{aligned}
 $$
 
 所以最优缩减强度等于
 
 $$
-\partial_{\alpha}\mathrm{R(\alpha)}=0\Rightarrow\alpha^{*}=\frac{\sum_{\mathrm{ij}}\left(\mathrm{Var\bigl(s_{\mathrm{ij}}\bigr)}-\mathrm{Cov\bigl(f_{\mathrm{ij}},{s_{\mathrm{ij}}}\bigr)}\right)}{\sum_{\mathrm{ij}}\left(\mathrm{Var\bigl(f_{\mathrm{ij}}}-{s_{\mathrm{ij}}}\bigr)+\left({\phi_{\mathrm{ij}}}-{\sigma_{\mathrm{ij}}}\right)^{2}\right)}=\mathcal{O}(\mathrm{T}^{-1})
+\partial_{\alpha}\mathrm{R}(\alpha)=0\Rightarrow\alpha^{*}=\frac{\sum_{\mathrm{ij}}\left(\mathrm{Var}\left(\mathrm{s}_{\mathrm{ij}}\right)-\mathrm{Cov}\left(\mathrm{f}_{\mathrm{ij}},\mathrm{s}_{\mathrm{ij}}\right)\right)}{\sum_{\mathrm{ij}}\left(\mathrm{Var}\left(\mathrm{f}_{\mathrm{ij}}-\mathrm{s}_{\mathrm{ij}}\right)+\left(\phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right)^{2}\right)}=\mathrm{O}(\mathrm{T}^{-1})
 $$
 
 可以看到该强度是渐进零化的，而利用渐进方差的定义我们可以证明：
 
-定义【渐进方差】设 $\{\mathrm{k_{n}}\}$ 为一正数列，τ为一常数，如果估计序列 $\mathrm{{T}_{n}}$ 满足
+定义【渐进方差】设 $\{\mathrm{k}_{\mathrm{n}}\}$ 为一正数列，τ为一常数，如果估计序列 $\mathrm{T}_{\mathrm{n}}$ 满足
 
 $$
-\mathrm{k_{n}(T_{n}-\tau)_{d}\Delta N(0,}\sigma^{2})
+\mathrm{k}_{\mathrm{n}}(\mathrm{T}_{\mathrm{n}}-\tau)\rightarrow_{\mathrm{d}}\mathrm{N}(0,\sigma^{2})
 $$
 
-则称 $\cdot\sigma^{2}$ 为 $\mathrm{T}_{\mathrm{n}}$ 的渐进方差。
+则称 $\mathrm{i}\sigma^{2}$ 为 $\mathrm{T}_{\mathbf{n}}$ 的渐进方差。
 
 有此概念后我们有
 
 定理 2 定义渐进估计量：
 
 $$
-\left\{\begin{array}{ll}{\displaystyle\boldsymbol{\pi}=\sum_{\mathrm{ij}}\boldsymbol{\pi}_{\mathrm{ij}}=\sum_{\mathrm{ij}}\mathrm{AsyVar}\big(\sqrt{\boldsymbol{\mathsf{T}}}\boldsymbol{\mathsf{s}}_{\mathrm{ij}}\big)}\\{\displaystyle\boldsymbol{\mathsf{p}}=\sum_{\mathrm{ij}}\boldsymbol{\mathsf{p}}_{\mathrm{ij}}=\sum_{\mathrm{ij}}\mathrm{AsyCov}\big(\sqrt{\boldsymbol{\mathsf{T}}}\boldsymbol{\mathsf{f}}_{\mathrm{ij}},\sqrt{\boldsymbol{\mathsf{T}}}\boldsymbol{\mathsf{s}}_{\mathrm{ij}}\big)}\\{\displaystyle\boldsymbol{\gamma}=\sum_{\mathrm{ij}}\boldsymbol{\mathsf{Y}}_{\mathrm{ij}}=\sum_{\mathrm{ij}}\big(\boldsymbol{\Phi}_{\mathrm{ij}}-\boldsymbol{\sigma}_{\mathrm{ij}}\big)^{2}}\end{array}\right.
+\left\{\begin{aligned}\boldsymbol{\pi}&=\sum_{\mathrm{ij}}\boldsymbol{\pi}_{\mathrm{ij}}=\sum_{\mathrm{ij}}\mathrm{AsyVar}\big(\sqrt{\mathrm{T}}s_{\mathrm{ij}}\big)\\\boldsymbol{\rho}&=\sum_{\mathrm{ij}}\boldsymbol{\rho}_{\mathrm{ij}}=\sum_{\mathrm{ij}}\mathrm{AsyCov}\big(\sqrt{\mathrm{T}}\mathrm{f}_{\mathrm{ij}},\sqrt{\mathrm{T}}s_{\mathrm{ij}}\big)\\\boldsymbol{\gamma}&=\sum_{\mathrm{ij}}\boldsymbol{\gamma}_{\mathrm{ij}}=\sum_{\mathrm{ij}}\big(\boldsymbol{\phi}_{\mathrm{ij}}-\boldsymbol{\sigma}_{\mathrm{ij}}\big)^2\end{aligned}\right.
 $$
 
 则
 
 $$
-\alpha^{*}=\frac{1}{\mathbf{T}}\cdot\frac{\pmb{\pi}-\mathbf{p}}{\pmb{\gamma}}+\pmb{\mathcal{O}}(\mathbf{T}^{-2})
+\mathbf{\alpha}^{*}=\frac{1}{\mathbf{T}}\cdot\frac{\mathbf{\pi}-\mathbf{\rho}}{\gamma}+\mathcal{O}(\mathbf{T}^{-2})
 $$
 
 所以缩减技术其实就是在
 
 $$
-\left\{\alpha=\frac{\mathrm{c}}{\mathrm{T}}\mathrm{:c}\in[0,\mathrm{T}]\right\}
+\left\{\alpha=\frac{\mathrm{c}}{\mathrm{T}}:\mathrm{c}\in[0,\mathrm{T}]\right\}
 $$
 
 形成的单指标参数族之中找到了一个最优解：
 
 $$
-\kappa=\frac{\pi-\rho}{\gamma}
+\mathbf{k}=\frac{\boldsymbol{\pi}-\boldsymbol{\rho}}{\gamma}
 $$
 
 从而使得风险函数达到最小。在几何上，最优解对应于从真实的∑向 F和 S 组成的一维子空间上的正交投影，而这里的正交性则依赖于前期定义的 Frobenius 范数。
@@ -269,23 +269,23 @@ $$
 引理 1p是π的一致估计量，其中
 
 $$
-\bf p_{ij}=\frac{1}{T}\sum_{t}((x_{it}-m_{i})\bigl(x_{jt}-m_{j}\bigr)-s_{ij})
+\mathbf{p_{ij}}=\frac{1}{\mathbf{T}}\sum_{\mathbf{t}}((\mathbf{x_{it}}-\mathbf{m_{i}})(\mathbf{x_{jt}}-\mathbf{m_{j}})-\mathbf{s_{ij}}),
 $$
 
-r 是 $\pmb{\rho}$ 的一致估计量，
+r 是 $\mathbf{p}$ 的一致估计量，
 
 $$
-\bf{r_{ij}}=\left\{\begin{array}{ll}{\bf p_{ij}}&{\qquad\bf\sigma\ne{i}=j}\\{\frac{\sum_{t}\bf r_{ijt}}{T}}&{\qquad\bf\sigma\ne{i}\ne j}\end{array}\right.
+\mathbf{r}_{ij}=\begin{cases}\mathbf{p}_{ij}&\quad 若\mathbf{i}=j\\\frac{\sum_{t}\mathbf{r}_{ijt}}{T}&\quad 若\mathbf{i}\neq j\\\end{cases}
 $$
 
 $$
-\bf{r}_{\mathrm{ijt}}=\frac{S_{\mathrm{jM}}S_{\mathrm{MM}}(\bf x_{\mathrm{it}}-m_{\mathrm{i}})+\it S_{\mathrm{iM}}S_{\mathrm{MM}}(\bf x_{\mathrm{jt}}-m_{\mathrm{j}})-\it S_{\mathrm{iM}}S_{\mathrm{jM}}(\bf x_{\mathrm{Mt}}-m_{\mathrm{M}})}{S_{\mathrm{MM}}^{2}}(\bf x_{\mathrm{Mt}}-m_{\mathrm{M}})(\bf x_{\mathrm{it}}-m_{\mathrm{i}})(\bf x_{\mathrm{jt}}-m_{\mathrm{j}})-\itGamma_{\mathrm{ij}}S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})(\bf x_{\mathrm{it}}-m_{\mathrm{j}})(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}})\it S_{\mathrm{ij}}(\bf x_{\mathrm{it}}-m_{\mathrm{j}}
+\mathbf{r}_{\mathrm{9f}}=\frac{\mathrm{s}_{\mathrm{18}}\mathrm{s}_{\mathrm{39f}}(\mathrm{x}_{\mathrm{R}}-\mathrm{m}_{\mathrm{i}})+\mathrm{s}_{\mathrm{18}}\mathrm{s}_{\mathrm{39f}}(\mathrm{x}_{\mathrm{R}}-\mathrm{m}_{\mathrm{j}})-\mathrm{s}_{\mathrm{18}}\mathrm{s}_{\mathrm{39}}(\mathrm{x}_{\mathrm{3R}}-\mathrm{m}_{\mathrm{M}})}{\mathrm{s}_{\mathrm{39f}}^{2}}(\mathrm{x}_{\mathrm{M}}-\mathrm{m}_{\mathrm{M}})(\mathrm{x}_{\mathrm{R}}-\mathrm{m}_{\mathrm{i}})(\mathrm{x}_{\mathrm{R}}-\mathrm{m}_{\mathrm{j}})-\mathrm{f}_{\mathrm{q}}\mathrm{s}_{\mathrm{ij}}
 $$
 
 ## c 是γ的一致估计量
 
 $$
-\bf c_{ij}=\left(f_{ij}-s_{ij}\right)^{2}
+\mathbf{c_{ij}}=\left(\mathbf{f_{ij}}-\mathbf{s_{ij}}\right)^{2}
 $$
 
 利用上述引理，我们实际上得到了
@@ -293,7 +293,7 @@ $$
 定理 2 协方差矩阵的市场缩减估计为：
 
 $$
-\hat{\mathbf{S}}=\frac{\mathbf{k}}{\mathbf{T}}\mathbf{F}+\frac{\mathbf{T}-\mathbf{k}}{\mathbf{T}}\mathbf{S}
+\hat{\mathbf{S}}=\frac{\mathbf{k}}{\mathrm{T}}\mathbf{F}+\frac{\mathbf{T}-\mathbf{k}}{\mathrm{T}}\mathbf{S}
 $$
 
 $$
@@ -311,17 +311,17 @@ $$
 首先回溯 MVO 框架如下：
 
 $$
-\operatorname*{min}_{\mathbf{w}}\mathbf{w}^{\prime}\Sigma\mathbf{w}\quad\mathrm{s.t.}\mathbf{w}^{\prime}1=1,\mathbf{w}^{\prime}\mu=\mathbf{q}
+\min_{\mathbf{w}}\mathbf{w}'\Sigma\mathbf{w}\quad s.t.\quad\mathbf{w}'\mathbf{1}=1,\mathbf{w}'\boldsymbol{\mu}=\mathbf{q}
 $$
 
-其中 $\mathbf{W}$ 代表权重向量， $\mp\mathsf{q}$ 代表给定的预期收益率，此时最优权重满足
+其中 $\mathbf{W}$ 代表权重向量， $而\mathbf{q}$ 代表给定的预期收益率，此时最优权重满足
 
 $$
-\mathbf{w}^{*}={\frac{\mathbf{C}-\mathbf{q}\mathbf{B}}{\mathbf{A}\mathbf{C}-\mathbf{B}^{2}}}\Sigma^{-1}\mathbf{1}+{\frac{\mathbf{q}\mathbf{A}-\mathbf{B}}{\mathbf{A}\mathbf{C}-\mathbf{B}^{2}}}\Sigma^{-1}\mathbf{\mu}
+\mathrm{w}^*=\frac{\mathrm{C}-\mathrm{qB}}{\mathrm{AC}-\mathrm{B}^2}\Sigma^{-1}\mathrm{1}+\frac{\mathrm{qA}-\mathrm{B}}{\mathrm{AC}-\mathrm{B}^2}\Sigma^{-1}\mu
 $$
 
 $$
-\left\{\begin{array}{ll}{\mathtt{A}=1^{\prime}\Sigma^{-1}1}\\{\mathtt{B}=1^{\prime}\Sigma^{-1}\mu}\\{\mathtt{C}=\mu^{\prime}\Sigma^{-1}\mu}\end{array}\right.
+\begin{cases}\mathrm{A}=1'\Sigma^{-1}\mu\\\mathrm{B}=1'\Sigma^{-1}\mu\\\mathrm{C}=\mu'\Sigma^{-1}\mu\end{cases}
 $$
 
 所以从公式上看，一旦协方差矩阵奇异，那么最优权重的计算公式将会
@@ -353,7 +353,7 @@ $$
 5. 行业因子估计：该模型是市场模型的细化，通常形如
 
 $$
-\mathrm{\Delta x_{it}=\alpha_{i}+\beta_{i}\mathrm{x_{Mt}+\sum_{k}\mathrm{c_{ik}\mathrm{z_{kt}+\varepsilon}}}}
+\mathbf{x_{it}}=\alpha_{\mathrm{i}}+\beta_{\mathrm{i}}\mathbf{x_{Mt}}+\sum_{\mathrm{k}}\mathbf{c_{ik}}\mathbf{z_{kt}}+\mathbf{\varepsilon_{it}}
 $$
 
 其中 K代表行业因子的数量，c 是单只股票所属行业的哑变量，z 是行业的因子收益，ε是残差收益。在本文中，行业的因子收益等于行业内股票等权重形成的投资组合的收益。
@@ -428,7 +428,7 @@ These are for the global minimum variance portfolio, expressed in percents, and 
 对于样本均值和样本协方差，我们只用验证通常定义和矩阵形式定义的分量是一致的即可。事实上：
 
 $$
-\begin{array}{rl}{{\operatorname*{m}_{1}=\mathbf{E}[\mathbf{x}_{1}]=\frac{1}{7}\sum_{k=1}^{N_{\mathrm{A}}}-\frac{1}{{\mathrm{T}}}{\mathrm{X}}_{\mathrm{A}}-{\mathrm{I}}_{\mathrm{T}}^{1}{\mathrm{X}}_{\mathrm{A}},}}\\&{s_{1}=\mathbf{E}[(s_{1}-{\mathrm{\bf~F}}{\mathrm{\bf~x}}_{1})](s_{1}-{\mathrm{\bf~F}}{\mathrm{\bf~\bar{x}}}_{1}])\rVert-\frac{1}{7}\sum_{k=1}^{N}\Bigg({\mathrm{\bf~x}}_{1k}-\frac{1}{7}\sum_{k=1}^{N_{\mathrm{A}}}\Bigg)\Bigg(x_{1k}-\frac{1}{7}\sum_{s=1}^{N_{\mathrm{A}}}\Bigg)}\\&{=\frac{1}{1}\Bigg[\Bigg[\sum_{k=1}^{N}x_{1}x_{1}-\frac{1}{1}\Bigg(\sum_{s=1}^{N}\Bigg)\Bigg(\sum_{s=1}^{N}x_{1}\Bigg)\Bigg]}\\&{=\frac{1}{1}\Bigg[{\mathrm{\bf~x}}_{1}\times{\mathrm{\bf~x}}_{-1}-\frac{1}{7}{\mathrm{\bf~x}}_{1-1,1,1,1,1,1,1,1,1}x_{1}^{-1}\Bigg]}\\&=\frac{1}{1}\times_{-1}\Bigg({\mathrm{\bf~x}}_{1-1}-\frac{1}{1}{\mathrm{\bf~x}}_{1-1,1,1,1,1,1,1}x_{1}^{-1}\end{array}
+\begin{aligned}\mathrm{m}_{\mathrm{i}}&=\mathbb{E}[\mathrm{x}_{\mathrm{i}}]=\frac{1}{\mathrm{T}}\sum_{\mathrm{t}}\mathrm{x}_{\mathrm{it}}=\frac{1}{\mathrm{T}}\mathrm{X}_{\mathrm{i}}-1_{\mathrm{T}\times1}\\s_{\mathrm{ij}}&=\mathbb{E}[(\mathrm{x}_{\mathrm{i}}-\mathbb{E}[\mathrm{x}_{\mathrm{i}}])(\mathrm{x}_{\mathrm{j}}-\mathbb{E}[\mathrm{x}_{\mathrm{j}}])]=\frac{1}{\mathrm{T}}\sum_{\mathrm{t}}\left(\mathrm{x}_{\mathrm{it}}-\frac{1}{\mathrm{T}}\sum_{\mathrm{s}}\mathrm{x}_{\mathrm{is}}\right)\left(\mathrm{x}_{\mathrm{jt}}-\frac{1}{\mathrm{T}}\sum_{\mathrm{s}}\mathrm{x}_{\mathrm{js}}\right)\\&=\frac{1}{\mathrm{T}}\left[\sum_{\mathrm{t}}\mathrm{x}_{\mathrm{it}}\mathrm{x}_{\mathrm{jt}}-\frac{1}{\mathrm{T}}\left(\sum_{\mathrm{s}}\mathrm{x}_{\mathrm{is}}\right)\left(\sum_{\mathrm{s}}\mathrm{x}_{\mathrm{js}}\right)\right]\\&=\frac{1}{\mathrm{T}}\left[\mathrm{X}_{\mathrm{i}}-\mathrm{X}_{-\mathrm{j}}^{\prime}-\frac{1}{\mathrm{T}}\mathrm{X}_{\mathrm{i}-1}\mathrm{x}_{\mathrm{T}\times1}1_{1\times\mathrm{T}}\mathrm{X}_{-\mathrm{j}}^{\prime}\right]\\&=\frac{1}{\mathrm{T}}\mathrm{X}_{\mathrm{i}-}\left(\mathrm{I}_{\mathrm{T}\times\mathrm{T}}-\frac{1}{\mathrm{T}}1_{\mathrm{T}\times1}1_{1\times\mathrm{T}}\right)\mathrm{X}_{-\mathrm{j}}^{\prime}\\&=\frac{1}{\mathrm{T}}\left(\mathrm{X}\left(\mathrm{I}-\frac{1}{\mathrm{T}}11^{\prime}\right)\mathrm{X}^{\prime}\right)_{\mathrm{ij}}\\\end{aligned}
 $$
 
 所以上述矩阵分解与通常定义是一致的。
@@ -438,13 +438,13 @@ $$
 根据矩阵对角化理论，由于 A是对称矩阵，故有对角化
 
 $$
-\Lambda=\mathrm{UAU}^{-1}=\mathrm{diag}(\lambda_{1},\ldots,\lambda_{\mathrm{N}}),\mathrm{U}\in0(\mathrm{N})
+\Lambda=\mathrm{UAU}^{-1}=\mathrm{diag}(\lambda_1,\ldots,\lambda_{\mathrm{N}}),\mathrm{U}\in\mathrm{O(N)}
 $$
 
-其中 U是正交变换。由于方阵 X 和 Y满足 $\operatorname{tr}(\mathrm{XY}){\mathrm{=tr}}(\mathrm{YX})$ ，所以
+其中 U是正交变换。由于方阵 X 和 Y满足 $\mathrm{tr}(\mathrm{XY})=\mathrm{tr}(\mathrm{YX})$ ，所以
 
 $$
-\begin{array}{l}{{\displaystyle\sum_{\mathrm{i},\mathrm{j}}a_{\mathrm{ij}}^{2}=\mathrm{tr}(\mathrm{A}A^{\prime})=\mathrm{tr}(A^{2})=\mathrm{tr}(A^{2}\mathrm{UU}^{-1})}}\\{{\displaystyle=\mathrm{tr}(\mathrm{UA}^{2}\mathrm{U}^{-1})=\mathrm{tr}(\mathrm{UAU}^{-1}\mathrm{UAU}^{-1})=\mathrm{tr}(\Lambda^{2})=\sum_{\mathrm{i}}\lambda_{\mathrm{i}}^{2}}}\end{array}
+\begin{align*}\sum_{\mathrm{ij}}a_{\mathrm{ij}}^2=\mathrm{tr}(\mathrm{AA}')=\mathrm{tr}(\mathrm{A}^2)=\mathrm{tr}(\mathrm{A}^2\mathrm{UU}^{-1})\\=\mathrm{tr}(\mathrm{UA}^2\mathrm{U}^{-1})=\mathrm{tr}(\mathrm{UAU}^{-1}\mathrm{UAU}^{-1})=\mathrm{tr}(\mathrm{A}^2)=\sum_{\mathrm{i}}\lambda_{\mathrm{i}}^2.\end{align*}
 $$
 
 证毕。
@@ -454,83 +454,83 @@ $$
 首先我们回忆中心极限定理（CLT）。CLT 断言 IID 的样本均值
 
 $$
-\overline{{\mathrm{X}}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{i}}\mathrm{X}_{\mathrm{i}}
+\overline{{\mathrm{X}}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{i}}\mathrm{X}_{\mathrm{i}},
 $$
 
 作为一个随机变量，其均值和方差满足
 
 $$
-\mu_{\mathrm{X}}=\mu_{\mathrm{X}},\sigma_{\mathrm{\overline{{X}}}}=\frac{\sigma_{\mathrm{X}}}{\sqrt{\mathrm{T}}}
+\mu_{\overline{{\mathrm{X}}}}=\mu_{\mathrm{X}},\sigma_{\overline{{\mathrm{X}}}}=\frac{\sigma_{\mathrm{X}}}{\sqrt{\mathrm{T}}}
 $$
 
 利用定理 2 前最优缩减强度的表达式，我们有
 
 $$
-\mathrm{T\alpha^{*}=\frac{\sum_{ij}\left(\mathrm{Var}\left(\sqrt{T}s_{ij}\right)-\mathrm{Cov}\left(\sqrt{T}f_{ij},\sqrt{T}s_{ij}\right)\right)}{\sum_{ij}\left(\mathrm{Var}\left(f_{ij}-s_{ij}\right)+\left(\phi_{ij}-\sigma_{ij}\right)^{2}\right)}}
+\mathrm{T}\alpha^{*}=\frac{\sum_{\mathrm{ij}}\left(\operatorname{Var}\left(\sqrt{\mathrm{T}}s_{\mathrm{ij}}\right)-\operatorname{Cov}\left(\sqrt{\mathrm{T}}f_{\mathrm{ij}},\sqrt{\mathrm{T}}s_{\mathrm{ij}}\right)\right)}{\sum_{\mathrm{ij}}\left(\operatorname{Var}\left(f_{\mathrm{ij}}-s_{\mathrm{ij}}\right)+\left(\phi_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right)^{2}\right)}
 $$
 
 因此只需要证明：
 
 $$
-\left\{\begin{array}{ll}{\displaystyle\sum_{\mathrm{ij}}\mathrm{Var}\big(\sqrt{\mathsf{T}}s_{\mathrm{ij}}\big)\to\pi}\\{\displaystyle\sum_{\mathrm{ij}}\mathrm{Var}\big(\sqrt{\mathsf{T}}s_{\mathrm{ij}}\big)\to\rho}\\{\displaystyle\left\lfloor\sum_{\mathrm{ij}}\mathrm{Var}\big(\mathsf{f}_{\mathrm{ij}}-s_{\mathrm{ij}}\big)\to\mathcal{O}(\mathsf{T}^{-2})\right.}\end{array}\right.
+\left\{\begin{aligned}&\sum_{ij}Var(\sqrt{T}s_{ij})\rightarrow\pi\\&\sum_{ij}Var(\sqrt{T}s_{ij})\rightarrow\rho\\&\sum_{ij}Var(f_{ij}-s_{ij})\rightarrow\mathcal{O}(T^{-2})\end{aligned}\right.
 $$
 
 更进一步，只需要在各个分量上验证即可。由于各个极限的计算都是类似的，此处只证明：
 
 $$
-\operatorname*{lim}_{\mathrm{T}\to\infty}\mathrm{Var}\big(\sqrt{\mathrm{T}}s_{\mathrm{ij}}\big)=\pi_{\mathrm{ij}}=\mathrm{AsyVar}(\sqrt{\mathrm{T}}s_{\mathrm{ij}})
+\lim_{\mathrm{T}\to\infty}\mathrm{Var}(\sqrt{\mathrm{T}}\mathrm{s}_{\mathrm{ij}})=\pi_{\mathrm{ij}}=\mathrm{AsyVar}(\sqrt{\mathrm{T}}\mathrm{s}_{\mathrm{ij}})
 $$
 
 不失一般性，假设各股票收益率零均值
 
 $$
-\mathbb{E}[\mathrm{x}_{\mathrm{it}}]=\mathbb{E}\big[\mathrm{x}_{\mathrm{jt}}\big]=0
+\mathbb{E}[\mathbf{x}_{\mathrm{it}}]=\mathbb{E}[\mathbf{x}_{\mathrm{jt}}]=0
 $$
 
 考虑样本协方差
 
 $$
-\widehat{\sigma}_{\mathrm{ij}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{~t~}}\mathrm{x}_{\mathrm{it}}\mathrm{x}_{\mathrm{jt}}
+\widehat{\sigma}_{\mathrm{ij}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{t}}\mathrm{x}_{\mathrm{it}}\mathrm{x}_{\mathrm{jt}}
 $$
 
 利用求和项序列的 IID 性质可以知道，
 
 $$
-\mathrm{x_{it}\mathrm{x_{jt}}\sim N(\pi_{ij},\it{\zeta_{ij}^{2}}<\infty)}
+\mathbf{x_{it}x_{jt}}\sim\mathsf{N}(\pi_{\mathrm{ij}},\zeta_{\mathrm{ij}}^{2}<\infty)
 $$
 
 而 CLT 断言此时有如下依分布收敛
 
 $$
-\sqrt{\mathrm{T}}\big(\mathfrak{F}_{\mathrm{ij}}-\mathfrak{o}_{\mathrm{ij}}\big)\to_{\mathrm{d}}\mathrm{N}(0,\zeta_{\mathrm{ij}}^{2})
+\sqrt{\mathrm{T}}\big(\widehat{\sigma}_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)\rightarrow_{\mathrm{d}}\mathsf{N}(0,\zeta_{\mathrm{ij}}^{2})
 $$
 
 但是如果令
 
 $$
-\bar{\mathrm{x}}_{\mathrm{i}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{t}}\mathrm{x}_{\mathrm{it}},\bar{\mathrm{x}}_{\mathrm{j}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{t}}\mathrm{x}_{\mathrm{jt}}
+\bar{\mathbf{x}}_{\mathrm{i}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{t}}\mathbf{x}_{\mathrm{it}},\bar{\mathbf{x}}_{\mathrm{j}}=\frac{1}{\mathrm{T}}\sum_{\mathrm{t}}\mathbf{x}_{\mathrm{jt}}
 $$
 
 $$
-{\sqrt{\mathsf{T}}}{\bigl(}{\widehat{\sigma}}_{\mathrm{ij}}-\mathsf{s}_{\mathrm{ij}}{\bigr)}={\sqrt{\mathsf{T}}}\left({\frac{1}{\mathsf{T}}}\sum_{\mathrm{ij}}{\bigl[}\mathrm{x}_{\mathrm{it}}\mathrm{x}_{\mathrm{jt}}-{\bigl(}\mathrm{x}_{\mathrm{it}}-{\overline{{\mathrm{x}}}}_{\mathrm{i}}{\bigr)}{\bigl(}\mathrm{x}_{\mathrm{jt}}-{\overline{{\mathrm{x}}}}_{\mathrm{j}}{\bigr)}{\bigr]}\right)={\sqrt{\mathsf{T}}}\ \mathbf{\overline{{x}}}_{\mathrm{i}}{\overline{{\mathrm{x}}}}_{\mathrm{j}}
+\sqrt{\mathrm{T}}\left(\widehat{\sigma}_{\mathrm{ij}}-\mathrm{s}_{\mathrm{ij}}\right)=\sqrt{\mathrm{T}}\left(\frac{1}{\mathrm{T}}\sum_{\mathrm{ij}}\left[\mathrm{x}_{\mathrm{it}}\mathrm{x}_{\mathrm{jt}}-\left(\mathrm{x}_{\mathrm{it}}-\bar{\mathrm{x}}_{\mathrm{i}}\right)\left(\mathrm{x}_{\mathrm{jt}}-\bar{\mathrm{x}}_{\mathrm{j}}\right)\right]\right)=\sqrt{\mathrm{T}}\bar{\mathrm{x}}_{\mathrm{i}}\bar{\mathrm{x}}_{\mathrm{jt}}
 $$
 
 由于 CLT 断言
 
 $$
-\sqrt{\mathsf{T}}\overline{{\mathbf{x}}}_{\mathrm{i}}\sim0(1),\overline{{\mathbf{x}}}_{\mathrm{j}}\sim0(1)\Rightarrow\sqrt{\mathsf{T}}\overline{{\mathbf{x}}}_{\mathrm{i}}\overline{{\mathbf{x}}}_{\mathrm{j}}\sim0(1)
+\sqrt{\mathrm{T}}\bar{\mathrm{x}}_{\mathrm{i}}\sim0(1),\bar{\mathrm{x}}_{\mathrm{j}}\sim\mathrm{o}(1)\Rightarrow\sqrt{\mathrm{T}}\bar{\mathrm{x}}_{\mathrm{i}}\bar{\mathrm{x}}_{\mathrm{j}}\sim\mathrm{o}(1)
 $$
 
 再由 Slutzky 定理可知
 
 $$
-\sqrt{\mathsf{T}}\big(s_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)=\sqrt{\mathsf{T}}\big[\big(\widehat{\sigma}_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\big)-\big(\widehat{\sigma}_{\mathrm{ij}}-s_{\mathrm{ij}}\big)\big]_{\mathrm{d}}\mathrm{N}\big(0,\zeta_{\mathrm{ij}}^{2}\big)+\mathsf{o}(1)=\mathrm{N}(0,\zeta_{\mathrm{ij}}^{2})
+\sqrt{\mathrm{T}}\left(s_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right)=\sqrt{\mathrm{T}}\left[\left(\widehat{\sigma}_{\mathrm{ij}}-\sigma_{\mathrm{ij}}\right)-\left(\widehat{\sigma}_{\mathrm{ij}}-s_{\mathrm{ij}}\right)\right]\rightarrow_{\mathrm{d}}\mathrm{N}\left(0,\zeta_{\mathrm{ij}}^{2}\right)+\mathrm{o}(1)=\mathrm{N}\left(0,\zeta_{\mathrm{ij}}^{2}\right)
 $$
 
 从而由渐进方差的定义我们得到
 
 $$
-\mathrm{Var(\sqrt{T}s_{ij})\zeta_{ij}^{2}=:\pi_{ij}}
+\mathrm{Var}(\sqrt{\mathrm{Ts}_{\mathrm{ij}}})\rightarrow\zeta_{\mathrm{ij}}^{2}=:\pi_{\mathrm{ij}}
 $$
 
 而其他分量的证明是类似的，证毕。

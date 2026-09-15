@@ -95,61 +95,61 @@ Mathijs Cosemans, Rik Frehen. Salience theory and stock prices: Empirical eviden
 为了衡量“凸显性”，Bordalo（2012）针对彩票提出了模型：
 
 $$
-\sigma(\mathrm{x_{is},\mathrm{\overline{{x}}_{s}}})=\frac{|\mathrm{x_{is}-\mathrm{\overline{{x}}_{s}}}|}{|\mathrm{x_{is}}|+|\mathrm{\overline{{x}}_{s}}|+\theta}\tag{1}
+\sigma(\mathrm{x}_{\mathrm{i}s},\bar{\mathrm{x}}_{s})=\frac{|\mathrm{x}_{\mathrm{i}s}-\bar{\mathrm{x}}_{s}|}{|\mathrm{x}_{\mathrm{i}s}|+|\bar{\mathrm{x}}_{s}|+\Theta}\tag{1}
 $$
 
-这里的 $\mathbf{X}_{\mathrm{i}s}$ 表示的是对于s状态下（这里的状态是指用来估计收益的所有收益状态构成的集合S，s为S中的一个元素），第i只彩票所具有的收益。$\overline{{\mathbf{X}}}_{s}$ 表示市场上所有彩票的平均收益。这里的θ>0，目的是为了使上式的分母不为 0。
+这里的 $\mathbf{x_{is}}$ 表示的是对于s状态下（这里的状态是指用来估计收益的所有收益状态构成的集合S，s为S中的一个元素），第i只彩票所具有的收益。$\overline{{\mathbf{X}}}_{\mathbf{s}}$ 表示市场上所有彩票的平均收益。这里的θ>0，目的是为了使上式的分母不为 0。
 
-(1)中的函数满足三个条件：保序性，敏感性递减和对称性。保序性意味着，随着 $\mathbf{X}_{\mathrm{i}s}$ 偏离市场程度上升，函数数值变大。敏感性递减意味着随着所有彩票的绝对收益水平统一上升，“凸显性”下降，即当市场整体收益水平较高时，收益差异会被相对减小。对称性指的是“凸显性”只取决于相对收益的大小，并不取决于相对收益的符号。根据函数(1)，决策者会根据“凸显性”去改变其购买彩票的选择。
+(1)中的函数满足三个条件：保序性，敏感性递减和对称性。保序性意味着，随着 $\mathbf{\nabla}\mathbf{x}_{\mathbf{i}s}$ 偏离市场程度上升，函数数值变大。敏感性递减意味着随着所有彩票的绝对收益水平统一上升，“凸显性”下降，即当市场整体收益水平较高时，收益差异会被相对减小。对称性指的是“凸显性”只取决于相对收益的大小，并不取决于相对收益的符号。根据函数(1)，决策者会根据“凸显性”去改变其购买彩票的选择。
 
 根据凸显理论，决策者会参考收益状态对预期收益进行估计。具体来说，决策者将每个彩票的收益排序，状态s的“凸显性”所影响的加权概率会替代原有概率。因此有：
 
 $$
-\widetilde{\pi}_{\mathrm{i}s}=\pi_{s}\cdot\ w_{\mathrm{i}s}\tag{2}
+\mathbf{\tilde{\pi}_{is}}=\mathbf{\pi_{s}}\cdot\mathbf{w_{is}}\tag{2}
 $$
 
 $$
-\mathbf{w_{is}}=\frac{\delta^{\mathbf{k_{is}}}}{\sum_{s\prime}\delta^{\mathbf{k_{is\prime}}}\cdot\boldsymbol{\pi}_{s\prime}},\delta\in\left(0,1\right]\tag{3}
+\mathrm{w}_{\mathrm{is}}=\frac{\delta^{\mathrm{k}_{\mathrm{is}}}}{\sum_{s^{\prime}}\delta^{\mathrm{k}_{\mathrm{is}^{\prime}}}\cdot\pi_{s^{\prime}}},\delta\in(0,1]\tag{3}
 $$
 
-这里的 $\mathbf{k}_{\mathrm{i}s}$ 是根据函数(1)计算的凸显性的倒序排序。“凸显性”最强的是1，最弱的是 S，S 为状态集合的元素个数。 $\pi_{s}$ 为其状态原有概率。 $\widetilde{\pi}_{\mathrm{i}s}$ 为受“凸显性”所影响的加权概率。δ为“凸显性”的敏感系数，如果δ为 1，表明决策者对于凸显收益不敏感，表现为理性的决策者，其决策权重等于客观概率。当 0<δ<1 时，决策者的决策受凸显理论影响，其会放大显著收益对收益估计的影响。当δ接近 0 时，说明决策者几乎只关注彩票最突出的收益部分，而忽略其他收益。
+这里的 $\mathbf{k}_{\mathrm{is}}$ 是根据函数(1)计算的凸显性的倒序排序。“凸显性”最强的是1，最弱的是 S，S 为状态集合的元素个数。 $\pi_{s}$ 为其状态原有概率。 $\widetilde{\pi}_{\mathrm{is}}$ 为受“凸显性”所影响的加权概率。δ为“凸显性”的敏感系数，如果δ为 1，表明决策者对于凸显收益不敏感，表现为理性的决策者，其决策权重等于客观概率。当 0<δ<1 时，决策者的决策受凸显理论影响，其会放大显著收益对收益估计的影响。当δ接近 0 时，说明决策者几乎只关注彩票最突出的收益部分，而忽略其他收益。
 
 ## 3.2. 基于凸显性的资产定价模型
 
-基于凸显性的资产定价模型由 Bordalo et al. (2013a)提出，其解释了“凸显性”如何影响投资者的交易决策，进而如何影响股票价格。Bordalo etal. (2013a)通过一个两期投资模型，针对个体投资者行为进行了阐释和解析。在不考虑货币的时间价值的情况下，定义 t=0 时期为现在，t=1 时期为未来。在 t=0 时期，投资者持有市场上每只股票（共 N 只）各一个单位，现有总市值为 $\mathbf{W}_{0}.$ 。第i只股票的现价为 $\mathrm{p}_{\mathrm{i}}$ ，在收益状态 s 下，t=1 时该股票产生了 $\mathbf{X}_{\mathrm{i}s}$ 的回报。为了最大化如下定义的效用函数，在 t=0时期，投资者对第 i只股票进行了交易量为 ${\mathfrak{a}}_{\mathrm{i}}$ 的交易。
+基于凸显性的资产定价模型由 Bordalo et al. (2013a)提出，其解释了“凸显性”如何影响投资者的交易决策，进而如何影响股票价格。Bordalo etal. (2013a)通过一个两期投资模型，针对个体投资者行为进行了阐释和解析。在不考虑货币的时间价值的情况下，定义 t=0 时期为现在，t=1 时期为未来。在 t=0 时期，投资者持有市场上每只股票（共 N 只）各一个单位，现有总市值为 $\mathbf{w_{0}},$ 。第i只股票的现价为 $\mathfrak{p}_{\mathrm{i}}$ ，在收益状态 s 下，t=1 时该股票产生了 $\mathbf{x_{is}}$ 的回报。为了最大化如下定义的效用函数，在 t=0时期，投资者对第 i只股票进行了交易量为 $\alpha_{\mathbf{i}}$ 的交易。
 
 $$
-\operatorname*{max}_{\alpha_{\mathrm{i}}}\mathrm{u}(\mathrm{c}_{0})+\mathbb{E}\big[\mathrm{w_{is}u}\big(\mathrm{c}_{1,s}\big)\big]\tag{4}
+\max_{\alpha_{\mathrm{i}}}\mathrm{u}(\mathrm{c}_{0})+\mathbb{E}[\mathrm{w}_{\mathrm{is}}\mathrm{u}(\mathrm{c}_{1,s})]\tag{4}
 $$
 
 其中：
 
 $$
-{\tau_{0}}={\ w_{0}}-\sum_{\mathrm{i}}^{\mathrm{N}}{\alpha_{\mathrm{i}}\mathrm{p}_{\mathrm{i}}}\tag{5}
+\mathbf{c}_{0}=\mathbf{w}_{0}-\sum_{\mathrm{i}}^{\mathrm{N}}\alpha_{\mathrm{i}}\mathbf{p}_{\mathrm{i}},\tag{5}
 $$
 
 $$
-{\tau}_{1,s}=\sum_{\mathrm{i}}^{\mathrm{N}}({\alpha}_{\mathrm{i}}+1){\alpha}_{\mathrm{i}s}\tag{6}
+\mathbf{c}_{1,s}=\sum_{\mathrm{i}}^{\mathrm{N}}(\alpha_{\mathrm{i}}+1)\mathbf{x}_{\mathrm{i}s},\tag{6}
 $$
 
 这里的 $(\alpha_{\mathrm{i}}+1)$ 是第i只股票基于现有持仓增加或减少额外数量后的仓位。优化(4)所需要的一阶条件为：
 
 $$
-\mathsf{p}_{\mathrm{i}}\mathrm{u}^{\prime}(\mathsf{c}_{0})=\mathbb{E}\bigl[\mathbf{w}_{\mathrm{i}\mathrm{s}}\mathbf{x}_{\mathrm{i}\mathrm{s}}\mathrm{u}^{\prime}\bigl(\mathsf{c}_{1,s}\bigr)\bigr]=\sum_{s}^{s}\pi_{s}\left(\mathbf{w}_{\mathrm{i}s}\mathbf{x}_{\mathrm{i}s}\mathrm{u}^{\prime}\left(\mathsf{c}_{1,s}\right)\right),\forall\mathrm{i}\in\mathsf{N}\tag{7}
+\mathbf{p}_{\mathrm{i}}\mathbf{u}^{\prime}(\mathbf{c}_{0})=\mathbb{E}\left[\mathbf{w}_{\mathrm{is}}\mathbf{x}_{\mathrm{is}}\mathbf{u}^{\prime}(\mathbf{c}_{1,s})\right]=\sum_{s}^{S}\pi_{s}\left(\mathbf{w}_{\mathrm{is}}\mathbf{x}_{\mathrm{is}}\mathbf{u}^{\prime}(\mathbf{c}_{1,s})\right),\forall\mathrm{i}\in\mathbb{N}\tag{7}
 $$
 
 由凸显性驱动的定价模型实际上是最大化所有投资者的效用函数。均衡状态下的股价实际上可以被以下方程所描述：
 
 $$
-\mathrm{p_{i}=\mathbb{E}[w_{is}x_{is}]=\mathbb{E}[x_{is}]+cov[w_{is},x_{is}],\forall i\in\mathbb{N}}\tag{8}
+\mathbf{p}_{\mathrm{i}}=\mathbb{E}[\mathbf{w}_{\mathrm{is}}\mathbf{x}_{\mathrm{is}}]=\mathbb{E}[\mathbf{x}_{\mathrm{is}}]+\mathrm{cov}[\mathbf{w}_{\mathrm{is}},\mathbf{x}_{\mathrm{is}}],\forall\mathrm{i}\in\mathbb{N}\tag{8}
 $$
 
-等式(8)的右侧表明，在没有“凸显性”的影响下，股票的价格等于其未来收益的期望。这里的预期值是使用客观概率估计的结果。当$\mathrm{cov}\mathrm{[w_{is},x_{is}]}>0$ 时，投资者的注意力被其上行能力所吸引，股票价格被高估；当 $\mathrm{cov}[\mathrm{w}_{\mathrm{is}},\mathrm{x}_{\mathrm{is}}]<0$ 时，投资者关注其下行风险，并且只有当股票定价低于理性决策价格时，才愿意持有该股票，故股票价格被低估。
+等式(8)的右侧表明，在没有“凸显性”的影响下，股票的价格等于其未来收益的期望。这里的预期值是使用客观概率估计的结果。当$\mathrm{cov}[\mathrm{w}_{\mathrm{is}},\mathrm{x}_{\mathrm{is}}]>0$ 时，投资者的注意力被其上行能力所吸引，股票价格被高估；当 $\mathrm{cov}[\mathrm{w_{is}},\mathrm{x_{is}}]<0$ 时，投资者关注其下行风险，并且只有当股票定价低于理性决策价格时，才愿意持有该股票，故股票价格被低估。
 
-将等式(8)的左右两边同时除以股价 $\mathrm{\Delta p_{i}}$ ，有：
+将等式(8)的左右两边同时除以股价 $\mathrm{p_{i}}$ ，有：
 
 $$
-\mathrm{{\mathbb{E}}[r_{is}]=-cov[w_{is},r_{is}]\equiv-ST_{i}\nabla,\forall i\in\mathbb{N}}\tag{8}
+\mathbb{E}[\mathbf{r}_{\mathrm{is}}]=-\mathrm{cov}[\mathbf{w}_{\mathrm{is}},\mathbf{r}_{\mathrm{is}}]\equiv-\mathrm{ST}_{\mathrm{i}},\forall\mathrm{i}\in\mathbb{N}\tag{8}
 $$
 
 上述推导揭示了 ST 指标的隐含意义：具有正 ST 指标的股票，其未来收益低于具有负 ST 指标的股票。基于以上观察，我们将对 ST 指标构建过程展开详细的说明与论述。
@@ -159,16 +159,16 @@ $$
 正如前文所述，投资者会根据每只股票过去的收益推断其未来的收益。假设收益状态空间是由过去一个月的每日回报所构成，即投资者会根据过去一个月的每日收益表现推测未来收益表现。那么，过去一个月内每日的收益率是确定的，则估计预期收益时对每日收益率分配的权重应等于过去一个月的交易日数量的倒数。根据这种做法，“凸显性”由如下函数定义：
 
 $$
-\sigma({\bf r}_{\mathrm{is}},\bar{\bf r}_{s})=\frac{|{\bf r}_{\mathrm{is}}-\bar{\bf r}_{s}|}{|{\bf r}_{\mathrm{is}}|+|\bar{\bf r}_{s}|+\theta}\tag{9}
+\sigma(\mathbf{r}_{\mathrm{is}},\bar{\mathbf{r}}_{\mathrm{s}})=\frac{|\mathbf{r}_{\mathrm{is}}-\bar{\mathbf{r}}_{\mathrm{s}}|}{|\mathbf{r}_{\mathrm{is}}|+|\bar{\mathbf{r}}_{\mathrm{s}}|+\Theta}\tag{9}
 $$
 
 即通过比较股票收益和市场收益来计算“凸显性”。对于每只股票，我们按凸显性对每个月的每日收益进行降序排序，并使用等式(3)计算相应的凸显性权重w，其中定义参数θ=0.1 和δ=0.7。最终得到 ST 指标为：
 
 $$
-\begin{array}{l}{{\displaystyle\mathrm{ST}_{\mathrm{i,t}}\equiv\mathrm{cov}\big[\mathrm{w}_{\mathrm{is,t}},\mathrm{r}_{\mathrm{is,t}}\big]=\sum_{s}^{S_{\mathrm{t}}}\pi_{s,\mathrm{t}}\mathrm{w}_{\mathrm{is,t}}\mathrm{r}_{\mathrm{is,t}}-\sum_{s}^{S_{\mathrm{t}}}\pi_{s,\mathrm{t}}\mathrm{r}_{\mathrm{is,t}}}}\\{~=\mathbb E^{S\mathrm{T}}\left[\mathrm{r}_{\mathrm{is,t}}\right]-\bar{\mathrm{r}}_{\mathrm{is,t}}}\end{array}\tag{10}
+\begin{aligned}\mathrm{ST}_{\mathrm{i},\mathrm{t}}&\equiv\operatorname{cov}[\mathrm{w}_{\mathrm{is},\mathrm{t}},\mathrm{r}_{\mathrm{is},\mathrm{t}}]=\sum_{\mathrm{s}}^{\mathrm{S}_{\mathrm{t}}}\pi_{\mathrm{s},\mathrm{t}}\mathrm{w}_{\mathrm{is},\mathrm{t}}\mathrm{r}_{\mathrm{is},\mathrm{t}}-\sum_{\mathrm{s}}^{\mathrm{S}_{\mathrm{t}}}\pi_{\mathrm{s},\mathrm{t}}\mathrm{r}_{\mathrm{is},\mathrm{t}}\\&=\mathbb{E}^{\mathrm{ST}}[\mathrm{r}_{\mathrm{is},\mathrm{t}}]-\bar{\mathrm{r}}_{\mathrm{is},\mathrm{t}}\end{aligned}\tag{10}
 $$
 
-其中， $\mathsf{S}_{\mathrm{t}}$ 是第t月的交易日数目； $\pi_{\mathrm{s,t}}=1/\mathrm{S}_{\mathrm{t}};$ ，表示的是客观概率的估计权重。等式(10)表明了 ST 指标为投资者在估计预期收益时由凸显理论加权和等权加权过去一个月日收益的差异，因此 ST 指标可以衡量由于凸显理论引起的回报期望的偏差。
+其中， $\mathsf{S}_{\mathbf{t}}$ 是第t月的交易日数目； $\pi_{\mathrm{s,t}}=1/\mathrm{S_{t}};$ ，表示的是客观概率的估计权重。等式(10)表明了 ST 指标为投资者在估计预期收益时由凸显理论加权和等权加权过去一个月日收益的差异，因此 ST 指标可以衡量由于凸显理论引起的回报期望的偏差。
 
 ## 4. 实证分析
 
@@ -313,10 +313,10 @@ $$
 Fama-MacBeth 回归模型如下所示：
 
 $$
-\mathrm{r_{it+1}}=\lambda_{\mathrm{0t}}+\lambda_{\mathrm{1t}}\mathrm{ST_{it}}+\lambda_{\mathrm{2t}}\mathrm{W_{it}}+\mathrm{v_{it}}\tag{11}
+\mathbf{r}_{\mathrm{it}+1}=\lambda_{0\mathrm{t}}+\lambda_{1\mathrm{t}}\mathrm{ST}_{\mathrm{it}}+\lambda_{2\mathrm{t}}\mathrm{W}_{\mathrm{it}}+\mathbf{v}_{\mathrm{it}}\tag{11}
 $$
 
-在模型(11)中， $\mathrm{{W_{it}}}$ 包括了公司的特征。我们把 ME，BM，MOM，ILLIQ，BETA，IVOL，REV，MAX，MIN，TK，SKEW，COSKEW，ISKEW 和DBETA 都放入 $.W_{\mathrm{it}}$ 中。同时，我们对于这些变量进行了标准化处理，旨在衡量一个标准差变化下，个股变量对于公司收益的影响。
+在模型(11)中， $\mathrm{W_{it}}$ 包括了公司的特征。我们把 ME，BM，MOM，ILLIQ，BETA，IVOL，REV，MAX，MIN，TK，SKEW，COSKEW，ISKEW 和DBETA 都放入 $\mathcal{M}_{\mathrm{it}}$ 中。同时，我们对于这些变量进行了标准化处理，旨在衡量一个标准差变化下，个股变量对于公司收益的影响。
 
 表 5：公司层面的 Fama-MacBeth 回归
 

@@ -85,7 +85,7 @@ $$
 
 $r_{i}^{T+1}$ ：股票i在 T+1 期的收益率；
 
-$f_{i,j}^{T}$ ：第 T 期，股票 i 的行业虚拟变量，如股票 i 在j 行业，则取值为 1，如不在，则取值为0。这里行业分类选用了申万一级行业分类；
+$f_{i,j}^{T})$ ：第 T 期，股票 i 的行业虚拟变量，如股票 i 在j 行业，则取值为 1，如不在，则取值为0。这里行业分类选用了申万一级行业分类；
 
 ：第 T 期，股票 i 在 d 因子上的因子暴露；
 
@@ -182,7 +182,7 @@ Alpha040 的定义为：
 Alpha088 的定义为：
 
 $$
-\begin{array}{rl}&{\mathsf{min}(\mathsf{rank}(\mathsf{decay\_linear}(((\mathsf{rank}(\mathsf{open})+\mathsf{rank}(\mathsf{low}))-\mathsf{\Gamma}(\mathsf{rank}(\mathsf{high})+\mathsf{rank}(\mathsf{close}))),}\\&{\mathsf{B}),\mathsf{ts\_rank}\mathrm{~(decay\_linear~(correlation~(\mathsf{ts\_rank}~(close,~8),~\mathsf{ts\_rank}~(adv60,~20),}}\end{array}
+\begin{aligned}{}&{{}\mathsf{rinin}(\mathsf{rank}(\mathsf{decay\_linear}(((\mathsf{rank}(\mathsf{open})+\mathsf{rank}(\mathsf{low}))\textsf{-}(\mathsf{rank}(\mathsf{high})+\mathsf{rank}(\mathsf{close}))),}\\{}&{{}\mathsf{B})),\:\mathsf{ts\_rank}(\mathsf{decay\_linear}(\mathsf{correlation}(\mathsf{ts\_rank}(\mathsf{close},\mathsf{8}),\:\mathsf{ts\_rank}(\mathsf{adve0},\:20),}\\\end{aligned}
 $$
 
 ## 8),7),3))
@@ -204,7 +204,7 @@ $$
 Alpha042 的定义为：
 
 $$
-(\mathsf{rank}\left((\mathsf{wwap}\cdot\mathsf{close}))/\mathsf{rank}\left((\mathsf{wwap}+\mathsf{close})\right)\right)
+\mathsf{(rank\;((vwap-close))\;/\;rank\;((vwap+close)))}
 $$
 
 定义中的 vwap 是使用成交量赋权的日内成交价格，在这里我们使用成交额/成交量来代替。这个因子衡量了日内密集成交价格和收盘价的关系，探测尾盘异动。该因子收益一直较为显著，特别是 2020 年之后，依然维持了一定的区分度。
@@ -224,11 +224,11 @@ $$
 Alpha069 的定义为：
 
 $$
-((\mathsf{rank}(\mathsf{ts\_max}(\mathsf{delta}(\mathsf{indneutralize}(\mathsf{vwap},\mathsf{indclass.industry}),3),5))
+((\mathsf{rank}(\mathsf{ts\_max}(\mathsf{delta}(\mathsf{indneutralize}(\mathsf{vwap},\mathsf{indclass}.\mathsf{industry}),\mathsf{3}),\mathsf{5}))
 $$
 
 $$
-\wedge_{\mathsf{tS\_rank}}(\mathsf{correlation}(((\mathsf{close}\star0.49)+(\mathsf{vwap}\star(1-0.49))),\mathsf{adv}20,5),\mathsf{9}))\star\cdot1)
+\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf{\mathsf\mathsf{\mathsf{\mathsf\mathsf{\mathsf{\mathsf\mathsf{\mathsf{\mathsf\mathsf{\mathsf\mathsf{\mathsf}{\mathsf{\mathsf\mathsf{\mathsf}{\mathsf{\mathsf\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf{\mathsf\mathsf}{\mathsf{\mathsf{\mathsf\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf}{\mathsf{\mathsf\mathsf{\mathsf}{\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf}{\mathsf{\mathsf}{\mathsf{\mathsf\mathsf{\mathsf}{\mathsf{\mathsf}}{\mathsf{\mathsf{\mathsf}{\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf}{\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf{\mathsf}}{\mathsf{\mathsf\mathsf{}}{\mathsf{\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf}{\mathsf}{\mathsf\mathsf{\mathsf}{\mathsf{\mathsf}{\mathsf}{\mathsf{\mathsf}}{\mathsf{\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}{\mathsf}{\mathsf}{\mathsf}{\mathsf{\mathsf\mathsf{\mathsf}}{\mathsf{\mathsf}{\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}{\mathsf\mathsf{\mathsf}{\mathsf}{\mathsf}{\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}}{\mathsf}{\mathsf{\mathsf\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}{\mathsf}{\mathsf\mathsf{\mathsf}{\mathsf}}{\mathsf\mathsf{\mathsf{\mathsf}}{\mathsf\mathsf{\mathsf}{\mathsf}{\mathsf\mathsf{\mathsf}{\mathsf\mathsf{}\mathsf{\mathsf}{\mathsf}\mathsf{\mathsf{\mathsf}\mathsf{\mathsf}{\mathsf{\mathsf\mathsf{\mathsf}}}{\mathsf{\mathsf\mathsf{\mathsf}{\mathsf\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}}{\mathsf\mathsf{\mathsf}{\mathsf}\mathsf{\mathsf{\mathsf\mathsf}{\mathsf{\mathsf}\mathsf{\mathsf{\mathsf}\mathsf{\mathsf{\mathsf}}{\mathsf\mathsf{\mathsf}}{\mathsf\mathsf{\mathsf}\mathsf{\mathsf{\mathsf\mathsf}{\mathsf}\mathsf{\mathsf{\mathsf\mathsf{\mathsf}}\mathsf{}\mathsf{\mathsf\mathsf{\mathsf}{\mathsf\mathsf}{\mathsf{\mathsf\mathsf{\mathsf}\mathsf{\mathsf}{\mathsf\mathsf{\mathsf}}{\mathsf\mathsf}{\mathsf\mathsf{\mathsf}\mathsf{\mathsf}{\mathsf\mathsf{\mathsf{\mathsf}\mathsf{\mathsf}\mathsf{\mathsf}{\mathsf}\mathsf{\mathsf\mathsf{\mathsf}{\mathsf\mathsf{\mathsf}\mathsf{\mathsf{\mathsf}}\mathsf{\mathsf}\mathsf{\mathsf}{\mathsf\mathsf\mathsf{}\mathsf{\mathsf}\mathsf{\mathsf}{\mathsf\mathsf{\mathsf}\mathsf{\mathsf}\mathsf{\mathsf
 $$
 
 ![](images/95cfe1454d73e5fd2f6e9d88434a92ca250147585f90255b083402f3935f3267.webp)
@@ -258,7 +258,7 @@ $$
 鉴于出现此类现象的因子较多，我们针对全体因子做了关于中位数的调整：
 
 $$
-AdjustedAlphaX_{i}=-(AlphaX_{i}-Median(AlphaX_{1,2,...,N}))^{2}
+AdjustedAlphaX_{i}=-(AlphaX_{i}-Median(AlphaX_{1,2,\ldots,N}))^{2}
 $$
 
 即将计算每支股票在某因子上相对该因子横截面中位数的距离，距离中位数越近，调整因子值越大。这样做会选出在原始因子上排名在中间的标的，而因子值过大或过小的极端值被排在了后面。
@@ -302,7 +302,7 @@ $$
 Alpha25 的定义为：
 
 $$
-\mathsf{rank}\left(((((-1\star\mathsf{returns})\star\mathsf{adv}20)\star\mathsf{vwap})\star(\mathsf{high}-\mathsf{close}))\right)
+\mathsf{rank}\left(((((\mathsf{-1}^{\star}\mathsf{returns})^{\star}\mathsf{adv20})^{\star}\mathsf{vwap})^{\star}\left(\mathsf{high-close}\right))\right)
 $$
 
 该因子为当日涨跌幅、20日均成交量、当日平均成交价、当日最高价与最低价的差值的乘积。
@@ -322,7 +322,7 @@ $$
 Alpha47 的定义为：
 
 $$
-\begin{array}{rl}&{(((\mathsf{rank}~((1~\mathsf{close}))\mathrm{\Large~\star~volume})~/~\mathsf{adv}20)\mathrm{\Large~\star~}((\mathsf{high}\mathrm{\Large~\star~}\mathsf{rank}~((\mathsf{high}\mathrm{\Large~\cdot~close})))~/~(\mathsf{sum}}\\&{(\mathsf{high},~5)~/~5)))-\mathsf{rank}~((\mathsf{vwap}-\mathsf{delay}~(\mathsf{vwap},~5))))}\end{array}
+\begin{aligned}&((((\mathsf{tank}((\mathsf{t}/\mathsf{close}))\;^{\star}\;\mathsf{volume})\;/\;\mathsf{adv20})\;^{\star}\;((\mathsf{high}\;^{\star}\;\mathsf{rank}\;((\mathsf{high}\;-\;\mathsf{closes})))\;/\;(\mathsf{sum}\\&((\mathsf{high},\mathsf{5})\;/\;\mathsf{5})))-\mathsf{rank}\;((\mathsf{vwap}-\mathsf{delay}\;(\mathsf{vwap},\mathsf{5}))))\\\end{aligned}
 $$
 
 因子构造同样较为复杂。
@@ -383,7 +383,7 @@ Alpha011 的定义为：
 Alpha019 的定义为：
 
 $$
-((-1\ ^{\star}\ \mathrm{sign}\ (((\mathsf{close\mathrm{-}\mathsf{delay}\ (\mathsf{close},7))}+\mathsf{delta}\ (\mathsf{close},7))))\ ^{\star}\ (\mathsf{1}\ +\mathsf{rank}\ ((1\ +\mathsf{sum}\ \mathsf{m})\ \mathsf{m}\cdot(\mathsf{m}\ )\ \mathrm{d}\mathsf{s}\ ))),
+((\cdot1^{\mathrm{~*~}}\mathsf{sign}(((\mathsf{close-delay(close,\ell7)})+\mathsf{delta(close,\ell7)})))^{\mathrm{~*~}}(1+\mathsf{rank}((1+\mathsf{sum}(\mathsf{close-deltay(close,\ell7)}))+\mathsf{delta(close,\ell7)})))^{\mathrm{~*~}}(1+\mathsf{rank}((1+\mathsf{sum}(\mathsf{close-deltay(close-deltay(close-deltay(close-deltay(close-deltay(close-deltay(close-deltay(close-deltay(close-deltay)(close-deltay(close-deltay)(close-deltay)(close-deltay(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)(close-delay)})^{\mathrm{~*~}}(1+\mathsf{rank}(1+\mathsf{rank}(1+\mathsf{rank}(1+\mathsf{rank}(1+\mathsf{rank}(1+\mathsf{rank}(1+\mathsf{rank}(1+\mathsf{rank}(1+\mathsf{ran}(1+\mathsf{ran}(1+\mathsf{ran}(1+\mathsf{ran}(1+\mathsf1{ran}(+1\mathsf{r))}))))))^{\mathrm{~**}}((1+1+\mathsf\mathsf{ran}(1+\mathsf1+\mathsf{ran}(1+\mathsf1\mathsf{ran}(1+\mathsf1\mathsf{ran}(+1\mathsf{ran})))))))))^{\mathrm{~***}}((1+1+\mathsf\mathsf{ran}(1+\mathsf\mathsf{ran}(1+\mathsf1+\mathsf\mathsf{ran}(1+\mathsf\mathsf{ran}(1+\mathsf1\mathsf{ran}(+\mathsf1\mathsf{ran}))))))))))^^{{********}}(((1)))^*****(*(1***(1**\mathsf\mathsf\mathsf1\mathsf{ran*******\mathsf\mathsf1**\mathsf1*\mathsf{ran}((1\mathsf{ran}))))*********(\mathsf*\mathsf1*\mathsf1*\mathsf**\mathsf1**
 $$
 
 (returns, 250)))))
@@ -405,7 +405,7 @@ $$
 Alpha077 的定义为：
 
 $$
-\begin{array}{rl}&{\mathsf{min}(\mathsf{rank}(\mathsf{decay\_linear}(((((\mathsf{high}+\mathsf{low})/2)+\mathsf{high})-(\mathsf{vwap}+\mathsf{high})),20)),\mathsf{rank}}\\&{(\mathsf{decay\_linear}(\mathsf{correlation}(((\mathsf{high}+\mathsf{low})/2),\mathsf{adv}40,3),5))}\end{array}
+\begin{aligned}&\min(\mathsf{rank}(\mathsf{decay\_linear}(((((\mathsf{high}+\mathsf{low})/2)+\mathsf{high})\cdot(\mathsf{vwap}+\mathsf{high})),20)),\mathsf{rank}\\&(\mathsf{decay\_linear}(\mathsf{correlation}(((\mathsf{high}+\mathsf{low})/2),\mathsf{adv}40,3),5)))\\\end{aligned}
 $$
 
 该因子定义较为复杂，猜测由数据挖掘获得。

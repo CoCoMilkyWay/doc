@@ -96,7 +96,7 @@
 多任务学习基线模型中，任务共享层同样采用简单的两层GRU网络，任务特异层各自包含一个输出层。多个预测任务的损失函数采用DWA（Dynamic Weight Average）加权（Liu等，2018）：
 
 $$
-\begin{array}{c}{\displaystyle\lambda_{k}(t)=\frac{Kexp\left(\frac{w_{k}(t-1)}{T}\right)}{\sum_{i}exp\left(\frac{w_{i}(t-1)}{T}\right)}}\\{\displaystyle w_{k}(t-1)=\frac{\mathcal{L}_{k}(t-1)}{\mathcal{L}_{k}(t-2)}}\end{array}
+\begin{aligned}\lambda_{k}(t)=&\frac{Kexp\left(\frac{w_{k}(t-1)}{T}\right)}{\sum_{i}exp\left(\frac{w_{i}(t-1)}{T}\right)},\\w_{k}(t-1)=&\frac{\mathcal{L}_{k}(t-1)}{\mathcal{L}_{k}(t_{平面})}\end{aligned}
 $$
 
 DWA加权使得不同任务的学习速率尽量保持一致，回溯各任务过去2期损失函数值，若t-1期相比于t-2期高，则给予该任务更高的权重，促进该任务的学习。
@@ -191,7 +191,7 @@ $$
 其中，u1代表短期收益率预测向量，u2代表长期收益率预测中扣除短期收益率预测的部分。例如，假设u1为T至T+10日区间预期收益（即T日收盘价和T+10日收盘价之间的区间收益，下同），那么u2应为T+10至T+20日区间预期收益。本研究中，u2需要通过20日收益预测值rt,t+20和10日收益预测值rt,t+10推算：
 
 $$
-u_{2}=\frac{r_{t,t+20}+1}{r_{t,t+10}+1}-1
+u_{2}=\frac{r_{t,t+20}+1}{r_{t,t+10}+1}-1.
 $$
 
 目标函数包含多项与持仓权重有关的变量。其中，w-为已实现的上期持仓权重向量；w为待求解的短周期下的股票当期持仓权重向量；w2为待求解的长周期下的股票下期持仓权重向量。目标函数的第二项||w - w-||代表实际当期换手率，第四项||w2 - w||代表预期下期换手率。组合优化的约束条件同时包含对w和w2的约束。

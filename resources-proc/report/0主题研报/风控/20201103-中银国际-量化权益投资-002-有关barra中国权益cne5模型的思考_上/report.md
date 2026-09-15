@@ -83,7 +83,7 @@ Barra多因子模型
 Barra针对行业因子的约束条件
 
 $$
-\sum_{i}X_{ni}=1\qquad\sum_{i}w_{i}f_{i}=0
+\sum_{i}X_{ni}=1\quad\sum_{i}w_{i}{\pmb f}_{i}={\pmb0}.
 $$
 
 , MSCI Barra CNE5
@@ -91,7 +91,7 @@ $$
 理解 Barra因子，首先要清晰地区分两个概念：因子暴露度和因子收益率。因子的暴露度可近似理解为所关注的特定股票的指标，比如针对贵州茅台，由于它属于食品饮料行业，因此贵州茅台股票对“食品饮料”行业的行业因子暴露度为 1，对其他行业的行业因子暴露度为 $0_{\circ}$ 进一步，如果市净率是一个我们关注的因子，如果我们知道贵州茅台某时点的市净率为 p，以及该时间点全市场股票的市净率的平均值 u和标准差 sigma，那么我们就可以使用类似 ZScore标准化数据的方式计算得到贵州茅台对于“市净率风格”的因子暴露度X：
 
 $$
-X={\frac{\mathbf{p}-u}{\sigma}}
+X={\frac{\mathtt{p}-u}{\sigma}}
 $$
 
 因子收益率 f 则是通过截面回归得到的，它代表的是因子的“预期收益率”。之所以说 Barra 因子收益率是预期收益率，是因为作为回归的系数，其本质就是计量估计的参数期望值。其中，回归方程的被解释变量为全市场各个股票的当期（如当日，当周，当月）收益率，而解释变量为在期初可获取的因子暴露度 X。通过截面回归得到的 beta系数即为所估计的因子收益率 f，而回归的残差即为股票的“特异性收益率”。
@@ -111,13 +111,13 @@ Fama 的因子收益率为真实多空组合收益率，其中市值因子（SMB
 图表 3. Fama 三因子模型框架
 
 $$
-E(R_{it})-R_{ft}=b_{i}[E(R_{mt})-R_{ft}]+s_{i}E(SMB_{t})+h_{i}E(HML_{t})
+E(R_{it})-R_{ft}=b_i[E(R_{mt})-R_{ft}]+s_iE(SMB_t)+h_iE(HML_t)
 $$
 
 FAMA因子构建方法
 
 $$
-\begin{array}{c}{{SMB_{t}=\displaystyle\frac{1}{3}\big(SL_{t}+SM_{t}+SH_{t}\big)-\displaystyle\frac{1}{3}\big(BL_{t}+BM_{t}+BHt\big)}}\\{{HML_{t}=\displaystyle\frac{1}{2}\big(SH_{t}+BH_{t}\big)-\displaystyle\frac{1}{2}\big(SL_{t}+BL_{t}\big)}}\end{array}
+\begin{aligned}{\mathit{SMB}_{t}}&{{}=\frac{1}{3}(\mathit{SL}_{t}+\mathit{SM}_{t}+\mathit{SH}_{t})-\frac{1}{3}(\mathit{BL}_{t}+\mathit{BM}_{t}+\mathit{BH}_{t})}\\{}&{{}\mathit{HML}_{t}=\frac{1}{2}(\mathit{SH}_{t}+\mathit{BH}_{t})-\frac{1}{2}(\mathit{SL}_{t}+\mathit{BL}_{t})}\\\end{aligned}
 $$
 
 , MSCI Barra CNE5
@@ -143,11 +143,11 @@ CNE5版本基本延用了美国USE4版本的方法论。在USE4文档中有关�
 图表 4. Barra EUE3 异常值处理方法
 
 $$
-\tilde{X}_{nk}^{(std)}=\left\{\begin{array}{cc}{{3\cdot\left(1-s_{(+)}\right)+X_{nk}^{(std)}\cdot s_{(+)}}}&{{\qquad;X_{nk}^{(std)}>3}}\\{{X_{nk}^{(std)}}}&{{\qquad;-3\leq X_{nk}^{(std)}\leq3}}\\{{-3\cdot\left(1-s_{(-)}\right)+X_{nk}^{(std)}\cdot s_{(-)}}}&{{\qquad;X_{nk}^{(std)}<-3}}\end{array}\right.
+\tilde{X}_{nk}^{(std)}=\left\{\begin{aligned}3\cdot\left(1-s_{(+)}\right)+X_{nk}^{(std)}\cdot s_{(+)}\quad&;&X_{nk}^{(std)}>3\\X_{nk}^{(std)}\quad&;&\cdot3\leq X_{nk}^{(std)}\leq3\\-3\cdot\left(1-s_{(-)}\right)+X_{nk}^{(std)}\cdot s_{(-)}\quad&;&X_{nk}^{(std)}<-3\end{aligned}\right.
 $$
 
 $$
-s_{(+)}=\operatorname*{max}\left[0,\operatorname*{min}\left[1,\frac{0.5}{\operatorname*{max}\left(X_{nk}^{(std)}\right)-3}\right]\right]
+s_{(+)}=\max\left[0,\min\left[1,\frac{0.5}{\max\left(X_{nk}^{(std)}\right)-3}\right]\right]
 $$
 
 注： $X_{nk}^{(std)}$ 为根据 ZScore方法计算的标准化因子暴露度。
@@ -177,7 +177,7 @@ Barra 在 USE4 文档中关于空值处理方法的介绍相对模糊，例如�
 Barra CNE5文档公布的十个风格因子收益率的计算方法显示，很多因子在估算时需要考虑因子的半衰期（half -life）这一参数。以 Beta因子为例：股票超额收益日序列和市值加权指数超额收益日序列的回归系数，表示股票相对于指数涨跌的弹性大小，计算如下:
 
 $$
-r_{t}-r_{{ft}}=\alpha+\beta R_{t}+e_{t}
+r_{t}-r_{ft}=\alpha+\beta R_{t}+e_{t}
 $$
 
 其中 rf是无风险收益日序列， rt 是股票收益日序列， Rt是市值加权指数（如中证全指、万德全 A指数）超额收益日序列，回归系数采取过去滚动 252 交易日的收益数据，半衰期为 63 个交易日。
@@ -185,17 +185,17 @@ $$
 那么这个半衰期具体含义是什么呢？半衰期的作用是赋予近期观测值更高的权重，随着时间的远离，观测值权重随时间呈指数递减趋势，且当某交易日距离当前日期的时间间隔为“半衰期”个交易日时，该日观测值的权重为当前日期 T权重的一半，具体表示为数学公式形式为：
 
 $$
-w(t)=\delta^{T-t}
+w({\pmb t})={\pmb\delta}^{{\pmb T}-{\pmb t}}
 $$
 
 其中 t反映的是过去某交易日距最新交易日 T的日期间隔为 t，因此 w(0)代表最新时间 T的权重，w(T)代表最初时间（t= 0）的权重。根据半衰期的定义可知：
 
 $$
-\mathsf{w}(T-halflife)=0.5w(T)
+\mathrm{w}(T-halflife)=0.5w(T)
 $$
 
 $$
-\delta=0.5^{\overline{{halflife}}}
+\delta=\;0.5^{\frac{1}{half\;life}}
 $$
 
 即可求得：
@@ -213,7 +213,7 @@ $$
 Barra在构建风格因子时会要求对一些因子进行市值或 Beta中性化处理。因子中性化处理的核心目的是减少该因子与市值因子和 Beta因子的共线性，使得通过回归方式估计的因子回报率更加稳健。具体来看，中性化的处理方法是 OLS回归法，其中被回归变量为经过标准化后的因子暴露度 f(i) ，回归变量为标准化后市值暴露度 f(size)和 beta因子暴露度 f(beta)。回归后的残差 e(i) 即为市值或 Beta中性化的结果，再将该残差进行 ZScore 标准化即可。
 
 $$
-f_{i}=x_{1}\cdot f_{size}+x_{2}\cdot f_{beta}+e_{i}
+\boldsymbol{f}_{i}=\boldsymbol{x}_{1}\cdot\boldsymbol{f}_{size}+\boldsymbol{x}_{2}\cdot\boldsymbol{f}_{beta}+\boldsymbol{e}_{i}
 $$
 
 ## 四、风险提示
@@ -230,8 +230,8 @@ $$
 | 2 | Beta | BETA | 1 | 贝塔 | 为股票超额收益日序列和市值加权指数超额收益日序列进行WLS的回归系数，beta表示股票相对于指数涨跌的弹性大小，计算如下： $r_{t}-r_{ft}=\alpha+\beta R_{t}+e_{t}$ 其中rf是无风险收益日序列，rt是股票收益日序列，Rt是市值加权指数（如中证全指、万德全A指数）超额收益日序列，回归系数采取过去252交易日的收益数据，回归权重采用指数加权移动平均，半衰期为63个交易日 |
 | 3 | Momentum | RSTR | 1 | 动量 | 此动量为长期动量减去短期动量，采用指数加权移动平均方法，其中长期动量周期T = 504，短期动量周期L = 21，rf是无风险收益，w(i)是指数加权权重，半衰期为126个交易日 $rstr=\sum_{t=L}^{T+L}w_{t}ln(1+r_{t})-\sum_{t=L}^{T+L}w_{t}ln(1+r_{ft})$ |
 | 4 | ResidualVolatility | DASTD | 0.74 | 超额收益年化波动 | 是过去252个交易日日超额收益率波动率，按照指数加权权重，半衰期为42个交易日 $dastd=\frac{1}{n}\sum_{t=1}^{n}w_{t}(r_{et}-\bar{r_{e}})^{2}$ |
-|  |  | CMRA | 0.16 | 年度超额收益率离差 | CMRA是过去12个月超额收益的离差，也是表征股票收益率的波动大小，Z(T)是过去T个月超额收益对数值得累计值，Z(T)是一个时间序列，T =1,2,3， …，12 $Z(T)=\sum_{t=1}^{T}[ln(1+r_{t})-ln(1+r_{ft})$ $crma=ln(1+Zmax)-ln(1+Zmin)$ 注：由于实际计算时可能出现 Zmax < -1或 Zmin < -1导致无法进行Iog计算，因此实际测算采用CMRA = Zmax - Zmin进行调整 |
-|  |  | HSIGMA | 0.1 | Beta回归残差年化波动率 | hsigma是计算beta收益之时的残差收益率的波动率，表示股票不能被beta所解释部分收益的波动率，数据为过去252个交易日，按照指数加权权重，半衰期为63个交易日 $hsigma=std(e_{t})$ HSIGMA因子要和BETA因子和SIZE因子做回归，去除其共线性关系 |
+|  |  | CMRA | 0.16 | 年度超额收益率离差 | CMRA是过去12个月超额收益的离差，也是表征股票收益率的波动大小，Z(T)是过去T个月超额收益对数值得累计值，Z(T)是一个时间序列，T =1,2,3， …，12 $Z(T)=\sum_{t=1}^{T}\left[ln(1+r_{t})-ln(1+r_{ft})\right]$ $crma=ln(1+Zmax)-ln(1+Zmin)$ 注：由于实际计算时可能出现 Zmax < -1或 Zmin < -1导致无法进行Iog计算，因此实际测算采用CMRA = Zmax - Zmin进行调整 |
+|  |  | HSIGMA | 0.1 | Beta回归残差年化波动率 | hsigma是计算beta收益之时的残差收益率的波动率，表示股票不能被beta所解释部分收益的波动率，数据为过去252个交易日，按照指数加权权重，半衰期为63个交易日 $\mathit{hsigma}=\mathit{std}(e_{t})$ HSIGMA因子要和BETA因子和SIZE因子做回归，去除其共线性关系 |
 | N5 | on-linearSize | NLSIZE | 1 | 非线性因子 | NLSIZE为SIZE因子的立方，之后将结果和SIZE因子回归取残差去除其和SIZE因子的共线性，残差值再进行缩尾处理(winsorized)和标准化(standardized) |
 | 6 | Book-to-Price | BTOP | 1 | 账面市值比 | 就是上个季报公司普通股权账面价值（就是净资产）除以公司当前的市值 |
 | 7 | LIQUIDITY | STOMSTOQSTOA | 0.350.350.3 | 月度换手率季度换手率年度换手率 | STOM是最近一个月的换收率和的对数值，Vt是t日的交易量，St是t日的流通股本 $stom=ln(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}})$ STOM是季度换收率STOA是年度换收率 |
@@ -242,9 +242,9 @@ $$
 |  |  | EGRSF | 0.11 | 短期净利润预期 | EGRSF是未来1年分析师预期盈利增长率 |
 |  |  | EGRO | 0.24 | 长期历史净利率 | EGR0是过去5年盈利增长率（采用回归方法），即使用最近5个财政年度的净利润额对时间的回归的斜率值，除以年平均净利润 |
 |  |  | SGRO | 0.47 | 长期历史销售率 | SGR0是过去5年营业收入增长率(采用回归法)，即使用最近5个财政年度的营业收入对时间的回归的斜率值，除以年平均营业收入 |
-| 10 | Leverage | MLEV | 0.38 | 市场杠杆 | me是普通股市值，pe是优先股账面价值，Id是长期负债账面价值 $mlev={\frac{me+pe+ld}{me}}$ |
+| 10 | Leverage | MLEV | 0.38 | 市场杠杆 | me是普通股市值，pe是优先股账面价值，Id是长期负债账面价值 $mlev=\frac{me+pe+ld}{me}$ |
 |  |  | DTOA | 0.35 | 资产负债比 | td是总负债账面价值，ta是总资产账面价值 $dtoa=\frac{td}{ta}$ |
-|  |  | BLEV | 0.27 | 账面杠杆 | be是普通股账面价值，pe是优先股账面价值，Id是长期负债账面价值 $blev={\frac{be+pe+ld}{be}}$ |
+|  |  | BLEV | 0.27 | 账面杠杆 | be是普通股账面价值，pe是优先股账面价值，Id是长期负债账面价值 $blev=\frac{be+pe+ld}{be}$ |
 
 Barra CNE5
 

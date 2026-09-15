@@ -120,7 +120,7 @@ gaozhiw@gjzq.com.cn
 
 来源：Wind，国金证券研究所
 
-为了类比选股指标（调研次数）的构建方式，我们对行业调研活动平均数进行拆解。将行业调研活动的平均数拆解后，即可得到行业调研热度与行业调研广度两大指标。行业调研活动平均数的定义与拆解公式如下，其中 j=1,2,……,29，表示除综合金融以外的29 个行业。 $I_{\mathit{i}\bar{T}\ :\{k=j}$ 表示对应公司（调研活动）属于 j 行业则取值为 1，否则为 0。
+为了类比选股指标（调研次数）的构建方式，我们对行业调研活动平均数进行拆解。将行业调研活动的平均数拆解后，即可得到行业调研热度与行业调研广度两大指标。行业调研活动平均数的定义与拆解公式如下，其中 j=1,2,……,29，表示除综合金融以外的29 个行业。 $I_{存业=j}$ 表示对应公司（调研活动）属于 j 行业则取值为 1，否则为 0。
 
 - N:行业 j 当期的调研活动数量
 
@@ -129,11 +129,11 @@ gaozhiw@gjzq.com.cn
 - Q:行业 j 当期有调研活动的公司数
 
 $$
-\{\bar{T},\mathbf{y},\mathbf{k}\}\mathbb{H}\mathbb{H}\mathbb{H}\{\bar{\mathbf{y}}\}\stackrel{\leq\bar{T}}{\mathbb{R}}\bar{\mathbf{y}}+\frac{\bar{\mathbf{y}}\mathbb{H}}{\bar{\mathbf{z}}}\mathbb{H}\{\mathbf{z}\}\stackrel{\leq\bar{T}}{\bar{\mathbf{z}}}|I_{\bar{\mathbf{y}}\bar{\mathbf{z}}}\bar{\mathbf{y}}|I_{\bar{\mathbf{z}}\bar{\mathbf{z}}}=\frac\sum_{n}^{N}\mathbb{H}\mathbb{A}\mathbb{A}f\mathbb{H}\{\bar{\mathbf{y}}\}\cdot\bar{\mathbf{z}}\{\bar{\mathbf{z}}\}|I_{\bar{\mathbf{z}}\bar{\mathbf{z}}}\}\sum_{m}^{M}\mathcal{A}\{\bar{\mathbf{z}}\}|I_{\bar{\mathbf{z}}\bar{\mathbf{z}}=j}=\frac\sum_{n}^{Q}\mathbb{i}\mathbb{A}f\mathbb{A}f\mathbb{H}\{\bar{\mathbf{z}}\}\bar{\mathbf{z}}\{\bar{\mathbf{z}}\}|I_{\bar{\mathbf{z}}\bar{\mathbf{z}}=j}\sum_{m}^{M}\mathcal{A}\{I_{\bar{\mathbf{z}}}\}|I_{\bar{\mathbf{z}}\bar{\mathbf{z}}=j}
+行业内调研活动平均数=\frac{\sum_{n}^{N}调研活动|_{行业=j}}{\sum_{m}^{M}公司|_{行业=j}}=\frac{\sum_{n}^{N}调研活动|_{行业=j}}{\sum_{q}^{Q}调研公司|_{行业=j}}\times\frac{\sum_{q}^{Q}调研公司|_{行业=j}}{\sum_{m}^{M}公司|_{行业=j}}
 $$
 
 $$
-=\frac{\mathrm{i}\tilde{\Re}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm{\Im}\mathrm
+\begin{aligned}=\frac{该行业调研活动总数量}{该行业的公司总数量}=\frac{该行业调研活动总数量}{该行业被调研公司总数量}*\frac{该行业被调研公司总数量}{该行业的公司总数量}\end{aligned}
 $$
 
 = 行业调研热度∗行业调研广度
@@ -145,7 +145,7 @@ $$
 使用个股层面的月调研次数类比行业月热度指标，并在此基础上构建热度因子。下文所用热度指标均为月度统计值，行业j调研热度指标公式如下：
 
 $$
-\{{\bar{\tau}},\ \mathrm{l}\}\ \mathrm{l}\ \dot{y}\|\ \dot{z}\ \dot{y}\|\ \dot{z}\dot{z}\ \dot{\mathcal{R}},\ \dot{\mathcal{R}^{\pm}}\ \frac{16}{36}\frac{1}{4\pi}\frac{1}{4}\frac{1}{\hbar}(\dot{z}-\dot{z})=\frac{\dot{\tau}\dot{\mathcal{R}}\ \dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}}\ (\dot{z})\mathcal{\bar{R}}(\dot{z}\dot{\mathcal{R}}\dot{\mathcal{R}}\ \ \frac{\dot{z}}{\hbar\mathcal{R}}\frac{\dot{z}\dot{\mathcal{R}}}{\hbar\mathcal{R}}\frac{\dot{z}}{\hbar\mathcal{R}}){\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{I}}\dot{\mathcal{I}}\dot{\mathcal{I}}\dot{\mathcal{R}}(\dot{z}\dot{\mathcal{R}}\times\dot{\mathcal{I}})}\ \frac{\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}}{\dot\mathcal{R}}\ \frac{\dot{z}\dot{\mathcal{R}}}{\hbar\mathcal{R}}=\frac{\sum_{n}^{N}\dot{\eta}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{I}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{R}}\dot{\mathcal{I}}}(\dot{z}\dot{\mathcal{R}}\dot{\mathcal{I}}\dot{z}\dot{\mathcal{R}}\dot{\mathcal{I}})[I_{\dot{\mathcal{R}}\dot{\mathcal{R}}}\frac{\dot{z}\dot{\mathcal{R}}\dot{\mathcal{I}}}{\hbar\mathcal{R}}\dot\mathcal
+行业日调研热度指标=\frac{该行业调研活动总数量}{该行业被调研公司总数量}=\frac{\sum_{n}^{N}调研活动|I_{行业=j}}{\sum_{q}^{Q}调研公司|I_{行业=j}}
 $$
 
 调研活动具有行业倾向，无法单纯使用绝对数比较行业之间的差异，需要使用相对数（如同比变化等）对指标进行处理。对调研热度指标使用比值方法进行因子构建，构建得到的各类因子 IC 均值有负有正，且值都偏小（回测时间为 2014 年 1 月至 2023 年 6月）。我们认为原因在于，个股层面的调研热度处理不能简单照搬至行业层面。
@@ -168,20 +168,20 @@ $$
 
 - 调研活动规模选取：在调研活动规模方面，考虑到热度因子主要刻画调研活动的泛化和高参与度，而小规模的调研活动只能被少部分投资者获取，并不一定能达到广泛认知的效果，我们选取过去一年调研活动参与人数的分位数作为适当的阈值，高于保留，低于去除。（本篇报告采用过去一年的中位数为划分点）。
 
-调研机构类型选取：基于调研次数的热度指标因子在初构环节中，表现并不佳。调研活动次数中包含了较多不同的机构类型，杂糅了许多信息，本篇报告从中拆分出调研质量较高的基金公司类型进行进一步研究。类比基于调研活动次数的热度指标，拓展至基于基金公司调研次数的热度指标如下，同时本文也构建了证券调研热度用于对比 $(N_{1}$ :行业j当期的调研证券公司数量， $N_{2}{:}$ 行业j当期的调研基金公司数量）：
+调研机构类型选取：基于调研次数的热度指标因子在初构环节中，表现并不佳。调研活动次数中包含了较多不同的机构类型，杂糅了许多信息，本篇报告从中拆分出调研质量较高的基金公司类型进行进一步研究。类比基于调研活动次数的热度指标，拓展至基于基金公司调研次数的热度指标如下，同时本文也构建了证券调研热度用于对比 $(N_{1}$ :行业j当期的调研证券公司数量， $N_{2};$ 行业j当期的调研基金公司数量）：
 
 $$
-\{\bar{1}\bar{1},\ 3\}\downarrow\downarrow\ \frac{\partial}{\partial t}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}\bar{1}\bar{y}
+行业j证券调研热度指标=\frac{调研该行业公司的证券公司总数}{该行业被调研的公司总数量}=\frac{\sum_{n=1}^{N_{1}}调研证券数|I_{行业=j}}{\sum_{q=1}^{Q}调研公司|I_{行业=j}}
 $$
 
 $$
-\{\{\bar{\tau}\}\downarrow\downarrow\downarrow\downarrow\ \pm\ \frac{\mathrm{d}}{\mathrm{d}z}\ \frac{\partial\mathrm{d}}{\partial z}\mathrm{d}\mathcal{G}\dag\frac{\partial\mathrm{d}}{\partial z}\frac{\partial\mathrm{d}\mathrm{s}}{\partial\mathrm{t}\partial\mathcal{H}\dag}\frac{\partial\mathrm{s}}{\partial\mathrm{t}\partial\mathcal{H}\dag}\frac{\partial\mathrm{d}}{\partial\mathrm{t}\partial\mathcal{H}\dag}=\frac{\ \mathrm{i}\Theta\mathcal{G}\dag\cdot\ \ \mathrm{\partial}\frac{\partial}{\partial z},\frac{\partial}{\partial\mathcal{G}}\ \mathrm{d}\frac{\partial}{\partial z},\frac{\partial}{\partial z},\frac{\partial}{\partial z},\frac{\partial}{\partial z},\frac{\partial}{\partial z}}{\ \mathrm{i}\frac{\partial}{\partial z},\frac{\partial}{\partial\mathcal{G}}\ \mathrm{d}\mathcal{G}\dag\mathcal{G}\dag\mathcal{G}\dag\mathcal{G}\frac{\partial}{\partial z},\frac{\partial}{\partial z},\frac{\partial}{\partial z},\frac{\partial}{\partial z}}=\frac\sum_{n=1}^{N_{2}}\ \ \mathrm{i}\Theta\mathcal{G}\dag\frac{\partial}{\partial z}\frac{\partial\mathrm{d}}{\partial z}\frac{\partial}{\partial z},\frac{\partial}{\partial\mathcal{G}}I_{\{\bar{\tau}\}\dag\Delta z=j}_{\mathcal{G}\dag\mathcal{G}}\dag\mathcal{G}\frac{\partial}{\partial z},\frac{\partial}{\partial\mathcal{G}}\ \mathrm{d}[I_{\{\bar{\tau}\}\dag\Delta z=j},\frac{\partial}{\partial\mathcal{G}}]\ \mathrm
+行业j基金调研热度指标=\frac{调研该行业公司的基金总数}{该行业被调研的公司总数量}=\frac{\sum_{n=1}^{N_{2}}调研基金数|I_{行业=j}}{\sum_{q=1}^{Q}调研公司|I_{行业=j}}
 $$
 
 然后我们使用每月的机构调研热度指标与滚动历史区间热度指标的中位数比值，构建调研热度因子(我们首先以过往 12 个月调研热度中位数作为基础参数设定，测试了不同机构类别和调研活动类型对于因子效果有怎样的影响):
 
 $$
-\textcircled{1}\textcircled{4}\textcircled{1}\textcircled{2}\textcircled{3}\textcircled{5}\textcircled{1}\textcircled{1}\textcircled{7}\textcircled{1}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{1}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{2}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{2}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{2}\textcircled{1}\textcircled{2}\textcircled{1}\textcircled{2}\textcircled{2}\textcircled{1}\textcircled{1}\textcircled{2}\textcircled{2}\textcircled{1}\textcircled{2}\textcircled{2}\textcircled{2}\textcircled{1}\textcircled{2}\textcircled{2}\textcircled{2}\textcircled{1}
+研研热度因子\times\frac{当月研研热度指标}{median(过在N个月研研热度指标)}
 $$
 
 ## 3.3 热度因子的有效性
@@ -275,7 +275,7 @@ $$
 调研广度指标的构建公式如下：
 
 $$
-\left\{\hat{\tilde{\tau}},\lVert\mathbf{k}\rVert\right\}\stackrel{\le\lVert\vec{\mu}\rVert}{\lVert\mathbf{k}\rVert}\xi\stackrel{\le\lVert\vec{\tau}}{\lVert\mathbf{k}\rVert}\xi=\frac{\vec{\mu}\vec{\mathcal{K}}\cdot\lVert\vec{\tau},\lVert\vec{\tau},\vec{\mu}\rVert\vec{\tau},\lVert\vec{\tau}\rVert_{\vec{\tau}}\vec{\tau}\rVert_{\vec{\tau}}^{2}\vec{\tau}\stackrel{\le\lVert\vec{\tau}\rVert}{\lVert\vec{\mathcal{K}}\cdot\vec{\tau}\rVert}\vec{\tau},\lVert\vec{\tau}\rVert_{\vec{\tau}\stackrel{\le\lVert\vec{\tau}\rVert}{\lVert\vec{\mathcal{K}}\cdot\vec{\tau}\rVert}}}{\mathrm{i}\vec{\mathcal{K}}\cdot\lVert\vec{\tau},\lVert\vec{\tau}\rVert_{\vec{\tau}}\rVert_{\vec{\tau}}\vec{\tau}\stackrel{\le\lVert\vec{\tau}\rVert}{\lVert\vec{\mathcal{S}}\rVert}\xi\stackrel{\le\lVert\vec{\tau}\rVert}{\lVert\vec{\mathcal{S}}\rVert}}=\frac{\sum_{q}^{Q}\vec{\mu}\vec{\mu}\rVert\vec{\mathcal{L}}\vec{\tau}/\sqrt{\operatorname{\lVert\vec{\tau}}\rVert_{\vec{\tau}}\vec{\tau}}}{\sum_{m}^{M}\langle\vec{\mu}\rVert}\lVert I_{\{\vec{\tau}\}\rVert\le j}
+行业日调研广度指标=\frac{该行业被调研的公司总数量}{该行业的公司总数量}=\frac{\sum_{q}^{Q}调研公司|I_{行业=j}}{\sum_{m}^{M}公司|I_{行业=j}}
 $$
 
 广度指标通过刻画行业内调研的覆盖程度，来描述行业的拥挤度。同时观察图表15与16，也不难发现，当行业净值达到峰值时，往往广度指标间隔 3 个月月度变化率（单向 HP 滤波去除周期性）也达到峰值。
@@ -293,11 +293,11 @@ $$
 类比基于受调研公司数的广度指标，可将指标拓展至基于受证券公司调研公司数的广度指标 $(Q_{1}$ :行业j当期证券公司调研的公司数， $Q_{2}\colon$ 行业j当期基金公司调研的公司数）:
 
 $$
-\begin{array}{r}\{\mathfrak{T}\downarrow\downarrow\downarrow\mathrm{~i}\mathtt{i}\mathtt{k}\xrightarrow{\mathtt{j}\mathtt{k}}\mathcal{J}_{\uparrow}\xrightarrow{\mathtt{k}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline{{\mathtt{d}}}\overline\mathtt\end{array}
+\begin{aligned}行业日证券公司调研广度指标=&\frac{该行业被证券公司调研的公司总数量}{该行业的公司总数量}\\=&\frac{\sum_{q=1}^{Q_{1}}证券公司调研的公司数|I_{行业=j}}{\sum_{m=1}^{M}公司|I_{行业=j}}\end{aligned}
 $$
 
 $$
-\begin{array}{r}{\{\tilde{\tau},\lVert\boldsymbol{\xi}\rVert\leq\lVert\sum_{\mathbb{R}}\int_{\mathbb{R}}\int_{\mathbb{R}}\hat{\tau}\rVert\hat{\mathcal{H}}\hat{\mathcal{H}}\int^{-}\int_{\mathbb{R}}^{\mathbb{R}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}=\frac{\hat{\tau}\tilde{\mathcal{H}}}{\lVert\hat{\mathcal{H}}\cdot\rVert\lVert\hat{\mathcal{H}}\rVert}=\frac{\hat{\tau}\tilde{\mathcal{H}}}{\lVert\hat{\mathcal{H}}\cdot\rVert\lVert\hat{\mathcal{H}}\rVert}\frac{\hat{\tau}+\tilde{\mathcal{H}}}{\lVert\hat{\mathcal{H}}\cdot\rVert\lVert\boldsymbol{\zeta}\rVert}\frac{\lVert\hat{\mathcal{H}}\rVert}{\lVert\hat{\mathcal{H}}\rVert/\int_{\mathbb{R}}\lVert\hat{\mathcal{H}}\rVert}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}}\\=\frac{\sum_{q=1}^{Q_{2}}\frac{\hat{\tau}\tilde{\mathcal{H}}}{\lVert\boldsymbol{\mathcal{H}}\rVert}\frac{\langle\hat{\mathcal{H}}\rangle}{\lVert\hat{\mathcal{H}}\rVert}\frac{\langle\hat{\mathcal{H}}\rangle}{\lVert\hat{\mathcal{H}}\rVert}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\left[I_{\hat{\mathcal{H}}\setminus\mathbb{R}}\right]}\sum_{m=1}^{M}\mathcal\end{array}
+\begin{aligned}行业j基金公司调研广度指标=&\frac{该行业被基金公司调研的公司总数量}{该行业的公司总数量}\\=&\frac{\sum_{q=1}^{Q_{2}}基金公司调研的公司数|I_{行业=j}}{\sum_{m=1}^{M}公司|I_{行业=j}}\end{aligned}
 $$
 
 ## 4.3 广度因子构建

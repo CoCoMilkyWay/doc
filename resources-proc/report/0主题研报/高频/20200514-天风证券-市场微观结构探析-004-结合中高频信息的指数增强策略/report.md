@@ -65,7 +65,7 @@ $$
 以选股指标−1 ∗ ts_Max(3, Rank(Return))和SUE为例，我们分别计算其对滞后 T 期的日收益率的预测能力以及因子自相关的变化，其中ic_mean/ic_std定义为：
 
 $$
-ic_{\_mean/ic_{\_}std}=Mean(corr(f_{t}^{i},ret_{t+T-1,t+T}^{i}))/Std(corr(f_{t}^{i},ret_{t+T-1,t+T}^{i}))
+ic\_mean/ic\_std=Mean(corr(f_{t}^{i},ret_{t+T-1,t+T}^{i}))\big/Std(corr(f_{t}^{i},ret_{t+T-1,t+T}^{i}))
 $$
 
 长周期指标SUE对股票的短期收益预测能力弱于短周期指标，但其 alpha 衰减却非常缓慢，因子自相关同样保持了缓慢的衰减速度，因子的预测宽度显著的高于另一个短周期指标；−1 ∗ ts_Max(3, Rank(Return))指标对于短期收益的预测能力强于SUE，但其 alpha 和自相关性衰退非常迅速，在 5 个交易日之后 alpha 能力开始落于下风，3 个交易日后因子自相关已经衰减至 0。
@@ -97,7 +97,7 @@ $$
 以报告《市场微观结构探析系列之二：订单簿上的 alpha-20190905》中介绍的 Spread因子为例，我们展示了数据降频到因子构建的过程。首先分别定义指标Bid、Ask度量盘口委买、委卖挂单的流动性强弱：
 
 $$
-\left\{\begin{array}{ll}{{\displaystyle Bid=\sum_{i=1}^{10}bidPrice_{i}*bidVol_{i}*w_{i}}}\\{{\displaystyle Ask=\sum_{i=1}^{10}askPrice_{i}*askVol_{i}*w_{i}}}\end{array}\right.
+\left\{\begin{aligned}Bid=&\sum_{i=1}^{10}bidPrice_{i}*bidVol_{i}*w_{i}\\Ask=&\sum_{i=1}^{10}askPrice_{i}*askVol_{i}*w_{i}\end{aligned}\right.
 $$
 
 其中 $bidPrice_{i}$ $bidVol_{i}$ 分别为买盘第 i 挡挂单的价格和数量； $askPrice_{i}$ 7 $askVol_{i}$ 分别为卖盘第 i 挡挂单的价格和数量； $w_{i}$ 为不同档位权重，按价格成交优先次序从高到低衰减。
@@ -105,7 +105,7 @@ $$
 参照盘口流动性 Bid/Ask Spread1 常见的定义方式，我们定义Spread_tick指标度量每个 Tick 切片时间节点盘口买卖委托挂单的强弱差异：
 
 $$
-\it Spread\_tick=\frac{Bid\ -dsk}{Bid\ +\it Ask}
+Spread\_tick=\frac{Bid-Ask}{Bid+Ask}
 $$
 
 其中Bid、Ask定义如上，其分别度量了盘口委买、委卖挂单流动性强弱。
@@ -120,13 +120,13 @@ $$
 
 如上图所示，高额的成交量将导致更大幅度的Spread_tick变动，而Spread_tick恢复至均衡状态需要交易中的重新挂单，短期内其可能导致买卖委托挂单相对强弱失真。
 
-考虑如上因素，在指标降频过程中对每只股票我们将所有 Tick 切片按成交量排序，筛选出成交量最低的 50%切片取平均以得到日频因子Spread $\_date_{t}$ ：
+考虑如上因素，在指标降频过程中对每只股票我们将所有 Tick 切片按成交量排序，筛选出成交量最低的 50%切片取平均以得到日频因子Spread $.date_{t}$ ：
 
 $$
-Spread_{-}date_{t}=\frac{2}{N}*\sum_{i=1}^{N}Spread_{-}tick_{t,i}*I_{vol_{t,i}<Median_{-}VoL_{t}}
+Spread\_date_{t}=\frac{2}{N}*\sum_{i=1}^{N}Spread\_tick_{t,i}*I_{vol_{t,i}<Median\_VoL_{t}}
 $$
 
-其中 $\boldsymbol{^{1}Spread\_tick_{t,i}}$ 为交易日 t 的 Tick 快照 i 上的指标值， $vol_{t,i}$ 为交易日 t 的 Tick 快照 i 上的成交额，Median ${\mathbf{}}Vol_{t}$ 为交易日 t 所有 Tick 成交量的中位数，N 为交易日 t 的快照总数；$\mathrm{I}_{\mathrm{A}}(x)$ 为取值 0-1 的示性函数。
+其中 $^{1Spread\_tick_{t,i}}$ 为交易日 t 的 Tick 快照 i 上的指标值， $vol_{t,i}$ 为交易日 t 的 Tick 快照 i 上的成交额，Median $.Vol_{t}$ 为交易日 t 所有 Tick 成交量的中位数，N 为交易日 t 的快照总数；$\mathrm{I}_{\mathrm{A}}(x)$ 为取值 0-1 的示性函数。
 
 ## 2.1.3. 月度降频
 
@@ -139,16 +139,16 @@ $$
 为解决相同股票在不同交易日指标值不可比的问题，首先我们在截面上对指标值进行ZScore标准化：
 
 $$
-Spre\widehat{ad_{-}}date_{t}=\frac{Spread_{-}date_{t}-Mean(Spread_{-}date_{t})}{Std(Spread_{-}date_{t})}
+\widehat{Spread\_data_{t}}=\frac{Spread\_data_{t}-Mean(Spread\_data_{t})}{Std(Spread\_data_{t})}
 $$
 
-而后，我们给定窗口期 window，将窗口期内 $Spre\widehat{ad\_date}_{t}$ 加权平均以得到最终以未来 1个月为预测区间的选股因子 $Spread\_month_{m}$ :
+而后，我们给定窗口期 window，将窗口期内 $Spre\widehat{ad\_d}ate_{t}$ 加权平均以得到最终以未来 1个月为预测区间的选股因子 $.Spread\_month_{m}$ :
 
 $$
-Spread\_month_{m}=\frac{1}{\sum_{t}w_{t}}*\sum_{t=m-window+1}^{t=m}w_{t}*Spre\widehat{ad_{-}}date_{t}
+Spread\_month_{m}=\frac{1}{\sum_{t}w_{t}}*\sum_{t=m-window+1}^{t=m}w_{t}*Spread\_date_{t}
 $$
 
-其中 $\mathrm{w}_{\mathrm{t}}=1-(m-t)/window$ 为各交易日指标值的权重。
+其中 $\mathrm{w_{t}}=1-(m-t)/window$ 为各交易日指标值的权重。
 
 ## 2.2. 公式化 Alpha
 
@@ -167,7 +167,7 @@ $$
 如上图所示，最终从高频数据到长周期 Alpha 因子的构建过程可抽象成“公式化”的因子表达：
 
 $$
-factor=Alpha(formula,~dailyTrans,~monthlyTrans,~windows)
+factor=Alpha(formula,dailyTrans,monthlyTrans,windows)
 $$
 
 其中formula为初始日内中高频信号，dailyTrans为日内信号到日度因子转换的变频方式，montℎlyTrans、 windows分别为日度因子到月度因子的二次变频方式及滚动窗口长度。
@@ -280,7 +280,7 @@ mean/std：mean/std类似信息比率计算逻辑，其确保因子均值较大�
 最后，我们以如下因子为例，解释根据公式计算因子的详细过程：
 
 $$
-Alpha(pctchange\_ts(4,close\_price),\ 1500,\ mean/std,\ 40)
+Alpha(pctchange\_ts(4,close\_price),\quad1500,\quad mean/std,\quad40)
 $$
 
 1. 对于每根 K 线计算收盘价相对 4 期前的变化率pctcℎange_ts(4, close_price)；
@@ -296,10 +296,10 @@ $$
 由于量价指标易跟常见的量价因子呈现出高度相关，为获取增量信息我们将指标值与中信一级行业、对数市值、过去一个月日均收益率、过去一个月日均换手率、过去一个月日收益波动率、过去一个月日均非流动性冲击指标回归取残差作为中性化后因子值：
 
 $$
-f_{i}=\sum_{s}\beta_{i}^{s}Style_{i}^{s}+\sum_{ind}\beta_{i}^{ind}X_{i}^{ind}+\varepsilon_{i}
+f_{i}={\sum}_{s}\beta_{i}^{s}Style_{i}^{s}+{\sum}_{ind}\beta_{i}^{ind}X_{i}^{ind}+\varepsilon_{i}
 $$
 
-其中对于股票i, $Style_{i}^{s}$ 是股票在风格s上的暴露， $X_{i}^{ind}$ 为股票对于行业ind的 0-1 哑变量，残差 $\mathbf{\mathcal{E}}_{i}$ 为风格中性化后因子取值。
+其中对于股票i, $Style_{i}^{s}$ 是股票在风格s上的暴露， $X_{i}^{ind}$ 为股票对于行业ind的 0-1 哑变量，残差 $\iota\varepsilon_{i}$ 为风格中性化后因子取值。
 
 按照上述模式我们构建了 10 个 Alpha 因子如下表所示，因子自相关均值在 50%附近，多头组合换手率约 60%，因子公式表达及历史绩效将在后文详细展示。
 
@@ -373,7 +373,7 @@ Alpha1 在不同股票池中均表现出稳定的选股能力，在沪深 300、
 ## 3.1.2. Alpha2
 
 $$
-Alpha2=Alpha(pctchange_{-}ts(4,close_{-}price),~1500,~mean/std,~40)
+Alpha2=Alpha(pctchange\_ts(4,close\_price),\quad1500,\quad mean/std,\quad40)
 $$
 
 Alpha2 因子为反转因子，其以股票午盘收益在最近 40 个交易日的信息比率作为反转逻辑的另类表达，根据反转效应历史信息比越高的股票在未来相对收益将越低。
@@ -423,7 +423,7 @@ Alpha2 在不同股票池中均表现出稳定的选股能力，在沪深 300、
 ## 3.1.3. Alpha3
 
 $$
-Alpha3=Alpha(div(open\_price,pre\_close),1000,min,40)
+Alpha3=Alpha(div(open\_price,pre\_close),\quad1000,\quad min,\quad40)
 $$
 
 Alpha3 因子是个动量因子，其度量了股票隔日跳空高开的幅度。每日取第一根 K 线开盘价计算相对昨日收盘价的涨跌幅，截面标准化后滚动 40 个交易日取因子最小值。相较于股价日内收益的反转效应，股价在日间呈现出动量效应，高开的幅度越大意味着其中知情交易信息的蕴含度越高，未来的预期收益越高。
@@ -521,7 +521,7 @@ Alpha4 在不同股票池中均表现出稳定的选股能力，在沪深 300、
 ## 3.1.5. Alpha5
 
 $$
-Alpha5=Alpha(div(today\_vwap,vwap),\ mean\_kline,\ max,\ 40)
+Alpha5=Alpha(div(today\_vwap,vwap),\quad mean\_kline,\quad max,\quad40)
 $$
 
 Alpha5 因子度量了日均价与日内各 K 线均价比值的均值，日指标值标准化以 40 个交易日为窗口滚动计算最大值作为最终因子。因子刻画了日内不同时点持仓成本相对日平均成本的大小，因子越小意味着股票在日内有越多的成交在相对低位成交，其可能反应了机构投资者的低位建仓行为，因此股价长期走高概率更大。
@@ -573,7 +573,7 @@ Alpha5 在不同股票池中均表现出稳定的选股能力，在沪深 300、
 ## 3.2.1. Alpha6
 
 $$
-Alpha6=Alpha(ts_{-}Rank(8,turnover),~1500,~mean,~40)
+Alpha6=Alpha(ts\_Rank(8,turnover),\quad1500,\quad mean,\quad40)
 $$
 
 Alpha6 因子度量为尾盘成交额在日内的排序，每日尾盘成交在日内所有 K 线成交量中的排序值作为因子值，日指标值标准化后滚动 40 日平均作为最终因子。尾盘的相对成交额可能反应了收盘价被操控的程度，尾盘相对成交额越大股价被操控的概率将越大。
@@ -623,7 +623,7 @@ Alpha6 在不同股票池中均表现出稳定的选股能力，在沪深 300、
 ## 3.2.2. Alpha7
 
 $$
-Alpha7=Alpha(TR,\ 1000,\ max,\ 40)
+Alpha7=Alpha(TR,\quad1000,\quad max,\quad40)
 $$
 
 Alpha7因子度量了股票的开盘换手率大小，取每日开盘30分钟换手率作为日指标值，将日指标值截面标准化后滚动 40 日取最大值作为最终的因子值。开盘和收盘类似的是操纵股价的关键两个时点，早盘换手率越高意味着股票价格被操控可能性将越大。
@@ -673,7 +673,7 @@ Alpha7 在沪深 300、中证 500、中证 800、中证 1000 中因子 ICIR 绝�
 ## 3.2.3. Alpha8
 
 $$
-Alpha8=Alpha(TR,\ 1500,\ max,\ 40)
+Alpha8=Alpha(TR,\quad1500,\quad max,\quad40)
 $$
 
 Alpha8因子度量了股票的尾盘换手率大小，取每日尾盘30分钟换手率作为日指标值，日指标值截面标准化后滚动 40 日取最大值作为最终因子。相比 Alpha6 在时间序列上度量成交额高低，Alpha8 在截面上度量了股票间的换手率差异，尾盘高换手的股票具有更大的可能性股价被操控。
@@ -725,7 +725,7 @@ Alpha8 在沪深 300、中证 500、中证 800、中证 1000 中因子 ICIR 绝�
 ## 3.3.1. Alpha9
 
 $$
-Alpha9=Alpha(highest\_price,\ diff\_RET,\ mean/std,\ 40)
+Alpha9=Alpha(highest\_price,diff\_RET,mean/std,40)
 $$
 
 Alpha9 因子度量了股票在日内不同涨跌幅情境下的价差大小。分别取日内涨跌幅最大、最小 K 线的最高价并计算二者价差作为日指标值，因子值截面标准化后滚动 40 个交易日计算因子均值与标准差的比值。
@@ -775,7 +775,7 @@ Alpha9 在沪深 300、中证 500、中证 800、中证 1000 中因子 ICIR 绝�
 ## 3.3.2. Alpha10
 
 $$
-Alpha10=Alpha(correlation(6,RET,highest\_price),\ 1500,\ mean,\ 40)
+Alpha10=Alpha(correlation(6,RET,highest\_price),1500,mean,40)
 $$
 
 Alpha10 因子度量了股票在日内最高价与收益率间的相关性，取每日 11 点起的 6 根 K线计算 K 线收益率与最高价间的相关性，日指标值截面标准化后滚动 40 日取均值作为最终因子。日内涨跌幅最快的时点股价并非日内高点或跌幅最快时点股价非日内低点，则股票在未来的相对收益率越低。
@@ -838,7 +838,7 @@ Alpha10 在沪深 300、中证 500、中证 800、中证 1000 中因子 ICIR 绝
 
 我们根据下表中的选股因子构建月频 alpha 模型，所有指标均进行行业、市值中性化。此外，增速指标我们同时进行对数前值中性化，本文中基于中高频数据构建的量价因子还与反转、换手、波动、非流动冲击指标中性化。
 
-表 $26\div$ 因子列表
+表 $26\cdot$ 因子列表
 
 | 因子类型 | 因子简称 | 因子名称 | 因子计算方式 |
 | --- | --- | --- | --- |
@@ -875,29 +875,29 @@ Alpha10 在沪深 300、中证 500、中证 800、中证 1000 中因子 ICIR 绝
 
 资料来源：天风证券研究所
 
-我们首先对指标作对称正交处理，记因子暴露矩阵 $F_{N\times K}$ 在 $(\mathsf{n},\mathsf{k})$ 位置的元素为第n 只股票在第 k 个因子上的取值，我们通过过渡矩阵 $S_{K\times K}$ 线性变换使得矩阵 $\widetilde{F_{N\times K}}$ 所有列向量两两正交：
+我们首先对指标作对称正交处理，记因子暴露矩阵 $F_{N\times K}$ 在 $(\textsf{n},\textsf{k})$ 位置的元素为第n 只股票在第 k 个因子上的取值，我们通过过渡矩阵 $S_{K\times K}$ 线性变换使得矩阵 $\widetilde{F_{N\times K}}$ 所有列向量两两正交：
 
 $$
 \widetilde{F_{N\times K}}=F_{N\times K}*S_{K\times K}
 $$
 
-其中 $\lvert S_{K\times K}$ 满足：
+其中 $|S_{K\times K}$ 满足：
 
 $$
-S_{K\times K}=U_{K\times K}\ast D_{K\times K}^{-1/2}\ast U_{K\times K}^{\prime}
+S_{K\times K}=U_{K\times K}*D_{K\times K}^{-1/2}*U_{K\times K}^{\prime}
 $$
 
-且， $D_{K\times K}\bar{\mathcal{F}}\sharp U_{K\times K}$ 分别为矩阵 $M=F_{N\times K}^{\prime}*F_{N\times K}$ 的特征值对角阵以及特征向量矩阵。
+且， $D_{K\times K}和U_{K\times K}$ 分别为矩阵 $M=F_{N\times K}^{\prime}*F_{N\times K}$ 的特征值对角阵以及特征向量矩阵。
 
 我们将对称正交后的因子按最近 12 个期的 ICIR 加权得到股票打分：
 
 $$
-{\mathrm{\ alpha_{i}=\sum_{\boldsymbol{k}}}}ICIR_{k}*f_{k,i}
+\mathrm{alpha}_{\mathrm{i}}=\sum_{}ICIR_{k}*f_{k,i}
 $$
 
 其中 $ICIR_{k}$ 为因子 k 的 ICIR 值， $f_{k,i}$ 为股票 i 在因子 k 上的暴露值。
 
-表 $^{27}:$ 因子打分对比
+表 $27\cdot$ 因子打分对比
 
 | 打分类型 | 多空收益 | 多头超额 | 多头IR | 多空IR | IC 均值 | ICIR | IC 胜率 | 自相关 | 多头换手 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -913,10 +913,10 @@ $$
 根据选股打分我们分别构建沪深 300 指数以及中证 500 指数的增强模型，我们通过组合优化方式构建组合：
 
 $$
-\begin{array}{rl}&{Maxmize:~r^{\prime}w-\rho\|w-w_{0}\|_{1}}\\&{~s.t.~s_{l}\leq w^{\prime}X-S_{b}\leq s_{u}}\\&{~h_{l}\leq w^{\prime}H-H_{b}\leq h_{\mathrm{u}}}\\&{~l_{b,i}\leq w_{i}\leq u_{b,i}}\\&{~{\operatorname{w}^{\prime}}I\geq i_{0}}\\&{~{\operatorname{w}^{\prime}}\vec{1}=1}\end{array}
+\begin{aligned}Maxmize&:r^{\prime}w-\rho\|w-w_{0}\|_{1}\\s.t.\quad&s_{l}\leq w^{\prime}X-S_{b}\leq s_{u}\\&h_{l}\leq w^{\prime}H-H_{b}\leq h_{u}\\&l_{b,i}\leq w_{i}\leq u_{b,i}\\&w^{\prime}I\geq i_{0}\\&w^{\prime}\vec{1}=1\end{aligned}
 $$
 
-其中X为股票风格暴露基准， $S_{b}$ 为基准指数风格暴露， $s_{l}$ $s_{u}$ 为风格偏离上下限；H为股票行业属性的 0-1 矩阵， $H_{b}$ 为基准指数行业配置， $h_{l},\ h_{\mathrm{u}}$ 为行业偏离上下限； $l_{b,i}\bar{\ast}\mathbb{H}u_{b,i}$ 为个股权重约束上下限；I为基准指数权重列向量， $i_{0}$ 为成分股约束下限； $\rho$ 为换手惩罚系数， $\mathrm{w}_{0}$ 为组合调仓前持仓权重。
+其中X为股票风格暴露基准， $S_{b}$ 为基准指数风格暴露， $s_{l}$ $S_{u}$ 为风格偏离上下限；H为股票行业属性的 0-1 矩阵， $H_{b}$ 为基准指数行业配置， $h_{l},h_{\mathrm{u}}$ 为行业偏离上下限； $l_{b,i}和u_{b,i}$ 为个股权重约束上下限；I为基准指数权重列向量， $i_{0}$ 为成分股约束下限； $\rho$ 为换手惩罚系数， $\mathbb{W}_{0}$ 为组合调仓前持仓权重。
 
 本文回溯区间为 2011 年至 2020 年 4 月 30 日，其中我们在全 A 中剔除上市不满半年新股、ST 股票、长期停牌等股票作为样本池，月度调仓，股票按次日均价撮合交易，扣除双边千 3 的交易成本。
 
@@ -1056,7 +1056,7 @@ $$
 我们将因子构建拆解成信号生成、日度降频、月度降频三部分，进而得到公式化表达：
 
 $$
-factor=Alpha(formula,~dailyTrans,~monthlyTrans,~windows)
+factor=Alpha(formula,dailyTrans,monthlyTrans,windows)
 $$
 
 其中formula为初始日内中高频信号，dailyTrans为日内信号到日度因子转换的变频方式，montℎlyTrans、 windows分别为日度因子值到月度因子的二次变频方式及滚动窗口长度。

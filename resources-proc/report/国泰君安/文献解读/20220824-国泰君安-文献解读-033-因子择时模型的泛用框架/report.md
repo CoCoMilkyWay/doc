@@ -91,32 +91,32 @@ Hua, R. , D. Kantsyrev , and E. Qian. "Factor-Timing Model." Journal of Portfoli
 本报告关注的变量主要有两种，即因子收益率（factorreturn）和条件变量（conditional variable）。令
 
 $$
-\begin{array}{r}{\left\{\mathrm{R}_{\mathrm{t}+1}=\left(\mathrm{R}_{\mathrm{t}+1}\right)_{\mathrm{N}\times1}=\mathrm{N}\mathrm{\Omega}\wedge\sharp\left.\sharp\frac{\ d}{\ dt}\right\}\sharp\frac{1}{\sqrt{\pi}}\mathrm{\#}\frac{1}{\sqrt{\pi}}\frac{1}{\sqrt{\pi}}\frac{1}{\sqrt{\pi}}\frac{1}{\sqrt{\pi}}\right\}}\\{\mathrm{V}_{\mathrm{t}}=\left(\mathrm{V}_{\mathrm{t}}\right)_{\mathrm{K}\times1}=\mathrm{K}\mathrm{\Omega}\wedge\sharp\left.\sharp\frac{\ d}{\ dt}\frac{\ dH}{\ dt}\frac{1}{\sqrt{\pi}}\frac{1}{\sqrt{\pi}}\frac{1}{\sqrt{\pi}}\frac{1}{\sqrt{\pi}}\right\}}\end{array}
+\left\{\begin{aligned}\mathsf{R}_{\mathsf{t}+1}=\left(\mathsf{R}_{\mathsf{t}+1}\right)_{\mathsf{N}\times1}=\mathsf{N}个因子的时序收益率\\\mathsf{V}_{\mathsf{t}}=\left(\mathsf{V}_{\mathsf{t}}\right)_{\mathsf{K}\times1}=\mathsf{K}个条件变量的时序取值\end{aligned}\right.
 $$
 
 为方便起见，后文总是在不至于混淆的情况下省略时间脚标。本报告总是假设因子收益率与条件变量服从多元正态分布
 
 $$
-\mathrm{\bigl(\mathrm{\frac{R}{V}}\bigr)\sim N((\frac{\overline{{R}}}{\overline{{V}}}),\int_{\Omega_{\mathrm{VR}}}^{\Sigma_{\mathrm{RR}}}\Sigma_{\mathrm{VV}}))}
+\begin{array}{r}{\binom{\mathbb{R}}{\mathbb{V}}\sim\mathrm{N}\left(\left(\frac{\overline{{\mathbb{R}}}}{\overline{{\mathbb{V}}}}\right),\binom{\Sigma_{\mathrm{RR}}\quad\Sigma_{\mathrm{RV}}}{\Sigma_{\mathrm{VR}}\quad\Sigma_{\mathrm{VV}}}\right)}\end{array}
 $$
 
 假设 v 是条件变量 V的一个具体实现，根据条件期望公式，可以将 R 的条件均值（conditional mean）和条件协方差（conditional covariance）写作
 
 $$
-\left\{\begin{array}{ll}{\mathsf{R}_{|\mathrm{v}}=\overline{{\mathsf{R}}}+\Delta\mathsf{R}}\\{\Sigma_{|\mathrm{v}}=\Sigma_{\mathrm{RR}}-\Sigma_{\Delta\Delta}}\end{array}\right.
+\begin{array}{r}{\left\{\begin{aligned}{\mathsf{R}_{|\mathrm{v}}=}&{{}\overline{{\mathsf{R}}}+\mathsf{\Delta R}}\\{\Sigma_{|\mathrm{v}}=}&{{}\Sigma_{\mathrm{RR}}-\Sigma_{\mathsf{\Delta\Delta}}}\end{aligned}\right.}\end{array}
 $$
 
 $$
-\left\{\begin{array}{ll}{\Delta\mathrm{R}=\Sigma_{\mathrm{RV}}\Sigma_{\mathrm{VV}}^{-1}(\mathrm{v}-\overline{{\nabla}})}\\{\Sigma_{\Delta\Delta}=\Sigma_{\mathrm{RV}}\Sigma_{\mathrm{VV}}^{-1}\Sigma_{\mathrm{VR}}}\end{array}\right.
+\left\{\begin{aligned}{\Delta\mathrm{R}\;}&{{}=\Sigma_{\mathrm{RV}}\Sigma_{\mathrm{VV}}^{-1}(\mathrm{v}-\overline{{\mathrm{V}}})}\\{\Sigma_{\Delta\Delta}}&{{}=\Sigma_{\mathrm{RV}}\Sigma_{\mathrm{VV}}^{-1}\Sigma_{\mathrm{VR}}}\end{aligned}\right.
 $$
 
-分别称为因子收益和协方差的调整项。 $\bar{\mho}$ 条件模型最优权重（conditionalmodel optimal weights，CMOW）为
+分别称为因子收益和协方差的调整项。 $而$ 条件模型最优权重（conditionalmodel optimal weights，CMOW）为
 
 $$
-\begin{array}{r}{\mathsf{M}_{|\mathrm{v}}^{*}=\lambda\Sigma_{|\mathrm{v}}^{-1}\mathsf{R}_{|\mathrm{v}}}\end{array}
+\mathbb{M}_{|\mathrm{v}}^{*}=\lambda\Sigma_{|\mathrm{v}}^{-1}\mathbb{R}_{|\mathrm{v}}
 $$
 
-其中λ是某个由最优化过程决定的常数（此处其实是最优化组合的信息比率）。从公式可以看出，动态模型与静态模型的区别在于因子收益率的调整项ΔR和协方差矩阵的风险约化部分 $\cdot\Sigma_{\Delta\Delta}$
+其中λ是某个由最优化过程决定的常数（此处其实是最优化组合的信息比率）。从公式可以看出，动态模型与静态模型的区别在于因子收益率的调整项ΔR和协方差矩阵的风险约化部分 $\Sigma_{\Delta\Delta}$
 
 ## 4. 条件变量的选择
 
@@ -131,7 +131,7 @@ $$
 自从 19 世纪热力学首次引入熵（entropy）的概念以来，该概念在包括信息论在内多学科内已经有了广泛使用。1951 年，Kullback 和 Leibler 提出了一种用来衡量两个模型之间差异的测度，即大名鼎鼎的 KL 散度。Akaike（1973）发现了 KL 散度和 Fisher 的极大对数似然之间的关系，并据此提出了一种用于筛选模型的方法。这种度量被 Akaike 称之为信息准则（Akaike information criterion，AIC），形式上是信息熵和模型复杂度的数量和：
 
 $$
-\mathtt{AIC}=-2\ln\mathtt{L}+2\kappa
+\mathrm{AIC}=-2\ln\mathrm{L}+2\mathrm{k}
 $$
 
 其中 L代表估计模型的似然函数，而κ代表模型的参数个数。粗糙地讲，越小的候选模型越接近真实情况。
@@ -139,59 +139,59 @@ $$
 本报告中，因子择时模型的 AIC 形如
 
 $$
-\mathsf{AIC}=\mathrm{T}\cdot\mathrm{ln}\bigl[\bigl|\Sigma_{|\mathrm{v}}\bigr|\bigr]+2\mathrm{NK}
+\mathrm{AIC}=\mathrm{T}\cdot\ln[|\Sigma_{|\mathrm{v}}|]+2\mathrm{NK}
 $$
 
 其中 T 是观察的样本数，N 代表量化因子个数，K 代表条件变量个数，其中似然函数由条件协方差矩阵的行列式给出
 
 $$
-\left|\Sigma_{|\mathrm{v}}\right|=\operatorname*{det}\left(\Sigma_{|\mathrm{v}}\right)
+\left|\Sigma_{\mathrm{|v}}\right|=\operatorname*{det}(\Sigma_{\mathrm{|v}})
 $$
 
 我们在此处简要给出因子择时模型 AIC 的推导过程。设因子收益率，条件收益率和残差收益率之间的关系如下
 
 $$
-\mathtt{R}=\mathtt{R}_{\vert\mathrm{v}}+\varepsilon_{\mathrm{t}}
+\mathsf{R}=\mathsf{R}_{|\mathbf{v}}+\varepsilon_{\mathbf{t}}
 $$
 
-特别地，我们假设残差收益率是独立同分布且对于时间序列 $t=1,2,\dots,T$ 保持序列无关性（虽然此条件可以放宽，但技术上我们需要用到偏似然估计），那么对于条件 v 而言，有似然函数
+特别地，我们假设残差收益率是独立同分布且对于时间序列 $t=1{,}2,\ldots,T$ 保持序列无关性（虽然此条件可以放宽，但技术上我们需要用到偏似然估计），那么对于条件 v 而言，有似然函数
 
 $$
-\mathrm{L}(\mathrm{v})=\frac{1}{(2\pi)^{\mathrm{NT}/2}\left|\boldsymbol{\Sigma}_{|\mathrm{v}}\right|^{\mathrm{T}/2}}\cdot\exp\left[-\frac{1}{2}\cdot\sum_{\mathrm{t=1}}^{\mathrm{T}}\varepsilon_{\mathrm{t}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\varepsilon_{\mathrm{t}}\right]
+\mathrm{L}(\mathrm{v})=\frac{1}{(2\pi)^{\mathrm{NT}/2}\left|\Sigma_{\mathrm{iv}}\right|^{\mathrm{T}/2}}\cdot\exp\left[-\frac{1}{2}\cdot\sum_{\mathrm{t}=1}^{\mathrm{T}}\varepsilon_{\mathrm{t}}^{\mathrm{T}}\Sigma_{\mathrm{iv}}^{-1}\varepsilon_{\mathrm{t}}\right]
 $$
 
 其中指数部分有近似估计
 
 $$
-\sum_{\mathfrak{t}=1}^{\mathrm{T}}\varepsilon_{\mathfrak{t}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\varepsilon_{\mathfrak{t}}\approx\mathrm{T}\cdot\mathbb{E}\left[\varepsilon^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\varepsilon\right]=\mathrm{TN}
+\sum_{\mathsf{t}=1}^{\mathsf{T}}\mathsf{\varepsilon}_{\mathsf{t}}^{\mathsf{T}}\Sigma_{|\mathsf{v}}^{-1}\mathsf{\varepsilon}_{\mathsf{t}}\approx\mathsf{T}\cdot\mathbb{E}\big[\mathsf{\varepsilon}^{\mathsf{T}}\Sigma_{|\mathsf{v}}^{-1}\mathsf{\varepsilon}\big]=\mathsf{T}\mathsf{N}
 $$
 
 代入后有
 
 $$
-\mathrm{L}(\mathrm{v})=(2\pi\mathrm{e})^{-\mathrm{NT}/2}\cdot\left|\Sigma_{|\mathrm{v}}^{-1}\right|^{-\mathrm{T}/2}
+\mathrm{L}(\mathrm{v})=(2\pi\mathrm{e})^{-\mathrm{NT}/2}\cdot\left|\Sigma_{\mathrm{|v}}^{-1}\right|^{-\mathrm{T}/2}
 $$
 
 再注意到协方差矩阵的自由度为N(N+ 1)/2，而条件变量与因子收益之间的关联自由度为 NK，因子的截距自由度为 N，因此未化简的 AIC 为
 
 $$
-\begin{array}{r}{\widetilde{\mathrm{AIC}}=\mathrm{NT}\cdot\left[\ln2\pi+1\right]+\mathrm{T}\cdot\ln\left[\left|\Sigma_{|\mathrm{v}}\right|\right]+\mathrm{N}(\mathrm{N}+1)+2\mathrm{NK}+2\mathrm{N}}\end{array}
+\widetilde{\mathrm{AIC}}=\mathrm{NT}\cdot\left[\ln2\pi+1\right]+\mathrm{T}\cdot\ln\left[\left|\Sigma_{\mathrm{|v}}\right|\right]+\mathrm{N(N+1)}+2\mathrm{NK}+2\mathrm{N}
 $$
 
 将与条件变量（v 或者 K）无关的常数去掉，最后即有
 
 $$
-\mathsf{AIC}=\mathrm{T}\cdot\mathrm{ln}\bigl[\bigl|\Sigma_{|\mathrm{v}}\bigr|\bigr]+2\mathrm{NK}
+\mathrm{AIC}=\mathrm{T}\cdot\ln[|\Sigma_{|\mathrm{v}}|]+2\mathrm{NK}
 $$
 
 更进一步，在分量上有
 
 $$
-\Sigma_{|\mathrm{v}}=\left(\sigma_{\mathrm{ij}|\mathrm{v}}\right)=\left(\sigma_{\mathrm{i}|\mathrm{v}}\sigma_{\mathrm{j}|\mathrm{v}}\rho_{\mathrm{ij}|\mathrm{v}}\right)=\mathrm{D}_{|\mathrm{v}}\rho_{|\mathrm{v}}\mathrm{D}_{|\mathrm{v}}
+\Sigma_{|\mathbf{v}}=\left(\sigma_{\mathbf{i}\mathbf{j}|\mathbf{v}}\right)=\left(\sigma_{\mathbf{i}|\mathbf{v}}\sigma_{\mathbf{j}|\mathbf{v}}\rho_{\mathbf{i}\mathbf{j}|\mathbf{v}}\right)=\mathrm{D}_{|\mathbf{v}}\rho_{|\mathbf{v}}\mathrm{D}_{|\mathbf{v}|}
 $$
 
 $$
-{\sf D}_{|\mathrm{v}}=\mathrm{diag}\big(\sigma_{1|\mathrm{v}},\dots,\sigma_{\mathrm{N}|\mathrm{v}}\big),\qquad\rho_{|\mathrm{v}}=(\rho_{\mathrm{ij}|\mathrm{v}})
+\begin{array}{r}{\mathrm{D}_{|\mathbf{v}}=\mathrm{diag}\big(\sigma_{1|\mathbf{v}},\dots,\sigma_{\mathrm{N}|\mathbf{v}}\big),\qquad\rho_{|\mathbf{v}}=(\rho_{\mathrm{ij}|\mathbf{v}})}\end{array}
 $$
 
 分别是条件标准差组成的对角阵和条件相关系数矩阵。
@@ -199,7 +199,7 @@ $$
 从 AIC 的上述形式可以看到，在 T 和 N 给定的情况下，条件变量个数K和协方差矩阵的行列式将在相反方向上影响 AIC。注意到
 
 $$
-\left|\Sigma_{|\mathrm{v}}\right|=\mathsf{det}\bigl(\Sigma_{|\mathrm{v}}\bigr)=\mathsf{det}(\mathsf{D}_{|\mathrm{v}})\mathsf{det}\bigl(\mathsf{\rho}_{|\mathrm{v}}\bigr)\mathsf{det}(\mathsf{D}_{|\mathrm{v}})=|\mathsf{\rho}_{|\mathrm{v}}|\cdot\Pi_{\mathrm{i}}\sigma_{\mathrm{i}|\mathrm{v}}^{2}
+\begin{array}{r}{\left|\Sigma_{|\mathbf{v}}\right|=\operatorname*{det}\left(\Sigma_{|\mathbf{v}}\right)=\operatorname*{det}\left(\mathsf{D}_{|\mathbf{v}}\right)\operatorname*{det}\left(\mathsf{p}_{|\mathbf{v}}\right)\operatorname*{det}\left(\mathsf{D}_{|\mathbf{v}}\right)=|\mathsf{p}_{|\mathbf{v}}|\cdot\Pi_{\mathbf{i}}\mathsf{\sigma}_{\mathbf{i}|\mathbf{v}}^{2}}\end{array}
 $$
 
 因此当K越大时，数据拟合将越精细，因此资产条件方差将会变得越小，其行列式将变得更小，但由于 AIC 指标中的第二项包含了条件变量数作为惩罚项，因此一味提升条件变量的个数可能会使 AIC 不降反升。
@@ -207,7 +207,7 @@ $$
 从 AIC 的具体形式出发还可以得到一些有意思的推论。例如，假设资产之间的相关性都为 0，那么协方差阵是资产方差形成的对角阵，因此有
 
 $$
-\mathrm{AIC}=2\mathrm{T}\cdot\ln\bigl(\sigma_{1|\mathrm{v}}\cdots\sigma_{\mathrm{N|v}}\bigr)+2\mathrm{NK}
+\mathrm{AIC}=2\mathrm{T}\cdot\ln\left(\sigma_{1|\mathrm{v}}\cdots\sigma_{\mathrm{N|v}}\right)+2\mathrm{NK}
 $$
 
 故而当条件变量数 K 固定时，最优模型等于所有方差乘积最小的模型。再注意到协方差矩阵是个半正定阵，因此行列式在最极端的情况最小等于 0，此时的 AIC 则趋于负无穷。
@@ -217,49 +217,49 @@ $$
 更有意思的是，如果考虑条件协方差矩阵的特征值
 
 $$
-\lambda_{1}\ge\lambda_{2}\ge\cdots\ge\lambda_{\mathrm{N}}\ge0
+\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{\mathrm{N}}\geq0
 $$
 
 注意到
 
 $$
-\left|{\Sigma_{|\mathrm{v}}}\right|=\lambda_{1}\cdots\lambda_{\mathrm{N}}
+\left|\Sigma_{\mathrm{|v}}\right|=\lambda_{1}\cdots\lambda_{\mathrm{N}}
 $$
 
 那么
 
 $$
-{\mathrm{AIC}}={\mathrm{T}}\cdot\ln(\lambda_{1}\cdots\lambda_{\mathrm{N}})+2{\mathrm{NK}}={\mathrm{T}}\cdot\sum\ln\lambda_{\mathrm{i}}+2{\mathrm{NK}}
+\mathrm{AIC}=\mathrm{T}\cdot\ln(\lambda_1\cdots\lambda_{\mathrm{N}})+2\mathrm{NK}=\mathrm{T}\cdot\sum\ln\lambda_{\mathrm{i}}+2\mathrm{NK}
 $$
 
 上述公式表明，一个优秀的条件变量会带来条件协方差矩阵特征值的大比例衰减（简单来说就是衰减的比例而非幅度才是决定条件变量优劣的标准，将某个因子收益标准差从 100 衰减为 50 和从 1 衰减到 0.5 在 AIC上的效用是一样的）。因此条件变量应该选择那些在协方差上解释力度更显著的变量。
 
-上述讨论主要是站在风险约化的视角，聚焦于如何依据 AIC 指标选择最优的因子择时模型。但作为同一枚硬币的另一面，条件因子收益 $\mathrm{R}_{|\mathrm{v}}$ 也会受到 的影响，而且我们最终将会看到，这种影响表现为一系列的信息比率指标，从而决定因子择时模型的效率。
+上述讨论主要是站在风险约化的视角，聚焦于如何依据 AIC 指标选择最优的因子择时模型。但作为同一枚硬币的另一面，条件因子收益 $\mathtt{R}_{|\mathtt{V}}$ 也会受到 的影响，而且我们最终将会看到，这种影响表现为一系列的信息比率指标，从而决定因子择时模型的效率。
 
 ## 4.2. 条件变量选择的步骤
 
 本节将给出一个逐轮筛选条件变量的框架。设
 
 $$
-\left\{\begin{array}{l}{{\mathrm{S}_{\mathrm{i}}}{\mathrm{\Omega}}=\tilde{\vec{\beta}}{\mathrm{\Omega}}{\mathrm{i}}\tilde{\mp}\hat{\mathrm{e}}{\mathrm{\Omega}}{\forall}\tilde{\mathbb{R}}{\mathrm{\Omega}}/\tilde{\mathrm{e}}\tilde{\mathrm{\Omega}}{\mathrm{\lesssim}}1\mp\tilde{\mathrm{\Omega}}\mathrm{\Omega}\tilde{\mathbb{Z}}\mathrm{\frac{\partial\Omega}{\mathrm{\lesssim}}\tilde{\mathrm{\Omega}}\tilde{\mathbb{R}}}}\\{{\mathrm{AIC}_{\mathrm{i}}}=\tilde{\vec{\beta}}{\mathrm{\Omega}}{\mathrm{i}}\tilde{\ddag}\hat{\mathrm{e}}{\mathrm{\Omega}}{\mathrm{\rlap/{H}}\mathrm{\Sigma}}\mathrm{\ AIC}}\end{array}\right.
+\left\{\begin{aligned}S_{i}&=第i轮的最优条件变量集\\AIC_{i}&=第i轮的AIC\end{aligned}\right.
 $$
 
 1. 初始状态下，最优条件变量集为空集，此时的 AIC 等于无条件 AIC
 
 $$
-\mathrm{S}_{0}=\emptyset,\mathrm{AIC}_{0}=\mathrm{T}\cdot\mathrm{ln}[|\Sigma_{\mathrm{RR}}|]
+\mathrm{S_{0}=\emptyset,AIC_{0}=T\cdot\ln[|\Sigma_{RR}|]}
 $$
 
 2. 假设第 i轮筛选已经完成，那么通过纳入剩余的候选条件变量 k，可以得到相应的 AIC
 
 $$
-\mathrm{AIC}_{\mathrm{i}}\to\mathrm{AIC}_{\mathrm{i,k}}
+\mathrm{AIC_{i}\rightarrow AIC_{i,k}}
 $$
 
 3. 如果存在一个候选条件变量 k 使得
 
 $$
-\mathrm{{AIC}_{\mathrm{{i,k}}}<\mathrm{{AIC}_{\mathrm{{i}}}}}
+\mathrm{AIC_{i,k}<AIC_{i}}
 $$
 
 那么跳转到第 4 步；否则流程停止，此时最优条件变量集即第 i轮的条件变量集。
@@ -267,7 +267,7 @@ $$
 4. 更新第 i+1 轮的最优条件变量集为
 
 $$
-\mathrm{S}_{\mathrm{i}+1}=\mathrm{S}_{\mathrm{i}}\cup\{\mathrm{k}\}
+\mathsf{S}_{\mathrm{i}+1}=\mathsf{S}_{\mathrm{i}}\cup\{\mathrm{k}\}
 $$
 
 并跳转到第 2 步。
@@ -283,35 +283,35 @@ $$
 本报告首先推导 IR 的矩阵形式。考虑模型收益和模型方差如下
 
 $$
-\left\{\begin{array}{ll}{\mathrm{R}_{\mathrm{m}}=(\mathrm{M}^{\ast})^{\mathrm{T}}\mathrm{R}=\lambda_{\mathrm{m}}\cdot\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R}}\\{\sigma_{\mathrm{m}}^{2}=(\mathrm{M}^{\ast})^{\mathrm{T}}\Sigma\mathrm{M}^{\ast}=\lambda_{\mathrm{m}}^{2}\cdot\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\Sigma\Sigma^{-1}\mathrm{R}=\lambda_{\mathrm{m}}\cdot\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R}}\end{array}\right.
+\begin{cases}\mathsf{R}_{\mathbf{m}}=(\mathsf{M}^*)^{\mathsf{T}}\mathsf{R}=\lambda_{\mathbf{m}}\cdot\mathsf{R}^{\mathsf{T}}\Sigma^{-1}\mathsf{R}\\\sigma_{\mathbf{m}}^2=(\mathsf{M}^*)^{\mathsf{T}}\Sigma\mathsf{M}^*=\lambda_{\mathbf{m}}^2\cdot\mathsf{R}^{\mathsf{T}}\Sigma^{-1}\Sigma\Sigma^{-1}\mathsf{R}=\lambda_{\mathbf{m}}\cdot\mathsf{R}^{\mathsf{T}}\Sigma^{-1}\mathsf{R}\end{cases}
 $$
 
 下标 m 代表 model，因此模型的 IR 等于
 
 $$
-\mathrm{IR}_{\mathrm{m}}={\frac{\mathrm{R}_{\mathrm{m}}}{\sigma_{\mathrm{m}}}}={\frac{\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R}}{\lambda_{\mathrm{m}}\cdot(\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R})^{1/2}}}=(\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R})^{1/2}
+\mathrm{IR}_{\mathrm{m}}=\frac{\mathrm{R}_{\mathrm{m}}}{\sigma_{\mathrm{m}}}=\frac{\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R}}{\lambda_{\mathrm{m}}\cdot(\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R})^{1/2}}=(\mathrm{R}^{\mathrm{T}}\Sigma^{-1}\mathrm{R})^{1/2}
 $$
 
 类比上述公式，条件模型信息比率（conditional model IR，CMIR）为：
 
 $$
-0=\mathrm{IR}_{|\mathrm{v}}=\left(\mathrm{R}_{|\mathrm{v}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\mathrm{R}_{|\mathrm{v}}\right)^{1/2}
+\mathrm{Q}=\mathrm{I}\mathrm{R}_{|\mathrm{v}}=\left(\mathrm{R}_{|\mathrm{v}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\mathrm{R}_{|\mathrm{v}}\right)^{1/2}
 $$
 
 注意到
 
 $$
-\left\{\begin{array}{ll}{\mathsf{R}_{|\mathrm{v}}=\overline{{\mathsf{R}}}+\Delta\mathsf{R}}\\{\Sigma_{|\mathrm{v}}=\Sigma_{\mathrm{RR}}-\Sigma_{\Delta\Delta}}\end{array}\right.
+\begin{array}{r}{\left\{\begin{aligned}{\mathsf{R}_{|\mathrm{v}}=}&{{}\overline{{\mathsf{R}}}+\mathsf{\Delta R}}\\{\Sigma_{|\mathrm{v}}=}&{{}\Sigma_{\mathrm{RR}}-\Sigma_{\mathsf{\Delta\Delta}}}\end{aligned}\right.}\end{array}
 $$
 
-因此 CMIR 指标 Q 是调整项ΔR和 $\mathtt{!}\Sigma_{\Delta\Delta}$ 的函数。由于 $\cdot\Sigma_{\Delta\Delta}$ 依赖于条件变量集的选择，因此 CMIR 也同样依赖。简单来说，CMIR 是 $\Sigma_{\Delta\Delta}$ 的协变变量，即随着后者的增加而增加，也随着后者的减 $\cdot\mathcal{V}$ 而减少。更重要的是注意到 $\Delta\mathrm{R}=\Sigma_{\mathrm{RV}}\Sigma_{\mathrm{VV}}^{-1}(\mathrm{v}-\overline{{\mathsf{V}}})$ ，因此 CMIR 也与条件变量的当前读数有关，即它是一个时变的逐点测度。
+因此 CMIR 指标 Q 是调整项ΔR和 $t\Sigma_{\Delta\Delta}$ 的函数。由于 $\Sigma_{\Delta\Delta}$ 依赖于条件变量集的选择，因此 CMIR 也同样依赖。简单来说，CMIR 是 $\Sigma_{\Delta\Delta}$ 的协变变量，即随着后者的增加而增加，也随着后者的减 $\frac{少}{}$ 而减少。更重要的是注意到 $\Delta\mathrm{R}=\Sigma_{\mathrm{RV}}\Sigma_{\mathrm{VV}}^{-1}(\mathrm{v}-\overline{{\mathrm{V}}})$ ，因此 CMIR 也与条件变量的当前读数有关，即它是一个时变的逐点测度。
 
 ## 5.2. 期望模型信息比率（EMIR≠H）
 
 期望模型信息比率（expected model IR，EMIR）是 CMIR 的关于因子收益率调整项分布的期望
 
 $$
-\mathtt{EMIR}=\mathbb{E}_{\Delta\mathtt{R}}[\mathrm{Q}]
+\mathrm{EMIR}=\mathbb{E}_{\Delta\mathbb{R}}[\mathbb{Q}]
 $$
 
 其中期望将遍历所有可能的ΔR。
@@ -319,17 +319,17 @@ $$
 由于 EMIR 没有解析表达，利用 Taylor 展开有
 
 $$
-\mathrm{IR}_{|\mathrm{v}}\big[\mathrm{R}_{|\mathrm{v}}\big]=\mathrm{IR}_{|\mathrm{v}}[\overline{{\mathrm{R}}}]+\left\{\frac{\partial\big(\mathrm{IR}_{|\mathrm{v}}\big)}{\partial\mathrm{R}_{|\mathrm{v}}}[\overline{{\mathrm{R}}}]\right\}^{\mathrm{T}}\cdot\Delta\mathrm{R}+\frac{1}{2}\Delta\mathrm{R}^{\mathrm{T}}\cdot\left\{\frac{\partial^{2}\big(\mathrm{IR}_{|\mathrm{v}}\big)}{\partial\big(\mathrm{R}_{|\mathrm{v}}\big)^{2}}[\overline{{\mathrm{R}}}]\right\}\cdot\Delta\mathrm{R}+\mathcal{O}[\|\Delta\mathrm{R}\|^{3}]
+\mathsf{IR}_{|\mathbf{v}}\big[\mathsf{R}_{|\mathbf{v}}\big]=\mathsf{IR}_{|\mathbf{v}}[\overline{\mathsf{R}}]+\left\{\frac{\partial\big(\mathsf{IR}_{|\mathbf{v}}\big)}{\partial\mathsf{R}_{|\mathbf{v}}}[\overline{\mathsf{R}}]\right\}^{\mathsf{T}}\cdot\Delta\mathsf{R}+\frac{1}{2}\Delta\mathsf{R}^{\mathsf{T}}\cdot\left\{\frac{\partial^{2}\big(\mathsf{IR}_{|\mathbf{v}}\big)}{\partial\big(\mathsf{R}_{|\mathbf{v}}\big)^{2}}[\overline{\mathsf{R}}]\right\}\cdot\Delta\mathsf{R}+\mathcal{O}[\|\Delta\mathsf{R}\|^{3}]
 $$
 
 或者写成
 
 $$
-\operatorname{IR}_{|\mathbf{v}}\left[\operatorname{R}_{|\mathbf{v}}\right]=:\tau+\eta\cdot\Delta\mathrm{R}+\frac{1}{2}\Delta\mathrm{R}^{\mathrm{T}}\cdot\Theta\cdot\Delta\mathrm{R}+\mathcal{O}\left[\|\Delta\mathrm{R}\|^{3}\right]
+\mathrm{IR}_{|\mathrm{v}}\big[\mathrm{R}_{|\mathrm{v}}\big]=:\tau+\eta\cdot\Delta\mathrm{R}+\frac{1}{2}\Delta\mathrm{R}^{\mathrm{T}}\cdot\Theta\cdot\Delta\mathrm{R}+\mathcal{O}\big[\|\Delta\mathrm{R}\|^{3}\big]
 $$
 
 $$
-\begin{array}{rl}&{\left\{\tau=\left(\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\overline{{\mathsf{R}}}\right)^{1/2}\right.}\\&{\left\{\boldsymbol{\eta}=\tau^{-1}\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\right.}\\&{\left.\boldsymbol{\Theta}=\tau^{-1}\Sigma_{|\mathrm{v}}^{-1}-\tau^{-3}\left(\Sigma_{|\mathrm{v}}^{-1}\overline{{\mathsf{R}}}\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\right)\right.}\end{array}
+\begin{cases}\boldsymbol{\tau}=\left(\overline{\mathbb{R}}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\overline{\mathbb{R}}\right)^{1/2}\\\boldsymbol{\eta}=\boldsymbol{\tau}^{-1}\overline{\mathbb{R}}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\\\boldsymbol{\Theta}=\boldsymbol{\tau}^{-1}\Sigma_{|\mathbf{v}}^{-1}-\boldsymbol{\tau}^{-3}\left(\Sigma_{|\mathbf{v}}^{-1}\overline{\mathbb{R}}\overline{\mathbb{R}}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\right)\end{cases}
 $$
 
 下面将逐项各部分对 IR 的影响。
@@ -337,15 +337,15 @@ $$
 常数项：风险约化。可以看到基线模型信息比率（baselinemodel IR，BMIR）即上述公式中的
 
 $$
-\tau=\left(\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\overline{{\mathsf{R}}}\right)^{1/2}
+\tau=\left(\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\overline{{\mathsf{R}}}\right)^{1/2}
 $$
 
 由于此时的期望收益R̅与静态模型完全一致，因此 BMIR 的改进度量完全由风险约化决定。注意到 $\Sigma_{|\mathrm{v}}=\Sigma_{\mathrm{RR}}-\Sigma_{\Delta\Delta}$ ，因此去掉被解释部分后的条件协方差矩阵将会更“小”，其逆矩阵将会更“大”（无论是从模长、特征值还是算子演算的角度），因此 BMIR 会更大。特别地，BMIR 将比无条件 IR，也就是 $(\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{\mathrm{RR}}^{-1}\overline{{\mathsf{R}}})^{1/2}$ 来的更大。
 
-线性部分：R̅和ΔR的交叉影响。从公式上，可以将此部分写成一个内积的形式，注意到内积核 $\Sigma_{\parallel\mathrm{v}}$ 的正定性，因此
+线性部分：R̅和ΔR的交叉影响。从公式上，可以将此部分写成一个内积的形式，注意到内积核 $\langle\Sigma|_{\mathbf{V}}$ 的正定性，因此
 
 $$
-\eta\cdot\Delta\mathrm{R}=\tau^{-1}\overline{{\mathrm{R}}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\Delta\mathrm{R}=\tau^{-1}\langle\overline{{\mathrm{R}}},\Delta\mathrm{R}\rangle_{|\mathrm{v}}
+\begin{array}{r}{\boldsymbol{\eta}\cdot\Delta\mathrm{\mathbb{R}}=\tau^{-1}\mathrm{\bar{R}^{T}}\Sigma_{|\mathrm{v}}^{-1}\Delta\mathrm{\mathbb{R}}=\tau^{-1}\langle\mathrm{\bar{R}},\Delta\mathrm{\mathbb{R}}\rangle_{|\mathrm{v}}}\end{array}
 $$
 
 线性部分的变化完全由R̅和ΔR的协变或者反变关系决定。当两者协变时，该部分将使得 IR 增加，反之则会减少 IR 的数值。
@@ -361,35 +361,35 @@ $$
 为证明Θ的半正定性，只需要注意到对于任意的 X 有
 
 $$
-\begin{array}{rl}&{\mathbf{X}^{\mathrm{\scriptscriptstyle T}}\Theta\mathbf{X}=\tau^{-3}\left[\overline{{\mathsf{R}}}^{\mathrm{\scriptscriptstyle T}}\Sigma_{|\mathrm{v}}^{-1}\overline{{\mathsf{R}}}\cdot\mathbf{X}^{\mathrm{\scriptscriptstyle T}}\Sigma_{|\mathrm{v}}^{-1}\mathbf{X}-\left({\mathbf{X}}^{\mathrm{\scriptscriptstyle T}}\Sigma_{|\mathrm{v}}^{-1}\overline{{\mathsf{R}}}\overline{{\mathsf{R}}}^{\mathrm{\scriptscriptstyle T}}\Sigma_{|\mathrm{v}}^{-1}\mathbf{X}\right)\right]}\\&{\qquad=\tau^{-3}\left[\langle\overline{{\mathsf{R}}},\overline{{\mathsf{R}}}\rangle_{|\mathrm{v}}\langle\mathbf{X},\mathbf{X}\rangle_{|\mathrm{v}}-\langle\mathbf{X},\overline{{\mathsf{R}}}\rangle_{|\mathrm{v}}^{2}\right]\ge0}\end{array}
+\begin{array}{rl}&{\mathrm{X}^{\mathrm{T}}\Theta\mathrm{X}=\tau^{-3}\left[\overline{{\mathrm{R}}}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\overline{{\mathrm{R}}}\cdot\mathrm{X}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\mathrm{X}-\left(\mathrm{X}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\overline{{\mathrm{R}}}\overline{{\mathrm{R}}}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\mathrm{X}\right)\right]}\\&{\quad=\tau^{-3}\left[\langle\overline{{\mathrm{R}}},\overline{{\mathrm{R}}}\rangle_{|\mathbf{v}}\langle\mathrm{X},\mathrm{X}\rangle_{|\mathbf{v}}-\langle\mathrm{X},\overline{{\mathrm{R}}}\rangle_{|\mathbf{v}}^{2}\right]\geq0}\end{array}
 $$
 
-由于 $\cdot\Sigma_{|v}$ 的正定性以及内积的 Schwarz 不等式即得。
+由于 $\cdot\Sigma_{|v|}$ 的正定性以及内积的 Schwarz 不等式即得。
 
 综合上面三个部分的分析，最后可以得到：
 
 $$
-\begin{array}{l}{{\displaystyle\mathbb{E}_{\Delta\mathbb{R}}[{\mathbb Q}]\approx{\textrm{ H }=\mathbb{E}_{\Delta\mathbb{R}}\bigg[\tau+\eta\cdot\Delta{\mathbb R}+\frac{1}{2}\Delta{\mathbb R}^{\top}\cdot\Theta\cdot\Delta{\mathbb R}\bigg]}}}\\{~}\\{{\displaystyle\quad=\tau+\frac{1}{2}\mathbb{E}_{\Delta\mathbb{R}}[\Delta{\mathbb R}^{\top}\cdot\Theta\cdot\Delta{\mathbb R}]}}\\{~}\\{{\displaystyle\quad=\tau+\frac{1}{2}\mathrm{tr}\{\Theta\mathbb{E}_{\Delta\mathbb{R}}[\Delta{\mathbb R}\Delta{\mathbb R}^{\top}]\}}}\\{~}\\{{\displaystyle\quad=\big(\overline{{{\mathbb R}}}^{\top}\Sigma_{\mathbb{V}}^{-1}\overline{{{\mathbb R}}}\big)^{1/2}+\frac{1}{2}\mathrm{tr}[\Theta\Sigma_{\Delta\Delta}]}}\end{array}
+\begin{aligned}\mathbb{E}_{\Delta\mathbb{R}}[\mathbb{Q}]\approx\mathbb{H}&=\mathbb{E}_{\Delta\mathbb{R}}\left[\tau+\eta\cdot\Delta\mathbb{R}+\frac{1}{2}\Delta\mathbb{R}^{\mathrm{T}}\cdot\Theta\cdot\Delta\mathbb{R}\right]\\&=\tau+\frac{1}{2}\mathbb{E}_{\Delta\mathbb{R}}[\Delta\mathbb{R}^{\mathrm{T}}\cdot\Theta\cdot\Delta\mathbb{R}]\\&=\tau+\frac{1}{2}\mathrm{tr}\{\Theta\mathbb{E}_{\Delta\mathbb{R}}[\Delta\mathbb{R}\Delta\mathbb{R}^{\mathrm{T}}]\}\\&=\left(\mathbb{R}^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\overline{{\mathbb{R}}}\right)^{1/2}+\frac{1}{2}\mathrm{tr}[\Theta\Sigma_{\Delta\Delta}]\\\end{aligned}
 $$
 
 其中 tr 代表的是矩阵的求迹运算。第二行的等式是因为线性部分在期望中零化。而从最终公式可以看到，线性部分只对逐点的 CMIR 有贡献，但对 EMIR 没有贡献。
 
 从上述公式可以看到，EMIR 只与 $\Sigma_{\Delta\Delta}$ 有关，并不关心条件变量的具体实现（此部分信息将决定ΔR）。这表明从 EMIR 的视角来看，本报告选择只关注风险约化的 AIC 作为因子择时模型的挑选准则其实是合理的。
 
-正如本报告在前文提及的一样，AIC 青睐于能产生更小的条件协方差的条件变量。而从 EMIR 指标的代理指标 H的来看，无论是第一项还是第二项都会随着 $\cdot\Sigma_{\Delta\Delta}$ 的增加而增加。因此，本报告建议对因子择时模型进行业绩评价时应该更加关注全局型的 IR 指标 EMIR，而非局部型的 IR 指标 CMIR。
+正如本报告在前文提及的一样，AIC 青睐于能产生更小的条件协方差的条件变量。而从 EMIR 指标的代理指标 H的来看，无论是第一项还是第二项都会随着 $\Sigma_{\Delta\Delta}$ 的增加而增加。因此，本报告建议对因子择时模型进行业绩评价时应该更加关注全局型的 IR 指标 EMIR，而非局部型的 IR 指标 CMIR。
 
 ## 5.3. 期望模型信息比率平方（EMIRS=X）
 
 虽然 EMIR 指标并无解析表达式，但是 Q 的平方期望有解析形式
 
 $$
-\begin{array}{rl}&{\mathrm{X}=\mathbb{E}_{\Delta\mathrm{R}}[\mathrm{Q}^{2}]=\mathbb{E}_{\Delta\mathrm{R}}\big[(\overline{{\mathrm{R}}}+\Delta\mathrm{R})^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}(\overline{{\mathrm{R}}}+\Delta\mathrm{R})\big]}\\&{\quad=\mathbb{E}_{\Delta\mathrm{R}}\big\{\mathrm{tr}\big[(\overline{{\mathrm{R}}}+\Delta\mathrm{R})^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}(\overline{{\mathrm{R}}}+\Delta\mathrm{R})\big]\big\}}\\&{\quad=\mathrm{tr}\big\{\Sigma_{|\mathrm{v}}^{-1}\mathbb{E}_{\Delta\mathrm{R}}[(\overline{{\mathrm{R}}}+\Delta\mathrm{R})(\overline{{\mathrm{R}}}+\Delta\mathrm{R})^{\mathrm{T}}]\big\}}\\&{\quad=\mathrm{tr}\big[\Sigma_{|\mathrm{v}}^{-1}(\overline{{\mathrm{R}\mathrm{R}}}^{\mathrm{T}}+\Sigma_{\Delta\Delta})\big]}\end{array}
+\begin{array}{rl}&{\mathrm{X}=\mathbb{E}_{\Delta\mathbb{R}}[\mathrm{Q}^{2}]=\mathbb{E}_{\Delta\mathbb{R}}\big[(\overline{{\mathbb{R}}}+\Delta\mathbb{R})^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}(\overline{{\mathbb{R}}}+\Delta\mathbb{R})\big]}\\&{\quad=\mathbb{E}_{\Delta\mathbb{R}}\big\{\mathrm{tr}\big[(\overline{{\mathbb{R}}}+\Delta\mathbb{R})^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}(\overline{{\mathbb{R}}}+\Delta\mathbb{R})\big]\big\}}\\&{\quad=\mathrm{tr}\big\{\Sigma_{|\mathbf{v}}^{-1}\mathbb{E}_{\Delta\mathbb{R}}[(\overline{{\mathbb{R}}}+\Delta\mathbb{R})(\overline{{\mathbb{R}}}+\Delta\mathbb{R})^{\mathrm{T}}]\big\}}\\&{\quad=\mathrm{tr}\big[\Sigma_{|\mathbf{v}}^{-1}(\overline{{\mathbb{R}}}\mathbb{R}^{\mathrm{T}}+\Sigma_{\Delta\Delta})\big]}\end{array}
 $$
 
 中间的第二步和第三步分别利用了 tr 的性质
 
 $$
-\begin{array}{c}{\operatorname{tr}(\mathsf{a})=\mathsf{a},\mathsf{a}\in\mathbb{R}}\\{\operatorname{tr}(\mathsf{A}\mathsf{B})=\operatorname{tr}(\mathsf{B}\mathsf{A}),\mathsf{A}\in\mathbb{R}^{\mathsf{n}\times\mathsf{m}},\mathsf{B}\in\mathbb{R}^{\mathsf{m}\times\mathsf{n}}}\end{array}
+\begin{array}{c}{\operatorname{tr}(\mathsf{a})=\mathsf{a},\mathsf{a}\in\mathbb{R}}\\{\operatorname{tr}(\mathsf{AB})=\operatorname{tr}(\mathsf{BA}),\mathsf{A}\in\mathbb{R}^{\mathsf{n}\times\mathsf{m}},\mathsf{B}\in\mathbb{R}^{\mathsf{m}\times\mathsf{n}}}\end{array}
 $$
 
 和 EMIR 不一样的是，此处的 EMIRS 并非近似值而是准确值。
@@ -416,26 +416,26 @@ Expected IR vs. Multi-Period IR
 为了计算 MPIR 指标 P，首先需要计算每一期的收益
 
 $$
-\begin{array}{r}{\mathsf{a}_{\mathrm{t}}=\mathrm{r}_{\mathrm{t}}^{\mathrm{T}}\mathsf{M}_{|\mathrm{v}}^{*}=\lambda\cdot\mathrm{r}_{\mathrm{t}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\mathrm{R}_{|\mathrm{v},\mathrm{t}}=\lambda\cdot\left(\mathrm{R}_{|\mathrm{v},\mathrm{t}}+\varepsilon_{\mathrm{t}}\right)^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\mathrm{R}_{|\mathrm{v},\mathrm{t}}}\end{array}
+\begin{array}{r}{\mathsf{a}_{\mathsf{t}}=\mathsf{r}_{\mathsf{t}}^{\mathsf{T}}\mathsf{M}_{|\mathsf{v}}^{*}=\lambda\cdot\mathsf{r}_{\mathsf{t}}^{\mathsf{T}}\Sigma_{|\mathsf{v}}^{-1}\mathsf{R}_{|\mathsf{v},\mathsf{t}}=\lambda\cdot\left(\mathsf{R}_{|\mathsf{v},\mathsf{t}}+\mathsf{\varepsilon}_{\mathsf{t}}\right)^{\mathsf{T}}\Sigma_{|\mathsf{v}}^{-1}\mathsf{R}_{|\mathsf{v},\mathsf{t}}}\end{array}
 $$
 
 $$
-\left\{\begin{array}{ll}{\mathrm{r}_{\mathrm{t}}~=\mathrm{t}~\mathbb{H}\breve{\mathfrak{T}}\breve{\mathfrak{A}}|\mathfrak{L}\breve{\mathfrak{A}}\breve{\mathfrak{T}}\breve{\mathfrak{T}}^{\sharp}\breve{\mathfrak{A}}\breve{\mathfrak{T}}^{\sharp}}\\{\mathrm{M}_{\mathrm{t}}^{*}~=\mathrm{t}~\mathbb{H}\breve{\mathfrak{T}}\breve{\mathfrak{A}}|\frac{\mathfrak{s}}{\mathbb{H}^{2}}\jmath\mathcal{K}\jmath\mathcal{K}\mathcal{K}\breve{\mathfrak{T}}}\\{\mathrm{R}_{|\mathrm{v,t}}=\mathrm{t}~\mathbb{H}\breve{\mathfrak{T}}\breve{\mathfrak{A}}|\frac{\mathfrak{s}}{\mathfrak{A}}|+\jmath\mathcal{K}\frac{\breve{\mathfrak{s}}}{\mathfrak{T}\breve{\mathfrak{m}}}\frac{\mathfrak{s}\sharp}{\mathfrak{T}}}\\{\varepsilon_{\mathrm{t}}~=\mathrm{t}~\mathbb{H}\breve{\mathfrak{T}}\breve{\mathfrak{A}}|\bar{\mathfrak{T}}\breve{\mathfrak{K}}\breve{\mathfrak{T}}=\jmath\mathcal{K}\frac{\mathfrak{s}\sharp}{\mathfrak{T}\mathfrak{m}}}\end{array}\right.
+\left\{\begin{aligned}\mathbf{r}_{\mathbf{t}}\mathbf{\Theta}&=\mathbf{t}时刻已实现资产收益\\\mathbf{M}_{\mathbf{t}}^{*}\mathbf{\Theta}&=\mathbf{t}时刻最优化权重\\\mathbf{R}_{|\mathbf{v},\mathbf{t}}&=\mathbf{t}时刻条件收益率\\\mathbf{\varepsilon}_{\mathbf{t}}\mathbf{\Theta}&=\mathbf{t}时刻残差收益\end{aligned}\right.
 $$
 
 此时 MPIR 等于
 
 $$
-\mathrm{P}={\frac{\overline{{\alpha}}}{\sigma_{\mathrm{{a}}}}}={\frac{\mathbb{E}[{\mathrm{a}}]}{{\sqrt{\mathbb{E}[{\mathrm{a}}^{2}]-\mathbb{E}[{\mathrm{a}}]^{2}}}}}={\frac{\mathrm{X}}{\sqrt{\mathbb{E}[{\mathrm{a}}^{2}]-\mathrm{X}^{2}}}}
+\mathrm{P}=\frac{\overline{a}}{\sigma_{\mathrm{a}}}=\frac{\mathbb{E}[a]}{\sqrt{\mathbb{E}[a^{2}]-\mathbb{E}[a]^{2}}}=\frac{\mathrm{X}}{\sqrt{\mathbb{E}[a^{2}]-\mathrm{X}^{2}}}
 $$
 
 其中 X 即前文定义的 EMIRS。需要注意的是，此处
 
 $$
-\mathbb{E}[\mathbf{a}]=\lambda\mathbb{E}\left[\left(\mathrm{R}_{|\mathrm{v},\mathrm{t}}+\varepsilon_{\mathrm{t}}\right)^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\mathrm{R}_{|\mathrm{v},\mathrm{t}}\right]=\lambda\mathrm{X}
+\mathbb{E}[\mathrm{a}]=\lambda\mathbb{E}\left[\left(\mathbb{R}_{|\mathbf{v},\mathbf{t}}+\varepsilon_{\mathbf{t}}\right)^{\mathrm{T}}\Sigma_{|\mathbf{v}}^{-1}\mathbb{R}_{|\mathbf{v},\mathbf{t}}\right]=\lambda\mathrm{X}
 $$
 
-这是因为 $\mathrm{R}_{|\mathrm{v}}\varepsilon^{\mathrm{T}}$ 期望零化。
+这是因为 $\mathbf{R}_{|\mathbf{v}}\boldsymbol{\varepsilon}^{\mathrm{T}}$ 期望零化。
 
 不幸的是，分母中的平方期望和 EMIR 一样同样没有解析解，所以为了计算 MPIR 同样需要进行数值计算。所以虽然 MPIR 是一个较好的行业基准，但 EMIR 显然有着更好的可追踪性，而两者的差别则在一定程度上度量了因子择时模型带来的价值增量。
 
@@ -534,12 +534,12 @@ $$
 
 ## 常数项
 
-由于条件变量将协方差矩阵从 $\scriptstyle\sum_{\mathrm{RR}}$ 约化为 $\Sigma_{|\mathrm{v}}$ ，这使得 EMIR 的常数项修
+由于条件变量将协方差矩阵从 $\Sigma_{\mathrm{RR}}$ 约化为 $\Sigma_{|\mathbf{v}|}$ ，这使得 EMIR 的常数项修
 
 ## 正等于
 
 $$
-(\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{\mathrm{{RR}}}^{-1}\overline{{\mathsf{R}}})^{\frac{1}{2}}\to\left(\overline{{\mathsf{R}}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\overline{{\mathsf{R}}}\right)^{\frac{1}{2}}
+(\overline{{\mathbb{R}}}^{\mathrm{T}}\Sigma_{\mathrm{RR}}^{-1}\overline{{\mathbb{R}}})^{\frac{1}{2}}\to\left(\overline{{\mathbb{R}}}^{\mathrm{T}}\Sigma_{|\mathrm{v}}^{-1}\overline{{\mathbb{R}}}\right)^{\frac{1}{2}}
 $$
 
 在实证例子中，该部分共提升了 5.7%的信息比率（H指标从 0.212 变为了 0.224），相对较小。
@@ -555,7 +555,7 @@ Histograms of IR Contributions
 
 ## 二次部分
 
-该部分对 IR 的贡献总是非负，且在数值上等于1 $./2\mathrm{tr}[\Theta\Sigma_{\Delta\Delta}]$ ]。实证显示，该部分对 EMIR 的正向贡献为 0.142，即相较于静态模型有 67%的性能提升。
+该部分对 IR 的贡献总是非负，且在数值上等于1 $1/2\mathrm{tr}[\Theta\Sigma_{\Delta\Delta}]$ ]。实证显示，该部分对 EMIR 的正向贡献为 0.142，即相较于静态模型有 67%的性能提升。
 
 总结起来，二次部分构成了 IR 改进的主要部分。这并不奇怪，因为随着条件收益调整项ΔR的边际变化，模型的权重将随之改变其在因子上的暴露。因此当ΔR正确预测了因子收益的方向时，动态权重机制将显著地改变组合业绩。
 

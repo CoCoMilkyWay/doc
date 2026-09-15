@@ -98,9 +98,9 @@ Huatai Rescarch Analyst L.ist
 
 ## 注意力系数：归一化相似度
 
-实现注意力机制的关键是计算注意力系数。注意力系数的本质是两个向量的归一化相似度。如果 h、 $\mathsf{h}_{\mathsf{j}}$ 两个向量相似度高，那么在编码 h 时，应给予 h 一定“注意力”，为 $\mathsf{h}_{\mathsf{j}}$ 分配适当权重。
+实现注意力机制的关键是计算注意力系数。注意力系数的本质是两个向量的归一化相似度。如果 h、 $h_{\mathrm{j}}$ 两个向量相似度高，那么在编码 h 时，应给予 h 一定“注意力”，为 $h_{\mathrm{j}}$ 分配适当权重。
 
-两个向量 hi、 $\mathsf{h}_{\mathsf{j}}$ 的相似度可以表示为：
+两个向量 hi、 $h_{\mathrm{j}}$ 的相似度可以表示为：
 
 $$
 e_{ij}=s(h_{i},h_{j})
@@ -108,15 +108,15 @@ $$
 
 相似度函数 s的定义较灵活，常用以下几种形式：
 
-1. 加性： $s\big(h_{i},h_{j}\big)=v\mathrm{tanh}\big(Wh_{i}+Uh_{j}\big)$ ，v、W、U 为可学习的参数；
+1. 加性： $s(h_i,h_j)=v\tanh(Wh_i+Uh_j)$ ，v、W、U 为可学习的参数；
 
 2. 乘性： $s\big(h_{i},h_{j}\big)=h_{i}Wh_{j}$ ，W 为可学习的参数；
 
 3. 点积： $s\big(h_{i},h_{j}\big)=h_{i}^{T}h_{j}$
 
-4. 缩放点积： $\begin{array}{r}{s\big(h_{i},h_{j}\big)=\frac{h_{i}^{T}h_{j}}{\sqrt{d_{\lambda}}},}\end{array}$ ，dh为向量 h的长度。
+4. 缩放点积： $\begin{array}{r}{s\big(h_{i},h_{j}\big)=\frac{h_{i}^{T}h_{j}}{\sqrt{d_{\bar{\mu}}}},}\end{array}$ ，dh为向量 h的长度。
 
-随后，参考向量 hi与所有向量的相似度，对 hi与 $\mathsf{h}_{\mathsf{j}}$ 的相似度 $\mathsf{eij}$ 进行归一化，得到 hi与 $\mathsf{h}_{\mathsf{j}}$ 的注意力系数 ${\tt G}_{\mathrm{lj}}$ ：
+随后，参考向量 hi与所有向量的相似度，对 hi与 $h_{\mathrm{j}}$ 的相似度 $\Theta_{[]}$ 进行归一化，得到 hi与 $h_{\mathrm{j}}$ 的注意力系数 $\mathbf{a}_{ij}$ ：
 
 $$
 \alpha_{ij}=softmax_{j}(e_{ij})=\frac{\exp(e_{ij})}{\sum_{k}\exp(e_{ik})}
@@ -127,7 +127,7 @@ $$
 理解注意力机制的经典场景是信息检索问题。Q 代表查询（Query）序列，K、V 分别代表键（Key）和值（Value）对序列，q 代表单次查询。例如网购场景，q 是待搜索的商品名称，K 是全部商品名称，V 是全部商品对应的信息。计算 q 与 K 的每个键 ki的注意力系数，以此为权重对每个键的值 vi加权求和，得到 q的注意力：
 
 $$
-Attention{\bigl(}q,(K,V){\bigr)}=\sum_{i}{\frac{\exp(s(q,k_{i}))}{\sum_{j}\exp(s(q,k_{j}))}}v_{i}
+Attention\big(q,(K,V)\big)=\sum_{i}\frac{\exp(s(q,k_{i}))}{\sum_{j}\exp(s(q,k_{j}))}v_{i}
 $$
 
 图表1： Self-Attention 示意图
@@ -136,19 +136,19 @@ $$
 
 信息检索问题中，Query、Key、Value 的来源不同。而自注意力（Self-Attention）中，Query、Key、Value 来自同一组数据，但经历不同的线性变换。数据 X 的自注意力计算步骤如下：
 
-1. 对于 X 的每个元素 xi，分别乘以WQ、WK、 $\mathsf{W}^{\sf V}$ ，线性映射成三个新向量 $\mathsf{Q}_{\mathrm{i}},\ \mathsf{K}_{\mathrm{i}},\ \mathsf{V}_{\mathrm{i}\circ}$ WQ、WK、WV都是可学习的参数矩阵。所有元素的三个新向量构成矩阵 Q、K、 $\vee_{\circ}$
+1. 对于 X 的每个元素 xi，分别乘以WQ、WK、 $W^{V}$ ，线性映射成三个新向量 $Q_{i},K_{i},V_{i},$ WQ、WK、WV都是可学习的参数矩阵。所有元素的三个新向量构成矩阵 Q、K、 $\nabla_{\circ}$
 
-2. 对于 X的每个元素 xi，计算 xi和其他元素如 $\mathsf{X}_{\mathrm{j}}$ 的注意力系数 ${\tt G}_{\mathrm{lj}}$ （这里以点积为例）；以注意力系数 ${\tt G}_{\mathrm{lj}}$ 为权重，对所有元素（含自身）的值 $\mathsf{V}_{\mathrm{j}}$ 加权求和得到 $\mathsf{x}_{\mathrm{i}}$ 的注意力，视作xi的新值：
-
-$$
-\alpha_{ij}={\frac{\exp({Q_{i}K_{j}}^{T})}{\sum_{k}\exp({Q_{i}K_{k}}^{T})}}
-$$
+2. 对于 X的每个元素 xi，计算 xi和其他元素如 $x_{j}$ 的注意力系数 $\mathbf{a}_{ij}$ （这里以点积为例）；以注意力系数 $\mathfrak{a}_{\mathrm{ij}}$ 为权重，对所有元素（含自身）的值 $\nabla_{\mathbf{j}}$ 加权求和得到 $\mathsf{Xi}$ 的注意力，视作xi的新值：
 
 $$
-Attention(Q_{i},K,V)=\sum_{j}\alpha_{ij}V_{j}
+\alpha_{ij}=\frac{\exp(Q_iK_j^T)}{\sum_k\exp(Q_iK_k^T)}
 $$
 
-3. 将上述过程写成矩阵形式，实现并行计算； $\mathsf{Q}\mathsf{K}^{\mathsf{T}}$ 的方差较大，影响模型稳定性，因此除以 dk的平方根使方差归一化：
+$$
+Attention(Q_{i},K,V)={\sum_{j}}\alpha_{ij}V_{j}
+$$
+
+3. 将上述过程写成矩阵形式，实现并行计算； $\mathbf{Q}\mathsf{K}^{\mathsf{T}}$ 的方差较大，影响模型稳定性，因此除以 dk的平方根使方差归一化：
 
 $$
 Attention(Q,K,V)=softmax(\frac{QK^{T}}{\sqrt{d_{k}}})V
@@ -158,12 +158,12 @@ $$
 
 ## 多头自注意力：多组参数衡量相似度
 
-上述自注意力计算过程，使用同一套自由参数 ${\sf W}^{\sf{Q}},~{\sf W}^{\sf K},~{\sf W}^{\sf V}$ ，相当于单一的相似度测度，因此称单头注意力（Single-Head Attention）。实际上，相似度可以有多种测度，使用多组自由参数计算注意力的过程称多头注意力（Multi-Head Attention）。
+上述自注意力计算过程，使用同一套自由参数 $\mathsf{W}^{\mathsf{Q}}、\mathsf{W}^{\mathsf{K}}、\mathsf{W}^{\mathsf{V}},$ ，相当于单一的相似度测度，因此称单头注意力（Single-Head Attention）。实际上，相似度可以有多种测度，使用多组自由参数计算注意力的过程称多头注意力（Multi-Head Attention）。
 
-具体而 $\frac{\texttt{i}}{\overline{{\overline{{\alpha}}}}}$ ，对于 xi，设置 h 组不同的参数 $(W_{1}^{Q}\setminus W_{1}^{K}\setminus W_{1}^{V})\setminus\{W_{2}^{Q}\setminus W_{2}^{K}\setminus W_{2}^{V}\}\setminus\dots\setminus(W_{\hat{\boldsymbol{u}}}^{Q}$ $W_{h}^{K},W_{\widehat{h}}^{V})$ ，并缩小 K、V的维度 ${\mathsf{d}}_{\mathsf{k}},{\mathsf{d}}_{\mathsf{v}}$ 至原来的 1/h。将不同参数的计算结果（也称为 head）进行拼接，并乘上参数矩阵 ${\sf W}_{0}$ ，得到最终的注意力：
+具体而 $\frac{言}{言}$ ，对于 xi，设置 h 组不同的参数 $(W_{1}^{Q}、W_{1}^{K}、W_{1}^{V})、(W_{2}^{Q}、W_{2}^{K}、W_{2}^{V})、\cdots、(W_{\hat{\lambda}}^{Q}$ $W_{h}^{K}、W_{\not h}^{V})$ ，并缩小 K、V的维度 $d_{k},d_{v}$ 至原来的 1/h。将不同参数的计算结果（也称为 head）进行拼接，并乘上参数矩阵 $W_{0}$ ，得到最终的注意力：
 
 $$
-MultiHeadAttention(Q,K,V)=concat(head_{1},head_{2},\dots,head_{h})W_{0}
+Multi\;Head\;Attention(Q,K,V)=concat(head_1,head_2,\ldots,head_h)W_0
 $$
 
 多头自注意力的输出维数相比单头自注意力没有改变，复杂度更高，逻辑上也更合理，例如衡量股票相似度可以从基本面角度，也可以从技术面角度，理应设置多头注意力。

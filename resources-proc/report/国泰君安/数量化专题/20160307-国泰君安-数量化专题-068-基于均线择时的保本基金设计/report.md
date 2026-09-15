@@ -152,17 +152,17 @@ CPPI策略将资产分为无风险资产和风险资产两部分，根据市场�
 1. 根据保本周期末投资组合最低目标价值和合理的贴现率，确定基金当期投资于安全资产的最小比例，即投资组合的安全底线 Ft。
 
 $$
-F_{\mathrm{t}}=F_{\mathrm{T}}*e^{-r(\mathrm{T}-\mathrm{t})}
+F_{\tt t}=F_{\tt T}*e^{-r({\tt T}-{\tt t})}
 $$
 
 2. 确定安全垫的放大倍数—风险乘数M，从而确定投资于风险资产的价值Et，其中Vt为资产总值，剩余资产投资于安全资产 Dt。
 
 $$
-E_{\mathrm{t}}=\mathrm{M}*\left(V_{\mathrm{t}}-F_{\mathrm{t}}\right)
+E_{\mathrm{t}}=\mathrm{M}*(V_{\mathrm{t}}-F_{\mathrm{t}})
 $$
 
 $$
-\mathtt{D}_{\mathtt{t}}=V_{\mathtt{t}}-E_{\mathtt{t}}
+\mathtt{D_{t}}=V_{\mathtt{t}}-E_{\mathtt{t}}
 $$
 
 TIPP：
@@ -170,7 +170,7 @@ TIPP：
 TIPP 和CPPI的调整公式非常类似，TIPP 增加了保本比例调整策略，相比于 CPPI 更加保守，产品的最低保险金额是一个动态调整的值，即当产品净值上升时，则动态保本比例会相应的提高，从而锁定利润，其中f为固定的保本比率。
 
 $$
-F_{\mathsf{t}}=\operatorname*{max}(\mathrm{V}_{t}*\mathrm{f},F_{\mathsf{t-1}})
+F_{\mathrm{t}}=\max(V_{\mathrm{t}}*\mathrm{f},F_{\mathrm{t-1}})
 $$
 
 ## 2.2. 传统保本策略的缺陷
@@ -289,7 +289,7 @@ CPPI和 TIPP 策略本质上是构建一个类似于看涨期权的资产组合�
 我们以股票指数的N日均线作为调仓信号，即当收盘价大于N日均线时，风险乘数 M=2，通过当前的安全底线和 CPPI、TIPP 公式计算股票买入比例；当收盘价小于 N日均线时，卖出所有股票仓位，买入债券资产。
 
 $$
-\mathrm{m}=\{\begin{array}{ll}{2\qquad}&{\mathrm{i}|\dot{\bar{x}}1\mathrm{\normalfont~\hat{y}_~N_\varepsilon~}\rrangle\mathrm{\normalfont~\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon}}\\{0\qquad}&{\mathrm{i}|\dot{\bar{x}}1\mathrm{\normalfont~\hat{y}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon\hat{z}_\varepsilon}}\end{array}
+\mathfrak{m}=\left\{\begin{aligned}&2\quad&收盘价&\gg\mathbb{N}\ 日均线,\\&0\quad&收盘价&<\mathbb{N}\ 日均线.\end{aligned}\right.
 $$
 
 30日均线是技术分析中判断股票价格中期强弱的经典指标，因此我们首先以N=30，作为 CPPI和TIPP 策略的调仓信号。
@@ -320,7 +320,7 @@ $$
 保本基金是将安全垫放大M倍后投资于风险资产，理论上应该随时根据安全垫动态调整风险资产比例，否则将面临安全垫损失风险。而单均线策略则是在突破均线加仓，跌破均线后平仓，因此最大的风险点在于从突破均线买入后到下一次跌破均线卖出时股票资产跌幅>1/M，即最大损失超过安全垫资产：
 
 $$
-\mathrm{Pct}(T_{1},T_{2})<-\frac{1}{M}
+\operatorname*{Pct}(T_{1},T_{2})<-\frac{1}{M}
 $$
 
 T1：突破均线买入时点T2：跌破均线卖出时点

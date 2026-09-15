@@ -72,59 +72,59 @@ ii.风险因子在时间序列上数值要稳定，不能变化太快，否则�
 
 ## 2.1 样本协方差矩阵的不足
 
-假设 ${\vec{X}}=(X_{1},X_{2}\dots X_{p})$ 是一个 p 维随机向量，有 n 个观察值 $\{\overrightarrow{X_{t}}=\left(\mathrm{X}_{\mathrm{t},1},X_{t,2}\ldots X_{t,p}\right),t=1,2\ldots n\}$ 随机向量的协方差记为 $\Sigma=\mathsf{cov}(\vec{X})$ 。如果 ⃗满足 p维正态分布，则 的极大似然估计正好等于样本协方差矩阵：
+假设 $\vec{X}=(\mathrm{X}_{1},X_{2}\ldots X_{p})$ 是一个 p 维随机向量，有 n 个观察值 $\{\overrightarrow{X_{t}}=\left(\mathtt{X_{t,1}},X_{t,2}\dots X_{t,p}\right),\quad t=1\mathrm{,}2\dots n\}$ 随机向量的协方差记为 $\Sigma=\operatorname{cov}({\vec{X}})$ 。如果 ⃗满足 p维正态分布，则 的极大似然估计正好等于样本协方差矩阵：
 
 $$
-S={\frac{1}{n}}\sum_{t}^{n}(\overrightarrow{X_{t}}-\bar{X})\cdot(\overrightarrow{X_{t}}-\bar{X})^{\prime}\ ~\ ~\ ~\ \ \ \bar{X}={\frac{1}{n}}\sum_{t}^{n}\overrightarrow{X_{t}}
+S=\frac{1}{n}\sum_{t}^{n}(\overrightarrow{X_t}-\bar{X})\cdot(\overrightarrow{X_t}-\bar{X})'\quad\bar{X}=\frac{1}{n}\sum_{t}^{n}\overrightarrow{X_t}
 $$
 
-是一个无偏估计，如果 p 是一个不变的常数，则在 时， $\varsigma{\overset{p}{\to}}\Sigma$ 。不过在估算股票收益率协方差矩阵时，由于股票收益率的分布在时间序列方向上不稳定，不建议用太长的历史数据，所以经常碰到的情况是用过去一年 252个交易日的数据去估算 1000甚至更多只股票的协方差矩阵，样本协方差矩阵 S的秩等于 n – 1，因此当 时，S不可逆；即使 p <n，根据 Ledoit(2004)里面的引理 2.1，S 特征值也会比 特征值的分布区间广，因此 S 特征值的最大值比 特征值的最大值大，S特征值的最小值比 特征值的最小值小，造成矩阵 S的条件数（Condition Number, 矩阵最大特征值除以最小特征值）偏高，偏高幅度与 p/n 的大小正相关。后续的组合优化过程中可能会对 S 求逆或者以 S 为系数矩阵求解线性方程，S 条件数过大会让计算结果对数据误差十分敏感，使得组合优化得到的组合权重不稳定。
+是一个无偏估计，如果 p 是一个不变的常数，则在 时， $S\xrightarrow{p}\Sigma$ 。不过在估算股票收益率协方差矩阵时，由于股票收益率的分布在时间序列方向上不稳定，不建议用太长的历史数据，所以经常碰到的情况是用过去一年 252个交易日的数据去估算 1000甚至更多只股票的协方差矩阵，样本协方差矩阵 S的秩等于 n – 1，因此当 时，S不可逆；即使 p <n，根据 Ledoit(2004)里面的引理 2.1，S 特征值也会比 特征值的分布区间广，因此 S 特征值的最大值比 特征值的最大值大，S特征值的最小值比 特征值的最小值小，造成矩阵 S的条件数（Condition Number, 矩阵最大特征值除以最小特征值）偏高，偏高幅度与 p/n 的大小正相关。后续的组合优化过程中可能会对 S 求逆或者以 S 为系数矩阵求解线性方程，S 条件数过大会让计算结果对数据误差十分敏感，使得组合优化得到的组合权重不稳定。
 
 解决这个问题的常用方法有三种：
 
-1) 增加样本数量 $\boldsymbol{\mathsf{n}}_{\circ}$ 。前文提到不宜用太久之前的历史数据，因此可以考虑提高数据的采样频率，也就是采用高频数据。不过高频数据在增加样本数量的同时也在增加数据噪音，统计工具上可能要有所改变。另外高频数据计算得到的是高频协方差矩阵，高频数据在收益率序列自相关性和低频数据可能有差异，如何把高频协方差矩阵转换成低频协方差矩阵也是需要考虑的问题。
+1) 增加样本数量 $\mathbf{n}_{\circ}$ 。前文提到不宜用太久之前的历史数据，因此可以考虑提高数据的采样频率，也就是采用高频数据。不过高频数据在增加样本数量的同时也在增加数据噪音，统计工具上可能要有所改变。另外高频数据计算得到的是高频协方差矩阵，高频数据在收益率序列自相关性和低频数据可能有差异，如何把高频协方差矩阵转换成低频协方差矩阵也是需要考虑的问题。
 
-2) 降低变量维度 p。BARRA 因子模型属于这一类，也称作结构化风险模型。它通过寻找少量因子来解释股票收益率，把估计股票收益率协方差矩阵转换成估计因子收益率协方差矩阵和个股特质方差，把需要估计的参数数量从 $O(\mathbf{p}^{2})$ 大幅降为 $0({\mathfrak{p}})$ ，减小估计量的方差。因子对股票收益率的解释度越高，降维效果越明显。
+2) 降低变量维度 p。BARRA 因子模型属于这一类，也称作结构化风险模型。它通过寻找少量因子来解释股票收益率，把估计股票收益率协方差矩阵转换成估计因子收益率协方差矩阵和个股特质方差，把需要估计的参数数量从 $\mathrm{LO}({\mathbf{p}}^{2})$ 大幅降为 $0(\mathbf{p})$ ，减小估计量的方差。因子对股票收益率的解释度越高，降维效果越明显。
 
 3) 通过函数转换调整样本协方差矩阵的特征值，同时提高估计准确性。这也是下文要介绍的压缩估计方法。
 
 ## 2.2 线性与非线性压缩估计
 
-首先介绍压缩估计量方法，这个在后面的因子模型里也会用到。对于 p维对称矩阵 $\mathrm{\Delta A=(a_{i,j})}$ 和$\mathsf{B}=(\mathsf{b}_{\mathrm{i},\mathrm{j}})$ ，常用 Frobenius 距离来衡量两个矩阵的接近程度： $\begin{array}{r}{\|A-B\|=\sqrt{\sum_{i=1}^{n}\sum_{j=1}^{n}\left(a_{i,j}-b_{i,j}\right)^{2}}}\end{array}$ 如果 是要估计的真实协方差矩阵， $\hat{\Sigma}$ 是某个协方差矩阵估计量，可以定义估计量的估计误差为
+首先介绍压缩估计量方法，这个在后面的因子模型里也会用到。对于 p维对称矩阵 $\mathrm{IA}=(\mathsf{a}_{\mathrm{i},\mathrm{j}})$ 和$\mathbf{B}=(\mathbf{b}_{\mathrm{i},\mathrm{j}})$ ，常用 Frobenius 距离来衡量两个矩阵的接近程度： $\begin{array}{r}{\|A-B\|=\sqrt{\sum_{i=1}^{n}\sum_{j=1}^{n}\bigl(a_{i,j}-b_{i,j}\bigr)^{2}}}\end{array}$ 如果 是要估计的真实协方差矩阵， $\hat{\Sigma}$ 是某个协方差矩阵估计量，可以定义估计量的估计误差为
 
 $$
-\mathrm{error}=\mathrm{E}(\left.\hat{\Sigma}-\Sigma\right.^{2})
+\operatorname{error}=\operatorname{E}(\left\|{\widehat{\boldsymbol{\Sigma}}}-{\boldsymbol{\Sigma}}\right\|^{2})
 $$
 
 样本协方差矩阵 S 的条件数偏大，也就是说 S特征值的最大值和最小值距离太远，需要压缩来降低条件数。一种简便的线性压缩方法是给 S 加上一个目标矩阵 T，目标矩阵的选取有很多种（Schafer 2005），以单位阵 为例，线性压缩（LS，Linear Shrinkage）估计量可以表示成：
 
 $$
-\Sigma_{\mathrm{LS}}=\boldsymbol{\rho}\cdot\boldsymbol{v}\cdot\mathrm{I}+(1-\boldsymbol{\rho})\cdot\mathrm{S},\qquad0\leq\boldsymbol{\rho}\leq1,\boldsymbol{v}>0\qquad\cdots\cdots\quad(1)
+\Sigma_{\mathrm{LS}}=\rho\cdot\nu\cdot\mathrm{I}+(1-\rho)\cdot\mathsf{S},\quad0\leq\rho\leq1,\nu>0\quad\cdots\cdots\quad(1)
 $$
 
 线性压缩估计即是要在所有可能的线性组合中，找到一个估计误差最小的，即求解
 
 $$
-\operatorname*{max}_{0\leq\boldsymbol{\rho}\leq1,\ :\ :\boldsymbol{\nu}>0}\|\boldsymbol{\rho}\cdot\boldsymbol{\nu}\cdot\boldsymbol{\mathrm{I}}+(1-\boldsymbol{\rho})\cdot\boldsymbol{\mathrm{S}}-\boldsymbol{\Sigma}\|
+\max_{0\leq\mathsf{p}\leq1,\mathsf{v}>0}\left\|\mathsf{p}\cdot\mathsf{v}\cdot\mathsf{I}+(1-\mathsf{p})\cdot\mathsf{S}-\Sigma\right\|
 $$
 
 可显式求得这个问题的解为
 
 $$
-\nu=\mu,\rho=\frac{\beta^{2}}{\delta^{2}}
+\nu=\mu,\quad\rho=\frac{\beta^{2}}{\delta^{2}}
 $$
 
-其中 $\mu$ 等于 特征值的平均值， $\beta^{2}=E(\|S-\Sigma\|^{2})$ 表示样本协方差矩阵的估计误差， $\delta^{2}=$ $E(\|S-\mu I\|^{2})$ 度量的是样本协方差矩阵特征值分布的离散程度。 的真实值不知道， $\mu,\beta^{2},\delta^{2}$ 也就无法计算，不过在一定的理论假设下，Ledoit(2004)构建了 $\mu,\beta^{2},\delta^{2}$ 的样本统计量，保证在${\tt N}\to\infty,{\tt p}\to\infty$ 时，对应的样本压缩估计量收敛于 。
+其中 $\mu$ 等于 特征值的平均值， $\beta^{2}=E(\|S-\Sigma\|^{2})$ 表示样本协方差矩阵的估计误差， $\delta^{2}=$ $E(\|S-\mu I\|^{2})$ 度量的是样本协方差矩阵特征值分布的离散程度。 的真实值不知道， $\mu,\beta^{2},\delta^{2}$ 也就无法计算，不过在一定的理论假设下，Ledoit(2004)构建了 $\mu,\beta^{2},\delta^{2}$ 的样本统计量，保证在$\mathtt{n}\to\infty,\mathtt{p}\to\infty$ 时，对应的样本压缩估计量收敛于 。
 
-样本协方差矩阵是（1）式的一个特例 $(\rho=0)$ ，因此 LS 估计量的估计误差小于等于样本协方差 $(\boldsymbol{\mathsf{n}},\boldsymbol{\mathsf{p}}$ 足够大的时候），误差减小的幅度取决于两个数值 p/n 和 ，值越大，估计误差减小幅度越明显。LS 估计量不依赖于随机变量的分布，而且中间过程涉及的变量都可以显式计算，因此计算效率非常之高，全市场 3000 只股票计算一次协方差矩阵耗时在毫秒级别，因此也是我们之前研究中最常用的协方差矩阵估计方法。Python（sklearn.covariance.LedoitWolf）, MATLAB（作者个人主页有作者自己编写的代码可下载），R（nlshrink package）都有成熟的工具包可调用。
+样本协方差矩阵是（1）式的一个特例 $\langle\mathsf{p}=0\rangle$ ，因此 LS 估计量的估计误差小于等于样本协方差 $(\mathbf{n},\mathbf{p}$ 足够大的时候），误差减小的幅度取决于两个数值 p/n 和 ，值越大，估计误差减小幅度越明显。LS 估计量不依赖于随机变量的分布，而且中间过程涉及的变量都可以显式计算，因此计算效率非常之高，全市场 3000 只股票计算一次协方差矩阵耗时在毫秒级别，因此也是我们之前研究中最常用的协方差矩阵估计方法。Python（sklearn.covariance.LedoitWolf）, MATLAB（作者个人主页有作者自己编写的代码可下载），R（nlshrink package）都有成熟的工具包可调用。
 
-记 S 的特征值为 $\lambda_{1},\lambda_{2}\ldots\lambda_{p}$ ，其对应特征向量为 $\mathrm{u}_{1},u_{2}\dots u_{p}$ ，则 $\mathsf{s}$ 可以谱分解为 $\textstyle\mathbf{S}=\sum_{i=1}^{p}\lambda_{i}\cdot u_{i}$ $u_{i}^{T}$ 。压缩估计量可以表示成：
+记 S 的特征值为 $\lambda_{1},\lambda_{2}\ldots\lambda_{p}$ ，其对应特征向量为 $\mathbf{u}_{1},u_{2}\ldots u_{p}$ ，则 $\mathbb{S}$ 可以谱分解为 $\begin{array}{r}{\mathsf{S}=\sum_{i=1}^{p}\lambda_{i}\cdot u_{i}}\end{array}$ $u_{i}^{T}$ 。压缩估计量可以表示成：
 
 $$
-\Sigma_{\mathrm{LS}}=\rho*\mu\sum_{i=1}^{p}u_{i}\cdot u_{i}^{T}+(1-\rho)\cdot\sum_{i=1}^{p}\lambda_{i}\cdot u_{i}\cdot u_{i}^{T}=\sum_{i=1}^{p}(\rho\mu+(1-\rho)\cdot\lambda_{i})\cdot u_{i}\cdot u_{i}^{T}\cdots\cdots(2)
+\Sigma_{\mathrm{LS}}=\rho*\mu\sum_{i=1}^{p}u_{i}\cdot u_{i}^{T}+(1-\wp)\cdot\sum_{i=1}^{p}\lambda_{i}\cdot u_{i}\cdot u_{i}^{T}=\sum_{i=1}^{p}(\rho\mu+(1-\rho)\cdot\lambda_{i})\cdot u_{i}\cdot u_{i}^{T}\cdots\cdots(2)
 $$
 
-可以看到，S的特征值 $\mathrm{\hat{\mathbf{\Omega}}}\cdot\mathrm{\partial}\lambda_{\mathrm{i}}$ 被线性压缩到 $\intercal\Sigma_{\mathrm{LS}}$ 的 $\rho\mu+(1-\rho)\cdot\lambda_{i}$ ，也就是说 $\lvert\lambda_{\mathrm{i}}$ 向真实协方差矩阵特征值的平均值 靠拢，靠拢程度取决于 的大小。这样 $\pmb{\Sigma}_{\mathbf{L}S}$ 特征值的分布区间相对 S 而言得到了一定的压缩，矩阵的条件数减小，用它做后续的组合优化，结果对数据误差的敏感性也会降低。
+可以看到，S的特征值 $\lambda_{\mathrm{i}}$ 被线性压缩到 $了\Sigma_{LS}$ 的 $\rho\mu+(1-\rho)\cdot\lambda_{i}$ ，也就是说 $\lambda_{\mathrm{i}}$ 向真实协方差矩阵特征值的平均值 靠拢，靠拢程度取决于 的大小。这样 $\mathbf{.\Sigma_{LS}}$ 特征值的分布区间相对 S 而言得到了一定的压缩，矩阵的条件数减小，用它做后续的组合优化，结果对数据误差的敏感性也会降低。
 
 LS 是给样本协方差矩阵 S 所有特征值设定了同一个目标 ，做全局压缩。另一种更灵活的非线性压缩（NLS, Nonlinear Shrinkage）方式由 Ledoit(2017)近期提出，它的形式和(2)很类似，可以写作:
 
@@ -132,13 +132,13 @@ $$
 \Sigma_{\mathrm{NLS}}=\sum_{i=1}^{p}d(\lambda_{i})\cdot u_{i}\cdot u_{i}^{T}
 $$
 
-这里 是一个一元函数，在 LS 的（2）式中 是一个一元函数。在对总体的协方差矩阵，数据 $\vec{\mathcal{P}}$ 生过程和函数 的特性做了一些理论假设后，可以证明下面 oracle 函数可以最小化 NLS 估计量的估计误差：
+这里 是一个一元函数，在 LS 的（2）式中 是一个一元函数。在对总体的协方差矩阵，数据 $\begin{aligned}产\end{aligned}$ 生过程和函数 的特性做了一些理论假设后，可以证明下面 oracle 函数可以最小化 NLS 估计量的估计误差：
 
 $$
-\mathrm{d}^{\mathrm{o}}(x)={\frac{x}{\left(\pi cxf(x)\right)^{2}+\left(1-c-\pi cx\mathrm{H}_{f}(x)\right)^{2}}}
+\mathrm{d}^{\mathrm{o}}(x)=\frac{x}{\left(\pi cxf(x)\right)^{2}+\left(1-c-\pi cx\mathrm{H}_{f}(x)\right)^{2}}
 $$
 
-其中 ${\mathsf{c}}={\mathsf{p}}/{\mathsf{n}}$ , 是协方差矩阵特征值的极限谱分布函数, $\mathrm{H}_{\mathrm{f}}(\cdot)$ 是其对应的 Hilbert 变换。Ledoit(2017)通过核函方法计算得到样本协方差矩阵谱分布函数 $\widehat{\mathrm{f_{n}}}(\cdot)$ 、对应的 Hilbert 变换 $\widehat{\mathrm{H}_{\mathrm{f_{n}}}}(\cdot)$ 和oracle 函数   ，并证明当 ${\tt N}\to\infty,{\tt p}\to\infty$ 时 ${\bf d}_{\mathrm{n}}^{\mathrm{o}}(\cdot)d^{o}(\cdot)$ o
+其中 $\mathtt{c}=\mathtt{p}/\mathtt{n}$ , 是协方差矩阵特征值的极限谱分布函数, $\mathrm{H_{f}(\cdot)}$ 是其对应的 Hilbert 变换。Ledoit(2017)通过核函方法计算得到样本协方差矩阵谱分布函数 $\widehat{\mathbf{f_{n}}}(\cdot)$ 、对应的 Hilbert 变换 $\widehat{\mathrm{H}_{\mathrm{f}_{\mathrm{n}}}}(\cdot)$ 和oracle 函数   ，并证明当 $\mathtt{n}\to\infty,\mathtt{p}\to\infty$ 时 $\mathbf{d}_{\mathrm{n}}^{\mathrm{o}}(\cdot)\rightarrow d^{o}(\cdot)$ o
 
 NLS和 LS对样本协方差矩阵特征值的压缩效果不同。对于极大和极小的特征值，NLS和 LS一样也会将其往均值方向压缩，但中间区域的特征值压缩方向有可能是远离均值的，NLS 会把特征值向其附近特征值取值集中的区域压缩，每个不同特征值处的压缩强度都是不一样的，是一种局部性质。Ledoit (2017)通过仿真模拟发现，在真实协方差矩阵的条件数较大、样本集中度（p/n）较小或样本数量较多时，NLS 相对 LS的估计误差减小幅度非常明显。而且 NLS 计算过程里涉及的变量也都是可以显式计算的，运算速度非常之快，和 LS 基本相当，因此之前采用 LS 估计的研究人员可以非常便捷的转移到 NLS 上。
 
@@ -146,16 +146,16 @@ NLS和 LS对样本协方差矩阵特征值的压缩效果不同。对于极大�
 
 ## 2.3 因子模型
 
-假设市场上有 p 个股票，我们已经找到 K 个风险因子，股票 在因子 k 上的暴露度为  , 记矩阵 B为因子暴露度矩阵 $\mathrm{B}_{\mathrm{i,k}}=\mathrm{X}_{i}^{\mathrm{k}}$ ，则做横截面回归
+假设市场上有 p 个股票，我们已经找到 K 个风险因子，股票 在因子 k 上的暴露度为  , 记矩阵 B为因子暴露度矩阵 $\mathbf{B}_{\mathbf{i},\mathbf{k}}=\mathbf{X}_{i}^{\mathbf{k}}$ ，则做横截面回归
 
 $$
-\boldsymbol{\mathrm{R}}=\boldsymbol{\mathrm{B}}\cdot\boldsymbol{\mathrm{f}}+\epsilon
+\mathtt{R}=\mathtt{B}\cdot\mathtt{f}+\mathtt{e}
 $$
 
 可以估算得到横截面上的风险因子纯因子收益率 ̂ 。考虑到横截面上股票特质方差的差异，需要采用WLS（Weighted Least Square）以保证得到的估计量同时也是极大似然估计，权重为个股特质方差的倒数。个股特质方差和其市值平方根倒数近似成正比（参考 BARRA USE4和我们之前报告的 A 股实证结果），所以实际计算的时候可以采用个股市值平方根作为权重。由此，股票的协方差矩阵可如下计算：
 
 $$
-\Sigma=\operatorname{cov}(\mathrm{\mathbb{R}},\mathrm{\mathbb{R}})=\operatorname{cov}(\mathrm{\mathbb{B}}\cdot\mathrm{\sf{f}}+\epsilon,\mathrm{\mathbb{B}}\cdot\mathrm{\sf{f}}+\epsilon)=\mathrm{\mathbb{B}}\cdot\mathrm{\mathbb{F}}\cdot\mathrm{\mathbb{B}}^{\prime}+\mathsf{S}\quad\operatorname{where}\mathrm{\mathbb{F}}=\operatorname{cov}(\mathrm{\mathbb{f}},\mathrm{\mathbb{f}}),\qquad\mathrm{S=var}(\epsilon)
+\Sigma=\mathsf{cov}(\mathsf{R},\mathsf{R})=\mathsf{cov}(\mathsf{B}\cdot\mathsf{f}+\mathsf{\epsilon},\mathsf{B}\cdot\mathsf{f}+\mathsf{\epsilon})=\mathsf{B}\cdot\mathsf{F}\cdot\mathsf{B}^{\prime}+\mathsf{S}\quad\mathsf{where}\;\mathsf{F}=\mathsf{cov}(\mathsf{f},\mathsf{f}),\qquad\mathsf{S}=\mathsf{var}(\mathsf{\epsilon})
 $$
 
 每个横截面上做一次回归得到 f 和 的时间序列后，F和 S可以在时间序列方向上进行估计。
@@ -170,29 +170,29 @@ $$
 
 压缩估计和标准的因子模型相对样本协方差矩阵的改进都属于横截面方向上的，也就是说它们都基于股票收益率在时间序列方向上是独立同分布的假设，不过股票在时间序列上的异质性明显，可以考虑从这个方向上改进风险模型。在一维情形下，我们可以用 GARCH 类模型来描述条件方差的动态变化，因此一个最直接的思路是将 GARCH模型推向高维。
 
-记 时刻 p 个股票的收益率为 p 维向量 $\boldsymbol{\mathrm{r}}_{\mathrm{t}}$ ，它基于 t-1时刻已有市场信息 $\mathcal{F}_{\mathrm{t}-1}$ 的条件预期收益和协方差分别假设为 $\mathrm{E}(\mathrm{r}_{\mathrm{t}}|\mathcal{F}_{t-1})=0,Var(r_{t}|\mathcal{F}_{t-1})=H_{t}$ 。我们需要赋予 $\mathrm{H}_{\mathrm{t}}$ 一定的结构来计算极大似然函数，目前最常用的结构有两种：Engle(1995)的 BEKK 模型和 Engle(2002)的 DCC（DynamicConditional Correlation）模型。
+记 时刻 p 个股票的收益率为 p 维向量 $\bf{r}_{t},$ ，它基于 t-1时刻已有市场信息 $\mathcal{F}_{\mathrm{t-1}}$ 的条件预期收益和协方差分别假设为 $\mathrm{E}(\mathrm{r}_{t}|\mathcal{F}_{t-1})=0,\;Var(r_{t}|\mathcal{F}_{t-1})=H_{t}$ 。我们需要赋予 $\mathrm{H_{t}}$ 一定的结构来计算极大似然函数，目前最常用的结构有两种：Engle(1995)的 BEKK 模型和 Engle(2002)的 DCC（DynamicConditional Correlation）模型。
 
-BEKK 模型直接对协方差矩阵建模，假设 $\mathrm{H}_{\mathrm{t}}$ 满足如下递归形式：
-
-$$
-\begin{array}{r}{\mathrm{H}_{\mathrm{t}}=(1-\alpha-\beta)\cdot\Sigma+\alpha r_{t-1}\cdot r_{t-1}^{\prime}+\beta H_{t-1},\alpha\geq0,\beta\geq0,\alpha+\beta<1}\end{array}
-$$
-
-DCC 则是对相关系数矩阵建模，假设 $\mathrm{D}_{\mathrm{t}}$ 是一个 $\textsf{\textsf{Xp}}$ 对角阵, 其第 i 个对角线元素是股票 i 在t 时刻的条件方差，DCC模型假设相关系数矩阵 $\mathrm{Q}_{\mathrm{t}}=\sqrt{D_{t}^{-1}}\cdot H_{t}\cdot\sqrt{D_{t}^{-1}}$ 满足如下形式：
+BEKK 模型直接对协方差矩阵建模，假设 $\mathrm{{^{\cdot H}_{t}}}$ 满足如下递归形式：
 
 $$
-\begin{array}{r}{\mathrm{Q_{t}}=(1-\alpha-\beta)\cdot C+\alpha s_{t-1}\cdot s_{t-1}^{\prime}+\beta\mathrm{Q_{t-1}},\alpha\geq0,\beta\geq0,\alpha+\beta<1}\end{array}
+\mathrm{H}_{\mathrm{t}}=(1-\alpha-\beta)\cdot\Sigma+\alpha r_{t-1}\cdot r_{t-1}^{\prime}+\beta H_{t-1},\quad\alpha\geq0,\quad\beta\geq0,\quad\alpha+\beta<1
 $$
 
-其中 $\begin{array}{r}{\mathsf{\Pi}^{\mathsf{|}}\mathsf{s}_{\mathrm{t},\mathrm{i}}=r_{t,i}/\sqrt{var(r_{t,i}|\mathcal{F}_{t-1})}}\end{array}$ o
-
-在 $\mathrm{r_{t}}$ 满足正态分布的假设下，容易计算得到对数极大似然函数为
+DCC 则是对相关系数矩阵建模，假设 $\mathrm{D_{t}}$ 是一个 $\times\mathrm{~p~}$ 对角阵, 其第 i 个对角线元素是股票 i 在t 时刻的条件方差，DCC模型假设相关系数矩阵 $\mathrm{Q}_{\mathrm{t}}=\sqrt{D_{t}^{-1}}\cdot H_{t}\cdot\sqrt{D_{t}^{-1}}$ 满足如下形式：
 
 $$
-\sum_{t=1}^{T}(-{\frac{\ln(|H_{t}|)}{2}}-{\frac{r_{t}^{\prime}\cdot H_{t}^{-1}\cdot r_{t}}{2}})\qquad\cdots\cdots(3)
+\mathrm{Q}_{\mathrm{t}}=(1-\alpha-\beta)\cdot C+\alpha s_{t-1}\cdot s_{t-1}^{\prime}+\beta\mathrm{Q}_{\mathrm{t}-1},\ \alpha\geq0,\beta\geq0,\ \alpha+\beta<1
 $$
 
-对于低维度问题，p比较小，上述极大似然函数比较好计算，R 里面有成熟的 package（rmgarch）可以直接调用。但如果 p 较大，每次求 $\mathrm{H}_{\mathrm{t}}$ 的逆需要耗费 ${\mathsf{O}}({\mathsf{p}}^{3})$ 运算，极大似然函数的求值将十分费时，而且后面用数值方法优化极大似然函数时，极大似然函数可能会被求值成百上千次，个人电脑上可能需要几天的时间才能算完，实用性有限。
+其中 $\mathsf{is}_{\mathsf{t},\mathsf{i}}=r_{t,i}/\sqrt{var(r_{t,i}|\mathcal{F}_{t-1})}$ o
+
+在 $\mathbf{r_{t}}$ 满足正态分布的假设下，容易计算得到对数极大似然函数为
+
+$$
+\sum_{t=1}^{T}(-\frac{\ln(|H_{t}|)}{2}-\frac{r_{t}^{\prime}\cdot H_{t}^{-1}\cdot r_{t}}{2})\cdots\cdots(3)
+$$
+
+对于低维度问题，p比较小，上述极大似然函数比较好计算，R 里面有成熟的 package（rmgarch）可以直接调用。但如果 p 较大，每次求 $\mathrm{{}_{\mathrm{{}_{t}}}H_{t}}$ 的逆需要耗费 $\mathsf{O}(\mathsf{p}^{3})$ 运算，极大似然函数的求值将十分费时，而且后面用数值方法优化极大似然函数时，极大似然函数可能会被求值成百上千次，个人电脑上可能需要几天的时间才能算完，实用性有限。
 
 Pakel(2017) 借鉴 Lindsay(1988)提出的 CL（Composite Likelihoods）思想大大降低了 DCC和 BEKK 模型估计参数的计算量，并在一定理论假设前提下，保证估计量的一致性。这个方法分为两部，第一步是用传统样本协方差方法来估计 BEKK 模型里的 和 DCC 里面的 ，第二部计算CL 函数，和(3)式的极大似然函数相比，它把 p个随机变量两两配对，计算二维的对数极大似然函数再进行累加。这样矩阵的逆运算都是二维的，p 较大时，运算速度会快很多倍。Engle(2017)对第一步的方法做了改进，采用 NLS 方法估计 和 ，这样做的好处是在股票数量较多时，可以大幅降低估计误差。
 
@@ -226,7 +226,7 @@ Pakel(2017) 借鉴 Lindsay(1988)提出的 CL（Composite Likelihoods）思想大
 另一种评价方法则是实用主义的。在组合优化领域，通常的方法是用不同协方差矩阵估计量构建全局最小方差组合（GMVP, Global Minimum Variance Portfolio），看哪种方法得到的 GMVP组合的真实方差最小。GMVP 的收益率序列是一维的，样本方差是真实方差的一致估计量，因此样本数量较多时（例如：五年的日收益率），可以用样本方差作为真实方差的近似值。GMVP 组合通过下列组合优化问题得到：
 
 $$
-\operatorname*{min}_{\mathbf{w}}w^{\prime}\cdot\Sigma\cdot w\qquad\mathrm{s.t.}\quad\sum_{i=1}^{N}w_{i}=1
+\min_{\mathbf{w}}w^{\prime}\cdot\Sigma\cdot w\quad\text{ s.t. }\quad\sum_{i=1}^{N}w_{i}=1
 $$
 
 下文用 A股数据比较了五种协方差矩阵估计方法的效果，包括：

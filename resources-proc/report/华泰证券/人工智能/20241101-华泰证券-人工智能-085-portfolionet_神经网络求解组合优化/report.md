@@ -50,7 +50,7 @@
 “预测+优化”是Alpha策略构建的通用范式，这一思路无论对新兴的端到端模型还是传统的两阶段模型都是通用的。具体来说，我们首先通过某种预测算法得到选股因子（这一因子可被视为股票的预期收益率），随后通过求解组合优化问题，在最大化预期收益的同时，控制与基准指数的风格行业偏离，做出最优投资决策。以指数增强场景为例，常见的组合优化问题可描述如下：
 
 $$
-\begin{array}{c}{{\displaystyle\operatorname*{max}_{w}\sum w_{1}F_{1}}}\\{{\mathrm{s.t}\sum w_{1}=1}}\\{{-\delta_{insd}\leq\overbrace{\uparrow\uparrow\downarrow\downarrow\Im\downarrow\Im\mathrm{d}_{\parallel}^{\mathrm{s}}\Im\mathrm{d}_{\perp}}^{\mathrm{det}}\leq\delta_{insd}}}\\{{-\delta_{stk}\leq\overbrace{\uparrow\uparrow\mathrm{s}_{k}^{\mathrm{ad}}\Im\mathrm{d}_{\perp}^{\mathrm{s}}\Im\mathrm{d}_{\perp}^{\mathrm{s}}\leq\delta_{stk}}^{\mathrm{det}}}}\\{{-\delta_{sty}\leq\overbrace{\jmath/\mathrm{s}_{k}^{\mathrm{ad}}\Im\mathrm{d}_{\perp}^{\mathrm{s}}\Im\mathrm{d}_{\perp}^{\mathrm{s}}\leq\delta_{sty}}^{\mathrm{det}}}}\\{{\overline{{\jmath/\mathrm{s}}}_{k}^{\mathrm{det}}\Im\mathrm{d}_{\mathfrak{s}}^{\mathrm{ad}}\Im\mathrm{d}_{\mathfrak{s}}^{\mathrm{ad}}\geq\delta_{beh}}}\\{{\overline{{\imath\Re\mathrm{s}}}_{k}^{\mathrm{det}}\leq\overbrace{\imath\mathrm{s}}_{k}^{\mathrm{ad}}\leq\delta_{turn}}}\\{{\xi_{b}^{\mathrm{bd}}\Re\mathrm{s}_{k}^{\mathrm{bd}}\underline{{\breve{\mathrm{s}}}}_{k}^{\mathrm{bd}}\leq\delta_{track}}}\end{array}
+\begin{aligned}\max_{\boldsymbol{w}}\sum w_{\mathrm{i}}F_{\mathrm{i}}\\s.t\quad\sum w_{\mathrm{i}}=1\\-\delta_{insd}\leq 行业偏离\leq\delta_{insd}\\-\delta_{stk}\leq 个股偏离\leq\delta_{stk}\\-\delta_{sty}\leq 风格偏离\leq\delta_{sty}\\成分股权重\geq\delta_{bch}\\换手率\leq\delta_{turn}\\跟踪误差\leq\delta_{track}\end{aligned}
 $$
 
 其中，wi即为待求解的组合权重，i代表第i支个股；Fi为先前得到的选股因子（即预测收益率），δ为预先设定的上下限阈值。
@@ -82,7 +82,7 @@ $$
 图表3：不同方向的收益率预测偏差带来了截然不同的决策误差
 ![](images/c8f63c1b22fdccd9c9a41314fb84208f472c71a9219cd22b3491359fe51d8f56.webp)
 
-由图表3进一步可见，决策过程对不同方向的预测误差敏感性截然不同。有些方向的误差是可以容忍的（比如收益率由正确值rA=0.8被错误的低估为 $\mathsf{FA}=\mathsf{rA}-\mathsf{\varepsilon}=0.25)$ ），即便预测误差较大也能引导我们做出正确的投资决策；而有些方向的误差变动是不能容忍的（如收益率被高估为$\mathsf{FA}=\mathsf{rA}+\mathsf{\varepsilon}^{\prime}=1.01\mathrm{\ })$
+由图表3进一步可见，决策过程对不同方向的预测误差敏感性截然不同。有些方向的误差是可以容忍的（比如收益率由正确值rA=0.8被错误的低估为 $\mathsf{FA}=\mathsf{rA}-\mathsf{E}=0.25$ ），即便预测误差较大也能引导我们做出正确的投资决策；而有些方向的误差变动是不能容忍的（如收益率被高估为$\mathsf{FA}=\mathsf{rA}+\mathsf{g}^{\prime}=1.01$
 
 上面仅介绍了最简单的线性规划单约束情形。而在决策目标、约束条件更为复杂时，两阶段造成的误差偏离会愈加严重。我们可以在图表4中“略见一斑”，传统GRU因子的多头组合无论在市值风格和行业风格上都与指数基准有明显的偏离，传统的因子挖掘流程与投资组合的优化目标显然不完全一致。
 
@@ -118,12 +118,12 @@ $$
 我们首先通过链式法则说明传统端到端优化模型的“不可微”难题。我们知道，端到端模型的最大特点就是将模型输出由“预测因子F”变成了“由F做出的投资决策、也就是组合权重w*(F)”。根据链式法则，此时模型参数的梯度可分解为：
 
 $$
-\frac{\partial l(w^{*}(F),r)}{\partial\pmb{\theta}}=\frac{\partial l(w^{*}(F),\pmb{r})}{\partial\pmb{w}^{*}(\pmb{F})}\ast\frac{\partial w^{*}(F)}{\partial\pmb{F}}\ast\frac{\partial F}{\partial\pmb{\theta}}
+\frac{\partial l(\boldsymbol{w}^*(\boldsymbol{F}),\boldsymbol{r})}{\partial\boldsymbol{\theta}}=\frac{\partial l(\boldsymbol{w}^*(\boldsymbol{F}),\boldsymbol{r})}{\partial\boldsymbol{w}^*(\boldsymbol{F})}*\frac{\partial\boldsymbol{w}^*(\boldsymbol{F})}{\partial\boldsymbol{F}}*\frac{\partial\boldsymbol{F}}{\partial\boldsymbol{\theta}}
 $$
 
-其中 $\frac{\partial F}{\partial\pmb{\theta}}|$ 即为传统量价模型的梯度， $\frac{\partial l(w^{*}(F),r)}{\partial w^{*}(F)}$ 也可由损失函数的数学表达式简单推导得出，唯一的难点在于组合优化梯度 $\frac{\partial w^{*}(F)}{\partial F}$ 的求解。
+其中 $\frac{\partial F}{\partial\pmb{\theta}}\pmb{\mathrm{l}}$ 即为传统量价模型的梯度， $\frac{\partial l(\pmb{w}^{*}(\pmb{F}),\pmb{r})}{\partial\pmb{w}^{*}(\pmb{F})}$ 也可由损失函数的数学表达式简单推导得出，唯一的难点在于组合优化梯度 $\left|\frac{\partial\boldsymbol{w}^*(F)}{\partial F}\right.$ 的求解。
 
-传统优化器通常采用单纯形法、内点法、分支定界法等启发式算法求解组合优化问题，cvxpy、mosek等求解器均沿用这一思路。然而，虽然优化问题中的目标函数 $w_{\mathrm{i}}F_{\mathrm{i}}$ 是可微的，但这一问题的优化求解过程本身是难以求导的。
+传统优化器通常采用单纯形法、内点法、分支定界法等启发式算法求解组合优化问题，cvxpy、mosek等求解器均沿用这一思路。然而，虽然优化问题中的目标函数 $[w_{\mathrm{i}}F_{\mathrm{i}}$ 是可微的，但这一问题的优化求解过程本身是难以求导的。
 
 一种“简单粗暴”的方式是，通过数学推导直接给出最优解的显式数学表达式。以上文中提及的线性规划问题为例，其显式表达式如图表5所示，可以看到，其在实数域上是一个分段常数函数
 
@@ -230,7 +230,7 @@ OptLayer组合优化层是实现“边预测边优化”的关键。其接收网
 
 2、F和w都是n维向量，n为个股全样本的个数；
 
-3、线性约束需以矩阵形式给定： $\mathbf{Aw}{\leq}\mathbf{b},\mathbf{Cw}{\geq}\mathbf{d},\mathbf{Ew}{=}\mathbf{f},$ 。且其中的所有元素都要大于0。
+3、线性约束需以矩阵形式给定： $\mathsf{A}\mathsf{w}\leq\mathsf{b},\mathsf{C}\mathsf{w}\geq\mathsf{d},\mathsf{E}\mathsf{w}=\mathsf{f},$ 。且其中的所有元素都要大于0。
 
 在不考虑做空的情形下，组合优化问题的输入、输出及线性约束形式，都恰好符合该算法的适用场景。总之，基于LinSAT的OptLayer可在神经网络内部有效承担投资决策的职能，实现了端到端的“边预测边优化”。
 
@@ -248,18 +248,18 @@ OptLayer组合优化层是实现“边预测边优化”的关键。其接收网
 以行业偏离约束为例，我们有：
 
 $$
--\delta_{insd}\leq Zw-Zw^{benchmark}\leq\delta_{insd}
+-\delta_{insd}\leq Z\pmb{w}-Z\pmb{w}^{benchmark}\leq\delta_{insd}
 $$
 
-其中 $\boldsymbol{w}\in\mathbb{R}^{n}$ 为决策变量，也就是指增组合的资产权重； $\pmb{Z}\in\mathbb{R}^{30*n}$ 为行业哑变量（即30个一级行业×n支个股）； $w^{benchmark}\in\mathbb{R}^{n}$ 表示基准组合中的资产权重； $\delta_{insd}$ 代表行业偏离的上限约束。
+其中 $\boldsymbol{w}\in\mathbb{R}^n$ 为决策变量，也就是指增组合的资产权重； $\mathbf{Z}\in\mathbb{R}^{30\ast n}$ 为行业哑变量（即30个一级行业×n支个股）； $\pmb{w}^{benchmark}\in\mathbb{R}^{n}$ 表示基准组合中的资产权重； $\delta_{insd}$ 代表行业偏离的上限约束。
 
 将已知变量移到一侧，待求解变量留在另一侧，移项可得：
 
 $$
--\delta_{insd}+Z{\pmb w}^{benchmark}\le Z{\pmb w}\le\delta_{insd}+Z{\pmb w}^{benchmark}
+-\delta_{insd}+\pmb{Z}\pmb{w}^{benchmark}\leq\pmb{Z}\pmb{w}\leq\delta_{insd}+\pmb{Z}\pmb{w}^{benchmark}
 $$
 
-对 应 至 OptLayer 的 约 束 形 式 Aw≤b ， $\mathbf{C}\mathbf{w}\geq\mathbf{d}$ ， 可 知 ： $A=Z,b=\delta_{insd}+Z\pmb{w}^{benchmark},C=Z$ $\pmb{d}=-\delta_{insd}+\pmb{Z}\pmb{w}^{benchmark}$ o
+对 应 至 OptLayer 的 约 束 形 式 Aw≤b ， $\mathbf{C}\mathbf{w}\geq\mathbf{d}$ ， 可 知 ： $\pmb{A}=\pmb{Z},\pmb{b}=\delta_{insd}+\pmb{Z}\pmb{w}^{benchmark},\pmb{C}=\pmb{Z}$ $\pmb{d}=-\delta_{insd}+\pmb{Z}\pmb{w}^{benchmark}$ o
 
 市值偏离、完全投资、成分股下限等约束矩阵可由类似过程得到，在此不再赘述。这类约束矩阵是相对稠密的、“矮小”的。
 

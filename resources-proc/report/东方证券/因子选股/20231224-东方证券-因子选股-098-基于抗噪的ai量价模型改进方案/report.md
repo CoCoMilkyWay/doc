@@ -77,27 +77,27 @@ yangyiling@orientsec.com.cn
 对抗样本的存在性意味着神经网络模型对于数据点的扰动可能十分的敏感，即神经网络模型的鲁棒性（Robustness）可能较弱。对于金融预测问题来说，金融数据有着噪声大、低信噪比等特性，不加处理地直接使用神经网络模型对金融数据进行预测可能会使得神经网络模型的性能大打折扣。于是一个很自然的问题如何才能使得神经网络模型更加鲁棒来应对数据信噪比低以及对抗样本的影响。文献【2】提出了 IFGSM（Iterative Fast Gradient Sign Method）方法。该方法的核心思想是通过求解以下优化问题来寻找神经网络模型参数 θ ：
 
 $$
-\operatorname*{min}_{\pmb{\theta}}\operatorname*{max}_{\pmb{\delta}\in B(\mathbf{0},\varepsilon)}L(f_{\pmb{\theta}}(\pmb{x}+\pmb{\delta}),\pmb{y})\ (1)
+\min_{\boldsymbol{\theta}}\max_{\boldsymbol{\delta}\in B(\boldsymbol{0},\varepsilon)}L(f_{\boldsymbol{\theta}}(\boldsymbol{x}+\boldsymbol{\delta}),y)
 $$
 
 这里 L 表示损失函数比如 MSE 损失、x 表示原始数据点、δ 表示所加的扰动其位于一个以原点为心，ε 为半径的高维球内，y 为原始数据点对应标签。根据泰勒公式上述优化问题很容易转化为以下优化问题的形式：
 
 $$
-\operatorname*{min}_{\theta}\operatorname*{max}_{\delta\in B(0,\varepsilon)}L(f_{\theta}(x+\delta),y)\approx\operatorname*{min}_{\theta}\{L(f_{\theta}(x),y)+\varepsilon\|\nabla_{x}L(f_{\theta}(x),y)\|\}(2)
+\min_{\boldsymbol{\theta}}\max_{\boldsymbol{\delta}\in B(\boldsymbol{0},\varepsilon)}L(f_{\boldsymbol{\theta}}(\boldsymbol{x}+\boldsymbol{\delta}),y)\approx\min_{\boldsymbol{\theta}}\left\{L(f_{\boldsymbol{\theta}}(\boldsymbol{x}),y)+\varepsilon\|\nabla_{\boldsymbol{x}}L(f_{\boldsymbol{\theta}}(\boldsymbol{x}),y)\|\right\}(2)
 $$
 
-通过上述近似不难看出优化问题（1）实际上是给损失函数添加了一项损失函数梯度的范数这个正则项。由于损失函数梯度范数的降低，这样能够使得在数据分布的底层流形上，对数据点做轻微扰动后，神经网络对应损失函数值发生的变化不会较大，从而降低神经网络 $f_{\pmb{\theta}}$ 对噪声的敏感性。
+通过上述近似不难看出优化问题（1）实际上是给损失函数添加了一项损失函数梯度的范数这个正则项。由于损失函数梯度范数的降低，这样能够使得在数据分布的底层流形上，对数据点做轻微扰动后，神经网络对应损失函数值发生的变化不会较大，从而降低神经网络 $f_{\theta}$ 对噪声的敏感性。
 
 由于直接求解优化问题（1）或者（2）是十分困难的，IFGSM方法近似将上述问题转化为了求累次优化问题来求解，其具体过程可表示为：
 
 $$
-\begin{array}{rl}&{x^{m}=Clip_{x,\xi}\{x^{m-1}+\alpha\cdot\mathrm{sign}(\nabla_{x}L(f_{\theta}(x^{m-1}),y))\},m=1,2,\cdots,M\left(3\right)}\\&{}\\&{x^{m}=Clip_{x,\xi}\{x^{m-1}+\alpha\cdot\nabla_{x}L(f_{\theta}(x^{m-1}),y)/\|\nabla_{x}L(f_{\theta}(x^{m-1}),y)\|\},m=1,2,\cdots,M\left(4\right)}\end{array}
+\begin{align*}\boldsymbol{x}^{m}&=Clip_{x,\varepsilon}\{\boldsymbol{x}^{m-1}+\alpha\cdot sign(\nabla_{\boldsymbol{x}}L(f_{\boldsymbol{\theta}}(\boldsymbol{x}^{m-1}),y))\},m=1,2,\cdots,M\left(3\right)\\\boldsymbol{x}^{m}&=Clip_{x,\varepsilon}\{\boldsymbol{x}^{m-1}+\alpha\cdot\nabla_{\boldsymbol{x}}L(f_{\boldsymbol{\theta}}(\boldsymbol{x}^{m-1}),y)/\|\nabla_{\boldsymbol{x}}L(f_{\boldsymbol{\theta}}(\boldsymbol{x}^{m-1}),y)\|\},m=1,2,\cdots,M\left(4\right)\end{align*}
 $$
 
 这里 $x^{0}$ 表示原始数据，M 表示寻找对抗样本所需迭代步数，sign 表示符号函数， $Clip_{x,\varepsilon}$ 表示将生成向量投影到以 x 为中心 ε 为半径的球内部。公式（3）、（4）分别表示无穷范数和 2 范数意义下的寻找对抗样本的攻击方法。该方法通俗地来说就是每次对参数迭代完一步之后，根据当前参数通过梯度上升极大化损失函数来寻找对抗样本，然后根据生成的对抗样本来计算损失函数从而继续下一步参数的更新。文献【3】则首次根据这种对抗训练的想法设计了一个鲁棒性损失函数，并将其引入到基于RNN模型股票趋势的预测的任务中去。结合该种想法我们设计了以下根据对抗样本计算的正则项损失函数来训练 RNN模型：
 
 $$
-Loss=\frac{1}{N}\sum_{i}^{N}(f_{\theta}(x_{i})-\hat{y}_{i})^{2}+\frac{\lambda_{1}}{NK^{2}}\left|\left(z_{i,k}\right)_{i,k}^{T}\left(z_{i,k}\right)_{i,k}\right|_{F}+\frac{\lambda_{2}}{N}\sum_{i}^{N}\left(f_{\theta}\left(x_{i}^{adv}\right)-\hat{y}_{i}\right)^{2}
+\begin{aligned}Loss=&\frac{1}{N}\sum_{i}^{N}(f_{\boldsymbol{\theta}}(\boldsymbol{x}_{i})-\hat{y}_{i})^{2}+\frac{\lambda_{1}}{NK^{2}}|\big(z_{i,k}\big)_{i,k}^{T}\big(z_{i,k}\big)_{i,k}|_{F}+\frac{\lambda_{2}}{N}\sum_{i}^{N}\big(f_{\boldsymbol{\theta}}\big(\boldsymbol{x}_{i}^{adv}\big)-\hat{y}_{i}\big)^{2}\end{aligned}
 $$
 
 这里 $\lambda_{1}$ 和 $\lambda_{2}$ 表示正则项的两个超参数，N 表示 batch 的大小，K 表示生成弱因子的个数，损失函数第二项表示弱因子 $z_{i,k}$ 之间内积矩阵的 Frobenius范数， $x_{i}^{adv}$ 表示（3）或（4）迭代 M步最终生成的样本。用通俗的话来说在训练 RNN 的时候，我们不光希望 RNN 对原始数据预测的结果尽可能接近真实标签，我们也希望RNN对对抗样本预测的结果尽可能接近真实标签，而这两个目标分别对应损失函数第一和第三项。

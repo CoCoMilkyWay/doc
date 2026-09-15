@@ -85,11 +85,11 @@ $$
 对于投资组合的优化问题，可以采用二次规划的方法构建符合目标的投资组合，其一般形式为：
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{{}x^{T}r\ -\lambda x^{T}\Sigma x}\end{array}\tag{1}
+\operatorname*{max}\quad x^{T}r-\lambda x^{T}\Sigma x\tag{1}
 $$
 
 $$
-\mathsf{s.t.}~w=w_{B}+x\tag{2}
+s.\mathrm{t.}w=w_{B}+x\tag{2}
 $$
 
 $$
@@ -116,13 +116,13 @@ $$
 
 (3)式为换手率约束， $w_{0}$ 为个股初始权重向量，δ为换手率上限。
 
-(4)式为风格因子暴露约束， $X_{f}$ 为个股的风格因子暴露矩阵， $f_{lower}\acute{\ast}^{\pi}f_{upper}$ 为风格因子暴露上下限。
+(4)式为风格因子暴露约束， $X_{f}$ 为个股的风格因子暴露矩阵， $f_{lower}和f_{upper}$ 为风格因子暴露上下限。
 
-(5)式为行业暴露约束，H为个股的行业哑变量暴露矩阵， $h_{lower}\#\#h_{upper}$ 为行业暴露上下限。
+(5)式为行业暴露约束，H为个股的行业哑变量暴露矩阵， $h_{lower}和h_{upper}$ 为行业暴露上下限。
 
-(6)式为个股主动权重的上下限约束， $w_{lower}\acute{\ast}^{\sigma}w_{upper}$ 为个股重点权重上下限。
+(6)式为个股主动权重的上下限约束， $w_{lower}和w_{upper}$ 为个股重点权重上下限。
 
-在本文的应用中，为简单起见，我们设λ=0，控制模型的市值和行业暴露为 $^{0,}$ ，个股主动权重的上下限约束 $w_{lower}{=}{-}0.01$ $w_{upper}{=}0.01$ 。换手率约束 $||w-w_{0}||\leq\delta\ j$ 是一个非光滑约束条件，不能直接使用线性规划求解，因此需要将其转换为线性约束条件，本文在附录部分对此进行了推导。
+在本文的应用中，为简单起见，我们设λ=0，控制模型的市值和行业暴露为 $0,$ ，个股主动权重的上下限约束 $w_{lower}{=}{-}0.01$ $w_{upper}{=}0.01$ 。换手率约束 $||w-w_{0}||\leq\delta\lambda$ 是一个非光滑约束条件，不能直接使用线性规划求解，因此需要将其转换为线性约束条件，本文在附录部分对此进行了推导。
 
 ## 测试流程
 
@@ -140,7 +140,7 @@ $$
 
 1) 每个自然月的最后一个交易日，计算 82 个因子暴露度，作为样本的原始特征，因子池如图表 4所示。
 
-2) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},\ D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大 $\mp D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+2) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},~D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大 $于D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 3) 缺失值处理：得到新的因子暴露度序列后，将因子暴露度缺失的地方设为中信一级行业相同个股的平均值；
 
@@ -425,11 +425,11 @@ $$
 对于投资组合的优化问题，可以采用二次规划的方法构建符合目标的投资组合，其一般形式为：
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{{}x^{T}r-\lambda x^{T}\Sigma x}\end{array}\tag{1}
+\operatorname*{max}\quad x^{T}r-\lambda x^{T}\Sigma x\tag{1}
 $$
 
 $$
-\mathrm{s.t.}w=w_{B}+x\tag{2}
+s.\mathrm{t.}w=w_{B}+x\tag{2}
 $$
 
 $$
@@ -456,15 +456,15 @@ $$
 
 (3)式为换手率约束， $w_{0}$ 为个股初始权重向量，δ为换手率上限。
 
-(4)式为风格因子暴露约束， $X_{f}$ 为个股的风格因子暴露矩阵， $f_{lower}\acute{\ast}^{\pi}f_{upper}$ 为风格因子暴露上下限。
+(4)式为风格因子暴露约束， $X_{f}$ 为个股的风格因子暴露矩阵， $f_{lower}和f_{upper}$ 为风格因子暴露上下限。
 
-(5)式为行业暴露约束，H为个股的行业哑变量暴露矩阵， $h_{lower}\mathcal{\dot{\pi}}h_{upper}$ 为行业暴露上下限。
-(6)式为个股主动权重的上下限约束， $w_{lower}\acute{\ast}^{\sigma}w_{upper}$ 为个股重点权重上下限。
+(5)式为行业暴露约束，H为个股的行业哑变量暴露矩阵， $h_{lower}和h_{upper}$ 为行业暴露上下限。
+(6)式为个股主动权重的上下限约束， $w_{lower}和w_{upper}$ 为个股重点权重上下限。
 
 换手率约束 $||w-w_{0}||\leq\delta$ 是一个非光滑约束条件，不能直接使用线性规划求解，因此需要将其转换为线性约束条件：增加辅助变量
 
 $$
-\begin{array}{l}{u=max\{0,w_{B}+x-w_{0}\}}\\{v=-min\{0,w_{B}+x-w_{0}\}}\end{array}\tag{7}
+\begin{aligned}u&=max\{0,w_{B}+x-w_{0}\}\\v&=-min\{0,w_{B}+x-w_{0}\}\end{aligned}\tag{7}
 $$
 
 使得：
@@ -481,15 +481,15 @@ $$
 x=u-v+w_{0}-w_{B}\tag{10}
 $$
 
-其中 $u,$ ，v是与x具有相同维度的n×1阶向量，且 $u\geq0,v\geq0$ 。u代表 $w_{B}+x-w_{0}$ 中大于 0的项， $w_{B}+x-w_{0}$ 中小于 0的项在u中的值为 0；同理，v代表 $w_{B}+x-w_{0}$ 中小于 0 的项，$w_{B}+x-w_{0}$ 中大于 0 的项在v中的值为 0(e.g.若 $w_{B}+x-w_{0}=[0.5,0.5,-0.5,-0.5]$ ,则$\boldsymbol{u}=[0.5,0.5,0,0],\boldsymbol{v}=[0,0,0.5,0.5])$ 0
+其中 $u,$ ，v是与x具有相同维度的n×1阶向量，且 $u\geq0,v\geq0$ 。u代表 $w_{B}+x-w_{0}$ 中大于 0的项， $w_{B}+x-w_{0}$ 中小于 0的项在u中的值为 0；同理，v代表 $\cdot w_{B}+x-w_{0}$ 中小于 0 的项，$w_{B}+x-w_{0}$ 中大于 0 的项在v中的值为 0(e.g.若 $w_{B}+x-w_{0}=[0.5{,}0.5,-0.5,-0.5]$ ,则$\boldsymbol{u}=[0.5{,}0.5{,}0{,}0],\quad\boldsymbol{v}=[0{,}0{,}0.5{,}0.5])$ 0
 
-用u，v代替max $\boldsymbol{x}^{T}\boldsymbol{r}^{}-\lambda\boldsymbol{x}^{T}\boldsymbol{\Sigma}\boldsymbol{x}$ 中的x，舍去其中的常数项，整理后得到(11)式。
+用u，v代替max $x^{T}r-\lambda x^{T}\varSigma x$ 中的x，舍去其中的常数项，整理后得到(11)式。
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{{}z^{T}f-\lambda z^{T}\phi z}\end{array}\tag{11}
+\max\quad z^{T}f-\lambda z^{T}\phi_{Z}\tag{11}
 $$
 
-其 中 $\begin{array}{r}{z=[~{\boldsymbol u}^{T},{\boldsymbol v}^{T}]^{T}~,\quad f=[r_{1\times n}+2\lambda w_{0}^{T}\Sigma-2\lambda w_{B}^{T}\Sigma,-r_{1\times n}-2\lambda w_{0}^{T}\Sigma+2\lambda w_{B}^{T}\Sigma]^{T}~,\quad\phi=\phi^{\prime}(r_{1\times n}+2\lambda w_{0}^{T}\Sigma-2\lambda w_{0}^{T}\Sigma)^{T}}\end{array}$ $\big[{\LARGE{\frac{\cal Z}{-\cal Z}}}^{\qquad\ L}\big.\begin{array}{rl}{-\Sigma}\\{\Sigma}\end{array}\big],r_{1\times n}$ 为各股票的预测收益。由于辅助变量的加入，线性规划的目标函数的解z的维度由 n提高到了 2n。
+其 中 $z=[\quad u^{T},v^{T}]^{T}\quad,\quad f=[r_{1\times n}+2\lambda w_{0}^{T}\Sigma-2\lambda w_{B}^{T}\Sigma,-r_{1\times n}-2\lambda w_{0}^{T}\Sigma+2\lambda w_{B}^{T}\Sigma]^{T}\quad,\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi\phi_{0},=\phi_{0},\quad\phi=\phi\phi_{0},\quad\phi=\phi_{0},\quad\phi=\phi\phi_{0},=\phi\quad\phi_{0},\quad\phi=\phi\phi_{0},=\phi\quad\phi\phi_{0},=\phi\quad\phi\phi_{}=\phi\phi,\phi=\phi\phi_{0},\quad\phi=\phi\phi_{}\phi,\phi=\phi\phi_{}\phi,\phi=\phi\phi_{}\phi\phi,\phi=\phi\phi_{}\phi,\phi\phi=\phi_{}\phi\phi\phi,\phi=\phi_{}\phi\phi\phi,\phi=\phi_{}\phi\phi$ $\begin{bmatrix}\varSigma&-\varSigma\\-\varSigma&\varSigma\end{bmatrix},r_{1\times n}$ 为各股票的预测收益。由于辅助变量的加入，线性规划的目标函数的解z的维度由 n提高到了 2n。
 
 约束条件：
 
@@ -506,14 +506,14 @@ Dz\leq b\tag{14}
 $$
 
 $$
-0\le z\tag{15}
+0\leq z\tag{15}
 $$
 
-(12)式为换手率约束，其中 $\boldsymbol{a}=[\boldsymbol{1}_{1\times n},\boldsymbol{1}_{1\times n}]^{T},~\boldsymbol{a}^{T}\boldsymbol{z}$ 即为 $||\mathbf{w}-\mathbf{w}_{0}||$ o
+(12)式为换手率约束，其中 $\boldsymbol{a}=[1_{1\times n},1_{1\times n}]^{T},\quad\boldsymbol{a}^{T}\boldsymbol{z}$ 即为 $||\mathbf{w}-\mathbf{w}_{0}||$ o
 
-(13)式为原x变量上下限约束。原x由u，v代替，得到 $w_{lower}\leq u-v+w_{0}-w_{B}\leq w_{upper},$ 即 $u-v\leq w_{B}-w_{0}+w_{upper},\enspace-u+v\leq w_{0}-w_{B}-w_{lower}\circ$ 。因此 $A=\left[{\begin{array}{cc}{E_{n\times n}}&{-E_{n\times n}}\\{-E_{n\times n}}&{E_{n\times n}}\end{array}}\right]$ $\boldsymbol{b}=\left[\begin{array}{l}{w_{B}-w_{0}+w_{upper}}\\{w_{0}-w_{B}-w_{lower}}\end{array}\right]$ $E_{n\times n}$ 为 $n\times n$ 阶单位矩阵。
+(13)式为原x变量上下限约束。原x由u，v代替，得到 $w_{lower}\leq u-v+w_{0}-w_{B}\leq w_{upper},$ 即 $u-v\leq w_{B}-w_{0}+w_{upper},\quad-u+v\leq w_{0}-w_{B}-w_{lower}\circ$ 。因此 $A=\begin{bmatrix}E_{n\times n}&-E_{n\times n}\\-E_{n\times n}&E_{n\times n}\end{bmatrix}$ $\begin{array}{r}{b=\left[\begin{matrix}{w_{B}-w_{0}+w_{upper}}\\{w_{0}-w_{B}-w_{lower}}\end{matrix}\right]}\end{array}$ $E_{n\times n}$ 为 $n\times n$ 阶单位矩阵。
 
-(14)式为风格因子暴露约束和行业暴露约束。原x由u，v代替，得到 $X_{f}(w_{B}-w_{0})+f_{lower}\le$ $X_{f}(u-v)\le X_{f}(w_{B}-w_{0})+f_{upper}\quad,\quad H(w_{B}-w_{0})+h_{lower}\le H(u-v)\le H(w_{B}-w_{0})+\operatorname*{min}(1+\epsilon/\epsilon),$ $h_{upper^{\circ}}$ 。因此 $D=\left[\begin{array}{cc}{X_{f}}&{-X_{f}}\\{-X_{f}}&{X_{f}}\\{Hx}&{-Hx}\\{-Hx}&{Hx}\end{array}\right],b=\left[\begin{array}{cc}{X_{f}(w_{B}-w_{0})+f_{upper}}\\{X_{f}(w_{0}-w_{B})-f_{lower}}\\{H(w_{B}-w_{0})+w_{upper}}\\{H(w_{0}-w_{B})-w_{lower}}\end{array}\right]\circ$
+(14)式为风格因子暴露约束和行业暴露约束。原x由u，v代替，得到 $X_{f}(w_{B}-w_{0})+f_{lower}\leq$ $X_{f}(u-v)\leq X_{f}(w_{B}-w_{0})+f_{upper}\quad,\quad H(w_{B}-w_{0})+h_{lower}\leq H(u-v)\leq H(w_{B}-w_{0})+$ $h_{upper^{\circ}}$ 。因此 $D=\begin{bmatrix}X_{f}&-X_{f}\\-X_{f}&X_{f}\\Hx&-Hx\\-Hx&Hx\end{bmatrix},\quad b=\begin{bmatrix}X_{f}(w_{B}-w_{0})+f_{upper}\\X_{f}(w_{0}-w_{B})-f_{lower}\\H(w_{B}-w_{0})+w_{upper}\\H(w_{0}-w_{B})-w_{lower}\end{bmatrix}。$
 
 (15)式为辅助变量下限约束。
 

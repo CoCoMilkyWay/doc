@@ -152,15 +152,15 @@ hekang@htsc.com
 ![](images/4a2049772f9fab4aeba24af986b9843b826b56af96f24dd745982f5c394dc0a1.webp)
 资料来源：华泰研究
 
-强化学习的基本框架是智能体与环境的交 $\pmb{\mathcal{Z}}_{\circ}$ 。如上图所示，t 时刻智能体接受到环境的状态信号 $\mathsf{S}_{\mathrm{t}},$ ，并从该状态允许的动作空间中选择一种动作 $\mathsf{A}_{\mathsf{t}\circ}$ 。环境接收到智能体的动作信号，并于下一时刻反馈给智能体新的状态信号 $\mathsf{S}_{\mathsf{t}+1}$ 和即时奖励 $\mathsf{R}_{\mathsf{t}+1}$
+强化学习的基本框架是智能体与环境的交 $互。$ 。如上图所示，t 时刻智能体接受到环境的状态信号 $\mathbb{S}_{\mathrm{t}},$ ，并从该状态允许的动作空间中选择一种动作 $\mathsf{A}_{\mathsf{to}}$ 。环境接收到智能体的动作信号，并于下一时刻反馈给智能体新的状态信号 $\mathbf{S}_{\mathrm{t+1}}$ 和即时奖励 $\mathsf{R}_{\mathsf{t}+1}$
 
 强化学习的目标是智能体从环境中获得尽可能高的总奖励。前述例子中，老鼠可能在初期获得较多水源，从而得到较高的短期奖励；但这一行为可能使得老鼠错失更大的奶酪奖励，从而得到较低的长期奖励。因此，强化学习目标中的总奖励不是下一时刻的即时奖励，而是未来每个时刻奖励的“折现”之和：
 
 $$
-G_{t}=R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots=\sum_{k=0}^{\infty}\gamma^{k}R_{t+k+1}
+G_{t}=R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots={\sum}_{k=0}^{\infty}\gamma^{k}R_{t+k+1}.
 $$
 
-上式中， $\sf{G}_{\sf t}$ 为 t时刻计算的总奖励，也称为回报（return）； $\curlyvee$ 为折扣因子（discount factor），类似金融里的折现率，满足 0≤γ≤1。
+上式中， $\mathbf{G}_{\mathrm{t}}$ 为 t时刻计算的总奖励，也称为回报（return）； $Y$ 为折扣因子（discount factor），类似金融里的折现率，满足 0≤γ≤1。
 
 强化学习的结果是某种动作选择规则，称为策略（policy）。策略可以记做 π(a|s)，表示在某种状态 s下采取某种动作 a 的概率。
 
@@ -208,10 +208,10 @@ $$
 
 ## 回报（return）
 
-回报是从当前时刻开始到结束的所有奖励的总和，也称为累计奖励（cumulative futurereward）。通常将 t时刻的回报记为 $\mathsf{G}_{\mathrm{t}}$ ，以 γ 为折扣因子，采用类似“折现”的方式计算：
+回报是从当前时刻开始到结束的所有奖励的总和，也称为累计奖励（cumulative futurereward）。通常将 t时刻的回报记为 $\mathbf{G_{\mathrm{{t},}}}$ ，以 γ 为折扣因子，采用类似“折现”的方式计算：
 
 $$
-G_{t}\triangleq R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots=\sum_{k=0}^{\infty}\gamma^{k}R_{t+k+1}
+G_{t}\triangleq R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots={\sum}_{k=0}^{\infty}\gamma^{k}R_{t+k+1}.
 $$
 
 ## 策略（policy）
@@ -225,18 +225,18 @@ $$
 超级玛丽中，状态是游戏屏幕画面，作为策略函数的输入，输出每个动作的概率值：
 
 $$
-\pi{\bigl(}\pounds|s{\bigr)}=0.2,\pi{\bigl(}\pounds|s{\bigr)}=0.1,\pi{\bigl(}\pounds|s{\bigr)}=0.7
+\pi(左|s)=0.2,\pi(右|s)=0.1,\pi(上|s)=0.7
 $$
 
 ## 价值（value）
 
-价值是指给定策略下状态回报的期望。对中国象棋高手来说，卧槽马局面较为有利，该状态的价值较高；归心马局面较为不利，该状态的价值较低。而对不懂象棋的人来说，这两种状态的价值可能没有差别。因此，状态的价值取决于所采取的策略。数学上通常以状态价值函数（state-value function）表示，策略 π 下状态 s 的价值记为 $\mathsf{v}_{\pi}(\mathsf{s})$
+价值是指给定策略下状态回报的期望。对中国象棋高手来说，卧槽马局面较为有利，该状态的价值较高；归心马局面较为不利，该状态的价值较低。而对不懂象棋的人来说，这两种状态的价值可能没有差别。因此，状态的价值取决于所采取的策略。数学上通常以状态价值函数（state-value function）表示，策略 π 下状态 s 的价值记为 $\mathbf{v}_{\Pi}(\mathbf{s})$
 
 $$
 v_{\pi}(s)\triangleq\mathbb{E}_{\pi}[G_{t}|S_{t}=s]
 $$
 
-在 t时刻，未来可能有多种轨迹，回报 $\pmb{\mathsf{G}}_{\pmb{\mathrm{t}}}$ 具有不确定性，价值是随机变量 $\pmb{\mathsf{G}}_{\pmb{\mathrm{t}}}$ 的期望。强化学习的最终目标是寻找一种最优策略，使得价值最大化。
+在 t时刻，未来可能有多种轨迹，回报 $\mathbf{\Theta_{t}}$ 具有不确定性，价值是随机变量 $\mathbf{\Theta_{t}}$ 的期望。强化学习的最终目标是寻找一种最优策略，使得价值最大化。
 
 至此我们完成了与强化学习重要术语的初次接触。下一章我们将在马尔可夫决策过程的语境下重温这些术语。
 
@@ -249,15 +249,15 @@ $$
 马尔可夫性是马尔可夫过程的基础。马尔可夫性假设未来的状态仅仅取决于现在的状态，独立于过去的状态。数学上可表示为：
 
 $$
-\operatorname*{Pr}\{S_{t+1}|S_{t}\}=\operatorname*{Pr}\{S_{t+1}|S_{1},S_{2},\dots,S_{t}\}
+\operatorname*{Pr}\{S_{t+1}|S_{t}\}=\operatorname*{Pr}\{S_{t+1}|S_{1},S_{2},\ldots,S_{t}\}
 $$
 
-其中 ${\sf S}_{\sf t}$ 代表 t 时刻状态。由上式可知，t时刻包含了 1至 t 时刻的全部信息。
+其中 $\mathbb{S}_{\mathrm{t}}$ 代表 t 时刻状态。由上式可知，t时刻包含了 1至 t 时刻的全部信息。
 
-马尔可夫过程也称为马尔可夫链（Markov chain），是一组具有 $\xrightarrow{\pi}$ 尔可夫性质的随机过程，可以表示为二元组〈S, P〉，其中S代表状态空间，P代表状态转移矩阵（state transition matrix），P的元素 $\mathcal{P}_{ss\prime}$ 代表从当前状态 s转移至下一状态 s’的概率，P的每行元素之和为 1：
+马尔可夫过程也称为马尔可夫链（Markov chain），是一组具有 $乌$ 尔可夫性质的随机过程，可以表示为二元组〈S, P〉，其中S代表状态空间，P代表状态转移矩阵（state transition matrix），P的元素 $\mathcal{P}_{ssr}$ 代表从当前状态 s转移至下一状态 s’的概率，P的每行元素之和为 1：
 
 $$
-\begin{array}{r}{\mathcal{P}_{ss^{\prime}}=\operatorname*{Pr}\{S_{t+1}=s^{\prime}|S_{t}=s\}}\\{\mathcal{P}=\left[{\begin{array}{ccc}{\mathcal{P}_{11}}&{\cdots}&{\mathcal{P}_{1n}}\\{\vdots}&{\ddots}&{\vdots}\\{\mathcal{P}_{n1}}&{\cdots}&{\mathcal{P}_{nn}}\end{array}}\right]\quad}\end{array}
+\begin{aligned}\mathcal{P}_{ss\prime}&=\Pr\{S_{t+1}=s^{\prime}|S_t=s\}\\\mathcal{P}&=\begin{bmatrix}\mathcal{P}_{11}&\cdots&\mathcal{P}_{1n}\\\vdots&\ddots&\vdots\\\mathcal{P}_{n1}&\cdots&\mathcal{P}_{nn}\end{bmatrix}\end{aligned}
 $$
 
 我们通过 DeepMind 首席科学家、伦敦大学学院教授 David Silver 在强化学习课程中展示的学生上课案例，更直观地理解马尔可夫过程。Class 1为学生的开始状态，Sleep 为学生的结束状态，箭头所标数字为学生的状态转移概率。学生从开始到结束可能会经历不同轨迹：既可能按部就班完成 Class 1、Class 2、Class 3的学习并通过考试；也可能陷入刷Facebook的循环；还可能因通宵去 Pub导致错过考试而重修课程。
@@ -266,16 +266,16 @@ $$
 ![](images/3ce455694e0130562287810201c8a93c724d3803784f244ba5c6c71f07bcc626.webp)
 资料来源：David Silver. (2015). Reinforcement Learning，华泰研究
 
-该 $\xrightarrow{\pi}$ 尔可夫过程的状态空间S可以表示为：
+该 $乌$ 尔可夫过程的状态空间S可以表示为：
 
 $$
-\mathcal{S}=\{Class1,Class2,Class3,Pass,Pub,Facebook,Sleep\}
+\mathcal{S}=\{Class\;1,Class\;2,Class\;3,Pass,Pub,Facebook,Sleep\}
 $$
 
 该马尔可夫过程的状态转移矩阵P可以表示为：
 
 $$
-\mathcal{P}=\left[\begin{array}{cccccc}{0.5}&&&&{0.5}&\\&{0.8}&&&&{0.2}\\&&{0.6}&{0.4}&&\\&&&{1.0}\\{0.2}&{0.4}&{0.4}&&&\\{0.1}&&&&{0.9}&\\&&&&&{1}\end{array}\right]
+\mathcal{P}=\begin{bmatrix}&0.5&&&&0.5\\&&0.8&&&&0.2\\&&&0.6&0.4&&&0.2\\&&&&&&&1.0\\0.2&0.4&0.4&&&&&\\&&&&&&0.9&\\&&&&&&&1\end{bmatrix}
 $$
 
 ## 马尔可夫奖励过程
@@ -284,10 +284,10 @@ $$
 
 ## 奖励函数和折扣因子
 
-马尔可夫奖励过程在 $\xrightarrow{\pi}$ 尔可夫过程基础上，引入奖励函数ℛ与折扣因子γ，可以表示为四元组 $\langle\mathcal{S},\mathcal{P},\mathcal{R},\gamma\rangle$ 。奖励函数ℛ为 t 时刻转移至状态 s 的即时奖励 $\mathsf{R}_{\mathsf{t}+1}$ （下标习惯上采用 t+1），奖励可能具有随机性，因此用期望表示：
+马尔可夫奖励过程在 $乌$ 尔可夫过程基础上，引入奖励函数ℛ与折扣因子γ，可以表示为四元组 $\langle\mathcal{S},\mathcal{P},\mathcal{R},\gamma\rangle$ 。奖励函数ℛ为 t 时刻转移至状态 s 的即时奖励 $\mathsf{R}_{1+1}$ （下标习惯上采用 t+1），奖励可能具有随机性，因此用期望表示：
 
 $$
-\mathcal{R}_{s}=\mathbb{E}[R_{t+1}\vert S_{t}=s]
+\mathcal{R}_{s}=\mathbb{E}[R_{t+1}|S_{t}=s]
 $$
 
 折扣因子γ表示未来奖励在当前时刻的“折现率”，介于 0 和 1 之间，折扣因子越大，未来奖励的影响越大。
@@ -295,7 +295,7 @@ $$
 下图为学生上课的马尔可夫奖励过程，红色 R 代表相应状态的即时奖励。上课的即时奖励为负值-2，Pub的即时奖励为较小的正值+1，通过考试的即时奖励为较大的正值+10。奖励函数ℛ可以表示为：
 
 $$
-\mathcal{R}=[-2,-2,-2,10,1,-1,0]^{T}
+\mathcal{R}=[-2,-2,-2\mathrm{,}10\mathrm{,}1,-1\mathrm{,}0]^{T}
 $$
 
 图表6： 学生上课案例理解马尔可夫奖励过程
@@ -307,7 +307,7 @@ $$
 回报是从当前时刻开始到结束的所有奖励的“折现”之和：
 
 $$
-G_{t}=R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots=\sum_{k=0}^{\infty}\gamma^{k}R_{t+k+1}
+G_{t}=R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots={\sum}_{k=0}^{\infty}\gamma^{k}R_{t+k+1}.
 $$
 
 回报的定义不考虑历史奖励。“往者不可谏，来者犹可追”。强化学习的意义是寻找未来的最优策略。基于马尔可夫性，未来仅取决于当前状态，与历史无关。
@@ -318,7 +318,7 @@ $$
 v(s)=\mathbb{E}[G_{t}|S_{t}=s]
 $$
 
-下图圆圈中的红色数字表示折扣因子 $\gamma{=}0.9$ 时，对应状态的价值函数值。观察可知，状态的即时奖励 R和价值 v并不等价。例如：
+下图圆圈中的红色数字表示折扣因子 $\mathtt{y=}0.9$ 时，对应状态的价值函数值。观察可知，状态的即时奖励 R和价值 v并不等价。例如：
 
 1. 左上角的圆圈对应 Facebook 状态，刷 Facebook 的即时奖励为较小的负值-1，但由于有 90%的概率陷入刷 Facebook 的循环，未来有较大可能持续获得-1 的奖励，将未来奖励折现后，该状态的价值为较大的负值-7.6。即时、廉价的快乐是慢性毒药。
 
@@ -335,45 +335,45 @@ $$
 从价值函数的定义出发，进行如下推导：
 
 $$
-\begin{array}{rl}&{v(s)=\mathbb{E}[G_{t}|S_{t}=s]}\\&{\qquad=\mathbb{E}[R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots|S_{t}=s]}\\&{\qquad=\mathbb{E}[R_{t+1}+\gamma(R_{t+2}+\gamma R_{t+3}+\cdots)|S_{t}=s]}\\&{\qquad=\mathbb{E}[R_{t+1}+\gamma G_{t+1}|S_{t}=s]}\\&{\qquad=\mathbb{E}[R_{t+1}+\gamma v(S_{t+1})|S_{t}=s]}\end{array}
+\begin{aligned}v(s)&=\mathbb{E}[G_t|S_t=s]\\&=\mathbb{E}[R_{t+1}+\gamma R_{t+2}+\gamma^2R_{t+3}+\cdots|S_t=s]\\&=\mathbb{E}[R_{t+1}+\gamma(R_{t+2}+\gamma R_{t+3}+\cdots)|S_t=s]\\&=\mathbb{E}[R_{t+1}+\gamma G_{t+1}|S_t=s]\\&=\mathbb{E}[R_{t+1}+\gamma v(S_{t+1})|S_t=s]\\\end{aligned}
 $$
 
-上述推导将 t 时刻状态 s 的回报 $\mathsf{G}_{\mathtt{t}}$ 拆解为两部分：前半部分是当前状态的即时奖励 $\mathsf{R}_{\mathsf{t}+1}$ 后半部分是下一时刻状态 $\mathsf{S}_{\mathsf{t}+1}$ 的价值函数的折现 $\mathsf{V}\mathsf{V}(\mathsf{S}_{\mathsf{t}+1})$ o
+上述推导将 t 时刻状态 s 的回报 $\mathbf{G}_{\mathrm{t}}$ 拆解为两部分：前半部分是当前状态的即时奖励 $\mathsf{R}_{\mathsf{t}+1}$ 后半部分是下一时刻状态 $\mathbf{S}_{\mathsf{t}+1}$ 的价值函数的折现 $\mathsf{YV}(\mathbf{S}_{t+1})$ o
 
 下面考虑如何计算期望，期望具有可加性，因此前后两部分可分别计算。
 
 1. 前半部分E $[R_{t+1}|S_{t}=s]$ 表示状态 s的即时奖励期望，等于即时奖励 $\mathcal{R}_{s}$ ；
 
-2. 折扣因子 γ 为常数，可提取到期望外部。此时后半部分E[ $v(S_{t+1})|S_{t}=s]$ 表示下一时刻状态价值的期望。下一时刻的状态存在多种可能，其中任意状态 s’的价值函数为 $\mathsf{v}(\mathsf{s}^{\prime})$ 出现概率为 $\mathcal{P}_{ss\prime}$ 。对所有可能的 ${\\boldsymbol{\mathsf{S}}}^{\prime}$ 进行加权求和，求得下一时刻状态价值的期望$\begin{array}{r}{\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}v(s\prime)}\end{array}$ 0
+2. 折扣因子 γ 为常数，可提取到期望外部。此时后半部分E[ $v(S_{t+1})|S_{t}=s]$ 表示下一时刻状态价值的期望。下一时刻的状态存在多种可能，其中任意状态 s’的价值函数为 $\mathbf{v}(\mathbf{s}^{\dagger})$ 出现概率为 $\mathcal{P}_{ssr}$ 。对所有可能的 $\mathbf{s}^{\prime}$ 进行加权求和，求得下一时刻状态价值的期望$\textstyle\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}v(s^{\prime})$ 0
 
 至此，我们得到马尔可夫奖励过程的贝尔曼方程：
 
 $$
-v(s)=\mathcal{R}_{s}+\gamma\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}v(s^{\prime})
+\boldsymbol{v}(s)=\mathcal{R}_{s}+\gamma{\sum}_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}\boldsymbol{v}(s^{\prime})
 $$
 
 简化为矩阵形式：
 
 $$
-\boldsymbol{v}=\mathcal{R}+\gamma\mathcal{P}\boldsymbol{v}
+v=\mathcal{R}+\gamma\mathcal{P}v
 $$
 
 $$
-\begin{array}{r}{\underset{\ b{v}(n)}{\left[\begin{array}{c}{\ b{v}(1)}\\{\vdots}\\{\ b{v}(n)}\end{array}\right]}=\left[\begin{array}{c}{\mathcal{R}_{1}}\\{\vdots}\\{\mathcal{R}_{n}}\end{array}\right]+\gamma\left[\begin{array}{ccc}{\mathcal{P}_{11}}&{\cdots}&{\mathcal{P}_{1n}}\\{\vdots}&{\ddots}&{\vdots}\\{\mathcal{P}_{n1}}&{\cdots}&{\mathcal{P}_{nn}}\end{array}\right]\left[\begin{array}{c}{\ b{v}(1)}\\{\vdots}\\{\ b{v}(n)}\end{array}\right]}\end{array}
+\begin{bmatrix}v(1)\\\vdots\\v(n)\end{bmatrix}=\begin{bmatrix}\mathcal{R}_1\\\vdots\\\mathcal{R}_n\end{bmatrix}+\gamma\begin{bmatrix}\mathcal{P}_{11}&\cdots&\mathcal{P}_{1n}\\\vdots&\ddots&\vdots\\\mathcal{P}_{n1}&\cdots&\mathcal{P}_{nn}\end{bmatrix}\begin{bmatrix}v(1)\\\vdots\\v(n)\end{bmatrix}
 $$
 
 贝尔曼方程是线性方程，可以直接求解：
 
 $$
-\begin{array}{r}{\boldsymbol{v}=\mathcal{R}+\gamma\mathcal{P}\boldsymbol{v}}\\{(I-\gamma\mathcal{P})\boldsymbol{v}=\mathcal{R}}\\{\boldsymbol{v}=(I-\gamma\mathcal{P})^{-1}\mathcal{R}}\end{array}
+\begin{aligned}v&=\mathcal{R}+\gamma\mathcal{P}v\\(I-\gamma\mathcal{P})v&=\mathcal{R}\\v&=(I-\gamma\mathcal{P})^{-1}\mathcal{R}\end{aligned}
 $$
 
-已知状态转移矩阵P、奖励函数ℛ、折扣因子 $\forall,$ ，可以直接求出价值函数 v的解析解。
+已知状态转移矩阵P、奖励函数ℛ、折扣因子 $\gamma,$ ，可以直接求出价值函数 v的解析解。
 
 仍以学生上课为例，已知状态转移矩阵P和奖励函数ℛ，假设折扣因子 γ＝0.9，根据贝尔曼方程可以解出价值函数 v：
 
 $$
-\begin{array}{rl}&{v=(I-\gamma\mathcal{P})^{-1}\mathcal{R}}\\&{=\left(\left[\begin{array}{lllllll}{1}&&&&&&\\&{1}&&&&\\&&{1}&&&&\\&&{1}&&&&\\&&&{1}&&&\\&&&&{1}&&\\&&&&&{1}&\\&&&&&&{1}\end{array}\right]-0.9\left[\begin{array}{llllll}{0.5}&&&&{0.5}&&\\&{0.8}&&&{0.4}&&\\&&{0.4}&&&{1.0}\\{0.2}&{0.4}&{0.4}&&&\\{0.1}&&&&{0.9}&\\&&&&&{1}\end{array}\right]\right)^{-1}\left[\begin{array}{l}{-2}\\{-2}\\{-2}\\{10}\\{1}\\{-1}\\{0}\end{array}\right]}\\&{=[-5.0,0.9,4.1,10,1.9,-7.6,0]^{T}}\end{array}
+\begin{aligned}&v=(I-\gamma\mathcal{P})^{-1}\mathcal{R}\\&=\left(\begin{bmatrix}1&&&&&\\&1&&&&\\&&1&&&&\\&&&1&&&\\&&&&1&&\\&&&&&1&\\&&&&&&1\end{bmatrix}-0.9\begin{bmatrix}&&&&&\\&0.5&&&&0.5&\\&&0.8&&&&0.2\\&&&0.6&0.4&&&1.0\\0.2&0.4&0.4&&&&0.9\\&&&&&&&1\end{bmatrix}\right)^{-1}\begin{bmatrix}-2\\-2\\-2\\1\\0\\-1\\0\\0\end{bmatrix}\\&=[-5.0.0.9.4.1,&&&10.1.9,-7.6.0]^{T}\\\end{aligned}
 $$
 
 解析解只适用于小规模的马尔可夫奖励过程。大规模的马尔可夫奖励过程由于参数过多，通常采用迭代方式求数值解，例如蒙特卡洛方法，时序差分方法等，将在下一章强化学习经典算法中予以介绍。
@@ -387,7 +387,7 @@ $$
 马尔可夫决策过程在马尔可夫奖励过程基础上，引入动作空间A，可以表示为五元组$\langle\mathcal{S},\mathcal{A},\mathcal{P},\mathcal{R},\gamma\rangle$ 。此时，状态转移矩阵P代表在当前状态 s下执行动作 a时，下一时刻状态转移至 s’的概率：
 
 $$
-\mathcal{P}_{ss\prime}^{a}=\mathrm{Pr}\{S_{t+1}=s^{\prime}|S_{t}=s,A_{t}=a\}
+\mathcal{P}_{ss^{\prime}}^{a}=\operatorname*{Pr}\{S_{t+1}=s^{\prime}|S_{t}=s,A_{t}=a\}
 $$
 
 奖励函数ℛ代表在当前状态 s下执行动作 a时，下一时刻获得奖励的期望：
@@ -417,14 +417,14 @@ $$
 下面我们进一步将策略引入马尔可夫决策过程。对于给定的马尔可夫决策过程五元组$\langle\mathcal{S},\mathcal{A},\mathcal{P},\mathcal{R},\gamma\rangle$ 和策略 π，状态转移矩阵P和奖励函数ℛ可分别表示为：
 
 $$
-\mathcal{P}_{ss\prime}^{\pi}=\sum_{a\in\mathcal{A}}\pi(a|s)\mathcal{P}_{ss\prime}^{a}
+\mathcal{P}_{ss\prime}^{\pi}={\sum}_{a\in\mathcal{A}}\pi(a|s)\mathcal{P}_{ss\prime}^{a}
 $$
 
 $$
-\mathcal{R}_{s}^{\pi}=\sum_{a\in\mathcal{A}}\pi(a|s)\mathcal{R}_{s}^{a}
+\mathcal{R}_{s}^{\pi}={\sum}_{a\in\mathcal{A}}\pi(a|s)\mathcal{R}_{s}^{a}
 $$
 
-在 $\xrightarrow{\pi}$ 尔可夫奖励过程中，状态的价值仅取决于状态本身，因此价值函数 $\mathsf{v}(\mathsf{s})$ 是状态 s 的函数。在马尔可夫决策过程中，由于动作的引入，状态的价值同时受到动作影响。定义两种基于策略的价值函数：状态价值函数（state-value function）和动作价值函数（action-valuefunction）。
+在 $乌$ 尔可夫奖励过程中，状态的价值仅取决于状态本身，因此价值函数 $\mathbf{v}(\mathbf{s})$ 是状态 s 的函数。在马尔可夫决策过程中，由于动作的引入，状态的价值同时受到动作影响。定义两种基于策略的价值函数：状态价值函数（state-value function）和动作价值函数（action-valuefunction）。
 
 状态价值函数和前述价值函数定义类似，沿用字母 v，仍为状态 s 的函数，代表策略 π 下状态 s 的回报期望：
 
@@ -432,7 +432,7 @@ $$
 v_{\pi}(s)=\mathbb{E}_{\pi}[G_{t}|S_{t}=s]
 $$
 
-下图展示学生上课案例中的状态价值函数。假设学生采取随机策略，如 Class 1 状态学习和刷 Facebook 的概率均为 0.5，Class3 状态学习和 Pub 的概率也均为 0.5，即 $\pi(\mathsf{a}|\mathsf{s})=0.5$ 同时假设折扣因子 $\gamma=1$ ，那么各状态内部的红色数字就是该状态的价值函数值。在后续的贝尔曼期望方程部分我们将展示状态价值函数的计算方法。
+下图展示学生上课案例中的状态价值函数。假设学生采取随机策略，如 Class 1 状态学习和刷 Facebook 的概率均为 0.5，Class3 状态学习和 Pub 的概率也均为 0.5，即 $\pi(\mathbf{a}|\mathbf{s}){=}0.5$ 同时假设折扣因子 $\gamma=1$ ，那么各状态内部的红色数字就是该状态的价值函数值。在后续的贝尔曼期望方程部分我们将展示状态价值函数的计算方法。
 
 图表9： 学生上课案例理解马尔可夫决策过程的状态价值函数
 ![](images/9bbcfc6a15a94f01796e3beeed140076c23c3966ce3ebc514ecbfdc61af2992f.webp)
@@ -453,13 +453,13 @@ Q 函数是对智能体动作价值的评估，智能体可以根据不同动作
 状态价值函数的贝尔曼期望方程为：
 
 $$
-v_{\pi}(s)=\mathbb{E}_{\pi}[R_{t+1}+\gamma v_{\pi}(S_{t+1})\vert S_{t}=s]
+v_{\pi}(s)=\mathbb{E}_{\pi}[R_{t+1}+\gamma v_{\pi}(S_{t+1})|S_{t}=s]
 $$
 
 展开并整理得到：
 
 $$
-v_{\pi}(s)=\sum_{a\in\mathcal{A}}\pi(a|s)(\mathcal{R}_{s}^{a}+\sum_{s^{\prime}\in\mathcal{S}}\mathcal{P}_{ss^{\prime}}^{a}v_{\pi}(s^{\prime}))
+v_{\pi}(s)=\sum_{a\in\mathcal{A}}\pi(a|s)(\mathcal{R}_{s}^{a}+\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}^{a}v_{\pi}(s^{\prime}))
 $$
 
 动作价值函数的贝尔曼期望方程为：
@@ -471,13 +471,13 @@ $$
 展开并整理得到：
 
 $$
-q_{\pi}(s,a)=\mathcal{R}_{s}^{a}+\gamma\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}^{a}\sum_{a\in\mathcal{A}}\pi(a^{\prime}|s^{\prime})q_{\pi}(s^{\prime},a^{\prime})
+q_{\pi}(s,a)=\mathcal{R}_{s}^{a}+\gamma\sum_{s^{\prime}\in\mathcal{S}}\mathcal{P}_{ss^{\prime}}^{a}\sum_{a\in\mathcal{A}}\pi(a^{\prime}|s^{\prime})q_{\pi}(s^{\prime},a^{\prime})
 $$
 
 两者存在下面的转换关系：
 
 $$
-v_{\pi}(s)=\sum_{a\in\mathcal{A}}\pi(a|s)q_{\pi}(s,a),q_{\pi}(s,a)=\mathcal{R}_{s}^{a}+\gamma\sum_{s^{\prime}\in\mathcal{S}}\mathcal{P}_{ss^{\prime}}^{a}v_{\pi}(s^{\prime})
+v_{\pi}(s)={\sum}_{a\in{\mathcal A}}\pi(a|s)q_{\pi}(s,a),\quad q_{\pi}(s,a)={\mathcal R}_{s}^{a}+\gamma{\sum}_{s\prime\in{\mathcal S}}{\mathcal P}_{ss\prime}^{a}v_{\pi}(s^{\prime})
 $$
 
 基于贝尔曼期望方程，我们可以求解不同策略的状态价值函数和动作价值函数。
@@ -485,25 +485,25 @@ $$
 将状态价值函数的贝尔曼期望方程简化为矩阵形式：
 
 $$
-\boldsymbol{v}_{\pi}=\mathcal{R}^{\pi}+\gamma\mathcal{P}^{\pi}\boldsymbol{v}_{\pi}
+v_{\pi}=\mathcal{R}^{\pi}+\gamma\mathcal{P}^{\pi}v_{\pi}
 $$
 
 可得到状态价值函数的解析解：
 
 $$
-\begin{array}{r}{v_{\pi}=(I-\gamma\mathcal{P}^{\pi})^{-1}\mathcal{R}^{\pi}}\end{array}
+v_{\pi}=(I-\gamma\mathcal{P}^{\pi})^{-1}\mathcal{R}^{\pi}
 $$
 
 同样以学生上课为例，这里不考虑 Pass和 Pub状态，新的状态空间为：
 
 $$
-\mathcal{S}=\{Class1,Class2,Class3,Facebook,Sleep\}
+\mathcal{S}=\{Class\;1,Class\;2,Class\;3,Facebook,Sleep\}
 $$
 
 假定策略为 π(a|s)＝0.5，该策略下状态转移矩阵为：
 
 $$
-\mathcal{P}^{\pi}=\left[\begin{array}{ccccc}{0.5}&&{0.5}&\\&&{0.5}&&{0.5}\\{0.1}&{0.2}&{0.2}&&{0.5}\\{0.5}&&&{0.5}&\end{array}\right]
+\mathcal{P}^{\pi}=\begin{bmatrix}&0.5&&0.5\\&&0.5&&0.5\\0.1&0.2&0.2&&0.5\\0.5&&&0.5&\end{bmatrix}
 $$
 
 Class3 状态下，有 0.5 的概率转移至 Sleep；另有 0.5 的概率转移至 Pub，进而以 0.1、0.2、0.2 的概率转移至 Class 1、Class 2、Class 3。另外，由于 Sleep 为终止状态，状态转移矩阵最后一行各元素均为 0。
@@ -511,13 +511,13 @@ Class3 状态下，有 0.5 的概率转移至 Sleep；另有 0.5 的概率转移
 该策略下奖励函数为：
 
 $$
-\begin{array}{rl}&{\mathcal{R}^{\pi}=[0.5*(-2)+0.5*(-1),0.5*(-2)+0.5*0,0.5*10+0.5*1,0.5*(-1)+0.5*0,0]^{T}}\\&{\quad\quad=[-1.5,-1,5.5,-0.5,0]^{T}}\end{array}
+\begin{aligned}\mathcal{R}^{\pi}&=[0.5*(-2)+0.5*(-1),0.5*(-2)+0.5*0.0.5*10+0.5*1,0.5*(-1)+0.5*0,0]^T\\&=[-1.5,-1.5.5,-0.5,0]^T\end{aligned}
 $$
 
-假设折扣因子 $\gamma=1$ ，根据贝尔曼期望方程可以解出状态价值函数 $\mathsf{v}_{\pi}$
+假设折扣因子 $\gamma=1$ ，根据贝尔曼期望方程可以解出状态价值函数 $\nabla_{\Pi}$
 
 $$
-\begin{array}{rl}&{v_{\pi}=(I-\gamma\mathcal{P}^{\pi})^{-1}\mathcal{R}^{\pi}}\\&{\quad=\left(\left[\begin{array}{llllll}{1}&&&\\&{1}&&\\&&{1}&&\\&&&{1}&\\&&&&{1}\end{array}\right]-1\left[\begin{array}{lllll}{1}&{0.5}&&{0.5}&\\{0.1}&{0.2}&{0.2}&&{0.5}\\{0.5}&&&{0.5}&\end{array}\right]\right)^{-1}\left[\begin{array}{l}{-1.5}\\{-1}\\{5.5}\\{-0.5}\end{array}\right]}\\&{\quad=[-1.3,2.7,7.4,-2.3,0]^{T}}\end{array}
+\begin{aligned}v_{\pi}&=(I-\gamma\mathcal{P}^{\pi})^{-1}\mathcal{R}^{\pi}\\&=\left(\begin{bmatrix}1&&&\\&1&&\\&&1&\\&&&1\\&&&&1\end{bmatrix}-1\begin{bmatrix}&0.5&&0.5&\\&&0.5&&0.5\\0.1&0.2&0.2&&0.5\\0.5&&&&0.5\end{bmatrix}\right)^{-1}\begin{bmatrix}-1.5\\-1\\5.5\\-0.5\\0\end{bmatrix}\\&=[-1.3,2.7,7.4,-2.3,0]^T\\\end{aligned}
 $$
 
 ## 最优策略、最优价值函数和贝尔曼最优方程
@@ -532,7 +532,7 @@ $$
 q_{*}(s,a)=\operatorname*{max}_{\pi}q_{\pi}(s,a)
 $$
 
-上面两式分别称为最优状态价值函数（optimal state-value function）和最优动作价值函数（optimal action-value function），统称最优价值函数（optimal value function）。 $\xrightarrow{\pi}$ 尔可夫决策过程的最优策略 π*(s)，是采取该状态 s下最优动作价值函数值最高的动作：
+上面两式分别称为最优状态价值函数（optimal state-value function）和最优动作价值函数（optimal action-value function），统称最优价值函数（optimal value function）。 $乌$ 尔可夫决策过程的最优策略 π*(s)，是采取该状态 s下最优动作价值函数值最高的动作：
 
 $$
 \pi_{*}(s)=argmax_{a\in\mathcal{A}}q_{*}(s,a)
@@ -557,13 +557,13 @@ $$
 最优策略下的动作价值函数，应等于采取该动作的即时奖励，加上状态转移后各状态最优状态价值函数的加权和：
 
 $$
-q_{*}(s,a)=\mathcal{R}_{s}^{a}+\gamma\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss^{\prime}}^{a}v_{*}(s^{\prime})
+q_{*}(s,a)=\mathcal{R}_{s}^{a}+\gamma{\sum}_{s\prime\in\mathcal{S}}\mathcal{P}_{ss^{\prime}}^{a}v_{*}(s^{\prime})
 $$
 
 分别将 q*(s,a)代入 v*(s)式，将 v*(s)代入 q*(s,a)式，可以得到贝尔曼最优方程（Bellmanoptimality equation）：
 
 $$
-\begin{array}{c}{{\displaystyle v_{*}(s)=\operatorname*{max}_{a}\mathcal{R}_{s}^{a}+\gamma\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}^{a}v_{*}(s^{\prime})}}\\{{\displaystyle q_{*}(s,a)=\mathcal{R}_{s}^{a}+\gamma\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}^{a}\operatorname*{max}_{a\prime}(s^{\prime},a^{\prime})}}\end{array}
+\begin{align*}v_{*}(s)&=\max_{a}\mathcal{R}_{s}^{a}+\gamma\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}^{a}v_{*}(s')\\q_{*}(s,a)&=\mathcal{R}_{s}^{a}+\gamma\sum_{s\prime\in\mathcal{S}}\mathcal{P}_{ss\prime}^{a}\max_{a\prime}q_{*}(s',a').\end{align*}
 $$
 
 和前述贝尔曼方程、贝尔曼期望方程不同，贝尔曼最优方程不是线性方程，一般而言无法求解析解，需要采用迭代方式求数值解。下一章我们将介绍求解最优策略的各种强化学习经典算法。
@@ -594,15 +594,15 @@ $$
 
 ## 蒙特卡洛方法
 
-顾名思义，基于价值的方法关键在于计算价值函数。状态价值函数 vπ(s)是策略 π 下状态 s的未来回报 $\sf{G}_{\sf t}$ 的期望；动作价值函数 qπ(s,a)是策略 π 及状态 s 下采取动作 a 的未来回报$\sf{G}_{\sf t}$ 的期望。 $\sf{G}_{\sf t}$ 分布未知时，如何估计随机变量的期望？直观的思路之一是蒙特卡洛方法（Monte-Carlo methods）。
+顾名思义，基于价值的方法关键在于计算价值函数。状态价值函数 vπ(s)是策略 π 下状态 s的未来回报 $\mathbf{G}_{\mathrm{t}}$ 的期望；动作价值函数 qπ(s,a)是策略 π 及状态 s 下采取动作 a 的未来回报$\mathbf{G}_{\mathrm{t}}$ 的期望。 $\mathbf{G}_{\mathrm{t}}$ 分布未知时，如何估计随机变量的期望？直观的思路之一是蒙特卡洛方法（Monte-Carlo methods）。
 
-蒙特卡洛方法的核心思想是通过重复生成随机样本近似计算目标函数。蒙特卡洛方法应用广泛，不仅仅局限于强化学习。经典例子是估算圆周率，如下图所示，在 x∈[0,1]及 $y\in[0,1]$ 范围内以均匀分布生成随机点(x,y)，将满足 x2+y2≤1 的点标记为红色，其余点标记为蓝色。当重复次数足够多时，理论上红色点占比等于 1/4 圆面积除以正方形面积，即 π/4。将实际红色点占比乘以4，即得到估算的圆周率。当重复次数达10000次时，估算误差仅为0.45%。
+蒙特卡洛方法的核心思想是通过重复生成随机样本近似计算目标函数。蒙特卡洛方法应用广泛，不仅仅局限于强化学习。经典例子是估算圆周率，如下图所示，在 x∈[0,1]及 $\mathsf{y}\in[0,1]$ 范围内以均匀分布生成随机点(x,y)，将满足 x2+y2≤1 的点标记为红色，其余点标记为蓝色。当重复次数足够多时，理论上红色点占比等于 1/4 圆面积除以正方形面积，即 π/4。将实际红色点占比乘以4，即得到估算的圆周率。当重复次数达10000次时，估算误差仅为0.45%。
 
 图表14： 蒙特卡洛方法估算圆周率
 ![](images/2a704605b72642e800bdafc6a15f987fd3787c0035520837f82e4710d58c7474.webp)
 资料来源：华泰研究
 
-强化学习中，如何采用蒙特卡洛方法计算状态价值函数呢？对于策略 π，可以利用该策略进行多次重复（如多次对弈、交易），每次重复从任意初始状态开始直到终止（如确定胜负、交易时间结束）。我们将每次重复称作幕（episode），每一幕中的状态 s、动作 a、奖励 r的时间序列称为轨迹（trajectory）。若策略存在随机性，则每一幕的轨迹应不同。统计每种状态 s 下的未来回报 $\mathsf{G}_{\mathrm{t}},$ ，计算平均值，得到状态价值函数 $\mathsf{v}_{\pi}(\mathsf{s})$ 的估计量 V(S)。统计每组状态 s和动作 a下的未来回报 Gt，计算平均值，得到状态价值函数 $\mathfrak{q}_{\mathfrak{n}}(\mathtt{s},\mathtt{a})$ 的估计量 ${\sf Q}({\sf S},{\sf A})$
+强化学习中，如何采用蒙特卡洛方法计算状态价值函数呢？对于策略 π，可以利用该策略进行多次重复（如多次对弈、交易），每次重复从任意初始状态开始直到终止（如确定胜负、交易时间结束）。我们将每次重复称作幕（episode），每一幕中的状态 s、动作 a、奖励 r的时间序列称为轨迹（trajectory）。若策略存在随机性，则每一幕的轨迹应不同。统计每种状态 s 下的未来回报 $\mathbf{G}_{\mathbf{t}},$ ，计算平均值，得到状态价值函数 $\mathbf{v}_{\Pi}(\mathbf{s})$ 的估计量 V(S)。统计每组状态 s和动作 a下的未来回报 Gt，计算平均值，得到状态价值函数 $\mathbf{q}_{\pi}(\mathbf{s},\mathbf{a})$ 的估计量 $\mathsf{Q}(\mathsf{S}\mathsf{,}\mathsf{A})$
 
 蒙特卡洛方法可分为首次访问型（first-visit）和每次访问型（every-visit）两种。由于每一幕中访问同一状态的次数不唯一，既可以计算首次访问该状态后的回报均值，也可以计算每次访问该状态后的回报均值。首次访问型相比每次访问型更简单，下面将以首次访问型为例。
 
@@ -611,10 +611,10 @@ $$
 策略评估阶段，首次访问型蒙特卡洛方法的状态价值函数可表示为：
 
 $$
-V(s)=\frac{G_{11}(s)+G_{21}(s)+G_{31}(s)+\cdots}{N(s)}
+V(s)={\frac{G_{11}(s)+G_{21}(s)+G_{31}(s)+\cdots}{N(s)}}
 $$
 
-其中 $\mathsf{G}_{21}(\mathsf{s})$ 代表第 2幕第 1 次访问状态 s获得的回报，N(s)代表状态 s的总访问次数。只要N(s)足够大，V(s)就能收敛到真实状态价值函数 vπ(s)：
+其中 $\mathbf{G}_{21}(\mathbf{s})$ 代表第 2幕第 1 次访问状态 s获得的回报，N(s)代表状态 s的总访问次数。只要N(s)足够大，V(s)就能收敛到真实状态价值函数 vπ(s)：
 
 $$
 N(s)\to\infty,V(s)\to v_{\pi}(s)
@@ -623,7 +623,7 @@ $$
 上述状态价值函数中，计算 V(s)需要保存全部历史幕的轨迹，若幕的数量非常大，会引起空间开销问题。我们可以将计算均值从全量方式改为增量方式：
 
 $$
-V(S_{t})=V(S_{t})+{\frac{1}{N(S_{t})}}(G_{t}-V(S_{t}))
+V(S_{t})=V(S_{t})+\frac{1}{N(S_{t})}(G_{t}-V(S_{t})).
 $$
 
 其中新增下标 t代表每一幕中的 t时刻，每次进入新的幕、新的时刻 t，V(St)都会得到更新，这样只需要保存最新幕的轨迹。增量方式和全量方式是等价的。
@@ -670,18 +670,18 @@ $$
 为了鼓励智能体探索环境，我们将随机性引入贪心算法，这就是 ε-贪心算法：
 
 $$
-\pi(a|s)=\left\{\begin{array}{c}{{\varepsilon/{\mathrm{m}}+1-\varepsilon,\qquad\mathrm{if}\ a^{*}=argmax_{a}q(s,a)}}\\{{\varepsilon/{\mathrm{m}},\qquad\mathrm{otherwise}}}\end{array}\right.
+\pi(a|s)=\left\{\begin{aligned}\varepsilon/\mathfrak{m}+1-\varepsilon,\quad ifa^{*}=argmax_{a}q(s,a)\\\varepsilon/\mathfrak{m},\quad otherwise\end{aligned}\right.
 $$
 
-此时策略 π 的输出是状态 s 下采取动作 a 的概率，具有随机性。假设共有 m 种可选动作，其中动作价值最高的动作 ${\sf a^{\star}}.$ 被选中的概率为 ε/m+1-ε，其余动作被选中的概率为 ε/m。参数ε∈[0,1]，ε 越大则随机性越强，ε 为 0 时退化为贪心算法，ε 为 1 时相当于完全随机策略。
+此时策略 π 的输出是状态 s 下采取动作 a 的概率，具有随机性。假设共有 m 种可选动作，其中动作价值最高的动作 $\mathsf{a}^{\star};$ 被选中的概率为 ε/m+1-ε，其余动作被选中的概率为 ε/m。参数ε∈[0,1]，ε 越大则随机性越强，ε 为 0 时退化为贪心算法，ε 为 1 时相当于完全随机策略。
 
 蒙特卡洛方法采用策略迭代方式进行优化，以第 k 轮迭代为例：
 
-1. 策略评估阶段：基于策略 $\pi_{k-1}$ ，计算动作价值函数 $\mathsf{Q}$
+1. 策略评估阶段：基于策略 $\pi_{k-1}$ ，计算动作价值函数 $\mathbf{Q},$
 
-2. 策略改进阶段：基于动作价值函数 Q，采用 ε-贪心算法得到新的策略 $\pi_{\kappa}$
+2. 策略改进阶段：基于动作价值函数 Q，采用 ε-贪心算法得到新的策略 $\Pi_{\mathrm{k}}$
 
-当迭代次数足够多，动作价值函数 Q将收敛至最优动作价值函数 $\mathsf{q}^{\star}$ ，策略 π将收敛至最优策略 π*。
+当迭代次数足够多，动作价值函数 Q将收敛至最优动作价值函数 $\mathbf{q}^{\star}$ ，策略 π将收敛至最优策略 π*。
 
 最后我们给出首次访问型蒙特卡洛方法策略改进伪代码。
 
@@ -709,35 +709,35 @@ $$
 
 与蒙特卡洛方法不同，时序差分方法（temporal-difference learning，TD）只需要下一时刻数据，就可以进行策略评估和策略改进。换言之，只要下一步棋走完，就能计算动作价值函数并更新策略。因此时序差分方法适用范围更广泛，学习效率较高。
 
-回忆蒙特卡洛方法的状态价值函数，使用t时刻的回报 $\sf{G}_{\sf t}$ 更新t时刻的状态价值函数 $\mathsf{V}(\mathsf{S}_{\mathrm{f}})$
+回忆蒙特卡洛方法的状态价值函数，使用t时刻的回报 $\mathbf{G}_{\mathrm{t}}$ 更新t时刻的状态价值函数 $\mathsf{V}(\mathsf{St})$
 
 $$
-V(S_{t})=V(S_{t})+{\frac{1}{N(S_{t})}}(G_{t}-V(S_{t}))
+V(S_{t})=V(S_{t})+\frac{1}{N(S_{t})}(G_{t}-V(S_{t})).
 $$
 
-将 1/N(St)替换为自由参数 α，代表学习率，α 越大，则 $\sf{G}_{\sf t}$ 对 $\mathsf{V}(\mathsf{S}_{\mathrm{f}})$ 的影响程度更大，即学习新信息 $\sf{G}_{\sf t}$ 的速率越快， $\sf{G}_{\sf t}$ 可以视作每次更新 $\mathsf{V}(\mathsf{S}_{\mathrm{f}})$ 时新的学习目标：
+将 1/N(St)替换为自由参数 α，代表学习率，α 越大，则 $\mathbf{G}_{\mathrm{t}}$ 对 $\mathsf{V}(\mathsf{St})$ 的影响程度更大，即学习新信息 $\mathbf{G}_{\mathrm{t}}$ 的速率越快， $\mathbf{G}_{\mathrm{t}}$ 可以视作每次更新 $\mathsf{V}(\mathsf{St})$ 时新的学习目标：
 
 $$
 V(S_{t})=V(S_{t})+\alpha(G_{t}-V(S_{t}))
 $$
 
-蒙特卡洛方法的学习目标为 $\mathsf{G}_{\mathrm{t}},$ ，需要每一幕进入终止状态才能得到。针对这一局限，时序差分方法对学习目标 G 进行替换，站在每一时刻进入下一时刻即可得到。根据贝尔曼方程，t 时刻的回报 $\sf{G}_{\sf t}$ 等于 t+1 时刻的奖励 $\mathsf{R}_{\mathsf{t}+1}$ ，再加上折扣因子 $\curlyvee$ 与 t+1 时刻的状态价值 $\mathsf{V}(\mathsf{S}_{\mathsf{t}+1})$ 的乘积：
+蒙特卡洛方法的学习目标为 $\mathbf{G}_{\mathrm{t}},$ ，需要每一幕进入终止状态才能得到。针对这一局限，时序差分方法对学习目标 G 进行替换，站在每一时刻进入下一时刻即可得到。根据贝尔曼方程，t 时刻的回报 $\mathbf{G}_{\mathrm{t}}$ 等于 t+1 时刻的奖励 $\mathsf{R}_{\mathsf{t}+1}$ ，再加上折扣因子 $Y$ 与 t+1 时刻的状态价值 $\nabla(\mathbf{S}_{t+1})$ 的乘积：
 
 $$
-\begin{array}{rl}&{v(s)=\mathbb{E}[G_{t}|S_{t}=s]}\\&{\qquad=\mathbb{E}[R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+\cdots|S_{t}=s]}\end{array}
+\begin{aligned}v(s)&=\mathbb{E}[G_t|S_t=s]\\&=\mathbb{E}[R_{t+1}+\gamma R_{t+2}+\gamma^2R_{t+3}+\cdots|S_t=s]\end{aligned}
 $$
 
 $$
-\begin{array}{rl}&{=\mathbb{E}[R_{t+1}+\gamma(R_{t+2}+\gamma R_{t+3}+\cdots)|S_{t}=s]}\\&{=\mathbb{E}[R_{t+1}+\gamma G_{t+1}|S_{t}=s]}\\&{=\mathbb{E}[R_{t+1}+\gamma v(S_{t+1})|S_{t}=s]}\end{array}
+\begin{aligned}&=\mathbb{E}[R_{t+1}+\gamma(R_{t+2}+\gamma R_{t+3}+\cdots)|S_t=s]\\&=\mathbb{E}[R_{t+1}+\gamma G_{t+1}|S_t=s]\\&=\mathbb{E}[R_{t+1}+\gamma v(S_{t+1})|S_t=s]\\\end{aligned}
 $$
 
-因此，可以将蒙特卡洛方法的学习目标由 $\sf{G}_{\sf t}$ 替换为 $\mathsf{R}_{{\sf t}+1}+\mathsf{v}\mathsf{V}(\mathsf{S}_{{\sf t}+1})$ 。这就是最简单的 TD(0)时序差分方法，使用 t+1 时刻的奖励 $\mathsf{R}_{\mathsf{t}+1}$ 和估计的状态价值 ${\mathsf{V}}({\mathsf{S}}_{1+1})$ 函数，更新 t时刻的状态价值函数 V(St)：
+因此，可以将蒙特卡洛方法的学习目标由 $\mathbf{G}_{\mathrm{t}}$ 替换为 $\mathsf{R}_{\mathsf{t}+1}+\mathsf{yV}(\mathsf{S}_{\mathsf{t}+1})$ 。这就是最简单的 TD(0)时序差分方法，使用 t+1 时刻的奖励 $\mathsf{R}_{1+1}$ 和估计的状态价值 $\nabla(\mathbf{S}_{t+1})$ 函数，更新 t时刻的状态价值函数 V(St)：
 
 $$
 V(S_{t})=V(S_{t})+\alpha[R_{t+1}+\gamma V(S_{t+1})-V(S_{t})]
 $$
 
-其中 $\mathsf{R}_{{\sf t}+1}{+}\mathsf{v}\mathsf{V}(\mathsf{S}_{{\sf t}+1}){-}\mathsf{V}(\mathsf{S}_{{\sf t}})$ 也称为时序差分误差（TD error）。
+其中 $R_{t+1}+VV(S_{t+1})-V(S_{t})$ 也称为时序差分误差（TD error）。
 
 以上我们介绍了时序差分方法在策略评估阶段的状态价值函数。那么，如何估计动作价值函数 Q？围绕这个问题，时序差分方法又可以进一步分为两类，将在下面两节分别介绍：
 
@@ -776,9 +776,9 @@ $$
 Q(S_{t},A_{t})=Q(S_{t},A_{t})+\alpha[R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q(S_{t},A_{t})]
 $$
 
-我们重新梳理时间线：t 时刻，智能体面对状态 $\mathsf{S}_{\mathsf{t}},$ ，基于策略 π 选择了动作 $\mathsf{A}_{\mathrm{t}};$ t+1 时刻，获得奖励 $\mathsf{R}_{\mathsf{t}+1}$ ，状态转移至 $\mathsf{S}_{\mathsf{t}+1}$ ，此时 Sarsa基于相同的策略 π选择了动作 $\mathsf{A}_{\mathsf{t}+1}$ 。时间顺序为 $\mathbb{S}_{\mathrm{t}}{}\mathbb{A}_{\mathrm{t}}{}\mathbb{R}_{\mathrm{t}+1}{}\mathbb{S}_{\mathrm{t}+1}{}\mathbb{A}_{\mathrm{t}+1}$ ，Sarsa 也由此得名。
+我们重新梳理时间线：t 时刻，智能体面对状态 $\mathbb{S}_{\mathrm{t}},$ ，基于策略 π 选择了动作 $\mathsf{A}_{\mathsf{t}};$ t+1 时刻，获得奖励 $\mathsf{R}_{\mathsf{t}+1}$ ，状态转移至 $\mathbf{S}_{\mathrm{t+1}}$ ，此时 Sarsa基于相同的策略 π选择了动作 $\mathsf{A}_{\mathsf{f}+1}$ 。时间顺序为 $\mathsf{S}_{\mathsf{t}}{\twoheadrightarrow}\mathsf{A}_{\mathsf{t}}{\twoheadrightarrow}\mathsf{R}_{\mathsf{t}+1}{\twoheadrightarrow}\mathsf{S}_{\mathsf{t}+1}{\twoheadrightarrow}\mathsf{A}_{\mathsf{t}+1}$ ，Sarsa 也由此得名。
 
-Sarsa 在更新策略 π的动作价值函数 $\mathsf{Q}(\mathsf{S}_{\mathsf{t}},\mathsf{A}_{\mathsf{t}})$ 时，使用相同策略 π 所选择的动作 $\mathsf{A}_{\mathsf{t}+1}$ 。因此Sarsa 属于同轨策略。
+Sarsa 在更新策略 π的动作价值函数 $\mathbf{Q}(\mathbf{S}_{\mathrm{t}},\mathbf{A}_{\mathrm{t}})$ 时，使用相同策略 π 所选择的动作 $\mathsf{A}_{\mathsf{f}+1}$ 。因此Sarsa 属于同轨策略。
 
 Sarsa 在策略改进阶段可采用与蒙特卡洛方法相同的 ε-贪心算法，这里不再重复。我们给出Sarsa 策略评估伪代码。
 
@@ -808,18 +808,18 @@ $$
 Q 学习的动作价值函数可表示为：
 
 $$
-Q(S_{t},A_{t})=Q(S_{t},A_{t})+\alpha[R_{t+1}+\gamma\operatorname*{max}_{a}Q(S_{t+1},a)-Q(S_{t},A_{t})]
+Q(S_{t},A_{t})=Q(S_{t},A_{t})+\alpha[R_{t+1}+\gamma\max_{a}Q(S_{t+1},a)-Q(S_{t},A_{t})]
 $$
 
-我们重新梳理时间线：t 时刻，智能体面对状态 $\mathsf{S}_{\mathsf{t}},$ 基于策略 π 选择了动作 $\mathsf{A}_{\mathrm{t}};$ ；t+1 时刻，获得奖励 $\mathsf{R}_{\mathsf{t}+1}$ ，状态转移至 $\mathsf{S}_{\mathsf{t}+1}$ ，此时 Q 学习采用贪心算法，选择使得 Q 函数最大的动作a，此时该动作的价值即为 maxQ(St+1,a)。
+我们重新梳理时间线：t 时刻，智能体面对状态 $\mathbb{S}_{\mathrm{t}},$ 基于策略 π 选择了动作 $\mathsf{A}_{\mathsf{t}};$ ；t+1 时刻，获得奖励 $\mathsf{R}_{\mathsf{t}+1}$ ，状态转移至 $\mathbf{S}_{\mathrm{t+1}}$ ，此时 Q 学习采用贪心算法，选择使得 Q 函数最大的动作a，此时该动作的价值即为 maxQ(St+1,a)。
 
-Q 学习在更新策略 π 的动作价值函数 $\mathsf{Q}(\mathsf{S}_{\mathsf{t}},\mathsf{A}_{\mathsf{t}})$ 时，使用贪心算法（而非策略 π）选择动作$\mathsf{A}_{\mathsf{t}+1}$ ，因此 Q学习属于离轨策略。
+Q 学习在更新策略 π 的动作价值函数 $\mathbf{Q}(\mathbf{S}_{\mathrm{t}},\mathbf{A}_{\mathrm{t}})$ 时，使用贪心算法（而非策略 π）选择动作$\mathsf{A}_{\mathsf{f}+1}$ ，因此 Q学习属于离轨策略。
 
 我们可以对比 Sarsa 与 Q学习两种时序差分方法：
 
 1. 两者的唯一区别是更新策略 π 的动作价值函数时，如何选择 t+1 时刻的动作 $\mathsf{A}_{\mathsf{t}+1}$ 。Sarsa基于策略 π本身选择动作，而 Q学习采用贪心算法选择动作价值函数最高的动作。
 
-2. 类比篮球比赛，将策略 π 视作教练既定的战术，在 t 时刻状态 ${\sf S}_{\sf t}$ 下，根据该战术选择动作 $\mathsf{A}_{\mathsf{t}\circ}$ 。在 t+1 时刻状态 $\mathsf{S}_{\mathsf{t}+1}$ 下，Sarsa 仍然忠实地执行既定战术 π，选择动作 $\mathsf{A}_{\mathsf{t}+1}$ ；Q 学习则随机应变，忽略教练的战术 π，自主选择最优动作 a。
+2. 类比篮球比赛，将策略 π 视作教练既定的战术，在 t 时刻状态 $\mathbb{S}_{\mathrm{t}}$ 下，根据该战术选择动作 $\mathsf{A}_{\mathsf{to}}$ 。在 t+1 时刻状态 $\mathbf{S}_{\mathrm{t+1}}$ 下，Sarsa 仍然忠实地执行既定战术 π，选择动作 $\mathsf{A}_{\mathsf{t}+1}$ ；Q 学习则随机应变，忽略教练的战术 π，自主选择最优动作 a。
 
 3. Sarsa 较为保守，Q学习较为激进。Q学习可以大胆利用贪心算法探索环境，从而更有可能得到最优策略。
 
@@ -860,7 +860,7 @@ $$
 
 ## 引入经验回放训练神经网络
 
-Q 学习使用最新采样得到的单条四元组样本 $(\mathsf{s}_{\mathrm{t}},\mathsf{a}_{\mathrm{t}},\mathsf{r}_{\mathrm{t}+1},\mathsf{S}_{\mathrm{t}+1})$ 来计算学习目标，并更新 Q 函数。训练神经网络一般使用小批量（mini-batch）样本的预测误差，通过反向传播算法更新网络参数。那么 Q 网络训练所需的小批量样本如何获取？
+Q 学习使用最新采样得到的单条四元组样本 $(\mathbf{S}_{\mathsf{t}},\mathbf{a}_{\mathsf{t}},\mathsf{r}_{\mathsf{t}+1},\mathbf{S}_{\mathsf{t}+1})$ 来计算学习目标，并更新 Q 函数。训练神经网络一般使用小批量（mini-batch）样本的预测误差，通过反向传播算法更新网络参数。那么 Q 网络训练所需的小批量样本如何获取？
 
 DQN 引入经验回放（experience replay）技巧，将历史训练过程中收集到的四元组样本(st,at,rt+1,st+1)存储在回放内存（replay memory）中，随机抽取小批量样本，训练 Q 网络。当回放内存装满时，删除旧数据，补充新数据。DQN原始论文中，回放内存容量为1000000，小批量样本量（batch size）为 32。
 
@@ -876,11 +876,11 @@ DQN 引入经验回放（experience replay）技巧，将历史训练过程中�
 
 ## 引入目标网络提升训练稳定性
 
-DQN 网络的输入为四元组 $(\mathsf{s}_{\mathrm{t}},\mathsf{a}_{\mathrm{t}},\mathsf{r}_{\mathrm{t}+1},\mathsf{s}_{\mathrm{t}+1})$ ，输出为动作价值函数的预测值 $\mathsf{Q}(\mathsf{s}_{\mathsf{t}},\mathsf{a}_{\mathsf{t}};\mathsf{\theta})$ 。参照 Q学习，将学习目标设为 $\mathsf{r}_{\mathsf{t}+1}{+\mathsf{V}\cdot\mathsf{max}}\mathsf{Q}(\mathsf{s}_{\mathsf{t}+1},\mathsf{a};\Theta)$ 。学习目标担任了监督学习中正确标签（label）的角色。类似监督学习中的回归问题，可以计算预测值和学习目标的均方误差，通过反向传播算法更新 Q网络参数。
+DQN 网络的输入为四元组 $(\mathbf{s}_{\mathsf{t}},\mathbf{a}_{\mathsf{t}},\mathsf{r}_{\mathsf{t}+1},\mathbf{S}_{\mathsf{t}+1})$ ，输出为动作价值函数的预测值 $\mathsf{Q}(\mathsf{s}_{\mathsf{t}},\mathsf{a}_{\mathsf{t}};\mathsf{\theta})$ 。参照 Q学习，将学习目标设为 $\mathbf{r}_{\mathsf{t}+1}+\mathbf{y}\cdot\max\mathbf{Q}(\mathbf{s}_{\mathsf{t}+1},\mathbf{a};\Theta)$ 。学习目标担任了监督学习中正确标签（label）的角色。类似监督学习中的回归问题，可以计算预测值和学习目标的均方误差，通过反向传播算法更新 Q网络参数。
 
-Q 网络训练的难点在于， $\mathsf{Q}(\mathsf{s}_{\mathsf{t}},\mathsf{a}_{\mathsf{t}};\mathsf{\boldsymbol{\theta}})$ 既是预测值，又出现在学习目标 $\mathsf{r}_{\mathsf{t}+1}{+\mathsf{v}\cdot\mathsf{max}}\mathsf{Q}(\mathsf{s}_{\mathsf{t}+1},\mathsf{a};\Theta)$ 中。随着迭代的进行，预测值时刻发生变化，这就意味着学习目标也会时刻发生变化。如果说传统神经网络训练是“固定靶”，那么 Q网络训练就是“移动靶”，这样会导致训练不稳定。
+Q 网络训练的难点在于， $\mathsf{Q}(\mathsf{s}_{\mathsf{t}},\mathsf{a}_{\mathsf{t}};\mathsf{\theta})$ 既是预测值，又出现在学习目标 $\mathbf{r}_{t+1}+\mathbf{y}\cdot\max Q(\mathbf{s}_{t+1},\mathbf{a};\Theta)$ 中。随着迭代的进行，预测值时刻发生变化，这就意味着学习目标也会时刻发生变化。如果说传统神经网络训练是“固定靶”，那么 Q网络训练就是“移动靶”，这样会导致训练不稳定。
 
-DQN 引入目标网络（target network）解决训练不稳定问题。对于随机采样的小批量样本$(\mathsf{s},\mathsf{a},\mathsf{r},\mathsf{s}^{\prime})$ ，将原始动作价值函数：
+DQN 引入目标网络（target network）解决训练不稳定问题。对于随机采样的小批量样本$(\mathbf{s,}\mathbf{a,}\mathbf{r,}\mathbf{s}^{\prime})$ ，将原始动作价值函数：
 
 $$
 Q(s,a;\theta)=Q(s,a;\theta)+\alpha[r+\gamma\operatorname*{max}_{a^{\prime}}Q(s^{\prime},a^{\prime};\theta)-Q(s,a;\theta)]
@@ -889,13 +889,13 @@ $$
 改为：
 
 $$
-Q(s,a;\theta)=Q(s,a;\theta)+\alpha[r+\gamma\operatorname*{max}_{a\prime}Q(s^{\prime},a\prime;\theta^{-})-Q(s,a;\theta)]
+Q(s,a;\theta)=Q(s,a;\theta)+\alpha[r+\gamma\operatorname*{max}_{a^{\prime}}Q(s^{\prime},a^{\prime};\theta^{-})-Q(s,a;\theta)]
 $$
 
-此时，学习目标从 r+γ·maxQ(s,a;θ)改为 $\mathsf{r}+\mathsf{v}\cdot\mathsf{maxQ}(\mathsf{s},\mathsf{a};\Theta^{-})$ 。我们称以 θ-为参数的网络为目标网络，有别于以 θ 为参数的 Q 网络。关键之处在于，目标网络不参与梯度下降，参数 θ-不会时刻更新，而是每隔固定步数从 Q网络中复制参数 θ。换言之，DQN将“移动靶”改成每隔一段时间才移动一次的“准固定靶”，提升了训练稳定性。DQN 原始论文中，目标网络每隔 10000 步更新一次。DQN 的损失函数为：
+此时，学习目标从 r+γ·maxQ(s,a;θ)改为 $\mathsf{r}+\mathsf{y}\cdot\mathsf{max}\mathsf{Q}(\mathsf{s},\mathsf{a};\mathsf{\theta}^{-})$ 。我们称以 θ-为参数的网络为目标网络，有别于以 θ 为参数的 Q 网络。关键之处在于，目标网络不参与梯度下降，参数 θ-不会时刻更新，而是每隔固定步数从 Q网络中复制参数 θ。换言之，DQN将“移动靶”改成每隔一段时间才移动一次的“准固定靶”，提升了训练稳定性。DQN 原始论文中，目标网络每隔 10000 步更新一次。DQN 的损失函数为：
 
 $$
-L(\theta)=\mathbb{E}\left[\left(r+\gamma\operatorname*{max}_{a^{\prime}}Q(s^{\prime},a^{\prime};\theta^{-})-Q(s,a;\theta)\right)^{2}\right]
+L(\theta)=\mathbb{E}\left[\left(r+\gamma\max_{a^{\prime}}Q(s^{\prime},a^{\prime};\theta^{-})-Q(s,a;\theta)\right)^{2}\right]
 $$
 
 采用梯度下降法更新网络参数，损失函数的梯度为：
@@ -938,7 +938,7 @@ $$
 
 1. 基于价值的方法要求动作空间是有限集，例如围棋的动作至多有 361 种。但部分现实场景中，动作空间可能是无限集，例如控制机器人运动的速度和加速度。此时就要使用基于策略的方法。
 
-2. 基于价值的方法中，最优策略通过贪心算法给出， $\boldsymbol{\Pi}^{\star}(\mathsf{s})=\mathsf{argmax}\mathsf{Q}(\mathsf{s},\mathsf{a})$ ，每种状态下的动作是唯一的，属于确定性策略。尽管可以通过 ε-贪心算法为策略引入随机性，总体仍是确定性的。
+2. 基于价值的方法中，最优策略通过贪心算法给出， $\mathsf{\Pi}^{\star}(\mathsf{s}){=}\mathsf{argmax}\;\mathsf{Q}(\mathsf{s},\mathsf{a})$ ，每种状态下的动作是唯一的，属于确定性策略。尽管可以通过 ε-贪心算法为策略引入随机性，总体仍是确定性的。
 
 但部分现实场景需要随机性策略。例如剪刀石头布游戏，如果智能体采取确定性策略，就会很快被对手摸清规律，最优策略是剪刀、石头、布各占 1/3 概率。基于策略的方法可以输出每种状态下各动作的概率分布，属于随机性策略，适用于这种场景。
 
@@ -953,7 +953,7 @@ $$
 定义目标函数 J(θ)来衡量策略表现，神经网络的目标是最大化 J(θ)，采用梯度上升法更新神经网络参数 θ：
 
 $$
-\theta=\theta+\alpha{\sqrt{J(\theta)}}
+\theta=\theta+\alpha\widehat{\nabla J(\theta)}
 $$
 
 其中，∇̂J(θ)为策略目标函数梯度的估计，策略梯度算法由此得名。
@@ -967,33 +967,33 @@ $$
 此时可以对 J(θ)求导，计算策略梯度∇J(θ)。策略梯度定理（policy gradient theorem）直接给出了答案：
 
 $$
-\nabla J(\theta)\propto\sum_{s}\mu(s)\sum_{a}q_{\pi}(s,a)\nabla\pi(a|s;\theta)
+\nabla J(\theta)\propto{\sum}_{s}\mu(s){\sum}_{a}q_{\pi}(s,a)\nabla\pi(a|s;\theta)
 $$
 
-其中， $\mu(\mathsf{s})$ 代表状态 s在全部轨迹中的出现概率，∝代表成正比。策略梯度定理的详细推导过程可参考 Sutton（2018）Reinforcement Learning:An Introduction 第二版 13.2 节。
+其中， $\mu(s)$ 代表状态 s在全部轨迹中的出现概率，∝代表成正比。策略梯度定理的详细推导过程可参考 Sutton（2018）Reinforcement Learning:An Introduction 第二版 13.2 节。
 
 策略梯度中包含对状态 s 的积分，由于 μ(s)为状态 s 的概率，根据数学期望的定义，策略梯度可以简化为期望形式：
 
 $$
-\begin{array}{rlr}{{\nabla J(\theta)\propto\sum_{s}\mu(s)\sum_{a}q_{\pi}(s,a)\nabla\pi(a|s;\theta)}}\\&{}&{=\mathbb{E}_{\pi}[\sum_{a}q_{\pi}(S_{t},a)\nabla\pi(a|S_{t};\theta)]~}\end{array}
+\begin{aligned}\nabla J(\theta)\propto\sum_{s}&\mu(s)\sum_{a}q_{\pi}(s,a)\nabla\pi(a|s;\theta)\\=\mathbb{E}_{\pi}&\left[\sum_{a}q_{\pi}(S_{t},a)\nabla\pi(a|S_{t};\theta)\right]\end{aligned}
 $$
 
 计算策略梯度需要对状态 s 和动作 a 进行积分，但大多数时候我们不知道 s 和 a 的分布，因此无法求出策略梯度的解析解。此时，可以借助蒙特卡洛方法的思想，重复多次采样求均值，求出策略梯度的近似值。
 
-然而在近似策略梯度时，还有一个关键问题：如何估计上式中策略π的动作价值函数 $\mathsf{q}_{\mathtt{Pi}}(\mathsf{S}_{\mathtt{t}},\mathsf{a})?$ 下面我们将介绍两种方法：REINFORCE 采用蒙特卡洛方法计算的回报 $\sf{G}_{\sf t}$ 近似 $\mathsf{q}_{\mathtt{Pi}}(\mathsf{S}_{\mathtt{f},\mathsf{a}})$ 演员-评委算法（actor-critic）采用神经网络 $\mathsf{Q}(\mathsf{s},\mathsf{a};\mathsf{w})$ 近似 $\mathsf{q}_{\mathtt{Pi}}(\mathsf{S}_{\mathtt{f},\mathsf{a}})$ o
+然而在近似策略梯度时，还有一个关键问题：如何估计上式中策略π的动作价值函数 $\mathbf{q}_{\Pi}(\mathbf{S}_{t},\mathbf{a})?$ 下面我们将介绍两种方法：REINFORCE 采用蒙特卡洛方法计算的回报 $\mathbf{G}_{\mathrm{t}}$ 近似 $\mathbf{q}_{\Pi}(\mathbf{S}_{t},\mathbf{a})$ 演员-评委算法（actor-critic）采用神经网络 $\mathsf{Q}(\mathsf{s},\mathsf{a};\mathsf{w})$ 近似 $\mathbf{q}_{\Pi}(\mathbf{S}_{t},\mathbf{a})$ o
 
 ## REINFORCE
 
 下面推导 REINFORCE 的策略梯度：
 
 $$
-\begin{array}{l}{\displaystyle\nabla J(\theta)=\mathbb{E}_{\boldsymbol\pi}\left[\sum_{a}q_{\boldsymbol{\pi}}(S_{t},a)\nabla{\boldsymbol\pi}(a|S_{t};\theta)\right]}\\{=\mathbb{E}_{\boldsymbol\pi}\left[\sum_{a}\pi(a|S_{t};\theta)q_{\boldsymbol\pi}(S_{t},a){\frac{\nabla{\boldsymbol\pi}(a|S_{t};\theta)}{\pi(a|S_{t};\theta)}}\right]}\\{=\mathbb{E}_{\boldsymbol\pi}\left[q_{\boldsymbol\pi}(S_{t},A_{t}){\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}}\right]~(\widetilde{\boldsymbol{x}}_{1}^{\sharp}A_{t}\widetilde{\boldsymbol{x}}\boldsymbol{\sharp}\boldsymbol{\sharp}\boldsymbol{\boldsymbol{\pi}}{\boldsymbol{\sharp}}\boldsymbol{\boldsymbol{\pi}},~\mathcal{K}_{\boldsymbol\pi}\widetilde{\sharp}\boldsymbol{\boldsymbol{\pi}}\widetilde{\boldsymbol{\pi}}\boldsymbol{\varphi}_{\boldsymbol{\varphi}}^{\varphi;\theta})}\\{=\mathbb{E}_{\boldsymbol\pi}\left[G_{t}{\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}}\right]~(\mathbb{H}\otimes\widetilde{\mathbb{d}}\mathbb{E}_{t}\widetilde{\mathbb{d}}\boldsymbol{G}_{t}\widetilde{\mathbb{d}}\boldsymbol{\boldsymbol{\pi}}\boldsymbol{\sharp}\boldsymbol{\varphi}_{t}{\boldsymbol{\varphi}}{\boldsymbol{\mathcal{H}}}\boldsymbol{\varphi}_{t}{\boldsymbol{\varphi}}\widetilde{\mathbb{d}}\boldsymbol{\boldsymbol{\pi}}\boldsymbol{\varphi}_{t}^{\varphi;\theta})}\\=\mathbb{E}_{\boldsymbol\pi}[G_{t}\nabla\pi(A_{t}|S_{t};\theta)]~(\nabla\end{array}
+\begin{aligned}\nabla J(\theta)&=\mathbb{E}_{\pi}\left[\sum_{a}q_{\pi}(S_{t},a)\nabla\pi(a|S_{t};\theta)\right]\\&=\mathbb{E}_{\pi}\left[\sum_{a}\pi(a|S_{t};\theta)q_{\pi}(S_{t},a)\frac{\nabla\pi(a|S_{t};\theta)}{\pi(a|S_{t};\theta)}\right]\\&=\mathbb{E}_{\pi}\left[q_{\pi}(S_{t},A_{t})\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}\right]\qquad(对A_{t}进行采样,代替求和符号)\\&=\mathbb{E}_{\pi}\left[G_{t}\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}\right]\qquad(用回报G_{t}近似动作价值函数)\\&=\mathbb{E}_{\pi}[G_{t}\nabla\ln\pi(A_{t}|S_{t};\theta)]\qquad(\nabla lnx=\nabla x/x)\end{aligned}
 $$
 
-其中，回报 $\mathsf{G}_{\mathtt{t}}\overline{{\mathtt{a}}}\overline{{\mathsf{J}}}$ 采用蒙特卡洛方法，对每一幕各时刻的折现奖励进行加总得到：
+其中，回报 $\mathbf{G}_{\mathrm{t}}可$ 采用蒙特卡洛方法，对每一幕各时刻的折现奖励进行加总得到：
 
 $$
-G_{t}=\sum_{k=0}^{T}\gamma^{k}R_{t+k+1}
+G_{t}={\sum}_{k=0}^{T}\gamma^{k}R_{t+k+1}
 $$
 
 网络参数 θ 通过梯度上升法更新：
@@ -1005,13 +1005,13 @@ $$
 我们进一步理解 REINFORCE 策略梯度的内在含义。REINFORCE 的损失函数和监督学习分类问题的损失函数有异曲同工之妙。分类问题常用的损失函数是交叉熵（cross entropy）：
 
 $$
-L=-\sum_{k}y_{k}\mathrm{ln}\hat{y}_{k}
+{\cal L}=-{\sum}_{k}y_{k}\mathrm{ln}\hat{y}_{k}
 $$
 
-其中，k 为分类数； $y_{\mathsf{k}}$ 为真实 one-hot 标签，若样本属于 k 分类，则 $\mathsf{y}_{\mathsf{k}}$ 为 1，否则 $\mathsf{y}_{\mathsf{k}}$ 为 0；$\hat{y}_{k}$ 为预测值，即样本属于 k 分类的概率。真实值 $y_{\mathsf{k}}$ 和预测值 $\boldsymbol{\hat{y}_{k}}$ 越接近，交叉熵越小，损失函数越小。上式中的真实分类 $\mathsf{y}_{\mathsf{k}}$ 为离散值，若将其视作连续分布 Y，那么交叉熵可以改写成随机变量Ŷ的期望形式，本质是真实标签分布 Y和预测值分布Ŷ的距离：
+其中，k 为分类数； $y_{\mathrm{k}}$ 为真实 one-hot 标签，若样本属于 k 分类，则 $y_{\mathrm{k}}$ 为 1，否则 $y_{\mathrm{k}}$ 为 0；$\hat{y}_{k}$ 为预测值，即样本属于 k 分类的概率。真实值 $y_{\mathrm{k}}$ 和预测值 $\hat{y}_{k}$ 越接近，交叉熵越小，损失函数越小。上式中的真实分类 $y_{\mathrm{k}}$ 为离散值，若将其视作连续分布 Y，那么交叉熵可以改写成随机变量Ŷ的期望形式，本质是真实标签分布 Y和预测值分布Ŷ的距离：
 
 $$
-L=-\mathbb{E}_{Y}\big[\ln\hat{Y}\big]
+L=-\mathbb{E}_{Y}[\ln\hat{Y}]
 $$
 
 对于 REINFORCE 策略梯度：
@@ -1023,7 +1023,7 @@ $$
 可以反推目标函数：
 
 $$
-J(\theta)=\mathbb{E}_{\pi}[G_{t}\ln\pi(A_{t}\vert S_{t};\theta)]
+J(\theta)=\mathbb{E}_{\pi}[G_{t}\ln\pi(A_{t}|S_{t};\theta)]
 $$
 
 定义损失函数 L(θ)为目标函数 J(θ)的相反数：
@@ -1034,26 +1034,26 @@ $$
 
 损失函数和目标函数的区别在于，前者追求最小化，后者追求最大化。
 
-对比交叉熵损失和 REINFORCE 损失，两者在形式上接近，均为随机变量负对数的期望。交叉熵损失希望最小化真实标签分布 Y 和预测值分布Ŷ的距离。类比 REINFORCE 损失，可以视作最小化“真实动作分布”a 和“预测动作分布 $\because\pi(\mathsf{A}_{\mathrm{t}}|\mathsf{S}_{\mathrm{t}};\Theta)$ 的距离。
+对比交叉熵损失和 REINFORCE 损失，两者在形式上接近，均为随机变量负对数的期望。交叉熵损失希望最小化真实标签分布 Y 和预测值分布Ŷ的距离。类比 REINFORCE 损失，可以视作最小化“真实动作分布”a 和“预测动作分布 $\pi(\mathrm{A}_{t}|\mathrm{S}_{t};\Theta)$ 的距离。
 
-但问题在于，真实动作分布 a 只是实际执行的动作，不一定是最优动作，因此还需要乘以回报 $\mathsf{G}_{\mathsf{t}\circ}$ 。如果 $\mathsf{G}_{\mathtt{t}}$ 较大，说明真实动作重要，计算损失时权重应更高；反之则说明真实动作不重要，计算损失时权重应更低。REINFORCE 某种意义上可以理解成以真实动作 a 为标签，以回报 $\sf{G}_{\sf t}$ 为权重的监督学习。
+但问题在于，真实动作分布 a 只是实际执行的动作，不一定是最优动作，因此还需要乘以回报 $\mathbf{G}_{\mathrm{to}}$ 。如果 $\mathbf{G}_{\mathrm{t}}$ 较大，说明真实动作重要，计算损失时权重应更高；反之则说明真实动作不重要，计算损失时权重应更低。REINFORCE 某种意义上可以理解成以真实动作 a 为标签，以回报 $\mathbf{G}_{\mathrm{t}}$ 为权重的监督学习。
 
 实现策略梯度的技巧之一是添加基线（baseline），主要作用是降低模型的方差：
 
 $$
-\nabla J(\theta)=\mathbb{E}_{\boldsymbol{\pi}}\left[\sum_{a}(q_{\boldsymbol{\pi}}(S_{t},a)-b(S_{t}))\nabla{\boldsymbol{\pi}}(a|S_{t};\theta)\right]
+\nabla J(\theta)=\mathbb{E}_{\pi}\left[\sum_{a}(q_{\pi}(S_{t},a)-b(S_{t}))\nabla\pi(a|S_{t};\theta)\right]
 $$
 
-其中基线 b(St)通常为状态 $\mathsf{S}_{\mathtt{t}}$ 的函数，可任意设置，只要与动作 a 正交即可。一般设为状态${\sf S}_{\sf t}$ 的价值 V(St)：
+其中基线 b(St)通常为状态 $\mathbb{S}_{\mathrm{t}}$ 的函数，可任意设置，只要与动作 a 正交即可。一般设为状态$\mathbb{S}_{\mathrm{t}}$ 的价值 V(St)：
 
 $$
-\nabla J(\theta)=\mathbb{E}_{\boldsymbol{\pi}}\left[\sum_{a}(q_{\boldsymbol{\pi}}(S_{t},a)-V(S_{t}))\nabla{\boldsymbol{\pi}}(a|S_{t};\theta)\right]
+\nabla J(\theta)=\mathbb{E}_{\pi}\left[\sum_{a}(q_{\pi}(S_{t},a)-V(S_{t}))\nabla\pi(a|S_{t};\theta)\right]
 $$
 
 添加基线的 REINFORCE 梯度和梯度上升表示为：
 
 $$
-\begin{array}{rl}&{\nabla J(\theta)=\mathbb{E}_{\pi}\left[\sum_{a}(G_{t}-V(S_{t}))\nabla\pi(a|S_{t};\theta)\right]}\\&{\theta=\theta+\alpha\gamma^{t}(G_{t}-V(S_{t}))\nabla\ln\pi(A_{t}|S_{t};\theta)}\end{array}
+\begin{aligned}&\nabla J(\theta)=\mathbb{E}_{\pi}\left[\sum_{a}(G_{t}-V(S_{t}))\nabla\pi(a|S_{t};\theta)\right]\\&\quad\theta=\theta+\alpha\gamma^{t}(G_{t}-V(S_{t}))\nabla\ln\pi(A_{t}|S_{t};\theta)\\\end{aligned}
 $$
 
 最后我们给出不添加基线的 REINFORCE 伪代码。
@@ -1065,7 +1065,7 @@ $$
 2遍历每一幕：
 3基于策略函数 π(θ)生成一幕：S0, A0, R1, S1, A1, R2, …, ST-1, AT-1, RT
 4逆序遍历该幕的每一步 t（t=T-1, T-2, …, 0）：
-5 $\mathsf{G}\in\mathsf{R}_{1+1}+\mathsf{Y}\mathsf{R}_{1+2}+...+\mathsf{Y}^{\top-1-1}\mathsf{R}_{7}$ 
+5 $G\in R_{t+1}+yR_{t+2}+\cdots+y^{T-t-1}R_T$ 
 6更新网络参数 θ•θ+αγtG∇lnπ(At|St;θ)
 输出 π(a|s;θ)收敛至最优策略 π*
 
@@ -1076,7 +1076,7 @@ $$
 下面推导演员-评委算法的策略梯度：
 
 $$
-\begin{array}{rlr}{\nabla J(\theta)=\mathbb{E}_{\boldsymbol\pi}\left[q_{\pi}(S_{t},A_{t})\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}\right]}&{}&\\{=\mathbb{E}_{\boldsymbol\pi}\left[Q(S_{t},A_{t};w)\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}\right]}&{}&{(\mathtt{H}\mathbin{\ddot{\rtimes}}\mathbin{\ddot{\angles{\varepsilon\ v{D}}}}\mathbin{\ddot{\varepsilon\ v{D}}}\mathbin{\ddot{\varepsilon{\ v{\ v{\varepsilon}}}}}Q(S_{t},A_{t};w)\mathbin{\ddot{\varepsilon{\ v{D}}}}\mathbin{\ddot{\langle\mathtt{h}\mathbin{\ v{\ v}}\mathbin{\ddot{\ v{\varepsilon}}}\mathbin{\ddot{\ v{\ v{\varepsilon}}}}\rvert}}\mathbin{\ddot{\varepsilon}}\mathbin{\ddot{\ v{\ v{\varepsilon}}}}\mathbin{\ddot{\ v{\ v{\varepsilon}}}}\mathbin{\ddot{\ v{\ v{\varepsilon}}}}\mathbin{\ddot{\ v{\ v{\varepsilon}}}})}\\&{}&{=\mathbb{E}_{\boldsymbol\pi}[Q(S_{t},A_{t};w)\nabla\ln\pi(A_{t}|S_{t};\theta)]}\end{array}
+\begin{aligned}\nabla J(\theta)&=\mathbb{E}_{\pi}\left[q_{\pi}(S_{t},A_{t})\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}\right]\\&=\mathbb{E}_{\pi}\left[Q(S_{t},A_{t};w)\frac{\nabla\pi(A_{t}|S_{t};\theta)}{\pi(A_{t}|S_{t};\theta)}\right]\\&=\mathbb{E}_{\pi}[Q(S_{t},A_{t};w)\nabla\ln\pi(A_{t}|S_{t};\theta)]\end{aligned}\quad(用神经网络Q(S_{t},A_{t};w)近似动作价值函数)
 $$
 
 其中， $\mathsf{Q}(\mathsf{S}_{\mathsf{t}},\mathsf{A}_{\mathsf{t}};\mathsf{w})$ 是以 w为参数的神经网络，用来拟合动作价值函数，称为价值网络（valuenetwork）。
@@ -1098,10 +1098,10 @@ $$
 其中 $\alpha^{\theta}$ 为策略网络学习率。添加基线的策略网络梯度和梯度上升表示为：
 
 $$
-\begin{array}{l}{\nabla J(\theta)=\mathbb{E}_{\boldsymbol{\pi}}\left[\sum_{a}(Q(S_{t},A_{t};w)-V(S_{t}))\nabla{\boldsymbol{\pi}}(a|S_{t};\theta)\right]}\\{\theta=\theta+\alpha^{\theta}\gamma^{t}(Q(S_{t},A_{t};w)-V(S_{t}))\nabla\ln\pi(A_{t}|S_{t};\theta)}\end{array}
+\begin{aligned}&\nabla J(\theta)=\mathbb{E}_{\pi}\left[\sum_{a}(Q(S_t,A_t;w)-V(S_t))\nabla\pi(a|S_t;\theta)\right]\\&\theta=\theta+\alpha^{\theta}\gamma^t(Q(S_t,A_t;w)-V(S_t))\nabla\ln\pi(A_t|S_t;\theta)\\\end{aligned}
 $$
 
-对于价值网络（评委），目标函数采用前述时序差分方法和 Sarsa的思想，将当前时刻价值网络输出的动作价值 $\mathsf{Q}(\mathsf{S}_{\mathsf{t}},\mathsf{A}_{\mathsf{t}};\mathsf{w})$ 视作“预测值”，将实际奖励 $\mathsf{R}_{\mathsf{t}+1}$ 与折现后的下一时刻动作价值 $\mathsf Q(\mathsf S_{t+1},\mathsf A_{t+1};\mathsf w)$ 视作“真实值”，希望最小化两者的均方误差。两者之差即时序差分误差。价值网络的损失函数为：
+对于价值网络（评委），目标函数采用前述时序差分方法和 Sarsa的思想，将当前时刻价值网络输出的动作价值 $\mathsf{Q}(\mathsf{S}_{\mathsf{t}},\mathsf{A}_{\mathsf{t}};\mathsf{w})$ 视作“预测值”，将实际奖励 $\mathsf{R}_{1+1}$ 与折现后的下一时刻动作价值 $\mathbf{Q}(\mathbf{S}_{\mathsf{t}+1},\mathbf{A}_{\mathsf{t}+1};\mathsf{w})$ 视作“真实值”，希望最小化两者的均方误差。两者之差即时序差分误差。价值网络的损失函数为：
 
 $$
 L(w)=\mathbb{E}\left[\frac{1}{2}\big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1};w)-Q(S_{t},A_{t};w)\big)^{2}\right]
@@ -1116,7 +1116,7 @@ $$
 每一轮迭代中，参数 w通过梯度下降法更新：
 
 $$
-\begin{array}{rl}&{w=w-\alpha^{w}\nabla L(w)}\\&{\quad=w+\alpha^{w}\big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1};w)-Q(S_{t},A_{t};w)\big)\nabla Q(S_{t},A_{t};w)}\end{array}
+\begin{align*}w&=w-\alpha^w\nabla L(w)\\&=w+\alpha^w\big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1};w)-Q(S_t,A_t;w)\big)\nabla Q(S_t,A_t;w).\end{align*}
 $$
 
 其中 $\alpha^{w}$ 为价值网络学习率。
@@ -1158,13 +1158,13 @@ $$
 1. 当前未持仓，且 At为 buy时，奖励为预测区间内扣费后多头收益率：
 
 $$
-R_{t+1}=100\cdot\left(\left(1-TC\right)\cdot\frac{Close_{t+horizon}}{Close_{t}}-1\right)
+R_{t+1}=100\cdot\left((1-TC)\cdot\frac{Class_{t+horizon}}{Cloge_{t}}-1\right)
 $$
 
 2. 当前未持仓，且 At为 sell或 hold 时，奖励为预测区间内空头收益率：
 
 $$
-R_{t+1}=100\cdot\bigg(1-\frac{Close_{t+horizon}}{Close_{t}}\bigg)
+R_{t+1}=100\cdot\left(1-\frac{Close_{t+horizon}}{Close_{t}}\right)
 $$
 
 3. 当前持多仓，且 At为 sell时，奖励为预测区间内扣费后空头收益率：
@@ -1176,10 +1176,10 @@ $$
 4. 当前持多仓，且 At为 buy或 hold 时，奖励为预测区间内多头收益率：
 
 $$
-R_{t+1}=100\cdot\bigg(\frac{Close_{t+horizon}}{Close_{t}}-1\bigg)
+R_{t+1}=100\cdot\Big(\frac{Close_{t+horizon}}{Close_{t}}-1\Big)
 $$
 
-其中 TC 为单边交易费率，本文取万分之五； $\mathsf{Close}_{\mathsf{t}+\mathsf{horizon}}$ 为 horizon 日收盘价，预测区间horizon 取 5 个交易日，同时测试 1和 10。
+其中 TC 为单边交易费率，本文取万分之五； $\mathsf{Close_{t+horizon}}$ 为 horizon 日收盘价，预测区间horizon 取 5 个交易日，同时测试 1和 10。
 
 上述奖励的本质是允许做多和做空下的择时策略收益率。回测时只允许做多，但训练时可以做多和做空。如果奖励和回测一致，只允许做多，那么空仓状态下奖励始终为 0，奖励变化不敏感，Q 网络难以学习。
 

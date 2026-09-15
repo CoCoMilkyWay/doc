@@ -139,13 +139,13 @@ A股市场实证结果与美股类似,当前市场仍将呈现高久期风格.�
 权益久期概念最早由 2004 年 Dechow, Sloan, and Soliman 提出，其核心难点在于个股未来现金流的估计，大部分学者采用了基本面分析法，通过盈利和业绩增长的自回归模型计算个股权益久期，少部分学者采用了历史股利或者分析师一致预期计算权益久期。《Implied Equity Duration:A Measure of Pandemic Shutdown Risk》采用了经典的基于现金流预测的久期计算公式，将未来现金流分成前 T 期非稳定现金流和 T 期后增长率固定的永续现金流，其计算公式如下：
 
 $$
-\begin{array}{rl}&{Duration=\frac{\sum_{t=1}^{\mathrm{T}}t*CF_{t}/(1+r)^{t}}{ME_{0}}+\left(\mathrm{T}+\frac{1+r}{r}\right)*}\\&{\qquad\frac{ME_{0}-\sum_{t=1}^{T}CF_{t}/(1+r)^{t}}{ME_{0}}.}\end{array}
+\begin{aligned}\mathit{Duration}=\frac{\sum_{t=1}^{\mathrm{T}}t*\mathit{CF}_{t}/(1+r)^{t}}{\mathit{ME}_{\theta}}+\left(\mathrm{T}+\frac{1+r}{r}\right)*\\\frac{\mathit{ME}_{\theta}-\sum_{t=1}^{\mathrm{T}}\mathit{CF}_{t}/(1+r)^{t}}{\mathit{ME}_{\theta}}.\end{aligned}
 $$
 
 其中，现金流通过 ROE和权益股本进行预测：
 
 $$
-CF_{t}=Eamings_{t}-\varDelta BE_{t}=BE_{t-1}\left(ROE_{t}-g_{t}\right),
+\mathit{CF}_{t}=\mathit{Eamings}_{t}-\mathit{ABE}_{t}=\mathit{BE}_{t-1}\left(\mathit{ROE}_{t}-\mathit{g}_{t}\right),
 $$
 
 以同处于汽车行业的通用汽车和特斯拉为例，截止 2019 年年底，由于预期现金流的下降，通用汽车久期仅为 17.1,近期现金流占比高,是低久期风格的代表，而特斯拉虽然 PE 为负，但投资者对未来现金流预期增速较高，因而久期高达 32.0。

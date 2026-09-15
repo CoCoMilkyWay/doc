@@ -84,11 +84,11 @@ K 线聚合即对该维度数据按照一定频率进行聚合计算，聚合计
 从上述因子算子拆解的过程中可以看到，数据变换和 K 线聚合的区别在于是由向量转化为向量还是由向量转化为标量：
 
 $$
-{\begin{array}{l}{{\frac{3}{5}}x+13={\frac{7}{15}}+15.}\\{=x(x)-5xy=f(x)-5xy=f(x_{1},x_{2})}\end{array}}
+数据变换:\boldsymbol{y}=f(\boldsymbol{x})或\boldsymbol{y}=f(\boldsymbol{x}_{1},\boldsymbol{x}_{2})
 $$
 
 $$
-\mathsf{K}\mathbin{\lrcorner}\mathbin{\oplus}\mathbin{\lrcorner}\mathbin{\boxed{\cdot}}\mathbin{\lrcorner}\mathbin{\lrcorner}\mathbin{\boldsymbol{y}}=f(\boldsymbol{x})\mathbin{\boxdot{\cdot}}\mathbin{\boldsymbol{\updownarrow}}\boldsymbol{y}=f(\boldsymbol{x}_{1},\boldsymbol{x}_{2})
+1K2线聚合:y=f(\boldsymbol{x})或y=f(\boldsymbol{x}_1,\boldsymbol{x}_2)
 $$
 
 因子即为每个个股的最终标量，所以不论是否存在数据变换的过程，最后一步一定为 K线聚合。

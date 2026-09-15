@@ -60,14 +60,14 @@ APT（Arbitrage Pricing Theory）是 Ross(1976)提出的一种定价方法，它
 
 A1. 市场上不存在无风险套利机会（或渐进套利机会）
 
-A2. 风险资产的收益率由 K 个风险因素 $F_{1},F_{2}\dots F_{K}$ 线性决定，即风险资产 的收益率可以表示为
+A2. 风险资产的收益率由 K 个风险因素 $\cdot F_{1},F_{2}\ldots F_{K}$ 线性决定，即风险资产 的收益率可以表示为
 
 $$
-\mathrm{R}_{\mathrm{i}}=a_{i}+b_{i,1}F_{1}+b_{i,2}F_{2}+\cdots+b_{i,k}F_{K}+\epsilon_{i}\qquad i=1,2\ldots N\quad(1.1)
+\mathbb{R}_{\mathrm{i}}=a_{i}+b_{i,1}F_{1}+b_{i,2}F_{2}+\cdots+b_{i,k}F_{K}+\epsilon_{i}\quad i=1,2\ldots N\quad(1.1)
 $$
 
 $$
-\begin{array}{r}{\sharp\sharp\sharp\mathbb{E}(\mathfrak{e}_{\mathrm{i}})=0,\mathrm{E}\big(\mathfrak{e}_{\mathrm{i}}\epsilon_{j}\big)=0,E(F_{k})=0,E(\epsilon_{i}F_{k})=0,\mathrm{E}(\mathrm{F}_{\mathrm{k}}F_{l})=0,1\leq\mathrm{i},\mathrm{j}\leq\mathrm{N},1\leq\mathrm{k},1\leq\mathrm{K}}\end{array}
+\mathbb{E}(\epsilon_{\mathrm{i}})=0,\mathbb{E}\big(\epsilon_{\mathrm{i}}\epsilon_{j}\big)=0,E(F_{k})=0,E(\epsilon_{i}F_{k})=0,\mathbb{E}(F_{\mathrm{k}}F_{l})=0,1\leq\mathrm{i},\mathrm{j}\leq\mathbb{N},1\leq\mathrm{k},1\leq\mathrm{K}
 $$
 
 图 2：确定型 APT模型的证明流程
@@ -76,11 +76,11 @@ $$
 
 如果式(1.1)无残差随机项，也就是所谓的确定型 APT 模型，证明过程比较容易（图 2）。首先构造 Self-financing且无风险暴露的资产组合，由无套利假设可以知道该预期组合收益率也和权重向量垂直，而权重向量和个股的因子暴露向量也都是垂直的，因此预期收益率向量应该属于因子暴露向量张成的线性空间，而因子暴露向量是线性不相关的，因此可以表示成因子暴露向量的线性组合，也就是图 2 最后的 APT 定价公式。
 
-需要注意的是，在形式上，APT定价公式很容易被理解为直接在式（1.1）两边取期望，但事实并非如此。式(1.1)中不同股票的截距项 $\bf{\dot{a}_{i}}$ 可能是不同的，而 APT 定价公式中 $1\lambda_{\mathbf{0}}.$ 对所有股票都是一样，在市场存在无风险资产的情况下，有 $\lambda_{0}=r_{f}$ $\mathbf{r_{f}}$ 为无风险利率。
+需要注意的是，在形式上，APT定价公式很容易被理解为直接在式（1.1）两边取期望，但事实并非如此。式(1.1)中不同股票的截距项 $\mathbf{\dot{a}_{i}}$ 可能是不同的，而 APT 定价公式中 $\mathbf{l}\mathbf{\lambda_{0}}.$ 对所有股票都是一样，在市场存在无风险资产的情况下，有 $\lambda_{0}=r_{f}$ $\mathbf{r_{f}}$ 为无风险利率。
 
-$\lambda_{\mathbf{k}}$ 称为第 k个因子的风险溢价（risk premium），在确定型 APT模型下， $\lambda_{\mathbf{k}}=E\bigl(R^{(k)}\bigr)-r_{f}$ ，其中  是因子 k 的特征因子组合收益率，该组合对 k 个因子的暴露度为 1，对其他因子的暴露度都是 0.
+$\lambda_{\mathbf{k}}$ 称为第 k个因子的风险溢价（risk premium），在确定型 APT模型下， $,\lambda_{\mathrm{k}}=E\big(R^{(k)}\big)-r_{f}$ ，其中  是因子 k 的特征因子组合收益率，该组合对 k 个因子的暴露度为 1，对其他因子的暴露度都是 0.
 
-对于非确定型 APT模型，即式(1.1)的随机残差项不等于零，APT定价公式的证明需要加强假设，在无套利的基础上进一步要求市场无渐进套利机会（Asymptotic arbitrage opportunity），详细证明可以参考郭（2006）。此时风险溢价 $\cdot\lambda_{\mathbf{k}}\mathcal{\ B}$ 可理解为其因子特征组合的超额收益，但需强化要求因子特征组合是一个完全分散化投资组合（Fully Diversified Portfolio）。
+对于非确定型 APT模型，即式(1.1)的随机残差项不等于零，APT定价公式的证明需要加强假设，在无套利的基础上进一步要求市场无渐进套利机会（Asymptotic arbitrage opportunity），详细证明可以参考郭（2006）。此时风险溢价 $\lambda_{k}仍$ 可理解为其因子特征组合的超额收益，但需强化要求因子特征组合是一个完全分散化投资组合（Fully Diversified Portfolio）。
 
 APT 模型假设的数量比 CAPM 少，而且更加合理。事实上，在 APT 模型里面，如果假设影响资产价格的因素只有一个，而且市场组合是完全分散投资组合，那么基于无套利假设就可以近似得到 CAPM 定价公式。CAPM 假设市场是均衡的，均衡的市场无套利机会，但反过来则不一定成立。量化实务中，不论是 P-quant还是 Q-quant，大多采用的是 APT理论框架1。
 
@@ -111,13 +111,13 @@ APT 是一套非常完备的资产定价理论，但问题是它并没有说明�
 GRS 检验由 Gibbons, Ross 和 Shaken 于 1989 年提出，它是一个时间序列上的检验。假设全市场有 N个资产，资产价格受 K个因子影响，现有过去 T期的因子风险溢价数据和资产收益率数据，市场无风险利率为 ，如果 APT模型成立，那么对每个资产 i做时间序列回归
 
 $$
-\begin{array}{r}{\mathrm{E}\big(\mathrm{R}_{\mathrm{i,t}}\big)-r_{f}=a_{i}+b_{i,1}\lambda_{1,t}+b_{i,2}\lambda_{2,t}+\cdots+b_{i,k}\lambda_{K,t}+\epsilon_{i}\qquad t=1,2\ldots T}\end{array}
+\mathrm{E}\big(\mathrm{R}_{\mathrm{i},t}\big)-r_{f}=a_{i}+b_{i,1}\lambda_{1,t}+b_{i,2}\lambda_{2,t}+\cdots+b_{i,k}\lambda_{K,t}+\epsilon_{i}\quad t=1{,}2\ldots T
 $$
 
 回归得到截距项应该为零。但是有 N 个资产，我们做了 N 个时间序列回归，在残差项满足多元正态分布的前提假设下，GRS 用下面统计量来检验回归截距项是否等于 0 (参考 Cochrane 2005)。
 
 $$
-\frac{T-N-K}{N}\big(1+\lambda^{\prime}\cdot\widehat\Omega^{-1}\cdot\lambda\big)^{-1}\widehat\alpha^{\prime}\cdot\widehat\Sigma\cdot\widehat\alpha\sim\mathrm{F}_{\mathrm{N,T-N-K}}
+\frac{T-N-K}{N}\big(1+\pmb{\lambda}^{\prime}\cdot\widehat{\Omega}^{-1}\cdot\pmb{\lambda}\big)^{-\mathbf{1}}\widehat{\alpha}^{\prime}\cdot\widehat{\Sigma}\cdot\widehat{\alpha}\sim\mathsf{F}_{\mathrm{N,T-N-K}}
 $$
 
 由于我们不可能知道所有股价影响因素，因此在实证中 GRS 检验基本上都是拒绝原假设的。有些研究人员用截距项的大小来判断不同因子模型解释力度的强弱，但这种比较缺乏统计检验显著性的支持。Harvey (2016) 提出了一种基于 Bootstrap，同时考虑 Multiple Testing 效应的 GRS 检验改进方法，通过截距项的分布来比较不同模型解释力度的强弱。Harvey (2016) 用个股作为资产检验了他之前收集的 316 个因子，他发现市场因子仍然是最显著的因子，其次是市值因子，再其次是估值因子，在控制了这三个因子后，其它因子变得都不显著，这个结论和之前提到的Jegadeesh & Noh （2014）的结论正好相反。
@@ -126,11 +126,11 @@ $$
 
 该检验方法由 Fama & MacBeth (1973)年提出，它是一种截面回归检验方法。如果从风险溢价出发，Fama-MacBeth 检验是一个两步过程：
 
-Step 1. 对每个资产做时间序列回归，计算各个资产的因子暴露估计量 $\cdot\widehat{\mathbf{b}}_{i,k}$
+Step 1. 对每个资产做时间序列回归，计算各个资产的因子暴露估计量 $\hat{\mathbf{b}}_{i,k}$
 
-Step 2. 在每个横截面上用当期的资产收益率对期初的因子暴露估计量做横截面回归，得到风险溢价的估计 $\widehat{\lambda}_{k,t}$
+Step 2. 在每个横截面上用当期的资产收益率对期初的因子暴露估计量做横截面回归，得到风险溢价的估计 $\hat{\lambda}_{k,t}$
 
-对因子 k，对序列 $\{\hat{\lambda}_{k,t},t=1,2\ldots T\}$ 做传统 student-t 检验，如果该因子有效，序列的均值应该显著不等于零。如果是从风险暴露出发，则可免去第一步，直接从第二步开始。
+对因子 k，对序列 $\{\hat{\lambda}_{k,t},t=1{,}2\ldots T\}$ 做传统 student-t 检验，如果该因子有效，序列的均值应该显著不等于零。如果是从风险暴露出发，则可免去第一步，直接从第二步开始。
 
 Fama (2015a) 详细对比了两种统计检验方法的优劣，由于实务投资多从因子暴露出发，因此我们本报告的研究将基于 Fama-MacBeth 检验的思路。
 
@@ -138,7 +138,7 @@ Fama (2015a) 详细对比了两种统计检验方法的优劣，由于实务投�
 
 在本节中，我们区分三个概念：定价因子（Priced-in factor），Alpha因子和风险因子（RiskFactor）。定价因子即是通过上述统计检验，对股价由显著影响的因子。有些学术研究里面把定价因子也称做风险因子，这个容易和实务操作里的风险因子混淆，因此这里做出明确区别。
 
-不同特点的定价因子在实际投资中的作用有所区别。在 Fama-MacBeth 检验中， $\{\widehat{\lambda}_{k,t},t=$ 是因子 k 的风险溢价序列，可以近似的看成是每个月把股票按因子大小排序后，Top minusBottom 多空组合的月收益率数据。因子显著，即是这个多空组合的收益率序列均值显著不等于零。而 Student-t 统计量的分子是风险溢价的样本均值，分母是风险溢价的标准差除以样本数量的平方根，因此一个显著的定价因子可能会出现以下四种情形（图 3）：
+不同特点的定价因子在实际投资中的作用有所区别。在 Fama-MacBeth 检验中， $\{\hat{\lambda}_{k,t},t=$ 是因子 k 的风险溢价序列，可以近似的看成是每个月把股票按因子大小排序后，Top minusBottom 多空组合的月收益率数据。因子显著，即是这个多空组合的收益率序列均值显著不等于零。而 Student-t 统计量的分子是风险溢价的样本均值，分母是风险溢价的标准差除以样本数量的平方根，因此一个显著的定价因子可能会出现以下四种情形（图 3）：
 
 图 3：Alpha 因子 与 风险因子
 ![](images/7d65b2496ae54d670f3fad37694f330d682b60cb05356dcf3b9c5377eb3f7626.webp)
@@ -160,15 +160,15 @@ Fama (2015a) 详细对比了两种统计检验方法的优劣，由于实务投�
 
 Alpha 因子通过单因子的有效性检验后，下一步便是把这些 alpha因子含有的信息进行汇总合成；对于大型的 alpha 因子库，此时投资者可能会面临大量重复无效的信息，我们这里参考Fama-MacBeth检验流程，设计了一套因子筛选方法，可以剔除信息重复的因子。具体流程如下：
 
-假设总共有K个备选的alpha因子 $\operatorname{F}_{1},F_{2}\dots F_{K}$ ，我们已经从中筛选出了s个因子 $\mathrm{F_{i_{1}},F_{i_{2}},\ldots F_{i_{s}}},$ （初始时 ），第 s+1次筛选流程如下：
+假设总共有K个备选的alpha因子 $\cdot\mathsf{F}_{1},F_{2}\dots F_{K}$ ，我们已经从中筛选出了s个因子 $\cdot\mathrm{F}_{\mathrm{i}_{1},}\mathrm{F}_{\mathrm{i}_{2}},\dots\mathrm{F}_{\mathrm{i}_{s},}$ （初始时 ），第 s+1次筛选流程如下：
 
-Step 1. 对于剩余备选的 alpha 因子，每个因子每个月都对 $\operatorname{F}_{\mathrm{i}_{1},}\operatorname{F}_{\mathrm{i}_{2}},\dots\operatorname{F}_{\mathrm{i}_{s}}$ 做多元回归，计算残差项(s = 0 时不用做这一步)。记得到的 K-s 个残差项因子分别为 $\theta_{1},\theta_{2},\dots\theta_{K-s}$ 0
+Step 1. 对于剩余备选的 alpha 因子，每个因子每个月都对 $\mathrm{F}_{\mathrm{i}_{1}},\mathrm{F}_{\mathrm{i}_{2}},\dots\mathrm{F}_{\mathrm{i}_{s}},$ 做多元回归，计算残差项(s = 0 时不用做这一步)。记得到的 K-s 个残差项因子分别为 $\theta_{1},\theta_{2},\dots\theta_{K-s}$ 0
 
-Step 2. 分别把 $\Theta_{\mathrm{j}},~j=1,2\ldots\mathrm{K}-s\bar{\ast}\mathbb{I}\mathrm{F_{\mathrm{i_{1}}}},\mathrm{F_{\mathrm{i_{2}}}},\ldots\mathrm{F_{\mathrm{i_{s}}}},$ 一起做自变量，做 Fama-MacBeth 回归，记录 $\cdot\theta_{\mathrm{j}}$ 系数的显著性，和每个月横截面回归  的平均值。
+Step 2. 分别把 $\mathbb{I}\mathfrak{0}_{\mathfrak{j}},\ \mathfrak{j}=1\mathfrak{,}2\ldots\mathbb{K}-\mathfrak{s}和\mathbb{F}_{\mathfrak{i}_1,}\mathbb{F}_{\mathfrak{i}_2,}\ldots\mathbb{F}_{\mathfrak{i}_s,}$ 一起做自变量，做 Fama-MacBeth 回归，记录 $\mathrm{i}\theta_{\mathrm{j}}$ 系数的显著性，和每个月横截面回归  的平均值。
 
 Step 3. 把系数不显著的因子剔除出备选 alpha 因子库。
 
-Step 4. 选取系数显著且平均  最大的因子，假设为 $\theta_{\mathrm{h}}$ ，则把该因子作为第 $\hphantom{0}{\hphantom{0}}\mathsf{s}{+1}$ 个筛选出的因 $\mp\mathrm{F}_{\mathrm{i}_{s+1}}=\theta_{h}$ ，进入第 s+2次筛选；
+Step 4. 选取系数显著且平均  最大的因子，假设为 $\theta_{\mathrm{h}}$ ，则把该因子作为第 $s{+}1$ 个筛选出的因 $\mathrm{F}_{\mathrm{i}_{s+1}}=\theta_{h}$ ，进入第 s+2次筛选；
 
 Step 5. 如果所有因子的系数都不显著，则停止筛选过程。
 
@@ -178,22 +178,22 @@ Step 5. 如果所有因子的系数都不显著，则停止筛选过程。
 
 经过因子筛选，剔除不能贡献独立 alpha来源的因子后，下一步是要给各个 alpha因子赋予权重，把单个alpha因子的zscore加总成一个zscore。传统方法是做等权处理，但这显然忽视了alpha因子之间的相关性，使得因子的权重被人为的放缩。一种改进的方法是复合因子方法，先把同一类别的因子合成一个因子（例如：把 PE、PB 合成一个估值因子），再把这些复合因子进行等权加总，这样做可以降低但不能消除因子间相关性的影响，而且在合成复合因子过程中，基本面因子的逻辑比较清晰，比较好归类，但技术面因子的逻辑差别较大，很难分类；如果强行把所有技术面因子归为一类的话，会降低技术面因子的权重，而 A 股目前的现状是技术面因子表现整体强于基本面因子，因此这样做会降低模型表现。
 
-我们这里采取的是 Qian(2007)的做法，这种方法能较好解决因子间的相关性问题，他先证明股票组合收益取决于加总因子的 IC，要获得稳定收益就需要加总因子的 IC足够稳定，因此他采取最大化复合因子 $10\_1{\sf R}$ 的方式来获得各个 alpha因子的权重。
+我们这里采取的是 Qian(2007)的做法，这种方法能较好解决因子间的相关性问题，他先证明股票组合收益取决于加总因子的 IC，要获得稳定收益就需要加总因子的 IC足够稳定，因此他采取最大化复合因子 $1\mathsf{C}\_\mathsf{IR}$ 的方式来获得各个 alpha因子的权重。
 
-假设有 K个因子，过去 T个月，每个月的因子 IC为 $\mathrm{IC_{t,k}},t=1\ldots\mathrm{T},\mathrm{k}=1\ldots\mathrm{K}$ ；每个因子过去T 个月的 IC 均值 $\begin{array}{r}{\overline{{\mathrm{IC}}}_{k}=\sum_{1\leq t\leq T}IC_{t,k}/\mathrm{T}}\end{array}$ ，向量 $\overline{{\bf IC}}\triangleq(\overline{{\bf IC}}_{1},\overline{{\bf IC}}_{2}\dots\overline{{\bf IC}}_{K})^{\prime}$ $\Sigma_{\mathrm{IC}}$ 为因子 IC 的协方差矩阵,alpha因子的权重向量 $\mathbf{w}=(\mathbf{w}_{1},w_{2},\dots w_{K})^{\prime}$ 。Qian(2007)的方法即是求解下列最优化问题：
+假设有 K个因子，过去 T个月，每个月的因子 IC为 $\operatorname{IC}_{\operatorname{t},\operatorname{k}},t=1\ldots\operatorname{T},\operatorname{k}=1\ldots\operatorname{K}$ ；每个因子过去T 个月的 IC 均值 $\begin{array}{r}{\overline{{\mathrm{IC}}}_{k}=\sum_{1\leq t\leq T}IC_{t,k}/\mathrm{T}}\end{array}$ ，向量 $\overline{{\mathbf{I}\mathbf{C}}}\triangleq(\;\overline{{\mathrm{I}\mathbb{C}}}_{1},\overline{{\mathrm{I}\mathbb{C}}}_{2}\ldots\;\overline{{\mathrm{I}\mathbb{C}}}_{K})^{\prime}$ $\Sigma_{\mathrm{IC}}$ 为因子 IC 的协方差矩阵,alpha因子的权重向量 $\mathbf{w}=(w_{1},w_{2},\ldots w_{K})^{\prime}$ 。Qian(2007)的方法即是求解下列最优化问题：
 
 $$
-\operatorname*{max}_{\mathbf{w}}~IR_{IC}=\frac{{w^{\prime}\cdot\overline{{\mathbf{IC}}}}}{\sqrt{\mathbf{w^{\prime}}\cdot\Sigma_{IC}\cdot\pmb{w}}}
+\max_{\mathbf{w}}IR_{IC}=\frac{\mathbf{w}'\cdot\overline{\mathbf{IC}}}{\sqrt{\mathbf{w}'\cdot\Sigma_{IC}\cdot\mathbf{w}}}
 $$
 
-通过计算目标函数一阶导数容易求得最优解可以表示为 $\mathbf{w}^{*}=\delta\cdot\Sigma_{IC}^{-1}\cdot\overline{{\mathbf{IC}}},$ 为任意正数。
+通过计算目标函数一阶导数容易求得最优解可以表示为 $\begin{array}{r}{\mathsf{w}^{*}=\delta\cdot\Sigma_{IC}^{-1}\cdot\widehat{\mathbf{IC}},}\end{array}$ 为任意正数。
 
 ## 2.3 协方差矩阵估计
 
-Qian(2007)的方法理论上可以很好解决 alpha因子间的相关性问题，但是实际运用中我们需要去估算 alpha因子间的协方差矩阵。最常用的估计量是样本协方差矩阵 $:\widehat{\Sigma}_{\mathrm{IC}}$ ，它是一个无偏估计量，而且在正态假设下还是极大似然估计。但样本协方差矩阵估计量的方差较大，而且如果因子数量较多，超过时间样本数量（K>T），样本协方差矩阵将变得不可逆，也就无法用上面的式子计算最优权重。另外，即使因子数量较少，或者事件样本较长（K<T），样本协方差矩阵可逆，代入上式计算因子权重也会有问题；因为我们计算用到的是 $\cdot\Sigma_{IC}^{-1}$ ，样本协方差矩阵是协方差矩阵的无偏估计，但样本协方差矩阵的逆并不是协方差矩阵逆的无偏估计，事实上在正态分布假设下可以证明
+Qian(2007)的方法理论上可以很好解决 alpha因子间的相关性问题，但是实际运用中我们需要去估算 alpha因子间的协方差矩阵。最常用的估计量是样本协方差矩阵 $\hat{\Sigma}_{\mathrm{IC}}$ ，它是一个无偏估计量，而且在正态假设下还是极大似然估计。但样本协方差矩阵估计量的方差较大，而且如果因子数量较多，超过时间样本数量（K>T），样本协方差矩阵将变得不可逆，也就无法用上面的式子计算最优权重。另外，即使因子数量较少，或者事件样本较长（K<T），样本协方差矩阵可逆，代入上式计算因子权重也会有问题；因为我们计算用到的是 $\cdot\Sigma_{IC}^{-1}$ ，样本协方差矩阵是协方差矩阵的无偏估计，但样本协方差矩阵的逆并不是协方差矩阵逆的无偏估计，事实上在正态分布假设下可以证明
 
 $$
-\operatorname{E}\left({\widehat{\Sigma}}_{IC}^{-1}\right)={\frac{T}{T-K-2}}\Sigma^{-1}
+\mathrm{E}\big(\hat{\Sigma}_{IC}^{-1}\big)=\frac{T}{T-K-2}\Sigma^{-1}.
 $$
 
 也就是说，如果 T 和 K 的大小比较接近，样本协方差矩阵逆的估计偏差将非常之大（Bai (2011)）。

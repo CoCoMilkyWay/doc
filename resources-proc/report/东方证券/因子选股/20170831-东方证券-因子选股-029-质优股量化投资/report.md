@@ -105,7 +105,7 @@ zhujiantao@orientsec.com.cn
 ROE 是主动投资中使用最为广泛的盈利指标之一，但指标的分母是股东权益，易受上市公司财务杠杆的影响。因此我们也加入测试了 Greenblatt（2010）在他书中提到的一个盈利指标：投资资本回报率（ROIC，Return on Investment Capital），分子是：息税前利润*（1-有效税率）；分母是投资资本，也就是股东权益+有息负债-非经营性资产-超额现金。该指标衡量的是单位投入资本获得的收益，可以和公司的加权资金成本（WACC, Weighted Average Capital Cost）做比较，以判断公司投入的资本是否在创造价值。如果上市公司不存在任何非核心资产和核心收益，可以推导得到
 
 $$
-\mathsf{ROE}{=}\mathsf{ROIC}{+}(\mathsf{ROIC}{-}\mathrm{\Delta R_{aftertax}}\mathrm{\Delta})\mathrm{\Sigma}^{\star}\mathsf{NFL}
+{\sf ROE}{=}{\sf ROIC}{+}({\sf ROIC}{\mathrm{~-~R_{aftertax}~}}){\mathrm{~}^{\star}\sf NFL}
 $$
 
 其中 是税后净利息率（税后利息/净负债）, NFL 是净财务杠杆（净负债/净资产）。财务杠杆可能让 ROIC低的股票出现 ROE 虚高。
@@ -273,7 +273,7 @@ $$
 另外我们在上期报告中把净资产进一步划分为净经营资产和净金融资产，考察经营利润和净经营资产的比值（RONOA），更能准确的反映上市公司经营活动的盈利能力。需要注意的是，之前报告在计算 NOA 时，把所有现金作为金融资产全部剔除，但现金中有一部分是用来填补流动负债的缺口，属经营活动所必需；填补缺口后的超额现金（见下式）再作为金融资产剔除可能更合适。
 
 $$
-\begin{array}{rlr}{\frac{\pm\beta}{2\sqrt{16}}\frac{\hbar}{2}\pmb{\mathbb{E}}[\pmb{\frac{\hbar}{2}}]}&{=}&{\pm\pmb{\mathbb{M}}\frac{\hbar}{2}-\boldsymbol{m}\Delta\mathbf{\times}(\frac{\hbar}{2\sqrt{16}}\frac{-1}{2}\hbar\frac{\hbar}{2}\pmb{\frac{\hbar}{2}}-(\sqrt{26}\frac{-1}{2}\hbar\frac{\hbar}{2}\hbar\frac{\hbar}{2}-\hbar\frac{\hbar}{2}\pmb{\frac{\hbar}{2}}),0)}\end{array}
+超额现金=现金-\max(流动负债-(流动资产-现金),0)
 $$
 
 这种计算方法的差别对现金充裕的公司影响很大，例如格力电器，如果剔除全部现金，NOA 将变为负值；如果是剔除超额现金，2017.07.31 日的 NOA 接近 700 亿。不过 RONOA 的选股能力和其它盈利因子比并无明显优势（图 11）。
@@ -472,7 +472,7 @@ $$
 \mathrm{DD}={\frac{V_{a}-DP}{V_{a}\cdot\sigma_{a}}}
 $$
 
-其中 $\mathtt{V_{a}}$ 是当前时刻的总资产市值、违约点 DP = 流动负债 +0.5*长期负债， $\sigma_{\mathrm{a}}.$ 代表总资产市值的波动率。相对传统财务指标而言，违约距离指标考虑了公司资产的波动水平，但公司资产的波动水平不可观测，需要通过权益和债务的市场价值变动做估计，不同估计方法得到的结果差异比较大
+其中 $\mathrm{V_{a}}$ 是当前时刻的总资产市值、违约点 DP = 流动负债 +0.5*长期负债， $\mathbf{\sigma_{a}}^{\cdot}$ 代表总资产市值的波动率。相对传统财务指标而言，违约距离指标考虑了公司资产的波动水平，但公司资产的波动水平不可观测，需要通过权益和债务的市场价值变动做估计，不同估计方法得到的结果差异比较大
 
 （Duan (2012)）。Campbell(2008)基于 1963-2003 年的美国市场数据实证发现违约概率小的公司相对违约概率高的公司有明显溢价，总资产的波动率估计用的是 Volatility Restriction Method. 我们也用这个方法在 A 股进行了初步测试，因子从 2008.01 至今的 IC 在 0.04 至 0.05 之间，但问题是这个因子通过横截面回归的方式剔除掉股价波动率因子后，IC 不再显著，说明这个因子的 alpha主要来自于买入低波动的股票。波动率因子会在后文讨论，因此这里不采用违约距离因子。
 
@@ -1187,7 +1187,7 @@ zhanghuishu@orientsec.com.cn
 组合优化的目标函数和约束条件为：
 
 $$
-\begin{array}{c}{\mathrm{max:f^{\prime}w}}\\{}\\{\mathrm{s.t.~w^{\prime}{Zw}\leq t^{2}/12}}\end{array}
+\begin{aligned}\max:&\mathbf{f}^{\prime}\mathbf{w}\\s.t.&\mathbf{w}^{\prime}\Sigma\mathbf{w}\leq\mathbf{t}^{2}/12\end{aligned}
 $$
 
 其中 f为股票的预期收益率矩阵，w为主动权重， 为预测的协方差矩阵，t为年跟踪误差上限。

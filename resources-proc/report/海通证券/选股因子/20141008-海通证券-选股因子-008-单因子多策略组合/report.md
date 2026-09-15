@@ -73,10 +73,10 @@ Email：wuxx@htsec.com
 Fama和French 在 1993 年构建了Fama-French三因子模型，模型认为，一个投资组合的超额收益可由它对三个因子的暴露来解释，这三个因子是：市场资产组合(Rm−Rf)、市值因子(SMB)、账面市值比因子(HML)。这个多因子定价模型可以表示如下：
 
 $$
-R_{it}-R_{tt}=\alpha_{i}+\beta_{i}(R_{mt}-R_{tt})+s_{i}\times SMB_{t}+h_{i}\times HM_{it}+\pmb{\varepsilon}_{it}
+R_{it}-R_{\hat{m}}=\alpha_{i}+\beta_{i}(R_{mt}-R_{\hat{m}})+s_{i}\times SMB_{t}+h_{i}\times HM_{it}+\varepsilon_{it}
 $$
 
-其中 $R_{mt}$ 表示 时刻的市场收益率，t $R_{\mathrm{\it ft}}$ 表示 时刻的无风险利率，t $R_{mt}-R_{ft}$ 代表市场风险溢价， 代表市值因子，SMB $HM_{it}$ 代表账面市值比因子。
+其中 $R_{mt}$ 表示 时刻的市场收益率，t $R_{\bar{t}\bar{t}}$ 表示 时刻的无风险利率，t $R_{mt}-R_{\bar{tt}}$ 代表市场风险溢价， 代表市值因子，SMB $HM_{it}$ 代表账面市值比因子。
 
 需要指出的是，在实践中，诸如估值、动量反转、一致预期等因素也被认为是影响股价的重要因素，而 FF3因素模型中并未包含这些因素，现在广泛应用的多因子模型通常会包含几十甚至上百个可能影响股价的因子。
 
@@ -388,7 +388,7 @@ A 股市场是一个复杂的系统，影响股价的因子之间不存在线性
 
 3） 构建比较基准：[0,1]均匀分布的 Logistic 变换；
 
-4）比较 2）中 $p_{i}^{*}$ 的分布与 3）中基准分布评价选股效果。
+4）比较 2）中 $\boldsymbol{\rho}_{i}^{*}$ 的分布与 3）中基准分布评价选股效果。
 
 图 29 单因子多策略选股效果的微观分解
 ![](images/1bb7dcffd363cedbc7ab5b7bb0dfce4ed22facc4fdafc264672eb3b88ef38604.webp)

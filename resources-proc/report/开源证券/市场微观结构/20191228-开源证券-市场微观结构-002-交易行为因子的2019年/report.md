@@ -149,30 +149,30 @@
 
 （1）对选定股票，回溯取其过去 10日的分钟行情数据；
 
-（2）构造指标 ${\displaystyle\langle S_{\mathrm{t}}=|\mathrm{R}_{\mathrm{t}}|/\sqrt{\mathrm{V}_{\mathrm{t}}}};$ ，其中 $R_{t}$ 为第 t 分钟涨跌幅， $V_{t}$ 为第 t 分钟成交量；
+（2）构造指标 $\mathrm{S_{t}=|R_{t}|/\sqrt{V_{t}},}$ ，其中 $R_{t}$ 为第 t 分钟涨跌幅， $V_{t}$ 为第 t 分钟成交量；
 
-（3）将分钟数据按照指标 $S_{\mathrm{t^{\prime}}}$ 从大到小进行排序，取成交量累积占比前 20%的分钟，视为聪明钱交易；
+（3）将分钟数据按照指标 $\cdot S_{\mathbf{t}^{\prime}}$ 从大到小进行排序，取成交量累积占比前 20%的分钟，视为聪明钱交易；
 
-（4）计算聪明钱交易的成交量加权平均价 $\cdot\mathrm{\nabla\mathsf{WAP}_{\mathrm{smart}}}$
+（4）计算聪明钱交易的成交量加权平均价 $\mathrm{VWAP_{smax}}$
 
-（5）计算所有交易的成交量加权平均价 $\mathrm{\Delta VWAP_{all}}$
+（5）计算所有交易的成交量加权平均价 $\mathrm{{\cdot VWAP_{all}}}$
 
-（6）聪明钱因子 $\cdot{}\mathrm{Q}=\mathrm{VWAP}_{\mathrm{smart}}/\mathrm{VWAP}_{\mathrm{all}}$
+（6）聪明钱因子 $\mathrm{Q}=\mathrm{VWAP}_{\text{smax }}/\mathrm{VWAP}_{\text{all }}$
 
 ## 4.3、 APM 因子
 
 APM因子用来衡量股价行为上午与下午的差异程度，具体步骤如下：
 
-（1）对选定股票，回溯取其过去 20 日数据，记逐日上午的股票收益率为 $r_{t}^{am}$ 指数收益率为 $R_{t}^{am}$ ；逐日下午的股票收益率为 $1r_{t}^{pm}$ ，指数收益率为 $R_{t}^{pm}$ ；
+（1）对选定股票，回溯取其过去 20 日数据，记逐日上午的股票收益率为 $r_{t}^{am}$ 指数收益率为 $R_{t}^{am}$ ；逐日下午的股票收益率为 $tr_{t}^{pm}$ ，指数收益率为 $R_{t}^{pm}$ ；
 
-（2）将得到的40组上午与下午(r,R)的收益率数据进行回归： $r_{i}=\alpha+\beta R_{i}+\varepsilon_{i}\mathrm{~}$ 得到残差项 $\varepsilon_{i};$
+（2）将得到的40组上午与下午(r,R)的收益率数据进行回归： $r_{i}=\alpha+\beta R_{i}+\varepsilon_{i},$ 得到残差项 $\varepsilon_{i};$
 
-（3）以上得到的 40 个残差 $\mathscr{E}_{i}$ 中，上午残差记为 $\varepsilon_{t}^{am}$ ，下午残差记为 $\varepsilon_{t}^{pm}$ ，进一步计算每日上午与下午残差的差值 $\delta_{t}=\varepsilon_{t}^{am}-\varepsilon_{t}^{pm}$
+（3）以上得到的 40 个残差 $.\varepsilon_{i}$ 中，上午残差记为 $\varepsilon_{t}^{am}$ ，下午残差记为 $\varepsilon_{t}^{pm}$ ，进一步计算每日上午与下午残差的差值 $\boldsymbol{.}\delta_{t}=\varepsilon_{t}^{am}-\varepsilon_{t}^{pm}$
 
-（4）构造统计量 stat 来衡量上午与下午残差的差异程度，计算公式如下 $(\mu,$ 为均值，σ为标准差）：
+（4）构造统计量 stat 来衡量上午与下午残差的差异程度，计算公式如下 $(\mu)$ 为均值，σ为标准差）：
 
 $$
-\mathrm{stat}={\frac{\mu(\delta_{t})}{\sigma(\delta_{t})/\sqrt{N}}}
+\mathrm{stat}=\frac{\mu(\delta_{t})}{\sigma(\delta_{t})/\sqrt{N}}
 $$
 
 （5）为了消除动量因子影响，将统计量stat对动量因子进行横截面回归： $stat_{j}=$ $bRet20_{j}+\varepsilon_{j}$ ，其中Ret20 为股票过去20日的收益率，代表动量因子；

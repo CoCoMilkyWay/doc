@@ -118,20 +118,20 @@ $$
 P(|x-\mu|>3\sigma)=P(\Big|\frac{x-\mu}{\sigma}\Big|>3)
 $$
 
-令 $\begin{array}{r}{\cdot y={\frac{x-\mu}{\sigma}}\in N(0,1)}\end{array}$ ，则由正态分布查表可知， $P(|y|>3)<0.3\%$ 。在因子值服从正态分布的条件下，数据偏离均值三个标准差以上为极小概率事件，通常认为这样的数据并不存在，因此可以认定这样的数据为异常值，我们可以将这些异常值拉回至距离均值三个标准差的地方。
+令 $\begin{array}{r}{\cdot y=\frac{x-\mu}{\sigma}\in N(0,1)}\end{array}$ ，则由正态分布查表可知， $P(|y|>3)<0.3\%$ 。在因子值服从正态分布的条件下，数据偏离均值三个标准差以上为极小概率事件，通常认为这样的数据并不存在，因此可以认定这样的数据为异常值，我们可以将这些异常值拉回至距离均值三个标准差的地方。
 
-用数学语言表示，假定因子值为 $x_{i}$ ，异常值处理后的因子值为 $\tilde{x}_{i}$ ，那么：
+用数学语言表示，假定因子值为 $x_{i},$ ，异常值处理后的因子值为 ${\tilde{x}}_{i},$ ，那么：
 
 $$
-\tilde{x}_{i}=\left\{\begin{array}{ll}{\begin{array}{rl}&{\mu+3*\sigma,\qquad x_{i}>\mu+3*\sigma}\\&{\mu-3*\sigma,\qquad x_{i}<\mu-3*\sigma}\\&{x_{i},\mu-3*\sigma\leq x_{i}\leq\mu+3*\sigma}\end{array}}\end{array}\right.
+\tilde{x}_{i}=\left\{\begin{array}{ll}{\begin{array}{rl}{\mu+3*\sigma,\quad x_{i}>\mu+3*\sigma}\\{\mu-3*\sigma,\quad x_{i}<\mu-3*\sigma}\end{array}}\\{\begin{array}{rl}{x_{i},\quad\mu-3*\sigma\leq x_{i}\leq\mu+3*\sigma}\end{array}}\end{array}\right.
 $$
 
 ## （2） 固定比率修正法（百分位法）
 
-与均值标准差修正法不同，固定比率修正法没有因子值服从正态分布的前提条件。以 2%百分比为例，该数据处理方法将因子值按数值大小升序排列，将排位高于 98%及低于 2%的数据作为异常值进行调整，设因子值为 $x_{i}$ ，异常值处理后的因子值为 $\tilde{x}_{i},$ ，排序最接近2%和98%的因子值分别为 $P_{2}$ 和 $P_{98}$ ，则调整方法如下：
+与均值标准差修正法不同，固定比率修正法没有因子值服从正态分布的前提条件。以 2%百分比为例，该数据处理方法将因子值按数值大小升序排列，将排位高于 98%及低于 2%的数据作为异常值进行调整，设因子值为 $x_{i}$ ，异常值处理后的因子值为 $\tilde{x}_{i},$ ，排序最接近2%和98%的因子值分别为 $P_{2}$ 和 ${\imath}P_{98}$ ，则调整方法如下：
 
 $$
-\tilde{x}_{i}=\left\{\begin{array}{ll}{P_{98},\qquad x_{i}>P_{98}}\\{P_{2},\qquad x_{i}<P_{2}}\\{x_{i},\quad P_{2}\leq x_{i}\leq P_{98}}\end{array}\right.
+\tilde{x}_{i}=\left\{\begin{aligned}P_{98},\quad x_{i}&>P_{98}\\P_{2},\quad x_{i}&<P_{2}\\x_{i},\quad P_{2}&\leq x_{i}\leq P_{98}\end{aligned}\right.
 $$
 
 ## （3） 中位数去极值法（MAD 方法）
@@ -139,7 +139,7 @@ $$
 中位数去极值法（ ），是一种较为稳健的异常值处理方法，其与均值标准差修正法有一定的相似性，即都是通过数据到中心的距离的大小定义异常值。所不同的是，中位数去极值法的中心为中位数而非均值，平均距离由绝对值的中位数定义而非标准差，MAD 方法具体如下：
 
 $$
-\tilde{x}_{i}=\left\{\begin{array}{c}{{MAD=median_{i}(|x_{i}-median(x)|)}}\\{{{}}}\\{{{\tilde{x}}_{i}=\left\{{median(x)+n*MAD,\qquad x_{i}>median(x)+n*MAD}_{i}\right\}}}\\{{{}}}\\{{{\nonumber}}{{median(x)-n*MAD,\qquad x_{i}<median(x)-n*MAD}_{else}}}\\{{{}}}\end{array}\right.
+\begin{aligned}\tilde{M}AD=median_{i}(\left|x_{i}-median(x)\right|)\\\tilde{x}_{i}=\left\{\begin{matrix}median(x)+n*MAD,&x_{i}>median(x)+n*MAD\\median(x)-n*MAD,&x_{i}<median(x)-n*MAD\\x_{i},&else\end{matrix}\right.\end{aligned}
 $$
 
 ## （4） Beat G..Briner 方法
@@ -153,7 +153,7 @@ $$
 其中， $\mu$ 为因子数据的市值加权平均， $\sigma$ 为简单平均标准差，随后再进行如下处理：
 
 $$
-\widetilde{x_{\iota}^{(std)}}=\{\begin{array}{ll}{3\cdot(1-s_{(+)})+x_{i}^{(std)}\cdot s_{(+)},\qquad x_{i}^{(std)}>3}\\{\qquad x_{i}^{(std)},\qquad-3\leq x_{i}^{(std)}\leq3}\\{-3\cdot(1-s_{(-)})+x_{i}^{(std)}\cdot s_{(-)},\qquad x_{i}^{(std)}<-3}\end{array}
+\begin{aligned}\overline{{x_{_{\iota}}^{(\overline{std})}}}=\left\{\begin{matrix}3\cdot\left(1-s_{(+)}\right)+x_{_{i}}^{(\overline{std})}\cdot s_{(+)},&x_{_{i}}^{(\overline{std})}>3\\x_{_{i}}^{(\overline{std})},&-3\leq x_{_{i}}^{(\overline{std})}\leq3\\-3\cdot\left(1-s_{(-)}\right)+x_{_{i}}^{(\overline{std})}\cdot s_{(-)},&x_{_{i}}^{(\overline{std})}<-3\end{matrix}\right.\end{aligned}
 $$
 
 其中，
@@ -170,7 +170,7 @@ $$
 
 ## （5） 箱形图方法
 
-箱形图包括了一系列数据的上界、下界、均值、中位数、上四分位和下四分位。设上四分位为 U，表示所有数据中只有 1/4 的数据大于 U，同理，下四分位为 L, 表示所有数据中只有 1/4 的数据小于 $L_{\circ}$ 。定义上下四分位数之差 $IQR=U-L$ ，则上 ${\it\Omega}^{\mathrm{g}}=U+1.5IQR$ ，下界 $\cdot=L-1.5IQR$ 。在数据异常值处理中，把大于上界和小于下界的因子值拉回上界及下界即可。
+箱形图包括了一系列数据的上界、下界、均值、中位数、上四分位和下四分位。设上四分位为 U，表示所有数据中只有 1/4 的数据大于 U，同理，下四分位为 L, 表示所有数据中只有 1/4 的数据小于 $L_{\circ}$ 。定义上下四分位数之差 $IQR=U-L$ ，则上 $界=U+1.5IQR$ ，下界 $\cdot=L-1.5IQR$ 。在数据异常值处理中，把大于上界和小于下界的因子值拉回上界及下界即可。
 
 图 3：箱形图处理方法示意图
 ![](images/25bb911005393d54c6fcb5abee6b4d3502ff031e72919a1dbf89cd0651a11640.webp)
@@ -184,10 +184,10 @@ $$
 
 李伟伟（2018）介绍了一种异常值的识别和无量纲处理方法，我们对此进行简单介绍。
 
-首先将数据 $x_{i}$ 从小到大进行排序，将排序后的值记为 $\{x_{1},x_{2},\ldots,x_{n}\}$ ，记x̅为数据的中位数，定义 $\mathcal{\rho}_{1}$ 和 ${\boldsymbol{\mathit{\Pi}}}^{\prime}\rho_{2}$ 分别表示中位数距离最大值和最小值的距离。
+首先将数据 $x_{i}$ 从小到大进行排序，将排序后的值记为 $\{x_{1},x_{2},\ldots,x_{n}\}$ ，记x̅为数据的中位数，定义 $\rho_{1}$ 和 $^{\prime}\rho_{2}$ 分别表示中位数距离最大值和最小值的距离。
 
 $$
-\begin{array}{l}{\displaystyle\int\rho_{1}=x_{n}-\bar{x}}\\{\displaystyle\rho_{2}=x_{1}-\bar{x}}\end{array}
+\begin{array}{r}{\left\{\begin{matrix}{\rho_{1}=x_{n}-\bar{x}}\\{\rho_{2}=x_{1}-\bar{x}}\end{matrix}\right.}\end{array}
 $$
 
 规则 1：
@@ -206,36 +206,36 @@ $$
 
 1) 设置计数变量 r=0，并将 $r{=}r{+}1$
 
-2) 计算此时的 $\rho_{1}^{(r)}\acute{\pi}\varpi\rho_{2}^{(r)}$ ,同时计算 $\varepsilon_{r}=\rho_{1}^{(r)}/\rho_{2}^{(r)}$
+2) 计算此时的 $\rho_{1}^{(r)}和\rho_{2}^{(r)}$ ,同时计算 $\varepsilon_{r}=\rho_{1}^{(r)}/\rho_{2}^{(r)}$
 
 3) 若 $\varepsilon_{r}>1$ ，则剔除排序后最大值方向的端点值
 
-重复 1）和 2），直至出现 $\mathcal{V}\varepsilon_{r}\leq$ 1的情形。
+重复 1）和 2），直至出现 $\mathbb{L}\varepsilon_{r}\leq$ 1的情形。
 
 规则 3：
 
 在循环停止之后，假设出现了 m 个 $\varepsilon_{r}>$ 0的情况。
 
-1）当 m=1(或 2)且 $\scriptstyle{\mathcal{E}}_{r}\geq$ k时，可以认为排序后数据最大值方向的端点值(或最大端点值与次大端点值) 为异常值。
+1）当 m=1(或 2)且 $\varepsilon_{r}\geq$ k时，可以认为排序后数据最大值方向的端点值(或最大端点值与次大端点值) 为异常值。
 
-2) 当 $3\leq m\leq n/2$ 时，可以认为所有 $\dot{\varepsilon}_{r}\geq k$ 对应的端点值为异常值。
+2) 当 $3\leq m\leq n/2$ 时，可以认为所有 $[\varepsilon_{r}\geq k$ 对应的端点值为异常值。
 
-3) 当m $.>n/2\mathbb{H}\varepsilon_{r}\geq$ k对应的点很多时，剔除 $\varepsilon_{r}$ 中较大异常值对应的数据，并计算剩余 $\scriptstyle{\mathcal{E}}_{r}$ 数据的平均值，将 $\varepsilon_{r}$ 在其平均值以上的计数步对应的原始数据剔除。
+3) 当m $.>n/2且\varepsilon_{r}\geq$ k对应的点很多时，剔除 $\varepsilon_{r}$ 中较大异常值对应的数据，并计算剩余 $\varepsilon_{r}$ 数据的平均值，将 $\varepsilon_{r}$ 在其平均值以上的计数步对应的原始数据剔除。
 
 最小值方向的异常值识别过程与上述类似，只是将规则 2 第二步中的$\varepsilon_{r}=\rho_{2}^{(r)}/\rho_{1}^{(r)}$ 且从最小值方向剔除极端值即可。
 
 为了进一步判断数据的另一端是否存在异常值，将上述识别出的异常值删除并按规则 1 重新判断。当对剩余数据判断异常值存在的方向与之前相同时，则认为剩余数据中不存在异常值；反之，可进一步按上述异常值的识别规则判断剩余数据中是否存在异常值。
 
-至此，就已经完成了异常值的识别，接下来开始对异常值进行处理。假设排序后数据集共 n 个数据，若最小值方向存在k 个异常值，记为 $\{x_{k}\},$ 最大值方向存在 h 个异常值，记为 $\left\{x_{\lambda}\right\}$ ，非异常值共 t 个，记为 $\{x_{t}\}$ ，那么肯定有如下等式：
+至此，就已经完成了异常值的识别，接下来开始对异常值进行处理。假设排序后数据集共 n 个数据，若最小值方向存在k 个异常值，记为 $\{x_{k}\}_{\circ}$ 最大值方向存在 h 个异常值，记为 $\left\{x_{i}\right\}$ ，非异常值共 t 个，记为 $\{x_{t}\}$ ，那么肯定有如下等式：
 
 $$
 n=k+h+t
 $$
 
-令 $\begin{array}{r}{\Delta_{1}=\frac{k}{n},\Delta_{2}=\frac{t}{n}}\end{array}$ ，则异常值处理后数据如下：
+令 $\Delta_{1}=\frac{k}{n},\Delta_{2}=\frac{t}{n}$ ，则异常值处理后数据如下：
 
 $$
-\left\{\begin{array}{c}{x_{k}^{*}=\Delta_{1}\times\displaystyle\frac{x_{k}-min\{x_{k}\}}{max\{x_{k}\}-min\{x_{k}\}}}\\{x_{h}^{*}=(1-\Delta_{2})+\Delta_{2}\times\displaystyle\frac{x_{h}-min\{x_{h}\}}{max\{x_{h}\}-min\{x_{h}\}}}\\{x_{t}^{*}=\Delta_{1}+(1-\Delta_{2}-\Delta_{1})\times\displaystyle\frac{x_{t}-min\{x_{t}\}}{max\{x_{t}\}-min\{x_{t}\}}}\end{array}\right.
+\left\{\begin{array}{c}{\displaystyle x_{k}^{*}=\Delta_{1}\times\frac{x_{k}-min\{x_{k}\}}{max\{x_{k}\}-min\{x_{k}\}}}\\{\displaystyle x_{h}^{*}=(1-\Delta_{2})+\Delta_{2}\times\frac{x_{h}-min\{x_{h}\}}{max\{x_{h}\}-min\{x_{h}\}}}\\{\displaystyle x_{t}^{*}=\Delta_{1}+(1-\Delta_{2}-\Delta_{1})\times\frac{x_{t}-min\{x_{t}\}}{max\{x_{t}\}-min\{x_{t}\}}}\end{array}\right.
 $$
 
 可以看到，该方法并不只是将异常值进行简单的拉回操作，而是将识别出来的极端异常值之间进行比较和规整化。最终处理得到的数据在[0,1]之间，且保留了异常值本身的信息。
@@ -584,16 +584,16 @@ $$
 | 附水一. | 财通金工风 |  |  |  |
 | --- | --- | --- | --- | --- |
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
-| Beta | BETA | $\mathrm{r_{t}}=\alpha+\beta\mathrm{R_{t}}+\mathrm{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1)采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
+| Beta | BETA | $\mathbf{r_{t}}=\alpha+\beta\mathbf{R_{t}}+\mathbf{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1)采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathbf{w}_{\mathrm{t}}(\ln(1+\mathbf{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r_{t}=P_{t}/P_{t-1}-1,~T=504,~L=21,}$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1) 对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
-|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathrm{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathrm{T})),}\end{array}$ $\sharp\Psi\mathrm{Z(T)}=\exp\bigl(\sum_{\mathrm{t=1}}^{\mathrm{T}}\ln(1+\mathrm{r_{t}})\bigr)-1$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t}=\mathrm{L}}^{\mathrm{T}+\mathrm{L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1) 对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
+|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ $\mathrm{Z(T)=\exp(\sum_{t=1}^{T}\ln(1+r_t))-1}$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
 |  | HSIGMA | 计算 Beta 时残差的标准差， Hsigma = std(ei) | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |
 | 流动性(对市值因子进行正交化） | STOM | 月度换手率，STOM = In(mean(Σ211(Vt/St)))其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2）剔除未上市、停牌日期的数据 |
-|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\operatorname*{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOQ | 季度换手率， $\mathrm{STOQ}=\ln(\mathrm{mean}(\sum_{t=1}^{63}(V_t/S_t))),$ | 0.25 | 同 STOQ 因子的计算 |
 |  | STOA | 年度换手率，STOA = In(mean(Σ25(Vt/St)))， | 0.25 | 同 STOQ 因子的计算 |
 | 盈利 | CETOP | 过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数 | 1/2 | 采用 Wind 中的 PCF_OCF_ttm 因子的倒数 |
 |  | ETOP | 过去滚动12个月的利润除以当前市值实际计算中取市盈率 PETTM 的倒数 | 1/2 | 采用 Wind 中的 PE_ttm 因子的倒数 |

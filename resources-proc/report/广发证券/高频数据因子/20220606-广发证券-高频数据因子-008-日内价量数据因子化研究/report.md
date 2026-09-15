@@ -8,7 +8,7 @@
 
 交易活动分析与信息不对称理论。市场微观结构理论认为，市场中存在具有信息优势与不具有信息优势的两类参与者，而信息优势交易者所拥有的信息对资产的定价具有显著影响。有学者从交易活动角度论证，信息优势交易者会基于增量信息进行反转交易并从中获利，而非信息优势交易者则基于短期流动性需求或非有效信息进行趋势交易蒙受损失。基于交易行为分析，本报告构建动态 DPIN 因子及其衍生因子，研究该类因子在选股中的应用。
 
-DPIN因子实证分析。在全市场范围内，周度调仓频率下，在回测期内刻画DPIN日内交易结构特征的部分 $DPIN_{MEAN},DPIN_{STD}\cdot DPIN_{STABLE}$ 类因子分档单调性显著，同时 IC 指标、多空收益、多头相对基准策略测试表现较好。在全市场选股范围，DPIN_SMALL_PM_MEAN 因子IC 均值为 0.044，正 IC 占比 84.4%，多头相对中证 800 策略整体年化收益率为 23.4%，信息比率为 1.31；DPIN_BASE_MIDDLE_STD因子 IC 均值为0.061，正IC 占比72.4%，多头相对中证 800策略整体年化收益率为 18.8%，信息比率为 1.08；DPIN_SMALL_TOTAL_STABLE 因子 IC 均值为-0.059，负 IC 占比为 72.4%，多头相对中证800策略整体年化收益率为 19.2%，信息比率为1.09。
+DPIN因子实证分析。在全市场范围内，周度调仓频率下，在回测期内刻画DPIN日内交易结构特征的部分 $\cdot DPIN_{MEAN}\text{、 }DPIN_{STD}\text{、 }DPIN_{STABLE}$ 类因子分档单调性显著，同时 IC 指标、多空收益、多头相对基准策略测试表现较好。在全市场选股范围，DPIN_SMALL_PM_MEAN 因子IC 均值为 0.044，正 IC 占比 84.4%，多头相对中证 800 策略整体年化收益率为 23.4%，信息比率为 1.31；DPIN_BASE_MIDDLE_STD因子 IC 均值为0.061，正IC 占比72.4%，多头相对中证 800策略整体年化收益率为 18.8%，信息比率为 1.08；DPIN_SMALL_TOTAL_STABLE 因子 IC 均值为-0.059，负 IC 占比为 72.4%，多头相对中证800策略整体年化收益率为 19.2%，信息比率为1.09。
 
 DPIN 因子相关性分析与敏感性测试。DPIN 类因子与部分 BARRA 因子存在一定程度相关性。相较于创业板指、沪深 300 选股范围，DPIN 类因子在中证 1000、中证 500 范围内具有较好绩效表现。该类因子在更高调仓频率下表现更好，但多头平均换手率较高。
 
@@ -111,22 +111,22 @@ Easley等人在其发表论文《Price, trade size, and information in securitie
 
 由于在交易过程中，假设做市商已知买卖订单流每种情况的发生概率，但是具体何种事件发生未知，做市商采用贝叶斯法则对信息是否发生的认知进行更新。同时做出如下假定：
 
-做市商在“没有消息”、“坏消息”、“好消息”情况下的先验概率分别为： $\mathrm{P(t)}=$
+做市商在“没有消息”、“坏消息”、“好消息”情况下的先验概率分别为： $\mathrm{P}(\mathrm{t})=$
 
 $$
-\begin{array}{r}{(\mathrm{P}_{\mathrm{n(t)}},P_{b(t)},P_{g(t)}),\forall\mathrm{t}=0\forall\mathrm{,~}\mathrm{P}(0)=(1-\alpha,\alpha\delta,\alpha(1-\delta));}\end{array}
+\left(\mathbf{P}_{\mathbf{n}(\mathbf{t})},\mathbf{P}_{b(t)},\mathbf{P}_{g(t)}\right),\quad 且\mathbf{t}=0时,\quad\mathbf{P}(0)=(1-\alpha,\alpha\delta,\alpha(1-\delta));
 $$
 
-资产价格在“没有消息”、“坏消息”、“好消息”情况下分别为： $\mathrm{V_{i}^{*}}\cdot\underline{{V_{i}}}\cdot\overline{{V_{i}}};$ ，且满足
+资产价格在“没有消息”、“坏消息”、“好消息”情况下分别为： $\mathrm{V}_{\mathrm{i}}^{*}、\underline{{V_{i}}}、\overline{{V_{i}}},$ ，且满足
 
 $$
-{\underline{{V_{i}}}}<{\mathrm{V_{i}^{*}}}<{\overline{{V_{i}}}};
+\underline{{V_{i}}}<\mathrm{V_{i}^{*}}<\overline{{V_{i}}};
 $$
 
 根据不同信息事件的发生概率，可以得到t时刻的期望价格：
 
 $$
-\mathrm{E}(\mathrm{V_{i}}|\mathrm{t})=\mathrm{P_{n}}(t)V_{t}^{\ast}+P_{b}(t)\underline{{V_{t}}}+P_{-}g(t)\overline{{V_{t}}}
+\mathrm{E}(\mathrm{V}_{\mathrm{i}}|\mathrm{t})=\mathrm{P}_{\mathrm{n}}(t)V_{t}^{*}+P_{b}(t)\underline{V_{t}}+P_{-}g(t)\overline{V_{t}}
 $$
 
 根据贝叶斯法则，在t时刻，卖单到来时的信息事件后验概率如下：
@@ -134,7 +134,7 @@ $$
 当信息事件不发生时：
 
 $$
-\operatorname*{P}_{\mathrm{n}}(t|S_{t})=\frac{P_{n}(t)\epsilon}{\epsilon+P_{b}(t)\mu}
+\mathbb{P}_{\mathrm{n}}(t|S_{t})=\frac{P_{n}(t)\epsilon}{\epsilon+P_{b}(t)\mu}
 $$
 
 当信息事件发生且为利好消息时：
@@ -146,31 +146,31 @@ $$
 当信息事件发生且为利空消息时：
 
 $$
-\mathrm{P}_{\mathrm{b}}(t|S_{t})=\frac{P_{b}(t)(\epsilon+\mu)}{\epsilon+P_{b}(t)\mu}
+P_{b}(t|S_{t})=\frac{P_{b}(t)(\epsilon+\mu)}{\epsilon+P_{b}(t)\mu}
 $$
 
 因此，做市商给出的买入报价为：
 
 $$
-\mathsf{b}(\mathrm{t})=\mathrm{E}[\mathrm{V}_{\mathrm{i}}|\mathrm{t}]-\frac{\mu\mathrm{P}_{\mathrm{b}}(t)}{\epsilon+\mu P_{b}(t)}(E[V_{i}|t]-\underline{{V}}_{i})
+\mathbf{b}(\mathbf{t})=\mathrm{E}[V_{\mathrm{i}}|\mathbf{t}]-\frac{\mu P_{\mathrm{b}}(t)}{\epsilon+\mu P_{\mathrm{b}}(t)}\left(\mathrm{E}[V_{\mathrm{i}}|t]-\underline{V_{\mathrm{i}}}\right)
 $$
 
 同理，可以推导出做市商给出的卖出报价为：
 
 $$
-\alpha(\mathrm{t})=\mathrm{E}[\mathrm{V_{i}}|\mathrm{t}]-\frac{\mu\mathrm{P_{g}(t)}}{\epsilon+\mu\mathrm{P_{g}(t)}}(\overline{{V_{i}}}-E[V_{i}|t])
+\alpha(t)=\mathrm{E}[V_i|t]-\frac{\mu\mathrm{P}_g(t)}{\epsilon+\mu\mathrm{P}_g(t)}\left(\overline{V_i}-\mathrm{E}[V_i|t]\right)
 $$
 
 基于买入报价与卖出报价，可以得出不同市场情况下的买卖价差公式。一般情况下，市场中同时存在信息优势交易者与非信息优势交易者，这些交易者分别根据自身掌握的信息情况做出交易决策，此时的买卖价差公式如下。其中，第一项表示当利好消息出现时，信息优势交易概率与信息优势交易者买入交易预期损失的乘积，第二项表示当利空消息出现时，信息优势交易概率与信息优势交易者卖出交易预期损失的乘积。那么，总的信息优势交易概率(PIN)即为上述两种情况下的信息优势交易概率之和。通过上述公式，可以推导出PIN模型公式。
 
 $$
-\begin{array}{rlr}{{\sum(t)=\alpha(t)-b(\mathrm{t})=\frac{\mathrm{\#P}_{\mathrm{g}}(\mathrm{t})}{\epsilon+\|\mathrm{P}_{\mathrm{g}}(\mathrm{t})\|}\big(\overline{{V_{i}}}-E[V_{i}|t]\big)+\frac{\mathrm{\#P}_{\mathrm{b}}(t)}{\epsilon+\mu P_{b}(t)}(E[V_{i}|t]-\underline{{V_{i}}})}}\\&{}&{\mathrm{PIN}(\mathrm{t})=\frac{\mathrm{\#}\big(1-\mathrm{P_{n}}(t)\big)}{\mu\big(1-P_{n}(t)\big)+2\epsilon}}\end{array}
+\begin{aligned}\sum(t)=\alpha(t)-b(t)=\frac{\mu\mathrm{P}_{\mathrm{g}}(t)}{\epsilon+\mu\mathrm{P}_{\mathrm{g}}(t)}\left(\overline{V}_{i}-E[V_{i}|t]\right)+\frac{\mu\mathrm{P}_{\mathrm{b}}(t)}{\epsilon+\mu\mathrm{P}_{\mathrm{b}}(t)}\left(E[V_{i}|t]-\underline{V}_{i}\right)\\\mathrm{PIN}(t)=\frac{\mu\left(1-\mathrm{P}_{\mathrm{n}}(t)\right)}{\mu\left(1-\mathrm{P}_{\mathrm{n}}(t)\right)+2\epsilon}\end{aligned}
 $$
 
 根据上述给出的关于P(0)的先验概率假设，可以求得第一个交易时段的PIN模型：
 
 $$
-\mathrm{PIN}=\frac{\mu\big(1-\mathrm{P_{n}}(0)\big)}{\mu\big(1-\mathrm{P}_{n}(0)\big)+2\epsilon}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}
+\mathrm{PIN}=\frac{\mu(1-P_{\mathrm{n}}(0))}{\mu(1-P_{\mathrm{n}}(0))+2\epsilon}=\frac{\alpha\mu}{\alpha\mu+2\epsilon}
 $$
 
 ## 4. 极大似然估计法进行混合泊松分布参数估计
@@ -180,7 +180,7 @@ $$
 当信息事件不发生时：
 
 $$
-\mathrm{e}^{-\epsilon T}{\frac{(\epsilon T)^{B}}{B!}}e^{-\epsilon T}{\frac{(\epsilon T)^{S}}{S!}}
+\mathbf{e}^{-\epsilon T}\frac{(\epsilon T)^{B}}{B!}e^{-\epsilon T}\frac{(\epsilon T)^{S}}{S!}
 $$
 
 当信息事件发生且为利好消息时：
@@ -198,13 +198,13 @@ $$
 基于第（1）步关于信息事件发生概率的假设，可以得到以下混合泊松似然函数：
 
 $$
-\begin{array}{c}{{\mathrm{L<(B,S)}|\Theta>=\displaystyle(1-\alpha)*\mathrm{e}^{-\epsilon\mathrm{T}}\frac{(\epsilon T)^{B}}{B!}e^{-\epsilon T}\frac{(\epsilon T)^{S}}{S!}+\alpha\delta}}\\{{*e^{-\epsilon T}\frac{(\varepsilon T)^{B}}{B!}e^{-(\epsilon+\mu)T}\frac{\bigl((\epsilon+\mu)T\bigr)^{S}}{S!}+\alpha(1-\delta)}}\\{{*e^{-(\mu+\epsilon)T}\frac{\bigl((\varepsilon+\mu)T\bigr)^{B}}{B!}e^{-\epsilon T}\frac{(\epsilon T)^{S}}{S!}}}\end{array}
+\begin{aligned}\mathrm{L}<(\mathrm{B},S)|\boldsymbol{\theta}>=&(1-\alpha)*\mathbf{e}^{-\epsilon T}\frac{(\epsilon T)^B}{B!}e^{-\epsilon T}\frac{(\epsilon T)^S}{S!}+\alpha\delta\\&*e^{-\epsilon T}\frac{(\varepsilon T)^B}{B!}e^{-(\epsilon+\mu)T}\frac{\left((\epsilon+\mu)T\right)^S}{S!}+\alpha(1-\delta)\\&*e^{-(\mu+\epsilon)T}\frac{\left((\varepsilon+\mu)T\right)^B}{B!}e^{-\epsilon T}\frac{(\epsilon T)^S}{S!}\end{aligned}
 $$
 
-基于第（1）对样本区间T的I个交易区间的假设，结合交易方向的数据M =$(\mathsf{B}_{\mathrm{i}},\mathsf{S}_{\mathrm{i}})_{i=1}^{I}$ ，可以获得下述似然函数，并通过极大似然估计最终获得PIN模型的相关参数α、δ、ε以及μ。
+基于第（1）对样本区间T的I个交易区间的假设，结合交易方向的数据M =$(\mathrm{B_{i}},\mathrm{S_{i}})_{i=1}^{I}$ ，可以获得下述似然函数，并通过极大似然估计最终获得PIN模型的相关参数α、δ、ε以及μ。
 
 $$
-\mathrm{L}(\boldsymbol{\mathrm{M}}|\boldsymbol{\Theta})=\prod_{i=1}^{I}L(B_{i},S_{i}|\boldsymbol{\theta})
+\mathrm{L}(\mathsf{M}|\boldsymbol{\theta})=\prod_{i=1}^{I}L(B_{i},S_{i}|\boldsymbol{\theta}),
 $$
 
 PIN模型的产生，从理论与实践两方面使得直接测度信息不对称风险成为可以实现的内容。但是，该模型仍然存在缺陷。首先，PIN模型所需的数据时间跨度长，易导致数据蕴含的非公开信息被稀释或丢失；其次，PIN因子实际包含了非公开信息与市场非流动性信息，而后者在此为冗余信息；最后，部分股票由于数据量过于庞大，用极大似然估计法计算PIN参数过程中，存在数值溢出问题。因此，Easley等学者在《Flow Toxicity and Liquidity in a High-frequency World》(2012)一文中，根据买卖双方交易量的不平衡性提出了改进的信息优势交易概率模型，即交易量实时更新的知情交易概率(VPIN)模型。
@@ -224,29 +224,29 @@ PIN模型的产生，从理论与实践两方面使得直接测度信息不对�
 由于个股的区间收益与所属星期、日内区间、滞后区间收益以及该区间市场新信息有关，通过下述自回归方程，可获得残差 $\epsilon_{i,j}$ 作为股票i在日内区间j内的非预期收益。
 
 $$
-R_{i,j}=\gamma_{0}+\sum_{k=1}^{4}{\gamma_{1i,k}D_{k}^{Day}}+\sum_{k=1}^{48}{\gamma_{2i,k}D_{k}^{Int}}+\sum_{k=1}^{12}{\gamma_{3i,k}R_{i,j-k}}+\epsilon_{i,j}
+R_{i,j}=\gamma_{0}+\sum_{k=1}^{4}\gamma_{1i,k}D_{k}^{Day}+\sum_{k=1}^{48}\gamma_{2i,k}D_{k}^{Int}+\sum_{k=1}^{12}\gamma_{3i,k}R_{i,j-k}+\epsilon_{i,j}
 $$
 
-其中， $R_{i,j}$ 为指定交易日 $t,$ ，股票i在日内区间j的区间收益率； $D_{k}^{Day}$ 为周内效应虚拟变量，如：指定交易日为周一，则 $(D_{1}^{Day},D_{2}^{Day},D_{3}^{Day},D_{4}^{Day})$ 为 $(1,0,0,0)$ $D_{k}^{Int}$ 为日内效应虚拟变量，日内区间j对应的变量取1，其他取0。由于利用5分钟频数据，因$\Vdash k=1,2,\dots,48;R_{i,j-k}$ 为股票i在过去k个日内区间的滞后收益率，滞后阶数k参考Chang等人(2014)论文，设置为12。
+其中， $R_{i,j}$ 为指定交易日 $t,$ ，股票i在日内区间j的区间收益率； $D_{k}^{Day}$ 为周内效应虚拟变量，如：指定交易日为周一，则 $(D_{1}^{Day},D_{2}^{Day},D_{3}^{Day}{,}D_{4}^{Day})$ 为 $(1{,}0{,}0{,}0)$ $D_{k}^{Int}$ 为日内效应虚拟变量，日内区间j对应的变量取1，其他取0。由于利用5分钟频数据，因$此k=1,2,\ldots,48;R_{i,j-k}$ 为股票i在过去k个日内区间的滞后收益率，滞后阶数k参考Chang等人(2014)论文，设置为12。
 
 ## 2. 计算股票i在日内区间j内的知情交易概率 $DPIN_{BASE}$
 
-当未预期收益 $\cdot\epsilon_{i,j}$ 为正(负)，区间j内的卖出(买入)交易占比即为股票i在日内区间j内的信息优势交易概率DPIN。
+当未预期收益 $.\epsilon_{i,j}$ 为正(负)，区间j内的卖出(买入)交易占比即为股票i在日内区间j内的信息优势交易概率DPIN。
 
 $$
-DPIN_{BASE}^{i,j}=\frac{NB_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}<0\right)+\frac{NS_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}>0\right)
+DPIN_{BASE}^{i,j}=\frac{NB_{i,j}}{NT_{i,j}}*(\epsilon_{i,j}<0)+\frac{NS_{i,j}}{NT_{i,j}}*(\epsilon_{i,j}>0)
 $$
 
-其中， $NB_{i,j}\cdot~NS_{i,j}\cdot~NT_{i,j}$ 分别为指定日t，股票i在日内区间j的主买成交笔数、主卖成交笔数、总成交笔数。 $\left(\epsilon_{i,j}<0\right)$ 为虚拟变量，当未预期收益 $\epsilon_{i,j}$ 为负，取值为1，否则为0。 $(\epsilon_{i,j}>0)$ 取值同理可得。
+其中， $NB_{i,j}、NS_{i,j}、NT_{i,j}$ 分别为指定日t，股票i在日内区间j的主买成交笔数、主卖成交笔数、总成交笔数。 $\left(\epsilon_{i,j}<0\right)$ 为虚拟变量，当未预期收益 $.\epsilon_{i,j}$ 为负，取值为1，否则为0。 $(\epsilon_{i,j}>0)$ 取值同理可得。
 
 进一步地，论文通过分析信息优势交易的行为模式，结合交易单规模来刻画信息优势交易的概率，在改进 $DPIN_{BASE}$ 因子构建步骤2的基础上，构造 $DPIN_{SIZE}$ 因子与 $DPIN_{SMALL}$ 因子。
 
-## 3. 计算股票i在日内区间j内的知情交易概率 $\pmb{DPIN}_{SIZE}$
+## 3. 计算股票i在日内区间j内的知情交易概率 $DPIN_{SIZE}$
 
 由于Easley和O‘Hara (1987) 认为，信息优势交易者更有可能进行大单交易。换言之，大单交易区间内的反转交易更有可能来自于信息优势交易者。基于此，本报告构建 $DPIN_{SIZE}$ 因子。具体而言，增加表示大订单的虚拟变量。在交易日t内，当股票i在区间j内的总交易量超过当日各个区间内总交易量的中位数，则虚拟变量赋值为1，此时未预期收益为正(负)情况下的卖(买)单反映信息优势交易概率，反之为0。公式如下：
 
 $$
-{DPIN}_{SIZE}^{i,j}=\left[\frac{NB_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}<0\right)+\frac{NS_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}>0\right)\right](LT_{i,j})
+DPIN_{SIZE}^{i,j}=\left[\frac{NB_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}<0\right)+\frac{NS_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}>0\right)\right](LT_{i,j})
 $$
 
 其中， $NB_{i,j}$ $NS_{i,j}$ $NT_{i,j}$ 分别为指定日t，股票i在日内区间j的主买成交笔数、主卖成交笔数、总成交笔数。 $\left(\epsilon_{i,j}<0\right)$ 为虚拟变量，当未预期收益 $\epsilon_{i,j}$ 为负，取值为1，否则为0。 $(\epsilon_{i,j}>0)$ 取值同理可得。 $LT_{i,j}$ 为判断大订单的虚拟变量。
@@ -256,10 +256,10 @@ $$
 Chang等(2014) 认为，新信息可能在任意时间到达市场，信息优势交易者会迅速、低成本地对信息作出交易决策的反应。在市场交易不活跃的日内区间，信息优势交易者为尽可能不暴露自身知情交易这一信息，更有可能选择将大订单拆分成小订单进行交易。基于此，本报告构建 $DPIN_{SMALL}$ 因子。具体而言，增加表示小订单的虚拟变量。在交易日t内，当股票i在区间j内的总交易量小于当日各个区间内总交易量的中位数，则虚拟变量赋值为1，此时未预期收益为正(负)情况下的卖(买)单反映知情交易概率，反之为0。公式如下：
 
 $$
-DPIN_{SMALL}^{i,j}=\left[\frac{NB_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}<0\right)+\frac{NS_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}>0\right)\right]\left(ST_{i,j}\right)
+DPIN_{SMALL}^{i,j}=\left[\frac{NB_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}<0\right)+\frac{NS_{i,j}}{NT_{i,j}}*\left(\epsilon_{i,j}>0\right)\right](ST_{i,j})
 $$
 
-其中， $NB_{i,j}$ $NS_{i,j}$ $NT_{i,j}$ 分别为指定日t，股票i在日内区间j的主买成交笔数、主卖成交笔数、总成交笔数。 $\left(\epsilon_{i,j}<0\right)$ 为虚拟变量，当未预期收益 $\epsilon_{i,j}$ 为负，取值为1，否则为0。 $(\epsilon_{i,j}>0)$ 取值同理可得。 $\mathbb{S}T_{i,j}$ 为判断小订单的虚拟变量。
+其中， $NB_{i,j}$ $NS_{i,j}$ $NT_{i,j}$ 分别为指定日t，股票i在日内区间j的主买成交笔数、主卖成交笔数、总成交笔数。 $\left(\epsilon_{i,j}<0\right)$ 为虚拟变量，当未预期收益 $.\epsilon_{i,j}$ 为负，取值为1，否则为0。 $(\epsilon_{i,j}>0)$ 取值同理可得。 $ST_{i,j}$ 为判断小订单的虚拟变量。
 
 相比之前的信息优势交易概率模型，DPIN模型具有计算简便、实时更新、频率选择灵活等优点，一方面能够通过自回归模型综合考虑个股收益的时变特性，同时兼顾截面交易量占比特征；另一方面能够通过计算高频因子均值、标准差等统计特征，实现股票日内交易结构特征刻画与降频因子构建。此外，该模型能够适应不同股票市场，从日内交易活动的角度出发，作为信息不对称程度的直接度量。
 
@@ -279,7 +279,7 @@ $DPIN_{BASE}$ 等因子均通过对所有日内5分钟频率DPIN因子值取均�
 
 $DPIN_{BASE}^{MEAN}$ 等因子均通过对所有日内5分钟频率DPIN因子值取均值获得，仅能够刻画个股日内DPIN因子的平均水平，本研究将对所有日内DPIN因子值计算标准差、均值标准差比值，构建DPINBASESTD 、 $DPIN_{BASE}^{STABLE}$ 等因子，以刻画个股日内信息优势交易的分散程度与稳定性。
 
-根据DPIN模型的定义以及时间特征与统计特征的考虑，本篇专题报告构建DPIN类因子，用来衡量个股的动态日内信息优势交易概率。详细地，本报告将构建3类考虑行为特征的DPIN因子 $(DPIN_{BASE}\cdot~DPIN_{SIZE}\cdot~DPIN_{SMALL})$ ，并在此基础上，分别构建4类考虑时间特征的DPIN因子$\left(DPIN_{AM},~DPIN_{MIDDLE},~DPIN_{PM},~DPIN_{TOTAL}\right)$ 以及3类考虑统计特征的DPIN因子$(DPIN_{MEAN},~DPIN_{STD}\cdot~DPIN_{STABLE})$ ，共计36个DPIN类因子。
+根据DPIN模型的定义以及时间特征与统计特征的考虑，本篇专题报告构建DPIN类因子，用来衡量个股的动态日内信息优势交易概率。详细地，本报告将构建3类考虑行为特征的DPIN因子 $(DPIN_{BASE},DPIN_{SIZE},DPIN_{SMALL})$ ，并在此基础上，分别构建4类考虑时间特征的DPIN因子$(DPIN_{AM}、DPIN_{MIDDE}、DPIN_{PM}、DPIN_{TOTAL})$ 以及3类考虑统计特征的DPIN因子$(DPIN_{MEAN},DPIN_{STD},DPIN_{STABLE})$ ，共计36个DPIN类因子。
 
 ## （二）DPIN 因子计算步骤
 
@@ -287,47 +287,47 @@ $DPIN_{BASE}^{MEAN}$ 等因子均通过对所有日内5分钟频率DPIN因子值
 
 ## 1. 考虑行为特征的DPIN类因子(DPINBASE、 $DPIN_{SIZE}$ 、DPINSMALL)
 
-计算步骤一(求未预期收益 $\cdot\epsilon_{i,j}^{t})$ ：以股票i在交易日t (假设为周二)的第2个交易区间(5分钟频率，即9:35-9:40)为例，将该区间作为最新数据组，滚动选取过去21个交易日的数据组，进行多元线性回归，求取该区间的股票i的未预期收益 $\epsilon_{i,2}^{t}$ 。注意，回归前已剔除停牌、涨跌停交易区间的数据组。
+计算步骤一(求未预期收益 $|\epsilon_{i,j}^{t}\rangle$ ：以股票i在交易日t (假设为周二)的第2个交易区间(5分钟频率，即9:35-9:40)为例，将该区间作为最新数据组，滚动选取过去21个交易日的数据组，进行多元线性回归，求取该区间的股票i的未预期收益 $\mathbf{.}\epsilon_{i,2}^{t}$ 。注意，回归前已剔除停牌、涨跌停交易区间的数据组。
 
 图 2：考虑行为特征的DPIN类因子计算步骤一
 
 $$
-\{\begin{array}{ll}\begin{array}{rl}&\Biggl(\begin{array}{c}{I^{(0,1,0)}}\\{R_{1}^{1,0}-\gamma\epsilon_{3}+\frac{\gamma\epsilon_{3}\epsilon_{4}}{2\sqrt{3}}L_{3}\omega^{3\prime}+\frac{\gamma\epsilon_{3}\epsilon_{3}\epsilon_{4}}{2\sqrt{3}}L_{4}\omega^{3\prime}R_{4}^{3\prime\prime}+\gamma_{34}\epsilon_{5}R_{6}^{3\prime\prime}\frac{\gamma\epsilon_{3}+\gamma_{16}}{4\sqrt{3}}\epsilon_{5}\frac{\gamma\epsilon_{5}\beta\mu+\hat{\Delta}\epsilon_{4}}{2\sqrt{3}}\epsilon_{6}}\\{R_{1}^{1,0}-\gamma\epsilon_{5}+\frac{\gamma\epsilon_{5}\gamma_{4}\sqrt{3}}{2\sqrt{3}}L_{3}^{0\prime\prime}+\frac{\gamma\epsilon_{5}\gamma_{2}\sqrt{3}}{2\sqrt{3}}L_{3}^{0\prime\prime}R_{5}^{1\prime\prime}+\gamma_{16}R_{4}^{3\prime\prime}R_{4}^{3\prime\prime}+\gamma_{16}R_{5}^{1\prime\prime}R_{5}^{2\prime\prime}+\frac{\gamma_{5}\beta\mu+\hat{\Delta}\epsilon_{4}}{2\sqrt{3}}\epsilon_{5}^{2}\frac{\gamma_{6}}{2\sqrt{3}}}\\R_{1}^{1,0}-\gamma_{5}+\frac{\gamma_{5}\gamma_{4}\sqrt{3}}{2\sqrt{3}}R_{3}^{0\prime\prime}+\frac{\gamma_{5}\gamma_{2}\sqrt{3}}{2\sqrt{3}}R_{4}^{0\prime\prime}+\gamma_\end{array}\end{array}\end{array}
+\begin{aligned}&\begin{aligned}\\&\begin{cases}\\&B_{11}^{l_{1}}=\gamma_{0}+\frac{\gamma_{0}^{l}(0,1,0,0)}{\sum\limits_{i=1}^{M}\gamma_{1i}\gamma_{1i}\Delta R_{0}^{0,0}+\sum\limits_{i=1}^{M}\gamma_{2i}\gamma_{2i}\Delta R_{1}^{0,0}+\gamma_{3i}\Delta R_{2}^{0,0}+\gamma_{4i}\Delta R_{3}^{0,0}+\cdots+\gamma_{3i}\Delta R_{3}^{0,0}+\varepsilon_{12}^{l_{1}}+\varepsilon_{2}^{l_{2}}}\\&B_{12}^{l_{1}}=\gamma_{0}+\frac{\gamma_{0}^{l}(0,1,0,0)}{\sum\limits_{i=1}^{M}\gamma_{1i}\gamma_{1i}\Delta R_{0}^{0,0}+\gamma_{2i}\Delta R_{1}^{0,0}+\gamma_{3i}\Delta R_{2}^{0,0}+\gamma_{4i}\Delta R_{2}^{0,0}+\cdots+\gamma_{3i}\Delta R_{3}^{0,0}+\varepsilon_{2}^{l_{1}}+\varepsilon_{3}^{l_{2}}+\varepsilon_{4}^{l_{2}}+\varepsilon_{4}^{l_{3}}+\varepsilon_{5}^{l_{3}}+\varepsilon_{6}^{l_{4}}+\varepsilon_{7}^{l_{5}}+\varepsilon_{7}^{l_{5}}+\varepsilon_{8}^{l_{5}}+\varepsilon_{8}^{l_{6}}+\varepsilon_{9}^{l_{7}}+\varepsilon_{10}^{l_{8}}+\varepsilon_{11}^{l_{9}}+\varepsilon_{12}^{l_{8}}+\varepsilon_{13}^{l_{9}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{11}^{l_{1}}+\varepsilon_{12}^{l_{1}}\\&B_{13}^{l_{1}}=\gamma_{0}+\frac{\gamma_{0}^{l}}{\sum\limits_{i=1}^{M}\gamma_{1i}\Delta R_{0}^{0,0}+\sum\limits_{i=1}^{M}\gamma_{2i}\Delta R_{1}^{0,0}+\gamma_{3i}\Delta R_{1}^{0,0}+\gamma_{4i}\Delta R_{2}^{0,0}+\gamma_{5i}\Delta R_{3}^{0,0}+\cdots+\gamma_{5i}\Delta R_{3}^{0,0}+\varepsilon_{13}^{l_{9}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{12}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{12}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_{13}^{l_{1}}+\varepsilon_\end{cases}\end{aligned}\end{aligned}
 $$
 
 数据来源：Wind，广发证券发展研究中心
 
-计算步骤二(求DPIN因子值)：本研究使用5分钟频率数据，单个交易日共划分48个区间时段。根据步骤一获取的区间未预期收益 $\epsilon_{i,j}^{t}$ ，判断区间未预期数据正负号，当判断结果为是(否)，则 $DPIN_{BASE}$ 因子值为区间主卖(主买)成交笔数占区间总成交笔数的比重。同时，根据区间成交金额数据，计算单日区间成交金额中位数，并判断日内区间成交金额是否超过该中位数。当判断结果为是(否)，则利用区间主买/主卖成交笔数数据计算 $DPIN_{SIZE}(DPIN_{SMALL})$ 因子值；当判断结果为否(是)，则对$DPIN_{SIZE}(DPIN_{SMALL})$ 因子值赋值为0。
+计算步骤二(求DPIN因子值)：本研究使用5分钟频率数据，单个交易日共划分48个区间时段。根据步骤一获取的区间未预期收益 $.\epsilon_{i,j}^{t}$ ，判断区间未预期数据正负号，当判断结果为是(否)，则 $DPIN_{BASE}$ 因子值为区间主卖(主买)成交笔数占区间总成交笔数的比重。同时，根据区间成交金额数据，计算单日区间成交金额中位数，并判断日内区间成交金额是否超过该中位数。当判断结果为是(否)，则利用区间主买/主卖成交笔数数据计算 $.DPIN_{SIZE}(DPIN_{SMALL})$ 因子值；当判断结果为否(是)，则对$DPIN_{SIZE}(DPIN_{SMALL})$ 因子值赋值为0。
 
 图 3：考虑行为特征的DPIN类因子计算步骤二
 
 |  | 底层数据 |  |  |  | 示性变量判断 |  | DPIN类因子计算 |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 交易 区间 | 区间未预 期收益 | 区间主 买成交 笔数 | 区间主卖 成交笔数 | 区间成交 金额 | 区间未预 期收益正 负号方向 | 区间成交金 额是否超过 日中位数 | DPIN_BASE |  | DPIN_SIZE | DPIN_SMALL |
-| 1 | $\epsilon_{i,1}$ | $B_{1}$ | $S_{1}$ | $A\mathrm{mt}_{\mathrm{i},1}$ | 正 | 是 | $DPIN_{\mathrm{BASE}}^{i,1}=\frac{S_{1}}{B_{1}+S_{1}}$ |  | $DPIN_{\mathtt{SIZE}}^{i,1}=\frac{S_{1}}{B_{1}+S_{1}}$ | $DPIN_{\mathrm{S}MALL}^{i,1}=0$ |
-| 2 | $\epsilon_{i,2}$ | $B_{2}$ | S2 | $A\mathrm{mt}_{\mathrm{i},2}$ | 负 | 是 | $DPIN_{\mathrm{BASE}}^{i,2}=\frac{B_{2}}{B_{2}+S_{2}}$ |  | $DPIN_{\mathrm{SIZE}}^{i,2}=\frac{B_{2}}{B_{2}+S_{2}}$ | $DPIN_{\mathsf{SMALL}}^{i,2}=0$ |
+| 1 | $\epsilon_{i,1}$ | $B_{1}$ | $S_{1}$ | $A\mathrm{mt}_{\mathrm{i},1}$ | 正 | 是 | $DPIN_{\mathrm{BASE}}^{i,1}=\frac{S_1}{B_1+S_1}$ |  | $DPIN_{\mathrm{SIZE}}^{i,1}=\frac{S_{1}}{B_{1}+S_{1}}$ | $DPIN_{SMALL}^{i,1}=0$ |
+| 2 | $\epsilon_{i,2}$ | $B_{2}$ | S2 | $A\mathrm{mt}_{\mathrm{i},2}$ | 负 | 是 | $DPIN_{\mathrm{BASE}}^{i,2}=\frac{B_2}{B_2+S_2}$ |  | $DPIN_{\mathrm{SIZE}}^{i,2}=\frac{B_{2}}{B_{2}+S_{2}}$ | $DPIN_{SMALL}^{i,2}=0$ |
 | … | … | … | … | ……… | …… | … | … |  | … | ……… |
-| 47 | $\epsilon_{i,47}$ | $B_{47}$ | $S_{47}$ | $A\mathrm{mt_{i,47}}$ | 负 | 否 | $DPIN_{\mathrm{BASE}}^{i,47}=\frac{B_{47}}{B_{47}+S_{47}}$ |  | $DPIN_{\mathrm{SIZE}}^{i,47}=0$ | $DPIN_{SMALL}^{i,47}=\frac{B_{47}}{B_{47}+S_{47}}$ |
-| 48 | $\epsilon_{i,48}$ | $B_{48}$ | $S_{48}$ | $\boldsymbol{A}\mathrm{mt}_{\mathrm{i},48}$ | 正 | 是 | $DPIN_{\mathrm{BASE}}^{i,48}={\frac{S_{48}}{B_{48}+S_{48}}}$ |  | $DPIN_{\mathrm{SIZE}}^{i,48}=\frac{S_{48}}{B_{48}+S_{48}}$ | $DPIN_{\mathsf{SMALL}}^{i,48}=0$ |
-|  | 股票i，交易日t，知情交易概率值DPIN类因子 |  |  |  |  |  | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}$ | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}$ |  | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}$ |
+| 47 | $\epsilon_{i,47}$ | $B_{47}$ | $S_{47}$ | $A\mathrm{mt}_{\mathrm{i},47}$ | 负 | 否 | $DPIN_{BASE}^{i,47}=\frac{B_{47}}{B_{47}+S_{47}}$ |  | $DPIN_{\mathrm{SIZE}}^{i,47}=0$ | $DPIN_{\mathrm{SMALL}}^{i,47}=\frac{B_{47}}{B_{47}+S_{47}}$ |
+| 48 | $\epsilon_{i,48}$ | $B_{48}$ | $S_{48}$ | $A\mathrm{mt}_{\mathrm{i},48}$ | 正 | 是 | $DPIN_{BASE}^{i,48}=\frac{S_{48}}{B_{48}+S_{48}}$ |  | $DPIN_{SIZE}^{i,48}=\frac{S_{48}}{B_{48}+S_{48}}$ | $DPIN_{SMALL}^{i,48}=0$ |
+|  | 股票i，交易日t，知情交易概率值DPIN类因子 |  |  |  |  |  | $\frac{1}{48}{\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}}$ | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}$ |  | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}$ |
 
 数据来源：Wind，广发证券发展研究中心
 
-## 2. 考虑时间特征的DPIN类因子 $(DPIN_{AM}$ $\pmb{DPIN}_{MIDDLE}$ $DPIN_{PM}$ ${DPIN}_{TOTAL})$
+## 2. 考虑时间特征的DPIN类因子 $(DPIN_{AM}$ $DPIN_{MIDDLE}$ $DPIN_{PM}$ $\overline{{DPIN_{TOTAL}}})$
 
 由于本研究使用5分钟频率数据，因此，单个交易日共划分48个区间时段。早盘(09:30-10:00)、盘中(10:00-14:30)、尾盘(14:30-15:00)的DPIN因子值分别利用日内区间数据点进行构建。例如，日度DPIN_BASE_ AM_MEAN因子，可通过对09:30-10:00共6个5分钟频率 $DPIN_{BASE}$ 因子值求均值获取，其余因子值计算方式同理可得。
 
 表 2：考虑时间特征的 DPIN 类因子计算步骤
 
-| 因子分类 | $DPI\mathbf{N_{TOTAL}}$ | $DPIN_{AM}$ | $DPIN_{MIDDLE}$ | $DPIN_{PM}$ |
+| 因子分类 | ${\cal DPIN}_{\mathrm{TOTAL}}$ | $DPIN_{AM}$ | $DPIN_{MIDDLE}$ | $DPIN_{PM}$ |
 | --- | --- | --- | --- | --- |
-| DPIN_BASE | $\frac{1}{48}\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}$ | $\frac{1}{6}\sum_{\mathrm{j}=1}^{6}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}$ | $\frac{1}{36}\sum_{\mathrm{j}=7}^{42}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}$ | $\frac{1}{6}\sum_{\mathrm{j}=43}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}$ |
-| DPIN_SIZE | $\frac{1}{48}\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}$ | $\frac{1}{6}\sum_{\mathrm{j=1}}^{6}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}$ | $\frac{1}{36}\sum_{\mathrm{j=7}}^{42}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}$ | $\frac{1}{6}\sum_{\mathrm{j=43}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}$ |
-| DPIN_SMALL | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}$ | $\frac{1}{6}\sum_{\mathrm{j}=1}^{6}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}$ | $\frac{1}{36}\sum_{\mathrm{j=7}}^{42}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}$ | $\frac{1}{6}\sum_{\mathrm{j}=43}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}$ |
+| DPIN_BASE | $\frac{1}{48}{\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}}$ | $\frac{1}{6}{\sum_{\mathrm{j}=1}^{6}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}}$ | $\frac{1}{36}{\sum_{\mathrm{j}=7}^{42}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}}$ | $\frac{1}{6}{\sum_{\mathrm{j}=43}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}}$ |
+| DPIN_SIZE | $\frac{1}{48}{\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}}$ | $\frac{1}{6}{\sum_{\mathrm{j=1}}^{6}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}}$ | $\frac{1}{36}{\sum_{\mathrm{j}=7}^{42}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}}$ | $\frac{1}{6}{\sum_{\mathrm{j}=43}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}}$ |
+| DPIN_SMALL | $\frac{1}{48}\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}},$ | $\frac{1}{6}{\sum_{\mathrm{j=1}}^{6}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}},$ | $\frac{1}{36}\sum_{\mathrm{j}=7}^{42}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}$ | $\frac{1}{6}{\sum_{\mathrm{j}=43}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}}$ |
 
 数据来源：Wind，广发证券发展研究中心
 
-## 3. 考虑统计特征的DPIN类因子 $(DPIN_{MEAN}$ $\pmb{DPIN}_{sTD}$ $DPIN_{STABLE})$
+## 3. 考虑统计特征的DPIN类因子 $\left(DPIN_{MEAN}\right.$ $DPIN_{STD}$ $\overline{{DPIN}}_{STABLE})$
 
 以DPIN_BASE_TOTAL_STD因子为例，进行计算步骤说明。对于股票i在交易日t的日度DPIN_BASE_TOTAL_STD因子值，可通过对股票i在当日所有5分钟频率的 $DPIN_{BASE}$ 因子值计算标准差获取，其余因子值计算方式同理可得。
 
@@ -335,9 +335,9 @@ $$
 
 | 因子分类 | DPINMEAN | $DPIN_{STD}$ |  | $DPIN_{STABLE}$ |
 | --- | --- | --- | --- | --- |
-| DPIN_BASE | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}=\mathrm{MEAN}\left(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}\right)$ |  | $\mathrm{STD}\left(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}\right)$ | $\begin{array}{r}{\mathsf{MEAN}\big(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}\big)}\end{array}$ $\begin{array}{r}{\mathrm{STD}\big(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}\big)}\end{array}$ |
-| DPIN_SIZE | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}=MEAN\left(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}\right)$ |  | $STD\left(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}\right)$ | $\begin{array}{r}{\mathsf{MEAN}\big(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}\big)}\end{array}$ $\begin{array}{r}{\mathrm{STD}\big(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}\big)}\end{array}$ |
-| DPIN_SMALL | $\frac{1}{48}\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}=MEAN\left(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{S}MALL}^{i,\mathrm{j}}\right)$ |  | $STD\left(\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{S}MALL}^{i,\mathrm{j}}\right)$ | $\begin{array}{r}{\mathsf{MEAN}\big(\sum_{\mathrm{j=1}}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}\big)}\end{array}$ $\begin{array}{r}{\mathrm{STD}\big(\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{S}MALL}^{i,\mathrm{j}}\big)}\end{array}$ |
+| DPIN_BASE | $\frac{1}{48}\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}=\mathrm{MEAN}\left(\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}\right)$ |  | $\mathrm{STD}\left(\sum_{\mathrm{j}=1}^{48}\mathrm{DPIN}_{\mathrm{BASE}}^{i,\mathrm{j}}\right)$ | $\begin{array}{r}{\mathrm{MEAN}\left(\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{BASE}}^{i,\mathrm{j}}\right).}\end{array}$ $\mathrm{STD}(\sum_{\mathrm{j}=1}^{48}\mathrm{DPI}\mathrm{N}_{\mathrm{BASE}}^{\mathrm{i,j}})$ |
+| DPIN_SIZE | $\frac{1}{48}\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}=MEAN\left(\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{SIZE}}^{i,\mathrm{j}}\right)$ |  | $STD\left(\sum_{j=1}^{48}DPIN_{SIZE}^{i,j}\right)$ | $\begin{array}{r}{\mathrm{MEAN}\left(\sum_{\mathrm{j}=1}^{48}\mathrm{DPIN}_{\mathrm{SIZE}}^{i,\mathrm{j}}\right)}\end{array}$ $\mathrm{STD}(\sum_{\mathrm{j}=1}^{48}\mathrm{DPI}N_{\mathrm{SIZE}}^{\mathrm{i,j}})$ |
+| DPIN_SMALL | $\frac{1}{48}\sum_{\mathrm{j}=1}^{48}DPIN_{SMALL}^{i,\mathrm{j}}=MEAN\left(\sum_{\mathrm{j}=1}^{48}DPIN_{SMALL}^{i,\mathrm{j}}\right)$ |  | $STD\left(\sum_{j=1}^{48}DPIN_{SMALL}^{i,j}\right)$ | $\begin{array}{r}{\mathrm{MEAN}\left(\sum_{\mathrm{j}=1}^{48}DPIN_{\mathrm{SMALL}}^{i,\mathrm{j}}\right)}\end{array}$ $\mathrm{STD}(\sum_{\mathrm{j}=1}^{48}\mathrm{DPI}\mathrm{N}_{\mathrm{SMAL}}^{\mathrm{i},\mathrm{j}})$ |
 
 数据来源：Wind，广发证券发展研究中心
 
@@ -347,7 +347,7 @@ $$
 
 ## （一）DPIN因子日内特征分析
 
-对于5分钟频率的个股DPIN因子值，首先对全市场个股计算截面均值，其次对各年度内所有交易日的因子值计算时序均值，可获得如下 $\it{DPIN_{BASE}}\cdot\ DPIN_{SIZE}$ $DPIN_{SMALL}$ 因子值的日内走势。
+对于5分钟频率的个股DPIN因子值，首先对全市场个股计算截面均值，其次对各年度内所有交易日的因子值计算时序均值，可获得如下 $DPIN_{BASE}、DPIN_{SIZE}$ $DPIN_{SMALL}$ 因子值的日内走势。
 
 如下图所示， $DPIN_{BASE}$ 因子整体呈“U型”特征。 $DPIN_{SIZE}$ 因子整体呈“U型”特征，说明开盘、收盘时段大单信息优势交易概率高的研究结论； $DPIN_{SMALL}$ 因子整体呈“倒U型”特征，说明市场交易不活跃时段小单信息优势交易概率高的研究结论。
 
@@ -371,7 +371,7 @@ $$
 
 本篇报告构造如下交易策略：在调仓日买进信息优势交易概率最低的股票组合，同时卖出信息优势交易概率最高的股票组合。
 
-## 2. $\pmb{DPIN}_{STD}$ 类因子交易策略
+## 2. $DPIN_{STD}$ 类因子交易策略
 
 个股的5分钟频率的DPIN度量反映了个股动态日内信息优势交易概率。 $DPIN_{STD}$ 类因子则反映了日内DPIN因子的分散程度。
 
@@ -403,9 +403,9 @@ $DPIN_{STABLE}$ 类因子反映了日内DPIN因子的稳定性。本报告针对
 
 按照统计特征分类，本小节分别对 $DPIN_{MEAN}$ $DPIN_{STD}$ $DPIN_{STABLE}$ 类因子的分档表现进行展示。
 
-## 1. 因子分档表现 $DPIN_{MEAN}$ 类因子
+## 1. 因子分档表现 $DPIN_{MEAN^{\prime}}$ 类因子
 
-从行为特征角度来看， $DPIN_{BASE}^{TOTAL}$ $DPIN_{SIZE}^{TOTAL}$ 因子分层效果显著， $DPIN_{SMALL}^{TOTAL}$ 因子分层效果不明显。从时间特征角度来看， $DPIN_{BASE}$ 的早盘、盘中时段均值聚合因子具有明显分层效果； $DPIN_{SIZE}.\ DPIN_{SMALL}$ 的盘中、尾盘时段均值聚合因子具有明显分层效果。
+从行为特征角度来看， $DPIN_{BASE}^{TOTAL}$ $DPIN_{SIZE}^{TOTAL}$ 因子分层效果显著， $DPIN_{SMALL}^{TOTAL}$ 因子分层效果不明显。从时间特征角度来看， $DPIN_{BASE}$ 的早盘、盘中时段均值聚合因子具有明显分层效果； $DPIN_{SIZE}、DPIN_{SMALL}$ 的盘中、尾盘时段均值聚合因子具有明显分层效果。
 
 图 7：DPIN_BASE_MEAN_AM因子十档周度
 ![](images/5ef80c3688cee5d0a664aa153050cba1322c72b4ed037973fed1bcae6d4f2021.webp)
@@ -509,7 +509,7 @@ BASE SIZE因子均呈现显著分层效果。从时间特征角度来看， $DPI
 
 ## 3. 因子分档表现-DPINSTABLE类因子
 
-从行为特征角度来看， $DPIN_{BASE}^{TOTAL}$ $DPIN_{SIZE}^{TOTAL}$ 、DPINSMALLTOTAL因子均呈现显著分层效果。从时间特征角度来看， $DPIN_{BASE}\cdot\ DPIN_{SMALL}$ 的盘中、尾盘时段均值标准差比聚合因子具有明显分层效果； $DPIN_{SIZE}$ 的尾盘时段均值标准差比聚合因子具有明显分层效果。
+从行为特征角度来看， $DPIN_{BASE}^{TOTAL}$ $DPIN_{SIZE}^{TOTAL}$ 、DPINSMALLTOTAL因子均呈现显著分层效果。从时间特征角度来看， $DPIN_{BASE}、DPIN_{SMALL}$ 的盘中、尾盘时段均值标准差比聚合因子具有明显分层效果； $DPIN_{SIZE}$ 的尾盘时段均值标准差比聚合因子具有明显分层效果。
 
 图 31：DPIN_BASE_STABLE_AM因子十档周度
 ![](images/3898ee1911a568feac48d63982874af8b8a9130c1cd1a0c0739b1bd9ddafe517.webp)
@@ -565,7 +565,7 @@ BASE SIZE因子均呈现显著分层效果。从时间特征角度来看， $DPI
 
 ## （三）DPIN因子实证结果
 
-## 1. 实证结果 $\mathbf{\nabla}\cdot DPIN_{MEAN}$ 类因子
+## 1. 实证结果 $-DPIN_{MEAN}$ 类因子
 
 整体来看，绝大部分 $\cdot DPIN_{MEAN}$ 类因子在方向上与构建的交易策略保持一致，即因子值越小，股票未来收益表现越好。该类因子的IC表现、多空策略表现与因子分档测试结果一致，多头相对基准策略表现出现分化，各因子值的多头平均换手率在70%-85%范围内。具体来看，其中5个因子在IC分析、多空策略绩效、多头相对基准策略绩效上均有较好表现。
 
@@ -1027,7 +1027,7 @@ BASE SIZE因子均呈现显著分层效果。从时间特征角度来看， $DPI
 
 数据来源：Wind，广发证券发展研究中心
 
-综合 $\cdot DPIN_{MEAN}$ $DPIN_{STD}$ $DPIN_{STABLE}$ 三大类因子的实证分析结果，在因子层面，整体绩效表现排序为 $DPIN_{STD}>DPIN_{STABLE}>DPIN_{MEAN}$ 。由于 $DPIN_{STD}$ $DPIN_{STABLE}$ 两类因子能够从股票日内交易结构的角度刻画信息优势交易概率，从而反映DPIN因子在分散度、稳定性方面的多维信息，因此该因子在因子分档测试、IC值表现方面都具有更好的表现。
+综合 $\cdot DPIN_{MEAN}$ $DPIN_{STD}$ $DPIN_{STABLE}$ 三大类因子的实证分析结果，在因子层面，整体绩效表现排序为 $DPIN_{STD}>DPIN_{STABLE}>DPIN_{MEAN}$ 。由于 $:DPIN_{STD}$ $DPIN_{STABLE}$ 两类因子能够从股票日内交易结构的角度刻画信息优势交易概率，从而反映DPIN因子在分散度、稳定性方面的多维信息，因此该因子在因子分档测试、IC值表现方面都具有更好的表现。
 
 对于DPIN类因子在不同选股范围内、不同调仓频率下是否适用，本报告将在敏感性分析部分进行详细测试。
 
@@ -1053,7 +1053,7 @@ CNE6版本的BARRA因子模型将股票因子划分为市场、价值、成长�
 | liquidity | STOM | 过去21个交易日的换手率之和的对数值 |
 | long_term_reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益率的差额累 |
 |  |  | 计和，得到 RSTR 因子 |
-|  |  | $RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})]$ |
+|  |  | $RSTR=\sum_{L}^{T+L}w_{t}[\ln(1+r_{t}^{i})-\ln(1+r_{t}^{f})],$ |
 | mid_capitallization | MIDCAP | 用截面上个股的对数流通市值的三次方对对数流通市值进行回归，对回归残差进行MAD去极值 |
 |  |  | 与中性化处理，获得MIDCAP因子 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回归，得到截距 |
 | momentum | HALPHA | 项 α 为 HALPHA 因子 $r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}$ |
@@ -1071,7 +1071,7 @@ CNE6版本的BARRA因子模型将股票因子划分为市场、价值、成长�
 
 对于 $DPIN_{STD}$ 类因子，总体上与流动性因子STOM、动量因子HALPHA、残差波动率因子HSIGMA具有较高的负相关性。具体而言， $DPIN_{STD}$ 类因子与STOM因子相关性在-12%至-53%之间，与HALPHA因子相关性在-5%至-26%之间，与HSIGMA因子相关性在-10%至-27%之间。此外， $DPIN_{STD}$ 类因子与市场风险因子HBETA、账面市值比因子BTOP、长期趋势反转因子RSTR均存在显著的相关性。
 
-对于 $DPIN_{STABLE}$ 类因子，相关性程度与 $DPIN_{STD}$ 类因子保持一致，方向上与
+对于 $:DPIN_{STABLE}$ 类因子，相关性程度与 $DPIN_{STD}$ 类因子保持一致，方向上与
 
 $DPIN_{STD}$ 类因子基本相反。
 
@@ -1144,7 +1144,7 @@ $DPIN_{STD}$ 类因子基本相反。
 
 ## （一）敏感性分析-调仓频率
 
-## 1. 调仓频率敏感性分析—— $\mathbf{\nabla}\cdot DPIN_{MEAN}$ 类因子
+## 1. 调仓频率敏感性分析—— $\cdot DPIN_{MEAN}$ 类因子
 
 整体来看，当因子调仓频率越高时，IC值的T统计量越显著，多空策略收益越高，多头相对基准策略收益越高，多头平均换手率越高。
 
@@ -1171,7 +1171,7 @@ IC分析方面，对于调仓频率角度，调仓频率越高，IC均值越低�
 
 数据来源：Wind，广发证券发展研究中心
 
-多空策略方面，对于调仓频率角度，大部分DPIN类因子在3日调仓频率下，信息比率最高，个别DPIN类因子在低频调仓时，信息比率具有更好表现。对于行为特征角度， $\it{DPIN_{BASE}}\cdot\ DPIN_{SIZE}$ 类因子信息比率相对较高，3日调仓下均为2.6。对于时间特征角度，早盘交易时段数据构建的 $DPIN_{SIZE}$ 因子信息比率最高，3日调仓下为2.7，盘中、尾盘交易时段数据构建的 $DPIN_{SMALL}$ 因子信息比率最高，3日调仓下分别为3.9，5.9。
+多空策略方面，对于调仓频率角度，大部分DPIN类因子在3日调仓频率下，信息比率最高，个别DPIN类因子在低频调仓时，信息比率具有更好表现。对于行为特征角度， $DPIN_{BASE}、DPIN_{SIZE}$ 类因子信息比率相对较高，3日调仓下均为2.6。对于时间特征角度，早盘交易时段数据构建的 $DPIN_{SIZE}$ 因子信息比率最高，3日调仓下为2.7，盘中、尾盘交易时段数据构建的 $DPIN_{SMALL}$ 因子信息比率最高，3日调仓下分别为3.9，5.9。
 
 表 27：DPIN_MEAN 因子不同调仓周期下的多空策略表现
 
@@ -1288,7 +1288,7 @@ IC分析方面，对于调仓频率角度，调仓频率越高，IC均值越低�
 
 数据来源：Wind，广发证券发展研究中心
 
-多头相对基准策略方面，对于调仓频率角度，绝大部分DPIN类因子在2日调仓频率下，信息比率最高，仅 $DPIN_{SMALL}^{AM}\ntrianglerighteq$ 子在3日调仓时，信息比率具有更好表现。对于行为特征角度， $DPIN_{BASE}$ 类因子信息比率相对较高，2日调仓下为1.8。对于时间特征角度，早盘、盘中、尾盘交易时段数据构建的 $DPIN_{BASE}$ 因子信息比率最高，2日调仓下分别为1.4、1.7与1.5。
+多头相对基准策略方面，对于调仓频率角度，绝大部分DPIN类因子在2日调仓频率下，信息比率最高，仅 $DPIN_{SMALL}^{AM}$ 子在3日调仓时，信息比率具有更好表现。对于行为特征角度， $DPIN_{BASE}$ 类因子信息比率相对较高，2日调仓下为1.8。对于时间特征角度，早盘、盘中、尾盘交易时段数据构建的 $DPIN_{BASE}$ 因子信息比率最高，2日调仓下分别为1.4、1.7与1.5。
 
 表 32：DPIN_STD 因子不同调仓周期下的多头-基准策略表现
 
@@ -1430,7 +1430,7 @@ IC分析方面，对于调仓频率角度，调仓频率越高，IC均值越低�
 
 ## （二）敏感性分析-选股范围
 
-## 1. 选股范围敏感性分析—— $\mathbf{\nabla}\cdot DPIN_{MEAN}$ 类因子
+## 1. 选股范围敏感性分析—— $\cdot DPIN_{MEAN}$ 类因子
 
 对具体DPIN因子在不同选股范围内的绩效表现进行横向比较， $DPIN_{MEAN}$ 类因子在中证1000选股范围内具有更好的表现。
 
@@ -1524,7 +1524,7 @@ IC分析方面，对于选股范围角度，创业板、中证1000范围内选�
 
 数据来源：Wind，广发证券发展研究中心
 
-## 2. 选股范围敏感性分析—— $.DPIN_{STD}$ 类因子
+## 2. 选股范围敏感性分析—— $\cdot DPIN_{STD}$ 类因子
 
 对具体DPIN因子在不同选股范围内的绩效表现进行横向比较， $DPIN_{STD}$ 类因子在中证1000选股范围内具有更好的表现。
 
@@ -1723,7 +1723,7 @@ IC分析方面，对于选股范围角度，绝大部分因子在创业板指范
 
 对于 $\cdot DPIN_{STD}$ 类因子而言，在全市场选股中，DPIN_BASE_MIDDLE_STD因子整体表现相对较好。IC值方面，因子IC均值为0.061，正IC占比72.4%。多空策略方面，策略整体年化收益率为44.3%，信息比率为3.16。多头相对中证800指数策略方面，策略整体的年化收益率为18.8%，信息比率为1.08。对于考虑行业中性化的多头相对中证800指数策略，整体的年化收益率为13.4%，信息比率为1.13。
 
-对于 $DPIN_{STABLE}$ 类因子而言，在全市场选股中DPIN_SMALL_TOTAL_STABLE因子整体表现相对较好。IC值方面，因子IC均值为-0.059，负IC占比72.4%。多空策略方面，策略整体年化收益率为41.5%，信息比率为2.82。多头相对中证800指数策略方面，策略整体的年化收益率为19.2%，信息比率为1.09。对于考虑行业中性化的多头相对中证800指数策略，整体的年化收益率为15.8%，信息比率为1.32。
+对于 $:DPIN_{STABLE}$ 类因子而言，在全市场选股中DPIN_SMALL_TOTAL_STABLE因子整体表现相对较好。IC值方面，因子IC均值为-0.059，负IC占比72.4%。多空策略方面，策略整体年化收益率为41.5%，信息比率为2.82。多头相对中证800指数策略方面，策略整体的年化收益率为19.2%，信息比率为1.09。对于考虑行业中性化的多头相对中证800指数策略，整体的年化收益率为15.8%，信息比率为1.32。
 
 通过对数据预处理后的DPIN因子和BARRA因子进行相关性分析，可以发现DPIN类因子与部分BARRA因子存在一定程度相关性，例如考虑行为特征的3类DPIN因子均表现出与流动性因子STOM存在一定程度的相关性。因此在考虑将DPIN类因子加入多因子模型前，须对DPIN类因子与现有因子进行相关性分析。
 

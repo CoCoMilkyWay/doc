@@ -136,7 +136,7 @@
 我们的预测目标是未来10个Tick（5秒）的收益率，计算方式为未来一段时间内的平均成交价格与当前中间价的比值减一：
 
 $$
-\mathrm{Return}(T,\Delta,M)=\mathrm{Average}\left[P_{t}^{\mathrm{txn}}:t\in\mathbf{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{forward}}(T,\Delta,\mathrm{M})\right]/P_{T}-1.
+\mathrm{Return}(T,\Delta,M)=\mathrm{Average}\left[P_{t}^{\mathrm{txn}}:t\in\mathrm{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{forward}}(T,\Delta,\mathrm{M})\right]/P_{T}-1.
 $$
 
 考虑到实际交易时将不可避免存在延迟，我们将预测目标的计算向后延迟了一个tick。公式中的T当前时点的下一个Tick，Δ为区间长度（此处为10个Tick），M为所选时钟（此处为日历时钟）。
@@ -148,7 +148,7 @@ $$
 线性回归模型的基本回归方程为：
 
 $$
-y=\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}+...+\beta_{n}x_{n}+\epsilon
+y=\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}+\ldots+\beta_{n}x_{n}+\epsilon
 $$
 
 其中，y是因变量（预测目标）， $\chi_{1},\chi_{2},\ldots\ldots,\chi_{n}$ 是自变量（因子值）， $\beta_{0}$ 是截距项， $\beta_{1}$ ,$\beta_{1},\ldots\ldots,\beta_{n}$ 是回归系数，ε 是误差项。
@@ -160,7 +160,7 @@ $$
 最小二乘法(OLS , Ordinary Least Squares)是一种常用的线性回归方法，OLS 模型假设自变量和因变量之间存在线性关系，并且误差项服从正态分布，具有同方差性和独立性。它通过最小化误差的平方和来寻找数据的最佳拟合线，最小化的目标函数如下：
 
 $$
-\begin{array}{r}{\operatorname*{min}_{\beta}\sum_{i=1}^{n}(y_{i}-(\beta_{0}+\beta_{1}x_{i1}+...+\beta_{n}x_{in}))^{2}}\end{array}
+\textstyle\operatorname*{min}_{\beta}\sum_{i=1}^{n}(y_{i}-(\beta_{0}+\beta_{1}x_{i1}+\ldots+\beta_{n}x_{in}))^{2}
 $$
 
 计算简单，容易实现。
@@ -180,7 +180,7 @@ $$
 岭回归（Ridge）是一种带有L2正则化的线性回归模型，它通过在损失函数中添加一个正则化项来解决普通最小二乘法在多重共线性情况下的参数不稳定问题。正则化项的系数λ是模型唯一需要调整的超参数，用于控制正则化的强度。该模型最小化的目标函数如下：
 
 $$
-\begin{array}{r}{\operatorname*{min}_{\beta}\left(\sum_{i=1}^{n}(y_{i}-\left(\beta_{0}+\beta_{1}x_{i1}+...+\beta_{n}x_{in}\right))^{2}+\lambda\sum_{j=1}^{n}\beta_{j}^{2}\right)}\end{array}
+\textstyle\operatorname*{min}_{\beta}\left(\sum_{i=1}^{n}(y_{i}-(\beta_{0}+\beta_{1}x_{i1}+\ldots+\beta_{n}x_{in}))^{2}+\lambda\sum_{j=1}^{n}\beta_{j}^{2}\right)
 $$
 
 解决了OLS在多重共线性问题下的参数不稳定问题。
@@ -200,7 +200,7 @@ $$
 LASSO 回归（Least absolute shrinkage and selection operator，最小绝对收缩和选择算子）是一种带有L1正则化的线性回归模型。与岭回归不同，LASSO倾向于产生稀疏的模型系数，即某些系数可以被压缩至零，从而实现特征选择的功能。另外，与岭回归不同，LASSO回归对自变量的缩放较敏感，通常需要对自变量做标准化或归一化处理。该模型最小化的目标函数如下：
 
 $$
-\begin{array}{r}{\operatorname*{min}_{\beta}\left(\sum_{i=1}^{n}(y_{i}-(\beta_{0}+\beta_{1}x_{i1}+...+\beta_{n}x_{in}))^{2}+\lambda\sum_{j=1}^{n}|\beta_{j}|\right)}\end{array}
+\textstyle\operatorname*{min}_{\beta}\left(\sum_{i=1}^{n}(y_{i}-(\beta_{0}+\beta_{1}x_{i1}+\ldots+\beta_{n}x_{in}))^{2}+\lambda\sum_{j=1}^{n}|\beta_{j}|\right)
 $$
 
 通过L1正则化实现特征选择，能排除无效特征。
@@ -287,7 +287,7 @@ LightGBM（Light Gradient Boosting Machine）是一个基于 GBDT 的高效、�
 
 我们训练模型的过程与原文献基本保持一致。训练具体流程如下：
 
-1.学习阶段（Learning）：对于每一组超参数和 $\begin{array}{r}{\mathrm{t=T,T+5,T+10,}}\end{array}$ ...等时间点，使用从第t天到第t+4天（共5个交易日）的数据来训练一个模型。在随后的5天区间[t+5, t+9]内评估这个模型，并为测试集中的每一天计算样本外R²，即得到 $R_{t+5}^{2},\quad\cdots R_{t+9}^{2}$
+1.学习阶段（Learning）：对于每一组超参数和 $t=\mathrm{T},\mathrm{T}+5,\mathrm{T}+10$ ...等时间点，使用从第t天到第t+4天（共5个交易日）的数据来训练一个模型。在随后的5天区间[t+5, t+9]内评估这个模型，并为测试集中的每一天计算样本外R²，即得到 $R_{t+5}^{2},\quad{\cdots\cdots}R_{t+9}^{2}$
 
 2.调参阶段（Tuning）：选择最大平均R²值的超参数组合（计算从T+5到T+19这段时间内所有测试日R²值的平均值，共有15个测试日），并固定这组超参数用于下一步的预测。
 

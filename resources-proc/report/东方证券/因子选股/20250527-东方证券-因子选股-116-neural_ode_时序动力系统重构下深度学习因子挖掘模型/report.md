@@ -91,47 +91,47 @@ ABCM：基于神经网络的alpha因子和beta 2024-12-03
 而对于一个标准的带 MLP 结构的 L 层残差网络前向传播的过程，我们可以将其表示为如下数学公式形式：
 
 $$
-\left.\begin{array}{c}{x_{l+1}=x_{l}+\mathcal{F}(x_{l},W_{l}),l=1,2,\ldots,L}\\{\hat{y}=F(x_{L})}\\{x_{0}=\widehat{x}}\end{array}\right.
+\left\{\begin{aligned}\boldsymbol{x}_{l+1}=\boldsymbol{x}_{l}+\mathcal{F}(\boldsymbol{x}_{l},\boldsymbol{W}_{l}),l=1,&2,\ldots,L\\\hat{y}=F(\boldsymbol{x}_{L})\\\boldsymbol{x}_{0}=\widehat{\boldsymbol{x}}\end{aligned}\right.
 $$
 
-上述公式中 $W_{l}$ 表示为第 l 层权重参数其数值通过前向传播学习得到， $x_{l+1}\operatorname{\mp A}x_{l}$ 分别表示第 l 层的输出和输入， $\mathcal{F}$ 表示残差块对应的非线性变换函数，x̂ 表示网络输入的初始数据，ŷ 表示最终的预测结果，F 表示残差网络的 MLP 层非线性函数。若我们引入一个时间分割 $t_{l}=lT/L$ ，每两个时间节点的间隔记为 $\Delta t=1/L$ ， 并且把 $x_{l}$ 和 $W_{l}$ 当成一个关于时间的连续函数 $\pmb{x}(t)$ 和$W(t)$ ，令函数 $\begin{array}{r}{\pmb{v}=\frac{1}{\Delta t}\mathcal{F}}\end{array}$ ，则残差网络前向传播过程又可以表示为：
+上述公式中 $W_{l}$ 表示为第 l 层权重参数其数值通过前向传播学习得到， $\boldsymbol{x}_{l+1}和\boldsymbol{x}_{l}$ 分别表示第 l 层的输出和输入， $\mathcal{F}$ 表示残差块对应的非线性变换函数，x̂ 表示网络输入的初始数据，ŷ 表示最终的预测结果，F 表示残差网络的 MLP 层非线性函数。若我们引入一个时间分割 $t_{l}=lT/L$ ，每两个时间节点的间隔记为 $\Delta t=1/L$ ， 并且把 $x_{l}$ 和 $W_{l}$ 当成一个关于时间的连续函数 $x(t)$ 和$W(t)$ ，令函数 $\pmb{v}=\frac{1}{\Delta t}\mathcal{F}$ ，则残差网络前向传播过程又可以表示为：
 
 $$
-\left\{\begin{array}{l}{\displaystyle x(t+\Delta t)=x(t)+v(x(t),t)\Delta t,t\in[0,T]}\\{\displaystyle\hat{y}=F(x(T))}\\{\displaystyle x(0)=\hat{x}}\end{array}\right.
+\left\{\begin{aligned}\boldsymbol{x}(t+\Delta t)=\boldsymbol{x}(t)+\boldsymbol{v}(\boldsymbol{x}(t),t)\Delta t,t\in[0,T]\\\hat{y}=F(\boldsymbol{x}(T))\\\boldsymbol{x}(0)=\widehat{\boldsymbol{x}}\end{aligned}\right.
 $$
 
-而上述公式为带初值的常微分方程 $\begin{array}{r}{\left(\mathbf{\nabla}{\mathsf{ODE}}\right)\frac{d\pmb{x}(t)}{dt}=\pmb{v}(\pmb{x}(t),t)}\end{array}$ 的前向 Euler 数值求解格式，特别的每一个输入数据 x̂ 都对应着一个预测结果 ŷ，若我们将预测结果视作输入数据的函数，借助输运方程特征线理论（上述常微分方程的解为以下偏微分方程的特征线），则每一个输入数据到预测结果的函数关系为以下偏微分方程的解，即 $\widehat{\boldsymbol{y}}=u(\widehat{\boldsymbol{x}},1)$ ：
+而上述公式为带初值的常微分方程 $(\mathrm{~ODE~})\frac{d{\pmb x}(t)}{dt}={\pmb v}({\pmb x}(t),t)$ 的前向 Euler 数值求解格式，特别的每一个输入数据 x̂ 都对应着一个预测结果 ŷ，若我们将预测结果视作输入数据的函数，借助输运方程特征线理论（上述常微分方程的解为以下偏微分方程的特征线），则每一个输入数据到预测结果的函数关系为以下偏微分方程的解，即 $\hat{y}=u(\hat{x},1)$ ：
 
 $$
-\left\{\frac{\partial u}{\partial t}+v(x(t),t)\nabla u=0\right.
+\left\{\begin{aligned}\frac{\partial u}{\partial t}+\boldsymbol{v}(\boldsymbol{x}(t),t)\nabla u&=0,\\u(\boldsymbol{x},T)&=F(x)\end{aligned}\right.
 $$
 
 因此残差网络完整的前向传播过程可以视作一个偏微分方程的数值求解过程。在文献[1]中作者则给出了这些偏微分方程的较为一般的形式，即带跳跃连接的深度神经网络均可连续化为以下形式的对流扩散方程：
 
 $$
-\left\{\begin{array}{c}{\frac{\partial u}{\partial t}+{\pmb v}({\pmb x}(t),t)\nabla u+{\pmb\sigma}^{T}({\pmb x}(t),t){\pmb H}(u){\pmb\sigma}({\pmb x}(t),t)=0}\\{u({\pmb x},T)=F({\pmb x})}\end{array}\right.
+\left\{\begin{aligned}\frac{\partial u}{\partial t}+\boldsymbol{v}(\boldsymbol{x}(t),t)\nabla u+\boldsymbol{\sigma}^T(\boldsymbol{x}(t),t)\boldsymbol{H}(u)\boldsymbol{\sigma}(\boldsymbol{x}(t),t)&=0\\u(\boldsymbol{x},T)&=F(\boldsymbol{x})\end{aligned}\right.
 $$
 
 根据 Feynman-Kac公式，上述的解可表示如下随机微分方程（SDE）的形式：
 
 $$
-\left\{\begin{array}{l}{dx(t)={\pmb v}(x(t),t)dt+{\pmb\sigma}(x(t),t)d{\pmb B}(t),t\in[0,T],x(t)\in\mathbb{R}^{d}}\\{\qquad\hat{y}=F\big(x(T)\big)}\\{\qquad x(0)=\hat{x}}\end{array}\right.
+\left\{\begin{aligned}d\boldsymbol{x}(t)=\boldsymbol{v}(\boldsymbol{x}(t),t)dt+\boldsymbol{\sigma}(\boldsymbol{x}(t),t)d\boldsymbol{B}(t),t\in[0,T],\boldsymbol{x}(t)\in\mathbb{R}^{d}\\\hat{\boldsymbol{y}}=\boldsymbol{F}\big(\boldsymbol{x}(T)\big)\\\boldsymbol{x}(0)=\hat{\boldsymbol{x}}\end{aligned}\right.
 $$
 
-其中速度场和扩散项 $\pmb{v}(\pmb{x}(t),t)\colon\mathbb{R}^{d}\times[0,T]\mathbb{R}^{d},\pmb{\sigma}(\pmb{x}(t),t)\colon\mathbb{R}^{\mathrm{d}}\times[0,\mathsf{T}]\mathbb{R}^{\mathrm{d}\times\mathrm{d}}$ 分别为向量和矩阵函数， $H(u)$ 表示函数 u 的二阶 Hessian 矩阵， $B(t){\sim}N\big(0,\sqrt{t}I\big)$ 为 d 维的标准的布朗运动，$d\pmb{B}(t){\sim}N\big(0,\sqrt{dt}\pmb{I}\big)$ 表示布朗运动的微分，当 ${\pmb\sigma}({\pmb x}(t),t)=0$ 时，上述过程则对应Neural ODE [2]，当 $\sigma(x(t),t)\neq0$ 时，上述过程则对应 Neural SDE [3]，而当上述方程加入第三项跳跃项$\pmb{\gamma}(\pmb{x}(t),t)d\pmb{N}(t)$ （其中向量函数 $\gamma(\boldsymbol{x}(t),t)\colon{\mathbb{R}}^{d}\times[0,T]\to{\mathbb{R}}^{d}$ 表示事件发生的强度， $\pmb{N}(t)$ 表示泊松过程的随机向量，每个分量表示该过程在时刻 t 发生事件的个数，而当 t 时刻有事件发生则$d\pmb{N}(t)=1$ ，其余则为 0）时，上述过程则对应 Neural Jump SDE [4]。在实际金融问题中，扩散项 ${\pmb\sigma}({\pmb x}(t),t)d{\pmb B}(t)$ 用于对数据的噪声成分进行拟合，而阶跃项 $\pmb{\gamma}(\pmb{x}(t),t)d\pmb{N}(t)$ 则可用于对时点型突发事件进行拟合。因此 Neural SDE 和 Neural Jump SDE皆具有较高的实用价值。
+其中速度场和扩散项 $\pmb{v}(\pmb{x}(t),t)\colon\mathbb{R}^{d}\times[0,T]\to\mathbb{R}^{d},\quad\pmb{\sigma}(\pmb{x}(t),t)\colon\mathbb{R}^{\mathtt{d}}\times[0,T]\to\mathbb{R}^{\mathtt{d}\times\mathtt{d}}$ 分别为向量和矩阵函数， $H(u)$ 表示函数 u 的二阶 Hessian 矩阵， $B(t)\sim N(0,\sqrt{t}I)$ 为 d 维的标准的布朗运动，$d{\pmb B}(t){\sim}N\big(0,\sqrt{dt}{\pmb I}\big)$ 表示布朗运动的微分，当 $\pmb{\sigma}(\pmb{x}(t),t)=0$ 时，上述过程则对应Neural ODE [2]，当 $\sigma(x(t),t)\neq0$ 时，上述过程则对应 Neural SDE [3]，而当上述方程加入第三项跳跃项$\pmb{\gamma}(\pmb{x}(t),t)dN(t)$ （其中向量函数 $\pmb{\gamma}(\pmb{x}(t),t)\colon\mathbb{R}^{d}\times[0,T]\rightarrow\mathbb{R}^{d}$ 表示事件发生的强度， $N(t)$ 表示泊松过程的随机向量，每个分量表示该过程在时刻 t 发生事件的个数，而当 t 时刻有事件发生则$dN(t)=1$ ，其余则为 0）时，上述过程则对应 Neural Jump SDE [4]。在实际金融问题中，扩散项 $\pmb{\sigma}(\pmb{x}(t),t)d\pmb{B}(t)$ 用于对数据的噪声成分进行拟合，而阶跃项 $\pmb{\gamma}(\pmb{x}(t),t)dN(t)$ 则可用于对时点型突发事件进行拟合。因此 Neural SDE 和 Neural Jump SDE皆具有较高的实用价值。
 
 ## 1.2 神经微分方程模型
 
 构建 Neural SDE 模型训练过程需要考虑其的正向和反向传播两个过程。该模型的前向传播本质上是求解以下带初值随机微分方程问题：
 
 $$
-\left\{\begin{array}{ll}{d{\pmb x}(t)={\pmb v}({\pmb x}(t),t)dt+{\pmb\sigma}({\pmb x}(t),t)d{\pmb B}(t),t\in[0,T]}\\{\qquad\hat{\pmb\ y}=F({\pmb x}(T))}\\{\qquad{\pmb x}(0)=\hat{\pmb x}}\end{array}\right.
+\left\{\begin{aligned}d\boldsymbol{x}(t)=\boldsymbol{v}(\boldsymbol{x}(t),t)dt+\boldsymbol{\sigma}(\boldsymbol{x}(t),t)d\boldsymbol{B}(t),t\in[0,T]\\\hat{y}=\boldsymbol{F}(\boldsymbol{x}(T))\\\boldsymbol{x}(0)=\widehat{\boldsymbol{x}}\end{aligned}\right.
 $$
 
-通常上述公式中， $F$ 为 ${\sf MLP}$ 层对应函数。而函数 ${\pmb v}({\pmb x}(t),t)$ 和 ${\pmb\sigma}({\pmb x}(t),t)$ 均为全连接层加激活函数的形式构成，即
+通常上述公式中， $F$ 为 $\mathsf{MLP}$ 层对应函数。而函数 $\pmb{v}(\pmb{x}(t),t)$ 和 $\pmb{\sigma}(\pmb{x}(t),t)$ 均为全连接层加激活函数的形式构成，即
 
 $$
-{\pmb W}_{n}\varphi(...{\pmb W}_{2}\varphi({\pmb W}_{1}[{\pmb x},t]))
+\pmb{W}_{n}\varphi(\dots\pmb{W}_{2}\varphi(\pmb{W}_{1}[\pmb{x},t]))
 $$
 
 这里 $W_{n}$ 表示第 n 个全连接层的权重矩阵，其值通过反向传播学习得到， $\varphi$ 表示激活函数（通常使用非 ReLU 的激活函数），向量 $[x,t]$ 表示数据 x 和时间变量 t 进行拼接。注意到对于残差网络而言各层的权重参数互不相同，通过此种方式来表示时间的衍化，一个 m 层的残差网络需要 nm组全连接参数。而对于神经微分方程而言，由于不存在时间离散过程，时间的衍化通过变量 t 来表示，因此全模型只需要 n组全连接参数，故两种模型对比可知，Neural SDE的参数量大幅减少显存占用量也将减少。但由于反向传播时涉及求解微分方程和随机项的 Monte-Carlo 模拟，因此Neural SDE模型随机性高计算消耗更大。
@@ -139,22 +139,22 @@ $$
 特别地，当扩散项为 0 时，上述模型退化成 Neural ODE，此时模型的损失函数梯度则可通过伴随方法转化为以下微分方程组来近似求解：
 
 $$
-\frac{d\boldsymbol{a}(t)}{dt}=-\boldsymbol{a}(t)^{T}\frac{\partial\boldsymbol{v}}{\partial\boldsymbol{x}}
+{\frac{da(t)}{dt}}=-a(t)^{T}{\frac{\partial{\pmb v}}{\partial{\pmb x}}}
 $$
 
 $$
-\frac{dL}{dw^{i}}=\int_{0}^{T}-a(t)^{T}\frac{\partial v}{\partial x}dt
+\cfrac{dL}{dw^{i}}=\int_{0}^{T}-a(t)^{T}\cfrac{\partial\pmb{v}}{\partial\pmb{x}}dt.
 $$
 
-这里 L 表示损失函数， $a(t)=\frac{\partial{}L}{\partial{}x(t)}$ 0
+这里 L 表示损失函数， $\begin{array}{r}{a(t)=\frac{\partial L}{\partial\pmb{x}(t)}}\end{array}$ 0
 
 当扩散项不为 0 时，通过路径导数法，过程 $x(T)$ 关于可学习参数的梯度公式可写成如下随机积分的形式：
 
 $$
-\frac{\partial x(T)}{\partial w^{i}}=\int_{0}^{T}\frac{\partial v}{\partial w^{i}}+\frac{\partial v}{\partial x}\frac{\partial x}{\partial w^{i}}ds+\sum_{l=1}^{d}\int_{0}^{T}(\frac{\partial\sigma^{l}}{\partial w^{i}}+\frac{\partial\sigma^{l}}{\partial x}\frac{\partial x}{\partial w^{i}})dB^{l}(t)
+\frac{\partial\pmb{x}(T)}{\partial w^{i}}=\int_{0}^{T}\frac{\partial\pmb{v}}{\partial w^{i}}+\frac{\partial\pmb{v}}{\partial\pmb{x}}\frac{\partial\pmb{x}}{\partial w^{i}}ds+\sum_{l=1}^{d}\int_{0}^{T}(\frac{\partial\pmb{\sigma}^{l}}{\partial w^{i}}+\frac{\partial\pmb{\sigma}^{l}}{\partial\pmb{x}}\frac{\partial\pmb{x}}{\partial w^{i}})d\pmb{B}^{l}(t)
 $$
 
-这里 $x(T)$ 表示微分方程解的终值， $w^{i}$ 表示第 i 个可学习的参数， $B^{l}(t)$ 表示 d 维布朗运动 $\pmb{B}(t)$ 的第 i 个分量， $\pmb{\sigma}^{l}$ 表示函数 $\pmb{\sigma}$ 的第 l 列分量。而该模型反向传播的过程则可转化为数值求解上述积分的过程（对于随机积分可通过 Monte-Carlo 模拟进行近似求解）。而带跳跃项的 Neural JumpSDE则可通过类似方法进行训练。
+这里 $x(T)$ 表示微分方程解的终值， $w^{i}$ 表示第 i 个可学习的参数， $\pmb{B}^{l}(t)$ 表示 d 维布朗运动 $\pmb{B}(t)$ 的第 i 个分量， $\pmb{\sigma}^{l}$ 表示函数 $\pmb{\sigma}$ 的第 l 列分量。而该模型反向传播的过程则可转化为数值求解上述积分的过程（对于随机积分可通过 Monte-Carlo 模拟进行近似求解）。而带跳跃项的 Neural JumpSDE则可通过类似方法进行训练。
 
 综上，对于 Neural ODE 和 Neural SDE 以及 Neural Jump SDE 三种模型均具有各自的优缺点，我们总结如下：
 
@@ -178,27 +178,27 @@ $$
 MLP层有两种设置方案，第一种为全连接层和非线性激活函数构成，此时我们使用预测结果和中性化标准化后的收益率标签直接计算均方误差损失，第二种则是采用我们前期报告《ABCM：基于神经网络的 alpha 和 beta 因子协同挖掘模型》中的结构，即通过两个 NN-Layer 同时生成风险因子和 alpha 因子，风险因子使用的 NN-Layer 为带 Attention 机制的图结构其对应损失函数为R-square，alpha 因子的 NN-Layer 为简单的全连接层其对应损失函数为 MSE，最后通过构建因子正交惩罚损失来剥离 alpha 和风险信息。整个模型的具体结构可表示为如下形式：
 
 $$
-\begin{array}{c}{{\mu,\ \sigma=RNN(x),\ x=[x_{1},x_{2},\dots,x_{T}]}}\\{{\ }}\\{{z=\mu+exp(\sigma/2)\odot\varepsilon,\ \varepsilon\sim N(0,I)}}\\{{\ Neural\jmath umpSDE(z)\to X(t)}}\\{{\ }}\\{{\hat{x}=[X(t_{1}),X(t_{2}),\dots,X(t_{T})]}}\\{{\ }}\\{{\hat{y}=MLP\big(X(t_{T})\big)}}\end{array}
+\begin{aligned}\boldsymbol{\mu},\boldsymbol{\sigma}&=RNN(x),\boldsymbol{x}=[\boldsymbol{x}_{1},\boldsymbol{x}_{2},\ldots,\boldsymbol{x}_{T}]\\\boldsymbol{z}&=\boldsymbol{\mu}+exp(\boldsymbol{\sigma}/2)\odot\boldsymbol{\varepsilon},\boldsymbol{\varepsilon}\sim\boldsymbol{N}(0,I)\\&\quad NeuralJumpSDE(\boldsymbol{z})\rightarrow\boldsymbol{X}(t)\\&\quad\widehat{\boldsymbol{x}}=[\boldsymbol{X}(t_{1}),\boldsymbol{X}(t_{2}),\ldots,\boldsymbol{X}(t_{T})]\\&\quad\widehat{\boldsymbol{y}}=MLP\big(\boldsymbol{X}(t_{T})\big)\end{aligned}
 $$
 
-这里 x 表示输入数据为时间序列，x̂表示重构数据其为NeuralJumpSDE 的解函数在时间节点$[\mathrm{t}_{1},\mathrm{t}_{2},\dots,\mathrm{t}_{\mathrm{T}}]$ 上的函数值形成的序列，⨀ 表示向量点乘运算，X(t) 表示 Neural Jump SDE 模型对应的解函数， $\hat{y}$ 表示模型最终的预测结果。
+这里 x 表示输入数据为时间序列，x̂表示重构数据其为NeuralJumpSDE 的解函数在时间节点$[\mathsf{t}_{1},\mathsf{t}_{2},\dots,\mathsf{t}_{\mathrm{T}}]$ 上的函数值形成的序列，⨀ 表示向量点乘运算，X(t) 表示 Neural Jump SDE 模型对应的解函数， $\hat{y}$ 表示模型最终的预测结果。
 
 本模型的损失函数由三部分组成，包括重构损失（Reconstruction Loss）、KL 散度和 MSE损失。其中重构损失通过极大似然估计得到：
 
 $$
-\log(p(x|(\widehat{x},\widehat{\pmb{\sigma}}))=-\frac{1}{2}log(2\pi)-\frac{({\pmb x}-\widehat{\pmb x})^{2}}{exp(\widehat{\pmb{\sigma}})}
+\log(p(\pmb{x}|(\widehat{\pmb{x}},\widehat{\pmb{\sigma}}))=-\frac{1}{2}log(2\pi)-\frac{(\pmb{x}-\widehat{\pmb{x}})^{2}}{exp(\widehat{\pmb{\sigma}})}
 $$
 
 这里 x 表示原始输入数据，σ̂ 表示估计数据服从分布的标准差参数，第二项 KL 散度则计算先验分布（假设服从均值为 0 的正态分布）与后验分布 $p(z|x)$ 之间的 KL 散度，该项损失主要是为了防止过拟合使得 Encoder和 Decoder函数复合成为一个恒等映射函数：
 
 $$
-\mathrm{KL}(p(\pmb{z}|\pmb{x})||N(0,\delta I))=\mathrm{KL}(N(\pmb{\mu},exp(\pmb{\sigma}/2))||N(0,\delta I))
+\mathrm{KL}(p(\boldsymbol{z}|\boldsymbol{x})||N(0,\delta\boldsymbol{I}))=\mathrm{KL}(N(\boldsymbol{\mu},\exp(\boldsymbol{\sigma}/2))||N(0,\delta\boldsymbol{I}))
 $$
 
 第三项 MSE损失则为最终预测结果 $\hat{y}$ 与标签的平方误差损失。因此总损失函数可表示为：
 
 $$
-\propto\log(p(x|\theta))+\beta\operatorname{KL}(N(\pmb{\mu},exp(\pmb{\sigma}/2))||N(0,\delta I))+(\hat{y}-y)^{2}
+\alpha\log(p(\pmb{x}|\theta))+\beta\mathrm{KL}(N(\pmb{\mu},exp(\pmb{\sigma}/2))||N(0,\delta\pmb{I}))+(\hat{y}-y)^{2}
 $$
 
 这里 $\alpha$ 和 $\beta$ 为人工选定的两个超参数用于控制正则项权重，δ 表示先验分布的标准差大小， $y$ 为中性化和交易日截面标准化处理后的收益率标签。
@@ -209,7 +209,7 @@ $$
 
 ## 1.4 新模型重构数据表现
 
-我们使用新模型对股票预处理后的 K线数据进行重构，取 2013~2022年为训练集，2023年为验证集，2024 年为样本外，训练时只使用重构损失和 KL 散度作为损失函数，统计验证集以及样本外重构损失表现，重构损失使用原始数据与重构数据的MSE损失作为度量的量。验证集损失随迭代步数的变化以及最终模型样本外的损失值曲线以及隐藏层特征 $\pmb{\mu}$ 在样本外对未来十天收益率的解释度如下图所示：
+我们使用新模型对股票预处理后的 K线数据进行重构，取 2013~2022年为训练集，2023年为验证集，2024 年为样本外，训练时只使用重构损失和 KL 散度作为损失函数，统计验证集以及样本外重构损失表现，重构损失使用原始数据与重构数据的MSE损失作为度量的量。验证集损失随迭代步数的变化以及最终模型样本外的损失值曲线以及隐藏层特征 $\mu$ 在样本外对未来十天收益率的解释度如下图所示：
 
 图 6：模型重构表现（纵坐标为损失，横坐标为 Epoch数）
 ![](images/bff0c797cb20fe5f1b64bedb3d9e6ef6db1176359e39d60a8f26139792974756.webp)
@@ -400,7 +400,7 @@ $$
 本节将展示新模型生成因子构建 top30 组合的业绩表现，组合周频调仓不做换手约束，每周一进行买卖交易，成本为买入成本千分之一、卖出成本千分之二，组合的成分股以及对应权重通过求解以下二次优化问题得到：
 
 $$
-\left\{\begin{array}{ll}{\begin{array}{rl}&{max~{\mathbf{w}}^{T}r-\lambda{\mathbf{w}}^{T}\Sigma{\mathbf{w}}}\\&{s.t.~sum({\mathbf{w}})=1}\\&{~max({\mathbf{w}})<=3.33\%}\end{array}}\end{array}\right.
+\left\{\begin{array}{rl}&{max\;\boldsymbol{w}^{T}\boldsymbol{r}-\lambda\boldsymbol{w}^{T}\Sigma\boldsymbol{w}}\\&{\quad s.t.sum(\boldsymbol{w})=1}\\&{\quad max(\boldsymbol{w})<=3.33\%.}\end{array}\right.
 $$
 
 其中r为股票预期收益率即因子取值，矩阵 Σ 表示barra风险模型估计的股票协方差矩阵，λ 为风险厌恶系数（取值为 0.5），w 为待求解的个股权重向量。

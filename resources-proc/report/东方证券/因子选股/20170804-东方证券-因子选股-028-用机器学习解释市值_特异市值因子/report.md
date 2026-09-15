@@ -57,7 +57,7 @@ zhanghuishu@orientsec.com.cn
 Matthew Rhodes-Kropf，David T. Robinson 和 S. Viswanathan（2005）以剩余收入模型为基础，把股票市值分解成如下的 3 因子模型：
 
 $$
-m_{it}=\alpha_{0t}+\alpha_{1t}b_{it}+\alpha_{2t}\mathrm{ln}(NI)_{it}^{+}+\alpha_{3t}\mathrm{I}_{(<0)}\mathrm{ln}(NI)_{it}^{-}+\alpha_{4t}\mathrm{LEV}_{it}+\varepsilon_{it}
+m_{it}=\alpha_{0t}+\alpha_{1t}b_{it}+\alpha_{2t}\mathrm{ln}(NI)_{it}^++\alpha_{3t}\mathrm{I}_{(<0)}\mathrm{ln}(NI)_{it}^-+\alpha_{4t}\mathrm{LEV}_{it}+\varepsilon_{it}
 $$
 
 其中 $m_{it}$ 为股票 i 在 t 时刻的对数市值， $b_{it}$ 为股票的对数净资产（去除了净资产小于零的公司），NI 为公司净利润，这里把净利润按照正负拆成了个变量， $\mathrm{LEV}_{it}$ 为公司的财务杠杆（负债除以资产）。作者用这个模型对于1977-2000年美国市场上所有参与过并购和收购活动的上市公司按照12个行业进行截面上的拟合，拟合的平均  在 80%-94%，也就是说在某一时点上，大多数样本公司的市值都可以被这 3个财务指标所解释。
@@ -65,10 +65,10 @@ $$
 Hulten, Charles R., and X. Hao （2014）研究了 422 个美国市场上 R&D 强度很高的公司从1997-2002 年的表现，并且通过回归模型对这些公司的市值进行解释：
 
 $$
-M_{it}=\alpha_{0t}+\alpha_{1t}B_{it}+\alpha_{2t}RD_{it}+\alpha_{3t}O_{it}+\alpha_{4t}\mathrm{PE}_{it}+\varepsilon_{it}
+M_{it}=\alpha_{0t}+\alpha_{1t}B_{it}+\alpha_{2t}RD_{it}+\alpha_{3t}O_{it}+\alpha_{4t}PE_{it}+\varepsilon_{it}
 $$
 
-其中 $\alpha_{0t}$ 为年度虚拟变量矩阵， $M_{it}$ 为股票 i 在 t 时刻的总市值， $B_{it}$ 为股票的净资产， $RD_{it}$ 为开发支出， $O_{it}$ 为组织资本(organizational capital)， $\mathrm{PE}_{it}$ 为股票的 PE 值，研究表明，这几个自变量中显著性最高的为 R&D和净资产，拟合的 $\mathrm{R}^{2}$ 为 79%，如果把除了 PE以外的所有变量都取对数，那么拟合的  可以达到 94%，也就是说这些 R&D强度很高的公司的价值主要是由净资产和 R&D所解释的。
+其中 $\alpha_{0t}$ 为年度虚拟变量矩阵， $M_{it}$ 为股票 i 在 t 时刻的总市值， $B_{it}$ 为股票的净资产， $RD_{it}$ 为开发支出， $O_{it}$ 为组织资本(organizational capital)， $\mathrm{PE}_{it}$ 为股票的 PE 值，研究表明，这几个自变量中显著性最高的为 R&D和净资产，拟合的 $\mathbb{R}^{2}$ 为 79%，如果把除了 PE以外的所有变量都取对数，那么拟合的  可以达到 94%，也就是说这些 R&D强度很高的公司的价值主要是由净资产和 R&D所解释的。
 
 Cho, Hee Jae, and V. Pucik（2005）采用结构方程模型（Structural equation modeling,SEM）研究了创新能力，质量，盈利能力，成长和市值直接的关系，研究发现很好得平衡创新能力和质量能够推动公司的盈利能力和成长，从而推动公司的市值。也就是说，公司市值与这些变量之间都有着紧密的联系。
 
@@ -85,10 +85,10 @@ Cho, Hee Jae, and V. Pucik（2005）采用结构方程模型（Structural equati
 首先我们构建线性多元回归模型来对市值做解释，模型的形式为：
 
 $$
-m_{it}=\alpha_{0t}\mathrm{IND}_{it}+\alpha_{1t}b_{it}+\alpha_{2t}\mathrm{In}(NI)_{it}^{+}+\alpha_{3t}\mathrm{I}_{(<0)}\mathrm{In}(NI)_{it}^{-}+\alpha_{4t}\mathrm{LEV}_{it}+\alpha_{5t}\mathrm{g}_{it}+\alpha_{6t}\mathrm{RD}_{it}+\varepsilon_{it}
+m_{it}=\alpha_{0t}\mathrm{IND}_{it}+\alpha_{1t}b_{it}+\alpha_{2t}\mathrm{ln}(NI)_{it}^{+}+\alpha_{3t}\mathrm{I}_{(<0)}\mathrm{ln}(NI)_{it}^{-}+\alpha_{4t}\mathrm{LEV}_{it}+\alpha_{5t}\mathrm{g}_{it}+\alpha_{6t}\mathrm{RD}_{it}+\varepsilon_{it}
 $$
 
-其中 $m_{it}$ 为股票 i 在 t 时刻的对数市值， $\mathrm{IND}_{it}$ 为行业虚拟变量矩阵（调整不同行业整体市值的高低差异）， $b_{it}$ 为股票的对数净资产（去除了净资产小于零的公司），NI 为公司净利润，这里把净利润按照正负拆成了个变量， $\mathrm{LEV}_{it}$ 为公司的财务杠杆（负债除以资产）， ${\bf{g}}_{it}$ 为营业收入增长率（季度同比）， $\mathrm{RD}_{it}$ 为对数开发支出（若没有则取为 0）
+其中 $m_{it}$ 为股票 i 在 t 时刻的对数市值， $\mathrm{IND}_{it}$ 为行业虚拟变量矩阵（调整不同行业整体市值的高低差异）， $b_{it}$ 为股票的对数净资产（去除了净资产小于零的公司），NI 为公司净利润，这里把净利润按照正负拆成了个变量， $\mathrm{LEV}_{it}$ 为公司的财务杠杆（负债除以资产）， $\mathbf{g}_{it}$ 为营业收入增长率（季度同比）， $\mathrm{RD}_{it}$ 为对数开发支出（若没有则取为 0）
 
 我们对每期回归系数做了时间序列上的 t检验，其中所有的行业虚拟变量均是显著的，其他变量的检验效果如表1，可以看到对数净资产b和对数净利润ln(NI)都是非常显著地，其次是财务杠杆LEV和对数开发支出 RD，显著性最低的是营业收入增长率 g，说明营业收入增长率与市值大小并没有显著的线性关系。我们知道传统的绝对估值模型，基本都涉及到未来现金的贴现和，其中贴现率和长期增长率是两个非常重要的指标，也就说增长率对于市值的影响非常大，但是根据公式来看，增长率与市值的关系是非线性的，所以常规的线性回归并不能很好的把成长因素对于市值的影响表现出来。
 

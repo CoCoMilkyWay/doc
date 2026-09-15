@@ -86,21 +86,21 @@ TMT 行业中，薪酬增速的选股组合大幅战胜指数但是，由于组�
 2. 将“支付给职工以及为职工支付的现金”年内累计数据转换为单季度数据：
 
 $$
-ifmod(t,4)=1,topay_{t}=topay_{t}
+ifmod(t,4)=1,\ topay_{t}=topay_{t}
 $$
 
 $$
-ifmod(t,4)\not=1,topay_{t}=topay_{t}-topay_{t-1}
+if\quad mod(t,4)\neq1,\quad topay_{t}=topay_{t}-\quad topay_{t-1}
 $$
 
 3. 构建滚动财务年度，消除季节效应：
 
 $$
-Paid_{i,t}=\sum_{j=0}^{3}paid_{t-j}
+Paid_{i,t}={\sum}_{j=0}^{3}paid_{t-j}.
 $$
 
 $$
-Topay_{i,t}=\sum_{j=0}^{3}topay_{t-j}
+Topay_{i,t}={\sum}_{j=0}^{3}topay_{t-j}
 $$
 
 4. 计算已付/应付职工薪酬增速GR：
@@ -110,21 +110,21 @@ GR_{t}^{P}=\frac{Paid_{i,t}}{Paid_{i,t-1}}-1
 $$
 
 $$
-GR_{t}^{T}=\frac{Topay_{i,t}}{Topay_{i,t-1}}-1
+GR_{t}^{T}=\frac{Topay_{i,t}}{Topay_{i,t-1}}-1.
 $$
 
 5. 计算已付/应付薪酬连续增长期数N：
 
 $$
-ifGR_{t}^{P}>0\quad N_{t}^{P}=max{\mathrel{\mathop:}}\emptyset n|GR_{t+1-j}^{P}>0,\forall1\leq j\leq n)
+ifGR_{t}^{P}>0\quad N_{t}^{P}=max滙n|GR_{t+1-j}^{P}>0,\forall1\leq j\leq n)
 $$
 
 $$
-ifGR_{t}^{T}>0\quad N_{t}^{P}=max!\mathcal{Q}n|GR_{t+1-j}^{T}>0,\forall1\leq j\leq n)
+if\;GR_{t}^{T}>0\quad N_{t}^{P}=max连n|GR_{t+1-j}^{T}>0,\forall\;1\leq j\leq n)
 $$
 
 $$
-else~N_{t}^{P}=0;~N_{t}^{T}=0
+else\quad N_{t}^{P}=0;\quad N_{t}^{T}=0
 $$
 
 此外，在计算薪酬规模指标的同时，将第一步的薪酬规模替换为人均薪酬，就能得到对应的人均薪酬指标。

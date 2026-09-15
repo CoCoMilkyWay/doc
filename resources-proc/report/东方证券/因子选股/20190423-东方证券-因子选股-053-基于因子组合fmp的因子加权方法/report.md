@@ -55,27 +55,27 @@ eaderTable_StaementCompany东方证券股份有限公司经相关主管机关核
 因子组合，又称因子模拟组合（Factor Mimicking Portfolio, FMP，下文采用 FMP 的称谓）、因子特征组合（Factor Characteristic Portfolio，FCP），广义上讲，凡是能够代表因子表现的货币中性的多空组合都可以称为因子组合，比如 Fama 和 French（1992）构建的 SMB 组合也是市值的一种因子组合，但更严格意义上，因子组合定义为对因子有单位暴露的最小方差组合。本小节的因子组合之所以“简单”是因为我们仅对考察的因子有暴露约束，对其他因子暴露没有限制，即因子α的简单因子组合由下列优化界定：
 
 $$
-\begin{array}{cc}{{\mathrm{min}}}&{{{\pmb h}^{T}{\pmb V}{\pmb h}}}\\{{\mathrm{s.t.}}}&{{{\pmb\alpha}^{T}{\pmb h}=1}}\end{array}
+\begin{array}{cc}\min&\boldsymbol{h}^{T}V\boldsymbol{h}\\s.t.&\boldsymbol{\alpha}^{T}\boldsymbol{h}=1\end{array}
 $$
 
 其中，α表示 alpha因子向量，V表示股票的协方差矩阵，h表示简单因子组合的权重向量。上述带约束的优化问题很容易采用 Lagrange乘子法求解，其最优解为
 
 $$
-\pmb{h}^{*}=\frac{\pmb{V}^{-1}\pmb{\alpha}}{\pmb{\alpha}^{T}\pmb{V}^{-1}\pmb{\alpha}}
+\boldsymbol{h}^{*}=\frac{\boldsymbol{V}^{-1}\boldsymbol{\alpha}}{\boldsymbol{\alpha}^{T}\boldsymbol{V}^{-1}\boldsymbol{\alpha}}
 $$
 
-上述优化问题的最优解可以写成 $h^{*}=V^{-1}$ α̃的形式，其中 $\widetilde{\alpha}=\alpha/\sqrt{\alpha^{T}V^{-1}\alpha}$ ，表示按照特定方式标准化后的α，在股票协方差给定的情况下，简单因子组合权重ℎ∗和标准化后的 alpla因子α̃存在完全一一对应的关系，alpha因子和因子组合权重可以相互转换，换言之，在股票协方差给定的情况下，因子组合可以最有效的表征 alpha因子。
+上述优化问题的最优解可以写成 $h^{*}=V^{-1}$ α̃的形式，其中 $\tilde{\alpha}=\alpha/\sqrt{\alpha^{T}V^{-1}\alpha}$ ，表示按照特定方式标准化后的α，在股票协方差给定的情况下，简单因子组合权重ℎ∗和标准化后的 alpla因子α̃存在完全一一对应的关系，alpha因子和因子组合权重可以相互转换，换言之，在股票协方差给定的情况下，因子组合可以最有效的表征 alpha因子。
 
-将上述因子组合权重ℎ∗带入标准差公式 $\sigma_{\mathrm{A}}={\sqrt{h^{T}Vh}}{\dot{\mathrm{i}}}$ 算，三种形式的因子组合标准差分别为：
-
-$$
-\sigma_{\mathrm{A}}={\frac{1}{\sqrt{\alpha^{T}V^{-1}\alpha}}}
-$$
-
-由上式可以看出，因子组合的标准差受到股票协方差的影响，在时间序列上并不稳定。如果股票协方差为单位矩阵的倍数，即 $V=I\cdot{\overline{{\sigma_{s}}}}^{2}$ ， $\overline{{\sigma_{s}}}$ 为股票平均波动率，而且α是标准化后的 alpha因子，即 $\alpha^{T}\alpha=N$ ，N为股票数量，因子组合目标波动率即简化为
+将上述因子组合权重ℎ∗带入标准差公式 $$(\sigma_{\mathsf{A}}=\sqrt{h^{T}Vh}$计$ 算，三种形式的因子组合标准差分别为：
 
 $$
-\sigma_{\mathrm{A}}=\frac{\bar{\sigma}_{s}}{\sqrt{N}}
+\sigma_{\mathrm{A}}=\frac{1}{\sqrt{\alpha^{T}V^{-1}\alpha}}
+$$
+
+由上式可以看出，因子组合的标准差受到股票协方差的影响，在时间序列上并不稳定。如果股票协方差为单位矩阵的倍数，即 $\boldsymbol{V}=\boldsymbol{I}\cdot\overline{{\sigma_{s}}}^{2}$ ， $\overline{{\sigma}}_{s}$ 为股票平均波动率，而且α是标准化后的 alpha因子，即 $\alpha^{T}\alpha=N$ ，N为股票数量，因子组合目标波动率即简化为
+
+$$
+\sigma_{\mathrm{A}}=\frac{\overline{{\sigma_{s}}}}{\sqrt{N}}
 $$
 
 虽然股票协方差矩阵正比于单位矩阵的假设过于简单，但我们大致可以看出因子组合标准差的影响因素，样本空间内股票数量越多、股票平均波动越小，因子组合的目标波动越小。在时间序列上，股票的波动率并不稳定，理论上因子组合收益率具有异方差性。
@@ -85,7 +85,7 @@ $$
 我们在构建多因子模型时或多或少都会对组合施加一定的风险约束，相应的，也就有了风格线性约束下的因子组合，如下所示：
 
 $$
-\begin{array}{cc}{{\operatorname*{min}}}&{{\pmb{h}^{T}{\pmb{V}}{\pmb{h}}}}\\{{\mathrm{s.t.}}}&{{\pmb{\alpha}^{T}{\pmb{h}}=1}}\\{{}}&{{}}\\{{}}&{{X_{R}^{T}{\pmb{h}}=0}}\end{array}
+\begin{aligned}\min\quad&\boldsymbol{h}^{T}V\boldsymbol{h}\\s.t.\quad&\boldsymbol{\alpha}^{T}\boldsymbol{h}=1\\&X_{R}^{T}\boldsymbol{h}=0\end{aligned}
 $$
 
 其中， $X_{R}$ 表示股票的风险暴露矩阵。
@@ -93,13 +93,13 @@ $$
 对于上述优化问题，也可以通过 Lagrange方法求解，其显式解为（Stubbs,2013,技术附录中有详细求解步骤）：
 
 $$
-\begin{array}{rl}&{h^{*}=\theta V^{-\frac{1}{2}}\Big(I-V^{-1/2}X_{R}\big(X_{R}^{T}V^{-1}X_{R}\big)^{-1}X_{R}^{T}V^{-1/2}\Big)V^{-1/2}\alpha}\\&{~=\theta V^{-1}\bar{\alpha}}\end{array}
+\begin{align*}\boldsymbol{h}^{*}=\theta\boldsymbol{V}^{-\frac{1}{2}}\Big(\boldsymbol{I}-\boldsymbol{V}^{-1/2}\boldsymbol{X}_{R}\big(\boldsymbol{X}_{R}^{T}\boldsymbol{V}^{-1}\boldsymbol{X}_{R}\big)^{-1}\boldsymbol{X}_{R}^{T}\boldsymbol{V}^{-1/2}\Big)\boldsymbol{V}^{-1/2}\boldsymbol{\alpha}\\=\theta\boldsymbol{V}^{-1}\overline{\boldsymbol{\alpha}}\end{align*}
 $$
 
 其中：
 
 $$
-\begin{array}{c}{{\Theta=\alpha^{T}\left(I-V^{-1/2}X_{R}\big(X_{R}^{T}V^{-1}X_{R}\big)^{-1}X_{R}^{T}V^{-1/2}\right)V^{-1/2}\alpha}}\\{{{}}}\\{{{}}}\\{{{\overline{{{\alpha}}}}=\left(I-X_{R}\big(X_{R}^{T}V^{-1}X_{R}\big)^{-1}X_{R}^{T}V^{-1}\right)\alpha}}\end{array}
+\begin{aligned}&\boldsymbol{\Theta}=\boldsymbol{\alpha}^{T}\left(\boldsymbol{I}-\boldsymbol{V}^{-1/2}\boldsymbol{X}_{R}\big(\boldsymbol{X}_{R}^{T}\boldsymbol{V}^{-1}\boldsymbol{X}_{R}\big)^{-1}\boldsymbol{X}_{R}^{T}\boldsymbol{V}^{-1/2}\right)\boldsymbol{V}^{-1/2}\boldsymbol{\alpha}\\&\\&\quad\overline{\boldsymbol{\alpha}}=\left(\boldsymbol{I}-\boldsymbol{X}_{R}\big(\boldsymbol{X}_{R}^{T}\boldsymbol{V}^{-1}\boldsymbol{X}_{R}\big)^{-1}\boldsymbol{X}_{R}^{T}\boldsymbol{V}^{-1}\right)\boldsymbol{\alpha}\\\end{aligned}
 $$
 
 由于Θ是个正常数，所以上述方程也有于简单因子组合相同的形式，即 $V^{-1}$ α̅的形式，所以上述带约束的因子组合与α̅的简单因子组合等比例。
@@ -107,40 +107,40 @@ $$
 一般我们还会对股票风险模型进一步做结构化假设，如下：
 
 $$
-V=X_{R}FX_{R}^{T}+\Delta
+\pmb{V}=\pmb{X}_{R}\pmb{F}\pmb{X}_{R}^{T}+\Delta
 $$
 
 其中，F为风险因子协方差矩阵，∆为对角阵，表示残差收益方差。
 
-在 $X_{R}^{T}h=0$ 的约束下，原优化问题可以简化为
+在 $X_{R}^{T}\pmb{h}=0$ 的约束下，原优化问题可以简化为
 
 $$
-\begin{array}{cc}{{\operatorname*{min}}}&{{{\pmb h}^{T}\Delta{\pmb h}}}\\{{\mathrm{s.t.}}}&{{{\pmb\alpha}^{T}{\pmb h}=1}}\\{{}}&{{}}\\{{}}&{{X_{R}^{T}{\pmb h}=0}}\end{array}
+\begin{aligned}\min\quad&\boldsymbol{h}^{T}\Delta\boldsymbol{h}\\s.t.\quad&\boldsymbol{\alpha}^{T}\boldsymbol{h}=1\\&X_{R}^{T}\boldsymbol{h}=0\end{aligned}
 $$
 
 相应的，
 
 $$
-\begin{array}{r}{\overline{{\alpha}}=\left(I-X_{R}\left(X_{R}^{T}\Delta^{-1}X_{R}\right)^{-1}X_{R}^{T}\Delta^{-1}\right)\alpha}\end{array}
+\overline{{\boldsymbol{\alpha}}}=\left(\boldsymbol{I}-\boldsymbol{X}_{R}\left(\boldsymbol{X}_{R}^{T}\boldsymbol{\Delta}^{-1}\boldsymbol{X}_{R}\right)^{-1}\boldsymbol{X}_{R}^{T}\boldsymbol{\Delta}^{-1}\right)\boldsymbol{\alpha}.
 $$
 
-进一步假设∆为正比于单位阵，那么，α̅就是α对风险因子 $X_{R}$ 线性回归的残差，即风险调整的alpha 因子。因此，α因子在风险中性约束下的因子组合，和风险调整后 alpha 因子的简单因子组合等价。
+进一步假设∆为正比于单位阵，那么，α̅就是α对风险因子 $\cdot X_{R}$ 线性回归的残差，即风险调整的alpha 因子。因此，α因子在风险中性约束下的因子组合，和风险调整后 alpha 因子的简单因子组合等价。
 
 ## 1.3 因子组合与 IC 的关系
 
 由简单因子组合的权重乘以收益率可以得到因子组合的收益率，有如下形式：
 
 $$
-\textbf{ { f } }=h^{*}\cdot r=\frac{\alpha V^{-1}r}{\alpha^{T}V^{-1}\alpha}=\frac{r^{T}V^{-1}\alpha}{\sqrt{\alpha^{T}V^{-1}\alpha}\sqrt{r^{T}V^{-1}r}}\cdot\sqrt{N}\cdot\mathbf{\sigma}_{G}\sqrt{\frac{r^{T}V^{-1}r}{N}}
+\boldsymbol{f}=h^{*}\cdot\boldsymbol{r}=\frac{\boldsymbol{\alpha}V^{-1}\boldsymbol{r}}{\boldsymbol{\alpha}^{T}V^{-1}\boldsymbol{\alpha}}=\frac{\boldsymbol{r}^{T}V^{-1}\boldsymbol{\alpha}}{\sqrt{\boldsymbol{\alpha}^{T}V^{-1}\boldsymbol{\alpha}}\sqrt{\boldsymbol{r}^{T}V^{-1}\boldsymbol{r}}}\cdot\sqrt{N}\cdot\sigma_{A}\sqrt{\frac{\boldsymbol{r}^{T}V^{-1}\boldsymbol{r}}{N}}
 $$
 
 其中， $\begin{array}{r}{\sigma_{\mathrm{A}}=\frac{1}{\sqrt{\alpha^{T}V^{-1}\alpha}}}\end{array}$ ，表示因子组合目标风险，当股票协方差V正比于单位阵时，上述因子收益可以简化为
 
 $$
-f={\frac{r^{T}\alpha}{\sqrt{\alpha^{T}\alpha}{\sqrt{r^{T}r}}}}\cdot{\sqrt{N}}\cdot\sigma_{A}{\sqrt{\frac{r^{T}r}{N}}}\ =IC\cdot{\sqrt{N}}\cdot\sigma_{A}\cdot\sigma_{r}
+\boldsymbol{f}=\frac{\boldsymbol{r}^{T}\boldsymbol{\alpha}}{\sqrt{\boldsymbol{\alpha}^{T}\boldsymbol{\alpha}}\sqrt{\boldsymbol{r}^{T}\boldsymbol{r}}}\cdot\sqrt{N}\cdot\boldsymbol{\sigma}_{A}\sqrt{\frac{\boldsymbol{r}^{T}\boldsymbol{r}}{N}}=\boldsymbol{I}\boldsymbol{C}\cdot\sqrt{N}\cdot\boldsymbol{\sigma}_{A}\cdot\boldsymbol{\sigma}_{r}
 $$
 
-其中， ${\pmb{\sigma}}_{r}$ 表示股票收益率在横截面上的标准差（dispersion），也就是说股票协方差单位阵的假设下，因子组合的收益等于因子 IC、股票数量的平方根、标准差和股票截面标准差四个因子的乘积，
+其中， $\pmb{\sigma}_{r}$ 表示股票收益率在横截面上的标准差（dispersion），也就是说股票协方差单位阵的假设下，因子组合的收益等于因子 IC、股票数量的平方根、标准差和股票截面标准差四个因子的乘积，
 
 股票协方差对角阵假设意味着股票间不存在相关性，这显然和现实相差太远，但如果我们这里考察的不是因子的原始取值，而且风险调整的 alpha因子的简单因子组合，那么只需假设风险模型具有结构化形式，残差矩阵正比于单位矩阵，因子组合收益便有上述的形式，相应的，这里的 IC是因子风险调整值和收益率的相关系数，即风险调整之后的 IC。
 
@@ -149,10 +149,10 @@ $$
 在 1.1节，我们讲到，因子组合 FMP 和 alpha因子可以相互转换，每个 alpha因子都可以用因子组合唯一表示，即
 
 $$
-h=V^{-1}\tilde{\alpha},~\tilde{\alpha}=\alpha/\sqrt{\alpha^{T}V^{-1}\alpha}
+h=V^{-1}\tilde{\alpha},\qquad\tilde{\alpha}=\alpha/\sqrt{\alpha^{T}V^{-1}\alpha}
 $$
 
-而且，因子组合的线性组合也唯一对应着相应 alpha因子的线性组合。因子组合 $\left\{h_{j}\right\}$ 的线性组合
+而且，因子组合的线性组合也唯一对应着相应 alpha因子的线性组合。因子组合 $\{h_{j}\}$ 的线性组合
 
 $$
 h_{tp}=\sum_{j=1}^{m}w_{j}h_{j}
@@ -164,7 +164,7 @@ $$
 \sigma_{tp}\alpha_{tp}=\sum_{j=1}^{m}w_{j}\sigma_{j}\alpha_{j}
 $$
 
-其中， $\sigma_{j}=1/\sqrt{\alpha_{j}^{T}V^{-1}\alpha_{j}}$ ，表示因子 j 的因子组合的标准差。
+其中， $\sigma_{j}=1\big/\sqrt{\alpha_{j}^{T}V^{-1}\alpha_{j}}$ ，表示因子 j 的因子组合的标准差。
 
 因此，我们原来通过线性加总不同 alpha因子的得到加总的 alpha，可以相应的转化为线性加权不同 alpha 因子的因子组合，得到目标因子组合（target portfolio），然后根据目标因子组合反解出其对应的加总 alpha参与到后面的组合构建中。
 
@@ -185,25 +185,25 @@ Stubbs（2013、2015）提出了基于因子组合构建 alpha 模型的三个�
 Markowitz(1952)提出的期望方差模型虽然也有自己的不足，但目前依然是多因子选股领域的主流框架。在期望方差框架下，基于 FMP 的因子加权就是找到单因子 FMP 的一组线性组合使得风险调整后的收益最大：
 
 $$
-\begin{array}{rl}{\operatorname*{max}\quad}&{{}\boldsymbol{w}^{T}\boldsymbol{E}(f)-\mathrm{~\lambda~}\boldsymbol{w}^{T}\boldsymbol{\Sigma}_{f}\boldsymbol{w}}\end{array}
+\operatorname*{max}\quad\boldsymbol{w}^{T}E(\boldsymbol{f})-\quad\lambda\quad\boldsymbol{w}^{T}\Sigma_{f}\boldsymbol{w}
 $$
 
-其中， $\pmb{w}=[w_{1},w_{2},\dots,w_{m}]^{T}$ 表示各个单因子组合的权重， $\pmb{\cal E}(f)=[E(f_{1}),E(f_{2}),\dots,E(f_{m})]^{T}$ 表示各个单因子组合的预期收益率， $\Sigma_{f}$ 表示因子组合收益率的协方差矩阵。
+其中， $\pmb{w}=[w_{1},w_{2},\dots,w_{m}]^{T}$ 表示各个单因子组合的权重， $\pmb{E}(\pmb{f})=\left[E(f_{1}),E(f_{2}),\dots,E(f_{m})\right]^{\pmb{T}}$ 表示各个单因子组合的预期收益率， $\pmb{\Sigma}_{f}$ 表示因子组合收益率的协方差矩阵。
 
 需要注意的是，上述优化的最优解，虽然跟λ有关，但λ仅影响最优解的倍数，并不影响各个因子的相对权重，因此在求解过程中任意设置一个参数，最后归一化权重即可。而且上述优化问题和风险约束下最大化收益的解成比例，而风险约束下最大化收益的组合有最大夏普比，组合权重成比例放大输小并不影响夏普率，因此上述方程的最优解和权重约束下最大化夏普比的解也成比例。即：
 
 $$
-\begin{array}{rl}{\operatorname*{max}\quad}&{\frac{w^{T}E(f)}{\sqrt{w^{T}\Sigma_{f}w}}}\\&{}\\{\mathrm{s.t.}\quad}&{w^{T}1=1}\end{array}
+\begin{aligned}&\begin{aligned}\\&\max&\frac{\boldsymbol{w}^{T}\boldsymbol{E}(\boldsymbol{f})}{\sqrt{\boldsymbol{w}^{T}\boldsymbol{\Sigma}_{f}\boldsymbol{w}}}\\&s.t.&\boldsymbol{w}^{T}\mathbf{1}=1\\&\end{aligned}\\\end{aligned}
 $$
 
-由于在一定假设下， $f=IC\cdot\sqrt{N}\cdot\sigma_{A}\cdot\sigma_{r}$ ，不考虑股票数量N、目标风险 $\pmb{\sigma}_{A}$ 和股票截面波动 ${\pmb{\sigma}}_{r}$ 的影响，基于因子组合期望方差的优化就进一步转换为最优化 ICIR，
+由于在一定假设下， $f=IC\cdot\sqrt{N}\cdot\sigma_{A}\cdot\sigma_{r}$ ，不考虑股票数量N、目标风险 $\pmb{\sigma}_{A}$ 和股票截面波动 $\pmb{\sigma}_{r}$ 的影响，基于因子组合期望方差的优化就进一步转换为最优化 ICIR，
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{{}\frac{\boldsymbol{w}^{T}\boldsymbol{E}(IC)}{\sqrt{\boldsymbol{w}^{T}\Sigma_{IC}\boldsymbol{w}}}}\end{array}
+\begin{array}{rl}{\operatorname*{max}\quad}&{{}\displaystyle\frac{\boldsymbol{w}^{T}\boldsymbol{E}(IC)}{\sqrt{\boldsymbol{w}^{T}\Sigma_{IC}\boldsymbol{w}}}}\end{array}
 $$
 
 $$
-\begin{array}{rl}{\mathsf{S}.\mathsf{t}.\quad}&{{}\pmb{w}^{T}\pmb{1}=1}\end{array}
+\begin{array}{rlr}{\mathrm{s.t.}}&{{}}&{\pmb{w}^{T}\pmb{1}=1}\end{array}
 $$
 
 基于因子组合优化加权和基于 IC 优化加权各有利弊，IC 比因子组合收益更加纯粹，直接表示股票的选股能力，而因子组合收益除了受因子选股能力影响外，还与股票数量、目标风险、截面波动等维度的影响，因子组合的优点在于因子收益率数据比 IC 数据更加密集，方便因子收益协方差的估计，而上述优化过程对协方差非常敏感。
@@ -219,10 +219,10 @@ $$
 因子组合期望收益的估计本质上是个因子择时问题，尤其篇幅限制，这里很难展开，感兴趣的投资者可以关注我们前期报告《反转因子择时研究》和《因子择时》。在本小节，我们采用过去一段时间因子组合收益率的月度均值作为因子组合接下来一个月收益率的估计值。我们统计了东方因子库共 72个 alpha因子过去 N个月收益对未来一个月收益预测的平均预测误差，如图1。因子j最过去一段时间的预测误差定义如下：
 
 $$
-SE_{j}=\sqrt{\frac{1}{T}{\sum_{\mathrm{t}=1}^{T}}(\widehat{r_{\mathrm{j},t}}-r_{j,t})^{2}}
+SE_{j}=\sqrt{\frac{1}{T}{\sum}_{\mathrm{t=1}}^{T}{\left(\widehat{r_{\mathrm{j},t}}-r_{j,t}\right)}^{2}},
 $$
 
-其中， $\widehat{r_{\mathrm{J},t}}$ 表示对因子j在 t期收益率的估计， ${r}_{j,t}$ 表示因子j在 t期的真实收益率。
+其中， $\widehat{r_{1,t}}$ 表示对因子j在 t期收益率的估计， $r_{j,t}$ 表示因子j在 t期的真实收益率。
 
 从图 2 我们可以看出，随着回看月份 N 的拉长，预测误差逐渐减少，但在 12 个月以后，这种误差减小的幅度逐步变缓。本文采用过去 5 年（60 个月）因子收益率的均值作为接下来一个月收益率预测的估计值，一方面考虑了因子收益率预测的准确性，另一方面基于长期均值有利于预测值的稳定性，从而降低因子权重变化、降低组合换手。
 
@@ -241,45 +241,45 @@ $$
 
 其中， $\rho$ 为两个因子收益率的相关系数。
 
-当ρ接近 1时，相对收益k和相关系数ρ的估计误差会对权重产生较大影响，当 $k^{2}<\rho\sharp\vec{\bf{\mu}}$ ，相关性高的两个因子预期收益相差较大，就会出现做多表现好的因子做空表现差的因子的情形，这是我们在投资中不愿意看到的情形，大概率是由于估计误差的影响，因此我们可以对因子权重进行空头的限制，进而减弱数据估计误差的影响。在实际操作时，由于各个 alpha因子都有自身的逻辑，我们可以事前根据其逻辑确定因子的选股方向（因子取值越大股票收益更高、还是取值越小收益更高），在调整因子方向后，我们可以约束因子权重必须大于 0。
+当ρ接近 1时，相对收益k和相关系数ρ的估计误差会对权重产生较大影响，当 $k^{2}<\rho 时$ ，相关性高的两个因子预期收益相差较大，就会出现做多表现好的因子做空表现差的因子的情形，这是我们在投资中不愿意看到的情形，大概率是由于估计误差的影响，因此我们可以对因子权重进行空头的限制，进而减弱数据估计误差的影响。在实际操作时，由于各个 alpha因子都有自身的逻辑，我们可以事前根据其逻辑确定因子的选股方向（因子取值越大股票收益更高、还是取值越小收益更高），在调整因子方向后，我们可以约束因子权重必须大于 0。
 
 ## 2.3 基于风险配置的因子加权
 
 基于期望方差的优化虽然很完美，但现实中因子收益的预测及其困难，在收益收益不可预测的情况下，我们完全可以从风险配置的角度分配因子权重，M个因子组合的线性组合的标准差有如下形式：
 
 $$
-\begin{array}{r}{\sigma(w)=\sqrt{w^{T}\Sigma_{f}w}}\end{array}
+\boldsymbol{\sigma}(\boldsymbol{w})=\sqrt{\boldsymbol{w}^{T}\boldsymbol{\Sigma}_{f}\boldsymbol{w}}
 $$
 
 第j个因子的边际风险贡献为：
 
 $$
-\frac{\partial\boldsymbol{\sigma}(w)}{\partial w_{j}}=\frac{\left(\boldsymbol{\Sigma}_{f}\boldsymbol{w}\right)_{j}}{\sqrt{w^{T}\boldsymbol{\Sigma}_{f}w}}
+\frac{\partial\sigma(\boldsymbol{w})}{\partial w_{j}}=\frac{\left(\Sigma_{f}\boldsymbol{w}\right)_{j}}{\sqrt{\boldsymbol{w}^{T}\Sigma_{f}\boldsymbol{w}}}
 $$
 
 第 j 个因子的风险贡献度为：
 
 $$
-RC_{j}=w_{j}\cdot\frac{\partial\sigma(w)}{\partial w_{j}}=\frac{w_{j}\big(\Sigma_{f}w\big)_{j}}{\sqrt{w^{T}\Sigma_{f}w}}
+RC_{j}=w_{j}\cdot\frac{\partial\sigma(w)}{\partial w_{j}}=\frac{w_{j}\left(\Sigma_{f}w\right)_{j}}{\sqrt{w^{T}\Sigma_{f}w}},
 $$
 
 所有因子的风险贡献度之和等于总风险，相应的，第j个因子的风险贡献占比为：
 
 $$
-PCR_{j}=\frac{w_{j}\big(\pmb{\Sigma}_{f}\pmb{w}\big)_{j}}{\pmb{w}^{T}\pmb{\Sigma}_{f}\pmb{w}}
+PCR_{j}=\frac{w_{j}\big(\Sigma_{f}w\big)_{j}}{w^{T}\Sigma_{f}w}
 $$
 
 对应每个风险因子，我们可以指定一个风险贡献占比序列 $\left\{pcr_{j}\right\}$ ，通过下列优化问题可以实现指定风险贡献占比的因子配置：
 
 $$
-\begin{array}{rl}{min}&{{}\displaystyle{\sum_{j=1}^{M}\left(\frac{w_{j}\big(\Sigma_{f}w\big)_{j}}{w^{T}\Sigma_{f}w}-pcr_{j}\right)^{2}}}\end{array}
+\begin{array}{rl}{min}&{{}\sum_{j=1}^{M}\left(\cfrac{w_{j}\left(\Sigma_{f}w\right)_{j}}{w^{T}\Sigma_{f}w}-pcr_{j}\right)^{2}}\end{array}
 $$
 
 $$
-s.t.\sum_{j=1}^{M}w_{j}=1
+\mathrm{s.t.}\quad\sum_{j=1}^{M}w_{j}=1.
 $$
 
-当 $pcr_{j}=1/M$ 时，上述优化过程即实现了 alpha 因子配置的风险平价（alpha risk parity）。当因子间不存在相关性时，因子 j 的风险贡献占比退化为：
+当 $[pcr_{j}=1/M$ 时，上述优化过程即实现了 alpha 因子配置的风险平价（alpha risk parity）。当因子间不存在相关性时，因子 j 的风险贡献占比退化为：
 
 $$
 PCR_{j}=\frac{w_{j}^{2}\sigma_{j}^{2}}{\sum_{j=1}^{M}w_{j}^{2}\sigma_{j}^{2}}

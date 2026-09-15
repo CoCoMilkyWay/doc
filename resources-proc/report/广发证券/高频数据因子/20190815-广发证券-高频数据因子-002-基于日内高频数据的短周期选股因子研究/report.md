@@ -121,12 +121,12 @@ A 股负 ALPHA 因子策略:—2019-08-12—转融通选股系列之一
 
 具体因子指标构建如下：
 
-- 对于每个个股在交易日t，首先计算个股在特定分钟频率下第i个的收益率$r_{t,i},~r_{t,i}=p_{t,i}-p_{t,i-1}$ ，其中 $p_{t,i}$ 表示在交易日t，个股在第i个特定分钟频率下的对数价格， $p_{t,i-1}$ 表示在交易日t，个股在第i−1个特定分钟频率下的对数价格。
+- 对于每个个股在交易日t，首先计算个股在特定分钟频率下第i个的收益率$r_{t,i},\quad r_{t,i}=p_{t,i}-p_{t,i-1}$ ，其中 $p_{t,i}$ 表示在交易日t，个股在第i个特定分钟频率下的对数价格， $p_{t,i-1}$ 表示在交易日t，个股在第i−1个特定分钟频率下的对数价格。
 
-对于每个个股，根据 ${\boldsymbol{r}}_{t,i}$ 分别计算个股在交易日t下的已实现方差（Realized Variance） $RDVar_{t}$ 、已实现波动率（Realized Volatility）$RDVol_{t}$ 、已实现偏度（Realized Skewness）RDSkew ，已实现峰度（Realized kurtosis）RDKurtt。其中：
+对于每个个股，根据 $r_{t,i}$ 分别计算个股在交易日t下的已实现方差（Realized Variance） $RDVar_{t}$ 、已实现波动率（Realized Volatility）$RDVol_{t}$ 、已实现偏度（Realized Skewness）RDSkew ，已实现峰度（Realized kurtosis）RDKurtt。其中：
 
 $$
-RDVar_{t}=\sum_{i=1}^{N}r_{t,\mathrm{i}}^{2}
+RDVar_{t}=\sum_{i=1}^{N}r_{t,i}^{2}
 $$
 
 $$
@@ -134,33 +134,33 @@ RDVol_{t}=(RDVar_{t})^{1/2}
 $$
 
 $$
-RDSkew_{t}=\frac{\sqrt{N}\sum_{I=1}^{N}r_{t.\mathrm{i}}^{3}}{RDVar_{t}^{3/2}}
+RDSkew_{t}=\frac{\sqrt{N}\sum_{I=1}^{N}r_{t,\mathbf{i}}^{3}}{RDVar_{t}^{3/2}}
 $$
 
 $$
 RDKurt_{t}=\frac{N\sum_{i=1}^{N}r_{t,i}^{4}}{RDVar_{t}^{2}}
 $$
 
-N表示个股在交易日t中特定频率的分钟级别数据个数，如在5分钟级别下，交易日t下共有的数据个数N为 $48(60^{\star}4/5{=}48)$ ），在1分钟级别下，交易日t下共有的数据个数N为 $240(60^{\star}4/1{=}240)$
+N表示个股在交易日t中特定频率的分钟级别数据个数，如在5分钟级别下，交易日t下共有的数据个数N为 $48(60^{\star}4/5=48)$ ），在1分钟级别下，交易日t下共有的数据个数N为 $240(60^{\star}4/1=240)$
 
-- 对于每个个股，在交易日t计算以上三个变量的每日变化量 $\Delta Vol_{t}$ $\varDelta Skew_{t}\cdot\varDelta Kurt_{t}$ ，其中：
-
-$$
-\Delta Vol_{t}=\ RDVol_{t}\ -\ RDVol_{t-1}
-$$
+- 对于每个个股，在交易日t计算以上三个变量的每日变化量 $\angle Vol_{t}$ $\varDelta Skew_{t}\mathrm{~丶~}\varDelta Kurt_{t}$ ，其中：
 
 $$
-\varDelta Skew_{t}=\ RDSkew_{t}\ -RDSkew_{t-1}
+\varDelta Vol_{t}=\;RDVol_{t}\;-RDVol_{t-1}
 $$
 
 $$
-\Delta Kurt_{t}=\ RDKurt_{t}\ -\ RDKurt_{t-1}
+\varDelta Skew_{t}=RDSkew_{t}-RDSkew_{t-1}
+$$
+
+$$
+\varDelta Kurt_{t}=RDKurt_{t}-RDKurt_{t-1}
 $$
 
 - 将以上计算所得数据，代入以下回归模型：
 
 $$
-\begin{array}{r}{r_{i,t}=\alpha^{i}+\beta_{MKT}^{i}r_{m,t}+\beta_{\Delta voL}^{i}\Delta Vol_{t}+\beta_{\Delta SKEW}^{i}\Delta Skew_{t}+\beta_{\Delta KURT}^{i}\Delta Kurt_{t}+\varepsilon_{i,t}}\end{array}
+r_{i,t}=\alpha^{i}+\beta^{i}_{MKT}r_{m,t}+\beta^{i}_{\Delta voL}\Delta Vol_{t}+\beta^{i}_{\Delta SKEW}\Delta Skew_{t}+\beta^{i}_{\Delta KURT}\Delta Kurt_{t}+\varepsilon_{i,t}
 $$
 
 以个股过去一段时间的时间序列做回归后，取所得残差标准差，以其作为个股的指标，分析此指标对个股收益率区分度的有效性。
@@ -185,7 +185,7 @@ $$
 
 - 调仓周期：周频换仓，Q1档为因子值最小的，Q5档为因子值最大的。
 
-- 参数说明：N=240，当样本为全市场个股时，市场收益率 $\cdot r_{m,t}$ 为上证综指涨跌幅数据，同理，当样本为中证500历史成分股时，市场收益率 ${\cdot}r_{m,t}$ 为中证500股指涨跌幅数据。
+- 参数说明：N=240，当样本为全市场个股时，市场收益率 $\cdot r_{m,t}$ 为上证综指涨跌幅数据，同理，当样本为中证500历史成分股时，市场收益率 $r_{m,t}$ 为中证500股指涨跌幅数据。
 
 ## 实证分析—全市场、中证 500 因子选股分档表现
 

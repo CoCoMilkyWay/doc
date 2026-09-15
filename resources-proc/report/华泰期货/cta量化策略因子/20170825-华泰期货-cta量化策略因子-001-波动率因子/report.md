@@ -135,7 +135,7 @@ CTA 管理期货一直以来以与股票、债券市场的低相关性作为对�
 特点：波动率下降、价格上升
 
 $$
-\begin{array}{rl}&{HV_{90Days}<HV_{90Days-mean}-HV_{90Days-Std}}\\&{Price_{now}>Price_{now-90Days}}\\&{HV_{now}>HV_{90Days}}\end{array}
+\begin{aligned}&HV_{90Days}<HV_{90Days-mean}-HV_{90Days-Std}\\&\\&Price_{now}>Price_{now-90Days}\\&\\&HV_{now}>HV_{90Days}\\\end{aligned}
 $$
 
 ## （2） 正波动周期－市场情绪膨胀期末：
@@ -143,7 +143,7 @@ $$
 特点：波动率开始下降、价格反转
 
 $$
-\begin{array}{rl}&{HV_{90Days}>HV_{90Days-mean}+HV_{90Days-Std}}\\&{Price_{now}<Price_{now-90day}}\\&{HV_{now}<HV_{90Days}}\end{array}
+\begin{aligned}&HV_{90Days}>HV_{90Days-mean}+HV_{90Days-Std}\\&\\&Price_{now}<Price_{now-90day}\\&\\&HV_{now}<HV_{90Days}\\\end{aligned}
 $$
 
 （3） 负波动周期－过波反应期：
@@ -151,7 +151,7 @@ $$
 特点：波动率开始上升，价格下降
 
 $$
-\begin{array}{rl}&{HV_{90Days}<HV_{90Days-mean}+HV_{90Days-Std}}\\&{}\\&{Price_{now}<Price_{now-90day}}\end{array}
+\begin{aligned}&HV_{90Days}<HV_{90Days-mean}+HV_{90Days-Std}\\&\\&Price_{now}<Price_{now-90day}\\\end{aligned}
 $$
 
 图 14： 动量策略收益净值图

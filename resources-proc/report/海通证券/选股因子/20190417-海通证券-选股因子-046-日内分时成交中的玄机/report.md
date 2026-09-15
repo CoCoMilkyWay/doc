@@ -54,32 +54,32 @@ Email:ys10481@htsec.com
 
 ## 2.1 因子定义
 
-每一交易日提取股票i的 1 分钟频率的收益率序列 $\boldsymbol{r}_{ij}$ ，成交金额序列 $Amt_{ij}$ 和成交笔数序列 $TrdNum_{ij}$ ，计算以下指标：
+每一交易日提取股票i的 1 分钟频率的收益率序列 $r_{ij}$ ，成交金额序列 $Amt_{ij}$ 和成交笔数序列 $TrdNum_{ij}$ ，计算以下指标：
 
 $$
-\begin{array}{r}{\mp\frac{12}{4}\leqslant\frac{\neq}{\pm}\sqrt{\dot{\mathfrak{X}}}\stackrel{\cdot}{\mathcal{Z}}\stackrel{\cdot}{\le}\frac{\mu}{\le\vert\mathfrak{Y}\vert}:\ AmtPerTrd_{i}=\sum_{j=1}^{N}Amt_{ij}\ I\ \sum_{j=1}^{N}TrdNum_{ij}}\end{array}
-$$
-
-$$
-\begin{array}{r}{\mp\frac{1}{4}\sharp\frac{\ d}{\ dt}\dddot\pm\frac{\ d}{\ dt}\langle\frac{\ dH}{\ dt}\wedge\sqrt{\ dH}\ dH;\ dH.\ dH.\ dH.\ dH.\ dH.\ dH.\ dH.}\end{array}
+平均单笔成交金额:$AmtPerTrd_{i}=\sum_{j=1}^{N}Amt_{ij}$$I\sum_{j=1}^{N}TrdNum_{ij}$
 $$
 
 $$
-\begin{array}{r}\mp\frac{1}{4}\Im\dot{\Psi}\dot{\mathfrak{L}}\dot{\mathfrak{L}}\dot{\mathfrak{R}}\dot{\textbf{ \ i }}\dot{\mathfrak{L}}\tilde{\mathfrak{L}}\tilde{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot{\mathfrak{L}}\dot{\mathfrak{H}}\dot\mathfrak L\end{array}
+平均单笔流入金额:AmtPerTrd\_inFollowing=\frac{\sum_{j=1}^{N}Am_{ij}.I_{rij}>0}{\sum_{j=1}^{N}TrdNum_{ij}.I_{rij}>0}
+$$
+
+$$
+平均单笔流出全额:AmtPerTrd\_outFollowing=\frac{\sum_{j=1}^{N}Amt_{ij}\cdot I_{r_j<0}}{\sum_{j=1}^{N}TrdNum_{ij}\cdot I_{r_{ij}<0}}
 $$
 
 单笔成交金额与股票市值之间具有较强的正相关性，为了使不同市值的股票可以横向比较，我们将单笔成交金额标准化，转换为以下指标：
 
 $$
-\begin{array}{r}{\mp\frac{1}{4}\Im\dot{\Psi}\dot{\Xi}\dot{\Xi}\dot{\mathcal{M}}\wedge\sqrt{\underline{{\mathrm{se}}}\tilde{\Xi}\tilde{\mathcal{M}}}\stackrel{}{\Xi}\dot{\Xi}\dot{\mathcal{M}}\stackrel{}{\Xi}A\Im T_{-}inFlow_{-}ratio_{i}=\frac{AmtPerTrd_{-}inFlow_{i}}{AmtPerTrd_{i}}\dot{\Xi}\dot{\Psi}\dot{u}}\end{array}
+平均单笔流入金额占比:$ApT\_inFlow\_ratio_{i}=\frac{AmtPerTrd\_inFlow_{i}}{AmtPerTrd_{i}}$
 $$
 
 $$
-\begin{array}{r}{\mp\dag\dot{\Xi}\dot{\mathcal{G}}\dddot{\Psi}\dot{\Xi}\dot{\Xi}\dot{\mathcal{M}}\frac{\dot{\mathcal{F}}\dot{\mathcal{F}}\dot{\mathcal{H}}}{\dot{\Xi}\dot{\mathcal{B}}\dot{\mathcal{G}}}\dot{\Xi}\dot{\mathcal{H}}\dot{\Xi}\dot{\mathcal{L}};ApT_{-}outFlow_{-}ratio_{i}=\frac{AmtPerTrd_{-}outFlow_{i}}{AmtPerTrd_{i}}\dot{\Xi}\dot{\mathcal{W}}\dot{i}}\end{array}
+平均单笔流出金额占比:\ \frac{AP_{-}outFlow\_ratio_{i}=\frac{AHPerTrd\_outFlow_{i}}{AHPerTrd_{i}}}{\frac{AHPerTrd_{i}}{AHPerTrd_{i}}}
 $$
 
 $$
-\begin{array}{r}\mp\dag\dot{\leq}\dot{\lVert\Psi\mathbin{\bf~\dot{=}\dot{\omega}}\mathbin{\bf~\dot{=}\dot{\omega}}\end{array}}\mathrm{~\wedge~}\mathrm{~and~}\mathrm{~\wedge~}\mathrm~\dot{\geq}\ddot{\dag}\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag\dot{\geq}\dag[\mathrm~\ r~-
+平均单笔流入流出金额之比:\ \frac{APT_{-}netInFollowing_{-}ratio_{i}}{APT_{-}outInow_{-}ratio_{i}}=\frac{APT_{-}InInflow_{-}ratio_{i}}{APT_{-}outflow_{-}ratio_{i}}
 $$
 
 因子值为过去 20 日的指标均值。
@@ -260,26 +260,26 @@ Fama-Macbeth 截面回归结果显示，平均单笔流出金额占比因子月�
 
 ## 3.1 因子定义
 
-每一交易日提取股票i的日内 1 分钟频率的收益率序列 $r_{ij}$ ，成交额序列 $Amt_{ij}$ 和成交笔数序列TrdNum ，计算每分钟的平均单笔成交金额AmtPerTrd ，将分钟 K 线按AmtPerTrd 从高到低排序，选择前 N（N=10%、20%、30%）的 K线，作为大单成交样本，记对应的 K线序号为IdxSet。
+每一交易日提取股票i的日内 1 分钟频率的收益率序列 $r_{ij},$ ，成交额序列 $Amt_{ij}$ 和成交笔数序列TrdNum ，计算每分钟的平均单笔成交金额AmtPerTrd ，将分钟 K 线按AmtPerTrd 从高到低排序，选择前 N（N=10%、20%、30%）的 K线，作为大单成交样本，记对应的 K线序号为IdxSet。
 
 我们接下来使用筛选出的 K线集合计算以下指标：
 
 - 大单资金净流入金额
 
 $$
-Amt_{-}netInFlow_{-}bigOrder_{i}=\sum_{j=1}^{N}Amt_{ij}\cdot I_{\{r_{ij}>0,j\epsilon IdxSet\}}-\sum_{j=1}^{N}Amt_{ij}\cdot I_{\{r_{ij}<0,j\epsilon IdxSet\}}
+Amt\_netInFlow\_bigOrder_{i}=\sum_{j=1}^{N}Amt_{ij}\cdot I_{\left(r_{ij}>0,jeldxSet\right)}-\sum_{j=1}^{N}Amt_{ij}\cdot I_{\left(r_{ij}<0,jeldxSet\right)}
 $$
 
 - 大单资金净流入率
 
 $$
-Amt_{-}netInFlow_{-}bigOrder_{-}ratio_{i}=\ Amt_{-}netInFlow_{-}bigOrder_{i}/\sum_{j=1}^{N}Amt_{ij}
+\begin{array}{r}{Amt\_netInFlow\_bigOrder\_ratio_{i}=\:Amt\_netInFlow\_bigOrder_{i}/\sum_{j=1}^{N}Amt_{ij}}\end{array}
 $$
 
 - 大单驱动涨幅
 
 $$
-Mom\_bigOrder\_=prod(1+r_{ij}\cdot I_{\{j\epsilon IdxSet\}})
+Mom\_bigOrder_{i}=prod(1+r_{ij}\cdot I_{\{j\epsilon IdxSet\}})
 $$
 
 使用股票过去 20 日指标均值作为因子值。

@@ -157,7 +157,7 @@ S0880519090002
 本文使用 Louvain 算法区分投资者是否属于某一集团。该算法通过最大化模块度 Q，将投资者关系的图结构数据划分为不同的集团，使其在集团内的联系密度相对于集团外更高。
 
 $$
-maxQ=\frac{1}{2m}{\sum_{i,j}\left[A_{ij}-\frac{k_{i}k_{j}}{2m}\right]}\delta{\left(c_{i},c_{j}\right)}
+maxQ=\frac{1}{2m}\sum_{i,j}\left[A_{ij}-\frac{k_{i}k_{j}}{2m}\right]\delta\left(c_{i},c_{j}\right)
 $$
 
 每年年初根据上一年的持股情况重新计算投资者的集团属性，得到二分类的数据结果：“属于某个集团（clique）”或“不属于任何集团”。
@@ -167,14 +167,14 @@ $$
 ①公司的集团持股总量 Clique ownersℎip
 
 $$
-\begin{array}{rl}&{\texttt{STwownership}_{j,t}=\texttt{Ustumeovrtct}\textcircled{<t}\texttt{stup}_{j,t}}\\&{\texttt{Cliqueownership}_{j,t}=\displaystyle\sum_{i}^{N}\lambda_{i,t}1(Clique\ institution_{i,t})}\end{array}
+\begin{aligned}&向量因转成总量\;Clique\;ownership_{j,t}\\&\quad Clique\;ownership_{j,t}=\sum_{i}^{N}\lambda_{i,t}1(Clique\;insituation_{i,t})\\\end{aligned}
 $$
 
-其中 $\lambda_{i,t}$ 是机构持股比例； $1(Clique\ institution_{i,t})$ 是示性变量，当机构属于某个集团时为 1，不属于任何集团时为 0，根据 Louvain 算法判断机构是否属于某个集团。
+其中 $\lambda_{i,t}$ 是机构持股比例； $1(Clique\;institution_{i,t})$ 是示性变量，当机构属于某个集团时为 1，不属于任何集团时为 0，根据 Louvain 算法判断机构是否属于某个集团。
 
 ②所有集团持股比例平方和 Clique Herfindaℎlj,t
 
-③持股比例最大的集团的持股比例 $Clique\ own.-top1_{j,t}$
+③持股比例最大的集团的持股比例 $Clique\;own.\;{-top1}_{j,t}$
 
 表 1：数据描述性统计
 
@@ -339,10 +339,10 @@ $$
 
 2003 年 9 月，25 家基金公司被美国证券交易委员会指控非法交易，导致基金公司大量资金流出并倒闭，这会重塑既有的机构集团结构。本节通过上述丑闻之后一段时间内集团持股和投票的变化，分析机构协调机制对投票的动态影响。
 
-首先，构建公司层面的指标Treatment ，衡量公司被丑闻机构影响的程度。其中 $\lambda_{i,j}$ 是机构 i持有公司j股票的比例，N 是机构总数， $|C_{i}$ |是与机构 i有关的机构数量， $1_{k}$ 是衡量机构是否为 2003 年丑闻涉及机构的虚拟变量。
+首先，构建公司层面的指标Treatment ，衡量公司被丑闻机构影响的程度。其中 $\lambda_{i,j}$ 是机构 i持有公司j股票的比例，N 是机构总数， $|C_{i}|$ |是与机构 i有关的机构数量， $1_{k}$ 是衡量机构是否为 2003 年丑闻涉及机构的虚拟变量。
 
 $$
-Treatment_{j}=\sum_{i}^{N}\lambda_{i,j}(\frac{1}{|C_{i}|}\sum_{k\in C_{i}}1_{k})
+Treatment_{j}={\sum}_{i}^{N}\lambda_{i,j}(\frac{1}{|C_{i}|}{\sum}_{k\in C_{i}}1_{k}),
 $$
 
 其次，文章构建了两阶段回归以检验集团持股和丑闻对反对投票比例的影响。
@@ -351,13 +351,13 @@ $$
 使用历史数据拟合模型参数，再根据因变量数据得到两个变量的估计值。
 
 $$
-\begin{array}{rl}&{Clique\ own_{\cdot{j,t,l}}=\emptyset_{1}\big(Treat_{j}\times Post_{t}\big)+\emptyset_{2}Treat_{j}+X_{j,t}\psi+\delta_{j}+\theta_{t}+\mu_{j,t,l}}\\&{}\\&{Clique\ own_{\cdot{j,t,l}}\times Prop.qual_{\cdot{j,t,l}}=\xi_{1}\big(Treat_{j}\times Post_{t}\times Prop.qual_{\cdot{j,t,l}}\big)}\\&{\qquad+\xi_{2}Treat_{j}+X_{j,t}\lambda+\delta_{j}+\theta_{t}+v_{j,t,l}}\end{array}
+\begin{aligned}Clique\ own_{j,t,l}=\varnothing_{1}\big(Treat_{j}\times Post_{t}\big)+\varnothing_{2}Treat_{j}+X_{j,t}\psi+\delta_{j}+\theta_{t}+\mu_{j,t,l}\\\\Clique\ own_{j,t,l}\times Prop.quad_{j,t,l}=\xi_{1}\big(Treat_{j}\times Post_{t}\times Prop.quad_{j,t,l}\big)\\+\xi_{2}Treat_{j}+X_{j,t}\lambda+\delta_{j}+\theta_{t}+v_{j,t,l}\end{aligned}
 $$
 
 第二阶段，将上面两个变量的估计值作为自变量拟合下列方程。
 
 $$
-\begin{array}{rl}&{Votes\ against_{j,t,l}=\beta_{1}Cluqu\widehat{e\ ow}n_{\cdot,j,t,l}+\beta_{2}\big(Cluque\ own_{\cdot,j,t,l}\widehat{\times Prop.}qual_{\cdot,j,t,l}\big)}\\&{\qquad+\beta_{3}Treat_{j}+X_{j,t}\lambda+\delta_{j}+\theta_{t}+\varepsilon_{j,t,l}}\end{array}
+\begin{aligned}Votes\ against_{j,t,l}&=\beta_{1}Clique\ \widehat{own_{\gamma,t,l}}+\beta_{2}\big(Clique\ \widehat{own_{\gamma,t,l}\times Prop.\quad qual_{\gamma,t,l}}\big)\\&+\beta_{3}Treat_{j}+X_{j,t}\lambda+\delta_{j}+\theta_{t}+\varepsilon_{j,t,l}\end{aligned}
 $$
 
 表 6：外部冲击影响下的集团持股对公司投票的影响
@@ -476,14 +476,14 @@ $$
 | Independent variable: ∆Ownt |  |  |  |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- |
 |  | (1) | (2) | (3) | (4) | (5) | (6) |
-| $\begin{array}{ll}{\Delta Own._{t-1}\ \times}\end{array}$ Multiple clique owners | 0.0935*** | $0.0748^{***}$ | 0.0759*** | 0.0468** | 0.0294 | 0.0305* |
+| $\varDelta Own._{t-1}\times$ Multiple clique owners | 0.0935*** | $0.0748^{***}$ | 0.0759*** | 0.0468** | 0.0294 | 0.0305* |
 |  | (0.02) | (0.01) | (0.01) | (0.02) | (0.02) | (0.02) |
-| $\begin{array}{ll}{\Delta Own._{t-1}\ \times}\end{array}$ Multiple clique owners × |  |  |  | 0.0082 | 0.0476** | 0.0465** |
+| $\varDelta Own._{t-1}\times$ Multiple clique owners × |  |  |  | 0.0082 | 0.0476** | 0.0465** |
 | $Sale_{t-1}$ |  |  |  | (0.02) | (0.02) | (0.02) |
-| $\Delta Own._{t-1}$ | -0.2469*** (0.01) | -0.2150*** (0.01) | -0.2129*** (0.01) | -0.3601*** (0.02) | -0.3197*** (0.02) | -0.3177*** (0.02) |
+| $\varDelta Own._{t-1}$ | -0.2469*** (0.01) | -0.2150*** (0.01) | -0.2129*** (0.01) | -0.3601*** (0.02) | -0.3197*** (0.02) | -0.3177*** (0.02) |
 | Multiple clique owners | 0.0004*** (0.00) | -0.0002*** (0.00) | -0.0002*** | 0.0000 | -0.0004*** | -0.0004*** |
 | $Sale_{t-1}$ |  |  | (0.00) | (0.00) -0.0015*** | (0.00) -0.0017*** | (0.00) -0.0017*** |
-| $Sale_{t-1}\times\varDelta Own_{\cdot_{t-1}}$ |  |  |  | (0.00) 0.3764*** | (0.00) 0.3086*** | (0.00) 0.3056*** |
+| $Sale_{t-1}\times\Delta Own_{\cdot t-1}$ |  |  |  | (0.00) 0.3764*** | (0.00) 0.3086*** | (0.00) 0.3056*** |
 | Multiple clique owners × |  |  |  | (0.02) | (0.03) | (0.03) |
 | $Sale_{t-1}$ |  |  |  | 0.0007*** | 0.0009*** | 0.0009*** |
 | 观测数 | 29,599,982 | 29,599,982 | 29,548,726 | (0.00) 29,599,982 | (0.00) | (0.00) |

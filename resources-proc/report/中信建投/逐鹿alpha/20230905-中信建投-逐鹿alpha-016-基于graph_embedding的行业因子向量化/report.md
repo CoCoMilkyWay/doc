@@ -93,7 +93,7 @@ model.most_similar(‘贵州茅台’)：
 图的定义：
 
 $$
-G=\mathit{\Omega}(\mathit{V},E\mathit{\Theta})
+G=\textbf{ ( }V,E\textbf{ ) }
 $$
 
 V代表顶点集合，E代表边
@@ -103,7 +103,7 @@ V代表顶点集合，E代表边
 邻接矩阵：
 
 $$
-A_{ij}=\left\{\begin{array}{ll}{1}&{if\{v_{i},v_{j}\}\in Vandi\ne j,}\\{0}&{otherwise}\end{array}\right.
+A_{ij}=\left\{\begin{aligned}{1}&{{}\quad if\{v_{i},v_{j}\}\in V\;and\;i\neq j,}\\{0}&{{}\quad otherwise}\\\end{aligned}\right.
 $$
 
 常见的图嵌入算法包括DeepWalk, LINE, Node2Vec, SDNE, Struct2Vec, GraphSAGE等
@@ -154,11 +154,11 @@ Node2vec是在DeepWalk的基础上，引入参数p和q，将随机游走序列�
 Figure 1: BFS and DFS search strategies from node u (k = 3).
 
 $$
-P(c_{i}=x\mid c_{i-1}=v)={\left\{\begin{array}{ll}{{\frac{\pi_{vx}}{Z}}}&{{\mathrm{if~}}(v,x)\in E}\\{0}&{{\mathrm{otherwise}}}\end{array}\right.}
+P(c_{i}=x\mid c_{i-1}=v)=\begin{cases}{\frac{\pi_{vx}}{Z}}&{\operatorname{if}\left(v,x\right)\in E}\\{0}&{\operatorname{otherwise}}\\\end{cases}
 $$
 
 $$
-\alpha_{pq}(t,x)=\left\{\begin{array}{ll}{\frac{1}{p}}&{\mathrm{if}\ d_{tx}=0}\\{1}&{\mathrm{if}\ d_{tx}=1}\\{\frac{1}{q}}&{\mathrm{if}\ d_{tx}=2}\end{array}\right.
+\alpha_{pq}(t,x)=\begin{cases}{\frac{1}{p}}&{\operatorname{if}d_{tx}=0,}\\{1}&{\operatorname{if}d_{tx}=1,}\\{\frac{1}{q}}&{\operatorname{if}d_{tx}=2.}\\\end{cases}
 $$
 
 ![](images/b13324d94f74f91744f110420df030ffbfc2bac91ea1c01cd01b26afcd32e85e.webp)

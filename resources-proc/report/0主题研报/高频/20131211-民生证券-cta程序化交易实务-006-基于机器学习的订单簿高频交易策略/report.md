@@ -131,7 +131,7 @@
 机器学习问题可以一般的表示为：假设变量x与y遵循某一未知的联合分布$F(x,y)$ ，那么根据l个独立同分布的观测样本 $(x_{1},y_{1}),(x_{2},y_{2}),\cdots,(x_{l},y_{l})$ $(x_{i}\in R^{d},y_{i}\in\{+1,-1\}$ ，d是样本的维数)，在一组函数 $\{f(x,w)\}$ 中求一个最优的函数$f(x,w_{0})$ 作为对y的估计，使得期望风险最小，即
 
 $$
-\operatorname*{min}R(w)=\int L(y,f(x,w))dF(x,y)
+\min R(w)=\int L(y,f(x,w))dF(x,y)
 $$
 
 其中，预测函数集 $\{f(x,w)$ 可以为任何函数集合，w为函数的广义参数，$L(y,f(x,w)$ 为用 $f(x,w)$ 对y进行预测所造成的损失。
@@ -141,10 +141,10 @@ $$
 要么对，要么错，所以损失函数可以定义为
 
 $$
-L(y,f(x,w)){=}\left\{\begin{array}{ll}{{1}}&{{\qquad y\neq f(x,w)}}\\{{0}}&{{\qquad y=f(x,w)}}\end{array}\right.
+L(y,f(x,w))=\left\{\begin{aligned}&1\quad&y\neq f(x,w)\\&0\quad&y=f(x,w)\end{aligned}\right.
 $$
 
-传统的统计模式识别方法如几何分类法、概率分类法等都是在一个假设前提下研究的样本数目足够多，想要多少样本就有多少样本。所以提出的各种方法只有在样本数目趋于无穷大时其性能才有理论上的保证。但是，实际应用中的样本数目都是极为有限的，于是期望风险 $R(w)$ 就要用由样本定义的经验风险 $R_{\it emp}(w)$ 来代替。
+传统的统计模式识别方法如几何分类法、概率分类法等都是在一个假设前提下研究的样本数目足够多，想要多少样本就有多少样本。所以提出的各种方法只有在样本数目趋于无穷大时其性能才有理论上的保证。但是，实际应用中的样本数目都是极为有限的，于是期望风险 $R(w)$ 就要用由样本定义的经验风险 $R_{emp}(w)$ 来代替。
 
 $$
 R_{emp}(w)=\frac{1}{l}\sum_{i=1}^{l}L(y_{i},f(x_{i},w))
@@ -164,7 +164,7 @@ $$
 
 20世纪70年代，Vapnik等人开始建立起一套比较完善的理论体系一—统计学习理论(SLT，Statistical Learning Theory)，它用于研究有限样本情形下统计规律和学习方法性质，为有限样本的机器学习问题建立了一个良好的理论框架，较好地解决了小样本、非线性、高维数和局部极小点等实际问题。1995年，Vapnik等人明确提出一种新的通用学习方法——支持向量机(SVM, Support Vector Machine)后，该理论受到广泛的重视并应用到不同的领域，它已初步表现出很多优于己有方法的性能。
 
-SVM是从线性可分情况下的最优分类超平面发展而来的。对两类分类问题,设训练样本集为 $(\mathbf{x}_{i},y_{i})\mathbf{,}i=1,2,\cdot\cdot l,$ ，l为训练样本的个数， $\mathbf{X}_{i}\in R^{d}$ 为训练样本， $y_{i}\in\{-1,+1\}$ 是输入样本 $\mathbf{x}_{i}$ 的类标记(期望输出)。SVM算法的出发点是寻找最优分类超平面。最优分类超平面不但能将所有样本正确分开(训练错分率为0)，而且能够使两类间的边际(margin)最大，边际定义为训练数据集到该分类超平面的最小距离之和。最优分类超平面意味着对测试数据平均分类误差最小。
+SVM是从线性可分情况下的最优分类超平面发展而来的。对两类分类问题,设训练样本集为 $(x_{i},y_{i}),i=1,2,\cdots L$ ，l为训练样本的个数， $\mathbf{x}_{i}\in\boldsymbol{R}^{d}$ 为训练样本， $y_{i}\in\{-1,+1\}$ 是输入样本 $\mathbf{X}_{i}$ 的类标记(期望输出)。SVM算法的出发点是寻找最优分类超平面。最优分类超平面不但能将所有样本正确分开(训练错分率为0)，而且能够使两类间的边际(margin)最大，边际定义为训练数据集到该分类超平面的最小距离之和。最优分类超平面意味着对测试数据平均分类误差最小。
 
 如果存在d维矢量空间中的一个超平面
 
@@ -172,12 +172,12 @@ $$
 F(\mathbf{x})=w\cdot\mathbf{x}+b=0
 $$
 
-能够将上述两类数据分开，则称该超平面为分界面。这里 $w\mathbf{\cdot x}=\sum_{i=1}^{d}w_{i}\mathbf{x}_{i}$ 为d维矢量空间中两个矢量w和X的内积。
+能够将上述两类数据分开，则称该超平面为分界面。这里 $\mathcal{W}\cdot\mathbf{X}=\sum_{i=1}^{d}\mathcal{W}_{i}\mathbf{X}_{i}$ 为d维矢量空间中两个矢量w和X的内积。
 
 如果分界面
 
 $$
-w\mathbf{\cdot x}+b=0
+w\cdot x+b=0
 $$
 
 能使到该分界面最近的两类样本之间的距离(Margin)最大，就称该分界面为最优分界面。
@@ -186,24 +186,24 @@ $$
 ![](images/fedf9adbed376825a0b4dc8d2e7011b2622bb81089b0e6d383ca91b1c76bc0e2.webp)
 资料来源：民生证券研究院
 
-对最优分界面方程进行归一化，可以使得两类样本之间的距离 $M\mathop{\mathrm{arg}in}=\frac{2}{\left\|w\right\|}$ 。于是对于任意一个样本，都有
+对最优分界面方程进行归一化，可以使得两类样本之间的距离 $M\arg\mathrm{in}=\frac{2}{\left\|w\right\|}$ 。于是对于任意一个样本，都有
 
 $$
-\left\{\begin{array}{ll}{w\cdot\mathbf{x}_{i}+b\geq1}&{y_{i}=1}\\{w\cdot\mathbf{x}_{i}+b\leq-1}&{y_{i}=-1}\end{array}\right.\Leftrightarrow y_{i}[w\cdot\mathbf{x}_{i}+b]\geq1,i=1,2,\cdots,l
+\begin{cases}w\cdot\mathbf{x}_i+b\geq1&y_i=1\\w\cdot\mathbf{x}_i+b\leq-1&y_i=-1\end{cases}\Leftrightarrow y_i[w\cdot\mathbf{x}_i+b]\geq1,i=1,2,\cdots,l
 $$
 
-由最优分界面的定义可知，它使得 $M\mathop{\mathrm{arg}in}=\frac{2}{\left\|w\right\|}$ 最大，就是使得 $\|w\|$ 最小。所以要得到最优分界面，除了满足上面的式外，还要最小化。
+由最优分界面的定义可知，它使得 $M\arg\mathrm{in}=\frac{2}{\left\|w\right\|}$ 最大，就是使得 $\|w\|$ 最小。所以要得到最优分界面，除了满足上面的式外，还要最小化。
 
 从而SVM问题的数学模型为
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{min}\frac{1}{2}(w\cdot w)}\\{\displaystyle\mathrm{s.t.}}\\{\displaystyle y_{i}[w\cdot\mathbf{x}_{i}+b]\geq1,i=1,2,\cdot\cdot\cdot,l}\end{array}
+\begin{aligned}&\min\frac{1}{2}(w\cdot w)\\&s.t.\\&y_{i}[w\cdot\mathbf{x}_{i}+b]\geq1,i=1,2,\cdots,l\\\end{aligned}
 $$
 
-上面的方法是在保证训练样本全部被正确分类，即经验风险 $R_{emp}(\alpha)=0$ 的前提下，通过最大化分类间隔来获得最好的推广能力。如果希望在经验风险和推广能力之间求得某种平衡，即允许存在错分样本，可以引入正的松弛变量 $\xi_{i}$ 。通过引入松弛变量$\xi_{i}\ge0,i=1,2,\cdot l,$ 可得到软化的约束条件 $y_{i}(w\cdot\mathbf{x}_{i}+b)\geq1-\xi_{i},i=1,2,\cdots,n$ 。当 $\xi_{i}$ 充分大时，样本点总可以满足约束条件 $y_{i}(w\cdot\mathbf{x}_{i}+b)\geq1-\xi_{i}$ 。为了避免 $\xi_{i}$ 过大，在目标函数里对它们进行惩罚。这时SVM的数学模型就成为
+上面的方法是在保证训练样本全部被正确分类，即经验风险 $R_{emp}(\alpha)=0$ 的前提下，通过最大化分类间隔来获得最好的推广能力。如果希望在经验风险和推广能力之间求得某种平衡，即允许存在错分样本，可以引入正的松弛变量 $\xi_{i}$ 。通过引入松弛变量$\xi_{i}\geq0,i=1,2,\cdot l,$ 可得到软化的约束条件 $y_{i}(w\cdot\mathbf{x}_{i}+b)\geq1-\xi_{i},i=1,2,\cdots,n$ 。当 $\xi_{i}$ 充分大时，样本点总可以满足约束条件 $y_{i}(w\cdot\mathbf{x}_{i}+b)\geq1-\xi_{i}$ 。为了避免 $\xi_{i}$ 过大，在目标函数里对它们进行惩罚。这时SVM的数学模型就成为
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{min}\displaystyle\frac{1}{2}w\cdot w+C\sum_{i=1}^{l}\xi_{i}}\\{\displaystyle\mathrm{s.t.}}\\{\displaystyle y_{i}[w\cdot\mathbf{x}_{i}+b]\geq1-\xi_{i},i=1,2,\cdots,l}\\{\displaystyle\xi_{i}\geq0,i=1,2,\cdots,l}\end{array}
+\begin{aligned}&\min\frac{1}{2}w\cdot w+C\sum_{i=1}^{l}\xi_{i}\\&s.t.\\&y_{i}[w\cdot\mathbf{x}_{i}+b]\geq1-\xi_{i},i=1,2,\cdots,l,\\&\xi_{i}\geq0,i=1,2,\cdots,l\\\end{aligned}
 $$
 
 SVM最终变成一个最优化的规划问题，学术界的研究热点主要集中快速求解、推广到多分类、实际问题应用等。

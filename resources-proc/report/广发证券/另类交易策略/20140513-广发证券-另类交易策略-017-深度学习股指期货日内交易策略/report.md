@@ -106,7 +106,7 @@ ann@gf.com.cn
 那么这两个数字相乘就变得非常简单了：
 
 $$
-342608\times262808\stackrel{\Delta}{=}\{2,2,2,2,2,2,2,7,7,13,19,19,19,23\}
+342608\times262808{\stackrel{\triangle}{=}}\{2,2,2,2,2,2,2,7,7,7,13,19,19,19,23\}
 $$
 
 反过来，在这种表达下进行加法计算变成了一件很难的事情。因此，同样的一个目标，在不同的表达下边实现起来差别非常大。
@@ -148,7 +148,7 @@ $$
 一个完整的神经网络模型通常将节点分成若干层次：输入层，输出层和隐含层，如图6所示。输入层即我们给定的模型输入，输出层即我们想通过神经网络“预测”的结果，隐含层相当于网络系统的状态。对于回归神经网络，输出层节点的个数即我们所要预测的变量个数；对于分类神经网络，输出层节点的个数通常是可能的分类总类别数。该神经网络第 k个输出的数学表达式为
 
 $$
-y_{k}=\sigma\Big\{\sum_{j=1}^{M}(w_{kj}^{(2)}h(\sum_{i=1}^{D}w_{ji}^{(1)}x_{i}+w_{j0}^{(1)})+w_{k0}^{(2)})\Big\}\tag{3}
+y_{k}=\sigma\left\{\sum_{j=1}^{M}\left(w_{kj}^{(2)}h\left(\sum_{i=1}^{D}w_{ji}^{(1)}x_i+w_{j0}^{(1)}\right)+w_{k0}^{(2)}\right)\right\}\tag{3}
 $$
 
 其中 $\sigma$ 和ℎ分别为输出层和隐含层的激励函数。神经网络的参数为各层的网络系数 $w_{ij}$
@@ -158,7 +158,7 @@ $$
 神经网络模型的学习即利用我们已经有的输入输出数据（训练集），对参数w的优化，使得输出 y尽可能的接近于其真实值 t，即要使得如下的预测误差（即损失函数）最小化
 
 $$
-E(\mathbf{w})=\sum_{n=1}^{N}E_{n}(\mathbf{w})=\sum_{n=1}^{N}\sum_{k=1}^{K}\big(y_{nk}-t_{nk}\big)^{2}\tag{4}
+E(\mathbf{w})=\sum_{n=1}^{N}E_n(\mathbf{w})=\sum_{n=1}^{N}\sum_{k=1}^{K}(y_{nk}-t_{nk})^2\tag{4}
 $$
 
 一般使用梯度下降法来获取最优的参数w：
@@ -180,7 +180,7 @@ $$
 可以通过 $\mathbf{w}^{(2)}$ 对隐层进行“解码”，重新还原出原始数据。模型的优化目标函数为
 
 $$
-L_{_{AE}}=\frac{1}{N}\sum_{i=1}^{N}\left.\tilde{\mathbf{x}}^{(i)}-\mathbf{x}^{(i)}\right._{2}^{2}\tag{6}
+L_{AE}=\frac{1}{N}\sum_{i=1}^{N}\left\|\tilde{\mathbf{X}}^{(i)}-\mathbf{x}^{(i)}\right\|_{2}^{2}\tag{6}
 $$
 
 即要使得模型的预测输出尽可能等于输入。从信息的传递上来说，这是使得信息损失尽可能少的一种编码方式。
@@ -211,7 +211,7 @@ $\frac{\partial}{\partial w_{ij}}E(\mathbf{w})$ 的计算也需要用到训练�
 法的迭代速度会变得非常慢。这时候可以用随机梯度下降法来提高优化运算的速度。公式(5)可以写成
 
 $$
-\begin{array}{l}{{\displaystyle w_{ij}:=w_{ij}-\alpha\frac{\hat{\partial}}{\hat{\partial}w_{ij}}E({\bf w})}\ ~}\\{{\displaystyle~=w_{ij}-\alpha\frac{\hat{\partial}}{\hat{\partial}w_{ij}}\sum_{n=1}^{N}}E_{n}({\bf w})}\\{{\displaystyle~=w_{ij}-\sum_{n=1}^{N}}\alpha\frac{\hat{\partial}}{\hat{\partial}w_{ij}}E_{n}({\bf w})}\end{array}\tag{7}
+\begin{aligned}w_{_{ij}}&:=w_{_{ij}}-\alpha\frac{\widehat{\mathcal{O}}}{\widehat{\mathcal{O}}w_{_{ij}}}E(\mathbf{w})\\&=w_{_{ij}}-\alpha\frac{\widehat{\mathcal{O}}}{\widehat{\mathcal{O}}w_{_{ij}}}\sum_{_{n=1}}^{N}E_{_n}(\mathbf{w})\\&=w_{_{ij}}-\sum_{_{n=1}}^{N}\alpha\frac{\widehat{\mathcal{O}}}{\widehat{\mathcal{O}}w_{_{ij}}}E_{_n}(\mathbf{w})\\\end{aligned}\tag{7}
 $$
 
 可以看到，每一次迭代需要获得的梯度事实上是把每个样本的预测误差 $E_{n}(\mathbf{w})$ 对 $w_{ij}$ 的偏导数进行累加起来的结果。因此等价于分别将w 依次针对每个样本做更新后的结果。 $w_{ij}$
@@ -219,17 +219,17 @@ $$
 随机梯度下降法是在对单个样本做参数更新后，用更新之后的参数来计算下一个样本的预测误差，用于下一个样本的参数更新计算。因此公式(7)写成
 
 $$
-w_{ij}^{(n)}:=w_{ij}^{(n-1)}-\alpha^{\prime}\frac{\partial}{\partial w_{ij}}E_{n}(\mathbf{w}^{(n-1)})\tag{8}
+w_{ij}^{(n)}:=w_{ij}^{(n-1)}-\alpha^{\prime}\frac{\partial}{\partial w_{ij}}E_{n}(\mathbf{w}^{(n-1)}).\tag{8}
 $$
 
-即用第n个样本来更新参数时， $E_{n}(\mathbf{w})$ 中的参数w用上一个样本更新之后的值 $\mathbf{w}^{(n-1)}$ 来计算。由于对每一个样本进行迭代时，待优化的参数都在不断更新，当迭代计算的样本量很大时，随机梯度下降法的收敛速度会明显优于梯度下降法。而且，随机梯度下降法有更大的可能避免局部最优解。
+即用第n个样本来更新参数时， $E_{n}(\mathbf{w})$ 中的参数w用上一个样本更新之后的值 $\mathbf{W}^{(n-1)}$ 来计算。由于对每一个样本进行迭代时，待优化的参数都在不断更新，当迭代计算的样本量很大时，随机梯度下降法的收敛速度会明显优于梯度下降法。而且，随机梯度下降法有更大的可能避免局部最优解。
 
 相对于梯度下降法，随机梯度下降法的问题在于：由于样本之间的差异性很大，每次迭代的参数更新并不是朝着“最优”的方向进行，而且在固定学习率下，算法通常不会收敛，最后会在最优值附近振荡。
 
 深度学习模型训练中常用的迷你批量（Mini-Batch）下降法是在随机梯度下降法的基础上建立起来的一种优化迭代算法。其算法是每次参数更新不是按照单个样本，而是按照由若干个样本组成的一个批次来计算参数更新的梯度
 
 $$
-w_{ij}^{(n)}:=w_{ij}^{(n-1)}-\alpha^{\prime\prime}\frac{\hat{\partial}}{\hat{\partial}w_{ij}}\sum_{n_{k}\in Batch(n)}E_{n_{k}}(\mathbf{w}^{(n-1)})\tag{9}
+w_{ij}^{(n)}:=w_{ij}^{(n-1)}-\alpha^{''}\frac{\hat{\mathcal{C}}}{\hat{\mathcal{C}}w_{ij}}\sum_{n_k\in\mathrm{batch}(n)}E_{n_k}(\mathbf{w}^{(n-1)})\tag{9}
 $$
 
 因此，迷你批量方法可以视为普通的梯度下降方法和随机梯度下降方法的一个折中。一方面保证了算法迭代的高效性；另一方面，在批次内各类样本选取均衡的情况下，每次迭代时的参数更新都是近似朝着“最优”的方向进行的。同时，与随机梯度下降方法相比，迷你批量下降法的每一次迭代都采用多个样本进行计算，充分利用了Matlab等科学计算软件在向量化计算上的高效性。迷你批量方法中，每个批次内的样本数量一般在2 到 200 之间。
@@ -249,7 +249,7 @@ $$
 虽然深度学习模型是一个分类模型，但同时也可以给出样本属于各个类别的得分值（得分是逻辑函数（图5）的输出，位于[0,1]之间）。对于股票价格变化预测模型，可以获得上涨的预测得分Score1和下跌的预测得分Score2。以判断未来是否股价上涨为例，得分Score1越大的样本，未来上涨的几率越大。对应的，得分Score2越大的样本，未来下跌的几率越大。我们可以根据得分的大小，设定阈值，从而当得分超过阈值时，触发买卖信号。记做多信号触发阈值为BuyTrigger，做空信号触发阈值为SellTrigger，则买卖信号Signal如下
 
 $$
-Signal=\left\{\begin{array}{ll}{1}&{Score1>BuyTrigger}\\{-1}&{Score2>SellTrigger}\\{0}&{\mathbb{H}\mathcal{H}\mathcal{I}}\end{array}\right.\tag{10}
+\begin{aligned}Signal=\left\{\begin{aligned}&1&\textit{Score1>BuyTrigger}\\&-1&\textit{Score2>SellTrigger}\\&0&其他\end{aligned}\right.\end{aligned}\tag{10}
 $$
 
 我们的交易策略由买卖信号触发。每天开盘时都是空仓状态。由买入/卖出信号的触发分别建立多仓和空仓，持仓时间不定。如果在持有多仓时，有空头信号触发，立即平仓并反向建立空仓，否则(如继续有多头信号触发时)不改变持有头寸。如果在持有空仓时，有多头信号触发，立即平仓并反向建立多仓，否则(如继续有空头信号触发时)
@@ -262,10 +262,10 @@ $$
 
 ## 四、实证分析
 
-实证分析中，我们选取 2012 年的股指期货 1 秒钟高频行情作为训练集（样本内数据），2013 年 1 月 1 日至 2014 年 4 月 18 日的股指期货行情作为样本外数据。选取的输入如表 1所示。为了在输入数据中引入市场中量价指标随时间的动态变化，我们将t时刻所考察样本 $\mathbf{\nabla}\cdot\mathbf{X}_{t}$ 的前 4 个时刻的样本 $(\mathrm{\bf~X}_{t-1},\mathrm{\bf~X}_{t-2},\mathrm{\bf~X}_{t-3},\mathrm{\bf~X}_{t-4})$ 加入输入变量序列中，组成扩展的输入向量 $\overline{{\mathbf{x}}}_{t}=[{\bf x}_{t},{\bf x}_{t-1},{\bf x}_{t-2},{\bf x}_{t-3},{\bf x}_{t-4}]$ （前一个交易日的收盘价是同一个变量，不用扩展）。数据的预处理过程包括股价数据的标准化（将 t时刻输入向量$\overline{{\mathbf{X}}}_{t}$ 中所有股价数据除以 t 时刻的收盘价格并取对数），极端数据的平滑（用变量的 99.9%和0.1%为门限，超过门限的数据用门限值来替代），归一化（所有数据都按照公式(11)转化为[0,1]之间的数据）：
+实证分析中，我们选取 2012 年的股指期货 1 秒钟高频行情作为训练集（样本内数据），2013 年 1 月 1 日至 2014 年 4 月 18 日的股指期货行情作为样本外数据。选取的输入如表 1所示。为了在输入数据中引入市场中量价指标随时间的动态变化，我们将t时刻所考察样本 $.\mathbf{X}_{t}$ 的前 4 个时刻的样本 $\left(\begin{array}{llll}\mathbf{X}_{t-1},&\mathbf{X}_{t-2},&\mathbf{X}_{t-3},&\mathbf{X}_{t-4}\end{array}\right)$ 加入输入变量序列中，组成扩展的输入向量 $\overline{{\mathbf{x}}}_{t}=[\mathbf{x}_{t},\mathbf{x}_{t-1},\mathbf{x}_{t-2},\mathbf{x}_{t-3},\mathbf{x}_{t-4}]$ （前一个交易日的收盘价是同一个变量，不用扩展）。数据的预处理过程包括股价数据的标准化（将 t时刻输入向量$\overline{{\mathbf{X}}}_{t}$ 中所有股价数据除以 t 时刻的收盘价格并取对数），极端数据的平滑（用变量的 99.9%和0.1%为门限，超过门限的数据用门限值来替代），归一化（所有数据都按照公式(11)转化为[0,1]之间的数据）：
 
 $$
-x_{t}^{i}:={\frac{x_{t}^{i}-\operatorname*{min}x^{i}}{\operatorname*{max}x^{i}-\operatorname*{min}x^{i}}}\tag{11}
+x_{t}^{i}:=\frac{x_{t}^{i}-\min x^{i}}{\max x^{i}-\min x^{i}}\tag{11}
 $$
 
 表1：深度学习股价预测特征选取
@@ -306,7 +306,7 @@ $$
 事实上，仅有极少数交易机会中，股票价格会有大幅波动，在样本内 390 多万个样本中，仅有 1.1万个样本的下一秒股价变化大于等于0.04%，不到 0.3%。因此我们策略中选取的交易机会α在 0.1%左右（多头空头机会加起来约 0.2%）。根据训练样本所有数据的预测得分，定义做多信号阈值 BuyTrigger和做空信号阈值 SellTrigger 如下
 
 $$
-\begin{array}{r}{BuyTrigger:=p(\mathrm{Score}1>BuyTrigger)=\alpha}\\{SellTrigger:=p(\mathrm{Score}2>SellTrigger)=\alpha}\end{array}\tag{12}
+\begin{aligned}&BuyTrigger:=p(Score1>BuyTrigger)=\alpha,\\&SellTrigger:=p(Score2>SellTrigger)=\alpha.\\\end{aligned}\tag{12}
 $$
 
 即有α的机会，上涨预测得分 Score1 会大于 BuyTrigger，触发做多信号；有α的机会,下跌预测得分 Score2会大于 SellTrigger，触发做空信号。

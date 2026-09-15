@@ -226,7 +226,7 @@ D20组合（超涨回调）从无效变为有效！
 
 给定当前已经确认一个的拐点A，以及A点之后一个待确认的拐点B；
 
-假设A、B两点之间的涨跌幅为 $R_{AB}$ 如果B点以后存在一个点C使得 $R_{BC}>\left|\bar{R}_{AB}\right|\times\delta_{P}$ 其中δ为比例参数
+假设A、B两点之间的涨跌幅为 $\overline{{R_{AB_{i}}}}$ 如果B点以后存在一个点C使得 $\left|R_{BC}\right|>\left|R_{AB}\right|\times\delta_{P}$ 其中δ为比例参数
 
 确认点B为一个拐点，同时称点C为拐点B的确认点
 
@@ -258,7 +258,7 @@ SLP因子值定义：量纲调整在点16处已经确认A为一个拐点，在T�
 
 计算SLP因子时如果简单的ΔP/∆T显然很不合理：如果ΔT相同，这样会导致高价股票斜率绝对值很大低价股票斜率绝对值很小
 
-用涨跌幅定义斜率因子$\mathsf{SLP}{=}{\left|\mathsf{P}{2}{-}\mathsf{P}{1}\right|}/(\mathsf{P}{1}^{\star}\Delta\mathsf{T})$ 可以有效避免股票价格绝对值的差异带来的不合理
+用涨跌幅定义斜率因子$\mathsf{SLP}{=}\left|\mathsf{P2}{-}\mathsf{P1}\right|/(\mathsf{P1}^{\star}\Delta\mathsf{T})$ 可以有效避免股票价格绝对值的差异带来的不合理
 
 SLP因子值每日更新监测
 

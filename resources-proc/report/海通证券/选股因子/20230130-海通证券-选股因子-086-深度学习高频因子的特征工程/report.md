@@ -83,7 +83,7 @@ Email:ylq9619@haitong.com
 得到基础指标序列后，通常有两种方式生成特征。1）固定输入，变换算子；2）固定算子，变换输入。本文使用第二种方式，即，事先确定算子，通过不断变换输入的基础指标序列生成特征。其中，算子既可以由简单的四则混合运算或统计计算衍化得到，也可以从人工逻辑因子研发经验中归纳总结。例如，从下行波动占比这一人工逻辑类高频因子出发，我们可得到如下算子：
 
 $$
-F\sp{\prime}{\bar{1}}{\bar{5}}\vdash\mathfrak{k}(a,b)=\frac{\sum_{b<0}a}{\sum a}
+下行占比(a,b)=\frac{\sum_{b<a}a}{\sum a}
 $$
 
 将上述算子的输入替换为大买单金额，则可得下行大买单金额占比这一特征。
@@ -91,7 +91,7 @@ $$
 再如，从平均单笔流出金额占比这一人工逻辑类高频因子，我们可得到如下算子：
 
 $$
-+\infty\operatorname{4s}24\ 种\stackrel{\mathrm{A}}{=}\operatorname{4s}24\ln2\operatorname{\pm4}2\operatorname{\pm4}2539\operatorname{\pm5}25\operatorname{\pm}20.6=\frac{\operatorname*{mean}_{b<0}\left(\frac{a}{\#\{a\}}\right)}{\operatorname*{mean}\left(\frac{a}{\#\{a\}}\right)}
+平均单笔流出金额占比(a,b)=\frac{mean_{b<0}\left(\frac{a}{\#\{a\}}\right)}{mean\left(\frac{a}{\#\{a\}}\right)}
 $$
 
 其中，#{a}代表 a的数量。将上述算子的输入替换为小买单金额与单数，则可得下行小买单单均金额占比这一特征。
@@ -428,10 +428,10 @@ $$
 组合的优化目标为最大化预期收益，目标函数如下所示：
 
 $$
-max\sum\mu_{i}w_{i}
+\underset{w_{i}}{max}\sum\mu_{i}w_{i}
 $$
 
-其中， $\mathsf{W}_{\mathrm{i}}$ 为组合中股票 i的权重，μ 为股票 i的预期超额收益。为使本文的结论贴近实践，如无特别说明，下文的测算均假定以次日均价成交，同时扣除 3‰的交易成本。
+其中， $w_{\mathrm{i}}$ 为组合中股票 i的权重，μ 为股票 i的预期超额收益。为使本文的结论贴近实践，如无特别说明，下文的测算均假定以次日均价成交，同时扣除 3‰的交易成本。
 
 ## 6.1 中证 500 增强组合
 

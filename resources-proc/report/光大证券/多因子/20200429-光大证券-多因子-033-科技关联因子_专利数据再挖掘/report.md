@@ -247,7 +247,7 @@ Tech\_Mean\_Rev\_V1_{i,t}=\frac{\sum_{j\neq i}Tech_{ij,t}\cdot Ret_{j,t}}{\sum_{
 $$
 
 $$
-Tech\_Mean\_Rev\_V2_{i,t}=\frac{\sum_{j\neq i}\bigl(Tech_{ij,t}\cdot Ret_{j,t}-Ret_{i,t}\bigr)}{\sum_{j\neq i}Tech_{ij,t}}
+Tech_{-}Mean_{-}Rev_{-}V2_{i,t}=\frac{\sum_{j\neq i}\left(Tech_{ij,t}\cdot Ret_{j,t}-Ret_{i,t}\right)}{\sum_{j\neq i}Tech_{ij,t}}
 $$
 
 第一种构造方法中，我们在科技动量因子的基础上，直接减去公司i自身的股票收益率，差值大小表示公司i股价与全市场相似股票之间是否存在明显的滞后关系。
@@ -291,7 +291,7 @@ $$
 Tech\_Mean\_Rev\_V1_{i,t}=\frac{\sum_{j\neq i}Tech_{ij,t}\cdot Ret_{j,t}}{\sum_{j\neq i}Tech_{ij,t}}-Ret_{i,t}
 $$
 
-中减号右边的 $Ret_{i,t}$ 贡献的，因子收益大部分由股票的反转效应提供，并无法很好的体现科技动量领先指标所希望体现的信息。
+中减号右边的 $Ret_{i,t}]$ 贡献的，因子收益大部分由股票的反转效应提供，并无法很好的体现科技动量领先指标所希望体现的信息。
 
 图 9：Tech_Momemtum_fmgb_5Y、Tech_Mean_Rev_V1_fmgb_5Y 和 Tech_Mean_Rev_V2_fmgb_5Y 因子值分布比较
 ![](images/bfd33fe8ce9c9dfe0901d0c4f4cf474eccf9802cb7af6d2ecccfaab08d056554.webp)
@@ -354,18 +354,18 @@ Lee et al. (2019)给出了技术行业集中度影响股价滞后水平的两个
 
 定义每个分类号的专利在各个行业上的专利个数的标准差，为全市场每个类别专利的专利集中度。
 
-对于每一个公司，我们分别计算公司在过去一年的所有类型专利的数量，并与专利集中度进行加权求和，就可以计算出一个公司在过去一年的技术行业集中度Tecℎ $.Spec_{i,t}$ 。
+对于每一个公司，我们分别计算公司在过去一年的所有类型专利的数量，并与专利集中度进行加权求和，就可以计算出一个公司在过去一年的技术行业集中度Tecℎ $\_Spec_{i,t}$ 。
 
 公司的技术行业集中度越高，表明这一公司越有可能发生信息滞后现象，为了使得不同公司的技术行业集中度权重加和为 1，我们对技术行业集中度进行单位化，定义公司i在t时刻的技术行业集中度权重为：
 
 $$
-Weight\_Tech\_Spec_{i,t}=\frac{Tech\_Spec_{i,t}}{\sum_{i}Tech\_Spec_{i,t}}.
+Weight\_Tech\_Spec_{i,t}=\frac{Tech\_Spec_{i,t}}{\sum_{i}reach\_Spec_{i,t}}
 $$
 
 我们分别通过以下方式，构造基于技术行业集中度的科技动量因子和科技动量领先因子：
 
 $$
-\begin{array}{rl}&{Tech\_Spec\_Momentum_{i}=\frac{\sum_{j\neq i}Tech_{ij,t}\cdot Ret_{j,t}}{\sum_{j\neq i}Tech_{ij,t}}\cdot Weight_{-}Tech\_Spec_{i,t}}\\&{Tech\_Spe\_Mean\_Rev_{i,t}}\\&{\qquad=\frac{\sum_{j\neq i}\left(Tech_{ij,t}\cdot Ret_{j,t}-Ret_{i,t}\right)}{\sum_{j\neq i}Tech_{ij,t}}\cdot Weight_{-}Tech\_Spec_{i,t}}\end{array}
+\begin{aligned}Tech\_Spec\_Momentum_{i}=\frac{\sum_{j\neq i}Tech_{ij,t}\cdot Ret_{j,t}}{\sum_{j\neq i}Tech_{ij,t}}\cdot Weight\_Tech\_Spec_{i,t}\\Tech\_type\_Mean\_Rev_{i,t}\\=\frac{\sum_{j\neq i}\left(Tech_{ij,t}\cdot Ret_{j,t}-Ret_{i,t}\right)}{\sum_{j\neq i}Tech_{ij,t}}\cdot Weight\_Tech\_Spec_{i,t}\end{aligned}
 $$
 
 基于技术行业集中度的各因子的命名方式，如下表：
@@ -403,10 +403,10 @@ $$
 在每个时刻t，除了可以构造科技关联度，我们还可以用相同的方法构建专利关联度：
 
 $$
-Pat_{\tau\xi,t}=\frac{\varOmega_{\tau,t}\varOmega_{\xi,t}^{\prime}}{\left(\varOmega_{\tau,t}\varOmega_{\tau,t}^{\prime}\right)^{1/2}\left(\varOmega_{\xi,t}\varOmega_{\xi,t}^{\prime}\right)^{1/2}}
+Pat_{\tau\xi,t}=\frac{\Omega_{\tau,t}\Omega_{\xi,t}^{\prime}}{\left(\Omega_{\tau,t}\Omega_{\tau,t}^{\prime}\right)^{1/2}\left(\Omega_{\xi,t}\Omega_{\xi,t}^{\prime}\right)^{1/2}}
 $$
 
-其中， $\varOmega_{\tau,t}$ 表示分类号τ在t时刻统计得到的，在过去一段时间各个 A 股上的专利个数，是一个维数为1×上市公司数量的向量。 $Pat_{\tau\xi,t}$ 表示分类号τ和分类号ξ在t时刻的专利关联度。
+其中， $\mathit{\Omega}_{\tau,t}$ 表示分类号τ在t时刻统计得到的，在过去一段时间各个 A 股上的专利个数，是一个维数为1×上市公司数量的向量。 $Pat_{\tau\xi,t}$ 表示分类号τ和分类号ξ在t时刻的专利关联度。
 
 在得到专利关联度后，我们通过以下的公式来构建改进的科技关联度：
 
@@ -418,7 +418,7 @@ $$
 
 $Pat_{t}$ 是由 $Pat_{\tau\xi,t}$ 构成的维数为145 × 145的专利关联度矩阵.
 
-Tecℎ $Pat_{ij,t}$ 为基于专利关联度计算得到的公司i和公司j在t时刻的科技关联度。
+Tecℎ $\_Pat_{ij,t}$ 为基于专利关联度计算得到的公司i和公司j在t时刻的科技关联度。
 
 上述公式的直观解释是，在计算两个不同公司之间的科技关联时，我们考虑不同类别的专利之间也有相互影响的可能。上述公式可以改写为:
 
@@ -434,12 +434,12 @@ $$
 
 上图给出了在 2020 年 3 月 31 日统计得到的，中国石化过去 5 年各二级分类专利单位化数量情况。可以看到，原始的专利数量更为集中，考虑专利分类间的相关性之后，专利数量更加分散，与原始数量较多专利相关性比较大的几个分类专利，数量有所提升。
 
-需要说明的是，如果不同类别的专利之间相互独立，那么 $Pat_{t}$ 是一个单位矩阵，Tecℎ $Pat_{ij,t}$ 便等于 $Tech_{ij,t}$ t。
+需要说明的是，如果不同类别的专利之间相互独立，那么 $Pat_{t}$ 是一个单位矩阵，Tecℎ $\_Pat_{ij,t}$ 便等于 $Tech_{ij,t}$ t。
 
 在计算得到基于专利关联度的科技关联度后，我们便可以对本篇报告第一部分和第二部分构造的因子进行改进，具体的计算公式如下：
 
 $$
-\begin{array}{rl}{Improved\_Tech_{\_{M}}Monentum_{i,t}=\frac{\sum_{j\neq i}Tech_{\_{P}}Pat_{i,j}\cdot Ret_{i,j}}{\sum_{j\neq i}Tech_{\_{P}}Pat_{i,j}}\cdot}&{}\\{Improved\_Tech_{\_{M}\in\Omega},Rev_{i,t}=\frac{\sum_{j\neq i}\left(Tech_{\_{P}}Pat_{i,j}\cdot Ret_{i,j}\cdot Ret_{i,i}\right)}{\sum_{j=i}Tech_{\_{P}}Pat_{i,j}}}&{}\\{Improved\_Tech_{\_{M}\in\Omega},\ Reve_{\_{M}\in\Omega}}&{}\\{Improved\_Tech_{\_{S}}}&{}\\{=\frac{\sum_{j\neq i}Tech_{\_{P}}Pat_{i,j}\cdot Ret_{i,i}\cdot Ret_{i,i}}{\sum_{j\neq i}Tech_{\_{P}}Pat_{i,j}}\cdot}&{\cdot Weight_{\_{P}}Tech_{\_{S}}Jec_{i,t}}&\\{Improved\_Tech_{\_{S}}pec_{\_{M}}}&{}\\{Improved\_Tech_{\_{S}}}&{}\\{=\frac{\sum_{j\neq i}(Tech_{\_{P}}Pat_{i,j}\cdot Ret_{i,i}\cdot Ret_{i,i})}{\sum_{i\neq i}Tech_{\_{P}}\alpha t_{i,j}}\cdot Weight_{\_{T}}Tech_{\_{S}}Jec_{i,t}}&\end{array}
+\begin{aligned}Improved_{\_Tech\_Momentum_{i,t}}=\frac{\sum_{j\neq i}Tech_{\_}Pat_{ij,t}\cdot Ret_{j,t}}{\sum_{j\neq i}Tech_{\_}Pat_{ij,t}}\\Improved_{\_Tech\_Mean\_Rev_{i,t}}=\frac{\sum_{j\neq i}(Tech_{\_}Ta_{ij,t}\cdot Ret_{j,t}-Ret_{i,t})}{\sum_{j\neq i}Tech_{\_}Pat_{ij,t}}\\Improved_{\_}Tech\_Spec\_Momentum_{i,t}\\=\frac{\sum_{j\neq i}Tech\_Pat_{ij,t}\cdot Ret_{j,t}}{\sum_{j\neq i}Tech\_Pat_{ij,t}}\cdot Weight_{\_}Tech\_Spec_{i,t}\\Improved_{\_}Tech\_Spec\_Mean\_Rev_{i,t}\\=\frac{\sum_{j\neq i}(Tech\_Pat_{ij,t}\cdot Ret_{j,t}-Ret_{i,t})}{\sum_{j\neq i}Tech\_Pat_{ij,t}}\cdot Weight_{\_}Tech\_Spec_{i,t}\end{aligned}
 $$
 
 改进的各科技动量因子的命名方式如下表：

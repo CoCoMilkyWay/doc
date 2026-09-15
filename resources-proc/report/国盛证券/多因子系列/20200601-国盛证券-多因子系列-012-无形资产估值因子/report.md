@@ -157,24 +157,24 @@ TMT 行业中，传媒、计算机的工资薪酬开支占到两项费用总额�
 我们认为企业的利润受以下因素影响：
 
 $$
-oper\ profit_{t}=\alpha+\beta_{1}t+\beta_{2}TA_{t-1}+\sum(1-d_{rd})^{i}RD_{t-i}+\sum\bigl(1-d_{sga}\bigr)^{j}SGA_{t-j}+\epsilon_{\mathrm{t}}
+operprofit_{t}=\alpha+\beta_{1}t+\beta_{2}TA_{t-1}+\sum(1-d_{rd})^{i}RD_{t-i}+\sum\left(1-d_{sga}\right)^{j}SGA_{t-j}+\epsilon_{\mathrm{t}}
 $$
 
-其中， $operprofit_{t}\mathrm{:}$ t期营业利润；
+其中， $operprofit_{t};$ t期营业利润；
 
-$TA_{t}\colon$ t期有形资产，包括企业存货、固定资产、生物性资产、油气资产、商誉等；
+$TA_{t};$ t期有形资产，包括企业存货、固定资产、生物性资产、油气资产、商誉等；
 
-$RD_{t}\colon$ ：t期研发总支出；
+$RD_{t};$ ：t期研发总支出；
 
-$SGA_{t}\mathbf{.}$ ：t期销售费用、管理费用之和，扣除其中费用化的研发支出；
+$SGA_{t};$ ：t期销售费用、管理费用之和，扣除其中费用化的研发支出；
 
-$d_{rd}$ 和 $\cdot d_{sga}$ ：研发支出折旧率和销售管理支出折旧率，我们限制 $d_{rd}$ 和 $\tau d_{sga}$ 在 $^{(0,1)}$ 之间；
+$d_{rd}$ 和 $id_{sga}$ ：研发支出折旧率和销售管理支出折旧率，我们限制 $d_{rd}$ 和 $\imath d_{sga}$ 在 $^{(0,1)}$ 之间；
 t：时间趋势项。
 
 为了降低规模的影响，我们将所有变量除以营业收入，转换为刻画研发、销售和管理费用投入占营收比对本期营业利润率的影响。同时我们认为研发的影响持续期较长，而销售管理支出的影响持续期较短，因此我们对研发取了滞后 5 期数据，而对销售管理取滞后 2 期数据：
 
 $$
-\begin{array}{l}{\left(\frac{operprofit}{Sales}\right)_{t}}\\{=\alpha+\beta_{1}t+\beta_{2}\left(\frac{TA}{Sales}\right)_{t-1}+\displaystyle\sum(1-d_{rd})^{i}\left(\frac{RD}{Sales}\right)_{t-i}}\\{~+\displaystyle\sum\left(1-d_{sga}\right)^{j}\left(\frac{SGA}{Sales}\right)_{t-j}+\epsilon_{\mathrm{t}}}\end{array}
+\begin{aligned}\left(\frac{oper\;profit}{Sales}\right)_{t}&\\&=\alpha+\beta_{1}t+\beta_{2}\left(\frac{TA}{Sales}\right)_{t-1}+\sum(1-d_{rd})^{i}\left(\frac{RD}{Sales}\right)_{t-i}\\&+\sum(1-d_{gas})^{j}\left(\frac{SGA}{Sales}\right)_{t-j}+\epsilon_{\mathrm{t}}\end{aligned}
 $$
 
 利用非线性最小二乘法拟合上式，将问题转化为：
@@ -182,14 +182,14 @@ $$
 resid
 
 $$
-\begin{array}{c}{{\operatorname*{min}resid^{2}}}\\{{}}\\{{=\left(\displaystyle{\frac{oper\ profit}{Sales}}\right)_{t}-\beta_{1}t-\beta_{2}\left(\displaystyle{\frac{TA}{Sales}}\right)_{t-1}-\sum(1-d_{rd})^{i}\left(\displaystyle{\frac{RD}{Sales}}\right)_{t-i}}}\\{{-\sum(1-d_{sga})^{j}\left(\displaystyle{\frac{SGA}{Sales}}\right)_{t-j}}}\\{{\mathrm{s.t.~}0<\mathrm{d}_{\mathrm{rg}}<1}}\\{{0<\mathrm{d}_{sga}<1}}\end{array}
+\begin{aligned}&\min resid^{2}\\&\\=\left(\frac{operprofit}{Sales}\right)_{t}-\beta_{1}t-\beta_{2}\left(\frac{TA}{Sales}\right)_{t-1}-\sum(1-d_{rd})^{i}\left(\frac{RD}{Sales}\right)_{t-i}\\&\\-\sum\left(1-d_{sga}\right)^{j}\left(\frac{SGA}{Sales}\right)_{t-j}\\&\\\text{ s.t. }&0<\mathrm{d}_{\mathrm{rg}}<1\\&\\0<\mathrm{d}_{\mathrm{sga}}<1\\\end{aligned}
 $$
 
 下表我们展示几个重点一级行业及其二级行业的拟合结果：
 
 图表6：一级、二级行业研发、销售管理费用折旧率
 
-| 一级行业 | $\pmb{d}_{rd}$ | $\pmb{d}_{sga}$ | 二级行业 | $\pmb{d}_{rd}$ | $\pmb{d}_{sga}$ |
+| 一级行业 | $d_{rd}$ | $d_{sga}$ | 二级行业 | $d_{rd}$ | $d_{sga}$ |
 | --- | --- | --- | --- | --- | --- |
 | 计算机 | 56.30% | 34.06% | 计算机设备 | 59.69% | 26.46% |
 |  |  |  | 计算机软件 | 59.82% | 33.52% |
@@ -265,35 +265,35 @@ II 销售管理支出：我们重点考察企业在销售费用和管理费用�
 1） 公司从成立（记为 T0）到第一次披露研发支出之间的年份（记为 Tn），我们假设公司的研发支出以每年 g=15%的速度增长，则可以利用第一次披露的研发支出 $RD_{Tn}$ 倒推出之前每年的研发支出费用，再用相应的折现率折算到 Tn：
 
 $$
-\mathrm{Krd}_{Tn}=RD_{Tn}+(1-d_{rd})\frac{RD_{Tn}}{(1+g)}+(1-d_{rd})^{2}\frac{RD_{Tn}}{(1+g)^{2}}+\cdots+(1-d_{rd})^{n}\frac{RD_{Tn}}{(1+g)^{n}}
+\mathrm{Kr}\mathrm{d}_{Tn}=RD_{Tn}+(1-d_{rd})\frac{RD_{Tn}}{(1+g)}+(1-d_{rd})^{2}\frac{RD_{Tn}}{(1+g)^{2}}+\cdots+(1-d_{rd})^{n}\frac{RD_{Tn}}{(1+g)^{n}}
 $$
 
 2） 公司披露研发支出后：每年根据披露的研发支出总额，由以下迭代式计算当期的研发资产：
 
 $$
-\mathrm{Krd}_{\mathrm{i,t}}=(1-\mathrm{d}_{\mathrm{rd}})Krd_{i,t-1}+RD_{i,t}
+\mathrm{Krd}_{i,t}=(1-\mathrm{d}_{\mathrm{rd}})\mathrm{Krd}_{i,t-1}+\mathrm{RD}_{i,t}
 $$
 
 图表7：研发支出资本化处理图示
 
 $$
-\begin{array}{rl}&\begin{array}{rlr}&{RD_{Tn}/(1+\mathbf{g})^{n}}&{RD_{Tn}/(1+\mathbf{g})}&{RD_{Tn}}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\mathrm{~trd_{\ell}~s~}\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal{RH}\mathcal{RH}\cdot\mathcal RH\end{array}\end{array}
+\begin{array}{c}RD_{t\pi}/(1+g)^n\\\vdots\\\hline\mathsf{T}\mathsf{0}-杂码成立目\\\hline\mathsf{T}\mathsf{0}-杂码成立目\\\hline\mathsf{T}\mathsf{0}-杂码年报RD开行现与\mathsf{K}\mathsf{c}d_{t\pi}\quad\vdots\\\vdots\\\mathsf{T}\mathsf{0}-杂码成立目\\\hline\mathsf{T}\mathsf{0}-杂码年报RD开行现与\mathsf{K}\mathsf{c}d_{t\pi}\quad\vdots\\\vdots\\\mathsf{T}\end{array}\begin{array}{c}RD_{t\pi}\\\vdots\\\mathsf{T}\mathsf{0}-杂码行报\\\mathsf{T}\mathsf{0}-杂码成立目\\\vdots\\\mathsf{T}\mathsf{0}-杂码成立目\\\vdots\\\mathsf{T}\mathsf{0}-杂码成立目\\\vdots\\\mathsf{T}\mathsf{0}-杂码成立目\\\end{array}
 $$
 
 资料来源：国盛证券研究所
 
 ## 因子计算步骤：
 
-## 1）折算研发资 $\cdot\vec{p}^{\mathbf{\chi}}\kappa\mathbf{r}\mathbf{d}_{\mathbf{i,t}}$
+## 1）折算研发资 $\mathbf{f}产\mathbf{K}\mathbf{r}\mathbf{d}_{\mathrm{i},\mathrm{t}}$
 
 每年根据披露的研发支出总额，对应所属行业折旧率，计算每股的研发资产。
 
-## 2）折算销售管理资产 ${\bf Ksga_{i,t}}$
+## 2）折算销售管理资产 $\mathbf{K}\mathbf{s}\mathbf{g}\mathbf{a}_{\mathrm{i},\mathrm{t}}$
 
 计算思路类似于研发资产，但是我们设定每期的只有 15%的销售管理费用进入资产，并将历史资产以 20%的折旧率折算：
 
 $$
-\mathrm{Ksga_{i,t}}=0.8Ksga_{i,t-1}+0.15SGA_{i,t}
+\mathrm{Ksga_{i,t}=0.8Ksga_{i,t-1}+0.15SGA_{i,t}}
 $$
 
 而对于公司成立年份早于披露财报年份的时间段，我们依然设 15%的年增长率，以第一期披露额倒推计算之前每年的销售管理支出，再折算到 Tn。
@@ -307,7 +307,7 @@ $$
 我们加总企业的研发资产、销售管理资产，减去商誉，并除以市值构建无形资产的价值因子 ICV（Intangible Capital Value）：
 
 $$
-\mathrm{ICV}_{i,t}=\frac{\mathrm{Krd}_{\mathrm{i,t}}+\mathrm{Ksga}_{\mathrm{i,t}}-\mathrm{Goodwill}_{\mathrm{i,t}}}{\mathrm{Market}\mathrm{Cap}_{\mathrm{i,t}}}
+\mathrm{ICV}_{i,t}=\frac{\mathrm{Krd}_{i,t}+\mathrm{Ksga}_{i,t}-\mathrm{Goodwill}_{i,t}}{\mathrm{MarketCap}_{i,t}}
 $$
 
 从最终计算得到的结果来看，三项资产中，Krd 平均占比 38.8%，Ksga 平均占比25.7%，商誉平均占比 35.4%。

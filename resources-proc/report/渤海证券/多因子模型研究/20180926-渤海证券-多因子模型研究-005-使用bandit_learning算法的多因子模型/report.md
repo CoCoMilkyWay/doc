@@ -65,19 +65,19 @@ Bandit Learning模型是一个较新的模型，其运行机制、收益来源�
 已知 种资产的 期收益率：
 
 $$
-\pmb{R}_{k}=(R_{k,1},\cdots R_{k,n})^{T},k=1,\cdots,m\tag{1}
+\boldsymbol{R}_{k}=(R_{k,1},\cdots R_{k,n})^{T},k=1,\cdots,m\tag{1}
 $$
 
 在每一个时刻 $t_{k}$ ，根据之前已知信息，求一组权重
 
 $$
-\pmb{w}_{k}=(w_{k,1},\cdots,w_{k,n})^{\mathrm{T}}\tag{2}
+\pmb{w}_{\pmb{k}}=(w_{k,1},\cdots,w_{k,n})^{\mathrm{T}}\tag{2}
 $$
 
 i.e.
 
 $$
-\sum_{i=1}^{n}w_{k,i}=1\tag{3}
+\sum_{i=1}^{n}w_{k,i}=1.\tag{3}
 $$
 
 使
@@ -90,30 +90,30 @@ $$
 
 组合收益最大化。
 
-在 $t_{k}$ 时刻，我们使用 $\{R_{-\tau+k},\cdots,R_{k-1}\}$ 来估计 期的资产收益率 $\scriptstyle R_{k}$ 和协方差矩阵 ${\bf\cdot\Sigma}\pmb{\Sigma}_{\mathbf{k}}$ （具体估计方法参考传统多因子模型体系，参见第三部分模型建立）。
+在 $.t_{k}$ 时刻，我们使用 $\{R_{-\tau+k},\cdots,R_{k-1}\}$ 来估计 期的资产收益率 $R_{k}$ 和协方差矩阵 $.\pmb{\Sigma}_{\mathbf{k}}$ （具体估计方法参考传统多因子模型体系，参见第三部分模型建立）。
 
-$\Sigma_{k}$ 为正定矩阵，故可以找到矩阵 $\scriptstyle H_{k}$ 使得
-
-$$
-\begin{array}{c}{{\sharp}}\\{{\qquad\ :}}\\{{\displaystyle\#}}\end{array}
-$$
+$\pmb{\Sigma}_{k}$ 为正定矩阵，故可以找到矩阵 $H_{k}$ 使得
 
 $$
-\pmb{\Sigma_{k}}=\pmb{H_{k}}\pmb{A_{k}}\pmb{H_{k}^{T}}\tag{5}
+\begin{aligned}其\\中\end{aligned}
 $$
 
-$\scriptstyle{A_{k}}$ 是一个对角矩阵，其对角线上的元素是 $\scriptstyle{\pmb{\mathscr{L}}}_{k}$ 的降序排列的特征值，
+$$
+\boldsymbol{\varSigma}_{k}=\boldsymbol{H}_{k}\boldsymbol{\varLambda}_{k}\boldsymbol{H}_{k}^{T}\tag{5}
+$$
+
+$\boldsymbol{\varLambda}_{\boldsymbol{k}}$ 是一个对角矩阵，其对角线上的元素是 $\pmb{\Sigma}_{k}$ 的降序排列的特征值，
 
 $$
 \lambda_{k,1}>\lambda_{k,2}>\cdots>\lambda_{k,n}>0\tag{6}
 $$
 
-$\scriptstyle H_{k}$ 为正交矩阵，它的列 $(H_{k,1},\cdots,H_{k,n})$ 是 $\scriptstyle{\pmb{\mathscr{L}}}_{k}$ 的特征向量，也是线性不相关的 组投资组合的权重，每组投资组合的预期收益为 $H_{k}^{T}R_{k}$
+$H_{k}$ 为正交矩阵，它的列 $(\;H_{k,1},\cdots,H_{k,n}\;)$ 是 $\pmb{\Sigma}_{k}$ 的特征向量，也是线性不相关的 组投资组合的权重，每组投资组合的预期收益为 $H_{k}^{T}R_{k}$
 
-为了满足权重之和为 1的条件，需要对 $\scriptstyle H_{k}$ 的列元素做归一化处理，定义
+为了满足权重之和为 1的条件，需要对 $H_{k}$ 的列元素做归一化处理，定义
 
 $$
-\begin{array}{r}{\widetilde{\pmb{H}}_{k}=(\widetilde{H}_{k,1},\cdots,\widetilde{H}_{k,n})}\\{s.t.}\end{array}\tag{7}
+\begin{array}{c}{\widetilde{\boldsymbol{H}}_{\boldsymbol{k}}=(\widetilde{H}_{k,1},\cdots,\widetilde{H}_{k,n}),}\\{s.t.}\end{array}\tag{7}
 $$
 
 $$
@@ -123,10 +123,10 @@ $$
 于是，新得到 组线性不相关的投资组合的权重为 $(\widetilde{H}_{k,1},\cdots,\widetilde{H}_{k,n})$ ，预期收益为$\widetilde{H}_{k}^{T}R_{k}$ ，预期收益的协方差矩阵为
 
 $$
-\widetilde{\pmb{\Sigma}}_{k}=\widetilde{\pmb{H}}_{k}\pmb{\Sigma}_{k}\widetilde{\pmb{H}}_{k}^{T}=\widetilde{\pmb{\Lambda}}_{k}\tag{9}
+\widetilde{\boldsymbol{\Sigma}}_{\boldsymbol{k}}=\widetilde{\boldsymbol{H}}_{\boldsymbol{k}}\boldsymbol{\Sigma}_{\boldsymbol{k}}\widetilde{\boldsymbol{H}}_{\boldsymbol{k}}^{T}=\widetilde{\boldsymbol{\Lambda}}_{\boldsymbol{k}}\tag{9}
 $$
 
-其中 $\widetilde{\Lambda}_{k}$ 为对角矩阵，其对角元素为
+其中 $\widetilde{\mathbf{\Lambda}}_{k}$ 为对角矩阵，其对角元素为
 
 $$
 \tilde{\lambda}_{k,i}=\frac{\lambda_{k,i}}{(H_{k,i}^{T}\mathbf{1})^{2}}\tag{10}
@@ -137,7 +137,7 @@ $$
 根据 Bai 和 Ng 发表的论文《Determining the number of factors in approximatefactor models》，协方差矩阵可以被分解为重要因子部分与非重要因子部分，即：
 
 $$
-\widetilde{\boldsymbol{\Sigma}}_{k}=\sum_{i=1}^{l}\widetilde{\lambda}_{k,i}\widetilde{H}_{k,i}\widetilde{H}_{k,i}^{T}+\sum_{i=l+1}^{n}\widetilde{\lambda}_{k,i}\widetilde{H}_{k,i}\widetilde{H}_{k,i}^{T}\tag{11}
+\widetilde{\Sigma}_{k}=\sum_{i=1}^{l}\widetilde{\lambda}_{k,i}\widetilde{H}_{k,i}\widetilde{H}_{k,i}^{T}+\sum_{i=l+1}^{n}\widetilde{\lambda}_{k,i}\widetilde{H}_{k,i}\widetilde{H}_{k,i}^{T}.\tag{11}
 $$
 
 其中，前 个因子代表了市场的系统性风险，通常对于整体的估计有较为重要的作用，后 个因子代表了非系统性风险，可从中获得主动收益。对于 值的选取并没有一定之规，一般来讲， 取值为大部分时间段中特征值大幅降低的分水岭，3到 5之间的情况最为常见。在实践中，我们测试了不同的 ，发现合理范围内的 对结果并不敏感（参见第三部分回测结果）。
@@ -145,20 +145,20 @@ $$
 接下来，我们使用UCB算法，分别从前 个和后 个特征向量中选择最优的基来构建新的投资组合，这样可以同时兼顾被动和主动收益，达到最大化投资效果的目的。在这里，我们使用夏普比率作为衡量投资效果的评价指标。于是，第 个特征向量（即第 个臂）的奖赏函数为：
 
 $$
-\bar{r}_{i}(t_{k})=\frac{\widetilde{H}_{k,i}R_{k,i}}{\sqrt{{\tilde{\lambda}}_{k,i}}}=\frac{H_{k,i}R_{k,i}}{\sqrt{{\lambda}_{k,i}}}\tag{12}
+\bar{r}_{i}(t_{k})=\frac{\widetilde{H}_{k,i}R_{k,i}}{\sqrt{\widetilde{\lambda}_{k,i}}}=\frac{H_{k,i}R_{k,i}}{\sqrt{\lambda_{k,i}}}.\tag{12}
 $$
 
 接下来，使用 UCB（Upper Confidence Bound）算法选择最优臂：
 
 $$
-i_{k}^{*}=\arg\operatorname*{max}{\bar{r}_{i}(t_{k})}+\sqrt{\frac{2\ln k+\tau}{\tau+k_{i}}}\tag{13}
+i_{k}^{*}=\arg\operatorname*{max}\bar{r}_{i}(t_{k})+\sqrt{\frac{2\ln k+\tau}{\tau+k_{i}}}\tag{13}
 $$
 
 其中 $k_{i}$ 为程序运行至今第 个特征向量被选中的次数。
 
 从前 个和后 个特征向量中选择最优臂 $i_{k}^{*}$ 和  。
 
-接下来，我们要求权重 $\theta_{k}$ ，使得第 $i_{k}^{*}\mathcal{\bar{\mathcal{F}}}{\approx}j_{k}^{*}$ 个特征向量组合而成的投资组合波动率最小，因为特征向量两两不相关，最终投资组合的波动率可以写为：
+接下来，我们要求权重 $\theta_{k}$ ，使得第 $i_{k}^{*}和j_{k}^{*}$ 个特征向量组合而成的投资组合波动率最小，因为特征向量两两不相关，最终投资组合的波动率可以写为：
 
 $$
 \lambda_{k,p}=\theta_{k}^{2}\tilde{\lambda}_{k,j_{k}^{*}}+(1-\theta_{k})^{2}\tilde{\lambda}_{k,i_{k}^{*}}\tag{14}
@@ -179,7 +179,7 @@ $$
 这里的 $w_{k}$ 可以取正值，也可以取负值，因为在美国股市允许做空。将该算法应用于 A股市场时，还需要对该权重进行进一步处理，将权重映射进新的可行域里：
 
 $$
-\operatorname*{min}\left\|w_{new,k}-w_{k}\right\|^{2}\tag{17}
+\operatorname*{min}\bigl\|w_{new,k}-w_{k}\bigr\|^{2}\tag{17}
 $$
 
 S.t.
@@ -193,7 +193,7 @@ $$
 是
 
 $$
-w_{new,k}^{i}\ge0\tag{19}
+w_{new,k}^{i}\geq0\tag{19}
 $$
 
 个二次规划问题，可通过二次规划的标准算法求解。
@@ -202,19 +202,19 @@ $$
 
 完整的算法流程如下：
 
-输入： $m,n,l,{\bf R}_{{\bf k}},\tau$
+输入： $m,n,l,\mathbf{R_{k}},\tau$
 
 对 进行以下步骤：
 
-已知 $\{R_{-\tau+k},\cdots,R_{k-1}\}$ ，估计 期的资产收益率期望 $\scriptstyle R_{k}$ 和协方差矩阵 $\mathbf{\nabla}\cdot\pmb{\Sigma}_{\mathbf{k}};$
+已知 $\{R_{-\tau+k},\cdots,R_{k-1}\}$ ，估计 期的资产收益率期望 $R_{k}$ 和协方差矩阵 $-\pmb{\Sigma}_{\mathbf{k}};$
 
-根据（5），对 $\Sigma_{k}$ 做主成分分解，并将特征值按从大到小顺序排列；
+根据（5），对 $\pmb{\Sigma}_{\pmb{k}}$ 做主成分分解，并将特征值按从大到小顺序排列；
 
-根据（9），对 ${\pmb H}_{k}$ 的列向量做归一化处理，得到新的协方差矩阵；
+根据（9），对 $H_{k}$ 的列向量做归一化处理，得到新的协方差矩阵；
 
 根据（12），计算每个臂的奖赏函数；
 
-根据（13），使用 UCB 算法，从前 个和后 个臂中选择最优臂 $\ddot{\iota}_{k}^{*}$ 和  ；
+根据（13），使用 UCB 算法，从前 个和后 个臂中选择最优臂 $i_{k}^{*}$ 和  ；
 
 根据（15），计算  ；
 
@@ -252,7 +252,7 @@ $$
 Barra模型中估计协方差矩阵的方法为：
 
 $$
-\Sigma=X_{f}FX_{f}{'}+\Delta
+\Sigma=X_{f}F{X_{f}}^{\prime}+\Delta
 $$
 
 其中 $X_{f}$ 为组合中股票的因子暴露矩阵， 为因子收益率之间的协方差矩阵，Δ为个股残差波动率组成的对角矩阵。
@@ -260,7 +260,7 @@ $$
 最终结合收益模型与风险模型的优化问题为：
 
 $$
-\begin{array}{c}{{max\quad\alpha^{\prime}w-\displaystyle\frac{1}{2}\lambda w^{\prime}\Sigma w}}\\{{s.t.\quad0\leq w_{i}\leq k_{i}}}\\{{\qquad\quad\mathbf1^{\prime}w=1}}\end{array}
+\begin{aligned}&max\quad\alpha^{\prime}w-\frac{1}{2}\lambda w^{\prime}\Sigma w^{\prime}\\s.t.\quad&0\leq w_{i}\leq k_{i}\\&\quad\mathbf{1}^{\prime}w=1\\\end{aligned}
 $$
 
 其中 $w$ 为待求解的组合权重； $\alpha^{\prime}w$ 为收益预测模型给出的组合收益预测； $w^{\prime}\Sigma w$ 为组合风险预测，其中 为 Barra 风险预测模型给出的个股协方差预测矩阵； 为风险厌恶系数，这里取值为1； $k_{i}$ 为个股权重上限，这里取值为 10%。
@@ -291,7 +291,7 @@ $$
 
 ## 3.2回测结果
 
-Bandit Learning 算法中唯一不确定的参数就是决定特征向量空间分割的 ，已有论文论证 取值应在3到5之间。于是在回测中，我们分别测试了 $l=3,4,5\sharp\mathfrak{A}$ 情况。回测表明， 时回测效果最好，但 为其他值时算法依然可以取得超出基准的收益，且回测曲线走势较为相似。
+Bandit Learning 算法中唯一不确定的参数就是决定特征向量空间分割的 ，已有论文论证 取值应在3到5之间。于是在回测中，我们分别测试了 $l=3{,}4{,}5的$ 情况。回测表明， 时回测效果最好，但 为其他值时算法依然可以取得超出基准的收益，且回测曲线走势较为相似。
 
 在表 2 中，我们统计了 2013-2018 年几种选股方法总体的回测表现，可以看出，时，Bandit Learning 的运行结果最好，年化收益 20.48%，夏普比率 0.67，相对沪深 300 日胜率 52.81%。而传统多因子模型年化收益 20.89%，夏普比率0.81，相对沪深 300 日胜率 53.76%。
 

@@ -94,27 +94,27 @@ wenqiaojun@gf.com.cn
 假设沪深 300 指数的成份股价格序列为 p (t), i = 1,2, ⋯ ,300, t = 1,2,3, ⋯。在t时刻，我们取窗口长度为L 的一段数据，记成矩阵P。其中，已经对价格序列进行标准化（除以每个序列的第一个值），如下所示
 
 $$
-P=\left[\begin{array}{ccc}{p_{1}(t-L+1)}&{\cdots}&{p_{300}(t-L+1)}\\{\vdots}&{\ddots}&{\vdots}\\{p_{1}(t)}&{\cdots}&{p_{300}(t)}\end{array}\right]
+P=\begin{bmatrix}p_{1}(t-L+1)&\cdots&p_{300}(t-L+1)\\\vdots&\ddots&\vdots\\p_{1}(t)&\cdots&p_{300}(t)\end{bmatrix}
 $$
 
 可以使用矩阵P计算价格序列的协方差矩阵Σ
 
 $$
-\Sigma=\left[\begin{array}{ccc}{\sigma(1,1)}&{\cdots}&{\sigma(1,300)}\\{\vdots}&{\ddots}&{\vdots}\\{\sigma(300,1)}&{\cdots}&{\sigma(300,300)}\end{array}\right]
+\boldsymbol{\Sigma}=\begin{bmatrix}\sigma(1\text{,}1)&\cdots&\sigma(1\text{,}300)\\\vdots&\ddots&\vdots\\\sigma(300\text{,}1)&\cdots&\sigma(300\text{,}300)\end{bmatrix}
 $$
 
-其中第 i 行第 j 列的元素 $\cdot\sigma(i,j)$ 表示第 i 个成份股和第 j 个成份股价格的协方差，即 $\sigma(i,j)=cov(p_{i},p_{j})$
+其中第 i 行第 j 列的元素 $\sigma(i,j)$ 表示第 i 个成份股和第 j 个成份股价格的协方差，即 $\sigma(i,j)=cov(p_{i},p_{j})$
 
 我们可以对价格矩阵P 进行线性变换，假设变换矩阵为
 
 $$
-U=\left[{\begin{array}{ccc}{u_{1,1}}&{\cdots}&{u_{1,300}}\\{\vdots}&{\ddots}&{\vdots}\\{u_{300,1}}&{\cdots}&{u_{300,300}}\end{array}}\right]=\left[{\pmb{u}}_{1}\cdots{\pmb{u}}_{300}\right]
+U=\begin{bmatrix}u_{1,1}&\cdots&u_{1,300}\\\vdots&\ddots&\vdots\\u_{300,1}&\cdots&u_{300,300}\end{bmatrix}=[\boldsymbol{u}_{1}\quad\cdots\quad\boldsymbol{u}_{300}]
 $$
 
-U也是一个300行300列的矩阵，其中列向量 $\mathbf{\boldsymbol{\mathsf{u}}}_{j}=[\boldsymbol{\mathsf{u}}_{1,j}\quad\ldots\quad\boldsymbol{\mathsf{u}}_{300,j}]^{T}$ 为矩阵 U 的第j列，而且可以给变换矩阵一定的约束，如 $\pmb{l}_{j}^{T}\pmb{u}_{j}=1$ （约束条件）。那么变换成矩阵 $Q=$ PU，其中 Q的第一列为
+U也是一个300行300列的矩阵，其中列向量 $\pmb{u}_{\pmb{j}}=[\begin{matrix}{u_{1,j}}&{\dots}&{u_{300,j}}\end{matrix}]^{T}$ 为矩阵 U 的第j列，而且可以给变换矩阵一定的约束，如 $\pmb{\imath}_{j}^{T}\pmb{u}_{j}=1$ （约束条件）。那么变换成矩阵 $Q=$ PU，其中 Q的第一列为
 
 $$
-q_{1}(t-k)=p_{1}(t-k)\times u_{1,1}+\cdots+p_{300}(t-k)\times u_{300,1},k=0,1,2,3,\cdots,L-1
+q_{1}(t-k)=p_{1}(t-k)\times u_{1,1}+\cdots+p_{300}(t-k)\times u_{300,1},\quad k=0,1,2,3,\cdots,L-1
 $$
 
 如下图所示，其中横轴表示时间。
@@ -125,25 +125,25 @@ $$
 
 ![](images/8c5ca1edb23b804b15ea493d9e265efa89692caf96c78dce0495c6acd7e84dd7.webp)
 
-类似的，矩阵Q 表示300个变换之后的序列，不同的列分别可以记为，序列 $\mathbf{q}_{1}=$ $Pu_{1},\ q_{2}=Pu_{2},\ \ldots\ldots,\ q_{300}=Pu_{300}$
+类似的，矩阵Q 表示300个变换之后的序列，不同的列分别可以记为，序列 $\mathbf{q}_{1}=$ $P{\pmb u}_{1},\quad{\pmb q}_{2}=P{\pmb u}_{2},\quad\ldots\ldots,\quad{\pmb q}_{300}=P{\pmb u}_{300}$
 
-由于成份股一致性反映的是市场同涨同跌的程度。从另一个角度来考虑，当成份股一致性强的时候，可以寻找到一个序列 $\pmb q_{1}=P\pmb u_{1}$ ，且序列q 包含了成份股股价序列的大部分信息。
+由于成份股一致性反映的是市场同涨同跌的程度。从另一个角度来考虑，当成份股一致性强的时候，可以寻找到一个序列 $\pmb{q}_{1}=P\pmb{u_{1}}$ ，且序列q 包含了成份股股价序列的大部分信息。
 
-在这里，我们先不用去考虑序列 $\pmb q_{1}$ 的具体形式，只需要关心是否能够找到这样的序列 $\pmb q_{1}$ ，以及序列中所包含的信息量是否足够多。
+在这里，我们先不用去考虑序列 $\mathbf{q_{1}}$ 的具体形式，只需要关心是否能够找到这样的序列 $\mathbf{q_{1}}$ ，以及序列中所包含的信息量是否足够多。
 
-用方差来表示序列 $\pmb q_{1}$ 的信息量，则我们的目标是：
+用方差来表示序列 $\mathbf{q_{1}}$ 的信息量，则我们的目标是：
 
-在 $\pmb{u}_{1}^{T}\pmb{u}_{1}=1$ 的约束下，寻找最大化 $\pmb{q}_{1}$ 方差的变换向量 $\pmb{u}_{1}$ ，即
+在 $\pmb{u}_{1}^{T}\pmb{u}_{1}=1$ 的约束下，寻找最大化 $\mathbf{\boldsymbol{q}_{1}}$ 方差的变换向量 $\mathbf{u_{1}}$ ，即
 
 $$
-\operatorname*{max}_{\boldsymbol{u_{1}}}\mathrm{var}(P\boldsymbol{u_{1}})=\boldsymbol{u}_{1}^{T}\Sigma\boldsymbol{u_{1}}
+\max_{\boldsymbol{u}_{1}}\operatorname{var}(P\boldsymbol{u}_{1})=\boldsymbol{u}_{1}^{T}\Sigma\boldsymbol{u}_{1}
 $$
 
-这就是求解协方差矩阵Σ的最大特征值对应的特征向量的问题，也是主成分分析所解决的问题，所获得的序列q 就是数据矩阵 P 的第一个主成分。而且，在最优的变换向量下， $\mathrm{var}(\pmb q_{1})=\lambda_{1}$ ，为矩阵Σ的最大特征值。
+这就是求解协方差矩阵Σ的最大特征值对应的特征向量的问题，也是主成分分析所解决的问题，所获得的序列q 就是数据矩阵 P 的第一个主成分。而且，在最优的变换向量下， $\operatorname{var}(\pmb{q}_{1})=\lambda_{1}$ ，为矩阵Σ的最大特征值。
 
-根据主成分分析的性质，我们可以将矩阵Σ的所有特征值求出来，为 $\cdot\lambda_{1},\lambda_{2},\ldots,\lambda_{300}$ 且有 $\lambda_{1}\ge\lambda_{2}\ge\cdots\ge\lambda_{300}\ge0$ 。如果P的秩小于300，则排在后边的若干特征值等于0。主成分具有如下性质：
+根据主成分分析的性质，我们可以将矩阵Σ的所有特征值求出来，为 $\cdot\lambda_{1},\lambda_{2},\ldots,\lambda_{300},$ 且有 $\left[\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{300}\geq0\right.$ 。如果P的秩小于300，则排在后边的若干特征值等于0。主成分具有如下性质：
 
-1）所有特征值都非负，且 $\begin{array}{r}{\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{300}\geq0;}\end{array}$
+1）所有特征值都非负，且 $\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{300}\geq0;$
 
 2）不同主成分之间互不相关；
 
@@ -158,7 +158,7 @@ $$
 在此基础上，定义成份股的一致性指标 R为
 
 $$
-R={\frac{\lambda_{1}}{\sum_{i=1}^{300}\lambda_{i}}}\times100\%={\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}+\cdots+\lambda_{300}}}\times100\%
+R=\frac{\lambda_{1}}{\sum_{i=1}^{300}\lambda_{i}}\times100\%=\frac{\lambda_{1}}{\lambda_{1}+\lambda_{2}+\cdots+\lambda_{300}}\times100\%
 $$
 
 这个指标是主成分分析中，第一个主成分的方差贡献率。
@@ -190,7 +190,7 @@ $$
 建仓的多空方向由当天现货指数开盘之后这一段时间股指期货涨跌的方向决定，即
 
 $$
-\left\{\begin{array}{ll}{{\hbar\mathbb H}{\mathbb R}p(T)>p(t_{0}),}&{{\nmid\pmb{\mathbb U}\pmb{\mathbb X}}{\mathbf\pmb{\mathbb H}}{\mathbf\pmb{\mathbb H}}{\mathbf\hbar}{\mathbf\hbar}{\mathbf\hbar}}\\{{\hbar\mathbb H}{\mathbb R}p(T)<p(t_{0}),}&{{\nmid\pmb{\mathbb U}\pmb{\mathbb U}\pmb{\mathbb X}}{\mathbf\pmb{\mathbb H}}{\mathbf\hbar}{\mathbf\hbar}{\mathbf\hbar}{\mathbf\pmb{\mathbb H}}{\mathbf\hbar}{\mathbf\hbar}}\end{array}\right.
+\left\{\begin{aligned}&如果p(T)>p(t_{0}),做多股指期货\\&如果p(T)<p(t_{0}),做空股指期货\end{aligned}\right.
 $$
 
 其中， $p(t_{0})$ 为当天上午9:30时股指期货的价格， $p(T)$ 为时刻T 股指期货的价格，根据两者大小来确定趋势方向。

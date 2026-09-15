@@ -178,22 +178,22 @@ CAPM 模型形式简洁优美、逻辑清晰明确，是量化模型的基石，
 
 值得一提的是，风险平价策略广为人知更多的是因为桥水基金的全天候投资组合（AllWeatherPortfolio），由于其20年来收益率稳定高于标普 500，并且在 2008年金融危机时仍有不俗的表现，因此受到投资者的广泛关注，本文这里先讨论风险平价模型的理论基础。
 
-定义 ${\mathfrak{x}}=(x_{1},x_{2},\ldots,x_{n})$ 为组合中 n 个资 $-\dot{\bar{p^{2}}}$ 的权重， $x_{i}$ 即为资产i的权重， $\sigma_{i}^{2}$ 为资产i的方差，$\sigma_{ij}$ 为资产i及资产j的协方差，Σ为组合资产的协方差矩阵，因此资产组合的标准差可表示如下：
+定义 $x=(x_{1},x_{2},\ldots,x_{n})$ 为组合中 n 个资 $\cdot 产$ 的权重， $x_{i}$ 即为资产i的权重， $\sigma_{i}^{2}$ 为资产i的方差，$\sigma_{ij}$ 为资产i及资产j的协方差，Σ为组合资产的协方差矩阵，因此资产组合的标准差可表示如下：
 
 $$
-\sigma(x)=\sqrt{x^{T}\Sigma x}=\sqrt{\sum_{i}x_{i}^{2}\sigma_{i}^{2}+\sum_{i}\sum_{j\neq i}x_{i}x_{j}\sigma_{ij}}
+\sigma(x)=\sqrt{x^{T}\Sigma x}=\sqrt{\sum_{i}x_{i}^{2}\sigma_{i}^{2}+\sum_{i}\sum_{j\neq i}x_{i}x_{j}\sigma_{ij}}.
 $$
 
 定义单个资产权重的微小变化对组合波动率所带来的影响为边际风险贡献 Marginal RiskContribution（MRC），则：
 
 $$
-MRC=\partial_{x_{i}}\sigma(x)=\frac{\partial\sigma(x)}{\partial_{x_{i}}}=\frac{x_{i}\sigma_{i}^{2}+\sum_{j\neq i}x_{j}\sigma_{ij}}{\sigma(x)}=\frac{(\Sigma\mathrm{x})_{i}}{\sigma(x)}
+MRC=\partial_{x_{i}}\sigma(x)=\frac{\partial\sigma(x)}{\partial_{x_{i}}}=\frac{x_{i}\sigma_{i}^{2}+\sum_{j\neq i}x_{j}\sigma_{ij}}{\sigma(x)}=\frac{(\Sigma x)_{i}}{\sigma(x)}
 $$
 
 定义单个资产对组合波动率的总体影响为总体风险贡献TotalRiskContribution（TRC），则：
 
 $$
-TRC=x_{i}\times MRC=\frac{x_{i}^{2}\sigma_{i}^{2}+\sum_{j\neq i}x_{i}x_{j}\sigma_{ij}}{\sigma(x)}=\frac{x_{i}(\Sigma\mathrm{x})_{i}}{\sigma(x)}
+TRC\;=\;x_{i}\times MRC\;=\;\frac{x_{i}^{2}\sigma_{i}^{2}+\sum_{j\neq i}x_{i}x_{j}\sigma_{ij}}{\sigma(x)}=\frac{x_{i}(\Sigma x)_{i}}{\sigma(x)}
 $$
 
 $$
@@ -244,7 +244,7 @@ min\sum_{i,j}(x_{i}(\Sigma\mathbf{x})_{i}-x_{j}(\Sigma\mathbf{x})_{j})^{2}
 $$
 
 $$
-{s.t.}\left\{{1^{T}x=1\atop0\leq x\leq1}\right.
+s.t.\left\{\begin{matrix}1^{T}x=1\\0\leq x\leq1\end{matrix}\right.
 $$
 
 考虑到大类资产一般为多头配置，因此这里设定了各类资产的权重均大于 0，同时考虑到对于杠杆使用的限制，因此各类资产的权重之和等于 1。
@@ -262,7 +262,7 @@ $$
 Ledoit-Wolf压缩估计法能够提高协方差矩阵的稳定性，通过将一个能够快速收敛的有偏估计量Φ与样本协方差Σ结合在一起，虽然损失了一定的无偏性，但是新的协方差矩阵能够更加快速的收敛。实际操作中，一般选用单位矩阵作为Φ：
 
 $$
-{\boldsymbol{\Sigma}}=\alpha\Phi+(1-\alpha){\boldsymbol{\Sigma}}
+\Sigma=\alpha\Phi+(1-\alpha)\Sigma
 $$
 
 公式中的α一般通过最小化压缩协方差与样本协方差之间的损失得到。
@@ -379,18 +379,18 @@ SVM在这两类点中有最大的边际。支持向量就是指离超平面最�
 ![](images/62ce3a7405cfd17dfe265f59689511cc028fc8b941b5f5fcf0f1a2b13321d342.webp)
 数据来源：网络截图 华泰期货研究院
 
-用于训练的集合是一组向量 $x_{j}$ ，每个向量 $x_{j}$ 都对应了一个类别 $y_{j}$ 。对所有d维向量 $x_{j}\in R^{d}$ $y_{j}=\pm1$ 。超平面的公式可表示为
+用于训练的集合是一组向量 $x_{j}$ ，每个向量 $x_{j}$ 都对应了一个类别 $y_{j}$ 。对所有d维向量 $\boldsymbol{\cdot}\boldsymbol{x}_{j}\in R^{d}$ $y_{j}=\pm1$ 。超平面的公式可表示为
 
 $$
 f(x)=x^{\prime}\beta+b=0\tag{1}
 $$
 
-其中 $\boldsymbol{\beta}\in R^{d}$ ，是一个d维向量，b是一个实数。
+其中 $;\beta\in R^{d}$ ，是一个d维向量，b是一个实数。
 
 以下问题给出了最优超平面的定义：即寻找β和b来最小化‖β‖使得对所有的点 $\left(x_{j},y_{j}\right)$ ，都有
 
 $$
-y_{j}f{\big(}x_{j}{\big)}\geq1\tag{2}
+y_{j}f\big(x_{j}\big)\geq1\tag{2}
 $$
 
 而支持向量就是在边界上的点 $x_{j}$ ，这类点满足
@@ -402,21 +402,21 @@ $$
 为了数学表达方便，这个问题可以转化为最小化‖β‖的二项规划问题。其中的最优解(β̂, b̂)可以实现对向量z的分类如下:
 
 $$
-class(z)=sign\bigl(z^{\prime}\widehat{\beta}+\widehat{b}\bigr)=sign(\widehat{f}(z))\tag{4}
+class(z)=sign\big(z^{\prime}\widehat{\beta}+\widehat{b}\big)=sign(\widehat{f}(z))\tag{4}
 $$
 
 f̂(z)就是分类分数，代表了向量z与超平面之间的距离。
 
-然 $\bar{\hbar}$ 给定的数据训练集 $x_{j}$ 未必能通过一个超平面实现可分。在这种情况下，SVM 可以使用一个软性边界，意味着一个超平面能分出大部分但并非所有的数据点。为此可以引入松弛变量 $\cdot\xi_{j}$ 和惩罚参数C，把问题转化为：
+然 $而$ 给定的数据训练集 $x_{j}$ 未必能通过一个超平面实现可分。在这种情况下，SVM 可以使用一个软性边界，意味着一个超平面能分出大部分但并非所有的数据点。为此可以引入松弛变量 $-\xi_{j}$ 和惩罚参数C，把问题转化为：
 
 $$
-\operatorname*{min}_{\beta,b,\xi}(\frac{1}{2}\beta^{\prime}\beta+C\sum_{j}\xi_{j})\tag{5}
+\operatorname*{min}_{\beta,b,\xi}(\frac{1}{2}\beta^{'}\beta+C\sum_{j}\xi_{j})\tag{5}
 $$
 
 同时满足
 
 $$
-\begin{array}{c}{{y_{j}f\left(x_{j}\right)\geq1-\xi_{j}}}\\{{\xi_{j}\geq0}}\end{array}\tag{6}
+\begin{aligned}y_{j}f\big(x_{j}\big)&\geq1-\xi_{j}\\\xi_{j}&\geq0\end{aligned}\tag{6}
 $$
 
 由公式(6)可以看出增加C值意味着松弛变量ξj的权重增加，也即分类更加严格。反之降低C值意味着错误分类的重要性降低。公式(5)和(6)通常不会直接求解，因为用到SVM的实际问题通常都是线性不可分的。为了把线性不可分问题变成可分需要引入拉格朗日乘子αj和μj把公式(5)和(6)可以转化为
@@ -428,50 +428,50 @@ $$
 计算公式(7)的驻点可得
 
 $$
-\begin{array}{c}{\beta=\displaystyle\sum_{j}\alpha_{j}y_{j}x_{j}}\\{\displaystyle\sum_{j}\alpha_{j}y_{j}=0}\\{\alpha_{j}=C-\mu_{j}}\end{array}\tag{8}
+\left\{\begin{aligned}\beta&=\sum_{j}\alpha_{j}y_{j}x_{j}\\&\sum_{j}\alpha_{j}y_{j}=0\\\alpha_{j}&=C-\mu_{j}\end{aligned}\right.\tag{8}
 $$
 
 把公式(8)代入公式(7)可以把最小化公式(5)转化为最大化以下公式
 
 $$
-L_{D}=\sum_{j}\alpha_{j}-\frac{1}{2}\sum_{j}\sum_{k}\alpha_{j}\alpha_{k}y_{j}y_{k}x_{j}^{\prime}x_{k}\tag{9}
+{\cal L}_{D}=\sum_{j}\alpha_{j}-\frac{1}{2}{\sum_{j}\sum_{k}\alpha_{j}\alpha_{k}y_{j}y_{k}x_{j}^{\prime}x_{k}},\tag{9}
 $$
 
 同时满足约束
 
 $$
-\begin{array}{c}{{{\displaystyle{\sum_{j}}}y_{j}\alpha_{j}=0}}\\{{0\le\alpha_{j}\le C}}\end{array}\tag{10}
+\begin{array}{c}{{\displaystyle\sum_{j}y_{j}\alpha_{j}=0}}\\{{0\leq\alpha_{j}\leq C}}\end{array}\tag{10}
 $$
 
 最后一条式子 $0\leq\alpha_{j}\leq C$ 展示了为何C值会被称为框式约束，因为C值把拉格朗日乘子限制在了特定的范围之内。
 
-公式(9)与公式(5)相比最大的改进是公式(9)不是取决于β值，而是取决于內积x ${}_{i}^{\prime}x_{k}\circ$ 。內积的大小其实是两个向量相似性的衡量，例如两个互相垂直的向量差别较大，其內积为 0，他们对$L_{D}$ 值没有影响。而平行的单位向量更相似，他们的內积为1，对 $L_{D}$ 值影响则较大。虽然在线性空间上可以通过內积衡量两个向量的相似程度，但是并不意味着这两个向量是线性可分的，因此可以通过引入核函数把原来在线性空间上不可分的向量映射到其他空间上实现可分。这类函数具有如下特征
+公式(9)与公式(5)相比最大的改进是公式(9)不是取决于β值，而是取决于內积x $\phantom{}_{i}^{\prime}x_{k},$ 。內积的大小其实是两个向量相似性的衡量，例如两个互相垂直的向量差别较大，其內积为 0，他们对$L_{D}$ 值没有影响。而平行的单位向量更相似，他们的內积为1，对 $L_{D}$ 值影响则较大。虽然在线性空间上可以通过內积衡量两个向量的相似程度，但是并不意味着这两个向量是线性可分的，因此可以通过引入核函数把原来在线性空间上不可分的向量映射到其他空间上实现可分。这类函数具有如下特征
 
 $$
 G(x_{1},x_{2})=<\varphi(x_{1}),\varphi(x_{2})>\tag{11}
 $$
 
-即核函数可以表示成两个向量进行映射 $\varphi()$ 后的內积。常见的核函数有 $G(x_{1},x_{2})=(1+$ $x_{1}^{\prime}x_{2})^{p}\acute{\varkappa}^{\alpha}G(x_{1},x_{2})=exp(-\|x_{1}-x_{2}\|^{2})\triangleq$ 等。
+即核函数可以表示成两个向量进行映射 $\varphi()$ 后的內积。常见的核函数有 $G(x_{1},x_{2})=(1+$ $x_{1}^{\prime}x_{2})^{p}和G(x_{1},x_{2})=exp(-\|x_{1}-x_{2}\|^{2})$ 等。
 
 无论是神经网络还是支持向量机，对不同问题适用的模型结构可能不一样。而模型结构则由超参数决定，例如神经网络里所包含的隐藏层数量，每层神经元数量，又或者支持向量机中使用的核函数尺度，框式约束的大小等。如何调整这些超参数需要不断地训练模型进行交叉验证，从众多模型结构或者超参数组合中选择。通常神经网络和支持向量机的训练都需要消耗大量计算时间，如果对所有可能的超参数组合进行搜索，则需要进行多次模型训练，显然不现实。为了在尽量短的计算时间内选择出效果好的模型，可以考虑使用贝叶斯优化的方进行模型选择。贝叶斯优化尝试通过在给定的计算时间内，优化一个标量目标函数f(x)进行模型选择。
 
-其中的f(x)是一个高斯过程模型，x代表用于选择的超参数向量，f(x)用于模拟交叉验证里验证集上误差的概率分布。贝叶斯优化在开始时先在超参数空间上随机选择少量点 $x_{i}$ 作为起始，计算这几个点上验证集的误差，并进行高斯过程回归校正模型f(x)，得到验证集误差的后验概率分布 ${\ Q}(f|x_{i},y_{i},i=1,\dots,t)$ 。然后根据这个概率寻找新的超参数向量 $x_{t+1}$ 使获取函数 ${\boldsymbol{a}}({\boldsymbol{{x}}}_{t+1})$ 最大。利用新的超参数向量 $x_{t+1}$ 更新高斯过程模型f(x)，然后重复以上步骤。贝叶斯优化的关键在于高斯过程模型f(r)的构建。f(r)通常使用线性回归模型的形式
+其中的f(x)是一个高斯过程模型，x代表用于选择的超参数向量，f(x)用于模拟交叉验证里验证集上误差的概率分布。贝叶斯优化在开始时先在超参数空间上随机选择少量点 $,x_{i}$ 作为起始，计算这几个点上验证集的误差，并进行高斯过程回归校正模型f(x)，得到验证集误差的后验概率分布 $\mathbb{Q}(f|x_{i},y_{i},i=1,\dots,t)$ 。然后根据这个概率寻找新的超参数向量 $x_{t+1}$ 使获取函数 $\boldsymbol{\cdot}\boldsymbol{a}(\boldsymbol{x}_{t+1})$ 最大。利用新的超参数向量 $x_{t+1}$ 更新高斯过程模型f(x)，然后重复以上步骤。贝叶斯优化的关键在于高斯过程模型f(r)的构建。f(r)通常使用线性回归模型的形式
 
 贝叶斯优化的关键在于高斯过程模型f(x)的构建，f(x)通常使用线性回归模型的形式
 
 $$
-y=x^{T}\beta+\varepsilon,\varepsilon{\sim}N(0,\sigma^{2})\tag{12}
+y=x^{T}\beta+\varepsilon,\varepsilon\sim N(0,\sigma^{2})\tag{12}
 $$
 
-f(x)刻画了超参数空间上点x的误差均值 $\textstyle\mu(x;\theta)$ 和协方差核函数k $\left(x,x^{\prime};\theta\right)$ 。其中的θ代表核参数向量,一种常用的协方差核函数为以下形式：
+f(x)刻画了超参数空间上点x的误差均值 $\mu(x;\theta)$ 和协方差核函数k $(x,x^{\prime};\theta)$ 。其中的θ代表核参数向量,一种常用的协方差核函数为以下形式：
 
 $$
 k\big(x_{i},x_{j}|\sigma_{f}^{2},\sigma_{l}^{2}\big)=\sigma_{f}^{2}exp\left[-\frac{1}{2}\frac{\big(x_{i}-x_{j}\big)^{T}\big(x_{i}-x_{j}\big)}{\sigma_{l}^{2}}\right]\tag{13}
 $$
 
-因此，高斯过程模型f(x)的拟合包括了参数 $\boldsymbol{\beta}$ ，噪声方差 $\sigma^{2}$ 和 $\scriptstyle{\tau}{\sigma}_{f}^{2}$ , $\sigma_{l}^{2}$ 的估计。
+因此，高斯过程模型f(x)的拟合包括了参数 $\langle\beta$ ，噪声方差 $\sigma^{2}$ 和 ${}^{\ast}\sigma_{f}^{2}$ , $\sigma_{l}^{2}$ 的估计。
 
-贝叶斯优化算法中使用到的另一个函数是获取函数 $a(x)$ ，一个比较常用的获取函数是期望改进函数EI：
+贝叶斯优化算法中使用到的另一个函数是获取函数 $\left|a(x)\right.$ ，一个比较常用的获取函数是期望改进函数EI：
 
 $$
 \mathrm{EI}(x,Q)=E_{Q}\big[\mathrm{max}(0,\mu_{Q}(X_{best})-f(x))\big]\tag{14}
@@ -710,15 +710,15 @@ Copula之所以能受到统计学者的青睐主要有以下两个原因：第�
 即：
 
 $$
-min{\sum_{i,j}(\frac{TRC_{i}}{b_{i}}-\frac{TRC_{j}}{b_{j}})^{2}}
+min\sum_{i,j}(\frac{TRC_{i}}{b_{i}}-\frac{TRC_{j}}{b_{j}})^{2}
 $$
 
 $$
-min\sum_{i,j}(\frac{x_{i}(\Sigma\mathrm{x})_{i}}{b_{i}}-\frac{x_{j}(\Sigma\mathrm{x})_{j}}{b_{j}})^{2}
+min\sum_{i,j}(\frac{x_{i}(\Sigma\mathbf{x})_{i}}{b_{i}}-\frac{x_{j}(\Sigma\mathbf{x})_{j}}{b_{j}})^{2}
 $$
 
 $$
-{s.t.}\left\{{1^{T}x=1\atop0\leq x\leq1}\right.
+s.t.\left\{\begin{matrix}1^{T}x=1\\0\leq x\leq1\end{matrix}\right.
 $$
 
 对于机器学习预测下期下跌的资产，设置其 $.b_{i}$ 为 0，并在机器学习预测下期上涨的资产列表内平分风险贡献比例。

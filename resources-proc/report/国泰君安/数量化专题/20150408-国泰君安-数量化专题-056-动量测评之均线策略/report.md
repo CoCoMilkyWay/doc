@@ -312,16 +312,16 @@ le_Summary]任何技术指标对一个完整的价格序列难以取得高胜率
 
 ## 3.1.25 日线测评与 5 周线比较
 
-5周线与 25日线从均线定义上没有本质的区别，区别在于频率和精度。假定 $\{\mathsf{p}1,\mathsf{p}2,....,\mathsf{p}25\}$ 为过去 25 个交易日收盘价，假定每周都是 5 个交易日，那么 5周均价定义为：
+5周线与 25日线从均线定义上没有本质的区别，区别在于频率和精度。假定 $\{\mathtt{p}1\mathtt{,}\mathtt{p}2\mathtt{,}\dots\mathtt{,}\mathtt{p}25\}$ 为过去 25 个交易日收盘价，假定每周都是 5 个交易日，那么 5周均价定义为：
 
 $$
-(\mathrm{~p~}_{5}+\mathrm{p~}_{10}+\mathrm{p~}_{15}+\mathrm{p~}_{20}+\mathrm{p~}_{25})/5
+\left(\mathrm{p}_{5}+\mathrm{p}_{10}+\mathrm{p}_{15}+\mathrm{p}_{20}+\mathrm{p}_{25}\right)
 $$
 
 而 25 日均价格定义为：
 
 $$
-\frac{1}{25}\sum_{i=1}^{25}\textit{ p }_{i}
+\frac{1}{25}\sum_{_{i=1}}^{25}\textit{ p }_{_{i}}
 $$
 
 从 2002 年 4 月 1 日至 2015 年 3 月 6 日，申万 28 个一级行业分别使用25 日线策略与 5 周线策略测试，基本上绝大多数行业 25 日均线策略的累计收益高于 5周线策略。25日均线策略的平均累计收益高达 1137%，而 5周线策略的平均累计收益 763%。其中国防军工的 25日均线策略累计收益高达 2719%，而 5周均线策略仅为 1364%。相比较 5周均线策略，使用 25 日均线的另一个优点是最大回撤整体有所下降，平均最大回撤由 37%降至 35%。
@@ -544,7 +544,7 @@ $$
 如果用属性来刻画价格走势的话，趋势属于阳属性，震荡属于阴属性，这里的趋势包括单边下跌和单边上涨，而不仅仅是上涨为阳。
 
 $$
-\begin{array}{r}\mathcal{A}|\{\hat{\mathcal{H}}\cdot\hat{\mathcal{H}}\cdot\frac{\pm\hat{\mathcal{H}}}{\mathcal{H}}\pm\frac{\pm\hat{\mathcal{H}}}{\mathcal{H}}\frac{1}{\mathcal{H}}=\frac{\pm\hat{\mathcal{H}}}{\mathcal{H}}\frac{\pm\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac{\gamma\mathbb{F}}{\mathcal{H}}\frac{\mp\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac{\pm\hat{\mathcal{H}}}{\mathcal{H}}\frac{\pm\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac{\gamma\mathbb{H}}{\mathcal{H}}\frac{\mp\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac{\gamma\mathbb{H}}{\mathcal{H}}\frac{\mp\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac{\gamma\mathbb{H}}{\mathcal{H}}\frac{\mp\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac{\gamma\mathbb{H}}{\mathcal{H}}\frac{\mp\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac{\gamma\mathbb{H}}{\mathcal{H}}\frac{\mp\hat{\mathcal{H}}}{\mathcal{H}}\big(\mathrm{~\mathbb{H}~}\big)\ \mathrm{~\mathbb{+~}~}\frac\gamma\mathbb{H}\end{array}
+价格走势=趋势(阳)+震荡(阴)+趋势(阳)+震荡(阴)+\ldots
 $$
 
 任何单一技术指标要么为阳属性要么为阴属性，必然难以同时兼顾阴阳两种走势。那么在实战中如何兼顾两种属性？一般来说有两种解决方案：第一、存在一种方法能够预判价格走势的转换，如果价格走势由趋势转为震荡，则调整动量策略为反转策略；反之，如果价格震荡完成，新一轮的趋势行情展开，则由反转策略转为动量策略。如果能做到这一点这就是一个完美的量化策略。但实际上预判走势类型的转换也相当不易。第二、寻找特定的价格模式，选用适用的操作策略。这种投资交易方法更像是猎人捕获猎物，价格走势一旦呈现某种特征或某种模式，也就是猎物出现，这时候就选用合适的捕猎工具出击。在实际交流中发现，很多股市、期货的交易投资高手多采用此模式。这种方法分为两种层次，第一种胜率极高，高的可以达到 90%以上，不出则已，出必胜、行必果。另一种层次看上去低一些，胜率不高，经常也就是 50%左右，但盈亏比极高。其实很多有效的策略都是胜率普通但盈亏比极高。

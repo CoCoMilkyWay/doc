@@ -321,7 +321,7 @@ S0880116100008
 对于有j=1,2,…J 类的非次序反应变量，多项Logit模型可以通过以下Logit 形式给出：
 
 $$
-\operatorname{Ln}\left[{\frac{P(y=j|x)}{P(y=J|x)}}\right]=\alpha_{j}+\sum_{k=1}^{K}\beta_{jk}x_{k}\tag{3.1}
+\mathrm{Ln}\left[\frac{P(y=j|x)}{P(y=j|x)}\right]=\alpha_{j}+\sum_{k=1}^{K}\beta_{jk}x_{k}\tag{3.1}
 $$
 
 也就是说，在多项 Logit 模型中，Logit 是由反应变量中的不重复的类别对的对比所形成的。之后对每一Logit分别建模，若反应变量有 J个类型，多项 Logit 模型中就有 J-1 个 Logit。
@@ -331,21 +331,21 @@ $$
 模型（3.2）和模型（3.3）分别以负向变脸和正向变脸相对没有变脸的类型对比为考察对象，使用极大似然估计的方式同时估计两类模型。
 
 $$
-\operatorname{Ln}\left[{\frac{P(y=1|x)}{P(y=3|x)}}\right]=\alpha_{1}+\sum_{k=1}^{K}\beta_{1k}x_{k}\tag{3.2}
+\ln\left[\frac{P(y=1|x)}{P(y=3|x)}\right]=\alpha_{1}+\sum_{k=1}^{K}\beta_{1k}x_{k}\tag{3.2}
 $$
 
 $$
-\mathrm{Ln}\left[\frac{P(y=2|x)}{P(y=3|x)}\right]=\alpha_{2}+\sum_{k=1}^{K}\beta_{2k}x_{k}\tag{3.3}
+\ln\left[\frac{P(y=2|x)}{P(y=3|x)}\right]=\alpha_{2}+\sum_{k=1}^{K}\beta_{2k}x_{k}\tag{3.3}
 $$
 
 之后通过模型（3.2）和模型（3.3）的联立求解，也就是简单的移项，可以求解到如（3.4）和（3.5）的概率表达式，分别表示某公司发生负向变脸和正向变脸的预测概率值。
 
 $$
-P(y=1|x)=\frac{e^{\alpha_{1}+\sum_{k=1}^{K}\beta_{1k}x_{k}}}{1+e^{\alpha_{1}+\sum_{k=1}^{K}\beta_{1k}x_{k}}+e^{\alpha_{2}+\sum_{k=1}^{K}\beta_{2k}x_{k}}}\tag{3.4}
+P(y=1|x)=\frac{e^{\alpha_1+\sum_{k=1}^{K}\beta_{1k}x_k}}{1+e^{\alpha_1+\sum_{k=1}^{K}\beta_{1k}x_k}+e^{\alpha_2+\sum_{k=1}^{K}\beta_{2k}x_k}}\tag{3.4}
 $$
 
 $$
-P(y=2|x)=\frac{e^{\alpha_{2}+\sum_{k=1}^{K}\beta_{2k}x_{k}}}{1+e^{\alpha_{1}+\sum_{k=1}^{K}\beta_{1k}x_{k}}+e^{\alpha_{2}+\sum_{k=1}^{K}\beta_{2k}x_{k}}}\tag{3.5}
+P(y=2|x)=\frac{e^{\alpha_2+\sum_{k=1}^{K}\beta_{2k}x_k}}{1+e^{\alpha_1+\sum_{k=1}^{K}\beta_{1k}x_k}+e^{\alpha_2+\sum_{k=1}^{K}\beta_{2k}x_k}}\tag{3.5}
 $$
 
 具体而言，我们选取4年作为样本训练期，滚动估计模型，得到预测变量相应的系数β，将其带入到概率表达式中，再将个股第 5年各预测变量的实际值带入，则可以得到针对每家公司随后分别发生负向变脸和正向变脸的预测概率。

@@ -137,7 +137,7 @@ Table 14 Dimensional rating disagreement and stock returns.
 | N | 14,308 | 10,177 | 14,009 | 14,185 |
 | Adjusted R² | 0.2192 | 0.3045 | 0.2570 | 0.2505 |
 
-t statistics in parentheses, $^{\ast}p<0.1,^{\ast\ast}p<0.05,$ 公从号：华泰证券金融工程
+t statistics in parentheses, $p<0.1,\quad p<0.05,$ 公从号：华泰证券金融工程
 资料来源：ESG rating disagreement and stock returns: Evidence from China,华泰研究
 
 Liu 等 人 2023 年 发 表 的 论 文 ESG rating disagreement and idiosyncratic return同样以A股市场为研究对象，发现ESG分歧度与股票特质波动率呈正相关。作者认为ESG分歧会增加投资者对该公司信息的关注度，并且增加投资者噪声交易的比例，从而导致波动率的提升。该效应在高分析师覆盖度、高分析师分歧度的上市公司体现更为明显；外资和机构投资者的参与会降低ESG分歧度带来的影响。

@@ -46,16 +46,16 @@ Email:ll9773@htsec.com
 
 ## 1. 因子溢价估计窗口与模型表现
 
-对于常规的多因子模型，假设有 m 个因子，通过横截面回归我们可获得每一期的因子溢价 $\mathsf{f}_{1,\mathrm{t}},,\ldots,\mathsf{f}_{\mathrm{m,t}\circ}$ 站在 T 月末；为预测个股在 T+1期的收益率，需利用以往各期的因子溢价值对 T+1 期各个因子的溢价进行估计。假设估计窗口为 NN_est，即采用过去NN_est 期的数据来预测因子溢价；则对于因子 i，其在 T+1 期的溢价估计量为：
+对于常规的多因子模型，假设有 m 个因子，通过横截面回归我们可获得每一期的因子溢价 $\mathbf{f}_{1,\mathfrak{t}},\dots,\mathbf{f}_{\mathsf{m},\mathfrak{t}}.$ 站在 T 月末；为预测个股在 T+1期的收益率，需利用以往各期的因子溢价值对 T+1 期各个因子的溢价进行估计。假设估计窗口为 NN_est，即采用过去NN_est 期的数据来预测因子溢价；则对于因子 i，其在 T+1 期的溢价估计量为：
 
 $$
 \hat{f}_{i,T+1}=w_{1}\cdot f_{i,T}+w_{2}\cdot f_{i,T-1}+\cdots+w_{NN\_est}\cdot f_{i,T-NN\_est+1}.
 $$
 
-其中，w为各期因子溢价的加权权重， $\mathsf{w}_{1}\mathsf{+}\ldots+\mathsf{w}_{\mathsf{NN\_est}}\mathsf{=}1$ 。在以往的回测过程中，我们通常采用等权方式来估算，即：
+其中，w为各期因子溢价的加权权重， $\mathsf{W_{1}+\ldots+W_{NN\_est}=1}$ 。在以往的回测过程中，我们通常采用等权方式来估算，即：
 
 $$
-{\sf W}=\left(w_{1},\cdots,w_{NN_{-}est}\right)=\left(\frac{1}{NN_{-}est},\cdots,\frac{1}{NN_{-}est}\right)_{.}
+\mathrm{W}=\left(w_{1},\cdots,w_{NN\_est}\right)=\left(\frac{1}{NN\_est},\cdots,\frac{1}{NN\_est}\right)
 $$
 
 在等权方法下，估计因子溢价关键在于选择时间窗口。若估计窗口过短，干扰信息过多，将难以达到有效的估计目的。下图展示了估计窗口为 3至 60 个月时，等权方法下多因子模型的 IC、rankIC、月均收益、IC_IR、rankIC_IR 以及收益风险比（月均收益/月度收益标准差）情况。从中可发现，当选取时间窗口过短，如一年以内时，多因子模型的表现远逊于其他情况；而时间窗口在 1年以上时，多因子模型之间的表现并无明显差异。
@@ -79,13 +79,13 @@ $$
 指数移动平均法是时间序列估计中经常使用的一种方法，它将较大的权重放在较近的数据上。具体而言，该方法的表达形式如下所示：
 
 $$
-EWMA(t+1)=\lambda\cdot\Upsilon(t)+(1-\lambda)\cdot EWMA(t-1)
+EWMA(t+1)=\lambda\cdot Y(t)+(1-\lambda)\cdot EWMA(t-1)
 $$
 
 其中，EWMA(t)表示 t时刻的估计值，Y(t)表示 t时刻的测量值；λ为衰减速度，λ越大，当前值占的比重越大，过去值占的比重越小。实际上，上式可改写为：
 
 $$
-EWMA(t+1)=\lambda\cdot\Upsilon(t)+\lambda\cdot(1-\lambda)\cdot\Upsilon(t-1)+\lambda\cdot(1-\lambda)^{2}\cdot\Upsilon(t-2)+\cdots
+EWMA(t+1)=\lambda\cdot\Upsilon(t)+\lambda\cdot(1-\lambda)\cdot\Upsilon(t-1)+\lambda\cdot(1-\lambda)^2\cdot\Upsilon(t-2)+\cdots
 $$
 
 从上式可看出，在 t+1 期预测值的构建过程中，t-1时刻的测量值 Y(t-1)所占的权重是 t时刻测量值 Y(t)的 1-λ倍。换言之，λ越大，t-1时刻（离现在越远的时刻），其测量值所占的权重越小，因此λ可理解为衰减速度。
@@ -93,7 +93,7 @@ $$
 回到第 1部分的因子溢价估计公式中，采用指数加权移动平均法进行估计，相当于按照如下方式确定各期因子溢价的权重：
 
 $$
-\mathsf{W}=(w_{i})_{i=1,\cdots NN_{-}est}=\left(\frac{\lambda}{1-(1-\lambda)^{NN_{-}est}},\cdots,\frac{\lambda\cdot(1-\lambda)^{i-1}}{1-(1-\lambda)^{NN_{est}}},\cdots,\frac{\lambda\cdot(1-\lambda)^{NN_{-}est-1}}{1-(1-\lambda)^{NN_{est}}}\right)_{.}
+\mathrm{W}=(w_{i})_{i=1,\cdots NN,est}=\left(\frac{\lambda}{1-(1-\lambda)^{NN,est}},\cdots,\frac{\lambda\cdot(1-\lambda)^{i-1}}{1-(1-\lambda)^{NN_{est}}},\cdots,\frac{\lambda\cdot(1-\lambda)^{NN,est-1}}{1-(1-\lambda)^{NN_{est}}}\right)_{i}
 $$
 
 下表统计了不同参数下，分别采用等权和指数加权移动平均法估计因子溢价的多因子表现情况。
@@ -127,19 +127,19 @@ $$
 
 ## 3.1 基于拟合优度确定衰减系数
 
-在本小节的回测过程中，我们统一采用 24 个月的时间窗口（下文会讨论估计窗口对模型的影响）数据来估计因子溢价，加权方式为指数加权移动平均法。以 NN_est 代表估计时间窗口长度；衰减速度最小取值为 0.01（接近于等权），记之为 $\lambda_{\mathrm{\ :min}};$ 最大取值为 0.5（即后一期的权重是前一期的二分之一），记之为 $\lambda_{\textrm{ \tiny m a x }}$ 。则按照前文所述的逻辑，我们基于如下方法确定 T 期的衰减系数 $\lambda{\mathfrak{r}}:$
+在本小节的回测过程中，我们统一采用 24 个月的时间窗口（下文会讨论估计窗口对模型的影响）数据来估计因子溢价，加权方式为指数加权移动平均法。以 NN_est 代表估计时间窗口长度；衰减速度最小取值为 0.01（接近于等权），记之为 $\lambda_{\mathrm{{\sf{min}}}};$ 最大取值为 0.5（即后一期的权重是前一期的二分之一），记之为 $\lambda_{\mathrm{max}}.$ 。则按照前文所述的逻辑，我们基于如下方法确定 T 期的衰减系数 $\lambda_{\mathrm{~T~}}$
 
-（1） 利用 t月每一交易日收益率数据，对 t-1月末的因子值进行横截面回归，获得当月日度拟合优度的平均值 $\hat{R}_{t}^{2}$ ；
+（1） 利用 t月每一交易日收益率数据，对 t-1月末的因子值进行横截面回归，获得当月日度拟合优度的平均值 $|\bar{R}_{t}^{2}$ ；
 
-（2） 在 T 月末，将过去 NN_est 期的拟合优度即 $\bar{R}_{T}^{2},\bar{R}_{T-1}^{2},\cdots,\bar{R}_{T-NN\_est+1}^{2}$ ，按照从大到小的顺序排序，并找出当月拟合优度所处的位臵，记之为 Rank ；
+（2） 在 T 月末，将过去 NN_est 期的拟合优度即 $\bar{R}_{T}^{2},\quad\bar{R}_{T-1}^{2},\quad\cdots,\quad\bar{R}_{T-NN\_est+1}^{2}$ ，按照从大到小的顺序排序，并找出当月拟合优度所处的位臵，记之为 Rank ；
 
 （3） 如前所述，当前拟合优度越小，λ取值应越大；λ由如下计算公式获取：
 
 $$
-\lambda_{T}=\lambda_{min}+(Rank_{T}-1)\cdot\frac{\lambda_{max}-\lambda_{min}}{NN_{est}-1}\nonumber
+\lambda_{T}=\lambda_{min}+\left(Rank_{T}-1\right)\cdot\frac{\lambda_{max}-\lambda_{min}}{NN_{est}-1},
 $$
 
-从上式可看出，若当前拟合优度在过去 NN_est 期中属于最小的一期（即 Rank 取值为 NN_est），则当期衰减速度取最大值 $\lambda_{\mathsf{max}};$ 若拟合优度在过去 NN_est 期中属于最大的一期（即 $\mathsf{Rank}_{\mathsf{T}}$ 取值为 1），则当期衰减速度取最小值 $\lambda_{\mathrm{\scriptsize~min^{\circ}~}}$ 。即当期拟合优度越大，各期权重越倾向于等权；拟合优度越小，衰减速度越快，近期数据所占比重越大。下文中我们将上述方法简称为自适应指数加权移动平均法。
+从上式可看出，若当前拟合优度在过去 NN_est 期中属于最小的一期（即 Rank 取值为 NN_est），则当期衰减速度取最大值 $\lambda_{\mathrm{max}};$ 若拟合优度在过去 NN_est 期中属于最大的一期（即 $\mathsf{Rank}_{\mathsf{T}}$ 取值为 1），则当期衰减速度取最小值 $\lambda_{\mathrm{min}}.$ 。即当期拟合优度越大，各期权重越倾向于等权；拟合优度越小，衰减速度越快，近期数据所占比重越大。下文中我们将上述方法简称为自适应指数加权移动平均法。
 
 下表中，我们对比了 24 个月估计窗口下，基于等权和自适应指数加权移动平均法确定因子溢价的多因子模型表现情况。从中可看出，改进模型的 IC 均值相对于原始模型略微降低，但同时波动性也大幅降低；整体而言，对于收益风险指标即多因子模型的
 

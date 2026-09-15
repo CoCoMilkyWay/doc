@@ -62,11 +62,11 @@ fukaibo@kysec.cn
 
 | 步骤1 | 对选定股票，回溯取其过去10个交易日的分钟行情数据； |
 | --- | --- |
-| 步骤2 | 构造指标 $\mathrm{{\dot{s}S_{t}}=\|R_{t}\|/\sqrt{V_{t}},}$ 其中 $R_{t}$ 为第t 分钟涨跌幅， $V_{t}$ 为第t分钟成交量； |
-| 步骤3 | 将分钟数据按照指标 $\mathrm{S}_{\mathrm{t^{\prime}}}$ 从大到小进行排序，取成交量累积占比前20%的分钟， 视为聪明钱交易； |
-| 步骤4 | 计算聪明钱交易的成交量加权平均价 $\cdot\mathrm{\nabla{WAP_{smart}}};$ |
-| 步骤5 | 计算所有交易的成交量加权平均价 $\mathrm{\cdot\nabla WAP_{all};}$ |
-| 步骤6 | 聪明钱因子 $\mathrm{\Delta Q=VWAP_{smart}/VWAP_{all}}.$ a |
+| 步骤2 | 构造指标 $\mathrm{\dot{S}_{t}=\|R_{t}\|/\sqrt{V_{t}},}$ 其中 $R_{t}$ 为第t 分钟涨跌幅， $V_{t}$ 为第t分钟成交量； |
+| 步骤3 | 将分钟数据按照指标 $\mathsf{S_{t1}}$ 从大到小进行排序，取成交量累积占比前20%的分钟， 视为聪明钱交易； |
+| 步骤4 | 计算聪明钱交易的成交量加权平均价 $\mathrm{VWAP_{smax}};$ |
+| 步骤5 | 计算所有交易的成交量加权平均价 $\mathrm{VWAP_{all};}$ |
+| 步骤6 | 聪明钱因子 $\mathrm{Q}=\mathrm{VWAP}_{\text{start }}/\mathrm{VWAP}_{\text{all }}.$ a |
 
 资料来源：开源证券研究所
 

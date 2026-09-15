@@ -96,15 +96,15 @@ Email:ylq9619@htsec.com
 各股票每日买单和卖单的大单、中单及小单主动成交度的计算方式如下所示：
 
 $$
-\texttt{k}\overrightarrow{\beta}\texttt{(\overrightarrow{\beta})}\texttt{\backslash}\breve{\beta}\texttt{\exists}\overrightarrow{\beta}\texttt{\AA}\breve{\beta}\stackrel{\cdot}{\approx}\frac{\texttt{k}\overrightarrow{\beta}\texttt{(\overrightarrow{\beta})}\texttt{\forall}\bar{\beta}\texttt{\exists}\bar{\beta}\texttt{\backslash}\tilde{\beta}\stackrel{\cdot}{\approx}\frac{\texttt{k}\overrightarrow{\beta}}{\texttt{\backslash}\beta}}{\texttt{\ i}\overrightarrow{\beta}\texttt{(\overrightarrow{\beta})}\stackrel{\cdot}{\triangleq}\frac{1}{\beta!}\texttt{}\frac{\texttt{k}\overrightarrow{\beta}}{\texttt{}\frac{\texttt{k}\overrightarrow{\beta}}{\texttt{}\frac{\texttt{k}\overrightarrow{\beta}}}}}
+大买(卖)单主动成交度=\frac{大买(卖)单主动成交金额}{大买(卖)单成交金额}
 $$
 
 $$
-\mp\overrightarrow{x}(\overrightarrow{x})\equiv\equiv\equiv\overrightarrow{x}\sin\overrightarrow{x}\overrightarrow{x}=\frac{\mp\overrightarrow{x}(\overrightarrow{x})\mp\overrightarrow{x}\sin\overrightarrow{x}\cdot\overrightarrow{x}\sin}{\mp\overrightarrow{x}(\overrightarrow{x})\stackrel{\cdot}{\downarrow}\sqrt{x}\cdot\overrightarrow{x}\cdot\overrightarrow{x}\sin}
+中买(卖)单主动成交度=\frac{中买(卖)单主动成交金额}{中买(卖)单成交金额}
 $$
 
 $$
-\downarrow\downarrow\overrightarrow{\lambda}(\overrightarrow{\overrightarrow{x}})\xrightarrow{\downarrow\downarrow}\overrightarrow{\pm}\overrightarrow{\jmath}\jmath/\overrightarrow{x}/\overrightarrow{\lambda}=\frac{\cdot\downarrow\cdot\overrightarrow{x}\cdot(\overrightarrow{\overrightarrow{x}})\xrightarrow{\downarrow\downarrow}\doteq\overrightarrow{\jmath}\jmath/\overrightarrow{x}\cdot\overrightarrow{x}\cdot\overrightarrow{x}\cdot\overrightarrow{x}\Bigg|}{\cdot\downarrow\cdot\overrightarrow{x}\cdot(\overrightarrow{\overrightarrow{x}})\xrightarrow{\downarrow\downarrow}\overrightarrow{\downarrow\downarrow}\cdot\overrightarrow{x}\cdot\overrightarrow{x}\cdot\overrightarrow{x}\Bigg|}
+小买(卖)单主动成交度=\frac{小买(卖)单主动成交金额}{小买(卖)单成交金额}
 $$
 
 其中，大单、中单及小单的阈值分别设定为成交额大于均值 倍标准差、大于均值且小于等于均值+1 倍标准差、小于均值。（均值及标准差皆基于个股 20 日成交分布滚动计算，具体计算方法可参考专题报告《选股因子系列研究（七十二）——大单的精细化处理与大单因子重构》。）
@@ -337,10 +337,10 @@ $$
 组合的优化目标为最大化预期收益，目标函数如下所示：
 
 $$
-max\sum\mu_{i}w_{i}
+\underset{w_{i}}{max}\sum\mu_{i}w_{i}
 $$
 
-其中， $\mathsf{W}_{\mathrm{i}}$ 为组合中股票 i的权重，μ 为股票 i的预期超额收益。为使本文的结论贴近实践，如无特别说明，下文的测算均假定以次日均价成交，同时扣除 3‰的交易成本。
+其中， $w_{\mathrm{i}}$ 为组合中股票 i的权重，μ 为股票 i的预期超额收益。为使本文的结论贴近实践，如无特别说明，下文的测算均假定以次日均价成交，同时扣除 3‰的交易成本。
 
 ## 3.1 中证 500指数增强组合添加测试
 

@@ -67,7 +67,7 @@
 分析师通常会就影响公司基本面的信息出具相应的研究报告。分析师除了在财报季出具财报点评报告，平时也会就与公司经营相关的重要事件做出点评。如果非财报季的覆盖报告越多，则说明公司除了财报外可供投资者追踪的信息越丰富。因此，我们计算过去一年月均分析师非财报点评报告数量，来刻画公司除财报外可供投资者追踪信息的多寡：
 
 $$
-reviewcoverage=mean\Big(\mathcal{H}\mathbb{X}\mathbb{X}^{\not+}\mathbb{X}\mathbb{X}\mathbb{X}^{\not+}\mathbb{X}\mathbb{X}\frac{\not\to\mathbb{X}}{\not\to\mathbb{X}}\mathbb{X}\frac{\not\to\mathbb{X}}{\not\to\mathbb{X}}\Big),i=1,\dots,12
+reviewcoverage=mean(历度萨财损点评损查要量_{i}),i=1,\ldots,12
 $$
 
 例如整车公司在该因子上的得分较高，原因在于分析师每个月都会对整车公司的月度汽车产销数据发布点评报告。
@@ -79,7 +79,7 @@ $$
 即使公司有丰富的基本面信息可供追踪，但如果公司利用财务造假、业绩粉饰等手段操纵利润，也会大大降低公司信息透明度。我们统计过去三年，分析师最新的年度盈利预测与公告真实盈利的绝对偏离幅度，即分析师基于全年经营活动信息给出的预测的准确度，来衡量业绩的可预测性：
 
 $$
-absbiasmean=mean\left(\frac{abs\left(\frac{\sqrt{\pi}\cdot\hat{\mathcal{X}}\hat{\mathcal{L}}\hat{\mathcal{X}}\hat{\mathcal{L}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{H}}\hat{\mathcal{M}}\hat{\mathcal{H}}_{i}}{\sqrt{\pi}\cdot\hat{\mathcal{L}}\hat{\mathcal{H}}\hat{\mathcal{X}}\hat{\mathcal{H}}\hat{\mathcal{H}}_{i}}-\mathcal{L}^{\Lambda\frac{\mathcal{L}}{\pi}}\frac{\hat{\mathcal{H}}\hat{\mathcal{L}}\hat{\mathcal{H}}\hat{\mathcal{H}}}{\sqrt{\pi}\cdot\hat{\mathcal{R}}\hat{\mathcal{R}}\hat{\mathcal{L}}\hat{\mathcal{H}}_{i}}\hat{\mathcal{H}}_{i}^{\prime}\right)}{\mathcal{L}^{\perp}\frac{\hat{\mathcal{L}}\hat{\mathcal{L}}}{\pi}\frac{\hat{\mathcal{H}}\hat{\mathcal{L}}\hat{\mathcal{H}}}{\sqrt{\pi}\cdot\hat{\mathcal{R}}\hat{\mathcal{L}}\hat{\mathcal{H}}}\hat{\mathcal{H}}_{i}}\right),i=1,2,3
+abs\ bias\ mean=mean\left(\frac{abs\left(表迈并度盈利预测_{i}^{'}-公岑真实盈利_{i}^{'}\right)}{公岑真实盈利_{i}^{'}}\right),i=1,2,3
 $$
 
 ## 1.3 业绩增速的波动幅度
@@ -87,7 +87,7 @@ $$
 除了以上两个维度，我们还要面临的最大的不确定性，是来自于公司本身经营波动的风险。我们采用过去八个季度的净利润同比波动率来刻画：
 
 $$
-npqyoystd=std(npqyoy_{i}),\ i=1,2,\dots,8
+npqyoystd=std(npqyoy_{i}),i=1{,}2,\ldots{,}8
 $$
 
 这三个因子本身具备一定的选股能力，长期来看，分析师非财报点评报告越多，预测准确度越高，业绩波动越小的公司，其股票在未来越能取得高收益。

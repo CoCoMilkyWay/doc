@@ -145,10 +145,10 @@ S0880519090002
 本文使用Probit模型分析CSR 对下一年极端收益的影响。极端收益定义为最高或最低3%的截面股票年收益，并且最低的 3%包含了退市股。调整 CSR 指标包括以下七个方面：社区、公司治理、多元化、员工关系、环境、人权以及产品质量和安全，计算七个方面的得分的平均值得到CSR 指标。
 
 $$
-\mathrm{Pr}\big(I_{j}\big)=\Phi\binom{\alpha+\beta_{1}\mathrm{AdjCSR}+\beta_{2}\mathrm{BM}+\beta_{3}\mathrm{SIZE}}{+\beta_{4}\mathrm{AGE}+\beta_{5}\mathrm{VOL}+\beta_{6}\mathrm{PRICE}}\big)+\mathfrak{E}_{\mathrm{j}}
+\Pr(I_{j})=\Phi\left(\begin{matrix}\alpha+\beta_{1}\mathrm{AdjCSR}+\beta_{2}\mathrm{BM}+\beta_{3}\mathrm{SIZE}\\+\beta_{4}\mathrm{AGE}+\beta_{5}\mathrm{VOL}+\beta_{6}\mathrm{PRICE}\end{matrix}\right)+\varepsilon_{\mathrm{j}}
 $$
 
-其中 $I_{j}$ 是衡量收益是否为极端收益的指示变量，因变量为出现极端收益的概率；自变量包括调整 CSR 得分、BM、规模、存续期、上一年月交易量均值和股价。CSR得分数据来自于MSCI，其他数据来自于 CRSP。考虑到早期发布 CSR 数据的公司较少，本文的时间范围为 2003~2016年。虽然不是所有公司都会发布 CSR 数据，但作者指出发布 CSR 数据的公司市值总和已经超过市场总市值的73%，因此基本可以代表市场整体情况。
+其中 $I_{j_{1}}$ 是衡量收益是否为极端收益的指示变量，因变量为出现极端收益的概率；自变量包括调整 CSR 得分、BM、规模、存续期、上一年月交易量均值和股价。CSR得分数据来自于MSCI，其他数据来自于 CRSP。考虑到早期发布 CSR 数据的公司较少，本文的时间范围为 2003~2016年。虽然不是所有公司都会发布 CSR 数据，但作者指出发布 CSR 数据的公司市值总和已经超过市场总市值的73%，因此基本可以代表市场整体情况。
 
 表 1：数据描述性统计
 

@@ -238,7 +238,7 @@ optHigh=Max(high_{i})\ i=1,2,...
 $$
 
 $$
-optLow=Min(low_{i})\quad i=1,2,\dots
+optLow=Min(low_i)\quad i=1,2,\ldots
 $$
 
 其中，optHigℎ以及optLow分别对应策略开多仓时以及开空仓时的最优价格，i为策略开仓后的 K 线根数。这里的最优价格由趋势的方向而定，如当前趋势向上，则对应开多仓，那么最优价格就是每一根新 K 线的最高价中的最高者，即随着趋势的运行不断记录趋势过程中最高价的最大值，如果当前收盘价低于最优价格回落 N个 ATR，则对当前仓位进行止损操作。反之亦然。
@@ -382,7 +382,7 @@ Calmar 比率为 1.34，全样本期最大回撤为 8.57%。策略的分年度�
 为使得策略在所有不同品种上面的波动幅度可控，我们需要根据不同品种的波动幅度进行交易量的调整。这里所说的波动幅度通常使用真实波动幅度均值（Average True Range，ATR）来度量。其中，ATR 指标的具体计算公式如下所示：
 
 $$
-TR=Max[(high-low),abs(high-preclose),abs(low-preclose)]
+TR=Max[(high-low),abs(high-precoders),abs(low-precclose)]
 $$
 
 $$
@@ -406,7 +406,7 @@ Pos=\frac{1}{Close}
 $$
 
 $$
-\begin{array}{c}{{Lev_{ATR}=\displaystyle\frac{Pos_{ATR}}{Pos}}}\\{{=\displaystyle\frac{0.5^{0}/\mathrm{_0}}{ATR}\ast Close}}\end{array}
+\begin{aligned}Lev_{ATR}&=\frac{Pos_{ATR}}{Pos}\\&=\frac{0.5\%}{ATR}*Close\end{aligned}
 $$
 
 其中， $Pos_{ATR}$ 为 1 单位 ATR 对应资金规模 0.5%波动的应开手数,Pos为全部资金对应满仓可开手数，Close为收盘价， $Lev_{ATR}$ 为应开手数除以满仓手数的开仓杠杆率。由上面算法计算出来的开仓杠杆率具有根据 ATR波动调整杠杆率大小的特性，当一个品种的日均波动较大时，我们倾向于给予该品种较低的杠杆，而反之，如果一个品种的日均波动较小，我们则可以给该品种较高的杠杆。从风险控制的角度如果一个品种的波动较大，给予较小杠杆也是出于对资金安全的考虑，防止由于较大的波动幅度而触发穿仓风险。
@@ -421,7 +421,7 @@ $$
 
 在计算 $.Lev_{ATR}$ 时，出于实际使用情况考虑，我们设置实际交易的杠杆率最高不超过 4倍杠杆。因此当 $Lev_{ATR}$ 的绝对值大于 4 时，我们截断为 4。
 
-IF 合约 $Lev_{ATR}$ 的时间序列走势如图 16 所示：
+IF 合约 ${\mathit{'}}Lev_{ATR}$ 的时间序列走势如图 16 所示：
 
 图 16：IF合约 ATR调整杠杆率变化图
 ![](images/f1d802ecbedd6184b12be8103607f46c6d2645daff8afb06f60b4b85d337ff62.webp)
@@ -715,11 +715,11 @@ $$
 当新主力合约价格与旧主力合约价格出现跳空时，该收益率会出现异常值，而使用复权因子之后收益率的计算变为：
 
 $$
-\begin{array}{cll}{Return_{i}=\displaystyle\frac{AdjFactor_{i}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1}\\{\displaystyle}\\{\displaystyle}&{=\frac{AdjFactor_{i-1}\cdot\frac{Close_{i-1,old}}{Close_{i-1,new}}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1}\end{array}
+\begin{aligned}Return_{i}=&\frac{AdjFactor_{i}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1\\=&\frac{AdjFactor_{i-1}\cdot\frac{Close_{i-1,old}}{Close_{i-1,new}}\cdot Close_{i,new}}{AdjFactor_{i-1}\cdot Close_{i-1,old}}-1\end{aligned}
 $$
 
 $$
-=\frac{Close_{i,new}}{Close_{i-1,new}}-1
+\frac{Close_{i,new}}{Close_{i-1,new}}-1
 $$
 
 可以看到，这样计算出来的收益率即为实际收益率，进而避免了因合约切换导致的策略信号漂移或者收益率无法计算的情况。

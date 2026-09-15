@@ -58,85 +58,85 @@ chenye@htsc.com
 
 所有待合成因子，按照最近一段时期内历史 RankIC的算术平均值（或半衰权重下的加权平均值）作为权重进行相加，得到新的合成后因子。RankIC 的计算方法详见第二章第二节。该方法与上一小节提出的方法基本思想相同，只是核心关注指标有所区别。
 
-我们在此处统一介绍半衰加权法的详细计算方式。若要计算最近一段时期内历史 RankIC的算术平均值，我们只需要将每一期的 RankIC 等权相加，再除以期数即可，而半衰加权每一期 RankIC 的权重不同，将按照指数半衰权重进行加权。半衰加权的基本原则是距离现在越近的截面期权重越大、越远权重越小。这里存在一个参数——半衰期 H，其意义为每经过 H期（向过去前推 H 期），权重变为原来的一半，半衰期参数可取 1，2，4 等。具体来讲，假设对某个因子来说，其过去 T 期的 RankIC 序列为 $ic=(ic_{1},ic_{2},\ldots,ic_{T}),\ ic_{1}$ 是距离现在最远一期的 RankIC 值， $ic_{T}$ 是距离现在最近一期的 RankIC 值，半衰权重 $w=$ $(w_{1},w_{2},\dots,w_{T})$ )， $w_{1}$ 是距离现在最远一期的权重，则w的计算公式为：
+我们在此处统一介绍半衰加权法的详细计算方式。若要计算最近一段时期内历史 RankIC的算术平均值，我们只需要将每一期的 RankIC 等权相加，再除以期数即可，而半衰加权每一期 RankIC 的权重不同，将按照指数半衰权重进行加权。半衰加权的基本原则是距离现在越近的截面期权重越大、越远权重越小。这里存在一个参数——半衰期 H，其意义为每经过 H期（向过去前推 H 期），权重变为原来的一半，半衰期参数可取 1，2，4 等。具体来讲，假设对某个因子来说，其过去 T 期的 RankIC 序列为 $ic=(ic_{1},ic_{2},\dots,ic_{T}),\quad ic_{1}$ 是距离现在最远一期的 RankIC 值， $ic_{T}$ 是距离现在最近一期的 RankIC 值，半衰权重 $\scriptstyle{w=}$ $(w_{1},w_{2},\ldots,w_{T})$ )， $w_{1}$ 是距离现在最远一期的权重，则w的计算公式为：
 
 $$
-w_{t}=2^{\frac{t-T-1}{H}}(t=1,2,\dots,T)
+w_{t}=\;2^{\frac{t-T-1}{H}}(t=1{,}2,\ldots,T)
 $$
 
-在实际计算中，上述权重需要归一化，即 $w_{t}'=w_{t}/\sum w_{t}$ 。从上式中 $\overline{{\mathfrak{x}}}$ 以验证，设现在是t期，权重为 $w_{t}=2^{\frac{t-T-1}{H}}$ ，经过 H期， $w_{t-H}=2^{\frac{t-H-T-1}{H}}=2^{\frac{t-T-1}{H}}*2^{-1}$ ，即为 $w_{t}$ 的一半。
+在实际计算中，上述权重需要归一化，即 $\textstyle w_{t}^{^{\prime}}=w_{t}/\sum w_{t}$ 。从上式中 $\overline{可}$ 以验证，设现在是t期，权重为 $w_{t}=\;2^{\frac{t-T-1}{H}}$ ，经过 H期， $w_{t-H}=2^{\frac{t-H-T-1}{H}}=2^{\frac{t-T-1}{H}}*2^{-1}$ ，即为 $w_{t}$ 的一半。
 
 ## 最大化 IC_IR 加权法
 
-Qian 在《Quantitative Equity Portfolio Management》一书中提出最大化复合因子 IC_IR的方法。其基本思想是，以历史一段时间的复合因子平均 IC 值作为对复合因子下一期 IC值的估计，以历史 IC 值的协方差矩阵作为对复合因子下一期波动率的估计，根据 IC_IR等于 IC 的期望值除以 IC的标准差，可以得到最大化复合因子 IC_IR 的最优权重解。以w⃑ =$(w_{1},w_{2},\ldots,w_{N})^{T}$ 表示因子合成时所使用的权重， $\overrightarrow{IC}=(\overrightarrow{\imath c_{1}},\overrightarrow{\imath c_{2}},\ldots,\overrightarrow{\imath c_{N}})^{I}$ 表示因子 IC 均值向量，其中 $\overline{{\imath c_{k}}}(k=1,2,\ldots,N)$ 表示第 k个因子在历史一段时间内的 IC 均值， $\Sigma$ 为因子 IC 的协方差矩阵。则最优化复合因子 IC_IR 的问题 $\overline{{\mathfrak{x}}}$ 以表示为：
+Qian 在《Quantitative Equity Portfolio Management》一书中提出最大化复合因子 IC_IR的方法。其基本思想是，以历史一段时间的复合因子平均 IC 值作为对复合因子下一期 IC值的估计，以历史 IC 值的协方差矩阵作为对复合因子下一期波动率的估计，根据 IC_IR等于 IC 的期望值除以 IC的标准差，可以得到最大化复合因子 IC_IR 的最优权重解。以w⃑ =$(w_{1},w_{2},\ldots,w_{N})^{T}$ 表示因子合成时所使用的权重， $\overrightarrow{IC}=(\overrightarrow{\iota c_{1}},\overrightarrow{\iota c_{2}},\dots,\overrightarrow{\iota c_{N}})^{T}$ 表示因子 IC 均值向量，其中 $\overline{{\iota c_{k}}}(k=1{,}2,\ldots,N)$ 表示第 k个因子在历史一段时间内的 IC 均值， $\sum$ 为因子 IC 的协方差矩阵。则最优化复合因子 IC_IR 的问题 $\overline{可}$ 以表示为：
 
 $$
-\operatorname*{max}IC_{-}IR=\frac{\overrightarrow{w}^{T}*\overrightarrow{IC}}{\sqrt{\overrightarrow{w}^{T}\Sigma\overrightarrow{w}}}
+\operatorname*{max}\:IC\_IR=\frac{\overrightarrow{w}^{T}*\overrightarrow{IC}}{\sqrt{\overrightarrow{w}^{T}{\textstyle\sum}\overrightarrow{w}}}
 $$
 
-上述优化问题具有显式解 $\overrightarrow{w}=\sum^{-1}*\overrightarrow{IC}$ ，对计算出的w⃑ 需进行归一化。实际上，我们仍然使用因子的 RankIC 而非简单 IC（Pearson IC）参与上述计算，后文中若未明确指出，则所有的 IC 均指代 RankIC。
+上述优化问题具有显式解 $\begin{array}{r}{\overrightarrow{w}=\sum^{-1}*\overrightarrow{IC}}\end{array}$ ，对计算出的w⃑ 需进行归一化。实际上，我们仍然使用因子的 RankIC 而非简单 IC（Pearson IC）参与上述计算，后文中若未明确指出，则所有的 IC 均指代 RankIC。
 
 该方法在运用中值得注意的有两点。首先，对协方差矩阵的估计常常有偏差。统计学中以样本协方差矩阵代替总体协方差矩阵，但在样本量不足时，样本协方差矩阵与总体协方差矩阵差异过大，另外估计出的协方差矩阵可能是病态的，造成上述优化问题难以求解。因此，在求解权重的过程中，协方差矩阵的估计也是一个重要的问题。
 
 其次，因协方差矩阵估计不准确或存在其它干扰因素，由显式解解出的权重常常出现负数，这与因子本身的逻辑相反，违反了因子的实际意义。我们推荐直接求解上述优化问题，并加上权重为正的约束条件，即求解以下优化问题：
 
 $$
-\mathrm{max}~IC_{-}IR=~\frac{\overrightarrow{w}^{T}*\overrightarrow{IC}}{\sqrt{\overrightarrow{w}^{T}\Sigma\overrightarrow{w}}}
+\operatorname*{max}\;IC\_IR=\;{\frac{{\overrightarrow{w}}^{T}*{\overrightarrow{IC}}}{\sqrt{{\overrightarrow{w}}^{T}{\sum}{\overrightarrow{w}}}}}
 $$
 
 $$
-\quad s.t.\qquad{\overrightarrow{w}}\geq0
+s.t.\qquad\overrightarrow{w}\geq0
 $$
 
 经实际检验，含约束条件的优化问题求解出的权重更为合理，用于合成因子的效果也更好。本报告后面展示的结果亦是通过求解含约束优化问题得到因子权重来进行因子合成。（限于篇幅，通过求解不含约束优化问题进行因子合成的结果就没有详细展示了。）
 
 本报告中采用两种协方差矩阵估计方法，并将结果进行对比。一种是采用样本协方差矩阵代替总体协方差矩阵（即直接用历史 IC 协方差阵进行简单估计），另一种是采用 Ledoit &Wolf（2004）提出的压缩估计方法，目标矩阵采用单位矩阵，即将样本协方差矩阵向单位矩阵压缩。压缩的具体方法如下。
 
-设矩阵∑是真实的协方差矩阵， $\Sigma^{*}$ 是有限样本下对∑的渐进一致估计，I是单位矩阵（即目标矩阵），S 是样本协方差矩阵。我们要寻找这样一组参数 $.\rho_{1},\rho_{2}$ ，使得均方误差E[‖∑∗ − ∑‖2]最小，这里‖·‖是矩阵的 Frobenius 范数，可以用于衡量两个矩阵的差异大小，Frobenius范数越大，两个矩阵差异越大，其定义为：‖A $\lVert=\sqrt{tr(AA^{T})/N}$ ，N是 A的行数。使得均方误差最小的∑∗有如下估计式：
+设矩阵∑是真实的协方差矩阵， $\Sigma^{*}$ 是有限样本下对∑的渐进一致估计，I是单位矩阵（即目标矩阵），S 是样本协方差矩阵。我们要寻找这样一组参数 $[\rho_{1},\rho_{2}$ ，使得均方误差E[‖∑∗ − ∑‖2]最小，这里‖·‖是矩阵的 Frobenius 范数，可以用于衡量两个矩阵的差异大小，Frobenius范数越大，两个矩阵差异越大，其定义为：‖A $\|=\sqrt{tr(AA^{T})/N}$ ，N是 A的行数。使得均方误差最小的∑∗有如下估计式：
 
 $$
-{\boldsymbol{\Sigma}}^{*}=\rho_{1}{\boldsymbol{I}}+\rho_{2}{\boldsymbol{S}}
+\Sigma^{*}=\rho_{1}I+\rho_{2}S
 $$
 
-设 S是 X（N行 T列矩阵，对应 N个因子在 T个截面期的因子 IC）的样本协方差矩阵，X的第 t列为 $x_{t^{\circ}}\ \rho_{1},\rho_{2}$ 的具体表达式如下：
+设 S是 X（N行 T列矩阵，对应 N个因子在 T个截面期的因子 IC）的样本协方差矩阵，X的第 t列为 $x_{t}。\rho_{1},\rho_{2}$ 的具体表达式如下：
 
 $$
-\rho_{1}={\frac{b^{2}}{d^{2}}}m,\rho_{2}={\frac{a^{2}}{d^{2}}}
-$$
-
-$$
-\sharp\dag\dag\ m=\lVert\boldsymbol{S}-\boldsymbol{I}\rVert^{2},d^{2}=\lVert\boldsymbol{S}-m\boldsymbol{I}\rVert^{2},\bar{b}^{2}=\frac{1}{T^{2}}\sum_{t=1}^{T}\lVert\boldsymbol{x}_{t}\cdot\boldsymbol{x}_{t}^{\textit{ T }}-\boldsymbol{S}\rVert^{2}
+\rho_{1}=\frac{b^{2}}{d^{2}}m,\rho_{2}=\frac{a^{2}}{d^{2}}
 $$
 
 $$
-b^{2}=\operatorname*{min}\left(\bar{b}^{2},d^{2}\right),a^{2}=d^{2}-b^{2}
+其中$m=\|S-I\|^{2},d^{2}=\|S-mI\|^{2},\bar{b}^{2}=\frac{1}{T^{2}}{\displaystyle\sum_{t=1}^{T}}\|x_{t}\cdot{x_{t}}^{T}-S\|^{2}$
 $$
 
-由以上公式可以计算得出 $\rho_{1},\rho_{2}$ ，进而得到经压缩估计的协方差矩阵 $\cdot\sum^{*}$ 。
+$$
+b^{2}=\operatorname*{min}\bigl(\bar{b}^{2},d^{2}\bigr),a^{2}=d^{2}-b^{2}
+$$
+
+由以上公式可以计算得出 $\rho_{1},\rho_{2}$ ，进而得到经压缩估计的协方差矩阵 $\Sigma^{*}$ 。
 
 ## 最大化 IC加权法
 
 最大化 IC 加权法同样也是源于 Qian《Quantitative Equity Portfolio Management》一书，与上一小节中提及的最大化 IC_IR 加权法非常类似。对应的最优化问题为：
 
 $$
-\operatorname*{max}IC={\frac{{\overrightarrow{w}}^{T}*{\overrightarrow{IC}}}{\sqrt{{\overrightarrow{w}}^{T}V{\overrightarrow{w}}}}}
+\mathrm{max}IC=\frac{\overrightarrow{w}^{T}*\overrightarrow{IC}}{\sqrt{\overrightarrow{w}^{T}V\overrightarrow{w}}}
 $$
 
-其中w⃑ 和 $\overrightarrow{IC}$ 的含义同上一小节，V是当前截面期因子值的相关系数矩阵（由于因子均进行过标准化，自身方差为 1，因此相关系数矩阵亦是协方差阵）。上述优化问题具有显式解w⃑ =$V^{-1}*{\overrightarrow{IC}}$ ，对计算出的w⃑ 需进行归一化。这样求解出的w⃑ 可以使得复合因子单期 IC 最大，如果因子值相关系数矩阵V在不同截面期近似不变，则w⃑ 也是使得复合因子在历史一段时间的平均 IC 最大的解（证明详见《Quantitative Equity Portfolio Management》）。
+其中w⃑ 和 $t\overrightarrow{IC}$ 的含义同上一小节，V是当前截面期因子值的相关系数矩阵（由于因子均进行过标准化，自身方差为 1，因此相关系数矩阵亦是协方差阵）。上述优化问题具有显式解w⃑ =$V^{-1}*{\overrightarrow{IC}}$ ，对计算出的w⃑ 需进行归一化。这样求解出的w⃑ 可以使得复合因子单期 IC 最大，如果因子值相关系数矩阵V在不同截面期近似不变，则w⃑ 也是使得复合因子在历史一段时间的平均 IC 最大的解（证明详见《Quantitative Equity Portfolio Management》）。
 
-与上一小节相同，我们求解上述优化问题并加约束条件 $\begin{array}{r}{\overrightarrow{w}\ge0}\end{array}$ 。对于协方差阵V的估计，我们统一采用压缩协方差矩阵估计方式。
+与上一小节相同，我们求解上述优化问题并加约束条件 $\vec{w}\geq0$ 。对于协方差阵V的估计，我们统一采用压缩协方差矩阵估计方式。
 
 ## 主成分分析（PCA）法
 
-PCA 是数据降维的常用方法，由 Pearson 在 1901 年提出。PCA 将一组相关性较高的 N维数据投影到新的 k维坐标上 $\left(k<N\right)$ ），这 k维特征称为主成分，这些主成分之间是不相关的，以达到数据降维的目的。设有 N个因子 $(x_{1},x_{2},\ldots,x_{N})_{T*N}$ ，每个 $x_{i}$ 是一个 T维列向量。主成分分析的具体步骤如下：
+PCA 是数据降维的常用方法，由 Pearson 在 1901 年提出。PCA 将一组相关性较高的 N维数据投影到新的 k维坐标上 $(k<N)$ ），这 k维特征称为主成分，这些主成分之间是不相关的，以达到数据降维的目的。设有 N个因子 $(x_{1},x_{2},\ldots,x_{N})_{T*N}$ ，每个 $x_{i}.$ 是一个 T维列向量。主成分分析的具体步骤如下：
 
 ## 1． 对每个因子进行标准化处理；
 
-2． 求 N个因子的协方差矩阵 $\cdot\sum_{N*N}$ 及其特征值和特征向量；
+2． 求 N个因子的协方差矩阵 $\Sigma_{N*N}$ 及其特征值和特征向量；
 
-3． 按照特征值由大到小的顺序，依次得到对应的特征向量 $(u_{1},u_{2},\ldots,u_{N})_{N*N}$ (每个 $u_{i}\not\approx-$ 个 N维列向量)，如果我们要得到 k个主成分 $\left(k<N\right)$ ），则取特征值较大的前 k个特征值对应的特征向量 $(u_{1},u_{2},\ldots,u_{k})_{N*k}$ ；
+3． 按照特征值由大到小的顺序，依次得到对应的特征向量 $(u_{1},u_{2},\ldots,u_{N})_{N\ast N}$ (每个 $\cdot u_{i}是一$ 个 N维列向量)，如果我们要得到 k个主成分 $(k<N)$ ），则取特征值较大的前 k个特征值对应的特征向量 $(u_{1},u_{2},\ldots,u_{k})_{N*k}$ ；
 
-4． 转换后的因子 $(x_{1}^{\prime},x_{2}^{\prime},\ldots,x_{k}^{\prime})_{T*k}=(x_{1},x_{2},\ldots,x_{N})_{T*N}*(u_{1},u_{2},\ldots,u_{k})_{N*k}$ ，N 个因子经主成分分析转化为 k个主成分 $(x_{1}^{\prime},x_{2}^{\prime},\dots,x_{k}^{\prime})_{T*k}$ ，第 i列是第 i个主成分 $(i\leq k)$
+4． 转换后的因子 $({x_{1}}^{\prime},{x_{2}}^{\prime},\ldots,{x_{k}}^{\prime})_{T*k}=(x_{1},x_{2},\ldots,x_{N})_{T*N}*(u_{1},u_{2},\ldots,u_{k})_{N*k}$ ，N 个因子经主成分分析转化为 k个主成分 $({x_{1}}^{\prime},{x_{2}}^{\prime},\ldots,{x_{k}}^{\prime})_{T*k}$ ，第 i列是第 i个主成分 $(i\leq k)$
 
 由于待合成因子数量不会很多，一般第一主成分即有较高的解释度，本报告只取第一主成分作为合成后因子。并且由以上推导过程可以看出，每个主成分都是原始因子的线性组合，因此 PCA 法合成因子的过程也会对应于一组因子权重w⃑ 。PCA 在一般的编程软件上都有内置函数可以直接完成计算，无需自己编写代码，上述过程仅作参考。
 
@@ -155,31 +155,31 @@ r^{T+1}=X^{T}a^{T}+\sum_{j}Indus_{j}^{T}b_{j}^{T}+ln\_mkt^{\mathrm{T}}b^{T}+\var
 $$
 
 $$
-r^{T+1}:\beta\dot{\eta}\dot{\pi}\dot{\pi}\dot{\pi}\dot{\pi}\dot{\chi}^{n}\dot{\pi}\dot{\chi}^{\pm}\dot{\overline{{{\mathcal{H}}}}}\enspace\mathrm{T}+1\enspace\dddot{\Psi}\enspace\dot{\Theta}\dot{\cdot}\jmath\dot{\chi}^{\pm}\dot{\overline{{{\mathcal{H}}}}}\enspace\dot{\overline{{{\mathcal{H}}}}}\ddot{\overline{{{\mathcal{H}}}}}\enspace\dot{\overline{{{\mathcal{H}}}}}\enspace\stackrel{}{\mp}\vec{\Theta}\frac{\Theta}{\Xi}
+$r^{T+1}\colon$所有个股在第$\mathrm{T}+1$期的收益率向量
 $$
 
-## $X^{T}\colon$ 所有个股第T期在被测单因子上的暴露度向量
+## $X^{T};$ 所有个股第T期在被测单因子上的暴露度向量
 
 IndusjT:所有个股第 T 期在第 j 个行业因子上的暴露度向量（0/1 哑变量）
 
 $$
-ln\_mkt^{\mathrm{T}}:\mathtt{H}f(\mathtt{H}\cdot\mathtt{h}\mathtt{H}\mathtt{X}\frac{\mathtt{X}}{\mathtt{H}}\mathtt{X}\frac{\mathtt{X}}{\mathtt{H}}\mathtt{X}\frac{\mathtt{X}}{\mathtt{H}}\mathtt{X}\mathtt{H}\mathtt{X}\mathtt{X}\frac{\mathtt{X}}{\mathtt{X}}\mathtt{X}\mathtt{H}\mathtt{X}\mathtt{H}\mathtt{X}\mathtt{H}\mathtt{X}\mathtt{X}\mathtt{S}\perp\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\frac{\mathtt{X}}{\mathtt{X}}\mathtt{X}\mathtt{X}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt{S}\mathtt{X}\mathtt{S}\mathtt S
+ln\_mkt^{T};所有个股第T期在对数市值因子上的暴露度向量
 $$
 
-$a^{T},b^{T},b_{i}^{T}$ :对应因子收益率，待拟合常数，通常比较关注 $a^{T}$
+$a^{T},b^{T},b_{j}^{T}$ :对应因子收益率，待拟合常数，通常比较关注 $a^{T}$
 
 $\varepsilon^{T};$ :残差向量
 
-在所有截面期上，我们对因子 X进行回归测试，能够得到该因子的因子收益率序列（即所有截面期回归系数 $\boldsymbol{a}^{T}$ 构成的序列）和对应的 t 值序列。t 值指的是对单个回归系数 $a^{T}$ 的 t检验统计量，描述的是单个变量显著性，t 值的绝对值大于临界值说明该变量是显著的，即该解释变量（T 期个股在因子 X 的暴露度）是真正影响因变量（T+1 期个股收益率）的一个因素。也就是说，在每个截面期上，对于每个因子的回归方程，我们设
+在所有截面期上，我们对因子 X进行回归测试，能够得到该因子的因子收益率序列（即所有截面期回归系数 $|a^{T}|$ 构成的序列）和对应的 t 值序列。t 值指的是对单个回归系数 $a^{T}$ 的 t检验统计量，描述的是单个变量显著性，t 值的绝对值大于临界值说明该变量是显著的，即该解释变量（T 期个股在因子 X 的暴露度）是真正影响因变量（T+1 期个股收益率）的一个因素。也就是说，在每个截面期上，对于每个因子的回归方程，我们设
 
 $$
-\begin{array}{rlr}&{}&{\operatorname*{\ ig}_{\mathbb{R}}^{\tau}\operatorname*{i}_{\mathbb{X}}^{\tau}\frac{1}{\mathbb{X}}\frac{1}{\mathbb{X}}\frac{1}{\mathbb{X}}\frac{1}{\mathbb{X}}H_{0}:a^{T}=0}\\&{}&{\mathcal{B}_{\mathbb{H}}\frac{1}{\mathbb{X}}\frac{1}{\mathbb{X}}\frac{1^{n}}{1\mathbb{R}}\operatorname*{i}_{\mathbb{X}}^{\tau}H_{1}:a^{T}\neq0}\end{array}
+\begin{aligned}&假设检验\;H_0:a^T=0,\\&备择假设\;H_1:a^T\neq0\end{aligned}
 $$
 
 该假设检验对应的 t统计量为：
 
 $$
-\mathrm{t}={\frac{a^{T}}{SE(a^{T})}}
+\mathbf{t}={\frac{a^{T}}{SE(a^{T})}}
 $$
 
 其中 $SE(a^{T})$ 代表回归系数 $a^{T}$ 的标准差的无偏估计量。一般 t值绝对值大于 2 我们就认为本期回归系数 $a^{T}$ 是显著异于零的（也就是说，本期因子 X对下期收益率具有显著的解释作用）。注意，我们在回归模型中加入了市值、行业因子，能在一定程度上规避市值、行业因素对财务质量因子的影响。
@@ -196,7 +196,7 @@ $$
 
 a) 因子列表与计算方法详见下面一章各小节；
 
-b) 中位数去极值：设第 T 期某因子在所有个股上的暴露度向量为 $D_{i},\ D_{M}$ 为该向量中位数， $D_{M1}$ 为向量 $|D_{i}-D_{M}$ |的中位数，则将向量 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将向量 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+b) 中位数去极值：设第 T 期某因子在所有个股上的暴露度向量为 $D_{i},~D_{M}$ 为该向量中位数， $D_{M1}$ 为向量 $|D_{i}-D_{M}$ |的中位数，则将向量 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将向量 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 c) 标准化：将去极值处理后的因子暴露度序列减去其现在的均值、除以其标准差，得到一个新的近似服从N(0,1)分布的序列，这样做可以让不同因子的暴露度之间具有可比性。对因子标准化后再用于因子合成。
 
@@ -252,7 +252,7 @@ d) Rank IC 值序列大于零的占比——因子作用方向是否稳定。
 
 3. 分层方法：因子暴露度向量XT先用中位数法去极值，然后进行市值、行业中性化处理（方法论详见上一小节），将股票池内所有个股按因子从大到小进行排序，等分 N层，每层内部的个股等权配置。当个股总数目无法被 N整除时采用任一种近似方法处理均可，实际上对分层组合的回测结果影响很小。
 
-4. 多空组合收益计算方法：用 Top 组每天的收益减去 Bottom 组每天的收益，得到每日多空收益序 $\mathfrak{H}|_{r_{1},r_{2},\cdots,r_{n}}$ ，则多空组合在第 n 天的净值等于 $(1+r_{1})(1+r_{2})\cdots(1+r_{n})$
+4. 多空组合收益计算方法：用 Top 组每天的收益减去 Bottom 组每天的收益，得到每日多空收益序 $列r_{1},r_{2},\cdots,r_{n}$ ，则多空组合在第 n 天的净值等于 $(1+r_{1})(1+r_{2})\cdots(1+r_{n})$
 
 5. 评价方法：全部 N层组合年化收益率（观察是否单调变化），多空组合的年化收益率、夏普比率、最大回撤、月胜率等。
 
@@ -260,7 +260,7 @@ d) Rank IC 值序列大于零的占比——因子作用方向是否稳定。
 
 首先介绍一下回归法和 IC值分析法之间的关系。
 
-我们先介绍一个引理。设X,Y为两个向量，则 $[corr(X,Y)]^{2}=R^{2}$ ，其中R2为线性回归 $Y=$ $aX+b$ 或线性回归 $\mathbf{\nabla}\cdot\mathbf{X}=aY+b$ 的可决系数（其中a，b是待回归系数）。
+我们先介绍一个引理。设X,Y为两个向量，则 $[corr(X,Y)]^{2}=R^{2}$ ，其中R2为线性回归 $Y=$ $aX+b$ 或线性回归 $\mathrm{X}=aY+b$ 的可决系数（其中a，b是待回归系数）。
 
 如果我们在单因子测试（线性回归法）中使用模型
 
@@ -270,13 +270,13 @@ $$
 
 （r是股票收益率，X 是因子暴露度，c是常数项，c可以理解为市场因子）并且假设我们在计算因子 IC值的时候，不预先对因子暴露度进行市值、行业调整了，就使用原始的因子暴露度 X，则本期因子 IC值为 $corr(X,r)$ ，根据引理，因子 IC 值的平方就等于单因子测试的回归模型的 $R^{2}$ 。
 
-所以，因子 IC值本质上反映的是下期收益率和本期因子暴露度的线性相关程度 $(R^{2}$ 的平方根），是使用该因子预测收益率的稳健性（IC值越大，这个因子的收益越稳定，波动越小）；而回归法中计算出的因子收益率本质上是一个斜率，反映的是从该因子可能获得的收益率的大小，这并不能说明任何关于线性拟合优度的信息（也就是说，因子收益率很大时，也可能出现 $R^{2}$ 很小的情形）；至于回归法中计算出的 t值，在一元线性回归中 t值与 $R^{2}$ 反映的信息一致（二者对应关系为，当 $R^{2}=0$ 时 t值也为 0，当 $R^{2}=1$ 时 t 值为无穷大），但是由于我们所采用的回归模型包括了行业变量，所以 t 值仅代表被测因子对股票收益的解释能力（而不能代表模型的整体拟合优度）。实际计算过程中因子会进行一些预处理，回归方程也有可能引入其它风格变量使其表达形式更复杂，导致 IC 值和 t值无法理论上互推，但前面所述结论的本质不变。
+所以，因子 IC值本质上反映的是下期收益率和本期因子暴露度的线性相关程度 $(R^{2}$ 的平方根），是使用该因子预测收益率的稳健性（IC值越大，这个因子的收益越稳定，波动越小）；而回归法中计算出的因子收益率本质上是一个斜率，反映的是从该因子可能获得的收益率的大小，这并不能说明任何关于线性拟合优度的信息（也就是说，因子收益率很大时，也可能出现 $.R^{2}$ 很小的情形）；至于回归法中计算出的 t值，在一元线性回归中 t值与 $R^{2}$ 反映的信息一致（二者对应关系为，当 $R^{2}=0$ 时 t值也为 0，当 $R^{2}=1$ 时 t 值为无穷大），但是由于我们所采用的回归模型包括了行业变量，所以 t 值仅代表被测因子对股票收益的解释能力（而不能代表模型的整体拟合优度）。实际计算过程中因子会进行一些预处理，回归方程也有可能引入其它风格变量使其表达形式更复杂，导致 IC 值和 t值无法理论上互推，但前面所述结论的本质不变。
 
 总结一下，IC值反映模型整体线性拟合优度，t值反映被测单因子对模型的解释能力是否显著，因子收益率与前两者差别较大，它反映的是可能获得的收益率的大小，而对这个收益是否稳健未知。
 
 其次介绍一下回归法和分层测试法之间的关系。
 
-假设本期因子值X与下期收益r完全线性相关，满足 $\displaystyle{\boldsymbol{\cdot}\boldsymbol{r}=\beta\boldsymbol{X}+c_{\circ}}$ 。此时 IC 值绝对值为 1，回归法中的因子收益率为 $\beta.$ 。并且假设本期因子值 X服从[0,1]均匀分布，那么当按因子从小到大等分 N 层测试时，第 i层组合的下期收益为 $\beta(2i-1)/2N+c$ ，多空收益（第 N 层收益减去第 1 层收益）为 $\beta(N-1)/N$ ，也即说明分层测试法中的多空收益与回归法中的因子收益率具有一定程度的等价关系。实际上因子 IC值大部分在 0.1 附近波动，所以回归拟合的因子收益率与分层测试下的多空收益也未必完全一致。
+假设本期因子值X与下期收益r完全线性相关，满足 $\begin{array}{r}{\boldsymbol{.}\boldsymbol{r}=\beta\boldsymbol{X}+\boldsymbol{c}\mathrm{{}_{\circ}}}\end{array}$ 。此时 IC 值绝对值为 1，回归法中的因子收益率为 $\beta\mathrm{{}_{\circ}}$ 。并且假设本期因子值 X服从[0,1]均匀分布，那么当按因子从小到大等分 N 层测试时，第 i层组合的下期收益为 $\beta(2i-1)/2N+c,$ ，多空收益（第 N 层收益减去第 1 层收益）为 $\beta(N-1)/N$ ，也即说明分层测试法中的多空收益与回归法中的因子收益率具有一定程度的等价关系。实际上因子 IC值大部分在 0.1 附近波动，所以回归拟合的因子收益率与分层测试下的多空收益也未必完全一致。
 
 ## 合成因子测试结果分析
 
@@ -394,10 +394,10 @@ $$
 
 长期来看，BP因子权重最高，SP 因子次之，且两者呈负相关关系；EP和 EPcut 因子权重较低，两者呈正相关关系。在单因子测试中，BP和 SP因子的表现亦优于 EP和 EPcut因子，因此它们的权重较高，这也是合乎常理的。
 
-接下来我们将比较各合成方法权重的稳定性。在所有因子合成方式中，等权复合因子在细分因子上每期的权重系数都相同，因此是最稳定的合成方式。我们寻找一种方式来衡量合成方式的稳定性，即衡量每期细分因子的权重变化大小。图表 9中计算了每期细分因子权重的变化值，计算方式为：设有 n 个细分因子，t 期的权重系数为 $w_{1},w_{2},\ldots,w_{n}$ ，t+1 期的权重系数为 $w_{1}^{\prime},w_{2}^{\prime},\ldots,w_{n}^{\prime}$ ，则 t+1 期权重的变化值定义为
+接下来我们将比较各合成方法权重的稳定性。在所有因子合成方式中，等权复合因子在细分因子上每期的权重系数都相同，因此是最稳定的合成方式。我们寻找一种方式来衡量合成方式的稳定性，即衡量每期细分因子的权重变化大小。图表 9中计算了每期细分因子权重的变化值，计算方式为：设有 n 个细分因子，t 期的权重系数为 $w_{1},w_{2},\ldots,w_{n}$ ，t+1 期的权重系数为 ${w_{1}}^{\prime},{w_{2}}^{\prime},\ldots,{w_{n}}^{\prime}$ ，则 t+1 期权重的变化值定义为
 
 $$
-{\sqrt{(w_{1}-w_{1}{'})^{2}+(w_{2}-w_{2}{'})^{2}+\cdots+(w_{n}-w_{n}{'})^{2}}}
+\sqrt{(w_{1}-w_{1}')^{2}+(w_{2}-w_{2}')^{2}+\cdots+(w_{n}-w_{n}')^{2}}
 $$
 
 图表 10中计算了 t 期复合因子和 t+1 期复合因子之间的相关系数，也是一种衡量不同合成方法稳定性的方式。对于等权复合因子来说，每期权重的变化值为 0，t 期等权复合因子和t+1 期等权复合因子之间的相关系数比较接近 1，因此复合因子每期权重变化值越小，相关系数越接近 1，说明合成方法越稳定。

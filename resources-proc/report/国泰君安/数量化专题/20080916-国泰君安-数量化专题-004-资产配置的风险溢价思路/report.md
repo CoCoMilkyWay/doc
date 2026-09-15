@@ -53,12 +53,12 @@ B-L 模型可以看作是市场均衡收益和投资者判断的一个复杂的�
 我们最优化的目标函数是
 
 $$
-\operatorname*{max}_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
+\max_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w
 $$
 
 其中w是组合权重，µ是资产的期望收益，Σ是资产收益的协方差，λ是风险厌恶系数。
 
-使得上式的解为市场组合 $w=w_{mkt}$ 的期望收益为 $\mu=\Pi=\lambda\Sigma w^{\prime}{}_{mkt}$ ，这被 B-L模型定义为均衡收益。然后考虑投资者的主观判断，假设投资者有K个判断，资产共有 N 类，则 K N× 的矩阵 P 代表了这些判断，K ×1的矩阵Q 代表了这些判断对应的期望收益，K K× 的对角阵Ω代表了判断的信心水平，τ 是上面所说的观点权重参数，得出 B-L 模型的期望收益 $\mu^{*}$ 和配置权重 $w^{*}$ 为
+使得上式的解为市场组合 $w=w_{mkt}$ 的期望收益为 $\mu=\Pi=\lambda\Sigma w_{\phantom{\dagger}mkt}^{\dagger}$ ，这被 B-L模型定义为均衡收益。然后考虑投资者的主观判断，假设投资者有K个判断，资产共有 N 类，则 K N× 的矩阵 P 代表了这些判断，K ×1的矩阵Q 代表了这些判断对应的期望收益，K K× 的对角阵Ω代表了判断的信心水平，τ 是上面所说的观点权重参数，得出 B-L 模型的期望收益 $\mu^{*}$ 和配置权重 $w^{*}$ 为
 
 $$
 \mu^{*}=[(\tau\Sigma)^{-1}+P^{\prime}\Omega^{-1}P]^{-1}[(\tau\Sigma)^{-1}\Pi+P^{\prime}\Omega^{-1}Q]
@@ -67,11 +67,11 @@ $$
 更为形象的表达式是：
 
 $$
-\mu^{*}=\Pi+\tau\Sigma P^{\prime}(\Omega+\tau P\Sigma P^{\prime})^{-1}(Q-P\Pi)
+\mu^{*}=\Pi+\tau\Sigma P\left(\Omega+\tau P\Sigma P\right)^{-1}(Q-P\Pi)
 $$
 
 $$
-\sqrt[\tau]{\eta}\ w^{*}=w_{mkt}+P^{\prime}(\frac{\Omega}{\tau}+P\Sigma P^{\prime})^{-1}(\frac{Q}{\lambda}-P\Sigma w_{mkt})
+w^{*}=w_{mkt}+P\left(\frac{Q}{\tau}+P\Sigma P\right)^{-1}\left(\frac{Q}{\lambda}-P\Sigma w_{mkt}\right)
 $$
 
 图 1 B-L 期望收益
@@ -105,22 +105,22 @@ $$
 具体而言，从模型中可以看出，剩余价值的影响因素有 ROE 和所有者权益。所有者权益的变动可以做如下分解：
 
 $$
-\begin{array}{rl}&{E_{n-1}=E_{n-2}+ROE_{n-1}\times E_{n-2}\times(1-Payout~Ratio_{n-1})}\\&{\qquad=E_{n-2}(1+ROE_{n-1}\times(1-PR_{n-1}))}\\&{\qquad=E_{n-2}(1+g_{n-1})}\end{array}
+\begin{aligned}E_{_{n-1}}&=E_{_{n-2}}+ROE_{_{n-1}}\times E_{_{n-2}}\times(1-PayoutRatio_{_{n-1}})\\&=E_{_{n-2}}(1+ROE_{_{n-1}}\times(1-PR_{_{n-1}}))\\&=E_{_{n-2}}(1+g_{_{n-1}})\\\end{aligned}
 $$
 
-我们假设驱动剩余价值的 ROE和g从第一期的估计 $X_{1}$ 收敛到行业的平均水
+我们假设驱动剩余价值的 ROE和g从第一期的估计 $X_{\mathrm{1}}$ 收敛到行业的平均水
 
 平 $\bar{X}$ ，收敛的速度为 $\kappa$ ：
 
 $$
-{X}_{n+1}=\kappa({X}_{n}-\hat{X})+\hat{X}
+X_{n+1}=\kappa(X_n-\bar{X})+\bar{X}
 $$
 
 对于不同的行业，有着不同的κ值，κ越接近 1，收敛速度越慢，行业越能维持高增长，而κ越接近 0，则收敛越快。
 
 模型的估计是通过有约束的最优化来实现的，数据区间间隔为月，优化分行业进行（按照证监会的一级行业分类），在该行业的代表公司理论价值等于实际市场价值的约束条件下，最小化该行业的残差平方和最小。得到的各行业股权成本在市值加权后便可得到市场的股权成本。
 
-通过此，我们便可以得到全市场的风险溢价， $\bar{\mho}$ 这就是我们从市场那里得到的重要信息，我们可以据此进行初步资产配置。
+通过此，我们便可以得到全市场的风险溢价， $而$ 这就是我们从市场那里得到的重要信息，我们可以据此进行初步资产配置。
 
 ## 3. 风险溢价下的资产配置
 
@@ -137,19 +137,19 @@ $$
 定义超越概率如下：
 
 $$
-P(X.\nu.Y)=\Re^{*}\dot{\mathcal{T}}^{2}\ X\ \dot{\forall}\dot{\mathcal{Z}}\ \dot{\mathcal{Z}}\stackrel{\pm}{\longrightarrow}\ \dot{\mathcal{Z}}\ \dot{\mathcal{Z}}\stackrel{\pm}{\longrightarrow}\ \dot{\mathcal{Z}}^{2}\ Y\ \dot{\mathcal{Z}}\dot{\mathcal{H}}\dot{\mathcal{Z}}\ \dot{\mathcal{Z}}^{\pm}
+P(X.v.Y)=\max X的收益超过资产Y的概率
 $$
 
 $$
-P(X.\nu.Z)=\Re\stackrel{\ast}{j^{2}}X\forall j\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow
+P(X.v.Z)=\max X的收益超过资产Z的概率
 $$
 
 $$
-P(Y.\nu.Z)=\Re\sum\limits_{j=1}^{\infty}\sum\limits_{j=1}^{\infty}\log3k\Re\sum\limits_{i=1}^{\infty}\log3k\Re\sum\limits_{j=1}^{\infty}\sum\limits_{i=1}^{\infty}j!j!\Re\sum\limits_{j=1}^{\infty}\log3k
+P(Y.v.Z)=资产Y的收益超过资产Z的概率
 $$
 
 $$
-\sharp\Psi,P(A.\nu.B)=\Phi(rp(AB),\overline{{{rp}}}(AB),sd(AB))
+P(A.v.B)=\Phi(rp(AB),\overline{rp}(AB),sd(AB))
 $$
 
 Φ 是正态的分布函数， rp AB ( ) 是目前资产 A 相对于资产 B 的风险溢价，
@@ -159,7 +159,7 @@ rp AB( )是资产A相对于资产B的历史平均风险溢价，sd AB( )是资�
 在充分利用各资产收益的同时，最小化收益波动，得出资产X 的配置权重则为：
 
 $$
-\begin{array}{r}{w(X)=[P(X.\nu.Y)\times P(X.\nu.Z)+P(X.\nu.Z)\times P(X.\nu.Y)+1}\\{-P(Y.\nu.Z)\times P(Y.\nu.X)-P(Z.\nu.Y)\times P(Z.\nu.X)]/3}\end{array}
+\begin{aligned}w(X)=&\left[P(X.v.Y)\times P(X.v.Z)+P(X.v.Z)\times P(X.v.Y)+1\right.\\&\left.-P(Y.v.Z)\times P(Y.v.X)-P(Z.v.Y)\times P(Z.v.X)\right]/3\end{aligned}
 $$
 
 ## 总结的话和对实战篇及资产配置深入研究的引言

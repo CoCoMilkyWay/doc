@@ -121,10 +121,10 @@ S0880114060025
 事件异常收益：在事件发生前后，股票收益率中，无法用市场、行业、风格所解释的收益部分称为异常收益，具体表达为：
 
 $$
-AR_{u}=R_{u}-R_{bau}-R_{bauary}-R_{apb}
+AR_{_{tt}}=R_{_{tt}}-R_{_{bota}}-R_{_{tndustry}}-R_{_{style}}
 $$
 
-其中， $\boldsymbol{R}_{\ beta}$ $R_{\substack{industry}}$ $R_{\mathrm{\Pi}_{style}}$ 分别代表市场收益、行业收益及风格收益。
+其中， $R_{_{beta}}$ $R_{_{industry}}$ $R_{_{style}}$ 分别代表市场收益、行业收益及风格收益。
 
 图 1 股票收益率分解
 ![](images/d0b3079fb92fabb46e7a275c170b70973264cf1e7c6872d867cc37b02a58954b.webp)
@@ -135,19 +135,19 @@ $$
 换言之，风险模型将股票收益率线性分解成各类行业收益与风格收益之和，而上述因子无法解释的部分则为特质收益（残差），如下所示：
 
 $$
-\begin{array}{r}{r_{i}=\beta_{0}x_{industry}+\beta_{1}x_{beta}+\beta_{2}x_{momentum}+\beta_{3}x_{size}+\beta_{4}x_{earnings\_yield}+}\\{\beta_{s}x_{volatility}+\beta_{6}x_{growth}+\beta_{7}x_{value}+\beta_{8}x_{leverage}+\beta_{9}x_{liquidity}+\varepsilon_{i}}\end{array}
+\begin{aligned}r_{_i}=\beta_{_0}x_{_{industry}}+\beta_{_1}x_{_{btea}}+\beta_{_2}x_{_{momentum}}+\beta_{_3}x_{_{size}}+\beta_{_4}x_{_{earnings_{-}yield}}+\\\beta_{_5}x_{_{volatility}}+\beta_{_6}x_{_{growth}}+\beta_{_7}x_{_{value}}+\beta_{_8}x_{_{leverage}}+\beta_{_9}x_{_{liquidity}}+\varepsilon_{_i}\end{aligned}
 $$
 
 风险模型对股票收益的分解为事件研究提供了较大的便利，通过统计事件发生前后，股票收益中无法利用已知因子所解释的部分，即特质收益项，就可以观察事件发生所导致的股票价格异常收益AR ，即
 
 $$
-\begin{array}{rl}&{AR_{i}=r_{i}-\beta_{0}x_{\mathrm{andap}}-\beta_{1}x_{\mathrm{boid}}-\beta_{2}x_{\mathrm{maxion}}-\beta_{3}x_{\mathrm{andap}}-\beta_{4}x_{\mathrm{andap}}}\\&{\qquad-\beta_{s}x_{\mathrm{voidson}}-\beta_{e}x_{\mathrm{grous}}-\beta_{7}x_{\mathrm{voidso}}-\beta_{s}x_{\mathrm{trucrage}}-\beta_{s}x_{\mathrm{trucrage}}}\end{array}
+\begin{aligned}\boldsymbol{A}\boldsymbol{R}_{i}=&r_{i}-\boldsymbol{\beta}_{0}x_{observe}-\boldsymbol{\beta}_{1}x_{obs}-\boldsymbol{\beta}_{2}x_{measurement}-\boldsymbol{\beta}_{3}x_{obs}-\boldsymbol{\beta}_{4}x_{surising_{-}yield}\\&-\boldsymbol{\beta}_{3}x_{validity}-\boldsymbol{\beta}_{4}x_{growth}-\boldsymbol{\beta}_{7}x_{valus}-\boldsymbol{\beta}_{8}x_{average}-\boldsymbol{\beta}_{9}x_{gradby}\end{aligned}
 $$
 
 而异常收益的累计值则称为累计异常收益C A R ，即
 
 $$
-CAR_{\mathrm{~}_{i}}=\sum AR_{\mathrm{~}_{i}}
+CAR_{i}=\sum AR_{i}
 $$
 
 也就是说，我们利用风险模型回归方程中的残差项作为事件发生窗口期内的股票异常收益，由于残差部分不包含任意行业与风格收益，因此可以纯粹的反映事件本身对股票价格的影响，这与我们定义异常收益的初衷思路是一致的。
@@ -168,7 +168,7 @@ Step4: 计算事件发生全部个股异常收益AR 均值；
 
 Step5: 异常收益均值显著性 T 检验；
 
-在定义了检验事件驱动异常收益的一般性流程后，我们对 16 种类型的事件公告前后若干个交易日的累计异常收益进行统计观察，其中包括：定向增发、限售股解禁、业绩预增、业绩预亏、高送转、股东增持、股东减持、员工持股、股权激励、快报同比盈增、快报同比盈亏、投资者调研、关联交易、违规事项、调入融资融券标的、 $\dot{\boldsymbol{\mathfrak{p}}}$ 深 300 指数成分股调整。
+在定义了检验事件驱动异常收益的一般性流程后，我们对 16 种类型的事件公告前后若干个交易日的累计异常收益进行统计观察，其中包括：定向增发、限售股解禁、业绩预增、业绩预亏、高送转、股东增持、股东减持、员工持股、股权激励、快报同比盈增、快报同比盈亏、投资者调研、关联交易、违规事项、调入融资融券标的、 $沪$ 深 300 指数成分股调整。
 
 其中，业绩预增区分为扭亏、略增、续盈、预增。业绩预亏区分为首亏、略减、续亏、预减。股东减持区分为大宗交易减持、非大宗交易减持。员工持股区分为竞价转让、认购非公开发行。
 
@@ -719,17 +719,17 @@ Step5: 异常收益均值显著性 T 检验；
 
 既然无法将事件状态因子作为传统截面因子的方法来处理，那我们选择在组合预期收益率中增加事件因子部分，使得组合的优化目标函数中包含事件驱动收益部分。
 
-具体而 $\frac{\partial}{\overline{{\overline{{\rho}}}}}$ ，在原先的组合预期收益率 $\boldsymbol{R}_{\ p}$ 的估计中，我们利用估计的因子收益率 $\hat{\boldsymbol f}$ 与当期因子载荷矩阵 X 的乘积作为个股预期收益率的估计值，即 $\boldsymbol{R}_{_{p}}=\boldsymbol{w}^{\prime}\cdot\boldsymbol{X}\cdot\boldsymbol{\hat{f}}$ ，其中w 为组合目标权重向量。在这其中，我们并没有对残差 进行估计。
+具体而 $\frac{言}{言}$ ，在原先的组合预期收益率 $R_{\textit{ p }}$ 的估计中，我们利用估计的因子收益率 $\hat{f}$ 与当期因子载荷矩阵 X 的乘积作为个股预期收益率的估计值，即 $R_{p}=w^{\prime}\cdot X\cdot\hat{f}$ ，其中w 为组合目标权重向量。在这其中，我们并没有对残差 进行估计。
 
 而在考虑事件驱动收益后，我们将增加 的估计部分，而 的估计值就是我们在前面章节中所定义的事件异常累计收益CAR 。
 
-那么在考虑事件驱动后的组合预期收益率 ${\pmb R}_{\pmb{\nu}}$ 估计算法为：
+那么在考虑事件驱动后的组合预期收益率 $\pmb{R}_{\pmb{p}}$ 估计算法为：
 
 $$
-R_{\nu}=w^{\prime}{\cdot}({\pmb X}\cdot{\hat{\pmb f}}+{\hat{\varepsilon}}),{\hat{\varepsilon}}=\{{\hat{\varepsilon}}_{1},{\hat{\varepsilon}}_{2},....,{\hat{\varepsilon}}_{_M}\}^{\prime};
+R_{p}=w^{\prime}\cdot(X\cdot\hat{f}+\hat{\sigma}),\hat{\sigma}=\{\hat{\sigma}_{1},\hat{\sigma}_{2},...,\hat{\sigma}_{N}\}^{\prime};
 $$
 
-其中，对第 j 只股票，若其处于持续性阿尔法事件影响状态下，则 $\delta_{f}$ 等于该事件历史 20 日累计异常收益C A R 均值；反之，若其不处于持续性阿尔法事件影响状态下，则 $\hat{\pmb{\sigma}}_{\pmb{\mathscr{S}}}={\pmb{0}}$
+其中，对第 j 只股票，若其处于持续性阿尔法事件影响状态下，则 $\hat{\pmb{\theta}}_{j}$ 等于该事件历史 20 日累计异常收益C A R 均值；反之，若其不处于持续性阿尔法事件影响状态下，则 $\hat{\pmb{\mathscr{S}}}_{j}=\pmb{0}$
 
 也就是说，我们首先通过风险模型的分解统计观察了事件发生对个股异常收益的影响。最后，为了获取我们认为持续稳定的阿尔法事件收益，我们在估计预期组合收益率的时候，将残差部分重新加回个股收益中。同时，我们保持了一系列中性约束条件不变，那么这样就可以使得计算权重的过程中，获取相应的事件非风格收益部分。
 

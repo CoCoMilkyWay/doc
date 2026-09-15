@@ -119,7 +119,7 @@ $$
 $$
 
 $$
-\mathrm{RMSE}=\sqrt{\frac{1}{N}\sum_{t=1}^{N}(observed_{t}-predicted_{t})^{2}}
+\mathrm{RMSE}=\sqrt{\frac{1}{N}{\sum_{t=1}^{N}(observed_{t}-predicted_{t})^{2}}},
 $$
 
 下图中，左图表示改变因子的数据排列，对MSE的影响排序，右图为按照因子基尼不纯净度减少贡献排序，两种方法筛选出的排名靠前的因子基本一致，排名靠后的因子稍有偏差。

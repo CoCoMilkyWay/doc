@@ -53,7 +53,7 @@ S0980522040002
 投资者参与市场的目的是获得一定的利润，[Koijen@2018]则对投资者持有某项资产获得的 Carry 收益提出了定义。资产实际收益由 Carry 收益、预期价格变动以及不确定市场变动构成。具体计算公式如下：
 
 $$
-Return~=~carry~+{E(price~appreciation)}+unexpectedpriceshock
+Return=carry+E(priceappreciation)+unexpectedpriceshock
 $$
 
 其中，R e t 为资产实际收益，c ���为 Carry 收益，�(���R ���R �c ��t )为预期价格变动以及����R �R ����R �ℎ���表示不确定市场变动。我们以下面的例子，简单地解释 Carry 收益。若投资者在 t 时持有 1 手 3 个月后交割的价值 3000元的某单一品种期货合约 A，持有一个月后至 t+1 时刻不换仓。t+1 时刻，同品种3 个月后交割的期货合约 B 为 4000 元，而期货合约 A 变为 2 月后交割的合约，假设合约价格上涨至 4500 元。如下图 1 所示：
@@ -67,7 +67,7 @@ $$
 在期货市场中，期货合约的 Carry 收益（Carry yield）为近月合约平仓向后展期到远月所得的收益，这里我们使用主力合约与次主力合约来代表近月合约和远月合约，下面的公式为 Gorton 和 Rouwenhorst 于 2006 年提出的计算 Carry 收益的方法：
 
 $$
-\left(\frac{F_{1t}}{F_{2t}}-1\right)*\frac{365}{D_{2t}-D_{1t}}
+\left(\frac{\boldsymbol{F}_{1t}}{\boldsymbol{F}_{2t}}-1\right)*\frac{365}{D_{2t}-D_{1t}}
 $$
 
 其中， $F_{1t}$ 为主力合约在 t时的价格； $F_{2t}$ 为次主力合约在 t时的价格； $D_{1t}$ 和 $D_{2t}$ 为各自合约的交割日期。
@@ -75,7 +75,7 @@ $$
 我们对上述公式做一点修改，使用如下公式度量Carry收益，其含义与上述Gorton和 Rouwenhorst 的公式含义一致：
 
 $$
-\left(\frac{F_{1t}}{F_{2t}}-1\right)*\frac{1}{M_{2t}-M_{1t}}
+\Bigl(\cfrac{F_{1t}}{F_{2t}}-1\Bigr)*\cfrac{1}{M_{2t}-M_{1t}}
 $$
 
 其中， $F_{1t}$ 为主力合约在 t时的价格； $F_{2t}$ 为次主力合约在 t时的价格； $M_{1t}$ 和 $M_{2t}$ 为各自合约的交割月份。
@@ -150,10 +150,10 @@ $$
 其中，移动平均线的计算公式如下：
 
 $$
-MA_{Carry}=mean(Carry_{i})i=1,2,...
+MA_{Carry}\;=\;\underset{i}{mean}\left(Carry_{i}\right)\;i\;=\;1,2,\cdots
 $$
 
-这里， $\mathsf{MA}_{\mathrm{{Carry}}}$ 为 Carry 收益的移动平均值，Carryi为每日计算的该品种主力合约与次主力合约间的 Carry 收益。当 i 取值为 10 时，便得到 Carry 收益的 10 日移动平均值，每日滚动计算，即可得到 Carry 收益的 10 日移动平均线。
+这里， $\mathrm{MA_{Carry}}$ 为 Carry 收益的移动平均值，Carryi为每日计算的该品种主力合约与次主力合约间的 Carry 收益。当 i 取值为 10 时，便得到 Carry 收益的 10 日移动平均值，每日滚动计算，即可得到 Carry 收益的 10 日移动平均线。
 
 为对比不同 Carry 收益的大小与对应主力合约收益的关系，我们将截面下 Carry收益移动平均值从小到大分成 5档，考察每档收益表现情况，如图 7 以及图 8 所示。
 
@@ -321,7 +321,7 @@ CTA策略中对于交易信号的过滤是必不可少的一环。往往单一�
 在进行吊灯止损时，首先需确认最优价格（也是开仓后至当前时点最大浮盈）。具体公式如下：
 
 $$
-\begin{array}{rcl}{{}}&{{}}&{{optHigh=~max(high_{i})i=1,2,...}}\\{{}}&{{}}&{{}}\\{{}}&{{}}&{{optLow=~min(low_{i})i=1,2,...}}\end{array}
+\begin{aligned}optHigh&=\max_{i}\left(high_{i}\right)\quad i=1,2,\ldots\\optLow&=\min_{i}\left(low_{i}\right)\quad i=1,2,\ldots\end{aligned}
 $$
 
 其中，optHigℎ以及 optLow 分别对应策略开多仓时以及开空仓时的最优价格，i为策略开仓后的 K 线根数。
@@ -399,7 +399,7 @@ $$
 具体做法是，我们在每个月月末回看策略整体的运行情况，计算过去一年该策略收益表现的波动率，将目标波动率设置为 15%（取决于对于策略预期的杠杆率水平，通常维持在 2倍杠杆左右），那么波动率调整系数的计算公式可以表示为：
 
 $$
-Mul_{vol}=\frac{15\%}{Vol}
+Mul_{vol}\;=\;\frac{15\%}{Vol}
 $$
 
 其中， $\mathrm{Mul}_{\mathrm{vol}}$ 为经已实现波动率调整的系数，Vol为策略在过去一年中的已实现波动率。通过对策略表现波动率的调整，可以使得策略在不同市场环境下运行的整体风险趋于一致。
@@ -583,21 +583,21 @@ Kaldor N . Speculation and Economic Stability[J]. Review of Economic Studies, 19
 复权的具体做法为：在每次展期的时候，计算新主力合约以及旧主力合约的价格跳空比，以此作为当日之后新主力合约价格的复权因子。该复权因子的具体计算公式为：
 
 $$
-\mathrm{\Delta AdjFactor_{i}=AdjFactor_{i-1}*\frac{Close_{i-1,\mathrm{old}}}{Close_{i-1,\mathrm{new}}}}
+\mathrm{AdjFactor_{i}=AdjFactor_{i-1}*\frac{close_{i-1,old}}{close_{i-1,new}}}
 $$
 
-其中， $\mathsf{AdjFactor}_{\mathrm{i}-1}$ 为上一期复权因子， $\mathrm{Close}_{\mathrm{i}-1,\mathrm{old}}$ 为旧主力合约展期前一日收盘价， $\mathsf{Close}_{\mathrm{i}-1,\mathrm{new}}$ 为新主力合约展期前一日收盘价。这样计算出来的复权因子AdjFactori为当期复权因子。其中，基期的复权因子为 1。计算好复权因子之后，新的主力合约的开盘价、最高价、最低价以及收盘价都乘以当期的复权因子，即为复权价格。
+其中， $\mathrm{AdjFactor_{i-1}}$ 为上一期复权因子， $\mathsf{Close}_{\mathrm{i-1,old}}$ 为旧主力合约展期前一日收盘价， $\mathsf{Close}_{\mathrm{i-1,new}}$ 为新主力合约展期前一日收盘价。这样计算出来的复权因子AdjFactori为当期复权因子。其中，基期的复权因子为 1。计算好复权因子之后，新的主力合约的开盘价、最高价、最低价以及收盘价都乘以当期的复权因子，即为复权价格。
 
 这样使用复权价格可以很好地避免因切换合约带来的价格跳空的影响，具体在计算收益率时，如果直接使用原始价格进行计算：
 
 $$
-\mathrm{Return}_{\mathrm{i}}=\frac{\mathrm{Close}_{\mathrm{i,new}}}{\mathrm{Close}_{\mathrm{i}-1,0}\mathrm{ld}}-1
+\mathrm{Return_{i}}=\frac{\mathrm{close_{i,new}}}{\mathrm{close_{i-1,old}}}-1
 $$
 
 当新主力合约价格与旧主力合约价格出现跳空时，该收益率会出现异常值，而使用复权因子之后收益率的计算变为：
 
 $$
-\begin{array}{rl}&{\mathrm{Return_{i}}=\frac{{\mathrm{AdjFactor}}_{\mathrm{i}}*\mathrm{Close}_{\mathrm{i,new}}}{\mathrm{AdjFactor}_{\mathrm{i}-1}*\mathrm{Close}_{\mathrm{i}-1,\mathrm{old}}}-1}\\&{\qquad=\frac{{\mathrm{AdjFactor}}_{\mathrm{i}-1}*\frac{\mathrm{Close}_{\mathrm{i}-1,\mathrm{old}}}{\mathrm{Close}_{\mathrm{i}-1,\mathrm{new}}}*\mathrm{Close}_{\mathrm{i,new}}}{\mathrm{AdjFactor}_{\mathrm{i}-1}*\mathrm{Close}_{\mathrm{i}-1,\mathrm{old}}}-1}\\&{\qquad=\frac{\mathrm{Close}_{\mathrm{i,new}}}{\mathrm{Close}_{\mathrm{i}-1,\mathrm{old}}}-1}\end{array}
+\begin{aligned}Return_{i}&=\frac{AdjFactor_{i}*close_{i,new}}{AdjFactor_{i-1}*close_{i-1,old}}-1\\&=\frac{AdjFactor_{i-1}*\frac{Close_{i-1,old}}{Close_{i-1,new}}*close_{i,new}}{AdjFactor_{i-1}*Close_{i-1,old}}-1\\&=\frac{Close_{i,new}}{Close_{i-1,old}}-1\end{aligned}
 $$
 
 可以看到，这样计算出来的收益率即为实际收益率，进而避免了因合约切换导致的策略信号漂移或者收益率无法计算的情况。
@@ -611,7 +611,7 @@ $$
 由于股指期货的三个品种的交易时间都是同步的，因此不存在不同合约时间对齐的问题。但是需要确定策略执行的收益率的计算方法，我们考虑实盘交易时在信号触发后的成交的价格为 5分钟的 VWAP，具体可以根据产品规模而定。同时，交易时间越长对策略的时效性要求就越高，需要策略信号的衰减周期与交易时长相匹配。具体做法为计算策略信号触发后 5 分钟的成交额除以经合约乘数调整的成交量：
 
 $$
-\mathrm{{VWAP}_{5}=\frac{\sum_{i=1}^{5}\ Amount_{i}}{\sum_{i=1}^{5}\mathrm{{Vol}_{i}\ *\mathrm{{Multi}}}}}
+\mathrm{VWAP}_{5}=\frac{\sum_{\mathrm{i}=1}^{5}\mathrm{Amount}_{\mathrm{i}}}{\sum_{\mathrm{i}=1}^{5}\mathrm{Vol}_{\mathrm{i}}*\mathrm{Multi}}
 $$
 
 其中，Amount 为第 i 分钟的成交额， $\mathrm{Vol_{i}}$ 为第 i 分钟的成交量, Multi 为该品种的合约乘数。
@@ -627,10 +627,10 @@ $$
 为使得策略在所有不同品种上面的波动幅度可控，我们需要根据不同品种的波动幅度进行交易量的调整。这里所说的波动幅度通常使用真实波动幅度均值（Average True Range，ATR）来度量。其中，ATR 指标的具体计算公式如下所示：
 
 $$
-\begin{array}{c}{{TR=\mathrm{Max}[(high-low),abs(high=preclose),abs(low-preclose)]}}\\{{{}}}\\{{ATR=\displaystyle{\frac{1}{n}\sum_{i=1}^{n}TR_{i}}}}\end{array}
+\begin{aligned}TR\;=\;\mathsf{Max}\left[(high-low),abs(high&=preclose),abs(low-preclose)\right]\\ART\;=\;\frac{1}{n}\sum_{i=1}^{n}TR_{i}\end{aligned}
 $$
 
-其中， $TR_{i}$ 为 True Range，用于衡量每日的波动幅度，ATR 则是 $:TR_{i}$ 的移动平均值。
+其中， $TR_{i}$ 为 True Range，用于衡量每日的波动幅度，ATR 则是 $\cdot TR_{i}$ 的移动平均值。
 
 通过 ATR 指标来调整品种杠杆的基本原理是，将波动较高的品种赋予相对较低的杠杆，将波动较低的品种赋予相对较高的杠杆，因此杠杆率与品种的 ATR 呈反比关系。
 
@@ -639,7 +639,7 @@ $$
 如果我们需要计算的是一个杠杆率即当前开仓手数占整体资金规模可开仓手数的比例，那么需要除以满仓状态下可以开出的总合约数量，具体计算公式为：
 
 $$
-Pos_{ATR}\ =\ \frac{0.5\%}{ATR}
+Pos_{ATR}\;=\;\frac{0.5\%}{ATR}
 $$
 
 $$
@@ -647,7 +647,7 @@ $$
 $$
 
 $$
-\begin{array}{c}{{Lev_{ATR}\ =\ \frac{Pos_{ATR}}{Pos}}}\\{{\ =\ \frac{0.5\%}{ATR}\ *\ Close}}\end{array}
+\begin{aligned}Lev_{ATR}\;&=\;\frac{Pos_{ATR}}{Pos}\\&=\;\frac{0.5\%}{ATR}\;*\;Close\end{aligned}
 $$
 
 其中， $Pos_{ATR}$ 为 1 单位 ATR 对应资金规模 0.5%波动的应开手数, Pos 为全部资金对应满仓可开手数，Close 为收盘价， $Lev_{ATR}$ 为应开手数除以满仓手数的开仓杠杆率。由上面算法计算出来的开仓杠杆率具有根据 ATR 波动调整杠杆率大小的特性，当一个品种的日均波动较大时，我们倾向于给予该品种较低的杠杆，而反之，如果一个品种的日均波动较小，我们则可以给该品种较高的杠杆。从风险控制的角度如果一个品种的波动较大，给予较小杠杆也是出于对资金安全的考虑，防止由于较大的波动幅度而触发穿仓风险。

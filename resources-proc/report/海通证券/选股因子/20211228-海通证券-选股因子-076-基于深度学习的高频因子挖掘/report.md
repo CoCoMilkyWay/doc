@@ -67,15 +67,15 @@ Email:ylq9619@htsec.com
 LSTM 是较早被提出的 RNN 门控算法，它较好地解决了 RNN 模型中梯度消失的问题。LSTM 单元包含 3 个门控：输入门（Input Gate）、遗忘门（Forget Gate）和输出门（Output Gate）。下式简要列示了 LSTM单元的更新方式。
 
 $$
-\begin{array}{rl}&{i_{t}=\sigma(W_{ii}x_{t}+b_{ii}+W_{hi}h_{t-1}+b_{hi})}\\&{f_{t}=\sigma\big(W_{if}x_{t}+b_{if}+W_{hf}h_{t-1}+b_{hf}\big)}\\&{g_{t}=tanh\big(W_{ig}x_{t}+b_{ig}+W_{hg}h_{t-1}+b_{hg}\big)}\\&{o_{t}=\sigma(W_{io}x_{t}+b_{io}+W_{ho}h_{t-1}+b_{ho})}\\&{c_{t}=f_{t}\odot c_{t-1}+i_{t}\odot g_{t}}\\&{h_{t}=o_{t}\odot tanh(c_{t})}\end{array}
+\begin{aligned}i_{t}&=\sigma(W_{ii}x_{t}+b_{ii}+W_{hi}h_{t-1}+b_{hi})\\f_{t}&=\sigma(W_{if}x_{t}+b_{if}+W_{hf}h_{t-1}+b_{hf})\\g_{t}&=tanh(W_{ig}x_{t}+b_{ig}+W_{hg}h_{t-1}+b_{hg})\\o_{t}&=\sigma(W_{io}x_{t}+b_{io}+W_{ho}h_{t-1}+b_{ho})\\c_{t}&=f_{t}\odot c_{t-1}+i_{t}\odot g_{t}\\h_{t}&=o_{t}\odot tanh(c_{t})\end{aligned}
 $$
 
-简单来说，输入门（i）决定了前一期模型状态 $(h_{{\sf t}-1})$ 和当期模型输入 $\left(\mathsf{x}_{\mathrm{{t}}}\right)$ 对于模型内部状态 $\big(\mathsf{c}_{\mathsf{t}}\big)$ 更新的影响幅度，遗忘门（f）决定了前一期模型内部状态 $(\mathsf{c}_{\mathsf{t}-1})$ 对于模型内部状态 $\big(\mathsf{c}_{\mathsf{t}}\big)$ 更新的影响幅度，输出 $\Gamma\big]\big(\mathsf{o}_{\mathsf{t}}\big)$ 决定了内部状态 $\big(\mathsf{c}_{\mathsf{t}}\big)$ 对于模型状态$(\mathsf{h}_{\mathrm{t}})$ 更新的影响幅度。
+简单来说，输入门（i）决定了前一期模型状态 $(h_{t-1})$ 和当期模型输入 $(x_{t})$ 对于模型内部状态 $(c_{1})$ 更新的影响幅度，遗忘门（f）决定了前一期模型内部状态 $(c_{t-1})$ 对于模型内部状态 $(c_{\mathrm{t}})$ 更新的影响幅度，输出 $门(\mathsf{o_t})$ 决定了内部状态 $(c_{\mathrm{t}})$ 对于模型状态$(h_{t})$ 更新的影响幅度。
 
-GRU 相较于 LSTM结构更为简单，GRU单元包含 2 个门控：更新门（Update Gate）和复位门（Reset Gate），其中，复位门 $\left(\mathsf{r}_{\mathrm{t}}\right)$ 的功能与 LSTM 单元中的输入门类似，而更新门 $(z_{\mathrm{t}})$ 则同时实现了 LSTM 单元中遗忘门和输出门的功能。下式简要列示了 GRU单元的更新方式。
+GRU 相较于 LSTM结构更为简单，GRU单元包含 2 个门控：更新门（Update Gate）和复位门（Reset Gate），其中，复位门 $(\mathbf{\nabla}r_{\mathrm{t}})$ 的功能与 LSTM 单元中的输入门类似，而更新门 $(z_{t})$ 则同时实现了 LSTM 单元中遗忘门和输出门的功能。下式简要列示了 GRU单元的更新方式。
 
 $$
-\begin{array}{l}{r_{t}=\sigma(W_{ir}x_{t}+b_{ir}+W_{hr}h_{t-1}+b_{hr})}\\{z_{t}=\sigma(W_{iz}x_{t}+b_{iz}+W_{hz}h_{t-1}+b_{hz})}\\{n_{t}=tanh(W_{in}x_{t}+b_{in}+r_{t}(W_{hn}h_{t-1}+b_{hn}))}\\{h_{t}=(1-z_{t})n_{t}+z_{t}\ast h_{t-1}}\end{array}
+\begin{aligned}&r_{t}=\sigma(W_{ir}x_{t}+b_{ir}+W_{hr}h_{t-1}+b_{hr})\\&z_{t}=\sigma(W_{iz}x_{t}+b_{iz}+W_{hk}h_{t-1}+b_{hz})\\&n_{t}=tanh(W_{in}x_{t}+b_{in}+r_{t}(W_{hn}h_{t-1}+b_{hn}))\\&h_{t}=(1-z_{t})n_{t}+z_{t}*h_{t-1}\\\end{aligned}
 $$
 
 ## 1.2 数据说明
@@ -406,7 +406,7 @@ $$
 
 1） 个股权重偏离：相对基准偏离不超过 1%或 2%；
 
-2） 因子敞口：常规低频因子敞 $\sqcap\leq\pm0.5$ ，高频因子敞口≤ ±2.0；
+2） 因子敞口：常规低频因子敞 $\口\leq\pm0.5$ ，高频因子敞口≤ ±2.0；
 
 3） 行业偏离：严格中性；
 
@@ -415,10 +415,10 @@ $$
 组合优化目标为最大化预期收益，目标函数如下：
 
 $$
-max\sum\mu_{i}w_{i}
+\underset{w_{i}}{max}\sum\mu_{i}w_{i}
 $$
 
-其中， $\mathsf{W}_{\mathrm{i}}$ 为组合中股票 i的权重， $\mu_{\mathrm{i}}$ 为股票 i的预期超额收益。为了使本文的结论贴近实践，如无特别说明，下文的测算均假定以次日均价调仓，同时扣除 3‰的交易成本。
+其中， $w_{\mathrm{i}}$ 为组合中股票 i的权重， $\mu_{\mathrm{i}}$ 为股票 i的预期超额收益。为了使本文的结论贴近实践，如无特别说明，下文的测算均假定以次日均价调仓，同时扣除 3‰的交易成本。
 
 下表展示了不同模型在不同的个股偏离和换手率约束下的全区间年化超额收益。从中可见，深度学习高频因子的引入为大部分模型带来了较为明显的超额收益提升。且随着模型复杂度的提升，模型对高频数据序列的信息提取能力更强，带来的超额收益改进更大。基础模型年化超额约为 26%，而在引入了深度学习高频因子后，模型年化超额收益最多可上升至 32%，最大提升幅度约为 6%。
 

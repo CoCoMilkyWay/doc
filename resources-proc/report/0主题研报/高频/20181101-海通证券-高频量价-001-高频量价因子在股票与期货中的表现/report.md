@@ -86,7 +86,7 @@ Amaya et al.(2011)1研究发现日内高阶矩与股票的未来收益之间存�
 
 高频已实现峰度： $\begin{array}{r}{RKurtosis_{i}=\frac{N\sum_{j=1}^{N}r_{ij}^{4}}{RVar_{i}^{2}}}\end{array}$
 
-其中 $\boldsymbol{r}_{ij}$ 为股票 i的日内 1分钟对数收益序列 $\{j=1,\cdots,N\}$ ，因子值为过去 20 日的指标均值。
+其中 $r_{ij}$ 为股票 i的日内 1分钟对数收益序列 $\{j=1,\cdots,N\}$ ，因子值为过去 20 日的指标均值。
 
 我们在前期报告《选股因子系列研究(十九)——高频因子之股票收益分布特征》中实证发现，高频偏度因子具有显著的选股能力，而方差和峰度没有选股能力。高频偏度因子分组收益和 IC 表现如图 2-5 所示，原始因子和正交因子的 IC 均值分别为-0.047 和-0.023，ICIR 分别为-2.61 和-2.38，top-bottom 多空组合月均收益差分别为 1.45%和0.82%。
 
@@ -206,10 +206,10 @@ Amaya et al.(2011)1研究发现日内高阶矩与股票的未来收益之间存�
 Feunou B et al.(2015)3将波动率拆分成上行波动率和下行波动率，发现投资者更为关注下行波动，要求更高的风险补偿。我们在前期报告《选股因子系列研究(二十五)——高频因子之已实现波动率分解》中构建了下行波动占比因子，发现该因子具有显著的选股能力。因子计算方法如下：
 
 $$
-\begin{array}{r}{\frac{3}{\frac{3}{|\alpha}|}+\frac{1}{|\beta|}\mathcal{T}\llap/{\tilde{\tau}}\tilde{\langle\tilde{\tau}\rangle}\ast\vec{\chi}_{\tilde{\mathcal{Z}}}\Rightarrow\downarrow\nwarrow\ k\in=\ \frac{\sum_{j=1}^{N}r_{ij}^{2}\cdot I_{r_{ij}<0}}{\sum_{j=1}^{N}r_{ij}^{2}}}\end{array}
+高频下行波动占比$=\frac{\sum_{j=1}^{N}r_{ij}^{2}\cdot I_{r_{ij}<0}}{\sum_{j=1}^{N}r_{ij}^{2}}$
 $$
 
-其中 $\boldsymbol{r}_{ij}$ 为股票 i的日内 1分钟对数收益序列，股票的因子值为过去 20 日的指标均值。
+其中 $r_{ij}$ 为股票 i的日内 1分钟对数收益序列，股票的因子值为过去 20 日的指标均值。
 
 高频下行波动占比因子的分组收益和 IC 表现如图 11-14 所示，原始因子和正交因子的 IC 均值分别为 0.063 和 0.031，ICIR 分别为 3.31 和 3.12，多空组合月均收益差分别为 1.87%和 0.94%。
 
@@ -384,10 +384,10 @@ $$
 
 我们在《选股因子系列研究(十二)——“量”与“价”的结合》中发现日频股票价格和换手率的相关系数具有显著的选股能力，相关系数大，即“量价背离”的股票未来收益表现好于相关系数小，即“量价同向”的股票。
 
-下面我们使用日内数据构建高频量价相关性因子，即每一交易日取股票日内 1分钟频率的价格 $\cdot P_{t}$ 和成交量 $\mathbf{\nabla}V_{t}.$ 序列，计算 Pearson 相关系数，
+下面我们使用日内数据构建高频量价相关性因子，即每一交易日取股票日内 1分钟频率的价格 $\cdot P_{t}]$ 和成交量 $V_{t}.$ 序列，计算 Pearson 相关系数，
 
 $$
-\pmb{\rho}=corr(\pmb{P}_{t},\pmb{V}_{t})
+\boldsymbol{\rho}=corr(\boldsymbol{P}_{t},\boldsymbol{V}_{t})
 $$
 
 并使用过去 20日指标均值作为因子值。
@@ -469,16 +469,16 @@ $$
 对于期货的资金流入因子，由于 wind未提供汇总指标，我们使用分钟数据自行定义。该因子有两种定义方式，第一种是基于成交量的因子 1：
 
 $$
-flowInRatio=\sum_{i}\sum_{j}Volume_{ij}\cdot Close_{ij}\cdot\frac{Close_{ij}-Close_{ij-1}}{\left|Close_{ij}-Close_{ij-1}\right|}\rangle\sum_{i}Amount_{i,total}
+flowInRation=\sum_{i}\sum_{j}volume_{ij}\cdot close_{ij}\cdot\frac{close_{ij}-close_{ij-1}}{\left|close_{ij}-close_{ij-1}\right|}/\sum_{i}Amount_{i,total}
 $$
 
 第二种是基于持仓量变化的因子 2：
 
 $$
-flowInRatio=\sum_{i}\sum_{j}|OI_{ij}-OI_{ij-1}|\cdot Close_{ij}\cdot\frac{Close_{ij}-Close_{ij-1}}{\left|Close_{ij}-Close_{ij-1}\right|}/(OI_{t-R}\cdot Settle_{t-R})
+flowInRatio=\sum_{i}\sum_{j}\left|\theta I_{ij}-\theta I_{ij-1}\right|\cdot close_{ij}\cdot\frac{close_{ij}-close_{ij-1}}{\left|close_{ij}-close_{ij-1}\right|}/\left(\theta I_{t-R}\cdot SetUE_{t-R}\right)
 $$
 
-其中， $close_{ij}$ 、Volume 、 $\pmb{OI}_{ij}$ 依次表示 i日第j 分钟的收盘价、成交量、持仓量、$Amount_{i,total}.$ 表示 i日的成交金额， $\pmb{OI}_{t-R}$ 和 $Settle_{t-R}$ 表示 t-R 日的持仓量和结算价。
+其中， $close_{ij}$ 、Volume 、 $\pmb{o}I_{ij}$ 依次表示 i日第j 分钟的收盘价、成交量、持仓量、$Amount_{i,total}.$ 表示 i日的成交金额， $\pmb{\mathscr{O}}I_{t-R}$ 和 $\cdot Settle_{t-R}.$ 表示 t-R 日的持仓量和结算价。
 
 因子 1和因子 2表现相近，在回看期和持有期较短时取得负收益，在回看期和持有期较长时取得正收益（见表 10-11），这意味着期货资金流入因子具有短期反转、长期动量特征。
 
@@ -523,10 +523,10 @@ $$
 
 ## 7.1 趋势强度
 
-记 t日 1 分钟频率的价格序列为 $P_{t}(t=1,2,\cdots,n)$ ，则趋势强度指标定义如下：
+记 t日 1 分钟频率的价格序列为 $\boldsymbol{P}_{\boldsymbol{t}}(\boldsymbol{t}=1,2,\cdots,n)$ ，则趋势强度指标定义如下：
 
 $$
-trendStrength=\ \frac{P_{n}-P_{1}}{\sum_{i=2}^{n}abs(P_{i}-P_{i-1})_{t}}
+trendStrength=\;\frac{\boldsymbol{P}_{n}-\boldsymbol{P}_{1}}{\sum_{i=2}^{n}abs(\boldsymbol{P}_{i}-\boldsymbol{P}_{i-1})}_{t}
 $$
 
 该指标可以理解为日内价格位移与路程之比，能够刻画日内趋势的强弱。我们同样将过去 R日指标均值定义为趋势强度因子。

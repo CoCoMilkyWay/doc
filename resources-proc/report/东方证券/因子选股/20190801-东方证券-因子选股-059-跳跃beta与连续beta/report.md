@@ -48,16 +48,16 @@ Black 等人（1972）、Millers 等人（1972）发现在美国市场中，低 
 
 ## 2.1 连续 Beta 和跳跃 Beta 的定义
 
-指数在 t 时刻的对数价格表示为 $p_{t}^{(0)}=\mathrm{Log}(P_{t}^{(0)})$ ，指数价格变动的随机微分方程可以表示为：
+指数在 t 时刻的对数价格表示为 $p_{t}^{(0)}=\log(P_{t}^{(0)})$ ，指数价格变动的随机微分方程可以表示为：
 
 $$
-dp_{t}^{\left(0\right)}=\alpha_{t}^{\left(0\right)}dt+\sigma_{t}^{\left(0\right)}dW_{t}+\int_{R}\ dx\tilde{\mu}\left(dt,dx\right)
+dp_{t}^{(0)}=\alpha_{t}^{(0)}dt+\sigma_{t}^{(0)}dW_{t}+\int_{R}\;x\tilde{\mu}\left(dt,dx\right)
 $$
 
-其中 $\alpha_{t}^{(0)}$ 为指数价格变化的漂移项， $\sigma_{t}^{(0)}dW_{t}$ 为连续的扩散项， $\tilde{\mu},$ 为衡量跳跃的变量，表示非连续的指数价格变动。个股 i 在 t 时刻的对数价格表示为 $p_{t}^{(i)}=\mathrm{Log}(P_{t}^{(i)})$ ，结合了beta 的个股价格变动的随机微分方程可以表示为：
+其中 $\alpha_{t}^{(0)}$ 为指数价格变化的漂移项， $\sigma_{t}^{(0)}dW_{t}$ 为连续的扩散项， $\tilde{\mu})$ 为衡量跳跃的变量，表示非连续的指数价格变动。个股 i 在 t 时刻的对数价格表示为 $p_{t}^{(i)}=\mathrm{Log}(P_{t}^{(i)})$ ，结合了beta 的个股价格变动的随机微分方程可以表示为：
 
 $$
-dp_{t}^{(i)}=\alpha_{t}^{(i)}dt+\beta_{t}^{(c,i)}\sigma_{t}^{(i)}dW_{t}+\int_{R}\beta_{t}^{(d,i)}x\tilde{\mu}\left(dt,dx\right)+\tilde{\sigma}_{t}^{(i)}dW_{t}^{(i)}+\int_{R}x\tilde{\mu}^{(i)}\left(dt,dx\right)\tilde{\mu}\left(dt,dx\right),
+dp_{t}^{(i)}=\alpha_{t}^{(i)}dt+\beta_{t}^{(c,i)}\sigma_{t}^{(i)}dW_{t}+\int_{R}\beta_{t}^{(d,i)}x\tilde{\mu}\left(dt,dx\right)+\tilde{\sigma}_{t}^{(i)}dW_{t}^{(i)}+\int_{R}x\tilde{\mu}^{(i)}\left(dt,dx\right)
 $$
 
 其中 $\alpha_{t}^{(i)}$ dt为漂移项， $\beta_{t}^{(c,i)}$ 为股票的和市场的连续 beta，反映市场连续变化时股票的协同价格变动， $dW_{t}$ 是市场连续变化时的布朗运动，因此第二项为市场连续变化时股票价格跟随市场的连续变化，第三项为市场跳跃时股票跟随市场跳跃的过程， $\beta_{t}^{(d,i)}$ 为股票的跳跃 beta，也即市场发生跳跃时股票的价格变动情况，第四项为个股和市场连续变化正交的布朗运动，最后一项为市场不发生跳跃时个股的跳跃。
@@ -70,45 +70,45 @@ $$
 r_{s:\tau}^{(i)}=\beta_{t}^{(c,i)}r_{s:\tau}^{(0)}+\tilde{r}_{s:\tau}^{(0)}
 $$
 
-其中 $\mathrm{{s}\in[t-L,}$ t], $r_{s:\tau}^{(0)}$ 是指数的高频收益率，基于线性回归可以得到：
+其中 $\mathbf{S}\mathbf{\epsilon}[\mathbf{t}-\mathbf{L},$ t], $r_{s:\tau}^{(0)}$ 是指数的高频收益率，基于线性回归可以得到：
 
 $$
-\begin{array}{r}{\beta_{t}^{(c,i)}=\frac{\sum_{s=t-L}^{t-1}\sum_{\tau}r_{s:\tau}^{(i)}r_{s:\tau}^{(0)}}{\sum_{s=t-L}^{t-1}\sum_{\tau}\left(r_{s:\tau}^{(0)}\right)^{2}}=\frac{\sum_{s=t-L}^{t-1}\sum_{\tau}\left[\left(r_{s:\tau}^{(i)}+r_{s:\tau}^{(0)}\right)^{2}-\left(r_{s:\tau}^{(i)}+r_{s:\tau}^{(0)}\right)^{2}\right]}{4\sum_{s=t-L}^{t-1}\sum_{\tau}\left(r_{s:\tau}^{(0)}\right)^{2}}}\end{array}
+\begin{array}{r}{\beta_{t}^{(c,i)}=\frac{\sum_{s=t-L}^{t-1}\sum_{\tau}r_{s:\tau}^{(i)}r_{s:\tau}^{(0)}}{\sum_{s=t-L}^{t-1}\sum_{\tau}\left(r_{s:\tau}^{(0)}\right)^{2}}\frac{\sum_{s=t-L}^{t-1}\sum_{\tau}\left[\left(r_{s:\tau}^{(i)}+r_{s:\tau}^{(0)}\right)^{2}-\left(r_{s:\tau}^{(i)}+r_{s:\tau}^{(0)}\right)^{2}\right]}{4\sum_{s=t-L}^{t-1}\sum_{\tau}\left(r_{s:\tau}^{(0)}\right)^{2}}}\end{array}
 $$
 
 如果股票和市场在[t-L,t]时间段均没有发生跳跃，那么通过上述公式就可以计算连续beta，但绝大多数情况下，股票或市场会发生跳跃，因此要通过某个阈值把跳跃的部分剥离，剥离了跳跃后的连续 beta 估计公式为：
 
 $$
-\begin{array}{r}{\beta_{t}^{(c,i)}===\frac{\sum_{s=t-l}^{t-1}\sum_{\tau}\left[\left(\mathbf{r}_{s:\tau}^{(\mathrm{i})}+\mathbf{r}_{s:\tau}^{(0)}\right)^{2}\mathbf{1}_{\left\{\left.\mathbf{r}_{s:\tau}^{(\mathrm{i})}+\mathbf{r}_{s:\tau}^{(0)}\right.\leq k_{s,\tau}^{(i+0)}\right\}}-\left(\mathbf{r}_{s:\tau}^{(\mathrm{i})}+\mathbf{r}_{s:\tau}^{(0)}\right)^{2}\mathbf{1}_{\left\{\left.\mathbf{r}_{s:\tau}^{(\mathrm{i})}-\mathbf{r}_{s:\tau}^{(0)}\right.\leq k_{s,\tau}^{(i-0)}\right\}}\right]}{4\sum_{s=t-l}^{t-1}\sum_{\tau}\left(r_{s:\tau}^{(0)}\right)^{2}\mathbf{1}_{\left\{\left.\mathbf{r}_{s:\tau}^{(0)}\right.\leq k_{s,\tau}^{(0)}\right\}}}}\end{array}
+\beta_{t}^{(c,i)}=\frac{\sum_{s=t-l}^{t-1}\sum_{\tau}\left|\left(\mathbf{r}_{s:\tau}^{(1)}+\mathbf{r}_{s:\tau}^{(0)}\right)^2\mathbf{1}_{\left\{\left|\mathbf{r}_{s:\tau}^{(1)}+\mathbf{r}_{s:\tau}^{(0)}\right|\leq k_{s,\tau}^{(i+0)}\right\}}-\left(\mathbf{r}_{s:\tau}^{(1)}+\mathbf{r}_{s:\tau}^{(0)}\right)^2\mathbf{1}_{\left\{\left|\mathbf{r}_{s:\tau}^{(1)}-\mathbf{r}_{s:\tau}^{(0)}\right|\leq k_{s,\tau}^{(t-0)}\right\}}\right|}{4\sum_{s=t-l}^{t-1}\sum_{\tau}\left(\mathbf{r}_{s:\tau}^{(0)}\right)^2\mathbf{1}_{\left\{\left|\mathbf{r}_{s:\tau}^{(0)}\right|\leq k_{s,\tau}^{(0)}\right\}}}
 $$
 
-其中 $\vert k_{s,\tau}$ 为与收益率序列相关的阈值，基于 BoLLersLev 等人（2013）中的方法：
+其中 $lk_{s,\tau}$ 为与收益率序列相关的阈值，基于 BoLLersLev 等人（2013）中的方法：
 
 $$
-k_{s,\tau}^{(i)}=\bar{\tau}\mathrm{n}^{-\bar{\omega}}\sqrt{\left(BV_{t}^{(i)}\wedge RV_{t}^{(i)}\right)*TOD_{\tau}^{(i)}},\tau=1,2,\ldots,n
+k_{s,\tau}^{(i)}=\bar{\tau}\mathrm{n}^{-\bar{\omega}}\sqrt{\left(BV_{t}^{(i)}\wedge RV_{t}^{(i)}\right)*TOD_{\tau}^{(i)}},\quad\tau=1{,}2,\ldots,n
 $$
 
-其中τ̅和ω̅都是常数，参考文献中的结果，我们设置τ̅ = 2.5， $\overline{{\omega}}=0.49$ $RV_{t}^{(i)}$ 是已实现变差，也就是一天内股票收益率的平方和，定义为：
+其中τ̅和ω̅都是常数，参考文献中的结果，我们设置τ̅ = 2.5， $\bar{\omega}=0.49$ $R{V_{t}^{(i)}}$ 是已实现变差，也就是一天内股票收益率的平方和，定义为：
 
 $$
-RV_{t}^{(i)}=\sum_{\tau=1}^{n}r_{t:\tau}^{(i)^{2}}
+RV_{t}^{(i)}=\sum_{\tau=1}^{n}{r_{t:\tau}^{(i)}}^{2}
 $$
 
-$BV_{t}^{(i)}$ 是二次幂变差，也就是一天内股票收益率绝对值乘以上一时刻收益率绝对值的交叉项总和，定义为：
+$B{V_{t}^{(i)}}$ 是二次幂变差，也就是一天内股票收益率绝对值乘以上一时刻收益率绝对值的交叉项总和，定义为：
 
 $$
-BV_{t}^{(i)}=\frac{\pi}{2}\sum_{\tau=2}^{n}\left|r_{t:\tau}^{(i)}\right|\left|r_{t:\tau-1}^{(i)}\right|
+BV_{t}^{(i)}=\frac{\pi}{2}{\sum_{\tau=2}^{n}\left|r_{t:\tau}^{(i)}\right|\left|r_{t:\tau-1}^{(i)}\right|}.
 $$
 
 基于二次幂变差和已实现变差，可以估计股票或市场的 TOD（Time-of-Day）波动率：
 
 $$
-TOD_{\tau}^{(i)}=\frac{{n\sum_{s=t-L}^{t}{{r_{s:\tau}^{(i)}}^{2}}1(\left|{{r_{s:\tau}^{(i)}}}\right|\le{{\bar{\tau}}\mathrm{n}}^{-\bar{\omega}}\sqrt{BV_{s}^{(i)}\wedge RV_{s}^{(i)}})}}{{\sum_{s=t-L}^{t}{\sum_{\tau=1}^{n}{{r_{s:\tau}^{(i)}}^{2}}1(\left|{{r_{s:\tau}^{(i)}}}\right|\le{{\bar{\tau}}\mathrm{n}}^{-\bar{\omega}}\sqrt{BV_{t}^{(i)}\wedge RV_{t}^{(i)}})}}}
+TOD_{\tau}^{(i)}=\frac{n\sum_{s=t-L}^{t}r_{s:\tau}^{(i)^{2}}1(\left|r_{s:\tau}^{(i)}\right|\leq\bar{\tau}\mathrm{n}^{-\bar{\omega}}\sqrt{BV_{s}^{(i)}\wedge RV_{s}^{(i)}})}{\sum_{s=t-L}^{t}\sum_{\tau=1}^{n}r_{s:\tau}^{(i)^{2}}1(\left|r_{s:\tau}^{(i)}\right|\leq\bar{\tau}\mathrm{n}^{-\bar{\omega}}\sqrt{BV_{t}^{(i)}\wedge RV_{t}^{(i)}})}
 $$
 
 其中分子上的其实是过去[t-L,t]区间的某个时间点收益率的平方和，分母是[t-L,t]区间每个时间点收益率的平方和。这个反映的是过去一段时间每个时间点的波动情况，因此TOD 的数量共有 n 个。
 
-基于上面的公式可以看到在[t-L,t]的时间区间，股票的 $BV_{t}^{(i)}$ 和 $\boldsymbol{\ell}V_{t}^{(i)}$ 每天均有一个数值，共有 L 个， $TOD_{\tau}^{(i)}$ 则是每个时间τ均有一个数值，共有 n 个，通过 $BV_{t}^{(i)}$ $RV_{t}^{(i)}$ 和T $OD_{\tau}^{(i)}$ 的交叉相乘，就可以得到股票在[t-L,t]的时间区间上每个时间间隔的度量跳跃收益的阈值了（共 L*n 个数值），然后就可以基于这些阈值对于股票或指数在对应区间中每个时间间隔上的收益率进行划分了。
+基于上面的公式可以看到在[t-L,t]的时间区间，股票的 $B{V_{t}^{(i)}}$ 和 $RV_{t}^{(i)}$ 每天均有一个数值，共有 L 个， $TOD_{\tau}^{(i)}$ 则是每个时间τ均有一个数值，共有 n 个，通过 $B{V_{t}^{(i)}}$ $R{V_{t}^{(i)}}$ 和T ${}^{\prime}OD_{\tau}^{(i)}$ 的交叉相乘，就可以得到股票在[t-L,t]的时间区间上每个时间间隔的度量跳跃收益的阈值了（共 L*n 个数值），然后就可以基于这些阈值对于股票或指数在对应区间中每个时间间隔上的收益率进行划分了。
 
 ## 2.3 跳跃 Beta 估计
 
@@ -125,7 +125,7 @@ $$
 常规的 beta 是采用日频的数据基于 CAPM估计的，基于 Vasicek（1973）的研究结果，可以在常规的 beta 基础上进行贝叶斯压缩来提高 beta 在样本外的预测能力。股票 i 的压缩估计量形式上可以表示为:
 
 $$
-\beta_{i}^{shrink}\ =\lambda\cdot\beta_{i}^{prior}+(1-\lambda)\cdot\beta_{i}^{hist}
+\beta_{i}^{shrink}~=\lambda\cdot\beta_{i}^{prior}+(1-\lambda)\cdot\beta_{i}^{hist.}
 $$
 
 其中βℎist为传统方法基于 CAPM 估算出来的 beta, $\beta_{i}^{prior}$ 为先验 beta值，这里我们取个股所在行业的平均 beta 作为压缩目标。压缩系数λ由βℎist的估计方差和 beta 先验分布的方差的相对大小决定，βℎist的估计方差越小，λ取值越小。引入先验分布，使得压缩估计量变成有偏估计，提升了 bias，但同时也降低了估计量的方差（variance），两者叠加在一起有可能提升估计量样本外的预测准确度（bias–variance tradeoff）。下面的实证数据说明了这一点。

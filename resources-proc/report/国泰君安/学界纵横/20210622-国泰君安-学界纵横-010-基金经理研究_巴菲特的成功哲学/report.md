@@ -170,13 +170,13 @@ e_Summary]巴菲特几十年来的业绩有目共睹，伯克希尔哈撒韦公�
 沃伦巴菲特的超额回报来源于两点：高夏普比率以及他利用杠杆获得回报的能力。通过研究了伯克希尔哈撒韦公司的资产负债表，可以计算它的杠杆水平：
 
 $$
-\begin{array}{r}{\mathrm{Lt}\ =\ \frac{TA_{t}^{MV}+Cas\lambda_{t}^{MV}}{Equity_{t}^{MV}}}\end{array}
+\begin{array}{r}{\mathrm{~L~t~}=\frac{TA_{t}^{MV}+Cas\bar{\lambda}_{t}^{MV}}{Equity_{t}^{MV}}}\end{array}
 $$
 
 其中，TA 是总资产，Cash 是伯克希尔哈撒韦公司持有的现金，Equity是伯克希尔的股票价值，上标 MV 是市场价值。文中作者使用该方法计算了每个月的杠杆率。我们希望总是使用市场价值来计算杠杆，但对于某些变量，我们只能观察账面价值(用上标 BV 表示)。规定伯克希尔的股票市场价值是股价乘以流通股，现金持有来自伯克希尔的合并资产负债表(见附录A)。资产负债表还提供了总资产的账面价值TABV和权益的账面价值EquityBV，这使我们可以估计总资产的市场价值为：
 
 $$
-TA_{t}^{MV}=TA_{t}^{BV}+Equity_{t}^{MV}-Equity_{t}^{BV}
+TA_{t}^{MV}=TA_{t}^{BV}+Equity_{t}^{MV}{-}Equity_{t}^{BV}
 $$
 
 使用这种方法，我们估计巴菲特的平均杠杆率为 1.7。这一杠杆水平解释了为什么伯克希尔-哈撒韦公司投资了一些相对稳定的资产，却有较高的波动性。
@@ -247,7 +247,7 @@ Spread over Benchmark Rates
 我们无法直接观察巴菲特旗下的非上市公司的价值和业绩，但根据我们已知的情况，我们可以反推出这些公司的价值。我们可以用总资产减去公开交易的股票的价值和现金，从而得到非上市公司的市场价值，$\mathrm{Private}_{t}^{MV}$ ：
 
 $$
-\mathrm{Private}_{t}^{MV}=TA_{t}^{MV}-Public_{t}^{MV}-Cas\lambda_{t}^{MV}
+\mathrm{Private}_{t}^{MV}=TA_{t}^{MV}-\mathrm{Publc}_{t}^{MV}-\mathrm{Cas}_{t}^{MV}
 $$
 
 然后，剔除上市公司股票投资组合变化，拆分或增发的影响因素，用下式
@@ -255,17 +255,17 @@ $$
 计
 
 $$
-\begin{array}{rl}&{r_{t+1}^{Private}=\frac{\Delta\mathsf{Private}_{t+1}^{MV}}{\mathsf{Private}_{t}^{MV}}}\\&{=\frac{r_{t+1}^{f}\mathsf{Liabilities}_{t}^{MV}+r_{t+1}^{Equity}\mathsf{Equity}_{t}^{MV}-r_{t+1}^{Pubilic}\mathsf{Public}_{t}^{MV}-r_{t+1}^{f}\mathsf{Cash}_{t}^{MV}}{\mathsf{Private}_{t}^{MV}}}\end{array}
+\begin{aligned}&r_{t+1}^{Private}=\frac{\Delta\mathsf{Private}_{t+1}^{MV}}{\mathsf{Private}_{t}^{MV}}\\&=\frac{r_{t+1}^{f}\mathsf{Liabilities}_{t}^{MV}+r_{t+1}^{\mathsf{Equity}}\mathsf{Equity}_{t}^{MV}-r_{t+1}^{\mathsf{Public}}\mathsf{Public}_{t}^{MV}-\mathsf{r}_{t+1}^{f}\mathsf{Cash}_{t}^{MV}}{\mathsf{Private}_{t}^{MV}}\\\end{aligned}
 $$
 
 公
 
-司的投资收益率 ${r_{t+1}^{private}}$
+司的投资收益率 $\cdot r_{t+1}^{private}$
 
 $r_{t+1}^{f}$ 为无风险的国债利率， $r_{t+1}^{Equity}$ 为伯克希尔股票收益率，负债的市值可以用下式计算：
 
 $$
-\operatorname{Liability}_{t}^{MV}=TA_{t}^{MV}-\operatorname{Equity}_{t}^{MV}
+\mathrm{Liabibility}_{t}^{MV}=TA_{t}^{MV}-\mathrm{Equity}_{t}^{MV}
 $$
 
 根据我们对巴菲特公开和私下的回报以及他的杠杆率的估计，我们可以分解伯克希尔的业绩。伯克希尔的超额回报可以分解为公开上市股票的回
@@ -273,7 +273,7 @@ $$
 报
 
 $$
-\begin{array}{rl}&{\hat{\mathbf{\Psi}}_{t}^{touity}\ _{-}\mathbf{\boldsymbol{r}}_{t+1}^{f}=}\\&{\hat{\mathbf{\Psi}}_{\perp}^{\perp}\ \left[\mathbf{w}_{t}\left(\boldsymbol{r}_{t+1}^{Private}-\boldsymbol{r}_{t+1}^{f}\right)+(1-\mathbf{w}_{t})\left(\boldsymbol{r}_{t+1}^{Public}-\boldsymbol{r}_{t+1}^{f}\right)\right]L_{t}}\\&{\hat{\mathbf{\Psi}}_{\perp}^{\sim}\quad\left[\mathbf{w}_{t}\left(\boldsymbol{r}_{t+1}^{Private}-\boldsymbol{r}_{t+1}^{f}\right)+\left(1-\mathbf{w}_{t}\right)\left(\boldsymbol{r}_{t+1}^{Public}-\boldsymbol{r}_{t+1}^{f}\right)\right]L_{t}}\end{array}
+\begin{aligned}&\boldsymbol{r}_{t\mp}^{和}\boldsymbol{r}_{t+1}^{Equity}-\boldsymbol{r}_{t+1}^{f}=\\&\overset{上}{\underset{和}{=}}\Big[\boldsymbol{w}_{t}\Big(\boldsymbol{r}_{t+1}^{Priode}-\boldsymbol{r}_{t+1}^{f}\Big)+\big(\boldsymbol{1}-\boldsymbol{w}_{t}\big)\Big(\boldsymbol{r}_{t+1}^{Pultic}-\boldsymbol{r}_{t+1}^{f}\big)\Big]\boldsymbol{L}_{t}\\&会\end{aligned}
 $$
 
 司的回报的加权平均值，杠杆率为L:
@@ -281,7 +281,7 @@ $$
 伯克希尔的投资组合中非上市公司的权重为：
 
 $$
-\mathbb{W}_{\mathrm{t}}=\frac{\mathbf{\mathbb{P}}\mathbf{rivate}_{t}^{MV}}{\mathbf{\mathbb{P}}\mathbf{rivate}_{t}^{MV}+\mathbf{\mathbb{P}}\mathbf{ublic}_{t}^{MV}}
+\mathrm{W_{t}=\frac{Privalte_{t}^{MV}}{Privalte_{t}^{MV}+Pulblic_{t}^{MV}}}
 $$
 
 通过实证，我们发现，从 1980 年到 2017 年，伯克希尔平均持有 65%的非上市公司，其余 35%投资于上市公司。随着时间的推移，伯克希尔对非上市公司的依赖一直在稳步增长，从上世纪80 年代初的不到20%上升到 2017 年的 78%以上。
@@ -295,7 +295,7 @@ $$
 沃伦•巴菲特的回报可以归因于他的选股能力和运用杠杆的能力，那么他是如何选择自己的公司的呢?为了回答这个问题，我们考虑了巴菲特的E
 
 $$
-\begin{array}{rl}&{\dot{\bar{\boldsymbol{\mathfrak{i}}}}_{t}-\boldsymbol{r}_{t}^{f}=\alpha+\beta_{1}\mathsf{MKT}_{t}+\beta_{2}\mathsf{SMB}_{t}+\beta_{3}\mathsf{HML}_{t}}\\&{\qquad+\beta_{4}\mathsf{UMD}_{t}+\beta_{5}\mathsf{BAB}_{t}+\beta_{6}\mathsf{QM}_{t}+\varepsilon_{t}}\end{array}
+\begin{aligned}\mathsf{r}_{\mathsf{d}}^{\mathsf{r}}\mathsf{r}_{\mathsf{t}}-\mathsf{r}_{\mathsf{t}}^{\mathsf{f}}=&\alpha+\mathsf{\beta}_{\mathsf{1}}\mathsf{MKT}_{\mathsf{t}}+\mathsf{\beta}_{\mathsf{2}}\mathsf{SMB}_{\mathsf{t}}+\mathsf{\beta}_{\mathsf{3}}\mathsf{HML}_{\mathsf{t}}\\&+\mathsf{\beta}_{\mathsf{4}}\mathsf{UMD}_{\mathsf{t}}+\mathsf{\beta}_{\mathsf{5}}\mathsf{BAB}_{\mathsf{t}}+\mathsf{\beta}_{\mathsf{6}}\mathsf{QML}_{\mathsf{t}}+\mathsf{\varepsilon}_{\mathsf{t}}\end{aligned}
 $$
 
 其中，MKT,SMB,HML是 Fama三因子模型中的三个因子：
@@ -364,19 +364,19 @@ QMJ（Quality minus Junk），代表的是高质量公司比低质量公司更�
 我们考虑了系统性的巴菲特投资组合，跟踪巴菲特的风险敞口和主动选股的策略。首先，我们捕捉到巴菲特的风险敞口，βBuffett，作为伯克希尔哈撒韦公司的市场投资组合超额回报的单变量回归斜率。其次，我们通过将伯克希尔月度收益率（经 beta 调整后）对各因子进行回归，从而捕捉到巴菲特的选股偏好：
 
 $$
-\begin{array}{rl}&{{\boldsymbol{r}}_{t}-{\boldsymbol{r}}_{t}^{f}-{\boldsymbol{\beta}}^{Buffett}{\sf M}{\sf K}{\sf T}_{t}=}\\&{\alpha+m{\sf M}{\sf K}{\sf T}_{t}+s{\sf S}{\sf M}{\sf B}_{t}+h{\sf H}{\sf M}{\sf L}_{t}}\\&{+u{\sf U}{\sf M}{\sf D}_{t}+b{\sf B}{\sf A}{\sf B}_{t}+q{\sf Q}{\sf M}{\sf J}_{t}+\varepsilon_{t}}\end{array}
+\begin{aligned}&r_{t}-r_{t}^{f}-\beta^{Buffett}\mathsf{MKT}_{t}=\\&\alpha+\mathsf{mMKT}_{t}+\mathsf{sSMB}_{t}+\mathsf{hHML}_{t}\\&+u\mathsf{UMD}_{t}+\mathsf{bBAB}_{t}+q\mathsf{QML}_{t}+\varepsilon_{t}\\\end{aligned}
 $$
 
 回归系数与表4第五列的回归系数相同，除了其中的市场风险敞口减去βBuffettMKTt。等号右边剔除了 alpha 和误差项，表示巴菲特的主动选股偏好:
 
 $$
-\begin{array}{r}{r_{t}^{A}=\mathrm{\ nMKT{t+s}SMB{t+}hHML{t+u}UMD{t+}bBAB{t+}qQMJ{t}}}\end{array}
+r_{t}^{A}{=}\operatorname{\mathit{\textsf{mMKTt}}{+}\mathit{\textsf{SSMBt}}{+}\mathit{\textsf{hIMLt}}{+}\mathit{\textsf{uUMDt}}{+}\mathit{\textsf{bBABt}}{+}\mathit{\textsf{qQMJt}}}
 $$
 
 我们重新调整了这个主动选股回报序列，以匹配伯克希尔的特殊波动率，
 
 $$
-r_{t}^{Active}=r_{t}^{A}\frac{\sigma_{I}}{\sigma_{r_{t}^{A}}}.
+r_{t}^{Active}=r_{t}^{A}\frac{\overline{{\sigma}}_{I}}{\sigma_{r_{t}^{A}}}.
 $$
 
 σl，以模拟杠杆的使用，并抵消任何衰减偏差:
@@ -384,7 +384,7 @@ $$
 最后，我们将伯克希尔的市场风险敞口和无风险回报 rf加回来，构建了我们的系统性巴菲特式投资组合:
 
 $$
-\mathrm{r_{t}^{Buffettstyle}=r_{t}^{f}+\Omega^{\ Buffett}}MKT_{t}+\mathrm{r_{t}^{Active}}
+\mathbf{r_{t}^{Buffettstyle}}\mathbf{=}\mathbf{r_{t}^{f}}+\mathbf{\nabla\beta^{Buffett}}MKT_{t}+\mathbf{r_{t}^{Active}}
 $$
 
 这种系统性的巴菲特式策略是一种与伯克希尔的贝塔系数、特殊波动性、总波动性和主动选股匹配的多元化投资组合。类似地，我们基于伯克希尔哈撒韦公司上市公司股票和非上市公司股权的持有量和波动性，构建了一个巴菲特式的投资组合。

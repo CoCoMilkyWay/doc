@@ -104,19 +104,19 @@ QQC 因子各样本空间内均有较强预测能力，样本外表现出色。Q
 在上述条件满足的情况下，则可以认为这个公司的整体质量较高。学术界在研究中也有很多中对于质量指标定义方式的探讨和实践。例如，Asness（2017）通过对 Gordon 成长模型的分解，来定义质量因子。原始的 Gordon 成长模型为：
 
 $$
-\mathrm{Price}=\frac{dividend}{required\ return-growth}\#(1)
+\mathrm{Price}={\frac{dividend}{required\;return-growth}}\#(1)
 $$
 
 利用净资产 B（Book Value）来缩放价格, 使其在一段时间内和横截面上更加稳定。等式两边同时除以净资产 B：
 
 $$
-\frac{\mathrm{P}}{\mathrm{B}}=\frac{\frac{profit}{B}{*\frac{dividend}{profit}}}{requiredreturn-growth}\#(2)
+\frac{\mathrm{P}}{\mathrm{B}}=\frac{\frac{profit}{B}*\frac{dividend}{profit}}{required\;return-growth}\#(2)
 $$
 
 等式（2）则可以理解为：
 
 $$
-\frac{\mathrm{P}}{\mathrm{B}}=\frac{profitability*payout\_ratio}{requiredreturn-growth}\#(3)
+\frac{\mathrm{P}}{\mathrm{B}}=\frac{profitability*payout\_ratio}{requireed\ return-growth}\#(3)
 $$
 
 等式右侧的四个部分就是对于公司质量定义的四个基础组成部分，其中，Profitability 为盈利能力，可以由 ROE、ROA、毛利率在内的多个盈利能力指标表示；payout_ratio 表示股东所得红利在总利润中的占比，主要用来衡量公司管理层对于股东的友好程度；growth为成长能力，可以由不同的成长因子来评价；required return 则可以用来反映公司的稳定性或者安全性，因为要求回报率越高的公司，自然风险越大。
@@ -190,7 +190,7 @@ $$
 加速度指标的计算方法是：利用连续 N 个季度的单季利润，对期数的二次方程进行回归，取二次项系数作为业绩增长加速度的代理变量，回归公式如下：
 
 $$
-\mathrm{NP_{t}}=\alpha\times\mathrm{t}^{2}+\beta\times\mathrm{t}+\mathrm{c}
+\mathrm{NP_t}=\alpha\times\mathrm{t^2}+\beta\times\mathrm{t}+\mathrm{c}
 $$
 
 其中，NP为单季度利润，t为季度数，α为上市公司业绩增长加速度的代理变量，α越高，表示业绩增长的加速度越高。该指标的计算涉及到一个参数 N，依据参数敏感性的测试结果，在后续的测试中均取相对稳健的 N=8。
@@ -273,7 +273,7 @@ $$
 产能利用率提升因子（OCFA，Operation Cost on Fixed Assets）的因子是我们采用创新基本面因子挖掘框架挖掘出来的具有较强预测能力的营运效率类因子，其具体的构造方式为，营业总成本在固定资产上滚动回归取最近一期残差，具体的：
 
 $$
-Total\_Operation\_Cost=\beta_{\alpha}+\beta_{X}*Fixed\_Assets+\varepsilon
+Total\_Operation\_Cost=\beta_{\alpha}+\beta_{X}*Fized\_Assets+\varepsilon
 $$
 
 这里我们采用残差项ε来表征产能利用率的提升。
@@ -317,7 +317,7 @@ $$
 应计利润的定义通常为：
 
 $$
-\begin{array}{rcl}{\int_{\pm}^{\infty}{\hat{x}}^{+}+\hat{x}^{+}\vert\hat{x}\vert\hat{x}\vert}&{=}&{\stackrel{}{\mapsto}\underline{{\hat{x}}}\underline{{\hat{x}}}\hat{x}\hat{x}\enspace-\enspace\stackrel{\hat{\varkappa}\hat{x}}{\mapsto}\hat{\mapsto\mapsto}\iota\pm\hat{y}\vert\hat{x}\hat{\mapsto}\hat{\varphi}\hat{\mapsto}\hat{\varphi}\hat{\mapsto\varphi}\hat{\varphi}}\end{array}
+应计利润$=营业利润$-经营性现金流量净额
 $$
 
 同时，为了使得不同规模的公司的该项指标能够进行横向比较，我们采用将应计利润除以营业利润作为应计利润占比指标，来作为盈余质量指标的一种构建方式，明显的，该指标数值越大，标的盈余质量越差。因为现金利润来源于当期经营净现金流的增加；而应计利润则更多反映对未来现金流的确认，应计利润中存在较大的利润操纵空间，从而导致应计利润持续性较差，拥有较高应计利润的公司未来盈余往往会出现下滑。所以基于以上的逻辑，应计利润占比越大的公司，盈余质量越差。

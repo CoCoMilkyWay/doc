@@ -33,13 +33,13 @@ Email:ylq9619@htsec.com
 - 多因子模型中，复合因子 ICIR 的分析框架有助于分析因子收益的转化。可将多因子打分的选股系统看作是复合因子选股系统，而复合因子单期 IC 可表述为：
 
 $$
-IC_{\tilde{\mathbf{g}},\tilde{\mathbf{g}},\tilde{\mathbf{g}},\tilde{\mathbf{g}},\tilde{\mathbf{g}}}=\frac{w^{\prime}IC}{w^{\prime}\Sigma w}
+IC_{突合因子}=\frac{w^{\prime}IC}{w^{\prime}\Sigma w}
 $$
 
 当因子截面值协方差恒定时，复合因子的 IR则可表述为：
 
 $$
-IR_{\approx\approx\varXi\mp}=\frac{w^{\prime}\overline{{IC}}}{\sqrt{w^{\prime}\Sigma_{IC}w}}
+IR_{宽合因子}=\frac{w'\overline{IC}}{\sqrt{w'\Sigma_{IC}w}}
 $$
 
 从上述公式可知，因子在多因子模型中的收益转化不仅仅取决于因子本身的选股能力还取决于因子间的 IC协方差以及各因子的权重。
@@ -160,12 +160,12 @@ $$
 
 不难发现，虽然上述因子从单因子来看都有着十分显著的多空收益，但是随着因子的增多，组合的收益或者信息比并未出现持续上升。市值因子在加上换手率因子后，组合年化收益略有降低，但是回撤出现了极大的改善，信息比稍有降低。在加上反转因子后，收益、回撤以及信息比率皆出现了十分明显的改善。然而，在加入成交额因子后，组合各方面指标反而出现了下降。
 
-通过上述例子，可以看到简单的因子叠加并不能有效地转化因子的空头收益。即使从单因子来看具有显著空头收益的因子，放入到多因子模型中时也可能对于组合的提升毫无帮助。在此我们引入《Quantitative Equity Portfolio Management》中选股因子的 ICIR分析框架，希望通过这一框架对于多因子模型下因子空头收益甚至多空收益 $\sharp^{\sharp}$ 转化进行系统的分析。
+通过上述例子，可以看到简单的因子叠加并不能有效地转化因子的空头收益。即使从单因子来看具有显著空头收益的因子，放入到多因子模型中时也可能对于组合的提升毫无帮助。在此我们引入《Quantitative Equity Portfolio Management》中选股因子的 ICIR分析框架，希望通过这一框架对于多因子模型下因子空头收益甚至多空收益 $\left[的\right.$ 转化进行系统的分析。
 
 假设多因子模型中共有 k 个选股因子，对于任意股票 i，因子j的因子值为 $f_{i}^{j}$ ,所以股票 i的综合打分为：
 
 $$
-f_{i}=\sum_{j}^{k}f_{i}^{j}*w_{j}
+f_{i}=\sum_{j}^{k}f_{i}^{j}*w_{j},
 $$
 
 其中， $w_{j}$ 为因子j 的权重，且 $w_{1}+w_{2}+\cdots+w_{k}=1$ 。需要注意的是，此处使用的因子值全都是经过去极值以及标准化处理过的。
@@ -173,25 +173,25 @@ $$
 在分析时，我们实际上可将这 k 个因子看做是一个复合因子，复合因子对于每个股票的打分为 。那么复合因子单期的 IC可被表述为：
 
 $$
-\begin{array}{l}{{\displaystyle IC_{\widetilde{\pmb{\mathscr{R}}}\oplus\widetilde{\pmb{\Xi}}\mp}=\frac{Cov\left(r,f_{\widetilde{\pmb{\mathscr{R}}}\oplus\widetilde{\pmb{\Xi}}\mp}\right)}{\sigma_{r}\sigma_{f_{\widetilde{\pmb{\Xi}}\oplus\widetilde{\Xi}}\mp}}=\frac{\sum_{j}^{k}w_{j}*cov(r,f^{j})}{\sigma_{r}\sigma_{f_{\widetilde{\pmb{\Xi}}\oplus\widetilde{\Xi}\mp}}}=\frac{\sum_{j}^{k}w_{j}*\frac{cov(r,f^{j})}{\sigma_{r}*\sigma_{f_{j}}}}{\sigma_{f_{\widetilde{\pmb{\Xi}}\oplus\widetilde{\Xi}\mp}}}}}\\{{\displaystyle\qquad\sum_{j}^{k}w_{j}*\frac{cov(r,f^{j})}{\sigma_{r}*\sigma_{f_{j}}}}{\displaystyle=\frac{\sum_{j}^{k}w_{j}*\sigma_{f_{j}}}{\sum_{i,j}w_{i}*w_{j}*\sigma_{ij}}}=\frac{\sum_{j}^{k}w_{j}*IC_{j}}{\sum_{i,j}w_{i}*w_{j}*\sigma_{ij}}=\frac{w^{\prime}IC}{w^{\prime}\Sigma w}}\end{array}
+\begin{aligned}&IC_{宴合因子}=\frac{Cov\left(r,f_{宴合因子}\right)}{\sigma_{r}\sigma_{f_{宴合因子}}}=\frac{\sum_{j}^{k}w_{j}*cov\left(r,f^{j}\right)}{\sigma_{r}\sigma_{f_{宴合因子}}}=\frac{\sum_{j}^{k}w_{j}*\frac{cov\left(r,f^{j}\right)}{\sigma_{r}*\sigma_{f_{j}}}}{\sigma_{f_{宴合因子}}}\\&\\&IC_{宴合因子}=\frac{\sum_{j}^{k}w_{j}*\frac{cov\left(r,f^{j}\right)}{\sigma_{r}*\sigma_{f_{j}}}}{\sum_{i,j}w_{i}*w_{j}*\sigma_{ij}}=\frac{\sum_{j}^{k}w_{j}*IC_{i}}{\sum_{i,j}w_{i}*w_{j}*\sigma_{ij}}=\frac{w^{\prime}IC}{w^{\prime}\Sigma w}\\\end{aligned}
 $$
 
 其中，w为因子权重向量，IC 为因子 IC向量，Σ为因子值截面协方差矩阵。基于上式，复合因子的单期 IC实际取决于各成分因子 IC、因子截面值的协方差以及各因子的权重。当然，在多因子模型中，投资者最终关注的不仅仅是复合因子的单期 IC还有复合因子在多期上的 IR，
 
 $$
-IR_{\cong\cong\varXi\mp}=\frac{mean(IC_{\lessgtr\ominus\boxplus\mp})}{std(IC_{\lessgtr\ominus\boxplus\mp})}
+IR_{复合因子}=\frac{mean(IC_{复合因子})}{std(IC_{复合因子})}
 $$
 
 若因子截面值的协方差在不同时点保持不变，则可将复合因子的 IC 的表达式进行进一步的简化，（其中，τ为常数）
 
 $$
-lC_{\lessgtr\lessgtr\boxplus\mp}=\frac{w^{\prime}IC}{w^{\prime}\Sigma w}={\tau w^{\prime}IC}
+IC_{复合因子}=\frac{w'IC}{w'\Sigma w}=\tau w'IC
 $$
 
 对于复合因子的 IR 则有：
 
 $$
-IR_{\widetilde{\pmb{\mathscr{E}}}\widetilde{\pmb{\Xi}}\widetilde{\pmb{\Xi}}}=\frac{mean(IC_{\widetilde{\pmb{\mathscr{E}}}\widetilde{\pmb{\mathscr{E}}}\widetilde{\pmb{\Xi}}})}{std(IC_{\widetilde{\pmb{\mathscr{E}}}\widetilde{\pmb{\mathscr{E}}}\widetilde{\pmb{\Xi}}})}=\frac{\tau*w^{\prime}mean(IC)}{\tau*std(w^{\prime}IC)}=\frac{w^{\prime}\overline{{IC}}}{\sqrt{w^{\prime}\Sigma_{IC}w}}
+IR_{复合因子}=\frac{mean(IC_{复合因子})}{std(IC_{复合因子})}=\frac{\tau*w'mean(IC)}{\tau*std(w'IC)}=\frac{w'IC}{\sqrt{w'\Sigma_{IC}w}}
 $$
 
 其中， $\overline{{IC}}$ 为各选股因子 IC的均值，而 $\Sigma_{IC}$ 为选股因子的 IC协方差矩阵。在假定因子界面值协方差矩阵恒定的情况下，复合因子的 IR最终取决于各因子的 IC、因子 IC 的协方差以及因子的权重共同决定。所以，在多因子框架下，任意因子收益的转化取决于其因子本身的 IC、与其他因子的协方差以及因子的权重。通过寻找最大化复合因子 IR 的因子权重 w，我们可最大化地利用因子的选股能力。
@@ -212,7 +212,7 @@ $$
 f_{i}=of_{1}+of_{2}+\cdots+of_{k}
 $$
 
-其中， $of_{1}\ldots of_{k}$ 为现有的正交因子；
+其中， $of_{\mathtt{i}}\dots of_{k}$ 为现有的正交因子；
 
 3） 将该因子加入现有的正交因子集合中去。
 
@@ -257,7 +257,7 @@ $$
 而在多因的情况下，因子收益的转化相对较为复杂，因此本文引入了 ICIR 的分析框架。在使用正交因子时，可将综合打分的多因子模型看做是一个复合因子的选股系统，而复合因子的 IR可表述为：
 
 $$
-IR_{\approx\approx\equiv\equiv}=\frac{w^{\prime}\overline{{IC}}}{\sqrt{w^{\prime}\Sigma_{IC}w}}
+IR_{复合因子}=\frac{w'\overline{IC}}{\sqrt{w'\Sigma_{IC}w}}
 $$
 
 基于上述公式，可以发现在多因子选股模型中，因子收益的转化取决于其本身的选股能力（IC）、与其他选股因子的协方差以及因子的权重。另外，通过正交的处理也可以极好地过滤合成型的选股因子。

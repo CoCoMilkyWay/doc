@@ -64,36 +64,36 @@ wangxingxing@orientsec.com.cn
 maximize
 
 $$
-x^{T}r-c^{T}|w-w_{0}|-\lambda x^{T}\Sigma x\quad\quad\forall\Sigma\subsetneqq\overline{{\uparrow}}\overline{{\uparrow}}\overline{{\Sigma}}\overline{{\downarrow}}\overline{{\Sigma}}\overline{{\downarrow}}
+\boldsymbol{x}^{T}\boldsymbol{r}-\boldsymbol{c}^{T}|\boldsymbol{w}-\boldsymbol{w}_{0}|-\lambda\boldsymbol{x}^{T}\boldsymbol{\Sigma}\boldsymbol{x}
 $$
 
 subj ct to
 
 $$
-\pmb{w}=\pmb{w}^{b}+\pmb{x}\qquad\pounds\llap/\lVert\lVert\lVert\pmb{\equiv}\pmb{\chi}\rVert_{\pmb{\mathcal{\bar{A}}}}
+\boldsymbol{w}=\boldsymbol{w}^{b}+\boldsymbol{x}\quad 权重关系
 $$
 
 $$
-x^{T}\Sigma x\leq\sigma^{2}\quad{\underset{\operatorname{\mathbb{L}}}{\operatorname{\mathbb{Q}}}}{\underset{\operatorname{\mathbb{L}}}{\operatorname{\mathbb{Q}}}}{\underset{\operatorname{\mathbb{L}}}{\operatorname{\mathbb{Q}}}}{\big)}{\underset{\operatorname{\mathbb{L}}}{\operatorname{\mathbb{Q}}}}\quad{\overset{\partial}{\geq}}
+\boldsymbol{x}^{T}\boldsymbol{\Sigma}\boldsymbol{x}\leq\sigma^{2}\quad 跟踪误差
 $$
 
 $$
-\begin{array}{rl}{||w-w_{0}||\leq\delta}&{{}\ddag{\underline{{\mu}}}\mp{\underline{{\mu}}}\VDash}\end{array}
+||\boldsymbol{w}-\boldsymbol{w}_{0}||\leq\delta\quad 换手约束
 $$
 
 $$
-w_{min}\leq w\leq w_{max}\quad\mathrm{\#\mathbb{Z}\mathbb{E}\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{R}\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\#\mathbb{Z}\mathrm{\mu\mathbb{Z}\mathrm}}}}}}}}}}}}}}}}}
+w_{min}\leq w\leq w_{max}\quad 权重上下限
 $$
 
 $$
-\pmb{f}_{min}\pmb{\Sigma}\pmb{X}_{f}^{T}\pmb{x}\leq\pmb{f}_{max}\quad\forall\forall b\pmb{\Sigma}|\pmb{\Sigma}|\mp\mpb{\Sigma}\equiv c
+\boldsymbol{f}_{min}\leq\boldsymbol{X}_{f}^{T}\boldsymbol{x}\leq\boldsymbol{f}_{max}
 $$
 
 $$
-\begin{array}{rl}{\mathbf{1}^{T}(\boldsymbol{w}>\mathbf{0})\le n_{max}}&{{}\mathbb{H}_{\times}^{\underline{{\pi}}}\underline{{\overline{{\operatorname*{m}}}}}\underline{{\hat{w}}}\chi\equiv\underline{{\zeta}}\underline{{\zeta}}\mathbb{1}\overline{{\jmath}}}\end{array}
+\mathbf{1}^{T}(w>0)\leq n_{max}\quad 股票数量约束
 $$
 
-上述优化问题是指数增强的组合优化框架，其中 ，w， ${\pmb w}_{\mathbf0}$ $w^{b}$ 分别是样本空间中各股票的目标主动权重向量、目标绝对权重向量、初始权重向量和基准组合的权重向量，当 ${\pmb w}^{b}={\pmb0}$ 且组合国家因子（country factor）暴露等于 1 时，指数增强组合的优化框架退化为一般组合的优化框架。
+上述优化问题是指数增强的组合优化框架，其中 ，w， $\boldsymbol{w_{0}}$ $w^{b}$ 分别是样本空间中各股票的目标主动权重向量、目标绝对权重向量、初始权重向量和基准组合的权重向量，当 $\boldsymbol{w}^{b}=\mathbf{0}$ 且组合国家因子（country factor）暴露等于 1 时，指数增强组合的优化框架退化为一般组合的优化框架。
 
 上述组合优化涉及到四个模块，alpha模型、风险模型、交易成本模型和其他组合约束部分，其中，alpha 模型在组合优化中表现为r，r表示预期收益率或者 alpha 的预测值，风险模型表现为股票的协方差矩阵预测Σ，交易成本模型影响交易成本惩罚项和换手约束的设定。关于组合优化中各个参数的设定我们将逐一讨论。
 
@@ -101,16 +101,16 @@ $$
 
 交易成本惩罚项和换手约束的设臵和股票交易成本的估计有关，我们在前期报告《资金规模对策略收益的影响》探讨了交易成本的估计问题，构建了幂指数模型来解释股票的冲击成本，为简化我们问题，我们以线性交易成本模型为例介绍交易成本惩罚和换手约束的设臵问题。
 
-关于带交易成本的组合优化问题，Zhou（2014）在《Active Equity Management》中有过简单探讨。假设各个股票的交易成本与权重变化成正比例关系，即由初始权重 ${\bf{\sigma}}_{w_{0}}$ 到目标权重w的调仓过程中交易成本为 ${\pmb{C}}^{T}|{\pmb{w}}-{\pmb{w}}_{0}|$ ，考虑交易成本后，投资者很容易直观的从组合优化目标函数的预期收益项直接减去交易成本（如下），因为交易成本直接损失组合的收益。
+关于带交易成本的组合优化问题，Zhou（2014）在《Active Equity Management》中有过简单探讨。假设各个股票的交易成本与权重变化成正比例关系，即由初始权重 $\mathbf{\nabla}_{\mathbf{\nabla}}\mathbf{w_{0}}$ 到目标权重w的调仓过程中交易成本为 $C^{T}|\boldsymbol{w}-\boldsymbol{w}_{0}|$ ，考虑交易成本后，投资者很容易直观的从组合优化目标函数的预期收益项直接减去交易成本（如下），因为交易成本直接损失组合的收益。
 
 $$
-x^{T}r-\lambda x^{T}\Sigma xx^{T}r-C^{T}|w-w_{0}|-\lambda x^{T}\Sigma x
+\pmb{x}^{T}\pmb{r}-\lambda\pmb{x}^{T}\pmb{\Sigma}\pmb{x}\rightarrow\pmb{x}^{T}\pmb{r}-\pmb{C}^{T}|\pmb{w}-\pmb{w}_{0}|-\lambda\pmb{x}^{T}\pmb{\Sigma}\pmb{x}
 $$
 
 但这种做法忽视了组合调仓的长期收益。股票的交易成本属于一次性成本，调仓之后就不存在了，而调仓之后的股票除了在当期能够带来收益，后期仍然会带来收益，而我们的组合优化只考虑了当期收益率。有一个解决方案是采用多期优化模型（Multi-Period Portfolio Optimization），但多期优化模型过于复杂，目前仅存于理论讨论阶段，实际使用起来比较困难。另外一种经验的方法是在交易成本惩罚项乘以一个 0到 1间的惩罚系数 ，以降低交易成本的惩罚。
 
 $$
-x^{T}r-\lambda x^{T}\Sigma xx^{T}r-\mathbf{c}^{T}|w-w_{0}|-\lambda x^{T}\Sigma x,c=\rho\cdot C,\mathbf{0}\leq\rho\leq\mathbf{1}
+\boldsymbol{x}^{T}\boldsymbol{r}-\lambda\boldsymbol{x}^{T}\Sigma\boldsymbol{x}\rightarrow\boldsymbol{x}^{T}\boldsymbol{r}-\boldsymbol{c}^{T}|\boldsymbol{w}-\boldsymbol{w}_{0}|-\lambda\boldsymbol{x}^{T}\Sigma\boldsymbol{x},\boldsymbol{c}=\boldsymbol{\rho}\cdot\boldsymbol{C},0\leq\boldsymbol{\rho}\leq1
 $$
 
 当 = 0时，优化模型不考虑交易成本，当 = 1时不考虑模型后续收益， 的取值跟模型考察的时间尺度有关（日度、周度、月度、季度等），时间尺度越长， 的取值也应该越大，另外 与alpha模型的衰减也有关，衰减比较快的 alpha模型后续收益率较低， 应该取值更高，具体 应该取多少没有解析表达式，可以通过对组合历史表现的回测确定。我们简单测算了月度调仓的全市场增强沪深 300和中证 500组合随着 的不同取值的业绩的变化，模型采用的 alpha模型和组合优化的相关参数见附录， 沪深 300 增强 lambda 取 20，中证 500 增强 lambda 取 15，股票数量不做约束，假设交易成本固定为单边 3‰，回测区间为 20101231-20180214，结果如下。
@@ -134,7 +134,7 @@ $$
 风险厌恶系数反应了投资经理对组合风险的忍受程度，风险厌恶系数越高，得到的组合越保守，跟踪误差越小。在不存在约束的理想情况下，可以通过下式估计，通常情况下指数增强的信息
 
 $$
-IR\cdot\sigma_{p}-\lambda\sigma_{p}^{2}\enspace\longrightarrow\enspace\lambda=IR/\big(2\sigma_{p}\big)
+IR\cdot\sigma_{p}-\lambda\sigma_{p}^{2}\longrightarrow\lambda=IR/\big(2\sigma_{p}\big)
 $$
 
 比在 2-3之间，那么要求 5%的跟踪误差意味着 lambda取值在 20-30区间，但上式的结果仅限于无约束的理想情形，实际构建组合时会有一些风格因子暴露的约束，实际 lambda的取值应该低于理想值，具体取值可以根据组合历史回测确定，我们简单测试了不同 lambda 取值下全市场增强沪深 300和中证 500两个组合的表现，回测区间为 20101231-20180214，结果如图 2所示。
@@ -240,14 +240,14 @@ $$
 
 ## 二、组合优化的计算性能
 
-第一章中的一般优化问题随着不同参数或约束的组合将退化成不同的优化问题，如果存在股票数量约束则是一个混合整形优化（MIP, Mixed Integer Programming）问题，否则是一个凸优化（CO, Convex Optimization）问题，如果约束条件没有二次项（即跟踪误差约束），则原问题是一个二次优化（QP, Quadratic Problems）问题，否则是个二阶锥规划（SOCP, Second-Order ConeProgramming）问题，当然，二次优化 $\mathsf{QP}$ 也可以通过引入辅助变量的方法转换为二阶锥规划 SOCP问题，但是对于大规模优化问题， $\mathsf{QP}$ 有更高效的数值算法。关于各种优化问题的数值算法我们在前期报告《组合优化是与非》中有过简单介绍，对于 $\mathsf{QP}$ 和 ${\tt SOCP}$ 都有比较高效的内点解算法，混合整形优化 MIP 可以通过”Branch-and-Bound”方法求解。
+第一章中的一般优化问题随着不同参数或约束的组合将退化成不同的优化问题，如果存在股票数量约束则是一个混合整形优化（MIP, Mixed Integer Programming）问题，否则是一个凸优化（CO, Convex Optimization）问题，如果约束条件没有二次项（即跟踪误差约束），则原问题是一个二次优化（QP, Quadratic Problems）问题，否则是个二阶锥规划（SOCP, Second-Order ConeProgramming）问题，当然，二次优化 $\mathbf{Q}\mathbf{P}$ 也可以通过引入辅助变量的方法转换为二阶锥规划 SOCP问题，但是对于大规模优化问题， $\mathbf{Q}\mathbf{P}$ 有更高效的数值算法。关于各种优化问题的数值算法我们在前期报告《组合优化是与非》中有过简单介绍，对于 $\mathbf{Q}\mathbf{P}$ 和 $\mathsf{sOCP}$ 都有比较高效的内点解算法，混合整形优化 MIP 可以通过”Branch-and-Bound”方法求解。
 
 ## 股票协方差结构的影响
 
-不同算法的计算复杂度和收敛速度差异很大，合理的算法实现对计算速度影响很大。但无论哪一种算法都避免不了对原始目标函数和约束条件的反复迭代，因此组合优化中的目标函数和约束的计算效率也尤其重要。组合优化的目标函数和不等于约束大多都是简单的一维向量乘法，计算复杂度为O n ，其中 n 为股票数量，计算复杂度较高的为组合方差的计算 $\mathbf{w}^{\mathrm{T}}\cdot\boldsymbol{\Sigma}\cdot\mathbf{w}$ ，计算复杂度为$0(n^{2})$ ，在结构化因子模型的假设下 $\Sigma=\mathrm{X_{f}.F\cdot X_{f}^{T}+D}$ ，组合方差的计算可以分为两步进行，首先计算组合的风险因子暴露 $\mathrm{f}=\mathrm{X}_{\mathrm{f}}^{\mathrm{T}}\cdot\mathrm{w}$ ，计算复杂度为O nk ，k 为风险因子数量，其次，分别组合的因子风险部分 $\cdot\mathbf{f}^{\mathrm{T}}$ 和残差风险部分 $\mathbf{\nabla}\cdot\mathbf{w}^{\mathrm{T}}\cdot\mathbf{D}\cdot\mathbf{w}$ ，前者计算复杂度为O 2 ，后者由于 是对角阵，所以计算复杂度为O n ，综上分析，在引入结构化风险模型之后，组合风险的计算复杂将为$0(\mathrm{nk})+0(k^{2})+0(n)=0(\mathrm{nk})$ ，速度提升 $\mathsf{n}/\mathsf{k}$ ，全市场三千多只股票优化时速度提升近 2 个数量级，我们利用 python 的 numpy 进行矩阵运算，直接根据股票协方差矩阵计算分析和根据结构化因子分布计算两者分别用时 6.45ms 和 43.9us（n=3438，k=40，Intel i5-2400 CPU 3.10GHz），和理论相差倍数接近。
+不同算法的计算复杂度和收敛速度差异很大，合理的算法实现对计算速度影响很大。但无论哪一种算法都避免不了对原始目标函数和约束条件的反复迭代，因此组合优化中的目标函数和约束的计算效率也尤其重要。组合优化的目标函数和不等于约束大多都是简单的一维向量乘法，计算复杂度为O n ，其中 n 为股票数量，计算复杂度较高的为组合方差的计算 $\mathbf{W}^{\mathrm{T}}\cdot\Sigma\cdot\mathbf{w}$ ，计算复杂度为$0(n^{2})$ ，在结构化因子模型的假设下 $\Sigma=\mathrm{X_f}.\mathrm{F}\cdot\mathrm{X_f^T}+\mathrm{D}$ ，组合方差的计算可以分为两步进行，首先计算组合的风险因子暴露 $\mathbf{f}=\mathbf{X}_{\mathrm{f}}^{\mathrm{T}}\cdot\mathbf{w}$ ，计算复杂度为O nk ，k 为风险因子数量，其次，分别组合的因子风险部分 $\mathrm{{\bf\cdot}f^{T}}$ 和残差风险部分 $\mathbf{\cdot w^{T}\cdot D\cdot w}$ ，前者计算复杂度为O 2 ，后者由于 是对角阵，所以计算复杂度为O n ，综上分析，在引入结构化风险模型之后，组合风险的计算复杂将为$0(\mathrm{nk})+0(k^{2})+0(n)=0(\mathrm{nk})$ ，速度提升 $\mathsf{n/k}$ ，全市场三千多只股票优化时速度提升近 2 个数量级，我们利用 python 的 numpy 进行矩阵运算，直接根据股票协方差矩阵计算分析和根据结构化因子分布计算两者分别用时 6.45ms 和 43.9us（n=3438，k=40，Intel i5-2400 CPU 3.10GHz），和理论相差倍数接近。
 
 $$
-\begin{array}{rl}{risk=w^{T}\cdot\Sigma\cdot\mathbf{w}}&{\xrightarrow{\Sigma=X_{f}.F\cdot X_{f}^{T}+D}\quad\left\{\begin{array}{ll}{\begin{array}{rl}{f=X_{f}^{T}\cdot w}&{\mathrm{~i~f~}}\\{risk=f^{T}\cdot F\cdot f+w^{T}\cdot\mathbb{D}\cdot\mathbf{w}}&{\mathrm{~i~f~}}\end{array}}\end{array}\right.}\end{array}
+risk=w^{T}\cdot\Sigma\cdot\mathsf{w}\quad\xrightarrow{\Sigma=X_{f}.F\cdot X_{f}^{T}+D}\quad\left\{\begin{aligned}f&=X_{f}^{T}\cdot w\\risk&=f^{T}\cdot F\cdot f+w^{T}\cdot\mathsf{D}\cdot\mathsf{w}\end{aligned}\right.
 $$
 
 我们利用借助 python 的 cvxpy 调用了 ECOS 和 SCS 两个开源优化器测算了两种不同的协方差矩阵矩阵传递方式的性能差异，分别测算了如下 3个组合优化问题：
@@ -255,24 +255,24 @@ $$
 maximize
 
 $$
-x^{T}r-c|w-w_{0}|-\lambda x^{T}\Sigma x
+\boldsymbol{x}^{T}\boldsymbol{r}-c|\boldsymbol{w}-\boldsymbol{w}_{0}|-\lambda\boldsymbol{x}^{T}\Sigma\boldsymbol{x}
 $$
 
 subj ct to
 
 $$
-\begin{array}{rl}&{w=w^{b}+x\quad\quad\ldots\left(\mathrm{c1}\right)}\\&{\quad\quad x^{T}\Sigma x\leq\sigma^{2}\quad\ldots\ldots\left(\mathrm{c2}\right)}\\&{\quad\quad\left|\left|w-w_{0}\right|\right|\leq\delta\quad\ldots\ldots\left(\mathrm{c3}\right)}\\&{\quad w_{min}\leq w\leq w_{max}\quad\ldots\ldots\left(\mathrm{c4}\right)}\\&{\quad\quad f_{min}\leq X_{f}^{T}x\leq f_{max}\quad\ldots\ldots\left(\mathrm{c5}\right)}\end{array}
+\begin{aligned}\boldsymbol{w}&=\boldsymbol{w}^b+\boldsymbol{x}\quad\ldots\ldots(\mathsf{c}1)\\\boldsymbol{x}^T\boldsymbol{\Sigma}\boldsymbol{x}&\leq\sigma^2\quad\ldots\ldots(\mathsf{c}2)\\||\boldsymbol{w}-\boldsymbol{w}_0||&\leq\delta\quad\ldots\ldots(\mathsf{c}3)\\\boldsymbol{w}_{min}&\leq\boldsymbol{w}\leq\boldsymbol{w}_{max}\quad\ldots\ldots(\mathsf{c}4)\\\boldsymbol{f}_{min}&\leq\boldsymbol{X}_f^T\boldsymbol{x}\leq\boldsymbol{f}_{max}\quad\ldots\ldots(\mathsf{c}5)\end{aligned}
 $$
 
-P1: 取消跟踪误差约束 $\mathtt{c2}$ 、取消换手约束 $^{\mathtt{c3}}$ ，换手惩罚项 $c{=}0$ ，风险厌恶系数 $\lambda{=}15$
+P1: 取消跟踪误差约束 $c2.$ 、取消换手约束 $c3$ ，换手惩罚项 $c{=}0$ ，风险厌恶系数 $\lambda{=}15$
 
 P2: 取消换手约束 c3，换手惩罚项c=0，风险厌恶系数λ=0，
 
-P3: 取消跟踪误差约束 c2、取消换手约束 c3，换手惩罚项 $c{=}0.03^{\star}0.3.$ , 风险厌恶系数 $\lambda{=}15$
+P3: 取消跟踪误差约束 c2、取消换手约束 c3，换手惩罚项 $c{=}0.03^{\star}0.3,$ , 风险厌恶系数 $\lambda{=}15$
 
-P4: 换手惩罚项c=0，风险厌恶系数λ=0，换手约束δ = ，跟踪误差约束 $\sigma=3\%$
+P4: 换手惩罚项c=0，风险厌恶系数λ=0，换手约束δ = ，跟踪误差约束 $\left(\sigma=3\%\right.$
 
-对某一期全市场增强沪深 300（n=3438，k=40）的结果如下（T 表示直接传递 $\mathsf{n}^{\star}\mathsf{n}$ 的协方差矩阵，S 表示直接传入协方差矩阵的结构，Intel i5-2400 CPU 3.10GHz，默认精度）：
+对某一期全市场增强沪深 300（n=3438，k=40）的结果如下（T 表示直接传递 ${\sf n}^{*}{\sf n}$ 的协方差矩阵，S 表示直接传入协方差矩阵的结构，Intel i5-2400 CPU 3.10GHz，默认精度）：
 
 图 6：不同协方差传递方式的优化时间（秒）
 
@@ -284,14 +284,14 @@ P4: 换手惩罚项c=0，风险厌恶系数λ=0，换手约束δ = ，跟踪误�
 其中，T 表示直接传入 n*n 的协方差矩阵，S 表示直接传入协方差矩阵的结构
 数据来源：东方证券研究所
 
-在此我们先对 ECOS 和 SCS 做简单介绍，ECOS（Embedded Conic Solver）定位嵌入式的凸优化器，采用内点法求解，单线程计算、由于定位嵌入式所以没有采用较占空间的 Intel MKL 进行矩阵运算，另外对于二次优化 QP，ECOS没有专门实现其快速收敛的算法，而是将 $\mathsf{QP}$ 问题转换为 SOCP 问题求解。SCS (Splitting Conic Solver)是大规模凸优化设计的开源凸优化器，该优化器最大的特点是的将原始问题分裂成若干子块，然后并行优化。用 Python解凸优化问题还有一个使用较多的开源优化器 CVXOPT，计算性能和稳定性都较高，针对二次优化 $\mathsf{QP}$ 有专门的算法实现，但我们没有找到比较合适的直接传递协方差结构的方法，故我们没有做比较。
+在此我们先对 ECOS 和 SCS 做简单介绍，ECOS（Embedded Conic Solver）定位嵌入式的凸优化器，采用内点法求解，单线程计算、由于定位嵌入式所以没有采用较占空间的 Intel MKL 进行矩阵运算，另外对于二次优化 QP，ECOS没有专门实现其快速收敛的算法，而是将 $\mathbf{Q}\mathbf{P}$ 问题转换为 SOCP 问题求解。SCS (Splitting Conic Solver)是大规模凸优化设计的开源凸优化器，该优化器最大的特点是的将原始问题分裂成若干子块，然后并行优化。用 Python解凸优化问题还有一个使用较多的开源优化器 CVXOPT，计算性能和稳定性都较高，针对二次优化 $\mathbf{Q}\mathbf{P}$ 有专门的算法实现，但我们没有找到比较合适的直接传递协方差结构的方法，故我们没有做比较。
 
-根据以上的测试结果，我们惊讶的发现，通过传入协方差的结构，ECOS和 SCS均有十分显著的优化性能提升，ECOS 大约可以提升 3个数量级，而 SCS 大约可以提升 2个数量级。通过协方差计算复杂度的分析，协方差计算的性能提升仅有 2 个数量级，因此我们估计在协方差传递方式发生变化后 ECOS 自身算法的复杂度也所降低。对比 ECOS 和 SCS 性能，我们发现在协方差结构后以上 4 个优化问题，ECOS 的求解速度更快，而且 ECOS 的计算精度更高，在采用结构化模型的条件我们更加建议采用 ECOS 求解组合优化。需要提醒的是，如果股票协方差矩阵没有做因子化分解，ECOS 的计算效率较低，对于 3000多只股票的 QP和 SOCP大概都需要 20分钟左右（Intel i5-2400 CPU 3.10GHz），而同样的情况下 python 的 CVXOPT 求解 $\mathsf{QP}$ 和 SOCP 大概只需要 30秒和 7分钟。
+根据以上的测试结果，我们惊讶的发现，通过传入协方差的结构，ECOS和 SCS均有十分显著的优化性能提升，ECOS 大约可以提升 3个数量级，而 SCS 大约可以提升 2个数量级。通过协方差计算复杂度的分析，协方差计算的性能提升仅有 2 个数量级，因此我们估计在协方差传递方式发生变化后 ECOS 自身算法的复杂度也所降低。对比 ECOS 和 SCS 性能，我们发现在协方差结构后以上 4 个优化问题，ECOS 的求解速度更快，而且 ECOS 的计算精度更高，在采用结构化模型的条件我们更加建议采用 ECOS 求解组合优化。需要提醒的是，如果股票协方差矩阵没有做因子化分解，ECOS 的计算效率较低，对于 3000多只股票的 QP和 SOCP大概都需要 20分钟左右（Intel i5-2400 CPU 3.10GHz），而同样的情况下 python 的 CVXOPT 求解 $\mathbf{Q}\mathbf{P}$ 和 SOCP 大概只需要 30秒和 7分钟。
 
 在 ECOS 的技术论文（Domahidi，2013）中，作者也测试了不同优化器对单线程求解如下简单组合优化的速度，
 
 $$
-\begin{array}{rl}{max}&{\mu^{T}x-\gamma(x^{T}\Sigma x),~\Sigma=FF^{T}+D}\\&{}\\{max}&{\mu^{T}x-\gamma(x^{T}\Sigma x)}\end{array}
+\begin{aligned}max\quad&\mu^{T}x-\gamma(x^{T}\Sigma x),\ \Sigma=FF^{T}+D\\&max\ \mu^{T}x-\gamma(x^{T}\Sigma x)\end{aligned}
 $$
 
 对比不同优化器的求解速度，对于股票数量低于 4000 的组合优化问题，ECOS 的单线程优化速度并不比商用优化器 MOSEK 和 Gurobi要慢很多，MOSEK 和 Gurobi的优点在于其实现了优化的并行算法，通过并行可能进一步大幅提高计算性能，而 ECOS 并没有并行的实现。
@@ -336,42 +336,42 @@ Fig. 1. Timing results for portfolio problem (17) on a MacBook Pro with Intel Co
 对于股票数量约束，可以通过引入布尔变量的方法转为为混合整型优化（MIP, Mixed IntegerProgramming），更准确的说是混合布尔型凸优化（Mixed Boolean-convex problem），具体方法如下式所示，我们在前期报告《组合优化是与非》中也有详细说明，
 
 $$
-{\bf1}^{T}(w>0)\leq n_{max}\ \longrightarrow\ 0\leq w\leq\eta,\eta\in Bool,{\bf1}^{T}(\eta>0)\leq n_{max}
+\mathbf{1}^{T}(\pmb{w}>\mathbf{0})\leq n_{max}\longrightarrow0\leq\pmb{w}\leq\pmb{\eta},\pmb{\eta}\in Bool,\mathbf{1}^{T}(\pmb{\eta}>\mathbf{0})\leq n_{max}
 $$
 
 对于混合布尔型凸优化可以采用” Branch-and-Bound”方法求解，BB 方法的核心是可行域的
 
-拆分方法和目标函数最优值  上下限的估计算法 $\big(\ \Phi_{lb},\Phi_{ub}\ \big)$ ，对于下列优化问题
+拆分方法和目标函数最优值  上下限的估计算法 $\left(\Phi_{lb},\Phi_{ub}\right)$ ，对于下列优化问题
 
 $$
-\begin{array}{ll}{minimize}&{\ f_{0}(x,z)}\\{subject\ to}&{\ f_{i}(x,z)\leq0,\qquad i=1,\dots,\mathrm{m}}\end{array}
+\begin{aligned}minimize\quad&f_{0}(x,z)\\subjectto\quad&f_{i}(x,z)\leq0,\quad&i=1,\ldots,\mathbf{m}\end{aligned}
 $$
 
 $$
-z_{j}\in\{0,\ 1\},\ j=1,\ldots,n
+z_{j}\in\{0,1\},j=1{,}...{,}\mathsf{n}
 $$
 
 求解步骤如下：
 
 （1）估算初始可行域 $\mathcal{Q}_{init}$ 内  的下限 $\mathrm{L}_{1}=\Phi_{lb}(\mathcal{Q}_{init})$ 和上限 $\mathrm{U}_{1}=\Phi_{ub}(\mathcal{Q}_{init})$ 如果 $\mathrm{U}_{1}-\mathrm{L}_{1}<\varepsilon$ ，终止计算
 
-（2）将初始可行 $\pm\hat{\boldsymbol{\chi}}Q_{init}$ 拆分为两个可行域 和 ， $\mathcal{Q}_{init}=\mathcal{Q}_{1}\cup\mathcal{Q}_{2}$ 2
+（2）将初始可行 $域Q_{init}$ 拆分为两个可行域 和 ， $\mathcal{Q}_{init}=\mathcal{Q}_{1}\cup\mathcal{Q}_{2}$ 2
 
-（3） 在子可行域中计算该可行域内最优目标函数的的上下限 $\Phi_{lb}(\boldsymbol{Q}_{i})$ $\Phi_{ub}(\mathcal{Q}_{i})$ ，i=1,2
+（3） 在子可行域中计算该可行域内最优目标函数的的上下限 $\Phi_{lb}(Q_{i})$ $\Phi_{ub}(\mathcal{Q}_{i})$ ，i=1,2
 
 （4） 计算全局最优值  的上下限，
 
-下限 $.L_{2}=min\big(\Phi_{lb}(\mathcal{Q}_{1}),\Phi_{lb}(\mathcal{Q}_{2})\big)$
+下限 $L_{2}=min\big(\Phi_{lb}(\mathcal{Q}_{1}),\Phi_{lb}(\mathcal{Q}_{2})\big)$
 
-下限 ${\cal I}_{2}=min\big(\Phi_{ub}(\mathcal{Q}_{1}),\Phi_{ub}(\mathcal{Q}_{2})\big)$
+下限 $_{1}U_{2}=min\big(\Phi_{ub}(\mathcal{Q}_{1}),\Phi_{ub}(\mathcal{Q}_{2})\big)$
 
-如果 $\mathrm{U}_{2}-\mathrm{L}_{2}<\varepsilon$ ，终止计算
+如果 $\mathrm{U}_{2}-\mathrm{L}_{2}\;<\varepsilon$ ，终止计算
 
-如果 $\mathrm{L}_{i}>\mathrm{U}_{1}$ ，舍弃可行域 $\mathcal{Q}_{\mathrm{i}}$
+如果 $\mathrm{{.L}}_{i}>\mathrm{{U}}_{1}$ ，舍弃可行域 $\mathcal{Q}_{\mathrm{i}}$
 
 （5） 拆分 $\cdot\mathcal{Q}_{1}$ 或者 $\mathcal{Q}_{2}$ ，重复步骤（3）和步骤（4）
 
-BB 算法的核心在于目标函数最优值上下限的算法 $\langle\Phi_{lb},\Phi_{ub}\rangle$ ，以及可行域拆分的规则（拆分哪个子可行域，从哪个节点拆分等），目标函数最优值上下限影响算法是否终止的阈值条件，而拆分的规则决定了算法收敛的速度。目标函数最优值的下限可以通过凸松弛（Convex Relaxation），即将布尔型约束 ∈ ，放松至 0 到 1 的连续约束 $0<\mathfrak{n}<1$ ，将原问题转换为非凸问题求解；目标函数上限主要通过对布尔变量取一组特例实现，拆分时一般优先拆分下限最小的子可行域。对于组合优化问题，理论上讲可以为其设计特定的上下限算法和可行域拆分规则，但是需要自己实现一套高效算法，开发难度相对较大。幸运的是 Han Wang2015年在 ECOS 的基础上封装了针对一般混合整形优化问题 MIP 的 Branch-and-Bound 算法，但直接调用 BB 算法求解组合优化问题特别是全市场增强组合的组合优化问题不具有可行性，因为上述优化问题的节点 过多，对于 3000 只股票的全市场优化，上述优化问题 n=3000，在我们的个人电脑上迭代一个小时不一定能找到可行解，更不用说最优解。一个可行的方案就是提前对原始可行域进行限制，以减少算法迭代次数，具体做法如下：
+BB 算法的核心在于目标函数最优值上下限的算法 $\langle\Phi_{lb},\Phi_{ub}\rangle$ ，以及可行域拆分的规则（拆分哪个子可行域，从哪个节点拆分等），目标函数最优值上下限影响算法是否终止的阈值条件，而拆分的规则决定了算法收敛的速度。目标函数最优值的下限可以通过凸松弛（Convex Relaxation），即将布尔型约束 ∈ ，放松至 0 到 1 的连续约束 $0<\eta<1$ ，将原问题转换为非凸问题求解；目标函数上限主要通过对布尔变量取一组特例实现，拆分时一般优先拆分下限最小的子可行域。对于组合优化问题，理论上讲可以为其设计特定的上下限算法和可行域拆分规则，但是需要自己实现一套高效算法，开发难度相对较大。幸运的是 Han Wang2015年在 ECOS 的基础上封装了针对一般混合整形优化问题 MIP 的 Branch-and-Bound 算法，但直接调用 BB 算法求解组合优化问题特别是全市场增强组合的组合优化问题不具有可行性，因为上述优化问题的节点 过多，对于 3000 只股票的全市场优化，上述优化问题 n=3000，在我们的个人电脑上迭代一个小时不一定能找到可行解，更不用说最优解。一个可行的方案就是提前对原始可行域进行限制，以减少算法迭代次数，具体做法如下：
 
 （1） 假设股票数量没有约束，求解组合优化，得到绝对权重向量 $w_{1}$ ，
 
@@ -383,7 +383,7 @@ BB 算法的核心在于目标函数最优值上下限的算法 $\langle\Phi_{lb
 
 （3） 在第（2）步限制后的可行域内运用 BB 算法求解最优权重，设臵最大迭代次数 niters，超过迭代次数返回截止目前的最优解。
 
-通过上述处理，将混合整形优化 MIP 中的布尔型变量数量由样本空间股票总数 n，降低至$n_{1}-n_{2}$ ，通过这种简化处理虽然不一定能得到最优值，但大幅减小计算量。关于其中的两个参数 $\scriptstyle n_{2}$ 和 niters，理论上讲，如果 MIP 能够解出最优解， $n_{2}$ 越小越好，但如果算法达到最大迭代次数提前终止的话， $n_{2}$ 的取值越小越容易提前终止，此时优化的可靠性将降低。对于n 较大的情形，上述优化问题一般都会提前终止，所以我们建议 $n_{2}$ 取值较高，比如的 0.8倍、0.9倍，下文我们测算了$n_{2}$ 取 $\boldsymbol{n_{max}}$ 的 0.7 倍、0.8 倍、0.9 倍，niters=100,1000，3*2 共六种组合下的优化时间和组合表现，沪深 300增强约束股票在 60只以内，中证 500增强约束股票数量在 100只以内。
+通过上述处理，将混合整形优化 MIP 中的布尔型变量数量由样本空间股票总数 n，降低至$n_{1}-n_{2}$ ，通过这种简化处理虽然不一定能得到最优值，但大幅减小计算量。关于其中的两个参数 $n_{2}$ 和 niters，理论上讲，如果 MIP 能够解出最优解， $n_{2}$ 越小越好，但如果算法达到最大迭代次数提前终止的话， $n_{2}$ 的取值越小越容易提前终止，此时优化的可靠性将降低。对于n 较大的情形，上述优化问题一般都会提前终止，所以我们建议 $n_{2}$ 取值较高，比如的 0.8倍、0.9倍，下文我们测算了$n_{2}$ 取 $n_{max}$ 的 0.7 倍、0.8 倍、0.9 倍，niters=100,1000，3*2 共六种组合下的优化时间和组合表现，沪深 300增强约束股票在 60只以内，中证 500增强约束股票数量在 100只以内。
 
 图 10：不同优化参数设置下的 MIP优化性能
 全市场沪深 300增强优化用时（秒）

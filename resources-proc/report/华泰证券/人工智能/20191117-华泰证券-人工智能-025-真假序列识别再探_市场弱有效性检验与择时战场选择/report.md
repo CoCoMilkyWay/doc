@@ -304,13 +304,13 @@ $$
 5. 对特征图 k 各神经元的梯度矩阵求算术平均（Global Average Pooling），得到特征图k 的“重要度”αkc：
 
 $$
-\alpha_{k}^{c}=\frac{1}{Z}\sum_{i}{\sum_{j}{\frac{\partial y^{c}}{\partial A_{ij}^{k}}}}
+\alpha_{k}^{c}=\frac{1}{Z}{\sum_{i}\sum_{j}\frac{\partial y^{c}}{\partial A_{ij}^{k}}}.
 $$
 
 6. 将每张特征图重要度αc和特征图 Ak 相乘，对全部特征图求和，经过 ReLU 非线性函数变换，将小于 0的值设为 0（本质是稀疏化），最终得到 Grad-CAM 图。
 
 $$
-L_{Grad-CAM}^{c}=\mathrm{ReLU}(\sum_{k}\alpha_{k}^{c}A^{k})
+L_{Grad-CAM}^{c}=\operatorname{ReLU}(\sum_{k}\alpha_{k}^{c}A^{k})
 $$
 
 我们仍以华泰金工《人工智能 24：投石问路：技术分析可靠否？》中的例子对 Grad-CAM加以说明。下图展示了一个已经训练完成的图像识别模型，对样例图片进行预测时，图片中各像素对应“猫”分类和“狗”分类的 Grad-CAM 热力图。某个分类下热力图像素点的颜色越偏红色（类似“亮斑”），表明该像素对于该分类的识别越重要；反之颜色越偏蓝色，表明该像素对于该分类的识别越不重要。下图的 Grad-CAM 热力图在猫和狗的对应区域出现“亮斑”，说明图片下部的像素对于猫的识别较为重要，图片上部的像素对于狗的识别较为重要。

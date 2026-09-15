@@ -51,16 +51,16 @@ $$
 ![](images/08514a76f9c48544a603fbd3316c9452b7416f6c91ae7f427dbe3571e71b2624.webp)
 资料来源：招商证券
 
-- 在任意时刻t，预期获利为0的买入价b(t)是做市商以t时刻之前的交易历史和 $S_{t}$ 为条件对资产的期望价值。因此，在第i个交易日内t时刻的买入价为：
+- 在任意时刻t，预期获利为0的买入价b(t)是做市商以t时刻之前的交易历史和 $\cdot S_{t}$ 为条件对资产的期望价值。因此，在第i个交易日内t时刻的买入价为：
 
 $$
-b(t)=\frac{P_{n}(t)\varepsilon V_{i}^{*}+P_{b}(t)(\varepsilon+\mu)\underline{{V_{i}}}+P_{g}(t)\varepsilon\overline{{V}}_{i}}{\varepsilon+P_{b}(t)\mu}
+b(t)=\frac{P_{n}(t)\varepsilon V_{i}^{*}+P_{b}(t)(\varepsilon+\mu)\underline{V_{i}}+P_{g}(t)\varepsilon\overline{V_{i}}}{\varepsilon+P_{b}(t)\mu}
 $$
 
 - 在一系列的假设和推导下，建立似然函数，并用实际观测数据对似然函数中的参数进行估计：
 
 $$
-\mathrm{L}((\mathrm{B},\mathrm{S})|\Theta)=(1-\alpha)*e^{-\varepsilon T}\frac{(\varepsilon T)^{B}}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^{S}}{S!}
+\mathrm{L}((\mathtt{B},\mathtt{S})|\theta)=(1-\alpha)*e^{-\varepsilon T}\frac{(\varepsilon T)^{B}}{B!}e^{-\varepsilon T}\frac{(\varepsilon T)^{S}}{S!}
 $$
 
 $$
@@ -74,13 +74,13 @@ $$
 - 知情交易者到达的概率（PIN）为：
 
 $$
-PIN={\frac{\alpha\mu}{\alpha\mu+2\varepsilon}}
+PIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}
 $$
 
 - 由于PIN方式模型复杂，计算繁琐，在实际操作难度大，因而一直以来都没有被广泛应用。Easley等在2012年又提出了基于量钟的衡量方式，VPIN是PIN的近似计算，但是在形式上简单得多，克服了在交易量很大的市场里估计 PIN 的困难，具备实际操作性，VPIN模型得到广泛使用，用于对市场流动性风险进行预测和预警。
 
 $$
-VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}\approx\frac{1}{N}\sum_{\tau=1}^{N}\lvert V_{\tau}^{S}-V_{\tau}^{B}\rvert/V
+VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}\approx\frac{1}{N}{\sum_{\tau=1}^{N}}|V_{\tau}^{S}-V_{\tau}^{B}|/V
 $$
 
 - 其中：
@@ -89,18 +89,18 @@ $$
 \begin{array}{r}{V_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}Z\left(\frac{P_{i}^{E}-P_{i}^{B}}{\sigma_{\Delta P}}\right)}\end{array}
 $$
 
-“慧博资讯”专业的投资研究大数据分享平 $\begin{array}{rl}&{\underline{\cdot}\underline{J}_{\tau}^{S}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}\left[1-Z\left(\frac{P_{i}^{E}-P_{i}^{B}}{\sigma_{\Delta P}}\right)\right]=V-V_{\tau}^{B}}\end{array}$
+“慧博资讯”专业的投资研究大数据分享平 $\begin{array}{r}{\underset{\tau}{\underbrace{V^{S}}}=\sum_{i=t(\tau-1)+1}^{t(\tau)}V_{i}\left[1-Z\left(\frac{P_{i}^{E}-P_{i}^{B}}{\sigma_{\Delta P}}\right)\right]=V-V_{\tau}^{B}}\end{array}$
 
 ## 指令流毒性（VPIN）的现实含义
 
 $$
-VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}\approx\frac{1}{N}\sum_{\tau=1}^{N}\lvert V_{\tau}^{S}-V_{\tau}^{B}\rvert/V
+VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}\approx\frac{1}{N}{\sum_{\tau=1}^{N}}|V_{\tau}^{S}-V_{\tau}^{B}|/V
 $$
 
 - 其中：
 
 $$
-\begin{array}{r}{V_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}\boxed{V_{i}Z\left(\frac{P_{i}^{E}-P_{i}^{B}}{\sigma_{\Delta P}}\right)}}\end{array}
+\begin{array}{r}{V_{\tau}^{B}=\sum_{i=t(\tau-1)+1}^{t(\tau)}\boxed{V_{i}Z\left(\frac{P_{i}^{E}-P_{i}^{B}}{\sigma_{\Delta P}}\right)}.}\end{array}
 $$
 
 $$
@@ -109,7 +109,7 @@ $$
 
 - 其中t(τ)为第τ个区间内最后的时间间隔， $V_{i}$ 是第τ个区间中第i个时间间隔内的成交量，$P_{i}^{B}$ 和 $P_{i}^{E}$ 分别是第i个时间间隔开始和结束时的最新交易价格， $\sigma_{\Delta P}$ 为不同时间间隔开始到结束时价格变化的标准差，Z是标准正态分布的累积分布函数(CDF)。
 
-- 从直观逻辑来看， $V_{\tau}^{B}$ （买方驱动成交量）和 $V_{\tau}^{S}$ （卖方驱动成交量）其实是单位成交量和价格变动幅度的加权之和，价格波动幅度越大则说明知情交易者存在的可能性就越大。如果在一个时间间隔内价格从 起点到终点没有发生变化，则认为在这个时间间
+- 从直观逻辑来看， $V_{\tau}^{B}$ （买方驱动成交量）和 $V_{\tau}^{s}$ （卖方驱动成交量）其实是单位成交量和价格变动幅度的加权之和，价格波动幅度越大则说明知情交易者存在的可能性就越大。如果在一个时间间隔内价格从 起点到终点没有发生变化，则认为在这个时间间
 隔内买卖双方的市场势力对等。
 
 点击进入hp/wwjbo.com.cn
@@ -133,14 +133,14 @@ $$
 - 数据频率：我们使用样本个股在观测窗口期内的分钟级别数据，计算样本个股的VPIN值。
 
 $$
-VPIN\approx\frac{1}{N}\sum_{\tau=1}^{N}\lvert V_{\tau}^{S}-V_{\tau}^{B}\rvert/V
+VPIN\approx\frac{1}{N}{\sum_{\tau=1}^{N}}|V_{\tau}^{S}-V_{\tau}^{B}|/V.
 $$
 
-- 对于参数V 和N，我们参照Easley, Kiefer & $\bigcirc^{\prime}$ ’hara (2011b)的做法，将V设定为样本期内日均成交量的五十分之一， 单位为股（按单边交易计算），同时取N = 50 。
+- 对于参数V 和N，我们参照Easley, Kiefer & $0^{\prime}$ ’hara (2011b)的做法，将V设定为样本期内日均成交量的五十分之一， 单位为股（按单边交易计算），同时取N = 50 。
 
 - “高频数据，低频信号“，月末交易日取月度均值，作为月频因子暴露度。
 
-- $V_{\tau}^{B}$ （买方驱动成交量）和 $|V_{\tau}^{S}$ （卖方驱动成交量）需要在单个交易量篮子中计算，因而我们要先根据日均成交量的五十分之一来划分交易篮子。
+- $V_{\tau}^{B}$ （买方驱动成交量）和 $|V_{\tau}^{S}|$ （卖方驱动成交量）需要在单个交易量篮子中计算，因而我们要先根据日均成交量的五十分之一来划分交易篮子。
 
 ## VPIN计算方式示意（“篮子”的划分）
 
@@ -292,10 +292,10 @@ VPIN因子与其他因子的的spearman相关系数均值
 - 由于VPIN因子与波动率及流动性因子有较强的相关性，因而VPIN因子的选股能力可能与其他常用因子的选股能力有所重叠，为了验证这一点，我们在每期横截面上对VPIN因子进行因子剥离，看剥离其他因子（标准化）之后的因子是否依然具备选股能力。
 
 $$
-VPIN=\beta_{1}lnCap_{i}+\beta_{2}BP_{i}+\beta_{3}Std20D_{i}+\beta_{4}Turnover20D_{i}
+VPIN=\beta_1lnCap_i+\beta_2BP_i+\beta_3Std20D_i+\beta_4Turnover20D_i
 $$
 
-“慧博资讯”专业的投资研究大数据分享平台 $+\beta_{5}Mom\_{2}0D_{i}+\sum\beta_{n}Industry_{i,n}+\varepsilon_{i}$ 点击进入http/twwjbo.comn.cn
+“慧博资讯”专业的投资研究大数据分享平台 $+\beta_{5}Mom_{-}20D_{i}+\sum\beta_{n}Industry_{i,n}+\varepsilon_{i}$ 点击进入http/twwjbo.comn.cn
 
 ## 剥离相关因子之后依然具备选股能力
 

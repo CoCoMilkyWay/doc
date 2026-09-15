@@ -86,7 +86,7 @@ A 股的 L2 行情数据包括逐笔成交数据、盘口快照数据、委托�
 A 股的交易时间可以划分为开盘集合竞价阶段（9:15—9:25）、盘中连续竞价时间（9:30—11:30，13:00—14:57）和收盘集合竞价时间（14:57—15:00，早期上交所连续竞价至收盘），开盘集合竞价又分为 9:15—9:20 和 9:20—9:25 两个阶段，第一阶段集合竞价接受撤单，第二阶段不接受。开盘集合阶段第一阶段仅模拟撮合价格实际并不成交，因此投资者可以在 9：20 前通过挂单查看撮合价格后撤单的方法用于测试对手盘的挂单价格和委托量，基于这个逻辑，我们认为集合竞价第一阶段的撤单比例蕴含了重要信息。我们定义盘前撤单比例如下：
 
 $$
-\frac{43}{11}\div\frac{1}{11}+\frac{1}{2}(1+1)=\frac{9:201\div2}{9:201\div2}\times1+\frac{1}{11}=\frac{3}{12}(1+1)=\frac{1}{12}(1+1)
+虚肪艘单比例=\frac{9:20肪艘回的买装委托单总量}{9:20肪累+9的买装委托单总量}
 $$
 
 本文主要考察月度频率下的因子表现，取股票在过去 20 个交易日的盘前撤单比例的均值作为 alpha 因子值。从 2013 年以来的数据看，深交所股票 9 点 20 前委托的订单量平均占比仅占 3%，这 3%中平均有 7.33%的订单被撤回。
@@ -132,7 +132,7 @@ $$
 相较于其他交易时段，早盘刚经过一夜的冷静期而且有更多的信息披露，所以早盘的订单相对其他时间段可能更加“理性”，通过分析早盘时间段新增的订单情况，我们可以看出该时间段内不同投资者的买卖方向，进而构建 alpha 因子，当大资金买入时跟进，当大资金卖出时退出。同样的思路，之前部分投资者采用大单主动买入占比情况去刻画这一特征，但由于任何一笔交易都有买卖双方，交易的主动买卖方向划分有一定分歧，本文基于有确定买卖方向订单数据构建了“早盘买卖单大小比”因子去刻画股票早盘买卖的投资者属性。
 
 $$
-4.\frac{3}{4}\div3\times4-4-1.4=1.14\div5=1.4(1.5)=1.4(1.5)
+孕盘买卖单大小托=\ln\left(\frac{10:30前的买人订单平均委托量}{10:30前的卖出订单平均委托量}\right)
 $$
 
 为了因子的分布更加正态，我们对早盘买卖单大小比进行了对数调整，同时和盘前撤单比例因子类似，我们取过去 20个交易日的早盘买卖单大小比（对数调整）的均值作为 alpha因子值。
@@ -171,16 +171,16 @@ $$
 订单数据包括了投资者愿意在指定价格买入或者卖出特定量股票的信息，订单的价格表示了投资者对股票价值的判断，不同订单价格的分歧程度反应了投资者对股票价值的分歧，在缺乏做空机制的情形下，投资者对股票价值的分歧往往带来股票阶段性高估，股票后期的收益一般相对较差。我们采用如下方法定义订单绝对价格的分歧程度：
 
 $$
-iT\xrightarrow{i>j>i>i}iS+i>\lambda>\lambda>\lambda>\lambda>\lambda>\lambda>\lambda>\lambda>\lambda>\lambda>\lambda>\lambda>
+i丁单加权平均对数价格=\frac{\sum\ln\left(i丁单价格\right)\cdot i丁单变托量}{\sum i丁单变托量}
 $$
 
 $$
-isfabgentofthesectivelectedeaseprocese\sqrt{\frac{\sum\left[ln\left(i\int\iiiint d\varphi(f)/f)ds\right]-i\int\iiiint d\varphi(f)\hat{x}\hat{x}\dot{y}dy\hat{x}\hat{y}dy\right)}{\sum\{i\int\iiiint d\hat{x}\dot{x}\hat{y}dz\hat{x}\hat{y}dz\hat{y}}}\hat{t}\hat{y}dz^{2}\cdot i\int\iiiint d\overrightarrow{x}\hat{y}\hat{z}\hat{y}\hat{z}\hat{z}\hat{z}
+\sqrt{\frac{\sum\left[ln\left(i丁单价格\right)-i丁单价格平均对数价格\right]^{2}\cdot i丁单价格量}{\sum i丁单价格量}}
 $$
 
 基于上述定义方法，我们可以得到指定股票在特定交易日的订单绝对价格分歧程度，在月度因子检验时我们同样取 20个交易日的平均值。由于不同股票的价格绝对大小不可比，所以我们在计算价格分歧程度时取订单价格的对数，相当于度量的是各订单价格相对于同一个基准价格对数收益率的分歧程度，因为将上述公式中的ln (订单价格)替换为 ln (订单价格) −ln (基准价格)完全不影响因子的取值。
 
-由于投资者在委托买卖订单时一般会受到当前价格影响，所以我们也计算了订单相对最近成交价格对数偏差的分歧程度—订单相对价格分歧程度，计算方法将上述订单绝对价格分歧程度计算公式的ln (订单价格)替换为 $ln\left(i74f91\dot{\uparrow}\ddot{\mathcal{B}}\right)-ln\left(i\ddot{\mathcal{Z}}i7\dot{\mathcal{Z}}\dot{\mathcal{Z}}\dot{\mathcal{Z}}fEB\dot{\mathcal{I}},\dot{\Xi}f\dot{\mathcal{Z}}f\dot{\mathcal{J}}f\dot{\mathcal{Z}}\dot{\mathcal{Z}}f\dot{\mathcal{J}}f\dot{\mathcal{Z}}\dot{\mathcal{K}}\dot{\mathcal{H}}\dot{\mathcal{H}}\dot{\mathcal{B}}\right)$ 即可。
+由于投资者在委托买卖订单时一般会受到当前价格影响，所以我们也计算了订单相对最近成交价格对数偏差的分歧程度—订单相对价格分歧程度，计算方法将上述订单绝对价格分歧程度计算公式的ln (订单价格)替换为 $ln\left(i丁单价格\right)-ln\left(该i丁单型托的点的最新成交价格\right)$ 即可。
 
 ## 4.2 因子表现
 
@@ -241,7 +241,7 @@ $$
 我们在前期因子选股系列报告《基于量价关系度量股票的买卖压力》中提出了度量股票买卖压力的APB 因子，基于日内数据的 APB因子定义如下：
 
 $$
-APB=ln\left({\frac{twap}{vwap}}\right)
+APB=ln\left(\frac{twap}{vwap}\right)
 $$
 
 APB 因子的核心逻辑在于股票处于相对低位时投资者大量买入会导致成交量在价格低位相对较多，通过 twap 和 vwap 的比值可以刻画成交量在价格上的分布从而度量买卖压力。
@@ -249,7 +249,7 @@ APB 因子的核心逻辑在于股票处于相对低位时投资者大量买入�
 在订单数据可以获取的情况下我们可以通过直接观察买入订单的分布去刻画买卖压力，同样我们认为在股票价格相对低位新增大量买入订单的股票买入压力大，未来表现较好。在因子度量上，我们只需要加 APB 因子分母上的成交量加权价格替换为买单委托量加权的平均价格即可得到订单改进的 APB 因子。
 
 $$
-\frac3\times40=4\times5\times2\times10\times8\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times10\times0\times10\times10\times10\times0\times10\times10\times0\times1
+吴单逻托量加权的平均价格=\frac{\sum 吴人逻托量\cdot 新增法逻托的价格新成交价格}{\sum 吴人逻托量}
 $$
 
 当价格在相对低位涌入大量买入委托时买单委托量加权的平均价格相对 twap 更低，改进后的 APB 因子取值越大，也意味着股票的买入压力大，股价未来表现更好。同样的，在月度因子检验时我们取过去 20天的均值作为因子值。

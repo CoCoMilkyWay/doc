@@ -136,7 +136,7 @@
 2. 过去 n 日的成交量、买一量到买五量，卖一量到卖五量统一进行最大最小值归一，即对每一个交易量数据计算以下公式：
 
 $$
-vol_{t}=\frac{vol_{t}-\operatorname*{min}(volmax_{i})}{\operatorname*{max}(volmax_{i})-\operatorname*{min}(volmax_{i})},i=1,2,\dots n
+vol_{t}=\frac{vol_{t}-\min(volmax_{i})}{\max(volmax_{i})-\min(volmax_{i})},i=1,2,\ldots n
 $$
 
 3. 过去 n 日的1 分钟成交金额单独进行最大最小值归一。
@@ -168,7 +168,7 @@ $$
 沿用我们之前挖掘日频量价数据的框架，我们经过简单的调整 TCN 模型的超参数即可使得其最大回看时间步长大于 240：残差模块个数依旧为 5，膨胀基数为 3，一维卷积核大小为 3，因此根据以下公式，可以算出模型的最大回看时间步长为 485 大于所需要的 240。超出的部分基本不会影响模型最终的收敛情况，我们在上篇报告中有说明 TCN模型回看的时间步长只需要超过数据的时间步长即可。
 
 $$
-\mathrm{L}=1+\sum_{i=0}^{n-1}2(k-1)d^{i}=1+2(k-1){\frac{d^{n}-1}{d-1}}
+\mathbf{L}=1+\sum_{i=0}^{n-1}2(k-1)d^{i}=1+2(k-1)\frac{d^{n}-1}{d-1}
 $$
 
 关于最终模型的输出维度，即所挖因子的个数，我们经过简单的几轮尝试后发现。1 分钟频率的数据和日频数据结果有所不同，直接输出单个因子，并以皮尔逊相关系数的负数为目标函数效果，优于批量输出低相关因子再做合成。
@@ -230,35 +230,35 @@ $$
 ![](images/649ffd7f18b180613c2507c7391992954d2bea14e3fff6b75b1e34a26c05f41e.webp)
 资料来源：长江证券研究所
 
-对于分日多模型而言，目标函数也可以进行不同的尝试，我们首先称每日 TCN 的输出预测值为 $\widehat{Day_{\imath}},i=1,2,3,4,5$ ，其中 $\widehat{\mathsf{I}Day_{5}}$ 代表 T 日的 TCN 输出的预测值；5 个分日预测值再连一层全连接层输出的单个预测值为 $\widehat{y_{funal}}$ ；5 个分日预测值等权合成的单个预测值为 $\widehat{y_{mean}}$ 。下面我们尝试了四种逻辑上较为合理的损失函数：
+对于分日多模型而言，目标函数也可以进行不同的尝试，我们首先称每日 TCN 的输出预测值为 $\widehat{Day_{\iota}},i=1{,}2{,}3{,}4{,}5$ ，其中 $\exists\widehat{Day_{5}}$ 代表 T 日的 TCN 输出的预测值；5 个分日预测值再连一层全连接层输出的单个预测值为 $\widehat{\mathcal{Y}_{flual}}$ ；5 个分日预测值等权合成的单个预测值为 $\widehat{\mathcal{Y}_{mean}}$ 。下面我们尝试了四种逻辑上较为合理的损失函数：
 
-1. 只计算 $\widehat{y_{funal}}$ 与真实值的相关系数：
-
-$$
-\begin{array}{r}{Loss_{1}=-{\mathrm{Corr}}(\widehat{y_{funal}},\mathbf{y})}\end{array}
-$$
-
-2. 只计算 $\widehat{y_{mean}}$ 与真实值的相关系数：
+1. 只计算 $\widehat{\mathcal{Y}_{flual}}$ 与真实值的相关系数：
 
 $$
-\begin{array}{r}{Loss_{2}=-\mathtt{Corr}(\widehat{y_{mean}},\mathbf{y})}\end{array}
+Loss_{1}=-Corr\left(\widehat{y_{final}},y\right)
 $$
 
-3. 5 个分日预测值 $\widehat{\mathbf{D}ay_{l}}$ , i = 1,2,3,4,5与真实值的相关系数：
+2. 只计算 $\widehat{\mathcal{Y}_{mean}}$ 与真实值的相关系数：
 
 $$
-Loss_{3}=-\frac{\sum_{i=1}^{5}\mathrm{Corr}\left(\widehat{Day_{\imath}},\mathbf{y}\right)}{5}
+Loss_{2}=-Corr\left(\widehat{y_{mean}},y\right)
 $$
 
-4. 5 个分日预测值 $\widehat{\lfloor Day_{\iota}}$ , i = 1,2,3,4,5和等权合成预测值 $\widehat{y_{mean}}$ 与真实值的相关系数
+3. 5 个分日预测值 $\widehat{[Day_{l}}$ , i = 1,2,3,4,5与真实值的相关系数：
 
 $$
-Loss_{4}=-\frac{\sum_{i=1}^{5}\mathrm{Corr}\left(\widehat{Day_{\imath}},\mathbf{y}\right)}{5}-\mathrm{Corr}(\widehat{y_{mean}},\mathbf{y})
+Loss_{3}=-\frac{\sum_{i=1}^{5}\operatorname{Corr}\left(\widehat{Day_{i}},\mathbf{y}\right)}{5}
 $$
 
-从表 2 中不难发现，分日多模型加上 $\cdot Loss_{4}$ 的方法所获得的最终预测值在验证集上表现最好，RankIC 为 12.89%。从构造逻辑上来分析， $Loss_{4}$ 相对平等的优化每日的预测值同时考虑他们的等权加权后最终预测值的预测效果。
+4. 5 个分日预测值 $\widehat{|Day_{v}}$ , i = 1,2,3,4,5和等权合成预测值 $\widehat{\mathcal{Y}_{mean}}$ 与真实值的相关系数
 
-通过对比单模型和分日多模型的最终预测值，我们不难发现分日多模型集成的思路有不小的提升，这可能与隔日量价数据信息间断有较大可能性；通过对比 $Loss_{1}$ 和 $|Loss_{2}$ ，我们可以得出结论，让模型自主的学习权重加权合成相比于将每日预测值等权合成效果更好；再结合 $\cdot Loss_{4}$ 表现，我们可以发现将每日的预测值同时纳入到损失函数中一起进行优化，会比只优化任何一种最终合成值有更好的表现。
+$$
+Loss_{4}=-\frac{\sum_{i=1}^{5}\operatorname{Corr}(\widehat{Day_{i}},y)}{5}-\operatorname{Corr}(\widehat{y_{mean}},y)
+$$
+
+从表 2 中不难发现，分日多模型加上 $[Loss_{4}$ 的方法所获得的最终预测值在验证集上表现最好，RankIC 为 12.89%。从构造逻辑上来分析， $Loss_{4}$ 相对平等的优化每日的预测值同时考虑他们的等权加权后最终预测值的预测效果。
+
+通过对比单模型和分日多模型的最终预测值，我们不难发现分日多模型集成的思路有不小的提升，这可能与隔日量价数据信息间断有较大可能性；通过对比 $Loss_{1}$ 和 $|Loss_{2}$ ，我们可以得出结论，让模型自主的学习权重加权合成相比于将每日预测值等权合成效果更好；再结合 $.Loss_{4}$ 表现，我们可以发现将每日的预测值同时纳入到损失函数中一起进行优化，会比只优化任何一种最终合成值有更好的表现。
 
 表 2：不同模型和损失函数在验证集上 RankIC比较
 

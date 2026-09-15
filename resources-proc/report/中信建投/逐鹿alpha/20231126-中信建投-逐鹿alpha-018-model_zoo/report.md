@@ -71,7 +71,7 @@ MLP类： Dlinear， TiDE， TiDGE
 
 因子： alpha360（截面模型1*360， 时序模型6*60）
 
-预测目标： $\mathsf{Close}_{\mathsf{T}+5}/\mathsf{Close}_{\mathsf{T}+1}=1$
+预测目标： $\mathsf{Close_{T+5}/Close_{T+1}-1}$
 
 ## 模型结果
 
@@ -580,7 +580,7 @@ Figure 1: An example of concept drifts on streaming data. Triangle and circle re
 Figure 3: Training data (historical data) and test data (recent unseen data) change over time; the objective of each task is to improve the forecasting performance on test data.
 
 ![](images/d2beb07f69b3b8595b6619925011cd59047c1c93c4511dadfa7d7dd3ca928946.webp)
-Figure 4: The learning process of DDG-DA; DDG-DA $\mathcal{M}_{\Theta}$ learns to guide the training process of forecasting model by generating dataset $D_{resam}^{(t)}(\Theta)$ resampled from $D_{train}^{(t)}$ with probability $q_{train}^{(t)}.q_{train}^{(t)}$ is the resampling probability given by $\mathcal{M}_{\Theta}$ at timestamp t.
+Figure 4: The learning process of DDG-DA; DDG-DA $\mathcal{M}_{\Theta}$ learns to guide the training process of forecasting model by generating dataset $D_{{resam}}^{(t)}(\mathbf{\Theta})$ resampled from $D_{{train}}^{(t)}$ with probability $\tilde{q}_{{train}}^{(t)}.\;q_{{train}}^{(t)}$ is the resampling probability given by $\mathcal{M}_{\Theta}$ at timestamp t.
 
 ## DDG-DA(Linear)
 

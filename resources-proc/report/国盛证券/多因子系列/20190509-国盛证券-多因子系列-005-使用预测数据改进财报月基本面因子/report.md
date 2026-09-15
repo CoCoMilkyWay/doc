@@ -445,7 +445,7 @@
 具体的优化形式为：
 
 $$
-\begin{array}{rl}&{\quad\quad\mathrm{max~}(w-w_{bench})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|}\\&{\mathrm{s.t.}(w^{T}-w_{bench}^{T})X_{Style}\in[down_{-}cons,up_{-}cons]}\\&{\quad\quad(w^{T}-w_{bench}^{T})X_{ind}\in[down_{-}cons,up_{-}cons]}\\&{\quad\quad(w-w_{bench})^{T}(XFX^{T}+\Delta)(w-w_{bench})<\mathrm{target}TE^{2}}\\&{\quad\quad\quad w^{T}\mathbf{1}=total_{-}weight}\\&{\quad\quad\quad0\leq w\leq max_{-}weight}\end{array}
+\begin{aligned}\max&(w-w_{bech})^{T}\alpha-\delta*\mathbf{1}^{T}|w-w_{last}|\\s.t.&(w^{T}-w_{bench}^{T})X_{Style}\in[down\_cons,up\_cons]\\&(w^{T}-w_{bench}^{T})X_{ind}\in[down\_cons,up\_cons]\\&(w-w_{bench})^{T}(XF^{T}+\Delta)(w-w_{bench})<targetTE^{2}\\&w^{T}1=total\_weight\\&0\leq w\leq max\_weight\end{aligned}
 $$
 
 其中约束条件上文已经给出。我们分别对历史因子和预测因子构建α信号，并构造两个不同的组合，我们回测了从 2010 年初至今的表现，如下图所示：

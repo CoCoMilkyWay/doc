@@ -210,53 +210,53 @@ GAT 和 XGBoost 等权模型超额收益
 
 上图展示残差图神经网络的结构（下文称 GAT+residual），具体细节如下。
 
-1. 左侧为因子编码模块：对于任意股票 i，输入为截面上的 42 个基本面及量价因子（详细定义见后文），经过两组全连接层＋Sigmoid 激活＋批标准化层，得到 64 个隐状态 $\mathsf{h}_{\mathsf{i}}^{0}.$
+1. 左侧为因子编码模块：对于任意股票 i，输入为截面上的 42 个基本面及量价因子（详细定义见后文），经过两组全连接层＋Sigmoid 激活＋批标准化层，得到 64 个隐状态 $\mathsf{h}_{\cdot}^{0},$
 
-2. 掩码自注意力（Masked Self-attention）：对 $\mathsf{h}_{\mathsf{i}}$ 进行线性变换，得到 ${\mathsf{W}}^{0}{\mathsf{h}}_{\mathsf{i}}^{0};$ ；执行自注意力机制 $\pi_{0},$ ，得到任意两只股票 i、j 间的注意力分数 ${\tt e}_{\parallel}^{\phantom{\parallel}0}$ ，代表股票 j 对股票 i 的影响。注意力机制是将股票 i、j的特征拼接，再进行线性变换及 LeakyReLU 激活：
+2. 掩码自注意力（Masked Self-attention）：对 $\mathsf{h}_{\mathsf{i}}$ 进行线性变换，得到 $\sf W^{0}h_{i}^{0};$ ；执行自注意力机制 $\mathsf{\Pi}\mathsf{0},$ ，得到任意两只股票 i、j 间的注意力分数 $\mathbf{e}_{\mathrm{ij}}^{.0}$ ，代表股票 j 对股票 i 的影响。注意力机制是将股票 i、j的特征拼接，再进行线性变换及 LeakyReLU 激活：
 
 $$
-e_{ij}^{0}=\pi_{0}{\left(W^{0}h_{i}^{0},W^{0}h_{j}^{0}\right)}=LeakyReLU(a^{0}{\left[W^{0}h_{i}^{0}\ \lVert\ W^{0}h_{j}^{0}\right]})
+e_{ij}^{0}=\pi_{0}\big(W^{0}h_{i}^{0},W^{0}h_{j}^{0}\big)=LeakyReLU(a^{0}\big[W^{0}h_{i}^{0}\parallel W^{0}h_{j}^{0}\big])
 $$
 
-基于板块或行业对股票进行建图，如果两只股票属于相同板块或行业，那么视作邻居。对于股票i的邻居 $\mathsf{j}\in\mathsf{N}(\mathsf{i})$ ，将注意力分数 ${\mathsf{e}}_{\parallel}^{0}$ 进行softmax标准化，得到注意力权重 ${\mathsf{q}}_{\mathsf{i}}{\mathsf{i}}^{0}\colon$ ：
+基于板块或行业对股票进行建图，如果两只股票属于相同板块或行业，那么视作邻居。对于股票i的邻居 $\mathsf{j}\in\mathsf{N}(\mathsf{i})$ ，将注意力分数 $\mathbf{e}_{\parallel}^{.0}$ 进行softmax标准化，得到注意力权重 $\mathbf{d}\mathbf{j}^{0}\colon$ ：
 
 $$
 \alpha_{ij}^{0}=softmax_{j}(e_{ij}^{0})=\frac{\exp(e_{ij}^{0})}{\sum_{k\in N(i)}\exp(e_{ik}^{0})}
 $$
 
-对于股票 i，将所有邻居股票的隐状态根据注意力权重进行加权求和，再进行LeakyReLU 激活，最后加入自身隐状态 $\mathsf{h}_{\mathsf{I}}^{0}$ ，得到股票 i更新后的隐状态 h’i0：
+对于股票 i，将所有邻居股票的隐状态根据注意力权重进行加权求和，再进行LeakyReLU 激活，最后加入自身隐状态 $\mathsf{h}\mathsf{i}^{0}$ ，得到股票 i更新后的隐状态 h’i0：
 
 $$
-h_{\ i}^{\prime0}=h_{i}^{0}+LeakyReLU(\sum_{j\in N(i)}\alpha_{ij}^{0}W^{0}h_{j}^{0})
+{h_{\;i}^{\prime}}^{0}=h_{i}^{0}+LeakyReLU({\sum}_{j\in N(i)}\alpha_{ij}^{0}W^{0}h_{j}^{0}),
 $$
 
 掩码自注意力层的作用是学习股票板块或行业内部的相互影响。
 
-3. 残差结构Ⅰ：将隐状态 $\mathsf{h}_{\mathrm{i}}^{\prime}\mathsf{\Omega}^{0}$ 送至全连接层，得到 $\hat{h}_{i}^{0}$ 。首先计算 $\mathsf{h}_{\mathsf{I}}^{0}$ 和ℎ̂0的残差，得到新的隐状态 $\mathsf{h}_{\mathsf{i}}^{\mathsf{\uparrow}}$ ，代表原始信息中无法被板块或行业关联解释的信息，类似于板块或行业中性化。随后对 $\hat{h}_{i}^{0}$ 进行 LeakyReLU 激活，得到 $\mathsf{y}_{\mathsf{i}}^{0}$ ，代表能够被板块或行业关联解释的收益表征。
+3. 残差结构Ⅰ：将隐状态 $\mathsf{h}_{\mathsf{i}}^{\flat}{}^{0}$ 送至全连接层，得到 $\hat{h}_{i}^{0}$ 。首先计算 $\mathsf{h}_{\mathsf{i}}^{0}$ 和ℎ̂0的残差，得到新的隐状态 $\mathsf{h}_{\mathsf{i}}^{1}$ ，代表原始信息中无法被板块或行业关联解释的信息，类似于板块或行业中性化。随后对 $\hat{h}_{i}^{0}$ 进行 LeakyReLU 激活，得到 $y_{1}^{0}$ ，代表能够被板块或行业关联解释的收益表征。
 
-4. 全局自注意力（GlobalSelf-attention）：和掩码自注意力类似，首先基于隐状态 $\mathsf{hi}^{1}$ 计算任意两只股票 i、j 间的注意力分数 $\mathsf{e}_{\mathsf{I}}^{}{}^{1}$ ：
+4. 全局自注意力（GlobalSelf-attention）：和掩码自注意力类似，首先基于隐状态 $\mathsf{hi}^{1}$ 计算任意两只股票 i、j 间的注意力分数 $\mathbf{e}_{\mathrm{ij}}^{\mathrm{~r~}}$ ：
 
 $$
-e_{ij}^{1}=\pi_{1}\bigl(W^{1}h_{i}^{1},W^{1}h_{j}^{1}\bigr)=LeakyReLU(a^{1}\bigl[W^{1}h_{i}^{1}\parallel W^{1}h_{j}^{1}\bigr])
+e_{ij}^{1}=\pi_{1}\big(W^{1}h_{i}^{1},W^{1}h_{j}^{1}\big)=LeakyReLU(a^{1}\big[W^{1}h_{i}^{1}\parallel W^{1}h_{j}^{1}\big])
 $$
 
-随后进行 softmax标准化，得到注意力权重 ${\tt q}_{\parallel}1$ ：
+随后进行 softmax标准化，得到注意力权重 $\mathbf{u}_{\mathrm{ij}}^{1}$ ：
 
 $$
 \alpha_{ij}^{1}=softmax_{j}(e_{ij}^{1})=\frac{\exp(e_{ij}^{1})}{\sum_{k}\exp(e_{ik}^{1})}
 $$
 
-对于股票 i，将所有股票的隐状态根据注意力权重进行加权求和，再进行 LeakyReLU激活，最后加入自身隐状态 $\mathsf{h}_{\mathsf{i}}{}^{1}$ ，得到股票 i更新后的隐状态 h’1：
+对于股票 i，将所有股票的隐状态根据注意力权重进行加权求和，再进行 LeakyReLU激活，最后加入自身隐状态 $\mathsf{h}_{\mathsf{i}}^{1}$ ，得到股票 i更新后的隐状态 h’1：
 
 $$
-h_{\ i}^{\prime1}=h_{i}^{1}+LeakyReLU(\sum_{j}\alpha_{ij}^{1}W^{1}h_{j}^{1})
+h_{\;i}^{\prime1}=h_{i}^{1}+LeakyReLU(\sum_{j}\alpha_{ij}^{1}W^{1}h_{j}^{1})
 $$
 
 全局自注意力和前述掩码自注意力的区别在于：掩码自注意力仅仅对相同板块或行业的股票间计算注意力权重，全局自注意力对任意两只股票间计算注意力权重。全局自注意力层的作用是学习任意两只股票间的相互影响。
 
-5. 残差结构Ⅱ：将隐状态 h’i1 送至全连接层，得到 $\widehat{h}_{i}^{1}$ 。首先计算 $\mathsf{h}_{\mathsf{i}}{}^{1}$ 和 $\hat{h}_{i}^{1}$ 的残差，得到新的隐状态 $\mathsf{h}_{\mathsf{I}}^{2}$ ，代表原始信息中无法被因子关联解释的信息，类似因子中性化。随后对ℎ̂1进行 LeakyReLU 激活，得到 $\mathsf{y}_{\mathsf{i}}\mathsf{1}$ ，代表能够被因子关联解释的收益表征。
+5. 残差结构Ⅱ：将隐状态 h’i1 送至全连接层，得到 $\hat{h}_{i}^{1}$ 。首先计算 $\mathsf{h}_{\mathsf{i}}^{1}$ 和 $\hat{h}_{i}^{1}$ 的残差，得到新的隐状态 $\mathsf{h}\mathsf{i}^{2},$ ，代表原始信息中无法被因子关联解释的信息，类似因子中性化。随后对ℎ̂1进行 LeakyReLU 激活，得到 $y_{i}^{1}$ ，代表能够被因子关联解释的收益表征。
 
-6. 输出层：将隐状态 $\mathsf{h}_{\mathsf{I}}^{2}$ 进行 LeakyReLU 激活，得到 $\mathsf{y}_{\mathsf{i}}^{2}$ ，代表因子解释自身的特异性收益表征。将 $\mathsf{y}_{\mathsf{i}}^{0}$ 、 $y_{\mathrm{i}}{1}$ 、 $\mathsf{y}_{\mathsf{i}}^{2}$ 三部分收益表征相加，得到汇总后的收益表征 $y_{i}。$ 。再送至输出层，最终得到股票 i的收益预测。
+6. 输出层：将隐状态 $\mathsf{h}_{\mathsf{i}}^{2}$ 进行 LeakyReLU 激活，得到 $y_{1}^{2}$ ，代表因子解释自身的特异性收益表征。将 $y_{1}^{0}$ 、 $y_{i}^{1}$ 、 $y_{1}^{2}$ 三部分收益表征相加，得到汇总后的收益表征 $y_{1},$ 。再送至输出层，最终得到股票 i的收益预测。
 
 图表9： 微软亚研院 HIST网络结构
 ![](images/8ca4e16a9bf9ae13f73a7b94a8600e47590ab9f03d48337a2fb77cd9528de4d6.webp)
@@ -405,7 +405,7 @@ GAT 选股模型使用的 42 个基本面及量价因子定义如下表。
 
 ## 邻接矩阵
 
-掩码图注意力模块需要对股票进行建图，即对股票池内的N只股票构建N*N的邻接矩阵W。我们采取相对简单的方案，基于板块或一级行业建图。以行业建图为例，若两只股票 i、j属于相同行业，则 $\mathsf{W}_{\parallel}=\mathsf{W}_{\parallel}=1$ ，否则为 0。
+掩码图注意力模块需要对股票进行建图，即对股票池内的N只股票构建N*N的邻接矩阵W。我们采取相对简单的方案，基于板块或一级行业建图。以行业建图为例，若两只股票 i、j属于相同行业，则 $W_{ij}=W_{ji}=1$ ，否则为 0。
 
 基于行业建图的前提假设是仅有相同行业个股内部存在相互影响。实际上，对于处在产业链上下游的股票，即使分属不同行业，也存在相互影响。因此更为合理的方式是基于相对“粗糙”的板块进行建图。板块可由一级行业映射得到，映射关系如下表。
 
@@ -438,7 +438,7 @@ GAT 选股模型使用的 42 个基本面及量价因子定义如下表。
 本文测试 mse 和加权 mse（wmse）两种损失函数。加权 mse提高截面上收益较高股票的权重，降低截面上收益较低股票的权重，从而提升模型多头端表现。
 
 $$
-weighted\_mse=\frac{1}{N}{\sum_{N}}w\cdot(pred-label)^{2}
+weighted\_mse=\frac{1}{N}{\sum}_{N}w\cdot(pred-label)^{2}
 $$
 
 其中 N为截面期股票数量，权重 w根据股票收益率在截面上的排序，以 N/2 为半衰期进行加权。收益率排序最高股票的权重为 1，收益率排序中位数股票的权重为 0.5，收益率排序最低股票的权重为 0.25。
@@ -446,7 +446,7 @@ $$
 类似地，在评价模型预测能力时，除常规的IC和RankIC外，我们引入加权IC和加权RankIC：
 
 $$
-\begin{array}{c}{{weighted_{.}IC=\displaystyle\frac{\sum_{N}w\cdot pred\cdot label-(\sum_{N}w\cdot pred)\cdot(\sum_{N}w\cdot label)}{\sqrt{\sum_{N}w\cdot pred^{2}-(\sum_{N}w\cdot pred)^{2}}\cdot\sqrt{\sum_{N}w\cdot label^{2}-(\sum_{N}w\cdot label)^{2}}}}}\\{{weighted.RanklC=\displaystyle\frac{\sum_{N}w\cdot Rank(pred)\cdot Rank(label)-(\sum_{N}w\cdot Rank(pred))\cdot(\sum_{N}w\cdot Rank(label))}{\sqrt{\sum_{N}w\cdot Rank(pred)^{2}-(\sum_{N}w\cdot Rank(pred))^{2}}\cdot\sqrt{\sum_{N}w\cdot Rank(label)^{2}-(\sum_{N}w\cdot Rank(label))^{2}}}}}\end{array}
+\begin{aligned}weighted_{-}IC=&\frac{\sum_{N}w\cdot pred\cdot label-(\sum_{N}w\cdot pred)\cdot(\sum_{N}w\cdot label)}{\sqrt{\sum_{N}w\cdot pred^{2}-(\sum_{N}w\cdot pred)^{2}}\cdot\sqrt{\sum_{N}w\cdot label^{2}-(\sum_{N}w\cdot label)^{2}}}\\weighted_{-}RanklC=&\frac{\sum_{N}w\cdot Rank(pred)\cdot Rank(label)-(\sum_{N}w\cdot Rank(pred))\cdot(\sum_{N}w\cdot Rank(label))}{\sqrt{\sum_{N}w\cdot Rank(pred)^{2}-(\sum_{N}w\cdot Rank(pred))^{2}}\cdot\sqrt{\sum_{N}w\cdot Rank(label)^{2}-(\sum_{N}w\cdot Rank(label))^{2}}}\end{aligned}
 $$
 
 其中 w的半衰期为 N/2，并且需要进行截面归一化。

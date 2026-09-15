@@ -198,7 +198,7 @@ Research Affiliates 的高级投资顾问 Jason Hsu将质量因子包含的属�
 2015 年，Fama-French 对三因子模型进行了更新，在原有的市场、市值、估值因子之外，加入了盈利和投资两个因子，并从股息贴现模型的角度对这两个因子的经济含义进行解释2。股息贴现模型认为，每股的市场价值是预期每股分红的贴现值，即：
 
 $$
-m_{t}=\sum_{\tau=1}^{\infty}E(d_{t+\tau})/(1+r)^{\tau}
+m_{t}=\sum_{\tau=1}^{\propto}E(d_{t+\tau})/(1+r)^{\tau}
 $$
 
 在这个公式中， $\mathsf{m}_{\mathrm{t}}$ 是 t时刻的股价， $E(d_{t+\tau})$ 是对 时期的每股预期分红，r 是（近似）长期平均股票预期收益，或更精确的是预期股息的内生收益率。
@@ -206,10 +206,10 @@ $$
 对上式进行一定变形，即可得到股票预期收益与预期盈利、预期投资和 B/M 的关系，从上式可得：
 
 $$
-M_{t}=\sum_{\tau=1}^{\infty}E(Y_{t+\tau}-dB_{t+\tau})/(1+r)^{\tau}
+M_{t}=\sum_{\tau=1}^{\infty}E(Y_{t+\tau}-dB_{t+\tau})/(1+r)^{\tau},
 $$
 
-其中， $\mathsf{M}_{\mathrm{t}}$ 是 t 时期的股票市值， $Y_{t+\tau\frac{\triangledown\cdot\overleftarrow{\bf{r}}}{\bf{\mathcal{\mathrm{K}}}}}t+\tau.$ 时期的股权盈利， $dB_{t+\tau}=B_{t+\tau}-B_{t+\tau-1}$ 是净资产变化，将上式除以 t 时刻净资产，有：
+其中， $\mathsf{M}_{\mathrm{t}}$ 是 t 时期的股票市值， $Y_{t+\tau 是}t+\tau_1$ 时期的股权盈利， $dB_{t+\tau}=B_{t+\tau}-B_{t+\tau-1}.$ 是净资产变化，将上式除以 t 时刻净资产，有：
 
 $$
 \frac{M_{t}}{B_{t}}=\frac{\sum_{\tau=1}^{\infty}E(Y_{t+\tau}-dB_{t+\tau})/(1+r)^{\tau}}{B_{t}}\tag{1}

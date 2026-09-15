@@ -101,7 +101,7 @@ Andrei S. Gonçalves 和 Gregory Leonard 在《The fundamental-to-marketratio an
 根据股利贴现模型，公司的市值可以用未来股息的现值之和表示，在经过一定的变形，可以表示为：
 
 $$
-\boldsymbol{M}E_{j,t}=\boldsymbol{B}E_{j,t}\cdot\sum_{h=1}^{\infty}\mathbb{E}_{t}\left[PO_{j,t+h}/BE_{j,t}\right]\cdot e^{-h\cdot dr_{j,t}^{(h)}}\tag{1}
+\begin{aligned}ME_{j,t}=&BE_{j,t}\cdot\sum_{h=1}^{\infty}\mathbb{E}_{t}\big[PO_{j,t+h}/BE_{j,t}\big]\cdot e^{-h\cdot dr_{j,t}^{(h)}}\end{aligned}\tag{1}
 $$
 
 其中为公司 j 在时刻 t 的市场权益，表示公司将在未来交付的权益支付流(股息+回购-发行)。是公司的账面权益，是公司的 h 年派息贴现率。
@@ -109,17 +109,17 @@ $$
 在《The fundamental-to-market ratio and the value premium decline》中，基本权益 FE 被定义为公司在共同贴现率下的未来现金流量的现值，这与 ME在理论上的公式是高度相似的。具体来说，我们将公司的基本权益定义为中纯粹来自预期现金流量的部分，即用一个固定的常数贴现率代替随时间变动的贴现率，可得下式：
 
 $$
-FE_{j,t}=BE_{j,t}\cdot\sum_{h=1}^{\infty}\mathbb{E}_{t}\left[PO_{j,t+h}/BE_{j,t}\right]\cdot e^{-h\cdot dr}\tag{2}
+FE_{j,t}=BE_{j,t}\cdot\sum_{h=1}^{\infty}\mathbb{E}_{t}\Big[PO_{j,t+h}/BE_{j,t}\Big]\cdot e^{-h\cdot dr}\tag{2}
 $$
 
 而想要计算（2）式，则需要对公司未来的现金流进行估计。本文认为，公司的各项财务指标对未来现金具有预测作用，想要估计 FE 就需要估计公司未来的财务指标。
 
 ## 2.2. 估计基本权益
 
-因为公司的净盈余等于股利与账面价值变动额之和，$\begin{array}{r}{\mathbb{E}[\mathbb{P}^{CSE}j,t=PO_{j,t}+\Delta BE_{j,t}}\end{array}$ ，因此可以将（2）变形为（3）：
+因为公司的净盈余等于股利与账面价值变动额之和，$即\begin{aligned}CSE_{j,t}=PO_{j,t}+\Delta BE_{j,t}\end{aligned}$ ，因此可以将（2）变形为（3）：
 
 $$
-\begin{array}{rl}&{\frac{\mathbb{E}_{t}\left[PO_{j,t+h}\right]}{BE_{j,t}}=\mathbb{E}_{t}\left[\left(1+\frac{\mathrm{CS}E_{j,t+h}}{BE_{j,t+h-1}}-\frac{BE_{j,t+h}}{BE_{j,t+h-1}}\right)\cdot\prod_{\tau=1}^{h-1}\frac{BE_{j,t+\tau}}{BE_{j,t+\tau-1}}\right]}\\&{\quad\quad\quad\quad=\mathbb{E}_{t}\left[\left(e^{\mathrm{CSp}rof_{j,t+h}-BEg_{j,t+h}}-1\right)\cdot e^{\sum_{\tau=1}^{h}BEg_{j,t+\tau}}\right]}\end{array}
+\begin{aligned}\frac{\mathbb{E}_{t}\big[PO_{j,t+h}\big]}{BE_{j,t}}&=\mathbb{E}_{t}\Bigg[\left(1+\frac{CSE_{j,t+h}}{BE_{j,t+h-1}}-\frac{BE_{j,t+h}}{BE_{j,t+h-1}}\right)\cdot\prod_{\tau=1}^{h-1}\frac{BE_{j,t+\tau}}{BE_{j,t+\tau-1}}\Bigg]\\&=\mathbb{E}_{t}\Bigg[\left(e^{Cport_{j,t+h}-BE_{j,t+h}}-1\right)\cdot e^{\sum_{\tau=1}^{h}BE_{j,t+\tau}}\Bigg]\end{aligned}
 $$
 
 （3）式较（2）式的最大优势是其参数均来自于企业的可得数据指标，因此我们只需要对企业未来的财务指标进行估计就可以实现对 FE 的估计。
@@ -134,7 +134,7 @@ VAR 很大的一个优点是在系数矩阵合适的情况下，是一个动态�
 
 （i）价值指标（Valuation）
 
-账面市值比： $bm_{j,t}=ln{\left(BE_{j,t}/ME_{j,t}\right)}$
+账面市值比： $bm_{j,t}=ln\big(BE_{j,t}/ME_{j,t}\big)$
 
 派息率： $POy_{j,t}=ln\big(1+PO_{j,t}/ME_{j,t}\big)$
 
@@ -150,19 +150,19 @@ VAR 很大的一个优点是在系数矩阵合适的情况下，是一个动态�
 
 （iii）盈利指标（Profitability）
 
-净盈余利率： $\scriptstyle{CSprof_{j,t}=ln\left(1+\frac{PO_{j,t}+\Delta BE_{j,t}}{BE_{j,t-1}}\right)}$
+净盈余利率： $\begin{array}{r}{CSprof_{j,t}{=}ln\bigg(1{+}\frac{PO_{j,t}{+}\Delta BE_{j,t}}{BE_{j,t-1}}\bigg)}\end{array}$
 
-净资产收益率： $\begin{array}{r}{Roe_{j,t}=ln\bigg(1+\frac{E_{j,t}}{0.5BE_{j,t}+0.5BE_{j,t-1}}\bigg)}\end{array}$数据来源：《The fundamental-to-market ratio and the value premium decline》
+净资产收益率： $Roe_{j,t}=ln\left(1+\frac{E_{j,t}}{0.5BE_{j,t}+0.5BE_{j,t-1}}\right)$数据来源：《The fundamental-to-market ratio and the value premium decline》
 
 $$
-\begin{array}{r}{\mathbb{E}(\neq\neq)\mathbb{\ Z}:Gprof_{j,t}=ln\bigg(1+\frac{GP_{j,t}}{0.5A_{j,t}+0.5A_{j,t-1}}\bigg)}\end{array}
+毛利率:$Gprof_{j,t}=ln\Big(1+\frac{GP_{j,t}}{0.5A_{j,t}+0.5A_{j,t-1}}\Big)$
 $$
 
 ## （iv）资本结构指标（Capital Structure ）
 
-市场杠杆： $Mle\nu_{j,t}=B_{j,t}/\left(ME_{j,t}+B_{j,t}\right)$
+市场杠杆： $Mle\nu_{j,t}=B_{j,t}/\big(ME_{j,t}+B_{j,t}\big)$
 
-账面杠杆： $Ble\nu_{j,t}=B_{j,t}/A_{j,t}$
+账面杠杆： $Blev_{j,t}=B_{j,t}/A_{j,t}$
 
 现金持有量： $Cash_{j,t}=C_{j,t}/A_{j,t}$
 
@@ -217,13 +217,13 @@ $$
 首先我们对账市比 BM 进行如下变形：
 
 $$
-\underbrace{\frac{BE_{j,t}}{ME_{j,t}}}_{BM_{j,t}}=\underbrace{\frac{FE_{j,t}}{ME_{j,t}}}_{FM_{j,t}}\cdot\underbrace{\frac{BE_{j,t}}{FE_{j,t}}}_{BF_{j,t}}\quad\implies\quad bm_{j,t}=\ fm_{j,t}+\ bf_{j,t}
+\underbrace{\frac{BE_{j,t}}{ME_{j,t}}}_{BM_{j,t}}=\underbrace{\frac{FE_{j,t}}{ME_{j,t}}}_{FM_{j,t}}\cdot\underbrace{\frac{BE_{j,t}}{FE_{j,t}}}_{BF_{j,t}}\quad\implies\quad bm_{j,t}=fm_{j,t}+bf_{j,t}
 $$
 
 于是，我们可以获得有关 BM 方差的等式：
 
 $$
-Var(bm)=Co\nu(bm,fm)+Co\nu(bm,bf)
+Var(bm)=Cov(bm,fm)+Cov(bm,bf)
 $$
 
 通过上式，我们便可以对 BM 与 FM 之间的相关性进行分析，分析结果如下：
@@ -271,7 +271,7 @@ $$
 
 3.1 从相关系数的角度证明了 BM 是 FM 的不完美度量，本节将从两者价值溢价差异的角度进行证明。
 
-我们使用投资组合排序的方法来估计与 、 和 相关的价值溢价。具体来说，根据股票的 BM、FM 和 BF 将股票分成十分位组合，然后，研究这些投资组合在随后的一年和五年里的回报。为此，我们根据第 t 年、第 t-1 年、第 t-2 年、第 t-3 年和第 t-4 年 6 月获得的 BM、FM和 BF 对第 t 年的股票进行排序，并持有每一个投资组合中的一整年。然后，我们将平均十分位数回报视为该十分位数的 5 年持有期投资组合回报。例如，5 年持有期十分位数 10 FM 投资组合的月收益是由十分位数 $10~\mathrm{FM}_{\mathrm{t}}\cdot~\mathrm{FM}_{\mathrm{t}-1}\cdot~\mathrm{FM}_{\mathrm{t}-2}\cdot~\mathrm{FM}_{\mathrm{t}-3}$ $\mathrm{FM}_{\mathrm{t}-4}$ 投资组合的月收益的平均值给出的。这个分析方法的理念是，一个投资者每年根据 FM 建立投资组合，并持有 5 年，最终将获得每月的回报。
+我们使用投资组合排序的方法来估计与 、 和 相关的价值溢价。具体来说，根据股票的 BM、FM 和 BF 将股票分成十分位组合，然后，研究这些投资组合在随后的一年和五年里的回报。为此，我们根据第 t 年、第 t-1 年、第 t-2 年、第 t-3 年和第 t-4 年 6 月获得的 BM、FM和 BF 对第 t 年的股票进行排序，并持有每一个投资组合中的一整年。然后，我们将平均十分位数回报视为该十分位数的 5 年持有期投资组合回报。例如，5 年持有期十分位数 10 FM 投资组合的月收益是由十分位数 $10\mathrm{FM_{t}}\mathrm{、}\mathrm{FM_{t-1}}\mathrm{、}\mathrm{FM_{t-2}}\mathrm{、}\mathrm{FM_{t-3}}$ $\mathrm{FM}_{\mathrm{t-4}}$ 投资组合的月收益的平均值给出的。这个分析方法的理念是，一个投资者每年根据 FM 建立投资组合，并持有 5 年，最终将获得每月的回报。
 
 得到如下结果：
 
@@ -279,9 +279,9 @@ $$
 ![](images/9c6965763967415a7ed95b02bf25287edd98f0fd7a59879a873ecb223d5b2eb6.webp)
 数据来源：《The fundamental-to-market ratio and the value premium decline》
 
-表 3 总结了按 BM、FM 和 BF 排序的投资组合的表现。表中每个部分的前四列（r̅， $\alpha_{\mathrm{CAPM}},~\alpha_{\mathrm{FF}},~\alpha_{\mathrm{q}}~$ ）表示年化平均收益率以及不同因子模型下的α。下一列 $\left(\mathrm{r}_{\mathrm{Large}}\right)$ ）显示了仅由大公司组成的投资组合的年化平均回报。最后两列提供了将样本分为早期(1973 年至 1995 年)和晚期(1996 年至 2018 年)的年化平均回报率。
+表 3 总结了按 BM、FM 和 BF 排序的投资组合的表现。表中每个部分的前四列（r̅， $\alpha_{\mathrm{CAPM}},\alpha_{\mathrm{FF}},\alpha_{\mathrm{q}}$ ）表示年化平均收益率以及不同因子模型下的α。下一列 $(\mathbf{\nabla}\mathbf{r}_{\mathrm{Large}})$ ）显示了仅由大公司组成的投资组合的年化平均回报。最后两列提供了将样本分为早期(1973 年至 1995 年)和晚期(1996 年至 2018 年)的年化平均回报率。
 
-从 1 年持有期的结果开始，平均收益表明 FM 相关的溢价比 BM 相关的溢价更强、更稳定。就强度而言， FM 多空组合的平均回报率为 8.5%$(\mathrm{t}_{\mathrm{stat}}{=}3.96)$ ，而 BM 多空组合的类似平均回报率为 5.9% $(\mathrm{t}_{s\mathrm{tat}}{=}1.90)$ 在稳定性方面，与 相关的溢价随着时间的推移是稳定的，在早期样本中有 8.8% $(\mathrm{t}_{s\mathrm{tat}}=2.87)$ 溢价，在后期样本中有 8.2% $(\mathrm{t}_{s\mathrm{tat}}=2.72)$ 溢价，而与 BM 相关的溢价在早期样本中很强 $(\mathrm{t}_{s\mathrm{tat}}=2.58$ 时为 10.3%)，但在后期样本中弱得多 $(\mathrm{t}_{s\mathrm{tat}}=0.33$ 时为 1.5%)。大型公司的 FM 溢价也保持强劲(6.9%， $\mathbf{t}_{s\mathrm{tat}}=2.93)$ ，而 BM 溢价较弱(1.6%， $\mathfrak{t}_{s\mathrm{tat}}=0.56)$ 。最后，我们发现在整个样本中，在大型公司中，以及在研究的每个样本期间，没有统计学上显著的溢价与 BF 相关。
+从 1 年持有期的结果开始，平均收益表明 FM 相关的溢价比 BM 相关的溢价更强、更稳定。就强度而言， FM 多空组合的平均回报率为 8.5%$(\mathrm{t_{stat}}=3.96)$ ，而 BM 多空组合的类似平均回报率为 5.9% $(\mathsf{t_{stat}}=1.90)$ 在稳定性方面，与 相关的溢价随着时间的推移是稳定的，在早期样本中有 8.8% $(\mathsf{t_{stat}}=2.87)$ 溢价，在后期样本中有 8.2% $(\mathsf{t_{stat}}=2.72)$ 溢价，而与 BM 相关的溢价在早期样本中很强 $(\mathsf{t_{stat}}=2.58$ 时为 10.3%)，但在后期样本中弱得多 $\mathrm{(t_{stat}=0.33}$ 时为 1.5%)。大型公司的 FM 溢价也保持强劲(6.9%， $\mathbf{t}_{\mathrm{stat}}=2.93)$ ，而 BM 溢价较弱(1.6%， $\mathbf{t}_{\mathrm{stat}}=0.56)$ 。最后，我们发现在整个样本中，在大型公司中，以及在研究的每个样本期间，没有统计学上显著的溢价与 BF 相关。
 
 价值溢价从根本上讲是关于长期回报的，因此我们也探讨了 5 年的持有期。结果与我们 年持有期的研究结果一致。也就是说，与 相关的溢价比与 BM 相关的溢价更强、更稳定，后者在样本后期或大公司内部实际上消失了。结果表明，价值溢价的下降并非源于短期回报和长期回报之间的脱节，而是源于 BM 不是 FM 的不完美度量，其捕获 FM 的有效性随着时间的推移而恶化。
 

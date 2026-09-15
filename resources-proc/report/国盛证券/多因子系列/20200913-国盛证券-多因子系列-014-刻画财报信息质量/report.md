@@ -205,13 +205,13 @@
 应收款的账龄是应收账款质量的指标之一，账龄越长，应收账款收回的可能性越低，从而成为一种劣质资产，是未来潜在亏损源。我们同时考虑应收账款和其他应收款的账龄。
 
 $$
-\sin\angle A=\frac{\sin B=\pm\beta}{\sin B=\frac{\sin B=\pm\beta}{\cos\beta}}=\frac{\sum\limits_{i=1}^{n}B=\pm\frac{1}{2}\sin B=\pm\beta}{\sum\frac{\sin B=\pm\beta}{\cos\beta}\sin B=\pm\beta}_{\mathrm{i}}
+应收款账龄=\frac{\sum 账龄_{i}\times 应收账款_{i}}{\sum 应收账款_{i}}
 $$
 
 其中：
 
 $$
-\begin{array}{r}\mathbb{H}_{\mathrm{KBC}}^{\mathrm{k\cdot k\cdot k}}\bot\mathbb{F}_{\mathrm{K}}^{\mathrm{R}}=\left\{\begin{array}{cc}{1,1\nF(\ast\chi),}&{\left(0,1\nFinv\ast\chi\chi_{\mathrm{K}}\right),}\\{2,1\sim2\ nF;}&{;\mathbb{H}_{\mathrm{KBC}}^{\mathrm{k\cdot k\cdot K}}\mathbb{F}_{\mathrm{K}}^{\mathrm{R}}=\left\{\begin{array}{c}{0,1\ nF\ast\chi_{\mathrm{K}}}\\{1,1\sim2\ nF;}\\{\dots}\\{\dots}\end{array}\right.;\mathbb{H}_{\mathrm{KBR}}^{\mathrm{k\cdot k\cdot K}}=\frac{\mathbb{H}_{\mathrm{KBR}}^{\mathrm{k\cdot k\cdot}}\mathbb{F}_{\mathrm{K}}^{\mathrm{R}}+\mathbb{H}_{\mathrm{KBR}}^{\mathrm{k\cdot k\cdot K}}\mathbb{F}_{\mathrm{K}}^{\mathrm{R}}=0,}\\{n+5,n\#\nu\chi_{\mathrm{L}},}\end{array}\right.}\end{array}
+\begin{aligned}&账龄上限=\left\{\begin{aligned}1,&1年以内;\\2,&1\sim2年;\\\cdots\\n+5,&n年以上;\end{aligned}\right.;账龄下限=\left\{\begin{aligned}0,&1年以内;\\1,&1\sim2年;\\\cdots\\n,&n年以上;\end{aligned}\right.;账龄=\frac{账龄下限+账龄上限;}{2}\end{aligned}
 $$
 
 从多空组合未来的表现来看，不管是应收账款账龄还是其他应收款账龄，自 2017 年以来，账龄高的股票组跑输账龄低的股票组，整体的 roe 水平低于账龄短的股票组，净利润同比也出现大幅的波动。
@@ -241,7 +241,7 @@ $$
 应收款的坏账计提比例也是衡量应收款质量的指标之一。坏账占比越高，应收账款的质量越低，收回可能性越低。应收款同样考虑了应收账款和其他应收款的坏账计提情况。
 
 $$
-\pm\pi\rfloor\mu\mu\mu=\frac{\ddag\ddag\mu\sin\left(\sqrt{\mu}\right)\pm\pi\Im\left(\ddag\right)\pm\pi\ll\arctan}{\therefore\hfill\overrightarrow/\overrightarrow{\mu}\ll\Bbbk\ll\Bbbk\ll\Bbbk}\doteq\mp\pi
+坏账比=\frac{提取的坏账准备之和}{应收款之和}
 $$
 
 从多空组合未来的表现来看，应收账款坏账比高的组合跑输市场基准，坏账比低的组合跑赢基准；且坏账高的二组合整体的 roe 水平和净利润增速水平也较低。
@@ -273,7 +273,7 @@ $$
 我们在本节和下节构建的因子旨在刻画上市公司在资产审计过程中是否存在严重的盈余调节行为，均采取以下形式：
 
 $$
-\rlap/\varepsilon\big/\ddagger\big/\ddagger\ddagger\big)\xrightarrow[]{\Bbbk}abs\big(\ m\mathrm{\textmu\in/\lvert\ddagger\rvert_{\mathrm{i}}}-\mathbin{\langle\bar{\tau}\lrcorner\lvert\downarrow\rangle}\oplus\lvert\hat{\textmd z}\rvert_{\ast}^{\ast}\big\rvert_{\ast}^{\ast\mu}\big),i=1,2,3
+比值偏离=\sum abs\Big(比值_{i}-行业中位数_{i}\Big),i=1,2,3
 $$
 
 我们以应收账款的坏账计提偏离为例说明因子构建逻辑。
@@ -358,11 +358,11 @@ $$
 我们测算公司的存货跌价准备计提比例，并计算过去 3 年存货跌价准备计提比例偏离行业中位数的绝对值之和：
 
 $$
-\begin{array}{r}{\frac{16}{4}\frac{16}{3!}\frac{3+2}{3!}\times\langle\rangle\hat{\Sigma}\frac{3}{4}\frac{16}{60}\cdot\mu\hat{\Sigma}\vert=\frac{16}{4}\frac{16}{3!}\frac{3+4}{3!}\langle\rangle\hat{\Sigma}\frac{3}{4}\frac{16}{60}\Big/(\frac{4}{3!}\frac{3+2}{3!}\times\langle\rangle\hat{\Sigma}\frac{3}{4}+\frac{4}{4!}\frac{32}{3!}\frac{16}{3!}\frac{3}{4!}\frac{3}{12})}\end{array}
+存货跌价准备比例=存货跌价准备\Big/(存货跌价准备+存货账面价值)
 $$
 
 $$
-inventoryrate\ abssum=\sum abs\Big(\ddagger\mathinner{\frac{\sqrt{6}}{3!}}\mathinner{\frac{\sqrt{6}}{3!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner{\frac{\sqrt{6}}{1!}}\mathinner\frac{\sqrt{6}}
+inventoryrateabssum=\sum abs\Big(存货跌价准备比例_{i}-行业中值_{i}\Big),i=1,2,3
 $$
 
 数据来源：wind 底层数据库的表 Asharedevaluationpreparation。
@@ -386,19 +386,19 @@ $$
 资产账面原值 = 资产账面价值+ 累计折旧期末余额+ 累计减值准备期末余额因此，折旧率和减值比例计算方式如下：
 
 $$
-\frac{25}{35}-\frac{3}{2}\geq\frac{1}{2}\geq\frac{3}{4}=\frac{5}{4}+\frac{1}{25}-\frac{3}{2}\geq\frac{1}{2}\geq\frac{3}{4}\geq\frac{1}{25}\geq\frac{3}{2}\geq\frac{1}{25}\geq\frac{5}{25}\geq\frac{5}{25}\leq\frac{5}{25}
+资产折旧率=本期资产折旧费用/资产账面原值
 $$
 
 $$
-\frac{1}{3!}\dot{x}-3\dot{x}\dot{x}/\dot{\textmd{dir}}\times\langle\dot{y}|=3\dot{x}/\dot{\textmd{E}}/\dot{\textmd{E}}/\dot{\textmd{E}}/\dot{\textmd{H}}+\frac{1}{3!}\dot{x}-\frac{3}{3!}\dot{x}-\frac{3}{3!}\dot{x}-\frac{3}{3!}\dot{x}-\frac{3}{3!}\dot{x}-\frac{3}{3!}\dot{y}/\dot{\textmd{dir}}\times\frac{3}{3!}+\frac{1}{3!}\dot{x}-\frac{3}{3!}\dot{y}/\dot{\textmd{dir}}\times\frac{3}{3!}=\frac{3}{3!}\dot{x}-\frac{3}{3!}\dot{y}/\dot{\textmd{dir}}\times\frac{3}{3!}
+资产减值比例=减值准备期末余额\Big/(减值准备期末余额+资产账面价值)
 $$
 
 $$
-depreciaterateabssum=\sum abs\Big(\frac{\varkappa}{\mathfrak{F}}\mathring{\mathcal{F}}^{\sharp}\mathring{\mathcal{H}}\mathring{\Gamma}\mathring{\Xi}_{i}^{\sharp}-\mathring{\mathcal{H}}\mathring{\Xi}\mathring{\Psi}\mathring{\mathcal{H}}_{i}\Big),i=1,2,3
+deprecicaterateabssum=\sum abs\Big(资产折旧率_{i}-行业中值_{i}\Big),i=1,2,3
 $$
 
 $$
-devaluerateabssum\ =\sum abs\Big(\frac{\varkappa}{\mathfrak{P}}\ j^{\pm}\ j\sharp^{\pm}/\mathbb{E}\ j\mathbb{E}\ j\mathbb{E}\ _{i}-\mathcal{I}\ j\mathbb{E}\ \psi/\mathbb{E}\ j\mathbb{E}\ _{i}\Big),i=1,2,3
+devalue\;rate\;abs\;sum\;=\sum abs\Big(资产减值比例_i-行业中值_i\Big),i=1,2,3
 $$
 
 数据来源：wind 底层数据库的表 Asharefixedassets 或者 api 接口。
@@ -426,7 +426,7 @@ $$
 长期待摊费用摊销率 = 长期待摊费用摊销⁄(长期待摊费用摊销 +长期待摊费用)无形资产摊销率 = 无形资产摊销⁄(无形资产摊销 +无形资产)
 
 $$
-amortizationrateabssum=\sum abs\Big(\frac{\ddot{\gamma}}{\beta}\dot{\bar{z}}\frac{\dot{\gamma}\dot{\bar{z}}+\dot{\gamma}\dot{\bar{z}}\dot{\bar{\mu}}\dot{\bar{z}}\dot{\bar{\mu}}|\dot{\gamma}|}{\beta}\dot{\langle\bar{z}\vert}\dot{z}\frac{\dot{\gamma}\dot{\bar{z}}}{\beta}\dot{\Psi}\dot{\langle\bar{z}\vert}\dot{\bar{z}}\frac{\dot{\gamma}\dot{\bar{z}}}{\beta}\dot{\Psi}\dot{\langle\bar{z}\vert}\dot{\bar{z}}\frac{\dot{\gamma}\dot{\bar{z}}}{\beta}\dot{\Psi}\dot{\langle\bar{z}\vert}\dot{\bar{z}}\dot{\bar{\mu}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{\Psi}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}\dot{\bar{z}}
+amortization\:rate\:abs\:sum=\sum abs\left(资产摊销比例_{i}-行业中值_{i}\right),i=1,2,3
 $$
 
 图表26：长期待摊费用摊销率偏离因子多空组合收益（相对全市场等权）
@@ -450,15 +450,15 @@ $$
 由于在建工程、无形资产、开发支出、商誉等资产不需要计提或者较少计提折旧和摊销，因此企业有做高此类资产的倾向。常见操纵手段有推迟在建工程转结固定资产的时间，高估无形资产，开发支出转回研发费用，并购支付过高溢价导致高商誉等。但是此类资产过低也会损害公司的竞争力。因此我们考察此类资产相对于固定资产比例是否长期偏离行业平均水平：
 
 $$
-45+111>\frac{35}{35}>56=4549>\frac{35}{35}>\frac{5}{2}>(4549>\frac{35}{35}>^{2}+155>\frac{35}{35}>^{2})
+非折旧资产比=非折旧资产/\left(非折旧资产+固定资产\right)
 $$
 
 $$
-454+111\div\frac{2}{35}=\frac{1}{12}\times\frac{1}{35}=\frac{1}{12}\times\frac{1}{35}+\frac{1}{12}\times\frac{1}{35}=\frac{1}{12}\times\frac{1}{35}=\frac{1}{12}\times\frac{1}{35}
+非折旧资产=在建工程+无形资产+开发支出+商答
 $$
 
 $$
-non\ depreciate\ assetratio\ abssum=\sum abs\Big(\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\Big)\beta\mathbb{\hat{x}}\mathbb{H}_{i}-\mathbb{\hat{\eta}}\mathbb{\hat{x}}\mathbb{H}\mathbb{\Psi}\mathbb{\hat{\Psi}}\mathbb{\hat{H}}_{i}\Big),i=1,2,3
+non\;depreclate\;asset\;ratio\;abs\;sum=\sum abs\Big(非折旧资产比_{i}-行业中值_{i}\Big),i=1,2,3
 $$
 
 图表30:非折旧资产占比偏离因子多空组合收益（相对全市场等权）
@@ -488,11 +488,11 @@ $$
 我们直接利用现金流量表和利润表科目计算所得税率波动率：
 
 $$
-\begin{array}{rl}&\quad\frac{1}{45}\exp(\frac{1}{4}\frac{x}{35}\frac{x}{16}+\frac{x}{16}\frac{x}{16}\frac{x}{15}+\frac{1}{4}\frac{x}{16}\frac{1}{2}\frac{1}{35}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{35}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}{16}\frac{1}1\end{array}
+\begin{aligned}按税法及相关规定计算的当期所得税=所得税-递延所得税费用\\=所得税-(递延所得税负债的增加额+递延所得税资产的减少额)\end{aligned}
 $$
 
 $$
-taxratevol=i\downarrow\pm\frac{1}{2}\pm\frac{1}{2}\mp1\pm1\pm3\frac{1}{2}\sqrt{2}\mp1\pm3\sqrt{2}\mp\frac{1+3\mp3\sqrt{2}\pm3\sqrt{2}\pm1\pm3\sqrt{2}\pm3\pm4\frac{1}{2}\pm3\sqrt{2}\pm3\sqrt{2}\sqrt{2\mp4\frac{1}{2}\mp3\sqrt{2}}}{\sqrt{2}\mp1\pm1\sqrt{2}}\biggr)
+taxratevol=过去三年标准化波动率\left(\frac{按税法及相关规定计算的当期所得税}{净利润}\right)
 $$
 
 图表33：当期所得税税率波动率多空组合收益（相对全市场等权）
@@ -534,7 +534,7 @@ $$
 面对众多投资标的，我们对公司质量的要求应该是越严苛越好。我们尝试利用上述因子对公司质量进行评分。在这里我们选择非线性的方式汇总评分，即我们标记因子值低于2 倍标准差为异常，并对每家公司加总异常因子数：
 
 $$
-\frac{e}{\phi}\stackrel{\star\star}{\vec{\eta}}\equiv\Bigr|\vec{\mathcal{I}}\stackrel{/\forall}{\mathcal{I}}\Bigr\rangle=\sum_{i}I_{factor_{i}\le-2}
+异常因子得分=\sum_{i}I_{factor_{i}\leq-2}
 $$
 
 即有任一指标异常，即纳入风险池考量。

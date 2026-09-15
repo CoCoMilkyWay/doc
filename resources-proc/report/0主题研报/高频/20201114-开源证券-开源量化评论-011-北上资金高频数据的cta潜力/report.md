@@ -137,10 +137,10 @@ Signal 信号绩效表现：2017年至今，沪深300期指下的策略年化收
 首先，我们使用日频数据的陆股通净买入金额构建信号指标：
 
 $$
-Signal_{\scriptscriptstyle\perp\ngeq\|\boldsymbol{\mathcal Ḋ\vec{A}}\|}=\{\begin{array}{rlrl}{1,}&{}&&{\not{\equiv}\emptyset\not{\exists}\emptyset\not{\exists}\check{x}\dot{x}\not{\|\vec{\Psi}}:\not{\exists}\not{\equiv}\emptyset\wedge\ e\not{\exists}\not{}\emptyset\not{\bot}\ \underline{{\mathbb{E}}}}\\{-1,}&{}&&{\stackrel{\|\cdot\|}{\equiv}\check{\Theta}\not{\|\dot{x}\dot{y}\|}:\check{x}\dot{\not{\|\Psi}}:\not{\|\dot{x}\not{\|\Psi}}\wedge\ e\not{\exists}\not{}\not{}\not{\|\dot{y}\|}}\end{array}
+Signal_{日频}=\left\{\begin{aligned}1,&\quad 当日陆殷通净买入金额为正\\-1,&\quad 当日陆殷通净买入金额为负\end{aligned}\right.
 $$
 
-图5和表2分别为使用 $Signal_{\boxplus\neq\emptyset}$ 作为信号的绩效表现。可以看到，使用回测标的为沪深300期货的绩效表现优于中证500期货。2017年至今，沪深300股指期货下的策略年化收益率为21.3%，年化波动率为19.9%，收益波动比1.07，尤其从2019年以来，使用日频数据做跟随策略，具有非常可观的盈亏比，2019年和2020年，策略的年化收益波动比分别为3.18和2.86。
+图5和表2分别为使用 $Signal_{日频}$ 作为信号的绩效表现。可以看到，使用回测标的为沪深300期货的绩效表现优于中证500期货。2017年至今，沪深300股指期货下的策略年化收益率为21.3%，年化波动率为19.9%，收益波动比1.07，尤其从2019年以来，使用日频数据做跟随策略，具有非常可观的盈亏比，2019年和2020年，策略的年化收益波动比分别为3.18和2.86。
 
 图5：Signal日频的策略净值：沪深300股指期货表现优于中证500股指期货
 ![](images/76a499318f55f4ae86fdf611ac73fb2d8d28aebef19d565eb05817883c4af78f.webp)
@@ -163,9 +163,9 @@ $$
 
 数据来源：Wind、开源证券研究所
 
-从图5和表2的绩效表现可以看到，近年来跟随聪明钱的操作确实能获取不错的收益。接下来，我们使用陆股通的分钟频数据构建Signal分钟频信号。图6、图7和表3为使用Signal 信号后的策略表现，不论沪深300期指或中证500期指，使用分钟频以后择时策略表现，较使用日频数据有大幅度的改善。在标的资产为沪深300期指下，$\mathrm{Signal}_{\mathfrak{H}^{*}\sharp\sharp^{*}\sharp}$ 的年化收益率为32.9%，收益波动比1.65， $\tau_{\mathrm{{l}}}\mathrm{{Signal}_{\mathrm{{H}}\mathrm{{\Sigma}_{\mathrm{{H}}}\mathrm{{\Sigma}_{\mathrm{{l}}}}}}}$ 的收益波动比为1.07；在标的资产为中证500期指下， $\mathrm{Signal}_{\lambda\gamma\cdots\sharp\phi+\sharp\jmath}$ 的年化收益率为32.6%，收益波动比1.39，$\tau_{\mathrm{{l}}}\mathrm{{Signal}_{\mathrm{{H}}\mathrm{{\Sigma}_{\mathrm{{l}}}\mathrm{{\Sigma}_{\mathrm{{l}}}}}}}$ 的收益波动比仅为0.64。
+从图5和表2的绩效表现可以看到，近年来跟随聪明钱的操作确实能获取不错的收益。接下来，我们使用陆股通的分钟频数据构建Signal分钟频信号。图6、图7和表3为使用Signal 信号后的策略表现，不论沪深300期指或中证500期指，使用分钟频以后择时策略表现，较使用日频数据有大幅度的改善。在标的资产为沪深300期指下，$\mathrm{signal_{分钟频}}$ 的年化收益率为32.9%，收益波动比1.65， $而\mathrm{signal_{日频}}$ 的收益波动比为1.07；在标的资产为中证500期指下， $\mathrm{signal_{分钟频}}$ 的年化收益率为32.6%，收益波动比1.39，$而\mathrm{signal_{日频}}$ 的收益波动比仅为0.64。
 
-从分年来看， $\mathrm{Signal}_{\mathfrak{H}^{*}\sharp\sharp^{*}\sharp\sharp}$ 的策略表现均优于 $\mathbf{\cdot}\mathbf{\mathrm{Signal}}_{\perp\mathbf{\cdot}\mathbf{\mathrm{\#}}},$ 。以2018年为例，2018年市场大幅下跌， $\mathtt{Signal}_{\mathtt{H}\mathtt{H}}$ 的年化收益率为-13.1%，而 $\boldsymbol{\cdot}\mathrm{signal}_{\boldsymbol{\ j}\rangle\mathcal{\pm}\boldsymbol{\oplus}\mathcal{\pm}\mathcal{\pmb{\ j}}\mathcal{\pmb{\ l}}}$ 仅跌4%（测试标的IF）。
+从分年来看， $\mathrm{signal_{分钟频}}$ 的策略表现均优于 $\mathrm{signal_{日频}}$ 。以2018年为例，2018年市场大幅下跌， $\mathrm{signal_{日频}}$ 的年化收益率为-13.1%，而 $\mathrm{Signal}_{分钟频}$ 仅跌4%（测试标的IF）。
 
 图6：年化收益波动比提升至1.65（测试标的为IF）
 ![](images/f6ffe1bada975780ff55ec5288024ed9176d2f7bb4a10f8d41ea6057ebaf6acd.webp)

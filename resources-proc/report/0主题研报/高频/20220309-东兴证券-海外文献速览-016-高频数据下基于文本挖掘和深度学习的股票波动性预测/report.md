@@ -57,10 +57,10 @@ y_{t}=\varphi x_{t}+u_{t}
 $$
 
 $$
-\sigma_{t}^{2}=\alpha_{0}+\sum_{i=1}^{q}\alpha_{i}u_{t-i}^{2}+\sum_{j=1}^{p}\beta_{j}\sigma_{t-j}^{2}
+\sigma_{t}^{2}=\alpha_{0}+\sum_{i=1}^{q}\alpha_{i}u_{t-i}^{2}+\sum_{j=1}^{p}\beta_{j}\sigma_{t-j}^{2},
 $$
 
-其中等式 1 是均值价值等式，含有残差项的外生变量函数。 $y_{t}$ 和 $x_{t}$ 分别是因变量和解释变量； $u_{t}$ 是随机波动项。 ${\bf q}.$ 是 ARCH模型的阶数， $\mathrm{p}$ 是自回归 GARCH模型的阶数。 $\alpha_{0},~\alpha_{i}\hbar{\pi}\beta_{j}$ 是待评估的大于 0 的参数。
+其中等式 1 是均值价值等式，含有残差项的外生变量函数。 $y_{t}$ 和 ${}^{\prime}x_{t}$ 分别是因变量和解释变量； $u_{t}$ 是随机波动项。 $\mathbf{q}.$ 是 ARCH模型的阶数， $\mathbf{p}$ 是自回归 GARCH模型的阶数。 $\alpha_{0},\alpha_{i}和\beta_{j}$ 是待评估的大于 0 的参数。
 
 ## 2.1.2 HAR-RV 模型
 
@@ -74,10 +74,10 @@ $$
 RV_{t+H}^{d}=\beta_{0}+\beta_{d}RV_{t}^{d}+\beta_{w}RV_{t}^{w}+\beta_{m}RV_{t}^{m}+\varepsilon_{t+H}
 $$
 
-其中 $RV_{t}$ 和R $V_{t}^{d}$ 是t阶段实际的每日波动率，N意味着将交易日分成N个时间段，r是每个时间的收益， $r_{j}$ $RV_{t}^{w}$ 是t阶段实际的每周波动率和 $\boldsymbol{\varepsilon}_{t+H}$ 是随机波动项。 $RV_{t+H}^{d}$ 是未来H天实际的波动率，H= 1，5，22。则每周和每月的波动率可以如下计算：
+其中 $RV_{t}$ 和R $V_{t}^{d}$ 是t阶段实际的每日波动率，N意味着将交易日分成N个时间段，r是每个时间的收益， $r_{j}$ $RV_{t}^{w}$ 是t阶段实际的每周波动率和 $\varepsilon_{t+H}$ 是随机波动项。 $RV_{t+H}^{d}$ 是未来H天实际的波动率，H= 1，5，22。则每周和每月的波动率可以如下计算：
 
 $$
-\begin{array}{c}{{RV_{t}^{w}=(RV_{t}^{d}+RV_{t-1}^{w}+\cdots+RV_{t-4}^{w})/5}}\\{{\ }}\\{{RV_{t}^{w}=(RV_{t}^{d}+RV_{t-1}^{w}+\cdots+RV_{t-21}^{w})/22}}\end{array}
+\begin{aligned}&RV_{t}^{w}=(RV_{t}^{d}+RV_{t-1}^{w}+\cdots+RV_{t-4}^{w})/5\\&\\RV_{t}^{w}=(RV_{t}^{d}+RV_{t-1}^{w}+\cdots+RV_{t-21}^{w})/22\\\end{aligned}
 $$
 
 ## 2.1.3 ARFIMA 模型
@@ -85,22 +85,22 @@ $$
 自回归模型 AR 是用来描述现值与历史值的自相关性，而移动平均模型 MA 是用来描述 AR 模型里的误差累计项。结合 AR 与 MA 模型，作者得到自回归移动平均模型 ARMA 模型，其定义如下：
 
 $$
-y_{t}=\mu+\sum_{i=1}^{p}\gamma_{i}y_{t-i}+\varepsilon_{t}+\sum_{i=1}^{q}\theta_{i}\varepsilon_{t-i}
+y_{t}=\mu+\sum_{i=1}^{p}\gamma_{i}y_{t-i}+\varepsilon_{t}+\sum_{i=1}^{q}\theta_{i}\varepsilon_{t-i},
 $$
 
-其中 $\mathrm{y_{t}}$ 表示t时刻的价值，μ是常数项，q是模型中预测误差的滞后数， $\mathsf{Y}_{\mathrm{~i~}}$ 是自相关系数，ε 是误差项。
+其中 $\mathbf{y_{t}}$ 表示t时刻的价值，μ是常数项，q是模型中预测误差的滞后数， $Y_{\mathrm{~i~}}$ 是自相关系数，ε 是误差项。
 
 Granger 和 Joyeux（1980）提出了分形移动平均模型（ARFIMA），它结合了分形噪声模型（FDN）和 ARMA模型。Hosking 在 1981 年改进了 ARFIMA 模型，形式如下：
 
 $$
-\varphi(\mathrm{L})(1-\mathrm{L})^{\mathrm{d}}\Big(\mathrm{x}_{\mathrm{t}}-\mathrm{~\nabla~}\mu_{\mathrm{\scriptsize~t}}\Big)=\theta(\mathrm{L})\varepsilon_{t}
+\varphi(\mathrm{L})(1-\mathrm{L})^{\mathrm{d}}\left(\mathrm{x}_{\mathrm{t}}-\mathrm{~}\mu_{\mathrm{t}}\right)=\theta(\mathrm{L})\varepsilon_{\mathrm{t}}
 $$
 
-其中L是滞后算子，φ(L)和θ(L)分别是p 阶和q 阶多项式滞后算子，它们描述了序列的短记忆性。(1− L)d是分形差分算子，其中d是分形差分参数（|d| < 0.5）来衡量时间序列的长记忆性。 $\mathbf{x_{t}}$ 是t时刻的价值， $\varepsilon_{t}$ 是白噪声序列。
+其中L是滞后算子，φ(L)和θ(L)分别是p 阶和q 阶多项式滞后算子，它们描述了序列的短记忆性。(1− L)d是分形差分算子，其中d是分形差分参数（|d| < 0.5）来衡量时间序列的长记忆性。 $\mathbf{X_{t}}$ 是t时刻的价值， $\varepsilon_{t}$ 是白噪声序列。
 
 ## 2.2 深度学习模型-LSTM
 
-长期短期记忆（LSTM）是一种特殊的循环神经网络(RNN)，由 Hochreiter 和 Schmidhuber(1997)首次提出，它有效解决梯度消失和长序列训练过程中的梯度爆炸的问题。LSTM和 RNN的区别在于 RNN有一个传输状态 $\dot{h}_{{}_{t}}$ ，然而 LSTM 有两个转移状态： $C_{t}\dot{\pi}\mu_{t^{\circ}}C_{t}$ 是用来保存当前时刻的记忆单元的状态信息，并传送到下一个时刻的记忆单元。 $C_{t}$ 是由前期的 LSTM传输的 $C_{t-1}$ 交互 $\dot{\bar{y}}$ 生的。这个联合作用的过程是 LSTM的核心，即利用“门控机制”来控制信息传输量。这个门控机制有三个“门”，即“遗忘门”、“记忆门”、“输出门”，该机制控制信息保留和传输并最终反馈到 $C_{t}$ 和 $\cdot\lambda_{t}.$ 。如图 1，有三个记忆单元，每个记忆单元（A）包括状态 $C_{t}$ 及对应的三道“门”。
+长期短期记忆（LSTM）是一种特殊的循环神经网络(RNN)，由 Hochreiter 和 Schmidhuber(1997)首次提出，它有效解决梯度消失和长序列训练过程中的梯度爆炸的问题。LSTM和 RNN的区别在于 RNN有一个传输状态 $\lambda_{t}$ ，然而 LSTM 有两个转移状态： $C_{t}和\lambda_{t}。C_{t}$ 是用来保存当前时刻的记忆单元的状态信息，并传送到下一个时刻的记忆单元。 $C_{t}$ 是由前期的 LSTM传输的 $\mathcal{C}_{t-1}$ 交互 $产$ 生的。这个联合作用的过程是 LSTM的核心，即利用“门控机制”来控制信息传输量。这个门控机制有三个“门”，即“遗忘门”、“记忆门”、“输出门”，该机制控制信息保留和传输并最终反馈到 $C_{t}$ 和 $\lambda_{t}$ 。如图 1，有三个记忆单元，每个记忆单元（A）包括状态 $C_{t}$ 及对应的三道“门”。
 
 图1：LSTM 结构
 ![](images/55e1afa27199df9892b7af0f35c97a909cd3caab403512ccc087a77c9e1133b6.webp)
@@ -109,35 +109,35 @@ On stock volatility forecasting based on text mining and deep learning under hig
 1.“遗忘门”用于选择不重要的信息并忘记它们。公式如下：
 
 $$
-\mathbf{\boldsymbol{f}}_{\mathrm{t}}=\sigma(\mathbf{\boldsymbol{W}}_{\mathrm{f}}\cdot\left[\boldsymbol{\lambda}_{\mathrm{t-1}},\mathbf{\boldsymbol{x}}_{\mathrm{t}}\right]+\mathbf{\boldsymbol{b}}_{\mathrm{f}})
+\mathbf{f}_{\mathrm{t}}=\sigma(\mathbf{W}_{\mathrm{f}}\cdot\left[\hat{\boldsymbol{\mu}}_{\mathrm{t}-1},\mathbf{x}_{\mathrm{t}}\right]+\mathbf{b}_{\mathrm{f}})
 $$
 
-其中 $\lambda_{\mathrm{t}-1}$ 是t − 1时刻的输出， $\mathbf{x_{t}}$ 为t时刻 LSTM 该层的输入值， $\mathsf{W}_{\mathrm{f}}$ 为每个变量的权重， $\boldsymbol{\mathbf{b}}_{\mathrm{f}}$ 为截距， $\sigma$ 为 sigmoid激活函数，输出值 $\mathrm{f_{t}}$ 在 0 到 1 之间。
+其中 $\lambda_{\mathrm{t-1}}$ 是t − 1时刻的输出， $\mathbf{X_{t}}$ 为t时刻 LSTM 该层的输入值， $W_{\mathrm{f}}$ 为每个变量的权重， $\mathbf{b_{f}}$ 为截距， $\sigma$ 为 sigmoid激活函数，输出值 $\mathbf{f_{t}}$ 在 0 到 1 之间。
 
-2.“记忆门”与“遗忘门”相反，它选择 $\mathbf{x_{t}}$ 和 $\cdot h_{{\mathrm{t}}-1}$ 的重要信息并保留它们，接下来，通过“遗忘门”和“记忆门”，状态 $\mathrm{C_{t}}$ 会被更新，具体公式如下：
-
-$$
-\mathrm{i}_{\mathrm{t}}=\sigma(\mathrm{W}_{\mathrm{i}}\cdot\left[\lambda_{\mathrm{t}-1},\mathrm{x}_{\mathrm{t}}\right]+\mathrm{b}_{\mathrm{i}})
-$$
+2.“记忆门”与“遗忘门”相反，它选择 $\mathbf{\nabla}\mathbf{\nabla}\mathbf{X_{t}}$ 和 $\lambda_{\mathrm{t-1}}$ 的重要信息并保留它们，接下来，通过“遗忘门”和“记忆门”，状态 $\mathsf{C_{t}}^{\prime}$ 会被更新，具体公式如下：
 
 $$
-\widetilde{\mathrm{C}}_{\mathrm{t}}=\mathrm{tanh}(\mathsf{W}_{\mathrm{c}}\cdot\left[\lambda_{\mathrm{t-1}},\mathrm{x}_{\mathrm{t}}\right]+\mathsf{b}_{\mathrm{c}})
+\mathbf{i}_{\mathrm{t}}=\sigma(\mathbf{W}_{\mathrm{i}}\cdot\left[\mathbf{\check{a}}_{\mathrm{t}-1},\mathbf{x}_{\mathrm{t}}\right]+\mathbf{b}_{\mathrm{i}})
 $$
 
 $$
-\mathsf{C}_{\mathrm{t}}=\mathsf{f}_{\mathrm{t}}\mathsf{C}_{\mathrm{t-1}}+\mathsf{i}_{\mathrm{t}}\tilde{\mathsf{C}}_{\mathrm{t}}
-$$
-
-其中 Tanh 是切向激活函数， $\mathrm{C_{t}}$ 是t−1时刻的状态，即在t时刻需要被保存的信息会从输入的信息中提取，从而得到一个更新后的状态。
-
-3“输出门”决定了该层的输出信息，. sigmoid 激活函数决定了输出信息，Tanh 激活 $i\vec{\Sigma}_{I}$ 数用作处理 $\complement_{\mathrm{t}}$ ， $\bar{h}_{\mathrm{t}}$ 为 $0_{\mathrm{t}}$ 和tanh $\mathrm{(C_{t})}$ 的乘积，公式如下：
-
-$$
-O_{t}=\sigma(W_{o}\cdot\left(\lambda_{t-1},x_{t}\right)+b_{o})
+\tilde{\mathsf{C}}_{\mathrm{t}}=\operatorname{tanh}(\mathsf{W}_{\mathrm{c}}\cdot\left[\mathsf{\dot{A}}_{\mathrm{t}-1},\mathsf{x}_{\mathrm{t}}\right]+\mathsf{b}_{\mathrm{c}})
 $$
 
 $$
-\lambda_{{t}}=O_{t}\cdot\operatorname{tanh}(C_{t})
+\tt C_{t}=f_{t}C_{t-1}+i_{t}\tilde{C}_{t}
+$$
+
+其中 Tanh 是切向激活函数， $\mathsf{C_{t}}$ 是t−1时刻的状态，即在t时刻需要被保存的信息会从输入的信息中提取，从而得到一个更新后的状态。
+
+3“输出门”决定了该层的输出信息，. sigmoid 激活函数决定了输出信息，Tanh 激活 $函$ 数用作处理 $\mathsf{C}_{\mathsf{t}}$ ， $\lambda_{t}$ 为 $0_{\mathrm{t}}$ 和tanh $(c_{t})$ 的乘积，公式如下：
+
+$$
+O_{t}=\sigma(W_{o}\cdot\left(\not a_{t-1},x_{t}\right)+b_{o})
+$$
+
+$$
+\lambda_{t}=O_{t}\cdot\tanh(C_{t})
 $$
 
 一个记忆单元中的信息处理过程如图 2 所示，输入的信息经过若干个记忆单元，形成长时信息序列的长时记忆。损失函数用于评估模型的误差：通过误差反向传播，不断更新参数以减少损失值，最后拟合出合理的参数，得到准确的预测结果。
@@ -162,35 +162,35 @@ On stock volatility forecasting based on text mining and deep learning under hig
 
 3. 偏差 = 收盘价 - 5 天平均价格 / 5 天平均价格，反映了当日价格与 5 天平均价格的偏离程度。
 
-4. CDP = (上一个交易日最高价+上一个交易日最低价 $+2^{\star}.$ 上一个交易日收盘价）/ 4，也叫逆市运行指标。
+4. CDP = (上一个交易日最高价+上一个交易日最低价 $[+2^{\star}]$ 上一个交易日收盘价）/ 4，也叫逆市运行指标。
 
-5. ${\mathsf{DMA}}=5$ 天移动平均价格 - 10 天移动平均价格，也叫平行线差指标，主要用于判断买卖的力量和未来价格的趋势。
+5. $\mathsf{DMA}=5$ 天移动平均价格 - 10 天移动平均价格，也叫平行线差指标，主要用于判断买卖的力量和未来价格的趋势。
 
 6. 隔夜信息 = 开盘价 - 上一个交易日收盘价，反映了隔夜信息对股票价格波动的影响。
 
 7. 高频交易量波动率可以根据 5 分钟交易量的高频数据按如下公式计算：
 
 $$
-RV(V)_{t}=\sum_{d=1}^{48}\left(lnV_{t,d+1}-lnV_{t,d}\right)^{2}
+RV(V)_{t}=\sum_{d=1}^{48}\bigl(lnV_{t,d+1}-lnV_{t,d}\bigr)^{2}
 $$
 
 8. 市场里的情绪指标例如流行指标 AR 和 BR 可以按如下公式计算：
 
 $$
-{\begin{array}{rl}&{{\mathrm{AR~=~(closing~price-opening~price)/(opening~price~-lowest~price)*100}}}\\&{}\\&{{\mathrm{BR~=~(Highest~price-closing~price)/(closing~price~-~lowest~price)*100}}}\end{array}}
+\begin{aligned}&AR=(closingprice-openingprice)/(openingprice-lowestprice)*100\\&\\&BR=(Higgsiteprice-closingprice)/(closingprice-lowestprice)*100\\\end{aligned}
 $$
 
 其中，AR 主要反映市场买卖情绪，BR 反映市场买卖意愿程度。两者都从不同角度分析股价波动，进而反映市场情绪。
 
 9. 换手率表示股票市场一天内股票交易的频率，反映市场活跃程度。
 
-10. 每日实际波动率 $\mathrm{RV_{t}}$ 可根据 Andersen 等人（2003）的计算方式，首先使用两个相邻的 5 分钟对数收盘价数据 $\mathrm{P_{t,d}}$ 计算高频收益率 $\mathtt{R}_{\mathtt{t},\mathtt{d}}$ ，即
+10. 每日实际波动率 $\mathrm{RV_{t}}$ 可根据 Andersen 等人（2003）的计算方式，首先使用两个相邻的 5 分钟对数收盘价数据 $\mathbf{P_{t,d}}$ 计算高频收益率 $\mathrm{R}_{\mathbf{t},\mathbf{d}}$ ，即
 
 $$
 R_{t,d}=100(lnP_{t,d}-lnP_{t,d-1})
 $$
 
-其中 $\mathrm{t}=1,2,3,4,\dots,2741,\mathrm{d}=1,2,\dots,48.$ . 那么第t天的实际波动率是所有高频收益率的平方和，即为
+其中 $\mathsf{it=1,}2\mathsf{,}3\mathsf{,}4\mathsf{,}\dots\mathsf{,}2741\mathsf{,}\mathsf{d=1,}2\mathsf{,}\dots\mathsf{,}48\mathsf{.}$ . 那么第t天的实际波动率是所有高频收益率的平方和，即为
 
 $$
 RV_{t}=\sum_{d=1}^{48}R_{t,d}^{2}
@@ -203,27 +203,27 @@ $$
 为了反映预测结果的准确性，作者需要使用损失函数来衡量它。本文中损失值的测量是多方面的，所以作者选择六个损失函数来衡量预测不同方法的结果。作者使用均方误差(MSE)、均方根误差(RMSE)、平均绝对误差(MAE)、均方对数误差(MSLE)，决定系数(R2)和根均值平方预测误差(RMSPE)函数；具体的公式如下：
 
 $$
-MAE=\frac{1}{n}\sum\left|Y-Y_{predict}\right|
+MAE=\frac{1}{n}\sum|Y-Y_{predict}|
 $$
 
 $$
-MSE=\frac{1}{n}\sum\left(Y-Y_{predict}\right)^{2}
+MSE=\frac{1}{n}\sum\left(Y-Y_{predict}\right)^2
 $$
 
 $$
-RMSE=\sqrt{\frac{1}{n}\sum\left(Y-Y_{predict}\right)^{2}}
+RMSE=\sqrt{\frac{1}{n}{\sum}{\left(Y-Y_{predict}\right)}^{2}}
 $$
 
 $$
-MSLE=\frac{1}{n}{\sum}\left(\ln(1+Y)-\ln(1+Y_{predict})\right)^{2}
+MSLE=\frac{1}{n}\sum\left(\ln(1+Y)-\ln(1+Y_{predict})\right)^{2}
 $$
 
 $$
-R^{2}=1-{\frac{\sum(Y-Y_{predict})^{2}}{\sum(Y-Y_{mean})^{2}}}
+R^{2}=1-\frac{\sum(Y-Y_{predict})^{2}}{\sum(Y-Y_{mean})^{2}}
 $$
 
 $$
-RMSPE=\sqrt{\frac{1}{n}\sum\left(1-\frac{Y_{predict}}{Y}\right)^{2}}
+RMSPE=\sqrt{\frac{1}{n}{\sum}\left(1-\frac{Y_{predict}}{Y}\right)^{2}}
 $$
 
 其中Y为真实值， $Y_{predict}$ 是预测值。
@@ -255,16 +255,16 @@ On stock volatility forecasting based on text mining and deep learning under hig
 首先，作者用中文的褒贬词常用词汇库作为第一轮的标注分类；也就是说，搜索这个评论中所有汉语的褒义词、贬义词、中性词。积极的词为正数、中性的词为零，贬义词为负数，并且词的强度被标记为权重。如果结果是大于零，将标记为 1 并代表积极情绪；如果它等于零，将被标记为0 并代表中性情绪；如果它小于零，将被标记为-1 并代表负面情绪。但是，这种打标签方法存在一些问题；与表达股票相关情绪的表扬或批评的词汇不多，简单标签方法往往不能反映投资者真实想法，但是表达情绪的这些话往往是决定性的。为此，作者建立了一个与股票有关的词汇表。为了使这个新词汇表更有针对性，作者已经算过所有评论中单词的频率和对经常出现的词汇进行情绪标注，这样就编制了一个股票评论情绪词汇表。不同之处在于，这个股票评论情绪词汇表对句子情感的判断更具代表性和决定性。在第一轮的基础上，第二轮给文本情绪进一步标注。如果文本中出现了股票情感词汇表中的词汇，新的情感判断会覆盖原本的情绪。该方法在后来进行了手动测试，发现情绪测量的准确率得到显着改善。经过两轮标注，作者可以得到更准确的情绪评价的结果。在分析了投资者情绪后，作者将进一步量化情绪。每条评论的影响是不同的。有些评论会被识别，但有些评论可能不被重视。为了解决这个问题，作者对每条评论的影响采用了加权方法，把评论的浏览数作为权重。为了合理评估当天的情绪，使用 Antweiler 和 Frank 在(2004)年文章中提出的股票评论情绪标注的方法：
 
 $$
-\begin{array}{c}{{Mood_{t}=(\displaystyle\frac{M_{t}^{pos}-M_{t}^{neg}}{M_{t}^{pos}+M_{t}^{neg}})\mathrm{ln}(1+M_{t})}}\\{{{}}}\\{{M_{t}=M_{t}^{pos}+M_{t}^{neg}+M_{t}^{neu}}}\end{array}
+\begin{aligned}&Mood_{t}=(\frac{M_{t}^{pos}-M_{t}^{neg}}{M_{t}^{pos}+M_{t}^{neg}})\mathrm{ln}(1+M_{t})\\&\\&\quad M_{t}=M_{t}^{pos}+M_{t}^{neg}+M_{t}^{neu}\\\end{aligned}
 $$
 
 $Mood_{t}$ 是第t天的情绪指标， $M_{t}^{pos}$ $M_{t}^{neg}$ 和 $M_{t}^{neu}$ 分别是每天正面、负面、中性评论的加权总和，每日阅读量的权重为：
 
 $$
-M_{t}^{pos}=\sum_{j=0}^{N}r_{j}*S_{j}
+M_{t}^{pos}=\sum_{j=0}^{N}r_{j}*S_{j},
 $$
 
-$S_{j}$ 是第j个当天评论的正面情绪得分，是在评论中的积极词与情感词汇表的匹配比例，消极和中性也采取一样的方法。 $\begin{array}{r}{S>\frac{1}{3}}\end{array}$ 表示评论是积极， $\begin{array}{r}{S=\frac{1}{3}}\end{array}$ 表示评论是中性， $S<\frac{1}{3}$ 表示评论是消极。根据以上的方法，可以量化情绪并将其加入波动率预测指标。
+$S_{j}$ 是第j个当天评论的正面情绪得分，是在评论中的积极词与情感词汇表的匹配比例，消极和中性也采取一样的方法。 $S>\frac{1}{3}$ 表示评论是积极， $S={\frac{1}{3}}$ 表示评论是中性， $S<\frac{1}{3}$ 表示评论是消极。根据以上的方法，可以量化情绪并将其加入波动率预测指标。
 
 ## 3.3 实际波动率估计
 

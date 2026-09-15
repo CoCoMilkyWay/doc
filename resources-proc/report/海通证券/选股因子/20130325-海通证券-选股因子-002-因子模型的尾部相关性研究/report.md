@@ -52,43 +52,43 @@ Email：fengjr@htsec.com
 
 Sklar 在 1959 年提出的名为“Copula”的函数，有效克服了传统相关性度量的种种局限，良好的性质使其在金融领域得到了广泛地应用。不失一般性，下文将集中讨论两个变量的 Copula 函数，所有的定义和结论都能方便地推广到 N个变量的情形。
 
-假设两个随机变量X和Y的联合分布函数为 $\mathsf{F}(\cdot,\cdot)$ ，其各自的分布函数分别为 $\mathsf{F}_{\mathsf{X}}(\cdot)$ 和 $\mathsf{F}_{\mathsf{Y}}(\cdot)$ ，存在一个定义在 $[0,1]\times[0,1].$ 上的函数 $\mathsf{C}(\cdot,\cdot)$ ，使得
+假设两个随机变量X和Y的联合分布函数为 $\mathsf{F}(\cdot,\cdot)$ ，其各自的分布函数分别为 $\mathsf{F}_{\mathsf{X}}(\cdot)$ 和 $\mathsf{F}_{\mathsf{Y}}(\cdot)$ ，存在一个定义在 $[0,1]\times[0,1].$ 上的函数 $\mathbf{C}(\cdot,\cdot)$ ，使得
 
 $$
-\mathsf{F}(\mathsf{x},\mathsf{y}){=}\mathsf{C}(\mathsf{F}_{\mathsf{X}}(\mathsf{x}),\mathsf{F}_{\mathsf{Y}}(\mathsf{y}))\ ,\tag{1}
+\mathsf{F}(\mathsf{x},\mathsf{y}){=}\mathsf{C}(\mathsf{F}_{\mathsf{X}}(\mathsf{x}),\mathsf{F}_{\mathsf{Y}}(\mathsf{y}))\enspace,\tag{1}
 $$
 
-对任意的(x,y)都成立，那么函数 C(•,•)称为随机变量 X和 Y的 Copula。可以证明，(1)式定义的相关性具有严格单调增变换下的不变性。即，如果 ${\mathfrak{g}}_{1}(\cdot){\bar{\star}}^{}{\mathfrak{g}}_{2}(\cdot)$ 分别是 X，Y定义域上的严格单调增函数，那么 $\begin{array}{r}{\tilde{\mathsf{X}}=\mathsf{g}_{1}(\mathsf{X}),\tilde{\mathsf{Y}}=\mathsf{g}_{2}(\mathsf{Y}).}\end{array}$ )和 X，Y 有着完全相同的 Copula函数 C。这一优良的性质保证 Copula 是随机变量内在相关性的一个合理度量。下文将具体介绍如何从 Copula 出发，定义和计算随机变量间的尾部相关系数。
+对任意的(x,y)都成立，那么函数 C(•,•)称为随机变量 X和 Y的 Copula。可以证明，(1)式定义的相关性具有严格单调增变换下的不变性。即，如果 $g_{1}(\cdot)和g_{2}(\cdot)$ 分别是 X，Y定义域上的严格单调增函数，那么 $\tilde{\mathsf{X}}=\mathsf{g}_{1}(\mathsf{X}),\;\tilde{\mathsf{Y}}=\mathsf{g}_{2}(\mathsf{Y}))$ )和 X，Y 有着完全相同的 Copula函数 C。这一优良的性质保证 Copula 是随机变量内在相关性的一个合理度量。下文将具体介绍如何从 Copula 出发，定义和计算随机变量间的尾部相关系数。
 
 ## 1.2 COPULA 到尾部相关系数
 
-从 Copula 的定义和性质可以看出，函数 $\mathsf{C}(\cdot,\cdot)$ 包含了随机变量之间相关关系的所有信息。因此，如果定义的尾部相关系数是有意义的，那它必定和 Copula 函数有关。
+从 Copula 的定义和性质可以看出，函数 $\mathbf{C}(\cdot,\cdot)$ 包含了随机变量之间相关关系的所有信息。因此，如果定义的尾部相关系数是有意义的，那它必定和 Copula 函数有关。
 
-在投资实践中，常常会考虑这样一个问题。假定有两项资产 X和 Y，当 Y经历较大的收益时，另一项资产 X也有相同经历的概率是多少。用数学的语言来表达，即研究当x 和 y趋于无穷大时，条件概率 $\overline{{\mathsf{F}}}(\mathsf{x}|\mathsf{y})=\mathsf{Pr}\{\mathsf{X}>\mathsf{x}|\mathsf{Y}>\mathsf{y}\}$ 的大小。进一步，如果选择$\mathsf{x}{=}\mathsf{F_{x}}^{-1}(\mathsf{u})$ 以及 $\mathsf{y}{=}\mathsf{F_{Y}}^{-1}(\mathsf{u})$ ，并以 $u1$ 代替 $\mathsf{x},\mathsf{y}\longrightarrow\infty$ ，便可给出上尾相关系数的准确定义：
+在投资实践中，常常会考虑这样一个问题。假定有两项资产 X和 Y，当 Y经历较大的收益时，另一项资产 X也有相同经历的概率是多少。用数学的语言来表达，即研究当x 和 y趋于无穷大时，条件概率 $\bar{F}(x\mid y)=\Pr\{X>x\mid Y>y\}$ 的大小。进一步，如果选择$x=F_{X}^{-1}(u)$ 以及 $y=F_{Y}^{-1}(u)$ ，并以 $\mathbf{u}\rightarrow1$ 代替 $x,y\to\infty$ ，便可给出上尾相关系数的准确定义：
 
 $$
-\lambda_{_+}=\operatorname*{lim}_{\mathfrak u\to1^{-}}\mathsf{Pr}\{\mathsf{X}{\mathsf{>F_{x}}}^{-1}(\mathfrak u)|\mathsf{Y}{\mathsf{>F_{Y}}}^{-1}(\mathfrak u)\}\ \circ\tag{2}
+\lambda_{_{+}}=\operatorname*{lim}_{\mathsf{u}\to\mathsf{T}}\mathsf{Pr}\{\mathsf{X}\mathsf{>}\mathsf{F}_{\mathsf{X}}^{-1}(\mathsf{u})|\mathsf{Y}\mathsf{>}\mathsf{F}_{\mathsf{Y}}^{-1}(\mathsf{u})\}\;.\tag{2}
 $$
 
 经过简单的计算可知，这一尾部相关性的度量完全可以用 X和 Y的 Copula 函数表示：
 
 $$
-\lambda_{_{+}}=\operatorname*{lim}_{\mathsf{u}\to1^{-}}\frac{1-2\mathsf{u}+\mathsf{C}(\mathsf{u},\mathsf{u})}{1-\mathsf{u}}\circ\tag{3}
+\lambda_{+}=\lim_{u\rightarrow\Gamma}\frac{1-2u+C(u,u)}{1-u}\tag{3}
 $$
 
 从(3)式的右端可见， $\lambda_{+}$ 只不过是 Copula 函数在自变量取极限时的行为，而且关于 X和Y是对称的。由上文的讨论知，(3)式定义的尾部相关系数是合适且有意义的。类似地，也可定义下尾相关系数，即当 Y遭遇较大损失时，X也遭遇较大损失的概率：
 
 $$
-\lambda_{-}=\operatorname*{lim}_{\mathfrak u\to0^{+}}\mathsf{Pr}\{\mathsf{X}<\mathsf{F}_{\mathsf{X}}^{\ -\ 1}(\mathsf{u})|\mathsf{Y}<\mathsf{F}_{\mathsf{Y}}^{\ \ -1}(\mathsf{u})\}=\operatorname*{lim}_{\mathsf{u}\to0^{+}}\frac{\mathsf{C}(\mathsf{u},\mathsf{u})}{\mathsf{u}}\ \circ\tag{4}
+\cal{X}_{\Gamma}=\operatorname*{lim}_{\mathsf{u}\to0^{\circ}}\mathsf{Pr}\{\mathsf{X}{<}\mathsf{F}_{\mathsf{X}}^{\Gamma^{1}}(\mathsf{u})|\mathsf{Y}{<}\mathsf{F}_{\mathsf{Y}}^{\Gamma^{1}}(\mathsf{u})\}=\operatorname*{lim}_{\mathsf{u}\to0^{\circ}}\frac{\mathsf{C}(\mathsf{u},\mathsf{u})}{\mathsf{u}}\;_{\circ}\tag{4}
 $$
 
 根据上述定义，可以计算各种常用 Copula 函数的尾部相关系数。例如，正态 Copula 的尾部相关系数为 0。相反，由下式定义的 Gumbel’s Copula
 
 $$
-\mathsf C_{\theta}(\mathsf u,\mathsf v)=\mathsf e\times\mathsf p\left(-[(-\mathsf{Inu})^{\theta}+(-\mathsf{Inv})^{\theta}]^{\frac1\theta}\right),\quad\theta\in[0,1]\ ,\tag{5}
+\mathbb{C}_{\theta}(\mathsf{U},\mathsf{v})=\exp\left(-\left[(-\mathsf{In}\mathsf{U})^{\theta}+(-\mathsf{In}\mathsf{v})^{\theta}\right]^{\frac{1}{\theta}}\right),\quad\theta\in[0,1],\tag{5}
 $$
 
-其上尾相关系数 $\lambda_{\mathrm{+}}=2-2^{\theta}$ 。当 $\theta=1$ 时，则称 Gumbel’s Copula 是渐近独立的。
+其上尾相关系数 $\lambda_{_+}=2-2^{\theta}$ 。当 $\theta=1$ 时，则称 Gumbel’s Copula 是渐近独立的。
 
 由(3)、(4)两式定义的尾部相关系数本质上是一个概率，因此取值范围在 0 到 1 之间，这一性质也与对相关系数的传统认识相一致。较大的 意味着在概率意义上，投资这两项资产遭遇的重大损失几乎确定是同时发生的，风险并没有因为分散化投资而消除。囿于市场的流动性，投资者或是基金经理的这一噩梦甚至有可能在实际操作中被进一步放大。所以，在投资前了解资产之间的尾部相关性对控制风险和增强收益都至关重要。
 
@@ -102,19 +102,19 @@ APT 等模型的理论支持，更有大量的实证结果予以佐证。不仅�
 
 ## 2.1 一般结论
 
-考虑两个随机变量 X和 Y，其累积分布函数分别为 $\mathsf{F}_{\mathsf{X}}(\mathsf{x})$ 和 $\mathsf{F}_{\mathsf{Y}}(\mathsf{y})$ ，其中 X 表示某一个股票的收益率，Y表示市场收益率。引入一个和 Y无关的噪 $\$\varepsilon$ ，那么因子模型可以简单地表示成如下形式：
+考虑两个随机变量 X和 Y，其累积分布函数分别为 $\mathsf{F}_{\mathsf{X}}(\mathsf{X})$ 和 $\mathsf{F}_{\mathsf{Y}}(\mathsf{y})$ ，其中 X 表示某一个股票的收益率，Y表示市场收益率。引入一个和 Y无关的噪 $,声\varepsilon$ ，那么因子模型可以简单地表示成如下形式：
 
 $$
-\mathsf{X}{=}\beta\cdot\mathsf{Y}{+}\varepsilon\ {\mathrm{~.~}}\tag{6}
+X=\beta\cdot Y+\varepsilon\tag{6}
 $$
 
 上式中的 $\beta$ 和 CAPM 中的定义相同，而 可能包含了其他一些和 Y独立的因子。在一定的条件与假定下，通过一系列计算可以得到(2)式中定义的 X和 Y之间的上尾相关系数：
 
 $$
-\lambda_{_{+}}=\int_{\mathsf{max}}^{\infty}\Bigl\{1,\frac{l}{\beta}\Bigr\}^{\mathsf{f}(\mathsf{x})dx,}\tag{7}
+\lambda_{_{+}}=\int_{\max\left\{1,\frac{l}{\beta}\right\}}^{\infty}f(x)dx,\tag{7}
 $$
 
-其中 l为 u→1 时， $\mathsf{F}_{\mathsf{X}}^{-1}(\mathsf{u})/\mathsf{F}_{\mathsf{Y}}^{-1}(\mathsf{u})$ 的极限，f(x)是 t→•时， $\mathsf{t}\cdot\mathsf{P}_{\mathsf{Y}}(\mathsf{t}\mathsf{x})/\overline{{\mathsf{F}}}_{\mathsf{Y}}(\mathsf{t})$ 的极限。 $\mathsf{P}_{\mathsf{Y}}$ 是Y的密度函数； $\mathsf{\overline{{F}}_{\mathrm{{v}}}}=1\mathrm{-}\mathsf{F}_{\mathrm{{v}}}$ ，为 Y的补充累积分布函数。
+其中 l为 u→1 时， $F_{X}^{-1}(u)/F_{Y}^{-1}(u)$ 的极限，f(x)是 t→•时， $\mathsf{t}\cdot\mathsf{P}_{\mathsf{Y}}(\mathsf{tx})/\bar{\mathsf{F}}_{\mathsf{Y}}(\mathsf{t})$ 的极限。 $\mathsf{P}_{\mathsf{Y}}$ 是Y的密度函数； $\overline{{F}}_{Y}=1-F_{Y}$ ，为 Y的补充累积分布函数。
 
 ## 2.2 快速变化因子的尾部相关系数
 
@@ -124,10 +124,10 @@ $$
 
 ## 2.3 t分布的尾部相关系数
 
-由于资产收益率的分布常常体现出幂函数的厚尾特征，那么很合理的一个假定就是认为因子 和噪声 $\varepsilon$ 同时服从那些衰减速度和幂函数同阶的分布。比如假定 和 分别服从自由度为 的 分布，记 所服从 分布的尺度参数为 $\sigma$ ， 所服从 分布的尺度参数为 1，那么由上文的结论可以计算得到 ${\sf f}({\sf x})=\nu/{\sf x}^{\nu+1}$ $l{=}[1+(\sigma/\beta)^{\nu}]^{1/\nu}$ ，从而 X和 Y尾部相关系数为
+由于资产收益率的分布常常体现出幂函数的厚尾特征，那么很合理的一个假定就是认为因子 和噪声 $\varepsilon$ 同时服从那些衰减速度和幂函数同阶的分布。比如假定 和 分别服从自由度为 的 分布，记 所服从 分布的尺度参数为 $\sigma$ ， 所服从 分布的尺度参数为 1，那么由上文的结论可以计算得到 $\mathsf{f}(\mathsf{x})=\nu/\mathsf{x}^{\nu+1}$ $l=\left[1+\left(\sigma/\beta\right)^{\nu}\right]^{1/\nu}$ ，从而 X和 Y尾部相关系数为
 
 $$
-\lambda_{\pm}=\frac{1}{1+\left(\displaystyle\frac{\sigma}{\beta}\right)^{\nu}},\frac{\#}{\varkappa}\Psi\left.\beta>0\ :_{\circ}\right.\tag{8}
+\lambda_{\pm}=\frac{1}{1+\left(\frac{\sigma}{\beta}\right)^{\nu}},其中\beta>0\text{ 。 }\tag{8}
 $$
 
 上式表明，尾部相关系数随着 $\beta$ 的增大而增大。如果 $\sigma>\beta$ ，当 时，尾部相关系数趋向于 0，这是因为如果 t分布的自由度为无穷大时，t 分布会渐近等于正态分布。而如前文所述，正态分布的尾部相关系数为 0。
@@ -136,22 +136,22 @@ $$
 
 上一部分中的 t分布只是一个特例，对更一般的常规变化因子，有如下的结论。
 
-假定 Y 服从尾部指数为 的常规变化分布，即 Y的补充分布函数为$\overline{{\mathsf{F}}}_{\mathsf{Y}}(\mathsf{y})=\mathsf{L}(\mathsf{y})\cdot\mathsf{y}^{-\alpha}$ ，其中 L(y)为慢速变化函数，即
+假定 Y 服从尾部指数为 的常规变化分布，即 Y的补充分布函数为$\bar{\mathsf{F}}_{\mathsf{Y}}(\mathsf{y})=\mathsf{L}(\mathsf{y})\cdot\mathsf{y}^{-\alpha}$ ，其中 L(y)为慢速变化函数，即
 
 $$
-\operatorname*{lim}_{\mathrm{t}\infty}{\frac{\mathrm{L}(\mathrm{t}\mathsf{y})}{\mathrm{L}(\mathrm{t})}}=1,\quad\forall\mathsf{y}>0\ \circ\tag{9}
+\lim_{t\to\infty}\frac{\mathsf{L}(ty)}{\mathsf{L}(t)}=1,\quad\forall y>0.\tag{9}
 $$
 
 其趋于 0的速度小于幂函数。由此可以证明，X和 Y的上尾相关系数为
 
 $$
-\begin{array}{r}{\lambda_{{\bf\Pi}_{+}}=\frac{1}{\left[\mathsf{max}\{1,\displaystyle\frac{l}{\beta}\}\right]^{\alpha}},}\end{array}\tag{10}
+\lambda_{_+}=\frac{1}{\left[\max\{1,\frac{l}{\beta}\}\right]^{\alpha}},\tag{10}
 $$
 
-其中，l表示 u→1 时，比值 $\mathsf{F}_{\mathsf{X}}{}^{-1}(\mathsf{u})/\mathsf{F}_{\mathsf{Y}}{}^{-1}(\mathsf{u})\mathsf{t}$ 的极限。在某些特殊的情况下，比如噪声 的分布同样是常规变化的，且尾部指数为 ，如果进一步假定 $\overline{{\mathsf{F}}}_{\mathsf{Y}}(\mathsf{y})=\mathsf{C}_{\mathsf{y}}\cdot\mathsf{y}^{-\alpha}$ 和$\overline{{\mathsf{F}}}_{\varepsilon}(\varepsilon)=\mathsf{C}_{\varepsilon}\cdot\varepsilon^{-\alpha}$ ，那么 X和 Y的上尾相关系数就能写为 $\mathsf{C}_{\varepsilon}^{\phantom{\dagger}}/\mathsf{C}_{\mathsf{y}}$ 的简单函数：
+其中，l表示 u→1 时，比值 $F_{X}^{-1}(u)/F_{Y}^{-1}(u)$ 的极限。在某些特殊的情况下，比如噪声 的分布同样是常规变化的，且尾部指数为 ，如果进一步假定 $\bar{F}_{y}(y)=C_{y}\cdot y^{-\alpha}$ 和$\bar{\mathsf{F}}_{\varepsilon}(\varepsilon)=\mathsf{C}_{\varepsilon}\cdot\varepsilon^{-\alpha}$ ，那么 X和 Y的上尾相关系数就能写为 $\mathbf{C}_{\varepsilon}/\mathbf{C}_{y}$ 的简单函数：
 
 $$
-\lambda_{+}=\frac{1}{\displaystyle1+\beta^{-\alpha}\cdot\frac{\mathsf C_{\varepsilon}}{\mathsf C_{\mathsf{y}}}},\tag{11}
+\lambda_{_+}=\frac{1}{1+\beta^{-\alpha}\cdot\frac{C_{_\varepsilon}}{C_{_y}}},\tag{11}
 $$
 
 至此，本文已对因子模型的尾部相关系数作了全面的介绍，下文将把这些结论用于实证分析，估计个股收益率和市场收益率的尾部相关性，并将所获的估计结果与历史数据进行交叉验证。
@@ -225,10 +225,10 @@ $$
 通过 3.1和 3.2 节的讨论，不仅说明个股和市场收益率都服从常规变化分布，而且因子模型(6)的假定也是合理的，那么想要根据(11)式估计出尾部相关系数，必须先知晓尾部指数 的取值。 在 年提出了一种估计方法，因其计算简便、性质优良而获得广泛应用。对于上尾相关系数，Hill估计具有如下的形式：
 
 $$
-\hat{\alpha}=\left[\frac{1}{\mathsf{K}}\sum_{\mathrm{j}=1}^{\mathsf{k}}\mathsf{log}\mathsf{x}_{\mathrm{j},\mathsf{N}}-\mathsf{log}\mathsf{x}_{\mathrm{k},\mathsf{N}}\right]^{-1},\tag{12}
+\hat{\alpha}=\left[\frac{1}{\mathsf{k}}\sum_{\mathsf{j}=1}^{\mathsf{k}}\mathsf{log}\mathsf{x}_{\mathsf{j},\mathsf{N}}-\mathsf{log}\mathsf{x}_{\mathsf{k},\mathsf{N}}\right]^{\mathsf{T}},\tag{12}
 $$
 
-其中 $\mathsf{X}_{1,\mathsf{N}}2\mathsf{X}_{2,\mathsf{N}}2...\ge\mathsf{X}_{\mathsf{N},\mathsf{N}},$ 表示的是随机变量 的 个独立同分布样本的顺序统计量。倘若要估计下尾相关系数对应的尾部指数，只需令 $\tilde{\mathsf{X}}_{\mathrm{i}}=-\mathsf{X}_{\mathrm{i}},\mathsf{i}=1,\ldots,\mathsf{N}$ ，便可用相同的方式求得。因此，为节省篇幅，此处暂时只讨论上尾的情形。
+其中 $x_{1,N}{\geq}x_{2,N}{\geq}\ldots{\geq}x_{N,N},$ 表示的是随机变量 的 个独立同分布样本的顺序统计量。倘若要估计下尾相关系数对应的尾部指数，只需令 $\tilde{\mathbf{x}}_{\mathrm{i}}=-\mathbf{x}_{\mathrm{i}},\mathrm{i}=1,\ldots,\mathrm{N}$ ，便可用相同的方式求得。因此，为节省篇幅，此处暂时只讨论上尾的情形。
 
 在一定的正则条件下，可以证明 估计的渐近分布是均值为 ，方差为 $\alpha^{2}$ /k的正态分布。但是在样本有限的情况下，Hill估计的表现完全依赖于 k 的选择。从理论上讲，确实存在一个最优的 ，但在实际操作中常常会面临两难的境地。一方面，随着的增大，估计量的方差将逐渐变小。另一方面， 是对分布尾部行为的刻画，过大的就偏离了尾部的定义，使得估计的偏差增大。因此，k的选择实质上是在方差与偏差之间的权衡。经验的做法是，以一条正整数序列作为 k 的可能取值，代入(12)式计算得到尾部指数的估计量序列，选择第一段较为稳定的 ˆ 序列的均值作为最终的 Hill估计。按照这一准则，下文的实证发现，不论是上尾还是下尾，用来估计个股和指数 的数据大致都落在样本的上下 的分位点之间。因此，分别在 、 和 这三个分位点上计算沪深 指数以及残差的尾部指数作为确定最终取值的基础。
 
@@ -244,19 +244,19 @@ $$
 
 既然上文的检验无法拒绝市场与残差拥有相同的尾部指数这一假设，那足以说明个股和市场间确实存在非零的尾部相关系数。然而，由(11)式可知，要确定最终的系数，还需估计不同股票的正则参数。
 
-根据上文的定义，假定 X渐近服从一个与幂函数同阶的分布，即 $\mathsf{Pr}\{\mathsf{X}{\mathsf{s}}{\mathsf{x}}\}=\mathsf{C}\cdot\mathsf{X}^{-\alpha}$ 给定顺序统计量 $\mathsf{x}_{1,\mathsf{N}}2\mathsf{x}_{2,\mathsf{N}}2...\ge\mathsf{x}_{\mathsf{N},\mathsf{N}}$ ，，那么正则参数 C可由最大的第 k 个实现估计得到。即，
+根据上文的定义，假定 X渐近服从一个与幂函数同阶的分布，即 $\operatorname*{Pr}\{X>x\}=C\cdot x^{-\alpha}$ 给定顺序统计量 $\mathsf{x}_{1,\mathsf{N}}{\geq}\mathsf{x}_{2,\mathsf{N}}{\geq}\ldots{\geq}\mathsf{x}_{\mathsf{N},\mathsf{N}},$ ，，那么正则参数 C可由最大的第 k 个实现估计得到。即，
 
 $$
-\hat{\mathsf{C}}=\frac{\mathsf{k}}{\mathsf{N}}\cdot(\mathsf{x}_{\mathsf{k},\mathsf{N}})^{\alpha}\mathrm{~,~}\tag{13}
+\hat{\mathbf{C}}=\frac{\mathbf{k}}{\mathsf{N}}\cdot(\mathbf{x}_{\mathbf{k},\mathsf{N}})^{\alpha}\mathrm{~,~}\tag{13}
 $$
 
-由此，记 $\hat{\mathsf{C}}_{\mathsf{v}}$ 和 $\hat{\mathsf C}_{\varepsilon}$ 分别为因子 Y和噪声 的正则参数，那么尾部相关系数的估计为
+由此，记 $\hat{\mathbf{C}}_{\gamma}$ 和 $\hat{\mathbf{C}}_{\varepsilon}$ 分别为因子 Y和噪声 的正则参数，那么尾部相关系数的估计为
 
 $$
-\hat{\lambda}_{+}=\frac{1}{1+\hat{\beta}^{-\alpha}\cdot\frac{\hat{\mathbf{C}}_{\varepsilon}}{\hat{\mathbf{C}}_{\mathsf{Y}}}}=\frac{1}{1+\left(\frac{\varepsilon_{\mathsf{k},\mathsf{N}}}{\hat{\beta}\cdot\mathsf{y}_{\mathsf{k},\mathsf{N}}}\right)^{\alpha}}\ :,\tag{14}
+\hat{\lambda}_{+}=\frac{1}{1+\hat{\beta}^{-\alpha}\cdot\frac{\hat{C}}{\hat{C}_{\mathrm{Y}}}}=\frac{1}{1+\left(\frac{\varepsilon_{\mathrm{k},\mathrm{N}}}{\hat{\beta}\cdot y_{\mathrm{k},\mathrm{N}}}\right)^{\alpha}}\tag{14}
 $$
 
-上文的实证分析表明，想要精确地决定每个股票的尾部指数是不现实的，比较合理的估计是在 和 之间。那在估计尾部相关系数时应该选用哪个值呢？本文通过经验的方法予以确定。在 $\alpha{=}3.5$ ， ， 这三种取值下，分别估计尾部相关系数，以检验不同尾部指数的敏感性。
+上文的实证分析表明，想要精确地决定每个股票的尾部指数是不现实的，比较合理的估计是在 和 之间。那在估计尾部相关系数时应该选用哪个值呢？本文通过经验的方法予以确定。在 $\alpha=3.5$ ， ， 这三种取值下，分别估计尾部相关系数，以检验不同尾部指数的敏感性。
 
 表 4 给出了 2005 年 4 月到 2013 年 1 月整个时间段上，每一个确定的尾部指数下，不同的 k 所对应的个股和市场的上尾相关系数估计的均值，标准误，和最值。其中，k取 20（1%上分位点）到 96（5%上分位点）的所有正整数。
 
@@ -348,7 +348,7 @@ $$
 为此，考虑沪深 300 指数在三个时间段内各发生的 10 次最大涨幅。根据定义， $\hat{\lambda}_{+}$ 为沪深 指数 次最大涨幅中的某一次发生时，个股 次最大涨幅中的一次也同时出现的条件概率。很显然，这一事件服从 Bernoulli分布，因而在 10次中出现 n次的概率应为：
 
 $$
-P_{_{\lambda+}}(n)=\binom{10}{n}\lambda_{_+}^{{\mathrm{\scriptsize~\it_{n}~}}}(1-\lambda_{_+})^{10-n},\tag{15}
+P_{\lambda_{+}}(n)=\binom{10}{n}\lambda_{+}^{n}(1-\lambda_{+})^{10-n},\tag{15}
 $$
 
 需要强调的是，只考虑 次而不是更多的最大涨幅保证了估计和检验独立性。因为进一步计算表明，剔除这 10 个样本点对上尾相关系数的估计影响极小。所以，从这个意义上来说，检验可以看作是样本外的。

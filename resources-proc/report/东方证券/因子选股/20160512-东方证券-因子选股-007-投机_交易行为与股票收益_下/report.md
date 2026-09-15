@@ -66,7 +66,7 @@ wangxingxing@orientsec.com.cn
 （2）计算股票 i的价格和参考价格的对数价差 $(PriceSpead_{i,t})$
 
 $$
-PriceSpead_{i,t}=ln\big((StockPrice_{i,t})-ln\big(ReferencePrice_{i,t}\big)
+PriceSpead_{i,t}=ln\big((StockPrice_{i,t}\big)-ln\big(ReferencePrice_{i,t}\big)
 $$
 
 （3）经过去 60日均值、标准差调整后的当前对数价差 $PriceSpead_{i,t}$ ，我们称之为价差偏离度。
@@ -247,7 +247,7 @@ $$
 BehaviorIndex_{i,t}=\frac{1}{3}[Q(IVR_{i,t})+Q\big(adjTurnover_{i,t}\big)+Q\big(SpreadBias_{i,t}\big)]
 $$
 
-其中， $BehaviorIndex_{i,t}$ 为股票 i 在时刻 t 的交易热度， $IVR_{i,t}$ 为股票 i 在时刻 t 的特异度，$adjTurnover_{i,t}$ 为股票i在时刻t的市值调整换手, $SpreadBias_{i,t}$ 为股票i在时刻t的价差偏离度（60日）。 $Q(I_{i,t})$ 表示股票 i的指标 $\dot{\cdot}I_{i,t}$ 在时刻 t样本空间内所有股票中所对应的分位数（累计分布概率）。
+其中， $BehaviorIndex_{i,t}$ 为股票 i 在时刻 t 的交易热度， $IVR_{i,t}$ 为股票 i 在时刻 t 的特异度，$adjTurnover_{i,t}$ 为股票i在时刻t的市值调整换手, $SpreadBias_{i,t}$ 为股票i在时刻t的价差偏离度（60日）。 $Q(I_{i,t})$ 表示股票 i的指标 $\bar{\cdot}I_{i,t}$ 在时刻 t样本空间内所有股票中所对应的分位数（累计分布概率）。
 
 根据交易热度的定义可知，交易热度的取值在 0-1 之间，交易热度取值越高，表明股票交易的活跃程度越高，相对越高估，后期预期收益率越低。
 

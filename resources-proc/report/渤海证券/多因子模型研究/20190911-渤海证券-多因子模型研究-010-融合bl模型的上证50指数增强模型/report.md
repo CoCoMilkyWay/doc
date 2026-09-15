@@ -265,10 +265,10 @@ BL模型是马尔科维茨均值方差模型的一种优化模型，其核心理
 
 ## 3.2 Black-Litterman 模型理论简介
 
-假设现有 种资产，其收益率为 $\mathrm{R}=\{R_{1},~R_{2},~\cdots R_{N}\}$ ，BL 模型中假设 服从联合正态分布，即 ${}^{\mathcal{I}}R{\sim}\mathrm{N}\mathrm{~}\left(\mu,\Sigma\right)$ ，其中 和 为各资 $\cdot\vec{p}$ 预期收益率的期望值和协方差矩阵。现在假设估计向量 $\subset\mu.$ 本身也是随机的，并且服从正态分布
+假设现有 种资产，其收益率为 $\mathbb{R}=\{R_{1},\quad R_{2},\quad\cdots R_{N}\}$ ，BL 模型中假设 服从联合正态分布，即 $R\sim N(\mu,\Sigma)$ ，其中 和 为各资 $\cdot 产$ 预期收益率的期望值和协方差矩阵。现在假设估计向量 $\cdot\mu.$ 本身也是随机的，并且服从正态分布
 
 $$
-\mu{\sim}\mathrm{N}\ \left(\pi,\ \tau\Sigma\right)
+\mu{\sim}\mathrm{N}(\pi,\tau\Sigma)
 $$
 
 接下来考虑主观观点，每条观点均用资产收益率的线性方程组来表示：
@@ -277,12 +277,12 @@ $$
 p_{i1}\mu_{1}+p_{i2}\mu_{2}+\cdots+p_{iN}\mu_{N}=q_{i}+\varepsilon_{i}
 $$
 
-其中， $\varepsilon_{i}$ 为观点的误差项， $\varepsilon_{i}{\sim}N(q,\sigma_{i}^{2})$ ， $\sigma_{i}^{2}$ 为观点的信心水平。
+其中， $\varepsilon_{i}$ 为观点的误差项， ${\varepsilon}_{i}{\sim}N(q,{\sigma}_{i}^{2})$ ， $\sigma_{i}^{2}$ 为观点的信心水平。
 
 所有的主观观点可以用
 
 $$
-P\mu{\sim}\mathrm{N}(\mathrm{q},\Omega)
+P\mu{\sim}\mathsf{N}(\mathsf{q},\Omega)
 $$
 
 来表达，其中
@@ -299,7 +299,7 @@ $$
 
 2. 确定市场预期收益率向量，即先验预期收益率；
 
-3. 融合主观观点，即确定 $\mathrm{P},\mathbf{q},\Omega;$
+3. 融合主观观点，即确定 $[\mathbf{P},\mathbf{q},\Omega]$
 
 4. 修正后验收益率，即对后验预期收益和协方差矩阵进行计算；
 

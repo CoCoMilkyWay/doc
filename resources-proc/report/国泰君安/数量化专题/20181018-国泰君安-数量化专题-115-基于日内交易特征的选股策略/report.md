@@ -163,7 +163,7 @@ S0880117080176
 剔除行业与风格后因子的IC、ICIR采用了以下算法:
 
 $$
-\begin{array}{rl}{V=\beta_{\alpha}X_{\mathrm{atanstry}}+\beta_{\mathrm{i}}X_{\mathrm{stanstry}}+\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}+\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}+\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}}&{=\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}}\\{+\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}+\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}+\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}+\beta_{\mathrm{i}}X_{\mathrm{stanstrons}}}&{}\\{+\beta_{\mathrm{s}}X_{\mathrm{netanstrons}}+c_{\mathrm{v}}}&{}\\{R=r_{0}X_{\mathrm{atanstrons}}+r_{\mathrm{i}}X_{\mathrm{stanstrons}}+r_{\mathrm{v}}X_{\mathrm{atanstrons}}+r_{\mathrm{a}}X_{\mathrm{stanstrons},\mathrm{vande}}}\\{+r_{\mathrm{s}}X_{\mathrm{atanstrons}}+r_{\mathrm{v}}X_{\mathrm{atanstrons}}+r_{\mathrm{v}}X_{\mathrm{stanstrons}}+r_{\mathrm{v}}X_{\mathrm{atanstrons}}}&{}\\{+\gamma_{\mathrm{s}}X_{\mathrm{atanstrons}}+c_{\mathrm{v}}X_{\mathrm{atanstrons}}+r_{\mathrm{v}}X_{\mathrm{atanstrons}}}&{}\\{+\gamma_{\mathrm{s}}X_{\mathrm{netanstrons}}}&{}\\{IC-corr(\varepsilon_{\mathrm{r}},\delta_{\mathrm{r}})}\\ICIR=\frac\overline\end{array}
+\begin{aligned}V=\beta_{_0}X_{_{industry}}+\beta_{_1}X_{_{beta}}+\beta_{_2}X_{_{monentinw}}+\beta_{_3}X_{_{size}}+\beta_{_4}X_{_{earnings\_yidill}}\\&+\beta_{_5}X_{_{grouth}}+\beta_{_6}X_{_{volaitility}}+\beta_{_7}X_{_{volate}}+\beta_{_8}X_{_{leregee}}\\&+\beta_{_9}X_{_{liquidity}}+\varepsilon_{_V}\\R=r_{_0}X_{_{industry}}+r_{_1}X_{_{beta}}+r_{_2}X_{_{monentinw}}+r_{_3}X_{_{size}}+r_{_4}X_{_{earnings\_yidil}}\\&+r_{_5}X_{_{grouth}}+r_{_6}X_{_{volaitility}}+r_{_7}X_{_{volate}}+r_{_8}X_{_{leregee}}\\&+r_{_9}X_{_{liquidity}}+\varepsilon_{_r}\\IC=corr(\varepsilon_{_V},\varepsilon_{_r})\\ICIR=\frac{\overline{IC}}{\sigma(IC)}\cdot\sqrt{12}\end{aligned}
 $$
 
 ## 2.1.交易情绪类因子
@@ -277,19 +277,19 @@ $$
 相关性衡量方式：非平稳时间序列相关性
 
 $$
-{\widehat{\rho_{0}}}={\frac{{\mathrm{A}}_{\mathrm{xy}}}{A_{x}A_{y}}}
+\widehat{\rho_{0}}=\frac{\mathrm{A}_{\mathrm{xy}}}{A_{x}A_{y}}
 $$
 
 $$
-A_{x}^{2}={\frac{1}{\mathbf{T}-1}}\Sigma_{t=2}^{T}(X_{t}-X_{t-1})^{2}
+\mathbf{A}_{x}^{2}=\frac{1}{\mathbf{T}-\mathbf{1}}\boldsymbol{\Sigma}_{t=2}^{\mathbf{T}}\left(\mathbf{X}_{t}-\mathbf{X}_{t-1}\right)^{2}
 $$
 
 $$
-A_{y}^{2}={\frac{1}{\operatorname{T}-1}}\Sigma_{t=2}^{T}(Y_{t}-Y_{t-1})^{2}
+\mathbf{A}_{y}^{2}=\frac{1}{\mathbf{T}-\mathbf{1}}\boldsymbol{\Sigma}_{t=2}^{\mathbf{T}}\left(\mathbf{Y}_{t}-\mathbf{Y}_{t-1}\right)^{2}
 $$
 
 $$
-A_{xy}={\frac{1}{\operatorname{T}-1}}\Sigma_{t=2}^{T}(X_{t}-X_{t-1})(Y_{t}-Y_{t-1})
+\boldsymbol{A}_{xy}=\frac{1}{\mathbf{T}-\mathbf{1}}\boldsymbol{\Sigma}_{t=2}^{\mathbf{T}}\left(\boldsymbol{X}_{t}-\boldsymbol{X}_{t-1}\right)\left(\boldsymbol{Y}_{t}-\boldsymbol{Y}_{t-1}\right)
 $$
 
 我们在《基于短周期价量特征的多因子选股体系》中发现了日间的量价背离对未来短期收益率有一定的预测能力。同样，我们使用日内数据刻画量价背离也得到了类似的结论。在原报告基础上，我们对相关系数的计算方法进行了一定的改进。
@@ -326,7 +326,7 @@ $$
 因子定义： 不同期间累计成交量方差比。
 
 $$
-\begin{array}{ccccccc}{{VR}}&{{=}}&{{\displaystyle\frac{Var~(\mathrm{\it~vol{{\it~t,k}}})~/~\textit{ }}{Var~(\mathrm{\it~vol{{\it~t,j}}})~/~\textit{ }};\mathrm{\it{vol{{{}}}}}}}&{{=}}&{{\displaystyle\sum_{i=1}^{k-1}\mathrm{\it{\ vol{{{{{}}}}}}}k}}&{{=}}&{{5,~j}}&{{=}~10}\end{array}
+V_{R}=\frac{V_{aR}\left(\nu oI_{_{t,k}}\right)/k}{V_{aR}\left(\nu oI_{_{t,j}}\right)/j};\nu oI_{_{t,k}}=\sum_{j=1}^{k-1}\nu oI_{_{t-j}};k=5,j=10
 $$
 
 核心逻辑：参照Poterba（1987）的观点，变异数比率反映成交量的自相关性。变异数比率大于 1，则成交量有正的自相关性，趋势性较强。变异数比率小于1，则成交量有负的自相关性，均值回复较强。

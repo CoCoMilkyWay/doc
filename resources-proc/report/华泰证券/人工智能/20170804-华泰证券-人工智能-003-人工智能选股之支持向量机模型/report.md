@@ -45,12 +45,12 @@ linxiaoming@htsc.com
 经典的多因子模型表达式为：
 
 $$
-\widetilde r=\sum_{k=1}^{K}X_{jk}*\widetilde f_{k}+\mu_{j}
+\tilde{r}={\sum}_{k=1}^{K}X_{jk}*\tilde{f}_{k}+\mu_{j},
 $$
 
 $X_{jk}$ ：股票j在因子k上的因子暴露（因子载荷）
 
-$\widetilde{f_{k}}$ ：因子k的因子收益
+$\widetilde{f}_{k}$ ：因子k的因子收益
 
 $\mu_{j}\colon$ 股票j的残差收益率
 
@@ -82,21 +82,21 @@ $\mu_{j}\colon$ 股票j的残差收益率
 
 ![](images/36587fda858a3acd841fbc0e7310f96e57322e389b7173ab7f135531e0b767bb.webp)
 
-下面我们将最大间隔分类的思想转换为数学语言。二维平面中的任意一条直线均可以表示为 $w_{1}x_{1}+w_{2}x_{2}+b=0$ 的形式，简记为 $\pmb{x}^{T}\pmb{w}+b=0$ ,其中x和w为列向量 $(x_{1},x_{2})$ 和 $(w_{1},w_{2})$ T为转置符号，b为常数。图表 2中的分类超平面（黑色直线）表示为 $\pmb{x}^{T}\pmb{w}+b=0$ ，其上方的最大边缘超平面（红色直线）则相应表示为 $x^{T}w+b-1=0$ ，即 $\pmb{x}^{T}\pmb{w}+b=1$ 。类似地，下方的最大边缘超平面（黑色直线）表示为 $\pmb{x}^{T}\pmb{w}+b=-1$ 。两个最大边缘超平面之间的间隔等 $\mp2/\|\pmb{w}\|$ ,其中‖w‖为向量 w 的 2 范数，即各元素平方和的平方根。
+下面我们将最大间隔分类的思想转换为数学语言。二维平面中的任意一条直线均可以表示为 $w_{1}x_{1}+w_{2}x_{2}+b=0$ 的形式，简记为 $\pmb{x}^{T}\pmb{w}+b=0$ ,其中x和w为列向量 $(x_{1},x_{2})$ 和 $(w_{1},w_{2})$ T为转置符号，b为常数。图表 2中的分类超平面（黑色直线）表示为 $\pmb{x}^{T}\pmb{w}+b=0$ ，其上方的最大边缘超平面（红色直线）则相应表示为 $\pmb{x}^{T}\pmb{w}+b-1=0$ ，即 $\pmb{x}^{T}\pmb{w}+b=1$ 。类似地，下方的最大边缘超平面（黑色直线）表示为 $\pmb{x}^{T}\pmb{w}+b=-1$ 。两个最大边缘超平面之间的间隔等 $于2/\|\boldsymbol{w}\|$ ,其中‖w‖为向量 w 的 2 范数，即各元素平方和的平方根。
 
 线性支持向量机的目标是寻找一组直线的参数w和 b，使得分类间隔取得最大值。目标函数可以写成：
 
 $$
-\operatorname*{max}_{\boldsymbol{w},\boldsymbol{b}}\frac{2}{\|\boldsymbol{w}\|}
+\underset{\boldsymbol{w},\boldsymbol{b}}{\operatorname*{max}}\frac{2}{\|\boldsymbol{w}\|}
 $$
 
 更常用的目标函数是上式的等价形式：
 
 $$
-\operatorname*{min}_{w,b}\frac{1}{2}\|\pmb{w}\|^{2}
+\operatorname*{min}_{\boldsymbol{w},b}\frac{1}{2}\|\boldsymbol{w}\|^{2}
 $$
 
-约束条件为： $y_{i}(x_{i}^{T}w+b)\geq1$ ，表明所有样本均归入正确的类别。其中 $(x_{i},y_{i})$ 表示第 i个样本的特征和标签。
+约束条件为： $y_{i}(\pmb{x}_{i}^{T}\pmb{w}+b)\geq1$ ，表明所有样本均归入正确的类别。其中 $(x_{i},y_{i})$ 表示第 i个样本的特征和标签。
 
 图表2： 线性支持向量机的分类超平面和最大边缘超平面
 ![](images/1a52fdcaa76432d37a90c69011fae377790ca05d3224a1dcb7d263e770535f60.webp)
@@ -115,22 +115,22 @@ $$
 此时我们将线性支持向量机的目标函数改写为：
 
 $$
-\operatorname*{min}_{\pmb{w},\pmb{b},\xi}(\frac{1}{2}\|\pmb{w}\|^{2}+C\sum_{i=1}^{n}\xi_{i})
+\operatorname*{min}_{\boldsymbol{w},b,\boldsymbol{\xi}}(\frac{1}{2}\|\boldsymbol{w}\|^{2}+C\sum_{i=1}^{n}\xi_{i}),
 $$
 
-约束条件为： $y_{i}(x_{i}^{T}w+b)\geq1-\xi_{i},\ \xi_{i}\geq0$ 。其中 $\xi_{i}$ 为第 i个样本的松弛变量，n为样本个数。
+约束条件为： $y_{i}(\boldsymbol{x}_{i}^{T}\boldsymbol{w}+b)\geq1-\xi_{i},\quad\xi_{i}\geq0$ 。其中 $\xi_{i}$ 为第 i个样本的松弛变量，n为样本个数。
 
 最小化目标函数的过程，实质上是约束条件下求极值的问题，可以通过拉格朗日乘子法（Method of Lagrange Multipliers），随后转换为对偶问题（Dual Problem）进行求解。这里我们省略推导过程，直接给出等价的对偶问题的目标函数：
 
 $$
-\operatorname*{max}_{\alpha}(\sum_{i=1}^{n}\alpha_{i}-\frac{1}{2}\sum_{i,j=1}^{n}y_{i}y_{j}\alpha_{i}\alpha_{j}\pmb{x}_{i}^{T}\pmb{x}_{j})
+\operatorname*{max}_{\alpha}({\sum}_{i=1}^{n}\alpha_{i}-{\frac{1}{2}}{\sum}_{i,j=1}^{n}y_{i}y_{j}\alpha_{i}\alpha_{j}{\pmb x}_{i}^{T}{\pmb x}_{j})
 $$
 
-约束条件为： $\begin{array}{r}{0\leq\alpha_{i}\leq C,\ \sum_{i=1}^{n}\alpha_{i}y_{i}=0_{\circ}}\end{array}$ 求出二次规划问题的解α̂（即拉格朗日乘子），最终得到分类边界的参数 $\begin{array}{r}{\pmb{\mathcal{W}}=\sum_{i=1}^{n}\hat{\alpha}_{i}y_{i}\pmb{x}_{i}}\end{array}$ ，判别函数为 $\begin{array}{r}{f(x)=\widehat{w}^{T}x+\widehat{b}=\sum_{i=1}^{n}\widehat{\alpha}_{i}y_{i}x_{i}^{T}x+}\end{array}$ $\widehat{b}_{\mathfrak{c}}$ 。当判别函数 $f(\pmb{x})\geq0\forall\forall$ ，预测ŷ = 1；当判别函数f(x) < 0时，预测ŷ = −1。
+约束条件为： $\begin{array}{r}{0\leq\alpha_{i}\leq C,\sum_{i=1}^{n}\alpha_{i}y_{i}=0\mathrm{。}}\end{array}$ 求出二次规划问题的解α̂（即拉格朗日乘子），最终得到分类边界的参数 $\begin{array}{r}{{\mathrm{i}}\widehat{\pmb w}=\sum_{i=1}^{n}\widehat{\alpha}_{i}y_{i}{\pmb x}_{i}}\end{array}$ ，判别函数为 $\begin{array}{r}{f(\pmb{x})=\widehat{\pmb{w}}^{T}\pmb{x}+\widehat{b}=\sum_{i=1}^{n}\widehat{\alpha}_{i}y_{i}\pmb{x}_{i}^{T}\pmb{x}+}\end{array}$ $\hat{b},$ 。当判别函数 $f(\boldsymbol{x})\geq0时$ ，预测ŷ = 1；当判别函数f(x) < 0时，预测ŷ = −1。
 
 ## 惩罚系数 C
 
-引进松弛变量后，目标函数在原有的基础之上新加入 $\begin{array}{rl}{.C\sum_{i=1}^{n}\xi_{i}-\pmb{\Sigma}\pounds}&{{}}\end{array}$ ，即所有样本松弛变量之和乘以系数 C。这里的系数 C 称为惩罚系数，表示模型对错误分类的容忍度。当 C 取较大的数时，即使很小的松弛变量 $\xi_{i}$ 也会造成很大的损失，因此分类器对错误分类的容忍度较低，将尽可能保证分类正确，从而导致较高的训练集正确率（如图表 4 左图）。反之，当 C 取较小的数时，分类器对错误分类的容忍度较高，允许错误分类的存在，分类器倾向于以最大间隔分类的原则进行分类（如图表 4右图）。
+引进松弛变量后，目标函数在原有的基础之上新加入 $$.C\sum_{i=1}^{n}\xi_{i}$一项$ ，即所有样本松弛变量之和乘以系数 C。这里的系数 C 称为惩罚系数，表示模型对错误分类的容忍度。当 C 取较大的数时，即使很小的松弛变量 $:\xi_{i}$ 也会造成很大的损失，因此分类器对错误分类的容忍度较低，将尽可能保证分类正确，从而导致较高的训练集正确率（如图表 4 左图）。反之，当 C 取较小的数时，分类器对错误分类的容忍度较高，允许错误分类的存在，分类器倾向于以最大间隔分类的原则进行分类（如图表 4右图）。
 
 一般来说，如果惩罚系数 C 取值过大，分类器容易受极端样本影响，造成过拟合的现象，尽管训练集正确率较高，但是测试集正确率并不高，即较低的偏差（Bias）和较大的方差（Variance）；如果惩罚系数 C 取值过小，分类器会过于不在乎分类错误，训练集和测试集正确率都将受损，导致较低的偏差和方差。因此，惩罚系数是影响支持向量分类器性能最为关键的参数之一。实际应用中，通常对惩罚系数 C进行遍历，选择使得交叉验证集正确率最高的 C作为模型最终的参数。
 
@@ -143,16 +143,16 @@ $$
 以上我们讨论的线性支持向量机能够解决分类问题。在原有的损失函数之上稍加改动，就能得到用于回归问题的支持向量回归（Support Vector Regression），其损失函数为：
 
 $$
-\operatorname*{min}_{\pmb{w},\pmb{b},\pmb{\xi},\pmb{\xi}^{*}}[\frac{1}{2}\|\pmb{w}\|^{2}+C\sum_{i=1}^{n}(\xi_{i}+\xi_{i}^{*})]
+\min_{\boldsymbol{w},b,\boldsymbol{\xi},\boldsymbol{\xi}^*}[\frac{1}{2}\|\boldsymbol{w}\|^2+C\sum_{i=1}^{n}(\boldsymbol{\xi}_i+\boldsymbol{\xi}_i^*)]
 $$
 
-约束条件为 $:-\varepsilon-\xi_{i}^{*}\leq y_{i}-(x_{i}^{T}w+b)\leq\varepsilon+\xi_{i},\xi_{i},\xi_{i}^{*}\geq0$ 。其中ε表示预测误差的容忍量，ξ 和ξ∗代表第 i个样本的松弛变量。
+约束条件为 $:-\varepsilon-\xi_{i}^{*}\leq y_{i}-(\boldsymbol{x}_{i}^{T}\boldsymbol{w}+b)\leq\varepsilon+\xi_{i},\xi_{i},\xi_{i}^{*}\geq0$ 。其中ε表示预测误差的容忍量，ξ 和ξ∗代表第 i个样本的松弛变量。
 
 ## 核支持向量机
 
 ## 非线性分类
 
-线性支持向量机能够处理线性分类问题，然而对于非线性分类问题，我们需要寻找新的解决途径。图表 5展示了经典的非线性分类问题——异或问题。左图中的样本点x包含 $x^{(1)}$ 和$x^{(2)}$ 两个维度的特征。显然，在二维平面内无法找到一条直线将红蓝两类样本区分开来。接下来我们引入增加维度的思想。在原来的二维特征基础之上增加一个维度，将 $(x^{(1)},x^{(2)})$ 映射到三维特征 $((\mathbf{x}^{(1)})^{2},(\mathbf{x}^{(2)})^{2},\sqrt{2}x^{(1)}x^{(2)})$ ，如图表 5 右图所示。此时，一个二维分类平面就可以将变换后的三维空间中的特征区分开来。
+线性支持向量机能够处理线性分类问题，然而对于非线性分类问题，我们需要寻找新的解决途径。图表 5展示了经典的非线性分类问题——异或问题。左图中的样本点x包含 $x^{(1)}$ 和$x^{(2)}$ 两个维度的特征。显然，在二维平面内无法找到一条直线将红蓝两类样本区分开来。接下来我们引入增加维度的思想。在原来的二维特征基础之上增加一个维度，将 $(x^{(1)},x^{(2)})$ 映射到三维特征 $((\mathrm{x}^{(1)})^{2},(\mathrm{x}^{(2)})^{2},\sqrt{2}x^{(1)}x^{(2)})$ ，如图表 5 右图所示。此时，一个二维分类平面就可以将变换后的三维空间中的特征区分开来。
 
 图表5： 非线性分类问题示意图
 ![](images/048f00524d419cfca4586e52bf242bb68ddef0dabe663a1612181aabbe07133d.webp)
@@ -161,33 +161,33 @@ $$
 核支持向量机的核心思想正是将非线性分类转化为线性分类。首先通过非线性映射φ把原始数据x变换到高维特征空间，随后使用线性支持向量机对高维空间下的数据进行分类，从而解决非线性分类问题：
 
 $$
-{\pmb x}\longmapsto\phi({\pmb x})=(\phi_{1}({\pmb x}),\ldots,\phi_{k}({\pmb x}),\ldots)
+{\pmb x}\mapsto\phi({\pmb x})=(\phi_{1}({\pmb x}),\dots,\phi_{k}({\pmb x}),\dots)
 $$
 
 实际应用中，在高维空间下优化对偶问题目标函数的计算量过大，人们使用核函数的技巧，绕开了高维特征的显式表达，从而巧妙地规避了“维数灾难”的问题。下面我们将对核函数的概念以及核支持向量机进行介绍。
 
 ## 核函数
 
-将原始数据x通过非线性映射 $\phi$ 变换到高维数据 $\phi({\pmb x})$ 后，线性支持向量机对偶问题的目标函数为：
+将原始数据x通过非线性映射 $i\phi$ 变换到高维数据 $\phi({\pmb x})$ 后，线性支持向量机对偶问题的目标函数为：
 
 $$
-\operatorname*{max}_{\alpha}[\sum_{i=1}^{n}\alpha_{i}-\frac{1}{2}\sum_{i,j=1}^{n}y_{i}y_{j}\alpha_{i}\alpha_{j}\phi(x_{i})^{T}\phi(x_{j})]
+\operatorname*{max}_{\alpha}[{\sum}_{i=1}^{n}\alpha_{i}-{\frac{1}{2}}{\sum}_{i,j=1}^{n}y_{i}y_{j}\alpha_{i}\alpha_{j}\phi({\pmb x}_{i})^{T}\phi\big({\pmb x}_{j}\big)]
 $$
 
-$\phi({\pmb x}_{i})$ 和 $\phi\big({x}_{j}\big)$ 的计算均在高维特征空间进行，计算量巨大。幸运的是，目标函数里的$\phi({\pmb x}_{i})^{T}\phi\big({\pmb x}_{j}\big)$ 实质上是两个向量的内积，记为 $\langle\phi({\pmb x}_{i}),\phi\bigl({\pmb x}_{j}\bigr)\rangle$ 。而任意一种映射方式 $\phi$ 的内积$\langle\phi({\pmb x}_{i}),\phi\bigl({\pmb x}_{j}\bigr)\rangle$ ，可以用一个确定的核函数K $(\pmb{x}_{i},\pmb{x}_{j})$ 加以刻画。核函数的计算只需要在低维特征空间进行，从而大大减少了运算复杂度。例如，图表 5 中二维平面到三维空间的非线性 映 射 $(x^{(1)},x^{(2)})\mapsto((\mathbf{x}^{(1)})^{2},(\mathbf{x}^{(2)})^{2},\sqrt{2}x^{(1)}x^{(2)})\hspace$ 下 的 内 积 可 以 用 核 函 数 $K\big(\pmb{x}_{i},\pmb{x}_{j}\big)=$ $\langle x_{i},x_{j}\rangle^{2}$ 刻画，证明过程参见图表 6。
+$\phi(\pmb{x}_{i})$ 和 $\phi(\boldsymbol{x}_{j})$ 的计算均在高维特征空间进行，计算量巨大。幸运的是，目标函数里的$\phi(\pmb{x}_{i})^{T}\phi(\pmb{x}_{j})$ 实质上是两个向量的内积，记为 $\langle\phi(\pmb{x}_{i}),\phi(\pmb{x}_{j})\rangle$ 。而任意一种映射方式 $\phi$ 的内积$\langle\phi(\pmb{x}_{i}),\phi(\pmb{x}_{j})\rangle$ ，可以用一个确定的核函数K $[({\pmb x}_{i},{\pmb x}_{j})$ 加以刻画。核函数的计算只需要在低维特征空间进行，从而大大减少了运算复杂度。例如，图表 5 中二维平面到三维空间的非线性 映 射 $(x^{(1)},x^{(2)})\mapsto((\mathtt{x}^{(1)})^{2},(\mathtt{x}^{(2)})^{2},\sqrt{2}x^{(1)}x^{(2)})$ 下 的 内 积 可 以 用 核 函 数 $K({\pmb x}_{i},{\pmb x}_{j})=$ $\langle\pmb{x}_{i},\pmb{x}_{j}\rangle^{2}$ 刻画，证明过程参见图表 6。
 
 图表6： 一种映射方式下的内积和核函数等价关系的实例
 
-低维特征： $\pmb{x}=((\mathbf{x}^{(1)})^{2},(\mathbf{x}^{(2)})^{2})$ ；高维特征： ${\phi}({\pmb x})=(\phi_{1}({\pmb x}),\phi_{2}({\pmb x}),\phi_{3}({\pmb x}))$
+低维特征： $\pmb{x}=((\mathtt{x}^{(1)})^{2},(\mathtt{x}^{(2)})^{2})$ ；高维特征： $\phi({\pmb x})=(\phi_{1}({\pmb x}),\phi_{2}({\pmb x}),\phi_{3}({\pmb x}))$
 
-映射方式 $\begin{array}{r}{\langle\mathbf{\boldsymbol{x}}\mapsto\boldsymbol{\phi}(\pmb{x})\colon(\pmb{x}^{(1)},\pmb{x}^{(2)})\mapsto((\mathbf{\boldsymbol{x}}^{(1)})^{2},(\mathbf{\boldsymbol{x}}^{(2)})^{2},\sqrt{2}\pmb{x}^{(1)}\pmb{x}^{(2)})}\end{array}$
+映射方式 $\mathbb{\Delta}\pmb{x}\mapsto\phi(\pmb{x})\colon(x^{(1)},x^{(2)})\mapsto((\mathtt{x}^{(1)})^{2},(\mathtt{x}^{(2)})^{2},\sqrt{2}x^{(1)}x^{(2)})$
 
-核函数： $K\big(\boldsymbol{x}_{i},\boldsymbol{x}_{j}\big)=\langle\boldsymbol{x}_{i},\boldsymbol{x}_{j}\rangle^{2}$
+核函数： $K\big(\pmb{x}_{i},\pmb{x}_{j}\big)=\langle\pmb{x}_{i},\pmb{x}_{j}\rangle^{2}$
 
-内积和核函数的等价性： $\begin{array}{r}{\langle\phi({\pmb x}_{i}),\phi\bigl({\pmb x}_{j}\bigr)\rangle=\sum_{k=1}^{3}\phi_{k}\left({\pmb x}_{i}\right)\phi_{k}\bigl({\pmb x}_{j}\bigr)}\end{array}$
+内积和核函数的等价性： $\begin{array}{r}{\langle\phi(\pmb{x}_{i}),\phi(\pmb{x}_{j})\rangle=\sum_{k=1}^{3}\phi_{k}(\pmb{x}_{i})\phi_{k}(\pmb{x}_{j})}\end{array}$
 
 $$
-=\big[x_{i}^{(1)}x_{j}^{(1)}\big]^{2}+\big[x_{i}^{(2)}x_{j}^{(2)}\big]^{2}+\big[\sqrt{2}x_{i}^{(1)}x_{i}^{(2)}\big]\big[\sqrt{2}x_{j}^{(1)}x_{j}^{(2)}\big]=\big[x_{i}^{(1)}x_{j}^{(1)}+x_{i}^{(2)}x_{j}^{(2)}\big]^{2}=\langle x_{i},x_{j}\rangle^{2}=K\big(x_{i},x_{j}\big)
+1=\left[x_{i}^{(1)}x_{j}^{(1)}\right]^{2}+\left[x_{i}^{(2)}x_{j}^{(2)}\right]^{2}+\left[\sqrt{2}x_{i}^{(1)}x_{i}^{(2)}\right]\left[\sqrt{2}x_{j}^{(1)}x_{j}^{(2)}\right]=\left[x_{i}^{(1)}x_{j}^{(1)}+x_{i}^{(2)}x_{j}^{(2)}\right]^{2}=\langle\boldsymbol{x}_{i},\boldsymbol{x}_{j}\rangle^{2}=K\big(\boldsymbol{x}_{i},\boldsymbol{x}_{j}\big).
 $$
 
 资料来源：华泰证券研究所
@@ -195,10 +195,10 @@ $$
 我们用核函数代替高维特征空间下的内积，得到对偶问题的目标函数：
 
 $$
-\operatorname*{max}_{\alpha}[\sum_{i=1}^{n}\alpha_{i}-\frac{1}{2}\sum_{i,j=1}^{n}y_{i}y_{j}\alpha_{i}\alpha_{j}K(x_{i},x_{j})]
+\operatorname*{max}_{\alpha}[{\sum}_{i=1}^{n}\alpha_{i}-{\frac{1}{2}}{\sum}_{i,j=1}^{n}y_{i}y_{j}\alpha_{i}\alpha_{j}K({\pmb x}_{i},{\pmb x}_{j})].
 $$
 
-约束条件为： $\begin{array}{r}{0\leq\alpha_{i}\leq C,\ \sum_{i=1}^{n}\alpha_{i}y_{i}=0}\end{array}$ 。对于一个新的样本x，我们可以计算判别函数$\begin{array}{r}{f(\pmb{x})=\pmb{\widehat{w}}^{T}\pmb{x}+\hat{b}=\sum_{i=1}^{n}\hat{\alpha}_{i}y_{i}K(\pmb{x}_{i},\pmb{x})+\hat{b}}\end{array}$ 。然后根据判别函数f(x)的值大于（或小于）零判断样本x属于哪个类别。注意到目标函数不包含低维到高维映射方式的显式表达，仅和核函数的选取有关，因此这种分类器称为核支持向量机（Kernel SVM）。
+约束条件为： $\begin{array}{r}{0\leq\alpha_{i}\leq C,\quad\sum_{i=1}^{n}\alpha_{i}y_{i}=0}\end{array}$ 。对于一个新的样本x，我们可以计算判别函数$\begin{array}{r}{f(\pmb{x})=\widehat{\pmb{w}}^{T}\pmb{x}+\widehat{b}=\sum_{i=1}^{n}\widehat{\alpha}_{i}y_{i}K(\pmb{x}_{i},\pmb{x})+\widehat{b}}\end{array}$ 。然后根据判别函数f(x)的值大于（或小于）零判断样本x属于哪个类别。注意到目标函数不包含低维到高维映射方式的显式表达，仅和核函数的选取有关，因此这种分类器称为核支持向量机（Kernel SVM）。
 
 任意一种映射方式都对应一个确定的核函数，理论上任何满足一定数学性质的核函数都可以成为核支持向量机的核函数。在实际应用中，通常使用线性核、多项式核、Sigmoid 核和高斯核，具体的函数表达式如图表 7。其中线性核等价于线性支持向量机。d 阶多项式核本质上将 m 维空间映射到C(m +d,d)维空间。Sigmoid 核相当于多层神经网络。高斯核较为特别，通过指数函数的泰勒展开可以证明，高斯核相当于将原始数据映射到无穷维空间。
 
@@ -206,11 +206,11 @@ $$
 
 1． 线性核： $\begin{array}{r}{K\big(\pmb{x}_{i},\pmb{x}_{j}\big)=\langle\pmb{x}_{i},\pmb{x}_{j}\rangle=\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}}\end{array}$
 
-2． 多项式核： $\begin{array}{r}{K\big({\boldsymbol x}_{i},{\boldsymbol x}_{j}\big)=\big(\gamma\langle{\boldsymbol x}_{i},{\boldsymbol x}_{j}\rangle+1\big)^{d}=(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)^{d}}\end{array}$ ，其中 d是多项式的阶数
+2． 多项式核： $\begin{array}{r}{K\big(\pmb{x}_{i},\pmb{x}_{j}\big)=\big(\gamma\langle\pmb{x}_{i},\pmb{x}_{j}\rangle+1\big)^{d}=(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)^{d}}\end{array}$ ，其中 d是多项式的阶数
 
-3． Sigmoid 核： $\begin{array}{r}{K\big({x}_{i},{x}_{j}\big)=\mathrm{tanh}\big(\gamma\langle{x}_{i},{x}_{j}\rangle+1\big)=\mathrm{tanh}(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)}\end{array}$
+3． Sigmoid 核： $K(\boldsymbol{x}_{i},\boldsymbol{x}_{j})=\tanh(\gamma\langle\boldsymbol{x}_{i},\boldsymbol{x}_{j}\rangle+1)=\tanh(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)$
 
-4． 高斯核（RBF核）： $K\big(\boldsymbol{x}_{i},\boldsymbol{x}_{j}\big)=\exp(-\gamma\big(\sum_{k=1}^{p}(x_{i}^{(k)}-x_{j}^{(k)})^{2}\big))$
+4． 高斯核（RBF核）： $K(\boldsymbol{x}_{i},\boldsymbol{x}_{j})=\exp(-\gamma(\sum_{k=1}^{p}(x_{i}^{(k)}-x_{j}^{(k)})^2))$
 
 资料来源：华泰证券研究所
 
@@ -284,7 +284,7 @@ c) 样本外区间：2011-01-31 至 2017-04-28 共 76 个月末截面期。
 
 ## 3． 特征预处理：
 
-a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},\ D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},~D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 ${}^{1}D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 b) 缺失值处理：得到新的因子暴露度序列后，将因子暴露度缺失的地方设为中信一级行业相同个股的平均值。
 
@@ -750,7 +750,7 @@ b) 回归问题：对于支持向量回归模型（以下简称 SVR），直接�
 
 在本篇报告的测试环节，我们在 SVM 训练前对数据进行了 PCA 处理，并且保留所有主成分，相当于保留原始数据的全部信息。同时由于我们的因子数并不多，因此无论是否做PCA，对运算效率的影响不大。因此我们最为关心的问题是，PCA 后保留全部主成分的预处理方式，对分类效果是否有影响？做不做 PCA的结果是否存在差别？
 
-这一问题很难从理论上得到解释，目前也没有相关文献支持。我们尝试以实例的形式探索这个问题。我们首先生成了一组二分类数据，两个维度 $x_{1}\hbar^{\phantom{}}x_{2}$ 存在正相关关系。随后分别使用高斯核、线性核、3 阶多项式核以及 Sigmoid 核 SVM 对原始特征 $.x_{1}$ 和 $x_{2}.$ 进行分类。接下来对原始特征进行 PCA，转换为 $z_{1}$ 和 ${\boldsymbol{\tau}}_{Z_{2}}$ 两个相互独立的主成分，并使用上述四种核SVM 对新特征 ${\bf\mathcal{Z}}_{1}$ 和 $z_{2}$ 进行分类。
+这一问题很难从理论上得到解释，目前也没有相关文献支持。我们尝试以实例的形式探索这个问题。我们首先生成了一组二分类数据，两个维度 $x_{1}和x_{2}$ 存在正相关关系。随后分别使用高斯核、线性核、3 阶多项式核以及 Sigmoid 核 SVM 对原始特征 $x_{1}$ 和 $x_{2}.$ 进行分类。接下来对原始特征进行 PCA，转换为 $z_{1}$ 和 ${}^{\tau}z_{2}$ 两个相互独立的主成分，并使用上述四种核SVM 对新特征 $.z_{1}$ 和 ${}^{\prime}z_{2}$ 进行分类。
 
 下图左边一列展示了不做 PCA的分类结果，中间一列展示了进行 PCA的分类结果。可以发现两种预处理方式对分类结果没有影响。在我们的多因子选股模型中，下期收益的预测是以样本点到分类超平面的距离，即决策函数值的形式给出的，因此我们还需要考察两种预处理方式下决策函数的值是否存在差异。下图右边一列中，每个点的横坐标代表不做PCA 时的决策函数值，纵坐标代表进行 PCA后的决策函数值。可以发现，对于高斯核和线性核，两种预处理方式的决策函数值完全相同；而对于多项式核和 Sigmoid 核，决策函数值发生了细微的变化，而这种变化可能是不保序的（如右下角 Sigmoid 核的情形），因而对选股结果可能造成微小的影响，但总体而言差异并不大。
 

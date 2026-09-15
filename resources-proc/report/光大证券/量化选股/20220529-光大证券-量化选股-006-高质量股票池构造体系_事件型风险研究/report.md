@@ -101,7 +101,7 @@ $$
 然后根据估计参数 $\alpha_{i}$ 和 $\beta_{i}$ ，计算事件窗口期[T-30,T+30]中第t日的超额收益和截至t日的平均累计超额收益，如下所示：
 
 $$
-\begin{array}{c}{{\displaystyle{\cal A}R_{i}^{t}=R_{i}^{t}-(\widehat\alpha_{\imath}+\widehat\beta_{\imath}R_{m}^{t})}}\\{{\displaystyle{\cal A}C{\cal A}R_{\imath}=\displaystyle\frac{1}{n}\sum_{i=1}^{n}\sum_{\tau=-30}^{t}{\cal A}R_{i}^{\tau}}}\end{array}
+\begin{aligned}&AR_{i}^{t}=R_{i}^{t}-(\widehat{\alpha}_{i}+\widehat{\beta}_{i}R_{m}^{t})\\&\quad ACAR_{t}=\frac{1}{n}\sum_{i=1}^{n}\sum_{\tau=-30}^{t}AR_{i}^{\tau}\\\end{aligned}
 $$
 
 其中， $R_{m}$ 为市场指数基准收益率，本文采用中证全指作为基准； $R_{i}$ 表示第i只股票的收益率。
@@ -370,10 +370,10 @@ $$
 为了平衡信息量和财务指标的预测能力，我们使用 IV（InformationValue）和WOE（Weight of Evidence）指标来辅助判断分箱个数。
 
 $$
-\begin{array}{c}{{IV=\displaystyle{\sum_{i=1}^{N}}(\frac{Good_{i}}{Good_{T}}-\frac{Bad_{i}}{Bad_{T}})\times WOE_{i}}}\\{{WOE_{i}=\displaystyle{\ln\bigg(\frac{Good_{i}}{Good_{T}}\bigg/\frac{Bad_{i}}{Bad_{T}}\bigg)}=\ln\bigg(\frac{Good_{i}}{Bad_{i}}\bigg)-\ln\big(\frac{Good_{T}}{Bad_{T}}\big)}}\end{array}
+\begin{aligned}&IV=\sum_{i=1}^{N}(\frac{Good_{i}}{Good_{T}}-\frac{Bad_{i}}{Bad_{T}})\times WOE_{i}\\&\\WOE_{i}=\ln\left(\frac{Good_{i}}{Good_{T}}\bigg/\frac{Bad_{i}}{Bad_{T}}\right)=\ln\left(\frac{Good_{i}}{Bad_{i}}\right)-\ln\left(\frac{Good_{T}}{Bad_{T}}\right)\\\end{aligned}
 $$
 
-其中 N 为分箱个数，i 表示第 i 个箱子， 表示第 i 个箱内正常财务报表的数量， $Good_{T}$ 表示全样本中正常财务报表的数量。 $Good_{i}/Good_{T}$ 表示第 i 个箱子中正常样本占全部正常样本的比例，负样本同理。
+其中 N 为分箱个数，i 表示第 i 个箱子， 表示第 i 个箱内正常财务报表的数量， $Good_{T^{1}}$ 表示全样本中正常财务报表的数量。 $Good_{i}/Good_{T}$ 表示第 i 个箱子中正常样本占全部正常样本的比例，负样本同理。
 
 $WOE_{i}$ 表示正常财务报表与异常财务报表比例的对数，也即对数财务危机风险概率。其本质是对比分箱内识别财务危机的概率和全样本中财务危机概率之间的差异。 $WOE_{i}$ 为负，说明该箱子相比于全样本更能够识别出负例样本。
 

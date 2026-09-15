@@ -136,7 +136,7 @@
 ## 3. 评价体系
 
 $$
-414\div\frac{3}{20}\times\frac{2}{50}\times\frac{2}{12}\times\frac{2}{50}\times\frac{2}{50}\times12=1(\mathrm{N}:314)=\frac{31}{20}\times352=\frac{1}{50}\times12
+年化收益率=策略最终净值^{250/N}-1\quad(N:测试周期内天数)
 $$
 
 夏普比率(Sharpe) =年化收益率/年化标准差 （年化标准差：日收益率标准差*√250）

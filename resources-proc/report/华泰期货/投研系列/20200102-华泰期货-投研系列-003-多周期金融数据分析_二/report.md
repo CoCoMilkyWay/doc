@@ -69,7 +69,7 @@
 该模型主要研究的是重现（Recurrence）。即在真实世界中，存在一些场景或相似场景的一次又一次的重现，虽然并非精确周期性。在数据处理中，这种重现的现象可以使用递归图来描述。递归图矩阵的定义如下，在空间中有两个状态xï⃗ 和xj⃗ 分别发生在 i 时刻和 j 时刻，那么递归图矩阵可以显示为：
 
 $$
-R_{i,j}=\binom{1}{0}\qquad\begin{array}{lc}{{if\bigl\|\overrightarrow{x_{i}}-\overrightarrow{x_{j}}\bigr\|<\epsilon}}\\{{otherwise}}\end{array}
+R_{i,j}=\left\{\begin{aligned}1&\qquad\textit{if}\left\|\overrightarrow{x_{i}}-\overrightarrow{x_{j}}\right\|<\epsilon\\0&\qquad\quad\textit{otherwise}\end{aligned}\right.
 $$
 
 其中ε是阈值。
@@ -80,10 +80,10 @@ $$
 ![](images/5adf676b31734278f25fe702e729ebe6f9dd98a077460da66d2617e4fee5982d.webp)
 数据来源：参考文献[1] ，华泰期货研究院
 
-我们截取海浪在高度等于0.9英尺的点（即图中的红点），然后以横纵坐标为时间轴，按照红点在海浪图中的时间排列顺序，在图中描出对应的点。图 3 则为对应递归图。为更精确的描述图 3，将两个状态 $x_{i}\hbar^{\mathrm{\Delta}}x_{j}$ 分别发生在i时刻和j时刻，那么递归图矩阵可以表示为：
+我们截取海浪在高度等于0.9英尺的点（即图中的红点），然后以横纵坐标为时间轴，按照红点在海浪图中的时间排列顺序，在图中描出对应的点。图 3 则为对应递归图。为更精确的描述图 3，将两个状态 $x_{i}和x_{j}$ 分别发生在i时刻和j时刻，那么递归图矩阵可以表示为：
 
 $$
-R_{i,j}=\left\{{\begin{array}{rlr}{1\quad}&{{}}&{if\ x_{i}=x_{j}=0.9}\\{0\quad}&{{}}&{otherwise}\end{array}}\right.
+R_{i,j}=\Big\{1\quad if\quad x_{i}=x_{j}=0.9\atop0\quad otherwise\Big\}
 $$
 
 图 2： 在海浪高度等于 0.9 英尺时的递归图
@@ -97,10 +97,10 @@ $$
 在对递归图做定量分析时，通常有如下几种指标可供参考：第一个指标是递归率（recurrence rate，RR），它计算的是在递归图除了对角线以外的部分，递归点在所有点中的占比。它的计算公式如下：
 
 $$
-RR(\varepsilon,N)=\frac{1}{N^{2}-N}\sum_{i\neq j=1}^{N}R_{i,J}^{m,\varepsilon}
+RR(\varepsilon,N)=\frac{1}{N^{2}-N}\sum_{i\neq j=1}^{N}R_{i,j}^{m,\varepsilon},
 $$
 
-其中N为递归图边长的点的个数，ε是阈值， $\mathrm{i,j}$ 分别为递归图的横纵坐标，m为递归图的维度，在海浪高度的递归图中 $\mathrm{m}{=}2$
+其中N为递归图边长的点的个数，ε是阈值， $\mathbf{i}_{j}$ 分别为递归图的横纵坐标，m为递归图的维度，在海浪高度的递归图中 $\mathbf{m}{=}2$
 
 其次，还会有诸如确定性（DET，递归点在递归图的对角线中的占比），层流率（LAM,递归点在递归图中垂直线的占比）之类的递归图指标。通过对这些指标的运用，我们就可以从定量的角度来评估递归图以及发现背后的规律。其中RR指标将是我们下文，在金融数据中运用该方法的关键指标。
 

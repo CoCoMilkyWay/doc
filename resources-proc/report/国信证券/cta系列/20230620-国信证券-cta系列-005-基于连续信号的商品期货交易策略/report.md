@@ -123,7 +123,7 @@ CTA策略中的交易信号是一种指示或触发交易的信号或条件。�
 具体而言，我们首先确定两条移动平均线，分别是短期均线和长期均线。两条均线均使用移动平均（EMA）算法。
 
 $$
-\left\{\begin{array}{lcl}{EMA_{i}=Close_{i}}&{,i=1}\\{EMA_{i}=Close_{i}*K+EMA_{i-1}*(1-K)}&{,i>1}\end{array}\right.
+\left\{\begin{aligned}EMA_{i}&=Close_{i}\quad&,i&=1\\EMA_{i}&=Close_{i}*K+EMA_{i-1}*(1-K)\quad&,i&>1\end{aligned}\right.
 $$
 
 其中，E �为E �值，C l �为收盘价，i 表示第 i 根 K 线，公式中�为收盘价系数，1−�为上一个E �系数，其中 $K=2/(Length+1)$ 。
@@ -131,7 +131,7 @@ $$
 我们定义长均线的��e �ℎ为 $Len_{1}$ ，短均线的��e �ℎ为���2。我们将短均线与长均线作差得到指标����。最终我们以����来作为判断�e �C 的标准：
 
 $$
-signal=\left\{{\begin{array}{l}{{1if{\cal{D}}iff_{i}>0\ and{\cal{D}}Iff_{i}>mean({\cal{D}}iff_{i-Len_{2}+1}+...+{\cal{D}}iff_{i})}}\\{-1if{\cal{D}}iff_{i}<0\ and{\cal{D}}Iff_{i}<mean({\cal{D}}iff_{i-Len_{2}+1}+...+{\cal{D}}iff_{i})}\end{array}}\right.
+signal=\left\{\begin{aligned}&1\quad if\ Dff_{i}>0\ and\ Dff_{i}>mean(Diff_{i-Len_{2}+1}+\ldots+Dff_{i})\\&-1\ if\ Dff_{i}<0\ and\ Diff_{i}<mean(Diff_{i-Len_{2}+1}+\ldots+Diff_{i})\end{aligned}\right.
 $$
 
 其中， $Len_{1}=100,Len_{2}=10$ o
@@ -223,7 +223,7 @@ $$
 海龟资金管理法确定杠杆率的具体计算公式为：
 
 $$
-\begin{array}{c}{{Lev_{ATR}=\displaystyle\frac{Pos_{ATR}}{Pos}=\displaystyle\frac{0.5\%}{ATR}\ast Close}}\\{{\mathbb{A}\mathbb{I}\colon\displaystyle\frac{ATR}{Close}=\displaystyle\frac{0.5\%}{Lev_{ATR}}}}\end{array}
+\begin{aligned}Lev_{ATE}=\frac{Pos_{ATE}}{Pos}=\frac{0.5\%}{ATR}*Closs\\即:\frac{ATE}{Closs}=\frac{0.5\%}{Lev_{ATE}}\end{aligned}
 $$
 
 其中， $Pos_{ATR}$ 为1单位���对应资金规模0.5%波动的应开手数, �l 为全部资金对应满仓可开手数，C l �为收盘价， $Lev_{ATR}$ 为应开手数除以满仓手数的开仓杠杆率。由上面算法计算出来的开仓杠杆率具有根据���波动调整杠杆率大小的特性。
@@ -240,7 +240,7 @@ $$
 
 资料来源：Tinysoft，国信证券经济研究所整理
 
-从表3中可以看出，在传统信号的基础上加入 $.Lev_{ATR}>1$ 作为开仓过滤信号的表现要明显优于 ${Lev}_{ATR}<1$ 的表现；并且相对于传统信号，加 $\lambda Lev_{ATR}>1$ 过滤信号后策略的单笔收益率均值和上、下四分位均有所提升，收益的波动率降低。由此可见，将价格波动幅度作为开仓过滤信号的效果较为有效。因此，当开仓杠杆率 ${.Lev}_{ATR}<1$ ，即波动较小时，即使此时传统信号为1，我们依然平仓操作。
+从表3中可以看出，在传统信号的基础上加入 $\llcorner Lev_{ATR}>1$ 作为开仓过滤信号的表现要明显优于 $Lev_{ATR}<1$ 的表现；并且相对于传统信号，加 $\lambda Lev_{ATR}>1$ 过滤信号后策略的单笔收益率均值和上、下四分位均有所提升，收益的波动率降低。由此可见，将价格波动幅度作为开仓过滤信号的效果较为有效。因此，当开仓杠杆率 $Lev_{ATR}<1$ ，即波动较小时，即使此时传统信号为1，我们依然平仓操作。
 
 ## 对价格变化中噪音的度量
 
@@ -251,10 +251,10 @@ $$
 具体来说，我们对于价格在某一时刻的趋势噪音衡量如下：
 
 $$
-TNR_{t,N}=\frac{|Close_{t}-Close_{t-N}|}{\sum_{i=t-N+1}^{t}|Close_{i}-Close_{i-1}|}
+TNR_{t,N}=\frac{\left|Close_{t}-Close_{t-N}\right|}{\sum_{i=t-N+1}^{t}\left|Close_{i}-Close_{i-1}\right|}
 $$
 
-其中， $TNR_{t,N}$ 代表在时刻�回看�期的价格趋势噪音，C l �代表价格，分子 $|Close_{t}-$ $Close_{t-N}|$ 表示期初与期末价格变化的绝对值，即价格曲线发生的“位移”；分母$\begin{array}{r}{\sum_{i=t-N+1}^{t}|Close_{i}-Close_{i-1}}\end{array}$ |表示在回看期内每次价格变动的绝对值之和，即价格曲线走过的“路程”。
+其中， $TNR_{t,N}$ 代表在时刻�回看�期的价格趋势噪音，C l �代表价格，分子 $|Close_{t}-$ $Close_{t-N}|$ 表示期初与期末价格变化的绝对值，即价格曲线发生的“位移”；分母$\textstyle\sum_{i=t-N+1}^{t}|Close_{i}-Close_{i-1}$ |表示在回看期内每次价格变动的绝对值之和，即价格曲线走过的“路程”。
 
 下图通过一个例子展示了���的计算方式，蓝色曲线表示了某一资产的价格在一段时期内的变化曲线。在这段时期内，该价格曲线的“位移”为 X，即为示意图中红色箭头表示的部分；所经的“路程”为�，为示意图中灰色箭头表示的部分，将所有灰色箭头的长度相加，即得到了价格曲线走过的“路程”。当实现位移的路程增加，则意味着价格在从开始点到结束点的过程中徘徊的时间较长，因此，价格中所包含的噪音越强。反之，如果价格较为直接的由起始点走到了结束点，则表明价格中的噪音较弱。
 
@@ -271,7 +271,7 @@ $$
 接下来，基于上述计算的���值的大小，我们对���的变化趋势进行了进一步的判断，计算方法为将当前时刻的���值减去�时刻前的���值。具体公式如下：
 
 $$
-\Delta TNR_{t,k}=TNR_{t}-\frac{\sum_{i=0}^{k-1}TNR_{t-i}}{k}
+\Delta TNR_{t,k}=TNR_{t}-\frac{\sum_{i=0}^{k-1}TNR_{t-i}}{k}.
 $$
 
 其中， $TNR_{t}$ 为当期时刻的趋势噪音比， $\frac{\sum_{i=0}^{k-1}TNR_{t-i}}{k}$ 为过去�期的趋势信噪比平均值，$\Delta TNR_{t,k}$ 衡量了在过去�期趋势噪音比的变化情况：如果 $\Delta TNR_{t,k}$ 为正，则说明在过去这段对应时期���在增大，即价格变化中的噪音在减小；反之说明价格变化中的噪音在增大。特别地，我们设定 $k=3$
@@ -324,12 +324,12 @@ $$
 
 当上述开仓信号触发后，我们进行开仓操作，随后，我们将对开仓后信号的持续度进行跟踪，并且根据信号的持续度来确定信号的强弱。
 
-首先，我们引入了两个变量，当触发多头开仓信号时， $Long=1\mathrm{~;~}Short=0$ ；反之，当触发空头开仓信号时，则 $\mathit{Long}=0;\mathit{Short}=1$
+首先，我们引入了两个变量，当触发多头开仓信号时， $Long=1;\;Short=0$ ；反之，当触发空头开仓信号时，则 $Long=0;\;Short=1$
 
 在确定了开仓信号的方向之后，我们在每个时刻对价格未来上涨和下跌的概率做预测。首先对于初始时刻，我们假定：
 
 $$
-\begin{array}{ll}{Up~Prob_{t=t_{0}}}&{=0.5}\\{Down~Prob_{t=t_{0}}}&{=0.5}\end{array}
+\left\{\begin{aligned}&UpProb_{t=t_{0}}&=0.5\\&DownProb_{t=t_{0}}&=0.5\end{aligned}\right.
 $$
 
 其中， $t_{0}$ 表示第一次触发开仓条件的时间点， $UpProb_{t}$ 表示�时刻价格上涨的概率，���� $Prob_{t}$ 表示�时刻价格下跌的概率。特别地，我们设定，在初始 $t_{0}$ 时刻价格上涨和下跌的概率相等，均为 0.5。
@@ -337,13 +337,13 @@ $$
 对于 $t_{0}$ 之后的每个时刻，价格上涨和下跌的概率均与前一时刻价格涨跌的概率以及是否触发多头或空头信号有关：
 
 $$
-\left\{\begin{array}{ll}&{UpProb_{t}\quad=\quad UpProb_{t-1}+0.5*\quad(DownProb_{t-1}*Long_{t}-UpProb_{t-1}*Short_{t})}\\&{DownProb_{t}\quad=\ :DownProb_{t-1}+0.5*\quad(UpProb_{t-1}*Short_{t}-DownProb_{t-1}*Long_{t})}\end{array}\right.
+\left\{\begin{aligned}&\quad UpProb_{t}\quad=\quad UpProb_{t-1}+0.5*\quad(DownProb_{t-1}*Long_{t}-UpProb_{t-1}*short_{t})\\&\quadDown Prob_{t}=\quadDown Prob_{t-1}+0.5*\quad(UpProb_{t-1}*short_{t}-DownProb_{t-1}*Long_{t})\end{aligned}\right.
 $$
 
-其中， $UpProb_{t-1}$ 表示前一时刻价格上涨的概率， $DownProb_{t-1}$ 表示前一时刻价格下跌的概率； $Long$ 表示当前是否触发了多头开仓信号，若触发了多头开仓信号，则 $Long_{t}$ 为 1，否则为 $0;~Short_{t}$ 表示当前是否触发了空头开仓信号，若触发了空头开仓信号，则 $Short_{t}$ 为 1，否则为 0。此外，值得注意的是，在任意时刻�，均满足 $Up~Prob_{t}~+Down~Prob_{t}=1$ C
+其中， $Up\;Prob_{t-1}$ 表示前一时刻价格上涨的概率， $DownProb_{t-1}$ 表示前一时刻价格下跌的概率； $Long$ 表示当前是否触发了多头开仓信号，若触发了多头开仓信号，则 $Long_{t}$ 为 1，否则为 $0;Short_{t}$ 表示当前是否触发了空头开仓信号，若触发了空头开仓信号，则 $Short_{t}$ 为 1，否则为 0。此外，值得注意的是，在任意时刻�，均满足 $Up\;Prob_{t}\;+Down\;Prob_{t}=1$ C
 
 $$
-U2P_{t}=UpProb_{t}-DownProb_{t}
+U2P_{t}\;=\;Up\;Prob_{t}-Down\;Prob_{t}
 $$
 
 其中， $U2P_{t}$ 表示�时刻价格涨跌的期望，即若上涨事件取值为 1，下跌事件取值为-1，各自事件乘以各自事件发生的概率后求和。
@@ -356,23 +356,23 @@ $$
 ![](images/37c125d91f90e6fb7638e728d163a5230e92981b80a16ad0725950ae2e628a97.webp)
 资料来源：国信证券经济研究所绘制
 
-我们假设当前时刻 T为 $\mathfrak{t}_{0}$ 的下一时刻，即 $\mathrm{T}=\mathrm{t}_{0}+1$ ，且触发了多头开仓信号，即$\mathrm{Long_{T}}=1$ $\mathrm{Short}_{\mathrm{T}}=0$ 。若在 $\mathrm{t}_{0}$ 时刻为初始时刻，则在 T时刻价格上涨和下跌的概率分别为：
+我们假设当前时刻 T为 $\mathbf{t}_{0}$ 的下一时刻，即 $\mathrm{T}=\mathsf{t}_{0}+1$ ，且触发了多头开仓信号，即$\mathtt{Long_{T}}=1$ $\mathsf{Short}_{\mathrm{T}}=0$ 。若在 $\mathbf{\hat{t}}_{0}$ 时刻为初始时刻，则在 T时刻价格上涨和下跌的概率分别为：
 
 $$
-\begin{array}{r}{\begin{array}{c}{UpProb_{T}=UpProb_{t_{0}}+0.5*\ (DownProb_{t_{0}}*Long_{T}-UpProb_{t_{0}}*Short_{T})}\\{=0.5*0.5*(0.5*1-0.5*0)}\\{=0.75}\\{DownProb_{T}=DownProb_{t_{0}}+0.5*\ (UpProb_{t_{0}}*Short_{T}-DownProb_{t_{0}}*Long_{T})}\\{=0.5+0.5*(0.5*0-0.5*1)=0.25}\end{array}}\end{array}
+\begin{aligned}UpProb_{T}&=UpProb_{t_{0}}+0.5*(DownProb_{t_{0}}*Long_{T}-UpProb_{t_{0}}*Short_{T})\\&=0.5+0.5*(0.5*1-0.5*0)\\&=0.75\\DownProb_{T}&=DownProb_{t_{0}}+0.5*(UpProb_{t_{0}}*Short_{T}-DownProb_{t_{0}}*Long_{T})\\&=0.5+0.5*(0.5*0-0.5*1)=0.25\end{aligned}
 $$
 
 则： $U2P_{T}=UpProb_{T}-DownProb_{T}=0.75-0.25=0.5$
 
-如果在接下来的时刻，价格仍上涨，那么 $Up\ Prob$ 将持续增加，����T r 将持续减小，最终将导致二者的差值�2�持续上升。
+如果在接下来的时刻，价格仍上涨，那么 $UpProb$ 将持续增加，����T r 将持续减小，最终将导致二者的差值�2�持续上升。
 
 当 $U2P$ 的绝对值大于 0.2 时，进行开仓操作，并且根据价格涨跌的概率来确定$Signal$ 的取值：
 
 $$
-{Signal}_{t}=\left\{\begin{array}{rlrl}&{{Up}{Prob}_{t}}&&{,{U2P}_{t}>0.2}\\&{{Down}{Prob}_{t}}&&{,{U2P}_{t}<-0.2}\\&{0}&&{,-0.2\le{U2P}_{t}\le0.2}\end{array}\right.
+Signal_{t}=\left\{\begin{array}{ll}{\begin{array}{ll}{\begin{array}{ll}{UpProb_{t}}&{\mathrm{~,~}U2P_{t}>0.2}\\{DownProb_{t}}&{\mathrm{~,~}U2P_{t}<-0.2}\\{0}&{\mathrm{~,~}-0.2{\leq}U2P_{t}\leq0.2}\end{array}}\end{array}}\end{array}\right.
 $$
 
-其中， $U2P_{t}$ 表示 t时刻价格涨跌期望， $Up\ Prob_{t}$ 和 $DownProb_{t}$ 分别表示 t时刻价格上涨和下跌的概率。当 $U2P_{t}<-0.2$ 时， $Signal$ 等于下跌概率，当 $U2P_{t}>0.2$ 时， $Signal$ 等于上涨概率。
+其中， $U2P_{t}$ 表示 t时刻价格涨跌期望， $Up\;Prob_{t}$ 和 $DownProb_{t}$ 分别表示 t时刻价格上涨和下跌的概率。当 $U2P_{t}<-\:0.2$ 时， $Signal$ 等于下跌概率，当 $U2P_{t}>0.2$ 时， $Signal$ 等于上涨概率。
 
 在考虑了信号持续度强弱之后，策略的净值走势及回撤如图 14 所示。
 
@@ -417,7 +417,7 @@ $$
 具体做法是，我们在每个月月末回看过去一年内策略的运行情况，计算过去一年策略收益表现的波动率，并且将目标波动率设置为 15%（取决于对于策略预期的杠杆率水平，通常维持在 2倍杠杆左右），那么波动率调整系数的计算公式可以表示为：
 
 $$
-Mul_{vol}=\frac{15\%}{Vol}
+Mul_{vol}\;=\;\frac{15\%}{Vol}
 $$
 
 其中， $\mathrm{Mul}_{\mathrm{vol}}$ 为经已实现波动率调整的系数，�C 为策略在过去一年中的已实现波动率。通过对策略表现波动率的调整，可以使得策略在不同市场环境下运行的整体风险趋于一致。
@@ -609,21 +609,21 @@ Kaldor N . Speculation and Economic Stability[J]. Review of Economic Studies, 19
 复权的具体做法为：在每次展期的时候，计算新主力合约以及旧主力合约的价格跳空比，以此作为当日之后新主力合约价格的复权因子。该复权因子的具体计算公式为：
 
 $$
-AdjFactor_{i}=AdjFactor_{i-1}*\frac{Close_{i-1,old}}{Close_{i-1,new}}
+AdjFactor_{i}\:=\:AdjFactor_{i-1}\:*\:\frac{Close_{i-1,old}}{Close_{i-1,new}}
 $$
 
-其中， $\mathrm{AdjFactor}_{\mathrm{i}-1}$ 为上一期复权因子， $\mathrm{Close}_{\mathrm{i}-1,\mathrm{old}}$ 为旧主力合约展期前一日收盘价， $\mathsf{Close}_{\mathrm{i}-1,\mathrm{new}}$ 为新主力合约展期前一日收盘价。这样计算出来的复权因子AdjFactori为当期复权因子。其中，基期的复权因子为 1。计算好复权因子之后，新的主力合约的开盘价、最高价、最低价以及收盘价都乘以当期的复权因子，即为复权价格。
+其中， $\mathrm{AdjFactor_{i-1}}$ 为上一期复权因子， $\mathsf{Close}_{\mathrm{i-1,old}}$ 为旧主力合约展期前一日收盘价， $\mathsf{Close}_{\mathrm{i-1,new}}$ 为新主力合约展期前一日收盘价。这样计算出来的复权因子AdjFactori为当期复权因子。其中，基期的复权因子为 1。计算好复权因子之后，新的主力合约的开盘价、最高价、最低价以及收盘价都乘以当期的复权因子，即为复权价格。
 
 这样使用复权价格可以很好地避免因切换合约带来的价格跳空的影响，具体在计算收益率时，如果直接使用原始价格进行计算：
 
 $$
-Return_{i}=\frac{Close_{i,new}}{Close_{i-1,old}}\ -\ 1
+Return_{i}\;=\;\frac{close_{i,new}}{close_{i-1,old}}\;-\;1
 $$
 
 当新主力合约价格与旧主力合约价格出现跳空时，该收益率会出现异常值，而使用复权因子之后收益率的计算变为：
 
 $$
-\begin{array}{l}{{Return_{i}={\frac{AdjFactor_{i}*Close_{i,new}}{AdjFactor_{i-1}*Close_{i-1,old}}}-1}}\\{{\ }}\\{{\ }}\\{{\ ={\frac{AdjFactor_{i-1}*{\frac{Close_{i-1,old}}{Close_{i-1,new}}}*Close_{i,new}}{AdjFactor_{i-1}*Close_{i-1,old}}}-1}}\\{{\ }}\\{{\ }}\\{{\ }}\\{{\ }}\end{array}
+\begin{aligned}Return_{i}\;&=\;\frac{AdjFactor_{i}\;*\;close_{i,new}}{AdjFactor_{i-1}\;*\;close_{i-1,old}}\;-\;1\\&=\;\frac{AdjFactor_{i-1}\;*\frac{Close_{i-1,old}}{Close_{i-1,new}}\;*\;Close_{i,new}}{AdjFactor_{i-1}\;*\;Close_{i-1,old}}\;-\;1\\&=\;\frac{Close_{i,new}}{Close_{i-1,old}}\;-\;1\end{aligned}
 $$
 
 可以看到，这样计算出来的收益率即为实际收益率，进而避免了因合约切换导致的策略信号漂移或者收益率无法计算的情况。
@@ -637,7 +637,7 @@ $$
 由于股指期货的三个品种的交易时间都是同步的，因此不存在不同合约时间对齐的问题。但是需要确定策略执行的收益率的计算方法，我们考虑实盘交易时在信号触发后的成交的价格为 5分钟的 VWAP，具体可以根据产品规模而定。同时，交易时间越长对策略的时效性要求就越高，需要策略信号的衰减周期与交易时长相匹配。具体做法为计算策略信号触发后 5 分钟的成交额除以经合约乘数调整的成交量：
 
 $$
-VWAP_{5}=\frac{\sum_{i=1}^{5}Amount_{i}}{\sum_{i=1}^{5}Vol_{i}*Multi}
+VWAP_{5}\;=\;\frac{\sum_{i=1}^{5}Amount_{i}}{\sum_{i=1}^{5}Vol_{i}\;*Multi}
 $$
 
 其中，Amount 为第 i 分钟的成交额， $\mathrm{Vol_{i}}$ 为第 i 分钟的成交量, Multi 为该品种的合约乘数。
@@ -653,7 +653,7 @@ $$
 为使得策略在所有不同品种上面的振幅可控，我们需要根据不同品种的振幅进行交易量的调整。这里所说的振幅通常使用真实振幅均值（Average True Range，ATR）来度量。其中，ATR指标的具体计算公式如下所示：
 
 $$
-\begin{array}{c}{{TR=\mathrm{Max}[(high-low),abs(high=preclose),abs(low-preclose)]}}\\{{{}}}\\{{ATR=\displaystyle{\frac{1}{n}\sum_{i=1}^{n}TR_{i}}}}\end{array}
+\begin{aligned}TR\;=\;\mathsf{Max}\left[(high-low),abs(high&=preclose),abs(low-preclose)\right]\\ART\;=\;\frac{1}{n}\sum_{i=1}^{n}TR_{i}\end{aligned}
 $$
 
 其中， $TR_{i}$ 为 True Range，用于衡量每日的振幅，ATR 则是 $TR_{i}$ 的移动平均值。
@@ -665,15 +665,15 @@ $$
 如果我们需要计算的是一个杠杆率即当前开仓手数占整体资金规模可开仓手数的比例，那么需要除以满仓状态下可以开出的总合约数量，具体计算公式为：
 
 $$
-Pos_{ATR}\ =\ \frac{0.5\%}{ATR}
+Pos_{ATR}\;=\;\frac{0.5\%}{ATR}
 $$
 
 $$
-Pos={\frac{1}{Close}}
+Pos\;=\;\frac{1}{Close}
 $$
 
 $$
-\begin{array}{l}{{Lev_{ATR}=\ \frac{Pos_{ATR}}{Pos}}}\\{{\ }}\\{{\ =\ \frac{0.5\%}{ATR}\ *\ Close}}\end{array}
+\begin{aligned}Lev_{ATR}\;&=\;\frac{Pos_{ATR}}{Pos}\\&=\;\frac{0.5\%}{ATR}\;*\;Lloge\end{aligned}
 $$
 
 其中， $Pos_{ATR}$ 为 1 单位 ATR 对应资金规模 0.5%波动的应开手数, Pos 为全部资金对应满仓可开手数，Close 为收盘价， $Lev_{ATR}$ 为应开手数除以满仓手数的开仓杠杆率。由上面算法计算出来的开仓杠杆率具有根据 ATR 波动调整杠杆率大小的特性，当一个品种的日均波动较大时，我们倾向于给予该品种较低的杠杆，而反之，如果一个品种的日均波动较小，我们则可以给该品种较高的杠杆。从风险控制的角度如果一个品种的波动较大，给予较小杠杆也是出于对资金安全的考虑，防止由于较大的振幅而触发穿仓风险。

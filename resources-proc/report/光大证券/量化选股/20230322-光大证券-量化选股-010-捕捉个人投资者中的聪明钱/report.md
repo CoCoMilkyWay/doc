@@ -243,7 +243,7 @@ quhongyu@ebscn.com
 持有期 i 的收益率如下所示：
 
 $$
-\begin{array}{rl}&{R_{i}=\begin{array}{ll}{\frac{\eta\vert\hat{\mathbf{J}}\vert}{\sqrt{\vert\hat{\mathbf{J}}\vert^{3}}\sqrt{\vert\hat{\mathbf{J}}\vert^{2}}+\frac{\kappa\cdot\vert\Phi\cdot\vert\mathbf{\Lambda}^{\varepsilon}}{\sqrt{\vert\mathbf{J}\vert^{3}}}\sqrt{\vert\hat{\mathbf{J}}\vert^{2}}}\frac{\vert\hat{\mathbf{J}}\vert}{\sqrt{\vert\hat{\mathbf{J}}\vert^{3}}+\frac{\kappa\cdot\vert\Phi\cdot\vert\mathbf{J}\vert}{\sqrt{\vert\mathbf{J}\vert^{3}}}\sqrt{\vert\mathbf{J}\vert^{4}}}\frac{\vert\hat{\mathbf{J}}\vert}{\sqrt{\vert\mathbf{J}\vert^{4}}}}&{-1,\frac{\mathrm{i}\vert\hat{\mathbf{J}}\vert^{6}\vert+\frac{\kappa}{\sqrt{\vert\mathbf{J}\vert^{6}}}}{\vert\vert\mathbf{J}\vert^{5}\vert}}\\{+(\frac{\vert\hat{\mathbf{J}}\vert}{\sqrt{\vert\mathbf{J}\vert^{6}}\sqrt{\vert\mathbf{J}\vert^{2}}}\frac{\vert\mathbf{J}\vert}{\sqrt{\vert\mathbf{J}\vert^{6}}}\mathrm{Sot}\mathrm{Sign}\sqrt{\frac{4\vert\mathbf{J}\vert^{6}}{\vert\mathbf{J}\vert^{6}}}\mathrm{Sign}\frac{\vert\mathbf{J}\vert^{6}}{\sqrt{\vert\mathbf{J}\vert^{6}}}\mathrm{Sign}+\frac{\vert\mathbf{J}\vert}{\sqrt{\vert\mathbf{J}\vert^{6}}}\mathrm{Sign}}\end{array})/}\\&R_{i}=\frac\eta\vert\vert\hat{\mathbf{J}}\vert\vert+\frac{\kappa\cdot\vert\Phi\vert}\sqrt\vert\mathbf{J}\vert^\end{array}
+\begin{aligned}&R_{i}=\left\{\begin{aligned}\\&\frac{期末持股市值}{期初持股市值+(增持股数\times 报告期股票均价)}-1,1增持\\&\frac{期末持股市值+(减持股数\times 报告期股票均价)}{期初持股市值}-1,2减持\\&\frac{期末持股市值}{期初持股市值}-1,3不变\\&\end{aligned}\right.\\\end{aligned}
 $$
 
 对于持有了多期的股票来说，累计收益率为：

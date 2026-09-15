@@ -141,7 +141,7 @@ cGAN 由 Mirza 和 Osindero 在 2014 年提出，相比原始 GAN 模型，cGAN 
 本文使用的 cGAN 损失函数如下：
 
 $$
-\displaystyle\operatorname*{min}_{G}\operatorname*{max}_{D}V(D,G)=E_{x\sim p_{data}(x)}[logD(x|y)]+E_{z\sim p_{z}(z)}\left[log\left(1-D\big(G(z|y)\big)\right)\right]
+\begin{array}{r}{\underset{G}{\operatorname*{min}}\underset{D}{\operatorname*{max}}V(D,G)=E_{x\sim p_{data}(x)}[logD(x|y)]+\quad E_{z\sim p_{z}(z)}\left[log\left(1-D\big(G(z|y)\big)\right)\right]}\end{array}
 $$
 
 上式中，D 和 G 分别代表条件判别器和条件生成器；y 代表条件序列，即真实历史 4 个季度宏观数据；x|y代表真样本，即真实 13 个季度宏观数据，其中前 4个季度为 y；z代表高斯噪声；G(z|y)代表假样本，即真实和模拟合并后的 13 个季度宏观数据，其中前 4 个季度为 y。
@@ -151,31 +151,33 @@ $$
 cGAN 训练过程中可能出现模式崩溃问题，条件生成器的生成数据趋于单一，缺乏多样性。在华泰金工《人工智能 35：WGAN 应用于金融时间序列生成》（2020-08-28）文中，我们介绍了权值截断（weight clipping）和梯度惩罚（gradient penalty）两种解决方案。其中，权值截断是指在每一层反向传播更新权值之后对权重进行裁剪，若阈值 c＝0.1，则有：
 
 $$
-w_{update}^{clip}=\left\{\begin{array}{cc}{0.1,}&{if~w_{update}\geq0.1}\\{w_{update},}&{if~-0.1<w_{update}<0.1}\\{-0.1,}&{if~w_{update}\leq-0.1}\end{array}\right.
+w_{update}^{clip}=\left\{\begin{matrix}0.1,&if\ w_{update}\geq0.1\\w_{update},&if\ -0.1<w_{update}<0.1\\-0.1,&if\ w_{update}\leq-0.1\end{matrix}\right.
 $$
 
 梯度惩罚方法是将对权重的约束直接加入判别器损失函数中。本研究分别尝试了上述两种方法，发现权值截断方法效果更佳，因此后文统一展示权值截断方法结果。cGAN模型训练算法伪代码如下表所示。
 
 ## 图表6： cGAN 训练算法的伪代码
 
+```latex
 输入 迭代次数 T, 每轮迭代判别器训练次数 K, 小批量(minibatch)样本数量 m, 权值截断的阈值 c
 1随机初始化 D 网络参数θ 和 G 网络参数θ
 2 for t • 1 to T do
 # 训练判别器 D
 3 for k •1 to K do
 # 采集小批量样本
-4从正态分布 ${p_{g}(z)}$ 中采集 m 条样本 $\cdot\left\{z^{(m)}\right\}$ 
-5从训练 $\dot{\bar{\mathbf{\rho}}}p_{data}(x)$ 中采集 m 条样 $\hbar\{x^{(m)}\}$ 及对应的条件 $-\{y^{(m)}\}$ 
+4从正态分布 $[p_{g}(z)$ 中采集 m 条样本 $\cdot\big\{z^{(m)}\big\}$
+5从训练 $\updownarrow{p_{data}(x)}$ 中采集 m 条样 $本\{x^{(m)}\}$ 及对应的条件 $\scriptstyle\cdot\left\{y^{(m)}\right\}$
 6使用随机梯度上升更新判别器 D，梯度为：
-$\nabla_{\theta_{d}}\frac{1}{m}\sum_{i=1}^{m}\left[logD\left(x^{(i)}|y^{(i)}\right)+log\left(1-D\left(G\left(z^{(i)}|y^{(i)}\right)\right)\right)\right]$ 
+$\nabla_{\theta_{d}}\frac{1}{m}{\sum}_{i=1}^{m}\left[logD\big(x^{(i)}|y^{(i)}\big)+log\left(1-D\left(G\big(z^{(i)}|y^{(i)}\big)\right)\right)\right]$
 7对判别器参数进行权值截断(−c,c)
 8 end
 # 训练生成器 G
-9从标准正态分 $\#p_{g}(z)$ 中采集 m 条样 ${\big\ k}{\big\{}z^{(m)}{\big\}}$ 
+9从标准正态分 $布p_{g}(z)$ 中采集 m 条样 $本\{z^{(m)}\}$
 10使用随机梯度下降更新生成器 G，梯度为：
-$\nabla_{\theta_{g}}\frac{1}{m}\sum_{i=1}^{m}log\left(1-D\left(G\left(z^{\left(i\right)}|y^{\left(i\right)}\right)\right)\right)$ 
+$\nabla_{\theta_{g}}\frac{1}{m}{\sum}_{i=1}^{m}log\left(1-D\left(G\big(z^{(i)}|y^{(i)}\big)\right)\right)$
 11 end
 输出 生成器 G
+```
 资料来源：华泰研究
 
 ## cGAN网络结构和训练参数

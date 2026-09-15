@@ -100,7 +100,7 @@ QLIB 同样提供用户自定义的数据源导入接口，按照规定的格式
 在原始数据的基础上，QLIB 提供了丰富的信息提取功能，其中表达式功能是最常用的方法之一。表达式能够方便的定义因子，简化了因子构建的流程。例如，在 QLIB 中定义布林带只需要在代码中直接定义因子：
 
 $$
-(\mathsf{MEAN}(\mathsf{Sclose},\mathsf{N})+2^{*}\mathsf{STD}(\mathsf{Sclose},\mathsf{N})-\mathsf{Sclose})/\mathsf{MEAN}(\mathsf{Sclose},\mathsf{N})
+(\mathsf{MEAN}(\mathsf{Sclose},\mathsf{N}){+}2^{*}\mathsf{STD}(\mathsf{Sclose},\mathsf{N}){-}\mathsf{Sclose})/\mathsf{MEAN}(\mathsf{Sclose},\mathsf{N})
 $$
 
 其中大写的字符代表算子。而以$开头的字符则代表底层因子。
@@ -242,48 +242,48 @@ Temporal Fusion Transformers for interpretable multi-horizon time seriesforecast
 
 与传统的 Transformer 不同，TFT 采用 LSTM Encoder，并没有使用 positional encoding + Attention Encoder 的组合。这样做的好处是能够更好的处理输入的时序信息，而缺点是不能够并行计算，限制了模型处理大规模数据的能力。
 
-在 Decoder $\sqrt{\frac{\underset{x}{=}}{\sum}}$ ，为了使模型具有可解释性，在 TFT 中修改了 Multi-head Attention 的结构。在原始的 Multi-head Attention 中，Attention score 定义为：
+在 Decoder $是$ ，为了使模型具有可解释性，在 TFT 中修改了 Multi-head Attention 的结构。在原始的 Multi-head Attention 中，Attention score 定义为：
 
 $$
-\mathrm{Attention}(Q,K,V)=A(\pmb{Q},K)V
+\operatorname{Attention}\left({\pmb Q},{\pmb K},{\pmb V}\right)=A\left({\pmb Q},{\pmb K}\right){\pmb V}
 $$
 
 其中：
 
 $$
-A(\pmb{Q},\pmb{K})=\mathrm{Softmax}\big(\pmb{Q}\pmb{K}^{T}/\sqrt{d_{attn}}\big)
+A(\boldsymbol{Q},\boldsymbol{K})=Softmax\left(\boldsymbol{Q}\boldsymbol{K}^T/\sqrt{d_{attn}}\right)
 $$
 
 Multi-head Attention 为各个子空间内 Attention 的线性组合：
 
 $$
-\mathrm{MultiHead}(\pmb{Q},\pmb{K},\pmb{V})=\bigl[\pmb{H}_{1},\dots,\pmb{H}_{m_{H}}\bigr]\pmb{W}_{H}
+\operatorname{MultiHea}\operatorname{d}({\pmb Q},{\pmb K},{\pmb V})=\bigl[{\pmb H}_{1},\dots,{\pmb H}_{m_{H}}\bigr]{\pmb W}_{H}
 $$
 
 其中：
 
 $$
-\pmb{H}_{h}=\mathsf{Attention}\left(\pmb{Q}\pmb{W}_{Q}^{(h)},\pmb{K}\pmb{W}_{K}^{(h)},\pmb{V}\pmb{W}_{V}^{(h)}\right)
+\boldsymbol{H}_{h}=\mathsf{Attention}\left(\boldsymbol{Q}\boldsymbol{W}_{Q}^{(h)},\boldsymbol{K}\boldsymbol{W}_{K}^{(h)},\boldsymbol{V}\boldsymbol{W}_{V}^{(h)}\right)
 $$
 
 在 TFT 模型中，作者定义了
 
 $$
-\mathrm{InterpretableMultiHead}\left(Q,K,V\right)=HW_{H},
+\mathrm{InterpretableMultiHead}\left(\boldsymbol{Q},\boldsymbol{K},\boldsymbol{V}\right)=\boldsymbol{H}\boldsymbol{W}_{H},
 $$
 
 其中：
 
 $$
-\begin{array}{l}{{{\displaystyle{\widetilde{H}}=\widetilde{A}(Q,K)VW_{V}}}\ ~}\\{{\displaystyle~=\left\{1/H\sum_{h=1}^{m_{H}}A\big(QW_{Q}^{(h)},KW_{K}^{(h)}\big)\right\}VW_{V}}}\\{{\displaystyle~=1/H\sum_{h=1}^{m_{H}}\mathrm{Attention}\big(QW_{Q}^{(h)},KW_{K}^{(h)},VW_{V}\big)}}\end{array}
+\begin{aligned}\widetilde{\boldsymbol{H}}&=\widetilde{A}(\boldsymbol{Q},\boldsymbol{K})\boldsymbol{V}\boldsymbol{W}_{V}\\&=\left\{1/H\sum_{h=1}^{m_{H}}A\big(\boldsymbol{Q}\boldsymbol{W}_{Q}^{(h)},\boldsymbol{K}\boldsymbol{W}_{K}^{(h)}\big)\right\}\boldsymbol{V}\boldsymbol{W}_{V}\\&=1/H\sum_{h=1}^{m_{H}}\operatorname{Attention}\mathrm{n}\big(\boldsymbol{Q}\boldsymbol{W}_{Q}^{(h)},\boldsymbol{K}\boldsymbol{W}_{K}^{(h)},\boldsymbol{V}\boldsymbol{W}_{V}\big)\end{aligned}
 $$
 
-通过上式可以看出， $\mathsf{W}_{\nabla}$ 为所有子空间内共享的矩阵。V 可以看作是 $\widetilde{\cal A}(0,\mathrm{K})$ 的权重向量，并且各个子空间是通过算数平均得到最终的输出，而并非 Transformer 的线性组合。共享的 $V\mathsf{W}_{\nabla}$ 值，可以作为变量重要性的依据。
+通过上式可以看出， $W_{\mathrm{V}}$ 为所有子空间内共享的矩阵。V 可以看作是 ${\boldsymbol{\mathrm{{\widetilde{A}}}}}(\mathbb{Q},\mathbb{K})$ 的权重向量，并且各个子空间是通过算数平均得到最终的输出，而并非 Transformer 的线性组合。共享的 $VW_{\mathrm{V}}$ 值，可以作为变量重要性的依据。
 
 在输出层，与传统的回归问题定义的损失函数有所区别，在 TFT 网络中，损失函数为不同分位数下的损失函数加权求和。具体定义为：
 
 $$
-\mathcal{L}(\Omega,W)=\sum_{y_{t}\in\Omega}\sum_{q\in\mathcal{Q}}\sum_{\tau=1}^{\tau_{max}}\frac{QL(y_{t},\hat{y}(q,t-\tau,\tau),q)}{M\tau_{max}}
+\mathcal{L}(\Omega,\boldsymbol{W})=\sum_{y_{t}\in\Omega}\sum_{q\in\mathcal{Q}}\sum_{\tau=1}^{\tau_{max}}\frac{QL(y_{t},\hat{y}(q,t-\tau,\tau),q)}{M\tau_{max}}
 $$
 
 其中：
@@ -299,7 +299,7 @@ $$
 在测试集中，整个样本的分位数损失函数可以通过以下方式计算得到：
 
 $$
-q-\mathrm{Risk}=\frac{2\sum_{y_{t}\in\widetilde{\Omega}}\sum_{\tau=1}^{\tau_{max}}QL(y_{t},\hat{y}(q,t-\tau,\tau),q)}{\sum_{y_{t}\in\widetilde{\Omega}}\sum_{\tau=1}^{\tau_{max}}|y_{t}|}
+q-\mathrm{Risk}=\frac{2\sum_{y_t\in\widetilde{\Omega}}\sum_{\tau=1}^{\tau_{max}}QL(y_t,\hat{y}(q,t-\tau,\tau),q)}{\sum_{y_t\in\widetilde{\Omega}}\sum_{\tau=1}^{\tau_{max}}|y_t|}
 $$
 
 在得到不同分位数的误差之后就可以得到不同分位数的预测值。

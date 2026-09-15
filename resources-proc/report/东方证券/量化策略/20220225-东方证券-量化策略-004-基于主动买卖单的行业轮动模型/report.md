@@ -67,7 +67,7 @@ BVC 算法并不对每一笔交易进行买卖方向的划分，而是着眼于�
 具体计算公式是：
 
 $$
-\begin{array}{l}{{{V_{\tau}}^{B}=V_{\tau}\mathrm{{[}}{\mathrm{f}}({\frac{P_{\tau}-P_{\tau-1}}{\sigma_{\Delta P}}},df)}}\\{{{V_{\tau}}^{S}=1-{V_{\tau}}^{B}}}\end{array}
+\begin{aligned}&V_{\tau}^{B}=V_{\tau}\square(\frac{P_{\tau}-P_{\tau-1}}{\sigma_{\Delta P}},df),\quad\\&V_{\tau}^{S}=1-V_{\tau}^{B}\\\end{aligned}
 $$
 
 其中，V为第τ个bar内的成交量， $V^{B}$ 为成交量中属于主动买入的部分， $V^{S}$ 为成交量中属于主动卖出的部分，t是 t 分布的累积分布函数（CDF，使用 t 分布的原因是由于真实股价涨跌分布不可知）， $P_{t}-P_{t-1}$ 为第t−1个bar终点到第t个bar终点的股价涨跌， $\sigma_{\Delta P}$ 为不同bar之间股价涨跌的标准差， $df$ 为自由度（当标准化后的股价变动幅度不变时， $df$ 越小，主动买入的占比越小。原文献中经过测算取df=0.25）。
@@ -397,23 +397,23 @@ $$
 组合优化问题设置如下：
 
 $$
-\mathrm{max}\colon(\mathrm{f}+\mathrm{f}_{adj})^{\prime}\mathrm{w}-\lambda\mathrm{w}^{\prime}\Sigma\mathrm{w}-\underbrace{\mathsf{E}\sharp_{\mathrm{r}}^{\prime}\mathbb{E}\sharp_{\mathrm{s}}^{\ast}\xi}_{\mathrm{~\normalfont~\left.~\mathrm{~I~}~\right.~}}
+\max:(\mathrm{f}+\mathrm{f}_{adj})^{\prime}\mathrm{w}-\lambda\mathrm{w}^{\prime}\Sigma\mathrm{w}-一目标函数
 $$
 
 $$
-\begin{array}{rl}{\mathrm{st};}&{{}i_{\mathrm{min}}<\mathbf{w}^{\prime}\mathrm{Ind}<i_{\mathrm{max}}--\mathcal{\bar{4}}\mathbf{\bar{5}}\mathbf{\underline{{{\mathsf{I}}}}}||{\boldsymbol{\underline{{{\tau}}}}}\pm\mathbf{\bar{{z}}}^{\prime}\mathbf{\bar{{z}}}^{\prime}\mathbf{\bar{{z}}}^{\prime}\mathbf{\bar{{z}}}^{\prime}\mathbf{\bar{{z}}}^{\prime}\mathbf{\bar{{z}}}^{\prime}}\end{array}
+\mathrm{st}:\quad i_{\min}<\mathrm{w}'\mathrm{Ind}<i_{\max}一一行业主动幕露约束
 $$
 
 $$
-m_{\mathrm{min}}<\mathrm{w}^{\prime}\mathrm{MV}<m_{\mathrm{min}}--\mp|\mp|\mp\pm\pm{\bar{z}}|)_{\mp\mathrm{sta}{\bar{z}}}^{\mp}|\mp
+m_{\min}<w'MV<m_{\min}——市值主动纂露约束
 $$
 
 $$
-w_{\mathrm{min}}<\infty<w_{\mathrm{min}}--\pm\bar{\mathtt{z}}\bar{\mathtt{z}}\bar{\mathtt{z}}\bar{\mathtt{z}}\equiv\pm\mathtt{\Gamma}\overline{{\mathtt{|}\mathtt{R}\underbrace{4}}}\hat{\daleth}\overline{{\mathtt{R}}}
+w_{\min}<w<w_{\min}-主动权重上下限约束
 $$
 
 $$
-\mathbf{w}^{\prime}\mathrm{I}=0\mathrm{-}\mathrm{-}\ I\bar{\mathbf{z}}\mathbf{\hat{z}}\mathbf{\hat{z}}\mathbf{\bar{z}}\equiv\mathbf{\hat{z}}\mathbf{\hat{z}}\mathbf{\hat{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}\ \equiv\mathbf{\bar{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}\mathbf{\bar{z}}
+$\mathbf{w}'\mathbf{l}=0一一$主动权重的总和等于$0$
 $$
 
 其中 w 为主动权重， f 为预期收益率向量，Σ为预期月度协方差矩阵,λ为风险厌恶系数。第一个约束条件为控制每个行业的主动暴露；第二个约束条件为控制主动市值暴露；第三个约束条件为控制主动权重的上下限；第四个约束条件为主动权重的总和等于 $0_{\circ}$ 。通过二次规划得到每个股票的主动权重，再加上基准权重即可得到总的股票权重。
@@ -723,15 +723,15 @@ $$
 组合优化问题设置如下：
 
 $$
-\operatorname*{min}\colon\left\|Ax-b\right\|_{1}--\boxed{\pm\sqrt{\pi}}\dddot{\Xi}\check{\Xi}\xi
+\min:\left\|Ax-b\right\|_1——目标函数
 $$
 
 $$
-s\mathrm{t}:\quad\mathbf{w}_{i}>0--\underline{{\xi\oplus}}\vec{x}\mathrm{.}\mathbf{j}\#\mathbb{Z}\mathbb{F}\mathbb{R}\underline{{\xi}}\mathbf{:}\mathbf{\exists}\#\mathrm{~}
+\begin{aligned}&st:\quad w_{i}>0\;——\;绝对权重下限约束\end{aligned}
 $$
 
 $$
-\mathbf{w}^{\prime}\mathrm{I}=1--\underline{{\underline{{\xi}}}}\textcircled{\bar{\mathtt{A}}}\vec{\mathrm{x}}\mathrm{j}\notin\check{\mathtt{B}}\check{\mathtt{A}}\check{\mathtt{A}}\overline{{\underline{{\xi}}}}\mathrm{I}\|\overset{\llangle\ast}{=}\mp1
+$\mathbf{w}'\mathbf{l}=1一一$绝对权重的总和等于$1$
 $$
 
 其中x为各指数基金的绝对权重，A为基金在各行业上的配置权重，b为根据行业轮动模型给出的行业配置权重，设置 top10行业等权配置，其余行业不配置，‖ ‖ 为 1阶范数，表示对应元素绝对值之和。第一个约束条件为控制权重的上下限；第二个约束条件为权重总和等于 1。通过二次规划得到每只基金的权重。

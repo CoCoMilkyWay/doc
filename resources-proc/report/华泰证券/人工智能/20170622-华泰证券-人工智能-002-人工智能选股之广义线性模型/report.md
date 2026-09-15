@@ -47,7 +47,7 @@ linxiaoming@htsc.com
 经典的多因子模型表达式为：
 
 $$
-\widetilde r=\sum_{k=1}^{K}X_{jk}*\widetilde f_{k}+\mu_{j}
+\tilde{r}={\sum}_{k=1}^{K}X_{jk}*\tilde{f_{k}}+\mu_{j},
 $$
 
 $X_{jk}$ ：股票j在因子k上的因子暴露（因子载荷）
@@ -84,24 +84,24 @@ $$
 y=w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p}
 $$
 
-其中 x1，x2，……，xp 是样本的 p 个特征，y 是样本的标签，w⃗⃗ = (wo, w1, ……, wp)是需要拟合的系数向量。如果写成矩阵的形式，令 X = (1, x1，……，xp)，那么线性回归模型可以简洁地表示为： $y=X{\overrightarrow{w}}$ 。从多因子选股的角度来看，x1，x2，……，xp可以视作截面期的 p个因子暴露度，y 是下期收益，w⃗⃗ 反映了不同因子对收益的影响方向和程度。
+其中 x1，x2，……，xp 是样本的 p 个特征，y 是样本的标签，w⃗⃗ = (wo, w1, ……, wp)是需要拟合的系数向量。如果写成矩阵的形式，令 X = (1, x1，……，xp)，那么线性回归模型可以简洁地表示为： $y=X{\vec{w}}$ 。从多因子选股的角度来看，x1，x2，……，xp可以视作截面期的 p个因子暴露度，y 是下期收益，w⃗⃗ 反映了不同因子对收益的影响方向和程度。
 
 定义线性回归的损失函数C(w⃗⃗ )为全部 N个样本拟合残差的平方和：
 
 $$
-C(\overrightarrow{w})=\sum_{i=1}^{N}(y_{i}-w_{0}-\sum_{j=1}^{p}w_{j}x_{ij})^{2}
+C(\vec{w})={\sum}_{i=1}^{N}(y_{i}-w_{0}-{\sum}_{j=1}^{p}w_{j}x_{ij})^{2}
 $$
 
 表示成矩阵形式（‖a ‖等价于‖a ‖ ，代表向量a 的 2范数，即向量各元素平方和的开方；‖a ‖2代表向量a 各元素的平方和，下同）：
 
 $$
-C(\overrightarrow{w})=\|y-X\overrightarrow{w}\|^{2}
+C(\vec{w})=\|y-X\vec{w}\|^{2}
 $$
 
 当样本量较小，并且不考虑正则化时，可以通过最小二乘法直接求出使得损失函数取最小值的系数向量w⃗⃗ ：
 
 $$
-{\overrightarrow{w}}=(X^{\mathrm{{T}}}X)^{-1}y
+{\vec{w}}=(X^{\mathrm{T}}X)^{-1}y
 $$
 
 ## 逻辑回归
@@ -109,13 +109,13 @@ $$
 线性回归主要用以解决“回归”问题。当面对“分类”问题时，通常采用逻辑回归。逻辑回归模型可以表示为：
 
 $$
-P(y=1|x)={\frac{e^{w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p}}}{1+e^{w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p}}}}
+P(y=1|x)=\frac{e^{w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p}}}{1+e^{w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p}}}
 $$
 
 表示成矩阵形式：
 
 $$
-P(y=1|x)=\frac{e^{X\overrightarrow{w}}}{1+e^{X\overrightarrow{w}}}
+P\left(y=1|x\right)=\frac{e^{X\overrightarrow{w}}}{1+e^{X\overrightarrow{w}}}
 $$
 
 其中 $P(y=1|x)$ 代表样本 x 属于正例（y = 1）的概率， $P(y=0|x)=1-P(y=1|x)$ 代表样本 x属于反例（y = 0）的概率。当某个样本 $P(y=1|x)$ 大于 0.5时，预测该样本属于正例（ŷ = 1），反之则归入反例（ŷ= 0）。
@@ -123,7 +123,7 @@ $$
 逻辑回归的似然函数L(w⃗⃗ )为：
 
 $$
-L(\overrightarrow{w})=\prod_{i=1}^{N}P(y_{i}=1|x_{i})^{y_{i}}(1-P(y_{i}=1|x_{i}))^{1-y_{i}}
+L(\vec{w})=\prod{\sum_{i=1}^{N}}P(y_{i}=1|x_{i})^{y_{i}}(1-P(y_{i}=1|x_{i}))^{1-y_{i}}
 $$
 
 定义逻辑回归的损失函数C(w⃗⃗ )为似然函数的负对数：
@@ -135,13 +135,13 @@ $$
 以上讨论的是两类样本的标签y = {0,1}时的情形。当两类样本的标签 $\cdot y=\{1,-1\}$ 时，逻辑回归模型可以表示为：
 
 $$
-P(y|x)={\frac{e^{y(w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p})}}{1+e^{y(w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p})}}}
+P(y|x)=\frac{e^{y(w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p})}}{1+e^{y(w_{0}+w_{1}x_{1}+w_{2}x_{2}+\cdots+w_{p}x_{p})}}
 $$
 
 表示成矩阵形式：
 
 $$
-P(y|x)={\frac{e^{yX{\overrightarrow{w}}}}{1+e^{yX{\overrightarrow{w}}}}}
+P(y|x)=\frac{e^{yX\overrightarrow{w}}}{1+e^{yX\overrightarrow{w}}}
 $$
 
 似然函数L(w⃗⃗ )变为：
@@ -153,19 +153,19 @@ $$
 损失函数C(w⃗⃗ )仍为似然函数的负对数：
 
 $$
-C({\overrightarrow{w}})=-\mathrm{log}L({\overrightarrow{w}})=\sum_{i=1}^{N}(-\mathrm{log}1+1+\exp(-y_{i}X{\overrightarrow{w}}))\equiv\sum_{i=1}^{N}(1+\exp{(-y_{i}X{\overrightarrow{w}})})
+C(\overrightarrow{w})=-\mathrm{log}L(\overrightarrow{w})=\sum_{i=1}^{N}(-\mathrm{log}1+1+\mathrm{exp}(-y_{i}X\overrightarrow{w}))\equiv\sum_{i=1}^{N}(1+\mathrm{exp}(-y_{i}X\overrightarrow{w}))
 $$
 
 ## 线性支持向量机
 
-线性支持向量机既可以解决回归问题，也可以用来分类。以分类问题为例，假设正例样本的标签 $y=1$ ，反例样本的标签 $y=-1$ 。我们试图寻找一个分类超平面，使得两类样本的分类间隔最大。用数学的语言描述，我们希望找到一组系数向量w⃗⃗ = (w1, w2, ……, wp)，使得下面式子中的 b取得最大值，并且对于每个样本 $(x_{i},y_{i})$ ，满足以下所有约束条件：
+线性支持向量机既可以解决回归问题，也可以用来分类。以分类问题为例，假设正例样本的标签 $\cdot y=1$ ，反例样本的标签 $y=-1$ 。我们试图寻找一个分类超平面，使得两类样本的分类间隔最大。用数学的语言描述，我们希望找到一组系数向量w⃗⃗ = (w1, w2, ……, wp)，使得下面式子中的 b取得最大值，并且对于每个样本 $(x_{i},y_{i})$ ，满足以下所有约束条件：
 
 $$
-y_{i}(w_{1}x_{i1}+w_{2}x_{i2}+\cdots+w_{p}x_{ip})\geq b(1-\varepsilon_{i})
+y_{_i}(w_{_1}x_{i1}+w_{2}x_{i2}+\cdots+w_{p}x_{ip})\geq b(1-\varepsilon_{i})
 $$
 
 $$
-\begin{array}{r}{\sum_{i=1}^{n}\varepsilon_{i}\le C,\ \varepsilon_{i}\ge0,\ \sum_{j=1}^{p}w_{j}^{2}=1}\end{array}
+\begin{array}{r}{\sum_{i=1}^{n}\varepsilon_{i}\leq C,\quad\varepsilon_{i}\geq0,\quad\sum_{j=1}^{p}w_{j}^{2}=1}\end{array}
 $$
 
 其中 $\varepsilon_{i}$ 称为松弛变量，所有松弛变量之和应小于惩罚系数 C。
@@ -173,7 +173,7 @@ $$
 定义支持线性向量机的损失函数C(w⃗⃗ )为：
 
 $$
-C({\overrightarrow{w}})={\frac{1}{2}}\sum_{j=1}^{p}w_{j}{^{2}}+C\sum_{i=1}^{N}\varepsilon_{i}={\frac{1}{2}}\|{\overrightarrow{w}}\|^{2}+C\sum_{i=1}^{N}\varepsilon_{i}
+C(\overrightarrow{w})=\frac{1}{2}{\sum}_{j=1}^{p}{w_{j}}^{2}+C{\sum}_{i=1}^{N}\varepsilon_{i}=\frac{1}{2}\|\overrightarrow{w}\|^{2}+C{\sum}_{i=1}^{N}\varepsilon_{i}
 $$
 
 注意到等号右侧的 为惩罚系数，和损失函数C(w⃗⃗ )的含义完全不同。通常采用拉格朗日乘子法，求出使得损失函数取最小值的w⃗⃗ 。
@@ -185,7 +185,7 @@ $$
 以线性回归为例，L2正则化的线性回归模型又称为岭回归，损失函数为：
 
 $$
-C(\overrightarrow{w})=\sum_{i=1}^{N}(y_{i}-w_{0}-\sum_{j=1}^{p}w_{j}x_{ij})^{2}+\lambda\sum_{j=1}^{p}w_{j}^{2}
+C(\overrightarrow{w})={\sum}_{i=1}^{N}(y_{i}-w_{0}-{\sum}_{j=1}^{p}w_{j}x_{ij})^{2}+\lambda{\sum}_{j=1}^{p}w_{j}^{2}
 $$
 
 表示成矩阵形式：
@@ -197,7 +197,7 @@ $$
 L1正则化的线性回归模型又称为Lasso回归，损失函数为:
 
 $$
-C(\overrightarrow{w})=\sum_{i=1}^{N}(y_{i}-w_{0}-\sum_{j=1}^{p}w_{j}x_{ij})^{2}+\lambda\sum_{j=1}^{p}|w_{j}|
+C(\overrightarrow{w})={\sum}_{i\;=1}^{N}(y_{i}-w_{0}-{\sum}_{j\;=1}^{p}w_{j}x_{ij})^{2}+\lambda{\sum}_{j\;=1}^{p}|w_{j}|
 $$
 
 表示成矩阵形式：
@@ -206,15 +206,15 @@ $$
 C(\overrightarrow{w})=\|y-X\overrightarrow{w}\|^{2}+\lambda\|\overrightarrow{w}\|_{1}
 $$
 
-其中‖w⃗⃗ ‖等价于‖w⃗⃗ $\big|_{2}:$ ，代表向量w⃗⃗ 的 2范数；‖w⃗ ‖ 代表向量w⃗⃗ 的 1范数。参数λ 为正则化系数：当 λ 较大时，即使w⃗⃗ 较小也会加以惩罚，得到的w⃗⃗ 更接近 0。
+其中‖w⃗⃗ ‖等价于‖w⃗⃗ $\vert_{2},$ ，代表向量w⃗⃗ 的 2范数；‖w⃗ ‖ 代表向量w⃗⃗ 的 1范数。参数λ 为正则化系数：当 λ 较大时，即使w⃗⃗ 较小也会加以惩罚，得到的w⃗⃗ 更接近 0。
 
 介于 L1和 L2之间的正则化方法称为弹性网络（elastic net）。对于线性回归模型，弹性网络正则化的损失函数为：
 
 $$
-C(\overrightarrow{w})=\sum_{i=1}^{N}(y_{i}-w_{0}-\sum_{j=1}^{p}w_{j}{x_{ij}}^{2})^{}+\lambda\sum_{j=1}^{p}(\rho\vert w_{j}\vert+(1-\rho)w_{j}^{2})
+C(\overrightarrow{w})={\sum}_{i=1}^{N}{(\boldsymbol{y}_{i}-\boldsymbol{w}_{0}-{\sum}_{j=1}^{p}{w_{j}x_{ij}})}^{2}+\lambda{\sum}_{j=1}^{p}(\rho\big|w_{j}\big|+(1-\rho)w_{j}^{2})
 $$
 
-其中 $\rho$ 相当于 L1正则化系数， $\rho\mathrm{:}$ 越大则越接近 L1正则化， $\rho$ 越小则越接近 L2正则化。
+其中 $\rho$ 相当于 L1正则化系数， $\rho\colon$ 越大则越接近 L1正则化， $\rho_{\cdot}$ 越小则越接近 L2正则化。
 
 以上介绍了 Lasso，岭回归和弹性网络三种回归参数正则化的方式。回想回归的目的，其实就是要在尽可能“简单”的模型下，最小化数据拟合方差。而 ，岭回归以及弹性网络的目的就是用模型的 1 范数，2 范数以及两者的混合来使模型尽可能简单。Zou 和Hastie（2004）的文章提出弹性网络，并用理论和实际数据的数值实验对比了三种正则化方法的优劣。Lasso用的 1范数在 0附近时比 2范数收敛更快，也即更加敏感，反之在远离 0的时候，岭回归使用的 2范数比1范数更加敏感。
 
@@ -230,7 +230,7 @@ $$
 Loss=(1-yf(x))^{2}
 $$
 
-当 y = 1时 ， $Loss=(1-f(x))^{2}=(\mathrm{y}-f(x))^{2}$ ； 当 y = −1时 ， $Loss=(1+f(x))^{2}=$ $(-1-f(x))^{2}=(y-f(x))^{2}$ 。容易看出，平方损失等价于未正则化的线性回归损失函数。
+当 y = 1时 ， $Loss=(1-f(x))^{2}=(\mathsf{y}-f(x))^{2}$ ； 当 y = −1时 ， $Loss=(1+f(x))^{2}=$ $(-1-f(x))^{2}=(y-f(x))^{2}$ 。容易看出，平方损失等价于未正则化的线性回归损失函数。
 
 ## 2）对数损失（log loss）：
 
@@ -243,7 +243,7 @@ $$
 ## 3）hinge 损失（hinge loss）：
 
 $$
-Loss=\operatorname*{max}(0,1-yf(x))
+Loss=\max(0,1-yf(x))
 $$
 
 hinge损失等价于未正则化的线性支持向量机。下面我们将简要地证明。
@@ -251,19 +251,19 @@ hinge损失等价于未正则化的线性支持向量机。下面我们将简要
 线性支持向量机的损失函数为：
 
 $$
-C(\overrightarrow{w})=\frac{1}{2}\|\overrightarrow{w}\|^{2}+C\sum_{i=1}^{N}\varepsilon_{i}
+C(\overrightarrow{w})=\frac{1}{2}\|\overrightarrow{w}\|^{2}+C{\sum}_{i=1}^{N}\varepsilon_{i},
 $$
 
 取 $\lambda=1/2C$ ，得到：
 
 $$
-C({\overrightarrow{w}})={\frac{1}{2}}\|{\overrightarrow{w}}\|^{2}+{\frac{1}{2\lambda}}\sum_{i=1}^{N}\varepsilon_{i}={\frac{1}{2\lambda}}{\Big(}\lambda\|{\overrightarrow{w}}\|^{2}+\sum_{i=1}^{N}\varepsilon_{i}{\Big)}={\frac{1}{2\lambda}}{\Big(}\sum_{i=1}^{N}\varepsilon_{i}+\lambda\|{\overrightarrow{w}}\|^{2}{\Big)}
+C\left(\overrightarrow{w}\right)=\frac{1}{2}\|\overrightarrow{w}\|^{2}+\frac{1}{2\lambda}{\sum}_{i=1}^{N}\varepsilon_{i}=\frac{1}{2\lambda}\Big(\lambda\|\overrightarrow{w}\|^{2}+{\sum}_{i=1}^{N}\varepsilon_{i}\Big)=\frac{1}{2\lambda}\Big({\sum}_{i=1}^{N}\varepsilon_{i}+\lambda\|\overrightarrow{w}\|^{2}\Big)
 $$
 
-根据松弛变量 $\varepsilon_{i}$ 的定义，当样本位于分类边界以内，即 $1-y_{i}f(x_{i})\leq0$ 时， $\varepsilon_{i}=0$ ；当样本位于分类边界以外，即 $1-y_{i}f(x_{i})>$ 0时， $\varepsilon_{i}=1-y_{i}f(x_{i})>0$ ,并且样本离分类边界越远，$\varepsilon_{i}$ 的值越大。将两种情况结合，得到 $\varepsilon_{i}=\operatorname*{max}(0,1-y_{i}f(x_{i}))$ 。代入上式，则有：
+根据松弛变量 $\varepsilon_{i}$ 的定义，当样本位于分类边界以内，即 $1-y_{i}f(x_{i})\leq0$ 时， $\varepsilon_{i}=0;$ ；当样本位于分类边界以外，即 $1-y_{i}f(x_{i})>$ 0时， $\varepsilon_{i}=1-y_{i}f(x_{i})>0$ ,并且样本离分类边界越远，$\varepsilon_{i}$ 的值越大。将两种情况结合，得到 $\varepsilon_{i}=\operatorname*{max}(0,1-y_{i}f(x_{i}))$ 。代入上式，则有：
 
 $$
-C(\overrightarrow{w})=\frac{1}{2\lambda}\biggl(\sum_{i=1}^{N}\operatorname*{max}(0,1-y_{i}f(x_{i}))+\lambda\|\overrightarrow{w}\|^{2}\biggr)
+C(\vec{w})=\frac{1}{2\lambda}\left(\sum_{i=1}^{N}\max(0,1-y_{i}f(x_{i}))+\lambda\|\vec{w}\|^{2}\right)
 $$
 
 其中λ‖w⃗⃗ ‖2相当于 L2正则化。容易看出，线性支持向量机的损失函数等价于 L2正则化的hinge 损失。
@@ -273,23 +273,23 @@ $$
 Huber损失是为了增强平方损失对异常值（outliers）的抗干扰能力而提出的一种损失函数，具体形式如下：
 
 $$
-Loss=\left\{\begin{array}{ll}{\displaystyle\frac{1}{2}(y-f(x))^{2},\qquad\displaystyle for|y-f(x)|\le\delta}\\{\displaystyle\delta\left(|y-f(x)|-\frac{1}{2}\delta\right),\qquad\displaystyle otherwise}\end{array}\right.
+Loss=\left\{\begin{aligned}&\frac{1}{2}(y-f(x))^{2},\qquad for\left|y-f(x)\right|\leq\delta\\&\delta\left(\left|y-f(x)\right|-\frac{1}{2}\delta\right),\qquad otherwise\end{aligned}\right.
 $$
 
-当预测误差 $|y-f(x)$ |较小（小于阈值δ）时，损失函数为二次形式，与平方损失 $(y-f(x))^{2}$ 非常相似；当预测误差 $|y-f(x)$ |较大时，损失函数为线性形式。因此，异常值带来的预测误差并不会造成过大的 Huber损失，使得模型对极端值不敏感。
+当预测误差 $|y-f(x)|$ |较小（小于阈值δ）时，损失函数为二次形式，与平方损失 $(y-f(x))^{2}$ 非常相似；当预测误差 $|y-f(x)|$ |较大时，损失函数为线性形式。因此，异常值带来的预测误差并不会造成过大的 Huber损失，使得模型对极端值不敏感。
 
 ## 5）modified Huber 损失（modified Huber loss）：
 
 在分类中常用到 Huber损失函数的变形 modified Huber。具体形式为：
 
 $$
-Loss=\left\{\begin{array}{ll}{{\mathrm{max}(0,1-yf(x))^{2},}}&{{for\ yf(x)\ge-1}}\\{{\qquad-4yf(x)\ ,}}&{{otherwise}}\end{array}\right.
+Loss=\left\{\begin{aligned}\max(0,&1-yf(x))^2,\quad foryf(x)\geq-1\\-&4yf(x),\quad otherwise\end{aligned}\right.
 $$
 
-当预测误差 $|y-f(x)|$ |较小时，modified Huber 损失等价于 hinge 损失 $\mathrm{max}(0,1-yf(x))$ 的平方。因此，modified Huber损失相当于二次平滑后的 hinge损失。
+当预测误差 $|y-f(x)|$ |较小时，modified Huber 损失等价于 hinge 损失 $\operatorname*{max}(0,1-yf(x))$ 的平方。因此，modified Huber损失相当于二次平滑后的 hinge损失。
 
 部分损失函数的图像如图表 1 所示。当分类正确时，yf(x)为正值，损失函数接近于 0；
-当分类错误时，yf(x)为负值，损失函数随 $.yf(x)$ 的减小而增加。
+当分类错误时，yf(x)为负值，损失函数随 $\ _{\mathcal{Y}}f(x)$ 的减小而增加。
 
 图表1： 常用线性损失函数示意图
 ![](images/5a1fe5f91127e2d9410e5f5625f3f0a57af1cf559e69c6368ca09199abd380c3.webp)
@@ -297,7 +297,7 @@ $$
 
 ## 优化算法
 
-在上节中，我们介绍了各式各样的损失函数，但是如何快速有效地对损失函数求最小值，从而估计模型的参数,这就涉及到优化问题。对于最常见的线性回归Xw⃗⃗ = y，通常以最小化残差平方和（即最小二乘）为目标，给出系数向量w⃗⃗ 的一个线性无偏估计 ${\overrightarrow{w}}=(X^{\mathrm{{T}}}X)^{-1}y$ 但是现实往往不是那么简单，尤其在当今的大数据时代，当数据数量爆炸式增长时，反演矩阵 $(X^{\mathrm{T}}X)^{-1}$ 的大小将以样本数量平方的速度增长，对计算机的存储提出了很大的挑战。另外，各种损失函数的性质并不像残差平方和那么简单，反演矩阵的寻找也就变得不那么直观。正是由于以上两个原因，基于梯度的优化算法应运而生，并且不断发展。其中最简单，也非常快速和有效的方法，当属梯度下降法及其衍生出的随机梯度下降法。这类算法在解决凸损失函数优化问题中备受青睐，接下来我们将详细介绍其原理。
+在上节中，我们介绍了各式各样的损失函数，但是如何快速有效地对损失函数求最小值，从而估计模型的参数,这就涉及到优化问题。对于最常见的线性回归Xw⃗⃗ = y，通常以最小化残差平方和（即最小二乘）为目标，给出系数向量w⃗⃗ 的一个线性无偏估计 ${\vec{w}}=(X^{\mathrm{T}}X)^{-1}y$ 但是现实往往不是那么简单，尤其在当今的大数据时代，当数据数量爆炸式增长时，反演矩阵 $\cdot(X^{\mathrm{T}}X)^{-1}$ 的大小将以样本数量平方的速度增长，对计算机的存储提出了很大的挑战。另外，各种损失函数的性质并不像残差平方和那么简单，反演矩阵的寻找也就变得不那么直观。正是由于以上两个原因，基于梯度的优化算法应运而生，并且不断发展。其中最简单，也非常快速和有效的方法，当属梯度下降法及其衍生出的随机梯度下降法。这类算法在解决凸损失函数优化问题中备受青睐，接下来我们将详细介绍其原理。
 
 ## 梯度下降
 
@@ -313,7 +313,7 @@ $$
 
 这里的 MSE 虽然给出了一个具体的损失函数形式，但是在后面介绍梯度下降法时，我们提醒读者梯度下降法的原理与损失函数的具体形式无关，这里的 MSE 只是给出一个比较形象的代数形式。
 
-回到损失函数C(w⃗⃗ )，它可以是任意多元的实值函数，图像上是高维空间里的一个超平面，但是人类的想象往往逃不出三维空间，那么为了理解的直观和方便，不妨把C(w⃗⃗ )看成是一个只有两个变量 $w_{1},w_{2}$ 的函数，如图表 2 所示。我们要找的就是使损失函数取到最小值的$w_{1},w_{2}$ 。从图表 2中我们可以立刻观察到结果，最小值位于“锅底”的位置。但是，不要忘记这只是我们给出的一个很简单的二元损失函数，对于多元损失函数，仅仅是高维空间就很难想象，几乎不可能直接观察出最小点的位置。
+回到损失函数C(w⃗⃗ )，它可以是任意多元的实值函数，图像上是高维空间里的一个超平面，但是人类的想象往往逃不出三维空间，那么为了理解的直观和方便，不妨把C(w⃗⃗ )看成是一个只有两个变量 $[w_{1},w_{2}$ 的函数，如图表 2 所示。我们要找的就是使损失函数取到最小值的$w_{1},w_{2}$ 。从图表 2中我们可以立刻观察到结果，最小值位于“锅底”的位置。但是，不要忘记这只是我们给出的一个很简单的二元损失函数，对于多元损失函数，仅仅是高维空间就很难想象，几乎不可能直接观察出最小点的位置。
 
 虽然几何的方法给寻找极小值关闭了一扇门，但是代数微积分的方法却打开了一扇窗，高维空间也不过就是数学家代数的游戏而已。如果损失函数 C只是一个或者少数几个变量的函数，那么通过计算导数可以寻找到损失函数的极值点，但是如果损失函数的参数太多，那么计算导数的过程也就如噩梦一般了。
 
@@ -323,16 +323,16 @@ $$
 ![](images/945344ae28f571aaed21d484196716aad5434b00c1cb36750458c050017e1398.webp)
 资料来源：华泰证券研究所
 
-我们回到更加复杂的高维空间和代数表达。假设我们让每个模型参数上变化一个小量$\Delta\overrightarrow{w}=(\Delta w_{1},\Delta w_{2},\dots,\Delta w_{\mathrm{n}}),$ 微积分告诉我们：
+我们回到更加复杂的高维空间和代数表达。假设我们让每个模型参数上变化一个小量$\Delta\vec{w}=(\Delta w_{1},\Delta w_{2},\dots,\Delta w_{\mathrm{n}}),$ 微积分告诉我们：
 
 $$
-\Delta C\approx{\frac{\partial C}{\partial w_{1}}}\cdot\Delta w_{1}+{\frac{\partial C}{\partial w_{2}}}\cdot\Delta w_{2}+\cdots+{\frac{\partial C}{\partial w_{\mathrm{n}}}}\cdot\Delta w_{\mathrm{n}}\approx\nabla C\cdot\Delta{\vec{w}}
+\Delta C\approx\frac{\partial\mathbb{C}}{\partial w_{1}}\cdot\Delta w_{1}+\frac{\partial C}{\partial w_{2}}\cdot\Delta w_{2}+\cdots+\frac{\partial C}{\partial w_{\mathfrak{n}}}\cdot\Delta w_{\mathfrak{n}}\approx\nabla C\cdot\Delta\vec{w}
 $$
 
-其中， $\nabla C=(\partial\mathbb{C}/\partial w_{1},\partial\mathbb{C}/\partial w_{2},\dots,\partial\mathbb{C}/\partial w_{\mathrm{n}})$ ，是损失函数 C的梯度，也就是 C的偏导数组成的向量。∇符号可能对于大部分人很新鲜，但是大家只需要知道它是一个计算损失函数在各个参数上偏导的算符。我们关 $\therefore\dot{\boldsymbol{\Xi}}\Delta C\approx\nabla C\cdot\Delta\vec{w}$ ，可以发现正是∇C将模型参数变化Δw⃗⃗ 和损失函数的变化ΔC关联在一起，这也是我们称∇C为梯度向量的原因。上面的方程，也给我们指出了一条如何选择Δw⃗⃗ 使得ΔC为负数的道路（ΔC为负保证了我们对参数的调整朝着C变小的方向进行）。试想，我们选取:
+其中， $\nabla C=(\partial\mathbb{C}/\partial w_{1},\partial\mathbb{C}/\partial w_{2},\dots,\partial\mathbb{C}/\partial w_{\mathfrak{n}})$ ，是损失函数 C的梯度，也就是 C的偏导数组成的向量。∇符号可能对于大部分人很新鲜，但是大家只需要知道它是一个计算损失函数在各个参数上偏导的算符。我们关 $注\Delta C\approx\nabla C\cdot\Delta\vec{w}$ ，可以发现正是∇C将模型参数变化Δw⃗⃗ 和损失函数的变化ΔC关联在一起，这也是我们称∇C为梯度向量的原因。上面的方程，也给我们指出了一条如何选择Δw⃗⃗ 使得ΔC为负数的道路（ΔC为负保证了我们对参数的调整朝着C变小的方向进行）。试想，我们选取:
 
 $$
-\Delta\overrightarrow{w}=-\boldsymbol{\eta}\cdot\nabla C
+\Delta\vec{w}=-\eta\cdot\nabla C
 $$
 
 其中η称为学习率，通常取一个很小的正数，那么：
@@ -341,7 +341,7 @@ $$
 \Delta C\approx-\eta\nabla C\cdot\nabla C\approx-\eta\|\nabla C\|^{2}
 $$
 
-显然， $\Delta C\le0$ ，因此按照 $\Delta\overrightarrow{w}=-\eta$ ⋅ ∇C这个规则改变w⃗⃗ ，那么损失函数 C将一直减少，直到落入一个极小点。所以，我们似乎在数学上找到了一个类似于自然界的万有引力，只要按照这个“运动规则”重复改变模型规则，我们就能找到最优化的模型参数。事实上，数学上也不难证明梯度方向是目标函数 C减小最快的方向。
+显然， $\Delta C\leq0$ ，因此按照 $\Delta\vec{w}=-\eta$ ⋅ ∇C这个规则改变w⃗⃗ ，那么损失函数 C将一直减少，直到落入一个极小点。所以，我们似乎在数学上找到了一个类似于自然界的万有引力，只要按照这个“运动规则”重复改变模型规则，我们就能找到最优化的模型参数。事实上，数学上也不难证明梯度方向是目标函数 C减小最快的方向。
 
 以上，我们介绍了梯度下降法的基本原理，下面我们总结梯度下降法的基本步骤：
 
@@ -349,24 +349,24 @@ $$
 
 2） 计算损失函数的梯度∇C；
 
-3） 以一定的学习率对模型参数进行调整， $\overrightarrow{w}\overrightarrow{w}^{\prime}=\overrightarrow{w}-\eta\cdot\nabla C$
+3） 以一定的学习率对模型参数进行调整， $\vec{w}\rightarrow\vec{w}^{\prime}=\vec{w}-\eta\cdot\nabla C;$
 
 4） 用更新后的参数重新与输入数据重新计算模型预测值，重新计算损失函数；
 
-5） 如果损失函数达到要求或迭代次数达到上限，停止计算，输出模型，否则，重复第 $_{2\sim}$ 5 步。
+5） 如果损失函数达到要求或迭代次数达到上限，停止计算，输出模型，否则，重复第 $2\sim$ 5 步。
 
 最后，需要提醒读者的是，以上所有的推导都是基于Δw⃗⃗ 是小量的前提，所以学习率η的选择必须足够小，以保证泰勒展开一阶小量近似整个函数的变化量，但是学习率η也不能太小，否则收敛会十分缓慢。常用的方法是自适应地调整学习率η的大小，在迭代的前期选择相对较大的η，而在后期逐步减小η。
 
 ## 随机梯度下降
 
-梯度下降法已经是不错的优化算法，然而在实际应用中存在一些缺陷。为了理解梯度下降法的问题所在，我们仍然以 MSE损失函数为例。MSE需要计算每个输入数据 x的预测值与真实值的残差 $C_{\bf x},$ ，最后得到总的残差平方和 $\begin{array}{r}{C=\sum_{\mathrm{x}}C_{x},}\end{array}$ 因此为了计算梯度∇C，我们需要遍历计算每一个输入 x的梯度，随后加总 $\begin{array}{r}{\nabla C=\sum_{x}\nabla C_{x}/N}\end{array}$ 。当有大量训练数据时，整个训练过程变得非常缓慢，此外不同输入样本之间的梯度可能会相互抵消，导致整个参数改变幅度小。
+梯度下降法已经是不错的优化算法，然而在实际应用中存在一些缺陷。为了理解梯度下降法的问题所在，我们仍然以 MSE损失函数为例。MSE需要计算每个输入数据 x的预测值与真实值的残差 $C_{\mathbf{x}},$ ，最后得到总的残差平方和 $\begin{array}{r}{\cdot C=\sum_{\mathrm{x}}C_{x},}\end{array}$ 因此为了计算梯度∇C，我们需要遍历计算每一个输入 x的梯度，随后加总 $\begin{array}{r}{\nabla C=\sum_{x}\nabla C_{x}/N}\end{array}$ 。当有大量训练数据时，整个训练过程变得非常缓慢，此外不同输入样本之间的梯度可能会相互抵消，导致整个参数改变幅度小。
 
-基于以上的问题，人们将梯度下降法向前推进了一步，改进成随机梯度下降法（stochasticgradient decent，SGD）。随机梯度下降法的核心思想是每次随机选取全部训练样本中的单个样本，计算方向梯度 $\nabla C_{x},$ ，随后更新模型参数： $\overrightarrow{w}\overrightarrow{w}^{\prime}=\overrightarrow{w}-\eta\cdot\nabla C_{x^{\circ}}$ 将全部训练样本遍历一次，称为一次迭代；多次迭代后，w⃗⃗ 将收敛到最优值。随机梯度下降法使用 $\nabla C_{x}$ 代替梯度下降法中的∇C，大大加快了运算速度，适用于大规模数据的模型优化问题。
+基于以上的问题，人们将梯度下降法向前推进了一步，改进成随机梯度下降法（stochasticgradient decent，SGD）。随机梯度下降法的核心思想是每次随机选取全部训练样本中的单个样本，计算方向梯度 $\nabla C_{x},$ ，随后更新模型参数： $\vec{w}\rightarrow\vec{w}^{\prime}=\vec{w}-\eta\cdot\nabla C_{x^{\circ}}$ 将全部训练样本遍历一次，称为一次迭代；多次迭代后，w⃗⃗ 将收敛到最优值。随机梯度下降法使用 $\nabla C_{x}$ 代替梯度下降法中的∇C，大大加快了运算速度，适用于大规模数据的模型优化问题。
 
-梯度下降法和随机梯度下降法的一个折衷方案称为小批量梯度下降法（mini-batchgradient decent）。核心思想是选取全部训练样本的一个子集，计算方向梯度 $\nabla C_{x^{\ast}}$ 。具体而言，我们从全体训练样本中，随机选择 m个样本 $\mathrm{X}_{1},X_{2},X_{3},\dots,X_{n}$ 组成一个小批量样本。当m=1时，小批量梯度下降等价于随机梯度下降。假设小批量样本满足一定数量，通过大数定律，可以预期 $\nabla C_{x}.$ 近似等于∇C，即：
+梯度下降法和随机梯度下降法的一个折衷方案称为小批量梯度下降法（mini-batchgradient decent）。核心思想是选取全部训练样本的一个子集，计算方向梯度 $\nabla C_{x^{\circ}}$ 。具体而言，我们从全体训练样本中，随机选择 m个样本 $\mathtt{\cdot}X_{1},X_{2},X_{3},\dots,X_{n}$ 组成一个小批量样本。当m=1时，小批量梯度下降等价于随机梯度下降。假设小批量样本满足一定数量，通过大数定律，可以预期 $\nabla C_{x^{\prime}}$ 近似等于∇C，即：
 
 $$
-\nabla C_{\mathrm{x}}=\frac{1}{m}\sum_{j=1}^{m}\nabla C_{x_{j}}\approx\nabla C
+\nabla C_{\mathrm{x}}=\frac{1}{m}\sum_{j=1}^{m}\nabla C_{x_{j}}\approx\nabla C_{\mathrm{x}}
 $$
 
 如果把梯度下降比喻成人口普查，随机梯度下降和小批量梯度下降就是人口抽查，普查的成本总是很高，时间很长。虽然抽查并不一定全面而完美，存在统计上的波动，但是实际上也没有必要完美，因为我们实际上关心的是在某个方向来移动减少损失函数，而这个方向偏离一点它下降最快的方向也无妨，只是我们需要多移动几步（多迭代几次）罢了。如图表 3所示，左图的梯度下降法给出了最快的下山路径；而右图的随机梯度下降法每一步并不完美，但是只要迭代次数足够多，最终也能够曲折地到达最小值的位置，并且每一步的计算速度远远快于梯度下降。

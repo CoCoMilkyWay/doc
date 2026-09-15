@@ -106,13 +106,13 @@ S0880122070051
 
 ## 2.2. 价值策略
 
-设证券i在时间t的价格为 $P_{t}^{i}$ ，账面价值 $B_{t}^{i}$ ，则账面价值比定义为V=B/P。
+设证券i在时间t的价格为 $P_{t}^{i}$ ，账面价值 $.B_{t}^{i}$ ，则账面价值比定义为V=B/P。
 高账面价值比的证券是价值型证券；低账面价值比的是成长型证券。
 
-构建一个价值策略：做多账面价值比高的价值证券 H，做空账面价值比低的成长证券 L。该策略的特点是做多更廉价的资产，即有 $V_{t}^{H}>V_{t}^{L}$ 估值差定义为：
+构建一个价值策略：做多账面价值比高的价值证券 H，做空账面价值比低的成长证券 L。该策略的特点是做多更廉价的资产，即有 $|V_{t}^{H}>V_{t}^{L}$ 估值差定义为：
 
 $$
-Valuespread_{t}{:=}log(V_{t}^{H})^{-}\ log(V_{t}^{L})
+\mathit{Value\:spread}_{t}{:=log\:(V_{t}^{H})-log\:(V_{t}^{L})}
 $$
 
 显然，根据定义，价值投资组合策略的价值价差是正的。
@@ -123,36 +123,36 @@ $$
 
 ## 2.3.1. 风险的理性补偿模型
 
-由于价格是对风险的理性补偿，风险不同导致了价格的差异，故价值差可以用风险溢价λ、风险指数 $\beta\mathrm{:}$ 和证券 B/P 的增长率 $g$ 来表示：
+由于价格是对风险的理性补偿，风险不同导致了价格的差异，故价值差可以用风险溢价λ、风险指数 $(\beta)$ 和证券 B/P 的增长率 $g$ 来表示：
 
 $$
 Valuespread_{t}\cong\lambda_{t}(\beta_{t}^{H}-\beta_{t}^{L})-(g_{t}^{H}-g_{t}^{L})
 $$
 
-该理论表明，如果价值股比成长股有更 $\frac{3}{\frac{3}{10}}$ 的风险指数 $\left(\underset{I^{\perp}}{\doteq}\beta_{t}^{H}-\beta_{t}^{L}\right)$ ，或者价值股的增长率低于成长股 $\left(/Eg_{t}^{H}-g_{t}^{L}\right)$ ，则价值差更 $\frac{\dot{\pi}}{\vert\nabla\vert}$ ，即两者的价格差异更大。
+该理论表明，如果价值股比成长股有更 $高$ 的风险指数 $\left(高\beta_{t}^{H}-\beta_{t}^{L}\right)$ ，或者价值股的增长率低于成长股 $\left(俬g_{t}^{H}-g_{t}^{L}\right)$ ，则价值差更 $\left[高\right]$ ，即两者的价格差异更大。
 
 ## 2.3.2. 价格噪声模型
 
-价格差异是由于价格中存在随机噪 $\cdot^{\frac{\pm}{p}}$ ，该理论表明价值差只与噪声有关，与基本面之间没有关系，：
+价格差异是由于价格中存在随机噪 $\begin{aligned}声\end{aligned}$ ，该理论表明价值差只与噪声有关，与基本面之间没有关系，：
 
 $$
-Valuespread_{t}\cong\mathrm{Noise}
+Value_{pred_{t}}\cong Notice
 $$
 
 ## 2.3.3. 行为模型
 
-行为理论认为，证券价格差异不是反映了对风险的理性补偿， $\bar{\hbar}$ 是投资者情绪化的行为偏差所导致。非理性投资者在深度价值期会卖出价值股，考虑两个行为模型：
+行为理论认为，证券价格差异不是反映了对风险的理性补偿， $而$ 是投资者情绪化的行为偏差所导致。非理性投资者在深度价值期会卖出价值股，考虑两个行为模型：
 
 一是，投资者的买卖压力是由过去的回报驱动：
 
 $$
-{Valuespread}_{t}\cong-(1+z_{t})(g_{t}^{H}-g_{t}^{L})
+Valuespread_{t}\cong-(1+z_{t})(g_{t}^{H}-g_{t}^{L})
 $$
 
 二是，投资者的买卖压力是对基本面变化做出的过度反应：
 
 $$
-Value~spread_{t}\cong-(g_{t}^{H}-g_{t}^{L})+z_{t}\big(r_{t-k,t}^{L}-r_{t-k,t}^{H}\big)
+Value\ spread_{t}\cong-\big(g_{t}^{H}-g_{t}^{L}\big)+z_{t}\big(r_{t-k,t}^{L}-r_{t-k,t}^{H}\big)
 $$
 
 本文将会探讨价值股与成长股的估值差异到底是如何导致的，实际市场更接近哪种理论模型。
@@ -164,7 +164,7 @@ $$
 下面探究在深度价值时期，采取价值策略是否具有更高的未来收益。我们使用样本数据集对以下模型进行回归分析。
 
 $$
-VAL_{t+1}^{i}=\alpha+\beta Valuespread_{t}^{i}+\varepsilon_{t+1}^{i}
+VAL_{t+1}^{i}=\alpha+\beta\;Value\;spread_{t}^{i}+\varepsilon_{t+1}^{i}
 $$
 
 VAL 多空价值策略收益，Value spread 表示资产类别 i 对应的事前价值价差，以月为单位进行回归。
@@ -198,10 +198,10 @@ VAL 多空价值策略收益，Value spread 表示资产类别 i 对应的事前
 价值策略在深度价值事件丰富的时期表现良好。然后，对回报率和事件数量进行回归：
 
 $$
-DVAL_{t+1}^{i}=\alpha+\beta EVENTS_{t}^{i}+\varepsilon_{t+1}^{i}
+DVAL_{t+1}^{i}=\alpha+\beta\;EVENTS_{t}^{i}+\varepsilon_{t+1}^{i}
 $$
 
-$DVAL_{t+1}^{i}$ 表示股票、AA或所有资产 i的月收益，EVENTSi表示前一个月末符合深度价值过滤器的交易数量百分比。
+$DVAL_{t+11}^{i}$ 表示股票、AA或所有资产 i的月收益，EVENTSi表示前一个月末符合深度价值过滤器的交易数量百分比。
 
 图 4：价值策略回报与深度价值事件数量
 Panel A: Regression of Level, Volatility, and Sharpe Ratio of Deep Value Returns on Number of Opportunities

@@ -60,7 +60,7 @@ Email:ylq9619@htsec.com
 
 基于上述思路，在设定跌幅阈值为 Y%的前提下，波段低点 i需要满足以下条件：
 
-1）点 i是局部低点，即满足： $S_{\mathrm{i}}{>}S_{\mathrm{i}+1}$ 且 $\mathsf{S}_{\mathsf{i}}{<}\mathsf{S}_{\mathsf{i}}$ 1；
+1）点 i是局部低点，即满足： $\mathbf{S}_{\mid}\mathbf{>}\mathbf{S}_{\mid+1}$ 且 $\mathbf{S}_{\mathrm{i}}\mathbf{<}\mathbf{S}_{\mathrm{i}}.$ 1；
 
 2）存在点 j<i，且有 Si≤Sj*(1-Y%);
 

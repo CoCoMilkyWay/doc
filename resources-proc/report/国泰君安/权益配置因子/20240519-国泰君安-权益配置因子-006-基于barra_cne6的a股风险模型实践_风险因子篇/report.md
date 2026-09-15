@@ -111,7 +111,7 @@ Barra 风险模型是目前业界上最知名的多因子风险模型，广泛�
 多因子风险模型认为股票的收益受到一系列共同因子的驱动，因此可以将股票组合的收益、风险预测转化为因子的收益、风险预测。具体来说，参考 Barra CNE6 模型，引入三大类因子来刻画股票收益，分别是国家因子、行业因子和风格因子，则任一只股票的预期收益都可以表示为如下因子暴露和因子收益的线性组合。
 
 $$
-R_{n}=\ f_{c}+\sum_{i=1}^{P}X_{n}^{I_{i}}f_{I_{i}}+\sum_{j=1}^{Q}X_{n}^{S_{j}}f_{S_{j}}+\varepsilon_{n}
+R_{n}=f_{c}+\sum_{i=1}^{P}X_{n}^{I_{i}}f_{I_{i}}+\sum_{j=1}^{Q}X_{n}^{S_{j}}f_{S_{j}}+\varepsilon_{n},
 $$
 
 其中， $R_{n}$ 代表股票预期收益率， $f_{c}$ 代表国家因子的预期收益率。 $X_{n}^{I_{i}}$ 为个股在行业i上的暴露，个股在其所属行业上暴露为1，其余行业则全部为 0。 $X_{n}^{S_{j}}$ 为个股在风格因子j上的暴露。在模型求解时，上式中的因子暴露即为根据财务数据、交易数据等计算得到的因子值，然后将股票收益率取为当期值，因子暴露取为上期值进行回归求解，得到的回归系数即为因子收益，具体的计算方式以及处理过程将在第 2章和第 3章详细介绍。
@@ -119,13 +119,13 @@ $$
 为了方便叙述，假设国家因子、行业因子和风格因子共有K个，将因子收益统一记为 $f_{k}$ ，股票在各因子的暴露值统一记为 $X_{nk}$ ，则通过多因子模型，可以对任一投资组合进行收益分解如下：
 
 $$
-R_{P}=\sum_{n=1}^{N}{R_{n}}=\sum_{k=1}^{K}{X_{Pk}f_{k}}+\sum_{n=1}^{N}{w_{n}\varepsilon_{n}}
+R_{P}=\sum_{n=1}^{N}R_{n}=\sum_{k=1}^{K}X_{Pk}f_{k}+\sum_{n=1}^{N}w_{n}\varepsilon_{n},
 $$
 
 其中， $X_{Pk}$ 代表投资组合 P在因子 K上的暴露∑ $w_{n}X_{nk}.$ 。从而，在假设股票特异收益项 $\textstyle\sum_{n}w_{n}\varepsilon_{n}$ 能充分对冲的前提下，对含有 N 只股票的投资组合进行分析可以转化为对K个因子进行分析。同样，还可以对波动率进行分解，由于因子和股票的特异收益互不相关，并且不同股票的特异收益之间也互不相关，所以投资组合P的协方差矩阵为：
 
 $$
-\itSigma_{P}=\sum_{j,k=1}^{K}X_{Pk}F_{jk}X_{Pk}+\sum_{n=1}^{N}w_{n}^{2}var(\varepsilon_{n})
+\mathcal{L}_{P}=\sum_{j,k=1}^{K}X_{Pk}F_{jk}X_{Pk}+\sum_{n=1}^{N}w_{n}^{2}var(\varepsilon_{n}),
 $$
 
 其中 $F_{jk}$ 代表因子之间的协方差矩阵。从上面的推导可以看出，收益分解和风险预测是多因子风险模型想要解决的主要任务，本文主要关注因子构建和收益分解的部分。
@@ -235,7 +235,7 @@ $$
 由于不同描述变量的计算逻辑不同，量纲也有差异，无法直接进行数值比较，因此会对因子值进行标准化操作。具体来说，设股票n对应描述变量k的原始值为XnkRaw，则标准化公式为：
 
 $$
-X_{nk}=\frac{X_{nk}^{Raw}-\mu_{k}}{\sigma_{k}}\qquad\mu_{k}=\sum_{n=1}^{N}w_{n}X_{nk}^{Raw}
+X_{nk}=\frac{X_{nk}^{Raw}-\mu_{k}}{\sigma_{k}}\quad\mu_{k}=\sum_{n=1}^{N}w_{n}X_{nk}^{Raw}.
 $$
 
 其中 $\sigma_{k}$ 代表等权标准差， $\mu_{k}$ 是根据自由流通市值加权计算的均值。使用自由流通市值加权而不是一般常用的等权，是希望市场基准组合对各个风格因子的暴露为 0。除了描述变量以外，在每一次加权合成风格因子和大类因子时，也要进行一次标准化的处理，从而保证市值加权均值为0的性质。
@@ -243,7 +243,7 @@ $$
 采用自由流通市值加权计算均值的好处就在于，对于一个市场基准组合（由所有股票根据自由流通市值计算得到的投资组合），在任一风格因子k的暴露均为0，即：
 
 $$
-\begin{array}{l}{{\displaystyle X_{Pk}=\sum_{n=1}^{N}w_{n}\cdot X_{nk}=\sum_{n=1}^{N}w_{n}\frac{X_{nk}^{Raw}-\mu_{k}}{\sigma_{k}}}}\\{{\displaystyle=\frac{1}{\sigma_{k}}\left(\sum_{n=1}^{N}w_{n}X_{nk}^{Raw}-\mu_{k}\sum_{n=1}^{N}w_{n}\right)}}\\{{\displaystyle=\frac{1}{\sigma_{k}}\left(\sum_{n=1}^{N}w_{n}X_{nk}^{Raw}-\mu_{k}\right)=0}}\end{array}
+\begin{aligned}&X_{Pk}=\sum_{n=1}^{N}w_n\cdot X_{nk}=\sum_{n=1}^{N}w_n\frac{X_{nk}^{Raw}-\mu_k}{\sigma_k}\\&=\frac{1}{\sigma_k}\left(\sum_{n=1}^{N}w_nX_{nk}^{Raw}-\mu_k\sum_{n=1}^{N}w_n\right)\\&=\frac{1}{\sigma_k}\left(\sum_{n=1}^{N}w_nX_{nk}^{Raw}-\mu_k\right)=0\\\end{aligned}
 $$
 
 ## 3）填补缺失值
@@ -265,10 +265,10 @@ $$
 经典线性回归模型的一个重要假定是回归函数中的随机误差项具有同方差性，即它们都有相同的方差，这是为了保证回归参数估计量具有良好的统计性质。尽管多因子模型假定各只股票的特异收益率之间不相关，但特异收益率的方差并不相同，即存在异方差性，对于这种情况，需要采用加权最小二乘法求解回归方程。对于这类问题，理想中的回归权重是特异收益率方差的倒数，但此时是未知的；不过根据历史经验，特异收益率的方差通常与股票的自由流通市值成反比，因此本文在回归时采用自由流通市值的平方根作为权重。
 
 $$
-\begin{array}{c}{{R_{n}=\displaystyle f_{c}+\sum_{i=1}^{P}X_{n}^{I_{i}}f_{I_{i}}+\sum_{j=1}^{Q}X_{n}^{S_{j}}f_{S_{j}}+\varepsilon_{n}}}\\{{w=(\frac{\sqrt{S_{1}}}{\sum_{i=1}^{N}\sqrt{S_{i}}},\ldots,\frac{\sqrt{S_{N}}}{\sum_{i=1}^{N}\sqrt{S_{i}}})}}\end{array}
+\begin{aligned}R_{n}=&f_{c}+\sum_{i=1}^{P}X_{n}^{I_{i}}f_{I_{i}}+\sum_{j=1}^{Q}X_{n}^{S_{j}}f_{S_{j}}+\varepsilon_{n}\\&w=(\frac{\sqrt{s_{1}}}{\sum_{i=1}^{N}\sqrt{s_{i}}},\ldots,\frac{\sqrt{s_{N}}}{\sum_{i=1}^{N}\sqrt{s_{i}}})\end{aligned}
 $$
 
-其中， $s_{i}$ 代表股票i的自由流通市值，股票数记为N，因子数记为K。此外，由于本文的回归模型中显式地包含了国家因子，任意股票在其暴露均为常数 1，与此同时单只股票在所有行业因子上的暴露之和显然也为 1，这带来了完全的共线性，导致回归模型无法求解。为了解决完全共线性的问题，需要额外引入新的约束条件，要求自由流通市值加权的行业因子均值为0，下式中 $s_{I_{i}}$ 代表行业 $.I_{i}$ 的自由流通市值之和。
+其中， $s_{i}$ 代表股票i的自由流通市值，股票数记为N，因子数记为K。此外，由于本文的回归模型中显式地包含了国家因子，任意股票在其暴露均为常数 1，与此同时单只股票在所有行业因子上的暴露之和显然也为 1，这带来了完全的共线性，导致回归模型无法求解。为了解决完全共线性的问题，需要额外引入新的约束条件，要求自由流通市值加权的行业因子均值为0，下式中 $s_{I_{i}}$ 代表行业 $I_{i}$ 的自由流通市值之和。
 
 $$
 \sum_{i}s_{I_{i}}f_{I_{i}}=0
@@ -276,16 +276,16 @@ $$
 
 ## 3.2. 使用带约束最小二乘法求解回归模型
 
-现在，我们得到了一个带约束的加权回归模型，接下来借鉴石川等（2020）[6]中的做法，使用带约束的加权最小二乘法推导出模型解析解的形式。首先，引入一些矩阵记号，R代表股票收益率向量；X代表因子暴露矩阵，维度为 $N\times K$ ；W代表回归权重矩阵，即 $W=diag(w)=$ $\begin{array}{r}{diag(\frac{\sqrt{s_{1}}}{\sum_{i=1}^{N}\sqrt{s_{i}}},\ldots,\frac{\sqrt{s_{N}}}{\sum_{i=1}^{N}\sqrt{s_{i}}})}\end{array}$ 。求解的难点在于如何表达加权行业因子均值为 0的约束条件，为此需要额外构建维度为 $K\times K-1$ 的约束矩阵C，将约束条件重新表达为如下的矩阵约束形式：
+现在，我们得到了一个带约束的加权回归模型，接下来借鉴石川等（2020）[6]中的做法，使用带约束的加权最小二乘法推导出模型解析解的形式。首先，引入一些矩阵记号，R代表股票收益率向量；X代表因子暴露矩阵，维度为 $N\times K$ ；W代表回归权重矩阵，即 $W=diag(w)=$ $\begin{array}{r}{diag(\frac{\sqrt{s_{1}}}{\sum_{i=1}^{N}\sqrt{s_{i}}},\dots,\frac{\sqrt{s_{N}}}{\sum_{i=1}^{N}\sqrt{s_{i}}})}\end{array}$ 。求解的难点在于如何表达加权行业因子均值为 0的约束条件，为此需要额外构建维度为 $K\times K-1$ 的约束矩阵C，将约束条件重新表达为如下的矩阵约束形式：
 
 $$
-\left[\begin{array}{l}{f_{c}}\\{f_{I_{i}}}\\{\vdots}\\{f_{I_{P}}}\\{f_{S_{1}}}\\{\vdots}\\{f_{S_{Q}}}\end{array}\right]=\left[\begin{array}{lllllllll}{1}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{0}&{1}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{-\frac{S_{I_{1}}}{S_{I_{P}}}}&{-\frac{S_{I_{2}}}{S_{I_{P}}}}&{\cdots}&{-\frac{S_{I_{P-1}}}{S_{I_{P}}}}&{0}&{\cdots}&{0}\\{0}&{0}&{0}&{\cdots}&{0}&{1}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{1}\end{array}\right]\left[\begin{array}{l}{f_{c}}\\{f_{I_{i}}}\\{\vdots}\\{f_{I_{P-1}}}\\{f_{S_{1}}}\\{\vdots}\\{f_{S_{Q}}}\end{array}\right]+\left[\begin{array}{l}{0}\\{0}\\{\vdots}\\{0}\\{0}\\{\vdots}\\{0}\end{array}\right]
+\begin{bmatrix}f_{c}\\f_{l_{i}}\\\vdots\\f_{l_{p}}\\f_{S_{1}}\\\vdots\\f_{S_{Q}}\\\end{bmatrix}=\begin{bmatrix}1&0&0&\cdots&0&0&\cdots&0\\0&1&0&\cdots&0&0&\cdots&0\\\vdots&\vdots&\vdots&\ddots&\vdots&\vdots&\vdots&\ddots&\vdots\\0&-\frac{S_{I_{1}}}{S_{I_{p}}}&-\frac{S_{I_{2}}}{S_{I_{p}}}&\cdots&-\frac{S_{I_{p-1}}}{S_{I_{p}}}&0&\cdots&0\\0&0&0&\cdots&0&1&\cdots&0\\\vdots&\vdots&\vdots&\ddots&\vdots&\vdots&\ddots&\vdots\\0&0&0&\cdots&0&0&0&\cdots&1\\\end{bmatrix}\begin{bmatrix}f_{c}\\f_{i}\\f_{l_{i}}\\\vdots\\f_{I_{P-1}}\\f_{S_{1}}\\\vdots\\f_{S_{Q}}\\\end{bmatrix}+\begin{bmatrix}0\\0\\0\\\vdots\\0\\0\\\vdots\\0\\1\\\end{bmatrix}
 $$
 
 上式中等式右边的矩阵即为约束矩阵C，将原始的约束条件进行了形式上的转变，改写为了将最后一个行业因子的收益 $f_{I_{P}}$ 用其他行业收益的线性组合来表达，从而方便推导。在有了上述的记号以后，根据带约束的加权最小二乘法，就可以得到回归模型的解析解：
 
 $$
-\begin{array}{r}{\hat{f}=C(C^{\prime}X^{\prime}WXC)^{-1}C^{\prime}X^{\prime}WR{:=}{\cal W}^{\ast}R}\\{W^{\ast}=C(C^{\prime}X^{\prime}WXC)^{-1}C^{\prime}X^{\prime}W}\end{array}
+\begin{aligned}&\hat{f}=C(C^{\prime}X^{\prime}WXC)^{-1}C^{\prime}X^{\prime}WR:=W^{*}R^{\prime}\\&\qquad W^{*}=C(C^{\prime}X^{\prime}WXC)^{-1}C^{\prime}X^{\prime}W\\\end{aligned}
 $$
 
 其中f̂即为由回归模型得到的因子收益估计值，用于后续的收益分解、风险预测等。在股票收益率向量R之前的W∗是一个K×N维的矩阵，根据定义可以将每一行看作是一个股票组合的权重向量，从而W∗就是各个因子的纯因子组合矩阵，满足每一个纯因子组合在目标因子的暴露为 1，在其他因子的暴露为 0，完全对应回归模型得到的因子收益率。通过对纯因子组合进行历史回测，可以更加全面地跟踪观察风格因子的收益表现。
@@ -306,7 +306,7 @@ $$
 R_{UC}^{2}=1-\frac{\sum_{n}w_{n}\varepsilon_{n}^{2}}{\sum_{n}w_{n}R_{n}^{2}}
 $$
 
-需要注意的是，Barra所采用的非中心化 $.R_{UC}^{2}$ 与计量经济学中常用的中心化(centered)回归 $R_{C}^{2}$ 存在差异，后者使用离差平方和作为分母项。从数值上看，一般来说非中心化的 $R_{UC}^{2}$ 要大于中心化 $R_{C}^{2}$ 。
+需要注意的是，Barra所采用的非中心化 $.R_{UC}^{2}$ 与计量经济学中常用的中心化(centered)回归 $R_{C}^{2}$ 存在差异，后者使用离差平方和作为分母项。从数值上看，一般来说非中心化的 $R_{UC}^{2}$ 要大于中心化 ${}_{1}R_{C}^{2}$ 。
 
 $$
 R_{C}^{2}=1-\frac{\sum_{n}w_{n}\varepsilon_{n}^{2}}{\sum_{n}w_{n}(R_{n}-\overline{{R_{n}}})^{2}}
@@ -322,7 +322,7 @@ $$
 
 ## 4.1.4. 因子共线性检验
 
-在构建回归模型时，自变量之间的多重共线性会对模型效果产生干扰。具有较强共线性的因子之间能够互相解释，从而导致回归模型的估计参数不稳健。我们使用方差膨胀系数VIF来判断因子之间的共线性，计算方法是依次选取其中一个自变量作为因变量，将其对其他自变量进行回归，通过计算回归 R方的大小从而得到 $\begin{array}{r}{VIF=\frac{1}{1-R^{2}}}\end{array}$ 。越大的 VIF值意味着该因子能够被其他因子所解释的程度越高，从而共线性程度越高。在统计学里一般认为在 $VIF<5$ 时不存在共线性，在 $\bar{\mathsf{E}}5<VIF<10$ 时具有弱共线性。
+在构建回归模型时，自变量之间的多重共线性会对模型效果产生干扰。具有较强共线性的因子之间能够互相解释，从而导致回归模型的估计参数不稳健。我们使用方差膨胀系数VIF来判断因子之间的共线性，计算方法是依次选取其中一个自变量作为因变量，将其对其他自变量进行回归，通过计算回归 R方的大小从而得到 $\begin{array}{r}{VIF=\frac{1}{1-R^{2}}}\end{array}$ 。越大的 VIF值意味着该因子能够被其他因子所解释的程度越高，从而共线性程度越高。在统计学里一般认为在 $.VIF<5$ 时不存在共线性，在 $\mathsf{E}5<VIF<10$ 时具有弱共线性。
 
 由于国家因子和行业因子都为 0-1 变量，不需要处理；对风格因子均进行共线性的检验，以对回归模型进行更好的拟合。
 
@@ -855,7 +855,7 @@ Analyst Sentiment 风格因子属于 Trading Model，在 Long Term Model 所构�
 在上文中，首先根据因子定义，由财务数据、交易数据等可以计算得到每只股票在各个因子上的暴露，从而，直接根据投资组合的股票权重，进行加总就能得到投资组合在各因子上的暴露情况，帮助投资者了解组合的风格暴露情况。通过将组合的风格暴露作为组合优化的约束条件或者优化目标，投资者就可以其进行主动风险管理，追逐特定风格的收益或者规避特定风格的风险。
 
 $$
-R_{P}=\sum_{n=1}^{N}{R_{n}}=\sum_{k=1}^{K}{X_{Pk}f_{k}}+\sum_{n=1}^{N}{w_{n}\varepsilon_{n}}
+R_{P}=\sum_{n=1}^{N}R_{n}=\sum_{k=1}^{K}X_{Pk}f_{k}+\sum_{n=1}^{N}w_{n}\varepsilon_{n},
 $$
 
 下面，我们计算一些常见指数在 2024 年 3 月底的风格因子暴露情况，以在全股票池中因子暴露百分位的形式进行展示，从而便于直观体现各指数在风格暴露上的特点。将中证全指的风格暴露作为基准，其他指数展示相对中证全指的风格暴露。其中，上证 50 的大盘风格非常明显，可以看到在 Size、Profitability、Earnings Yield、Dividend Yield 等风格因子上的相对正向暴露较大，在 Liquidity、Growth 等风格因子上的相对负向暴露较大。
@@ -939,8 +939,8 @@ $$
 | Book-to-Price账面市值比 | BTOP | 账面市值比 | 最近报告期的普通股账面价值除以当前市值 |
 | Dividend Yield股息率 | DTOP | 股息率 | 上一财年的每股股息除以上个月末的股价 |
 |  | DTOPF | 分析师预测股息率 | 分析师预测每股股息除以当前股价 |
-| Earnings Quality盈利质量 | ABS | 资产负债表应计项目 | 首先，计算资产负债表应计项目总额ACCR_BS： $\mathrm{ACCR\_BS}=\mathrm{NOA}_{\mathrm{t}}-\mathrm{\ NOA}_{\mathrm{t}-1}-\mathrm{DA}_{\mathrm{t}}$ $\mathrm{\Delta NOA}=\mathrm{(TA-Cash)-(TL-TD)}$ 其中，NOA为净经营资产，Cash为现金及现金等价物，TA为总资产，TL为总负债，TD为总带息债务（负债合计-无息流动负债-无息非流动负债），DA为折旧与摊销之和；然后，将负的ACCR_BS除以总资产TA： $\mathrm{{ABS}=\frac{-ACCR\_BS}{TA}}$ |
-|  | ACF | 现金流量表应计项目 | 首先，计算现金流量表应计项目总额ACCR_CF： $\mathrm{ACCR\_CF=\ Ni_{t}-\Gamma\left(CFO_{t}+CFI_{t}\right)+DA_{t}}$ 其中，Ni为净利润，CFO为经营现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和；然后，将负的ACCR_CF除以总资产TA： $\operatorname{ACF}={\frac{-\operatorname{ACCR}_{-}\operatorname{CF}}{\operatorname{TA}}}$ |
+| Earnings Quality盈利质量 | ABS | 资产负债表应计项目 | 首先，计算资产负债表应计项目总额ACCR_BS： $\mathrm{ACCR\_BS}=\mathrm{NOA_t}-\mathrm{NOA_{t-1}}-\mathrm{DA_t}$ $\mathrm{NOA}=(\mathrm{TA}-\mathrm{Cash})-(\mathrm{TL}-\mathrm{TD})$ 其中，NOA为净经营资产，Cash为现金及现金等价物，TA为总资产，TL为总负债，TD为总带息债务（负债合计-无息流动负债-无息非流动负债），DA为折旧与摊销之和；然后，将负的ACCR_BS除以总资产TA： $\mathrm{ABS}=\frac{-\mathrm{ACCR\_BS}}{\mathrm{TA}}$ |
+|  | ACF | 现金流量表应计项目 | 首先，计算现金流量表应计项目总额ACCR_CF： $\mathrm{ACCR\_CF}=\mathrm{Ni_t-(CFO_t+CFI_t)+DA_t}$ 其中，Ni为净利润，CFO为经营现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和；然后，将负的ACCR_CF除以总资产TA： $\mathrm{ACF}=\frac{-\mathrm{ACCR\_CF}}{\mathrm{TA}}$ |
 | EarningsVariability盈利波动 | VSAL | 营业收入波动率 | 过去5个财年的年营业收入标准差除以平均年营业收入 |
 |  | VERN | 盈利波动率 | 过去5个财年的年盈利标准差除以平均年盈利 |
 |  | VFLO | 现金流波动率 | 过去5个财年的年现金流标准差除以平均年现金流 |
@@ -952,25 +952,25 @@ $$
 | Growth成长 | EGRLF | 分析师预测长期盈利增长率 | 分析师预测的长期盈利增长 |
 |  | EGRO | 每股收益增长率 | 计算过去5个财年的每股收益对时间回归的斜率系数，再除以平均每股年收益 |
 |  | SGRO | 每股营业收入增长率 | 计算过去5个财年的每股营业收入对时间回归的斜率系数，再除以平均每股年营业收入 |
-| IndustryMomentum行业动量 | INDMOM | 行业动量 | （1）首先，计算个股的相对强度RS：对股票对数收益率进行加权求和，时间窗口6个月，半衰期1个月；(2) 计算行业I的整体相对强度： ${\mathsf{RS}}_{\mathrm{I}}=\sum_{\mathrm{i\in I}}{\mathsf{c}}_{\mathrm{i}}{\mathrm{RS}}_{\mathrm{i}}$ 其中 $c_{i}$ 为行业I内个股流通市值的平方根，然后计算股票s |
-|  |  |  | 非滞后的行业动量： $\mathrm{INDMOM}=\mathrm{RS_{I}}-\mathrm{c}_{s}\mathrm{RS}_{s}$ （3）最后，滞后3个交易日，在3个交易日的时间窗口内取非滞后值等权平均值 |
+| IndustryMomentum行业动量 | INDMOM | 行业动量 | （1）首先，计算个股的相对强度RS：对股票对数收益率进行加权求和，时间窗口6个月，半衰期1个月；(2) 计算行业I的整体相对强度： $\mathrm{RS_{I}}=\sum_{\mathrm{i}\in\mathrm{I}}\mathrm{c_{i}RS_{i}}$ 其中 $c_{i}$ 为行业I内个股流通市值的平方根，然后计算股票s |
+|  |  |  | 非滞后的行业动量： $\mathrm{INDMOM}=\mathrm{RS_{I}}-\mathrm{c_{s}RS_{s}}$ （3）最后，滞后3个交易日，在3个交易日的时间窗口内取非滞后值等权平均值 |
 | InvestmentQuality投资质量 | AGRO | 总资产增长率 | 首先，计算过去5个财年的总资产对时间回归的斜率系数，除以平均总资产；然后，取相反数 |
 |  | IGRO | 股票发行量增长率 | 首先，计算过去5个财年的流通股本对时间回归的斜率系数，除以平均流通股本；然后，取相反数 |
 |  | CXGRO | 资本支出增长率 | 首先，计算过去5个财年的资本支出对时间回归的斜率系数，除以平均资本支出；然后，取相反数 |
-| Leverage杠杆率 | MLEV | 市场杠杆率 | $\mathrm{\sf MLEV}={\frac{\mathrm{ME}+\mathrm{PE}+\mathrm{LD}}{\mathrm{ME}}}$ 其中ME为上一交易日的市值，PE和LD分别为上一财年的优先股和长期负债 |
-|  | BLEV | 账面杠杆率 | $\mathrm{BLEV}={\frac{\mathrm{BE}+\mathrm{PE}+\mathrm{LD}}{\mathrm{BE}}}$ 其中 BE、PE和LD分别为上一财年的普通股账面价值、优先股和长期负债 |
-|  | DTOA | 资产负债率 | $\overline{{\mathrm{DTOA}=\frac{\mathrm{TL}}{\mathrm{TA}}}}$ 其中TL、TA分别为上一财年的总负债和总资产 |
+| Leverage杠杆率 | MLEV | 市场杠杆率 | $\mathrm{MLEV}=\frac{\mathrm{ME}+\mathrm{PE}+\mathrm{LD}}{\mathrm{ME}}$ 其中ME为上一交易日的市值，PE和LD分别为上一财年的优先股和长期负债 |
+|  | BLEV | 账面杠杆率 | $\boxed{BLEV=\frac{BE+PE+LD}{BE}}$ 其中 BE、PE和LD分别为上一财年的普通股账面价值、优先股和长期负债 |
+|  | DTOA | 资产负债率 | $\boxed{\mathrm{DTOA}=\frac{\mathrm{TL}}{\mathrm{TA}}}$ 其中TL、TA分别为上一财年的总负债和总资产 |
 | Liquidity流动性 | STOM | 月度换手率 | 最近一个月股票换手率求和，再取对数 |
-|  | STOQ | 季度换手率 | 最近一个季度的平均月换手率，再取对数，即： $\mathrm{STOQ}=\ln(\frac{1}{\mathrm{T}}{\sum}^{\mathrm{T}}\exp(\mathrm{STOM}_{\mathrm{\tau}})),\mathrm{T}=3\mathrm{\Lambda}\hbar\mathrm{\Lambda}\hbar$ |
-|  | STOA | 年度换手率 | 最近一年的平均月换手率，再取对数，即： $\mathrm{STOA}=\ln(\mathrm{\frac{1}{T}\sum_{\tau=1}^{T}\exp(STOM_{\tau})),\Delta T=12}$ 个月 |
+|  | STOQ | 季度换手率 | 最近一个季度的平均月换手率，再取对数，即： $\mathrm{STOQ}=\ln(\frac{1}{\mathrm{T}}\sum_{\tau=1}^{\mathrm{T}}\exp(\mathrm{STOM}_{\tau})),\mathrm{T}=3个月$ |
+|  | STOA | 年度换手率 | 最近一年的平均月换手率，再取对数，即： $\mathrm{STOA}=\ln(\frac{1}{\mathrm{T}}\sum_{\tau=1}^{\mathrm{T}}\exp(\mathrm{STOM}_{\tau})),\mathrm{T}=12$ 个月 |
 |  | ATVR | 年化交易量比率 | 对日换手率进行加权求和，时间窗口为252个交易日，半衰期为 63 个交易日 |
 | Long-TermReversal长期反转 | LTRSTR | 长期相对强度 | 首先，计算非滞后的长期相对强度：对股票对数收益率进行加权求和，时间窗口1040个交易日，半衰期260个交易日；然后，滞后273个交易日，在11个交易日的时间窗口内取非滞后值等权平均值，最后取相反数 |
 |  | LTHALPHA | 长期历史 Alpha | 首先，计算非滞后的长期历史 Alpha：取CAPM回归（与计算 HBETA 时类似）的截距项，时间窗口1040个交易日，半衰期260个交易日；然后，滞后273个交易日，在11个交易日的时间窗口内取非滞后值等权平均值，最后取相反数 |
 | MidCapitalization中市值 | MIDCAP | 中市值 | 首先，取Size因子的三次方；然后，通过加权回归的方式对 Size 因子进行正交 |
-| Momentum动量 | RSTR | 相对强度 | 首先，计算非滞后的相对强度：对股票对数收益率进行加权求和 $\mathrm{RSTR}=\sum_{\mathrm{_t}}^{\mathrm{T}}\mathbf{w}_{\mathrm{t}}[\ln(1+\mathrm{r}_{\mathrm{t}})]$ 其中，时间窗口T为252个交易日，半衰期为126个交易日；然后，滞后11个交易日，在11个交易日的时间窗口内取非滞后值等权平均值 |
+| Momentum动量 | RSTR | 相对强度 | 首先，计算非滞后的相对强度：对股票对数收益率进行加权求和 $\mathrm{RSTR}=\sum_{\mathrm{t}}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}[\ln(1+\mathrm{r}_{\mathrm{t}})]$ 其中，时间窗口T为252个交易日，半衰期为126个交易日；然后，滞后11个交易日，在11个交易日的时间窗口内取非滞后值等权平均值 |
 |  | HALPHA | 历史 Alpha | 首先，计算非滞后的历史 Alpha：在计算 HBETA所进行的时间序列回归中，取截距项；然后，滞后11个交易日，在11个交易日的时间窗口内取非滞后值等权平均值 |
-| Profitability收益能力 | ATO | 资产周转率 | $\mathrm{\overline{{ATO}}=\frac{Sales}{TA}}$ 其中Sales为过去12个月的营业收入，TA为最近报告期的总资产 |
-|  | GP | 资产毛利率 | $\mathrm{GP}={\frac{\mathrm{Sales}-\mathrm{COGS}}{\mathrm{TA}}}$ 其中Sales、COGS和TA分别为上一财年的营业收入、营业成本和总资产 |
+| Profitability收益能力 | ATO | 资产周转率 | $\mathrm{ATO}=\frac{\mathrm{Sales}}{\mathrm{TA}}$ 其中Sales为过去12个月的营业收入，TA为最近报告期的总资产 |
+|  | GP | 资产毛利率 | $\mathrm{GP}={\frac{\mathrm{Sales}-\mathrm{COGS}}{\mathrm{TA}}}.$ 其中Sales、COGS和TA分别为上一财年的营业收入、营业成本和总资产 |
 |  | GPM | 销售毛利率 | Sales - COGSGPM =Sales其中Sales和COGS分别为上一财年的营业收入和销货成本 |
 |  | ROA | 总资产收益率 | EarningsROA =TA其中Earnings为过去12个月的净利润，TA为最近报告期的总资产 |
 | ResidualVolatility残差波动 | HSIGMA | 历史 Sigma | 在计算HBETA所进行的时间序列回归中，取回归残差收益率的波动率 |

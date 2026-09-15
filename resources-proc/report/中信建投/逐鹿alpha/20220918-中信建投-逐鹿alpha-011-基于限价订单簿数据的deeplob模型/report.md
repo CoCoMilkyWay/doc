@@ -223,15 +223,15 @@ ricequant
 | TABLE 4 Feature sets |  |  |
 | --- | --- | --- |
 | Feature set | Description | Details |
-| Basic Time-insensitive | $u_{1}=\{P_{i}^{\mathrm{ask}},V_{i}^{\mathrm{ask}},P_{i}^{\mathrm{bid}},V_{i}^{\mathrm{bid}}\}_{i=1}^{n}$ | 10(= n)-level LOB data |
+| Basic Time-insensitive | $u_{1}=\{P_{i}^{\mathrm{ask}},V_{i}^{\mathrm{ask}},P_{i}^{\mathrm{bd}},V_{i}^{\mathrm{bd}}\}_{i=1}^{n}$ | 10(= n)-level LOB data |
 |  | $u_{2}=\{(P_{i}^{\mathrm{ask}}-P_{i}^{\mathrm{bid}}),(P_{i}^{\mathrm{ask}}+P_{i}^{\mathrm{bid}})/2\}_{i=1}^{n}$ | Spread & Mid-price |
-|  | $\begin{array}{r}{u_{3}=\{P_{n}^{\mathrm{ask}}-P_{1}^{\mathrm{ask}},P_{1}^{\mathrm{bid}}-P_{n}^{\mathrm{bid}},\|P_{i+1}^{\mathrm{ask}}-P_{i}^{\mathrm{ask}}\|,\|P_{i+1}^{\mathrm{bid}}-P_{i}^{\mathrm{bid}}\|\}_{i+1}^{n}}\end{array}$ | Price differences |
-|  | $u_{4}=\left\{{\textstyle\frac{1}{n}}\sum_{i=1}^{n}P_{i}^{\mathrm{ask}},{\textstyle\frac{1}{n}}\sum_{i=1}^{n}P_{i}^{\mathrm{bid}},{\textstyle\frac{1}{n}}\sum_{i=1}^{n}V_{i}^{\mathrm{ask}},{\textstyle\frac{1}{n}}\sum_{i=1}^{n}V_{i}^{\mathrm{bid}}\right\}$ | Price & Volume means |
-|  | $u_{5}=\left\{\sum_{i=1}^{n}(P_{i}^{\mathrm{ask}}-P_{i}^{\mathrm{bid}}),\sum_{i=1}^{n}(V_{i}^{\mathrm{ask}}-V_{i}^{\mathrm{bid}})\right\}$ | Accumulated differences |
-| Time-sensitive | $u_{6}=\left\{{\mathrm{d}P_{i}^{\mathrm{ask}}}/{\mathrm{d}t},{\mathrm{d}P_{i}^{\mathrm{bid}}}/{\mathrm{d}t},{\mathrm{d}V_{i}^{\mathrm{ask}}}/{\mathrm{d}t},{\mathrm{d}V_{i}^{\mathrm{bid}}}/{\mathrm{d}t}\right\}_{i=1}^{n}$ | Price & Volume derivation |
+|  | $u_{3}=\{P_{n}^{\mathrm{ask}}-P_{1}^{\mathrm{ask}},P_{1}^{\mathrm{bid}}-P_{n}^{\mathrm{bid}},\|P_{i+1}^{\mathrm{ask}}-P_{i}^{\mathrm{ask}}\|,\|P_{i+1}^{\mathrm{bid}}-P_{i}^{\mathrm{bid}}\|\}_{i+1}^{n}$ | Price differences |
+|  | $u_{4}=\left\{\frac{1}{n}\sum_{i=1}^{n}P_{i}^{\mathrm{ask}},\frac{1}{n}\sum_{i=1}^{n}P_{i}^{\mathrm{bd}},\frac{1}{n}\sum_{i=1}^{n}V_{i}^{\mathrm{ask}},\frac{1}{n}\sum_{i=1}^{n}V_{i}^{\mathrm{bd}}\right\}$ | Price & Volume means |
+|  | $u_{5}=\left\{\sum_{i=1}^{n}(P_{i}^{\mathrm{ask}}-P_{i}^{\mathrm{old}}),\sum_{i=1}^{n}(V_{i}^{\mathrm{ask}}-V_{i}^{\mathrm{old}})\right\}$ | Accumulated differences |
+| Time-sensitive | $u_{6}=\left\{\mathrm{d}P_{i}^{\mathrm{ask}}/\mathrm{d}t,\mathrm{d}P_{i}^{\mathrm{bid}}/\mathrm{d}t,\mathrm{d}V_{i}^{\mathrm{ask}}/\mathrm{d}t,\mathrm{d}V_{i}^{\mathrm{bid}}/\mathrm{d}t\right\}_{i=1}^{n}$ | Price & Volume derivation |
 |  | $u_{7}=\left\{\lambda_{\Delta t}^{1},\lambda_{\Delta t}^{2},\lambda_{\Delta t}^{3},\lambda_{\Delta t}^{4},\lambda_{\Delta t}^{5},\lambda_{\Delta t}^{6}\right\}$ | Average intensity per type |
-|  | $\begin{array}{r}{u_{8}=\left\{\mathbf{1}_{\lambda_{\Delta_{t}}^{1}>\lambda_{\Delta_{T}}^{1}},\mathbf{1}_{\lambda_{\Delta_{t}}^{2}>\lambda_{\Delta_{T}}^{2}},\mathbf{1}_{\lambda_{\Delta_{t}}^{3}>\lambda_{\Delta_{T}}^{3}},\mathbf{1}_{\lambda_{\Delta_{t}}^{4}>\lambda_{\Delta_{T}}^{4}},\mathbf{1}_{\lambda_{\Delta_{t}}^{5}>\lambda_{\Delta_{T}}^{5}},\mathbf{1}_{\lambda_{\Delta_{t}}^{6}>\lambda_{\Delta_{T}}^{6}}\right\}}\end{array}$ | Relative intensity comparison |
-|  | $u_{9}=\{{\mathrm{d}}\lambda^{1}/{\mathrm{d}}t,{\mathrm{d}}{\lambda^{2}}/{\mathrm{d}}t,{\mathrm{d}}{\lambda^{3}}/{\mathrm{d}}t,{\mathrm{d}}{\lambda^{4}}/{\mathrm{d}}t,{\mathrm{d}}{\lambda^{5}}/{\mathrm{d}}t,{\mathrm{d}}{\lambda^{6}}/{\mathrm{d}}t\}$ | Limit activity acceleration |
+|  | $u_{8}=\left\{\mathbf{1}_{\lambda_{\Delta_{t}}^{1}>\lambda_{\Delta_{T}}^{1}},\mathbf{1}_{\lambda_{\Delta_{t}}^{2}>\lambda_{\Delta_{T}}^{2}},\mathbf{1}_{\lambda_{\Delta_{t}}^{3}>\lambda_{\Delta_{T}}^{3}},\mathbf{1}_{\lambda_{\Delta_{t}}^{4}>\lambda_{\Delta_{T}}^{4}},\mathbf{1}_{\lambda_{\Delta_{t}}^{5}>\lambda_{\Delta_{T}}^{5}},\mathbf{1}_{\lambda_{\Delta_{t}}^{6}>\lambda_{\Delta_{T}}^{6}}\right\}$ | Relative intensity comparison |
+|  | $u_{9}=\{\mathrm{d}\lambda^{1}/\mathrm{d}t,\mathrm{d}\lambda^{2}/\mathrm{d}t,\mathrm{d}\lambda^{3}/\mathrm{d}t,\mathrm{d}\lambda^{4}/\mathrm{d}t,\mathrm{d}\lambda^{5}/\mathrm{d}t,\mathrm{d}\lambda^{6}/\mathrm{d}t\}$ | Limit activity acceleration |
 
 Benchmark Dataset for Mid-Price Forecasting of Limit Order Book Data with Machine Learning Methods
 
@@ -250,7 +250,7 @@ Benchmark Dataset for Mid-Price Forecasting of Limit Order Book Data with Machin
 20 个截面因子的定义为：
 
 $$
-\sum_{i=1}^{10}\frac{P_{bt}^{i}}{P_{at}^{i}+P_{bt}^{i}},\sum_{i=1}^{10}\frac{V_{bt}^{i}}{V_{at}^{i}+V_{bt}^{i}}
+\sum_{i=1}^{10}\frac{P_{bt}^{i}}{P_{at}^{i}+P_{bt}^{i}},\sum_{i=1}^{10}\frac{V_{bt}^{i}}{V_{at}^{i}+V_{bt}^{i}},
 $$
 
 分别代表了量价的盘口订单委托强弱，其中 P 为价格，V 为委托量，b 代表 bid，a 代表 ask，i 代表档位，取值从 1 到 10。
@@ -258,7 +258,7 @@ $$
 20 个时间序列因子定义为：
 
 $$
-\Delta P_{t}^{i},\Delta V_{t}^{i}
+AP_{t}^{i},AV_{t}^{i}
 $$
 
 代表了量价的变化率，时间长度取 100 个 tick。
@@ -347,7 +347,7 @@ ricequant
 训练的损失函数为 CrossEntropyLoss，具体定义为：
 
 $$
-\begin{array}{r}{H(p,q)=-\sum_{x}(p(x)logq(x)}\end{array}
+H(p,q)=-\sum_{x}(p(x)logq(x)
 $$
 
 优化器为 Adam，学习率设为 1e-4，batch size 为 128，在此 batch size 下，对应的显存占用为 18G 左右，每轮 epoch 训练耗时 12 分钟左右。

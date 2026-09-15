@@ -103,7 +103,7 @@ yangyiling@orientsec.com.cn
 9:30 至 10:00 归属于主动小单的成交额
 
 $$
-\eqslantless
+全天归属于主动小单的成交额
 $$
 
 图 3：小单早盘占比因子表现（中位数）原始因子值
@@ -279,7 +279,7 @@ $$
 小单收益率因子的定义如下（该因子方向为负向）：
 
 $$
-\int_{0}^{T}I_{\{order\in smallorder\}}\frac{dP(t)}{P(t)}
+\int_{0}^{T}I_{\{order\in small\:order\}}\frac{dP(t)}{P(t)}
 $$
 
 这里函数 I 表示示性函数，区间 [0,T] 表示开盘到尾盘集合竞价之前交易时间。
@@ -359,7 +359,7 @@ $$
 十档买卖盘价格分歧度因子定义如下：
 
 $$
-\int_{0}^{T}zscore(\sum_{i=1}^{10}(\frac{P_{t}^{A}(i)-P_{t}^{B}(i)}{P_{t}^{A}(i)+P_{t}^{B}(i)})w_{i})dt
+\int_{0}^{T}zscore(\sum_{i=1}^{10}(\frac{P_{t}^{A}(i)-P_{t}^{B}(i)}{P_{t}^{A}(i)+P_{t}^{B}(i)})w_{i})dt.
 $$
 
 这里 $P_{t}^{A}(i)$ 和 $P_{t}^{B}(i)$ 分别表示 t 时刻第 i档挂单的买卖盘挂单价格， $w_{i}$ 表示给予第 i 档的权重参数（随着 i 增大取值减少），[0,T] 代表开盘后至尾盘竞价交易前交易时间区间，zscore 表示当前时间节点上该股票取值在全市场计算的分位数。
@@ -367,7 +367,7 @@ $$
 十档买卖盘挂单量分歧度因子定义如下：
 
 $$
-\int_{0}^{T}zscore(\sum_{i=1}^{10}(\frac{V_{t}^{A}(i)-V_{t}^{B}(i)}{V_{t}^{A}(i)+V_{t}^{B}(i)})w_{i})dt
+\int_{0}^{T}zscore(\sum_{i=1}^{10}(\frac{V_{t}^{A}(i)-V_{t}^{B}(i)}{V_{t}^{A}(i)+V_{t}^{B}(i)})w_{i})dt.
 $$
 
 这里 $V_{t}^{A}(i)$ 和 $V_{t}^{B}(i)$ 分别表示 t 时刻第 i档挂单的买卖盘挂单成交量。
@@ -543,7 +543,7 @@ $$
 上述过程中教师模型和学生模型的输入均为相同的的 alpha 因子，我们首先训练教师模型，接着，将教师模型所学习的信息传递给学生模型从而构造 Smooth loss，接着使用原始标签计算MSE loss，最后两部分损失通过权重 λ 汇总得到总损失来对学生模型进行训练。具体而言，整个过程可表示为如下公式所示形式：
 
 $$
-\begin{array}{c}{{f_{tree}=argmin_{f\in\mathcal{G}}MSE(f(x),y_{label})}}\\{{\ }}\\{{f_{tree}=\gamma_{1}f_{1}(x)+\displaystyle\sum_{t=2}^{T}\gamma_{t}f_{t}(x)}}\\{{\ }}\\{{f_{nn}=argmin_{f\in\mathcal{F}}l(f(x)|I_{tree},y_{label},\lambda)}}\\{{\ }}\\{{y_{pred}=f_{nn}(x|I_{tree},y_{label},\lambda)}}\end{array}
+\begin{aligned}&f_{tree}=argmin_{f\in\mathcal{G}}MSE(f(x),y_{label})\\&\quad\\&\quad f_{tree}=\gamma_1f_1(x)+\sum_{t=2}^{T}\gamma_tf_t(x)\\&\quad f_{nn}=argmin_{f\in\mathcal{F}}l(f(x)|I_{tree},y_{label},\lambda)\\&\quad y_{pred}=f_{nn}(x|I_{tree},y_{label},\lambda)\\\end{aligned}
 $$
 
 这里 x 表示输入的 alpha 特征， $\gamma_{t}$ 表示学习率，λ 表示人工调节的超参数， $I_{tree}$ 表示教师模型所学习到并传给学生模型的信息或特征， $y_{label}$ 表示训练的真实标签， $f_{tree}$ 和 $f_{nn}$ 分别表示教师模型和学生模型，G 和 ℱ 分别表示教师模型和学生模型对应函数类， l 表示损失函数。
@@ -559,7 +559,7 @@ $$
 生成风险因子和alpha因子端共享输入数据和RNN单元的网络参数，上述过程中的损失函数可以写作以下公式形式：
 
 $$
-Loss=MSE(F_{;K},y_{neu})+Rsquare(F_{K};y)+\lambda\|corr(F,F)\|
+Loss=MSE(F_{:K},y_{new})+Rsquare(F_{K:},y)+\lambda\left\|Gorn(F,F)\right\|
 $$
 
 其中，F 为所有生成因子，我们设定前 K 个为 alpha 因子，K 个以后为风险因子， $y_{neu}$ 为行业市值中性化之后的收益率标签，y 为原始收益率标签， λ 是人工调节的超参数。

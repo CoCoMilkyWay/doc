@@ -131,7 +131,7 @@ shichi@gf.com.cn
 观察每日开盘后一定时间内的比例关系，如果在T时刻的比例值 $Ratio_{T}$ 大于开盘时刻的比例值 $Ratio_{Begin}$ ，即：
 
 $$
-Ratio_{T}>Ratio_{Begin}\frac{SZ50_{T}}{ZZ500_{T}}>\frac{SZ50_{Begin}}{ZZ500_{Begin}}
+Ratio_{T}>Ratio_{Begin}\;\rightarrow\frac{SZ50_{T}}{ZZ500_{T}}>\frac{SZ50_{Begin}}{ZZ500_{Begin}}
 $$
 
 也就是说上证50指数相对于中证500指数在当日的样本时间内相对有所上升，那么我们认为这天的剩余时间内这种趋势仍旧将会保持，可以理解为在T时刻之后的交易时间内上证50指数相比于中证500指数仍会保持有一定的强势，这天的规模风格为大盘风格。
@@ -246,33 +246,33 @@ $$
 
 第一步，利用样本内数据建立前一交易日不同行业收益率与后一交易日市场风格之间的关系。
 
-行业收益率采用申万一级行业指数，一共有28个一级行业，对于每个行业指数建立两个评分指标，大盘指标 $bc_{i}$ 和小盘指标 $sc_{i}.$ 。对于T日上证50与中证500指数的收益率，即指数T-1日收盘价到T日收盘价的收益率，如果上证50指数的日收益率大于中证500指数的日收益率，那么挑选出T-1日收益率最高的十个行业，即相应申万以及行业指数T-2日收盘价到T-1日收盘价收益率最高的十个行业，在大盘指标系统中对第一名加10分，第二名加9分，第三名加8分，以此类推，一直到第十名加1分；而如果T日中证500指数收益率大于上证50指数收益率，那么也会挑选出T-1日收益率最高的十个行业，在小盘指标系统中对第一名加10分，第二名加9分，以此类推。
+行业收益率采用申万一级行业指数，一共有28个一级行业，对于每个行业指数建立两个评分指标，大盘指标 $bc_{i}$ 和小盘指标 $sc_{i},$ 。对于T日上证50与中证500指数的收益率，即指数T-1日收盘价到T日收盘价的收益率，如果上证50指数的日收益率大于中证500指数的日收益率，那么挑选出T-1日收益率最高的十个行业，即相应申万以及行业指数T-2日收盘价到T-1日收盘价收益率最高的十个行业，在大盘指标系统中对第一名加10分，第二名加9分，第三名加8分，以此类推，一直到第十名加1分；而如果T日中证500指数收益率大于上证50指数收益率，那么也会挑选出T-1日收益率最高的十个行业，在小盘指标系统中对第一名加10分，第二名加9分，以此类推。
 
-同时统计这两类情况出现的天数，即上证50收益率大于中证500收益率以及相反情况的天数 ${t_{bc}}$ 与 $t_{sc}$ 。对于之前每个行业的得到两个指标 $bc_{i}$ 和 ${\mathit{sc}}_{i}$ ，分别除以 $t_{bc}$ 与$t_{sc}$ ，得到 $\bigg|\frac{bc_{i}}{t_{bc}}\bigg|$ 与 $\frac{sc_{i}}{t_{sc}}$ 作为新的大盘指标 $\widehat{bc}_{\iota}$ 和小盘指标sĉ。
+同时统计这两类情况出现的天数，即上证50收益率大于中证500收益率以及相反情况的天数 $\scriptstyle{\lfloor t_{bc}}$ 与 $t_{sc}$ 。对于之前每个行业的得到两个指标 $bc_{i}$ 和 $^{t}Sc_{i}$ ，分别除以 $t_{bc}$ 与$t_{sc}$ ，得到 $\left|\frac{bc_{i}}{t_{bc}}\right|$ 与 $\frac{sc_{i}}{t_{sc}}$ 作为新的大盘指标 $\widehat{bc_{v}}$ 和小盘指标sĉ。
 
-最后，将每个行业新的大盘指标与小盘指标相减得到净行业指标，即 $index_{i}=$ $\widehat{bc_{\iota}}-\widehat{Sc_{\iota}}=\frac{bc_{i}}{t_{bc}}-\frac{sc_{i}}{t_{sc}}\circ$
+最后，将每个行业新的大盘指标与小盘指标相减得到净行业指标，即 $index_{i}=$ $\widehat{bc_{\iota}}-\widehat{sc_{\iota}}=\frac{bc_{i}}{t_{bc}}-\frac{sc_{i}}{t_{sc}}.$
 
 第二步，判断市场风格。
 
 之前我们已经通过样本内数据得到了不同行业的净行业指标，用向量形式表示为：
 
 $$
-{\overrightarrow{\mathrm{1ndex}}}=(index_{1},\cdots,index_{28})
+\overrightarrow{\mathrm{index}}=(index_{1},\cdots,index_{28})
 $$
 
 在T-1日收盘时，得到T-1日不同行业的收益率，即对应申万一级行业指数从T-2日收盘价到T-1日收盘价的收益率，用向量形式表示为：
 
 $$
-\overrightarrow{\mathrm{\ mdusrtyreturn{\cal T}}_{T-1}}=\left(return_{1,T-1},\cdots,return_{28,T-1}\right)
+\overrightarrow{\mathrm{Industryreturn}_{T-1}}=\left(\mathrm{return}_{1,T-1},\cdots,\mathrm{return}_{28,T-1}\right)
 $$
 
-其中 $return_{i,\mathrm{t}}$ 表示第i个行业从t-1日到t日的收益率。我们可以计算这两个向量的内积得到T日的市场风格指标 $style_{T}.$ ，即：
+其中 $return_{i,\mathrm{t}}$ 表示第i个行业从t-1日到t日的收益率。我们可以计算这两个向量的内积得到T日的市场风格指标 $\underline{{style_{T}}},$ ，即：
 
 $$
-style_{T}=\overrightarrow{\mathrm{mdex}}\cdot\overrightarrow{\mathrm{mdusrtyreturn}_{T-1}}^{T}=\sum_{i=1}^{28}index_{i}\times return_{i,T-1}
+style_{T}=\overrightarrow{\mathrm{index}}\cdot\overrightarrow{\mathrm{indusrtyreturn}_{T-1}}^{T}=\sum_{i=1}^{28}index_{i}\times return_{i,T-1}
 $$
 
-如果市场风格指标 $style_{T}>0$ ，则判断T日市场风格为大盘股优于小盘股，如果$style_{T}<0$ ，则判断T日市场风格为小盘股优于小盘股。
+如果市场风格指标 $\ {\boldsymbol{i}}style_{T}>0$ ，则判断T日市场风格为大盘股优于小盘股，如果$style_{T}<0$ ，则判断T日市场风格为小盘股优于小盘股。
 
 第三步，根据预测的风格进行交易。
 
@@ -288,10 +288,10 @@ $$
 ![](images/f7928b37df242c608fd7e3c365e4e10870960f5a1f93ecc96d94585d79f913ff.webp)
 数据来源：广发证券发展研究中心
 
-这样我们就通过了打分系统建立起了行业收益和市场风格之间的关系。注意到每个行业最后的大盘指标 $\widehat{\cdot bc_{\iota}}$ 和小盘指标 $\widehat{sc}_{\imath},$ ，所有行业的大盘指标之和应该等于所有行业的小盘指标之和，即：
+这样我们就通过了打分系统建立起了行业收益和市场风格之间的关系。注意到每个行业最后的大盘指标 $\widehat{\boldsymbol{b}\boldsymbol{c}_{v}}$ 和小盘指标 $\widehat{\cdot SC_{\iota}},$ ，所有行业的大盘指标之和应该等于所有行业的小盘指标之和，即：
 
 $$
-\sum_{i=1}^{28}\widehat{bc}_{\iota}=\sum_{i=1}^{28}\widehat{Sc}_{\iota}=\sum_{j=1}^{10}j=55
+\sum_{i=1}^{28}{\widehat{bc_{\iota}}}=\sum_{i=1}^{28}{\widehat{sc_{\iota}}}=\sum_{j=1}^{10}j=55.
 $$
 
 识别风险，发现价值
@@ -302,7 +302,7 @@ $$
 \sum_{i=1}^{28}index_{i}=0
 $$
 
-这就保证了最后的市场风格指标 $\ style_{t}$ 本身关于行业收益是没有风格偏向性的。即如果在极端情况下，所有的行业收益率均相同，那么此时的市场风格指标 $\cdot style_{t}$ 为0：
+这就保证了最后的市场风格指标 $\ {\boldsymbol{\imath}}styl{\boldsymbol{e}_{t}}$ 本身关于行业收益是没有风格偏向性的。即如果在极端情况下，所有的行业收益率均相同，那么此时的市场风格指标 $\mathfrak{c}style_{t}$ 为0：
 
 $$
 style_{t}=\sum_{i=1}^{28}index_{i}\times r_{i,t-1}=r\times\sum_{i=1}^{28}index_{i}=0

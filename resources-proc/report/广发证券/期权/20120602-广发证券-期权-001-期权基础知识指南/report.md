@@ -261,7 +261,7 @@ $$
 认沽期权：
 
 $$
-p=Ke^{-rT}N(-d_{2})-S_{0}N(-d_{1})
+p=Ke^{-rT}N(-d_2)-S_0N(-d_1)
 $$
 
 其中
@@ -271,14 +271,14 @@ d_{1}=\frac{\ln(S_{0}/K)+(r+\sigma^{2}/2)T}{\sigma\sqrt{T}}
 $$
 
 $$
-d_{2}=d_{1}-\sigma{\sqrt{T}}
+d_{2}=d_{1}-\sigma\sqrt{T}
 $$
 
 以下是对公式中的各项内容加以说明：
 
 c代表的是认购期权的权利金，p则代表认沽期权权利金
 
-$S_{0}$ 代表标的资 $\cdot\vec{j^{z}}$ 当前价格，K代表行权价
+$S_{0}$ 代表标的资 $\cdot 产$ 当前价格，K代表行权价
 
 T代表了期权到期日前的剩余的有效期限，也可称为剩余存续期，通常以年为单位。例如，6个月可表示为1/2年。
 
@@ -287,7 +287,7 @@ r代表无风险利率，通常用国债收益率来表示
 $\sigma$ 代表标的资产价格收益的波动率
 
 $$
-N(d_{1})_{\sharp\sharp}N(d_{2})_\mathcal{A}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{A}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}+\frac{1}{2}\pi\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^{\pm}\mathcal{H}_{\varphi}^
+$N(d_{_1})_{\mathrm{\tiny{~和~}}}N(d_{_2})_{\mathrm{\tiny{~代表标准正态分布变量的累计概率分布函数。}}}$
 $$
 
 此模型在欧式期权定价上面应用广泛，投资者只需输入相应的变量，就可以依据公式算出期权的理论价值，这对于期权买卖双方都是公平，合理的（由于本文仅为介绍期权的基础知识，所以对于期权公式的数理逻辑并不进行深探）。现在，不少期权买卖代理商或交易所的网站都有给出期权权利金计算器，可以令投资者很快的计算出他们想买的期权的合理价值，省去投资者自己计算的时间。

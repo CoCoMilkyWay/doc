@@ -10,10 +10,10 @@ Style: Beta
 
 Definition: 1.00 BETA
 
-Components: BETA Beta (β) Computed as the slope coefficient in a time-series regression of excess stock return, $\boldsymbol{r}_{t}-\boldsymbol{r}_{ft}$ , against the cap-weighted excess return of the estimation universe $\scriptstyle{R_{t}},$
+Components: BETA Beta (β) Computed as the slope coefficient in a time-series regression of excess stock return, $\boldsymbol{r}_{t}-\boldsymbol{r}_{ft}$ , against the cap-weighted excess return of the estimation universe $R_{t},$
 
 $$
-\boldsymbol{r}_{t}-\boldsymbol{r}_{ft}=\boldsymbol{\alpha}+\beta\boldsymbol{R}_{t}+\boldsymbol{e}_{t}\tag{1}
+\boldsymbol{r}_{t}-\boldsymbol{r}_{ft}=\boldsymbol{\alpha}+\boldsymbol{\beta}\boldsymbol{R}_{t}+\boldsymbol{e}_{t}\tag{1}
 $$
 
 The regression coefficients are estimated over the trailing 252 trading days of returns with a half-life of 63 trading days.
@@ -25,10 +25,10 @@ Definition: 1.00 RSTR
 Components: RSTR Relative strength Computed as the sum of excess log returns over the trailing T= 504 trading days with a lag of L = 21 trading days,
 
 $$
-\begin{array}{r}{RSTR=\sum_{t=L}^{T+L}w_{t}\big[ln(1+r_{t})-ln\big(1+r_{ft}\big)\big]\mathrm{~,~}}\end{array}\tag{2}
+\begin{array}{r}{RSTR=\sum_{t=L}^{T+L}w_{t}\big[ln(1+r_{t})-ln\big(1+r_{ft}\big)\big],}\end{array}\tag{2}
 $$
 
-where, $\boldsymbol{r}_{t}$ is the stock return on day $t,r_{ft}$ is the risk-free return, and ${\bf{\boldsymbol{w}}}_{t}$ is an exponential weight with a half-life of 126 trading days.
+where, $r_{t}$ is the stock return on day $t,r_{ft}$ is the risk-free return, and $w_{t}$ is an exponential weight with a half-life of 126 trading days.
 
 Style: Size
 
@@ -57,21 +57,21 @@ CMRA Cumulative range
 This descriptor differentiates stocks that have experienced wide swings over the last 12 months from those that have traded within a narrow range. Let Z(T) be the cumulative excess log return over the past Tmonths, with each month defined as the previous 21 trading days,
 
 $$
-\begin{array}{r}{Z(T)=\sum_{\tau=1}^{T}\bigl[ln(1+r_{\tau})-ln\bigl(1+r_{f\tau}\bigr)\bigr],}\end{array}\tag{3}
+\begin{array}{r}{\mathbf{Z}(\mathbf{T})=\sum_{\tau=1}^{T}[ln(\mathbf{1}+\mathbf{r}_{\tau})-ln(\mathbf{1}+\mathbf{r}_{f\tau})],}\end{array}\tag{3}
 $$
 
 where, $r_{\tau}$ is the stock return for month τ (compounded over 21 days) and $r_{f\tau}$ is the risk-free return. The cumulative range is given by,
 
 $$
-CMRA=Z_{max}-Z_{min},\tag{4}
+\mathit{CMRA}=Z_{max}-Z_{min},\tag{4}
 $$
 
-where, $\begin{array}{l}{{Z_{max}=max\{Z(T)\},}}\\{{Z_{min}=min\{Z(T)\}}}\\{{T=\mathcal{I},...,\mathcal{I}\mathcal{Z}}}\end{array}$
+where, $\begin{array}{l}{{{\cal Z}_{max}=max\{{\cal Z}(T)\},}}\\{{{\cal Z}_{min}=min\{{\cal Z}(T)\}}}\\{{{\cal T}={\it I},...,{\it I2}}}\end{array}$
 
 HSIGMA Historical sigma (σ) Computed as the volatility of residual returns in Equation 1,
 
 $$
-\pmb{\sigma}=st\pmb{d}(\pmb{e}_{t}).\tag{5}
+\pmb{\sigma}=std(\pmb{e}_{\pmb{t}}).\tag{5}
 $$
 
 The volatility is estimated over the trailing 252 trading days of returns with a half-life of 63 trading days.
@@ -101,13 +101,13 @@ Style: Leverage
 Definition: 0.38 · MLEV + 0.35 · DTOA + 0.27 · BLEV
 
 $$
-\begin{array}{r}{MLEV=\frac{ME+PE+LD}{ME},}\end{array}\tag{6}
+\frac{MLEV}{MEV}=\frac{ME+PE+LD}{ME},\tag{6}
 $$
 
 where, ME is the market value of common equity on the last trading day, PE is the most recent book value of preferred equity, and LD is the most recent book value of long-term debt.
 
 $$
-DTOA={\frac{TD}{TA}},\tag{7}
+\begin{array}{r}{DTOA=\frac{TD}{TA},}\end{array}\tag{7}
 $$
 
 where, TD is the book value of total debt (long-term debt and current liabilities) and TA is most recent book value of total assets.
@@ -127,14 +127,14 @@ Components: STOM
 Computed as the log of the sum of daily turnover during the previous 21 trading days,
 
 $$
-\begin{array}{r}{STOM=\mathbf{ln}\left(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}}\right),}\end{array}\tag{9}
+\begin{array}{r}{STOM=\ln\left(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}}\right)}\end{array}\tag{9}
 $$
 
-where, is $\pmb{V}_{t}$ the trading volume on day t and $\pmb{S}_{t}$ is the number of shares outstanding.
+where, is $V_{t}$ the trading volume on day t and $s_{t}$ is the number of shares outstanding.
 
-STOQ Average share turnover, trailing 3 months Let $STOM_{\tau}$ be the share turnover for month τ, with each month consisting of 21 trading days. The quarterly share turnover is defined by, $\begin{array}{r}{{STOQ}=\ln{\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp{(STOM_{\tau})}\right)},}\end{array}$ (10) where, T = 3 months.
+STOQ Average share turnover, trailing 3 months Let $\scriptstyle{\boldsymbol{STOM}}_{\tau}$ be the share turnover for month τ, with each month consisting of 21 trading days. The quarterly share turnover is defined by, $\begin{array}{r}{STOQ=\ln\left(\frac{1}{T}{\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)}\right)}\end{array}$ (10) where, T = 3 months.
 
-STOA Average share turnover, trailing 12 months Let STOM be the share turnover for month τ, with each month consisting of 21 trading days. The annual share turnover is defined by, $\begin{array}{r}{{STOA}=\mathbf{ln}~\Big(\frac{1}{T}\sum_{\tau=1}^{T}\mathbf{exp}~({STOM_{\tau}})\Big),}\end{array}$ (11) where, T = 12 months.
+STOA Average share turnover, trailing 12 months Let STOM be the share turnover for month τ, with each month consisting of 21 trading days. The annual share turnover is defined by, $\begin{array}{r}{STOA=\ln\left(\frac{1}{T}{\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)}\right)}\end{array}$ (11) where, T = 12 months.
 
 Style: Non-linear Size
 
@@ -201,7 +201,7 @@ The user of the Information assumes the entire risk of any use it may make or pe
 
 Without limiting any of the foregoing and to the maximum extent permitted by applicable law, in no event shall any Information Provider have any liability regarding any of the Information for any direct, indirect, special, punitive, consequential (including lost profits) or any other damages even if notified of the possibility of such damages. The foregoing shall not exclude or limit any liability that may not by applicable law be excluded or limited, including without limitation (as applicable), any liability for death or personal injury to the extent that such injury results from the negligence or willful default of itself, its servants, agents or sub-contractors.
 
-Information containing any historical information, data or analysis should not be taken as an indication o guarantee of any future performance, analysis, forecast or prediction. Past performance does not guarantee future results.
+Information containing any historical information, data or analysis should not be taken as an indication or guarantee of any future performance, analysis, forecast or prediction. Past performance does not guarantee future results.
 
 None of the Information constitutes an offer to sell (or a solicitation of an offer to buy), any security, financia product or other investment vehicle or any trading strategy.
 

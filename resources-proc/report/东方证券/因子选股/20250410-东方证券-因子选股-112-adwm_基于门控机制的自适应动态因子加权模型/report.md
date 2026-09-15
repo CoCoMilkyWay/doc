@@ -95,32 +95,32 @@ ABCM：基于神经网络的alpha因子和beta 2024-12-03
 使用该模型主要目标在于学习出一批市场上具有普适性、长期有效的 alpha 信息。模型结构中alpha因子部分主要是对特质收益率的相对大小和方向同时进行拟合，其对应的NN-Layer为简单的全连接层，而其对应的损失函数为与原始收益率的MSE损失。而风险因子主要是对可被解释收益率绝对值的相对大小进行拟合，其对应的损失函数为 Rsquare，其对应的 NN-Layer 为具有非对称图结构的 ASTGNN结构，该非对称图结构具有如下数学表达式：
 
 $$
-\begin{array}{rlr}{\mathrm{adj\_martrix}=ReLU(\mathrm{fill_{-}diagonal}(M_{1}M_{2}^{T})),whereM_{i}=W_{i}X,i=1,2}&\\{\quad}&{}&\\{H=X+softmax{\left(\mathrm{adj\_martrix}\right)}M_{3}}&\\{\quad}&{}&\\{F_{K\mathrm{:}}=W_{3}(H+H[-1]+H[-2])}&\end{array}
+\begin{aligned}\mathrm{adj\_matrix}=ReLU(\mathrm{full\_diagonal}(M_1M_2^T)),whereM_i=W_iX,i=1,2,\\\boldsymbol{H}=\boldsymbol{X}+softmax(\mathrm{adj\_matrix})M_3\\\boldsymbol{F}_{K_i}=\boldsymbol{W}_3(\boldsymbol{H}+\boldsymbol{H}[-1]+\boldsymbol{H}[-2])\end{aligned}
 $$
 
-这里矩阵 X 表示最后一个 RNN-Cell 的输出的风险因子部分，矩阵 $M_{1}$ $M_{2}$ 和 $M_{3}$ 分别为矩阵 X经过不同参数的全连接变换得到的，矩阵 $M_{1}$ 、 $M_{2}$ 和 $M_{3}$ 的规模均为 $\mathbb{J}\times\mathbb{M}$ ，N 表示截面股票个数，M 表示生成风险因子的个数， $W_{1},W_{2},W_{3}$ 均为全连接层的权重参数， $\pmb{H[-1]},\pmb{H[-2]}$ 分别表示过去两期模型生成的风险因子向量。与前期报告不同的是我们不再通过损失函数端加入因子自相关惩罚来保证风险因子自相关性，而是通过网络内部进行风险因子滚动平滑操作来保证风险因子自相关性，这种方式有助于降低损失函数复杂度从而更加有助于提升模型收敛能力。根据上述过程，该模型训练的损失函数则可定义为：
+这里矩阵 X 表示最后一个 RNN-Cell 的输出的风险因子部分，矩阵 $M_{1}$ $M_{2}$ 和 $M_{3}$ 分别为矩阵 X经过不同参数的全连接变换得到的，矩阵 $M_{1}$ 、 $M_{2}$ 和 $M_{3}$ 的规模均为 $\mathbb{I}\times\mathbb{M}$ ，N 表示截面股票个数，M 表示生成风险因子的个数， $W_{1},W_{2},W_{3}$ 均为全连接层的权重参数， $\pmb{H}[-\pmb{1}],\pmb{H}[-\pmb{2}]$ 分别表示过去两期模型生成的风险因子向量。与前期报告不同的是我们不再通过损失函数端加入因子自相关惩罚来保证风险因子自相关性，而是通过网络内部进行风险因子滚动平滑操作来保证风险因子自相关性，这种方式有助于降低损失函数复杂度从而更加有助于提升模型收敛能力。根据上述过程，该模型训练的损失函数则可定义为：
 
 $$
-\begin{array}{c}{{Loss=MSE(F_{:K},y_{1})+Rsquare(F,y_{2})+\lambda\|corr(F,F)\|}}\\{{{}}}\\{{Rsquare(F,y_{2})=1-\displaystyle\frac{||y_{2}-F(F^{T}F)^{-1}F^{T}y_{2}||^{2}}{\|y_{2}\|^{2}}}}\end{array}
+\begin{aligned}&Loss=MSE(\boldsymbol{F}_{:K},y_1)+Rsquare(\boldsymbol{F},y_2)+\lambda\left\|corr(\boldsymbol{F},\boldsymbol{F})\right\|\\&\\&\quad Rsquare(\boldsymbol{F},y_2)=1-\frac{||y_2-\boldsymbol{F}(\boldsymbol{F}^T\boldsymbol{F})^{-1}\boldsymbol{F}^T\boldsymbol{y}_2||^2}{\|y_2\|^2}\\\end{aligned}
 $$
 
-其中，我们设定生成的因子中前 K 个为 alpha 因子，K 以后 M 个为风险因子， $\pmb{F}$ 为所有股票对应因子的矩阵，该矩阵的规模为 $\Nu\times(K+M)$ ， $y_{1}$ 和 $y_{2}$ 为不同频率的原始收益率标签， λ 是人工调节的超参数。注意到上述 Rsquare 损失函数分子部分需要计算矩阵逆的导函数，矩阵 $A^{-1}$ 的导函数十分容易可以算出具有以下表达式：
+其中，我们设定生成的因子中前 K 个为 alpha 因子，K 以后 M 个为风险因子， $F$ 为所有股票对应因子的矩阵，该矩阵的规模为 $\mathrm{N}\times(K+M)$ ， $y_{1}$ 和 $y_{2}$ 为不同频率的原始收益率标签， λ 是人工调节的超参数。注意到上述 Rsquare 损失函数分子部分需要计算矩阵逆的导函数，矩阵 $A^{-1}$ 的导函数十分容易可以算出具有以下表达式：
 
 $$
-\frac{dA^{-1}}{dt}=-A^{-1}\frac{dA}{dt}A^{-1}
+\cfrac{d\pmb{A}^{-1}}{dt}=-\pmb{A}^{-1}\cfrac{d\pmb{A}}{dt}\pmb{A}^{-1}
 $$
 
-因此计算矩阵逆的导函数难点在于计算 $A^{-1}$ 本身。我们通常使用 torch.inverse()这个函数来计算矩阵的逆，其算法原理是高斯消元通过求解 n 个线性方程组来求逆，因此该算法效率十分低下，加之高斯消元的时候涉及到行变换因此该算法存在一定的精度问题。
+因此计算矩阵逆的导函数难点在于计算 $\pmb{A}^{-1}$ 本身。我们通常使用 torch.inverse()这个函数来计算矩阵的逆，其算法原理是高斯消元通过求解 n 个线性方程组来求逆，因此该算法效率十分低下，加之高斯消元的时候涉及到行变换因此该算法存在一定的精度问题。
 
 Cholesky 分解及求逆：对称正定矩阵具有较为良好的性质，因此区别于普通可逆方阵其具有效率和精度更高的求逆算法。类似 LU分解，Cholesky分解核心思想是对称正定矩阵 A 可以分解为
 
 $$
-A=LL^{T}
+\boldsymbol{A}=\boldsymbol{L}\boldsymbol{L}^{T}
 $$
 
 这里矩阵 L 为下三角矩阵。有了上述分解以后，对称正定矩阵 A 求逆的过程可以等价于求解下三角矩阵 L 的逆矩阵，而这个过程则可以通过求解线性方程组 LTX = I 实现（其中 I 表示单位矩阵），与高斯消元法对比，Cholesky分解具有以下优势：
 
-1. 计算量小：高斯消元计算量为 $|O(n^{3})$ ，Cholesky 分解仅为 $O({\textstyle{\frac{1}{3}}}n^{3})$
+1. 计算量小：高斯消元计算量为 $1O(n^{3})$ ，Cholesky 分解仅为 $O(\frac{1}{3}n^{3})$
 
 2. 存储空间小：由于Cholesky分解仅需储存三角矩阵，因此存储空间仅需高斯消元算法的一半；
 
@@ -131,23 +131,23 @@ $$
 注意到在训练前述提到的风险中性模型时，我们使用的原始收益率标签，站在选股的角度来说我们更关注股票相对排序而不是股票本身的绝对收益，另外一方面，原始收益率数据中噪声含量相对较高，直接使用作为标签可能会降低模型性能，为了克服上述问题，我们在MSE损失端引入了一项排序损失作为正则项。该排序损失是通过依据文献 [3] 的训练 RankNet 的损失函数来实现的。这种排序损失的核心思想是给定一个股票对 (i，j) ，使用以下函数来度量 Rank RNN模型预测股票 i 的序关系高于j 的概率
 
 $$
-P_{i,j}=P(i\succ j)=\frac{1}{1+\exp\left(-\sigma\big(y_{i}-y_{j}\big)\right)},
+P_{i,j}=P(i\succ j)=\frac{1}{1+\exp\left(-\sigma(y_{i}-y_{j})\right)},
 $$
 
-这里 $y_{i}$ 为 RNN 模型对股票 i 的预测结果， $i\succ j$ 表示股票 i 的序关系高于股票 $j_{\textsf{c}}$ 。我们使用 $\overline{{\mathrm{P}}}_{\mathrm{i,j}}\in$ {0,1/2,1} 来表示真实股票 i 的序关系高于股票j 的概率（0 表示实际股票 i 的序关系低于 $j$ ，1/2表示序关系相等，1表示 i 的序关系高于j）。最后我们使用以下 BCE损失函数
+这里 $y_{i}$ 为 RNN 模型对股票 i 的预测结果， $i\succ j$ 表示股票 i 的序关系高于股票 $j_{\mathrm{~c~}}$ 。我们使用 $\overline{{\mathrm{P}}}_{\mathrm{i},\mathrm{j}}\in$ {0,1/2,1} 来表示真实股票 i 的序关系高于股票j 的概率（0 表示实际股票 i 的序关系低于 $j$ ，1/2表示序关系相等，1表示 i 的序关系高于j）。最后我们使用以下 BCE损失函数
 
 $$
 C_{i,j}=-\bar{P}_{i,j}\mathrm{log}P_{i,j}-\big(1-\bar{P}_{i,j}\big)\mathrm{log}\big(1-P_{i,j}\big)
 $$
 
-来度量一个股票对序关系真实概率与预测概率之间的差。训练时为了提升极小化上述排序损失的计算效率，我们采用了文献 [3] 第 2.1节加速方法，通过相关计算，排序损失 $\textstyle\sum_{\mathrm{j}=1}^{\mathrm{n}}\sum_{\mathrm{i}=1}^{\mathrm{n}}C_{i,j}$ 关于神经网络参数 $w_{k}$ 的导函数可表示为 $\begin{array}{r}{\sum_{i}\lambda_{i}\frac{\partial y_{i}}{\partial w_{k}}.}\end{array}$ 。这里
+来度量一个股票对序关系真实概率与预测概率之间的差。训练时为了提升极小化上述排序损失的计算效率，我们采用了文献 [3] 第 2.1节加速方法，通过相关计算，排序损失 $\begin{array}{r}{\sum_{\mathrm{j}=1}^{\mathrm{n}}\sum_{\mathrm{i}=1}^{\mathrm{n}}C_{i,j}}\end{array}$ 关于神经网络参数 $w_{k}$ 的导函数可表示为 $\textstyle\sum_{i}\lambda_{i}{\frac{\partial y_{i}}{\partial w_{k}}}_{\circ}$ 。这里
 
 $$
 \lambda_{i}=\sum_{\{i,j\}\in I}\lambda_{i,j}-\sum_{\{j,i\}\in I}\lambda_{j,i}
 $$
 
 $$
-\lambda_{i,j}=\sigma\left(\frac{1-\mathrm{sign}\bigl(\hat{y}_{i}-\hat{y}_{j}\bigr)}{2}-\mathrm{sigmoid}\bigl(y_{i}-y_{j}\bigr)\right)\circ
+\lambda_{i,j}=\sigma\left(\frac{1-\mathrm{sign}\left(\hat{y}_{i}-\hat{y}_{j}\right)}{2}-\mathrm{sigmoid}\left(y_{i}-y_{j}\right)\right)\circ
 $$
 
 有关分析师的申明，见本报告最后部分。其他重要信息披露见分析师申明之后部分，或请与您的投资代表联系。并请阅读本证券研究报告最后一页的免责申明。
@@ -155,14 +155,14 @@ $$
 通过上述公式不难发现，我们只需要通过加减乘除计算出变量 $\lambda_{i}$ ，然后再通过对 RNN 输出进行反向传播 n 次计算出 $\frac{\partial y_{i}}{\partial w_{k}}$ 即可求出排序损失的梯度。这意味着我们增加排序正则项后不会增加反向传播次数的量级，其量级依旧为 $O(n)$ 。损失函数则可定义为：
 
 $$
-\mathit{Loss}=\mathit{MSE}(F_{:K},y_{1})+\lambda_{1}\sum_{\mathrm{j}=1}^{\mathrm{n}}\sum_{\mathrm{i}=1}^{\mathrm{n}}C_{i,j}\ +\mathit{Rsquare}(F,y_{2})+\lambda_{2}\left\|\mathit{corr}(F,F)\right\|
+Loss=MSE(\boldsymbol{F}_{:K},y_1)+\lambda_1\sum_{j=1}^{\mathrm{n}}\sum_{i=1}^{\mathrm{n}}C_{i,j}\\+Rsquare(\boldsymbol{F},y_2)+\lambda_2\left\|corr(\boldsymbol{F},\boldsymbol{F})\right\|
 $$
 
 这里 $\lambda_{1}$ 和 $\lambda_{2}$ 是两个超参数。
 
 ## 1.4 状态门控机制（Status Gating Mechanism）
 
-传统多因子模型是量化选股中一类重要的模型，在传统多因子模型中，给定一系列个股的选股因子 $\{\alpha_{1},\alpha_{2},\ldots,\alpha_{\mathrm{n}}\}$ ，个股的最终得分或预期收益率 r̂ 通常可以表示为：
+传统多因子模型是量化选股中一类重要的模型，在传统多因子模型中，给定一系列个股的选股因子 $\{\alpha_{1},\alpha_{2},\dots,\alpha_{\mathrm{n}}\}$ ，个股的最终得分或预期收益率 r̂ 通常可以表示为：
 
 $$
 \hat{r}=\sum_{k}\lambda_{k}\alpha_{k}
@@ -173,7 +173,7 @@ $$
 在本报告中，我们使用状态门控机制（SGM）[1、2] 为所生成的一系列低相关 alpha 因子生成权重系数， 该机制下多因子加权的数学表达式可表示为：
 
 $$
-\hat{r}=\sum_{k}\lambda_{k}(s)\alpha_{k}(x)
+\hat{r}={\sum}_{k}\lambda_{k}(s)\alpha_{k}(x),
 $$
 
 其中 $\alpha_{k}(x)$ 表示前述RNN模型生成的alpha因子，x 表示输入特征， $\lambda_{k}(s)$ 表示SGM为个股第k个 alpha 因子生成的权重，s 为个股的 embedding，其既包含了个股的属性信息也包含了市场信息，因此该机制下不同时期的同一股票以及相同时期的不同股票同一 alpha 因子的权重值互不相同。我们通常可以取RNN的输出或者人工构建的特征作为这里的s 。对于常规的门控机制下权重$\lambda_{k}(s)$ 可表示为如下形式：
@@ -191,7 +191,7 @@ $$
 另外一方面，不同alpha因子表示不同的alpha信息源，当所生成的alpha因子数量过多时，在特殊市场状态下，某些 alpha 因子可能会出现失效的风险，所有 alpha 因子均参与加权并不合理，且随着所生成 alpha 因子数量上升时，模型参数数量也回大幅上升，这也会造成模型的过拟合问题。综上我们在常规的门控机制下引入了噪声 TopK门控（Noisy TopK Gating）机制，该机制主要对常规门控机制引入了一个噪声层和一个 TopK层
 
 $$
-\begin{array}{c}{{NoisyLayer(s)=FFN(s)+SoftPlus(FFN_{noise}(s))\cdot\varepsilon}}\\{{{}}}\\{{TopKLayer(s_{i},k)=s_{i}~if~s_{i}~is~in~the~topK~element~else\_\infty}}\\{{{}}}\\{{\lambda_{k}(s)=Softmax(TopKLayer(NoisyLayer(s)_{i},k))}}\end{array}
+\begin{aligned}NoisyLayer(s)\;&=\;FFN(s)+SoftPlus(FFN_{noise}(s))\cdot\varepsilon\\TopKLayer(s_{i},k)\;&=\;s_{i}\;if\;s_{i}\;is\;in\;the\;topK\;element\;else\;-\;\infty\\\lambda_{k}(s)&=Softmax(TopK\;Layer(Noisy\;Layer(s)_{i},k))\end{aligned}
 $$
 
 这里 $FFN_{noise}$ 表示可学习参数的全连接层，其用于计算添加噪声各分量的标准差，激活函数$SoftPlus$ 保证所学习的标准差参数均为正数，ε 为均值为 0 标准差为 1 的正态分布随机数。随机层作用在于通过添加各项异性的随机向量，降低模型过分的依赖于某几个 alpha 因子以及模型对输入的敏感性从而提升模型的泛化能力。而TopK层的目标是通过保留贡献度最大的几个alpha因子降低模型的冗余程度。
@@ -201,13 +201,13 @@ $$
 状态门控机制损失函数主要由两项构成，第一项为最终预测结果和真实收益率标签计算 MSE损失。在此基础上为防止出现 logits 太大，在 softmax 计算过程中可能会导致数值不稳定，影响模型的训练效果，甚至可能导致数值溢出，因此我们额外添加第三项正则损失称之为 Router z-loss，其具体表达式为：
 
 $$
-L_{RZ}(s)=\mathrm{KL}(P(s)||Q(s))={\frac{1}{K}}{\sum}_{k}log({\lambda}_{k}(s))+C
+L_{RZ}(s)=\mathrm{KL}(P(s)||Q(s))=\frac{1}{K}\sum_{k}log(\lambda_{k}(s))+C
 $$
 
 这里 P(s) 表示模型学习出的各个 alpha 因子权重分布函数， Q(s) 表示均匀分布的概率密度函数，C 表示一个常数，其对损失函数求导不产生任何影响因此可忽略。Router z-loss 构建的核心想法是希望模型学到的各个 alpha 因子权重分布函数与等权的分布函数不会有过大的差异，当存在某个 alpha因子的 logit较其他logit过大时，该项损失可以对其产生抑制，从而可以保证各个权重可以稳定分布在一定范围内使得模型训练更加平滑。门控机制总的损失函数则可以表示成为：
 
 $$
-Loss=MSE(\hat{r},y)+\lambda_{1}L_{RZ}(s)
+Loss=MSE(\hat{r},y)+\lambda_1L_{RZ}(s)
 $$
 
 这里 λ 是超参数，y 是中性化之后的收益率标签。

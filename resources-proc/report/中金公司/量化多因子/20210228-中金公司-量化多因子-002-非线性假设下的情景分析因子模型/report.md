@@ -108,9 +108,9 @@ Wind 2006-01-01 2021-01-31
 
 - 区分度高：为了检验给定的特征是否显著影响因子的预测能力，我们可以通过双样本T 检验、组合收益测试和 Fama-MacBeth 回归检验来进行测试：
 
-首先，假设给定特征因子 F，将股票池分成两个小股票池 $U_{H}$ 和 $U_{L}$ ，其中 $U_{H}$ 的因子 F值高于中位数， $U_{L}$ 的 F 值小于中位数。对于任意 Alpha 因子 A，我们可以计算得到因子 A在 $U_{H}$ 和 $U_{L}$ 内的分别的 IC值，即 $IC_{H}$ 和 $IC_{L}$
+首先，假设给定特征因子 F，将股票池分成两个小股票池 $.U_{H}$ 和 $U_{L}$ ，其中 $U_{H}$ 的因子 F值高于中位数， $U_{L}$ 的 F 值小于中位数。对于任意 Alpha 因子 A，我们可以计算得到因子 A在 $U_{H}$ 和 $U_{L}$ 内的分别的 IC值，即 $IC_{H}$ 和 $IC_{L}$
 
-- 双样本 T检验： $IC_{H}$ 和 $\cdot IC_{L}$ 的双样本 T检验，即 $IC_{H}$ 与 $IC_{L}$ 的差显著不等于 0。
+- 双样本 T检验： $IC_{H}$ 和 $\imath IC_{L}$ 的双样本 T检验，即 $IC_{H}$ 与 $IC_{L}$ 的差显著不等于 0。
 
 - 组合收益测试：在 $U_{H}$ 和 $U_{L}$ 中分别构建基于因子 A 的多空组合（分十组），通过分析多空收益的 Sharpe 等指标检验特征因子的有效性。
 
@@ -122,7 +122,7 @@ $$
 ret_{t+1}=b_{0}+b_{1}*factor_{t}+b_{2}*D_{feature}+b_{3}*factor_{t}*D_{feature}
 $$
 
-其中， $b_{3}$ 代表所选特征对因子预测能力的影响，这样通过月度的 Fama-MacBeth 回归我们可以得到 $b_{3}$ 的时间序列并且检验 $\cdot b_{3}$ 的显著性。
+其中， $b_{3}$ 代表所选特征对因子预测能力的影响，这样通过月度的 Fama-MacBeth 回归我们可以得到 $b_{3}$ 的时间序列并且检验 $-b_{3}$ 的显著性。
 
 图表5：情景特征因子的选取和检验流程
 ![](images/a91a3023079b424859da2c4ae0c2cb1a2c16aa51d074aa0a79830456a9f2dad5.webp)
@@ -147,13 +147,13 @@ $$
 首先，根据 Qian1对于超额收益的定义，股票在截面上的超额收益可以表示为：
 
 $$
-\alpha_{t}=\sum_{i=1}^{N}w_{i}r_{i}=\lambda^{-1}\sum_{i=1}^{N}F_{i}R_{i}
+\alpha_{t}=\sum_{i=1}^{N}w_{i}r_{i}=\lambda^{-1}\sum_{i=1}^{N}F_{i}R_{i},
 $$
 
 其中 $F_{i}$ 为风险调整后的预测因子， $R_{i}$ 代表风险调整后的收益率，N 是股票数量；λ是风险偏好参数。根据情景特征将全市场股票分为高低两个分组后，上式可以改写为：
 
 $$
-\alpha_{t}=\lambda^{-1}\sum_{i=1}^{N}F_{i}R_{i}=\lambda^{-1}\sum_{i\in{\cal H}}F_{i}R+\lambda^{-1}\sum_{i\in{\cal L}}F_{i}R
+\alpha_{t}=\lambda^{-1}\sum_{i=1}^{N}F_{i}R_{i}=\lambda^{-1}\sum_{i\in H}F_{i}R+\lambda^{-1}\sum_{i\in L}F_{i}R_{i}
 $$
 
 采用 IC 来表示：
@@ -165,19 +165,19 @@ $$
 我们可以假设所有预测因子和收益率的离散度是相同的，那么就可以得到：
 
 $$
-IC={\frac{1}{2}}\times IC_{H}+{\frac{1}{2}}\times IC_{L}
+IC=\frac{1}{2}\times IC_{H}+\frac{1}{2}\times IC_{L}
 $$
 
 IC 均值除以 IC 标准差就得到总体的 IR：
 
 $$
-IR=\frac{\overline{{IC_{H}}}+\overline{{IC_{L}}}}{\sqrt{\sigma_{H}^{2}+\sigma_{L}^{2}+2\rho_{H,L}\sigma_{H}\sigma_{L}}}
+IR=\frac{\overline{{IC_{H}}}+\overline{{IC_{L}}}}{\sqrt{\sigma_{H}^{2}+\sigma_{L}^{2}+2\rho_{H,L}\sigma_{H}\sigma_{L}}},
 $$
 
 假设因子仅在高分组内有预测能力，而在低分组内完全没有预测能力即 $\overline{{IC_{L}}}=0$ ，那么很自然的：
 
 $$
-IR=\frac{\overline{{IC_{H}}}}{\sqrt{\sigma_{H}^{2}+\sigma_{L}^{2}+2\rho_{H,L}\sigma_{H}\sigma_{L}}}
+IR=\frac{\overline{{IC_{H}}}}{\sqrt{\sigma_{H}^{2}+\sigma_{L}^{2}+2\rho_{H,L}\sigma_{H}\sigma_{L}}},
 $$
 
 如果 IC间的相关性为正，因子的整体 IR将会小于高分组内因子的 IR，即：
@@ -186,43 +186,43 @@ $$
 IR<IR_{H}=\frac{\overline{{IC_{H}}}}{\sigma_{H}}
 $$
 
-以具体的数字为例，如果 $\overline{{{IC_{H}}}}=0.1,\sigma_{H}=\sigma_{L}=0.1,\rho_{H,L}=0.2$ ，那么高分组内的 IR 值$IR_{H}=1$ ，但是因子整体的 IR仅有 0.6。
+以具体的数字为例，如果 $\overline{{IC_{H}}}=0.1,\quad\sigma_{H}=\sigma_{L}=0.1,\quad\rho_{H,L}=0.2$ ，那么高分组内的 IR 值$IR_{H}=1$ ，但是因子整体的 IR仅有 0.6。
 
 上面的例子表明，假设一个因子在低分组中没有预测能力时，对于整体股票池来说它的贡献就是负面的，继续在全市场股票池内使用这个因子会导致整体预测能力的下降。
 
 ## 基于情景特征划分的因子最优权重
 
-我们进一步的讨论关于不同特征分组内的因子最优权重计算的问题，这里我们用 $v_{H}\hbar^{\ b{\mathsf{r}}_{\mathsf{P}}}v_{L}$ 表示因子在高分组和低分组内的权重，那么可知总体 IR 为：
+我们进一步的讨论关于不同特征分组内的因子最优权重计算的问题，这里我们用 $v_{H}和v_{L}$ 表示因子在高分组和低分组内的权重，那么可知总体 IR 为：
 
 $$
-IR=\frac{v_{H}\overline{{IC_{H}}}+v_{L}\overline{{IC_{L}}}}{\sqrt{v_{H}^{2}\sigma_{H}^{2}+v_{L}^{2}\sigma_{L}^{2}+2\rho_{H,L}\sigma_{H}\sigma_{L}}}
+\mathit{IR}=\frac{v_{H}\overline{{IC_{H}}}+v_{L}\overline{{IC_{L}}}}{\sqrt{v_{H}^{2}\sigma_{H}^{2}+v_{L}^{2}\sigma_{L}^{2}+2\rho_{H,L}\sigma_{H}\sigma_{L}}},
 $$
 
 最优权重则可以求解为：
 
 $$
-\binom{\dot{v_{H}}}{\dot{v_{L}}}\propto\left(\frac{\overline{{{\sigma_{H}^{2}}}}-\rho_{H,L}}{\overline{{{\sigma_{H}^{2}}}}}\frac{\overline{{{IC_{L}}}}}{\sigma_{H}\sigma_{L}}\right)
+\begin{array}{r}{\left(\begin{matrix}{\dot{v_{H}}}\\{\dot{v_{L}}}\end{matrix}\right)\propto\left(\begin{matrix}{\cfrac{\overline{{IC_{H}}}}{\sigma_{H}^{2}}-\rho_{H,L}}&{\cfrac{\overline{{IC_{L}}}}{\sigma_{H}\sigma_{L}}}\\{\cfrac{\overline{{IC_{L}}}}{\sigma_{L}^{2}}-\rho_{H,L}}&{\cfrac{\overline{{IC_{H}}}}{\sigma_{H}\sigma_{L}}}\end{matrix}\right)}\end{array}
 $$
 
-那么假设我们有M个因子，权重则为 $\pmb{v}=(\pmb{v}_{H},\pmb{v}_{L})=(v_{1,H},v_{2,H},\cdots,v_{M,H},v_{1,L},v_{2,L},\cdots,v_{M,L})$ IC 向量为:
+那么假设我们有M个因子，权重则为 $\boldsymbol{v}=(\boldsymbol{v}_{H},\boldsymbol{v}_{L})=(v_{1,H},v_{2,H},\cdots,v_{M,H},v_{1,L},v_{2,L},\cdots,v_{M,L})$ IC 向量为:
 
 $$
-\overline{{IC}}=(\overline{{IC_{H}}},\overline{{IC_{L}}})=(\overline{{IC_{1,H}}},\overline{{IC_{2,H}}},\cdots,\overline{{IC_{M,H}}},\overline{{IC_{1,L}}},\overline{{IC_{2,L}}},\cdots,\overline{{IC_{M,L}}})^{\prime}
+\overline{IC}=(\overline{IC_{H}},\overline{IC_{L}})=(\overline{IC_{1,H}},\overline{IC_{2,H}},\cdots,\overline{IC_{M,H}},\overline{IC_{1,L}},\overline{IC_{2,L}},\cdots,\overline{IC_{M,L}})'
 $$
 
 复合 IR可以表示为：
 
 $$
-IR=\frac{\boldsymbol{v}^{\prime}\cdot\overline{{\boldsymbol{I}\boldsymbol{C}}}}{\sqrt{\boldsymbol{v}^{\prime}\cdot\Sigma_{IC}\cdot\boldsymbol{v}}}
+\mathit{IR}=\frac{\boldsymbol{v}^{\prime}\cdot\overline{{\boldsymbol{IC}}}}{\sqrt{\boldsymbol{v}^{\prime}\cdot\boldsymbol{\Sigma}_{IC}\cdot\boldsymbol{v}}}
 $$
 
 最优权重则可以由下式给出：
 
 $$
-\dot{v}\propto\Sigma_{IC}^{-1}\cdot\overline{{IC}}
+\dot{\boldsymbol{v}}\propto\boldsymbol{\Sigma}_{IC}^{-1}\cdot\overline{{IC}}
 $$
 
-其中，IC 协方差矩阵 $\Sigma_{IC}\frac{\Theta}{\Lambda\epsilon}$ 一个 $2M\times2M$ 的矩阵。
+其中，IC 协方差矩阵 $\Sigma_{IC}是$ 一个 $2M\times2M$ 的矩阵。
 
 ## A股情景特征：规模、流动性和估值特征有效性较高
 
@@ -482,7 +482,7 @@ Wind 2006-01-01 2021-01-31
 - 因子权重：基于前文给出的情景特征划分下的最优化 IR 方法，最优因子权重向量由下式给出
 
 $$
-\dot{v}\propto\Sigma_{IC}^{-1}\cdot\overline{{IC}}
+\dot{\boldsymbol{v}}\propto\boldsymbol{\Sigma}_{IC}^{-1}\cdot\overline{{IC}}
 $$
 
 IC 的计算时间窗口为滚动 12 个月（此处未对因子权重可能出现的负向情形做特别处理）

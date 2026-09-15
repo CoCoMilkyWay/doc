@@ -99,10 +99,10 @@ $$
 GBDT 结合了 Gradient Boosting 算法和树模型，训练过程和决策过程与神经网络存在明显的区别。其训练迭代过程可以表述为：
 
 $$
-\begin{array}{rl}&{f_{m}(x)=f_{m-1}(x)+T\bigl(x;\Theta_{m}\bigr)}\\&{\hat{\Theta}_{m}=\arg\operatorname*{min}_{\Theta_{m}}\underset{i=1}{\overset{N}{\sum}}L\bigl(y_{i},f_{m-1}\bigl(x_{i}\bigr)+T\bigl(x_{i};\Theta_{m}\bigr)\bigr)}\end{array}
+\begin{aligned}&f_{m}(x)=f_{m-1}(x)+T(x;\Theta_{m})\\&\hat{\Theta}_{m}=\arg\min_{\Theta_{m}}\sum_{i=1}^{N}L\left(y_{i},f_{m-1}(x_{i})+T(x_{i};\Theta_{m})\right)\\\end{aligned}
 $$
 
-其中 $T\left(x;\Theta_{m}\right)$ 为第 m 个弱分类器，通常为 CART 决策树，在第 m 次迭代的过程中，通过经验风险最小化获得对决策树 的参数估计 $\hat{\Theta}_{m}$ 。在上述通用的 Boosting 框架下，Gradient Boosting 每次迭代拟合的目标为样本相对于原始目标的负梯度：
+其中 $T\big(x;\Theta_{{}_{m}}\big)$ 为第 m 个弱分类器，通常为 CART 决策树，在第 m 次迭代的过程中，通过经验风险最小化获得对决策树 的参数估计 $\hat{\Theta}_{m}$ 。在上述通用的 Boosting 框架下，Gradient Boosting 每次迭代拟合的目标为样本相对于原始目标的负梯度：
 
 $$
 f_{m}(x)=-\nabla_{f}L\Big|_{f=f_{m-1}}
@@ -112,8 +112,8 @@ $$
 
 | 方法 | 优化空间 | 迭代算法 | 损失函数 |
 | --- | --- | --- | --- |
-| 梯度下降 | 参数空间 | $\boldsymbol{w}=\boldsymbol{w}_{m-1}-\rho_{m}\nabla_{\boldsymbol{w}}L\big\|_{\boldsymbol{w}=\boldsymbol{w}_{m-1}}$ | $L=\sum l\left(y_{i},f\left(x_{i},w_{m}\right)\right)$ |
-| 梯度提升 | 函数空间 | $f=f_{m-1}-\rho_{m}\nabla_{f}L\big\|_{f=f_{m-1}}$ | ${L=\sum l\left(y_{i},f_{m}\left(x_{i}\right)\right)}$ |
+| 梯度下降 | 参数空间 | $w=w_{m-1}-\rho_m\nabla_wL\Big\|_{w=w_{m-1}}$ | $L=\sum l\left(y_{i},f\left(x_{i},w_{m}\right)\right)$ |
+| 梯度提升 | 函数空间 | $f=f_{m-1}-\rho_m\nabla_fL\Big\|_{f=f_{m-1}}$ | $L=\sum l\left(y_{i},f_{m}\left(x_{i}\right)\right)$ |
 
 资料来源：招商证券
 
@@ -136,7 +136,7 @@ MLP和 GBDT均为截面学习模型，在没有特征工程的前提下无法提
 循环神经网络RNN通常也被称为时序神经网络，可以看作为多个时间截面的MLP通过时序状态H传递时序信息。单个时间步t的数学模型如下：
 
 $$
-\begin{array}{rl}&{\mathbf{H}_{t}=\phi(\mathbf{X}_{t}\mathbf{W}_{xh}+\mathbf{H}_{t-1}\mathbf{W}_{hh}+\mathbf{b}_{h}).}\\&{\mathbf{O}_{t}=\mathbf{H}_{t}\mathbf{W}_{hq}+\mathbf{b}_{q}.}\end{array}
+\begin{aligned}\mathbf{H}_{_t}&=\phi(\mathbf{X}_{_t}\mathbf{W}_{_{xh}}+\mathbf{H}_{_{t-1}}\mathbf{W}_{_{hh}}+\mathbf{b}_{_h}).\\\mathbf{O}_{_t}&=\mathbf{H}_{_t}\mathbf{W}_{_{hq}}+\mathbf{b}_{_q}.\end{aligned}
 $$
 
 其中 分别为样本矩阵、权重矩阵和偏置。 $\phi$ 为激活函数，通常为 tanh，O 为输出。
@@ -158,7 +158,7 @@ $$
 GRU的单个时间步t的数学模型如下：
 
 $$
-\begin{array}{rl}&{\mathbf{R}_{t}=\sigma(\mathbf{X}_{t}\mathbf{W}_{xr}+\mathbf{H}_{t-1}\mathbf{W}_{hr}+\mathbf{b}_{r})}\\&{\mathbf{Z}_{t}=\sigma(\mathbf{X}_{t}\mathbf{W}_{xz}+\mathbf{H}_{t-1}\mathbf{W}_{hz}+\mathbf{b}_{z})}\\&{\mathbf{H}_{t}=\operatorname{tanh}(\mathbf{X}_{t}\mathbf{W}_{xh}+\left(\mathbf{R}_{t}\odot\mathbf{H}_{t-1}\right)\mathbf{W}_{hh}+\mathbf{b}_{h}),}\\&{\mathbf{H}_{t}=\mathbf{Z}_{t}\odot\mathbf{H}_{t-1}+(1-\mathbf{Z}_{t})\odot\mathbf{H}_{t}.}\end{array}
+\begin{aligned}\mathbf{R}_{_t}&=\sigma(\mathbf{X}_{_t}\mathbf{W}_{_{xr}}+\mathbf{H}_{_{t-1}}\mathbf{W}_{_{hr}}+\mathbf{b}_{_r})\\\mathbf{Z}_{_t}&=\sigma(\mathbf{X}_{_t}\mathbf{W}_{_{xz}}+\mathbf{H}_{_{t-1}}\mathbf{W}_{_{hz}}+\mathbf{b}_{_z})\\\mathbf{H}_{t}&=\tanh(\mathbf{X}_{_t}\mathbf{W}_{_{xh}}+\left(\mathbf{R}_{_t}\odot\mathbf{H}_{_{t-1}}\right)\mathbf{W}_{_{hh}}+\mathbf{b}_{_h}),\\\mathbf{H}_{_t}&=\mathbf{Z}_{_t}\odot\mathbf{H}_{_{t-1}}+(1-\mathbf{Z}_{_t})\odot\mathbf{H}_{^t}.\end{aligned}
 $$
 
 其中 $\mathbf{R}_{t}$ 为重置门， $\mathbf{Z}_{t}$ 为更新门， 为Hadamard积，GRU一定程度地缓解了梯度爆炸和梯度消失的问题，提高了模型学习长序列的能力。MLP和GBDT为截面学习模型，而 RNN模型可以看作为引入了时序信息的MLP，理论上来说，RNN这类时序模型作为Alpha生成模型相比于截面模型能够有更好的表现。在下一个章节中，本文将以日线级别的量价数据作为数据集，进一步探究时序和截面模型在量价Alpha生成算法中的表现差异。
@@ -416,14 +416,14 @@ TOP100 策略即每次持仓股票数量固定 100 只股票。调仓日按照�
 指数增强的优化目标为最大化预期收益率，中证 500 和中证 1000 指数增强策略的风格约束包括市值、估值、成长等为最大偏离 0.5 个标准差、行业占比偏离约束为最大偏离 0.03；沪深 300 指数增强策略的风格约束为0.01 个标准差，行业占比偏离约束为 0.01。跟踪误差约束为年化 6%。换手率约束为双边 30%，40%，50%。成分股约束为无限制（全市场选股）。优化目标如下：
 
 $$
-\begin{array}{rl}{\operatorname*{max}\ }&{\mu^{T}w}\\{\mathrm{s.t.}\ }&{f_{l}\leq F\left(w-w_{b}\right)\leq f_{h}}\\&{h_{l}\leq H\left(w-w_{b}\right)\leq h_{h}}\\&{w_{l}\leq w-w_{b}\leq w_{h}}\\&{b_{l}\leq B_{b}w\leq b_{h}}\\&{\left|w_{t}-w_{t-}\leq\delta}\\&\right|{\mathbf{I}^{T}w=1}\end{array}
+\begin{aligned}\max\quad&\mu^{T}w\\s.t.\quad&f_{l}\leq F\left(w-w_{b}\right)\leq f_{h_{l}}\\&h_{l}\leq H\left(w-w_{b}\right)\leq h_{h_{l}}\\&w_{l}\leq w-w_{b}\leq w_{h}\\&b_{l}\leq B_{b}w\leq b_{h}\\&\left|w_{_{t}}-w_{_{t-1}}\right|\leq\delta\\&\mathbf{1}^{T}w=1\end{aligned}
 $$
 
 其中 为预期收益率， 为当前组合权重向量， $w_{t}$ 为 t时刻持仓权重， $w_{t-1}$ 为上一个持仓周期的持仓权重。
 
 约束 1为风格约束，用于保证组合的风格偏离不超过下限 $f_{l}$ 和上限 $f_{h}$ 。
 
-约束 2为行业偏离约束，用于保证组合行业占比的主动偏离不超过下限 $h_{\scriptscriptstyle{l}}$ 和上限 $h_{h}$ 。
+约束 2为行业偏离约束，用于保证组合行业占比的主动偏离不超过下限 $h_{l}$ 和上限 $h_{h}$ 。
 
 约束 3为个股权重的相对偏离。
 

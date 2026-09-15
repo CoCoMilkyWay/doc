@@ -94,7 +94,7 @@ VAE 通常被用作生成模型，用于学习数据的潜在分布并生成新�
 在因子模型中个股收益可以分为两部分：能够被公共风险因子解释的部分，以及不能被解释的残差收益：
 
 $$
-\boldsymbol{r}_{t,i}=\beta_{i,1}{}^{t}\boldsymbol{f}_{t,1}+\beta_{i,2}{}^{t}\boldsymbol{f}_{t,2}+\cdots+\beta_{i,K}{}^{t}\boldsymbol{f}_{t,K}+\varepsilon_{t,i}\boldsymbol{t}=1,\cdots Ti=1,\cdots N
+\boldsymbol{r}_{t,i}=\boldsymbol{\beta}_{i,1}^{\phantom{i,1}t}\boldsymbol{f}_{t,1}+\boldsymbol{\beta}_{i,2}^{\phantom{i,2}t}\boldsymbol{f}_{t,2}+\cdots+\boldsymbol{\beta}_{i,K}^{\phantom{i,K}t}\boldsymbol{f}_{t,K}+\boldsymbol{\varepsilon}_{t,i}\boldsymbol{t}=\mathbf{1},\cdots\boldsymbol{T}\boldsymbol{i}=\mathbf{1},\cdots\boldsymbol{N}
 $$
 
 其中， $r_{t,i}$ 是第 i 只股票在期间 t 的收益率， $\beta_{i,k}$ t是期间 t 开始时股票 i 在第 k 个因子上的风险暴露， $f_{t,k}$ 是第 k个因子在期间t的纯因子收益率， $\varepsilon_{t,i}$ 是第 i只股票在期间 t 的残差收益率。
@@ -129,17 +129,17 @@ FactorVAE 模型融合了上述变分自编码器与概率动态因子模型的�
 
 FactorVAE 模型训练过程如下：
 
-Step1：特征提取器 $(\mathsf{Feature\ Extractor},\phi_{feat})$ ：从输入的股票特征历史序列x中提取股票的潜在特征。
+Step1：特征提取器 $(\mathsf{FeatureExtractor},\phi_{\mathit{feat}})$ ：从输入的股票特征历史序列x中提取股票的潜在特征。
 
-Step2：因子编码器 $(\mathsf{Factor\ Encoder},\phi_{enc})$ ：从标签中的未来股票收益率y和潜在特征中提取后验因子 $\scriptstyle\cdot\mathbf{z}_{post}$ 的分布。在利用未来股票信息的情况下，编码器扮演了一个神谕的角色，从未来数据中提取后验因子。通过损失函数的引导，使得后验因子成为最优因子。
+Step2：因子编码器 $(\mathsf{Factor~Encoder},\phi_{enc})$ ：从标签中的未来股票收益率y和潜在特征中提取后验因子 $\mathbf{\dot{z}}_{post}$ 的分布。在利用未来股票信息的情况下，编码器扮演了一个神谕的角色，从未来数据中提取后验因子。通过损失函数的引导，使得后验因子成为最优因子。
 
-Step3：因子解码器（ $\mathbf{\xi}_{\mathsf{Factor~Decoder},\phi_{dec}}\mathbf{\xi})$ ：使用后验因子和潜在特征得到重构的股票收益 $\hat{\nu}_{rec}$ 。
+Step3：因子解码器（ $(\mathsf{Factor~Decoder},\phi_{dec})$ ：使用后验因子和潜在特征得到重构的股票收益 $\hat{\gamma}_{rec}$ 。
 
-Step4：因子预测器 $(\mathsf{Factor}\mathsf{Predictor},\phi_{pred})$ ：从股票潜在特征中提取先验因子 $z_{prior}$ 的分布。先验因子没有用到未来信息。通过损失函数的引导，使得先验因子与后验因子相近。
+Step4：因子预测器 $(\mathsf{Factor~Predictor},\phi_{pred})$ ：从股票潜在特征中提取先验因子 $\mathbf{z}_{prior}$ 的分布。先验因子没有用到未来信息。通过损失函数的引导，使得先验因子与后验因子相近。
 
 训练的目标函数包括两部分：
 
-（1）训练最优的后验因子，减少后验因子模型的重建误差：使用重构的股票收益 $\widehat{y}_{rec}$ 和标签中的未来股票收益率y，计算 MSE损失；
+（1）训练最优的后验因子，减少后验因子模型的重建误差：使用重构的股票收益 $\hat{y}_{rec}$ 和标签中的未来股票收益率y，计算 MSE损失；
 
 （2）使得先验因子收益率逼近后验因子收益率：使用先验因子和后验因子分布之间的 KL 散度计算。
 
@@ -147,9 +147,9 @@ FactorVAE 模型预测过程如下：
 
 Step1：特征提取器：从输入的股票特征历史序列x中提取股票的潜在特征。
 
-Step2：因子预测器：从股票潜在特征中提取先验因子 $\mathbf{\nabla}\cdot\mathbf{z}_{prior}$ 的分布。
+Step2：因子预测器：从股票潜在特征中提取先验因子 $\mathbf{z}_{prior}$ 的分布。
 
-Step3：因子解码器：使用先验因子和潜在特征得到预测的股票收益 $\widehat{y}_{pred}.$
+Step3：因子解码器：使用先验因子和潜在特征得到预测的股票收益 $\hat{y}_{pred},$
 
 在预测阶段，模型只通过预测器和解码器来预测股票收益率，没有编码器的参与，因而没有任何的未来信息泄漏。
 
@@ -158,7 +158,7 @@ Step3：因子解码器：使用先验因子和潜在特征得到预测的股票
 
 ## 2.2 特征提取器
 
-特征提取器 $\phi_{feat}$ ：从输入的股票特征历史序列中，由网络提取股票的潜在特征e，维度为n*k，n 为股票个数，k 为隐藏层个数。特征提取器通过学习将原始特征转换为低维度的潜在特征，实现对数据的降维和特征的提取。这些潜在表示通常包含了原始数据中的主要特征和变化模式，有助于更好地理解和表示数据。
+特征提取器 $:\phi_{feat}$ ：从输入的股票特征历史序列中，由网络提取股票的潜在特征e，维度为n*k，n 为股票个数，k 为隐藏层个数。特征提取器通过学习将原始特征转换为低维度的潜在特征，实现对数据的降维和特征的提取。这些潜在表示通常包含了原始数据中的主要特征和变化模式，有助于更好地理解和表示数据。
 
 特征提取器的具体做法是：首先对输入的股票特征依次进行层归一化、线性变换、LeakyReLU 激活函数处理，得到特征向量。而后将特征向量输入到 GRU 网络中，使用最后一个时间步的隐藏状态作为股票的潜在特征。
 
@@ -186,17 +186,17 @@ Step3：因子解码器：使用先验因子和潜在特征得到预测的股票
 
 ## 2.3 因子编码器
 
-因子编码器 $\phi_{enc}$ ：从未来股票收益率y和潜在特征e中，由网络输出后验因子 ${\bf z}_{post}$ 的分布。假设后验因子有 m 个，每个因子都是遵循独立高斯分布的随机向量，后验因子的分布可以用均值$\mu_{post}$ 和标准差 $\sigma_{post}$ 来描述，二者的维度均为 m*1。
+因子编码器 $\phi_{enc}$ ：从未来股票收益率y和潜在特征e中，由网络输出后验因子 $\mathbf{z}_{post}$ 的分布。假设后验因子有 m 个，每个因子都是遵循独立高斯分布的随机向量，后验因子的分布可以用均值$\mu_{post}$ 和标准差 $\sigma_{post}$ 来描述，二者的维度均为 m*1。
 
 直接从股票收益率出发提取后验因子存在几个问题：1. 不同横截面上股票数量是动态变化的，使用线性变换层进行维度变换时无法固定参数；2. 横截面股票数量较多，直接使用股票收益作为输入可能会导致非常高维的输入空间，增加模型的复杂度和训练难度；3. 直接使用大量的股票收益数据作为模型输入可能会导致过拟合，特别是在数据量不足或噪声较多的情况下。因而，我们不直接使用股票收益，而是构建一组投资组合，从而降低输入维度和参数量，提高模型的稳健性。
 
 因子编码器具体分为三个步骤：
 
-1.计算投资组合中各股票的权重 $\mathbf{\Delta}_{a_{p}}$ ：由组合层网络（Portfolio Layer）输出，基于股票的潜在特征动态加权。组合层网络包括一个线性变化层和一个 Softmax 函数。Softmax函数保证输出值都是大于 0 的，同时输出值的总和等于 1。
+1.计算投资组合中各股票的权重 $\mathbf{\nabla}_{\mathbf{\nabla}}(\mathbf{\boldsymbol{a}}_{p}$ ：由组合层网络（Portfolio Layer）输出，基于股票的潜在特征动态加权。组合层网络包括一个线性变化层和一个 Softmax 函数。Softmax函数保证输出值都是大于 0 的，同时输出值的总和等于 1。
 
-2.计算投资组合的收益率 $y_{p}\colon$ ：通过股票权重和股票收益率线性加权得到。
+2.计算投资组合的收益率 $\mathbf{\dot{y}}_{p}\mathbf{:}$ ：通过股票权重和股票收益率线性加权得到。
 
-3.计算后验因子的均值 $\dot{\mu}_{post}$ 和标准差 $\pmb{\sigma_{post}}$ 。由映射层网络（Mapping Layer）输出。其中，均值网络模型包括一个线性变换层，标准差网络模型包括一个线性变换层和一个 Softplus 函数。Softplus 函数保证了生成的标准差始终为正，并且保留了线性变换的性质。
+3.计算后验因子的均值 $\mathbf{i}\mu_{post}$ 和标准差 $\pmb{\sigma}_{post}$ 。由映射层网络（Mapping Layer）输出。其中，均值网络模型包括一个线性变换层，标准差网络模型包括一个线性变换层和一个 Softplus 函数。Softplus 函数保证了生成的标准差始终为正，并且保留了线性变换的性质。
 
 图 4：因子编码器结构
 ![](images/1751f32f97eebe9254671bfeccb7e39a33508ba330adae10c1be562a25b51eca.webp)
@@ -204,15 +204,15 @@ Step3：因子解码器：使用先验因子和潜在特征得到预测的股票
 数据来源：东方证券研究所 & AAAI-22
 
 $$
-\begin{array}{rl}&{[\mu_{\mathrm{post}}\ ,\sigma_{\mathrm{post}}\ ]=\phi_{\mathrm{enc}}\ (y,e)}\\&{\mathbf{z}_{\mathrm{post}}\sim\mathcal{N}\left(\mu_{\mathrm{post}}\ ,\mathrm{diag}\left(\sigma_{\mathrm{post}}^{2}\right)\right)}\end{array}
+\begin{aligned}{}&{{}[\mu_{\operatorname{post}},\sigma_{\operatorname{post}}]=\phi_{\operatorname{enc}}(y,e)}\\{}&{{}\mathbf{z}_{\operatorname{post}}\sim\mathcal{N}\left(\mu_{\operatorname{post}},\operatorname{diag}\bigl(\sigma_{\operatorname{post}}^{2}\bigr)\right)}\\\end{aligned}
 $$
 
 $$
-\begin{array}{r}{a_{p}^{(i,j)}=\frac{\exp{\left(w_{p}e^{(i)}+b_{p}\right)^{(j)}}}{\sum_{i=1}^{N}\exp{\left(w_{p}e^{(i)}+b_{p}\right)^{(j)}}}}\\{y_{p}^{(j)}=\sum_{i=1}^{N}y^{(i)}a_{p}^{(i,j)}}\end{array}
+\begin{array}{r}{a_{p}^{(i,j)}=\frac{\exp\left(w_{p}e^{(i)}+b_{p}\right)^{(j)}}{\sum_{i=1}^{N}\exp\left(w_{p}e^{(i)}+b_{p}\right)^{(j)}},}\\{y_{p}^{(j)}=\sum_{i=1}^{N}y^{(i)}a_{p}^{(i,j)}}\end{array}
 $$
 
 $$
-\begin{array}{rl}&{\mu_{\mathrm{post}}=w_{\mathrm{post}_{\mu}}y_{\mathrm{p}}+b_{\mathrm{post}_{\mu}}}\\&{\sigma_{\mathrm{post}}=\mathrm{Softplus}\left(w_{\mathrm{post}_{\sigma}}y_{\mathrm{p}}+b_{\mathrm{post}_{\sigma}}\right)}\end{array}
+\begin{aligned}{\mu_{\operatorname{post}}}&{{}=w_{\operatorname{post}_{\mu}}y_{\operatorname{p}}+b_{\operatorname{post}_{\mu}}}\\{\sigma_{\operatorname{post}}}&{{}=\operatorname{Softplus}\bigl(w_{\operatorname{post}_{\sigma}}y_{\operatorname{p}}+b_{\operatorname{post}_{\sigma}}\bigr)}\\\end{aligned}
 $$
 
 投资组合的个数是一个超参数，我们对比了20,100,500三个不同的参数，结果显示设置投资组合个数为 100效果最好。
@@ -231,11 +231,11 @@ $$
 
 因子解码器 $\phi_{dec}$ ：使用因子z和潜在特征e，输出股票收益率ŷ，维度为n*1，n为股票数量。解码器按照因子模型的方式构建，具体步骤如下：
 
-1. $\mathsf{\pmb{Alpha}}\mathsf{\equiv}\pi_{alp\hbar a}$ ：从潜在特征e中由网络输出特异收益α的分布。假设每只股票的特质收益都是一个遵循独立高斯分布的随机向量，那么特质收益的分布可以用均值 $\dot{\vert\mu_{\alpha}\vert}$ 和标准差$\sigma_{\alpha}$ 来描述，二者的维度均为n*1，n为股票数量。首先对输入的潜在特征进行线性变换、LeakyReLU 激活函数处理。均值网络模型包括一个线性变换层，标准差网络模型包括一个线性变换层和一个 Softplus 函数。Softplus 函数保证了生成的标准差始终为正，并且保留了线性变换的性质。
+1. $\mathsf{Apha}层\pi_{\mathrm{al}p\not\land a}$ ：从潜在特征e中由网络输出特异收益α的分布。假设每只股票的特质收益都是一个遵循独立高斯分布的随机向量，那么特质收益的分布可以用均值 $\mathrm{i}\mu_{\alpha}$ 和标准差$\sigma_{\alpha}$ 来描述，二者的维度均为n*1，n为股票数量。首先对输入的潜在特征进行线性变换、LeakyReLU 激活函数处理。均值网络模型包括一个线性变换层，标准差网络模型包括一个线性变换层和一个 Softplus 函数。Softplus 函数保证了生成的标准差始终为正，并且保留了线性变换的性质。
 
-2. Beta $\pmb{\sqrt{\frac{\alpha}{2\pmb{\varepsilon}}}}\varphi_{beta}$ ：从潜在特征e中通过线性映射层输出因子暴露β。维度为 n*m，n 为股票数量，m为因子数量。Beta层网络模型包括一个线性变换层。
+2. Beta $层\varphi_{beta}$ ：从潜在特征e中通过线性映射层输出因子暴露β。维度为 n*m，n 为股票数量，m为因子数量。Beta层网络模型包括一个线性变换层。
 
-3. 合成层：根据特异收益α的分布、因子暴露β和因子 z 的分布，输出股票收益率ŷ的分布。由于特异收益α和因子z都遵循独立的高斯分布，因而按照线性组合方式计算出的股票收益率ŷ也遵循高斯分布，其均值 $\dot{.}\mu_{y}$ 和标准差 $\sigma_{y}$ 可以根据公式计算，二者的维度均为 $n^{\star}1$ n为股票数量。
+3. 合成层：根据特异收益α的分布、因子暴露β和因子 z 的分布，输出股票收益率ŷ的分布。由于特异收益α和因子z都遵循独立的高斯分布，因而按照线性组合方式计算出的股票收益率ŷ也遵循高斯分布，其均值 $\bar{\mu}_{y}$ 和标准差 $\sigma_{y}$ 可以根据公式计算，二者的维度均为 ${\mathsf{n}}^{\star}{\mathsf{1}}$ n为股票数量。
 
 4. 重参数化（Reparameterization）：在训练过程中，我们需要从股票收益率ŷ的分布中进行采样，然后将这些样本传递给神经网络进行计算。直接从分布中采样是不可导的，会导致梯度断裂，训练过程无法进行，所以我们需要一个合理的采样方式，让梯度正常传递。重参数化技巧的关键是将随机性从参数中移动到网络外部，并且确保采样操作是可导的。具体来说，由于标准高斯分布经过缩放，可以变成任何高斯分布。我们可以从标准高斯分布中采样一个固定的噪声（通过随机种子控制），然后通过线性变换（缩放和平移）将这个噪声转换为具有目标均值和方差的高斯分布样本。这样，采样过程就成为可导的，梯度可以正常传播到分布的参数，从而可以进行有效的训练。
 
@@ -245,7 +245,7 @@ $$
 图 8：因子解码器计算公式
 
 $$
-\begin{array}{rlr}{\hat{\mathbf{y}}=\phi_{\mathrm{dete}}(\mathbf{z},e)=\boldsymbol{\alpha}+\beta\mathbf{z}}&{}&\\{\left\{\mu_{\alpha},\sigma_{\alpha}\right\}=\boldsymbol{\pi}_{\mathrm{alph}}(e).}&{}&\\{\mu_{\alpha}^{(i)}=\mathrm{leashyerL}\left(\boldsymbol{\pi}_{\alpha}e^{(i)}+\boldsymbol{b}_{\alpha}\right)}&{}&\\{\mu_{\alpha}^{(i)}=w_{\alpha}\boldsymbol{h}_{\alpha}^{(i)}+\boldsymbol{b}_{\alpha},}&{}&\\{\sigma_{\alpha}^{(i)}=\mathrm{sohplus}\left(w_{\alpha}h_{\alpha}^{(i)}+\boldsymbol{b}_{\alpha,\alpha}\right)}&{}&\\{\beta^{(i)}=\psi_{\mathrm{ebte}}(\boldsymbol{\epsilon}^{(i)})=w_{\beta}e^{(i)}+\boldsymbol{b}_{\beta}}&{}&\\{\hat{\boldsymbol{y}}\sim N\left(\mu_{\gamma}^{(i)},\sigma_{\gamma}^{(i)}\right),}&{}&\\{\mu_{\alpha}^{(i)}=\mu_{\alpha}^{(i)}+\sum_{k=1}^{N}\beta^{(k)}\boldsymbol{\mu}_{k}^{(k)}}&{}&\\{\sigma_{\alpha}^{(i)}=\left(\sigma_{\alpha}^{(i)}+\sum_{k=1}^{N}\beta^{(k)}\boldsymbol{\mu}_{\alpha}^{(k)}\sigma_{k}^{(k)}\right)^{\frac{1}{2}}}&{}&\end{array}
+\begin{aligned}{\mathbf{\hat{y}}}&{{}=\phi_{\operatorname{dec}}(\mathbf{z},e)=\mathbf{\alpha}+\beta\mathbf{z}}\\{}&{{}\quad\left[\mu_{\alpha},\sigma_{\alpha}\right]=\pi_{\operatorname{alpha}}(e).}\\{}&{{}\quad h_{\alpha}^{(i)}=\operatorname{LeakyReLU}\Bigl(w_{\alpha}e^{(i)}+b_{\alpha}\Bigr)}\\{}&{{}\quad\mu_{\alpha}^{(i)}=w_{\alpha_{\mu}}h_{\alpha}^{(i)}+b_{\alpha_{\mu}}}\\{}&{{}\quad\sigma_{\alpha}^{(i)}=\operatorname{Softplus}\Bigl(w_{\alpha_{\sigma}}h_{\alpha}^{(i)}+b_{\alpha_{\sigma}}\Bigr)}\\{\beta^{(i)}}&{{}=\varphi_{\operatorname{beta}}\bigl(e^{(i)}\bigr)=w_{\beta}e^{(i)}+b_{\beta}}\\{}&{{}\quad\hat{y}\sim N\bigl(\mu_{y}^{(i)},\sigma_{y}^{(i)}\bigr),}\\{}&{{}\quad\mu_{y}^{(i)}=\mu_{\alpha}^{(i)}+\textstyle\sum_{k=1}^{K}\beta^{(i,k)}\mu_{z}^{(k)}}\\{}&{{}\quad\sigma_{y}^{(i)}=\Bigl(\sigma_{\alpha}^{(i)^{2}}+\textstyle\sum_{k=1}^{K}\beta^{{(i,k)}^{2}}\sigma_{z}^{{(k)}^{2}}\Bigr)^{\frac{1}{2}}}\\\end{aligned}
 $$
 
 数据来源：东方证券研究所 & AAAI-22
@@ -265,7 +265,7 @@ $$
 
 ## 2.5 因子预测器
 
-因子预测器 $\varphi_{pred}$ ：从潜在特征e中，由网络输出先验因子 $z_{prior}$ 的分布。假设先验因子有 m个，每个因子都是遵循独立高斯分布的随机向量。先验因子的分布可以用均值 $\dot{}\mu_{prior}$ 和标准差$\sigma_{prior}$ 来描述，二者的维度均为 m*1，m为先验因子的数量。
+因子预测器 $i\phi_{pred}$ ：从潜在特征e中，由网络输出先验因子 $\mathbf{z}_{prior}$ 的分布。假设先验因子有 m个，每个因子都是遵循独立高斯分布的随机向量。先验因子的分布可以用均值 $\dot{(}\mu_{prior}$ 和标准差$\sigma_{prior}$ 来描述，二者的维度均为 m*1，m为先验因子的数量。
 
 考虑到一个因子通常代表市场上某一类型的风险溢价（如规模因子关注小盘股的风险溢价），模型设计了多头全局注意力机制，将市场的多种全局表征并行整合，从中提取代表市场不同风险溢价的因素。
 
@@ -275,11 +275,11 @@ $$
 
 2. 计算注意力权重：query是一个可学习的查询向量。在每个子空间中，通过计算 query 和key 之间的相似度，然后经过归一化得到注意力权重，维度均为 n*1，n为股票因子的数量；
 
-3. 加权求和：使用注意力权重对 value 向量进行加权求和，得到当前子空间的输出表示 $\scriptstyle:h_{att}$ 维度均为 1*k，k为隐藏层个数。
+3. 加权求和：使用注意力权重对 value 向量进行加权求和，得到当前子空间的输出表示 $\mathbf{\bar{\boldsymbol{h}}}_{att}$ 维度均为 1*k，k为隐藏层个数。
 
-4. 多头机制：将上述过程重复多次，每次使用不同的权重矩阵进行线性变换，得到多个子空间的输出表示。 将多个子空间的输出表示拼接在一起，得到多头注意力的最终输出表示 $\cdot h_{multi}$ 维度均为 m*k，k为隐藏层个数，m为先验因子的数量。
+4. 多头机制：将上述过程重复多次，每次使用不同的权重矩阵进行线性变换，得到多个子空间的输出表示。 将多个子空间的输出表示拼接在一起，得到多头注意力的最终输出表示 $\boldsymbol{h}_{multi}$ 维度均为 m*k，k为隐藏层个数，m为先验因子的数量。
 
-5. 先验因子的均值和标准差预测：首先对输入的 $\mathbf{h}_{multi}$ 进行线性变换、LeakyReLU 激活函数处理，而后通过均值网络模型和标准差网络模型预测先验因子的均值和标准差预测。均值网络模型包括一个线性变换层，标准差网络模型包括一个线性变换层和一个 Softplus 函数。Softplus 函数保证了生成的标准差始终为正，并且保留了线性变换的性质。
+5. 先验因子的均值和标准差预测：首先对输入的 $h_{multi}$ 进行线性变换、LeakyReLU 激活函数处理，而后通过均值网络模型和标准差网络模型预测先验因子的均值和标准差预测。均值网络模型包括一个线性变换层，标准差网络模型包括一个线性变换层和一个 Softplus 函数。Softplus 函数保证了生成的标准差始终为正，并且保留了线性变换的性质。
 
 图 10：因子预测器结构
 ![](images/c0b1a96936547955cf73968d3009dced1c21dedb04c257bc73c7e4f3e8cdafef.webp)
@@ -287,7 +287,7 @@ $$
 图 11：因子预测器计算公式
 
 $$
-\begin{array}{rl}&{|\mu_{\mathrm{prior}}\ ,\sigma_{\mathrm{prior}}\ |=\phi_{\mathrm{pred}}\ \big(e\big)}\\&{\begin{array}{rl}{\mathbf{z}_{\mathrm{prior}}\ }&{\sim\ \mathcal{N}(\mu_{\mathrm{prior}}\ ,\ \mathrm{diag}\middle(\sigma_{\mathrm{prior}}^{2}\big))}\\{k^{(0)}\ }&{\sim u_{\mathrm{pref}}\ ^{(0)},\ \cdots\ \forall i=\ w_{\mathrm{srior}}\ e^{(0)}}\end{array}}\\&{\begin{array}{rl}&{a_{\mathrm{at}}^{(0)}=\displaystyle\frac{\operatorname*{max}(\mathbf{0},\frac{\phi_{\mathrm{prior}}^{(0)}}{|\mu_{\mathrm{prior}}|^{\alpha_{1}/\sigma}})}{\sum_{i=1}^{N}\operatorname*{max}\Big(0,\frac{\phi_{\mathrm{prior}}^{(0)}}{|\mu_{\mathrm{prior}}|^{\alpha_{1}/\sigma}}\Big)}}\\{\ h_{\mathrm{at}}\ }&{=\ \phi_{\mathrm{art}}\ \big(\mathbf{0}\big)=\displaystyle\sum_{i=1}^{N}a_{\mathrm{art}}^{(0)}e^{(\mu)}}\end{array}}\\&{\begin{array}{rl}{h_{\mathrm{mat}}=\mathrm{Concat}(((\rho_{\mathrm{srio}}\ ,\ \cdots,\varphi_{\mathrm{ars}}\ (e)))}\\&{[\mu_{\mathrm{prior}},\ \sigma_{\mathrm{prior}}]\ )=\eta_{\mathrm{prod}}\ (h_{\mathrm{mat}})}\end{array}}\end{array}
+\begin{aligned}&\left[\mu_{\text{prior }},\sigma_{\text{prior }}\right]=\phi_{\text{pred }}(e)\\&\quad\mathbf{z}_{\text{prior }}\sim\mathcal{N}\left(\mu_{\text{prior }},\operatorname{diag}\left(\sigma_{\text{prior }}^{2}\right)\right)\\&\quad k^{(i)}=w_{\text{key }}e^{(i)},\quad v^{(i)}=w_{\text{value }}e^{(i)}\\&\quad a_{\text{att }}^{(i)}=\frac{\max\left(0,\frac{qk^{(i)^{T}}}{\left\|q\right\|_{2}\cdot\left\|k^{(i)}\right\|_{2}}\right)}{\sum_{i=1}^{N}\max\left(0,\frac{qk^{(i)^{T}}}{\left\|q\right\|_{2}\cdot\left\|k^{(i)}\right\|_{2}}\right)}\\&\quad h_{\text{att }}=\varphi_{\text{att }}(e)=\sum_{i=1}^{N}a_{\text{att }}^{(i)}v^{(i)}\\&\quad h_{\text{unit }}=\operatorname{Concat}\left(\left[\varphi_{\text{att }_{1}}(e),\ldots,\varphi_{\text{att }_{K}}(e)\right]\right)\\&\quad\left[\mu_{\text{prior }},\sigma_{\text{prior }}\right]=\pi_{\text{prior }}\left(h_{\text{unit }}\right)\\&\quad 其代数和E=\varphi_{\text{start }}(e)\end{aligned}
 $$
 
 数据来源：东方证券研究所 & AAAI-22

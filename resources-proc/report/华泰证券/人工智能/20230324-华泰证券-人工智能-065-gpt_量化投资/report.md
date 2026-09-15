@@ -110,16 +110,16 @@ NLP（Natural Language Process，自然语言处理）是人工智能的子领�
 
 2018 年，OpenAI 在论文 Improving Language Understanding by Generative PreTraining中提出了 GPT 模型。GPT 是单向表征的自回归语言模型，主要用来处理语言生成任务，其多头注意力模块为 Masked Multi-Head Attention，通过掩码的遮盖，在预测一个单词时只会用到前面已经生成的单词，而无信息的泄露。
 
-GPT 是典型的“无监督预训练+有监督微调”的两阶段模型，先在没有标注的数据集中进行预训练，再在有标注的特定下游任务数据集上微调。在预训练阶段，对于一个含有大量单词的语料库 $\mathcal{U}=\left\{u_{1},\ldots,u_{n}\right\}$ ，GPT 使用极大化似然函数来进行优化：
+GPT 是典型的“无监督预训练+有监督微调”的两阶段模型，先在没有标注的数据集中进行预训练，再在有标注的特定下游任务数据集上微调。在预训练阶段，对于一个含有大量单词的语料库 ${\boldsymbol{\cdot}}{\boldsymbol{\mathcal{U}}}=\{u_{1},\ldots,u_{n}\}$ ，GPT 使用极大化似然函数来进行优化：
 
 $$
-L_{1}(\mathcal{U})=\sum_{i}\log P(u_{i}\mid u_{i-k},\ldots,u_{i-1};\Theta)
+L_{1}(\mathcal{U})=\sum_{i}\log P(u_{i}\mid u_{i-k},\ldots,u_{i-1};\Theta),
 $$
 
-k是预测时所用到的单词的个数，P是用于预测的模型。我们定义 $U=(u_{-k},\dots,u_{-1})$ 为输入的k个单词的编码序列， $W_{e}$ 为词嵌入映射矩阵， $W_{p}$ 为位置嵌入矩阵，L 表示堆叠的 Block 层数，则 GPT 的预训练流程可以按如下方法公式化：
+k是预测时所用到的单词的个数，P是用于预测的模型。我们定义 $.U=(u_{-k},\ldots,u_{-1})$ 为输入的k个单词的编码序列， $W_{e}$ 为词嵌入映射矩阵， $W_{p}$ 为位置嵌入矩阵，L 表示堆叠的 Block 层数，则 GPT 的预训练流程可以按如下方法公式化：
 
 $$
-\begin{array}{c}{h_{0}=UW_{e}+W_{p}}\\{h_{l}=\mathrm{transformer}_{\mathrm{block}(h_{l-1})},l\in\{1,2,3\dots,L\}}\\{P(u)=\mathrm{softmax}(h_{L}W_{e}^{T})}\end{array}
+\begin{aligned}h_{0}&=UW_{e}+W_{p}\\h_{l}=transformer_{block(h_{l-1})},l&\in\{1,2,3\ldots,L\}\\P(u)&=softmax(h_{L}W_{e}^{T})\end{aligned}
 $$
 
 预训练完成后需要使用少量带标注的下游任务数据对模型进行微调。
@@ -201,10 +201,10 @@ InstructGPT 和 ChatGPT 都是 GPT 模型在人机对话方面的应用延伸，
 4. 使用人工排序的结果训练一个打分模型（Reward Model），模型能评价一条回答的质量高低。在 InstructGPT 的论文中，训练打分模型使用了如下的 pairwise 排序损失函数：
 
 $$
-\log(\theta)=-\frac{1}{{\binom{K}{2}}}E_{(x,y_{w},y_{l})\sim D}[\log(\sigma(r_{\theta}(x,y_{w})-r_{\theta}(x,y_{l})))]
+\mathrm{loss}(\theta)=-\frac{1}{\binom{K}{2}}E_{(x,y_{w},y_{l})\sim D}[\log(\sigma(r_{\theta}(x,y_{w})-r_{\theta}(x,y_{l})))]
 $$
 
-其中x是一个提问，针对x有 K（论文中 K=9）个回答，从中任选两个回答 ${\cdot}y_{w}\mathrm{{\#}}{\cdot}{\sigma}y_{l},r_{\theta}(x,y_{w})$ 是打分模型对 $y_{w}$ 的评分， $r_{\theta}(x,y_{w})-r_{\theta}(x,y_{l})$ 即两个回答的得分差值， $\log(\sigma(r_{\theta}(x,y_{w})-$ $r_{\theta}(x,y_{l}))$ 则把得分差值转换为 Logistic 损失，最后把 Logistic 损失求均值并取相反数就得到loss(θ)。
+其中x是一个提问，针对x有 K（论文中 K=9）个回答，从中任选两个回答 $\cdot y_{w}和y_{l},r_{\theta}(x,y_{w})$ 是打分模型对 $y_{w}$ 的评分， $r_{\theta}(x,y_{w})-r_{\theta}(x,y_{l})$ 即两个回答的得分差值， $\log(\sigma(r_{\theta}(x,y_{w})-$ $r_{\theta}(x,\dot{y}_{l})))$ 则把得分差值转换为 Logistic 损失，最后把 Logistic 损失求均值并取相反数就得到loss(θ)。
 
 InstructGPT 的论文中，步骤 2 总共使用了 33000 条人工标注的样本来训练。
 
@@ -222,7 +222,7 @@ InstructGPT 的论文中，步骤 2 总共使用了 33000 条人工标注的样�
 
 4. 设置强化学习的奖励函数，使用 PPO 算法对模型进行微调。在 InstructGPT 的论文中，奖励函数设置为：
 
-π∅RL(y|x)objective(∅) = E(x,y)~DπRL[rθ(x, y) − β logπSFT(y|x)+ γEx~D [log(π∅RL(x))]其中 $\pi_{\varnothing}^{RL}$ 代表 PPO 微调的模型， $\pi_{\varnothing}^{SFT}$ 代表 SFT 微调的模型， $D_{pretrain}$ 则是未微调的预训练模型。 $\log\left(\frac{\pi_{\emptyset}^{RL}(y|x)}{\pi_{\emptyset}^{SFT}(y|x)}\right)$ 即 KL 散度，超参数β和γ控制 KL 散度和未微调的预训练模型的影响。若 $\gamma=0$ ,则得到模型命名为 PPO 模型，若 $\gamma>0$ ,则得到模型命名为 PPO-ptx模型。整个奖励函数的含义是：在最大化打分 $r_{\theta}$ 的情况下，控制 $\pi_{\varnothing}^{RL}\hbar\pi_{\varnothing}^{SFT}$ 的差异，并且引入未微调模型来增强整体模型的鲁棒性。
+π∅RL(y|x)objective(∅) = E(x,y)~DπRL[rθ(x, y) − β logπSFT(y|x)+ γEx~D [log(π∅RL(x))]其中 $\pi_{\emptyset}^{RL}$ 代表 PPO 微调的模型， $\pi_{\emptyset}^{SFT}$ 代表 SFT 微调的模型， $D_{pretrain}$ 则是未微调的预训练模型。 $\log\left(\frac{\pi_{\emptyset}^{RL}(y|x)}{\pi_{\emptyset}^{SFT}(y|x)}\right)$ 即 KL 散度，超参数β和γ控制 KL 散度和未微调的预训练模型的影响。若 $\gamma=0$ ,则得到模型命名为 PPO 模型，若 $\gamma>0$ ,则得到模型命名为 PPO-ptx模型。整个奖励函数的含义是：在最大化打分 $r_{\theta}$ 的情况下，控制 $\pi_{\emptyset}^{RL}和\pi_{\emptyset}^{ST}$ 的差异，并且引入未微调模型来增强整体模型的鲁棒性。
 
 5. 随着强化学习的不断训练，就能逐渐微调模型使得回答质量越来越接近人类的期望水平。
 
@@ -315,11 +315,11 @@ VAE 相比 GAN 在数学上更“优美”。从贝叶斯概率模型的角度�
 
 的训练目标是最大化似然函数的下确界，然而优化函数的下确界不等于优化函数本身。基于流的模型（以下简称流模型）的训练目标是最大化似然函数本身，在数学上相比 VAE更严格。NICE 被认为是流模型的奠基之作（尽管全文未出现 flow），由 Dinh 等人于 2014年提出，被 2015 年 ICLR 会议接收。此后学者陆续提出 RealNVP、Glow等流模型，生成能力得到进一步提升。
 
-流模型的本质是学习随机变量和真实数据之间的概率分布转换关系。假设随机变量 z 服从分布 $\mathsf{p}z(z)$ ，真实数据 x服从分布 $\mathsf{p}_{\mathsf{X}}(\mathsf{X})$ ，VAE学习的是 ${\mathsf p}_{\mathsf Z}(\mathsf{z})$ 的均值和方差，而流模型中 $\mathsf{p}z(z)$ 是标准正态分布 π(z)，学习的是 x和之间的双射关系 ${\boldsymbol{z}}{\mathrm{=}}{\boldsymbol{\mathsf{f}}}({\boldsymbol{\mathsf{x}}})$ 与 $\mathsf{x}{=}\mathsf{f}^{-1}(\mathsf{z})$ ，其中 f 必须是可逆函数。此时，f 相当于编码器，反函数 f-1 相当于解码器。
+流模型的本质是学习随机变量和真实数据之间的概率分布转换关系。假设随机变量 z 服从分布 $\mathbf{p}z(\mathbf{Z})$ ，真实数据 x服从分布 $\mathbf{p}\times(\mathbf{x})$ ，VAE学习的是 $\mathsf{p}_{\mathsf{Z}}(\mathsf{Z})$ 的均值和方差，而流模型中 $\mathbf{p}z(z)$ 是标准正态分布 π(z)，学习的是 x和之间的双射关系 $z=f(x)$ 与 $x=\mathrm{f}^{-1}(z)$ ，其中 f 必须是可逆函数。此时，f 相当于编码器，反函数 f-1 相当于解码器。
 
-流模型训练过程中，实际训练的是解码器 f-1，可记为 G，一般为神经网络。根据变量替换定理，生成数据 x 的对数似然函数可以显式地表达为 $\mathsf{log}\mathsf{\pi}(\mathsf{G}^{-1}(\mathsf{x})){\boldsymbol{+}}\mathsf{log}\mathsf{|det}(\mathsf{J}\mathsf{G}^{-1})\mathsf{|}$ ，其中 $J_{\mathsf{G}}{}^{-1}$ 代表解码器反函数（即编码器） $G^{-1}$ 的雅可比矩阵。神经网络的训练目标是最大化对数似然函数。训练完成后，将高斯分布随机变量 z送入解码器，即可得到生成数据 $\tt x^{\prime}{=}G(\tt z)$
+流模型训练过程中，实际训练的是解码器 f-1，可记为 G，一般为神经网络。根据变量替换定理，生成数据 x 的对数似然函数可以显式地表达为 $\log\pi(G^{-1}(x))+\log|\det(J_{G^{-1}})|$ ，其中 $\mathbf{J}\mathbf{G}^{-1}$ 代表解码器反函数（即编码器） $\mathbf{G}^{-1}$ 的雅可比矩阵。神经网络的训练目标是最大化对数似然函数。训练完成后，将高斯分布随机变量 z送入解码器，即可得到生成数据 $x=G(z)$
 
-通常单个解码器 G 不足以实现隐变量 z 和数据 x 之间的分布转换，可以堆叠一系列解码器$\mathsf{G}_{1},\mathsf{G}_{2},\ldots\ldots\mathsf{G}_{\mathsf{K}},$ ，此时生成过程 $\mathsf{x}{=}\mathsf{G}_{\mathsf{K}}(\hdots\mathsf{G}_{2}(\mathsf{G}_{1}(\mathsf{z})))$ ，如同连续的数据流，因此得名流模型。流模型的重要假设是解码器 G 可逆，并非所有神经网络都满足可逆性，网络结构需要特别设计，如引入仿射耦合层等。
+通常单个解码器 G 不足以实现隐变量 z 和数据 x 之间的分布转换，可以堆叠一系列解码器$\mathsf{G}_{1},\mathsf{G}_{2},\ldots\ldots,\mathsf{G}_{\mathsf{K}},$ ，此时生成过程 $\mathsf{x}{=}\mathsf{G}_{\mathsf{K}}(\dots\mathsf{G}_{2}(\mathsf{G}_{1}(z)))$ ，如同连续的数据流，因此得名流模型。流模型的重要假设是解码器 G 可逆，并非所有神经网络都满足可逆性，网络结构需要特别设计，如引入仿射耦合层等。
 
 流模型的优点是逻辑完备，并且隐变量 z 具有高级的语义属性，例如将笑脸对应的隐变量减去普通人脸对应的隐变量，即可得到表征笑容的隐变量。但流模型参数量偏大，且在生成效果上相比 GAN和 VAE 没有显著优势，一直没有成为生成模型的主流。
 
@@ -586,15 +586,15 @@ Klein, B. D. , & Rossin, D. F. . (2000). Data quality in neural network models: 
 于是，macro-F 的计算过程为：
 
 $$
-P=\frac{tp}{tp+fp}\Rightarrow P_{macro}
+P=\frac{tp}{tp+fp}\Rightarrow P_{macrol}
 $$
 
 $$
-R=\frac{tp}{tp+fn}=R_{macro}
+R={\frac{tp}{tp+fn}}=R_{macrol}
 $$
 
 $$
-F_{macro}(\beta)=\frac{(1+\beta^{2})P_{macro}R_{macro}}{\beta^{2}P_{macro}+R_{macro}}
+F_{macro}(\beta)=\frac{\left(1+\beta^{2}\right)P_{macro}R_{macro}}{\beta^{2}P_{macro}+R_{macro}}
 $$
 
 其中 $\beta$ 为一个固定的参数。

@@ -67,7 +67,7 @@ zhangxuejie025900@gtjas.com
 收益计算方法：以市值因子为例，多空收益是每月多头组（市值最小的 10%股票组合）收益-输家组合（市值最大的 10%股票组合）收益+1累乘后再-1。市值因子的超额收益是每月多头组-基准指数2（万得全 A）收益+1累乘后再-1。具体公式如下，其他因子算法类似。
 
 $$
-\begin{array}{rl}&{\vec{\mathcal{P}}\langle\vec{\mathcal{B}}^{c}\mathcal{J}\mathcal{E}\vec{\mathcal{F}}^{c}\mathcal{J}\mathcal{K}\frac{\vec{x}^{c}}{2\vec{\mathcal{B}}^{2}}|\mathcal{K}\frac{\vec{x}^{c}}{2\vec{\mathcal{B}}^{2}}=\prod_{t=1,\dots,n}\Bigg(\mathcal{\bar{F}}\downarrow\sum_{\vec{\mathcal{B}}^{c}\vec{\mathcal{B}}}\mathcal{H}\mathrm{\lVert\vec{\mathcal{S}}\frac{\vec{x}^{c}}{2\vec{\mathcal{B}}}t\rVert}-\frac{\mathrm{i}\vec{\mathcal{B}}\cdot\vec{\mathcal{B}}^{c}}{\mathrm{i}\vec{\mathcal{B}}^{2}}\mathcal{\tilde{B}}\frac{\vec{y}\cdot\vec{\mathcal{B}}^{c}}{2\vec{\mathcal{B}}^{2}}+1\Bigg)-1}\\&{\qquad\vec{\mathcal{P}}\cdot\vec{\mathcal{B}}^{c}\mathcal{H}\cdot\vec{\mathcal{B}}^{c}\mathcal{H}\frac{\vec{x}^{c}}{2\vec{\mathcal{B}}^{2}}\cdot\vec{\mathcal{B}}\cdot\vec{\mathcal{B}}^{c}\mathcal{H}=\vec{\mathcal{P}}\cdot\vec{\mathcal{B}}\mathcal{H}\mathrm{\lVert\vec{\mathcal{B}}\rVert}-\mathcal{\vec{B}}\mathcal{\lVert\vec{S}}\mathcal{Z}\mathrm{H}\mathrm{\lVert\vec{\mathcal{B}}\rVert}^{2}+1}\\&\vec{\mathcal{P}}\cdot\vec{\mathcal{B}}\mathcal{H}\mathrm{\lVert\vec{B}\rVert}\mathcal{F}\mathcal{H}\mathrm{\lVert\vec{X}\frac{\vec{x}^{c}}{2\vec{\mathcal{B}}^{2}}}=\prod_{t=1,\dots,n}\Bigg(\mathcal{\bar{F}}\downarrow\sum_\vec\end{array}
+\begin{aligned}市盘历子乡空收益&=\prod_{t=1,\ldots,n}\left(多头组月收益_t^{市盘}-输家组合月收益_t^{市盘}+1\right)-1\\&市盘历子买空收益_t市盘=市盘历子买空收益+1\\市盘历子起额收益&=\prod_{t=1,\ldots,n}\left(多头组月收益_t^{市盘}-盐滩月收益_t^{市盘}+1\right)-1\\&市盘历子起额收益_t市盘=市盘历子起额收益+1\end{aligned}
 $$
 
 由于本报告部分图表展示收益表现会使用对数坐标轴，此时不能有负数，会使用超额收益净值、多空收益净值替代来展示。不管使用收益还是收益净值，都不影响结论。
@@ -754,21 +754,21 @@ e) 2021 年春节后有效至今 3 年多。期间短暂失效 1 次（2024年1�
 目前使用最多的做法是对因子进行市值行业中性化处理。具体做法是：将每个股票标准化后的因子作为因变量，对对数市值和中信一级行业般认为，经过中性化处理后的因子，排除了市值和行业的影响，更好地反映因子的投资逻辑和选股效果。例如，使用市盈率因子分组，做了中性化处理之后，每组在各行业、市值区间上分布比较均匀。在实际使用上，除市值因子以外，其他因子均进行中性化处理。
 
 $$
-Factor_{n}=\beta_{mkt}ln(MktVal_{i})+\sum_{i=1}^{I}\beta_{i}Industry_{ni}+\varepsilon_{n}
+Factor_{n}=\beta_{mkt}\ln(MktVal_{i})+\sum_{i=1}^{I}\beta_{i}Industry_{ni}+\varepsilon_{ni}
 $$
 
-$Factor_{n}$ 是第 T期股票 n的因子值， $ln(MktVal_{i})$ 是第 T期对数总市值因子的值， Industr ${\bf y}_{ni}$ 是第 T期第 i个中信一级行业因子哑变量（属于该行业为 1，否则为 0）。 $\varepsilon_{n}$ 是回归残差。我们以上述回归方程的残差项 $\varepsilon_{n}$ 作为原因子在市值行业中性化后的代理变量。
+$Factor_{n}$ 是第 T期股票 n的因子值， $ln(MktVal_{i})$ 是第 T期对数总市值因子的值， Industr $y_{ni}$ 是第 T期第 i个中信一级行业因子哑变量（属于该行业为 1，否则为 0）。 $\varepsilon_{n}$ 是回归残差。我们以上述回归方程的残差项 $\varepsilon_{n}$ 作为原因子在市值行业中性化后的代理变量。
 
 ## 5.2. 单因子组合优化（控制市值行业暴露下因子得分最大化组合）
 
-首先，每月计算股票每类因子值，并对因子进行去极值、标准化、缺失值填充、市值行业中性化处理。然后，按照各类因子逻辑，将股票池股票因子值排序，计算各类因子得分Score（rank分位数得分），对因子得分等权加权每只股票的最终得分。最后，每周末股票的得分$score_{i}^{T}$ 代入下面的组合优化模型，在控制行业暴露、风格暴露等约束条件下，以最大化股票组合得分∑N $score_{i}^{T}*w_{i}$ 为目标，求解组合股票的权重 $w^{*}$ ：
+首先，每月计算股票每类因子值，并对因子进行去极值、标准化、缺失值填充、市值行业中性化处理。然后，按照各类因子逻辑，将股票池股票因子值排序，计算各类因子得分Score（rank分位数得分），对因子得分等权加权每只股票的最终得分。最后，每周末股票的得分$score_{i}^{T}$ 代入下面的组合优化模型，在控制行业暴露、风格暴露等约束条件下，以最大化股票组合得分∑N $score_{i}^{T}*w_{i}$ 为目标，求解组合股票的权重 ${\boldsymbol{w}}^{\mathrm{~\textquotedblleft~}}$ ：
 
 $$
-max\sum_{w_{i}}^{N}score_{i}^{T}*w_{i}
+\underset{w_{i}}{max}\underset{1}{\overset{N}{\sum}}score_{i}^{T}*w_{i}
 $$
 
 $$
-\begin{array}{rl}{s.t.}&{\displaystyle\sum_{w^{l}\leq w_{i}\leq w}(\mathrm{1})}\\&{\displaystyle\sum_{1}^{lower}\leq w_{i}\leq w^{upper},i=1,\ldots,N}\\&{\displaystyle\sum_{1}^{N}x_{iI}w_{i}=w^{I}(3)}\\&{\displaystyle\left|\sum_{1}^{N}x_{ik}*w_{i}\right|\leq x_{k}^{limit}(4)}\end{array}
+\left\{\begin{array}{ll}{\begin{aligned}{s.t.}&{{}\quad\sum w_{i}=1}\\{}&{{}w^{lower}\leq w_{i}\leq w^{upper},i=1,\ldots,N}\\{}&{{}\quad\sum_{1}^{N}x_{iI}w_{i}=w^{I}}\\{}&{{}\quad\left|\sum_{1}^{N}x_{ik}*w_{i}\right|\leq x_{k}^{limit}}\end{aligned}}&{\begin{aligned}{(\quad1)}\\{}&{{}\quad(\quad1)}\\{}&{{}\quad(\quad3)}\end{aligned}}\\{\begin{aligned}{(\quad3)}\\{}&{{}\quad(\quad4)}\end{aligned}}&{\begin{aligned}{(\quad4)}\\{}&{{}\quad(\quad4)}\end{aligned}}\end{array}\right.
 $$
 
 公式（2）为个股上下限约束：主要是不能卖空、避免某些个股权重过高。本报告设置个股权重上下限为[0%,1%]。

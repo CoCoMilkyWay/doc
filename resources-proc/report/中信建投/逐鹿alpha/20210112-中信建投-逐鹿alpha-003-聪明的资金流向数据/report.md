@@ -365,10 +365,10 @@ NPR（net purchase ratio）模型是 Lakonishok, J. and I. Lee (2015)为了研�
 我们借鉴文章中提出的模型，对其做出部分改进，用来验证不同资金模式对于股价未来走势的影响。首先定义了 NPR 因子：
 
 $$
-NPR_{t}{=}\frac{\sum_{t{-}\mathrm{T}}^{t}\left(buy_{t}{-}sell_{t}\right)}{\sum_{t{-}\mathrm{T}}^{t}\left(buy_{t}{+}sell_{t}\right)}
+\mathit{NPR}_{t}=\frac{\sum_{t-\mathrm{T}}^{t}\left(buy_{t}-sell_{t}\right)}{\sum_{t-\mathrm{T}}^{t}\left(buy_{t}+sell_{t}\right)}
 $$
 
-其中 $buy_{t}$ 和 $\mathbf{\nabla}^{\prime}sell_{t}$ 分别为 t 期的买入金额和卖出金额，取T 值为 $5\text{‰}$ 为了区分不同类型资金流向的 NPR，将 buy 和 sell 分别取小单、中单、大单和超大单 4 种类型，这样共得到 4 个 NPR 因子。
+其中 $buy_{t}$ 和 $\mathfrak{r}sell_{t}$ 分别为 t 期的买入金额和卖出金额，取T 值为 $5_{\circ}$ 为了区分不同类型资金流向的 NPR，将 buy 和 sell 分别取小单、中单、大单和超大单 4 种类型，这样共得到 4 个 NPR 因子。
 
 为了验证 NPR 因子对于未来股票收益率的影响，借鉴原文中的模型，我们构建以下两个模型：
 
@@ -379,10 +379,10 @@ $$
 以及
 
 $$
-\begin{array}{c}{{R_{i}=\alpha_{i}+\beta_{1}LSIZE_{i}+\beta_{2}LBMR_{i}+\beta_{3}PR5_{i}+\beta_{4}PR21_{i}+\beta_{5}NPR_{i}+\beta_{6}DPL_{i}}}\\{{+\beta_{7}DSL_{i}}}\end{array}
+\begin{aligned}R_{i}=\alpha_{i}+\beta_{1}LSIZE_{i}+\beta_{2}LBMR_{i}+\beta_{3}PR5_{i}+\beta_{4}PR21_{i}+\beta_{5}NPR_{i}+\beta_{6}DPL_{i}\\+\beta_{7}DSL_{i}\end{aligned}
 $$
 
-其中 $R_{i}$ 为未来一期的股票收益率， $LMBR_{i}$ 为 i 期的 ln(B/M)的值， $LSIZE_{i}$ 为 i 期ln(SIZE)的大小，分别代表价值和市值因子。 $PR5_{i}\mathcal{\star}\approx PR21_{i}$ 分别为过去 5 日和 21日的收益率，代表短期和中期动量因子。模型二中的 $DPL_{i}$ 和 $DSL_{i}$ 为两个哑变量。是将市值按照大小分为三组，每组中 NPR 最大的 5%的 $DPL_{i}$ 为 1，其余为 0。NPR最小的 5%的 $DSL_{i}$ 为 1，其余为 0。
+其中 $R_{i}$ 为未来一期的股票收益率， $LMBR_{i}$ 为 i 期的 ln(B/M)的值， $LSIZE_{i}$ 为 i 期ln(SIZE)的大小，分别代表价值和市值因子。 $PR5_{i}和PR21_{i}$ 分别为过去 5 日和 21日的收益率，代表短期和中期动量因子。模型二中的 ${DPL}_{i}$ 和 ${\cdot}DSL_{i}$ 为两个哑变量。是将市值按照大小分为三组，每组中 NPR 最大的 5%的 ${DPL}_{i}$ 为 1，其余为 0。NPR最小的 5%的 $DSL_{i}$ 为 1，其余为 0。
 
 将因子进行去极值和标准化处理之后，将4个类型的NPR因子进行Fama-Macbeth回归，与单因子 IC 检验相比，NPR 模型回归的结果能够将各类型的因子收益率进行剥离，更为有效的展示出各因子对于收益率的影响及其显著性。对比模型一，模型二中的两个哑变量能够控制 NPR 在极端情况下的收益率。
 

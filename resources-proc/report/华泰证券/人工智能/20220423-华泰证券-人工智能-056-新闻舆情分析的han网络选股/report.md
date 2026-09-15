@@ -113,7 +113,7 @@ HAN模型的原始完整结构如图表1所示，包括词嵌入（Word Embeddin
 ![](images/d8e218301c178c73f352e9e61044f8b6313c8cfb97fb385ebd9e608cdf812ad3.webp)
 资料来源：Listening to Chaotic Whispers: A Deep Learning Framework for News-oriented Stock Trend Prediction，华泰研究
 
-首先界定本文的任务目标：作为混合注意力机制网络的初探报告，我们借鉴了原论文的做法，以日频股票涨跌作为 HAN 网络的预测标签。对于第 t 个交易日的股票 S，我们想要利用过去N个自然日中与该股票相关的新闻 $[\mathsf{C}_{\mathsf{t}-\mathsf{N}},\mathsf{C}_{\mathsf{t}-\mathsf{N}+1},\hdots,\mathsf{C}_{\mathsf{t}-1}]$ 来预测该股票的t~t+1日收益，该收益可以用日频开盘价或成交均价来衡量。假设每个自然日与股票S有关的新闻有L则，$\mathsf{C}_{\mathsf{t}}=[\mathsf{n}_{\mathsf{t}}\mathsf{1},\mathsf{n}_{\mathsf{t}}\mathsf{2},\ldots,\mathsf{n}_{\mathsf{t}}\mathsf{L}]$ ；每则新闻有M个词语， $\mathsf{n}_{\mathrm{ti}}=[\mathsf{Wi}_{1},\mathsf{Wi}_{2},\ldots,\mathsf{WiM}]$
+首先界定本文的任务目标：作为混合注意力机制网络的初探报告，我们借鉴了原论文的做法，以日频股票涨跌作为 HAN 网络的预测标签。对于第 t 个交易日的股票 S，我们想要利用过去N个自然日中与该股票相关的新闻 $\left[\mathrm{C_{t-N},C_{t-N+1},\ldots,C_{t-1}}\right]$ 来预测该股票的t~t+1日收益，该收益可以用日频开盘价或成交均价来衡量。假设每个自然日与股票S有关的新闻有L则，$\mathbb{C}_{1}=[\mathsf{n}_{11},\mathsf{n}_{12},\dots,\mathsf{n}_{1L}]$ ；每则新闻有M个词语， $\mathsf{ni}=[\mathsf{Wi1},\mathsf{Wi2},\ldots,\mathsf{WiM}]$
 
 ## 词嵌入
 
@@ -121,7 +121,7 @@ HAN模型的原始完整结构如图表1所示，包括词嵌入（Word Embeddin
 
 常见的词嵌入方法有 Skip-gram 和 CBOW，它们的基本思想是：词汇表中的每个词语可以表示为固定维度的向量；有大量的文本作为预训练语料；文本中的每个位置t上，有一个中心词语c和上下文词语o；根据词向量，计算c和o的相似度，得到给定c条件下o出现的概率（Skip-gram），或者给定o条件下c出现的概率（CBOW）；不断调整词向量，使得概率最大化。
 
-下面以 Skip-gram 为例，介绍算法的原理。对于中心词语和上下文词语，各有一套词向量化的方式v 和u，比如中心词语c可表示为向量 $v_{\mathsf{c}},$ ，上下文词语o可表示为向量 $\mathsf{u}_{0},$ 。给定c条件下o出现的概率为
+下面以 Skip-gram 为例，介绍算法的原理。对于中心词语和上下文词语，各有一套词向量化的方式v 和u，比如中心词语c可表示为向量 $\nabla_{\mathsf{C}},$ ，上下文词语o可表示为向量 $\mathsf{U}_{0},$ 。给定c条件下o出现的概率为
 
 $$
 P(o|c)=\frac{exp(u_{o}^{T}v_{c})}{\sum_{w\in V}exp(u_{w}^{T}v_{c})}
@@ -130,13 +130,13 @@ $$
 预训练文本中的位置t=1, 2, … , T，给定中心词语wt，预测窗口大小为m 的上下文词语出现的概率为
 
 $$
-L(\theta)=\prod_{t=1}^{T}\prod_{-m\le j\le m,j\ne0}P(w_{t+j}|w_{t};\theta)
+L(\theta)=\prod_{t=1}^{T}\prod_{-m\leq j\leq m,j\neq0}P(w_{t+j}|w_{t};\theta),
 $$
 
 目标函数 J(θ)定义为
 
 $$
-J(\theta)=-\frac{1}{T}logL(\theta)=-\frac{1}{T}\sum_{t=1}^{T}\sum_{-m\leq j\leq m,j\neq0}logP(w_{t+j}|w_{t};\theta)
+J(\theta)=-\frac{1}{T}logL(\theta)=-\frac{1}{T}{\sum_{t=1}^{T}\sum_{-m\leq j\leq m,j\neq0}logP(w_{t+j}|w_{t};\theta)}
 $$
 
 概率 L(θ)最大化，即目标函数 J(θ)最小化。可通过梯度下降法或随机梯度下降法等方法迭代，获得最优的词向量参数。
@@ -154,23 +154,23 @@ $$
 人类在浏览文字时，往往不是按部就班地逐字阅读，而是会聚焦在一些关键的词语和语句上，抽象出重要的信息，形成对文本的理解。借鉴人类的阅读行为，2015 年 DzmitryBahdanau等人对传统的encoder-decoder模型加以改进，提出了注意力机制，有效提升了机器翻译的性能。模型结构如下图所示，其核心在于使用注意力机制构建了语境向量 c：
 
 $$
-c_{i}=\sum_{j=1}^{T_{x}}\alpha_{ij}h_{j}
+c_{i}=\sum_{j=1}^{T_{x}}\alpha_{ij}h_{j},
 $$
 
-其中， $\mathsf{h}_{\mathsf{j}}$ 表示词语的注解， ${\tt G}_{\mathrm{lj}}$ 表示h 在构建语境向量 ${\tt Ci}$ 中的权重。 ${\tt d}_{\mathrm{ij}}$ 的确定需要两个步骤，首先是根据 decoder 中前一时刻的隐状态 $\tt Si-1$ 及 encoder 中的隐状态 $\mathsf{h}_{\mathsf{j}}.$ ，通过对齐模型 a计算得到 $\Theta_{\mathrm{ij}}^{\mathrm{a}}.$ ，再由 $\mathsf{eij}$ 进行 softmax 处理后得到 ${\tt Gi}_{\mathrm{l}}{\tt c}$ 。对齐模型是指，翻译前后的文本一般不是等长的，所以需要一个模型来对齐文本，原文中运用的对齐模型本质上也是一个前馈神经网络，能够刻画encoder第j 个输入与decoder第i 个输出的匹配程度，并与整个翻译模型中的其他参数联合训练。
+其中， $h_{\mathrm{j}}$ 表示词语的注解， $\mathfrak{a}_{\mathrm{ij}}$ 表示h 在构建语境向量 $\mathbf{c}$ 中的权重。 $\alpha j$ 的确定需要两个步骤，首先是根据 decoder 中前一时刻的隐状态 $\mathbf{S}_{1-1}$ 及 encoder 中的隐状态 $\mathsf{h}_{\mathsf{j}_{1}}$ ，通过对齐模型 a计算得到 $\mathbf{e}_{\mathbb{I}\mathbb{J}},$ ，再由 $\Theta_{[]}$ 进行 softmax 处理后得到 $\mathbf{d}_{\mathrm{ij}},$ 。对齐模型是指，翻译前后的文本一般不是等长的，所以需要一个模型来对齐文本，原文中运用的对齐模型本质上也是一个前馈神经网络，能够刻画encoder第j 个输入与decoder第i 个输出的匹配程度，并与整个翻译模型中的其他参数联合训练。
 
 $$
-\begin{array}{c}{{e_{ij}=a(s_{i-1},h_{j})}}\\{{\alpha_{ij}=\displaystyle\frac{exp(e_{ij})}{\sum_{k=1}^{T_{x}}exp(e_{ik})}}}\end{array}
+\begin{aligned}e_{ij}=a(s_{i-1},h_j)\\\alpha_{ij}=&\frac{exp(e_{ij})}{\sum_{k=1}^{T_x}exp(e_{ik})}\end{aligned}
 $$
 
 图表4： 机器翻译模型
 ![](images/d9255d6eb401f3c82e5097d516522c10a718ee050cd00cac81d106d574e2ef07.webp)
 资料来源：Neural Machine Translation by Jointly Learning to Align and Translate，华泰研究
 
-HAN 使用了词语注意力机制，以衡量不同词语在预测股票趋势中的差异化影响。相比于上述机器翻译模型，HAN确定权重的过程更为简单：每个向量化的词语 $\mathsf{W}_{\mathrm{l}}$ ，通过一层神经网络得到注意力值ui，使用softmax 标准化后得到词语的注意力权重 $\gamma_{\mathrm{i}}$ ，最后加权平均得到新闻层面的向量 $\mathsf{n}_{\circ}$ 具体的数学公式如下：
+HAN 使用了词语注意力机制，以衡量不同词语在预测股票趋势中的差异化影响。相比于上述机器翻译模型，HAN确定权重的过程更为简单：每个向量化的词语 $\mathsf{W}_{\mathsf{I}_{\mathsf{J}}}$ ，通过一层神经网络得到注意力值ui，使用softmax 标准化后得到词语的注意力权重 $\bar{\mathrm{i}}\gamma\mathrm{i}$ ，最后加权平均得到新闻层面的向量 $\mathsf{n}_{\circ}$ 具体的数学公式如下：
 
 $$
-\begin{array}{c}{{u_{i}=sigmoid(W_{w}w_{i}+b_{w})}}\\{{\gamma_{i}=\displaystyle\frac{exp(u_{i})}{\sum_{j=1}^{M}exp(u_{j})}}}\\{{{}}}\\{{{n=\displaystyle\sum_{i=1}^{M}\gamma_{i}w_{i}}}}\end{array}
+\begin{aligned}&u_{i}=sigmoid(W_{w}w_{i}+b_{w})\\&\quad\gamma_{i}=\frac{exp(u_{i})}{\sum_{j=1}^{M}exp(u_{j})}\\&\quad n=\sum_{i=1}^{M}\gamma_{i}w_{i}\\\end{aligned}
 $$
 
 图表5： 词语注意力机制
@@ -179,10 +179,10 @@ $$
 
 ## 新闻注意力机制
 
-考虑到不同新闻在预测股票趋势中的差异化影响，HAN 也加入了新闻注意力机制。每则新闻n，通过一层神经网络得到注意力值 ${\mathsf{v}}_{\mathrm{i}},$ ，使用softmax标准化后得到新闻的注意力权重α，最后加权平均得到日期向量d，代表某一天中所有新闻的信息。具体的数学公式如下：
+考虑到不同新闻在预测股票趋势中的差异化影响，HAN 也加入了新闻注意力机制。每则新闻n，通过一层神经网络得到注意力值 $\mathsf{v}_{\mathsf{i}},$ ，使用softmax标准化后得到新闻的注意力权重α，最后加权平均得到日期向量d，代表某一天中所有新闻的信息。具体的数学公式如下：
 
 $$
-\begin{array}{c}{{v_{i}=sigmoid(W_{n}n_{i}+b_{n})}}\\{{\alpha_{i}=\displaystyle\frac{exp(v_{i})}{\sum_{j=1}^{L}exp(v_{j})}}}\\{{\displaystyle d=\sum_{i=1}^{L}\alpha_{i}n_{i}}}\end{array}
+\begin{aligned}&w_{i}=sigmoid(W_{n}n_{i}+b_{n})\\&\quad\alpha_{i}=\frac{exp(v_{i})}{\sum_{j=1}^{L}exp(v_{j})}\\&\quad d=\sum_{i=1}^{L}\alpha_{i}n_{i}\\\end{aligned}
 $$
 
 图表6： 新闻注意力机制
@@ -200,7 +200,7 @@ $$
 GRU 包含一个重置门 rt和一个更新门 zt，重置门有助于捕捉时间序列中的短期关系，而更新门有助于捕捉长期关系：
 
 $$
-\begin{array}{r}{r_{t}=sigmoid(W_{r}d_{t}+U_{r}h_{t-1}+b_{r})}\\{z_{t}=sigmoid(W_{z}d_{t}+U_{z}h_{t-1}+b_{z})}\end{array}
+\begin{aligned}r_{t}&=sigmoid(W_{r}d_{t}+U_{r}h_{t-1}+b_{r})\\z_{t}&=sigmoid(W_{z}d_{t}+U_{z}h_{t-1}+b_{z})\end{aligned}
 $$
 
 其中， $h_{t-1}$ 表示上一期的隐藏状态，ht的计算如下：
@@ -209,7 +209,7 @@ $$
 h_{t}=(1-z_{t})\times h_{t-1}+z_{t}\times\widetilde{h_{t}}
 $$
 
-可以看出，h 是由上一期的隐藏状态 $h_{t-1}$ 和当期的候选隐藏状态 $\widetilde{h_{t}}$ 线性组合而成。候选隐藏状态 $\widetilde{h_{t}}$ 的计算如下：
+可以看出，h 是由上一期的隐藏状态 $h_{t-1}$ 和当期的候选隐藏状态 $\widetilde{h}_{t}$ 线性组合而成。候选隐藏状态 $\widetilde{h}_{t}$ 的计算如下：
 
 $$
 \widetilde{h_{t}}=tanh(W_{h}d_{t}+r_{t}\times(U_{h}h_{t-1})+b_{h})
@@ -218,7 +218,7 @@ $$
 为了同时捕捉过去和未来的信息，HAN使用了双向门控循环单元（BiGRU）：
 
 $$
-\begin{array}{c}{{\overrightarrow{h_{\imath}}=\overrightarrow{GRU}(d_{i}),i\in[1,L]}}\\{{\overleftarrow{h_{\imath}}=\overleftarrow{GRU}(d_{i}),i\in[L,1]}}\\{{h=[\overrightarrow{h_{\imath}},\overleftarrow{h_{\imath}}]}}\end{array}
+\begin{array}{c}{\overrightarrow{h_{\iota}}=\overrightarrow{GRU}(d_{i}),i\in[1,L]}\\{\overleftarrow{h_{\iota}}=\overleftarrow{GRU}(d_{i}),i\in[L,1]}\\{h=[\overrightarrow{h_{\iota}},\overleftarrow{h_{\iota}}]}\end{array}
 $$
 
 值得注意的是，这里的未来信息是相对于过去而言的，比如使用前 10 天的新闻预测第 11天到 12 天股价的涨跌，那么第 5 天的新闻处理是可以利用第 1 天和第 10 天的信息的，在股价预测上并不会造成未来数据的问题。
@@ -229,7 +229,7 @@ $$
 
 ## 时间注意力机制
 
-HAN同样使用注意力机制，反映不同时间的新闻在股票预测中的差异化影响。BiGRU输出的每日信息 $\mathsf{h}_{\mathsf{i}},$ ，通过一层神经网络得到注意力值 ${\tt Oi,}$ ，使用softmax 标准化后得到日期的注意力权重 $\beta_{\mathrm{i}}$ ，最后加权平均得到 $\vee_{\circ}$ 具体的数学公式如下：
+HAN同样使用注意力机制，反映不同时间的新闻在股票预测中的差异化影响。BiGRU输出的每日信息 $\mathsf{h}_{1},$ ，通过一层神经网络得到注意力值 $\mathbf{o}_{\mathbf{i}},$ ，使用softmax 标准化后得到日期的注意力权重 $\beta_{\mathrm{ij}}$ ，最后加权平均得到 $\nabla_{\circ}$ 具体的数学公式如下：
 
 $$
 o_{i}=sigmoid(W_{d}h_{i}+b_{d})
@@ -240,7 +240,7 @@ $$
 $$
 
 $$
-V=\sum_{i=1}^{N}\beta_{i}h_{i}
+V=\sum_{i=1}^{N}\beta_{i}h_{i},
 $$
 
 图表9： 时间注意力机制
@@ -367,11 +367,11 @@ HAN 网络的设计围绕着注意力机制展开，因此关于注意力机制�
 资料来源：华泰研究
 
 $$
-\ddagger{\ddagger{\ddagger{\mathstrut}}{\mathcal{H}}:{\mathit{\Omega}}n}=\alpha_{1}w_{1}+\alpha_{2}w_{2}+\alpha_{3}w_{3}+\cdots+\alpha_{d}w_{d}
+n=\alpha_{1}w_{1}+\alpha_{2}w_{2}+\alpha_{3}w_{3}+\cdots+\alpha_{d}w_{d}
 $$
 
 $$
-\mathcal{\bar{\kappa}}\dot{\mathfrak{T}}\dot{\mathfrak{T}}\dot{\mathfrak{T}}:\quad n=\frac{1}{d}\sum_{k=1}^{d}w_{k}
+无注意力:n=\frac{1}{d}\sum_{k=1}^{d}w_k
 $$
 
 ## 对比试验结果展示

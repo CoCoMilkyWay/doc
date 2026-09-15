@@ -64,12 +64,12 @@ $$
 chgPct_{i,t,t+1}=\alpha+\beta_{1}hldPct_{i,t}+\beta_{2}chgPct_{i,t-1,t}+\beta_{3}BO_{i,t,t+1}+\beta_{4}BS_{i,t,t+1}+\beta_{5}Ret_{i,t,t+1}+\varepsilon_{i,t}
 $$
 
-其中， $\mathsf{chgPct}_{\mathrm{i,t,t+1}}$ 为股票 i在 t至 t+1 时刻之间公募基金持仓占比的变化（股票 i上的公募基金持仓占比为公募基金在股票 i上的持仓总金额占股票 i总市值的比例），hldPct为股票 i在 t 时刻的公募基金持仓占比， $\mathsf{chgPct}_{\mathrm{i},\mathrm{t}-1,\mathrm{t}}$ 为股票 i在 t-1至 t 时刻之间的公募基金持仓变化， $\mathsf{BO}_{\mathsf{i},\mathsf{t},\mathsf{t}+1}$ 为股票 i在 t至 t+1 时刻之间的大单净买入占比， $\mathsf{BS}_{\mathsf{i},\mathsf{t},\mathsf{t}+1}$ 为股票 i在 t至 t+1 时刻之间的净主买占比， $\mathsf{Ret}_{\mathsf{i,t,t+1}}$ 为股票 在 至 时刻之间的超额收益。
+其中， $\mathsf{chgPct}_{\mathsf{i},\mathsf{t},\mathsf{t}+\mathsf{1}}$ 为股票 i在 t至 t+1 时刻之间公募基金持仓占比的变化（股票 i上的公募基金持仓占比为公募基金在股票 i上的持仓总金额占股票 i总市值的比例），hldPct为股票 i在 t 时刻的公募基金持仓占比， $\mathsf{chgPct}_{\mathsf{i},\mathsf{t-1},\mathsf{t}}$ 为股票 i在 t-1至 t 时刻之间的公募基金持仓变化， $\mathsf{BO_{i,t,t+1}}$ 为股票 i在 t至 t+1 时刻之间的大单净买入占比， $\mathsf{BS}_{\mathrm{i,t,t+1}}$ 为股票 i在 t至 t+1 时刻之间的净主买占比， $\mathsf{Ret}_{\mathsf{i},\mathsf{t},\mathsf{t}+\mathsf{1}}$ 为股票 在 至 时刻之间的超额收益。
 
 由于国内市场公募基金季度披露的持仓为前 大持仓，仅有半年报与年报披露全部持仓，因此在实际处理的过程中，为了顾及数据的时效性以及统一性，本文模型使用了季度披露的前 大持仓计算个股的公募基金持仓占比。个股的公募基金持仓占比以及持仓占比变化计算公式如下：
 
 $$
-\begin{array}{c}{{hldPct_{i,t}=\displaystyle\frac{\sum_{j}hldAmt_{j,i,t}}{mktVal_{i,t}}}}\\{{chgPct_{i,t,t+1}=hldPct_{i,t+1}-hldPct_{i,t}}}\end{array}
+\begin{aligned}hldPct_{i,t}=&\frac{\sum_{j}hldAmt_{j,i,t}}{mktVal_{i,t}}\\chgPct_{i,t,t+1}=&hldPct_{i,t+1}-hldPct_{i,t}\end{aligned}
 $$
 
 其中，hldPct 为股票 i在 t时刻的公募基金持仓占比，hldAmt 为基金j 季报披露的 t时刻在股票 i上的持仓金额，mktVal 为股票 i在 t时刻的总市值，chgPct 为股票 i在 t 时刻至 t+1 时刻之间的公募基金持仓占比变化。

@@ -81,7 +81,7 @@
 成交量和价格的关系会直接影响到区间内成交量加权价格 vwap 的大小，假设成交量和价格没有关系，每个交易日成交量一样，那么区间内价格均值就是每个交易日价格的简单平均，如果价格高位的成交量大，那么区间内 vwap 较高，如果价格低位的成交量大，那么区间内 vwap 较低。基于这个思路我们提出了一种度量股票买卖压力的方法，股票 i 在第 m 个月的均价偏差（average price bias, APB）定义如下：
 
 $$
-APB_{i,m}=ln\left(\frac{\frac{1}{T}\sum_{t=1}^{T}vwap_{i,m}^{t}}{\frac{1}{\sum_{t=1}^{T}volu_{i,m}^{t}}\sum_{t=1}^{T}volu_{i,m}^{t}\cdot vwap_{i,m}^{t}}\right)
+APB_{i,m}=ln\left(\frac{\frac{1}{T}\sum_{t=1}^{T}vwap_{i,m}^{t}}{\frac{1}{\sum_{t=1}^{T}volu_{i,m}^{t}}\sum_{t=1}^{T}volu_{i,m}^{t}\cdot vwap_{i,m}^{t}}\right)^{\frac{1}{2}}
 $$
 
 其中， $vwap_{i,m}^{t}$ 表示股票 i 在第 m 个月份第 t 个交易日的 vwap 均价， $volu_{i,m}^{t}$ 表示股票 i在第 m 个月份第 t 个交易日的成交量，这里均价和成交量都经过复权调整，股票 i 在第 m个月有 T个交易日，考虑到数据分布，指标取对数化处理。

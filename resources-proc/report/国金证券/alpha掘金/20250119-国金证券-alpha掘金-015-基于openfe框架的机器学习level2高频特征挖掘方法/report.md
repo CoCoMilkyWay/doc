@@ -78,40 +78,42 @@ return T.
 
 图表3：OpenFE框架连续二分法算法伪代码
 Algorithm3 SuccessivePruning 
-Input: $\mathcal{D}\colon$ dataset, $\hat{y}\colon$ predictions on T, 
-$A({\mathcal{T}}){\mathrm{:}}$ : candidate feature set, $q\colon$ integer 
+Input: $\mathcal{D};$ dataset, $\hat{\pmb y};$ predictions on T, 
+$A({\mathcal{T}});$ : candidate feature set, $q;$ integer 
 Output: pruned new feature set 
 Divide D equally into $2^{q}$ data blocks. 
-$A_{0}(\mathcal{T})A(\mathcal{T})$ 
+$A_{0}(\mathcal{T})\leftarrow A(\mathcal{T})$ 
 for $i=0$ to q do 
 Create a subset $\mathcal{D}_{i}$ with $2^{i}$ randomly selected data 
 blocks 
-for new feature $\tau\in A_{i}(\tau)$ do 
-$\Delta_{\tau}=\mathtt{F}$ eatureBoost $\left(\mathcal{D}_{i},\{\tau\},\hat{y}\right)$ 
+for new feature $\tau\in A_{i}(\mathcal{T})$ do 
+$\Delta_{\tau}=\mathbb{F}$ eatureBoost $(\mathcal{D}_{i},\{\tau\},\hat{y})$ 
 end for 
-$A_{i}(\mathcal{T})$ deduplicate $A_{i}({\mathcal{T}}).$ 
-$A_{i+1}(\mathcal{T})$ Take the top half of $A_{i}(\mathcal{T})$ based on $\Delta.$ 
+$A_{i}(\mathcal{T})\leftarrow$ deduplicate $A_{i}({\mathcal{T}}).$ 
+$A_{i+1}(\mathcal{T})\leftarrow$ Take the top half of $A_{i}(\mathcal{T})$ based on $\Delta.$ 
 end for 
 for $\tau\in A_{q+1}(\mathcal{T})$ do 
 if $\Delta_{\tau}\leq0$ then 
-$A_{q+1}(\mathcal T)A_{q+1}(\mathcal T)\backslash\{\tau\}$ 
+$A_{q+1}(\mathcal{T})\leftarrow A_{q+1}(\mathcal{T})\backslash\{\tau\}.$ 
 end if 
 end for 
-return $A_{q+1}(\mathcal T)$
+return $A_{q+1}(\mathcal{T})$
 来源：OpenFE，国金证券研究所
 
 而在有效性检验阶段，作者提出了 FeatureBoost 方案。在传统特征检验时，为确保该特征的评价不会受到特征之间交互的影响，一般会首先使用所有基础特征（BF）训练一个LGBM 模型，得到一个 Loss 作为 baseline。而在验证阶段时，将所有基础特征+某一个备选特征投喂给 LGBM 模型重新训练，得到一个新的 Loss，将两个 Loss 作差，检查其是否得到提升。而 OpenFE 中，作者只将某一个备选特征投喂模型，使模型学习之前基础特征所训练好的模型的残差，若学习后能使损失下降，则也可以说明该特征的重要性。
 
 ## 图表4：OpenFE 框架 FeatureBoost 算法伪代码
 
-Algorithm 2 FeatureBoost 
-Input: D: dataset, $\mathcal{T}^{\prime}\colon$ feature set, $\hat{y}\colon$ predictions on T 
-Output: incremental performance of $\tau^{\prime}$ 
-Initialize $L(f)$ as the objective function of f with T. 
-Initialize a new model $f^{\prime}.$ 
-Optimize $\begin{array}{r}{L(f^{\prime})=\sum_{i=1}^{n}l(y_{i},\hat{y}_{i}+f^{\prime}(x_{i}[{\cal T}^{\prime}]))}\end{array}$ 
-$\Delta\gets L(f)-L(f^{\prime})$ 
+```latex
+Algorithm 2 FeatureBoost
+Input: D: dataset, ${\mathcal{T}}^{\prime};$ feature set, $\hat{\pmb y};$ predictions on T
+Output: incremental performance of $\mathcal{T}^{\prime}$
+Initialize $L(f)$ as the objective function of f with T.
+Initialize a new model $f^{\prime}.$
+Optimize $\begin{array}{r}{L(f^{\prime})=\sum_{i=1}^{n}l(y_{i},\hat{y}_{i}+f^{\prime}(\pmb{x}_{i}[\mathcal{T}^{\prime}]))}\end{array}$
+$\Delta\gets L(f)-L(f^{\prime})$
 return ∆
+```
 来源：OpenFE，国金证券研究所
 
 因此，结合了以上连续二分法和 FeatureBoost 后，因子的运算和检验耗时可以得到大幅度缩减。在每一轮次，将当前备选特征数量缩减至原本的一半后，下一轮次的样本数量扩充至原来的两倍，特征数量减半。
@@ -157,7 +159,7 @@ $$
 在该篇报告中，我们还将因子进一步加工进行改进，通过小单和微盘的限制提升了因子表现：
 
 $$
-HCVOLE1=\frac{\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{t\in[14;30,14;57)}*I_{vol<\overline{{vol}}}}{total_{-}volume}
+HCVOLE1=\frac{\sum_{i}^{N}volume_{buyi}*I_{p_{buyi}>close}*I_{t\in[14:30,14:57)}*I_{vol<\overline{vol}}}{total_{v}volume}
 $$
 
 则类似地，此处使用的 Mask 还有“低于笔均成交量”和“成交时间在下午 2:30 以后”，我们将多个 Mask 结果取交集即可得到该因子。
@@ -165,7 +167,7 @@ $$
 此外，价格区间因子也可以通过以上结构计算得出，我们将一天中所有成交的成交价格排序，分别取出前 20%、中间 60%和后 20%的数据，作为 Mask 后再计算成交量的求和即可。
 
 $$
-\int\displaylimits_{|\overrightarrow{\cdot}\overrightarrow{\cdot}\overrightarrow{\cdot}}^{\overrightarrow{\cdot}}\langle\rangle\langle\rangle\langle\rangle\langle\rangle\langle\rangle\dot{\cdot}\overleftrightarrow{\cdot}\underbrace{\frac{\partial}{\partial}}\int\displaylimits_{|\overrightarrow{\cdot}\overrightarrow{\cdot}|}^{\overrightarrow{\cdot}}\dot{\mu}\dot{\mu}=\frac{\sum\displaylimits_{i}^{N}volume\mathrm{\ }\ast I_{\{j\in set_{a}\}}}{total\_volume}
+高价格区间成交量占比=\frac{\sum_{i}^{N}volume*I_{\{j\in set_{a}\}}}{total_{-}volume}
 $$
 
 图表6：高频因子拆解构建示例2

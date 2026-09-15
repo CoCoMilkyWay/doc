@@ -214,13 +214,13 @@ zhangyu1@ctsec.com 021-68592337
 
 在统计学中，矩（Moment）是对变量分布和形态特点的一组度量，n 阶矩被定义为该变量的 n 次方与其概率密度函数之积的积分。进一步地，直接使用变量计算的矩被称为原始矩（Raw Moment），去除均值后计算的矩被称为中心矩（Central Moment）。最为普遍的，变量的一阶原始矩等价于其数学期望（Expectation），二阶至四阶中心矩则被定义为数据的方差（Variance）、偏度（Skewness）及峰度（Kurtosis）。
 
-假设连续变量 x 及其单变量概率密度函数为P(x)，那么其n 阶矩 ${\dot{\boldsymbol{\cdot}}}{\boldsymbol{\mu}}_{n}$ 即可被定义为：
+假设连续变量 x 及其单变量概率密度函数为P(x)，那么其n 阶矩 $i\mu_{n}$ 即可被定义为：
 
 $$
 \mu_{n}=\int x^{n}P(x)dx
 $$
 
-在实际应用中，我们通常处理的为离散变量，因此其 n 阶矩 $\dot{\boldsymbol{\mathbf{\mu}}}\mu_{n}^{\prime}$ 即可被定义为：
+在实际应用中，我们通常处理的为离散变量，因此其 n 阶矩 $i\mu_{n}^{\prime}$ 即可被定义为：
 
 $$
 \mu_{n}^{\prime}=\sum x^{n}P(x)
@@ -289,7 +289,7 @@ $$
 其中，N(t)表示个股日内存在交易的数据个数。为了避免数据存在过多的不稳定性，我们将个股在过去 21 天的日内特质偏度的均值作为其特质偏度因子：
 
 $$
-IdioSkew_{i}=\frac{1}{21}\sum_{t-21}^{t}ISKEW_{i,t}
+IdioSkew_{i}=\frac{1}{21}\sum_{t=21}^{t}ISKEW_{i,t}
 $$
 
 ## 3、 因子实证检验：多头收益显著、多头组合基本面优异
@@ -378,7 +378,7 @@ $$
 由 3.2 小节可知，高频特质偏度因子与主要的风格因子存在着非常强烈的相关关系，自然而然地，我们必须了解在剥离主要的风格因子影响之后，该因子的表现情况。由此，我们对 Beta、BP、Size、Turnover21、Vol21 及 Ret21 因子进行横截面回归，并取其残差作为该因子的代理变量：
 
 $$
-\begin{array}{rl}&{IdioSkew_{i}=\alpha_{i}+\beta_{1}Beta_{i}+\beta_{2}BP_{i}+\beta_{3}Size_{i}+\beta_{4}Turnover21_{i}+\beta_{5}Vol21_{i}}\\&{\qquad+\beta_{6}Ret21_{i}+\varepsilon_{i}}\end{array}
+\begin{aligned}IdioSkew_{i}=\alpha_{i}&+\beta_{1}Beta_{i}+\beta_{2}BP_{i}+\beta_{3}Size_{i}+\beta_{4}Turnover21_{i}+\beta_{5}Vol21_{i}\\&+\beta_{6}Ret21_{i}+\varepsilon_{i}\end{aligned}
 $$
 
 图 10 展示了正交化所有风格因子后，高频特质偏度因子的表现情况。可以看到，其 RankIC 均值仍然达到-4.4%，月胜率 23%，t 值为-7.65。多空组合的月均收益率达到 0.96%，月度胜率 72%，t 值为 4.46。
@@ -391,7 +391,7 @@ $$
 
 关于特质偏度异象的成因，学术界的主流观点大致可以分为如下两种。一类来源于投资者对于高偏度股票的“博彩偏好”，即特质偏度较高的股票通常是过去出现过“暴涨”的股票，投资者倾向于认为这种“暴涨”现象将会在未来重演，从而买入持有导致价格高估，使得股票的后续价格出现回落。这种“博彩偏好”将偏度较高的股票视为“彩票”，通常是投资者投机交易的结果，对于个人投资者占比较高的 A 股市场而言这种现象尤甚。另一类观点认为特质偏度异象的成因来源于投资者对于低偏度股票的“风险补偿”。特质偏度为负的股票往往对应于过去出现过“暴跌”的股票，投资者持有这类股票将要获取一定的风险补偿，因此这类股票在未来的价格将会出现上涨。为了将特质偏度效应中的“博彩偏好”和“风险补偿”效应进行拆分，我们构建暴涨效应（Jump）和暴跌效应（Crash）因子对这两类效应进行分别探讨。
 
-在每个交易日，我们根据 2.2 小节的方法构建对数处理过后的残差收益 $w_{i,t}$ 后，对其进行 ZScore 标准化处理，构建 $Le\nu el$ 指标：
+在每个交易日，我们根据 2.2 小节的方法构建对数处理过后的残差收益 $w_{i,t}$ 后，对其进行 ZScore 标准化处理，构建 $Level$ 指标：
 
 $$
 Level_{i,t}=\frac{w_{i,t}-\mu_{i,t}}{\sigma_{i,t}}
@@ -403,10 +403,10 @@ $$
 \begin{array}{r}{DJump\_Level_{i,t}=max(Level_{i,t})}\\{DCrash\_Level_{i,t}=min(Level_{i,t})}\end{array}
 $$
 
-与高频特质偏度因子的计算类似，我们将过去 21 天的DJump $Level_{i,t}$ 因子均值作为其“暴涨效应”的代理变量，将过去 21 天的 $\boldsymbol{D}Crash\_Level_{i,t}$ 因子均值作为其“暴跌效应”的代理变量：
+与高频特质偏度因子的计算类似，我们将过去 21 天的DJump $\_Level_{i,t}$ 因子均值作为其“暴涨效应”的代理变量，将过去 21 天的 $DCrash\_Level_{i,t}$ 因子均值作为其“暴跌效应”的代理变量：
 
 $$
-\begin{array}{l}{{\displaystyle Jump\_Level_{i,t}=\frac{1}{21}\sum_{t-21}^{t}{DJump\_Level_{i,t}}}}\\{{\displaystyle Crash\_Level_{i,t}=\frac{1}{21}\sum_{t-21}^{t}{DCrash\_Level_{i,t}}}}\end{array}
+\begin{aligned}Jump\_Lveel_{i,t}=&\frac{1}{21}\sum_{t=21}^{t}DJump\_Lveel_{i,t}\\Crash\_Lveel_{i,t}=&\frac{1}{21}\sum_{t=21}^{t}DCrash\_Lveel_{i,t}\end{aligned}
 $$
 
 最后，为了防止个股“暴涨风险”与“暴跌风险”之间的互相影响，我们在横截面上对二者进行相互回归，以剔除二者之间的相关性：
@@ -489,7 +489,7 @@ $$
 （1） AmihudHigh VS AmihudLow：在每个截面期，根据个股的 Amihud指标是否大于全样本的中位数将其分为 AmihudHigh 和 AmihudLow两类样本。
 
 $$
-Amihud_{i}=\sum_{t-21}^{t}\frac{|r_{t}|}{Volume_{t}}
+Amihud_{i}=\sum_{t=21}^{t}\frac{|r_{t}|}{Volume_{t}}
 $$
 
 由于 Amihud 指标衡量的是个股的非流动性，因此 AmihudHigh 样本中的个股流动性更差，冲击成本高，因此其套利机制将更不完善；

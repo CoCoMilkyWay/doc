@@ -166,7 +166,7 @@ leiyun@orientsec.com.cn
 不同于原始的 Rank IC，风险调整 IC 定义如下：
 
 $$
-\begin{array}{l}{IC_{-}adj=corr(f_{pure},r_{residual})}\\{f_{pure}=f-b_{1}X-b_{2}\log(mktcap)}\\{r_{residual}=r-m_{1}X-m_{2}\log(mktcap)}\end{array}
+\begin{aligned}&IC_{-}adj=Corr(f_{pure},r_{residual})\\&f_{pure}=f-b_{1}X-b_{2}\log(mktcap)\\&r_{residual}=r-m_{1}X-m_{2}\log(mktcap)\\\end{aligned}
 $$
 
 其中 X是行业虚拟变量矩阵，log(mktcap)是总市值的对数, f 是上个月末的原始因子值， r是当月个股的收益率。即每个月末进行 OLS横截面回归，得到每个股票的风险调整后因子值和风险调整后的收益率。和普通的 IC相比，风险调整 IC在一定程度上剔除了 A股的主要风格（行业和市值）对于因子绩效指标 IC的影响，更加纯净地反映出因子本身的预测能力，适合在 alpha模型中作为因子权重配置的参考指标。
@@ -279,7 +279,7 @@ $$
 前面一小节中，我们完成了对情景分层因子的挑选和分析，接下来，我们的目标是对个股在不同情景分层上的属性进行定量刻画。前面的分析中，我们按照情景因子的得分，直接把全市场的股票划分为两块。而实际操作中，属于同一分层的股票的特征可能也存在更细微的差别，比如全市场估值最高的 10%的股票和估值最高的 40%的股票可能存在一些区别，直观而言，如果一个股票的估值越高，它更加能够被高估值的特征所描绘。这里，我们定义一个距离
 
 $$
-\begin{array}{l}{d=\displaystyle\frac{percentile(S_{i})-101}{101}\times10,~ifpercentile(S_{i})\le50}\\{d=\displaystyle\frac{percentile(S_{i})}{101}\times10,~ifpercentile(S_{i})>50}\end{array}
+\begin{aligned}&d=\frac{percentile(S_{i})-101}{101}\times10,ifpercentile(S_{i})\leq50\\&d=\frac{percentile(S_{i})}{101}\times10,ifpercentile(S_{i})>50\\\end{aligned}
 $$
 
 将股票在情景因子上得分的百分位排序转化为一个得分，以此描述股票的情景相似度。

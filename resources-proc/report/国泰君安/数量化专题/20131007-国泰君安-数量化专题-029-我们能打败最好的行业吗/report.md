@@ -168,43 +168,43 @@ liufubing008481@gtjas.com
 ## 定义 1：市场标准向量
 
 $$
-\boldsymbol X_{\scriptscriptstyle t}=(x_{scriptscriptstyle(t,1)},...x_{_{(t,d)}})
+X_{t}=(x_{(t,1)},\ldots x_{(t,d)})
 $$
 
-其中 $\boldsymbol{x}_{(t,i)}$ 表示组合中的某一资产i 在第t 交易段的收盘价比上一期的收盘价，即：
+其中 $x_{(t,i)}$ 表示组合中的某一资产i 在第t 交易段的收盘价比上一期的收盘价，即：
 
 $$
-x_{{_t}}=\frac{P_{{_t}}}{P_{{_t}-1}}
+x_{_{t}}=\frac{P_{_{t}}}{P_{_{t-1}}}
 $$
 
 定义 2：时间窗口W
 
 $$
-\boldsymbol{X}_{t-W}^{\ t-1}\ =(\boldsymbol{X}_{t-W}\ ,...,\boldsymbol{X}_{t-1})
+X_{t-W}^{t-1}=(X_{t-W},...,X_{t-1})
 $$
 
-表示距离当期时间为W 的历史时间段。比如，当W • 2 时，2012 年 12月的当期市场走势即为 $(X_{\scriptscriptstyle{2012.11}},X_{\scriptscriptstyle{2012.12}})$
+表示距离当期时间为W 的历史时间段。比如，当W • 2 时，2012 年 12月的当期市场走势即为 $(X_{2012,11},X_{2012,12})$
 
 ## 定义 3：投资组合权重向量b
 
 $$
-\boldsymbol{b}_{{t}}^{}=(b_{(t,1)}^{},...,b_{(t,d)})
+b_{_t}=(b_{_{(t,1)}},\ldots,b_{_{(t,d)}})
 $$
 
-其中 $\boldsymbol{b}_{(t,i)}$ 表示第i 个资产在第t 期的权重。
+其中 $b_{_{(t,i)}}$ 表示第i 个资产在第t 期的权重。
 
 ## 定义 4：投资者资产总额
 
-假设投资者的原始资产为 $S_{\mathrm{\Omega_{0}}}$ ，则经过一期市场价格变动之后，投资者资产为：
+假设投资者的原始资产为 $S_{\mathrm{~0~}}$ ，则经过一期市场价格变动之后，投资者资产为：
 
 $$
-S_{_1}=S_{_0}\sum_{j=1}^{d}b_{_{(t,j)}}x_{_{(t,j)}}=S_{_0}<b,X>
+S_{_1}=S_{_0}\sum_{_{j=1}}^{^d}b_{_{(t,j)}}x_{_{(t,j)}}=S_{_0}<b,X>
 $$
 
 进一步的，在经过T 期之后，投资者的资产总额为：
 
 $$
-S_{\mathbf{\Phi}_{T}}=S_{\mathbf{\Phi}_{0}}\prod_{t=1}^{T}<b_{\mathbf{\Phi}_{t}},X_{\mathbf{\Phi}_{t}}>
+S_{_T}=S_{_0}\prod_{_{t=1}}^{^T}<b_{_t},X_{_t}>
 $$
 
 ## 2.2.2. 相似的定义-相关系数
@@ -215,7 +215,7 @@ $$
 
 然而，距离最大的问题在于只考虑了幅度，而没考虑方向。事实上，在找相似的时候，我们认为方向比幅度更重要。我们举个简单的例子加以说明：
 
-假设某组合只包含一个资产，市场窗口W • 2 ，相似性阀值 $c=0.2$ 。假设离今天最近的市场向量为 $\boldsymbol{X}_{n-2}^{\ n-1}=(1.10,1.10)$ 。考察下面三个存在的历史市场向量 A : (1 .1 0 ,1 .0 5 )， B : (0 .9 6, 0 .9 6 ) 和 C : (1 .2,1 .3) 。从直观上而言，显然向量A 和C 与X 拥有最为相同的走势，但是通过计算欧式距离结果，可以发现 $\left\|X-A\right\|=0.05<c,\left\|X-B\right\|=0.198<c$ $\left.X-C\right.=0.224>c$ ， 即模型选择了市场向量A 和B 作为了“历史相似集”，而C 被排除在外。
+假设某组合只包含一个资产，市场窗口W • 2 ，相似性阀值 $c=0.2$ 。假设离今天最近的市场向量为 $X_{n-2}^{n-1}=(1.10,1.10)$ 。考察下面三个存在的历史市场向量 A : (1 .1 0 ,1 .0 5 )， B : (0 .9 6, 0 .9 6 ) 和 C : (1 .2,1 .3) 。从直观上而言，显然向量A 和C 与X 拥有最为相同的走势，但是通过计算欧式距离结果，可以发现 $\left\|X-A\right\|=0.05<c,\quad\left\|X-B\right\|=0.198<c$ $\Big\|X-C\Big\|=0.224>c$ ， 即模型选择了市场向量A 和B 作为了“历史相似集”，而C 被排除在外。
 
 显然，这样的结果是有违大家的直观认识的，其最大的原因就是利用欧式距离判断相似性的方法，并没有考虑市场走势的方向变化。模型选择的相似历史向量虽然满足欧式距离小于阀值的要求，但其走势可能完全与当前走势相反，这就是欧式距离方法存在的最大问题。
 
@@ -226,79 +226,79 @@ $$
 为此，我们利用市场标准向量之间的相关系数作为其是否相似的标准，即设定阀值P ，当
 
 $$
-\frac{\mathrm{cov}(X_{i-w}^{\mathrm{\scriptsize~i-1}},X_{t-w}^{\mathrm{\scriptsize~t-1}})}{\sigma(X_{i-w}^{\mathrm{\scriptsize~i-1}})\sigma(X_{t-w}^{\mathrm{\scriptsize~t-1}})}\ge P
+\frac{\mathrm{cov}(X_{i-w}^{i-1},X_{t-w}^{t-1})}{\sigma(X_{i-w}^{i-1})\sigma(X_{t-w}^{t-1})}\geq P
 $$
 
 时，我们认为历史市场向量与当期市场向量相似。相关系数基本能弥补距离的缺憾，既考虑了走势的方向，同时又兼顾了幅度。
 
 ## 2.3.相似性匹配实现的具体算法
 
-在得到窗口W 下，所有的历史相似集 $\boldsymbol{X}_{\mathbf{\lambda}_{i-1}}$ 之后，我们根据所有相似集后
+在得到窗口W 下，所有的历史相似集 $X_{_{i-1}}$ 之后，我们根据所有相似集后
 
-一期的市场向量 $X_{\mathbf{\Omega}_{i}}$ ，利用最优化方法找到目标权重b ，使得所有 $X_{\mathrm{~i~}}$ 的累计收益达到最大化，即：
-
-$$
-b_{_w}=\mathrm{arg}\mathrm{m}\mathrm{ax}\prod_{i\in C_{w}}<b,X_{_i}>
-$$
-
-其中， $C_{w}$ 表示在时间窗口W 下的历史相似空间集合，即
+一期的市场向量 $X_{\textit{ i }}$ ，利用最优化方法找到目标权重b ，使得所有 $X_{\mathrm{~i~}}$ 的累计收益达到最大化，即：
 
 $$
-\mathcal{C}_{t}(w,\rho)=\Bigg\{w<i<t-1\Bigg|\frac{\mathrm{cov}(\mathbf{X}_{i-w}^{i-1},\mathbf{X}_{t-w}^{t-1})}{\mathrm{std}(\mathbf{X}_{i-w}^{i-1})\mathrm{std}(\mathbf{X}_{t-w}^{t-1})}\geq\rho\Bigg\},
+b_{_w}=\arg\max\prod_{_{i\in C_{_w}}}<b,X_{_i}>
 $$
 
-最后，在得到不同的时间窗口W 下，所有的优化权重 $b_{_w}$ 后，我们根据多参数组合的基本思想来组合所有的 $b_{_w}$ ，得到策略最终所需要的目标权重。
+其中， $C_{\mathrm{~w~}}$ 表示在时间窗口W 下的历史相似空间集合，即
+
+$$
+\mathcal{C}_{t}(w,\rho)=\left\{w<i<t-1\bigg|\frac{\mathsf{cov}(\mathbf{X}_{i-w}^{i-1},\mathbf{X}_{t-w}^{t-1})}{\mathsf{std}(\mathbf{X}_{i-w}^{i-1})\mathsf{std}(\mathbf{X}_{t-w}^{t-1})}\geq\rho\right\},
+$$
+
+最后，在得到不同的时间窗口W 下，所有的优化权重 $b_{_{w}}$ 后，我们根据多参数组合的基本思想来组合所有的 $b_{w}$ ，得到策略最终所需要的目标权重。
 
 相似匹配模型的具体算法如下：
 
 算法 1：
 
-输入变量：当日时间t ；历史市场向量X ；移动窗 $\varpi\ w$ ；相似系数阀值$\rho$
+输入变量：当日时间t ；历史市场向量X ；移动窗 $口_{W}$ ；相似系数阀值$\rho$
 
-输出变量：基本权重 $\boldsymbol{b}_{{t}}(\boldsymbol{w},\rho)$
+输出变量：基本权重 $b_{_t}(w,\rho)$
 
-1：初始化历史相似集 $C_{\mathrm{\Delta}_{t}}(w,\rho)=\emptyset$ ， i = w + 1 ，转入 2
+1：初始化历史相似集 $C_{t}(w,\rho)=\varnothing$ ， i = w + 1 ，转入 2
 
 2：若 $t\leq w+1$ 则转入 3；否则转入 4；
 
-3：输出 $b_{_t}(w,\rho)=(1/m,...,1/m)$ ，算法结束。
+3：输出 $b_{_t}(w,\rho)=(1/m,\ldots,1/m)$ ，算法结束。
 
 4：若 $i\in[w+1,t-1]$ ，转入 5；否则 $7;$
 
-5：若 $\rho(X_{i-w}^{\ i-1},X_{t-w}^{\ t-1})\ge\rho$ ，转入 $\begin{array}{r}{6;}\end{array}$ ；否则 $i=i+1$ ，转入 5；
+5：若 $\rho\left(X_{_{i-w}}^{^{i-1}},X_{_{t-w}}^{^{t-1}}\right)\geq\rho$ ，转入 $6;$ ；否则 $i=i+1$ ，转入 5；
 
-6： $C_{\mathbf{\Omega}_{t}}(w,\rho)=C_{\mathbf{\Omega}_{t}}(w,\rho)\cup\{i\}$ ， i = i + 1 ，转入 5;
+6： $C_{_t}(w,\rho)=C_{_t}(w,\rho)\cup\{i\}$ ， i = i + 1 ，转入 5;
 
-7：若 $C_{\mathrm{\Delta}_{t}}(w,\rho)\ =\ \mathcal{O}$ ，输出 $b_{_t}(w,\rho)=(1/m,...,1/m)$ ，算法结束；否则，转入 8；
+7：若 $C_{_t}\left(w,\rho\right)=\emptyset$ ，输出 $b_{_t}(w,\rho)=(1/m,\ldots,1/m)$ ，算法结束；否则，转入 8；
 
-8：求解 $b_{_t}(w,\rho)=\underset{b(w,\rho)\in\Delta_{m}}{\arg\operatorname*{max}}\prod_{i\in C,(w,\rho)}<b(w,\rho)\cdot x_{_i}>$ ，输出 $\boldsymbol{b}_{{}_{t}}({}w{},\rho{})$ ，算
+8：求解 $b_{_t}(w,\rho)=\underset{b(w,\rho)\in\Delta_{_m}}{\arg\max}\prod_{_{i\in C_{_t}(w,\rho)}}<b(w,\rho)\cdot x_{_i}>$ ，输出 $b_{_t}(w,\rho)$ ，算
 
 法结束。
 
 算法 2：
 
-输入变量：全部历史市场向量： $\boldsymbol{X}_{\mathrm{~1~}}^{\textit{ T }}=(X_{\mathrm{~1~}},...,X_{\textit{ T }})$ ；移动窗口最大值W ；
+输入变量：全部历史市场向量： $X_{\mathrm{~1~}}^{\mathrm{~}T}=(X_{\mathrm{~1~}},\dots,X_{\mathrm{~}T})$ ；移动窗口最大值W ；
 相似性阀值 $\rho$ ；
 
-输出变量：所有目标权重 ${B}_{1}^{\phantom{\dagger}T}$ ；
+输出变量：所有目标权重 $\boldsymbol{B}_{1}^{\textit{ T }}$ ；
 
-1：初始化 $S_{\mathrm{~0~}}=1$ $q\left(w,\rho\right)=1/W$ ， t • 1 ；
+1：初始化 $S_{_{\mathrm{~0~}}}=1$ $q\left(w,\rho\right)=1/W$ ， t • 1 ；
 
-2: 若t ≤ T ，令 w = 1 ，转入 3；否则输出 ${B}_{1}^{\phantom{\dagger}T}$ ，算法结束；
+2: 若t ≤ T ，令 w = 1 ，转入 3；否则输出 $\boldsymbol{B}_{1}^{\textit{ T }}$ ，算法结束；
 
-3：若 $w\le W$ ，转入 4；否则转入 5；
+3：若 $w\leq W$ ，转入 4；否则转入 5；
 
-4：运行算法 1，得到基本权重 $b_{{\scriptscriptstyle t}}(w,\rho),{\scriptscriptstyle w}=w+1$ ，转入 3；
+4：运行算法 1，得到基本权重 $b_{_{t}}(w,\rho),\quad w=w+1$ ，转入 3；
 
-5 ： 组 合 全 部 基 本 权 重 $b_{{\mathbf{\alpha}}_{t}}({\mathbf{\em w}}_{{\mathbf{\alpha}}}\rho,$ )， 得 到
+5 ： 组 合 全 部 基 本 权 重 $b_{_t}\left(w_{_\nu}\rho,\right.$ )， 得 到
 
-$\boldsymbol{b}_{t}=\frac\displaystyle\sum_{w,\rho}q(w\rho,s_{t-1})w\rho b_{t}(w\rho,\rho,$ ，转入 6；
+$b_{_t}=\frac{\sum_{_{w,\rho}}q\left(w\quad\rho,s_{_{t-1}}\quad w\quad\rho\quad b_{_t}(w\quad\rho)\right)}{\sum_{_{w,\rho}}q\left(w\quad\rho,s_{_{t-1}}\quad w\quad\rho\quad(\right.}$ ，转入 6；
 
-6：更新总财富值： $S_{\mathbf{\Phi}_{t}}=S_{\mathbf{\Phi}_{t-1}}\times<\boldsymbol{b}_{\mathbf{\Phi}_{t}}\cdot\boldsymbol{X}_{\mathbf{\Phi}_{t}}>$ ，转入 7；
+6：更新总财富值： $S_{_t}=S_{_{t-1}}\times<b_{_t}\cdot X_{_t}>$ ，转入 7；
 
 7 ： 更 新 全 部 基 本 策 略 的 总 财 富 值 ：
 
-$s_{{t}}(w,\rho)=s_{{t}-1}(w,\rho)\times{<{b}_{t}(w,\rho)\cdot{x}_{t}>},{t}={t}+1$ ，转入 2。
+$s_{_t}(w,\rho)=s_{_{t-1}}(w,\rho)\times<b_{_t}(w,\rho)\cdot x_{_t}>$ ，转入 2。
 
 ## 3. 相似匹配行业配置 A 股策略实证
 

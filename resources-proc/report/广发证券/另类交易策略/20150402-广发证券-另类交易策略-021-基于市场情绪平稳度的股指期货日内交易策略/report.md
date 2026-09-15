@@ -88,9 +88,9 @@ shichi@gf.com.cn
 
 一般意义上，最大回撤定义如下：
 
-给定一段时间序列， $\{\mathfrak{p}_{1},\mathfrak{p}_{2},...,\mathfrak{p}_{n}\}$
+给定一段时间序列， $\{\mathtt{p}_{1},\mathtt{p}_{2},...,\mathtt{p}_{n}\}$
 
-最大回撤 $\mathbf{\Phi}:=\operatorname*{max}_{j>i}(p_{i}-p_{j})/\mathbf{p}_{i}$
+最大回撤 $\max_{j>i}(p_i-p_j)/p_i$
 
 因此在单边上涨行情中，我们只需要计算各个点的平均最大回撤即可。
 
@@ -98,10 +98,10 @@ shichi@gf.com.cn
 
 然而对于下跌行情，我们需要对最大回撤的定义做出一定改动。
 
-反向最大回撤 $\mathbf{\delta}=-\operatorname*{min}_{j>i}(p_{i}-p_{j})/\mathbf{p}_{i}$
+反向最大回撤 $-\min_{j>i}(p_i-p_j)/p_i$
 
 $$
-\frac{1}{4}+\frac{1}{3}\geq\frac{0}{2}+\sqrt{2}\geq\frac{1\geq\frac{1}{2}}{1\sqrt{2}}=\frac{\sum\limits_{i=1}^{n}a_{i}\geq\frac{1}{2}\geq\frac{1}{2}\geq\frac{1}{2}}{n}+\sqrt{2}\geq\frac{1}{2}
+平均最大反向回撤=\frac{\sum\limits_{i=1}^{n}p_{i}处的最大反向回撤}{n}
 $$
 
 市场情绪平稳度 • min{平均最大回撤,平均最大反向回撤}

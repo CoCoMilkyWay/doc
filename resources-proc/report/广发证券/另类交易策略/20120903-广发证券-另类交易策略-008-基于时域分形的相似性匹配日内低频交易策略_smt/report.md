@@ -100,14 +100,14 @@ eMail：ann@gf.com.cn
 ![](images/e073cb473d05093381b07d359905add1e15cd489746c0962d06d4dff7b9c8e6b.webp)
 数据来源：广发证券发展研究中心
 
-基于 Takens 定 $\bar{\mathfrak{L}}\sharp^{1}$ ，针对一维时间序列进行相空间重构的基本思想是，对于时间序列 $\{x_{1},x_{2},\cdots,x_{n-1},x_{n},\cdots\}$ ，如果能够适当地选定嵌入维数m和时间延迟 ，重构相空间 $Y(t_{i})=[x(t_{i}),x(t_{i}+\tau)],x(t_{i}+2\tau)],\cdots,x(t_{i}+(m-1)\tau)],\ i=1,2,\ \cdots$ ，按照Takens 定理就可以在拓扑等价的意义下恢复吸引子。
+基于 Takens 定 $\left[理\right]^{1}$ ，针对一维时间序列进行相空间重构的基本思想是，对于时间序列 $\left\{x_{1},x_{2},\cdots,x_{n-1},x_{n},\cdots\right\}$ ，如果能够适当地选定嵌入维数m和时间延迟 ，重构相空间 $Y(t_i)=[x(t_i),x(t_i+\tau)],x(t_i+2\tau)],\cdots,x(t_i+(m-1)\tau)],i=1,2,\cdots$ ，按照Takens 定理就可以在拓扑等价的意义下恢复吸引子。
 
 对于相空间重构来说，嵌入维数m和时间延迟 的选取是非常关键的一步。目前对于这两者的选取有两大类算法，一类认为m和 之间是相互独立的，采用该思想的算法目前主要有序列相关法、相空间扩展法和复自相关法；另一类算法认为m和 是相互依赖的，如 C-C 方法。学术界目前对m和 之间的依赖关系并没有定论，但无论哪类算法，在目前的混沌理论中都已经被广泛应用并取得了较好的效果。本报告中，我们将采用 C-C 算法对 A股市场指数日涨跌幅时间序列的嵌入维数m和时间延迟 进行计算和比较。
 
 C-C2方法由H.Kim等人在 1999年提出，具有对小数据量可靠、抗噪声能力强、数学形式简洁等特点。该方法认为时间延迟 不应该独立于嵌入维数m，而应该依赖于延迟时间窗口（数据依赖的最长时间）
 
 $$
-\tau_{\scriptscriptstyle w}=(m-1)\tau\tag{1}
+\tau_{_{w}}=(m-1)\tau\tag{1}
 $$
 
 而通过关联积分， 和 $\tau_{w}$ 可以同时被估计。
@@ -115,13 +115,13 @@ $$
 关联积分由 Grassberger 和 Procaccia 于 1983 年提出3，在混沌理论研究中具有非常重要的地位，其在m维相空间中的定义为
 
 $$
-C(M,N,\varepsilon,\tau)=\frac{2}{M(M-1)}\sum_{1\leq i<j\leq M}H(\varepsilon-\left\|\vec{x}_{i}-\vec{x}_{j}\right\|),\quad\varepsilon>0\tag{2}
+C(M,N,\varepsilon,\tau)=\frac{2}{M(M-1)}\sum_{1\leq i<j\leq M}H(\varepsilon-\left\|\vec{x}_{i}-\vec{x}_{j}\right\|),\quad\varepsilon>0,\tag{2}
 $$
 
 其中 $M=N-(m-1)\tau$ ，N 是非线性时间序列的数据长度，x为相空间中的向量，H(x) 为 Heaviside 阶跃函数，定义为
 
 $$
-H(x)={\left\{\begin{array}{ll}{0}&{(x<0)}\\{1}&{(x\geq0)}\end{array}\right.}\tag{3}
+H(x)=\left\{\begin{aligned}&0&\quad(x<0),\\&1&\quad(x\geq0).\end{aligned}\right.\tag{3}
 $$
 
 ... 为最大范数， $\varepsilon>0$ 为某参量阈值。
@@ -129,13 +129,13 @@ $$
 “关联积分”名为“积分”，主要源于后来人们对连续系统的混沌研究。Brock等人在BDS 统计的研究中4，提出令F 为x在相空间中的不变分布，则上述关联积分的表达式可以写作全空间的积分形式
 
 $$
-C(m,\varepsilon)\sim\iint_{all}H(\varepsilon-\big\|\vec{x}-\vec{y}\big\|)dF(\vec{x})dF(\vec{y}),\quad\varepsilon>0\tag{4}
+C(m,\varepsilon)\sim\iint_{all}H(\varepsilon-\|\vec{x}-\vec{y}\|)dF(\vec{x})dF(\vec{y}),\quad\varepsilon>0\tag{4}
 $$
 
 注意，这里的定义要求自变量是独立同分布的。若如此，结合
 
 $$
-H(\varepsilon-\left\|{\vec{x}}-{\vec{y}}\right\|)=\prod_{k=1}^{m}H(\varepsilon-\left|x_{k}-y_{k}\right|)\tag{5}
+H(\varepsilon-\|\vec{x}-\vec{y}\|)=\prod_{k=1}^{m}H(\varepsilon-|x_{k}-y_{k}|)\tag{5}
 $$
 
 可以得到
@@ -147,31 +147,31 @@ $$
 其中定义
 
 $$
-C(1,\varepsilon)=\int\big[F(x+\varepsilon)-F(x-\varepsilon)\big]dF(x)\equiv C\tag{7}
+C(1,\varepsilon)=\int\left[F(x+\varepsilon)-F(x-\varepsilon)\right]dF(x)=C\tag{7}
 $$
 
 Denker 和 Keller 证明了 $C(m,\varepsilon)$ 的离散统计量 $C(m,N,\varepsilon)$ 为 U 统计量5，Brock等人运用该结论，证明了当 $N\to\infty$ 时， $\sqrt{N}\Big[C(m,N,\varepsilon)-C^{m}(1,\varepsilon)\Big]$ 服从均值为零的正态分布，方差为
 
 $$
-\sigma^{2}(m,r)=4{\bigg[}K^{m}-C^{2m}+2{\sum_{i=1}^{m-1}}{\left(K^{m-i}C^{2i}-C^{2m}\right)}{\bigg]}\tag{8}
+\sigma^{2}(m,r)=4\left[K^{m}-C^{2m}+2\sum_{i=1}^{m-1}\left(K^{m-i}C^{2i}-C^{2m}\right)\right]\tag{8}
 $$
 
 其中
 
 $$
-K\equiv\int\bigl[F(x+\varepsilon)-F(x-\varepsilon)\bigr]^{2}dF(x)\tag{9}
+K\equiv\int\left[F(x+\varepsilon)-F(x-\varepsilon)\right]^2dF(x)\tag{9}
 $$
 
 由此，可以定义 BDS统计量
 
 $$
-BDS(m,N,\varepsilon)={\frac{\sqrt{N}}{\sigma(m,\varepsilon)}}{\big[}C(m,N,\varepsilon)-C^{m}(1,\varepsilon){\big]}\tag{10}
+BDS(m,N,\varepsilon)=\frac{\sqrt{N}}{\sigma(m,\varepsilon)}\left[C(m,N,\varepsilon)-C^{m}(1,\varepsilon)\right]\tag{10}
 $$
 
 其应该符合标准正态分布。但由于我们往往并不知道相空间中变量的具体分布形式F ，因此参数C和K以及由其定义的 $\sigma^{2}(m,r)$ 需要由样本数据进行估计—— $C(1,\varepsilon)$ 可以由离散量 $C(1,N,\varepsilon,\tau)$ 估计， $\sigma^{2}(m,r)$ 则可由
 
 $$
-\hat{\sigma}^{2}=4\left\{{m(m-1)}\hat{C}^{2(m-1)}(\hat{K}-\hat{C}^{2})+{\hat{K}^{m}}-\hat{C}^{2m}\right.\nonumber\tag{11}
+\hat{\sigma}^{2}=4\left\{\begin{aligned}&m(m-1)\hat{C}^{2(m-1)}(\hat{K}-\hat{C}^{2})+\hat{K}^{m}-\hat{C}^{2m}\\&+2\sum_{i=1}^{m-1}\left[C^{2i}(\hat{K}^{m-i}-\hat{C}^{2(m-i)})-m\hat{C}^{2(m-i)}(\hat{K}-\hat{C}^{2})\right]\end{aligned}\right\}\tag{11}
 $$
 
 估计，其中
@@ -181,60 +181,60 @@ $$
 $$
 
 $$
-\hat{K}=\frac{6}{M(M-1)(M-2)}\sum_{1\le i<j<k\le M}H(\varepsilon-\Bigl\|\vec{x}_{i}-\vec{x}_{j}\Bigr\|)H(\varepsilon-\Bigl\|\vec{x}_{j}-\vec{x}_{k}\Bigr\|)\tag{13}
+\hat{K}=\frac{6}{M(M-1)(M-2)}\sum_{1\leq i<j<k\leq M}H(\varepsilon-\left\|\vec{x}_{i}-\vec{x}_{j}\right\|)H(\varepsilon-\left\|\vec{x}_{j}-\vec{x}_{k}\right\|)\tag{13}
 $$
 
 由此，BDS统计量可以记作
 
 $$
-BDS(m,N,\varepsilon)=\frac{\sqrt{N}}{\hat{\sigma}}\Big[C(m,N,\varepsilon,\tau)-C^{m}(1,N,\varepsilon,\tau)\Big]\tag{14}
+BDS(m,N,\varepsilon)=\frac{\sqrt{N}}{\hat{\sigma}}\left[C(m,N,\varepsilon,\tau)-C^{m}(1,N,\varepsilon,\tau)\right]\tag{14}
 $$
 
 可以看出，当 $N\to\infty$ 时 BDS统计量是一个符合标准正态分布的统计量。
 
 BDS 统计量的主要用作是计算混沌动力学系统关联维的相关参数，但我们这里不去过多考虑其细节。我们仅仅利用它的性质计算混沌时间序列的参数m和 。从理论上来讲，由于（6）式，在 $N\to\infty$ 时，BDS 统计量的期望应该趋近于零，这也是其满足标准正态分布的体现。因此，我们可以通过设计参数m和 ，使得（14）式的期望在数值计算中逼近于零，从而得到m和 的最优估计。
 
-因此，当具有一列长度为N 的非线性时间序列时，我们可以首先按照给定的时间延迟 ，将其划分为相空间中 组互不相交的子时间序列。C-C方法主要研究 BDS统计量（14）式括号中关联积分的差，当 $\tau=1$ 时，子时间序列只有 $\{x_{1},x_{2},...,x_{N}\}-\xi!]$ 则（14）式括号内部分的期望可以写作
+因此，当具有一列长度为N 的非线性时间序列时，我们可以首先按照给定的时间延迟 ，将其划分为相空间中 组互不相交的子时间序列。C-C方法主要研究 BDS统计量（14）式括号中关联积分的差，当 $\tau=1$ 时，子时间序列只有 $\{x_1,x_2,\ldots,x_N\}一列$ 则（14）式括号内部分的期望可以写作
 
 $$
-\overline{{S}}(m,N,\varepsilon,1)=C(m,N,\varepsilon,1)-C^{m}(1,N,\varepsilon,1)\tag{15}
+\overline{{S}}(m,N,\varepsilon,\mathrm{l})=C(m,N,\varepsilon,\mathrm{l})-C^{m}(\mathrm{l},N,\varepsilon,\mathrm{l})\tag{15}
 $$
 
 而当 $\tau=2$ 时，两列子时间序列分别为 $\{x_{1},x_{3},...,x_{N-1}\}$ 和 $\{x_{2},x_{4},...,x_{N}\}$ ，每列的长度为 $N/2$ 。统计量 $S(m,N,\varepsilon,2)$ 的期望可以记为
 
 $$
-\overline{{S}}(m,N,\varepsilon,2)=\frac{1}{2}\{\begin{array}{l}{{\displaystyle[C_{1}(m,N/2,\varepsilon,2)-C_{1}^{m}(1,N/2,\varepsilon,2)]}}\\{{\displaystyle+[C_{2}(m,N/2,\varepsilon,2)-C_{2}^{m}(1,N/2,\varepsilon,2)]\}}}\end{array}\tag{16}
+\bar{S}(m,N,\varepsilon,2)=\frac{1}{2}\left\{\left[C_{1}(m,N/2,\varepsilon,2)-C_{1}^{m}(1,N/2,\varepsilon,2)\right]\right\}^{-1}\left[\left[C_{2}(m,N/2,\varepsilon,2)-C_{2}^{m}(1,N/2,\varepsilon,2)\right]\right]^{-1}\tag{16}
 $$
 
 对于更一般的 ，可以记作
 
 $$
-\overline{{S}}(m,N,\varepsilon,\tau)=\frac{1}{\tau}\sum_{s=1}^{\tau}\Bigl[C_{s}(m,\varepsilon,\tau)-C_{s}^{m}(1,\varepsilon,\tau)\Bigr]\tag{17}
+\bar{S}\left(m,N,\varepsilon,\tau\right)=\frac{1}{\tau}\sum_{s=1}^{\tau}\left[C_{s}\left(m,\varepsilon,\tau\right)-C_{s}^{m}\left(1,\varepsilon,\tau\right)\right]\tag{17}
 $$
 
-前面提到，在 $N\to\infty$ 时， $\overline{{S}}(m,N,\varepsilon,\tau)0$ 。而对于有限时间序列，我们可以通过 $\bar{S}-\tau$ 函数关系找出 $\bar{S}$ 零点附近的 值作为系统的时间延迟。在这一计算过程中，对于同一 值，扫描所有的m和 ， $\bar{S}$ 都应该近似的为同一个值。因此，还有另一种办法估计 ，即通过改变 ，使得S 的变化最小，即找到使得
+前面提到，在 $N\to\infty$ 时， $\overline{{S}}(m,N,\varepsilon,\tau)\to0$ 。而对于有限时间序列，我们可以通过 $\overline{{S}}-\tau$ 函数关系找出 $\bar{S}$ 零点附近的 值作为系统的时间延迟。在这一计算过程中，对于同一 值，扫描所有的m和 ， $\overline{{S}}$ 都应该近似的为同一个值。因此，还有另一种办法估计 ，即通过改变 ，使得S 的变化最小，即找到使得
 
 $$
-\Delta S(m,\tau)=\mathrm{max}\{S(m,r_{j},\tau)\}-\mathrm{min}\{S(m,r_{j},\tau)\}\tag{18}
+\Delta S(m,\tau)=\max\{S(m,r_{j},\tau)\}-\min\{S(m,r_{j},\tau)\}\tag{18}
 $$
 
 最小的 ，即为动力学系统的时间延迟。在这一个过程中，不同的m理论上也不应该改变 $\Delta S(m,\tau)$ 的值。
 
-在实际计算过程中，往往会对上面的一些参数进行扫描，取结果的平均值作为 BDS统计量期望的估计。例如对于 $\bar{S}$ 的计算，经验上可以将参数在 $2\leq m\leq5$ $\sigma^{\prime}/2\leq\varepsilon\leq2\sigma^{\prime}$ 的范围内进行扫描， $\sigma^{\prime}$ 为整体时间序列的标准差，即将
+在实际计算过程中，往往会对上面的一些参数进行扫描，取结果的平均值作为 BDS统计量期望的估计。例如对于 $\overline{{S}}$ 的计算，经验上可以将参数在 $2\leq m\leq5$ $\sigma^{\prime}/2\leq\varepsilon\leq2\sigma^{\prime}$ 的范围内进行扫描， $\sigma^{\prime}$ 为整体时间序列的标准差，即将
 
 $$
-\overline{{S}}(\tau)=\frac{1}{16}\sum_{m=2}^{5}\sum_{j=1}^{4}S(m,\varepsilon_{j},\tau)\tag{19}
+\overline{{S}}(\tau)=\frac{1}{16}\sum_{m=2}^{5}\sum_{j=1}^{4}S(m,\varepsilon_{j},\tau),\tag{19}
 $$
 
 作为 $S(m,N,\varepsilon,\tau)$ 的估计，而将
 
 $$
-\Delta\bar{S}(\tau)=\frac14\sum_{m-2}^{5}\Delta S(m,\tau)\tag{20}
+\Delta\overline{{S}}(\tau)=\frac{1}{4}\sum_{m=2}^{5}\Delta S(m,\tau)\tag{20}
 $$
 
 作为 $\Delta S(m,\tau)$ 的估计。
 
-通过对不同的 扫描进行数值模拟，从而得到 $\overline{{S}}(\tau)$ 的第一个零点或 $\Delta\bar{S}(\tau)$ 的第一个极小值，其所对应的 即为系统最优的时间延迟。
+通过对不同的 扫描进行数值模拟，从而得到 $\overline{{S}}(\tau)$ 的第一个零点或 $\Delta\overline{{S}}(\tau)$ 的第一个极小值，其所对应的 即为系统最优的时间延迟。
 
 按照 Kim等人的研究结果2，定义t的函数
 
@@ -242,7 +242,7 @@ $$
 S_{cor}(t)=\Delta\overline{{S}}(t)+\left|\overline{{S}}(t)\right|\tag{21}
 $$
 
-$S_{cor}(t)$ 的最小值所对应的t即为（1）式中的延迟时间窗口 $\tau_{{\scriptscriptstyle w}}$ ，并且由上面已经得到的系统最优时间延迟 ，可以通过（1）式计算出动力学系统重构后相空间的维数m。
+$S_{cor}(t)$ 的最小值所对应的t即为（1）式中的延迟时间窗口 $\tau_{w}$ ，并且由上面已经得到的系统最优时间延迟 ，可以通过（1）式计算出动力学系统重构后相空间的维数m。
 
 至此，动力学系统的两个重要参数 和m已经可以从理论上通过 C-C 方法获得。接下来，就可以利用最大Lyapunov 指数这一工具对时间序列是否具有分形性质，或者说时间序列是否是混沌的做出判定。
 
@@ -253,23 +253,23 @@ $S_{cor}(t)$ 的最小值所对应的t即为（1）式中的延迟时间窗口 $
 仍然假设长度为N 的时间序列 $\{x_{1},x_{2},\cdots,x_{N-1},x_{N}\}$ ，根据 C-C方法，已经得到其时间延迟 和相空间维数m，则经过重构后的相空间可以写作
 
 $$
-Y_{i}=(x_{i},x_{i+\tau},\cdots,x_{i+(m-1)\tau})\in R^{m},{}~i=1,2,\cdots,M\tag{22}
+Y_{i}=(x_{i},x_{i+\tau},\cdots,x_{i+(m-1)\tau})\in R^{m},\quad i=1,2,\cdots,M\tag{22}
 $$
 
 其中 $M=N-(m-1)\tau$
 
-进行相空间重构之后，我们要寻找其中吸引子每个轨迹点在不同分形轨道上的最近邻点，从而观察相空间中点的收敛或发散情况。若相空间中的某两点的距离记作 $\boldsymbol{d}_{\ j}$ ，则按照动力学系统的指数变化规律，可以通过（23）式定义 Lyapunov指数
+进行相空间重构之后，我们要寻找其中吸引子每个轨迹点在不同分形轨道上的最近邻点，从而观察相空间中点的收敛或发散情况。若相空间中的某两点的距离记作 $d_{j}$ ，则按照动力学系统的指数变化规律，可以通过（23）式定义 Lyapunov指数
 
 $$
-d\mathbf{\omega}_{j}(t)=d\mathbf{\omega}_{j}(0)\exp(\lambda t)\tag{23}
+d_{j}(t)=d_{j}(0)\exp(\lambda t)\tag{23}
 $$
 
 可以看出，当 $\lambda\leq0$ 时，系统对应于收敛的非混沌属性，距离相近的初始条件在相空间中演化趋于闭合或稳定；而当λ>0时，由于exp(λt)随时间严格单调递增，系统吸引子在相近的初始条件下，轨迹将逐渐分离，则可证明该系统是混沌的。
 
-通过在重构后的相空间中计算最近邻点距离的方法获得 Lyapunov 指数 是由Sato等人最早提出 $\sharp\sharp^{6}$ 。按照（22）式定义的相空间，吸引子上第 j个点与其距离最近的点 $Y_{k}$ 之间的初始距离为
+通过在重构后的相空间中计算最近邻点距离的方法获得 Lyapunov 指数 是由Sato等人最早提出 $的^{6}$ 。按照（22）式定义的相空间，吸引子上第 j个点与其距离最近的点 $Y_{k}$ 之间的初始距离为
 
 $$
-d_{j}(0)=\operatorname*{min}\mid Y_{j}-Y_{k}\mid\tag{24}
+d_{j}(0)=\min\left|Y_{j}-Y_{k}\right|\tag{24}
 $$
 
 为了保证最近邻点来自不同的吸引子轨道（而不是在同一轨道上由于时间间隔较短、相空间中点运动较慢而引起），我们对（24）式额外加一个限制条件|j-k≥∆t $\Delta t$ 是动力学系统的平均周期。基于混沌系统的整体稳定性（非全局发散），系统必然在相空间中呈现出一部分的周期属性，因此可以用傅里叶变换大致估计吸引子运动的周期•t 。
@@ -277,7 +277,7 @@ $$
 傅里叶变换是在时频分析中最为常用的一种积分变换，它可以将时域上的函数f(t)变换到频域上，从而通过频谱估计出系统的周期。其最初在连续函数上的定义为
 
 $$
-F(\omega)=\int_{-\infty}^{\infty}f(t)e^{-i\omega t}dt\tag{25}
+F(\omega)=\int\limits_{-\infty}^{\infty}f(t)e^{-i\omega t}dt.\tag{25}
 $$
 
 观察F(•)在频域上的最大值，通过其所对应的频率成分 $\omega_{0}$ ，即可得到系统的最小周期 $\Delta t_{m}=2\pi/\omega_{0}$ 。在离散系统中，通常通过基本思想与上述连续函数傅里叶变换相同的快速傅里叶变换方法（FFT）计算系统演化的周期。由于本报告的主要内容不在于此，并且该算法在目前主流的数值计算函数库中均已包括，因此我们不再详述。通过 FFT计算出系统的最小周期 $\Delta t_{m}$ ，即可作为系统的估算周期•t。
@@ -285,13 +285,13 @@ $$
 Sato等人提出的方法是通过计算吸引子不同分形轨道上轨迹点最近邻点的平均发散速率来估计 Lyapunov指数，即
 
 $$
-\lambda(i)=\frac{1}{i\Delta t}\frac{1}{M-i}\sum_{j=1}^{M-i}\ln\frac{d_{j}(i)}{d_{j}(0)}\tag{26}
+\lambda(i)=\frac{1}{i\Delta t}\frac{1}{M-i}\sum_{j=1}^{M-i}\ln\frac{d_j(i)}{d_j(0)}\tag{26}
 $$
 
 上式使 Lyapunov 指数的意义变得更加清晰——相空间中不同分形轨道变化的平均速率。其思想与（23）式相似，结合（23）式，可以进一步得到
 
 $$
-\mathrm{ln}d_{j}(i)=\mathrm{ln}d_{j}(0)+\lambda(i\Delta t)\tag{27}
+\ln d_{j}(i)=\ln d_{j}(0)+\lambda(i\Delta t)\tag{27}
 $$
 
 由上式可以看出，此时的 Lyapunov 指数相当（27）式拟合函数的斜率，可以通过最小二乘法求得。
@@ -300,15 +300,15 @@ $$
 
 我们选取沪深 300 指数从2005 年4 月 8日至 2012 年 7 月 31 日共 1779 个交易日的收益率（涨跌幅）时间序列，计算它们的最大 Lyapunov指数，观察是否具有分形性质。
 
-首先采用 C-C 方法确定相空间维数和时间延迟。根据（19）（20）（21）式，我们可以通过数值计算分别得到 $\bar{S}$ 、 $\Delta\bar{S}$ 和 $S_{cor}$ 随时间延迟 变化的情况，如图 3所示。
+首先采用 C-C 方法确定相空间维数和时间延迟。根据（19）（20）（21）式，我们可以通过数值计算分别得到 $\overline{{S}}$ 、 $\Delta\overline{{S}}$ 和 $S_{cor}$ 随时间延迟 变化的情况，如图 3所示。
 
 图3：沪深300指数收益率时间序列的混沌参数计算
 ![](images/8059476b37b0c37ca4642a5e1193899fd24fff23bbfbc6477d101d10aa56fd35.webp)
 数据来源：广发证券发展研究中心
 
-其中蓝色的“+”和绿色的“•”分别代表（19）式中的 $\bar{S}$ 和（20）式中的 $\Delta\bar{S}$ ，而红色的“*”代表（21）式中的 $S_{cor}$ 。通过遍历时间延迟，可以看出 $\dot{\mathcal{P}}$ 深 300指数收益率序列的混沌参数： $\bar{S}$ 的第一个零点及 $\Delta\bar{S}$ 的第一个极小值均出现在 •7附近，因此，我们认为沪深 300指数收益率（涨跌幅）序列的时间延迟 •7（个交易日）。而 $S_{cor}$ 的最小值也出现在t=7附近，结合（1）式，可以得到相空间维数m=2。
+其中蓝色的“+”和绿色的“•”分别代表（19）式中的 $\overline{{S}}$ 和（20）式中的 $\Delta\overline{{S}}$ ，而红色的“*”代表（21）式中的 $S_{cor}$ 。通过遍历时间延迟，可以看出 $浐$ 深 300指数收益率序列的混沌参数： $\overline{{S}}$ 的第一个零点及 $\Delta\overline{{S}}$ 的第一个极小值均出现在 •7附近，因此，我们认为沪深 300指数收益率（涨跌幅）序列的时间延迟 •7（个交易日）。而 $S_{cor}$ 的最小值也出现在t=7附近，结合（1）式，可以得到相空间维数m=2。
 
-在得到相空间重构的两个参数之后，我们就可以就算沪深 300 指数收益率时间序列的Lyapunov指数。通过FFT对离散时间序列进行傅里叶变换后，得到时间序列的平均周期 $\Delta t=9.663$ 。代入τ=7及m=2，通过对（27）式进行线性回归，得到沪深300指数收益率时间序列的 Lyapunov 指数 $L_{\mathfrak{g}\sharp\sharp\sharp300}{=}0.0930$
+在得到相空间重构的两个参数之后，我们就可以就算沪深 300 指数收益率时间序列的Lyapunov指数。通过FFT对离散时间序列进行傅里叶变换后，得到时间序列的平均周期 $\Delta t=9.663$ 。代入τ=7及m=2，通过对（27）式进行线性回归，得到沪深300指数收益率时间序列的 Lyapunov 指数 $L_{沪深300}=0.0930$
 
 图4：沪深300指数收益率时间序列的 Lyapunov指数（虚线斜率）
 ![](images/4cb55547518719ef85f6a9502dbdf15ff8e02371566a90fb7d987d8d01866a5e.webp)
@@ -346,7 +346,7 @@ $$
 
 在557个交易日中，SMT策略（20分钟频率）在沪深300股指期货上获得累积收益率10.57%，最大回撤为-9.56%，预测成功率50.47%。我们通过逐笔交易仔细分析了风险收益情况的恶化原因，发现其主要来自于基差朝不利方向变动。
 
-对于期、现货市场形成的基差，由于套利者的存在，一般都在一定范围内波动，不会因为时间的延长而产生波动率 $\sigma_{\#\sharp\sharp}^{2}$ 增加的情况。但是对于期指而言，如果按照传统随机理论，价格的波动 ${\boldsymbol{\sigma}}_{\sharp\sharp\sharp}^{2}$ 会随时间的延长而增加。这样来看，如果降低上述SMT策略的交易频率，则基差波动对策略所带来的影响可能会由于信噪比 $\sigma_{\plus\ncong}^{2}/\sigma_{\#\ncong}^{2}$ 的升高而降低。因此，我们接下来要尝试在更低频率中将SMT策略应用于沪深300股指期货。
+对于期、现货市场形成的基差，由于套利者的存在，一般都在一定范围内波动，不会因为时间的延长而产生波动率 $\sigma^{2}_{基差}$ 增加的情况。但是对于期指而言，如果按照传统随机理论，价格的波动 $\sigma^{2}_{期指}$ 会随时间的延长而增加。这样来看，如果降低上述SMT策略的交易频率，则基差波动对策略所带来的影响可能会由于信噪比 $\sigma^{2}_{期指}/\sigma^{2}_{基差}$ 的升高而降低。因此，我们接下来要尝试在更低频率中将SMT策略应用于沪深300股指期货。
 
 ## （四）低频SMT策略
 
@@ -376,7 +376,7 @@ $$
 
 ## （五）加入动态止损机制的低频SMT策略
 
-由于上述低频 SMT 策略的最大回撤太大，我们认为有必要加入相应的止损机制。假设通过上午沪深 300 指数的相似性匹配，发现在历史上相似的行情中，大多数交易日午后都出现了上涨（下跌）情况，则认为午后应该开多（空）仓，并记这部分交易日为{ } D 。记所有{ } D 交易日午后最大跌（涨）幅的均值为 $\bar{A}$ ，则在午后对股指期货进行开仓后，如果期货的跌（涨）幅达到 $\overset{\_}{A}$ ，则认为上午的相似性匹配预测可能出现了偏差，并对期货合约在该点位进行平仓止损。由于止损点 $\bar{A}$ 的计算与每日的历史数据库匹配数据有关，因此该止损策略实际上是一种动态的止损机制。加入止损策略后的回测结果如图8和表2所示。
+由于上述低频 SMT 策略的最大回撤太大，我们认为有必要加入相应的止损机制。假设通过上午沪深 300 指数的相似性匹配，发现在历史上相似的行情中，大多数交易日午后都出现了上涨（下跌）情况，则认为午后应该开多（空）仓，并记这部分交易日为{ } D 。记所有{ } D 交易日午后最大跌（涨）幅的均值为 $\bar{A}$ ，则在午后对股指期货进行开仓后，如果期货的跌（涨）幅达到 $\bar{A}$ ，则认为上午的相似性匹配预测可能出现了偏差，并对期货合约在该点位进行平仓止损。由于止损点 $\bar{A}$ 的计算与每日的历史数据库匹配数据有关，因此该止损策略实际上是一种动态的止损机制。加入止损策略后的回测结果如图8和表2所示。
 
 图8：加入止损机制的沪深 300股指期货 SMT策略回测效果
 ![](images/6b4407e12d8c038d72d9a0914531c7d5259e82f8aa30a5da76bfef9cebe39a60.webp)

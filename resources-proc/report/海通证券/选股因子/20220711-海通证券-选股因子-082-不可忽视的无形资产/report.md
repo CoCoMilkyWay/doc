@@ -60,7 +60,7 @@ $$
 B_{i,t}^{INT}=B_{i,t}-GDWL_{i,t}+INT_{i,t}
 $$
 
-其中， $\mathsf{B}_{\mathrm{i,t}}$ 是公司账面价值， $\mathsf{GDWL}_{\mathrm{i,t}}$ 是商誉， $\mathsf{INT}_{\mathrm{i,t}}$ 是无形资产价值。
+其中， $\mathsf{B_{i,t}}$ 是公司账面价值， $\mathsf{GDWL_{i,t}}$ 是商誉， $\sf{INT}_{i,t}$ 是无形资产价值。
 
 至于无形资产的度量，我们参考 Dion Bongaerts, Xiaowei Kang, Mathijs van Dijk2022 年发表的文章《The Intangibles Premium: Risk or Mispricing?》1，将内部创造的无形资产资本化。具体包括知识资本（KC）和组织资本（OC）两部分：
 
@@ -71,16 +71,16 @@ $$
 知识资本通过累加公司的研发支出来估算：
 
 $$
-KC_{i,t}=(1-\delta_{R8D})\cdot KC_{i,t-1}+R\&D_{i,t}
+KC_{i,t}=\left(1-\delta_{R\&D}\right)\cdot KC_{i,t-1}+R\&D_{i,t}
 $$
 
-其中， ${\mathsf{KC}}_{\mathrm{i,t}}$ 是 t期末的知识资本， $\delta_{\tt R8D}$ 是折现率（取 30%）， $\mathsf{R}\&\mathsf{D}_{\mathrm{i,t}}$ 是 t 期的研发支出。初始知识资本为：
+其中， $\mathsf{KC}_{\mathrm{i,t}}$ 是 t期末的知识资本， $\delta_{\mathsf{R}\&\mathsf{D}}$ 是折现率（取 30%）， $\mathsf{R}\&\mathsf{D}_{\mathsf{i},\mathsf{t}}$ 是 t 期的研发支出。初始知识资本为：
 
 $$
 KC_{i,0}=R\&D_{i,1}/(g+\delta_{R\&D})
 $$
 
-其中， $\mathsf{R}\&\mathsf{D}_{\mathsf{i},1}$ 是最早可获得的研发支出数据。g取 20%，是 2006 年以来（可获得研发支出的最早日期）股票研发支出的平均增速。
+其中， $\mathsf{R}\&\mathsf{D}_{\mathsf{i},\mathsf{1}}$ 是最早可获得的研发支出数据。g取 20%，是 2006 年以来（可获得研发支出的最早日期）股票研发支出的平均增速。
 
 组织资本则可使用部分销售及管理费用（ ）作为代理变量。同样参考前文提到的文献，我们将 SG&A费用的 30%作为组织资本，未资本化的其余 70%的 SG&A费用则视作支持当前而非未来运营的成本。相应地，公司内部创造的组织资本通过累加的 费用来构建：
 
@@ -88,7 +88,7 @@ $$
 OC_{i,t}=(1-\delta_{SG\&A})\cdot OC_{i,t-1}+30\%*SG\&A_{i,t}
 $$
 
-其中， ${\mathsf{OC}}_{\mathrm{i,t}}$ 是 t 期末的组织资本， $\mathtt{\delta_{SG8A}}$ 是折现率（取 30%）， $\mathsf{SG}\&\mathsf{A}_{\mathrm{i,t}}$ 是 t 期的销售及管理费用。初始组织资本按照与知识资本相同的方式处理。
+其中， $\mathsf{OC_{i,t}}$ 是 t 期末的组织资本， $\delta_{\mathsf{SGRA}}$ 是折现率（取 30%）， $\mathsf{SGRA}_{1,\mathrm{t}}$ 是 t 期的销售及管理费用。初始组织资本按照与知识资本相同的方式处理。
 
 A股企业的无形资产占总资本之比处于一个较高的水平，截止 2021 年年报，占比为 13.8%。不同行业的无形资产占比差异较大，消费行业，如家电、消费者服务等，提升品牌价值的广告、销售支出较高；技术性行业，如计算机、医药等，研发投入比较大，相应的无形资产占比都比较高。而煤炭、有色金属、交运等周期行业，研发投入和管理销售支出都较少，无形资产占比相对较低。
 

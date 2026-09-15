@@ -92,7 +92,7 @@ suchen@gjzq.com.cn
 基于上述优势，我们利用快照数据构建因子对日内价格与成交量的相关关系进行衡量，捕捉上文中提到的量价趋同/背离特征。衡量两个因素相关关系的直接方法就是计算相关系数。对于价格来说，我们选取快照成交价和快照收益率（即快照成交价相比上个快照成交价的变化）。对于成交量来说，我们不仅选取了快照成交量，而且选取了成交笔数，同时还计算了每笔成交量。我们共构建了如下六个因子：
 
 $$
-\begin{array}{rl}&{\begin{array}{c}{CorrPM-Corr(Price_{i}.Mateh_{i})}\\{CorrPV-Corr(Price_{i}.Volume_{i})}\end{array}}\\&{\begin{array}{c}{CorrPVH-Corr(Price_{i}.Volume_{i})}\\{CorrPVPH-Corr\Big(Price_{i}.Volume_{i}\Big)}\end{array}}\\&{\begin{array}{c}{CorrPVH-Corr\Big(Price_{i}.}\\{CorrRH-}\end{array}\Big.}\\{\begin{array}{c}{CorrPrM-Corr\Big(\frac{Price_{i}}{Price_{i-1}}-1,Match_{i}\Big)}\\{CorrRV-Corr\Big(\frac{Price_{i}}{Price_{i-1}}-1,Volume_{i}\Big)}\end{array}}\\&{\begin{array}{c}{CorrPM-Corr\Big(\frac{Price_{i}}{Price_{i-1}}-1,0.1\Big)}\\{CorrRVPM-Corr\Big(\frac{Price_{i}}{Price_{i-1}}-1,\frac{Volume_{i}}{Match_{i}}\Big)}\end{array}}\end{array}
+\begin{aligned}&CorrPM=Corr(Price_{i},Match_{i})\\&\\&CorrPV=Corr(Price_{i},Volume_{i})\\&\\&CorrPVPM=Corr\left(Price_{i},\frac{Volume_{i}}{Match_{i}}\right)\\&\\&CorrRM=Corr\left(\frac{Price_{i}}{Price_{i-1}}-1,Match_{i}\right)\\&\\&CorrRV=Corr\left(\frac{Price_{i}}{Price_{i-1}}-1,Volume_{i}\right)\\&\\&CorrRVPM=Corr\left(\frac{Price_{i}}{Price_{i-1}}-1,\frac{Volume_{i}}{Match_{i}}\right)\\\end{aligned}
 $$
 
 其中，Corr(…)代表两个变量之间的相关系数， $Price_{i}$ 表示 i 时刻快照成交价，Volume 表示 i 时刻快照成交量，Matcℎ表示 i 时刻快照成交笔数。当价格与成交量的相关系数为负时，意味着量价出现背离，按照此前推断，股价上涨的可能性较高，反之亦然。因此，上述因子取值与未来股票收益率应该存在负的相关关系。为了验证上述因子的预测能力，接下来，我们将对上述 6 个因子的有效性进行测试。

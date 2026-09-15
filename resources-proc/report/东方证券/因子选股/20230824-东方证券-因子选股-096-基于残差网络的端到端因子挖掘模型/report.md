@@ -75,7 +75,7 @@ taowenqi@orientsec.com.cn
 Skip connection 主要有两种方式分别是 addition 和 concatenation，Concatenation 方式则主要来源于 DenseNet [1]，其是将输入和主路径（称之为 Dense Block）的输出进行拼接得到最终的输出。Addition方式主要来源于ResNet [2]，其简单的将输入和主路径（称之为Residual Block）的输出直接相加作为残差连接的输出。数学上 Addition方式对应函数关系可以简单的表示为
 
 $$
-\pmb{x}_{l+1}=\pmb{x}_{l}+\pmb{\mathcal{F}}(\pmb{x}_{l})
+\pmb{x}_{l+1}=\pmb{x}_{l}+\mathcal{F}(\pmb{x}_{l})
 $$
 
 其中 $x_{l}$ 表示 ResNet 第 l 层输出， $\mathcal{F}$ 表示 Residual Block 对应的函数，其结构可表示为如下形式：
@@ -88,10 +88,10 @@ $$
 神经网络特征提取过程可以看作是一个动力系统的衍化过程，因此对∀ $T>0$ ，如果引入时间分割$\varDelta t=T/L$ ，并且把第 l 层输出看成是一个关于时间的函数在时刻 $Tl/L$ 的值 $x(Tl/L)$ ，那么一个 L层的 ResNet 特征提取器可以表示为以下常微分方程(ODE) 具有时间步长 $\varDelta t$ 的向前欧拉离散 [3]：
 
 $$
-d{\pmb x}(t)={\pmb v}({\pmb x}(t),t)dt,t\in[0,T]
+d{\pmb x}(t)=v({\pmb x}(t),t)dt,\quad t\in[0,T]
 $$
 
-这里 $v({\boldsymbol{x}}(t),t)$ 满足 $v({\pmb x}(t),t){\varDelta t}=\mathcal{F}\big({\pmb x}(t)\big)$ 。因此根据皮卡定理只要函数 $\mathcal{F}$ 满足李普希兹条件，无论多深的 ResNet 均具有可解性（随着深度增加 ResNet 将收敛到上述 ODE 的解），所以
+这里 $v(\pmb{x}(t),t)$ 满足 $v(\pmb{x}(t),t)\Delta t=\mathcal{F}\big(\pmb{x}(t)\big)$ 。因此根据皮卡定理只要函数 $\mathcal{F}$ 满足李普希兹条件，无论多深的 ResNet 均具有可解性（随着深度增加 ResNet 将收敛到上述 ODE 的解），所以
 
 ResNet在各方面性能优于传统深度神经网络。基于ResNet与ODE的联系，Chen提出了参数量更少性能更优的 Neural ODE [4]。总之，加上 skip connection将使得神经网络性能大幅提升。
 
@@ -133,7 +133,7 @@ ResNet 模型主要有两部分构成分别是 Downsample 变换和卷积层（C
 整个两阶段因子挖掘网络结构主要分成 ResNet截面特征提取和 RNN时序特征提取组成，我们首先将原始时序数据对应的数据图片 Data(t-T+1), …, Data(t) 分别通过 ResNet Layer 机器合成相应频率的特征 F(t-T+1), …, F(t)。接着将机器合成的时序特征 F(t-T+1), …, F(t) 按照时间先后依次输入到 RNN Cell中，之后取最后一个 RNN Cell的输出作为提取得到的时序特征，这个时序特征经过一个 NN Layer得到最终的输出。这里 NN Layer主要由一个多对多的全连接层构建，其结构示意图如图 6所示。而整个网络的损失函数可表示为如下形式：
 
 $$
-Loss=\frac{1}{N}{\sum_{i}^{N}}(batchnorm(c_{i})-\widehat{y}_{i})^{2}+\frac{\lambda}{NK^{2}}{|\big(}z_{i,k}\big)_{i,k}^{T}\big(z_{i,k}\big)_{i,k}\big|_{F}
+\begin{aligned}Loss=&\frac{1}{N}\sum_{i}^{N}(batchnorm(c_i)-\hat{y}_i)^2+\frac{\lambda}{NK^2}|\big(z_{i,k}\big)_{i,k}^T\big(z_{i,k}\big)_{i,k}|_F\end{aligned}
 $$
 
 这里λ 表示正交惩罚项惩罚系数，N 表示 batch 的大小， $\hat{y}_{i}$ 为标签；损失函数第二项表示弱因子$z_{i,k}$ 之间相关系数矩阵的 Frobenius范数。

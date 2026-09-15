@@ -475,10 +475,10 @@ lujiong@htsc.com
 
 2. 日 k 线、周 k 线和月 k 线在时序上的信息传递可能具有相似性，因此可通过同一个 GRU模块提取时序信息，实现知识共享。
 
-3. 借鉴多因子合成的思想，利用三种频率的数据先得到三个子任务预测 $|\hat{y}_{1},\ \hat{y}_{2}\hat{\ast}\pmb{\sigma}\hat{y}_{3}$ ，再等权合成为ŷ。不直接对最终预测ŷ进行训练，而是优化每个子任务预测的 IC，并控制彼此间的相关性。具体而言，设计以下的损失函数：
+3. 借鉴多因子合成的思想，利用三种频率的数据先得到三个子任务预测 $\begin{aligned}\left|\widehat{y}_{1}、\widehat{y}_{2}和\widehat{y}_{3}\right.\end{aligned}$ ，再等权合成为ŷ。不直接对最终预测ŷ进行训练，而是优化每个子任务预测的 IC，并控制彼此间的相关性。具体而言，设计以下的损失函数：
 
 $$
-\begin{array}{c}{{Loss=-[corr(\hat{y}_{1},y)+corr(\hat{y}_{2},y)+corr(\hat{y}_{3},y)]+\lambda[corr(\hat{y}_{1},\hat{y}_{2})+corr(\hat{y}_{1},\hat{y}_{3})+{\hat{x}}^{\prime}{\hat{y}}_{3}+{\hat{x}}^{\prime}{\hat{y}}_{4}+{\hat{x}}^{\prime}{\hat{y}}_{5}+\hat{y}_{6}{\hat{y}}_{7}]}}\\{{+corr(\hat{y}_{2},\hat{y}_{3})]}}\end{array}
+\begin{aligned}Loss=-[corr(\hat{y}_{1},y)+error(\hat{y}_{2},y)+error(\hat{y}_{3},y)]+\lambda[corr(\hat{y}_{1},\hat{y}_{2})+error(\hat{y}_{1},\hat{y}_{3})\\+error(\hat{y}_{2},\hat{y}_{3})]\end{aligned}
 $$
 
 考虑到 IC的重要性高于因子间相关性，本研究将超参数λ设为 0.01。

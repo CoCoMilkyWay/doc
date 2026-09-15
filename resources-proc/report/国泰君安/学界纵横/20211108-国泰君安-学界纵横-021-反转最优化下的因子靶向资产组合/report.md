@@ -128,50 +128,50 @@ $$
 \mu_{a}=B\mu_{f}+\epsilon\tag{1}
 $$
 
-随后计算在最小化定价误差时令资产权重 $w_{\alpha}$ 为均值方差最优的隐含因子回报 $\cdot\mu_{f}^{\ast}$ ，即
+随后计算在最小化定价误差时令资产权重 $w_{\alpha}$ 为均值方差最优的隐含因子回报 $\mu_{f}^{*}$ ，即
 
 $$
 \lambda\sum aw_{a}=B\mu_{f}+\epsilon\tag{2}
 $$
 
 $$
-\mu_{f}^{*}=\left(B^{'}B\right)^{-1}B^{'}\lambda\sum aw_{a}\tag{3}
+\mu_{f}^{*}=\left(B^{'}\;B\right)^{-1}B^{'}\;\lambda{\sum a\;w_{a}}.\tag{3}
 $$
 
 通过隐含因子回报可求得最优化反转因子权重：
 
 $$
-w_{f}^{*}=\bigl(\lambda\sum f\bigr)^{-1}\mu_{f}^{*}
+w_{f}^{*}=\Big(\lambda\sum f\Big)^{-1}\mu_{f}^{*}
 $$
 
 为将资产权重转化为反转最优化因子权重的隐含因子负荷矩阵。
 
 $$
-\begin{array}{rl}&{B=\left(\displaystyle\sum f\right)^{-1}\left(B^{\mathbf{\alpha}^{\prime}}\mathbf{\Sigma}B\right)^{-1}B^{\mathbf{\alpha}^{\prime}}\displaystyle\sum a}\\&{\qquad w_{f}^{*}=Bw_{a}}\\&{\qquad=\left(\lambda\displaystyle\sum f\right)^{-1}\left(B^{\mathbf{\alpha}^{\prime}}\mathbf{\Sigma}B\right)^{-1}B^{\mathbf{\alpha}^{\prime}}\displaystyle\sum a\left(\sum a\right)^{-1}B\mu_{f}}\\&{\qquad=\left(\lambda\displaystyle\sum f\right)^{-1}\mu_{f}}\end{array}\tag{4}
+\begin{aligned}\boldsymbol{B}=\left(\sum f\right)^{-1}&\left(\boldsymbol{B}^{\prime}\boldsymbol{B}\right)^{-1}\boldsymbol{B}^{\prime}\sum\boldsymbol{a}\\w_{f}^{*}=&\boldsymbol{B}w_{a}\\=&\left(\lambda\sum f\right)^{-1}\left(\boldsymbol{B}^{\prime}\boldsymbol{B}\right)^{-1}\boldsymbol{B}^{\prime}\sum\boldsymbol{a}\left(\sum\boldsymbol{a}\right)^{-1}\boldsymbol{B}\mu_{f}\\=&\left(\lambda\sum f\right)^{-1}\mu_{f}\end{aligned}\tag{4}
 $$
 
 (5)
 
 ## 2.2. 均值方差前沿组合的反转最优化因子权重
 
-给定资产期望超额收益 ${\mathbf{}}\cdot{\mu}_{a}$ 与协方差矩阵∑a时，均值方差前沿组合的资产权重为
+给定资产期望超额收益 $\mu_{a}$ 与协方差矩阵∑a时，均值方差前沿组合的资产权重为
 
 $$
-w_{a,tp}=\frac{(\sum a)^{-1}\mu_{a}}{\left|\boldsymbol{1}_{N}^{'}\left(\sum a\right)^{-1}\boldsymbol{\mu}_{a}\right|}\tag{6}
+w_{a,tp}=\frac{(\sum a)^{-1}\mu_{a}}{\left|1_{N}^{'}(\sum a)^{-1}\mu_{a}\right|}.\tag{6}
 $$
 
 根据 3.1 中反转最优化因子权重的计算方式可以计算出均值方差前沿组合的反转最优化因子权重：
 
 $$
-w_{f,tp}^{*}={\frac{(\sum f)^{-1}\left(B^{'}\ B\right)^{-1}B^{'}\ \mu_{a}}{\left|1_{N}^{'}(\sum a)^{-1}\mu_{a}\right|}}\tag{7}
+w_{f,tp}^{*}=\frac{(\sum f)^{-1}\left(B^{'}B\right)^{-1}B^{'}\mu_{a}}{\left|1_{N}^{'}(\sum a)^{-1}\mu_{a}\right|}.\tag{7}
 $$
 
 ## 2.3. 因子靶向资产配置
 
-使用该反转最优化进行组合建立时，需要输入为目标因子风险敞 $\boxed{\pi}\ (\ \overline{{w}}_{f})$ 与目标资产权重 $\displaystyle\left(\overline{{w}}_{a}\right)$ ）。此步骤中，我们的目标是使反转最优化因子权重与实际权重的偏差最小化，即
+使用该反转最优化进行组合建立时，需要输入为目标因子风险敞 $\boldsymbol{\textsf{\scriptsize{U}}}(\overline{{w}}_{f})$ 与目标资产权重 $(\overline{{w}}_{a})$ ）。此步骤中，我们的目标是使反转最优化因子权重与实际权重的偏差最小化，即
 
 $$
-\begin{array}{rl}{\mathrm{Arg}min_{w}\lambda\left(Bw-\overline{{w}}_{f}^{\prime}\right)\left(Bw-\overline{{w}}_{f}^{\prime}\right)^{\prime}}&{{}+\left(1-\lambda\right)\left(w-\overline{{w}}_{a}^{\prime}\right)\left(w-\overline{{w}}_{a}\right)}\end{array}\tag{8}
+\arg\min_{w}\lambda\left(\boldsymbol{B}w-\overline{{w}}_{f}^{'}\right)\left(\boldsymbol{B}w-\overline{{w}}_{f}^{'}\right)^{'}+(1-\lambda)\left(w-\overline{{w}}_{a}^{'}\right)(w-\overline{{w}}_{a})\tag{8}
 $$
 
 其中前项为与反转最优化因子权重的偏差，后项为与目标资产权重的偏差。由于目标是最小化与反转最优化因子权重的偏差，故本文为λ指定一个足够大的值（0.999）。对于目标因子风险敞口，选择 3.2 中计算所得的均值方差组合反转最优化因子权重（式 7），对于目标资产权重，文章分别对 4 种风险出发资产配置方法进行了计算与评估，该 4 种方法分别为最大分散、最小波动率、逆方差与逆波动率。
@@ -184,7 +184,7 @@ $$
 \mu_{a}=B\mu_{f}+\sigma_{\varepsilon}Z_{N}\tag{9}
 $$
 
-其中 $Z_{N}$ 为 $_\mathrm{~\mathrm{~N~}\mathrm{~x~}1}$ 的随机误差向量。 $\sigma_{\varepsilon}$ 为误差标准差。
+其中 $Z_{N}$ 为 $\mathrm{~N~x~}1$ 的随机误差向量。 $\sigma_{\varepsilon}$ 为误差标准差。
 
 本文对 5000 种给定因子风险溢价 $\mu_{f}$ 的情景下的资产期望回报率进行模拟，并分别计算因子靶向配置、传统均值方差配置、及 3.3 中所提及 4种配置方法的夏普率。同时计算每种配置方法下夏普率的均值与标准差，并判断提出的因子靶向配置在多少数量的情景下表现优于均值方差前沿配置。
 
@@ -199,11 +199,11 @@ $$
 
 B：将资产历史收益率做对因子模仿组合收益率的线性回归以取得因子负荷矩阵。
 
-$\mu_{f}.$ 根据对应因子的模拟组合等缩放至 10%年波动率后的风险溢价，每个因子风险溢价具体对应见下表 1。
+$\mu_{f^{\bullet}}$ 根据对应因子的模拟组合等缩放至 10%年波动率后的风险溢价，每个因子风险溢价具体对应见下表 1。
 
-$\mu_{a}.$ 资产期望收益率，依照 ${\bf\nabla}\cdot\mu_{a}=B\mu_{f}$ 计算所得。
+$\mu_{a^{\ast}}$ 资产期望收益率，依照 $.\mu_{a}=B\mu_{f}$ 计算所得。
 
-表 1：因子风险溢价 $\pmb{\mu}_{f}$ 数值及定义
+表 1：因子风险溢价 $\mu_{f}$ 数值及定义
 
 | Factors | Risk Premiums $\mu_{f}$ | Definitions |
 | --- | --- | --- |
@@ -241,13 +241,13 @@ Panel B: Reverse optimized factor weights from the mean-variance tangency portfo
 将上述式（1）与式（3）结合可得
 
 $$
-\mu_{f}^{*}=\mu_{f}+\left(B^{'}B\right)^{-1}B^{'}\varepsilon\tag{10}
+\mu_{f}^{*}=\mu_{f}+\left(B^{'}\quad B\right)^{-1}B^{'}\quad\varepsilon\tag{10}
 $$
 
 即隐含因子超额收益等于其真实值与一个由定价误差ε决定的误差值的和。同理，均值方差因子权重也等同于其最优权重与一个误差元素的和，即：
 
 $$
-w_{f}^{*}=\left(\lambda\sum f\right)^{-1}\mu_{f}+\left(\lambda\sum f\right)^{-1}\left(B^{'}~B\right)^{-1}B^{'}~\varepsilon\tag{11}
+w_{f}^{*}=\left(\lambda\sum f\right)^{-1}\mu_{f}+\left(\lambda\sum f\right)^{-1}\left(B^{'}\quad B\right)^{-1}B^{'}\quad\varepsilon\tag{11}
 $$
 
 其中误差元素为因子协方差矩阵的逆矩阵乘以因子回报率误差。故当该逆矩阵存在较少极值、且因子回报率误差较小时，所得的权重误差较小，即与均值方差资产组合比权重更为稳定。
@@ -257,10 +257,10 @@ $$
 对上述式（8）求解以得：
 
 $$
-w=\left[\gamma B^{'}B+(1-\gamma)I_{N*N}\right]^{-1}\left(\gamma B^{'}\ \overline{{{w}}}_{f}+(1-\gamma)\overline{{{w}}}_{a}\right)\tag{12}
+w=\left[\gamma\boldsymbol{B}^{\prime}\boldsymbol{B}+(1-\gamma)I_{N*N}\right]^{-1}\left(\gamma\boldsymbol{B}^{\prime}\overline{\boldsymbol{w}}_{f}+(1-\gamma)\overline{\boldsymbol{w}}_{a}\right)\tag{12}
 $$
 
-对于四种风险出发目标组合，将 4.2 中所求得的反转最优化因子权重$w_{f,tp}^{*}$ 代入式 12 中的 $\overline{{w}}_{f}.$ ，以计算因子靶向组合权重 $w_{tp,x}$ 。表 3 展示了各配置方法下组合权重，表 4 则展示了其因子权重的稳定性。
+对于四种风险出发目标组合，将 4.2 中所求得的反转最优化因子权重$w_{f,tp}^{*}$ 代入式 12 中的 $\overline{{w}}_{f},$ ，以计算因子靶向组合权重 $[w_{tp,x}$ 。表 3 展示了各配置方法下组合权重，表 4 则展示了其因子权重的稳定性。
 
 表 3：不同目标组合下的资产权重
 ![](images/918e13e71058e5a596a7c752e0ebe9a63fed5d8cef59f062a5efbb9653767e11.webp)

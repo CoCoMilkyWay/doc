@@ -86,19 +86,19 @@ iii) 权重（weight，6%），由 ESG 评级的组合权重所决定。
 
 ## 3. ESG 取值的收益率
 
-粗糙地讲，E 值收益率（ESG-valued return，ER）是资产的收益率和 E 值（ESGscore，ES）的某种线性组合。本文主要涉及两种版本的 E值，即原始的 E值和正规化后的 E值（normalizedES，NES）。E值通常是一个非负数。如果用 $\mathrm{ESG_{i,t^{\prime}}}$ 代表资产 i在 t 时刻的 E值，那么 NES 即由映射
+粗糙地讲，E 值收益率（ESG-valued return，ER）是资产的收益率和 E 值（ESGscore，ES）的某种线性组合。本文主要涉及两种版本的 E值，即原始的 E值和正规化后的 E值（normalizedES，NES）。E值通常是一个非负数。如果用 $\mathrm{ESG_{i,t^{'}}}$ 代表资产 i在 t 时刻的 E值，那么 NES 即由映射
 
 $$
-\varsigma\colon\mathbb{R}_{\geq0}[-1,1],\mathrm{ESG_{i,t}}\mapsto\varsigma\big(\mathrm{ESG_{i,t}}\big)=\varsigma_{\mathrm{i,t}}
+\varsigma\colon\mathbb{R}_{\geq0}\to[-1,1],\mathrm{ESG}_{\mathrm{i},\mathrm{t}}\mapsto\varsigma\big(\mathrm{ESG}_{\mathrm{i},\mathrm{t}}\big)=\varsigma_{\mathrm{i},\mathrm{t}}
 $$
 
 给出。在此基础上，定义 λ-E值收益率形如
 
 $$
-\zeta_{\mathrm{i,t}}(\lambda)\mathrel{\mathop:}=\lambda\cdot\frac{\varsigma_{\mathrm{i.t}}}{\mathrm{c}}+(1-\lambda)\cdot\mathrm{r_{i,t}},\lambda\in[0,1],\mathrm{c}\in\mathbb{R}_{\ge0}
+\zeta_{\mathrm{i},\mathrm{t}}(\lambda):=\lambda\cdot\frac{\zeta_{\mathrm{i},\mathrm{t}}}{\mathrm{c}}+(1-\lambda)\cdot\mathrm{r}_{\mathrm{i},\mathrm{t}},\lambda\in[0,1],\mathrm{c}\in\mathbb{R}_{\geq0}
 $$
 
-其中 ${\boldsymbol{\Gamma}}_{\mathrm{i,t}}$ 代表资产 i在 t 时刻的收益率，c 需要适当选择使得 NES 的大小与收益率相对可比，λ称为 ESG 亲和系数。例如，由于 E值通常是年度更新，对于日收益率而言，本文将选择 c=255。
+其中 $\mathbf{r_{i,t}}^{\prime}$ 代表资产 i在 t 时刻的收益率，c 需要适当选择使得 NES 的大小与收益率相对可比，λ称为 ESG 亲和系数。例如，由于 E值通常是年度更新，对于日收益率而言，本文将选择 c=255。
 
 从定义中可以看到，亲和系数 λ 代表了投资者对 NES 的重视程度。为简单起见，本文总是假设亲和系数的选择与资产 i和时刻 t 无关。
 
@@ -111,7 +111,7 @@ NES 的计算需要注意两个问题：数据填充方法和数值正规化方�
 数值正规化方法的选择与 ESG 的值域有很大关系。由于本文使用的 E值来自 Refinitiv，其取值始终保持在[0,100]中变动，因此正规化映射形如：
 
 $$
-\varsigma_{\mathrm{Refi}}\colon[0,100]\to[-1,1],\mathrm{x}\mapsto\frac{\mathrm{x}}{50}-1
+\varsigma_{\mathrm{Refi}}\colon[0{,}100]\to[-1{,}1],\mathrm{x}\mapsto\frac{\mathrm{x}}{50}-1.
 $$
 
 本文的主要实证数据是涵盖了 30 只股票的 DJIA（Dow Jones IndustrialAverage）指数，但是排除了 DOW Inc 公司，因此实际使用的股票数为29 只。表 1 和图 1 分别给出了 DJIA中 29 只股票的年度E值和 NES。
@@ -161,31 +161,31 @@ $$
 本报告会用到两种类型的遍历指标集合：
 
 $$
-\begin{array}{c}{{[\mathrm{x}]=\{1,2,\dots,\mathrm{x}\},\mathrm{x}\in\mathbb{Z}_{>0}}}\\{{(\mathrm{x}{:}\mathrm{x}+\mathrm{y})=\{\mathrm{x},\mathrm{x}+1,\dots,\mathrm{x}+\mathrm{y}\},\mathrm{x},\mathrm{y}\in\mathbb{Z}_{>0}}}\end{array}
+\begin{aligned}[x]&=\{1,2,\ldots,x\},x\in\mathbb{Z}_{>0}\\(x:x+y)&=\{x,x+1,\ldots,x+y\},x,y\in\mathbb{Z}_{>0}\end{aligned}
 $$
 
 例如
 
 $$
-\begin{array}{c}{{\left[5\right]=\left\{1,2,3,4,5\right\}}}\\{{\left(9;12\right)=\{9,10,11,12\}}}\end{array}
+\begin{aligned}&[5]=\{1,2,3,4,5\}\\&(9;12)=\{9,10,11,12\}\\\end{aligned}
 $$
 
 E值组合优化的基本设定如下：
 
 $$
-\left\{\begin{array}{ll}{\begin{array}{rl}{\mathbb{H}\cdot\mathbb{E}:}&{\mathsf{t}\in\mathbb{Z}}\\{|\widetilde{\Xi}|\widetilde{\mathcal{H}}|\frac{\partial\hat{\Xi}}{\partial\hat{\Xi}}:}&{\mathsf{T}\in\mathbb{Z}_{>0}}\\{|\widetilde{\mathcal{H}}|^{\pm}\widetilde{\mathcal{H}}:}&{\mathsf{i}\in[\mathrm{I}]}\end{array}}\\{\begin{array}{rl}{\frac{\partial\hat{\Xi}}{\partial\hat{\Psi}}\cdot\check{\Xi}^{\pm}:}&{\mathsf{r}_{\mathrm{i},\tau},\mathsf{i}\in\left[\mathrm{I}\right],\tau\in\left(\mathrm{t}-\mathrm{T}+1:\mathrm{t}\right)}\\{\sqrt{\bar{\Xi}}\eta^{\frac{\pm}{\sqrt{2}}}\check{\Xi}^{\pm}:}&{\hat{\Upsilon}_{\mathrm{i},\tau+1}^{\mathsf{s}},\mathsf{s}\in\left[\mathrm{S}\right],\mathsf{i}\in\left[\mathrm{I}\right]}\\{|\widetilde{\mathcal{H}}|^{\frac{\partial\hat{\Xi}}{\partial\hat{\Psi}}}\cdot\check{\Xi}^{\pm}:}&{\hat{\mathsf{r}}_{\mathrm{i},\tau+1}^{\mathsf{s}},\mathsf{s}\in\left[\mathrm{S}\right],\mathsf{i}\in\left[\mathrm{I}\right]}\\{\frac{\partial\hat{\Xi}}{\partial\hat{\Psi}}\gamma^{\pm}\jmath\mathcal{Z}:\pmb{\bar{\Xi}}:}&{\mathsf{\Lambda}_{0\tau}=\left(\mathsf{\Xi}_{1,\tau},\ldots,\mathsf{\Xi}_{\mathrm{I},\tau}\right),\mathsf{\tau}\in\left(\mathrm{t}-\mathrm{T}+1:\mathrm{t}+1\right)}\end{array}}\end{array}\right.
+\begin{cases}則时点:&\mathsf{t}\in\mathbb{Z}\\回溯窗口:&\mathbb{T}\in\mathbb{Z}_{>0}\\资产池:&\mathsf{i}\in[\mathsf{I}]\\资产收益率:\mathsf{r}_{\mathsf{i},\mathsf{r}},\mathsf{i}\in[\mathsf{I}],\mathsf{r}\in(\mathsf{t}-\mathbb{T}+1:\mathsf{t})\\场景收益率:\hat{\mathsf{r}}_{\mathsf{i},\mathsf{t}+1}^{\mathsf{s}},\mathsf{s}\in[\mathsf{S}],\mathsf{i}\in[\mathsf{I}]\\资产权重:&\mathsf{\theta}_{\mathsf{\tau}}=\big(\mathsf{\theta}_{1,\mathsf{\tau}},\ldots,\mathsf{\theta}_{1,\mathsf{\tau}}\big),\mathsf{\tau}\in(\mathsf{t}-\mathbb{T}+1:\mathsf{t}+1)\end{cases}
 $$
 
 从 t 到 t+1 时刻，所有的风险场景 s 共同形成了收益率系综（ensemble）：
 
 $$
-\widehat{\mathrm{R}}_{{\mathrm{t}}+1}=\left\{\widehat{\mathrm{R}}_{{\mathrm{t}}+1}^{s}=\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i},\mathrm{t}+1}\widehat{\mathrm{r}}_{\mathrm{t}+1}^{s}:s\in[\mathrm{S}]\right\}
+\widehat{\mathbb{R}}_{\mathsf{t}+\mathsf{1}}=\left\{\widehat{\mathbb{R}}_{\mathsf{t}+\mathsf{1}}^{\mathsf{s}}=\sum_{\mathsf{i}\in[\mathsf{I}]}\mathfrak{g}_{\mathsf{i},\mathsf{t}+\mathsf{1}}\widehat{\mathsf{r}}_{\mathsf{t}+\mathsf{1}}^{\mathsf{s}}:\mathsf{s}\in[\mathsf{S}]\right\}
 $$
 
 一旦选定了风险度量，相应的最优化问题就变成：
 
 $$
-\begin{array}{rl}&{\underset{\boldsymbol{\Theta}}{\mathrm{min}}\big\lbrace-\boldsymbol{\alpha}\cdot\mathbb{E}\big[\widehat{\mathsf{R}}_{{\sf t}+1}\big]+(1-\boldsymbol{\alpha})\cdot\mathbb{V}\big[\widehat{\mathsf{R}}_{{\sf t}+1}\big]\big\rbrace}\\&{~\mathrm{s.t.}~\left.\begin{array}{ll}{\boldsymbol{\theta}_{\mathrm{i},{t}+1}\geq0,\mathrm{i}\in[{\sf I}]}\\{~\boldsymbol{\Sigma}_{\mathrm{i}}\boldsymbol{\theta}_{\mathrm{i},{t}+1}=1}\\{\boldsymbol{\Sigma}_{\mathrm{i}}\big\vert\boldsymbol{\theta}_{\mathrm{i},{t}+1}-\boldsymbol{\theta}_{\mathrm{i},\mathrm{t}}\big\vert\leq\gamma}\end{array}\right.}\end{array}
+\begin{aligned}\min_{\boldsymbol{\Theta}}\Biggl\{-\boldsymbol{\alpha}\cdot\mathbb{E}&\Bigl[\widehat{\mathbb{R}}_{\mathsf{t}+1}\Bigr]+(1-\boldsymbol{\alpha})\cdot\mathbb{V}\Bigl[\widehat{\mathbb{R}}_{\mathsf{t}+1}\Bigr]\Biggr\}\\s.t.\begin{array}{l}\left\{\begin{aligned}\boldsymbol{\Theta}_{\mathsf{i},\mathsf{t}+1}&\geq0,\mathsf{i}\in[\mathsf{I}]\\\Sigma_{\mathsf{i}}&\boldsymbol{\Theta}_{\mathsf{i},\mathsf{t}+1}=1\\\Sigma_{\mathsf{i}}&\left|\boldsymbol{\Theta}_{\mathsf{i},\mathsf{t}+1}-\boldsymbol{\Theta}_{\mathsf{i},\mathsf{t}}\right|\leq\gamma\end{aligned}\right.\end{array}\end{aligned}
 $$
 
 其中 α 为风险厌恶系数，三个约束条件分别对应了权重的幺和性，换手率限制和做空限制。
@@ -195,65 +195,65 @@ $$
 与收益率一样，不同的风险场景 s 同样也形成了 E值收益率系综：
 
 $$
-\begin{array}{rl}&{\hat{\mathsf{Z}}_{{\sf t}+1}=\left\{\hat{\mathsf{Z}}_{{\sf t}+1}^{s}=\displaystyle\sum_{{\mathrm{i}}\in[{\mathrm{I}}]}\mathsf{\theta}_{{\mathrm{i}},{\sf t}+1}\hat{\zeta}_{{\mathrm{i}},{\sf t}+1}^{s}:s\in[{\mathsf{S}}]\right\}}\\&{\qquad\hat{\zeta}_{{\mathrm{i}},{\sf t}+1}^{s}(\lambda)=\lambda\frac{\mathsf{S}_{{\sf i},{\sf t}}}{c}+(1-\lambda)\hat{\mathsf{r}}_{{\mathrm{i}},{\sf t}+1}^{s}}\end{array}
+\begin{aligned}\hat{\mathrm{Z}}_{\mathrm{t}+1}=\left\{\hat{\mathrm{Z}}_{\mathrm{t}+1}^{s}=\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i},\mathrm{t}+1}\hat{\zeta}_{\mathrm{i},\mathrm{t}+1}^{s}\colon\mathrm{s}\in[\mathrm{S}]\right\}\\\hat{\zeta}_{\mathrm{i},\mathrm{t}+1}^{s}(\lambda)=\lambda\frac{\varsigma_{\mathrm{i},\mathrm{t}}}{\mathrm{c}}+(1-\lambda)\hat{\mathrm{r}}_{\mathrm{i},\mathrm{t}+1}^{s}\end{aligned}
 $$
 
 需要注意到的是，公式表明我们并不对 NES 进行预测，模型的随机性完全由传统收益率决定。而为了估计收益率系综
 
 $$
-\left.\widehat{\mathbf{r}}_{\mathrm{i,t}+1}^{s}:s\in\left[\mathsf{S}\right]\right.
+\left\{\hat{\mathbf{r}}_{\mathrm{i},\mathrm{t}+1}^{s}\mathrm{:}s\in[\mathsf{S}]\right\}
 $$
 
 本文使用了历史收益率数据
 
 $$
-\left\{\mathfrak{r}_{\mathrm{i,\tau}}\colon\tau\in(\mathrm{t-T}+1:\mathrm{t}),\mathrm{i}\in[\mathrm{I}]\right\}
+\left\{\mathrm{r}_{\mathrm{i},\tau}:\tau\in(\mathrm{t}-\mathrm{T}+1:\mathrm{t}),\mathrm{i}\in[\mathrm{I}]\right\}
 $$
 
-结合 ARMA(p,q)-GARCH(1,1)模型进行分析，其中 $\mathsf{p},\mathsf{q}\in[2]$ o对于风险度量，本文选择了均值方差模型（mean-variance，MV），以及β=0.95 或 0.99 两种置信水平的 $\mathrm{mCVaR}_{\beta}$ 。为以示区别，最优权重向量：
+结合 ARMA(p,q)-GARCH(1,1)模型进行分析，其中 $\mathtt{p},\mathtt{q}\in[2]$ o对于风险度量，本文选择了均值方差模型（mean-variance，MV），以及β=0.95 或 0.99 两种置信水平的 $\mathrm{mCVaR}_{\beta}$ 。为以示区别，最优权重向量：
 
 $$
-\theta^{*}=(\theta_{1}^{*},\ldots,\theta_{\mathrm{I}}^{*})
+\boldsymbol{\theta}^{*}=(\boldsymbol{\theta}_{1}^{*},\dots,\boldsymbol{\theta}_{\mathrm{I}}^{*})
 $$
 
 会用标记不同的参数表明其对应的最优化框架。例如
 
 $$
-\Theta^{*}(\alpha)\ {\mathcal{F}}^{\ \alpha}\ \Theta^{*}(\alpha,\lambda)
+\Theta^{*}(\alpha)和\Theta^{*}(\alpha,\lambda)
 $$
 
 分别代表了只关心收益率 R 和关心 E值收益率给出的最优权重。对于 E值版本的最优权重：
 
 $$
-\begin{array}{rl}&{\widehat{\mathbb{R}}_{{\mathsf{t}}+1}^{*}(\alpha,\lambda)=\displaystyle\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i},\mathsf{t}+1}^{*}(\alpha,\lambda){\mathsf{r}}_{\mathrm{i},\mathsf{t}+1}=\mathsf{\theta}_{\mathrm{t}+1}^{*}(\alpha,\lambda)\cdot{\mathsf{r}}_{\mathrm{t}+1}^{\mathsf{T}}}\\&{\widehat{\mathbb{Z}}_{\mathrm{t}+1}^{*}(\alpha,\lambda)=\displaystyle\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i},\mathsf{t}+1}^{*}(\alpha,\lambda)\cdot\zeta_{\mathrm{i},\mathsf{t}+1}(\lambda)=\theta_{\mathrm{t}+1}^{*}(\alpha,\lambda)\cdot[\zeta_{\mathrm{t}+1}(\lambda)]^{\mathrm{T}}}\end{array}
+\begin{align*}\widehat{\mathbb{R}}_{\mathsf{t}+1}^*(\alpha,\lambda)=\sum_{\mathsf{i}\in[1]}\mathfrak{9}_{\mathsf{i},\mathsf{t}+1}^*(\alpha,\lambda)\mathrm{r}_{\mathsf{i},\mathsf{t}+1}&=\mathfrak{9}_{\mathsf{t}+1}^*(\alpha,\lambda)\cdot\mathrm{r}_{\mathsf{t}+1}^{\mathrm{T}}\\\widehat{\mathbb{Z}}_{\mathsf{t}+1}^*(\alpha,\lambda)=\sum_{\mathsf{i}\in[1]}\mathfrak{9}_{\mathsf{i},\mathsf{t}+1}^*(\alpha,\lambda)\cdot\zeta_{\mathsf{i},\mathsf{t}+1}(\lambda)&=\mathfrak{9}_{\mathsf{t}+1}^*(\alpha,\lambda)\cdot[\zeta_{\mathsf{t}+1}(\lambda)]^{\mathrm{T}}\end{align*}
 $$
 
 所以最优权重向量对应的 E值和 NES 为：
 
 $$
-\begin{array}{rl}&{\displaystyle\mathrm{ESG}_{\mathrm{t}+1}^{\ast}=\mathrm{ESG}_{\mathrm{t}+1}^{\ast}(\alpha,\lambda)=\sum_{\mathrm{i}\in[\mathrm{I}]}\mathsf{\Theta}_{\mathrm{|},\mathrm{t}+1}^{\ast}(\alpha,\lambda)\mathrm{ESG}_{\mathrm{i},\mathrm{t}+1}}\\&{\qquad\mathsf{\varsigma}_{\mathrm{t}+1}^{\ast}=\mathsf{\varsigma}_{\mathrm{{t}+1}}^{\ast}(\alpha,\lambda)=\displaystyle\sum_{\mathrm{i}\in[\mathrm{I}]}\mathsf{\Theta}_{\mathrm{i},\mathrm{t}+1}^{\ast}(\alpha,\lambda)\mathsf{\varsigma}_{\mathrm{i},\mathrm{t}+1}}\end{array}
+\begin{aligned}\mathrm{ESG}_{\mathrm{t}+1}^{*}=\mathrm{ESG}_{\mathrm{t}+1}^{*}(\alpha,&\lambda)=\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i},\mathrm{t}+1}^{*}(\alpha,\lambda)\mathrm{ESG}_{\mathrm{i},\mathrm{t}+1}\\\varsigma_{\mathrm{t}+1}^{*}=\varsigma_{\mathrm{t}+1}^{*}(\alpha,&\lambda)=\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i},\mathrm{t}+1}^{*}(\alpha,\lambda)\varsigma_{\mathrm{i},\mathrm{t}+1}\end{aligned}
 $$
 
 如果设
 
 $$
-\mu_{\mathrm{ER}}=\left(\mu_{1},\ldots,\mu_{\mathrm{I}}\right)\ \not\mid\mathrm{\#}\ \Sigma_{\mathrm{ER}}=\left(\sigma_{\mathrm{ij}}\right)_{\mathrm{i,j\in[I]}}
+\mu_{\mathrm{ER}}=\left(\mu_{1},\ldots,\mu_{\mathrm{I}}\right)\mathrm{和}\ \Sigma_{\mathrm{ER}}=\left(\sigma_{\mathrm{ij}}\right)_{\mathrm{i},\mathrm{j}\in[\mathrm{I}]}
 $$
 
 为 E 值收益率的样本均值和方差，那么风险度量为 MV 时组合优化为：
 
 $$
-\begin{array}{rl}&{\underset{\boldsymbol{\Theta}}{\mathrm{min}}(-\alpha\boldsymbol{\Theta}^{\mathrm{T}}\boldsymbol{\mu}_{\mathrm{ER}}+(1-\alpha)\boldsymbol{\Theta}^{\mathrm{T}}\boldsymbol{\Sigma}_{\mathrm{ER}}\boldsymbol{\Theta})}\\&{}\\&{\mathrm{s.t.}\quad\left\{\begin{array}{ll}{\boldsymbol{\mu}_{\mathrm{i}}\geq0,\mathrm{i}\in[\mathrm{I}]}\\{\phantom{\mathrm{0.i}}\qquad\boldsymbol{\Sigma}_{\mathrm{i}}\boldsymbol{\theta}_{\mathrm{i}}=1}\end{array}\right.}\end{array}
+\begin{aligned}\min_{\boldsymbol{\Theta}}(-\alpha\boldsymbol{\Theta}^{\mathrm{T}}\boldsymbol{\mu}_{\mathrm{ER}}+(1-\alpha)\boldsymbol{\Theta}^{\mathrm{T}}\boldsymbol{\Sigma}_{\mathrm{ER}}\boldsymbol{\Theta})\\s.t.\quad\begin{cases}\boldsymbol{\Theta}_{\mathrm{i}}\geq0,\mathrm{i}\in[\mathrm{I}]\\\quad\Sigma_{\mathrm{i}}\boldsymbol{\Theta}_{\mathrm{i}}=1\end{cases}\end{aligned}
 $$
 
 风险度量为 mCVaR 时组合优化为
 
 $$
-\begin{array}{rl}&{\underset{\boldsymbol{\Theta},\boldsymbol{\xi}}{\operatorname*{min}}\left\{-\alpha\boldsymbol{\Theta}^{\mathrm{T}}\boldsymbol{\mu}+\left(1-\alpha\right)\left[\boldsymbol{\xi}+\frac{1}{\mathrm{S}(1-\beta)}\displaystyle\sum_{s\in[s]}\operatorname*{max}(\mathbf{x}_{s}(\boldsymbol{\lambda})-\boldsymbol{\xi},\boldsymbol{0})\right]\right\}}\\&{\qquad\mathrm{s.t.~}\left\{\begin{array}{ll}{\Theta_{\mathrm{i}}\geq0,\mathrm{i}\in[\mathrm{I}]}\\{\mathrm{i}\Theta_{\mathrm{i}}=1}\\{\boldsymbol{\xi}\in\mathbb{R}}\end{array}\right.}\end{array}
+\begin{aligned}\min_{\Theta,\xi}\left\{-\alpha\Theta^{\mathrm{T}}\mu+(1-\alpha)\left[\xi+\frac{1}{\mathrm{S}(1-\beta)}\sum_{\mathrm{s}\in[\mathrm{S}]}\max(\mathrm{x}_{\mathrm{s}}(\lambda)-\xi,0)\right]\right\}\\s.t.\begin{cases}\Theta_{\mathrm{i}}\geq0,\mathrm{i}\in[\mathrm{I}]\\\Sigma_{\mathrm{i}}\Theta_{\mathrm{i}}=1\\\quad\xi\in\mathbb{R}\end{cases}\end{aligned}
 $$
 
 $$
-\boxed{\mathbf{x}_{s}(\lambda)=\sum_{\mathrm{i}\in[\mathrm{I}]}\mathsf{\boldsymbol{\theta}}_{\mathrm{i}}\hat{\boldsymbol{\zeta}}_{\mathrm{i,t}+1}^{s}(\lambda)}
+\boxed{\mathrm{x}_{\mathrm{s}}(\lambda)=\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i}}\hat{\zeta}_{\mathrm{i},\mathrm{t}+1}^{\mathrm{s}}(\lambda)}
 $$
 
 此时规划问题的求解，请参见 Rockafellar and Uryasev（2000）。
@@ -261,19 +261,19 @@ $$
 参照连续收益率的计算方法，最优投资组合的组合净值等于
 
 $$
-\mathsf{R}_{\mathsf{cum}}(\mathsf{t},\alpha,\lambda)=\sum_{\tau\in[\mathsf{t}]}\widehat{\mathsf{R}}_{\tau}^{*}(\alpha,\lambda)\to\mathsf{P}_{\mathrm{t}}(\alpha,\lambda)=\mathsf{P}_{0}\mathsf{e}^{\mathsf{R}_{\mathsf{cum}}(\mathsf{t},\alpha,\lambda)}
+\mathbb{R}_{\mathrm{cum}}(\mathrm{t},\alpha,\lambda)=\sum_{\tau\in[\mathrm{t}]}\hat{\mathbb{R}}_{\tau}^*(\alpha,\lambda)\rightarrow\mathbb{P}_{\mathrm{t}}(\alpha,\lambda)=\mathbb{P}_0\mathrm{e}^{\mathbb{R}_{\mathrm{cum}}(\mathrm{t},\alpha,\lambda)}
 $$
 
 类似可以定义 E值组合净值（需要特别强调的是，该模型并非是投资组合的价格，而是一个 E值指标！）
 
 $$
-\mathsf{Z}_{\mathrm{cum}}(\mathrm{t},\alpha,\lambda)=\sum_{\tau\in[\mathrm{t}]}\hat{\mathsf{Z}}_{\tau}^{\ast}(\alpha,\lambda)\mathsf{P}_{\mathrm{t}}^{(\mathrm{Z})}(\alpha,\lambda)=\mathsf{P}_{0}^{(\mathrm{Z})}\mathrm{e}^{\mathsf{Z}_{\mathrm{cum}}(\mathrm{t},\alpha,\lambda)}
+\mathrm{Z}_{\mathrm{cum}}(\mathrm{t},\alpha,\lambda)=\sum_{\tau\in[\mathrm{t}]}\mathrm{Z}_{\tau}^*(\alpha,\lambda)\rightarrow\mathrm{P}_{\mathrm{t}}^{(\mathrm{Z})}(\alpha,\lambda)=\mathrm{P}_{0}^{(\mathrm{Z})}\mathrm{e}^{\mathrm{Z}_{\mathrm{cum}}(\mathrm{t},\alpha,\lambda)}
 $$
 
-本节将通过实证比较 E值有效前沿与传统有效前沿的差异，实证数据的选择与前文保持一致。利用 2019 年 12 月 30 日前溯 T=510 日的历史数据，以及总数为 S=10000 的风险场景（riskscenarios），本文计算了 MV、$\mathrm{mCVaR}_{0.95}$ 和 $\mathrm{mCVaR}_{0.99}$ 三种风险度量下的有效前沿，其中 ${\mathfrak{a}}\in$ $\{0,0.01,0.02,...,0.99\},\lambda\in\{0,0.25,0.5,0.75\}$ 。为了体现 E值对有限前沿的影响，本文使用两种不同的坐标体系来呈现 E值有效前沿：
+本节将通过实证比较 E值有效前沿与传统有效前沿的差异，实证数据的选择与前文保持一致。利用 2019 年 12 月 30 日前溯 T=510 日的历史数据，以及总数为 S=10000 的风险场景（riskscenarios），本文计算了 MV、$\mathrm{mCVaR}_{0.95}$ 和 $\mathrm{mCVaR}_{0.99}$ 三种风险度量下的有效前沿，其中 $\mathbf{a}\in$ $\{0{,}0.01{,}0.02{,}...{,}0.99\},\lambda\in\{0{,}0.25{,}0.5{,}0.75\}$ 。为了体现 E值对有限前沿的影响，本文使用两种不同的坐标体系来呈现 E值有效前沿：
 
 $$
-\begin{array}{rl}&{\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}\big[\widehat{\sf z}^{*}\big],\mathbb{E}\big[\widehat{\sf z}^{*}\big],\mathrm{ESG}^{*}\rangle\cong\mathbb{R}^{3}}\\&{\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}\big[\widehat{\sf R}^{*}\big],\mathbb{E}\big[\widehat{\sf R}^{*}\big],\mathrm{ESG}^{*}\rangle\cong\mathbb{R}^{3}}\end{array}
+\begin{array}{r}{\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}\big[\widehat{\mathbb{Z}}^{*}\big],\mathbb{E}\big[\widehat{\mathbb{Z}}^{*}\big],\mathrm{ESG}^{*}\rangle\cong\mathbb{R}^{3}}\\{\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}\big[\widehat{\mathbb{R}}^{*}\big],\mathbb{E}\big[\widehat{\mathbb{R}}^{*}\big],\mathrm{ESG}^{*}\rangle\cong\mathbb{R}^{3}}\end{array}
 $$
 
 为行文简单，上述两种坐标分别为 E值坐标和传统坐标。
@@ -296,11 +296,11 @@ $$
 
 ![](images/ff5f6d64bd34493389cc06b03f8efa5cb899659e8ae72aad99297d3500cf2c90.webp)
 (f)
-数据来源：Lauria et al（2022）。注：E 值有效前沿在 E 值坐标 $\mathsf{Span}_{\mathbb{R}}\langle\mathbb{V}|$ [Ẑ∗], E[Ẑ∗],ESG∗⟩ 中的形态（第一排），以及在平面$\mathtt{Span}_{\mathbb{R}}\langle\mathbb{V}[\hat{Z}^{*}]$ ,E[Ẑ∗]⟩中的投射（第二排），从左到右分别对应于 MV， $\mathrm{mCVaR}_{0.95}$ 和 $\mathrm{mCVaR}_{0.99}$ 三种风险度量。E值坐标中的点的分量为 $(\mathbb{V}[\widehat{\sf z}_{\mathrm{t}+1}^{*}],\mathbb{E}[\widehat{\sf z}_{\mathrm{t}+1}^{*}],\mathrm{ESG}_{\mathrm{t}+1}^{*})$
+数据来源：Lauria et al（2022）。注：E 值有效前沿在 E 值坐标 ${\mathrm{Span}}_{\mathbb{R}}\langle\mathbb{V}|$ [Ẑ∗], E[Ẑ∗],ESG∗⟩ 中的形态（第一排），以及在平面$\mathtt{Span}_{\mathbb{R}}\langle\mathbb{V}[\hat{\mathtt{Z}}^{*}]$ ,E[Ẑ∗]⟩中的投射（第二排），从左到右分别对应于 MV， $\mathrm{mCVaR}_{0.95}$ 和 $\mathrm{mCVaR}_{0.99}$ 三种风险度量。E值坐标中的点的分量为 $(\mathbb{V}[\hat{\mathrm{Z}}_{\mathrm{t}+1}^{*}],\mathbb{E}[\hat{\mathrm{Z}}_{\mathrm{t}+1}^{*}],\mathrm{ESG}_{\mathrm{t}+1}^{*})$
 
 图 2 展示的是 E值坐标下的 E 值有效前沿。可以看到，对于较大的 λ，ESG*或者E[Ẑ ∗]的数值会随着 α 的提升而快速提升。例如，图 2（a）中的 λ=0.5 或者 0.75 时显得尤为明显。从 E 值收益率的公式可以看到，λ正相关于E[Ẑ ∗]，但与V[Ẑ ∗]负相关，这是因为 E值的“前向填充”使得 E值收益率的波动性主要由资产收益率贡献，但 λ 的提高会减少收益率在E值收益率中的权重，因此两者呈现负相关性。
 
-图 3 展示的是传统坐标下的 E值有效前沿。传统有效前沿对应于 λ=0 时的 E值有效前沿，与 E值坐标类似，图像上呈现出 ESG*伴随着 α 的提升而提升的现象。但是这一结论并不具备普适性，它与时间窗口的选择关系密切。虽然 λ 较高时E[R̂∗]与 α 呈现正相关性，然而对于任意固定的α，当 λ 上升时V[R̂∗]和E[R̂∗]会双双呈现出非线性的下降趋势。这种趋势在底平面 $\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}[\widehat{\sf R}^{*}]$ ,E[R̂ ∗]⟩中虽然较难观察，但从传统坐标可以看到，其背后的主要原因仍然是 ESG*的增加造成的。
+图 3 展示的是传统坐标下的 E值有效前沿。传统有效前沿对应于 λ=0 时的 E值有效前沿，与 E值坐标类似，图像上呈现出 ESG*伴随着 α 的提升而提升的现象。但是这一结论并不具备普适性，它与时间窗口的选择关系密切。虽然 λ 较高时E[R̂∗]与 α 呈现正相关性，然而对于任意固定的α，当 λ 上升时V[R̂∗]和E[R̂∗]会双双呈现出非线性的下降趋势。这种趋势在底平面 $\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}[\widehat{\mathbb{R}}^{*}]$ ,E[R̂ ∗]⟩中虽然较难观察，但从传统坐标可以看到，其背后的主要原因仍然是 ESG*的增加造成的。
 
 图 3：传统坐标中的 E值有效前沿
 ![](images/fb738661ce0534d61656aa5adc789633be06da1be8d78b32055cb122499b996c.webp)
@@ -320,24 +320,24 @@ $$
 
 ![](images/0be045bd6dd885dcde67df8207d99b9961cefbd63925455f011ce1a8444449d7.webp)
 (f)
-数据来源：Lauria et al（2022）。注：E 值有效前沿在传统坐标 $S\mathrm{pan}_{\mathbb{R}}\langle\mathbb{V}[\widehat{\mathbb{R}}^{*}]$ ,E[R̂ ∗],ESG∗⟩中的形态（第一排），以及在平面$\mathtt{Span}_{\mathbb{R}}\langle\mathbb{V}\big[\widehat{\mathsf{R}}^{*}\big]$ ,E[R̂ ∗]⟩上的投射（第二排），从左到右分别对应于 MV， $\begin{array}{r}{\mathrm{mCVaR}_{0.95}\ddag\mathrm{^{g}mCVaR}_{0.99}\preceq}\end{array}$ 种类型的风险度量。传统坐标中的点的分量为 $(\mathbb{V}\big[\widehat{\mathbb{R}}_{\mathrm{t}+1}^{*}\big],$ E $\big[\widehat{R}_{{\mathrm{t}}+1}^{*}\big],\mathrm{ESG}_{{\mathrm{t}}+1}^{*}\big)$
+数据来源：Lauria et al（2022）。注：E 值有效前沿在传统坐标 $\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}[\hat{\mathbb{R}}^{*}]$ ,E[R̂ ∗],ESG∗⟩中的形态（第一排），以及在平面$\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}[\hat{\mathbb{R}}^{*}]$ ,E[R̂ ∗]⟩上的投射（第二排），从左到右分别对应于 MV， $\mathrm{mCVaR}_{0.95}和\mathrm{mCVaR}_{0.99}$ 种类型的风险度量。传统坐标中的点的分量为 $\begin{array}{r}{(\mathbb{V}\big[\widehat{\mathsf{R}}_{\mathsf{t}+1}^{*}\big],}\end{array}$ E $\left[\hat{R}_{\mathrm{t}+1}^{*}\right],\operatorname{ESG}_{\mathrm{t}+1}^{*})$
 
 以 2019 年 12 月 30 日和 2019 年 12 月 31 日为例，我们将分析新旧时点的 E值对最优权重组合的影响。图 4 展示了 E 值更新产生的相对差异。具体来说，旧的 E值对应了
 
 $$
-\begin{array}{rl}&{\hat{\zeta}_{\mathrm{i,t+1}}^{s}(\lambda)=\lambda\frac{\varsigma_{\mathrm{i,t}}}{\mathrm{c}}+(1-\lambda)\hat{\Gamma}_{\mathrm{i,t+1}}^{s}}\\&{\quad\quad\quad\quad\hat{\zeta}_{\mathrm{i,t+1}}^{s}(\lambda)\theta^{*}(\alpha,\lambda)}\end{array}
+\begin{aligned}\hat{\zeta}_{\mathrm{i},\mathrm{t}+1}^{\mathrm{s}}(\lambda)=\lambda\frac{\zeta_{\mathrm{i},\mathrm{t}}}{\mathrm{c}}+(1-\lambda)\hat{\mathrm{r}}_{\mathrm{i},\mathrm{t}+1}^{\mathrm{s}}\quad&\\\hat{\zeta}_{\mathrm{i},\mathrm{t}+1}^{\mathrm{s}}(\lambda)\rightarrow\boldsymbol{\theta}^{*}(\boldsymbol{\alpha},\lambda)\end{aligned}
 $$
 
 而新的 E值对应了
 
 $$
-\begin{array}{rl}{{\widetilde\zeta_{\mathrm{i,t+1}}^{\mathrm{s}}(\lambda)=\lambda\frac{\varsigma_{\mathrm{i,t+1}}}{\varsigma}+(1-\lambda)\widehat{\Gamma}_{\mathrm{i,t+1}}^{s}}}\\&{\qquad\widetilde\zeta_{\mathrm{i,t+1}}^{\mathrm{s}}(\lambda)\to\theta^{**}(\alpha,\lambda)}\end{array}
+\begin{aligned}\tilde{\zeta}_{\mathrm{i},\mathrm{t}+1}^{\mathrm{s}}(\lambda)=\lambda\frac{\zeta_{\mathrm{i},\mathrm{t}+1}}{\mathrm{c}}+(1-\lambda)\hat{\mathrm{r}}_{\mathrm{i},\mathrm{t}+1}^{\mathrm{s}}\quad&\\\tilde{\zeta}_{\mathrm{i},\mathrm{t}+1}^{\mathrm{s}}(\lambda)\rightarrow\boldsymbol{\theta}^{**}(\alpha,&\lambda)\end{aligned}
 $$
 
 进而最优权重组合的 ESG**为
 
 $$
-\mathrm{ESG^{**}}=\mathrm{ESG^{**}}(\alpha,\lambda)=\sum_{\mathrm{i}\in[\mathrm{I}]}\theta_{\mathrm{i},\mathrm{t}+1}^{**}(\alpha,\lambda)\mathrm{ESG}_{\mathrm{i},\mathrm{t}+1}
+\mathrm{ESG}^{**}=\mathrm{ESG}^{**}(\alpha,\lambda)=\sum_{\mathrm{i}\in[1]}\theta_{\mathrm{i},\mathrm{t}+1}^{**}(\alpha,\lambda)\mathrm{ESG}_{\mathrm{i},\mathrm{t}+1}
 $$
 
 定义相对差异（relative difference，RD）为
@@ -355,15 +355,15 @@ $$
 
 ![](images/95dbb21854104eba53fd9f2cd61432863101b30fc08c7488a71b534198d21a03.webp)
 (c) $\mathrm{mCVaR_{0.99}}$
-数据来源： （ ）。注：风险度量从左到右分别为 ， $\mathrm{mCVaR}_{0.95}\ddag\mathrm{\varepsilon}\mathrm{mCVaR}_{0.99}$ ，RD 的计算时点为 2019 年 12月31 日，E 值对应时点为 2018 年 12 月 31 日和 2019 年 12 月 31 日。
+数据来源： （ ）。注：风险度量从左到右分别为 ， $\mathrm{mCVaR}_{0.95}和\mathrm{mCVaR}_{0.99}$ ，RD 的计算时点为 2019 年 12月31 日，E 值对应时点为 2018 年 12 月 31 日和 2019 年 12 月 31 日。
 
 从图 4 可以看出，E值的更新产生的 RD 变化小于 5%，这表明 E 值最优权重向量相对稳健。更进一步，RD 指标负相关于 α，并且在 λ 较高时，这种负相关性越强（见图 4（a））。对于 MV，RD 通常在 0<α<0.1 时即快速衰减，这是因为 θ*的分量会随着α 的提升迅速集中。对于mCVaR，图 4 则展示出 RD 在 α<0.6 时保持相对稳健。
 
 图 5：E值最优权重组合的参数依赖
 ![](images/c594ddd78bf1fa13997de2567dd6e6ad90c9e4e157ea20c31fbe7026010a54ad.webp)
-数据来源：Lauriaet al（2022）。注：风险度量 $\nmid\mathrm{\hat{mCVaR}}_{0.99};$ ，图中 ESGS更新时点为 2018 年 12 月 31 日。
+数据来源：Lauriaet al（2022）。注：风险度量 $\mathrm{mCVaR_{0.99}}$ ，图中 ESGS更新时点为 2018 年 12 月 31 日。
 
-图 5 展示了风险度量为 $\mathrm{mCVaR}_{0.99}|$ 时，最优权重 θ*与 α 的关系，其中 E值较低的资产的颜色较暖。可以看到，无论λ的大小，最优权重 θ*的分散度都与α呈现负相关性。此处未做展示的另外两种风险度量的情况是类似的。
+图 5 展示了风险度量为 $\mathrm{mCVaR}_{0.99}$ 时，最优权重 θ*与 α 的关系，其中 E值较低的资产的颜色较暖。可以看到，无论λ的大小，最优权重 θ*的分散度都与α呈现负相关性。此处未做展示的另外两种风险度量的情况是类似的。
 
 ## 5. ESG 取值的业绩度量
 
@@ -372,27 +372,27 @@ $$
 RRR 指标的最简单的 E值化即将资产收益率替换为相应的 E值收益率。例如传统的稳定尾部调整收益（stable tail adjusted return，STAR）比率1：
 
 $$
-\mathrm{STAR}_{\beta}(\widehat{\mathrm{R}})=\frac{\left(\mathbb{E}\left[\widehat{\mathrm{R}}-\mathrm{r_{f,t}}\right]\right)^{+}}{\mathrm{ETL}_{\beta}\left[\widehat{\mathrm{R}}-\mathrm{r_{f,t}}\right]}
+\mathrm{STAR}_{\beta}(\widehat{\mathrm{R}})=\frac{\left(\mathbb{E}[\widehat{\mathrm{R}}-\mathrm{r}_{\mathrm{f},\mathrm{t}}]\right)^{+}}{\mathrm{ETL}_{\beta}[\widehat{\mathrm{R}}-\mathrm{r}_{\mathrm{f},\mathrm{t}}]}
 $$
 
-其中 ETL 即尾部期望损失（expected tail loss，ETL），也就是 CVaR 值，对应的 $\Gamma_{\mathrm{f,t}}$ 为 t 时刻的无风险利率（此处为 10年期美国国债利率）。因此，E 值 STAR 即
+其中 ETL 即尾部期望损失（expected tail loss，ETL），也就是 CVaR 值，对应的 $\mathbf{r_{f,t}}$ 为 t 时刻的无风险利率（此处为 10年期美国国债利率）。因此，E 值 STAR 即
 
 $$
-\mathrm{STAR_{\beta}(\hat{Z})=\frac{\bigl(\mathbb{E}\bigl[\hat{Z}-r_{\mathrm{f,t}}\bigr]\bigr)^{+}}{ETL_{\beta}\bigl[\hat{Z}-r_{\mathrm{f,t}}\bigr]}}
+\mathrm{STAR}_{\beta}(\hat{\mathrm{Z}})=\frac{\left(\mathbb{E}[\hat{\mathrm{Z}}-\mathrm{r}_{\mathrm{f},\mathrm{t}}]\right)^{+}}{\mathrm{ETL}_{\beta}[\hat{\mathrm{Z}}-\mathrm{r}_{\mathrm{f},\mathrm{t}}]}
 $$
 
 特别地，此时的 STAR 满足一致（coherent）风险度量的全部四条属性2。
 
-与最优权重θ∗一样，STAR 是 α 和 λ 的函数。图 6 展示了风险度量为$\mathrm{mCVaR}_{0.99}$ 时的 $\operatorname{STAR}(\alpha,\lambda)$ 曲面（黑色部分）。该曲面呈现明显的凸性。需要注意的是，当 λ=0.75 时，α变动形成的有效前沿呈现出一定程度的折裂（kink），即曲面的凸性出现了破坏。
+与最优权重θ∗一样，STAR 是 α 和 λ 的函数。图 6 展示了风险度量为$\mathrm{mCVaR}_{0.99}$ 时的 $\mathrm{STR}(\alpha,\lambda)$ 曲面（黑色部分）。该曲面呈现明显的凸性。需要注意的是，当 λ=0.75 时，α变动形成的有效前沿呈现出一定程度的折裂（kink），即曲面的凸性出现了破坏。
 
 STAR 的另外一种 E值化形如：
 
 $$
-\mathrm{STAR}_{\beta}(\widehat{\mathsf{Z}})=\frac{\mathbb{E}\big[\widehat{\mathsf{Z}}-\zeta_{\mathrm{f,t}}(\lambda)\big]}{\mathrm{ETL}_{\beta}\big[\widehat{\mathsf{Z}}-\zeta_{\mathrm{f,t}}(\lambda)\big]}
+\mathrm{STAR}_{\beta}(\hat{\mathrm{Z}})=\frac{\mathbb{E}[\hat{\mathrm{Z}}-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)]}{\mathrm{ETL}_{\beta}[\hat{\mathrm{Z}}-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)]}
 $$
 
 $$
-\zeta_{\mathrm{f,t}}(\lambda)=\lambda\frac{1}{\mathrm{c}}+(1-\lambda)\mathrm{r_{f,t}}
+\zeta_{\mathrm{f},\mathrm{t}}(\lambda)=\lambda\frac{1}{\mathrm{c}}+(1-\lambda)\mathrm{r}_{\mathrm{f},\mathrm{t}}
 $$
 
 称为 E值无风险利率。对比一般的资产的 E值收益可知，这意味着无风险利率的 E值为 100。
@@ -401,16 +401,16 @@ $$
 ![](images/9cde923da2aa1fd5bdc02ff952abfc1002380ac40b7e34f87fd70ba1cbb4dd08.webp)
 数据来源：Lauria et al（2022）。注：风险度量为mCVaR0.99。
 
-图6的灰色部分展示了相应的STAR曲面。原始的无风险利率与λ无关，因此当 λ 上升时，STAR 指标被为E $[\hat{\mathrm{Z}}]/\mathrm{ETL}_{\beta}$ [Ẑ]所主导，两者呈现正相关性。相反，由于 E值无风险利率 $\cdot\zeta_{\mathrm{f,t}}$ 与 λ 关联性较强，因此当 λ 增大时，该指标将是 指标分子和分母端的主导因素。特别的，此种 值STAR 与α的关联度较小，但随着λ的增加，STAR 曲面与α的依赖性逐渐增强（风险厌恶水平正相关于该 E值 STAR 水平）特别是在某些情况下STAR 的取值将会为负。
+图6的灰色部分展示了相应的STAR曲面。原始的无风险利率与λ无关，因此当 λ 上升时，STAR 指标被为E $\left[\widehat{\mathrm{Z}}\right]/\mathrm{ETL}_{\beta}$ [Ẑ]所主导，两者呈现正相关性。相反，由于 E值无风险利率 $\zeta_{\mathrm{f,t}}$ 与 λ 关联性较强，因此当 λ 增大时，该指标将是 指标分子和分母端的主导因素。特别的，此种 值STAR 与α的关联度较小，但随着λ的增加，STAR 曲面与α的依赖性逐渐增强（风险厌恶水平正相关于该 E值 STAR 水平）特别是在某些情况下STAR 的取值将会为负。
 
 ## 5.1. 区间表现
 
-本节使用的资产池与前文保持一致，回测时间窗口为 2017 年 1 月 3 日至 2020 年 12 月 30 日，参数设定与 3.1 节相仿，风险度量包括 MV 和$\scriptstyle\mathrm{{mCVaR}}_{0.99},$ 分别用于监测策略的中部和尾部表现，交易成本则设定为单边买卖 2bps，换手率限制为日均 0.4%（即约束条件中的 $\gamma=0.004)$ ，基准组合为 DJIA指数中 29 只股票（排除了 DOW Inc，完整的股票池有 30只）的等权买入持有组合（equally weighted buy and hold portfolio，EWBH）。
+本节使用的资产池与前文保持一致，回测时间窗口为 2017 年 1 月 3 日至 2020 年 12 月 30 日，参数设定与 3.1 节相仿，风险度量包括 MV 和$\mathrm{mCVaR}_{0.99},$ 分别用于监测策略的中部和尾部表现，交易成本则设定为单边买卖 2bps，换手率限制为日均 0.4%（即约束条件中的 $\gamma=0.004)$ ，基准组合为 DJIA指数中 29 只股票（排除了 DOW Inc，完整的股票池有 30只）的等权买入持有组合（equally weighted buy and hold portfolio，EWBH）。
 
-具体来说，t=0 时，所有股票的资金权重都等于 1/29，但是随着时间推移，各个股票的持仓数不变但是资金权重会发生改变：如果期初的持股数为 $\mathrm{n}_{\mathrm{i}}$ ，那么
+具体来说，t=0 时，所有股票的资金权重都等于 1/29，但是随着时间推移，各个股票的持仓数不变但是资金权重会发生改变：如果期初的持股数为 $\mathbf{n_{i}}$ ，那么
 
 $$
-\Theta_{\mathrm{i,t}+1}=\mathrm{n_{i}P_{i}(t)/\Sigma_{j\in[I]}n_{j}P_{j}(t)}
+\theta_{\mathrm{i},\mathrm{t}+1}=\mathrm{n}_{\mathrm{i}}\mathrm{P}_{\mathrm{i}}(\mathrm{t})/\Sigma_{\mathrm{j}\in[\mathrm{I}]}\mathrm{n}_{\mathrm{j}}\mathrm{P}_{\mathrm{j}}(\mathrm{t})
 $$
 
 本文涉及的业绩表现度量包括：总收益（TotRtn），年化收益（AnnRtn），平均换手率（AvgTO），期望尾部损失（ETL95）和期望尾部收益（ETR95），两者均为 95%显著水平，以及最大回撤（MDD）。其中 ETR95 代表了高于 95%分位数的平均收益。除此之外本文还考虑了投资组合的 ESGS 及其标准差。具体情况详见表 2。
@@ -462,9 +462,9 @@ $$
 
 数据来源：Lauria et al（2022）。注：回测区间为 2017 年 01 月 03 日至 2020 年 12月 30 日，风险度量分别为 MV 和mCVaR0.99。
 
-具体来说，最优权重组合在 $.\alpha\geq0.7$ 的 $\mathrm{mCVaR}_{0.99}$ 情况下和 $\tau\alpha\geq0.1$ 的 MV情况下，其总收益和年化收益都强于基准组合。对于 $\lambda\geq0.5$ ，伴随着α的增加，平均换手率将低于日均 0.4%；对于 $\mathbf{\nabla}\cdot\mathbf{\vec{a}}>0$ ，平均换手率则伴随着λ的增加而减少。这主要可以归咎于 MV 框架下解的稳健性问题。对于$\mathrm{mCVaR}_{0.99^{\prime}}$ 情况，除开较大的 $(\lambda,\alpha)$ 参数，最优权重组合的ETL95和ETR95都会明显少于基准组合；而 MV情况则恰恰相反。对于 MV，ETL95 的数值始终要大于 ETR95，但两者的差在λ较大的情况下会随着α的增加而减少。所有最优权重组合的 MDD 都会优于基准组合。对于α固定的$\begin{array}{r}{\operatorname*{mCVaR}_{0.99},}\end{array}$ ，MDD 会随着λ的增加而衰减。最优权重组合的平均 ESGS 大于基准组合；其 ESGS 的方差在 $\begin{array}{r}{\operatorname{mCVaR}_{0.99}.}\end{array}$ 上也会更小，但在 MV 上则劣于基准组合。
+具体来说，最优权重组合在 $.\alpha\geq0.7$ 的 $\mathrm{mCVaR}_{0.99}$ 情况下和 $\alpha\ge0.1$ 的 MV情况下，其总收益和年化收益都强于基准组合。对于 $\lambda\geq0.5,$ ，伴随着α的增加，平均换手率将低于日均 0.4%；对于 $\alpha>0$ ，平均换手率则伴随着λ的增加而减少。这主要可以归咎于 MV 框架下解的稳健性问题。对于$\mathrm{mCVaR}_{0.99'}$ 情况，除开较大的 $(\lambda,\alpha)$ 参数，最优权重组合的ETL95和ETR95都会明显少于基准组合；而 MV情况则恰恰相反。对于 MV，ETL95 的数值始终要大于 ETR95，但两者的差在λ较大的情况下会随着α的增加而减少。所有最优权重组合的 MDD 都会优于基准组合。对于α固定的$\mathrm{mCVaR}_{0.99},$ ，MDD 会随着λ的增加而衰减。最优权重组合的平均 ESGS 大于基准组合；其 ESGS 的方差在 $\mathrm{mCVaR}_{0.99}$ 上也会更小，但在 MV 上则劣于基准组合。
 
-图 7 在 $\mathrm{mCVaR}_{0.99}\mathcal{F},\alpha=0.7,\lambda\in\{0,0.25,0.5,0.75\}$ 的最优权重组合的组合净值和 值组合净值进行了刻画。图中同时列出了有换手率限制和没有换手率限制的情况。在没有换手率约束的情况下，最优权重组合的组合净值和 E值组合净值都优于基准组合。在有换手率约束的情况下，基准组合在 Covid-19 流行前表现更好，但是疫情后 $\alpha=0.7,\lambda\in\{0.5,0.75\}$ 则表现出了相对于基准组合强劲的组合净值恢复姿态。相应的最优权重组合的 E值则呈现分层现象，特别是 2020 年 1 月 1 日后 E值出现了明显的跳跃（参见表 1）。
+图 7 在 $\mathrm{mCVaR}_{0.99}下,\alpha=0.7,\lambda\in\{0,0.25,0.5,0.75\}$ 的最优权重组合的组合净值和 值组合净值进行了刻画。图中同时列出了有换手率限制和没有换手率限制的情况。在没有换手率约束的情况下，最优权重组合的组合净值和 E值组合净值都优于基准组合。在有换手率约束的情况下，基准组合在 Covid-19 流行前表现更好，但是疫情后 $\alpha=0.7,\;\lambda\in\{0.5{,}0.75\}$ 则表现出了相对于基准组合强劲的组合净值恢复姿态。相应的最优权重组合的 E值则呈现分层现象，特别是 2020 年 1 月 1 日后 E值出现了明显的跳跃（参见表 1）。
 
 图 7：最优权重组合与切线组合的组合净值和 E值
 ![](images/d505c3459ee2e6ac26409da73e3c782778a5cb5320da4c7972aa49065912b10a.webp)
@@ -484,7 +484,7 @@ $$
 (d) ESG Score
 ![](images/aa69c0c18786aeff7f63edcc0f0ba33d0e51e11068dba4604f9e30c8b2c54bff.webp)
 (f) ESG Score
-数据来源： （ ）。注：回测区间为 年 月 日至 年月30日，风险度量分别为 $\mathbf{M}\mathbf{V}\neq\pi mCVaR_{0.99}$ 。图（a-d）为α = 0.7时最优权重组合的组合净值和 E值组合净值，此处的风险度量为 $\mathrm{mCVaR}_{0.99}{:}$ ，其中（a）和（b）为换手率无限制模型，（c）和（d）的日度换手率约束为 0.4%。（e）和（f）为切线组合在日度换手率约束为 0.4%下的表现。所有的图都和基准组合进行了比较。
+数据来源： （ ）。注：回测区间为 年 月 日至 年月30日，风险度量分别为 $MV和mCVaR_{0.99}$ 。图（a-d）为α = 0.7时最优权重组合的组合净值和 E值组合净值，此处的风险度量为 $\mathrm{mCVaR}_{0.99}$ ，其中（a）和（b）为换手率无限制模型，（c）和（d）的日度换手率约束为 0.4%。（e）和（f）为切线组合在日度换手率约束为 0.4%下的表现。所有的图都和基准组合进行了比较。
 
 在表 3 中，我们对最优权重组合的矩估计进行了汇总，包括：均值、中位数、标准差（Std）、偏度（Skew）、超额峰度（ExKurt）。可以看到，相对于 MV，固定λ时，均值、中位数以及标准差随着α的增长速度要更强，偏度和超额峰度则伴随着α的增长而下降。
 
@@ -551,15 +551,15 @@ $$
 
 ## 6. ESG 切线组合
 
-平面 $\mathrm{\cdot}\mathsf{Span}_{\mathbb{R}}\langle\mathbb{V}\big[\hat{\mathsf{Z}}^{\ast}\big],\mathbb{E}\big[\hat{\mathsf{Z}}^{\ast}\big]\rangle$ 上的 E 值有效前沿将给出 E 值切线组合，以及相应的 E值版本的资本资 $\dot{\mathcal{P}}$ 定价模型（CAPM）、证券市场线（SML）和两基金分离定理，而这些推广的核心在于如何确定 E值无风险利率。需要注意的是，与前面基于收益率和 E值收益率的最优权重组合不同，此时的切线组合的权重只与亲和系数有关：
+平面 $\langle\mathrm{Span}_{\mathbb{R}}\langle\mathbb{V}\big[\widehat{\mathbb{Z}}^{*}\big],\mathbb{E}\big[\widehat{\mathbb{Z}}^{*}\big]\rangle$ 上的 E 值有效前沿将给出 E 值切线组合，以及相应的 E值版本的资本资 $:产$ 定价模型（CAPM）、证券市场线（SML）和两基金分离定理，而这些推广的核心在于如何确定 E值无风险利率。需要注意的是，与前面基于收益率和 E值收益率的最优权重组合不同，此时的切线组合的权重只与亲和系数有关：
 
 $$
-\theta^{*}=\theta^{*}(\lambda)
+\Theta^{*}=\Theta^{*}(\lambda)
 $$
 
-显然，E值无风险利率也应该遵循一般资产 E值收益率的构造方式。和上一节一样，本文利用 10年期的美国国债利率作为通常的无风险利率，并且将其对应的 E值设置为 100。这样操作主要是依据简洁性的考虑，因为赋予国债利率任何的 值都没有直接选取极大 值更有说服力。最终，E值切线组合将会 E值坐标下的 $(0,\zeta_{\mathrm{f,t}}(\lambda))$ 和相应的有效前沿共同确定。需要注意到的是，有效前沿为参数 $(\lambda,\alpha,\sf t)$ 所决定，而整个有效前沿只依赖于(λ,t)。
+显然，E值无风险利率也应该遵循一般资产 E值收益率的构造方式。和上一节一样，本文利用 10年期的美国国债利率作为通常的无风险利率，并且将其对应的 E值设置为 100。这样操作主要是依据简洁性的考虑，因为赋予国债利率任何的 值都没有直接选取极大 值更有说服力。最终，E值切线组合将会 E值坐标下的 $(0,\zeta_{\mathrm{f,t}}(\lambda))$ 和相应的有效前沿共同确定。需要注意到的是，有效前沿为参数 $(\lambda,\alpha,\mathrm{t})$ 所决定，而整个有效前沿只依赖于(λ,t)。
 
-图 7 同样展示了风险度量为 $\mathrm{mCVaR}_{0.99}$ 时，不同λ水平下切线组合的 E值组合净值。当 $\lambda>0\sharp{\mathfrak{f}}$ ，带换手率约束的切线组合相比于无换手率约束的$\alpha=0.$ 7组合具备相当的竞争力。
+图 7 同样展示了风险度量为 $\mathrm{mCVaR}_{0.99}$ 时，不同λ水平下切线组合的 E值组合净值。当 $\lambda>0时$ ，带换手率约束的切线组合相比于无换手率约束的$\alpha=0.$ 7组合具备相当的竞争力。
 
 图 8：切线组合的E值组合净值
 ![](images/8ae84981cb2051fb4234e8c98fc600312cc87d1fcd3fa7b80ef3736b6a25da53.webp)
@@ -571,25 +571,25 @@ $$
 ![](images/142272610cf9bd56f8aa7b62b7561b569ecc60713978c7f429e51ff49e267aeb.webp)
 
 ![](images/45357fddafbf26965c49553bbb4362733d15f90b57334944bc9bf04c31d765b2.webp)
-数据来源：Lauria et al（2022）。注：（a-d）图为mCVa $\operatorname{R}_{0.99}\cdot$ 下的 E值组合净值，回测区间为 2017年 01月 03 日至 2020 年 12
+数据来源：Lauria et al（2022）。注：（a-d）图为mCVa $\vec{\mathrm{{!R}}_{0.99}\mathrm{{}^{\vec{}}}}$ 下的 E值组合净值，回测区间为 2017年 01月 03 日至 2020 年 12
 
 月30 日。图（e）为不同λ水平下切线组合与 DJIA 之间的 E值组合净值之差。
 
-图 8 展示了风险度量为 $\mathrm{mCVaR}_{0.99}\sharp\sharp$ 切线组合的 E 值组合净值 $\mathrm{P}_{\mathrm{t}}^{(\mathrm{Z})}(\lambda)$ 作为对比，我们同时展示了 EWBH 和 DJIA 的 E 值组合净值。严格地讲，在计算 DJIA的 E值组合净值时，由于只涉及 29 只股票，因此 E值计算涉及的股票权重会和指数的本身权重略有调整：
+图 8 展示了风险度量为 $\mathrm{mCVaR_{0.99}}$ 切线组合的 E 值组合净值 $\mathrm{P}_{\mathrm{t}}^{\mathrm{(Z)}}(\lambda)$ 作为对比，我们同时展示了 EWBH 和 DJIA 的 E 值组合净值。严格地讲，在计算 DJIA的 E值组合净值时，由于只涉及 29 只股票，因此 E值计算涉及的股票权重会和指数的本身权重略有调整：
 
 $$
-\widetilde{\mathsf{w}}_{\mathrm{i}}^{\mathrm{DJIA}}={\mathsf{w}}_{\mathrm{i}}^{\mathrm{DJIA}}/(1-\mathsf{w}_{\mathrm{DOW}}^{\mathrm{DJIA}})
+\tilde{\mathbf{w}}_{\mathrm{i}}^{\mathrm{DIA}}=\mathbf{w}_{\mathrm{i}}^{\mathrm{DIA}}/(1-\mathbf{w}_{\mathrm{DOW}}^{\mathrm{DIA}})
 $$
 
 即需要排除 DOW Inc 公司的权重。事实上，EWBH和 DJIA指数的 E值组合净值表现非常近似，但是伴随着λ的提升，切线组合的表现和它们的表现则呈现巨大差别。
 
 表 5：不同风险度量下切线组合的 RRR
 
-| Model | Tot. Ret | Ann. Ret | AvgTO | ETL95 | ETR95 | MDD | ${\mathrm{ESG}}^{*}$ |  |  |  |
+| Model | Tot. Ret | Ann. Ret | AvgTO | ETL95 | ETR95 | MDD | $\mathrm{ESG^{*}}$ |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  | (%) 90.14 | (%) | (%) | (%) | (%) | (%) | avg | std |  |  |
 | EWBH λ |  | 17.69 | 0.00 | -3.41 | 2.86 | 32.87 | 72.72 | 2.97 |  |  |
-|  |  |  |  | $\mathrm{\ mCVaR_{0.99}}$ |  |  | 74.04 | 3.49 |  |  |
+|  |  |  |  | $\mathrm{mCVaR}_{0.99}$ |  |  | 74.04 | 3.49 |  |  |
 | 0.00 0.25 | 95.01 114.91 | 18.45 21.40 | 0.40 0.35 | -3.48 -3.80 | 2.92 3.38 | 34.06 31.09 | 82.98 | 4.67 |  |  |
 | 0.50 | 129.63 | 23.46 | 0.33 | -3.60 | 3.36 | 26.86 | 84.58 | 4.69 |  |  |
 | 0.75 | 176.66 | 29.43 | 0.23 | -3.97 | 3.78 | 27.49 | 88.08 | 5.83 |  |  |
@@ -600,7 +600,7 @@ $$
 | 0.75 | 207.56 | 32.95 | 0.16 | -4.21 | 4.03 | 28.14 | 88.51 | 6.06 |  |  |
 | Model | Mean | Median | Std | Skew | ExKurt | Mean | Median | Std | Skew | ExKurt |
 | EWBH | $\times10^{-4}$ 6.4 | $\times10^{-4}$ 11.1 | $\times10^{-2}$ 1.3 |  | 21.9 | $\times10^{-4}$ | $\times10^{-4}$ | $\times10^{-2}$ |  |  |
-| λ |  |  | $\mathrm{mCVaR_{0.99}}$ | -1.02 |  |  |  | MV |  |  |
+| λ |  |  | $\mathrm{mCVaR}_{0.99}$ | -1.02 |  |  |  | MV |  |  |
 | 0.00 |  |  | 1.4 | -1.28 | 23.9 | 6.6 | 11.6 | 1.5 | -1.36 | 23.7 |
 | 0.25 | 6.7 7.6 | 11.4 11.9 | 1.5 | -0.86 | 19.1 | 7.8 | 11.7 | 1.6 | -0.92 | 18.7 |
 | 0.50 | 8.3 | 12.6 | 1.4 | -0.50 | 16.8 | 9.3 | 12.9 | 1.7 | -0.64 | 16.7 |
@@ -619,18 +619,18 @@ $$
 
 ## 7. ESG 期权估值
 
-本节考虑 E值对期权定价模型的影响。依据附录中的方法，任给时刻 t，考虑一系列的到期日 $\mathrm{t+T},\ \mathrm{T}\in[\mathrm{T_{min}},\mathrm{T_{max}}]$ ，执行价格K ∈ $\vdots[\mathrm{K}_{\mathrm{min}},\mathrm{K}_{\mathrm{max}}].$ 并且使用 E值切线组合作为相应期权的底层资产。实证部分的设定与前文类似，此处选择了 2019 年 12 月 30 日的数据。另外本节也对比了 E值的 DJIA 指数作为底层资产时的定价效果。本节主要关心的是两种不同的底层资产上的期权的表现。
+本节考虑 E值对期权定价模型的影响。依据附录中的方法，任给时刻 t，考虑一系列的到期日 $\mathrm{t}+\mathrm{T},\mathrm{T}\in\left[\mathrm{T}_{\text{min }},\mathrm{T}_{\text{max }}\right]$ ，执行价格K ∈ $\mathbf{\Xi}\left[\mathbf{K}_{\mathrm{min}},\mathbf{K}_{\mathrm{max}}\right],$ 并且使用 E值切线组合作为相应期权的底层资产。实证部分的设定与前文类似，此处选择了 2019 年 12 月 30 日的数据。另外本节也对比了 E值的 DJIA 指数作为底层资产时的定价效果。本节主要关心的是两种不同的底层资产上的期权的表现。
 
 此处期权的具体值由 T 和 E 值货币（ESG-moneyness）
 
 $$
-\mathrm{M}=\mathrm{K}/\mathrm{P}_{\mathrm{t}}^{\mathrm{Z}}
+\mathrm{M}=\mathrm{K}/\mathrm{P_{t}^{Z}}
 $$
 
 共同决定。其中
 
 $$
-\mathsf{M}\in[0.5,1.5],\mathsf{T}\in[15,252]
+\mathsf{M}\in[0.5{,}1.5]{,}\mathsf{T}\in[15{,}252]
 $$
 
 图 9：不同底层资产对应的 E值期权价格
@@ -658,13 +658,13 @@ $$
 (e) Call
 
 ![](images/d6ea98d54dc4d77f523275a170e3dc74d5f04d0e2b60072496252f024498e91f.webp)
-(f) $\mathrm{Put}$
-数据来源：Lauriaet al（2022）。注：第一排为欧式看多期权，第二排为欧式看空期权，棕色曲面以 E值的 DJIA 为底层资产，蓝色曲面 $\therefore MCVaR_{0.99}$ 风险度量下的 E值切线组合为底层资产。第三排为不同λ水平下两种底层资产对应的期权价格的差。
+(f) $Put$
+数据来源：Lauriaet al（2022）。注：第一排为欧式看多期权，第二排为欧式看空期权，棕色曲面以 E值的 DJIA 为底层资产，蓝色曲面 $\mathrm{mCVaR_{0.99}}$ 风险度量下的 E值切线组合为底层资产。第三排为不同λ水平下两种底层资产对应的期权价格的差。
 
 图 9 反映的是两种不同基准的看多期权和看空期权的差
 
 $$
-\begin{array}{rl}&{\Phi_{\mathrm{c}}^{(\mathrm{mCVaR}_{0.99})}(\mathrm{T},\mathrm{K},\lambda)-\Phi_{\mathrm{c}}^{(\mathrm{DJIA})}(\mathrm{T},\mathrm{K},\lambda)}\\&{\Phi_{\mathrm{p}}^{(\mathrm{mCVaR}_{0.99})}(\mathrm{T},\mathrm{K},\lambda)-\Phi_{\mathrm{p}}^{(\mathrm{DJIA})}(\mathrm{T},\mathrm{K},\lambda)}\end{array}
+\begin{aligned}&\Phi_{\mathrm{c}}^{(\mathrm{mCVaR}_{0.99})}(\mathrm{T},\mathrm{K},\lambda)-\Phi_{\mathrm{c}}^{(\mathrm{DIA})}(\mathrm{T},\mathrm{K},\lambda)\\&\Phi_{\mathrm{p}}^{(\mathrm{mCVaR}_{0.99})}(\mathrm{T},\mathrm{K},\lambda)-\Phi_{\mathrm{p}}^{(\mathrm{DIA})}(\mathrm{T},\mathrm{K},\lambda)\\\end{aligned}
 $$
 
 可以看到，对于λ = 0，期权价差几乎为零。随着λ的增加，期权价差主要发生在行权价格更偏价内（into-the-money）的情况。E值切线组合由于拥有较高的 E值，因此会产生向高 E值标的的倾斜，从而生成更高的期权价格。λ会因为久期的差异，而在看多和看空期权上产生不同的效果；对于一个常数的价内 K，看多期权会随着 T 同向变化，而看空期权恰恰相反。
@@ -689,48 +689,48 @@ $$
 
 无风险利率的存在性通常是现代金融理论的隐含假设之一。然而，没有无风险利率的金融市场亦被学术界研究过。在 Black（1972，1995）的一系列开创性的工作中，他提出了一个不依赖于无风险利率存在的 CAPM模型，而后引入的影子无风险利率（shadow riskless rate，SRR），其本质上是一种关于固定收益衍生品的期权。针对 SRR，Rachev et al（2017）提供了另外一种视角，该指标被定义为一组风险证券的某个永续期权，同时还给出了相应的解析表达式。
 
-考虑 N 种风险资 $\dot{\mathcal{P}}$ 由 N-1 维 Brownian 运动决定：
+考虑 N 种风险资 $\cdot 产$ 由 N-1 维 Brownian 运动决定：
 
 $$
-\frac{\mathrm{d}\mathrm{P_{i,t}}}{\mathrm{P_{i,t}}}=\mu_{\mathrm{i}}\mathrm{dt}+\sum_{\mathrm{j}\in\left[\mathrm{N-1}\right]}\sigma_{\mathrm{ij}}\mathrm{d}\mathrm{B_{j,t}},\mathrm{i}\in\left[\mathrm{N}\right]
+\frac{\mathrm{d}\mathrm{P}_{\mathrm{i},\mathrm{t}}}{\mathrm{P}_{\mathrm{i},\mathrm{t}}}=\mu_{\mathrm{i}}\mathrm{dt}+\sum_{\mathrm{j}\in[\mathrm{N}-1]}\sigma_{\mathrm{ij}}\mathrm{dB}_{\mathrm{j},\mathrm{t}},\mathrm{i}\in[\mathrm{N}]
 $$
 
 为了消除套利机会，我们考虑如下价格平减过程
 
 $$
-\frac{\mathrm d\pi_{\mathrm{t}}}{\pi_{\mathrm{t}}}=\mu_{\pi}\mathrm d{t}+\sum_{\mathrm{j}\in\left[\mathrm{N-1}\right]}\sigma_{\pi\mathrm j}\mathrm d\mathrm B_{\mathrm{j,t}}
+\frac{\mathrm{d}\pi_{\mathrm{t}}}{\pi_{\mathrm{t}}}=\mu_{\mathrm{\pi}}\mathrm{d}t+\sum_{\mathrm{j}\in[\mathrm{N}-1]}\sigma_{\mathrm{\pi}\mathrm{j}}\mathrm{dB}_{\mathrm{j},\mathrm{t}}
 $$
 
 使得
 
 $$
-\mathrm{P_{i,t}}\mathrm{\pi_{t}},\mathrm{i}\in\left[\mathrm{N}\right]
+\mathrm{P_{i,t}\pi_{t},i\in[N]}
 $$
 
 成为鞅。Ito 引理告诉我们，上述平减过程存在唯一等于
 
 $$
-\mu_{\mathrm{i}}+\mu_{\pi}+\sum_{\mathrm{j}\in[\mathrm{N-1}]}\sigma_{\mathrm{ij}}\sigma_{\pi\mathrm{j}}=0,\mathrm{i}\in[\mathrm{N}]
+\mu_{\mathrm{i}}+\mu_{\pi}+\sum_{\mathrm{j}\in[\mathrm{N}-1]}\sigma_{\mathrm{ij}}\sigma_{\pi\mathrm{j}}=0,\mathrm{i}\in[\mathrm{N}]
 $$
 
 给出的方程组有解。如果将其改写成矩阵形式
 
 $$
-\left[{\begin{array}{ccccc}{-1}&{-\sigma_{1,1}}&{\cdots}&{-\sigma_{1,\mathrm{N}-1}}\\{-1}&{-\sigma_{2,1}}&{\cdots}&{-\sigma_{2,\mathrm{N}-1}}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{-1}&{-\sigma_{\mathrm{N},1}}&{\cdots}&{-\sigma_{\mathrm{N},\mathrm{N}-1}}\end{array}}\right]\left[{\begin{array}{c}{\mu_{\pi}}\\{\sigma_{\pi,1}}\\{\vdots}\\{\sigma_{\pi,\mathrm{N}-1}}\end{array}}\right]=\left[{\begin{array}{c}{\mu_{1}}\\{\mu_{2}}\\{\vdots}\\{\mu_{\mathrm{N}}}\end{array}}\right]
+\begin{bmatrix}-1&-\sigma_{1,1}&\cdots&-\sigma_{1,\mathrm{N}-1}\\-1&-\sigma_{2,1}&\cdots&-\sigma_{2,\mathrm{N}-1}\\\vdots&\vdots&\ddots&\vdots\\-1&-\sigma_{\mathrm{N},1}&\cdots&-\sigma_{\mathrm{N},\mathrm{N}-1}\end{bmatrix}\begin{bmatrix}\mathfrak{u}_{\pi}\\\sigma_{\pi,1}\\\vdots\\\sigma_{\pi,\mathrm{N}-1}\end{bmatrix}=\begin{bmatrix}\mathfrak{u}_{1}\\\mathfrak{u}_{2}\\\vdots\\\mathfrak{u}_{\mathrm{N}}\end{bmatrix}
 $$
 
 那么 Cramer 法则即给出了相应的无风险利率的解析式
 
 $$
-\displaystyle\boldsymbol{\mathrm{r_{f}}}=-\boldsymbol{\mu}_{\pi}=-\frac{\operatorname*{det}\Phi_{\mu}}{\operatorname*{det}\Phi}
+\mathbf{r}_{\mathrm{f}}=-\mathbf{\mu}_{\pi}=-{\frac{\operatorname*{det}\Phi_{\mu}}{\operatorname*{det}\Phi}}
 $$
 
 $$
-\Phi=\left[{\begin{array}{cccc}{-1}&{-\sigma_{1,1}}&{\cdots}&{-\sigma_{1,\mathrm{N}-1}}\\{-1}&{-\sigma_{2,1}}&{\cdots}&{-\sigma_{2,\mathrm{N}-1}}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{-1}&{-\sigma_{\mathrm{{N},1}}}&{\cdots}&{-\sigma_{\mathrm{{N},N-1}}}\end{array}}\right]
+\Phi=\begin{bmatrix}-1&-\sigma_{1,1}&\cdots&-\sigma_{1,\mathrm{N}-1}\\-1&-\sigma_{2,1}&\cdots&-\sigma_{2,\mathrm{N}-1}\\\vdots&\vdots&\ddots&\vdots\\-1&-\sigma_{\mathrm{N},1}&\cdots&-\sigma_{\mathrm{N},\mathrm{N}-1}\end{bmatrix}
 $$
 
 $$
-\Phi_{\mu}=\left[\begin{array}{cccc}{\mu_{1}}&{-\sigma_{1,1}}&{\cdots}&{-\sigma_{1,\mathrm{N}-1}}\\{\mu_{2}}&{-\sigma_{2,1}}&{\cdots}&{-\sigma_{2,\mathrm{N}-1}}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{\mu_{\mathrm{N}}}&{-\sigma_{\mathrm{N},1}}&{\cdots}&{-\sigma_{\mathrm{N},\mathrm{N}-1}}\end{array}\right]
+\Phi_{\mu}=\left[\begin{matrix}{\mu_{1}}&{-\sigma_{1,1}}&{\cdots}&{-\sigma_{1,\mathrm{N}-1}}\\{\mu_{2}}&{-\sigma_{2,1}}&{\cdots}&{-\sigma_{2,\mathrm{N}-1}}\\{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{\mu_{\mathrm{N}}}&{-\sigma_{\mathrm{N},1}}&{\cdots}&{-\sigma_{\mathrm{N},\mathrm{N}-1}}\end{matrix}\right]
 $$
 
 因此对于 E值 SRR，我们只需要计算相应的 E值收益率和资产与 Brown运动的协方差即可。
@@ -738,18 +738,18 @@ $$
 实证部分的设定与前文保持一致。在 2017 年 01 月 03 日到 2020 年 12月 31 日的回测区间内，我们使用了长度为 2 年的移动窗口来估计 E 值均值和方差。对于 DJIA中的 29 只股票，我们得到相应的
 
 $$
-\left(\mu_{\lambda},\Sigma_{\lambda}\right)
+(\mu_{\lambda},\Sigma_{\lambda})
 $$
 
-其中资 $\cdot\dot{\vec{r}}$ 的排序遵循 E 值收益率方差衰减原则。为了得到 28 个 Brown运动，我们将利用协方差矩阵的 Cholesky 分解
+其中资 $\text{: }\begin{aligned}&\text{" }\\&\text{" }\end{aligned}$ 的排序遵循 E 值收益率方差衰减原则。为了得到 28 个 Brown运动，我们将利用协方差矩阵的 Cholesky 分解
 
 $$
-\Sigma_{\lambda}=\mathrm{LL}^{\mathrm{T}}
+\Sigma_{\lambda}=\mathrm{LL^{T}}
 $$
 
-并将 $\cdot\mathrm{L}^{\mathrm{T}}$ 的最后一列替换为它自己的最后两列的和来完成估计。
+并将 $\mathrm{{\cdot}L^{T}}$ 的最后一列替换为它自己的最后两列的和来完成估计。
 
-本节计算了 $\lambda{\in}\{0,0.25,0.5,0.75\}$ 的 SRR，参见图 11。可以看到 Covid-19的冲击改变了 SRR 曲线之间的相对位置和分化程度，但冲击结束之后不同 SRR 又开始呈现分化。
+本节计算了 $\lambda\in\{0,0.25,0.5,0.75\}$ 的 SRR，参见图 11。可以看到 Covid-19的冲击改变了 SRR 曲线之间的相对位置和分化程度，但冲击结束之后不同 SRR 又开始呈现分化。
 
 图 11：E值影子无风险利率
 ![](images/1c42177afecf769040bca4ffda2e5450653de6fd61af9d8d200f3a7643ec3772.webp)
@@ -762,7 +762,7 @@ $$
 注意到价格平减过程的标准差被定义为
 
 $$
-\sigma_{\pi}=\left(\sum_{\mathrm{j}\in\left[\mathrm{N-1}\right]}\sigma_{\pi,\mathrm{j}}^{2}\right)^{1/2}
+\sigma_{\pi}=\left(\sum_{\mathrm{j}\in[\mathrm{N}-1]}\sigma_{\pi,\mathrm{j}}^{2}\right)^{1/2}
 $$
 
 因此可以定义 SRR 的信息比率（information ratio，IR）如下
@@ -818,69 +818,69 @@ $$
 第二步，利用上述 NIG 拟合，生成
 
 $$
-\{\widehat{\boldsymbol{\mathrm{r}}}_{\mathrm{t+T}}{:}\mathrm{T}\in(\mathrm{T}_{\mathrm{min}},\mathrm{T}_{\mathrm{max}})\}
+\{\mathbf{\hat{r}_{t+T}}\mathbf{:}\mathbf{T}\in(\mathrm{T_{min}},\mathrm{T_{max}})\}
 $$
 
 第三步，对于 S=20000 生成相应的系综
 
 $$
-\{\widehat{\mathbf{r}}_{{\mathrm{t+T}}}^{s}:\mathrm{T}\in(\mathrm{T}_{\mathrm{min}},\mathrm{T}_{\mathrm{max}}),s\in[\mathrm{S}]\}
+\{\hat{\mathbf{r}}_{\mathrm{t}+\mathrm{T}}^{s}\colon\mathrm{T}\in(\mathrm{T}_{\operatorname*{min}},\mathrm{T}_{\operatorname*{max}}),s\in[\mathrm{S}]\}
 $$
 
 第四步，计算相应的 ER 系综：
 
 $$
-\{\hat{\zeta}_{\mathrm{t+T}}^{s}:\mathrm{T}\in(\mathrm{T}_{\mathrm{min}},\mathrm{T}_{\mathrm{max}}),s\in[\mathrm{S}]\}
+\{\hat{\zeta}_{\mathrm{t}+\mathrm{T}}^{s}:\mathrm{T}\in(\mathrm{T}_{\mathrm{min}},\mathrm{T}_{\mathrm{max}}),s\in[\mathrm{S}]\}
 $$
 
 第五步，得到 E值系综：
 
 $$
-\{\widehat{\mathrm{P}}_{{\mathrm{t+T}}}^{(\mathrm{Z},{s})}:\mathrm{T}\in(\mathrm{T}_{\operatorname*{min}},\mathrm{T}_{\operatorname*{max}}),s\in[\mathrm{S}]\}
+\{\widehat{\mathrm{P}}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z},\mathrm{s})}\colon\mathrm{T}\in(\mathrm{T}_{\mathrm{min}},\mathrm{T}_{\mathrm{max}}),\mathrm{s}\in[\mathrm{S}]\}
 $$
 
 下面计算相应的欧式期权的价格。形式上我们总是有
 
 $$
-\mathrm{P}_{\mathrm{t}}^{(\mathrm{Z})}(\lambda)=\mathbb{E}^{\mathbb{Q}}\left[\mathrm{P}_{\mathrm{t+T}}^{(\mathrm{Z})}(\lambda)\mathrm{e}^{-\zeta_{\mathrm{f,t}}(\lambda)\mathrm{T}}\bigg|\mathcal{F}_{\mathrm{t}}\right]
+\mathrm{P}_{\mathrm{t}}^{(\mathrm{Z})}(\lambda)=\mathbb{E}^{\mathbb{Q}}\left[\mathrm{P}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z})}(\lambda)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)\mathrm{T}}\right]
 $$
 
 $$
-\left\{\begin{array}{c}{\mathcal{F}_{\mathrm{t}}=\dot{\gamma}_{\mathrm{s}}^{\mathrm{E}}\ddag\ddag}\\{\mathbb{Q}=\mathbb{X}\lbrack\sharp\xrightarrow[]{\ast}\Psi\cdot\lvert\pm\ m\rvert\rbrack\displaylimits_{\overrightarrow{\mathcal{Z}}}^{\ast}}\end{array}\right.
+\left\{\begin{aligned}\mathcal{F}_{t}&=滤链\\\mathbb{Q}&=风险中性测度\end{aligned}\right.
 $$
 
 于是
 
 $$
-\Phi_{\mathrm{c}}=\mathbb{E}^{\mathbb{Q}}\left[\operatorname*{max}\left(\widehat{\mathrm{P}}_{\mathrm{t+T}}^{\mathrm{(Z)}}(\lambda)-\mathrm{K},0\right)\mathrm{e}^{-\zeta_{\mathrm{f,t}}(\lambda)\top}\middle|\mathcal{F}_{\mathrm{t}}\right]
+\Phi_{\mathrm{c}}=\mathbb{E}^{\mathbb{Q}}[\max(\hat{\mathrm{P}}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z})}(\lambda)-\mathrm{K},0)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)\mathrm{T}}|\mathcal{F}_{\mathrm{t}}]
 $$
 
 $$
-\Phi_{\mathrm{p}}=\mathbb{E}^{\mathbb{Q}}\left[\operatorname*{max}\left(\mathrm{K}-\widehat{\mathrm{P}}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z})}(\lambda),0\right)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)\mathrm{T}}\middle|\mathcal{F}_{\mathrm{t}}\right]
+\Phi_{\mathrm{p}}=\mathbb{E}^{\mathbb{Q}}\left[\max\left(\mathrm{K}-\widehat{\mathrm{P}}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z})}(\lambda),0\right)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)\mathrm{T}}\right]\mathcal{F}_{\mathrm{t}}
 $$
 
 对于离散情况有
 
 $$
-\mathbb{E}^{\mathbb{Q}}\left[\widehat{\mathrm{P}}_{\mathrm{t+T}}^{(\mathrm{Z})}(\lambda)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)\mathrm{T}}\Big\vert\mathcal{F}_{\mathrm{t}}\right]=\sum_{s\in[S]}\mathsf{q}_{s}^{\ast}\mathrm{P}_{\mathrm{t+T}}^{(\mathrm{Z},s)}(\lambda)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}\mathrm{T}}
+\mathbb{E}^{\mathbb{Q}}\left[\widehat{\mathrm{P}}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z})}(\lambda)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}(\lambda)\mathrm{T}}\right|\mathcal{F}_{\mathrm{t}}=\sum_{s\in[S]}\mathrm{q}_{s}^{*}\mathrm{P}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z},s)}(\lambda)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}\mathrm{T}}
 $$
 
-其中 $\boldsymbol{\mathfrak{q}}_{s}^{*}$ 是如下 Kullback-Leibler 散度优化问题的解
+其中 $\mathbf{q}_{s}^{*}$ 是如下 Kullback-Leibler 散度优化问题的解
 
 $$
-\begin{array}{c}{{\displaystyle\operatorname*{min}_{({\bf q}_{s})}\sum_{s\in[S]}{\bf q}_{s}\ln{\bf q}_{s}/{\bf p}_{s}}}\\{{\mathrm{s.t.}~\left\{\begin{array}{c}{{{\bf q}_{s}>0,s\in[S]}}\\{{\Sigma_{s}{\bf q}_{s}=1}}\\{{\Sigma_{s}{\bf q}_{s}{\bf P}_{t+\mathrm{T}}^{(\mathrm{Z},{s})}(\lambda)\mathrm{e}^{-\zeta_{\mathrm{f},t}\mathrm{T}}={\bf P}_{t}^{(\mathrm{Z})}}}\end{array}\right.}}\end{array}
+\begin{aligned}\min_{(\mathbf{q}_{\mathsf{s}})}\sum_{\mathsf{s}\in[\mathsf{S}]}\mathsf{q}_{\mathsf{s}}\ln\mathsf{q}_{\mathsf{s}}/\mathsf{p}_{\mathsf{s}}\\s.t.\left\{\begin{matrix}\mathsf{q}_{\mathsf{s}}>0,\mathsf{s}\in[\mathsf{S}]\\\Sigma_{\mathsf{s}}\mathsf{q}_{\mathsf{s}}=1\\\Sigma_{\mathsf{s}}\mathsf{q}_{\mathsf{s}}\mathsf{P}_{\mathsf{t}+\mathrm{T}}^{(\mathsf{Z},\mathsf{s})}(\lambda)\mathsf{e}^{-\zeta_{\mathsf{f},\mathsf{t}}\mathrm{T}}=\mathsf{P}_{\mathsf{t}}^{(\mathsf{Z})}\end{matrix}\right.\end{aligned}
 $$
 
-其中 $\mathrm{p}_{s}$ 代表的是 s 在ℙ中的概率，例如对于等可能情况，我们有
+其中 ${\mathfrak{p}}_{s^{\prime}}$ 代表的是 s 在ℙ中的概率，例如对于等可能情况，我们有
 
 $$
-\mathsf{p}_{s}=1/\mathsf{S}
+\mathbf{p}_{s}=1/S
 $$
 
 因此最终有期权价格公式
 
 $$
-\begin{array}{rl}&{\Phi_{\mathrm{c}}(\mathrm{t},\mathrm{T},\mathrm{K})=\displaystyle\sum_{s\in[S]}\mathsf{q}_{s}^{*}\left[\mathsf{max}\left(\mathsf{P}_{\mathrm{t+T}}^{(\mathrm{Z},s)}(\lambda)-\mathrm{K},0\right)\mathsf{e}^{-\zeta_{\mathrm{f},\mathrm{t}}\mathrm{T}}\right]}\\&{\Phi_{\mathrm{p}}(\mathrm{t},\mathrm{T},\mathrm{K})=\displaystyle\sum_{s\in[S]}\mathsf{q}_{s}^{*}\left[\mathsf{max}\left(\mathrm{K}-\mathsf{P}_{\mathrm{t+T}}^{(\mathrm{Z},s)}(\lambda),0\right)\mathsf{e}^{-\zeta_{\mathrm{f},\mathrm{t}}\mathrm{T}}\right]}\end{array}
+\begin{aligned}\Phi_{\mathrm{c}}(\mathrm{t},\mathrm{T},\mathrm{K})&=\sum_{\mathrm{s}\in[\mathrm{S}]}\mathrm{q}_{\mathrm{s}}^{*}\left[\max\left(\mathrm{P}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z},\mathrm{s})}(\lambda)-\mathrm{K},0\right)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}\mathrm{T}}\right]\\\Phi_{\mathrm{p}}(\mathrm{t},\mathrm{T},\mathrm{K})&=\sum_{\mathrm{s}\in[\mathrm{S}]}\mathrm{q}_{\mathrm{s}}^{*}\left[\max\left(\mathrm{K}-\mathrm{P}_{\mathrm{t}+\mathrm{T}}^{(\mathrm{Z},\mathrm{s})}(\lambda),0\right)\mathrm{e}^{-\zeta_{\mathrm{f},\mathrm{t}}\mathrm{T}}\right]\end{aligned}
 $$
 
 ## 11.参考文献

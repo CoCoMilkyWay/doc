@@ -101,7 +101,7 @@
 展期的收益计算方法如下：
 
 $$
-R_{T}=Ln\left(\frac{P_{T,Spot}}{P_{T,Dominant}}\right)\times\frac{365}{Days_{T,Dominant}-Days_{T,Spot}}
+R_{T}=Ln\left(\frac{P_{T,Spot}}{P_{T,Dominant}}\right)\times\frac{365}{Days_{T,Dominant}-\ Days_{T,Spot}}
 $$
 
 其中 $P_{T,Spot}$ 与்ܲ,஽௢௠௜௡௔௡௧ 分别在 T 时刻为近月合约（现货）价格和主力合约价格，而௧与஽௢௠௜௡௔௡்,ݏݕܽܦ $Days_{T,Spot}$ 。分别为主力合约到期日剩余天数和近月合约到期日剩余天数
@@ -125,11 +125,11 @@ $$
 ## 3. 评价体系
 
 $$
-4141\dot{\mathbb{Z}}\dot{\mathbb{Z}}\ddot{\mathbb{Z}}\ddot{\mathbb{Z}}\ddot{\mathbb{Z}}=\frac{\sum_{i=0}^{t}\mathrm{Ln}\left(\frac{\frac{3\pi}{4};2\dot{\mathbb{Z}}\dot{\mathbb{Z}}}{\mathbb{Z}\dot{\mathbb{Z}}\ddot{\mathbb{Z}}}_{t-1}\right)}{\mathrm{t}}\ast250-1\mathrm(N:~30H~\frac{\pi}{25}\pi\mathbb{Z}\frac{\mu}{\mu}\mathbb{Z}\mathbb{H}\left.\mu\right.\mathbb{Z}\mathbb{H}\left.\mathbb{Z}\ddot{\mathbb{Z}}\right.\mathrm{.}
+年化收益率=\frac{\sum_{i=0}^{t}Ln\left(\frac{总权益_{t}}{总权益_{t-1}}\right)}{t}\times250-1\quad(N:测试周期内天数)
 $$
 
 $$
-32\div56\div75=56\times125\div(4+14+12+25+12\div2)=(4+16+15+12\div2)
+夏普比率(Share$\mathsf{p}\mathsf{e})=\mathsf{年化收益率}/年化标准差\quad(年化标准差:日收益率\mathsf{标准差}\mathsf{*}\sqrt{250})$
 $$
 
 最大回撤 ൌ 1-当天净值/累积最大净值/

@@ -151,15 +151,15 @@ b) 偏长期、低频数据使用 DTW 配对点方法，从前往后进行峰谷
 
 | 事件类型 | 事件触发条件 | 测试参数 |
 | --- | --- | --- |
-| 突破均线 | $\mathsf{x}\ \mathrm{>\ \mathsf{SMA}\left(\mathsf{x},\mathsf{n}\right)}$ |  |
-|  | $\mathbf{x}>{\mathsf{KAMA}}\left(\mathbf{x},\mathsf{\Delta}\mathsf{n}\right)$ | $\mathsf{\Omega}\mathsf{n}\in\mathsf{\Gamma}[5,\mathsf{\Omega}20,\mathsf{\Omega}40]$ |
-| 短均线突破长均线 | $\mathbf{x}\ >\ {\mathsf{TRIMA}}\left(\mathbf{x},\mathsf{\Delta}\mathsf{n}\right)$ $\mathsf{SMA}\left(\mathsf{x},\mathsf{n}1\right)\ \mathrm{~>~}\mathsf{SMA}\left(\mathsf{x},\mathsf{n}2\right)$ |  |
-|  | $\mathsf{KAMA}\left(\mathbf{x},\mathsf{n}1\right)\ \succ\ \mathsf{KAMA}\ \left(\mathbf{x},\mathsf{n}2\right)$ | $(\mathsf{n1},~\mathsf{n2})~\in~[(10,~20),~(10,~40),~(20,~40)]$ |
-| 震荡突破 | ${\mathsf{TRIMA}}\left({\mathsf{x}},\mathsf{n}1\right)\ >{\mathsf{TRIMA}}\left({\mathsf{x}},\mathsf{n}2\right)$ |  |
-|  | $\mathtt{CMO}\left(\mathbf{x},\mathsf{n}\right)\ >\ 0$ $\mathsf{DP0}\left(\mathsf{x},\mathsf{n},\mathsf{shift}\right)\ \succ\ 0$ | n = 12 n = 20, shift = 11 |
-| 通道突破 | $\mathsf{ROC}\left(\mathsf{x},\mathsf{n}\right)\ >\ 0$ $\textsf{x}>\textsf{AVG}(\textsf{x},\mathsf{n})+\textsf{b}*\textsf{STD}(\textsf{x},\mathsf{n})$ | n = 10 n = 20, b=1.645 |
-|  | $\textsf{x}>\mathsf{MAX}\left(\textsf{x},\textsf{n}\right)$ $\textsf{x}>0\mathsf{uantile}(\textsf{x},\textsf{n},\textsf{0}.5)$ | n = 20 |
-| 分位数突破 | $\textsf{x}>0\mathsf{uantile}(\textsf{x},\mathsf{n},0.75)$ $\textsf{x}>0\mathsf{uantile}(\textsf{x},\textsf{n},\textsf{0}.9)$ | n = 30、240、480 |
+| 突破均线 | $\mathsf{x}\;\succ\;\mathsf{SMA}\left(\mathsf{x},\mathsf{n}\right)$ |  |
+|  | $\mathsf{x}\geq\mathsf{KAMA}\left(\mathsf{x},\mathsf{n}\right)$ | $\mathsf{n}\in[5,20,40]$ |
+| 短均线突破长均线 | $\mathsf{x}\;\succ\;\mathsf{TRIMA}\left(\mathsf{x},\mathsf{n}\right)$ $\mathsf{SMA}\left(\mathsf{x},\mathsf{n1}\right)\;\succ\;\mathsf{SMA}\left(\mathsf{x},\mathsf{n2}\right)$ |  |
+|  | $\mathsf{KAMA}\left(\mathsf{x},\mathsf{n1}\right)\;\succ\;\mathsf{KAMA}\;\left(\mathsf{x},\mathsf{n2}\right)$ | $(\mathsf{n1},\mathsf{n2})\in[(\mathsf{10},\mathsf{20}),(\mathsf{10},\mathsf{40}),(\mathsf{20},\mathsf{40})]$ |
+| 震荡突破 | $\mathsf{TRIMA}\left(\mathsf{x},\mathsf{n1}\right)\;\succ\;\mathsf{TRIMA}\;\left(\mathsf{x},\mathsf{n2}\right)$ |  |
+|  | $\mathsf{CM0}(\mathsf{x},\mathsf{n})>0$ $\mathsf{DPO}\left(\mathsf{x},\mathsf{n},\mathsf{shift}\right)\;\succ\;\mathsf{0}$ | n = 12 n = 20, shift = 11 |
+| 通道突破 | $\mathsf{ROC}\left(\mathsf{x},\mathsf{n}\right)>0$ $\mathbf{x}>\mathsf{AVG}\left(\mathbf{x},\mathbf{\eta}\mathbf{n}\right)+\mathsf{b}\ast\mathsf{STD}\left(\mathbf{x},\mathbf{\eta}\mathbf{n}\right)$ | n = 10 n = 20, b=1.645 |
+|  | $\mathbf{x}>\mathsf{M}\mathsf{A}\times(\mathbf{x},\ \mathsf{n})$ $\mathsf{x}\;\succ\;\mathsf{Quantile}\left(\mathsf{x},\mathsf{n},\mathsf{0.5}\right)$ | n = 20 |
+| 分位数突破 | $\textsf{x}\succ\textsf{Quantile}(\textsf{x},\textsf{n},\textsf{0.75})$ $\mathsf{x}\succ\mathsf{Quantile}\left(\mathsf{x},\mathsf{n},0.9\right)$ | n = 30、240、480 |
 | 同向变动 | 数据 x 与标的 y 持续 n 期变动方向相同 | n ∈ [3，5]，频率为周 |
 
 来源：国金证券研究所

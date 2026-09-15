@@ -347,12 +347,12 @@ return RDV
 | 因子名称 | 含义 | 计算公式 | 因子方向 |
 | --- | --- | --- | --- |
 | return_intraday | 日内收益率 | $close_{15.00}-open_{9.30}$ | -1 |
-| return_var | 收益率方差 | $\scriptstyle\sum_{i=1}^{n}(r_{i}-{\overline{{r}}})^{2}$ | -1 |
-| return_skew | 收益率的偏度 | $\begin{array}{r}{\frac{\sum_{i=1}^{n}(r_{i}-\overline{{r}})^{3}}{n\left(\sum_{i=1}^{n}(r_{i}-\overline{{r}})^{2}\right)^{1.5}}}\end{array}$ 播与转载 | -1 |
-| return_kurtosis | 收益率的峰度 | $\begin{array}{r}{\frac{\sum_{i=1}^{n}(r_{i}-\overline{{r}})^{4}}{n\left(\sum_{i=1}^{n}(r_{i}-\overline{{r}})^{2}\right)^{2}}-3}\end{array}$ | -1 |
+| return_var | 收益率方差 | $\textstyle\sum_{i=1}^{n}(r_{i}-{\overline{{r}}})^{2}$ | -1 |
+| return_skew | 收益率的偏度 | $\frac{\sum_{i=1}^{n}(r_{i}-\overline{{r}})^{3}}{n\big(\sum_{i=1}^{n}(r_{i}-\overline{{r}})^{2}\big)^{1.5}}$ 播与转载 | -1 |
+| return_kurtosis | 收益率的峰度 | $\frac{\sum_{i=1}^{n}(r_{i}-\overline{r})^{4}}{n\left(\sum_{i=1}^{n}(r_{i}-\overline{r})^{2}\right)^{2}}-3$ | -1 |
 | tp_diff | 典型价格差值 | (high15:00+low15:00+close15:00) (high9:30+low9:30+close9:30) 3 | -1 |
-| price_trend_ratio | 股价变动趋势占比 | $\frac{close_{15:00}-close_{9:30}}{\sum_{i=2}^{n}\|(close_{i}-close_{i-1})\|}$ | -1 |
-| intraday_maxdrawdown | 日内最大回撤 | $\mathrm{max}\left({\frac{\mathrm{close}_{\mathrm{i}}}{\mathrm{min}\left(\mathrm{close}_{\mathrm{i}^{\prime}},\mathrm{i}^{\prime}{>}\mathrm{i}\right)}}-1\right)$ | -1 |
+| price_trend_ratio | 股价变动趋势占比 | $\frac{\left.\cos e_{15:00}-\cos e_{9:30}\right.}{\left.\sum_{i=2}^{n}\left\|\left(\cos e_{i}-\cos e_{i-1}\right)\right\|\right.}$ | -1 |
+| intraday_maxdrawdown | 日内最大回撤 | $\max\left(\frac{\mathrm{close}_{\mathrm{i}}}{\min(\mathrm{close}_{\mathrm{i}'},\mathrm{i}'>\mathrm{i})}-1\right)$ | -1 |
 | max_price_pos | 日内最高价出现时间 共本人内部 | $argmax(close_{i})$ | -1 |
 | return_improved | 改进日内涨跌幅 | $close_{15.00}/close_{10.00}$ | -1 |
 
@@ -367,16 +367,16 @@ return RDV
 | 因子名称 用户68 | 含义 | 计算公式 | 因子方向 |
 | --- | --- | --- | --- |
 | return_last_30min | 收盘前半小时收益率 | $close_{15.00}/close_{14.31}$ | -1 |
-| return_var_last_30min | 收盘前半小时的收益率方差 | $\begin{array}{r}{\sum_{t=14.31}^{15.00}\bigl(\mathrm{close}_{t}-\overline{{\mathrm{close}}}\bigr)^{2}}\end{array}$ | -1 |
+| return_var_last_30min | 收盘前半小时的收益率方差 | $\scriptstyle\sum_{t=14.31}^{15.00}\left({\mathrm{close}}_{t}-{\overline{{\mathrm{close}}}}\right)^{2}$ | -1 |
 | return_skew_last_30min | 收盘前半小时的收益率偏度 | kurtosis(rt), 14: 31 ≤ t ≤ 15: 00 | -1 |
 | return_kurtosis_last_30min | 收盘前半小时的收益率峰度 | skew(rt), 14: 31 ≤ t ≤ 15: 00 | -1 |
 | return_downward_var | 下行收益率方差 | $\mathrm{var}(r_{t}),\quad\mathrm{r_{t}}<0$ | -1 |
-| return_upward_var | 上行收益率方差 | $\mathrm{var}(r_{t}),\quad{\mathrm{r}}_{\mathrm{t}}>0$ | -1 |
+| return_upward_var | 上行收益率方差 | $\mathrm{var}(r_{t}),\quad\mathrm{r_{t}}>0$ | -1 |
 | return_downward_var_ratio | 下行收益率方差占比 | $\mathrm{upward\_var}(r_{t})/var(r_{t})$ | -1 |
 | return_upward_var_ratio | 上行收益率方差占比 | downward_var(rt)/var(rt) | -1 |
 | return_downward_volatility_ratio | 下行收益率波动占比 |  |  |
-|  |  | $\frac{\sqrt{n}\sum_{i=1}^{n}\left(r_{i}\cdot I_{r_{i}>0}\right)^{2}}{\sum_{i=1}^{n}r_{i}^{2}}$ | -1 |
-| cum_return_top_10 | 前10%最大累计涨幅 | $\Pi{\left(1+\boldsymbol{r_{i}}\cdot\boldsymbol{I_{y_{i}\geq y_{90\%}}}\right)}$ | -1 |
+|  |  | $\frac{\sqrt{n}\Sigma_{i=1}^{n}\mathopen{}\mathclose\bgroup\left(r_{i}\cdot I_{r_{i}>0}\aftergroup\egroup\right)^{2}}{\Sigma_{i=1}^{n}r_{i}^{2}}$ | -1 |
+| cum_return_top_10 | 前10%最大累计涨幅 | $\Pi\big(1+r_{i}\cdot I_{y_{i}\geq y_{90\%}}\big)$ | -1 |
 
 资料来源：华泰研究
 
@@ -389,13 +389,13 @@ return RDV
 | 因子名称 | 含义 | 计算公式 | 因子方 向 |
 | --- | --- | --- | --- |
 | volume_ratio_per_30min | 每半小时（共八组）成交量占总成 交量比例 | $\frac{\sum_{\mathrm{i}=30(\mathrm{j}-1)+1}^{30\mathrm{j}}volume_{i}}{\sum_{\mathrm{i}=1}^{240}volume_{i}};j$ 为分组id | -1/1/1/1/ 1/1/1/-1 |
-| volume_variance_ratio | 方差比率，衡量成交量5分钟和 | $\begin{array}{r}{\|0\frac{var\big(\mathrm{cusum\it.volume_{i,k}}\big)/k}{var\big(\mathrm{cusum\it.volume_{i,j}}\big)/j}}\end{array}$ i | 1 |
-|  | 分钟自相关性 | $\mathrm{cusum}_{-}volume_{i,5k}=\sum_{i-k}^{i}volume_{i},k=5,j=10$ |  |
+| volume_variance_ratio | 方差比率，衡量成交量5分钟和 | $10\frac{var(vacuum\_volume_{i,k})/k}{var(vacuum\_volume_{i,j})/j}$ i | 1 |
+|  | 分钟自相关性 | $\begin{array}{r}{\mathsf{cusum\_volume}_{i,5k}=\sum_{i-k}^{i}\mathsf{volume}_{i},k=5,j=10}\end{array}$ |  |
 | volume_open_30min_ratio | 前 30min 和午间休市后开盘 30mir |  | -1 |
-|  | 交易量比值 | $\boxed{\begin{array}{c}{1}\\{\frac{\sum_{t=9.30}^{10.00}volume_{t}}{\sum_{t=13.00}^{13.30}volume_{t}}}\end{array}}$ |  |
-| amount_out_order_avg_ratio 平均单笔流出金额占比 |  | $\frac{\sum_{i=1}^{N}\Bigl(amount_{i}\cdot I_{r_{i}<0}\Bigr)/\sum_{i=1}^{N}\Bigl(items\cdot I_{r_{i}<0}\Bigr)}{\sum_{i=1}^{N}amount_{i}/\sum_{i=1}^{N}items}$ | 1 |
+|  | 交易量比值 | $\hat{\mathbb{N}}_{\frac{\sum_{t=9.30}^{10.00}volume_{t}}{\sum_{t=13.00}^{13.30}volume_{t}}}$ |  |
+| amount_out_order_avg_ratio 平均单笔流出金额占比 |  | $\frac{\sum_{i=1}^{N}\left(amount_{i}\cdot I_{r_{i}<0}\right)/\sum_{i=1}^{N}\left(items\cdot I_{r_{i}<0}\right)}{\sum_{i=1}^{N}amount_{i}/\sum_{i=1}^{N}items}$ | 1 |
 | amount_top30_order_net_ratio 大单净流入占比 |  | $\frac{\sum_{i\in top30}amount_{i}\cdot I_{r_{i}>0}-\sum_{i\in top30}amount_{i}\cdot I_{r_{i}<0}}{\sum_{i\in top30}items};$ |  |
-|  |  | $\begin{array}{r}{top30=\left(percentile\left(\frac{amount_{i}}{items_{i}}\right)>70\%\right)}\end{array}$ | -1 |
+|  |  | $top30=\left(percentile\left(\frac{amount_{i}}{items_{i}}\right)>70\%\right)$ | -1 |
 
 资料来源：华泰研究
 
@@ -407,13 +407,13 @@ return RDV
 
 | 因子名称 | 含义 | 计算公式 | 因子方向 |
 | --- | --- | --- | --- |
-| WVAD | 威廉变异离散量 | $\begin{array}{r}{\sum_{i=1}^{N}\frac{close_{i}-open_{i}}{high_{i}-low_{i}}\cdot volume_{i}}\end{array}$ | -1 |
-| Amihud | 收益率除以总交易金额 | $mean\left(\frac{\|r_{i}\|}{volume_{i}.close_{i}}\right)$ | 1 |
-| PVI 29于2023-12-08日下载 | 正成交量指标，放量时收益率之和 | $\begin{array}{r}{\sum_{i=1}^{N}r_{i}\cdot I_{volume_{i}>volume_{i-1}}}\end{array}$ $\begin{array}{r}{\prod_{i\in top30}(1+r_{i});}\end{array}$ | -1 |
-| cum_return_top30_order 户68613 | 前30%的大单推动涨幅 | $\begin{array}{r}{top30=rank\left(\frac{amount_{i}}{items_{i}}\right)}\end{array}$ | -1 |
-| return_var_top33_volume | 前1/3成交量对应的收益率方差 | $var_{i\in top_{3}^{\bot}}(1+r_{i});$ $top{\frac{1}{3}}=rank(volume_{i})$ | -1 |
-| return_kurtosis_top33_volume | 前1/3成交量对应的收益率峰度 | $kurtosis_{i\in top_{3}^{\underline{{{1}}}}}(1+r_{i});$ $top{\frac{1}{3}}=rank(volume_{i})$ | -1 |
-| return_skew_top33_volume | 前1/3成交量对应的收益率偏度 | $skew_{i\in top_{3}^{\bot}}(1+r_{i});$ $top{\frac{1}{3}}=rank(volume_{i})$ | -1 |
+| WVAD | 威廉变异离散量 | $\scriptstyle\sum_{i=1}^{N}{\frac{close_{i}-open_{i}}{high_{i}-low_{i}}}\cdot volume_{i}$ | -1 |
+| Amihud | 收益率除以总交易金额 | $mean\left(\frac{\|r_{i}\|}{volume_{i}\cdot close_{i}}\right)$ | 1 |
+| PVI 29于2023-12-08日下载 | 正成交量指标，放量时收益率之和 | $\textstyle\sum_{i=1}^{N}r_{i}\cdot I_{volume_{i}>volume_{i-1}}$ $\begin{array}{r}{\prod_{i\in top30}(1+r_{i});}\end{array}$ | -1 |
+| cum_return_top30_order 户68613 | 前30%的大单推动涨幅 | $top30=rank\left(\frac{amount_{i}}{items_{i}}\right)$ | -1 |
+| return_var_top33_volume | 前1/3成交量对应的收益率方差 | $var_{i\in top_{3}^{\underline{{1}}}}(1+r_{i});$ $top\frac{1}{3}=rank(volume_{i})$ | -1 |
+| return_kurtosis_top33_volume | 前1/3成交量对应的收益率峰度 | $kurtosis_{i\in top_{3}^{\underline{{1}}}}(1+r_{i});$ $top\frac{1}{3}=rank(volume_{i})$ | -1 |
+| return_skew_top33_volume | 前1/3成交量对应的收益率偏度 | $skew_{i\in top_{3}^{\underline{{1}}}}(1+r_{i});$ $top\frac{1}{3}=rank(volume_{i})$ | -1 |
 
 资料来源：华泰研究
 
@@ -427,43 +427,43 @@ return RDV
 
 | 因子名称 | 含义 | 计算公式 | 因子方向 |
 | --- | --- | --- | --- |
-|  |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
 | VP | 量价相关性 |  | -1 |
 |  |  | $x=volume,y=close$ |  |
-|  |  | ${\frac{cov(x,y)}{std(x)\cdot std(y)}};$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
 | VP_last_30min |  |  |  |
 |  | 收盘前半小时的 VP | $x=volume_{14.30\leq t\leq15.00},$ | -1 |
-|  |  | $y=close_{14.30\leq t\leq15.00}$ |  |
-|  |  | ${\frac{cov(x,y)}{std(x)\cdot std(y)}};$ |  |
-| VP_top33_volume | 前 1/3 成交量对应的 VP | $x=volume_{top_{3}^{1}},$ |  |
+|  |  | $y=\cos e_{14.30\leq t\leq15.00}$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
+| VP_top33_volume | 前 1/3 成交量对应的 VP | $x=volume_{top_{3}^{\underline{{1}},r}}$ |  |
 |  |  | $y=close_{i\in volume_{top\frac{1}{3}}}$ |  |
-| VR |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
+| VR |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
 |  | 收益率与量相关性 |  |  |
 |  |  | $x=volume_{i},y=return_{i}$ 毛我 |  |
-| VR_1min_lead | 领先一分钟 VR | ${\frac{cov(x,y)}{std(x)\cdot std(y)}};$ |  |
+| VR_1min_lead | 领先一分钟 VR | $\frac{cov(x,y)}{std(x)\cdot std(y)};$ |  |
 |  |  | $x=volume_{i},y=return_{i+1}$ |  |
-| VR_1min_lag | 滞后一分钟 VR | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
+| VR_1min_lag | 滞后一分钟 VR | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
 |  | 内部使用，不可传播与 | $x=volume_{i},y=return_{i-1}$ | -1 |
-|  |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
-| VR_last_30min | 收盘前半小时的VR | $x=volume_{t,\ 14.30\leq t\leq15.00},$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
+| VR_last_30min | 收盘前半小时的VR | $x=volume_{t,14.30\leq t\leq15.00},$ |  |
 |  |  |  | -1 |
-|  | 仅供 | $y=return_{t+1},\ 14.30{\leq}t{\leq}15.00$ |  |
-|  |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
-| VR_lead_last_30min |  | $x=volume_{t,\ 14.30\leq t\leq15.00},$ |  |
-|  |  | $y=return_{t+1},\ 14.30{\leq}t{\leq}15.00$ |  |
-|  |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
-|  | 收盘前半小时的滞后 VR | $x=volume_{t,\ 14.30\leq t\leq15.00},$ | -1 |
-| 用户686139 |  | $y=return_{t-1},\ 14.30{\le}t{\le}15.00$ |  |
-| VR_top33_volume |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
-|  | 前 1/3 成交量对应的 VR | $x=volume_{i,~i\in volume_{top\frac{1}{3}}},$ |  |
-|  |  | $y=return_{i,~i\in volume}_{top\frac{1}{3}}$ |  |
-|  |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
-| VR_lead_top33_volume | 前 1/3 成交量对应的领先 VR | $x=volume_{i,~i\in volume_{top\frac{1}{3}}},$ |  |
-|  |  | $y=return_{i+1,~i\in volume}_{top\frac{1}{3}}$ |  |
-|  |  | $\begin{array}{r}{\frac{cov(x,y)}{std(x)\cdot std(y)};}\end{array}$ |  |
+|  | 仅供 | $y=return_{t+1,14.30\leq t\leq15.00}$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
+| VR_lead_last_30min |  | $x=volume_{t,14.30\leq t\leq15.00},$ |  |
+|  |  | $y=return_{t+1,14.30\leq t\leq15.00}$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
+|  | 收盘前半小时的滞后 VR | $x=volume_{t,14.30\leq t\leq15.00},$ | -1 |
+| 用户686139 |  | $y=return_{t-1},~_{14.30\leq t\leq15.00}$ |  |
+| VR_top33_volume |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
+|  | 前 1/3 成交量对应的 VR | $x=volume_{i,i\in volume_{top_{\overline{{3}}}^{1}}}$ |  |
+|  |  | $y=return_{i,i\in volume_{top\frac{1}{3}}}$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
+| VR_lead_top33_volume | 前 1/3 成交量对应的领先 VR | $x=volume_{i,i\in volume_{top_{\overline{{3}}}^{1}}}$ |  |
+|  |  | $y=return_{i+1,\ i\in volume_{top_{3}^{1}}}$ |  |
+|  |  | $\frac{cov(x,y)}{std(x){\cdot}std(y)};$ |  |
 | VR_lag_top33_volume |  |  |  |
-|  | 前 1/3 成交量对应的领先 VR | $x=volume_{i,~i\in volume_{top\frac{1}{3}}},$ | -1 |
-|  |  | $y=return_{i-1,~i\in volume}_{top\frac{1}{3}}$ |  |
+|  | 前 1/3 成交量对应的领先 VR | $x=volume_{i,i\in volume_{top_{3}^{1}}}$ | -1 |
+|  |  | $y=return_{i-1,\ i\in volume_{top_{3}^{1}}}$ |  |
 
 ## 单因子测试方法与结果
 

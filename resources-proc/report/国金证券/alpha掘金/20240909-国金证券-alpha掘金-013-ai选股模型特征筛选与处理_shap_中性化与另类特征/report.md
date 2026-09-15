@@ -112,12 +112,12 @@ STG 方法使用了一种基于 L-0 范数的正则化方法进行特征选择�
 值得一提的是，除了这三种原始方法，为了防止选择出的 64 个因子内部之间相关性过高，我们还考虑了最大边际相关性采样方法。最大边际相关性（Maximal Marginal Relevance，MMR）是一种用于推荐系统中的重排序方法，旨在平衡结果的相关性和多样性。传统的推荐系统通常仅关注推荐结果的相关性，即推荐的内容与用户兴趣的匹配程度。然而，仅关注相关性可能导致推荐结果的冗余，即推荐结果中的多个项目非常相似，从而降低用户体验。MMR 通过引入多样性度量来解决这一问题。在推荐结果的重排序过程中，MMR 方法会选择那些不仅与用户兴趣高度相关，而且与已选结果具有一定差异性的项目。具体来说，MMR 在每一步选择下一个推荐项目时，会计算该项目对用户兴趣的相关性减去其与已选项目的相似性，从而最大化边际相关性。MMR 的公式通常表示为：
 
 $$
-\mathrm{\tt MMR}(D_{i})=\lambda\cdot\mathrm{Rel}(D_{i})-(1-\lambda)\cdot\operatorname*{max}_{D_{j}\in S}\mathrm{Sim}\big(D_{i},D_{j}\big),
+\mathrm{MMR}(D_{i})=\lambda\cdot\mathrm{Rel}(D_{i})-(1-\lambda)\cdot\max_{D_{j}\in S}\mathrm{Sim}(D_{i},D_{j}),
 $$
 
-其中： $\mathsf{Rel}(D_{i})$ 表示项目 $D_{i}$ 与用户兴趣的相关性，Sim $\left(D_{i},D_{i}\right)$ 表示项目 $D_{i}$ 与已选项目 $D_{j}$ 之间的相似性，S是已选项目的集合，λ是一个平衡参数，用于调整相关性和多样性之间的权重。通过这种方式，MMR 方法能够生成既符合用户兴趣又具有多样性的推荐结果，从而提升用户体验和满意度。
+其中： $\operatorname{Rel}(D_{i})$ 表示项目 $D_{i}$ 与用户兴趣的相关性，Sim $\left(D_{i},D_{j}\right)$ 表示项目 $D_{i}$ 与已选项目 $D_{i}$ 之间的相似性，S是已选项目的集合，λ是一个平衡参数，用于调整相关性和多样性之间的权重。通过这种方式，MMR 方法能够生成既符合用户兴趣又具有多样性的推荐结果，从而提升用户体验和满意度。
 
-因此我们试图测试在因子选择的场景下，MMR 是否有效。对于 Spearman 相关性方式，MMR中 $\mathsf{Rel}(D_{i})$ 与Sim $\left(D_{i},D_{j}\right)$ 分别为因子和收益率标签与其它因子 Spearman 相关性的绝对值，λ设置为0.5；而对于互信息方法， $\mathsf{Rel}(D_{i})$ 为因子与收益率标签之间互信息大小，Sim $\left(D_{i},D_{j}\right)$ 为因子之间 Spearman 相关性的绝对值，λ设置为 0.2（考虑到前后两项之间的量纲关系）。基于 Spearman 相关性、互信息和 LightGBM 模型重要性三种方式，叠加 MMR 插件，共有六种方式，在全 A 股上的表现如下：
+因此我们试图测试在因子选择的场景下，MMR 是否有效。对于 Spearman 相关性方式，MMR中 $\operatorname{Rel}(D_{i})$ 与Sim $\left(D_{i},D_{j}\right)$ 分别为因子和收益率标签与其它因子 Spearman 相关性的绝对值，λ设置为0.5；而对于互信息方法， $\operatorname{Rel}(D_{i})$ 为因子与收益率标签之间互信息大小，Sim $\left(D_{i},D_{j}\right)$ 为因子之间 Spearman 相关性的绝对值，λ设置为 0.2（考虑到前后两项之间的量纲关系）。基于 Spearman 相关性、互信息和 LightGBM 模型重要性三种方式，叠加 MMR 插件，共有六种方式，在全 A 股上的表现如下：
 
 图表4：基础统计方法各项指标对比
 
@@ -149,7 +149,7 @@ $$
 与基础统计方法类似，我们也借鉴 MMR 引入了因子多样性的考量，由于 SHAP 值的量纲与Spearman 相关性的量纲差距过大，我们采用如下公式计算 MMR 的值：
 
 $$
-\mathsf{MMR}(D_{i})=\operatorname{Rel}(D_{i})\cdot\left(1-\operatorname*{max}_{D_{i}\in S}\operatorname{Sim}\left(D_{i},D_{j}\right)\right)
+\mathrm{MMR}(D_{i})=\mathrm{Rel}(D_{i})\cdot\left(1-\max_{D_{j}\in S}\mathrm{Sim}(D_{i},D_{j})\right)
 $$
 
 其中，Rel(D )为因子的 SHAP 值，Sim(D ,D )为因子之间 Spearman 相关性的绝对值。由于Spearman 相关性绝对值的取值为[0,1]，乘号右侧的系数取值也为[0,1]，同时满足相关度越高，系数越小的特性。
@@ -248,7 +248,7 @@ $$
 中性化的常见做法是把原始因子值作为被解释变量，行业因子和市值因子作为解释变量进行回归，取回归的残差作为新的因子暴露值，模型如下：
 
 $$
-X_{i}=\beta_{0}+et{}{'}\sum_{J=1}^{n}\beta_{J}\cdot I_{ij}+\beta_{n+1}M_{i}+\varepsilon
+X_{i}=\beta_{0}+{\sum}_{J=1}^{n}\beta_{J}\cdot I_{ij}+\beta_{n+1}M_{i}+\varepsilon_{i}
 $$
 
 其中， $X_{i}$ 是股票 i 的原始因子值， $I_{ij}$ 是股票 i 的在行业 j 上的因子暴露 $(I_{ij}$ 为哑变量（Dummy variable），即股票属于某个行业则该股票在该行业的因子暴露等于 1，在其他行业的因子暴露等于 0）。本文我们选用中信一级行业分类作为行业分类标准。 $M_{i}$ 是股票i 的市值或取对数后的市值。
@@ -508,7 +508,7 @@ $$
 为进一步贴近投资实际需求，我们构建了基于上述机器学习模型的指数增强策略。具体而言，我们通过应用马科维茨均值-方差优化模型，对投资组合的跟踪误差进行了严格限制，同时对个股的偏离程度进行了有效控制，以减少策略的波动性。此外，此优化模型还旨在最大化预期的超额收益率。这一策略的设计不仅注重风险管理，更力求在实际投资操作中实现最佳收益表现。
 
 $$
-\begin{array}{c}{{Maxw^{T}f}}\\{{s.t.~\sqrt{(w-w_{bench})\Sigma(w-w_{bench})^{\prime}}\leq target\_TE}}\\{{|w-w_{bench}|\leq1\%}}\end{array}
+\begin{aligned}&s.t.\begin{aligned}\\&\sqrt{(w-w_{bench})\Sigma(w-w_{bench})'}\leq target\_TE\\&|w-w_{bench}|\leq1\%\\&\end{aligned}\\\end{aligned}
 $$
 
 其中，f为模型的预测信号， $w_{bench}$ 为基准权重向量，target_TE 为目标跟踪误差。

@@ -115,7 +115,7 @@ zhangyu1@ctsec.com 021-68592337
 首先我们了解一下主要指数的编制方式，以沪深300（000300.SH）为例，它是由沪深A股中规模大、流动性好的最具代表性的300只股票组成，其编制方法采用派许加权综合价格指数公式进行计算：
 
 $$
-4\textcircled{2}\frac{4}{5}+\frac{4}{5}\textcircled{1}\frac{4}{5}\frac{3}{5}=\frac{\frac{3}{7}\times\frac{4}{5}\textcircled{1}\frac{4}{5}-\frac{3}{7}\times\frac{2}{7}\times\frac{2}{7}\times\frac{3}{7}\times\frac{4}{15}\times\frac{3}{15}\times\frac{4}{15}}{\textcircled{1}\frac{4}{5}\times\frac{5}{7}}\times1000{\textcircled{1}\frac{5}{7}\frac{3}{5}\times\frac{5}{7}}.
+报告期指数=\frac{报告期成分股的调整市值}{除数}\times1000
 $$
 
 其中，调整市值 = ∑(股价 ×调整股本数)。调整股本数根据分级靠档的方法对样本股股本进行调整而获得，要计算调整股本数，需要确定自由流通量和分级靠档两个因素，具体来讲：
@@ -135,7 +135,7 @@ $$
 分级靠档是根据自由流通股本所占 股总股本的比例（即自由流通比例）赋予A股总股本一定的加权比例，以确保计算指数的股本保持相对稳定，沪深300指数样本的加权比例依据表2确定。
 
 $$
-\sharp\sharp\dot{\lambda}_{n}^{\pm}\dot{\lambda}_{\sharp}^{\sharp}\rVert_{L^{\angle}(\mathcal{H})}=\sharp\sharp\sharp\dot{\lambda}_{n}^{\sharp}\dot{\lambda}_{\sharp}^{\sharp}\rVert_{L^{\angle}(\mathcal{A})\mathcal{Z}_{\epsilon}}^{\varphi}/\hbar\mathtt{H}_{\lambda}^{\mu},\dot{\Xi}_{\lambda}^{\sharp}\rVert_{\mathcal{X}_{\epsilon}}^{\mu}
+自由流通比例=自由流通量/A股总股本
 $$
 
 调整股本数 = A股总股本×加权比例

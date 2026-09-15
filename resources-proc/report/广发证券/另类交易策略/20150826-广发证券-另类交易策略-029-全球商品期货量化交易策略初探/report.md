@@ -525,7 +525,7 @@ wind商品品种指数=∑合约最新价ⅹ每个合约权重其中：
 在我们前期的报告《低延迟趋势线与交易性择时》中，我们介绍了一种判断趋势的工具——LLT低延时趋势线，并在华夏上证50ETF、易方达深 100ETF、华安上证180ETF 和华泰柏瑞沪深300ETF上做了实证研究，并得出了满意的结果。LLT的计算公式为
 
 $$
-LLT(T)=\left\{\begin{array}{ll}{p(T),0<T<2}\\{\qquad}\\{\quad\displaystyle(\alpha-\alpha^{2}/4)*p(T)+(\alpha^{2}/2)*p(T-1)}\\{\qquad\quad\displaystyle-(\alpha-3\alpha^{2}/4)*p(T-2)+2(1-\alpha)*LLT(T-1)}\\{\qquad\quad\displaystyle-(1-\alpha)^{2}*LLT(T-2),T\geq2}\end{array}\right.\tag{1}
+\begin{aligned}&LLT(T)=\left\{\begin{aligned}\\&p(T),\;0{<}T<2\\&(\alpha-\alpha^{2}/4)*p(T)+(\alpha^{2}/2)*p(T-1)\\&-(\alpha-3\alpha^{2}/4)*p(T-2)+2(1-\alpha)*LLT(T-1)\\&-(1-\alpha)^{2}*LLT(T-2),\;T\geq2\\&\end{aligned}\right.\\\end{aligned}\tag{1}
 $$
 
 $$

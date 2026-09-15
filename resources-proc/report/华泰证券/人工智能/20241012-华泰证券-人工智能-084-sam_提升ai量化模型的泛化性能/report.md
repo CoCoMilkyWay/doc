@@ -79,11 +79,11 @@ SAM优化器设计初衷是使模型训练时在权重空间中找到一条平�
 
 | 优化器 | 公式 | 特点 | 局限 |
 | --- | --- | --- | --- |
-| SGD | $g_{t}=\nabla_{w}\frac{1}{\|\mathcal{B}_{t}\|}\cdot\sum_{i\in\mathcal{B}_{t}}L(y_{i},f(x_{i},w))$ | 通过每次迭代使用单个或一小批样本来更新权重，最小 化损失函数 | 需要手动调整学习率，且调整不当可能导致收敛速度慢 或不收敛 |
-| Adagrad | $w_{t}=w_{t-1}-\eta_{t}g_{t}$ ${\pmb g}_{t}=\pmb\nabla_{{\boldsymbol w}}L({\pmb y}_{t},f({\pmb x}_{t},{\pmb w}))$ $\begin{array}{r}{s_{t}=s_{t-1}+g_{t}^{2}}\end{array}$ $\begin{array}{r}{w_{t}=w_{t-1}-\frac{\eta}{\sqrt{s_{t}+\epsilon}}\cdot g_{t}^{2}}\end{array}$ | 自适应学习率优化算法，为每个参数提供不同的学习率，学习率随着时间的推移而单调递减，最终可能变得过 提升稀疏权重优化鲁棒性 | 小，导致收敛缓慢 |
-|  | ${\pmb g}_{t}=\nabla_{w}L({\pmb y}_{t},f({\pmb x}_{t},{\pmb w}))$ $\begin{array}{r}{s_{t}=\gamma\cdot s_{t-1}+(1-\gamma)\cdot g_{t}^{2}}\end{array}$ $\begin{array}{r}{w_{t}=w_{t-1}-\frac{\eta}{\sqrt{s_{t}+\epsilon}}\cdot g_{t}^{2}}\end{array}$ | 稳定性 | 需要调整学习率和指数衰减因子，调参复杂；记录各参 数滑动窗口内梯度值占用内存较高 |
-| Adam | ${\pmb g}_{t}=\nabla_{w}L({\pmb y}_{t},f({\pmb x}_{t},{\pmb w}))$ $\boldsymbol{v}_{t}=\beta_{1}\cdot\boldsymbol{v}_{t-1}+(1-\beta_{1})\cdot\boldsymbol{g}_{t}$ $\begin{array}{r}{{\pmb{s}}_{t}={\pmb{\beta}}_{2}\cdot{\pmb{s}}_{t-1}+(1-{\beta}_{2})\cdot{\pmb{g}}_{t}^{2}}\end{array}$ $\begin{array}{r}{g_{t}^{\prime}=\frac{\eta_{t}\cdot\hat{v}_{t}}{\sqrt{\hat{s}_{t}}+\epsilon}}\end{array}$ | 结合了动量法和RMSprop的优点，同时使用了梯度的 一阶矩估计（动量）和二阶矩估计（梯度的平方） | 开始阶段的一阶和二阶矩估计可能有偏差，影响初期的 表现 |
-| AdamW | $w_{t}=w_{t-1}-g_{t}^{\prime}$ ${\pmb g}_{t}=\nabla_{w}L({\pmb y}_{t},f({\pmb x}_{t},{\pmb w}))$ $\boldsymbol{v}_{t}=\beta_{1}\cdot\boldsymbol{v}_{t-1}+(1-\beta_{1})\cdot\boldsymbol{g}_{t}$ $\begin{array}{r}{{\pmb{s}}_{t}={\pmb{\beta}}_{2}\cdot{\pmb{s}}_{t-1}+(1-{\beta}_{2})\cdot{\pmb{g}}_{t}^{2}}\end{array}$ | 在 Adam 的基础上直接在权重更新中加入了权重衰减 (L2正则化)，而不是作为学习率的一部分 | 需要调整多个超参数 |
+| SGD | $\boldsymbol{g}_{t}=\nabla_{\boldsymbol{w}}\frac{1}{\|\mathcal{B}_{t}\|}\cdot\sum_{i\in\mathcal{B}_{t}}L(y_{i},f(\boldsymbol{x}_{i},\boldsymbol{w})),$ | 通过每次迭代使用单个或一小批样本来更新权重，最小 化损失函数 | 需要手动调整学习率，且调整不当可能导致收敛速度慢 或不收敛 |
+| Adagrad | $\boldsymbol{w}_{t}=\boldsymbol{w}_{t-1}-\eta_{t}\boldsymbol{g}_{t}$ $\boldsymbol{g}_{t}=\nabla_{\boldsymbol{w}}L(\boldsymbol{y}_{t},f(\boldsymbol{x}_{t},\boldsymbol{w}))$ $s_{t}=s_{t-1}+g_{t}^{2}$ $w_{t}=w_{t-1}-\frac{\eta}{\sqrt{s_{t}+\epsilon}}\cdot g_{t}^{2}$ | 自适应学习率优化算法，为每个参数提供不同的学习率，学习率随着时间的推移而单调递减，最终可能变得过 提升稀疏权重优化鲁棒性 | 小，导致收敛缓慢 |
+|  | $\boldsymbol{g}_{t}=\nabla_{\boldsymbol{w}}L(\boldsymbol{y}_{t},f(\boldsymbol{x}_{t},\boldsymbol{w}))$ $s_{t}=\gamma\cdot s_{t-1}+(1-\gamma)\cdot g_{t}^{2}$ $w_{t}=w_{t-1}-\frac{\eta}{\sqrt{s_{t}+\epsilon}}\cdot g_{t}^{2}$ | 稳定性 | 需要调整学习率和指数衰减因子，调参复杂；记录各参 数滑动窗口内梯度值占用内存较高 |
+| Adam | $\boldsymbol{g}_{t}=\nabla_{\boldsymbol{w}}L(\boldsymbol{y}_{t},f(\boldsymbol{x}_{t},\boldsymbol{w}))$ $v_{t}=\beta_{1}\cdot v_{t-1}+(1-\beta_{1})\cdot\bar{g}_{t}$ $s_{t}=\beta_{2}\cdot s_{t-1}+(1-\beta_{2})\cdot\boldsymbol{g}_{t}^{2}$ $\begin{array}{r}{\pmb{g}_{t}^{\prime}=\frac{\eta_{t}\cdot\hat{v}_{t}}{\sqrt{\hat{s}_{t}+\epsilon}}.}\end{array}$ | 结合了动量法和RMSprop的优点，同时使用了梯度的 一阶矩估计（动量）和二阶矩估计（梯度的平方） | 开始阶段的一阶和二阶矩估计可能有偏差，影响初期的 表现 |
+| AdamW | $w_{t}=w_{t-1}-g_{t}^{\prime}$ $\boldsymbol{g}_{t}=\nabla_{\boldsymbol{w}}L(\boldsymbol{y}_{t},f(\boldsymbol{x}_{t},\boldsymbol{w}))$ $v_{t}=\beta_{1}\cdot v_{t-1}+(1-\beta_{1})\cdot\boldsymbol{g}_{t}$ $s_{t}=\beta_{2}\cdot s_{t-1}+(1-\beta_{2})\cdot g_{t}^{2}$ | 在 Adam 的基础上直接在权重更新中加入了权重衰减 (L2正则化)，而不是作为学习率的一部分 | 需要调整多个超参数 |
 
 除了以上汇总的优缺点，传统的优化器相比本文介绍的SAM优化器还有一个共同的局限：传统优化器通常只考虑最小化训练集上的损失函数，可能陷入“尖锐极小值”，这些极小值点处虽然训练损失较低，但往往会导致过拟合现象，即模型对训练数据过度拟合而泛化性能较差。相比之下，SAM优化算法能够克服这些局限性，在训练时寻找“平坦极小值”，这些极小值不仅在训练集上表现出较低的损失，而且在测试集上也具有较好的泛化性能。
 
@@ -93,7 +93,7 @@ Sharpness Aware Minimization （ SAM ） 方 法 最 初 由 Google Research 团
 
 ## 什么是损失函数“地形”？
 
-损失函数地形即损失函数值与模型参数之间的变化关系。在优化问题中，损失函数可看作以模型参数为自变量的函数，用公式表示即 $L_{w}(y_{\mathcal{B}},f(x_{\mathcal{B}},w))$ 。对于神经网络这类具有大量参数的模型，自变量为一个高维向量。若不对模型参数进行降维处理，则损失函数地形为高维空间中的一个曲面，曲面上的每一个点代表一组自变量取值时的损失函数值。
+损失函数地形即损失函数值与模型参数之间的变化关系。在优化问题中，损失函数可看作以模型参数为自变量的函数，用公式表示即 $L_{w}(y_{\mathcal{B}},f(x_{\mathcal{B}},\pmb{w}))$ 。对于神经网络这类具有大量参数的模型，自变量为一个高维向量。若不对模型参数进行降维处理，则损失函数地形为高维空间中的一个曲面，曲面上的每一个点代表一组自变量取值时的损失函数值。
 
 由于高维空间损失函数曲面难以可视化，作为研究对象不够直观，因此通常可对模型参数降维，通过简化后的低维空间进行可视化和理解。举例来说，假设模型中只有一个可变参数，则此时损失函数地形即退化为一维的损失函数曲线；同样假设从高维模型参数中提取两个主要分量作为模型参数，即可将损失函数与参数之间的变化关系用二维曲面进行表示，这也是最为常见的做法。
 
@@ -117,18 +117,18 @@ SAM优化器通过两次梯度下降，微调梯度下降的方向来寻找权�
 而某权重点扰动范围内损失函数最大值的位置其实是已知的。常规优化算法梯度下降时沿着该权重点处损失函数的负梯度方向前进，可使损失函数最速下降。因此，损失函数最大值的位置的方向即损失函数的正梯度方向。在该权重点处沿着损失函数正梯度方向前进一小步的位置即扰动范围内损失函数最大值处。用公式表达即：
 
 $$
-\hat{\epsilon}~(w)=\rho\frac{\nabla_{w}L_{\mathcal{S}}(w)}{||\nabla_{w}L_{\mathcal{S}}(w)||_{2}}
+\hat{\epsilon}\left(\boldsymbol{w}\right)=\rho\frac{\hat{V}_{\boldsymbol{w}}L_{\mathcal{S}}(\boldsymbol{w})}{\|\hat{V}_{\boldsymbol{w}}L_{\mathcal{S}}(\boldsymbol{w})\|_{2}},
 $$
 
-其中， $\hat{\pmb{\epsilon}}\left(\pmb{w}\right)$ 表示的就是损失函数上升最快的扰动方向， $\nabla_{w}L_{\mathcal{S}}(w)$ 为损失函数 $L_{\mathcal{S}}$ 在 $w$ 处的梯度，而分母中的 $|\nabla_{w}L_{\mathcal{S}}(w)||_{2}$ 则表示该梯度张量的二阶模。
+其中， $\hat{\textbf{ \epsilon }}(\pmb{w})$ 表示的就是损失函数上升最快的扰动方向， $V_{w}L_{\mathcal{S}}(w)$ 为损失函数 $L_{\mathcal{S}}$ 在 $\pmb{w}$ 处的梯度，而分母中的 $\|V_{\boldsymbol{w}}L_{\mathcal{S}}(\boldsymbol{w})\|_{2}$ 则表示该梯度张量的二阶模。
 
-将 $\hat{\pmb{\epsilon}}\left(\pmb{w}\right)$ 代入 $L_{\mathcal{S}}^{SAM}(\pmb{w})$ 中并求梯度，经过泰勒展开及近似，就可以得到SAM优化算法在训练时每一步实际更新的梯度：
+将 $\hat{\textbf{ \em e }}(\pmb{w})$ 代入 $L_{\mathcal{S}}^{SMM}(w)$ 中并求梯度，经过泰勒展开及近似，就可以得到SAM优化算法在训练时每一步实际更新的梯度：
 
 $$
-\nabla_{\pmb{w}}L_{\mathcal{S}}^{SAM}(\pmb{w})=\nabla_{\pmb{w}}L_{\mathcal{S}}(\pmb{w}+\hat{\epsilon}\left(\pmb{w}\right))\approx\nabla_{\pmb{w}}L_{\mathcal{S}}(\pmb{w})|_{\pmb{w}+\hat{\epsilon}\left(\pmb{w}\right)}
+\begin{array}{r}{\bar{V}_{\pmb{w}}L_{\mathcal{S}}^{SAM}(\pmb{w})=\bar{V}_{\pmb{w}}L_{\mathcal{S}}(\pmb{w}+\hat{\pmb{\epsilon}}\;(\pmb{w}))\approx\bar{V}_{\pmb{w}}L_{\mathcal{S}}(\pmb{w})|_{\pmb{w}+\hat{\pmb{\epsilon}}\;(\pmb{w})}}\end{array}
 $$
 
-即在SAM算法中，每一次梯度下降时用损失函数 $\pmb{L}_{\mathcal{S}}$ 在 $\mathbf{w}+\hat{\pmb{\epsilon}}\left(\pmb{w}\right)$ 处的梯度更新点处的模型权重。
+即在SAM算法中，每一次梯度下降时用损失函数 $L_{\mathcal{S}}$ 在 $w+\hat{\epsilon}\left(w\right)$ 处的梯度更新点处的模型权重。
 SAM优化器算法流程示意图和伪代码如下图所示。
 
 图表10：SAM 算法的两次梯度下降示意图

@@ -157,7 +157,7 @@ yanjiawei@gf.com.cn
 （1）业绩预测准确度
 
 $$
-score\_accuracy=\operatorname{ecdf}\frac{\operatorname*{max}(esterr_{i})-esterr_{i}}{\operatorname*{max}(esterr_{i})-\operatorname*{min}(esterr_{i})})
+score\_accuracy=\mathrm{ecdf}\left(\frac{\max(center_i)-\mathrm{seter}_i}{\max(center_i)-\min(center_i)}\right)
 $$
 
 其中，esterr为历史单次预测的绝对误差，ecdf为分位数函数。在这个维度上，我们衡量历史两年半内在该股票上有覆盖的分析师的历次报告的净利润预测值与当期实际净利润值的偏离度，取平均，进行排序，偏离度小的分析师在该股票上得分高，得分为0至100。
@@ -167,7 +167,7 @@ $$
 我们使用报告发布后标的的二级市场涨跌幅来衡量推荐的市场反应。使用不同时间长度（10、30、60天）分别衡量短中长期的市场反应。
 
 $$
-score\_impact=\operatorname{ecdf}\ (\frac{1}{2}\times return\_10d+\frac{1}{3}\times return\_30d+\frac{1}{6}\times return\_60d)
+score\_impact=\csc{\left(\frac{1}{2}\times return\_10d+\frac{1}{3}\times return\_30d+\frac{1}{6}\times return\_60d\right)}
 $$
 
 其中，return nd_ 为历史报告公布之后的n日涨幅。指标计算过程与业绩预测准确度类似，先对每篇报告计算市场反应指标，再按分析师维度计算平均，最后进行打分，取百分位数为最后得分。
@@ -177,17 +177,17 @@ $$
 使用指数衰减作为报告时效性的权重。
 
 $$
-time\_dacay=e^{-{\lambda}{\times}t}
+time\_dacay=e^{-\lambda\times t}
 $$
 
-其中， $t~\left(~0\leq t\leq180~\right)$ 为该份报告距离最近一份研报的时间跨度，•为半衰期参数。
+其中， $t\quad(0\leq t\leq180)$ 为该份报告距离最近一份研报的时间跨度，•为半衰期参数。
 
 ## （4）综合得分
 
 综合以上三个维度得到预测值权重：
 
 $$
-wt=(\frac{1}{2}\times{score}_{-}accuracy+\frac{1}{2}\times{score}_{-}impact)\times time_{-}decay
+wt=(\frac{1}{2}\times score\_accuracy+\frac{1}{2}\times score\_impact)\times time\_decay
 $$
 
 根据我们的统计，使用广发一致预期指标，战胜等权一致预期的概率为64.97%。

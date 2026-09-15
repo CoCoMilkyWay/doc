@@ -118,9 +118,9 @@ Heterogeneous liquidity providers and night-minus-day return predictability一�
 
 在文章中需要多次使用到的变量包括日内收益、隔夜收益、日夜收益差与报价订单缺口的代理变量，其构造方法分别如下：
 
-日内收益: $\begin{array}{r}{r_{D,d}=\frac{P_{d}^{close}}{P_{d}^{open}}-1}\end{array}$
+日内收益: $\begin{array}{r}{r_{D,d}=\frac{P_{d}^{close}}{P_{d}^{open}}-1.}\end{array}$
 
-隔夜收益： $\begin{array}{r}{r_{N,d}=\frac{1+r_{close-to-close,d}}{1+r_{D,d}}-1}\end{array}$
+隔夜收益： $r_{N,d}=\frac{1+r_{close-to-close,d}}{1+r_{D,d}}-1$
 
 日夜收益差： $r_{NMD,d}=r_{N,d}-r_{D,d}$
 
@@ -260,14 +260,14 @@ MVE投资组合的报价订单缺口的时序均值的显著性，发现其平�
 ![](images/eec7fe3a945f301f1aca8aaf17917ce2680a6bd0d87c730e297a70e960ee7b20.webp)
 数据来源：Heterogeneous liquidity providers and night-minus-day return predictability，国泰君安证券研究
 
-在截面分析之外，文章还分析了流动性补偿与日夜收益差在时序上的联系。通过对这 17 个因子投资组合与 NMD-MVE 组合，均以DailŷRev作为解释变量，日夜收益差作为因变量，在时序上进行回归，并将回归的截距解释为 $\alpha^{Daily\ Rev}$ ，同时将日夜收益差以 CAPM 框架进行回归，得到 $\alpha^{CAPM}$ 用于对比分析。回归结果如表五所示， 个因子投资组合中有高达 14 个αDaily Rev在统计上不显著，其数量是不显著的αCAPM的两倍以上，这说明流动性补偿因子能够在绝大部分组合中都能够很好地解释日夜收益差。对于 NMD-MVE 组合，可以看出在其αCAPM达到 25.73%而$\alpha^{CAPM}$ 仅有 2.8%且在统计上并不显著，这进一步说明了流动性补偿的良好解释能力。
+在截面分析之外，文章还分析了流动性补偿与日夜收益差在时序上的联系。通过对这 17 个因子投资组合与 NMD-MVE 组合，均以DailŷRev作为解释变量，日夜收益差作为因变量，在时序上进行回归，并将回归的截距解释为 $\alpha^{Daily~Rev}$ ，同时将日夜收益差以 CAPM 框架进行回归，得到 $\alpha^{CAPM}$ 用于对比分析。回归结果如表五所示， 个因子投资组合中有高达 14 个αDaily Rev在统计上不显著，其数量是不显著的αCAPM的两倍以上，这说明流动性补偿因子能够在绝大部分组合中都能够很好地解释日夜收益差。对于 NMD-MVE 组合，可以看出在其αCAPM达到 25.73%而$\alpha^{CAPM}$ 仅有 2.8%且在统计上并不显著，这进一步说明了流动性补偿的良好解释能力。
 
 表 5 流动性补偿与日夜收益差的时序回归结果表
 
-| Portfolio | $\alpha^{CAPM}$ | t-stat | $\alpha^{Daily\ Rev}$ | t-stat | $\beta^{Daily~Rev}$ | t-stat |
+| Portfolio | $\alpha^{CAPM}$ | t-stat | $\alpha^{Daily~Rev}$ | t-stat | $\beta^{Daily~Rev}$ | t-stat |
 | --- | --- | --- | --- | --- | --- | --- |
 | $r_{N}^{ewma}$ | 42.75 | (4.69) | 3.74 | (0.58) | 0.65 | (3.91) |
-| $\mathbf{\Delta}_{r_{N}}$ | 39.11 | (3.65) | 6.92 | (1.05) | 0.57 | (3.28) |
+| $r_{N}$ | 39.11 | (3.65) | 6.92 | (1.05) | 0.57 | (3.28) |
 | TURNOVER | 39.06 | (4.45) | 10.93 | (1.66) | 0.59 | (4.2) |
 | IVOL | 34.43 | (2.9) | -8.58 | (-1.18) | 0.83 | (3.99) |
 | rD | -30.89 | (-2.44) | 14.70 | (1.41) | -0.82 | (-3.29) |
@@ -291,11 +291,11 @@ MVE投资组合的报价订单缺口的时序均值的显著性，发现其平�
 
 根据上述分析，文章提出的模型无论从截面还是时序上都能够对日夜收益差进行充分地解释。接下来，作者进一步猜想，日夜收益差是否与收盘价收益率具有共通的性质？模型所给出的能够显著影响前者的两个驱动因素是否也会影响后者？
 
-对于两类收益是否同源的问题，文章的研究方法如下：首先利用前文中提及的 17 个因子作为特征，输入到一个梯度增强决策树模型中对 OpenRMOI 做出拟合，其中训练集为 2010 年 1 月至 2020 年 12 月之间的数据；训练完成后，使用第 t-1 期的模型拟合出的 $0\mathrm{pen}\ \widehat{\mathrm{RMOI}}_{t-1}.$ 作为自变量，分别以第 t 期的真实 OpenRMOI、日夜收益差与收盘价收益作为作为因变量，使用 Fama-MecBeth 方法建立预测模型。回归结果如表六的第(1)-(3)列所示，可以看出由各个因子拟合出的 $0\mathrm{pen}\ \widehat{\mathrm{RMOI}}_{t-1}$ 能够正向预测下一期的日夜收益差与真实 Open RMOI，且在统计学上具有显著，相比之下，其对下一期的收盘价收益的回归系数为负且并不显著。由于上述回归的区间包含了决策树的训练区间，其可能具有一定样本内性质，为了保证结果的稳健性，文章进一步在 2010 年 1 月以前的样本外区间进行相同的操作，其结果如表六的第(4)-(6)列所示，结论与样本内区间相一致。由此可以得出，没有证据表明以因子为条件拟合出的Open̂RMOI具有预测收盘价收益的能力。
+对于两类收益是否同源的问题，文章的研究方法如下：首先利用前文中提及的 17 个因子作为特征，输入到一个梯度增强决策树模型中对 OpenRMOI 做出拟合，其中训练集为 2010 年 1 月至 2020 年 12 月之间的数据；训练完成后，使用第 t-1 期的模型拟合出的 $\widehat{0\mathrm{pen\_RM}}\mathrm{I}_{t-1}$ 作为自变量，分别以第 t 期的真实 OpenRMOI、日夜收益差与收盘价收益作为作为因变量，使用 Fama-MecBeth 方法建立预测模型。回归结果如表六的第(1)-(3)列所示，可以看出由各个因子拟合出的 $\widehat{0\mathrm{pen\_RM}}\mathrm{O}\mathrm{I}_{t-1}$ 能够正向预测下一期的日夜收益差与真实 Open RMOI，且在统计学上具有显著，相比之下，其对下一期的收盘价收益的回归系数为负且并不显著。由于上述回归的区间包含了决策树的训练区间，其可能具有一定样本内性质，为了保证结果的稳健性，文章进一步在 2010 年 1 月以前的样本外区间进行相同的操作，其结果如表六的第(4)-(6)列所示，结论与样本内区间相一致。由此可以得出，没有证据表明以因子为条件拟合出的Open̂RMOI具有预测收盘价收益的能力。
 
 表 6 基于因子的OpenRMOI 拟合值对各因变量回归结果表
 
-|  | Full S ample $\mathbf{NMD}_{i,t}$ (1) | Full S ample $\mathbf{RET}_{i,t}$ (2) | Full S ample Open RMOIi,t (3) | Out-of-S ample $\mathbf{NMD}_{i,t}$ (4) | Out-of-S ample $\mathbf{RET}_{i,t}$ (5) | Out-of-S ample $\mathbf{0pen\ RMOI}_{i,t}$ (6) |
+|  | Full S ample $\mathbf{NMD}_{i,t}$ (1) | Full S ample $\mathbf{RET}_{i,t}$ (2) | Full S ample Open RMOIi,t (3) | Out-of-S ample $\mathbf{NMD}_{i,t}$ (4) | Out-of-S ample $\mathbf{RET}_{i,t}$ (5) | Out-of-S ample $\mathbf{0}\mathbf{p}\mathbf{e}\mathbf{n}\mathbf{M}\mathbf{0}\mathbf{I}_{i,t}$ (6) |
 | --- | --- | --- | --- | --- | --- | --- |
 | Open RMOIi,t-1 | 5.83*** | -0.22 | 1.42*** | 8.48*** | -0.41 | 0.64*** |
 | Constant | (5.90) 2.6 | (-0.46) 5.25*** | (9.90) 0.1 | (6.71) 4.26 | (-0.54) | (7.77) |

@@ -73,7 +73,7 @@ Email:ylq9619@htsec.com
 相关研究认为，资金对于因子的追捧会进一步推升因子多头端的估值或者压低因子空头端的估值水平，由此加大因子多空组合的估值价差。因此，可通过计算估值价差衡量因子的拥挤程度。估值价差计算方法如下所示：
 
 $$
-ValuationSpread=log(\frac{\mathbb{E}|\vec{\textbf{ }}\vec{\textbf{ }}\vec{\textbf{ }}\lambda\mathbf{\cdot}|\pmb{\Sigma}|\pmb{\Sigma}}{\mathbb{E}|\vec{\textbf{ }}\vec{\textbf{ }}\lambda\mathbf{\cdot}|\pmb{\Sigma}|\pmb{\Sigma}|\pmb{\Sigma}})
+ValueationSpread=log(\frac{因子多头估值}{因子空头估值})
 $$
 
 其中，估值可使用 PB也可使用 PE（TTM），此处以及后文的多头以及空头股票为全市场因子值排序前后 10%的股票。本文在计算估值价差时分别使用了 PB以及 PE（TTM），本节在进行相关指标效果讨论时，将以基于 PB计算得到的估值价差为例。下图展示了大市值、低估值以及高盈利三个指标的估值价差的历史走势。（此处以及后文中，在计算大市值、低估值以及高盈利因子时，因子多头分别为大市值、低估值以及高盈利的股票。）
@@ -161,7 +161,7 @@ $$
 配对相关性从股票同涨同跌的特征来度量因子的拥挤程度。相关研究认为，资金对于因子或者某一类股票的追捧会加剧这一类股票同涨同跌的特性，因此可以通过刻画因子多空组合同涨同跌特性的差别来衡量因子拥挤度。配对相关性计算方法如下：
 
 $$
-PairwiseCorrelation=mean(\sum_{i=1}^{N}corr(r_{\xi\neq i},r_{\xi\neq i,i}))-mean(\sum_{i=1}^{N}corr(r_{\xi\neq i},r_{\xi\neq j_{\xi,i}}))
+Parwisecorrelation=mean(\sum_{i=1}^{N}corr(r_{多头},r_{多头,i}))-mean(\sum_{i=1}^{N}corr(r_{空头},r_{空头,i}))
 $$
 
 下图展示了大市值、低估值以及高盈利三个因子的配对相关性的历史走势。
@@ -333,7 +333,7 @@ $$
 海外相关研究认为，资金对于因子的追捧会加剧因子波动，因此可使用因子波动率来衡量因子当前的拥挤程度。考虑到指标的具体指示意义，本报告在回测相关指标时使用了因子多空端波动率比率。指标计算方法如下所示：
 
 $$
-FactorVolatility=\frac{vol(r_{\textrm{ \textmu }})}{vol(r_{\textrm{ \textmu }})}
+FactorVolatility=\frac{vol(r_{多头})}{vol(r_{空头})}
 $$
 
 下图展示了大市值、低估值以及高盈利三个因子的多空波动率比率的历史走势。

@@ -56,7 +56,7 @@ wangxiaokang@gjzq.com.cn
 ![](images/3a624cc44db5b3804c01f07aaf059b8860dc039b5fd89d07a5a28a3c24433232.webp)
 来源：《A Dual-Stage Attention-Based Recurrent Neural Network for Time Series Prediction》，国金证券研究所
 
-在第一阶段中，对于给定的第 k 维特征 $x^{k}=(x_{1}^{k},x_{2}^{k},\ldots,x_{T}^{k})^{T}\in\mathcal{R}^{T}$ ，构造一个由线性层，Tanh 和 Softmax 构成的注意力机制：
+在第一阶段中，对于给定的第 k 维特征 $\boldsymbol{.}\boldsymbol{x}^{k}=(x_{1}^{k},x_{2}^{k},\ldots,x_{T}^{k})^{T}\quad\in\mathcal{R}^{T}$ ，构造一个由线性层，Tanh 和 Softmax 构成的注意力机制：
 
 $$
 e_{t}^{k}=v_{e}^{T}\mathrm{tanh}(W_{e}[h_{t-1};s_{t-1}]+U_{e}x^{k})
@@ -69,11 +69,11 @@ $$
 其中 h 和 s 分别为 RNN 编码器中的隐藏层和神经元状态（此处需使用 LSTM）。所得αk即为在 t 时刻第 k 个特征的相对重要性。进一步将所得α和原本特征 x 进行点乘，作为 LSTM的输入：
 
 $$
-\tilde{x}_{t}=(\alpha_{t}^{1}x_{t}^{1},\alpha_{t}^{2}x_{t}^{2},\dots,\alpha_{t}^{n}x_{t}^{n})^{T}
+\tilde{x_{t}}=(\alpha_{t}^{1}x_{t}^{1},\alpha_{t}^{2}x_{t}^{2},\dots,\alpha_{t}^{n}x_{t}^{n})^{T}
 $$
 
 $$
-h_{t}=f_{1}(h_{t-1},\tilde{x}_{t})
+h_{t}=f_{1}(h_{t-1},\tilde{x_{t}})
 $$
 
 此处 f 指代 LSTM 编码器，通过该方法，每个时间步的特征都会经过注意力给出的权重进行加权后再喂入 LSTM 得到了时序编码，进而起到了动态调整特征重要性的作用。
@@ -91,7 +91,7 @@ $$
 通过该方法所得 $\cdot\beta_{t}^{k}$ 即为整个时间序列数据中第 t 时刻编码特征的重要性。与编码器部分类似地，利用权重与原本隐藏层进行加权求和，并将其定义为 context（c）：
 
 $$
-c_{t}=\sum_{i=1}^{T}\beta_{t}^{i}h_{i}
+c_{t}=\sum_{i=1}^{T}\beta_{t}^{i}h_{i},
 $$
 
 最终将 context 和原本每个时间步的标签数据拼接并投喂给 LSTM：
@@ -116,7 +116,7 @@ $$
 
 因此，我们结合 DA-RNN 模型的思路进行修改，同样使用注意力机制进行特征重要性的采样，不再每个时间步上利用实际预测标签进行时序编码，而是直接结合多步 GRU 后得到最终预测结果。
 
-在数据预处理、训练方式和损失函数选取上，我们保持和前期报告 $\langle\langle A|\mathsf{pha}$ 掘金十：机器学习全流程重构——细节对比与测试》中结果一致。但在输入特征数据中，为了避免特征本身可能对模型表现所造成的干扰，影响到对比准确性，我们使用原始日频量价数据进行投喂：
+在数据预处理、训练方式和损失函数选取上，我们保持和前期报告 $\langle A\vert pha$ 掘金十：机器学习全流程重构——细节对比与测试》中结果一致。但在输入特征数据中，为了避免特征本身可能对模型表现所造成的干扰，影响到对比准确性，我们使用原始日频量价数据进行投喂：
 
 图表3：投喂特征数据
 
@@ -182,7 +182,7 @@ PointWise: 仅考虑单个 document 得分与预测标签的相关性，又可�
 1)Hinge Loss:
 
 $$
-\operatorname{l}(s,y)=\sum_{y_{i}>y_{j}}\operatorname*{max}(0,1-\left(s_{i}-s_{j}\right))
+\mathrm{I}(s,y)=\sum_{y_{i}>y_{j}}\max(0,1-\left(s_{i}-s_{j}\right))
 $$
 
 该损失函数的设计思想在于，对于所有的 i>j，使得两只股票的预测结果相对大小准确。
@@ -190,7 +190,7 @@ $$
 2) Logistic Loss(与 RankNet 等价):
 
 $$
-\mathrm{l}(s,y)=\sum_{y_{i}>y_{j}}\log_{2}(1+e^{-\sigma(s_{i}-s_{j})})
+\mathbf{l}(s,y)=\sum_{y_{i}>y_{j}}\mathrm{lo}g_{2}(1+e^{-\sigma(s_{i}-s_{j})})
 $$
 
 该损失采用极大似然的思想建模排序概率，更加连续，且其设计思路重点在于对于noise label（错误标签）outliers 的处理，同样会对于排序错误的样本对进行惩罚。
@@ -198,10 +198,10 @@ $$
 3）在实际情况中，我们往往更关注排序最高的样本的准确度。如搜索引擎的前几条结果，信息流式 APP 的前几页内容。在量化领域同样如此，由于绝大多数量化策略只会使用因子的多头部分买入相应标的构建组合，那么机器学习算法在多头组的准确性就变得更加重要。而排序学习中的 NDCG 思想恰恰是为了解决这一问题，首先我们定义 DCG：
 
 $$
-\mathrm{DCG@k}(\pi,\mathrm{l})=\sum_{j=1}\mathrm{G}(l_{\pi^{-1}(j)})\eta(j)
+\mathrm{DCG}@\mathrm{k}(\pi,\mathrm{l})=\sum_{j=1}^{\infty}\mathrm{G}(l_{\pi^{-1}(j)})\eta(j).
 $$
 
-其中 $\operatorname{G}(x)=2^{x}-1$ ，代表排在 j 位置样本的得分。 $\eta(j)=1/\mathrm{log}(j+1)$ ，代表随着排序位置靠后的折扣因子，即位置越靠后，该样本对最终损失函数的影响就越小。
+其中 $\mathsf{G}(x)=2^{x}-1$ ，代表排在 j 位置样本的得分。 $\eta(j)=1/\log(j+1)$ ，代表随着排序位置靠后的折扣因子，即位置越靠后，该样本对最终损失函数的影响就越小。
 
 图表7：NDCG 思想举例
 
@@ -215,10 +215,10 @@ $$
 
 来源：国金证券研究所
 
-若假设有5支股票的实际排序和模型预测排序结果如上表，则可得 $\begin{array}{r}{\sum_{j=1}\mathrm{G}(j)\eta(j)=7*1+}\end{array}$ 31 ∗ 0.6309+. . . +1 ∗ 0.3869 = 35.74 此外，我们继续定义IDCG为完美排序下 DCG 的得分，则 IDCG=45.64。由此，
+若假设有5支股票的实际排序和模型预测排序结果如上表，则可得 $\begin{array}{r}{\sum_{j=1}^{\infty}\mathsf{G}(j)\eta(j)=7*1+}\end{array}$ 31 ∗ 0.6309+. . . +1 ∗ 0.3869 = 35.74 此外，我们继续定义IDCG为完美排序下 DCG 的得分，则 IDCG=45.64。由此，
 
 $$
-\mathrm{NDCG@k}(\pi,\mathrm{l})=\frac{1}{IDCG}\sum_{j=1}\mathrm{G}(l_{\pi^{-1}(j)})\eta(j)
+\mathrm{NDCG@k}(\pi,\mathrm{l})=\frac{1}{IDCG}\sum_{j=1}^{\mathrm{n}}\mathrm{G}(l_{\pi^{-1}(j)})\eta(j)
 $$
 
 即为考虑前 K 个样本排序准确性的衡量指标。通过该方法，我们可以使模型更加关注排序靠前样本的预测准确性。NDCG 也成为众多损失函数会使用的关键指标。
@@ -226,7 +226,7 @@ $$
 4）在有了 NDCG 后，RankNet 存在的问题就可以在一定程度上得到解决，我们可以定义如下因子 Lambda 表示两个 document 位置引起的评价指标的变化：
 
 $$
-\lambda_{ij}=-\frac{1}{1+\exp\bigl(s_{i}-s_{j}\bigr)}*\bigl|\Delta Z_{ij}\bigr|
+\lambda_{ij}=-\frac{1}{1+\exp(s_{i}-s_{j})}*|\Delta Z_{ij}|
 $$
 
 其中的 Z 就可以使用 NDCG 等指标，Lambda 量化了待排序的 document 在下一次迭代时应该调整的方向和强度。
@@ -234,18 +234,18 @@ $$
 进一步我们可以定义 Lambda NDCG 损失函数：
 
 $$
-\displaystyle{{\sf l}(s,y)=-\sum_{i}^{n}\sum_{j}^{n}log_{2}(\frac{1}{1+e^{-\sigma\left(s_{\pi i}-s_{\pi j}\right)}})^{\frac{G_{\pi i}}{D_{i}}}}
+\mathrm{d}(s,y)=-\sum_{i}^{n}\sum_{j}^{n}log_{2}(\frac{1}{1+e^{-\sigma\left(s_{\pi i}-s_{\pi j}\right)}})^{\frac{G_{\pi i}}{D_{i}}}
 $$
 
-其中 $\begin{array}{r}{G_{\pi i}=\frac{2^{y_{\pi i-1}}}{IDCG},D_{i}=log_{2}(1+i)}\end{array}$ 。此类损失函数同样可以解决由于优化排序指标不连续或曲线非凸而难以梯度优化的问题。
+其中 $\begin{array}{r}{G_{\pi i}=\frac{2^{y}\pi i-1}{IDCG},\quad D_{i}=log_{2}(1+i)}\end{array}$ 。此类损失函数同样可以解决由于优化排序指标不连续或曲线非凸而难以梯度优化的问题。
 
 ListWise:由于 PointWise 仅考虑两两之间的排序关系，对于全局的排序结果缺乏敏感度。ListWise 可分为：直接根据评估指标的损失函数最小化，为解决 NDCG 等指标往往不可导的问题，就有了 Soft Rank，SVM-map，AdaRank 等损失函数设计；对于不依赖于评价指标的模型，主要有 ListNet 和 ListMLE 两类，前者是通过序列概率分布定义的，对于任意给定 query q，ListNet 都会先根据模型计算出的得分计算出一个序列概率分布： $P(\pi|f(w,x))$ ，其中π为 documents 的真实排序，同时根据标签值计算出一个序列概率分布，使用 KL 散度衡量两个分布的差异程度：
 
 $$
-\mathrm{L}(f;x,\Omega_{y})=\mathrm{D}(P_{y}(\Pi)||P(\Pi|\big(f(w,x)\big))
+\mathbf{L}(f;x,\Omega_{y})=\mathrm{D}(P_{y}(\Pi)||P(\Pi|{\big(}f(w,x){\big)})
 $$
 
-该函数具有凸性，可以使用梯度下降的方式进行训练。另外还有比较类似的 ListMLE损失函数，直接优化 $P(\pi|s)$ ，此处不再详述。
+该函数具有凸性，可以使用梯度下降的方式进行训练。另外还有比较类似的 ListMLE损失函数，直接优化 $\cdot P(\pi|s)$ ，此处不再详述。
 
 ## 2. 排序学习各类算法在A 股中的实证结果
 
@@ -458,15 +458,15 @@ AI 模型用于量化选股领域虽然普遍能获得较好的投资组合效�
 由前文所述，我们在将回归 MSE 与三种排序学习损失函数结合后发现在各大宽基股票池中均有收益和稳定性提升效果，同时使用多轮模型参数取均值的方式同样能提升模型样本外表现稳健性。此处我们将上述方案与传统 AGRU 模型分别放入组合优化，构建指数增强策略。通过马科维茨的均值方差优化模型，对投资组合的跟踪误差进行限制，并控制个股偏离程度以减少策略波动水平，最大化预期超额收益率。
 
 $$
-Max~w^{T}f
+Maxw^{T}f
 $$
 
 $$
-s.~t.~\sqrt{(w-w_{bench})\Sigma(w-w_{bench})^{\prime}}\leq target\_TE
+s.t.\quad\sqrt{(w-w_{bench})\Sigma(w-w_{bench})^{\prime}}\leq target\_TE
 $$
 
 $$
-w-w_{benck}\leq1\%
+w-w_{benc\not a}\leq1\%
 $$
 
 其中，f 为模型的预测信号， $w_{bench}$ 为基准权重向量，tartget_TE 为目标跟踪误差。

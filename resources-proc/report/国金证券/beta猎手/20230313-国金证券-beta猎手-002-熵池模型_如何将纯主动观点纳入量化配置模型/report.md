@@ -100,16 +100,16 @@ BL 模型大大提升了资产配置模型的实用性，但其也具有一定�
 
 这一部分主要包括风险因子X与定价函数R(X)。与 BL 模型输入历史收益率类似，熵池模型也需要输入历史数据用以估计先验分布，但不要求其一定是收益率数据，而可以是任意的风险因子X，我们统一假设模型使用的风险因子个数为N个。以资产标的都是股票为例，我们可以使用Barra多因子模型来进行先验信息的输入，滚动将过去T期股票的因子数据（记为 $X_{raw,N*T})$ 输入模型。此外，隐含波动率曲线、利率曲线等任何投资者认为会影响资产收益率的因子都可以放入模型。
 
-接下来我们对定价函数R(X)做出定义。假设配置资产的个数为M个，定价函数R就是一个能从N维风险因子投影到M维资产收益率的映射。换句话说，当我们掌握t时刻的信息时，我们获得一个可以将N维风险因子X的数据放入函数R(X),计算出M维的资产预期收益率 $R_{t+\tau^{\varsigma}}$ 。函数定义如下：
+接下来我们对定价函数R(X)做出定义。假设配置资产的个数为M个，定价函数R就是一个能从N维风险因子投影到M维资产收益率的映射。换句话说，当我们掌握t时刻的信息时，我们获得一个可以将N维风险因子X的数据放入函数R(X),计算出M维的资产预期收益率 $R_{t+\tau^{\circ}}$ 。函数定义如下：
 
 $$
 R_{t+\tau}=R(X_{t},I_{t})
 $$
 
-我们以动量因子定价方法为例进行说明。假设当前我们的配置标的为M个股票，输入的风险因子为每只股票过去 1 个月的动量 $X_{1,t},\dots,X_{N,t}$ ，另外基于此时的市场信息我们得到每只股票的动量定价因子 $\alpha_{t},\beta_{1,t},\ldots,\beta_{M,t}$ ，构成转换矩阵 $I_{t,M*N}.$ 。此时有M = N，资产的定价函数可以表达为：
+我们以动量因子定价方法为例进行说明。假设当前我们的配置标的为M个股票，输入的风险因子为每只股票过去 1 个月的动量 $X_{1,t},\dots,X_{N,t}$ ，另外基于此时的市场信息我们得到每只股票的动量定价因子 $\alpha_{t},\beta_{1,t},...,\beta_{M,t}$ ，构成转换矩阵 $I_{t,M*N^{\circ}}$ 。此时有M = N，资产的定价函数可以表达为：
 
 $$
-R_{t+\tau}\equiv\left[\begin{array}{c}{R_{1,t+\tau}}\\{\vdots}\\{R_{M,t+\tau}}\end{array}\right]=\alpha_{t}+I_{t}X_{t}=\alpha_{t}+\left[\begin{array}{cccc}{\beta_{1,t}}&&&\\&{\ddots}&\\&&{\beta_{M,t}}\end{array}\right]\left[\begin{array}{c}{X_{1,t}}\\{\vdots}\\{X_{N,t}}\end{array}\right]
+R_{t+\tau}\equiv\begin{bmatrix}R_{1,t+\tau}\\\vdots\\R_{M,t+\tau}\end{bmatrix}=\alpha_t+I_tX_t=\alpha_t+\begin{bmatrix}\beta_{1,t}&&\\&\ddots&\\&&\beta_{M,t}\end{bmatrix}\begin{bmatrix}X_{1,t}\\\vdots\\X_{N,t}\end{bmatrix}
 $$
 
 在更简单的情况下，我们直接使用资产的收益率作为风险因子，此时定价函数的输出就是输入；若使用 Barra 多因子作为风险因子，我们需要将当期的因子收益率（即风险因子的回归系数）构造为矩阵形式，使得输入所有股票的各个因子数据时可以得到其期望收益率。当然，模型并不要求函数R必须是是线性的映射，而可以是任何线性、非线性的函数，甚至是复杂的深度学习模型，但需要注意该函数不能使用未来信息。
@@ -117,7 +117,7 @@ $$
 在获得历史风险因子之后，模型首先会使用模拟样本扩容的方法增大样本量，得到一共J个样本的模拟风险因子矩阵（记为 $X_{N*\mathcal{J}})$ ）。将风险因子矩阵输入定价函数（矩阵每行为一组风险因子），我们可以获得模拟资产收益率矩阵（记为 $R_{M*\mathcal{J}})$ ）。仍然以动量因子定价为例，我们的模拟资产收益率矩阵为：
 
 $$
-\begin{array}{rl}&{R=\left[\begin{array}{ccc}{R_{1,1}}&{\cdots}&{R_{1,g}}\\{\vdots}&{\ddots}&{\vdots}\\{R_{M,1}}&{\cdots}&{R_{M,g}}\end{array}\right]}\\&{\quad=\alpha_{t}+\left[\begin{array}{ccc}{\beta_{1,t}}&&\\&{\ddots}&\\&&{\beta_{M,t}}\end{array}\right]\left[\begin{array}{ccc}{X_{1,1}}&{\cdots}&{X_{1,\mathcal{J}}}\\{\vdots}&{\ddots}&{\vdots}\\{X_{N,1}}&{\cdots}&{X_{N,\mathcal{J},1}}\end{array}\right]}\\&{\quad=\left[\begin{array}{ccc}{\alpha_{t}+\beta_{1,t}X_{1,1}}&{\cdots}&{\alpha_{t}+\beta_{1,t}X_{1,\mathcal{J}}}\\{\vdots}&{\ddots}&{\vdots}\\{\alpha_{t}+\beta_{M,t}X_{N,1}}&{\cdots}&{\alpha_{t}+\beta_{M,t}X_{N,\mathcal{J}}}\end{array}\right]}\end{array}
+\begin{aligned}R&=\begin{bmatrix}R_{1,1}&\cdots&R_{1,\mathcal{J}}\\\vdots&\ddots&\vdots\\R_{M,1}&\cdots&R_{M,\mathcal{J}}\end{bmatrix}\\&=\alpha_t+\begin{bmatrix}\beta_{1,t}&&\\&\ddots&\\&&\beta_{M,t}\end{bmatrix}\begin{bmatrix}X_{1,1}&\cdots&X_{1,\mathcal{J}}\\\vdots&\ddots&\vdots\\X_{N,1}&\cdots&X_{N,\mathcal{J}}\end{bmatrix}\\&=\begin{bmatrix}\alpha_t+\beta_{1,t}X_{1,1}&\cdots&\alpha_t+\beta_{1,t}X_{1,\mathcal{J}}\\\vdots&\ddots&\vdots\\\alpha_t+\beta_{M,t}X_{N,1}&\cdots&\alpha_t+\beta_{M,t}X_{N,\mathcal{J}}\end{bmatrix}\end{aligned}
 $$
 
 同时我们能够估计出风险因子X服从的“先验分布”：
@@ -126,7 +126,7 @@ $$
 X\sim f_{X}
 $$
 
-此处分布的具体形式可以是正态分布、t 分布，甚至是非参数方法得到的分布形式，完全由使用人决定，相较于 BL 模型的正态假设放宽了许多，也使得模型对风险因子的刻画能够更加准确。基于这一分布，再叠加前面给定的定价函数R，模型可以计算出各项资$\dot{\bar{y}}$ 的均值、协方差、波动率、中位数等任何数值。具体的样本扩容与估计方法请见附录。
+此处分布的具体形式可以是正态分布、t 分布，甚至是非参数方法得到的分布形式，完全由使用人决定，相较于 BL 模型的正态假设放宽了许多，也使得模型对风险因子的刻画能够更加准确。基于这一分布，再叠加前面给定的定价函数R，模型可以计算出各项资$产$ 的均值、协方差、波动率、中位数等任何数值。具体的样本扩容与估计方法请见附录。
 
 ## 2）观点输入
 
@@ -137,29 +137,29 @@ $$
 图表5：投资者观点示意图
 
 $$
-\begin{array}{rlrlrl}&{1,}&\frac{\sqrt{\pi}\kappa}{\sqrt{\pi}\lambda^{2}}\frac{\sqrt{\pi}}{\lambda^{2}}\frac\sqrt{\beta}(\frac{1}{\sqrt{\pi}})\sqrt\frac{1}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt}{\frac{\pi}{\sqrt}{\pi}}\frac{\lambda}{\sqrt{\pi}}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\frac{\lambda}{\sqrt}{\pi}\frac{\sqrt}{\pi}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\frac{\lambda}{\sqrt}{\pi}\frac{\sqrt}{\pi}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\frac{\lambda}{\sqrt}\frac{\pi}{\sqrt}\end{array}
+\begin{array}{l}1、资产a预期收益率为5\%\\2、资产a预期收益率为5\%\\3、资产c的波动率将上升b\\5、10年期国债债半半半半\\5、10年期国债债半半半半\\5、10年期国债债半半半半半\\\end{array}平降\begin{array}{l}观点整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\end{array}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\end{array}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\end{1}计简定整铺入\end{}计简定整铺入\end{}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\begin{array}{l}计简定整铺入\end{array}计简定整铺入\end{array}计简�\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}\end{array}
 $$
 
 来源：国金证券研究所
 
-此时每一条观点的观点对象就是由这些资产的收益率组成。更加一般化地，观点的对象与类型只要能被表达成风险因子的任意函数v(X)形式，都可以当作观点使用。后文我们假设投资者给出的观 $\underset{\cdots}{\underbrace{5}}$ 个数为K，则基于风险因子矩阵我们也能给出观点对象矩阵$V_{K*\mathcal{J}}=v(\boldsymbol{X})$ 。上述例子中的观点对象矩阵可以写为：
+此时每一条观点的观点对象就是由这些资产的收益率组成。更加一般化地，观点的对象与类型只要能被表达成风险因子的任意函数v(X)形式，都可以当作观点使用。后文我们假设投资者给出的观 $点$ 个数为K，则基于风险因子矩阵我们也能给出观点对象矩阵$\boldsymbol{V}_{\boldsymbol{K}*\mathcal{J}}=\boldsymbol{v}(\boldsymbol{X})$ 。上述例子中的观点对象矩阵可以写为：
 
 $$
-V={\left[\begin{array}{lll}{V_{1,1}}&{\cdots}&{V_{1,2}}\\{V_{2,1}}&{\cdots}&{V_{2,3}}\\{V_{3,1}}&{\cdots}&{V_{3,2}}\\{V_{4,1}}&{\cdots}&{V_{4,2}}\\{V_{5,1}}&{\cdots}&{V_{5,2}}\end{array}\right]}={\left[\begin{array}{lllllll}{1}&&&&&\\{1}&{-1}&&&\\&&{1}&&\\&&&{1}&&\\&&&&{1}\end{array}\right]}X={\left[\begin{array}{llllll}{\Gamma1}&&&&&\\{1}&{-1}&&&\\&&{1}&&\\&&&{1}&\\&&&&{1}&\\&&&&{1}\end{array}\right]}{\left[\begin{array}{llll}{X_{a,1}}&{\cdots}&{X_{a,2}}\\{X_{b,1}}&{\cdots}&{X_{b,2}}\\{X_{c,1}}&{\cdots}&{X_{c,2}}\\{R_{1}}&{\cdots}&{R_{g}}\end{array}\right]}
+V=\begin{bmatrix}V_{1,1}&\cdots&V_{1,J}\\V_{2,1}&\cdots&V_{2,J}\\V_{3,1}&\cdots&V_{3,J}\\V_{4,1}&\cdots&V_{4,J}\\V_{5,1}&\cdots&V_{5,J}\end{bmatrix}=\begin{bmatrix}1&&&\\1&-1&&\\&&1&\\&&&1\\&&&&1\end{bmatrix}X=\begin{bmatrix}1&&&\\1&-1&&\\&&1&\\&&&1\\&&&&1\end{bmatrix}\begin{bmatrix}X_{a,1}&\cdots&X_{a,J}\\X_{b,1}&\cdots&X_{b,J}\\X_{c,1}&\cdots&X_{c,J}\\X_{1}&\cdots&X_{J}\end{bmatrix}
 $$
 
 将各类观点转换成模拟观点矩阵的方法细节请见附录 1。
 
 熵池模型认为，投资者观点会给风险因子的分布f带来新的约束条件，而满足这些约束的分布我们就称为观点分布 $f_{V}$ 。不难发现，观点分布 $f_{V}$ 并不唯一，在所有观点分布构成的集合中找到最优解就需要使用“相对熵最小化”算法。
 
-置信度c相对独立的一个要素。它是投资者对每一条观点确信程度的量化表达，取值范围为 $0\%\sim100\%$ 。考虑两种极端情况：当c=100%，表示投资者对观点V是完全自信的，模型将完全按照相应的后验分布进行权重配置；若 $c{=}0\%$ ，表示投资者完全不相信自己的观点，此时模型就会完全按照先验分布 $f_{X}$ 进行配置。在有多个观点的情况下，熵池模型对置信度 采用一种称为“观点池化”的方式进行处理。具体方法在后文详细流程中会进行介绍。
+置信度c相对独立的一个要素。它是投资者对每一条观点确信程度的量化表达，取值范围为 $0\%``100\%.$ 。考虑两种极端情况：当c=100%，表示投资者对观点V是完全自信的，模型将完全按照相应的后验分布进行权重配置；若 $c=0\%$ ，表示投资者完全不相信自己的观点，此时模型就会完全按照先验分布 $f_{X}$ 进行配置。在有多个观点的情况下，熵池模型对置信度 采用一种称为“观点池化”的方式进行处理。具体方法在后文详细流程中会进行介绍。
 
 ## 3）优化函数
 
 优化函数包括效用函数 与投资限制 。常见的效用函数包括均值方差（BL 模型默认使用）、最大化夏普比、最小化风险等，也可以是任何能表示投资者效用的函数。该函数需要两个输入参数：资产权重w和风险因子的分布f，其中因子分布f与定价函数P叠加就可以计算出优化函数需要的资产收益率、标准差等数据。投资限制C就是对最终优化结果的限制条件，譬如是否允许做空、加杠杆，或是对股债资产添加的权重范围。最优化的权重结果w∗如下定义：
 
 $$
-w^{*}\equiv\underset{w\in C}{\mathrm{argmax}}\{S(w;f)\}
+w^{*}\equiv\operatorname*{argmax}_{w\in C}\{S(w;f)\}
 $$
 
 ## 2.2 模型流程详细介绍
@@ -172,26 +172,26 @@ $$
 
 a）使用风险因子数据 $X_{raw}$ 计算样本协方差矩阵Σ̂。由模型使用者给定模拟样本数量J，一般为 $10^{4}$ 或105等较大数量级。
 
-b）对 $X_{raw}$ 中每一个历史样本点 $x_{t}$ ，我们从多元正态分布 $N(x_{t},\epsilon\hat{\Sigma})$ 中抽样 $\mathcal{J}/T$ 次作为其模拟样本组。其中ε为收缩系数，可以对抽样结果的分布起到压缩作用，此处我们参考论文设定 $\epsilon=0.15$ 。将所有模拟样本组合并，得到模拟风险因子矩阵 $X_{N*\mathcal{J}}$
+b）对 ${\cal X}_{raw}$ 中每一个历史样本点 $.x_{t}$ ，我们从多元正态分布 $N(x_{t},\epsilon\hat{\Sigma})$ 中抽样 $\mathcal{J}/T$ 次作为其模拟样本组。其中ε为收缩系数，可以对抽样结果的分布起到压缩作用，此处我们参考论文设定 $\epsilon=0.15$ 。将所有模拟样本组合并，得到模拟风险因子矩阵 $\cdot X_{N*\mathcal{J}}$
 
-c）同时，我们使用一个J维的向量 $\mathrm{\Delta p}$ 来记录每个模拟样本的概率值，并给定每个样本点初始概率为 $1/\mathcal{J}$
+c）同时，我们使用一个J维的向量 $\mathrm{^{\mathrm{~p~}}}$ 来记录每个模拟样本的概率值，并给定每个样本点初始概率为 $1/\mathcal{J}$
 
-X和p共同构成了对先验分布的非参数估计，后续的一系列算法求解就是为了找到最符合要求的向量p，这相当于是一种离散的分布形式，因此我们也会使用 $\mathrm{p}$ 来指代风险因子的分布。若我们仍然想使用参数估计法，则可以计算出风险因子先验分布的均值、方差等统计量作为参数放入假设的分布中，获得分布的估计。
+X和p共同构成了对先验分布的非参数估计，后续的一系列算法求解就是为了找到最符合要求的向量p，这相当于是一种离散的分布形式，因此我们也会使用 $\mathbf{p}$ 来指代风险因子的分布。若我们仍然想使用参数估计法，则可以计算出风险因子先验分布的均值、方差等统计量作为参数放入假设的分布中，获得分布的估计。
 
 ## 2）相对熵最小化
 
-介绍观点V时，我们知道投资者给出观点实际上就是给出了针对后验分布的限制条件，并不是一个确定的分布。所有满足限制条件的分布中只有一个分布是我们想要的“后验分布” $\tilde{\mathsf p}_{\circ}$ 。如何去寻找这个分布？类似 BL 模型中的贝叶斯变换一方面只能用于具有确定形式的分布，另一方面也不适用于非参数形式的分布估计，无法满足我们的要求，只有相对熵最小化方法能同时较好地处理以上问题。相对熵最小化是模型的一大关键点，也是模型名称中“熵”的来由。
+介绍观点V时，我们知道投资者给出观点实际上就是给出了针对后验分布的限制条件，并不是一个确定的分布。所有满足限制条件的分布中只有一个分布是我们想要的“后验分布” $\tilde{\mathbf{p}}\circ$ 。如何去寻找这个分布？类似 BL 模型中的贝叶斯变换一方面只能用于具有确定形式的分布，另一方面也不适用于非参数形式的分布估计，无法满足我们的要求，只有相对熵最小化方法能同时较好地处理以上问题。相对熵最小化是模型的一大关键点，也是模型名称中“熵”的来由。
 
 我们首先需要直观理解“熵”这一信息论的概念。熵本质可以理解为系统的不确定性。一个系统的状态若是 100%确定的，那么他的熵为 0，我们可以完全确定将要发生的事情；而所有状态的概率呈均匀分布的系统，他的熵也就达到了最大，这同时表明我们无法从中获取任何增量的信息。而相对熵，就是衡量两个系统之间相对概率状态的方法。相对熵的具体公式如下：
 
 $$
-\varepsilon(g|f)\equiv\int g(x)ln\frac{g(x)}{f(x)}dx
+\varepsilon(g|f)\equiv\int g(x)\;ln\frac{g(x)}{f(x)}dx.
 $$
 
 而熵池模型使用分布的离散表达形式，对应的相对熵可以表示为：
 
 $$
-\varepsilon(q|p)\equiv\sum_{j=1}^{\mathcal{J}}q_{j}(ln\big(q_{j}\big)-ln(p_{j}))=q^{\prime}(ln(q)-ln(p))
+\varepsilon(q|p)\equiv\sum_{j=1}^{j}q_{j}(ln\bigl(q_{j}\bigr)-ln(p_{j}))=q^{\prime}(ln(q)-ln(p)).
 $$
 
 不难发现，若两个概率分布完全一致，相对熵为 0，意味着我们能完全确定分布g的形式，掌握了所有的信息；而两个分布的差异越大，则相对熵取值也越大，有关g的信息我们也掌握得越少。我们可以认为，相对熵是两个分布之间差异程度的度量方式，而差异越小意味着能获得的信息就越多。
@@ -201,7 +201,7 @@ $$
 因此，我们的后验分布就是以下优化问题的解：
 
 $$
-\tilde{\mathbf{p}}\equiv argmin\{\varepsilon(\mathbf{q}|\mathbf{p})\}
+\tilde{\mathsf{p}}\equiv\mathop{{argmin}}_{\mathsf{q}\in\mathbb{F}_{V}}\{\varepsilon(\mathsf{q}|\mathsf{p})\}
 $$
 
 可以看出不同的观点集合都能得到相对应的后验分布p̃，我们称完全由观点（或一部分观点）V得到的后验分布为观点后验分布p̃。接下来模型还需要将观点后验分布与先验分布结合，才能得到最终的后验分布；若存在多个观点以及观点置信度不同的情况，还涉及多个观点后验分布的融合问题，具体采用的方法就是下一步观点池化。
@@ -228,17 +228,17 @@ $$
 
 | 观点子集 | 子集置信度 | 观点子集后验分布 |
 | --- | --- | --- |
-| {观点1，观点2} | $c_{\{1,2\}}=\operatorname*{min}(c_{k}\mid k\in\{1,2\})=50\%$ | $\tilde{\mathsf{p}}_{\{1,2\}}$ |
-| {观点1} | $c_{\{1\}}=\operatorname*{min}(c_{k}\|k\in\{1\})-c_{\{1,2\}}=20\%$ | P{1} |
-| {观点2} | $c_{\{2\}}=\operatorname*{min}(c_{k}\|k\in\{2\})-c_{\{1,2\}}=0\%$ | P{2} |
-| ∅ | $c_{\varnothing}=1-\operatorname*{max}(c_{k}\mid\mathrm{k}\in\{1,2\})=30\%$ | p |
+| {观点1，观点2} | $c_{\{1,2\}}=\min(c_k\mid k\in\{1,2\})=50\%$ | $\tilde{\mathbf{P}}\{\scriptstyle1,2\}$ |
+| {观点1} | $c_{\{1\}}=\operatorname*{min}(c_{k}\mid k\in\{1\})-c_{\{1,2\}}=20\%$ | P{1} |
+| {观点2} | $c_{\{2\}}=\operatorname*{min}(c_{k}\mid k\in\{2\})-c_{\{1,2\}}=0\%$ | P{2} |
+| ∅ | $c_{\emptyset}=1-\max(c_{k}\mid k\in\{1,2\})=30\%$ | p |
 
 来源：国金证券研究所
 
 排除所有概率为 0 的集合，此时模型认为仅剩三个有效的观点集合（包括空集），每个观点集合也有对应的后验分布（空集对应先验分布）。最终模型的后验分布为：
 
 $$
-\begin{array}{rl}&{\tilde{\mathfrak{p}}=c_{\{1,2\}}\tilde{\mathfrak{p}}_{\{1,2\}}+c_{\{1\}}\tilde{\mathfrak{p}}_{\{1\}}+c_{\emptyset}\mathfrak{p}_{\mathrm{X}}}\\&{}\\&{=50\%\tilde{\mathfrak{p}}_{\{1,2\}}+20\%\tilde{\mathfrak{p}}_{\{1\}}+30\%\mathfrak{p}_{\mathrm{X}}}\end{array}
+\begin{array}{rl}{\tilde{\mathsf{p}}=}&{{}c_{\{1,2\}}\tilde{\mathsf{p}}_{\{1,2\}}+c_{\{1\}}\tilde{\mathsf{p}}_{\{1\}}+c_{\emptyset}\mathsf{p}_{\mathrm{X}}}\\{=}&{{}50\%\tilde{\mathsf{p}}_{\{1,2\}}+20\%\tilde{\mathsf{p}}_{\{1\}}+30\%\mathsf{p}_{\mathrm{X}}}\end{array}
 $$
 
 可以看出，当投资者对所有观点的置信度都相等时，模型就会只计算所有观点同时成立对应的后验分布，并与先验分布加权求和。这也是熵池模型原论文中的简化处理方式，在实际使用中，如果投资者有更明确的观点间相关信息，也完全可以分别指定每个观点子集的置信度，譬如使用观点的历史胜率以及多个观点同时成立的概率来赋值，并按照其他方法对其进行加权。
@@ -258,16 +258,16 @@ $$
 本文首先对熵池模型与 BL 模型的效果进行对比，证明熵池模型相对 BL 模型能给出更好的配置结果。由于 BL 模型只能输入资产的预期收益率作为观点，我们使用行业的估值动量（ValueMom）、盈利（Profit）和质量（Quality）三个因子构建多因子模型，每一期给出各行业的预期收益率。多因子模型构建如下：
 
 $$
-r_{j,t}=\beta_{0,t}+\beta_{1,t}ValueMom_{j,t-1}+\beta_{2,t}Profit_{j,t-1}+\beta_{3,t}Quality_{j,t-1}+\epsilon_{j,t},\qquad j=1,\dots,29
+\gamma_{j,t}=\beta_{0,t}+\beta_{1,t}ValueMon_{j,t-1}+\beta_{2,t}Profit_{j,t-1}+\beta_{3,t}Quality_{j,t-1}+\epsilon_{j,t},\qquad j=1,\ldots,29
 $$
 
 其中， $r_{j,t}$ 为行业j在第t个月的月度收益率， $ValueMom_{j,t-1}$ 为行业j在t − 1月末的估值动量因子值，其余变量表达类似。最终，我们给出行业的预期收益率：
 
 $$
-E\left[r_{j,t+1}\right]=E_{t}\left[\beta_{0,t+1}\right]+E_{t}\left[\beta_{1,t+1}\right]VabueMom_{j,t-1}+E_{t}\left[\beta_{2,t+1}\right]Profit_{j,t-1}+E_{t}\left[\beta_{3,t+1}\right]Quality_{j,t-1}.
+E\big[r_{j,t+1}\big]=E_{t}\big[\beta_{0,t+1}\big]+E_{t}\big[\beta_{1,t+1}\big]VahieMom_{j,t-1}+E_{t}\big[\beta_{2,t+1}\big]Profit_{j,t-1}+E_{t}\big[\beta_{3,t+1}\big]Quality_{j,t-1}
 $$
 
-式中 $E_{t}\big[\beta_{i,t+1}\big]$ 表示对因子 $\cdot\notin{t+1}$ 月的回归系数估计值，定义为过去 12 个月的回归系数均值：
+式中 $E_{t}\big[\beta_{i,t+1}\big]$ 表示对因子 $i在t+1$ 月的回归系数估计值，定义为过去 12 个月的回归系数均值：
 
 $$
 E_{t}\big[\beta_{i,t+1}\big]=\frac{1}{12}\sum_{m=1}^{12}\beta_{i,t-m+1}
@@ -277,7 +277,7 @@ $$
 
 先验输入：前 5 行业的月度收益率，时间长度T为过去 1 年。每个样本重抽样 100 次。
 
-观点输入：将预期收益率作为均值型观点输入模型： $\mu(X_{j})=E[r_{j,t+1}],$ 。置信度统一为 70%。
+观点输入：将预期收益率作为均值型观点输入模型： $\mu\big(X_{j}\big)=E\big[r_{j,t+1}\big].$ 。置信度统一为 70%。
 
 其中，添加行业权重下限 10%的约束条件是为了保持基础行业轮动模型的有效性，避免全部配置某一行业的情况出现，更贴合现实情况；另一方面也是希望固定一部分权重的变化，对组合的换手也起到限制作用。对比结果如下：
 
@@ -331,7 +331,7 @@ $$
 我们对非线性观点的使用进行尝试，利用指数前 60 天的收益率计算历史波动率σ̂j，并将其作为该行业的预期波动率，给出波动率观点。
 
 $$
-\hat{\sigma}_{j}=\frac{1}{60}\sum_{i=1}^{60}(r_{j,t-i}-\bar{r}_{j})
+\hat{\sigma}_{j}=\frac{1}{60}{\sum_{i=1}^{60}}\big(r_{j,t-i}-\bar{r}_{j}\big).
 $$
 
 模型设置如下：
@@ -387,11 +387,11 @@ $$
 最小化风险将整个组合的波动率作为优化对象，风格更加保守，优化问题可以写成：
 
 $$
-\operatorname*{min}_{\boldsymbol{w}}{w\Sigma\boldsymbol{\mathrm{w}}^{\mathrm{T}}}
+\operatorname*{min}_{w}w\Sigma w^{\mathrm{T}}
 $$
 
 $$
-s.t.\left\{\sum_{i}^{w}{\geq0}.1\right\}
+s.t.\left\{\begin{aligned}w&\geq0.1\\\sum_{i}w_{i}&=1\end{aligned}\right.
 $$
 
 模型设置如下：
@@ -424,14 +424,14 @@ $$
 RC_{i}=w_{i}MRC_{i}=w_{i}\frac{\partial\sigma_{p}}{\partial w_{i}}=w_{i}\frac{(\Sigma w)_{i}}{\sqrt{w^{T}\Sigma w}}
 $$
 
-其中 $MRC_{i}$ 表示资 $\dot{\bar{y}}$ i的边际风险贡献， $(\Sigma w)_{i}$ 表示向量Σw的第i个元素。风险平价本质上就是使得各个资产的风险贡献相等，这样可以放大风险较小的资产权重而缩小风险较大的资产权重。对应优化问题为：
+其中 $MRC_{i}$ 表示资 $产$ i的边际风险贡献， $\left(\Sigma w\right)_{i}$ 表示向量Σw的第i个元素。风险平价本质上就是使得各个资产的风险贡献相等，这样可以放大风险较小的资产权重而缩小风险较大的资产权重。对应优化问题为：
 
 $$
-\underset{w}{\operatorname*{min}}\sum_{i\neq j}\left(RC_{i}-RC_{j}\right)^{2}
+\operatorname*{min}_{w}\sum_{i\neq j}\bigl(RC_{i}-RC_{j}\bigr)^{2}
 $$
 
 $$
-s.t.\left\{\sum_{i}^{w}{\geq0.1}\right.
+s.t.\left\{\begin{aligned}w&\geq0.1\\\sum_{i}w_{i}&=1\end{aligned}\right.
 $$
 
 模型设置如下：
@@ -506,7 +506,7 @@ $$
 
 我们将 10 年国债利率 $(R_{rate})$ 作为外部因子输入模型，并按以下规则给出外部因子观点：
 
-将每次换仓时的利率记为 $r_{t}$ ，换仓日的上个月平价利率记为 $\bar{r}_{t-1}{\circ}$ 。若 $r_{t}\geq\bar{r}_{t-1}$ ，我们认为利率将保持上行趋势，下一期利率继续上行，即 $\mu(R_{rate})\geq r_{t};$ ；若 $r_{t}\le\bar{r}_{t-1}$ ，我们认为利率将保持下行趋势，即 $\mu(R_{rate})\leq r_{t}$
+将每次换仓时的利率记为 $r_{t}$ ，换仓日的上个月平价利率记为 $\bar{r}_{t-1^{\circ}}$ 。若 $r_{t}\geq\bar{r}_{t-1}$ ，我们认为利率将保持上行趋势，下一期利率继续上行，即 $\begin{array}{r}{\iota\mu(R_{rate})\geq r_{t};}\end{array}$ ；若 $\cdot r_{t}\leq\bar{r}_{t-1}$ ，我们认为利率将保持下行趋势，即 $\mu(R_{rate})\leq r_{t}$
 
 对比模型设置如下：
 
@@ -750,7 +750,7 @@ c) 其他情况时信号处于中间位置，我们认为股票收益率与债�
 
 熵池模型在观点的自由度方面做出了巨大的提升，自由度不仅仅体现在更一般化的观点对象上，更体现在观点表达方式上。本小节我们将对观点进行全面解析，并对观点进行矩阵化任务，将其转化为可以放入模型的形式。
 
-在正文，我们给出了观点的完整定义，包含观点对象、观点方向、观点目标值与置信度。不失一般性，我们可以将模拟情景中的观点对象表达为 $V_{K*{\mathcal{J}}}=v(X)=(v_{1}(X),\ldots,v_{K}(X)){\mathrm{.}}$ 由此，我们通过矩阵V与观点目标值m可以得到对模拟情景概率p的限制条件，也就是对后验分布进行限制。
+在正文，我们给出了观点的完整定义，包含观点对象、观点方向、观点目标值与置信度。不失一般性，我们可以将模拟情景中的观点对象表达为 $V_{K*{\mathcal{I}}}=v(X)=(v_{1}(X),\ldots,v_{K}(X))\mathrm{。}$ 由此，我们通过矩阵V与观点目标值m可以得到对模拟情景概率p的限制条件，也就是对后验分布进行限制。
 
 风险因子到观点对象的函数 $v_{i}(X)$ 取决于给出观点的具体表达形式。接下来我们对不同的观点表达方式一一进行解析。
 
@@ -759,13 +759,13 @@ c) 其他情况时信号处于中间位置，我们认为股票收益率与债�
 首先是与 BL 模型观点相同的类型：均值观点。熵池比 BL 更加方便的一点在于，他并不要求观点必须取等号，不等号形式的观点同样可以起到限制作用从而放入最终模型。均值观点形如：
 
 $$
-\tilde{\mu}(V_{k}){\overset{>}{=}}\mu_{k}
+\tilde{\mu}(V_{k})\mathop{\stackrel{>}{=}}_{<}\mu_{k},
 $$
 
 在模拟样本中有如下表达：
 
 $$
-\sum_{j=1}^{\mathcal{J}}\tilde{{\mathfrak{p}}}_{j}{\mathcal{V}}_{j,k}=[V_{k,1}\quad\cdots\quad V_{k,{\mathcal{J}}}][\tilde{p_{1}}\quad\cdots\quad\tilde{p_{\mathcal{J}}}]^{T}=V_{k}\tilde{p}{\overset{\geq}{<}}\mu_{k}
+\sum_{j=1}^{J}\widetilde{\mathfrak{p}}_{j}\mathcal{V}_{j,k}=[V_{k,1}\quad\cdots\quad V_{k,\mathcal{J}}][\widetilde{p}_{1}\quad\cdots\quad\widetilde{p}_{\mathcal{J}}]^T=V_{k}\widetilde{p}\underset{<}{\overset{>}{=}}\mu_{k}.
 $$
 
 实际上，就是按照每一个模拟样本的概率将观点对象进行加权求和，并对得到期望值给出约束条件。这样在优化求解时，模型会增大满足约束的样本概率，其他的样本概率相对缩小，使得最终期望值满足约束条件。
@@ -776,14 +776,14 @@ $$
 \mu_{k}=\hat{\mu}(V_{k})+\zeta\hat{\sigma}(V_{k})
 $$
 
-此处的 ${\hat{\mu}}(V_{k})$ 和 $\widehat{\sigma}(V_{k})$ 是使用参考分布计算出来的观点均值与标准差，有：
+此处的 ${\langle\hat{\mu}(V_{k})\rangle}$ 和 $\hat{\sigma}(V_{k})$ 是使用参考分布计算出来的观点均值与标准差，有：
 
 $$
-\hat{\mu}(V_{k})=\sum_{j=1}^{\mathcal{J}}\mathfrak{p}_{j}V_{k,j}
+\hat{\mu}(V_{k})=\sum_{j=1}^{\mathcal{J}}\mathbf{p}_{j}V_{k,j},
 $$
 
 $$
-\widehat{\sigma}^{2}(V_{k})=\sum_{j=1}^{\mathcal{J}}\mathsf{p}_{j}\left(V_{k,j}-\widehat{\mu}(V_{k})\right)^{2}
+\hat{\sigma}^{2}(V_{k})=\sum_{j=1}^{\mathcal{J}}\mathsf{p}_{j}\left(V_{k,j}-\hat{\mu}(V_{k})\right)^{2}
 $$
 
 ζ是一个定量参数，比如-1，0，1 分别对应投资者“悲观”、“中性”和“乐观”的观点。2) 排序观点
@@ -797,13 +797,13 @@ $$
 我们实际上可以将其转化成K− 1个单独的观点：
 
 $$
-\tilde{\mu}(V_{k})-\tilde{\mu}(V_{k+1})\ge0,\ k=1,2,\dots,K-1
+\tilde{\mu}(V_{k})-\tilde{\mu}(V_{k+1})\geq0,\quad k=1{,}2,\ldots,K-1
 $$
 
 而该观点可以写成
 
 $$
-\sum_{j=1}^{\mathcal{J}}\tilde{\mathfrak{p}}_{j}(V_{k,j}-V_{k+1,j})\geq0
+\sum_{j=1}^{j}\tilde{\mathsf{p}}_{j}(V_{k,j}-V_{k+1,j})\geq0.
 $$
 
 实际上排序观点就是重新构造观点对象后的均值观点。
@@ -813,19 +813,19 @@ $$
 中位数是最常见的分位数观点对象。更一般地，我们有 n-分位数观点：
 
 $$
-\tilde{Q}_{n}(V_{k}){\stackrel{>}{=}}q_{k}
+\tilde{Q}_{n}(V_{k})\stackrel{>}{\underset{<}{=}}q_{k}
 $$
 
-$n.$ 是介于 0、1 之间的分位值。我们可以对上式进行转换：
+$n$ 是介于 0、1 之间的分位值。我们可以对上式进行转换：
 
 $$
-\widetilde{\mathsf{P}}(V_{k}\leq q_{k})\overset{<}{=}n
+\tilde{\mathbb{P}}(V_{k}\leq q_{k})\stackrel{\stackrel{<}{=}}{>}n.
 $$
 
 注意此处大于、小于符号发生转换。这样我们就能写出其表达：
 
 $$
-\sum_{j\in I_{k}}\tilde{\mathfrak{p}}_{j}\overset{<}{=}n
+\sum_{j\in I_{k}}{\tilde{\mathfrak{p}}}_{j}{\stackrel{<}{\underset{>}{=}}}n_{i}
 $$
 
 其中 $I_{k}\equiv\left\{j\colon V_{k,j}\leq q_{k}\right\}$
@@ -835,19 +835,19 @@ $$
 波动率观点形如：
 
 $$
-\tilde{\sigma}(V_{k})\overset{>}{\underset{<}{=}}\sigma_{k}
+\tilde{\sigma}(V_{k})\stackrel{>}{\underset{<}{=}}\sigma_{k}
 $$
 
 参照波动率公式：
 
 $$
-\tilde{\sigma}(V_{k})\equiv\tilde{\mu}(V_{k}^{2})-\left(\tilde{\mu}(V_{k})\right)^{2}\overset{>}{\underset{<}{=}}\sigma_{k}^{2}
+\tilde{\sigma}(V_{k})\equiv\tilde{\mu}(V_{k}^{2})-\left(\tilde{\mu}(V_{k})\right)^{2}\mathop{\stackrel{>}{=}}_{<}\sigma_{k}^{2}.
 $$
 
-这一等式或不等式中涉及二次项，若直接求解会使得优化问题过于复杂。对此我们可以直接使用先验分布的均值 ${\hat{\mu}}(V_{k})$ 来替 $/\xi\tilde{\mu}(V_{k})$ ，保持约束条件为线性约束：
+这一等式或不等式中涉及二次项，若直接求解会使得优化问题过于复杂。对此我们可以直接使用先验分布的均值 $\overline{{\mathstrut}}\overline{{\mathstrut}}\overline{{\mathstrut}}\overline{{\mathstrut}}(V_{k})$ 来替 $代\widetilde{\mu}(V_k)$ ，保持约束条件为线性约束：
 
 $$
-\sum_{j=1}^{\mathcal{J}}\tilde{\mathsf{p}}_{j}V_{k,j}^{2}\overset{\gg}{\underset{}{=}}\big(\hat{\mu}(V_{k})\big)^{2}+\sigma_{k}^{2}
+\sum_{j=1}^{j}\tilde{\mathsf{p}}_{j}V_{k,j}^{2}\stackrel{>}{\underset{<}{=}}\left(\hat{\mu}(V_{k})\right)^{2}+\sigma_{k}^{2},
 $$
 
 ## 5) 相关系数观点
@@ -855,13 +855,13 @@ $$
 协方差观点实际上与波动率观点类似，都是涉及到用先验均值来替代后验均值的做法，从而化简计算。
 
 $$
-\widetilde{Corr}(V_{k},V_{l}){\stackrel{>}{=}}\rho_{kl}
+\widetilde{Corr}(V_{k},V_{l})\mathop{\stackrel{>}{=}}_{<}\rho_{kl}
 $$
 
 可以表达为
 
 $$
-\sum_{j=1}^{\mathcal{J}}\tilde{{\bf p}}_{j}V_{k,j}V_{l,j}\overset{>}{\underset{<}{=}}\hat{\mu}(V_{k})\hat{\mu}(V_{l})+\sigma_{k}\sigma_{l}\rho_{kl}
+\sum_{j=1}^{j}\tilde{\mathsf{p}}_{j}V_{k,j}V_{l,j}\overset{>}{\underset{<}{=}}\hat{\mu}(V_{k})\hat{\mu}(V_{l})+\sigma_{k}\sigma_{l}\rho_{kl},
 $$
 
 直接对协方差给出观点也类似，只需将 $\sigma_{k}\sigma_{l}\rho_{kl}$ 替换为观点目标 $c_{kl}$ 即可。
@@ -870,20 +870,20 @@ $$
 
 我们可以看出，最终所有形式的观点都能转化为对p̃的线性约束。经过归类后，可以将其
 
-中的等式约束写为 $A{\tilde{\mathsf{p}}}=b$ ，将不等式约束写为 $G{\tilde{\mathsf{p}}}\leq h$ 的形式。至此，我们完成了对观点的矩阵化任务。
+中的等式约束写为 $A{\tilde{\mathbf{p}}}=b$ ，将不等式约束写为 $G\tilde{\mathsf{p}}\leq h$ 的形式。至此，我们完成了对观点的矩阵化任务。
 
 ## 2 相对熵最小化详细步骤
 
-我们将观点和市场先验信息放入相对熵最小化问题，得到后验分布p̃的估计，p̃可以理解为符合投资者观点并最接近市场情形的因子分布。本文使用拉格朗日对偶法来求解相对熵最小化问题，并以非参数方法为例进行讲解。在前序步骤中，我们已经将观点转化为对分布p添加的限制条件 $\{G\mathfrak{p}\leq h,A\mathfrak{p}=b\}$ 。则我们有优化问题：
+我们将观点和市场先验信息放入相对熵最小化问题，得到后验分布p̃的估计，p̃可以理解为符合投资者观点并最接近市场情形的因子分布。本文使用拉格朗日对偶法来求解相对熵最小化问题，并以非参数方法为例进行讲解。在前序步骤中，我们已经将观点转化为对分布p添加的限制条件 $\{G\mathtt{p}\leq h,A\mathtt{p}=b\}$ 。则我们有优化问题：
 
 $$
-\tilde{\mathsf{p}}\equiv\mathsf{\Pi}_{G\mathsf{p}\leq h,A\mathsf{p}=b}^{argmin}\left\{\varepsilon(\mathsf{p}|\mathsf{p}_{X})\right\}=\mathsf{\Pi}_{G\mathsf{p}\leq h,A\mathsf{p}=b}^{argmin}\left\{\mathsf{p}^{\prime}(ln(\mathsf{p})-ln(\mathsf{p}_{X}))\right\}
+\tilde{\mathsf{p}}\equiv\underset{G\mathsf{p}\leq h,A\mathsf{p}=b}{argmin}\left\{\varepsilon(\mathsf{p}|\mathsf{p}_X)\right\}=\underset{G\mathsf{p}\leq h,A\mathsf{p}=b}{argmin}\left\{\mathsf{p}'(\ln(\mathsf{p})-\ln(\mathsf{p}_X))\right\}
 $$
 
 我们写出其拉格朗日方法的目标函数：
 
 $$
-\mathcal{L}(\boldsymbol{\mathrm{p}},\lambda,\nu)\equiv\boldsymbol{\mathrm{p}}^{\prime}(ln(\boldsymbol{\mathrm{p}})-ln(\boldsymbol{\mathrm{p}}_{X}))+\lambda^{\prime}(G\boldsymbol{\mathrm{p}}-h)+\nu^{\prime}(A\boldsymbol{\mathrm{p}}-b)
+\mathcal{L}(\mathsf{p},\lambda,\nu)\equiv\mathsf{p}^{\prime}(ln(\mathsf{p})-ln(\mathsf{p}_{X}))+\lambda^{\prime}(G\mathsf{p}-h)+\nu^{\prime}(A\mathsf{p}-b)
 $$
 
 其中λ ν为拉格朗日乘子，优化问题的约束条件变为 $\lambda\geq0$
@@ -891,27 +891,27 @@ $$
 拉格朗日方法能对优化问题的约束条件进行简化，将原问题的约束方程乘上拉格朗日乘子后，与原目标函数相加获得新的目标函数。此时我们对原目标函数的最小化问题等价于对拉格朗日问题的问题，但约束条件变为对拉格朗日乘子的约束，求解更加简单。拉格朗日函数对 p 的一阶条件为：
 
 $$
-0={\frac{\partial{\mathcal{L}}}{\partial{\boldsymbol{\mathrm{p}}}}}=ln({\boldsymbol{\mathrm{p}}})-ln({\boldsymbol{\mathrm{p}}}_{X})+1+G^{\prime}\lambda+A^{\prime}\nu
+0=\frac{\partial\mathcal{L}}{\partial\mathrm{p}}=ln(\mathrm{p})-ln(\mathrm{p}_{X})+1+G^{\prime}\lambda+A^{\prime}\nu
 $$
 
 因此我们可以将 p 写为λ和ν的函数：
 
 $$
-\begin{array}{r}{\mathrm{p}(\lambda,\nu)=e^{ln(\mathrm{p}_{X})-1-G^{\prime}\lambda+A^{\prime}\nu}}\end{array}
+\begin{array}{r}{\mathtt{p}(\lambda,\nu)=e^{\ln(\mathtt{p}_{X})-1-G^{\prime}\lambda+A^{\prime}\nu}}\end{array}
 $$
 
 注意到此时我们的 p 是恒大于 0 的，因此该方法自动满足了我们对解的约束条件。
 
-接下来我们将拉格朗日表达式 $\mathcal{L}(\mathfrak{p},\lambda,\nu)$ 转化为其对偶形式 $\mathcal{G}(\lambda,\nu)$ 进行求解。对偶问题相当于将p表达为拉格朗日乘子λ与ν的形式，减少优化问题中未知量的数量来降低求解复杂度。对偶问题的目标函数为：
+接下来我们将拉格朗日表达式 $\mathcal{L}(\mathbf{\mathfrak{p}},\lambda,\nu)$ 转化为其对偶形式 $\mathcal{G}(\lambda,\nu)$ 进行求解。对偶问题相当于将p表达为拉格朗日乘子λ与ν的形式，减少优化问题中未知量的数量来降低求解复杂度。对偶问题的目标函数为：
 
 $$
-\mathcal{G}(\lambda,\nu)\equiv\mathcal{L}(\mathrm{p}(\lambda,\nu),\lambda,\nu)
+\mathcal{G}(\lambda,\nu)\equiv\mathcal{L}(\mathtt{p}(\lambda,\nu),\lambda,\nu)
 $$
 
 注意转换为对偶问题之后，优化方向也从最小化变为最大化。优化问题可以写成：
 
 $$
-(\lambda^{*},\nu^{*})\equiv argmax\{\mathcal{G}(\lambda,\nu)\}
+(\lambda^{*},\nu^{*})\equiv\mathop{argmax}_{\lambda\geq0,\nu}\{\mathcal{G}(\lambda,\nu)\}.
 $$
 
 最后，原优化问题的解即为：
@@ -923,10 +923,10 @@ $$
 若为参数估计，则一组参数θ就可以给定分布 $f_{\theta}$ ，该分布族的所有参数组成集合Θ。相对熵最小化原则下，后验分布的参数θ̃为：
 
 $$
-\tilde{\theta}\equiv argmin\{\varepsilon(\theta|\theta_{f})\}
+\tilde{\theta}\equiv\mathop{argmin}_{\theta\in\mathbb{F}}\{\varepsilon(\theta\big|\theta_{f})\}
 $$
 
-其中， $\theta\in\mathbb{F}\{f_{\theta}\in\mathbb{F},\ \theta\in\Theta\},\varepsilon\big(\theta\big|\theta_{f}\big)\varepsilon(f_{\theta}|f)$
+其中， $\theta\in\mathbb{F}\leftrightarrow\{f_{\theta}\in\mathbb{F},\quad\theta\in\Theta\},\quad\varepsilon\big(\theta\big|\theta_{f}\big)\leftrightarrow\varepsilon(f_{\theta}|f)$
 
 剩余步骤与非参数估计法类似，此处不再赘述。
 

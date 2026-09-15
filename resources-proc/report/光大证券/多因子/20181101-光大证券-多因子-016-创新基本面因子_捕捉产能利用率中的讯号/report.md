@@ -83,7 +83,7 @@ hujicong@ebscn.com
 通过构造不同财务数据间的滚动线性回归模型：
 
 $$
-\begin{array}{c}{{Funda_{Y}=\beta_{\alpha}+\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+\cdots+}}\\{{\beta_{X}*Funda_{X}+\varepsilon\#(1)}}\end{array}
+\begin{aligned}Funda_{Y}=\beta_{\alpha}+\beta_{A}*Funda_{A}+\beta_{B}*Funda_{B}+\beta_{C}*Funda_{C}+\cdots+\\\beta_{X}*Funda_{X}+\varepsilon\#(1)\end{aligned}
 $$
 
 或者，更常用的简化形式，仅考虑两个不同财务数据间的简单线性回归：
@@ -105,12 +105,12 @@ $$
 在第一章我们提出利用固定成本占比倒数：全部成本/固定成本，来表征泛化的产能利用率。而财务报表中，营业总成本与固定资产正好可以分别代理全部成本与固定成本。使用营业总成本与固定资产的好处有两点：一是代理逻辑直观，二是行业覆盖度高。在我们线性框架中，相关指标的构造并不会直接采用求比的方式，而是将两个财务数据套用在如下模型：
 
 $$
-Total\_Operation\_Cost=\beta_{\alpha}+\beta_{X}*Fixed\_Assets+\varepsilon\#(3)
+Total\_Operation\_Cost=\beta_{\alpha}+\beta_{X}*Fized\_Assets+\varepsilon\#(3)
 $$
 
 这里我们关心两个数据：一个是 $\beta_{X}$ ，表征产能利用率；另一个是ε，表征产能利用率的提升。我们想知道这两个指标是否能成为有效的基本面因子。覆盖率方面从下图可以看出，该线性模型下的数据在各一级行业的覆盖度基本上都较高，仅在轻工制造与汽车这两个行业上覆盖度稍低。
 
-图1：线性回归数据（ $.\beta_{X}\&\varepsilon)$ 在各行业（中信一级）缺失值占比及有值率
+图1：线性回归数据（ $(\beta_{X}\&\varepsilon)$ 在各行业（中信一级）缺失值占比及有值率
 ![](images/5a4588451a4cf3051e301aff6933542619a5e444bb69821e10531036a8d569ef.webp)
 资料来源：光大证券研究所，Wind 注：计算区间为 2009 年 1 月至 2018 年 6 月
 
@@ -142,7 +142,7 @@ $$
 - 截面标准化处理：通过横截面 z-score方法，以每个时间截面 t上的所有股票的为样本，分别计算其均值和标准差得到如下所示 stand(factor)。此标准化方式属于因子的线性变换，并不会改变原始因子的分布特征。
 
 $$
-s\mathrm{tand}(factor)_{jt}=\frac{factor_{jt}-\overline{{factor_{t}}}}{std(factor)_{t}}\#(4)
+\mathrm{standard}(factor)_{jt}=\frac{factor_{jt}-\overline{factor_{t}}}{std(factor)_{t}}\#(4)
 $$
 
 - 有效性及预测能力检验：我们计算行业中性与市值中性处理后的RankIC（因子值与股票次月收益率的秩相关系数），通过以下几个与IC 值相关的指标来判断因子的有效性和预测能力：IC 值的均值、IC值的标准差、IC 大于0 的比例、IC 绝对值大于0.02 的比例、ICIR。
@@ -399,7 +399,7 @@ OCFA因子在不同行业内的预测能力差异较大，我们按中信一级�
 我们将通过横截面回归取残差的方式，同时剔除上述因子对 OCFA 因子的影响，对所有的因子均做截面标准化和极值处理：
 
 $$
-\begin{array}{c}{OCFA_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+}\\{\beta_{3}*ROE_{i}+\cdots+\varepsilon_{i}\#(5)}\end{array}
+\begin{array}{c}OCFA_{i}=\beta_{1}*MC_{i}+\beta_{2}*Industry_{i}+\\\beta_{3}*ROE_{i}+\cdots+\varepsilon_{i}\;\#(5)\end{array}
 $$
 
 对 OCFA 因子中性化处理后因子的有效性检验等结果仍然较显著，IC均值小幅下降至 1.49%，但同时 IC标准差也下降不少，从而 IR反而有小幅提升，微升至0.53。说明中性化处理起到了一定信息提纯的作用，使得因子的预测稳定性都得到进一步提升。

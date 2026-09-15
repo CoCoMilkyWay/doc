@@ -208,7 +208,7 @@ $$
 按照等比例于适应度的选择概率在上一代群体中选择一个个体作为父代，并随机选取其树结构之节点，令随机生成的另一个树结构函数体替换以该节点为根节点的子树，从而生成一个新的个体，如此产生的个体数量占群体大小的比例为 $p_{m}$
 
 $$
-\pounds\notin\ p_{e}+p_{r}+p_{c}+p_{m}=1\circ
+p_{e}+p_{r}+p_{c}+p_{m}=1
 $$
 
 图11：变异算子
@@ -377,11 +377,11 @@ $$
 记 $F_{1}$ 为开仓成交价， $F_{2}$ 为平仓成交价，c为单边手续费率，I 为单边冲击成本，M为杠杆倍数，则单次交易收益率为
 
 $$
-r_{long}=\left[\frac{\big(F_{2}-I\big)\times\big(1-c\big)-\big(F_{1}+I\big)\times\big(1+c\big)}{\big(F_{1}+I\big)\times\big(1+c\big)}\right]\times M
+r_{long}=\left[\frac{(F_2-I)\times(1-c)-(F_1+I)\times(1+c)}{(F_1+I)\times(1+c)}\right]\times M
 $$
 
 $$
-r_{short}=\left[\frac{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1-c\big)-\big(F_{\scriptscriptstyle2}+I\big)\times\big(1+c\big)}{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1+c\big)}\right]\times M
+r_{shot}=\left[\frac{\left(F_1-I\right)\times(1-c)-\left(F_2+I\right)\times(1+c)}{\left(F_1-I\right)\times(1+c)}\right]\times M
 $$
 
 此处模拟交易相关设定为：
@@ -494,7 +494,7 @@ $$
 下图24是信号的函数表达式之树形结构图，我们将其转换成普通函数表达式如下
 
 $$
-y=\cos\left(tt\right)+2\sin\left(\frac{\cos\left(ll+tt\right)}{\operatorname{acos}\left(\sin\left(ll\right)^{tt}\right)}\right)
+y=\cos\left(tt\right)+2\sin\left(\frac{\cos\left(ll+tt\right)}{\cos\left(\sin\left(ll\right)^{n}\right)}\right)
 $$
 
 图25为该信号计算函数在全样本内的具体图形，由于数据量过大，为了更明显展示该指标走势，我们取100个数据点为间隔的抽样绘制形成。

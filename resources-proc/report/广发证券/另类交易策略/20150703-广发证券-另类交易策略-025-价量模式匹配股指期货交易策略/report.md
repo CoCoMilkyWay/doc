@@ -80,23 +80,23 @@ wenqiaojun@gf.com.cn
 
 ## （二）多变量的动态时间规整算法
 
-动态时间规整算法常用于单变量时间序列的匹配，事实上，在定义好多变量点和点之间的距离之后，可以将动态时间规整推广到多变量时间序列匹配上。假设两个多变量时间序列 $\mathbf{X}=\left\{\mathbf{x}_{1},\mathbf{x}_{2},\cdots,\mathbf{x}_{m}\right\}$ 和 $\mathbf{Y}=\left\{\mathbf{y}_{1},\mathbf{y}_{2},\cdots,\mathbf{y}_{n}\right\}$ ，其中X含有m 个观测样本，Y含有n个观测样本，且每个观测样本 $\mathbf{x}_{i},i=1,2,\cdots,m$ 和 $\mathbf{y}_{j},j=1,2,\cdots,n$ 都是 $q$ 维的多变量样本（维度一致）。在定义好多变量样本点 $\mathbf{x}_{i}$ 和 $\textbf{ y }_{j}$ 之间的距离计算方式 $d(\mathbf{x}_{i},\mathbf{y}_{j}$ )之后，即可计算多变量序列 X 和 Y 的动态时间规整距离$Distance(\mathbf{X},\mathbf{Y})=D(m,n)$动态时间规整算法的计算步骤如下：
+动态时间规整算法常用于单变量时间序列的匹配，事实上，在定义好多变量点和点之间的距离之后，可以将动态时间规整推广到多变量时间序列匹配上。假设两个多变量时间序列 $\mathbf{X}=\left\{\mathbf{x}_{1},\mathbf{x}_{2},\cdots,\mathbf{x}_{m}\right\}$ 和 $\mathbf{Y}=\left\{\mathbf{y}_{1},\mathbf{y}_{2},\cdots,\mathbf{y}_{n}\right\}$ ，其中X含有m 个观测样本，Y含有n个观测样本，且每个观测样本 $\mathbf{x}_{i},i=1,2,\cdots,m$ 和 $\mathbf{y}_{j},j=1,2,\cdots,n$ 都是 $q$ 维的多变量样本（维度一致）。在定义好多变量样本点 $\mathbf{X}_{i}$ 和 $\textbf{ y }_{j}$ 之间的距离计算方式 $d(\mathbf{x}_{i},\mathbf{y}_{j}$ )之后，即可计算多变量序列 X 和 Y 的动态时间规整距离$Distance(\mathbf{X},\mathbf{Y})=D(m,n)$动态时间规整算法的计算步骤如下：
 
 1、将i =0和j=0时的D(i, j)值设置为正无穷大；
 
 2、对于i从1 至m，j 从 1 至n，通过迭代计算：
 
 $$
-d_{ij}=d({\bf x}_{i},{\bf y}_{j}),
+d_{ij}=d(\mathbf{x}_{i},\mathbf{y}_{j}),
 $$
 
 $$
-D(i,j)=d_{ij}+\operatorname*{min}\left\{D(i-1,j),D(i,j-1),D(i-1,j-1)\right\}\ \mathrm{~\circ~}
+D(i,j)=d_{ij}+\min\left\{D(i-1,j),\;D(i,j-1),\;D(i-1,j-1)\right\}
 $$
 
 最终获得的 $D(m,n)$ 即是多变量序列X和Y的动态时间规整距离。这是一个动态规划问题，可以通过O mnq( )次计算，获得两个多变量序列的最优匹配（其中$d_{ij}=d(\mathbf{x}_{i},\mathbf{y}_{j})$ 的计算复杂度为O q( )）。
 
-单步优化公式为： $D(i,j)=d_{ij}+\operatorname*{min}\left\{D(i-1,j),D(i,j-1),D(i-1,j-1)\right\}$ 其中，D i j( 1, )• 表示 $\mathbf{x}_{i-1}$ 与 $\textbf{ y }_{j}$ 匹配时的子序列距离，D i j( , 1)• 表示 $\mathbf{x}_{i}$ 与 $\textbf{ y }_{j-1}$ 匹配时的子序列距离，D(i-1,j-1)表示 $\mathbf{x}_{i-1}$ 与 $\textbf{ y }_{j-1}$ 匹配时的子序列距离。动态时间规整算法从可能的三种拆分方式里边选择最优的一种，如图 2所示。
+单步优化公式为： $D(i,j)=d_{ij}+\min\left\{D(i-1,j),D(i,j-1),D(i-1,j-1)\right\}$ 其中，D i j( 1, )• 表示 $\mathbf{X}_{i-1}$ 与 $\textbf{ y }_{j}$ 匹配时的子序列距离，D i j( , 1)• 表示 $\mathbf{X}_{i}$ 与 $\mathbf{y}_{j-1}$ 匹配时的子序列距离，D(i-1,j-1)表示 $\mathbf{X}_{i-1}$ 与 $\mathbf{y}_{j-1}$ 匹配时的子序列距离。动态时间规整算法从可能的三种拆分方式里边选择最优的一种，如图 2所示。
 
 图2：动态时间规整单步优化示意图
 ![](images/e2be26a5810debb9f83ea43f6631e86d5fe7f06187fb81a3bf49c27e1027c5d7.webp)
@@ -106,9 +106,9 @@ $$
 
 即m n• ，计算复杂度为 $O(nq)$ 。与普通的多变量时间序列匹配方法相比，动态时间规整可以获得更优的匹配效果，但是需要更长的计算时间。
 
-在多变量时间序列中， $\mathbf{x}_{i}$ 和 $\textbf{ y }_{j}$ 都是 $q$ 维的向量，而且 $\mathbf{x}_{i}$ 中的元素是时刻 i 下变量的值， $\textbf{ y }_{j}$ 中的元素是时刻j下变量的值， $d(\mathbf{x}_{i},\mathbf{y}_{j})$ 即是 i时刻的 $\mathbf{x}_{i}$ 和 j时刻的 $\textbf{ y }_{j}$ 对齐时的距离。向量 $\mathbf{X}_{i}$ 和 $\textbf{ y }_{j}$ 之间的距离计算方式 $d(\mathbf{x}_{i},\mathbf{y}_{j})$ 可以通过欧氏距离或者 $\underline{{\vec{u}}}$ 氏距离来计算。
+在多变量时间序列中， $\mathbf{X}_{i}$ 和 $\textbf{ y }_{j}$ 都是 $q$ 维的向量，而且 $\mathbf{X}_{i}$ 中的元素是时刻 i 下变量的值， $\textbf{ y }_{j}$ 中的元素是时刻j下变量的值， $d(\mathbf{x}_{i},\mathbf{y}_{j})$ 即是 i时刻的 $\mathbf{X}_{i}$ 和 j时刻的 $\textbf{ y }_{j}$ 对齐时的距离。向量 $\mathbf{X}_{i}$ 和 $\textbf{ y }_{j}$ 之间的距离计算方式 $d(\mathbf{x}_{i},\mathbf{y}_{j})$ 可以通过欧氏距离或者 $乌$ 氏距离来计算。
 
-以单变量的序列 $X=\{1,4,4,8,3,2,7,9,8,3,1\}$ 和 Y •{2,3,9,6,2,2,5,8,9,4,3}为例，定义 $d(\mathbf{x}_{i},\mathbf{y}_{j})=\left|\mathbf{x}_{i}-\mathbf{y}_{j}\right|$ ，通过动态时间规整计算两个序列的距离，可以计算得到 $\begin{array}{r}{Distance(\mathbf{X},\mathbf{Y})=14}\end{array}$ 。这两个序列在形态上的匹配如图 3所示。
+以单变量的序列 $\mathbf{X}=\{1,4,4,8,3,2,7,9,8,3,1\}$ 和 Y •{2,3,9,6,2,2,5,8,9,4,3}为例，定义 $d(\mathbf{x}_{i},\mathbf{y}_{j})=\left|\mathbf{x}_{i}-\mathbf{y}_{j}\right|$ ，通过动态时间规整计算两个序列的距离，可以计算得到 $Distance(\mathbf{X},\mathbf{Y})=14$ 。这两个序列在形态上的匹配如图 3所示。
 
 图3：单变量动态时间规整形态匹配示意图
 ![](images/6a5bf83d12fc8ea0081867ea0291984279213b407a0e9adabc05406a38b34a05.webp)
@@ -118,7 +118,7 @@ $$
 
 ## （三）交易策略
 
-本报告考察的是日间的股指期货交易。第t个交易日的收盘价格和日成交量是一个观测样本， $\mathbf{x}_{t}=\big(p(t),\nu(t)\big)$ 。我们需要通过模式识别对持仓至下一个交易日的收益率 $r_{t}=p(t+1)/{p(t)}-1$ 进行估计，以决定当日收盘时的建仓方向。
+本报告考察的是日间的股指期货交易。第t个交易日的收盘价格和日成交量是一个观测样本， $\mathbf{x}_{t}=\left(p(t),\nu(t)\right)$ 。我们需要通过模式识别对持仓至下一个交易日的收益率 $r_{t}=p(t+1)/p(t)-1$ 进行估计，以决定当日收盘时的建仓方向。
 
 对于此前 L 个交易日的收盘价格和日成交量序列 $\mathbf{X}_{t}=\left\{\mathbf{x}_{t-L+1},\cdots,\mathbf{x}_{t-1},\mathbf{x}_{t}\right\}$ ，我们需要寻找与其相似的历史片段。首先，采用长度为 L 的移动窗口，将历史的行情划分为不同的行情片段，每一个片段为 L个交易日的量价行情序列，如图 4所示。
 
@@ -132,9 +132,9 @@ $$
 \hat{r}_{t}=\frac{w_{1}r_{1}+w_{2}r_{2}+\cdots+w_{k}r_{k}}{w_{1}+w_{2}+\cdots+w_{k}}=\frac{\sum_{i=1}^{k}w_{i}r_{i}}{\sum_{i=1}^{k}w_{i}}
 $$
 
-其中 $w_{i}=\big/_{D_{i}}$ ，为距离的倒数。这种加权估计的方式使得距离小（即与当前行情相似度大）的历史样本在预测中占有较大的权重，因此，能够减小k 的取值对预测结果的影响。
+其中 $w_{i}=\mathcal{V}_{D_{i}}$ ，为距离的倒数。这种加权估计的方式使得距离小（即与当前行情相似度大）的历史样本在预测中占有较大的权重，因此，能够减小k 的取值对预测结果的影响。
 
-如果 $\hat{\boldsymbol{r}}_{t}$ 大于0（预测下一个交易日上涨），则在第t个交易日收盘前可以进行做多，下一个交易日收盘前平仓；如果如果 $\hat{\mathbf{\Omega}}_{r_{t}}$ 小于0（预测下一个交易日下跌），则在第t个交易日收盘前可以进行做空，下一个交易日收盘前平仓。
+如果 $\hat{r}_{t}$ 大于0（预测下一个交易日上涨），则在第t个交易日收盘前可以进行做多，下一个交易日收盘前平仓；如果如果 $\hat{\boldsymbol r}_{t}$ 小于0（预测下一个交易日下跌），则在第t个交易日收盘前可以进行做空，下一个交易日收盘前平仓。
 
 为了减小预测错误造成的损失，我们对策略设置止损。本报告采取1%的固定止损线的策略，即前一个交易日按照收盘价建仓以后，如果第二个交易日的盘中价格“反向”超出建仓价格的1%，则执行平仓。“反向”是指，做多情况下，第二个交易日盘中价格相比建仓价格跌了1%，则平仓止损；做空情况下，第二个交易日盘中价格相比建仓价格涨了1%，则平仓止损。
 
@@ -149,18 +149,18 @@ $$
 2、对于i从L至 1，j 从L至 1，通过迭代计算
 
 $$
-D(i,j)=d_{ij}+\operatorname*{min}\left\{D(i+1,j),D(i,j+1),D(i+1,j+1)\right\}\circ
+D(i,j)=d_{ij}+\min\left\{D(i+1,j),\;D(i,j+1),\;D(i+1,j+1)\right\}
 $$
 
-在匹配中，我们并不需要获取完整序列 $\mathbf{X}_{t}=\left\{\mathbf{x}_{t-L+1},\cdots,\mathbf{x}_{t-1},\mathbf{x}_{t}\right\}$ 和样本序列$\mathbf{Y}_{\tau}=\left\{\mathbf{y}_{\tau-L+1},\cdots,\mathbf{y}_{\tau-1},\mathbf{y}_{\tau}\right\}$ 的最短距离，而只需要考察子序列 $\left\{\mathbf{x}_{t-l+1},\cdots,\mathbf{x}_{t-1},\mathbf{x}_{t}\right\}$ 和$\mathbf{Y}_{\tau}=\left\{\mathbf{y}_{\tau-L+1},\cdots,\mathbf{y}_{\tau-1},\mathbf{y}_{\tau}\right\}$ 的最短距离以及 $\mathbf{X}_{t}=\left\{\mathbf{x}_{t-L+1},\cdots,\mathbf{x}_{t-1},\mathbf{x}_{t}\right\}$ 和子序列$\left\{\mathbf{y}_{\tau-l+1},\cdots,\mathbf{y}_{\tau-1},\mathbf{y}_{\tau}\right\}$ 的最短距离，并取其最小值，其中 $1\leq l\leq L$ 。具体的匹配路径如图5所示。匹配路径A表示 $\mathbf{X}_{t}$ 序列的最近一段子序列与 $\mathbf{Y}_{\tau}$ 序列匹配；匹配路径B表示 $\mathbf{Y}_{\tau}$ 序列的最近一段子序列与 $\mathbf{X}_{t}$ 序列匹配。注意，两种匹配路径中， $\mathbf{X}_{t}$ 序列和 $\mathbf{Y}_{\tau}$ 序列的最新时刻样本都是对齐的。
+在匹配中，我们并不需要获取完整序列 $\mathbf{X}_{t}=\left\{\mathbf{x}_{t-L+1},\cdots,\mathbf{x}_{t-1},\mathbf{x}_{t}\right\}$ 和样本序列$\mathbf{Y}_{\tau}=\left\{\mathbf{y}_{\tau-L+1},\cdots,\mathbf{y}_{\tau-1},\mathbf{y}_{\tau}\right\}$ 的最短距离，而只需要考察子序列 $\left\{\mathbf{X}_{t-l+1},\cdots,\mathbf{X}_{t-1},\mathbf{X}_t\right\}$ 和$\mathbf{Y}_{\tau}=\left\{\mathbf{y}_{\tau-L+1},\cdots,\mathbf{y}_{\tau-1},\mathbf{y}_{\tau}\right\}$ 的最短距离以及 $\mathbf{X}_{t}=\left\{\mathbf{x}_{t-L+1},\cdots,\mathbf{x}_{t-1},\mathbf{x}_{t}\right\}$ 和子序列$\left\{\mathbf{y}_{\tau-l+1},\cdots,\mathbf{y}_{\tau-1},\mathbf{y}_{\tau}\right\}$ 的最短距离，并取其最小值，其中 $1\leq l\leq L$ 。具体的匹配路径如图5所示。匹配路径A表示 $\mathbf{X}_{t}$ 序列的最近一段子序列与 $\mathbf{Y}_{\tau}$ 序列匹配；匹配路径B表示 $\mathbf{Y}_{\tau}$ 序列的最近一段子序列与 $\mathbf{X}_{t}$ 序列匹配。注意，两种匹配路径中， $\mathbf{X}_{t}$ 序列和 $\mathbf{Y}_{\tau}$ 序列的最新时刻样本都是对齐的。
 
 简单起见，本报告中价格和量在进行模式匹配时的权重相同。由于价格和成交量的波动范围不一致，在进行价量多变量序列匹配计算变量距离 $d(\mathbf{x}_{i},\mathbf{y}_{j})$ 时，需要将价格项和成交量项标准化，即
 
 $$
-d(\mathbf{x}_{i},\mathbf{y}_{j})=\sqrt{\left(p_{i}-p_{j}\right)^{2}/\operatorname{var}(p)+\left(\nu_{i}-\nu_{j}\right)^{2}/\operatorname{var}(\nu)}
+d(\mathbf{x}_{i},\mathbf{y}_{j})=\sqrt{\left(p_{i}-p_{j}\right)^{2}/\operatorname{var}(p)+\left(v_{i}-v_{j}\right)^{2}/\operatorname{var}(v)}
 $$
 
-其中 $\mathbf{x}_{i}=\left(p_{i},\nu_{i}\right),~\mathbf{y}_{j}=\left(p_{j},\nu_{j}\right)$ ；var( )p 和 var( )v 依次为按照考察序列 $\mathbf{X}_{t}$ 计算出来的价格和成交量的方差。
+其中 $\mathbf{x}_{i}=\left(p_{i},v_{i}\right),\quad\mathbf{y}_{j}=\left(p_{j},v_{j}\right)$ ；var( )p 和 var( )v 依次为按照考察序列 $\mathbf{X}_{t}$ 计算出来的价格和成交量的方差。
 
 图5：右端对齐的可能匹配路径
 ![](images/0298e71a09a64672ae8413499663f98bf78a02fafe094d50d157f37819c7c964.webp)

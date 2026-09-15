@@ -55,7 +55,7 @@
 在《高频因子(二)：结构化反转因子》中，我们给出了一种利用高频数据对传统反转因子进行改进的方法，即使用对应时间段内的成交量对收益率进行加权：
 
 $$
-\dot{\Xi}\dot{\Xi}\dot{\mathcal{N}}\dot{\Xi}\dot{\Xi}\dot{\Xi}\boxed{\mathcal{D}}\mp\frac{\dot{\Xi}\dot{\Xi}}{\Xi}\boxed{\Xi}\mp\frac{\sum vol_{i}\times ret_{i}}{\sum vol_{i}}
+高频反转因子=\frac{\sum vol_{i}\times ret_{i}}{\sum vol_{i}}
 $$
 
 其中 $ret_{i}$ 为每个时间段的对数收益率，vol 为对应时间段的的成交量。
@@ -119,10 +119,10 @@ $$
 具体而言，我们构建如下的一组局部反转因子：
 
 $$
-\begin{array}{r}{\mathbb{H}\overline{{\chi}}\overline{{\chi}}\overline{{\mathbb{L}}}\equiv\mathbb{H}\overline{{\mathbb{P}}}\mathbb{\frac{\nu+1}{2L}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}\overline{{\mathbb{H}}}_{\mathrm{i}}=s\mathrm{um}(\{ret_{i}|q_{j}(vol_{i})<vol_{i}<q_{j+1}(vol_{i})\})}\end{array}
+成交量筛选的局部反转因子_{\underline{i}}=sum(\{ret_{i}|q_{j}(vol_{i})<vol_{i}<q_{j+1}(vol_{i})\})
 $$
 
-其中 $q_{j}(\ u)$ 为分位数函数，本文中按照成交量分为五组，则j = 0,1,2,3,4,5 时 $q_{j}(vol_{i})$ 分别代表vol 序列的 0%、20%、40%、60%、80%、100%分位数。根据j的取值不同，该因子筛选出成交量大小不同的时间段(如j = 0时筛选出过去 20 个交易日的所有 K 线中成交量排名 0%-20%的时间段)，进而计算这些时间段内对数收益率和，作为因子值。
+其中 $q_{j}()$ 为分位数函数，本文中按照成交量分为五组，则j = 0,1,2,3,4,5 时 $q_{j}(vol_{i})$ 分别代表vol 序列的 0%、20%、40%、60%、80%、100%分位数。根据j的取值不同，该因子筛选出成交量大小不同的时间段(如j = 0时筛选出过去 20 个交易日的所有 K 线中成交量排名 0%-20%的时间段)，进而计算这些时间段内对数收益率和，作为因子值。
 
 下图汇总了全市场不同成交量区间(即不同j取值)下的局部反转因子自 2010 年以来月度ICIR 和年化多空收益率的情况(计算因子多空收益时按因子值大小分为十组且用因子值最小的一组减因子值最大的一组，下文中同)。可以看到，只有成交量最大组(即位于 80%-100%区间)的因子表现出明显的反转效应，成交量位于 40%-60%和 60%-80%区间内的两个因子表现出微弱的动量效应，而成交量较小组(即位于 0%-20%和 20%-40%区间)的因子几乎没有选股能力。
 
@@ -139,7 +139,7 @@ $$
 为了对 2 做统计上的验证，我们需要对“多空博弈激烈”做出定量的定义。市场中通常认为振幅大的个股短期波动较大，进而可将其作为多空博弈激烈程度的表征。然而，除短期波动较大的个股外，单边上行或单边下行的个股也因收益率绝对值大而表现出振幅大的特点，直接使用区间振幅表征多空博弈激烈程度并不恰当。为了解决此问题，本文采用经过处理后的振幅比率来表征多空博弈的激烈程度，即：
 
 $$
-\frac{1}{2\pi}\lVert\overline{{\mathbb{E}}}\rVert\dot{\mathbb{E}}\dot{\mathbb{E}}=\frac{\lvert\bigtriangledown\rvert\lVert\dot{\mathbb{X}}\dddot{\mathbb{E}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}}\lvert\bigtriangledown\rvert\lVert\overline{{\mathbb{X}}}\mathclose\rVert\ddot{\mathbb{E}}\lVert\overline{{\mathbb{X}}}\mathclose\rVert\dot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}-\lvert\bigtriangledown\rvert\overline{{\mathbb{H}}}\dddot{\mathbb{X}}\ddot{\mathbb{H}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot{\mathbb{X}}\ddot
+\frac{|区间收益|}{区间报幅}=\frac{|区间收益价-区间开盘价|}{区间最高价-区间最低价}
 $$
 
 振幅比率越低，则说明价格确定在整个价格波动中所占比例越小，多空博弈越激烈。下图给出了 2020 年 1 月 1 日至 2020 年 6 月 30 日，全市场范围内成交量与振幅比率和收益率绝对值的分组关系图，其计算方法为每日将每只股票的所有 K 线按成交量大小从低到高分为 5 组，计算组内振幅比率或收益率绝对值的均值，最后每组在时间序列上求均值。可以看到：
@@ -159,7 +159,7 @@ $$
 进一步，下图给出了收益率绝对值筛选的局部反转因子自 2010 年以来月度 ICIR 和全市场年化多空收益率的情况，该因子的构建方式与成交量筛选的局部反转因子的方法相同，只是将用于筛选的数据由成交量替换为收益率绝对值，即：
 
 $$
-\begin{array}{r}{|\big\{\mathfrak{X}_{\mathfrak{m}}^{\le\le\le\le\le\le\le\le\le\le\le\le\le\le\le\le\le}\big\}|\big|\widehat{\mathbb{H}}^{\gamma\operatorname*{m}\le\mathtt{m}\le\le\le\le\le\le\le\mathtt{m}}\big|\big\{\mathfrak{P}_{\mathtt{m}}^{\le\pm}\big|\big\}\big|_{\infty}\Xi_{\mathtt{m}}^{\pm\pm}\big|\big\}\mathcal{Z}_{\mathtt{m}}^{\pm\pm}\big|\big|\mathfrak{X}_{\mathtt{m}}^{\le\pm}\big|\big|\mathfrak{Z}_{\mathtt{m}}=\operatorname*{sum}\big(\big\{ret_{i}\big|q_{j}(|ret_{i}|)<|ret_{i}|<q_{j+1}(|ret_{i}|)\big\}\big)}\end{array}
+收益率绝对值筛选的局部反转因子_j=sum\left(\left\{rate_i|q_j(|rate_i|)<|ret_i|<q_{j+1}(|ret_i|)\right\}\right)
 $$
 
 其中|ret |为每段时间收益率的绝对值，可以看到，只有收益率绝对值最大组(即位于80%-100%区间)的因子表现出明显的反转效应，收益率绝对值位于 20%-40%、40%-60%和 60%-80%区间内的因子表现出一定的动量效应，而收益率绝对值最小组(即位于 0%-20%区间)的因子几乎没有选股能力，即在价格变动较大的时间段，反转效应较强。
@@ -183,7 +183,7 @@ $$
 上述讨论给出了一种探讨反转因子微观结构的方法，即按照一定指标对收益率进行筛选，寻找可能加强反转效应的指标（如收益率绝对值）。在《高频因子(九)：高频波动中的时间序列信息》中，我们曾指出每笔成交量(=成交量/成交笔数)包含较多信息量，使用该数据能否对传统反转因子进行增强？为了检验这一点，我们尝试用每笔成交量对收益率进行筛选：
 
 $$
-\begin{array}{r}{\overleftrightarrow{\underline{{\sf E}}}\overleftrightarrow{\underline{{\sf E}}}\overleftrightarrow{\underline{{\sf E}}}\equiv\overbrace{{\sf I}\boldsymbol{\boldsymbol{\Pi}}}\overleftrightarrow{\boldsymbol{\sf I}}\equiv\overbrace{{\sf I}\boldsymbol{\boldsymbol{\Pi}}}\overleftrightarrow{\boldsymbol{\sf I}}\overleftrightarrow{\boldsymbol{\sf I}}\overleftrightarrow{\boldsymbol{\sf E}}\overleftrightarrow{\boldsymbol{\sf I}}\overline{{\boldsymbol{\mathcal{Z}}}}=\overleftrightarrow{\boldsymbol{\sf E}}\overline{{\boldsymbol{\Xi}}}==\mathrm{sum}\big(\{ret_{i}\big|q_{j}(pvol_{i})<pvol_{i}<q_{j+1}(pvol_{i})\}\big)}\end{array}
+每笔成交量筛选的局部反转因子_{j}=\operatorname{sum}\left(\left\{ret_{i}\Big|q_{j}(pvol_{i})<pvol_{i}<q_{j+1}(pvol_{i})\right\}\right)
 $$
 
 其中pvol 为每个时间段每笔成交量2。下图给出了每笔成交量筛选的局部反转因子自2010 年以来月度 ICIR 和全市场年化多空收益率的情况。可以看到，不同每笔成交量区间下该因子的收益能力呈线性排列，每笔成交量最大组(即位于 80%-100%区间)的因子表现出显著的反转效应，随着每笔成交量的降低因子的收益能力逐渐由反转变为动量，直至每笔成交量最小组(即位于 0%-20%区间)的因子表现出显著的动量效应。从分组筛选的这一结果上看，每笔成交量与成交量虽同属“量”的范畴，它们与收益率之间的关系却明显不同。
@@ -257,7 +257,7 @@ $$
 最直接的方法就是以等权的方式合成不同筛选区间下的因子，以表现出动量效应的最小组和表现出反转效应的最大组为例：
 
 $$
-\begin{array}{r}{\overleftrightarrow{\underline{{\sf E}}}\overleftrightarrow{\underline{{\sf E}}}\overleftrightarrow{\underline{{\sf E}}}\overleftrightarrow{\underline{{\sf E}}}\overleftrightarrow{\underline{{\sf E}}}\overleftrightarrow{\underline{{\sf E}}}=\mathsf{sum}(\{ret_{i}|pvol_{i}>q_{4}(pvol_{i})\})-\mathsf{sum}(\{ret_{i}|pvol_{i}<q_{1}(pvol_{i})\})}\end{array}
+每笔成交量复合因子=sum(\{ret_{i}|pvol_{i}>q_{4}(pvol_{i})\})-sum(\{ret_{i}|pvol_{i}<q_{1}(pvol_{i})\})
 $$
 
 下图给出了风格中性前后的该因子自 2010 年以来在全市场内的表现，并在下表中给出了其分年风险指标。可以看到：
@@ -311,21 +311,21 @@ w_{i}=pvol_{i}-mean(pvol_{i})
 $$
 
 $$
-\{\varXi\frac{4\div5}{5}\geq\frac{1}{3}\dot{\bar{\lambda}}\geq\frac{\mu}{\equiv}\mathbf{\dot{j}}\mathbf{\mu}\mathbf{\dot{\uparrow}}\}\mathbb{Z}\frac{4\pm\mu}{3}\mathbf{\mu}\geq\frac{\sum w_{i}\times ret_{i}}{\sum pvol_{i}}
+每笔成交量加权反转因子=\frac{\sum w_i\times ret_i}{\sum pvol_i}
 $$
 
 但本文将关注另一种方式构建的因子，表达式如下：
 
 $$
-\frac{1}{15}\mathbin{\vrule height13.6em104.6em104.7k\vrule height13.6em104.6em10}=\frac{\sum{w}_{i}\times ret_{i}}{std(pvol_{i})\times std(ret_{i})}
+每笔成交量标准化加权反转因子=\frac{\sum w_i\times ret_i}{std(pvol_i)\times std(ret_i)}
 $$
 
 $$
-=\frac{\sum w_{i}\times ret_{i}-mean(ret_{i})\sum pvol_{i}+\sum mean(pvol_{i})mean(ret_{i})}{std(pvol_{i})\times std(ret_{i})}
+\frac{\sum w_{i}\times rect_{i}-mean(rect_{i})\sum pvol_{i}+\sum mean(pvol_{i})mean(rect_{i})}{std(pvol_{i})\times std(rect_{i})}
 $$
 
 $$
-=\frac{\sum\bigl(pvol_{i}-mean(pvol_{i})\bigr)\bigl(ret_{i}-mean(ret_{i})\bigr)}{std(pvol_{i})\times std(ret_{i})}=corr(pvol,ret)
+\frac{\sum\left(pvol_{i}-mean(pvol_{i})\right)\left(ret_{i}-mean(ret_{i})\right)}{std(pvol_{i})\times std(ret_{i})}=corr(pvol,ret)
 $$
 
 即标准化后的每笔成交量加权收益率，和每笔成交量收益率相关性因子一致，后文中统称为每笔成交量收益率相关性因子。下图给出了风格中性前后的该因子自 2010 年以来在全市场内的表现，并在下表中给出了其分年风险指标。可以看到：
@@ -371,7 +371,7 @@ $$
 从上文的讨论中我们可以看到，相关系数和对变量加权求和有着密切的关系，顺着这个思路，展开对量价相关性因子的逻辑解释讨论。在《高频因子（八）：高位成交因子——从量价匹配说起》，我们给出了一种量价相关性因子收益来源的解释，即在价格高位成交相对较多的个股交易中存在羊群效应，从而存在高估的可能。故按照前文讨论的方法，按照价格对个股成交量给出划分，构建价格筛选的局部成交量因子：
 
 $$
-\textcircled{1}\dot{\textmd f}\ddot{\textmd f}\dddot{\textmu}\ddot{\textmd2}\ddot{\textmd f}\ddot{\textmd B}\ddot{\textmd2}\ddot{\textmd B}\ddot{\textmd B}\ddot{\textmd\textmd\textmd{\textmu}}\ddot{\textmd\textmd{\textmu}}\ddot{\textmd\textmd{\textmu}}\ddot{\textmd{\textmu}}\ddot{\textmd{\textmu}}\ddot{\textmd{\textmu}}\ddot{\textmd{\textmu}}_{j}=\frac{\operatorname*{sum}(\{vol_{i}\}q_{j}(close_{i})<close_{i}<q_{j+1}(close_{i})\})}{\operatorname*{sum}(vol_{i})}
+\frac{sum(\{vol_{i}|q_{j}(close_{i})<close_{i}<q_{j+1}(close_{i})\})}{sum(vol_{i})}
 $$
 
 其中，close 为每个时间段的收盘价，为使得不同成交量级的个股具有可比性，因子按照因子总成交量进行去量纲处理。下图给出了价格筛选的局部成交量因子自 2010 年以来月度 ICIR 和全市场年化多空收益率的情况。可以看到，不同价格区间的局部成交量因子的收益能力都呈线性排列，这一点与每笔成交量筛选的局部反转因子非常相似。具体而言，价格最高组(即位于 80%-100%区间)的因子表现出显著的负向收益能力，即在价格高位成交量越大的个股未来的收益率越低。随着价格的降低，因子的收益能力逐渐由负向变为正向，价格最低组(即位于 0%-20%区间)的因子表现出显著的正向收益能力，即在价格低位成交量越大的个股未来的收益率越高。
@@ -423,7 +423,7 @@ $$
 所以从上面的讨论中，我们验证了成交集中在价格高位的个股具有反转效应，成交集中在价格低位的个股具有动量效应，类似每笔成交量收益率相关性因子，量价相关性因子实际上整体结合了不同价格分组下的局部成交量因子：
 
 $$
-\Xi\{\gamma|\cdot|\exists\neq|\prime|\pm|\mathbb{E}|\mp=corr(vol,close)=\frac{\sum\left(close_{i}-mean(close_{i})\right)vol_{i}}{std(close_{i})\times std(vol_{i})}
+量价相关性因子=Corr(vol,close)=\frac{\sum\left(close_i-mean(close_i)\right)vol_i}{std(close_i)\times std(vol_i)}
 $$
 
 下图给出了风格中性前后的量价相关性因子自 2010 年以来在全市场内的表现，并在下表中给出了其分年风险指标。可以看到：

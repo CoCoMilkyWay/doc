@@ -166,7 +166,7 @@ SFC：BUT353
 具体而言在 A 股上进行收益率拆分时，市场收益可以定义为 A 股市场的整体收益率；个股风格收益可以定义为市值、行业、流动性等风险收益通常称为 Beta，该收益需要投资者主动暴露对应的风险，在方向正确的情况下才能获取对应的收益；个股残差收益通常称为 Alpha，是量化投资者最为关心的目标，理论上如果能对残差收益进行较为准确的预测，即可获取一定的无风险收益，因此大批量的人工因子挖掘以及机器学习因子挖掘其核心在于对残差收益的预测。
 
 $$
-\mathrm{y}=\mathrm{y}_{\mathrm{mkt}}+\beta+\alpha
+\mathbf{y}=\mathbf{y}_{\mathrm{mkt}}+\boldsymbol{\beta}+\boldsymbol{\alpha}
 $$
 
 ## 神经网络量价因子的风格收益
@@ -240,7 +240,7 @@ $$
 |  | 样本范围 | 沪深两市 A 股全市场 |
 | 网络模型 和 训练参数 | 模型 | TCN 卷积核大小：2 |
 |  | 参数 | 通道个数：[64,64,64,64,64] 残差模块个数：5 输出维度：64 |
-|  | 损失函数 | $\begin{array}{c}{{Loss_{final}=\displaystyle-\frac{\sum_{i=1}^{64}\mathrm{Corr}(\widehat{y}_{i},y)}{64}-\frac{1}{2}\mathrm{Corr}(\displaystyle\sum_{i=1}^{64}\widehat{y}_{i},y)}}\\{{+\displaystyle\frac{\sum_{i=1}^{64}\sum_{j=1}^{64}Corr(\widehat{y}_{i},\widehat{y}_{j})^{2}}{64}}}\end{array}$ |
+|  | 损失函数 | $\begin{aligned}Loss_{final}=-\frac{\sum_{i=1}^{64}Corr(\widehat{y}_i,y)}{64}-\frac{1}{2}Corr(\sum_{i=1}^{64}\widehat{y}_i,y)\\+\frac{\sum_{i=1}^{64}\sum_{j=1}^{64}Corr(\widehat{y}_i,\widehat{y}_j)^2}{64}\end{aligned}$ |
 |  | 最终预测值 | 64个单因子等权合成 |
 |  | 早停轮数 | 10轮 |
 |  | 学习率 | 0.0001 |

@@ -141,7 +141,7 @@ le_Summary]本报告充分利用上市公司每个季度发布的财务报表信
 根据戈登不变股利增长模型（Golden’s Model），上市公司的价值可表示为：
 
 $$
-\lor={\frac{D}{r-g}}
+\mathrm{V}{=}\frac{D}{r-g}
 $$
 
 D 为公司支付的股利，由盈利水平和股利支付政策决定，r 为要求收益率，由标的公司的风险决定。潜在投资风险越高的公司，投资者对其的要求收益率也越高。g 代表股利增长率，为了让模型有更强的适应性，g通常以公司的成长性作为代理。
@@ -223,7 +223,7 @@ Titman, Wei, and Xie (2004)的研究发现，由于投资者对上市公司实�
 在得到单一指标的 z-score 的基础上，综合指标的取值为单一指标的平均，并做同样的标准化处理，盈利性、成长性、安全性指标的计算方法如下：
 
 $$
-\begin{array}{rl}&{\mathrm{Profit}=\mathrm{z}\big(z_{ROA}+Z_{ROE}+Z_{SalePrf}+Z_{EPS}\big)}\\&{}\\&{\mathrm{Growth}=\mathrm{z}\big(z_{Ttprfgrt}+z_{NOCFgrt}+z_{Ntasgrt}+z_{Ntprfgrt}+z_{Ttassgrt}\big)}\\&{}\\&{\mathrm{Safty}=\mathrm{z}\big(z_{Dbas}+z_{Cur}+z_{Qck}+z_{Ocudb}+z_{Cudb}\big)}\end{array}
+\begin{aligned}&Profit=\mathtt{z}(z_{ROA}+Z_{ROE}+Z_{SalePerf}+Z_{EPS})\\&\\&Growth=\mathtt{z}(z_{Ttprfgrt}+z_{NOCFgrt}+z_{Ntagrt}+z_{Ntprfgrt}+z_{Ttssfrt})\\&\\&Softy=\mathtt{z}(z_{Dbs}+z_{Cur}+z_{Qck}+z_{Ocudb}+z_{Cudb})\\\end{aligned}
 $$
 
 股利支付率、规模则由单一指标构成：
@@ -235,7 +235,7 @@ Size = Zsize
 以上指标均使用最近一期（季度）定期报告中披露的财务信息作为输入变量。但是投资者在关注公司某一方面的能力时，不仅关注当期表现，还会关注该能力的持续性。举例来说，投资者偏好盈利能力较强的公司，某公司在过去较长周期内一直保持着高盈利性水平，相比于之前表现平平，而最近一期盈利突然攀升的公司，对投资者的预期影响是不同的，进而影响股票的定价。因此，本报告另外加入各变量过去四个季度的移动平均 $FTTM_{i,t}^{k}$ ，以捕捉公司的各方面能力在整个年度周期内的持续性。
 
 $$
-FTTM_{i,t}^{k}=\frac{F_{i,q}^{k}+F_{i,q-1}^{k}+F_{i,q-2}^{k}+F_{i,q-3}^{k}}{4},k=1,2,3,4,5
+FTTM_{i,t}^{k}=\frac{F_{i,q}^{k}+F_{i,q-1}^{k}+F_{i,q-2}^{k}+F_{i,q-3}^{k}}{4},k=1{,}2{,}3{,}4{,}5
 $$
 
 ## 2.2. 模型设定
@@ -243,12 +243,12 @@ $$
 在获得标准化基本面指标及其移动平均的基础上，本节采用截面模型拟合个股收益和各类基本面信息之间的线性关系。被解释变量为个股月度收益，解释变量由上一节中涉及的五大类基本面信息以及行业变量构成，模型具体设定如下：
 
 $$
-r_{it}=\beta_{0,t}+\sum_{k=1}^{5}\beta_{1t}^{k}F_{i,t}^{k}+\sum_{k=1}^{5}\beta_{2t}^{k}FTTM_{i,t}^{k}+\sum_{l=1}^{27}\beta_{t}^{l}InduDum_{i,t}^{l}+\varepsilon_{it}
+r_{it}=\beta_{0,t}+\sum_{k=1}^{5}\beta_{1t}^{k}F_{i,t}^{k}+\sum_{k=1}^{5}\beta_{2t}^{k}FTTM_{i,t}^{k}+\sum_{l=1}^{27}\beta_{t}^{l}InduDum_{i,t}^{l}+\varepsilon_{it},
 $$
 
-其中， $\boldsymbol{F}_{i,t}^{k}$ 为i股在t时刻可获得的最近一期财报中，第k类指标的取值，$FTTM_{i,t}^{k}$ 为相应指标在最近四个季度的移动平均，考虑到宏观经济环境和行业政策信息等会导致个股收益呈现行业特征，故在模型中加入行业标$\dot{\tau})\stackrel{\pi}{\mathrm{\sim}}InduDum_{i,t}^{I}$ 对行业特征加以控制。
+其中， $F_{i,t}^{k}$ 为i股在t时刻可获得的最近一期财报中，第k类指标的取值，$FTTM_{i,t}^{k}$ 为相应指标在最近四个季度的移动平均，考虑到宏观经济环境和行业政策信息等会导致个股收益呈现行业特征，故在模型中加入行业标$识InduDum_{i,t}^{I}$ 对行业特征加以控制。
 
-模型中截距项 $\beta_{0,t}$ 捕捉某时段内市场整体同涨同跌的部分， $\beta_{1t}^{k}\hbar\alpha\beta_{2t}^{k}$ 是基本面信息的回归系数，反映市场当前对各类型基本面的定价，各股所属的行业收益则体现在 $\mathbf{\nabla}_{\cdot}\beta_{t}^{l}$ 中。
+模型中截距项 $\beta_{0,t}$ 捕捉某时段内市场整体同涨同跌的部分， $\beta_{1t}^{k}和\beta_{2t}^{k}$ 是基本面信息的回归系数，反映市场当前对各类型基本面的定价，各股所属的行业收益则体现在 $\cdot\beta_{t}^{I}$ 中。
 
 基于该模型，各股原始收益可分解为两个部分，模型可解释的部分我们称之为基本面收益，残差项是基本面信息无法解释的我们称之为投机性收益。本文的选股策略就建立在二维收益分解所具有的不同动量反转特征的基础上。
 
@@ -307,7 +307,7 @@ $$
 在本文的回归模型背景下，个股在t期的基本面收益可表示如下：
 
 $$
-\begin{array}{r}{\frac{\ddagger{}}{\ddagger{}}\mathcal{K}_{\mathrm{sinf}}\sharp\widetilde{\mathbf{x}}_{\bar{\mathfrak{s}}\bar{\mathfrak{n}}\cdot}^{\sharp}-\hat{\beta}_{0,t}+\sum_{k=1}^{5}\hat{\beta}_{1t}^{k}F_{i,t}^{k}+\sum_{k=1}^{5}\hat{\beta}_{2t}^{k}FTTM_{i,t}^{k}+\sum_{I=1}^{27}\hat{\beta}_{t}^{I}InduDum_{i,t}^{I}}\end{array}
+基本面收益=\hat{\beta}_{0,t}+\sum_{k=1}^{5}\hat{\beta}_{1t}^{k}F_{i,t}^{k}+\sum_{k=1}^{5}\hat{\beta}_{2t}^{k}FTTM_{i,t}^{k}+\sum_{I=1}^{27}\hat{\beta}_{t}^{I}InduDu_{i,t}^{I}
 $$
 
 我们认为，基本面收益捕捉的是收益中的理性定价部分，并且不论是宏观经济、行业还是公司的基本面表现在短期内均具有趋势性，因此这部分收益在下一期大概率延续。
@@ -357,9 +357,9 @@ $$
 
 - 计算每一横截面所有个股对应的基本面收益： $FR_{it}$ ，从低到高排序，取得行业内排名 $\mathrm{Rank}(FR_{it})$ 。
 
-- 计算每一横截面所有个股对应的投机性收益： $SR_{it}$ ，从高到低排序，取得行业内排名 $\mathrm{Rank}(SR_{it})$ 。
+- 计算每一横截面所有个股对应的投机性收益： $SR_{it}$ ，从高到低排序，取得行业内排名 $\operatorname{Rank}(SR_{it})$ 。
 
-- 双向选择下，个股的最终排名为: $\mathrm{Min}[\mathrm{Rank}(FR_{it}),\ \mathrm{Rank}(SR_{it})]$
+- 双向选择下，个股的最终排名为: $\mathrm{Min}[\mathrm{Rank}(FR_{it}),\mathrm{Rank}(SR_{it})]$
 
 - 每一期每个行业内选取排名处于前1/10分位数以上的股票，行业内
 

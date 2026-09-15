@@ -75,45 +75,45 @@ ann@gf.com.cn
 
 ## （一）模型介绍
 
-首先我们来更加具体的讲述熵的概念。假设有M个不同的事件 ${\pmb{m}}_{i}$ 即将发生，每件事情发生的概率都为 。如果所有的概率全都相等，那么我们对于这个系统就没有任何信 $p_{i}$ 息，而如果对于某一个事件的概率我们知道的非常清楚，那么我们就可以从这个系统中得到相当一部分信息。因此我们可以把信息和概率的关系写成：
+首先我们来更加具体的讲述熵的概念。假设有M个不同的事件 $m_{i}$ 即将发生，每件事情发生的概率都为 。如果所有的概率全都相等，那么我们对于这个系统就没有任何信 $p_{i}$ 息，而如果对于某一个事件的概率我们知道的非常清楚，那么我们就可以从这个系统中得到相当一部分信息。因此我们可以把信息和概率的关系写成：
 
 $$
-I=k\ln{\frac{1}{p_{i}}}
+I=k\ln\frac{1}{p_{_i}}
 $$
 
-其中 I是信息量，k是一个常数，当对数的基为2时取值为1。如果我们观察这个系统很长一段时间T，如果 T足够大，我们可以认为我们能够观察到 $p_{i}{T}$ 个 ，那么整个 ${\pmb{m}}_{i}$ 系统中的信息量就可以表示为：
+其中 I是信息量，k是一个常数，当对数的基为2时取值为1。如果我们观察这个系统很长一段时间T，如果 T足够大，我们可以认为我们能够观察到 $p_{i}T$ 个 ，那么整个 $m_{i}$ 系统中的信息量就可以表示为：
 
 $$
-I_{_{total}}=k(\sum p_{i}T\ln{\frac{1}{p_{i}}})
+I_{\mathit{total}}=k(\sum p_{i}T\ln\frac{1}{p_{i}})
 $$
 
 对于每个单位时间段内的平均信息我们就可以表示为：
 
 $$
-H{=}\frac{I_{ioial}}{T}{=}{-}k\sum p_{i}\mathrm{ln}\frac{1}{p_{i}}
+H=\frac{I_{total}}{T}=-k\sum p_i\ln\frac{1}{p_i}
 $$
 
-其中 H就是该系统的熵。从上式中我们可以清楚的看到熵利用概率来描述系统不确定的变量。一个系统的熵是0 如果对于这个系统除了一个p之外剩下的概率全部为0。这时系统是固定的没有随机性和不确定性。而如果对于一个系统，所有的 $\pmb{p}_{i}$ 全都相同，这时由上式可以知道系统的熵得到最大值，系统的不确定性也是最大的。
+其中 H就是该系统的熵。从上式中我们可以清楚的看到熵利用概率来描述系统不确定的变量。一个系统的熵是0 如果对于这个系统除了一个p之外剩下的概率全部为0。这时系统是固定的没有随机性和不确定性。而如果对于一个系统，所有的 $p_{i}$ 全都相同，这时由上式可以知道系统的熵得到最大值，系统的不确定性也是最大的。
 
 将最大熵原理用在频谱分析的时候，我们首先给出一个时间序列的熵和谱密度之间的关系：
 
 $$
-H{=}\frac{1}{{4}f_{N}}\int_{1{\log}3(f)df}^{f}
+H=\frac{1}{4f_{_N}}\int_{-f_{_N}}^{f_{_N}}\log S(f)df
 $$
 
 其中S是时间序列的谱密度函数， $f_{N}$ 是 Nyquist频率。我们可以将S表示成该数据的自相关系数 $\rho(k)$
 
 $$
-H=\frac{1}{4f_{N}}\int\displaylimits_{N}^{f_{N}}\sum\displaylimits_{k=-\infty}^{\infty}\log\rho(k)\exp(-i2\pi fk\Delta t)df
+H=\frac{1}{4f_N}\int_{f_N}^{f_N}\sum_{k=-\infty}^{\infty}\log\rho(k)\exp(-i2\pi fk\Delta t)df
 $$
 
 因为谱密度S和自相关系数 $\rho(k)$ 是一致的，我们可以把此当成限制条件，运用Lagrange方法对谱密度进行求解，得到：
 
 $$
-S(f)=\frac{P_{_M}}{f_{_N}\vert1+\displaystyle\sum_{j=1}^{m}\gamma_{_j}\exp(-i2\pi fj\Delta t)\vert^{2}}
+S(f)=\frac{P_{_M}}{f_{_N}\left|1+\sum\limits_{j=1}^{m}\gamma_{_j}\exp(-i2\pi f_{_j}\Delta t)\right|^2}
 $$
 
-其中 $\gamma_{j}$ 是预测误差参数，可以从历史数据中得到， $P_{M}$ 是一个常数。 $\ngeq$ 此我们就通过最大熵方法从理论上求解出了时间序列的谱密度，但是这个方法的参数估计非常复杂，自相关矩阵经常是非正定的，同时预测误差参数的长度也很难确定。
+其中 $\gamma_{j}$ 是预测误差参数，可以从历史数据中得到， $P_{M}$ 是一个常数。 $奎$ 此我们就通过最大熵方法从理论上求解出了时间序列的谱密度，但是这个方法的参数估计非常复杂，自相关矩阵经常是非正定的，同时预测误差参数的长度也很难确定。
 
 但是幸运的是，在 1971 年，van de Bos 发现了上述模型和 AR模型的部分相似性，从而可以将对 $\gamma_{j}$ 的估计转换为对AR 模型参数的估计，从而使最大熵的模型求解变的更加高效。
 
@@ -122,13 +122,13 @@ $$
 AR 模型是 1927 年 Yule 在他的论文 On a Method of Investigating Periodicitiesin Disturbed Numbers中提出的，一个 AR过程可以表示为一个线性滤波模型：
 
 $$
-\pmb{x}_{t}=\pmb{\mu}+\pmb{a}_{t}+\psi_{1}\pmb{a}_{t-1}+\psi_{2}\pmb{a}_{t-2}+\cdots
+x_{t}=\mu+a_{t}+\psi_{1}a_{t-1}+\psi_{2}a_{t-2}+\cdots
 $$
 
-其中 $a_{t}$ 是一个白噪 $\scriptstyle{\frac{\pm}{\mathcal{P}}}$ 过程，我们可以将线性滤波器表示成一个算子：
+其中 $\mathbf{a}_{t}$ 是一个白噪 $\begin{aligned}声\end{aligned}$ 过程，我们可以将线性滤波器表示成一个算子：
 
 $$
-\scriptstyle{\psi(z)=1+\psi_{1}z+\psi_{2}z^{2}+\cdots}
+\psi(z)=1+\psi_{1}z+\psi_{2}z^{2}+\cdots
 $$
 
 现在我们可以将AR过程写成：
@@ -146,25 +146,25 @@ $$
 或者：
 
 $$
-\pmb{x}_{t}=\pmb{\phi}_{1}\pmb{x}_{t-1}+\pmb{\phi}_{2}\pmb{x}_{t-2}+\cdots+\pmb{a}_{t}
+x_{t}=\phi_{1}x_{t-1}+\phi_{2}x_{t-2}+\cdots+a_{t}
 $$
 
 一个p阶的AR过程的谱密度函数可以对上式做z 变换得出，于是：
 
 $$
-X(z)-X(z)(\alpha_{1}z+\alpha_{2}z^{2}+\cdots+a_{p}z^{p})=A(z)
+X(z)-X(z)(\alpha_{1}z+\alpha_{2}z^{2}+\cdots+\alpha_{p}z^{p})=A(z)
 $$
 
 对上式进行变换我们有：
 
 $$
-|X(z)|^{2}{=}{\frac{|A(z)|^{2}}{|1{-}({\alpha}_{1}z{+}{\alpha}_{2}z^{2}{+}{\cdots}{+}a_{p}z^{p})|^{2}}}
+|X(z)|^{2}=\frac{|A(z)|^{2}}{|1-(\alpha_{1}z+\alpha_{2}z^{2}+\cdots+\alpha_{p}z^{p})|^{2}}
 $$
 
 将 $z=\exp(-i2\pi f)$ 代入到上式，我们得到：
 
 $$
-S(f)=\frac{P_{_M}}{f_{_N}\vert1+\displaystyle{\sum_{j=1}^{m}\gamma_{j}\exp(-i2\pi fj\Delta t)}\vert^{2}}=\frac{2\sigma_{_\alpha}}{\vert1-\displaystyle{\sum_{j=1}^{p}\alpha_{_j}\exp(-i2\pi fj)}\vert^{2}}
+S(f)=\frac{P_{M}}{f_{N}\left|1+\sum\limits_{j=1}^{m}\gamma_{j}\exp(-i2\pi f\Delta t)\right|^{2}}=\frac{2\sigma_{\alpha}}{\left|1-\sum\limits_{j=1}^{p}\alpha_{j}\exp(-i2\pi f)\right|^{2}}
 $$
 
 通过上式，我们可以不用对 $\gamma$ 进行估计而只需要估计 $\alpha$ 即可。
@@ -174,22 +174,22 @@ $$
 对于模型参数 $\alpha$ 的估计主要由两种方法，第一种就是经典的Yule-Walker方法，首先我们可以将一个时间序列的自相关系数估计出来：
 
 $$
-\widehat{\rho}(k)=\frac{1}{N}\sum_{t=1}^{N-k}(x_{t+k}-m)(x_{t}-m)
+\hat{\rho}(k)=\frac{1}{N}\sum_{t=1}^{N-k}(x_{t+k}-m)(x_{t}-m).
 $$
 
 其中 m是时间序列的均值的估计：
 
 $$
-\pmb{m}=\frac{1}{N}\sum_{t=1}^{N}{x_{t}}
+\pmb{m}=\frac{1}{N}\sum_{\substack{t=1}}^{N}x_{t}
 $$
 
 将自相关系数估计出来之后，我们可以得出：
 
 $$
-[\begin{array}{cccc}{{\hat{\rho}(0)}}&{{\hat{\rho}(1)}}&{{\cdots}}&{{\hat{\rho}(M{-}1)}}\\{{\hat{\rho}(1)}}&{{\hat{\rho}(0)}}&{{\cdots}}&{{\hat{\rho}(M{-}2)}}\\{{\vdots}}&{{\vdots}}&{{\vdots}}\\{{\hat{\rho}(M{-}1)}}&{{\hat{\rho}(M{-}2)}}&{{\cdots}}&{{\hat{\rho}(0)}}\end{array}]\begin{array}{c}{{\hat{\alpha}_{1}}}\\{{\hat{\alpha}_{2}}}\\{{\vdots}}\\{{\hat{\alpha}_{M}}}\end{array}]=[\begin{array}{c}{{\hat{\rho}(1)}}\\{{\hat{\rho}(2)}}\\{{\vdots}}\\{{\hat{\rho}(M)}}\end{array}]
+\left[\begin{array}{cccc}\hat{\rho}(0)&\hat{\rho}(\mathbf{l})&\cdots&\hat{\rho}(M{-}\mathbf{l})\\\hat{\rho}(\mathbf{l})&\hat{\rho}(0)&\cdots&\hat{\rho}(M{-}2)\\\vdots&\vdots&&\vdots\\\hat{\rho}(M{-}\mathbf{l})&\hat{\rho}(M{-}2)&\cdots&\hat{\rho}(\mathbf{0})\end{array}\right]\left[\begin{array}{c}\hat{\alpha}_{1}\\\hat{\alpha}_{2}\\\vdots\\\hat{\alpha}_{M}\end{array}\right]=\left[\begin{array}{c}\hat{\rho}(\mathbf{l})\\\hat{\rho}(2)\\\vdots\\\hat{\rho}(M)\end{array}\right]
 $$
 
-上式被称作Yule-Walker等式，因为自相关系数已经从系数中全部估计出来，我们可以通过循环求解来从上式得出模型的系数 $_\alpha$ 9
+上式被称作Yule-Walker等式，因为自相关系数已经从系数中全部估计出来，我们可以通过循环求解来从上式得出模型的系数 $\alpha$ 9
 
 但是 Yule-Walker的方法也有一定的缺点，就是该方法估计出来的模型参数比较容易受到误差的影响，对误差非常敏感，于是Burg后来又提出了非常有名的Burg算法来求解这个问题。
 
@@ -202,13 +202,13 @@ Burg算法并不是直接估计模型的参数，而是使用递归的方法对�
 假设我们使用n个数据对模型的参数进行估计，且模型为k阶，假设该模型中数据的极大似然函数为L，那么该模型的BIC就为：
 
 $$
-BIC=-2\ln{\cal L}+k\ln n
+BIC=-2\ln L+k\ln n
 $$
 
 AIC 是和 BIC非常相近的一种衡量模型参数选择的准则，他的形式如下：
 
 $$
-AIC=-2\ln{\cal L}+2k
+\lambda IC=-2\ln L+2k
 $$
 
 选择模型时为了使模型的误差更好，结果更加精准，其BIC和 AIC的值越小越好。由以上公式可以看出，AIC和BIC 的形式非常相似，但是对于BIC而言，该准则对于数据使用数量更加严格，用更多的数据对模型参数进行估计会使模型的BIC 更加的大，而更大的 BIC往往意味着更加大的误差。
@@ -218,19 +218,19 @@ $$
 在我们的模型中，由于不容易对模型的极大似然函数进行计算，我们使用一种比AIC更加广义的衡量模型参数的准则，Final Prediction Error。对于一个任意的随机过程，其 FPE被定义为：
 
 $$
-\mathit{FPE}{=}\mathit{E}[(\mathbf{\mathit{x}}_{t}{-}\hat{\mathbf{\mathit{x}}}_{t})^{2}]
+FPE=E[(x_t-\hat{x}_t)^2]
 $$
 
 因为AR 模型具有以下形式：
 
 $$
-\pmb{x}_{t}=\sum_{m=1}^{k}\hat{\alpha}_{m}\pmb{x}_{t-m}
+x_{t}=\sum_{m=1}^{k}\hat{\alpha}_{m}x_{t-m}
 $$
 
 将该式子代入上式，我们可以得到，
 
 $$
-FPE=E[(\pmb{x}_{t}-\pmb{x}_{t}=\sum_{m=1}^{k}\hat{\alpha}_{\pmb{m}}\pmb{x}_{t-m})^{2}]
+FPE=E[(x_t-x_t=\sum_{m=1}^{k}\hat{\alpha}_mx_{t-m})^2]
 $$
 
 所以对于一个k阶的过程，其FPE 可以表示为：
@@ -242,13 +242,13 @@ $$
 其中n为用来估计参数的数据量， $\sigma^{2}$ 为该过程的方差。因为方差可以表示为：
 
 $$
-\hat{\sigma}^{2}=\bigl(\frac{n}{{n-(k+1)}}\bigr)S^{2}
+\hat{\sigma}^{2}=(\frac{n}{n-(k+1)})S^{2}
 $$
 
 上式中S 为估计参数时的残差，所以我们可以得到：
 
 $$
-FPE=\frac{{{n+k+1}}}{{{n-(k+1)}}}{{S^{2}}}
+FPE=\frac{n+k+1}{n-(k+1)}S^{2}
 $$
 
 我们可以用上式对我们模型的参数和用来估计参数的数据数量进行估计，从而得到最佳的模型参数个数。
@@ -443,19 +443,19 @@ $$
 假设y是自适应均线，x为数据点，那么：
 
 $$
-\begin{array}{c}{{y_{t}=ax_{t}+(1-a)y_{t-1}}}\\{{a\leq1}}\end{array}
+y_{t}=ax_{t}+(1-a)y_{t-1}\atop a\leq1
 $$
 
 其中a是一个变量，可以表示为：
 
 $$
-\begin{array}{c}{{a=\left(c+dE\right)^{\delta}}}\\{{c+d=1}}\end{array}
+\begin{aligned}&a=(c+dE)^{\delta}\atop c+d=1\\\end{aligned}
 $$
 
 其中c，d， 是可调的参数，E为市场的效率：
 
 $$
-E=\frac{|{\mathbf{\nabla}}|p(n)-p(1)|}{\sum_{i=2}^{n}|p(i)-p(i-1)|}
+E=\frac{\left|p(n)-p(1)\right|}{\sum\limits_{i=2}^{n}\left|p(i)-p(i-1)\right|}
 $$
 
 所以现在一共有4个可调参数，分别是c，d， 和n。由上式可以看到，当n越大时，用来衡量市场效率的数据越多，从而结果更加精准，但是延迟性会较大，当n越小时，结果不那么精准，但是延迟性会较小。同时从E可以看出，当E越接近1时，证明市场趋势越明显，而E越小时，市场的震荡更加剧烈。由y的表达式可以看出，当E越大时，a就越大，从而y的取值与x更加接近，所以在趋势的时候，均线值更加接近实际数据，所造成的延迟更小。当E较小时，a就更小，而y的取值就会与t-1时的取值接近，从而均线就会比较平滑不怎么变化。

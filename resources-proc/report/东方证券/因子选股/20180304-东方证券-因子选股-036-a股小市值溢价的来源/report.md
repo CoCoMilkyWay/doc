@@ -148,7 +148,7 @@ A 股的 IPO 管制导致上市公司的上市资格产生壳溢价，借壳前�
 市值是影响壳价值的最核心因素，两者间的关系非线性，通过样本数据回归得到下式：
 
 $$
-\ln(\mathrm{SV})=-10.508+4.814*\ln(\mathrm{MktCap})-0.304*\ln(\mathrm{MktCap})^{2}-0.542*SOE+\epsilon
+\ln(SV)=-10.508+4.814*\ln(MktCap)-0.304*\ln(MktCap)^2-0.542*SOE+\epsilon
 $$
 
 其中 SV 代表壳价值，MktCap 代表市值, SOE 表示上市公司是否是国企。式子右边前三项是一个二次函数，在市值接近 30 亿时，上市公司壳价值最大。
@@ -156,13 +156,13 @@ $$
 另外在加入一些市场状态变量做 logit回归，可以估算上市公司被借壳的概率:
 
 $$
-\begin{array}{c}{{\mathrm{Prob}=1/(1+\exp(-(-19.769-1.779*\mathrm{realsize}-11.269*\mathrm{EBIT}+0.718*\mathrm{ST}}}\\{{}}\\{{-0.871*\mathrm{SalesGrowth}+0.008*\mathrm{IPOrejectratio}+1.76*insiderholding}}\\{{}}\\{{+0.527*adjreturn-0.018*holdingconcentration))}}\end{array}
+\begin{aligned}&\mathrm{Prob}=1/(1+\exp(-(-19.769-1.779*\mathrm{realsize}-11.269*\mathrm{EBIT}+0.718*\mathrm{ST}\\&\\&\quad-0.871*\mathrm{SalesGrowth}+0.008*\mathrm{IP0}\mathrm{reject}\mathrm{ratio}+1.76*\mathrm{inside}\;holding)\\&\\&\quad+0.527*adf\;return-0.018*holding\;concentration)))\\\end{aligned}
 $$
 
 变量的具体含义请参考原文。最后作者定义了一个“壳含量”指标
 
 $$
-\mathrm{Shell}=\mathrm{SV}*\mathrm{Prob}/\mathrm{MktCap}
+\mathrm{Shell}=\mathrm{SV*Prob/MktCap}
 $$
 
 需要注意的是，屈源育（2016a, 2016b）提供的回归公式是基于全样本内数据计算得到，历史回溯时存在前视偏差；而且作者在实证时剔除了银行、非银、以及创业板股票，而这里我们是直接运用于全市场，会有些差异。更严谨的参数估计需要知道作者使用的样本数据。壳含量指标的横截面数据偏度较大，我们对它做了取对数处理，然后进行了标准的 alpha 测试（图 11），可以看到它的历史表现也是非常不错的，壳含量高的股票表现明显更加优异。

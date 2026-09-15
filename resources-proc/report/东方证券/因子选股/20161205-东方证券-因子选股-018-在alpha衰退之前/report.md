@@ -60,7 +60,7 @@ Alpha来源自市场的失效，市场信息未得到充分利用，虽然无法
 
 我们搜集整理了市场公开研究报告里提出的 alpha因子，将原有的 alpha因子库数量扩展至 41个，但使用之前报告《Alpha精简与优化》里提出的因子筛选方法把因子库精简后，发现因子库的扩大并未带来多少 alpha信息的增加，我们最终从中筛选出 12个 alpha因子（图 3）。
 
-Alpha 因子有效性的衰退速度可以用其 IC 数值的变化来衡量，记 为 t 日 Alpha 因子的ZSCORE 取值， $\Gamma_{\mathrm{t}+\Delta\mathrm{t}}$ 为 天后的股票日收益率， $\mathrm{IC}_{\Delta\mathrm{t}}=corr(X_{t},r_{t+\Delta t})$ 。图 1 展示了 取值从 1到 20 时，12 个 alpha 因子的 $\mathrm{IC}_{\Delta\mathrm{t}}$ 的变化。
+Alpha 因子有效性的衰退速度可以用其 IC 数值的变化来衡量，记 为 t 日 Alpha 因子的ZSCORE 取值， $\mathbf{r}_{\mathbf{t}+\Delta\mathbf{t}}$ 为 天后的股票日收益率， $\mathrm{IC}_{\Delta t}=corr(X_{t},r_{t+\Delta t})$ 。图 1 展示了 取值从 1到 20 时，12 个 alpha 因子的 $\mathrm{IC}_{\Delta\mathrm{t}}$ 的变化。
 
 图 1：Alpha 因子 IC 衰减示意图（测试时间 2006.01.01 – 2016.10.28）
 ![](images/252dbd6b5f7a84a35487b99b932d77ce1120b8b046690261c511e0ba41f555c2.webp)
@@ -170,10 +170,10 @@ p%=30%时，周频组合换手率更低（图 7），基本和月频组合换手
 提高调仓频率，避免 Alpha衰退的思想同样可以用到指数增强组合。我们还是以之前 12个行业和市值中性化处理后的 alpha因子做全市场选股增强中证 500指数为例，通过 IC_IR加权得到个股ZSCORE 得分，再用之前报告《Alpha预测》中提到的方法线性转换成预测收益率 ，输入到组合优化中：
 
 $$
-\begin{array}{l}{\displaystyle\min_{\mathbf{w}}~\boldsymbol{w}^{\prime}\cdot\boldsymbol{f}-\frac{1}{2}\lambda\boldsymbol{w}^{\prime}\boldsymbol{\Sigma}\boldsymbol{w}}\\{\displaystyle\mathrm{s.t.}~\boldsymbol{\mathrm{IE}}\cdot\mathbf{w}=0}\\{\displaystyle~\left|MCE\cdot\boldsymbol{w}\right|\le0.5}\\{\displaystyle~0\le\mathbf{w}+\mathbf{w_{bench}}\le0.01}\end{array}
+\begin{aligned}\min_{\mathbf{w}}&w^{\prime}\cdot f-\frac{1}{2}\lambda w^{\prime}\Sigma w\\s.t.&\mathrm{IE}\cdot\mathbf{w}=0\\&|MCE\cdot w|\leq0.5\\&0\leq\mathbf{w}+\mathbf{w}_{\mathrm{bench}}\leq0.01\end{aligned}
 $$
 
-其中 w 为个股主动权重，即个股在组合中权重减去其在基准指数中的权重。风险厌恶系数 ，IE为行业因子风险暴露矩阵，MCE为市值因子风险暴露矩阵， $\mathbf{w_{bench}}$ 为基准指数中的个股权重。
+其中 w 为个股主动权重，即个股在组合中权重减去其在基准指数中的权重。风险厌恶系数 ，IE为行业因子风险暴露矩阵，MCE为市值因子风险暴露矩阵， $\mathsf{w}_{\mathsf{bench}}$ 为基准指数中的个股权重。
 
 ## 3.1 不扣费情况下组合理论收益率
 

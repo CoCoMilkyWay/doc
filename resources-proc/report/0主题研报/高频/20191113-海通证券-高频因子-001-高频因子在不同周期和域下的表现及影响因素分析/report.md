@@ -56,19 +56,19 @@ Email:ys10481@htsec.com
 
 高频偏度： $\begin{array}{r}{\frac{1}{N}{\sum_{n=t}^{n=t-N+1}}\frac{\sqrt{N^{j}}\sum_{j}r_{i,j,n}^{3}}{\left(\sum_{j}r_{i,j,n}^{2}\right)^{1.5}}}\end{array}$
 
-下行波动占比： $\begin{array}{r}{\frac{1}{N}\sum_{n=t}^{n=t-N+1}\frac{\sum_{j}r_{i,j,n}^{2}\cdot I_{r_{i,j,n}<0}}{\sum_{j}r_{i,j,n}^{2}}}\end{array}$
+下行波动占比： $\begin{array}{r}{\frac{1}{N}{\sum_{n=t}^{n=t-N+1}}\frac{\sum_{j}r_{i,j,n}^{2}\cdot I_{r_{i,j,n}<0}}{\sum_{j}r_{i,j,n}^{2}}}\end{array}$
 
 改进反转： $\begin{array}{r}{\prod_{n=t}^{n=t-N+1}\frac{Close_{i,15:00,n}}{Close_{i,10:00,n}}-1}\end{array}$
 
-尾盘成交占比： $\begin{array}{r}{\frac{1}{N}\sum_{n=t}^{n=t-N+1}\frac{Vol_{i,14:30-15:00,n}}{\sum_{j}Vol_{i,j,n}}}\end{array}$
+尾盘成交占比： $\frac{1}{N}{\textstyle\sum_{n=t}^{n=t-N+1}}\frac{Vol_{i,14:30-15:00,n}}{\sum_{j}Vol_{i,j,n}}$
 
-量价相关性： $\begin{array}{r}{\frac{1}{N}{\sum_{n=t}^{n=t-N+1}}corr\left(Close_{i,j,n},\frac{Vol_{i,j,n}}{{\sum_{j}}Vol_{i,j,n}}\right)}\end{array}$
+量价相关性： $\scriptstyle{\frac{1}{N}}\sum_{n=t}^{n=t-N+1}corr\left(Close_{i,j,n},{\frac{Vol_{i,j,n}}{\sum_{j}Vol_{i,j,n}}}\right)$
 
-平均单笔流出金额占比: $\frac{1}{N}{\sum_{n=t}^{n=t-N+1}}\frac{\sum_{j}Amt_{i,j,n}\cdot I_{r_{i,j,n}<0}/\sum_{j}TrdNum_{i,j,n}\cdot I_{r_{i,j,n}<0}}{\sum_{j}Amt_{i,j,n}\ /\sum_{j}TrdNum_{i,j,n}}$
+平均单笔流出金额占比: $\begin{array}{r}{\frac{1}{N}{\sum_{n=t}^{n=t-N+1}}\frac{\sum_{j}Amt_{i,j,n}\cdot I_{r_{i,j,n}<0}/\sum_{j}TrdNum_{i,j,n}\cdot I_{r_{i,j,n}<0}}{\sum_{j}Amt_{i,j,n}\cdot\sum_{j}TrdNum_{i,j,n}}}\end{array}$
 
-大单推动涨幅： $\begin{array}{r}{\prod_{n=t}^{n=t-N+1}\big(\prod_{j}(1+r_{i,j,n}\cdot I_{\{j\epsilon IdxSet\}})\big)-1}\end{array}$ ，其中IdxSet表示 j 日平均单笔成交金额最大的 30%的 K 线的序号
+大单推动涨幅： $\begin{array}{r}{\prod_{n=t}^{n=t-N+1}\bigl(\prod_{j}(1+r_{i,j,n}\cdot I_{\{j\epsilon IdxSet\}})\bigr)-1}\end{array}$ ，其中IdxSet表示 j 日平均单笔成交金额最大的 30%的 K 线的序号
 
-成交委托相关性： $\begin{array}{r}{\frac{1}{N}{\sum_{n=t}^{n=t-N+1}corr}(r_{i,j,n},\frac{\frac{-\sharp\sharp\sharp\sharp\sharp\sharp\sharp\mathcal{K}/\sharp\sharp_{\mathcal{Z}}}{\sharp\sharp\mathcal{K}_{i,j,n}-\cdots\sharp\sharp\sharp\sharp\sharp\sharp\mathcal{Z}_{i,j,n}}}{\sharp\sharp\sharp\sharp\mathcal{W}_{i,j,n}})}\end{array}$
+成交委托相关性： $\frac{1}{N}\sum_{n=t}^{n=t-N+1}corr(r_{i,j,n},\frac{一档委买变化量_{i,j,n}-一档委卖变化量_{i,j,n}}{流通股本_{i,n}})$
 
 收盘前成交委托相关性：每日仅使用 14:26-14:57 的数据计算成交委托相关性。
 

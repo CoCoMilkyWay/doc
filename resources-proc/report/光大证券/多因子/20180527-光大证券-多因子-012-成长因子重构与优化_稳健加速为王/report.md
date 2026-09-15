@@ -113,7 +113,7 @@ zhouxiaoxiao@ebscn.com
 对于净利润TTM同比增速因子（NPG_TTM），在分母（上期TTM净利润）接近零的情形下因子计算存在问题，该因子的计算公式如下所示：
 
 $$
-\mathrm{NPG\mathrm{_{-}TTM}=\ NP\mathrm{_{-}TTM}_{\mathrm{_{t}}}/abs(NP\mathrm{_{-}TTM}_{\mathrm{_{t-1}}})}
+\mathrm{NPG_{-}TTM}=\mathrm{NP_{-}TTM_{t}/abs(NP_{-}TTM_{t-1})}
 $$
 
 上述计算方式对于上期净利润绝对值极小的股票，会计算得到异常大的增速因子值，造成异常值，对因子的单调性和选股能力造成很大影响
@@ -170,7 +170,7 @@ $$
 其中，加速度指标的计算方法是：利用连续 N 个季度的单季利润，对期数的二次方程进行回归，取二次项系数作为业绩增长加速度的代理变量，回归公式如下：
 
 $$
-\mathrm{NP_{t}}=\alpha\times\mathrm{t}^{2}+\beta\times\mathrm{t}+\mathrm{c}
+\mathrm{NP_t}=\alpha\times\mathrm{t^2}+\beta\times\mathrm{t}+\mathrm{c}
 $$
 
 其中，NP 为单季度利润，t为季度数， 为上市公司业绩增长加速度的代理变量， 越高，表示业绩增长的加速度越高。该指标的计算涉及到一个参数N，依据参数敏感性的测试结果，在后续的测试中均取相对稳健的 N=8。详细论述可见我们在2017年 12月发布的《多维度寻找高增长公司——业绩链选股策略报告》稳健增速指标刻画的是过去一段时间内业绩增速的稳定性，当指标值比较高的时候，表示过去一段时间内上市公司的业绩保持了稳定增长的态势。它的计算方式是用过去N 期的利润增速均值除以利润增速标准差。在后续的测试中，我们依然取N=8 这一参数，即用过去两年的利润增速数据计算该指标。
@@ -205,7 +205,7 @@ $$
 MAD=median(\left|f_{i}-Median_{f}\right|)
 $$
 
-采取与 3 法等价的方法，我们将大于 ${\cdot}Median_{f}+3*1.4826*MAD$ 的值或小于 $Median_{f}-3*1.4826*MAD$ 的值定义为异常值
+采取与 3 法等价的方法，我们将大于 $\cdot Median_{f}+3*1.4826*MAD$ 的值或小于 $Median_{f}-3*1.4826*MAD$ 的值定义为异常值
 
 ## 回归测试
 
@@ -214,7 +214,7 @@ $$
 加入行业因子和市值因子后，单因子测试的回归方程如下所示：
 
 $$
-\left[\begin{array}{c}{r_{ti}}\\{\vdots}\\{r_{tn}}\end{array}\right]=\left[\begin{array}{cccc}{\beta_{t11}I_{t1u}}&{\cdots}&{I_{t1v}m_{t1m}}\\{\vdots}&{\vdots}&{\cdots}&{\vdots}\\{\beta_{tn1}I_{tnu}}&{\cdots}&{I_{tnv}m_{tnm}}\end{array}\right]\cdot\left[\begin{array}{c}{f_{ti}}\\{\vdots}\\{f_{tn}}\end{array}\right]+\left[\begin{array}{c}{\mu_{ti}}\\{\vdots}\\{\mu_{tn}}\end{array}\right]
+\begin{bmatrix}r_{ti}\\\vdots\\r_{tn}\end{bmatrix}=\begin{bmatrix}\beta_{t11}I_{t1u}&\cdots&I_{t1v}m_{t1m}\\\vdots&\vdots&\cdots&\vdots\\\beta_{tn1}I_{tnu}&\cdots&I_{tnv}m_{tnm}\end{bmatrix}\cdot\begin{bmatrix}f_{ti}\\\vdots\\f_{tn}\end{bmatrix}+\begin{bmatrix}\mu_{ti}\\\vdots\\\mu_{tn}\end{bmatrix}
 $$
 
 其中：
@@ -449,13 +449,13 @@ $m_{tim}$ 代表股票 i 的市值因子暴露。
 针对每支股票 :
 
 $$
-\mathsf{G_{-}Composite}_{j}=\sum_{i}^{N}w_{i}*G\_factor_{i}
+\mathsf{G}\_\mathsf{Composite}_{j}=\sum_{i}^{N}w_{i}*G\_factor_{i}
 $$
 
 其中： $w_{i}$ 为第 i 个因子的权重， $\textstyle\sum w_{i}=1$ 。
 
 $$
-G_{-}factor_{i}\ H_{+,25}\times\hat{2}\perp\langle L\ E\ H_{-}\ H_{+}\ H_{+}\ H_{-}\ H\ H_{+}\ H_{+}\ H_{-}\ H_{+}\ H_{-}
+G_{-}factor_{i}为标准化后的第\mid 个因子值
 $$
 
 N 为基础成长因子个数
@@ -476,12 +476,12 @@ $$
 w_{i}=\frac{Sharpe_{ij}}{1/N\sum_{j}Sharpe_{ij}}
 $$
 
-其中： $Sharpe_{ij}$ 为因子 i 在 股 票 j 所属行业内的 多 空 收 益 夏 普 比LongShort_Sharpe， $\mathrm{i}\in[1,{\mathrm{N}}]$
+其中： $Sharpe_{ij}$ 为因子 i 在 股 票 j 所属行业内的 多 空 收 益 夏 普 比LongShort_Sharpe， $\mathrm{i}\in[1,\mathrm{N}]$
 
 ## iii. 复合信息比结合显著性指标（G_Composite_v3）：
 
 $$
-w_{i}=\ \left\{\begin{array}{cc}{{IC_{-}IR_{ij}}}&{{}{}{where\ t_{-}value_{ij}\geq v}}\\{{}}&{{}{0}}\end{array}\right.
+w_{i}=\left\{\begin{aligned}&\frac{IC\_IR_{ij}}{1/N\sum_{j}IC\_IR_{ij}}\ where\ t_{-}value_{ij}\geq v\\&\quad0\ \ \ \ \ \\\\\\\\end{�}\right.\end{aligned}
 $$
 
 其中： $:IC\_IR_{ij}$ 为因子i在股票j所属行业内的信息比IC_IR， ，为因子 i 在股票 j 所属行业内的因子收益显著性。
@@ -489,10 +489,10 @@ $$
 ## iv. 复合多空夏普比结合显著性指标（G_Composite_v4）：
 
 $$
-w_{i}=\ \left\{\begin{array}{cl}{{Sharpe_{ij}}}&{{where\ t_{-}value_{ij}\geq v}}\\{{1/N\sum_{j}Sharpe_{ij}}}&{{else}}\end{array}\right.
+w_{i}=\left\{\begin{matrix}\displaystyle\frac{Sharpe_{ij}}{1/N\sum_{j}Share_{ij}}&where\displaystyle t_{-}value_{ij}\geq v\\0&else\end{matrix}\right.
 $$
 
-其中： $Sharpe_{ij}$ 为 因 子 i 在 股 票 j 所 属 行 业 内 的 多 空 收 益 夏 普 比LongShort_Sharpe， ， $t_{-}value_{ij}$ 为因子 i 在股票 j 所属行业内的因子收益显著性。
+其中： $Sharpe_{ij}$ 为 因 子 i 在 股 票 j 所 属 行 业 内 的 多 空 收 益 夏 普 比LongShort_Sharpe， ， $t\_value_{ij}$ 为因子 i 在股票 j 所属行业内的因子收益显著性。
 
 ## 4.2、基础成长因子筛选：低相关性
 

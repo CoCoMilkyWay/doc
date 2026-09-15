@@ -92,12 +92,12 @@ Qian-Shrink 合成法 RankIC 时序图
 以传统的分组法为例，它是指在每次调仓时间点上根据目标因子由小到大进行排序并分为 N 组，以第一组为空头组合（假设该因子为正向因子），最后一组为多头组合构建多空对冲组合，并观察多空组合收益在回测时间段内的稳定性（通常用多空组合收益的 t 值表示）。然而这种方法往往只能观察到头部和尾部两个组合在未来收益上的区分程度，并未考虑处于中间分组中的股票收益带来的影响，这一点与我们实际投资组合的构建存在明显的区别。在实际应用中，投资者们往往通过组合优化的方法，最大化组合在目标因子上的暴露程度同时最小化组合的预期风险，在一定的换手、风格、行业及权重约束条件下，求解得到对应的组合权重：
 
 $$
-\begin{array}{rl}&{maxw^{\prime}\alpha-\lambda_{1}w^{\prime}Vw-\lambda_{2}\cdot\mathbf{1^{\prime}}|w-w_{0}|}\\&{~X_{S}^{lower}\leq\mathbf{w^{\prime}}X_{S}\leq X_{S}^{upper}}\\&{~X_{I}^{lower}\leq w^{\prime}X_{I}\leq X_{I}^{upper}}\\&{~w^{\prime}1=1}\\&{~w^{lower}\leq w\leq w^{upper}}\end{array}
+\begin{array}{c}{{maxw^{\prime}\alpha-\lambda_{1}w^{\prime}Vw-\lambda_{2}\cdot\mathbf{1}^{\prime}|w-w_{0}|}}\\{{X_{S}^{lower}\leq w^{\prime}X_{S}\leq X_{S}^{upper}}}\\{{X_{I}^{lower}\leq w^{\prime}X_{I}\leq X_{I}^{upper}}}\\{{w^{\prime}1=1}}\\{{w^{lower}\leq w\leq w^{upper}}}\end{array}
 $$
 
 可以看到，通过上述优化方法最终形成的投资组合并非只做多头或者只做空头，而是根据每只个股对于组合的收益贡献（因子暴露）和风险贡献（协方差矩阵）的不同程度进行综合考虑求解得到的。因此我们在想，如果将协方差矩阵引入到单因子有效性的检验中，应该能更加准确地反映该因子的有效性，因为这是一种与实际情况更加贴合的检验方法。
 
-下面我们采用数学语言对如上问题进行描述，假设样本股中共有N只股票，将其按照因子值 ${\mathbf{}}.m_{t}$ 由小到大进行排序有：
+下面我们采用数学语言对如上问题进行描述，假设样本股中共有N只股票，将其按照因子值 $m_{t}$ 由小到大进行排序有：
 
 $$
 m_{t,(1)}\leq m_{t,(2)}\leq\cdots\leq m_{t,(N)}
@@ -106,7 +106,7 @@ $$
 如果我们将样本股分为 D 组，每个组别中有 d 只股票，那么 d 即为小于等于 N/D 的最大整数。对于多空分组法（Quantile-Based Sorting）而言，整个投资组合的权重向量 $w_{t}^{Qu}$ 即可表示为：
 
 $$
-\begin{array}{rl}&{w_{t,(1)}^{Qu}=\cdots=w_{t,(d)}^{Qu}=-1/d}\\&{w_{t,(d+1)}^{Qu}=\cdots=w_{t,(N-d)}^{Qu}=0}\\&{w_{t,(N-d+1)}^{Qu}=\cdots=w_{t,(N)}^{Qu}=1/d}\end{array}
+\begin{array}{c}{{w_{t,(1)}^{Qu}=\cdots=w_{t,(d)}^{Qu}=-1/d}}\\{{w_{t,(d+1)}^{Qu}=\cdots=w_{t,(N-d)}^{Qu}=0}}\\{{w_{t,(N-d+1)}^{Qu}=\cdots=w_{t,(N)}^{Qu}=1/d}}\end{array}
 $$
 
 可以看到，多头和空头组合的个股权重均为 $1/d,$ ，中间组别的个股权重被置为 0。由此，组合的期望收益即可表示为： $r_{t}^{Qu}=x_{t}^{\prime}w_{t}^{Qu}$ 。其中， $x_{t}$ 表示 t 时期的个股收益向量（N×1 向量）。
@@ -114,7 +114,7 @@ $$
 与此对应的，引入协方差矩阵对因子有效性进行检验（Efficient Sorting）即是根据如下优化的方法求解组合权重：
 
 $$
-\begin{array}{c}{{\displaystyle\min w^{\prime}Vw}}\\{{\mathrm{s.t}~{m_{t}}^{\prime}w=m_{t}^{\prime}w^{Qu}}}\\{{\displaystyle\sum_{w_{i}>0}\lvert w_{i}\rvert=\displaystyle\sum_{w_{i}<0}\lvert w_{i}\rvert=1}}\end{array}
+\begin{array}{c}{{\displaystyle\operatorname*{min}_{w}w^{\prime}Vw}}\\{{\displaystyle\mathrm{s.t~}m_{t}{}^{\prime}w=m_{t}^{\prime}w^{Qu}}}\\{{\displaystyle\sum_{w_{i}>0}\lvert w_{i}\rvert=\sum_{w_{i}<0}\lvert w_{i}\rvert=1.}}\end{array}
 $$
 
 其中，V表示股票的协方差矩阵，可以采用多因子模型对其进行稳健估计，具体可以参见“星火”系列（二）《Barra 模型进阶：多因子模型风险预测》和“拾穗”系列（十一）《多因子模型风险预测：从怎么做到为什么》。为了与多空分组法可以进行直接的比对，我们要求组合在目标因子上的暴露与多空组合在目标因子上的暴露保持一致，同时要求该组合是一个零额投资组合（dollar-neutral），其多头权重之和及空头权重之和均等于 1，也就是说整个组合的杠杆率为 2。
@@ -122,7 +122,7 @@ $$
 由以上分析可知，引入协方差矩阵构建的组合与多空组合在目标因子上的暴露是完全一致的，如果我们认为因子值与因子收益之间是等同的话（事实上二者之间并不完全等同），那么两个组合的期望收益应当处于相同的水平。此外，由于组合优化的目标是最小化其预期风险，因此该组合的波动应当小于多空组合收益的波动。也就是说，引入协方差矩阵构建的组合收益 t值绝对值应当大于多空分组法计算得到的组合收益t值绝对值：
 
 $$
-\mathsf{t}-\mathrm{value}=\frac{\overline{{r_{t}}}}{se\left(r_{t}\right)},\qquad\overline{{r_{t}}}=\frac{1}{T}\sum_{t=1}^{T}r_{t}
+\mathrm{t}-\mathrm{value}=\frac{\bar{r}_{t}}{se(r_{t})},\quad\bar{r}_{t}=\frac{1}{T}\sum_{t=1}^{T}r_{t}
 $$
 
 从另一方面来看，引入协方差矩阵的因子有效性检验法与实际投资组合的构建过程十分类似，同时考虑到了个股在收益端和风险端对于组合的贡献程度。因此理论上而言，这种方法更能准确地反映出因子有效性程度。
@@ -134,50 +134,50 @@ $$
 由此，我们将引入新的变量对原问题进行转化，介绍一些我们在组合优化方面的初步探索。我们将原问题描述如下，假设 V是个股协方差矩阵（N×N）， $m_{t}$ 表示个股在目标因子上的暴露大小， $w^{Qu}$ 表示多空分组下的个股权重，那么：
 
 $$
-\begin{array}{c}{\displaystyle\min_{w}^{\operatorname*{min}w^{\prime}Vw}}\\{\mathrm{s.t}\ m_{t}^{\prime}w=m_{t}^{\prime}w^{Qu}}\\{\displaystyle\sum_{w_{i}}w_{i}=0,\ \sum_{w_{i}}\lvert w_{i}\rvert=2}\end{array}
+\begin{array}{c}{\displaystyle\operatorname*{min}_{w}w^{\prime}Vw}\\{\mathrm{s.t~}m_{t}^{\prime}w=m_{t}^{\prime}w^{Qu}}\\{\displaystyle\sum_{w_{i}}w_{i}=0,\qquad\displaystyle\sum_{w_{i}}|w_{i}|=2.}\end{array}
 $$
 
 下面我们分别介绍两种引入新变量的方法和一种直接求解的方法，对上述问题进行求解：
 
-## （1） 引入新变量 $w^{+}\hbar{\pi}w^{-}$
+## （1） 引入新变量 $w^{+}和w^{-}$
 
-我们考虑的第一种求解方法是通过引入两个新的变量 $w^{+}\hbar^{\pm}w^{-}$ ，将原问题中的绝对值之和转化为两个变量之和：
+我们考虑的第一种求解方法是通过引入两个新的变量 $w^{+}和w^{-}$ ，将原问题中的绝对值之和转化为两个变量之和：
 
 $$
-w^{+}=\mathrm{max}(0,w),\qquad w^{-}=-\mathrm{min}(0,w)
+w^{+}=\operatorname*{max}(0,w),\quad w^{-}=-\operatorname*{min}(0,w)
 $$
 
 那么，原来的权重 $w$ 及其绝对值|w|即可表示为：
 
 $$
-\begin{array}{r}{w=w^{+}-w^{-}}\\{|w|=w^{+}+w^{-}}\end{array}
+\begin{array}{c}{{w=w^{+}-w^{-}}}\\{{|w|=w^{+}+w^{-}}}\end{array}
 $$
 
-下面，将新的变量合成为一个向量作为待求解的权重 $\boldsymbol{X}=\binom{w^{+}}{w^{-}}_{2N\times1}$ 那么，原问题即可转化为：
+下面，将新的变量合成为一个向量作为待求解的权重 $X={w^{+}\choose w^{-}}_{2N\times1}$ 那么，原问题即可转化为：
 
 $$
-\begin{array}{c}{{\displaystyle\operatorname*{min}_{X}X^{\prime}HX}}\\{{\mathrm{s.t}{M_{t}}^{\prime}X=m_{t}^{\prime}w^{Qu}}}\\{{AX={\binom{1}{1}}_{2\times1}}}\end{array}
+\begin{array}{c}{{\displaystyle\operatorname*{min}_{X}X^{\prime}HX}}\\{{\displaystyle s.\mathrm{t}M_{t}^{\prime}X=m_{t}^{\prime}w^{Qu}}}\\{{\displaystyle AX={\binom{1}{1}}_{2\times1}}}\end{array}
 $$
 
-其中 $M_{t}=\binom{m_{t}}{-m_{t}}_{2N\times1}$ $\mathrm{H}=\left(\begin{array}{cc}{V_{t}}&{-V_{t}}\\{-V_{t}}&{V_{t}}\end{array}\right)_{2N\times2N}$ ，A =Ι1×N 01×N01×NΙ1×N 2×2N
+其中 $M_{t}={\binom{m_{t}}{-m_{t}}}_{2N\times1}$ $\mathrm{H}=\begin{pmatrix}V_t&-V_t\\-V_t&V_t\end{pmatrix}_{2N\times2N}$ ，A =Ι1×N 01×N01×NΙ1×N 2×2N
 
-由上述表示可知，通过引 $\lambda w^{+}$ 和w−两个新的变量，原问题即可转换为一个标准的二次规划问题，在求解出向量 之后，即可进一步地得到原始权重 w的值。然而在实际求解中我们发现，这样的权重变换仍然存在一个问题，即无法保证 $w^{+}$ 和w−之间的对应关系。由二者的定义可知，当 $w^{+}$ 中对应位置的元素为 0 时， $w^{-}$ 对应位置的元素不为 0，反之亦然。然而在实际求解中却无法保证二者之间的一一对应关系，因此最终求解出来的结果与我们预想的结果仍然存在差别。
+由上述表示可知，通过引 $\lambda w^{+}$ 和w−两个新的变量，原问题即可转换为一个标准的二次规划问题，在求解出向量 之后，即可进一步地得到原始权重 w的值。然而在实际求解中我们发现，这样的权重变换仍然存在一个问题，即无法保证 $\boldsymbol{w}^{+}$ 和w−之间的对应关系。由二者的定义可知，当 $w^{+}$ 中对应位置的元素为 0 时， $w^{-}$ 对应位置的元素不为 0，反之亦然。然而在实际求解中却无法保证二者之间的一一对应关系，因此最终求解出来的结果与我们预想的结果仍然存在差别。
 
 ## （2） 引入新变量 x
 
-由于上一种方法无法保证 $w^{+}$ 和 ${\mathfrak{r}}w^{-}$ 之间的一一对应关系，因此我们转换一种思路，引入新的变量 $x,$ ，使得个股权重 $w_{i}\ /\pm$ 缩在 $-x_{i}\hbar^{\mathrm{{r}}}x_{i}$ 之间：
+由于上一种方法无法保证 $.w^{+}$ 和 ${}^{r}w^{-}$ 之间的一一对应关系，因此我们转换一种思路，引入新的变量 $x,$ ，使得个股权重 $w_{i}压$ 缩在 $\begin{aligned}1-x_{i}和x_{i}\end{aligned}$ 之间：
 
 $$
-\begin{array}{c}{x=(x_{1},x_{2},\ldots,x_{n})^{\prime}}\\{-x_{i}\leq w_{i}\leq x_{i},\qquad x_{i}\geq0}\end{array}
+\begin{array}{c}{{x=(x_{1},x_{2},\ldots,x_{n})^{\prime}}}\\{{-x_{i}\leq w_{i}\leq x_{i},\qquad x_{i}\geq0}}\end{array}
 $$
 
-那 $\boldsymbol{\mathcal{Z}}$ ，将原权重与新变量合成为一个向量 $\boldsymbol{\cdot}\boldsymbol{X}=\binom{w}{x}_{2N\times1}$ 作为待优化的权重，原问题即可转化为：
+那 $么$ ，将原权重与新变量合成为一个向量 $tX={\binom{w}{x}}_{2N\times1}$ 作为待优化的权重，原问题即可转化为：
 
 $$
-\begin{array}{c}{\underset{X}{\mathrm{min}}X^{\prime}HX}\\{\mathrm{s.t}~M_{t}^{\prime}X=m_{t}^{\prime}w^{Qu}}\\{AX=\binom{0}{2}_{2\times1}}\\{x_{i}\geq0,w_{i}\leq x_{i},~-w_{i}\leq x_{i}}\end{array}
+\begin{aligned}\min_{X}&X^{\prime}HX\\s.t\quad&M_{t}^{\prime}X=m_{t}^{\prime}w^{Qu}\\AX=&\begin{pmatrix}0\\2\end{pmatrix}_{2\times1}\\x_{i}\geq0,w_{i}&\leq x_{i},-w_{i}\leq x_{i}\end{aligned}
 $$
 
-其中， $H=\left({\begin{array}{cc}{V_{t}}&{\mathbf{0}}\\{\mathbf{0}}&{\mathbf{0}}\end{array}}\right)_{2N\times1},M_{t}=\left({\begin{array}{c}{m_{t}}\\{\mathbf{0}}\end{array}}\right)_{2N\times1},\mathsf{A}=\left({\begin{array}{cc}{I_{1\times N}}&{0_{1\times N}}\\{0_{1\times N}}&{I_{1\times N}}\end{array}}\right)$ 。同样的，上述问题转化成了一个标准的二次规划问题，只是在表述上显得更为复杂。此外，最终求解的权重未必会打在边界点上，我们可以增加一个限制条件，最小化组合风险的同时最小化 x 的值，从而让 w 与 x 不断逼近。
+其中， $H=\binom{V_t\quad\mathbf{0}}{\mathbf{0}\quad\mathbf{0}}_{2N\times1},\quad M_t=\binom{m_t}{\mathbf{0}}_{2N\times1},\quad\Lambda=\binom{I_{1\times N}\quad0_{1\times N}}{0_{1\times N}\quad I_{1\times N}}$ 。同样的，上述问题转化成了一个标准的二次规划问题，只是在表述上显得更为复杂。此外，最终求解的权重未必会打在边界点上，我们可以增加一个限制条件，最小化组合风险的同时最小化 x 的值，从而让 w 与 x 不断逼近。
 
 ## （3） 直接求解
 
@@ -351,7 +351,7 @@ $$
 顾名思义，等权法即是指对不同的 Alpha 因子赋予相同的权重。由于单个 Alpha 因子的量级往往不同，因此首先需要在横截面上对因子进行去极值及标准化处理，随后将各个Alpha因子进行等权合成：
 
 $$
-X_{i}=\frac{1}{K}\sum_{i}ZScore\_Alpha_{i}
+X_{i}=\frac{1}{K}{\sum_{i}ZScore\_Alpha_{i}}
 $$
 
 其中，K 表示纳入选股体系的 Alpha 因子个数，ZScore_Alpha 表示经过异常值和标准化处理过后的 Alpha 因子，我们选用 5 倍中位数去极值，随后减去横截面均值除以标准差的因子处理方法。
@@ -361,7 +361,7 @@ $$
 与等权合成不同，RankICIR 加权是根据因子过往的 RankICIR 进行权重赋值。具体来讲，我们首先计算单个 Alpha 因子在过去 T 个月中的 RankIC，随后将其均值除以标准差得到单个因子的 RankICIR，由此 RankICIR 衡量的是该 Alpha因子在过去一段时间的稳定性。
 
 $$
-\begin{array}{c}{{X_{i}=w_{i}\cdot\displaystyle\sum_{i}ZScore\_Alpha_{i}}}\\{{w_{i}=\displaystyle\frac{RankICIR_{i}}{\sum_{i}RankICIR_{i}}}}\end{array}
+\begin{aligned}X_{i}=w_{i}\cdot&\sum_{i}ZScore\_Alpha_{i}\\w_{i}=&\frac{RankICIR_{i}}{\sum_{i}RankICIR_{i}}\end{aligned}
 $$
 
 若因子的有效性和稳定性越强，在因子合成时我们对其赋予更高的权重，反之亦然。
@@ -371,10 +371,10 @@ $$
 Qian（2007）提出的因子加权方法本质上也是一种 RankICIR 加权方法，其具体方法如下：假设 Alpha 池中有 K个因子，其过去 T个月的 序列矩阵可以表示为 $IC(T\times K)$ 。那么，单个因子的期望IC 值可以用其均值表示̅IC̅̅(K×1)，而因子 IC 之间的协方差矩阵即可表示为 $\Sigma_{IC}(K\times K)$ 。如果将单个因子视为一只股票，那么我们的目的就是求解出一个最优组合权重，使得整个组合的预期收益与预期波动的比值（即预期信息比率）最大化。具体来讲：
 
 $$
-\operatorname*{max}_{w}{ICIR}=\frac{w^{\prime}\overline{{IC}}}{\sqrt{w^{\prime}\Sigma_{IC}w}}
+\operatorname*{max}_{w}ICIR=\frac{w^{\prime}\overline{{IC}}}{\sqrt{w^{\prime}\Sigma_{IC}w}}
 $$
 
-将目标函数对权重求一阶导，即可得到最优解： $w^{*}=\delta\Sigma_{IC}^{-1}\overline{{IC}}$ ，其中δ为任意正数，可用于对权重进行归一化。
+将目标函数对权重求一阶导，即可得到最优解： $w^{*}=\delta\Sigma_{IC}^{-1}\overrightarrow{IC}$ ，其中δ为任意正数，可用于对权重进行归一化。
 
 ## 4.2 合成 Alpha 因子表现
 
@@ -410,10 +410,10 @@ $$
 接下来我们采用上一小节中提及的等权合成、RankICIR 加权以及 Qian（2007）方法进行 Alpha 因子合成。其中，RankICIR 加权及 Qian（2007）方法均采用过去 24 个月的因子 RankIC 值为基础数据进行计算。此外，在 Qian（2007）方法中，我们对协方差矩阵的估计又可分为样本协方差矩阵（Sample Covariance）和压缩协方差矩阵（Shrink Covariance）估计，后者的估计方法可表示为：
 
 $$
-\hat{\Sigma}_{Shrink}=\lambda\Phi+(1-\lambda)\hat{\Sigma}_{IC}
+\widehat{\Sigma}_{Shrink}=\lambda\Phi+(1-\lambda)\widehat{\Sigma}_{IC}
 $$
 
-其中， $\widehat{\Sigma}_{IC}$ 表示 RankIC 矩阵的样本协方差矩阵，Φ为压缩目标估计量，我们采用平均相关系数形式表示。由于并非本文关注的重点，因此有关压缩矩阵估计的详细感兴趣的读者可参见 Ledoit and Wolf（2004），作者在官网上也将核心代码进行了开源。财通金工也将在后续的专题报告中对不同方法的协方差矩阵估计进行详细的比较，敬请投资者持续关注。
+其中， $\hat{\Sigma}_{IC}$ 表示 RankIC 矩阵的样本协方差矩阵，Φ为压缩目标估计量，我们采用平均相关系数形式表示。由于并非本文关注的重点，因此有关压缩矩阵估计的详细感兴趣的读者可参见 Ledoit and Wolf（2004），作者在官网上也将核心代码进行了开源。财通金工也将在后续的专题报告中对不同方法的协方差矩阵估计进行详细的比较，敬请投资者持续关注。
 
 由于需要回望 24 个月的历史数据，且部分因子早期数据存在缺失，因此我们将样本的回测时间段选定为 2007.1.31-2019.7.31，同样在 Wind 全 A中进行回测，基础细节与单因子测试流程保持一致，图 6 展示了根据不同方法对 Alpha 因子进行合成后，在全样本中的多空组合净值走势。
 

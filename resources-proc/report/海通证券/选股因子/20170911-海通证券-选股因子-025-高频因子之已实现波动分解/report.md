@@ -60,22 +60,22 @@ $$
 r_{i}=\alpha+\beta_{MKT}MKT+\beta_{SMB}SMB+\beta_{HML}HML+\varepsilon_{i}
 $$
 
-其中， $\mathsf{r}_{\mathrm{i}}$ 为股票收益， 为市场收益， 为市值溢价， 为估值溢价，回归残差为股票特质收益。对于高频收益序列也可做类似回归处理，回归因变量为股票高频收益序列，自变量为 MKT、SMB以及 HML 的高频收益序列。其中，回归残差为股票高频特质收益。也即，对于特定时间段的股票 i的高频收益序列{r}，股票高频系统波动、高频特质波动以及高频特异度可定义为：
+其中， $\mathsf{r}_{\mathsf{i}}$ 为股票收益， 为市场收益， 为市值溢价， 为估值溢价，回归残差为股票特质收益。对于高频收益序列也可做类似回归处理，回归因变量为股票高频收益序列，自变量为 MKT、SMB以及 HML 的高频收益序列。其中，回归残差为股票高频特质收益。也即，对于特定时间段的股票 i的高频收益序列{r}，股票高频系统波动、高频特质波动以及高频特异度可定义为：
 
 $$
-\frac{3}{\vert\overrightarrow{\mathbf{e}}\vert}\frac{1}{\vert\overrightarrow{\mathbf{\nabla}}\vert}\dot{\lambda}\dot{z}\dot{\lambda}\dot{z}\dot{\lambda}=\left(\sum_{t}(r_{i}^{t})^{2}\right)^{\frac{1}{2}}
-$$
-
-$$
-\frac{3}{|\mathbf{e}\rangle}+\frac{1}{|\mathbf{\mathcal{D}}\rangle}\sqrt{\frac{1}{2}+\int\limits_{\mathbf{\mathcal{D}}}^{+}\langle\mathbf{\dot{\mathcal{D}}}\rangle|\mathbf{\dot{\mathcal{X}}}-\boldsymbol{\bar{z}}\rangle}=\left(\sum_{t}(\varepsilon_{i}^{t})^{2}\right)^{\frac{1}{2}}
+高频波动=\left(\sum_{t}(r_{i}^{t})^{2}\right)^{\frac{1}{2}}
 $$
 
 $$
-\frac{\partial}{\partial\mathbf{j}}\operatorname{k}\limits_{\mathbf{A}}\ln\frac{1}{\mathbf{j}}\ln\frac{1}{\mathbf{k}}\sin\frac{1}{\mathbf{k}}\mathbf{\cdot}\mathbf{\nabla}\hat{\mathbf{z}}\mathbf{j}\mathbf{k}=\left(\sum_{t}(r_{i}^{t}-\varepsilon_{i}^{t})^{2}\right)^{\frac{1}{2}}
+高频特质波动=\left(\sum_{t}(\varepsilon_{i}^{t})^{2}\right)^{\frac{1}{2}}
 $$
 
 $$
-\frac{\dot{\overline{{\sigma}}}}{\vert\nabla\vert}\frac{1}{\mathcal{H}}\frac{1}{\mathcal{F}}\frac{1}{\mathcal{H}}\frac{\varrho}{\mathcal{H}}\frac{\dot{\Xi}}{\mathcal{L}}=\frac{\sum_{t}(\varepsilon_{i}^{t})^{2}}{\sum_{t}(r_{i}^{t})^{2}}
+高频系统波动=\left(\sum_{t}(r_{i}^{t}-\varepsilon_{i}^{t})^{2}\right)^{\frac{1}{2}}
+$$
+
+$$
+高频特异度=\frac{\sum_{t}(\varepsilon_{i}^{t})^{2}}{\sum_{t}(r_{i}^{t})^{2}}
 $$
 
 由于本报告旨在考察因子在月度上的选股效果。故对于任意股票，使用其过去一个月的高频收益序列进行回归并计算对应因子值。
@@ -114,13 +114,13 @@ $$
 由于“系统波动+特质波动”的分解方式在高频数据上并未取得较好的结果，本部分尝试从“上行波动+下行波动”的角度对于股票高频波动进行分解。对于某股票 i在某段时间上的高频收益序列，其上行波动及下行波动的计算方式如下所示：
 
 $$
-\begin{array}{rlr}{{\frac{\sum_{i=1}^{3}\sum_{j=1}^{k}\sum_{i=1}^{k}\sum_{k}^{i}\bar{z}_{i}^{j}}=(\sum_{t}(r_{i}^{t}I_{\{r_{i}^{t}>0\}})^{2})^{\frac{1}{2}}}}\\&{}&\\&{}&{\frac{\sum_{i=1}^{3}\sum_{j=1}^{k}\mathbb{F}_{i}(\bar{z}_{i}^{-};\beta_{k}^{*},\bar{z}_{i}^{j})=(\sum_{t}(r_{i}^{t}I_{\{r_{i}^{t}<0\}})^{2})^{\frac{1}{2}}}}\end{array}
+\begin{aligned}&高频上行波动=\left(\sum_{t}\left(r_{i}^{t}I_{\left\{r_{i}^{t}>0\right\}}\right)^{2}\right)^{\frac{1}{2}}\\&高频下行波动=\left(\sum_{t}\left(r_{i}^{t}I_{\left\{r_{i}^{t}<0\right\}}\right)^{2}\right)^{\frac{1}{2}}\end{aligned}
 $$
 
 类似地，可定义股票 i上行波动占比与下行波动占比，计算方式如下所示：
 
 $$
-\begin{array}{r}{\frac{1}{\vert\overrightarrow{\nabla}\vert}\frac{1}{2}\vert\overrightarrow{\nabla}\vert\cdot\overrightarrow{\mathcal{H}}\cdot\overrightarrow{\mathcal{H}}\cdot\overrightarrow{\mathcal{H}}\cdot\overrightarrow{\mathcal{H}}\cdot\vert\vert\cdot\underbrace{\sum_{t}\left(r_{i}^{t}I_{\{r_{i}^{t}>0\}}\right)^{2}}_{\sum_{t}\left(r_{i}^{t}\right)^{2}}}\\{\frac{1}{\vert\overrightarrow{\nabla}\vert}\frac{1}{2\vert\overrightarrow{\mathcal{H}}\vert}+\frac{1}{4\vert\overrightarrow{\mathcal{T}}\vert\cdot\vert\vert\overrightarrow{\mathcal{X}}\vert}\frac{1}{2}\vert\vert\cdot\vert\vert\cdot\vert\vert\frac{\sum_{t}\left(r_{i}^{t}I_{\{r_{i}^{t}<0\}}\right)^{2}}{\sum_{t}\left(r_{i}^{t}\right)^{2}}}\end{array}
+\begin{aligned}高频上行波动占比=&\frac{\sum_{t}\left(r_{i}^{t}I_{\left\{r_{i}^{t}>0\right\}}\right)^{2}}{\sum_{t}\left(r_{i}^{t}\right)^{2}}\\高频下行波动占比=&\frac{\sum_{t}\left(r_{i}^{t}I_{\left\{r_{i}^{t}<0\right\}}\right)^{2}}{\sum_{t}\left(r_{i}^{t}\right)^{2}}\end{aligned}
 $$
 
 同样使用过去一个月的 分钟、 分钟以及 分钟收益序列计算因子值。下表展示了 2010 年以来，上行波动、下行波动、上行波动占比的因子月度选股效果。由于截面标准化后，上行波动占比因子与下行波动占比因子的线性相关性为-1，故而下表仅展示上行波动占比因子的选股效果。

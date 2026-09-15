@@ -210,7 +210,7 @@ Step 2 标准化：对各评价指标（“是否有高管激励”等分类变�
 进行行业内“均值-标准差”标准化：
 
 $$
-\boldsymbol{X}_{\ ik}^{\ast}\ =\ \frac{\boldsymbol{X}_{\ ik}-\ a\nu\boldsymbol{g}\ (\boldsymbol{X}_{\ k})}{std\left(\boldsymbol{X}_{\ k}\right)}
+X_{_{ik}}^{^{\mathrm{~*~}}}=\frac{X_{_{ik}}-avg\left(X_{_{k}}\right)}{std\left(X_{_{k}}\right)}.
 $$
 
 其中错误!不能通过编辑域代码创建对象。公司所属一级行业的指标均值，错误!不能通过编辑域代码创建对象。为相应标准差。
@@ -243,24 +243,24 @@ Step 5 各维度加权：加权汇总 4 个评价维度指标，得到竞争力�
 
 ## 4.2.预测能力检验
 
-本文通过以下方式对竞争力评价因子进行行业中性和风格中性，其中$ind_{\mathbf{\Gamma}_{t}}$ 为行业哑变量集合， $\boldsymbol{sty}l\boldsymbol{e}_{\iota}$ 为风格因子变量集合，残差项 X 即为中性化后因子值：
+本文通过以下方式对竞争力评价因子进行行业中性和风格中性，其中$ind_{_t}$ 为行业哑变量集合， $style_{_t}$ 为风格因子变量集合，残差项 X 即为中性化后因子值：
 
 $$
-\overrightarrow{\textbf{ \textit { X } }_{it}}\textbf{ = }\overrightarrow{\boldsymbol{\beta}_{ind}}\cdot i\boldsymbol{n}\boldsymbol{d}_{it}+\textbf{ \textit { \beta } }_{style}\cdot\boldsymbol{s}tyl\boldsymbol{e}_{it}+\boldsymbol{\varepsilon}_{x}
+X_{_{it}}=\beta_{_{ind}}\cdot ind_{_{it}}+\beta_{_{style}}\cdot style_{_{it}}+\varepsilon_{_{x}}
 $$
 
 在此基础上，本文计算中性化竞争力评价因子与经行业、传统风格因子调整后收益的相关系数来计算竞争力评价因子的 IC与ICIR：
 
 $$
-R_{_{\mathrm{~i~}t}}=\ \beta_{_{ind}}\cdot ind_{_{it}}+\ \beta_{_{style}}\cdot style_{_{it}}+\varepsilon_{_{R}}
+R_{_{it}}=\beta_{_{ind}}\cdot ind_{_{it}}+\beta_{_{style}}\cdot style_{_{it}}+\varepsilon_{_{R}}
 $$
 
 $$
-IC\ =\ correl\left(\varepsilon_{_X},\varepsilon_{_R}\right)
+IC=\operatorname{correl}\left(\varepsilon_{_X},\varepsilon_{_R}\right)
 $$
 
 $$
-ICIR\ =\ {\frac{a\nu g\left(IC\right)}{std\left(IC\right)}}\times{\sqrt{12}}
+ICIR=\frac{a\nu g(IC)}{std(IC)}\times\sqrt{12}
 $$
 
 表 3：因子 IC 与 ICIR

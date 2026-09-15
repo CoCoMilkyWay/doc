@@ -28,10 +28,10 @@
 
 做市策略总是包含着双向报价的目的，通过成交价格在买卖价差之间非常窄幅的波动中获利，这里的窄幅波动通常就只有 1 至 2 个买卖变动价位，而非从标的资产大方向性变化中获利。这意味着做市策略必须避免积累了大量的做多或者做空方向的净头寸。因为净头寸的积累将带来价格反向波动时的损失。这也意味着做市策略的盈利是来自于小幅度但是高频率的价格波动。
 
-根据 Tanmoy Chakraborty 和 Michael Kearns 的论文 Market Making and Mean Reversion, 2011 可以对做市策略的盈利作出合理的解释。这里首先假设所有的市场事件出现在离散的时间点位 0，1，2…直到时刻 $T_{\circ}$ 时刻T是做市策略结束的时间点，可以理解为做市策略从每天开盘开始，到收盘结束。在收盘时刻T，做市策略必须平掉所有的单方向净头寸。标的资产在所有 $0\le t\le T$ 的时刻，都存在一个即时价格 $P_{t}$ ，这个 $P_{t}$ 用变动单位表示，是标的资产最小变动单位的整数倍。做市策略的理论收益为
+根据 Tanmoy Chakraborty 和 Michael Kearns 的论文 Market Making and Mean Reversion, 2011 可以对做市策略的盈利作出合理的解释。这里首先假设所有的市场事件出现在离散的时间点位 0，1，2…直到时刻 $T_{\circ}$ 时刻T是做市策略结束的时间点，可以理解为做市策略从每天开盘开始，到收盘结束。在收盘时刻T，做市策略必须平掉所有的单方向净头寸。标的资产在所有 $\begin{array}{r}{0\leq t\leq T}\end{array}$ 的时刻，都存在一个即时价格 $P_{t}$ ，这个 $\cdot P_{t}$ 用变动单位表示，是标的资产最小变动单位的整数倍。做市策略的理论收益为
 
 $$
-{\frac{1}{2}}(K-z^{2})\tag{1}
+\frac{1}{2}(K-z^{2})\tag{1}
 $$
 
 其中
@@ -68,7 +68,7 @@ Stoikov(AS)模型的原理是通过优化买卖报价实现库存管理。例如
 ![](images/001f3bff410cb50efe0b784739ce1ec83f51767e37d358e6d5e95bda4102d711.webp)
 数据来源：天软 华泰期货研究院
 
-但是值得注意的是，无论限仓前后，市价单数量的概率分布都是服从幂率规则(power lawdistribution)，即市价单数量x的概率分布 $f^{Q}(x)$ 可表示为
+但是值得注意的是，无论限仓前后，市价单数量的概率分布都是服从幂率规则(power lawdistribution)，即市价单数量x的概率分布 ${}^{\cdot}f^{Q}(x)$ 可表示为
 
 $$
 f^{Q}(x)\propto x^{-1-\alpha}\tag{4}
@@ -76,7 +76,7 @@ $$
 
 虽然这里的α值对后面建模影响不大，但可以说下全世界市场都在1.5左右，美国股票市场是1.53，纳斯达克市场是1.4，巴黎股票市场和沪深300期货主力合约是1.5，详细来源可以参考 Marco Avellaneda 和 Sasha Stoikov 的论文。
 
-在一定时间内，市价单能够成交在限价指令簿的最深的价位 ${\boldsymbol{\cdot}}{\boldsymbol{p}}^{Q}$ 通常是跟这段时间内市价单的数量有关,如果把市价单的冲击Δp定义为最深的价位 ${\boldsymbol{\cdot}}{\boldsymbol{p}}^{Q}$ 与中间价s之差，即 $\Delta p=p^{Q}-s$ 那么Δp与市价单数量Q的关系可表示为
+在一定时间内，市价单能够成交在限价指令簿的最深的价位 $[p^{Q}]$ 通常是跟这段时间内市价单的数量有关,如果把市价单的冲击Δp定义为最深的价位 $[p^{Q}]$ 与中间价s之差，即 $\Delta p=p^{Q}-s$ 那么Δp与市价单数量Q的关系可表示为
 
 $$
 \Delta p\propto Q^{\beta}\tag{5}
@@ -93,13 +93,13 @@ $$
 这里定义市价单击穿限价指令簿深度δ的概率为λ(δ)，则结合公式(6)和公式(4)
 
 $$
-\begin{array}{rlr}{{\lambda(\delta)=\Lambda\mathrm{P}(\Delta p>\delta)=\Lambda\mathrm{P}(\mathrm{ln}(Q)>K\delta)=\Lambda\mathrm{P}(Q>\exp(K\delta))=\Lambda\int_{\exp(K\delta)}^{\infty}x^{-1-\alpha}dx}}\\&{}&{=\mathbf{A}\exp(-k\delta)}\end{array}\tag{7}
+\begin{align*}\lambda(\delta)=\Lambda\mathsf{P}(\Delta p&>\delta)=\Lambda\mathsf{P}(\ln(Q)>K\delta)=\Lambda\mathsf{P}(Q>\exp(K\delta))=\Lambda\int_{\exp(K\delta)}^{\infty}x^{-1-\alpha}dx\\&=\mathsf{A}\exp(-k\delta)\end{align*}\tag{7}
 $$
 
 从公式(7)中可以看出α和K到最后并不重要，而最终结果里的A和k则可以利用每天的高频数据校正。公式(7)两边取对数可得
 
 $$
-\mathrm{ln}\lambda(\delta)=\mathrm{ln}\Lambda-k\delta\tag{8}
+\ln\lambda(\delta)=\ln A-k\delta\tag{8}
 $$
 
 利用每天的高频数据统计市价单击穿δ的概率，然后取对数即可得到lnλ(δ)，这里δ使用最小变动单位表示，例如λ(0)表示击穿上 500 毫秒中间价s的概率，λ(1)表示击穿s+δ的概率。这里选取了股指期货限仓前 2015 年 3 月 25 日的数据和限仓后 2015 年 9 月 7 日的数据进行模型校正，其中的字母a表示市价买单击穿卖单(ask)的概率，字母b 表示市价卖单击穿买单(bid)的概率。从图中可以看出市价单击穿限价指令簿的深度δ的概率随着深度δ增加而降低。在同样的深度δ下，限仓后市价单击穿的概率明显要比限仓前击穿的概率高，市价买单和市价卖单的分布规律也是比较一致的。无论限仓前后公式(8)的线性关系都非常明显。
@@ -118,10 +118,10 @@ $$
 
 ## Avellaneda-Stoikov 模型求解
 
-建立起市价单冲击概率模型后便可以在这基础上求解出最优的限价单报价。这里把最优卖单和买单与中间价的距离设为 $\delta^{a}\mathcal{F}{\approx}\delta^{b}$ ，做市结束时间为T，做市商的目标是通过动态调整 $\cdot\delta^{a}$ 和 $\boldsymbol{\mathbf{\mathit{\varepsilon}}}_{\varepsilon}\delta^{b}$ ，使得价值函数u最大
+建立起市价单冲击概率模型后便可以在这基础上求解出最优的限价单报价。这里把最优卖单和买单与中间价的距离设为 $\delta^{a}和\delta^{b}$ ，做市结束时间为T，做市商的目标是通过动态调整 $\cdot\delta^{a}$ 和 $\imath\delta^{b}$ ，使得价值函数u最大
 
 $$
-u(s,x,q,t)=\operatorname*{max}_{\delta^{a},\delta^{b}}E_{t}\left[-\exp\left(-\gamma\big(X_{T}+q_{T}S_{T}\big)\right)\right]\tag{9}
+u(s,x,q,t)=\max_{\delta^a,\delta^b}E_t\left[-\exp\left(-\gamma(X_T+q_TS_T)\right)\right]\tag{9}
 $$
 
 其中 $X_{T}$ 为结束时做市收益， $q_{T}$ 为库存， $S_{T}$ 为标的物中间价，γ为风险偏好。
@@ -129,10 +129,10 @@ $$
 价值函数u的求解可以通过求解 Hamilton-Jacobi-Bellman 偏微分方程获得
 
 $$
-\begin{array}{rlr}{{u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{b}}\lambda^{b}(\delta^{b})[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]}}\\&{}&{\quad+\operatorname*{max}_{\delta^{a}}\lambda^{a}(\delta^{a})[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]=0}\end{array}\tag{10}
+\begin{align*}u_t+\frac{1}{2}\sigma^2u_{ss}+\max_{\delta^b}\lambda^b(\delta^b)[u(s,x-s+\delta^b,q+1,t)-u(s,x,q,t)]\\+\max_{\delta^a}\lambda^a(\delta^a)[u(s,x+s+\delta^a,q-1,t)-u(s,x,q,t)]=0.\end{align*}\tag{10}
 $$
 
-并满足初始条件 $\ u(s,x,q,T)=-\mathrm{exp}{\bigl(}-\gamma(x+qs){\bigr)}$
+并满足初始条件 $u(s,x,q,T)=-\exp\bigl(-\gamma(x+qs)\bigr)$
 
 这是一个高维度非线性偏微分方程，自变量包括连续变量s,x,t和离散的库存变量q。MarcoAvellaneda 和 Sasha Stoikov通过渐近扩展得到了这个方程的近似解可以表示为两部分，第一部分是在特定库存和风险偏好下的无差别价格r。
 
@@ -145,10 +145,10 @@ $$
 第二部分则是做市商的最优买卖价差
 
 $$
-\delta^{a}+\delta^{b}=\frac{2}{\gamma}\mathrm{ln}\left(1+\frac{\gamma}{k}\right)\tag{12}
+\delta^{a}+\delta^{b}=\frac{2}{\gamma}\ln\left(1+\frac{\gamma}{k}\right)\tag{12}
 $$
 
-做市商围绕无差别价格r进行报价，即所报买单价为 $r-\frac{\delta^{a}+\delta^{b}}{2}$ ，所报卖单价为 $r+\frac{\delta^{a}+\delta^{b}}{2}\varsigma$所以可能存在的情况是所报买单价高于市场的买一价或所报卖单价低于市场的卖一价，这些时候做市商所报的限价单就接近于市价单了。
+做市商围绕无差别价格r进行报价，即所报买单价为 $r-\frac{\delta^{a}{}_{+}\delta^{b}}{2}$ ，所报卖单价为 $\begin{array}{r}{r+\frac{\delta^{a}+\delta^{b}}{2}\circ}\end{array}$所以可能存在的情况是所报买单价高于市场的买一价或所报卖单价低于市场的卖一价，这些时候做市商所报的限价单就接近于市价单了。
 
 ## 做市策略回测
 

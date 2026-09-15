@@ -275,10 +275,10 @@ Daily Volatility = 0.5*Dastd+0.5*Residual Volatility
 我们下面分别构建基于尾盘 30 分钟时间段各因子的最小波动纯因子组合（Minimum Volatility Pure Factor Portfolio, MVPFP），以统计因子内在的收益风险属性，时间自 2013 年至 2016 年，组合构建方式具体为（MVPFP 构建详情参考专题报告《如何将阿尔法因子转化为超额收益》）：
 
 $$
-\begin{array}{rl}{Min}&{\tilde{\sigma}_{\textit{ a c t i v e }\textit{ p o r t f o l i o }}}\\{s.t.}&{w^{\prime}\cdot X_{\textit{ T a r g e t }}=1}\\&{w^{\prime}\cdot X_{\textit{ R i s k }}=0}\end{array}
+\begin{array}{ll}{{Min}}&{{\tilde{\sigma}_{\;_{active\;portfolio}}}}\\{{s.t.}}&{{w^{\prime}\cdot X_{\;_{T\;\mathrm{arg}\;et}}=1}}\\{{}}&{{}}\\{{}}&{{w^{\prime}\cdot X_{\;_{Risk}}=0}}\end{array}
 $$
 
-其中，方程的权重解集合为 $W~=~\sum^{-1}X~\bigl(X~^{\prime}\sum^{-1}X~\bigr)^{-1}$ ，模拟组合构建不考虑交易成本，3因子组合绩效结果如下：
+其中，方程的权重解集合为 $W=\textstyle\sum^{^{-1}}\:X\:(\:X\:^{\prime}\sum^{^{-1}}\:X\:)^{^{-1}}$ ，模拟组合构建不考虑交易成本，3因子组合绩效结果如下：
 
 图 9 Daily Reverse MVPFP 累计收益率
 ![](images/13ee896c2d5df231fe76bd03da5c06b245719b8ad4589ab9838e893b8004534f.webp)
@@ -307,21 +307,21 @@ $$
 
 ## 3.3. 超额收益预测
 
-最后，我们利用上述计算的收益、波动、流动性冲击 3类因子，对次日的超额收益进行预测统计，即计算预测超额收益截面与实际超额收益截面的相关系数 IC。其中，超额收益阿尔法的估计方式我们采用经典的$ALPHA\ =\ IC^{*}SCORE^{*}VOLATILIY$ 的方式，即对于第 t 天的 DailyReverse 、 Daily Volatility 、 Daily MILLIQ 因子，其所估计得第 t+1 日的超额收益率截面为：
+最后，我们利用上述计算的收益、波动、流动性冲击 3类因子，对次日的超额收益进行预测统计，即计算预测超额收益截面与实际超额收益截面的相关系数 IC。其中，超额收益阿尔法的估计方式我们采用经典的$ALPHA=IC^{*}SCORE^{*}VOLATILITY$ 的方式，即对于第 t 天的 DailyReverse 、 Daily Volatility 、 Daily MILLIQ 因子，其所估计得第 t+1 日的超额收益率截面为：
 
 $$
-\begin{array}{l}{{Alpha_{_{t+1}}}}\\{{=(DailyR_{_{t}}\cdot\overline{{{IC}}}_{_{R}}+DailyV_{_{t}}\cdot\overline{{{IC}}}_{_{V}}+DailyMI_{_{t}}\cdot\overline{{{IC}}}_{_{MI}})\cdot residual\ \nu olatility_{_{t+1}}}}\end{array}
+\begin{aligned}&Alpha_{_{t+1}}\\&=(DailyR_{_{t}}\cdot\overline{IC}_{_{R}}+DailyV_{_{t}}\cdot\overline{IC}_{_{V}}+DailyMI_{_{t}}\cdot\overline{IC}_{_{MI}})\cdot residual\nu olatility_{_{t+1}}\\\end{aligned}
 $$
 
-其中 $DailyR_{t}$ $Daily{V}_{t}$ $DailyMI_{_t}$ 分别为第 t 日，3 个因子的标准化截面， $\overline{{IC}}_{\scriptscriptstyle R}\mathrm{~,~}\overline{{IC}}_{\scriptscriptstyle V}\mathrm{~,~}\overline{{IC}}_{\scriptscriptstyle MI}$ 分别为 3 个因子历史 250 日 IC均值（我们暂不考虑 IC的权重问题）， $\sqrt{n}(\pmb{\mathscr{W}})$ 为风险模型估计得到的第 t+1 日的个股残差波动率截面。
+其中 $DailyR_{_t}$ $DailyV_{_t}$ $DailyMI_{_t}$ 分别为第 t 日，3 个因子的标准化截面， $\overline{IC_{_R}}、\overline{IC_{_V}}、\overline{IC_{_{ML}}}$ 分别为 3 个因子历史 250 日 IC均值（我们暂不考虑 IC的权重问题）， $而疆$ 为风险模型估计得到的第 t+1 日的个股残差波动率截面。
 
 我们选择分布更为均匀的中证 500指数作为比较基准，计算阿尔法预测截面与个股实现超额中证 500收益率截面的组合信息系数，即
 
 $$
-IC_{\phantom{}_{Portfolio}}=Corrcorf\left(E\{Alpha\},r\right)
+IC_{_{Portfolio}}=Corrcorf\left(E\left\{Alpha\right\},r\right)
 $$
 
-进而，我们对 $IC_{\ Portfolio}$ 序列进行显著性统计，以验证超额收益的预测是否存在统计意义上的显著性，具体结果如下：
+进而，我们对 $IC_{\it{\Delta}_{Portfolio}}$ 序列进行显著性统计，以验证超额收益的预测是否存在统计意义上的显著性，具体结果如下：
 
 图 12：IC Portfolio 序列
 ![](images/d7baacec60e18731b72e99cef692c2a121fb9a0788965dc39fda864d11d46261.webp)
@@ -335,7 +335,7 @@ $$
 
 数据来源：国泰君安证券研究
 
-对于 $IC_{\ Portfolio}$ 序列的显著性检验可以发现，除了在股灾等市场极端行情
+对于 $IC_{\it{\Delta}_{Portfolio}}$ 序列的显著性检验可以发现，除了在股灾等市场极端行情
 
 外，其余时间仅用我们定义的收益、波动、流动性冲击 3因子预测次日个股的超额收益， IC序列的 T检验显著高达 6.21，这表明利用尾盘 30分钟的股价信息对超额收益的预测存在极强的统计显著性。
 

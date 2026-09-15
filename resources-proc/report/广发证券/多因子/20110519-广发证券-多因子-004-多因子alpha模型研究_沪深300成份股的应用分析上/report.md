@@ -55,7 +55,7 @@ SAC执业证书编号：S0260511020010
 期权价格变化可以分解为：
 
 $$
-df=Deltads+\frac{1}{2}Gammads^{2}+Vegad\sigma+Thetadt+Phodr...
+df=Deltads+\frac{1}{2}Gammads^2+Vegad\sigma+Thetadt+Phodr\cdots
 $$
 
 如果看多波动率：
@@ -71,7 +71,7 @@ $$
 股票收益率分解为：
 
 $$
-r=alpha+\beta_{1}factor_{1}+\beta_{2}factor_{2}+......
+r=alpha+\beta_{1}factor_{1}+\beta_{2}factor_{2}+\ldots\ldots
 $$
 
 如果看多盈利价格比（E/P）因子：
@@ -185,11 +185,11 @@ $$
 因子常常会出现个别极大或极小值。虽然排序打分法受极值影响有限，但为了更好的计算因子的合理收益，首先应该对因子进行去极值化处理。通常采用“中位数去极植法”，公式如下：
 
 $$
-\mathrm{D}_{i,upper}=\mathrm{D}_{m}+20\times\mathrm{D}_{MAD}\mathrm{if}\mathrm{D}_{i}\ \ge\ \mathrm{D}_{m}+20\times\mathrm{D}_{MAD}
+\mathbf{D}_{i,upper}=\mathbf{D}_m+20\times\mathbf{D}_{MAD}if\mathbf{D}_i\geq\mathbf{D}_m+20\times\mathbf{D}_{MAD}
 $$
 
 $$
-\mathrm{D}_{i,lower}=\mathrm{D}_{m}-20\times\mathrm{D}_{MAD}\mathrm{if}\mathrm{D}_{i}\ \leq\ \mathrm{D}_{m}+20\times\mathrm{D}_{MAD}
+\mathbf{D}_{i,lower}=\mathbf{D}_m-20\times\mathbf{D}_{MAD}if\mathbf{D}_i\leq\mathbf{D}_m+20\times\mathbf{D}_{MAD}
 $$
 
 其中Di为因子第i个观察值，Dm为所有观察值的中位数，D（i，ad）记作观测值与中位数的绝对偏离，即D（i，ad）=| Di - Dm |，D_MAD记作绝对偏离D（i，ad）的中位数，Di_upper和Di_lower分别表示中位数去极值化因子的上下限。我们选取20作为用于控制Di_upper和Di_lower的常数，原因是为了避免把一些非极值的值去掉，所以选取较大的常数。所以，当第i个因子值大于Di_upper或小于Di_lower的时候，该因子取值为0。
@@ -219,10 +219,10 @@ $$
 因子信息比的计算公式如下：
 
 $$
-IR=\frac{R_{factor}}{\sigma_{factor}}
+\mathit{IR}=\frac{R_{\mathit{factor}}}{\sigma_{\mathit{factor}}}
 $$
 
-其中 $R_{factor}$ 代表的是样本空间里因子的年化平均收益，而 $\sigma_{factor}$ 则代表因子收益的年化标准差。信息比作为研判因子表现好坏的指标考虑了两个方面。第一，平均收益越大，证明因子捕获超额收益能力越强。第二，标准差越小，证明该超额收益越稳定。所以信息比越大，因子越有效。对于该指标，我们认为信息比在0与1之间的因子为“可选”因子，而信息比超过1的则为“推荐”因子。
+其中 $R_{\mathit{factor}}$ 代表的是样本空间里因子的年化平均收益，而 $\sigma_{\mathit{factor}}$ 则代表因子收益的年化标准差。信息比作为研判因子表现好坏的指标考虑了两个方面。第一，平均收益越大，证明因子捕获超额收益能力越强。第二，标准差越小，证明该超额收益越稳定。所以信息比越大，因子越有效。对于该指标，我们认为信息比在0与1之间的因子为“可选”因子，而信息比超过1的则为“推荐”因子。
 
 ## t检验
 
@@ -233,7 +233,7 @@ t检验主要用于样本含量较小，总体标准差未知的正态分布资�
 2、计算统计量T值，公式如下：
 
 $$
-T=\frac{\overline{{X}}-\mu_{0}}{\displaystyle{\frac{S}{n-1}}}
+T=\frac{\overline{{X}}-\mu_{_0}}{\displaystyle\frac{S}{n-1}}
 $$
 
 3、根据自由度df=n-1，找出规定的T理论值并进行比较。理论值差异的显著水平为0.1或0.05，根据我们分析，某些因子与股票收益之间并不一定只存在单向关系，所以我们的t检验也分单边与双边。不同自由度的显著水平理论值则记为T(df)0.1和T(df)0.05

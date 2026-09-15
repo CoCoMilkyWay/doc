@@ -87,39 +87,39 @@ Kolm, Petter N. , and G. Ritter. Factor Investing with Black–Litterman–Bayes
 本文提及的收益率均为相对于无风险收益率的超额收益率。形式上有
 
 $$
-\mathrm{r}=\mathrm{r}_{\mathrm{real}}-\mathrm{r}_{\mathrm{f}}
+\mathbf{r}=\mathbf{r}_{\mathrm{real}}-\mathbf{r}_{\mathrm{f}}
 $$
 
-其中 $\boldsymbol{\Gamma}_{\mathrm{real}}$ 代表资产的实际收益率， $\boldsymbol{\mathrm{r_{f}}}$ 代表无风险收益率。
+其中 $\mathbf{r_{real}}$ 代表资产的实际收益率， $\mathbf{r_{f}}$ 代表无风险收益率。
 
 ## 2. BL 模型
 
 考虑一个包含 n 种资产的市场，假设收益率向量服从多元正态分布1：
 
 $$
-\displaystyle\mathbf{r}\sim\mathrm{N}(\mu_{\mathrm{n}\times1},\Sigma_{\mathrm{n}\times\mathrm{n}})
+\mathbf{r}\sim\mathrm{N}(\mathbf{\mu}_{\mathrm{n}\times1},\Sigma_{\mathrm{n}\times\mathrm{n}})
 $$
 
 假设投资组合的持仓（holding）被如下列向量表示
 
 $$
-\mathtt{h}=\mathtt{h}_{\mathtt{n}\times1}\mathrm{:=(h}_{1}\mathrm{,\cdots,h}_{\mathtt{n}}\mathrm{)^{T}\in\mathbb{R}^{n}}
+\mathbf{h}=\mathbf{h}_{\mathbf{n}\times\mathbf{1}}:=(\mathbf{h}_{1},\cdots,\mathbf{h}_{\mathbf{n}})^{\mathrm{T}}\in\mathbb{R}^{\mathbf{n}}
 $$
 
 那么给定风险厌恶水平
 
 $$
-\lambda\in\mathbb{R}_{\ge0}:=[0,\infty)
+\lambda\in\mathbb{R}_{\geq0}:=[0,\infty)
 $$
 
 对应的 MVO 问题即如下求解规划：
 
 $$
-\operatorname*{max}_{\mathrm{h}}\left(\mu_{\mathrm{h}}-\frac{\lambda}{2}\cdot\sigma_{\mathrm{h}}^{2}\right)
+\max_{\mathrm{h}}\left(\mu_{\mathrm{h}}-\frac{\lambda}{2}\cdot\sigma_{\mathrm{h}}^{2}\right)
 $$
 
 $$
-\left\{\begin{array}{ll}{\mu_{\mathrm{h}}:=\mathbb{E}[{\mathrm{h}^{\mathrm{T}}}\mathrm{r}]=\mathrm{h}^{\mathrm{T}}\mu}\\{\sigma_{\mathrm{h}}^{2}:=\mathbb{V}[{\mathrm{h}^{\mathrm{T}}}\mathrm{r}]=\mathrm{h}^{\mathrm{T}}\Sigma\mathrm{h}}\end{array}\right.
+\begin{cases}\mu_{\mathrm{h}}:=\mathbb{E}[\mathrm{h}^{\mathrm{T}}\mathbf{r}]=\mathrm{h}^{\mathrm{T}}\mu\\\sigma_{\mathrm{h}}^2:=\mathbb{V}[\mathrm{h}^{\mathrm{T}}\mathbf{r}]=\mathrm{h}^{\mathrm{T}}\Sigma\mathrm{h}\end{cases}
 $$
 
 分别代表投资组合的期望收益和方差。
@@ -127,7 +127,7 @@ $$
 MVO 的优势在于它有一个简单明了的解析解：
 
 $$
-\mathsf{h}^{*}=\lambda^{-1}\Sigma^{-1}\mathsf{\mu}
+\mathbf{h}^{*}=\lambda^{-1}\Sigma^{-1}\boldsymbol{\mu}
 $$
 
 而其缺点同样显而易见：最优持仓完全依赖于基于市场数据给出的收益率和方差的估计，但对投资影响巨大的主观判断却只字不提，而这正是BL模型要解决的问题。
@@ -135,11 +135,11 @@ $$
 在 BL 模型中，对市场的主观判断或者观点（view）被表达为一系列特定投资组合的期望收益率：
 
 $$
-\mathbb{E}\big[\mathrm{p}_{\mathrm{i}}^{\mathrm{T}}\mathrm{r}\big]=\mathrm{q}_{\mathrm{i}}\in\mathbb{R},\mathrm{i}=1,\dots,\mathrm{m}
+\mathbb{E}\left[\mathbf{p}_{\mathbf{i}}^{\mathrm{T}}\mathbf{r}\right]=\mathbf{q}_{\mathbf{i}}\in\mathbb{R},\mathbf{i}=1,\ldots,\mathbf{m}
 $$
 
 $$
-\mathtt{p}_{\mathrm{i}}=(\mathtt{p}_{\mathrm{i}})_{\mathtt{n}\times1}\in\mathbb{R}^{\mathtt{n}}
+\mathbf{p_{i}}=(\mathbf{p_{i}})_{\mathbf{n}\times\mathbf{1}}\in\mathbb{R}^{\mathbf{n}}
 $$
 
 代表对应投资组合的持仓向量。与 h 不一样的是，通常并不要求上述持仓向量为幺和向量：即各分量之和为 1。例如，在一个完全对冲投资组合中，持仓向量是一个零和向量。
@@ -147,17 +147,17 @@ $$
 进一步地，可以将上述的关于资产的 m 个观点写成矩阵形式：
 
 $$
-\mathbb{E}[\mathrm{Pr}]=\mathrm{P}\mu=\ q
+\mathbb{E}[\Pr]=\Pr=\mathbf{q}
 $$
 
 $$
-\mathrm{{P=P_{m\times n}:={\binom{p_{1}^{T}}{\vdots}},q=q_{m\times1}:={\binom{q_{1}}{\vdots}}}}
+\mathbf{P}=\mathbf{P}_{\mathbf{m}\times\mathbf{n}}\mathbf{:}=\begin{pmatrix}\mathbf{p}_{1}^{\mathrm{T}}\\\vdots\\\mathbf{p}_{\mathbf{m}}^{\mathrm{T}}\end{pmatrix},\mathbf{q}=\mathbf{q}_{\mathbf{m}\times1}\mathbf{:}=\begin{pmatrix}\mathbf{q}_{1}\\\vdots\\\mathbf{q}_{\mathbf{m}}\end{pmatrix}
 $$
 
 遗憾的是，单纯通过上述关于期望收益率的方程并不能反映投资者关于这些观点的信心水平（confidence）。所以在 BL 模型中，观点被表达为如下包含随机变量的方程组：
 
 $$
-\mathrm{P}\mu+\epsilon_{\mathrm{q}}=\epsilon_{\mathrm{\mu}},\epsilon_{\mathrm{q}}\sim\mathrm{N}(0_{\mathrm{m\times1}},\Omega_{\mathrm{m\times m}})
+\mathsf{P}\mu+\mathsf{\epsilon}_{\mathsf{q}}=\mathsf{q},\mathsf{\epsilon}_{\mathsf{q}}\sim\mathsf{N}(0_{\mathsf{m}\times\mathsf{1}},\Omega_{\mathsf{m}\times\mathsf{m}})
 $$
 
 也就是说，信心水平通常被一个零均值的正态分布随机变量所表达。
@@ -165,13 +165,13 @@ $$
 Black 和 Litterman 的原始出发点基于如下观察：假如 BL 模型中不涉及任何观点，那么此时得到的最优持仓应该是 CAPM 模型给出的市场投资组合。这意味着，在形式上，对于资产收益率有如下估计
 
 $$
-\mu\sim\mathrm{N}(\pi_{\mathrm{n}\times1},\Sigma_{\mathrm{n}\times\mathrm{n}})
+\mu\sim\mathrm{N}(\pi_{\mathrm{n}\times1},C_{\mathrm{n}\times\mathrm{n}})
 $$
 
 其中π是 CAPM 模型给出的期望收益率，而 C 的逆矩阵代表的是投资者关于π的信心水平2。通过 BL模型，最终得到的期望收益率和方差分别表示为：
 
 $$
-\begin{array}{rl}&{\mathrel{\phantom{=}}\biggl\{\mathfrak{k}_{\mathrm{BL}}:=\Sigma_{\mathrm{BL}}\cdot(\mathrm{P}^{\mathrm{T}}\Omega^{-1}\mathfrak{q}+\mathrm{C}^{-1}\pi)}\\&{\mathrel{\phantom{=}}\bigl\{\Sigma_{\mathrm{BL}}:=\mathbb{V}[\mu_{\mathrm{BL}}]=(\mathrm{P}^{\mathrm{T}}\Omega^{-1}\mathrm{P}+\mathrm{C}^{-1})^{-1}}\end{array}
+\begin{array}{r}{\left\{\begin{aligned}{\boldsymbol{\mu}_{\mathrm{BL}}\mathrm{:=}}&{{}~\boldsymbol{\Sigma}_{\mathrm{BL}}\cdot(\mathsf{P}^{\mathrm{T}}\boldsymbol{\Omega}^{-1}\mathsf{q}+\mathsf{C}^{-1}\boldsymbol{\pi})}\\{\boldsymbol{\Sigma}_{\mathrm{BL}}\mathrm{:=}}&{{}~\mathbb{V}[\boldsymbol{\mu}_{\mathrm{BL}}]=(\mathsf{P}^{\mathrm{T}}\boldsymbol{\Omega}^{-1}\mathsf{P}+\mathsf{C}^{-1})^{-1}}\end{aligned}\right.}\end{array}
 $$
 
 ## 3. APT 模型
@@ -181,11 +181,11 @@ $$
 假设 t 时刻，资产收益率和因子收益率满足如下等式
 
 $$
-\mathrm{r_{ti}=x_{ti,1}f_{t1}+x_{ti,2}f_{t2}+\cdots+x_{ti,k}f_{tk}+\epsilon_{ti}}
+\mathbf{r_{ti}}=\mathbf{x_{ti,1}}\mathbf{f_{t1}}+\mathbf{x_{ti,2}}\mathbf{f_{t2}}+\cdots+\mathbf{x_{ti,k}}\mathbf{f_{tk}}+\mathbf{\epsilon_{ti}}
 $$
 
 $$
-\left\{\begin{array}{ll}{\mathrm{f}_{\mathrm{tj}}=\mathbb{E}\vec{\rvert}\vec{\mathcal{T}}\vec{\mathcal{K}}\frac{\dot{\vec{z}}}{\sqrt{\hbar}}\frac{\dot{\vec{z}}}{\mathcal{F}}}\\{\mathrm{x}_{\mathrm{ti,j}}=\frac{\dot{\vec{y}}\dot{\vec{z}}}{\mathtt{N}}\dot{\vec{\mathcal{T}}}\mathrm{~i~}\hat{\mathcal{L}}\mathrm{~j~}\mathbb{E}\vec{\mathcal{I}}\vec{\mathcal{Z}}\pm\dot{\vec{y}}\vec{\mathcal{Z}}\vec{\mathcal{Z}}}\\{\epsilon_{\mathrm{ti}}=\frac{\dot{\vec{y}}\dot{\vec{z}}}{\mathtt{N}}\dot{\vec{\mathcal{T}}}\mathrm{~i~}\dot{\vec{y}}\dot{\vec{\mathcal{J}}}\vec{\mathcal{X}}\frac{\dot{\vec{z}}}{\sqrt{\hbar}}\vec{\mathcal{Z}}\vec{\mathcal{L}}\mathrm{~i~}\hat{\mathcal{K}}\frac{\dot{\vec{z}}\dot{\vec{z}}}{\sqrt{\hbar}}\frac{\dot{\vec{z}}\dot{\vec{z}}}{\vec{\mathcal{F}}}}\end{array}\right.
+\left\{\begin{aligned}f_{tj}&=因子收益率\\x_{ti,j}&=资产i在j因子上的载荷\\\epsilon_{ti}&=资产i的残差收益率\end{aligned}\right.
 $$
 
 在 模型中，因子载荷通常为外生的非随机变量。例如，规模因子（size）的因子载荷往往是股票市值的某种非线性变换。由于因子收益率不可直接观测，具体数值需要通过回归获得。
@@ -193,13 +193,13 @@ $$
 为简单起见，本文假设残差收益率为白噪声
 
 $$
-\epsilon_{\mathrm{ti}}\sim\mathrm{N}\big(0,\sigma_{\mathrm{ti}}^{2}\big),\mathrm{i}=1,\dots,\mathrm{n}
+\epsilon_{\mathrm{ti}}\sim\mathrm{N}\big(0,\sigma_{\mathrm{ti}}^{2}\big),\mathrm{i=1,\dots,n}
 $$
 
 因子收益率和残差收益率满足
 
 $$
-\left\{\begin{array}{ll}{\mathrm{cov}\big(\mathrm{f}_{\mathrm{ti}},\epsilon_{\mathrm{sj}}\big)=0}\\{\mathrm{cov}\big(\epsilon_{\mathrm{ti}},\epsilon_{\mathrm{sj}}\big)=\delta_{\mathrm{ij}}\delta_{\mathrm{ts}}\cdot\sigma_{\mathrm{ti}}^{2}}\end{array}\right.
+\left\{\begin{aligned}\operatorname{cov}\left(\mathrm{f}_{\mathrm{ti}},\epsilon_{\mathrm{sj}}\right)&=0\\\operatorname{cov}\left(\epsilon_{\mathrm{ti}},\epsilon_{\mathrm{sj}}\right)&=\delta_{\mathrm{ij}}\delta_{\mathrm{ts}}\cdot\sigma_{\mathrm{ti}}^{2}\end{aligned}\right.
 $$
 
 其中δ代表 Kronecker 记号，当且仅当下标相等时为 1，否则为 0。
@@ -207,29 +207,29 @@ $$
 利用矩阵形式，APT 模型可以改写成
 
 $$
-\boldsymbol{\mathrm{r_{t}}}=\mathrm{X_{t}}\boldsymbol{\mathrm{f_{t}}}+\boldsymbol{\epsilon_{t}},\boldsymbol{\epsilon_{t}}\sim\mathrm{N}(\boldsymbol{0}_{\mathrm{n}\times1},\boldsymbol{\mathrm{D_{t}}})
+\mathbf{r}_{\mathrm{t}}=\mathbf{X}_{\mathrm{t}}\mathbf{f}_{\mathrm{t}}+\mathbf{\epsilon}_{\mathrm{t}},\mathbf{\epsilon}_{\mathrm{t}}\sim\mathrm{N}(\mathbf{0}_{\mathrm{n}\times1},\mathbf{D}_{\mathrm{t}})
 $$
 
 $$
-{\mathrm{X}}_{\mathrm{t}}={\left(\begin{array}{lll}{{\mathrm{X}}_{\mathrm{t}1,1}}&{\cdots}&{{\mathrm{X}}_{\mathrm{t}1,\mathrm{k}}}\\{\vdots}&{\ddots}&{\vdots}\\{{\mathrm{X}}_{\mathrm{tn},1}}&{\cdots}&{{\mathrm{X}}_{\mathrm{tn,k}}}\end{array}\right)}_{\mathrm{n}\times\mathrm{k}},{\mathrm{f}}_{\mathrm{t}}={\left(\begin{array}{l}{\mathrm{f}_{\mathrm{t}1}}\\{\vdots}\\{{\mathrm{f}}_{\mathrm{tk}}}\end{array}\right)}_{\mathrm{k}\times1}
+\mathrm{X}_{\mathrm{t}}=\begin{pmatrix}\mathrm{x}_{\mathrm{t}1,1}&\cdots&\mathrm{x}_{\mathrm{t}1,\mathrm{k}}\\\vdots&\ddots&\vdots\\\mathrm{x}_{\mathrm{tn},1}&\cdots&\mathrm{x}_{\mathrm{tn},\mathrm{k}}\end{pmatrix}_{\mathrm{n}\times\mathrm{k}},\mathrm{f}_{\mathrm{t}}=\begin{pmatrix}\mathrm{f}_{\mathrm{t}1}\\\vdots\\\mathrm{f}_{\mathrm{tk}}\end{pmatrix}_{\mathrm{k}\times1}
 $$
 
 而
 
 $$
-\mathrm{D}_{\mathrm{t}}=\mathrm{diag}(\sigma_{\mathrm{t1}}^{2},\cdots,\sigma_{\mathrm{tn}}^{2})
+\mathrm{D}_{\mathrm{t}}=\mathrm{diag}(\sigma_{\mathrm{t}1}^{2},\cdots,\sigma_{\mathrm{tn}}^{2})
 $$
 
 进一步地，假设因子收益率只有有限的均值和方差：
 
 $$
-\begin{array}{r}{\{\mu_{\mathrm{f}}:=\mathbb{E}[\mathrm{f}_{\mathrm{t}}]<\infty}\\{[\mathrm{F}_{\mathrm{t}}:=\mathbb{V}[\mathrm{f}_{\mathrm{t}}]<\infty}\end{array}
+\begin{array}{r}{\left\{\begin{aligned}{\mu_{\mathrm{f}}:=\mathbb{E}[\mathrm{f}_{\mathrm{t}}]<\infty}\\{\mathrm{F}_{\mathrm{t}}:=\mathbb{V}[\mathrm{f}_{\mathrm{t}}]<\infty}\end{aligned}\right.}\end{array}
 $$
 
 那么 APT 模型表明资产收益率和因子收益率之间的关系是
 
 $$
-\begin{array}{c}\begin{array}{rl}&{\left\{\mathbb{E}[\mathrm{r}_{\mathrm{t}}]=\mathrm{X}_{\mathrm{t}}\mu_{\mathrm{f}}\right.}\\&{\left.\mathbb{V}[\mathrm{r}_{\mathrm{t}}]=\mathrm{X}_{\mathrm{t}}\mathrm{F}_{\mathrm{t}}\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}+\mathrm{D}_{\mathrm{t}}=:\mathrm{\Sigma}_{\mathrm{t}}\right.}\end{array}\end{array}
+\left\{\begin{aligned}\mathbb{E}[\mathbf{r}_{\mathbf{t}}]&=\mathbf{X}_{\mathbf{t}}\mathbf{\mu}_{\mathbf{f}}\\\mathbb{V}[\mathbf{r}_{\mathbf{t}}]&=\mathbf{X}_{\mathbf{t}}\mathbf{F}_{\mathbf{t}}\mathbf{X}_{\mathbf{t}}^{\mathrm{T}}+\mathrm{D}_{\mathbf{t}}=:\Sigma_{\mathbf{t}}\end{aligned}\right.
 $$
 
 在实际计算中，由于会大量涉及方差-协方差矩阵的求逆，本文推荐利用Woodbury 逆矩阵技巧3计算
@@ -239,7 +239,7 @@ $$
 $$
 
 $$
-\mathrm{Z_{t}=\left(Z_{t}\right)_{n\times k}:=D_{t}^{-1}X_{t}}
+\mathbf{Z}_{\mathbf{t}}=(\mathbf{Z}_{\mathbf{t}})_{\mathbf{n}\times\mathbf{k}}:=\mathbf{D}_{\mathbf{t}}^{-1}\mathbf{X}_{\mathbf{t}}
 $$
 
 注意到上述计算最多只涉及到 n×k 的矩阵，由于 k（因子数量）远小于n（资产数量），相比于原始公式多处涉及 n×n 矩阵，能极大地减少模型计算量。
@@ -252,7 +252,7 @@ $$
 (\mathrm{A}+\mathrm{UBV})^{-1}=\mathrm{A}^{-1}-\mathrm{A}^{-1}\mathrm{UB}(\mathrm{B}+\mathrm{BVA}^{-1}\mathrm{UB})^{-1}\mathrm{BVA}^{-1}
 $$
 
-方差-协方差矩阵 $\operatorname{F}_{\mathrm{t}}\bar{\mathrm{{C}}}$ 知，所以一旦给定因子载荷 $\mathrm{\cdot X_{t}}$ 和 $\mathrm{\Delta D_{t}}$ ，利用
+方差-协方差矩阵 $F_{t}已$ 知，所以一旦给定因子载荷 $\mathbf{X_{t}}$ 和 $\mathrm{D_{t}}$ ，利用
 
 $$
 \Sigma_{\mathrm{t}}=\mathrm{X}_{\mathrm{t}}\mathrm{F}_{\mathrm{t}}\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}+\mathrm{D}_{\mathrm{t}}
@@ -264,40 +264,40 @@ $$
 
 ## 4.1. 数据驱动型先验
 
-如果因子收益率 $\cdot\mathrm{f_{t}}$ 是稳定的，那么相应的 $\mu_{\mathrm{f}}$ 将几乎保持为一个常数，这自然给出了因子收益率的数据驱动先验 $\pi_{\mathrm{f}}$
+如果因子收益率 $\mathbf{\cdot f_{t}},$ 是稳定的，那么相应的 $\mu_{\mathrm{f}}$ 将几乎保持为一个常数，这自然给出了因子收益率的数据驱动先验 $\pi_{\mathrm{f}}$
 
 具体来说，本文利用 OLS 估计量
 
 $$
-\hat{\boldsymbol{\mathrm{f}}}_{\mathrm{t}}=(\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{X}_{\mathrm{t}})^{-1}\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{r}_{\mathrm{t}+1}
+\hat{\mathbf{f}}_{\mathrm{t}}=(\mathbf{X}_{\mathrm{t}}^{\mathrm{T}}\mathbf{X}_{\mathrm{t}})^{-1}\mathbf{X}_{\mathrm{t}}^{\mathrm{T}}\mathbf{r}_{\mathrm{t}+1}
 $$
 
 的均值或者移动平均来估计 $\mu_{\mathrm{f}}$ 。而更为老练的方式，诸如层次模型（hierarchical model）或者混合作用模型（mixed-effects model）同样可以在此使用，具体细节参见 Gelman et al（2003）。数据驱动型先验的优势在于它不需要一个基准投资组合，因此在以现金为对照的绝对收益策略中被广泛使用。
 
 ## 4.2. 基准先验
 
-如果存在一个基准投资组合h ，那么与传统 BL 模型类似，我们需要寻 $\iota_{\mathrm{B}};$ 找一个相应的最优基准先验。Kolmand Ritter（2017）对基准先验有很深入的探讨。为了行文的可读性，本节我们将省略各个变量的时间下标 t。本节所指的基准先验是指形如
+如果存在一个基准投资组合h ，那么与传统 BL 模型类似，我们需要寻 $^1\mathbf{B}^{\ast}$ 找一个相应的最优基准先验。Kolmand Ritter（2017）对基准先验有很深入的探讨。为了行文的可读性，本节我们将省略各个变量的时间下标 t。本节所指的基准先验是指形如
 
 $$
-\pi_{\mathrm{f}}\sim\mathrm{N}(\xi_{\mathrm{k}\times1},\mathrm{V}_{\mathrm{k}\times\mathrm{k}})
+\pi_{\mathrm{f}}\sim\mathrm{N}(\xi_{\mathrm{k}\times1},V_{\mathrm{k}\times\mathrm{k}})
 $$
 
 的先验。利用上述先验，如果记
 
 $$
-\mathrm{H}=\mathrm{H}_{\mathrm{k}\times\mathrm{k}}{:=\mathrm{V}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\mathrm{X}}
+\mathrm{H}=\mathrm{H}_{\mathrm{k}\times\mathrm{k}}{:=}\mathrm{V}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\mathrm{X}
 $$
 
-可以证明相应的资 $\cdot\dot{\vec{r}}$ 的先验期望收益率和方差-协方差矩阵等于
+可以证明相应的资 $\text{: }\begin{aligned}&\text{" }\\&\text{" }\end{aligned}$ 的先验期望收益率和方差-协方差矩阵等于
 
 $$
-\begin{array}{rl}&{\{\mu_{\pi}:=\mathbb{E}_{\pi}[\mathrm{r}]=\Sigma_{\pi}\cdot\Sigma^{-1}\mathrm{XH}^{-1}\mathrm{V}^{-1}\xi}\\&{\{\Sigma_{\pi}:=\mathbb{V}_{\pi}[\mathrm{r}]=(\Sigma^{-1}+\Sigma^{-1}\mathrm{XH}^{-1}\mathrm{X}^{\mathrm{T}}\Sigma^{-1})^{-1}}\end{array}
+\begin{array}{r}{\left\{\begin{array}{ll}{\mu_{\pi}:=\mathbb{E}_{\pi}[\mathbf{r}]=\Sigma_{\pi}\cdot\Sigma^{-1}\mathrm{X}\mathrm{H}^{-1}\mathrm{V}^{-1}\xi}\\{\Sigma_{\pi}:=\mathbb{V}_{\pi}[\mathbf{r}]=(\Sigma^{-1}+\Sigma^{-1}\mathrm{X}\mathrm{H}^{-1}\mathrm{X}^{\mathrm{T}}\Sigma^{-1})^{-1}}\end{array}\right.}\end{array}
 $$
 
 其中Σ是 n×n 的资产收益率的方差-协方差矩阵。同样，利用 MVO 可以求得此先验下的最优持仓表达：
 
 $$
-\begin{array}{r}{{\mathrm{h}}_{\mathrm{prior}}=\lambda^{-1}\Sigma_{\pi}^{-1}{\mu_{\pi}}=\lambda^{-1}\Sigma^{-1}\mathrm{XH}^{-1}\nabla^{-1}\xi}\end{array}
+\mathbf{h}_{\mathrm{prior}}=\lambda^{-1}\Sigma_{\pi}^{-1}\mu_{\pi}=\lambda^{-1}\Sigma^{-1}\mathrm{XH^{-1}V^{-1}}\xi
 $$
 
 从上式可以看出，并非所有的组合都可以成为 APT-BLB 的最优先验持仓，因为它必须要形如
@@ -313,45 +313,45 @@ $$
 类似于原始 BL模型中关于资产组合的观点，因子观点的数学表达为
 
 $$
-\mathbf{q}_{\mathrm{f}}=\mu_{\mathrm{f}}+\epsilon_{\mathrm{f}},\epsilon_{\mathrm{f}}\sim\mathrm{N}(0,\Omega_{\mathrm{f}}),\Omega_{\mathrm{f}}{:=}{\mathrm{diag}}\big(\omega_{1}^{2},\cdots,\omega_{\mathrm{k}}^{2}\big)
+\mathbf{q}_{\mathrm{f}}=\mathbf{\mu}_{\mathrm{f}}+\mathbf{\epsilon}_{\mathrm{f}},\mathbf{\epsilon}_{\mathrm{f}}\sim\mathrm{N}(0,\Omega_{\mathrm{f}}),\Omega_{\mathrm{f}}:=\mathrm{diag}\left(\omega_{1}^{2},\cdots,\omega_{\mathrm{k}}^{2}\right)
 $$
 
 如果令
 
 $$
-\begin{array}{rl}&{\{\widetilde{\mathbb{V}}{:=}(\mathbb{V}^{-1}+\Omega_{\mathrm{f}}^{-1})^{-1}}\\&{\{\widetilde{\xi}{:=}\widetilde{\mathbb{V}}(\mathbb{V}^{-1}\xi+\Omega_{\mathrm{f}}^{-1}\mathbb{q}_{\mathrm{f}})}\end{array}
+\begin{array}{r}{\left\{\begin{aligned}{\widetilde{\mathsf{V}}\mathopen{}:=}&{{}\left(\mathsf{V}^{-1}+\Omega_{\mathsf{f}}^{-1}\right)^{-1}}\\{\widetilde{\boldsymbol{\xi}}\mathopen{}:=}&{{}\widetilde{\mathsf{V}}\mathopen{}\left(\mathsf{V}^{-1}\widetilde{\boldsymbol{\xi}}+\Omega_{\mathsf{f}}^{-1}\mathsf{q}_{\mathsf{f}}\right)}\end{aligned}\right.}\end{array}
 $$
 
 那么对于因子的 BL模型可以最终写成
 
 $$
-\begin{array}{rl}&{\{\Vert_{\mathrm{BLF}}:=\Sigma_{\mathrm{BLF}}\cdot\Sigma^{-1}\mathrm{X}\big(\widetilde{\mathrm{V}}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\mathrm{X}\big)^{-1}\widetilde{\mathrm{V}}^{-1}\widetilde{\xi}}\\&{_{\mathrm{BLF}}:=(\Sigma^{-1}+\Sigma^{-1}\mathrm{X}\big(\widetilde{\mathrm{V}}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\mathrm{X}\big)^{-1}\mathrm{X}^{\mathrm{T}}\Sigma^{-1})^{-1}}\end{array}
+\begin{cases}\boldsymbol{\mu}_{\mathrm{BLF}}\mathrm{:=}\boldsymbol{\Sigma}_{\mathrm{BLF}}\cdot\boldsymbol{\Sigma}^{-1}\boldsymbol{\mathrm{X}}\Big(\widetilde{\boldsymbol{\mathrm{V}}}^{-1}+\boldsymbol{\mathrm{X}}^{\mathrm{T}}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mathrm{X}}\Big)^{-1}\widetilde{\boldsymbol{\mathrm{V}}}^{-1}\widetilde{\boldsymbol{\xi}}\\\boldsymbol{\Sigma}_{\mathrm{BLF}}\mathrm{:=}\Big(\boldsymbol{\Sigma}^{-1}+\boldsymbol{\Sigma}^{-1}\boldsymbol{\mathrm{X}}\Big(\widetilde{\boldsymbol{\mathrm{V}}}^{-1}+\boldsymbol{\mathrm{X}}^{\mathrm{T}}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mathrm{X}}\Big)^{-1}\boldsymbol{\mathrm{X}}^{\mathrm{T}}\boldsymbol{\Sigma}^{-1}\Big)^{-1}\end{cases}
 $$
 
 $$
-\Sigma=\mathrm{XFX^{T}+D}
+\Sigma=\mathrm{XFX^{T}}+\mathrm{D}
 $$
 
 最后可以得到关于资产的最优先验持仓为
 
 $$
-\begin{array}{r}{\mathtt{h}^{*}=\lambda^{-1}\Sigma^{-1}\Pi}\end{array}
+\mathbf{h}^{*}=\lambda^{-1}\Sigma^{-1}\Pi
 $$
 
 $$
-\Pi=\Pi_{\mathrm{n}\times1}\colon=\mathrm{X}\widetilde{\mu}_{\mathrm{f}}
+\Pi=\Pi_{\mathtt{n}\times1}{:=\mathtt{X}\tilde{\mu}_{\mathtt{f}}}
 $$
 
 而
 
 $$
-\tilde{\mathsf{\boldsymbol{\mu}}}_{\mathrm{f}}=\left(\tilde{\mathsf{\boldsymbol{\mu}}}_{\mathrm{f}}\right)_{\mathrm{k}\times1}=\left(\mathrm{V}^{-1}+\Omega_{\mathrm{f}}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\mathrm{X}\right)^{-1}\left(\mathrm{V}^{-1}\xi+\Omega_{\mathrm{f}}^{-1}\mathrm{q}_{\mathrm{f}}\right)
+\tilde{\boldsymbol{\mu}}_{\mathrm{f}}=\left(\tilde{\boldsymbol{\mu}}_{\mathrm{f}}\right)_{\mathrm{k}\times1}=\left(\mathsf{V}^{-1}+\mathsf{\Omega}_{\mathrm{f}}^{-1}+\mathsf{X}^{\mathsf{T}}\mathsf{\Sigma}^{-1}\mathsf{X}\right)^{-1}\left(\mathsf{V}^{-1}\mathsf{\xi}+\mathsf{\Omega}_{\mathrm{f}}^{-1}\mathsf{q}_{\mathrm{f}}\right)
 $$
 
 代表的是经过因子观点调整的风险溢价，其各个分量正相关于先验均值方差比率（prior mean-variance ratio）和期望回归不确定比率（expectedreturn-uncertainty ratio），即：
 
 $$
-\frac{\xi_{\mathrm{i}}}{\ V_{\mathrm{ii}}}\ \not=\frac{{\sf q}_{\mathrm{i}}}{\omega_{\mathrm{i}}^{2}}
+\frac{\xi_{\mathrm{i}}}{\mathrm{V}_{\mathrm{ii}}}和\frac{\mathsf{q}_{\mathrm{i}}}{\omega_{\mathrm{i}}^{2}}
 $$
 
 ## 4.4. 讨论
@@ -375,32 +375,32 @@ BL 模型的早期成功的因素之一是因为它提供了一种收益率的�
 接下来的例子将构造一位虚拟的、善于因子择时的投资经理，并揭示如何逐步使用 BLB 框架将该投资经理的因子择时观点纳入到最优持仓的构建之中。具体来说，该投资经理的因子观点被上一节中的
 
 $$
-\mathbf{q}_{\mathrm{f}}=(\mathbf{q}_{\mathrm{f}})_{\mathrm{k}\times1}\nVdash\Omega_{\mathrm{f}}=\mathrm{diag}(\omega_{1}^{2},\cdots,\omega_{\mathrm{k}}^{2})
+\mathbf{q}_{\mathbf{f}}=(\mathbf{q}_{\mathbf{f}})_{\mathbf{k}\times1}和\Omega_{\mathbf{f}}=diag(\omega_{1}^{2},\cdots,\omega_{\mathbf{k}}^{2})
 $$
 
-给出，其中 $\omega_{\mathrm{i}}$ 可以视为关于因子收益率的置信区间的宽度。为简单起见，本文假设这些观点在 2007-01-01 被设定后就保持不变。
+给出，其中 $\mathbf{\omega_{i}}$ 可以视为关于因子收益率的置信区间的宽度。为简单起见，本文假设这些观点在 2007-01-01 被设定后就保持不变。
 
 图 1：各风格因子的累计因子收益
 ![](images/c330cc1716e1126066a68b309543b6d719e0cf2fb4c393ffd5be82663768ad34.webp)
 数据来源：Kolm and Ritter（2020）
-注：时间窗口为 2007-01-01 至 2020-11-01，纵轴为 $\widehat{\boldsymbol{\mathrm{f}}}_{\mathrm{t}}$ 的每一天的和。
+注：时间窗口为 2007-01-01 至 2020-11-01，纵轴为 $\mathbf{\hat{f}_{t}}$ 的每一天的和。
 
 图 1 描绘了在美国市场中短期利率、规模、流动性和基于财务数据的质量四个风格因子在 2007-2020 年间的累积因子收益率。由于本文假定该模拟投资经理具有先见之明，所以他将对上述因子“未卜先知”地给与正向或者负向的观点，并对价值和动量因子保持沉默，这是因为这两个因子在样本区间内表现不佳。下面将逐步阐述 BLB模型的构建：
 
-1. 对于每一天 t，构建因子载荷矩阵 $X_{\mathrm{t}},$ 。此处将采取一系列正则化手段。
+1. 对于每一天 t，构建因子载荷矩阵 $.X_{\mathbf{t}},$ 。此处将采取一系列正则化手段。
 
 2. 对于每一天 t，利用 OLS
 
 $$
-\hat{\boldsymbol{\mathrm{f}}}_{\mathrm{t}}=(\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{X}_{\mathrm{t}})^{-1}\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\boldsymbol{\mathrm{r}}_{\mathrm{t+1}}
+\hat{\mathbf{f}}_{\mathrm{t}}=(\mathbf{X}_{\mathrm{t}}^{\mathrm{T}}\mathbf{X}_{\mathrm{t}})^{-1}\mathbf{X}_{\mathrm{t}}^{\mathrm{T}}\mathbf{r}_{\mathrm{t}+1}
 $$
 
-估计因子收益率 $\mathrm{f_{tj}}$ ，其中 j=1,…,k。
+估计因子收益率 $\mathbf{f_{tj}}$ ，其中 j=1,…,k。
 
 3. 选择一段时间用于估计因子收益率的方差-协方差矩阵
 
 $$
-\mathrm{F}=\mathbb{V}\big[\widehat{\mathbf{f}}_{\mathrm{t}}\big]
+\mathrm{F}=\mathbb{V}[\hat{\mathrm{f}}_{\mathrm{t}}]
 $$
 
 具体来说，本文选择了 2007-2015 年。
@@ -410,44 +410,44 @@ $$
 5. 在市场中性研究中，先验被设定为
 
 $$
-\xi=0,\mathtt{V}=\mathtt{S}\mathtt{R}_{\mathrm{S}}\mathtt{S}
+\xi=0,\mathrm{V}=\mathrm{SR}_{\mathrm{S}}\mathrm{S}
 $$
 
-其中 $\mathrm{R}_{S^{\ j}}$ 为 Ledoit-Wolf 收缩估计量。在此设定下，全现金资 $\dot{\mathcal{P}}$ 组合将成为最优先验。如果投资者想使用例如 S&P500 的其他基准组合作为最优先验，那么需要去解一个关于正态分布 $\mathsf{N}(\xi,\nabla)$ 的方程如下
+其中 $\mathrm{R}_{S^{2}}$ 为 Ledoit-Wolf 收缩估计量。在此设定下，全现金资 $产$ 组合将成为最优先验。如果投资者想使用例如 S&P500 的其他基准组合作为最优先验，那么需要去解一个关于正态分布 $\mathrm{|N(\xi,V)}$ 的方程如下
 
 $$
-\lambda\Sigma_{\mathrm{t}}\mathrm{h}_{\mathrm{B}}=\mathrm{X}_{\mathrm{t}}(\mathrm{V}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\mathrm{X})^{-1}\mathrm{V}^{-1}\xi
+\lambda\Sigma_{\mathrm{t}}\mathrm{h}_{\mathrm{B}}=\mathrm{X}_{\mathrm{t}}\left(\mathrm{V}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\mathrm{X}\right)^{-1}\mathrm{V}^{-1}\xi
 $$
 
-其中 $\mathrm{h_{B}}$ 代表基准组合的持仓。
+其中 $\mathbf{h_{B}}$ 代表基准组合的持仓。
 
-6. 设定 $\mathtt{q}_{\mathrm{f}}\mathtt{\ddag}\mathtt{a}\Omega_{\mathrm{f}}$ 。对于所有的行业因子和未明确提及的风格因子我们都设定 $\mathbf{\nabla}_{\cdot}\mathbf{q}_{\mathrm{i}}=0$ 并且 $.\omega_{\mathrm{i}}=0.05$ 。对于规模、流动性、短期利率、质量因子和截距因子对应的 ${\bf q}_{\mathrm{i}}$ 分别为-3bp、-1bp、-0.5bp、1bp 和 1bp。
+6. 设定 $I.q_{f}和\Omega_{f}$ 。对于所有的行业因子和未明确提及的风格因子我们都设定 $\mathbf{.q}_{\mathrm{i}}=0$ 并且 $\mathbf{.\omega_{i}}=0.05$ 。对于规模、流动性、短期利率、质量因子和截距因子对应的 $\mathbf{q}_{\mathrm{i}}$ 分别为-3bp、-1bp、-0.5bp、1bp 和 1bp。
 
-7. 对于每一天 t，估计 $\mathrm{\cdot D_{t}}$ 。此步直接通过历史数据进行估算。
+7. 对于每一天 t，估计 $\mathbf{D_{t}}$ 。此步直接通过历史数据进行估算。
 
-8. 对于每一天 t，计算 $\cdot\mathrm{Z}_{\mathrm{t}}=\mathrm{D}_{\mathrm{t}}^{-1}\mathrm{X}_{\mathrm{t}^{\circ}}$
+8. 对于每一天 t，计算 $\mathbf{\cdot Z_{t}}=\mathbf{D_{t}^{-1}X_{t}}.$
 
 9. 对于每一天 t，计算
 
 $$
-\left\{\begin{array}{ll}{\mathrm{K}_{\mathrm{t}}=\mathrm{Z}_{\mathrm{t}}-\mathrm{Z}_{\mathrm{t}}(\mathrm{F}_{\mathrm{t}}^{-1}+\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{Z}_{\mathrm{t}})^{-1}\mathrm{Z}_{\mathrm{t}}\mathrm{X}_{\mathrm{t}}}\\{\tilde{\mu}_{\mathrm{f}}=\left(\mathrm{V}^{-1}+\Omega_{\mathrm{f}}^{-1}+\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{K}_{\mathrm{t}}\right)^{-1}\left(\mathrm{V}^{-1}\xi+\Omega_{\mathrm{f}}^{-1}\mathrm{q}_{\mathrm{f}}\right)}\\{\mathrm{h}_{\mathrm{t}}^{\ast}=\lambda^{-1}\mathrm{K}_{\mathrm{t}}\tilde{\mu}_{\mathrm{f}}}\end{array}\right.
+\begin{cases}\mathrm{K}_{\mathrm{t}}=\mathrm{Z}_{\mathrm{t}}-\mathrm{Z}_{\mathrm{t}}(\mathrm{F}_{\mathrm{t}}^{-1}+\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{Z}_{\mathrm{t}})^{-1}\mathrm{Z}_{\mathrm{t}}\mathrm{X}_{\mathrm{t}}\\\tilde{\mu}_{\mathrm{f}}=\Big(\mathrm{V}^{-1}+\Omega_{\mathrm{f}}^{-1}+\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{K}_{\mathrm{t}}\Big)^{-1}\Big(\mathrm{V}^{-1}\boldsymbol{\xi}+\Omega_{\mathrm{f}}^{-1}\mathbf{q}_{\mathrm{f}}\Big)\\\mathrm{h}_{\mathrm{t}}^{*}=\lambda^{-1}\mathrm{K}_{\mathrm{t}}\tilde{\mu}_{\mathrm{f}}\end{cases}
 $$
 
 10. 最后计算资产组合收益率
 
 $$
-\mathrm{r_{p,t+1}}=(\mathrm{h}_{\mathrm{t}}^{\ast})^{\mathrm{T}}\mathrm{r}_{\mathrm{t}+1}
+\mathbf{r}_{\mathrm{p,t+1}}=(\mathbf{h}_{\mathrm{t}}^{*})^{\mathrm{T}}\mathbf{r}_{\mathrm{t+1}}
 $$
 
 图 2 对比了最终的 BLB 框架产生的持仓和来自原始的 MVO 的持仓之间的差异。从 Sharpe 比率来看，BLB 为 1.16 而 MVO 仅有 0.9。另外，这两种方式的换手率大致相当，每日平均换仓约为总市值的 10%-15%，这种较高的换手率主要是因为在模型中暂时并没有考虑换仓成本。
 
-事实上，上述 BLB框架可以很自然地扩展到考虑成本的 MVO 之中。假设 $\mathrm{h}_{0}$ 代表初期持仓，h为目标持仓，那么考虑成本的最优化问题为：
+事实上，上述 BLB框架可以很自然地扩展到考虑成本的 MVO 之中。假设 $\mathbf{h}_{0}\mathbf{\Gamma}$ 代表初期持仓，h为目标持仓，那么考虑成本的最优化问题为：
 
 $$
-\operatorname*{max}_{\mathrm{h}}\left(\mathrm{h}^{\mathrm{T}}\mu_{\mathrm{BLF}}-\frac{\lambda}{2}\cdot\mathrm{h}^{\mathrm{T}}\Sigma_{\mathrm{BLF}}\mathrm{h}-\ c(\mathrm{h}-\mathrm{h}_{0})\right)
+\max_{\mathbf{h}}\left(\mathbf{h}^{\mathrm{T}}\mu_{\mathrm{BLF}}-\frac{\lambda}{2}\cdot\mathbf{h}^{\mathrm{T}}\Sigma_{\mathrm{BLF}}\mathbf{h}-\mathbf{c}(\mathbf{h}-\mathbf{h}_0)\right)
 $$
 
-其中 ${\mathfrak{c}}(\mathrm{h}_{0},\mathrm{h})$ 代表持仓转换的预期成本。特别地，对于机构投资者而 $\frac{1}{\overline{{\overline{{\varepsilon}}}}}$ ，c 主要是因为临时或者永久的滑点成本所造成。
+其中 $\mathsf{c}(\mathsf{h}_{0},\mathsf{h})$ 代表持仓转换的预期成本。特别地，对于机构投资者而 $\frac{宫}{言}$ ，c 主要是因为临时或者永久的滑点成本所造成。
 
 图 2：BLB 和 MVO的对比
 ![](images/7e3f72feea53f034babd9fe42e0b3208f579223d4f4cd25c631dfdd1af2808da.webp)

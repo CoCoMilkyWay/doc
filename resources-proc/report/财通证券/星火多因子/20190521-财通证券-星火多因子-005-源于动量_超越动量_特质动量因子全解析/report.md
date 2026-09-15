@@ -176,10 +176,10 @@ zhangyu1@ctsec.com 021-68592337 699.42
 回归法的主要步骤是将目标因子对所需剔除的因子进行回归，将回归得到的残差项作为新因子的代理变量。
 
 $$
-X_{New}=\alpha+\beta_{0}\cdot Industry+\beta_{1}\cdot Size+\beta_{2}\cdot Mom+\beta_{3}\cdot Vol+\varepsilon
+X_{New}=\alpha+\beta_{0}\cdot Industry+\beta_{1}\cdot Size+\beta_{2}\cdot Mon+\beta_{3}\cdot Vol+\varepsilon
 $$
 
-如上所示，将待检验的因子 $X_{New}$ 作为因变量，待剔除的因子作为自变量进行回归，由于残差项与自变量之间互不相关，因此将残差项作为新因子的代理变量，可以认为已经消除了行业、市值、动量和波动的影响。
+如上所示，将待检验的因子 $\cdot X_{New}$ 作为因变量，待剔除的因子作为自变量进行回归，由于残差项与自变量之间互不相关，因此将残差项作为新因子的代理变量，可以认为已经消除了行业、市值、动量和波动的影响。
 
 ## 2） 分层法
 
@@ -187,7 +187,7 @@ $$
 
 a) 根据待剔除因子（如 Size）的大小将样本股票分为 10 层；
 
-b) 在每层中再根据待检测因子 $-X_{New}$ 将股票分为 10 组；
+b) 在每层中再根据待检测因子 $\vdash_{X_{New}}$ 将股票分为 10 组；
 
 c) 每层中的第 1 组-第 10 组进行合并，得到新的 10 个分组。
 
@@ -218,28 +218,28 @@ $$
 由于因子在每个截面期对于股票收益的影响大小并不稳定，在部分时间段内其可能是十分显著的定价因子，然而在其他时间该因子可能对股票收益的预测作用并不明显，因此我们需要对整个回测区间内的因子显著性进行检验，从而观察该因子在全样本区间内的风险溢价均值是否显著地不等于 0。在数理统计中，给定一列服从正态分布的样本数据 x，如果要检验该数据的均值x̅是否显著地不等于 0，最常用的方法是 t检验，其计算方法如下：
 
 $$
-t={\frac{{\bar{x}}-x_{0}}{s/{\sqrt{n}}}}\sim t(n-1),{\bar{x}}={\frac{1}{n}}\sum_{i=1}^{n}x_{i},s={\sqrt{\frac{\sum_{i=1}^{n}(x_{i}-{\bar{x}})^{2}}{n-1}}}
+t=\frac{\bar{x}-x_{0}}{s/\sqrt{n}}{\sim}t(n-1),\quad\bar{x}=\frac{1}{n}{\sum_{i=1}^{n}x_{i}},\quad s=\sqrt{\frac{\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}{n-1}}
 $$
 
-其中，x̅表示数据的均值，s 表示数据的样本标准差，n 表示样本数量， $x_{0}$ 表示待检验的值，如果我们需要检验序列的均值是否显著地不等于0，那么可将 $x_{0}$ 置为0，可以证明通过如上方法构建的检验统计量 t值服从自由度为n-1的 t分布。假设数据x服从正态分布 $\scriptstyle x\sim N(\mu,\sigma^{2})$ ，那么其样本均值同样服从正态分布：
+其中，x̅表示数据的均值，s 表示数据的样本标准差，n 表示样本数量， $x_{0}$ 表示待检验的值，如果我们需要检验序列的均值是否显著地不等于0，那么可将 $x_{0}$ 置为0，可以证明通过如上方法构建的检验统计量 t值服从自由度为n-1的 t分布。假设数据x服从正态分布 $[x{\sim}N(\mu,\sigma^{2})$ ，那么其样本均值同样服从正态分布：
 
 $$
-\bar{x}{\sim}N(\mu,\frac{\sigma^{2}}{n})\frac{\bar{x}-\mu}{\sigma/\sqrt{n}}{\sim}N(0,1)
+\bar{x}{\sim}N\left(\mu,\frac{\sigma^{2}}{n}\right)\rightarrow\frac{\bar{x}-\mu}{\sigma/\sqrt{n}}{\sim}N(0{,}1).
 $$
 
 由 Cochran 定理可知，数据的样本方差与总体方差之间服从如下 $\chi^{2}$ 分布：
 
 $$
-{\frac{(n-1)s^{2}}{\sigma^{2}}}{\sim}\chi_{(n-1)}^{2}
+\frac{(n-1)s^{2}}{\sigma^{2}}{\sim}\chi^{2}_{(n-1)}
 $$
 
 因此，通过上述方法构建出的 t 值即可进行如下变换：
 
 $$
-t={\frac{{\bar{x}}-x_{0}}{s/{\sqrt{n}}}}={\frac{\frac{{\bar{x}}-x_{0}}{\sigma/{\sqrt{n}}}}{\sqrt{\frac{(n-1)s^{2}/\sigma^{2}}{(n-1)}}}}={\frac{X}{\sqrt{Y/(n-1)}}}\sim t(n-1)
+t=\frac{\bar{x}-x_{0}}{s/\sqrt{n}}=\frac{\frac{\bar{x}-x_{0}}{\sigma/\sqrt{n}}}{\sqrt{\frac{(n-1)s^{2}/\sigma^{2}}{(n-1)}}}=\frac{\bar{X}}{\sqrt{\bar{Y}/(n-1)}}\sim t(n-1)
 $$
 
-其中， $\begin{array}{r}{X=\frac{{\bar{x}}-x_{0}}{\sigma/\sqrt{n}}}\end{array}$ 服从标准正态分布， $\begin{array}{r}{Y=\frac{(n-1)s^{2}}{\sigma^{2}}}\end{array}$ 服从自由度为 n-1 的 $\chi^{2}$ 分布，因此检验统计量 t 值服从自由度为 n-1 的 t 分布，证明完毕。
+其中， $\begin{array}{r}{X=\frac{\bar{x}-x_{0}}{\sigma/\sqrt{n}}}\end{array}$ 服从标准正态分布， $\begin{array}{r}{Y=\frac{(n-1)s^{2}}{\sigma^{2}}}\end{array}$ 服从自由度为 n-1 的 $\chi^{2}$ 分布，因此检验统计量 t 值服从自由度为 n-1 的 t 分布，证明完毕。
 
 在构建出每一期的 t 值之后，我们一般需要将 t 值的绝对值与 2 进行比较，如果 t值的绝对值大于 2，则说明该因子显著。在对因子组合的收益进行显著性检验时，由于每个截面期都有一个 t 值，因此我们还需计算 t 值绝对值大于 2 的次数占比。那么，为什么会选取 2作为比较的阈值呢，这实际上是与 t分布的 95%置信度区间有关。图 9 和图 10 展示了在不同自由度下 t 分布 95%置信区间的上下限，可以看到随着自由度逐渐增大（大于 30 后），置信区间的上下界非常接近-2 和 2。由于我们在实证研究中的数据个数经常会大于 30，因此直接将t 检验量的绝对值与 进行比较来判断其显著性即是非常方便的操作。
 
@@ -259,7 +259,7 @@ $$
 r_{n}=f_{c}^{S}+X_{ns}f_{s}^{S}+u_{c}^{S}
 $$
 
-其中， $r_{n}$ 表示股票 n 在下期的收益率， $X_{ns}$ 为股票 n 在本期目标因子 s 上的暴露度， $\begin{array}{r}{f_{c}^{S},\ f_{s}^{S}\sharp\ d\tau u_{c}^{S}}\end{array}$ 分别为截距项因子收益、目标因子收益和特质收益。简单因子组合收益衡量的是当期因子每增加 1个单位，股票收益所需要的风险补偿。
+其中， $r_{n}$ 表示股票 n 在下期的收益率， $X_{ns}$ 为股票 n 在本期目标因子 s 上的暴露度， $f_{c}^{S}、f_{s}^{S}和u_{c}^{S}$ 分别为截距项因子收益、目标因子收益和特质收益。简单因子组合收益衡量的是当期因子每增加 1个单位，股票收益所需要的风险补偿。
 
 纯因子组合模型中则纳入了更多的风格因子作为解释变量，将全市场股票收益拆解到市场收益、行业收益、风格收益和特质收益四个部分：
 
@@ -284,7 +284,7 @@ Spanning Test 实质上是一个时间序列上的回归，它以 Fama-French �
 在每个截面期上将所有股票按照市值大小分为 S（市值最小 50%）和B（市值最大50%）两组，按照账面市值比分为L（BP最小30%）、N（BP介于30%-70%）和 H（BP 最大 30%）三组，随后进行两两组合并计算每组股票在下一期收益的市值加权平均。由此，市值因子 SMB（Small-Minus-Big）和账面市值比因子 HML（High-Minus-Low）的收益即可通过如下方法计算得到：
 
 $$
-SMB=\frac{(S/L+S/N+S/H)}{3}-\frac{(B/L+B/N+B/H)}{3}
+\begin{aligned}SMB=&\frac{\left(S/L+S/N+S/H\right)}{3}-\frac{\left(B/L+B/N+B/H\right)}{3}\\HML=&\frac{\left(S/H+B/H\right)}{2}-\frac{\left(S/L+B/L\right)}{2}\end{aligned}
 $$
 
 同样的，假如我们的目标因子为动量因子，我们将动量因子由小到大排序分为 L（动量最小 30%）、N（动量介于 30%-70%）和 W（动量最大 30%），那么动量因子的因子模拟组合收益 WML（Winner-Minus-Loser）即为：
@@ -319,7 +319,7 @@ $$
 D_{i,t}=\alpha_{i}+\beta_{i,mkt}MKT_{t}+\beta_{i,smb}SMB_{t}+\beta_{i,hml}HML_{t}+\varepsilon_{i,t}
 $$
 
-随后可将上述回归得到的每组超额收益 ${\hat{\alpha}}_{i}$ （标量）和残差收益向量 $\cdot\hat{\varepsilon}_{i}$ （T×1 向量）进行拼接，形成超额收益向量α̂（N×1 向量）和残差收益矩阵ê（T×N矩阵）；
+随后可将上述回归得到的每组超额收益 $.\hat{\alpha}_{i}$ （标量）和残差收益向量 $\hat{\varepsilon}_{i}$ （T×1 向量）进行拼接，形成超额收益向量α̂（N×1 向量）和残差收益矩阵ê（T×N矩阵）；
 
 c) 检验：在经过时间序列回归得到各组的超额收益和残差收益之后，接下来即可对各组的超额收益是否显著地不等于 0 进行检验。如果某个因子是有效的定价因子，那么该因子的分组收益不能被已知因子完全解释，即将各组收益对已知因子进行时间序列回归后得到的截距项 $\alpha_{i}$ 联合起来不等于 0。由此，原假设可以表示如下：
 
@@ -330,13 +330,13 @@ $$
 假如残差收益独立同分布且服从正态分布，那么即可构建如下检验统计量：
 
 $$
-\frac{T}{N}\times\frac{T-N-K}{T-K-1}\times\frac{\hat{\alpha}^{\prime}\hat{\Sigma}^{-1}\hat{\alpha}}{1+\bar{f}^{\prime}\hat{\Omega}^{-1}\bar{f}}{\sim}F_{(N,T-N-K)}
+\frac{T}{N}\times\frac{T-N-K}{T-K-1}\times\frac{\hat{\alpha}^{\prime}\hat{\Sigma}^{-1}\hat{\alpha}}{1+\bar{f}^{\prime}\hat{\Omega}^{-1}\bar{f}}\sim F_{(N,T-N-K)}
 $$
 
 其中，T 表示交易月数量，N 表示组别数量，K 表示时间序列回归中纳入模型的自变量因子数量，α̂为各组经过时间序列回归得到的截距项向量（N×1），f̅表示时间序列回归中自变量因子的历史收益均值（K×1）：
 
 $$
-{\bar{f}}=\left({\bar{f}}_{1},{\bar{f}}_{2},\dots,{\bar{f}}_{K}\right)^{\prime}
+\bar{f}=\left(\bar{f}_{1},\bar{f}_{2},\ldots,\bar{f}_{K}\right)^{\prime}
 $$
 
 其中， $\bar{f}_{k}$ 表示第 k 个因子收益的均值（标量）。Σ̂为各组收益进行时间序列回归后残差向量 $\varepsilon_{i}$ 的协方差矩阵（N×N），其计算方法如下：
@@ -348,7 +348,7 @@ $$
 其中，ê为经过时间序列回归得到的残差收益矩阵（T×N），由 OLS 回归的性质可知，Σ̂是残差向量协方差的无偏估计量。此外，Ω̂是回归模型中自变量因子的协方差矩阵（K×K），其计算方法如下：
 
 $$
-\widehat{\Omega}=\frac{1}{T-1}\sum_{t=1}^{T}\bigl(f_{t}-\overline{{f_{t}}}\bigr)\bigl(f_{t}-\overline{{f_{t}}}\bigr)^{\prime}
+\widehat{\Omega}=\frac{1}{T-1}\sum_{t=1}^{T}\left(f_{t}-\overline{{f_{t}}}\right)\left(f_{t}-\overline{{f_{t}}}\right)^{\prime}
 $$
 
 其中，Ω̂是样本协方差矩阵，它是总体协方差矩阵的无偏估计量。Gibbons，Ross 和 Shanken（1989）证明该检验统计量服从自由度为（N T-N-K）的 分布，因此我们可以通过计算上述 检验统计量结合 分布的性质，来判断是否接受或者拒绝原假设。若 GRS 检验统计量很大（如超过 95%置信区间），则需要拒绝原假设，也即说明该因子是一个有效的定价因子。
@@ -364,7 +364,7 @@ $$
 a) 时间序列回归：在某个月月末，将每一只股票的历史收益率对已知因子的收益率进行时间序列回归，计算得到相应的回归系数
 
 $$
-\begin{array}{r}{r_{i,t}=\alpha_{i}+\beta_{i,1}x_{1,t}+\cdots+\beta_{i,k}x_{k,t}+\varepsilon_{i,t}}\end{array}
+r_{i,t}=\alpha_{i}+\beta_{i,1}x_{1,t}+\cdots+\beta_{i,k}x_{k,t}+\varepsilon_{i,t}
 $$
 
 在上面的回归中，自变量因子既可以是已知因子的收益（如SMB、MKT、等），也可以是一些宏观经济指标（如 、 、 等），但我们认为在对每只股票进行时间序列回归时，这些自变量的取值需要保持一致，因为回归的目的是要得到不同的股票在这些因子上的暴露程度。也就是说，如果想要衡量市值、BP 等因子对股票收益的影响，我们回归时并不是将股票收益对市值因子本身和 因子本身进行回归，而是将股票收益对 SMB和 HML的收益序列进行回归。这是因为每只股票的市值因子和 因子都是不相同的，如果直接将个股收益对因子值本身进行时间序列回归，将得到的回归系数被认为是该因子的预期收益的话，那么对于不同股票进行回归得到因子的预期收益却并不相同，这一点与我们的预想并不一致，因为这种情况下股票所暴露的因子值和因子的收益都不相同，无法进行比较。相较之下，由于每个时期所有股票所暴露的宏观环境是一致的，因此可以直接将宏观指标的因子值本身作为回归变量，这样回归得到的系数就代表了每只股票对宏观经济指标变化的敏感性。
@@ -372,7 +372,7 @@ $$
 b) 横截面回归：在经过时间序列回归得到每只股票在单个因子上的暴露度之后，接下来就是进行横截面回归，观察不同的因子暴露度对股票收益的影响，这一点与前面提到的纯因子组合法十分类似。具体来讲：
 
 $$
-\boldsymbol{r}_{i}=\boldsymbol{\alpha}_{i}+\beta_{i,1}\boldsymbol{x}_{1}+\cdots+\beta_{i,k}\boldsymbol{x}_{k}+\varepsilon_{i}
+r_{i}=\alpha_{i}+\beta_{i,1}x_{1}+\cdots+\beta_{i,k}x_{k}+\varepsilon_{i}
 $$
 
 此处回归中的自变量因子为上一步回归得到的因子系数。对于每一个截面期 t 时刻我们都可以得到一个因子溢价向量 $\left(\beta_{t,1},\beta_{t,2},\ldots,\beta_{t,k}\right)$ （1×K向量），那么假设共有T个时期，即可得到一个T×K维的因子溢价矩阵。
@@ -416,10 +416,10 @@ c) 在每个截面期上，先将因子值转换成排序值，随后计算每�
 因子的稳定性也是我们关注的重要指标，如果因子在相邻两期中的变化十分剧烈，那么根据该因子构造的组合换手率将会非常高，这将为因子的实际应用造成较大的困扰。我们采用自稳定相关系数 $\rho_{kt}$ 对因子稳定性进行衡量，其计算方法如下：
 
 $$
-\rho_{kt}=\frac{\sum_{N}^{}(X_{nk}^{t}-\bar{X}_{k}^{t})(X_{nk}^{t+1}-\bar{X}_{k}^{t+1})}{\sqrt{\sum_{N}^{}(X_{nk}^{t}-\bar{X}_{k}^{t})^{2}}\sqrt{\sum_{N}^{}(X_{nk}^{t+1}-\bar{X}_{k}^{t+1})^{2}}}
+\rho_{kt}=\frac{\sum_{N}(X^t_{nk}-\bar{X}^t_k)(X^{t+1}_{nk}-\bar{X}^{t+1}_k)}{\sqrt{\sum_{N}(X^t_{nk}-\bar{X}^t_k)^2}\sqrt{\sum_{N}(X^{t+1}_{nk}-\bar{X}^{t+1}_k)^2}}
 $$
 
-其中， $X_{nk}^{t}$ 是指 t 时期股票 n 在因子k 上的取值，可以看 $\Xi\|\rho_{kt}$ 实质上是相邻两个截面日期上股票因子值的相关系数。
+其中， $X_{nk}^{t}$ 是指 t 时期股票 n 在因子k 上的取值，可以看 $到\rho_{kt}$ 实质上是相邻两个截面日期上股票因子值的相关系数。
 
 ## 4) 情景分析
 
@@ -430,10 +430,10 @@ $$
 因子的时间衰减衡量的是因子对于收益预测的持续能力，在前面的介绍中我们通常持有组合 1 个月后调仓，然而更一般的，我们想要了解因子要经过多长时间后失效或者在中长期是否会出现反转，可以通过 RankIC 的时间衰减进行衡量：
 
 $$
-IC_{\Delta}=corr(X_{t},r_{t+\Delta})
+IC_{\Delta}=corr\left(X_{t},r_{t+\Delta}\right)
 $$
 
-其中， $X_{t}$ 表示 t 期因子值， $\Delta.$ 表示滞后阶数， $r_{t+\Delta}$ 表示从当前时刻 t $\Xi\|t+\Delta$ 期间股票的收益情况。衡量因子时间衰减的另一种方法是 Jagadeesh 和Titman（1993）提出的 Overlapping 组合构建法，其示意图如图11 所示。
+其中， $X_{t}$ 表示 t 期因子值， $\Delta.$ 表示滞后阶数， $r_{t+\Delta}$ 表示从当前时刻 t $到t+\Delta$ 期间股票的收益情况。衡量因子时间衰减的另一种方法是 Jagadeesh 和Titman（1993）提出的 Overlapping 组合构建法，其示意图如图11 所示。
 
 图 11：Overlapping 组合构建示意图（K=3）
 ![](images/425589eaa7510833ced164d93dfbc38b3f1d4bf1732cfa059c14b4bdb7cb2186.webp)
@@ -468,7 +468,7 @@ $$
 因子合成的第一个问题是对因子权重进行赋权，目前市场上使用的较多的是等权法、 加权法（滚动加权 半衰加权等）、最小波动率合成法等。此外，在实际投资过程中，投资经理还有跟踪误差、换手约束、最大权重、仓位控制等限制，因此需要将这些约束转换成对应的约束条件放入到模型中进行求解，以下是其中的一种优化模式：
 
 $$
-\begin{array}{rl}&{max(w-w_{B})^{\prime}\alpha-\lambda_{1}TE^{2}-\lambda_{2}\cdot\mathbf{1}^{\prime}|w-w_{0}|}\\&{\qquad X_{S}^{lower}\leq(w-w_{B})^{\prime}X_{S}\leq X_{S}^{upper}}\\&{\qquad X_{I}^{lower}\leq(w-w_{B})^{\prime}X_{I}\leq X_{I}^{upper}}\\&{\qquad w^{\prime}1=1}\\&{\qquad w^{lower}\leq w\leq w^{upper}}\end{array}
+\begin{array}{c}{max(w-w_{B})^{\prime}\alpha-\lambda_{1}TE^{2}-\lambda_{2}\cdot\mathbf{1}^{\prime}|w-w_{0}|}\\{X_{S}^{lower}\leq(w-w_{B})^{\prime}X_{S}\leq X_{S}^{upper}}\\{X_{I}^{lower}\leq(w-w_{B})^{\prime}X_{I}\leq X_{I}^{upper}}\\{w^{\prime}1=1}\\{w^{lower}\leq w\leq w^{upper}}\end{array}
 $$
 
 其中，w 表示组合权重（N×1 向量）， $w_{B}$ 表示基准组合权重（N×1 向量），$w_{0}$ 表示组合在调仓前的权重（N×1 向量），α表示个股期望收益（或因子值）， $X_{S}$ 和$X_{I}$ 分别表示股票在风格因子和行业因子上的暴露度（N×K矩阵，K为因子个数），Xlower和Xupper分别代表组合在因子上暴露度的下界和上界，为 K×1 向量。
@@ -479,7 +479,7 @@ $$
 TE^{2}=(w-w_{B})^{\prime}V(w-w_{B})=(w-w_{B})^{\prime}(XFX^{\prime}+\Delta)(w-w_{B})
 $$
 
-$1^{\prime}|\boldsymbol{w}-\boldsymbol{w}_{0}$ |表示组合的换手率， $\lambda_{1}\hbar\pmb{\mathscr{n}}\lambda_{2}$ 为调配系数，它们调节投资经理在最大化目标收益、最小化跟踪误差以及最小化换手率约束上的偏好。
+$\mathbf{1}^{\prime}|w-w_{0}$ |表示组合的换手率， $\lambda_{1}和\lambda_{2}$ 为调配系数，它们调节投资经理在最大化目标收益、最小化跟踪误差以及最小化换手率约束上的偏好。
 
 在确定了组合权重的构建方法之后，即可根据预先设定的参数在历史时间上进行回测，观察组合的绩效表现，常用的评价指标有年化收益、年化波动率、夏普比率、胜率、最大回撤、跟踪误差等。
 
@@ -501,10 +501,10 @@ $$
 r_{i,t}=\alpha_{i}+m_{i}MKT_{t}+s_{i}SMB_{t}+h_{i}HML_{t}+\varepsilon_{i,t}\tag{1}
 $$
 
-根据上述回归得到的残差变量即可认为是该股票在剔除了已知风格因子影响后的特质收益 $\cdot\varepsilon_{i,t^{\circ}}$ 。接下来对股票在 t-11 到 t-1 月（共 12 个月）的特质收益进行处理，得到 t 月该股票经风险调整后的特质收益——特质动量因子值：
+根据上述回归得到的残差变量即可认为是该股票在剔除了已知风格因子影响后的特质收益 $.\varepsilon_{i,t^{\circ}}$ 。接下来对股票在 t-11 到 t-1 月（共 12 个月）的特质收益进行处理，得到 t 月该股票经风险调整后的特质收益——特质动量因子值：
 
 $$
-IMOM_{i,t}=\frac{\frac{1}{12}\sum_{t-11}^{t-1}\varepsilon_{i,t}}{\sqrt{\frac{\sum_{t=11}^{t-1}\left(\varepsilon_{i,t}-\overline{{\varepsilon}}_{i}\right)^{2}}{11}}}\tag{2}
+IMOM_{i,t}=\frac{\frac{1}{12}\sum_{t-11}^{t-1}\varepsilon_{i,t}}{\sqrt{\frac{\sum_{t-11}^{t-1}\left(\varepsilon_{i,t}-\overline{{\varepsilon}}_{i}\right)^{2}}{11}}}\tag{2}
 $$
 
 ## 2） 三步法
@@ -518,7 +518,7 @@ $$
 随后，根据上述回归得到的因子暴露系数与 t 月 Fama-French 三因子的月度收益相乘，即可得到根据 FF3 因子模型拟合得到的股票月度收益，将股票在t 月的实际收益与该拟合收益相减，即可得到股票在 t 月的特质收益：
 
 $$
-\begin{array}{r}{e_{i,t}=r_{i,t}-\hat{\alpha}_{i}-\widehat{m}_{i}MKT_{t}-\hat{s}_{i}SMB_{t}-\hat{h}_{i}HML_{t}}\\{\epsilon_{i,t}=r_{i,t}-\widehat{m}_{i}MKT_{t}-\hat{s}_{i}SMB_{t}-\hat{h}_{i}HML_{t}}\end{array}\tag{4.1}
+\begin{aligned}e_{i,t}=r_{i,t}-\hat{\alpha}_{i}-\hat{m}_{i}MKT_{t}-\hat{s}_{i}SMB_{t}-\hat{h}_{i}HML_{t}\\\epsilon_{i,t}=r_{i,t}-\hat{m}_{i}MKT_{t}-\hat{s}_{i}SMB_{t}-\hat{h}_{i}HML_{t}\end{aligned}\tag{4.1}
 $$
 
 (4.2)
@@ -528,7 +528,7 @@ $$
 最后，我们对每只股票 t-12 到 t-1 个月（共 12 个月）的特质收益进行标准化，求得其风险调整后的收益，即为我们所构建的特质动量因子 IMOM：
 
 $$
-IMOM_{i,t}=\frac{\prod_{t-11}^{t-1}\bigl(1+\varepsilon_{i,t}\bigr)-1}{\sqrt{12}\times\sqrt{\frac{\sum_{t-11}^{t-1}\bigl(\varepsilon_{i,t}-\overline{{\varepsilon}}_{i}\bigr)^{2}}{11}}}\tag{4.3}
+IMOM_{i,t}=\frac{\prod_{t-11}^{t-1}\left(1+\varepsilon_{i,t}\right)-1}{\sqrt{12}\times\sqrt{\frac{\sum_{t-11}^{t-1}\left(\varepsilon_{i,t}-\overline{{\varepsilon}}_{i}\right)^{2}}{11}}}\tag{4.3}
 $$
 
 此处，我们将特质收益的年化收益率除以其年化波动率，构建特质动量因子。由于我们采用的过去 12 期的数据，因此特质收益的年化收益即为各期特质收益的累计收益率，而其年化波动率为特质收益标准差乘以根号 12。
@@ -566,7 +566,7 @@ $$
 在后续的章节中，我们会将特质动量因子与传统动量因子的有效性进行比较，我们在此介绍一下传统动量因子的计算方法。假设当前处于 t 月的月末，那么单只股票传统动量因子即是该股票在 t-12 月到 t-1 月之间的累计收益：
 
 $$
-MOM_{i,t}=\prod_{t-12}^{t-1}\left(1+r_{i,t}\right)-1
+MOM_{i,t}=\prod_{t-12}^{t-1}\bigl(1+r_{i,t}\bigr)-1.
 $$
 
 ## 3、 实证结果分析
@@ -747,7 +747,7 @@ $$
 本节最后一个部分我们对因子有效性进行 Fama-Macbeth 回归和 SpanningTest，二者的具体计算细节在 1.2.3 小节中已有详细说明。此处为了简便处理，我们在进行 Fama-Macbeth 回归的时候并不通过时间序列回归法来获取股票在因子上的暴露程度，而是直接将股票收益对已知 因子进行横截面回归，得到回归系数，最后计算回归系数的均值及其t值。此处我们进行如下两个回归：
 
 $$
-\begin{array}{c}{r_{i,t}=\alpha_{t}+\beta_{1}BP_{i,t}+\beta_{2}Turnover21_{i,t}+\beta_{3}Ret21_{i,t}+\beta_{4}Size_{i,t}+\varepsilon_{t}}\\{r_{i,t}=\alpha_{t}+\beta_{0}IMOM_{i,t}+\beta_{1}BP_{i,t}+\beta_{2}Turnover21_{i,t}+\beta_{3}Ret21_{i,t}+\beta_{4}Size_{i,t}+\varepsilon_{t}}\end{array}
+\begin{aligned}r_{i,t}&=\alpha_{t}+\beta_{1}BP_{i,t}+\beta_{2}Turnover21_{i,t}+\beta_{3}Ret21_{i,t}+\beta_{4}Size_{i,t}+\varepsilon_{t}\\r_{i,t}&=\alpha_{t}+\beta_{0}IMOM_{i,t}+\beta_{1}BP_{i,t}+\beta_{2}Turnover21_{i,t}+\beta_{3}Ret21_{i,t}+\beta_{4}Size_{i,t}+\varepsilon_{t}\end{aligned}
 $$
 
 表 5：特质动量因子和传统动量因子的 Fama-Macbeth回归检验

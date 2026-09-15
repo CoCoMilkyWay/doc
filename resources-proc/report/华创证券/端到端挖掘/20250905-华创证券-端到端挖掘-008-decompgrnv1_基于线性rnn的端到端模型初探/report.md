@@ -60,10 +60,10 @@ AI+HI 系列(8)
 
 在 Transformer 架构兴起之前，RNN 是序列建模任务的主流选择。凭借在现代硬件上更高的训练效率以及对长距离依赖关系更强的捕捉能力，Transformer迅速成为自然语言处理领域的标准范式，并逐步拓展到其他类别序列的建模任务中。随着大语言模型在检索增强生成（RAG）和人工智能体（AI Agent）等场景的应用，模型需处理的序列长度急剧增加，Transformer架构固有的计算复杂度平方问题导致了高昂的开销，这促使研究界重新审视具有线性推理效率的 RNN，或状态空间模型（SSM），并催生了如RetNet、Mamba等一系列工作。我们所关注的量化因子挖掘任务，其输入序列长度远小于大语言模型，因此研究动机与上述前沿工作不尽相同。尽管如此，我们仍有兴趣探索不同RNN 变体在因子挖掘场景下，能否带来性能上的增益。
 
-回顾经典 RNN 层，对一个输入序列 $(x_{1},x_{2},\dots,x_{L})$ ，RNN 通过递归计算一系列序列输出$(y_{1},y_{2},\dots,y_{L})$ ：
+回顾经典 RNN 层，对一个输入序列 $(x_{1},x_{2},\ldots,x_{L})$ ，RNN 通过递归计算一系列序列输出$(y_{1},y_{2},\ldots,y_{L})$ ：
 
 $$
-\begin{array}{c}{{h_{t}=\sigma(Ah_{t-1}+Bx_{t})}}\\{{}}\\{{y_{t}=Ch_{t}+Dx_{t}}}\end{array}
+\begin{aligned}&h_{t}=\sigma(Ah_{t-1}\;+\;Bx_{t})\\&\quad y_{t}=\;Ch_{t}+\;Dx_{t}\\\end{aligned}
 $$
 
 其中 A,B,C,D 为可学习参数矩阵；初始隐状态通常设置为零向量；σ是非线性激活函数（通常为 tanh或 sigmoid），长期以来被认为是RNN的关键组件，赋予了单层RNN图灵完备的理论性质。
@@ -93,7 +93,7 @@ Orvieto,Antonio et al. "Resurrecting Recurrent Neural Networks for Long Sequence
 门控机制是 RNN 类变体的重要组件，在测试模型的门控上，输入门和遗忘门被合并，模型仅有遗忘门和输出门，门控通过 sigmoid作为激活函数，使门控值在(0,1)内；时序依赖仅在计算 hidden state时产生，隐状态迭代时不使用非线性激活函数：
 
 $$
-\begin{array}{rl}&{h_{t}=f_{t}\otimes h_{t-1}+(1-f_{t})\otimes c_{t}}\\&{~y_{t}=o_{t}\otimes h_{t}}\\&{f_{t}=Sigmoid\bigl(x_{t}W_{f}\bigr)}\\&{o_{t}=Sigmoid(x_{t}W_{o})}\\&{~c_{t}=SiLU(x_{t}W_{c})}\end{array}
+\begin{aligned}&h_{t}=f_{t}\otimes h_{t-1}+\left(1-f_{t}\right)\otimes c_{t}\\&\quad\quad\quad y_{t}=o_{t}\otimes h_{t}\\&\quad\quad f_{t}=Sigmoid\Big(x_{t}W_{f}\Big)\\&\quad\quad o_{t}=Sigmoid\Big(x_{t}W_{o}\Big)\\&\quad\quad\quad c_{t}=SLU\Big(x_{t}W_{c}\Big)\\\end{aligned}
 $$
 
 我们将以上模型记为 RNN-LIN，在参数量上， RNN-LIN 相比GRU模型减少约 50%。
@@ -101,7 +101,7 @@ $$
 Orvieto 等（2023）工作的主要发现之一是，当线性 RNN 与非线性 MLP 或 GLU（Shazeer等，2020）耦合时，模型可以具有更好表达能力。在后文测试部分，我们也参考上述做法，在 RNN 层后叠加FFN 模块组成一个block，我们使用GLU FFN：
 
 $$
-FFNSwiGLU(x,W,V,W_{2})=(Swish(xW)\otimes xV)W_{2}
+FFNSwiGLU\big(x,W,V,W_{2}\big)=\big(Swish\big(xW\big)\otimes xV\big)W_{2}
 $$
 
 ## 三、测试结果
@@ -473,7 +473,7 @@ Martin, Eric, and Chris Cundy. "Parallelizing linear recurrent neural nets over 
 在进入骨干网络前，输入拆分为趋势与残差分量：
 
 $$
-\begin{array}{c}{X_{trend}=\mathrm{AvgPool}\bigl(\mathrm{Padding}(X)\bigr)}\\{X_{res}=X-X_{trend}}\end{array}
+\begin{aligned}X_{trained}&=AvgPool\big(Padding(X)\big)\\&X_{res}=X-X_{trained}\end{aligned}
 $$
 
 上述过程表示将时序拆分为均线和均线偏离两项，对日频数据集，我们默认使用 5 日均线；对两个分量，我们采用不同的建模方式，并将股票截面信息交互放于趋势分支中。
@@ -483,7 +483,7 @@ $$
 趋势分量输入 1D卷积 + GRU来实现时序编码，每个股票在每个时间步被编码为一个 d维的向量。
 
 $$
-X_{trend}=GRU\bigl(Conv1D(X_{trend})\bigr)
+X_{trend}=GRU\Big(Conv1D\big(X_{trend}\big)\Big)
 $$
 
 其中，1D 卷积无padding，卷积核大小等于步长，输出 $X_{trend}\in$ ℝb,t′,d
@@ -522,7 +522,7 @@ $$
 \mathcal{L}=w\cdot\left(y_{\mathrm{pred}}-y_{\mathrm{true}}\right)^{2}
 $$
 
-其中 $y_{pred}$ 为模型预测值， $\scriptstyle\mathtt{y_{true}}$ 为经过标准化的 label，σ为 sigmoid，我们默认将阈值τ设置为 1.0，β设置为2.0；
+其中 $y_{pred}$ 为模型预测值， $y_{\mathrm{true}}$ 为经过标准化的 label，σ为 sigmoid，我们默认将阈值τ设置为 1.0，β设置为2.0；
 
 ## 2、DecompGRN vs DecompGRU
 

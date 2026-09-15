@@ -67,14 +67,14 @@ Email:ylq9619@htsec.com
 本文所预测的因子收益为带约束的市值加权线性回归计算得到的因子月度溢价。截面回归形式如下：
 
 $$
-r_{i}=r_{mkt}+\sum_{j=1}^{N_{ind}}r_{ind_{j}}f_{ind_{j},i}+\sum_{j=1}^{N_{fct}}r_{fct_{j}}f_{j,i}
+r_{i}=r_{mkt}+\sum_{j=1}^{N_{ind}}r_{ind_{j}}f_{ind_{j},i}+\sum_{j=1}^{N_{fct}}r_{fct_{j}}f_{j,i},
 $$
 
 $$
-s.t\sum_{j=1}^{N_{ind}}r_{ind_{j}}w_{ind_{j}}=0
+s.t\sum_{j=1}^{N_{ind}}r_{ind_{j}}w_{ind_{j}}=0.
 $$
 
-其中，回归自变量为 $\mathfrak{f}_{\mathrm{ind,i}}$ （行业因子虚拟变量）以及 $\mathsf{f}_{\mathrm{j,i}}$ （股票 i的因子j 的因子值），因变量为 $\mathsf{r}_{\mathrm{i}}$ （股票 i收益）。此外线性回归的约束为市值加权行业超额收益之和为 0。投资者在实际进行因子择时研究时，也可将本文的因子溢价替换为 IC、Rank IC或者其他因子收益衡量指标。
+其中，回归自变量为 $\mathsf{f_{ind,i}}$ （行业因子虚拟变量）以及 $f_{\mathrm{j,i}}$ （股票 i的因子j 的因子值），因变量为 $\mathsf{r}_{\mathsf{i}}$ （股票 i收益）。此外线性回归的约束为市值加权行业超额收益之和为 0。投资者在实际进行因子择时研究时，也可将本文的因子溢价替换为 IC、Rank IC或者其他因子收益衡量指标。
 
 ## 2. 单因子择时回归树
 

@@ -632,12 +632,12 @@ e_Summary]自 2017 年以来市场对基本面因子关注程度日渐提高，�
 
 在此，我们以中证500 为基准指数，保持行业、风格中性，并控制一定个股权重上限，构建 500全市场增强组合，组合的目标函数为最大化预
 
-期收益率，预期收益率的计算方法是以最大化IC 的方式 $\left(\begin{array}{ll}{\Phi}^{\ ^{-1}}\cdot IC\end{array}\right)$ ）对
+期收益率，预期收益率的计算方法是以最大化IC 的方式 $\left(\begin{array}{l}{\Phi^{\mathrm{~-1~}}\cdot IC}\end{array}\right)$ ）对
 
 因子残差截面X进行加权（具体方法与证明过程可参见国泰君安金融工程2018年7月发布的报告《风格域划分下的基本面多因子选股策略——数量化专题之一百一十六》），具体的组合优化过程与约束条件如下：
 
 $$
-\begin{array}{rl}{\textbf{ \textit { M a x } }}&{\textbf{ \textit { w } }^{\prime}\cdot\left(\textbf{ \textit { X } }\cdot\textbf{ \textit {Phi P } }^{-1}\cdot\textbf{ \textit { I C } }\right)}\\{\textbf{ \textit { s . t . } }}&{\triangledown\cdot\left(\textbf{ \textit { w } }^{\prime}-\textbf{ \textit { w } }_{b}^{\prime}\right)\cdot\textbf{ \textit { X } }_{ris\textbf{ \textit { k } }}=\textbf{ \textit { O } }}\\&{\textbf{ \textit { w } }^{\prime}\cdot\textbf{ \textit { X } }_{indusrry}=\textbf{ \textit { w } }_{b}^{\prime}}\\&{\textbf{ \textit { 0 } }\le\textbf{ \textit { w } }\le\textbf{ \textit { s } }}\\&{\textbf{ \textit { w } }^{\prime}\cdot\textbf{ \textit { I } }=\textbf{ 1 }}\end{array}
+\begin{aligned}{}&{{}\textit{ M a x }}&{}&{{}w^{\prime}\cdot(\textit{ \mathbf { x } }\cdot\mathbf{\Phi}^{^{-1}}\cdot\textit{ I C })}\\{}&{{}\textit{ s . t . }}&{}&{{}\vee\textit{ ( }w^{\prime}\cdot w_{\textit{ b }}^{\prime})\cdot X_{\textit{ r i s k }}=\textit{ \mathbf { o } }}\\{}&{{}}&{}&{{}w^{\prime}\cdot X_{\textit{ i n d u s r y }}=w_{\textit{ b }}^{\prime}}\\{}&{{}}&{}&{{}\mathbf{o}\leq w\leq s}\\{}&{{}}&{}&{{}w^{\prime}\cdot\mathcal{I}=1}\\\end{aligned}
 $$
 
 - 基准指数：中证 500（000905.SH）

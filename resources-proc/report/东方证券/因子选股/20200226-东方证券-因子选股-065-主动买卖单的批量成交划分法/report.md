@@ -148,7 +148,7 @@ Lee 和 Ready 利用纽约证券交易所（为报价驱动市场）中的 150 �
 具体计算公式是：
 
 $$
-\begin{array}{l}{{{V_{\tau}}^{B}=V_{\tau}\mathrm{{[}}\mathrm{{}}\mathrm{{}}\mathrm{{}}\mathrm{{(}}{\frac{P_{\tau}-P_{\tau-1}}{\sigma_{\Delta P}}},df{\mathrm{)}}}}\\{{{V_{\tau}}^{S}=1-{V_{\tau}}^{B}}}\end{array}
+\begin{aligned}&V_{\tau}^{B}=V_{\tau}\square(\frac{P_{\tau}-P_{\tau-1}}{\sigma_{_{\Delta P}}},df)\\&V_{\tau}^{S}=1-V_{\tau}^{B}\\\end{aligned}
 $$
 
 其中，V 为第τ个 bar 内的成交量，VB为成交量中属于主动买入的部分， $V^{S}$ 为成交量中属于主动卖出的部分，t()是 t 分布的累积分布函数（CDF，使用 t 分布的原因是由于真实股价涨跌分布不可知）， $P_{t}-P_{t-1}$ 为第t−1个 bar 终点到第t个 bar 终点的股价涨跌， $\sigma_{\Delta P}$ 为不同 bar 之间股价涨跌的标准差， $df$ 为自由度（当标准化后的股价变动幅度不变时， $df$ 越小，主动买入的占比越小。原文献中经过测算取df=0.25）。
@@ -1325,12 +1325,12 @@ BVC 算法得到的 NTO 因子与反转高度正相关，IC 相关性达到 73%�
 在之前的报告《Alpha 与 Smartbeta》中，我们介绍了冲击成本模型—I-star 模型。模型的表达式如下：其中的主动净流入量 S 正是我们前面所反复用到的净主买数据。
 
 $$
-\begin{array}{l}{\displaystyle\boldsymbol{I}^{*}=\boldsymbol{a}_{1}\times(\frac{S}{ADV})^{\boldsymbol{a}_{2}}\times\sigma^{\boldsymbol{a}_{3}}}\\{\displaystyle M\boldsymbol{I}=\boldsymbol{b}_{1}\times POV\times\boldsymbol{I}^{*}+(1-\boldsymbol{b}_{1})\times\boldsymbol{I}^{*}}\end{array}
+\begin{aligned}&I^{*}=a_{1}\times\left(\frac{S}{ADV}\right)^{a_{2}}\times\sigma^{a_{3}}\\&MI=b_{1}\times POV\times I^{*}+(1-b_{1})\times I^{*}\\\end{aligned}
 $$
 
 （1）I∗度量订单的整体瞬时冲击，代表订单一次性释放后对市场价格带来的冲击，与交易策略无关。I∗与订单大小及股价波动率呈幂指数函数形式的非线性关系。其中：订单大小通过每日的主动净流入量S占过去 30个交易日平均成交量ADV的比例来衡量。个股波动率σ用过去 30个交易日的年化波动率衡量。
 
-（2）MI表示该笔订单的交易者最终需承担的实际冲击成本，与交易策略有关。I∗中暂时性冲击的部分应由市场中所有交易者共同承担，模型用POV（主动净流入量S占当天成交量的比例） 衡量需由该笔订单的交易者承担的暂时性冲击比例。假设这个订单是在一天之内以成交量加权平均价（VWAP）来交易完成的，MI 可以表示为 $\frac{|VWAP-S_{0}|}{S_{0}}$ ， $S_{0}$ 为每日的开盘价格。
+（2）MI表示该笔订单的交易者最终需承担的实际冲击成本，与交易策略有关。I∗中暂时性冲击的部分应由市场中所有交易者共同承担，模型用POV（主动净流入量S占当天成交量的比例） 衡量需由该笔订单的交易者承担的暂时性冲击比例。假设这个订单是在一天之内以成交量加权平均价（VWAP）来交易完成的，MI 可以表示为 $\frac{|VWAP{-}S_{0}|}{S_{0}}$ ， $S_{0}$ 为每日的开盘价格。
 
 ## 4.2 应用效果
 

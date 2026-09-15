@@ -117,26 +117,26 @@ Baz, Davis, Sapra, Gillmann, and Tsai (2020). A Framework for Constructing Equit
 我们使用股票大跌的市场环境下策略对于股票收益率的 beta（下称条件beta）来衡量这类策略保护股票下跌的能力。Page 和 Panariello(2018)曾指出，在股票下跌的市场环境中，资产之间的相关性与其他“正常”时期并不相同。因此使用条件 beta而不是无条件beta可以更好的捕捉这种关系。
 
 $$
-\begin{array}{r}{\tilde{\beta}=\frac{cov(R_{Stock},R_{Asset}\mid R_{Stock}\le T)}{\sigma(R_{Asset}\mid R_{Stock}\le T)\sigma(R_{Stock}\mid R_{Stock}\le T)}}\end{array}\tag{1}
+\tilde{\beta}=\frac{\mathrm{cov}(R_{Stock},R_{Asset}\mid R_{Stock}\leq T)}{\sigma(R_{Asset}\mid R_{Stock}\leq T)\sigma(R_{Stock}\mid R_{Stock}\leq T)}\tag{1}
 $$
 
-公式1中，T代表了用于判断股票大跌的收益率阈值。 $\tilde{\beta}$ 为负表明此类资$\dot{\mathcal{P}}$ 与股票呈相反的变化趋势从而可以在股票下跌的时期起到保护作用。更负的 ${\tilde{\beta}}\qquad$ 值(更大的绝对值)代表了该类策略更好的对股票下跌时期的保护能力。
+公式1中，T代表了用于判断股票大跌的收益率阈值。 $\tilde{\beta}.$ 为负表明此类资$产$ 与股票呈相反的变化趋势从而可以在股票下跌的时期起到保护作用。更负的 $1\tilde{\beta}_{1}$ 值(更大的绝对值)代表了该类策略更好的对股票下跌时期的保护能力。
 
 我们在均值方差优化衡量配置组合预期收益率与预期波动率的基础上加入了对于条件 beta 的约束。正如之前的描述，因为具有较高预期收益率的风险保护策略有着更差的股票风险保护能力，加入条件 beta的约束至关重要。我们在公式2 中正式的定义了这个模型。投资者在目标波动率与目标条件beta 的约束下最大化投资组合的预期收益率。
 
 $$
-\begin{array}{rl}&{Max_{w}\ E\big[R_{p}\big]=w^{T}\mu}\\&{s.t.\ w^{T}\Sigma w=\sigma_{p}^{2}}\\&{\quad\quad\quad w^{T}\tilde{\beta}\leq\tilde{\beta}_{p}}\end{array}\tag{2}
+\begin{array}{c}{{Max_{w}E\big[R_{p}\big]=w^{T}\mu}}\\{{s.t.w^{T}\Sigma w=\sigma_{p}^{2}}}\\{{w^{T}\tilde{\beta}\leq\tilde{\beta}_{p}}}\end{array}\tag{2}
 $$
 
-在拓展后的优化中， $\mu{\cdot}$ 代表策略的无条件预期收益率；Σ代表策略的无条件方差协方差矩阵； $\sigma_{p}^{2}$ 代表投资者的目标无条件方差； $\tilde{\beta}$ 代表条件beta；$\tilde{\beta}_{p}$ 代表了投资者所需求的股票风险保护效果。优化中的两个约束分别对应了投资者所愿意承担的预期波动率以及对于股票下跌保护的需求。
+在拓展后的优化中， $\mu$ 代表策略的无条件预期收益率；Σ代表策略的无条件方差协方差矩阵； $\sigma_{p}^{2}$ 代表投资者的目标无条件方差； $\tilde{\beta}_{1}$ 代表条件beta；$\tilde{\beta}_{p}$ 代表了投资者所需求的股票风险保护效果。优化中的两个约束分别对应了投资者所愿意承担的预期波动率以及对于股票下跌保护的需求。
 
 为了能够更进一步的理解最优风险保护组合的含义，我们使用拉格朗日展开的方式对上述优化进行了更进一步的分析，使用 3 个具有特殊意义的组合对扩展后优化组合进行了分解。这三个组合分别为：
 
-1. 不包含条件 $\cdot\beta$ 约束的均值方差最优组合，对应权重 $w^{MVO}$ ，条件 beta暴露 $\tilde{\beta}^{MVO}$ ，以及夏普 $SR_{MVO}$
+1. 不包含条件 $-\beta$ 约束的均值方差最优组合，对应权重 $w^{MVO}$ ，条件 beta暴露 $\cdot\tilde{\beta}^{MVO}$ ，以及夏普 ${\cdot}SR_{MVO}$
 
 2. 条件 beta 的特征组合，即条件 beta 暴露为 1 且方差最小的组合，对应权重 $w^{B}$ ，组合无条件方差 $\sigma_{w^{B}}^{2}$ 以及夏普 $SR_{w^{B}}$
 
-3. 对条件 $\cdot\beta$ 无暴露的组合 $\cdot w^{MVO}\mathrm{~-~}\tilde{\beta}^{MVO}w^{B}$ ，通过减去条件 beta 的特征组合以实现对均值方差最优组合的条件 $\boldsymbol{\beta}$ 调整。
+3. 对条件 $-\beta$ 无暴露的组合 $\cdot w^{MVO}-\tilde{\beta}^{MVO}w^{B}$ ，通过减去条件 beta 的特征组合以实现对均值方差最优组合的条件 $\cdot\beta$ 调整。
 
 当优化问题中的条件beta约束处于激活状态时(这也是我们最为关心的情况)，可以得到如下形式的解析解：
 
@@ -144,20 +144,20 @@ $$
 w^{*}=\tilde{\beta}_{p}w^{B}+c(w^{MVO}-\tilde{\beta}^{MVO}w^{B})\tag{3}
 $$
 
-最终风险保护组合的权重由两个部分组成，可以被直观的理解为一个分为两步的组合构建过程：首先使用条件 beta的特征组合根据股票下跌保护的目标构建风险保护组合 $\mathbf{\widetilde{\beta}}_{p}{w^{B}}$ 以满足风险保护需求。随后在这个基础上添加调整后的均值方差组合 $\cdot w^{MVO}\mathrm{~-~}\tilde{\beta}^{MVO}w^{B}$ 以获得更高的预期收益率。组合最终获得的预期收益率由优化中总的目标波动率 $\sigma_{p}^{2}\nu\lambda\mathcal{R}$ 为了实现风险保护效果所占用的目标波动率比例所共同决定。更为稳妥的风险保护组合会对应更大的目标波动率占用比例从而带来最终配置组合预期收益率的下降。
+最终风险保护组合的权重由两个部分组成，可以被直观的理解为一个分为两步的组合构建过程：首先使用条件 beta的特征组合根据股票下跌保护的目标构建风险保护组合 $\cdot\tilde{\beta}_{p}w^{B}$ 以满足风险保护需求。随后在这个基础上添加调整后的均值方差组合 $\cdot w^{MVO}\;-\;\tilde{\beta}^{MVO}w^{B}$ 以获得更高的预期收益率。组合最终获得的预期收益率由优化中总的目标波动率 $\cdot\sigma_{p}^{2}以及$ 为了实现风险保护效果所占用的目标波动率比例所共同决定。更为稳妥的风险保护组合会对应更大的目标波动率占用比例从而带来最终配置组合预期收益率的下降。
 
 沿着同样的思路，股票风险保护组合的预期收益率也可以进行类似的分 解。
 
 $$
-{\cal E}\big[{\cal R}_{p}\big]=\mu^{T}\tilde{\beta}_{c}w^{B}+\Big(\sigma_{p}^{2}-\tilde{\beta_{c}}^{2}\sigma_{w^{B}}^{2}\Big)^{\frac{1}{2}}\big(SR_{MVO}^{2}-SR_{w^{B}}^{2}\big)^{\frac{1}{2}}\tag{4}
+E\big[R_{p}\big]=\mu^{T}\tilde{\beta}_{c}w^{B}+\Big(\sigma_{p}^{2}-\tilde{\beta_{c}}^{2}\sigma_{w^{B}}^{2}\Big)^{\frac{1}{2}}\big(SR_{MVO}^{2}-SR_{w^{B}}^{2}\big)^{\frac{1}{2}}\tag{4}
 $$
 
-公式 4 中的第一部分 ${\cdot\mu^{T}}\tilde{\beta}_{c}w^{B}$ 对应了为了实现条件 beta 的约束而获得的预期收益率，这一部分预期收益率的存在来源于对传统均值方差优化中加入了条件β的约束。由于条件β通常为负，并且其特征组合的风险收益属性差于均值方差最优组合，它可以被理解为为了实现股票下跌风险保护所付出的成本。公式 4 中的第二部分两项则代表了扣除条件β约束的影响后剩余可使用的波动率预算以及以夏普为度量的组合有效性。当投资者追求更负的条件 beta时，会占用更多的目标波动率预算从而降低了风险保护组合的预期收益率。
+公式 4 中的第一部分 $\cdot\mu^{T}\widetilde{\beta}_{c}w^{B}$ 对应了为了实现条件 beta 的约束而获得的预期收益率，这一部分预期收益率的存在来源于对传统均值方差优化中加入了条件β的约束。由于条件β通常为负，并且其特征组合的风险收益属性差于均值方差最优组合，它可以被理解为为了实现股票下跌风险保护所付出的成本。公式 4 中的第二部分两项则代表了扣除条件β约束的影响后剩余可使用的波动率预算以及以夏普为度量的组合有效性。当投资者追求更负的条件 beta时，会占用更多的目标波动率预算从而降低了风险保护组合的预期收益率。
 
 公式4中第二部分的第二项对应了以夏普为代表的最优风险保护组合的效率。只有满足了风险保护目标之后剩余的波动率目标可以被用于提升预期收益率。最终风险保护组合的预期收益率被分解为了风险预算、组合有效性以及股票保护成本三部分。
 
 $$
-E[R_{p}]=\mathbb{X}\mathbb{X}\mathbb{Z}\mathbb{\breve{H}}\mathbb{X}\mathbb{Z}\mathbb{X}\mathbb{Z}\mathbb{X}\mathbb{Z}\mathbb{\breve{X}}\mathbb{Z}\mathbb{-}\mathbb{H}\mathbb{Z}\mathbb{\breve{Z}}\mathbb{X}\mathbb{Z}\mathbb{X}\mathbb{Z}\mathbb{X}\mathbb{Z}\mathbb{X}\mathbb{Z}\mathbb{X}\mathbb{Z}\mathbb{X}\mathbb{Z}\tag{5}
+E[R_{p}]=风险预算\times 组合效率-股票保护成本\tag{5}
 $$
 
 公式5直观的表明了目标风险组合的关键在于权衡风险保护的成本以及对于预期收益率的需求。投资者可以通过将更多权重赋予高夏普(效率)策略的方式构建预期收益率更高的风险保护组合。

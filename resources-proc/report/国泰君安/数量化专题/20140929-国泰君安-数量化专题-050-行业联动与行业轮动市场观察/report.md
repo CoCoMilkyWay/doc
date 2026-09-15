@@ -132,14 +132,14 @@ le_Summary] 关联规则挖掘是数据挖掘中最热门的方法之一，它�
 
 数据来源：国泰君安证券研究
 
-设 $\operatorname{I}{=}\{\operatorname{i}1,\operatorname{i}2,\cdots,\operatorname{i}\mathrm{m}\}$ ，是 m个不同的项目的集合，每个 ik称为一个项目。项目的集合 I 称为项集。其元素的个数称为项集的长度，长度为 k 的项集称为 k-项集。引例中每个行业上涨情况就是一个项目，项集 I={计算机上涨, 传媒上涨, 房地产上涨, 机械上涨},I的长度为 4.
+设 $\scriptstyle\mathrm{I=\{i1,i2,\ldots,im\}}$ ，是 m个不同的项目的集合，每个 ik称为一个项目。项目的集合 I 称为项集。其元素的个数称为项集的长度，长度为 k 的项集称为 k-项集。引例中每个行业上涨情况就是一个项目，项集 I={计算机上涨, 传媒上涨, 房地产上涨, 机械上涨},I的长度为 4.
 
 每日交易数据 T 是项集 I 的一个子集，交易全体构成了交易数据库 D，|D|等于 D 中交易的个数，例子中一共包含 5 笔交易，因此|D|=5,我们用逻 辑 值 TRUE 代 表 每 日 交 易 数 据 中是否包含项目，则第一个交易日项集 T1={计算机上涨, 机械上涨}。
 
 ## 关联规则是一个关系式：
 
 $$
-\mathbf{R}:\mathbf{X}{\Rightarrow}\mathbf{Y}
+\mathbf{R}\mathbf{:X}{\Rightarrow}\mathbf{Y}
 $$
 
 其中 X⊂I，Y⊂I，并且 X∩Y=⌀。表示项集 X 在某日交易 Ti 中出现，则导致 Y以某一概率也会出现。用户关心的关联规则，可以用两个标准来衡量：支持度和臵信度。
@@ -149,7 +149,7 @@ $$
 关联规则 R的支持度是交易集同时包含 X和 Y的交易数与|D|之比
 
 $$
-\mathbf{support}(\mathbf{X}\mathbf{\Rightarrow}\mathbf{Y}){\mathbf{\bar{\Gamma}}}=\mathbf{count}(\mathbf{X}\mathbf{U}\mathbf{Y})/|\mathbf{D}|
+\mathbf{support}(\mathbf{X}{\Rightarrow}\mathbf{Y}){=}\mathbf{count}(\mathbf{XUY})/|\mathbf{D}|
 $$
 
 支持度反映了 X、Y 同时出现的概率。关联规则的支持度等于频繁集的支持度。
@@ -243,7 +243,7 @@ X 出现在交易项集 T2,T3,T4,T5 中，Y 出现在项集 T2,T3,T5 中，则�
 由资产定价模型（CAPM）可知，
 
 $$
-\mathrm{Rs}=\mathrm{\alpha}+\mathrm{\beta}\mathrm{Rm}
+\mathrm{Res}=\alpha+\beta\mathrm{Rm}
 $$
 
 行业板块收益既受 Beta 因子（整体市场表现）影响，又受 alpha 因子（自身板块表现）影响，因而当一个行业处于强势期的时候，我们可以理解为这个行业具有正的alpha，因而通过寻找行业板块超额收益（alpha）之间的关联性，就能够捕捉行业联动和轮动之间的现象，由于我们使用的是中信一级行业 29 个行业指数，包含了沪深上市所有公司，在考虑市场组合收益 Rm时，如果使用常用的大盘基准：沪深 300指数，金融和工业行业权重较高，而电子、医药等行业权重过低，因而以此作为市场组合，会对测算参数发生偏离，因而我们通过构建行业等权重指数，分配每个行业相同的价值权重，从而反映市场不同行业的整体表现，进而寻找出单个行业的超额收益
@@ -431,7 +431,7 @@ $$
 单个行业强势的表现有时不只是由一个行业引起的，而是多个行业的表现同时引发的，因而考虑加入多个行业作为前提条件，即
 
 $$
-\mathrm{X1},\mathrm{X2},\mathrm{X3}...\ ...>\mathrm{Y}
+\mathrm{X1},\mathrm{X2},\mathrm{X3}\ldots\ldots\ldots\mathrm{>Y}
 $$
 
 同样，我们设定至少要满足 60%以上的臵信度。

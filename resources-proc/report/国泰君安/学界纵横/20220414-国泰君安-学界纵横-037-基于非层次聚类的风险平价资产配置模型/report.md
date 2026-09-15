@@ -159,7 +159,7 @@ $$
 \sum_{i=1}^{k}\sum_{x\in C_{i}}(d(x,C_{i}))^{2}\tag{1}
 $$
 
-其中， $C_{i}.$ 表示第i 个聚类的质心， $x\in C_{i}$ 表示数据 x 属于第 i 个聚类，$d(x,C_{i})$ 表示数据 x到质 $\therefore C_{i}$ 的距离。
+其中， $C_{i1}$ 表示第i 个聚类的质心， $x\in C_{i}$ 表示数据 x 属于第 i 个聚类，$d(x,C_{i})$ 表示数据 x到质 $心C_{i}$ 的距离。
 
 但是，k-means有两个缺陷：第一，很多时候我们并不知道数据该分为多少类，聚类数量k难以给定；第二，分类结果依赖于初始的k个质心，若初始值选的不好，有时会陷入局部最优解的问题。
 
@@ -183,16 +183,16 @@ x-means算法解决了k-means算法的第一个缺陷，通过它可以确定出
 
 第一步，准备样本数量为n的p维数据。
 
-第二步，应用 k-means（取k =2)，将划分后的聚类命名为 $C_{1},C_{2}$
+第二步，应用 k-means（取k =2)，将划分后的聚类命名为 $C_{1}{,}C_{2}{.}$
 
 第三步，i分别取1和2，重复第四步到第九步。
 
-第四步，对聚类 $C_{i}$ ，继续应用 k-means(取k = 2)，将划分后的聚类命名为 $C_{i}^{1},\ C_{i}^{2}$
+第四步，对聚类 $C_{i}$ ，继续应用 k-means(取k = 2)，将划分后的聚类命名为 $C_{i}^{1},~C_{i}^{2}$
 
 第五步，对属于 $C_{i}$ 聚类的 $x_{i},$ 假设其服从p维正态分布：
 
 $$
-f(x;\theta_{i})={\frac{1}{(2\pi)^{\frac{p}{2}}{\sqrt{\operatorname*{det}|V_{i}|}}}}\exp[-{\frac{1}{2}}(x-\mu_{i})^{T}V_{i}^{-1}(x-\mu_{i})]\tag{2}
+f(x;\theta_i)=\frac{1}{(2\pi)^{\frac{p}{2}}\sqrt{\det|V_i|}}\exp\left[-\frac{1}{2}(x-\mu_i)^TV_i^{-1}(x-\mu_i)\right]\tag{2}
 $$
 
 于是可以求出 BIC 信息量：
@@ -201,9 +201,9 @@ $$
 BIC=-2\log L(\theta_{i};x_{i}\in C_{i})+q\log n_{i}\tag{3}
 $$
 
-其中， $\theta_{i}=[\mu_{i},V_{i}]$ 是p维正态分布的极大似然估计， $\mu_{i}$ 是均值， $V_{i\cdot}$ 是 ${p\times p}$ 维的协方差矩阵；q是模型的参数个数，即 $q=p(p+3)/2$ $n_{i\cdot}$ 是 $C_{i}$ 中的样本数量；L是似然函数，即 $\operatorname{\mathrm{\prime}}L(\cdot)=\prod\operatorname{f}(\cdot)$
+其中， $\theta_{i}=[\mu_{i},V_{i}]$ 是p维正态分布的极大似然估计， $\mu_{i^{\prime}}$ 是均值， $V_{i}$ 是 $\_p\times\_p$ 维的协方差矩阵；q是模型的参数个数，即 $q=p(p+3)/2;$ $n_{i}.$ 是 $C_{i}$ 中的样本数量；L是似然函数，即 $L(\cdot)=\prod\mathbf{f}(\cdot)$
 
-第六步，对属于 $C_{i}^{1}\mathcal{\bar{\phi}}\mathrm{\Pi}C_{i}^{2}$ 聚类的数据x，同样假设其服从p维正态分布，其中 $C_{i}^{1}$ 的参数为 $\theta_{i}^{(1)}$ $C_{i}^{2}{\sharp\sharp}$ 参数为 $\theta_{i}^{(2)}$ 。X服从的概率密度函数为：
+第六步，对属于 $C_{i}^{1}和C_{i}^{2}$ 聚类的数据x，同样假设其服从p维正态分布，其中 $C_{i}^{1}$ 的参数为 $\theta_{i}^{(1)}$ $C_{i}^{2}的$ 参数为 $\theta_{i}^{(2)}$ 。X服从的概率密度函数为：
 
 $$
 g\left(x;\theta_{i}^{(1)},\theta_{i}^{(2)}\right)=\alpha_{i}[f(x;\theta_{i}^{(1)})]^{\delta_{i}}[f(x;\theta_{i}^{(2)})]^{1-\delta_{i}}\tag{4}
@@ -212,10 +212,10 @@ $$
 其中，
 
 $$
-\delta_{i}=\left\{{\begin{array}{ll}{1,}&{{\forall\pi\ o{\equiv}}x\mathrm{{\mathbb{E}}}_{\lambda}{\mathrm{\#}}\mathrm{{\mathcal{C}}}_{i}^{1}}\\{0,}&{{\forall\pi\ o{\equiv}}x\mathrm{{\mathbb{E}}}_{\lambda}{\mathrm{\#}}\mathrm{{\#}}C_{i}^{2}}\end{array}}\right.\tag{5}
+\delta_{i}=\begin{cases}1,1,如果x属于C_{i}^{1},\\0,如果x属于C_{i}^{2}\end{cases}\tag{5}
 $$
 
-$\alpha_{i}$ 是一个能让(4)式成为概率密度的常数 $(0\leq\alpha_{i}\leq1)$ 。作者对它进行了估计：
+$\alpha_{i}$ 是一个能让(4)式成为概率密度的常数 $1(0\leq\alpha_{i}\leq1)$ 。作者对它进行了估计：
 
 $$
 \alpha_{i}=0.5/K(\beta_{i})\tag{6}
@@ -230,34 +230,34 @@ $$
 K(·)是一个要求自变量大于0的正态分布函数。于是可以求出 BIC 信息量：
 
 $$
-BIC^{\prime}=-2\log L^{\prime}(\theta_{i}^{\prime};x_{i}\in C_{i})+q\log n_{i}\tag{8}
+BIC^{\prime}=-2\log L^{\prime}({\theta_{i}}^{\prime};x_{i}\in C_{i})+q\log n_{i}\tag{8}
 $$
 
-其中， ${\theta_{i}}^{\prime}=[\theta_{i}^{(1)},\theta_{i}^{(2)}.$ 是p维正态分布的极大似然估计；q是模型的变量个数，由于每个p维变量都有均值和协方差两个参数，所以 $q=p(p+$ 3)；L'是似然函数，即 $L^{\prime}(\cdot)=\Pi\mathbf{g}\left(\cdot\right)$
+其中， ${\theta_{i}}^{\prime}=[\theta_{i}^{(1)},\theta_{i}^{(2)}]$ 是p维正态分布的极大似然估计；q是模型的变量个数，由于每个p维变量都有均值和协方差两个参数，所以 $q=p(p+$ 3)；L'是似然函数，即 $L^{\prime}(\cdot)\;=\;\prod\mathrm{g}\left(\cdot\right)$
 
-第七步，如果 $BIC>BIC^{\prime}$ ，认为对 $C_{i}$ 做二次划分是有意义的，令 $C_{i}=C_{i}^{1}$ $C_{i}^{2}$ 储存进一个堆栈，然后回到第四步。
+第七步，如果 $BIC>BIC^{\prime}$ ，认为对 $C_{i}{}^{\prime}$ 做二次划分是有意义的，令 $C_{i}=C_{i}^{1}$ $C_{i}^{2}$ 储存进一个堆栈，然后回到第四步。
 
-第八步，如果 $BIC\le BIC^{\prime}$ ，认为对 $C_{i}$ 做二次划分是没有意义的，将 $C_{i}^{2}$ 从堆栈中取出，令 $\cdot C_{i}=C_{i}^{2}$ ，然后回到第四步。如果堆栈中无聚类可以取出，则继续进行第九步。
+第八步，如果 $BIC\leq BIC^{\prime}$ ，认为对 $C_{i}{}^{\prime}$ 做二次划分是没有意义的，将 $C_{i}^{2}$ 从堆栈中取出，令 $\cdot C_{i}=C_{i}^{2}$ ，然后回到第四步。如果堆栈中无聚类可以取出，则继续进行第九步。
 
 第九步，对 $C_{i}$ 中所有的聚类重新编号。
 
-第十步，将 $C_{1},\ C_{2}$ 中所有的聚类重新编号，于是可以得到最佳的聚类数量。
+第十步，将 $C_{1},~C_{2}$ 中所有的聚类重新编号，于是可以得到最佳的聚类数量。
 
 ## 4.1.2. k-means++
 
 K-means++算法解决了k-means算法的第二个缺陷，通过它可以确定出k个初始质心，具体的算法步骤如下：
 
-第一步，在n个数据中随机选择一个初始质 $\therefore C_{1}$ 。
+第一步，在n个数据中随机选择一个初始质 $心C_{1}$ 。
 
 第二步，对每一个数据 $x_{i}$ ，计算它到离它最近的质心的距离 $d(x_{i})$
 
-第三步，在其余n-1个数据中随机选择一个数据作为新的质 $\arcsin$ 。数据 $x_{p}$ 被选中的概率为：
+第三步，在其余n-1个数据中随机选择一个数据作为新的质 $心$ 。数据 $x_{p}$ 被选中的概率为：
 
 $$
 (d(x_{p}))^{2}/\sum_{i=1}^{n-1}(d(x_{i}))^{2}\tag{9}
 $$
 
-这一步的核心思想是“离质心越远的数据有越大的概率被选为新的质$\therefore\sin$ ，而已经是质心的数据被选为新的质心的概率为0，这个思想符合我们想要对数据进行分类的目的。
+这一步的核心思想是“离质心越远的数据有越大的概率被选为新的质$心^{3}$ ，而已经是质心的数据被选为新的质心的概率为0，这个思想符合我们想要对数据进行分类的目的。
 
 第四步，重复第二步和第三步直到k个质心被挑选出来。
 
@@ -265,15 +265,15 @@ $$
 
 ## 4.2.1. 风险平价策略
 
-对于收益率协方差矩阵为Σ的n个资产的配置问题，在传统的风险平价策略中，我们这样去决定它们的权重 $w=(w_{1},\dots,w_{n})^{T}$ ：对资产i，定义它的边际风险贡献 $MRC_{i}$
+对于收益率协方差矩阵为Σ的n个资产的配置问题，在传统的风险平价策略中，我们这样去决定它们的权重 $w=(w_{1},\ldots,w_{n})^{T}$ ：对资产i，定义它的边际风险贡献 $MRC_{i}$
 
 $$
-MRC_{i}=\frac{\left(\Sigma\mathrm{w}\right)_{i}}{\sigma_{p}}\tag{10}
+MRC_{i}=\frac{\left(\Sigma\mathsf{w}\right)_{i}}{\sigma_{p}}\tag{10}
 $$
 
-其中， $\sigma_{p}=\sqrt{w^{T}\Sigma w}$ ，表示资 $\cdot\dot{\bar{r}}$ 组合的整体风险。
+其中， $\sigma_{p}=\sqrt{w^{T}\Sigma w}$ ，表示资 $\text{: }\begin{aligned}&\text{" }\\&\text{" }\end{aligned}$ 组合的整体风险。
 
-接着继续定义资产i的风险贡献 $RC_{i}\mathrm{:}$
+接着继续定义资产i的风险贡献 $RC_{i};$
 
 $$
 RC_{i}=w_{i}\times MRC_{i}\tag{11}
@@ -288,15 +288,15 @@ $$
 在限制卖空的约束下，可以把它看成一个如下的凸优化问题：
 
 $$
-\begin{array}{r}{\{\begin{array}{ll}{\displaystyle{\operatorname*{min}_{w}\sum_{i=1}^{n}\sum_{j=1}^{n}(RC_{i}-RC_{j})^{2}}}\\{\displaystyle{\sum_{i=1}^{n}w_{i}=1,\ w_{i}>0}}\end{array}}\end{array}\tag{13}
+\begin{cases}\displaystyle\min_{w}\sum_{i=1}^{n}\sum_{j=1}^{n}(RC_i-RC_j)^2\\s.t.\ \displaystyle\sum_{i=1}^{n}w_i=1,\ w_i>0\end{cases}\tag{13}
 $$
 
 ## 4.2.2. 非层次聚类风险平价策略
 
-在本文中，作者希望均衡来自每个聚类的风险，在使用x-means++算法对资产进行分类后，可以得到聚类数量k，和第j个聚类中的资产数量$N_{j},$ 于是，非层次聚类风险平价策略的优化模型如下：
+在本文中，作者希望均衡来自每个聚类的风险，在使用x-means++算法对资产进行分类后，可以得到聚类数量k，和第j个聚类中的资产数量$N_{j\circ}$ 于是，非层次聚类风险平价策略的优化模型如下：
 
 $$
-\left\{\begin{array}{ll}{\displaystyle{\operatorname*{min}_{w}\sum_{j=1}^{k}\sum_{i\in j}(RC_{i}-\frac{1}{k}\times\frac{1}{N_{j}})^{2}}}\\{\displaystyle{s.t.}}\end{array}\right.\tag{14}
+\left\{\begin{aligned}&\min_{w}\sum_{j=1}^{k}\sum_{i\in j}(RC_{i}-\frac{1}{k}\times\frac{1}{N_{j}})^{2}\\&s.t.\ \sum_{i=1}^{n}w_{i}=1,\ w_{i}>0\end{aligned}\right.\tag{14}
 $$
 
 其中，i∈j表示资产i属于聚类j，从模型上看，策略逻辑是先在k个聚类中均衡风险，然后再在每个聚类的资产中将该聚类的风险平分，这样就能确保来自同一风险来源的风险贡献均等。
@@ -308,11 +308,11 @@ $$
 作者使用了年化收益率、年化风险（收益率的标准差)、收益风险比以及最大回撤作为衡量策略好坏的指标，具体的公式如下：
 
 $$
-Return=\frac{250}{T}\sum_{t=1}^{T}r_{t}\tag{15}
+Return=\frac{250}{T}{\sum_{t=1}^{T}{{r_{t}}}}\tag{15}
 $$
 
 $$
-Risk=\sqrt{\frac{250}{T-1}\sum_{t=1}^{T}(r_{t}-\mu)^{2}}\tag{16}
+Risk=\sqrt{\frac{250}{T-1}{\sum_{t=1}^{T}(r_{t}-\mu)^{2}}}\tag{16}
 $$
 
 $$
@@ -320,10 +320,10 @@ R/R=Return/Risk\tag{17}
 $$
 
 $$
-MaxDD=\operatorname*{min}_{k\in[1,T]}(0,\frac{W_{k}}{\operatorname*{max}_{j\in[1,k]}W_{j}}-1)\tag{18}
+MaxDD=\min_{k\in[1,T]}(0,\frac{W_k}{\max\limits_{j\in[1,k]}W_j}-1)\tag{18}
 $$
 
-其中， $r_{t}$ 代表一年中第t天的组合收益率， $\mu{\cdot}$ 代表一年的平均收益率， $W_{k}$ 代表组合在一年中第k天的净值。
+其中， $r_{t}1$ 代表一年中第t天的组合收益率， $\mu_{1}$ 代表一年的平均收益率， $W_{k}$ 代表组合在一年中第k天的净值。
 
 作者具体的实证分析分为以下几个步骤：
 

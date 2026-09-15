@@ -73,7 +73,7 @@ eMail：lj33@gf.com.cn
 在以上的假设的基础上，买卖权的平价理论可以用下述公式来表述：
 
 $$
-C+Ke^{-rT}=P+S_{0}
+C+Ke^{-rT}\equiv P+S_0
 $$
 
 其中，C和P代表认购和认沽期权的权利金，K是两个期权的交割价，S0则代表标的资产的现在价格。我们可以把等式左边当成组合A,而等式右边当成组合B。当组合A大于组合B，我们便可卖出A，买入B来套利。反之，我们也可通过卖B买A来进行套利。接下来我们会就该两种套利策略展开说明。
@@ -99,15 +99,15 @@ $$
 但在实际操作中，我们知道借贷的利率是不相同的，所以我们可以加入该条件到套利公式中：
 
 $$
-\Pi=C+Ke^{-r^{B}T}-P-S_{0}
+\Pi=C+Ke^{-r^BT}-P-S_0
 $$
 
-其中，•代表套利利润，而 $r^{B}$ 代表融资利率。在本文余下的所有例子中，为了简便，我们设借贷利率都为年化3%，后续就不再特别说明。
+其中，•代表套利利润，而 $\boldsymbol{r}^{B}$ 代表融资利率。在本文余下的所有例子中，为了简便，我们设借贷利率都为年化3%，后续就不再特别说明。
 
 期权、期货以及股票的成交都牵扯到交易费用，我们也把交易费用这一环节考虑进我们的套利公式中：
 
 $$
-\Pi{=}C+Ke^{-r^{B}T}-P{-}S_{0}-\tau_{t}-\tau_{T}
+\Pi=C+Ke^{-r^{B}T}-P-S_{0}-\tau_{t}-\tau_{T}
 $$
 
 其中 $\tau_{t}$ 代表的是在t时刻包含了期权、期货以及现货的所有交易成本，而 $\tau_{T}$ 则代表在交割日T时间的所有交易成本。在成熟的国外市场，由于套利空间十分狭窄，即使较低的交易成本也大大的消减了套利者的套利利润。在本文余下的例子中，我们将会做如下的一些简单假设：股票单边交易费为成交额的0.1%，期权单边交易费也为0.1%，融券成本为年化9%，期货单边交易成本为0.01%。对买入期权在交割日不行权的，正常来说并无交易成本，而对于被行权的期权，交易成本则由对手方负责。若投资者对于买入期权进行行权，我们会假设交易成本为投资者在期权交割所得中的0.1%。（值得一提的是，在t日发现有套利机会时，投资者并不清楚期末现货、期货和期权的价格，所以在期初对于期末的交易成本也仅为一个估算值。当然了，不少市场对于期权的交易费为固定数目，这样可以有利投资者对于成本的估算）
@@ -115,18 +115,18 @@ $$
 最后，在国外卖空期权需支付保证金，而保证金的机会成本也会左右投资者的获利，我们也相应的把该一条件加入到公式中：
 
 $$
-\Pi=C+Ke^{-r^{B}T}-P-S_{0}-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)
+\Pi=C+Ke^{-r^{\beta}T}-P-S_{0}-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)
 $$
 
-上式中，M代表了包括了期权、期货的总保证金， $r^{^{L}}$ 则代表了借出资金的利率。由于期权在国内尚未推出，所以并不了解保证金的细则。所以本文为了给读者简单直观的套利例子，在如下所有例子中将不考虑保证金。
+上式中，M代表了包括了期权、期货的总保证金， ${r}^{L}$ 则代表了借出资金的利率。由于期权在国内尚未推出，所以并不了解保证金的细则。所以本文为了给读者简单直观的套利例子，在如下所有例子中将不考虑保证金。
 
 当然了，上述所说的是投资者持有到期的套利公式。而在实际情况中，提前平仓可能为投资者带来更高的利润。在本文中，我们也加入了源自于Cheng（1998）应用于的股指期货的提前平仓策略到各个期权交易策略中：
 
 $$
-\Pi^{\prime}{=}P^{\prime}{+}S^{\prime}{-}C^{\prime}{-}Ke^{-r^{B}(T-t^{\prime})}{-}\tau_{t^{\prime}}{+}\tau_{T}{+}M(e^{r^{L}(T-t)}{-}1)
+\Pi^{*}=P^{*}+S^{*}-C^{*}-Ke^{-r^{B}(T-t)}-\tau_{t^{*}}+\tau_{T}+M(e^{r^{L}(T-t)}-1)
 $$
 
-其中，•'代表在t’时间交易的损益，P’代表t’时间的认沽期权价，C’代表t’时间的认购期权价，S’代表t’时间现货价格， $\tau_{t^{\prime}}$ 代表t’时间的交易费。假如买入现货套利策略
+其中，•'代表在t’时间交易的损益，P’代表t’时间的认沽期权价，C’代表t’时间的认购期权价，S’代表t’时间现货价格， $\tau_{t},$ 代表t’时间的交易费。假如买入现货套利策略
 
 的投资者在t’时间发现•'>0,他可将两个期权的头寸平仓、卖出股票以及还款，从中获得交易的利润。值得一提的是，提前平仓除了能获得期权的价差收益外，还可以缩小保证金的机会成本。最终，套利的总利润=∏'+Ⅱ。
 
@@ -192,7 +192,7 @@ $$
 对于此策略，我们也考虑了提前平仓的获利公式：
 
 $$
-\Pi^{\prime}{=}C^{\dagger}{+}Ke^{-r^{B}(T-t\ ^{\prime})}{-}P^{\ }{\overset{.}{S}}{\overset{.}{S}}\tau_{t^{\prime}}{+}\tau_{T}{+}M\ e^{r^{\int}T{+}t}\ {\overset{.}{-}})
+\Pi^{*}=C+Ke^{-r^{B}(T-t^{*})}-P-S-\tau_{t^{*}}+\tau_{T}+Me^{\frac{r^{C}T(t-t^{*})}{2}}
 $$
 
 各个变量的注释在前面已经提及，在此就多做赘述。当投资者在t’日发现•'>0，他便可对已有头寸进行反向操作获取额外收益
@@ -253,23 +253,23 @@ $$
 | 卖出认购期权C | C | C | 0 | - (ST-K) |
 | 买入认沽期权P | -P | -P | K-ST | 0 |
 | 借入（借出）K-F（F-K） |  |  |  |  |
-| 的折现值 | $-\left(\mathrm{F{-}K}\right)*\mathrm{e}\left(-\mathrm{r}\left(\mathrm{T-t}\right)\right)$ | $\left(\mathrm{K{-}F}\right)*\mathrm{e}\left(\mathrm{-r\left(T{-}t\right)}\right)$ | (F-K) | -(K-F) |
-| 资金流净值 | C-P- (F-K) *e (−r (T-t))>0 | $\mathrm{C-P+(K{-}F)*e(-r(T{-}t))>0}$ | 0 | 0 |
+| 的折现值 | $-\left(\mathbb{F}-\mathbb{K}\right)*\mathrm{e}\left(-\mathrm{r}\left(\mathbb{T}-\mathbb{t}\right)\right)$ | $(\mathrm{K}-\mathrm{F})*\mathrm{e}(-\mathrm{r}(\mathrm{T}-\mathrm{t}))$ | (F-K) | -(K-F) |
+| 资金流净值 | C-P- (F-K) *e (−r (T-t))>0 | $\mathrm{C}-\mathrm{P}+(\mathrm{K}-\mathrm{F})*\mathrm{e}\left(-\mathrm{r}(\mathrm{T}-\mathrm{t})\right)>0$ | 0 | 0 |
 
 数据来源：广发证券研究发展中心
 
 在t时间，K和F之间的差价也做两种情况考虑。如果期货价格F>K，我们则借出F-K的现值，如果F<K，我们则借入K-F的现值，这样我们便能保证在T时间无论ST大于或小于K，最终套利组合的现金流为0。
 
-在考虑成本费用 $\mathrm{~(~}\tau_{t},~\tau_{T}\mathrm{~)~}$ ，借入利率 ${\mathrm{(~}-r^{B}\mathrm{)}}$ 与借出利率 $\scriptstyle{\begin{array}{l}{\scriptstyle L}\\{\scriptstyle(\ r}\end{array}})$ ，合约规格比率之后，买入期货套利的获利公式为：
+在考虑成本费用 $(\tau_{_t},\tau_{_T})$ ，借入利率 $(\begin{array}{l}{-r^{^B}}\end{array})$ 与借出利率 $(\begin{array}{cc}{r^{^L}}\end{array})$ ，合约规格比率之后，买入期货套利的获利公式为：
 
 $$
-\Pi=\left\{\begin{array}{ll}{{\theta(C-P)-(F-K){\Theta}^{-r^{k}(T-t)}-\tau_{t}-\tau_{T}-M({\Theta}^{r^{k}(T-t)}-1)}}&{{,\mathrm{when}F-K\ge0}}\\{{(K-F){\Theta}^{-r^{8}(T-t)}+\theta(C-P)-\tau_{t}-\tau_{T}-M({\Theta}^{r^{k}(T-t)}-1)}}&{{,\mathrm{when}K-F>0}}\end{array}\right.
+\Pi=\left\{\begin{aligned}\theta(C-P)-(F-K)e^{-r^{\varepsilon}(T-t)}-\tau_{t}-\tau_{T}-M(e^{r^{\varepsilon}(T-t)}-1)\quad,\quad when\quad F-K\geq0\\(K-F)e^{-r^{\delta}(T-t)}+\theta(C-P)-\tau_{t}-\tau_{T}-M(e^{r^{\varepsilon}(T-t)}-1)\quad,\quad when\quad K-F>0\end{aligned}\right.
 $$
 
 其中 代表的是合约规格比率，该比率是期权合约与期货合约之间的比率。一般期权合约与期权合约之间的规格不太一样，所以需要根据该比率来调整。但为了简便的原则，以下的两个例子以 =1来举例。
 
 $$
-\Pi^{\prime}=\left\{\begin{array}{ll}{(F^{\prime}{-}K)e^{-r^{i(T{-}t)}}{-}\theta(C^{\prime}{-}P^{\prime}){-}\tau_{t^{\prime}}+\tau_{T}+M(e^{r^{i(T{-}t)}}{-}1)\ ,\ \mathsf{when}\ F{-}K\ge0}\\{\theta(P^{\prime}{-}C^{\prime}){-}\theta(K{-}F^{\prime})e^{-r^{\beta(T{-}t)}}-\tau_{t^{\prime}}+\tau_{T}+M(e^{r^{i(T{-}t)}}{-}1)\ ,\ \mathsf{when}\ K{-}F>0}\end{array}\right.
+\Pi^{*}=\left\{\begin{aligned}(F^{*}-K)e^{-r^{*}(T-t)}-\theta(C^{*}-P^{*})-\tau_{r}+\tau_{r}+M(e^{r^{*}(T-t)}-1),\text{ when }F-K\geq0\\\theta(P^{*}-C^{*})-\theta(K-F^{*})e^{-r^{*}(T-t)}-\tau_{r}+\tau_{r}+M(e^{r^{*}(T-t)}-1),\text{ when }K-F\geq0\end{aligned}\right.
 $$
 
 其中F’代表的是期货在t’日的价格。若投资者在t’日发现套利机会，他便可对现有头寸执行反向操作，最终套利利润=Ⅱ+∏'。
@@ -320,21 +320,21 @@ $$
 | 买入认购期权C | -C | -C | 0 | (ST-K) |
 | 卖出认沽期权P | P | P | - (K-ST) | 0 |
 | 借入（借出）F-K（K-F） |  |  |  |  |
-| 的折现值 | $\left(\mathrm{F-K}\right)*\mathrm{e}\left(-\mathrm{r}\left(\mathrm{T-t}\right)\right)$ | $-\left(\mathrm{K{-}F}\right)*\mathrm{e}\left(-\mathrm{r}\left(\mathrm{T{-}t}\right)\right)$ | - (F-K) | (K-F) |
-| 资金流净值 | $\mathrm{P-C+(F-K)*e(-r(T-t)\Delta)>0}$ | $\mathsf{P}\mathrm{-C-}\left(\mathrm{K}\mathrm{-F}\right)\ast\mathsf{e}\left(\mathrm{-r}\left(\mathrm{T}\mathrm{-t}\right)>0\right)$ | 0 | 0 |
+| 的折现值 | $(\mathrm{F}-\mathrm{K})*\mathrm{e}(-\mathrm{r}(\mathrm{T}-\mathrm{t}))$ | $-\left(\mathrm{K}-\mathrm{F}\right)*\mathrm{e}\left(-\mathrm{r}\left(\mathrm{T}-\mathrm{t}\right)\right)$ | - (F-K) | (K-F) |
+| 资金流净值 | $\mathrm{P}-\mathrm{C}+(\mathrm{F}-\mathrm{K})*\mathrm{e}\left(-\mathrm{r}(\mathrm{T}-\mathrm{t})\right)>0$ | $\mathrm{P}-\mathrm{C}-(\mathrm{K}-\mathrm{F})*\mathrm{e}-\mathrm{r}(\mathrm{T}-\mathrm{t})>0$ | 0 | 0 |
 
 数据来源：广发证券研究发展中心
 
 在t时间，K和F之间的差价也做两种情况考虑。如果期货价格F>K，我们则借入F-K的现值，如果F<K，我们则借出K-F的现值，这样我们便能保证在T时间无论ST大于或小于K，最终套利组合的现金流为0。
 
-在考虑成本费用 $\mathrm{~(~}\tau_{t},~\tau_{T}\mathrm{~)~}$ ，借入利率 ${\mathrm{(~}-r^{B}\mathrm{)}}$ 与借出利率 $\scriptstyle{\begin{array}{l}{\scriptstyle L}\\{\scriptstyle\ r}\end{array}})$ ，合约规格比率（ ）之后，买入期货套利的获利公式为：
+在考虑成本费用 $(\tau_{_t},\tau_{_T})$ ，借入利率 $(\begin{array}{l}{-r^{^B}}\end{array})$ 与借出利率 $(\begin{array}{cc}{r^{^L}}\end{array})$ ，合约规格比率（ ）之后，买入期货套利的获利公式为：
 
 $$
-\Pi=\left\{\begin{array}{ll}{(F-K)e^{-r^{B}(T-t)}-\theta(C-P)-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)~,}&{\mathrm{when}~F-K\geq0}\\{\theta(P-C)-(K-F)e^{-r^{L}(T-t)}-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)~,}&{\mathrm{when}~K-F>0}\end{array}\right.
+\Pi=\left\{\begin{aligned}(F-K)e^{-r^{\theta}(T-t)}-\theta(C-P)-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1),\quad when\quad F-K\geq0\\\theta(P-C)-(K-F)e^{-r^{L}(T-t)}-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1),\quad when\quad K-F>0\end{aligned}\right.
 $$
 
 $$
-\Pi^{\prime}=\left\{\begin{array}{ll}{(F^{\prime}{-}K)e^{-r^{i}(T{-}t)}{-}\theta(C^{\prime}{-}P^{\prime}){-}\tau_{t^{\prime}}+\tau_{T}+M(e^{r^{i}(T{-}t)}-1)\ ,\ \mathsf{when}\ F{-}K\ge0}\\{\theta(P^{\prime}{-}C^{\prime}){-}\theta(K{-}F^{\prime})e^{-r^{\beta}(T{-}t)}-\tau_{t^{\prime}}+\tau_{T}+M(e^{r^{i}(T{-}t)}-1)\ ,\ \mathsf{when}\ K{-}F>0}\end{array}\right.
+\Pi^{*}=\left\{\begin{aligned}(F^{*}-K)e^{-r^{*}(T-t)}-\theta(C^{*}-P^{*})-\tau_{r}+\tau_{r}+M(e^{r^{*}(T-t)}-1),whenF-K\geq0\\\theta(P^{*}-C)-\theta(K-F^{*})e^{-r^{*}(T-t)}-\tau_{r}+\tau_{r}+M(e^{r^{*}(T-t)}-1),whenK-F>0\end{aligned}\right.
 $$
 
 其中F’代表的是期货在t’日的价格。若t’日•'>0,投资者可进行平仓，其最终套利利润= Ⅱ+ Ⅱ
@@ -380,11 +380,11 @@ $$
 放空价差关系利用的是欧式认购期权（认沽期权）组合的合理价格关系：
 
 $$
-(K_{2}-K_{1})e^{-r(T-t)}\geq C_{1}-C_{2}\qquad\mathrm{OR}
+(K_2-K_1)\mathrm{e}^{-r(T-t)}\geq C_1-C_2\quad\mathrm{OR}
 $$
 
 $$
-(K_{2}-K_{1})\mathbf{e}^{-r(T-t)}\geq P_{2}-P_{1}
+(K_2-K_1)e^{-r(T-t)}\geq P_2-P_1
 $$
 
 其中，K2为认购期权C2(认沽期权P2)的行权价，K1为认购期权C1（认沽期权P1）的行权价，且K2>K1。理论上，不等式的右手方应该小于或等于左手放，但一旦右手方价值超于左手方，套利机会便会出现。
@@ -409,11 +409,11 @@ $$
 上述情况是在不考虑其他因素的情况下的资金流情况，若考虑期初与期末交易费，保证金的机会成本，套利交易的获利为：
 
 $$
-\Pi=C_{1}-C_{2}-(K_{2}-K_{1})\Theta^{-r^{L}(T-t)}-\tau_{t}-\tau_{T}-M(\Theta^{r^{L}(T-t)}-1)
+\Pi=C_{1}-C_{2}-(K_{2}-K_{1})\mathrm{e}^{-r^{L}(T-t)}-\tau_{t}-\tau_{T}-\mathrm{M}(\mathrm{e}^{r^{L}(T-t)}-1)
 $$
 
 $$
-\begin{array}{r}{\left\{\Pi^{\prime}=(K_{2}-K_{1})\pmb{e}^{-r(T-t^{\prime})}-\pmb{C}_{1}^{\prime}+\pmb{C}_{2}^{\prime}-\tau_{t^{\prime}}+\tau_{T}+M(\pmb{e}^{r^{L}(T-t^{\prime})}-1)\right.}\\{\left.\left|S_{t^{\prime}}\geq K_{2}\right.\right.}\end{array}
+\begin{cases}\Pi^{*}=(K_{2}-K_{1})\mathrm{e}^{-r(T-t)}-C_{1}+C_{2}-\tau_{t^{*}}+\tau_{T}+M(\mathrm{e}^{r^{L}(T-t)}-1)\\S_{t^{*}}\geq K_{2}\end{cases}
 $$
 
 在时点t’，若St’大于K2,且提前平仓利润•'>0，投资者便可进行提前平仓。
@@ -473,11 +473,11 @@ $$
 上述情况是在不考虑其他因素的情况下的资金流情况，若考虑期初与期末交易费，保证金的机会成本，套利交易的获利为：
 
 $$
-\Pi={\cal P}_{2}-{\cal P}_{1}-(K_{2}-K_{1})e^{-r^{L}(T-t)}-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)
+\Pi=P_{2}-P_{1}-(K_{2}-K_{1})\mathrm{e}^{-r^{L}(T-t)}-\tau_{t}-\tau_{T}-M(\mathrm{e}^{r^{L}(T-t)}-1)
 $$
 
 $$
-\begin{array}{r}{\left\{\Pi^{\prime}=(K_{2}-K_{1})e^{-r(T-t^{\prime})}-P_{2}^{\prime}+P_{1}^{\prime}-\tau_{t^{\prime}}+\tau_{T}+M(e^{r^{L(T-t^{\prime})}}-1)\right.}\\{\left.\left|S_{t^{\prime}}\leq K_{1}\right.\right.}\end{array}
+\begin{cases}\Pi^{*}=(K_{2}-K_{1})e^{-r(T-t)}-P_{2}^{*}+P_{1}^{*}-\tau_{t^{*}}+\tau_{T}+M(e^{r^{L}(T-t)}-1)\\S_{t^{*}}\leq K_{1}\end{cases}
 $$
 
 在时点t’，若St’小于K1,且提前平仓利润•'>0，投资者便可进行提前平仓。
@@ -519,7 +519,7 @@ $$
 期权凸性差价关系利用的是欧式认购期权（认沽期权）之间合理价格关系：
 
 $$
-\lambda C_{1}+(1-\lambda)C_{3}\geq C_{2}\quad\mathrm{~OR~}
+\lambda C_{1}+(1-\lambda)C_{3}\geq C_{2}
 $$
 
 $$
@@ -554,13 +554,13 @@ $$
 上述情况是在不考虑其他因素的情况下的资金流情况，若考虑期初与期末交易费，保证金的机会成本，套利交易的获利为：
 
 $$
-\Pi=\Lambda_{2}C_{2}-\Lambda_{1}C_{1}-(\Lambda_{2}-\Lambda_{1})C_{3}-\tau_{t}-\tau_{T}-M(\mathfrak{e}^{r^{L}(T-t)}-1)
+\Pi=\Lambda_{2}C_{2}-\Lambda_{1}C_{1}-(\Lambda_{2}-\Lambda_{1})C_{3}-\tau_{t}-\tau_{T}-M(\mathrm{e}^{r^{L}(T-t)}-1)
 $$
 
-其中 $\Lambda_{\ u_{1}}$ 和 $\Lambda_{2}$ 是互为质数的整数，而且 $\frac{\Lambda_{1}}{\Lambda_{2}}=\lambda$ 。由于在实战中，投资者没办法买入λ份的合约，这样方便投资者操作。
+其中 $\Lambda_{1}$ 和 $\Lambda_{2}$ 是互为质数的整数，而且 $\frac{\Lambda_{1}}{\Lambda_{2}}=\lambda_{1}$ 。由于在实战中，投资者没办法买入λ份的合约，这样方便投资者操作。
 
 $$
-\begin{array}{r}{\left\{\Pi^{\prime}=\Lambda_{1}C_{1}^{\prime}+(\Lambda_{2}-\Lambda_{1}){C_{3}}^{\prime}-\Lambda_{2}C_{2}^{\prime}-\tau_{t^{\prime}}+\tau_{T}+M(e^{r^{L(T-t)}}-1)\right.}\\{\left.\left[S_{t^{\prime}}\leq K_{1}\mathrm{~or~}\mathbb{S}_{t^{\prime}}\geq K_{3}\right.\right.}\end{array}
+\begin{cases}\Pi^{*}=\Lambda_{1}C_{1}+(\Lambda_{2}-\Lambda_{1})C_{3}-\Lambda_{2}C_{2}-\tau_{t^{*}}+\tau_{T}+M(\mathrm{e}^{r^{L}(T-t)}-1)\\S_{t^{*}}\leq K_{1}or\mathbb{S}_{t^{*}}\geq K_{3}\end{cases}
 $$
 
 在时点t’，若St’小于等于K1或大于等于K3,且提前平仓利润•'>0，投资者便可进行提前平仓。
@@ -569,7 +569,7 @@ $$
 
 期权30日后（T日）到期。此时投资者发现套利机会，根据 $\lambda=\frac{K_{3}-K_{2}}{K_{3}-K_{1}}$ 公式， =3/5,
 
-而 $\Lambda_{1}=3,\Lambda_{2}=5$ 。下表展示了整个套利策略的流程：
+而 $\Lambda_{1}=3,\ \Lambda_{2}=5.$ 。下表展示了整个套利策略的流程：
 
 | 表 14. 认购期权凸性套利策略举例 |  |  |  |
 | --- | --- | --- | --- |
@@ -630,19 +630,19 @@ $$
 \Pi=\Lambda_{2}P_{2}-\Lambda_{1}P_{1}-(\Lambda_{2}-\Lambda_{1})P_{3}-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)
 $$
 
-其中 $\Lambda_{\ i}$ 和 $\Lambda_{2}$ 是互为质数的整数，而且 $\frac{\Lambda_{1}}{\Lambda_{2}}=\lambda$
+其中 $\Lambda_{1}$ 和 $\Lambda_{2}$ 是互为质数的整数，而且 $\frac{\Lambda_{1}}{\Lambda_{2}}=\lambda_{1}$
 
 $$
-\begin{array}{r}{\left\{\Pi^{\prime}=\Lambda_{1}P_{1}^{\prime}{}^{+}(\Lambda_{2}-\Lambda_{1})P_{3}^{\prime}{}^{-}\Lambda_{2}P_{2}^{\prime}{}^{-}\tau_{t^{\prime}}+\tau_{T}+M(\pmb{e}^{r^{L}(T-t^{\prime})}-1)\right.}\\{\left.\left|S_{t^{\prime}}\leq K_{1}\mathrm{~or~}\mathbb{S}_{t^{\prime}}\geq K_{3}\right.\right.}\end{array}
+\begin{cases}\Pi^{*}=\Lambda_{t}P_{1}^{*}+(\Lambda_{2}-\Lambda_{1})P_{3}^{*}-\Lambda_{2}P_{2}^{*}-\tau_{t^{*}}+\tau_{T}+M(\mathrm{e}^{r^{L}(T-t^{*})}-1)\\S_{t^{*}}\leq K_{1}or\mathbb{S}_{t^{*}}\geq K_{3}\end{cases}
 $$
 
 在时点t’，若St’小于等于K1或大于等于K3,且提前平仓利润 $\Pi^{\prime}>0$ ，投资者便可进行提前平仓。
 
 对于认沽期权凸性套利策略，我们给出以下例子：假设在t日，A股票价格为52元，其对应的认沽期权1的价格为0.88，认沽期权2价格为2.1，认沽期权3的价格为3.8，所有
 
-期权30日后（T日）到期。此时投资者发现套利机会，根据 $\lambda=\frac{K_{3}-K_{2}}{K_{3}-K_{1}}$ 公式， $\lambda{\mathrm{\Omega}}=3/5{\mathrm{\Omega}}$
+期权30日后（T日）到期。此时投资者发现套利机会，根据 $\lambda=\frac{K_{3}-K_{2}}{K_{3}-K_{1}}$ 公式， $\lambda=3/5,$
 
-而 $\Lambda_{1}=3,\Lambda_{2}=5$ 。下表展示了整个套利策略的流程：
+而 $\Lambda_{1}=3,\ \Lambda_{2}=5.$ 。下表展示了整个套利策略的流程：
 
 表 16. 认沽期权凸性套利策略举例
 
@@ -684,7 +684,7 @@ $$
 箱型差价关系是建立在牛市差价期权与熊市差价期权之间的无套利原则（若读者想了解何谓牛市差价与熊市差价期权，我们的《灵活多样的期权策略-期权研究系列之二》报告有详细介绍）。我们可以以下述等式来表达该关系：
 
 $$
-\begin{array}{r}{C_{1}-C_{2}+P_{2}-P_{1}=(K_{2}-K_{1})e^{-r(T-t)}}\end{array}
+C_{1}-C_{2}+P_{2}-P_{1}=(K_{2}-K_{1})\mathrm{e}^{-r(T-t)}
 $$
 
 C1（P1）代表交割价为K1的认购（认沽）期权权利金，而C2（P2）代表交割价为K2的认购（认沽）期权权利金，并且K2>K1。对于无风险套利情况，买入C1和C2的牛市差价期权，同时买入P1和P2的熊市差价期权，其价值应该等于K2-K1的现值。若该均衡状态被打破，投资者便可进行套利。
@@ -711,11 +711,11 @@ C1（P1）代表交割价为K1的认购（认沽）期权权利金，而C2（P2�
 上述情况是在不考虑其他因素的情况下的资金流情况，若考虑期初与期末交易费，保证金的机会成本，套利交易的获利为：
 
 $$
-\Pi=(K_{2}-K_{1})e^{-r^{B}(T-t)}-(C_{1}-C_{2}+P_{2}-P_{1})-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)
+\Pi=(K_{2}-K_{1})e^{-r^{2}(T-t)}-(C_{1}-C_{2}+P_{2}-P_{1})-\tau_{t}-\tau_{T}-M(e^{r^{2}(T-t)}-1)
 $$
 
 $$
-\Pi^{\prime}={\cal C}_{1}^{\ \prime}-{\cal C}_{2}^{\ \prime}+{\cal P}_{2}^{\ \prime}-{\cal P}_{1}^{\ \prime}-({\cal K}_{2}-{\cal K}_{1})e^{-r^{\beta}(T-t)}-\tau_{t^{\prime}}+\tau_{\tau}+M(e^{r^{\iota}(T-t^{\prime})}-1)
+\Pi^{*}=C_{1}^{*}-C_{2}^{*}+P_{2}^{*}-P_{1}^{*}-(K_{2}-K_{1})e^{-r^{B}(T-t)}-\tau_{t}+\tau_{T}+M(e^{r^{L}(T-t)}-1)
 $$
 
 在时点t’，若S提前平仓利润•'>0，投资者便可进行提前平仓获利。
@@ -780,11 +780,11 @@ $$
 上述情况是在不考虑其他因素的情况下的资金流情况，若考虑期初与期末交易费，保证金的机会成本，套利交易的获利为：
 
 $$
-\Pi=C_{1}-C_{2}+P_{2}-P_{1}-(K_{2}-K_{1})e^{-r^{L}(T-t)}-\tau_{t}-\tau_{T}-M(e^{r^{L}(T-t)}-1)
+\Pi=C_{1}-C_{2}+P_{2}-P_{1}-(K_{2}-K_{1})e^{-r^{2}(T-t)}-\tau_{t}-\tau_{T}-M(e^{r^{2}(T-t)}-1)
 $$
 
 $$
-\Pi^{\prime}=(K_{2}-K_{1})e^{-r^{L}(T-t^{\prime})}-(C_{1}^{\prime}-C_{2}^{\prime}+P_{2}^{\prime}-P_{1}^{\prime})-\tau_{t^{\prime}}+\tau_{T}+M(e^{r^{L}(T-t^{\prime})}-1)
+\Pi^{*}=(K_{2}-K_{1})e^{-r^{L}(T-t)}-(C_{1}-C_{2}+P_{2}-P_{1})-\tau_{t^{*}}+\tau_{T}+M(e^{r^{L}(T-t)}-1)
 $$
 
 在时点t’，若S提前平仓利润•'>0，投资者便可进行提前平仓获利。

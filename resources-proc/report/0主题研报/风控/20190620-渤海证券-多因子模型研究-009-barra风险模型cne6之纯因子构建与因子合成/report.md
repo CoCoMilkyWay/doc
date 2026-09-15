@@ -56,12 +56,12 @@ SAC NO：S1150517100002
 纯因子模型的求解可以用以下回归方程表示：
 
 $$
-\begin{array}{l}{\mathbf{r}=\mathbf{X}\mathbf{f}+{\pmb u}}\\{s.t.\quad w_{I_{1}}f_{I_{1}}+w_{I_{2}}\pmb{f}_{I_{2}}+\dots+w_{I_{s}}\pmb{f}_{I_{s}}=\mathbf{0}}\end{array}
+\begin{array}{rl}&{\mathbf{r}=\mathbf{X}\mathbf{f}+u}\\&{\quad s.t.\quad w_{I_{1}}\pmb{f}_{I_{1}}+w_{I_{2}}\pmb{f}_{I_{2}}+\cdots+w_{I_{S}}\pmb{f}_{I_{S}}=\mathbf{0}}\end{array}
 $$
 
-其中， 为因子暴露矩阵，由1个国家因子、S个行业因子和 M个风格因子构成。假设横截面标的数为 N，则 是一个 ${\sf N}\times{\sf\Omega}\left(1+{\sf S}+{\sf M}\right)$ 阶的矩阵。 $w_{I_{j}}$ 为行业整体流动市值，加入该限制条件是因为在回归方程中引入了国家因子，而行业因子之和为 1，这会导致解的不唯一性。所以需要加入行业市值权重的限制，保证解的唯一。
+其中， 为因子暴露矩阵，由1个国家因子、S个行业因子和 M个风格因子构成。假设横截面标的数为 N，则 是一个 $\mathrm{N}\times\mathrm{~(~}1+\mathrm{S}+\mathrm{M}\mathrm{~)~}$ 阶的矩阵。 $w_{I_{j}}$ 为行业整体流动市值，加入该限制条件是因为在回归方程中引入了国家因子，而行业因子之和为 1，这会导致解的不唯一性。所以需要加入行业市值权重的限制，保证解的唯一。
 
-为解决异方差性，我们在回归时使用根号流动市值为标的加权，构建 阶对角矩阵 ， $\mathbf{V}=\mathbf{diag}({\pmb v}_{1},\cdots{\pmb v}_{N})$ ，其中：
+为解决异方差性，我们在回归时使用根号流动市值为标的加权，构建 阶对角矩阵 ， $\mathbf{V}=\mathbf{diag}(v_{1},\cdots v_{N})$ ，其中：
 
 $$
 v_{n}=\frac{\sqrt{w_{n}}}{\sum_{i=1}^{N}\sqrt{w_{i}}}
@@ -69,16 +69,16 @@ $$
 
 $w_{i}$ 代表个股的流通市值。
 
-另外，根据行业权重的约束条件，再构建一个 $(\mathsf{\Omega}_{1}+\mathsf{S}+\mathsf{M})\ \times\ \mathrm{~(~\mathsf{S}+\mathsf{M})~}$ 阶矩阵，其表达式为：
+另外，根据行业权重的约束条件，再构建一个 $(1+\mathrm{S}+\mathrm{M})\times(\mathrm{S}+\mathrm{M})$ 阶矩阵，其表达式为：
 
 $$
-\mathbf{R}=\left(\begin{array}{llllllll}{1}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{0}&{1}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{-\displaystyle{\frac{W_{I_{1}}}{W_{I_{S}}}}}&{-\displaystyle{\frac{W_{I_{2}}}{W_{I_{S}}}}}&{\cdots}&{-\displaystyle{\frac{W_{I_{1}}}{W_{I_{S-1}}}}}&{0}&{\cdots}&{0}\\{0}&{0}&{0}&{\cdots}&{0}&{1}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{1}\end{array}\right)
+\mathbf{R}=\left(\begin{array}{cccccccc}{1}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{0}&{1}&{0}&{\cdots}&{0}&{0}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{-\frac{w_{I_{1}}}{w_{I_{S}}}}&{-\frac{w_{I_{2}}}{w_{I_{S}}}}&{\cdots}&{-\frac{w_{I_{1}}}{w_{I_{S-1}}}}&{0}&{\cdots}&{0}\\{0}&{0}&{0}&{\cdots}&{0}&{1}&{\cdots}&{0}\\{\vdots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\{0}&{0}&{0}&{\cdots}&{0}&{0}&{\cdots}&{1}\end{array}\right)
 $$
 
 根据带约束条件的最小二乘法，可求得纯因子投资组合的权重矩阵 ：
 
 $$
-\Omega=R(R^{T}X^{T}VXR)^{-1}R^{T}X^{T}V
+\mathbf{\Omega}=\mathbf{R}(\mathbf{R}^{T}\mathbf{X}^{T}V\mathbf{X}\mathbf{R})^{-1}\mathbf{R}^{T}\mathbf{X}^{T}V
 $$
 
 该矩阵的每一行对应一个纯因子组合，使用该组合乘以标的当期超额收益率即可得到当期的纯因子收益率。
@@ -343,23 +343,23 @@ CNE6的成长因子和CNE5相比没有变化，都由EGRLF（预测3年利润增
 | Volatility | Beta | BETA | 贝塔 | 股票收益率 $\cdot r_{t}$ 对沪深300收益率 $\cdot R_{t}$ 进行时间序列回归，取回归系数，回归时间窗口为252个交易日，半衰期63个交易日 $r_{t}=\alpha+\beta R_{t}+e_{t}$ |
 |  | ResidualVolatility | Hist sigma | 历史sigma | 在计算BETA所进行的时间序列回归中，取回归残差收益率的波动率 |
 |  |  | Daily std | 日标准差 | 日收益率在过去252个交易日的波动率，半衰期42个交易日 |
-|  |  | Cumulative range | 累积收益范围 | Z(T)为过去T个月累积对数收益率（每个月包含21个交易日)，即 $Z(T)={\sum}_{\tau=1}^{T}[\ln(1+r_{\tau})]$ 其中 $r_{\tau}$ 为股票在τ月的收益，从而定义累积收益范围如下： $\mathrm{CMRA}=Z_{max}-Z_{min}$ 其中 $Z_{max}=\operatorname*{max}{\{Z(T)\}}$ $Z_{min}=\operatorname*{min}{\{Z(T)\}}$ $T=1,\dots,12$ |
-| Liquidity | Liquidity | Monthly shareturnover | 月换手率 | 对最近21个交易日的股票换手率求和，然后取对数，即： $STOM=ln(\sum^{21}{\frac{V_{t}}{S_{t}}})$ 其中 $V_{t}$ 为股票在t日的成交额， $S_{t}$ 为股票在t日的流通市值 |
-|  |  | Quarterly shareturnover | 季换手率 | $STOM_{\tau}$ 为τ月的换手率（每月包含21个交易日）季换手率定义为： $STOQ=ln\ :(\frac{1}{T}{\sum}^{T}{exp\ :(STOM_{\tau})})$ T=3个月 |
-|  |  | Annual shareturnover | 年换手率 | $STOM_{\tau}$ 为τ月的换手率（每月包含21个交易日），年换手率定义为： $STOA=\ln{(\frac{1}{T})}\overline{{{2}}}_{\tau=1}^{T}\exp{(STOM_{\tau})})$ T=12 个月 |
+|  |  | Cumulative range | 累积收益范围 | Z(T)为过去T个月累积对数收益率（每个月包含21个交易日)，即 $Z(T)={\sum}_{\tau=1}^{T}[\ln(1+r_{\tau})]$ 其中 $r_{\tau}$ 为股票在τ月的收益，从而定义累积收益范围如下： $\mathtt{CMRA}=Z_{max}-Z_{min}$ 其中 $Z_{max}=\max\left\{Z(T)\right\},$ $Z_{min}=\min\left\{Z(T)\right\}$ $T=1,\ldots,12$ |
+| Liquidity | Liquidity | Monthly shareturnover | 月换手率 | 对最近21个交易日的股票换手率求和，然后取对数，即： $STOM=ln\:({\sum}_{t=1}^{21}\cfrac{V_{t}}{S_{t}})$ 其中 $V_{t}$ 为股票在t日的成交额， $S_{t}$ 为股票在t日的流通市值 |
+|  |  | Quarterly shareturnover | 季换手率 | $STOM_{\tau}$ 为τ月的换手率（每月包含21个交易日）季换手率定义为： $STOQ=ln\;(\frac{1}{T}{\sum}_{\tau=1}^{T}exp\;(STOM_{\tau}))$ T=3个月 |
+|  |  | Annual shareturnover | 年换手率 | $STOM_{\tau}$ 为τ月的换手率（每月包含21个交易日），年换手率定义为： $STOA=\ln\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)\right)$ T=12 个月 |
 |  |  | Annualized tradedvalue ratio | 年化交易量比率 | 对日交易份额比率（换手率）进行加权求和，时间窗口252个交易日，半衰期63个交易日 |
 | Momentum | Short Termreversal | Short Termreversal | 短期反转 | 最近一个月的加权累积对数日收益率 $STREV(t)=\sum_{\tau\in T}w_{\tau-t-1}\left[\ln\bigl(1+r(\tau)\bigr)\right]$ r为算数平均股票收益率，w为半衰指数权重，时间窗口21个交易日，半衰期5个交易日，T={t-1，.....，t-n} |
 
 请务必阅读正文之后的免责声明
 
-|  | Seasonality | Seasonality | 季节因子 | 过去五年的已实现次月收益率的平均值 $SEASON(t)=\frac{1}{Y}\sum_{y=1}^{Y}r_{y}$ $\Gamma_{\boldsymbol{\mathbf{y}}}$ 为滞后 $\mathsf{y}$ 年的月收益率 |
+|  | Seasonality | Seasonality | 季节因子 | 过去五年的已实现次月收益率的平均值 $SEASON(t)=\frac{1}{Y}{\sum_{y=1}^{Y}{r_{y}}}$ $\mathbf{r_{y}}$ 为滞后 $\mathsf{y}$ 年的月收益率 |
 | --- | --- | --- | --- | --- |
-|  | IndustryMomentum | Industry Momentum | 行业动量 | 该指标描述个股相对中信一级行业的强度：(1)个股相对强度定义为： $RS_{S}(t)=\sum_{\tau\epsilon T(t)}w_{\tau-t}[ln(1+r_{s}(\tau)]$ 式中， $r_{s}$ 为日股票收益率，w为半衰指数权重，时间窗口6个月，半衰期1个月，T(t)={t，...，t-n}(2) 行业 $\cdot I_{t}$ 的相对强度定义为： $RS_{I}(t)=\sum_{i\in I(t)}c_{i}(t)RS_{i}(t)$ 式中， $c_{i}(t)$ 为行业i内个股流通市值的平方根(3)最终该指标定义为： $\mathrm{INDMOM}_{s}(t)=-\big(c_{s}(t)RS_{s}(t)-RS_{I}(t)\big)$ |
+|  | IndustryMomentum | Industry Momentum | 行业动量 | 该指标描述个股相对中信一级行业的强度：(1)个股相对强度定义为： $RS_{S}(t)=\sum_{\tau\epsilon T(t)}w_{\tau-t}[ln\:(1+r_{s}(\tau)]$ 式中， $r_{s}$ 为日股票收益率，w为半衰指数权重，时间窗口6个月，半衰期1个月，T(t)={t，...，t-n}(2) 行业 $U_{t}$ 的相对强度定义为： $RS_{I}(t)=\sum_{i\in I(t)}c_{i}(t)RS_{i}(t)$ 式中， $c_{i}(t)$ 为行业i内个股流通市值的平方根(3)最终该指标定义为： $\mathrm{INDMOM}_{s}(t)=-\left(c_{s}(t)RS_{s}(t)-RS_{I}(t)\right)$ |
 |  | Momentum | Relative strength | 相对强度 | (1)计算非滞后的相对强度：对股票的对数收益率进行半衰指数加权求和，时间窗口252个交易日，半衰期126个交易日(2)以11个交易日为时间窗口，滞后11个交易日，取非滞后相对强度的等权平均值 |
 |  |  | Historical alpha | 历史 Alpha | 在计算BETA所进行的时间序列回归中，取回归截距项 |
 | Quality | Leverage | Market Leverage | 市场杠杆 | $MLEV=\frac{ME+PE+LD}{ME}$ 其中ME为上一交易日的市值，PE和LD分别是上一财政年度的优先股和长期负债 |
 |  |  | Book Leverage | 账面杠杆 | $BLEV=\frac{BE+PE+LD}{ME}$ 其中 BE，PE和LD 分别是上一财政年度的普通股账面价值，优先股和长期负债 |
-|  |  | Debt to asset ratio | 资产负债比 | $DTOA={\frac{TL}{TA}}$ TL、TA分别为上一财政年度总负债和总资 $\dot{\mathcal{F}}$ |
+|  |  | Debt to asset ratio | 资产负债比 | $DTOA={\frac{TL}{TA}}$ TL、TA分别为上一财政年度总负债和总资 $\begin{aligned}&\text{: }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\quad\text{" }\text{" }\quad\text{" }\text{" }\quad\text{" }\text{" }\text{" }\text{" }\text{" }\quad\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" }\text{" \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{" } \text{ \text{" } \text{" } \text{" } \text{" } \text{ \text{" } } \text{ \text{" } \text{" } \text{ \text{" } } \text{ \text{" } \text{ \ \end{aligned}$ |
 |  | EarningsVariability | Variation in Sales | 营业收入波动率 | 过去五个财年的年营业收入标准差除以平均年营业收入 |
 |  |  | Variation inEarnings | 盈利波动率 | 过去五个财年的年净利润标准差除以平均年净利润 |
 |  |  | Variation inCash-Flows | 现金流波动率 | 过去五个财年的年现金及现金等价物净增加额标准差除以平均年现金及现金等价物净增加额 |
@@ -367,12 +367,12 @@ CNE6的成长因子和CNE5相比没有变化，都由EGRLF（预测3年利润增
 
 |  | Earnings-to-Price |  |  |
 | --- | --- | --- | --- |
-| EarningsQuality | AccrualsBalancesheetversion | 资产负债表应计项目 | (1)资产负债表应计项目总额计算公式为： $ACCR\_BS=NOA_{t}-NOA_{t-1}-DA_{t}$ $NOA_{}=(TA_{}-Cash)_{-}(TL_{}-TD)$ 其中，NOA 为净经营资产，Cash为现金及现金等价物，TA为总资产，TL为总负债，TD为总带息债务（负债合计-无息流动负债-无息非流动负债），DA为折旧与摊销之和(2) 将负的 ACCR BS 除以总资产 TA: $ABS={\frac{-ACCR_{-}BS}{TA}}$ |
-|  | Accruals Cashflowversion | 现金流量表应计项目 | (1)现金流量表应计项目总额计算公式为： $ACCR_{CF}=Ni_{t}-\left(CFO_{t}+CFI_{t}\right)+DA_{t}$ Ni为净利润，CFO 为经营现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和(2) 将负的 ACCR CF除以总资产 TA: $ACF={\frac{-ACCR_{-}CF}{TA}}$ |
+| EarningsQuality | AccrualsBalancesheetversion | 资产负债表应计项目 | (1)资产负债表应计项目总额计算公式为： $_{ACCR\_BS=NOA_{t}-NOA_{t-1}-DA_{t}}$ $NOA=(TA-Cash)-(TL-TD)$ 其中，NOA 为净经营资产，Cash为现金及现金等价物，TA为总资产，TL为总负债，TD为总带息债务（负债合计-无息流动负债-无息非流动负债），DA为折旧与摊销之和(2) 将负的 ACCR BS 除以总资产 TA: $ABS=\frac{-ACCR\_BS}{TA}$ |
+|  | Accruals Cashflowversion | 现金流量表应计项目 | (1)现金流量表应计项目总额计算公式为： $ACCR_{CF}=Ni_{t}-\left(CFO_{t}+CFI_{t}\right)+DA_{t}$ Ni为净利润，CFO 为经营现金流量净额，CFI为投资活动现金流量净额，DA为折旧与摊销之和(2) 将负的 ACCR CF除以总资产 TA: $ACF=\frac{-ACCR\_CF}{TA}$ |
 | Profitability | Asset turnover | 资产周转率 | $ATO={\frac{Sales}{TA}}$ Sales为过去12 个月的营业收入，TA 为最近报告期的总资产 |
 |  | Grossprofitability | 资产毛利率 | $GP={\frac{Sales-COGS}{TA}}$ 其中 Sales、COGS和TA 分别是上一个财务年度的营业收入、营业成本和总资产 |
 |  | Gross ProfitMargin | 销售毛利率 | $GPM=\frac{Sales-COGS}{Sales}$ 其中 Sales和COGS 分别为上一会计年度的营业收入和销货成本 |
-|  | Return on assets | 总资产收益率 | $ROA=\frac{Earnings}{TA}$ Earnings为过去12 个月的净利润，TA 为最近报告期的总资产 |
+|  | Return on assets | 总资产收益率 | $ROA=\frac{learning}{TA}$ Earnings为过去12 个月的净利润，TA 为最近报告期的总资产 |
 | InvestmentQuality | Total AssetsGrowth Rate | 总资产增长率 | 最近5个财政年度的总资产对时间的回归的斜率值，除以平均总资产，最后取相反数 |
 |  | Issuance growth | 股票发行量增长率 | 最近5个财政年度的流通股本对时间的回归的斜率值，除以平均流通股本，最后取相反数 |
 |  | Capitalexpenditure growth | 资本支出增长率 | 将过去5个财政年度的资本支出对时间的回归的斜率值，除以平均资本支出，最后取相反数 |
@@ -389,7 +389,7 @@ CNE6的成长因子和CNE5相比没有变化，都由EGRLF（预测3年利润增
 |  |  | Historicalearnings per sharegrowth rate | 每股收益增长率 | 过去5个财政年度的每股收益对时间回归的斜率除以平均每股年收益 |
 |  |  | Historical salesper share growthrate | 每股营业收入增长率 | 过去5个财政年度的每股年营业收入对时间回归斜率除以平均每股年营业收入 |
 | Sentiment | Sentiment | Revision ratio | 调整比率 | 分析师调整比率的每月变动，定义为向上调整次数减去向下调整次数，除以总的调整次数 $RRIBS(t)=\sum_{l\in L}W_{l}\frac{UP(t-l*21)-DOWN(t-l*21)}{TOTAL(t-l*21)}$ L= {0, 1, 2} |
-|  |  | Change inanalyst-predictedearnings-to-price | 分析师预测EP 比变化 | 分析师预测 EP 比的加权变动EPIBSc(t) $=\sum_{l\in L}w_{l}\frac{EPIBS(t-l*63)-EPIBS(t-(l+1)*63)}{EPIBS(t-(l+1)*63)}$ L= {0, 1, 2, 3} |
+|  |  | Change inanalyst-predictedearnings-to-price | 分析师预测EP 比变化 | 分析师预测 EP 比的加权变动EPIBSc(t) $\sum_{l\in L}w_{l}\frac{EPIBS(t-l*63)-EPIBS(t-(l+1)*63)}{EPIBS(t-(l+1)*63)}$ L= {0, 1, 2, 3} |
 |  |  | Change inanalyst-predictedearnings per share | 分析师预测的每股收益的变化 | 分析师预测每股收益的加权变化：EARNc(t) |
 
 |  |  |  |  | =∑ EARN(t − l * 63) − EARN(t − (l + 1) * 63)WllELEARN(t − (l + 1) * 63)L= {0, 1, 2, 3} |

@@ -58,7 +58,7 @@ Andrew Y. Chen, Jack McCoy, Missing values handling for machine learning portfol
 
 ## 2.1. 截面 EM算法填充
 
-假设有N只股票，每只股票在第t月具有一组预测因子向量 $X_{i,t}$ ，其中缺失值和观察值分别表示为 $X_{miss|i,t}$ 和 $X_{obs|i,t}$ 。假设 $\widehat{\Sigma}_{t}$ 为 $X_{i,t}$ 的跨股票协方差矩阵 $\cdot\Sigma_{t}$ 的合理估计（例如，可以让 $\widehat{\Sigma_{t}}$ 是具有预测数据的股票对的样本协方差）。然后，填充 $X_{miss|i,t}$ 的一种直观方法是使用：
+假设有N只股票，每只股票在第t月具有一组预测因子向量 $X_{i,t}$ ，其中缺失值和观察值分别表示为 $X_{miss|i,t}$ 和 ${:}X_{obs|i,t}$ 。假设 $\hat{\Sigma}_{t}$ 为 $X_{i,t}$ 的跨股票协方差矩阵 $\Sigma_{t}$ 的合理估计（例如，可以让 $\widehat{\Sigma_{t}}$ 是具有预测数据的股票对的样本协方差）。然后，填充 $X_{miss|i,t}$ 的一种直观方法是使用：
 
 $$
 \hat{X}_{miss|i,t}=\hat{\beta}_{i,t}^{\prime}X_{obs|i,t}\tag{1}
@@ -70,23 +70,23 @@ $$
 \hat{\beta}_{i,t}^{\prime}\equiv\hat{\Sigma}_{obs,obs|i,t}^{-1}\hat{\Sigma}_{obs,miss|i,t}\tag{2}
 $$
 
-$\hat{\Sigma}_{miss,obs|i,t}\mathcal{\hat{F}}^{\vartriangle}\hat{\Sigma}_{obs,obs|i,t}.$ 是 $\Sigma_{t}$ 的子矩阵，分别对应于股票i的缺失值和观测值。类似于经典OLS 公式 ${\hat{\beta}}=[X^{\prime}X]^{-1}X^{\prime}y$ ，式(1)-(2)使用了变量之间的协方差来完成预测。由于文章对变量进行了标准化使其均值为零，式(1)中省略了截距项。
+$\widehat{\Sigma}_{miss,obs|i,t}和\widehat{\Sigma}_{obs,obs|i,t}$ 是 $\Sigma_{t}$ 的子矩阵，分别对应于股票i的缺失值和观测值。类似于经典OLS 公式 $\hat{\beta}=[X^{\prime}X]^{-1}X^{\prime}y$ ，式(1)-(2)使用了变量之间的协方差来完成预测。由于文章对变量进行了标准化使其均值为零，式(1)中省略了截距项。
 
 但是这种方法下的填充数据通常存在以下性质
 
 $$
-\begin{array}{r}{\widehat{\Sigma}_{t}\neq N^{-1}\sum_{i=1}^{N}\widehat{X}_{i,t}\widehat{X}_{i,t}^{\prime}}\end{array}\tag{3}
+\begin{array}{r}{\hat{\Sigma}_{t}\neq N^{-1}\sum_{i=1}^{N}\hat{X}_{i,t}\hat{X}_{i,t}^{\prime}}\end{array}\tag{3}
 $$
 
-其中 $\hat{X}_{i,t}$ 结合了 $\hat{X}_{miss|i,t}$ 和 $X_{obs|i,t}$ 。在这种情况下，作者并不清楚是否应该使用 $\widehat{\Sigma}_{t}$ 或 $N^{-1}$ ∑ X̂N X̂′ 来填充缺失值。除此之外， $^{\pm}_{\mathfrak{X}}(1)\ –(2)$ 没有解决如何处理高阶缺失项的问题：不仅 $X_{miss|i,t}$ 是未知的， $X_{miss|i,t}X_{miss|i,t}^{\prime}$ 也是未知的。$X_{miss|i,t}X_{miss|i,t}^{\prime}$ 的期望值不同于式(1)的外积，对于 $\Sigma_{t}$ 的严格估计可能会起到重要作用。估计此高阶项的一种直观方法是使用下式，这一结果也可以从高斯更新公式中推导出来：
+其中 $\hat{X}_{i,t}$ 结合了 $\hat{X}_{miss|i,t}$ 和 $\cdot X_{obs|i,t}$ 。在这种情况下，作者并不清楚是否应该使用 $\hat{\Sigma}_{t}$ 或 $_{1}N^{-1}$ ∑ X̂N X̂′ 来填充缺失值。除此之外， $(1)-(2);$ 没有解决如何处理高阶缺失项的问题：不仅 $X_{miss|i,t}$ 是未知的， $X_{miss|i,t}X_{miss|i,t}^{\prime}$ 也是未知的。$X_{miss|i,t}X_{miss|i,t}^{\prime}$ 的期望值不同于式(1)的外积，对于 $\Sigma_{t}$ 的严格估计可能会起到重要作用。估计此高阶项的一种直观方法是使用下式，这一结果也可以从高斯更新公式中推导出来：
 
 $$
-\begin{array}{r}{\left[\widehat{X_{\iota,t}X_{\iota,t}^{\prime}}\right]_{miss,miss|i,t}=\Sigma_{miss,miss|i,t}-\hat{\beta}_{i,t}^{\prime}\Sigma_{obs,miss|i,t}+\hat{X}_{miss|i,t}\hat{X}_{miss|i,t}^{\prime}}\end{array}\tag{4}
+\left[\widehat{X_{i,t}X_{i,t}^{\prime}}\right]_{miss,miss|i,t}=\Sigma_{miss,miss|i,t}-\hat{\beta}_{i,t}^{\prime}\Sigma_{obs,miss|i,t}+\hat{X}_{miss|i,t}\hat{X}_{miss|i,t}^{\prime}\tag{4}
 $$
 
-EM算法通过反复迭代公式(1)-(2)和公式(3)解决自洽性问题，重复这两个步直至满足 $\left.\hat{\Sigma}_{t}^{new}-\hat{\Sigma}_{t}\right._{\infty}\leq\delta$ 。文章使用 $\delta=10^{-4}$
+EM算法通过反复迭代公式(1)-(2)和公式(3)解决自洽性问题，重复这两个步直至满足 $\left\|\widehat{\Sigma}_{t}^{new}-\widehat{\Sigma}_{t}\right\|_{\infty}\leq\delta$ 。文章使用 $\delta=10^{-4}$
 
-- E 步：利用式(1)和(2)，使用观测数据和当前猜测的 $\widehat{\Sigma}_{t}$ 填充缺失数据。• M步：通过将E步中填充的数据代入式(3)的右边，估计一个新的Σ̂new。根据式(4)，将高阶修正 $\hat{X}_{miss|i,t}\hat{X}_{miss|i,t}^{\prime}$ 的子矩阵添加到 $\hat{\Sigma}_{t}^{new}$ 中。
+- E 步：利用式(1)和(2)，使用观测数据和当前猜测的 $\hat{\Sigma}_{t}$ 填充缺失数据。• M步：通过将E步中填充的数据代入式(3)的右边，估计一个新的Σ̂new。根据式(4)，将高阶修正 $\hat{X}_{miss|i,t}\hat{X}_{miss|i,t}^{\prime}$ 的子矩阵添加到 $\hat{\Sigma}_{t}^{new}$ 中。
 
 ## 2.2. 截面均值填充
 

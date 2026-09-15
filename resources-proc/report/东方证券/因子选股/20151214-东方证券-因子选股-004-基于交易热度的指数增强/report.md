@@ -62,7 +62,7 @@ $$
 BehaviorIndex_{i,t}=\frac{1}{2}[Q(IVR_{i,t})+Q\big(adjTurnover_{i,t}\big)]
 $$
 
-其中，BehaviorInd ${}^{2}x_{i,t}$ 为股票 i 在时刻 t 的交易热度， $IVR_{i,t}$ 为股票 i 在时刻 t 的特异度，$adjTurnover_{i,t}$ 为股票 i 在时刻 t 的市值调整换手。 $Q(I_{i,t})$ 表示股票 i 的指标 $\cdot I_{i,t}$ 在时刻 t 样本空间内所有股票中所对应的分位数（累计分布概率）。
+其中，BehaviorInd $ex_{i,t}$ 为股票 i 在时刻 t 的交易热度， $IVR_{i,t}$ 为股票 i 在时刻 t 的特异度，$adjTurnover_{i,t}$ 为股票 i 在时刻 t 的市值调整换手。 $Q(I_{i,t})$ 表示股票 i 的指标 ${\boldsymbol{\cdot}}I_{i,t}$ 在时刻 t 样本空间内所有股票中所对应的分位数（累计分布概率）。
 
 根据交易热度的定义可知，交易热度的取值在 0-1 之间，交易热度取值越高，表明股票交易的活跃程度越高，反应的投机程度越大，后期预期收益率越低。
 

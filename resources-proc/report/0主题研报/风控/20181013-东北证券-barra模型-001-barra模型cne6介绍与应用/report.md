@@ -51,19 +51,19 @@ CNE6中，包括48个描述变量、20个基础因子和9个风格因子。为�
 Barra模型的理论基础是多因子模型，即：
 
 $$
-\begin{array}{r}{[\begin{array}{ccccccccccccccc}{r_{1}-r_{f}}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{\cdots}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}\end{array}||}||\\{|}&{-|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}\end{array}||||\\{\vdots}&{|}&{|}&{|}&{\vdots}&{|}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{|}&{|}&{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}\end{array}|||\begin{array}{ccccccccccc}{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}||\\{\vdots}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{|}&{\vdots}&{|}&{|}&{\vdots}&{\ddots}&{\vdots}&{\vdots}\end{array}||||\begin{array}cc
+[\begin{array}{c}r_{1}-r_{f}\\r_{2}-r_{f}\\\vdots\\r_{N}-r_{f}\end{array}]_{1}=[\begin{array}{c}\uparrow1\\\downarrow\\\vdots\\\vdots\\1\end{array}]_{f_{c}}+[\begin{array}{cccc}I_{11}&I_{12}&\cdots&I_{1m}\\I_{21}&I_{22}&\cdots&I_{1m}\\\vdots&\vdots&\ddots&\vdots\\I_{N1}&I_{N2}&\cdots&I_{Nm}\end{array}]_{1}[\begin{array}{c}\uparrow[\begin{array}{c}f_{11}\\f_{22}\end{array}]\\\vdots\\\vdots\\\vdots\\\vdots\\\vdots\\\vdots\\\end{array}]_{1}+[\begin{array}{cccc}S_{11}&S_{12}&\cdots&S_{1p}\\S_{21}&S_{22}&\cdots&S_{2p}\\\vdots&\vdots&\ddots&\vdots\\S_{N1}&S_{N2}&\cdots&S_{Np}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22}\end{array}]_{1}[\begin{array}{c}f_{11}\\f_{22\end{array}
 $$
 
-其中 $r_{i}$ 为股票收益率； $r_{f}$ 为无风险收益率； $f_{c}$ 、 $f_{_{I}}$ 和 $f_{s}$ 分别表示国家因子、行业因子和风格因子，【是由虚拟变量构成的行业风险载荷矩阵，S为风格因子的风险载荷。
+其中 $r_{i}$ 为股票收益率； $r_{f}$ 为无风险收益率； $f_{c}$ 、 $f_{I}$ 和 $f_{s}$ 分别表示国家因子、行业因子和风格因子，【是由虚拟变量构成的行业风险载荷矩阵，S为风格因子的风险载荷。
 
 利用多因子模型而非收益率的时间序列估计方差协方差矩阵的优势已为人所熟知。其一，此种方法降低了估计协方差矩阵的所需要的时间跨度；其二，减小了矩阵的不稳定性；其三，增强了方差矩阵的可预测性。而多因子模型通过选择解释能力强且数量有限的各类因子对股票收益进行截面回归，并通过估计因子的方差-协方差矩阵求得估计样本的协方差矩阵，并以此确定投资组合的绩效分解和边际风险归因，即如以下公式所示。
 
 $$
-R_{_p}\ =\ \sum_{n}\ w_{_n}r_{n}\ =\ \sum_{k}\psi_{_k}f_{_k}\ +\ \sum_{n}\ w_{_n}u_{_n}
+R_{p}=\sum_{n}w_{n}r_{n}=\sum_{k}\psi_{k}f_{k}+\sum_{n}w_{n}u_{n}
 $$
 
 $$
-{Var}(R_{_p})=\sum_{kl}\psi_{_k}\psi_{_l}F_{_kl}+\sum_{n}{w_{_n}}^{_2}Var({u_{_n}})
+Var\left(R_{_{p}}\right)=\sum_{_{kl}}\psi_{_{k}}\psi_{_{l}}F_{_{kl}}+\sum_{_{n}}{w_{_{n}}}^{2}Var\left(u_{_{n}}\right)
 $$
 
 其中， $\psi_{\textit{ k }}$ 为第k个因子对应的风险载荷与权重的线性组合。
@@ -157,21 +157,21 @@ CNE6中，包含48个描述变量、20个基础因子和9个风格因子；为�
 首先，对数据进行如下标准化：
 
 $$
-{X_{\ nk}}^{(std)}=\frac{{X_{\ nk}}^{(raw)}-\mu_{k}}{\sigma_{k}}
+X_{_{nk}}^{^{(std)}}=\frac{X_{_{nk}}^{^{(raw)}}-\mu_{_k}}{\sigma_{_k}}
 $$
 
-其中 $\boldsymbol{\mu}_{\ u{k}}$ 为市值加权平均， $\sigma_{\textit{ k }}$ 为简单平均标准差。
+其中 $\mu_{_k}$ 为市值加权平均， $\sigma_{{k}}$ 为简单平均标准差。
 
 与传统的极值限制在3个标准差的做法不同，我们采取以下极值处理方式，将风险暴露限制在[-3.5,3.5]。
 
 $$
-\tilde{X}_{_{nk}}^{^{(std)}}=\left\{\begin{array}{ll}{3\cdot(1-s_{_{(+)}})+\ X_{_{nk}}^{^(std)}\cdot s_{_{(+)}};}&{\ X_{_{nk}}^{^{(std)}}>3}\\{\qquad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\{-3\cdot(1-s_{_{(-)}})+\ X_{_{nk}}^{^{(std)}}\cdot s_{_{(-)}};}&{\ X_{_{nk}}^{^{(std)}}<-3}\end{array}\right.
+\tilde{X}_{_{nk}}^{^{(std)}}=\left\{\begin{aligned}&3\cdot(1-s_{_{(+)}})+X_{_{nk}}^{^{(std)}}\cdot s_{_{(+)}}^{^{(}};\quad X_{_{nk}}^{^{(std)}}>3\\&\quad X_{_{nk}}^{^{(std)}};-3\leq X_{_{nk}}^{^{(std)}}\leq3\\&-3\cdot(1-s_{_{(-)}})+X_{_{nk}}^{^{(std)}}\cdot s_{_{(-)}}^{^{(}};\quad X_{_{nk}}^{^{(std)}}<-3\end{aligned}\right.
 $$
 
 其中，
 
 $$
-s_{_{(+)}}=Max\Big|\ 0,Min(1,\frac{0.5}{M_{_{n}}^{ax(\ X_{_{nk}}^{^{(std)}}-3)}})\ \Big|
+s_{_{(+)}}=Max\left(0,Min\left(1,\frac{0.5}{Max\left(X_{_{nk}}^{^{(std)}}-3\right)}\right)\right)
 $$
 
 可以检验，此种极值处理方式不仅限制了数据的取值，同时保留了原始数据的排序。
@@ -326,7 +326,7 @@ $$
 在这一部分，我们对基础因子和风格因子表现进行回测。在这里我们使用回归的方法计算得到单因子纯因子收益，如下：
 
 $$
-r_{\scriptscriptstyle n}-r_{\scriptscriptstyle f}=f_{\scriptscriptstyle c}+\sum_{i}X_{{\scriptscriptstyle ni}}f_{i}+X_{{\scriptscriptstyle ns}}f_{s}+u_{{\scriptscriptstyle n}}
+r_{_{n}}-r_{_{f}}=f_{_{c}}+\sum_{_{i}}X_{_{ni}}f_{_{i}}+X_{_{ns}}f_{_{s}}+u_{_{n}}
 $$
 
 即，对于每一因子，将其与行业变量一起作为解释变量，进行加权截面回归，得到纯因子收益。下面我们对基础因子和风格因子结果进行分别说明（时间区间，2006年-2018年9月）。

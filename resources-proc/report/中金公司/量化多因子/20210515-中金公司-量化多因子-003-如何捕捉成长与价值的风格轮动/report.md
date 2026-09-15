@@ -275,7 +275,7 @@ Granger 检验是 Clive W. J. Granger 提出的用于检验经济变量之间因
 - 北上资金估值偏好指标则可以表示为：
 
 $$
-LGT_{-}relative_{-}value\ =\ \sum_{i=1}^{N}LGT_{-}r_{i}\ *\ (value_{-}quantile_{i}-0.5)
+LGT\_relative\_value\ =\sum_{i=1}^{N}LGT\_r_{i}\ *\ (value\_quantile_{i}-0.5)
 $$
 
 其中，N代表截面上的个股总数
@@ -525,7 +525,7 @@ V时间序列 z-score 标准化：
 月度调仓，根据指标值给定当月成长组合与价值组合的仓位占比。设成长组合的仓位占比为 p，则价值组合的占比为（1-p），权重 p的计算方法如下：
 
 $$
-p_{i}={\frac{\operatorname*{max}(x)-x_{i}}{\operatorname*{max}(x)-\operatorname*{min}(x)}}
+p_{i}=\frac{\max(\boldsymbol{x})-x_{i}}{\max(\boldsymbol{x})-\min(\boldsymbol{x})}
 $$
 
 基于成长/价值风格轮动仓位调整的策略（2011 年 1月 1 日至 2021 年 4月 30 日）年化收益为 20.24%，累计超额成长组合 98.98ppt,累计超额价值组合 342.49ppt。

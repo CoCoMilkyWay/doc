@@ -203,18 +203,18 @@ B-L 模型 2012 年重仓的六个行业中，有五个行业收益排在前 1/2
 从 B-L模型的公式来看，在无约束条件下，B-L 模型得到的资产组合权重向量与市场权重向量有如下关系：
 
 $$
-w^{*}-w_{\mathrm{mkt}}=\frac{P^{\prime}}{\lambda}\biggl(\frac{\Omega}{\lambda}{+}P\Sigma P^{\prime}\biggr)^{-1}\left(Q-\lambda P\Sigma w_{\mathrm{mkt}}\right)
+w^{*}-w_{\mathrm{mkt}}=\frac{P^{\prime}}{\lambda}\left(\frac{\Omega}{\lambda}+P\Sigma P^{\prime}\right)^{-1}\left(Q-\lambda P\Sigma w_{\mathrm{mkt}}\right)
 $$
 
 $$
-\mathrm{{~~}}\mathrm{{~~}}\mathrm{{~~}}\theta{=}\frac{P^{\prime}}{\lambda}{(\frac{\Omega}{\lambda}{+}P\Sigma P^{\prime})}^{-1},
+\theta=\frac{P^{\prime}}{\lambda}\left(\frac{\Omega}{\lambda}+P\Sigma P^{\prime}\right)^{-1}
 $$
 
 $$
-\mathrm{~\sqrt{19}~}Q-\lambda P\Sigma w_{mkt}=Q-P(\lambda\Sigma w_{mkt})=Q-P\Pi~,
+Q-\lambda P\Sigma w_{mkt}=Q-P\left(\lambda\Sigma w_{mkt}\right)=Q-P\Pi,
 $$
 
-如果P为单位矩阵，Q-PΠI=Q-ΠI， $w^{*}-w_{\mathrm{mkt}}=\theta\mathopen{}\mathclose\bgroup\left(Q-\Pi\aftergroup\egroup\right)$
+如果P为单位矩阵，Q-PΠI=Q-ΠI， $w^{*}-w_{\mathrm{mkt}}=\theta(Q-\Pi)$
 
 那么权重差和收益差就呈现线性关系。
 
@@ -753,15 +753,15 @@ $\sigma_{m}^{2}$ ：市场组合收益方差
 
 ## 跟踪误差
 
-跟踪误差（Tracking Error）是投资组合收益和市场收益之差的波动性，也就是 $(r_{p}-r_{m})$ 的标准差，
+跟踪误差（Tracking Error）是投资组合收益和市场收益之差的波动性，也就是 $(r_{_p}-r_{_m})$ 的标准差，
 
 $$
-\sigma_{{\scriptscriptstyle TE}}=\sqrt{\sigma_{p}^{2}+\sigma_{m}^{2}-2\cos(r_{p},r_{m})}
+\sigma_{TE}=\sqrt{\sigma_p^2+\sigma_m^2-2\mathrm{cov}(r_p,r_m)}
 $$
 
 其中，
 
-$\boldsymbol{\sigma}_{p}^{2}$ ：投资组合收益方差 $\sigma_{m}^{2}$ ：市场组合收益方差
+${\sigma_{p}^{2}}$ ：投资组合收益方差 $\sigma_{m}^{2}$ ：市场组合收益方差
 
 $\mathrm{cov}(r_{p},r_{m})$ ：投资组合和市场组合收益的协方差
 
@@ -770,12 +770,12 @@ Sharpe 比率
 Sharpe 比率（Sharpe ratio）用来计算投资组合每承受一单位的风险，能够产生多少的超额收益。
 
 $$
-\mathrm{Sharpe~ratio}=\frac{\mathrm{E}(r_{p})-r_{f}}{\sigma_{p}}
+\mathrm{Shareratio}=\frac{\mathrm{E}(r_p)-r_f}{\sigma_p}
 $$
 
 其中：
 
-$\mathrm{E}(r_{p})$ ：投资组合预期收益率 $r_{f}$ ：无风险利率
+$\mathbf{E}(r_{p})$ ：投资组合预期收益率 $r_{f}$ ：无风险利率
 
 $\sigma_{p}$ ：投资组合收益率标准差
 
@@ -784,7 +784,7 @@ $\sigma_{p}$ ：投资组合收益率标准差
 信息比率（Information ratio）用来衡量一个投资组合优于另一个特定指数的风险调整超额收益。
 
 $$
-\mathrm{Information~ratio}=\frac{\alpha}{\mathrm{Tracking~error}}
+\mathrm{Informationratio}=\frac{\alpha}{\mathrm{Trackingerror}}
 $$
 
 其中， $\alpha$ 为组合相对于基准的超额收益。

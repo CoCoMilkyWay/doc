@@ -49,7 +49,7 @@ linxiaoming@htsc.com
 结构化多因子风险模型将股票收益表示为一组共同因子的收益和一个仅与该股票有关的特异性收益的组合：
 
 $$
-r_{n}=\sum_{k=1}^{K}X_{nk}f_{k}+u_{n}
+r_{n}=\sum_{k=1}^{K}X_{nk}f_{k}+u_{n},
 $$
 
 $$
@@ -57,10 +57,10 @@ r_{n}
 $$
 
 $$
-X_{nk}\colon
+X_{nk};
 $$
 
-$u_{n}\colon$ 第n只股票的特异性收益率
+$u_{n};$ 第n只股票的特异性收益率
 
 其中，共同因子收益率与股票特异性收益率不相关，不同股票的特异性收益率不相关。那么，股票收益风险可以解释为共同因子收益风险和特异性收益风险的组合。其中，特异性收益风险代表无法被共同因子解释的收益波动，如某些突发性事件驱动的股价变化、未知的 Alpha 因子等。多因子风险模型将对于股票收益协方差矩阵的估计转换为对于因子收益协方差矩阵和特异性收益方差矩阵的估计：
 
@@ -126,19 +126,19 @@ $$
 r_{n}=f_{c}+\sum_{i}X_{ni}f_{i}+\sum_{s}X_{ns}f_{s}+u_{n}
 $$
 
-$r_{n}\colon$ 第n只股票的收益率
+$r_{n};$ 第n只股票的收益率
 
 f:国家因子收益率
 
-$X_{ni}\colon$ 第n只股票在第i个行业因子上的因子暴露（0 或 1）
+$X_{ni};$ 第n只股票在第i个行业因子上的因子暴露（0 或 1）
 
-$f_{i}{\mathrm{:}}$ 第i个行业因子的收益率
+$f_{i};$ 第i个行业因子的收益率
 
-$X_{ns}\colon$ :第n只股票在第s个风格因子上的因子暴露
+$X_{ns};$ :第n只股票在第s个风格因子上的因子暴露
 
-$f_{s}\mathrm{:}$ 第s个风格因子的收益率
+$f_{s};$ 第s个风格因子的收益率
 
-$u_{n}\colon$ 第n只股票的特异性收益率
+$u_{n};$ 第n只股票的特异性收益率
 
 为了消除国家因子与行业因子之间的共线性，模型需要为行业因子加入额外约束：
 
@@ -155,10 +155,10 @@ f:第i个行业因子收益率
 在模型中加入国家因子不仅不会影响线性回归和模型的解释效力，还会具有以下两点优势。第一，模型加入国家因子，可以将市场效应与行业效应剥离开来，使因子的意义更加直观、纯粹。是否加入国家因子的模型中的行业因子收益率具有如下关系：
 
 $$
-\widetilde{f}_{l}=f_{c}+f_{i}
+\widetilde{f}_{i}=f_{c}+f_{i}
 $$
 
-$\widetilde{f}_{l}\colon$ 不加入国家因子的模型中，第i个行业因子的收益率
+$\widetilde{f}_{l};$ 不加入国家因子的模型中，第i个行业因子的收益率
 
 fc: 国家因子收益率
 
@@ -173,7 +173,7 @@ f:加入国家因子的模型中，第i个行业因子的收益率
 是否加入国家因子的模型中的行业因子收益的协方差具有如下关系：
 
 $$
-\begin{array}{rl}&{cov(\widetilde{f_{t1}},\widetilde{f_{t2}})=var(f_{c})+cov(f_{c},f_{i1})+cov(f_{c},f_{i2})+cov(f_{i1},f_{i2})}\\&{\widetilde{f_{t1}},\widetilde{f_{t2}}\colon\widetilde{\mathcal{K}}\mathcal{H}\times\mathbb{S}\mathbb{E}\not\equiv\check{\mathcal{Z}}\not\equiv\check{\Psi}^{\downarrow}\not\exists\not\equiv\check{\Psi}^{\downarrow\downarrow}\not\equiv\check{\Psi}^{\downarrow}\not\equiv\check{\Psi}^{\downarrow}i1,i2\atop{f_{c}\colon\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\bigotimes\big|\big\downarrow}.\check{\mathscr{Z}}\not\equiv\widetilde{\Psi}^{\downarrow}i2,}\end{array}
+\begin{aligned}cov\big(\widetilde{f_{i1}},\widetilde{f_{i2}}\big)&=var(f_c)+cov(f_c,f_{i1})+cov(f_c,f_{i2})+cov(f_{i1},f_{i2})\\\widetilde{f_{i1}},\widetilde{f_{i2}}&:不加入国家因子的模型中,第i1、i2个行业因子的收益率\\&\quad f_c:国家因子收益率\end{aligned}
 $$
 
 f ,f :加入国家因子的模型中，第i1、 i2 个行业因子的收益率
@@ -197,13 +197,13 @@ f ,f :加入国家因子的模型中，第i1、 i2 个行业因子的收益率
 首先，利用中位数去极值方法，调整每个时间截面上的极端数据：
 
 $$
-\widetilde{D_{k}}=\left\{\begin{array}{rl}{D_{M}+3*D_{MAD},\quad}&{ifD_{i}>D_{M}+3*D_{MAD}}\\{D_{M}-3*D_{MAD},\quad}&{ifD_{i}<D_{M}-3*D_{MAD}}\\{D_{k},\quad}&{else}\end{array}\right.
+\widetilde{D_{k}}=\left\{\begin{aligned}D_{M}+3*D_{MAD},&\quad&ifD_{i}>D_{M}+3*D_{MAD}\\D_{M}-3*D_{MAD},&\quad&ifD_{i}<D_{M}-3*D_{MAD}\\D_{k},&\quad&else\end{aligned}\right.
 $$
 
 $D_{k}$ :某个时间截面上，第k个因子在所有个股上的暴露度序列
 
 $$
-\begin{array}{c}{D_{M}\colon\dot{\vec{\mathcal{F}}}{}^{\mathparagraph}\mathinner{\left\{\begin{array}{ll}{D_{k}\sharp\mathfrak{H}}\end{array}\right.}\kern-delimiterspace}D_{k}\sharp\mathfrak{H}\mathinner{\langle{\vec{\Xi}\stackrel{*}{\mathstrut}\sharp\chi}}\\{D_{MAD}\colon\dot{\vec{\mathcal{H}}}{}^{*}\mathinner{\langle{\vec{\Xi}\cdot\vec{\Xi}^{\mathstrut}}\mathclose|}|D_{k}-D_{M}|\sharp\mathfrak{H}\mathinner{\langle{\vec{\Xi}\stackrel{*}{\mathstrut}\sharp\chi}}}\\\widetilde{D_{k}}\colon\pm\dot{\Xi}\mathinner{\langle{\vec{\Xi}\cdot\vec{\Xi}^{\mathstrut}}\mathclose|}\dot{\vec{\Xi}}{}\mathinner{\langle{\vec{\Xi}\stackrel{*}{\mathstrut}\pm\vec{\Xi}}\mathclose|}\end{array}
+\begin{aligned}\widetilde{D_{M}}:&序列D_{k}的中位数\\D_{MAD}:&序列|D_{k}-D_{M}|的中位数\\\widetilde{D_{k}}:&去极值处理后的因子暴露\end{aligned}
 $$
 
 其次，将缺失数据填充为该只股票所在行业的因子暴露均值。不同因子可能在不同时间截面、不同股票处存在缺失值，为了保证因子数目在不同时间截面上的一致性，存在缺失值的因子往往被直接剔除。但是我们认为，在风险模型中直接剔除空值因子会使该因子对风险模型的贡献被特异性收益率吸收，影响模型风险预测的准确度。因此，我们采取填充行业均值的处理。这样做一方面可以维持股票池的完整性，保证后续因子收益求解的稳定性，另一方面还可以减小填充值对行业因子收益率计算的影响。
@@ -216,11 +216,11 @@ $$
 
 $d_{nk}^{raw}$ :缺失值处理后，第k个因子在第n只股票上的因子暴露
 
-$u_{k}\colon$ 第k个因子在所有个股上的因子暴露的市值加权均值
+$u_{k};$ 第k个因子在所有个股上的因子暴露的市值加权均值
 
-$\sigma_{k}\mathbf{:}$ 第k个因子在所有个股上的因子暴露的等权标准差
+$\sigma_{k}\colon$ 第k个因子在所有个股上的因子暴露的等权标准差
 
-$d_{nk}\colon$ 标准化处理后，第n只股票对第k个因子的因子暴露
+$d_{nk};$ 标准化处理后，第n只股票对第k个因子的因子暴露
 
 其中， $u_{k}$ 的计算采用市值加权，是为了使全 A股市值加权的投资组合对所有风格因子的暴
 
@@ -239,23 +239,23 @@ $d_{nk}\colon$ 标准化处理后，第n只股票对第k个因子的因子暴露
 求解因子收益率需要满足如下条件：
 
 $$
-\begin{array}{c}{{Min~Q=\displaystyle\sum_{n=1}^{N}w_{n}\left(r_{n}-f_{c}-\sum_{i}X_{ni}f_{i}-\sum_{s}X_{ns}f_{s}\right)^{2}}}\\{{{}}}\\\\{{\mathrm{s.t.}\displaystyle\sum_{n=1}^{N}\sum_{i}w_{n}X_{ni}f_{i}=0}}\\{{{}}}\\{{W_{n}:\tilde{\tilde{\phi}}\tilde{n}\mathcal{L}\tilde{\Psi}^{\top}\tilde{n}\bar{\mathcal{L}}\bar{\Psi}^{\top}\bar{\Psi}^{\top}\bar{\Psi}^{\top}\bar{\tilde{\Psi}}^{\top}\bar{\tilde{\Psi}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\mathcal{L}}}}}\\{{{}}}\\{{F_{c}:\displaystyle\frac{\tilde{F}^{\top}}{\tilde{\mathcal{Q}}}\bar{\mathcal{L}}\bar{\Psi}\bar{\tilde{\mathcal{L}}}\bar{\Psi}\bar{\tilde{\mathcal{L}}}\bar{\Psi}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\Psi}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\Psi}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\Psi}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\mathcal{L}}}\bar{\tilde{\Psi}}}}\\{{{}}}\end{array}
+\begin{aligned}MinQ=\sum_{n=1}^{N}w_{n}&\left(r_{n}-f_{c}-\sum_{i}X_{ni}f_{i}-\sum_{s}X_{ns}f_{s}\right)^{2}\\s.t.&\sum_{n=1}^{N}\sum_{i}w_{n}X_{ni}f_{i}=0\\w_{n}:&第n只股票的市值权重\\r_{n}:&第n只股票的收益率\\f_{c}:&国家因子收益率\end{aligned}
 $$
 
-$X_{ni}\colon$ 第n只股票在第i个行业因子上的因子暴露（0 或 1）f:第i个行业因子的收益率$X_{ns}$ :第n只股票在第s个风格因子上的因子暴露f:第s个风格因子的收益率
+$X_{ni};$ 第n只股票在第i个行业因子上的因子暴露（0 或 1）f:第i个行业因子的收益率$X_{ns}$ :第n只股票在第s个风格因子上的因子暴露f:第s个风格因子的收益率
 
 我们在这里将问题进行简化，暂不考虑加入国家因子和行业收益率市值加权总和为 0 的约束，那么问题可以表示为：
 
 $$
-Min~Q=\sum_{n=1}^{N}w_{n}\left(r_{n}-\sum_{i}X_{ni}\widetilde{f}_{i}-\sum_{s}X_{ns}f_{s}\right)^{2}
+Min\;Q=\sum_{n=1}^{N}w_n\left(r_n-\sum_{i}X_{ni}\widetilde{f}_i-\sum_{s}X_{ns}f_s\right)^2
 $$
 
-$\widetilde{f}_{l}\colon$ 未加入国家因子的模型中，第i个行业因子的收益率
+$\widetilde{f}_{l};$ 未加入国家因子的模型中，第i个行业因子的收益率
 
 此时，问题转化为一个无约束的二次优化问题，可以通过加权最小二乘法（WLS）计算得到风格因子收益和未加入国家因子时的行业因子收益。之后，令国家因子收益等于这些行业因子收益的市值加权和，再从这些行业因子收益中扣除国家因子收益的影响，即可得到满足约束条件的国家因子收益和行业因子收益：
 
 $$
-\begin{array}{c}{f_{c}=\displaystyle\sum_{n=1}^{N}\sum_{i}w_{n}X_{ni}\widetilde{f}_{i}}\\{f_{i}=\widetilde{f}_{i}-f_{c}}\end{array}
+\begin{aligned}f_{c}&=\sum_{n=1}^{N}\sum_{i}w_{n}X_{ni}\widetilde{f}_{ti}\\&\quad f_{i}=\widetilde{f}_{i}-f_{c}\end{aligned}
 $$
 
 ## 风险矩阵的估计
@@ -274,15 +274,15 @@ $$
 
 $r_{k,t\sim t+\delta}\colon$ k资产在当前第t个截面到未来第t+δ个截面的收益率
 
-$\sigma_{k,t}\colon$ 在t截面上，模型对资产k在截面 $t\sim t+\delta\mathbb{\ E}$ 间内收益波动率的预测值标准化收益类似 Z分数。偏误统计量定义为一段观测区间内，标准化收益的标准差：
+$\sigma_{k,t};$ 在t截面上，模型对资产k在截面 $t\text{\sim }t+\delta 区$ 间内收益波动率的预测值标准化收益类似 Z分数。偏误统计量定义为一段观测区间内，标准化收益的标准差：
 
 $$
-B_{k}=\sqrt{\frac{1}{T-1}\sum_{t=1}^{T}\left(b_{k,t}-\bar{b}_{k}\right)^{2}}
+B_{k}=\sqrt{\frac{1}{T-1}{\sum_{t=1}^{T}}{\left(b_{k,t}-\bar{b}_{k}\right)^{2}}}.
 $$
 
-$\bar{b}_{k}\mathrm{:}$ 标准化收益 $\boldsymbol{{b}}_{k,t}$ 在T期内的均值
+${\bar{b}}_{k};$ 标准化收益 $.b_{k,t}$ 在T期内的均值
 
-偏误统计量表征资产实际风险与预测风险的比值。理想情况下，如果风险预测准确，那么标准化收益的标准差应为 1，即偏误统计量 $\boldsymbol{B}_{k}=1$ 。如果低估风险，标准化收益的标准差将大于 1，即 $B_{k}>1$ ；同理，如果高估风险，标准化收益的标准差将小于 1，即 $B_{k}<1$ 实际情况下，由于采样误差的存在，即便是完美的风险预测，偏误统计量也难以等于 1。因此，我们定义一个偏误统计量的 95%置信区间：
+偏误统计量表征资产实际风险与预测风险的比值。理想情况下，如果风险预测准确，那么标准化收益的标准差应为 1，即偏误统计量 ${\boldsymbol{\cdot}}{\boldsymbol{B}}_{k}=1$ 。如果低估风险，标准化收益的标准差将大于 1，即 $B_{k}>1$ ；同理，如果高估风险，标准化收益的标准差将小于 1，即 $B_{k}<1$ 实际情况下，由于采样误差的存在，即便是完美的风险预测，偏误统计量也难以等于 1。因此，我们定义一个偏误统计量的 95%置信区间：
 
 $$
 C_{T}=[1-\sqrt{2/T},1+\sqrt{2/T}]
@@ -296,10 +296,10 @@ $$
 
 因子收益协方差矩阵基于历史收益率数据计算，要求历史数据的截面数至少需要大于因子数。截面数不足会产生病态的协方差矩阵，严重影响风险预测的准确度。如果使用月频数据计算，那么包含 40 个风格因子的模型，需要 3 年以上的历史数据。历史数据的时间窗跨度过大，会使模型包含与当前市场状态相关程度较低的市场状态信息，显然并不适用于多变的 A股市场。此外，月频数据比较稀疏，模型较难及时捕捉市场变化。日频数据的数据量是月频数据的 20 倍，更高频的数据，对市场变化的敏感性更强。因此，我们的模型基于日频数据计算因子收益协方差矩阵和特异性收益方差矩阵。再通过后续 Newey-West调整，将风险矩阵调整至适合月频调仓策略。
 
-考虑到实际市场多变，与远期历史收益数据相比，近期历史收益数据对当前风险估计的影响更大，因此我们采用权重指数衰减的加权移动平均（Exponentially Weighted MovingAverage）方法计算因子收益协方差矩阵 $.F^{Raw}$ ：
+考虑到实际市场多变，与远期历史收益数据相比，近期历史收益数据对当前风险估计的影响更大，因此我们采用权重指数衰减的加权移动平均（Exponentially Weighted MovingAverage）方法计算因子收益协方差矩阵 $\cdot F^{Raw}$ ：
 
 $$
-F_{a,b}^{Raw}=cov(f_{a},f_{b})_{t}=\sum_{s=0}^{h}\lambda_{t-s}(f_{a,t-s}-\overline{{f_{a}}})(f_{b,t-s}-\overline{{f_{b}}})/\sum_{s=0}^{h}\lambda_{t-s}
+F_{a,b}^{Raw}=cov(f_a,f_b)_t=\sum_{s=0}^{h}\lambda_{t-s}(f_{a,t-s}-\overline{f_a})(f_{b,t-s}-\overline{f_b})\left/\sum_{s=0}^{h}\lambda_{t-s}\right.
 $$
 
 $$
@@ -310,11 +310,11 @@ $cov(f_{a},f_{b})_{t}$ :第t期，因子a与因子b之间的协方差
 
 λ:指数衰减权重
 
-$f_{a,t-s},f_{b,t-s}\colon$ 第t−s个截面上，因子a和因子b的收益率
+$f_{a,t-s},f_{b,t-s};$ 第t−s个截面上，因子a和因子b的收益率
 
-${\overline{{f_{a}}}},{\overline{{f_{b}}}}\colon$ 从截面t−ℎ 到截面t的区间内，因子a和因子b的收益率的加权均值
+${\overline{{f_{a}}}},{\overline{{f_{b}}}}.$ 从截面t−ℎ 到截面t的区间内，因子a和因子b的收益率的加权均值
 
-这里，我们对因子收益协方差矩阵中协方差项和方差项的计算，统一取时间窗 $h=252$ 权重半衰期 $|\tau=90$ o
+这里，我们对因子收益协方差矩阵中协方差项和方差项的计算，统一取时间窗 $h=252$ 权重半衰期 $1\tau=90$ o
 
 ## Newey-West 调整
 
@@ -323,41 +323,41 @@ ${\overline{{f_{a}}}},{\overline{{f_{b}}}}\colon$ 从截面t−ℎ 到截面t的
 因子收益率的时序相关性可以由滑动平均模型（Moving-Average Model，MA）描述，假设因子收益率满足一个D阶的时序相关，那么收益率序列可以表示为：
 
 $$
-f(t)=\mu+\sum_{i=0}^{D}\theta_{i}\varepsilon_{t-i}
+f(t)=\mu+\sum_{i=0}^{D}\theta_{i}\varepsilon_{t-i},
 $$
 
 f(t):截面t上的因子收益率
 
-$\mu\mathrm{:}$ 一个与因子相关的常数，反映因子收益均值
+$\mu;$ 一个与因子相关的常数，反映因子收益均值
 
 $$
-\varepsilon_{t-i}\colon\sharp\colon\mathfrak{H}t-i\perp\sharp\mathfrak{H}\sharp\sharp\sharp\cdots\sharp
+\varepsilon_{t-i};截面t-i上的白噪音
 $$
 
-$\theta_{i}\mathbf{:}$ :第t−i个截面对第t个截面的影响程度
+$\theta_{i};$ :第t−i个截面对第t个截面的影响程度
 
-白噪音 $\boldsymbol\varepsilon_{t-i}$ 表征截面t −i上影响收益率的信息，它对收益率的影响会持续至此后的第D个截面，从而 $\dot{\bar{y}}$ 生时序相关。对于此D阶时序相关的收益协方差矩阵，一个简单的相合估计可以表示为：
-
-$$
-\mathcal{\Omega}=F^{Raw}+\sum_{d=1}^{D}\bigl(\hat{\Omega}_{d}+\hat{\Omega}_{d}^{\prime}\bigr)
-$$
+白噪音 $\varepsilon_{t-i}$ 表征截面t −i上影响收益率的信息，它对收益率的影响会持续至此后的第D个截面，从而 $产$ 生时序相关。对于此D阶时序相关的收益协方差矩阵，一个简单的相合估计可以表示为：
 
 $$
-\hat{\Omega}_{d}=\sum_{t=1}^{T-d}\lambda^{T-d-t}f_{t}f_{t+d}^{\prime}/\sum_{t=1}^{T-d}\lambda^{T-d-t}
+\varOmega=F^{Raw}+\sum_{d=1}^{D}\bigl(\widehat{\varOmega}_{d}+\widehat{\varOmega}_{d}^{\prime}\bigr),
 $$
 
-$f_{t}\colon$ 截面t上所有因子的因子收益率序列
+$$
+\widehat{\Omega}_{d}=\sum_{t=1}^{T-d}\lambda^{T-d-t}f_{t}f_{t+d}^{\prime}\left/\sum_{t=1}^{T-d}\lambda^{T-d-t}\right.
+$$
 
-$\hat{\varOmega}_{d}\colon$ :滞后期为d时的自协方差矩阵
+$f_{t};$ 截面t上所有因子的因子收益率序列
+
+$\hat{\boldsymbol{\varOmega}}_{d};$ :滞后期为d时的自协方差矩阵
 
 这一调整方法的本质是使用1~D阶的自协方差矩阵对未考虑时序相关的协方差矩阵FRaw进行修正。但是此方法存在一个明显的缺点——调整后的协方差矩阵不一定满足半正定的要求。为了解决这一问题，Newey 和 West（1987）在调整过程中加入了 Bartlett 权重，提出了广泛使用的 Newey-West 调整方法：
 
 $$
-\hat{\Omega}=F^{Raw}+\sum_{d=1}^{D}w(d,D)\cdot\left(\hat{\Omega}_{d}+\hat{\Omega}_{d}^{\prime}\right)
+\hat{\Omega}=F^{Raw}+\sum_{d=1}^{D}w(d,D)\cdot\left(\hat{\varOmega}_{d}+\hat{\varOmega}_{d}^{\prime}\right)
 $$
 
 $$
-w(d,D)=1-{\frac{d}{D+1}}
+w(d,D)=1-\frac{d}{D+1}
 $$
 
 w(d, D): Bartlett 权重，随d的增大而减小
@@ -367,7 +367,7 @@ Newey-West调整后的协方差矩阵是一个相合估计，并且满足半正�
 由于此因子收益协方差矩阵是基于日频数据计算得到，表征的是日度收益风险，因此，在用于月频调仓策略之前，我们还需要将此日频收益协方差矩阵频率转换至表征月度风险的月频收益协方差矩阵 $F^{NW}$
 
 $$
-F^{NW}=21\cdot\hat{\Omega}=21\cdot\Bigg[F^{Raw}+\sum_{d=1}^{D}\Big(1-\frac{d}{D+1}\Big)\cdot\big(\hat{\Omega}_{d}+\hat{\Omega}_{d}^{\prime}\big)\Bigg],
+F^{NW}=21\cdot\widehat{\boldsymbol{\varOmega}}=21\cdot\Bigg[F^{Raw}+\sum_{d=1}^{D}\bigg(1-\frac{d}{D+1}\bigg)\cdot\big(\widehat{\boldsymbol{\varOmega}}_{d}+\widehat{\boldsymbol{\varOmega}}_{d}^{\prime}\big)\Bigg],
 $$
 
 这里，我们对因子收益协方差矩阵中协方差项和方差项的计算，统一取滞后期 $D=2$
@@ -382,7 +382,7 @@ $$
 
 $\sigma_{true}.$ 最优投资组合的真实波动率
 
-$\sigma_{pred}.$ :该投资组合的模型预测波动率
+$\sigma_{pred}!$ :该投资组合的模型预测波动率
 
 K:股票数目或因子数目
 
@@ -394,7 +394,7 @@ T:计算协方差矩阵时的有效样本数
 
 结果显示，股票和随机权重投资组合的偏误统计量都趋近 1，说明风险模型在股票水平上的风险预测准确。但是，特征组合的偏误统计量则与投资组合真实波动率呈现明显的负相关，即模型明显低估低波动率特征组合的风险，风险低估程度随特征组合波动率的增大而逐渐减小。因此，Menchero、Wang和 Orr（2012）认为，最优投资组合风险低估很可能与特征组合的风险偏误（即特征值偏误）紧密相关，基于这一假设，他们提出了特征值调整方法，利用蒙特卡洛模拟估计采样误差带来的特征值偏误，用于修正协方差矩阵的特征值，从而解决风险模型低估最优投资组合的问题。
 
-特征值调整的具体方法如下。对 Newey-West 调整后的协方差矩阵 $F^{NW}$ 进行特征值分解：
+特征值调整的具体方法如下。对 Newey-West 调整后的协方差矩阵 $\cdot F^{NW}$ 进行特征值分解：
 
 $$
 D_{0}=U_{0}^{\prime}F^{NW}U_{0}
@@ -402,21 +402,21 @@ $$
 
 D :特征值构成的对角矩阵
 
-$U_{0}{\mathrm{:}}$ 正交矩阵，矩阵第k列表示 $D_{0}$ 中第k个特征值所对应的特征向量
+$U_{0};$ 正交矩阵，矩阵第k列表示 $D_{0}$ 中第k个特征值所对应的特征向量
 
-上文提到， $\dot{\nu}\times U_{0}$ 第 k列特征向量为权重构成的特征组合的风险恰好等于第 k个特征值的平方根，特征组合之间互不相关。
+上文提到， $以U_{0}$ 第 k列特征向量为权重构成的特征组合的风险恰好等于第 k个特征值的平方根，特征组合之间互不相关。
 
 对于任意已知的风险协方差矩阵，采样误差带来的特征值偏误存在确定的概率分布。因此，虽然我们并不知道真实的协方差矩阵，但是可以暂时先将已有的 $F^{NW}$ 视作真实的协方差矩阵，将 $D_{0}$ 视作以 $U_{0}$ 为权重的特征组合收益的真实方差。通过蒙特卡罗模拟，计算真实协方差矩阵与基于模拟收益数据得到的模拟协方差矩阵的特征值的比值，从而衡量采样误差带来的特征值偏误。
 
 第m次蒙特卡罗模拟的过程为：
 
-（1） 假设特征组合月收益率满足正态分布，随机生成大小为 $K\times T$ 的模拟特征组合收益率矩阵 $\cdot b_{m}$ 。其中，K为特征组合数目，即因子数目，T为模拟的期数。矩阵的第k行数据服从均值为 0、方差为 $D_{0}(k,k)$ 的正态分布。根据因子与特征组合之间的关系，可以得到因子的模拟收益率矩阵 $f_{m}$ ：
+（1） 假设特征组合月收益率满足正态分布，随机生成大小为 $K\times T$ 的模拟特征组合收益率矩阵 $\cdot b_{m}$ 。其中，K为特征组合数目，即因子数目，T为模拟的期数。矩阵的第k行数据服从均值为 0、方差为 $D_{0}(k,\bar{k})$ 的正态分布。根据因子与特征组合之间的关系，可以得到因子的模拟收益率矩阵 $f_{m}$ ：
 
 $$
 f_{m}=U_{0}b_{m}
 $$
 
-（2） 根据因子模拟收益率序列，可以得到模拟因子收益协方差矩阵 $F_{m}$ ：
+（2） 根据因子模拟收益率序列，可以得到模拟因子收益协方差矩阵 $\cdot F_{m}$ ：
 
 $$
 F_{m}=cov(f_{m},f_{m})
@@ -430,18 +430,18 @@ $$
 D_{m}=U_{m}^{\prime}F_{m}U_{m}
 $$
 
-（4） 按照模拟特征组合权重，将真实协方差矩阵 $F^{NW}$ 分解，得到模拟特征组合的真实方差，即真实特征值矩阵 ${\widetilde{D}}_{m}$ ：
+（4） 按照模拟特征组合权重，将真实协方差矩阵 $\cdot F^{NW}$ 分解，得到模拟特征组合的真实方差，即真实特征值矩阵 $\widetilde{D}_{m}$ ：
 
 $$
 \widetilde{D}_{m}=U_{m}^{\prime}F^{NW}U_{m}
 $$
 
-需要注意的是，由于 $U_{m}$ 的每一列并不是 $F^{NW}$ 真实的特征向量，因此分解得到的特征值矩阵 ${\widetilde{D}}_{m}$ 并不是对角矩阵。但是，我们依旧可以将 ${\widetilde{D}}_{m}$ 的对角线元素当作模拟特征组合的真实方差。由于采样误差的存在，E $[D_{m}(k,k)]\neq\widetilde{D}_{m}(k,k)$
+需要注意的是，由于 $U_{m}$ 的每一列并不是 $F^{NW}$ 真实的特征向量，因此分解得到的特征值矩阵 $\cdot\widetilde{D}_{m}$ 并不是对角矩阵。但是，我们依旧可以将 $\widetilde{D}_{m}$ 的对角线元素当作模拟特征组合的真实方差。由于采样误差的存在，E $[D_{m}(k,k)]\neq\widetilde{D}_{m}(k,k)$
 
 我们共进行M次蒙特卡罗模拟，以获得对特征值偏误的稳定估计：
 
 $$
-\lambda(k)=\sqrt{\frac{1}{M}\sum_{m=1}^{N}\frac{\widetilde{D}_{m}(k)}{D_{m}(k)}}
+\lambda(k)=\sqrt{\frac{1}{M}\sum_{m=1}^{N}\frac{\widetilde{D}_{m}(k)}{D_{m}(k)}}.
 $$
 
 需要注意的是，实际收益数据一般具有尖峰厚尾的分布特点，并不满足蒙特卡罗模拟中正态分布的假设，因此，我们需要进一步调整对特征值偏误的估计：
@@ -450,7 +450,7 @@ $$
 \gamma(k)=\alpha[\lambda(k)-1]+1
 $$
 
-其中α为调整系数，通常为一个大于 1的常数，这里经验取值 $\alpha=1.5$ 。基于此特征值偏误，我们可以得到修正后的因子收益协方差矩阵 $F^{Eigen}$ ：
+其中α为调整系数，通常为一个大于 1的常数，这里经验取值 $\alpha=1.5$ 。基于此特征值偏误，我们可以得到修正后的因子收益协方差矩阵 $\cdot F^{Eigen}$ ：
 
 $$
 F^{Eigen}=U_{0}(\gamma^{2}D_{0})U_{0}^{\prime}
@@ -469,20 +469,20 @@ $$
 定义第t个时间截面上，所有因子的总偏误统计量为 $B_{t}^{F}$ ：
 
 $$
-B_{t}^{F}=\sqrt{\frac{1}{K}\sum_{k}\left(\frac{f_{kt}}{\sigma_{kt}}\right)^{2}}
+B_{t}^{F}=\sqrt{\frac{1}{K}{\sum_{k}{{{\left({\frac{{{f_{kt}}}}{{{\sigma_{kt}}}}}\right)}^{2}}}}}.
 $$
 
-$f_{kt}.$ :因子k在第t个截面到未来第t+δ个截面的收益率
+$f_{kt};$ :因子k在第t个截面到未来第t+δ个截面的收益率
 
 $\sigma_{kt}\colon$ 在截面t上，模型对因子k在截面t~t+δ区间内收益波动率的预测值
 
 由于单个截面数据容易受到随机噪声的影响，因此，我们对一段时期的总偏误统计量进行加权平均，得到因子波动率调整系数 $\lambda_{F}$ ：
 
 $$
-\lambda_{F}=\sqrt{\sum_{t}(B_{t}^{F})^{2}w_{t}}
+\lambda_{F}=\sqrt{\sum_{t}(B_{t}^{F})^{2}w_{t}}.
 $$
 
-$w_{t}\mathbf{:}$ :指数衰减权重，这里时间窗 ℎ = 252，权重半衰期τ = 42最后，我们利用 $\lambda_{F}$ 对因子收益协方差矩阵进行调整：
+$w_{t};$ :指数衰减权重，这里时间窗 ℎ = 252，权重半衰期τ = 42最后，我们利用 $\lambda_{F}$ 对因子收益协方差矩阵进行调整：
 
 $$
 F^{VRA}=\lambda_{F}^{2}F^{Eigen}
@@ -491,10 +491,10 @@ $$
 为了检验波动率偏误调整效果，我们定义截面因子波动率：
 
 $$
-CSV_{t}^{F}=\sqrt{\frac{1}{K}\sum_{k}f_{kt}^{2}}
+CSV_{t}^{F}=\sqrt{\frac{1}{K}{\sum_{k}{f_{kt}^{2}}}}.
 $$
 
-如果波动率偏误调整效果良好，在时间序列上，因子波动率调整系数 $\lambda_{F}$ 会及时跟进截面因子波动率 $CSV_{t}^{F}$ 的变化。下面左图显示了二者的时序关系，从图中可以看出，在截面因子波动率突然增大时，因子波动率调整系数及时增大至大于 1 的值，以修正可能的风险低估，同样地，在截面因子波动率突然减小时，因子波动率调整系数及时减小至小于 1 的值，以修正可能的风险高估。下面右图对比了波动率偏误调整前、后因子风险偏误统计量的 12个月滚动均值。由图可知，波动率偏误调整后的偏误统计量更接近 1，说明波动率偏误调整效果良好。
+如果波动率偏误调整效果良好，在时间序列上，因子波动率调整系数 $\lambda_{F}$ 会及时跟进截面因子波动率 $.CSV_{t}^{F}$ 的变化。下面左图显示了二者的时序关系，从图中可以看出，在截面因子波动率突然增大时，因子波动率调整系数及时增大至大于 1 的值，以修正可能的风险低估，同样地，在截面因子波动率突然减小时，因子波动率调整系数及时减小至小于 1 的值，以修正可能的风险高估。下面右图对比了波动率偏误调整前、后因子风险偏误统计量的 12个月滚动均值。由图可知，波动率偏误调整后的偏误统计量更接近 1，说明波动率偏误调整效果良好。
 
 需要注意的是，波动率偏误调整利用了未来的因子收益数据计算总偏误统计量。因此，在缺乏未来收益数据的情况下，波动率偏误调整可能难以进行。波动率偏误调整对风险模型的改进，有利于提升风险模型在应用于投资组合风险归因时的表现。
 
@@ -511,23 +511,23 @@ $$
 特异性收益方差矩阵是多因子风险模型的另一主要组成部分。不同股票的特异性收益率彼此独立、互不相关，因此，特异性收益方差矩阵是一个对角矩阵，即非对角线上的元素为0。与因子收益协方差矩阵一致，我们依旧基于日频收益数据，采用权重指数衰减的加权移动平均方法计算特异性收益方差矩阵：
 
 $$
-\begin{array}{c}{{\hat{\Omega}_{0}=var(u_{n})_{t}=\displaystyle\sum_{s=0}^{h}\lambda_{t-s}(u_{n,t-s}-\overline{{{u_{n}}}})^{2}\big/\sum_{s=0}^{h}\lambda_{t-s}}}\\{{\lambda_{t-s}=0.5^{s/\tau}}}\end{array}
+\begin{aligned}\widehat{\mu}_{0}=var(u_{n})_{t}=\sum_{s=0}^{h}\lambda_{t-s}(u_{n,t-s}-\overline{u_{n}})^{2}\left/\sum_{s=0}^{h}\lambda_{t-s}\right.\\\left.\lambda_{t-s}=0.5^{s/\tau}\right.\end{aligned}
 $$
 
-$u_{n,t-s}\colon$ 第t−s个截面上，第n只股票的特异性收益率
+$u_{n,t-s}\cdot$ 第t−s个截面上，第n只股票的特异性收益率
 
-$\textstyle{\overline{{u_{n}}}}\colon$ 从截面t−ℎ 到截面t的区间内，第n只股票的特异性收益率的加权均值这里，与因子收益协方差矩阵相同，时间窗ℎ = 252，权重半衰期τ = 90。
+$\overline{{u_{n}}}\colon$ 从截面t−ℎ 到截面t的区间内，第n只股票的特异性收益率的加权均值这里，与因子收益协方差矩阵相同，时间窗ℎ = 252，权重半衰期τ = 90。
 
 ## Newey-West 调整
 
 与因子收益协方差矩阵相同，由于日频特异性收益存在时序相关性，需要先通过Newey-West调整修正对特异性收益方差矩阵的估计，并将其频率调整至表征月度风险的月频特异性收益方差矩阵：
 
 $$
-(\sigma^{NW})^{2}=21\cdot\left[\widehat{\mathcal{Q}}_{0}+\sum_{d=1}^{D}\left(1-\frac{d}{D+1}\right)\cdot\left(\widehat{\mathcal{Q}}_{d}+\widehat{\mathcal{Q}}_{d}^{\prime}\right)\right],
+(\sigma^{NW})^{2}=21\cdot\Biggl[\widehat{\varOmega}_{0}+\sum_{d=1}^{D}\left(1-\frac{d}{D+1}\right)\cdot\left(\widehat{\varOmega}_{d}+\widehat{\varOmega}_{d}^{\prime}\right)\Biggr],
 $$
 
 $$
-\hat{\Omega}_{d}=\sum_{t=1}^{T-d}\lambda^{T-d-t}diag(u_{t}u_{t+d}^{\prime})/\sum_{t=1}^{T-d}\lambda^{T-d-t}
+\widehat{\mathcal{Q}}_{d}=\sum_{t=1}^{T-d}\lambda^{T-d-t}diag(u_{t}u_{t+d}^{\prime})\left/\sum_{t=1}^{T-d}\lambda^{T-d-t}\right.
 $$
 
 这里，滞后期D = 5。
@@ -543,30 +543,30 @@ $$
 $$
 
 $$
-V_{n}={\frac{h_{n}-60}{120}}
+V_{n}=\frac{h_{n}-60}{120}
 $$
 
 $$
-Z_{n}=\left|\frac{\sigma_{n}-\widetilde{\sigma_{n}}}{\widetilde{\sigma_{n}}}\right|
+Z_{n}=\bigg|\frac{\sigma_{n}-\widetilde{\sigma_{n}}}{\widetilde{\sigma_{n}}}\bigg|
 $$
 
 $$
-\widetilde{\sigma_{n}}={^{1}}/_{1.35}\cdot\left(Q_{3,n}-Q_{1,n}\right)
+\widetilde{\sigma_{n}}={}^{1}\big/_{1.35}\cdot\left(Q_{3,n}-Q_{1,n}\right)
 $$
 
-$V_{n}\colon$ 数据缺失程度， $V_{n}$ 越大说明数据缺失程度越小
+$V_{n};$ 数据缺失程度， $V_{n}$ 越大说明数据缺失程度越小
 
-$h_{n}\colon$ 样本内的有效数据个数，若 $h_{n}\geq$ 180 则认为数据无明显缺失
+$h_{n};$ 样本内的有效数据个数，若 $h_{n}\geq$ 180 则认为数据无明显缺失
 
-$Z_{n}{\mathrm{:}}$ 数据肥尾程度， $Z_{n}$ 越大于 1 说明数据肥尾程度越大
+$Z_{n};$ 数据肥尾程度， $Z_{n}$ 越大于 1 说明数据肥尾程度越大
 
-$\sigma_{n},\widetilde{\sigma_{n}}\colon$ 样本的等权标准差，样本的稳健估计标准差
+$\sigma_{n},\widetilde{\sigma_{n}}\mathrm{:}$ 样本的等权标准差，样本的稳健估计标准差
 
-$Q_{3,n},Q_{1,n}\colon$ 样本的四分之三分位数，样本的四分之一分位数
+$Q_{3,n},Q_{1,n};$ 样本的四分之三分位数，样本的四分之一分位数
 
 如果第n只股票在此时间窗样本内存在明显数据缺失或异常值导致的肥尾现象，则 $\gamma_{n}<1$ 如果第n只股票无明显数据缺失和异常值，则 $\gamma_{n}=1$
 
-对于所有 $\dot{\gamma}_{n}=1$ 的优质股票数据，将股票特异性收益的波动率 $\sigma_{n}^{TS}$ 的对数对所有因子的因子暴露做线性回归，回归采用市值加权的加权最小二乘法（WLS），得到每个因子对特异波动的贡献值 $\boldsymbol{{b}}_{k}$ ：
+对于所有 $\gamma_{n}=1$ 的优质股票数据，将股票特异性收益的波动率 $\cdot\sigma_{n}^{TS}$ 的对数对所有因子的因子暴露做线性回归，回归采用市值加权的加权最小二乘法（WLS），得到每个因子对特异波动的贡献值 $.b_{k}$ ：
 
 $$
 ln(\sigma_{n}^{TS})=\sum_{k}X_{nk}\cdot b_{k}+\varepsilon_{n}
@@ -575,10 +575,10 @@ $$
 那么，第n只股票的结构化特异波动预测值 $\sigma_{n}^{STR}$ 为：
 
 $$
-\sigma_{n}^{STR}={\cal E}_{0}\cdot exp\left(\sum_{k}X_{nk}\cdot b_{k}\right)
+\sigma_{n}^{STR}=E_{0}\cdot exp\left(\sum_{k}X_{nk}\cdot b_{k}\right)
 $$
 
-$E_{0}\mathrm{:}$ 用于消除回归残差项 $\varepsilon_{n}$ 影响的调整系数， $E_{0}=1.05$
+$E_{0};$ 用于消除回归残差项 $\varepsilon_{n}$ 影响的调整系数， $E_{0}=1.05$
 
 对于所有个股，以协调参数 $\gamma_{n}$ 为权重，综合股票特异波动原始值 $\sigma_{n}^{TS}$ 和结构化特异波动预测值 $\sigma_{n}^{STR}$ ，得到结构化调整后的特异波动 $\widehat{\sigma_{n}}$ ：
 
@@ -600,10 +600,10 @@ $$
 
 市场实证发现，与持续性较好的因子风险不同，特异性风险存在明显的回归均值趋势，即样本内波动率较低的股票，很可能在样本外的未来时刻波动率升高，同样地，样本内波动率较高的股票，很可能在样本外的未来时刻波动率降低。这一趋势在具有样本内极端波动率的股票上表现得更加明显。这一趋势会导致风险模型低估样本内低波动率股票的未来风险，高估样本内高波动率股票的未来风险。因此，对于特异性收益方差矩阵，我们还需要利用贝叶斯收缩调整，根据特异风险回归均值的趋势进一步修正风险预测值。
 
-贝叶斯压缩调整的具体方法是，在每个时间截面上，将所有股票按照市值从小到大的顺序分为 10组，第n只股票的特异波动会向其所在市值分组 $s_{n}$ 内股票特异波动的市值加权均值回归，从而得到调整后的特异波动 $\sigma_{n}^{SH}$ ：
+贝叶斯压缩调整的具体方法是，在每个时间截面上，将所有股票按照市值从小到大的顺序分为 10组，第n只股票的特异波动会向其所在市值分组 $.s_{n}$ 内股票特异波动的市值加权均值回归，从而得到调整后的特异波动 $\sigma_{n}^{SH}$ ：
 
 $$
-\begin{array}{c}{{\displaystyle\sigma_{n}^{SH}=v_{n}\bar{\sigma}_{n}+(1-v_{n})\widehat{\sigma_{n}},}}\\{{\displaystyle\bar{\sigma}_{n}=\sum_{n\in S_{n}}w_{n}\widehat{\sigma_{n}},}}\end{array}
+\begin{aligned}\sigma_{n}^{SH}&=v_{n}\bar{\sigma}_{n}+(1-v_{n})\widehat{\sigma_{n}},\\&\bar{\sigma}_{n}=\sum_{n\in S_{n}}w_{n}\widehat{\sigma_{n}},\end{aligned}
 $$
 
 $$
@@ -611,21 +611,21 @@ v_{n}=\frac{q|\widehat{\sigma_{n}}-\bar{\sigma}_{n}|}{\varDelta_{\sigma,n}+q|\wi
 $$
 
 $$
-{\varDelta_{\sigma,n}}=\sqrt{\frac{1}{N(s_{n})}\sum_{n\in S_{n}}(\widehat{\sigma_{n}}-\bar{\sigma}_{n})^{2}}
+\varDelta_{\sigma,n}=\sqrt{\frac{1}{N(s_{n})}\sum_{n\in S_{n}}(\widehat{\sigma_{n}}-\bar{\sigma}_{n})^{2}}.
 $$
 
-$\textstyle{\bar{\sigma}}_{n}\colon$ 贝叶斯先验风险矩阵，即股票n所在市值分组 $s_{n}$ 的特异风险的市值加权均值$v_{n}\colon$ 压缩密度，个股特异波动相对组均值的偏 $\frac{\frac{1}{2}\pi}{12}$ 越大， $v_{n}$ 越接近 1
+${\bar{\sigma}}_{n}\colon$ 贝叶斯先验风险矩阵，即股票n所在市值分组 $s_{n}$ 的特异风险的市值加权均值$v_{n};$ 压缩密度，个股特异波动相对组均值的偏 $离$ 越大， $v_{n}$ 越接近 1
 
-${\widehat{\sigma_{n}}}\mathrm{:}$ :结构化调整后的股票n的特异波动
+${\widehat{\sigma_{n}}};$ :结构化调整后的股票n的特异波动
 
-$w_{n}\colon$ :股票n的市值权重
+$w_{n};$ :股票n的市值权重
 
 q: 压缩系数，经验取值q = 1
 
-$\varDelta_{\sigma,n}:$ ：股票n所属市值分组 $s_{n}$ 的特异波动的标准差
+$\varDelta_{\sigma,n}\colon$ ：股票n所属市值分组 $.s_{n}$ 的特异波动的标准差
 
 $$
-N(s_{n}):\mathbb{A}:\mp\mp\uparrow\uparrow\uparrow\uparrow\uparrow\cdots/\downarrow\uparrow s_{n}\updownarrow\uparrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow
+$N(s_{n})\colon 属于市值分组s_{n}的股票数目$
 $$
 
 如果股票特异波动相对组内均值的偏离越大，即股票特异波动越极端，那么贝叶斯压缩密度越接近 1，即贝叶斯压缩后特异波动向组内均值回归的程度越大。
@@ -642,25 +642,25 @@ $$
 
 与因子收益协方差矩阵的调整思路一致，之前的调整步骤都是将每只股票视作独立的个体，并未考虑其他股票包含的信息。为了最大化利用可用信息，在这一步我们考虑同一时间截面上所有股票的特异波动，判断模型是否在某些时间段内系统性地高估或者低估了所有股票的特异性风险，并根据此波动率偏误对截面上的特异性收益方差矩阵进行整体缩放。
 
-定义第t个时间截面上，所有股票特异风险的总偏误统计量为 $B_{t}^{S}$ ：
+定义第t个时间截面上，所有股票特异风险的总偏误统计量为 $B_{t}^{s}$ ：
 
 $$
-B_{t}^{S}=\sqrt{\sum_{n}w_{nt}\left(\frac{u_{nt}}{\sigma_{nt}}\right)^{2}}
+B_{t}^{S}=\sqrt{\sum_{n}w_{nt}\left(\frac{u_{nt}}{\sigma_{nt}}\right)^{2}}.
 $$
 
-$u_{nt}\colon$ 股票n在第t个截面到未来第t+δ个截面的特异性收益率
+$u_{nt};$ 股票n在第t个截面到未来第t+δ个截面的特异性收益率
 
-$\sigma_{nt}\colon\dot{\mathrm{{\mathscr{k}}}}$ 截面t上，模型对股票n在截面t~t +δ区间内特异波动的预测值
+$\sigma_{nt};在$ 截面t上，模型对股票n在截面t~t +δ区间内特异波动的预测值
 
-$w_{nt}\colon$ 股票n的市值权重
+$w_{nt};$ 股票n的市值权重
 
 由于单个截面数据容易受到随机噪声的影响，因此，我们对一段时期的总偏误统计量进行加权平均，得到特异波动率调整系数 $\lambda_{S}$ ：
 
 $$
-\lambda_{S}=\sqrt{\sum_{t}(B_{t}^{S})^{2}w_{t}}
+\lambda_{s}=\sqrt{\sum_{t}(B_{t}^{S})^{2}w_{t}}.
 $$
 
-$w_{t}\colon$ 指数衰减权重，这里时间窗 ℎ = 252，权重半衰期τ = 42最后，我们利用 $\lambda_{S}$ 对特异波动进行调整：
+$w_{t};$ 指数衰减权重，这里时间窗 ℎ = 252，权重半衰期τ = 42最后，我们利用 $\lambda_{S}$ 对特异波动进行调整：
 
 $$
 \sigma_{n}^{VRA}=\lambda_{S}\sigma_{n}^{SH}
@@ -669,7 +669,7 @@ $$
 为了检验波动率偏误调整效果，我们定义截面特异波动率：
 
 $$
-CSV_{t}^{S}=\sqrt{\sum_{n}w_{nt}u_{nt}^{2}}
+CSV_{t}^{S}=\sqrt{\sum_{n}w_{nt}u_{nt}^{2}}.
 $$
 
 如果波动率偏误调整效果良好，在时间序列上，特异波动率调整系数 $\lambda_{S}$ 会及时跟进截面特异波动率 $CSV_{t}^{S}$ 的变化。下面左图显示了二者的时序关系，从图中可以看出，在截面特异波动率突然增大时，特异波动率调整系数及时增大至大于 1 的值，以修正可能的风险低估，同样地，在截面特异波动率突然减小时，特异波动率调整系数及时减小至小于 1 的值，以修正可能的风险高估。下面右图对比了波动率偏误调整前、后特异风险偏误统计量的 12个月滚动均值。由图可知，波动率偏误调整后的偏误统计量更接近 1，说明波动率调整效果良好。
@@ -731,7 +731,7 @@ F:因子收益协方差矩阵
 那么，最小化风险的组合优化目标函数可以表示为：
 
 $$
-Min_{w}~w^{T}(XFX^{T}+\varDelta)w
+Min_{w}w^{T}(XFX^{T}+\varDelta)w
 $$
 
 根据优化目标选取w代表的权重形式。如果目的是最小化投资组合的绝对风险，则w代表投资组合的持仓权重。如果目的是最小化投资组合的主动风险，则w代表投资组合相对基准指数的偏离权重。
@@ -743,7 +743,7 @@ $$
 本小节取w为持仓权重，构建最小化绝对风险的投资组合：
 
 $$
-\begin{array}{rl}&{Min_{w}~w^{T}(XFX^{T}+\varDelta)w}\\&{~s.t.~\forall n~w_{n}\geq0}\\&{~\sum_{n}w_{n}=1}\end{array}
+\begin{array}{c}Min_{w}\ w^{T}(XFX^{T}+\varDelta)w^{T}\\s.t.\ \forall n\ w_{n}\geq0\\\ \sum_{n}w_{n}=1\end{array}
 $$
 
 我们考察股票池对组合优化的影响。我们以中证 500 指数为基准，构建两种月频调仓的最小化绝对风险投资组合策略，其中一个约束为中证 500 指数成分股内选股，另一个为全部A股选股。本文的回测区间均为 2011 年 2月 1 日至 2019年 5 月 31 日，策略均为每月月初调仓。这两个投资组合的净值、超额收益累积净值和回撤、策略评价指标对比如下。
@@ -774,7 +774,7 @@ $$
 最小化主动风险组合在实际投资中的典型代表是被动型指数基金。本小节取w为偏离权重，构建最小化主动风险的投资组合：
 
 $$
-\begin{array}{rl}&{Min_{w}w^{T}(XFX^{T}+\varDelta)w}\\{s.t.\quad\forall nw_{n}+w_{n}^{bench}\geq0}\\&{\qquad\sum_{n}(w_{n}+w_{n}^{bench})=1}\\&{w_{n}^{bench}:\frac{\sharp\hat{\mathbf{k}}}{\sharp}\sqrt{\hat{\mathbf{k}}}\frac{\sharp\sharp}{\mathcal{A}}\frac{\sharp\sharp}{\mathcal{A}}\frac{\sharp\hat{\mathbf{k}}}{\mathcal{A}}\frac{\sharp}{\mathcal{A}}\frac{\cong}{\mathcal{B}}n\underbrace{\ v{\mathbf{\hat{\mathbf{k}}}}\psi}_{\mathrm{\normalfont~\left.~\right\}}}}\end{array}
+\begin{array}{c}Min_{w}\ w^{T}(XFX^{T}+\varDelta)w\\s.t.\quad\forall n\quad w_{n}+w_{n}^{bench}\geq0\\\sum_{n}(\ w_{n}+w_{n}^{bench})=1\\w_{n}^{bench}\colon 基准指数在股票n上的权重\end{array}
 $$
 
 中证 500 成分股内选股、全 A 股选股的最小化主动风险组合结果如下所示。对比图表 16和图表 19 可知，最小化绝对风险组合的绝对风险更小，而最小化主动风险组合的主动风险更小，说明组合实测表现与优化目标一致。
@@ -827,7 +827,7 @@ $$
 大多数情况下，投资者们更在意收益的大小，因此与最小化风险组合相比，最大化风险调整后收益组合在实际投资中具有更大的应用价值。最大化风险调整后收益的组合优化目标函数可以表示为：
 
 $$
-\begin{array}{rl}{Max_{w}}&{w^{T}r-\lambda\cdot w^{T}(XFX^{T}+\varDelta)w}\\&{\lambda\colon\mathbb{X}[\varprojlim\varprojlim\varprojlim\varXi\not\cong\varprojlim\varprojlim}\end{array}
+\begin{aligned}Max_{w}\quad&w^{T}r-\lambda\cdot w^{T}(XFX^{T}+\varDelta)w\\&\lambda:风险厌恶系数\end{aligned}
 $$
 
 r:收益模型输出的所有股票的预期收益向量
@@ -837,30 +837,30 @@ r:收益模型输出的所有股票的预期收益向量
 风险厌恶系数代表投资者为了获得一个单位的收益愿意承担的风险大小，风险厌恶系数的选取与组合夏普比率和信息比率具有一定的关系。当w代表投资组合的持仓权重时，组合夏普比率可以表示为：
 
 $$
-\boldsymbol{SR}=\frac{\boldsymbol{w}^{T}\boldsymbol{r}}{\sigma_{P}(\boldsymbol{w})}=\frac{\boldsymbol{w}^{T}\boldsymbol{r}}{\sqrt{\boldsymbol{w}^{T}(\boldsymbol{X}\boldsymbol{F}\boldsymbol{X}^{T}+\boldsymbol{\varDelta})\boldsymbol{w}}}
+\frac{w^{T}r}{\sigma_{P}(w)}=\frac{w^{T}r}{\sqrt{w^{T}(XFX^{T}+\varDelta)w}}
 $$
 
 此时，优化目标可以表示为：
 
 $$
-Max_{w}~SR\cdot\sigma_{P}(w)-\lambda\cdot\sigma_{P}^{2}(w)
+Max_{w}\ SR\cdot\sigma_{P}(w)-\lambda\cdot\sigma_{P}^{2}(w)
 $$
 
-求导可得上式在 ${\sigma_{P}(w)^{*}=SR/(2\cdot\lambda)}$ 时取得最大值，即风险厌恶系数的最优取值为： λ∗ = SR [2 ∙ σP(w)∗ ⁄ ]
+求导可得上式在 $.\sigma_{P}(w)^{*}=SR/(2\cdot\lambda)$ 时取得最大值，即风险厌恶系数的最优取值为： λ∗ = SR [2 ∙ σP(w)∗ ⁄ ]
 
 类似地，当w代表投资组合的偏离权重时，组合信息比率可以表示为：
 
 $$
-IR=\frac{w^{T}r}{\sigma_{P}(w)}=\frac{w^{T}r}{\sqrt{w^{T}(XFX^{T}+\varDelta)w}}
+\frac{w^{T}r}{\sigma_{P}(w)}=\frac{w^{T}r}{\sqrt{w^{T}(XFX^{T}+\varDelta)w}}
 $$
 
 此时，优化目标可以表示为：
 
 $$
-Max_{w}~IR\cdot\sigma_{P}(w)-\lambda\cdot\sigma_{P}^{2}(w)
+Max_{w}\ IR\cdot\sigma_{P}(w)-\lambda\cdot\sigma_{P}^{2}(w)
 $$
 
-求导可得上式在 $\sigma_{P}(w)^{*}=IR/(2\cdot\lambda)$ 时取得最大值，即风险厌恶系数的最优取值为：
+求导可得上式在 $.\sigma_{P}(w)^{*}=IR/(2\cdot\lambda)$ 时取得最大值，即风险厌恶系数的最优取值为：
 
 $$
 \lambda^{*}=IR/[2\cdot\sigma_{P}(w)^{*}]
@@ -877,7 +877,7 @@ $$
 本小节取w为持仓权重，构建最大化风险调整后绝对收益的投资组合：
 
 $$
-\begin{array}{rl}{Max_{w}}&{w^{T}r-\lambda\cdot w^{T}(XFX^{T}+A)w}\\{s.t.}&{\forall n\leq w_{n}\leq0.01}\\&{\quad\quad\quad\quad\sum_{n}w_{n}=1}\\&{\quad\quad\quad\forall i\quad(w-w^{Bench})^{T}X_{i}=0}\\&{\quad\quad\quad|(w-w^{Bench})^{T}X_{i\geq e}|\leq0.5}\\&{\quad\quad\quad|w^{Bench};\frac{\sqrt{6}}{4\sqrt{2}}\sqrt{\frac{4}{2}\frac{4}{6}\frac{4}{6}\frac{4}{6}\frac{4}{6}\frac{4}{6}\frac{4}{7}}\|_{L^{\frac{1}{2}}}^{\frac{5}{2}}\frac{4}{\sqrt{2}}\frac{4}{\sqrt{2}}\frac{4}{\sqrt{2}}}\\{X_{i}\cdot\hat{p}\|\hat{\mathcal{H}}\frac{1}{2}\frac{\sqrt{6}}{4}\frac{4}{3}\hat{\mathcal{H}}\frac{1}{2}\hat{\mathcal{H}}\frac{1}{4}\hat{\mathcal{H}}\frac{1}{2}\hat{\mathcal{H}}\frac{1}{2}\hat{\mathcal{H}}\frac{1}{2}\hat{\mathcal{H}}\frac{1}{2}\hat{\mathcal{H}}\frac{2}{3}\frac{4}{\sqrt{2}}}\\&X_{i\geq e}.\hat{y}\|\hat{\mathcal{H}}\frac{1}{2}\frac{4}{\sqrt{2}}\hat{\mathcal{H}}\frac{2}{3}\hat{\mathcal{H}}\frac{3}{2}\hat{\mathcal{H}}\frac{4}{2}\hat{\mathcal{H}}\frac{2}{3}\hat{\mathcal{H}}\frac{4}{2}\hat\ \end{array}
+\begin{aligned}Max_{w}&\ w^{T}r-\lambda\cdot w^{T}(XFX^{T}+\varDelta)w\\s.t.&\quad\forall n\quad0\leq w_{n}\leq0.01\\&\quad\sum_{n}w_{n}=1\\\forall i&\quad(w-w^{Henceh})^{T}X_{i}=0\\|(w-w^{Bench})^{T}X_{Size}|&\leq0.5\\w^{Bench}&:基准指数的股票权重\\X_{i}&:所有股票在第i个行业因子上的因子暴露\\X_{Size}&:所有股票在Size风格因子上的因子暴露\end{aligned}
 $$
 
 这里，约束条件为：不允许做空，单只股票持仓权重上限为 1%，所有股票权重和为 100%，组合相对基准行业、市值中性。收益模型使用华泰 XGBoost 收益模型。以中证 500 指数为基准，全 A股选股组合的净值、超额收益累积净值和回撤、策略评价指标如下。
@@ -911,7 +911,7 @@ $$
 第一，我们考察风险厌恶系数对组合优化的影响。我们以中证 500 指数为基准，使用华泰XGBoost 收益模型，构建全 A 股选股组合。约束条件包括：不允许做空，单只股票持仓权重上限为 1%，所有股票权重和为 100%，组合相对基准行业、市值中性。组合优化表示为：
 
 $$
-\begin{array}{rl}{Max_{w}}&{w^{T}r-\lambda\cdot w^{T}(XFX^{T}+\varDelta)w}\\{s.t.}&{\forall n\ 0\leq\ (w_{n}+w_{n}^{h}e^{nch})\leq0.01}\\&{\qquad\sum_{n}(w_{n}+w_{n}^{h}e^{nch})=1}\\&{\qquad\forall i\quad w^{T}X_{i}=0}\\&{\qquad\ |w^{T}X_{Size}|\leq0.5}\\&{\qquad w_{n}^{bench}\colon\frac{\#}{25}\mathbb{H}_{\frac{16}{25}\times\frac{\delta}{2}}^{\pi}\mathbb{H}_{\frac{16}{25}\times\frac{\delta}{2}}^{\pi}\mathbb{H}_{\frac{16}{25}\times\frac{\delta}{2}}^{\pi}\mathbb{H}_{\frac{16}{25}\times\frac{\delta}{2}}^{\pi}\mathbb{H}_{\frac{16}{25}\times\frac{\delta}{2}}^{\pi}}\\X_{i}.\mathbb{H}_{\frac{16}{25}}^{\pi}\mathbb{H}_{\frac{16}{25}\times\frac{\delta}{25}}^{\pi}\mathbb{H}_{\frac{16}{25}\times\frac{\delta}{25}}^{\pi}\mathbb{H}_{\frac{16}{25}}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb{H}\mathbb H\end{array}
+\begin{array}{c}Max_{w}\ w^{T}r-\lambda\cdot w^{T}(XFX^{T}+\varDelta)w\\s.t.\quad\forall n\ 0\leq(w_{n}+w_{n}^{bencch})\leq0.01\\\sum_{n}(w_{n}+w_{n}^{bencch})=1\\\forall i\quad w^{T}X_{i}=0\\\left|w^{T}X_{Size}\right|\leq0.5\\w_{n}^{bench}:基准指数在股票n上的权重\\X_{i}:所有股票在第i个行业因子上的因子暴露\\X_{Size}:所有股票在Size风格因子上的因子暴露\end{array}
 $$
 
 不同风险厌恶系数取值下，使用 XGBoost 收益模型的中证 500 最大化主动收益组合的回测净值、超额收益累积净值和回撤、策略评价指标如图表 26-28 所示。由图表可知，随着风险厌恶系数的增大，组合主动风险（年化跟踪误差）逐渐减小，超额收益及其最大回撤逐渐减小。当λ = 0.25时，信息比率最大，其值为 3.772。
@@ -1080,7 +1080,7 @@ Shepard, Peter. 2009. “Second Order Risk.” Working paper, http://arxiv.org/a
 |  |  | 协方差权重半衰期 | $\tau_{cov}$ | 90 |
 |  |  | 方差权重半衰期 | $\underline{{\tau_{var}}}$ | 90 |
 |  | Newey-West 调整 | 协方差滞后期 | $D_{cov}$ | 2 |
-|  |  | 方差滞后期 | $\underline{{D_{var}}}$ | 2 |
+|  |  | 方差滞后期 | $\boxed{D_{var}}$ | 2 |
 |  | 特征值调整 | 蒙特卡洛模拟次数 | M | 3000 |
 |  |  | 模拟特征组合收益率期数 | T | 100 |
 |  | 波动率偏误调整 | 调整系数 | α | 1.5 |

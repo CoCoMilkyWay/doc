@@ -238,7 +238,7 @@ II 实体经济流动性：指经济体系中货币的多少，央行创造基�
 如果说早期小市值异象受到市场投机行为的影响，那么后期小市值溢价更多与微观交易层面的流动性相关。我们尝试做了一个简单的实验，利用Lubos Pastor 教授根据个股收益率对成交量的敏感性构建的个股非流动性指标，并加总全市场股票的非流动性指标Innov Illiq来度量市场整体的流动性风险，并做了以下回归：
 
 $$
-\mathrm{SMB}=\alpha+\beta_{\mathrm{t}}\mathrm{Mkt}\mathrm{RF_{t}}+\beta_{\mathrm{t-1}}\mathrm{Mkt}\mathrm{RF_{t-1}}+\beta_{3}InnovIlliq+SMB_{resid}
+\mathrm{SMB}=\alpha+\beta_{\mathrm{t}}\mathrm{Mkt}\mathrm{RF}_{\mathrm{t}}+\beta_{\mathrm{t-1}}\mathrm{Mkt}\mathrm{RF}_{\mathrm{t-1}}+\beta_{3}InnovIIiq+SMB_{resid}
 $$
 
 指标显著，且在剥离了流动性指标后，残差收益几乎不存在超额收益，从侧面反映了小市值股票在交易层面的流动性风险。
@@ -264,7 +264,7 @@ $$
 由于规模小的公司比大公司的经营风险更高，其融资成本更易受信贷周期的影响。当信用利差上升时，小规模公司的经营风险上升，未来现金流的不确定性增加，从风险收益比的角度来看，投资者会要求更高的预期收益率。我们检验了信用利差及其变化值对市值因子收益的解释能力，观察到，控制其他条件不变，信用利差水平对市值因子收益有正向影响，而控制了信用利差水平后，信贷环境的边际恶化反而会降低市值因子收益：
 
 $$
-\begin{array}{ccc}{{SMB\sim a+\beta_{t}MktRF_{t}+\beta_{t-1}MktRF_{t-1}+\beta_{3}CreditSpread+\beta_{4}ACreditSpread}}&{{}}&{{}}\\{{\beta:\ -0.528}}&{{0.2159}}&{{0.0893}}&{{0.413}}&{{-1.587}}\\{{\mathrm{tval.}}}&{{(-2.77)}}&{{(11.57)}}&{{(4.59)}}&{{(2.53)}}&{{(-1.89)}}\end{array}
+\begin{aligned}&\left[SMB\sim a+\beta_{t}MktRF_{t}+\beta_{t-1}MktRF_{t-1}+\beta_{3}CreditSpred+\beta_{4}ACreditSpreda\right]\\&\quad 卩:-0.528\quad0.2159\quad0.0893\quad0.413\quad-1.587\\&\quad\mathtt{tval:}\quad(-2.77)\quad(11.57)\quad(4.59)\quad(2.53)\quad(-1.89)\\\end{aligned}
 $$
 
 Alquist 等研究者在“Fact, Fiction, and the Size Effect”一文中，就市值溢价与流动性溢价的关系做了一组较为全面的，且时间窗口较长的测试：他们分别将 Fama&French 的SMB 收益率，以及按市值大小分十组的多空收益，对多个流动性指标回归，包括lagged_beta、Amihud liquidity factor、TAQ spread 等等，发现在美国市场上，市值溢价在剥离流动性风险后，几乎不存在超额收益。

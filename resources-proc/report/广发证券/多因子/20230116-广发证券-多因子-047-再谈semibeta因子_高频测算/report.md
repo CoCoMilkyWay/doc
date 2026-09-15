@@ -120,7 +120,7 @@ zhangyudong@gf.com.cn
 Bollerslev（2021）提出SemiBeta概念，即基于个股收益和市场基准收益方向的不同，将传统Beta因子拆解为4部分。
 
 $$
-\begin{array}{c}{{\beta\equiv\displaystyle\frac{Cov\big(R_{i},~R_{m}\big)}{Var(R_{m})}=\displaystyle\frac{N+P+M^{+}+M^{-}}{Var(R_{m})}}}\\{{\equiv\beta^{N}+\beta^{P}-\beta^{M^{+}}-\beta^{M^{-}}}}\end{array}
+\begin{aligned}\beta&\equiv\frac{Cov(R_{i},\ R_{m})}{Var(R_{m})}=\frac{N+P+M^{+}+M^{-}}{Var(R_{m})}\\&\equiv\beta^{N}+\beta^{P}-\beta^{M^{+}}-\beta^{M^{-}}\end{aligned}
 $$
 
 其中 $R_{i}$ 表示某风险资产收益率， $R_{m}$ 表示市场基准收益率，N、P、 $M^{+}$ 、M−分别对应4个不同的组成结构。N表示市场和风险资产均为负收益，P表示市场和风险资产均为正收益， $M^{+}$ 表示市场收益为正但风险资产为负，M−表示市场收益为负但风险资产为正。而为了方便描述，参考原文，报告后续采取同样的设定，即：
@@ -139,13 +139,13 @@ $$
 
 如果基于传统CAPM模型，那么这4个资产应当有相同的预期收益率。
 
-引入SemiBeta模型，Panel A中的资产（后续称为资产A，其他资产采取类似处理）Beta保持稳定，而资产B的Beta在市场整体下跌时要低于市场整体上涨时的Beta，即 $\beta^{N}<\beta^{P}$ ，那么基于相关理论，投资者仅厌恶下行风险，因此相应资产若能在下跌
+引入SemiBeta模型，Panel A中的资产（后续称为资产A，其他资产采取类似处理）Beta保持稳定，而资产B的Beta在市场整体下跌时要低于市场整体上涨时的Beta，即 $\prime\beta^{N}<\beta^{P}$ ，那么基于相关理论，投资者仅厌恶下行风险，因此相应资产若能在下跌
 
 识别风险，发现价值
 
 环境中提供预期相对稳定的收益，则愿意接受相对较低的预期收益率，即意味资产B的预期回报率要低于资产A。
 
-相似的，资 $\yen0$ 与资产B特征相反，则资产C要求相对高于资产A和资产B的预期回报率。而资产D相比于资产C有相对更好的对冲特性，因此资产D的预期回报率要低于资 $\dot{\ J{}}^{\ 2}\mathsf{C}$
+相似的，资 $\cdot 产\mathbf{C}$ 与资产B特征相反，则资产C要求相对高于资产A和资产B的预期回报率。而资产D相比于资产C有相对更好的对冲特性，因此资产D的预期回报率要低于资 $产\mathbf{C}.$
 
 图1：不同SemiBeta结构的资产对比
 ![](images/62321684a8caff95573910c02f432e59600818298bf0bb4c43f41a9f6ea66063.webp)

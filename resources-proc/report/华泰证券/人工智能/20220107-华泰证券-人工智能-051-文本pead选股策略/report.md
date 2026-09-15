@@ -82,7 +82,7 @@ SAC No. S0570121070169 chenwei018440@htsc.com
 作为广泛存在于各个时间区间和各个股票市场的异常现象，PEAD 效应自被提出以来便受到了业界和学术界的广泛关注。在过去的近 50 年间，投资者通常使用过往财报和分析师预期等财务数据计算标准化预期外盈利（Standardized Unexpected Earnings, SUE）指标来衡量 PEAD 效应，其计算方式为
 
 $$
-SUE=~{\frac{R_{t}-E_{t}}{\sigma(R_{t}-E_{t})}}
+SUE=\frac{R_{t}-E_{t}}{\sigma(R_{t}-E_{t})}
 $$
 
 其中 $R_{t}$ 表示 t期的实际盈利水平， $E_{t}$ 表示 t期的预期盈利水平， $\sigma(R_{t}-E_{t})$ 表示预期偏差的波动率。
@@ -336,13 +336,13 @@ $$
 逻辑回归是广义线性模型的一种，用来解决有关“分类”的问题，其损失函数为：
 
 $$
-C(\overrightarrow{w})=\sum_{i=1}^{n}log(exp\Big(-y_{i}(X_{i}^{T}\overrightarrow{w}+c)\Big)+1)
+C(\overrightarrow{w})=\sum_{i=1}^{n}log(exp\Bigl(-y_{i}(X_{i}^{T}\overrightarrow{w}+c)\Bigr)+1)
 $$
 
 本文采用了弹性网络（elasticnet）正则化对逻辑回归模型的复杂度进行约束，模型的整体损失函数为：
 
 $$
-C(\vec{w})=\frac{1-p}{2}\vec{w}^{T}\vec{w}+p\|\vec{w}\|_{1}+\lambda\sum_{i=1}^{n}log(exp\Big({-y_{i}(X_{i}^{T}\vec{w}+c)}\Big)+1)
+C(\overrightarrow{w})=\frac{1-p}{2}\overrightarrow{w}^{T}\overrightarrow{w}+p\|\overrightarrow{w}\|_{1}+\lambda\sum_{i=1}^{n}log(exp\Big(-y_{i}(X_{i}^{T}\overrightarrow{w}+c)\Big)+1)
 $$
 
 其中∥w⃗ ∥ 代表向量w⃗ 的 1范数，参数p为 L1 正则化和 L2 正则化之间的分配比，参数λ为正则化强度系数的倒数，即当λ较小时，整体正则化强度更大。在训练时，我们将 L1 与 L2 正则化之间的分配比p设定为 0.5；参数λ则使用网格搜索和 5 折交叉验证的形式，选择验证集平均 AUC 最高的λ作为模型最终的超参数。
@@ -380,10 +380,10 @@ $$
 
 ## SUE.txt 因子计算
 
-模型在样本内训练完成后，我们在样本外进行测试。SUE.txt 因子生成的频率为每个月末，在月末截面期追溯过去一个季度的全市场业绩预告样本，使用训练好的模型进行预测，得到每条样本在每个类别上的概率估计值 ${\it p}_{c}(x)$ ，以此我们计算其 log-odds 值 $.L_{c}(x)$
+模型在样本内训练完成后，我们在样本外进行测试。SUE.txt 因子生成的频率为每个月末，在月末截面期追溯过去一个季度的全市场业绩预告样本，使用训练好的模型进行预测，得到每条样本在每个类别上的概率估计值 $.p_{c}(x)$ ，以此我们计算其 log-odds 值 $L_{c}(x)$
 
 $$
-\begin{array}{c}{{L_{c\in\{h,m,l\}}(x)=log\displaystyle\frac{p_{c}(x)}{1-p_{c}(x)}}}\\{{SUE_{0}=L_{h}(x)-L_{l}(x)}}\end{array}
+\begin{aligned}&L_{c\in\{h,m,l\}}(x)=log\frac{p_{c}(x)}{1-p_{c}(x)}\\&\quad SUE_{0}=L_{h}(x)-L_{l}(x)\\\end{aligned}
 $$
 
 其中 $c\in\{h,m,l\}$ 为三个类别标签，分别表示上涨、震荡、下跌。我们计算其上涨和下跌类别的 log-odds 值之差作为衰减前的因子值。最后，考虑到股票业绩发布日距离因子计算截面期时间越长，其 PEAD 效应就越弱，产生超额收益的概率就越低，因此我们以每个自然月最后一个交易日作为截面期，对计算出的原始 SUE.txt 因子按业绩预告发布日距离截面期时间做指数衰减。最终 SUE.txt 的计算公式为：
@@ -470,10 +470,10 @@ $$
 词重要性的计算由两部分构成：回归系数和词频。回归系数反映了单个词的每次出现对最终结果的影响方向和力度，而词频则体现了文本中每个关键词的出现次数。因此，词重要性被定义为逻辑回归模型“上涨”分类系数与“下跌”分类系数之差和词频之乘积：
 
 $$
-I_{w}(\boldsymbol{x})=\big(\beta_{x}^{\perp\sharp\sharp}-\mathrm\Large~\}_{x}^{\top\ast\sharp}\big)\frac{1}{N}\sum_{i=1}^{N}c_{ix}
+I_{w}(x)=\Big(\beta_{x}^{\mathrm{上涨}}-\beta_{x}^{\mathrm{下跌}}\Big)\frac{1}{N}\sum_{i=1}^{N}c_{ix}
 $$
 
-其中 $I_{w}(x)$ 是词 x的重要性， $\beta_{x}^{\frac{L}{\gamma\kappa}}\dot{\pi}\beta_{x}^{\mathcal{F},\ast}$ 分别为拟合后逻辑回归模型中词 $x^{\ 66}$ 上涨”和“下跌”分类的回归系数，N为总样本数， $\mathcal{F}_{\mathbf{\Phi}}c_{ix}$ 则是第 i条样本中词 x的对数词频。我们选取最后一个训练期作为示例，其训练集中单词重要性如下图所示。
+其中 $I_{w}(x)$ 是词 x的重要性， $\beta_{x}^{上涨}和\beta_{x}^{下涨}$ 分别为拟合后逻辑回归模型中词 $x^{\mathrm{~d~}}$ 上涨”和“下跌”分类的回归系数，N为总样本数， $而c_{ix}$ 则是第 i条样本中词 x的对数词频。我们选取最后一个训练期作为示例，其训练集中单词重要性如下图所示。
 
 图表25： 关键词重要性分析
 
@@ -516,7 +516,7 @@ $$
 |  | 7.71 | -0.1 | -0.017 |
 |  | 8.78 | -0.03 | -0.017 |
 
-我们选取了系数差 $(\beta_{x}^{\tt LBE}-\beta_{x}^{\tt TBE})$ 最大的15个正向与负向关键词，以其对应log词频为x轴绘制散点图，如左下子图所示；同时，我们也选取了单词重要性最高的15个正向和负向关键词，如右下子图所示；以及词频最高的30个关键词，以同样方式绘制散点图，如第三张子图所示。为便于观察，在绘图时我们按其中系数差绝对值最大的点的值，对数据做标准化处理。
+我们选取了系数差 $(\beta_{x}^{上涨}-\beta_{x}^{下跌})$ 最大的15个正向与负向关键词，以其对应log词频为x轴绘制散点图，如左下子图所示；同时，我们也选取了单词重要性最高的15个正向和负向关键词，如右下子图所示；以及词频最高的30个关键词，以同样方式绘制散点图，如第三张子图所示。为便于观察，在绘图时我们按其中系数差绝对值最大的点的值，对数据做标准化处理。
 
 图表26： Top 15系数差最大的正向和负向关键词
 ![](images/dfdd3461f08b94326643dc462bcef1747d8854624e4da5da149d5ce7e7ef2905.webp)
@@ -530,41 +530,41 @@ $$
 ![](images/fbdd394f307c9f6fff296ea53a5fef8ae68b6e40ccf5a77e4abddcc2bec65523.webp)
 资料来源：华泰研究
 
-系数差 $(\beta_{x}^{\tt Lik}-\beta_{x}^{\tt Tik})$ 可以帮助解读每个关键词的单次出现对模型结果的影响：其绝对值越大则影响越大，而其正负方向指示了对结果的影响方向。图 25 中可以看到，整体结果较为符合预期，如“上调”、“预增”等词对结果有较大的正面影响，而“下调”、“下滑”等词则对结果有较大的负面影响。最终模型预测结果由两方面因素决定，即关键词的系数差和词频。对比图 25 和图 26，可以看到两者显示的关键词并不完全重叠。图 27 中出现的新关键词，如“增持”，可能是由于其出现词频较高而对最终预测结果有较大的影响。此外由图27 可以看到，词频高的关键词（如“公司”、“业绩”等）由于对应的系数接近于零，这些词通常对结果只有较小的影响。
+系数差 $(\beta_{x}^{上涨}-\beta_{x}^{下跌})$ 可以帮助解读每个关键词的单次出现对模型结果的影响：其绝对值越大则影响越大，而其正负方向指示了对结果的影响方向。图 25 中可以看到，整体结果较为符合预期，如“上调”、“预增”等词对结果有较大的正面影响，而“下调”、“下滑”等词则对结果有较大的负面影响。最终模型预测结果由两方面因素决定，即关键词的系数差和词频。对比图 25 和图 26，可以看到两者显示的关键词并不完全重叠。图 27 中出现的新关键词，如“增持”，可能是由于其出现词频较高而对最终预测结果有较大的影响。此外由图27 可以看到，词频高的关键词（如“公司”、“业绩”等）由于对应的系数接近于零，这些词通常对结果只有较小的影响。
 
 ## 段落重要性
 
 在对单词重要性进行解读后，我们自然而然的会想到一个问题：如果一个段落中同时包含了多个正向词和负向词，最后该段对于预测结果的重要性与方向该如何计算？原论文构建了基于段落的 SUE.txt 来解读不同类型的段落所蕴含的信息：
 
 $$
-\begin{array}{c}{{SUE.txt_{P}(X)=~\displaystyle\sum_{w\in X}\left(\beta_{w}^{\mathcal{L}\#K}-~\beta_{w}^{\mathcal{F}\#K}\right)\Delta_{w}}}\\{{\Delta_{w}=\log(2+b_{w})-\log(1+b_{w})}}\end{array}
+\begin{aligned}&SUE.txt_{P}(X)=\ \sum_{w\in X}\left(\beta_{w}^{上漩}-\ \beta_{w}^{下漩}\right)\Delta_{w}\\&\quad\Delta_{w}=\log(2+b_{w})-\log(1+b_{w})\\\end{aligned}
 $$
 
-其中 X代表文本 D的某个段落， $\beta_{w}^{\frac{L}{\gamma\mathcal{E}}}\dot{\pi}\beta_{w}^{\mathcal{F}\ast}$ 分别为拟合后逻辑回归模型中对应词 w的“上涨”和“下跌”分类回归系数。我们在 $\Delta_{w}$ 中对词语按其出现次数进行加权处理，其中 $b_{w}$ 是词w在文本D中该次出现之前的累计出现次数，对于同一段落中的相同词语， $b_{w}$ 也不相同，在处理时会重复计算。这样处理的目的是使段落SUE. $\mathrm{txt}_{P}$ 可以和之前定义的文本SUE. $\mathrm{txt}_{0}$ 相洽，即文本 D 的SUE. $\operatorname{txt}_{0}$ 为其包含的段落SUE. $\mathrm{txt}_{P}$ 之和（其中 $c_{w}$ 表示词 w在文本 D 中总的出现次数）：
+其中 X代表文本 D的某个段落， $\beta_{w}^{\overline{上涨}}和\beta_{w}^{\overline{下涨}}$ 分别为拟合后逻辑回归模型中对应词 w的“上涨”和“下跌”分类回归系数。我们在 $\Delta_{w}$ 中对词语按其出现次数进行加权处理，其中 $b_{w}$ 是词w在文本D中该次出现之前的累计出现次数，对于同一段落中的相同词语， $b_{w}$ 也不相同，在处理时会重复计算。这样处理的目的是使段落SUE. $\mathbf{txt}_{P}$ 可以和之前定义的文本SUE. $\mathbf{txt}_{0}$ 相洽，即文本 D 的SUE. $\mathbf{txt}_{0}$ 为其包含的段落SUE. $\mathbf{txt}_{P}$ 之和（其中 $c_{w}$ 表示词 w在文本 D 中总的出现次数）：
 
 $$
-\begin{array}{rl}&{\mathrm{SUE.}\operatorname{txt}_{0}(D)=\log\left(\frac{p\left(\frac{\cdot|\mathcal{H}_{\star}^{s}}{\mathcal{H}\cdot\mathcal{H}\cdot}\right)}{1-p\left(\frac{\cdot|\mathcal{H}\star}{\mathcal{H}\cdot}\right)}\right)-\log\left(\frac{p\left(\frac{\cdot|\mathcal{H}\star}{\mathcal{H}\cdot}\right)}{1-p\left(\frac{\cdot|\mathcal{H}\star}{\mathcal{H}\cdot}\right)}\right)}\\&{\qquad=\displaystyle\sum_{w\in D}(\beta_{w}^{\mathcal{L}\mathcal{H}}\log(1+c_{w})-\beta_{w}^{\mathcal{F}\mathcal{H}}\log(1+c_{w}))}\\&{\qquad=\displaystyle\sum_{X\in D,\quad w\in X}(\beta_{w}^{\mathcal{LB}}-\beta_{w}^{\mathcal{FB}})\log(1+c_{w})}\end{array}
+\begin{aligned}&\mathrm{SUE}.\mathrm{txt}_{0}(D)=\log\left(\frac{p(上涨)}{1-p(上涨)}\right)-\log\left(\frac{p(下跌)}{1-p(下跌)}\right)\\&\quad=\sum_{w\in D}(\beta_{w}^{上涨}\log(1+c_{w})-\beta_{w}^{下跌}\log(1+c_{w}))\\&\quad=\sum_{X\in D,\quad w\in X}(\beta_{w}^{上涨}-\beta_{w}^{下跌})\log(1+c_{w})\\\end{aligned}
 $$
 
 $$
-\begin{array}{rl}{\displaystyle}&{=\sum_{X\in D,\quad w\in X}(\beta_{w}^{\mathcal{LB}}}\\&{\quad\quad\quad-\beta_{w}^{\mathcal{FA}})\{\mathrm{Ing}(2)-\log(1)\}+[\log(3)-\log(2)]+\cdots+[\log(1+c_{w})}\\&{\quad\quad-\log(c_{w})]\}}\\&{\quad\quad\quad\quad=\displaystyle\sum_{X\in D}\sum_{w\in X}(\beta_{w}^{\mathcal{LB}}-\beta_{w}^{\mathcal{FB}})\Delta_{w}}\\&{\quad\quad\quad\quad=\displaystyle\sum_{X\in D}\mathrm{SIE}.\operatorname{tan}_{r}(X)}\end{array}
+\begin{aligned}=\sum_{X\in D,\quad w\in X}(\beta_{w}^{上液}&\\-\beta_{w}^{下液})\{&[\log(2)-\log(1)]+[\log(3)-\log(2)]+\cdots+[\log(1+c_{w})]\\&-\log(c_{w})]\}\\&=\sum_{X\in D}\sum_{w\in X}(\beta_{w}^{上液}-\beta_{w}^{下液})\Delta_{w}\\&\quad=\sum_{X\in D}SUE.\operatorname{xt}_{P}(X)\end{aligned}
 $$
 
-随后我们构建了一个分类词典，分为财报、运营、宏观环境和战略四大类 13 个小类，将每一个段落根据所包含的关键词划分至不同的类别（同一段落可同时归属于不同的类别）。我们用SUE. $\mathrm{txt}_{P}$ 代表每个段落的因子值，SUE. $\mathrm{txt}_{G}$ 代表每个分类的因子值。每个分类的$\operatorname{SUE}.\operatorname{txt}_{G}$ 值为其包含的段落SUE. $\mathrm{txt}_{P}$ 的均值：
+随后我们构建了一个分类词典，分为财报、运营、宏观环境和战略四大类 13 个小类，将每一个段落根据所包含的关键词划分至不同的类别（同一段落可同时归属于不同的类别）。我们用SUE. $\mathbf{txt}_{P}$ 代表每个段落的因子值，SUE. $\mathbf{txt}_{G}$ 代表每个分类的因子值。每个分类的${\mathsf{SUE.txt}}_{G}$ 值为其包含的段落SUE. $\mathbf{txt}_{P}$ 的均值：
 
 $$
-\mathrm{SUE.txt}_{G}={\frac{1}{|G|}}\sum_{X\in G}\mathrm{SUE.txt}_{P}(X)
+\mathrm{SUE.}\mathrm{txt}_{G}=\frac{1}{|G|}\sum_{X\in G}\mathrm{SUE.}\mathrm{txt}_{P}(X)
 $$
 
-同时我们也计算了所包含段落的SUE. $\mathrm{txt}_{P}$ 的绝对值之和的均值（记为 $\mathsf{SUE.txt}_{G}^{abs})$ ）：
+同时我们也计算了所包含段落的SUE. $\mathbf{txt}_{P}$ 的绝对值之和的均值（记为 $\operatorname{SUE.txt}_{G}^{abs})$ ）：
 
 $$
-\mathrm{SUE.txt}_{G}^{abs}=\frac{1}{|G|}\sum_{X\in G}|\mathrm{SUE.txt}_{P}(X)|
+\mathrm{SUE.}\mathrm{t}\mathrm{t}_{G}^{abs}=\frac{1}{|G|}\sum_{X\in G}\left|\operatorname{SUE.}\operatorname{t}\operatorname{t}_{P}(X)\right|
 $$
 
-SUE. $\mathrm{txt}_{G}$ 有助于我们了解该分类包含的信息对整体预测结果的影响，而SUE. $\mathrm{txt}_{G}^{abs}$ 可以指明该分类是否包含重要信息。例如某一组分类同时包含了相近数量的正向和负向评价，其$\operatorname{SUE}.\operatorname{txt}_{G}$ 值会接近于零，但其SUE. $\mathrm{txt}_{G}^{abs}$ 应较为显著。
+SUE. $\mathbf{txt}_{G}$ 有助于我们了解该分类包含的信息对整体预测结果的影响，而SUE. $\mathbf{txt}_{G}^{abs}$ 可以指明该分类是否包含重要信息。例如某一组分类同时包含了相近数量的正向和负向评价，其${\mathsf{SUE.txt}}_{G}$ 值会接近于零，但其SUE. $\mathbf{txt}_{G}^{abs}$ 应较为显著。
 
-每个分类的结果见以下四图，其中纵轴为SUE. $\mathrm{txt}_{G}$ 或 $\mathsf{SUE.txt}_{G}^{abs}$ ，而横轴为该分类包含段落数占总段落数的比例。由于每一段落可能包含多个同一分类的关键词，该段落在计算时会被重复计数，因此分类的段落占比可能会超过 100%。我们重复计数具有一定的合理性：如果一个段落包含了多个同一组内的关键词，在一定程度上也表明了该段落具有较高的信息含量，因此我们通过重复计数适当提高该段落的整体权重。
+每个分类的结果见以下四图，其中纵轴为SUE. $\mathbf{txt}_{G}$ 或 $\operatorname{SUE.txt}_{G}^{abs}$ ，而横轴为该分类包含段落数占总段落数的比例。由于每一段落可能包含多个同一分类的关键词，该段落在计算时会被重复计数，因此分类的段落占比可能会超过 100%。我们重复计数具有一定的合理性：如果一个段落包含了多个同一组内的关键词，在一定程度上也表明了该段落具有较高的信息含量，因此我们通过重复计数适当提高该段落的整体权重。
 
 结合图表 28 和 29 可以看到，宏观环境在段落中占比最少，但对结果有较大的正面影响，运营占比最多，且对结果有较大的负面影响；此外财报分类有较低的平均SUE.txt 和显著的SUE.txtabs，说明该组包含了较多好坏参杂的重要信息。结合图表 30 和 31 来看，二级分类收入段落占比最多，对结果正面影响最大；债权融资虽然段落占比较少，但却对结果有着显著的负面影响；而宏观状况、生产销售、业务线等分类较高的SUE.txtabs也体现了这些分类实际上包含了较多的重要信息。一级分类和二级分类的词语字典如图表 32。
 

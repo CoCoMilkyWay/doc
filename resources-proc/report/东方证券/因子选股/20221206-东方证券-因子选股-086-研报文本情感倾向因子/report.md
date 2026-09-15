@@ -159,12 +159,12 @@ wangxingxing@orientsec.com.cn
 
 数据来源：朝阳永续，东方证券研究所
 
-用 $\begin{array}{r}{\dot{\mathbf{\eta}}=log(tf+1)}\end{array}$ 进行对数化，得到训练特征，比如在2019-2021三年训练窗口内提取的训练特征为125025 × 2000的矩阵。
+用 $\mathit{\Lambda}=log(tf+1)$ 进行对数化，得到训练特征，比如在2019-2021三年训练窗口内提取的训练特征为125025 × 2000的矩阵。
 
 高频词不一定是重要词，即使剔除了没有意义的衔接词，仍然存在许多对于情感判断没有帮助的词，比如“公司”“行业”等词。计算词频的方法有多种，其中一个解决方法是使用 TF-IDF（term frequency – inverse document frequency），这种词频计算方法为：
 
 $$
-\begin{array}{c}{{w_{i,j}=tf_{i,j}\times log\left(\displaystyle\frac{N}{df_{i}}\right)}}\\{{{}}}\\{{tf_{i,j}=\dot{z}\ddot{z}l\dot{\mathcal{Z}}\dot{\mathcal{X}}\dot{\mathcal{X}}j\stackrel{\mu}{\mathcal{Z}}\dot{\mathcal{Z}}\mathcal{H}\dot{\mathcal{H}}\dot{\mathcal{H}}\dot{\mathcal{H}}\dot{\mathcal{Z}}\dot{\mathcal{Z}}}}\\{{df_{i}=\dot{\mathcal{Z}}\dot{\mathcal{P}}\dot{\mathcal{P}}\dot{\mathcal{I}}\dot{\mathcal{I}}\dot{\mathcal{I}}\dot{\mathcal{Z}}\dot{\mathcal{X}}\dot{\mathcal{K}}}}\\{{N=\dot{\mathcal{X}}\dot{\mathcal{L}}\dot{\mathcal{L}}\dot{\mathcal{Z}}\dot{\mathcal{K}}}}\end{array}
+\begin{aligned}w_{i,j}&=tf_{i,j}\times log\left(\frac{N}{df_{i}}\right)\\tf_{i,j}&=均在文杀j里占现的次数\\df_{i}&=包含均的文杀数\\N&=文杀总数\end{aligned}
 $$
 
 诸如“公司”这样的词在大部分文本中都出现，那么它的df会变大，使得它的数值变小，但这种方法的弊端是需要保证文本数量一致，在三年的训练窗口的情况下，测试集需要每日回滚过去 N 篇报告，增加的计算量很大，故舍弃，使用降低词频阈值的方法去囊括词频较低但是很重要的词作为标签。
@@ -264,19 +264,19 @@ XGBoost 是基于决策树的集成机器学习算法，它以梯度提升（Gra
 本文根据人工经验总结出 318 个研报中常用的表达范式，将其改写为正则表达式，以下为 2个正面表达和 2个负面表达：
 
 $$
-((\Sigma^{\sharp}{\sharp}{\sharp}_{\sharp}^{\sharp})|({\sharp}{\mathbb D}{\sharp}_{\sharp}^{\sharp})|({\sharp}{\mathbb D}{\sharp}_{\sharp}^{\sharp})).*(({\ i}{\sharp}_{\sharp}^{\sharp})|({\sharp}_{\sharp}^{\wedge}{\sharp}))
+((产能)|(规模)|(如期)).*((达产)|(投放))
 $$
 
 $$
-((\mathbb{I}\mathbb{I}\big\vert\Xi)|(\vec{r}^{\perp}\underline{{\mathrm{e}}}\underline{{\mathrm{o}}})|(\hat{\mathfrak{i}}+\vec{\mathfrak{x}}\underline{{\mathrm{I}}}))|(\underline{{\mathsf{I}}}|\big\vert\big\vert\Pi)|(\dot{\mathtt{I}}\sharp\sharp\sharp\big)|(\dot{\vec{\kappa}}\underline{{\mathrm{I}}}\underline{{\mathrm{i}}}\sharp\underline{{\mathrm{i}}}))?.*(\dot{\vec{\mathtt{M}}}\dot{\mathtt{K}}\underline{{\mathrm{I}}}\mathsf{I}\mathsf{I})
+((项目)|(产品)|(计划)|(出口)|(增发)|(定增))?.*(获批)
 $$
 
 $$
-((\sqrt{7}\frac{1+6}{15})|(\frac{\sqrt{25}}{15}\frac{1}{15}))?((\sqrt{10}\sqrt{15}/\frac{1+6}{15})|(\sqrt{15}\frac{1+6}{15}))((\frac{1+6}{15}\frac{15}{15})|(\frac{10}{15}\div\sqrt{11}\frac{1}{15}))?
+((存货)|(资产))?((减值)|(下跌))((拖累)|(影响))?
 $$
 
 $$
-((\sharp\sharp\sharp)|(\underline{{\mathsf{ul}}}|/\underline{{\mathsf{z}}}\underline{{\pm}}))(|\pm\mathcal{D})(|\pm\mathcal{D})((\jmath\pm)|(\ddagger\mathcal{D})|(\ddagger\mathcal{D}|))
+((经营)|(业绩))(压力)((大)|(较大)|(增加))
 $$
 
 这 318 个正则表达式对研报文本的覆盖程度始终保持在 80%以上，近年保持在 90%以上，也就是说 90%的研报至少能够匹配 1个正则表达式。
@@ -331,7 +331,7 @@ $$
 ## RPRF的前五个重要的特征分别是
 
 $$
-\begin{array}{rl}&{\big((\frac{i\Xi}{{\Sigma^{3}}})|(\frac{i\Xi+\frac{i\Lambda}{{\mathcal{P}}}}{i\Xi})){\boldsymbol{1}}((\mp\Xi\frac{i\Lambda}{{\mathcal{P}}})|(\bar{z}\bar{\Xi}\bar{\Xi}\bar{\Xi})|(\bar{\Xi}\bar{z}\bar{\Xi})|(\bar{\mathcal{H}}\bar{\Xi}\bar{z}\bar{\Xi})|(\bar{\mathcal{H}}\bar{\Xi}\bar{z}\bar{\Xi})|(\bar{\mathcal{H}}\bar{\Xi}\bar{z}\bar{\Xi}))}\\&\big((\frac{i\Xi}{{\Xi\Xi}}\bar{\mathcal{H}}|)|(\bar{\Delta}\bar{\Xi}\bar{\Xi})|(\bar{\mathcal{H}}\bar{\Xi})|(\bar{\mathcal{H}}|)\bar{\Xi}|\big)|(\frac{(\mathrm{i}|l_{\mathcal{P}}^{\pm\Xi})|(\bar{\Xi}\bar{\Xi})|(\bar{\Xi}\bar{\Xi}|\bar{\mathcal{Y}})){\boldsymbol{2}}*(\bar{\mathcal{H}}\bar{\Xi}\bar{\Xi}){\boldsymbol{1}}*(\bar{\mathcal{H}}\bar{\Xi}\bar{\Xi})|(\bar{\Xi}\bar{\Xi}\bar{\Xi}))}\\&\big((\frac{i\Xi}{{\Sigma\Xi}}|\bar{\mathcal{H}}\big)|(\bar{\Lambda}\bar{\Xi}\bar{\Xi})|(\bar{\Lambda}\bar{\Xi})){\boldsymbol{1}}*((\bar{\Xi}\bar{\Xi}\bar{\Xi})|(\bar{\Xi}\bar{\Xi})|(\bar{\Xi}\bar{\Xi})|(\bar{\Xi}\bar{\Xi}|\bar{\Xi})|(\bar{\Xi}\bar{\Xi})|(\bar{\Xi}\bar{\Xi})|(\bar\end{array}
+\begin{align*}&((趋势)|(走势))?((有望延续)|(有望持续)|(有望持续)|(木变)|(有收)|(持续)|(延续))\\&((盈利)|(进展)|(利润)|(延续)|(延务)|(宦敦)|(宦收))?*(肾告),*(预期)\\&((结构)|(棒队)|(战部))?*((开级)|(高端化)|(优化)|(本套)|(延长)|(该型))\\&\quad((净利润)|(净利率)|(利率)|(毛利率)|(毛利)|(毛利)|(收入))\\&*((延长)|(延加)|(大厢)|(大厢)|(提开)|(木师)|(预倍)|(创新高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高(延)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)|(延高)
 $$
 
 图 19：RPRF特征重要性

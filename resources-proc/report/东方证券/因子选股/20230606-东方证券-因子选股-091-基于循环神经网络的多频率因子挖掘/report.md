@@ -69,7 +69,7 @@ taowenqi@orientsec.com.cn
 图 2：RNN模型结构
 ![](images/e562c58595c1726c43c0cb36be637f245f310886124e04b2027637b1a517e30b.webp)
 
-上图中 $({\vec{x}}_{1},{\vec{x}}_{2},{\vec{x}}_{3},\cdots,{\vec{x}}_{T})$ 代表一个时间序列数据， $\overrightarrow{\mathbfit{x}}_{j}$ 则代表时序数据在时间 j 对应的特征向量，其维数为 $\mathsf{M}_{\circ}$ 我们通常将最后一个时间步的输出（称为 RNN-output）通过一个 NN层得到整个 RNN最终的输出。
+上图中 $(\overrightarrow{x}_{1},\overrightarrow{x}_{2},\overrightarrow{x}_{3},\cdots,\overrightarrow{x}_{T})$ 代表一个时间序列数据， $\overline{{\boldsymbol{x}}}_{j}$ 则代表时序数据在时间 j 对应的特征向量，其维数为 $\mathsf{M}_{\circ}$ 我们通常将最后一个时间步的输出（称为 RNN-output）通过一个 NN层得到整个 RNN最终的输出。
 
 根据 RNN 输出的因子单元维数，我们又可将 RNN 划分为一元模型和多元模型。对于一元模型，每个时序数据的 RNN-output 是一维的。若每个时序数据的对应的因子单元是高维的（本文中我们选为 64维）我们则称之为多元 RNN。一元和多元 RNN的 NN层结构如下图所示：
 
@@ -82,7 +82,7 @@ taowenqi@orientsec.com.cn
 由于在训练的时候，我们通常是分批次进行训练的，因此对于一元模型我们将批次所有数据通过一个批标准化层得到最终模型的输出，再将这个输出与标准化后的真实标签计算MSE损失，通过极小化这个 MSE损失来训练一元模型，损失函数可由如下公式进行表达：
 
 $$
-Loss=\frac{1}{N}{\sum_{i}^{N}}(batchnorm(h_{i})-\hat{y}_{i})^{2}
+Loss=\frac{1}{N}\sum_{i}^{N}(batchnorm(h_{i})-\hat{y}_{i})^{2}
 $$
 
 这里 $h_{i}$ 是一元 RNN 生成的因子，即批次中第 i 个数据对应的输出， $\hat{y}_{i}$ 表示第 i 个数据对应的真实收益率标签，N 表示批次对应的数据量。
@@ -90,15 +90,15 @@ $$
 对于多元模型，向量 $\left(z_{i,1},z_{i,2},\cdots,z_{i,K}\right)$ 中的每个元素我们称之为多元 RNN 对应于数据 i 生成的因子单元。在多元RNN的NN层，假设我们输出64维因子，我们先将这输出的64个因子分别进行批标准化，再将每个数据对应的64个因子求和，最终将这个求和后的结果再进行批标准化得到最终的输出，并将该输出与标准化后的真实标签计算MSE损失。与一元模型不同的是为了使得生成的 64 个因子之间相关性低，我们给损失函数还加了一项正交惩罚项即这 64 个因子相关系数矩阵 Frobenius范数，整个过程则可以由以下公式进行描述：
 
 $$
-z_{i,k}~=~batchnorm{\left(h_{i,k}\right)}
+z_{i,k}\;=\;batchnorm\big(h_{i,k}\big)
 $$
 
 $$
-c_{i}=\frac{1}{K}\sum_{k}^{K}z_{i,k}
+c_{i}=\frac{1}{K}\sum_{k}^{K}z_{i,k},
 $$
 
 $$
-Loss=\frac{1}{N}\sum_{i}^{N}(batchnorm(c_{i})-\widehat{y_{l}})^{2}+\frac{\lambda}{NK^{2}}|\big(z_{i,k}\big)_{i,k}^{T}\big(z_{i,k}\big)_{i,k}|_{F}
+\begin{aligned}Loss=&\frac{1}{N}\sum_{i}^{N}(batchnorm(c_i)-\widehat{y}_i)^2+\frac{\lambda}{NK^2}|\big(z_{i,k}\big)_{i,k}^T\big(z_{i,k}\big)_{i,k}|_F\end{aligned}
 $$
 
 公式中：
@@ -109,7 +109,7 @@ $h_{i,k}$ 表示第 i 个时序数据对应 RNN-output 的第 k 个元素；
 
 ⚫ K 表示生成因子单元维数（本文中我们取 K = 64）；
 
-$\left(z_{i,k}\right)_{i,k}^{T}$ 表示批数据所有因子排成的矩阵转置（该矩阵规模为 $K\times N)$ $\left(z_{i,k}\right)_{i,k}^{T}\left(z_{i,k}\right)_{i,k}$ 表示两个矩阵按矩阵乘法相乘（得到的矩阵规模为 $K\times K$ ，实际上对应着 K 个生成因子的相关系数矩阵的 $K^{2}\hbar\vec{\Xi}{\bf\Pi}){\bf\Pi},{\bf\Pi}|\cdot|_{F}$ 表示矩阵的 Frobenius 范数。
+$\left(z_{i,k}\right)_{i,k}^{T}$ 表示批数据所有因子排成的矩阵转置（该矩阵规模为 $K\times N\;)$ $\big(z_{i,k}\big)_{i,k}^{T}\big(z_{i,k}\big)_{i,k}$ 表示两个矩阵按矩阵乘法相乘（得到的矩阵规模为 $K\times K$ ，实际上对应着 K 个生成因子的相关系数矩阵的 $K^{2}信),|\cdot|_{F}$ 表示矩阵的 Frobenius 范数。
 
 通过将预测标签和真实标签批标准化之后计算得到的 MSE 损失值和两者相关系数的相反数以及CCC（一致相关系数）损失等价，这种最后一层设置批标准化的做法可以很好的将三者统一起来。
 

@@ -176,22 +176,22 @@ Ali and Hirshleifer (2019) 从三个方面论证了分析师共同覆盖能从�
 
 前文中我们构建了基于分析师共同覆盖的上市公司间关联关系，如何将这种关系运用于实际投资将是本文重点关注的内容。本章中，我们将参考Ali and Hirshleifer(2019)提到的方法构建基于分析师共同覆盖的关联动量因子。
 
-Ali and Hirshleifer (2019) 论文中构建了基于分析师共同覆盖的关联动量因子 CF_RET(connected-firm return)，该因子认为与某只股票关联的其他股票过去一段时间的收益率可以预测该股票未来的收益率，即体现出股票涨跌的领先滞后效应(lead-lag effect)。具体来讲，股票i的关联动量因子为CF_RET，与之关联的股票j在过去一段时间的收益率为Retj，股票i和股票j间共同覆盖的分析师数量为 $\mathrm{n_{ij}}$ ，与股票i相关联的股票有N只，则CF_RET的计算方式如下：
+Ali and Hirshleifer (2019) 论文中构建了基于分析师共同覆盖的关联动量因子 CF_RET(connected-firm return)，该因子认为与某只股票关联的其他股票过去一段时间的收益率可以预测该股票未来的收益率，即体现出股票涨跌的领先滞后效应(lead-lag effect)。具体来讲，股票i的关联动量因子为CF_RET，与之关联的股票j在过去一段时间的收益率为Retj，股票i和股票j间共同覆盖的分析师数量为 $\mathbf{n_{ij}}$ ，与股票i相关联的股票有N只，则CF_RET的计算方式如下：
 
 $$
-\mathrm{{CF}_{-}\mathrm{{RET}_{i}=\frac{\sum_{j=1}^{N}{n_{ij}\mathrm{{Ret}_{j}}}}{\sum_{j=1}^{N}{n_{ij}}}}}
+\mathrm{CF\_RET_i}=\frac{\sum_{j=1}^{\mathrm{N}}\mathrm{n_{ij}}\mathrm{net_j}}{\sum_{j=1}^{\mathrm{N}}\mathrm{n_{ij}}}
 $$
 
-为了避免极端值的影响，本文将 $\mathrm{\Delta\ n_{ij}}$ 替换为 $\mathrm{log(n_{ij}+1)}$ ，使用下式计算CF_RET。
+为了避免极端值的影响，本文将 $\mathbf{\dot{n}_{ij}}$ 替换为 $\log(\mathbf{n_{ij}}+1)$ ，使用下式计算CF_RET。
 
 $$
-\mathrm{{CF}\_RET_{i}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)\mathrm{{Ret}_{j}}}{\sum_{j=1}^{N}\log(n_{ij}+1)}}
+\mathrm{CF\_RET_i}=\frac{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n_{ij}}+1)\mathrm{ReLU_j}}{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n_{ij}}+1)}
 $$
 
 考虑到同行业和同板块也可以描述股票之间的关系，本文构建了行业关联动量因子Cl_RET(connected-industry return)和板块关联动量因子 CS_RET(connected-sectorreturn)，并将对比 CF_RET 与 CI_RET 和 CS_RET 的表现。具体来讲，CI_RET 因子的计算过程中认为同属中信一级行业的股票之间有关联，股票i的行业关联动量因子为CI_RET，与之关联的股票j流通市值为mktj，则CI_RET的计算方式如下：
 
 $$
-\mathrm{{CI}_{-}\mathrm{{RET}_{i}=\frac{\sum_{j=1}^{N}\mathrm{{log}(mkt_{j})\mathrm{{Ret}_{j}}}}{\sum_{j=1}^{N}\mathrm{{log}(mkt_{j})}}}}
+\mathrm{CI\_RET_i}=\frac{\sum_{j=1}^{N}\log(\mathrm{mkt_j})\mathrm{ReLU_j}}{\sum_{j=1}^{N}\log(\mathrm{mkt_j})}
 $$
 
 CS_RET的计算方式与CI_RET完全一致，区别在于使用相同板块来描述股票之间的关系。
@@ -367,20 +367,20 @@ CS_RET的计算方式与CI_RET完全一致，区别在于使用相同板块来�
 
 ## 基于分析师共同覆盖的改进反转因子
 
-A股市场长期存在反转效应，但该效应在近年来明显衰减，关于反转因子的改进有多种思路，本章我们将沿着分析师共同覆盖动量因子的构建思路，进一步构建基于分析师共同覆盖的改进反转因子CF_REV(connected-firm reverse)。具体来讲，股票i的改进反转因子为CF_REV，与之关联的股票j在过去一段时间的收益率为 $\mathsf{Ret}_{\mathrm{j}}$ ，股票i和股票j间共同覆盖的分析师数量为 $\boldsymbol{\mathrm{n}}_{\mathrm{ij}}$ ，与股票i相关联的股票有 $\textsf{N},\boldsymbol{\Sigma}$ ，则CF_REV的计算方式如下：
+A股市场长期存在反转效应，但该效应在近年来明显衰减，关于反转因子的改进有多种思路，本章我们将沿着分析师共同覆盖动量因子的构建思路，进一步构建基于分析师共同覆盖的改进反转因子CF_REV(connected-firm reverse)。具体来讲，股票i的改进反转因子为CF_REV，与之关联的股票j在过去一段时间的收益率为 $\mathrm{Ret}_{\mathrm{j}}$ ，股票i和股票j间共同覆盖的分析师数量为 $\mathbf{n_{ij}}$ ，与股票i相关联的股票有 $N只$ ，则CF_REV的计算方式如下：
 
 $$
-\mathrm{CF\_REV_{i}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)\mathrm{Ret_{j}}}{\sum_{j=1}^{N}\log(n_{ij}+1)}-\mathrm{Ret_{i}}}
+\mathrm{CF\_REV_{i}}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)\mathrm{ReLU_{j}}}{\sum_{j=1}^{N}\log(n_{ij}+1)}-\mathrm{ReLU_{i}}
 $$
 
 该因子的通俗理解方式为：我们在考虑股票自身反转效应的基础上，进一步考虑与之关联股票的动量效应，即前期自身跌幅较大，但关联股票涨幅较大的股票，因子取值较大。该因子同样描述了股价的领先滞后效应，并体现了股价的均值回复现象。
 
 考虑到同行业和同板块也可以描述股票之间的关系，我们还构建了基于行业的改进反转因子 Cl_REV(connected-industry reverse)和基于板块的改进反转因子
 
-CS_REV(connected-sector reverse)，并将对比 CF_REV与CI_REV 和 CS_REV 的表现。具体来讲，CIREV因子的计算过程中认为同属中信一级行业的股票之间有关联，股票i的行业改进反转因子为CF_REV，与之关联的股票j流通市值为 $\mathrm{mkt}_{\mathrm{j}}$ ，则CI $\mathrm{REV_{i}}$ 的计算方式如下：
+CS_REV(connected-sector reverse)，并将对比 CF_REV与CI_REV 和 CS_REV 的表现。具体来讲，CIREV因子的计算过程中认为同属中信一级行业的股票之间有关联，股票i的行业改进反转因子为CF_REV，与之关联的股票j流通市值为 $\mathrm{mkt}_{\mathrm{j}}$ ，则CI $\mathrm{.REV_{i}}$ 的计算方式如下：
 
 $$
-\mathrm{CI\mathrm{_REV_{i}=\frac{\sum_{j=1}^{N}\log(mkt_{j})Ret_{j}}{\sum_{j=1}^{N}\log(mkt_{j})}-Ret_{i}}}
+\mathrm{CI\_REV_{i}}=\frac{\sum_{j=1}^{N}\log(\mathrm{mkt_{j}})\mathrm{ReLU_{j}}}{\sum_{j=1}^{N}\log(\mathrm{mkt_{j}})}-\mathrm{ReLU_{i}}
 $$
 
 CS_REV的计算方式与CI_REV完全一致，区别在于使用相同板块来描述股票之间的关系。
@@ -542,15 +542,15 @@ CS_REV的计算方式与CI_REV完全一致，区别在于使用相同板块来�
 具体来讲，股票i的改进换手率因子为CF_TURNi，与之关联的股票j在过去一段时间的平均换手率为TURNj，股票i和股票j间共同覆盖的分析师数量为 $n_{ij}$ ，与股票i相关联的股票有N只，则CF_TURN的计算方式如下：
 
 $$
-\mathrm{CF_{-}TURN_{i}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)TURN_{j}}{\sum_{j=1}^{N}\log(n_{ij}+1)}-TURN_{i}}
+\mathrm{CF}_{-}\mathrm{TURN}_{\mathrm{i}}=\frac{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n}_{\mathrm{ij}}+1)\mathrm{TURN}_{\mathrm{j}}}{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n}_{\mathrm{ij}}+1)}-\mathrm{TURN}_{\mathrm{i}}
 $$
 
 该因子的通俗理解方式为：我们在考虑股票i自身换手率的基础上，进一步考虑与之关联股票的换手率，即前期自身缩量(换手率较低)，但关联股票放量(换手率较高)的股票，因子取值较大。
 
-同理，股票i的改进波动率因子为 $\mathrm{CF}_{-}\mathrm{STD}_{i}$ ，与之关联的股票j在过去一段时间的波动率为STDj，则CF_STDi的计算方式如下：
+同理，股票i的改进波动率因子为 $\mathrm{CF\_STD}_{i}$ ，与之关联的股票j在过去一段时间的波动率为STDj，则CF_STDi的计算方式如下：
 
 $$
-\mathrm{{CF}\_STD_{i}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)\mathrm{{STD}_{j}}}{\sum_{j=1}^{N}\log(n_{ij}+1)}-\mathrm{{STD}_{i}}}
+\mathrm{CF\_STD_{i}}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)\mathrm{STD_{j}}}{\sum_{j=1}^{N}\log(n_{ij}+1)}-\mathrm{STD_{i}}
 $$
 
 该因子的通俗理解方式为：我们在考虑股票i自身波动率的基础上，进一步考虑与之关联股票的波动率，即前期自身波动率较低，但关联股票波动率放大的股票，因子取值较大。
@@ -753,7 +753,7 @@ $$
 GAT模型通过学习得到股票之间的注意力权重矩阵(即下方的 $\alpha_{ij}^{0})$ 来表示股票之间的关联强弱，注意力权重矩阵的大小与输入的分析师共同覆盖邻接矩阵一致。
 
 $$
-\begin{array}{l}{{e_{ij}^{0}=\pi_{0}\bigl(W^{0}h_{i}^{0},W^{0}h_{j}^{0}\bigr)=LeakyReLU\bigl(a^{0}\bigl[W^{0}h_{i}^{0}\bigr\|\ W^{0}h_{j}^{0}\bigr]\bigr)\qquad\mathrm{~if~\ddot{\mathcal{H}}/\dot{\mathcal{Z}}\ddot{\mathcal{R}}_{\mathcal{B}}^{-}~\mathcal{H}~\mathcal{H}}\stackrel{\enspace}{\mathcal{R}}\mathcal{E}_{ij}^{0}}}\\{{\alpha_{ij}^{0}=softmax_{j}\bigl(e_{ij}^{0}\bigr)=\frac{\exp(e_{ij}^{0})}{\sum_{k\in N(i)}\exp(e_{ik}^{0})}\qquad\mathrm{~if~\ddot{\mathcal{H}}/\dot{\mathcal{Z}}\ddot{\mathcal{Z}}\ge\mathcal{H}~\mathcal{H}}\stackrel{\enspace}{\mathcal{Z}}\mathcal{H}\mathcal{Z}\alpha_{ij}^{0}}}\\{{\displaystyle h_{i}^{\prime0}=h_{i}^{0}+LeakyReLU\bigl(\sum_{j\in N(i)}\alpha_{ij}^{0}W^{0}h_{j}^{0}\bigr)\qquad\mathrm{~if~\ddot{\mathcal{H}}/\dot{\mathcal{H}}/\dot{\mathcal{Z}}\ddot{\mathcal{H}}/\dot{\mathcal{Z}}\ge\mathcal{H}\ge\dot{\mathcal{Z}}\ddot{\mathcal{Z}}\ge\mathcal{H}}\stackrel{\enspace}{\mathcal{W}}\mathcal{H}\ge\dot{\mathcal{H}}\alpha_{ij}^{0}.}}\end{array}
+\begin{array}{c}e_{ij}^{0}=\pi_{0}\Big(W^{0}h_{i}^{0},W^{0}h_{j}^{0}\Big)=LeakyReLU(a^{0}\Big(W^{0}h_{i}^{0}\parallel W^{0}h_{j}^{0}\Big))\quad 计算注意力分数e_{ij}^{0}\\\\\alpha_{ij}^{0}=softmax_{j}(e_{ij}^{0})=\frac{\exp(e_{ij}^{0})}{\sum_{k\in N(i)}\exp(e_{ik}^{0})}\quad 计算注意力权重\alpha_{ij}^{0}\\\\h_{\;i}^{\prime0}=h_{i}^{0}+LeakyReLU(\sum_{j\in N(i)}\alpha_{ij}^{0}W^{0}h_{j}^{0})\quad 将特征表示和注意力权重加权求和\end{array}
 $$
 
 本节我们将从注意力权重矩阵的角度来对GAT模型进行可解释性分析。如下表所示，我们选取最近一期训练的GAT模型，对宁德时代、东方环宇、中国神华和郑州煤电的关联股票进行分析。

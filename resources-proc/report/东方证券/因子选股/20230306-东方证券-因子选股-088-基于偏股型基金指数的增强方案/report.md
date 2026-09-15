@@ -179,7 +179,7 @@ liujinghan@orientsec.com.cn
 
 ## 2.1 成分基金复制指数
 
-首先，我们仅用指数的成分基金复制指数，暂不穿透至基金持仓。复制过程遵循下述公式，其中 ${\mathbf{}}^{\mathsf{I}}N_{t}$ 表示第t日成分基金的数量， $r_{i,t}$ 表示基金i在第t日的复权收益率， $\omega_{i,t}$ 表示基金i在第t日的权重（885001.WI成分基金等权、930950.CSI成分基金按净值规模加权）。
+首先，我们仅用指数的成分基金复制指数，暂不穿透至基金持仓。复制过程遵循下述公式，其中 $1N_{t}$ 表示第t日成分基金的数量， $r_{i,t}$ 表示基金i在第t日的复权收益率， $\omega_{i,t}$ 表示基金i在第t日的权重（885001.WI成分基金等权、930950.CSI成分基金按净值规模加权）。
 
 $$
 Index_{t}=Index_{t-1}\left(1+\sum_{i=1}^{N_{t}}\omega_{i,t-1}r_{i,t}\right)
@@ -227,15 +227,15 @@ $$
 
 ## （3）股票权重的计算
 
-- 记某调仓日（季度结束的第 15 个交易日）为T，确定T当天指数的所有成份基金以及对应的基金权重 $Q_{i}(\Sigma Q_{i}=1)$ 。
+- 记某调仓日（季度结束的第 15 个交易日）为T，确定T当天指数的所有成份基金以及对应的基金权重 $\textstyle Q_{i}(\sum Q_{i}=1)$ 。
 
-- 寻找所有成份基金在最新季报中披露的重仓股股票池 $\pmb{\mathrm{J}Pool_{1}}$ （若为方案2，还需找出最新一期中报（或年报）的全部股票持仓 $Pool_{2}$ ，且 $Pool_{2}$ 中要剔除 $:Pool_{1}\ ,$ ）。
+- 寻找所有成份基金在最新季报中披露的重仓股股票池 $\ !Pool_{1}$ （若为方案2，还需找出最新一期中报（或年报）的全部股票持仓 $Pool_{2}$ ，且 $Pool_{2}$ 中要剔除 $:\mathrel{{Pool}_{1}})$ ）。
 
-- $\overrightarrow{\mathrm{l}}\overrightarrow{\mathrm{L}}R_{i,j}$ 表示基金i在股票j上的投资市值占基金股票总投资市值之比，则股票j在组合中的权重 $\begin{array}{r}{w_{j}=\frac{\sum_{i}Q_{i}R_{i,j}}{\lVert\exists-\lvert\mathscr{k}\Xi\stackrel{\ast\ast\{\}}{\leq}\mathscr{L}}\circ}\end{array}$
+- $记R_{i,j}$ 表示基金i在股票j上的投资市值占基金股票总投资市值之比，则股票j在组合中的权重 $w_{j}=\frac{\sum_{i}Q_{i}R_{i,j}}{归一化系数}$
 
-- 将w 乘以[季度末,T]区间内的股票收益并归一化，最终得到调仓日T下的股票权重 $w_{j}^{\prime}$ 。
+- 将w 乘以[季度末,T]区间内的股票收益并归一化，最终得到调仓日T下的股票权重 $w_{j}^{^{\prime}}$ 。
 
-我们以下图为例，简要说明测试流程。在调仓日2013.10.28，使用2013年三季报和2013年中报，确定方案2下的股票池在2013.09.30的权重 $w_{j}$ 。经收益率调整后，得到调仓日2013.10.28下的股票初始权重 $\mathbf{\dot{\Omega}}\mathbf{\Omega}^{\prime}$ ，并在下一个季度调仓日（2014.01.22）重新确定股票初始权重。
+我们以下图为例，简要说明测试流程。在调仓日2013.10.28，使用2013年三季报和2013年中报，确定方案2下的股票池在2013.09.30的权重 $w_{j}$ 。经收益率调整后，得到调仓日2013.10.28下的股票初始权重 $\left[w_{j}^{^{\prime}}\right]$ ，并在下一个季度调仓日（2014.01.22）重新确定股票初始权重。
 
 图 7：季度调仓所用数据示例
 ![](images/3c9e74d5bd4aed2ecb9c31cda26994d11e9d8cbc6a04bac8d3ca5ddeb498ebbb.webp)
@@ -284,16 +284,16 @@ $$
 
 ## 3.1 优化算法说明
 
-记 $y_{t}$ 为第t日基金指数的收益率， $x_{1t},~x_{2t}\cdots x_{Nt}$ 为第t日N只成分股票的收益率， $\omega_{1}$ $\omega_{2}\cdots\omega_{N}$ 为N只成分股票权重，则过去T个交易日的跟踪误差可以表示为： $\begin{array}{r}{\sum_{t=1}^{T}(y_{t}-\omega_{1}x_{1t}-}\end{array}$ $\omega_{2}x_{2t}-\cdots-\omega_{N}x_{Nt})^{2}$ ，进一步可用矩阵形式表达为Tω̃′Σω̃。其中， $\widetilde{\omega}^{\prime}=(1\ -\omega_{1}\ -\omega_{2}\cdots-$ $\omega_{N}),\widetilde{r}_{t}^{\prime}=(y_{t}x_{1t}x_{2t}\cdots x_{Nt})$ 均为N +1维向量，N+1阶矩阵Σ是 $\widetilde{r_{t}}$ 的协方差矩阵。
+记 $y_{t}$ 为第t日基金指数的收益率， $x_{1t}、x_{2t}\cdots x_{Nt}$ 为第t日N只成分股票的收益率， $\omega_{1}$ $\omega_{2}\cdots\omega_{N}$ 为N只成分股票权重，则过去T个交易日的跟踪误差可以表示为： $\textstyle\sum_{t=1}^{T}(y_{t}-\omega_{1}x_{1t}-$ $\omega_{2}x_{2t}-\cdots-\omega_{N}x_{Nt})^{2}$ ，进一步可用矩阵形式表达为Tω̃′Σω̃。其中， $\widetilde{\omega}^{\prime}=\left(1-\omega_{1}-\omega_{2}\cdots-\right.$ $\omega_{N})、\widetilde{r_{t}}^{\prime}=(y_{t}\quad x_{1t}\quad x_{2t}\cdots\quad x_{Nt})$ 均为N +1维向量，N+1阶矩阵Σ是 $\widetilde{r_{t}}$ 的协方差矩阵。
 
 因此，最小化过去 T日跟踪误差的问题可以转化为 $Min\widetilde{\omega}^{\prime}\Sigma\widetilde{\omega}$ 。考虑到模拟组合中股票数量较多，直接用样本协方差估计Σ会产生奇异矩阵不可逆、估计误差较大等问题。所以我们首先对协方差矩阵Σ进行压缩，具体采用的方法为 Chen 等人（2010）提出的 Oracle ApproximatingShrinkage（OAS）方法，在报告《适用 A 股不同股票池的统计风险模型》中我们曾用其估计股票收益率的协方差矩阵，这里我们对 OAS方法进行简单回顾。
 
-记N阶矩阵S为N项资产收益率的样本协方差矩阵，则 $\begin{array}{r}{{\Sigma_{OAS}}=(1-\rho)\cdot S+\rho\cdot F}\end{array}$ ，其中 $F=$ $\textstyle{\frac{Tr(S)}{N}}$ I为压缩目标， $\begin{array}{r}{\rho=Min\left\{1,\frac{\left(1-\frac{2}{N}\right)Tr\left(S^{2}\right)+Tr^{2}(S)}{\left(T+1-\frac{2}{N}\right)\left[Tr\left(S^{2}\right)-Tr^{2}(S)/N\right]}\right\}}\end{array}$ 为压缩系数。
+记N阶矩阵S为N项资产收益率的样本协方差矩阵，则 $\Sigma_{OAS}=(1-\rho)\cdot S+\rho\cdot F$ ，其中 $F=$ $\frac{Tr(S)}{N}$ I为压缩目标， $\rho=Min\left\{1,\frac{\left(1{-}\frac{2}{N}\right)Tr(S^{2}){+}Tr^{2}(S)}{\left(T{+}1{-}\frac{2}{N}\right)[Tr(S^{2}){-}Tr^{2}(S)/N]}\right\}$ 为压缩系数。
 
 除了最小化跟踪误差外，我们还希望模拟组合中的股票权重尽量稀疏，所以在优化目标中加入了 L1范数惩罚项，最终我们选用如下优化问题。
 
 $$
-\begin{array}{c}{Min\displaystyle\sum_{t=1}^{T}\alpha_{t}(y_{t}-\omega_{1}x_{1t}-\omega_{2}x_{2t}-\cdots-\omega_{N}x_{Nt})^{2}+\lambda\|\omega\|_{1}}\\{s.t.\quad0\leq\omega\leq\omega_{0}+Max(0.5\omega_{0}+5\%)}\end{array}
+\begin{aligned}Min\sum_{t=1}^{T}\alpha_{t}&(y_{t}-\omega_{1}x_{1t}-\omega_{2}x_{2t}-\cdots-\omega_{N}x_{Nt})^{2}+\lambda\|\omega\|_{1}\\&s.t.0\leq\omega\leq\omega_{0}+Max(0.5\omega_{0}+5\%)\end{aligned}
 $$
 
 $$
@@ -310,9 +310,9 @@ $$
 
 从 20091231-20230224期间的月度优化结果来看，我们发现：
 
-（1）885001.WI的优化结果在跟踪误差和收益差距两方面均优于前文第二章中的模拟组合。如T = 60、λ = 0.5时，优化组合的年化跟踪误差为 4.40%，年化收益仅跑输基准指数 0.05%。换手率较先前略有提高， $\Re\Pi T=60\setminus\lambda=0.$ 5下的年化换手约为 3.75。
+（1）885001.WI的优化结果在跟踪误差和收益差距两方面均优于前文第二章中的模拟组合。如T = 60、λ = 0.5时，优化组合的年化跟踪误差为 4.40%，年化收益仅跑输基准指数 0.05%。换手率较先前略有提高， $如T=60、\lambda=0.$ 5下的年化换手约为 3.75。
 
-（2）对于 930950.CSI 的优化组合，难以找出在跟踪误差和收益差距两方面均优于前文结果的组合。如T = 20下的各组合年化收益与基准指数较为接近，但跟踪误差略高；而 $T=120$ 下的各组合虽然跟踪误差较低，但与基准指数的收益差距较大。
+（2）对于 930950.CSI 的优化组合，难以找出在跟踪误差和收益差距两方面均优于前文结果的组合。如T = 20下的各组合年化收益与基准指数较为接近，但跟踪误差略高；而 $[T=120]$ 下的各组合虽然跟踪误差较低，但与基准指数的收益差距较大。
 
 图 11：885001.WI 的优化结果（20091231-20230224）净值曲线
 ![](images/7bd0da20c250921938b439d06c5fb683b2dbdff1a36745e22841ea679cdc95dc.webp)

@@ -54,7 +54,7 @@ xxy2@gf.com.cn
 
 ## 1.1 BS 期权定价模型的假设与形式
 
-BS期权定价模型是基于市场风险中性假设与无套利定价方法得到的欧式期权定价模型，即由期权与标的资 $-\frac{\triangledown\cdot\triangledown}{\triangledown^{\prime}}$ 构建动态无风险组合产生的瞬时收益扣减该组合的瞬时资金成本后的净收益稳定为零，被视为衍生品定价理论的基石，其主要优点可归纳为简单、实用而且易于执行，因此也是应用最为广泛的期权定价模型。
+BS期权定价模型是基于市场风险中性假设与无套利定价方法得到的欧式期权定价模型，即由期权与标的资 $\cdot 产$ 构建动态无风险组合产生的瞬时收益扣减该组合的瞬时资金成本后的净收益稳定为零，被视为衍生品定价理论的基石，其主要优点可归纳为简单、实用而且易于执行，因此也是应用最为广泛的期权定价模型。
 
 BS期权定价模型所用到的假设：
 
@@ -73,25 +73,25 @@ BS期权定价模型所用到的假设：
 由以上假设可以得到基于BS定价模型的看涨期权与看跌期权的定价形式：
 
 $$
-\left\{\begin{array}{l}{{C_{t}^{\phantom{ss}}=\exp\left(-r_{f}^{\phantom{}}(T-t)\right)(F_{t}^{\phantom{}T}\cdot\Phi\left(d\right)-X\cdot\Phi\left(d-\sigma\sqrt{T-t}\right))}}\\{{\phantom{\frac{1}{2}}}}\\{{P_{t}^{\phantom{}}=\exp\left(-r_{f}^{\phantom{}}(T-t)\right)(X\cdot\Phi\left(\sigma\sqrt{T-t}-d\right)-F_{t}^{\phantom{}T}\cdot\Phi\left(-d\right))}}\end{array}\right.\tag{式(1}
+\left\{\begin{aligned}C_{_t}^{^{BS}}=&\exp\left(-r_{_f}\left(T-t\right)\right)\left(F_{_t}^{^T}\cdot\Phi\left(d\right)-X\cdot\Phi\left(d-\sigma\sqrt{T-t}\right)\right)\\P_{_t}^{^{BS}}=&\exp\left(-r_{_f}\left(T-t\right)\right)\left(X\cdot\Phi\left(\sigma\sqrt{T-t}-d\right)-F_{_t}^{^T}\cdot\Phi\left(-d\right)\right)\end{aligned}\right.\tag{式(1}
 $$
 
-其中：t为当期时刻，T为期权合约的到期时刻， $\boldsymbol{F}_{t}^{\phantom{\dagger}T}$ 为标的资产 $\boldsymbol{S}_{\iota}$ 的理论远期价格，即 $\boldsymbol{F_{t}^{\textit{ T }}}=\boldsymbol{S_{t}}\cdot\mathbf{exp}\left(\boldsymbol{r_{f}}\left(T-t\right)\right)$ $d={\frac{\ln{\left({\boldsymbol{F}}_{t}^{T}\left/X\right.\right)}}{\sigma{\sqrt{T-t}}}}+{\frac{1}{2}}\sigma{\sqrt{T-t}}$ ，Φ(·) 为标准正态分布的概率分布函数。
+其中：t为当期时刻，T为期权合约的到期时刻， $\boldsymbol{F}_{t}^{\textit{ T }}$ 为标的资产 $S_{\textit{ t }}$ 的理论远期价格，即 $F_{_t}^{^T}=S_{_t}\cdot\exp\left(r_{_f}\left(T-t\right)\right)$ $d=\frac{\ln\left(F_t^T/X\right)}{\sigma\sqrt{T-t}}+\frac{1}{2}\sigma\sqrt{T-t}$ ，Φ(·) 为标准正态分布的概率分布函数。
 
 ## 1.2 BS 隐含波动率
 
 在BS期权定价模型中标的资产的价格、执行价格与剩余期限对于每一个交易者都是相同的，而市场无风险利率的取值差别也不会很大，因此标的资产波动率就成为最关键的参数。
 
-由BS期权定价模型可知期权的价值对标的资 $\cdot\vec{j^{z}}$ 波动率变动的敏感性为：
+由BS期权定价模型可知期权的价值对标的资 $\cdot 产$ 波动率变动的敏感性为：
 
 $$
-Vega_{_t}^{^{BS}}=S_{_t}\cdot\Phi^{\prime}\bigl(d\mathbf{\Sigma}\bigr)\sqrt{T-t}\tag{式(2}
+Vega_{_t}^{^{BS}}=S_{_t}\cdot\Phi^{\prime}(d)\sqrt{T-t}\tag{式(2}
 $$
 
 由式（2）可以得到：
 
 $$
-\begin{array}{c}\begin{array}{l}{\displaystyle|{\mathbf{\Psi}}_{\forall}\mathbf{\mathbf{\Psi}}>0,S_{t}^{*}=\mathop{\mathrm{arg~max}}_{s_{t}>0}\{Vega_{t}\}=X\cdot\exp((\frac{\sigma^{2}}{2}-r_{f})(T-t))}\\{\displaystyle|{\mathbf{\Psi}}_{\forall}S_{t}>0,X^{*}=\mathop{\mathrm{arg~max}}_{x>0}\{Vega_{t}\}=S_{t}\cdot\exp((\frac{\sigma^{2}}{2}+r_{f})(T-t))}\\{\displaystyle|{\mathbf{\Psi}}_{\forall}S_{t}>0,X^{*}=\mathop{\mathrm{arg~max}}_{x>0}\{Vega_{t}\}=S_{t}\cdot\exp((\frac{\sigma^{2}}{2}+r_{f})(T-t))}\end{array})\end{array}\tag{式(3}
+\left\{\begin{aligned}\forall X>0,S_{t}^{*}=\arg\max_{s_{t}>0}\left\{Vega_{t}\right\}=X\cdot\exp\left(\left(\frac{\sigma^{2}}{2}-r_{f}\right)(T\cdot t)\right)\\\forall S_{t}>0,X^{*}=\arg\max_{X>0}\left\{Vega_{t}\right\}=S_{t}\cdot\exp\left(\left(\frac{\sigma^{2}}{2}+r_{f}\right)(T\cdot t)\right)\end{aligned}\right.\tag{式(3}
 $$
 
 图1：Vega最大值
@@ -100,9 +100,9 @@ $$
 
 由式（3）可知：
 
-（1）对于给定的期权，当标的资产价格 $S_{_t}=X\cdot\exp\left(\frac{\sigma^{2}}{2}-r_{_f})(T-t)\right)$ 时，期权的价值对于标的资产波动率变动的敏感性达到最大值。
+（1）对于给定的期权，当标的资产价格 $S_{_t}=X\cdot\exp\left(\left(\frac{\sigma^{^2}}{2}-r_{_f}\right)\left(T-t\right)\right)$ 时，期权的价值对于标的资产波动率变动的敏感性达到最大值。
 
-（2）对于给定的标的资产，当执行价格 $X\ =\ S_{_t}\cdot\exp\left((\frac{\sigma^{2}}{2}+r_{_f})(T\ -\ t)\ \right)$ 时，期权价值对于标的资产波动率变动的敏感性达到最大值。
+（2）对于给定的标的资产，当执行价格 $X=S_{_t}\cdot\exp\left(\left(\frac{\sigma^{^2}}{2}+r_{_f}\right)\left(T-t\right)\right)$ 时，期权价值对于标的资产波动率变动的敏感性达到最大值。
 
 期权的价值总是关于标的资产波动率的严格单调增函数，那么当某个期权的价格给定时，我们就可以由BS期权定价模型唯一的计算出对应的波动率数值，我们将其称为基于BS定价模型的隐含波动率。
 
@@ -119,7 +119,7 @@ BS期权定价模型假设标的资产的价格变动服从几何布朗运动且
 受到套利机制的约束，期权平价关系的成立与定价模型的假设与形式无关：
 
 $$
-\left\{\begin{array}{l}{C_{t}^{^{BS}}+X\cdot\exp\left(r_{f}\left(T-t\right)\right)=P_{_t}^{^{BS}}+S_{_t}}\\{\qquad\Rightarrow C_{_t}-C_{_t}^{^{BS}}=P_{_t}-P_{_t}^{^{BS}}}\\{C_{_t}+X\cdot\exp\left(r_{f}\left(T-t\right)\right)=P_{_t}+S_{_t}}\end{array}\right.\Rightarrow C_{_t}-C_{_t}^{^{BS}}=P_{_t}-P_{_t}^{^{BS}}\tag{式(4}
+\begin{aligned}&\{C_{_t}^{^{BS}}+X\cdot\exp(r_{_f}(T\cdot t))=P_{_t}^{^{BS}}+S_{_t}\\&(C_{_t}+X\cdot\exp(r_{_f}(T\cdot t))=P_{_t}+S_{_t}\Rightarrow C_{_t}-C_{_t}^{^{BS}}=P_{_t}-P_{_t}^{^{BS}}\\\end{aligned}\tag{式(4}
 $$
 
 那么由式（4）可知：对于同一标的资产、相同执行价格和到期日的看涨与看跌期权所对应的波动率微笑曲线具有对称性。
@@ -158,20 +158,20 @@ BS期权定价模型假设标的资产到期日的价格服从对数正态分布
 
 首先，我们放松BS期权定价模型中对于标的资产价格波动的假设，不再限制标的资产的瞬时漂移率和瞬时波动率为已知的常数，而是某个时变的量。
 
-令波动率方差互换合约当期时点t时刻的期末交割价格为 $\boldsymbol{\sigma}_{x,t}^{2}$ ，合约的名义本金
+令波动率方差互换合约当期时点t时刻的期末交割价格为 $\sigma_{{X},t}^{^{2}}$ ，合约的名义本金
 
-为 $N^{^{\sigma^{2}}}$ ，到期日为T。在当期时点t时刻，这份合约多头部位的期末收益在风险中性
+为 $N^{\sigma^{2}}$ ，到期日为T。在当期时点t时刻，这份合约多头部位的期末收益在风险中性
 
 环境下的现值 ${V_{t}}^{\sigma^{2}}$
 
 $$
-V_{_t}^{\sigma^{2}}=E_{_t}\underset{\left\lfloor\begin{array}{l}{1}\\{\frac{d}{d_{t}}\left(T-t\right)}\end{array}\right\rfloor}{\overset{\sim}{\operatorname{F}}}(-r_{_f}\left(T-t\right)\right)(\frac{\displaystyle\int_{t}^{T}\sigma_{_{\varepsilon}}^{^2}\cdot d\varepsilon}{T-t}-\sigma_{_{X,t}}^{^2})\boldsymbol{N}^{\sigma^{2}}\underset{}{\overset{\left.}{\operatorname{F}}}\tag{式(5}
+V_{t}^{\sigma^{2}}=E_{t}\left[\exp\left(-r_{f}\left(T-t\right)\right)\left(\frac{\int_{t}^{T}\sigma_{\varepsilon}^{2}\cdot d\varepsilon}{T-t}-\sigma_{X,t}^{2}\right)N^{\sigma^{2}}\right]\tag{式(5}
 $$
 
 由式（5）可以得到这份波动率方差互换合约的合理定价：
 
 $$
-\sigma_{_{X,t}}^{2}=\tilde{\sigma}_{_{[t,T]}}^{2}=\frac{E_{\scriptscriptstyle t}\bigg[\displaystyle\int_{t}^{T}\sigma_{_{\varepsilon}}^{2}\cdot d\varepsilon\bigg]}{T-t}\tag{式(6}
+\sigma_{_{X},t}^{^{2}}=\tilde{\sigma}_{_{[t,T]}}^{^{2}}=\frac{E_{_{t}}\left[\displaystyle\int_{_{t}}^{^{T}}\sigma_{_{\varepsilon}}^{^{2}}\cdot d\varepsilon\right]}{T-t}.\tag{式(6}
 $$
 
 波动率方差互换的合理定价反映了对市场对标的资产未来波动率的预期，但难点在于未来波动率并没有直接的工具，而且标的资产的瞬时漂移率是时变的且也不恒等于市场的无风险利率，那么用什么方法来复制未来波动率？
@@ -179,7 +179,7 @@ $$
 由式（6）可以得到波动率的一种复制方法：
 
 $$
-\begin{array}{rl}&{\left\{\begin{array}{ll}{dS_{t}=S_{t}(\mu_{t}\cdot dt+\sigma_{t}\cdot dW_{t})}\\{\ }\\{\displaystyle\left\{\begin{array}{ll}{d\ln\big(S_{t}\big)=(\mu_{t}-\frac{1}{2}\sigma_{t}^{2})dt+\sigma_{t}\cdot dW_{t}}\end{array}\right.}\\{\displaystyle\Rightarrow\int_{t}^{T}\sigma_{\varepsilon}^{2}\cdot d\varepsilon=2(\int_{t}^{T}\frac{dS_{\varepsilon}}{S_{\varepsilon}}-\ln\Big\{\frac{S_{T}}{S_{t}}\Big\})}\end{array}\right.}\end{array}\tag{式(7}
+\begin{aligned}&\left\{dS_{_t}=S_{_t}(\mu_{_t}\cdot dt+\sigma_{_t}\cdot dW_{_t})\right.\\&\left.d\ln\left(S_{_t}\right)=(\mu_{_t}-\frac{1}{2}\sigma_{_t}^{^2})dt+\sigma_{_t}\cdot dW_{_t}\right.\\&\left.\Rightarrow\int_{_t}^{^T}\sigma_{_\varepsilon}^{^2}\cdot d\varepsilon=2(\int_{_t}^{^T}\frac{dS_{_\varepsilon}}{S_{_\varepsilon}}-\ln\left(\frac{S_{_T}}{S_{_t}}\right))\right.\\\end{aligned}\tag{式(7}
 $$
 
 由式（7）可知，标的资产的未来波动率可以通过两种持仓方式来复制：
@@ -198,16 +198,16 @@ $$
 
 2、静态拆分，拆分为线性部分与非线性的高阶部分，但要求是能够找到高阶部分对应的工具载体，优势在于只需静态持有。
 
-对于对数远期合约我们将采用静态拆分方法，将对数远期合约分解为线性部分和非线性的高阶部分。令对数远期合约当期时点t时刻的期末交割价格为 $\ln{\left(S_{x,t}\right)}$合约的名义本金为 $N^{^{\ln(s)}}$ ，合约到期日为T，那么这份合约的多头部位在到期日的收益 $V_{_T}^{_{[n(S)}}$
+对于对数远期合约我们将采用静态拆分方法，将对数远期合约分解为线性部分和非线性的高阶部分。令对数远期合约当期时点t时刻的期末交割价格为 $\ln\left(S_{{X},t}\right)$合约的名义本金为 $N^{\mathrm{~ln}\left(S\right)}$ ，合约到期日为T，那么这份合约的多头部位在到期日的收益 $V_{T}^{^{\ln\left(S\right)}}$
 
 $$
-V_{_T}^{^{\ln(s)}}=\left(\ln\left(S_{_T}\right)-\ln\left(S_{_{X,t}}\right)\right){\cal N}^{^{\ln(s)}}\tag{式(8}
+V_{_T}^{^{\ln\left(S\right)}}=\left(\ln\left(S_{_T}\right)-\ln\left(S_{_{X,t}}\right)\right)N^{^{\ln\left(S\right)}}\tag{式(8}
 $$
 
 由光滑函数基于DiracDelta函数的分解形式和式（8）可以得到：
 
 $$
-\frac{V_{T}^{\ln(s)}}{N^{\ln(s)}}=\frac{S_{_T}-S_{_{X,t}}}{S_{_{X,t}}}-\int_{0}^{s_{_{X,t}}}\frac{\left(x-S_{_{T}}\right)^{+}}{{X^{\mathrm{~2~}}}}\cdot dX-\int_{s_{_{X,t}}}^{+\infty}\frac{\left(S_{_T}-X\right)^{+}}{{X^{\mathrm{~2~}}}}\cdot dX\tag{式(9}
+\frac{V_{_T}^{^{\ln\left(S\right)}}}{N^{^{\ln\left(S\right)}}}=\frac{S_{_T}-S_{_{X,t}}}{S_{_{X,t}}}-\int_{_0}^{^{S_{_{X,t}}}}\frac{\left(\;x-S_{_T}\;\right)^{^+}}{X^{^2}}\cdot dX-\int_{_{S_{_{X,t}}}}^{^{+\infty}}\frac{\left(\;S_{_T}-X\;\right)^{^+}}{X^{^2}}\cdot dX\tag{式(9}
 $$
 
 对光滑函数基于DiracDelta函数的分解感兴趣的投资者可参见本文的第三部分我们对于DiracDelta函数的基本性质与光滑函数分解形式的推导过程都由详细的论述。
@@ -225,54 +225,54 @@ $$
 由式（7）和式（9）可以得到：
 
 $$
-\tilde{\sigma_{[t,T]}}^{2}=\frac{2}{T-t}[r_{f}\left(T-t\right)-\ln\frac{S_{x,t}}{S_{t}}-E_{t}\left|\ln\left(\frac{S_{T}}{S_{x,t}}\right)\right|]\tag{式(10}
+\tilde{\sigma_{[t,T]}}=\frac{2}{T-t}\left[r_{f}\left(T-t\right)-\ln\frac{S_{x,t}}{S_{t}}-E_{t}\left[\ln\left(\frac{S_{T}}{S_{x,t}}\right)\right]\right]\tag{式(10}
 $$
 
 由式（9）和式（10）可以得到：
 
 $$
-\begin{array}{l}{\displaystyle{\tilde{\sigma}_{[t,T]}^{2}=\frac{2}{T-t}[\ln\left(\frac{F_{t}}{S_{x,t}}\right)-\frac{F_{t}-S_{x,t}}{S_{x,t}}}}\\{\displaystyle{~+\exp\left(r_{t}(T-t)\right)(\int_{0}^{s_{x,t}}\frac{P\left(S_{t},X\right)}{{X^{2}}}\cdot dX+\int_{s_{x,t}}^{+\infty}\frac{C\left(S_{t},X\right)}{{X^{^2}}}\cdot dX)]}}\end{array}\tag{式(11}
+\begin{aligned}\tilde{\sigma}_{_{[t,T]}}^{^2}=&\frac{2}{T-t}[\ln\left(\frac{F_{_t}}{S_{_{X,t}}}\right)-\frac{F_{_t}-S_{_{X,t}}}{S_{_{X,t}}}\\&+\exp\left(r_{_f}\left(T-t\right)\right)(\int_{_0}^{^{s_{_{x}}}}\frac{P\left(S_{_t},X\right)}{X^{^2}}\cdot dX+\int_{_{S_{_{X,t}}}}^{^{+\infty}}\frac{C\left(S_{_t},X\right)}{X^{^2}}\cdot dX)]\end{aligned}\tag{式(11}
 $$
 
 ## 三、Dirac Delta 函数
 
-若某一随机变量X服从期望为λ、方差为 $\sigma^{2}$ 的正态分布，该随机变量的概率密度函数记为 $\phi\left(\boldsymbol{x},\lambda,\sigma\right)$ ，那么定义Dirac Delta函数 $\delta(x-\lambda)=\operatorname*{lim}_{\sigma0^{+}}\phi(x,\lambda,\sigma)$ Delta函数的基本性质列举：
+若某一随机变量X服从期望为λ、方差为 $\sigma^{2}$ 的正态分布，该随机变量的概率密度函数记为 $\phi\left(x,\lambda,\sigma\right)$ ，那么定义Dirac Delta函数 $\delta\left(x-\lambda\right)=\lim_{\sigma\to0^{+}}\phi\left(x,\lambda,\sigma\right)$ Delta函数的基本性质列举：
 
-性质1: $\delta\left(x-\lambda\right)=\delta\left(\lambda-x\right)={\left\{\begin{array}{ll}{+\infty,x=\lambda}\\{}\\{0,}&{x\neq\lambda}\end{array}\right.}$
+性质1: $\delta\left(x-\lambda\right)=\delta\left(\lambda-x\right)=\left\{\begin{aligned}{+\infty,x=\lambda}\\{0,\quad x\neq\lambda}\end{aligned}\right.$
 
-性质2: $\begin{array}{rl}&{\left\{\begin{array}{ll}{\displaystyle\int_{-\infty}^{+\infty}\delta\left(x-\lambda\right)dx=1}\\{\displaystyle\int_{-\infty}^{y}\delta\left(x-\lambda\right)dx=1\left(y\geq\lambda\right)}\end{array}\right.}\\&{\left\{\begin{array}{ll}{\displaystyle\int_{-\infty}^{+\infty}\delta\left(x-\lambda\right)dx=1\left(y\leq\lambda\right)}\\{\displaystyle\int_{y}^{+\infty}\delta\left(x-\lambda\right)dx=1\left(y\leq\lambda\right)}\end{array}\right.}\\&{\left\{\begin{array}{ll}{\displaystyle\int_{-\infty}^{z}\left(\int_{-\infty}^{y}\delta\left(x-\lambda\right)dx\right)dy=\left(z-\lambda\right)^{+}}\\{\displaystyle\int_{-\infty}^{+\infty}(\int_{y}^{+\infty}\delta\left(x-\lambda\right)dx)dy=\left(\lambda-z\right)^{+}}\end{array}\right.}\\&{\left\{\begin{array}{ll}{\displaystyle\int_{z}^{+\infty}\delta\left(\frac{1}{y}\right)^{d}\delta\left(x-\lambda\right)dx)dy=\left(\lambda-z\right)^{+}}\end{array}\right.}\end{array}$
+性质2: $\left\{\begin{aligned}&\int_{_{-\infty}}^{^{+\infty}}\delta\left(\;x\;-\;\lambda\;\right)dx\;=\;1\\&\int_{_{-\infty}}^{^{y}}\delta\left(\;x\;-\;\lambda\;\right)dx\;=\;1\left(\;y\;\geq\;\lambda\;\right)\\&\int_{_{y}}^{^{+\infty}}\delta\left(\;x\;-\;\lambda\;\right)dx\;=\;1\left(\;y\;\leq\;\lambda\;\right)\\&\int_{_{-\infty}}^{^{z}}\left(\int_{_{-\infty}}^{^{y}}\delta\left(\;x\;-\;\lambda\;\right)dx\right)dy\;=\;\left(\;z\;-\;\lambda\;\right)^{+}\\&\int_{_{z}}^{^{+\infty}}\left(\int_{_{y}}^{^{+\infty}}\delta\left(\;x\;-\;\lambda\;\right)dx\right)dy\;=\;\left(\;\lambda\;-\;z\;\right)^{+}\end{aligned}\right.$
 
-性质3: $f\left(\lambda\right)=\int_{a}^{b}f\left(x\right)\cdot\delta\left(x-\lambda\right)dx$ $\lambda\in\left[a,b\right]$ 性质4: $\scriptstyle\|\begin{array}{l}{{\scriptstyle1}(x\leq{\lambda})_{x}^{*}=\delta(x-{\lambda})}\\\scriptstyle\|\begin{array}{l}{{\scriptstyle1}(x\leq{\lambda})_{x}^{*}=-\delta(x-{\lambda})}\\{{\scriptstyle{\|\begin{array}{l}{{\scriptstyle(x-{\lambda}\end{array}})_{y}^{*}=1(x\leq{\lambda})}}\\{{\scriptstyle{\|\begin{array}{l}{{\scriptstyle(x-{\lambda}\end{array}})_{y}^{*}=-1(x\leq{\lambda})}}\\{{\scriptstyle{\|\begin{array}{l}{{\scriptstyle1}(x-x)_{y}^{*}=-1(x\leq{\lambda})}}\\{{\scriptstyle{\|\begin{array}{l}{{\scriptstyle1}(x-{\lambda})_{y}^{*}=\delta(x-{\lambda})}}\end{array}}}}\end{array}}}}}\\{{\scriptstyle{\|\begin{array}{l}{{\scriptstyle{\|\begin{array}{l}{{\scriptstyle{(x-x)_{x}^{*}=\delta(x-{\lambda})}}\\{{\scriptstyle{\|\begin{array}{l}{{\scriptstyle1}(x-x)_{y}^{*}=-\delta(x-{\lambda})}}\end{array}}}}}}\end{array}}}}\end{array}}}\end{array}\end{array}$
+性质3: $f\left(\lambda\right)=\int_{a}^{b}f\left(x\right)\cdot\delta\left(x-\lambda\right)dx$ $\lambda\in[a,b]$ 性质4: $\begin{aligned}&\left\{\begin{aligned}&1\left(x\ \geq\ \lambda\ \right)_{_x}^{^{\prime}}\ =\ \delta\left(x\ -\ \lambda\ \right)\ \\&1\left(x\ \leq\ \lambda\ \right)_{_x}^{^{\prime}}\ =\ -\delta\left(x\ -\ \lambda\ \right)\end{aligned}\right.\\&\left\{\begin{aligned}&\left(x\ -\ \lambda\ \right)_{_y}^{^{\prime}}\ =\ 1\left(x\ \geq\ \lambda\ \right)\ \\&\left(\ \lambda\ -\ x\ \right)_{_y}^{^{\prime}}\ =\ -1\left(x\ \leq\ \lambda\ \right)\end{aligned}\right.\\&\left\{\begin{aligned}&\left(\ \lambda\ -\ x\ \right)_{_y}^{^{\prime}}\ =\ -1\left(x\ \leq\ \lambda\ \right)\ \\&\left(x\ -\ \lambda\ \right)_{_y}^{^{\prime}}\ =\ \delta\left(x\ -\ \lambda\ \right)\end{aligned}\right.\\&\left\{\begin{aligned}&\left(\ \lambda\ -\ x\ \right)_{_y}^{^{\prime}}\ =\ \delta\left(x\ -\ \lambda\ \right)\ \\&\left(\ \lambda\ -\ x\ \right)_{_y}^{^{\prime}}\ =\ \delta\left(x\ -\ \lambda\ \right)\end{aligned}\right.\end{aligned}$
 
 图2：Delta函数、一阶、二阶原函数
 ![](images/9e3ecb26ce8d676fe3503ab32a03401fb94468c3896b89f1d81d3bfe2fda28eb.webp)
 数据来源：Wind资讯、广发证券发展研究中心
 
-在(0,+∞)内定义某个光滑函数f(y)，即f(y)在(0,+∞)内处处二阶可导，并令 ${\boldsymbol{y}}^{*}\in\left(0,+\infty\right)$ ，那么由性质3可以到的：
+在(0,+∞)内定义某个光滑函数f(y)，即f(y)在(0,+∞)内处处二阶可导，并令 $y^{^{*}}\in\left(0,+\infty\right)$ ，那么由性质3可以到的：
 
 $$
-\begin{array}{l}{f\left(\boldsymbol{y}\right)=\displaystyle\int_{0}^{+\infty}f\left(\boldsymbol{x}\right)\cdot\delta\left(\boldsymbol{x}-\boldsymbol{y}\right)d\boldsymbol{x}}\\{=\displaystyle\int_{0}^{\boldsymbol{y}^{*}}f\left(\boldsymbol{x}\right)\cdot\delta\left(\boldsymbol{x}-\boldsymbol{y}\right)d\boldsymbol{x}+\displaystyle\int_{\boldsymbol{y}^{*}}^{+\infty}f\left(\boldsymbol{x}\right)\cdot\delta\left(\boldsymbol{x}-\boldsymbol{y}\right)d\boldsymbol{x}}\end{array}\tag{式(12}
+\begin{aligned}&f\left(y\right)=\int_{_0}^{^{+\infty}}f\left(x\right)\cdot\delta\left(x-y\right)dx\\&=\int_{_0}^{^{y^*}}f\left(x\right)\cdot\delta\left(x-y\right)dx+\int_{_{y^*}}^{^{+\infty}}f\left(x\right)\cdot\delta\left(x-y\right)dx\\\end{aligned}\tag{式(12}
 $$
 
 由性质4对式（12）中的第一项连续使用两次分部积分可以得到：
 
 $$
-\begin{array}{rl}&{\int_{0}^{x^{\prime}}f(x)\cdot\delta(x-y)\cdot dx}\\&{=\int_{0}^{x^{\prime}}f(x)\cdot d(1(x\ge y))}\\&{=f(x)\cdot1(x\ge y)|_{0}^{x^{\prime}}-\int_{0}^{x^{\prime}}(x\ge y)\cdot f^{\prime}(x)\cdot dx}\\&{=f(y^{*})\cdot1(y^{*}\ge y)-\int_{0}^{x^{\prime}}f^{\prime}(x)\cdot d((x-y)^{\prime})}\\&{=f(y^{*})\cdot1(y^{*}\ge y)-f^{\prime}(x)\cdot(x-y)^{*}|_{0}^{x^{\prime}}+\int_{0}^{x^{\prime}}(x-y)^{*}\cdot f^{*}(x)\cdot dx}\\&{=f(y^{*})\cdot1(y^{*}\ge y)-f^{\prime}(y^{*})\cdot(y^{*}-y)^{*}+\int_{0}^{x^{\prime}}(x-y)^{*}\cdot f^{*}(x)\cdot dx}\\&{=f(y^{*})\cdot1(y^{*}\ge y)-f^{\prime}(y^{*})\cdot(y^{*}-y)^{*}+\int_{0}^{x^{\prime}}(x-y)^{*}\cdot f^{*}(x)\cdot dx}\end{array}\tag{式(13}
+\begin{aligned}&\int_{0}^{y^{^*}}f\left(x\right)\cdot\delta\left(x-y\right)\cdot dx\\=&\int_{0}^{y^{^*}}f\left(x\right)\cdot d\left(1\left(x\geq y\right)\right)\\=&f\left(x\right)\cdot1\left(x\geq y\right)\bigg|_{0}^{y^{^*}}-\int_{0}^{y^{^*}}1\left(x\geq y\right)\cdot f^{^*}\left(x\right)\cdot dx\\=&f\left(y^{^*}\right)\cdot1\left(y^{^*}\geq y\right)-\int_{0}^{y^{^*}}f^{^*}\left(x\right)\cdot d\left(\left(x-y\right)^{^+}\right)\\=&f\left(y^{^*}\right)\cdot1\left(y^{^*}\geq y\right)-f^{^*}\left(x\right)\cdot\left(x-y\right)^{^+}\bigg|_{0}^{y^{^*}}+\int_{0}^{y^{^*}}\left(x-y\right)^{^+}\cdot f^{^\prime\prime}\left(x\right)\cdot dx\\=&f\left(y^{^*}\right)\cdot1\left(y^{^*}\geq y\right)-f^{^*}\left(y^{^*}\right)\cdot\left(y^{^*}-y\right)^{^+}+\int_{0}^{y^{^*}}\left(x-y\right)^{^+}\cdot f^{^\prime\prime}\left(x\right)\cdot dx\end{aligned}\tag{式(13}
 $$
 
 同样由性质4对式（12）中的第二项也连续使用两次分部积分可以得到：
 
 $$
-\begin{array}{rl}&{\int_{\gamma^{\prime}}^{\infty}f\left(x\right)\cdot\delta\left(x-y\right)\cdot dx}\\&{=\int_{\gamma^{\prime}}^{\infty}f\left(x\right)\cdot d\left(-1\left(x\leq y\right)\right)}\\&{=-f\left(x\right)\cdot1\left(x\leq y\right)\bigg|_{\gamma^{\prime}}^{\infty}+\int_{\gamma^{\prime}}^{\infty}1\left(x\leq y\right)\cdot f^{\prime}\left(x\right)\cdot dx}\\&{=f\left(y^{*}\right)\cdot1\left(y^{*}\leq y\right)+\int_{\gamma^{\prime}}^{\infty}f^{\prime}\left(x\right)\cdot d\left(-\left(y-x\right)^{*}\right)}\\&{=f\left(y^{*}\right)\cdot1\left(y^{*}\leq y\right)-f^{\prime}\left(x\right)\cdot\left(y-x\right)^{*}\bigg|_{\gamma^{\prime}}^{\infty}+\int_{\gamma^{\prime}}^{\infty}\left(y-x\right)^{*}\cdot f^{*}\left(x\right)\cdot dx}\\&{=f\left(y^{*}\right)\cdot1\left(y^{*}\leq y\right)+f^{\prime}\left(y^{*}\right)\cdot\left(y-y^{*}\right)^{*}+\int_{\gamma^{\prime}}^{\infty}\left(y-x\right)^{*}\cdot f^{*}\left(x\right)\cdot dx}\end{array}\tag{式(14}
+\begin{aligned}&\int_{_{y^{^*}}}^{^{+\infty}}f\left(x\right)\cdot\mathcal{S}\left(x-y\right)\cdot dx\\=&\int_{_{y^{^*}}}^{^{+\infty}}f\left(x\right)\cdot d\left(-1\left(x\leq y\right)\right)\\=&-f\left(x\right)\cdot1\left(x\leq y\right)\bigg|_{_{y^{^*}}}^{^{+\infty}}+\int_{_{y^{^*}}}^{^{+\infty}}1\left(x\leq y\right)\cdot f^{\prime}\left(x\right)\cdot dx\\=&f\left(y^{^*}\right)\cdot1\left(y^{^*}\leq y\right)+\int_{_{y^{^*}}}^{^{+\infty}}f^{\prime}\left(x\right)\cdot d\left(-\left(y-x\right)^{^{+}}\right)\\=&f\left(y^{^*}\right)\cdot1\left(y^{^*}\leq y\right)-f^{\prime}\left(x\right)\cdot\left(y-x\right)^{^{+}}\bigg|_{_{y^{^*}}}^{^{+\infty}}+\int_{_{y^{^*}}}^{^{+\infty}}\left(y-x\right)^{^{+}}\cdot f^{\prime\prime}\left(x\right)\cdot dx\\=&f\left(y^{^*}\right)\cdot1\left(y^{^*}\leq y\right)+f^{\prime}\left(y^{^*}\right)\cdot\left(y-y^{^*}\right)^{^{+}}+\int_{_{y^{^*}}}^{^{+\infty}}\left(y-x\right)^{^{+}}\cdot f^{\prime\prime}\left(x\right)\cdot dx\end{aligned}\tag{式(14}
 $$
 
 将式（13）、式（14）代入式（12）整理后就能得到：
 
 $$
-\begin{array}{l}{{f\left(y\right)=f\left(y^{*}\right)+f^{\prime}\left(y^{*}\right)\left(y-y^{*}\right)}}\\{{\ }}\\{{\displaystyle\qquad+\int_{0}^{y^{*}}f^{\prime\prime}\left(x\right)\cdot\left(x-y\right)^{+}\cdot dx+\int_{y^{*}}^{+\infty}f^{\prime\prime}\left(x\right)\cdot\left(y-x\right)^{+}\cdot dx}}\end{array}\tag{式(15}
+\begin{align*}f\left(y\right)&=f\left(y^{^{*}}\right)+f^{'}\left(y^{^{*}}\right)\left(y-y^{^{*}}\right)\\&\quad+\int_{_0}^{^{y^{^{*}}}}f^{''}\left(x\right)\cdot\left(x-y\right)^{^{+}}\cdot dx+\int_{_{y^{^{*}}}}^{^{+\infty}}f^{''}\left(x\right)\cdot\left(y-x\right)^{^{+}}\cdot dx.\end{align*}\tag{式(15}
 $$
 
-式（15）即为 $\left(0,+\infty\right)$ 内任意光滑函数基于DiracDelta函数的分解形式。
+式（15）即为 $(0,+\infty)$ 内任意光滑函数基于DiracDelta函数的分解形式。
 
 ## 风险提示
 

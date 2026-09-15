@@ -455,10 +455,10 @@ FinBERT 研报编码
 
 资料来源：华泰研究
 
-模型在样本内训练完成后，我们在样本外进行测试。forecast_adj_txt 因子生成的频率为每个月末，在月末截面期追溯过去一个季度的全市场分析师盈利预测调整样本，使用训练好的模型进行预测，得到每条样本在每个类别上的概率估计值 ${}_{\cdot p_{c}(x)}$ ，以此我们计算其 log-odds值 $L_{c}(x)$ ：
+模型在样本内训练完成后，我们在样本外进行测试。forecast_adj_txt 因子生成的频率为每个月末，在月末截面期追溯过去一个季度的全市场分析师盈利预测调整样本，使用训练好的模型进行预测，得到每条样本在每个类别上的概率估计值 $\left[p_{c}(x)\right.$ ，以此我们计算其 log-odds值 $L_{c}(x)$ ：
 
 $$
-\begin{array}{clcr}{{\displaystyle{{\cal L}_{c\in\{h,m,l\}}(x)=log\frac{p_{c}(x)}{1-p_{c}(x)}}}}\\{{\mathrm{}}}\\{{forecast\_adj\underline{{{t}}}xt={\cal L}_{h}(x)-{\cal L}_{l}(x)}}\end{array}
+\begin{aligned}L_{c\in\{h,m,l\}}(x)&=log\frac{p_{c}(x)}{1-p_{c}(x)}\\forecast_{-}&adj_{-}txt=L_{h}(x)-L_{l}(x)\end{aligned}
 $$
 
 其中 $c\in\{h,m,l\}$ 为三个类别标签，分别表示上涨、震荡、下跌。我们计算其上涨和下跌类别的 log-odds 值之差作为文本得分。将个股过去一个季度有关盈利预测调整的全部点评研报文本得分求均值即为个股在当期截面的因子值。

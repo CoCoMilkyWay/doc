@@ -120,7 +120,7 @@ anningning@gf.com.cn
 
 ## （一）股票价格分解
 
-为了将单个股票价格在时间t的自然对数 ${\bf\nabla}_{p_{t}}$ 分解为基本价格 ${\bf\nabla}\cdot{\bf q}_{t}$ 和暂时价格 $\cdot z_{t}$ ，
+为了将单个股票价格在时间t的自然对数 $p_{t}$ 分解为基本价格 $\cdot q_{t}$ 和暂时价格 $z_{t}$ ，
 
 $$
 p_{t}=q_{t}+z_{t}
@@ -139,23 +139,23 @@ $$
 具有更高回归速度的股票表明它可以更快地从先前的短暂价格影响中恢复过来。因此，投资者认为这只股票更具弹性，因而更具流动性。换句话说，暂时价格回归较慢的股票被视为风险较高的资产，需要向投资者补偿较高的风险溢价。为了衡量恢复速度，本篇专题报告使用傅立叶变换将分解后的暂时价格序列转换为频域中的频谱函数形式。回归速度快的股票，其频谱函数主要分布在较高的频率水平，而回归速度慢的股票，其频谱函数主要分布在较低的频率水平。在这里假设暂时价格序列是一个有限信号，它包含一个以上的频率成分，恢复到其基本价格。有限时间序列在时域和频域之间具有以下离散傅立叶变换关系，
 
 $$
-Z_{k}=\sum_{t=1}^{D}z_{t}e^{-{\frac{i2\pi kt}{D}}},\qquad(\mathrm{k}=1,2,\cdots,\mathrm{D})
+Z_{k}=\sum_{t=1}^{D}z_{t}e^{-{\frac{i2\pi kt}{D}}},\qquad(\mathrm{k=1,}2,\cdots,\mathrm{D}).
 $$
 
-其中 $\mathbf{z}_{t}$ 为分解后的有限暂时价格序列， $\mathrm{Z}_{k}$ 是 $\scriptstyle{\mathbf{Z}}_{t}$ 进行离散傅立叶变换后的频谱函数，k是频域单位， $D;$ 是交易日总天数，i是虚数单位。为了在不受交易日总天数影响的情况下估计频谱函数的纯幅度，使用 $D\mathbb{x}\mathrm{.}\mathrm{j}_{\mathbf{Z}_{k}}$ 进行归一化，然后得到归一化函数形式 $\overline{{Z_{k}}}$ ，
+其中 $\mathbf{z}_{t}$ 为分解后的有限暂时价格序列， $\mathbf{Z}_{k}$ 是 $\mathbf{\boldsymbol{z}}_{t}$ 进行离散傅立叶变换后的频谱函数，k是频域单位， $D_{2}$ 是交易日总天数，i是虚数单位。为了在不受交易日总天数影响的情况下估计频谱函数的纯幅度，使用 $D对\mathbf{z}_{k}$ 进行归一化，然后得到归一化函数形式 $\overline{{Z_{k}}}$ ，
 
 $$
 \overline{{Z_{k}}}=\frac{1}{D}Z_{k}
 $$
 
-进而计算得到归一化后的频谱函数的幅度 $|\bar{Z}_{k}|_{\mathfrak{c}}$ 由于频率被定义为每单位时间的周期数，因此周期T = D可以表示为频率分量的缩放版本的倒数 $f_{k}={\frac{k}{d}}{\mathrm{{}}}$ 。幅度 $\lvert\hat{Z}_{k}$ |表示在k
+进而计算得到归一化后的频谱函数的幅度 $|\bar{Z}_{k}|_{\mathsf{b}}$ 由于频率被定义为每单位时间的周期数，因此周期T = D可以表示为频率分量的缩放版本的倒数 $f_{k}={\frac{k}{d}}.$ 。幅度 $\vert\bar{Z}_{k}$ |表示在k
 每个频率水平上偏离其基本值的短暂价格波动峰值的距离。周期T捕获每个恢复摆动的周期完成的速度。因此，可以通过将 $|\bar{Z}_{k}$ |除以其对应的周期来获得每个频率级别的暂时价格的移动速度。因此，暂时价格恢复的平均速度，即弹性因子的构建，可以通过以下等式获得：
 
 $$
-\begin{array}{r}{Resiliency_{i,t}=\frac{1}{\left[\frac{D_{i,t}}{2}\right]}\sum_{k=1}^{\left[{D_{i,t}}\right]_{2}}\frac{2\left|\bar{Z}_{\mathrm{k,i,t}}\right|}{\mathrm{T}_{\mathrm{k,i,t}}}\frac{1}{-\left[\frac{D_{i,t}}{2}\right]}\sum_{k=1}^{\left[D_{i,t},\right]_{2}}2\left|\bar{Z}_{\mathrm{k,i,t}}\right|\cdot f_{\mathrm{k,i,t}}}\end{array}
+\begin{array}{r}{Resiliency_{i,t}=\frac{1}{\left[\frac{D_{i,t}}{2}\right]}{\sum_{k=1}^{\left[D_{i,t}/2\right]}}\frac{2\left|Z_{\mathrm{k,i,t}}\right|}{\mathrm{T}_{\mathrm{k,i,t}}}{\sum_{\left[\frac{D_{i,t}}{2}\right]}}{\sum_{k=1}^{\left[D_{i,t}/2\right]}}2\left|\bar{Z}_{\mathrm{k,i,t}}\right|\cdot f_{\mathrm{k,i,t}}}\end{array}
 $$
 
-其中 $D_{i,t}$ 是每个月t的滚动窗口中股票i的数据可用的样本天数， $\left[\frac{D_{i,t}}{2}\right]$ 是最接近 $\cdot\frac{D_{i,t}}{2}$ 的整数。
+其中 $D_{i,t}$ 是每个月t的滚动窗口中股票i的数据可用的样本天数， $\left[\frac{D_{i,t}}{2}\right]$ 是最接近 $\frac{D_{i,t}}{2}$ 的整数。
 
 为了构建弹性因子，在每月月末调仓时，针对每个个股，使用自2005年1月起至该调仓日所有可用的过去股价数据进行HP分解，得到基本价格和暂时价格，然后以36个月的滚动窗口通过离散傅立叶变换进行逐月计算得出每个个股的弹性水平。
 

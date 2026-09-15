@@ -88,13 +88,13 @@ wangxingxing@orientsec.com.cn
 
 ## 1.1 大单买入占比的定义
 
-记股票i在交易日t的所有大买单成交金额、所有大卖单成交金额分别为 $BigBuy_{i,t}$ t和Big $Sell_{i,t}$ ，则该股票在当天的大单买入占比因子为其所有大买单成交金额占所有大单成交金额的比例，即：
+记股票i在交易日t的所有大买单成交金额、所有大卖单成交金额分别为 $Big\;Buy_{i,t}$ t和Big $Sell_{i,t}$ ，则该股票在当天的大单买入占比因子为其所有大买单成交金额占所有大单成交金额的比例，即：
 
 $$
-\mathcal{\bar{K}}\ntriangle{\cong}\mathcal{\bar{K}}\Lambda\mathsf{E}\mathsf{E}\mathsf{E}_{i,t}=\frac{BigBuy_{i,t}}{BigBuy_{i,t}+BigSell_{i,t}}
+大单买入占比_{i,t}=\frac{Big\;Buy_{i,t}}{Big\;Buy_{i,t}+Big\;Sell_{i,t}}
 $$
 
-此外，鉴于更多的信息交易会发生在早盘，我们也定义了早盘大单买入占比因子，即将上述公式中的 $BigBuy_{i,t}\ddag\square BigSell_{i,t}$ 限制为发生在上午10:00之前、所有的大买单和大卖单的成交金额。
+此外，鉴于更多的信息交易会发生在早盘，我们也定义了早盘大单买入占比因子，即将上述公式中的 $Big\;Bu_{i,t}和Big\;Sell_{i,t}$ 限制为发生在上午10:00之前、所有的大买单和大卖单的成交金额。
 
 ## 1.2大单涨跌幅的定义
 
@@ -106,7 +106,7 @@ $$
 
 （3） 大单涨跌幅取所有主动订单为大单的对数价格变动之和，即大单涨跌幅 =$\textstyle\sum_{i\in S}\Delta$ ln $P_{i}$ ，其中S为所有主动订单为大单的订单集合。
 
-通过上述计算过程可以看出，大单涨跌幅因子本质刻画的是由大单主导的已成交订单的涨跌幅。与大单买入因子类似，我们也定义了早盘大单涨跌幅因子，其计算过程只需在上述步骤（3）的集合S中再多加一个“订单成交时间早于上午 $10{:}00^{\ '}$ 的限制条件。
+通过上述计算过程可以看出，大单涨跌幅因子本质刻画的是由大单主导的已成交订单的涨跌幅。与大单买入因子类似，我们也定义了早盘大单涨跌幅因子，其计算过程只需在上述步骤（3）的集合S中再多加一个“订单成交时间早于上午 $10:00$ 的限制条件。
 
 ## 1.3因子测试说明
 
@@ -207,10 +207,10 @@ $$
 
 在给出超大单的定义方式之后，下面我们将从因子角度去量化说明超大单冲击的负向效应。
 
-首先参照大单买入占比因子的定义，我们构建了超大单买入占比因子 。其中$SuperBigBuy_{i,t},SuperBigSell_{i,t}$ 分别对应股票i在交易日t的所有超大买单、超大卖单的成交金额1；若将二者限制在上午 10:00以前的超大买单和超大卖单，则可得早盘超大单买入占比因子。
+首先参照大单买入占比因子的定义，我们构建了超大单买入占比因子 。其中$Super\;Big\;Buy_{i,t}、Super\;Big\;Sell_{i,t}$ 分别对应股票i在交易日t的所有超大买单、超大卖单的成交金额1；若将二者限制在上午 10:00以前的超大买单和超大卖单，则可得早盘超大单买入占比因子。
 
 $$
-\frac{+\Im}{\Im\Xi}\mathcal{\perp}\frac{\ d}{\ d{\bf\mathcal{L}}}\mathcal{Q}\mathcal{L}\mathcal{\bigcap}\mathcal{\bf\ L}\mathcal{\ L}\mathcal{\mathstrut}\mathcal{\ L}\mathcal{\mathstrut}\mathcal{\ L}\mathcal{\mathstrut}\mathcal{\ L}\mathcal{\mathstrut}\mathcal{\Lambda}\mathcal{\mathstrut}\mathcal{\mathstrut}\mathcal{\ L}\mathcal{\mathstrut}\mathcal{\mathstrut}\mathcal{L}_{i,t}=\frac{Super\ :Big\ :Buy_{i,t}}{Super\ :Big\ :Buy_{i,t}+Super\ :Big\ :Sell_{i,t}}
+超大单买入占比=\frac{Super\ BigBy_{i,t}}{Super\ BigBuy_{i,t}+Super\ BigSell_{i,t}}
 $$
 
 图3-图4展示了超大单买入占比和早盘超大单买入占比在沪深300、中证1000等五个股票池的测试情况。全天计算的超大单买入占比因子 IC多为负值，这说明超大买单占比越多、未来股价反转的几率越大，市值越小的股票过度投机和流动性冲击的现象更容易发生，相应的大单反转更加明显。另外，对于早盘计算的超大单因子的负向 alpha 并不是特别明显，我们认为主要是因为早盘大单由于信息优势带来的正向选股效果更加显著，和超大单的负向冲击有一定程度的抵消。
@@ -271,7 +271,7 @@ $$
 
 （1） 参照 1.2节的步骤（1）、（2）计算对数价格变动∆ln $P_{i}$ 、标记主动订单；
 
-（2） 超大单涨跌幅 = $\begin{array}{r}{\sum_{i\in S}\Delta{ln}P_{i}}\end{array}$ ，其中S为所有主动订单为超大单的订单集合。
+（2） 超大单涨跌幅 = $\textstyle\sum_{i\in S}\Delta\ln P_{i}$ ，其中S为所有主动订单为超大单的订单集合。
 
 从图 5-图 6 展示的因子表现来看，超大单涨跌幅在各个股票池里的因子 IC 均为负值，且 IC在市值偏小的股票池里特别显著，例如超大单涨跌幅的原始值、行业市值中性值在中证1000里的IC分别为-6.60%和-5.30%。由于超大单涨跌幅描述的是由超大单主导的已成交订单的涨跌幅之和、再结合因子表现，可以看出用“当天个股总成交金额占比”的超大单定义方式可以较为准确地提取出对股价有负向冲击的超大单。
 
@@ -334,13 +334,13 @@ $$
 为方便表述，本文将用普通大单表示大单而非超大单的部分。剔除超大单影响后的大单买入因子可被定义为：
 
 $$
-\mathbb{\tilde{E}}]\lvert\lvert\int_{\partial\mathbf{r}\setminus\mathbf{E}}^{\partial\setminus\mathbf{\Phi}}\mathcal{A}\oplus\mathbf{\boxdot{\hat{E}}}\mathcal{\hat{H}}\hat{\mathbf{J}}\mathcal{X}\mathcal{\hat{H}}(\mathbf{\Phi}\mathbf{\boxdot{\hat{E}}})\mathcal{\hat{B}}\mathcal{H}\mathcal{K}\hat{\boxdot{\Phi}})\mathcal{\vec{Z}}\mathcal{K}\Lambda,\boldsymbol{\boxdot{\Xi}}\boldsymbol{\Lambda}\boldsymbol{E}\boldsymbol{\mathsf{I}}\boldsymbol{\mathsf{I}}_{i,t}=\frac{Normal~Big~Buy_{i,t}}{Normal~Big~Buy_{i,t}+Normal~Big~Sell_{i,t}}
+剔除超大单后的大单(普通大单)夹入占比_{i,t}=\frac{Normal\ Big\ By_{i,t}}{Normal\ Big\ By_{i,t}+Normal\ Big\ Sell_{i,t}}
 $$
 
 进一步地，我们可以得到大单、超大单和普通大单买入占比三者之间的关系：
 
 $$
-{\begin{array}{rl}{\qquad\star\bigoplus\limits_{\mathbb{X}}\bigwedge\bigoplus\bigwedge\big[k\big]={\frac{\#E\backslash\exists E+\overbrace{k\big\downarrow}^{\\mathbb{Z}}+{\frac{+\cdot\cdot\big\downarrow}{\cdot\big\downarrow}}\overleftrightarrow k\big\downarrow\overline{{\mathbb{X}}}}{\therefore\big\downarrow\overline{{\mathbb{X}}}+\overbrace k\overline{{\mathbb{X}}}}}=\omega_{1}\cdot{\frac{\cdot\mathrm{d}t}{\boxplus\mathbf{k}}}\bigwedge\bigoplus\big]\qquad\forall\mathbf{k}\qquad\mathsf{E}\qquad\mathsf{I}\mathsf{L}+\omega_{2}\cdot{\frac{+\cdot\mathsf{m}}{k\overline{{\mathbb{X}}}}}\wedge\overleftrightarrow k\qquad\mathsf{E}\qquad\mathsf{L}\qquad}\\{\qquad\omega_{1}={\frac{\overbrace{\mathbf{H}}\mathbf{H}\cdot\overbrace{\mathbf{X}}\mathbf{H}}^{\forall k}\bigwedge\overbrace{\mathbf{X}\qquad}^{\forall k}+\overbrace{\mathbf{H}}^{\forall k}\underbrace{\overbrace k\overline{{\mathbb{X}}}}_{\approx\mathbf{I}}},\ \omega_{2}={\frac{{\frac{+\cdot\cdot\cdot\sqrt{\Xi}}{k\overline{{\mathbb{X}}}}}\bigvee\overline{{\mathsf{X}}}+{\frac{+\cdot\cdot\cdot\cdot}{\sqrt{\Xi}}{k\overline{{\mathbb{X}}}}}\bigotimes\overline{{\mathsf{X}}}}{\qquad\overbrace k\overline{{\mathbb{X}}}\mathbf{H}}}}\end{array}}
+\begin{aligned}&大单买入占比=\frac{普通大买+超大买}{大买+大荧}=\omega_{1}\cdot 普通大单买入占比+\omega_{2}\cdot 超大单买入占比\\&\\&\quad\omega_{1}=\frac{普通大买+普通大荧}{大买+大荧},\omega_{2}=\frac{超大买+超大荧}{大买+大荧}\\\end{aligned}
 $$
 
 从上式可以看出，大单买入占比是普通大单和超大单两个买入占比加权平均后的结果，权重是普通大单和超大单成交金额占大单成交金额的比重。因为在 2.2 节中展示的超大单买入因子具有负向 Alpha，因此预期普通大单买入占比的正向 Alpha将在大单买入占比的基础上得到加强。
@@ -420,9 +420,9 @@ $$
 
 ## 3.2剔除超大单影响后的大单涨跌幅
 
-分别记S、 $S_{1},\ S_{2}$ 为所有主动订单为大单、超大单和普通大单的订单集合， $\Delta lnP_{i}$ 为每笔成交数据下的对数价格变动，则剔除超大单影响后的普通大单涨跌幅因子= $\Sigma_{i\in S_{2}}\Delta lnP_{i}$ ，且大单、超大单、普通大单涨跌幅之间的关系为：
+分别记S、 $S_{1},~S_{2}$ 为所有主动订单为大单、超大单和普通大单的订单集合， $\Delta lnP_{i}$ 为每笔成交数据下的对数价格变动，则剔除超大单影响后的普通大单涨跌幅因子= $\textstyle\sum_{i\in S_{2}}\Delta\ln P_{i}$ ，且大单、超大单、普通大单涨跌幅之间的关系为：
 
-大单涨跌幅 $(~\sum_{i\in S}\Delta lnP_{i}~)~=$ 超大单涨跌幅 $(\sum_{i\in S_{1}}\Delta lnP_{i}\ )$ +普通大单涨跌幅 $(\sum_{i\in S_{2}}\Delta lnP_{i}\ )$
+大单涨跌幅 $\big(\sum_{i\in S}\Delta lnP_{i}\big)=$ 超大单涨跌幅 $(\;\sum_{i\in S_{1}}\Delta lnP_{i}\;)$ +普通大单涨跌幅 $(\;\sum_{i\in S_{2}}\Delta lnP_{i}\;)$
 
 图 10-12 分别记录了剔除超大单前、后大单涨跌幅因子的变化，以及剔除超大单后的全天、早盘普通大单涨跌幅在中证全指内的选股表现，从中可以发现如下特点：
 

@@ -43,7 +43,7 @@ CMS招商证券
 - VPIN是PIN的近似计算，但是在形式上简单得多，克服了在交易量很大的市场里估计 PIN 的困难，具备实际操作性，VPIN模型得到广泛使用，用于对市场流动性风险进行预测和预警。
 
 $$
-VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}\approx\frac{1}{N}\sum_{\tau=1}^{N}\lvert V_{\tau}^{S}-V_{\tau}^{B}\rvert/V
+VPIN=\frac{\alpha\mu}{\alpha\mu+2\varepsilon}\approx\frac{1}{N}{\sum_{\tau=1}^{N}}|V_{\tau}^{S}-V_{\tau}^{B}|/V
 $$
 
 - 其中：
@@ -65,10 +65,10 @@ $$
 - 数据频率：我们使用样本个股在观测窗口期内的分钟级别数据，计算样本个股的VPIN值。
 
 $$
-VPIN\approx\frac{1}{N}\sum_{\tau=1}^{N}\lvert V_{\tau}^{S}-V_{\tau}^{B}\rvert/V
+VPIN\approx\frac{1}{N}{\sum_{\tau=1}^{N}}|V_{\tau}^{S}-V_{\tau}^{B}|/V.
 $$
 
-- 对于参数V 和N，我们参照Easley, Kiefer $\&\cup^{\prime}$ hara (2011b)的做法，将V设定为样本期内日均成交量的五十分之一， 单位为股（按单边交易计算），同时取 $N=50$
+- 对于参数V 和N，我们参照Easley, Kiefer $80^{\prime}$ hara (2011b)的做法，将V设定为样本期内日均成交量的五十分之一， 单位为股（按单边交易计算），同时取 $N=50$
 
 - “高频数据，低频信号“，月末交易日取月度均值，作为月频因子暴露度。
 
@@ -307,7 +307,7 @@ $$
 - 由于VWPIN的后一项衡量的是订单流的不平衡性，一般而言，订单流的不平衡性会引起价格和收益率的变动，因而我们可以进一步改进VWPIN公式。将后一项改成关于价格变动或者收益变动的绝对值的函数。
 
 $$
-\sum_{\pm\frac{1}{2\pi}\frac{1}{\Theta}}^{n}w_{i}\left[\frac{|S_{i}-B_{i}|}{S_{i}+B_{i}}\right]\to\sum_{i=1}^{n}w_{i}f(|\Delta p|_{i})\to\sum_{i=1}^{n}w_{i}f(|\Delta R|_{i})
+\sum_{i定华告}^{n}w_{i}\overbrace{\frac{S_{i}+B_{i}}{S_{i}+B_{i}}}^{n}\rightarrow\sum_{i=1}^{n}w_{i}f(|\Delta p|_{i})\rightarrow\sum_{i=1}^{n}w_{i}f(|\Delta R|_{i})
 $$
 
 ## 订单流的不平衡性对价格的冲击

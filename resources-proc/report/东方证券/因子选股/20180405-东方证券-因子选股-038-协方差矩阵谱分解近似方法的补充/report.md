@@ -36,11 +36,11 @@ zhujiantao@orientsec.com.cn
 
 ## 一、谱分解近似方法的误差
 
-协方差矩阵谱分解近似方法中 K 的取值（保留矩阵前多少个最大特征值）最为关键，K 取值越大，误差损失越小，组合优化结果更接近直接用压缩估计量，但会增加运算复杂度，减慢组合优化速度；K取值小的话，则会反之。我们之前的做法是参照主成份分析里面方差解释度的概念，统计前 K个最大的特征值之和占所有特征值之和的比例 $\begin{array}{r}{\mathrm{~p~=~}\sum_{i=1}^{K}\lambda_{i}/\sum_{i=1}^{N}\lambda_{i}}\end{array}$ ，用这个指标来近似估量近似过程中可能的误差。这种方法偏经验，不严谨，这里用数学推导严格给出近似误差的上界，可基于此动态选取 K值。
+协方差矩阵谱分解近似方法中 K 的取值（保留矩阵前多少个最大特征值）最为关键，K 取值越大，误差损失越小，组合优化结果更接近直接用压缩估计量，但会增加运算复杂度，减慢组合优化速度；K取值小的话，则会反之。我们之前的做法是参照主成份分析里面方差解释度的概念，统计前 K个最大的特征值之和占所有特征值之和的比例 $\begin{array}{r}{\mathtt{p}=\sum_{i=1}^{K}\lambda_{i}/\sum_{i=1}^{N}\lambda_{i}}\end{array}$ ，用这个指标来近似估量近似过程中可能的误差。这种方法偏经验，不严谨，这里用数学推导严格给出近似误差的上界，可基于此动态选取 K值。
 
 ## 1. 数学推导
 
-沿用上篇报告的记号，对于月频调仓的多因子组合，每月底我们基于 N 个股票过去一年的收益率数据，用统计方法（报告采用的是 Ledoit(2003)线性压缩估计）可以给出协方差矩阵估计值 ，其特征值记为 $\lambda_{\mathrm{i}},\mathrm{i}=1,2\dots\mathrm{N}$ ，并按照从大到小排列； $\mathrm{u_{i}}$ 是 $\cdot\lambda_{\mathrm{i}}$ 对应的特征向量，其元素记为 $\mathbf{u}_{\mathrm{i}}=\left(u_{i,1},u_{i,2}\ldots u_{i,N}\right)^{T}$ ；线性压缩估计量 是正定阵，所以$\lambda_{\mathrm{i}}>0,\mathrm{i}=1,2\ldots\mathrm{N}$ ；实对称阵 可以谱分解（Spectral Decomposition）表示为:
+沿用上篇报告的记号，对于月频调仓的多因子组合，每月底我们基于 N 个股票过去一年的收益率数据，用统计方法（报告采用的是 Ledoit(2003)线性压缩估计）可以给出协方差矩阵估计值 ，其特征值记为 $\lambda_{\mathrm{i}},\mathrm{i}=1{,}2\ldots\mathrm{N}$ ，并按照从大到小排列； $\mathbf{u_{i}}$ 是 $\lambda_{\mathrm{i}}$ 对应的特征向量，其元素记为 $\mathbf{u_{i}}=\left(u_{i,1},u_{i,2}\ldots u_{i,N}\right)^{T}$ ；线性压缩估计量 是正定阵，所以$\lambda_{\mathrm{i}}>0,\mathrm{i}=1{,}2\ldots\mathrm{N}$ ；实对称阵 可以谱分解（Spectral Decomposition）表示为:
 
 $$
 \Sigma=\sum_{i=1}^{N}\lambda_{i}\cdot u_{i}\cdot u_{i}^{T}
@@ -55,47 +55,47 @@ $$
 然后将第二部分直接取对角阵得到 的近似值 $\hat{\Sigma}$
 
 $$
-\hat{\Sigma}=\sum_{i=1}^{K}\lambda_{i}\cdot u_{i}\cdot u_{i}^{T}+\sum_{i=K+1}^{N}\lambda_{i}\cdot diag(u_{i}\cdot u_{i}^{T})
+\hat{\Sigma}=\sum_{i=1}^{K}\lambda_{i}\cdot u_{i}\cdot u_{i}^{T}+\sum_{i=K+1}^{N}\lambda_{i}\cdot diag(u_{i}\cdot u_{i}^{T}),
 $$
 
-这样 $\widehat{\Sigma}$ 可以表示成类似因子模型的结构，降低计算复杂度，输入到组合优化中实现提速。
+这样 $\hat{\Sigma}$ 可以表示成类似因子模型的结构，降低计算复杂度，输入到组合优化中实现提速。
 
 为度量近似误差，矩阵范数( norm) 取为 Frobenius 范数，
 
 $$
-||{\Sigma}||_{F}^{2}=\mathrm{tr}({\Sigma}{\Sigma}^{T})={\sum_{i=1}^{N}}\lambda_{i}^{2}
+{||\Sigma||_{F}}^{2}=\operatorname{tr}(\Sigma\Sigma^{T})=\sum_{i=1}^{N}{\lambda_{i}}^{2}
 $$
 
 上式中 tr 表示求矩阵的迹（trace）。 ̂ 的近似误差可以写作下式，括号中的求和项记为 Z
 
 $$
-\left|\left|\Sigma-{\hat{\Sigma}}\right|\right|_{F}^{2}={\mathrm{tr}}\left(\left[\sum_{i=K+1}^{N}\lambda_{i}\left({\boldsymbol u}_{i}\cdot{\boldsymbol u}_{i}^{T}-diag{\boldsymbol(u_{i}\cdot{\boldsymbol u}_{i}^{T})}\right)\right]^{2}\right)\triangleq{\mathrm{tr}}({\mathrm{Z}})
+\left|\left|\Sigma-\hat{\Sigma}\right|\right|_{F}^{2}=\operatorname{tr}\left(\left[\sum_{i=K+1}^{N}\lambda_{i}\left(u_{i}\cdot u_{i}^{T}-diag\big(u_{i}\cdot u_{i}^{T}\big)\right)\right]^{2}\right)\triangleq\operatorname{tr}(\mathbb{Z})
 $$
 
-利用特征向量的正交特性 $\mathrm{u_{i}^{T}}\cdot u_{i}=1,\mathrm{\ u_{i}^{T}}\cdot u_{j}=0,\ 1\leq i\neq j\leq N$ ，将 Z 展开
+利用特征向量的正交特性 $\mathbf{u}_{\mathbf{i}}^{\mathsf{T}}\cdot u_{i}=1,\quad\mathbf{u}_{\mathbf{i}}^{\mathsf{T}}\cdot u_{j}=0,\quad1\leq i\neq j\leq N$ ，将 Z 展开
 
 $$
-\mathrm{Z}=\sum_{i=K+1}^{N}\lambda_{i}^{2}\left(u_{i}\cdot u_{i}^{T}-2u_{i}\cdot u_{i}^{T}\cdot diag(u_{i}\cdot u_{i}^{T})+diag(u_{i}\cdot u_{i}^{T})^{2}\right)
-$$
-
-$$
-+2\sum_{k+1\le j\le i\le N}^{N}\lambda_{i}\lambda_{j}\left(-u_{j}\cdot u_{j}^{T}\cdot diag(u_{i}\cdot u_{i}^{T})-u_{i}\cdot u_{i}^{T}\cdot diag\big(u_{j}\cdot u_{j}^{T}\big)+diag(u_{i}\cdot u_{i}^{T})\cdot diag\big(u_{j}\cdot u_{j}^{T}\big)\right)
-$$
-
-矩阵的迹函数是矩阵空间上的线性算子，有 $\operatorname{tr}(\mathrm{aX}+\mathrm{bY})=a\cdot tr(X)+b\cdot tr(Y)$ ，对 Z 求迹等于对其展开式里面的每一项求迹：
-
-$$
-\mathrm{tr(Z)}=\sum_{i=K+1}^{N}{\lambda_{i}}^{2}\left(1-\sum_{h=1}^{N}u_{ih}{^{4}}\right)-2\sum_{k+1\le j<i\le N}^{N}\lambda_{i}\lambda_{j}\sum_{h=1}^{N}{u_{ih}{^{2}}u_{jh}{^{2}}}
+\mathbf{Z}=\sum_{i=K+1}^{N}{\lambda_{i}}^{2}(u_{i}\cdot u_{i}^{T}-2u_{i}\cdot u_{i}^{T}\cdot diag(u_{i}\cdot u_{i}^{T})+diag(u_{i}\cdot u_{i}^{T})^{2}),
 $$
 
 $$
-=\sum_{i=K+1}^{N}{\lambda_{i}}^{2}-\sum_{i=K+1}^{N}{\lambda_{i}}^{2}\sum_{h=1}^{N}{u_{ih}}^{4}-2\sum_{k+1\le j<i\le N}^{N}{\lambda_{i}}{\lambda_{j}}\sum_{h=1}^{N}{u_{ih}}^{2}{u_{jh}}^{2}&<\sum_{i=K+1}^{N}{\lambda_{i}}^{2}
++2\sum_{k+1\leq j\leq i\leq N}^{N}\lambda_{i}\lambda_{j}\left(-u_{j}\cdot u_{j}^{T}\cdot diag(u_{i}\cdot u_{i}^{T})-u_{i}\cdot u_{i}^{T}\cdot diag(u_{j}\cdot u_{j}^{T})+diag(u_{i}\cdot u_{i}^{T})\cdot diag(u_{j}\cdot u_{j}^{T})\right)
+$$
+
+矩阵的迹函数是矩阵空间上的线性算子，有 $\mathrm{tr}(\mathrm{a}\mathrm{X}+\mathrm{b}\mathrm{Y})=a\cdot\mathrm{tr}(\mathrm{X})+b\cdot\mathrm{tr}(\mathrm{Y})$ ，对 Z 求迹等于对其展开式里面的每一项求迹：
+
+$$
+\mathrm{tr}(\mathtt{Z})=\sum_{i=K+1}^{N}{\lambda_{i}}^{2}\left(1-\sum_{h=1}^{N}{u_{ih}}^{4}\right)-2\sum_{k+1\le j<i\le N}^{N}\lambda_{i}\lambda_{j}\sum_{h=1}^{N}{u_{ih}}^{2}{u_{jh}}^{2}
+$$
+
+$$
+=\sum_{i=K+1}^{N}{\lambda_{i}}^{2}-\sum_{i=K+1}^{N}{\lambda_{i}}^{2}\sum_{h=1}^{N}{u_{ih}}^{4}-2\sum_{k+1\le j<i\le N}^{N}\lambda_{i}\lambda_{j}\sum_{h=1}^{N}{u_{ih}}^{2}{u_{jh}}^{2}<\sum_{i=K+1}^{N}{\lambda_{i}}^{2}
 $$
 
 因此可以得到谱分解近似方法的百分比误差（Percentage Error）的上限：
 
 $$
-\frac{||\Sigma-\widehat\Sigma||_{F}}{||\Sigma||_{F}}<\sqrt{\frac{\sum_{i=K+1}^{N}{\lambda_{i}}^{2}}{\sum_{i=1}^{N}{\lambda_{i}}^{2}}}
+\frac{|||\Sigma-\hat{\Sigma}||_{F}}{||\Sigma||_{F}}<\sqrt{\frac{\sum_{i=K+1}^{N}{\lambda_{i}}^{2}}{\sum_{i=1}^{N}{\lambda_{i}}^{2}}}
 $$
 
 我们定义后 N-K 个特征值的平方和占总特征值平方和的比例的平方根 $\sqrt{\frac{\sum_{i=K+1}^{N}{\lambda_{i}}^{2}}{\sum_{i=1}^{N}{\lambda_{i}}^{2}}}$ 为谱分解近似法的误差损失。
@@ -111,7 +111,7 @@ $$
 下面我们还是用四个策略：沪深 300 增强（成分内）、沪深 300 增强（全市场）、中证 500 增强（成分内）、中证 500 增强（全市场），分别测试不同风险模型下策略的表现。组合优化问题设置如下：
 
 $$
-\begin{array}{rl}&{\operatorname*{max:}\mathrm{~f^{\prime}w}-\lambda\mathbf{w}^{\prime}\Sigma\mathbf{W}}\\&{\quad\mathrm{st}:\quad\mathrm{~w'I}=0}\\&{\quad\quad\quad\mathrm{w'Indus}=\mathbf{0}}\\&{\quad\quad\quad\mathrm{w'MV}=0}\\&{\quad\quad\quad\quad\mathrm{wmin}<\mathbf{w}\index{max}}\end{array}
+\begin{aligned}\max:&\mathbf{f}^{\prime}\mathbf{w}-\lambda\mathbf{w}^{\prime}\Sigma\mathbf{w}\\st:&\quad\mathbf{w}^{\prime}\mathbf{I}=0\\&\quad\mathbf{w}^{\prime}\mathrm{Indus}=\mathbf{0}\\&\quad\mathbf{w}^{\prime}\mathrm{MV}=0\\&\quad\mathbf{wmin}<\mathbf{w}<w\max\mathbf{I}\end{aligned}
 $$
 
 协方差矩阵的估计直接使用 Ledoit(2003)的线性压缩估计量方法（目标阵取为对角阵）得到，风险厌恶系数取 10，个股权重上限分段设置，行业和市值完全中性。协方差矩阵在做谱分解近似时动态选择 K，控制误差损失在 10%以内，结果如图 2 所示，谱分解近似方法和直接用压缩估计量方法效果接近，但组合优化速度提升明显。
@@ -156,12 +156,12 @@ $$
 
 Ledoit(2003)线性压缩估计量方法的前提假设是股票收益率在时间序列上独立同分布，但实际上股票的波动率变化明显，这种假设会让模型对近期市场风险的变化反应迟钝，下面我们设计了一套波动率调整策略，让压缩估计量模型对近期市场变化更敏感。
 
-首先还是通过线性压缩方法得到协方差矩阵估计量 $\Sigma\triangleq\left(\Sigma_{\mathrm{i,j}}\right)_{\mathrm{N\times N}}$ ，后续步骤如下：
+首先还是通过线性压缩方法得到协方差矩阵估计量 $\Sigma\triangleq\left(\Sigma_{\mathrm{i},\mathrm{j}}\right)_{\mathrm{N}\times\mathrm{N}}$ ，后续步骤如下：
 
 1. 基于 计算相关系数矩阵
 
 $$
-\begin{array}{r}{\Phi=\mathrm{diag}\left(\frac{1}{\sqrt{\Sigma_{1,1}}},\frac{1}{\sqrt{\Sigma_{2,2}}},\cdots\frac{1}{\sqrt{\Sigma_{\mathrm{N,N}}}}\right)\cdot\Sigma\cdot\mathrm{diag}\left(\frac{1}{\sqrt{\Sigma_{1,1}}},\frac{1}{\sqrt{\Sigma_{2,2}}},\cdots\frac{1}{\sqrt{\Sigma_{\mathrm{N,N}}}}\right)}\end{array}
+\Phi=\mathrm{diag}\left(\frac{1}{\sqrt{\Sigma_{1,1}}},\frac{1}{\sqrt{\Sigma_{2,2}}},\cdots\frac{1}{\sqrt{\Sigma_{N,N}}}\right)\cdot\Sigma\cdot\mathrm{diag}\left(\frac{1}{\sqrt{\Sigma_{1,1}}},\frac{1}{\sqrt{\Sigma_{2,2}}},\cdots\frac{1}{\sqrt{\Sigma_{N,N}}}\right)
 $$
 
 2. 假设 不随时间变化，股票间的协方差随时间的变化完全由股票自身的波动率变化引起。这个假设借鉴了 CCC-Garch 模型（参考报告《风险模型在时间序列上的改进》），假设很强，和实际情况有偏差；但模型要估计的参数大幅减少，估计误差降低；一些容许相关系数动态变化的模型，例如 DCC-Garch 模型，要估计的参数多，估计误差大，在股票数量较多时，一些实证发现它和 CCC-Garch模型使用效果并无显著差别。
@@ -169,7 +169,7 @@ $$
 3. 对每个股票，在时间序列上用 EWMA模型估算当前时刻 t 股票 j 的近期波动率
 
 $$
-\sigma_{j}^{2}=\sum_{h=1}^{T}\alpha_{h}(r_{t-h}-\bar{\bf r})^{2},\alpha_{h}=\frac{\lambda^{h-1}}{\sum_{h=1}^{T}\lambda^{h-1}},\lambda=0.94
+\sigma_{j}^{2}={\sum}_{h=1}^{T}\alpha_{h}(r_{t-h}-\bar{\mathrm{r}})^{2},\ \alpha_{h}=\frac{\lambda^{h-1}}{\sum_{h=1}^{T}\lambda^{h-1}},\ \lambda=0.94.
 $$
 
 4. 乘以 EWMA估算的波动率即可得到波动率调整后的协方差矩阵估计量
@@ -189,7 +189,7 @@ $$
 跟踪误差惩罚项放在约束条件时，优化问题可以表述为：
 
 $$
-\begin{array}{c}{\mathrm{max:~f^{\prime}w}}\\{\mathrm{}}\\{\mathrm{st:~}\quad\mathrm{w^{\prime}I}=0}\\{\mathrm{w^{\prime}Indus}=\bf{0}}\\{\mathrm{w^{\prime}MV}=0}\\{\mathrm{wmin}<\bf{w}<\it{wmax}}\\{\mathrm{w^{\prime}Zw}<\delta^{2}}\end{array}
+\begin{aligned}\max:&\mathbf{f}'\mathbf{w}\\st:&\mathbf{w}'\mathbf{I}=0\\\mathbf{w}'&Indus=\mathbf{0}\\&\mathbf{w}'\mathbf{MV}=0\\\mathbf{w}\min&<\mathbf{w}<wmax\\&\mathbf{w}'\Sigma\mathbf{W}\leq\delta^2\end{aligned}
 $$
 
 需要设置一个跟踪误差上限 。这样的处理看上去更直观，显性控制组合跟踪误差。但需要注意的是，协方差矩阵都是基于历史数据估算得到，组合未来的跟踪误差大小由未来的市场波动决定，不论用什么模型，历史和未来之间总会有偏差，因此把跟踪误差项放在约束条件中并不能保证实现“设定多少就实现多少”的效果，在某些情况下，设定值和实现值会有较大偏差，即使协方差矩阵估计量做了波动率调整。

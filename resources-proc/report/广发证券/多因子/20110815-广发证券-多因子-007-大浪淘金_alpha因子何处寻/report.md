@@ -77,10 +77,10 @@ Alpha收益的获取方式五花八门，但万变不离其宗，或是选取表
 去极值化：本文采用“中位数去极植法”进行去极值化，公式如下：
 
 $$
-\begin{array}{r}{\mathrm{D_{i,\ upper}=D_{m}+n}\times D_{MAD},\quad ifD_{i}\ge D_{m}+n\times D_{MAD}}\\{D_{i,lower}=D_{m}-n\times D_{MAD},\quad ifD_{i}\le D_{m}+n\times D_{MAD}}\end{array}
+\begin{aligned}\mathrm{D}_{i,upper}=&\mathrm{D}_{m}+n\times D_{MAD},\quad ifD_{i}\geq D_{m}+n\times D_{MAD}\\\mathrm{D}_{i,lower}=&D_{m}-n\times D_{MAD},\quad ifD_{i}\leq D_{m}+n\times D_{MAD}\end{aligned}
 $$
 
-其中 $D_{i}$ 为第i个描述性变量的观察值， $D_{m}$ 为所有观察值的中位数， $D_{m}$ 记作观测值与中位数的绝对偏离，即 $\mathrm{\mathrm{\mathrm{\prime}}}D_{i,AD}=\mid D_{i}-D_{m}\mid,\ D_{MAD}\dot{\mathrm{\vec{\mathrm{\imath}}}}\mathrm{\vec{\mathrm{\downarrow}}}$ 作 $D_{i},\mathbf{\Gamma}_{AD}$ 的中位数， $D_{i},{_{upper}}$ 和 $\tau D_{i,lower}$ 分别表示中位数去极值化后描述性变量的上下限，n为用于控制 $D_{i},{\mathbf\Pi}_{upper}$ $\tau D_{i,lower}$ 的常数，本文取n=3。考虑到不同的描述性变量由于其样本数据集中度不同，很难确定一个相同的常数n，因此本研究中我们对源数据重复进行两次去极值化处理，试验结果表明，该方法有利于获得各个因子序列的集中区间，从而避免出现数据失真。
+其中 $D_{i}.$ 为第i个描述性变量的观察值， $D_{m}$ 为所有观察值的中位数， $D_{m}$ 记作观测值与中位数的绝对偏离，即 $D_{i,AD}=\left|D_{i}-D_{m}\right|,D_{MAD}$ 作 $D_{i},\mathbf\Pi_{AD}$ 的中位数， $D_{i\cdot upper}$ 和 $\imath D_{i,\;lower}.$ 分别表示中位数去极值化后描述性变量的上下限，n为用于控制 $D_{i\cdot upper}$ $^{a}D_{i,\;lower}$ 的常数，本文取n=3。考虑到不同的描述性变量由于其样本数据集中度不同，很难确定一个相同的常数n，因此本研究中我们对源数据重复进行两次去极值化处理，试验结果表明，该方法有利于获得各个因子序列的集中区间，从而避免出现数据失真。
 
 标准化：由于各个描述性因子所衡量的单位不同，导致因子数值范围差异较大，因此在进行因子分析之前，必须对其进行标准化，本研究采用最常见N(0,1)正态标准化处理之，公式如下：
 

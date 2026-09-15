@@ -55,46 +55,44 @@ linxiaoming@htsc.com
 经典的贝叶斯公式如下：
 
 $$
-P(Y|X)={\frac{P(X|Y)*P(Y)}{P(X)}}
+P(Y|X)=\frac{P(X|Y)*P(Y)}{P(X)}
 $$
 
-P(Y|X)是一个条件概率（Conditional Probability），是指在事件X已经发生的条件下，事件Y的发生概率。它可以由两个事件独立发生的概率P(X)、P(Y)和条件概率P(X|Y)按上述公式计算得出。上文所述的事物特征是公式里的X，而我们的目标就是根据X去推测Y所属的分类。因为Y的类别有很多种可能，所以我们的猜测并不唯一。在给定一个被遮住的动物拥有四条腿、两个角的条件下，我们既可以猜测它是山羊，也可以猜测它是藏羚羊（当然也有别的动物品种，这里简化了）。但幸运的是，我们可以利用过去的经验赋予这些猜测不同的权重，在这个例子里，根据生活经验我们知道这个动物是山羊的概率要远大于藏羚羊。贝叶斯算法的原则就是：对于给定条件X，我们将Y划分至类别y，y满足 $y=$ $argmax\{P(y_{1}|X),P(y_{2}|X)\}\ldots P(y_{n}|X)\}$ ，即选取事件发生可能性最大的类别作为划分结果。
+P(Y|X)是一个条件概率（Conditional Probability），是指在事件X已经发生的条件下，事件Y的发生概率。它可以由两个事件独立发生的概率P(X)、P(Y)和条件概率P(X|Y)按上述公式计算得出。上文所述的事物特征是公式里的X，而我们的目标就是根据X去推测Y所属的分类。因为Y的类别有很多种可能，所以我们的猜测并不唯一。在给定一个被遮住的动物拥有四条腿、两个角的条件下，我们既可以猜测它是山羊，也可以猜测它是藏羚羊（当然也有别的动物品种，这里简化了）。但幸运的是，我们可以利用过去的经验赋予这些猜测不同的权重，在这个例子里，根据生活经验我们知道这个动物是山羊的概率要远大于藏羚羊。贝叶斯算法的原则就是：对于给定条件X，我们将Y划分至类别y，y满足 $.y=$ $argmax\{P(y_{1}|X),P(y_{2}|X)\}\ldots P(y_{n}|X)\}$ ，即选取事件发生可能性最大的类别作为划分结果。
 
-P(Y|X)也被称为后验概率（Posterior），那么，我们要怎样计算P(Y|X)从而对当前情况完成分类呢？利用贝叶斯公式我们可以把概率拆分成三部分。对于不同的Y，P(X)的概率是相同的，因为X单独发生的概率与Y无关。因此，分类问题中我们只需要比较P(X|Y) ∗ P(Y)的大小而不需要真正计算出准确的概率。我们把P(Y)称为先验概率（Prior），即在获得证据之前推断的概率。通常，我们可以用个人的专业知识预先设定一个主观的先验概率，但在给定历史数据的情况下，我们也可以简单通过历史数据计算出客观先验概率。比如在之前的例子中，我们既可以简单认为藏羚羊数量：山羊数量等于 1:10000，即P(Y = 藏羚羊$)!P(Y=\downarrow\downarrow\dot{\bar{+}})=1{:}10000$ ，也可以花费人力去真实统计世界上两种羊的数量之比来得到准确的先验概率。
+P(Y|X)也被称为后验概率（Posterior），那么，我们要怎样计算P(Y|X)从而对当前情况完成分类呢？利用贝叶斯公式我们可以把概率拆分成三部分。对于不同的Y，P(X)的概率是相同的，因为X单独发生的概率与Y无关。因此，分类问题中我们只需要比较P(X|Y) ∗ P(Y)的大小而不需要真正计算出准确的概率。我们把P(Y)称为先验概率（Prior），即在获得证据之前推断的概率。通常，我们可以用个人的专业知识预先设定一个主观的先验概率，但在给定历史数据的情况下，我们也可以简单通过历史数据计算出客观先验概率。比如在之前的例子中，我们既可以简单认为藏羚羊数量：山羊数量等于 1:10000，即P(Y = 藏羚羊$):P(Y=山羊)=1:10000$ ，也可以花费人力去真实统计世界上两种羊的数量之比来得到准确的先验概率。
 
 ## “朴素”的假设
 
-朴素贝叶斯之所以“朴素”是因为其把问题简单化了：假设不同特征之间相互独立。因此对于最后一项P(X|Y)，我们可以拆解成 $\mathsf{P}(x_{1}|Y)\cdot P(x_{1}|Y)\cdot\ldots\cdot P(x_{d}|Y)$ 来计算，这样大大降低了计算概率需要估计的参数数量和估计难度，而且对于多分类问题复杂度不会有很大上升。朴素的假设自然也会有一些代价，很多时候这样的假设会与问题不符，从而影响分类的准确性：比如拥有眼睑和拥有眼睛这两个特征之间明显会存在相关性。
+朴素贝叶斯之所以“朴素”是因为其把问题简单化了：假设不同特征之间相互独立。因此对于最后一项P(X|Y)，我们可以拆解成 $\mathrm{P}(x_{1}|Y)\cdot P(x_{1}|Y)\cdot\ldots\cdot P(x_{d}|Y)$ 来计算，这样大大降低了计算概率需要估计的参数数量和估计难度，而且对于多分类问题复杂度不会有很大上升。朴素的假设自然也会有一些代价，很多时候这样的假设会与问题不符，从而影响分类的准确性：比如拥有眼睑和拥有眼睛这两个特征之间明显会存在相关性。
 
 ## 朴素贝叶斯在多因子选股中的应用
 
 在对股票进行分类时，为了简化问题，我们先假设只使用过去一年是否分红（分红为 1，不分红为 0）这一特征进行判断。首先我们把历史数据中的股票分成两类，第一类股票未来表现好，第二类表现不好。我们可以计算出第一类股票 80%在过去一年进行了分红，第二类则为 20%。当我们得知一个公司刚刚在过去一年进行了分红，那么我们可以简单认为公司股票未来表现好和表现不好的概率之比为 4:1，即应被归为第一类。
 
-概括来说，我们有数据集 ${\left(x_{i}^{(c)},y^{(c)}\right)},\ \mathrm{i}=1,\ldots,$ d代表的是特征个数， ${\mathfrak{c}}=1,\dotsc,{\mathfrak{n}}$ 代表的是样本个数。此外， $\mathrm{k}=1,\hdots,\mathrm{m}$ 代表的是股票的类别。通常而言，股票的各个特征（即因子值）是连续分布的，形态互异，存在一定的偏度（Skewness），不满足常见的概率分布。但是，朴素贝叶斯算法的核心是概率的次序而不是准确的概率值，这种估计的偏差在决策边界上不会产生很大的影响，所以我们可以简单地假设对于y = k类的股票，其特征x服从一个d维联合高斯（正态）分布，即：
+概括来说，我们有数据集 $\big(x_{i}^{(c)},y^{(c)}\big),\quad\mathrm{i}=1,\ldots,$ d代表的是特征个数， ${\mathsf{c}}=1,\dots,{\mathsf{n}}$ 代表的是样本个数。此外， $\mathbf{k}=1,\dots,\mathbf{m}$ 代表的是股票的类别。通常而言，股票的各个特征（即因子值）是连续分布的，形态互异，存在一定的偏度（Skewness），不满足常见的概率分布。但是，朴素贝叶斯算法的核心是概率的次序而不是准确的概率值，这种估计的偏差在决策边界上不会产生很大的影响，所以我们可以简单地假设对于y = k类的股票，其特征x服从一个d维联合高斯（正态）分布，即：
 
 $$
-N(x;\pmb{\mu}_{k},\pmb{\Sigma}_{k})=\frac{1}{(2\pi)^{d/2}|\mathscr{L}_{k}|^{1/2}}exp(-\frac{1}{2}(\pmb{x}-\pmb{\mu}_{k})^{T}\pmb{\Sigma}_{k}^{-1}(\pmb{x}-\pmb{\mu}_{k}))
+N(\boldsymbol{x};\boldsymbol{\mu}_{k},\boldsymbol{\Sigma}_{k})=\frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}_{k}|^{1/2}}exp(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_{k})^{T}{\boldsymbol{\Sigma}_{k}}^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_{k}))
 $$
 
 此外我们也尝试了利用排序信息将特征正态化处理的方法和利用核密度估计（KernelDensity Estimate）来计算概率密度的方法，但效果都不如简单假设正态分布。
 
-我们的目的是计算 $\cdot P(Y=y|X_{1}=x_{1},X_{2}=x_{2},\dots X_{d}=x_{d})$ ，其中Y和X代表的是所有类别和特征的集合，y和x代表的是具体的类别和特征。根据贝叶斯公式，有：
+我们的目的是计算 $\cdot P(Y=y|X_{1}=x_{1},X_{2}=x_{2},\ldots X_{d}=x_{d})$ ，其中Y和X代表的是所有类别和特征的集合，y和x代表的是具体的类别和特征。根据贝叶斯公式，有：
 
 $$
-P(Y=y|X=x)={\frac{P(X=x,Y=y)}{P(X=x)}}={\frac{P(Y=y)\cdot\prod_{i=1}^{d}P(X_{i}=x_{i}|Y=y)}{P(X=x)}}
+P(Y=y|X=x)=\frac{P(X=x,Y=y)}{P(X=x)}=\frac{P(Y=y)\cdot\prod_{i=1}^{d}P(X_{i}=x_{i}|Y=y)}{P(X=x)}
 $$
 
-我们可以利用样本中类别y的数量占样本总数的比值来估计 $P(Y=y)$ ，最后我们只需要估计 $\mathrm{T}_{i=1}^{d}P(X_{i}=x_{i}|Y=y)$ 。朴素贝叶斯假设了对于不同的类别Y，特征分布的参数是不同的。根据极大似然估计法，我们可以得到各个类别特征的参数估计值。
+我们可以利用样本中类别y的数量占样本总数的比值来估计 $P(Y=y)$ ，最后我们只需要估计 $\textstyle\prod_{i=1}^{d}P(X_{i}=x_{i}|Y=y)$ 。朴素贝叶斯假设了对于不同的类别Y，特征分布的参数是不同的。根据极大似然估计法，我们可以得到各个类别特征的参数估计值。
 
 ## 图表1： 高斯朴素贝叶斯参数估计
 
-```latex
-1． $\begin{array}{r}{P(y=k)=\frac{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}}{n}\ \left(\rlap/\overrightarrow{\mathfrak{x}}y^{(c)}=k\mathbb{M}\mathbf{1}\{y^{(c)}=k\}=1\right.}\end{array}$ ，否则为 0，n代表的是总的样本量）
-2． $\begin{array}{r}{\pmb{\mu}_{k}=\frac{\sum_{c=1}^{n}\pmb{1}\{y^{(c)}=k\}\pmb{x}^{(c)}}{\sum_{c=1}^{n}\pmb{1}\{y^{(c)}=k\}}}\end{array}$ （每个类y都对应一个不同的 $\boldsymbol{\mu}_{k},$ x(c)是d×1的特征向量，3同）
+1． $$P(y=k)=\frac{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}}{n}$$(若y^{(c)}=k则\mathbf{1}\{y^{(c)}=k\}=1$$ ，否则为 0，n代表的是总的样本量）
+2． $\boldsymbol{\mu}_{k}=\frac{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}\boldsymbol{x}^{(c)}}{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}}$ （每个类y都对应一个不同的 $\left\{\boldsymbol{\mu}_{k},\right.$ x(c)是d×1的特征向量，3同）
 ∑ 1{y(c)=k} ∑ (xi(c)−μi(c))2di=1nc=1
 3． Σk =（Σ 是一个对角线元素为对应特征的方差，其余元素为 0的矩阵）
 ∑ 1{y(c)=k}nc=1
-```
 资料来源：华泰证券研究所
 
 在实际估计时我们给方差统一加上了一个极小量，以避免估计过程中的数值计算错误。利用样本估计的参数，我们可以计算出拥有特征x的股票属于不同类别的对数概率。最后，我们把每一类的概率标准化，选择概率最大的类作为股票的分类。朴素贝叶斯法计算出来的概率，本身的实际意义并不多，更为有用的是大小的次序。图 2 是利用朴素贝叶斯法对模拟数据的分类结果，三种颜色的数据点是模拟产生的三个独立正态分布的数据，三种颜色代表的区域是利用朴素贝叶斯法对数据点拟合的分类结果。
@@ -132,43 +130,43 @@ Lasso 回归通过引入损失函数，增加稀疏约束，从而可以挑选�
 
 ## 线性判别分析法（LDA）介绍
 
-线性判别分析法（以下简称 LDA）是高斯朴素贝叶斯法的一个延伸，在其他条件不变的情况下，LDA放弃了特征相互独立的假设，转而利用不同类别的协方差矩阵之和来估计特征之间的相关性。朴素贝叶斯法对不同类别的Y估计了不同的 $\vert\boldsymbol{\Sigma}_{1},\boldsymbol{\Sigma}_{2}\dots\boldsymbol{\Sigma}_{k}$ ，而 LDA 则假设对于不同类别的Y，特征的相关性没有明显的差异。比如在男性和女性中，经常跑马拉松和长跑耐力强这两个特征的相关性基本是一致的。对此我们可以简单地利用全样本数据估计统一的协方差矩阵Σ，进而计算联合正态分布的概率。
+线性判别分析法（以下简称 LDA）是高斯朴素贝叶斯法的一个延伸，在其他条件不变的情况下，LDA放弃了特征相互独立的假设，转而利用不同类别的协方差矩阵之和来估计特征之间的相关性。朴素贝叶斯法对不同类别的Y估计了不同的 $\imath\varSigma_{1},\varSigma_{2}\ldots\varSigma_{k}$ ，而 LDA 则假设对于不同类别的Y，特征的相关性没有明显的差异。比如在男性和女性中，经常跑马拉松和长跑耐力强这两个特征的相关性基本是一致的。对此我们可以简单地利用全样本数据估计统一的协方差矩阵Σ，进而计算联合正态分布的概率。
 
 图表3： 线性判别分析法参数估计
 
 $$
-\begin{array}{rlr}{1.}&{{}\ }&{P(y=k)={\frac{\sum_{c=1}^{n}1\{y^{(c)}=k\}}{n}}}\end{array}
+P(y=k)=\frac{\sum_{c=1}^{n}\mathbf{1}_{\{y^{(c)}=k\}}}{n}
 $$
 
 $$
-\begin{array}{rl}{2.}&{{}\pmb{\mu}_{k}=\frac{\sum_{c=1}^{n}\pmb{1}\{y}^{(c)}=k\}{\sum_{c=1}^{n}\pmb{1}\{y}^{(c)}=k\}\ (\frac{\hbar}{\sqrt{2}}\wedge\pmb{\dot{\xi}}y^{\pm}\pmb{\dot{\xi}}\mp\pmb{\dot{\xi}}\pmb{\dot{\xi}})-\operatorname{\dot{\eta}}\operatorname{\mathcal{T}}\operatorname{\mathbb{P}}\operatorname{\mathbb{\dot{q}}}\pmb{\dot{\xi}}\pmb{\eta}_{k})}\end{array}
+2.$\begin{array}{r}{\pmb{\mu}_{_{k}}=\frac{\sum_{c=1}^{n}\pmb{1}\{y^{(c)}=k\}\pmb{x}^{(c)}}{\sum_{c=1}^{n}\pmb{1}\{y^{(c)}=k\}}}\end{array}$(每个类$y$都对应一个不同的$\pmb{\mu}_{_{k}})$
 $$
 
 $$
-\begin{array}{r}{3.\quad\varSigma=\frac{\sum_{c=1}^{n}(x^{(c)}-\pmb{\mu}_{y(c)=k})(x^{(c)}-\pmb{\mu}_{y(c)=k})^{T}}{n}}\end{array}
+\Sigma=\frac{\sum_{c=1}^{n}(x^{(c)}-\mu_{y^{(c)}=k})(x^{(c)}-\mu_{y^{(c)}=k})^T}{n}
 $$
 
 资料来源：华泰证券研究所
 
-在计算概率时，我们对贝叶斯公式中的后验概率 $P(y=k|x)$
+在计算概率时，我们对贝叶斯公式中的后验概率 $\cdot P(y=k|{\pmb x})$
 
 $$
-{\begin{array}{rl}&{P({\boldsymbol{y}}=k|{\boldsymbol{x}})={\frac{P({\boldsymbol{y}}=k)\cdot P({\boldsymbol{x}}|{\boldsymbol{y}}=k)}{\sum_{l=1}^{m}P({\boldsymbol{y}}=l)\cdot P({\boldsymbol{x}}|{\boldsymbol{y}}=l)}}}\\&{\qquad={\frac{\pi_{k}\cdot{\frac{1}{(2\pi)^{d/2}|{\boldsymbol{\Sigma}}|^{1/2}}}\exp\left(-{\frac{1}{2}}({\boldsymbol{x}}-{\boldsymbol{\mu}}_{k})^{T}{\boldsymbol{\Sigma}}^{-1}({\boldsymbol{x}}-{\boldsymbol{\mu}}_{k})\right)}{\sum_{l=1}^{m}\pi_{l}\cdot{\frac{1}{(2\pi)^{d/2}|{\boldsymbol{\Sigma}}|^{1/2}}}\exp\left(-{\frac{1}{2}}({\boldsymbol{x}}-{\boldsymbol{\mu}}_{l})^{T}{\boldsymbol{\Sigma}}^{-1}({\boldsymbol{x}}-{\boldsymbol{\mu}}_{l})\right)}}}\end{array}}
+\begin{aligned}P(y=k|\boldsymbol{x})=&\frac{P(y=k)\cdot P(\boldsymbol{x}|y=k)}{\sum_{l=1}^{m}P(y=l)\cdot P(\boldsymbol{x}|y=l)}\\=&\frac{\pi_k\cdot\frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}|^{1/2}}\exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)}{\sum_{l=1}^{m}\pi_l\cdot\frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}|^{1/2}}\exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_l)^T\boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_l)\right)}\end{aligned}
 $$
 
 其中 $\pi_{k}=P(y=k)$ ，我们对分式约分后分子取对数，即可得到判别方程：
 
 $$
-\delta_{k}(x)=\log(\pi_{k})-\frac{1}{2}{\pmb\mu_{k}}^{T}\Sigma^{-1}{\pmb\mu_{k}}+{\pmb x}^{T}\Sigma^{-1}{\pmb\mu_{k}}
+\delta_{k}(\boldsymbol{x})=\log(\pi_{k})-\frac{1}{2}\boldsymbol{\mu}_{k}{}^{T}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_{k}+\boldsymbol{x}^{T}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_{k}
 $$
 
-在计算了一组特征对应于k种分类的k个 $\cdot\delta_{k}(x)$ 之后，我们可以通过：
+在计算了一组特征对应于k种分类的k个 $\cdot\delta_{k}({\pmb x})$ 之后，我们可以通过：
 
 $$
-P(y=k|x)=\frac{e^{\delta_{k}(x)}}{\sum_{l=1}^{m}e^{\delta_{l}(x)}}
+P(y=k|\boldsymbol{x})=\frac{e^{\delta_{k}(\boldsymbol{x})}}{\sum_{l=1}^{m}e^{\delta_{l}(\boldsymbol{x})}}
 $$
 
-得到最终的概率。因为 $\delta_{k}(x)$ 是关于x的一次函数，所以这种方法也是一种线性分类法。值得一提的是，对于二分类问题，如果两种类别的样本数相等，线性判别分析计算出的排序结果等价于线性回归（见附录）。
+得到最终的概率。因为 $\delta_{k}({\pmb x})$ 是关于x的一次函数，所以这种方法也是一种线性分类法。值得一提的是，对于二分类问题，如果两种类别的样本数相等，线性判别分析计算出的排序结果等价于线性回归（见附录）。
 
 通常而言，协方差矩阵的估计很容易因为存在一些极值而产生偏差，所以我们用了Ledoit-Wolf 法把协方差矩阵的估计值进行了缩减。图 4 中，我们可以看出经过缩减估计的 LDA 明显优于普通的 LDA。
 
@@ -178,12 +176,12 @@ $$
 
 ## 二次判别分析法（QDA）介绍
 
-不同类别的事物常常有着不同的特征分布。在男性和女性中，去超市购物时购买啤酒和购买纸尿布的相关性就不同（后者较低），此时 LDA 的假设就会变得不合理。作为改进，二次判别分析法（以下简称 QDA）假设了类别的不同会导致事物特征的相关性不同。与朴素贝叶斯相比，QDA 在估计每个类别协方差矩阵时增加了不同特征之间的协方差，而不是简单设为 0。对不同的Y，QDA 为每个类估计了不同的 $\vert\boldsymbol{\Sigma}_{1},\boldsymbol{\Sigma}_{2}\ldots\boldsymbol{\Sigma}_{k}\boldsymbol{\hat{\mathcal{{H}}}\mu_{1}},\pmb{\mu}_{2}\ldots\pmb{\mu}_{k},$
+不同类别的事物常常有着不同的特征分布。在男性和女性中，去超市购物时购买啤酒和购买纸尿布的相关性就不同（后者较低），此时 LDA 的假设就会变得不合理。作为改进，二次判别分析法（以下简称 QDA）假设了类别的不同会导致事物特征的相关性不同。与朴素贝叶斯相比，QDA 在估计每个类别协方差矩阵时增加了不同特征之间的协方差，而不是简单设为 0。对不同的Y，QDA 为每个类估计了不同的 $l\Sigma_1,\Sigma_2\ldots\Sigma_k和\boldsymbol{\mu}_1,\boldsymbol{\mu}_2\ldots\boldsymbol{\mu}_k。$
 
 图表5： 二次判别分析法参数估计
 
 $$
-\begin{array}{rl}{{1.}\ }&{{}P(y=k)=\frac{\sum_{c=1}^{n}\Im\left\{y^{(c)}=k\right\}}{n}}\\{{2.}\ }&{{}\pmb{\mu_{k}}=\frac{\sum_{c=1}^{n}\Im\left\{y^{(c)}=k\right\}^{(c)}}{\sum_{c=1}^{n}\Im\left\{y^{(c)}=k\right\}}\ \left(\tilde{\mathcal{H}}\atop{\ i\atop\uparrow}\bigwedge\tilde{\mathcal{H}}y^{\frac{\mathrm{d}}{\mathrm{d}}/\tilde{\mathcal{H}}}\right)\tilde{\mathcal{H}}_{k}\ }\\{{3.}\ }&{{}\sum_{k}=\frac{\sum_{c=1}^{n}\Im\left\{y^{(c)}=k\right\}\left(x^{(c)}-\mu_{y}(c)_{=k}\right)\left(x^{(c)}-\mu_{y}(c)_{=k}\right)^{T}}{\sum_{i=1}^{n}\Im\left\{y^{(c)}=k\right\}}\ (\tilde{\mathcal{H}}\mathbin{\not\sim\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}-\bigwedge\setminus\overline{{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathbin{\tilde{\mathcal{H}}}\mathscr{L}_{k})}\end{array}
+\begin{cases}1.&P(y=k)=\frac{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}}{n}\\2.&\boldsymbol{\mu}_{k}=\frac{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}x^{(c)}}{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}}(每个类y都对应一个不同的\boldsymbol{\mu}_{k})\\3.&\boldsymbol{\Sigma}_{k}=\frac{\sum_{c=1}^{n}\mathbf{1}\{y^{(c)}=k\}\left(x^{(c)}-\boldsymbol{\mu}_{y^{(c)}=k}\right)\left(x^{(c)}-\boldsymbol{\mu}_{y^{(c)}=k}\right)^{T}}{\sum_{i=1}^{n}\mathbf{1}\left\{y^{(c)}=k\right\}}(每个类y都对应一个不同的\boldsymbol{\Sigma}_{k})\end{cases}
 $$
 
 资料来源：华泰证券研究所
@@ -191,7 +189,7 @@ $$
 与 LDA 类似，我们可以得到如下的判别方程：
 
 $$
-\delta_{k}(x)=log(\pi_{k})-\frac{1}{2}{\pmb\mu}_{k}^{\enspace T}{\Sigma}_{k}^{\enspace-1}{\pmb\mu}_{k}+{x}^{T}{\Sigma}_{k}^{\enspace-1}{\pmb\mu}^{(k)}-\frac{1}{2}{\pmb x}^{T}{\Sigma}_{k}^{\enspace-1}{\pmb x}-\frac{1}{2}log|{\cal L}_{k}|
+\delta_{k}(\pmb{x})=log(\pi_{_{k}})-\frac{1}{2}\pmb{\mu}_{_{k}}^{T}\pmb{\varSigma}_{_{k}}{}^{-1}\pmb{\mu}_{_{k}}+\pmb{x}^{T}\pmb{\varSigma}_{_{k}}{}^{-1}\pmb{\mu}^{(k)}-\frac{1}{2}\pmb{x}^{T}\pmb{\varSigma}_{_{k}}{}^{-1}\pmb{x}-\frac{1}{2}log|\pmb{\varSigma}_{_{k}}|
 $$
 
 来估计对应的概率。因为Σ不同导致P(y = k|x)的表达式上下不能约分，QDA的判别方程是关于x的二次方程，分类边界是曲线。和线性判别分析类似，在实际计算中我们也对协方差矩阵的估计进行了缩减处理（下文提到的 LDA、QDA算法的结果都是经过缩减处理之后的结果）。QDA 虽然估计了较多的参数，但并不一定比 LDA 的效果好，因为数据减少参数估计的精确度也下降了。图 6是 LDA和 QDA 分类效果的对比，其中星星代表的是分类错误的样本。我们可以看出当随机产生的两类样本拥有相同的协方差矩阵时，两者效果几乎一致；当两类样本的协方差矩阵不相同时，QDA的表现明显优于 LDA。
@@ -220,7 +218,7 @@ c) 数据区间：1998-04-31 至 2017-07-31。
 
 3． 特征预处理：
 
-a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i}$ ， $D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i}$ ， $D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|\bar{D}_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 b) 缺失值处理：得到新的因子暴露度序列后，将因子暴露度缺失的地方设为中信一级行业相同个股的平均值。
 
@@ -342,7 +340,7 @@ d) 标准化：将中性化处理后的因子暴露度序列减去其现在的�
 
 资料来源：Wind，华泰证券研究所
 
-在最终回测过程中，本文滚动回测训练期选择每期能获得的最大数据，即对于 T+1期，训练期的长度为第 1 至 T 期，如图 12所示。因为股票的特征之间存在明显的相关性，而且不同类别的股票协方差矩阵基本一致，所以 LDA模型的假设最符合实际的情况。从表中我们也可以发现，LDA的分类效果要明显优于朴素贝叶斯和 QDA。QDA 在数据量小时表现较差，但随着数据量的增加，QDA的表现逐渐“赶上”朴素贝叶斯，这也与算法的逻辑相符：QDA 需要估计的参数最多（ $\langle(d(d+1)/2+d)*m\rangle$ ），所以对数据量的要求最大。
+在最终回测过程中，本文滚动回测训练期选择每期能获得的最大数据，即对于 T+1期，训练期的长度为第 1 至 T 期，如图 12所示。因为股票的特征之间存在明显的相关性，而且不同类别的股票协方差矩阵基本一致，所以 LDA模型的假设最符合实际的情况。从表中我们也可以发现，LDA的分类效果要明显优于朴素贝叶斯和 QDA。QDA 在数据量小时表现较差，但随着数据量的增加，QDA的表现逐渐“赶上”朴素贝叶斯，这也与算法的逻辑相符：QDA 需要估计的参数最多（ $\left(\left(d(d+1)/2+d\right)*m\right)$ ），所以对数据量的要求最大。
 
 图表12： 选择最大的样本作为训练集
 ![](images/27602c32773744495549b66a463912a8e8795866b850b043aa9b15132d0c2329.webp)
@@ -657,42 +655,42 @@ d) 标准化：将中性化处理后的因子暴露度序列减去其现在的�
 事实上，对于二值且两类样本数目相同的分类问题，当我们对y进行特殊的标签化后，可以证明 LDA与线性回归是等价的，下面我们给出证明。在前文中，我们可以知道 LDA的判别方程为：
 
 $$
-\delta_{k}(x)=\log(\pi_{k})-\frac{1}{2}{\pmb\mu_{k}}^{T}\Sigma^{-1}{\pmb\mu_{k}}+{\pmb x}^{T}\Sigma^{-1}{\pmb\mu_{k}}
+\delta_{k}(\boldsymbol{x})=\log(\pi_{k})-\frac{1}{2}\boldsymbol{\mu}_{k}{}^{T}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_{k}+\boldsymbol{x}^{T}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_{k}
 $$
 
 若k = 1,2，我们有：
 
 $$
-\delta_{1}(x)=\log(\pi_{1})-\frac{1}{2}{\pmb\mu_{1}}^{T}\Sigma^{-1}{\pmb\mu_{1}}+{\pmb x}^{T}\Sigma^{-1}{\pmb\mu_{1}}
+\delta_{1}(\boldsymbol{x})=\log(\pi_{1})-\frac{1}{2}\boldsymbol{\mu}_{1}^{T}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_{1}+\boldsymbol{x}^{T}\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_{1}
 $$
 
 $$
-\delta_{2}(x)=\log(\pi_{2})-\frac{1}{2}{\pmb\mu_{2}}^{T}\Sigma^{-1}{\pmb\mu_{2}}+{\pmb x}^{T}\Sigma^{-1}{\pmb\mu_{2}}
+\delta_{2}(\boldsymbol{x})=\log(\pi_{2})-\frac{1}{2}\boldsymbol{\mu}_{2}^{T}\boldsymbol{\varSigma}^{-1}\boldsymbol{\mu}_{2}+\boldsymbol{x}^{T}\boldsymbol{\varSigma}^{-1}\boldsymbol{\mu}_{2}
 $$
 
-当我们在对x进行分类时，若 $\delta_{1}(x)>\delta_{2}(x)$ 则把x归为第一类，即： ${\pmb x}^{T}\Sigma^{-1}({\pmb\mu}_{1}-{\pmb\mu}_{2})>$ $\begin{array}{r}{\frac{1}{2}\big({\pmb\mu}_{1}^{\ {T}}{\Sigma}^{-1}{\pmb\mu}_{1}-{\pmb\mu}_{2}^{\ {T}}{\Sigma}^{-1}{\pmb\mu}_{2}\big)+\ log\frac{\pi_{2}}{\pi_{1}})}\end{array}$ 。当两种类别的股票数目相等时，即 $\lceil\pi_{1}{=}\pi_{2}$ 时，可以简化为 $\begin{array}{r}{{\pmb x}^{T}{\pmb\Sigma}^{-1}({\pmb\mu}_{1}-{\pmb\mu}_{2})>\frac{1}{2}\big({\pmb\mu}_{1}^{\textit{ T }}{\pmb\Sigma}^{-1}{\pmb\mu}_{1}-{\pmb\mu}_{2}^{\textit{ T }}{\pmb\Sigma}^{-1}{\pmb\mu}_{2}\big)}\end{array}$ 。下文中我们把Σ标记为 $\sum^{LDA}$
+当我们在对x进行分类时，若 $\delta_{1}({\pmb x})>\delta_{2}({\pmb x})$ 则把x归为第一类，即： $\pmb{x}^{T}\varSigma^{-1}(\pmb{\mu}_{1}-\pmb{\mu}_{2})>$ $\begin{array}{r}{\frac{1}{2}\big(\pmb{\mu}_{1}^{T}\varSigma^{-1}\pmb{\mu}_{1}^{}-\pmb{\mu}_{2}^{T}\varSigma^{-1}\pmb{\mu}_{2}^{}\big)+\;log\frac{\pi_{2}}{\pi_{1}})}\end{array}$ 。当两种类别的股票数目相等时，即 $^{\mathfrak{t}}\pi_{1}{=}\pi_{2}$ 时，可以简化为 $\boldsymbol{x}^{T}\boldsymbol{\varSigma}^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2})>\frac{1}{2}\big(\boldsymbol{\mu}_{1}^{T}\boldsymbol{\varSigma}^{-1}\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2}^{T}\boldsymbol{\varSigma}^{-1}\boldsymbol{\mu}_{2}\big)$ 。下文中我们把Σ标记为 $\Sigma^{LDA}$
 
 假设N为总样本数， $N_{1}$ 是类别 1的样本数， $N_{2}$ 是类别 2的样本数（本文中N是股票收益在前后 30%的样本数， $N_{1}$ 是收益在前 30%的样本数， $N_{2}$ 是后 30%的样本数， $\begin{array}{r}{N_{1}=N_{2}=\frac{N}{2})}\end{array}$
 
-在线性回归中我们进行如下标记： $\{\begin{array}{ll}{y=\frac{N}{N_{1}}(\ 种_{1}\|1)}\\{y=-\frac{N}{N_{2}}(\divideontimes\ointop\limits_{i}^{\infty}2)}\end{array}$ 我们的目标是最小化：
+在线性回归中我们进行如下标记： $\begin{cases}y=\frac{N}{N_{1}}\left(类别\;1\right)\\y=-\frac{N}{N_{2}}\left(类别\;2\right)\end{cases}$ 我们的目标是最小化：
 
 $$
-\operatorname{E}=\frac{1}{2}\sum_{c=1}^{N}\left(\beta^{T}x^{(c)}+\beta_{0}-y^{(c)}\right)^{2}(\ddag\Psi\circledast\frac{\ddag}{\ddag\ddag}\frac{\ddag}{\ddag\ddag}\frac{\ddag}{\ddag\Phi},\beta_{0}\xrightarrow[\sqrt{4}]{\pi}\sqrt{6}\sqrt{5}\sqrt[3]{7})
+E=\frac{1}{2}\sum_{c=1}^{N}\left(\beta^{T}\boldsymbol{x}^{(c)}+\beta_{0}-y^{(c)}\right)^{2}(其中\beta^{T}是系数,\beta_{0}是截距项)
 $$
 
 分别对 $\cdot\beta^{T}$ 、 $\beta_{0}$ 求导可得：
 
 $$
-\left\{\begin{array}{ll}{\displaystyle{\sum_{c=1}^{N}}\big(\beta^{T}\pmb{x}^{(c)}+\beta_{0}-y^{(c)}\big)=0}\\{\displaystyle{\sum_{c=1}^{N}}\big(\beta^{T}\pmb{x}^{(c)}+\beta_{0}-y^{(c)}\big)\pmb{x}^{(c)}=0}\end{array}\right.
+\left\{\begin{aligned}&\sum_{c=1}^{N}\bigl(\beta^{T}\boldsymbol{x}^{(c)}+\beta_{0}-y^{(c)}\bigr)=0\\&\sum_{c=1}^{N}\bigl(\beta^{T}\boldsymbol{x}^{(c)}+\beta_{0}-y^{(c)}\bigr)\boldsymbol{x}^{(c)}=0\end{aligned}\right.
 $$
 
-由第一个式子可得 $\begin{array}{r}{:\beta_{0}=-\beta^{T}\pmb{\mu}(\pmb{\mu}=\frac{N_{1}\pmb{\mu}_{1}+N_{2}\pmb{\mu}_{2}}{N})}\end{array}$ ），带入第二个式子中，经过化简可以得到：
+由第一个式子可得 $\beta_{0}=-\beta^{T}\pmb{\mu}\left(\pmb{\mu}=\frac{N_{1}\mu_{1}+N_{2}\mu_{2}}{N}\right)$ ），带入第二个式子中，经过化简可以得到：
 
 $$
-(\sum^{LDA}+\frac{N_{1}N_{2}}{N}(\pmb{\mu}_{1}-\pmb{\mu}_{2})(\pmb{\mu}_{1}-\pmb{\mu}_{2})^{T})\beta=N(\pmb{\mu}_{1}-\pmb{\mu}_{2})
+(\sum^{LDA}+\frac{N_{1}N_{2}}{N}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2})(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2})^{T})\boldsymbol{\beta}=N(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2})
 $$
 
-因为 $\begin{array}{r}{\left(\frac{N_{1}N_{2}}{N}\Big(\pmb{\mu}_{1}-\pmb{\mu}_{2}\Big)\big(\pmb{\mu}_{1}-\pmb{\mu}_{2}\big)^{T}\right)\beta}\end{array}$ 可以写成 $\lambda\big(\pmb{\mu}_{1}-\pmb{\mu}_{2}\big)$ ，所以经过变换后我们可得$\begin{array}{r}{\beta\propto\sum^{LDA^{-1}}(\pmb{\mu}_{1}-\pmb{\mu}_{2})}\end{array}$ 。我们可以发现β与线性判别法中x的系数 $\Sigma^{-1}(\pmb{\mu}_{1}-\pmb{\mu}_{2})$ 的方向是一致的，因此排序结果也是一致的。
+因为 $\left(\frac{N_{1}N_{2}}{N}\left(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2}\right)\left(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2}\right)^{T}\right)\boldsymbol{\beta}$ 可以写成 $\lambda\big(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2}\big)$ ，所以经过变换后我们可得$\boldsymbol{\beta}\propto\boldsymbol{\Sigma}^{LDA^{-1}}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2})$ 。我们可以发现β与线性判别法中x的系数 $\boldsymbol{\varSigma}^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_{2})$ 的方向是一致的，因此排序结果也是一致的。
 
 风险提示：通过朴素贝叶斯、LDA、QDA 模型构建选股策略是历史经验的总结，存在失效的可能。
 

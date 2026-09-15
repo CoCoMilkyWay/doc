@@ -253,12 +253,12 @@ Email:ll9773@htsec.com
 
 虽然前文展示了很多在医药行业内选股效果显著的因子，但这些因子包含的信息有所重合，有的甚至呈现高相关性。如盈利能力中，营业利润/营业收入与销售净利率，这两个因子的截面相关系数高达 84.20%。为避免冗余信息的存在，我们按照逐步筛选法来选择医药行业的有效因子。在每一次选择中，都选入收益率预测模型拟合优度增加幅度最大的因子作为新入选的因子。
 
-具体来看，假设我们已筛选出 m 个有效因子（初始时 $\scriptstyle{\mathsf{m}}=0\ )$ ），称为“已选因子”，记为 $\mathsf{F}\mathsf{s}_{1},\mathsf{F}\mathsf{s}_{2},\ldots,\mathsf{F}\mathsf{s}_{\mathsf{m}};$ 备选因子库中还剩余 K个因子 $\mathsf{F}_{\mathsf{k}}\left(\mathsf{k}{=}1,\quad\ldots\ldots,\mathsf{K}\right)$ ）。则第m+1 步筛选过程为：
+具体来看，假设我们已筛选出 m 个有效因子（初始时 $m{=}0)$ ），称为“已选因子”，记为 $\mathsf{Fs}_{1},\mathsf{Fs}_{2},\dots,\mathsf{Fs}_{\mathsf{m}};$ 备选因子库中还剩余 K个因子 $\mathsf{F}_{\mathsf{k}}(\mathsf{k}=1,\ldots\ldots,\mathsf{K})$ ）。则第m+1 步筛选过程为：
 
-（1） 将次月股票收益率作为因变量，任意一个备选因子 ${\sf F}_{\sf k}(\sf k{=}1,\sf...,\sf\ K)$ 和已选因子作为自变量，进行横截面回归，并统计因子溢价时间序列的显著性，以及模型调整 R方均值：
+（1） 将次月股票收益率作为因变量，任意一个备选因子 $\mathbf{F}_{\mathsf{k}}(\mathsf{k}=1,\ldots,\mathsf{K})$ 和已选因子作为自变量，进行横截面回归，并统计因子溢价时间序列的显著性，以及模型调整 R方均值：
 
 $$
-R_{i,t+1}=c_{t}+\sum_{j=1}^{m}f_{t}\cdot F_{s_{j},t}+\theta_{k,t}\cdot F_{k}+\varepsilon_{i,t}
+R_{i,t+1}=c_{t}+\sum_{j=1}^{m}\pmb{f}_{t}\cdot\pmb{F}_{s_{j},t}+\theta_{k,t}\cdot\pmb{F}_{k}+\varepsilon_{i,t},
 $$
 
 其中，R为股票月收益率，F 为因子暴露，f和θ为因子溢价。

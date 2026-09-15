@@ -72,38 +72,38 @@ ann@gf.com.cn
 
 自然语言处理的统计学方法在提出之际是为了解决语音识别的，那么一段语音被识别为哪一个句子呢？或者说给定一个拟为识别的语句是否合理呢？就看它的可能性大小如何。
 
-假设S表示为一个有意义的句子，由 $w_{1},w_{2},w_{3},\dots w_{n}$ 词组成，句子的长度为n，现在我们要求得该语句可能性即概率
+假设S表示为一个有意义的句子，由 $w_{1},w_{2},w_{3},\ldots w_{n}$ 词组成，句子的长度为n，现在我们要求得该语句可能性即概率
 
 $$
-P(S)=P(w_{1},w_{2},w_{3},\dots w_{n})
+P(S)=P(w_1,w_2,w_3,\ldots w_n)
 $$
 
 依照条件概率将其展开，
 
 $$
-\begin{array}{rl}&{P(w_{1},w_{2},w_{3},\ldots w_{n})}\\&{=P(w_{1})\cdot P(w_{2}\big|w_{1})\cdot P(w_{3}\big|w_{1},w_{2})\cdots P(w_{n}\big|w_{1},w_{2},\cdots w_{n-1})}\end{array}
+\begin{aligned}&P(w_{1},w_{2},w_{3},\ldots w_{n})\\&=P(w_{1})\cdot P(w_{2}|w_{1})\cdot P(w_{3}|w_{1},w_{2})\cdots P(w_{n}|w_{1},w_{2},\ldots w_{n-1})\\\end{aligned}
 $$
 
-其中 $P(w_{1})$ 为第一个词出现的概率， $P(w_{2}\left|w_{1}\right.)$ 为在已知第一个词的前提下，第二个词出现的概率，以此类推。
+其中 $P(w_{1})$ 为第一个词出现的概率， $P(w_{2}\left|w_{1}\right)$ 为在已知第一个词的前提下，第二个词出现的概率，以此类推。
 
 上述 $w_{n}$ 词的出现与之前所有词都有关，为简化起见，假设模型具备马尔科夫性，即假设任意一个词 $w_{i}$ 的出现只与它前面一个词 $w_{i-1}$ 有关，于是
 
 $$
-\begin{array}{rl}&{P(S)}\\&{=P(w_{1})\cdot P(w_{2}\big|w_{1})\cdot P(w_{3}\big|w_{2})\cdots P(w_{n}\big|w_{n-1})}\end{array}
+P(S)=P(w_1)\cdot P(w_2\mid w_1)\cdot P(w_3\mid w_2)\cdots P(w_n\mid w_{n-1})
 $$
 
 上述模型称为二元模型（Bigram Model），如果一个词与前面N-1个词有关，那么该模型称为N元模型。
 
-接下来如何求得条件概率 $P(w_{i}\left|w_{i-1}\right.)$ 呢，根据定义
+接下来如何求得条件概率 $P(w_{i}\left|w_{i-1}\right)$ 呢，根据定义
 
 $$
-P(w_{i}\left|w_{i-1}\right.)=\frac{P(w_{i},w_{i-1})}{P(w_{i-1})}
+P(w_i\mid w_{i-1})=\frac{P(w_i,w_{i-1})}{P(w_{i-1})}
 $$
 
 根据大数定律，相对频度近似为概率，因此我们仅需要统计语料库中相应词汇的频度即可，
 
 $$
-\begin{array}{c}{{P(w_{i},w_{i-1})\approx f(w_{i},w_{i-1})=\displaystyle\frac{\#(w_{i},w_{i-1})}{\#}}}\\{{{}}}\\{{P(w_{i-1})\approx f(w_{i-1})=\displaystyle\frac{\#(w_{i-1})}{\#}}}\\{{{}}}\\{{P(w_{i}\left|w_{i-1}\right.)\approx\displaystyle\frac{f(w_{i},w_{i-1})}{f(w_{i-1})}}}\end{array}
+\begin{aligned}&P(w_{i},w_{i-1})\approx f(w_{i},w_{i-1})=\frac{\#(w_{i},w_{i-1})}{\#}\\&\\&\quad P(w_{i-1})\approx f(w_{i-1})=\frac{\#(w_{i-1})}{\#}\\&\\&\quad P(w_{i}\left|w_{i-1}\right)\approx\frac{f(w_{i},w_{i-1})}{f(w_{i-1})}\\\end{aligned}
 $$
 
 ## 二、N元模型及其择时应用
@@ -117,20 +117,20 @@ $$
 对于择时问题，我们仅需要判断下一个交易日的涨跌即可，那么如何进行判断呢，我们需要获取下一个交易日的涨跌的概率，上涨的概率大则判断上涨，下跌的概率大则判断为下跌。那么如何计算涨跌概率呢？
 
 $$
-\begin{array}{rl}&{p(\uparrow)}\\&{=p(s_{i}=2|s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},)}\\&{=\frac{p\left(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},2\right)}{p\left(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1}\right)}}\\&{p(\downarrow)}\\&{=p(s_{i}=1|s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},)}\\&{=\frac{p\left(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},\right)}{p\left(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},\right)}}\end{array}
+\begin{aligned}&p(p(\uparrow))\\&=p(s_{i}=2\left|s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},\right)\\&=\frac{p(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},2)}{p(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1})}\\&\vdots\\&p(\downarrow)\\&=p(s_{i}=1\left|s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},\right)\\&=\frac{p(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1},1)}{p(s_{i-N+1},s_{i-N+2},\cdots,s_{i-1})}\\\end{aligned}
 $$
 
 类似于统计语言模型，其中一段词句（符号串）出现的概率我们根据语料库（历史行情序列）来进行训练得到，具体为
 
 $$
-p(s_{1},s_{2},s_{3},\cdots,s_{n})=\frac{\#(s_{1},s_{2},s_{3},\cdots,s_{n})}{\sum_{s}\#(s_{1},s_{2},s_{3},\cdots,s_{n})}
+p(s_{1},s_{2},s_{3},\cdots,s_{n})=\frac{\#(s_{1},s_{2},s_{3},\cdots,s_{n})}{\sum\limits_{s}\#(s_{1},s_{2},s_{3},\cdots,s_{n})}
 $$
 
 ## （二）模型应用及交易策略
 
 根据上述 N元模型，即可判断下一个交易日的涨跌，
 
-如果 $p(\uparrow)>p(\downarrow)$ ，判断为上涨，否则判断为下跌。
+如果 $p(\hat{\uparrow})>p(\downarrow)$ ，判断为上涨，否则判断为下跌。
 
 有了下一个交易日的涨跌我们进行如下的交易策略设计，由于股指期货在交易日正股收市之后仍然有 15分钟的交易时间，因此交易策略设计为当日 15点至 15点 15分进行交易，下一个交易日观察持仓风险暴露情况，如果浮亏达到或者超过 1%，那么立即进行平仓，当日股票市场收市后再进行下一个交易日的涨跌判断，在股指期货市场进行相应的头寸开仓，如果当时未发生止损，那么根据下一个交易日的判断进行顺延操作，如果下一个交易日判断方向与当前持仓方向相同，那么不进行操作，如果持仓方向不一致，那么进行先平仓再开仓的操作。
 
@@ -226,7 +226,7 @@ N元模型来进行择时应用，如何选取模型阶数呢，一个直观的�
 那么，如何应用该概率表呢，我们举一个简单的例子，假如过去5个交易日的符号串为“11111”，那么明日上涨和下跌的概率分别为
 
 $$
-\begin{array}{l}{\displaystyle p(1\big\vert1,1,1,1,1)=\frac{p(1,1,1,1,1,1)}{p(1,1,1,1,1)}}\\{\displaystyle p(2\big\vert1,1,1,1,1)=\frac{p(1,1,1,1,1,2)}{p(1,1,1,1,1)}}\end{array}
+\begin{aligned}p(1\big|1,1,1,1,1)=&\frac{p(1,1,1,1,1,1)}{p(1,1,1,1,1)}\\p(2\big|1,1,1,1,1)=&\frac{p(1,1,1,1,1,2)}{p(1,1,1,1,1)}\end{aligned}
 $$
 
 由于p(1,1,1,1,1)为固定的，不影响结果，那么下一个交易日的涨跌概率何者为

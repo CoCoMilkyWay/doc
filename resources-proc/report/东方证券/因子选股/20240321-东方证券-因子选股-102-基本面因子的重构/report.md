@@ -96,7 +96,7 @@ DFQ 遗传规划价量因子挖掘系统：——因 2023-05-28子选股系列�
 图 4：基本面指标的重构方式
 
 $$
-\begin{array}{l}{{{\underbrace{\frac{i\notin\widehat{\mathbb{B}}\widehat{\mathbb{X}}\widehat{\mathbb{Y}}\dot{\mathbb{X}}}\mu\leq\widehat{\mathbb{E}}\mu\leq\widehat{\mathbb{X}}\mu}\leq\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu}}}\\{{\mathrm{tot~istea~\leq~4\pi\widehat{\mathbb{B}}\mu\leq\mu\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\widehat{\mathbb{Y}}\widehat{\mathbb{Y}}\mu\leq\widehat{\mathbb{B}}\mu\widehat{\mathbb{X}}\mu\leq\widehat{\mathbb{B}}}}}\ \ \xrightarrow{\mathrm{d}}\ \begin{array}{l}{{\frac{i\notin\widehat{\mathbb{B}}\mu\widehat{\mathbb{X}}\dot{\mathbb{Y}}\dot{\mathbb{X}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{Z}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu}{\mathrm{~is~}}}}\\{\mathrm{~ist~}}\mu A=\beta\cdot inB+\alpha+\widehat{\mathbb{B}}\mu\mathbb{B}\mathbb{Z}\mu\mathbb{Z}\mu\geq\mu\leq\widehat{\mathbb{B}}\mu\mathbb{Z}\mu\widehat{\mathbb{B}}\mu\geq\widehat{\mathbb{B}}\mu\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\mathbb{Z}\mu\left.\widehat{\mathbb{B}}\right.\geq\widehat{\mathbb{B}}\mu\leq\mu\leq\widehat{\mathbb{B}}\mu\left.\widehat{\mathbb{B}}\right.\leq\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\leq\widehat{\mathbb{B}}\mu\left.\widehat{\mathbb{B}}\right.\leq\mu\leq\widehat{\mathbb{B}}\mu\end{array}\end{array}
+$\begin{array}{l}绝对定价转为相对定价\\\begin{array}{l}比值类基本面指标的一般形式:\frac{A}{B}\quad\xrightarrow{\quad ln\quad A\quad=\quad\beta\quad\cdot\quad ln\quad B\quad+\quad\alpha\quad+\overset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\underset{\circ}{\cdot}{\underset{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\underset{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot{}{\cdot}{\cdot{}{\cdot}{\cdot}{\cdot}{\cdot{\cdot}{{\cdot}{\cdot}{\cdot}{{\cdot}{\cdot}{\cdot}{\cdot{{}{\cdot}{\cdot}{\cdot}{\cdot{{}{\cdot}{\cdot}{\cdot{\cdot}{{\cdot}{\cdot}{{\cdot}{{\cdot}{\cdot}{{\cdot}{\end{array}\end{array}
 $$
 
 考虑到大部分财务指标在截面上的分布并不正态，因此我们借鉴市值对数化的操作，对每个财务指标也都进行对数化操作以调整其分布。由于财务指标会为负或为 0，因此我们以如下方式来进行对数化调整：
@@ -170,10 +170,10 @@ $$
 因子 MFE组合构建方式：我们采用如下组合优化模型来构建单因子 MFE组合：
 
 $$
-\begin{array}{rl}{max~f^{T}w}&{}\\{s.t.}&{s_{i}\le X(w-w_{b})\le s_{h}}\\&{h_{i}\le H(w-w_{b})\le h_{h}}\\&{w_{i}\le w-w_{b}\le w_{h}}\\&{b_{i}\le B_{h}w\le b_{h}}\\&{\mathbf{0}\le w\le l}\\&{\mathbf{1}^{T}w=1}\\&{\chi|w-w_{1}|\le to_{h}}\end{array}
+\begin{aligned}&max\ f^{T}w\\&\quad s.t.\quad s_{l}\leq X(w-w_{b})\leq s_{h}\\&\quad h_{l}\leq H(w-w_{b})\leq h_{h}\\&\quad w_{l}\leq w-w_{b}\leq w_{h}\\&\quad b_{l}\leq B_{b}w\leq b_{h}\\&\quad\mathbf{0}\leq w\leq l\\&\quad\mathbf{1}^{T}w=1\\&\quad\Sigma|w-w_{0}|\leq to_{h}\\\end{aligned}
 $$
 
-该优化模型的目标函数为最大化单因子暴露，其中 f 为因子取值， $f^{T}w$ 为组合在因子上的加权暴露，w 为待求解的股票权重向量。模型的约束条件包括组合在风格因子上的偏离度、行业偏离度、个股偏离度、成分股权重占比控制、个股权重上下限控制、换手率等。
+该优化模型的目标函数为最大化单因子暴露，其中 f 为因子取值， $f^{T}W$ 为组合在因子上的加权暴露，w 为待求解的股票权重向量。模型的约束条件包括组合在风格因子上的偏离度、行业偏离度、个股偏离度、成分股权重占比控制、个股权重上下限控制、换手率等。
 
 ⚫ 第一个约束条件限制了组合相对于基准指数的风格暴露，X 为股票对风格因子的因子暴露矩阵， $w_{b}$ 为基准指数成分股的权重向量， $s_{l},s_{h}$ 分别为风格因子相对暴露的下限及上限；
 
@@ -921,7 +921,7 @@ $$
 股息率TTM因子用过去一年有分红预案的分红总金额除以市值，我们以如下回归方式重构并取残差作为因子取值：
 
 $$
-ln(TTM_{-}div)=\beta\cdot ln(MV)+\alpha+\varepsilon
+ln(TTM\_div)=\beta\cdot ln(MV)+\alpha+\varepsilon
 $$
 
 下图分别展示了传统和回归版现金估值因子市值行业中性化后十分组多空净值。可以看到，回归版本因子的多头净值和多空相对强弱都有了显著提升。
@@ -996,7 +996,7 @@ $$
 分析师一致预期滚动 EP 因子用分析师一致预期滚动净利润除以市值，我们以如下回归方式重构并取残差作为因子取值：
 
 $$
-ln(Con\_np\_roll)=\beta\cdot ln(MV)+\alpha+\varepsilon
+ln(Con_{-}np_{-}roll)=\beta\cdot ln(MV)+\alpha+\varepsilon
 $$
 
 下图分别展示了传统和回归版一致预期滚动 EP 因子市值行业中性化后十分组多空净值。可以看到，回归版本因子的多头净值和多空相对强弱都有了显著提升。
@@ -1145,19 +1145,19 @@ $$
 原始的 DeltaROE因子的计算方式如下：
 
 $$
-DeltaROE=Quart.ROE_{t}-Quart.ROE_{t-4}={\frac{Quart.E_{t}}{Book_{t}}}-{\frac{Quart.E_{t-4}}{Book_{t-4}}}
+DeltaROE=Quart\_ROE_{t}-Quart\_ROE_{t-4}=\frac{Quart\_E_{t}}{Book_{t}}-\frac{Quart\_E_{t-4}}{Book_{t-4}}
 $$
 
 其是一个减法操作，减法很难直接转化为除法，考虑到ROE的分母都是净资产，而净资产的时序变化较小，因此我们以分子相减比分母的形式重构该因子：
 
 $$
-DeltaROE\approx{\frac{Quart{_{-}}E_{t}-Quart{_{-}}E_{t-4}}{Book_{t}}}={\frac{Delta_{-}Quart{_{-}}E}{Book}}
+DeltaROE\approx\frac{Quart\_E_{t}-Quart\_E_{t-4}}{Book_{t}}=\frac{Delta\_Quart\_E}{Book}
 $$
 
 进而我们可以将其转化为以下的回归形式：
 
 $$
-ln(Delta_{-}Quart_{-}E)=\beta\cdot ln(Book)+\alpha+\varepsilon
+ln(�data\_Quart\_E)=\beta\cdot ln(Bowk)+\alpha+\varepsilon
 $$
 
 下图分别展示了传统和回归版 DeltaROE 因子市值行业中性化后十分组多空净值。可以看到，回归版本因子的多空相对强弱明显好于传统因子。

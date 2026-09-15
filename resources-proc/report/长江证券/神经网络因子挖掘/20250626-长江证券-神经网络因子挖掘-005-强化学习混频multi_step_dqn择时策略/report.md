@@ -110,7 +110,7 @@ SFC：BUT353
 智能体从当前 t 时刻的状态 s 转移到下一个时刻状态 $s^{\prime}$ 的过程。在投资中，假设我们本来没有任何的仓位，当下的现金仓位状态是 100%，因为本次全仓买入的动作，就会导致没有剩余现金，即下一时刻的现金仓位状态是 0%。状态转移可以是确定的也可以是随机的，这通常而言取决于环境和状态的定义。我们用状态转移概率函数来描述状态转移，记作
 
 $$
-\mathrm{p_{t}}(\mathsf{s}^{\prime}|\mathsf{s},\mathsf{a})=\mathrm{P}(\mathsf{S}_{\mathsf{t}+1}^{\prime}=\mathsf{s}^{\prime}|\mathsf{S}_{\mathsf{t}}=\mathsf{s},\mathsf{A}_{\mathsf{t}}=\mathsf{a})
+\mathbf{p}_{\mathrm{t}}(\mathbf{s}'|\mathbf{s},\mathbf{a})=\mathbf{P}(\mathbf{S}'_{\mathrm{t}+1}=\mathbf{s}'|\mathbf{S}_{\mathrm{t}}=\mathbf{s},\mathbf{A}_{\mathrm{t}}=\mathbf{a})
 $$
 
 ## 回报（折扣回报）
@@ -118,7 +118,7 @@ $$
 从当前时刻开始到本回合结束的所有奖励的总和，也称为累计奖励，通常来说会将未来的奖励乘以一个折扣率 γ 来降低未来奖励在当前时刻的重要性。在投资中，可以同比时间价值成本，相比于远期收益，投资人更倾向于获得即时收益，因为存在时间成本也可以说是机会成本。
 
 $$
-\mathrm{U_{t}}=\mathrm{R_{t}}+\gamma\mathrm{R_{t+1}}+\gamma^{2}R_{t+2}+\cdots=\sum_{i=0}^{T}\gamma^{i}R_{t+i}
+\mathrm{U}_{\mathrm{t}}=\mathrm{R}_{\mathrm{t}}+\gamma\mathrm{R}_{\mathrm{t}+1}+\gamma^{2}R_{t+2}+\cdots=\sum_{i=0}^{T}\gamma^{i}R_{t+i},
 $$
 
 回报其实就是智能体需要最大化的函数，强化学习的目标就是寻找一个策略，使得回报$\mathrm{U_{t}}$ 最大化，这个策略称为最优策略。虽然每一时刻的奖励构成了回报，但是最优策略并不一定是最大化每一时刻的奖励，这就好比价值投资中在资产底部加仓承受短期可能的回撤，但赢得未来资产大涨时的高额收益。
@@ -129,11 +129,11 @@ $$
 
 结合流程图更方便我们理解量化投资中可以如何定义强化学习的各个概念
 
-1. 智能体模型接受当前的市场状态 $s_{\mathrm{t}}$ 做出行为 ${\sf a_{t}}$ ；
+1. 智能体模型接受当前的市场状态 $s_{\mathrm{t}}$ 做出行为 $\mathbf{a_{t}}$ ；
 
-2. 根据当前的行为结合规则，我们可以给出当下的奖励 $\boldsymbol{\mathrm{r}}_{\mathrm{t}}$ 和下一个时刻的状态$s_{\mathrm{t}+1}$ ；
+2. 根据当前的行为结合规则，我们可以给出当下的奖励 $\mathbf{r_{t}}$ 和下一个时刻的状态$s_{\mathrm{t+1}}$ ；
 
-3. 根据上一步 $\boldsymbol{\mathrm{r}}_{\mathrm{t}}$ ，我们可以对模型参数进行迭代。
+3. 根据上一步 $\mathbf{r_{t}}$ ，我们可以对模型参数进行迭代。
 
 ## 强化学习算法在量化中的应用
 
@@ -172,13 +172,13 @@ $$
 
 ## 动作价值函数（action-value function）
 
-在 t 时刻，假如我们知道基于指定策略 π 采取动作 $\mathsf{a}_{\mathrm{t}}$ 的未来回报 $\mathrm{U_{t}}$ 的值，那么我们即可做出在该策略下的最优动作。但问题是，未来回报 $\mathrm{U_{t}}$ 是一个随机变量，随机性来自于未来状态和动作，因此我们可以通过计算未来回报 $\mathrm{U_{t}}$ 的期望值来消除随机性，判断目前状态下采取某种动作的好坏。
+在 t 时刻，假如我们知道基于指定策略 π 采取动作 $\mathbf{a_{t}}$ 的未来回报 $\mathrm{U_{t}}$ 的值，那么我们即可做出在该策略下的最优动作。但问题是，未来回报 $\mathrm{U_{t}}$ 是一个随机变量，随机性来自于未来状态和动作，因此我们可以通过计算未来回报 $\mathrm{U_{t}}$ 的期望值来消除随机性，判断目前状态下采取某种动作的好坏。
 
 $$
-\mathrm{Q}_{\mathrm{{\pi}}}(\mathrm{s}_{\mathrm{t}},\mathrm{a}_{\mathrm{t}})=\mathrm{E}_{\mathrm{{S}_{t+1}},A_{t+1},\ldots,{S}_{n},A_{n}}(\mathrm{U}_{\mathrm{t}}|\mathrm{S}_{\mathrm{t}}=\mathrm{s}_{\mathrm{t}},\mathrm{A}_{\mathrm{t}}=\mathrm{a}_{\mathrm{t}})
+\mathrm{Q}_{\pi}(\mathrm{s}_{\mathrm{t}},\mathrm{a}_{\mathrm{t}})=\mathrm{E}_{\mathrm{S}_{\mathrm{t}+1},\mathrm{A}_{\mathrm{t}+1},\ldots,\mathrm{S}_{\mathrm{n}},\mathrm{A}_{\mathrm{n}}}(\mathrm{U}_{\mathrm{t}}|\mathrm{S}_{\mathrm{t}}=\mathrm{s}_{\mathrm{t}},\mathrm{A}_{\mathrm{t}}=\mathrm{a}_{\mathrm{t}})
 $$
 
-期望中 ${\sf S}_{\mathrm{t}}={\sf s}_{\mathrm{t}},{\sf A}_{\mathrm{t}}={\sf a}_{\mathrm{t}}$ 是条件，意思是已经观测到状态 $\mathsf{S}_{\mathrm{t}}$ 和动作 $\mathrm{A_{t}}$ 的值，条件期望的结果 $\cdot\sf{Q}_{\pi}(s_{\mathrm{t}},a_{\mathrm{t}})$ 被称为动作价值函数。
+期望中 $\mathrm{S_{t}=s_{t},A_{t}=a_{t}}$ 是条件，意思是已经观测到状态 $\mathsf{S_{t}}$ 和动作 $\mathrm{A_{t}}$ 的值，条件期望的结果 $\mathbf{:}\mathsf{Q}_{\pi}(\mathsf{s}_{\mathrm{t}},\mathsf{a}_{\mathrm{t}})$ 被称为动作价值函数。
 
 t 时刻的动作价值函数依赖于以下三个因素：
 
@@ -193,42 +193,42 @@ t 时刻的动作价值函数依赖于以下三个因素：
 如何才能排除掉策略 π 的影响，只评价当前状态和动作的好坏呢？我们可以定义最优动作价值函数。
 
 $$
-\mathbb{Q}_{*}(s_{\mathrm{t}},\mathrm{a}_{\mathrm{t}})=\operatorname*{max}_{\pi}Q_{\pi}(s_{t},a_{t}),\mathrm{~}\forall s_{t}\epsilon S,a_{t}\epsilon A.
+\mathsf{Q}_{*}(\mathsf{s}_{\mathsf{t}},\mathsf{a}_{\mathsf{t}})=\operatorname*{max}_{\pi}Q_{\pi}(\mathsf{s}_{t},\mathsf{a}_{t}),\quad\forall\quad s_{t}\epsilon S,a_{t}\epsilon A.
 $$
 
-意思就是任何情况下选择最好的策略函数，未来回报的期望值。因此最优动作价值函数$\mathtt{Q}_{*}(\mathtt{s}_{\mathrm{t}},\mathtt{a}_{\mathrm{t}})$ 只依赖于状态 $s_{\mathrm{t}}$ 和动作 ${\sf a_{t}}$ ，与策略 π 无关。
+意思就是任何情况下选择最好的策略函数，未来回报的期望值。因此最优动作价值函数$\mathsf{Q}_{*}(\mathsf{s}_{\mathrm{t}},\mathsf{a}_{\mathrm{t}})$ 只依赖于状态 $s_{\mathrm{t}}$ 和动作 $\mathbf{a_{t}}$ ，与策略 π 无关。
 
-通俗来讲，最优动作价值函数就是正确答案，如果我们知道最优动作价值函数，就可以在任何状态下选择 Q值最高的动作，最大化未来回报。但实际情况是，我们不知道最优动作价值函数 $\mathtt{Q}_{*}(\mathtt{s}_{\mathrm{t}},\mathtt{a}_{\mathrm{t}})$ ，因此 Q 学习的目的就是学到最优动作价值函数 $\mathrm{\Delta Q_{*}}$ ，用 Q 表格来近似 $\boldsymbol{{0}}_{\ast}$ 。进一步思考，在很多任务中，Q函数十分复杂，所以我们可以用神经网络替代 Q 表格去近似 Q函数，这就是 DQN。
+通俗来讲，最优动作价值函数就是正确答案，如果我们知道最优动作价值函数，就可以在任何状态下选择 Q值最高的动作，最大化未来回报。但实际情况是，我们不知道最优动作价值函数 $(\mathsf{Q}_{*}(\mathsf{s}_{\mathrm{t}},\mathsf{a}_{\mathrm{t}})$ ，因此 Q 学习的目的就是学到最优动作价值函数 $\mathrm{{^{\cdot}Q}}_{*}$ ，用 Q 表格来近似 $\mathrm{Q}_{*}$ 。进一步思考，在很多任务中，Q函数十分复杂，所以我们可以用神经网络替代 Q 表格去近似 Q函数，这就是 DQN。
 
 ## DQN
 
 TD 算法是最常用训练 DQN 的方法，回顾对回报 return 的定义：
 
 $$
-\mathrm{U_{t}}=\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+i}=\mathrm{R_{t}}+\gamma\mathrm{R_{t+1}}+\gamma^{2}R_{t+2}+\cdots=R_{t}+\gamma\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+1+i}=R_{t}+\gamma\cdot U_{t+1}.
+\mathrm{U}_{\mathrm{t}}=\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+i}=\mathrm{R}_{\mathrm{t}}+\gamma\mathrm{R}_{\mathrm{t}+1}+\gamma^{2}R_{t+2}+\cdots=R_{t}+\gamma\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+1+i}=R_{t}+\gamma\cdot U_{t+1}
 $$
 
-结合最优价值函数 $\cdot\mathrm{Q}_{\ast}(\mathrm{s}_{\mathrm{t}},\mathrm{a}_{\mathrm{t}})=\operatorname*{max}_{\pi}Q_{\pi}(\boldsymbol{s}_{t},\boldsymbol{a}_{t})=\operatorname*{max}_{\pi}\mathrm{E}(\mathrm{U}_{\mathrm{t}}|\mathrm{S}_{\mathrm{t}}=\mathrm{s}_{\mathrm{t}},\mathrm{A}_{\mathrm{t}}=\mathrm{a}_{\mathrm{t}})$ ，根据附录 A推导，可以得到最优贝尔曼方程（optimal Bellman equations）的一种形式。
+结合最优价值函数 $\mathrm{Q}_{*}(s_{\mathrm{t}},a_{\mathrm{t}})=\max_{\pi}Q_{\pi}(s_{\mathrm{t}},a_{\mathrm{t}})=\max_{\pi}\mathrm{E}(\mathrm{U}_{\mathrm{t}}|S_{\mathrm{t}}=s_{\mathrm{t}},A_{\mathrm{t}}=a_{\mathrm{t}})$ ，根据附录 A推导，可以得到最优贝尔曼方程（optimal Bellman equations）的一种形式。
 
 定理.最优贝尔曼方程
 
 $$
-\mathsf{Q}_{*}(\mathsf{s}_{\mathrm{t}},\mathsf{a}_{\mathrm{t}})=\mathrm{E}_{\mathsf{S}_{\mathrm{t}+1}\sim p(\cdot|s_{t},a_{t})}[R_{t}+\gamma\cdot\operatorname*{max}_{A\in\mathcal{A}}Q_{*}(S_{t+1},A)|S_{t}=s_{t},A_{t}=a_{t}]
+\mathrm{Q}_{*}(s_{\mathrm{t}},a_{\mathrm{t}})=\mathbb{E}_{S_{\mathrm{t}+1}\sim p(\cdot|s_{t},a_{t})}\left[R_{t}+\gamma\cdot\max_{A\in\mathcal{A}}Q_{*}(S_{t+1},A)\left|S_{t}=s_{t},A_{t}=a_{t}\right.\right]
 $$
 
-通俗来理解，TD 算法的 DQN 就是让 Q 网络对 t 时刻的未来回报预测值 $\widehat{U_{t}}$ 和考虑折扣因子后的下一时刻的未来回报预测值 $\gamma U_{t+1}\dot{2}$ 差尽量接近真实奖励 $\mathtt{R_{t}}$ 。因此更新 Q 网络的 MSE 损失函数为：
+通俗来理解，TD 算法的 DQN 就是让 Q 网络对 t 时刻的未来回报预测值 $\widehat{U_{t}}$ 和考虑折扣因子后的下一时刻的未来回报预测值 $\widehat{\gamma\mathcal{V}_{t+1}}之$ 差尽量接近真实奖励 $\mathtt{R_{t}}$ 。因此更新 Q 网络的 MSE 损失函数为：
 
 $$
-\cos=\frac{\sum\left(\widehat{U_{t}}-\gamma\widehat{U_{t+1}}-R_{t}\right)^{2}}{n}
+loss=\frac{\sum\left(\widehat{U_{t}}-\gamma\widehat{U_{t+1}}-R_{t}\right)^{2}}{n}
 $$
 
 DQN 的训练过程
 
-给定一个四元组 $(s_{t},a_{t},r_{t},s_{t+1})$ ，我们可以利用 Q网络计算出
+给定一个四元组 $[(s_{t},a_{t},r_{t},s_{t+1})$ ，我们可以利用 Q网络计算出
 
-t 时刻的预测值： $\widehat{q_{t}}=\mathbb{Q}(s_{\mathrm{t}},\mathsf{a}_{\mathrm{t}};\theta)$ ，θ是神经网络的待训练参数。
+t 时刻的预测值： $\widehat{q}_{t}=\mathsf{Q}(\mathsf{s}_{\mathsf{t}},\mathsf{a}_{\mathsf{t}};\mathsf{\theta})$ ，θ是神经网络的待训练参数。
 
-- TD 目标： $\widehat{y_{t}}={\mathrm{r}_{t}}+\gamma{\operatorname*{max}_{a\in\mathcal{A}}}{\operatorname{Q}^{-}}(s_{{\mathrm{t}+1}},\mathrm{a};\theta^{-})$ ，θ−是目标 Q网络的参数。
+- TD 目标： $\hat{y}_{t}=\mathbf{r}_{t}+\gamma\max_{a\in\mathcal{A}}\mathrm{Q}^{-}\left(\mathbf{s}_{t+1},a;\boldsymbol{\Theta}^{-}\right)$ ，θ−是目标 Q网络的参数。
 
 - TD 误差： $\delta_{\mathrm{t}}=\widehat{q_{t}}-\widehat{y_{t}}$
 
@@ -238,29 +238,29 @@ t 时刻的预测值： $\widehat{q_{t}}=\mathbb{Q}(s_{\mathrm{t}},\mathsf{a}_{\
 
 1. 初始化最大容量为 N 的经验放回池 D
 
-2. 随机初始化Q网络的参数θ，初始化目标Q−网络的参数 ${\bf\theta}^{-}={\bf\theta}$
+2. 随机初始化Q网络的参数θ，初始化目标Q−网络的参数 $\pmb{\Theta}^{-}=\pmb{\Theta}$
 
-遍历 $\mathbf{episode}=1$ 到 M 开始
+遍历 ${\mathsf{episode}}=1$ 到 M 开始
 
 遍历 t = 1 到 T 开始
 
-i.以概率ε选择一个随机动作 $\mathbf{\Delta}\cdot\mathbf{a}_{t}$ ，或以概率 1-ε选择 $\mathbf{argmax}Q(s_{t},a)$ 为 $\mathbf{}\mathbf{a}_{t}$
+i.以概率ε选择一个随机动作 $\mathbf{\dot{a}}_{t}$ ，或以概率 1-ε选择 $\operatorname*{argmax}_{a}Q(s_{t},a)$ 为 $\mathbf{a}_{t}$
 
 $$
-\mathbf{a_{t}}=\left\{\begin{array}{cc}{\mathbf{argmax}Q(s_{t},a),}&{\quad\mathcal{L}\mathcal{L}\mathbf{\mathcal{H}}\mathbf{\mathcal{Z}}\mathbf{\dot{\mathcal{E}}}\mathbf{1}-\boldsymbol{\varepsilon}}\\{a}&{\quad}\\{\qquad\mathcal{B}\mathbf{\dot{Z}}\mathbf{\dot{\mathcal{D}}}\mathbf{\dot{Z}}\mathbf{\dot{\mathcal{D}}}\mathbf{\mathcal{H}}\mathbf{\mathcal{F}},}&{\quad\mathcal{L}\mathcal{L}\mathbf{\dot{\mathcal{H}}}\mathbf{\mathcal{Z}}\mathbf{\dot{\mathcal{E}}}\mathbf{\mathcal{E}}}\end{array}\right.
+\mathbf{a}_{t}=\left\{\begin{aligned}\underset{a}{\arg\max}Q(s_{t},a),\quad 以频率1-\varepsilon\\随机动作\quad 以频率\varepsilon\end{aligned}\right.
 $$
 
-ii. 执行动作 $\scriptstyle:\mathbf{a}_{t}$ ，观测奖励 $\mathbf{\boldsymbol{r}}_{t}$ ，得到下一时刻状态 $\pmb{s}_{t+1}$
+ii. 执行动作 $\mathrm{i}\mathbf{a}_{t}$ ，观测奖励 $r_{t}$ ，得到下一时刻状态 $s_{t+1}$
 
 iii.将四元组 $(s_{t},a_{t},r_{t},s_{t+1})$ 存入经验放回池 D
 
 iv. 在 经 验 放 回 池 D 中 随 机 采 样 一 批 数 据 $(s_{i},a_{i},r_{i},s_{i+1}),i=$ 1, 2, … batchsize
 
-v. 计算 $\widehat{l_{t}}=\mathbf{Q}(s_{\mathrm{t}},\mathbf{a}_{\mathrm{t}};\mathbf{\theta})\overrightarrow{\ast}\Vert\widehat{y_{t}}=\mathbf{r}_{\mathrm{t}}+\gamma\underset{a\epsilon\mathcal{A}}{\operatorname*{max}}\mathbf{Q}^{-}(s_{\mathrm{t}+1},\mathbf{a};\mathbf{\theta}^{-})$
+v. 计算 $\widehat{y}_{t}=\mathbf{Q}(s_{t},a_{t};\boldsymbol{\Theta})和\widehat{y}_{t}=\mathbf{r}_{t}+\gamma\max_{a\in\mathcal{A}}\mathbf{Q}^{-}(s_{t+1},a;\boldsymbol{\Theta}^{-})$
 
-$\mathsf{\pmb{v}}\mathsf{\pmb{i}}.$ 计算对网络 Q进行反向传播的损失函数 $\delta_{\mathrm{t}}^{2}=(\widehat{\pmb q_{t}}-\widehat{\pmb y_{t}})^{2}$ ，更新θ
+$\mathbf{vi}.$ 计算对网络 Q进行反向传播的损失函数 $\pmb{\delta}_{\mathbf{t}}^{2}=(\widehat{\pmb{q}_{t}}-\widehat{\pmb{y}_{t}})^{2}$ ，更新θ
 
-vii.θ每更新 C次，更新目标Q−网络参数 $\mathbf{\partial}\cdot\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial}\mathbf{\partial\partial}\mathbf{\partial}\mathbf{\partial\partial}\mathbf{\partial\partial}\mathbf{\partial\partial}\mathbf{\partial\partial}\mathbf{\partial\partial}\mathbf{\partial\partial}\mathbf{\partial\partial}\mathbf{\partial\partial}$
+vii.θ每更新 C次，更新目标Q−网络参数 $\boldsymbol{\mathbf{\Theta}}^{-}=\boldsymbol{\mathbf{\Theta}}$
 
 结束循环
 
@@ -301,7 +301,7 @@ DQN 学习算法容易出现高估 Q 值的缺陷，这主要来源于自举导�
 - 奖励：结合当日交易成本的未来 5 日收益率
 
 $$
-\mathrm{~r_{t}=}\left\{\begin{array}{c}{{a_{t}\cdot return_{5}-\left|a_{t}\right|\cdot cost,a\epsilon[-1,0,1],t<5}}\\{{a_{t}\cdot return_{5}-\left|a_{t}-a_{t-5}\right|\cdot cost,a\epsilon[-1,0,1],t\geq5}}\end{array}\right.
+\mathbf{r}_{\mathbf{t}}=\left\{\begin{aligned}a_{t}\cdot return_{5}-|a_{t}|\cdot cost,\ a\epsilon[-1,0,1]\ ,\ t<5\\a_{t}\cdot return_{5}-|a_{t}-a_{t-5}|\cdot cost,\ a\epsilon[-1,0,1]\ ,\ t\geq5\end{aligned}\right.
 $$
 
 ## 网络结构
@@ -395,22 +395,22 @@ $$
 已知 t 时刻的未来回报公式如下：
 
 $$
-\mathrm{U_{t}}=\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+i}=\mathrm{R_{t}}+\gamma\mathrm{R_{t+1}}+\gamma^{2}R_{t+2}+\cdots=R_{t}+\gamma\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+1+i}=R_{t}+\gamma\cdot U_{t+1}.
+\mathrm{U}_{\mathrm{t}}=\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+i}=\mathrm{R}_{\mathrm{t}}+\gamma\mathrm{R}_{\mathrm{t}+1}+\gamma^{2}R_{t+2}+\cdots=R_{t}+\gamma\sum_{i=0}^{T}\gamma^{i}\cdot R_{t+1+i}=R_{t}+\gamma\cdot U_{t+1}
 $$
 
-对 $\cdot\gamma\cdot U_{t+1}$ 连续展开多次即可发现：
+对 $\gamma\cdot U_{t+1}$ 连续展开多次即可发现：
 
 $$
-\mathrm{U_{t}}=R_{t}+\gamma\cdot U_{t+1}=\left(\sum_{i=0}^{m-1}\gamma\cdot R_{t+i}\right)+\gamma^{m}\cdot U_{t+m}
+\mathrm{U}_{\mathrm{t}}=R_{t}+\gamma\cdot U_{t+1}=\left(\sum_{i=0}^{m-1}\gamma\cdot R_{t+i}\right)+\gamma^{m}\cdot U_{t+m},
 $$
 
-假设我们采用 n 步 TD 目标的 DQN，，给定一个四元组 $(s_{t},a_{t},r_{t},s_{t+1})$ ，我们可以利用 Q网络计算出下一个四元组 $(s_{t+1},a_{t+1},r_{t+1},s_{t+2})$ ，依次类推到未来 n 个四元组，构成一个包含 n 步的轨迹： $(s_{t},a_{t},r_{t},s_{t+1},a_{t+1},r_{t+1},\dots,s_{t+n},a_{t+n},r_{t+n})$
+假设我们采用 n 步 TD 目标的 DQN，，给定一个四元组 $(s_{t},a_{t},r_{t},s_{t+1})$ ，我们可以利用 Q网络计算出下一个四元组 $(s_{t+1},a_{t+1},r_{t+1},s_{t+2})$ ，依次类推到未来 n 个四元组，构成一个包含 n 步的轨迹： $(s_{t},a_{t},r_{t},s_{t+1},a_{t+1},r_{t+1},\ldots,s_{t+n},a_{t+n},r_{t+n})$
 
-t 时刻的预测值： $\widehat{q_{t}}=\mathbb{Q}(s_{\mathrm{t}},\mathsf{a}_{\mathrm{t}};\theta)$ ，θ是神经网络的待训练参数;
+t 时刻的预测值： $\widehat{q}_{t}=\mathsf{Q}(\mathsf{s}_{\mathsf{t}},\mathsf{a}_{\mathsf{t}};\mathsf{\theta})$ ，θ是神经网络的待训练参数;
 
-- TD 目标： $\begin{array}{r}{\widehat{y_{t}}=\sum_{i=0}^{m-1}\gamma\cdot r_{t+i}+\gamma^{m}\underset{a\epsilon,\mathscr{A}}{\operatorname*{max}}Q^{-}(s_{{\mathrm{t}}+1},\mathsf{a};\theta^{-})}\end{array}$ ，θ−是目标 Q网络的参数；
+- TD 目标： $\widehat{y_{t}}=\sum_{i=0}^{m-1}\gamma\cdot r_{t+i}+\gamma^{m}\max_{a\in\mathcal{A}}\mathbb{Q}^{-}(s_{t+1},a;\theta^{-})$ ，θ−是目标 Q网络的参数；
 
-- TD 误差： $\delta_{\mathrm{t}}=\widehat{q}_{t}-\widehat{y_{t}};$
+- TD 误差： $\delta_{\mathrm{t}}=\widehat{q_{t}}-\widehat{y_{t}};$
 
 - MSE 损失函数： $\mathrm{loss}=\delta_{\mathrm{t}}^{2}=(\widehat{q_{t}}-\widehat{y_{t}})^{2}$
 
@@ -498,10 +498,10 @@ t 时刻的预测值： $\widehat{q_{t}}=\mathbb{Q}(s_{\mathrm{t}},\mathsf{a}_{\
 
 定理 A.1. 贝尔曼方程
 
-假设 $\mathbf{R_{t}}$ 是 $\pmb{S}_{\mathbf{t}},\mathbf{A}_{\mathbf{t}},\pmb{S}_{\mathbf{t+1}}$ 的函数。那么
+假设 $\mathbf{R_{t}}$ 是 $\mathbf{S_{t}},\mathbf{A_{t}},\mathbf{S_{t+1}}$ 的函数。那么
 
 $$
-Q_{\pi}(s_{t},a_{t})=E_{S_{t+1},A_{t+1}}[R_{t}+\gamma\cdot Q_{\pi}(S_{t+1},A_{t+1})|S_{t}=s_{t},A_{t}=a_{t}]
+\pmb{Q}_{\pmb{\pi}}(\pmb{s}_{t},\pmb{a}_{t})=\pmb{E}_{S_{t+1},A_{t+1}}[\pmb{R}_{t}+\pmb{\gamma}\cdot\pmb{Q}_{\pmb{\pi}}(S_{t+1},A_{t+1})|S_{t}=\pmb{s}_{t},A_{t}=\pmb{a}_{t}]
 $$
 
 证明：根据回报的定义 $\begin{array}{r}{\mathrm{U}_{\mathrm{t}}=\sum_{k=t}^{n}\gamma^{k-t}\cdot R_{k}}\end{array}$ ，不难验证这个等式：
@@ -510,36 +510,36 @@ $$
 U_{t}=R_{t}+\gamma\cdot U_{t+1}
 $$
 
-用符号 $\mathcal{S}_{\mathrm{t}+1:}=\{S_{t+1},S_{t+2},\ldots\}$ }和 $\mathcal{A}_{\mathrm{t}+1:}=\{A_{t+1},A_{t+2},..$ }表示从 t+1 时刻起所有的状态和动作随机变量。根据动作价值函数 $\boldsymbol{\mathrm{Q}}_{\pi}$ 的定义，
+用符号 $\cdot\mathcal{S}_{\mathsf{t}+1:}=\{S_{t+1},S_{t+2},\dots\}$ }和 $\mathcal{A}_{\mathsf{t}+1:}=\{A_{t+1},A_{t+2},\ldots$ }表示从 t+1 时刻起所有的状态和动作随机变量。根据动作价值函数 $\mathsf{Q}_{\mathfrak{m}}$ 的定义，
 
 $$
-Q_{\pi}(s_{t},a_{t})=E_{\mathcal{S}_{t+1},\mathcal{A}_{t+1};}[U_{t}|S_{t}=s_{t},A_{t}=a_{t}]
+Q_{\pi}(s_{t},a_{t})=E_{\mathcal{S}_{t+1:},\mathcal{A}_{t+1:}}[U_{t}|S_{t}=s_{t},A_{t}=a_{t}]
 $$
 
-把 $U_{t}$ 替换成 $\mathrm{R}_{\mathrm{t}}+\gamma\cdot\mathrm{U}_{\mathrm{t}+1}$ ，那么
+把 $U_{t}$ 替换成 $\mathtt{R_{t}}+\gamma\cdot\mathtt{U_{t+1}}$ ，那么
 
 $$
-Q_{\pi}(s_{t},a_{t})=E_{\mathcal{S}_{t+1},\mathcal{A}_{t+1}}[U_{t}|S_{t}=s_{t},A_{t}=a_{t}]
+Q_{\pi}(s_{t},a_{t})=E_{\mathcal{S}_{t+1:},\mathcal{A}_{t+1:}}[U_{t}|S_{t}=s_{t},A_{t}=a_{t}]
 $$
 
 $$
-=E_{\delta_{t+1},\circ}\mathcal{A}_{t+1}.[R_{t}|S_{t}=s_{t},A_{t}=a_{t}]+\gamma\cdot E_{\delta_{t+1},\circ}\mathcal{A}_{t+1}.[U_{t+1}|S_{t}=s_{t},A_{t}=a_{t}]\tag{A.1}
+=E_{\mathcal{S}_{t+1},\mathcal{A}_{t+1},}[R_t|S_t=s_t,A_t=a_t]+\gamma\cdot E_{\mathcal{S}_{t+1},\mathcal{A}_{t+1},}[U_{t+1}|S_t=s_t,A_t=a_t]\tag{A.1}
 $$
 
-假设 $\mathrm{R}_{\mathrm{t}}$ 是 $\mathrm{S}_{\mathrm{t}},\mathrm{A}_{\mathrm{t}},\mathrm{S}_{\mathrm{t}+1}$ 的函数。那么，给定 $s_{t}$ 和 $\vert a_{t}$ ，则 $\mathrm{R}_{\mathrm{t}}$ 随机性唯一的来源就是 $S_{\mathrm{t}+1}$ ，所以 ES ,A [Rt|St = st, At = at] = ES [Rt|St = st, At = at] （A.2）
+假设 $\mathtt{R_{t}}$ 是 $\mathsf{S}_{\mathrm{t}},\mathsf{A}_{\mathrm{t}},\mathsf{S}_{\mathrm{t}+1}$ 的函数。那么，给定 $s_{t}$ 和 $|a_{t}$ ，则 $\mathtt{R_{t}}$ 随机性唯一的来源就是 $\cdot S_{\mathrm{t+1}}$ ，所以 ES ,A [Rt|St = st, At = at] = ES [Rt|St = st, At = at] （A.2）
 
 等式（A.1）右边 $U_{t+1}$ 的期望可以写成
 
 $$
-E_{\mathcal{S}_{t+1;},\mathcal{A}_{t+1;}}[U_{t+1}|S_{t}=s_{t},A_{t}=a_{t}]=
+E_{\mathcal{S}_{t+1:},\mathcal{A}_{t+1:}}[U_{t+1}|S_{t}=s_{t},A_{t}=a_{t}]=
 $$
 
 $$
-\begin{array}{r}{E_{S_{t+1},A_{t+1};}\big[E_{\mathcal{S}_{t+2},\mathcal{A}_{t+2};}[U_{t+1}|S_{t+1},A_{t+1}]\big|S_{t}=s_{t},A_{t}=a_{t}\big]=}\end{array}
+E_{S_{t+1},A_{t+1};}\big[E_{S_{t+2},\mathcal{A}_{t+2};}[U_{t+1}|S_{t+1},A_{t+1}]\big|S_{t}=s_{t},A_{t}=a_{t}\big]=
 $$
 
 $$
-E_{S_{t+1:},A_{t+1:}}[Q_{\pi}(S_{t+1},A_{t+1})|S_{t}=s_{t},A_{t}=a_{t}]\tag{A.3}
+E_{S_{t+1;},A_{t+1;}}[Q_{\pi}(S_{t+1},A_{t+1})|S_{t}=s_{t},A_{t}=a_{t}]\tag{A.3}
 $$
 
 由公式（A.1）、（A.2）、（A.3）可得定理。
@@ -549,7 +549,7 @@ $$
 假设 $\mathbf{R_{t}}$ 是 $\mathbf{S_{t}},\mathbf{A_{t}},\mathbf{S_{t+1}}$ 的函数。那么
 
 $$
-Q_{*}(s_{t},a_{t})=E_{S_{t+1}\sim p(\cdot\vert s_{t},a_{t})}\left[R_{t}+\gamma\cdot\underset{A\epsilon\mathcal{A}}{max}Q_{*}(S_{t+1},A)\left.S_{t}=s_{t},A_{t}=a_{t}\right.\right.
+Q_{*}(s_{t},a_{t})=E_{S_{t+1}\sim p(\cdot|s_{t},a_{t})}\Big[R_{t}+\gamma\cdot\mathop{max}_{A\in\mathcal{A}}Q_{*}(S_{t+1},A)\:|S_{t}=s_{t},A_{t}=a_{t}\Big]
 $$
 
 证明：设最优策略函数为 $\pi^{*}=argmax_{\pi}Q_{\pi}(s,a)$ , ∀ $s\epsilon\mathcal{S},a\epsilon\mathcal{A}$ 。由贝尔曼方程可得：
@@ -561,10 +561,10 @@ $$
 根据定义，最优动作价值函数是
 
 $$
-Q_{*}(s,a)\triangleq\mathop{max}_{\pi}Q_{\pi}(s,a),\mathrm{~}\forall s\epsilon\mathcal{S},a\epsilon\mathcal{A}
+Q_{*}(s,a)\triangleq\underset{\pi}{max}Q_{\pi}(s,a),\quad\forall\quad s\epsilon\mathcal{S},a\epsilon\mathcal{A}
 $$
 
-所以 $Q_{\pi*}(s_{t},a_{t}.$ )就是Q∗(s, a)。于是
+所以 $Q_{\pi*}(s_{t},a_{t})$ )就是Q∗(s, a)。于是
 
 $$
 Q_{*}(s_{t},a_{t})=E_{S_{t+1},A_{t+1}}[R_{t}+\gamma\cdot Q_{*}(S_{t+1},A_{t+1})|S_{t}=s_{t},A_{t}=a_{t}]
@@ -573,7 +573,7 @@ $$
 因为动作 $A_{t+1}=argmax_{A}Q_{*}(S_{t+1},A)$ 是状态 $S_{t+1}$ 的确定性函数，所以
 
 $$
-Q_{*}(s_{t},a_{t})=E_{S_{t+1}}\left[R_{t}+\gamma\cdot\smash{max}Q_{*}(S_{t+1},A)\mathinner{|{S_{t}=s_{t},A_{t}=a_{t}}\right]}
+Q_{*}(s_{t},a_{t})=E_{S_{t+1}}\left[R_{t}+\gamma\cdot\mathop{max}_{A\in\mathcal{A}}Q_{*}(S_{t+1},A)|S_{t}=s_{t},A_{t}=a_{t}\right]
 $$
 
 ——《深度强化学习》王树森 黎彧君 张志华著

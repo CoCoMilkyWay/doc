@@ -109,13 +109,13 @@ MSCI 综合因子拥挤模型结合了五种因子拥挤度量。这五种度量
 显而易见，受资本追逐的证券要比不受追逐的证券更加昂贵，因此估值价差是一个在直观上非常有力的拥挤度的度量。在本文的模型中，该指标衡量的是给定因子后，排名前五分之一的股票相对于后五分之一的股票的昂贵程度。对于 BP 和 SP 指标，具体的计算公式是
 
 $$
-\log\left(\frac{\mathrm{median}(X_{\mathrm{i}}|\mathrm{qf_{i}}\leq0.2)}{\mathrm{median}(X_{\mathrm{i}}|\mathrm{qf_{i}}\geq0.8)}\right)
+\log\left(\frac{\operatorname{median}(\mathrm{X}_{\mathrm{i}}|\mathrm{qf}_{\mathrm{i}}\leq0.2)}{\operatorname{median}(\mathrm{X}_{\mathrm{i}}|\mathrm{qf}_{\mathrm{i}}\geq0.8)}\right)
 $$
 
 其中 log 代表自然对数，median 代表中位数，X=BP 或者 SP，i 代表股票代码，qf代表股票 i的因子分位数（分位数最高为 1，最低为 0）。在上述公式中，正值越大，因子的拥挤程度就越高，这是因为分母相对于分子较小。此处使用中位数的比值而不是算术差，是因为差值对整体市场估值较为敏感，但比值不会。但由于每股收益在理论上可能变为负值或接近于零，因此 EP 指标将使用算术差而不是比值来估计因子的拥挤程度如下：
 
 $$
-\mathrm{median(X_{i}|qf_{i}\leq0.2)-median(X_{i}|qf_{i}\geq0.8)}
+\mathrm{median}(\mathrm{X_i}|\mathrm{qf_i}\leq0.2)-\mathrm{median}(\mathrm{X_i}|\mathrm{qf_i}\geq0.8)
 $$
 
 进一步地，需要对上述三种估值拥挤度度量分别进行标准化，并使用其平均值作为最终的估值价差。图一中给出了一些常见因子的估值价差度量与因子未来的收益率和波动性的相关性。
@@ -131,16 +131,16 @@ $$
 做空率差衡量了给定因子后，因子水平头尾两端股票的做空比率在筛除价值、规模和动量的影响后的差异。此处的头尾也是使用和估值价差一样的五分位数方法进行划断。由于对冲基金是做空的主力，当股票的做空率上升的时候，这表明对冲基金有可能在该股票上投入了大量资金。具体来说，利用横截面回归，有如下表达式：
 
 $$
-\begin{array}{rl}&{\mathrm{SI}=\mathrm{a}_{\mathrm{f}}+\mathrm{k}_{\mathrm{Q1}}\mathrm{I}_{\mathrm{Q1,f}}+\cdots+\mathrm{k}_{\mathrm{Q5}}\mathrm{I}_{\mathrm{Q5,f}}}\\&{\mathrm{~\ ~\ }+\mathrm{k}_{\mathrm{Q1}}\mathrm{I}_{\mathrm{Q1,m}}+\cdots+\mathrm{k}_{\mathrm{Q5}}\mathrm{I}_{\mathrm{Q5,m}}}\\&{\mathrm{~\ ~\ }+\mathrm{k}_{\mathrm{Q1}}\mathrm{I}_{\mathrm{Q1,v}}+\cdots+\mathrm{k}_{\mathrm{Q5}}\mathrm{I}_{\mathrm{Q5,v}}}\\&{\mathrm{~\ ~\ }+\mathrm{k}_{\mathrm{Q1}}\mathrm{I}_{\mathrm{Q1,{s}}}+\cdots+\mathrm{k}_{\mathrm{Q5}}\mathrm{I}_{\mathrm{Q5,s}}}\end{array}
+\begin{array}{rl}&{\mathrm{SI}=\mathrm{a_{f}}+\mathrm{k_{Q1}I_{Q1,f}}+\cdots+\mathrm{k_{Q5}I_{Q5,f}}}\\&{\quad+\mathrm{k_{Q1}I_{Q1,m}}+\cdots+\mathrm{k_{Q5}I_{Q5,m}}}\\&{\quad+\mathrm{k_{Q1}I_{Q1,v}}+\cdots+\mathrm{k_{Q5}I_{Q5,v}}}\\&{\quad+\mathrm{k_{Q1}I_{Q1,s}}+\cdots+\mathrm{k_{Q5}I_{Q5,s}}}\end{array}
 $$
 
 而最终的做空率差等于
 
 $$
-\mathrm{SIS}=\mathrm{k_{Q1,f}-k_{Q5,f}}
+\mathrm{SIS}=\mathrm{k}_{\mathrm{Q1,f}}-\mathrm{k}_{\mathrm{Q5,f}}
 $$
 
-其中 $\operatorname{I}_{\mathrm{Qj,x}}$ 代表由因子 x 形成的第j（=1,2,3,4,5）个五分位区间的示性函数当且仅当股票的因子水平属于对应区间时为1否则为0，SI代表做空率，SIS 代表做空率差。在数据训练时，本文使用了后继的 63 个交易日以减少噪声和增加回归系数的稳定性。
+其中 $\mathrm{I}_{\mathrm{Qj,x}}$ 代表由因子 x 形成的第j（=1,2,3,4,5）个五分位区间的示性函数当且仅当股票的因子水平属于对应区间时为1否则为0，SI代表做空率，SIS 代表做空率差。在数据训练时，本文使用了后继的 63 个交易日以减少噪声和增加回归系数的稳定性。
 
 在做空率差的正规化处理上，本文使用了依赖于单个因子的均值数据，但使用了不依赖单个因子，而由所有因子共同决定的标准差数据，这样做的原因是为了保留一些因子绝对水平的信息。事实上，此处使用的标准差数据等于所有因子的标准差的算数平均。
 

@@ -85,13 +85,13 @@ Harvey, Hoyle, Korgaonkar, Rattray, Sargaison & Van Hemert (2018). The Impact of
 本文中使用波动率加权(如下方公式)的方式具体实施目标波动率方法。使用提前24 个小时的条件波动率估计 $(\sigma_{t-2})$ 作为当下波动率的估计。公式中kscaled的加入是为了将组合的全样本波动率设置为 10%以便于目标波动率的跨资产比较。
 
 $$
-\displaystyle r_{t}^{scaled}~=~r_{t}\times\frac{\sigma^{target}}{\sigma_{t-2}}\times k^{scaled}
+r_{t}^{scaled}=r_{t}\times\frac{\sigma^{target}}{\sigma_{t-2}}\times k^{scaled}
 $$
 
 与之作为对比的是，不以波动率给管理的固定加权的组合收益kunscaled的加入也是为了将组合的全样本波动率设置为 10%以便于比较。具体公式如下：
 
 $$
-r_{t}^{\mathrm{unscaled}}=r_{t}\times k^{unscaled}
+r_{t}^{\mathrm{unscaled}}=r_{t}\times k^{\mathrm{unscaled}}
 $$
 
 我们使用指数加权的样本实现波动率作为估计。作为鲁棒性检验，我们还尝试了使用不同权重计算波动率，对目标波动率的组合管理效果并无显著影响。此外，由于更高频率的数据可能有利于波动率的估计，我们也尝试使用标普500以及十年期美债期货的日内实现波动率作为两类资产的波动率估计。

@@ -55,13 +55,13 @@ Email:ll9773@htsec.com
 由于清算价值无法直接获得，我们可以使用净流动资产价值（net current assetvalue，NCAV）来粗略估算清算价值：
 
 $$
-\begin{array}{r}{\mathsf{NCAV1}=[\ddagger{NC},\boldsymbol{\widehat{\mathfrak{x}}}+0.75^{\star},\boldsymbol{\widehat{\mathfrak{x}}}]\star\sharp\mathbb{X}\mathbb{K}\frac{\mathtt{i}_{\star}}{\mathtt{x}_{\tau}}+0.5^{\star}\mathbb{F}\mathbb{F}\mathbb{F}\mathbb{F}\mathbb{F}\mathbb{-}(\frac{\mathtt{x}}{\mathtt{y}},\frac{\mathtt{x}_{\tau}}{\mathtt{y}},\frac{\mathtt{x}_{\tau}}{\mathtt{y}}+\frac{\mathtt{x}}{\mathtt{y}},\frac{\mathtt{x}_{\tau}}{\mathtt{y}},\frac{\mathtt{x}_{\tau}}{\mathtt{y}}]/\cdots\mathbb{F}\mathbb{F}\mathbb{F}\mathbb{F}\mathbb{F}\mathbb{F}\mathbb{X}\frac{\mathtt{i}_{\star}}{\mathtt{x}_{\tau}}+\mathtt{x},}\end{array}
+$\mathsf{NCAV1}{=}[现金{+}0.75^{\star}应收账款{+}0.5^{\star}存贷{-}(总负债{+}(化先股)]/流通股本$
 $$
 
 除了上述方法外，也可采用流动资产来计算，如：
 
 $$
-NCAV2=[0.75^{\ast}\therefore\frac{3}{25}]\div5^{\ast}-(\therefore\frac{3}{25}\times\frac{4}{35}+\frac{12}{65}\times\frac{4}{35})]/\therefore\frac{3}{25}\times\frac{1}{25}\times
+\mathrm{NCAV2}=[0.75^{\ast}流动资产-(总负债+优先股)]/总股本
 $$
 
 每年季报披露月份（4 月、8 月、10 月底），选择 NCAV 低于股价的公司，构建等权组合。如下图所示，在刚刚满足深度价值条件时，组合相对市场（wind全 A指数）的超额收益并不明显，甚至为负。可见，深度价值组合实现回报需要时间，通常有一个等待期。
@@ -142,7 +142,7 @@ $$
 如前所述，等权和市值加权方式下，低估值组合的业绩表现存异，这主要受市值风格影响。为剥离市场其他风格影响，进一步提取纯价值组合的收益表现，我们采用线性优化的方式，获取其它风格暴露为 0的低估值纯因子组合：
 
 $$
-\begin{array}{c}{\displaystyle{\operatorname*{max}_{w}w^{\prime}\cdot\mu\downarrow}}\\{\displaystyle{}}\\{\displaystyle{s.t.w^{\prime}\cdot e=1}}\\{\displaystyle{l\leq w\leq u}}\\{\displaystyle{\qquad\vdots\downarrow}}\end{array}
+\begin{aligned}\max_{w}w^{\prime}\cdot\mu&\downarrow\\s.t.w^{\prime}\cdot e&=1\\l\leq w&\leq w\\&\vdots\downarrow\end{aligned}
 $$
 
 其中，优化目标为最大化估值复合因子得分；约束条件包括：个股权重偏离上限（1%）、市值、换手率和 SUE风格中性，成分股权重不低于 80%。

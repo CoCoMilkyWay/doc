@@ -131,43 +131,43 @@ Lantushenko 和 Nelling 在 2020 年 12 月发表了《New Positions in MutualFu
 原始股票收益率：
 
 $$
-Returnonnewpostions_{f,t}^{unadj}=\sum_{j=0}^{j}w_{j,f,t-1}R_{j,t}\tag{1}
+Returnonnewpostions_{_{f,t}}^{^{unadj}}=\sum_{_{j=0}}^{^{f}}w_{_{j,f,t-1}}R_{_{j,t}}\tag{1}
 $$
 
-式中，J 表示在 $t-1$ 季度基金f 持有新进股票的数量， $\boldsymbol{w}_{\textit{ j , f , t - 1 }}$ 表示 $t-1$ 季度基金f 持仓中新进股票 j 的权重，而 $R_{\mathbf{\Phi}_{j,t}}$ 表示新进股票j 在季度 $.t-1$ 至期间的收益。
+式中，J 表示在 $t-1$ 季度基金f 持有新进股票的数量， $\mathcal{W}_{\textit{ j , f , t - 1 }}$ 表示 $t-1$ 季度基金f 持仓中新进股票 j 的权重，而 $R_{\phantom{\dag}_{j,t}}$ 表示新进股票j 在季度 $.t-1$ 至期间的收益。
 
 经市场调整的股票收益率：
 
 $$
-Returnonnewpostions_{_{f,t}}^{^{mit}}=\sum_{_{\textit{ j = 0 }}}^{^{\textit{ j }}}w_{_{_{j,f,t-1}}}\left(R_{_{j,t}}-R_{_{t}}^{^{\textit{ m b t }}}\right)\tag{2}
+Returnonnewpostions_{_{f,t}}^{^{^{mkt}}}=\sum_{_{j=0}}^{^{f}}w_{_{j,f,t-1}}\left(R_{_{j,t}}-R_{_{t}}^{^{mkt}}\right)\tag{2}
 $$
 
-式中， ${R_{t}}^{mkt}$ 表示季度 至t 期间市场收益率，由月度收益率复利计算得到。
+式中， $\boldsymbol{R}_{t}^{\textit{ m k t }}$ 表示季度 至t 期间市场收益率，由月度收益率复利计算得到。
 
 DGTW 调整的股票收益率：
 
 $$
-Return\textit{ o n }new\textit{ p o s t i o n s }_{f,t}^{oaTw}=\sum_{j=0}^{J}w_{j,f,t-1}\left(R_{j,t}-R_{t}^{\textit{ o G T w }}\right)\tag{3}
+Returnonnewpostions_{_{f,t}}^{^{DeTW}}=\sum_{_{_{j=0}}}^{^{f}}w_{_{j,f,t-1}}\left(R_{_{j,t}}-R_{_{t}}^{^{DGTW}}\right)\tag{3}
 $$
 
-式中， $\boldsymbol{R}_{t}^{\ DGTW}$ 表示新进股票f 对应 DGTW 基准组合的市场收益率，即从规模、账面市值比、动量三个维度将市场中股票划分为 125（5 5 5）个基准组合，将基准组合市值加权的收益率作为组合中股票的基准收益率（Daniel et al., 1997）。
+式中， $R_{\phantom{1}t}^{\phantom{1}DGTW}$ 表示新进股票f 对应 DGTW 基准组合的市场收益率，即从规模、账面市值比、动量三个维度将市场中股票划分为 125（5 5 5）个基准组合，将基准组合市值加权的收益率作为组合中股票的基准收益率（Daniel et al., 1997）。
 
 ## 2.3. 不同类型股票业绩对基金未来业绩的贡献
 
 本文将基金t •1季度的 Carhart 四因子模型 Alpha（由过去 36 个月数据计算得到）对t 季度新进股票、曾经持有股票、现有持仓股票的收益率进行回归分析，考察三种类型股票收益对基金业绩未来超额收益的贡献。模型如下：
 
 $$
-\begin{array}{rl}&{\alpha{\textit{ \textbf { \textit { \textbf { \phi } } } }}_{f,t+1}=\beta{0}+\beta{1}\Big(Return\textit{ o n }\ new\ positions{\textit{ \textbf { f } }}_{t}\Big)}\\&{\qquad\quad+\beta{2}\Big(Return\textit{ o n }\ formerly\ held\ holdings{\textit{ \textbf { f } }}_{t}\Big)}\\&{\qquad\quad+\beta{3}\Big(Return\textit{ o n }\ existing{\textbf{ h o l d i n g s }}_{f,t}\Big)+\psi\ Controls{\textit{ \textbf { f } }}_{f,t}+\varepsilon{\textit{ \textbf { f } }}_{t},}\end{array}\tag{4}
+\begin{aligned}\alpha_{_{\ f,t+1}}&=\beta_{_0}+\beta_{_1}\left(Returnonnewpositions_{_{f,t}}\right)\\&+\beta_{_2}\left(Returnonformerlyheldholdings_{_{f,t}}\right)\\&+\beta_{_3}\left(Returnonexistingholdings_{_{f,t}}\right)+\psi Controls_{_{f,t}}+\varepsilon_{_{f,t}}\\\end{aligned}\tag{4}
 $$
 
-式中， $\beta_{_1}\setminus\{\beta_{_2}\setminus\beta_{_3}\}$ 分别表示新进股票收益、曾经持仓股票收益、现有持仓股票收益的回归系数。此外，在上述回归模型的基础上，本文还控制其他主动管理能力（主动份额 Active Share、行业集中指数 IndustryConcentration Index、基金 $\boldsymbol{R}^{\mathrm{~2~}}$ 、收益差 Return Gap）指标，进一步研究了上述三种类型股票收益对基金未来业绩的影响。
+式中， $\beta_{_1}\text{、 }\beta_{_2}\text{、 }\beta_{_3}$ 分别表示新进股票收益、曾经持仓股票收益、现有持仓股票收益的回归系数。此外，在上述回归模型的基础上，本文还控制其他主动管理能力（主动份额 Active Share、行业集中指数 IndustryConcentration Index、基金 $\boldsymbol{R}^{\mathrm{~2~}}$ 、收益差 Return Gap）指标，进一步研究了上述三种类型股票收益对基金未来业绩的影响。
 
 ## 2.4. 新进股票持仓权重的影响因素分析
 
 在以下模型设定基础上，本文进一步利用 OLS 与 Tobit 模型检验了不同类型股票收益对新进股票权重分配的影响，即：
 
 $$
-\begin{array}{rl}{Total\ weight\ of\ new\ stocks_{f,t+1}=\beta_{0}+\beta_{1}\Big(Total\ weight\ of\ new\ stocks_{f,t}\Big)}&{}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad+\beta_{2}\Big(\mathop{\bf Re}turn\ on\ new\ positions_{f,t}\Big)}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad+\beta_{3}\Big(\mathop{\bf Re}\ turn\ on\ other\ holdings_{f,t}\Big)}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad+\psi\ Controls_{f,t}+\varepsilon_{f,t}}\end{array}\tag{5}
+\begin{aligned}Totalweightofnewstocks_{_{f,t+1}}=&\beta_{_{0}}+\beta_{_{1}}\left(Totalweightofnewstocks_{_{f,t}}\right)\\&+\beta_{_{2}}\left(\mathbb{R}\mathbf{e}turnonnewpositions_{_{f,t}}\right)\\&+\beta_{_{3}}\left(\mathbb{R}\mathbf{e}turnonotherholdings_{_{f,t}}\right)\\&+\psi Controls_{_{f,t}}+\varepsilon_{_{f,t}}\end{aligned}\tag{5}
 $$
 
 式中，控制变量包括基金规模、成立年限、换手率、资金流动以及基金类型等。

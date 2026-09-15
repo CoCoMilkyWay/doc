@@ -156,7 +156,7 @@ H股是指注册地在内地、上市地在香港的外资股，H取自 Hong Kon
 最后我们介绍自由流通股本的概念。前面提到，将公司总股本减去非流通股本即为公司流通股，理论上来讲所有的流通股都能够在二级市场上进行交易。然而实际上，很多持股超过一定比例的大股东及其一致行动人、公司高管等由于其战略部署等原因，不会在二级市场上进行频繁操作，因此这部分股票并不属于市场上个人或机构投资者可以直接交易的股票，自由流通股本即为将流通股本减去这些扣除数得到的股本数量。我们参照 Wind 中自由流通股本的计算方法，对其进行介绍：
 
 $$
-\textcircled{\sharp}\frac{\dot{\pi}}{2\pi}\frac{\dot{\pi}}{12}\mathbb{R}\frac{\dot{\pi}}{2}\mathbb{R}\frac{\dot{\pi}}{2}\mathbb{R}=\frac{\dot{\pi}}{2\pi}\frac{\dot{\pi}}{12}\mathbb{R}\frac{\dot{\pi}}{2}\mathbb{R}-\frac{\ddagger}{2}\mathbb{R}\mathbb{L}\frac{\dot{\pi}}{2}\mathbb{\alpha}\mathbb{R}\frac{\dot{\pi}}{2}\mathbb{R}
+自由流通股本$=$流通股本$-$其他扣除数
 $$
 
 其他扣除数主要包括：
@@ -250,7 +250,7 @@ Wind 中提供了三种总市值数据计算方法，其名称和对应的 MATLA
 本次讨论最后一个部分我们聚焦指数编制过程中成分股权重的计算，通常指数成分股权重有等权、市值加权、波动率加权等不同方法，我们接触的最多的是根据市值加权编制的指数。以沪深300（000300.SH）为例，它是由沪深A股中规模大、流动性好的最具代表性的300只股票组成，其编制方法采用派许加权综合价格指数公式进行计算：
 
 $$
-4\textcircled{2}\frac{4}{5}+\frac{4}{5}\textcircled{1}\frac{4}{5}\frac{3}{5}=\frac{\frac{3}{7}\times\frac{4}{5}\textcircled{1}\frac{4}{5}-\frac{3}{7}\times\frac{2}{7}\times\frac{2}{7}\times\frac{3}{7}\times\frac{4}{15}\times\frac{3}{15}\times\frac{4}{15}}{\textcircled{1}\frac{4}{5}\times\frac{5}{7}}\times1000{\textcircled{1}\frac{5}{7}\frac{3}{5}\times\frac{5}{7}}.
+报告期指数=\frac{报告期成分股的调整市值}{除数}\times1000
 $$
 
 其中，调整市值 = ∑(股价 ×调整股本数)。调整股本数根据分级靠档的方法对样本股股本进行调整而获得，要计算调整股本数，需要确定自由流通量和分级靠档两个因素，具体来讲：
@@ -270,11 +270,11 @@ $$
 分级靠档是根据自由流通股本所占 股总股本的比例（即自由流通比例）赋予A股总股本一定的加权比例，以确保计算指数的股本保持相对稳定，沪深300指数样本的加权比例依据表 确定。
 
 $$
-\sharp\sharp\dot{\lambda}_{n}^{\pm}\dot{\lambda}_{\sharp}^{\sharp}\rVert_{L^{\angle}(\mathcal{H})}=\sharp\sharp\sharp\dot{\lambda}_{n}^{\sharp}\dot{\lambda}_{\sharp}^{\sharp}\rVert_{L^{\angle}(\mathcal{A})\mathcal{Z}_{\epsilon}}^{\varphi}/\hbar\mathtt{H}_{\lambda}^{\mu},\dot{\Xi}_{\lambda}^{\sharp}\rVert_{\mathcal{X}_{\epsilon}}^{\mu}
+自由流通比例=自由流通量/A股总股本
 $$
 
 $$
-1)12\leq x+1\leq1\leq x+1\leq1\leq x+1\leq1\leq x+1\leq1\leq x+1\leq1\leq1\leq1
+调整股本数=A股总股本\times 加权比例
 $$
 
 表5：沪深300指数分级靠档表
@@ -306,10 +306,10 @@ $$
 表6以沪深300和中证500指数为例，分别计算三种加权方法与官方公布权重的误差平方和。
 
 $$
-SquaredError=\sum_{i=1}^{N}\left(w_{i}-w_{i,B}\right)^{2}
+SquaredError={\sum}_{i=1}^{N}{{\left({{w}_{i}}-{{w}_{i,B}}\right)}^{2}}
 $$
 
-其中， $w_{i}\kslash^{\ =}w_{i,B}$ 分别表示自行计算和官方公布的股票i的权重。
+其中， $w_{i}和w_{i,B}$ 分别表示自行计算和官方公布的股票i的权重。
 
 表6：不同加权方法的误差平方和
 
@@ -493,16 +493,16 @@ $$
 | 附水一. | 财通金工风 |  |  |  |
 | --- | --- | --- | --- | --- |
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
-| Beta | BETA | $\mathrm{r_{t}}=\alpha+\beta\mathrm{R_{t}}+\mathrm{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1)采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
+| Beta | BETA | $\mathbf{r_{t}}=\alpha+\beta\mathbf{R_{t}}+\mathbf{e_{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1)采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathbf{w}_{\mathrm{t}}(\ln(1+\mathbf{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r_{t}=P_{t}/P_{t-1}-1,~T=504,~L=21,}$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1) 对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
-|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathrm{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathrm{T})),}\end{array}$ $\sharp\Psi\mathrm{Z(T)}=\exp\bigl(\sum_{\mathrm{t=1}}^{\mathrm{T}}\ln(1+\mathrm{r_{t}})\bigr)-1$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t}=\mathrm{L}}^{\mathrm{T}+\mathrm{L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1) 对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3)若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为NaN |
+|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ $\mathrm{Z(T)=\exp(\sum_{t=1}^{T}\ln(1+r_t))-1}$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
 |  | HSIGMA | 计算 Beta 时残差的标准差， Hsigma = std(ei) | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |
 | 流动性(对市值因子进行正交化） | STOM | 月度换手率，STOM = In(mean(Σ211(Vt/St)))其中V为当日成交量，S为流通股本 | 0.5 | 1)采用流通股本值，而非自由流通股本值2）剔除未上市、停牌日期的数据 |
-|  | STOQ | 季度换手率， $\begin{array}{r}{\mathrm{STOQ}=\ln(\operatorname*{mean}(\sum_{t=1}^{63}(V_{t}/S_{t}))),}\end{array}$ | 0.25 | 同 STOQ 因子的计算 |
+|  | STOQ | 季度换手率， $\mathrm{STOQ}=\ln(\mathrm{mean}(\sum_{t=1}^{63}(V_t/S_t))),$ | 0.25 | 同 STOQ 因子的计算 |
 |  | STOA | 年度换手率，STOA = In(mean(Σ2=2(Vt/St)))， | 0.25 | 同 STOQ 因子的计算 |
 | 盈利 | CETOP | 过去滚动12个月的经营现金流除以当前市值实际计算中取市现率 PCF（经营现金流 TTM）的倒数 | 1/2 | 采用 Wind 中的 PCF_OCF_ttm 因子的倒数 |
 |  | ETOP | 过去滚动12个月的利润除以当前市值实际计算中取市盈率 PETTM 的倒数 | 1/2 | 采用 Wind 中的 PE_ttm 因子的倒数 |

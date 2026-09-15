@@ -229,7 +229,7 @@ Table_Report 相关报告
 组合优化问题设置如下：
 
 $$
-\begin{array}{rl}{\operatorname*{max}}&{\mathrm{f}^{\prime}\mathrm{w}-\mathrm{c}^{\prime}|\mathrm{x}-\mathrm{x}0|}\\{\mathrm{st}}&{\mathrm{w}^{\prime}\mathrm{I}=0}\\&{\mathrm{w}^{\prime}\mathrm{Indus}=\bf{0}}\\&{\mathrm{w}^{\prime}\mathrm{MV}=0}\\&{\mathrm{wmin}<\mathrm{w}<wmax}\\&{\mathrm{w}^{\prime}\mathrm{Iw}\leq sigma^{\wedge}2}\end{array}
+\begin{array}{rl}{\operatorname*{max:}}&{\mathbf{f}^{\prime}\mathbf{w}-\mathbf{c}^{\prime}|\mathbf{x}-\mathbf{x}0|}\\{\mathrm{st:}}&{\mathbf{w}^{\prime}\mathrm{I}=0}\\&{\mathbf{w}^{\prime}\mathrm{Indus}=\mathbf{0}}\\&{\mathbf{w}^{\prime}\mathrm{MV}=0}\\&{\operatorname*{wmin}<\mathbf{w}<wmax}\\&{\mathbf{w}^{\prime}\Sigma\mathbf{w}\leq sigma^{\wedge}2}\end{array}
 $$
 
 其中 w为主动权重，f为预期收益率向量，Σ为估计的月度协方差矩阵, sigma为跟踪误差约束，x为绝对权重，x0 为组合初始权重，首次建仓时初始权重为 0，c为换手惩罚参数。

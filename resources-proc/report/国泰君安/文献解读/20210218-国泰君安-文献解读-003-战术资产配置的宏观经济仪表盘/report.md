@@ -168,29 +168,29 @@ Notes: All series are retrieved from Haver, except for high-yield spreads (J.P. 
 Notes: Historical analysis data end in December 2016. Unless specifically identified, asset class returns are computed using total return indices. All data are sourced monthly. The T. Rowe Price Real Assets Blended Benchmark is the following: As of December 1, 2013, the Real Assets Combined Index Portfolio comprises 25% MSCI ACWI Metals & Mining, 20% Wilshire RESI, 20% FTSE EPRA/NAREIT Dev Real Estate Index, 19.5% MSCI ACWI Energy, 10.5% MSCI ACWI Materials, 4% MSCI ACWI IMI Gold, and 1.00% MSCI ACWI IMI Precious Metals and Minerals. Prior to this date, the Real Assets Combined Index Portfolio was composed of 25% MSCI ACWI Metals & Mining, 20% Wilshire RESI, 20% FTSE EPRA/NAREIT Dev Real Estate Index, 16.25% MSCI ACWI Energy, 8.75% MSCI ACWI Materials, 5% UBS World Infrastructure and Utilities Index, 4% MSCI ACWI IMI Gold, and 1.00% MSCI ACWI IMI Precious Metals and Minerals. 
 Sources: Bloomberg Barclays, Russell, Credit Suisse, FactSet, J.P. Morgan, and T. Rowe Price.
 
-图1展示了构建宏观经济仪表盘的思路方法。为了构建宏观经济仪表盘，首先定义宏观因子 $f$ 的初始状态（initial conditions） $IC(f)_{t}$ ，其取值可能为 low、medium 或 high，如式（1）所示：
+图1展示了构建宏观经济仪表盘的思路方法。为了构建宏观经济仪表盘，首先定义宏观因子 $\cdot f$ 的初始状态（initial conditions） $IC(f)_{t}$ ，其取值可能为 low、medium 或 high，如式（1）所示：
 
 $$
-\begin{array}{r}{IC(f)_{t}=\left\{\begin{array}{cc}{"low"}&{x_{L}\leq f_{t}<x_{(25^{0}\%*f)}}\\{"medium"}&{x_{(25^{0}\%*f)}\leq f_{t}\leq x_{(75^{0}\%*f)}}\\{"high"}&{x_{(75^{0}\%*f)}<f_{t}\leq x_{U}}\end{array}\right.}\end{array}\tag{1}
+IC(f)_{t}=\left\{\begin{matrix}low&x_{L}\leq f_{t}<x_{(25\%*f)}\\medium&x_{(25\%*f)}\leq f_{t}\leq x_{(75\%*f)}\\high&x_{(75\%*f)}<f_{t}\leq x_{U}\end{matrix}\right.\tag{1}
 $$
 
-其中， $f_{t}$ 表示宏观因子 $f$ 在时间 t的取值； $x_{U}$ 和 $x_{L}$ 分别表示宏观因子 $f$ 在历史上的最大值、最小值； $x_{(25\%*f)}\acute{\ast}\ "\infty x_{(75\%*f)}$ 分别表示宏观因子 f 在历史时间序列中 25%分位数、75%分位数。
+其中， $f_{t}$ 表示宏观因子 $f$ 在时间 t的取值； $x_{U}$ 和 $x_{L}$ 分别表示宏观因子 $f$ 在历史上的最大值、最小值； $x_{(25\%*f)}和x_{(75\%*f)}$ 分别表示宏观因子 f 在历史时间序列中 25%分位数、75%分位数。
 
-接下来，我们定义宏观因子f在时间t+1的情境指标（scenarios $)S(f)_{t+1}$ 如式（2）所示：
+接下来，我们定义宏观因子f在时间t+1的情境指标（scenarios $\bar{)}S(f)_{t+1}$ 如式（2）所示：
 
 $$
 S(f)_{t+1}=f_{t+1}-f_{t}\tag{2}
 $$
 
-结合情景指标S $(f)_{t+1}$ 的数值，投资者需要根据经验定义宏观因子f的预期表现，包括“平稳”（Stable）、“上升”（Rising）和“下降”（Declining）。比如，如果预期宏观因子 10 年期国债收益率从t到t+1时刻的涨幅高于25bp，则可定义该宏观因子的预期表现为“上升”。
+结合情景指标S $\mathfrak{i}(f)_{t+1}$ 的数值，投资者需要根据经验定义宏观因子f的预期表现，包括“平稳”（Stable）、“上升”（Rising）和“下降”（Declining）。比如，如果预期宏观因子 10 年期国债收益率从t到t+1时刻的涨幅高于25bp，则可定义该宏观因子的预期表现为“上升”。
 
-最后，计算配对交易的条件期望收益率 $R_{t+1}^{C}$ ，如式（3）所示：
+最后，计算配对交易的条件期望收益率 $\cdot R_{t+1}^{C}$ ，如式（3）所示：
 
 $$
-R_{t+1}^{C}=\mathbb{E}(R_{t+1}\vert IC_{t},S_{t+1})\tag{3}
+R_{t+1}^{C}=\;\mathbb{E}(R_{t+1}|\;IC_{t},S_{t+1})\tag{3}
 $$
 
-具体来说，我们寻找在历史上出现过的同时匹配 $IC_{t}$ 和 $S_{t+1}$ 的时期，计算这些情境下相应配对交易收益率的平均值，即为 $R_{t+1}^{C}$ 。同时，我们在宏观经济仪表盘中还列示了相应情境下收益率 10%分位数和 90%分位数。
+具体来说，我们寻找在历史上出现过的同时匹配 $IC_{t}$ 和 $\cdot S_{t+1}$ 的时期，计算这些情境下相应配对交易收益率的平均值，即为 $R_{t+1}^{C}$ 。同时，我们在宏观经济仪表盘中还列示了相应情境下收益率 10%分位数和 90%分位数。
 
 比如，我们想要评估宏观因子美元，对配对交易资产——小盘股与大盘股——的影响。从整个样本区间来看，在1990年11月至2016年 12月期间，美国小盘股（罗素 2000指数）12个月滚动收益率跑赢大盘股（罗素 1000）的概率为 51%。从当前时间节点（2017 年 4 月 10 日）来看，最新的美元指数达到 100.6，处于 1990 年 11 月以来的前 25%分位。进一步地，假设投资者在进行战术资产配置时，预期美元指数在未来会进一步上涨。回顾历史数据，当美元处于前25%分位，并且在随后1年继续上涨 5%（或更多）时，美国小盘股收益率在随后 1 年跑赢大盘股的概率是88%，平均超额收益是 8.2%，10%和90%分位超额收益分别是-2.3%和 15.9%。综上，当美元处于高位且预期会继续上涨时，小盘股收益大概率能够跑赢大盘股，其背后的原因可能是美元在高位继续上涨影响了出口贸易，而小盘股受出口的影响比大盘股较小。
 

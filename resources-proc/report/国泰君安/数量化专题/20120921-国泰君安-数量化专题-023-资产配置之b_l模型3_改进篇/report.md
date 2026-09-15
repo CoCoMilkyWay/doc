@@ -90,18 +90,18 @@ Black-Litterman 模型（简称 B-L 模型）是由高盛的 Fisher Black 和 Ro
 
 在对风险的处理中，我们不再用传统 B-L模型里沿用的马克维兹方式，也就是说不再用方差来代表风险，在这里我们用 CVAR来描述风险，这样可以捕捉到非对称和尾部的风险。
 
-我们假定描述 N维收益率向量 M的特性因子包括概率密度函数 $\mathrm{f}_{\mathrm{\Pi_{M}}}$ ，累
+我们假定描述 N维收益率向量 M的特性因子包括概率密度函数 $\mathrm{f}_{\mathrm{{\bf{M}}}}$ ，累
 
-积分布函数 $\mathrm{F_{M}}$ ，和特性描述函数 $\phi_{\mathrm{{\scriptscriptstyle M}}}$ 。N代表资产数。
+积分布函数 $\mathrm{F_{M}}$ ，和特性描述函数 $\phi_{\mathrm{M}}$ 。N代表资产数。
 
 $$
-\begin{array}{rl}{\mathbf{M}}&{{}\sim\ (\mathbf{f}_{\mathbf{\Phi_{M}}},\quad\mathbf{F}_{\mathbf{\Phi_{M}}},\quad\phi_{\mathbf{M}})}\end{array}
+\mathbf{M}\sim(\mathbf{f}_{_{\mathbf{M}}},\mathbf{F}_{_{\mathbf{M}}},\mathbf{\phi}_{_{\mathbf{M}}})
 $$
 
 这里我们对收益率特性引入了分布函数的概念，因此我们可以假定市场收益服从 SkewT 分布，
 
 $$
-\textbf{ M }^{\perp}\textbf{ S k T }(\Psi^{\textbf{ \eta }},\textbf{ \^ { \mu } },\Sigma^{\textbf{ \eta }},\textbf{ \^ { a } })
+\mathbf{M}\stackrel{\square}{\sim}\mathrm{SkT}\left(\psi,\quad\mu,\quad\Sigma,\quad\alpha\right)
 $$
 
 Ψ 是一个正数， $\mu$ 是一个 N维向量，Σ是 N×N正向对称矩阵，α为 N维向量。当形状参数 α 为空时，SkewT 分布就和 t 分布重合。Ψ 趋向于无穷大时，SkewT 分布就是正态分布。当自由度 Ψ变小时，分布表现为严重的尾部特征和对特殊事件的高度依赖。在这里，μ 是是收益向量，Σ是协方差矩阵。
@@ -111,28 +111,28 @@ $$
 最后B-L中求解资产权重的优化变成了最大化收益，同时最小化CVAR。
 
 $$
-\mathrm{CVaR}(\mathrm{w})\equiv-\mathrm{E}\{\mathrm{R}|\mathrm{R}\leq\mathrm{F}_{\mathrm{R}}^{\mathit{\mathrm{-1}}}(1-\gamma)\}
+\mathrm{CVaR}\left(\mathrm{w}\right)\equiv\mathrm{-E}\left\{\mathrm{R}\left|\mathrm{R}\leq\mathrm{F}_{\mathrm{R}}^{^{-1}}\left(1-\gamma\right)\right.\right\}
 $$
 
 $$
-\begin{array}{c}{\displaystyle\mathbf{w}\left(\mathbf{r}\right)\equiv\mathrm{argmin}\left\{\mathrm{CVaR}\left(\mathbf{w}\right)\right\}}\\{\displaystyle\mathbf{w}^{\prime}\mathrm{E}\left\{\mathrm{R}\right\}\geq\mathrm{r}}\\{\displaystyle\mathbf{w}^{\prime}\mathbf{1}=\mathrm{1}\mathrm{~,~}\mathbf{w}\geq0}\end{array}
+\begin{array}{r}{\mathrm{w}\left(\mathbf{r}\right)\equiv\underset{\mathrm{w}^{\prime}1=1,\mathrm{w}\geq0}{\arg\operatorname*{min}}\left\{\mathrm{C}\operatorname{VaR}\left(\mathrm{w}\right)\right\}}\\{\underset{\mathrm{w}^{\prime}1=1,\mathrm{w}\geq0}{\mathrm{w}^{\prime}\mathrm{E}\left\{\mathrm{R}\right\}\geq\mathrm{r}}}\end{array}
 $$
 
-投资者的观点收益同样也可以假定服从 SkewT分布或是其他分布，对于第 k个观点，收益率 $\mathrm{V}\mathrm{k}$ 的特性可以描述为，
+投资者的观点收益同样也可以假定服从 SkewT分布或是其他分布，对于第 k个观点，收益率 $\mathrm{Vk}$ 的特性可以描述为，
 
 $$
-\mathbf{V}_{\mathrm{~k~}}\stackrel{\triangledown}{\left(\mathrm{f_{\mathrm{~v_{k}~}}},\quad\mathrm{F_{v_{k}~}},\quad\phi_{\mathrm{v_{k}~}}\right)}
+\mathrm{V}_{\mathrm{k}}\stackrel{\mathrm{口}}{\sim}\left(\mathrm{f}_{\mathrm{v}_{\mathrm{k}}},\mathrm{F}_{\mathrm{v}_{\mathrm{k}}},\ \phi_{\mathrm{v}_{\mathrm{k}}}\right)
 $$
 
 由此，我们解决了正态分布在实际市场中应用受限的问题，采用一个更适合金融市场特性的分布，使结果更贴近于实际。另外我们还解决了收益率的表达问题，不再是沿用传统的 E（R）和方差 σ 的表达式，而是采用一种收益和概率相结合的形式，例如投资者可以给出收益率的区间，在区间内用概率分布函数来表示每种收益出现的可能性，最简单的可以用均匀分布的形式，也可以用 SkewT分布或是离散型分布。
 
-给定第 k 个观点的收益区间 $[\mathbf{a}_{\mathrm{~k~}},\mathbf{b}_{\mathrm{~k~}}]$ ，假设收益率 $\mathrm{V}_{\mathrm{k}}$ 服从均匀分布的形式，那么第 k个观点的概率分布函数 $\mathrm{F_{v_{\mathrm{~k~}}}(v)}$ 可以表达为：
+给定第 k 个观点的收益区间 $[\boldsymbol{\mathrm{a}}_{\mathrm{k}},\boldsymbol{\mathrm{b}}_{\mathrm{k}}]$ ，假设收益率 $\mathrm{Vk}$ 服从均匀分布的形式，那么第 k个观点的概率分布函数 $\mathrm{F_{v_{k}}(v)}$ 可以表达为：
 
 $$
-\begin{array}{r}{\mathsf{F}_{\mathbf{v}_{\mathrm{~k~}}}(\mathbf{v})\equiv\mathsf{F}_{[\mathbf{a}_{\mathrm{~k~}},\mathbf{b}_{\mathrm{~k~}}]}^{\mathbf{U}}(\mathbf{v})\equiv\left\{\begin{array}{ll}{\begin{array}{rl}{0}&{\mathrm{~v\leq~\mathbf{a}_k~}}\\{\mathrm{~v-a_k~}}&{}\end{array}}\\{\begin{array}{rl}{\mathbf{b}_{\mathrm{~k~}}\mathrm{-\mathbf{a}_k~}}&{}\end{array}}&{\begin{array}{rl}{\mathsf{I}}&{}\\{\mathbf{b}_{\mathrm{~k~}}\mathrm{-\mathbf{a}_k~}}&{}\end{array}}\\{\begin{array}{rl}{\left|}&{1}&{\mathrm{~v\geq~\mathbf{b}_k~}\right|}\end{array}}\end{array}\right.}\end{array}
+\mathbf{F}_{_{\mathbf{V}_{_{\mathrm{k}}}}}(\mathbf{v})\equiv\mathbf{F}_{_{[\mathtt{a}_{_{\mathrm{k}}},\mathtt{b}_{_{\mathrm{k}}}]}}^{^{\mathrm{U}}}(\mathbf{v})\equiv\left\{\begin{aligned}&\left\{0\quad\texttt{v}\leq\mathtt{a}_{_{\mathrm{k}}}\quad\right\}\\&\frac{\mathbf{v}-\mathtt{a}_{_{\mathrm{k}}}\quad\mathbf{v}\in[\mathtt{a}_{_{\mathrm{k}}},\mathtt{b}_{_{\mathrm{k}}}]}{\left|\begin{array}{ll}{\mathbf{b}_{_{\mathrm{k}}}-\mathtt{a}_{_{\mathrm{k}}}}&{}\\{\quad1}&{\mathbf{v}\geq\mathtt{b}_{_{\mathrm{k}}}}&{}\end{array}\right|}\end{aligned}\right\}
 $$
 
-由此，我们实现了在偏斜、厚尾、对事件高度依赖的市场进行资 $\cdot\dot{\vec{r}}$ 配臵。投资者观点的输入更加方便直观，后验市场分布可以用蒙特卡罗模拟快速实现。如果我们不假设收益率服从 SkewT 分布，还可以假设任意分布，甚至不同的资产、不同的投资者观点可以服从不同分布。
+由此，我们实现了在偏斜、厚尾、对事件高度依赖的市场进行资 $\text{: }\begin{aligned}&\text{" }\\&\text{" }\end{aligned}$ 配臵。投资者观点的输入更加方便直观，后验市场分布可以用蒙特卡罗模拟快速实现。如果我们不假设收益率服从 SkewT 分布，还可以假设任意分布，甚至不同的资产、不同的投资者观点可以服从不同分布。
 
 此外，这里对风险的描述不再采用传统方差形式，改进为采用 CVAR来描述风险的方法。事实上我们还可以采用其他的描述方法。
 
@@ -140,36 +140,36 @@ $$
 
 B-L 模型中，需要输入投资者对各类资产收益的观点，也就是所谓的观点收益，最后用来形成贝叶斯后验收益，一旦这些观点最后被证明是错误的，那么 B-L 组合就会有比原来更大的损失，也就是说有时候不调整目前的组合收益反而更佳。这里就有一个调整与不调整组合的成本问题，调整则还需要支付交易成本，不调整则可能失去市场机会。GhislainYanou(2010)提出了一种 B-L 模型的扩展方法，使得投资者观点错误时能够尽量减少损失。
 
-假设， $\omega_{_ABL}$ 是最终的组合权重配臵 arregate portfolio， $\omega_{_{BL}}$ 是 B-L 模型下的组合权重配臵， $\omega_{\mathrm{~}_{c}}$ 是当前的投资组合权重配臵 current portfolio。三者均为 N•1列向量，N代表资产数。
+假设， $\omega_{_{ABL}}$ 是最终的组合权重配臵 arregate portfolio， $\omega_{_{BL}}$ 是 B-L 模型下的组合权重配臵， $\omega_{_c}$ 是当前的投资组合权重配臵 current portfolio。三者均为 N•1列向量，N代表资产数。
 
 $$
-{\omega}_{_{ABL}}=\alpha{\omega}_{_{\textrm{ B L }}}+\left(1-\alpha\right){\omega}_{_{\textrm{ c }}}
+\omega_{_{ABL}}=\alpha\omega_{_{BL}}+(1-\alpha)\omega_{_{S}}
 $$
 
 若投资者维持当前组合不变，则 α为 0，若全部根据 B-L模型调仓，则α 为 1。
 
-最终得到的组合配臵是 $\omega_{_ABL}$ ，因此我们需要找到一个最优的 α，来使得综合调仓成本和机会成本后的组合最优。
+最终得到的组合配臵是 $.\hat{\omega}_{_{ABL}}$ ，因此我们需要找到一个最优的 α，来使得综合调仓成本和机会成本后的组合最优。
 
-当前组合配臵下的预期收益 $\mu_{_c}=\omega_{_c}\mu_{_{eq}}\mathrm{~,~}\ \mu_{_{eq}}$ 为市场均衡收益。B-L 模型的出发点是基于市场组合配臵，而我们现在的出发点是基于当前投资者手中的组合配臵，因此组合的先验收益为 $\mu_{\textit{ c }}$ ，方差为 $\Delta=\omega_{_{c}}(\tau\Sigma)\omega_{_{c}}$ 加入投资者观点后，基于当前组合为出发点的后验收益 $\mu_{\scriptscriptstyle{CBL}}$
+当前组合配臵下的预期收益 $\mu_{_{c}}=\omega_{_{c}}\mu_{_{eq}},\mu_{_{eq}}$ 为市场均衡收益。B-L 模型的出发点是基于市场组合配臵，而我们现在的出发点是基于当前投资者手中的组合配臵，因此组合的先验收益为 $\mu_{_c}$ ，方差为 $\Delta=\omega_{_{c}}\left(\tau\Sigma\right)\omega_{_{c}}$ 加入投资者观点后，基于当前组合为出发点的后验收益 $\mu_{_{CBL}}$
 
 $$
-{\boldsymbol\mu}_{_{CBL}}=\left[{\boldsymbol\Delta}^{-1}+{\boldsymbol\ P}^{T}{\boldsymbol\Omega}^{-1}{\boldsymbol\ P}\right]^{-1}\left[{\boldsymbol\Delta}^{-1}{\boldsymbol\mu}_{c}+{\boldsymbol\ P}^{T}{\boldsymbol\Omega}^{-1}{\boldsymbol\ Q}\right]\circ
+\mu_{_{CBL}}=\left[\Delta^{^{-1}}+P^{^{T}}\Omega^{^{-1}}P\right]^{^{-1}}\left[\Delta^{^{-1}}\mu_{_{c}}+P^{^{T}}\Omega^{^{-1}}Q\right]\mathrm{。}
 $$
 
-总的组合后验收益 $\pi_{\textrm{ A B L }}$
+总的组合后验收益 $\pi_{_{\mathrm{ABL}}}$
 
-$\pi_{_{ABL}}=\alpha\pi_{_{\mathrm{\tiny~BL}}}+\left(1-\alpha\right)\pi_{_{\mathrm{\tiny~CBL}}},\pi_{_{\mathrm{\tiny~BL}}}$ 为以市场组合为出发点的组合后验收益，$\pi_{\textrm{ C B L }}$ 为以当前组合为出发点的组合后验收益。
+$\pi_{_{ABL}}=\alpha\pi_{_{BL}}+(1-\alpha)\pi_{_{CBL}},\pi_{_{BL}}$ 为以市场组合为出发点的组合后验收益，$\pi_{_\mathrm{CBL}}$ 为以当前组合为出发点的组合后验收益。
 
 其中，
 
-$\pi_{_{\textrm{ B L }}}={\omega}_{_{BL}}^{T}{\mu}_{_{BL}}\ -\ \textrm{ c o s t }$ ， cost为从当前组合变为 B-L组合的成本。
+$\pi_{_{\mathrm{BL}}}=\omega_{_{BL}}^{^T}\mu_{_{BL}}-\mathrm{cost}$ ， cost为从当前组合变为 B-L组合的成本。
 
-$\pi_{\textrm{ c B L }}={\omega}_{c}^{T}\mu_{cBL}$ ，基于当前组合不变，因此没有成本。
+$\pi_{_{\mathrm{CBL}}}=\omega_{_{c}}^{^{T}}\mu_{_{CBL}}$ ，基于当前组合不变，因此没有成本。
 
-我们也可以同样求得组合的后验标准差 $\sigma_{\textrm{ A B L }}$ ，假如我们继续以夏普比率为最终目标，那么我们优化的是最终组合的夏普比率，该夏普比率（暂且假定无风险利率为零）可以表达为 α的表达式，
+我们也可以同样求得组合的后验标准差 $\sigma_{\mathrm{~ABL}}$ ，假如我们继续以夏普比率为最终目标，那么我们优化的是最终组合的夏普比率，该夏普比率（暂且假定无风险利率为零）可以表达为 α的表达式，
 
 $$
-f\left(\alpha\right)=\frac{\pi_{\mathrm{_{ABL}}}}{\sigma_{_{\mathrm{_{ABL}}}}}
+f\left(\alpha\right)=\frac{\pi_{_{ABL}}}{\sigma_{_{ABL}}}
 $$
 
 通过最大化夏普比率，我们求得了一个最优的 α。
@@ -221,39 +221,39 @@ ABL 模型的具体构建过程可分为以下几个步骤。
 Cheung 提出的 ABL 模型中使用了第二种方法，将因子的时间序列数据，用回归方法拟合线性因子模型，具体的线性因子模型如下：
 
 $$
-r=a+{\bf B}r_{_F}+\xi
+r=a+\mathbf{B}r_{_{F}}+\xi
 $$
 
 假设选择n 个资产与 f 个因子构成 ABL 模型，那么公式中r 表示资产
 
-收益率，是一个n 维向量， $r_{\scriptscriptstyle F}$ 表示因子收益率，同样是个 f 维向量，
+收益率，是一个n 维向量， $r_{r}$ 表示因子收益率，同样是个 f 维向量，
 
-B 为 $n\times f$ 维矩阵 $\left(\textbf{ B }^{T}\right.$ 表示转臵矩阵），表示因子系数矩阵，a 是常数项， $\bar{\hbar}\xi$ 是误差项。
+B 为 $n\times f$ 维矩阵 $\left(\textbf{ B }^{T}\right.$ 表示转臵矩阵），表示因子系数矩阵，a 是常数项， $而\xi$ 是误差项。
 
 由上式又可以立即得到收益率与因子的风险关系：
 
 $$
-\boldsymbol{\Sigma}_{r}=\mathbf{B}\boldsymbol{\Sigma}_{\scriptscriptstyle F}\mathbf{B}^{T}+\boldsymbol{\Sigma}_{\scriptscriptstyle\xi}
+\mathbf{\Sigma}_{\mathbf{\Sigma}_{r}}=\mathbf{B}\mathbf{\Sigma}_{\mathbf{\Sigma}_{F}}\mathbf{B}^{\mathbf{\Sigma}^{T}}+\mathbf{\Sigma}_{\mathbf{\Sigma}_{\xi}}
 $$
 
-其中，Σ 是资 $\dot{\mathcal{P}}$ 收益率的协方差矩阵 $\left(\begin{array}{l}{}\\{n\times n}\end{array}\right)$ ，Σ 是因子收益率的协方差矩阵（ f f• ）， $\Sigma_{\ z}$ 是误差项的协方差矩阵 $\textbf{ ( }{n}\times\textbf{ f }\textbf{ ) }$ 。通过回归上述方程，可以算出系数矩阵B 。
+其中，Σ 是资 $产$ 收益率的协方差矩阵 $\left(\begin{array}{l}{n\times n}\end{array}\right)$ ，Σ 是因子收益率的协方差矩阵（ f f• ）， $\Sigma_{\mathrm{~\xi~}}$ 是误差项的协方差矩阵 $(\begin{array}{l}{n\times\textit{ f }}\end{array})$ 。通过回归上述方程，可以算出系数矩阵B 。
 
 第二步，类似B-L模型，通过逆优化过程可以求得资产隐含均衡收益向量：
 
 $$
-\Pi_{\mathbf{\varphi}_{r}}=\lambda_{\mathbf{\varphi}_{M}}\pmb{\Sigma}_{\mathbf{\varphi}_{r}}\omega_{\mathbf{\varphi}_{M}}
+\Pi_{\mathbf\Lambda_{r}}=\lambda_{\mathbf\Lambda_{M}}\mathbf\Sigma_{\mathbf\Lambda_{r}}\omega_{\mathbf\Lambda_{M}}
 $$
 
-$\lambda_{_M}$ 为市场风险厌恶系数， $\omega_{{_M}}$ 是各项资产的市场权重，通常为各项资产的市值占比。对因子的隐含均衡收益向量则可以通过上述的线性因子模型和 CAPM 模型推导得到， $\Pi_{\mathbf{\Lambda}_{F}}=\lambda_{\mathbf{\Lambda}_{M}}\boldsymbol{\Sigma}_{\mathbf{\Lambda}_{F}}\mathbf{B}^{T}\boldsymbol{\omega}_{\mathbf{\Lambda}_{M}}$ ，综合起来可以得到：
+$\lambda_{_M}$ 为市场风险厌恶系数， $\omega_{{M}}$ 是各项资产的市场权重，通常为各项资产的市值占比。对因子的隐含均衡收益向量则可以通过上述的线性因子模型和 CAPM 模型推导得到， $\Pi_{_{\scriptsize{\begin{array}{c}{F}\end{array}}}}=\lambda_{_{\scriptsize{\begin{array}{c}{M}\end{array}}}}\Sigma_{_{\scriptsize{\begin{array}{c}{F}\end{array}}}}{\bf B}^{^{\scriptsize{\begin{array}{c}{T}\end{array}}}}\omega_{_{\scriptsize{\begin{array}{c}{M}\end{array}}}}$ ，综合起来可以得到：
 
 $$
-\Pi=\left(\begin{array}{c}{{\Pi_{\mathbf{\Pi}_{r}}}}\\{{}}\\{{\Pi_{\mathbf{\Pi}_{F}}}}\end{array}\right)=\lambda_{\scriptscriptstyle M}\left(\begin{array}{c}{{\pmb{\Sigma}_{r}}}\\{{}}\\{{\pmb{\Sigma}_{F}\pmb{\mathbf{B}}^{T}}}\end{array}\right){\boldsymbol{\omega}_{\scriptscriptstyle M}}
+\boldsymbol{\Pi}_{\mathbf{\Lambda}}=\left(\begin{aligned}{\boldsymbol{\Pi}_{\mathbf{\Lambda}_{r}}}\\{\boldsymbol{\Pi}_{\mathbf{\Lambda}_{F}}}\end{aligned}\right)=\lambda_{_M}\left(\begin{aligned}{\boldsymbol{\Sigma}_{\mathbf{\Lambda}_{r}}}\\{\boldsymbol{\Sigma}_{\mathbf{\Lambda}_{F}}\mathbf{B}^{T}}\end{aligned}\right)\boldsymbol{\omega}_{_M}
 $$
 
 ABL模型最后形成的后验预期收益为：
 
 $$
-\operatorname{E}(R)=\left[\left(\tau\Sigma\right)^{-1}+\mathbf{P}^{T}\pmb{\Omega}^{-1}\mathbf{P}\right]^{-1}\left[\left(\tau\Sigma\right)^{-1}\Pi+\mathbf{P}^{T}\pmb{\Omega}^{-1}\pmb{Q}\right]
+\mathbf{E}\left(R\right.)=\left[\left.\left(\tau\pmb{\Sigma}\right)^{^{-1}}+\left.\mathbf{P}^{T}\pmb{\Omega}^{^{-1}}\mathbf{P}\right.\right]^{^{-1}}\right[\left.\left(\tau\pmb{\Sigma}\right)^{^{-1}}\Pi+\mathbf{P}^{T}\pmb{\Omega}^{^{-1}}Q\right.\left.\right]
 $$
 
 形式上与 B-L 模型中的后验预期收益完全相同，只不过所有的变量维数在之前的基础上进行了扩充。
@@ -261,7 +261,7 @@ $$
 在这里，
 
 $$
-\boldsymbol{\Sigma}=\left[\begin{array}{cc}{\boldsymbol{\Sigma}_{r}}&{\mathbf{B}\boldsymbol{\Sigma}_{r}}\\{\left\lfloor\boldsymbol{\Sigma}_{r}\mathbf{B}^{T}\right.}&{\boldsymbol{\Sigma}_{r}}\end{array}\right]
+\begin{array}{r}{\mathbf{\Sigma}\;=\;\left[\begin{array}{cc}{\mathbf{\Sigma}_{\mathbf{\Sigma}_{r}}}&{\mathbf{\Sigma}\mathbf{\Sigma}_{\mathbf{\Sigma}_{F}}}\\{\mathbf{\Sigma}_{\mathbf{\Sigma}_{F}}\mathbf{B}^{\;T}}&{\mathbf{\Sigma}_{\mathbf{\Sigma}_{F}}}\end{array}\right]}\end{array}
 $$
 
 ∑是资产收益率与因子收益率共 $n+f$ 个变量的协方差矩阵，为$(n+f)\times(n+f)$ 维。
@@ -271,22 +271,22 @@ $$
 益两部分。
 
 $$
-\mathbf{P}=\left[\begin{array}{ccc}{\mathbf{P}_{[k_{1}\times n]}}&{}&{0}\\{}&{}&{}\\{0}&{\mathbf{P}_{F[k_{2}\times f]}}\end{array}\right]
+\textbf{ P }=\left[\begin{array}{ll}{\mathbf{P}_{[k_{1}\times n]}}&{\quad0}\\{\quad0}&{\quad\mathbf{P}_{_{F[k_{2}\times f]}}}\end{array}\right]
 $$
 
-P 是 ABL 模型使用者需要输入的投资者主观观点，当投资者对资产有$k_{\scriptscriptstyle1}$ 个观点，对因子有 $k_{\scriptscriptstyle2}$ 个观点时，P为 $(k_{\scriptscriptstyle1}+k_{\scriptscriptstyle2})\times(n+f)$ 维。
+P 是 ABL 模型使用者需要输入的投资者主观观点，当投资者对资产有$k_{\perp}$ 个观点，对因子有 $k_{z}$ 个观点时，P为 $(k_{1}+k_{2})\times(n+f)$ 维。
 
 $$
-\begin{array}{r}{Q=\left[\begin{array}{l}{Q_{[k_{1}\times1]}}\\{\phantom{\frac{1}{2}}}\end{array}\right]}\\{\phantom{\frac{1}{2}}\left\lfloor\begin{array}{l}{Q_{\phantom{\frac{1}{2}}[k_{2}\times1]}}\end{array}\right\rfloor}\end{array}
+\boldsymbol{Q}\;=\;\left[\begin{array}{l}{\boldsymbol{Q}_{[\boldsymbol{k}_{1}\times1]}}\\{\vdots}\\{\boldsymbol{Q}_{\boldsymbol{F}[\boldsymbol{k}_{2}\times1]}}\end{array}\right]
 $$
 
 Q为观点收益向量，
 
 $$
-\begin{array}{r}{\Omega\ _{[k_{1}\times k_{1}]}\qquad0\qquad]}\\{\Omega\ =\ \left|\begin{array}{cc}{0\ }&{\Omega\ _{_{F[k_{2}\times k_{2}]}}}\end{array}\right|}\\{\qquad0\ \qquad\Omega\ _{_{F[k_{2}\times k_{2}]}}.}\end{array}
+\boldsymbol{\Omega}=\left[\begin{array}{cc}{\boldsymbol{\Omega}_{\left[k_{1}\times k_{1}\right]}}&{0}\\{0}&{\boldsymbol{\Omega}_{F\left[k_{2}\times k_{2}\right]}}\end{array}\right]
 $$
 
-- 是观点收益矩阵，为 $(k_{\scriptscriptstyle1}+k_{\scriptscriptstyle2})\times(k_{\scriptscriptstyle1}+k_{\scriptscriptstyle2})$ 维。
+- 是观点收益矩阵，为 $(k_{_1}+k_{_2})\times(k_{_1}+k_{_2})$ 维。
 
 例：对于有色金属、银行、食品饮料三个行业，以及 CPI、PPI 两个因子，可以给出如下的观点矩阵 P（其中包含 3个观点）：
 
@@ -327,11 +327,11 @@ $$
 $$
 
 $$
-A=\frac{\lambda_{\scriptscriptstyle M}}{2\lambda\tau}\omega_{\scriptscriptstyle M},B={\bf P}_{r}^{\scriptscriptstyle T}\left(2\lambda\Omega_{\scriptscriptstyle r}\right)^{\scriptscriptstyle-1}Q_{\scriptscriptstyle r},
+A=\frac{\lambda_{_M}}{2\lambda\tau}\omega_{_M},\quad B={\bf P}_{_r}^{^T}(2\lambda{\bf\Omega}_{_r})^{^{-1}}Q_{_r},
 $$
 
 $$
-C={(\boldsymbol{\Sigma}_{r}^{+})}^{-1}\mathbf{B}\boldsymbol{\Sigma}_{{F}}^{+}\mathbf{P}_{{F}}^{T}{(2\lambda\pmb{\Omega}_{{F}})}^{-1}\boldsymbol{Q}_{{F}}
+C=(\mathbf{\Sigma}_{_{r}}^{^{+}})^{^{-1}}\mathbf{B}\mathbf{\Sigma}_{_{F}}^{^{+}}\mathbf{P}_{_{F}}^{^{T}}(2\lambda\mathbf{\Omega}_{_{F}})^{^{-1}}Q_{_{F}}
 $$
 
 其中，第一部分 A 表示的是市场组合权重；第二部分 B 表示的是主观观点——资产收益，对最终配臵权重的影响项；第三部分 C 是主观观点——因子收益，对最终配臵权重的影响项。通过上式，可以在配臵过程中直观地看到主观观点是如何影响配臵结果的，从而使得 ABL 模型更为透明。

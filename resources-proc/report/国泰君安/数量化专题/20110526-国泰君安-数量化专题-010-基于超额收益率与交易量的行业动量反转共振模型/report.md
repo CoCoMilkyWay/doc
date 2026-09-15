@@ -175,20 +175,20 @@
 与单纯的价格动量不同，本报告中我们构建了基于价格和交易量的动量因子：
 
 $$
-R_{\substack{\scriptscriptstyle Momentum}}=R_{\scriptscriptstyle\#\jmath\backslash\mathbb{\breve{X}}^{\ [i]}}{}^{*}\big(1+\Delta V_{\scriptscriptstyle\#\jmath\backslash\mathbb{\breve{X}}^{\ [i]}\mathbb{\breve{H}}}\big)
+R_{Momentum}=R_{形成期}*(1+\Delta V_{形成期})
 $$
 
-其中 $R_{Momentun}$ 为动量因子， $R_{\#\mathrm{\#\#\#\#\#}}$ 为该行业形成期的超额收益率，$\Delta V_{\#,\tt HX,HH}$ 为该行业相对指数的成交量放大（或缩小）的幅度。
+其中 $R_{_{Momentun}}$ 为动量因子， $R_{形成期}$ 为该行业形成期的超额收益率，$\Delta V_{形成期}$ 为该行业相对指数的成交量放大（或缩小）的幅度。
 
 $$
-\Delta V_{\#\sharp\sharp\sharp\sharp}=\bar{V}_{\#\sharp\sharp\sharp\sharp}/\bar{V}_{\sharp\sharp\sharp\sharp}-\bar{V}_{\mathrm{E},\sharp\sharp\sharp\sharp\sharp}/\bar{V}_{\mathrm{E},\sharp\sharp\mathrm{K}^{\sharp\sharp}}
+\Delta V_{形成期}=\overline{V_{形成期}}/\overline{V_{前k周}}-\overline{V_{E,形成期}}/\overline{V_{E,前k周}}
 $$
 
-$\hat{V_{\mathrm{T}}}$ $\hat{V}_{E,T}$ 分别为行业和市场指数在T 期内的平均成交额。
+$\bar{V}_{\mathrm{T}}$ $\bar{V}_{E,T}$ 分别为行业和市场指数在T 期内的平均成交额。
 
 表2 基于价格和交易量的动量因子
 
-| $R_{\#\#\#\#}$ |  | $\Delta V_{\#,\tt HX,HH}$ |  | $R_{\mathit{Momentum}}=R_{\#\#\#\mathbb{H}}{*\Big(1+\Delta V_{\#\#\#\mathbb{H}}}\Big)$ 动量因子强弱 |
+| $R_{形成期}$ |  | $\Delta V_{形成期}$ |  | $R_{Momentum}=R_{形成期}*(1+\Delta V_{形成期})$ 动量因子强弱 |
 | --- | --- | --- | --- | --- |
 | 符号 | 所代表含义 | 符号 | 所代表含义 |  |
 | 正 | 走势强于指数 | 正 | 成交额放大幅度大于指数 | 价量齐升，向上的动量很强 |
@@ -205,10 +205,10 @@ $\hat{V_{\mathrm{T}}}$ $\hat{V}_{E,T}$ 分别为行业和市场指数在T 期内
 利用构建的基于价格和交易量的动量因子和单纯的价格反转因子，我们建立动量反转共振模型：
 
 $$
-R_{\scriptscriptstyle\mathrm{HFH}}=k_{1}\mathrm{^{*}}R_{\scriptscriptstyle Momentum}+k_{2}\mathrm{^{*}}R_{\scriptscriptstyle\mathrm{Re}\nu ersal}+c
+R_{持有期}=k_{1}*R_{Momentum}+k_{2}*R_{Reversal}+c
 $$
 
-其中 $R_{\sharp_{\sharp}\sharp_{\sharp}\sharp_{\sharp}\sharp_{\sharp}}$ 为行业在持有期的超额收益率， $R_{Momentum}$ 为基于动量形成期内的超额收益率和交易量构建的动量因子， $R_{\mathrm{Re}\nu ersal}$ 为反转形成期内的超额收益率（价格反转因子）， $k_{1},k_{2},c$ 为模型需要拟合的系数。
+其中 $R_{持有期}$ 为行业在持有期的超额收益率， $R_{_{Momentum}}$ 为基于动量形成期内的超额收益率和交易量构建的动量因子， $R_{_{\mathrm{Re}versal}}$ 为反转形成期内的超额收益率（价格反转因子）， $k_{1},k_{2},c$ 为模型需要拟合的系数。
 
 ## 2.2.构建模拟组合，检测模型效果
 

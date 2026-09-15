@@ -43,11 +43,11 @@ wangxiaokang@gjzq.com.cn
 在经典的经济学研究中，将商品的需求（供给）价格弹性定义为商品的需求量（供给量）对于价格变动做出反应的敏感程度，通常用需求量（供给量）变动的百分比对价格变动的百分比的比值来表示。
 
 $$
-E_{d}=\frac{{\varDelta{Q_{d}}}/{Q_{d}}}{{\varDelta{P}}/{P}}=\frac{{\varDelta{Q_{d}}}}{{\varDelta{P}}}\cdot\frac{P}{{Q_{d}}}
+E_{d}=\frac{\Delta Q_{d}/Q_{d}}{\Delta P/P}=\frac{\Delta Q_{d}}{\Delta P}\cdot\frac{P}{Q_{d}}
 $$
 
 $$
-E_{s}=\frac{{\varDelta{Q_{s}}}/{Q_{s}}}{{\varDelta{P}}/{P}}=\frac{{\varDelta{Q_{s}}}}{{\varDelta{P}}}\cdot\frac{P}{{Q_{s}}}
+E_{s}=\frac{\Delta Q_{s}/Q_{s}}{\Delta P/P}=\frac{\Delta Q_{s}}{\Delta P}\cdot\frac{P}{Q_{s}}
 $$
 
 一般情况下，需求弹性为负值，即商品的需求量会随着价格的上升降低。供给弹性为正值，商量的供给量会随着价格的上升而上升。
@@ -65,7 +65,7 @@ $$
 在上图中，我们将股票在某一个 Tick 时刻的限价订单簿进行提取处理。针对买卖双方，分别从第一档开始将委托量进行累加。即，对于第 K 档委托，其累计委托量为：
 
 $$
-Q_{k}=\sum_{i=1}^{k}Q_{i}
+Q_{k}={\sum}_{i=1}^{k}Q_{i}
 $$
 
 图表3：某股票高频快照累计订单簿数据示例（二）
@@ -129,11 +129,11 @@ $$
 与上文类似地，我们定义了买卖双方对应档位的斜率差异因子以衡量双方的耐心程度差异：
 
 $$
-Slope_{abl}={\frac{Slope_{al}-\ Slope_{bl}}{Slope_{al}+Slope_{bl}}}
+\mathit{Slope}_{abl}=\frac{\mathit{Slope}_{al}-\mathit{Slope}_{bl}}{\mathit{Slope}_{al}+\mathit{Slope}_{bl}}
 $$
 
 $$
-Slope_{abh}=\frac{Slope_{ah}-\ Slope_{bh}}{Slope_{ah}+Slope_{bh}}
+\mathit{Slope}_{abh}=\frac{\mathit{Slope}_{ah}-\mathit{Slope}_{bh}}{\mathit{Slope}_{ah}+\mathit{Slope}_{bh}}
 $$
 
 我们同样以次日开盘价在中证 800 和中证 1000 成分股上进行测试，发现经过档位切割的斜率因子相较十档斜率因子有了大幅度的提升，展现出了较强的预测效果。低档位斜率因子表现更加突出，IC 值为-1.69%，风险调整后 IC 为-0.22。

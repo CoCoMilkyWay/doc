@@ -145,7 +145,7 @@ S0490518120004
 资金流向指标反映了一段时间内股票的供需关系，如果股价上涨我们认为股票的需求大于供给，资金呈流入状态；反之我们则认为供给大于需求，资金流出。指标计算公式如下：
 
 $$
-\dot{\mathcal{Z}}\dot{\mathcal{Z}}\dot{\mathcal{Z}}\dot{\mathcal{W}}\dot{\mathcal{P}}\dot{\mathcal{J}}=\frac{\sum_{i=1}^{N}Amount_{i}\times\frac{Close_{i}-Close_{i-1}}{|Close_{i}-Close_{i-1}|}}{\sum_{i=1}^{N}Amount_{i}}
+资金流内=\frac{\sum_{i=1}^{N}Amount_{i}\times\frac{Class_{i}-close_{i-1}}{|Class_{i}-close_{i-1}|}}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 其中Amount 为 1 分钟内成交额，Close 为 1分钟收盘价。
@@ -175,15 +175,15 @@ $$
 高阶矩因子刻画了股票收益率的分布情况，直接反映了交易行为中的异常程度，公式如下：
 
 $$
-4\acute{\chi}\dot{\widetilde{z}}\widetilde{\pi}\dot{\overline{{{z}}}}\widetilde{\pi}\dot{\overline{{{z}}}}\dot{\overline{{{z}}}}Var=\frac{\sum_{i=1}^{N}\left(r_{i}-r_{Avg}\right)^{2}}{N-1}
+收益率方差Var=\frac{\sum_{i=1}^{N}(r_i-r_{Avg})^2}{N-1}
 $$
 
 $$
-4\textcircled{\div}\frac{\div}{2m}=\textcircled{\div}\frac{\rho}{4m}\times\frac{\div}{2}.5kewness=\frac{\sum_{i=1}^{N}\bigl(r_{i}-r_{Avg}\bigr)^{3}}{(N-1)Var^{\frac{3}{2}}}
+收益率瘤度Skewness=\frac{\sum_{i=1}^{N}(r_{i}-r_{Avg})^{3}}{(N-1)Var^{\frac{3}{2}}}
 $$
 
 $$
-4\times\frac{3}{200}=\frac{4}{160}(\frac{3}{2})\frac{4}{5}Kurtosis=\frac{\sum_{i=1}^{N}\bigl(r_{i}-r_{Avg}\bigr)^{4}}{(N-1)Var^{2}}
+收益率瘤度Kurtosis=\frac{\sum_{i=1}^{N}(r_{i}-r_{Avg})^{4}}{(N-1)Var^{2}}
 $$
 
 其中 $r_{i}$ 为 1 分钟对数收益率， $r_{Avg}$ 为每天的 1 分钟对数收益率平均。
@@ -209,7 +209,7 @@ $$
 从报告《高频因子（二）：结构化反转因子》中我们了解到交易层面的反转效应会和成交活跃程度相关，成交量越低反转效应越弱，且到达一定阈值后转变为动量效应。基于此特性，给出了结构化反转因子的构建方法：
 
 $$
-\mathcal{\underline{{L}}}\sharp\sharp\mathcal{J}/\mathcal{L}/\mathscr{Z}\mathscr{\sharp}\mathscr{\sharp}=\frac{\sum_{i=1}^{N}r_{i}\times volume_{i}}{\sum_{i=1}^{N}volume_{i}}
+结构化反差=\frac{\sum_{i=1}^{N}r_{i}\times volume_{i}}{\sum_{i=1}^{N}volume_{i}}
 $$
 
 其中r为 1 分钟对数收益率。
@@ -225,11 +225,11 @@ $$
 在报告《高频因子（五）：高频因子和交易行为》中介绍了 Amihud（2003）以收益率和成交额构建的非流动性因子，并以轨迹变动的方式对非流动性因子进行了改进：
 
 $$
-E{\ '}={\ '}jk\rangle\dot{\mathcal{Z}}{\dot{\mathcal{W}}}{\dot{\mathcal{Z}}}{\dot{\mathcal{W}}}/{\dot{\mathcal{W}}}=mean\left({\frac{|Return_{i}|}{Amount_{i}}}\right)
+原共流动性=mean\left(\frac{\left|Return_{i}\right|}{Amount_{i}}\right)
 $$
 
 $$
-2\xi\zeta i\#\exists\mathcal{I}\xi\dot{\mathcal{W}}\dot{z}\dot{z}\delta\dot{\mathcal{W}}/\mathcal{G}=\frac{\log\prod(1+|Return_{i}|)}{\sum_{i=1}^{N}Amount_{i}}
+改进托流动性=\frac{\log\prod(1+\left|Return_{i}\right|)}{\sum_{i=1}^{N}Amount_{i}}
 $$
 
 其中 $Return_{i}$ 为 1 分钟收益率， $Amount_{i}$ 为 1 分钟成交额。

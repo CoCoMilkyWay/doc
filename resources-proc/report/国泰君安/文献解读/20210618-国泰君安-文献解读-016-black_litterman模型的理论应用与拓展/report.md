@@ -83,71 +83,71 @@ Black-Litterman 模型是近年来最为广泛使用的量化配置模型。从�
 我们考虑由 n 个资产构成的金融市场，这些资产的收益向量 r 服从以 u为预期收益向量，以Σ为协方差矩阵的多元正态分布:
 
 $$
-\boldsymbol{\mathrm{r}}\sim\mathrm{N}(\mathrm{u},\ \Sigma)\tag{1}
+\mathbf{r}\sim\mathrm{N}(\mathbf{u},\Sigma)\tag{1}
 $$
 
-在经典现代组合理论(Markowitz, 1952)的框架下，一个均值方差的投资者通过均值方差优化来决定投资组合的权重 ${\mathrm{h}}=({\mathrm{h}}_{1},{\mathrm{h}}_{2},\ldots,{\mathrm{h}}_{\mathrm{n}})^{\mathrm{T}}$
+在经典现代组合理论(Markowitz, 1952)的框架下，一个均值方差的投资者通过均值方差优化来决定投资组合的权重 $\mathbf{h}=(\mathbf{h}_1,\mathbf{h}_2,\ldots,\mathbf{h}_{\mathbf{n}})^{\mathrm{T}}$
 
 $$
-\begin{array}{r}{\mathsf{Max}_{\mathrm{h}\in\mathbb{C}}\mathsf{u}_{\mathrm{p}}-\frac{\lambda}{2}\sigma_{\mathrm{p}}^{2}}\end{array}\tag{2}
+\scriptstyle\operatorname{Max}_{\scriptstyle\mathrm{h}\in\mathbb{C}}\operatorname{u}_{\scriptstyle\mathrm{p}}-{\frac{\lambda}{2}}\sigma_{\mathrm{p}}^{2}\tag{2}
 $$
 
-其中 $\mathrm{u_{p}}\mathrm{:=E[h^{T}r]=h^{T}u}$ ，代表了组合预期收益， $\sigma_{\mathrm{p}}^{2}:=\mathrm{V}[\mathrm{h^{T}r}]=\mathrm{h^{T}}\Sigma\mathrm{h}$ 代表了组合方差，λ代表了投资者风险厌恶系数，C 代表了优化约束(可参考 Fabozzi et al., 2007; Kolm, Tutuncu, & Fabozzi, 2014 对于基金经理常用投资约束的讨论)。对于一个没有投资约束的投资者，最优的组合权重是:
+其中 $\mathbf{u}_{\mathsf{p}}\mathbf{:}=\operatorname{E}[\mathbf{h}^{\mathsf{T}}\mathbf{r}]=\mathbf{h}^{\mathsf{T}}\mathbf{u}$ ，代表了组合预期收益， $\mathbf{\sigma}_{\mathtt{p}}^{2}:=\mathbf{V}[\mathbf{h}^{\mathrm{T}}\mathbf{r}]=\mathbf{h}^{\mathrm{T}}\Sigma\mathbf{h}$ 代表了组合方差，λ代表了投资者风险厌恶系数，C 代表了优化约束(可参考 Fabozzi et al., 2007; Kolm, Tutuncu, & Fabozzi, 2014 对于基金经理常用投资约束的讨论)。对于一个没有投资约束的投资者，最优的组合权重是:
 
 $$
-\begin{array}{r}{\mathrm{h}^{\ast}=\frac{1}{\lambda}\Sigma^{-1}\mathrm{u}}\end{array}\tag{3}
+\begin{array}{r}{\mathbf{h}^{*}=\frac{1}{\lambda}\Sigma^{-1}\mathbf{u}}\end{array}\tag{3}
 $$
 
-在 BL 模型中，投资者以线性组合的方式表达收益观点(公式 4)。一个投资观点可能是类似“德国股票的收益比欧洲市值加权股票的收益高5%”的表述(Litterman & He, 1999)。为了将这一表述转化为数学语言，投资者可以使用 $\ \mathbf{p}=(\mathbf{p}_{1},\ldots,\mathbf{p_{n}})^{\mathrm{T}}.$ 声明一个在德国股票市场权重为 1，在欧洲所有股票市场权重之和为-1 的观点组合。并令这一组合的预期收益率$\mathsf{q}{=}0.05$ 。如公式4，k个等式对应了 k个资产收益观点。 $\mp_{\mathsf{Pp}_{\mathrm{i}}}$ 与 ${\bf q}_{\mathrm{i}}$ 分别对应了相应的观点组合的权重以及观点组合的预期收益。
+在 BL 模型中，投资者以线性组合的方式表达收益观点(公式 4)。一个投资观点可能是类似“德国股票的收益比欧洲市值加权股票的收益高5%”的表述(Litterman & He, 1999)。为了将这一表述转化为数学语言，投资者可以使用 ${\bf\sf{p}}=({\bf\sf{p}}_{1},\dots,{\bf\sf{p}}_{\bf\sf{n}})^{\bf\sf{T}},$ 声明一个在德国股票市场权重为 1，在欧洲所有股票市场权重之和为-1 的观点组合。并令这一组合的预期收益率$\mathsf{q}{=}0.05$ 。如公式4，k个等式对应了 k个资产收益观点。 $而\mathbf{p}_{\mathbf{i}}$ 与 $\mathbf{q}_{\mathrm{i}}$ 分别对应了相应的观点组合的权重以及观点组合的预期收益。
 
 $$
-\mathrm{E[p_{i}^{T}r]=q_{i},i=1,\dots,k}\tag{4}
+\mathbb{E}[\mathbf{\mathsf{p}_{i}}^{\mathrm{T}}\mathbf{\mathsf{r}}]=\mathbf{\mathsf{q}_{i}},\mathbf{\mathsf{i}}=1,\dots,\mathbf{\mathsf{k}}\tag{4}
 $$
 
 值得一提的是，公式 4 并没有考虑投资者对收益观点的信心水平(观点不确定性)。为了纳入对收益观点信心水平的考虑，在 BL模型以残差分布的形式对收益观点的信心水平进行描述：
 
 $$
-\mathfrak{q}=\mathtt{Pu}+\varepsilon_{\mathfrak{q}},\varepsilon_{\mathfrak{q}}{\sim}\mathsf{N}(0,\Omega)\tag{5}
+\mathbf{q}=\mathbf{P}\mathbf{u}+\mathbf{\varepsilon}_{\mathbf{q}},\mathbf{\varepsilon}_{\mathbf{q}}{\sim}\mathbf{N}(0,\Omega)\tag{5}
 $$
 
-总结而言，投资者的收益观点以观点组合的收益均值以及协方差矩阵的形式定义。观点组合收益的分布包含了资产收益分布的部分信息，并且包含了观点的不确定性 $\varepsilon_{\mathfrak{q}}$ 。
+总结而言，投资者的收益观点以观点组合的收益均值以及协方差矩阵的形式定义。观点组合收益的分布包含了资产收益分布的部分信息，并且包含了观点的不确定性 $\varepsilon_{\mathbf{q}}$ 。
 
-BL 模型的核心假设在于，当投资者并不具有收益观点时，均值方差的最优组合应当与 CAPM 下的均衡组合 $\mathrm{h_{eq}-}$ 致。在没有收益观点时，投资者使用如下的预期收益建模:
+BL 模型的核心假设在于，当投资者并不具有收益观点时，均值方差的最优组合应当与 CAPM 下的均衡组合 $\mathbf{h_{eq}}^{-}$ 致。在没有收益观点时，投资者使用如下的预期收益建模:
 
 $$
-\mathsf{u}\sim\mathsf{N}(\pi,\mathsf{C})\tag{6}
+\mathbf{u}\sim\mathrm{N}(\pi,\mathsf{C})\tag{6}
 $$
 
 其中π代表了CAPM模型的预期收益预测，C代表了投资者对CAPM模型预测的信心。公式 6 被称作 CAPM 先验假设。将资产收益分布(公式1)、CAPM 先验假设(公式 6)以及投资者观点(公式 5)结合，就可以得到BL模型的后验预期收益预测：
 
 $$
-\mathrm{\Delta\ u_{BL}{:}=(P^{T}\Omega^{-1}P\ +\ C^{-1})^{-1}(P^{T}\Omega^{-1}q\ +\ C^{-1}\pi)}\tag{7}
+\mathbf{u}_{\mathrm{BL}}{:=}(\mathsf{P}^{\mathsf{T}}\Omega^{-1}\mathsf{P}\;+\;\mathsf{C}^{-1})^{-1}(\mathsf{P}^{\mathsf{T}}\Omega^{-1}\mathsf{q}\;+\;\mathsf{C}^{-1}\pi)\tag{7}
 $$
 
 以及BL模型的后验预期收益协方差矩阵的预测:
 
 $$
-\Sigma_{\mathrm{BL}}\mathrm{:=V[u_{BL}]~=(P^{T}\Omega^{-1}P~+~C^{-1})^{-1}}\tag{8}
+\Sigma_{\mathrm{BL}}{:=}\mathrm{V}[\mathfrak{u}_{\mathrm{BL}}]\;=(\mathsf{P}^{\mathrm{T}}\Omega^{-1}\mathsf{P}\;+\;\mathsf{C}^{-1})^{-1}\tag{8}
 $$
 
 基于BL模型后验预期收益与协方差矩阵的最优组合如下：
 
 $$
-\mathrm{h_{BL}^{*}=\lambda^{-1}(\Sigma_{BL}+\Sigma)^{-1}\Sigma_{BL}(P^{T}\Omega^{-1}q\Sigma+\Sigma^{-1}\pi)}\tag{9}
+\begin{array}{r}{\mathrm{h}_{\mathrm{BL}}^{*}=\lambda^{-1}(\Sigma_{\mathrm{BL}}+\Sigma)^{-1}\Sigma_{\mathrm{BL}}(\mathrm{P}^{\mathrm{T}}\Omega^{-1}\mathsf{q}\;+\;\mathsf{C}^{-1}\pi)}\end{array}\tag{9}
 $$
 
 读者可以参考 Satchell & Scowcroft(2000), Fabozzi, Focardi, & Kolm(2006)以及 Idzorek(2007)中对 BL 模型的非贝叶斯推导。尽管 BL 模型经常被称作基于贝叶斯的组合构建方法，作者最初并未建立 BL 模型与贝叶斯统计之间的直接关系。
 
 BL 模型的一个重要特征在于，即使投资者仅对少数几个资产收益具有观点，BL 模型仍会对所有资产的预期收益进行调整。这是由于资产间相关性所导致的。当资产间相关性更高时，这一现象也会更为明显。这一现象的存在对稳健的预期收益估计至关重要。若不涉及对所有预期收益的调整，对任意资产预期收益预测的更改都会被均值方差优化器视作套利机会的出现，从而导致投资组合向少数资产过分集中。
 
-BL 的后验预期收益预测同样可以视作隐含预期收益与投资者收益观点的加权平均 $(\mathrm{u}_{\mathrm{BL}}=\mathrm{W}_{\pi}\pi+\mathrm{W}_{\ q}\breve{\ q})$ ,其中权重矩阵为：
+BL 的后验预期收益预测同样可以视作隐含预期收益与投资者收益观点的加权平均 $\left(\mathbf{u}_{\mathrm{BL}}=\mathbf{W}_{\mathfrak{m}}\boldsymbol{\pi}+\mathbf{W}_{\mathfrak{q}}\mathbf{\check{q}}\right)$ ,其中权重矩阵为：
 
 $$
-\mathsf{W}_{\pi}=(\mathsf{P}^{\mathrm{T}}\Omega^{-1}\mathsf{P}+\mathsf{C}^{-1})^{-1}\mathsf{C}^{-1}\tag{10}
+\mathsf{W}_{\pi}=(\mathsf{P}^{\mathsf{T}}\mathsf{\Omega}^{-1}\mathsf{P}\;+\;\mathsf{C}^{-1})^{-1}\mathsf{C}^{-1}\tag{10}
 $$
 
 $$
-\mathsf{W}_{\mathsf{q}}=(\mathsf{P}^{\mathrm{T}}\Omega^{-1}\mathsf{P}+\mathsf{C}^{-1})^{-1}\mathsf{P}^{\mathrm{T}}\Omega^{-1}\mathsf{P}\tag{11}
+\mathsf{W}_{\mathsf{q}}=(\mathsf{P}^{\mathsf{T}}\mathsf{\Omega}^{-1}\mathsf{P}\;+\;\mathsf{C}^{-1})^{-1}\mathsf{P}^{\mathsf{T}}\mathsf{\Omega}^{-1}\mathsf{P}\tag{11}
 $$
 
 换而言之，当投资者对收益观点信心不高时，最终预测更接近于市场均衡组合隐含的预期收益。反之当投资者对收益观点有较高信心时，最终预测会更多偏离市场均衡组合的隐含预期收益。
@@ -162,39 +162,39 @@ BL 模型的主要优点在于其简约性。简约性是任何应用于现实�
 
 此后的文章中，我们讨论对 BL 模型的改善与拓展。我们使用一个更一般的贝叶斯框架(Black-Litterman-Bayes, BLB)进行后续的分析。参考Kolm & Ritter(2017)，我们定义一个 BLB 模型由以下成分组成：
 
-1. 资产收益 $\mathfrak{p}(\mathfrak{r}|\theta)$ 的参数分布，其中 ${\boldsymbol{\mathrm{r}}}{:=}({\mathrm{r}}_{1},\ldots,{\mathrm{r}}_{\mathrm{{n}}})^{\mathrm{T}}$ 与 $\theta\colon=$ $(\mathsf{\theta}_{1},\dots,\mathsf{\theta}_{\mathrm{m}})^{\mathrm{T}}$ 分别代表了资产的收益以及参数分布中的参数；
+1. 资产收益 $\mathbf{p}(\mathbf{r}|\boldsymbol{\theta})$ 的参数分布，其中 $\mathbf{r}{:}=(\mathbf{r}_{1},\ldots,\mathbf{r}_{\mathrm{n}})^{\mathrm{T}}$ 与 $\Theta;=$ $(\boldsymbol{\theta}_{1},\dots,\boldsymbol{\theta}_{\mathrm{m}})^{\mathrm{T}}$ 分别代表了资产的收益以及参数分布中的参数；
 
 2. 先验分布π(θ)；
 
-3. 似然函数 $\operatorname{f}({\mathfrak{q}}|\theta)$ ，其中 $\mathsf{q}$ 是代表投资者收益观点的 k维向量；
+3. 似然函数 $\mathbf{f}(\mathbf{q}|\boldsymbol{\theta})$ ，其中 $\mathbf{q}$ 是代表投资者收益观点的 k维向量；
 
-4. 最终财富 ${\sf W}_{\mathrm{T}}$ 的效用函数 $\mathrm{U}(\mathsf{W}_{\mathrm{T}})$
+4. 最终财富 $\mathbb{W}_{\mathrm{T}}$ 的效用函数 $\mathrm{U}(\mathsf{W}_{\mathrm{T}})$
 
 在统计学的相关文献中，1 与 2 被称作一个贝叶斯概率模型。在贝叶斯统计中，所有的统计推断都依赖于后验分布进行。结合最优决策理论对效用函数进行优化(Robert, 2007),可以得到BLB模型下最优组合的权重：
 
 $$
-\mathrm{h^{*}}=\mathrm{\ argmax{_h\in}CE{[U(w_{0}+h^{T}r|q)]}}\tag{12}
+\mathbf{h}^{*}=\operatorname{argmax}_{\mathbf{h}\in\mathbb{C}}\mathbb{E}[\mathrm{U}(\mathbf{w}_{0}+\mathbf{h}^{\mathrm{T}}\mathbf{r}|\mathbf{q})]\tag{12}
 $$
 
 其中E[|q]代表了相对后验分布的期望计算， $\mathbf{w}_{0}$ 代表了初始财富值。后验分布则可以通过如下积分获得：
 
 $$
-\begin{array}{r}{\mathrm{p}(\boldsymbol{\mathbf{r}}|\boldsymbol{\mathbf{q}})=\int\mathrm{p}(\boldsymbol{\mathbf{r}}|\boldsymbol{\mathbf{\theta}})\mathrm{p}(\boldsymbol{\mathbf{\theta}}|\boldsymbol{\mathbf{q}})\mathrm{d}\boldsymbol{\mathbf{\theta}}}\end{array}\tag{13}
+\begin{array}{r}{\mathsf{p}(\mathsf{r}|\mathsf{q})=\int\mathsf{p}(\mathsf{r}|\mathsf{\theta})\mathsf{p}(\mathsf{\theta}|\mathsf{q})\mathsf{d}\mathsf{\theta}}\end{array}\tag{13}
 $$
 
 $$
-\begin{array}{r}{\mathrm{p}(\Theta|\mathrm{q})=\frac{\mathrm{f}(\mathrm{q}|\Theta)\pi(\Theta)}{\int\mathrm{p}(\mathrm{q}|\Theta)\pi(\Theta)d\Theta}}\end{array}\tag{14}
+\mathrm{p}(\boldsymbol{\Theta}|\boldsymbol{q})=\frac{\mathrm{f}(\boldsymbol{q}|\boldsymbol{\Theta})\pi(\boldsymbol{\Theta})}{\int\mathrm{p}(\boldsymbol{q}|\boldsymbol{\Theta})\pi(\boldsymbol{\Theta})d\boldsymbol{\Theta}}\tag{14}
 $$
 
-当我们有业绩基准 $\mathrm{h_{b}}$ 时，先验分布π(θ)是使得业绩基准 $\mathrm{h_{b}}$ 最优的收益分布。
+当我们有业绩基准 $\mathbf{h_{b}}$ 时，先验分布π(θ)是使得业绩基准 $\mathbf{h_{b}}$ 最优的收益分布。
 
 $$
-\begin{array}{r}{\mathbf{h}_{\mathbf{b}}=\operatorname{argmax}_{\mathbf{h}\in\mathbb{C}}\int\mathrm{U}(\mathbf{w}_{0}+\mathbf{h}^{\mathrm{T}}\mathbf{r})\mathrm{p}(\mathbf{r}|\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta}}\end{array}\tag{15}
+\mathbf{h}_{\mathrm{b}}=\operatorname{argmax}_{\mathbf{h}\in\mathbb{C}}\int\mathrm{U}(\mathbf{w}_{0}+\mathbf{h}^{\mathrm{T}}\mathbf{r})\mathbf{p}(\mathbf{r}|\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta}\tag{15}
 $$
 
 BLB 模型的意义不仅在于理论角度，它同样在后续BL模型的拓展开发中起重要作用。BLB 模型的核心在于基于后验分布的预测推断(公式13)以及后续的组合优化(公式12)。大多数情况下，这一优化流程并没有解析解，需要通过数值计算的方式获取最优组合。
 
-BL模型是BLB模型的一种特殊情况。当(r|θ)服从多元正态分布，f(θ|q)是代表投资者观点的正态分布，且存在一个唯一的先验观点时，BLB 模型与 BL 模型等价。值得一提的是，在 BL 模型中，p(r|θ)与f(q|θ)同时起到了似然函数的作用。类似的，随机变量 $(\Gamma,{\bf q},\theta)$ 之间并不独立，但是r|θ与q|θ之间相互独立。这是贝叶斯统计模型下的一种常见设定。在这样的设计定下，BL 模型起到了正则化资产协方差矩阵以避免过分集中持仓的作用。
+BL模型是BLB模型的一种特殊情况。当(r|θ)服从多元正态分布，f(θ|q)是代表投资者观点的正态分布，且存在一个唯一的先验观点时，BLB 模型与 BL 模型等价。值得一提的是，在 BL 模型中，p(r|θ)与f(q|θ)同时起到了似然函数的作用。类似的，随机变量 $(\mathbf{r},\mathbf{q},\boldsymbol{\theta})$ 之间并不独立，但是r|θ与q|θ之间相互独立。这是贝叶斯统计模型下的一种常见设定。在这样的设计定下，BL 模型起到了正则化资产协方差矩阵以避免过分集中持仓的作用。
 
 ## 4. Black-Litterman 模型应用要点
 
@@ -202,13 +202,13 @@ BL模型是BLB模型的一种特殊情况。当(r|θ)服从多元正态分布，
 
 ## 4.1. 先验观点的选择
 
-正如前文讨论的，BL 模型假设投资者对资产收益不具有观点时，均值方差最优组合应当是CAPM 下的均衡组合。这一先验假设对应了市值组合 $\mathrm{\cdot h_{eq}}$ 作为最优组合。
+正如前文讨论的，BL 模型假设投资者对资产收益不具有观点时，均值方差最优组合应当是CAPM 下的均衡组合。这一先验假设对应了市值组合 $\mathbf{h_{eq}}$ 作为最优组合。
 
 $$
-\begin{array}{r}{\mathtt{h_{eq}}=\frac{1}{\lambda}(\Sigma+\mathtt{C})^{-1}\pi}\end{array}\tag{16}
+\begin{array}{r}{\mathbf{h}_{\mathsf{eq}}=\frac{1}{\lambda}(\Sigma+\mathsf{C})^{-1}\boldsymbol{\pi}}\end{array}\tag{16}
 $$
 
-值得一提的是，在BL模型下，如公式 16的先验分布与似然函数是共轭分布，也因此，由 BL 模型所得的后验分布也将服从正态分布(可参考:Robert, 2007)。假设 ${\mathrm C}=\tau{\Sigma},\tau>0$ ，我们可以对公式16 进行化简，从而得到 $\pi=\lambda(1+\tau)\Sigma\mathrm{h}_{\mathrm{eq}}$
+值得一提的是，在BL模型下，如公式 16的先验分布与似然函数是共轭分布，也因此，由 BL 模型所得的后验分布也将服从正态分布(可参考:Robert, 2007)。假设 $\mathsf{C}=\tau\Sigma,\tau>0$ ，我们可以对公式16 进行化简，从而得到 $\mathbf{\pi}=\lambda(1+\tau)\Sigma\mathbf{h_{eq}}$
 
 由于BL模型使用CAPM作为先验假设，有些投资者认为它只能应用于充分分散的投资组合。我们希望指出，投资者可以选取各类多元正态分布作为先验分布。对于主动管理的基金经理而言，均值为 0 向量的多元正 态 分 布 是 一 个 常 见 选 择 (Herold, 2003; Da Silva, Lee, &Pornrojnangkool, 2009)。使用这种先验假设可以得到可叠加于任何投资组合的便携的超额收益(portable alpha)，这一组合并不依赖于任何业绩基准的存在。
 
@@ -223,7 +223,7 @@ BL 模型对于以多空组合为投资方式的投资者同样有借鉴意义�
 早期对 BL 模型的应用多使用投资者主观判断作为资产收益观点输入(Black & Litterman, 1991)。这带来了如何确定观点不确定性的问题。很多情况下，投资者使用观点组合的方差估计观点不确定性:
 
 $$
-\Omega{:=}\mathrm{constP}\Sigma\mathrm{P}^{\mathrm{T}}
+\Omega:=\mathrm{const}\mathrm{P}\Sigma\mathrm{P}^{\mathrm{T}}
 $$
 
 需要指出的是，虽然这样的方法简单且易于计算，投资者观点的不确定性和资产协方差矩阵在概念上存在差异。Black & Litterman(1991)指出投资观点的不确定性确实难以精确确认，他们建议使用不断试错直到得到合理最优组合的方式确认这一参数。
@@ -234,28 +234,28 @@ Focardi, & Kolm, 2006)。
 
 ## 4.3. 交易成本的纳入
 
-BL 模型在后验分布f(r|q)下最大化财富终值的期望效用。当后验分布 f服从多元正态分布且效用函数U $(\mathsf{W}_{\mathrm{T}})$ 是一个平滑单调增的凹函数时，对财富终值预期效用的优化等价于如下的简化形式：
+BL 模型在后验分布f(r|q)下最大化财富终值的期望效用。当后验分布 f服从多元正态分布且效用函数U $\left(\mathsf{W}_{\mathrm{T}}\right)$ 是一个平滑单调增的凹函数时，对财富终值预期效用的优化等价于如下的简化形式：
 
 $$
-\mathrm{\ argmax_{h}E[W_{T}|q]-\frac{\lambda}{2}V[W_{T}|q]}\tag{17}
+\mathrm{argmax}_{\mathrm{h}}\mathrm{E}[\mathrm{W}_{\mathrm{T}}|\mathrm{q}]-\frac{\lambda}{2}\mathrm{V}[\mathrm{W}_{\mathrm{T}}|\mathrm{q}]\tag{17}
 $$
 
-其中 ${\sf W}_{\mathrm{T}}$ 代表了时间 T 的财富价值，E[|q]以及 V[|q]分别代表了在后验分布下的预期收益以及方差预测。在考虑投资成本的情况下：
+其中 $\mathbb{W}_{\mathrm{T}}$ 代表了时间 T 的财富价值，E[|q]以及 V[|q]分别代表了在后验分布下的预期收益以及方差预测。在考虑投资成本的情况下：
 
 $$
-\mathsf{W}_{\mathrm{T}}=\mathsf{W}_{0}+\mathsf{h}^{\mathrm{T}}\boldsymbol{\mathrm{r}}-\mathsf{c}(\mathrm{h})\tag{18}
+\mathsf{W}_{\mathrm{T}}=\mathsf{W}_{0}+\mathsf{h}^{\mathrm{T}}\mathsf{r}-\mathsf{c}(\mathsf{h})\tag{18}
 $$
 
-c(h)代表了换仓等投资决策带来的投资成本。当投资者的风险厌恶系数确定后，初始财富 $\mathsf{W}_{0}$ 将不再重要。将公式 18 插入公式 17中可以得到：
+c(h)代表了换仓等投资决策带来的投资成本。当投资者的风险厌恶系数确定后，初始财富 $W_{0}$ 将不再重要。将公式 18 插入公式 17中可以得到：
 
 $$
-\mathrm{\ argmax_{h}E[h^{T}r-\ c(h)\vert q]-\frac{\lambda}{2}V[h^{T}r-\ c(h)\vert q]}\tag{19}
+\mathrm{argmax_{h}E[h^{T}r-c(h)|q]-\frac{\lambda}{2}V[h^{T}r-c(h)|q]}\tag{19}
 $$
 
-当投资组合的换手并不高时，大部分的投资组合收益波动来自于资产价值的变化，此时 $\mathrm{\Delta V[h^{T}r-\ c(h)|q]\approx V[h^{T}r|q]}$ 。利用这一假设，我们可以更进一步简化目标函数：
+当投资组合的换手并不高时，大部分的投资组合收益波动来自于资产价值的变化，此时 $\mathrm{V}[\mathrm{h}^{\mathrm{T}}\mathrm{r}-\mathrm{c}(\mathrm{h})|\mathrm{q}]\approx\mathrm{V}[\mathrm{h}^{\mathrm{T}}\mathrm{r}|\mathrm{q}]$ 。利用这一假设，我们可以更进一步简化目标函数：
 
 $$
-\mathrm{\ argmax_{h}E[h^{T}r-\ c(h)|q]-\frac{\lambda}{2}V[h^{T}r|q]}\tag{20}
+\mathrm{argmax}_{\mathrm{h}}\mathrm{E}[\mathrm{h}^{\mathrm{T}}\mathrm{r}-\mathrm{c}(\mathrm{h})|\mathrm{q}]-\frac{\lambda}{2}\mathrm{V}[\mathrm{h}^{\mathrm{T}}\mathrm{r}|\mathrm{q}]\tag{20}
 $$
 
 公式 20 代表了在 BL 以及 BLB 模型下把投资交易成本纳入组合优化的方法。在传统的 BL 模型下，E[r|q]以及 V[r|q]对应了公式 7 以及公式 8中的 BL 均值以及协方差矩阵预测。而在 BLB 更一般的贝叶斯框架下，我们需要对后验分布的矩信息进行估计。
@@ -272,37 +272,37 @@ $$
 
 在 BL 模型下，投资者的收益观点以资产组合的方式表达。然而因子并不是投资组合，而是代表特定风险来源的不可观测的隐变量，因子模型无法直接应用于 BL 模型。Kolm & Ritter(2017, 2020)提出的基于贝叶斯统计的纳入因子风险溢价的方法可供参考。本节我们对这种方法进行简要介绍。
 
-以套利定价模型(APT)作为出发点，我们假设市场中存在 n 个资 $\cdot\vec{p}$ 以如下线性因子模型定义：
+以套利定价模型(APT)作为出发点，我们假设市场中存在 n 个资 $\cdot 产$ 以如下线性因子模型定义：
 
 $$
-\mathrm{{r}_{t}=X_{t}f_{t}+\varepsilon_{t},\ \varepsilon_{t}{\sim}N(0,D_{t})}\tag{21}
+\mathrm{r}_{\mathrm{t}}=\mathrm{X}_{\mathrm{t}}\mathrm{f}_{\mathrm{t}}+\varepsilon_{\mathrm{t}},\varepsilon_{\mathrm{t}}\sim\mathrm{N}(0,\mathrm{D}_{\mathrm{t}})\tag{21}
 $$
 
-其中 ${\mathrm{X}}_{\mathrm{t}}$ 代表了n*k的因子载荷矩阵， $\boldsymbol{\varepsilon}_{\mathrm{t}}\mathrm{:=}(\varepsilon_{\mathrm{t},1},\ldots,\varepsilon_{\mathrm{t,n}})^{\mathrm{T}}$ 代表n 维的残差收益向量， $\mathbf{f}_{\mathrm{t}}{:=(\mathbf{f}_{\mathrm{t},1},\ldots,\mathbf{f}_{\mathrm{t,k}})^{\mathrm{T}}}$ 代表k维的因子变量向量， $\mathrm{f_{t}}$ 的期望以及方差分别为 $u_{\mathrm{f}}\dot{\nu}\lambda$ 及 F。我们假设残差收益互不相关。
+其中 $\mathrm{X_{t}}$ 代表了n*k的因子载荷矩阵， $\boldsymbol{\varepsilon}_{\mathrm{t}}{:}=(\varepsilon_{\mathrm{t},1},\dots,\varepsilon_{\mathrm{t},\mathrm{n}})^{\mathrm{T}}$ 代表n 维的残差收益向量， $\mathbf{f_{t}}{:}=(\mathbf{f_{t,1}},\dots,\mathbf{f_{t,k}})^{\mathrm{T}}$ 代表k维的因子变量向量， $\mathbf{f_{t}}$ 的期望以及方差分别为 $\mathbf{u}_{\mathrm{f}}以$ 及 F。我们假设残差收益互不相关。
 
-假设u 以及 F 是常数，我们可以对因子收益 $\mathrm{f_{t}}$ 的先验分布进行估计。一个可行的选择是使用OLS 回归计算因子收益值： $\widehat{\mathrm{f}_{\mathrm{t}}}=(\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{X}_{\mathrm{t}})^{\mathrm{T}}\mathrm{X}_{\mathrm{t}}^{\mathrm{T}}\mathrm{r}_{\mathrm{t}+1}$ 。通过更为复杂模型估计的因子收益也可使用(Gelman et al., 2003)。我们可以定义先验分布为:
+假设u 以及 F 是常数，我们可以对因子收益 $\mathbf{f_{t}}$ 的先验分布进行估计。一个可行的选择是使用OLS 回归计算因子收益值： $\widehat{\mathbf{f}}_{\mathbf{t}}=(\mathbf{X}_{\mathbf{t}}^{\mathrm{T}}\mathbf{X}_{\mathbf{t}})^{\mathrm{T}}\mathbf{X}_{\mathbf{t}}^{\mathrm{T}}\mathbf{r}_{\mathbf{t}+1}$ 。通过更为复杂模型估计的因子收益也可使用(Gelman et al., 2003)。我们可以定义先验分布为:
 
 $$
-\pi_{\mathrm{f}}{\sim}\mathrm{N}(\xi,\mathrm{V})\tag{22}
+\mathbf{\pi}_{\mathrm{f}}{\sim}\mathrm{N}(\xi,\mathrm{V})\tag{22}
 $$
 
 对于因子风险溢价的主观观点以类似BL模型的方式表达：
 
 $$
-\mathfrak{q}=\mathfrak{u}_{\mathrm{f}}+\mathfrak{e}_{\mathfrak{q}},\mathfrak{e}_{\mathfrak{q}}{\sim}\mathrm{N}(0,\Omega)\tag{23}
+\mathbf{q}=\mathbf{u}_{\mathbf{f}}+\mathbf{\varepsilon}_{\mathbf{q}},\mathbf{\varepsilon}_{\mathbf{q}}{\sim}\mathbf{N}(0,\Omega)\tag{23}
 $$
 
-其中， $\Omega=\mathrm{diag}(\mathbf{w}_{1}^{2},\dots,\mathbf{w}_{\mathrm{k}}^{2})$ 代表了因子风险溢价观点的不确定性。Kolm& Ritter(2017, 2020)证明了此时后验分布的预期收益与协方差矩阵分别为：
+其中， $\Omega=\mathrm{diag}(\mathsf{w}_{1}^{2},\dots,\mathsf{w}_{\mathrm{k}}^{2})$ 代表了因子风险溢价观点的不确定性。Kolm& Ritter(2017, 2020)证明了此时后验分布的预期收益与协方差矩阵分别为：
 
 $$
-\mathsf{u}_{\mathrm{BL-fac}}=\Sigma_{\mathrm{BL-fac}}\Sigma^{-1}\mathrm{X}(\forall^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1})^{-1}\forall^{-1}\forall\tag{24}
+\mathrm{u_{BL-fac}\;=\;\Sigma_{BL-fac}\Sigma^{-1}X(\widetilde{V}^{-1}+X^{T}\Sigma^{-1})^{-1}\widetilde{V}^{-1}\widetilde{\xi}}\tag{24}
 $$
 
 $$
-\Sigma_{\mathrm{BL-fac}}=\left(\Sigma^{-1}+\Sigma^{-1}\mathrm{X}(\overline{{{\mathsf{V}}}}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1})^{-1}\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\right)^{-1}\tag{25}
+\Sigma_{\mathrm{BL-fac}}=\left(\Sigma^{-1}+\Sigma^{-1}\mathrm{X}(\widetilde{\mathrm{V}}^{-1}+\mathrm{X}^{\mathrm{T}}\Sigma^{-1})^{-1}\mathrm{X}^{\mathrm{T}}\Sigma^{-1}\right)^{-1}\tag{25}
 $$
 
-其中 $\forall:=(\mathsf{V}^{-1}+\Omega^{-1})^{-1}$ 与 $\breve{\xi}:=\breve{\nabla}(\vee^{-1}\xi+\Omega^{-1}\mathbf{q})$ 是后验分布的超参数，并且Σ:= D+XFX是因子模型下资产收益的协方差矩阵。
+其中 $\widetilde{\nabla}{:}=(\nabla^{-1}+\Omega^{-1})^{-1}$ 与 $\tilde{\boldsymbol{\xi}}:=\tilde{\nabla}(\mathrm{V}^{-1}\boldsymbol{\xi}+\Omega^{-1}\boldsymbol{\eta})$ 是后验分布的超参数，并且Σ:= D+XFX是因子模型下资产收益的协方差矩阵。
 
 ## 5.2. BL 的非线性建模拓展
 
@@ -310,22 +310,22 @@ $$
 
 Chamberlain(1983)发现，当资产收益服从椭球分布时，任何凹预期效用函数最终都可以转化为资产组合期望收益与方差的函数。值得一提的是，椭球分布是一个涵盖广泛的分布类别，包含了学生T 分布在内的多种尖峰厚尾分布。这意味着在BLB 的框架下，只要后验分布是椭球分布，我们总能得到均值方差类型的目标函数。但需要注意的是，如果先验分布与似然分布并不共轭，那么后验分布的矩信息可能非常难以计算。
 
-Meucci(2008)曾提出了一种变形以放松 BL 模型对线性假设的依赖（Entropy-based methods,下称 EP）。他假设风险因 ${\bf\bar{\Psi}}\Theta=(\theta_{1},\dots,\theta_{\mathrm{m}})^{\mathrm{T}}$ 服从如下先验分布：
+Meucci(2008)曾提出了一种变形以放松 BL 模型对线性假设的依赖（Entropy-based methods,下称 EP）。他假设风险因 $于\boldsymbol{\theta}=(\boldsymbol{\theta}_1,\ldots,\boldsymbol{\theta}_{m})^{T}$ 服从如下先验分布：
 
 $$
-\theta{\sim}\pi\tag{26}
+\Theta{\sim}\pi\tag{26}
 $$
 
 其中，θ可以是资产收益、APT 模型中的隐因子、或者任何隐因子的线性以及非线性组合。与 BLB 模型下使用似然函数表达观点并不相同，EP 模型通过给未知的后验分布的参数加以约束的方式纳入投资观点。
 
 $$
-\mathsf{p}(\boldsymbol{\theta})\in\mathsf{V}\tag{27}
+\mathbf{p}(\boldsymbol{\theta})\in\mathbf{V}\tag{27}
 $$
 
 V代表了由资产收益观点带来的这类约束。这样的建模可以有效纳入与风险因子有关的非线性观点。由于 EP 模型中并不包含似然函数，后验分布并不能直接以贝叶斯概率的方式获取。取而代之的是直接对 KL 散度进行优化：
 
 $$
-\mathrm{\Delta p_{\Delta}=argmax_{p\in V}D_{KL}(p|\pi)}\tag{28}
+\mathrm{p}=\mathrm{argmax}_{\mathrm{p}\in\mathrm{V}}\mathrm{D}_{\mathrm{KL}}(\mathrm{p}|\pi)\tag{28}
 $$
 
 投资观点的信心水平可使用类似 BL 模型的方式获取。需要指出的是，公式 28 的计算复杂程度由投资观点函数的复杂程度确定。当资产收益的后验分布被确定后，投资者可以利用传统均值方差优化的方式获取最优组合。我们这里讨论的是参数模型形式的EP 模型，EP 模型同样可以以非参的形式进行建模(Meucci, 2008; Meucci, Ardia, & Colasante, 2014)。

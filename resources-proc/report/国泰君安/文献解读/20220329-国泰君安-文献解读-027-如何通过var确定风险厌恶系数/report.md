@@ -65,27 +65,27 @@ Bodnar, T. , et al. "Determination and estimation of risk aversion coefficients.
 风险厌恶系数的确认离不开对效用函数的建模。但基于数学和经济的考虑，通常使用的效用函数主要有两类，即二次效用和指数效用。假设投资组合的权重向量为
 
 $$
-\mathbf{w}=\mathbf{w}_{\mathbf{k}\times1}=(\mathbf{w}_{1},\ldots,\mathbf{w_{k}})^{\mathrm{T}}{\boldsymbol{:1}^{\mathrm{T}}}\cdot\mathbf{w}=1
+\mathbf{w}=\mathbf{w}_{\mathbf{k}\times\mathbf{1}}=(\mathbf{w}_{\mathbf{1}},\ldots,\mathbf{w}_{\mathbf{k}})^{\mathrm{T}}\mathbf{:}\mathbf{1}^{\mathrm{T}}\cdot\mathbf{w}=1
 $$
 
 两种效用函数分别为：
 
 $$
-\begin{array}{c}{\displaystyle\mathrm{U}_{\mathrm{quad}}(\mathrm{R}_{\mathrm{w}})=\mathrm{R}_{\mathrm{w}}-\frac{\gamma_{\mathrm{quad}}}{2}\cdot\mathrm{R}_{\mathrm{w}}^{2}=\mathrm{X}^{\mathrm{T}}\mathrm{w}-\frac{\gamma_{\mathrm{quad}}}{2}\cdot(\mathrm{X}^{\mathrm{T}}\mathrm{w})^{2}}\\{\displaystyle\mathrm{U}_{\mathrm{exp}}(\mathrm{R}_{\mathrm{w}})=1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathrm{R}_{\mathrm{w}}}}\end{array}
+\begin{aligned}\mathrm{U}_{\mathrm{quad}}(\mathrm{R}_{\mathrm{w}})=\mathrm{R}_{\mathrm{w}}-\frac{\gamma_{\mathrm{quad}}}{2}\cdot\mathrm{R}_{\mathrm{w}}^{2}=\mathrm{X}^{\mathrm{T}}\mathrm{w}-\frac{\gamma_{\mathrm{quad}}}{2}\cdot(\mathrm{X}^{\mathrm{T}}\mathrm{w})^{2}\\\mathrm{U}_{\mathrm{exp}}(\mathrm{R}_{\mathrm{w}})=1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathrm{R}_{\mathrm{w}}}\end{aligned}
 $$
 
 $$
-\left\{\begin{array}{c}{\mathrm{~X=X_{k\times1}=(X_{1},\ldots,X_{k})^{T}}}\\{\mathrm{~R_{w}=X^{T}{\bf w}~}}\end{array}\right.
+\left\{\begin{aligned}\mathrm{X}=\mathrm{X}_{\mathrm{k}\times1}=(\mathrm{X}_1,\ldots,\mathrm{X}_{\mathrm{k}})^{\mathrm{T}}\\\mathrm{R}_{\mathrm{w}}=\mathrm{X}^{\mathrm{T}}\mathrm{w}\end{aligned}\right.
 $$
 
 分别代表资产的收益率和对应的投资组合的收益率，不同下标的γ对应的即两种不同的风险厌恶系数。可以证明，如果资产收益服从多元正态分布，那么指数型效用函数的最优解等同于
 
 $$
-\mathrm{U}_{\mathrm{mu}}(\mathrm{R}_{\mathrm{w}})=\mathrm{\textmu^{T}}\mathrm{w}-\frac{\gamma_{\mathrm{mu}}}{2}\cdot\mathrm{w}^{\mathrm{T}}\mathrm{{Zw}}
+\mathrm{U_{mu}(R_w)}=\mu^{\mathrm{T}}\mathrm{w}-\frac{\gamma_{\mathrm{mu}}}{2}\cdot\mathrm{w^{T}}\Sigma\mathrm{w}
 $$
 
 $$
-\left\{{\begin{array}{l}{{\boldsymbol{\mu}}={\mathbb{E}}({\boldsymbol{\mathrm{X}}})}\\{{\boldsymbol{\Sigma}}={\boldsymbol{\mathrm{Cov}}}({\boldsymbol{\mathrm{X}}})}\end{array}}\right.
+\left\{\begin{aligned}\mu=\mathbb{E}(\mathrm{X})\\\Sigma=\mathrm{Cov}(\mathrm{X})\end{aligned}\right.
 $$
 
 分别是期望收益率和协方差矩阵。需要指出的是，在正态假设下，虽然上述三种效用模型的数学模型是等价的，但是其随机性质是有差异的，详情参见 Bodnar et al（2013）。
@@ -99,49 +99,49 @@ $$
 假设资产收益满足多元正态：
 
 $$
-\Chi\sim\Nu_{\mathrm{k}}(\mu,\Sigma)
+\mathrm{X}\sim\mathrm{N}_{\mathrm{k}}(\mu,\Sigma)
 $$
 
 假设最优化目标分别为
 
 $$
-\mathbf{w}_{\mathrm{quad}}^{*}=\arg\operatorname*{max}_{1^{\mathrm{T}}\mathbf{w}=1}\mathbb{E}\left(\mathrm{U}_{\mathrm{quad}}(\mathrm{R}_{\mathbf{w}})\right)
+\mathrm{w}_{\mathrm{quad}}^{*}=\arg\max_{\mathrm{1}^{\mathrm{T}}\mathrm{w}=1}\mathbb{E}\left(\mathrm{U}_{\text{quad}}\left(\mathrm{R}_{\mathrm{w}}\right)\right)
 $$
 
 $$
-\mathbf{w}_{\mathrm{exp}}^{*}=\arg\operatorname*{max}_{1^{\mathrm{T}}\mathbf{w}=1}\mathbb{E}\left(\operatorname{U}_{\mathrm{exp}}(\operatorname{R}_{\mathbf{w}})\right)
+\mathbf{w}_{\mathrm{exp}}^{*}=\arg\max_{\mathbf{1}^{\mathrm{T}}\mathbf{w}=1}\mathbb{E}\left(\mathbf{U}_{\mathrm{exp}}(\mathbf{R}_{\mathrm{w}})\right)
 $$
 
-Merton（1969）证明，在上述假设下，指数效用函数的最优解等价于前述 $\mathrm{{.U_{mu}}}$ 给出的解，并且被如下参数所决定
+Merton（1969）证明，在上述假设下，指数效用函数的最优解等价于前述 $\mathbf{U_{mu}}$ 给出的解，并且被如下参数所决定
 
 $$
-\left\{\begin{array}{c}{\displaystyle{\mathrm{R}_{\mathrm{GMV}}=\frac{1^{\mathrm{T}}\Sigma^{-1}\mu}{1^{\mathrm{T}}\Sigma^{-1}1}}}\\{\displaystyle{\mathrm{V}_{\mathrm{GMV}}=\frac{1}{1^{\mathrm{T}}\Sigma^{-1}1}}}\\{\displaystyle{\mathrm{s}=\mu^{\mathrm{T}}\mathrm{R}^{-1}\mu}}\end{array}\right.
+\left\{\begin{aligned}\mathsf{R}_{GMV}&=\frac{1^{\mathrm{T}}\Sigma^{-1}\mu}{1^{\mathrm{T}}\Sigma^{-1}1}\\\mathsf{V}_{GMV}&=\frac{1}{1^{\mathrm{T}}\Sigma^{-1}1}\\\mathsf{s}&=\mu^{\mathrm{T}}\mathsf{R}^{-1}\mu\end{aligned}\right.
 $$
 
 $$
-\mathrm{R}=\Sigma^{-1}-\frac{\Sigma^{-1}11^{\mathrm{T}}\Sigma^{-1}}{1^{\mathrm{T}}\Sigma^{-1}1}
+\mathbb{R}=\Sigma^{-1}-\frac{\Sigma^{-1}11^{\mathrm{T}}\Sigma^{-1}}{1^{\mathrm{T}}\Sigma^{-1}1}
 $$
 
-GMV（global minimum variance）代表全局最小方差投资组合， $\mathsf{R}_{\mathsf{GMV}}$ 和$\mathtt{V_{GMV}}$ 分别代表其期望收益率和方差（两者共同决定了有效前沿的顶点位置），而 s 代表了有效前沿的斜率参数。利用数学知识，可以得到指数效用函数对应的最优解：
+GMV（global minimum variance）代表全局最小方差投资组合， $\mathrm{R}_{\mathrm{GMV}}$ 和$\mathrm{V_{GMV}}$ 分别代表其期望收益率和方差（两者共同决定了有效前沿的顶点位置），而 s 代表了有效前沿的斜率参数。利用数学知识，可以得到指数效用函数对应的最优解：
 
 $$
-\mathsf{w}_{\mathrm{exp}}^{\ast}=\frac{\Sigma^{-1}1}{1^{\mathrm{T}}\Sigma^{-1}1}+\gamma_{\mathrm{exp}}^{-1}\cdot\mathrm{R}\mu
+\mathbf{w}_{\mathrm{exp}}^{*}=\frac{\Sigma^{-1}1}{1^{\mathrm{T}}\Sigma^{-1}1}+\gamma_{\mathrm{exp}}^{-1}\cdot\mathbf{R}\boldsymbol{\mu}
 $$
 
 而二次效用函数的表达式稍微复杂：
 
 $$
-\mathbf{w}_{\mathbf{quad}}^{*}=\frac{\mathsf{A}^{-1}\boldsymbol{1}}{1^{\mathrm{T}}\mathsf{A}^{-1}\boldsymbol{1}}+\gamma_{\mathbf{quad}}^{-1}\cdot\mathrm{R}_{\mathbf{A}}\boldsymbol{\mu}
+\mathbf{w}_{\mathrm{quad}}^{*}=\frac{\mathbf{A}^{-1}\mathbf{1}}{\mathbf{1}^{\mathrm{T}}\mathbf{A}^{-1}\mathbf{1}}+\gamma_{\mathrm{quad}}^{-1}\cdot\mathbf{R}_{\mathrm{A}}\boldsymbol{\mu}
 $$
 
 $$
-\left\{\begin{array}{c}{\mathrm{A}=\mathbb{E}(\mathrm{XX}^{\mathrm{T}})}\\{\mathrm{R}_{\mathrm{A}}=\mathrm{A}^{-1}-\frac{\mathrm{A}^{-1}11^{\mathrm{T}}\mathrm{A}^{-1}}{1^{\mathrm{T}}\mathrm{A}^{-1}1}}\end{array}\right.
+\left\{\begin{aligned}\mathsf{A}&=\mathbb{E}(\mathsf{XX^T})\\\mathsf{R_A}&=\mathsf{A^{-1}}-\frac{\mathsf{A^{-1}}11^{\mathrm{T}}\mathsf{A^{-1}}}{1^{\mathrm{T}}\mathsf{A^{-1}}1}\end{aligned}\right.
 $$
 
 特别的，Bodnar et al（2012）证明了最优权重的另外一种形式：
 
 $$
-\mathbf{w_{quad}^{*}}=\frac{\Sigma^{-1}1}{1^{\mathrm{T}}\Sigma^{-1}1}+\tilde{\gamma}_{\mathbf{quad}}^{-1}\cdot\mathrm{R}\mu
+\mathbf{w}_{\mathrm{quad}}^{*}=\frac{\Sigma^{-1}1}{1^{\mathrm{T}}\Sigma^{-1}1}+\tilde{\gamma}_{\mathrm{quad}}^{-1}\cdot\mathbf{R}\boldsymbol{\mu}
 $$
 
 $$
@@ -151,34 +151,34 @@ $$
 下面我们回顾最小 VaR 投资组合的公式。注意到 VaR 的计算等于概率：
 
 $$
-\mathbb{P}(\mathrm{X}^{\mathrm{T}}\mathrm{W}<-\mathrm{VaR}_{\alpha})=1-\alpha,\alpha\in(0.5,1)
+\mathbb{P}(\mathrm{X}^{\mathrm{T}}\mathrm{w}<-\mathrm{VaR}_{\alpha})=1-\alpha,\alpha\in(0.5,1)
 $$
 
 若收益率为多元正态，那么
 
 $$
-\operatorname{VaR}_{\alpha}=-\mu^{\mathrm{{T}}}\mathbf{w}-\mathbf{z}_{1-\alpha}\cdot\sqrt{\mathbf{w}^{\mathrm{{T}}}\mathbf{\Sigma}\mathbf{w}}
+\mathrm{VaR}_{\alpha}=-\boldsymbol{\mu}^{\mathrm{T}}\boldsymbol{\mathrm{w}}-\boldsymbol{\mathrm{z}}_{1-\alpha}\cdot\sqrt{\boldsymbol{\mathrm{w}}^{\mathrm{T}}\boldsymbol{\Sigma}\boldsymbol{\mathrm{w}}}
 $$
 
 $$
-{\bf z}_{\beta}=\Phi^{-1}(\beta)
+\mathbf{z}_{\beta}=\Phi^{-1}(\beta)
 $$
 
-代表的是标准 $\pm$ 态分布的β-分位数。通常α的取值要大于 0.95。Alexander and Baptista（2002）则提出了如下规划问题
+代表的是标准 $证$ 态分布的β-分位数。通常α的取值要大于 0.95。Alexander and Baptista（2002）则提出了如下规划问题
 
 $$
-\boldsymbol{\mathrm{w}}_{\mathrm{VaR,\alpha}}^{\ast}=\arg\underset{1^{\mathrm{T}}\boldsymbol{\mathrm{w}}=1}{\operatorname*{max}}\boldsymbol{\mathrm{VaR}}_{\alpha}
+\mathbf{w}_{\mathrm{VaR},\alpha}^{*}=\arg\max_{1^{\mathrm{T}}\mathbf{w}=1}\mathrm{VaR}_{\alpha}
 $$
 
 而该投资组合有这非常好的样本外表现。进一步地，Bodnar et al（2012）给出了上述规划问题解的形式如下
 
 $$
-\mathbf{w}_{\mathrm{VaR,}\alpha}^{*}=\mathbf{w}_{\mathrm{GMV}}+{\sqrt{\frac{\mathrm{V}_{\mathrm{GMV}}}{\mathrm{z}_{1-\alpha}^{2}-s}}}\cdot\mathrm{R}\mu
+\mathrm{w}_{\mathrm{VaR},\alpha}^{*}=\mathrm{w}_{\mathrm{GMV}}+\sqrt{\frac{\mathrm{V}_{\mathrm{GMV}}}{\mathrm{z}_{1-\alpha}^{2}-\mathrm{s}}}\cdot\mathrm{R}\mu.
 $$
 
 下面我们略作总结：
 
-1. $\mathbf{W_{quad}^{*}},\mathbf{W_{exp}^{*}},\mathbf{W_{VaR,\alpha\alpha}^{*}}$ 都落在 Markowitz 的有效前沿上。
+1. $\mathbf{w}_{\mathrm{quad}}^{*},\mathbf{w}_{\mathrm{exp}}^{*},\mathbf{w}_{\mathrm{VaR},\alpha}^{*}$ 都落在 Markowitz 的有效前沿上。
 
 2. 上述三种最优投资组合在形式上都具有相同的内部结构。
 
@@ -187,93 +187,93 @@ $$
 定理 1 设
 
 $$
-\mathbf{X}\sim\mathbf{N_{k}}(\mu,\Sigma)\texttt{E}\mathbf{z}_{1-\alpha}^{2}>s
+\mathbf{X}\sim\mathbf{N}_{\mathbf{k}}(\boldsymbol{\mu},\boldsymbol{\Sigma})\quad 且\quad\mathbf{z}_{\mathbf{1}-\boldsymbol{\alpha}}^2>\mathbf{s}
 $$
 
 则两种风险厌恶系数可以被VaR 及置信系数α表达为
 
 $$
-\gamma_{\mathrm{exp}}=\sqrt{\frac{\mathbf{z}_{1-\alpha}^{2}-s}{\mathbf{V}_{\mathrm{GMV}}}}
+\gamma_{\mathrm{exp}}=\sqrt{\frac{\mathbf{z}_{1-\alpha}^{2}-\mathbf{s}}{\mathbf{V}_{\mathrm{GMV}}}}
 $$
 
 $$
-\gamma_{\bf quad}=\left(1+{\bf R}_{\bf GMV}+\frac{1+s}{\gamma_{\bf exp}}\right)^{-1}
+\mathbf{\gamma}_{\mathrm{quad}}=\left(\mathbf{1}+\mathbf{R}_{\mathrm{GMV}}+\frac{\mathbf{1}+\mathbf{s}}{\mathbf{\gamma}_{\mathrm{exp}}}\right)^{-1}
 $$
 
 通过定理 1 可以看到， $\alpha$ 实际上在一定程度上反映了投资者的风险厌恶系数。当α很高的时候，极端损失金额将被关注，这意味着此时的投资者将有较高的风险厌恶系数；而α很低的时候，投资者更关注一般情况下损失金额，因此对极端损失金额较为迟钝，这表明投资者的风险厌恶系数相对适度。
 
-乍看之下，风险厌恶系数对有效前沿特征的依赖着实出人意料。然而从直观的角度来看，投资者显然会对特定的风险的类型和数量产生差异化的厌恶，这意味着γ绝非常数。在面对风险很高的投资组合时，相比于风险中等的投资组合，投资者的冒险意愿显然将会更低。注意到投资者对风险的态度取决于有效前沿，而其在均值-方差空间中的位置和形状完全由 $\mathrm{R}_{\tt GMV},\mathrm{V}_{\tt GMV}$ 和 s 三个参数决定，故而风险厌恶实数对这些参数的依赖也就不足为奇。
+乍看之下，风险厌恶系数对有效前沿特征的依赖着实出人意料。然而从直观的角度来看，投资者显然会对特定的风险的类型和数量产生差异化的厌恶，这意味着γ绝非常数。在面对风险很高的投资组合时，相比于风险中等的投资组合，投资者的冒险意愿显然将会更低。注意到投资者对风险的态度取决于有效前沿，而其在均值-方差空间中的位置和形状完全由 $\mathrm{R}_{\mathrm{GMV}},\mathrm{V}_{\mathrm{GMV}}$ 和 s 三个参数决定，故而风险厌恶实数对这些参数的依赖也就不足为奇。
 
 ## 4. 椭圆分布下的风险厌恶
 
 椭圆等高分布（elliptically contoured distribution，ECD）的密度函数满足
 
 $$
-\mathrm{f_{X}(x)}=\mathrm{c_{k}}\cdot\mathbf{g}\left((\mathrm{x}-\mathrm{\textmu})^{\mathrm{{T}}}\mathrm{D^{-1}}(\mathrm{x}-\mathrm{\textmu})\right),\mathrm{c_{k}}>0
+\mathbf{f}_{\mathrm{X}}(\mathrm{x})=\mathbf{c}_{\mathrm{k}}\cdot\mathbf{g}\left((\mathrm{x}-\boldsymbol{\mu})^{\mathrm{T}}\mathbf{D}^{-1}(\mathrm{x}-\boldsymbol{\mu})\right),\mathbf{c}_{\mathrm{k}}>0
 $$
 
 其中 $\mathbf{g}$ 称该分布的类型函数，符号上记为：
 
 $$
-{\tt X}\sim{\tt E}_{\mathrm{k}}(\mu,\mathrm{D},\mathbf{g})
+\mathrm{X}\sim\mathrm{E}_{\mathrm{k}}(\mu,\mathrm{D},\mathsf{g})
 $$
 
 其中 $\mu$ 称为位置向量（location vector），D 称为散布矩阵（dispersionmatrix）。假设 X 的二阶矩存在，那么有
 
 $$
-\mu=\mathbb{E}(\mathrm{X})\ \nu\lambda\mathcal{K}\ \Sigma=\mathrm{Cov(\mathrm{X})}=\omega\mathrm{D}
+\mu=\mathbb{E}(\mathbb{X})以及\Sigma=\mathrm{Cov}(\mathbb{X})=\omega\mathrm{D}
 $$
 
 以及 ECD 的随机表达
 
 $$
-\mathrm{~X~}\triangleq\mu+\mathrm{rD}^{1/2}\mathrm{~Z~}\underset{\mathrm{\sim~}}{\sharp}\ast\phi\mathrm{~Z~}\sim\mathrm{N_{k}}(0,\mathrm{I_{k}})
+\mathrm{X}\triangleq\mu+\mathrm{rD}^{1/2}\mathrm{Z}\mathrm{其中}\ \mathrm{Z}\sim\mathrm{N}_{\mathrm{k}}(0,\mathrm{I}_{\mathrm{k}})
 $$
 
 同正态分布的例子一样，对于 ECD 同样有
 
 $$
-\mathbb{E}\left(\mathbf{U}_{\mathrm{quad}}(\mathrm{R}_{\mathbf{w}})\right)=\mathbb{E}(\mathrm{X})^{\mathrm{T}}\mathbf{w}-\frac{\ Y_{\mathrm{quad}}}{2}\cdot\mathbb{E}((\mathrm{X}^{\mathrm{T}}\mathbf{w})^{2})=\mu^{\mathrm{T}}\mathbf{w}-\frac{\gamma_{\mathrm{quad}}}{2}\cdot\mathbf{w}^{\mathrm{T}}\Sigma\mathbf{w}
+\mathbb{E}\left(\mathsf{U}_{\mathsf{quad}}(\mathsf{R}_{\mathsf{w}})\right)=\mathbb{E}(\mathsf{X})^{\mathsf{T}}\mathsf{w}-\frac{\mathsf{Y}_{\mathsf{quad}}}{2}\cdot\mathbb{E}\left((\mathsf{X}^{\mathsf{T}}\mathsf{w})^{2}\right)=\mathsf{\mu}^{\mathsf{T}}\mathsf{w}-\frac{\mathsf{Y}_{\mathsf{quad}}}{2}\cdot\mathsf{w}^{\mathsf{T}}\Sigma\mathsf{w}
 $$
 
 而对于指数期望效用函数，利用
 
 $$
-\mathrm{R}_{\mathrm{w}}|\mathrm{r}\sim\mathrm{N}(\mu^{\mathrm{T}}\mathrm{w},\mathrm{r}^{2}\mathrm{w}^{\mathrm{T}}\mathrm{D}\mathrm{w})
+\mathbb{R}_{\mathbf{w}}|\mathbf{r}\sim\mathrm{N}(\mathbf{\mu}^{\mathrm{T}}\mathbf{w},\mathbf{r}^{2}\mathbf{w}^{\mathrm{T}}\mathrm{D}\mathbf{w})
 $$
 
 满足
 
 $$
-\begin{array}{rl}&{\mathbb{E}\left(\mathbf{U}_{\mathrm{exp}}(\mathrm{R}_{\mathrm{w}})\right)=1-\mathbb{E}\left(\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathbb{K}_{\mathrm{w}}}\right)=1-\mathbb{E}\left(\mathbb{E}\left(\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathbb{K}_{\mathrm{w}}}\big\vert\mathrm{r}\right)\right)}\\&{\qquad=1-\mathbb{E}\left(\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\Vert\mathrm{\mathbf{r}}\Vert_{\mathrm{\mathbf{w}}}}+\frac{1}{2}\gamma_{\mathrm{exp}}^{2}\mathrm{w}^{\mathrm{T}}\mathrm{D}\mathrm{w}\cdot\mathrm{r}^{2}\right)}\\&{\qquad=1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\Vert\mathrm{\mathbf{r}}\Vert_{\mathrm{\mathbf{w}}}}\cdot\mathbb{E}\left(\mathrm{e}^{\frac{1}{2}\gamma_{\mathrm{exp}}^{2}\cdot\mathrm{w}^{\mathrm{T}}\mathrm{D}\mathrm{w}}\right)}\\&{\qquad=1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\Vert\mathrm{\mathbf{r}}^{\prime}\mathrm{w}}\cdot\mathrm{m}_{\mathrm{r}}\cdot\left(\frac{\gamma_{\mathrm{exp}}^{2}\cdot\mathrm{w}^{\mathrm{T}}\mathrm{D}\mathrm{w}}{2}\right)}\\&{\qquad=1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\Vert\mathrm{\mathbf{r}}^{\prime}\mathrm{w}}\cdot\mathrm{m}_{\mathrm{r}}\cdot\left(\frac{\gamma_{\mathrm{exp}}^{2}\cdot\mathrm{w}^{\mathrm{T}}\Sigma\mathrm{w}}{2}\right)}\\&\qquad=1-\mathrm{e}^-\gamma_\mathrm ex\end{array}
+\begin{aligned}\mathbb{E}\left(\mathsf{U}_{\mathrm{exp}}(\mathsf{R}_{\mathrm{w}})\right)=&1-\mathbb{E}\Big(\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathsf{R}_{\mathrm{w}}}\Big)=1-\mathbb{E}\Big(\mathbb{E}\Big(\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathsf{R}_{\mathrm{w}}}\Big|\mathbf{r}\Big)\Big)\\=&1-\mathbb{E}\Big(\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathsf{\mu}^{\mathrm{T}}\mathbf{w}+\frac{1}{2}\gamma_{\mathrm{exp}}^{2}\cdot\mathbf{w}^{\mathrm{T}}\mathbf{D}\mathbf{w}\cdot\mathbf{r}^{2}}\Big)\\=&1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathsf{\mu}^{\mathrm{T}}\mathbf{w}}\cdot\mathbb{E}\Big(\mathrm{e}^{\frac{1}{2}\gamma_{\mathrm{exp}}^{2}\cdot\mathbf{w}^{\mathrm{T}}\mathbf{D}\mathbf{w}}\Big)\\=&1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathsf{\mu}^{\mathrm{T}}\mathbf{w}}\cdot\mathbf{m}_{\mathrm{r}^{2}}\Big(\frac{\gamma_{\mathrm{exp}}^{2}\cdot\mathbf{w}^{\mathrm{T}}\mathbf{D}\mathbf{w}}{2}\Big)\\=&1-\mathrm{e}^{-\gamma_{\mathrm{exp}}\cdot\mathsf{\mu}^{\mathrm{T}}\mathbf{w}}\cdot\mathbf{m}_{\mathrm{r}^{2}}\Big(\frac{\gamma_{\mathrm{exp}}^{2}\cdot\mathbf{w}^{\mathrm{T}}\mathbf{D}\mathbf{w}}{2\mathbb{E}(\mathbf{r}^{2})}\Big)\end{aligned}
 $$
 
 $$
-\begin{array}{r}{\mathbf{m}_{\mathbf{r}^{2}}(\mathbf{t})=\mathbb{E}\big(\mathbf{e}^{\mathbf{t}\cdot\mathbf{r}^{2}}\big)}\end{array}
+\mathbf{m}_{\mathbf{r}^{2}}(\mathbf{t})=\mathbb{E}\left(\mathbf{e}^{\mathbf{t}\cdot\mathbf{r}^{2}}\right)
 $$
 
 是相应的矩生成函数。利用对数的单调性，此时的规划问题等价于解：
 
 $$
-\mathbf{w}_{\mathrm{ell}}^{*}=\arg\operatorname*{max}_{\mathbf{w}^{\mathrm{T}}1=1}\mu^{\mathrm{T}}\mathbf{w}-\gamma_{\mathrm{exp}}^{-1}\cdot\log\mathbf{m}_{\mathrm{r}^{2}}\left(\frac{\gamma_{\mathrm{exp}}^{2}\cdot\mathbf{w}^{\mathrm{T}}\Sigma\mathbf{w}}{2\mathbb{E}\left(\mathrm{r}^{2}\right)}\right)
+\mathbf{w}_{\mathrm{ell}}^{*}=\arg\max_{\mathbf{w}^{\mathrm{T}}1=1}\mu^{\mathrm{T}}\mathbf{w}-\gamma_{\mathrm{exp}}^{-1}\cdot\log\mathbf{m}_{\mathrm{r}^{2}}\left(\frac{\gamma_{\mathrm{exp}}^{2}\cdot\mathbf{w}^{\mathrm{T}}\Sigma\mathbf{w}}{2\mathbb{E}\left(\mathbf{r}^{2}\right)}\right)
 $$
 
-引理 1 设X ∼ $\mathbf{E}_{\mathbf{k}}(\mathbf{\mu},\mathbf{D},\mathbf{g})$ 且m $\mathbf{r}^{2}\left({\cdot}\right)$ 为对应的矩生成函数，则
+引理 1 设X ∼ $\mathbf{E}_{\mathbf{k}}(\mathbf{\mu},\mathbf{D},\mathbf{g})$ 且m $\mathbf{r}^{2}\left(\cdot\right)$ 为对应的矩生成函数，则
 
 $$
-\mathbf{w_{ell}^{*}}=\frac{\boldsymbol{\Sigma}^{-1}\mathbf{1}}{\mathbf{1}^{\mathrm{T}}\boldsymbol{\Sigma}^{-1}\mathbf{1}}+\boldsymbol{\tilde{\gamma}}_{\mathrm{exp}}^{-1}\cdot\mathbf{R}\mathbf{\mu}
+\mathbf{w}_{\mathrm{ell}}^{*}=\frac{\mathbf{\Sigma}^{-1}\mathbf{1}}{\mathbf{1}^{\mathrm{T}}\mathbf{\Sigma}^{-1}\mathbf{1}}+\mathbf{\tilde{\gamma}}_{\mathrm{exp}}^{-1}\cdot\mathbf{R}\mathbf{\mu}.
 $$
 
 而以κ为未知数的微分方程
 
 $$
-\kappa\Psi^{\prime}\left(\frac{\gamma_{\mathrm{exp}}^{2}\cdot(\mathbf{V}_{\mathrm{GMV}}+\kappa^{2}\cdot\mathbf{s})}{2\mathbb{E}(\mathbf{r}^{2})}\right)=\frac{\mathbb{E}(\mathbf{r}^{2})}{\gamma_{\mathrm{exp}}}
+\kappa\psi^{\prime}\left(\frac{\gamma_{\mathrm{exp}}^{2}\cdot\left(\mathbf{V}_{\mathrm{GMV}}+\mathbf{c}^{2}\cdot\mathbf{s}\right)}{2\mathbb{E}\left(\mathbf{r}^{2}\right)}\right)=\frac{\mathbb{E}\left(\mathbf{r}^{2}\right)}{\gamma_{\mathrm{exp}}}
 $$
 
-的解给出了 $\widetilde{\pmb{\gamma}}_{\mathbf{exp}},$ , 其中
+的解给出了 $\tilde{\bf{Y}}_{\bf{exp}},$ , 其中
 
 $$
-\Psi^{(\mathbf{x})}=\mathbf{log}(\mathbf{m}_{\mathbf{r}^{2}}(\mathbf{x}))
+\mathbf{\nabla}\mathbf{\Psi}\mathbf{\Psi}(\mathbf{x})=\mathbf{log}(\mathbf{m}_{\mathbf{r}^{2}}(\mathbf{x})).
 $$
 
 需要指出的是，上述引理在实操层面上具有相当的吸引力。虽然指数效用函数对应的规划问题是一个高度非线性的问题，但上述引理将其简化为一个单变元方程的解。
@@ -281,37 +281,37 @@ $$
 与正态分布情况类似，ECD 给出的 VaR 的值等于
 
 $$
-\mathrm{VaR}_{\alpha}=-\mu^{\mathrm{T}}\mathbf{w}-\mathbf{d}_{1-\alpha}\cdot\sqrt{\mathbf{w}^{\mathrm{T}}\mathbf{D}\mathbf{w}}=-\mu^{\mathrm{T}}\mathbf{w}-\frac{\mathbf{d}_{1-\alpha}}{\sqrt{\mathbb{E}(\mathrm{r}^{2})}}\cdot\sqrt{\mathbf{w}^{\mathrm{T}}\Sigma\mathbf{w}}
+\mathrm{VaR}_{\alpha}=-\mu^{\mathrm{T}}\mathbf{w}-\mathrm{d}_{1-\alpha}\cdot\sqrt{\mathbf{w}^{\mathrm{T}}\mathbf{D}\mathbf{w}}=-\mu^{\mathrm{T}}\mathbf{w}-\frac{\mathrm{d}_{1-\alpha}}{\sqrt{\mathbb{E}(\mathbf{r}^{2})}}\cdot\sqrt{\mathbf{w}^{\mathrm{T}}\mathbf{\Sigma}\mathbf{w}}
 $$
 
 其中 d 是一个仅依赖维数 k 和类型函数 g 的常数。相应的最优化解为：
 
 $$
-\mathbf{W}_{\mathrm{VaR},\alpha}^{*}=\mathbf{W}_{\mathrm{GMV}}+\sqrt\frac{\mathbf{V}_{\mathrm{GMV}}}{\frac{\mathrm{d}_{1-\alpha}^{2}}{\mathrm{E}(\mathrm{r}^{2})}-s}\cdot\mathrm{R}\mathbf{\mu}
+\mathbf{w}_{\mathrm{VaR,\alpha}}^{*}=\mathbf{w}_{\mathrm{GMV}}+\sqrt{\frac{\mathbf{V}_{\mathrm{GMV}}}{\frac{\mathbf{d}_{1-\alpha}^{2}}{\mathbb{E}(\mathbf{r}^{2})}-\mathbf{s}}}\cdot\mathbf{R}\boldsymbol{\mu}.
 $$
 
 这意味着：
 
-定理 2 设X $\sim\bf E_{\bf k}(\bf\mu\mu,\bf D,g)$ 且相应的矩生成函数 $\mathbf{m}_{\mathbf{r}^{2}}(\cdot)$ 。假如
+定理 2 设X $\sim\mathbf{E_{k}}(\mathbf{\mu},\mathbf{D},\mathbf{g})$ 且相应的矩生成函数 $\mathbf{\bar{m}_{r^{2}}}(\cdot)$ 。假如
 
 $$
-\frac{\mathbf{d}_{1-\alpha}^{2}}{\mathbb{E}(\mathbf{r}^{2})}>s
+\frac{\mathbf{d}_{\mathbf{1}-\alpha}^{2}}{\mathbb{E}(\mathbf{r}^{2})}>\mathbf{s}
 $$
 
 那么
 
 $$
-\gamma_{\bf quad}=\left(\begin{array}{ccc}{{\mathrm{\large/}}}&{{\mathrm{\large/}}}&{{\mathrm{\large/}}}\\{{\bf1+R_{\mathrm{GMV}}+\Omega(1+s)\cdot\sqrt{\frac{V_{\mathrm{GMV}}}{{\bf d}_{1-\alpha}^{2}}}\mathrm{\large/}}}&{{\mathrm{\large/}}}\\{{\mathrm{\large/}}}&{{\mathrm{\large/}}}&{{\mathrm{\large/}\mathbb{E}({\bf r}^{2})-s\mathrm{\large/}}}\end{array}\right)^{-1}
+\mathbf{Y_{quad}}=\left(\mathbf{1}+\mathbf{R_{GMV}}+(\mathbf{1}+\mathbf{s})\cdot\sqrt{\frac{\mathbf{V_{GMV}}}{\mathbf{d_{1-\alpha}^{2}}-\mathbf{s}}}\right)^{-1},
 $$
 
-而 $\pmb{\gamma_{\mathrm{exp}}}$ 是如下关于κ的微分方程的解
+而 $\mathbf{\gamma_{exp}}$ 是如下关于κ的微分方程的解
 
 $$
-\kappa\Psi^{\prime}\left(\frac{\kappa^{2}(\mathbf{V}_{\mathrm{GMV}}+\lambda^{2}\mathbf{s})}{2\mathbb{E}(\mathbf{r}^{2})}\right)=\frac{\mathbb{E}(\mathbf{r}^{2})}{\lambda}
+\kappa\psi^{\prime}\left(\frac{\kappa^{2}(\bf{V}_{GMV}+\lambda^{2}s)}{2\mathbb{E}(\bf{r}^{2})}\right)=\frac{\mathbb{E}(\bf{r}^{2})}{\lambda}
 $$
 
 $$
-\lambda=\sqrt{\frac{\mathbf{V}_{\mathtt{GMV}}}{\mathbf{d}_{1-\alpha}^{2}}}
+\pmb{\lambda}=\sqrt{\frac{\mathbf{V}_{\mathrm{GMV}}}{\frac{\mathbf{d}_{1-\alpha}^{2}}{\mathbb{E}\left(\mathbf{r}^{2}\right)}-\pmb{s}}}
 $$
 
 ## 5. 估计和推断过程
@@ -319,77 +319,77 @@ $$
 由于在上述的模型中，收益率和协方差矩阵需要估计，因此本节着重于模型中各个参数的推导。假设
 
 $$
-\mathrm{X}_{1},\ldots,\mathrm{X}_{\mathrm{n}}
+\mathtt{X_{1},\dots,X_{n}}
 $$
 
 是资产收益率的样本数据，则收益率和方差的样本估计为：
 
 $$
-\begin{array}{c}{\displaystyle{\hat{\boldsymbol{\mu}}=\frac{1}{\mathrm{n}}\sum_{\mathrm{i}}\mathbf{X}_{\mathrm{i}}}}\\{\displaystyle{\hat{\boldsymbol{\Sigma}}=\frac{1}{\mathrm{n}-1}\sum_{\mathrm{i}}(\mathbf{X}_{\mathrm{i}}-\hat{\boldsymbol{\mu}})({\mathbf{X}_{\mathrm{i}}-\hat{\boldsymbol{\mu}}})^{\mathrm{T}}}}\end{array}
+\begin{aligned}\hat{\boldsymbol{\mu}}=&\frac{1}{\mathrm{n}}\sum_{\mathrm{i}}\mathrm{X}_{\mathrm{i}}\\\hat{\boldsymbol{\Sigma}}=&\frac{1}{\mathrm{n}-1}\sum_{\mathrm{i}}(\mathrm{X}_{\mathrm{i}}-\hat{\boldsymbol{\mu}})(\mathrm{X}_{\mathrm{i}}-\hat{\boldsymbol{\mu}})^{\mathrm{T}}\end{aligned}
 $$
 
 利用上述估计量我们得到
 
 $$
-\left\lceil\widehat{\sf R}_{\sf GMV}=\frac{1^{\sf T}\widehat{\Sigma}^{-1}\widehat{\sf\mu}}{1^{\sf T}\widehat{\Sigma}^{-1}1}\right.
+\left\{\widehat{\mathsf{R}}_{\mathrm{GMV}}=\frac{1^{\mathrm{T}}\widehat{\Sigma}^{-1}\widehat{\mu}}{1^{\mathrm{T}}\widehat{\Sigma}^{-1}1}\right\}
 $$
 
 $$
-\ifmmode\overbrace{\nabla}_{\mathtt{GMV}}=\frac{1}{1^{\mathrm{T}}\hat{\Sigma}^{-1}1}
+\left\{\widehat{\mathsf{V}}_{\mathrm{GMV}}=\frac{1}{1^{\mathrm{T}}\widehat{\Sigma}^{-1}1}\right.
 $$
 
 $$
-\begin{array}{rl}{\mathsf{\Sigma}}&{{}\widehat{\mathsf{s}}=\widehat{\mathsf{\mu}}^{\mathrm{T}}\widehat{\mathsf{R}}^{-1}\widehat{\mathsf{\mu}}}\end{array}
+\hat{\mathrm{~\bf~\cal~S~}}=\hat{\boldsymbol{\mu}}^{\mathrm{T}}\hat{\mathrm{\bf\cal{R}}}^{-1}\hat{\boldsymbol{\mu}}
 $$
 
 $$
-\widehat{\sf R}=\widehat{\sfSigma}^{-1}-\frac{\widehat{\sf\Sigma}^{-1}11^{\sf T}\widehat{\sf\Sigma}^{-1}}{1^{\sf T}\widehat{\sf\Sigma}^{-1}1}
+\widehat{\mathbb{R}}=\widehat{\Sigma}^{-1}-\frac{\widehat{\Sigma}^{-1}11^{\mathrm{T}}\widehat{\Sigma}^{-1}}{1^{\mathrm{T}}\widehat{\Sigma}^{-1}1}
 $$
 
 再利用下列引理，参见 Bodnar and Schmid（2008，2009）：
 
-引理 2 设 $\mathbf{X_{1}},\dots,\mathbf{X_{n}}$ 为随机向量X $\sim{\bf N}_{\bf k}({\bf\mu},{\pmb{\Sigma}}>{\bf0})$ 的独立采样。那么有
+引理 2 设 $\mathbf{X_{1},\ldots,X_{n}}$ 为随机向量X $\sim\mathbf{N_{k}}(\mathbf{\mu},\Sigma>\mathbf{0})$ 的独立采样。那么有
 
-a) $\widehat{\mathbf{V}}_{\mathbf{GMV}}$ 独立于 $(\widehat{\mathbf{R}}_{\mathbf{GMV}},\widehat{\mathbf{S}})$
+a) $\widehat{\mathbf{V}}_{\mathbf{GMV}}$ 独立于 $(\widehat{\mathbf{R}}_{\mathbf{G}\mathbf{M}\mathbf{V}},\widehat{\mathbf{s}})$
 
 $$
-\frac{(\mathrm{n-1})\widehat{\mathrm{V}}_{\mathrm{GMV}}}{\mathrm{V}_{\mathrm{GMV}}}\sim\chi_{\mathrm{n-k}}^{2}
+\frac{(\mathbf{n}-1)\widehat{\mathbf{V}}_{\mathrm{GMV}}}{\mathbf{V}_{\mathrm{GMV}}}\sim\chi_{\mathbf{n}-\mathbf{k}}^{2}.
 $$
 
 c)
 
 $$
-\frac{\mathbf{n}(\mathbf{n}-\mathbf{k}+1)\hat{\mathbf{s}}}{(\mathbf{n}-1)(\mathbf{k}-1)}\sim\mathbf{F_{k-1,n-k+1,ns}}
+\begin{array}{r}{\frac{\mathbf{n}\left(\mathbf{n}-\mathbf{k}+\mathbf{1}\right)\hat{s}}{\left(\mathbf{n}-\mathbf{1}\right)\left(\mathbf{k}-\mathbf{1}\right)}\sim\mathbf{F_{k-1,n-k+1,ns}}}\end{array}
 $$
 
 $$
-\begin{array}{rl}{{\bf d})}&{{}\widehat{\bf R}_{\mathrm{GMV}}|\widehat{\bf s}={\bf y}\sim{\bf N}\left({\bf R}_{\mathrm{GMV}},\left(\frac{1}{{\bf n}}+\frac{{\bf y}}{{\bf n}-1}\right){\bf V}_{\mathrm{GMV}}\right)}\end{array}
+\begin{array}{rl}{\mathrm{~d)}}&{{}\widehat{\bf R}_{\mathrm{GMV}}|\widehat{\bf s}={\bf y}\sim\mathrm{~N}\left({\bf R}_{\mathrm{GMV}},\left(\frac{1}{\bf n}+\frac{\bf y}{\bf n-1}\right){\bf V}_{\mathrm{GMV}}\right)}\end{array}
 $$
 
 $$
-\begin{array}{rl}{\mathbf{e})}&{\mathbf{f}_{\widehat{\mathrm{R}}_{\mathrm{GMV}},\widehat{\mathrm{V}}_{\mathrm{GMV}},\widehat{\boldsymbol{s}}}(\mathbf{x},\mathbf{y},\mathbf{z})=\frac{\mathbf{n}(\mathbf{n}-\mathbf{k}+1)}{(\mathbf{k}-1)\mathbf{V}_{\mathrm{GMV}}}\cdot\mathbf{f}_{\chi_{\mathbf{n}-\mathbf{k}}^{2}}\left(\frac{\mathbf{n}-1}{\mathbf{V}_{\mathrm{GMV}}}\cdot\mathbf{z}\right).}\end{array}
+\begin{array}{rl}{\mathbf{e})}&{{}\mathbf{f}_{\mathbf{\hat{R}}_{\mathrm{GMV}},\mathbf{\hat{V}}_{\mathrm{GMV}},\mathbf{\hat{S}}}(\mathbf{x},\mathbf{y},\mathbf{z})=\frac{\mathbf{n}(\mathbf{n}-\mathbf{k}+1)}{(\mathbf{k}-\mathbf{1})V_{\mathrm{GMV}}}\cdot\mathbf{f}_{\mathbf{\chi}_{\mathbf{n}-\mathbf{k}}^{2}}\left(\frac{\mathbf{n}-\mathbf{1}}{V_{\mathrm{GMV}}}\cdot\mathbf{z}\right).}\end{array}
 $$
 
 $$
-\mathbf{f}_{\mathrm{N\left(R_{GMV},(\frac{1}{n}+\frac{y}{n-1})V_{GMV}\right)}}(\mathbf{x})\cdot\mathbf{f}_{\mathrm{F_{\mathrm{k-1,n-k+1,ns}}}}(\frac{\mathbf{n}(\mathbf{n}-\mathbf{k}+1)\mathbf{y}}{(\mathbf{n}-1)(\mathbf{k}-1)})
+\begin{array}{r}{\mathbf{f}_{\mathrm{N}\left(\mathrm{R}_{\mathrm{GMV}},\left(\frac{1}{\mathrm{n}}+\frac{\mathrm{y}}{\mathrm{n}-1}\right)\mathrm{V}_{\mathrm{GMV}}\right)}(\mathbf{x})\cdot\mathbf{f}_{\mathrm{F}_{\mathrm{k}-1,\mathrm{n}-\mathrm{k}+1,\mathrm{ns}}}(\frac{\mathrm{n}(\mathrm{n}-\mathrm{k}+1)\mathrm{y}}{(\mathrm{n}-1)(\mathrm{k}-1)})}\end{array}
 $$
 
 利用上述结论我们最后得到如下定理。该定理表明，风险厌恶系数的仿真并不需要生成 n 个独立的 k 维正态分布，只需要利用相应的一维正态分布和卡方分布即可。
 
-## 定理 3 设 $\mathbf{X}_{1},\dots,\mathbf{X}_{\mathbf{n}}$ 为随机向量
+## 定理 3 设 $\mathbf{X_{1}},\dots,\mathbf{X_{n}}$ 为随机向量
 
 $$
-\mathbf{X}\sim\mathbf{N}_{\mathbf{k}}(\mathbf{\mu},\mathbf{\Sigma}>\mathbf{0})
+\mathbf{X}\sim\mathbf{N_{k}}(\mathbf{\mu,}\Sigma>\mathbf{0})
 $$
 
 的独立采样。那么有如下随机表达
 
 $$
-\widehat{\gamma}_{\mathrm{exp}}^{*}\triangleq\sqrt{\frac{(\mathbf{n}-\mathbf{1})\big(\mathbf{z}_{1-\alpha}^{2}-\widehat{\mathbf{s}}^{*}\big)}{\mathbf{V}_{\mathbf{GMV}}\cdot\mathbf{\mathcal{X}}_{\mathbf{n-k}}^{2}}}
+\hat{\mathbf{y}}_{\mathrm{exp}}^{*}\triangleq\sqrt{\frac{(\mathbf{n}-\mathbf{1})\left(\mathbf{z}_{1-\alpha}^{2}-\hat{\mathbf{s}}^{*}\right)}{\mathbf{V}_{\mathrm{GMV}}\cdot\mathbf{\chi}_{\mathbf{n}-\mathbf{k}}^{2}}}
 $$
 
 $$
-\hat{\gamma}_{\mathrm{quad}}^{*}\triangleq\left(1+\mathbf{R}_{\mathrm{GMV}}+\sqrt{\left(\frac{1}{\mathbf{n}}+\frac{\hat{\mathbf{s}}^{*}}{\mathbf{n}-1}\right)\mathbf{V}_{\mathrm{GMV}}}\cdot\mathbf{N}(\mathbf{0},\mathbf{1})+\frac{1+\hat{\mathbf{s}}^{*}}{\hat{\gamma}_{\mathrm{exp}}^{*}}\right)^{-1},
+\hat{\mathbf{\gamma}}_{\mathrm{quad}}^{*}\triangleq\left(1+\mathbf{R}_{\mathrm{GMV}}+\sqrt{\left(\frac{1}{n}+\frac{\hat{s}^{*}}{n-1}\right)\mathbf{V}_{\mathrm{GMV}}}\cdot\mathbf{N}(0,1)+\frac{1+\hat{s}^{*}}{\hat{\gamma}_{\mathrm{exp}}^{*}}\right)^{2}
 $$
 
 ## 6. 稳健资产组合上的扩展
@@ -397,17 +397,17 @@ $$
 本文的主要结果可以扩展到如下规划问题上
 
 $$
-\mathbf{w}^{*}=\arg\operatorname*{max}_{1^{\mathrm{T}}\mathbf{w}=1}\mathbb{E}\left(\mathbf{u}(\mathbf{X^{\mathrm{T}}\mathbf{w}})\right)
+\mathrm{w}^*=\arg\max_{\mathrm{1}^{\mathrm{T}}\mathrm{w}=1}\mathbb{E}\left(\mathrm{u}(\mathrm{X}^{\mathrm{T}}\mathrm{w})\right)
 $$
 
 其中 u 是效用函数。如果收益率分布能被部分地知道，那么上述规划问题可以被 Fabozziet al（2010）提及的所谓稳健最优化技巧所解决：
 
 $$
-\mathbf{W}_{\mathrm{robust}}^{*}=\arg\operatorname*{max}_{1^{\mathrm{T}}\mathbf{W}=1}\operatorname*{min}_{\mathbf{X}\sim(\mu,\Sigma)}\mathbb{E}(\mathbf{u}(\mathbf{X}^{\mathrm{T}}\mathbf{W}))
+\mathbf{w}_{\mathrm{robust}}^{*}=\arg\max_{\mathbf{1}^{\mathrm{T}}\mathbf{w}=1}\min_{\mathbf{X}\sim(\mu,\Sigma)}\mathbb{E}(\mathbf{u}(\mathbf{X}^{\mathrm{T}}\mathbf{w}))
 $$
 
 $$
-\Chi\sim(\mu,\Sigma)
+\mathbf{X}\sim(\mathbf{\mu,}\Sigma)
 $$
 
 是指随机变量的均值和协方差矩阵已知。
@@ -415,48 +415,48 @@ $$
 定义
 
 $$
-\mathsf{V}(\mathbf{w}):=\operatorname*{min}_{\mathbf{X}\sim(\mu,\Sigma)}\mathbb{E}\left(\mathbf{u}(\mathbf{X}^{\mathrm{T}}\mathbf{w})\right)
+\mathrm{V}(\mathrm{w}):=\min_{\mathrm{X}\sim(\mu,\Sigma)}\mathbb{E}\left(\mathrm{u}(\mathrm{X}^{\mathrm{T}}\mathrm{w})\right)
 $$
 
 为 $\mathbf{W}$ 固定时的期望效用函数的最小值，Popescu（2007）证明了该函数等于
 
 $$
-\mathsf{V}(\mathbf{w})=\operatorname*{min}_{\mathbb{R}_{\mathbf{w}}\sim\left(\mu_{\mathbf{w}},\sigma_{\mathbf{w}}^{2}\right)}\mathbb{E}\big(\mathbf{u}(\mathbb{R}_{\mathbf{w}})\big)
+\mathrm{V}(\mathrm{w})=\min_{\mathrm{R}_{\mathrm{w}}\sim\left(\mu_{\mathrm{w}},\sigma_{\mathrm{w}}^{2}\right)}\mathbb{E}\left(\mathrm{u}(\mathrm{R}_{\mathrm{w}})\right)
 $$
 
-更进一步地，如果 V(w)关于 $\mu_{\mathrm{w}}\#\mu_{\mathrm{w}}$ 是连续的非减函数，并且是拟凹函数（quasi-concave），那么 Fabozzi 的稳健最优化技巧等价于如下二次规划问题
+更进一步地，如果 V(w)关于 $\mu_{\mathrm{w}}和\sigma_{\mathrm{w}}^{2}$ 是连续的非减函数，并且是拟凹函数（quasi-concave），那么 Fabozzi 的稳健最优化技巧等价于如下二次规划问题
 
 $$
-\mathbf{w}^{*}(\gamma)=\arg\operatorname*{max}_{1^{\mathrm{T}}\mathbf{w}=1}\gamma\cdot\Vert^{\mathrm{T}}\mathbf{w}-(1-\gamma)\mathbf{w}^{\mathrm{T}}\boldsymbol{\Sigma}\mathbf{w}
+\mathbf{w}^{*}(\gamma)=\arg\max_{\mathbf{1}^{\mathrm{T}}\mathbf{w}=1}\gamma\cdot\mathbf{\mu}^{\mathrm{T}}\mathbf{w}-(1-\gamma)\mathbf{w}^{\mathrm{T}}\Sigma\mathbf{w}
 $$
 
-而且此时的 $\mathsf{V}(\boldsymbol{\mathsf{w}}^{*}(\boldsymbol{\mathsf{y}}))$ 关于γ是单峰的（unimodal）。Fabozzi et al（2010）引入了所谓稳健的 VaR 指标（robust VaR，RVaR）：
+而且此时的 $\operatorname{V}(\mathsf{w}^{*}(\gamma))$ 关于γ是单峰的（unimodal）。Fabozzi et al（2010）引入了所谓稳健的 VaR 指标（robust VaR，RVaR）：
 
 $$
-\mathrm{RVaR}_{\alpha}:=\operatorname*{max}_{\mathrm{R}_{\mathrm{w}}\sim\left(\mu_{\mathrm{w}},\sigma_{\mathrm{w}}^{2}\right)}\mathrm{VaR}_{\alpha}
+\mathrm{RVA}_{\alpha}:=\max_{\mathrm{R}_{\mathrm{w}}\sim\left(\mu_{\mathrm{w}},\sigma_{\mathrm{w}}^{2}\right)}\mathrm{VaR}_{\alpha}
 $$
 
 利用 Chebyshev 不等式（参见 Alexander and Baptista（2002））可以证明
 
 $$
-\mathrm{RVaR}_{\alpha}=-\mu^{\mathrm{T}}\mathbf{W}+\sqrt{\frac{\mathbf{W}^{\mathrm{T}}\Sigma\mathbf{W}}{1-\alpha}}
+\mathrm{RVaR}_{\alpha}=-\mu^{\mathrm{T}}\mathbf{w}+\sqrt{\frac{\mathbf{w}^{\mathrm{T}}\Sigma\mathbf{w}}{1-\alpha}}
 $$
 
 此时的
 
 $$
-\mathbf{w}_{\alpha}^{*}=\mathop{\mathrm{arg}}\ \underset{1^{\mathrm{T}}\mathbf{w}=1}{\mathrm{max}}\ \mathrm{RVaR}_{\alpha}
+\mathbf{w}_{\alpha}^{*}=\arg\max_{\mathbf{1}^{\mathrm{T}}\mathbf{w}=1}\mathrm{RVA}_{\alpha}
 $$
 
 将会给出一个如下的风险厌恶系数
 
 $$
-\gamma_{\alpha}^{*}=\left(1+\frac{1}{2}\sqrt{\frac{1-\alpha}{\mathrm{V_{GMV}}}-s}\right)^{-1}
+\gamma_{\alpha}^{*}=\left(1+\frac{1}{2}\sqrt{\frac{\displaystyle\frac{1}{1-\alpha}-\mathrm{s}}{\displaystyle\mathrm{V}_{\mathrm{GMV}}}}\right)^{-1}.
 $$
 
 ## 7. 实证
 
-本文使用了摩根士丹利资本（MSCI）国际发达市场指数(澳大利亚、奥地利、比利时、加拿大、丹麦、芬兰、法国、德国、香港、爱尔兰、以色列、意大利、日本、荷兰、新西兰、挪威、葡萄牙、新加坡、西班牙、瑞典、瑞士、英国、美国)和摩根士丹利资本（MSCI）国际新兴市场指数(巴西、智利、中国、哥伦比亚、捷克共和国、埃及、希腊、匈牙利、印度、印度尼西亚、韩国、马来西亚、墨西哥、秘鲁、菲律宾、波兰、俄罗斯、南非、台湾、泰国、土耳其) 的月度数据。市场分别覆盖 23 个和21 个国家或地区，时间跨度为 2004 年 6 月至 2014 年 3 月，共得出 117个观察结果。为了评估维度的影响，我们考虑由资产数量 $\textrm{ \textbf { k } }=$ 2,5,10,15,21(或 23)资产组成的投资组合。为了简单起见，我们在研究的第一部分按字母顺序选择资产，例如，当 k = 2 时，国家是澳大利亚和奥地利为发达市场，巴西和智利为新兴市场。有效前沿的特征总结可以在表 1 中看到。正如我们预期的那样，GMV组合的方差 $\boldsymbol{\mathrm{V}}_{\mathrm{GMV}}$ 随 k 的增加而减小，而收益 $\mathbf{\nabla}.\mathrm{R}_{\mathrm{GMV}}$ 和斜率 s 则随之增大。此外，与新兴市场相比，发达市场的全球最小方差组合的收益率和方差更低，这与常识相符。
+本文使用了摩根士丹利资本（MSCI）国际发达市场指数(澳大利亚、奥地利、比利时、加拿大、丹麦、芬兰、法国、德国、香港、爱尔兰、以色列、意大利、日本、荷兰、新西兰、挪威、葡萄牙、新加坡、西班牙、瑞典、瑞士、英国、美国)和摩根士丹利资本（MSCI）国际新兴市场指数(巴西、智利、中国、哥伦比亚、捷克共和国、埃及、希腊、匈牙利、印度、印度尼西亚、韩国、马来西亚、墨西哥、秘鲁、菲律宾、波兰、俄罗斯、南非、台湾、泰国、土耳其) 的月度数据。市场分别覆盖 23 个和21 个国家或地区，时间跨度为 2004 年 6 月至 2014 年 3 月，共得出 117个观察结果。为了评估维度的影响，我们考虑由资产数量 $\mathrm{~k~}=$ 2,5,10,15,21(或 23)资产组成的投资组合。为了简单起见，我们在研究的第一部分按字母顺序选择资产，例如，当 k = 2 时，国家是澳大利亚和奥地利为发达市场，巴西和智利为新兴市场。有效前沿的特征总结可以在表 1 中看到。正如我们预期的那样，GMV组合的方差 $\mathrm{V_{GMV}}$ 随 k 的增加而减小，而收益 $\mathrm{{.R}_{GMV}}$ 和斜率 s 则随之增大。此外，与新兴市场相比，发达市场的全球最小方差组合的收益率和方差更低，这与常识相符。
 
 ## 7.1. 正态分布情况
 
@@ -505,7 +505,7 @@ Fig. 4 The conditional densities of $\gamma_{quad}^{*}$ (top) and $\gamma_{exp}^
 依据定理 3，图 4 展示了样本风险厌恶系数的模拟密度函数。此处使用了与上面例子条件相同的数据，其中
 
 $$
-\hat{\mathsf{S}}^{*}=\hat{\mathsf{s}}
+\hat{\mathbf{s}}^{*}=\hat{\mathbf{s}}
 $$
 
 是依据每个投资组合单独计算得到的。但需要注意的是，资产的数量对这两种风险厌恶系数的精度有相反的影响。对于指数效用，概率密度函数随着资产数量的增加逐渐松散，而对于二次效用，它们将变得凝聚。

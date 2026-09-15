@@ -113,7 +113,7 @@ $$
 B=c_{1}x_{1}+c_{2}x_{2}+c_{3}x_{3}+\cdots+c_{n}x_{n}
 $$
 
-其中B为区间宽度值， $x_{i}$ 为输入变量，如昨日最高价， $c_{i}.$ 为线性系数。之所以采用线性函数的方式是为了保持模型的可理解性，以及避免过拟合问题。
+其中B为区间宽度值， $x_{i}.$ 为输入变量，如昨日最高价， $c_{i}.$ 为线性系数。之所以采用线性函数的方式是为了保持模型的可理解性，以及避免过拟合问题。
 
 在寻找最佳函数系数时，我们采用遗传算法，遗传个体适应度为策略样本内交易累计收益率。
 
@@ -159,11 +159,11 @@ $$
 记 $F_{1}$ 为开仓成交价， $F_{2}$ 为平仓成交价， c为单边手续费率， I 为单边冲击成本， M 为杠杆倍数，则单次交易收益率为
 
 $$
-r_{long}=\left[\frac{\big(F_{2}-I\big)\times\big(1-c\big)-\big(F_{1}+I\big)\times\big(1+c\big)}{\big(F_{1}+I\big)\times\big(1+c\big)}\right]\times M
+r_{long}=\left[\frac{(F_2-I)\times(1-c)-(F_1+I)\times(1+c)}{(F_1+I)\times(1+c)}\right]\times M
 $$
 
 $$
-r_{short}=\left[\frac{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1-c\big)-\big(F_{\scriptscriptstyle2}+I\big)\times\big(1+c\big)}{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1+c\big)}\right]\times M
+r_{short}=\left[\frac{(F_1-I)\times(1-c)-(F_2+I)\times(1+c)}{(F_1-I)\times(1+c)}\right]\times M
 $$
 
 此处模拟交易相关设定为：
@@ -345,7 +345,7 @@ B = -0.34×昨日开盘价 + 0.65×昨日最高价 + 0.31×昨日最低价 －
 编码方案：编码将参数空间中的点（个体）转换成位串来表示。例如三位空间中的点（11, 6, 9）进行二进制编码得到：
 
 $$
-\frac{\boxed{1011}}{11}\boxed{\frac{0110}{6}}\boxed{\frac{1001}{9}}
+\begin{array}{ccc}\boxed{1011}&\boxed{0110}&\boxed{1001}\\11&6&9\\\end{array}
 $$
 
 对于浮点数、负数等可对方案进行一定调整进行编码，编码方案提供了一种参数空间中的个体转化为遗传框架下的一种方式，对遗传算法的性能起到决定性作用。
@@ -355,7 +355,7 @@ $$
 选择算子：得到每个个体的适应度后，就要决定选择哪些个体来参与下一代生成，通常适应度高的个体应该更有机会参与，也就是优良的品种应该更能参与物种更新以便遗传其优良性，一般使用与个体适应度值成正比的选择概率来随机选择个体，如选择概率为：
 
 $$
-p_{i}=f_{i}{\Big/}\sum_{i=1}^{n}f_{i}~,~i=1,\cdots,n
+p_{i}=f_{i}\Big/\sum_{i=1}^{n}f_{i},\quad i=1,\cdots,n.
 $$
 
 其中 $p_{i}$ 为选择概率， $f_{i}$ 为个体适应度， n为群体大小。

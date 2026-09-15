@@ -51,7 +51,7 @@ gaozhiw@
 高低价格区间成交笔数占比因子是价格区间内所有快照的成交笔数累加与全天成交总笔数的比值。
 
 $$
-\frac{3}{159}\%+35\%+\frac{12}{187}\%+35\%=\frac{3}{15}\times5\%=\frac{\sum_{j=1}^{N}matchitems*I_{\{j\in set_{-}a\}}}{\sum_{j=1}^{N}matchitems}
+高点价格区间成交老被占比=\frac{\sum_{j=1}^{N}matchtimes\cdot I_{\{j\in set\_a\}}}{\sum_{j=1}^{N}matchtimes}
 $$
 
 $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set a代表处于高低价格区间的快照集合。
@@ -59,13 +59,13 @@ $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set a代表
 高低价格区间成交量占比因子是价格区间内所有快照的成交量累加与全天总成交量的比值。
 
 $$
-\frac{1}{100}+11\times18\times175\times177\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times1\times17\times17\times17\times17\times1\times17\times17\times1\times17\times17\times1\times17\times1\times17\times17\times1\times17\times1\times17\times1\times17\times1\times17\times1\times1\times11\times1\times1\times17\times1\times1\times10\times11\times1\times1\times11\times1\times1\times1\times1\times1\times1\times11
+高众价格区间成交量占比=\frac{\sum_{j=1}^{N}volume*I_{\{j\in set\_a\}}}{\sum_{j=1}^{N}volume}
 $$
 
 高低价格区间平均每笔成交量因子是将目标价格区间内的平均每笔成交量与全天平均水平进行比较。
 
 $$
-\begin{array}{c}\aligned\ddot{\pi}_{2}^{\sharp}/(\mathcal{H})/(\mathcal{H})\cdot\mathcal{E}_{1}/\mathcal{I}+\mathcal{A}\notin\mathcal{E}_{1}/\dot{\mathcal{K}}\cdot\check{\Xi}^{\sharp}/\mathcal{H}\vec{\mathcal{I}}=\frac{\sum_{j=1}^{N}volume\mathrm{~\ast~}I_{\{j\in set_{-}a\}}\ \big/\ }{\sum_{j=1}^{N}volume\ \cdot\begin{array}{rcl}{\sum_{j=1}^{N}matchitems\ \ast I_{\{j\in set_{-}a\}}}&{}\end{array}};\end{array}
+游痰炉移区间平均净老成交量四子=\frac{\sum_{j=1}^{N}volume*I_{\{j\leq set,a\}}/\sum_{j=1}^{N}matches*I_{\{j\leq set,a\}}}{\sum_{j=1}^{N}volume/\sum_{j=1}^{N}matches}
 $$
 
 我们将这三大类因子在中证 1000 和中证 800 股票池范围内进行分位数组合测试，我们注意到，很多因子的分位数组合年化超额收益率呈现明显的不单调的特征，例如低价格区间成交笔数与成交量占比因子。在这种情况下，因子的多空收益很低，且 Top 组合的收益也不理想，这类因子很难直接应用在传统多因子模型中。
@@ -103,10 +103,10 @@ $$
 根据收益率最高和最低分位数组合所处的位置，可以有不同的分段函数的构建方法，我们以上图的极大值点和极小值点所处位置的情况进行举例，其转换后因子值的计算公式为
 
 $$
-x_{transform}=\left\{\begin{array}{rl}{\displaystyle r_{top}+\frac{r_{max}-r_{top}}{x_{max}-x_{top}}\cdot\big(x-x_{top}\big),}&{\quad x>x_{max}}\\{\displaystyle r_{max}+\frac{r_{min}-r_{max}}{x_{min}-x_{max}}\cdot(x-x_{max}),}&{\quad x_{min}<x\leq x_{max}}\\{\displaystyle r_{min}+\frac{r_{bottom}-r_{min}}{x_{bottom}-x_{min}}\cdot(x-x_{min}),}&{\quad x\leq x_{min}}\end{array}\right.
+x_{transform}=\left\{\begin{aligned}r_{top}+\frac{r_{max}-r_{top}}{x_{max}-x_{top}}\cdot(x-x_{top}),&\quad&x>x_{max}\\r_{max}+\frac{r_{min}-r_{max}}{x_{min}-x_{max}}\cdot(x-x_{max}),&\quad&x_{min}<x\leq x_{max}\\r_{min}+\frac{r_{bottom}-r_{min}}{x_{bottom}-x_{min}}\cdot(x-x_{min}),&\quad&x\leq x_{min}\end{aligned}\right.
 $$
 
-其中，x表示转换前因子值对应的百分位数， $x_{top}\notin\arg x_{bottom}$ 分别表示Top组合和Bottom组合因子值百分位数的中位数，$r_{top}\ kP_{bottom}$ 分别表示 Top 组合和 Bottom 组合过去 N个交易日的年化超额收益率，x 和x 分别表示极大值点和极小值点的组合因子值百分位数的中位数， $r_{max}\mathrm{\#}{\arg_{min}}$ 分别表示极大值点和极小值点的组合年化超额收益率。当极大值和极小值点的位置发生变化时，该分段方法也应该进行调整。
+其中，x表示转换前因子值对应的百分位数， $,x_{top}和x_{bottom}$ 分别表示Top组合和Bottom组合因子值百分位数的中位数，$r_{top}和r_{bottom}$ 分别表示 Top 组合和 Bottom 组合过去 N个交易日的年化超额收益率，x 和x 分别表示极大值点和极小值点的组合因子值百分位数的中位数， $r_{max}和r_{min}$ 分别表示极大值点和极小值点的组合年化超额收益率。当极大值和极小值点的位置发生变化时，该分段方法也应该进行调整。
 
 分段线性近似方法简单易操作，同时在各个子区间内，股票预期收益随着因子的排序数值线性变化，符合常规逻辑。
 但是，我们仅获得了分组收益分布中的 4 个数据点（实际有 M个），其丢失的信息相对较多。
@@ -453,7 +453,7 @@ $$
 日频换仓往往伴随着高换手带来的高交易成本，因此单一日频因子的多头收益不足以覆盖交易成本。同时，为了满足大部分机构的交易限制和换手率等要求，我们对日频因子进行降频，使因子的预测周期更长。一种比较常用的方法是采用加权移动平均方法，回溯过去一周的因子数据进行计算。在这种方法的加权下，距离调仓日越近，因子值的权重越大。计算公式如下所示
 
 $$
-{S_{ma}}=\frac{\sum_{t=1}^{T}{S_{t}}*k^{T-t+1}}{\sum_{t=1}^{T}{k^{T-t+1}}}
+S_{ma}=\frac{\sum_{t=1}^{T}S_{t}*k^{T-t+1}}{\sum_{t=1}^{T}k^{T-t+1}}
 $$
 
 其中， $S_{t}$ 表示过去一周第 t日转换后的因子值，k为加权参数。（这里 T=5，k=0.8）

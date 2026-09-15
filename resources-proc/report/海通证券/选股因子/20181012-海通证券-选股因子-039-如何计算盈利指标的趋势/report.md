@@ -41,7 +41,7 @@ Robert Novy-Marx(2014)曾对历史上著名的几个质量因子进行了总结�
 Gross Profitability 的计算也非常简单，即毛利润除以总资产。
 
 $$
-\mathrm{Gross}\mathrm{Profitability}=\frac{Gross\ :Profit}{Asset}
+\mathrm{Gross\;Profitability}={\frac{Gross\;Profit}{Asset}}
 $$
 
 Gross Profitability在一定程度上体现了公司的盈利质量水平，是一个静态的指标。但是，市场环境和公司本身的经营并不是静态的。举个简单的例子，假设公司 和 的盈利质量目前处于同一水平线上。A 公司曾经长期保持着较高的盈利水平，但是由于市场环境的变化，A公司的产品线竞争力开始逐渐下降，盈利能力处于下降的趋势中。相反， 公司由于科技创新等原因，其产品竞争力显著提升，盈利能力处于上升的趋势中。如果只看盈利水平，A和 B似乎并没有太大的区别，而盈利的趋势可以更好地帮助我们挑选出更具有增长潜力的公司。
@@ -49,14 +49,14 @@ Gross Profitability在一定程度上体现了公司的盈利质量水平，是�
 Gross Profitability趋势指标可以借助简单的线性回归方程进行计算，如下：
 
 $$
-GP_{t}=\alpha_{t}+\beta_{t}t+\varepsilon_{t}
+\boldsymbol{G}\boldsymbol{P}_{t}=\boldsymbol{\alpha}_{t}+\boldsymbol{\beta}_{t}\boldsymbol{t}+\boldsymbol{\varepsilon}_{t}
 $$
 
-${GP}_{t\lambda\mathrm{:}}$ 应的是根据单季度毛利计算，且经标准化处理后的 Gross Profitability，其中t 取 1,2,3,……,N，通过 OLS回归得到的系数 $\beta_{t}$ 即为最终的趋势因子。考虑到很多公司的毛利润通常会具有一定的周期性，我们构建两种不同的盈利趋势因子：环比趋势因子和同比趋势因子，两种因子的区别在于回归方程中 ${\pmb GP}$ 的选择不同。
+$\boldsymbol{G}\boldsymbol{P}_{t对}$ 应的是根据单季度毛利计算，且经标准化处理后的 Gross Profitability，其中t 取 1,2,3,……,N，通过 OLS回归得到的系数 $\beta_{t}$ 即为最终的趋势因子。考虑到很多公司的毛利润通常会具有一定的周期性，我们构建两种不同的盈利趋势因子：环比趋势因子和同比趋势因子，两种因子的区别在于回归方程中 $GP$ 的选择不同。
 
-1. 环比趋势因子： $GP_{\ N}$ 为最近一个季度的 Gross Profitabililty， ${GP}_{{N-1}}$ 为上一个季度的 Gross Profitabililty。
+1. 环比趋势因子： $\boldsymbol{GP}_{N^{\prime}}$ 为最近一个季度的 Gross Profitabililty， $\boldsymbol{GP}_{N-1}$ 为上一个季度的 Gross Profitabililty。
 
-2. 同比趋势因子： $GP_{\textit{ N }}$ 为最近一个季度的 Gross Profitabililty，假设 ${GP}_{N}$ 为二季度数据，那么 ${GP}_{{N-1}}$ 为上一年二季度的 Gross Profitabililty。
+2. 同比趋势因子： $\pmb{G}\pmb{P}_{\phantom{\dagger}N}$ 为最近一个季度的 Gross Profitabililty，假设 $\pmb{G}\pmb{P}_{\phantom{\dagger}N}$ 为二季度数据，那么 $\widehat{GP_{\mathbf{\Lambda}_{N-1}}}$ 为上一年二季度的 Gross Profitabililty。
 
 3. OLS 回归得到的 $\beta_{t}$ 系数为最终的趋势因子。
 

@@ -115,19 +115,19 @@ eaderTable_StaementCompany东方证券股份有限公司经相关主管机关核
 ![](images/7e3d005ad07d2c2b638875f063190da7d5498da60e052248c14c03b94e2718ca.webp)
 资料来源：东方证券研究所
 
-上述伪回归问题，在宏观经济变量的预测中很容易出现，例如用 CPI 同比变化预测未来市场利率，这两个指标的变化都很接近随机游走过程，传统 OLS 方法不再适用。在本篇报告中，我们也会用到 PPI 同比指标作为外生预测变量，但预测目标是市值因子多空组合收益，分布上更接近一个平稳过程，直观感觉上述问题的影响会小些，不过如果样本数量有限，还是会产生严重的小样本偏差（small sample bias）。Stambaugh(2000)对此有过详细讨论，假设我们要用变量 $\scriptstyle{\frac{1}{2}}X_{\mathrm{t}-1}$ 预测Y ，预测回归（Predictive Regression）模型可以表示为：
+上述伪回归问题，在宏观经济变量的预测中很容易出现，例如用 CPI 同比变化预测未来市场利率，这两个指标的变化都很接近随机游走过程，传统 OLS 方法不再适用。在本篇报告中，我们也会用到 PPI 同比指标作为外生预测变量，但预测目标是市值因子多空组合收益，分布上更接近一个平稳过程，直观感觉上述问题的影响会小些，不过如果样本数量有限，还是会产生严重的小样本偏差（small sample bias）。Stambaugh(2000)对此有过详细讨论，假设我们要用变量 $\mathbf{\underline{{i}}X_{t-1}}$ 预测Y ，预测回归（Predictive Regression）模型可以表示为：
 
 $$
-\begin{array}{rlr}&{}&{\boldsymbol{\Upsilon}_{\mathrm{t}}=\alpha+\beta\cdot\boldsymbol{X}_{t-1}+\boldsymbol{u}_{t}}\\&{}&\\&{}&{\boldsymbol{\Upsilon}_{\mathrm{t}}=\theta+\rho\cdot\boldsymbol{X}_{t-1}+\boldsymbol{v}_{t}}\\&{}&\\&{}&{\mathrm{\qquad\ }\mathrm{\qquad\ }\mathrm{\qquad\ }\mathrm{\ Y}_{\mathrm{t}}=\alpha+\beta\cdot\boldsymbol{X}_{t-1}}\\&{}&{\mathrm{\qquad\ }\mathrm{\qquad\ }\mathrm{\qquad\ }\mathrm{\qquad\boldsymbol{\Sigma}}=\left(\begin{array}{ll}{\sigma_{u}^{2}}&{\sigma_{uv}}\\{\sigma_{uv}}&{\sigma_{v}^{2}}\end{array}\right)}\end{array}
+\begin{aligned}\Upsilon_{\mathrm{t}}&=\alpha+\beta\cdot X_{t-1}+u_{t}\\\Upsilon_{\mathrm{t}}&=\theta+\rho\cdot X_{t-1}+v_{t}\\(\mathfrak{u}_{\mathrm{t}},v_{t})^{T}\sim\text{ i.i.d }&\quad\mathrm{N}(0,\Sigma)\quad\Sigma=\begin{pmatrix}\sigma_{u}^{2}&\sigma_{uv}\\\sigma_{uv}&\sigma_{v}^{2}\end{pmatrix}\end{aligned}
 $$
 
-模型里， $\{{\mathrm{X}}_{\mathrm{t}}\}$ 是一个 AR(1) 过程，ρ 的大小度量了序列的持续性（Persistence），ρ = 1 对应随机游走过程；两个回归方程的残差项满足二元联合正态分布，残差的相关系数 $\rho_{\mathrm{uv}}=\sigma_{uv}/(\sigma_{u}\sigma_{v})$ 度量了 $\{{\mathrm{X}}_{\mathrm{t}}\}$ 的内生性(Endogeneity)。此时用 OLS 方法得到的β估计量 ${\hat{\beta}}$ 的估计偏差（bias）:
+模型里， $\{\tt X_{t}\}$ 是一个 AR(1) 过程，ρ 的大小度量了序列的持续性（Persistence），ρ = 1 对应随机游走过程；两个回归方程的残差项满足二元联合正态分布，残差的相关系数 $\rho_{\mathrm{uv}}=\sigma_{uv}/(\sigma_{u}\sigma_{v})$ 度量了 $\{\tt X_{t}\}$ 的内生性(Endogeneity)。此时用 OLS 方法得到的β估计量 $i\hat{\beta}$ 的估计偏差（bias）:
 
 $$
-\begin{array}{ll}{\displaystyle\mathrm{E}\Big(\hat{\beta}-\beta\Big)=}&{-\frac{\sigma_{uv}}{\sigma_{v}^{2}}\Big(\frac{1+3\rho}{T}\Big)+O(\frac{1}{T^{2}})}\end{array}
+\mathrm{E}\big(\hat{\beta}-\beta\big)=\quad-\cfrac{\sigma_{uv}}{\sigma_{v}^{2}}\left(\cfrac{1+3\rho}{T}\right)+O(\cfrac{1}{T^{2}}),
 $$
 
-可以看到， $\{{\bf{X}}_{\bf{t}}\}$ 的持续性和内生性都会影响 OLS估计量的偏差，如果样本数量 T趋于无穷大，估计偏差会趋于零；但如果样本数量有限时，这个偏差可能很大，在常见的的金融实证中，偏差甚至会大于β̂数值。另外此时 OLS方法也会低估β̂的方差，从而放大 t 统计量，让模型变得更显著。
+可以看到， $\{\bf{X}_{t}\}$ 的持续性和内生性都会影响 OLS估计量的偏差，如果样本数量 T趋于无穷大，估计偏差会趋于零；但如果样本数量有限时，这个偏差可能很大，在常见的的金融实证中，偏差甚至会大于β̂数值。另外此时 OLS方法也会低估β̂的方差，从而放大 t 统计量，让模型变得更显著。
 
 持续性和内生性问题在金融时间序列预测中非常普遍，我们在报告下文用了一些宏观和市场面的指标变量来预测市值因子多空组合收益，其中部分变量的内生性和持续性指标列于图 12。由于宏观金融数据经常很多呈现强季节性，因此实务中常用同比指标来剔除季节影响，但同比指标的持续性一般较强，ρ 值较大，例如固定资产投资总额同比变动、PPI 同比变动等；另外一些指标，像利率、市场 EP估值、换手率等指标本身也具备很强的持续性；在预测市值多空组合收益时，个别变量 $|\rho_{uv}|>0.1$ ，内生性问题也需关注。因此建模过程必须对β和检验统计量的计算做调整。
 
@@ -144,23 +144,23 @@ $$
 
 ## 2.2 动态线性模型（DLM）
 
-在 OLS 模型和上述 IVX 模型中，回归系数β在整个样本区间里是常数，不随时间改变，衡量的是整个区间内 $\mathrm{Y}_{\mathrm{t}}$ 对 $\cdot\mathrm{X}_{\mathrm{t}-1}$ 的平均敏感度。不过在投资研究实务中，经常发现曾经有效的指标在很长一段时间内失效， $\mathrm{Y}_{\mathrm{t}}$ 和 $X_{\mathrm{t}-1}$ 的关系并不稳定，在随时间改变。我们可以考虑对回归系数β进行动态建模来反应这种变化。
+在 OLS 模型和上述 IVX 模型中，回归系数β在整个样本区间里是常数，不随时间改变，衡量的是整个区间内 $\mathrm{Y_{t}}$ 对 $\mathrm{{X}_{t-1}}$ 的平均敏感度。不过在投资研究实务中，经常发现曾经有效的指标在很长一段时间内失效， $\mathrm{Y_{t}}$ 和 $\mathrm{X_{t-1}}$ 的关系并不稳定，在随时间改变。我们可以考虑对回归系数β进行动态建模来反应这种变化。
 
 让 β “动”起来的常用方法有两类，一类是从β 的 OLS 估计算式出发：
 
 $$
-\hat{\beta}=~{\frac{cov(Y,X)}{var(X)}}
+\hat{\beta}=\frac{cov(Y,X)}{var(X)}
 $$
 
-等式右边的分子和分母基于整个样本区间数据计算，是常数。我们可以借鉴 GARCH模型的思想，计算条件期望值 $\operatorname{cov}(\mathrm{Y},\mathrm{X}\mid\mathcal{F}_{t})$ 和 $\mathrm{var}(\mathrm{X}\mid\mathcal{F}_{t})$ 。这里可采用随机波动率模型（SV, StochasticVolatility），也可采用高维 GARCH 模型，常用的形式包括 BEKK、DCC-GARCH、CCC-GARCH等（详细内容可参考 Mergner(2009)）。
+等式右边的分子和分母基于整个样本区间数据计算，是常数。我们可以借鉴 GARCH模型的思想，计算条件期望值 $\mathsf{cov}(\mathrm{Y},\mathrm{X}\mid\mathcal{F}_{t})$ 和 $\operatorname{var}(\mathrm{~X~}\left|\mathcal{F}_{t}\right)$ 。这里可采用随机波动率模型（SV, StochasticVolatility），也可采用高维 GARCH 模型，常用的形式包括 BEKK、DCC-GARCH、CCC-GARCH等（详细内容可参考 Mergner(2009)）。
 
 另一类方法是把 beta 看作隐状态（Hidden State），采用 State-Space Model 的方法来估计状态值。State-Space Model 的模型设定有很多选择，报告下文采用的是最常用的随机游走形式：
 
 $$
-{\begin{array}{rl}&{{\mathrm{Y_{t}}}=\ \beta_{t}\cdot X_{t-1}+u_{t}\qquad\cdots\cdots\quad Observation\ Equation}\\&{}\\{\beta_{t}=\ \beta_{t-1}+v_{t}\qquad\quad\cdots\cdots\quad State\ Equation}\end{array}}
+\begin{aligned}&Y_{t}=\begin{array}{ll}\beta_{t}\cdot X_{t-1}+u_{t}\quad&\cdots\cdots\quad Observation\quad Equation\\\end{array}\\&\\\beta_{t}=\begin{array}{ll}\beta_{t-1}+v_{t}\quad&\cdots\cdots\quad State\quad Equation\\\end{array}\\\end{aligned}
 $$
 
-隐状态的估计可以通过 Kalman Filter 实现， $\mathrm{u}_{\mathrm{t}}\mathrm{~,~}v_{t}$ 的协方差矩阵用极大似然方法估计，似然函数用 EM 算法（Expectation Maximization Algorithm）求解，整个过程可以利用 Python 的 pykalman包完成。
+隐状态的估计可以通过 Kalman Filter 实现， $\mathbf{u}_{\mathrm{t~}},v_{t}$ 的协方差矩阵用极大似然方法估计，似然函数用 EM 算法（Expectation Maximization Algorithm）求解，整个过程可以利用 Python 的 pykalman包完成。
 
 Mergner(2009) 用不同的动态线性模型（DLM, Dynamic Linear Model）计算了欧洲市场上各个行业指数的 beta系数，不同方法的结果差别不大，借助 GARCH 模型方法估算得到的动态 Beta值波动更大，锯齿形态更明显，比较后我们决定采用上述随机游走形式的 Kalman Filter。
 
@@ -170,7 +170,7 @@ Mergner(2009) 用不同的动态线性模型（DLM, Dynamic Linear Model）计�
 ![](images/b58d4b0df428200b5b2ea328b0b55be7609726f7bae80943fdce51cce2db2900.webp)
 数据来源：东方证券研究所 & Wind 资讯
 
-如果 DLM模型估算出来的动态 beta 足够”准确”，那么采用DLM动态模型做预测的效果应该优于 OLS这样的静态模型。Dangl(2012)的实证结果支持这种猜想，他用 52个指标来预测 S&P500指数的月度风险溢价（指数涨跌幅减去无风险利率），预测模型从静态模型改为动态模型后，28个指标的样本外预测能力显著提升。不过这个实证结果可能也会有些数据依赖，我们用同样的方法在A 股进行了测试，预测能力提升并不显著，可能和 A股历史数据太短，参数估计不准也有关系。另外从模型原理上讲，我们用时间段 $[\ t_{1},t_{2}]$ 内数据做参数估计，并在时刻 $\mathrm{t}_{2}\cdot$ 做预测时，关心的是状态变量 ${\displaystyle\langle\beta_{\mathrm{t}_{2}}}$ 估计准不准，但是 State Equation 里面误差项的方差 $\mathrm{var}(\mathrm{v}_{\mathrm{t}_{2}}|\mathcal{F}_{t_{2}})$ 是最大的（Durbin 2012），估计并不准确。DLM模型在本报告里仅用做样本内分析，不用做样本外预测。
+如果 DLM模型估算出来的动态 beta 足够”准确”，那么采用DLM动态模型做预测的效果应该优于 OLS这样的静态模型。Dangl(2012)的实证结果支持这种猜想，他用 52个指标来预测 S&P500指数的月度风险溢价（指数涨跌幅减去无风险利率），预测模型从静态模型改为动态模型后，28个指标的样本外预测能力显著提升。不过这个实证结果可能也会有些数据依赖，我们用同样的方法在A 股进行了测试，预测能力提升并不显著，可能和 A股历史数据太短，参数估计不准也有关系。另外从模型原理上讲，我们用时间段 $[\mathbf{t}_{1},t_{2}]$ 内数据做参数估计，并在时刻 $\mathbf{t_{2}}^{\prime}$ 做预测时，关心的是状态变量 $\mathrm{{\bf{\cal{\bar{B}}}}_{t_{2}}}$ 估计准不准，但是 State Equation 里面误差项的方差 $\mathrm{var}(\mathbf{v}_{t_{2}}|\mathcal{F}_{t_{2}})$ 是最大的（Durbin 2012），估计并不准确。DLM模型在本报告里仅用做样本内分析，不用做样本外预测。
 
 ## 2.3 三阶段回归滤波模型（3PRF）
 
@@ -275,7 +275,7 @@ Inflation-3PRF = 0.069*PPI 采掘 + 0.089* PPI 原材料 +0.077*PPI 加工 – 0
 
 对于第一个问题，因为市值因子收益的波动较大，通常保守的做法会把主动暴露绝对值控制在 0.5以内。但对于指数增强策略而言，可以尝试主动暴露的更激进些，因为策略的收益不仅来自于市值因子的风险暴露，还来自于组合 alpha因子暴露，即使市值风格预测错了，alpha因子收益可以抵消部分风格错判的亏损，组合回撤不一定会增加，而且从历史数据看，alpha 因子和市值因子同时失效的概率很小。
 
-对于第二个问题，通常的做法是放开组合优化的约束条件。比方说如果预测未来市场风格偏小，可以把市值中性约束条件改为： $-0.5<\mathbf{w}\cdot\mathbf{m}\mathbf{v}<0,$ 。这里 w是组合的主动权重，mv是市值因子风险暴露。但如果预测未来市场风格偏大盘，组合优化时把约束条件放松为 $0<\mathrm{w}\cdot\mathrm{mv}<0.5$ 会发现优化出来的组合的市值暴露很多情况下接近于零，并没有去主动暴露大盘风格风险。究其原因，组合优化的目标函数是组合的 alpha暴露极大化，虽然 alpha因子做了中性化处理，和市值因子相关性为零，但组合优化的结果通常只会选择股票池里的少部分股票构建组合，基于历史数据看市值小股票的 alpha更高，因此组合优化得到的组合由有向小市值方向暴露的倾向，即使约束条件里放开了市值暴露的上限，优化得到的组合也很少会去主动暴露大盘股风险。因此这个时候，需要进一步强化约束条件，可以考虑改为 $0.5<\mathrm{w}\cdot\mathrm{mv}<1$ ，强制主动暴露大盘风险。
+对于第二个问题，通常的做法是放开组合优化的约束条件。比方说如果预测未来市场风格偏小，可以把市值中性约束条件改为： $-0.5<\mathrm{w}\cdot\mathrm{mv}<0,$ 。这里 w是组合的主动权重，mv是市值因子风险暴露。但如果预测未来市场风格偏大盘，组合优化时把约束条件放松为 $0<\mathrm{w}\cdot\mathrm{mv}<0.5$ 会发现优化出来的组合的市值暴露很多情况下接近于零，并没有去主动暴露大盘风格风险。究其原因，组合优化的目标函数是组合的 alpha暴露极大化，虽然 alpha因子做了中性化处理，和市值因子相关性为零，但组合优化的结果通常只会选择股票池里的少部分股票构建组合，基于历史数据看市值小股票的 alpha更高，因此组合优化得到的组合由有向小市值方向暴露的倾向，即使约束条件里放开了市值暴露的上限，优化得到的组合也很少会去主动暴露大盘股风险。因此这个时候，需要进一步强化约束条件，可以考虑改为 $0.5<\mathrm{w}\cdot\mathrm{mv}<1$ ，强制主动暴露大盘风险。
 
 记择时模型预测的下月小盘股溢价为 smb，下文“风险暴露策略”采用的风险暴露设置如下：
 

@@ -143,7 +143,7 @@ le_Summary]历史背景：长时间来，学界及业界开发了包括日内估
 
 1. 复制成本（ 已实现Gamma ） = 已实现波动率 × Gamma
 
-2. 交易成本 $\ (delta\overrightarrow{x}y\prime\overrightarrow{\varphi})=|$ 已实现Gamma| × 买卖差价
+2. 交易成本 $(delta对冲)=[$ 已实现Gamma| × 买卖差价
 
 3. 敞口风险(无法对冲的delta风险) = 价格崩溃或低流动性
 
@@ -156,7 +156,7 @@ le_Summary]历史背景：长时间来，学界及业界开发了包括日内估
 本文中，通过Delta 对冲的跨式期权的收益由以下公式表达：
 
 $$
-4\times5=67/72\div368(Theta\frac{53}{5}\overline{{{5}}})-\frac{3}{5}\times5\overline{{{5}}}\times57/7=(Gamma\frac{53}{5}\overline{{{5}}})
+收益=时间炭减(Theta盈亏)-实际凸烃(Gamma减亏)
 $$
 
 ![](images/77b747472ce86515387f8dde9cd77e6cc3aa372ccb659f268a7fb5705ca4fe3a.webp)
@@ -187,7 +187,7 @@ $$
 定义模型的样本分布Z(n):
 
 $$
-Z(n)={\frac{{\vec{\infty}}\pm\pmb{\mathcal{W}}[{\overline{{\varrho}}}]\pmb{\mathcal{H}}(n)}{\lambda\pmb{\mathcal{W}}\pmb{\bar{\Xi}}\pmb{\mathcal{H}}\pmb{\mathcal{S}}\mp\pmb{\bar{j}}\pmb{\mathcal{W}}(n)}}
+Z(n)=\frac{实现回报(n)}{波动率预测(n)}
 $$
 
 对于一个强有力的模型，Z(n)应该遵循标准正态分布。我们可以通过正态检测来选出符合标准的模型。同时，一个强有力模型给出的波动率范围会是相对小且精确的。
@@ -254,7 +254,7 @@ $$
 在获得隐含波动率之后，财报当天回报率的绝对值即可通过以下公式得出：
 
 $$
-{\biggl|}{\frac{H\cdot B}{2}}[{\overline{{\mathbf{\Lambda}}}}]+[{\overline{{\mathbf{\Lambda}}}}]{\overline{{\mathbf{\Lambda}}}}+{\biggl|}=LE{\mathbf{\Lambda}}[{\overline{{\mathbf{\Lambda}}}}]{\mathbf{\Lambda}}[{\overline{{\mathbf{\Lambda}}}}]+{\mathbf{\Lambda}}[{\overline{{\mathbf{\Lambda}}}}]{\overline{{\mathbf{\Lambda}}}}[{\mathbf{\Lambda}}]+\boxed{H\times1}{\mathbf{\Lambda}}[{\mathbf{\Lambda}}]{\mathbf{\Lambda}}{\hat{\mathbf{\Lambda}}}[{\overline{{\mathbf{\Lambda}}}}]=-{\mathbf{\Lambda}}[-1].
+\left|期望回报率\right|=比例因子\times 预计月内波动率
 $$
 
 我们可以通过对历史波动率与回报率进行线性回归来得到这个比例因子。

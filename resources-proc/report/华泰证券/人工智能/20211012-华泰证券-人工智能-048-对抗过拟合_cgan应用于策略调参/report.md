@@ -122,13 +122,13 @@ SAC No. S0570121070169 chenwei018440@htsc.com
 在进一步阐述基于 cGAN 进行参数调优的合理性之前，本文首先简要回顾 cGAN 的基本原理。类似于 GAN，cGAN 也基于判别器 D与生成器 G两组网络结构，但与 GAN不同的是，cGAN 中两组网络结构都以定语“条件”进行修饰。Mirza 等（2014）在 cGAN 原论文中所使用的目标函数如下所示：
 
 $$
-\begin{array}{rl}&{\underset{G}{\mathrm{min}}\underset{D}{\mathrm{max}}V(D,G)=E_{x\sim p_{r}}[logD(x|y)]+E_{z\sim p_{z}}\left[\log\left(1-D\big(G(z|y)\big)\right)\right]}\\&{\qquad=E_{x\sim p_{r}}[logD(x|y)]+E_{x\sim p_{f}}\big[\log\bigl(1-D(x|y)\bigr)\big]}\end{array}
+\begin{aligned}\min_{G}\max_{D}V(D,G)=E_{\boldsymbol{x}\sim p_{r}}&[logD(\boldsymbol{x}|\boldsymbol{y})]+E_{\boldsymbol{z}\sim p_{z}}\left[\log\Big(1-D\big(G(\boldsymbol{z}|\boldsymbol{y})\big)\Big)\right]\\&=E_{\boldsymbol{x}\sim p_{r}}[logD(\boldsymbol{x}|\boldsymbol{y})]+E_{\boldsymbol{x}\sim p_{f}}\big[\log\big(1-D(\boldsymbol{x}|\boldsymbol{y})\big)\big]\end{aligned}
 $$
 
 作为对比，这里我们列示原始生成对抗网络 GAN 的目标函数：
 
 $$
-\begin{array}{rl}&{\underset{G}{\mathop{\operatorname*{min}}}\underset{D}{\mathop{\operatorname*{max}}}V(D,G)=E_{x\sim p_{r}}[logD(x)]+E_{z\sim p_{z}}\big[\log\big(1-D(G(z))\big)\big]}\\&{\qquad=E_{x\sim p_{r}}[logD(x)]+E_{x\sim p_{f}}\big[\log\big(1-D(x)\big)\big]}\end{array}
+\begin{aligned}\min_{G}\max_{D}V(D,G)=E_{\boldsymbol{x}\sim p_{r}}&[logD(\boldsymbol{x})]+E_{\boldsymbol{z}\sim p_{z}}[\log(1-D(G(\boldsymbol{z})))]\\&=E_{\boldsymbol{x}\sim p_{r}}[logD(\boldsymbol{x})]+E_{\boldsymbol{x}\sim p_{f}}[\log(1-D(\boldsymbol{x}))]\end{aligned}
 $$
 
 比较 cGAN 与 GAN 的目标函数，主要区别在于以下两点：
@@ -150,7 +150,7 @@ $$
 由于 cGAN 并不对 GAN 的损失函数进行改进，因此 GAN 的缺陷如判别器与生成器训练进度不匹配、损失函数不收敛、模式崩溃等原因在 cGAN 中仍有可能出现。为提高生成样本的质量，本文令 cGAN 与 WGAN-GP 结合，即将 WGAN-GP 的损失函数应用于 cGAN 并修改相应的网络结构，得到 cWGAN 模型，后续数据实证部分将主要基于 cWGAN 展开，关于 WGAN 的细节读者可以参考华泰金工研究《人工智能 35：WGAN 应用于金融时间序列生成》（20200828）。cWGAN 的目标函数如下所示：
 
 $$
-\begin{array}{c}{\displaystyle\mathop{\operatorname*{min}}_{G}\mathop{\operatorname*{max}}_{D}V(D,G)=E_{x\sim p_{r}}[D(\boldsymbol{x}|\boldsymbol{y})]-E_{z\sim p_{z}}\big[D\big(G(\boldsymbol{z}|\boldsymbol{y})\big)\big]}\\{-\lambda E_{\widehat{x}\sim p(\epsilon x+(1-\epsilon)G(z|\boldsymbol{y}))}[\big||\nabla_{\widehat{x}}D(\widehat{x})|\big|_{2}-1]^{2}}\end{array}
+\begin{aligned}\min_{G}\max_{D}&V(D,G)=E_{\boldsymbol{x}\sim p_{r}}[D(\boldsymbol{x}|\boldsymbol{y})]-E_{\boldsymbol{z}\sim p_{z}}[D\big(G(\boldsymbol{z}|\boldsymbol{y})\big)]\\&-\lambda E_{\widehat{\boldsymbol{x}}\sim p(\epsilon\boldsymbol{x}+(1-\epsilon)G(\boldsymbol{z}|\boldsymbol{y}))}[\big|\big|\nabla_{\widehat{\boldsymbol{x}}}D(\widehat{\boldsymbol{x}})\big|\big|_{2}-1]^{2}\end{aligned}
 $$
 
 ## cGAN 构建模拟未来的合理性
@@ -219,7 +219,7 @@ cGAN被提出之初，条件y是具有较为明显含义的标签，例如在生
 | 卷积层激活函数 | LeakyReLU(0.2) |
 | 全连接层激活函数 | LeakyReLU(0.2) |
 | 优化器 | Adam(Ir=0.001, betas=(0.1, 0.999)) |
-| 损失函数 | $E_{x\sim p_{r}}[D(x\|y)]-E_{z\sim p_{z}}\big[D\big(G(z\|y)\big)\big]-\lambda E_{\widehat{x}\sim p(\epsilon x+(1-\epsilon)G(z\|y))}[\big\|\|\nabla_{\widehat{x}}D(\widehat{x})\|\big\|_{_{-}}-1]^{2}\mid$ |
+| 损失函数 | $E_{\boldsymbol{x}\sim p_{r}}[D(\boldsymbol{x}\|\boldsymbol{y})]-E_{\boldsymbol{z}\sim p_{z}}[D(G(\boldsymbol{z}\|\boldsymbol{y}))]-\lambda E_{\boldsymbol{\hat{x}}\sim p(\epsilon\boldsymbol{x}+(1-\epsilon)G(\boldsymbol{z}\|\boldsymbol{y}))}[\left\|\left\|\nabla_{\boldsymbol{\hat{x}}}D(\boldsymbol{\hat{x}})\right\|\right\|_{2}-1]^{2}.$ |
 
 资料来源：华泰研究
 
@@ -245,7 +245,7 @@ $$
 
 ## 2. 偏自相关性
 
-偏自相关系数 $\phi_{nn}$ 衡量了时间序列r 与 $r_{t-n}.$ 在扣除 $r_{t-2},\ldots,r_{t-n+1}$ 的影响之后的偏相关系数，常用于时间序列 AR 模型的定阶，即如果偏自相关系数p阶截尾，则 AR 模型的阶数为p。真实的股票资产日频序列不存在偏自相关性，各阶偏自相关系数近似为 0；真实的债券资产日频序列存在低阶偏自相关性。偏自相关系数计算公式如下：
+偏自相关系数 $.\phi_{nn}$ 衡量了时间序列r 与 $r_{t-n}.$ 在扣除 $[r_{t-2},\dots,r_{t-n+1}$ 的影响之后的偏相关系数，常用于时间序列 AR 模型的定阶，即如果偏自相关系数p阶截尾，则 AR 模型的阶数为p。真实的股票资产日频序列不存在偏自相关性，各阶偏自相关系数近似为 0；真实的债券资产日频序列存在低阶偏自相关性。偏自相关系数计算公式如下：
 
 $$
 \phi_{11}=\rho_{1}
@@ -265,7 +265,7 @@ $$
 
 ## 3. 厚尾分布
 
-实证数据表明，股票和债券收益率序列均表现出较为明显的尖峰厚尾分布特征。相比于正态分布，尖峰厚尾分布极端值出现的概率更高，对应到实际的经济学含义即为：“黑天鹅”事件发生概率更高。本文采用如下方法来衡量厚尾分布的程度：记标准化真实收益率的概率密度函数为 P(r)，对 $r>0\sharp\mathfrak{s}$ 部分拟合幂律函数，正态分布的衰减系数 $\alpha>5$ ，真实资产序列3 $<\alpha<5$ ：
+实证数据表明，股票和债券收益率序列均表现出较为明显的尖峰厚尾分布特征。相比于正态分布，尖峰厚尾分布极端值出现的概率更高，对应到实际的经济学含义即为：“黑天鹅”事件发生概率更高。本文采用如下方法来衡量厚尾分布的程度：记标准化真实收益率的概率密度函数为 P(r)，对 $r>0的$ 部分拟合幂律函数，正态分布的衰减系数 $\alpha>5$ ，真实资产序列3 $<\alpha<5$ ：
 
 $$
 P(r)\propto r^{-\alpha}

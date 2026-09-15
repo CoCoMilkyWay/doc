@@ -52,7 +52,7 @@ zhujiantao@orientsec.com.cn
 图 1中的中间投入部分度量的是不同产业间的投入，例如：2015年第一产业对第二产业的投入为 67479亿元。GDP 是总产出相对中间投入的增加值，它可以分为“劳动者报酬”、“生产税净额”，“固定资产折旧”，“营业盈余”四部分，记录在图1左下角红色字体部分；增加值合计即是各产业按照生产法计算得到各产业 GDP 数额。 GDP 还可以按照支出法分解图 1 右上部分：
 
 $$
-\begin{array}{rlrlr}{\mathsf{GDP}=}&{\frac{\gamma_{\mathrm{d}}^{\mathrm{s}}\mu_{\mathrm{d}}^{\mathrm{s}}}{\gamma\sharp\sharp\mathcal{Z}_{\mathrm{d}}}}&{\big(\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\sharp\mathrm{K}}+\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathrm{K}}\mathtt{M}_{\mathrm{riff}}^{\mathrm{r}}\big)}&{+\frac{4\gamma}{\mathrm{K}}\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathcal{Z}_{\mathrm{d}}^{\mathrm{s}}}}&{\big(\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\sharp\mathrm{K}}\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathcal{Z}_{\mathrm{s}}^{\mathrm{s}}}\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathcal{Z}_{\mathrm{d}}^{\mathrm{s}}}+\frac{2\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathcal{W}_{\mathrm{r}}^{\mathrm{s}}}\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathcal{Z}_{\mathrm{d}}^{\mathrm{s}}}+\frac{4\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathcal{Z}_{\mathrm{s}}^{\mathrm{s}}}\frac{\gamma_{\mathrm{d}}^{\mathrm{s}}}{\mathcal{Z}_{\mathrm{d}}^{\mathrm{s}}}\big)\mathtt{M}}&{+\underline{{W}}_{\mathrm{i}}\boxed{-\frac{\gamma_{\mathrm{s}}^{\mathrm{s}}}{\mathcal{W}_{\mathrm{r}}^{\mathrm{s}}}}\mathsf{M}_{\mathrm{r}}^{\mathrm{r}}}\end{array}
+GDP=消费\left(居民+政府\right)+投资\left(固定资本形成额+存货增加\right)+出口-进口
 $$
 
 生产法和支出法计算得到的 GDP 理论上相等，不过实际统计时，两者用到的数据来源和质量有差别，导致数值上有出入，因此图 1 右上角有“其它”项调节，保证两者相等。各个行业的总投入等于总产出，但中间投入不一定等于中间产出。
@@ -75,13 +75,13 @@ $$
 
 投入产出表展示了生产要素在行业间的分配流动，从中可以定量梳理产业链上下游的关系，首先我们需要剔除噪音，把“重要”的行业关联找出来。
 
-假设总共有 N 个行业，它们之间的投入产出矩阵记做 $\mathsf{A}=\left\{\mathsf{a}_{\mathrm{i},\mathrm{j}}\right\}^{N*N}$ ，其中元素 $\mathtt{a_{i,j}}$ 表示行业i 对行业 j 的投入金额，定义：
+假设总共有 N 个行业，它们之间的投入产出矩阵记做 $\mathrm{A}=\left\{\mathsf{a}_{\mathrm{i},\mathrm{j}}\right\}^{N\ast N}$ ，其中元素 $\mathbf{a_{i,j}}$ 表示行业i 对行业 j 的投入金额，定义：
 
 $$
-\mathrm{IN_{i}^{(j)}}=\frac{a_{i,j}}{\sum_{h}^{N}a_{h,j}}\ :\ :\ :,\qquad\quad\quad OUT_{i}^{(j)}=\ :\frac{a_{i,j}}{\sum_{h}^{N}a_{i,h}}
+\mathrm{IN_{i}^{(j)}=}\frac{a_{i,j}}{\sum_{h}^{N}a_{h,j}},\quad OUT_{i}^{(j)}=\frac{a_{i,j}}{\sum_{h}^{N}a_{i,h}}
 $$
 
-$\mathrm{IN}_{\mathrm{i}}^{\mathrm{(j)}}$ 表示在对行业 j 有中间投入的行业里，行业 i 的占比是多少； $OUT_{i}^{(j)}$ 表示行业 i 对其它行业的中间投入中，行业 j 占了多少比例。如果 $\mathrm{IN}_{\mathrm{i}}^{\mathrm{(j)}}$ 和 $OUT_{i}^{(j)}$ 两者同时都大于 3%，我们认为行业i对行业 j 的中间投入是“重要的”，保留 $\mathtt{a_{i,j}}$ 数值；对于其它“不重要”的中间投入， $\mathtt{a_{i,j}}$ 调整为零。调整后的投入产出矩阵记为 A∗。
+$\mathrm{{IN_{i}^{(j)}}}$ 表示在对行业 j 有中间投入的行业里，行业 i 的占比是多少； $OUT_{i}^{(j)}$ 表示行业 i 对其它行业的中间投入中，行业 j 占了多少比例。如果 $\mathrm{{IN_{i}^{(j)}}}$ 和 $OUT_{i}^{(j)}$ 两者同时都大于 3%，我们认为行业i对行业 j 的中间投入是“重要的”，保留 $\mathbf{a_{i,j}}$ 数值；对于其它“不重要”的中间投入， $\mathbf{a_{i,j}}$ 调整为零。调整后的投入产出矩阵记为 A∗。
 
 假设把每个行业看成二维平面上的一个点，如果行业 i 对行业 j 的投入是“重要的”，就画一条点 i 到 j 的带箭头的有向直线，这样行业间的投入产出关系就构成了一张网络图，由中间投入关系决定的产业链就变成图上不同点之间的“路径”。
 
@@ -135,10 +135,10 @@ Carvalho(2014) 研究发现，在投入产出网络图上，两个行业的路�
 
 投入产出图可以告诉我们不同行业在基本面上的关联，而投资者更关心的是对应行业的股价是否也有可利用的联动效应。逻辑上讲，利好或利空冲击在产业链上的传递需要时间，对应产业链上的股票价格可能也会有先后的轮动，产生投资机会。不过公司盈利 E 变动转换成股票价格 P 的变动，中间相差一个 PE估值，而估值会随市场资金和情绪而剧烈波动，行业间基本面的关联不一定能传递到股价上；另外，行业内的企业不一定会在 A 股上市，上市公司构成的行业指数可能只代表该行业的一小部分。策略实际效果如何得拿数据验证。
 
-报告下文采用中证二级行业指数（共83个）作为研究对象，首先在全样本内(2011.01 –2018.10)用第 i 个行业的月度超额收益率（相对中证全指） $\mathbf{r}_{t}^{\left(\mathrm{i}\right)}$ 作为自变量，通过 OLS 回归来预测 L 个月后行业j的月度超额收益 $\boldsymbol{\mathrm{r}}_{t+L}^{(\mathrm{j})}$
+报告下文采用中证二级行业指数（共83个）作为研究对象，首先在全样本内(2011.01 –2018.10)用第 i 个行业的月度超额收益率（相对中证全指） $\mathbf{r}_{t}^{\mathrm{(i)}}$ 作为自变量，通过 OLS 回归来预测 L 个月后行业j的月度超额收益 $\mathbf{r}_{t+L}^{\mathrm{(j)}}$
 
 $$
-\begin{array}{rlrlrl}{\mathrm{r}_{t+L}^{\mathrm{(j)}}}&{{}\sim}&{}&{{}1}&{}&{{}+}&{\mathrm{\Delta r}_{t}^{\mathrm{(i)}}}&{{}+\epsilon}\end{array}
+\begin{array}{rlrlrlrl}{\mathbf{r}_{t+L}^{(\mathrm{j})}}&{{}}&{\sim}&{{}}&{1}&{{}}&{+}&{{}}&{\mathbf{r}_{t}^{(\mathrm{i})}}&{{}+\epsilon}\end{array}
 $$
 
 i 和 j 遍历所有行业，共作了 $83^{\star}83$ 次回归；滞后期 L 分别取 1、2、3、6 个月，如果回归方程在0.05 置信度下显著，则记录下回归方程的 Rsqured，汇总成图 8 的热度图。第 i 行第 j 列的点代表行业 i当月超额收益可以显著预测 L个月后行业 j 的超额收益，颜色深度代表 Rsqured的大小。

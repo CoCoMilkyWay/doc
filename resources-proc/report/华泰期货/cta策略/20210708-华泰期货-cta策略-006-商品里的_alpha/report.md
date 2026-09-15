@@ -89,31 +89,31 @@
 | alpha18: [(((1-Rank(((Sign((close-Delay(close,1))) + Sign((Delay(close,1) - Delay(close,2)))+Sign(Delay(close,2)-Delay(close,3)))))] * [sum(volume/5)] / sum(volume,20)] | 反转 | 截面 |
 
 $$
-\mathrm{alpha19:~TS~{\scriptsize~Rank}(volume,32)^{*}\left(1\cdot TS~{\scriptsize~Rank}(((close+high)-low),lo)\right)^{*}\left(1\cdot TS~{\scriptsize~Rank}(returns,32))\right)}\qquad\quad\widehat{E}\cdot\mathrm{d}\mathrm{t}\qquad\quad\mathrm{Ri}\neq\qquad\quad\mathrm{Ri}\neq\qquad\mathrm{Ri}
+\mathrm{abpha19:TS_{\_}Rank(volume,32)*(1-TS_{\_}Rank((close-high)-low),16)))*(1-TS_{\_}Rank(returns,32)))}
 $$
 
 $$
-\mathrm{{alpha20:}~((cor(mean(volume,20),low,5)+(high+low)/2))\cdot\vec{w}\cdot\vec{w}~\vec{\Sigma}\ =\ }\oplus\mathrm{{12/}}\ y\cdot\ \mu>\ \ 0.14/\ y\cdot\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\mu>\ 0.14/\mu>\mu>\ 0.14/\mu>\mu>\ 0.14/\mu>\mu>\ 0.14/\mu>\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ 0.14/\mu>\ \ 0.14/\mu>\ 0.14/\mu>\ \ 0.14/\mu>\ \ 0.14/\mu>\ \ 0.14/\mu>\ \ 0.14/\mu>\ \ 0.14/\mu>\ \ 0.14/\mu>\ \ 0\mu>\ \ 0.
+\mathrm{allpha20:~((cor(mean(volume,20),low,5)+(high+low)/2))\cdot lcos}
 $$
 
 $$
-\begin{array}{c}\mathrm{{alpha21}:~-1^{*}(Delta(cor(high,volume,5),5)^{*}Rank(sd(close,20))}&{\qquad\mathrm{{als~is~flank(sdatelose,20)}}}\end{array}
+\mathrm{allpha21:~-1^{\circ}(DeIn(cor(high,volume,5),5)*Rank(sd(close,20))~}
 $$
 
 $$
-\begin{array}{r}{\mathrm{alpha22:~-1^{*}sum}(\mathrm{Rank}(\mathrm{cor}(\mathrm{Rank}(\mathrm{high}),\mathrm{Rank}(\mathrm{volume}),3)),3)}\\{\mathrm{~if~{\mathbb{H}^{3}_{\delta}\cap\{\delta\in{\mathbb{H}^{3}_{\delta}}\}}=}}\end{array}\qquad\begin{array}{rl}{\mathrm{\#}_{\delta}\qquad}&{\qquad\mathrm{\#}_{\delta}\qquad}\\{\mathrm{\#}_{\delta}\qquad}&{\qquad\mathrm{\#}_{\delta}\qquad}\end{array}
+\mathrm{apha22:-1*sum(Rank(cor(Rank(high),Rank(volume),3)),3)}
 $$
 
 $$
-\begin{array}{c}\mathrm{{alpha23:}\quad\cdot\ l^{*}TS\_Max(cor(TS\_Rank(volume,\mathcal{S}),TS\_Rank(high,\mathcal{S}),\mathcal{S}))}&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\cdot\beta\pm\beta\pm\frac{\beta}{\hbar}}&\end{array}
+$\mathtt{alpha23}\colon\mathtt{\cdot1^{+}TS\_Max(cor(TS\_Rank(volume,}5\mathtt{),}\mathtt{TS\_Rank(high,}5\mathtt{),}5\mathtt{),}3\mathtt{))}$肯高$时序$
 $$
 
 $$
-\mathrm{alpha24:}\mathrm{~Rank(TS~{\mathcal{A}rgmax}(SignedPowere((returns~<0)?sod(returns,window-20):close),2),}5)\cdot0.5\qquad\mathrm{~\#~\#~\#~}\mathrm{H}^{3}\mathbin{\vrule hetwomex}.
+\mathrm{apha24:\ Rank(TS\_Argmax(SigndPower((returns\_0)/'sd(returns,window=20);close),2),5)\cdot0.5}
 $$
 
 $$
-\begin{array}{rlrlr}&{\mathrm{alpha25:\quad1^{*}cor(vwap,turnover,window-20)}}&{}&\quad\mathtt{H}^{+}\mathtt{F}_{\mathtt{H}}^{\mathtt{F}}\mathtt{F}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_{\mathtt{F}}\mathtt{m}_\end{array}
+$\mathtt{alpha}25\colon$-1*cor(vwap,turnover,window=20)}\quad 肯离\quad 时序$
 $$
 
 数据来源：华泰期货研究院

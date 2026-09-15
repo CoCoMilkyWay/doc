@@ -355,22 +355,22 @@ Email:yhm9591@htsec.com
 从因子构建的逻辑出发，我们对以下三个基于分钟 K线的高频因子进行重构，即
 
 $$
-\begin{array}{c}\begin{array}{r}{\mathbb{\tilde{\Sigma}}_{t=1}^{N}Amt_{t}\cdot I_{r_{t}<0}\Big/\sum_{t=1}^{N}TrdNum_{t}\cdot I_{r_{t}<0}}\\{+\mathbb{\Sigma}\backslash\tilde{\mathbf{\Sigma}}\stackrel{\mathrm{e}}{=}\mathbb{\tilde{\Sigma}}\langle\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\tilde{\mathbf{\Sigma}}\rangle\mathbb{\Sigma}\mathrm{\Sigma}\dot{\Sigma}\mathfrak{k}\mathrm{E}\mathrm{:\Sigma}}\end{array}=\frac{\sum_{t=1}^{N}Amt_{t}\cdot I_{r_{t}<0}\Big/\sum_{t=1}^{N}TrdNum_{t}\cdot I_{r_{t}<0}}{\sum_{t=1}^{N}Amt_{t}\cdot I\sum_{t=1}^{N}TrdNum_{t}}\end{array}
+平均单笔流出金额占比:=\frac{\sum_{t=1}^{N}Amt_{t}\cdot I_{r_{t}<0}}{\sqrt{\sum_{t=1}^{N}TrdNum_{t}}\cdot I_{r_{t}<0}}
 $$
 
-其中， $Amt_{i}$ 代表第 i根 K线成交额， $TrdNum_{i}$ 代表第 i根 K线成交笔数， $\mathcal{F}_{{I_{r}}_{\mathrm{c}}0}$ 则代表第 i根 K线是否下跌。该因子希望可以刻画下跌时段的多空强度相对于全天所有时段的比例情况。
+其中， $Amt_{i}$ 代表第 i根 K线成交额， $TrdNum_{i}$ 代表第 i根 K线成交笔数， $I_{r_{t}<0}$ 则代表第 i根 K线是否下跌。该因子希望可以刻画下跌时段的多空强度相对于全天所有时段的比例情况。
 
 大单资金净流入率：
 
 $$
-=(\sum_{i=1}^{N}Amt_{i}\cdot I_{\{r_{i}>0,i\epsilon IdxSet\}}-\sum_{i=1}^{N}Amt_{i}\cdot I_{\{r_{i}<0,i\epsilon IdxSet\}})/\sum_{i=1}^{N}Amt_{i}
+=\left(\sum_{i=1}^{N}Amt_{i}\cdot I_{\{r_{i}>0,i\varepsilon IdxSet\}}-\sum_{i=1}^{N}Amt_{i}\cdot I_{\{r_{i}<0,i\varepsilon IdxSet\}}\right)/\sum_{i=1}^{N}Amt_{i}
 $$
 
 $$
-\bigstar\bigstar\bigstar|\bigstar\bigstar\bigstar\bigstar\bigstar|\bigstar\bigstar||\bigstar\bigstar||\bigstar\bigstar||\bigstar\bigstar
+\mathbf{天单推动涨幅}=\mathbf{prod}(1+r_i\cdot I_{\{i\in IdxSet\}})
 $$
 
-在这里我们进一步定义了大单 K线的概念，即 $I_{\{J\epsilon IdxSet\}}.$ 表示该 K线是否为全天所有K线当中，平均每笔成交额最大的前 10%的 K线。
+在这里我们进一步定义了大单 K线的概念，即 $I_{\{J\epsilon IdxSet\}}$ 表示该 K线是否为全天所有K线当中，平均每笔成交额最大的前 10%的 K线。
 
 对于平均单笔流出金额占比因子而言，过滤掉部分小单成交信息有助于其规避部分小单成交对分钟 K线涨跌判断的干扰。对于大单分钟 K线的确认而言，通过订单层面对于成交进行先期的过滤更可以提升其大单定义的精度。
 

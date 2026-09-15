@@ -448,15 +448,15 @@ DART 则是对 Shrinkage 的又一步改进，该算法在每次循环训练决�
 为进一步贴近投资实际，我们此处构建了基于上述机器学习模型的指数增强策略。通过马科维茨的均值方差优化模型，对投资组合的跟踪误差进行限制，并控制个股偏离程度以减少策略波动水平，最大化预期超额收益率。
 
 $$
-Max~w^{T}f
+Maxw^{T}f
 $$
 
 $$
-s.~t.~\sqrt{(w-w_{bench})\Sigma(w-w_{bench})^{\prime}}\leq target\_TE
+s.t.\quad\sqrt{(w-w_{bench})\Sigma(w-w_{bench})^{\prime}}\leq target\_TE
 $$
 
 $$
-w-w_{benck}\leq1\%
+w-w_{_{benc\not a}}\leq1\%
 $$
 
 其中，f 为模型的预测信号， $w_{bench}$ 为基准权重向量，tartget_TE 为目标跟踪误差。

@@ -117,7 +117,7 @@ Greenberg, David, Abhilash Babu, and Andrew Ang. "Factors to Assets: Mapping Fac
 我们将投资范围设置为 15 种资产类别，如图 3 所示。所有收益回报均以美元计价。可以将资产i的回报率表示为宏观因子 $f_{j}$ 的标准线性因子模型，如式（1）所示：
 
 $$
-r_{i}=\alpha_{i}+\textstyle\sum b_{j}f_{j}+\epsilon_{i}\tag{1}
+\begin{array}{r}{r_{i}=\alpha_{i}+\sum b_{j}f_{j}+\epsilon_{i}}\end{array}\tag{1}
 $$
 
 我们假设式（1）中的 $\alpha_{i}$ 为零，然后使用约束性逐步回归来估计宏观因子的风险敞口。约束条件主要通过经济金融经验来设定，比如，权益的因子模型中通常不包含信用因子。
@@ -167,13 +167,13 @@ $$
 假设有N种资产，K种因子，目标函数如式（2）所示：
 
 $$
-\begin{array}{r}{argmin_{w_{p}}(1-\lambda)\big({w}_{p}^{T}A-e_{b}^{T}\big)\big({w}_{p}^{T}A-e_{b}^{T}\big)^{T}+}\\{\lambda\big({w}_{p}^{T}A-e_{b}^{T}\big)\textstyle\Sigma\big({w}_{p}^{T}A-e_{b}^{T}\big)^{T}+\lambda{w}_{p}^{T}Q{w}_{p}}\end{array}\tag{2}
+\begin{array}{c}{argmin_{\boldsymbol{w}_{p}}(1-\lambda)\big(\boldsymbol{w}_{p}^{T}\boldsymbol{A}-\boldsymbol{e}_{b}^{T}\big)\big(\boldsymbol{w}_{p}^{T}\boldsymbol{A}-\boldsymbol{e}_{b}^{T}\big)^{T}+}\\{\lambda\big(\boldsymbol{w}_{p}^{T}\boldsymbol{A}-\boldsymbol{e}_{b}^{T}\big)\sum\big(\boldsymbol{w}_{p}^{T}\boldsymbol{A}-\boldsymbol{e}_{b}^{T}\big)^{T}+\lambda\boldsymbol{w}_{p}^{T}\boldsymbol{Q}\boldsymbol{w}_{p}}\end{array}\tag{2}
 $$
 
 约束条件为：
 
 $$
-\begin{array}{c}{w_{p}^{T}\mathbf{1}=1}\\{w_{i}\ge0\left(i=1,\dots,N\right)}\\{w_{i}\ge w_{min},ifw_{i}\ne0\left(i=1,\dots,N\right)}\\{l_{j}\le w_{p}^{T}\pi_{j}\le u_{j}\left(j=1,\dots,M\right)}\end{array}
+\begin{aligned}\boldsymbol{w}_{\boldsymbol{p}}^{T}\mathbf{1}&=1\\w_{i}\geq0\;(i&=1,\ldots,N)\\w_{i}\geq w_{min},if\;w_{i}&\neq0\;(i=1,\ldots,N)\\l_{j}\leq\boldsymbol{w}_{\boldsymbol{p}}^{T}\boldsymbol{\pi}_{j}&\leq u_{j}\;(j=1,\ldots,M)\end{aligned}
 $$
 
 其中，
@@ -187,23 +187,23 @@ $\pmb{A}=[\pmb{a}_{1},\dots,\pmb{a}_{k}]=$ 资产因子暴露的N∗K阶矩阵
 Q = 证券特质风险的N∗N阶协方差矩阵
 
 $$
-e_{b}=\boxed{\pm}\neq\pm\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}\sqrt{\pm}
+e_{b}=因子基准风险暴露向量
 $$
 
 $$
-\lambda=\pm\frac{1}{2}\pi\vert\stackrel{\sqrt{2}}{\underset{1\leq\frac{1}{2}}{\sum}}\langle\frac{3}{\hbar\eta}\frac{3\sigma}{\vert2\eta\vert}\phi\rangle\ast\frac{1}{2},\quad\stackrel{\sqrt{2}}{\vert2\eta\vert}\pm\frac{1}{2}\pi\vert\stackrel{\sqrt{2}}{\underset{1\leq\frac{1}{2}}{\sum}}\sqrt{2}\ast\frac{3}{\hbar\eta}\frac{4}{\underset{1\leq\frac{1}{2}}{\sum}}(0\leq\lambda\leq1)
+\lambda=主动风险偏离的权重,\ 即主动风险厌恶系数(0\leq\lambda\leq1)
 $$
 
 $$
-w_{min}=4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times2\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times4\times5\times2\times5\times4\times5\times2\times5\times4\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times5\times55\times5\times5\times5\times5\times55\times5\times5\times5\times55\times5\times5\times5\times5\times55\times5\times55\times5\times55\times5\times55\times55\times5\times55\times55\times55\times5\times55\times55\times5555\times5\times555\times5\times55555\times555\times555555\times555\times5555555\times555555555\times5555555555555555555555555555555555555555555555555555
+w_{min}=投资组合中各类资产的最小交易规模
 $$
 
 $$
-\pi_{j}=\hbar\hbar\frac{\angle E}{2},\hbar,\hbar\pm\hbar,\hbar\pm\hbar,\hbar\pm\hbar,\hbar\pm\hbar,\frac{\angle}{2}
+\pi_{j}=第j个线性证券属性向量
 $$
 
 $$
-l_{j}\sharp\circ u_{j}=\pi_{j}\sharp\sharp\mp\sharp\mathbb{R}\neq\mu\perp\mathbb{R}
+l_{j}和u_{j}=\pi_{j}的下限和上限
 $$
 
 我们将λ设置为 0.99,表示优化目标是要最小化主动投资组合的波动性。通过实证分析，我们发现该设置可以最大化最优资产配置的准确性和稳健性。我们还通过微扰目标因子暴露、量化投资组合换手率、比较因子暴露不匹配等方法来修正参数。

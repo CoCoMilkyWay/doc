@@ -71,14 +71,14 @@ IC 加权：w ∝ IC
 
 基于这一想法，条件期望模型无疑是一个不错的选择。在这一框架下，传统模型中的因子收益预测以及因子收益协方差预测实际上可以被看作是因子收益以及收益协方差的无条件期望，而改进后的预测实际上可以被看作是上述两个指标的条件期望。通过引入外生变量，模型因子权重能够对于市场环境的变化有更好的应对。
 
-假设每个月的因子收益以及当月选股时的条件变量值服从联合正态分布，则基于选股时观测到的条件变量值 $\mathsf{v}^{\star}$ ，可对因子收益预测值以及收益协方差预测值进行以下修正：（其中，f 为因子收益，v为条件变量。）
+假设每个月的因子收益以及当月选股时的条件变量值服从联合正态分布，则基于选股时观测到的条件变量值 $v^{\star}$ ，可对因子收益预测值以及收益协方差预测值进行以下修正：（其中，f 为因子收益，v为条件变量。）
 
 $$
-[\boldsymbol{\int_{v}}]{\sim}N([\boldsymbol{\bar{f}}_{]}],\left[\boldsymbol{\Sigma_{ff}}\right.\quad\boldsymbol{\Sigma_{fv}}\\\boldsymbol{v}^{\left[\bar{f}_{]}\right]\sim}N([\boldsymbol{\bar{f}}_{\bar{v}}],\left[\boldsymbol{\Sigma_{vf}}\right.\quad\left.\boldsymbol{\Sigma_{vv}}\right])
+[_{v}^{f}]{\sim}N([_{\bar{v}}^{\bar{f}}],\left[_{\Sigma_{vf}}^{\Sigma_{ff}}\quad\Sigma_{vv}\right])
 $$
 
 $$
-\begin{array}{rl}&{f_{|v*}=\bar{f}+\Delta f\mathrm{~\nabla~},\Sigma_{|v*}=\Sigma_{ff}-\Sigma_{\Delta\Delta}}\\&{\Delta f=\Sigma_{fv}\Sigma_{vv}^{-1}(v^{*}-\bar{v}),\Sigma_{\Delta\Delta}=\Sigma_{fv}\Sigma_{vv}^{-1}\Sigma_{vf}}\end{array}
+\begin{aligned}&f_{|v*}=\bar{f}+\Delta f\begin{array}{l},\Sigma_{|v*}=\Sigma_{ff}-\Sigma_{\Delta\Delta}\\\end{array}\\&\Delta f=\Sigma_{fv}\Sigma_{vv}^{-1}(v^*-\bar{v}),\Sigma_{\Delta\Delta}=\Sigma_{fv}\Sigma_{vv}^{-1}\Sigma_{vf}\\\end{aligned}
 $$
 
 基于上式我们就得到了调整后的因子收益预测 $f_{|v*}$ 以及因子收益协方差预测 $\Sigma_{|v*}$ 基于调整后的预测值，投资者可在不同的权重分配框架下得到因子择时后各因子的最优权重。不难发现，基于条件期望构建得到的因子择时模型极好地解决了因子择时在实际应用中的前三个问题。第四个问题我们会在第三部分中进行讨论。
@@ -308,7 +308,7 @@ d) 换手率类：沪深 300 指数前 1个月/3 个月日均换手、全 A前 1
 AIC 信息准则即 Akaike information criterion，是衡量统计模型拟合优良性的一种标准。它建立在熵的概念基础上，因此可以用于权衡所估计模型的复杂度和模型的拟合度。基于条件期望模型可构建 AIC 指标，指标计算方法详见下式：
 
 $$
-AIC=T*\log\bigl[\big|\Sigma_{|v*}\bigr|\bigr]+2NK
+AIC=T*\log[\left|\left.\Sigma_{|v*}\right|\right]+2NK
 $$
 
 其中，T 为历史时间窗口长度，N为选股因子数量，K为条件变量数量。

@@ -173,7 +173,7 @@ $$
 文章构建的回归模型如下：
 
 $$
-\begin{array}{r}{LnTN_{jt}=\beta_{0}+\beta_{1}Indv_{j}+\beta_{2}Insider_{j}+\beta_{3}Political_{jt}+\beta_{4}Fxvol_{jt}}\\{+\beta_{5}Credit_{jt}+\beta_{6}LnV_{jt}+\varepsilon_{jt}\qquad}\end{array}
+\begin{aligned}LnTN_{jt}=\beta_{0}+\beta_{1}Indv_{j}+\beta_{2}Insider_{j}+\beta_{3}Political_{jt}+\beta_{4}Fxvol_{jt}\\+\beta_{5}Credit_{jt}+\beta_{6}LnV_{jt}+\varepsilon_{jt}\end{aligned}
 $$
 
 其中下标j和 t 分别表示国家j和月份 t。
@@ -208,7 +208,7 @@ $$
 文章构建的回归模型如下所示：
 
 $$
-\begin{array}{r}{LnV_{jt}=\beta_{0}+\beta_{1}Indv_{j}+\beta_{2}Insider_{j}+\beta_{3}Credit_{jt}+\beta_{4}Gwvol8\beta_{j}\quad}\\{+\beta_{5}Fxvol_{jt}+\beta_{6}Open_{jt}+\beta_{7}Debt_{jt}+\beta_{8}Mcap_{jt}+\varepsilon_{jt}}\end{array}
+\begin{aligned}LnV_{jt}=\beta_{0}+\beta_{1}&Indv_{j}+\beta_{2}Insider_{j}+\beta_{3}Credit_{jt}+\beta_{4}Gwvol88_{j}\\&+\beta_{5}Fxvol_{jt}+\beta_{6}Open_{jt}+\beta_{7}Debt_{jt}+\beta_{8}Mcap_{jt}+\varepsilon_{jt}\end{aligned}
 $$
 
 表 2:个人主义对市场波动率的影响
@@ -309,7 +309,7 @@ $$
 Mom_{jt}=\alpha_{0}+\beta_{1}Indv_{j}+F_{j}\gamma_{1}+A_{jy}\gamma_{2}+M_{jt}\gamma_{3}+\varepsilon_{jt}
 $$
 
-其中 $Mom_{jt}$ 为j 国动量投资组合在 t 月的收益， $Indv_{j}$ 为 j 国个人主义指数。Fj 为不随时间变化的变量， $\mathrm{A}_{jy}$ 和 ${\boldsymbol{\tau}}\mathbf{M}_{jt}$ 分别为每年更新和每月更新的变量。
+其中 $Mom_{jt}$ 为j 国动量投资组合在 t 月的收益， $Indv_{j}$ 为 j 国个人主义指数。Fj 为不随时间变化的变量， $\mathrm{A}_{jy}$ 和 $\imath\mathrm{M}_{jt}$ 分别为每年更新和每月更新的变量。
 
 ## 5.3.1. 企业特征因素
 

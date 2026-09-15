@@ -69,10 +69,10 @@ zhouyou4@cmschina.com.cn
 传统因子投资流程中，线性回归的方法运用广泛。从缺失值处理到因子有效性分析到最终的因子组合，都用到了线性回归的方法。但因子收益率与资产收益率的线性关系并不一定成立。线性因子模型的理论基础是 APT 定价模型，APT的无套利假设使得 时刻的资产收益率 $r_{i,t+1}$ 满足：
 
 $$
-E_{t}\left[m_{t+1}r_{i,t+1}\right]=0\Leftrightarrow E_{t}\left[r_{i,t+1}\right]=\frac{\mathrm{Cov}_{t}\left(m_{t+1},r_{i,t+1}\right)}{\mathrm{Var}_{t}\left(m_{t+1}\right)}\frac{\mathrm{Var}_{t}\left(m_{t+1}\right)}{E_{t}\left[m_{t+1}\right]}
+E_{t}\left[m_{t+1}r_{i,t+1}\right]=0\quad\Leftrightarrow\quad E_{t}\left[r_{i,t+1}\right]=\frac{\operatorname{Cov}_{t}\left(m_{t+1},r_{i,t+1}\right)}{\operatorname{Var}_{t}\left(m_{t+1}\right)}\frac{\operatorname{Var}_{t}\left(m_{t+1}\right)}{E_{t}\left[m_{t+1}\right]}
 $$
 
-记第一项为 $\beta_{i,t}^{'}$ ，第二项为 $\lambda_{_t}$ ，当 $m_{t+1}$ 满足线性结构时， 时刻的资产收益率 $r_{i,t+1}$ 的资产定价模型为：
+记第一项为 $\beta_{i,t}^{'}$ ，第二项为 $\lambda_{t}$ ，当 $m_{{}_{t+1}}$ 满足线性结构时， 时刻的资产收益率 $r_{i,t+1}$ 的资产定价模型为：
 
 $$
 r_{i,t+1}=\alpha_{i,t}+\beta_{i,t}^{'}f_{t+1}+\epsilon_{i,t+1}
@@ -83,7 +83,7 @@ $$
 在实证因子投资的过程中，业界早已开始引入非线性因子。例如，BARRA CNE6 模型中 SIZE 风格因子的构建过程中，其中一个细分因子为非线性因子 ，构建过程为：
 
 $$
-\begin{array}{l}{size_{i}=\ln(market_{-}cap)}\\{midcap_{i}=size_{i}^{3}-a-b^{*}size_{i}}\end{array}
+\begin{aligned}&size_{i}=\ln(market\_cap)\\&indcap_{i}=size_{i}^{3}-a-b*size_{i}\\\end{aligned}
 $$
 
 即总市值的三次方对原 size因子（ln(size)）WLS回归后的残差作为非线性市值因子，该 WLS有显式解，因子可以看作 ，其中 为非线性函数。
@@ -107,7 +107,7 @@ $$
 以技术指标为代表的量价因子的IC贡献中空头贡献占比较高。多头拥挤现象已经存在已久。这里以人气意愿指标 AR（技术指标）为例，该指标反应了日内买卖意愿的强弱。
 
 $$
-\mathsf{AR}=\mathsf{SUM}(\mathsf{H}|\mathsf{G}\mathsf{H}-\mathsf{OPEN},\mathsf{M}1)/\mathsf{SUM}(\mathsf{OPEN}-\mathsf{LOW},\mathsf{M}1)^{\star}100,\mathsf{M}1=26
+\mathsf{AR{=}SUM(HIGH\cdot OPEN,M1)/SUM(OPEN\cdot LOW,M1)^{*}100,\quad M1{=}26}
 $$
 
 在过去 7 年内，20 日调仓的平均 RankIC 约为 0.058，IC 的 t 值为 32.75，未年化 IR 为 0.79，IC 胜率为 79%，从指标上来看是一个显著有效的因子。
@@ -176,12 +176,12 @@ $$
 
 首线性网络与传统的 Alpha框架保持了基本一致。包括原始因子的组合、大类因子合成以及收益率预测部分。
 
-网络结构中，A1 层为线性表示层，输入为 ${\bf z_{m}}\in{R}^{N\times P}$ ，其中 为股票个数，P 为原始因子个数，经过第一层线性层后，输出为 64维，第一层网络用来学习原始因子的线性表示，A2层输入为 64维输出为 6维，第二层网络用来对学习到的因子进行线性加权，最后经过BN层后输出合成因子的zscore。损失函数为 MSE损失函数。使用 L2正则化。
+网络结构中，A1 层为线性表示层，输入为 $\mathbf{z}_{\mathrm{m}}\in\boldsymbol{R}^{N\times P}$ ，其中 为股票个数，P 为原始因子个数，经过第一层线性层后，输出为 64维，第一层网络用来学习原始因子的线性表示，A2层输入为 64维输出为 6维，第二层网络用来对学习到的因子进行线性加权，最后经过BN层后输出合成因子的zscore。损失函数为 MSE损失函数。使用 L2正则化。
 
 从传统因子模型的角度来看，第一层可以看作是原始因子合成大类因子，第二层可以看作大类因子合成收益预测 zscore：
 
 $$
-\begin{array}{r}{{\mathbf{h}}_{1}={\mathbf{z}}_{{\mathbf{m}}}{\mathbf{w}}_{1}+{\mathbf{b}}_{1}}\\{{\mathbf{h}}_{2}={\mathbf{h}}_{1}{\mathbf{w}}_{2}+{\mathbf{b}}_{2}}\\{{\mathbf{0}}={\mathrm{zscore}}({\mathbf{h}}_{2})}\end{array}
+\begin{aligned}&\mathbf{h}_{1}=\mathbf{z}_{\mathrm{m}}\mathbf{w}_{1}+\mathbf{b}_{1}\\&\mathbf{h}_{2}=\mathbf{h}_{1}\mathbf{w}_{2}+\mathbf{b}_{2}\\&\mathbf{0}=\operatorname{score}(\mathbf{h}_{2})\\\end{aligned}
 $$
 
 与传统因子模型不同的地方在于：传统因子模型通常分两步完成大类因子合成以及收益率预测，在线性 Alpha网络中权重由优化算法训练得到，使用 L2正则减少因子权重缓解过拟合。
@@ -237,7 +237,7 @@ MLP 的主要结构包括输入层，隐藏层以及输出层。其中重要的�
 本文中网络结构中隐藏层数为 3层。隐藏层神经元个数的经验法则：
 
 $$
-N_{h}=\frac{N_{s}}{\left(\alpha^{*}\big(N_{i}+N_{o}\big)\right)}
+N_{h}=\frac{N_{s}}{\left(\alpha^{*}\left(N_{i}+N_{o}\right)\right)}
 $$
 
 其中 $N_{i}$ 为输入层神经元的个数； $N_{o}$ 为输出层神经元个数； $N_{s}$ 为训练集样本数目； 为经验变量，取值范围为 2-10。本文中MLP隐藏层神经元个数取64。
@@ -308,32 +308,32 @@ MLP多头等权策略与基准线性模型对比结果如下：
 在传统因子模型中，在合成大类因子的过程中，通常我们会判断细分因子之间相关性，并根据 IC 值和相关性剔除相关性较高的因子。或者对现有的因子进行线性回归取残差作为新的因子。
 
 $$
-\beta_{2,t}=a_{t}^{\mathrm{~*~}}\beta_{1,t}+b_{t}^{\mathrm{~+~}}\epsilon_{t}
+\beta_{2,t}=a_t^*\beta_{1,t}+b_t+\epsilon_t
 $$
 
 通过共线性分析、取残差等手段提升大类因子的 IC表现。对大类因子进行 zscore合成的时候，解释变量之间的相关性会影响权重的稳定性，进而降低模型的性能。另一方面。在给定解释变量个数的前提下。解释变量之间的相关性越低。模型性能越好。
 
 $$
-\widehat{\mathbf{\theta}}=(\mathbf{X}^{\mathbf{T}}\mathbf{X})^{-1}\mathbf{X}^{\mathbf{T}}\mathbf{Y}
+\hat{\pmb{\theta}}=(\mathbf{X}^{\mathrm{T}}\mathbf{X})^{-1}\mathbf{X}^{\mathrm{T}}\mathbf{Y}
 $$
 
-在广义线性回归中， $\mathbf{X^{\mathrm{{T}}}X}$ 可以看作样本的协方差矩阵（假设样本已经去均值），当样本特征之间具有较高的相关性时， $\mathbf{X^{\mathrm{{T}}}X}$ 不不能列满秩。且标准误 $\mathbf{se}\mathbf{\hat{\theta}}^{*}$ 增大。
+在广义线性回归中， $\mathbf{X^{T}X}$ 可以看作样本的协方差矩阵（假设样本已经去均值），当样本特征之间具有较高的相关性时， $\mathbf{X^{T}X}$ 不不能列满秩。且标准误 $\mathbf{se}\theta^{\hat{}}$ 增大。
 
 在传统线性模型中，我们一般通过 LASSO回归、岭回归等方法来减少变量的共线性。在 MLP因子网络中，从原始因子合成大类因子的过程，我们更希望得到相关性更低的大类因子。因此，可以考虑通过增加正则项的方式来降低最终学习到的大类因子的相关性。
 
-对因子相关性的惩罚可以通过惩罚 $\mathbf{X^{\mathrm{{T}}}X}$ 的范数来实现，通常可以直接惩罚 $\mathbf{X^{\mathrm{{T}}}X}$ 的 Frobenius 范数：
+对因子相关性的惩罚可以通过惩罚 $\mathbf{X^{T}X}$ 的范数来实现，通常可以直接惩罚 $\mathbf{X^{T}X}$ 的 Frobenius 范数：
 
 $$
-L(\theta)=\left\|\mathbf{X}^{\mathbf{T}}\mathbf{X}\right\|_{\mathrm{F}}
+L(\theta)=\left\|\mathbf{X}^{\mathrm{T}}\mathbf{X}\right\|_{\mathrm{F}}
 $$
 
-但这样做存在一个问题，由于 $\mathbf{X^{\mathrm{{T}}}X}$ 的对角元素为因子的方差，直接惩罚设置 $\mathbf{X^{\mathrm{{T}}}X}$ 的 F 范数会共同惩罚每个因子的方差和因子之间的协方差，因此，这里优化目标为 $\mathbf{X^{\mathrm{{T}}}X}$ 的非对角元素为0，即只惩罚因子之间的协方差：
+但这样做存在一个问题，由于 $\mathbf{X^{T}X}$ 的对角元素为因子的方差，直接惩罚设置 $\mathbf{X^{T}X}$ 的 F 范数会共同惩罚每个因子的方差和因子之间的协方差，因此，这里优化目标为 $\mathbf{X^{T}X}$ 的非对角元素为0，即只惩罚因子之间的协方差：
 
 $$
-L(\theta)=\left\|\mathbf{X}^{\mathbf{T}}\mathbf{X}-\mathrm{diag}(\mathbf{X}^{\mathbf{T}}\mathbf{X})\right\|_{\mathrm{F}}
+L(\theta)=\left\|\mathbf{X}^{\mathrm{T}}\mathbf{X}-\mathrm{diag}(\mathbf{X}^{\mathrm{T}}\mathbf{X})\right\|_{\mathrm{F}}
 $$
 
-最终的目标函数为： $\boldsymbol{LOSS}=\boldsymbol{MSE}+\lambda^{*}\boldsymbol{L}(\boldsymbol{\theta})$ ， 为惩罚系数。
+最终的目标函数为： $LOSS=MSE+\lambda^*L(\theta)$ ， 为惩罚系数。
 
 图 20：加入正交惩罚的 MLP因子网络
 ![](images/9e9e866ff8842833de79f8afee84449335d0bce9a51418ac3956a9ef78127aa2.webp)
@@ -373,27 +373,27 @@ $$
 2) Pearson 相关系数，IC（可以看作为余弦相似度）：
 
 $$
-IC(y,{\hat{y}})={\frac{\displaystyle\sum_{i=1}^{n}\left(y_{i}-{\overline{{y}}}\right)\left({\hat{y}}_{i}-{\overline{{{\hat{y}}}}}\right)}{\sqrt{\displaystyle\sum_{i=1}^{n}\left(y_{i}-{\overline{{y}}}\right)^{2}}\sqrt{\displaystyle\sum_{i=1}^{n}\left({\hat{y}}_{l}-{\overline{{{\hat{y}}}}}\right)^{2}}}}
+IC(y,\hat{y})=\frac{\sum\limits_{i=1}^{n}\left(y_{i}-\overline{y}\right)\left(\hat{y}_{i}-\overline{\hat{y}}\right)}{\sqrt{\sum\limits_{i=1}^{n}\left(y_{i}-\overline{y}\right)^{2}}\sqrt{\sum\limits_{i=1}^{n}\left(\hat{y}_{i}-\overline{\hat{y}}\right)^{2}}}
 $$
 
 3) 改进的 CCC损失函数，用于改进 Pearson相关系数的凸性：
 
 $$
-CCC=\frac{2\sigma_{_{\mathrm{y}y}}}{MSE+2\sigma_{_{yy}}}
+CCC=\frac{2\sigma_{_{yy}}}{MSE+2\sigma_{_{yy}}}
 $$
 
 其中 $\sigma_{_{yy}}$ 为 Pearson 相关系数。在因子模型的场景下，我们通常希望模型的样本外 IC 能够尽可能高，直接的想法是使用 Pearson 相关系数作为损失函数。但 Pearson 相关系数非凸的特性可能会导致收敛困难，因此在实际过程中，参照线性回归中：
 
 $$
-SSR=\sum_{i=1}^{n}{\left({\hat{y}}_{i}-{\overline{{y}}}\right)^{2}}
+\mathit{SSR}=\sum_{i=1}^{n}\left(\hat{y}_{i}-\overline{{y}}\right)^{2}
 $$
 
 $$
-SS\mathrm{E}=\sum_{i=1}^{n}\Bigl(y_{i}-y_{\mathrm{i}}\Bigr)^{2}
+\mathrm{SSE}=\sum_{i=1}^{n}\left(y_{i}-y_{\mathrm{i}}\right)^{2}
 $$
 
 $$
-R^{2}=\frac{\mathrm{SSR}-\mathrm{SS}E}{\mathrm{SS}T}=\rho_{\mathrm{~}yy}^{2}
+R^{2}=\frac{SSR-SSE}{SST}=\rho^{2}_{yy}
 $$
 
 可以知道在线性模型中，优化 MSE 损失与优化 IC 基本等价，因此通常使用 MSE 损失函数作为 IC 的近似目标，在深度网络模型训练收敛和参数估计受到样本和优化算法以及随机初始化的影响。两者可能有所区别。CCC 损失则是结合了 IC和MSE损失函数。本文在实验中测试了三种不同的损失函数对模型结果的影响。

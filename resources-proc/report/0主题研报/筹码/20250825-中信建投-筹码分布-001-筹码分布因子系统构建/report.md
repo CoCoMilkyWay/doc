@@ -90,13 +90,13 @@ iFind,
 
 2、计算股票每日分钟级量价分布情况。
 
-3、在t日，股票i 在每个价位p的筹码峰 $Chip_{i,t,p}$ 计算公式为：
+3、在t日，股票i 在每个价位p的筹码峰 $\cdot Chip_{i_{\cdot},\:t,p}$ 计算公式为：
 
 $$
 Chip_{i,t,p}=Vol_{i,t,p}*T_{i,t}+Chip_{i,t-1,p}*\left(1-T_{i,t}\right)
 $$
 
-其中， $Vol_{i,t,p}$ 为股票i 在t日价格为p的总成交量， $T_{i,t}$ 为股票i 在t日的流通换手率， $Chip_{i,t-1,p}$ 为股票i 在t-1 日价格为p的筹码峰。每日的筹码分布更新满足图 2 所示计算逻辑，以此迭代计算每日的筹码分布。
+其中， $Vol_{i,t,p}$ 为股票i 在t日价格为p的总成交量， $T_{i,t}$ 为股票i 在t日的流通换手率， $Chip_{i,\;t-1,p}$ 为股票i 在t-1 日价格为p的筹码峰。每日的筹码分布更新满足图 2 所示计算逻辑，以此迭代计算每日的筹码分布。
 
 图 2：筹码分布简化示意图
 ![](images/900d43ac9e72204be854aea3ec1e19427c69c4768f47d297e1beccc480084216.webp)
@@ -162,45 +162,45 @@ T 日筹码峰满足： $Chip_{i,t,p}=Chip_{i,t-1,p}*\left(1-T_{i,t}\right)+Vol_
 
 本节使用统计学指标构建筹码分布统计因子，描述筹码分布的位置、离散程度与形态特征。
 
-对于某只股票在t日的筹码分布，假设共有 n个价位 $(\mathfrak{i}=1,2,\cdots,\mathfrak{n})$ ，定义第 t天i 价位的筹码峰高度为 ${vol}_{i,t}$ 对应价格为 $\mathfrak{price}_{i,t}$ ，并定义 $\begin{array}{r}{.p_{i,t}=\frac{vol_{i,t}}{\sum vol_{i,t}}}\end{array}$
+对于某只股票在t日的筹码分布，假设共有 n个价位 $(i=1,2,\cdots,n)$ ，定义第 t天i 价位的筹码峰高度为 $vol_{i,t}$ 对应价格为 $lprice_{i,t}$ ，并定义 $\begin{array}{r}{.p_{i,t}=\frac{vol_{i,t}}{\sum vol_{i,t}}}\end{array}$
 
 筹码加权平均成本：使用筹码分布加权价格衡量筹码加权平均成本。
 
 $$
-mean_{t}=\sum(price_{i,t}*p_{i,t})
+mean_{t}=\sum\bigl(price_{i,t}*p_{i,t}\bigr)
 $$
 
 筹码成本加权标准差：反映筹码分布的离散程度。
 
 $$
-std_{t}=\sqrt{\sum\left({price}_{i,t}-{mean}_{t}\right)^{2}*p_{i,t}}
+std_{t}=\sqrt{\sum\bigl(price_{i,t}-mean_{t}\bigr)^{2}*p_{i,t}}
 $$
 
 筹码分布偏度：衡量筹码分布偏斜程度和偏斜方向。
 
 $$
-skewness_{t}=\sum\Big(\frac{price_{i,t}-mean_{t}}{std_{t}}\Big)^{3}*p_{i,t}
+skewness_{t}\;=\;\sum\Big(\frac{price_{i,t}-mean_{t}}{std_{t}}\Big)^{3}*p_{i,t},
 $$
 
 筹码分布峰度：衡量筹码分布在平均值处峰值的高低程度。
 
 $$
-kurtosis_{t}=\sum\left(\frac{price_{i,t}-mean_{t}}{std_{t}}\right)^{4}*p_{i,t}
+kurtosis_{t}=\sum\Big(\frac{price_{i,t}-mean_{t}}{std_{t}}\Big)^{4}*p_{i,t},
 $$
 
 筹码分布变异系数：衡量筹码分布的离散程度。
 
 $$
-coeff_{-}of_{-}var_{t}=\frac{std_{t}}{mean_{t}}
+coeff\_of\_var_{t}=\frac{std_{t}}{mean_{t}}
 $$
 
 相对价位：衡量收盘价与平均成本之间的距离占比。
 
 $$
-CKDP_{t}=\frac{close_{t}-mean_{t}}{Chip\_Highest_{t}-Chip\_Lowest_{t}}
+CKD_{t}=\frac{close_{t}-mean_{t}}{Chip\_Higgs_{t}-Chip\_Loss_{t}}
 $$
 
-成本带宽：反应筹码最高价Cℎip ${_{-Highest_{t}}}$ 和筹码最低价Cℎip $\_Lowest_{t}$ 之间的宽度。
+成本带宽：反应筹码最高价Cℎip $\_Highest_{t}$ 和筹码最低价Cℎip $\_Lowest_{t}$ 之间的宽度。
 
 $$
 CBW_{t}=\frac{Chip\_Highest_{t}-Chip\_Lowest_{t}}{Chip\_Lowest_{t}}
@@ -209,7 +209,7 @@ $$
 成本重心：平均成本在筹码分布中的相对位置。
 
 $$
-CKDW_{t}=\frac{mean_{t}-Chip\_Lowest_{t}}{Chip\_Highest_{t}-Chip\_Lowest_{t}}
+CKDW_{t}=\frac{mean_{t}-Chip\_Loss_{t}}{Chip\_Higgs_{t}-Chip\_Loss_{t}}
 $$
 
 ## 2.1.2 筹码分布因子计算举例
@@ -337,13 +337,13 @@ coeff_of_var 因子表现出优异的选股能力。因子年化多空收益13.5
 90%筹码集中度因子： $Price95_{t}$ $Price05_{t}$ 分别为筹码分布95%、5%分位数价格。。
 
 $$
-\begin{array}{r}{chip\_distri_{1}=\frac{2*(Price95_{t}-Price05_{t})}{Price95_{t}+Price05_{t}},\quad chip\_distri_{2}=\frac{Price95_{t}-Price05_{t}}{chip\_Highest_{t}}}\end{array}
+\frac{chip\_distri_{1}=\frac{2*(Price95_{t}-Price05_{t})}{Price95_{t}+Price05_{t}},\quad chip\_distri_{2}=\frac{Price95_{t}-Price05_{t}}{Chip\_Hightest_{t}}}{\frac{2*(Price95_{t}-Price05_{t})}{Chip\_Hightet_{t}}}
 $$
 
 70%筹码集中度因子： $Price85_{t}$ $Price15_{t}$ 分别为筹码分布85%、15%分位数价格。
 
 $$
-\begin{array}{r}{chip\_distri_{3}=\frac{2*(Price{85_{t}}-Price{15_{t}})}{Price{85_{t}}+Price{15_{t}}},\quad chip\_distri_{4}=\frac{Price{85_{t}}-Price{15_{t}}}{chip\_Highest_{t}}}\end{array}
+\frac{chip\_distri_{3}=\frac{2*(Price85_{t}-Price15_{t})}{Price85_{t}+Price15_{t}}}{\frac{chip\_distri_{4}=\frac{Price85_{t}-Price15_{t}}{Chip\_Hightest_{t}}}{Chip\_Hightet_{t}}}
 $$
 
 50%筹码集中度因子： $Price75_{t}$ $Price25_{t}$ 分别为筹码分布75%、25%分位数价格。
@@ -352,7 +352,7 @@ $$
 \begin{array}{r}{chip\_distri_{5}=\frac{2*(Price75_{t}-Price25_{t})}{Price75_{t}+Price25_{t}},\quad chip\_distri_{6}=\frac{Price75_{t}-Price25_{t}}{Chip\_Highest_{t}}}\end{array}
 $$
 
-根据活动筹码理论，当天涨跌停价格范围内的筹码更可能被主动交易，称为 活动筹码 ；而处于该区间之外的筹码则为“锁定筹 $\hbar\underline{{\underline{{u}}}}\prime\prime$ ，通常更稳定，不易交易。本文基于 A 股不同交易板块的涨跌停制度设定当日的最大波动幅度，并构造 ASR 系列因子以衡量活动筹码占比情况：
+根据活动筹码理论，当天涨跌停价格范围内的筹码更可能被主动交易，称为 活动筹码 ；而处于该区间之外的筹码则为“锁定筹 $码"$ ，通常更稳定，不易交易。本文基于 A 股不同交易板块的涨跌停制度设定当日的最大波动幅度，并构造 ASR 系列因子以衡量活动筹码占比情况：
 
 对于主板股票，最大波动幅度为10%；对于科创板及注册制创业板股票，最大波动幅度为±20%。
 
@@ -377,7 +377,7 @@ $$
 资料来源：天软科技，中信建投
 
 $$
-\begin{array}{r}{chip\_distri_{1}=\frac{2*(Price95_{t}-Price05_{t})}{Price95_{t}+Price05_{t}}\approx0.24,\quad chip\_distri_{2}=\frac{Price95_{t}-Price05_{t}}{Chip\_Highest_{t}}\approx0.21}\end{array}
+chip\_distri_{1}=\frac{2*(Price95_{t}-Price05_{t})}{Price95_{t}+Price05_{t}}\approx0.24,\quad chip\_distri_{2}=\frac{Price95_{t}-Price05_{t}}{Chip\_Hightest_{t}}\approx0.21
 $$
 
 图 10：筹码集中度因子计算示例
@@ -465,7 +465,7 @@ chip_distri 因子表现出优异的选股能力。因子年化多空收益16.54
 
 ## 3.2.2.2 chip_distri
 
-cℎip_ $\_distri_{2}$ 因子表现出优异的选股能力。因子年化多空收益20.10%，夏普比率2.23，IC均值3.96%，年化IC_IR达到1.86。cℎip_distri 因子的分层效果区分度比较高。不同分组间具有单调的年化超额收益（相对中证全指），并且，Q1 组相对Q10 组具有将近19.29%的超额收益（其中Q1 达12.39%的多头超额收益，Q10 为-6.90%）。
+cℎip_ $.distri_{2}$ 因子表现出优异的选股能力。因子年化多空收益20.10%，夏普比率2.23，IC均值3.96%，年化IC_IR达到1.86。cℎip_distri 因子的分层效果区分度比较高。不同分组间具有单调的年化超额收益（相对中证全指），并且，Q1 组相对Q10 组具有将近19.29%的超额收益（其中Q1 达12.39%的多头超额收益，Q10 为-6.90%）。
 
 图 13：chip_distri_2 因子绩效表现
 
@@ -528,19 +528,19 @@ ASR因子表现出优异的选股能力。因子年化多空收益12.50%，夏�
 筹码穿透率 ：当天新增解套筹码比例除以当天换手率，反映穿透筹码的能力。该值越大，说明相同换手率使套牢筹码解套的效率越高，股票筹码的通透性就越好。
 
 $$
-\begin{array}{c}{{winner_{t}=t\boxed{\mathscr{H}_{md}^{\mathcal{K}}\mathscr{F}/\mathscr{F}_{\mathcal{F}}^{\mathcal{J}}/\mathscr{G}_{\mathcal{I}}\mathscr{L}_{\mathcal{L}}^{\mathcal{L}}\mathscr{H}_{-\mathcal{I}}^{\mathcal{L}}/\mathscr{H}_{\mathcal{I}}^{\mathcal{J}}/\mathscr{G}_{\mathcal{I}}\mathscr{H}}}}\\{{{}}}\\{{PTR_{t}=\frac{winner_{t}-winner_{t-1}}{turnover_{t}}}}\end{array}
+\begin{aligned}&winner_{t}=t且盈利套司总盈司且司司司\\&且且且\\&且且且且且且且且\\\end{aligned}
 $$
 
 当日筹码穿透率 PTR_2：当天最高价和最低价范围内的筹码占比除以当天换手率，反映穿透筹码区域的能力。该值越大，说明相同换手率穿透筹码占总筹码的比例越高。
 
 $$
-PTR_{-}2_{t}=\frac{\frac{[\frac{3}{4}][3][\frac{3\sqrt{3}}{3\sqrt{3}},\frac{3\sqrt{3}}{4}]\frac{1}{2(t)}\langle\beta\rangle}{turnover_{t}}\cdot\frac{5\sqrt{3}}{4\sqrt{3}}\langle\beta\rangle\times\frac{1}{2}\cdot\frac{1}{4}\times\frac{3\sqrt{3}}{4}\times\frac{3\sqrt{3}}{4}\times\frac{5}{4}\times[2\sqrt{3},1]}{turnover_{t}}
+PTR_{-}2_{t}=\frac{当月股票最高价与最低价之间都型占比}{turnover_{t}}
 $$
 
 筹码乖离率BIAS：采用动态加权平均，体现当日换手对盈利筹码结构的影响。
 
 $$
-BIAS_{t}=winner_{t}*turnover_{t}+BIAS_{t-1}(1-turnover_{t})
+BIAS_{t}=winner_{t}*turnover_{t}+BIAS_{t-1}(1-trnvcr_{t})
 $$
 
 ## 4.2 筹码换手因子绩效表现
@@ -608,13 +608,13 @@ PTR_2 因子表现出优异的选股能力。因子年化多空收益17.76%，�
 获利比率：衡量获利筹码所占比例（筹码分布图中红色部分面积占比）
 
 $$
-winner_{t}=tH\varkappa\varkappa\varkappa\varkappa/\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa\varkappa
+winner_{t}=t且盈利雾司占总雾司的比分
 $$
 
 博弈K线：反应当天开盘与收盘的获利比例变化情况
 
 $$
-CandleStickGambling_{t}=\mathcal{H\_}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}\mathcal{H}
+CandleSticRambling_t=\#应时获利比例-收益时获利比例
 $$
 
 价格相对位置：衡量平均筹码成本的盈利情况。
@@ -626,13 +626,13 @@ $$
 账面总盈利/亏损：
 
 $$
-\begin{array}{r}{PG_{i,t}=SUM(IF(p\leq close_{i,t},Chip_{i,t,p}*(close_{i,t}-p),0)}\\{PL_{i,t}=SUM(IF(p>close_{i,t},Chip_{i,t,p}*(p-close_{i,t}),0)}\end{array}
+\begin{aligned}&PG_{i,t}=SUM(IF(p\leq close_{i,t},\;Chip_{i,\;t,p}*(close_{i,t}-p)),0)\\&PL_{i,t}=SUM(IF(p>close_{i,t},\;Chip_{i,\;t,p}*(p-close_{i,t}),0))\\\end{aligned}
 $$
 
 当天新增筹码总盈利/亏损：当日成交的新增筹码总盈利/亏损
 
 $$
-\begin{array}{rl}&{TG_{i,t}=SUM(IF(p\leq close_{i,t},Vol_{i,t,p}\ast\left(close_{i,t}-p\right)\ast T_{i,t},0)}\\&{TL_{i,t}=SUM(IF(p>close_{i,t},Vol_{i,t,p}\ast(p-close_{i,t})\ast T_{i,t},0)}\end{array}
+\begin{aligned}TG_{i,t}&=SUM(IF(p\leq close_{i,t},Vol_{i,t,p}*\left(close_{i,t}-p\right)*T_{i,t},0))\\TL_{i,t}&=SUM(IF(p>close_{i,t},Vol_{i,t,p}*(p-close_{i,t})*T_{i,t},0))\end{aligned}
 $$
 
 当天新增筹码盈利占比：
@@ -666,14 +666,14 @@ $$
 账面总盈利/亏损：
 
 $$
-PG_{i,t}=SUM(IF(p\leq close_{i,t},Chip_{i,t,p}*(close_{i,t}-p),0)|
+PG_{i,t}=SUM(IF(p\leq close_{i,t},Chip_{i,t,p}*(close_{i,t}-p){,}0)
 $$
 
 $$
-PL_{i,t}=SUM(IF(p>close_{i,t},~Chip_{i,t,p}*(p-close_{i,t}),0)
+PL_{i,t}=SUM(IF(p>close_{i,t},\;Chip_{i\;,\;t,p}*(p-close_{i\;,t}){,}0)
 $$
 
-当天账面总盈利为：0.2+0.29=0.49，当天账面总亏损为： $0.3\substack{+0.04=0.34}$ 0
+当天账面总盈利为：0.2+0.29=0.49，当天账面总亏损为： $0.3+0.04=0.34$ 0
 
 表 9：当天新增筹码总盈利/亏损计算示例
 
@@ -715,7 +715,7 @@ $$
 
 ## 5.2.1 筹码盈利因子绩效表现汇总
 
-选股能力相对最好的为T $\mathbf{\partial}^{\mathsf{T}}G_{i,t},$ ，年化多空收益 30.34%，夏普比率 3.03，IC 均值-7.21%，年化 IC_IR 达到-3.31。
+选股能力相对最好的为T ${}^{\cdot}G_{i,t},$ ，年化多空收益 30.34%，夏普比率 3.03，IC 均值-7.21%，年化 IC_IR 达到-3.31。
 
 表10：筹码盈利因子绩效表现_1
 

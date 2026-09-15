@@ -58,16 +58,16 @@ SAC执业证书编号：S0260511020010
 
 混沌理论的研究过程中，人们通过RP图直观地研究数据的稳定性、周期性、非噪声属性和局部消噪参数优化。
 
-RP图可以用来构建相空间状态（吸引子）的周期性演化。首先考虑一组时间序列 $\{x_{i}\}$ ，其中i =1，2，3…。重构其中的一个n维相空间 $\vec{y}_{i}=\{x_{i},x_{i+\tau},...,x_{i+(n-1)\tau}\}$ 为内嵌时滞。 根据相空间 $\vec{y}_{i}$ 建立二元函数
+RP图可以用来构建相空间状态（吸引子）的周期性演化。首先考虑一组时间序列 $\left\{x_{i}\right\}$ ，其中i =1，2，3…。重构其中的一个n维相空间 $\vec{y}_{i}=\{x_{i},x_{i+\tau},...,x_{i+(n-1)\tau}\}$ 为内嵌时滞。 根据相空间 $\vec{y}_{i}$ 建立二元函数
 
 $$
-P(i,j)=H(\varepsilon-\left\|{\vec{y}}_{i}-{\vec{y}}_{j}\right\|)\tag{1}
+P(i,j)=H(\varepsilon-\left\|\vec{y}_{i}-\vec{y}_{j}\right\|)\tag{1}
 $$
 
 其中 H(x) 是Heaviside阶跃函数，定义为
 
 $$
-H(x)={\left\{\begin{array}{ll}{0}&{(x<0)}\\{1}&{(x\geq0)}\end{array}\right.}\tag{2}
+H(x)=\left\{\begin{aligned}&0&\quad(x<0),\\&1&\quad(x\geq0).\end{aligned}\right.\tag{2}
 $$
 
 ... 为最大范数，ε ≥ 0为某参量阈值。P(i, j)的含义是，在N×N的二维空间格点上，如果其两个嵌入向量的最大范数小于某一阈值，则该点值为1，否则为0。我们将这样的空间画成一个N×N的矩阵表，将每个格点等于1的格子涂黑，并依此建立一个N×N的图，即为RP图。
@@ -85,13 +85,13 @@ $$
 对于（1）式中的二元函数 $P(i,j)$ ，可知在N×N的RP图（n维相空间）中涂黑的点数目为
 
 $$
-\begin{array}{l}{\displaystyle D^{n}(\varepsilon)=\sum_{i}^{N}\sum_{j\neq i}^{N}H(\varepsilon-\Big\|\vec{y}_{i}-\vec{y}_{j}\Big\|)}\\{=\sum_{i}^{N}\sum_{j\neq i}^{N}H(\varepsilon-\Big\|x_{i}-x_{j}\Big\|)H(\varepsilon-\Big\|x_{i+1}-x_{j+1}\Big\|)\cdots H(\varepsilon-\Big\|x_{i+(n-1)}-x_{j+(n-1)}\Big\|)}\end{array}\tag{3}
+\begin{aligned}&D^{n}(\varepsilon)=\sum_{i}^{N}\sum_{j\neq i}^{N}H(\varepsilon-\left\|\vec{y}_{i}-\vec{y}_{j}\right\|)\\&=\sum_{i}^{N}\sum_{j\neq i}^{N}H(\varepsilon-\left\|x_{i}-x_{j}\right\|)H(\varepsilon-\left\|x_{i+1}-x_{j+1}\right\|)\cdots H(\varepsilon-\left\|x_{i+(n-1)}-x_{j+(n-1)}\right\|)\\\end{aligned}\tag{3}
 $$
 
 关联熵的定义为
 
 $$
-K=\operatorname*{lim}_{\varepsilon0}\operatorname*{lim}_{n\infty}\ln\frac{D_{n}(\varepsilon)}{D_{n+1}(\varepsilon)}\approx-\frac{d}{dn}\mathrm{ln}\big[D_{n}(\varepsilon)\big]
+K=\lim_{\varepsilon\to0}\lim_{n\to\infty}\ln\frac{D_n(\varepsilon)}{D_{n+1}(\varepsilon)}\approx-\frac{d}{dn}\ln\left[D_n(\varepsilon)\right]
 $$
 
 (4)
@@ -99,13 +99,13 @@ $$
 它是在信息熵的基础上衍生出来的一个物理量，可以用来表征时间序列的有序程度。于是可以得到
 
 $$
-D_{n}=D_{2}\exp\bigl[-(n-2)K\bigr]\tag{5}
+D_{n}=D_{2}\exp[-(n-2)K]\tag{5}
 $$
 
-利用（5） $\ddagger\ 5$ ，我们可以定义n的平均值与关联熵的一个近似关系
+利用（5） $式:$ ，我们可以定义n的平均值与关联熵的一个近似关系
 
 $$
-<n>=\frac{\displaystyle{\sum_{n=2}^{\infty}}\bigl(D_{n}+D_{n+2}-2D_{n+1}\bigr)n}{\displaystyle{\sum_{n=2}^{\infty}}\bigl(D_{n}+D_{n+2}-2D_{n+1}\bigr)}\approx\frac{\displaystyle{\sum_{n=2}^{\infty}}ne^{-(n-2)K}}{\displaystyle{\sum_{n=2}^{\infty}}e^{-(n-2)K}}=\frac{2-e^{-K}}{1-e^{-K}}
+<n>=\frac{\sum\limits_{n=2}^{\infty}\left(D_{n}+D_{n+2}-2D_{n+1}\right)n}{\sum\limits_{n=2}^{\infty}\left(D_{n}+D_{n+2}-2D_{n+1}\right)}\approx\frac{\sum\limits_{n=2}^{\infty}ne^{-(n-2)K}}{\sum\limits_{n=2}^{\infty}e^{-(n-2)K}}=\frac{2-e^{-K}}{1-e^{-K}}
 $$
 
 (6)
@@ -113,7 +113,7 @@ $$
 由（6）式即可得到平均嵌入维 $<n>$ 与关联熵K之间的普适关系
 
 $$
-K\approx\ln{\frac{<n>-1}{<n>-2}}
+K\approx\ln\frac{<n>-1}{<n>-2}
 $$
 
 (7)
@@ -125,70 +125,70 @@ $$
 首先改写（3）式为以下等效形式
 
 $$
-D_{n}(\varepsilon)=\sum_{i}^{N}\sum_{j\neq i}^{N}H{\Bigg(}\sum_{k=0}^{n}H(\varepsilon-|x_{i+k}-x_{j+k}|)-n{\Bigg)}\tag{8}
+D_{n}(\varepsilon)=\sum_{i}^{N}\sum_{j\neq i}^{N}H\left(\sum_{k=0}^{n}H\left(\varepsilon-\left|x_{i+k}-x_{j+k}\right|\right)-n\right)\tag{8}
 $$
 
 为了后边计算方便，这里需要把括弧中的Heaviside阶跃函数改写成连续函数的形式，一种作法是令
 
 $$
-H(\varepsilon-r)\Longrightarrow\rho_{\varepsilon}(r)=\left\{\begin{array}{cc}{(\varepsilon-r)/r}&{(0\leq r\leq\varepsilon)}\\{0}&{(r>\varepsilon)}\end{array}\right.\tag{9}
+H(\varepsilon-r)\Rightarrow\rho_{\varepsilon}(r)=\left\{\begin{aligned}(\varepsilon-r)&/r\quad(0\leq r\leq\varepsilon)\\0&\quad(r>\varepsilon)\end{aligned}\right.\tag{9}
 $$
 
 为了修正误差，往往在n前加入系数 $\beta$ 进行调整
 
 $$
-{D_{n}}^{\prime}(\varepsilon)=\sum_{i}^{N}\sum_{j\ne i}^{N}H{\left(\sum_{k=0}^{n}\frac{\varepsilon-|\ :x_{i+k}-x_{j+k}\ :|}{\varepsilon}-\beta n\right)}\tag{10}
+D_{n}^{\prime}(\varepsilon)=\sum_{i}^{N}\sum_{j\neq i}^{N}H\left(\sum_{k=0}^{n}\frac{\varepsilon-\left|x_{i+k}-x_{j+k}\right|}{\varepsilon}-\beta n\right)\tag{10}
 $$
 
-经验上令 $\beta=1/\sqrt\pi$ 可取得较好的修正效果。将（10）式带入（6）式进行数值计算，可以得到一个在数值上收敛的 $<n>$ 值，进而代入（7）式算出该动力学系统的关联熵K。
+经验上令 $\beta{=}1/\sqrt{\pi}$ 可取得较好的修正效果。将（10）式带入（6）式进行数值计算，可以得到一个在数值上收敛的 $<n>$ 值，进而代入（7）式算出该动力学系统的关联熵K。
 
-接下来，我们假设股指期货价格序列中出现的噪声服从高斯分布，考虑这样一组含有噪声的时间序列，即在无噪 $\cdot^{\frac{\pm}{p}}$ 时间序列 $\{x_{i}\}$ 的基础上加入非相关的高斯噪声序列 $\{\eta_{i}\}$ 。方程（10）可以改写为
-
-$$
-\begin{array}{l}{{\displaystyle{\cal D}_{n}^{~\prime}(\varepsilon)=\sum_{i}^{N}\sum_{j\neq i}^{N}H\Bigg(\sum_{k=0}^{n}\frac{\varepsilon-\mid x_{i+k}+\eta_{i+k}-x_{j+k}-\eta_{j+k}\mid}{\varepsilon}-\beta n\Bigg)}}\\{{\displaystyle\cong\sum_{i}^{N}\sum_{j\neq i}^{N}H\Bigg(\sum_{k=0}^{n}\frac{\varepsilon-\mid x_{i+k}-x_{j+k}\mid}{\varepsilon}-n\frac{\sqrt{{\alpha}^{2}\varepsilon^{2}+2\sigma^{2}}-\alpha\varepsilon}{\varepsilon}-\beta n\Bigg)}}\end{array}\tag{11}
-$$
-
-其中 $\sigma$ 是加入噪声序列的标准差， $\alpha$ 是依赖于 $x_{i}-x_{j}$ |分布的一个常数。假设$\vert x_{i}-x_{j}\vert$ 的标准差 $\sigma_{x}\approx\frac{1}{2}\alpha\varepsilon$ 。这里粗略假设 $\mid x_{i}-x_{j}\mid\in(0,\varepsilon)$ 在 $(0,\varepsilon)$ 均匀分布，则 $\alpha=1/\sqrt{3}$ o
-
-通过比较（11）式和（10）式，对于 $D_{n}(\varepsilon)$ ，由噪声加入引起的变化为
+接下来，我们假设股指期货价格序列中出现的噪声服从高斯分布，考虑这样一组含有噪声的时间序列，即在无噪 $\begin{aligned}i声\end{aligned}$ 时间序列 $\{x_{i}\}$ 的基础上加入非相关的高斯噪声序列 $\{\eta_{i}\}$ 。方程（10）可以改写为
 
 $$
-nn(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon})\tag{12}
+\begin{aligned}&D_{n}^{\prime}(\varepsilon)=\sum_{i}^{N}\sum_{j\neq i}^{N}H\left(\sum_{k=0}^{n}\frac{\varepsilon-\left|x_{i+k}+\eta_{i+k}-x_{j+k}-\eta_{j+k}\right|}{\varepsilon}-\beta n\right)\\&\cong\sum_{i}^{N}\sum_{j\neq i}^{N}H\left(\sum_{k=0}^{n}\frac{\varepsilon-\left|x_{i+k}-x_{j+k}\right|}{\varepsilon}-n\frac{\sqrt{\alpha^{2}\varepsilon^{2}+2\sigma^{2}}-\alpha\varepsilon}{\varepsilon}-\beta n\right)\\\end{aligned}\tag{11}
+$$
+
+其中 $\sigma$ 是加入噪声序列的标准差， $\alpha$ 是依赖于 $x_{i}-x_{j}$ |分布的一个常数。假设$|x_{i}-x_{j}|$ 的标准差 $\sigma_{_{x}}{\approx}\frac{1}{2}\alpha\varepsilon$ 。这里粗略假设 $\mid x_{i}-x_{j}\mid\in(0,\varepsilon)$ 在 $(0,\varepsilon)$ 均匀分布，则 $\alpha=1/\sqrt{3}$ o
+
+通过比较（11）式和（10）式，对于 $D_{{}_{n}}(\varepsilon)$ ，由噪声加入引起的变化为
+
+$$
+n\to n\left(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^2/3+2\sigma^2}-\varepsilon/\sqrt{3}}{\varepsilon}\right)\tag{12}
 $$
 
 在无噪声的时间序列中，关于关联积分（RP图中的点密度）、嵌入维与关联熵有一个著名的关系式（详见K. Pawelzik and H.G. Schuster, Phys. Rev. A 35, 481,1987）
 
 $$
-\operatorname*{lim}_{\varepsilon0}\operatorname*{lim}_{n\infty}\ln\frac{D_{n}(\varepsilon)}{N^{2}}=D_{2}\ln\varepsilon-n\tau K_{2}(\varepsilon)\tag{13}
+\lim_{\varepsilon\rightarrow0}\lim_{n\rightarrow\infty}\ln\frac{D_{n}(\varepsilon)}{N^{2}}=D_{2}\ln\varepsilon-n\tau K_{2}(\varepsilon)\tag{13}
 $$
 
-$K_{\mathfrak{z}}$ 是无噪声序列的关联熵，称为光滑熵。将（12）式的变换关系式代入（13）式，可以看出加入噪声后（13）式的第二项变化为
+$K_{2}$ 是无噪声序列的关联熵，称为光滑熵。将（12）式的变换关系式代入（13）式，可以看出加入噪声后（13）式的第二项变化为
 
 $$
--n\tau K_{2}(\varepsilon)-n\tau K_{2}(\varepsilon)(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon})\tag{14}
+-n\tau K_{2}(\varepsilon)\rightarrow-n\tau K_{2}(\varepsilon)\left(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon}\right)\tag{14}
 $$
 
 另外有人证明了在n 维相空间中， $D_{2}$ 在噪声影响下的变化（详见T. Schreiber, Phys.Rev. E 48, 13, 1993）为
 
 $$
-D_{2}D_{2}+(n-r)g\bigg(\frac{\varepsilon}{2\sigma}\bigg)\tag{15}
+D_{2}\rightarrow D_{2}+(n-r)g\left(\frac{\varepsilon}{2\sigma}\right)\tag{15}
 $$
 
 其中
 
 $$
-g(z)={\frac{2}{\sqrt{\pi}}}{\frac{ze^{-z^{2}}}{erf(z)}}\tag{16}
+g(z)=\frac{2}{\sqrt{\pi}}\frac{ze^{-z^{2}}}{erf(z)}\tag{16}
 $$
 
 erf(z)是误差函数，参数r在后面的计算中会被消掉。将（14）（15）式代回（13），可估算得
 
 $$
-\begin{array}{l}{{D_{n}(\varepsilon)\sim\varepsilon^{[D_{2}+(n-r)g(\varepsilon/2\sigma)]}\times}}\\{{\exp\Biggl[-n\tau K_{2}(\varepsilon)\Biggl(1+\sqrt{\pi}\frac{\sqrt{{\varepsilon^{2}}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon}\Biggr)\Biggr]}}\end{array}
+\begin{aligned}&D_{n}(\varepsilon)\sim\varepsilon^{\left[D_{2}+(n-r)g(\varepsilon/2\sigma)\right]}\times\\&\exp\left[-n\tau K_{2}(\varepsilon)\left(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon}\right)\right]\\\end{aligned}
 $$
 
 (17)
 
-光滑熵 $K_{\mathfrak{z}}(\varepsilon)$ 的显式未知，但通常可以用以下函数拟合
+光滑熵 $K_{2}(\varepsilon)$ 的显式未知，但通常可以用以下函数拟合
 
 $$
 K_{2}(\varepsilon)=\kappa+b\ln(1-a\varepsilon)\tag{18}
@@ -196,56 +196,56 @@ $$
 
 ，b和a都是常数参量，后面可以通过非线性拟合的方式得到。
 
-粗糙化的关联熵，简称粗糙熵，是加入噪声后的关联熵。将（14）（15）式给出噪声环境下的 $D_{n}(\varepsilon)$ ，代入关联熵的定义（4）式中，可以得到粗糙熵的一个显式表达式
+粗糙化的关联熵，简称粗糙熵，是加入噪声后的关联熵。将（14）（15）式给出噪声环境下的 $D_{{}_{n}}(\varepsilon)$ ，代入关联熵的定义（4）式中，可以得到粗糙熵的一个显式表达式
 
 $$
-\begin{array}{l}{{\displaystyle K_{noisy}\left(\varepsilon\right)=-\frac{d}{dn}\ln\left[D_{n}\left(\varepsilon\right)\right]}}\\{{\displaystyle=-\frac{1}{\tau}g\Biggl(\frac{\varepsilon}{2\sigma}\Biggr)\ln\varepsilon+K_{2}\left(\varepsilon\right)\Biggl(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon}\Biggr)}}\end{array}\tag{19}
+\begin{aligned}&K_{noisy}(\varepsilon)=-\frac{d}{dn}\ln\left[D_{n}(\varepsilon)\right]\\&=-\frac{1}{\tau}g\left(\frac{\varepsilon}{2\sigma}\right)\ln\varepsilon+K_{2}(\varepsilon)\left(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon}\right)\\\end{aligned}\tag{19}
 $$
 
 再将光滑熵的近似拟合函数（18）代入（19），并引入在非线性拟合中消除奇性的项 $\varepsilon^{p}$ （以利于后边的数值计算），其中 $p\sim1$ ，得到
 
 $$
-\begin{array}{l}{{{\cal K}_{noisy}\displaystyle(\varepsilon)\varepsilon^{p}=c\varepsilon^{p}g\Bigg(\frac{\varepsilon}{2\sigma}\Bigg)\ln\varepsilon}}\\{{+\left[\kappa+b\ln(1-a\varepsilon)\right]\varepsilon^{p}\Bigg(1+\sqrt\pi\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt3}{\varepsilon}\Bigg)}}\end{array}
+\begin{aligned}&K_{noisy}(\varepsilon)\varepsilon^{p}=c\varepsilon^{p}g\left(\frac{\varepsilon}{2\sigma}\right)\ln\varepsilon\\&+\left[\kappa+b\ln(1-a\varepsilon)\right]\varepsilon^{p}\left(1+\sqrt{\pi}\frac{\sqrt{\varepsilon^{2}/3+2\sigma^{2}}-\varepsilon/\sqrt{3}}{\varepsilon}\right)\\\end{aligned}
 $$
 
 (20)
 
-由此，我们可以将按（7）式得出的粗糙熵 $K_{noisy}\left(\varepsilon\right)$ 看作阈值ε的函数，通过
+由此，我们可以将按（7）式得出的粗糙熵 $K_{_{noisy}}\left(\varepsilon\right)$ 看作阈值ε的函数，通过
 
 （20）式进行非线性拟合，并得到参数a，b，c，κ和 $\sigma$ ，其中 $\sigma$ 就是我们希望得到的时间序列中噪声的标准差。
 
 ## （五）非线性拟合方法——LM方法
 
-Levenberg-Marquardt非线性拟合方法，简称LM方法，是数值计算中一种最优化爬山迭代算法，如图3所示。为了拟合（20）式并得到股指期货价格序列的噪声 $\sigma_{noisy}$ （即上文中的 $\sigma)$ ，我们在数值计算中将使用LM方法。
+Levenberg-Marquardt非线性拟合方法，简称LM方法，是数值计算中一种最优化爬山迭代算法，如图3所示。为了拟合（20）式并得到股指期货价格序列的噪声 $\sigma_{noisy}$ （即上文中的 $\sigma\mathrm{~})$ ，我们在数值计算中将使用LM方法。
 
 对于非线性函数 $y=f(x)$ 在拟合时，观测值与理论值的差值，即误差项
 
-$\boldsymbol{\varepsilon}=\left|x-\hat{x}\right|$ 要求尽量小，使得 $\left\|y-f({\hat{x}})\right\|$ 取得最小值。
+$\varepsilon=\left|x-{\hat{x}}\right|$ 要求尽量小，使得 $\left\|y-f({\hat{x}})\right\|$ 取得最小值。
 
 首先给定一个 $x_{k}$ ，考虑 f (x) 在 $x_{k}$ 点附近的一阶近似
 
 $$
-f(x_{k}+\delta_{k})=f(x_{k})+J_{\ k}\cdot\delta_{k}\tag{21}
+f(x_{k}+\delta_{k})=f(x_{k})+J_{k}\cdot\delta_{k}\tag{21}
 $$
 
-其中 $J_{k}$ 是Jacobi矩阵在 $x_{k}$ 点的值。寻找下一个迭代点 $x_{k+1}=x_{k}+\delta_{k}$ ，使得
+其中 $J_{k}$ 是Jacobi矩阵在 $x_{k}$ 点的值。寻找下一个迭代点 $x_{_{k+1}}=x_{_{k}}+\delta_{_{k}}$ ，使得
 
 $$
-\left\|y-f(x_{k+1})\right\|=\operatorname*{min}\left\|J_{\mathbf{\Phi}_{k}}\cdot\delta_{\mathbf{\Phi}_{k}}-\varepsilon_{k}\right\|\tag{22}
+\left\|y-f(x_{k+1})\right\|=\min\left\|J_k\cdot\delta_k-\varepsilon_k\right\|\tag{22}
 $$
 
-为了满足上式，可求线性方程组 $\boldsymbol{J}_{k}\cdot\boldsymbol{\delta}_{k}=\boldsymbol{\varepsilon}_{k}$ 。其解为
+为了满足上式，可求线性方程组 $\boldsymbol{J}_{k}\cdot\boldsymbol{\delta}_{k}=\varepsilon_{k}$ 。其解为
 
 $$
-\delta_{k}=(J_{k}^{T}J_{k})^{-1}J_{k}^{T}\varepsilon_{k}
+\boldsymbol{\delta}_{k}=(\boldsymbol{J}_{k}^{T}\boldsymbol{J}_{k})^{-1}\boldsymbol{J}_{k}^{T}\boldsymbol{\varepsilon}_{k}
 $$
 
 (23)
 
-LM方法即是用 $\overline{{N}}_{k}=J_{k}^{T}J_{k}+\lambda_{k}I$ 代替 $N_{k}=J_{k}^{T}J_{k}$ ，得到
+LM方法即是用 $\overline{{N}}_{k}=\boldsymbol{J}_{k}^{T}\boldsymbol{J}_{k}+\lambda_{k}\boldsymbol{I}$ 代替 $\boldsymbol{N}_{k}=\boldsymbol{J}_{k}^{T}\boldsymbol{J}_{k}$ ，得到
 
 $$
-\boldsymbol{\delta}_{k}=(J_{k}^{T}J_{\ k}+\lambda_{k}I)^{-1}J_{k}^{T}\boldsymbol{\varepsilon}_{k}\tag{24}
+\delta_{_{k}}=(\boldsymbol{J}_{_{k}}^{T}\boldsymbol{J}_{_{k}}+\lambda_{_{k}}\boldsymbol{I})^{-1}\boldsymbol{J}_{_{k}}^{T}\boldsymbol{\varepsilon}_{_{k}}\tag{24}
 $$
 
 图 3：LM算法爬山迭代过程
@@ -259,10 +259,10 @@ $$
 
 ## （一）基本思想
 
-首先，我们可以计算出某段时间股指期货价格高频时间序列的标准差 $\sigma_{data}$ 以及按照上述方法计算出该时间序列的噪声标准差 $\sigma_{noisy}$ ，其比例
+首先，我们可以计算出某段时间股指期货价格高频时间序列的标准差 $\sigma_{_{data}}$ 以及按照上述方法计算出该时间序列的噪声标准差 $\sigma_{_{noisy}}$ ，其比例
 
 $$
-NTS=\frac{\sigma_{noisy}}{\sigma_{data}}\in[0,1]\tag{25}
+NTS=\frac{\sigma_{nosy}}{\sigma_{data}}\in[0,1]\tag{25}
 $$
 
 表征了这组时间序列中噪声所占的比例。换句话说，如果NTS 值较大，说明股指期货价格中噪声比例较大，也反应出其走势的随机性较强，此时市场效率较高，股指期货价格以随机游走为主；而当NTS 值较小时，说明数据的噪声比例较小，这时人为决定性的因素将在很大程度上指导价格的涨跌。例如在有重大消息面影响，或者有主力在操纵股指期货价格时，NTS 值将较小。

@@ -438,11 +438,11 @@ ESG 公司治理评价因子是公司治理能力的综合体现，是多个指�
 - 第一步，对五大类中的各指标（连续变量需要进行去极值处理，去极值处理方法采用3倍标准差法）做归一化处理（使指标分布在[0,1]区间）：
 
 $$
-\begin{array}{c}{f_{i,n}}=\left\{{\overline{{{f_{i,n}}}}-3\cdot\sigma\Big(\overline{{{f_{i,n}}}}\Big),if{f_{i,n}}<\overline{{{f_{i,n}}}}-3\cdot\sigma\Big(\overline{{{f_{i,n}}}}\Big)}\\{{\overline{{{f_{i,n}}}}+3\cdot\sigma\Big(\overline{{{f_{i,n}}}}\Big),if{f_{i,n}}>\overline{{{f_{i,n}}}}+3\cdot\sigma\Big(\overline{{{f_{i,n}}}}\Big)}}\end{array}\right.
+f_{i,n}=\left\{\begin{aligned}\overline{f_{i,n}}-3\cdot\sigma\left(\overline{f_{i,n}}\right),iff_{i,n}<\overline{f_{i,n}}-3\cdot\sigma\left(\overline{f_{i,n}}\right)\\\overline{f_{i,n}}+3\cdot\sigma\left(\overline{f_{i,n}}\right),iff_{i,n}>\overline{f_{i,n}}+3\cdot\sigma\left(\overline{f_{i,n}}\right)\end{aligned}\right.
 $$
 
 $$
-f_{i,n}=\frac{f_{i,n}-\operatorname*{min}(f_{i,n})}{\operatorname*{max}(f_{i,n})-\operatorname*{min}(f_{i,n})}
+f_{i,n}=\frac{f_{i,n}-\min(f_{i,n})}{\max(f_{i,n})-\min(f_{i,n})}
 $$
 
 该处理方式的优点在于，针对各类别中同时存在的连续变量与离散变量进行归一化处理，使两者具有了可比性以及可叠加性。
@@ -450,17 +450,17 @@ $$
 - 第二步，等权加总每一类中指标，然后对加总值仿照上一步骤进行去极值处理后，再对得分做标准化处理：
 
 $$
-F_{{j,n}}=\sum_{i}f_{i,n}
+F_{j,n}=\sum_{i}f_{i,n}
 $$
 
 $$
-F_{j,n}^{}=\frac{F_{j,n}^{}-\overline{{F_{j,n}}}}{\sigma(F_{j,n}^{})}
+F_{j,n}=\frac{F_{j,n}-\overline{{F_{j,n}}}}{\sigma(F_{j,n})}
 $$
 
 - 第三步，等权加总五大类得分，获得最终的ESG 公司治理评价得分。
 
 $$
-GF_{n}=\sum_{j}F_{j,n}
+GF_{_n}=\sum_{j}F_{_{j,n}}
 $$
 
 ## 4. A股市场 ESG公司治理评价因子的有效性检验
@@ -472,19 +472,19 @@ $$
 显著性检验：检验 ESG 公司治理评价因子与下一期收益之间的相关程度，通过计算经行业、十大类风格调整后的ESG公司治理评价因子与经行业、十大类风格调整后收益的相关系数，可得到ESG公司治理评价因子的IC 以及 IR，具体公式如下：
 
 $$
-\begin{array}{ll}{GF=\beta_{0}X_{industry}+\beta_{1}X_{beta}+\beta_{2}X_{momentum}+\beta_{3}X_{size}+\beta_{4}X_{earnings\_yield}}\\{+\beta_{5}X_{earnings\_yield}+\beta_{6}X_{volatility}+\beta_{7}X_{value}+\beta_{8}X_{leverage}}\\{+\beta_{9}X_{liquidity}+\beta_{10}X_{non-linear\_size}+\mathcal{E}_{GF}}\end{array}
+\begin{aligned}GF=\beta_{0}X_{identity}+\beta_{1}X_{best}+\beta_{2}X_{momentum}+\beta_{3}X_{size}+\beta_{4}X_{earnings\_yield}\\&+\beta_{5}X_{learning\_yield}+\beta_{6}X_{volatility}+\beta_{7}X_{value}+\beta_{8}X_{leverage}\\&+\beta_{9}X_{liquidity}+\beta_{10}X_{non-linear\_size}+\varepsilon_{GF}\\\end{aligned}
 $$
 
 $$
-\begin{array}{l}{{R=r_{0}X_{industry}+r_{1}X_{beta}+r_{2}X_{momentum}+r_{3}X_{size}+r_{4}X_{earnings\_yield}}}\\{{\phantom{R=r_{0}X_{earnings\_yield}+r_{6}X_{\nu olatility}}+r_{7}X_{\nu alue}+r_{8}X_{le\nu erage}}}\\{{\phantom{R=r_{0}X_{liquidity}+r_{10}X_{non-linear\_size}+r_{6}X_{earnings\_yield}}}}\end{array}
+\begin{aligned}R=r_{0}X_{_{industry}}+r_{1}X_{_{beta}}+r_{2}X_{_{momentum}}+r_{3}X_{_{size}}+r_{4}X_{_{earnings\_yield}}\\&+r_{5}X_{_{earnings\_yield}}+r_{6}X_{_{volatility}}+r_{7}X_{_{value}}+r_{8}X_{_{leverage}}\\&+r_{9}X_{_{liquidity}}+r_{10}X_{_{non-linear\_size}}+r\varepsilon\\\end{aligned}
 $$
 
 $$
-IC=corr(\varepsilon_{_{GF}},r\varepsilon)
+IC=\mathrm{corr}(\varepsilon_{GF},r\varepsilon)
 $$
 
 $$
-ICIR=\frac{\overline{{IC}}}{\sigma\big(IC\big)}\cdot\sqrt{12}
+ICIR=\frac{\overline{IC}}{\sigma(IC)}\cdot\sqrt{12}
 $$
 
 图 4ESG 公司治理评价因子 IC 为 0.02
@@ -507,7 +507,7 @@ $$
 ESG公司治理评价因子纯因子年化收益率为2.81%，Sharp比率为1.58。累计每月末通过截面回归得到的纯因子收益，自2010 年1 月至2018年1 月 19 日以来，ESG 公司治理评价因子纯因子累计收益 25.08%，年化收益率 2.81%，年化波动率为 1.79%，夏普比率为 1.58，最大回撤为1.70%，月胜率为 67%。
 
 $$
-\begin{array}{l}{{R=r_{0}X_{industry}+r_{1}X_{beta}+r_{2}X_{momentum}+r_{3}X_{size}+r_{4}X_{earnings.}{_{-yield}}}}\\{{\displaystyle~+r_{5}X_{earnings.}{_{-yield}}+r_{6}X_{volutlity}+r_{7}X_{value}+r_{8}X_{levenge}}}\\{{\displaystyle~+r_{9}X_{liquidity}+r_{10}X_{non-linear.}{_{-size}}+r_{GF}\cdot\mathcal{E}_{GF}}}\\{{R_{GF}=\prod_{t}^{T}r_{GF,t}}}\end{array}
+\begin{aligned}R=&r_{0}X_{_{industry}}+r_{1}X_{_{bteal}}+r_{2}X_{_{momentum}}+r_{3}X_{_{size}}+r_{4}X_{_{earmings_{-}yield}}\\&+r_{5}X_{_{earnings_{-}yield}}+r_{6}X_{_{volatility}}+r_{7}X_{_{value}}+r_{8}X_{_{leverage}}\\&+r_{9}X_{_{liquidity}}+r_{10}X_{_{non-linear_{-}size}}+r_{GF}\cdot\mathcal{E}_{GF}\\R_{_{GF}}=&\prod_{t}^{T}r_{GF,t}\end{aligned}
 $$
 
 图 5ESG 公司治理评价因子累计收益 25.08%
@@ -691,14 +691,14 @@ ESG 公司治理评价因子与十大类风格因子相关性较低，可用于�
 
 经 ESG 公司治理评价因子调整后的流通市值加权方式指的是在流通市值加权权重 $w_{i}$ 的基础上，用 ESG 公司治理评价因子进行调整，得到最终的权重具体方法
 
-终的权重 $\breve{W}_{i}$ ，具体方法如下：
+终的权重 $\widetilde{W}_{i}$ ，具体方法如下：
 
 $$
-W_{i}=w_{i}\cdot\frac{ESG_{i}-\overline{{ESG_{i}}}}{\sigma\big(ESG_{i}\big)}
+W_{i}=w_{i}\cdot\frac{ESG_{i}-\overline{ESG_{i}}}{\sigma\left(ESG_{i}\right)}
 $$
 
 $$
-\breve{W}_{i}=\frac{W_{i}}{\sum_{i}W_{i}}
+\tilde{W_{i}}=\frac{W_{i}}{\displaystyle\sum_{i}W_{i}}.
 $$
 
 G 指数 2010 年 1 月末至 2018 年 1 月 18 日累计收益 125.67%，同期沪深 300指数累计收益33.31%，超额收益累计76.55%。观察G 指数整体收益情况，发现 G 指数自 2010 年以来，相对沪深 300 指数超额收益逐步上升，15 年下半年开始至今超额收益显著提升。观察 G 指数回撤情况，发现 G 指数于上一轮牛市中出现较大回撤，这是由于 14 年下半年券商股集体行情与 15 年小市值股票行情造成的结果（行业、风格收益过高）。

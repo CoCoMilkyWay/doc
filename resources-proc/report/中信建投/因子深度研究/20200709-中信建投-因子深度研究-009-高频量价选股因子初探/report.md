@@ -111,15 +111,15 @@ VOI1_{t}=\Delta V_{t}^{B}-\Delta V_{t}^{A}
 $$
 
 $$
-\Delta V_{t}^{B}=\left\{\begin{array}{ll}{0}&{P_{t}^{B}<P_{t-1}^{B}}\\{V_{t}^{B}-V_{t-1}^{B}}&{P_{t}^{B}=P_{t-1}^{B}}\\{V_{t}^{B}}&{P_{t}^{B}>P_{t-1}^{B}}\end{array}\right.\qquad,\qquad\Delta V_{t}^{A}=\left\{\begin{array}{ll}{V_{t}^{A}}&{P_{t}^{A}<P_{t-1}^{A}}\\{V_{t}^{A}-V_{t-1}^{A}}&{P_{t}^{A}=P_{t-1}^{A}}\\{0}&{P_{t}^{A}>P_{t-1}^{A}}\end{array}\right.
+\Delta V_{t}^{B}=\begin{cases}0&P_{t}^{B}<P_{t-1}^{B}\\V_{t}^{B}-V_{t-1}^{B}&P_{t}^{B}=P_{t-1}^{B}\\V_{t}^{B}&P_{t}^{B}>P_{t-1}^{B}\end{cases}\quad,\quad\Delta V_{t}^{A}=\begin{cases}V_{t}^{A}&P_{t}^{A}<P_{t-1}^{A}\\V_{t}^{A}-V_{t-1}^{A}&P_{t}^{A}=P_{t-1}^{A}\\0&P_{t}^{A}>P_{t-1}^{A}\end{cases}
 $$
 
 $P_{t}^{B}$ 和 $P_{t}^{A}$ 分别为 t 时刻的买一价和卖一价， $V_{t}^{B}$ 和 $V_{t}^{A}$ 分别是 t 时刻的买一和卖一的委托量。
 
-传统 VOI 计算只考虑了第一档的盘口数据，这将遗漏掉很多有价值的信息，为充分利用盘口数据信息，我们对 VOI 因子进行了两点改进。即利用衰减加权的方法对委托量加权，得到加权后的委托量 $V_{t}^{WB}$ $V_{t}^{WA},\dot{\mathbf{\mu}}$ 表示挡位。
+传统 VOI 计算只考虑了第一档的盘口数据，这将遗漏掉很多有价值的信息，为充分利用盘口数据信息，我们对 VOI 因子进行了两点改进。即利用衰减加权的方法对委托量加权，得到加权后的委托量 $V_{t}^{WB}$ $V_{t}^{WA},\mid$ 表示挡位。
 
 $$
-\begin{array}{r}{V_{t}^{WB(WA)}=\frac{\sum w_{i}\times V_{i,t}^{B(A)}}{\sum w_{i}}\qquad,\quad w=1-(\mathrm{i}-1)/5\quad,\qquad\mathrm{i=1,2,3,4,5}}\end{array}
+\begin{array}{r}{V_{t}^{WB(WA)}=\frac{\sum w_{i}\times V_{i,t}^{B(A)}}{\sum w_{i}}\qquad,\quad w=1-(\mathrm{i}-1)/5\quad,\qquad\scriptstyle\mathrm{i=1,2,3,4,5}}\end{array}
 $$
 
 $$
@@ -129,7 +129,7 @@ $$
 ## 1.3、高频量价因子 2（订单失衡率 Order Imbalance Ratio）定义和投资逻辑
 
 $$
-01\mathsf{R}_{t}=\frac{V_{t}^{WB}-V_{t}^{WA}}{V_{t}^{WB}+V_{t}^{WA}}
+\mathsf{OIR}_{t}=\frac{V_{t}^{WB}-V_{t}^{WA}}{V_{t}^{WB}+V_{t}^{WA}}
 $$
 
 $$
@@ -144,12 +144,12 @@ OIR 是另外一个衡量订单不平衡性质的变量，因此它的统计性�
 
 VOI 仅衡量不平衡的程度，仅仅只是买卖委托量的差值，未考虑到买卖委托量本身的规模大小，因此其不足以描述市场中交易者的行为。 OIR 补充了 VOI 因子，订单不平衡率帮助我们区分了 VOI 差异大但比率小的情况。例如，如果当前出价更改量为 300，而当前要价更改量为 200，则 VOI 为 100，这被认为是强烈的购买信号。但此处 OIR 仅为 0.2，一般大于 0.5 才为较强的买入信号，因此可以看出原始的买入信号并不是那么强。这里没有考虑买家与卖价订单量之间的比率，该比率表明了潜在买家和卖家在市场上的相对实力。因此，我们定义了一个称为订单不平衡率（OIR）的新因子。
 
-OIR 为买卖委托量差 $\varXi$ 其和的比值，衡量了不均衡程度在其总买卖委托量中的占比。OIR 为正说明市场买压大于卖压，未来价格趋向上涨，且 OIR 的比值越大，其上涨的概率越高，反之亦然。
+OIR 为买卖委托量差 $与$ 其和的比值，衡量了不均衡程度在其总买卖委托量中的占比。OIR 为正说明市场买压大于卖压，未来价格趋向上涨，且 OIR 的比值越大，其上涨的概率越高，反之亦然。
 
 ## 1.4、高频量价因子3（市价偏离度 Mid-Price Basis）定义和投资逻辑
 
 $$
-MPB_{t}=\overline{{TP}}_{t}-\frac{M_{t}+M_{t-1}}{2}=\overline{{TP}}_{t}-\overline{{MP_{t}}}
+MPB_{t}=\overline{{TP_{t}}}-\cfrac{M_{t}+M_{t-1}}{2}=\overline{{TP_{t}}}-\overline{{MP_{t}}}.
 $$
 
 $$
@@ -157,16 +157,16 @@ M_{t}=\frac{P_{t}^{B}+P_{t}^{A}}{2}
 $$
 
 $$
-\overline{{TP}}_{t}=\left\{\begin{array}{ll}{\displaystyle\frac{T_{t}}{V_{t}}}&{V_{t}\neq0}\\{\displaystyle\frac{TP}{TP_{t-1}}}&{V_{t}=0}\end{array}\right.
+\overline{TP_{t}}=\left\{\begin{aligned}\frac{T_{t}}{V_{t}}&\quad V_{t}\neq0\\\overline{TP_{t-1}}&\quad V_{t}=0\end{aligned}\right.
 $$
 
-首先我们计算平均交易价格 $\overline{{TP}}_{t}$ 。当股票在分钟 t 没有产生任何交易，即 $V_{t}$ 和 $\lvert T_{t}$ 均为零，此时 $\overline{{TP}}_{t}$ 考虑到这时间段没有任何交易产生，因此时刻t的平均交易价格应该和上一时刻的价格相同。当时刻t内有交易产生的时侯，我们计算得到的平均市场交易价格等于时刻 t 的市场成交额除以时刻 t 的市场成交总量。
+首先我们计算平均交易价格 $\overline{{TP_{t}}}$ 。当股票在分钟 t 没有产生任何交易，即 $V_{t}$ 和 $|T_{t}$ 均为零，此时 $\overline{{TP_{t}}}$ 考虑到这时间段没有任何交易产生，因此时刻t的平均交易价格应该和上一时刻的价格相同。当时刻t内有交易产生的时侯，我们计算得到的平均市场交易价格等于时刻 t 的市场成交额除以时刻 t 的市场成交总量。
 
 然后我们计算市场中间价， $M_{t}$ 为买一价和卖一价的平均。 $MPB_{t}$ 为平均市场交易价格与平均市场中间价的差。
 
 最后因子 $MPB_{t}$ 为平均交易价格和平均中间价格的差值，即为 Mid-Price Basis（MPB），由于其均值回归的特性而成为价格变化的重要预测指标。
 
-具体我们对交易是由买方发起还是由卖方发起进行了分类。通过使用数据集中的交易量和成交额信息，我们能够确定两个时间点之间的平均交易价格。我们此处定义一个时间段 (t −1，t]的平均交易价格为 $\overline{{TP}}_{t}$ ，即这一时间段的市场价格。中间价格表示为 $\overline{{MP_{t}}}$ ，它是时间 t 时买入和卖出价格的算术平均值，即这一时间段的平均委托挂单价格。当一时间段内，交易均价高于平均中间价格，交易均价更接近卖一价，卖方发起的交易，此时卖压大，未来的价格趋向下行的可能性大，且差值 $MPB_{t}$ 越大，未来价格走低的可能性就越高，因此交易均价将像市场平均中间价格回归。反之亦然，平均交易价格在平均中间价附近上下波动。
+具体我们对交易是由买方发起还是由卖方发起进行了分类。通过使用数据集中的交易量和成交额信息，我们能够确定两个时间点之间的平均交易价格。我们此处定义一个时间段 (t −1，t]的平均交易价格为 $\overline{{TP_{t}}}$ ，即这一时间段的市场价格。中间价格表示为 $\overline{{MP_{t}}}$ ，它是时间 t 时买入和卖出价格的算术平均值，即这一时间段的平均委托挂单价格。当一时间段内，交易均价高于平均中间价格，交易均价更接近卖一价，卖方发起的交易，此时卖压大，未来的价格趋向下行的可能性大，且差值 $MPB_{t}$ 越大，未来价格走低的可能性就越高，因此交易均价将像市场平均中间价格回归。反之亦然，平均交易价格在平均中间价附近上下波动。
 
 ## 二、高频转低频的方法和逻辑
 
@@ -175,19 +175,19 @@ $$
 我们采用下面的具体流程把高频因子转为我们常用的月度低频选股因子。首先因为股票的盘口挂单强弱受到市场总体走势的影响，因此我们需要对各股票进行截面标准化以剔除市场对个股的影响。下面 $Factor_{i,j,k}$ 为股票 k 第j 天 i 分钟的因子值， $M\_Factor_{i,j,k}$ 为横截面因子均值， $Std\_Factor_{i,j,k}$ 表示横截面因子的标准差：
 
 $$
-\widehat{\mathrm{Factor}_{\mathrm{1,l,k}}}=\frac{\mathrm{Factor}_{\mathrm{i,j,k}}-M_{\mathrm{-}}\mathrm{Factor}_{\mathrm{i,j,k}}}{Std_{\mathrm{-}}\mathrm{Factor}_{\mathrm{i,j,k}}}
+\widehat{\mathrm{Factor_{i,j,k}}}=\frac{\widehat{\mathrm{Factor_{i,j,k}}}-M\_\mathrm{Factor_{i,j,k}}}{\widehat{\mathrm{Std\_Factor_{i,j,k}}}}
 $$
 
 然后我们把标准化后的分钟因子转换成日因子，我们采用了等权的方法。下面是日因子的构造方法，其中N 为第j 天总共的分钟数：
 
 $$
-\widehat{\mathrm{Factor}_{\mathrm{J,k}}}=\frac{\sum\mathrm{Fa\widehat{ctor}_{\mathrm{1,\mathrm{J,k}}}}}{\mathrm{N}}
+\widehat{\mathrm{Factor}_{\mathrm{j,k}}}=\frac{\sum\widehat{\mathrm{Factor}_{\mathrm{i,j,k}}}}{\mathrm{N}}
 $$
 
 最后我们把日因子转换成月因子，我们按距离每月最后一个交易日（假设为组合调仓日）的时间远近进行加权，考虑到信息的时效性，距离调仓日越远其信息的有效性越弱，因此用衰减加权的方法对日因子加权。n为当月交易日天数，j 为当月的第j 个交易日：
 
 $$
-{\widehat{\mathrm{Factor}_{\mathrm{{J}}}}}={\frac{1}{\sum_{j=1}^{n}{\frac{\mathrm{{j}}}{\mathrm{{n}}}}}}\times\sum_{j=1}^{n}{\widehat{\mathrm{Factor}_{\mathrm{{J}},\mathrm{{k}}}}}\times{\frac{\mathrm{{j}}}{\mathrm{{n}}}}
+\mathrm{F\widehat{actor_{j}}}=\frac{1}{\sum_{j=1}^{n}\frac{\mathrm{j}}{\mathrm{n}}}\times\sum_{j=1}^{n}\mathrm{F\widehat{actor_{j,k}}}\times\frac{\mathrm{j}}{\mathrm{n}}
 $$
 
 ## 2.2、高频量价因子低频化反转特性解释

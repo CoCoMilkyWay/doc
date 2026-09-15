@@ -77,7 +77,7 @@ guxiang@ebscn.com
 - 截面标准化处理：通过横截面 z-score方法，以每个时间截面 t上的所有股票的为样本，分别计算其均值和标准差得到如下所示 stand(factor)。此标准化方式属于因子的线性变换，并不会改变原始因子的分布特征。
 
 $$
-{\mathrm{stand}}(factor)_{jt}={\frac{factor_{jt}-{\overline{{factor_{t}}}}}{std(factor)_{t}}}
+\mathrm{standard}(factor)_{jt}=\frac{factor_{jt}-\overline{factor_{t}}}{std(factor)_{t}}
 $$
 
 - 有效性及稳定性检验：采用多期截面RLM回归后我们可以得到因子收益序列，以及每一期回归假设检验T 检验的 t 统计量序列，针对这两个序列我们通过以下几个指标来判断该因子的有效性和稳定性：
@@ -171,7 +171,7 @@ $Vol_{total}$ ：表示日内个股总成交量
 继续秉承高频数据，低频信号的构造原理，以每日上下午成交量占比VR为基础指标，采用与集合竞价成交量占比因子同样的变频方式简单移动平均（MA）和指数加权移动平均（EMA）分别构造选股因子，通过对比不同参数下选股因子的有效性测试指标果和选股回测效果，获得最优的成交量比值选股因子。
 
 $$
-VR_{t}=\frac{1}{d}\sum_{i=1}^{d}w_{t-i}\ast\left(\frac{Vol_{moring}}{Vol_{afternoon}}\right)_{t-i}
+VR_{t}=\frac{1}{d}{\sum_{i=1}^{d}w_{t-i}*\left(\frac{Vol_{moring}}{Vol_{afternoon}}\right)_{t-i}}
 $$
 
 其中
@@ -179,7 +179,7 @@ $$
 $\frac{Vol_{moring}}{Vol_{afternoon}};$ ：每日上午、下午开盘的前 30分钟成交量比值；
 
 $$
-\begin{array}{c}w_{t-i}=\{\begin{array}{cc}{\frac{(1-\alpha)^{\mathrm{i}-1}}{\sum_{i=1}^{\infty}(1-\alpha)^{\mathrm{i}-1}},}&{\frac{\mathrm{i}}{\mathrm{\#}}\frac{*}{\mathrm{\#}}\frac{*}{\mathcal{B}}\zeta\eta\eta\frac{*}{\mathrm{\#}}\lambda}\\{1,}&{\ddot{\mathrm{\#}}\lambda\stackrel{*}{\mathrm{\#}}\lambda^{\dagger}\mathrm{\#}}\end{array}\Rightarrow\mathrm{~\#~\mathbb{H}\Sigma~|\breve{H}|\frac{\dag}{\mathrm{\#}}\lambda\stackrel{*}{\mathrm{\#}}\mathbb{E}\Rightarrow\mathrm{~\mathbb{H}\Sigma~}}\\{1,}&{\mathrm{~\#~\mathbb{H}\Sigma~\not{H}\frac{\dag}{\mathrm{\#}}\lambda^{\dagger}\mathrm{\#}}}\end{array}
+$w_{t-i}=\left\{\begin{matrix}\frac{(1-\alpha)^{\mathrm{i}-1}}{\sum_{\mathrm{i}=1}^{\infty}(1-\alpha)^{\mathrm{i}-1}}\quad,\quad 指数加权\\1\quad,\quad 算术平均\end{matrix}\right.$为时间权重因子;
 $$
 
 α：信息的衰减强度， $\begin{array}{r}{\alpha=\frac{2}{1+d};}\end{array}$
@@ -384,7 +384,7 @@ VR因子与波动因子和流动性因子相关性高。分别计算规模因子
 为了进一步验证 VR 因子自身具备选股能力，我们将通过横截面回归取残差的方式，同时剔除规模、波动、流动性和行业因素的影响，对所有的因子均做截面标准化和极值处理。
 
 $$
-\begin{array}{c}{{VR_{i}=\beta_{1}*VSTD_{i}+\beta_{2}*STD_{i}+\beta_{3}*TURNOVER_{1M_{i}}+\beta_{4}*MC_{i}+}}\\{{{}}}\\{{\beta_{5}*Industry_{i}+\varepsilon_{i}}}\end{array}
+\begin{aligned}&VR_{i}=\beta_{1}*VSTD_{i}+\beta_{2}*STD_{i}+\beta_{3}*TURNOVER_{1M_{i}}+\beta_{4}*MC_{i}+\\&\quad\beta_{5}*Industry_{i}+\varepsilon_{i}\\\end{aligned}
 $$
 
 剔除高相关性效应 VR 依然有较高有效性。对 VR 因子中性化处理后因子的有效性检验等结果仍然显著，IC 平均值为-2.13%，IC 大于零的比例为32.22%，IR 绝对值达 0.42。此外因子的分组效果略有减弱，多空组合年化收益为3.01%，夏普比率达 0.83。

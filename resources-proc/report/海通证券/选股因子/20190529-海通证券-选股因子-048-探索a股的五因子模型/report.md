@@ -63,10 +63,10 @@ Francisco Barillas 和 Jay Shanken2 2017 年提出，要对比不同多因子模
 
 传统回归统计方法适用于多因子模型的两两对比，若要同时对比 m 个模型：$\left\{M_{j}\right\}_{j=1,\cdots,m}$ ，则可采用贝叶斯方法。假设这 m 个模型一共包含 K个因子，记为 F。由于资产定价模型通常包含市场因子，不失一般性，我们假设对比的模型 $\left\{M_{j}\right\}_{j=1,\cdots,m}$ 都包含市场因子 Mkt。此外，市场还有 N 个检验资产 r。
 
-根据贝叶斯定理，在给定数据集 D（所有因子 F和检验资产 r，即 ${\sf D}\displaystyle=\mathrm{\sf~(~}{\sf F},{\sf r}^{\mathrm{~\scriptsize~)~}})$ 下，模型 ${\mathsf M}_{\mathrm{j}}$ 的后验概率为：
+根据贝叶斯定理，在给定数据集 D（所有因子 F和检验资产 r，即 $\mathsf{D}=(\mathsf{F},\mathsf{r})$ 下，模型 $\mathsf{M}_{\mathrm{j}}$ 的后验概率为：
 
 $$
-P\big(M_{j}\big|D\big)=\frac{P\big(M_{j}\big)\cdot P\big(D\big|M_{j}\big)}{\sum_{i}P(M_{i})\cdot P(D|M_{i})}\tag{1}
+P(M_j|D)=\frac{P(M_j)\cdot P(D|M_j)}{\sum_{i}P(M_i)\cdot P(D|M_i)}\tag{1}
 $$
 
 其中，P(M)为先验概率，通常假定为均匀分布，即每个模型的先验概率相同。也可以是其他先验分布，如给理论基础更强的模型更高的概率。若要对比两个模型或特定几个模型，则将其他模型的先验概率设为 0即可。P(D|M)是给定模型 $\mathsf{M}_{\mathrm{j}}$ 下，D的概率。
@@ -76,16 +76,16 @@ $$
 P(D|M)是模型 M 相关参数的联合密度，下称为似然函数，记为 ML(M)。由于数据 D由(Mkt，f，f*，r)组成，因此似然函数可写成如下边缘密度和条件密度的乘积：（1）f 的边缘密度，乘以（2）给定 Mkt和 f 时 f*的条件密度，乘以（3）给定(Mkt，f，f*)=F 时 r的条件密度。即模型 M下的似然函数 ML为：
 
 $$
-\mathrm{ML}=\mathrm{P}(D|M)=ML_{u}(f|Mkt)\times ML_{R}(f^{*}|Mkt,f)\times ML_{R}(r|Mkt,f,f^{*})\tag{2}
+\mathbb{ML}=\mathbb{P}(D|M)=ML_{u}(f|Mkt)\times ML_{R}(f^{*}|Mkt,f)\times ML_{R}(r|Mkt,f,f^{*})\tag{2}
 $$
 
-其中， $\mathsf{ML}_{\mathsf{u}}$ 代表不受限制的似然函数， $ML_{R}$ 代表受限制（alpha=0）的似然函数。ML（f|Mkt）代表被解释变量为 f、解释变量为 Mkt时，模型的似然函数；同样地，ML（f* | Mkt，f）代表被解释变量为 f*、解释变量为（Mkt，f）时，模型的似然函数。似然函数的具体计算参见附录 6.1。
+其中， $\mathbb{ML}_{\mathsf{u}}$ 代表不受限制的似然函数， $\mathbb{ML}_{\mathsf{R}}$ 代表受限制（alpha=0）的似然函数。ML（f|Mkt）代表被解释变量为 f、解释变量为 Mkt时，模型的似然函数；同样地，ML（f* | Mkt，f）代表被解释变量为 f*、解释变量为（Mkt，f）时，模型的似然函数。似然函数的具体计算参见附录 6.1。
 
 给定 F=（Mkt，f，f*）时，r 的条件概率对于任一模型 $\left\{M_{j}\right\}_{j=1,\cdots,m}$ 都相同，即公式（2）中等式右边第三项 $ML_{R}$ (r|Mkt, $f,f^{*})$ 相同。因此，在模型后验概率公式（1）中，可以同时从分子和分母中移除该项，模型对比结果不受检验资产 r 的影响，这是用贝叶斯方法比较多因子模型的关键。
 
-此外，因子通常有多种构建方法。例如，估值因子可以基于 PE 构建（记为 $\mathsf{F}_{\mathsf{PE}}$ 低 PE 与高 PE组合收益差），也可以基于 PB构建（记为 $\mathsf{F}_{\mathsf{PB}},$ ，低 PB与高 PB组合收益差），这些同类因子之间存在较强的相关性。为防止过拟合以及出于模型精简性考虑，它们不应同时出现在模型中。那么，怎么将这种不包含同类因子的先验信息包含在贝叶斯方法中呢？我们可以考虑贝叶斯分类方法。
+此外，因子通常有多种构建方法。例如，估值因子可以基于 PE 构建（记为 $\mathsf{F_{PE}}$ 低 PE 与高 PE组合收益差），也可以基于 PB构建（记为 $\mathsf{F}_{\mathsf{PB}},$ ，低 PB与高 PB组合收益差），这些同类因子之间存在较强的相关性。为防止过拟合以及出于模型精简性考虑，它们不应同时出现在模型中。那么，怎么将这种不包含同类因子的先验信息包含在贝叶斯方法中呢？我们可以考虑贝叶斯分类方法。
 
-对于上文假设的 K 个因子，以 w 代表这 K 个因子的一种形式。例如，对于包含市场、市值和估值的三因子模型而言，{ Mkt，SMB， $\mathsf{F}_{\mathsf{PE}}$ }是 3因子的一种形式，{ Mkt，SMB， $\mathsf{F}_{\mathsf{PB}}\}$ 是另外一种三因子形式（本文中 $\left\{\mathsf{f}_{0}\right\}$ 代表因子为 $\mathfrak{f}_{0}$ 的多因子模型）。
+对于上文假设的 K 个因子，以 w 代表这 K 个因子的一种形式。例如，对于包含市场、市值和估值的三因子模型而言，{ Mkt，SMB， $\mathsf{F_{PE}}$ }是 3因子的一种形式，{ Mkt，SMB， $\mathsf{F_{PB}}\}$ 是另外一种三因子形式（本文中 $\{f_{0}\}$ 代表因子为 $f_{0}$ 的多因子模型）。
 
 同样参考 Barillas 和 Shanken 的结论，求解因子分类模型的后验概率主要包括以下三个步骤：（1）对于每一种因子形式 w，求得在这种形式下各个模型 M 的似然函数ML(M|w)；（2）求得因子形式 w的后验概率；（3）将每一种因子形式 w的后验概率与给定 w 下模型 M 的概率相乘，然后求和即为分类模型的后验概率。具体计算公式参见附录 6.2。
 
@@ -101,57 +101,57 @@ $$
 
 FF3 模型是因子定价理论的经典模型，解释变量由市场、市值和估值三个因子构成。估值因子有多种形式，如 PB、PE等。我们采用传统回归统计的方法对 A股估值因子适合的构建方式进行探讨。
 
-考虑如下两个模型，M1 为{ Mkt，SMB1， $\mathsf{F}_{\mathsf{PB}}\}$ ，M2 为{ Mkt，SMB2， $\mathsf{F}_{\mathsf{PE}}\}$ 。两个模型下的市场收益 Mkt均为Wind全 A指数相对于国债 1 个月到期收益率的超额收益。M1 的因子（SMB1， $\mathsf{F}_{\mathsf{PB}}$ ）是基于市值和 PB双重分组求得，而 M2 的因子（SMB2， $\mathsf{F}_{\mathsf{PE}})$ 基于市值和 PE双重分组求得。
+考虑如下两个模型，M1 为{ Mkt，SMB1， $\mathsf{F_{PB}}\}$ ，M2 为{ Mkt，SMB2， $\mathsf{F}_{\mathsf{PE}}\}$ 。两个模型下的市场收益 Mkt均为Wind全 A指数相对于国债 1 个月到期收益率的超额收益。M1 的因子（SMB1， $\mathsf{F_{PB}}$ ）是基于市值和 PB双重分组求得，而 M2 的因子（SMB2， $\mathsf{F}_{\mathsf{PE}})$ 基于市值和 PE双重分组求得。
 
 ![](images/518a2b8a26aa16007d877443f90290c5642cb62f40190efafd30b8846ac36a57.webp)
 图1 因子分组方法示意
 资料来源：海通证券研究所整理
 
-因子收益的计算则采用与 Fama-French相同的 2*3 分组方法，即对于市值以中位数为分界点，将全市场股票分为 2 组；对于估值，以 30%、70%为分界点，将股票分为 3组；然后取交集得到 ${^{2}}^{\star}3\mathrm{=}6$ 个组合（如下图所示）。
+因子收益的计算则采用与 Fama-French相同的 2*3 分组方法，即对于市值以中位数为分界点，将全市场股票分为 2 组；对于估值，以 30%、70%为分界点，将股票分为 3组；然后取交集得到 $2^{\star}3{=}6$ 个组合（如下图所示）。
 
 市值因子收益SMB即为3个小市值组合收益均值与3个大市值组合收益均值之差，估值因子收益为 2 个低估值组合收益均值与 2 个高估值组合收益均值之差。在下文的因子计算中，我们统一采用这种与估值因子相同的 2*3 分组取交集的方法。
 
-按照前文所述，要对比模型 和 ，只需将两个模型的因子互为被解释变量，然后检验 alpha 是否为 0 即可。从下表的 t检验结果来看，SMB2 和 $\mathsf{F}_{\mathsf{PE}}$ 在模型 M1下的月度 alpha 分别为 0.38%和 0.86%，t 值大于 4，统计显著。表明因子模型 M1 不能解释SMB2 和 $\mathsf{F}_{\mathsf{PE}}$ 的变动，存在显著定价偏误。反过来， 和 $\mathsf{F}_{\mathsf{PB}}$ 在模型 下的月度alpha 分别为-0.10%和-0.29%，统计不显著，无法拒绝 SMB1 和 $\mathsf{F}_{\mathsf{PB}}$ 被 M2 合理定价的零假设。从这个比较结果来看，M2比 M1 更适合 A股市场。
+按照前文所述，要对比模型 和 ，只需将两个模型的因子互为被解释变量，然后检验 alpha 是否为 0 即可。从下表的 t检验结果来看，SMB2 和 $\mathsf{F_{PE}}$ 在模型 M1下的月度 alpha 分别为 0.38%和 0.86%，t 值大于 4，统计显著。表明因子模型 M1 不能解释SMB2 和 $\mathsf{F_{PE}}$ 的变动，存在显著定价偏误。反过来， 和 $\mathsf{F_{PB}}$ 在模型 下的月度alpha 分别为-0.10%和-0.29%，统计不显著，无法拒绝 SMB1 和 $\mathsf{F_{PB}}$ 被 M2 合理定价的零假设。从这个比较结果来看，M2比 M1 更适合 A股市场。
 
 表 1 不同估值指标下的三因子模型对比（2009-2018）
 
-| 86日 | 模型 M1（因子：SMB1、 $\yen1$ | 模型 M2（因子：SMB2、 $\mathsf{F}_{\mathsf{PE}})$ |
+| 86日 | 模型 M1（因子：SMB1、 $\mathbf{F}_{\mathsf{PB}})$ | 模型 M2（因子：SMB2、 $\mathbf{F}_{\mathsf{PE}})$ |
 | --- | --- | --- |
 | alpha及t统计量 01 |  |  |
 | SMB2 | 0.38% |  |
 | 用户677753973于 | 4.35 |  |
-| $\mathsf{F}_{\mathsf{PE}}$ | 0.86% |  |
+| $\mathsf{F_{PE}}$ | 0.86% |  |
 |  | 4.86 |  |
 | SMB1 |  | -0.10% |
 |  |  | -1.26 |
-| $\mathsf{F}_{\mathsf{PB}}$ |  | -0.29% |
+| $\mathsf{F_{PB}}$ |  | -0.29% |
 |  |  | -0.98 |
 | GRS F统计量及p值 |  |  |
-| SMB2、 $\mathsf{F}_{\mathsf{PE}}$ | 15.22 | 1.17 |
-| SMB1、 $\mathsf{F}_{\mathsf{PB}}$ | 0.0000 | 0.3138 |
+| SMB2、 $\mathsf{F_{PE}}$ | 15.22 | 1.17 |
+| SMB1、 $\mathsf{F_{PB}}$ | 0.0000 | 0.3138 |
 
 资料来源： ，海通证券研究所
 
-另一方面，从 GRS F 统计量来看，在 M1模型下，SMB2 和 $\mathsf{F}_{\mathsf{PE}}$ 的 alpha 联合为 0的 GRS F 统计量为 15.22，显著不为 0，表明这两个因子未被 M1 合理定价。而在 M2模型下，SMB1 和 $\mathsf{F}_{\mathsf{PB}}$ 的联合 GRS F 统计量为 1.17，相应的 p值为 0.31，不能拒绝模型 M2 对 SMB1 和 $\mathsf{F}_{\mathsf{PB}}$ 合理定价的零假设。GRS F 统计也表明，M2比 M1 表现更优。
+另一方面，从 GRS F 统计量来看，在 M1模型下，SMB2 和 $\mathsf{F_{PE}}$ 的 alpha 联合为 0的 GRS F 统计量为 15.22，显著不为 0，表明这两个因子未被 M1 合理定价。而在 M2模型下，SMB1 和 $\mathsf{F_{PB}}$ 的联合 GRS F 统计量为 1.17，相应的 p值为 0.31，不能拒绝模型 M2 对 SMB1 和 $\mathsf{F_{PB}}$ 合理定价的零假设。GRS F 统计也表明，M2比 M1 表现更优。
 
 总结来看，在传统的回归统计方法下，A股 FF3 因子模型中的估值因子更适合采用PE指标构建。
 
 ## 盈利因子形式
 
-最常见的盈利因子构建指标有 ROE 和 SUE 两种，对应的因子分别记之为 $\mathsf{F}_{\mathsf{ROE}}$ 和$\mathsf{F}_{\mathsf{SUE}}$ 。我们以 FF3 因子模型为基础，采用传统回归统计方法对比这两个因子。
+最常见的盈利因子构建指标有 ROE 和 SUE 两种，对应的因子分别记之为 $\mathsf{F}_{\mathsf{ROE}}$ 和$\mathsf{F_{SUE}}$ 。我们以 FF3 因子模型为基础，采用传统回归统计方法对比这两个因子。
 
-考虑如下两个模型：M1 为{ Mkt，SMB， $\mathsf{F}_{\mathsf{PE}}$ ，FROE }，M2 为{ Mkt，SMB， $\mathsf{F}_{\mathsf{PE}}$ F }。即 M1 除市场、市值、PE三因子外，还包含 ROE因子；M2 除市场、市值、PE因子外，还包含 SUE 因子。在传统回归方法下，只需将 $\mathsf{F}_{\mathsf{SUE}}$ 对 M1 回归、 $\mathsf{F}_{\mathsf{ROE}}$ 对 M2回归，然后考察其截距项是否显著即可。
+考虑如下两个模型：M1 为{ Mkt，SMB， $\mathsf{F_{PE}}$ ，FROE }，M2 为{ Mkt，SMB， $\mathsf{F_{PE}}$ F }。即 M1 除市场、市值、PE三因子外，还包含 ROE因子；M2 除市场、市值、PE因子外，还包含 SUE 因子。在传统回归方法下，只需将 $\mathsf{F_{SUE}}$ 对 M1 回归、 $\mathsf{F}_{\mathsf{ROE}}$ 对 M2回归，然后考察其截距项是否显著即可。
 
-下表展示了两种盈利因子形式的对比结果。 $\mathsf{F}_{\mathsf{ROE}}$ 在包含 $\mathsf{F}_{\mathsf{SUE}}$ 的 M2 模型下，回归截距项为-0.12%，统计不显著；而 $\mathsf{F}_{\mathsf{SUE}}$ 在包含 $\mathsf{F}_{\mathsf{ROE}}$ 的 M1 模型下，回归截距项为 0.49%，显著大于 0。从传统回归方法来看，A股的盈利因子更适合采用 SUE 指标构建。
+下表展示了两种盈利因子形式的对比结果。 $\mathsf{F}_{\mathsf{ROE}}$ 在包含 $\mathsf{F_{SUE}}$ 的 M2 模型下，回归截距项为-0.12%，统计不显著；而 $\mathsf{F_{SUE}}$ 在包含 $\mathsf{F}_{\mathsf{ROE}}$ 的 M1 模型下，回归截距项为 0.49%，显著大于 0。从传统回归方法来看，A股的盈利因子更适合采用 SUE 指标构建。
 
 表 2 传统回归统计方法下，不同盈利因子形式的对比（2009-2018）
 
 |  | alpha 及t 统计量 |  |
 | --- | --- | --- |
-|  | 因子均值及t统计量 模型 M1{ Mkt， SMB， | $\mathsf{F}_{\mathsf{PE}},~\mathsf{F}_{\mathsf{ROE}}\}$ 模型 M2{ Mkt, SMB, $\mathsf{F}_{\mathsf{PE}},\mathsf{F}_{\mathsf{sug}\in\mathcal{Y}}$ |
-| $\mathsf{F}_{\mathsf{SUE}}$ | 0.89% | 0.49% |
+|  | 因子均值及t统计量 模型 M1{ Mkt， SMB， | $\mathsf{F}_{\mathsf{PE}},\;\mathsf{F}_{\mathsf{ROE}}\}$ 模型 M2{ Mkt, SMB, $\mathsf{F}_{\mathsf{PE}},\mathsf{F}_{\mathsf{SUE}}\}$ |
+| $\mathsf{F_{svE}}$ | 0.89% | 0.49% |
 | 5.36 | 4.04 |  |
-| $F_{\mathsf{ROE}}$ 0.70% |  | -0.12% |
+| $\mathsf{F_{ROE}}$ 0.70% |  | -0.12% |
 | 2.87 | 番与转载 | -0.74 |
 
 资料来源：Wind，海通证券研究所
@@ -166,7 +166,7 @@ FF3 模型是因子定价理论的经典模型，解释变量由市场、市值�
 
 表 3 因子收益（2009.01-2018.12）
 
-|  | SMB | $\mathsf{F}_{\mathsf{PE}}$ | $\boldsymbol{\mathsf{F}}_{\mathsf{Pret}}$ | $\mathsf{F}_{\mathsf{Turn}}$ | $\mathsf{F}_{\mathsf{ROE}}$ |
+|  | SMB | $\mathsf{F_{PE}}$ | $\mathsf{F_{Pret}}$ | $\mathbf{F_{Ium}}$ | $\mathsf{F}_{\mathsf{ROE}}$ |
 | --- | --- | --- | --- | --- | --- |
 | 月均收益 | 1.31% | 0.62% | 1.05% | 1.05% | 0.70% |
 | 年化波动率 | 4.65% | 4.22% | 3.74% | 4.34% | 2.68% |
@@ -175,16 +175,16 @@ FF3 模型是因子定价理论的经典模型，解释变量由市场、市值�
 
 资料来源：Wind，海通证券研究所
 
-基于 5 个备选因子一共可形成 $2^{5}–1=31$ 个模型（至少包含一个备选因子），下表展示了这 31 个模型中，后验概率最高的 5个模型。其中，{ Mkt、SMB， $\mathsf{F}_{\mathsf{PE}},$ ，F ， $\mathsf{F}_{\mathsf{Turn}}\}$ 五因子模型后验概率最高，为 47.81%，即包含市场、市值、估值、盈利和换手率的五因子模型表现最优。其次为{ Mkt，SMB， $\mathsf{F}_{\mathsf{ROE}},\mathsf{F}_{\mathsf{Turn}}\}$ 四因子模型，后验概率 24.22%。
+基于 5 个备选因子一共可形成 $2^{5}-1=31$ 个模型（至少包含一个备选因子），下表展示了这 31 个模型中，后验概率最高的 5个模型。其中，{ Mkt、SMB， $\mathsf{F}_{\mathsf{PE}},$ ，F ， $\mathsf{F_{Turn})}$ 五因子模型后验概率最高，为 47.81%，即包含市场、市值、估值、盈利和换手率的五因子模型表现最优。其次为{ Mkt，SMB， $\mathsf{F_{ROE},~F_{Turn}\}$ 四因子模型，后验概率 24.22%。
 
 表 4 后验概率最高的 5个模型（2009-2018）
 
 | 后验概率 |  |
 | --- | --- |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ FROE、 $\mathsf{F}_{\mathsf{Tum}}$ 47.81% |  |
-| Mkt、SMB、FROE、 $\mathsf{F}_{\mathsf{Turn}}$ | 24.22% |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}}.$ $\mathsf{F}_{\mathsf{ROE}}.$ $\mathsf{F}_{\mathsf{Turn}}.$ $\mathsf{F}_{\mathsf{Pret}}$ | 17.44% |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{ROE}},$ $\mathsf{F}_{\mathsf{Tum}}.$ $\mathsf{F}_{\mathsf{Pret}}$ | 8.05% |
+| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ FROE、 $\mathsf{F_{Tum}}$ 47.81% |  |
+| Mkt、SMB、FROE、 $\mathsf{F_{Tum}}$ | 24.22% |
+| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ $\mathsf{F}_{\mathsf{ROE}},$ $\mathsf{F_{Tumv}}$ $\mathsf{F_{Pret}}$ | 17.44% |
+| Mkt、SMB、 $\mathsf{F}_{\mathsf{ROE}},$ $\mathsf{F_{Iumv}}$ $\mathsf{F_{Pret}}$ | 8.05% |
 | Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ $\mathsf{F}_{\mathsf{ROE}}$ 1.50% |  |
 
 资料来源：Wind，海通证券研究所
@@ -193,54 +193,54 @@ FF3 模型是因子定价理论的经典模型，解释变量由市场、市值�
 
 前面两小节中，我们根据传统统计方法比较了同类因子的不同形式，根据贝叶斯方法计算了由一系列备选因子组成的多因子模型后验概率。本节我们采用贝叶斯分类方法将两种对比综合起来，即在包含同类因子不同形式的一系列备选因子中，选择后验概率最高的多因子模型。
 
-除市场因子外，考察如下五类因子：（1）市值因子 SMB；（2）估值因子两种形式，$\mathsf{F}_{\mathsf{PE}}$ 和 $\mathsf{F}_{\mathsf{PB}};$ ；（3）盈利因子两种形式， $\mathsf{F}_{\mathsf{ROE}}$ 和 $\mathsf{F}_{\mathsf{SUE}};$ ；（4）价格反转因子， $\mathsf{F}_{\mathsf{Pret}};$ 和（5）换手率因子 $\mathsf{F}_{\mathsf{Turn}^{\circ}}$ 估值因子和盈利因子各有两种形式，包含市场因子的 6 因子一共有$2^{\star}2{=}4$ 种形式，分别是（ ， ， $\mathsf{F}_{\mathsf{PE}}$ $\mathsf{F}_{\mathsf{ROE}},\mathsf{F}_{\mathsf{Pret}},\mathsf{F}_{\mathsf{Turn}}$ ）、（Mkt，SMB， $\mathsf{F}_{\mathsf{PB}}$ ，F ，$\mathsf{F}_{\mathsf{Pret}},\mathsf{F}_{\mathsf{Turn}})$ 、（Mkt，SMB， $\mathsf{F}_{\mathsf{PE}}$ $\mathsf{F}_{\mathsf{SUE}}$ ，FPret， $\mathsf{F}_{\mathsf{Turn}})$ 、和（Mkt，SMB， $\mathsf{F}_{\mathsf{PB}},$ ，F ，F ，$\mathsf{F}_{\mathsf{Turn}})$ ）。任意一种因子形式下可形成 $2^{5}-1=31$ 个因子模型，一共有 31*4=124 个模型。
+除市场因子外，考察如下五类因子：（1）市值因子 SMB；（2）估值因子两种形式，$\mathsf{F_{PE}}$ 和 $\mathsf{F_{PB};}$ ；（3）盈利因子两种形式， $\mathsf{F}_{\mathsf{ROE}}$ 和 $\mathsf{F}_{\mathsf{SUE}};$ ；（4）价格反转因子， $\mathsf{F}_{\mathsf{Pret}};$ 和（5）换手率因子 $\mathsf{F_{Turno}}$ 估值因子和盈利因子各有两种形式，包含市场因子的 6 因子一共有$2^{\star}2{=}4$ 种形式，分别是（ ， ， $\mathsf{F}_{\mathsf{PE}:}$ $\mathsf{F_{ROE}},\mathsf{F_{Pret}},\mathsf{F_{Turn}})$ ）、（Mkt，SMB， $\mathsf{F_{PB1}}$ ，F ，$\mathsf{F}_{\mathsf{Pret}},\mathsf{F}_{\mathsf{Tum}})$ 、（Mkt，SMB， $\mathsf{F_{PE}}$ $\mathsf{F_{SUE}}$ ，FPret， $\mathsf{F_{Tum}}$ 、和（Mkt，SMB， $\mathsf{F}_{\mathsf{PB}},$ ，F ，F ，$\mathsf{F_{Turn})}$ ）。任意一种因子形式下可形成 $2^{5}-1=31$ 个因子模型，一共有 31*4=124 个模型。
 
-下表展示了市场以及上述 类共 个因子的基本统计情况。从中可看出， $\mathsf{F}_{\mathsf{Turn}}.\mathsf{F}_{\mathsf{ROE}}$ $\mathsf{F}_{\mathsf{SUE}}$ $\mathsf{F}_{\mathsf{PE}}$ 与市场存在较高的负相关性。市场收益低时，换手率因子、盈利因子和 因子表现好，即市场低迷时，低换手、高盈利、低 的股票存在更高的溢价。此外，同类因子存在较高的时间序列相关性，例如，估值因子 $\mathsf{F}_{\mathsf{PE}}$ 和 $\mathsf{F}_{\mathsf{PB}}$ 相关系数为 ，盈利因子 $\mathsf{F}_{\mathsf{ROE}}$ 和 $\mathsf{F}_{\mathsf{SUE}}$ 相关系数为 0.8。价格反转因子和换手率因子虽然同为技术因子，但两者相关性较低，仅为 0.08，这也是我们在分类模型中把两者视为不同类型的原因。
+下表展示了市场以及上述 类共 个因子的基本统计情况。从中可看出， $\mathsf{F}_{\mathsf{Turn}},\mathsf{F}_{\mathsf{ROE}}$ $\mathsf{F_{SUE}}$ $\mathsf{F_{PE}}$ 与市场存在较高的负相关性。市场收益低时，换手率因子、盈利因子和 因子表现好，即市场低迷时，低换手、高盈利、低 的股票存在更高的溢价。此外，同类因子存在较高的时间序列相关性，例如，估值因子 $\mathsf{F_{PE}}$ 和 $\mathsf{F_{PB}}$ 相关系数为 ，盈利因子 $\mathsf{F}_{\mathsf{ROE}}$ 和 $\mathsf{F_{SUE}}$ 相关系数为 0.8。价格反转因子和换手率因子虽然同为技术因子，但两者相关性较低，仅为 0.08，这也是我们在分类模型中把两者视为不同类型的原因。
 
 表 5 因子分类对比模型中，各个因子的风险收益特征（2009.01-2018.12）
 
 |  |  |  |  |  |  |  | 相关性 |  |  |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 因子 | 均值 | 标准差 | T值 | Mkt | SMB | $F_{PB}$ | $\mathsf{F}_{\mathsf{PE}}$ | $\mathsf{F}_{\mathsf{ROE}}$ | $\mathsf{F}_{\mathsf{sue}}$ | $\mathsf{F}_{\mathsf{Pret}}$ |  | $\mathsf{F}_{\mathsf{Turn}}$ |
+| 因子 | 均值 | 标准差 | T值 | Mkt | SMB | $\mathbf{F}_{\mathsf{PB}}$ | $\mathsf{F_{PE}}$ | $\mathsf{F_{ROE}}$ | $\mathbf{F_{sue}}$ | $\mathbf{F_{Pret}}$ |  | $\mathbf{F_{Ium}}$ |
 | Mkt | 0.79% | 7.80% | 1.11 | 1.00 | 0.31 | -0.17 | -0.36 | -0.42 | -0.32 |  | -0.04 | -0.50 |
 | SMB | 1.31% | 4.65% | 3.09 | 0.31 | 1.00 | -0.62 | -0.71 | -0.52 |  | -0.36 | 0.33 | -0.55 |
-| $F_{PB}$ | 0.64% | 4.96% | 1.41 | -0.17 | -0.62 | 1.00 | 0.89 | 0.26 |  | 0.14 | -0.07 | 0.68 |
-| $\mathsf{F}_{\mathsf{PE}}$ | 0.62% | 4.22% | 1.61 | -0.36 | -0.71 | 0.89 | 1.00 | 0.56 | 0.36 |  | -0.03 | 0.78 |
-| $\mathsf{F}_{\mathsf{ROE}}$ | 0.70% | 2.68% | 2.87 | -0.42 | -0.52 | 0.26 | 0.56 | 1.00 | 0.80 |  | -0.17 | 0.38 |
-| $\mathsf{F}_{\mathsf{sue}}$ | 0.89% | 1.82% | 5.36 | -0.32 | -0.36 | 0.14 | 0.36 | 0.80 | 1.00 |  | -0.25 | 0.21 |
-| $\boldsymbol{\mathsf{F}}_{\mathsf{Pret}}$ | 1.05% | 3.74% | 3.07 | -0.04 | 0.33 | -0.07 | -0.03 | -0.17 |  | -0.25 | 1.00 | 0.08 |
-| $\mathsf{F}_{\mathsf{Turn}}$ | 1.05% | 4.34% | 2.65 | -0.50 | -0.55 | 0.68 | 0.78 | 0.38 |  | 0.21 | 0.08 | 1.00 |
+| $\mathbf{F}_{\mathsf{PB}}$ | 0.64% | 4.96% | 1.41 | -0.17 | -0.62 | 1.00 | 0.89 | 0.26 |  | 0.14 | -0.07 | 0.68 |
+| $\mathsf{F_{PE}}$ | 0.62% | 4.22% | 1.61 | -0.36 | -0.71 | 0.89 | 1.00 | 0.56 | 0.36 |  | -0.03 | 0.78 |
+| $\mathsf{F_{ROE}}$ | 0.70% | 2.68% | 2.87 | -0.42 | -0.52 | 0.26 | 0.56 | 1.00 | 0.80 |  | -0.17 | 0.38 |
+| $\mathsf{F_{sue}}$ | 0.89% | 1.82% | 5.36 | -0.32 | -0.36 | 0.14 | 0.36 | 0.80 | 1.00 |  | -0.25 | 0.21 |
+| $\mathsf{F_{Pret}}$ | 1.05% | 3.74% | 3.07 | -0.04 | 0.33 | -0.07 | -0.03 | -0.17 |  | -0.25 | 1.00 | 0.08 |
+| $\mathbf{F_{Ium}}$ | 1.05% | 4.34% | 2.65 | -0.50 | -0.55 | 0.68 | 0.78 | 0.38 |  | 0.21 | 0.08 | 1.00 |
 
 资料来源：Wind，海通证券研究所
 
-下表展示了贝叶斯分类方法下，后验概率最高的 10 个模型及其后验概率。结果显示，{ Mkt、SMB、F 、 $\mathsf{F}_{\mathsf{SUE}}$ $\mathsf{F}_{\mathsf{Turn}}$ }五因子模型表现最优，后验概率为 28.17%。也就是包含市场、市值、估值、盈利和换手率的五因子模型表现最优，与前一小节贝叶斯方法得到的后验概率最高模型一致。
+下表展示了贝叶斯分类方法下，后验概率最高的 10 个模型及其后验概率。结果显示，{ Mkt、SMB、F 、 $\mathsf{F}_{\mathsf{SUE}}$ $\mathsf{F_{Turn}}$ }五因子模型表现最优，后验概率为 28.17%。也就是包含市场、市值、估值、盈利和换手率的五因子模型表现最优，与前一小节贝叶斯方法得到的后验概率最高模型一致。
 
 表 6 因子分类模型后验概率最高的 10 个模型（2009.01-2018.12）
 
 | 模型包含的因子 | 后验概率 |
 | --- | --- |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}}.$ FTurn $\mathsf{F}_{\mathsf{sue}}$ | 28.17% |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ FTurn、Fsue、 $\mathsf{F}_{\mathsf{Pret}}$ | 26.91% |
-| Mkt、SMB、Fτurn、 $\mathsf{F}_{\mathsf{sue}}$ | 19.67% |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{Turn}}.$ $\mathsf{F}_{\mathsf{sue}}.$ $\mathsf{F}_{\mathsf{Pret}}$ | 19.47% |
+| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ FTurn $\mathsf{F_{sue}}$ | 28.17% |
+| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ FTurn、Fsue、 $\mathsf{F_{Pret}}$ | 26.91% |
+| Mkt、SMB、Fτurn、 $\mathsf{F_{sue}}$ | 19.67% |
+| Mkt、SMB、 $\mathsf{F_{Iumv}}$ $\mathsf{F_{suev}}$ $\mathsf{F_{Pret}}$ | 19.47% |
 | Mkt、SMB、FpE、Fsue、FPret | 2.78% |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}}.$ $\mathsf{F}_{\mathsf{sue}}$ | 1.70% |
-| Mkt、FsuE、 $\mathsf{F}_{\mathsf{Pret}}$ | 0.40% |
-| Mkt、SMB、 $\mathsf{F}_{\mathsf{sue}},\mathsf{F}_{\mathsf{Pret}}$ | 0.35% |
-| Mkt、 $F_{\mathsf{PE}},\mathsf{F}_{\mathsf{Turn}},\mathsf{F}_{\mathsf{sue}}$ | 0.35% |
-| Mkt、 $\mathsf{F}_{\mathsf{Turn}},\mathsf{F}_{\mathsf{sue}},\mathsf{F}_{\mathsf{Pret}}$ | 0.14% |
+| Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}},$ $\mathsf{F_{sue}}$ | 1.70% |
+| Mkt、FsuE、 $\mathsf{F_{Pret}}$ | 0.40% |
+| Mkt、SMB、 $\mathsf{F_{sue}},\mathsf{F_{Pret}}$ | 0.35% |
+| Mkt、 $\mathsf{F_{PE}},\mathsf{F_{Tum}},\mathsf{F_{sue}}$ | 0.35% |
+| Mkt、 $\mathsf{F_{Tum}},\mathsf{F_{sue}},\mathsf{F_{Pret}}$ | 0.14% |
 
 资料来源：Wind，海通证券研究所
 
-关于因子构建方式，贝叶斯分类方法与传统回归统计方法结论一致。对于估值因子，在对比的 个模型中，包含 $\mathsf{F}_{\mathsf{PE}}$ 的模型后验概率之和为 ，而包含 $\mathsf{F}_{\mathsf{PB}}$ 的模型后验概率之和为 0.00%。表明估值因子形式中， $\mathsf{F}_{\mathsf{PE}}$ 的后验概率更高。对于盈利因子，包含 $\mathsf{F}_{\mathsf{SUE}}$ 的模型后验概率之和为 100%，而包含 $\mathsf{F}_{\mathsf{ROE}}$ 的模型后验概率之和为 0.00%。表明盈利因子形式中， $\mathsf{F}_{\mathsf{SUE}}$ 的后验概率更高。
+关于因子构建方式，贝叶斯分类方法与传统回归统计方法结论一致。对于估值因子，在对比的 个模型中，包含 $\mathsf{F_{PE}}$ 的模型后验概率之和为 ，而包含 $\mathsf{F_{PB}}$ 的模型后验概率之和为 0.00%。表明估值因子形式中， $\mathsf{F_{PE}}$ 的后验概率更高。对于盈利因子，包含 $\mathsf{F_{SUE}}$ 的模型后验概率之和为 100%，而包含 $\mathsf{F}_{\mathsf{ROE}}$ 的模型后验概率之和为 0.00%。表明盈利因子形式中， $\mathsf{F_{SUE}}$ 的后验概率更高。
 
-从上表也可看出，在后验概率最高的 10 个模型中，估值因子的形式都为 $\mathsf{F}_{\mathsf{PE}}$ ，而盈利因子的形式都为 $\mathsf{F}_{\mathsf{SUE}}$ ，表明估值因子更适合采用 PE指标构建，盈利因子更适合采用SUE 指标构建。
+从上表也可看出，在后验概率最高的 10 个模型中，估值因子的形式都为 $\mathsf{F_{PE}}$ ，而盈利因子的形式都为 $\mathsf{F}_{\mathsf{SUE}},$ ，表明估值因子更适合采用 PE指标构建，盈利因子更适合采用SUE 指标构建。
 
-总结来看，根据贝叶斯模型，A 股后验概率最高的模型是包含市场、市值、估值、盈利和换手率的五因子模型。从因子形式来看，无论是传统回归法还是贝叶斯方法，都表明估值因子中 $\mathsf{F}_{\mathsf{PE}}$ 优于 $\mathsf{F}_{\mathsf{PB}}$ ，盈利因子中 $\mathsf{F}_{\mathsf{SUE}}$ 优于 $\mathsf{F}_{\mathsf{ROE}}$ 。
+总结来看，根据贝叶斯模型，A 股后验概率最高的模型是包含市场、市值、估值、盈利和换手率的五因子模型。从因子形式来看，无论是传统回归法还是贝叶斯方法，都表明估值因子中 $\mathsf{F_{PE}}$ 优于 $\mathsf{F_{PB}}$ ，盈利因子中 $\mathsf{F_{SUE}}$ 优于 $\mathsf{F}_{\mathsf{ROE}}$ 。
 
 ## 3. 五因子模型的应用
 
-因子定价模型是实证金融的基础，基于因子模型可计算事件 异象的超额收益、理解事件收益来源，此外，还可用来来评价基金、组合的表现。本部分我们利用上一节得到的五因子模型{ Mkt、SMB、 $\mathsf{F}_{\mathsf{PE}}$ $\mathsf{F}_{\mathsf{suge}},\mathsf{F}_{\mathsf{Turn}}\}$ ，对因子定价模型的应用进行举例说明。
+因子定价模型是实证金融的基础，基于因子模型可计算事件 异象的超额收益、理解事件收益来源，此外，还可用来来评价基金、组合的表现。本部分我们利用上一节得到的五因子模型{ Mkt、SMB、 $\mathsf{F_{PE}}$ $\mathsf{F_{SUE}},\mathsf{F_{Turn}}\}$ ，对因子定价模型的应用进行举例说明。
 
 ## 3.1计算事件/异象的超额收益
 
@@ -290,7 +290,7 @@ FF3 模型是因子定价理论的经典模型，解释变量由市场、市值�
 
 表 9 A股常见异象在五因子模型下的回归结果（2009-2018）
 
-|  |  | a | β(Mkt) | β(SMB) | β(FPE) | β(Fsue) | $\beta(\mathsf{F}_{\mathsf{Turn}}$ D | 异象月均 收益 |
+|  |  | a | β(Mkt) | β(SMB) | β(FPE) | β(Fsue) | $\beta(\mathsf{F}_{\mathsf{Tum}}$ D | 异象月均 收益 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | PB 异象 | 系数 | 0.37% | 0.089 | -0.059 | 1.135 | -0.546 | 0.015 | 0.60% |
 |  | t值 | 1.69 | 3.38 | -1.11 | 13.43 | -5.67 | 0.23 | 1.34 |
@@ -383,50 +383,50 @@ FF3 模型是因子定价理论的经典模型，解释变量由市场、市值�
 
 ## 6.1似然函数计算
 
-按照 Barillas 和 Shanken 的结论3，对于任意因子为 F、被解释变量为 R 的因子定价模型，不受限制的似然函数 ${\mathsf{ML}}_{\mathsf{u}}({\mathsf{R}}\mid{\mathsf{F}})$ 正比于：
+按照 Barillas 和 Shanken 的结论3，对于任意因子为 F、被解释变量为 R 的因子定价模型，不受限制的似然函数 $\mathsf{ML}_{\mathsf{u}}(\mathsf{R}\mid\mathsf{F})$ 正比于：
 
 $$
 |F^{\prime}F|^{-N/2}\cdot|S|^{-(T-K)/2}\cdot Q\tag{3}
 $$
 
-受限制（alpha=0）的似然函数 ${\mathsf{ML}}_{\mathsf{R}}({\mathsf{R}}\mid{\mathsf{F}}).$ 正比于：
+受限制（alpha=0）的似然函数 ${\mathsf{ML}}_{\mathsf{R}}(\mathsf{R}\mid\mathsf{F}).$ 正比于：
 
 $$
 |F^{\prime}F|^{-N/2}\cdot|S_{R}|^{-(T-K)/2}\tag{4}
 $$
 
-其中， $\mathsf{s}$ 和 $S_{\mathsf{R}}$ 分别为 α不受限制和 α 限制为 0 时，残差的最小二乘估计交叉乘积矩阵；|S|为 S的行列式，同样地|F’F|为 F’F 的行列式。Q由以下公式计算得出：
+其中， $\mathbb{S}$ 和 $\mathbb{S}_{\mathsf{R}}$ 分别为 α不受限制和 α 限制为 0 时，残差的最小二乘估计交叉乘积矩阵；|S|为 S的行列式，同样地|F’F|为 F’F 的行列式。Q由以下公式计算得出：
 
 $$
-\mathbb{Q}=\bigg(1+\frac{a}{a+k}W\bigg)^{-(T-K)/2}\bigg(1+\frac{k}{a}\bigg)^{-N/2}\tag{5).}
+\mathbb{Q}=\left(1+\frac{a}{a+k}W\right)^{-(T-K)/2}\left(1+\frac{k}{a}\right)^{-N/2}\tag{5).}
 $$
 
-上式中 $a=(1+Sh(F)^{2})/T$ $k=(Sh_{max}^{2}-Sh(F)^{2})/N,$ Sh(F)为因子 F 所能形成的最大化夏普比（切线组合的夏普比）； $\mathsf{Sh}_{\mathsf{max}}$ 为在因子 F 基础上加入资产 R，预期所能形成的最大夏普比。W 由下式求得，其中， 为模型截距项的最小二乘估计， 是残差协方差矩阵估计， $\widehat\Omega$ 是 F 的样本协方差矩阵：
+上式中 $a=(1+Sh(F)^{2})/T$ $k=(Sh_{max}^{2}-Sh(F)^{2})/N,$ Sh(F)为因子 F 所能形成的最大化夏普比（切线组合的夏普比）； $\mathsf{Sh}_{\mathsf{max}}$ 为在因子 F 基础上加入资产 R，预期所能形成的最大夏普比。W 由下式求得，其中， 为模型截距项的最小二乘估计， 是残差协方差矩阵估计， $\widehat{\Omega}$ 是 F 的样本协方差矩阵：
 
 $$
-W=\frac{\hat{\alpha}^{\prime}\hat{\Sigma}^{-1}\hat{\alpha}}{1+\bar{F}^{\prime}\widehat{\Omega}^{-1}\bar{F}}.
+W=\frac{\widehat{\alpha}'\widehat{\Sigma}^{-1}\widehat{\alpha}}{1+\bar{F}'\widehat{\Omega}^{-1}\bar{F}},
 $$
 
-结合（1）-（5）即可求得模型 ${\mathsf M}_{\mathrm{j}}$ 的后验概率。
+结合（1）-（5）即可求得模型 $\mathsf{M}_{\mathrm{j}}$ 的后验概率。
 
 ## 6.2分类模型的后验概率
 
-根据全概率公式，模型 M 的后验概率是所有因子形式 $\boldsymbol{\mathsf{W}}$ 下的后验概率与 $\boldsymbol{\mathsf{W}}$ 的概率乘积之和：
+根据全概率公式，模型 M 的后验概率是所有因子形式 $\mathsf{W}$ 下的后验概率与 $\mathsf{W}$ 的概率乘积之和：
 
 $$
-\mathrm{P}(M|F)=E_{w|F}[P(M|w,F)]=\sum_{w|F}[P(M|w,F)*P(w|F)]
+\mathbb{P}(M|F)=E_{w|F}[P(M|w,F)]=\sum_{w|F}[P(M|w,F)*P(w|F)].
 $$
 
-P(M|w,F)是给定因子形式 w下模型 M的后验概率，可由前面的公式（3）和（4）求出。因子形式 $\boldsymbol{\mathsf{W}}$ 的后验概率可由如下贝叶斯公式求得：
+P(M|w,F)是给定因子形式 w下模型 M的后验概率，可由前面的公式（3）和（4）求出。因子形式 $\mathsf{W}$ 的后验概率可由如下贝叶斯公式求得：
 
 $$
-P(w|F)={\frac{P(F|w)*P(w)}{P(F)}}={\frac{P(F|w)*P(w)}{\sum_{w}{P(F|w)*P(w)}}}
+P(w|F)=\frac{P(F|w)*P(w)}{P(F)}=\frac{P(F|w)*P(w)}{\sum_{w}P(F|w)*P(w)}
 $$
 
-即 $\boldsymbol{\mathsf{W}}$ 的后验概率取决于先验概率 $\mathsf{P}(\boldsymbol{\mathsf{w}})$ ，以及给定 w时 F 的概率。若关于因子形式 w没有先验信息，则 w 的先验概率 $\mathsf{P}(\boldsymbol{\mathsf{w}})$ 可设臵为均匀分布；给定 w 时 F 的概率按照全概率公式，可以转换成求解给定模型 M时 F的概率：
+即 $\mathsf{W}$ 的后验概率取决于先验概率 $\mathsf{P}(W)$ ，以及给定 w时 F 的概率。若关于因子形式 w没有先验信息，则 w 的先验概率 $\mathsf{P}(W)$ 可设臵为均匀分布；给定 w 时 F 的概率按照全概率公式，可以转换成求解给定模型 M时 F的概率：
 
 $$
-\mathrm{P}(\mathrm{F}|\mathbf{w})=\sum_{M|w}P(F|M,w)*P(M|w)=\sum_{M|w}ML(M|w)*P(M|w).
+\mathbb{P}(\mathbb{F}|\mathbf{w})={\sum}_{M|w}P(F|M,w)*P(M|w)={\sum}_{M|w}ML(M|w)*P(M|w)\Bigg]
 $$
 
 # 信息披露

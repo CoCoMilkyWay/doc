@@ -146,7 +146,7 @@ $$
 b_{t}=v_{t}\lambda_{t}\tag{2}
 $$
 
-其中 $v_{t}\ \left(\mathrm{n^{*}d}\right)$ 为个股因子值，需要横截面进行零均值化使 $E(v_{t})=0,\lambda_{t}$ （d*1）为时变系数。
+其中 $v_{t}\mathrm{~(~n^{*}d~)~}$ 为个股因子值，需要横截面进行零均值化使 $E(v_{t})=0,\lambda_{t}$ （d*1）为时变系数。
 
 将上式(2)带入(1)，可得另一种 SDF 模型：
 
@@ -159,7 +159,7 @@ $$
 根据随机贴现模型的定义:
 
 $$
-E[m_{t+1},R_{t+1}]=0\tag{4}
+E[m_{t+1}R_{t+1}]=0\tag{4}
 $$
 
 将 SDF 定义带入上式可得：
@@ -171,28 +171,28 @@ $$
 通过广义矩估计（Generalized method of moments）可得
 
 $$
-E(R)=\gamma_{0}+\lambda_{t}^{T}C_{f},C_{f}=Cov(R,F)\tag{6}
+E\left(R\right)=\gamma_{0}+\lambda_{t}^{T}C_{f},C_{f}=Cov\left(R,F\right)\tag{6}
 $$
 
-因子的 SDF 载荷 $\lambda_{t}$ 和风险溢价都有重要但独特的经济解释， $\bar{\hbar}$ Cochrane（2009）提出 SDF 载荷作为因子库筛选的指标更合适。
+因子的 SDF 载荷 $\lambda_{t}$ 和风险溢价都有重要但独特的经济解释， $而$ Cochrane（2009）提出 SDF 载荷作为因子库筛选的指标更合适。
 
 ## 2.1.2. 遗漏变量偏差
 
 《Taming the factor zoo》提出的方法主要是为了解决遗漏变量带来的偏差问题。遗漏变量指的是模型中遗漏了重要的因子，该问题将导致因子的载荷估计存在偏差，且更严重的是偏差的方向可正可负。
 
-用简单多因子模型为例，假设 y 对 $x_{1}$ 和 $\tau{x}_{2}$ 满足如下线性回归模型：
+用简单多因子模型为例，假设 y 对 $[x_{1}$ 和 ${}^{\imath}x_{2}$ 满足如下线性回归模型：
 
 $$
 y=\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}+\varepsilon\tag{7}
 $$
 
-由于遗漏变量问题，假设令 y 只对 $x_{1}$ 回归，并通过 OLS 估计。通过简单的计量经济学知识可知， $x_{1}$ 的回归系数的偏差如下：
+由于遗漏变量问题，假设令 y 只对 $[x_{1}$ 回归，并通过 OLS 估计。通过简单的计量经济学知识可知， $x_{1}$ 的回归系数的偏差如下：
 
 $$
-bias\left(\tilde{\beta}_{1}\right)=E\left(\tilde{\beta}_{1}\right)-\beta_{1}=\beta_{2}\tilde{\delta}_{1}\tag{8}
+bias\left(\stackrel{\sim}{\beta}_{1}\right)=E\left(\stackrel{\sim}{\beta}_{1}\right)-\beta_{1}=\beta_{2}\stackrel{\sim}{\delta}_{1}\tag{8}
 $$
 
-其中 $\beta_{2}$ 是真实模型中 $\mathbf{y}$ 对 $x_{2}$ 的回归系数， $\delta_{1}$ 是 $x_{2}$ 对 $x_{1}$ 的回归系数。上式说明 $\beta_{1}$ 的偏差由 $\beta_{2}$ 和 $\cdot\delta_{1}$ 共同决定，它的符号受这两部分的影响。遗漏变量的存在使得因子溢价的估计是有偏的（biased），它也被称为遗漏变量偏差（omitted variable bias）。
+其中 $\beta_{2}$ 是真实模型中 $\mathrm{y}$ 对 $x_{2}$ 的回归系数， $\delta_{1}$ 是 $x_{2}.$ 对 $[x_{1}$ 的回归系数。上式说明 $\beta_{1}$ 的偏差由 $\beta_{2}$ 和 $\iota\delta_{11}$ 共同决定，它的符号受这两部分的影响。遗漏变量的存在使得因子溢价的估计是有偏的（biased），它也被称为遗漏变量偏差（omitted variable bias）。
 
 从传统计量经济学的角度来说，遗漏变量问题可以通过加入更多的解释变量来解决。但是在多因子模型中塞入太多的因子容易造成样本内的过拟合。
 
@@ -206,45 +206,45 @@ $$
 
 第一重 LASSO 回归：
 
-根据公式（6）推导的 $E(r_{t})=\gamma_{0}+C_{\perp}\lambda_{\perp}$ ，进行 LASSO 回归获得载荷 $\lambda_{\perp}\mathbf{:}$
+根据公式（6）推导的 $E(r_{t})=\gamma_{0}+C_{口}\lambda_{口}$ ，进行 LASSO 回归获得载荷 $\lambda_{口}:$
 
 $$
-\operatorname*{min}_{\gamma,\lambda}\{\mathrm{n}^{-1}\|\bar{\boldsymbol{\mathrm{r}}}-\mathrm{~\nabla~}\gamma-\widehat{\mathrm{C}}_{\mathrm{h}}\wedge\|\mathrm{~\nabla~}^{2}+\mathrm{~\nabla~}\boldsymbol{\mathrm{\tau}}_{0}\mathrm{n}^{-1}\|\wedge\|\}\tag{9}
+\operatorname*{min}_{\mathbf{\gamma},\mathbf{\lambda}}\Bigl\{\mathbf{n}^{-1}\bigl\|\overline{{\mathbf{r}}}-\mathbf{\gamma}-\widehat{\mathsf{C}_{\mathsf{h}}}\mathbf{\lambda}\bigr\|^{2}+\mathbf{\tau}_{\mathbf{\gamma}_{0}}\mathbf{n}^{-1}\bigr\|\mathbf{\lambda}\bigr\|\Bigr\}\tag{9}
 $$
 
-其中 $\widehat{\mathrm{C_{h}}}=\mathrm{Cov}(\mathrm{r_{t},h_{t}})=\mathrm{T}^{-1}\mathrm{RH^{T}},$ ，τ $_0{}^{\prime}$ 是 LASSO 回归的惩罚程度。
+其中 $\widehat{\mathsf{C}_{\mathsf{h}}}=\mathsf{Cov}(\mathsf{r}_{\mathsf{t}},\mathsf{h}_{\mathsf{t}})=\mathsf{T}^{-1}\mathsf{R}\mathsf{H}^{\mathsf{T}},$ ，τ $0^{\prime}$ 是 LASSO 回归的惩罚程度。
 
-这一步的目的是选取 $.h_{\mathrm{t}}$ 中随机贴现模型载荷显著的有效因子,降低维数。
+这一步的目的是选取 $h_{\mathbf{t}}$ 中随机贴现模型载荷显著的有效因子,降低维数。
 
 第二重 LASSO 回归：
 
-如果 $E(r_{t})=\gamma_{0}+C_{g}\lambda_{g}+C_{\perp}\lambda_{\perp}$ 中遗漏变量，则根据公式（8）可得$\lambda_{\textbf{ g }}$ 的估计偏差=λ χ
+如果 $E(r_{t})=\gamma_{0}+C_{g}\lambda_{g}+C_{口}\lambda_{口}$ 中遗漏变量，则根据公式（8）可得$\lambda_{\mathrm{~g~}}$ 的估计偏差=λ χ
 
-$\lambda_{\mathrm{~h~}}$ 是已有因子的随机贴现因子载荷， $\chi$ 是 $C_{g}$ 对 $C_{\perp}$ 的回归系数，即：
-
-$$
-C_{g}=\xi^{T}+C_{\perp}\chi^{T}+C_{\mu\circ}
-$$
-
-若回归系数 $\chi$ 为 0，则说明不存在遗漏变量偏差，但如果存在显著 $\chi$ ，则表示存在遗漏的变量，因此可根据该方程选择 $\cdot h_{\mathrm{t}}$ 中与 $\mathbf{g_{t}}$ 相关的因子，减小遗漏变量偏差。
-
-根据上式将 $\mathbf{g}_{\mathrm{t}}$ 中的每一个因子 ${\bf g}_{\mathrm{j}}$ 和收益的协方差与 $\mathrm{h}_{\mathrm{t}}|\mathbf{\overline{{\Sigma}}}|$ 子收益协方差进行第二重 LASSO 回归，获得系数χ：
+$\lambda_{\mathrm{~h~}}$ 是已有因子的随机贴现因子载荷， $\chi.$ 是 $C_{g}$ 对 $C_{\perp}$ 的回归系数，即：
 
 $$
-\operatorname*{min}_{\boldsymbol{\xi}_{\mathbf{j}},\boldsymbol{\kappa}_{\mathbf{j}}}\{\boldsymbol{\mathrm{n}}^{-1}\|\boldsymbol{\widehat{\mathrm{C}}}_{\mathrm{g},\mathrm{J}}-\boldsymbol{\xi}_{\mathrm{j}}-\boldsymbol{\widehat{\mathrm{C}}}_{\mathrm{h}}\boldsymbol{x}_{\mathrm{j}}^{\sf T}\|^{2}+\boldsymbol{\tau}_{\mathrm{j}}\boldsymbol{\mathrm{n}}^{-1}\|\boldsymbol{x}_{\mathrm{j}}^{\sf T}\|\}\tag{10}
+C_{g}=\xi^{T}+C_{\Box}\chi^{T}+C_{\mu}.
 $$
 
-第二重 LASSO 回归，选择 $h_{\mathrm{t}}$ 中与新因子相关性较高的因子，减小遗漏变量偏差，解决了 $\frac{\dot{\pi}}{\vert\nabla\pmb{\vert\tau}\vert}$ 维因子库检验新因子的主要问题，也是文章的创新点。
+若回归系数 $\chi$ 为 0，则说明不存在遗漏变量偏差，但如果存在显著 $-\chi_{1}$ ，则表示存在遗漏的变量，因此可根据该方程选择 $\cdot h_{\mathbf{t}}$ 中与 $\mathbf{g}_{\mathbf{t}}$ 相关的因子，减小遗漏变量偏差。
+
+根据上式将 $\mathbf{\nabla}^{\cdot}\mathbf{g}_{\mathbf{t}}$ 中的每一个因子 $\mathbf{g}_{\mathbf{j}}$ 和收益的协方差与 $\mathbf{h}_{\mathrm{t}}因$ 子收益协方差进行第二重 LASSO 回归，获得系数χ：
+
+$$
+\operatorname*{min}_{\boldsymbol{\xi}_{\mathrm{\scriptsize~j}},\boldsymbol{\tau}_{\mathrm{\scriptsize~j}}}\left\{\mathsf{n}^{-1}\;\left\|\widehat{\mathsf{C}_{\mathsf{g},\mathrm{j}}}-\boldsymbol{\xi}_{\mathrm{\scriptsize~j}}-\widehat{\mathsf{C}_{\mathsf{h}}}\boldsymbol{\tau}_{\mathrm{\scriptsize~j}}^{\mathrm{\scriptsize~T}}\right\|^{2}+\boldsymbol{\tau}_{\mathrm{\scriptsize~j}}\mathsf{n}^{-1}\left\|\boldsymbol{\tau}_{\mathrm{\scriptsize~j}}^{\mathrm{\scriptsize~T}}\right\|\right\}\tag{10}
+$$
+
+第二重 LASSO 回归，选择 $h_{\mathbf{t}}$ 中与新因子相关性较高的因子，减小遗漏变量偏差，解决了 $高$ 维因子库检验新因子的主要问题，也是文章的创新点。
 
 横截面回归：
 
-双重选择后，将筛选的因子与 $\mathbf{g_{t}}$ 构建新的因子集，进行横截面回归：
+双重选择后，将筛选的因子与 $\mathbf{g}_{\mathrm{t}}$ 构建新的因子集，进行横截面回归：
 
 $$
-\arg\operatorname*{min}_{\boldsymbol{\xi}_{\boldsymbol{\mathrm{j}}},\boldsymbol{x}_{\mathrm{j}}}\left\{\left\|\overline{{\boldsymbol{\mathrm{r}}}}-\boldsymbol{\gamma}_{0}-\widehat{\mathrm{C}_{\mathrm{g}}}\lambda_{\mathrm{g}}-\widehat{\mathrm{C}_{\mathrm{h}}}\lambda_{\mathrm{h}}\right\|^{2},\lambda_{\mathrm{h,j}}=0\right\}\tag{11}
+\arg\min_{\xi_{\mathrm{j}},\times_{\mathrm{j}}}\left\{\left\|\overline{\mathbf{r}}-\gamma_{0}-\widehat{\mathbb{C}_{\mathrm{g}}}\lambda_{\mathrm{g}}-\widehat{\mathbb{C}_{\mathrm{h}}}\lambda_{\mathrm{h}}\right\|^{2},\lambda_{\mathrm{h,j}}=0\right\}\tag{11}
 $$
 
-其中 j 是不包括在两步 LASSO 回归选择中的因子。若 $\lambda_{\textbf{ g }}$ 显著不为 0，则因子 $\mathbf{g_{t}}$ 有边际贡献。
+其中 j 是不包括在两步 LASSO 回归选择中的因子。若 $\lambda_{\mathrm{~g~l~}}$ 显著不为 0，则因子 $\mathbf{g_{t}}$ 有边际贡献。
 
 ## 2.2.2. 对比其他模型
 
@@ -274,7 +274,7 @@ $$
 
 文章在第一重 LASSO 中，从因子库中筛选了四个因子：SMB（21），净外部财务（99），流通股变化（109）和利润率（117），可以看出所选因子和常用的基准模型十分接近。在第二重 LASSO 回归中，平均所选因子个数在 20-80 个之间。
 
-两次 所选因子数量的差异主要由于选择的目标不同。第一重LASSO 主要是为了寻找能够解释横截面预期收益率的因子，因此惩罚系数 τ0 较高，尽可能构建一个简单的模型。而第二重 LASSO 主要目的是为了尽可能保留会使 $\lambda_{g}$ 估计值产生偏差的因子，甚至可能是冗余因子。第二重 LASSO 平均所选因子个数是符合预期的，因为很多因子之间存在相关性。仅将第一步 LASSO 回归的结果作为基础模型，可能会存在较大的遗漏变量偏差。
+两次 所选因子数量的差异主要由于选择的目标不同。第一重LASSO 主要是为了寻找能够解释横截面预期收益率的因子，因此惩罚系数 τ0 较高，尽可能构建一个简单的模型。而第二重 LASSO 主要目的是为了尽可能保留会使 $\lambda_{g}.$ 估计值产生偏差的因子，甚至可能是冗余因子。第二重 LASSO 平均所选因子个数是符合预期的，因为很多因子之间存在相关性。仅将第一步 LASSO 回归的结果作为基础模型，可能会存在较大的遗漏变量偏差。
 
 图 2 检验新因子的统计结果
 
@@ -389,7 +389,7 @@ $$
 
 ## 3.4.1. 参数稳健性检验
 
-本节《Taming the factor zoo》一文探讨了双重选择方法对参数变化的稳健性。双重 LASSO 需要选择两个在合理范围内的参数。文章选择 200 个随机种子进行交叉验证，然后检验每个 $\cdot\lambda_{g}$ 的 t 统计量随参数的不同而变化的情况。
+本节《Taming the factor zoo》一文探讨了双重选择方法对参数变化的稳健性。双重 LASSO 需要选择两个在合理范围内的参数。文章选择 200 个随机种子进行交叉验证，然后检验每个 $-\lambda_{g}$ 的 t 统计量随参数的不同而变化的情况。
 
 图表 4 展示了稳健性分析的结果，其中每一个面板代表一个因子，不同颜色代表被检验因子的 t 统计量。横轴是第一重 LASSO 的参数，纵轴是第二重 LASSO 的参数，红叉表示 200 个调整参数的平均值。
 

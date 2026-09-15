@@ -125,7 +125,7 @@ zhouyou4@cmschina.com.cn
 在机器学习场景中提高整体模型表现的主要思路包括：增加特征的种类和数量，模型层面的集成等。综合机器学习因子的构建框架可以表述为：
 
 $$
-\partial_{t}^{\cdot}=\mathrm{ENS}(\mathrm{Model}_{1}X_{t}\ ,\qquad\dots\ _{2}\ X\ _{t}\ \dots)]
+\alpha_{_t}^{^*}=ESS(Model_{_1}X_{_t},\qquad\quad_{_2}X_{_{_{\scriptsize{~t}}}}.)
 $$
 
 其中 $X_{t}$ 为在 t 时刻的特征矩阵。在上述章节中，本文分别测试了日频、周频、15min 量价数据基于常见机器学习模型的因子学习结果，在简单等权这样相对简单的集成方式下，综合因子的表现相比于单个模型和数据集的结果也是有一定提升。本节将探讨如何从算法层面进一步从不同的数据集中挖掘出更多的增量信息，从而提高整体综合量价因子的表现。
@@ -169,18 +169,18 @@ b) Gradient Boosting：通过优化损失函数，逐步添加模型。
 本节希望设计一个算法流程在已有的模型（因子）基础上获得具有信息增量的模型（因子）。首先想到的思路就是通过梯度提升的方法来逼近最终结果。假设第一个模型学习目标为MSE：
 
 $$
-\operatorname*{min}_{\theta}\underset{N}{\mathbb{k}}\Vert\mathbf{k}\mathbf{e}\mathbf{+}\mathbf{\Omega}_{\theta}\textbf{ X }\Vert_{2}^{2}
+\operatorname*{min}_{\mathbf{\theta}}\operatorname*{Mel}_{N}\left\|\mathbf{\theta}\mathbf{\theta}^{\mathrm{~\scriptsize~~}}\mathbf{\theta}^{\mathrm{~\scriptsize~~}}\mathbf{X}^{\mathrm{~\scriptsize~~}}\right\|_{2}^{2}
 $$
 
-那么y关于 $\operatorname{Model}_{\theta}_{\theta}$ 的梯度即为 $\nabla_{\hat{\mathbf{y}}}\mathbf{y}\mathbf{\equiv}\frac{2}{N}\mathbf{\sigma}-\hat{\mathbf{\sigma}}$ ，其中 $\hat{\mathbf{y}}$ 为 ModelX 的预测值。那么第二个模型的的预测目标应当为 $-\eta\nabla_{\hat{\mathbf{y}}}$ ，其中 为学习率，从而保证后续模型的预测具有一定的增量信息。 $-\eta\nabla_{\hat{\mathbf{y}}}$ 事实上就是标签减去现有模型预测值的残差乘以一个固定的常数。在本文的场景下，希望从不同频率的数据集中提取增量的信息，记 week、day、15min 量价数据集的样本矩阵分别为 $\mathbf{X}_{_1},\mathbf{X}_{_2},\mathbf{X}_{_3}$ ，训练流程如下：
+那么y关于 $\mathbf{Model}_{\theta}$ 的梯度即为 $\nabla_{\hat{\mathbf{y}}}\mathbb{\hat{F}}\frac{2}{\hat{N}}-\hat{\mathbf{\nabla}}$ ，其中 $\hat{\mathbf{y}}$ 为 ModelX 的预测值。那么第二个模型的的预测目标应当为 $-\eta\nabla_{\hat{\mathbf{y}}}$ ，其中 为学习率，从而保证后续模型的预测具有一定的增量信息。 $-\eta\nabla_{\hat{\mathbf{y}}}$ 事实上就是标签减去现有模型预测值的残差乘以一个固定的常数。在本文的场景下，希望从不同频率的数据集中提取增量的信息，记 week、day、15min 量价数据集的样本矩阵分别为 $\mathbf{X}_{1},\mathbf{X}_{2},\mathbf{X}_{3}$ ，训练流程如下：
 
-1) $_{\mathfrak{X}\mathrm{:}\mathcal{F}}\mathbf{X}_{\mathrm{:}\mathfrak{j}\mathfrak{l}\vert\mathfrak{L}\sharp\overline{{\mathfrak{X}}}}\mathbf{Model}_{\theta_{1}}\mathbf{X}$ ，其标签为 $\mathbf{y}$ ，预测值为 $\hat{\mathbf{y}}_{\theta_{1}}$
+1) $\mathbf{X}_{w}训练Model_{\theta_{l}}\mathbf{X}$ ，其标签为 $\mathbf{y}$ ，预测值为 $\hat{\mathbf{y}}_{\theta_{1}}$
 
-2) $\mathsf{x}{\cdot}\mathsf{y}\mathop{\mathbf{X}}_{\mathrm{d}}\mathsf{\_j}_{\mathrm{l}}\mathsf{\_mdelel}_{\theta_{2}}\ :\mathbf{X}_{\mathrm{2}}$ ，其标签为 $\mathbf{y}-\eta\hat{\mathbf{y}}_{\theta_{1}}$ ，预测值为 $\hat{\mathbf{y}}_{\theta_{2}}$
+2) $\mathrm{X}_{\mathrm{d}}切练\mathrm{Model}_{\theta_{2}}\mathrm{X}_{\mathrm{z}}$ ，其标签为 $\mathbf{y}-\eta\hat{\mathbf{y}}_{\theta_{1}}$ ，预测值为 $\hat{\mathbf{y}}_{\theta_{2}}$
 
-3) 对于 $\mathbf{X}_{\mathrm{min}}$ 训 $\underline{{{\bf\Pi}}}_{\sharp}\ :^{\mathrm{Model}_{\theta_{3}}\mathrm{{\bf\delta X}}_{3}}$ ，其标签为 $\mathbf{y}-\eta(\frac{1}{2}\hat{\mathbf{y}}_{\theta_{1}}\hat{\mathbf{y}}_{\theta_{2}}$ ，预测值$\mathbf{\nabla}_{\mathcal{H}}\hat{\mathbf{y}}_{\theta_{3}}$
+3) 对于 $\mathbf{X}_{\mathrm{min}}$ 训 $练^{Model_{\theta_{3}}}X$ ，其标签为 $\mathbf{y}-\eta(\frac{1}{2}\hat{\textbf{ y }}_{\theta_{1}}+\hat{\textbf{ y }}_{\theta_{2}}$ ，预测值$为\hat{\mathbf{y}}_{3}$
 
-4) 最终，集成模型的输出为 $\hat{\bf y}=\frac{1}{N}\sum\mathrm{Model}_{\theta_{k}^{3}}{\bf X}_{k},N{\bf\theta}=$ 其中 为固定常数。
+4) 最终，集成模型的输出为 $\hat{\mathbf{y}}=\frac{1}{N}\sum\mathrm{Model}_{\theta_{k}^{3}}\mathbf{X}_{k},N=$ 其中 为固定常数。
 
 图 9：基于数据集的残差增量学习框架
 ![](images/27c691c87ef0f96e594eb6a4c6520ea206e3ee1a9b49f30e18cebfac4db0576d.webp)
@@ -211,7 +211,7 @@ $$
 ![](images/ebdf37e72fbbcc0ff5d53bd9ba65d85e6adfa857b77a1503027326b1e20e7954.webp)
 资料来源：招商证券
 
-具体而言，如图 10 所示，NN 表示神经网络模型。本文希望在不同的数据集上通过神经网络模型基于上述的残差增量学习流程学习得到不同的特征矩阵 ${\bf F}_{_{1,k_{1}\times N}},\ {\bf F}_{_{2,k_{2}\times N}},\ {\bf F}_{3,k_{3}\times N}$ 。其中 $k_{i}$ 表示生成的特征个数，N 表示样本数。假设其他特征的个数为 $k_{4}$ ，那么输入 GBDT 模型的特征为所有特征拼接后的特征矩阵 $\mathbf{F}_{k_{f}\times N},k_{f}=\sum k_{i}$ 0
+具体而言，如图 10 所示，NN 表示神经网络模型。本文希望在不同的数据集上通过神经网络模型基于上述的残差增量学习流程学习得到不同的特征矩阵 $\mathbf{F}_{1,k_1\times N},\quad\mathbf{F}_{2,k_2\times N},\quad\mathbf{F}_{3,k_3\times N}$ 。其中 $k_{i}$ 表示生成的特征个数，N 表示样本数。假设其他特征的个数为 $k_{4}$ ，那么输入 GBDT 模型的特征为所有特征拼接后的特征矩阵 $\mathbf{F}_{_{k_{f}\times N}},\quad k_{_f}=\sum k_{_i}$ 0
 
 通过 NN（不同类型的神经网络）进行特征生成的方式根据不同的网络结构和学习目标有不同的结果，这里以 GRU作为特征提取模型，其他特征提取模型在后续研究中继续深入探讨。以 GRU作为特征提取模型的结构最简单的方式如图 11所示，GRU的最后一个时间步的输出作为生成的特征。
 
@@ -400,16 +400,16 @@ $$
 本章节将基于上文构建的综合因子构建指数增强策略，指数增强的优化目标为最大化预期收益率，优化目标如下：
 
 $$
-\begin{array}{rl}{\operatorname*{max}\ }&{\mu^{T}w}\\{\mathrm{s.t.}\ }&{f_{l}\leq F\ w-w_{b}\ \leq f_{h}}\\&{h_{l}\leq H\ w-w_{b}\ \leq h_{h}}\\&{w_{l}\leq w-w_{b}\leq w_{h}}\\&{b_{l}\leq B_{b}w\leq b_{h}}\\&{\left|w_{t}-w_{t-\cdot}\right|\leq\delta}\\&{\mathbf{I}^{T}w=1}\end{array}
+\begin{aligned}\max\quad&\mu^{T}w\\s.t.\quad&f_{l}\leq F\ w-w_{_{b}}\leq f_{_{h}}\\&h_{_{l}}\leq H\ w-w_{_{b}}\leq h_{_{h}}\\&w_{_{l}}\leq w-w_{_{b}}\leq w_{_{h}}\\&b_{_{l}}\leq B_{_{b}}w\leq b_{_{h}}\\&\left|w_{_{t}}-w_{_{t-1}}\right|\leq\delta\\&\mathbf{1}^{T}w=1\end{aligned}
 $$
 
 其中 $\mu$ 为预期收益率， $w$ 为当前组合权重向量， $w_{t}$ 为 t 时刻持仓权重，$w_{t-1}$ 为上一个持仓周期的持仓权重。
 
 常见约束如下：
 
-1) 风格约束，用于保证组合的风格偏离不超过下限 $f_{l}\neq\pm\pm\infty,f_{h}$
+1) 风格约束，用于保证组合的风格偏离不超过下限 $f_{l_{和上限}}f_{h}$
 
-2) 行业偏离约束，用于保证组合行业占比的主动偏离不超过下限 $h_{l}\ O_{\#\underline{{\epsilon}}\underline{{\epsilon}}}$ 限 $h_{h}$
+2) 行业偏离约束，用于保证组合行业占比的主动偏离不超过下限 $h_{l\ 和上}$ 限 $h_{h}$
 
 3) 个股权重的相对偏离
 
@@ -423,7 +423,7 @@ $$
 
 1) 风格偏离约束：
 
-a) $\dot{\boldsymbol{\mathfrak{p}}}$ 深 300 指增策略，市值、估值、成长等风格为最大主动偏离0.3个标准差、行业占比偏离约束为3%；
+a) $沪$ 深 300 指增策略，市值、估值、成长等风格为最大主动偏离0.3个标准差、行业占比偏离约束为3%；
 
 b) 中证 500 指增策略，常见风格约束为 0.3 个标准差，行业占比偏离约束为3%；
 

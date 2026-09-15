@@ -194,17 +194,17 @@ $$
 $$
 
 $$
-\Pi_{1F}=c+Ke^{-rT}-p-Fe^{-rT}
+\mathit{\Pi}_{1F}=c+Ke^{-rT}-p-Fe^{-rT}
 $$
 
 若计算出的结果小于0，则说明套利方向错误，即应该为下式：
 
 $$
-\begin{array}{r}{\Pi_{2S}=p+S-c-Ke^{-rT}}\end{array}
+\Pi_{2S}=p+S-c-Ke^{-rT}
 $$
 
 $$
-\begin{array}{r}{\Pi_{2F}=p+Fe^{-rT}-c-Ke^{-rT}}\end{array}
+\mathit{\Pi}_{2F}=p+Fe^{-rT}-c-Ke^{-rT}
 $$
 
 只要有一种组合的值大于0，那么理论上就有套利机会。

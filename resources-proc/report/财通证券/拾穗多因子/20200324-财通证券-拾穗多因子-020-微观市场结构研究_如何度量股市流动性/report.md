@@ -132,7 +132,7 @@ zhangyu1@ctsec.com
 换手率，又称买卖周转率，是指一段时间内市场中股票转手买卖的频率，它是反映股票流动性强弱的指标之一。在不同语境下，换手率表达的含义可能并不完全一致。它可以表示全市场所有上市股票的总换手率，也可以表示单个股票流通数量的周转率，还可以表示某个投资组合在进行调仓时候，各个股票仓位的变化频率。本部分我们关注个股的换手率，其主要计算方式如下：
 
 $$
-\sharp\vec{\mathfrak{x}}\doteq\frac{\sharp}{\sharp}=\frac{\sharp\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}}\sharp\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak{x}}\cdot\vec{\mathfrak\mathfrak{x}}\cdot\vec{\mathfrak\mathfrak{x}}\cdot\vec\mathfrak\mathfrak{x}\mathfrak\mathfrak{x}\cdot\vec\mathfrak{x}\mathfrak\mathfrak{\mathfrak\mathfrak\mathfrak{x}}\cdot\vec\mathfrak\mathfrak\mathfrak\mathfrak{x}\mathfrak\mathfrak\mathfrak\mathfrak{x}\mathfrak\mathfrak\mathfrak\mathfrak x
+换手率=\frac{成交量(手)}{股本数量(股)}\times100\%
 $$
 
 在 Wind API 接口关于换手率指标的计算中，有三种不同的计算方式，分别为 turn、free_turn 和 free_turn_n，其中 turn 指标的计算中分母采用的是流通股本，free_turn和 free_turn_n 的计算采用的是由 Wind 自己计算的自由流通股本，但是在具体的结果上仍然会存在一些区别，此处我们提醒研究者注意一下。
@@ -144,7 +144,7 @@ $$
 Amihud 非流动性指标是目前采用的最广泛的市场冲击指标之一，其计算方法如下：
 
 $$
-{\mathrm{AmihudIIliq}}={\frac{\left|{\bigstar}{\bigstar}{\bigstar}{\bigstar}\right|{\bigstar}\bar{\Sigma}{\bigstar}{\frac{*{\bar{\Sigma}}}{\mathrm{in}}}{\frac{*}{\mathrm{in}}}}{\bigstar}}\times100\%
+AmihudIIIig=\frac{区间收益率}{区间成交金额}\times100\%
 $$
 
 可以看到，Amihud 非流动性指标等于区间收益率的绝对值与区间成交金额的比值，它衡量的是单位成交金额所能够驱动的个股收益率的变化幅度。当Amihud 指标越高时，说明较小的成交量就能够导致较大幅度的价格变化，这意味着这笔交易对于个股价格的冲击较大，从某种层面意味着个股的流动性越差。本文根据日度的交易数据计算个股的 Amihud 指标，如果股票在当天没有交易，那么其 Amihud 指标记为 0。
@@ -154,23 +154,23 @@ $$
 Pastor and Stambaugh（2003）为了分析前期交易量和交易方向对当期股票收益率的影响，提出通过如下时间序列回归来度量个股流动性：
 
 $$
-\begin{array}{r}{r_{i,d+1,t}^{e}=\theta_{i,t}+\phi_{i,t}r_{i,d,t}+\gamma_{i,t}sign(r_{i,d,t}^{e})\cdot v_{i,d,t}+\epsilon_{i,d+1,t},d=1,\dots,D}\\{r_{i,d,t}^{e}:=r_{i,d,t}-r_{m,d,t}~}\end{array}
+\begin{array}{r}{r_{i,d+1,t}^{e}=\theta_{i,t}+\phi_{i,t}r_{i,d,t}+\gamma_{i,t}sign\big(r_{i,d,t}^{e}\big)\cdot v_{i,d,t}+\epsilon_{i,d+1,t},d=1,\dots,D}\\{r_{i,d,t}^{e}:=r_{i,d,t}-r_{m,d,t}}\end{array}
 $$
 
 其中， $r_{i,d,t}^{e}$ 表示股票 i 在 t 月中的第 d 天的日度超额收益率， $r_{m,d,t}$ 表示市场日度收益率， $r_{i,d,t}$ 表示股票 i 在 t 月中的第 d 天的日度收益率， $\upsilon_{i,d,t}$ 表示股票 i在 t 月中的第 d 天的成交量，sign(x)为符号函数，当 x 大于0 时取 1,否则取 0。
 
-在 Pastor 回归中， $\gamma_{i,t}$ 表示的是个股交易量和交易方向对股票未来收益率的影响程度，是体现交易冲击的重要指标。一般来讲，个股的短期订单交易会导致其未来价格出现一定程度的反转，如果这种反转程度越大，说明股票的流动性越低。所以，我们预期 $\gamma_{i,t}$ 应该是一个负值，并且 $\cdot\gamma_{i,t}$ 值的绝对值越大，说明其流动性越差。然而，在实证研究中我们也会发现，通过如上时间序列回归得到的 $\gamma_{i,t}$ 并不一定为负，正值出现的次数也比较多。
+在 Pastor 回归中， $\gamma_{i,t}$ 表示的是个股交易量和交易方向对股票未来收益率的影响程度，是体现交易冲击的重要指标。一般来讲，个股的短期订单交易会导致其未来价格出现一定程度的反转，如果这种反转程度越大，说明股票的流动性越低。所以，我们预期 $\gamma_{i,t}$ 应该是一个负值，并且 $\gamma_{i,t}$ 值的绝对值越大，说明其流动性越差。然而，在实证研究中我们也会发现，通过如上时间序列回归得到的 $\gamma_{i,t}$ 并不一定为负，正值出现的次数也比较多。
 
 ## 2.4 LOT（Lesmond, Ogden and Trzcinka）模型
 
 Lesmond, Ogden and Trzcinka（1999）认为当股票的流动性越差时，没有交易的天数就会越多，从而导致零收益率的天数越多。其次，对于交易成本比较高的股票，通过私有信息交易获利不容易弥补高昂的交易成本，因此投资者在这些股票上进行交易时不容易包含私有信息，也就更容易出现零收益率的交易日。基于以上思想，Lesmond 等（1999）提出如下两个公式来衡量个股流动性：
 
 $$
-\cos=\frac{\frac{1}{5}\times\frac{1}{4}-11p+\frac{1}{4}p}{\frac{1}{5}\times\frac{1}{4}+11p+\frac{1}{5}\times\frac{1}{4}p}-\frac{1}{5}\times\frac{1}{4}p{\frac{1}{5}\times\frac{1}{4}p}
+\frac{考察时期内零收益率的天数}{考察时期的天数}
 $$
 
 $$
-\mathrm{Zeros}=\frac{\frac{\ddagger_{2}}{\ddagger}\ 种\ddot{\mathcal{H}}|\mathcal{H}|\ddot{\mathcal{Z}}\stackrel{\ddagger}{\mathcal{H}}\stackrel{\ddagger}{\mathcal{H}}\stackrel{\ddagger}{\mathcal{H}}\stackrel{\ddagger}{\mathcal{H}}\stackrel{\ddagger}{\mathcal{H}}|\mathcal{H}|\stackrel{\star}{\mathcal{Z}}\stackrel{\ddagger}{\mathcal{K}}\stackrel{\ddagger}{\mathcal{H}}|\mathcal{Z}\stackrel{\ddagger}{\mathcal{H}}\stackrel{\star\dot{\mathcal{H}}}{\mathcal{H}}|\mathcal{K}\stackrel{\star\dot{\mathcal{H}}}{\mathcal{K}}|}{\ddagger}{\frac{\ddagger}{\ddagger}\frac{\ddot{\mathcal{H}}}{\mathcal{H}}\stackrel{\ddagger}{\mathcal{H}}\stackrel{\dot{\mathcal{H}}}{\mathcal{H}}\stackrel{\star\dot{\mathcal{H}}}{\mathcal{H}}\stackrel{\star\dot{\mathcal{H}}}}{\mathcal{K}}~\frac{\dddot{\mathcal{H}}}{\dot{\mathcal{Z}}\stackrel{\star\dot{\mathcal{H}}}{\mathcal{K}}}~\frac{\ddot{\mathcal{H}}}{\mathcal{K}}~\frac{\dot{\mathcal{H}}}{\mathcal{K}}~\frac{\dot{\mathcal{H}}}{\mathcal{K}}~\frac{\dot{\mathcal{H}}}{\mathcal{K}}~\frac{\dot{\mathcal{H}}}{\mathcal{K}}~\frac{\dot{\mathcal{H}}}{\mathcal{K}}~
+\frac{考察时期内交易金额为正但是零收益率的天数}{考察时期的天数}
 $$
 
 ## 2.5 买卖价差指标之有效价差
@@ -199,7 +199,7 @@ Roll价差是一种根据日度交易数据，采用一阶差分的价格序列�
 
 在如上的两个假设中，有效市场意味着投资者观察到的价格包含了所有已知的信息——只有当投资者接收到未预期到的信息时，股票的交易价格才会发生变化。在这一假设下，股票价格的变化是不存在序列相关性的。然而，由于交易成本的存在，我们观察到的价格变动就不再是序列无关的，这可以通过如下的方式进行说明。
 
-假设个股交易的价差 s 在一定时期内保持稳定，那么由于接下来的交易者可能随机地来自于买方（Purchase）或者卖方（Sale），因此我们观察到的价格可能是买入价格（Ask）或者卖出价格（Bid）。如图 3 所示，假设 t-1 日的交易价格来自于卖方（Bid Price），此时的成交价格记为 $P_{t-1}$ ，如果股票的真实价值保持不变，那么在 t 日，由于交易价格可能来源于买方或者卖方，因此观察到的价格 $P_{t}$ 可能是 $P_{t-1}$ （当交易价格来自于卖出者的推动时）或者 $P_{t-1}$ + s（当交易价格来自于买入者的推动时），此时价格的变化 $.\Delta P_{t}$ 相应地可记为 0 或者 s。
+假设个股交易的价差 s 在一定时期内保持稳定，那么由于接下来的交易者可能随机地来自于买方（Purchase）或者卖方（Sale），因此我们观察到的价格可能是买入价格（Ask）或者卖出价格（Bid）。如图 3 所示，假设 t-1 日的交易价格来自于卖方（Bid Price），此时的成交价格记为 $P_{t-1}$ ，如果股票的真实价值保持不变，那么在 t 日，由于交易价格可能来源于买方或者卖方，因此观察到的价格 $-P_{t}$ 可能是 $P_{t-1}$ （当交易价格来自于卖出者的推动时）或者 $P_{t-1}$ + s（当交易价格来自于买入者的推动时），此时价格的变化 $\Delta P_{t}$ 相应地可记为 0 或者 s。
 
 图 3：有效市场下，价格变动示意图
 ![](images/0c31d00586879fc0a951adee63a15e579cb6d895ab851cae468896bae9f4b663.webp)
@@ -219,16 +219,16 @@ Roll价差是一种根据日度交易数据，采用一阶差分的价格序列�
 ![](images/34e372de025ef86866b1209c9033c34a41f13c685d398f7d30ab8460a634be2d.webp)
 数据来源：财通证券研究所，Roll（1984）
 
-由于图 5 所表示的 $\Delta P_{t}\setminus\ \Delta P_{t}\Delta P_{t+1}$ 等可视为概率论中的随机变量，因此我们即可计算 $\Delta P_{t}\notin\\\\mu_{\mathrm{}}\Delta P_{t}\Delta P_{t+1}$ 的期望值：
+由于图 5 所表示的 $\Delta P_{t}、\Delta P_{t}\Delta P_{t+1}$ 等可视为概率论中的随机变量，因此我们即可计算 $\Delta P_{t}和\Delta P_{t}\Delta P_{t+1}$ 的期望值：
 
 $$
-\begin{array}{c}{{E(\Delta P_{t})=0}}\\{{E(\Delta P_{t}\Delta P_{t+1})=-\displaystyle\frac{1}{4}S^{2}}}\end{array}
+\begin{align*}E\big(\Delta P_t\big)&=0\\E\big(\Delta P_t\Delta P_{t+1}\big)&=-\frac{1}{4}S^2\end{align*}
 $$
 
 由此，我们即可计算得到隔日价格变动 $\Delta P_{t}$ 与 $\Delta P_{t+1}$ 的协方差：
 
 $$
-\mathrm{cov}(\Delta P_{t},\Delta P_{t+1})=E(\Delta P_{t}\Delta P_{t+1})-E(\Delta P_{t})E(\Delta P_{t}+1)=-{\frac{1}{4}}S^{2}
+\mathsf{cov}(\Delta P_{t},\Delta P_{t+1})=E(\Delta P_{t}\Delta P_{t+1})-E(\Delta P_{t})E(\Delta P_{t}+1)=-\frac{1}{4}S^{2}
 $$
 
 将如上等式进行变化，即可得到价差 S 的估计：
@@ -242,10 +242,10 @@ $$
 最后一部分，我们介绍一种采用每日最高价和最低价来估计个股买卖价差的方法，其最早由 Corwin and Schultz（2010）提出。通常情况下，最高价和最低价的比值既可以反映股价的真实方差，又反映买卖价差，其中方差部分会随着时间的延长而等比例增加，但价差成分却不会。基于此，我们即可采用连续两个交易日的最高价和最低价对个股买卖价差进行估计，具体公式如下：
 
 $$
-\begin{array}{c}{{S=\displaystyle\frac{2(e^{\alpha}-1)}{1+e^{\alpha}}}}\\{{\alpha=\displaystyle\frac{\sqrt{2\beta}-\sqrt{\beta}}{3-2\sqrt{2}}-\sqrt{\frac{\gamma}{3-2\sqrt{2}}}}}\\{{\beta=E\left\{\displaystyle\sum_{j=0}^{1}\left[\ln{\left(\frac{H_{t+j}^{(\alpha)}}{L_{t+j}^{(\alpha)}}\right)}\right]^{2}\right\}}}\\{{\gamma=\left[\ln{\left(\frac{H_{t+1}^{(\alpha)}}{L_{t+1}^{(\alpha)}}\right)}\right]^{2}}}\end{array}
+\begin{aligned}S&=\frac{2(e^{\alpha}-1)}{1+e^{\alpha}}\\\alpha&=\frac{\sqrt{2\beta}-\sqrt{\beta}}{3-2\sqrt{2}}-\sqrt{\frac{\gamma}{3-2\sqrt{2}}}\\\beta&=E\left\{\sum_{j=0}^{1}\left[\ln\left(\frac{H_{t+j}^{O}}{L_{t+j}^{O}}\right)\right]^{2}\right\}\\\gamma&=\left[\ln\left(\frac{H_{t,t+1}^{O}}{L_{t,t+1}^{O}}\right)\right]^{2}\end{aligned}
 $$
 
-其中，S 为计算得到的价差水平，HO和LO分别表示观察到的 t 日的最高价和最低价， $H_{t,t+1}^{O}\not\in\mathbb{e}L_{t,t+1}^{O}$ 分别表示观察到的 t 日和 t+1 日的最高价和最低价，其实际上等于两日最高价的较大值和两日最低价的较小值。在 Corwin and Schultz（2010）的原文推导中，其假设股票价格在开市的情况下是连续交易的，并且在闭市的情况下没有任何变化。但很多实证研究均表明，股票市场存在明显的开盘跳价情况，因此需要对这种情况进行如下修正：
+其中，S 为计算得到的价差水平，HO和LO分别表示观察到的 t 日的最高价和最低价， $H^{O}_{t,t+1}和L^{O}_{t,t+1}$ 分别表示观察到的 t 日和 t+1 日的最高价和最低价，其实际上等于两日最高价的较大值和两日最低价的较小值。在 Corwin and Schultz（2010）的原文推导中，其假设股票价格在开市的情况下是连续交易的，并且在闭市的情况下没有任何变化。但很多实证研究均表明，股票市场存在明显的开盘跳价情况，因此需要对这种情况进行如下修正：
 
 （1） 当 t+1 日的最低价高于 t 日的收盘价时，即可认为价格在晚间从收盘价上升至最低价，进而在计算 t+1 日的最高价和最低价时均减去晚间的价格变化；
 

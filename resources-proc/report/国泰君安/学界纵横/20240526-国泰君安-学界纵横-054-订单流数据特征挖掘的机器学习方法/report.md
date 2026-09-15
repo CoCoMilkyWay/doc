@@ -93,7 +93,7 @@ Jiao, X., Li, Z., Xu, C., Liu, Y., Liu, W., & Bian, J. (2023). Microstructure-Em
 本文所述文章保持了 Gould (2013)、Shi (2021) 等人对订单流数据的统计学定义，即：
 
 $$
-\mathsf{\mathbf{x}}=(\mathsf{p}_{\mathsf{x}}^{},\mathsf{w}_{\mathsf{x}},\mathsf{t}_{\mathsf{x}})
+\mathsf{x}=(\mathsf{p}_{\mathsf{x}},\mathsf{w}_{\mathsf{x}},\mathsf{t}_{\mathsf{x}})
 $$
 
 p 表示价位，w 表示订单规模，t 表示时间。规模 w>0(w<0)表示承诺以不低于（不高于）p 的价格出售（购买）最多|w|个资产单位。基于此，文章通过订单流数据生成交易数据和限价单簿数据（LOB），如图 2 所示。图2 分为由上至下三部分：第一部分为LOB 数据，为累计供需；第二部分是原始订单流数据，具体为时间切片上的价格和买卖单数量；第三部分两部分为交易数据，为订单流的成功交易。第一、三部分由二生成。具体而言：
@@ -103,29 +103,29 @@ p 表示价位，w 表示订单规模，t 表示时间。规模 w>0(w<0)表示�
 限价单簿：是资产在特定时间的供需快照，为累计供需。文章用 $O_{t}=$ $\{Ob_{t},Os_{t}\}$ 表示在时间 t的买卖累计订单簿，对于簿中的不同价格及其对应数量、新订单加入后 LOB 的变化，文章表示如下：
 
 $$
-\begin{array}{rl}&{\check{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}=\{(\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{D},\vec{\Xi}\|\vec{\Xi}),(\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{I},\vec{\Xi}),\dots,(\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{D},\vec{\Xi})\}}\\&{\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}=\{(\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{D},\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{D}),(\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{I},\vec{\Xi}\|\vec{\Xi}),\dots,(\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{D},\vec{\Xi}\|\vec{\Xi}\|_{\vec{\Xi}}^{D})}\\&{\qquad\quad{\cal O}_{\sf t+1}={\sf O}_{\mathrm{t}}\otimes{\sf x}_{\sf t+1}}\end{array}
+\begin{aligned}\mathbb{E}\mathbb{E}_{\sharp}=&\{(\mathbb{E}\mathbb{E}_{\sharp}^{0},\mathbb{E}\mathbb{E}_{\sharp}^{0}),(\mathbb{E}\mathbb{E}_{\sharp}^{1},\mathbb{E}\mathbb{E}_{\sharp}^{1}),\ldots,(\mathbb{E}\mathbb{E}_{\sharp}^{\sharp},\mathbb{E}\mathbb{E}_{\sharp}^{\sharp})\}\\\mathbb{E}\mathbb{E}_{\sharp}=&\{(\mathbb{E}\mathbb{E}_{\sharp}^{0},\mathbb{E}\mathbb{E}_{\sharp}^{0}),(\mathbb{E}\mathbb{E}_{\sharp}^{1},\mathbb{E}\mathbb{E}_{\sharp}^{1}),\ldots,(\mathbb{E}\mathbb{E}_{\sharp}^{\sharp},\mathbb{E}\mathbb{E}_{\sharp}^{\sharp})\}\\&\mathsf{O}_{\mathsf{t}+1}=\mathsf{O}_{\mathsf{t}}\otimes\mathsf{x}_{\mathsf{t}+1}\end{aligned}
 $$
 
 若新订单不是匹配项，订单数据被加入累计限价单簿，如：
 
 $$
-\begin{array}{rlr}&{\mathrel{\phantom{=}}}&{\mathrel{\phantom{=}}\perp_{{\boldsymbol x}_{\mathrm{t+1}}}<O\quad;\quad\mathrel{\phantom{=}}\perp_{{\boldsymbol x}_{\mathrm{t+1}}}<\flat_{\perp}^{O}}\\&{}&{\mathrel{\phantom{=}}\bigl[\flat_{\perp_{\perp+1}}=\flat_{\perp_{\perp_{\perp}}^{\perp}}\bigl]\stackrel{\circ}{=}\bigl[\flat_{\perp_{\perp+1}}\bigr|\big]_{\perp_{\perp+1}}\flat_{\perp_{\perp+1}}\bigl|\flat_{\perp_{\perp+1}}\bigr|}\end{array}
+\begin{aligned}&\left|\Xi_{x_{\mathsf{t}+1}}<O\right.\quad\left.;\quad\Xi_{x_{\mathsf{t}+1}}<\Xi_{\sharp}^{\sharp}\right|\\&\\&\left|\Xi_{\sharp\sharp+\underline{1}}=\Xi_{\sharp\sharp}\right|+\left|\Xi_{\sharp\sharp+\underline{1}}\right|\\\end{aligned}
 $$
 
 若新订单是匹配匹配项，限价订单将对应更新，如：
 
 $$
-\begin{array}{r}{\perp_{\mathsf{x}_{\mathsf{t}+1}}<o\quad;\quad\perp_{\mathsf{x}_{\mathsf{t}+1}}\geq\perp_{\mathsf{z}}^{O}}\end{array}
+\begin{array}{rl}{\sharp_{\mathtt{x}_{\mathtt{t}+1}}<\overline{{O}}}&{{}\quad;\quad\sharp_{\mathtt{x}_{\mathtt{t}+1}}\geq\sharp_{\sharp}^{O}}\end{array}
 $$
 
 $$
-\begin{array}{r}{\tt{\Xi}_{\perp_{\perp+1}}^{\perp}=\tt{\Xi}_{\perp\perp\perp}^{\perp\perp}\left(\tt{\Xi}_{\perp_{\perp}}^{\perp}-\epsilon\left(\tt{|\Xi|_{\perp_{\perp+1}}}\tt{|-\sum_{\perp=0}^{\perp-1}}\tt{\Xi}_{\perp_{\perp}}^{\perp}\right),0\right)}\end{array}
+\mathbb{E}_{\mathbb{E}_{\mathbb{B}+\mathbb{I}}^{\mathbb{B}}}=\mathbb{E}\mathbb{E}\left(\mathbb{E}_{\mathbb{E}_{\mathbb{B}}^{\mathbb{B}}}-\mathbf{\nabla}\left(|\mathbb{E}_{\mathbb{E}_{\mathbb{B}+\mathbb{I}}}|-{\sum}_{\mathbb{E}=0}^{\mathbb{B}-\mathbb{I}}\mathbb{E}_{\mathbb{E}_{\mathbb{B}}^{\mathbb{B}}}^{\mathbb{B}}\right),\boldsymbol{O}\right)
 $$
 
 同时，生成相应的交易记录：
 
 $$
-\vec{\mathbb{E}}_{\perp}=\left(\sum_{\perp=0}^{\perp-1}\vec{\mathbb{E}}_{\perp}\vec{\mathbb{B}}_{\perp}\vec{\mathbb{B}}_{\perp}^{\perp}+\vec{\mathbb{E}}_{\perp_{\perp}}\vec{\mathbb{B}}^{\perp}\left(\vec{\mathbb{E}}_{\perp}\vec{\mathbb{B}}-\left(\left.\vec{\mathbb{E}}_{\perp_{\perp}+\perp}\right.-\sum_{\perp=0}^{\perp-1}\vec{\mathbb{E}}_{\perp_{\perp}}\vec{\mathbb{B}}\right)\right)\right)/\left.\vec{\mathbb{E}}_{\perp}\right.
+\mathbb{B}_{\Xi}=\left(et{}{^{\Xi-1}}\sum\mathbb{B}_{\Xi_{\Xi}^{\Xi}}\mathbb{B}_{\Xi_{\Xi}^{\Xi}}+\mathbb{B}_{\Xi_{\Xi}^{\Xi}}\left(\mathbb{B}_{\Xi_{\Xi}^{\Xi}}-\left(\left|\mathbb{B}_{\Xi_{\Xi+1}^{\Xi}}\right|-et{}{^{\Xi-1}}\sum\mathbb{B}_{\Xi_{\Xi}^{\Xi}}\right)\right)\right)/|\mathbb{B}_{\Xi}|
 $$
 
 图 2：订单流数据生成限价单和交易数据过程
@@ -142,29 +142,29 @@ $$
 首先分割时间段，表示 n 段订单，并用神经模型对历史 M 段的买/卖单进行编码：
 
 $$
-\begin{array}{rl}&{[\Xi_{{\boldsymbol0}}+(\Xi-\boldsymbol1)\Delta\Xi,\Xi_{{\boldsymbol0}}+\Xi\Delta\Xi,]}\\&{\quad\Xi_{\perp,\Xi}=\Xi\lbrack\Xi\rbrack_{\Xi}\Bigl(\bigl\lbrack\Xi_{\perp,\Xi-{\boldsymbol1}},\Delta\Xi\bigr\rbrack_{\Xi}\Bigr)}\\&{\quad\Xi_{\perp,\Xi}=\Xi\lbrack\Xi\rbrack_{\Xi}\Bigl(\bigl\lbrack\Xi_{\perp,\Xi-{\boldsymbol1}},\Delta\Xi\bigr\rbrack_{\Xi}\Bigr)}\end{array}
+\begin{aligned}\left[\mathbb{I}_{0}+(\mathbb{I}-\mathbb{I})\Delta\mathbb{I},\mathbb{I}_{0}+\mathbb{I}\Delta\mathbb{I},\right]\\\mathbb{I}_{\mathbb{I},\mathbb{I}}=\mathbb{I}\mathbb{I}\mathbb{I}_{\mathbb{I}}\Big(\mathbb{I}_{\mathbb{I},\mathbb{I}-\mathbb{I}},\Delta\mathbb{I}\mathbb{I}_{\mathbb{I}}\Big)\\\mathbb{I}_{\mathbb{I},\mathbb{I}}=\mathbb{I}\mathbb{I}\mathbb{I}_{\mathbb{I}}\Big(\mathbb{I}_{\mathbb{I},\mathbb{I}-\mathbb{I}},\Delta\mathbb{I}\mathbb{I}_{\mathbb{I}}\Big)\end{aligned}
 $$
 
 然后进行买卖单预测（⨁表合并,∇表预测）
 
 $$
-\begin{array}{c}{\Delta\mathsf{Ob}_{\mathsf{n}}=\mathsf{G}_{\mathsf{b}}\big(\mathsf{h}_{\mathsf{b},\mathsf{n}},\mathsf{h}_{\mathsf{s},\mathsf{n}}\big)}\\{{}}\\{\Delta\mathsf{Os}_{\mathsf{n}}=\mathsf{G}_{\mathsf{s}}\big(\mathsf{h}_{\mathsf{s},\mathsf{n}},\mathsf{h}_{\mathsf{b},\mathsf{n}}\big)}\\{{}}\\{\nabla\mathsf{O}_{\mathsf{n}}=\mathsf{\Omega}_{\mathsf{n}-1}\oplus\Delta\mathsf{Ob}_{\mathsf{n}}\oplus\Delta\mathsf{Os}_{\mathsf{n}}}\end{array}
+\begin{aligned}&\begin{aligned}\\&\Delta\mathsf{O}\mathsf{b}_{\mathsf{n}}=\mathsf{G}_{\mathsf{b}}\big(\mathsf{h}_{\mathsf{b},\mathsf{n}},\mathsf{h}_{\mathsf{s},\mathsf{n}}\big)\\&\quad\Delta\mathsf{O}\mathsf{s}_{\mathsf{n}}=\mathsf{G}_{\mathsf{s}}\big(\mathsf{h}_{\mathsf{s},\mathsf{n}},\mathsf{h}_{\mathsf{b},\mathsf{n}}\big)\\&\end{aligned}\\&\\&\nabla\mathsf{O}_{\mathsf{n}}=\mathsf{\Delta O}_{\mathsf{n}-1}\oplus\Delta\mathsf{O}\mathsf{b}_{\mathsf{n}}\oplus\Delta\mathsf{O}\mathsf{s}_{\mathsf{n}}\\\end{aligned}
 $$
 
 最后使用欧几里得距离将预期现实进行比较，并确认生成器训练目标：使预期现实距离最小。
 
 $$
-\gamma(\mathsf{O}_{\mathsf{n}},\nabla\mathsf{O}_{\mathsf{n}})=\sum_{\mathsf{k}=1}^{\mathsf{K}}||\mathbf{\nu}\mathbf{v}_{\mathsf{n}}^{\mathsf{k}}-\nabla\mathbf{v}_{\mathsf{n}}^{\mathsf{k}}||_{2}
+\mathsf{y}(\mathsf{O}_{\mathsf{n}},\nabla\mathsf{O}_{\mathsf{n}})={\sum}_{\mathsf{k}=1}^{\mathsf{K}}||\mathsf{\nabla}\mathsf{v}_{\mathsf{n}}^{\mathsf{k}}-\nabla\mathsf{v}_{\mathsf{n}}^{\mathsf{k}}||_{2}
 $$
 
 $$
-\mathbb{P}_{\perp\perp\perp}=\imath/\mathbb{P}\sum_{\perp=1}^{\perp}\lvert|\vee(0_{\mathsf{n}},\nabla0_{\mathsf{n}})\rvert|_{2}
+\mathbb{E}_{\mathbb{Z}\mathbb{Z}}=1/\mathbb{E}\sum_{\mathbb{B}=1}^{\mathbb{B}}||\mathbb{V}(\mathsf{O}_{\mathsf{n}},\nabla\mathsf{O}_{\mathsf{n}})||_{2}.
 $$
 
 最终上下文编码表示为：
 
 $$
-\mathtt{\backslash}\mathtt{P}_{\perp}^{\perp}=\mathtt{\backslash}\mathtt{A}_{\perp}\mathtt{p}_{\perp}\mathtt{\backslash}\mathtt{P}_{\perp}\mathtt{\backslash}\mathtt{P}_{\perp}\mathtt{\backslash}\mathtt{P}_{\perp},\mathtt{\backslash}\mathtt{\backslash}(\mathtt{O}_{\mathtt{n}},\mathtt{\backslash}\mathtt{O}_{\mathtt{n}})\Big)
+\mathbb{E}_{\perp}^{\perp}=\mathbb{E}\mathbb{E}\mathbb{E}\mathbb{E}\mathbb{E}\Big(\mathbb{E}_{\perp},\mathbb{E}\mathbb{E}_{\perp},\mathsf{y}\big(\mathsf{O}_{\mathsf{n}},\nabla\mathsf{O}_{\mathsf{n}}\big)\Big)
 $$
 
 ## 3.2. 信息因子提取器
@@ -176,41 +176,41 @@ $$
 先引入交易数据和上下文编码器数据，并进行矩阵转换：
 
 $$
-\begin{array}{c}{E_{trans}=enc(Z)\in\mathbb{R}^{L\times d_{e}}}\\{\check{\Xi}_{\perp}^{\perp}=\check{\Xi}\check{\Xi}\check{\Xi}\big(\check{\Xi}_{\perp}^{\perp}\big)}\\{\mathrm{~X~}=\mathrm{~Concat}\Big(E_{trans},\big(1_{d_{e}}\big)^{T}r_{n}^{M}\Big)}\end{array}
+\begin{aligned}&E_{trans}=enc(Z)\in\mathbb{R}^{L\times d_e}\\&\quad\mathbb{E}_{\mathbb{B}}^{\mathbb{B}}=\mathbb{E}\mathbb{B}\big(\mathbb{E}_{\mathbb{B}}^{\mathbb{B}}\big)\\&\quad\mathbb{X}~=~Concat\left(E_{trans},\big(\mathbf{1}_{d_e}\big)^Tr_n^M\right)\\\end{aligned}
 $$
 
 然后构建注意力模型。Q、K、V 分别代表序列、关键点、关键值，W是相应的权重矩阵：
 
 $$
-\begin{array}{r}{\perp_{\perp}=\perp\perp[\vec{\Xi}],\perp_{\perp}=\perp[\vec{\Xi}],\perp_{\perp}=\perp[\vec{\Xi}],\perp_{\perp}=\perp_{\perp[\vec{\Xi}],\perp[\vec{\Xi}]}[\vec{\Xi}]}\end{array}
+\mathbb{E}_{\perp}=\mathbb{I}\mathbb{E}_{\perp}^{\perp},\quad\mathbb{E}_{\perp}=\mathbb{I}\mathbb{E}_{\perp}^{\perp},\mathbb{E}_{\perp}=\mathbb{E}_{\perp\perp\perp\perp\perp}\mathbb{E}_{\perp}^{\perp}
 $$
 
 在其中构建加权掩饰码，实际为变换矩阵：
 
 $$
-\mathsf{Mat}_{\mathrm{i,j}}=\left\{\begin{array}{rl}{\begin{array}{rl}&{\mathsf{D},\quad\quad\mathsf{E}_{\perp_{\perp}}\le\mathsf{E}_{\perp_{\perp_{\perp}}}}\\&{\mathsf{E}_{\perp},\quad\quad\quad\mathsf{E}_{\perp_{\perp_{\perp}}}^{\perp}>\mathsf{E}_{\perp_{\perp_{\perp_{\perp}}}}\quad\mathsf{E}_{\perp}\|\mathsf{E}\|_{2}\quad\mathsf{E}_{\perp_{\perp}}\mathsf{E}_{\perp_{\perp_{\perp}}}>{\cal O}}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\Xi_{\perp_{\perp}}>\mathsf{E}_{\perp_{\perp_{\perp}}}>\mathsf{E}_{\perp_{\perp_{\perp}}}\quad\mathsf{E}_{\perp}\|\mathsf{E}\|_{2}\|\mathsf{E}\|_{2}\|\mathsf{E}_{\perp_{\perp}}<{\cal O}}\end{array}}\end{array}\right.
+\begin{array}{r}{\mathsf{Mat}_{\mathrm{i,j}}=\left\{\begin{array}{ll}{\qquad}&{\begin{array}{rl}{O,}&{\mathbb{E}_{\mathtt{D}_{\mathtt{D}}}\leq\mathbb{E}_{\mathtt{D}_{\mathtt{D}}}}\\&{\qquad}\end{array}}\\&{\begin{array}{rl}&{\mathbb{E}_{\mathtt{D}}=\mathbb{E}_{\mathtt{D}}}\\&{\qquad}\end{array}}\\&{\begin{array}{rl}{\mathbb{I}-\mathbb{E}_{\mathtt{D}}}&{\mathbb{E}_{\mathtt{D}_{\mathtt{D}}}>\mathbb{E}_{\mathtt{D}_{\mathtt{D}}}}\end{array}}\end{array}\begin{array}{ll}{\mathbb{E}_{\mathtt{D}_{\mathtt{D}}}\mathbb{E}_{\mathtt{D}}}&{\mathbb{E}_{\mathtt{D}_{\mathtt{D}}}\mathbb{E}_{\mathtt{D}_{\mathtt{D}}}>O}\\{\mathbb{E}_{\mathtt{D}}\mathbb{E}_{\mathtt{D}}\mathbb{E}_{\mathtt{D}}>O}\\&{\qquad}\end{array}\right.}\end{array}
 $$
 
 分别提取矩阵 i 维度中最关键的结点并生成序列，作为第 n 段的提取结果:
 
 $$
-\mathsf{h}_{\mathrm{i}}=\mathsf{maxpool}(\mathsf{a}_{\mathrm{i}}\mathsf{V}_{\mathrm{i}})
+\mathsf{h_{i}}=\mathsf{maxpool}(\mathsf{a_{i}V_{i}})
 $$
 
 $$
 F_{n}^{seg}=Concat(h_{1},\ldots,h_{H})W^{H}
 $$
 
-下一步进行DeepSVDD 识别。这是识别数据最有效的无监督学习方法之一，于图3展示。具体来说，我们训练一个神经网络作为核，将输入空间映射到一个高维超球体。这个超球体由半径R>0和中心c定义，使其能够有效地区分正常数据和异常值。对每一个时间段，结合上下文表示$F_{M}^{i}$ 及其对应的第i个交易顺序序列 $Z_{i}$ ，特征 $F_{i}^{seg}$ 可概括为，其中θ为参数。
+下一步进行DeepSVDD 识别。这是识别数据最有效的无监督学习方法之一，于图3展示。具体来说，我们训练一个神经网络作为核，将输入空间映射到一个高维超球体。这个超球体由半径R>0和中心c定义，使其能够有效地区分正常数据和异常值。对每一个时间段，结合上下文表示$F_{M}^{i}$ 及其对应的第i个交易顺序序列 $Z_{i}$ ，特征 $\cdot F_{i}^{seg}$ 可概括为，其中θ为参数。
 
 $$
-\boldsymbol{F}_{i}^{seg}=f\big(\boldsymbol{Z}_{i}\backslash\boldsymbol{F}_{i}^{M};\boldsymbol{\theta}\big)
+F_{i}^{seg}=f\big(Z_{i}\backslash F_{i}^{M};\theta\big)
 $$
 
-其中，无监督学习的训练目标确定是非常重要的一步。首先，需要在最小化超球体的体积的同时，对球体外部的点予以惩罚。文章中 c由随机初始化决定，添加 $R^{2}.$ 在目标函数以最小化体积，用| $|\mathrm{F_{i}^{seg}}-\mathrm{c}||^{2}-\mathrm{R}^{2}$ 计算惩罚。其次，当应用于各种下游任务时，我们需要利用参数来控制重要信号的过滤比例。文章中将参数 $\mu\in(0,1]$ 用来控制超球体大小和边界违规之间的权衡，起到过滤比例调整作用。最后，文章加入权重衰减正则化器，超参数λ>0。
+其中，无监督学习的训练目标确定是非常重要的一步。首先，需要在最小化超球体的体积的同时，对球体外部的点予以惩罚。文章中 c由随机初始化决定，添加 $\imath R^{2}.$ 在目标函数以最小化体积，用| $||\mathrm{F}_{\mathrm{i}}^{\mathrm{seg}}-\mathrm{c}||^{2}-\mathrm{R}^{2}$ 计算惩罚。其次，当应用于各种下游任务时，我们需要利用参数来控制重要信号的过滤比例。文章中将参数 $\mu\in(0,1]$ 用来控制超球体大小和边界违规之间的权衡，起到过滤比例调整作用。最后，文章加入权重衰减正则化器，超参数λ>0。
 
 $$
-\mathrm{{min}\left(R^{2}+\frac{1}{\mu N}\sum_{i=1}^{N}{max\{0,\vert\vert\mathrm{{~F_{i}^{seg}-c\vert\vert^{2}-R^{2}\}~+\frac{\lambda}{2}\vert\vert\boldsymbol{\theta}\vert\vert_{2}}}}\right)}
+\min\left(\mathbb{R}^2+\frac{1}{\mu\mathbb{N}}\sum_{i=1}^{\mathbb{N}}\max\{0,||\mathbf{F}_i^{\mathrm{seg}}-\mathbf{c}||^2-\mathbb{R}^2\}\right.\left.+\frac{\lambda}{2}||\boldsymbol{\Theta}||_2\right)
 $$
 
 图 3：DeepSVDD 提取异常值过程
@@ -247,7 +247,7 @@ $$
 
 特征提取模型：利用在股票单日交易中的随机样本和均匀样本，高频LOB 特征（McGroarty，2019），基于价格、成交量的单日交易因子，时间敏感型订单失衡因子。
 
-文章提出的微观模型。对于上下文编码器，设置 M=100。 $RNN_{s}$ 和 $RNN_{b}$ 被实现为LSTM模型，隐藏层大小为 64。 $G_{b}$ 和 $G_{s}$ 被实现为隐藏层大小为64 的 $\mathrm{MLP_{\circ}}$ 对于因子提取器，使用一个隐藏大小为16 的1 层条件注意
+文章提出的微观模型。对于上下文编码器，设置 M=100。 $RNN_{s}$ 和 $\cdot RNN_{b}$ 被实现为LSTM模型，隐藏层大小为 64。 $G_{b}$ 和 ${\cdot}G_{s}$ 被实现为隐藏层大小为64 的 $MLP。$ 对于因子提取器，使用一个隐藏大小为16 的1 层条件注意
 
 力机制。注意力头的数量设置为 4。对于优化目标，设置 $.\mu$ 为 0.02 以表
 

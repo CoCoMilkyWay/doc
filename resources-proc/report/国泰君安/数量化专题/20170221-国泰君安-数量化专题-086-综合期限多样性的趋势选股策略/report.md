@@ -149,7 +149,7 @@ $$
 也即将EMA除以当天收盘价，在得到标准化的 EMA 的基础上，进行截面回归：
 
 $$
-r_{it}=\beta_{0,t}+\sum\beta_{n,t}\tilde{A}_{it-1}^{n}+\epsilon_{it},n=3,5,10,20,30,60,120,240\tag{3}
+r_{it}=\beta_{0,t}+\sum\beta_{n,t}\tilde{A}_{it-1}^{n}+\epsilon_{it},n=3,5,10,20,30,60,120,240,\tag{3}
 $$
 
 其中， $r_{it}$ 为 i股在月度 t的收益， $\tilde{A}_{it-1}^{n}$ 表示月度 t-1 期末i股的n日标准化 EMA。
@@ -167,7 +167,7 @@ $$
 图 2 展示了各回归系数分别为正、负的情况在整个样本期间（2006.12-2016.12）内的占比，可以看出，各移动平均线的相对预测属性均不稳定，因此我们对各期回归系数在时间序列上进行平滑处理：
 
 $$
-E_{t}\big[\beta_{n,t+1}\big]=\frac{1}{12}\sum_{m=1}^{12}\beta_{n,t+1-m}\tag{4}
+E_{t}[\beta_{n,t+1}]=\frac{1}{12}\sum_{m=1}^{12}\beta_{n,t+1-m}.\tag{4}
 $$
 
 得到 t+1 期的回归系数预测值。经过平滑处理之后，那些过去一个周期（12个月）表现不太稳定的移动平均指标在正反方向抵消的作用下趋于0。
@@ -180,7 +180,7 @@ $$
 最后计算回归系数的预测值与个股EMA 的乘积：
 
 $$
-E_{t}\big[r_{i,t+1}\big]=\sum_{n}E_{t}\big[\beta_{n,t+1}\big]\tilde{A}_{it}^{n}\tag{5}
+E_{t}\big[r_{i,t+1}\big]=\sum_{n}E_{t}\big[\beta_{n,t+1}\big]\tilde{A}_{it}^{n},\tag{5}
 $$
 
 $E_{t}\big[r_{i,t+1}\big]$ 表示基于市场整体趋势特征和个股超短期、短期、中期、长期历史价格信息对下一期个股收益的预测，并基于此构建选股策略。注意到收益的预测值中不包含回归模型（3）中的截距项，因为截距项体现市场整体状态，在给定期间内对每只股票而言都是相同的，而我们构建选股策略关注的是个股之间收益预测的相对大小，故排除共同因素不会对结果产生影响。
@@ -224,7 +224,7 @@ $E_{t}\big[r_{i,t+1}\big]$ 表示基于市场整体趋势特征和个股超短�
 考虑个股交易量是反映投资者之间异质性预期的指标，交易量与价格之间的存在强烈的对应关系。我们不妨换一种思路，从交易量的角度出发，定位那些受到异常事件干扰的样本。由于模型对这类股票的收益预测准确度会受到影响，本文对其删除处理。
 
 $$
-\left\{\begin{array}{ll}{\displaystyle Turnover_{it}>\frac{1}{12}\sum_{T=t-11}^{t}Turnover_{iT}}\\{\displaystyle Turnover_{it}>Median(Turnover_{it}),i=1,2,3\dots N}\end{array}\right.\tag{6}
+\left\{\begin{aligned}Turnover_{it}>&\frac{1}{12}\sum_{T=t-11}^{t}Turnover_{iT}\\Turnover_{it}>&Meidan(Turnover_{it}),i=1,2,3\ldots N\end{aligned}\right.\tag{6}
 $$
 
 (7)
@@ -277,10 +277,10 @@ $$
 ![](images/e38cbcf315b4d6dd6e4576c3a809fbca7e4d980854c2deb46b6e88f9c5de6abc.webp)
 数据来源：国泰君安证券研究、Wind资讯
 
-为了避免大小盘风格对组合收益的影响，需要进一步对组合进行规模中性化处理。我们在每个规模分组的内部，对各股的收益预测值 $.E_{t}\big[r_{i,t+1}\big]$ 进行组内标准化处理： $\frac{E_{t}\big[r_{i,t+1}\big]-\overline{{E_{t}\big[r_{\imath,t+1}\big]}}}{Std(E_{t}\big[r_{i,t+1}\big])}$
+为了避免大小盘风格对组合收益的影响，需要进一步对组合进行规模中性化处理。我们在每个规模分组的内部，对各股的收益预测值 $E_{t}\big[r_{i,t+1}\big]$ 进行组内标准化处理： $\frac{E_{t}[r_{i,t+1}]-\overline{E_{t}[r_{i,t+1}]}}{Std(E_{t}[r_{i,t+1}])}$
 
 $$
-\frac{E_{t}\big[r_{i,t+1}\big]-\overline{{E_{t}\big[r_{i,t+1}\big]}}}{Std(E_{t}\big[r_{i,t+1}\big])}i\in Industry(I)
+\frac{E_{t}\big[r_{i,t+1}\big]-\overline{{E_{t}\big[r_{\iota,t+1}\big]}}}{Std(E_{t}\big[r_{i,t+1}\big])}\quad i\in Industry(I)
 $$
 
 使得每个规模分组内，个股的收益预测值服从标准正态分布，这样处理之后的预测值就具有相同的量纲，之后再进行组间混合选股。

@@ -194,7 +194,7 @@ Email:yhm9591@htsec.com
 定义3秒内成交量最大的限价买入订单的委托量与3秒内全部限价买入委托量的比值，减去 3秒内成交量最大的限价卖出订单的委托量与 3 秒内全部限价卖出委托量的比值，为限价买卖委托成交概率（下简称买卖成交概率）。
 
 $$
-\begin{array}{rl}{{TradeRatio}_{t_{j}}={BidMatchVol}_{max,t_{j}}\big/{BidOrderVol}_{t_{j}}}&{}\\{-{AskMatchVol}_{max,t_{j}}\big/{AskOrderVol}_{t_{j}}}&{}\end{array}
+\begin{aligned}TradeRatio_{t_{j}}=&BidMatchVol_{max,t_{j}}/BidOrderVol_{t_{j}}\\&-AskMatchVol_{max,t_{j}}/AskOrderVol_{t_{j}}\end{aligned}
 $$
 
 3 秒内成交量最大的买入限价单代表较短时间内，买入限价单的实际最大可成交量。它与全部买入限价委托量的比值可在一定程度上刻画这个 3 秒内，下买入限价单的成交概率。当下买入限价单的成交概率大于下卖出限价单的成交概率，即买卖成交概率大于0 时，可以认为买入限价单更易成交，反之则是卖出限价单更易成交。
@@ -245,31 +245,31 @@ $$
 
 | 数据类型用户677753973订单簿指标 | 指标名 | 变量释义 |
 | --- | --- | --- |
-|  | $P_{A_{it_{j}}}$ | 第i档j时刻委卖价 |
-|  | $V_{A_{it_{i}}}$ | 第i档j时刻委卖量 |
+|  | $\left\|\overline{P_{A_{it_{j}}}}\right\|$ | 第i档j时刻委卖价 |
+|  | $V_{A_{it_{j}}}$ | 第i档j时刻委卖量 |
 |  | $C_{A_{it_{j}}}$ | 第i档j时刻委卖单数 |
 |  | $P_{mid_{t_{j}}}$ | t时刻买卖中间价 |
-|  | $P_{B_{it_{j}}}$ | 第i档j时刻委买价 |
-|  | $V_{B_{it_{i}}}$ | 第i档j时刻委买量 |
-|  | ${C}_{B_{it_{j}}}$ | 第i档j时刻委买单数 |
+|  | $\left\|\overline{P_{B_{it_{j}}}}\right\|$ | 第i档j时刻委买价 |
+|  | $V_{B_{it_{j}}}$ | 第i档j时刻委买量 |
+|  | $\left\|\overline{C_{B_{it_{j}}}}\right\|$ | 第i档j时刻委买单数 |
 | 订单流指标 | $OrderVol_{A_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i 档委卖单委托量 |
-|  | $OrderAmt_{A_{i}t_{j-1},j}$ | j-1 到 j 时间内第i 档委卖单委托金额 |
+|  | $\left\|{OrderAmt}_{A_{i}t_{j-1,j}}\right\|$ | j-1 到 j 时间内第i 档委卖单委托金额 |
 |  | $OrderCount_{A_{i}t_{j-1,j}}$ | j-1 到j 时间内第i 档委卖单委托数量 |
-|  | $OrderVol_{B_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i 档委买单委托量 |
+|  | $\left\|{OrderVol}_{B_{i}t_{j-1,j}}\right\|$ | j-1 到 j 时间内第i 档委买单委托量 |
 |  | $OrderAmt_{B_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i 档委买单委托金额 |
-|  | $OrderCount_{B_{i}t_{j-1,j}}$ | j-1 到 j时间内第i 档委买单委托单数量 |
+|  | $\left\|{OrderCount}_{B_{i}t_{j-1,j}}\right\|$ | j-1 到 j时间内第i 档委买单委托单数量 |
 |  | $MatchVol_{A_{i}t_{j-1,j}}$ | j-1 到 j 时间内第 i 档委卖单成交量 |
-|  | $MatchAmt_{A_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i 档委卖单成交金额 |
+|  | $\left\|{Mat}ch{{Amt}_{A_{i}t_{j-1,j}}}\right\|$ | j-1 到 j 时间内第i 档委卖单成交金额 |
 |  | $MatchCount_{A_{i}t_{j-1,j}}$ | j-1 到j时间内第i档委卖单成交单数量 |
-|  | $MatchVol_{B_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i 档委买单成交量 |
+|  | $\left\|{MatchVol}_{B_{i}t_{j-1,j}}\right\|$ | j-1 到 j 时间内第i 档委买单成交量 |
 |  | $MatchAmt_{B_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i 档委买单成交金额 |
-|  | $MatchCount_{B_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i 档委买单成交单数量 |
+|  | $\left\|\begin{matrix}{MatchCount_{B_{i}t_{j-1,j}}}\\\end{matrix}\right\|$ | j-1 到 j 时间内第i 档委买单成交单数量 |
 |  | $CancelVol_{A_{i}t_{j-1,j}}$ | j-1 到 j 时间内第 i 档委卖单撤单量 |
-|  | $CancelAmt_{A_{i}t_{j-1,j}}$ | j-1 到 j 时间内第i档委卖单撤单金额 |
+|  | $\left\|CancelAmt_{A_{i}t_{j=1,j}}\right\|$ | j-1 到 j 时间内第i档委卖单撤单金额 |
 |  | $CancelCount_{A_{i}t_{j-1,j}}$ | j-1 到 j时间内第i档委卖单撤单数量 |
-|  | $CancelVol_{B_{i}t_{j-1,j}}$ | j-1 到 j时间内第i档委买单撤单量 |
+|  | $\boxed{CancelVol_{B_{i}t_{j-\mathtt{i},j}}}$ | j-1 到 j时间内第i档委买单撤单量 |
 |  | $CancelAmt_{B_{i}t_{j-1,j}}$ | j-1 到 j时间内第 i档委买单撤单金额 |
-|  | $CancelCount_{B_{i}t_{j-1,j}}$ | j-1 到j时间内第i档委买单撤单数量 |
+|  | $\left\|{{CancelCount}_{B_{i}t_{j-\mathtt{i},j}}}\right\|$ | j-1 到j时间内第i档委买单撤单数量 |
 
 资料来源：海通证券研究所整理
 
@@ -280,7 +280,7 @@ $$
 t 时刻买一和卖一价位上的订单簿相对强弱：
 
 $$
-SheetDiff_{t_{j}}=\big(V_{B_{1t_{j}}}-V_{A_{1t_{j}}}\big)/\big(V_{B_{1t_{j}}}+V_{A_{1t_{j}}}\big)
+SheetDiff_{t_{j}}=\left(V_{B_{1t_{j}}}-V_{A_{1t_{j}}}\right)/\left(V_{B_{1t_{j}}}+V_{A_{1t_{j}}}\right)
 $$
 
 此外，过去一段时间内订单簿的变化，包括发生的委托、撤单和成交，反映了所有市场参与者对该证券的观点，同样会影响未来成交概率的高低。假设过去一段时间内，买一价的成交量大幅高于卖一价，说明对手方流动性充足，通过买一价买入的难度较小。此时，下限价买单应当更容易成交。由此，我们得到了第二个 LOB衍生指标，它基于j-1时刻到j 时刻的订单流信息。
@@ -288,13 +288,13 @@ $$
 成交相对强弱：
 
 $$
-MatchDiff_{t_{j-1,j}}=\left(MatchVol_{B_{1}t_{j-1,j}}-MatchVol_{A_{1}t_{j-1,j}}\right)/TotVol_{B_{1}t_{j-1,j}}
+MatchDiff_{t_{j-1,j}}=\left(MatchVol_{B_{1}t_{j-1,j}}-MatchVol_{A_{1}t_{j-1,j}}\right)\bigr/TotVol_{B_{1}t_{j-1,j}}
 $$
 
 其中，
 
 $$
-\begin{array}{l}{{TotVol_{B_{1}t_{j-1,j}}=OrderVol_{B_{1}t_{j-1,j}}+OrderVol_{A_{1}t_{j-1,j}}+CancelVol_{B_{1}t_{j-1,j}}}}\\{{\ }}\\{{\ }}\\{{\ }}\end{array}\nonumber
+\begin{aligned}TotVol_{B_{1}t_{J-1,j}}&=OrderVol_{B_{1}t_{J-1,j}}+OrderVol_{A_{1}t_{J-1,j}}+CancelVol_{B_{1}t_{J-1,j}}\\&\quad+CancelVol_{A_{1}t_{J-1,j}}+MatchVol_{B_{1}t_{J-1,j}}+MatchVol_{A_{1}t_{J-1,j}}\end{aligned}
 $$
 
 类似地，我们还可以构建过去一段时间内，与买一价和卖一价上挂单量和撤单量的变化相关的 LOB衍生指标。
@@ -302,13 +302,13 @@ $$
 挂单相对强弱：
 
 $$
-OrderDiff_{t_{j-1,j}}=\left(OrderVol_{B_{1}t_{j-1,j}}-OrderVol_{A_{1}t_{j-1,j}}\right)/TotVol_{B_{1}t_{j-1,j}}
+OrderDiff_{t_{j-1,j}}=\Big(OrderVol_{B_{1}t_{j-1,j}}-OrderVol_{A_{1}t_{j-1,j}}\Big)\big/TotVol_{B_{1}t_{j-1,j}}
 $$
 
 撤单相对强弱：
 
 $$
-CancelDiff_{t_{j-1,j}}=\left(CancelVol_{B_{1}t_{j-1,j}}-CancelVol_{A_{1}t_{j-1,j}}\right)/TotVol_{B_{1}t_{j-1,j}}
+CancellDiff_{t_{j-1,j}}=\left(CancellVol_{B_{1}t_{j-1,j}}-CaClVol_{A_{1}t_{j-1,j}}\right)\Big/TotalVol_{B_{1}t_{j-1,j}}
 $$
 
 从上述 4个指标的构建方式可知，订单簿相对强弱在将要下单的这个 3秒初即可获得；成交、挂单和撤单的相对强弱使用的也是历史数据，为简单计，我们取最近一个 3秒的 LOB信息计算。
@@ -452,52 +452,52 @@ $$
 
 经过上述数次订单挂撤与成交后，盘口状态从 9:30:00 变化至 9:30:03 处，与图 21所示的两个盘口快照完全对应。同时，根据前文对买入意愿的定义，我们可以进一步将其分解为图 22虚线框中挂单、撤单、成交的变化，以及该时间段内虚线框内外所有的成交变化，这 4个部分（均为 9:30-10:00 的数据，下同）。
 
-首先，定义委买增量价格集合为：价格上涨时，取 3 秒初买一价 $\mathsf{B}_{1,\mathrm{t}}$ 与 3秒末买一价 $\mathsf{B}_{1,1+3}$ 之间的所有价格；价格下跌时，取 $\mathsf{B}_{1,\mathsf{t}}$ 。
+首先，定义委买增量价格集合为：价格上涨时，取 3 秒初买一价 $\mathsf{B}_{1,\mathrm{t}}$ 与 3秒末买一价 $\mathbf{B}_{1,\mathrm{t}+3}$ 之间的所有价格；价格下跌时，取 $\mathsf{B}_{1,\mathrm{t}}$ 。
 
 $$
-\begin{array}{r}{{set}_{bid}=\ \left\{B_{i}\Big|\big\{\begin{array}{ll}{[B_{1,t},B_{1,t+3}],}&{B_{1,t+3}>B_{1,t}}\\{\qquad B_{1,t},}&{B_{1,t+3}\leq B_{1,t}}\end{array}\right\}}\end{array}
+Set_{bid}=\left\{B_{i}\left|\left\{\begin{matrix}{[\;B_{1,t},B_{1,t+3}\;],}&{B_{1,t+3}>B_{1,t}}\\{B_{1,t},}&{B_{1,t+3}\leq B_{1,t}}\end{matrix}\right\}\right.\right.
 $$
 
-类似地，定义委卖增量价格集合为：价格下跌时，取 3秒末卖一价 $\mathsf{A}_{1,1+3}$ 与 3秒初卖一价 $\mathsf{A}_{1,\mathsf{t}}$ 之间的所有价格；价格上涨时，取 $\mathsf{A}_{1,\mathsf{t}}$
+类似地，定义委卖增量价格集合为：价格下跌时，取 3秒末卖一价 $\mathsf{A}_{1,\mathsf{t}+3}$ 与 3秒初卖一价 $\mathsf{A}_{1,\mathrm{t}}$ 之间的所有价格；价格上涨时，取 $\mathsf{A}_{1,\mathsf{t}}$
 
 $$
-\begin{array}{r}{Set_{ask}=\{A_{i}|\{\begin{array}{cc}{[A_{1,t+3}{_i},A_{1,t}],}&{A_{1,t+3}<A_{1,t}}\\{A_{1,t},}&{A_{1,t+3}\geq A_{1,t}}\end{array}\}}\end{array}
+Set_{ask}=\left\{A_{i}\left|\left\{\begin{aligned}{[A_{1,t+3_{i}},A_{1,t}],}&{{}\quad A_{1,t+3}<A_{1,t}}\\{A_{1,t},}&{{}\quad A_{1,t+3}\geq A_{1,t}}\end{aligned}\right\}\right.\right.
 $$
 
 其次，按买卖方向分别、依次汇总价格属于上述两个集合的挂单金额，撤单金额与成交金额。
 
 $$
-\begin{array}{l}{{BidSetorderAmb}_{j,j;\uparrow;\downarrow}=\sum OrderAm{t}_{\bar{g},\bar{t}_{j};j_{\downarrow},\downarrow}\quad_{B}i\in Set_{\bar{g},\bar{t}_{j}}}\\{\ }\\{BidSetConectAm{t}_{j,\bar{t}_{j};\downarrow}=\sum CanecelAm{t}_{\bar{g},\bar{t}_{j};j_{\downarrow},\downarrow}\quad_{B_{i}}\in Set_{\bar{g},\bar{t}_{Nid}}}\\{\ }\\{BidSetMatchAm{t}_{j,\bar{t}_{j};\downarrow}=\sum Match4m{t}_{\bar{g},\bar{t}_{j};j_{\pm},\downarrow}\quad_{B_{i}}\in Set_{\bar{g},\bar{t}_{Nid}}}\\{\ }\\{AstSetorderderAm{t}_{j,\bar{t}_{j};\downarrow}=\sum OrderAm{t}_{\bar{g},\bar{t}_{j};j_{\downarrow},\downarrow}\quad_{A}\in Set_{\bar{g},\bar{t}_{\bar{g},\bar{t}}}}\\{\ }\\{AstsetConectAm{t}_{j,\bar{t}_{j};\downarrow}=\sum CancelAm{t}_{\bar{g},\bar{t}_{\bar{g},\bar{t}_{j};\downarrow}}\quad_{A_{i}}\in Set_{\bar{g},\bar{t}_{Ni}}}\\{\ }\\Astsetuatch4m{t}_{j,\bar{t}_{j};j_{\bar{\pm}},\bar{t}}=\sum Match4m{t}_{\bar{g},\bar{t}_{\bar{g},\bar{t}_{j};\downarrow}}\quad_{A_{i}}\in Set_\bar{g},\bar{t}_\bar{g},\bar{t}\end{array}
+\begin{aligned}&BidSetOrderAmt_{j,j+3}=\sum OrederAmt_{B_{it_{j,j+3}}}\setminus B_i\in Set_{bid}\\&\\&BidSetCancellAmt_{j,j+3}=\sum ConcelAmt_{B_{it_{j,j+3}}}\setminus B_i\in Set_{bid}\\&\\&BidSetMatchAmt_{j,j+3}=\sum MatchAmt_{B_{it_{j,j+3}}}\setminus B_i\in Set_{bid}\\&\\&AsksSetOrderAmt_{j,j+3}=\sum OrederAmt_{A_{it_{j,j+3}}}\setminus A_i\in Set_{ask}\\&\\&AsksSetCancellAmt_{j,j+3}=\sum ConcelAmt_{A_{it_{j,j+3}}}\setminus A_i\in Set_{ask}\\&\\&AsksSetMatchAmt_{j,j+3}=\sum MatchAmt_{A_{it_{j,j+3}}}\setminus A_i\in Set_{ask}\\\end{aligned}
 $$
 
 第三，将每个买方指标减去对应的卖方指标，即可得到：净挂单金额，净撤单金额与净成交金额。
 
 $$
-\begin{array}{l}{{NetSetOrderAmt_{j,j+3}=BidSetOrderAmt_{j,j+3}-AskSetOrderAmt_{j,j+3}}}\\{{NetSetCancelAmt_{j,j+3}=BidSetCancelAmt_{j,j+3}-AskSetCancelAmt_{j,j+3}}}\\{{NetSetMatchAmt_{j,j+3}=BidSetMatchAmt_{j,j+3}-AskSetMatchAmt_{j,j+3}}}\end{array}
+\begin{aligned}&NetSetOrderAmt_{j,j+3}=BidSetOrderAmt_{i,j+3}-AskSetOrderAmt_{j,j+3}\\&\\&NetSetCaneLAmt_{j,j+3}=BidSetCaneLAmt_{j,j+3}-AskSetCaneLAmt_{i,j+3}\\&\\&NetSetMatchAmt_{j,j+3}=BidSetMatchAmt_{j,j+3}-AskSetMatchAmt_{j,j+3}\\\end{aligned}
 $$
 
 由此，可得净委买增额。
 
 $$
-\begin{array}{c}{NetIncAmt_{j,j+3}=NetSetOrderAmt_{j,j+3}-NetSetCancelAmt_{j,j+3}}\\{-NetSetMatchAmt_{j,j+3}}\end{array}
+\begin{aligned}NetIncAmt_{j,j+3}&=NetSetOrderAmt_{j,j+3}-NetSetCancellAmt_{j,j+3}\\&-NetSetMatchAmt_{j,j+3}\end{aligned}
 $$
 
 净主买金额的定义较为简单。首先，我们定义 3秒内所有买、卖金额。
 
 $$
-\begin{array}{l}{{\displaystyle{\cal B}idMatchAmt_{j,j+3}=\sum MatchAmt_{B_{i}t_{j,j+3}}}}\\{{\displaystyle\vphantom{\sum}MatchAmt_{j,j+3}=\sum MatchAmt_{A_{i}t_{j,j+3}}}}\end{array}
+\begin{aligned}&BidMatchAmt_{j,j+3}=\sum MatchAmt_{B_it_{j,j+3}}\\&\\&AskMatchAmt_{j,j+3}=\sum MatchAmt_{A_it_{j,j+3}}\\\end{aligned}
 $$
 
 由于这两个指标都是根据限价订单上的成交金额计算的，实际上都属于被动成交。因此，用买入金额减卖出金额得到的是被动净买入金额，与主动净买入（净主买）金额互为相反数。
 
 $$
-NetMatchAmt_{j,j+3}=BidMatchAmt_{j,j+3}-AskMatchAmt_{j,j+3}
+NetMatchAmt_{j,j+3}=BiMAetchAmt_{j,j+3}-AskMatchAmt_{j,j+3}
 $$
 
 根据上述分析和定义，买入意愿就可进一步表示为挂单、撤单、成交和净被动买入四个因子的等权复合（不考虑正负号）。
 
 $$
-\begin{array}{rl}&{~BidIntentionAmt_{j,j+3}}\\&{=NetIncAmt_{j,j+3}-NetMatchAmt_{j,j+3}}\\&{=NetSetOrderAmt_{j,j+3}-NetSetCancelAmt_{j,j+3}-NetSetMatchAmt_{j,j+3}-NetMatchAmt_{j,j+3}}\end{array}
+\begin{array}{rl}&{\quad BidIntentionAmt_{j,i+3}}\\&{=NetIncAmt_{j,i+3}-NetMatchAmt_{j,j+3}}\\&{=NetSetOrderAmt_{j,i+3}-NetSetCancelAmt_{j,j+3}-NetSetMatchAmt_{j,j+3}-NetMatchAmt_{j,j+3}}\end{array}
 $$
 
 虽然我们通过 指标给出了更加复杂的买入意愿定义，但本质上，它和从 秒快照数据得到的因子刻画的是同一种投资者行为，因此，两者在选股效果上应该没有差异。事实也是如此。如下表所示，两种不同方法得到的因子，在 、 和收益等方面几乎完全一致。

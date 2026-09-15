@@ -46,12 +46,12 @@ $$
 R_{i,t}-R_{f,t}=\alpha_{i}+\beta_{mkt,i}\cdot\left(R_{mkt,t}-R_{f,t}\right)+\beta_{hml,i}\cdot R_{hml,i}+\beta_{smb,i}\cdot R_{smb,i}+\epsilon_{i,t}\tag{1}
 $$
 
-其中， $\mathsf{R}_{\mathrm{i,t}}$ 为股票 i在 t月的收益， $\mathsf{R}_{\mathsf{mkt},\mathsf{t}}$ 为 t月市场收益率， $\mathsf{R}_{\mathsf{hml},\mathsf{t}}$ 为估值因子收益，$\mathsf{R}_{\mathsf{smb,t}}$ 为市值因子收益。
+其中， $\mathsf{R}_{\mathrm{i,t}}$ 为股票 i在 t月的收益， $\mathsf{R}_{\mathsf{mkt},\mathsf{t}}$ 为 t月市场收益率， $\mathsf{R}_{\mathsf{hmlet}}$ 为估值因子收益，$\mathsf{R}_{\mathsf{smb,t}}$ 为市值因子收益。
 
 - 根据 t月的因子收益和第一步计算得到的回归系数，求得异质收益：
 
 $$
-e_{i,t}=R_{i,t}-R_{f,t}-\widehat\alpha_{i}+\widehat\beta_{mkt,i}\cdot\left(R_{mkt,t}-R_{f,t}\right)+\widehat\beta_{hml,i}\cdot R_{hml,i}+\widehat\beta_{smb,i}\cdot R_{smb,i}\tag{2}
+e_{i,t}=R_{i,t}-R_{f,t}-\widehat{\alpha}_{i}+\widehat{\beta}_{mkt,i}\cdot\left(R_{mkt,t}-R_{f,t}\right)+\widehat{\beta}_{hml,i}\cdot R_{hml,i}+\widehat{\beta}_{smb,i}\cdot R_{smb,i}\tag{2}
 $$
 
 根据 t-12 至 t-1 个月的异质收益，求得风险调整后的收益，即为异质动量因子IMom。

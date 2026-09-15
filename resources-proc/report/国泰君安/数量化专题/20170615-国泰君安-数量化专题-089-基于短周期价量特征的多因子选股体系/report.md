@@ -146,7 +146,7 @@ S0880511010017
 
 从建模的角度而言，假设R 是所有个股在某一期内的收益向量， X dustry
 
-是定义的行业哑变量矩阵， $X_{\phantom{i}_{style}}$ 为定义的风格因子载荷矩阵（其中包
+是定义的行业哑变量矩阵， $X_{_{style}}$ 为定义的风格因子载荷矩阵（其中包
 
 括 Beta Momentum Size Earnings Yield Volati lty Growth Value），我们通过回归方程的计算，可以得到：
 
@@ -154,28 +154,28 @@ $$
 R_{_{t+1}}=f_{_{industry}}X_{_{industry}}+f_{_{style}}X_{_{style}}+\varepsilon_{_{t+1}}
 $$
 
-其中， $f_{industry}$ 和 $f_{style}$ 分别为行业因子和风格因子的因子收益率 factor return ，• 则为当期个股阿尔法收益率截面。
+其中， $f_{_{industry}}$ 和 $f_{style}$ 分别为行业因子和风格因子的因子收益率 factor return ，• 则为当期个股阿尔法收益率截面。
 
-值得注意的是，假设站在投资时点 t 时刻，我们可获得的变量仅为$X_{\phantom{industry}ind{udustry}}$ 和 $X_{\phantom{i}_{style}}$ ，因此未来一期的阿尔法收益率截面 是需要预测的。 $\boldsymbol{\varepsilon}_{\scriptscriptstyle t+1}$
+值得注意的是，假设站在投资时点 t 时刻，我们可获得的变量仅为$X_{_{industry}}$ 和 $X_{_{style}}$ ，因此未来一期的阿尔法收益率截面 是需要预测的。 $\mathcal{E}_{{t+1}}$
 
 因而，无论我们选择何种因子定义、何种因子加权方式、何种收益率转化方式等，最后产生的计算结果都是阿尔法收益率的预测值，即
 
 $$
-Alpha\_ModelE\{\varepsilon_{t+1}\}
+Alpha_{\mathrm{~-~}}Model\rightarrow E\left\{\varepsilon_{_{t+1}}\right\}
 $$
 
-换言之，我们在t时刻末通过阿尔法模型计算得到t+1期的阿尔法收益率预测值 $E\left\{\varepsilon_{t+1}\right\}$ ，而到了 t+1 时刻末，我们通过回归建模得到 t+1 期
+换言之，我们在t时刻末通过阿尔法模型计算得到t+1期的阿尔法收益率预测值 $E\left\{\varepsilon_{_{t+1}}\right\}$ ，而到了 t+1 时刻末，我们通过回归建模得到 t+1 期
 
-阿尔法收益率的实际值 $\boldsymbol{\varepsilon}_{\scriptscriptstyle t+1}$ ，我们通过预测阿尔法截面与实际阿尔法截面之间的相关系数计算，即可对阿尔法模型该期的预测效果得到定量的评估，我们称其为阿尔法模型预测系数（IC of Alpha Model），即
+阿尔法收益率的实际值 $\mathcal{E}_{t+1}$ ，我们通过预测阿尔法截面与实际阿尔法截面之间的相关系数计算，即可对阿尔法模型该期的预测效果得到定量的评估，我们称其为阿尔法模型预测系数（IC of Alpha Model），即
 
 $$
-IC_{\ AlphaModel}^{\ t}=corr(E\{\varepsilon_{\ t+1}\},\varepsilon_{\ t+1})
+IC_{_{AlphaModel}}^{^t}=\;Corr\left(E\left\{\varepsilon_{_{t+1}}\right\},\varepsilon_{_{t+1}}\right)
 $$
 
 那么，对于足够长的一段时间T ，我们可以计算得到每期阿尔法模型预测系数的时间序列，接下来通过一些简单的统计检验就可以判断，阿尔法模型的预测性是否显著，例如T 检验，即
 
 $$
-TStas_{_{AlphaModel}}=\overline{{IC}}_{_{AlphaModel}}\mathrm{~/~}(\sigma_{_{IC_{AlphaModel}}}\mathrm{~/~}\sqrt{T})
+TS_{data_{Alphadel}}=\overline{IC_{_{Alphadmodel}}}/(\sigma_{_{IC_{Alphadmodel}}}/\sqrt{T})
 $$
 
 显著性检验的结果即可视为对一个阿尔法模型的定量评价，那么对于若干不同的阿尔法模型就可以有严格的好坏区分。并且，从经验上而言，预测能力较强的阿尔法模型，其所对应的实际组合获取超额收益的概率也越高。当然，如果阿尔法模型预测能力的检验非显著，那么甚至都没有必要去尝试构造组合，因为最终即便实现的超额收益，若不是风格收益，那么也只是运气而已。
@@ -255,7 +255,7 @@ $$
 
 经验观察：短周期内成交量逐步提升，价格不断下降；或成交量逐步下降，价格不断提升。
 
-因子定义： $Alpha_{{}_{t}}^{i}=-1^{*}corr(\nu wap_{{}_{t-d:t}}^{i},\nu olume_{{}_{t-d:t}}^{i})$
+因子定义： $Alpha_{_{t}}^{^{i}}=-1^{*}corr(\nu wap_{_{t-d;t}}^{^{i}},\nu olume_{_{t-d;t}}^{^{i}})$
 
 图 1 价量背离
 ![](images/d8671b233e175f30cc3a4a295e167c085bd6f2c7841d6f940c4a82061916bbe9.webp)
@@ -277,7 +277,7 @@ $$
 
 经验观察：当日个股跳空高开或低开。
 
-因子定义： $Alpha_{{}_{t}}^{i}=Open_{{}_{-}}\ pric{e_{{}_{t}}^{i}}\ /\ Close_{{}_{-}}\ pric{e_{{}_{t-1}}^{i}}$
+因子定义： $Alpha_{_{t}}^{^{i}}=Open-price_{_{t}}^{^{i}}/Close-price_{_{t-1}}^{^{i}}$
 
 图 3 开盘缺口
 ![](images/6e6ce7b98bf3d18539361d05e095b59041ecf89d1695d49f198710cd1259e315.webp)
@@ -299,7 +299,7 @@ $$
 
 经验观察：当日成交量较短周期均值异常放大、减小。
 
-因子定义： $Alpha_{t}^{i}=-1^{*}Volume_{t}^{i}/mean(Volume_{t-d:t}^{i})$
+因子定义： $Alpha_{_{t}}^{^{i}}=-1\;^{*}Volume_{_{t}}^{^{i}}/mean(Volume_{_{t-d;t}}^{^{i}})$
 
 图 5 异常成交量
 ![](images/5420a836a3d638342df1323b1d06cc5c7df9239f7b0458aef1739ea453896df1.webp)
@@ -321,7 +321,7 @@ $$
 
 经验观察：短周期内成交量逐步提升，振幅不断下降；或成交量逐步下降，振幅不断提升。
 
-因子定义： $Alpha_{t}^{i}=-1^{*}corr(high_{t-d:t}^{i}\prime low_{t-d:t}^{i},\nu olume_{t-d:t}^{i})$
+因子定义： $Alpha_{t}^{i}=-1*corr(high_{t-d;t}^{i}/low_{t-d;t}^{i},volume_{t-d;t}^{i})$
 
 图 7 量幅背离
 ![](images/a7ac3f3e9bbf37083cf138dacdcb55fad43b840e4cc514a824f53d338bedc842.webp)
@@ -603,32 +603,32 @@ $$
 
 首先，我们对所有单因子进行有效性及预测周期检验，进而判断整个因子体系的可靠程度以及可预测的未来极限周期。其中，单因子显著性及有效周期检验的具体步骤如下：
 
-Step1:正交标准化，取目标因子残差截面 $\boldsymbol{\varepsilon}_{\mathrm{~}_{K}}^{\prime}$ ，即
+Step1:正交标准化，取目标因子残差截面 $\varepsilon_{\phantom{\dagger}K}^{\phantom{\dagger}t}$ ，即
 
 $$
-X\textsuperscript{\textit{ t }}=\beta_{_{industry}}X{\textit{ i n d u s t r y }}+\beta_{_{style}}X{\textit{ s t y l e }}+\varepsilon\textsuperscript{\textit{ t }}
+X_{_{_K}}^{^{t}}=\beta_{_{industry}}X_{_{industry}}+\beta_{_{style}}X_{_{style}}+\varepsilon_{_{_K}}^{^{t}}
 $$
 
-Step2:针对给定预测周期 $d$ ，通过回归方程计算单期因子收益率 $\boldsymbol{f}_{\boldsymbol{k}}$ ；
+Step2:针对给定预测周期 $d$ ，通过回归方程计算单期因子收益率 $f_{_k}$ ；
 
 $$
-R_{_{t+d}}~=~f_{_{industry}}X_{_{\textit{ i n d u s t r y }}}+~f_{_{style}}X_{_{\textit{ s t y l e }}}+~f_{_{k}}\varepsilon_{_K}~+~\varepsilon_{_{t+d}}
+R_{_{t+d}}=f_{_{industry}}X_{_{industry}}+f_{_{style}}X_{_{style}}+f_{_{k}}\varepsilon_{_{K}}+\varepsilon_{_{t+d}}
 $$
 
-Step3:计算因子收益率序列的年化收益 $E\left(\boldsymbol{f}_{k}\right)$ 及信息比率 $IR\left(\left.f_{_k}\right.\right)$ ；
+Step3:计算因子收益率序列的年化收益 $E\left(\mathbf{\nabla}f_{_{k}}\right)$ 及信息比率 $IR\:(\:f_{_{k}}\:)$ ；
 
 $$
-E(f_{_k})=252^{\ast}\stackrel{\longrightarrow\mathrm{~\iota~~~}}{(\int_{k}\mathrm{~/~}d\mathrm{~)~}}\quad IR(f_{_k})=\sqrt{252}\stackrel{}{\ast}\stackrel{\longrightarrow\mathrm{~\iota~~~}}{(\int_{k}\mathrm{~/~}d\mathrm{~)~/~}}\sigma(f_{_k})/d\mathrm{~)~}
+E\left(f_{k}\right)=252*\left(f_{k}/d\right)\quad IR\left(f_{k}\right)=\sqrt{252*\left(f_{k}/d\right)/\sigma\left(f_{k}/d\right)}
 $$
 
-Step4:对于不同的收益预测周期 $\textit{ d }^{\prime}$ ，重复第 2、3 步。
+Step4:对于不同的收益预测周期 $d^{\prime}$ ，重复第 2、3 步。
 
 $$
-R_{_{t+d}},\ =\ f_{_{industry}}X_{_{\textit{ i n d u s t r y }}}+\ f_{_{style}}X_{_{\textit{ s t y l e }}}+\ f_{_{k}}^{'}\varepsilon_{_K}+\varepsilon_{_{t+d}},
+R_{_{t+d^{\prime}}}=f_{_{industry}}X_{_{industry}}+f_{_{style}}X_{_{style}}+f_{_{k}}^{\prime}\varepsilon_{_{K}}+\varepsilon_{_{t+d^{\prime}}}
 $$
 
 $$
-E\left(f_{k}^{\prime}\right)=252^{*}\stackrel{\mathrm{~\tiny~"~}}{({f_{k}^{\prime}}/{\ d^{\prime}})}~IR\left(f_{k}^{\prime}\right)=\sqrt{252}^{*}\stackrel{\mathrm{~\tiny~"~}}{({f_{k}^{\prime}}/{\ d^{\prime}})}~/\ \sigma\left(f_{k}^{\prime}/{\ d^{\prime}}\right)
+E\left(f_{k}^{\prime}\right)=252^{\ast}\left(f_{k}^{\prime}/d^{\prime}\right)\quad IR\left(f_{k}^{\prime}\right)=\sqrt{252^{\ast}}\ \widetilde{\left(f_{k}^{\prime}/d^{\prime}\right)}/\sigma\left(f_{k}^{\prime}/d^{\prime}\right)
 $$
 
 我们统计了全部因子分别在预测周期为1天、2天、3 天、4天、5天的情况下，年化因子收益率及信息比率。
@@ -694,10 +694,10 @@ $$
 对于因子体系的相关性问题，由于短周期因子体系的因子数量较多，我们则不再对任意两两因子做正交处理，而选择在构建完毕所有因子后统一处理，即在我们得到所有因子收益率f 之后，我们分别计算任意两个因子k 和k• 的因子收益率相关系数，即
 
 $$
-IC_{\phantom{}_{k:k},\phantom{}}=corr(\textit{ f }_{k},\textit{ f }_{k}^{\prime})
+IC_{k:k}=\mathrm{corrr}(f_k,f_k')
 $$
 
-若 $IC_{\bf\Xi_{k};k}.$ 大于某一给定阈值 ，则剔除因子收益率 IR较低的因子，保留IR较高的因子。上一节中给出的因子体系，则是我们完成上述计算筛选后的结果。我们对所有因子收益率的相关系数分布情况及均值进行了计算，具体结果如下：
+若 $\boldsymbol{IC}_{\boldsymbol{\mathscr{k}}_{:},\boldsymbol{\mathscr{k}}}.$ 大于某一给定阈值 ，则剔除因子收益率 IR较低的因子，保留IR较高的因子。上一节中给出的因子体系，则是我们完成上述计算筛选后的结果。我们对所有因子收益率的相关系数分布情况及均值进行了计算，具体结果如下：
 
 图 20 因子收益率相关系数分布
 ![](images/11442a70215a9adf1363e50f7d83968a778025a5aa4b680228138a315082d0c6.webp)
@@ -713,28 +713,28 @@ $$
 
 我们首先利用一定的转化方式，将全部因子转化为对个股阿尔法收益截面的预测值，并进而统计预测值与事后计算可得的实际值进行相关系数计算及其显著性检验。我们考察当预测周期 t=1的情况下，模型预测系数 （IC of Alpha Model） 的计算结果，具体方法如下：
 
-Step1:对所有因子进行正交标准化处理，取目标因子残差截面 $\boldsymbol{\varepsilon}_{\mathrm{~}_{K}}^{\prime}$ ，即
+Step1:对所有因子进行正交标准化处理，取目标因子残差截面 $\varepsilon_{\phantom{\dagger}K}^{\phantom{\dagger}t}$ ，即
 
 $$
-X\textsuperscript{\textit{ t }}=\beta_{_{industry}}X{\textit{ i n d u s t r y }}+\beta_{_{style}}X{\textit{ s t y l e }}+\varepsilon\textsuperscript{\textit{ t }}
+X_{_{_K}}^{^{t}}=\beta_{_{industry}}X_{_{industry}}+\beta_{_{style}}X_{_{style}}+\varepsilon_{_{_K}}^{^{t}}
 $$
 
-Step2:针对给定预测周期 t=1，通过多次多元回归方程计算得到过去时间段T内过所有因子收益率向量簇 $\big\{\begin{array}{l}{{f_{_k}}^{t}\big\}_{_K}^{T}}\end{array}$ ，即
+Step2:针对给定预测周期 t=1，通过多次多元回归方程计算得到过去时间段T内过所有因子收益率向量簇 $\big\{\boldsymbol{f}_{k}^{\boldsymbol{t}}\big\}_{K}^{T}$ ，即
 
 $$
-R~=~f_{_{industry}}X_{_{industry}}+~f_{_{style}}X_{_{style}}+~f_{_{k1}}\varepsilon_{_{k1}}+~f_{_{k2}}\varepsilon_{_{k2}}+...+~f_{_{K}}\varepsilon_{_{K2}}+\varepsilon_{_{K}}\varepsilon_{_{K}}
+R=f_{_{industry}}X_{_{industry}}+f_{_{style}}X_{_{style}}+f_{_{k1}}\varepsilon_{_{k1}}+f_{_{k2}}\varepsilon_{_{k2}}+\ldots+f_{_{K}}\varepsilon_{_{K2}}+\varepsilon
 $$
 
 Step3:利用过去T时间段因子收益率均值作为下期预测值，乘以当期每个目标因子残差截面，得到阿尔法收益截面预测向量，即
 
 $$
-E(\varepsilon_{t+1})=\sum_{k=1}^{K}((\sum_{t=1}^{T}\ f_{_k}^{\ t}\ /\ T)^{\ast}\ \varepsilon_{_k}^{\ t})
+E\left(\varepsilon_{_{t+1}}\right)=\sum_{_{k=1}}^{^{k}}((\sum_{_{t=1}}^{^{T}}f_{_{k}}^{^{t}}/T)^{*}\varepsilon_{_{k}}^{^{t}})
 $$
 
 Step4:计算各期模型预测系数，进而计算模型系数T 检验结果，即
 
 $$
-\begin{array}{l}{{IC_{_{AlphaModel}}^{^{t}}=corr(E(\varepsilon_{_{t+1}}),\varepsilon_{_{t+1}})}}\\{{\ }}\\{{{}}}\\{{TStas_{_{AlphaModel}}=\overline{{{IC}}}_{_{AlphaModel}}/(\sigma_{_{_{IC_{AlphaModel}}}}/\sqrt{T})}}\end{array}
+\begin{aligned}&IC_{_{Alphadodel}}^{^T}=\;corr\left(E\left(\varepsilon_{_{t+1}}\right),\varepsilon_{_{t+1}}\right)\\&\\&TStas_{_{Alphadmodel}}=\;\overline{IC_{_{Alphadodel}}}\;/\;(\sigma_{_{IC_{_{Alphadmodel}}}}\;/\;\sqrt{T}\;)\\\end{aligned}
 $$
 
 按照上述步骤，我们对因子体系的预测显著性进行了统计计算，其中时间自 2010 年 1 月至 2017 年 4 月,预测周期为 T+1 日频率，股票截面则为全 A 非 St，我们分别统计了每日模型 IC 及 30 日 IC 均值，具体计算结果如下：
@@ -791,10 +791,10 @@ $$
 2. 优化目标层面的换手率平衡，是指在优化构建组合的过程中，以单次交易换手成本作为罚函数加入目标收益中，以实现考虑交易成本后的预期收益率最大化，具体的目标函数形式为：
 
 $$
-M~a~x~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{t}^{}~\mathbf{\chi}_{\chi}_{t}^{}~~\mathbf{\chi}_{\chi}_{t}^{}~~\chi_{\chi}_{\chi\chi}_{t}^{}~~\chi{\chi}_{\chi\chi}_\chi
+M\underset{}{\begin{array}{cccc|ccc}{{\scriptstyle M}}&{{a}}&{{x}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}{}}&{{}}&{{}}&{{}}&{{}{}}&{{}}&{{}}&{{}}&{{}}&{{}{}}&{{}}&{{}}&{{}}&{{}{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&&{{{}{}}&{{}}&{{}}&{{}}&{{}}&{{}}&&{{{}{}}}&&{{{}{}}&{{}}&{{}}&{{}}&&{{{}{}}}&&{{{}{}}&{{}}&}&{{{}}&{{}}&{{}}&&{{{}{}}}&&{{{}}}&&{{{}{}}&}&{{{}}&{{}}&}&{{{}}&{{}}&}&{{{}}&&{{{}{}}}&&{{{}}}&&{{{}{}}&}&{{{}}&}&&{{{}{}}&}&&{{{{}}}&}&{{{}}&&{{{}}\end{array}
 $$
 
-其中 $\boldsymbol{w}_{\mathbf{\lambda}_{t}}$ 为所需要求解的目标组合权重向量，Tc为设定的客观交易成本。
+其中 $w_{{t}}$ 为所需要求解的目标组合权重向量，Tc为设定的客观交易成本。
 
 这种目标函数的构建很大程度的降低了策略对交易成本的敏感程度，尤其是对短周期交易型阿尔法策略。一般情况下，如果只以最大化预期收益率为目标函数，很有可能出现任意单次换仓比率均接近100%的情况，虽然这样有利于阿尔法的收益空间，但是牺牲的交易成本也过大。因此，上述目标函数的构造实现了阿尔法与交易成本之间的平衡，是组合最优的拐点位置。
 
@@ -803,7 +803,7 @@ $$
 3. 风险约束层面的换手率平衡，是最为直观、简便的换手率控制方式，即在优化构建组合的过程中，在约束条件中严格控制单次换仓比例，即：
 
 $$
-s.t.\quad\sum\left|w_{_t}-w_{_{t-1}}\right|/\ 2\leq TurnO\nu er
+s.t.\quad\sum\left|w_{_{t}}-w_{_{t-1}}\right|/2\leq TurnO\nu er
 $$
 
 其中，TurnOver为设定的单次换手率上限。
@@ -818,37 +818,37 @@ $$
 
 ## 3.6.1. 策略设计
 
-在整个策略的设计过程中，我们保持着2个原则：首先，尽可能的提高策略收益率。由于Alpha正比于 $IC_{_{AlphaModel}}\cdot\sqrt{N_{\mathrm{~}}}\cdot\sigma_{_{T\arg et}}\cdot dis\left(mkt\right)$ ，因此在因子体系贡献了较高较稳定的 $IC_{\phantom{}_{AlphaModel}}$ 的基础上，我们尽可能的提高尝试次数 $\sqrt{\boldsymbol{{N}}}$ 。而在主动风控端 $\sigma_{\textrm{ \it T a r g e t }}$ ，我们并未强行设定目标跟踪误差，因此模型在设计上，整体收益的空间较大。
+在整个策略的设计过程中，我们保持着2个原则：首先，尽可能的提高策略收益率。由于Alpha正比于 $IC_{_{AlphaModel}}\cdot\sqrt{N}\cdot\sigma_{_{T\arg et}}\cdot dis\left(mkt\right)$ ，因此在因子体系贡献了较高较稳定的 $IC_{{AlphaModel}}$ 的基础上，我们尽可能的提高尝试次数 $\sqrt{N}.$ 。而在主动风控端 $\sigma_{{Targ}et}$ ，我们并未强行设定目标跟踪误差，因此模型在设计上，整体收益的空间较大。
 
 其次，收益端与风险端的分离。我们以交易型阿尔法为超额收益的来源设计组合优化的目标函数，而在风控约束端，保持组合在所有大类风格因子层面的中性处理。这种收益与风险完全分离的做法，使得模型在获得较高较稳定收益的同时，尽可能的降低了回撤风险。
 
 策略具体构建步骤如下所示：
 
-Step1:对所有因子进行正交标准化处理，取目标因子残差截面 $\boldsymbol{\varepsilon}_{\mathrm{~}_{K}}^{\prime}$ ，即
+Step1:对所有因子进行正交标准化处理，取目标因子残差截面 $\varepsilon_{\phantom{\dagger}K}^{\phantom{\dagger}t}$ ，即
 
 $$
-X\textsuperscript{\textit{ t }}=\beta_{_{industry}}X{\textit{ i n d u s t r y }}+\beta_{_{style}}X{\textit{ s t y l e }}+\varepsilon\textsuperscript{\textit{ t }}
+X_{_{_K}}^{^{t}}=\beta_{_{industry}}X_{_{industry}}+\beta_{_{style}}X_{_{style}}+\varepsilon_{_{_K}}^{^{t}}
 $$
 
-Step2:针对给定预测周期 t=2，通过多次多元回归方程计算得到过去时间段T内过所有因子收益率向量簇 $\{\boldsymbol{f}_{k}^{\textit{ t }}\}_{K}^{T}$ ，即
+Step2:针对给定预测周期 t=2，通过多次多元回归方程计算得到过去时间段T内过所有因子收益率向量簇 $\big\{\boldsymbol{f}_{k}^{\boldsymbol{t}}\big\}_{K}^{T}$ ，即
 
 $$
-R~=~f_{_{industry}}X_{_{industry}}+~f_{_{style}}X_{_{style}}+~f_{_{k1}}\varepsilon_{_{k1}}+~f_{_{k2}}\varepsilon_{_{k2}}+...+~f_{_{K}}\varepsilon_{_{K2}}+\varepsilon_{_{K}}~,
+R=f_{_{industry}}X_{_{industry}}+f_{_{style}}X_{_{style}}+f_{_{k1}}\varepsilon_{_{k1}}+f_{_{k2}}\varepsilon_{_{k2}}+\ldots+f_{_{K}}\varepsilon_{_{K2}}+\varepsilon_{_{K3}},
 $$
 
 Step3:利用过去T=250日因子收益率均值作为下期预测值，乘以当期每个目标因子残差截面，得到阿尔法收益截面预测向量，即
 
 $$
-E(\varepsilon_{t+1})=\sum_{k=1}^{K}((\sum_{t=1}^{T}\ f_{_k}^{\ t}\ /\ T)^{\ast}\ \varepsilon_{_k}^{\ t})
+E\left(\varepsilon_{_{t+1}}\right)=\sum_{_{k=1}}^{^{k}}((\sum_{_{t=1}}^{^{T}}f_{_{k}}^{^{t}}/T)^{*}\varepsilon_{_{k}}^{^{t}})
 $$
 
-Step4：以经交易成本调整后预测阿尔法收益截面为目标函数，以大类行业、风格中性控制为约束条件，求解组合权重向量 $\boldsymbol{w}_{\mathbf{\lambda}_{t}}$ ，即
+Step4：以经交易成本调整后预测阿尔法收益截面为目标函数，以大类行业、风格中性控制为约束条件，求解组合权重向量 $w_{{t}}$ ，即
 
 $$
-\begin{array}{rl}{\textit{ M a x }}&{w_{t}^{\prime}\cdot E\left(\varepsilon\right)-Tc\cdot\sum\left|w_{t}-w_{t-1}\right|/2}\\{\textit{ s . t . }}&{\left(w^{\prime}-w_{bench\_mark}^{\prime}\right)X_{\_sple}=0}\\&{w_{t}^{\prime}\cdot X_{\_industry}=w_{bench\_mark\_indstry}^{\prime}}\\{\textit{ w }\ge0}\\&{\sum w=1}\end{array}
+\begin{aligned}&Max\quad w_{_t}^{\prime}\cdot E\left(\varepsilon\right)-Tc\cdot\sum\left|w_{_t}-w_{_{t-1}}\right|/2\\&s.t.\quad\left(w^{\prime}\cdot w_{_{bench_{-}mark}}^{\prime}\right)X_{_{style}}=0\\&\quad w_{_t}^{\prime}\cdot X_{_{industry}}=w_{_{bench_{-}mark_{-}indstry}}^{\prime}\\&\quad w\geq0\\&\quad\sum w_{_{industry}}=1\\\end{aligned}
 $$
 
-其中， $W_{\textit{ b e n c h \_ m a r k }}$ 和 $\textit{ W }_{bench\_mark\_indstry}$ 均为比较基准的个股权重和行业权重向量。
+其中， $\mathcal{W}_{\textit{ b e n c h }_{\textrm{ - }}m\:a\:rk}$ 和 $\mathcal{W}_{\textit{ b e n c h \_ m a r k \_ i n d s t r y }}$ 均为比较基准的个股权重和行业权重向量。
 
 ## 3.6.2. 实证分析
 
@@ -860,7 +860,7 @@ $$
 
 3） 股票池选取全 A 非 ST 股票；
 
-4）交易成本为单边0.1%，印花税0.1%，即 $\tau{c}{=}0.3\%$
+4）交易成本为单边0.1%，印花税0.1%，即 $T_{C}=0.3\%$
 
 5）行业中性约束中，因子敞口设定为•5% （相对比例）；
 
@@ -915,7 +915,7 @@ $$
 
 本节，我们将考察策略对交易成本的敏感性问题，以检验策略可承受的交易成本（包括冲击成本）的理论极限空间。
 
-在组合换手率与超额收益一节中，我们提出加入单次换仓成本罚函数作为目标函数的做法，即 $\begin{array}{rl}{\textit{ M a x }}&{{}w_{t}^{\prime}\cdot E\left(\varepsilon\right)-Tc\cdot\displaystyle\sum\left|w_{t}-w_{t-1}\right|/2}\end{array}$ ，其中 Tc即为设定的客观交易成本。
+在组合换手率与超额收益一节中，我们提出加入单次换仓成本罚函数作为目标函数的做法，即 $Max\quad w_{_{t}}^{\prime}\cdot E\left(\varepsilon\right)-Tc\cdot\sum\left|w_{_{t}}-w_{_{t-1}}\right|/2$ ，其中 Tc即为设定的客观交易成本。
 
 从目标函数的构造来看，为了实现经交易成本调整后的超额收益最大化，策略随着 Tc 的不断提升，组合各期单次换仓比率将逐步降低，而阿尔法也将有所降低。接下来，我们将对 Tc 进行敏感性分析，设定 Tc自 0.3%不断提升至 1%，观测策略整体的收益、风险及换手率等相关情况，具体统计结果如下图所示:
 
@@ -986,28 +986,28 @@ $$
 
 | 大类 因子 | 小类 因子 | 因子计算方式 |
 | --- | --- | --- |
-| Beta | BETA | $\boldsymbol{r}_{i}=\boldsymbol{\alpha}+\boldsymbol{\beta}\boldsymbol{r}_{{}_{m}}+\boldsymbol{e}_{{}_{i}}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
-| Momentum | RSTR | $RSTR=\sum_{t=L}^{T+L}w_{_t}[\ln(1+r_{_t})]$ ；其中T=500，L=21，收益率序列以半衰指数加权，半衰期为120日。 |
-| Size | LNCAP | ${\cal L}NCAP={\cal L}N\left(total_{-}market_{-}capitalization\right)$ ；个股总市值对数值。 |
-| Earnings Yield | EPIBS | $EPIBS=est\_eps/\ P$ ；其中 $est\_eps$ 为个股一致预期基本每股收益。 |
-|  | ETOP | $ETOP\ =earnings\_ttm\ /\ mkt\_freeshares$ ；历史EP值，利用过去12个月个股净利润除以当 |
-|  | CETOP | 前市值。 $CETOP=Cash\_earnings\ /\ P$ ；个股现金收益比股票价格。 |
-| Volatility | $DASTD\ =\ \big(\sum_{t=1}^{T}\ w_{_t}\cdot\big(r_{t}-\mu(r)\big)^{2}\big)^{1/2}$ DASTD | ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
-|  | CMRA | $CMRA=ln(1+\operatorname*{max}\left\{Z(T)\right\})-ln(1+\operatorname*{min}\left\{Z(T)\right\})$ … |
-|  | 其中 | $Z\left(T\right)={\sum}^{T}{[ln\left(1+r_{\tau}\right)]}$ ；r表示个股月收益率，T代表过去12个月。 |
-|  | HSIGMA | $HSIGMA=std(e_{_i})$ ；其中残差 为 BETA 计算中所得。 $\boldsymbol{e}_{\scriptscriptstyle i}$ |
+| Beta | BETA | $r_{_i}=\alpha+\beta r_{_m}+e_{_i}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
+| Momentum | RSTR | $RSTR=\sum_{t=L}^{T+L}w_{_{t}}[\ln{(1+r_{_{t}})}]$ ；其中T=500，L=21，收益率序列以半衰指数加权，半衰期为120日。 |
+| Size | LNCAP | $LNCAP=LN(total\_market\_capitalization)$ ；个股总市值对数值。 |
+| Earnings Yield | EPIBS | $EPIBS\;=\;est_{\mathrm{~-~}}eps/P$ ；其中 $est_{\mathrm{~-~}}eps$ 为个股一致预期基本每股收益。 |
+|  | ETOP | $ETOP=earnings{\tiny{-}}ttm{\tiny{/}}mkt{\tiny{-}}freeshares$ ；历史EP值，利用过去12个月个股净利润除以当 |
+|  | CETOP | 前市值。 $CETOP=Cash_{-}earnings/P$ ；个股现金收益比股票价格。 |
+| Volatility | $DASTD=\left(\sum_{t=1}^{T}w_{_t}\cdot\left(r_{_t}-\mu\left(r\right)\right)^{2}\right)^{1/2}$ DASTD | ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
+|  | CMRA | $CMRA=ln(1+\mathrm{~m~a~x~}\{Z(T)\})-ln(1+\mathrm{~m~in}\{Z(T)\})$ … |
+|  | 其中 | $Z\left(T\right)=\sum_{\tau=1}^{\tau}\left[ln\left(1+r_{_{\tau}}\right)\right]$ ；r表示个股月收益率，T代表过去12个月。 |
+|  | HSIGMA | $HSIGMA=std(e_{_i})$ ；其中残差 为 BETA 计算中所得。 $e_{\textit{ i }}$ |
 |  | SGRO | 过去5年企业营业总收入复合增长率。 |
 | Growth |  | 过去5年企业归属母公司净利润复合增长率。 |
 |  | EGRO EGIB | 未来3年企业一致预期净利润增长率。 |
 |  | EGIB_S | 未来1年企业一致预期净利润增长率。 |
-| Value | BTOP | $BTOP\ =common\_equity\enspace/\ current\_market\_capitalization\enspace;$ 计算企业总权益值除以当前市值。 |
+| Value | BTOP | $BTOP=common\_equity/current\_market\_capitalization;$ 计算企业总权益值除以当前市值。 |
 |  | MLEV | $MLEV=(ME+LD)/ME$ ；其中ME表示企业当前总市值，LD表示企业长期负债。 |
 | Leverage |  |  |
-|  | DTOA | $DTOA=TD\mathrm{~/~}TA$ ；其中TD表示总负债TA表示总资产。 |
+|  | DTOA | $DTOA=TD/TA$ ；其中TD表示总负债TA表示总资产。 |
 |  | BLEV | $BLEV=(BE+LD)/BE$ ；其中BE表示企业账面权益，LD表示企业长期负债。 |
-| Liquidity | STOM | $STOM=\ln(\sum_{t=1}^{21}(V_{t}~/~S_{t})$ ；其中V，表示当日成交量，S，表示流通股本。 |
-|  | STOQ | $STOQ\ =\ \ln({\frac{1}{T}}{\sum}^{T}\ \mathbf{exp}(STOM_{\ \tau}\ ))$ ；其中 T=3。 |
-|  | STOA | $STOA=\ln({\frac{1}{T}}{\sum}^{T}\exp(STOM_{\ \tau}))$ ；其中T=12。 |
+| Liquidity | STOM | $STOM=\ln\left(\sum_{t=1}^{21}\left(V_t/S_t\right)\right)$ ；其中V，表示当日成交量，S，表示流通股本。 |
+|  | STOQ | $STO\ Q=\ln\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp\left(STO\ M_{\tau}\right)\right)$ ；其中 T=3。 |
+|  | STOA | $STOA=\ln\left(\frac{1}{T}\sum_{_{_{_{_{_{_{_{_{_{_{}}}}}}}}}}}^{_{_{_{_{_{_{_{_{_{_{_{_{_{}}}}}}}}}}}}}}\mathrm{exp}\left(STOM_{_{_{_{_{_{_{_{_{_{_{_{_{_}{_{_{_}{}}}}}}}}}}}}}}}\right)\right)$ ；其中T=12。 |
 
 数据来源：国泰君安证券研究
 
@@ -1039,14 +1039,14 @@ $$
 | MIN(A, B) | 在 A, B 中选择最小的数 |
 | STD (A, n) | 序列 A 过去 n 天标准差 |
 | CORR(A, B, n) | 序列 A、B 过去 n 天相关系数 |
-| $DELTA\left(A,\ n\right)$ | Ai − Ai-n |
+| $DELTA(A,\pi)$ | Ai − Ai-n |
 | LOG(A) | 自然对数函数 |
 | SUM(A, n) | 序列 A 过去 n 天求和 |
 | ABS (A) | 绝对值函数 |
 | MEAN(A, n) | 序列 A 过去 n 天均值 |
 | TSRANK (A, n) | 序列 A 的末位值在过去 n 天的顺序排位 |
 | SIGN(A) COVIANCE (A, B, n) |  |
-|  | $\left\{\begin{array}{ll}{{1}}&{{if\quad A>0}}\\{{}}&{{}}\\{{0}}&{{if\quad A=0}}\\{{}}&{{}}\\{{-1\quad if\quad A<0}}\end{array}\right.$ 符号函数 |
+|  | $\left\{\begin{array}{lll}{{1}}&{{\quad if\quad}}&{{A\quad>\quad0}}\\{{}}&{{}}&{{}}\\{{0}}&{{\quad if\quad}}&{{A\quad=\quad0}}\\{{}}&{{}}&{{}}\\{{-\quad1}}&{{\quad if\quad}}&{{A\quad<\quad0}}\end{array}\right.$ 符号函数 |
 | DELAY(A, n) | 序列 A、B 过去 n 天协方差 |
 | TSMIN(A, n) | Ai-n |
 |  | 序列 A 过去 n 天的最小值 |
@@ -1055,12 +1055,12 @@ $$
 | COUNT(condition, n) | 计算前 n 期满足条件 condition 的样本个数 |
 | REGBETA (A, B, n) | 前 n 期样本 A 对 B 做回归所得回归系数 |
 | REGRESI (A, B, n) | 前 n 期样本 A 对 B 做回归所得的残差 |
-| SMA (A, n, m) | $\hat{Y_{_{i+1}}}~=~(\mathrm{~A~}_{i}m~+~\hat{Y_{_{i}}}(n~-~m))~/~n$ ，其中γ表示最终结果 |
+| SMA (A, n, m) | $\hat{Y_{_{i+1}}}\;=\;(\;A_{_{i}}m\;+\;\hat{Y_{_{i}}}\left(n\;-\;m\;\right))\;/\;n$ ，其中γ表示最终结果 |
 | SUMIF(A, n, condition) | 对 A 前 n 项条件求和，其中 condition 表示选择条件 |
 | WMA (A, n) | 计算A 前 n期样本加权平均值权重为 0.9i，(i表示样本距离当前时点的间隔) |
 | DECAYLINEAR (A, d) | 对 A 序列计算移动平均加权，其中权重对应d,d-1，…， 1（权重和为1） |
 | FILTER(A, condition) | 对 A 筛选出符合选择条件 condition 的样本 |
-| $HIGHDAY(A,n)$ | 计算 A前n期时间序列中最大值距离当前时点的间隔 |
+| $H/GHDAY(A,n)$ | 计算 A前n期时间序列中最大值距离当前时点的间隔 |
 | LOWDAY(A, n) | 计算A 前n期时间序列中最大值距离当前时点的间隔 |
 | SEQUENCE (n) | 生成 1~n 的等差序列 |
 | $SUMAC(A,n)$ | 计算 A 的前 n 项的累加 |

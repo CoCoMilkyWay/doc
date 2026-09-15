@@ -85,7 +85,7 @@ PS模型以相对PS比率作为评价单一股票估值高低的标准。所谓�
 以下是2010年9月31日的横截面回归后所得的公式：
 
 $$
-\mathsf{ln}\left(\mathsf{PS}\right)=0.9868+0.9289^{\star}\mathsf{ln}(1+\mathsf{GSale})-0.2075^{\star}(\mathsf{MC})
+\mathsf{In}\ (PS)=0.9868+0.9289^{\star}\mathsf{In}(1+\mathsf{G}\mathsf{Sale})-0.2075^{\star}(\mathsf{MC})
 $$
 
 其中：ln代表对数
@@ -111,7 +111,7 @@ MC代表单一股票标准化后的总市值，最大不超过3。
 以下是2010年9月31日的横截面回归后所得的公式：
 
 $$
-\mathsf{L}\mathsf{n}\left(\mathsf{PE}\right)=3.5550+0.5390^{\star}|\mathsf{n}\left(\mathsf{\Omega}1+\mathsf{Gearning}\right)-0.7745^{\star}\left(\mathsf{MC}\right)
+\mathsf{Ln}\;\left(\mathsf{PE}\right)=3.5550+0.5390^{\star}\mathsf{In}\;\left(\mathsf{T}{+}\mathsf{Gearming}\right)\;{-}\;0.7745^{\star}\;\left(\mathsf{MC}\right)
 $$
 
 ## 其中：ln代表对数

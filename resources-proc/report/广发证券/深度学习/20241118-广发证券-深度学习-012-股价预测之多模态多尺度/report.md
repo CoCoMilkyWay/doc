@@ -531,7 +531,7 @@ Transformer是近年来受到广泛研究和应用的一种时序模型，其通
 综上，假设输入大小为（H，W），卷积核的大小为（FH，FW），输出大小为（OH，OW），填充为P，步幅为S，通过下式可计算得到输出大小：
 
 $$
-0\mathrm{H}=\frac{\mathrm{H}+2\mathrm{P}-\mathrm{FH}}{\mathrm{S}}+1,0\mathrm{W}=\frac{\mathrm{W}+2\mathrm{P}-\mathrm{FW}}{\mathrm{S}}+1\mathrm{.}
+\mathrm{OH}=\frac{\mathrm{H}+2\mathrm{P}-\mathrm{FH}}{\mathrm{S}}+1,\mathrm{OH}=\frac{\mathrm{W}+2\mathrm{P}-\mathrm{FW}}{\mathrm{S}}+1\text{ 。 }
 $$
 
 ## 2. 池化层

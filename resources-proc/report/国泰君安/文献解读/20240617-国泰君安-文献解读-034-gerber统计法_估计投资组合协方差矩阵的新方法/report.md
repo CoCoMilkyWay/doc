@@ -67,10 +67,10 @@ Gerber, S., Markowitz, H. M., Ernst, P. A., Miao, Y., Javid, B., & Sargen, P. (2
 
 ## 3.1 基本公式
 
-我们考虑 $k=1,\dots,K$ 种证券， ${\mathrm{t}}=1,\ldots,{\mathrm{T}}$ 个时间段。让 $r_{tk}$ 成为证券 k在 t 时间段的收益率。令统计量 $m_{ij}(t)$ 的公式为：
+我们考虑 $k=1,\ldots,K$ 种证券， $\mathbf{t}=1,\ldots,\mathrm{T}$ 个时间段。让 $r_{tk}$ 成为证券 k在 t 时间段的收益率。令统计量 $m_{ij}(t)$ 的公式为：
 
 $$
-\begin{array}{r}{m_{ij}(t)=\left\{\begin{array}{ll}{+1\mathrm{~if~}r_{ti}\geq+H_{i}\mathrm{~and~}r_{tj}\geq+H_{j},}\\{+1\mathrm{~if~}r_{ti}\leq-H_{i}\mathrm{~and~}r_{tj}\leq-H_{j},}\\{-1\mathrm{~if~}r_{ti}\geq+H_{i}\mathrm{~and~}r_{tj}\leq-H_{j},}\\{-1\mathrm{~if~}r_{ti}\leq-H_{i}\mathrm{~and~}r_{tj}\geq+H_{j},}\\{\quad\mathrm{~0~otherwise}.}\end{array}\right.}\end{array}\tag{1}
+m_{ij}(t)=\left\{\begin{aligned}{+1}&{{}{~if~}r_{ti}\geq+H_{i}{~and~}r_{tj}\geq+H_{j},}\\{+1}&{{}{~if~}r_{ti}\leq-H_{i}{~and~}r_{tj}\leq-H_{j},}\\{-1}&{{}{~if~}r_{ti}\geq+H_{i}{~and~}r_{tj}\leq-H_{j},}\\{-1}&{{}{~if~}r_{ti}\leq-H_{i}{~and~}r_{tj}\geq+H_{j},}\\{0}&{{}{~otherwise.}}\\\end{aligned}\right.\tag{1}
 $$
 
 在上述公式中， $H_{k}$ 是证券k 的阈值，计算公式为：
@@ -99,7 +99,7 @@ $$
 g_{ij}=\frac{\sum_{t=1}^{T}m_{ij}(t)}{\sum_{t=1}^{T}\bigl|m_{ij}(t)\bigr|}\tag{3}
 $$
 
-设 $\mathrm{n_{ij}^{c}}$ 为资产 i 和 j 的“一致”资产对的对数，nijd 为“不一致”资产对的对数，则公式 (3)等价于:
+设 $\mathbf{n}_{\mathrm{ij}}^{\mathrm{c}}$ 为资产 i 和 j 的“一致”资产对的对数，nijd 为“不一致”资产对的对数，则公式 (3)等价于:
 
 $$
 g_{ij}=\frac{n_{ij}^{c}-n_{ij}^{d}}{n_{ij}^{c}+n_{ij}^{d}}\tag{4}
@@ -111,56 +111,56 @@ $$
 
 ## 3.2 Gerber 矩阵
 
-现在我们来讨论 Gerber 矩阵G，即第i 行，第j 列中是 Gerber 统计量 $g_{ij}$ 的矩阵。让我们定义 $\pmb{R}\in\mathbb{R}^{\mathrm{T}\times\mathrm{K}}$ 为收益率矩阵，其第 t 行和第 k 列的条目为 $r_{tk}$ 。此外，让U成为一个指标矩阵，其大小与 R相同，用于表示超过上限阈值的回报，其元素为 $u_{tj}$ ，即：
+现在我们来讨论 Gerber 矩阵G，即第i 行，第j 列中是 Gerber 统计量 $g_{ij}$ 的矩阵。让我们定义 $\pmb{R}\in\mathbb{R}^{\mathrm{T}\times\mathbb{K}}$ 为收益率矩阵，其第 t 行和第 k 列的条目为 $r_{tk}$ 。此外，让U成为一个指标矩阵，其大小与 R相同，用于表示超过上限阈值的回报，其元素为 $u_{tj}$ ，即：
 
 $$
-u_{tj}={\left\{\begin{array}{ll}{1}&{{\mathrm{if~}}r_{tj}\geq+H_{j},}\\{0}&{{\mathrm{otherwise.}}}\end{array}\right.}
+u_{tj}=\left\{\begin{aligned}&1&&ifr_{tj}\geq+H_{j},\\&0&&otherwise.\end{aligned}\right.
 $$
 
 根据这一定义，超过上限阈值的样本数的矩阵为：
 
 $$
-\pmb{N}^{\mathrm{UU}}=\pmb{U}^{\top}\pmb{U}.\tag{5}
+N^{\mathrm{UU}}=\pmb{U}^{\top}\pmb{U}.\tag{5}
 $$
 
-$N^{\mathrm{UU}}$ 的第 $ij$ 个元素 $\mathrm{n_{ij}^{UU}}$ 是时间序列 i 超过上阈值和时间序列j 同时超过上阈值的样本数。
+$N^{\mathrm{{UU}}}$ 的第 $ij$ 个元素 $\mathbf{n}_{\mathbf{ij}}^{\mathrm{{UU}}}$ 是时间序列 i 超过上阈值和时间序列j 同时超过上阈值的样本数。
 
 设D是一个指标矩阵，其大小与R相同，用于表示低于下临界值的收益，其元素 $d_{tj}$ 为
 
 $$
-d_{tj}={\left\{\begin{array}{ll}{1}&{{\mathrm{if~}}r_{tj}\leq-H_{j},}\\{0}&{{\mathrm{otherwise.}}}\end{array}\right.}
+d_{tj}=\left\{\begin{array}{ll}{1}&{\mathrm{if}\;r_{tj}\leq-H_{j},}\\{0}&{\mathrm{otherwise}.}\end{array}\right.
 $$
 
 低于下限的样本数矩阵可写成：
 
 $$
-\pmb{N}^{\mathrm{DD}}=\pmb{D}^{\top}\pmb{D}.\tag{6}
+N^{\mathrm{DD}}={\pmb D}^{\top}{\pmb D}.\tag{6}
 $$
 
-$N^{\mathrm{DD}}$ 的第ij 个元素 $\mathrm{n_{ij}^{DD}}$ 是时间序列i 低于低阈值和时间序列j 同时低于低请务必阅读正文之后的免责条款部分 5of19阈值的样本数。
+$N^{\mathrm{DD}}$ 的第ij 个元素 $\mathbf{n}_{\mathbf{ij}}^{\mathrm{DD}}$ 是时间序列i 低于低阈值和时间序列j 同时低于低请务必阅读正文之后的免责条款部分 5of19阈值的样本数。
 
 有了(5) 和(6)，包含一致数对的矩阵为：
 
 $$
-N_{\mathrm{CONC}}=N^{\mathrm{UU}}+N^{\mathrm{DD}}=U^{\top}U+D^{\top}D\tag{7}
+\pmb{N}_{\mathsf{CONC}}=\pmb{N}^{\mathsf{UU}}+\pmb{N}^{\mathsf{DD}}=\pmb{U}^{\top}\pmb{U}+\pmb{D}^{\top}\pmb{D}\tag{7}
 $$
 
 包含不一致数对的矩阵为：
 
 $$
-{\pmb{N}}_{\mathrm{DISC}}={\pmb{U}}^{\top}{\pmb{D}}+{\pmb{D}}^{\top}{\pmb{U}}\tag{8}
+\pmb{N}_{\mathrm{DISC}}=\pmb{U}^{\top}\pmb{D}+\pmb{D}^{\top}\pmb{U}\tag{8}
 $$
 
 现在，我们可以用下面的矩阵形式写出与 (4) 中的 Gerber 统计量相对应的Gerber matrix G：
 
 $$
-{\pmb G}=({\pmb N}_{\mathrm{CONC}}-{\pmb N}_{\mathrm{DISC}})\oslash({\pmb N}_{\mathrm{CONC}}+{\pmb N}_{\mathrm{DISC}})
+\pmb{G}=(\pmb{N}_{\mathrm{CONC}}-\pmb{N}_{\mathrm{DISC}})\oslash(\pmb{N}_{\mathrm{CONC}}+\pmb{N}_{\mathrm{DISC}})
 $$
 
-其中符号 $\oslash$ 代表 Hadamard 除法。相应的 Gerber 协方差矩阵 $\pmb{\Sigma}_{\mathbf GS}$ 相应定义为：
+其中符号 $\oslash$ 代表 Hadamard 除法。相应的 Gerber 协方差矩阵 $\mathbf{\Sigma_{GS}}$ 相应定义为：
 
 $$
-\Sigma_{{\mathrm GS}}=\mathrm{diag}(\pmb{\sigma}){\cal G}\mathrm{diag}(\pmb{\sigma})\tag{9}
+\mathbf{\Sigma}_{\mathrm{GS}}=\mathrm{diag}(\pmb{\sigma})G\mathrm{diag}(\pmb{\sigma})\tag{9}
 $$
 
 其中，σ是历史资产收益率样本标准差的N ×1向量。
@@ -172,13 +172,13 @@ $$
 Table 1: A graphical relationship between two securities.
 
 $$
-\begin{array}{lll}{UD}&{UN}&{UU}\\{ND}&{NN}&{NU}\\{DD}&{DN}&{DU}\end{array}
+\begin{array}{ccc}UD&UN&UV\\ND&NN&NU\\DD&DN&DU\\\end{array}
 $$
 
-在 $t=1,\dots,T$ 的历史中，会有观察结果分散在 9 个区域中。设 $n_{ij}^{pq}$ 为证券 i 和j 的收益率分别位于 p 和 q 区域的观测值的数量，条件为 $p,q\in$ $\{U,N,D\}$ 。有了这个符号，我们就可以写出与（4）中的统计量等价的表达式，即：
+在 $t=1,\ldots,T$ 的历史中，会有观察结果分散在 9 个区域中。设 $n_{ij}^{pq}$ 为证券 i 和j 的收益率分别位于 p 和 q 区域的观测值的数量，条件为 $p,q\in$ $\{U,N,D\}$ 。有了这个符号，我们就可以写出与（4）中的统计量等价的表达式，即：
 
 $$
-\mathrm{\Delta g_{ij}=\frac{n_{ij}^{UU}+n_{ij}^{DD}-n_{ij}^{UD}-n_{ij}^{DU}}{n_{ij}^{UU}+n_{ij}^{DD}+n_{ij}^{UD}+n_{ij}^{DU}}}\tag{10}
+\mathrm{g_{ij}=\frac{n_{ij}^{UU}+n_{ij}^{DD}-n_{ij}^{UD}-n_{ij}^{DU}}{n_{ij}^{UU}+n_{ij}^{DD}+n_{ij}^{UD}+n_{ij}^{DU}}}\tag{10}
 $$
 
 如前所述，我们必须改变(4)中的分母，以获得Gerber 矩阵，从而得到半正请务必阅读正文之后的免责条款部分 6of19
@@ -186,17 +186,17 @@ $$
 定的相应协方差矩阵。根据下文第 3.3 节对Gerber 统计量的说明，我们的另一种选择是：
 
 $$
-\mathrm{\bf g_{\mathrm{ij}}=\frac{n_{\mathrm{ij}}^{UU}+n_{\mathrm{ij}}^{DD}-n_{\mathrm{ij}}^{UD}-n_{\mathrm{ij}}^{DU}}{T-n_{\mathrm{ij}}^{NN}}}\tag{11}
+\mathrm{g_{ij}=\frac{n_{ij}^{UU}+n_{ij}^{DD}-n_{ij}^{UD}-n_{ij}^{DU}}{T-n_{ij}^{NN}}}\tag{11}
 $$
 
 （本文 2019 年版（Gerber et al. (2019)）中记载的另一种选择是：
 
 $$
-\mathrm{g_{ij}=\frac{n_{ij}^{UU}+n_{ij}^{DD}-n_{ij}^{UD}-n_{ij}^{DU}}{\sqrt{n_{ij}^{(A)}n_{ij}^{(B)}}},\frac{j!}{\mathcal{F}}\Psi\ u_{ij}^{(A)}=n_{ij}^{UU}+n_{ij}^{UN}+n_{ij}^{UD}+n_{ij}^{DU}+n_{ij}^{DU}+n_{ij}^{DN}+n_{ij}^{DD},}
+$\mathrm{g_{ij}=\frac{n_{ij}^{U0}+n_{ij}^{D0}-n_{ij}^{U0}-n_{ij}^{D0}}{\sqrt{n_{ij}^{(A)}n_{ij}^{(B)}}}}$,其中$\mathrm{n_{ij}^{(A)}=n_{ij}^{UU}+n_{ij}^{UN}+n_{ij}^{UD}+n_{ij}^{DU}+n_{ij}^{DN}+n_{ij}^{DD}},$
 $$
 
 $$
-\mathrm{n_{ij}^{(B)}=n_{ij}^{UU}+n_{ij}^{NU}+n_{ij}^{UD}+n_{ij}^{DU}+n_{ij}^{ND}+n_{ij}^{DD}+n_{ij}^{DD}\ }
+\mathrm{n_{ij}^{(B)}=n_{ij}^{UU}+n_{ij}^{NU}+n_{ij}^{UD}+n_{ij}^{DU}+n_{ij}^{ND}+n_{ij}^{DD}\;)}
 $$
 
 在第 4 节进行的实证研究中，对于所考虑的Gerber阈值 c 的所有情况，我们总是观察到与(11) 中Gerber 统计量相对应的协方差矩阵是半正定的。
@@ -205,13 +205,13 @@ $$
 
 （1） 与 Pearson 相关系数和 Kendall’s Tau 相关系数一样，Gerber 统计量g 的值必须位于区间 [-1, 1]。
 
-（2） 根据定义，(11) 中的分母为非负。如果 $n_{ij}^{UU}$ 和 $\mathrm{n_{ij}^{DD}}$ 之和超过 $\mathrm{n_{ij}^{UD}}$ 和 $\mathrm{n_{ij}^{DU}}$ 之和，则分子为正；如果这两个和相等，则分子为零；否则分子为负。
+（2） 根据定义，(11) 中的分母为非负。如果 $n_{ij}^{UU}$ 和 $\mathbf{n}_{\mathbf{ij}}^{\mathrm{DD}}$ 之和超过 $\mathbf{n}_{\mathbf{ij}}^{\mathrm{UD}}$ 和 $\mathbf{n}_{\mathbf{ij}}^{\mathrm{DU}}$ 之和，则分子为正；如果这两个和相等，则分子为零；否则分子为负。
 
 现在我们来讨论 Gerber 统计量与标准 Pearson 相关系数在概念上的一个重要区别。Pearson 相关系数输入了资产 i 和j 的样本协方差以及资产 i 和j的样本标准差（以及资产i 和j的样本平均值）。根据定义，样本协方差、样本平均值和样本标准差是对所有数据点进行计算的，无论这些点对应的是有意义的共线运动还是纯粹的噪声。这就导致 Pearson 相关系数对可能仅由噪声引起的微小共同运动高度敏感。与此相反，Gerber 统计量的分子中只包含数据集的子集，该子集包含与有意义的共同移动相对应的点（等同于Gerber统计量剔除了噪声数据）。这就是Gerber统计量比标准Pearson相关系数更稳健的主要原因。此外，需要注意的是，Gerber 统计量的计算不需要任何矩估计。事实上，我们可以用一种更稳健的标准差度量来代替公式（2）中的 $s_{k},$ ，从而实现 Gerber 统计量的完全自由算法。我们将在今后的工作中探讨这一方法的候选方案。
 
 ## 3.3 Gerber 统计量说明
 
-现在我们讨论图 1，以说明 (11) 中的 Gerber 统计量是如何在给定的一对资产之间计算出来的。在图 1 中，我们计算了 S&P 500 (SPX) 和黄金 (XAU)这两种资产在 2019年 1 月至 2020 年 12 月期间的 24 对月度回报。考虑到(2) 中定义的 $H_{k}$ 临界值可以改变，我们考虑了三个不同的 c 值：c = 0.5、c$=0.7$ 和 ${\mathfrak{c}}=0.9$图 1：在 c = 0.5、c = 0.7 和 c = 0.9 的条件下，评估 Gerber 统计量的成对回报图示
+现在我们讨论图 1，以说明 (11) 中的 Gerber 统计量是如何在给定的一对资产之间计算出来的。在图 1 中，我们计算了 S&P 500 (SPX) 和黄金 (XAU)这两种资产在 2019年 1 月至 2020 年 12 月期间的 24 对月度回报。考虑到(2) 中定义的 $H_{k}$ 临界值可以改变，我们考虑了三个不同的 c 值：c = 0.5、c$=0.7$ 和 $\mathtt{c}=0.9$图 1：在 c = 0.5、c = 0.7 和 c = 0.9 的条件下，评估 Gerber 统计量的成对回报图示
 
 ![](images/ad0883d75091db838d8e921399d7ab5cdac93e8b76541189cd6d4867770884a7.webp)
 (a) c = 0.5
@@ -229,40 +229,40 @@ $$
 
 现在，我们通过计算每个区域内的点数来计算Gerber 统计量。下面给出了c = 0.5、c = 0.7 和 c = 0.9 这三种情况下的结果。所有结果的 Gerber 统计量都不同于 0.22 的标准 Pearson 相关系数。
 
-(1) 在 c = 0. 5 （图 1(a)），9 个区域的计数分别是 $n_{ij}^{UD}=0,n_{ij}^{UN}=4$
+(1) 在 c = 0. 5 （图 1(a)），9 个区域的计数分别是 $n_{ij}^{UD}=0,\quad n_{ij}^{UN}=4$
 
 $$
-n_{ij}^{UU}=7,n_{ij}^{ND}=3,n_{ij}^{NN}=3,n_{ij}^{NU}=3,n_{ij}^{DD}=1,n_{ij}^{DN}=
+n_{ij}^{UU}=7,\quad n_{ij}^{ND}=3,\quad n_{ij}^{NN}=3,\quad n_{ij}^{NU}=3,\quad n_{ij}^{DD}=1,\quad n_{ij}^{DN}=
 $$
 
 $1andn_{ij}^{DU}=2$ 。根据 (11) 中Gerber 统计量的定义，我们可以得到：
 
 $$
-\mathrm{g_{ij}=\frac{7+1-0-2}{24-3}=\frac{2}{7}\approx0.286}
+\mathrm{g}_{\mathrm{ij}}=\frac{7+1-0-2}{24-3}=\frac{2}{7}\approx0.286
 $$
 
-(2) 在 c = 0.7 （图 1(b)），9个区域的计数分别是 $n_{ij}^{UD}=0,n_{ij}^{UN}=5$
+(2) 在 c = 0.7 （图 1(b)），9个区域的计数分别是 $n_{ij}^{UD}=0,\quad n_{ij}^{UN}=5$
 
 $$
-n_{ij}^{UU}=4,~{\bf n}_{ij}^{ND}=3,~n_{ij}^{NN}=6,~n_{ij}^{NU}=2,~n_{ij}^{DD}=0,~n_{ij}^{DN}=
+n_{ij}^{UU}=4,\quad n_{ij}^{ND}=3,\quad n_{ij}^{NN}=6,\quad n_{ij}^{NU}=2,\quad n_{ij}^{DD}=0,\quad n_{ij}^{DN}=
 $$
 
 3 and nijDU = 1。根据 (11) 中Gerber 统计量的定义，我们可以得到：
 
 $$
-\mathrm{{g}_{ij}=\frac{4+0-0-1}{24-6}=\frac{1}{6}\approx0.166}
+\mathrm{g}_{\mathrm{ij}}=\frac{4+0-0-1}{24-6}=\frac{1}{6}\approx0.166
 $$
 
-(3) 在 c = 0.9（图 1(c)），9个区域的计数分别是 $n_{ij}^{UD}=0,n_{ij}^{UN}=3$
+(3) 在 c = 0.9（图 1(c)），9个区域的计数分别是 $n_{ij}^{UD}=0,\quad n_{ij}^{UN}=3$
 
 $$
-n_{ij}^{UU}~=3~{\mathrm{\bf~n}}_{ij}^{ND}=3,~n_{ij}^{NN}=11,~n_{ij}^{NU}=2,~n_{ij}^{DD}=0,~n_{ij}^{DN}=
+n_{ij}^{UU}=3\quad n_{ij}^{ND}=3,\quad n_{ij}^{NN}=11,\quad n_{ij}^{NU}=2,\quad n_{ij}^{DD}=0,\quad n_{ij}^{DN}=
 $$
 
 1 and $n_{ij}^{DU}=1$ 。根据 (11) 中Gerber 统计量的定义，我们可以得到：
 
 $$
-\mathrm{g_{ij}={\frac{3+0-0-1}{24-11}}}={\frac{2}{13}}\approx0.154
+\mathrm{g}_{\mathrm{ij}}=\frac{3+0-0-1}{24-11}=\frac{2}{13}\approx0.154
 $$
 
 ## 4. 实证研究
@@ -319,15 +319,15 @@ $$
 
 如前所述，我们要考虑的 Gerber 统计法的两种对照方法是历史协方差矩阵和 Ledoit-Wolf (2004) 的收缩法。历史协方差矩阵 (HC) 是通过 Pearson(Jobson & Korkie, 1980) 计算出的样本相关相关系数计算出来的。现在我们简要回顾一下 Ledoit-Wolf (2004) 引入的收缩估计法。
 
-Ledoit-Wolf (2004) 提出了结构协方差矩阵 $\pmb{\Sigma}_{\mathrm{F}}$ 和样本历史协方差矩阵 $\pmb{\Sigma}_{\mathrm{HC}}$ 的凸组合，从而得到收缩矩阵 $\pmb{\Sigma}_{S\mathbf{M}}$ ：
+Ledoit-Wolf (2004) 提出了结构协方差矩阵 $\mathbf{\Sigma}_{\mathrm{F}}$ 和样本历史协方差矩阵 $\mathbf{\Sigma}_{\mathrm{HC}}$ 的凸组合，从而得到收缩矩阵 $\mathbf{\Sigma}_{\mathrm{SM}}$ ：
 
 $$
-{\pmb{\Sigma}}_{\mathrm{SM}}=\delta{\pmb{\Sigma}}_{\mathrm{F}}+(1-\delta){\pmb{\Sigma}}_{\mathrm{HC}}\tag{12}
+\mathbf{\Sigma}_{\mathrm{SM}}=\delta\mathbf{\Sigma}_{\mathrm{F}}+(1-\delta)\mathbf{\Sigma}_{\mathrm{HC}}\tag{12}
 $$
 
 其中 δ 是一个介于 0 和 1 之间的收缩常数。 此后，我们将这种技术称为“收缩法” (SM)。其名称来源于这样一个事实，即样本协方差矩阵被“收缩”为一个目标结构化估计值。在计算 $\pmb{\Sigma}_{F}$ 时，Ledoit-Wolf (2004) 建议采用恒定相关模型，即样本相关矩阵中所有对角元素的平均样本相关性（见 Ledoit-Wolf (2004) 附录A）。他们进而构建了相应的协方差矩阵。
 
-在指定δ 的选择时，Ledoit-Wolf (2004) 建议通过最小化渐近真实协方差矩阵Σ 与收缩估计值 $\pmb{\Sigma}_{SM}$ 之间的弗罗贝尼斯范数来找到收缩参数。
+在指定δ 的选择时，Ledoit-Wolf (2004) 建议通过最小化渐近真实协方差矩阵Σ 与收缩估计值 $\Sigma_{SM}$ 之间的弗罗贝尼斯范数来找到收缩参数。
 
 在本节的最后，我们将强调 Gerber 统计法与 Ledoit-Wolf (2004) 的收缩方法在概念上的一些关键区别。我们认为主要区别如下：
 
@@ -341,21 +341,21 @@ $$
 
 我们将考虑的投资组合优化框架是均值-方差优化 (MVO) (Markowitz, 1952)。我们简要回顾一下关键步骤和必要的符号，以便在第 4.3.1 节中严格制定回溯测试程序。
 
-均值-方差优化框架的目的是在已知每种资产 $i\in\{1,\cdots,K\}$ 的未来资产特征（即预期收益率 $\mu_{i}$ 、方差 $\sigma_{ii}^{2}$ 和协方差 $\sigma_{ij}$ ）的情况下，在一定的风险和收益限制条件下找到最优资产配置（或投资组合权重 $\omega_{i})$ ）。投资组合的预期收 益 率 及 其 方 差 可 推 导 为 $\mu_{P}=\pmb{\omega}^{T}\pmb{\mu}$ 和 $\begin{array}{r}{\sigma_{P}^{2}=\pmb{\omega}^{T}\pmb{\Sigma}\pmb{\omega}}\end{array}$ ， 其 中 $\pmb{\omega}=$ $[\omega_{1},\cdots,\omega_{K}]$ 是 K 种资产的投资组合权重向量， $\pmb{\mu}=[\mu_{1},\cdots,\mu_{K}]$ 是预期收益率向量，Σ 是资产收益率的协方差矩阵。
+均值-方差优化框架的目的是在已知每种资产 $i\in\{{\bf1},\cdots,K\}$ 的未来资产特征（即预期收益率 $\mu_{i}$ 、方差 $\sigma_{ii}^{2}$ 和协方差 $\sigma_{ij}$ ）的情况下，在一定的风险和收益限制条件下找到最优资产配置（或投资组合权重 $\omega_{i}\;)$ ）。投资组合的预期收 益 率 及 其 方 差 可 推 导 为 $\mu_{P}=\boldsymbol{\omega}^{T}\boldsymbol{\mu}$ 和 $\sigma_{P}^{2}=\boldsymbol{\omega}^{T}\boldsymbol{\varSigma}\boldsymbol{\omega}$ ， 其 中 $\omega=$ $[\omega_{1},\cdots,\omega_{K}]$ 是 K 种资产的投资组合权重向量， $\pmb{\mu}=[\mu_{1},\cdots,\mu_{K}]$ 是预期收益率向量，Σ 是资产收益率的协方差矩阵。
 
 有交易成本的长期MVO 表示法被表述为以下优化问题：
 
 $$
-\mathrm{Maximize:}\ \pmb{\omega}^{T}\pmb{\mu}-\psi\pmb{1}^{T}|\pmb{\omega}-\pmb{\omega}_{0}|\tag{13}
+{\mathrm{Maximize}}{\mathrm{:~}}{\pmb{\omega}}^{T}{\pmb{\mu}}-{\pmb{\psi}}{\pmb{1}}^{T}|{\pmb{\omega}}-{\pmb{\omega}}_{0}|\tag{13}
 $$
 
 $$
-\begin{array}{c}{{\mathrm{Subject:o:}\pmb{\omega}^{T}\pmb{\Sigma}\pmb{\omega}\leq\sigma_{\mathrm{target}}^{2}}}\\{{\pmb{\omega}^{T}\pmb{1}=\mathbf{0}}}\\{{0\leq\omega_{K}\leq1,\forall k=\{1,2,\cdots,N\}}}\end{array}
+\begin{array}{c}{\operatorname{Subject}\operatorname{to}\colon\boldsymbol{\omega}^{T}\boldsymbol{\Sigma}\boldsymbol{\omega}\leq\sigma_{\mathrm{target}}^{2}}\\{\boldsymbol{\omega}^{T}\mathbf{1}=\mathbf{0}}\\{0\leq\omega_{K}\leq1,\forall k=\{1{,}2,\cdots,N\}}\end{array}
 $$
 
-上述投资组合优化问题最大化了投资组合 ${\pmb{\omega}}^{T}{\pmb{\mu}}$ 的预期收益，并扣除了交易成本或 $\mathbf{1}^{T}|\pmb{\omega}-\pmb{\omega}_{0}|$ 。该交易项跟踪投资组合权重变化的比例成本，即新权重向量 $\pmb{\omega}$ 与之前权重向量 $\pmb{\omega}_{0}$ 的绝对偏差。交易惩罚有助于调节投资组合的周转率，降低相关的交易成本。符号 $\psi$ 是一个固定比例的交易成本，在本文中选择为 10 个基点或 0.1%。投资组合权重向量 $\pmb{\omega}$ 受 Markowitz(1952) 中给出的标准约束条件限制，不允许做空。因此，我们可以通过求解确定性最优化问题 (13)，为具有风险约束 $\sigma_{target}$ 和换手率惩罚 ψ 的投资者求得最优投资组合权重 $\omega^{*}$ 。给定周转率约束 $\psi$ ，每个风险水平 $\sigma_{target}\in$ $\mathrm{R}^{+}$ 的最优解 $\pmb{\omega}\in[0,1]^{\mathrm{N}}$ 的集合构成有效前沿。前沿上的每一点都决定 $\vec{\mathsf{J}}-$ 个有效的投资组合，它能在预先规定的风险水平下 $\dot{\mathcal{P}}$ 生尽可能高的收益。
+上述投资组合优化问题最大化了投资组合 $\boldsymbol{\omega}^{T}\boldsymbol{\mu}$ 的预期收益，并扣除了交易成本或 $\mathbf{1}^{T}|\boldsymbol{\omega}-\boldsymbol{\omega}_{0}|$ 。该交易项跟踪投资组合权重变化的比例成本，即新权重向量 $\pmb{\omega}$ 与之前权重向量 $\omega_{0}$ 的绝对偏差。交易惩罚有助于调节投资组合的周转率，降低相关的交易成本。符号 $\psi$ 是一个固定比例的交易成本，在本文中选择为 10 个基点或 0.1%。投资组合权重向量 $\pmb{\omega}$ 受 Markowitz(1952) 中给出的标准约束条件限制，不允许做空。因此，我们可以通过求解确定性最优化问题 (13)，为具有风险约束 $\sigma_{target}$ 和换手率惩罚 ψ 的投资者求得最优投资组合权重 $\boldsymbol{\omega}^{*}$ 。给定周转率约束 $\psi$ ，每个风险水平 $\sigma_{target}\in$ $\mathbb{R}^{+}$ 的最优解 $\pmb{\omega}\in[0\mathrm{,}1]^{\mathrm{N}}$ 的集合构成有效前沿。前沿上的每一点都决定 $了一$ 个有效的投资组合，它能在预先规定的风险水平下 $产$ 生尽可能高的收益。
 
-现在要做的就是提供预期资产收益向量 μ 和资产收益协方差矩阵 Σ 的估计值。资产 i 在t 时间的预期收益率或 $\mu_{ti}$ 是利用其历史收益率的样本均值估算的，其回溯窗口为T 个月或 $\begin{array}{r}{\mu_{ti}=\frac{1}{T}\sum_{d=t-1}^{t-T}r_{di}}\end{array}$ 。对于协方差矩阵Σ，我们在以下三种对照方法中对收益率进行基准比较。
+现在要做的就是提供预期资产收益向量 μ 和资产收益协方差矩阵 Σ 的估计值。资产 i 在t 时间的预期收益率或 $\mu_{ti}$ 是利用其历史收益率的样本均值估算的，其回溯窗口为T 个月或 $\begin{array}{r}{\mu_{ti}=\frac{1}{T}{\sum_{d=t-1}^{t-T}r_{di}}}\end{array}$ 。对于协方差矩阵Σ，我们在以下三种对照方法中对收益率进行基准比较。
 
 （1） 历史协方差法 (HC)；
 
@@ -363,13 +363,13 @@ $$
 
 （3） Gerber 统计法 (GS)；
 
-相应的协方差矩阵分别用 $\pmb{\Sigma}_{\mathrm{HC}}$ $\pmb{\Sigma}_{S\mathbf{M}}$ 和 $\pmb{\Sigma}_{\mathrm{GS}}$ 表示。 我们可以回顾一下第 3.2节中的 $\pmb{\Sigma}_{\mathrm{GS}}=\mathrm{diag}(\pmb{\sigma})\pmb{G}\mathrm{diag}(\pmb{\sigma})$ ，其中 G 是由 (11) 中的 Gerber 统计量得到的Gerber矩阵，σ是历史资产收益率样本标准差的 $\mathrm{~N~}\times1$ 向量。
+相应的协方差矩阵分别用 $\mathbf{\Sigma}_{\mathrm{HC}}$ $\mathbf{\Sigma}_{\mathrm{SM}}$ 和 $\mathbf{\Sigma}_{\mathrm{GS}}$ 表示。 我们可以回顾一下第 3.2节中的 $\mathbf{\Sigma}_{\mathrm{GS}}=\mathrm{diag}(\pmb{\sigma})G\mathrm{diag}(\pmb{\sigma})$ ，其中 G 是由 (11) 中的 Gerber 统计量得到的Gerber矩阵，σ是历史资产收益率样本标准差的 $\mathrm{~N~}\times1$ 向量。
 
 ## 4.3.1 投资组合回测规则
 
-我们采用以下回溯测试程序来衡量不同协方差估计方法在投资组合优化下的表现。自 1990年 1月起，每月月初，利用T = 24个月回溯窗口中当前资产列表的月收益率来估计预期收益率向量 μ 和协方差矩阵Σ。然后，在给定风险目标 $\sigma_{target}$ 的情况下，应用二次优化器求解最佳投资组合权重向量 $\omega^{*}$ 。然 $\mathcal{F}$ ，我们根据最优权重向量 $\omega^{*}$ 重新平衡之前的投资组合，并将优化后的投资组合持有一个月。
+我们采用以下回溯测试程序来衡量不同协方差估计方法在投资组合优化下的表现。自 1990年 1月起，每月月初，利用T = 24个月回溯窗口中当前资产列表的月收益率来估计预期收益率向量 μ 和协方差矩阵Σ。然后，在给定风险目标 $\sigma_{target}$ 的情况下，应用二次优化器求解最佳投资组合权重向量 $\boldsymbol{\omega}^{*}$ 。然 $后$ ，我们根据最优权重向量 $\omega^{*}$ 重新平衡之前的投资组合，并将优化后的投资组合持有一个月。
 
-在一个月结束时，通过 ${{\pmb{\omega}}^{\ast T}}\tilde{\pmb{r}}$ 计算组合的已实现收益，其中 r̃ 是本月已实现资产收益的向量。换句话说，我们的投资组合是按月重新平衡的。我们重复这一过程，将样本内期间向前推移一个月，并计算下一个月的更新有效投资组合。这种滚动窗口投资程序的优势在于能更好地适应市场结构变化，同时也有助于改善数据挖掘偏差。由于初始化第一个投资组合需要两年的月度回报，因此我们的绩效评估范围为1990年 1月至2020年12月。
+在一个月结束时，通过 $\boldsymbol{\omega}^{*T}\tilde{\boldsymbol{r}}$ 计算组合的已实现收益，其中 r̃ 是本月已实现资产收益的向量。换句话说，我们的投资组合是按月重新平衡的。我们重复这一过程，将样本内期间向前推移一个月，并计算下一个月的更新有效投资组合。这种滚动窗口投资程序的优势在于能更好地适应市场结构变化，同时也有助于改善数据挖掘偏差。由于初始化第一个投资组合需要两年的月度回报，因此我们的绩效评估范围为1990年 1月至2020年12月。
 
 ## 5. 经验结果
 

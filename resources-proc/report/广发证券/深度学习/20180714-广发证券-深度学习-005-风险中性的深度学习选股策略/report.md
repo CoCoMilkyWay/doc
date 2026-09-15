@@ -112,22 +112,22 @@ Y是输出层，共3 个节点，表示股票未来走势的三种可能性：�
 深层神经网络是对输入X和输出 Y的关系进行拟合，建立对输出Y的预测模型。其中，第 1个隐含层的节点j 为
 
 $$
-h_{j}^{(1)}=\sigma_{h}\left\{\sum_{i=1}^{N_{x}}\bigl(w_{ji}^{(0)}x_{i}+w_{j0}^{(0)}\bigr)\right\}
+h_{j}^{(1)}=\sigma_{h}\left\{\sum_{i=1}^{N_{x}}\left(w_{ji}^{(0)}x_{i}+w_{j0}^{(0)}\right)\right\}
 $$
 
 第 m 个隐含层（m=2,3,4,5）的节点 j 为
 
 $$
-h_{j}^{(m)}=\sigma_{h}\left\{\sum_{i=1}^{N_{m-1}}\left(w_{ji}^{(m-1)}h_{i}^{(m-1)}+w_{j0}^{(m-1)}\right)\right\}
+h_{j}^{(m)}=\sigma_{h}\left\{\sum_{i=1}^{N_{m-1}}\left(w_{ji}^{(m-1)}h_{i}^{(m-1)}+w_{ji}^{(m-1)}\right)\right\}
 $$
 
 输出层的节点k为
 
 $$
-y_{k}=\sigma_{o}\left\{\sum_{j=1}^{N_{5}}(w_{kj}^{(5)}h_{j}^{(5)}+w_{k0}^{(5)})\right\}
+y_{k}=\sigma_{o}\left\{\sum_{j=1}^{N_{5}}\left(w_{kj}^{(5)}h_{j}^{(5)}+w_{k0}^{(5)}\right)\right\}
 $$
 
-其中， $N_{_x}$ 、 $N_{_{m-1}}$ 和 $N_{5}$ 分别表示输入层、第m-1个隐含层、第 5个隐含层的节点个数； $\sigma_{h}$ 和 $\sigma_{o}$ 分别表示隐含层激活函数和输出层的激活函数； $w_{ji}^{(0)}\cdot w_{ji}^{(m-1)}$ 和 $w_{kj}^{(5)}$ 分别表示输入层、第 m-1 个隐含层、第 5 个隐含层的参数，可以一并记为参数w 。则神经网络可以记成 $\mathbf{y}=f(\mathbf{x};\mathbf{w})$ ，其中w为需要优化的参数。下图展示了具有2个隐含层H1 和H2的神经网络系统。
+其中， $N_{x}$ 、 $N_{m-1}$ 和 $N_{5}$ 分别表示输入层、第m-1个隐含层、第 5个隐含层的节点个数； $\sigma_{h}$ 和 $\sigma_{o}$ 分别表示隐含层激活函数和输出层的激活函数； $w_{ji}^{(0)}\mathrm{、}w_{ji}^{(m-1)}$ 和 $w_{kj}^{(5)}$ 分别表示输入层、第 m-1 个隐含层、第 5 个隐含层的参数，可以一并记为参数w 。则神经网络可以记成 $\mathbf{y}=f(\mathbf{x};\mathbf{w})$ ，其中w为需要优化的参数。下图展示了具有2个隐含层H1 和H2的神经网络系统。
 
 图3：具有2个隐含层的神经网络示意图
 ![](images/921d50171657bd28aeef4bae29dd204f6090036270010119c8802cfcedb6491b.webp)
@@ -158,13 +158,13 @@ Sigmoid 函数和正切函数作为激活函数的主要问题是存在“饱和
 万能近似定理（Universal Approximation Theorem）证明神经网络具有强大的拟合能力。在应用神经网络进行预测前，需要采用大量的训练样本，通过优化的方法获得网络的参数w。具体来说，在深度学习中，通过训练样本数据（训练集），对参数w进行优化，使得模型给出的输出 y 尽可能地接近于样本的真实标签 t，即要使得如下的预测误差（损失函数）最小化
 
 $$
-E(\mathbf{w})=\sum_{n=1}^{N}E_{n}(\mathbf{w})=\sum_{n=1}^{N}\sum_{k=1}^{K}\big(y_{nk}-t_{nk}\big)^{2}
+E(\mathbf{w})=\sum_{n=1}^{N}E_n(\mathbf{w})=\sum_{n=1}^{N}\sum_{k=1}^{K}(y_{nk}-t_{nk})^2
 $$
 
 该目标函数的优化问题称之为最小化均方误差。对于分类问题，也可以构建其他形式的目标函数，例如，交叉熵（Cross Entropy）损失函数更适合作为分类神经网络模型优化的目标函数：
 
 $$
-\begin{array}{r}{E(\mathbf{w})=-\sum_{n=1}^{N}{\sum_{k=1}^{K}\left\{t_{nk}\log y_{nk}+(1-t_{nk})\log(1-y_{nk})\right\}}}\end{array}
+E(\mathbf{w})=-\sum_{n=1}^{N}\sum_{k=1}^{K}\left\{t_{nk}\log y_{nk}+(1-t_{nk})\log(1-y_{nk})\right\}
 $$
 
 深度学习模型训练时，一般采用误差反向传播的方式求取梯度，优化参数。
@@ -207,9 +207,9 @@ $$
 r_{i}^{t+1}=X_{i1}^{t}f_{1}^{t}+X_{i2}^{t}f_{2}^{t}+\cdots+X_{iK}^{t}f_{K}^{t}+\epsilon_{i}^{t}
 $$
 
-其中， $r_{i}^{t+1}$ 是股票i在随后一期的收益率， $X_{i1}^{t}\setminus X_{i2}^{t}\dots\dots\nVdash\mu X_{iK}^{t}$ 表示股票 i在 K个风险因子上的因子暴露值。对t时刻的市场股票进行截面回归，可以获得 K个风险因子的收益率f1t、 $f_{2}^{t}$ ……和fKt，以及剥离风险因子之后的股票收益率 $\cdot\epsilon_{i}^{t}\mathrm{:}$ ，即回归残差。
+其中， $r_{i}^{t+1}$ 是股票i在随后一期的收益率， $X_{i1}^{t}、X_{i2}^{t}\ldots\ldots 和X_{iK}^{t}$ 表示股票 i在 K个风险因子上的因子暴露值。对t时刻的市场股票进行截面回归，可以获得 K个风险因子的收益率f1t、 $f_{2}^{t}$ ……和fKt，以及剥离风险因子之后的股票收益率 $\cdot\epsilon_{i}^{t}\colon$ ，即回归残差。
 
-然后按照残差 $\mathbf{\epsilon}_{\cdot i}^{\epsilon_{i}^{t}}$ 在同一时间截面 t进行排序，将股票标记为“上涨”、“下跌”和“平盘”三类。预测模型的目标不再是寻找未来一期收益率在前 10%的股票， $\sqrt{n}$ 是剥离风险因子收益之后，收益率在前10%的股票。
+然后按照残差 $\epsilon_{i}^{t}$ 在同一时间截面 t进行排序，将股票标记为“上涨”、“下跌”和“平盘”三类。预测模型的目标不再是寻找未来一期收益率在前 10%的股票， $而]$ 是剥离风险因子收益之后，收益率在前10%的股票。
 
 本报告中，我们采用行业和流通市值作为风险因子进行风险中性处理。
 
@@ -249,10 +249,10 @@ $$
 
 沿截面方向的因子标准化使得不同特征的值可比，例如流通市值和换手率的数据相差很大，通过因子标准化，可以使得标准化之后的流通市值和换手率可比。因子标准化的方法有z-score标准化、min-max标准化、排序标准化等。
 
-假设在时刻 t，某股票 k 的因子 i 的值为 $\boldsymbol{x}_{t,k}^{i}.$ 。z-score标准化把变量处理成均值为0，方差为1：
+假设在时刻 t，某股票 k 的因子 i 的值为 $x_{t,k}^{i},$ 。z-score标准化把变量处理成均值为0，方差为1：
 
 $$
-\widetilde{\boldsymbol{x}}_{t,k}^{i}=\frac{\boldsymbol{x}_{t,k}^{i}-\boldsymbol{\mathrm{E}}[\boldsymbol{x}_{t}^{i}]}{\mathrm{std}[\boldsymbol{x}_{t}^{i}]}
+\tilde{x}_{t,k}^{i}=\frac{x_{t,k}^{i}-\operatorname{E}[x_{t}^{i}]}{\operatorname{std}[x_{t}^{i}]}.
 $$
 
 其中，E[xi]和std[xi]分别为该时刻所有股票的因子 i 的均值和标准差。
@@ -260,10 +260,10 @@ $$
 Min-Max标准化把变量处理成0到1之间的数：
 
 $$
-\tilde{x}_{t,k}^{i}=\frac{x_{t,k}^{i}-\operatorname*{min}x_{t}^{i}}{\operatorname*{max}x_{t}^{i}-\operatorname*{min}x_{t}^{i}}
+\tilde{x}_{t,k}^{i}=\frac{x_{t,k}^{i}-\min x_{t}^{i}}{\max x_{t}^{i}-\min x_{t}^{i}}
 $$
 
-其中， $\operatorname*{min}x_{t}^{i}\mathcal{\neq}\operatorname*{max}x_{t}^{i}$ 分别为该时刻所有股票的因子 i 的最小值和最大值。
+其中， $\min x_{t}^{i}和\max x_{t}^{i}$ 分别为该时刻所有股票的因子 i 的最小值和最大值。
 
 排序标准化是根据股票在因子i 的值进行排序，按照序号对应到0到1之间。因子值最小的标准化为0，因子值最大的标准化为1，其他按序号标准化为小于1且大于0的数。
 
@@ -277,13 +277,13 @@ $$
 
 在样本外，我们可以对每只股票进行预测打分。根据股票的上涨打分，筛选前10%的股票构建组合。
 
-与隐含层采用ReLU激活函数不同，输出层采用softmax激活函数。在预测时，输出层softmax激活函数的输入向量为 $\mathbf{\Sigma}^{\mathbf{\prime}}=[z_{1}\quad z_{2}\quad z_{3}]^{T}$ ，则经过softmax函数后，预测值为
+与隐含层采用ReLU激活函数不同，输出层采用softmax激活函数。在预测时，输出层softmax激活函数的输入向量为 $\mathbf{\nabla}_{\mathbf{\nabla}}\mathbf{z}=[z_{1}\quad z_{2}\quad z_{3}]^{T}$ ，则经过softmax函数后，预测值为
 
 $$
-\hat{\bf y}=[\hat{y}_{1}\hat{y}_{2}\hat{y}_{3}]^{T}=\left[{\frac{e^{z_{1}}}{\sum_{i=1,2,3}e^{z_{i}}}}{\frac{e^{z_{2}}}{\sum_{i=1,2,3}e^{z_{i}}}}{\frac{e^{z_{3}}}{\sum_{i=1,2,3}e^{z_{i}}}}\right]^{T}
+\hat{\mathbf{y}}=[\hat{y}_{1}\quad\hat{y}_{2}\quad\hat{y}_{3}]^{T}=\left[\frac{e^{z_{1}}}{\sum_{i=1,2,3}e^{z_{i}}}\quad\frac{e^{z_{2}}}{\sum_{i=1,2,3}e^{z_{i}}}\quad\frac{e^{z_{3}}}{\sum_{i=1,2,3}e^{z_{i}}}\right]^{T}
 $$
 
-其中， $\hat{y}_{1},~\hat{y}_{2},~\hat{y}_{3}$ 都是大于0且小于1的数，而且 $\hat{y}_{1}+\hat{y}_{2}+\hat{y}_{3}=1$ 。第一个输出节点的预测值 $\begin{array}{r}{\hat{y}_{1}=\frac{e^{z_{1}}}{\sum_{i=1,2,3}e^{z_{i}}}}\end{array}$ 是我们对股票的上涨预测打分，即预测该股票属于“上涨”类别的概率。
+其中， $\hat{y}_{1},\quad\hat{y}_{2},\quad\hat{y}_{3}$ 都是大于0且小于1的数，而且 $\hat{y}_{1}+\hat{y}_{2}+\hat{y}_{3}=1$ 。第一个输出节点的预测值 $\begin{array}{r}{\hat{y}_{1}=\frac{e^{z_{1}}}{\sum_{i=1,2,3}e^{z_{i}}}}\end{array}$ 是我们对股票的上涨预测打分，即预测该股票属于“上涨”类别的概率。
 
 本报告中，我们采用全市场股票来训练深度学习模型，剔除上市交易时间不满一年的股票，剔除ST股票，剔除交易日停牌和涨停、跌停的股票。
 

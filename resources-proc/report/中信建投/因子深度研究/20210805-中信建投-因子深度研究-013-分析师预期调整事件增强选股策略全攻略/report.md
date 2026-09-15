@@ -88,7 +88,7 @@ SAC 执证编号：S1440515020001
 首先是分析师预期调整的第一部分内容——盈利预期调整。我们以相同分析师在时间序列上的预期调整为基础构建分析师盈利预期调整因子，定义分析师 i 对于股票 s在时间 t 给出的盈利预期调整指标如下：
 
 $$
-Income\_Adjust\_single_{s,i,t}=\frac{forecast\_new_{s,i,t}-forecast\_last_{s,i,t-1}}{forecast\_last_{s,i,t-1}}
+Income\_Adjust\_single_{s,i,t}=\frac{forecost\_new_{s,i,t}-forecost\_last_{s,i,t-1}}{forecost\_last_{s,i,t-1}}
 $$
 
 其中， $forecast\_last_{s,i,t-1}$ 为分析师 i 上次报告对股票 s 的盈利预期， $forecast\_new_{s,i,t}$ 为分析师 i 本次报告对股票 s 的盈利预期。
@@ -96,7 +96,7 @@ $$
 在每个月末 T，我们取所有分析师当月对于股票 s 的盈利预期调整幅度的中位数作为最终的分析师盈利预期调整因子值，具体公式如下：
 
 $$
-Income\_Adjust_{s,T}=\mathrm{median}\big(Income\_Adjust_{-}single_{s,i,t}\big),\ T-1<t\leq T
+Income_{-}Adjust_{s,T}=\mathrm{median}\big(Income_{-}Adjust_{-}single_{s,i,t}\big),T-1<t\leq T
 $$
 
 其中，i 为所有在本月对股票 s进行盈利预期调整的分析师。分析师盈利预期调整因子反映了市场所有分析师对于股票盈利预期调整的中间水平。

@@ -206,15 +206,15 @@ There are known knowns. There are known unknowns. There are unknown unknowns.
 
 ## 3.1. Vol of Vol 的计算方式
 
-在海外市场，股票的Vol of Vol 的计算方法通常是个股期权隐含波动率的标准差。A 股市场由于没有个股期权，我们采用日内 $\frac{\dot{\pi}}{\vert\nabla\pmb{\vert\tau}\vert}$ 频数据计算日内波动率代替期权隐含波动率，即：
+在海外市场，股票的Vol of Vol 的计算方法通常是个股期权隐含波动率的标准差。A 股市场由于没有个股期权，我们采用日内 $高$ 频数据计算日内波动率代替期权隐含波动率，即：
 
 $$
-VOV_{\textit{ \textbf { i } },t}=\mathrm{std}\ ({\nu ol}_{\textit{ \textbf { i } },t}^{\textit{ \textbf { n o r m } }})
+VoV_{_{_{i,t}}}=\mathrm{std}(VoI_{_{_{i,t}}}^{^{_{norm}}})
 $$
 
 其中，
 
-$\begin{array}{rlr}{VO\bar{l}\begin{array}{c}{^{norm}}\\{\cdot\it{\Delta}_{\perp,t}}\end{array}}&{{}=}&{\bar{\it Zscore}\quad(\it{rol}\mathrm{~(\it~r_{i,\perp,\perp,}~)})}\end{array}$ ，表示股票i在t日标准化后的日内波动率。
+$VoI_{_{i,t}}=Zscore\left(VoI_{_{i,5\min}}\right)$ ，表示股票i在t日标准化后的日内波动率。
 
 VoV的具体计算步骤如下：
 
@@ -224,20 +224,20 @@ VoV的具体计算步骤如下：
 
 3. 为了剔除个股日内波动自身量级对 VoV的影响，我们需要在计算日间标准差之前预先对日内标准差在横截面上进行标准化处理，计算Z-score 值。
 
-4. 使用 40 个交易日（约两个月）内标准化后的 $\sigma_{\textit{ i , t }}$ 计算标准差，得到最终的 VoV，标准差使用时间周期基本与 5 分钟涨跌幅的样本量保持一致。
+4. 使用 40 个交易日（约两个月）内标准化后的 $\sigma_{{i},t}$ 计算标准差，得到最终的 VoV，标准差使用时间周期基本与 5 分钟涨跌幅的样本量保持一致。
 
 ## 3.2.日内波动率的估计方法
 
 波动率的标准定义为：
 
 $$
-s={\sqrt{\frac{1}{N-1}\sum_{i=1}^{N}{(x_{i}-x)}^{2}}}
+s=\sqrt{\frac{1}{N-1}\sum_{_{i=1}}^{^N}\stackrel{\rightharpoonup}{(}x_{_{i}}-\stackrel{\rightharpoonup}{x})^{^2}}.
 $$
 
-虽然这样定义的方差是总体方差的无偏估计，但直接在方差上开平方所得到的波动率却是有偏估计。根据Jenson不等式，样本标准差低估了真实的 $\mathfrak{j}^{\pmb{\sigma}}\mathrm{_{:}}$ ：
+虽然这样定义的方差是总体方差的无偏估计，但直接在方差上开平方所得到的波动率却是有偏估计。根据Jenson不等式，样本标准差低估了真实的 $j^{\pmb{\sigma}};$ ：
 
 $$
-E(s)=E(\sqrt{{s}^{2}})<\sqrt{E(s^{2})}=\sqrt{\sigma^{2}}=\sigma
+E\left(s\right)=E\left(\sqrt{s^{^{2}}}\right)<\sqrt{E\left(s^{^{2}}\right)}=\sqrt{\sigma^{^{2}}}=\sigma
 $$
 
 当样本容量N较少时，总体标准差和样本标准差偏差较大，随着样本容量N的增大，偏差会减小。但是样本容量过大会导致收敛速度缓慢，称作非有效估计量。标准差为有偏且非有效的波动率估计量。鉴于日内分钟级别数据有限，我们采用更加有效的Parkinsion波动率。
@@ -245,10 +245,10 @@ $$
 该（波动率）估计量由 Parkinson（Parkinson 1980）发明，其通过极差构造了波动率，表达式为：
 
 $$
-\sigma\ =\ \sqrt{\frac{1}{4\ :N\ \ln\ 2}{\sum_{\ i=1}^{N}}\ (\ln\big(\frac{h_{i}}{l_{i}}\big)^{2}}
+\sigma=\sqrt{\frac{1}{4N\ln2}\sum_{i=1}^{N}\left(\ln\left(\frac{h_i}{l_i}\right)^2\right)}
 $$
 
-式中， $h_{i}$ 是交易时段的最高价； $l_{i}$ 是交易时段的最低价。
+式中， $h_{ij}$ 是交易时段的最高价； $l_{ij}$ 是交易时段的最低价。
 
 根据 Euan Sinclair 著作 Volatility Trading,该估计量只需要较少的时间周期就可以收敛于真实波动率。依据人工生成的几何布朗运动（GBM）进行测试时，用Parkinson估计量的效率要比标准差估计量高出 5倍。
 
@@ -281,7 +281,7 @@ VoV 虽然反映的风险侧重点有所不同，但其本质上反映的依然�
 剔除行业与风格后VoV的IC、ICIR采用了以下算法:
 
 $$
-\begin{array}{rl}{VoV=\beta_{s}\ X_{\mathrm{nonstry}}+\beta_{s}\ X_{\mathrm{nonstry}}+\beta_{s}\ X_{\mathrm{nonstrons}}+\beta_{s}\ X_{\mathrm{nonstrons}}+\beta_{s}\ X_{\mathrm{nonstrons}}}\\&{+\beta_{s}\ X_{\mathrm{nonstrons}}+\beta_{s}\ X_{\mathrm{nonstrons}}+\beta_{s}\ X_{\mathrm{nonstrons}}\beta_{s}\ X_{\mathrm{nonstrons}}}\\&{+\beta_{s}\ X_{\mathrm{nonstrons}}+\beta_{s}\ X_{\mathrm{nonstrons}}}\\{R=r_{2}X_{\mathrm{nonstrons}}+r_{1}X_{\mathrm{nonstrons}}+r_{2}X_{\mathrm{nonstrons}}+r_{3}X_{\mathrm{nonstrons}}+r_{4}X_{\mathrm{nonstrons}}}\\&{+r_{5}X_{\mathrm{nonstrons}}+r_{5}X_{\mathrm{nonstrons}}+r_{7}X_{\mathrm{nonstrons}}+r_{5}X_{\mathrm{nonstrons}}}\\&{+r_{6}X_{\mathrm{nonstrons}}+c_{6}}\\{IC-conr(E_{\mathrm{nonstrons}},\varepsilon)}\\{IcIR=\frac{1}{\pi(E)}}\end{array}
+\begin{aligned}VoV=\beta_{_0}X_{_{indutriy}}+&\beta_{_1}X_{_{beta}}+\beta_{_2}X_{_{monentian}}+\beta_{_3}X_{_{size}}+\beta_{_4}X_{_{earningz_{-}yield}}\\&+\beta_{_5}X_{_{grovib}}+\beta_{_6}X_{_{volatility}}+\beta_{_7}X_{_{value}}+\beta_{_8}X_{_{lererage}}\\&+\beta_{_9}X_{_{iquiditiy}}+\varepsilon_{_{VoV}}\\R=r_{_0}X_{_{indutriy}}+r_{_1}X_{_{brin}}+r_{_2}X_{_{monentian}}+r_{_3}X_{_{size}}+r_{_4}X_{_{earningz_{-}yield}}\\&+r_{_5}X_{_{grovib}}+r_{_6}X_{_{volatility}}+r_{_7}X_{_{value}}+r_{_8}X_{_{lererage}}\\&+r_{_9}X_{_{iquiditiy}}+\varepsilon_{_r}\\ICC=corr(\varepsilon_{_{VoV}},\varepsilon_{_r})\\ICIR=\frac{\overline{IC}}{\sigma(IC)}\cdot\sqrt{12}\end{aligned}
 $$
 
 图 3 剔除行业与风格后的月度IC
@@ -303,7 +303,7 @@ $$
 若把VoV作为ALPHA因子，构建纯因子组合，VoV是稳定的ALPHA 收益来源。VoV纯因子年化收益率为 5.08%，夏普比率为 2.25, 月最大回撤为 1.28%。
 
 $$
-\begin{array}{l}{{R\ =\ r_{0}X_{\mathrm{\it~industry}}+\ r_{1}X_{\mathrm{\it~beta}}+\ r_{2}X_{\mathrm{\it~momentum}}+\ r_{3}X_{\mathrm{\it~size}}+\ r_{4}X_{\mathrm{\it~earnings\mathrm{\it~-\it~yield}}}}}\\{{\ }}\\{{\displaystyle\qquad+\ r_{5}X_{\mathrm{\it~growth}}+\ r_{6}X_{\mathrm{\it~volatility}}+\ r_{7}X_{\mathrm{\it~\it~value}}+\ r_{8}X_{\mathrm{\it~leverage}}}}\\{{\ }}\\{{\displaystyle\qquad+{\bf r}_{9}X_{\mathrm{\it~liquidity}}+\ r_{\mathrm{\it~vov}}\varepsilon_{\mathrm{\it~voV}}}}\\{{\ }}\\{{\displaystyle{\cal R}_{\mathrm{\it~VoV}}\ =\ -\sum_{\mathrm{\it~\prime~}}r_{\mathrm{\it~VoV},t}}}\end{array}
+\begin{aligned}&R=r_{_0}X_{_{industry}}+r_{_1}X_{_{beta}}+r_{_2}X_{_{momentum}}+r_{_3}X_{_{size}}+r_{_4}X_{_{earnings_{-}yield}}\\&\\&\quad+r_{_5}X_{_{growth}}+r_{_6}X_{_{volatility}}+r_{_7}X_{_{value}}+r_{_8}X_{_{lererage}}\\&\\&\quad+\mathrm{r}_{_9}X_{_{liquidity}}+r_{_{VoV}}\mathcal{E}_{_{VoV}}\\&\\&R_{_{VoV}}=-\sum_{_{t}}^{^{T}}r_{_{VoV,t}}\\\end{aligned}
 $$
 
 图 4 纯因子累积收益率

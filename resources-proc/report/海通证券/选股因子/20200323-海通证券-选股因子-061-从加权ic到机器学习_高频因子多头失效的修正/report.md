@@ -105,13 +105,13 @@ Email:yhm9591@htsec.com
 因子 IC的计算公式为
 
 $$
-\pmb{\rho}_{xr}=\frac{\sum(\pmb{x}_{i}-\overline{{\pmb{x}}})\left(\pmb{r}_{i}-\overline{{\pmb{r}}}\right)}{(\pmb{n}-1)\sqrt{\pmb{D}(\pmb{x})}\sqrt{\pmb{D}(\pmb{r})}}
+\rho_{xr}=\frac{\sum(\boldsymbol{x}_{i}-\bar{\boldsymbol{x}})(\boldsymbol{r}_{i}-\bar{\boldsymbol{r}})}{(n-1)\sqrt{D(\boldsymbol{x})}\sqrt{D(\boldsymbol{r})}}
 $$
 
 在分 5组的假定下，如果将同属一组的股票看成一个子集，并定义该集合的 IC为
 
 $$
-\rho_{x_{i}r}=\frac{\sum\left(x_{i}-\overline{{x}}\right)\left(r_{i}-\overline{{r}}\right)}{\left(n-1\right)\sqrt{D(x)}\sqrt{D(r)}},i\in I
+\rho_{x_{I}r}=\frac{\sum(x_{i}-\bar{x})(r_{i}-\bar{r})}{(n-1)\sqrt{D(x)}\sqrt{D(r)}},i\in I
 $$
 
 那么，整体 IC等于 5 个子集 IC 的和。由此，便可以评价每一组对整体 IC的贡献。
@@ -147,10 +147,10 @@ $$
 根据石川博士公众号——“川总写量化”中的文章《用 IC 评价因子效果靠谱吗？》提到的方法，通过降低或提高不同股票在计算相关系数时的权重，可对原始 IC进行修正。具体的计算公式如下，
 
 $$
-\rho_{xr}=\frac{\sum w_{i}(x_{i}-\overline{{x}})\left(r_{i}-\overline{{r}}\right)}{\sqrt{D_{w}(x)}\sqrt{D_{w}(r)}}
+\rho_{xr}=\frac{\sum w_{i}\left(\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}\right)\left(\boldsymbol{r}_{i}-\bar{\boldsymbol{r}}\right)}{\sqrt{\boldsymbol{D}_{w}(\boldsymbol{x})}\sqrt{\boldsymbol{D}_{w}(\boldsymbol{r})}}
 $$
 
-其中， $\mathsf{W}_{\mathrm{i}}$ 表示第 个股票的权重， $\mathsf{D}_{\mathsf{w}}$ 表示利用相同权重向量 计算的加权方差。我们以多头失效现象最为突出的大买成交集中度因子为例，若将多头组权重提高到 50%，其他组均为 12.5%，其 IC可被修正为下表所示的结果。
+其中， $w_{\mathrm{i}}$ 表示第 个股票的权重， $\mathsf{D}_{w}$ 表示利用相同权重向量 计算的加权方差。我们以多头失效现象最为突出的大买成交集中度因子为例，若将多头组权重提高到 50%，其他组均为 12.5%，其 IC可被修正为下表所示的结果。
 
 表 4 大买成交集中度的加权 IC（2015.01-2020.02，中证 500 成分股内）
 
@@ -359,7 +359,7 @@ $$
 具体到多因子模型层面，首先，对包含 n个股票的因子值向量 x 采用聚类算法确定m 个中心点。其次，利用如下的径向基函数（RBF unit）对第 i个股票的因子值 x 进行升维。
 
 $$
-h(x_{i})=exp\left(-{\frac{1}{2\sigma^{2}}}\left\|x_{i}-c_{j}\right\|^{2}\right),i=1,\cdots,n,j=1,\cdots,m
+h(x_{i})=exp\left(-\frac{1}{2\sigma^{2}}\left\|x_{i}-c_{j}\right\|^{2}\right),i=1,\cdots,n,j=1,\cdots,m
 $$
 
 最后，将被扩充至 m 维的因子与其他因子一同用于股票收益的预测。

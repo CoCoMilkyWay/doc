@@ -160,19 +160,19 @@ Gustafson和 Halper（2010）通过基于基金持仓的分析，研究了 1992-
 - 市场因子的每个指标值为全市场股票该指标得分的中位数；
 
 $$
-Market_{i}=Market_{i,median}
+\mathit{Market}_{i}=\mathit{Market}_{i,\mathit{median}}
 $$
 
 - 行业因子的每个指标值为各行业板块股票的该指标得分的中位数减去全市场股票该指标得分的中位数；
 
 $$
-Industry_{i}=Industry_{i,median}-Market_{i,median}
+Industry_{i}=Industry_{i,\mathit{median}}-Market_{i,\mathit{median}}
 $$
 
 - 风格因子的每个指标值为各风格分类下该指标暴露度排序前20%的股票的中位数与暴露度排序后20%的股票中位数之差。
 
 $$
-Style_{i}=Style_{i,pre20\%,median}-\ Style_{i,pos20\%,median}
+\mathit{Style}_{i}=\mathit{Style}_{i,\mathit{pre20\%,median}}-\mathit{Style}_{i,\mathit{pos20\%,median}}
 $$
 
 其中，i 表示计算的指标， $i=\{1,2,...,6\}$ ，分别为估值指标、成长指标、累计收益率指标、换手率指标、截面波动率指标和两两相关性指标。Median 表示中位数，例如 $Market_{i,median}$ 表示市场全股票该指标得分的中位数。指标的计算中使用中位数而不是平均值，是为了防止异常值显著而影响标准化过程。

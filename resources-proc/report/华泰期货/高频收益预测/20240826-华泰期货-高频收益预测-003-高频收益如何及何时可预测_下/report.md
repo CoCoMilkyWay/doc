@@ -163,7 +163,7 @@ LASSO模型的一个优势在于，它通过对特征进行标准化预处理，
 第一个要介绍的因子是报价不平衡因子(Loblmbalance），该因子衡量了回溯区间内最优报价处挂单量的不平衡性。该因子来自于文献，且同时也是所有因子中最有效的因子，具体计算公式如下：
 
 $$
-LobImbalance(T,\mathcal{A}_{1},\mathcal{A}_{2},M)=Average[\frac{s_{t}^{a}-s_{t}^{b}}{s_{t}^{a}+s_{t}^{b}}\colon t\in Int^{back}(T,\mathcal{A}_{1},\mathcal{A}_{2},M)]
+LobImbalance(T,\varDelta_{1},\varDelta_{2},M)=Average[\frac{s_{t}^{a}-s_{t}^{b}}{s_{t}^{a}+s_{t}^{b}}:t\in Int^{back}(T,\varDelta_{1},\varDelta_{2},M)]
 $$
 
 其中，s为挂单量，T为当前时点，Δ1代表区间结束时点和当前时点的距离（注意我们在国内实证时41始终设置为0)，Δ2代表区间开始时点和当前时点的距离，M为所选时钟（此处为日历时钟），Intback为回溯区间内所有时点。
@@ -223,7 +223,7 @@ $$
 第二个要介绍的因子是成交收益因子(TransactionReturn)，该因子是我们在原文献历史收益因子(PastReturn）的基础上做了相应调整的因子(国内期货市场无逐笔成交数据），衡量了用回溯区间内平均成交价和当前中价计算出的收益率。具体计算公式如下：
 
 $$
-\begin{array}{rl}&{TransactionReturn(T,\boldsymbol{A_{1}},\boldsymbol{A_{2}},\boldsymbol{M})}\\&{\qquad=1-\left(\frac{\sum_{t\in Int^{back}(T,\boldsymbol{A_{1}},\boldsymbol{A_{2}},\boldsymbol{M})}{Amount_{t}}}{\sum_{t\in Int^{back}(T,\boldsymbol{A_{1}},\boldsymbol{A_{2}},\boldsymbol{M})}{Volume_{t}}\ast Contract{Unit}}\right)/Mid_{T-\boldsymbol{A_{1}}}}\end{array}
+\begin{array}{rl}&{TransactionReturn(T,\varDelta_{1},\varDelta_{2},M)}\\&{\quad=1-\left(\frac{\sum_{t\in Int^{back}(T,\varDelta_{1},\varDelta_{2},M)}Amount_{t}}{\sum_{t\in Int^{back}(T,\varDelta_{1},\varDelta_{2},M)}Volume_{t}*ContractUnit}\right)/Mid_{T-\varDelta_{1}}}\end{array}
 $$
 
 其中，Amount 为成交额，Volume 为成交量，ContractUnit 为合约单位，Mid 为中价。当成交收益因子大于0时，说明当前市场中价高于市场近期成交均价。
@@ -277,7 +277,7 @@ $$
 最后一个要介绍的因子是实际下行波动率因子(RealDownVariance)，该因子衡量了回溯区间内下行收益的波动率。具体计算公式如下：
 
 $$
-RealDownVariance(T,\Delta_{1},\Delta_{2},M)=\frac{\sum_{t\in Int^{back}(T,\Delta_{1},\Delta_{2},M)}[Min(Return_{t},0)]^{2}}{|Int^{back}(T,\Delta_{1},\Delta_{2},M)|}
+RecallDownVariance(T,\varDelta_1,\varDelta_2,M)=\frac{\sum_{t\in Int^{back}(T,\varDelta_1,\varDelta_2,M)}[Min(Return_t,0)]^2}{|Int^{back}(T,\varDelta_1,\varDelta_2,M)|}
 $$
 
 其中，Return的计算方式与原文献保持一致，是未来1个tick的成交均价与当前中价的比值减去一。

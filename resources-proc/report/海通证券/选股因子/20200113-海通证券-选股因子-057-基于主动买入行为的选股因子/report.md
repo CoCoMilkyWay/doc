@@ -73,17 +73,17 @@ Email:ylq9619@htsec.com
 本文基于主动买入金额以及主动卖出金额构建了主买占比以及主买强度两类因子。主买占比类因子的计算方法如下：
 
 $$
-\pm\frac{1}{2}\geq5\geq6((5\leq k\pi)\ +\frac{1}{3})=\frac{\pm\frac{1}{2}\pi)\ +\sqrt{5}\pi\lambda\leq\frac{2}{3}\pi}{\geq1\geq5\operatorname{H}\lambda\geq\frac{2}{3}\pi\leq\frac{2}{3}\pi}
+主买占比(占全天成交)=\frac{主动买入金额}{当日总成交金额}
 $$
 
 $$
-\pm\frac{\pm}{\sqrt{2}},\mathsf{Ek}((\mathsf{EA})\mathbb{H}\pm\frac{\mu}{\sqrt{2}}\mathbb{H}\bar{\lambda},\bar{\lambda})=\frac{\pm\frac{1}{2}\bar{\lambda}\bar{\lambda}\bar{\lambda}\wedge\bar{\lambda}\bar{\lambda}}{\vert\bar{\lambda}\vert\vert\bar{\lambda}\vert\vert\frac{1}{2}\bar{\lambda}\bar{\lambda}\bar{\lambda}\bar{\lambda}\bar{\lambda}\bar{\lambda}\vert}
+主买占比(占同时段成交)=\frac{主动买入金额}{同时段总成交金额}
 $$
 
 主动买入强度因子的计算方法如下：
 
 $$
-\begin{array}{l}{\displaystyle\Theta\wedge\dot{\Sigma}\ \dot{\mathcal{Z}}\ \dot{\mathcal{J}}\mathcal{Z}\dot{\mathcal{R}}=\frac{\mathsf{mean}(\dot{\Sigma}\ \hat{\mathcal{Z}})\overrightarrow{\mathcal{F}}\wedge\sqrt{\pm\frac{\dot{\kappa}\sqrt{\eta}}{\tilde{\mathcal{Z}}}})}{\mathsf{std}(\dot{\Sigma}\ \hat{\mathcal{Z}})\overrightarrow{\mathcal{F}}\wedge\sqrt{\pm\frac{\dot{\kappa}\sqrt{\eta}}{\tilde{\mathcal{Z}}}})}}\\{\displaystyle\Theta\wedge\dot{\cal Z}\ \dot{\mathcal{Z}}\pm\ \dot{\mathcal{Z}}\ \dot{\mathcal{J}}\frac{\eta\sqrt{\Xi}}{\sqrt{\Xi}}\jmath\overset{\dot{\kappa}}{\mathcal{Z}}=\frac{\mathsf{mean}(\dot{\Sigma}\ \hat{\mathcal{Z}})\overrightarrow{\mathcal{F}}\wedge\sqrt{\pm\frac{\dot{\kappa}\sqrt{\eta}}{\tilde{\mathcal{Z}}}}-\dot{\Sigma}\ \bar{\mathcal{Z}}\hat{\mathcal{J}}\frac{\pm}{\sqrt{\frac{\dot{\kappa}}{\sqrt{\kappa}}}\ \frac{\mu}{\sqrt{\Xi}}\frac{\dot{\kappa}\sqrt{\tilde{\mathcal{Z}}}}{\tilde{\mathcal{W}}}})}{\mathsf{std}(\dot{\Xi}\ \hat{\mathcal{Z}})\overrightarrow{\mathcal{Z}}\wedge\sqrt{\pm\frac{\dot{\kappa}\sqrt{\eta}}{\tilde{\mathcal{Z}}}}\vert-\dot{\Sigma}\ \bar{\mathcal{Z}}\mathcal{J}\frac{\pm}{\sqrt{\frac{\dot{\kappa}}{\sqrt{\kappa}}}\ \frac{\mu}{\sqrt{\Xi}}\frac{\dot{\kappa}\sqrt{\tilde{\mathcal{Z}}}}{\tilde{\mathcal{Z}}})}}}\end{array}
+\begin{aligned}日内主买强度=&\frac{mean(主动买入金额)}{\mathsf{std(主动买入金额)}}\\日内净主买强度=&\frac{mean(主动买入金额-主动卖出金额)}{\mathsf{std(主动买入金额-主动卖出金额)}}\end{aligned}
 $$
 
 考虑到使用日内不同时段数据计算得到的高频因子可能存在选股能力的差别，本文在计算因子时分别使用了 9:30~14:56（后文简称为全天）、9:30~9:59（后文简称为开盘后）、10:00~14:26（后文简称为盘中）以及 14:27~14:56（后文简称为收盘前）的数据。

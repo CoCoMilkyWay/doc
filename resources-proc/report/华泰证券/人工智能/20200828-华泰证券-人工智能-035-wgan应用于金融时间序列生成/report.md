@@ -79,18 +79,18 @@ GAN 的生成样本表现已较为优秀，但是理论推导及实践结果均�
 首先我们对 JS散度进行简要回顾。JS散度和 KL 散度均可衡量两个分布 p和 q之间的距离，其中 JS散度定义在 KL 散度的基础上，解决了 KL 散度不对称的问题。二者定义为：
 
 $$
-\begin{array}{l}{{\displaystyle KL(p||q)=E_{x\sim p(x)}\left[\log\frac{p(x)}{q(x)}\right]=\int_{x}p(x)log\frac{p(x)}{q(x)}dx}}\\{{\displaystyle JS(p||q)=\frac{1}{2}KL(p||\frac{p+q}{2})+\frac{1}{2}KL(q||\frac{p+q}{2})}}\end{array}
+\begin{aligned}&KL(p||q)=E_{x\sim p(x)}\left[\log\frac{p(x)}{q(x)}\right]=\int_{x}^{x}p(x)log\frac{p(x)}{q(x)}dx\\&\quad\ \ \ JS(p||q)=\frac{1}{2}KL(p||\frac{p+q}{2})+\frac{1}{2}KL(q||\frac{p+q}{2})\\\end{aligned}
 $$
 
-GAN 使用 JS 散度衡量真实分布 ${\mathsf p}_{\mathsf{r}}$ 与生成分布 $\mathsf{p}_{9}$ 间的距离，模型的训练过程近似等价于最小化 JS(pr||pg)，随着 JS散度越来越小，生成分布逼近真实分布，生成样本则越来越拟真，最终达到“以假乱真”的效果。
+GAN 使用 JS 散度衡量真实分布 $\mathsf{p}_{\mathsf{T}}$ 与生成分布 $\mathsf{p}_{\mathsf{9}}$ 间的距离，模型的训练过程近似等价于最小化 JS(pr||pg)，随着 JS散度越来越小，生成分布逼近真实分布，生成样本则越来越拟真，最终达到“以假乱真”的效果。
 
-当两个分布有重合部分时，分布离得越近，JS散度越小；当两个分布完全重合时，JS散度取值为零。JS 散度的特殊性质体现在，当两个分布无重合部分时，分布离得越远，并不意味着 JS 散度一定越大。严谨的表述为：如果 ${\mathfrak{p}}_{\mathfrak{r}}$ 和 ${\mathfrak{p}}_{\mathfrak{g}}$ 的支撑集相交部分测度为零，则它们之间的 JS散度恒为常数 log2：
+当两个分布有重合部分时，分布离得越近，JS散度越小；当两个分布完全重合时，JS散度取值为零。JS 散度的特殊性质体现在，当两个分布无重合部分时，分布离得越远，并不意味着 JS 散度一定越大。严谨的表述为：如果 $\mathbf{p}_{\mathbf{r}}$ 和 $\mathbf{p_{g}}$ 的支撑集相交部分测度为零，则它们之间的 JS散度恒为常数 log2：
 
 $$
 JS(p_{r}||p_{g})\equiv log2
 $$
 
-上述命题的精确解释及证明过程请参考附录部分。该命题的通俗解释是，如果 pr和 ${\mathsf p}_{9}$ 不相交或者近似不相交（即支撑集相交部分测度为零），那么 JS散度恒为常数 log2。这个结论意味着只要 pr和 $\mathsf{p}_{\mathsf{g}}$ 不重合，那么无论二者距离多远，JS散度都为常数，如下图的 State1和 State2 所示。换言之，此时 JS 散度失去了判别距离远近的能力。GAN 训练时如果判别器训练太好，往往就会出现这种情况，阻碍生成器的训练，我们在下一小节详细展开。
+上述命题的精确解释及证明过程请参考附录部分。该命题的通俗解释是，如果 pr和 $\mathsf{p}_{\mathsf{9}}$ 不相交或者近似不相交（即支撑集相交部分测度为零），那么 JS散度恒为常数 log2。这个结论意味着只要 pr和 $\mathsf{p}_{9}$ 不重合，那么无论二者距离多远，JS散度都为常数，如下图的 State1和 State2 所示。换言之，此时 JS 散度失去了判别距离远近的能力。GAN 训练时如果判别器训练太好，往往就会出现这种情况，阻碍生成器的训练，我们在下一小节详细展开。
 
 图表2： 不同距离下两个分布间的 JS散度
 ![](images/ffe57442a5bd9f8196c98798a54853ad8d79f29f6d4a21ac875bc73e53a4c794.webp)
@@ -101,13 +101,13 @@ $$
 为叙述清晰，我们再次展示原始 GAN 模型的目标函数：
 
 $$
-V(G,D)=E_{x\sim p_{r}}{\bigl[}\log\bigl(D(x)\bigr)\bigr]+E_{z\sim p_{z}}{\bigl[}\log\bigl(1-D(G(z))\bigr)\bigr]
+V(G,D)=E_{x\sim p_r}[\log(D(x))]+E_{z\sim p_z}[\log(1-D(G(z)))]
 $$
 
-或者可以直接写成下述目标函数形式，其中 $\mathsf{p}_{\mathsf{r}}$ 表示真实分布， $\mathsf{p}_{9}$ 表示生成分布：
+或者可以直接写成下述目标函数形式，其中 $\mathsf{p}_{\Gamma}$ 表示真实分布， $\mathsf{p}_{9}$ 表示生成分布：
 
 $$
-V(G,D)=E_{x\sim p_{r}}{\bigl[}\log{\bigl(}D(x){\bigr)}{\bigr]}+E_{x\sim p_{g}}{\bigl[}\log\bigl(1-D(x)\bigr){\bigr]}
+V(G,D)=E_{x\sim p_{r}}[\log\bigl(D(x)\bigr)]+E_{x\sim p_{g}}[\log\bigl(1-D(x)\bigr)]
 $$
 
 在《人工智能 31：生成对抗网络 GAN 初探》（20200508）中我们证明对于给定的生成器G，如果判别器 D训练到最优，则训练生成器的损失函数将变成：
@@ -123,7 +123,7 @@ $$
 在实际训练过程中，我们毕竟难以达到理论上的“最优判别器”，但是 Arjovsky等（2017）指出，随着判别器接近最优，生成器损失函数的梯度仍会接近于零，出现梯度消失现象：
 
 $$
-\operatorname*{lim}_{\substack{||D-D^{*}||0}}\nabla_{\theta}E_{z\sim p_{z}}[\log(1-D(G_{\theta}(z))]=0
+\lim_{\left|\left|D-D^{*}\right|\right|\rightarrow0}\nabla_{\theta}E_{z\sim p_{z}}[\log(1-D(G_{\theta}(z))]=0
 $$
 
 我们对 GAN 的缺点一进行总结：GAN 在训练过程中如果判别器训练得不好，则生成器难以提升；如果判别器训练得太好，再去训练生成器容易产生梯度消失的问题，导致生成器难以训练。
@@ -138,13 +138,13 @@ $$
 
 在原始的 GAN 中，我们实际训练判别器和生成器使用的损失函数分别为下面两式。判别器的损失函数 J(D)在 GAN 原始目标函数前加负号，是因为训练中默认使用梯度下降法最小化损失函数。生成器损失函数 J(G)只有 J(D)的第二项，是因为在训练生成器时，log(D(x))不包含 G且 D固定，相当于常数，故略去。
 
-判别器： $J(D)=-(E_{x\sim p_{r}}[\log\bigl(D(x)\bigr)]+E_{z\sim p_{z}}[\log(1-D(G(z)))])$
+判别器： $J(D)=-(E_{x\sim p_{r}}[\log(D(x))]+E_{z\sim p_{z}}[\log(1-D(G(z)))])$
 
 $$
 J(G)=E_{z\sim p_{z}}[\log(1-D(G(z)))]
 $$
 
-在训练时每轮迭代优化判别器，使得 J(D)减小，即要求 $\mathsf E_{z\sim\mathsf{p}z}[\mathsf{log}(1\cdot\mathsf{D}(\mathsf{G}(z)))]$ 增大；优化生成器，使得 J(G)减小，即要求 Ez~pz[log(1-D(G(z)))]减小。一方增大而一方减小，即判别器与生成器的损失函数优化过程相背离，无法看到任何一方收敛。
+在训练时每轮迭代优化判别器，使得 J(D)减小，即要求 $E_{z\sim pz}[\log(1-D(G(z)))]$ 增大；优化生成器，使得 J(G)减小，即要求 Ez~pz[log(1-D(G(z)))]减小。一方增大而一方减小，即判别器与生成器的损失函数优化过程相背离，无法看到任何一方收敛。
 
 ## GAN 缺点三：模式崩溃
 
@@ -152,7 +152,7 @@ GAN 在生成时容易出现生成样本过于单一，缺乏多样性的现象�
 
 在论证模式崩溃的问题之前，我们首先引入 Non-saturating GAN 的概念。在原始的 GAN目标函数中包含 Ez~pz[log(1-D(G(z)))]，由于 log(1-D(G(z)))在训练初期梯度太小，因此在实践中我们更常使用−Ez~pz[log(D(G(z)))]代替上面这项，此时判别器与生成器的损失函数分别为：
 
-判别器： $J(D)=E_{z\sim p_{z}}{\bigl[}\log D{\bigl(}G(z){\bigr)}{\bigr]}-E_{x\sim p_{r}}{\bigl[}\log{\bigl(}D(x){\bigr)}{\bigr]}$
+判别器： $J(D)=E_{z\sim p_{z}}[\log D(G(z))]-E_{x\sim p_{r}}[\log(D(x))]$
 
 生成器： $J(G)=-E_{z\sim p_{z}}[\log D(G(z))]$
 
@@ -168,34 +168,34 @@ GAN 在生成时容易出现生成样本过于单一，缺乏多样性的现象�
 
 ## Non-saturating GAN 中 J(G)的等价表达
 
-前文我们已经提到，在 Minimax GAN 模型中，如果判别器达到最优（不妨假设为 $\mathsf{D}^{\star}(\mathsf{x}))$ 那么训练生成器的目标函数将变为：
+前文我们已经提到，在 Minimax GAN 模型中，如果判别器达到最优（不妨假设为 $\mathbf{D}^{*}(\mathbf{x}))$ 那么训练生成器的目标函数将变为：
 
 $$
-\begin{array}{c}{{C(G)=E_{x\sim p_{r}}\bigl[\log\bigl(D^{*}(x)\bigr)\bigr]+E_{x\sim p_{g}}\bigl[\log\bigl(1-D^{*}(x)\bigr)\bigr]}}\\{{=-log4+2JS(p_{r}||p_{g})}}\end{array}
+\begin{aligned}C(G)=E_{x\sim p_r}&[\log(D^*(x))]+E_{x\sim p_g}[\log(1-D^*(x))]\\&=-log4+2JS(p_r||p_g)\end{aligned}
 $$
 
 对应的最优判别器表达式为：
 
 $$
-D^{*}(x)={\frac{p_{r}(x)}{p_{r}(x)+p_{g}(x)}}
+D^{*}(x)=\frac{\overline{{p}}_{r}(x)}{p_{r}(x)+p_{g}(x)}
 $$
 
 下面我们考虑生成分布与真实分布的 KL 散度：
 
 $$
-\begin{array}{rl}&{\quad KL(p_{g}||p_{r})=E_{x\sim p_{g}}\left[\log\displaystyle\frac{p_{g}(x)}{p_{r}(x)}\right]}\\&{=E_{x\sim p_{g}}\left[\log\displaystyle\frac{p_{g}(x)/(p_{r}(x)+p_{g}(x))}{p_{r}(x)/(p_{r}(x)+p_{g}(x))}\right]}\\&{=E_{x\sim p_{g}}\left[\log\displaystyle\frac{1-D^{*}(x)}{D^{*}(x)}\right]}\\&{=E_{x\sim p_{g}}\big[\log\big(1-D^{*}(x)\big)\big]-E_{x\sim p_{g}}\left[\log D^{*}(x)\right]}\end{array}
+\begin{aligned}&KL(p_{g}||p_{r})=E_{x\sim p_{g}}\left[\log\frac{p_{g}(x)}{p_{r}(x)}\right]\\&=E_{x\sim p_{g}}\left[\log\frac{p_{g}(x)/(p_{r}(x)+p_{g}(x))}{p_{r}(x)/(p_{r}(x)+p_{g}(x))}\right]\\&=E_{x\sim p_{g}}\left[\log\frac{1-D^{*}(x)}{D^{*}(x)}\right]\\&=E_{x\sim p_{g}}\left[\log\bigl(1-D^{*}(x)\bigr)\right]-E_{x\sim p_{g}}\left[\log D^{*}(x)\right]\\\end{aligned}
 $$
 
 联立C(G)的表达式，我们可以得到Non-saturating GAN中生成器损失函数的等价表达为：
 
 $$
-\begin{array}{c}{{J(G)=-E_{z\sim p_{z}}\bigl[\log D^{*}\bigl(G(z)\bigr)\bigr]=-E_{x\sim p_{g}}[\log D^{*}(x)]}}\\{{=KL(p_{g}||p_{r})-2JS(p_{r}|\left|p_{g}\right.)+log4+E_{x\sim p_{r}}\bigl[\log\bigl(D^{*}(x)\bigr)\bigr]}}\end{array}
+\begin{aligned}&J(G)=-E_{z\sim p_{z}}\bigl[\log D^{*}\bigl(G(z)\bigr)\bigr]\;=-E_{x\sim p_{g}}\bigl[\log D^{*}(x)\bigr]\\&=\;KL(p_{g}||p_{r})-2JS(p_{r}||p_{g})+log4+E_{x\sim p_{r}}\bigl[\log\bigl(D^{*}(x)\bigr)\bigr]\\\end{aligned}
 $$
 
 由于在训练生成器时完全依赖于判别器的损失函数项为常数可以忽略，因此简化的等价表达为：
 
 $$
-J(G)=KL(p_{g}||p_{r})-2JS(p_{r}|\big|p_{g}\big)
+J(G)=KL(p_{g}||p_{r})-2JS(p_{r}||p_{g})
 $$
 
 注意，上述表达式的前提是判别器达到最优。实际上，当 GAN 训练到后期，判别器的能力已经很强，可近似认为判别器接近最优。因此，训练生成器近似于最小化上述 J(G)的表达式。生成器的模式崩溃正是由 J(G)的第一项 KL 散度的不对称性导致。
@@ -205,7 +205,7 @@ $$
 基于上文 J(G)的等价表达式可以进一步推导出模式崩溃的原因。首先将 KL 散度写成积分的形式：
 
 $$
-\begin{array}{l}{{\displaystyle KL(p_{g}||p_{r})=E_{x\sim P_{g}}\left[\log\frac{p_{g}(x)}{p_{r}(x)}\right]}}\\{{\displaystyle~=\int_{x}~p_{g}(x)~\log\frac{p_{g}(x)}{p_{r}(x)}dx}}\end{array}
+\begin{aligned}&KL(p_{g}||p_{r})=E_{x\sim P_{g}}\left[\log\frac{p_{g}(x)}{p_{r}(x)}\right]\\&\quad=\int_{x}p_{g}(x)\log\frac{p_{g}(x)}{p_{r}(x)}dx\\\end{aligned}
 $$
 
 我们考虑生成样本的两种情形：
@@ -241,17 +241,17 @@ $$
 W(p,q)=\operatorname*{min}_{\gamma\in\Pi}\sum_{x_{p},x_{q}}\gamma\big(x_{p},x_{q}\big)||x_{p}-x_{q}||
 $$
 
-其中 $\gamma(\mathsf{x}_{\mathsf{p}},\mathsf{x}_{\mathsf{q}})$ 表示某种推土方案下对应的 $\mathsf{x}_{\mathsf{p}}$ 到 $\mathsf{X}_{\mathsf{q}}$ 的推土量， $||x_{p}-x_{q}||$ |则表示二者之间的某种距离（如欧式距离），Π表示所有可能的推土方案。根据 EM 距离的直观定义可知，EM 距离没有上界，随着两个分布之间越来越远，EM 距离会趋于无穷。换言之，EM 距离和 JS散度不同，不会出现梯度为零的情况。
+其中 $\gamma(\mathbf{x}_{\mathsf{P}},\mathbf{x}_{\mathsf{Q}})$ 表示某种推土方案下对应的 $x_{p}$ 到 $\mathbf{X}_{\mathbf{Q}}$ 的推土量， $||x_{p}-x_{q}||$ |则表示二者之间的某种距离（如欧式距离），Π表示所有可能的推土方案。根据 EM 距离的直观定义可知，EM 距离没有上界，随着两个分布之间越来越远，EM 距离会趋于无穷。换言之，EM 距离和 JS散度不同，不会出现梯度为零的情况。
 
 ## W距离的数学定义及性质
 
 上一小节我们从“推土”的角度定义了 EM 距离也即 W 距离，这里我们从概率分布的角度定义W 距离。根据 Arjovsky等（2017），衡量真实分布与生成分布的W 距离数学定义如下：
 
 $$
-W\big(p_{r},p_{g}\big)=\operatorname*{inf}_{\gamma\sim\Pi\big(p_{r},p_{g}\big)}E_{(x,y)\sim\gamma}[||x-y||]
+W\big(p_{r},p_{g}\big)=\operatorname*{inf}_{\gamma\sim\Pi\left(p_{r},p_{g}\right)}E_{(x,y)\sim\gamma}[||x-y||]
 $$
 
-其中 ${\mathsf{X}}{\sim}{\mathsf{p}}_{\mathsf{r}}$ ${\tt y}\sim{\tt p}_{\tt g},$ ，γ表示(x,y)的联合分布， $\Pi(\mathsf{p}_{\mathsf{r}},\mathsf{p}_{\mathsf{g}})$ 表示所有可能的γ取值空间。上式的本质是将分布 pr推向分布 ${\mathsf p}_{9}$ 所要经过的最小距离。
+其中 $X-pr$ $y=pg,$ ，γ表示(x,y)的联合分布， $\Pi(\mathsf{p}_{\mathsf{T}},\mathsf{p}_{\mathsf{S}})$ 表示所有可能的γ取值空间。上式的本质是将分布 pr推向分布 $\mathsf{p}_{9}$ 所要经过的最小距离。
 
 在论证原始的 GAN 模型 G与 D 训练不同步的问题时，我们提到若真实分布与生成分布的支撑集相交部分测度为零，JS 散度恒为常数。真实分布与生成分布近似不相交或者完全不相交时，那么无论真实分布与生成分布是距离一步之遥，还是距离海角天涯，JS 散度都是常数。换言之，JS散度无法指示不重合的两个分布到底距离多远。
 
@@ -264,20 +264,20 @@ W 距离的优越性正体现于此。W 距离随分布间“距离”的变化�
 W 距离的原始数学定义过于理论，且在实际中无法直接计算。为便于使用，可以通过Kantorovich-Rubinstein Duality 公式（Arjovsky, 2017）将其等价变换为下式：
 
 $$
-\begin{array}{rlr}&{}&{W\big(p_{r},p_{g}\big)=\displaystyle\frac{1}{K}\operatorname*{sup}_{w:\left||f_{w}|\right|_{L}\leq K}(E_{x\sim p_{r}}\big[f_{w}(x)\big]-E_{x\sim p_{g}}\big[f_{w}(x)\big])\quad}\\&{}&{\qquad=\displaystyle\frac{1}{K}\operatorname*{sup}_{w:\left||f_{w}|\right|_{L}\leq K}(E_{x\sim p_{r}}\big[f_{w}(x)\big]-E_{z\sim p_{z}}\big[f_{w}\big(G(z)\big)\big])}\end{array}
+\begin{align*}W\big(\boldsymbol{p}_r,\boldsymbol{p}_g\big)=&\frac{1}{K}\sup_{\boldsymbol{w}:\left|\left|\boldsymbol{f}_w\right|\right|_L\leq K}(E_{\boldsymbol{x}\sim\boldsymbol{p}_r}\big[\boldsymbol{f}_w(\boldsymbol{x})\big]-E_{\boldsymbol{x}\sim\boldsymbol{p}_g}\big[\boldsymbol{f}_w(\boldsymbol{x})\big])\\=&\frac{1}{K}\sup_{\boldsymbol{w}:\left|\left|\boldsymbol{f}_w\right|\right|_L\leq K}(E_{\boldsymbol{x}\sim\boldsymbol{p}_r}\big[\boldsymbol{f}_w(\boldsymbol{x})\big]-E_{\boldsymbol{z}\sim\boldsymbol{p}_z}\big[\boldsymbol{f}_w\big(\boldsymbol{G}(\boldsymbol{z})\big)\big]).\end{align*}
 $$
 
 关于这个等价定义，我们进行如下三点解释：
 
-1. $\{f_{w}(x),w\in\mathcal{W}\}$ 表示一族依赖于参数 w 的函数f，参数 w 的取值空间为W。函数f可以是能写出表达式的简单初等函数，也可以是一个复杂的深度学习网络。如果f是一个深度学习网络，则参数 w 就是网络中的一系列权重。
+1. $\{f_{w}(x),\;w\in\mathcal{W}\}$ 表示一族依赖于参数 w 的函数f，参数 w 的取值空间为W。函数f可以是能写出表达式的简单初等函数，也可以是一个复杂的深度学习网络。如果f是一个深度学习网络，则参数 w 就是网络中的一系列权重。
 
-2. w:||fw||≤K表示函数 $f_{w}$ 满足 Lipschitz 条件：即对于 $f_{w}\gnapprox$ 义域内的任何取值a和b，满足$|f_{w}(a)-f_{w}(b)|\leq K|a-b|$ ，K称为 Lipschitz 常数。在 W 距离的等价定义式中，K可以是任意正实数。
+2. w:||fw||≤K表示函数 $f_{W}$ 满足 Lipschitz 条件：即对于 $f_{w}定$ 义域内的任何取值a和b，满足$|f_{w}(a)-f_{w}(b)|\leq K|a-b|$ ，K称为 Lipschitz 常数。在 W 距离的等价定义式中，K可以是任意正实数。
 
 3. sup 表示对所有满足条件的函数 $f_{w}$ 求括号中表达式的上确界，在实际应用中近似等价于求括号中表达式的最大值。
 
-W 距离的等价定义式实际上就是WGAN的目标函数。在给定生成器 G时，上述定义式中的函数 $f_{w}$ 可以用一个深度学习网络来代替，这个深度学习网络的目标就是要最大化$\mathsf E_{\mathsf e\sim\mathsf p\mathsf{r}}[f_{w}(\mathsf{x})]\mathsf{-E}_{z\sim\mathsf{p}z}[f_{w}(\mathsf{G}(z))]$ ，在训练时K是一个常数，因此系数项可以忽略。为保持与 GAN统一，这里我们仍称这个深度学习网络为“判别器”（原文称为 critic），当然此时“判别器”已不再执行判别真假的功能，而是估计真假样本分布的 W 距离。类似于 GAN，WGAN 在实践中判别器与生成器也是交替训练的，这里我们列出二者的损失函数：
+W 距离的等价定义式实际上就是WGAN的目标函数。在给定生成器 G时，上述定义式中的函数 $f_{w}$ 可以用一个深度学习网络来代替，这个深度学习网络的目标就是要最大化$\mathsf{E}_{\mathsf{x}\sim\mathsf{pr}}[f_{w}(\mathsf{x})]\mathsf{-}\mathsf{E}_{\mathsf{z}\sim\mathsf{pz}}[f_{w}(\mathsf{G}(\mathsf{z}))]$ ，在训练时K是一个常数，因此系数项可以忽略。为保持与 GAN统一，这里我们仍称这个深度学习网络为“判别器”（原文称为 critic），当然此时“判别器”已不再执行判别真假的功能，而是估计真假样本分布的 W 距离。类似于 GAN，WGAN 在实践中判别器与生成器也是交替训练的，这里我们列出二者的损失函数：
 
-判别器： $J(D)=E_{z\sim P_{z}}\bigl[f_{w}\bigl(G(z)\bigr)\bigr]-E_{x\sim P_{r}}[f_{w}(x)]$
+判别器： $J(D)=E_{z\sim P_z}[f_w(G(z))]-E_{x\sim P_r}[f_w(x)]$
 
 生成器： $J(G)=-E_{z\sim P_{z}}\big[f_{w}\big(G(z)\big)\big]$
 
@@ -287,10 +287,10 @@ W 距离的等价定义式实际上就是WGAN的目标函数。在给定生成�
 
 WGAN 的原理逻辑较清晰，但是在等价定义式中对判别器有一个重要限制——判别器需满足 Lipschitz 条件。通常来说有两种处理办法，一种是权重剪裁（Weight Clipping），一种是梯度惩罚（Gradient Penalty），这里分别介绍。
 
-权重剪裁的思想是对判别器网络的权重进行限制，因为神经网络仅仅是有限个权值与神经元相乘的结果，所以如果权重在某个有限范围内变化，那么判别器的输出值 $f_{w}({\sf x})$ 也不会变得太大，近似可以满足K-Lipschitz条件。实际操作中，会在训练判别器的每一步反向传播更新权值之后对权重进行剪裁，例如可以将更新后的权值限制到[-0.01, 0.01]中：
+权重剪裁的思想是对判别器网络的权重进行限制，因为神经网络仅仅是有限个权值与神经元相乘的结果，所以如果权重在某个有限范围内变化，那么判别器的输出值 $f_{w}(\mathsf{x})$ 也不会变得太大，近似可以满足K-Lipschitz条件。实际操作中，会在训练判别器的每一步反向传播更新权值之后对权重进行剪裁，例如可以将更新后的权值限制到[-0.01, 0.01]中：
 
 $$
-w_{update}^{clip}=\left\{\begin{array}{rl}{0.01,\quad}&{ifw_{update}>0.01}\\{w_{update},\quad}&{if-0.01\leq w_{update}\leq0.01}\\{-0.01,\quad}&{ifw_{update}<-0.01}\end{array}\right.
+w_{update}^{clip}=\left\{\begin{matrix}0.01,&\quad ifw_{update}>0.01\\w_{update},&\quad if-0.01\leq w_{update}\leq0.01\\-0.01,&\quad ifw_{update}<-0.01\\\end{matrix}\right.
 $$
 
 权重剪裁实际上并没有真正让判别器满足K-Lipschitz条件，且实证表明权重剪裁会让大部分网络权重落在限制边界上，使得生成样本的质量不佳。
@@ -298,10 +298,10 @@ $$
 更常用的方法是梯度惩罚。如果能将判别器 $f_{w}$ 相对于输入 x的梯度限制在一定范围内，那么自然 $f_{w}$ 就能满足K-Lipschitz条件。根据这个思想，可以在判别器损失函数中增加惩罚项，将判别器损失函数写成：
 
 $$
-J(D)=E_{z\sim p_{z}}\big[f_{w}\big(G(z)\big)\big]-E_{x\sim p_{r}}[f_{w}(x)]+\lambda E_{\hat{x}\sim p_{\hat{x}}}[(\big||\nabla_{\hat{x}}f_{w}(\hat{x})|\big|_{2}-1)^{2}]
+J(D)=E_{z\sim p_{z}}[f_{w}(G(z))]-E_{x\sim p_{r}}[f_{w}(x)]+\lambda E_{\hat{x}\sim p_{\hat{x}}}[(\left|\left|\nabla_{\hat{x}}f_{w}(\hat{x})\right|\right|_2-1)^2]
 $$
 
-这个损失函数对判别器 $f_{\mathrm{w}}$ 相对于输入的梯度进行惩罚，将梯度的 L2-范数约束在 1 附近，从而保证 Lipschitz 条件的成立。通过这种改进的 WGAN 模型就称为 WGAN-GP 模型（Gulrajani，2017）。这里我们进行额外几点说明：
+这个损失函数对判别器 $f_{w}$ 相对于输入的梯度进行惩罚，将梯度的 L2-范数约束在 1 附近，从而保证 Lipschitz 条件的成立。通过这种改进的 WGAN 模型就称为 WGAN-GP 模型（Gulrajani，2017）。这里我们进行额外几点说明：
 
 1. 在约束K-Lipschitz 条件时，我们并不关心K是多少，实际上根据 W 距离的等价关系，K可以是任意的正实数，所以只要能让 $f_{w}$ 满足某个尺度的 Lipschitz条件即可。
 
@@ -323,24 +323,26 @@ $$
 
 ## 图表7： WGAN-GP训练算法的伪代码
 
+```latex
 输入：迭代次数 T，每轮迭代判别器 D训练次数 K，小批量（minibatch）样本数量 m
-随机初始化 D网络参数 $\theta_{d}$ 和 G网络参数 ${\it\Delta}\cdot\theta_{g}$ 
+随机初始化 D网络参数 $\theta_{d}$ 和 G网络参数 $i\theta_{g}$
 2 for t ←1 to T do
 # 训练判别器 D
 3 for k ←1 to K do
 # 采集小批量样本
-4从训练集 ${\mathfrak{p}}_{r}(x)$ 中采集 m条样本 $\{x^{(m)}\}$ 
-5从标准正态分布 $p_{g}(z)$ 中采集 m条样本 $\cdot\{z^{(m)}\}$ 
+4从训练集 ${\mathfrak{:}}p_{r}(x)$ 中采集 m条样本 $\{x^{(m)}\}$
+5从标准正态分布 $[p_{g}(z)$ 中采集 m条样本 $\mathsf{L}\{z^{(m)}\}$
 6从[0,1]均匀分布中采集m 个随机数 $\{\epsilon^{(m)}\}$ ，并计算 $\hat{x}^{(i)}=\epsilon^{(i)}x^{(i)}+(1-\epsilon^{(i)})\mathsf{G}(z^{(i)})$ ，得到{x̂(m)}
 7使用随机梯度下降更新判别器 D，梯度为：
-$\nabla_{\theta_{d}}\frac{1}{m}\sum_{i=1}^{m}[D\left(G\big(z^{(i)}\big)\right)-D\big(x^{(i)}\big)+\lambda(\Big|\big|\nabla_{\hat{x}}D\big(\hat{x}^{(i)}\big)\big|\Big|_{2}-1)^{2}]$ 
+$\nabla_{\theta_{d}}\frac{1}{m}{\sum}_{i=1}^{m}[D\left(G\big(z^{(i)}\big)\right)-D\big(x^{(i)}\big)+\lambda(\Big|\big|\nabla_{\hat{x}}D\big(\hat{x}^{(i)}\big)\big|\Big|_{2}-1)^{2}]$
 8 end
 # 训练生成器 G
-9从标准正态分布 ${\dot{p}}_{g}(z)$ 中采集 m 条样本 $\{z^{(m)}\}$ 
+9从标准正态分布 $ip_{g}(z)$ 中采集 m 条样本 $\{z^{(m)}\}$
 10使用随机梯度下降更新生成器G，梯度为：
-$\nabla_{\theta_{g}}\frac{1}{m}{\sum_{i=1}^{m}[-D\left(G{\left(z^{(i)}\right)}\right)]}$ 
+$\nabla_{\theta_{g}}\frac{1}{m}{\sum}_{i=1}^{m}[-D\left(G\big(z^{(i)}\big)\right)],$
 11 end
 输出：生成器 G
+```
 资料来源：Improved Training of Wasserstein GAN，华泰证券研究所
 
 ## GAN 与 WGAN 的比较
@@ -425,7 +427,7 @@ $\nabla_{\theta_{g}}\frac{1}{m}{\sum_{i=1}^{m}[-D\left(G{\left(z^{(i)}\right)}\r
 | 输出层神经元数量 | 1 |
 | 输出层激活函数 | LeakyReLU(0.2) |
 | 是否标准化 | 否/Layer-Normalization |
-| 损失函数 | $E_{z\sim p_{z}}\big[f_{w}\big(G(z)\big)\big]-E_{x\sim p_{r}}[f_{w}(x)]+\lambda E_{\hat{x}\sim p_{\hat{x}}}[(\big\|\|\nabla_{\hat{x}}f_{w}(\hat{x})\|\big\|_{2}-1)^{2}]$ |
+| 损失函数 | $E_{z\sim p_{z}}[f_{w}(G(z))]-E_{x\sim p_{r}}[f_{w}(x)]+\lambda E_{\hat{x}\sim p_{\hat{x}}}[(\left\|\left\|\nabla_{\hat{x}}f_{w}(\hat{x})\right\|\right\|_{2}-1)^{2}]$ |
 | 优化器 | RMSProp |
 | 优化器参数 | 0.0001 |
 
@@ -453,31 +455,31 @@ $\nabla_{\theta_{g}}\frac{1}{m}{\sum_{i=1}^{m}[-D\left(G{\left(z^{(i)}\right)}\r
 
 方差比率检验（Variance Ratio Test）最早提出是为了检验金融资产的价格序列是否为随机游走，从而验证市场的有效性。检验的核心思想在于，如果市场是有效的，那么资产价格服从随机游走，则收益率的方差是时间的线性函数，下面我们展开说明。
 
-假设 $P_{t}$ 代表 t 时刻资产的对数价格, $r_{t}=P_{t}-P_{t-1}$ 表示 t 时刻对应的单期对数收益率，$r_{t}(q)=P_{t}-P_{t-q}$ 代表 t时刻对应的 q 期对数收益率，t的取值为 0～T。对数价格的随机游走过程由下式刻画：
+假设 $.P_{t}$ 代表 t 时刻资产的对数价格, $r_{t}=P_{t}-P_{t-1}$ 表示 t 时刻对应的单期对数收益率，$r_{t}(q)=P_{t}-P_{t-q}$ 代表 t时刻对应的 q 期对数收益率，t的取值为 0～T。对数价格的随机游走过程由下式刻画：
 
 $$
 P_{t}=\mu+P_{t-1}+\varepsilon_{t}
 $$
 
-其中 $\mu$ 表示漂移项，εt表示随机增量。关于 $\varepsilon_{\mathrm{t}}$ 的不同假设可以得到不同强度的随机游走，例如我们可以假设 $\scriptstyle{\mathcal{E}}_{\mathrm{t}}$ 非自相关，且同方差。此时：
+其中 $\mu$ 表示漂移项，εt表示随机增量。关于 $\varepsilon_{\mathrm{t}}$ 的不同假设可以得到不同强度的随机游走，例如我们可以假设 $.\mathcal{E}\mathbf{t}$ 非自相关，且同方差。此时：
 
 $$
-\begin{array}{c}{{Var[r_{t}(q)]=Var\bigl[P_{t}-P_{t-q}\bigr]}}\\{{=Var\bigl[(P_{t}-P_{t-1})+(P_{t-1}-P_{t-2})+\cdots+\bigl(P_{t-q+1}-P_{t-q}\bigr)\bigr]}}\\{{=Var\bigl[r_{t}+r_{t-1}+\cdots r_{t-q+1}\bigr]=Var[q\mu+\varepsilon_{t}+\varepsilon_{t-1}+\cdots+\varepsilon_{t-q+1}]}}\\{{=qVar[\varepsilon_{t}]=qVar[r_{t}]}}\end{array}
+\begin{aligned}Var[r_{t}(q)]&=Var\big[P_{t}-P_{t-q}\big]\\=Var\big[(P_{t}-P_{t-1})+(P_{t-1}-P_{t-2})+\cdots+(P_{t-q+1}-P_{t-q})\big]\\=Var\big[r_{t}+r_{t-1}+\cdots r_{t-q+1}\big]&=Var\big[q\mu+\varepsilon_{t}+\varepsilon_{t-1}+\cdots+\varepsilon_{t-q+1}\big]\\=qVar[\varepsilon_{t}]&=qVar[r_{t}]\end{aligned}
 $$
 
 即在随机游走假设下， $Var[r_{t}(q)]=qVar[r_{t}]$ 成立，q 期的对数收益率方差等于单期对数收益率方差的 q倍，因此可以用如下方差比率检验来判断市场的随机游走假设是否成立。
 
 $$
-H_{0}:\frac{Var[r_{t}(q)]}{qVar[r_{t}]}=1
+H_{0}:\frac{Var[r_{t}(q)]}{qVar[r_{t}]}=1.
 $$
 
-Lo 和 Mackinlay 等（1988）提出统计量 $\mathsfit{Z}(\mathsfit{q})$ 对此进行检验，Z(q)的具体计算公式请参考附录。如果 H0假设成立，即 q 期的对数收益率方差等于单期对数收益率方差的 q 倍，那么在大样本条件下 $Z({\mathsf{q}})$ 服从 N(0,1)标准正态分布，95%置信水平下的拒绝域为$(-\infty,1.96]\cup[1.96,+\infty)$ 。因此，对于真实序列和生成的每条样本序列，我们可以遵循如下步骤进行方差比率检验：
+Lo 和 Mackinlay 等（1988）提出统计量 $\mathsf{Z}(\mathsf{q})$ 对此进行检验，Z(q)的具体计算公式请参考附录。如果 H0假设成立，即 q 期的对数收益率方差等于单期对数收益率方差的 q 倍，那么在大样本条件下 $\mathsf{Z}(\mathsf{q})$ 服从 N(0,1)标准正态分布，95%置信水平下的拒绝域为$(-\infty,1.96]\cup[1.96,+\infty)$ 。因此，对于真实序列和生成的每条样本序列，我们可以遵循如下步骤进行方差比率检验：
 
 1. 选定需要检验的滞后阶数 q，计算样本的单期对数收益率序列；
 
-2. 计算检验统计量 $Z({\mathsf{q}})$ ；
+2. 计算检验统计量 $\mathsf{Z}(\mathsf{q})$ ；
 
-3. 将 $\mathsfit{Z}(\mathsfit{q})$ 与拒绝域临界值进行比较，例如在 95%的置信水平下，如果-1.96≤Z(q) ≤1.96，则接受原假设，认为当前序列在 q 期的时间跨度内为随机游走，否则为非随机游走。
+3. 将 $\mathsf{Z}(\mathsf{q})$ 与拒绝域临界值进行比较，例如在 95%的置信水平下，如果-1.96≤Z(q) ≤1.96，则接受原假设，认为当前序列在 q 期的时间跨度内为随机游走，否则为非随机游走。
 
 一般来说，A股市场在短期内不能拒绝原假设，会表现出随机游走的特征，在中长期则拒绝原假设，表现出非随机游走的特征。
 
@@ -486,7 +488,7 @@ Lo 和 Mackinlay 等（1988）提出统计量 $\mathsfit{Z}(\mathsfit{q})$ 对�
 时间序列的长时程相关(Long-Range Dependence)指的是时间序列过去的状态可能对现在或未来产生影响。对于金融时间序列，长时程相关则意味着间隔较久的证券价格之间也存在相关性，在这种假设下，市场可能会产生“历史重演”的现象，因此长时程相关也称为长记忆性。Hurst指数可以刻画这种长时程相关，其定义如下：
 
 $$
-E\left[\frac{R(n)}{S(n)}\right]=An^{H}
+E\left[\frac{R(n)}{S(n)}\right]=An^H
 $$
 
 其中 n表示某一段序列的区间长度，R(n)表示这一段序列在区间上的变化范围，S(n)表示这一段序列在区间上的波动，A 表示某一个常数，H 表示 Hurst 指数。在实际计算过程中我们正是按照 Hurst 指数的定义来计算的，这种计算方法也叫做 R/S 分析法（RescaledRange Analysis），计算步骤如下图所示。
@@ -500,7 +502,7 @@ $$
 2 在第i个子序列内逐一计算累积离差：
 
 $$
-Y_{ik}=\sum_{t=1}^{k}(r_{ik}-\bar{r_{i}}),k=1,2,\dots,n
+Y_{ik}=\sum_{t=1}^{k}(r_{ik}-\bar{r}_{i}),k=1{,}2,\ldots,n.
 $$
 
 其中 $\bar{r}_{i}$ 为第i个子序列的均值
@@ -508,7 +510,7 @@ $$
 3计算第i个子序列的标准差 $.S_{i}$ 以及第i个子序列的累积离差变化范围 $R_{i}$
 
 $$
-R_{i}=\operatorname*{max}(Y_{ik})-\operatorname*{min}(Y_{ik}),1\leq k\leq n
+R_{i}=\max(Y_{ik})-\min(Y_{ik}),1\leq k\leq n
 $$
 
 4对于第i个子序列，我们得到 R/S比率为 $R_{i}/S_{i}$
@@ -516,10 +518,10 @@ $$
 5对所有划分的子序列重复 2~4, 并对所有的 R/S 比率取均值，得到步长为 n 时的平均意义下 R/S 比率为
 
 $$
-\left(\frac{R}{S}\right)_{n}=\frac{1}{M}\sum_{I=1}^{M}\frac{R_{i}}{S_{i}}
+\left(\frac{R}{S}\right)_{n}=\frac{1}{M}{\sum_{I=1}^{M}}\frac{R_{i}}{S_{i}}.
 $$
 
-6 对于一系列的 n重复 1～5，令 $\left({\frac{R}{s}}\right)_{r}$ 对n进行回归，回归系数即为所求的 Hurst 指数如果 Hurst > 0.5，则表示时间序列具有长记忆性；如果 Hurst < 0.5，则表示时间序列具有反持续性，表现出均值回复的特征，波动较强；如果 Hurst = 0.5，则表示时间序列随机游走。A股及美股市场指数对数收益率序列的 Hurst值在 0.5～0.6 之间，表现出较弱的长记忆性。
+6 对于一系列的 n重复 1～5，令 $\left({\frac{R}{s}}\right)_{n}$ 对n进行回归，回归系数即为所求的 Hurst 指数如果 Hurst > 0.5，则表示时间序列具有长记忆性；如果 Hurst < 0.5，则表示时间序列具有反持续性，表现出均值回复的特征，波动较强；如果 Hurst = 0.5，则表示时间序列随机游走。A股及美股市场指数对数收益率序列的 Hurst值在 0.5～0.6 之间，表现出较弱的长记忆性。
 
 ## 评价指标小结
 
@@ -559,7 +561,7 @@ DTW 算法是对欧式距离的改良，它并不直接计算序列在相同时�
 DTW 基于动态规划算法寻找每一步最匹配的两个点，规划的递推公式如下：
 
 $$
-D(i,j)=\operatorname*{min}\{D(i-1,j-1)+D(i,j-1),D(i-1,j)\}+distance(i,j)
+D(i,j)=\min\{D(i-1,j-1)+D(i,j-1),D(i-1,j)\}+distance(i,j)
 $$
 
 我们称两条序列分别为 A 和 B。上式中等式左侧的D(i,j)表示直到序列 A 的第 i 个时刻和序列 B 的第 j 个时刻两条序列的累积 DTW 距离；等式右侧的distance(i,j)则表示序列 A的第i个点和序列B的第j个点之间的欧式距离。如果两条序列长度均为 N，则最终D(N,N)就表示两条序列的累积 DTW 距离。
@@ -661,7 +663,7 @@ GAN 与WGAN 生成序列的 Hurst 指数值如下图所示。上证综指日频�
 然而仅根据表现出长时程相关的序列比例判定生成序列是否失真是不够的，这里对生成序列的 Hurst 值进行假设检验。我们想要验证生成分布在 Hurst 指标上的总体均值是否显著大于 0.5，假设μH表示生成分布在 Hurst指标上的总体均值，则原假设和备择假设为：
 
 $$
-H_{0}\colon\mu_{H}>0.5H_{1}\colon\mu_{H}\leq0.5
+H_{0}\colon\mu_{H}>0.5\leftrightarrow H_{1}\colon\mu_{H}\leq0.5
 $$
 
 生成的 1000 条虚假序列相当于从生成分布总体中的采样，对于这样的大样本检验，我们可以直接使用单样本正态总体均值的单边显著性检验统计量，如下所示：
@@ -670,14 +672,14 @@ $$
 U=\frac{\sqrt{1000}(\bar{X}-0.5)}{S_{n}}
 $$
 
-其中X̅表示 1000 条生成样本 Hurst 指数的样本均值， $\mathsf{S}_{\mathsf{n}}$ 表示 1000 条生成样本 Hurst 指数的样本方差，记 $\scriptstyle\sum\{h_{t}\}_{t=1,\dots,1000}$ 为 1000 条生成序列的 Hurst 指标值，即
+其中X̅表示 1000 条生成样本 Hurst 指数的样本均值， $\mathbb{S}_{\mathsf{n}}$ 表示 1000 条生成样本 Hurst 指数的样本方差，记 $\boldsymbol{\mathfrak{L}}\{h_{t}\}_{t=1,\dots,1000}$ 为 1000 条生成序列的 Hurst 指标值，即
 
 $$
-\bar{X}=\frac{1}{1000}{\sum}_{t=1}^{1000}h_{t}
+\bar{X}=\frac{1}{1000}{\sum}_{t=1}^{1000}h_{t}.
 $$
 
 $$
-S_{n}={\frac{1}{999}}{\sum}_{t=1}^{1000}(h_{t}-\bar{X})^{2}
+S_{n}=\frac{1}{999}{\sum}_{t=1}^{1000}(h_{t}-\bar{X})^{2}
 $$
 
 在大样本（一般来说样本数大于 30）条件下，原假设 H0成立时 U 服从 N(0,1)标准正态分布，因此在 95%置信水平下，U 如果落入(−∞,−1.64]的拒绝域，则拒绝原假设，认为生成样本的 Hurst指数总体均值小于 0.5。
@@ -891,7 +893,7 @@ WGAN 生成虚假序列是对市场规律的探索，不构成任何投资建议
 
 ## JS 散度性质的证明
 
-JS 散度的性质：如果两个分布 $\mathsf{p}_{\mathsf{r}}$ 和 $\mathsf{p}_{\mathsf{g}}$ 的支撑集相交部分测度为零，则 JS 散度恒为常数log2，即：
+JS 散度的性质：如果两个分布 $\mathtt{p}_{\Gamma}$ 和 $\mathsf{p}_{9}$ 的支撑集相交部分测度为零，则 JS 散度恒为常数log2，即：
 
 $$
 JS(p_{r}||p_{g})\equiv log2
@@ -901,7 +903,7 @@ $$
 
 集合的测度：测度用来衡量 Rn中子集的“大小”。以一维实数空间 R中的子集为例，测度相当于是对“长度”这一概念的延伸，不仅可以描述某段连续区域的大小，即通常意义的长度概念，还可以衡量其它任意子集的“大小”。例如区间[0,1]的“大小”即为长度 1，全体整数构成的集合 Z 的“大小”为 0（虽然 Z不是空集，但测度仍然为零）。
 
-本节推导将用到测度的一个重要性质：如果函数 $\boldsymbol{\mathfrak{f}}(\boldsymbol{x})$ 定义域内某个子集 E的测度为零，那么 f(x)在 E上的积分值也为零，公式表述如下所示：
+本节推导将用到测度的一个重要性质：如果函数 $f(x)$ 定义域内某个子集 E的测度为零，那么 f(x)在 E上的积分值也为零，公式表述如下所示：
 
 $$
 \int_{E}f(x)dx=0
@@ -912,25 +914,25 @@ $$
 下面进行证明。对于真实分布与生成分布的所有可能的取值（二者均不可能的取值对 JS散度无贡献，无需考虑），我们可以划分为 3 部分互不相交的集合 A、B、C，其中：
 
 $$
-\begin{array}{c}{{A=\left\{x\colon p_{r}(x)\neq0andp_{g}(x)=0\right\}}}\\{{B=\left\{x\colon p_{r}(x)=0andp_{g}(x)\neq0\right\}}}\\{{C=\left\{x\colon p_{r}(x)\neq0andp_{g}(x)\neq0\right\}}}\end{array}
+\begin{array}{r}{A=\big\{x\colon p_{r}(x)\neq0\;and\;p_{g}(x)=0\big\},}\\{B=\big\{x\colon p_{r}(x)=0\;and\;p_{g}(x)\neq0\big\},}\\{C=\big\{x\colon p_{r}(x)\neq0\;and\;p_{g}(x)\neq0\big\}.}\end{array}
 $$
 
-因为 ${\mathsf p}_{\mathsf{r}}$ 和 $\mathsf{p}_{\mathsf{g}}$ 的支撑集相交部分测度为零，所以集合 C的测度为零。JS散度的计算等价于在上面 3块集合上进行积分：
+因为 $\mathsf{p}_{\Gamma}$ 和 $\mathsf{p}_{\mathsf{9}}$ 的支撑集相交部分测度为零，所以集合 C的测度为零。JS散度的计算等价于在上面 3块集合上进行积分：
 
 $$
-\begin{array}{l}{{\displaystyle JS(p_{r}||p_{g})=\frac{1}{2}\int_{x}~[p_{r}(x)log~\frac{2p_{r}(x)}{p_{r}(x)+~p_{g}(x)}+~p_{g}(x)log~\frac{2~p_{g}(x)}{p_{r}(x)+~p_{g}(x)}]dx}}\\{{\displaystyle\qquad=\frac{1}{2}\int_{A\cup B\cup C}[p_{r}(x)log~\frac{2p_{r}(x)}{p_{r}(x)+~p_{g}(x)}+~p_{g}(x)log~\frac{2~p_{g}(x)}{p_{r}(x)+~p_{g}(x)}]dx}}\end{array}
+\begin{align*}JS(p_r||p_g)=&\frac{1}{2}\int_{x}^{}[p_r(x)log\frac{2p_r(x)}{p_r(x)+p_g(x)}+\frac{2p_g(x)}{p_g(x)+p_g(x)}]dx\\=&\frac{1}{2}\int_{A\cup B\cup C}^{}[p_r(x)log\frac{2p_r(x)}{p_r(x)+p_g(x)}+\frac{2p_g(x)}{p_g(x)+p_g(x)}]dx.\end{align*}
 $$
 
 上面的式子可进一步拆分为分别在 A、B、C 三个集合上对中间求和项表达式进行积分，在集合 A上即为：
 
 $$
-\begin{array}{l}{\displaystyle{\frac{1}{2}\int_{A}\mathsf{\Pi}[p_{r}(x)log\frac{2p_{r}(x)}{p_{r}(x)+p_{g}(x)}+\ p_{g}(x)log\frac{2p_{g}(x)}{p_{r}(x)+p_{g}(x)}]dx}}\\{\displaystyle{\qquad=\frac{1}{2}log2\int_{A}p_{r}(x)dx}}\\{\displaystyle{\qquad=\frac{1}{2}log2\int_{A\cup B\cup C}p_{r}(x)dx}}\\{\displaystyle{\qquad=\frac{1}{2}log2}}\end{array}
+\begin{aligned}\frac{1}{2}\int_{A}[p_{r}(x)log\frac{2p_{r}(x)}{p_{r}(x)}+&\frac{2p_{g}(x)}{p_{g}(x)}+p_{g}(x)log\frac{2p_{g}(x)}{p_{r}(x)+p_{g}(x)}]dx\\=&\frac{1}{2}log2\int_{A}p_{r}(x)dx\\=&\frac{1}{2}log2\int_{A\cup B\cup C}p_{r}(x)dx\\=&\frac{1}{2}log2\end{aligned}
 $$
 
-注意到在集合 B上 $\mathsf{p}_{\mathsf{r}}(\mathsf{x}){=}0$ ，且集合 C 的测度为零，所以在集合 B 与 C 上对 pr(x)进行积分均为零，因此上述推导中的第三行才能直接成立。类似地，在集合 B上对中间求和项进行积分的结果也为 1/2log2。同样由于集合 C 的测度为零，在集合 C 上对中间求和项进行积分的结果为零。因此
+注意到在集合 B上 $p_{r}(x){=}0$ ，且集合 C 的测度为零，所以在集合 B 与 C 上对 pr(x)进行积分均为零，因此上述推导中的第三行才能直接成立。类似地，在集合 B上对中间求和项进行积分的结果也为 1/2log2。同样由于集合 C 的测度为零，在集合 C 上对中间求和项进行积分的结果为零。因此
 
 $$
-JS(p_{r}||p_{g})\equiv\frac{1}{2}log2+\frac{1}{2}log2=log2
+\mathit{JS}(p_{r}||p_{g})\equiv\frac{1}{2}log2+\frac{1}{2}log2=log2
 $$
 
 ## 方差比率检验统计量计算公式
@@ -938,33 +940,33 @@ $$
 方差比率检验的原假设为：
 
 $$
-H_{0}:\frac{Var[r_{t}(q)]}{qVar[r_{t}]}=1
+H_{0}:\frac{Var[r_{t}(q)]}{qVar[r_{t}]}=1.
 $$
 
-用于检验上述原假设的统计量为 $Z({\mathsf{q}})$ ，q表示待检验的阶数。 $Z({\mathsf{q}})$ 的表达式如下所示：
+用于检验上述原假设的统计量为 $\mathsf{Z}(\mathsf{q})$ ，q表示待检验的阶数。 $\mathsf{Z}(\mathsf{q})$ 的表达式如下所示：
 
 $$
-Z(q)=\frac{VR(q)-1}{\sqrt{\phi(q)}}
+Z(q)=\frac{VR(q)-1}{\sqrt{\phi(q)}}.
 $$
 
-其中，分子的 ${\mathsf{VR}}({\mathsf{q}})$ 是对方差比率的估计统计量，即：
+其中，分子的 $\mathsf{VR}(\mathsf{q})$ 是对方差比率的估计统计量，即：
 
 $$
 VR(q)=\frac{\hat{\sigma}^{2}(q)}{\hat{\sigma}^{2}(1)}
 $$
 
 $$
-\hat{\sigma}^{2}(q)=\frac{1}{q(T-q+1)\left(1-\frac{q}{T}\right)}{\sum}_{t=q}^{T}(r_{t}(q)-q\hat{u})^{2}
+\hat{\sigma}^{2}(q)=\frac{1}{q(T-q+1)\left(1-\frac{q}{T}\right)}{\sum}_{t=q}^{T}(r_{t}(q)-q\hat{u})^{2}.
 $$
 
 $$
-\hat{\sigma}^{2}(1)=\frac{1}{T-1}{\sum_{t=1}^{T}}(r_{t}-\hat{u})^{2}
+\hat{\sigma}^{2}(1)=\frac{1}{T-1}{\sum}_{t=1}^{T}(r_{t}-\hat{u})^{2}
 $$
 
 这里û表示所有单期对数收益率的样本均值。分母的 $\phi(q)$ 是调整项，表达式如下所示：
 
 $$
-\phi(q)=4\sum_{j=1}^{q-1}\left[1-\frac{j}{q}\right]^{2}\delta(j)
+\phi(q)=4et{}{_{j=1}^{q-1}}\sum\left[1-\frac{j}{q}\right]^{2}\delta(j).
 $$
 
 $$

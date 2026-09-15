@@ -54,7 +54,7 @@ corr(x, r) = -0.0025
 ![](images/cd8686563422c4be5ab8e75fc7427bf8ee81360e72fcf59d0309413e97bd00f2.webp)
 
 $$
-\mathsf{corr}(x\ ,\ r)=0.0912
+\mathsf{corr}(x,r)=0.0912
 $$
 
 ## 预测指数收益率之差？
@@ -120,7 +120,7 @@ $$
 向量化
 
 $$
-\boldsymbol{r}=[r_{1},~r_{2},~r_{3}]
+\boldsymbol{r}=[r_{1},r_{2},r_{3}]
 $$
 
 权重分配 w = [W1,W2,W3]
@@ -129,18 +129,18 @@ $$
 
 ## 交易策略
 
-通过已知的因子值x，获得预测函数 $f(\pmb{x})=\pmb{v}\pmb{x}^{T}$
+通过已知的因子值x，获得预测函数 $f({\pmb x})=v{\pmb x}^{T}$
 
 ![](images/b5a9590815a70269a06bffc2aab930d53701a02c454df4469af3222953cb33fe.webp)
 
-若 $f(\pmb{x})>0$ ，则做多组合，收益率 $PL=wr^{T}$
+若 $f(x)>0$ ，则做多组合，收益率 $PL=\boldsymbol{w}\boldsymbol{r}^{T}$
 
-若 $f({\pmb x})<0$ ，则做空组合，收益率 $PL=-wr^{T}$
+若 $f(x)<0$ ，则做空组合，收益率 $PL=-wr^{T}$
 
 ## 1、组合的权重如何分配？
 
 $$
-\pmb{w}=\left[w_{1},~w_{2},~w_{3}\right]
+\pmb{w}=[w_{1},~w_{2},~w_{3}]
 $$
 
 满足 $|w_{1}|+|w_{2}|+|w_{3}|=1$ ，即总的资金量为1。
@@ -161,7 +161,7 @@ $$
 
 ## 方法1：
 
-根据市场经验，给定资产组合，如 $\pmb{w}=[0.5,\ 0,\ -0.5]$
+根据市场经验，给定资产组合，如 $\pmb{w}=[0.5,\quad0,\quad-0.5]$
 
 风格套利策略中多50，空500的组合
 
@@ -169,7 +169,7 @@ $$
 
 通过预测因子x，建立预测函数
 
-线性预测函数 $f({\pmb x})={\pmb v}{\pmb x}^{T}=v_{1}x_{1}+v_{2}x_{2}+\ \cdots+v_{m}x_{m}$
+线性预测函数 $f(\boldsymbol{x})=\boldsymbol{v}\boldsymbol{x}^{T}=v_{1}x_{1}+v_{2}x_{2}+\cdots+v_{m}x_{m}$
 
 回归方程 y = f(x)
 
@@ -187,24 +187,24 @@ $$
 
 在线性预测模型的条件下，预测模型f(x)的参数估计和“资产组合” $y=wr^{T}$ 系数的确定是可以同时完成的。
 
-向量化预测因子 ${\pmb x}=[x_{1},~x_{2},~x_{3},~\cdots,~x_{m}]$
+向量化预测因子 $\boldsymbol{x}=\left[x_{1},\quad x_{2},\quad x_{3},\quad\cdots,\quad x_{m}\right]$
 
 权重向量
 
 $$
-\pmb{v}=[v_{1},v_{2},v_{3},\cdots,v_{m}]
+\boldsymbol{v}=[v_{1},\quad v_{2},\quad v_{3},\quad\cdots,\quad v_{m}]
 $$
 
-预测模型可以表示为因子向量的一个线性组合 $f({\pmb x})={\pmb v}{\pmb x}^{T}=v_{1}x_{1}+v_{2}x_{2}+\ \cdots+v_{m}x_{m}$
+预测模型可以表示为因子向量的一个线性组合 $f(\boldsymbol{x})=\boldsymbol{v}\boldsymbol{x}^T=v_1x_1+v_2x_2+\cdots+v_mx_m$
 
 ![](images/58c6399e020f954c0ed8e12d096a6298e95c557da1cdd6c7cfe26ed90c1d275b.webp)
 
-目标: $\operatorname*{max}_{\boldsymbol{w},\boldsymbol{v}}corr(f(\boldsymbol{x}),\boldsymbol{y})=\operatorname*{max}_{\boldsymbol{w},\boldsymbol{v}}corr(\mathbf{\boldsymbol{v}}\mathbf{\boldsymbol{x}}^{T},\boldsymbol{w}\mathbf{r}^{T})$
+目标: $\operatorname*{max}_{w,v}corr(f(\pmb{x}),y)=\operatorname*{max}_{w,v}corr(\;\pmb{v}\pmb{x}^{T},\;\pmb{w}\pmb{r}^{T})$
 
 ## 目标函数
 
 $$
-\operatorname*{max}_{\boldsymbol{w},\boldsymbol{v}}corr(\boldsymbol{v}\boldsymbol{x}^{T},\boldsymbol{w}\boldsymbol{r}^{T})
+\operatorname*{max}_{w,v}corr(\;vx^{T},\;wr^{T})
 $$
 
 通过求解上述优化问题，获得预测函数的权重ν以及组合权重w
@@ -215,15 +215,15 @@ $$
 
 获得的“资产组合” $y=wr^{T}$ 是与预测因子x的所有可能线性组合的相关性最强的一个组合。
 
-目标函数 $\operatorname*{max}_{\boldsymbol{w},\boldsymbol{v}}corr(\boldsymbol{v}\boldsymbol{x}^{T},\boldsymbol{w}\boldsymbol{r}^{T})$
+目标函数 $\operatorname*{max}_{w,v}corr(\;vx^{T},\;wr^{T})$
 
 CCA模型的矩阵化求解方法：
 
-从历史数据获得x 和r的协方差矩阵 $\Sigma_{xx}\ ,\ \Sigma_{rr}$ 和互协方差矩阵 $\Sigma_{xr}\ ,\ \Sigma_{rx}$
+从历史数据获得x 和r的协方差矩阵 $\Sigma_{xx}\mathrm{~,~}\Sigma_{rr}$ 和互协方差矩阵 $\Sigma_{xr},\Sigma_{rx}$
 
-记 $A=\left[\begin{array}{cc}{\mathbf{0}}&{\boldsymbol{\Sigma}_{xr}}\\{\boldsymbol{\Sigma}_{rx}}&{\mathbf{0}}\end{array}\right],B=\left[\begin{array}{cc}{\boldsymbol{\Sigma}_{xx}}&{\mathbf{0}}\\{\mathbf{0}}&{\boldsymbol{\Sigma}_{rr}}\end{array}\right],$
+记 $\boldsymbol{A}=\begin{bmatrix}0&\varSigma_{xr}\\\varSigma_{rx}&0\end{bmatrix},\boldsymbol{B}=\begin{bmatrix}\varSigma_{xx}&0\\0&\varSigma_{rr}\end{bmatrix},$
 
-则组合向量 $\pmb{u}=[\pmb{v}\quad\pmb{w}]$ 为矩阵 $B^{-1}A$ 最大特征值对应的特征向量
+则组合向量 $\boldsymbol{u}=[\boldsymbol{v}\quad\boldsymbol{w}]$ 为矩阵 $B^{-1}A$ 最大特征值对应的特征向量
 
 ![](images/504939b36571994c1a5ea52acba2316d466e50189687243b1815cc7071dac269.webp)
 
@@ -395,7 +395,7 @@ MF:=MF-M(T)。
 风格套利组合
 
 $$
-f(\pmb{x})=\pmb{v}\pmb{x}^{T}
+f({\pmb x})={\pmb v}{\pmb x}^{T}
 $$
 
 $$
@@ -404,23 +404,23 @@ $$
 
 最高价之差
 
-沪深300收益率 $\boldsymbol{\mathsf{r}}\boldsymbol{2}$
+沪深300收益率 $r2$
 
 最低价之差
 
 $$
-\pmb{w}=[0.5,\ 0,\ -0.5]
+\pmb{w}=[0.5,\quad0,\quad-0.5]
 $$
 
-中证500收益率 $\boldsymbol{\mathsf{r3}}$
+中证500收益率 $r3$
 
 资金流之差
 
 预测函数：
 
-$f(\pmb{x})=v_{1}\times$ (50涨跌幅-500涨跌幅) $+v_{2}\times$ （50最高价-500最高价）+
+$f({\pmb x})=v_{1}\times$ (50涨跌幅-500涨跌幅) $+\boldsymbol{v}_{2}\times$ （50最高价-500最高价）+
 
-$v_{3}\times$ (50最低价-500最低价) $+\ v_{4}\times$ (50资金流-500资金流）
+$v_{3}\times$ (50最低价-500最低价) $+\boldsymbol{v}_{4}\times$ (50资金流-500资金流）
 
 套利组合收益率：
 
@@ -459,7 +459,7 @@ $y=0.5\times$ (50次日收益率-500次日收益率)
 | 胜率 | 58.7% | 58.1% |
 
 $$
-\operatorname*{max}_{\boldsymbol{w},\boldsymbol{v}}corr(\boldsymbol{v}\boldsymbol{x}^{T},\boldsymbol{w}\boldsymbol{r}^{T})
+\operatorname*{max}_{w,v}corr(vx^{T},wr^{T})
 $$
 
 涨跌幅因子
@@ -469,7 +469,7 @@ $$
 “最优组合”
 
 $$
-f(\pmb{x})=\pmb{v}\pmb{x}^{T}
+f({\pmb x})={\pmb v}{\pmb x}^{T}
 $$
 
 $$

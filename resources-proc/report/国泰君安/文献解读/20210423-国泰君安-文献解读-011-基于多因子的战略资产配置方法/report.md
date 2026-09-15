@@ -158,13 +158,13 @@ MVO 模型的另一个缺点是对收益率参数非常敏感,预期收益率的
 本文使用“稳健”来反映优化器处理参数敏感性的能力。在数学上，本文的稳健性方法类似于 Scherer（2007）、Meucci（2007）和 Ceria andStubbs（2006），他们通过考虑预期收益的不确定性来扩展传统的均值-方差优化模型。回顾一下，均值-方差优化模型如下：
 
 $$
-\begin{array}{c}{{max_{w}E\left[w^{'}R\right]}}\\{{}}\\{{s.t.\quad Var\left[w^{'}R\right]\leq\sigma_{Target}^{2}}}\\{{}}\\{{\displaystyle\sum w\leq1}}\end{array}\tag{1}
+\begin{aligned}&max_{w}E\left[w^{'}R\right]\\s.t.\quad&Var\left[w^{'}R\right]\leq\sigma_{Target}^{2}\\&\sum w\leq1\end{aligned}\tag{1}
 $$
 
-其中， $E\left[w^{\prime}\ R\right]$ 是投资组合的预期收益， $Var\left[\boldsymbol{w^{\prime}}\boldsymbol{R}\right]$ 是投资组合的方差，$\sigma_{Target}^{2}$ 是目标波动率。稳健优化将其拓展为如下问题：
+其中， $E\left[w^{\mathrm{~'~}}R\right]$ 是投资组合的预期收益， $Var\left[w^{\mathrm{~\acute{~}~}}R\right]$ 是投资组合的方差，$\sigma_{Target}^{2}$ 是目标波动率。稳健优化将其拓展为如下问题：
 
 $$
-\begin{array}{rlr}&{}&{\operatorname*{max}_{\mathbf{w}}\left\{\operatorname*{min}_{\widetilde{\mathrm{R}}\in\mathrm{U}}\mathrm{E}\left[w^{'}~\widetilde{R}\right]\right\}}\\&{}&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{}&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad s.t.\quad Var\left[w^{'}~R\right]\leq\sigma_{Target}^{2}}\\&{}&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{}&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\end{array}\tag{2}
+\begin{aligned}\max_{w}\left\{\min_{\tilde{\mathbb{R}}\in\mathbb{U}}\mathbb{E}\left[w^{'}\tilde{R}\right]\right\}\\s.t.\quad Var\left[w^{'}R\right]\leq\sigma_{Target}^{2}\\\sum w\leq1\end{aligned}\tag{2}
 $$
 
 其中，U表示不确定性集合。

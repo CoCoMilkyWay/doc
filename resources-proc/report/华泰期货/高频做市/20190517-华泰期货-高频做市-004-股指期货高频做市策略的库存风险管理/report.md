@@ -32,10 +32,10 @@ $$
 \lambda(\delta)=\mathrm{A}\exp(-k\delta)\tag{1}
 $$
 
-在这基础上求解出最优的限价单报价。这里把最优卖单和买单 $5$ 中间价的距离设为 $\delta^{a}\mathcal{\bar{F}}^{\mathbf{\alpha}}\delta^{b}$ 做市结束时间为T，做市商的目标是通过动态调整δa和δb，使得效用函数u最大
+在这基础上求解出最优的限价单报价。这里把最优卖单和买单 $与$ 中间价的距离设为 $\delta^{a}和\delta^{b}$ 做市结束时间为T，做市商的目标是通过动态调整δa和δb，使得效用函数u最大
 
 $$
-u(s,x,q,t)=\operatorname*{max}_{\delta^{a},\delta^{b}}E_{t}\left[-\exp\left(-\gamma\big(X_{T}+q_{T}S_{T}\big)\right)\right]\tag{2}
+u(s,x,q,t)=\max_{\delta^a,\delta^b}E_t\left[-\exp\left(-\gamma(X_T+q_TS_T)\right)\right]\tag{2}
 $$
 
 其中 $X_{T}$ 为结束时做市收益， $q_{T}$ 为库存， $S_{T}$ 为标的物中间价，γ为风险偏好。
@@ -43,10 +43,10 @@ $$
 价值函数u的求解可以通过求解 Hamilton-Jacobi-Bellman (HJB)偏微分方程获得
 
 $$
-\begin{array}{rlr}{{u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{b}}\lambda^{b}(\delta^{b})[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]}}\\&{}&{\quad+\operatorname*{max}_{\delta^{a}}\lambda^{a}(\delta^{a})[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]=0}\end{array}\tag{3}
+\begin{align*}u_t+\frac{1}{2}\sigma^2u_{ss}+\max_{\delta^b}\chi^b(\delta^b)[u(s,x-s+\delta^b,q+1,t)-u(s,x,q,t)]\\+\max_{\delta^a}\chi^a(\delta^a)[u(s,x+s+\delta^a,q-1,t)-u(s,x,q,t)]=0.\end{align*}\tag{3}
 $$
 
-并满足初始条件 $u(s,x,q,T)=-\mathrm{exp}\bigl(-\gamma(x+qs)\bigr)$
+并满足初始条件 $u(s,x,q,T)=-\exp\bigl(-\gamma(x+qs)\bigr)$
 
 这是一个高维度非线性偏微分方程，自变量包括连续变量s, x,t和离散的库存变量q。MarcoAvellaneda 和 Sasha Stoikov通过渐近扩展得到了这个方程的近似解可以表示为两部分，第一部分是在特定库存和风险偏好下的无差别价格r。
 
@@ -62,19 +62,19 @@ $$
 \delta^{a}+\delta^{b}=\frac{2}{\gamma}\ln\left(1+\frac{\gamma}{k}\right)+\frac{1}{2}\gamma\sigma^{2}(T-t)^{2}\tag{5}
 $$
 
-做市商围绕无差别价格r进行报价，即所报买单价为 $r-\frac{\delta^{a}+\delta^{b}}{2}$ ，所报卖单价为 $r+\frac{\delta^{a}+\delta^{b}}{2}$ o所以可能存在的情况是所报买单价高于市场的买一价或所报卖单价低于市场的卖一价，这些时候做市商所报的限价单就接近于市价单了。
+做市商围绕无差别价格r进行报价，即所报买单价为 $\begin{array}{r}{r-\frac{\delta^{a}+\delta^{b}}{2}}\end{array}$ ，所报卖单价为 $\begin{array}{r}{r+\frac{\delta^{a}+\delta^{b}}{2}}\end{array}$ o所以可能存在的情况是所报买单价高于市场的买一价或所报卖单价低于市场的卖一价，这些时候做市商所报的限价单就接近于市价单了。
 
 由于AS模型只围绕无差别价格r进行报价，累积库存q只体现在无差别价格r上，而且AS模型并没有对q的大小进行限制，因此AS模型在管理库存风险上并不一定是最优的，当库存超过做市商所能承担的风险时，往往需要使用市价单进行主动平仓的操作，这在实际交易中可能产生较大的市场冲击，增加不必要的风险。因此有必要把做市商所能承担的最大库存Q考虑到做市模型中去。这篇报告使用 Olivier Gueant，Charles-Albert Lehalle 和 JoaquinFernandez-Tapia 等人在 Dealing with the Inventory Risk A solution to the market making problem中提出的库存约束模型对库存进行管理。这个模型是以AS模型为基础加入库存管理，因此这里简称为ASQ 模型。
 
 ## 基于库存约束的 ASQ 模型
 
-ASQ 模型同样使用公式(1)的市价单冲击概率模型和公式(2)中的效用 $\vec{\bf z}$ 数。买卖中间价s服从算术布朗运动
+ASQ 模型同样使用公式(1)的市价单冲击概率模型和公式(2)中的效用 $函$ 数。买卖中间价s服从算术布朗运动
 
 $$
 ds_{t}=\sigma dW_{t}\tag{6}
 $$
 
-库存q，即做市商的净持仓，由买单持仓 $N^{b}$ 和卖单持仓 $N^{a}$ 构成
+库存q，即做市商的净持仓，由买单持仓 $\cdot N^{b}$ 和卖单持仓 $N^{a}$ 构成
 
 $$
 q_{t}=N_{t}^{b}-N_{t}^{a}\tag{7}
@@ -86,52 +86,52 @@ $$
 dX_{t}=(s_{t}+\delta_{t}^{a})dN_{t}^{a}-(s_{t}+\delta_{t}^{b})dN_{t}^{b}\tag{8}
 $$
 
-在 ASQ 模型里会对做市商的最大库存Q进行限制，即库存q $\in\{-0,-0+1,\ldots,0,\ldots,0-$ 1, Q}。
+在 ASQ 模型里会对做市商的最大库存Q进行限制，即库存q $\in\{-\mathrm{Q},-\mathrm{Q}+1,\ldots,0,\ldots,\mathrm{Q}-$ 1, Q}。
 
-当|q| < Q时，做市商进行买卖双向报价，最优报价 $\cdot\delta^{b}$ 和 ${}_{r\delta}a$ 满足 HJB 方程
-
-$$
-\begin{array}{rlr}{{u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{b}}\lambda^{b}(\delta^{b})[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]}}\\&{}&{\quad+\operatorname*{max}_{\delta^{a}}\lambda^{a}(\delta^{a})[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]=0}\end{array}\tag{9}
-$$
-
-$q=0$ 时，做市商不再进行买入报价，只进行卖出报价，这时最优卖出报价δa满足 HJB方程
+当|q| < Q时，做市商进行买卖双向报价，最优报价 $\cdot\delta^{b}$ 和 $\imath\delta^{a}$ 满足 HJB 方程
 
 $$
-u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{\alpha}}\lambda^{a}(\delta^{a})[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]=0\tag{10}
+\begin{align*}u_t+\frac{1}{2}\sigma^2u_{ss}+\max_{\delta^b}\lambda^b(\delta^b)[u(s,x-s+\delta^b,q+1,t)-u(s,x,q,t)]\\+\max_{\delta^a}\lambda^a(\delta^a)[u(s,x+s+\delta^a,q-1,t)-u(s,x,q,t)]=0.\end{align*}\tag{9}
 $$
 
-当 $q=-0$ 时，做市商不再进行卖出报价，只进行买入报价，这时最优买入报价 $\cdot\delta^{b}$ 满足HJB 方程
+$q=\mathsf{Q}$ 时，做市商不再进行买入报价，只进行卖出报价，这时最优卖出报价δa满足 HJB方程
 
 $$
-u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\operatorname*{max}_{\delta^{b}}\lambda^{b}(\delta^{b})[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]=0\tag{11}
+u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\max_{\delta^{a}}\lambda^{a}(\delta^{a})[u(s,x+s+\delta^{a},q-1,t)-u(s,x,q,t)]=0\tag{10}
+$$
+
+当 $q=-\mathsf{Q}$ 时，做市商不再进行卖出报价，只进行买入报价，这时最优买入报价 $\cdot\delta^{b}$ 满足HJB 方程
+
+$$
+u_{t}+\frac{1}{2}\sigma^{2}u_{ss}+\max_{\delta^{b}}\lambda^{b}(\delta^{b})[u(s,x-s+\delta^{b},q+1,t)-u(s,x,q,t)]=0\tag{11}
 $$
 
 做市商报价在T时刻终止，所以方程(9)-(11)满足终止条件
 
 $$
-\forall\mathsf{q}\in\{-\mathsf{Q},\ldots,\mathsf{Q}\},u(T,x,q,s)=-\mathsf{exp}\big(-\gamma(x+qs)\big)\tag{12}
+\forall\mathsf{q}\in\{-\mathsf{Q},\ldots,\mathsf{Q}\},u(T,x,q,s)=-\exp\bigl(-\gamma(x+qs)\bigr)\tag{12}
 $$
 
 方程(9)-(12)包含2Q + 1个偏微分方程，必须联立求解。
 
-通过分离变量的方法可以把上述的偏微分方程组简化后求解。这里把公式 $\cdot(2)$ 中的效用函数$u(t,x,q,s)$ 分解为
+通过分离变量的方法可以把上述的偏微分方程组简化后求解。这里把公式 $_{4}(2)$ 中的效用函数$u(t,x,q,s)$ 分解为
 
 $$
-\boldsymbol{u}(t,x,q,s)=-\mathrm{exp}\big(-\gamma(x+qs)\big)\nu_{q}(t)^{-\frac{\gamma}{\kappa}}\tag{13}
+u(t,x,q,s)=-\exp\bigl(-\gamma(x+qs)\bigr)\nu_{q}(t)^{-\frac{\gamma}{\kappa}}\tag{13}
 $$
 
 那么方程组(9)-(11)可以转化为
 
 $$
-\begin{array}{c}{{\forall{\bf q}\in\{-\bf Q+1,\dots,Q-1\},\dot{\nu}_{q}(t)=\alpha q^{2}\nu_{q}(t)-\eta\left(\nu_{q-1}(t)+\nu_{q+1}(t)\right)}}\\{{\dot{\nu}_{Q}(t)=\alpha Q^{2}\nu_{Q}(t)-\eta\nu_{Q-1}(t)}}\\{{\dot{\nu}_{-Q}(t)=\alpha Q^{2}\nu_{-Q}(t)-\eta\nu_{-Q+1}(t)}}\end{array}\tag{14}
+\begin{array}{c}{\forall\mathtt{q}\in\{-\mathbb{Q}+1,\ldots,\mathbb{Q}-1\},\dot{\nu}_{q}(t)=\alpha q^{2}\nu_{q}(t)-\eta\left(\nu_{q-1}(t)+\nu_{q+1}(t)\right)}\\{\dot{\nu}_{Q}(t)=\alpha Q^{2}\nu_{Q}(t)-\eta\nu_{Q-1}(t)}\\{\dot{\nu}_{-Q}(t)=\alpha Q^{2}\nu_{-Q}(t)-\eta\nu_{-Q+1}(t)}\end{array}\tag{14}
 $$
 
-其中 $\begin{array}{r}{\alpha=\frac{\kappa}{2}\gamma\sigma^{2},\ \eta=\mathrm{A}\left(1+\frac{\gamma}{\kappa}\right)^{-\left(1+\frac{\gamma}{\kappa}\right)},\nu_{q}(T)=1}\end{array}$
+其中 $\begin{array}{r}{\alpha=\frac{\kappa}{2}\gamma\sigma^{2},\quad\eta=\mathrm{A}\left(1+\frac{\gamma}{\kappa}\right)^{-\left(1+\frac{\gamma}{\kappa}\right)},\nu_{q}(T)=1}\end{array}$
 
 方程(14)是常见的线性齐次常微分方程组，可以通过分析方程组系数矩阵的特征值进行求解。最优报价δb∗和δa∗可以表示为
 
 $$
-\begin{array}{c}{{s-s^{b*}(t,q,s)=\delta^{b*}(t,q)=\displaystyle\frac{1}{\kappa}\ln\left(\displaystyle\frac{\nu_{q}(t)}{\nu_{q+1}(t)}\right)+\displaystyle\frac{1}{\gamma}\ln\left(1+\displaystyle\frac{\gamma}{\kappa}\right),q\neq Q}}\\{{s^{a*}(t,q,s)-s=\delta^{a*}(t,q)=\displaystyle\frac{1}{\kappa}\ln\left(\displaystyle\frac{\nu_{q}(t)}{\nu_{q-1}(t)}\right)+\displaystyle\frac{1}{\gamma}\ln\left(1+\displaystyle\frac{\gamma}{\kappa}\right),q\neq-Q}}\end{array}\tag{15}
+\begin{aligned}s-s^{b*}(t,q,s)=\delta^{b*}(t,q)=&\frac{1}{\kappa}\ln\left(\frac{\nu_q(t)}{\nu_{q+1}(t)}\right)+\frac{1}{\gamma}\ln\left(1+\frac{\gamma}{\kappa}\right),q\neq Q\\s^{a*}(t,q,s)-s=\delta^{a*}(t,q)=&\frac{1}{\kappa}\ln\left(\frac{\nu_q(t)}{\nu_{q-1}(t)}\right)+\frac{1}{\gamma}\ln\left(1+\frac{\gamma}{\kappa}\right),q\neq-Q\end{aligned}\tag{15}
 $$
 
 Olivier Gueant，Charles-Albert Lehalle 和 Joaquin Fernandez-Tapia 等人研究公式(15)发现：
@@ -143,11 +143,11 @@ Olivier Gueant，Charles-Albert Lehalle 和 Joaquin Fernandez-Tapia 等人研究
 因此公式(15)可以进一步简化为
 
 $$
-\delta^{b*}(q)=\frac{1}{\gamma}\mathrm{ln}\left(1+\frac{\gamma}{\kappa}\right)+\frac{2q+1}{2}\sqrt{\frac{\sigma^{2}\gamma}{2\kappa A}\left(1+\frac{\gamma}{\kappa}\right)^{\left(1+\frac{\gamma}{\kappa}\right)^{}}}\tag{16}
+\delta^{b*}(q)=\frac{1}{\gamma}\ln\Big(1+\frac{\gamma}{\kappa}\Big)+\frac{2q+1}{2}\sqrt{\frac{\sigma^{2}\gamma}{2\kappa A}\Big(1+\frac{\gamma}{\kappa}\Big)^{\big(1+\frac{\gamma}{\kappa}\big)}}.\tag{16}
 $$
 
 $$
-\delta^{a*}(q)=\frac{1}{\gamma}\mathrm{ln}\left(1+\frac{\gamma}{\kappa}\right)-\frac{2q-1}{2}\sqrt{\frac{\sigma^{2}\gamma}{2\kappa A}\left(1+\frac{\gamma}{\kappa}\right)^{\left(1+\frac{\gamma}{\kappa}\right)^{}}}
+\delta^{a*}(q)=\frac{1}{\gamma}\ln\left(1+\frac{\gamma}{\kappa}\right)-\frac{2q-1}{2}\sqrt{\frac{\sigma^{2}\gamma}{2\kappa A}\left(1+\frac{\gamma}{\kappa}\right)^{\left(1+\frac{\gamma}{\kappa}\right)}}.
 $$
 
 从最后的公式(16)可见，最优报价δb∗和δa∗只涉及到少量参数，包括市场特征部分的波动率σ, 限价指令簿厚度系数κ和限价指令簿击穿概率系数 A，这部分可以从 Leve1 高频数据中计算得到。而效用函数里的γ则是做市商的风险偏好，通常γ=0.01。值得注意的是，虽然模型是建立在最大库存Q的约束基础上的，但是最终结果却与Q没有关系，其中的原因是在这个模型的假设条件下，做市商能够通过拉开买卖价差，把库存控制在远远小于Q值的范围内。这点可以从以下的实证分析中得到证实。

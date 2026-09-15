@@ -308,7 +308,7 @@ able_Summary]市场上热点主题千差万别，主题轮动瞬息万变，能�
 因此，为了确定每一个主题的活跃区间，我们可以使用绝对热度值来发现那些热度高涨的时间点。为了使得热度曲线更加平滑，实际操作中我们使用 7 天的移动平均值对绝对热度做平滑，得到 MA(Heat-7d)曲线。设 MA(Heat-7d)在 t 时刻的观察值为 ，均值为 ,标准差为 s,则活跃区间 T 为：
 
 $$
-\mathrm{T}=\arg(MA(Heat-7d)_{t}\geq\bar{x}+2s)
+\mathrm{T}=\arg(MA(Heat-7d)_t\geq\bar{x}+2s)
 $$
 
 表 4是根据以上公式计算得到的一些主题的活跃区间的示例，以及对该主题在这段期间活跃原因的可能解释。
@@ -351,11 +351,11 @@ $$
 在之前的报告《分析师对投资者行为的影响》一文中，我们发现在一定条件下，分析师评级上调，或者首次覆盖具有超额收益。借鉴这篇报告的思想，我们希望从研报文本的角度来挖掘个股因子。由于分析师会在深度行业报告中对未来可能有投资潜力的主题及其个股进行重点推荐，因此，我们可以通过考察研报中主题和个股的共现情况来决定是否要买入相关标的。具体来说，我们定义了两个因子来描述此信息，即共现相似度和 TF-IDF相似度：
 
 $$
-CoOccurrence_{i}(Research)=\frac{{S}up_{fre-term}}{|Doc|}
+CoOccurrence_{i}(Research)=\frac{Sup_{free-term}}{|Doc|}
 $$
 
 $$
-Sim-TFIDF_{i}(Research)=\frac{\overrightarrow{V_{i}}\cdot\overrightarrow{V_{motif}}}{\vert\vert\overrightarrow{V_{i}}\vert\vert\cdot\vert\vert\overrightarrow{V_{motif}}\vert\vert}
+Sim-TFIDF_{i}(Research)=\frac{\overrightarrow{V_{i}}\cdot\overrightarrow{V_{motif}}}{\left|\left|\overrightarrow{V_{i}}\right|\right|\cdot\left|\left|\overrightarrow{V_{motif}}\right|\right|}
 $$
 
 其中，共现相似度非常直接，描述的是主题词和个股词共同出现的频率。具体来说，对于某主题，通过文本匹配（或搜索）挖掘出最近 N天的所有研报文本，计算文本中主题词向量中每个词和个股的共现项，如果该项数量大于事先设定的最小支持度（即阈值），则认为该项目是频繁项，
@@ -363,7 +363,7 @@ $$
 记频繁项出现的次数称为其支持度，。共现相似度公式实
 
 $$
-\begin{array}{l}{{Sup}_{fre-term}}\\{{\mathcal{I}}}\end{array}_{c}
+\left[\begin{aligned}{}&{{}\mathit{Sup}_{\mathit{fre-term}}}\\{}&{{}}\\\end{aligned}\right]
 $$
 
 际上就描述了平均每篇文本中出现的共现项目的数量。但是，在研究的时间区间中（例如周换仓策略，研究时间区间即为约 5 个交易日），并非所有的候选股票都会被分析师推荐。实验数据表明，大部分情况该数值都为 0，因此，这是一个非常稀疏的因子。为了解决稀疏性问题，我们引入了 TF-IDF 因子对其进行稠密化，即不是只有个股词本身出现才计算贡献度，而是只要个股相关文本出现就可以给出相似度贡献。例如，通过文本挖掘得到个股东方财富的关键词向量为：
@@ -377,17 +377,17 @@ $$
 借鉴研报文本挖掘的思路，我们希望在新闻中使用类似的因子刻画个股的投资潜力。为了提高新闻文本的质量，我们在具体的操作中去除了门户网站的新闻，增加了行业深度网站的新闻。在这些新闻文本中，同样类似研报计算其新闻中的共现相似度和新闻中的 TF-IDF相似度因子：
 
 $$
-CoOccurrence_{i}(news)=\frac{{Sup}_{fre-term}}{|Doc|}
+Cooccursrec_{i}(news)=\frac{Sup_{free-term}}{|Doc|}
 $$
 
 $$
-Sim-TFIDF_{i}(news)=\frac{\overrightarrow{V_{i}}\cdot\overrightarrow{V_{motif}}}{||\overrightarrow{V_{i}||}\cdot||\overrightarrow{V_{motif}||}}
+Sim-TFIDF_{i}(news)=\frac{\overrightarrow{V_{i}}\cdot\overrightarrow{V_{motif}}}{\left|\left|\overrightarrow{V_{i}}\right|\right|\cdot\left|\left|\overrightarrow{V_{motif}}\right|\right|}
 $$
 
 即对于某主题，通过文本匹配（或搜索）挖掘出最近 N天的所有新闻文本，计算文本中主题词和个股的共现项目，如果该项目数量大于设定的
 
 $$
-Sup_{fre-term}
+{Sup}_{fre-term}
 $$
 
 最小支持度，则认为该项目是频繁项，记频繁项支持度为
@@ -405,7 +405,7 @@ $$
 从上图不难看出，大部分情况下，领涨股从属主题内主要行业的概率都超过了 80%，只有在大盘相对弱势的情况下下滑到 70%左右。因此利用此信息，定义了行业相似度因子：
 
 $$
-Sim-industry_{i}=\frac{|StockinIndustry_{j}(Stock_{i}inIndustry_{j})|}{|Stock|}
+Sim-industry_{i}=\frac{\left|\operatorname{Stock}inIndustry_{j}\left(\operatorname{Stock}_{i}inIndustry_{j}\right)\right|}{\left|\operatorname{Stock}\right|}
 $$
 
 该因子衡量的是主题内某只股票所在的行业，其行业的个股数量占整个主题股票池中股票数量的比值。也就是说，如果个股从属主要行业，则该数值越大。
@@ -431,13 +431,13 @@ $$
 2 维分析师推荐因子：
 
 $$
-CoOccurrence_{i}(research),\ SimTFIDF_{i}(research)
+CoOccurrence_{i}(research)_{,}\ SimTFIDF_{i}(research)
 $$
 
 2维新闻报道因子：
 
 $$
-CoOccurrence_{i}(news),~SimTFIDF_{i}(news)
+Cooccursce_{i}(news),SimTFIDF_{i}(news)
 $$
 
 1维行业相似度因子：
@@ -451,7 +451,7 @@ SimIndustry
 CAR相对主题指数累计超额收益
 
 $$
-\begin{array}{rl}&{=\left[\displaystyle\sum_{m=1}^{10}\omega_{m}\cdot Return_{t-m}^{(i)}\right]\qquad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{+\left[\alpha_{1}CoOcurrence_{i}(news)\right]}\\&{+\left[\alpha_{2}SimTFIDF_{i}(news)\right]}\\&{+\left[\beta_{1}CoOcurrence_{i}(research)\right]}\\&{+\left[\beta_{2}SimTFIDF_{i}(research)\right]\qquad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{+\left[\beta_{2}SimTFIDF_{i}(research)\right]}\\&{+\left[\mu\cdot SimIndustry\right]+\epsilon}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\end{array}2^{4}\sharp\mathbb{E}\breve{i}\oplus\mathbb{I}\oplus\mathbb{I}\oplus\mathbb{I}\breve{i}\oplus\mathbb{I}\breve{i}\oplus\mathbb{I}\\&{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad}\\&{+\left[\mu\cdot SimIndustry\right]+\epsilon}\\&\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad
+\begin{aligned}&=\left[\overbrace{\sum_{m=1}^{10}\omega_m\cdot Return_{t-m}^{(i)}}^{\left\{10\right.}\quad\left\{10维动量因子\right.\right.\}}\quad\left.\left\{10维动量因子\right.\right.\\&\left.\left.+\left[\alpha_1COoccurrence_i(ness)\right]\right.\right.\quad\left.\left.\{2维新间报道因子\right.\right.\\&\left.\left.+\left[\alpha_2SimTFIDF_i(ness)\right.\right.\right.\left.\left.\left.\{research\right)}\right.\right.\}\quad\left.\left.\{2维分析师推荐因子\right.\right.\\&\left.\left.+\left[\beta_2SimTFIDF_i(research)\right.\right.\right.\right.\left.\left.\left.\{\left.+\epsilon\right.\right.\right.\left.\left.\{1维行业相似度因子\right.\right.\end{aligned}
 $$
 
 数据来源：国泰君安证券研究

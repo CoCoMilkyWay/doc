@@ -61,10 +61,10 @@ Email:ylq9619@htsec.com
 基于股票过去一个月的日内分钟收益序列，可构建以下回归模型：
 
 $$
-R_{i,T,j}=\gamma_{0}+\sum_{k=1}^{4}{\gamma_{1,k}D_{T,k,j}^{weekday}}\ +\sum_{k=1}^{3}{\gamma_{2,k}D_{T,k,j}^{Period}}\ +\gamma_{3,1}R_{i,T,j-1}+\varepsilon_{i,j}
+R_{i,T,j}=\gamma_{0}+\sum_{k=1}^{4}\gamma_{1,k}D_{T,k,j}^{weekday}+\sum_{k=1}^{3}\gamma_{2,k}D_{T,k,j}^{Period}+\gamma_{3,1}R_{i,T,j-1}+\varepsilon_{i,j},
 $$
 
-其中， $\mathsf{R}_{\mathrm{i},\mathsf{T},\mathrm{j}}$ 为股票 i在 T 日第 j分钟的收益， $\mathsf{D}_{\mathsf{T},\mathsf{k},\mathsf{j}}\mathsf{^{weekday}}$ 为虚拟变量 $(\mathsf{k}{=}1,2,3,4),$ ，分别表示星期一至星期四， $\mathsf{D}_{\mathsf{T},\mathsf{k},\mathsf{j}}\mathsf{Peri\bar{o}d}$ 为时间段虚拟变量（k=1,2,3），分别表示开盘后 30 分钟，盘中时段以及收盘前 30 分钟， $\mathsf{R}_{\mathrm{i},\mathsf{T},\mathrm{j}-1}$ 为分钟收益滞后项。
+其中， $\mathsf{R}_{\mathsf{i},\mathsf{T},\mathsf{j}}$ 为股票 i在 T 日第 j分钟的收益， $\mathsf{D_{T,k,j}}^{\mathsf{weekday}}$ 为虚拟变量 $(k=1,2,3,4)$ ，分别表示星期一至星期四， $\mathsf{D}_{\mathsf{T},\mathsf{k},\mathsf{j}}^{\mathsf{Period}}$ 为时间段虚拟变量（k=1,2,3），分别表示开盘后 30 分钟，盘中时段以及收盘前 30 分钟， $\mathsf{R}_{\mathsf{i},\mathsf{T},\mathsf{j}-1}$ 为分钟收益滞后项。
 
 基于上述模型，可使用股票过去 20交易日的数据进行回归，从而得到股票的残差收益序列。可将该序列理解为股票的预期外收益。在预期外收益为正时，投资者的主动卖出行为可被认为是知情主卖，而预期外收益为负时，投资者的主动买入行为可被认为是知情主买。在得到分钟级别的知情主卖与知情主买后，可分别计算知情主卖占比、知情主买占比以及知情净主买占比。下表展示了各指标的计算方法。
 

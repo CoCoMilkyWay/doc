@@ -167,39 +167,39 @@ le_Summary]阿尔法因子与风险模型结合的理念是希望通过阿尔法
 在《基于组合权重优化的风格中性多因子选股策略》中，我们利用 30类行业因子和9类风格因子较为完整的刻画了A股市场的风险结构。结构化多因子风险模型首先对收益率进行简单的线性分解，对于第 j 只股票收益的分解形式可以表示为：
 
 $$
-r_{_j}=x_{_1}f_{_1}+x_{_2}f_{_2}+x_{_3}f_{_3}+x_{_4}f_{_4}...x_{_K}f_{_K}+u_{_j}
+r_{_{j}}=x_{_{1}}f_{_{1}}+x_{_{2}}f_{_{2}}+x_{_{3}}f_{_{3}}+x_{_{4}}f_{_{4}}...x_{_{K}}f_{_{K}}+u_{_{j}}
 $$
 
-其中，r 表示第 j 只股票的收益率； $r_{j}$ $x_{\scriptscriptstyle k}$ 表示第 $j$ 只股票在第 $k$ 个因子上的暴露（也称为因子载荷）； $\boldsymbol{f}_{k}$ 表示第 j 只股票第k 个因子的因子收益率（即每单位因子暴露所承载的收益率）；u 表示第 j 只股票的特质因 $\boldsymbol{u}_{\ j}$ 子收益率。
+其中，r 表示第 j 只股票的收益率； $r_{j}$ $x_{{k}}$ 表示第 $j$ 只股票在第 $k$ 个因子上的暴露（也称为因子载荷）； $f_{k}$ 表示第 j 只股票第k 个因子的因子收益率（即每单位因子暴露所承载的收益率）；u 表示第 j 只股票的特质因 $u_{\mathrm{~}_{j}}$ 子收益率。
 
-那么对于一个包含 N 只股票的投资组合，假设组合的权重为$w={(w_{1},w_{2},...,w_{_{N}})}^{T}$ ，那么组合收益率可以表示为：
+那么对于一个包含 N 只股票的投资组合，假设组合的权重为$w=(w_{1},w_{2},\ldots,w_{N})^{T}$ ，那么组合收益率可以表示为：
 
 $$
-R_{_{P}}=\sum_{j=1}^{N}w_{_n}\cdot(\sum_{k=1}^{K}x_{_{jk}}f_{_k}+u_{_j})
+R_{_P}=\sum_{_{j=1}}^{^N}w_{_n}\cdot(\sum_{_{k=1}}^{^K}x_{_{jk}}f_{_k}+u_{_j})
 $$
 
 假设每只股票的特质因子收益率与共同因子收益率不相关，并且每只股票的特质因子收益率也不相关。那么在上述表达式的基础上，可以得到组合的风险结构为：
 
 $$
-\sigma_{{}_{P}}=\sqrt{w^{\textit{ T }}(XFX^{\textit{ T }}+\Delta)w}
+\sigma_{_P}=\sqrt{w^{^T}\left(XFX^{^T}+\Delta\right)w}
 $$
 
-其中，X 表示N 只个股在K 个风险因子上的因子载荷矩阵 $(N\times K)$
+其中，X 表示N 只个股在K 个风险因子上的因子载荷矩阵 $\left(\boldsymbol{N}\times\boldsymbol{K}\right)$
 
 $$
-\begin{array}{r}{\left[\begin{array}{llll}{x_{1,1}}&{x_{1,2}}&{\dots}&{x_{1,k}}\\{\vert}&{}&{}&{}\\{x_{2,1}}&{x_{2,2}}&{\dots}&{x_{2,k}}\end{array}\right]}\\{X=\left[\begin{array}{llll}{x_{2,1}}&{}&{}&{}\\{}&{}&{}\\{\dots}&{\dots}&{\dots}&{\dots}&{\dots}\\{}&{}&{}&{}\\{x_{n,1}}&{x_{n,2}}&{\dots}&{x_{n,k}}\end{array}\right]}\end{array}
+X={\left[\begin{array}{llll}{x_{_{1,1}}}&{x_{_{1,2}}}&{\ldots}&{x_{_{1,k}}}\\{\left|\begin{array}{llll}{x_{_{2,1}}}&{x_{_{2,2}}}&{\ldots}&{x_{_{2,k}}}\end{array}\right|}\end{array}\right]}
 $$
 
-F 表示K 个因子的因子收益率协方差矩阵 $(K\times K$ )：
+F 表示K 个因子的因子收益率协方差矩阵 $\left(K\times K\right.$ )：
 
 $$
-\begin{array}{c}\begin{array}{c}\begin{array}{ccccc}{{\displaystyle\prod_{i}^{}{Var}(f_{1})}}&{{Co\nu(f_{1},f_{2})}}&{{...}}&{{Co\nu(f_{1},f_{k})}}\\{{\displaystyle\prod_{}^{}{Co\nu(f_{1},f_{2})}}}&{{Var(f_{2})}}&{{...}}&{{Co\nu(f_{2},f_{k})}}\\{{\displaystyle\hfill\begin{array}{cccccc}{{\hfill}{}}\\{{\ldots}}\\{{\ldots}}\\{{\bigcup_{}{Co\nu(f_{k},f_{1})}}}&{{Co\nu(f_{k},f_{2})}}&{{...}}&{{\ldots}}\end{array}}}&{{\displaystyle\bigcup_{ar}\Gamma_{k}(f_{k})}}\end{array}\\{{\nonumber\begin{array}{ccccc}{{\longrightarrow}}\\{{\longrightarrow}}\\{{\longrightarrow}}\\{{{Co\nu(f_{k},f_{2})}}}\\{{\rule{0ex}{5ex}}}\end{array}}}&{{\longrightarrow}}&{{\begin{array}{ccccc}{{\longrightarrow}}\\{{\longrightarrow}}\\{{\begin{array}{ccccc}{{\longrightarrow}}\\{{\longrightarrow}}\\{{\ldots}}\\{{[{Co\nu(f_{k},f_{2})}}}\end{array}}}&{{[\begin{array}{ccccc}{{}}\\{{}}\\{{}}\end{array}]}}&{{\cdots}}\end{array}}}&{{[\begin{array}{ccccc}{{}}\\{{}}\\{{}}\\{{}}\\{{}}\end{array}]}}\end{array}\end{array}
+F=\left[\begin{array}{cccc}{\left|\begin{array}{cccc}{Var\left(f_{_1}\right)}&{Cov\left(f_{_1},f_{_2}\right)}&{\ldots}&{Cov\left(f_{_1},f_{_k}\right)}\\\end{array}\right|}&{\left|\begin{array}{cccc}{Cov\left(f_{_1},f_{_2}\right)}&{Var\left(f_{_2}\right)}&{\ldots}&{Cov\left(f_{_2},f_{_k}\right)}\\\end{array}\right|}&{\left|\begin{array}{cccc}{Cov\left(f_{_1},f_{_2}\right)}&{\ldots}&{\ldots}&{\ldots}\\\end{array}\right|}&{\left|\begin{array}{cccc}{Cov\left(f_{_1},f_{_2}\right)}&{\ldots}&{\ldots}&{\ldots}\\\end{array}\right|}\\\end{array}\right]
 $$
 
 Δ表示N 只股票的特质因子收益率协方差矩阵(N×N):
 
 $$
-\begin{array}{cccccc}{{}}&{{\stackrel{\textstyle\bigcap}{}}}&{{Var(u_{1})}}&{{}}&{{0}}&{{}}&{{\ldots}}&{{}}&{{0}}\\{{\stackrel{\textstyle\bigcap}{}}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}\\{{\Delta\stackrel{\textstyle\bigcap}{}}}&{{0}}&{{}}&{{Var(u_{2})}}&{{}}&{{\ldots}}&{{}}&{{0}}\\{{\stackrel{\textstyle\bigcap}{}}}&{{}}&{{}}&{{}}&{{}}&{{\ldots}}&{{}}&{{\ldots}}\\{{\stackrel{\textstyle\bigcap}{}}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{\ldots}}&{{}}\\{{\stackrel{\textstyle\bigcup}{}}}&{{0}}&{{}}&{{0}}&{{}}&{{\ldots}}&{{}}&{{Var(u_{k})}}\end{array}
+\Delta=\begin{bmatrix}\lceil Var\left(u_{_1}\right)&0&\ldots&0\\\mid&0&Var\left(u_{_2}\right)&\ldots&0\\\ldots&\ldots&\ldots&\ldots\\\mid&0&0&\ldots&Var\left(u_{_k}\right)\end{bmatrix}
 $$
 
 其中假设每只股票的特质因子收益率相关性为0，因此• 为对角阵。
@@ -223,38 +223,38 @@ $$
 
 | 大类 因子 | 小类 因子 | 因子计算方式 |
 | --- | --- | --- |
-| Beta | BETA | $\boldsymbol{r}_{i}=\boldsymbol{\alpha}+\beta\boldsymbol{r}_{{}_{m}}+\boldsymbol{e}_{}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
-| Momentum | RSTR | $RSTR=\sum_{t=L}^{T+L}w_{_t}[\ln(1+r_{_t})]$ ；其中T=500，L=21，收益率序列以半衰指数加权，半衰期为120日。 |
-| Size | LNCAP | ${\cal L}NCAP={\cal L}N\left(total_{-}market_{-}capitalization\right)$ ；个股总市值对数值。 |
-| Earnings Yield | EPIBS | $EPIBS=est\_eps/\ P$ ；其中 $est\_eps$ 为个股一致预期基本每股收益。 |
-|  | ETOP | $ETOP=earnings\_ttm\ /\ mkt\_freeshares$ ；历史EP值，利用过去12个月个股净利润除以当 |
+| Beta | BETA | $r_{_i}=\alpha+\beta r_{_m}+e_{_i}$ ；利用个股收益率序列和沪深300指数收益率序列进行一元线性回归，益率序列 长度取250交易日。股收益率序列和沪深300指数收益率序列均以半衰指数加权，半衰期为60日。 |
+| Momentum | RSTR | $RSTR=\sum_{t=L}^{T+L}w_{_{t}}[\ln{(1+r_{_{t}})}]$ ；其中T=500，L=21，收益率序列以半衰指数加权，半衰期为120日。 |
+| Size | LNCAP | $LNCAP=LN\left(total\_market\_capitalization\right)$ ；个股总市值对数值。 |
+| Earnings Yield | EPIBS | $EPIBS=est_{\mathrm{~-~}}eps\mathrm{~/~}P$ ；其中 $est{\scriptsize-}eps$ 为个股一致预期基本每股收益。 |
+|  | ETOP | $ETOP=earnings{\scriptsize{-}}ttm{\scriptsize{/}}mkt{\scriptsize{-}}freeshares$ ；历史EP值，利用过去12个月个股净利润除以当 |
 |  | 前市值。 |  |
-| Volatility | CETOP | $CETOP=Cash\_earnings\ /\ P$ ；个股现金收益比股票价格。 |
-|  | DASTD | $DASTD\ =\ \big(\sum_{t=1}^{T}\ w_{_t}\cdot\big(r_{t}-\mu(r)\big)^{2}\big)^{1/2}$ ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
-|  | CMRA | $CMRA=ln(1+\operatorname*{max}\left\{Z(T)\right\})-ln(1+\operatorname*{min}\left\{Z(T)\right\})$ i |
+| Volatility | CETOP | $CETOP=Cash\_earnings\mathrm{~/~}P$ ；个股现金收益比股票价格。 |
+|  | DASTD | $DASTD=\left(\sum_{t=1}^{T}w_{t}\cdot\left(r_{t}-\mu(r)\right)^{2}\right)^{1/2}$ ；其中收益率序列长度取250个交易日，半衰期设定为40日。 |
+|  | CMRA | $CMRA=ln\left(1+\operatorname*{max}\left\{Z\left(T\right)\right\}\right)-ln\left(1+\operatorname*{min}\left\{Z\left(T\right)\right\}\right)$ i |
 
-其中 $Z\left(T\right)={\sum}^{T}{[ln(1+r_{\tau})]}$ ； $r_{\tau}$ 表示个股月收益率，T代表过去 12个月。
+其中 $Z\left(T\right)=\sum_{\tau=1}^{T}\left[ln\left(1+r_{\tau}\right)\right]$ ； $r_{_{\tau}}$ 表示个股月收益率，T代表过去 12个月。
 
-|  | HSIGMA | $HSIGMA=std(e_{_i}^{})$ ；其中残差 $\boldsymbol{e}_{\scriptscriptstyle i}$ 为 BETA 计算中所得。 |
+|  | HSIGMA | $HSIGMA=std(e_{_i})$ ；其中残差 $e_{\textit{ i }}$ 为 BETA 计算中所得。 |
 | --- | --- | --- |
 | Growth | SGRO | 过去5年企业营业总收入复合增长率。 |
 |  | EGRO | 过去5年企业归属母公司净利润复合增长率。 |
 |  | EGIB | 未来3年企业一致预期净利润增长率。 |
 |  | EGIB_S | 未来1年企业一致预期净利润增长率。 |
-| Value | BTOP | $BTOP=common\_equity\ /current\_market\_capitalization$ i |
+| Value | BTOP | $BTOP=common\_equity\mathrm{~/~}current\_market\_capitalization$ i |
 |  |  | 计算企业总权益值除以当前市值。 |
 | Leverage | MLEV | $MLEV=(ME+LD)/ME$ ；其中ME表示企业当前总市值，LD表示企业长期负债。 |
 |  | DTOA | DTOA = TD / TA；其中TD 表示总负债TA 表示总资产。 |
 |  | BLEV | $BLEV=(BE+LD)/BE$ ；其中BE表示企业账面权益，LD表示企业长期负债。 |
-| Liquidity | STOM | $STOM\ =\ \ln(\sum_{t=1}^{21}(V_{{}_{t}}/{}\ S_{{}_{t}})$ ；其中 ${\boldsymbol{V}}_{t}$ 表示当日成交量， $\boldsymbol{S}_{\boldsymbol{t}}$ 表示流通股本。 |
-|  | STOQ | $STOQ=\ln({\frac{1}{T}}{\sum}^{T}\mathbf{exp}(STOM_{\ \tau}))$ ；其中T=3。 |
-|  | STOA | $STOA=\ln({\frac{1}{T}}{\sum}^{T}\mathbf{exp}(STOM_{\ \tau}))$ ；其中 T=12。 |
+| Liquidity | STOM | $STOM=\ln\left(\sum_{t=1}^{21}(V_t/S_t)\right)$ ；其中 $V_{t}$ 表示当日成交量， $S_{\textit{ t }}$ 表示流通股本。 |
+|  | STOQ | $STOQ=\ln\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)\right)$ ；其中T=3。 |
+|  | STOA | $STOA=\ln\left(\frac{1}{T}\sum_{\tau=1}^{T}\exp\left(STOM_{\tau}\right)\right)$ ；其中 T=12。 |
 
 数据来源：国泰君安证券研究
 
 在风险模型的评价效果上，通常以回归方程的 $R^{2}$ 和组合波动率偏差检验Bias Test 作为衡量标准。我们利用WLS 加权最小二乘回归对因子收益率进行估计，得到回归方程 $R^{2}$ ，具体如下：
 
-图 5 风险模型 $R^{\ 2}$ 统计
+图 5 风险模型 $R^{2}$ 统计
 ![](images/339b6921ae41683309c765e9ee63f96ef8ebbae99c1e8b69625666f6360e23e6.webp)
 数据来源：国泰君安证券研究
 
@@ -266,7 +266,7 @@ $$
 
 | 组合 | 上证50 | 沪深300 | 中证500 | 上证180 | 中小板指 | 创业板指 | 深圳 300 | 全市场等权 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 $B_{\it{n}}$ | 1.156 | 1.095 | 1.056 | 1.122 | 1.034 | 1.154 | 0.974 | 1.071 |
+| 1 $B_{\phantom{\dagger}n}$ | 1.156 | 1.095 | 1.056 | 1.122 | 1.034 | 1.154 | 0.974 | 1.071 |
 | 检验结果 | Reject | Reject | Reject | Reject | Reject | Reject | Reject | Reject |
 
 数据来源：国泰君安证券研究
@@ -282,7 +282,7 @@ $$
 风险因子与阿尔法因子的属性不同，因此在组合中各自的作用也不同。当然，倘若从组合风险建模的角度出发，风险因子和阿尔法因子都可以视为组合的风险来源。原因在于，即便是稳定性再强的阿尔法因子，其因子收益率终究还是会产生些许波动，那么就会贡献组合风险。但是，倘若从创造超额收益的角度出发，则必须对风险因子和阿尔法因子进行严格区分。
 
 $$
-r_{j}=\underbrace{x_{alpha}^{1}}_{\sim}\underbrace{f_{alpha}^{1}}_{\sim}+\underbrace{x_{alpha}^{2}}_{\sim}\underbrace{f_{alpha}^{2}}_{\sim}+\underbrace{\dots+\ x_{alpha}^{M}}_{\substack{d\hat{\gamma}_{d}\vert pha\vert\vert\overline{{\mathcal{H}}}}}+\underbrace{\dots+\ x_{alpha}^{M}}_{\sim}\underbrace{f_{alpha}^{M}}_{\substack{d\vert pha\vert}}+\underbrace{x_{beta}^{1}}_{\sim}\underbrace{f_{beta}^{1}+\dots+x_{beta}^{K}}_{\substack{K\hat{\gamma}_{d}\vert\mathcal{H}\vert\mathcal{H}\vert\mathcal{H}}}\underbrace{f_{beta}^{K}}_{\substack{\vert\mathcal{H}\vert}}+u_{j}
+r_{_j}=\underbrace{x_{_{alpha}}^{^1}f_{_{alpha}}^{^1}+x_{_{alpha}}^{^2}f_{_{alpha}}^{^2}+\ldots+}_{M个a_{alpha}因子}\underbrace{x_{_{alpha}}^{^M}f_{_{alpha}}^{^M}}_{}+\underbrace{x_{_{brta}}^{^1}f_{_{brta}}^{^1}+\ldots+x_{_{brta}}^{^K}f_{_{brstg}}^{^K}}_{K个风险因子}+u_{_j}
 $$
 
 图 6 阿尔法因子与风险模型：
@@ -303,7 +303,7 @@ $$
 
 简单因子组合是一种便捷有效的研究因子特征的方法，其构建的多空组合往往包含了阿尔法因子的部分特征。
 
-我们以离散度因子为例，来说明简单因子组合的特点。其中，对于第i 个股票的离散度因子的表达式为： ${x_{it}^{Dispersion}=\sqrt{1-{R_{it}}^{2}}\cdot\sigma(\varepsilon_{it})}$ ，其中 $\varepsilon_{_{it}}$ 为Fama–French 三因子回归方程的残差， $\sigma\left(\boldsymbol{\varepsilon}_{it}\right)$ 即为特质波动率， ${R_{i}}_{t}^{2}$ 则为回归方程的解释系数。
+我们以离散度因子为例，来说明简单因子组合的特点。其中，对于第i 个股票的离散度因子的表达式为： $x_{_{it}}^{^{Dispersion}}=\sqrt{1-{R_{_{it}}}^{^{2}}}\cdot\sigma\left(\varepsilon_{_{it}}\right)$ ，其中 $\mathcal{E}_{\phantom{\dagger}it}$ 为Fama–French 三因子回归方程的残差， $\sigma\left(\varepsilon_{_{it}}\right)$ 即为特质波动率， ${R_{it}}^{2}$ 则为回归方程的解释系数。
 
 我们选取全 A 非 ST 为样本空间，构造离散度因子，在每自然月末选择全市场离散度因子值最低的 20%股票等权重做多，离散度因子值最高的20%股票等权重做空，不计交易成本，自 2010年 1月至 2015年 12月，组合累计收益率统计分析如下：
 
@@ -363,17 +363,17 @@ $$
 
 概念从理念上而言比简单因子组合已经迈进了一大步，因为纯因子组合的构建已经需要依赖于风险模型中其余全部风险因子，但是尚不涉及风险矩阵。
 
-纯因子组合表示，在暴露 1单位阿尔法因子敞口的同时，对风险模型中的其余任意因子均保持 0 敞口暴露。具体的，纯因子组合 $w_{\ pure}$ 满足：
+纯因子组合表示，在暴露 1单位阿尔法因子敞口的同时，对风险模型中的其余任意因子均保持 0 敞口暴露。具体的，纯因子组合 $\textbf{ \textit { W } }_{pure}$ 满足：
 
 $$
-\begin{array}{l}{{w_{_{pure}}^{\prime}\cdot x_{_{alpha}}=1}}\\{{{}}}\\{{w_{_{pure}}^{\prime}\cdot X_{_{beta}}=0}}\end{array}
+\begin{aligned}{w_{_{pure}}^{^{\prime}}\cdot x_{_{alpha}}}&{{}=1}\\{w_{_{pure}}^{^{\prime}}\cdot X_{_{beta}}}&{{}=0}\end{aligned}
 $$
 
-其中， $w_{\ pure}$ 为纯因子组合对应权重， $x_{alpha}$ 为目标因子载荷截面， $X_{\phantom{}_{beta}}$ 为全部风险因子载荷矩阵。
+其中， $\textit{ W }_{pure}$ 为纯因子组合对应权重， $x_{_{alpha}}$ 为目标因子载荷截面， $X_{\phantom{\dagger}beta}$ 为全部风险因子载荷矩阵。
 
 纯因子组合从定义上来说，就已经克服了简单因子组合最大的问题，即因子之间共线性的问题。其组合的收益来源，已经摒弃了其余我们不想要检验、但又往往会贡献收益的其余因子部分。
 
-我们同样以离散度因子为例，构建纯因子组合，由于离散度因子为负向因子，为了更加直观的观察组合的收益风险特征，所以构建纯因子组合时，设离散度因子敞口等于-1，即 $\begin{array}{rl}{w\ _{pune}^{\prime}}&{{}\cdot\ _{spha}\ }\end{array}\quad=-1$ ，得到每期的组合权重 $w_{\ pure}$ 。在不计交易成本的情况下，自 2010年 1 月至 2015 年 12 月，组合累计收益率统计分析如下：
+我们同样以离散度因子为例，构建纯因子组合，由于离散度因子为负向因子，为了更加直观的观察组合的收益风险特征，所以构建纯因子组合时，设离散度因子敞口等于-1，即 $\begin{array}{rlrl}{w_{_{puee}}^{\prime}}&{{}\cdot\underset{a_{pha}}{x}}&{}&{{}=\;-1}\end{array}$ ，得到每期的组合权重 $\boldsymbol{W}_{\textit{ p u r e }}$ 。在不计交易成本的情况下，自 2010年 1 月至 2015 年 12 月，组合累计收益率统计分析如下：
 
 图 11 离散度纯因子组合累积收益率：
 ![](images/cb7a4ae235d0a0958a99a0c29e7da1cb1e2cb0c8c582fd04206ac23e2ae80dd2.webp)
@@ -418,10 +418,10 @@ F a cto r P o rtfolio M V P F P , ），最小波动纯因子组合是考察阿�
 最小波动纯因子组合表示，在暴露 1单位目标因子敞口，同时保持其余所有风险因子0敞口暴露的条件下，具有最小预期波动率的组合，具体表达为：
 
 $$
-\begin{array}{rl}{Min}&{\ w_{_{m\nu pfp}}^{\prime}\cdot(XFX^{\prime}+\Delta)\cdot w_{_{m\nu pfp}}}\\{s.t.\quad}&{w_{_{m\nu pfp}}^{\prime}\cdot X_{_{beta}}=0}\\&{\ w_{_{m\nu pfp}}^{\prime}\cdot x_{_{alpha}}=1}\end{array}
+\begin{array}{rl}{Min\quad}&{w_{_{mvpfp}}^{\prime}\cdot(XFX^{\prime}+\Delta)\cdot w_{_{mvpfp}}}\\{s.t.\quad}&{w_{_{mvpfp}}^{\prime}\cdot X_{_{beta}}=0}\\&{w_{_{mvpfp}}^{\prime}\cdot x_{_{alpha}}=1}\end{array}
 $$
 
-其中， $\boldsymbol{w}_{\scriptscriptstyle mvpfp}$ 为最小波动纯因子组合对应权重，F 合表示因子收益率协方差矩阵，• 为特质因子收益率方差矩阵。风险矩阵的具体计算方式详见《基于组合权重优化的风格中性多因子选股策略》。
+其中， $\mathcal{W}_{{mvpfp}}$ 为最小波动纯因子组合对应权重，F 合表示因子收益率协方差矩阵，• 为特质因子收益率方差矩阵。风险矩阵的具体计算方式详见《基于组合权重优化的风格中性多因子选股策略》。
 
 从定义上来看，最小波动纯因子组合是满足特定目标函数的一类特殊的纯因子组合。最小波动纯因子组合首先克服了纯因子组合解存在非唯一性的问题；其次，通过对组合波动率的最大限制，将组合收益来源中不确定性的残差部分影响降到几乎为 0的状态，这样就使得组合可以完整的剥离出目标因子的收益归因贡献。
 
@@ -432,40 +432,40 @@ $$
 利用 Lagrange 乘子法求解该问题，其中根据优化方程条件 Lagrange 函数表达写为：
 
 $$
-{\cal L}(w^{\prime},\lambda)=\frac{1}{2}w^{\prime}\cdot\sum\cdot w-\lambda\cdot w^{\prime}\cdot\tilde{X}\tag{A1}
+L\left(w^{\prime},\lambda\right)=\frac{1}{2}w^{\prime}\cdot\sum\cdot w-\lambda\cdot w^{\prime}\cdot\tilde{X}\tag{A1}
 $$
 
-其中 $\Sigma=XFX^{\prime}+\Delta$ ， $\tilde{X}$ 表示优化方程中的约束矩阵。
+其中 $\Sigma\;=\;XFX^{\prime}+\Delta$ ， $\tilde{X}$ 表示优化方程中的约束矩阵。
 
 分别对式A1中，w 和 求偏导数，可得：
 
 $$
-\frac{\partial{\cal L}}{\partial w}=\sum\cdot w-\lambda\cdot\tilde{X}=0\tag{A2}
+\frac{\hat{\sigma}L}{\hat{\sigma}w}=\sum\cdot w-\lambda\cdot\tilde{X}\;=\;0.\tag{A2}
 $$
 
 $$
-\frac{\partial{\cal L}}{\partial\lambda}=\tilde{X^{~\prime}}\cdot w=0\tag{A3}
+\frac{\partial\tilde{L}}{\partial\lambda}=\tilde{\boldsymbol{X}}^{\prime}\cdot\boldsymbol{w}\:=\:0.\tag{A3}
 $$
 
 求解(A2)中的w 得到：
 
 $$
-w=\Sigma^{-1}\cdot\lambda\cdot\tilde{X}\tag{A4}
+w=\textstyle\sum^{\mathrm{\tiny~-1~}}\cdot\lambda\cdot\tilde{X}\tag{A4}
 $$
 
 将w 代入(A3)得到
 
 $$
-\tilde{X^{\prime}}\cdot\sum^{-1}\cdot\lambda\cdot\tilde{X^{}}=0\tag{A5}
+\tilde{X}^{\prime}\cdot\sum^{-1}\cdot\lambda\cdot\tilde{X}\;=\;0\tag{A5}
 $$
 
 求解(A5) 中的 得到：
 
 $$
-\lambda=\big(\tilde{X^{\prime}}\cdot\Sigma^{-1}\cdot\tilde{X}~\big)^{-1}
+\lambda\;=\;(\;\tilde{X}^{\prime}\cdot\textstyle\sum^{-1}\cdot\tilde{X}\;)^{-1}
 $$
 
-最后将 代入(A4) 得到 $w=\sum^{-1}{\cdot\tilde{X}}\cdot(\tilde{X^{\prime}}\cdot\sum^{-1}{\cdot\tilde{X^{\prime}}})^{^{-1}}$ 同样对于离散度因子，我们利用上述推导结果构建最小波动纯因子组合$w_{{_{mvpfp}}}$ ，在不计交易成本的情况下，自2010年1月至2015年12 月，组合累计收益率统计分析如下：
+最后将 代入(A4) 得到 $\begin{array}{r}{w\;=\;\sum^{\mathrm{\scriptsize~-1~}}\cdot\tilde{X}\;\cdot(\tilde{X}^{\prime}\cdot\sum^{\mathrm{\scriptsize~-1~}}\cdot\tilde{X})^{\mathrm{\scriptsize~-1~}}}\end{array}$ 同样对于离散度因子，我们利用上述推导结果构建最小波动纯因子组合$W_{{mvpfp}}$ ，在不计交易成本的情况下，自2010年1月至2015年12 月，组合累计收益率统计分析如下：
 
 图 14 离散度最小波动纯因子组合累积收益：
 ![](images/5dbf5044170f2e7f785f0a16ed8e2bad91b5bf69a623dac3778720aedb556a48.webp)
@@ -510,7 +510,7 @@ $$
 | 简单因子组合 |  | 纯因子组合 | 最小波动纯因子组合 |
 | --- | --- | --- | --- |
 | 构建组合权重w使满足： |  |  | 构建组合权重w使满足： |
-| 组合定义 | 选取因子载荷前20%的若 干股票做多，选取因子载 荷后20%的若干股票做空 | $w^{\prime}\cdot x_{_{alpha}}=1$ $w^{\prime}\cdot X_{\mathit{\Pi}_{beta}}=0$ | Min w′·(XFX '+ ∆)·w s.t. $w^{\prime}\cdot x_{_{alpha}}=1$ $w^{\prime}\cdot X_{\mathit{\Pi}_{beta}}=0$ |
+| 组合定义 | 选取因子载荷前20%的若 干股票做多，选取因子载 荷后20%的若干股票做空 | $w^{\prime}\cdot x_{_{alpha}}=1$ $w^{\prime}\cdot X_{_{beta}}=0$ | Min w′·(XFX '+ ∆)·w s.t. $w^{\prime}\cdot x_{_{alpha}}=1$ $w^{\prime}\cdot X_{_{beta}}=0$ |
 | 组合收益风险 | 组合较易产生高收益 高波动特征 | 组合收益往往较低 而波动率具有不确定性 | 组合收益率往往较低 波动率低 |
 | 收益归因分解特征 | 组合收益来源在目标因 子、行业、风格和残差项 均有暴露及贡献 | 和残差项贡献 | 组合收益来源于目标因子 组合收益来源于仅集中于 目标因子 |
 | 组合意义 | 检验目标因子最为便捷的 方法，可以反映目标因子 一定的阿尔法特性，但是 缺点显著。 | 解决了目标因子与其余风 险因子的相关性问题，一 定程度上独立的反映了目 标因子的收益风险特征， 但是仍存在缺陷。 | 检验目标因子阿尔法特性 的最完备组合，可以独立 的分解出目标因子收益风 险特征，可真正意义上判 断因子是否具备阿尔法属 性。 |
@@ -533,16 +533,16 @@ $$
 
 利用当前所有风险因子和已知所有阿尔法因子，对原始因子进行正交标准化，从而得到经正交化的目标因子值，具体为：
 
-假设 $\boldsymbol{X}_{\mathrm{\Pi}_{k:\mathrm{E}}\mathrm{\Pi}_{k\mathrm{T}}\mathrm{\boxed{\cdot}\mathrm{E}}\mathrm{\Pi}\vec{\mathcal{F}}}$ 为原始因子截面， $X_{_{Alpha}}$ 为已知阿尔法因子，那么构建回归方程：
+假设 $X_{k\textrm{ 目标因子 }}$ 为原始因子截面， $X_{\phantom{1}_{A\;lp\;ha}}$ 为已知阿尔法因子，那么构建回归方程：
 
 $$
-\begin{array}{rl}{{X}_{\textrm{ \tiny { k 1 6 i f i E } }}=\beta_{0}+\beta_{1}{X}_{\textrm{ \tiny { B e r a } }}+\beta_{2}{X}_{\textrm{ \tiny { M o m e m t u m } }}+\beta_{3}{X}_{\textrm{ \tiny { S i z e } }}+\beta_{4}{X}_{\textrm{ \tiny { E a r n i n g s Y i e l d } }}}&\\{~+\beta_{s}{X}_{\textrm{ \tiny { V o l a t i l i t y } }}+\beta_{6}{X}_{\textrm{ \tiny { G r o w t h } }}+\beta_{7}{X}_{\textrm{ \tiny { V a l u e } }}+\beta_{8}{X}_{\textrm{ \tiny { L e v e r a g e } }}+\beta_{9}{X}_{\textrm{ \tiny { L i q u d i t y } }}}&\\{~+\beta_{10}{X}_{\textrm{ \tiny { A l p h a } }_{-1}}+\beta_{11}{X}_{\textrm{ \tiny { A l p h a } }_{-2}}+\ldots+\beta_{\kappa}{X}_{\textrm{ \tiny { A l p h a } }_{-\kappa}}+\varepsilon_{\textrm{ \tiny { k 1 4 p k } }\mathbb{T}}}&\end{array}
+\begin{aligned}X_{_{k目标因子}}=&\beta_{_0}+\beta_{_1}X_{_{Betu}}+\beta_{_2}X_{_{Momemum}}+\beta_{_3}X_{_{Size}}+\beta_{_4}X_{_{EarisingYird}}\\&+\beta_{_5}X_{_{Vall�utility}}+\beta_{_6}X_{_{Growth}}+\beta_{_7}X_{_{Vallue}}+\beta_{_8}X_{_{Leverage}}+\beta_{_9}X_{_{Liqudin}}\\&+\beta_{_{10}}X_{_{Alpha_{_{-}1}}}+\beta_{_{11}}X_{_{Alpha_{_{-}2}}}+\ldots+\beta_{_K}X_{_{Alpha_{_{-}K}}}+\varepsilon_{_{k目标因子}}\end{aligned}
 $$
 
-回归方程的残差截面 $\mathcal{E}_{\mathrm{\tiny~k:\boxplus~}\mathrm{\#:\boxplus~}\mathrm{\#}}$ 则为经标准化后的目标因子：
+回归方程的残差截面 $\mathcal{E}_{k目标因子}$ 则为经标准化后的目标因子：
 
 $$
-X_{\mathrm{~\tiny~-~}orthogonalized_{\mathrm{~\tiny~k~f~f~E~}}}=\varepsilon_{\mathrm{~\tiny~k~f~f~F~}}
+X_{-}\operatorname{orthogonalized}_{k目标因子}=\varepsilon_{k目标因子}
 $$
 
 需要注意的是，任意新的目标因子必须经过已有的全部因子正交处理，即新加入一个阿尔法因子后，后一个阿尔法因子必须也经前一阿尔法因子正交处理。这样的处理过程就可以保证任意 2个阿尔法因子截面互相正交。
@@ -560,7 +560,7 @@ $$
 个股各财报期基本EPS 同比增长率，具体计算为：
 
 $$
-YOY\mathrm{~}_{-}EPS_{_{Rt}}^{i}=(EPS_{_{Rt}}^{i}-EPS_{_{Rt-1}}^{i})/\left|EPS_{_{Rt-1}}^{i}\right|
+YOY_{\_}EPS_{_{Rt}}^{^{i}}=(EPS_{_{Rt}}^{^{i}}-EPS_{_{Rt-1}}^{^{i}})/\left|EPS_{_{Rt-1}}^{^{i}}\right|
 $$
 
 其中，财报数据按照就近原则。
@@ -582,7 +582,7 @@ $$
 个股过去20 个交易日累计收益率，具体计算为：
 
 $$
-Re\nu erse_{_t}^{i}=(P_{_t}^{_i}-P_{_{t-20}}^{_i})/P_{_{t-20}}^{_i}
+Reverse_{t}^{i}=(P_{t}^{i}-P_{t-20}^{i})/P_{t-20}^{i}
 $$
 
 图 18 REVERSE 因子组合累计收益率：
@@ -597,12 +597,12 @@ $$
 
 数据来源：国泰君安证券研究
 
-3） $\textit{ E s t \_ P B }$ 因子定义：
+3） $Est\_PB$ 因子定义：
 
 分析师一致预期个股PB ，具体计算为：
 
 $$
-Est\_PB_{\scriptscriptstyle t}^{\scriptscriptstyle i}=Est\_BPS_{\scriptscriptstyle FY}^{\scriptscriptstyle i}/P_{\scriptscriptstyle t}^{\scriptscriptstyle i}
+Est_{-}PB_{_t}^{^i}=Est_{-}BPS_{_{FY}}^{^i}/P_{_t}^{^i}
 $$
 
 图 19 Est_PB因子组合累计收益率：
@@ -617,12 +617,12 @@ $$
 
 数据来源：国泰君安证券研究
 
-4） $MOM\_Est\_EPS$ 因子定义：
+4） $MOM{\tiny{-}}Est{\tiny{-}}EPS$ 因子定义：
 
 分析师一致预期个股EPS 环比增长率，具体计算为：
 
 $$
-MOM\ _{-}Est\ _{-}EPS_{t}^{i}=(Est\ _{-}EPS_{t}^{i}-Est\ _{-}EPS_{t-20}^{i})/|Est\ _{-}EPS_{t-20}^{i}|
+MOM_{\text{ \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize } { } } } } } } } } } } } } } } } } } } } }Est_{\text{ \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { } } } } } } } } } } } } } } } } } } } } } } } } } } } } } }=(Est_{\text{ \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize { \scriptsize } { \scriptsize { \scriptsize { \scriptsize { \scriptsize { } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } - E s t _ { \textlangle \textlangle \textlangle \textrangle } } - E s t _ { \textlangle \textrangle } }-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textlangle\textrangle}-Est_{\textlangle\textrangle}-Est_{\textlangle\textlangle\textrangle}-Est_{\textlangle\textlangle\textrangle}-Es_{\text�}-Est_\text{\textlangle \textlangle \textlangle \textrangle }{\text�}}-Est_\text{\textlangle \textlangle \textlangle \textrangle }{\textrangle}-Es_{\textlangle\textlangle\text�}-Est_\textlangle\textlangle{\textrangle\text�}}-Est_\textlangle{\textlangle\textlangle\textrangle\textlangle\textlangle\textrangle{\text}\textrangle{\text}}-Es\textlangle
 $$
 
 图 20 MOM_Est_EPS 因子组合累计收益率：
@@ -642,10 +642,10 @@ $$
 个股离散度指标，具体计算为：
 
 $$
-Dispersion_{t}^{i}=\sqrt{1-{R_{it}}^{2}}\cdot\sigma({\varepsilon_{it}})
+Dispersion_{t}^{i}=\sqrt{1-{R_{it}}^{2}}\cdot\sigma\left(\varepsilon_{it}\right)
 $$
 
-其中，其中 $\varepsilon_{\scriptscriptstyle it}$ 为 $Fama-French$ 三因子回归方程的残差， $\sigma\left(\boldsymbol{\varepsilon}_{it}\right)$ 即为特质波动率， ${R_{it}}^{2}$ 则为回归方程的解释系数，回归方程时间序列 $T=20$
+其中，其中 $\mathcal{E}_{it}$ 为 $Fama-French$ 三因子回归方程的残差， $\sigma\left(\varepsilon_{_{it}}\right)$ 即为特质波动率， ${R_{it}}^{2}$ 则为回归方程的解释系数，回归方程时间序列 $T=20$
 
 图 21 DISPERSION 因子组合累计收益率：
 ![](images/d5816e2e6a514838420ba59ab533b9586d0d5dec0ff69dc6fef83bd3b93213b0.webp)
@@ -667,7 +667,7 @@ $$
 HTOS_{t}^{i}=Top10_{-}Free_{-}Holder_{t}^{i}/Total_{-}Shares_{t}^{i}
 $$
 
-其中， $Top10\_Free\_Holder_{t}^{i}$ 表示个股第t 天，前 10 大流通股东股本合计， $Total\_Shares_{_t}^{i}$ 表示个股第t天总股本数。
+其中， $Top10_{\mathrm{~-~}}Free_{\mathrm{~-~}}Holder_{_t}^{^i}$ 表示个股第t 天，前 10 大流通股东股本合计， $Total{\scriptsize{-}}Shares{\scriptsize{t}}$ 表示个股第t天总股本数。
 
 图 22 HTOS因子组合累计收益率：
 ![](images/7dfb4d1b1efb239074817b1010e735d865ef0beb2f1d2caaa3feab5d13d5e0b7.webp)
@@ -686,7 +686,7 @@ $$
 个股财报期ROE 环比增长率，具体计算为：
 
 $$
-MOM_{\mathrm{~-~}}ROE_{_{Rt}}^{i}=(ROE_{_{Rt}}^{i}-ROE_{_{Rt-1}}^{i})/\left|ROE_{_{Rt-1}}^{i}\right|
+MOM_{-}ROE_{Rt}^{i}=(ROE_{Rt}^{i}-ROE_{Rt-1}^{i})/\left|ROE_{Rt-1}^{i}\right|
 $$
 
 其中，财报数据按照就近原则。
@@ -703,12 +703,12 @@ $$
 
 数据来源：国泰君安证券研究
 
-8） $Rate\_Up$ 因子定义：
+8） $Rate{\tiny{-}}Up$ 因子定义：
 
 上调个股评级的分析师家数。
 
 $$
-Rate\_Up_{i}^{t}=\sum_{t=1}^{T}{Num\_Rate\_Up_{t}}
+Rate_{\mathrm{~-~}}Up_{\mathrm{~}^{i}}^{\mathrm{~}^{\prime}}=\sum_{\mathrm{~}_{t=1}}^{\mathrm{~}^{T}}Num_{\mathrm{~-~}}Rate_{\mathrm{~-~}}Up_{\mathrm{~}^{i}}
 $$
 
 其中，时间窗口 $T=90$ 0
@@ -813,7 +813,7 @@ Liquidity 为风险模型中的大类因子，具体定义参见第 2 章风险�
 
 本章节主要讨论阿尔法因子收益率的预测。在第二章中我们提到通过组合权重优化的方法，将阿尔法因子与风险模型相互结合。其中，阿尔法因子贡献组合超额收益，而风险因子控制组合风险暴露及跟踪误差。
 
-在风险端，最核心的问题在于对风险矩阵（风险因子协方差矩阵和特质因子风险矩阵）的建模；而在阿尔法端，除了上一章中我们提到了阿尔法因子的构建及内在收益风险分析之外，最核心的问题就是阿尔法因子收益率的预测。阿尔法因子收益率预测的主要目的是为了计算组合权重优化中目标函数 $R_{_{p}}-\lambda{\sigma^{2}}_{_{p}}$ 中的组合预期收益率 $\boldsymbol{R}_{\ p}$ ，预期的方法和结果
+在风险端，最核心的问题在于对风险矩阵（风险因子协方差矩阵和特质因子风险矩阵）的建模；而在阿尔法端，除了上一章中我们提到了阿尔法因子的构建及内在收益风险分析之外，最核心的问题就是阿尔法因子收益率的预测。阿尔法因子收益率预测的主要目的是为了计算组合权重优化中目标函数 $R_{\it{p}}-\lambda\sigma_{\it{p}}^{\it{2}}$ 中的组合预期收益率 $R_{\textit{ p }}$ ，预期的方法和结果
 
 将直接影响到后面组合构建的一系列问题（前提是组合权重优化的目标函数中，包含组合预期超额收益率部分，倘若以最小化跟踪误差为目标函数，则不涉及阿尔法因子收益率的预测）。
 
@@ -824,19 +824,19 @@ Liquidity 为风险模型中的大类因子，具体定义参见第 2 章风险�
 首先，前文提到风险模型对组合的波动率预测是具备显著精度的，那么我们利用最小波动纯因子组合的权重作用于风险矩阵，就可以得到最小波动纯因子组合的预测波动率，即
 
 $$
-\hat{\sigma}_{_{alpha}}^{^{mvpfp}}=\sqrt{w_{_{mvpfp}}^{\prime}\cdot(XFX^{\prime}+\Delta)\cdot w_{_{mvpfp}}}
+\hat{\sigma}_{_{alpha}}^{^{m\nu pfp}}=\sqrt{w_{_{m\nu pfp}}^{\prime}\cdot(XFX^{\prime}+\Delta)\cdot w_{_{m\nu pfp}}}.
 $$
 
 然后，从上一章对各阿尔法因子的检验来看，其最小波动纯因子组合的收益相对都比较稳定，而组合的信息比率长期来看也相当稳定。那么利用组合信息比率乘以第一步中预测的组合波动率，就可以估计出组合未来一期的超额收益率，即
 
 $$
-E(r_{alpha}^{m\nu pfp})=IR\cdot\hat{\sigma}_{alpha}^{m\nu pfp}
+E(r_{_{alpha}}^{^{m\nu pfp}})=IR\cdot\hat{\sigma}_{_{alpha}}^{^{m\nu pfp}}
 $$
 
 最后，由于最小波动纯因子组合在阿尔法因子上暴露的是 1单位敞口，而因子收益率的定义即为每单位因子载荷所贡献的收益率，所以
 
 $$
-\hat{f}_{_{alpha}}=E(r_{_{alpha}}^{^{m\nu pfp}})=IR\cdot\hat{\sigma}_{_{alpha}}^{^{m\nu pfp}}
+\hat{f}_{_{alpha}}=E(r_{_{alpha}}^{^{mvpfp}})=IR\cdot\hat{\sigma}_{_{alpha}}^{^{mvpfp}}
 $$
 
 ## 5.2. 实证检验
@@ -845,12 +845,12 @@ $$
 
 我们将通过3 种预测因子收益率的方式，通过比较预测精度来分析各方法的优劣，其中我们选择的 3 种方法分别即为：
 
-1）利用本期因子收益率作为下期估计值： $\hat{\boldsymbol{f}}_{alpha}^{\ t+1}=\boldsymbol{f}_{alpha}^{\ t}$
+1）利用本期因子收益率作为下期估计值： $\hat{f}_{alpha}^{\;^{t+1}}\;=\;f_{alpha}^{\;^{t}}$
 
-2）利用过去12个月因子收益率均值为下期估计值： $\hat{f}_{_{alpha}}^{\ t+1}=\frac{1}{12}\sum_{t=1}^{12}\ f_{_{alpha}}^{^t}\ ;$
+2）利用过去12个月因子收益率均值为下期估计值： $\hat{f}_{_{alpha}}^{^{t+1}}=\frac{1}{12}\sum_{_{t=1}}^{12}f_{_{alpha}}^{^{t}};$
 
 $$
-3)\hat{f}_{_{alpha}}=IR\cdot\hat{\sigma}_{_{alpha}}^{^{m\nu pfp}}\circ
+3)\hat{f}_{_{alpha}}=IR\cdot\hat{\sigma}_{_{alpha}}^{^{mvpfp}}\;,
 $$
 
 对于第 3 种算法，我们首先给出上述 10 个阿尔法因子最小波动纯因子组合的每月波动率预测情况，如下图：

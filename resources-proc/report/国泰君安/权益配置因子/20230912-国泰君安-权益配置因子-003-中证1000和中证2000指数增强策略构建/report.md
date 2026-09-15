@@ -63,10 +63,10 @@ zhangxuejie025900@gtjas.com
 多因子模型（Multiple-Factor Model, MFM）属于国内外主流量化选股模型之一。使用多个因子预测股票未来收益，筛选预期收益较好的股票，以期战胜基准指数。学术研究上，这类模型属于资产定价理论。在目前实际投资研究过程中，多因子模型使用估值、盈利、成长、公司治理、价量（反转、流动性、波动性等）、分析师预测、超预期等因子进行选股，构建一篮子股票的投资组合。多因子模型认为股票未来的收益可以用若干因素 $f_{1}...f_{k}$ 来解释，不能解释的部分记作残差 $\varepsilon_{n}$ ：
 
 $$
-r_{n}=f_{0}+x_{n1}f_{1}+x_{n2}f_{2}+\dots x_{nk}f_{k}+\varepsilon_{n}
+r_{n}=f_{0}+x_{n1}f_{1}+x_{n2}f_{2}{+}...x_{nk}f_{k}+\varepsilon_{n}
 $$
 
-从上式可以看出，量化选股和主动选股殊途同归，本质都是为了对收益率 $r_{n}$ 进行预测。区别在于，量化研究的主要是共性部分（ $.\ x_{n1}f_{1}+$ $x_{n2}f_{2}+...x_{nk}f_{k}\ )$ ），主动研究的是股票的个性部分 $\mathbf{\mathcal{E}}_{n}$ 。量化选股中所谓开发新的 Alpha 因子，很多时候其实是借鉴主动研究的投资逻辑，不断地从残差 $\pmb{\varepsilon}_{i}$ 中抽取可以反映股票共性部分的因子 $\scriptstyle\mathbf{{f}}_{k}$ 。事实上，量化选股和主动选股不是对立的，两个研究是可以统一在资产定价理论的框架内的。广义上讲，量化选股模型的体系一般由有三部分组成：收益预测模型、风险模型、交易成本模型。
+从上式可以看出，量化选股和主动选股殊途同归，本质都是为了对收益率 $r_{n}$ 进行预测。区别在于，量化研究的主要是共性部分（ $(x_{n1}f_{1}+$ $x_{n2}f_{2}{+}...x_{nk}f_{k}\;)$ ），主动研究的是股票的个性部分 $\varepsilon_{n}$ 。量化选股中所谓开发新的 Alpha 因子，很多时候其实是借鉴主动研究的投资逻辑，不断地从残差 $.\varepsilon_{i}$ 中抽取可以反映股票共性部分的因子 $.f_{k}$ 。事实上，量化选股和主动选股不是对立的，两个研究是可以统一在资产定价理论的框架内的。广义上讲，量化选股模型的体系一般由有三部分组成：收益预测模型、风险模型、交易成本模型。
 
 图 1：量化选股模型体系
 ![](images/7f72d5c02d40dbd64ac6d7010daaa2fa67e4fdb43db15f710680939ed93f2d18.webp)
@@ -88,10 +88,10 @@ s.
 
 ## 1.1.2. 指数增强组合构建
 
-首先，对于不同的宽基指数，筛选出适用的有效因子。其次，每周计算成分股因子值，并对因子进行去极值、标准化、缺失值填充、市值行业中性化处理。然后，按照各类因子逻辑，将股票池股票因子值排序，计算各类因子得分 Score（分位数），对因子得分使用 rankIC_IR 加权得到每只股票的最终得分。最后，将每周末股票的得分scoreT、股票协方差矩阵 代入组合优化模型，在控制跟踪误差、行业暴露、风格暴露等约束条件下，以最大化股票组合得分∑ N $score_{i}^{T}*w_{i}$ 为目标，求解组合股票的权重 $w^{*}$ ：
+首先，对于不同的宽基指数，筛选出适用的有效因子。其次，每周计算成分股因子值，并对因子进行去极值、标准化、缺失值填充、市值行业中性化处理。然后，按照各类因子逻辑，将股票池股票因子值排序，计算各类因子得分 Score（分位数），对因子得分使用 rankIC_IR 加权得到每只股票的最终得分。最后，将每周末股票的得分scoreT、股票协方差矩阵 代入组合优化模型，在控制跟踪误差、行业暴露、风格暴露等约束条件下，以最大化股票组合得分∑ N $score_{i}^{T}*w_{i}$ 为目标，求解组合股票的权重 ${\boldsymbol{w}}^{\mathrm{~\textquotedblleft~}}$ ：
 
 $$
-\begin{array}{rlr}&{}&{\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}}\\{\vdots}&{}&{\quad}\\&{}&{\quad}\\&{}&{\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{\mathrm{Sup}}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{\mathrm{Sup}}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}}\\&{}&{\quad}\\&{}&{\quad}&{\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{\mathrm{Sup}}{\overset{\mathrm{Sup}}{\sum}}\underset{u=1}{\overset{\mathrm{Sup}}{\sum}}\underset{\mathrm{Sup}}{\overset{\mathrm{Sup}}{\sum}}}\\&{}&{\quad}\\&{}&{\quad}&{\quad}\\&{}&{\quad}&{\quad}\\&{}&{\quad}&{\quad}&{\quad}\\&{}&{\quad}&{\quad}&{\quad}\\&{}&{\quad}&{\quad}&{\quad}\\&{}&{\quad}&{\quad}&{\quad}\\&{}&{\quad}&{\quad}&{\quad}\\&{}\end{array}\tag{3}
+\begin{aligned}\begin{aligned}&\begin{aligned}\\&max_{w_{i}}\sum_{1}^{N}score_{i}^{T}*w_{i}\\\end{aligned}\\&s.t.\quad\sum_{}w_{i}=1\\&w^{lower}\leq w_{i}\leq w^{upper},i=1,\ldots,N\quad(1)\\&w_{active}^{lower}\leq w_{i}-w_{基准指数}\leq w_{active}^{upper},i=1,\ldots,N\\&w^{T}\widehat{\sum}w\leq\sigma_{trace\ error}^{2}\quad(4)\\&\sum_{1}^{N}x_{iI}w_{i}=w^{I}\\&\left|\sum_{1}^{N}x_{ik}*w_{i}\right|\leq x_{k}^{limit}\quad(6)\\&x_{基准指数}w_{i}\geq0.8\quad(7)\\&\sum_{}\left|w_{i}^{t}-w_{i}^{t-1}\right|\leq T\quad(8)\\&\end{aligned}\\&(8)\\\begin{aligned}\\&(5)\\&\end{aligned}\\&(8)\\\end{aligned}\tag{3}
 $$
 
 公式（2）为个股上下限约束：主要是不能卖空、避免某些个股权重过高。

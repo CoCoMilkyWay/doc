@@ -69,7 +69,7 @@ $$
 $$
 
 $$
-\begin{array}{c}{{X_{jk}\colon\sharp\mathring{\mathfrak{L}}\stackrel{\triangledown}{=}j\sqrt{\underline{{\mathfrak{L}}}\underline{{\Psi}}}j\dag\vec{\pmb{\mathbb{E}}}\left.\vec{\mp}k\perp\dot{\mathfrak{H}}\dot{\mathfrak{I}}\right.\vec{\pmb{\updownarrow}}+\mathring{\mathfrak{H}}\mathring{\ast}\vec{\mathfrak{H}}\left(\big{\big|\mathfrak{L}\big|}-\big|\vec{\mp}\dot{\overline{{\mathfrak{H}}}}\big\langle\vec{\mathfrak{I}}\big|\vec{\mathfrak{I}}\big|\right)}}\\{{\widetilde{f}_{k}\colon\left|\mathfrak{L}\right|\vec{\mp}k\dot{\mathfrak{H}}\big\langle\dot{\mathfrak{I}}\big\rangle\big|\vec{\pmb{\updownarrow}}\big|\big\langle\dot{\mathfrak{X}}\underline{{\dot{\mathfrak{L}}\vec{\mathfrak{L}}}}}}\\{{\widetilde{u_{j}}\colon\sharp\mathring{\mathfrak{L}}\stackrel{\triangledown}{=}j\dot{\mu}\sqrt{j}\bar{\mathfrak{X}}\check{\mp}\underline{{\sharp}}\big|\big|\mathring{\mathfrak{X}}\underline{{\dot{\mathfrak{L}}\vec{\mathring\mathfrak{L}}}}}}\end{array}
+\begin{aligned}X_{jk}:股票j在因子k上的因子暴露(因子载荷)\\\widetilde{f}_{k}:因子k的因子收益\\\widetilde{u}_{j}:股票j的残差收益率\end{aligned}
 $$
 
 上式本质上是一个截面上的线性回归模型，人们重点关注模型中各个因子的金融学逻辑和统计显著性，并对因子进行线性组合来得到预期收益。随着市场的演进和技术的进步，多因子模型的发展也在与时俱进，其中一个方向就是在流程中融入人工智能模型。
@@ -110,24 +110,24 @@ $$
 
 (2) 挖掘增量信息：随着挖掘出的因子逐渐增多，因子之间的相关性也在上升。为了挖掘增量信息，需要引入因子正交化机制，一般来说有两种方法：
 
-a) 如下式所示，将新挖掘因子 $X_{k+1}$ 与全部已有因子 $X_{i}\bot$ 交化得到残差因子 $X_{res}$ (下标n 代表第 n 个截面)，再计算残差因子和收益率之间的适应度(以 RankIC 为例)。
+a) 如下式所示，将新挖掘因子 $X_{k+1}$ 与全部已有因子 $\text{" }X_{i}正$ 交化得到残差因子 $X_{res}$ (下标n 代表第 n 个截面)，再计算残差因子和收益率之间的适应度(以 RankIC 为例)。
 
 $$
-X_{n,k+1}=\sum_{i}^{k}X_{n,i}f_{n,i}+X_{res}
-$$
-
-$$
-Fiteness=\mathrm{RankIC}(X_{res},r_{n})
-$$
-
-b) 以收益率 ${\cdot}r_{n}$ 为因变量，全部已有因子 $X_{i}$ 为自变量，回归得到残差收益率 $\cdot r_{res}($ (下标 n代表第 n 个截面)，计算新挖掘因子 $X_{k+1}$ 和残差收益率之间的适应度(以 RankIC为例)。
-
-$$
-r_{n}=\sum_{i}^{k}X_{n,i}f_{n,i}+r_{res}
+X_{n,k+1}=\sum_{i}^{k}X_{n,i}f_{n,i}+X_{res},
 $$
 
 $$
-Fiteness={\mathrm{RankIC}}(X_{n,k+1},r_{res})
+Fiteness=\operatorname{RankIC}(X_{res},r_{n})
+$$
+
+b) 以收益率 $r_{n}$ 为因变量，全部已有因子 $X_{i}$ 为自变量，回归得到残差收益率 $\cdot r_{res}($ (下标 n代表第 n 个截面)，计算新挖掘因子 $X_{k+1}$ 和残差收益率之间的适应度(以 RankIC为例)。
+
+$$
+r_{n}=\sum_{i}^{k}X_{n,i}f_{n,i}+r_{res},
+$$
+
+$$
+Fiteness=\operatorname{RankIC}(X_{n,k+1},r_{res})
 $$
 
 方法(a)的问题在于对每个待计算适应度的因子来说，都要和已有因子进行正交化，这会造成过大的时间和计算资源的开销，使因子挖掘效率低下(经过测试，因子正交化所需时间约占适应度计算时间的 70%)。而方法(b)只需要在每一轮因子挖掘前计算残差收益率即可，可以提升因子挖掘的效率。另外值得注意的是，方法(b)使用线性回归来计算残差收益率，但因变量中可能包含非线性因子，且因变量之间也不完全正交，此时可考虑使用核主成分分析(KPCA)对因变量进行非线性降维后得到正交的主成分，再计算残差收益率。关于核主成分分析的介绍和实证，请参见附录 1。
@@ -244,7 +244,7 @@ SHAP 值：SHAP 值(https://github.com/slundberg/shap)的概念源于博弈论�
 
 (1) 使用遗传规划挖掘出的因子作为特征。
 
-(2) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},\ D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+(2) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},~D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 ${}^{\cdot}D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 (3) 行业市值中性化：将填充缺失值后的因子暴露度对行业哑变量和取对数后的市值做线性回归，取残差作为新的因子暴露度；
 
@@ -500,10 +500,12 @@ SHAP 值：SHAP 值(https://github.com/slundberg/shap)的概念源于博弈论�
 
 通过人工智能模型构建的选股策略是历史经验的总结，存在失效的可能。遗传规划所得因子可能过于复杂，可解释性较低，使用需谨慎。机器学习模型存在过拟合的风险。机器学习模型解释方法存在过度简化的风险。
 
-1． 线性核： $\begin{array}{r}{K\big(\pmb{x}_{i},\pmb{x}_{j}\big)=\langle\pmb{x}_{i},\pmb{x}_{j}\rangle=\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}}\end{array}$ 
-2． 多项式核： $\begin{array}{r}{K\big({\pmb x}_{i},{\pmb x}_{j}\big)=\big(\gamma\langle{\pmb x}_{i},{\pmb x}_{j}\rangle+1\big)^{d}=(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)^{d}}\end{array}$ ，其中 d是多项式的阶数
-3． Sigmoid 核： $\begin{array}{r}{K\big({x}_{i},{x}_{j}\big)=\mathrm{tanh}\big(\gamma\langle{x}_{i},{x}_{j}\rangle+1\big)=\mathrm{tanh}(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)}\end{array}$ 
-4． 高斯核(RBF 核)： $K\big(\boldsymbol{x}_{i},\boldsymbol{x}_{j}\big)=\exp(-\gamma\big(\sum_{k=1}^{p}(x_{i}^{(k)}-x_{j}^{(k)})^{2}\big))$
+```latex
+1． 线性核： $\begin{array}{r}{K\big(\pmb{x}_{i},\pmb{x}_{j}\big)=\langle\pmb{x}_{i},\pmb{x}_{j}\rangle=\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}}\end{array}$
+2． 多项式核： $\begin{array}{r}{K\big(\pmb{x}_{i},\pmb{x}_{j}\big)=\big(\gamma\langle\pmb{x}_{i},\pmb{x}_{j}\rangle+1\big)^{d}=(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)^{d}}\end{array}$ ，其中 d是多项式的阶数
+3． Sigmoid 核： $K(\boldsymbol{x}_{i},\boldsymbol{x}_{j})=\tanh(\gamma\langle\boldsymbol{x}_{i},\boldsymbol{x}_{j}\rangle+1)=\tanh(\gamma\sum_{k=1}^{p}x_{i}^{(k)}x_{j}^{(k)}+1)$
+4． 高斯核(RBF 核)： $K(\boldsymbol{x}_{i},\boldsymbol{x}_{j})=\exp(-\gamma(\sum_{k=1}^{p}(x_{i}^{(k)}-x_{j}^{(k)})^2))$
+```
 资料来源：华泰证券研究所
 
 ## 附录 1：核主成分分析简介
@@ -534,23 +536,23 @@ Original space after inverse transform
 ![](images/784c1e83519341e8034eaab5aa617523c5e84d253b548fa587c789230f73b75b.webp)
 资料来源：sklearn，华泰证券研究所
 
-前文提到，在使用遗传规划挖掘具有增量信息的因子时，我们可以使用以下方法：以收益率 ${\cdot}r_{n}$ 为因变量，全部已有因子 $X_{i}$ 为自变量，回归得到残差收益率 $\cdot r_{res}$ (下标 n代表第 n个截面)，计算新挖掘因子 $X_{k+}$ 1和残差收益率之间的适应度(以 RankIC 为例)。
+前文提到，在使用遗传规划挖掘具有增量信息的因子时，我们可以使用以下方法：以收益率 $\cdot r_{n}$ 为因变量，全部已有因子 $X_{i}$ 为自变量，回归得到残差收益率 $\cdot r_{res^{\prime}}$ (下标 n代表第 n个截面)，计算新挖掘因子 $X_{k+}$ 1和残差收益率之间的适应度(以 RankIC 为例)。
 
 $$
 \begin{array}{r}{r_{n}=\sum_{i}^{k}X_{n,i}f_{n,i}+r_{res}}\end{array}\tag{1}
 $$
 
 $$
-Fiteness={\mathrm{RankIC}}(X_{n,k+1},r_{res})\tag{2}
+Fiteness=\operatorname{RankIC}(X_{n,k+1},r_{res})\tag{2}
 $$
 
-该方法使用线性回归来计算残差收益率，但因变量中可能包含非线性因子，且因变量之间也不完全正交，此时可考虑使用 KPCA对因变量进行非线性降维后得到正交的主成分，再计算残差收益率。一般来说，(1)式的拟合优度和显著性(如 R平方、F值)越高，说明已有因子 $X_{i}$ 对 $r_{n}$ 的解释程度越高，对残差收益率 $r_{res}$ 中的增量信息提纯效果越好。为了展示KPCA 的效果，我们通过以下三组测试进行对比：
+该方法使用线性回归来计算残差收益率，但因变量中可能包含非线性因子，且因变量之间也不完全正交，此时可考虑使用 KPCA对因变量进行非线性降维后得到正交的主成分，再计算残差收益率。一般来说，(1)式的拟合优度和显著性(如 R平方、F值)越高，说明已有因子 $X_{i}$ 对 $\left[r_{n}\right.$ 的解释程度越高，对残差收益率 $r_{res}$ 中的增量信息提纯效果越好。为了展示KPCA 的效果，我们通过以下三组测试进行对比：
 
-1. 线性回归：直接以收益率 ${\cdot}r_{n}$ 为因变量，全部已有因子 $X_{i}$ 为自变量，进行线性回归，得到回归的 R 平方、调整 R平方、F值。
+1. 线性回归：直接以收益率 $r_{n}$ 为因变量，全部已有因子 $X_{i}$ 为自变量，进行线性回归，得到回归的 R 平方、调整 R平方、F值。
 
-2. PCA+线性回归：对全部已有因子 $X_{i}$ 进行 PCA，取累积方差贡献达到 99%的主成分作为降维因子Wj。以收益率 ${\cdot}r_{n}$ 为因变量，降维因子Wj为自变量，进行线性回归，得到回归的 R 平方、调整 R 平方、F 值。
+2. PCA+线性回归：对全部已有因子 $X_{i}$ 进行 PCA，取累积方差贡献达到 99%的主成分作为降维因子Wj。以收益率 $\cdot r_{n}$ 为因变量，降维因子Wj为自变量，进行线性回归，得到回归的 R 平方、调整 R 平方、F 值。
 
-3. KPCA+线性回归：对全部已有因子X 进行 KPCA(使用三阶多项式核)，取累积方差贡献达到 99%的主成分作为降维因子 $Z_{k}$ 。以收益率 ${\cdot}r_{n}$ 为因变量，降维因子 $Z_{k}$ 为自变量，进行线性回归，得到回归的 R 平方、调整 R平方、F 值。
+3. KPCA+线性回归：对全部已有因子X 进行 KPCA(使用三阶多项式核)，取累积方差贡献达到 99%的主成分作为降维因子 $Z_{k}$ 。以收益率 $\cdot r_{n}$ 为因变量，降维因子 $:Z_{k}$ 为自变量，进行线性回归，得到回归的 R 平方、调整 R平方、F 值。
 
 图表 33展示了三组测试在多个截面上的平均拟合优度和显著性。可以看出，KPCA+线性回归的拟合优度和显著性最高，对增量信息的提纯效果最好。
 

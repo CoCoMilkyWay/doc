@@ -93,11 +93,11 @@ sujunhao@kysec.cn
 市场中有机构与散户等形形色色的参与者，不同的股票，其交易者结构也不同。我们可以按照挂单金额的大小，对每笔成交做一个简单的划分：超大单（>100万元）、大单（20万元~100 万元）、中单（4万元~20 万元）、小单（<4万元），我们回看每个股票在过去 20个交易日的超大单、大单、中单、小单成交额之和，分别与总成交额相除，得到超大单（exlarge）、大单（large）、中单（median）与小单（small）占比因子。
 
 $$
-Ratio_{exlarge}=\frac{sum\big(amount_{exlarge}\big)}{sum\left(amount_{total}\right)}
+Ratio_{exlarge}=\frac{sum(amount_{exlarge})}{sum(amount_{total})}
 $$
 
 $$
-Ratio_{large}=\frac{sum\bigl(amount_{large}\bigr)}{sum(amount_{total})}
+Ratio_{large}=\frac{sum(amount_{large})}{sum(amount_{total})}
 $$
 
 $$
@@ -143,11 +143,11 @@ $$
 
 因此，我们尝试模仿市值中性化的方法，用两个成交占比因子之间的中性化去构造新的因子，以超大单占比因子和大单占比因子为例，具体方法如下：
 
-(1) 在t时刻，记截面上超大单占比因子的因子值为 $y_{t}$ ，大单占比因子的因子值为 $x_{t}$ ；
+(1) 在t时刻，记截面上超大单占比因子的因子值为 $^{l}y_{t}$ ，大单占比因子的因子值为 $x_{t};$ ；
 
-(2) 作线性回归 $y_{t}=ax_{t}+b+\varepsilon_{t}$ ，得到相应的残差 ${\varepsilon}_{t}$
+(2) 作线性回归 ${\boldsymbol{\imath}}y_{t}=ax_{t}+b+\varepsilon_{t}$ ，得到相应的残差 $.\varepsilon_{t}$
 
-(3) 把残差 ${\varepsilon}_{t}$ 作为新因子 EVL。
+(3) 把残差 $.\varepsilon_{t}$ 作为新因子 EVL。
 
 按以上方法，从超大单占比因子中分别剔除大单占比因子、中单占比因子与小单占比因子，所得新因子依次记为 EVL、EVM、EVS。测试发现，三个新因子均有不俗表现。其中，EVL 因子多空年化收益可达 18.66%，ICIR为 1.85，且该因子在市值中性化后依旧稳健，多空年化收益为11.44%，ICIR为 2.39，最大回撤仅 6.09%。
 

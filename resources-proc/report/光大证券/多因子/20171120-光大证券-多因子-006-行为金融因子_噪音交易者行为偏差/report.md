@@ -4,7 +4,7 @@
 
 用 Behavior Error 刻画噪音交易者行为偏差。我们用行为偏差变量 BE（Behavior Error）来刻画噪音交易者的交易行为： $BE_{i}=~\beta_{i}^{C}-\beta_{i}^{B}$ ，其中， $\beta_{i}^{B}$ 为行为金融定价模型（BAPM：BehavioralAsset-PricingModel）中的 beta， $\beta_{i}^{C}$ 为资本资产定价模型CAPM中的 beta。与 CAPM模型不同的是，BAPM 允许交易者之间存在异质性，从而 BAPM 得到的 beta包含了传统beta与噪音交易导致的 beta。
 
-利用雪球股吧的股票热度数据构建BAPM中的投资者行为指数MDI。为了构建行为金融定价模型BAPM中的投资者行为指数，我们利用雪球贴吧的股票热度数据，筛选过去一年内股民讨论热度最高的 10 只股票，组成我们的投资者行为指数MDI。实证表明，我国A 股市场的个股 $\mathcal{B}_{i}^{B}$ 整体显著低于 ${\cdot\beta}_{i}^{C}$ ，证明我国市场尚未达到有效市场的标准。
+利用雪球股吧的股票热度数据构建BAPM中的投资者行为指数MDI。为了构建行为金融定价模型BAPM中的投资者行为指数，我们利用雪球贴吧的股票热度数据，筛选过去一年内股民讨论热度最高的 10 只股票，组成我们的投资者行为指数MDI。实证表明，我国A 股市场的个股 $\cdot\beta_{i}^{B}$ 整体显著低于 $\cdot\beta_{i}^{C}$ ，证明我国市场尚未达到有效市场的标准。
 
 噪音交易者行为偏差波动因子 BE_std 预测能力和选股能力较强。行为偏差波动因子 BE_std 因子在计算时长参数 m 取值小于 20 个交易日的区间内表现较好。且m取值小于 10 个交易日时的IC、IR 值上升格外明显。m=6 时因子 BE_std 的 IC 小于零的比例为 74%，因子与未来收益呈现较强的负相关性，IC 均值为-3.2%，IR值为-0.54。
 
@@ -96,16 +96,16 @@ $$
 
 其中： $\widetilde{r_{it}}$ 代表时刻 t 股票 i 的收益率， $\widetilde{r_{ft}}$ 代表时刻 t 的无风险收益， $\widetilde{r_{mt}}$ 代表时刻 t 的市场整体收益率， $\widetilde{\varepsilon_{it}}$ 为残差项， $\alpha_{i}$ 为回归方程的截距项， $\beta_{i}^{c}$ 则是CAPM 模型的 beta。
 
-将上式略作改写，则可以得到下面包含 behavioralbeta $\beta_{i}^{B}$ 和噪音项 $\eta_{i}$ 的回归方程:
+将上式略作改写，则可以得到下面包含 behavioralbeta $1\beta_{i}^{B}$ 和噪音项 $\eta_{i}$ 的回归方程:
 
 $$
 \widetilde{r_{it}}-\widetilde{r_{ft}}=\alpha_{i}+\big(\beta_{i}^{B}+\eta_{i}\big)\big[\widetilde{r_{mt}}-\widetilde{r_{ft}}\big]+\widetilde{\varepsilon_{it}}\#(2)
 $$
 
-这里的噪音项ηi则可以由 CAPM 的 beta $5$ BAPM 的 beta 的差来定义，这里我们就将它称为行为偏差 BehaviorError（BE）。行为偏差 BehaveError即为噪音交易者风险的代理变量。
+这里的噪音项ηi则可以由 CAPM 的 beta $与$ BAPM 的 beta 的差来定义，这里我们就将它称为行为偏差 BehaviorError（BE）。行为偏差 BehaveError即为噪音交易者风险的代理变量。
 
 $$
-BE_{i}=\eta_{i}=\ \beta_{i}^{C}-\beta_{i}^{B}\#(3)
+BE_{i}=\eta_{i}=\beta_{i}^{C}-\beta_{i}^{B}\#(3)
 $$
 
 BAPM 的 beta 则是由 Shefrin 和 Statman（1994）定义的行为金融定价模型（BAPM：BehavioralAsset-PricingModel）来计算得出的：
@@ -114,7 +114,7 @@ $$
 \widetilde{r_{it}}-\widetilde{r_{ft}}=\alpha_{i}+\beta_{i}^{B}\big[\widetilde{r_{mt}}^{B}-\widetilde{r_{ft}}\big]+\widetilde{\varepsilon_{it}}\#(4)
 $$
 
-这里 $\hat{\Theta}\hat{\cdot}\hat{r_{mt}}^{B}$ 代表t时刻“投资者行为指数”的收益率。那么对于 $\cdot\beta_{i}^{B}$ 估计的关键就在于，如何定义这里的“投资者行为指数”。同时，假设有效市场假说成立，那么E(BE) = 0也必须成立，通过计算BE的分布情况，我们就可以验证有效市场的假设在当前A 股是否成立。
+这里 $的\widetilde{r_{mt}}^{B}$ 代表t时刻“投资者行为指数”的收益率。那么对于 $\cdot\beta_{i}^{B}$ 估计的关键就在于，如何定义这里的“投资者行为指数”。同时，假设有效市场假说成立，那么E(BE) = 0也必须成立，通过计算BE的分布情况，我们就可以验证有效市场的假设在当前A 股是否成立。
 
 参考 Ramiah 和 Davidson 的定义，他们在衡量 $\cdot\beta_{i}^{B}$ 所使用的“投资者行为指数”是MumsandDadsIndex（MDI），也就是最为受到散户投资者欢迎的股票指数，当然 A 股市场上还没有现成的类似指数可供参考，因此我们利用雪球等股吧的股票对应发帖数量来作为筛选受散户欢迎股票的参考标准。下一节中会具体解释我们的 MDI（MomsandDadsIndex）的构造方式。
 
@@ -179,9 +179,9 @@ $$
 ![](images/808bf55c7473eff428c32a59374c047cf369e0109a2abaeab5df3b2775406425.webp)
 资料来源：光大证券研究所，注：2011.01.01-2017.11.01
 
-由图3 和图4可见，MDI_v1 计算所得的 $\beta_{i}^{B}$ 与该股票相对应的 $\beta_{i}^{C}\dot{z}$ 间的差异更具有趋势性，也即偏离中枢的异常值更少，因此后文中我们将统一使用MDI_v1 作为投资者行为指数MDI。
+由图3 和图4可见，MDI_v1 计算所得的 $\beta_{i}^{B}$ 与该股票相对应的 $\beta_{i}^{c}之$ 间的差异更具有趋势性，也即偏离中枢的异常值更少，因此后文中我们将统一使用MDI_v1 作为投资者行为指数MDI。
 
-同时我们发现， $\beta_{i}^{B}$ 与 $\beta_{i}^{C}$ 之间的确存在较为显著的差异， $\beta_{i}^{B}$ 在 99%的情形下都是小于 ${\cdot\beta}_{i}^{C}$ 的， $\beta_{i}^{C}$ 要显著的高于 $\cdot\beta_{i}^{B}$ ，也就证明了BE 显著的不等于零，从而得出我国 A股市场的并未达到有效市场的标准的结论。
+同时我们发现， $\beta_{i}^{B}$ 与 $\beta_{i}^{C}$ 之间的确存在较为显著的差异， $\beta_{i}^{B}$ 在 99%的情形下都是小于 $\cdot\beta_{i}^{C}$ 的， $\beta_{i}^{C}$ 要显著的高于 $\cdot\beta_{i}^{B}$ ，也就证明了BE 显著的不等于零，从而得出我国 A股市场的并未达到有效市场的标准的结论。
 
 上图也显示出 A 股不同股票所对应的噪音交易者行为偏差变量 BE（即$\beta_{i}^{C}-\beta_{i}^{B})$ 也存在较为明显的差异。由于BE 也可以理解为股票对于噪音交易行为的暴露程度，因此我们认为，BE 较低的股票（或者一定时间内BE 变化程度较小的股票）拥有相对噪音交易者更小的暴露，从而可能在未来一定时间内具有较高的回报。下面一个章节，我们就将对这里的猜想做测试和验证。
 
@@ -448,7 +448,7 @@ BE_std因子与STD_1M和BP_LR因子相关性较高。分别计算估值因子、
 为了进一步证明 BE_std 因子自身具备选股能力，我们将通过横截面回归取残差的方式，剔除了一个月波动（STD_1M）和当期净资产/市值（BP_LR）的影响，同时剔除了市值、一个月动量、和行业因素。
 
 $$
-\begin{array}{r}{BE\_std_{i}=\beta_{1}*BP\_LR_{i}+\beta_{2}*Momentum\_1M_{i}+\beta_{3}*STD_{-}1M_{i}+\beta_{4}}\\{*Ln\_MC_{i}+\beta_{5}*Industry_{i}+\varepsilon_{i}\qquad}\end{array}
+\begin{array}{c}BE\_std_{i}=\beta_{1}*BP\_LR_{i}+\beta_{2}*Monmentum\_1M_{i}+\beta_{3}*STD\_1M_{i}+\beta_{4}\\*Ln\_MC_{i}+\beta_{5}*Industry_{i}+\varepsilon_{i}\end{array}
 $$
 
 中性化后的行为偏差波动因子 BE_std 依旧具有选股能力。对 BE_std 因子做行业、市值中性处理并剔除 STD_1M、BP_LR 影响后，因子的有效性检验等结果仍然显著，但因子收益、IC 均值均有明显下降。中性化后，IC 平均值为-1.55%，IC大于零的比例为21.5%，IR 绝对值达-0.49。此外因子的分组效果也有所减弱，多空组合年化收益为6.0%，夏普比率为0.61。

@@ -133,12 +133,12 @@ COVID-19大流行还引发了巨大的、差异性的股价波动。在2020年�
 对国家层面（3.2节）的因素，本文采取的回归式为：
 
 $$
-Ret_{c,t}=\alpha COVID19_{c,t}+\beta X_{c}^{\prime}+\delta_{c}+\delta_{t}+\epsilon_{c,t}\tag{1}
+Ret_{c,t}=\alpha COVID19_{c,t}+\pmb{\beta}\pmb{X}_{c}^{\prime}+\delta_{c}+\delta_{t}+\epsilon_{c,t}\tag{1}
 $$
 
-其中 $c,$ t分别是经济体和周数的下标。 $Ret_{c,t}$ 是股市指数从第 t-1 周到第 t周 的 收 益 率 ， 对 应 着 附 录 变 量 表 10 中 的 Weekly Market Return.$COVID19_{c,t}$ 为累计确诊病例的周增长率。 $\delta_{c}$ 和 $\delta_{t}$ 均为虚拟变量的集合， $\delta_{c}$ 代表着每个经济体特有，但是不随时间变化的未被观测到的因素； $\delta_{t}$ 代表着每个时间点特有，但是不随经济体变化的未被观测到的因素。包含这两项旨在排除掉这两方面不可观测因素对 ${\pmb{\beta}}{\pmb{X}}_{c}^{\prime}$ 项的影响。
+其中 $c,$ t分别是经济体和周数的下标。 $Ret_{c,t}$ 是股市指数从第 t-1 周到第 t周 的 收 益 率 ， 对 应 着 附 录 变 量 表 10 中 的 Weekly Market Return.$COVID19_{c,t}$ 为累计确诊病例的周增长率。 $\delta_{c}$ 和 $\cdot\delta_{t}$ 均为虚拟变量的集合， $\delta_{c}$ 代表着每个经济体特有，但是不随时间变化的未被观测到的因素； $\delta_{t}$ 代表着每个时间点特有，但是不随经济体变化的未被观测到的因素。包含这两项旨在排除掉这两方面不可观测因素对 $\beta X_{c}^{\prime}$ 项的影响。
 
-应该重点关注的是 $\ BX_{c}^{\prime}$ 项。 $\pmb{X}_{c}^{\prime}$ 向量中包含了经济体或公司特征的指标，比如政府的刺激措施以及大流行前的国家特征（包括政府债务，经济发展情况，人口年龄等）。本文使用最小二乘法估计系数 $\mathbf{\delta}_{\mathbf{\mathcal{B}}}$ ，并标注其在经济体层面的聚类稳健标准误（即假设同一个经济体内任何两个观测值之间都是相互关联的，而不同经济体的观测值是互不关联的）。可以看到，（1）式主要是为了评估不同经济体之间的差异，并且等号右端的第一项与第二项之间是加法的关系。
+应该重点关注的是 $\pmb{\beta}\pmb{X}_{\pmb{c}}^{\prime}$ 项。 $X_{c}^{\prime}$ 向量中包含了经济体或公司特征的指标，比如政府的刺激措施以及大流行前的国家特征（包括政府债务，经济发展情况，人口年龄等）。本文使用最小二乘法估计系数 $i\beta$ ，并标注其在经济体层面的聚类稳健标准误（即假设同一个经济体内任何两个观测值之间都是相互关联的，而不同经济体的观测值是互不关联的）。可以看到，（1）式主要是为了评估不同经济体之间的差异，并且等号右端的第一项与第二项之间是加法的关系。
 
 对公司层面（3.3节）的因素，本文采取的回归式为：
 
@@ -146,7 +146,7 @@ $$
 Ret_{i,t}=\beta X_{i,pre2020}^{\prime}\times COVID19_{C,t}+\delta_{i}+\delta_{j,t}+\delta_{c,t}+\epsilon_{i,t}\tag{2}
 $$
 
-其中 $i,c,j,$ t分别是公司，经济体，行业和周数的下标。同样使用固定效应的方法排除了无法观测因素的影响后，由于要研究的是公司在 2020年前的已有特征如何影响其在新冠大流行期间的收益率，（2）式中对$\beta X_{i,pre2020}^{\prime}$ 项和 $COVID19_{C,t}$ 项采取了乘积的形式。 $X_{i,pre2020}^{\prime}$ 中包含了财务，跨地区供需，CSR，公司治理以及所有权结构共五个公司层面的指标。类似国家层面的方法，采取最小二乘法估计 $\mathbf{\nabla}\mathcal{B}$ 并标注其在经济体层面的聚类稳健标准误。
+其中 $i,c,j,$ t分别是公司，经济体，行业和周数的下标。同样使用固定效应的方法排除了无法观测因素的影响后，由于要研究的是公司在 2020年前的已有特征如何影响其在新冠大流行期间的收益率，（2）式中对$\pmb{\beta}X_{i,pre2020}^{\prime}$ 项和 $COVD19_{C,t}$ 项采取了乘积的形式。 $X_{i,pre2020}^{\prime}$ 中包含了财务，跨地区供需，CSR，公司治理以及所有权结构共五个公司层面的指标。类似国家层面的方法，采取最小二乘法估计 $\cdot\beta1$ 并标注其在经济体层面的聚类稳健标准误。
 
 注：由于同一个变量可能与不同的变量组合作为解释变量，导致在原文中的表格较多且表格较大，本报告的结果表格中的变量并不一定同时作为解释变量进入回归，只是选取了该变量在关键回归的结果以代表其与股价收益率的关系。如需查看更多细节，请查阅原文《Corporate immunityto the COVID-19 pandemic》.
 
@@ -373,16 +373,16 @@ Stein (2009)和 Khandani and Lo (2011)表明，资产管理公司尤其是对冲
 | COVID19 | 某经济体中新冠累计确诊病例的周增长率。对于经济体 c 的 Johns Hopkins University |  |
 | 请务必阅读正文之后的免责条款部分 11 of 17 |  |  |
 
-| 第t周， |  | $COVID19_{c,t}{=}\log(1{+}\breve{\mathscr{P}}$ t 周的累计确诊病例数)-log(1+ 第 t-1 周的累计确诊病例数) | Center for Systems Science and Engineering (JHU CSSE) |
+| 第t周， |  | $COVD19_{c,t}=\log(1+第$ t 周的累计确诊病例数)-log(1+ 第 t-1 周的累计确诊病例数) | Center for Systems Science and Engineering (JHU CSSE) |
 | --- | --- | --- | --- |
-| COVID19, Active |  | 某经济体中现存新冠病例数的周增长率。 $COVID19_{c,t},Active{=}\log(1+$ 第 t 周的现存病例数)-log(1+第 t-1 | JHU CSSE |
+| COVID19, Active |  | 某经济体中现存新冠病例数的周增长率。 $COVID19_{c,t},Actime=log(1+$ 第 t 周的现存病例数)-log(1+第 t-1 | JHU CSSE |
 | COVID19, Testing Adjusted 1 | 周的现存病例数)，其中现存病例数=累计确诊病例数-康复病 |  |  |
 |  | 例数-死亡病例数 |  |  |
-|  | 周检测阳性率的变化。 $COVID19_{c,t},TestingAdjusted1=$ | JHU CSSE; Foundation for Innovative New |  |
-|  | $\frac{\Delta Case_{c,t}}{\Delta Test_{c,t}}-\frac{\Delta Case_{c,t-1}}{\Delta Test_{c,t}-1}.$ 其中 $\Delta Case_{c,t}$ 是在第t周的新增确诊病例 | Diagnostics(FIND) |  |
+|  | 周检测阳性率的变化。 $COVID19_{c,t},Testing\;Adjusted\;1=$ | JHU CSSE; Foundation for Innovative New |  |
+|  | $\frac{\Delta Case_{c,t}}{\Delta Test_{c,t}}-\frac{\Delta Case_{c,t-1}}{\Delta Test_{c,t}-1},$ 其中 $\Delta Case_{c,t}$ 是在第t周的新增确诊病例 | Diagnostics(FIND) |  |
 |  | 数， $\Delta Test_{c,t}$ 是在第t周的新增检测数。计算出结果之后乘以 |  |  |
 |  | COVID19, Testing Adjusted 2 | 100 累计阳性率的变化。。 | JHU CSSE; FIND |
-|  | $\begin{array}{rl}&{COVID19_{c,t},TestingAdjusted\ :2}\\&{\quad\quad\quad=\ln\left(1+\frac{\frac{\kappa\hat{\eta}}{\hat{\eta}}^{\star}\{\hat{\eta}\}\hat{\psi}_{\\|}^{\star}\hat{\eta}_{\uparrow}^{\star}\frac{\nabla\hat{\eta}}{\sqrt{\pi}}\hat{\psi}_{\downarrow}+\hat{\mathcal{H}}_{\uparrow\uparrow}^{h}\hat{\psi}_{\uparrow}^{\star\mu}\hat{\mathcal{H}}_{\times}^{h}}{\hat{\mathcal{H}}_{\uparrow\downarrow}^{h}\ \hat{\mathcal{H}}_{\downarrow\downarrow}^{h}\hat{\mathcal{H}}_{\times}^{h}\hat{\mathcal{H}}_{\times}^{h}\hat{\mathcal{H}}_{\times}^{h}}\right)}\\&{\quad\quad\quad\quad\quad-\ln\left(1+\frac{\frac{\kappa\hat{\eta}}{\hat{\mathcal{H}}}\ \mathrm{t}-1\ \int_{0}^{\infty}\hat{\eta}\hat{\mathcal{H}}_{\uparrow}^{\prime}\frac{\nabla\hat{\mathcal{H}}}{\hat{\mathcal{H}}}_{\downarrow}^{\prime}\hat{\mathcal{H}}_{\times}^{h}\hat{\mathcal{H}}_{\times}^{h}\hat{\mathcal{H}}_{\times}^{h}}{\hat{\mathcal{H}}_{\uparrow\downarrow}^{h}\ \mathrm{t}-1\ \int_{0}^{\infty}\hat{\eta}\hat{\mathcal{H}}_{\uparrow}^{\prime}\frac{\nabla\hat{\mathcal{H}}}{\sqrt{\pi}}\hat{\mathcal{H}}_{\times}^{h}\hat{\mathcal{H}}_{\times}^{h}\hat{\mathcal{H}}_{\times}^{h}}\right)}\end{array}$ |  |  |
+|  | $\begin{aligned}COVID19_{c,t},Testing&\;Adjusted\;2\\&=\ln\left(1+\frac{第\;t\;周的累计确诊数}{第\;t\;周的总检测数}\right)\\&-\ln\left(1+\frac{第\;t-1\;周的累计确诊数}{第\;t-1\;周的总检测数}\right)\end{aligned}$ |  |  |
 | 公司特征 | 计算出结果之后乘以100 |  |  |
 | Firm Size |  |  |  |
 | Leverage | 总资产账面价值的自然对数 | Thomson Reuters Worldscope |  |
@@ -394,7 +394,7 @@ Stein (2009)和 Khandani and Lo (2011)表明，资产管理公司尤其是对冲
 | ROA(EBIT) Undrawn Credit | 息税前利润除以总资产 | Thomson Reuters Worldscope |  |
 | Maturing Debt | 未提取的循环信用额除以总资产 | Capital IQ Capital Structure |  |
 |  | 2020 年二至四季度到期且未偿还的债务总额除以 2019 年底 Capital IQ Capital Structure 的总债务。 |  |  |
-| Supplier's Exposure | 对于公司f在第t周， $Supplier^{\prime}sExposure_{f,t}\dot{\boldsymbol{\cdot}}\dot{\boldsymbol{\jmath}}COVID1\boldsymbol{9}_{c,t}$ 加权平均值，权重为大流行前该公司在经济体c的供应商数 | 的 FactSet Revere; JHU CSSE |  |
+| Supplier's Exposure | 对于公司f在第t周， $SuppliersExposure_{f,t}为COVD19_{c,t}$ 加权平均值，权重为大流行前该公司在经济体c的供应商数 | 的 FactSet Revere; JHU CSSE |  |
 | Customer's Exposure | 量占该公司总供应商数量的比例 对于公司 f 在第 t 周，Customer's Exposuref,t为 $COVID19_{c,t}$ | FactSet Revere; JHU CSSE |  |
 | CSR Score | 的加权平均值，权重为大流行前该公司在经济体c的收入占 该公司总收入的比例 环境，社会和企业社会责任战略指数的平均值，用于衡量公Thomson Reuters ASSET4 |  |  |
 |  | 司对环境的重视程度（包括资源使用，排放和绿色创新)， 非股东利益相关者和社会主题（包括员工福利，人权和给予 |  |  |

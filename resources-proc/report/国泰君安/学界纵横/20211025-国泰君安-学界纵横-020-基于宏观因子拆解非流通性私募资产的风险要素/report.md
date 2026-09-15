@@ -172,12 +172,12 @@ le_Summary]追随着耶鲁大学基金会的脚步，越来越多的投资机构
 本文选取了 Booker 的模型2作为基础结构以表示这些私募资产，即下式：
 
 $$
-\begin{array}{l}{{r_{priv}=\beta_{lev}\big(Public~risk~c\dot{x}aracteristics+Private~risk~c\dot{\iota}aracteristic}}\\{{\qquad+~Idiosyncratic}\big)+FX}\end{array}
+\begin{aligned}&r_{priv}=\beta_{lev}\big(Publicriskc\&aracteristics+Privateriskc\&aracteristics\\&\quad+Idiosyncratic\big)+FX\\\end{aligned}
 $$
 
 其中 $r_{priv}$ 是给定私募资产的日收益率，括号内分别为公共市场风险特征、私募市场风险特征与特殊风险特征所带来的收益率，由于括号内为无杠杆情况下的风险暴露，我们将其乘以 $\beta_{lev}$ 以进行扩放（或缩放），最后我们向式中加入可能的外汇暴露 FX。
 
-此式中，暴露乘数 $\beta_{lev}$ 代表根据杠杆调整后的贝塔值，对于私人股本，其代表对公共股票市场的贝塔值，而对于私人房地产或基建，其代表意义需要根据具体的资产来进行决定。
+此式中，暴露乘数 $\textlangle\beta_{lev}$ 代表根据杠杆调整后的贝塔值，对于私人股本，其代表对公共股票市场的贝塔值，而对于私人房地产或基建，其代表意义需要根据具体的资产来进行决定。
 
 公共市场风险特征是投资的系统性风险来源，多数情况下会根据流动性市场数据进行校准，且在不同私募资产中也通常是共通的。
 
@@ -194,7 +194,7 @@ $$
 其中收益最大化组合根据下式进行计算：（N 资产种类，M 印字）
 
 $$
-Max_{w_{LPP}}\ q(w_{LPP}^{T}R)-\lambda\big(w_{LPP}^{T}F-e_{priv}^{T}\big)\sum\big(w_{LPP}^{T}F-e_{priv}^{T}\big)^{T}
+Max_{w_{LPP}}q(w_{LPP}^TR)-\lambda\big(w_{LPP}^TF-e_{priv}^T\big)\sum\big(w_{LPP}^TF-e_{priv}^T\big)^T
 $$
 
 式中 w 为资产权重，R 为资产期望收益率，q 为目标函数的收益最大化组成犬冢，λ为风险厌恶系数，F 为对因子的暴露矩阵（N*M），e 为目标私募资产的因子暴露，∑为因子的协方差矩阵，F 为 LPP 的因子暴露，L为 LPP 所能允许的最大杠杆倍数。

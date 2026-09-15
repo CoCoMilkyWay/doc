@@ -105,19 +105,19 @@ HUATAI FUTURES
 论文研究的因变量是未来一定区间内的收益率和方向（涨或是跌）。此处，作者使用了三个时钟（Time Clock）来定义区间，分别是日历时钟、成交时钟以及成交额时钟。日历时钟就是最常见的时间维度（未来 n秒的区间收益率及方向），成交时钟则将交易笔数作为衡量区间的尺度（未来 n笔交易的区间收益率及方向），而成交额时钟则是将成交金额作为衡量区间的尺度（未来n美元交易的区间收益率及方向）。预测区间构造的公式及符号表达如下：
 
 $$
-\begin{array}{rl}&{\mathrm{Int^{forward}}(T,\Delta,\mathrm{M})=\left\{\begin{array}{ll}{\mathrm{Int}(T,T+\Delta)}&{\mathrm{if~}M=\mathrm{calendar}}\\{\left\{t>T:\left(\sum_{s\in\mathrm{Int}(T,t)}\mathbb{1}_{\{V_{s}>0\}}\right)\leq\Delta\right\}}&{\mathrm{if~}M=\mathrm{transaction}\cdot}\\{\left\{t>T:\left(\sum_{s\in\mathrm{Int}(T,t)}V_{s}\right)\leq\Delta\right\}}&{\mathrm{if~}M=\mathrm{volume}}\end{array}\right.}\\&{\mathrm{Int}(T_{1},T_{2})=\{t\in\mathbb{R}:T_{1}<t\leq T_{2}\}.}\end{array}
+\begin{aligned}{\operatorname{Int}^{\operatorname{forward}}(T,\Delta,\operatorname{M})=\begin{cases}{\operatorname{Int}(T,T+\Delta)}&{\operatorname{if}M=\operatorname{calendar}}\\{\left\{t>T:\left(\sum_{s\in\operatorname{Int}(T,t)}\mathbb{1}_{\left\{V_{s}>0\right\}}\right)\leq\Delta\right\}}&{\operatorname{if}M=\operatorname{transaction}}\\{\left\{t>T:\left(\sum_{s\in\operatorname{Int}(T,t)}V_{s}\right)\leq\Delta\right\}}&{\operatorname{if}M=\operatorname{volume}}\\{}&{}\\{\operatorname{Int}(T_{1},T_{2})=\left\{t\in\mathbb{R}:T_{1}<t\leq T_{2}\right\}.}\\\end{cases}}\\\end{aligned}.
 $$
 
 其中，T为当前时点，Δ为区间长度，M为所选时钟。
 
 在进一步介绍收益率与方向的计算方法之前，我们需要先介绍一些数学符号的含义。这些符号在收益率的计算公式以及后面因子的构造公式中会频繁出现，我们在此处列出以便读者更好理解。
 
-令 $\cdot D^{txn}$ 代表所有时间戳中发生成交的时间节点， $D^{qt}$ 代表所有时间戳中与报价相关的时间节点，数据中全部的时间戳则为 $D=\ D^{txn}\cup D^{qt}$ 。时间 t的最优买价为 $P_{t}^{b}$ ，相应挂单量为 $S_{t}^{b}$ ；最优卖价为 $P_{t}^{a}$ ，相应挂单量为Sa；中间价 $P_{t}{=}(P_{t}^{b}+P_{t}^{a})/2$ 。最后，时间t的成交价格为 $P_{t}^{txn}$ ,其中 $t\in D^{txn}$ 。
+令 $\cdot D^{txn}$ 代表所有时间戳中发生成交的时间节点， $D^{qt}$ 代表所有时间戳中与报价相关的时间节点，数据中全部的时间戳则为 $D=D^{txn}\cup D^{qt}$ 。时间 t的最优买价为 $P_{t}^{b}$ ，相应挂单量为 $|S_{t}^{b}|$ ；最优卖价为 $P_{t}^{a}$ ，相应挂单量为Sa；中间价 $P_{t}{=}(P_{t}^{b}+P_{t}^{a})/2$ 。最后，时间t的成交价格为 $P_{t}^{txn}$ ,其中 $t\in D^{txn}$ 。
 
 作者将预测区间收益率定义为未来一段时间内的平均成交价格与当前中间价的比值减一，公式如下：
 
 $$
-\mathrm{Return}(T,\Delta,M)=\mathrm{Average}\left[P_{t}^{\mathrm{txn}}:t\in\mathbf{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{forward}}(T,\Delta,\mathrm{M})\right]/P_{T}-1.
+\mathrm{Return}(T,\Delta,M)=\mathrm{Average}\left[P_{t}^{\mathrm{txn}}:t\in\mathrm{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{forward}}(T,\Delta,\mathrm{M})\right]/P_{T}-1.
 $$
 
 与传统的单笔交易或固定时间间隔的收益率计算方式相比，这样的计算方式使得收益率数值更加稳定，噪声更小，受到异常值的影响较小。
@@ -125,10 +125,10 @@ $$
 交易方向的计算公式为：
 
 $$
-\mathrm{Direction}(T,\Delta,M)=1|_{\mathrm{\scriptsize\mathrm{\scriptsize~\{Return}}}(T,\Delta,M)>\bar{\cal R}(\Delta,M)|.
+\operatorname{Direction}(T,\Delta,M)=\mathbb{1}_{\left\{\operatorname{Return}(T,\Delta,M)>\bar{R}(\Delta,M)\right\}}.
 $$
 
-其中， $\bar{R}(\varDelta,M)$ 为股票历史上的平均区间收益率。由于时间区间较短短，该值会非常趋近于 0。
+其中， $\bar{R}(A,M)$ 为股票历史上的平均区间收益率。由于时间区间较短短，该值会非常趋近于 0。
 
 ## 预测变量
 
@@ -137,10 +137,10 @@ $$
 论文中后续构造的所有自变量都是预测时点 T之前回溯区间内报价及成交数据的线性（或非线性）组合，与因变量一样，需要定义区间的长度。回溯区间的表达方式与预测区间基本一致，如下所示：
 
 $$
-\begin{array}{r}{\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})=\left\{\begin{array}{ll}{\mathrm{Int}(T-\Delta_{2},T-\Delta_{1})}&{\mathrm{if~}M=\mathrm{calendar}}\\{\left\{t:t\leq T,\Delta_{1}\leq\left(\sum_{s\in\mathrm{Int}(t,T)}{\mathbb{1}_{\{V_{s}>0\}}}\right)<\Delta_{2}\right\}}&{\mathrm{if~}M=\mathrm{transaction}\ .}\\{\left\{t:t\leq T,\Delta_{1}\leq\left(\sum_{s\in\mathrm{Int}(t,T)}V_{s}\right)<\Delta_{2}\right\}}&{\mathrm{if~}M=\mathrm{volume}}\end{array}\right.}\end{array}
+\operatorname{Int}^{\operatorname{back}}(T,\Delta_{1},\Delta_{2},\operatorname{M})=\begin{cases}{\operatorname{Int}(T-\Delta_{2},T-\Delta_{1})}&{\operatorname{if}M=\operatorname{calendar}}\\{\left\{t:t\leq T,\Delta_{1}\leq\left(\sum_{s\in\operatorname{Int}(t,T)}\mathbb{1}_{\left\{V_{s}>0\right\}}\right)<\Delta_{2}\right\}}&{\operatorname{if}M=\operatorname{transaction}-}\\{\left\{t:t\leq T,\Delta_{1}\leq\left(\sum_{s\in\operatorname{Int}(t,T)}V_{s}\right)<\Delta_{2}\right\}}&{\operatorname{if}M=\operatorname{volume}}\\\end{cases}
 $$
 
-作者使用了多个不相交的区间作为回溯区间。对于日历时钟，作者使用 $({\varDelta}_{1},{\varDelta}_{2})\in$ {(0,0.1), (0.1,0.2), (0.2,0.4), … … , (12.8,25.6)}共 9 个区间作为回溯区间（单位为秒， $\varDelta_{1}$ 代表区间结束时点和当前时点的距离， $\varDelta_{2}$ 代表区间开始时点和当前时点的距离）；对于成交时钟，作者使用 $(A_{1},A_{2})\in\{(0,1),(1,2),(2,4),\ldots\ldots,$ (128,256)}作为回溯区间（单位为成交笔数）；对于成交额时钟，作者使用 $({\varDelta}_{1},{\varDelta}_{2})\in$
+作者使用了多个不相交的区间作为回溯区间。对于日历时钟，作者使用 $(\varDelta_{1},\varDelta_{2})\in$ {(0,0.1), (0.1,0.2), (0.2,0.4), … … , (12.8,25.6)}共 9 个区间作为回溯区间（单位为秒， $\varDelta_{1}$ 代表区间结束时点和当前时点的距离， $\varDelta_{2}$ 代表区间开始时点和当前时点的距离）；对于成交时钟，作者使用 $(\varDelta_{1},\varDelta_{2})\in\{(0{,}1),(1{,}2),(2{,}4),\ldots\ldots,$ (128,256)}作为回溯区间（单位为成交笔数）；对于成交额时钟，作者使用 $(\varDelta_{1},\varDelta_{2})\in$
 
 {(0,100), (100,200), (200,400), … … , (12800,25600)}作为回溯区间（单位为股数）。
 
@@ -155,31 +155,31 @@ $$
 1）广度因子（Breadth）是回溯区间内的成交笔数：
 
 $$
-\mathrm{Breadth}(T,\Delta_{1},\Delta_{2},M)=|{\bf D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})|.
+\operatorname{Breadth}(T,\Delta_{1},\Delta_{2},M)=\big|\mathbf{D}^{\operatorname{txn}}\cap\operatorname{Int}^{\operatorname{back}}(T,\Delta_{1},\Delta_{2},\operatorname{M})\big|.
 $$
 
 2）即时性因子（Immediacy）是回溯区间内每笔成交的平均间隔时间：
 
 $$
-\mathrm{Immediacy}(T,\Delta_{1},\Delta_{2},M)={\frac{\Delta_{2}-\Delta_{1}}{\mathrm{Breadth}(T,\Delta_{1},\Delta_{2},M)}}
+\operatorname{Immediacy}(T,\Delta_{1},\Delta_{2},M)=\frac{\Delta_{2}-\Delta_{1}}{\operatorname{Breadth}(T,\Delta_{1},\Delta_{2},M)}
 $$
 
 3）总成交量因子（VolumeAll）是回溯区间内的总成交量：
 
 $$
-\mathrm{VolumeAll}(T,\Delta_{1},\Delta_{2},M)=\sum_{t\in\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})}V_{t}.
+\mathrm{VolumeAll}(T,\Delta_1,\Delta_2,M)=\sum_{t\in\mathrm{Int}^{\mathrm{back}}(T,\Delta_1,\Delta_2,M)}V_t.
 $$
 
 4）平均成交量因子（VolumeAvg）是回溯区间内的每笔成交的平均成交量：
 
 $$
-\mathrm{VolumeAvg}(T,\Delta_{1},\Delta_{2},M)=\frac{\mathrm{VolumeAll}(T,\Delta_{1},\Delta_{2},M)}{\mathrm{Breadth}(T,\Delta_{1},\Delta_{2},M)}.
+\mathrm{VolumeAvg}(T,\Delta_1,\Delta_2,M)=\frac{\mathrm{VolumeAll}(T,\Delta_1,\Delta_2,M)}{\mathrm{Breadth}(T,\Delta_1,\Delta_2,M)}.
 $$
 
 5）最大成交量因子（VolumeMax）是回溯区间内的单笔成交的最大成交量：
 
 $$
-\operatorname{VolumeMax}(T,\Delta_{1},\Delta_{2},M)=\operatorname*{max}\left\{V_{t}:t\in\operatorname{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})\right\}.
+\operatorname{VolumeMax}(T,\Delta_{1},\Delta_{2},M)=\operatorname*{max}\left\{V_{t}:t\in\operatorname{Int}^{\operatorname{back}}(T,\Delta_{1},\Delta_{2},\operatorname{M})\right\}.
 $$
 
 第二类：收益和不平衡性。第二组预测因素与股票近期的交易不对称有关。例如，如果大多数交易都是触及卖方报价的买入交易，或者最优报价中买单量显著高于卖单量，那么我们可能会看到价格上涨的较大可能性。因此，预测未来回报的一个因素将是当前限价订单簿（LOB）的特征，包括任何不平衡性。众所周知，这种不平衡预示着未来的价格变动（参见 Cont 等人（2014 年）2以及 Kercheval 和 Zhang（2015 年）3）。
@@ -187,29 +187,29 @@ $$
 1）价格振幅因子（Lambda）衡量了回溯区间内单位成交量下价格的波动变化：
 
 $$
-\mathrm{Let}~\mathbf{I}=\mathbf{D}^{\mathrm{txn}}\ \cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M}),\mathrm{then}
+Let$\mathbf{I}=\mathbf{D}^{\mathrm{txn}}\mathbf{\Omega}\cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M}),$then
 $$
 
 $$
-\operatorname{Lambda}(T,\Delta_{1},\Delta_{2},M)=\frac{P_{\operatorname*{max}(\mathbf{I})}-P_{\operatorname*{min}(\mathbf{I})}}{\operatorname{VolumeAll}(T,\Delta_{1},\Delta_{2},M)}.
+{\operatorname{Lambda}}(T,\Delta_{1},\Delta_{2},M)=\frac{P_{\operatorname*{max}({\mathbf{I}})}-P_{\operatorname*{min}({\mathbf{I}})}}{{\operatorname{VolumeAll}}(T,\Delta_{1},\Delta_{2},M)}.
 $$
 
 2）报价不平衡因子 （LobImbalance）衡量了回溯区间内最优报价处挂单量的不平衡性：
 
 $$
-\mathrm{LobImbalance}(T,\Delta_{1},\Delta_{2},M)=\mathrm{Average}\left[\frac{S_{t}^{a}-S_{t}^{b}}{S_{t}^{a}+S_{t}^{b}}:t\in\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})\right].
+\operatorname{LobImbalance}(T,\Delta_{1},\Delta_{2},M)=\operatorname{Average}\left[\frac{S_{t}^{a}-S_{t}^{b}}{S_{t}^{a}+S_{t}^{b}}:t\in\operatorname{Int}^{\operatorname{back}}(T,\Delta_{1},\Delta_{2},\operatorname{M})\right].
 $$
 
 3）成交不平衡因子（TxnImbalance）衡量了回溯区间内所有成交中主买量和主卖量之前的不平衡性：
 
 $$
-\mathrm{TxnImbalance}(T,\Delta_{1},\Delta_{2},M)=\frac{\sum_{t\in\mathbf{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathbf{M})}\left(V_{t}\cdot\mathrm{Dir}_{t}^{\mathrm{LR}}\right)}{\mathrm{VolumeAll}(T,\Delta_{1},\Delta_{2},M)}.
+\mathrm{TxnImbalance}(T,\Delta_1,\Delta_2,M)=\frac{\sum_{t\in\mathrm{D^{txn}}\cap\mathrm{Int^{back}}(T,\Delta_1,\Delta_2,\mathrm{M})}\left(V_t\cdot\mathrm{Dir}_t^{\mathrm{LR}}\right)}{\mathrm{VolumeAll}(T,\Delta_1,\Delta_2,M)}.
 $$
 
 4）历史收益因子（PastReturn）是回溯区间内的收益率，计算方式与与之前提到的预测区间收益率基本一致：
 
 $$
-\mathrm{PastReturn}(T,\Delta_{1},\Delta_{2},M)=1-\mathrm{Average}\left[P_{t}^{\mathrm{txn}}:t\in\mathbf{I}\right]/P_{\operatorname*{max}(\mathbf{I})}.
+\mathrm{PastReturn}(T,\Delta_{1},\Delta_{2},M)=1-\mathrm{Average}\left[P_{t}^{\mathrm{txn}}:t\in\mathbf{I}\right]/P_{\mathrm{max}(\mathbf{I})}.
 $$
 
 第三类：速度和费用。第三组预测因素主要考虑了股票交易的速度和成本。
@@ -217,25 +217,25 @@ $$
 1）换手率因子（Turnover）是回溯区间内成交量与总流通股数之间的比例：
 
 $$
-\mathrm{Turnover}(T,\Delta_{1},\Delta_{2},M)=\frac{\mathrm{VolumeAll}(T,\Delta_{1},\Delta_{2},M)}{S}.
+\operatorname{Turnover}(T,\Delta_{1},\Delta_{2},M)=\frac{\operatorname{VolumeAll}(T,\Delta_{1},\Delta_{2},M)}{S}.
 $$
 
 2）自相关性因子（AutoCov）是回溯区间内成交收益率的平均自协方差：
 
 $$
-\begin{array}{rl}{\mathrm{AutoCov}(T,\Delta_{1},\Delta_{2},M)=}&{\mathrm{Average}\left[\log\left(\frac{P_{t}^{\mathrm{txn}}}{P_{Lt}^{\mathrm{txn}}}\right)\log\left(\frac{P_{Lt}^{\mathrm{txn}}}{P_{L(Lt)}^{\mathrm{txn}}}\right):\right.}\\&{\left.t\in\bf D^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})\right].}\end{array}
+\begin{array}{rl}{\mathrm{AutoCov}(T,\Delta_{1},\Delta_{2},M)=}&{\mathrm{Average}\left[\log\left(\frac{P_{t}^{\mathrm{txn}}}{P_{Lt}^{\mathrm{txn}}}\right)\log\left(\frac{P_{Lt}^{\mathrm{txn}}}{P_{L(Lt)}^{\mathrm{txn}}}\right):\right.}\\&{\left.t\in\mathbf{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})\right].}\end{array}
 $$
 
 3）报价价差因子（QuotedSpread）是回溯区间内标准化后的平均最优报价价差：
 
 $$
-{\mathrm{QuotedSpread}}(T,\Delta_{1},\Delta_{2},M)={\mathrm{Average}}\left[{\frac{P_{t}^{a}-P_{t}^{b}}{P_{t}}}:t\in{\mathrm{Int}}^{{\mathrm{back}}}(T,\Delta_{1},\Delta_{2},\mathrm{M})\right].
+\mathrm{QuotedSpread}(T,\Delta_{1},\Delta_{2},M)=\mathrm{Average}\left[\frac{P_{t}^{a}-P_{t}^{b}}{P_{t}}:t\in\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},\mathrm{M})\right].
 $$
 
 4）有效价差因子（QuotedSpread）衡量了回溯区间内用成交价计算的美元加权（dollar-weighted）价差：
 
 $$
-\mathrm{EffectiveSpread}(T,\Delta_{1},\Delta_{2},M)=\frac{t\in\bf{D}^{tcan}\cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},M)}{t\in\bf{D}^{tcan}\cap\mathrm{Int}^{\mathrm{back}}(T,\Delta_{1},\Delta_{2},M)}\left[\log\left(\frac{P_{t}^{\mathrm{txu}}}{P_{t}}\right)\cdot\mathrm{Dir}_{t}^{\mathrm{LR}}\cdot V_{t}\cdot P_{t}^{\mathrm{txu}}\right]\mathrm{.}
+\operatorname{EffectiveSpread}(T,\Delta_{1},\Delta_{2},M)=\frac{\sum_{t\in\mathbf{D}^{\operatorname{txn}}\cap\operatorname{Int}^{\operatorname{back}}(T,\Delta_{1},\Delta_{2},\mathbb{M})}\left[\operatorname{log}\left(\frac{P_{t}^{\operatorname{txn}}}{P_{t}}\right)\cdot\operatorname{Dir}_{t}^{\operatorname{LR}}\cdot V_{t}\cdot P_{t}^{\operatorname{txn}}\right]}{\sum_{t\in\mathbf{D}^{\operatorname{txn}}\cap\operatorname{Int}^{\operatorname{back}}(T,\Delta_{1},\Delta_{2},\mathbb{M})}(V_{t}\cdot P_{t}^{\operatorname{txn}})}.
 $$
 
 ## 模型选择
@@ -247,13 +247,13 @@ $$
 出于鲁棒性的考虑，文献作者使用了两个指标来衡量预测的准确性，分别是可决系数R方以及方向准确性（两者都是样本外）。R 方是回归模型最常见的检验指标之一，以标准化的形式衡量目标预测的准确性，公式如下：
 
 $$
-R^{2}({\bf Y},\widehat{\bf Y})=1-\frac{\sum_{i}(Y_{i}-\widehat{Y}_{i})^{2}}{\sum_{i}(Y_{i}-\frac{1}{n}\sum_{i}Y_{i})^{2}}.
+R^{2}(\mathbf{Y},\widehat{\mathbf{Y}})=1-\frac{\sum_{i}(Y_{i}-\widehat{Y}_{i})^{2}}{\sum_{i}(Y_{i}-\frac{1}{n}\sum_{i}Y_{i})^{2}}.
 $$
 
 R 方取值范围为 $(-\infty,1]$ ，R 方大于 0说明模型能产生有意义的预测结果，优于以样本外均值做预测的预测效果。不难发现，R 方这个指标比较容易受到异常值的影响，因为其计算中的组成部分包含了平方误差，然而不幸的是，股票价格的频繁上涨及时不时出现的大订单会让异常值的出现频率提高。因此，作者同时考虑了一种更稳健的测量方法，即方向准确性，这个指标的优点在于对异常值并不敏感。方向准确性的计算公式为：
 
 $$
-\operatorname{Accuracy}(\mathbf{Y},{\widehat{\mathbf{Y}}})={\frac{1}{n}}\sum_{i}\mathbb{1}_{\left\{{\widehat{Y}}_{i}\ \cdot\ Y_{i}>0\right\}}.
+\operatorname{Accuracy}(\mathbf{Y},{\widehat{\mathbf{Y}}})={\frac{1}{n}}\sum_{i}\mathbb{1}_{\left\{{\widehat{Y}}_{i}~\cdot~Y_{i}>0\right\}}.
 $$
 
 其中，Y为预测目标真实值， $\hat{Y}_{\cdot}$ 为预测值。
@@ -262,7 +262,7 @@ $$
 
 实证所用的每个模型都有大量参数，且都在滚动窗口的基础上进行调整和测试。作者使用过去 5 天的数据为每个测试日拟合一个新模型，优先考虑最新数据的影响。此外，每种方法的超参数也会每月（20 个交易日）进行调整，以保持最新的状态。调优具体流程如下：
 
-1.学习阶段（Learning）：对于每一组超参数和 t = T, T+5, T+10,...等时间点，使用从第t天到第 t+4天（共 5个交易日）的数据来训练一个模型。在随后的 5天区间[t+5, t+9]内评估这个模型，并为测试集中的每一天计算样本外 $R^{2},$ ，即得到 $R_{t+5}^{2},\quad\cdots\cdot R_{t+9}^{2}$
+1.学习阶段（Learning）：对于每一组超参数和 t = T, T+5, T+10,...等时间点，使用从第t天到第 t+4天（共 5个交易日）的数据来训练一个模型。在随后的 5天区间[t+5, t+9]内评估这个模型，并为测试集中的每一天计算样本外 $R^{2},$ ，即得到 $R_{t+5}^{2},~\cdot\cdot\cdot\cdot\cdot\cdot R_{t+9}^{2}$
 
 2.调参阶段（Tuning）：选择最大平均R²值的超参数组合（计算从T+5到T+19 这段时间内所有测试日R²值的平均值，共有15个测试日），并固定这组超参数用于下一步的预测。
 
@@ -345,7 +345,7 @@ Figure 14: The cost of data delays: Returns predictability as a function of lags
 作者对这种情况进行了建模。除了之前的所有因子之外，作者添加了一个二元预测因子，用作输入订单流方向的估计（额外添加一定噪音），公式如下：
 
 $$
-\operatorname{FlowDir}(T,\Delta,M,p)=\operatorname{sign}(2X-1)\cdot\operatorname{sign}\biggr(\sum_{t\in\mathbf{D}^{\operatorname{tan}}\cap\operatorname{Int}^{\operatorname{forward}}(T,\Delta,\mathbf{M})}\operatorname{Dir}_{t}^{\mathrm{LR}}\biggr).
+\mathrm{FlowDir}(T,\Delta,M,p)=\mathrm{sign}(2X-1)\cdot\mathrm{sign}\Big(\sum_{t\in\mathbf{D}^{\mathrm{txn}}\cap\mathrm{Int}^{\mathrm{forward}}(T,\Delta,\mathrm{M})}\mathrm{Dir}_{t}^{\mathrm{LR}}\Big).
 $$
 
 其中，X 是一个伯努利随机变量，其P(X = 1) = P，（1-P）是信号正确的概率，这个信号是 A¨ıt-Sahalia, Y., Sa˘glam (2021) 4理论模型中做市商对最优交易策略的输入。该变量以 (1 −P) 的概率翻转未来交易的平均方向。因此，该信号在P = 0 时是无噪声的，而在 P = 0.5 时则变成纯随机的噪声。

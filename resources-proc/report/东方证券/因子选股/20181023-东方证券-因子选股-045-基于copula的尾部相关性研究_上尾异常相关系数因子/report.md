@@ -67,16 +67,16 @@ Coplua方法在金融领域的应用经历了比较漫长的过程，1959年 Skl
 
 ## 1.2.2 Copula 函数定义
 
-Sklar定理：令F是具有n维边缘分布 $F_{1}(x_{1}),F_{2}(x_{2}),\dots,F_{n}(x_{n})$ 的联合分布函数，那么存在一个copula函数 C 使得：
+Sklar定理：令F是具有n维边缘分布 $F_{1}(x_{1}),F_{2}(x_{2}),\ldots,F_{n}(x_{n})$ 的联合分布函数，那么存在一个copula函数 C 使得：
 
 $$
 F(x_{1},x_{2},\ldots,x_{n})=\mathbb{C}(F_{1}(x_{1}),F_{2}(x_{2}),\ldots,F_{n}(x_{n})),
 $$
 
-如果 $F_{1}(x_{1}),F_{2}(x_{2}),\dots,F_{n}(x_{n})$ 连续，那么 copula 函数是唯一确定的，根据 Sklar 定理，存在反函数，可以得到以下推论：
+如果 $_{:}F_{1}(x_{1}),F_{2}(x_{2}),\ldots,F_{n}(x_{n})$ 连续，那么 copula 函数是唯一确定的，根据 Sklar 定理，存在反函数，可以得到以下推论：
 
 $$
-C(u_{1},u_{2},\dots,u_{n})=F(F_{1}^{-1}(u_{1})F_{2}^{-1}(u_{2}),\dots,F_{n}^{-1}(u_{n}))
+C(u_{1},u_{2},\ldots,u_{n})=F(F_{1}^{-1}(u_{1})F_{2}^{-1}(u_{2}),\ldots,F_{n}^{-1}(u_{n}))
 $$
 
 根据上式，如果有 n维随机变量的边缘分布和 copula函数，将能够获取这 n维随机变量的联合分布函数。
@@ -90,7 +90,7 @@ $$
 1. Normal copula 也叫高斯 copula，也就是多元正态分布的相依函数。令随机变量服从多元正态分布假设，当且仅当其边缘分布均为正态分布，则存在唯一 copula 函数使得：
 
 $$
-{\mathrm C}_{R}^{N}(u_{1},u_{2},\ldots,u_{n})=\Phi_{R}(\phi_{1}^{-1}(u_{1})\phi_{2}^{-1}(u_{2}),\ldots,\phi_{n}^{-1}(x_{n})),
+\mathbb{C}_{R}^{N}(u_{1},u_{2},\ldots,u_{n})=\Phi_{R}(\phi_{1}^{-1}(u_{1})\phi_{2}^{-1}(u_{2}),\ldots,\phi_{n}^{-1}(x_{n})),
 $$
 
 其中 $\Phi_{R}$ 是多元正态分布的分布函数，R 为相关系数矩阵，φ为一元标准正态分布。
@@ -98,7 +98,7 @@ $$
 2. t-Student copula 是多元 t-Student 分布的 copula 函数，假设随机变量服从多元 t-Student 分布，自由度为ν，均值向量为μ，则存在唯一 copula函数使得：
 
 $$
-\begin{array}{r}{\mathsf{C}_{\mathsf{v}}^{t}(u_{1},u_{2},\ldots,u_{n})=t_{\mathsf{v}}^{n}(t_{\mathsf{v}}^{-1}(u_{1})t_{\mathsf{v}}^{-1}(u_{2}),\ldots,t_{\mathsf{v}}^{-1}(x_{n})),}\end{array}
+\mathbb{C}_{\mathsf{v}}^{t}(u_{1},u_{2},\ldots,u_{n})=t_{\mathsf{v}}^{n}(t_{\mathsf{v}}^{-1}(u_{1})t_{\mathsf{v}}^{-1}(u_{2}),\ldots,t_{\mathsf{v}}^{-1}(x_{n})),
 $$
 
 其中tνn是 n 维 t-Student 分布， $t_{v}$ 为一维 t-Student 分布。
@@ -108,39 +108,39 @@ $$
 1. Gumbel copula，其表达形式为：
 
 $$
-C(u_{1},u_{2},\ldots,u_{n})=\exp{\left\{-\bigl[(-\ln u_{1})^{\theta}+\cdots+(-\ln u_{n})^{\theta}\bigr]^{1/\theta}\right\}},
+C(u_{1},u_{2},\ldots,u_{n})=\exp{\left\{-{\left[(-\ln u_{1})^{\theta}+\cdots+(-\ln u_{n})^{\theta}\right]}^{1/\theta}\right\}},
 $$
 
-其中 $\mathsf{\theta}\in[0,+\infty)$ ，Gumbel copula 是一个有偏的函数，能较好的拟合上尾的数据，所以在应用中通常用来刻画上尾风险
+其中 $\scriptstyle\theta\in[0,+\infty)$ ，Gumbel copula 是一个有偏的函数，能较好的拟合上尾的数据，所以在应用中通常用来刻画上尾风险
 
 2. Clayton copula，其表达形式为：
 
 $$
-C(u_{1},u_{2},\ldots,u_{n})=\operatorname*{max}\big\{\big[u_{1}{}^{-\theta}+\cdots+u_{n}{}^{-\theta}\big]{}^{-1/\theta},0\big\},
+C(u_{1},u_{2},\ldots,u_{n})=\operatorname*{max}\big\{\big[{u_{1}}^{-\theta}+\cdots+{u_{n}}^{-\theta}\big]^{-1/\theta},0\big\},
 $$
 
-其中 $\theta\epsilon[-1,0)\cup(0,+\infty)$ ，Clayton copula 也是一个有偏的函数，能较好的拟合下尾的数据，所以在应用中通常用来刻画下尾风险
+其中 $\theta\epsilon[-1{,}0)\cup(0,+\infty)$ ，Clayton copula 也是一个有偏的函数，能较好的拟合下尾的数据，所以在应用中通常用来刻画下尾风险
 
 3. Frank copula，其表达形式为：
 
 $$
-\begin{array}{rl}{C(u_{1},u_{2},\ldots,u_{n})=-\frac{1}{\theta}\mathrm{ln}}&{{}(1+\frac{\left(e^{-\theta u_{1}}-1\right)\ldots\left(e^{-\theta u_{n}}-1\right)}{\left(e^{-\theta}-1\right)}\ )}\end{array},
+C(u_{1},u_{2},\ldots,u_{n})=-{\textstyle\frac{1}{\theta}}\ln\quad\{1+{\frac{\left(e^{-\theta u_{1}}-1\right)\ldots\left(e^{-\theta u_{n}}-1\right)}{\left(e^{-\theta}-1\right)}}\}\quad,
 $$
 
 其中 $\theta\epsilon(-\infty,0)\cup(0,+\infty)$ ，Frank copula 是一个对称的函数，所以在应用中通常用来刻画对称的尾部风险
 
 ## 1.2.4 尾部相关系数
 
-尾部相关系数是指二维分布中尾部数据的相关系数。尾部相关系数是一个广泛应用于极值理论的测度，尾部相关系数分为两种，上尾相关性和下尾相关性。令两个连续的随机变量 X、Y具有边缘分布F $_1(X)$ 和F $_2(X)$ ，以及 copula 函数 $C(u_{1},u_{2})$ ，那么上尾相关系数为：
+尾部相关系数是指二维分布中尾部数据的相关系数。尾部相关系数是一个广泛应用于极值理论的测度，尾部相关系数分为两种，上尾相关性和下尾相关性。令两个连续的随机变量 X、Y具有边缘分布F $\mathbf{\nabla_{1}}(X)$ 和F $_2(X)$ ，以及 copula 函数 $C(u_{1},u_{2})$ ，那么上尾相关系数为：
 
 $$
-\lambda_{U}=\operatorname*{lim}_{u\to1}P(Y>F_{1}^{-1}(u)|X>F_{2}^{-1}(u))=\operatorname*{lim}_{u\to1}\frac{C(1-u,1-u)}{1-u}=\operatorname*{lim}_{u\to1^{-}}\frac{1-2u+C(u,u)}{1-u},
+\lambda_{U}=\operatorname*{lim}_{u\to1}P(Y>F_{1}^{-1}(u)|X>F_{2}^{-1}(u))=\operatorname*{lim}_{u\to1}{\frac{C(1-u,1-u)}{1-u}}=\operatorname*{lim}_{u\to1^{-}}{\frac{1-2u+C(u,u)}{1-u}},
 $$
 
 下尾相关系数为：
 
 $$
-\lambda_{L}=\operatorname*{lim}_{u\to0}P(Y>F_{1}^{-1}(u)|X>F_{2}^{-1}(u))=\operatorname*{lim}_{u\to0}\frac{C(u,u)}{u}
+\lambda_{L}=\underset{u\rightarrow0}{\operatorname*{lim}}P(Y>F_{1}^{-1}(u)|X>F_{2}^{-1}(u))=\underset{u\rightarrow0}{\operatorname*{lim}}\frac{C(u,u)}{u}.
 $$
 
 在下文中我们将用 Gumbel copula 和 Clayton copula 分别度量股票和市场间的上下尾相关性，把上文的copula函数形式带到相关系数计算公式可以得到，Gumbel copula估计的上尾相关系数为：

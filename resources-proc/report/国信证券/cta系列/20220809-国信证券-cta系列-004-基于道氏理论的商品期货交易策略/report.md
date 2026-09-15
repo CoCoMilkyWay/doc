@@ -119,7 +119,7 @@ MACD（Moving Average Convergence/Divergence）指标可以用来解释市场运
 具体计算方法为，首先，使用 12 根 K 线计算的短均线 MA（12）减去使用 26 根K 线计算的长均线 MA（26），这里为使均线更加平滑或者延迟性更低，可使用非简单均线的不同滤波手段，如 EMA（Exponential Moving Average）以及 WMA（Weighted Moving Average）等。
 
 $$
-MACD=MA(12)-MA(26)
+MACD\;=\;MA(12)\;-\;MA(26)
 $$
 
 其中，MA 为移动均线，括号中为计算均线时使用的 K 线数量。这里使用的是MACD 指标的默认参数。
@@ -129,7 +129,7 @@ $$
 其中，信号线（Signal Line）为 MACD 指标 9 根 K 线的移动平均。这里的均线计算方法应与前述计算 MACD 时所使用的均线计算方法相同。
 
 $$
-SignalLine=MA_{MACD}(9)
+SignalLine\;=MA_{MACD}(9)
 $$
 
 其中，S i g S ��为信号线， $MA_{MACD}$ 为 MACD 指标的移动均线，括号中为计算时使用的 K 线根数。这里也是使用的默认参数。可以看出，信号线为 MACD 的移动均线。
@@ -147,7 +147,7 @@ $$
 其中，MACD 与信号线的累计穿越距离计算方式如下：
 
 $$
-\begin{array}{c}{{Diff_{MACD}=MACD-SignalLine}}\\{{}}\\{{Cum_{MACD}=\left\{\begin{array}{ll}{{Diff_{MACD,i}}}&{{\quad Diff_{MACD,i}\ \ast\ Diff_{MACD,i-1}\ <\ 0}}\\{{{\cal C}um_{MACD,i-1}\ +\ Diff_{MACD,i}\ }}&{{\quad Diff_{MACD,i}\ \ast\ Diff_{MACD,i-1}\ \geq\ 0}}\end{array}\right.}}\end{array}
+\begin{aligned}Diff_{MACD}=MACD-SignalLine\\\\Cum_{MACD}=\left\{\begin{aligned}&Diff_{MACD,i}&\quad&Diff_{MACD,i}*Diff_{MACD,i-1}<0\\&Cum_{MACD,i-1}+Diff_{MACD,i}&\quad&Diff_{MACD,i}*Diff_{MACD,i-1}\geq0\\\end{aligned}\right.\end{aligned}
 $$
 
 其中，S i g S ��为信号线， $Diff_{MACD}$ 为 MACD 与信号线的差值， $Cum_{MACD}$ 为MACD 与信号线的累计穿越距离。
@@ -159,21 +159,21 @@ $$
 具体公式如下：
 
 $$
-\pm\mathcal{H}_{\sf{A}}^{\pm\underline{{{A}}}\ddag\underline{{{\bf\Pi}}}}\colon{\cal C}um_{MACD}\geq\mathrm{~\ ~}a
+上升趋势:\ \begin{aligned}Cum_{MACD}\geq\quad a\end{aligned}
 $$
 
 $$
-\begin{array}{rl}{\neg\emptyset\Yleftarrow\emptyset\ddagger{\pmb{\mu}}{\pmb{\mu}}{\pmb{\mu}}{\pmb{\mu}}^{{\pmb{\mu}}}{\pmb{\mu}}^{{\pmb{\mu}}}:}&{{}Cum_{MACD}\leq-\textit{ a }}\end{array}
+下降趋势:$Cum_{MACD}\leq-\quad a$
 $$
 
-其中， $Cum_{MACD}$ 为 MACD 与信号线的累计穿越距离，�为设定的阈值。这里的阈值通常被设定为真实波动幅度均值（Average True Range，ATR）。其中，ATR指标的具体计算公式如下所示：
+其中， $Cum_{{\cal M}ACD}$ 为 MACD 与信号线的累计穿越距离，�为设定的阈值。这里的阈值通常被设定为真实波动幅度均值（Average True Range，ATR）。其中，ATR指标的具体计算公式如下所示：
 
 $$
-TR\ =\ \mathrm{Max}[(high-low),abs(high=preclose),abs(low-preclose)]
+\mathit{TR}\:=\:\mathsf{Max}\left[(high-low),abs(high=preclose),abs(low-preclose)\right]
 $$
 
 $$
-ATR\ =\ {\frac{1}{n}}{\sum_{i=1}^{n}TR_{i}}
+ATR\;=\;\frac{1}{n}{\sum_{i=1}^{n}TR_{i}}
 $$
 
 其中， $TR_{i}$ 为真实波动幅度（True Range），用于衡量每日的价格波动幅度，ATR则是 $TR_{i}$ 的移动平均值。
@@ -181,11 +181,11 @@ $$
 因此上述市场趋势的初步判断可以写为：
 
 $$
-\begin{array}{rl}{\pm\Re\mp\stackrel{\pm\Delta}{\ge}\stackrel{\pm\Re}{:}Cum_{MACD}\ge}&{{}ATR}\end{array}
+上升趋势:\ \begin{aligned}Cum_{MACD}\geq\quad ATR\end{aligned}
 $$
 
 $$
-\ T_{1}\beta\subsetneq\frac{4}{\pi}\beta\subsetneq\frac{4}{\pi}\beta:Cum_{MACD}\leq-\ ATR
+下降趋势:$Cum_{MACD}\leq-\quad ATR$
 $$
 
 其中， $Cum_{MACD}$ 为 MACD 与信号线的累计穿越距离，�T 为真实波动幅度均值。
@@ -335,13 +335,13 @@ $$
 当最新趋势为上升趋势时：
 
 $$
-\left\{\begin{array}{ll}{\begin{array}{ll}{tempmax=max(high_{i})}&{\textit{ i }\in\boldsymbol{uptrend}_{0}}\\{\mathit{lastmax}_{1}=max(high_{j})}&{\textit{ j }\in\boldsymbol{uptrend}_{1}}\end{array}}\\\begin{array}{ll}{\boldsymbol{lastmin}_{1}=\begin{array}{ll}{min(low_{k})}&{\textit{ k }\in\boldsymbol{downtrend}_{1}}\\{\boldsymbol{lastmin}_{2}\ :=\begin{array}{ll}{min(low_{l})}&{\textit{ l }\in\boldsymbol{downtrend}_{2}}\end{array}}\end{array}\right.}\end{array}\end{array}
+\left\{\begin{array}{c}tempmax=\underset{i}{max}\left(high_{i}\right)\quad i\in uptrend_{0}\\lastmax_{1}=\underset{j}{max}\left(high_{j}\right)\quad j\in uptrend_{1}\\lastmin_{1}=\underset{k}{min}\left(low_{k}\right)\quad k\in downtrend_{1}\\lastmin_{2}=\underset{l}{min}\left(low_{l}\right)\quad l\in downtrend_{2}\end{array}\right.
 $$
 
 当最新趋势为下降趋势时：
 
 $$
-\{\begin{array}{ll}tempmin=\begin{array}{lll}{min(low_{i})}&{i\in downtrend_{0}}\\{lastmin_{1}=\begin{array}{lll}{min(low_{j})}&{j\in downtrend_{1}}\end{array}}\\{lastmax_{1}}&{=\begin{array}{lll}{max(high_{k})}&{k\in uptrend_{1}}\\{lastmax_{2}}&{=\begin{array}{lll}{max(high_{l})}&{l\in uptrend_{2}}\end{array}}\end{array}}\end{array}\end{array}
+\left\{\begin{array}{l}tempmin=\underset{i}{min}\left(low_{i}\right)\quad i\in downtrend_{0}\\lastmin_{1}=\underset{j}{min}\left(low_{j}\right)\quad j\in downtrend_{1}\\lastmax_{1}=\underset{k}{max}\left(high_{k}\right)\quad k\in uptrend_{1}\\lastmax_{2}=\underset{l}{max}\left(high_{l}\right)\quad l\in uptrend_{2}\end{array}\right.
 $$
 
 其中，��p ��S 以及l i p ��S 分别表示趋势为上升趋势以及下降趋势，�取值为0，1，2 等代表当前状态，上一状态，上两个状态等。即 $uptrend_{0}$ 代表当前上升趋势， $uptrend_{1}$ 代表上一个上升趋势，以此类推。
@@ -398,7 +398,7 @@ $$
 策略杠杆设置的具体做法是，我们在每个月月末回看策略整体的运行情况，计算过去一年该策略收益表现的波动率，将目标波动率设置为 15%（取决于对于策略预期的杠杆率水平，通常维持在 2 倍杠杆左右），那么波动率调整系数的计算公式可以表示为：
 
 $$
-Mul_{vol}=\frac{15\%}{Vol}
+Mul_{vol}\;=\;\frac{15\%}{Vol}
 $$
 
 其中， $\mathrm{Mul}_{\mathrm{vol}}$ 为经已实现波动率调整的系数，Vol为策略在过去一年中的已实现波动率。通过对策略表现波动率的调整，可以使得策略在不同市场环境下运行的整体风险趋于一致。
@@ -636,21 +636,21 @@ William Peter Hamilton. The Stock Market Barometer.
 复权的具体做法为：在每次展期的时候，计算新主力合约以及旧主力合约的价格跳空比，以此作为当日之后新主力合约价格的复权因子。该复权因子的具体计算公式为：
 
 $$
-AdjFactor_{i}=AdjFactor_{i-1}*\frac{Close_{i-1,old}}{Close_{i-1,new}}
+AdjFactor_{i}\:=\:AdjFactor_{i-1}\:*\:\frac{Close_{i-1,old}}{Close_{i-1,new}}
 $$
 
-其中， $\mathrm{AdjFactor}_{\mathrm{i}-1}$ 为上一期复权因子， $\mathrm{Close}_{\mathrm{i}-1,\mathrm{old}}$ 为旧主力合约展期前一日收盘价， $\mathsf{Close}_{\mathrm{i}-1,\mathrm{new}}$ 为新主力合约展期前一日收盘价。这样计算出来的复权因子AdjFactori为当期复权因子。其中，基期的复权因子为 1。计算好复权因子之后，新的主力合约的开盘价、最高价、最低价以及收盘价都乘以当期的复权因子，即为复权价格。
+其中， $\mathrm{AdjFactor_{i-1}}$ 为上一期复权因子， $\mathsf{Close}_{\mathrm{i-1,old}}$ 为旧主力合约展期前一日收盘价， $\mathsf{Close}_{\mathrm{i-1,new}}$ 为新主力合约展期前一日收盘价。这样计算出来的复权因子AdjFactori为当期复权因子。其中，基期的复权因子为 1。计算好复权因子之后，新的主力合约的开盘价、最高价、最低价以及收盘价都乘以当期的复权因子，即为复权价格。
 
 这样使用复权价格可以很好地避免因切换合约带来的价格跳空的影响，具体在计算收益率时，如果直接使用原始价格进行计算：
 
 $$
-Return_{i}=\frac{Close_{i,new}}{Close_{i-1,old}}\ -\ 1
+Return_{i}\;=\;\frac{close_{i,new}}{close_{i-1,old}}\;-\;1
 $$
 
 当新主力合约价格与旧主力合约价格出现跳空时，该收益率会出现异常值，而使用复权因子之后收益率的计算变为：
 
 $$
-\begin{array}{rl}&{Return_{i}=\frac{AdjFactor_{i}*Close_{i,new}}{AdjFactor_{i-1}*Close_{i-1,old}}-1}\\&{\qquad=\frac{AdjFactor_{i-1}*\frac{Close_{i-1,old}}{Close_{i-1,new}}*Close_{i,new}}{AdjFactor_{i-1}*Close_{i-1,old}}-1}\\&{\qquad=\frac{Close_{i,new}}{Close_{i-1,old}}-1}\end{array}
+\begin{aligned}Return_{i}\;&=\;\frac{AdjFactor_{i}\;*\;Close_{i,new}}{AdjFactor_{i-1}\;*\;Close_{i-1,old}}\;-\;1\\&=\;\frac{AdjFactor_{i-1}\;*\frac{Close_{i-1,old}}{Close_{i-1,new}}\;*\;Close_{i,new}}{AdjFactor_{i-1}\;*\;Close_{i-1,old}}\;-\;1\\&=\;\frac{Close_{i,new}}{Close_{i-1,old}}\;-\;1\end{aligned}
 $$
 
 可以看到，这样计算出来的收益率即为实际收益率，进而避免了因合约切换导致的策略信号漂移或者收益率无法计算的情况。
@@ -664,7 +664,7 @@ $$
 由于股指期货的三个品种的交易时间都是同步的，因此不存在不同合约时间对齐的问题。但是需要确定策略执行的收益率的计算方法，我们考虑实盘交易时在信号触发后的成交的价格为 5分钟的 VWAP，具体可以根据产品规模而定。同时，交易时间越长对策略的时效性要求就越高，需要策略信号的衰减周期与交易时长相匹配。具体做法为计算策略信号触发后 5 分钟的成交额除以经合约乘数调整的成交量：
 
 $$
-VWAP_{5}=\frac{\sum_{i=1}^{5}Amount_{i}}{\sum_{i=1}^{5}Vol_{i}*Multi}
+VWAP_{5}\;=\;\frac{\sum_{i=1}^{5}Amount_{i}}{\sum_{i=1}^{5}Vol_{i}\;*Multi}
 $$
 
 其中，�l ��S 为第 i分钟的成交额， $Vol_{i}$ 为第 i分钟的成交量, C �S 为该品种的合约乘数。
@@ -680,10 +680,10 @@ $$
 为使得策略在所有不同品种上面的波动幅度可控，我们需要根据不同品种的波动幅度进行交易量的调整。这里所说的波动幅度通常使用真实波动幅度均值（Average True Range，ATR）来度量。其中，ATR 指标的具体计算公式如下所示：
 
 $$
-\begin{array}{c}{{TR=\mathrm{Max}[(high-low),abs(high=preclose),abs(low-preclose)]}}\\{{{}}}\\{{ATR=\displaystyle{\frac{1}{n}\sum_{i=1}^{n}TR_{i}}}}\end{array}
+\begin{aligned}TR\;=\;\mathsf{Max}\left[(high-low),abs(high&=preclose),abs(low-preclose)\right]\\ART\;=\;\frac{1}{n}\sum_{i=1}^{n}TR_{i}\end{aligned}
 $$
 
-其中， $TR_{i}$ 为 True Range，用于衡量每日的波动幅度，ATR 则是 $:TR_{i}$ 的移动平均值。
+其中， $TR_{i}$ 为 True Range，用于衡量每日的波动幅度，ATR 则是 $\cdot TR_{i}$ 的移动平均值。
 
 通过 ATR 指标来调整品种杠杆的基本原理是，将波动较高的品种赋予相对较低的杠杆，将波动较低的品种赋予相对较高的杠杆，因此杠杆率与品种的 ATR 呈反比关系。
 
@@ -692,15 +692,15 @@ $$
 如果我们需要计算的是一个杠杆率即当前开仓手数占整体资金规模可开仓手数的比例，那么需要除以满仓状态下可以开出的总合约数量，具体计算公式为：
 
 $$
-Pos_{ATR}\ =\ \frac{0.5\%}{ATR}
+Pos_{ATR}\;=\;\frac{0.5\%}{ATR}
 $$
 
 $$
-Pos={\frac{1}{Close}}
+Pos\;=\;\frac{1}{Close}
 $$
 
 $$
-\begin{array}{c}{{Lev_{ATR}\ =\ \frac{Pos_{ATR}}{Pos}}}\\{{\ =\ \frac{0.5\%}{ATR}\ *\ Close}}\end{array}
+\begin{aligned}Lev_{ATR}\;&=\;\frac{Pos_{ATR}}{Pos}\\&=\;\frac{0.5\%}{ATR}\;*\;Close\end{aligned}
 $$
 
 其中， $Pos_{ATR}$ 为 1 单位 ATR 对应资金规模 0.5%波动的应开手数, Pos 为全部资金对应满仓可开手数，Close 为收盘价， $Lev_{ATR}$ 为应开手数除以满仓手数的开仓杠杆率。由上面算法计算出来的开仓杠杆率具有根据 ATR 波动调整杠杆率大小的特性，当一个品种的日均波动较大时，我们倾向于给予该品种较低的杠杆，而反之，如果一个品种的日均波动较小，我们则可以给该品种较高的杠杆。从风险控制的角度如果一个品种的波动较大，给予较小杠杆也是出于对资金安全的考虑，防止由于较大的波动幅度而触发穿仓风险。

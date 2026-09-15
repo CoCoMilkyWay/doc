@@ -122,19 +122,19 @@ Tan, Chiang, Mason (2008)等人的研究表明羊群行为会增加市场波动�
 根据Lakonishok和Christoffersen等人的研究，羊群行为度量为
 
 $$
-H(i,T)=\left|\frac{B(i,T)}{B(i,T)+S(i,T)}-P_{T}\right|-\left.AF(t,T)\right.
+H(i,T)=\Big|\frac{B(i,T)}{B(i,T)+S(i,T)}-P_{T}\Big|-AF(t,T)
 $$
 
 其中B(i,T)代表在特定时间时间段（小时，天，周）内对于某只股票的买方驱动单的数量，S(i,T)代表特定时间段卖方驱动单的数量。 $P_{T}$ 为在该特定时间段内，所有股票的买单占其交易单比例的在横截面上平均值，即绝对值中的项代表了特定股票买单比例的相对水平。其中AF(i,T)是调整项，其表达式为
 
 $$
-AF(i,T)=\sum_{k=0}^{N_{i,T}}{\binom{N_{i,T}}{k}}p_{T}^{k}(1-p_{T})^{N_{i,T}-}\left|{\frac{k}{N_{i,T}}}-~p_{T}\right|
+AF(i,T)=\sum_{k=0}^{N_{i,T}}\binom{N_{i,T}}{k}p_{T}^{k}(1-p_{T})^{N_{i,T}-}\left|\frac{k}{N_{i,T}}-p_{T}\right|
 $$
 
 它假设投资者独立交易的情况下，个股买单比例相对平均水平的期望值。在该假设下，买方驱动单服从二项分布，B(i,T) ${\sim}\mathsf{B}(N_{i,T},T)$ ,其中 $N_{i,T}=S(i,T)+B(i,T)$ 根据个股买单比例的相对平均水平的值为正或者负，将羊群行为划分成买入羊群行为HB(i,T)和卖出羊群行为HS(i,T),其表达式如下所示
 
 $$
-HB(i,T)=-H(i,T)if{\frac{B(i,T)}{B(i,T)+S(i,T)}}>P_{T}
+HB(i,T)=-H(i,T)if\frac{B(i,T)}{B(i,T)+S(i,T)}\textgreater P_{T}
 $$
 
 $$
@@ -545,10 +545,10 @@ $$
 采用MAD法对异常的数据进行剔除。MAD法是针对均值标准差方法的改进，样本均值用样本中位数代替，样本标准差用样本MAD（Median Absolute Deviation）代替。
 
 $$
-\begin{array}{c}{{md=median\{x_{i},i=1,2,3\ldots,n\}}}\\{{}}\\{{MAD=median(|x_{i}-md|),i=1,2,3,\ldots,n}}\\{{}}\\{{MAD_{\epsilon}=1.483\times MAD}}\end{array}
+\begin{aligned}&md=median\{x_{i},i=1,2,3\ldots,n\}\\&MAD=median(|x_{i}-mid|),i=1,2,3,\ldots,n\\&\quad MAD_{\epsilon}=1.483\times MAD\\\end{aligned}
 $$
 
-采用与3σ法等价的方法，将数据中偏离中位数超过3倍 ${\cdot}MAD_{\epsilon}$ 的值，替换为对应的值，这样去除了极值的同时也将极值的股票之间保序。
+采用与3σ法等价的方法，将数据中偏离中位数超过3倍 $rMAD_{\epsilon}$ 的值，替换为对应的值，这样去除了极值的同时也将极值的股票之间保序。
 
 ## 中性化
 

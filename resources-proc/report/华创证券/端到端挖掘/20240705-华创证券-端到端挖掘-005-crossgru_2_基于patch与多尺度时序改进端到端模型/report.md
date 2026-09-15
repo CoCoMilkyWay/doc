@@ -93,10 +93,10 @@
 交叉注意力是注意力机制的一种运用方式，涉及 Query、Key、Value 三个中间变量（简写为Q、K、V），公式表达如下：
 
 $$
-\mathrm{Attention}(\mathrm{Q},\mathrm{K},\mathrm{V})=\mathrm{softmax}\left({\frac{\mathrm{Q}\mathrm{K}^{\mathrm{T}}}{\sqrt{\dot{\mathrm{d}}_{\mathrm{k}}}}}\right)\mathrm{V}
+\mathrm{Attention}(\mathrm{Q},\mathrm{K},\mathrm{V})=\mathrm{softmax}\left(\frac{\mathrm{QK}^{\mathrm{T}}}{\sqrt{\mathrm{d}_{\mathrm{k}}}}\right)\mathrm{V}
 $$
 
-交叉注意力与自注意力的核心公式同为上式。自注意力机制捕捉同一序列内部的依赖关系，Q、K、V 由同一个序列经过映射得到，计算复杂度为 $0(n^{2})$ ，其中 n 是序列长度；交叉注意力机制的Q、K、V 则来自于两个序列，核心思想是将两个不同的输入序列进行交互，以捕捉它们之间的相关性，计算复杂度为 $0(m\cdot n)$ ，其中 m、n 分别是两个序列的长度。
+交叉注意力与自注意力的核心公式同为上式。自注意力机制捕捉同一序列内部的依赖关系，Q、K、V 由同一个序列经过映射得到，计算复杂度为 $\mathrm{O}(n^{2})$ ，其中 n 是序列长度；交叉注意力机制的Q、K、V 则来自于两个序列，核心思想是将两个不同的输入序列进行交互，以捕捉它们之间的相关性，计算复杂度为 $0(m\cdot n)$ ，其中 m、n 分别是两个序列的长度。
 
 交叉注意力机制常被运用于多模态类的任务场景，例如机器翻译、文本+图片等，是处理数据对齐场景的一种灵活机制。
 
@@ -139,16 +139,16 @@ CrossVit以ViT模型为基础，在ViT 模型中图像首先被切分为多个�
 上述步骤后，我们得到了每只个股在两个不同的时间尺度下的表征序列，对每一种尺度表度，我们用GRU 学习时序维度的信息交互。接下来我们使用交叉注意力的对两个表征序列进行融合：对频率相对高频的分支，取 GRU 最后一个时间步并作为交叉注意力的Query，取频率相对低频的分支 GRU的所有时间步的输出，并作为交叉注意力的 Key和Value：
 
 $$
-\boldsymbol{S_{attn}^{i}}=\mathrm{CrossAttn}\left(\boldsymbol{S_{hf}^{i}},\boldsymbol{S_{lf}^{i}},\boldsymbol{S_{lf}^{i}}\right)
+S_{attn}^{i}=\mathrm{CrossAttn}\big(S_{hf}^{i},S_{lf}^{i},S_{lf}^{i}\big)
 $$
 
-$S_{hf}^{i}\in\mathbb{R}^{1,d}$ 为高频分支 GRU 输出的最后一个时间步， $S_{lf}^{i}\in\mathbb{R}^{l\prime,d}$ 为低频分支 GRU 的输出的完整序列。我们将交叉注意力的输出 $\mathsf{S}_{\mathrm{attr}}$ 与高频分支GRU 的输出结果进行连接：
+$S_{hf}^{i}\in\mathbb{R}^{1,d}$ 为高频分支 GRU 输出的最后一个时间步， $S_{lf}^{i}\in\mathbb{R}^{l\prime,d}$ 为低频分支 GRU 的输出的完整序列。我们将交叉注意力的输出 $S_{\mathrm{attn}}$ 与高频分支GRU 的输出结果进行连接：
 
 $$
 S_{ts}^{i}=S_{attn}^{i}+S_{hf}^{i}
 $$
 
-$S_{\mathrm{ts}}^{\mathrm{i}}\in\mathbb{R}^{1,d}$ ，为时序模块的最终输出；
+$\mathrm{S}_{\mathrm{ts}}^{\mathrm{i}}\in\mathbb{R}^{1,d}$ ，为时序模块的最终输出；
 
 ## （三）截面交互模块
 
@@ -158,18 +158,18 @@ $S_{\mathrm{ts}}^{\mathrm{i}}\in\mathbb{R}^{1,d}$ ，为时序模块的最终输
 ![](images/10c726abb56f13d6bb7e4465880767816fa0d4ec984cb18deaf74282732ea3f3.webp)
 资料来源：华创证券
 
-记时序模块输出截面股票表征序列为 $S_{\mathrm{ts}}\in\mathbb{R}^{n,d}$ ，n为股票数量；截面交互实现步骤为：
+记时序模块输出截面股票表征序列为 $\mathrm{S}_{\mathrm{ts}}\in\mathbb{R}^{n,d}$ ，n为股票数量；截面交互实现步骤为：
 
 ⚫ 初始化c个可学习的、维度为d的市场隐状态，记为R；
 
-以R为Query，股票表征序列 $\mathsf{S}_{\mathrm{t}s}$ 为 $\mathrm{Key}$ 、Value进行交叉注意力，交叉注意力输出结果记为 B；
+以R为Query，股票表征序列 $S_{\mathrm{ts}}$ 为 $\mathrm{Key}$ 、Value进行交叉注意力，交叉注意力输出结果记为 B；
 
-以股票表征序列 $S_{ts}$ 为 Query， B为 Key、Value 进行交叉注意注意力，交出注意力输出结果 $S_{csattn}$ 与 $S_{ts}$ 使用门控连接，得到 $\mathsf{S}_{cs}$ ；
+以股票表征序列 $S_{ts}$ 为 Query， B为 Key、Value 进行交叉注意注意力，交出注意力输出结果 $S_{csattn}$ 与 $S_{ts}$ 使用门控连接，得到 $S_{cs}$ ；
 
 第三步的门控连接为：
 
 $$
-\begin{array}{c}{{\mathrm{Z}=\mathrm{Softmax}(\mathrm{MLP}(\mathrm{S}_{\mathrm{ts}}))}}\\{{\ }}\\{{S_{cs}=\mathrm{S}_{\mathrm{ts}}+Z\otimes S_{csattn}}}\end{array}
+\begin{aligned}&\mathrm{Z}=\mathrm{Softmax}(\mathrm{MLP}(\mathrm{S}_{\mathrm{ts}}))\\&\\&S_{cs}=\mathrm{S}_{\mathrm{ts}}+Z\otimes S_{costtn}\\\end{aligned}
 $$
 
 $S_{cs}$ ∈ ℝ $^{n,d}$ 为截面模块的最后输出，此时截面股票实现了信息交互。
@@ -179,7 +179,7 @@ $S_{cs}$ ∈ ℝ $^{n,d}$ 为截面模块的最后输出，此时截面股票实
 对特征维度，我们通过一个FFN层实现特征维度交互：
 
 $$
-S_{\mathrm{out}}=BatchNorm\left(S_{cs}+MLP\left(ReLU\big(MLP(S_{cs})\big)\right)\right)
+S_{out}=BatchNorm\left(S_{cs}+MLP\left(ReLU\big(MLP(S_{cs})\big)\right)\right)
 $$
 
 图表 5 特征维度信息交互
@@ -206,7 +206,7 @@ $S_{out}\in\mathbb{R}^{n,d}$ 为CrossGRU-2 骨干模型的最终输出。
 
 2、剔除截面市值最小的10%股票。
 
-对日频数据集，取采样截面t对应的 $\mathrm{N_{t}}$ 个股票过去T日的量价时间序列，滚动生成数据截面 $(\mathrm{~N_{1},T,6~}).\ (\mathrm{~N_{2},T,6~})\ \dots\ (\mathrm{~N_{t},T,6~})$ ，在第一个维度上进行拼接得到全部训练数据。我们对T分别取30和 90，即 30D、90D 数据集；
+对日频数据集，取采样截面t对应的 $N_{t}$ 个股票过去T日的量价时间序列，滚动生成数据截面 $\left(\mathrm{N_1,T,6}\right),\left(\mathrm{N_2,T,6}\right),\ldots\left(\mathrm{N_t,T,6}\right)$ ，在第一个维度上进行拼接得到全部训练数据。我们对T分别取30和 90，即 30D、90D 数据集；
 
 对30分钟频数据，回溯截面上N 个股票过去10个交易日的数据（序列总长度为80），其余步骤同上，后续记为30min 数据集；
 

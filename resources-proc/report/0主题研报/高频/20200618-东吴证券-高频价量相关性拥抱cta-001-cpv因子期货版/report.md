@@ -102,28 +102,28 @@ shenzhq@dwzq.com.cn
 
 ## 2.3. 持仓量的修正路径
 
-上一小节的案例提到，开盘后持仓量的下降，反而代表T+0 交易者的进场， $\hslash$ 午盘前后持仓量的上升，反而代表T+0交易者的离场。原始的日内持仓量变化，无法真实地反映交易者的多空意图，因此在进行下一步研究之前，我们需要对日内持仓量进行修正，实现“退谷还峰”。
+上一小节的案例提到，开盘后持仓量的下降，反而代表T+0 交易者的进场， $而$ 午盘前后持仓量的上升，反而代表T+0交易者的离场。原始的日内持仓量变化，无法真实地反映交易者的多空意图，因此在进行下一步研究之前，我们需要对日内持仓量进行修正，实现“退谷还峰”。
 
 修正的过程主要分为以下四步：
 
-（1）计算日内 $\mathrm{t_{l}}$ 时刻与 $\mathrm{t_{i-1}}$ 时刻的持仓量的变化量 $\Delta\mathrm{OI_{i}}$ 与成交量的变化量 $\Delta\mathrm{V}_{\mathrm{i}}$ ；
+（1）计算日内 $\mathbf{t}_{\mathbf{i}}$ 时刻与 $\mathbf{t}_{\mathbf{i}-1}$ 时刻的持仓量的变化量 $\mathrm{{:}\Delta OI_{i}}$ 与成交量的变化量 $\mathrm{{\cdot}}\Delta\mathrm{{V_{i}}}$ ；
 
-（2）以 $\mathrm{ti}$ 时刻的成交量变化量 $\Delta\mathrm{V}_{\mathrm{i}}$ ，占当日总成交量∆V的比例作为权重，将当日总持仓量的变化量∆OI，按权重分配到 $\mathrm{t_{l}}$ 时刻，得到该时刻T+1交易者的持仓量变化量$\Delta\mathrm{OI(T+l)}_{\mathrm{i}}$ i：
-
-$$
-\Delta0\mathrm{I(T+1)_{i}=\frac{\Delta V_{i}}{\Delta V}*\Delta0I}
-$$
-
-（3）用 $\mathrm{t_{l}}$ 时刻的持仓量变化量 $\Delta\mathrm{OI_{i}}$ ，减去该时刻 T+1 交易者的持仓量变化量∆OI(T+1)i，得到该时刻 T+0 交易者的持仓量变化量∆OI(T+0)i；所得结果乘上“-1”，将T+0交易者的“离场”（操作上为平仓）修正为“进场”：
+（2）以 $\mathbf{f_{i}}$ 时刻的成交量变化量 $\Delta\mathrm{V_{i}}$ ，占当日总成交量∆V的比例作为权重，将当日总持仓量的变化量∆OI，按权重分配到 $\mathbf{t}_{\mathbf{i}}$ 时刻，得到该时刻T+1交易者的持仓量变化量$\Delta\mathrm{OI}(\mathrm{T}{+}1)_{\mathrm{i}}$ i：
 
 $$
-\Delta0\mathrm{I(T+0)_{i}=-1*[\Delta0I_{i}-\Delta0I(T+1)_{i}]}
+\Delta\mathrm{UI}(\mathrm{T}+1)_{\mathrm{i}}=\frac{\Delta\mathrm{V}_{\mathrm{i}}}{\Delta\mathrm{V}}*\Delta\mathrm{0}\mathrm{I}
 $$
 
-（4）将修正后的T+0交易者的持仓量变化量∆OI(T+0)i，与T+1交易者的持仓量变化量∆OI(T+1)i汇总，加到上一时刻 $\mathrm{t_{i-1}}$ 的总持仓量 OI(i-1)上，得到当前时刻 $\mathrm{t_{i}}$ 的总持仓量 OI(i)：
+（3）用 $\mathbf{t}_{\mathbf{i}}$ 时刻的持仓量变化量 $\Delta\mathrm{OI_{i}}$ ，减去该时刻 T+1 交易者的持仓量变化量∆OI(T+1)i，得到该时刻 T+0 交易者的持仓量变化量∆OI(T+0)i；所得结果乘上“-1”，将T+0交易者的“离场”（操作上为平仓）修正为“进场”：
 
 $$
-\mathrm{OI(i)}=\mathrm{OI(i-1)}+\Delta\mathrm{OI(T+0)}_{\mathrm{i}}+\Delta\mathrm{OI(T+1)}_{\mathrm{i}}
+\Delta0\mathrm{I}(\mathrm{T}+0)_{\mathrm{i}}=-1*\left[\Delta0\mathrm{I}_{\mathrm{i}}-\Delta0\mathrm{I}(\mathrm{T}+1)_{\mathrm{i}}\right]
+$$
+
+（4）将修正后的T+0交易者的持仓量变化量∆OI(T+0)i，与T+1交易者的持仓量变化量∆OI(T+1)i汇总，加到上一时刻 $\mathbf{t}_{\mathrm{i-1}}$ 的总持仓量 OI(i-1)上，得到当前时刻 $\mathbf{t_{i}}$ 的总持仓量 OI(i)：
+
+$$
+\mathrm{0I(i)}=\mathrm{0I(i-1)}+\Delta\mathrm{0I(T+0)_i}+\Delta\mathrm{0I(T+1)_i}
 $$
 
 表 3：持仓量修正举例

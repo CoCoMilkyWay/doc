@@ -158,7 +158,7 @@ Adaptive Lasso 的具体方法如下：
 2) 将变量的系数作为权重，进行第二次回归。
 
 $$
-\begin{array}{r}{min\ \frac{\|Y-X\beta\|_{2}^{2}}{n}+\lambda\sum_{j=1}^{p}\frac{|\beta_{j}|}{\left|\widehat{\beta}_{init,j}\right|}}\end{array}
+\begin{array}{r}{min\frac{\|Y-X\beta\|_{2}^{2}}{n}+\lambda\sum_{j=1}^{p}\frac{\left|\beta_{j}\right|}{\left|\widehat{\beta}_{init,j}\right|}}\end{array}
 $$
 
 我们利用 Adaptive Lasso 再次进行 Alpha 的预测，结果如下
@@ -262,7 +262,7 @@ $$
 首先，我们定义要研究的问题，即股票的期望收益为：
 
 $$
-m_{t}(f_{1},\dots,f_{s})=E[R_{it}|F_{1,it-1}=f_{1},\dots,F_{S,it-1}=f_{S}]
+m_{t}(f_{1},\ldots,f_{s})=E[R_{it}|F_{1,it-1}=f_{1},\ldots,F_{S,it-1}=f_{S}]
 $$
 
 对于一个线性模型有
@@ -283,7 +283,7 @@ $$
 \begin{array}{r}{m_{t}(f_{1},\dots,f_{S})=\sum_{s=1}^{S}m_{ts}(f_{s})}\end{array}
 $$
 
-对于每一个 $m_{ts};$ ，我们希望 $m_{ts}$ 是一个连续光滑的函数，即满足连续并处处可导。具体的做法是，与因子分组的方法类似，先将因子分为十组，然后在每一组内用一个二次样条函数拟合，并保证在整个定义域上，函数是连续且处处可导的。
+对于每一个 $m_{ts},$ ，我们希望 $m_{ts}$ 是一个连续光滑的函数，即满足连续并处处可导。具体的做法是，与因子分组的方法类似，先将因子分为十组，然后在每一组内用一个二次样条函数拟合，并保证在整个定义域上，函数是连续且处处可导的。
 
 具体来说， $m_{ts}$ 可以写成如下形式
 
@@ -294,21 +294,21 @@ $$
 其中
 
 $$
-\begin{array}{r}{\begin{array}{c}{p_{1}(f)=1}\\{p_{2}(f)=f}\\{p_{3}(f)=f^{2}}\\{p_{k}(f)=max\{f-t_{k-3},0\}^{2}\ ,k=4,\ldots,L+2}\end{array}}\end{array}
+\begin{array}{c}{p_{1}(f)=1}\\{p_{2}(f)=f}\\{p_{3}(f)=f^{2}}\\{p_{k}(f)=max\{f-t_{k-3},0\}^{2},k=4,\ldots,L+2}\end{array}
 $$
 
 此时，股票的期望收益 $m_{ts}$ 可以成
 
 $$
-\begin{array}{r}{m_{t}(f_{1},\dots,f_{s})=\sum_{s=1}^{s}\sum_{k=1}^{L+2}\beta_{sk}p_{k}\bigl(f_{s,it-1}\bigr)}\end{array}
+\begin{array}{r}{m_{t}(f_{1},\ldots,f_{s})=\sum_{s=1}^{S}\sum_{k=1}^{L+2}\beta_{sk}p_{k}\big(f_{s,it-1}\big)}\end{array}
 $$
 
-该函数一共有 ${\mathsf S}^{*}$ （L+2）个变量。以上一节中的因子数量为例，如果我们将拟合函数分为十组，那么待估计的变量一共有 708个。对于如此高维的问题，用 Lasso的方法可以帮助我们降低过拟合。同时，我们还希望在对这些变量进行压缩的时候，对同一个因子的系数同时进行压缩，即如果一个因子不有效，那么这个因子的表达 $\dot{\overline{{x}}}\ mm_{ts}$ 中的所有系数都被压缩为 0。因此我们采用Group Lasso 的方式，对每一组变量进行同时的压缩。
+该函数一共有 $\mathsf{S}^{*}$ （L+2）个变量。以上一节中的因子数量为例，如果我们将拟合函数分为十组，那么待估计的变量一共有 708个。对于如此高维的问题，用 Lasso的方法可以帮助我们降低过拟合。同时，我们还希望在对这些变量进行压缩的时候，对同一个因子的系数同时进行压缩，即如果一个因子不有效，那么这个因子的表达 $式m_{ts}$ 中的所有系数都被压缩为 0。因此我们采用Group Lasso 的方式，对每一组变量进行同时的压缩。
 
 上述对模型的所有描述可以表达为求解以下优化问题：
 
 $$
-\begin{array}{r}{min\sum_{i=1}^{N}\left(R_{it}-\sum_{s=1}^{S}\sum_{k=1}^{L+2}\beta_{sk}p_{k}\left(f_{s,it-1}\right)\right)^{2}+\lambda\sum_{s=1}^{S}(\sum_{k=1}^{L+2}\beta_{sk}^{2})^{\frac{1}{2}}}\end{array}
+\begin{array}{r}{min\sum_{i=1}^{N}\bigl(R_{it}-\sum_{s=1}^{S}\sum_{k=1}^{L+2}\beta_{sk}p_{k}\bigl(f_{s,it-1}\bigr)\bigr)^{2}+\lambda\sum_{s=1}^{S}(\sum_{k=1}^{L+2}\beta_{sk}^{2})^{\frac{1}{2}}}\end{array}
 $$
 
 ## 3.3 实验

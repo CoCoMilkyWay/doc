@@ -46,7 +46,7 @@ $$
 \Sigma=\sum_{i=1}^{N}\lambda_{i}*u_{i}*u_{i}^{T}
 $$
 
-其中 $\lambda_{\mathrm{i}},\mathrm{i}=1,2\ldots\mathrm{N}$ 是矩阵 的特征值，并按从大到小的顺序进行排列, $\mathrm{u_{i}}$ 是期对应的特征向量，我们可以参照主成份分析里面方差解释度的概念，统计前 K 个最大的特征值之和占所有特征值之和的比例 $\begin{array}{r}{\mathrm{~p~=~}\sum_{i=1}^{K}\lambda_{i}/\sum_{i=1}^{N}\lambda_{i}}\end{array}$ ，结果如图 1 所示，可以看到，不论是在沪深 300成份股、中证 500 成份股还是全市场范围内，前 20个最大特征值之和占比就超过了 50%；当 K取 100时，沪深 300 成分内这个比例超过 90%，中证 500成分内超过80%，全市场范围内超过 70%，可见绝大部分特征值数值都比较小。
+其中 $\lambda_{\mathrm{i}},\mathrm{i}=1{,}2\ldots\mathrm{N}$ 是矩阵 的特征值，并按从大到小的顺序进行排列, $\mathbf{u_{i}}$ 是期对应的特征向量，我们可以参照主成份分析里面方差解释度的概念，统计前 K 个最大的特征值之和占所有特征值之和的比例 $\begin{array}{r}{\mathtt{p}=\begin{array}{rl}{\sum_{i=1}^{K}\lambda_{i}/\sum_{i=1}^{N}\lambda_{i}}\end{array}}\end{array}$ ，结果如图 1 所示，可以看到，不论是在沪深 300成份股、中证 500 成份股还是全市场范围内，前 20个最大特征值之和占比就超过了 50%；当 K取 100时，沪深 300 成分内这个比例超过 90%，中证 500成分内超过80%，全市场范围内超过 70%，可见绝大部分特征值数值都比较小。
 
 图 1：前 K 个最大特征值之和占比
 
@@ -64,10 +64,10 @@ $$
 \Sigma=\sum_{i=1}^{K}\lambda_{i}*u_{i}*u_{i}^{T}+\sum_{i=K+1}^{N}\lambda_{i}*u_{i}*u_{i}^{T}
 $$
 
-前一部分可以写成矩阵形式 $\mathsf{B}*\mathsf{F}*B^{T}$ 。其中 B 是 矩阵，第j 列即为第j 个特征值对应的特征向量 $\mathrm{u}_{\mathrm{j}},j=1,2\dots K$ ，F 是一个对角阵，对角线元素为前 K 个特征值 $\mathbf{\dot{\lambda}}_{1},\dots\lambda_{K}$ 后面一部分可以直接取矩阵和的对角线元素来做对角阵 S 用以近似，K 取得越大，后面一部分近似带来的整体误差越小。这样 可以近似表示为：
+前一部分可以写成矩阵形式 $\mathbb{B}*\mathbb{F}*B^{T}$ 。其中 B 是 矩阵，第j 列即为第j 个特征值对应的特征向量 $\mathbf{u_{j}},j=1\mathbf{,}2\ldots K$ ，F 是一个对角阵，对角线元素为前 K 个特征值 $[\lambda_{1},\dots\lambda_{K}$ 后面一部分可以直接取矩阵和的对角线元素来做对角阵 S 用以近似，K 取得越大，后面一部分近似带来的整体误差越小。这样 可以近似表示为：
 
 $$
-\Sigma\approx\mathrm{B}*\mathrm{F}*B^{T}+S
+\Sigma\approx\mathrm{B}*\mathrm{F}*B^{T}+\mathrm{S}
 $$
 
 我们通过统计方法近似拆解出了一个结构化因子模型，再利用上篇报告《组合优化的若干问题》的方法输入到 cvxpy+ecos 中即可实现提速。
@@ -79,7 +79,7 @@ $$
 下面我们用四个策略：沪深 300 增强（成分内）、沪深 300 增强（全市场）、中证 500增强（成分内）、中证 500 增强（全市场），分别测试比较了标准压缩估计量、结构化因子模型和不同 K 取值下的谱分解近似方法的优化速度和效果。组合优化问题设臵如下：
 
 $$
-\begin{array}{rl}&{\operatorname*{max};\mathrm{~f^{\prime}w}-\lambda\mathrm{w^{\prime}}\Sigma\mathrm{w}}\\&{\quad\mathrm{st}:\quad\mathrm{w}^{\prime}\mathrm{I}=0}\\&{\quad\quad\quad\quad\mathrm{w}^{\prime}\mathrm{Indu}s=0}\\&{\quad\quad\quad\quad\mathrm{w}^{\prime}\mathrm{MV}=0}\\&{\quad\quad\quad\quad\quad\mathrm{w}^{\prime}\mathrm{MV}=0}\\&{\quad\quad\quad\quad\quad\mathrm{wmin}<\mathrm{w}\ :\ :\mathrm{s}\ :wnax}\end{array}
+\begin{aligned}\max:&\mathbf{f}^{\prime}\mathbf{w}-\lambda\mathbf{w}^{\prime}\Sigma\mathbf{w}\\st:&\quad\mathbf{w}^{\prime}\mathrm{I}=0\\&\quad\mathbf{w}^{\prime}\mathrm{Indus}=\mathbf{0}\\&\quad\mathbf{w}^{\prime}\mathrm{MV}=0\\\min&\leq\mathbf{w}\leq wmax\end{aligned}
 $$
 
 目标函数里风险厌恶系数取 10，个股权重上限分段设臵，行业和市值完全中性。测试结果如图 2 所示

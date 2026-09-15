@@ -797,13 +797,13 @@ Qlib 研发团队将 Qlib 的数据存储方案与其它常用的数据存储方
 通过Qlib 的表达式，用户能快速写出简洁而清晰的表达式来生成因子，不再需要写复杂而难以理解的数学函数。例如 N 日布林带可写作：
 
 $$
-(\mathsf{MEAN}(\$\mathsf{close},\mathsf{N})+2^{\star}\mathsf{STD}(\ Sclose,\mathsf{N})-\ P\mathsf{close})/\mathsf{MEAN}(\ Sclose,\mathsf{N})
+(\mathsf{MEAN}(\mathsf{Sclose},\mathsf{N}){+}2^{*}\mathsf{STD}(\mathsf{Sclose},\mathsf{N}){-}\mathsf{Sclose})/\mathsf{MEAN}(\mathsf{Sclose},\mathsf{N})
 $$
 
 又如 MACD 可写作：
 
 $$
-\begin{array}{rl}&{(\mathsf{EMA}(\hat{\mathfrak{G}}\mathsf{close},12)-\mathsf{EMA}(\hat{\mathfrak{G}}\mathsf{close},26))/\hat{\mathfrak{G}}\mathsf{close}-\mathsf{EMA}((\mathsf{EMA}(\hat{\mathfrak{G}}\mathsf{close},12)\cdot\mathsf{EMA}(\hat{\mathfrak{G}}\mathsf{close},12),\ Q)}\\&{\qquad26))/\hat{\mathfrak{G}}\mathsf{close},\ 9)/\hat{\mathfrak{F}}\mathsf{close}}\end{array}
+\begin{aligned}{(\mathsf{EMA}(\mathsf{Sclose},\:\mathsf{12})\cdot\:\mathsf{EMA}(\mathsf{Sclose},\:\mathsf{26}))/\mathsf{Sclose}}&{{}\cdot\:\mathsf{EMA}((\mathsf{EMA}(\mathsf{Sclose},\:\mathsf{12})\cdot\:\mathsf{EMA}(\mathsf{Sclose},}\\{}&{{}\quad\mathsf{26}))/\mathsf{Sclose},\:\mathsf{9})/\mathsf{Sclose}}\\\end{aligned}
 $$
 
 ## 缓存系统

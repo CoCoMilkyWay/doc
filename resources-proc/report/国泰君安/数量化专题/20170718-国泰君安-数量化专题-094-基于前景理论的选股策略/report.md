@@ -165,7 +165,7 @@ B.你有80%可能赚40000元，20%可能性什么也得不到。
 本节我们需要使用价值效用函数来计算预期收益所对应的投资效用。其中，基于前景理论中风险偏好的不对称性，我们给予盈利状态较低的风险偏好，同时设定亏损状态下更高的风险偏好。从图2 中可以看出，随着预期收益的提高，效用价值提升的速度降低。此外，我们参照 Tverskyand Kahneman (1992)最早提出的前景理论文献对参数进行赋值，α取0.88，λ取 2.25。该赋值源于心理学研究，恒定且敏感性较低。
 
 $$
-v(x){=}\left\{\begin{array}{ll}{{x^{\alpha}}}&{{\mathrm{for}\quad x\geq0}}\\{{-\lambda(-x)^{\alpha}}}&{{x<0}}\end{array}\right.
+v(x)=\left\{\begin{array}{ll}{{x^{\alpha}}}\\{{-\lambda(-x)^{\alpha}}}\end{array}\right.\mathrm{for}\begin{array}{ll}{{x\geq0}}\\{{x<0}}\end{array}
 $$
 
 图2 价值效用函数
@@ -185,7 +185,7 @@ $$
 综上所述，在概率配权过程中，模型需要赋予极端收益更高的权重，从而贴近投资者心理活动。具体来说，如图3 所示，概率估算函数整体呈现波浪形，其计算的概率与传统结果的最大不同在于其在极端值变化较快，而非线性变化。其中，通过加入概率估算函数中的参数γ或δ，我们能够有效的提高极端收益的概率权重。其中，当γ=1时，函数斜率保持不变。当当γ变小，函数斜率在两段相应变大。那么，如何确定参数γ或δ，这取决于投资者心中对极端事件过度效应的扭曲程度。从科学的角度出发，基于 Tversky and Kahneman (1992)的心理实验，我们选取该实验结果所对应的扭曲程度来模拟投资者心理概率分布。
 
 $$
-w^{+}(P)=\frac{P^{\gamma}}{(P^{\gamma}+(1-P)^{\gamma})^{1/\gamma}},w^{-}(P)=\frac{P^{\delta}}{(P^{\delta}+(1-P)^{\delta})^{1/\delta}}
+w^{+}(P)=\frac{P^{\gamma}}{(P^{\gamma}+(1-P)^{\gamma})^{1/\gamma}},\quad w^{-}(P)=\frac{P^{\delta}}{(P^{\delta}+(1-P)^{\delta})^{1/\delta}}.
 $$
 
 图 3 概率估算函数
@@ -195,7 +195,7 @@ $$
 由于概率估算函数所得的是总概率，我们需要通过计算边际变化来获取目标收益的概率权重，即：
 
 $$
-\pi_{i}=\left\{\begin{array}{ll}{{w^{+}(p_{i}+...+p_{n})-w^{+}(p_{i+1}+...+p_{n})}}&{{\mathrm{for}~\stackrel{0\leq i\leq n}{-m\leq i<0}}}\\{{w^{-}(p_{-m}+...+p_{i})-w^{-}(p_{-m}+...+p_{i-1})}}&{{\mathrm{for}~\stackrel{-}{-m\leq i<0}}}\end{array}\right.
+\pi_{i}=\left\{\begin{array}{ll}{{w^{+}(p_{i}+\ldots+p_{n})-w^{+}(p_{i+1}+\ldots+p_{n})}}&{{\mathrm{for}\quad0\leq i\leq n}}\\{{w^{-}(p_{-m}+\ldots+p_{i})-w^{-}(p_{-m}+\ldots+p_{i-1})}}&{{\mathrm{for}\quad-m\leq i<0}}\end{array}\right.
 $$
 
 ## 4.3.效用在时间序列的衰减
@@ -206,7 +206,7 @@ $$
 
 Step 1.
 
-取过去60周收益，计算每周衰减系数，衰减系数 $\ c=\mathrm{Rho}^{\mathrm{n}}\quad(\mathrm{n}{=}1\dots60)$
+取过去60周收益，计算每周衰减系数，衰减系数 $\zeta=\mathrm{Rho}^n\quad(\mathrm{n}=1\cdots60)$
 
 Step 2.
 
@@ -215,7 +215,7 @@ Step 2.
 则为：
 
 $$
-(r_{-m},{\frac{1}{60}};r_{-m+1},{\frac{1}{60}};\ldots;r_{-1},{\frac{1}{60}};r_{1},{\frac{1}{60}};\ldots;r_{n-1},{\frac{1}{60}};r_{n},{\frac{1}{60}}),
+(r_{-m},\frac{1}{60};r_{-m+1},\frac{1}{60};\ldots;r_{-1},\frac{1}{60};r_{1},\frac{1}{60};\ldots;r_{n-1},\frac{1}{60};r_{n},\frac{1}{60}),
 $$
 
 可以看出，每一个收益发生的概率皆为1/60
@@ -223,27 +223,27 @@ $$
 Step 3.
 
 $$
-\begin{array}{r}{\mathrm{TK}(\rho)\equiv\underset{\varrho}{\overset{1}{\sum}}\underset{i=-m}{\overset{-1}{\sum}}\rho^{t(i)}v(r_{i})\Bigg[w^{-}\left(\frac{i+m+1}{60}\right)-w^{-}\left(\frac{i+m}{60}\right)\Bigg]}\\{+\underset{\varrho}{\overset{1}{\sum}}\underset{i=1}{\overset{n}{\sum}}\rho^{t(i)}v(r_{i})\Bigg[w^{+}\left(\frac{n-i+1}{60}\right)-w^{+}\left(\frac{n-i}{60}\right)\Bigg]}\end{array}
+\begin{aligned}\mathsf{TK}(\rho)\equiv\frac{1}{\varrho}\sum_{i=-m}^{-1}\rho^{t(i)}v(r_i)\Biggl[w^{-}\left(\frac{i+m+1}{60}\right)-w^{-}\left(\frac{i+m}{60}\right)\Biggr]\\+\frac{1}{\varrho}\sum_{i=1}^{n}\rho^{t(i)}v(r_i)\Biggl[w^{+}\left(\frac{n-i+1}{60}\right)-w^{+}\left(\frac{n-i}{60}\right)\Biggr].\end{aligned}
 $$
 
 其中:
 
 $$
-v(x){=}\left\{\begin{array}{ll}{{x^{\alpha}}}&{{\mathrm{for}\quad x\geq0}}\\{{-\lambda(-x)^{\alpha}}}&{{x<0}}\end{array}\right.
+v(x)=\left\{\begin{array}{ll}{{x^{\alpha}}}\\{{-\lambda(-x)^{\alpha}}}\end{array}\right.\mathrm{for}\begin{array}{ll}{{x\geq0}}\\{{x<0}}\end{array}
 $$
 
 $$
-w^{+}(P)=\frac{P^{\gamma}}{(P^{\gamma}+(1-P)^{\gamma})^{1/\gamma}},w^{-}(P)=\frac{P^{\delta}}{(P^{\delta}+(1-P)^{\delta})^{1/\delta}},
+w^{+}(P)=\frac{P^{\gamma}}{(P^{\gamma}+(1-P)^{\gamma})^{1/\gamma}},\ w^{-}(P)=\frac{P^{\delta}}{(P^{\delta}+(1-P)^{\delta})^{1/\delta}},
 $$
 
 $$
-\underline{{\mathbf{\rho}}}=\boldsymbol{\rho}+\ldots\boldsymbol{\rho}^{60}
+p=p+\ldots p^{60}
 $$
 
 参数：
 
 $$
-\alpha{=}0.88,\lambda{=}2.25
+\alpha=0.88,\lambda=2.25
 $$
 
 $$

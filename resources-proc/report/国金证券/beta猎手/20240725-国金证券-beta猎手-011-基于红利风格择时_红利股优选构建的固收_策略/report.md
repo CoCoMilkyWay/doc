@@ -175,7 +175,7 @@ $$
 在滤波处理方面，为了使得每个时点的过滤后数据不包含未来信息，并未采用传统经济分析常用的双向 HP 滤波,而是选择使用单向 HP 滤波，避免数据处理过程中隐含的未来函数。
 
 $$
-\hat{\tau}_{t\mid t,\lambda}=\sum_{s=1}^{t}\omega_{t\mid t,s,\lambda}.y_{s}=W_{t\mid t,\lambda}(L).y_{t}
+\hat{\tau}_{t|t,\lambda}={\sum}_{s=1}^{t}\omega_{t|t,s,\lambda}.y_{s}=W_{t|t,\lambda}(L).y_{t},
 $$
 
 在做完 3 个步骤的数据预处理之后，我们进入事件因子的构建阶段。

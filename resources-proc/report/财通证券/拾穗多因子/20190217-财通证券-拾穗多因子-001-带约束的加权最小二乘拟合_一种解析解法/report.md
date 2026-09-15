@@ -64,13 +64,13 @@ zhangyu1@ctsec.com 021-68592220
 多因子模型认为股票收益是由一系列共同因子来驱动的，Barra USE3 版本将股票收益拆解为行业因子、风格因子和特质因子三个部分，Barra USE4版本引入国家因子（又称截距项因子），将股票收益拆解为市场收益、行业收益、风格收益和特质收益四个部分。
 
 $$
-USE4;r_{n}=f_{c}+\sum_{i=1}^{I}X_{ni}f_{i}+\sum_{s=1}^{S}X_{ns}f_{S}+u_{n}
+USE4\colon r_{n}=f_{c}+\sum_{i=1}^{I}X_{ni}f_{i}+\sum_{s=1}^{S}X_{ns}f_{S}+u_{n},
 $$
 
 截距项因子的引入既是为了方便对全球股票资产进行多因子建模，又能够将市场收益从行业收益中剥离出来，从而可以观察到纯净的行业因子表现情况。然而，由于每只股票在所有行业因子的暴露加总恒等于 1（单只股票属于且仅属于某一行业），因此截距项因子的加入将会导致截距项与行业因子之间存在完全共线性，从而使得模型的解不唯一，传统的解析解法不再适用（矩阵不可逆）。为此我们引入一个约束条件，使得所有行业因子收益的市值加权平均为 0。
 
 $$
-\sum_{i}w_{i}f_{i}=0
+\sum_{i}w_{i}f_{i}=0.
 $$
 
 其中， $w_{i}$ 表示行业 i中所有股票的流通市值占全市场流通市值的比例，该约束条件的引入使得全样本股票收益的市值加权平均（即指数收益）可以被近似地认为等于截距项因子收益。
@@ -86,31 +86,31 @@ $$
 1）直接优化法：即最小化特质收益的回归加权平方和，在MATLAB中可用fmincon函数进行求解，在Python中可用scipy.optimize.minimize函数进行求解。
 
 $$
-\begin{array}{c}{{min\displaystyle\sum_{n}w_{n}\cdot\left(r_{n}-f_{c}-\displaystyle\sum_{i=1}X_{ni}f_{i}-\displaystyle\sum_{s=1}X_{ns}f_{s}\right)^{2}}}\\{{s.t\displaystyle\sum_{i}w_{i}f_{i}=0}}\end{array}
+\begin{aligned}min\sum_{n}w_{n}\cdot\left(r_{n}-f_{c}-\sum_{i=1}^{n}X_{ni}f_{i}-\sum_{s=1}^{n}X_{ns}f_{S}\right)^{2}\\s.t\sum_{i}w_{i}f_{i}&=0\end{aligned}
 $$
 
 注意，此处 $w_{n}$ 是指单只股票 n的回归权重，而w 是指行业 i内所有股票的市值占全体样本股票市值的比例。直接优化法在逻辑上简单直观，但通常需给定一个初始值及迭代次数，且不一定能保证在达到最大迭代次数之前能够找到最优解，因此即便对于相同的输入而言，采用直接优化法得到的结果尽管十分接近但可能并不完全一致。
 
-2） 二次规划法：它实际上是直接优化法的向量求解版本，对应于MATLAB中的quadprog函数，或者Python中的cvxopt.solvers.qp函数。我们以qp函数为例，其输入参数为 $\mathsf{qp}(\mathsf{Q},\mathsf{p},\mathsf{G},\mathsf{h},\mathsf{A},\mathsf{b})$ ，对应的二次规划问题为：
+2） 二次规划法：它实际上是直接优化法的向量求解版本，对应于MATLAB中的quadprog函数，或者Python中的cvxopt.solvers.qp函数。我们以qp函数为例，其输入参数为 $\mathrm{qp}(\mathrm{Q},\mathrm{p},\mathrm{G},\mathrm{h},\mathrm{A},\mathrm{b})$ ，对应的二次规划问题为：
 
 $$
-\operatorname*{min}_{x}{\frac{1}{2}}x^{\prime}Px+q^{\prime}x
+\min_{x}\frac{1}{2}x'Px+q'x
 $$
 
 $$
-S.t.{\cal G}x\le h,{\cal A}x=b
+s.t.Gx\leq h,Ax=b
 $$
 
 加权最小二乘的优化目标是最小化残差变量的加权平方和，因此目标函数可以表示为：
 
 $$
-\begin{array}{rl}&{\underset{\hat{\boldsymbol{\beta}}}{\operatorname*{min}}\big(\boldsymbol{Y}-\boldsymbol{X}\hat{\boldsymbol{\beta}}\big)^{\prime}\boldsymbol{W}\big(\boldsymbol{Y}-\boldsymbol{X}\hat{\boldsymbol{\beta}}\big)}\\&{\quad\quad=\underset{\hat{\boldsymbol{\beta}}}{\operatorname*{min}}\big(\boldsymbol{Y}^{\prime}\boldsymbol{W}\boldsymbol{Y}-\boldsymbol{Y}^{\prime}\boldsymbol{W}\boldsymbol{X}\hat{\boldsymbol{\beta}}-\hat{\boldsymbol{\beta}}^{\prime}\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{Y}+\hat{\boldsymbol{\beta}}^{\prime}\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{X}\hat{\boldsymbol{\beta}}\big)}\\&{\quad\quad=\underset{\hat{\boldsymbol{\beta}}}{\operatorname*{min}}\big(\hat{\boldsymbol{\beta}}^{\prime}\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{X}\hat{\boldsymbol{\beta}}-2\boldsymbol{Y}^{\prime}\boldsymbol{W}\boldsymbol{X}\hat{\boldsymbol{\beta}}+\boldsymbol{Y}^{\prime}\boldsymbol{W}\boldsymbol{Y}\big)}\\&{\quad\quad=\underset{\hat{\boldsymbol{\beta}}}{\operatorname*{min}}\Bigg(2\times\bigg(\frac{1}{2}\hat{\boldsymbol{\beta}}^{\prime}\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{X}\hat{\boldsymbol{\beta}}-(\boldsymbol{X}^{\prime}\boldsymbol{W}\boldsymbol{Y})^{\prime}\hat{\boldsymbol{\beta}}\bigg)\Bigg)}\end{array}
+\begin{aligned}\min_{\hat{\beta}}\big(Y-X\hat{\beta}\big)'W\big(Y-X\hat{\beta}\big)&\\&=\min_{\hat{\beta}}\big(Y'WY-Y'WX\hat{\beta}-\hat{\beta}'X'WY+\hat{\beta}'X'WX\hat{\beta}\big)\\&=\min_{\hat{\beta}}\big(\hat{\beta}'X'WX\hat{\beta}-2Y'WX\hat{\beta}+Y'WY\big)\\&=\min_{\hat{\beta}}\bigg(2\times\bigg(\frac{1}{2}\hat{\beta}'X'WX\hat{\beta}-(X'WY)'\hat{\beta}\bigg)\bigg)\end{aligned}
 $$
 
 将以上公式结合标准的二次规划问题，即可将参数进行一一对应：
 
 $$
-\begin{array}{c}{P=X^{\prime}W_{n}X}\\{\ }\\{q=-X^{\prime}W_{n}Y}\\{\left.}\\{A=\left(0,w_{i_{1\times I}},0_{1\times S}\right)\right.}\\{\left.b=0\right.}\end{array}
+\begin{aligned}&P=X^{\prime}W_{n}X\\&q=-X^{\prime}W_{n}Y\\&A=\left(0,w_{i_{1\times I}},0_{1\times S}\right)\\&\hphantom{P=X^{\prime}W_{n}X}\\&b=0\\\end{aligned}
 $$
 
 其中，X是表示股票因子暴露的N×K矩阵，N为股票个数，K为因子个数（I为行业因子个数，S为风格因子个数， $K{=}1+I+S)$ $W_{n}$ 为股票回归权重，它是一个N×N的对角矩阵，对角线上的元素为股票的市值平方根权重，Y为股票在每一期的收益， $w_{i}$ 为 $1\times I$ 向量，每个元素对应每个行业的市值权重， $0_{1\times S}$ 为 $1\times s$ 维零向量。
@@ -118,7 +118,7 @@ $$
 3）解析解法：Ruud（2000）介绍了一种带有线性约束的最小二乘解析解法，该方法实际上是将回归系数根据约束条件进行简单的线性变换，从而转化为传统的最小二乘求解法：
 
 $$
-\beta=\mathsf{S}\gamma+\mathsf{s}
+\beta=\mathsf{S}\gamma+s
 $$
 
 其中，β是一个K ×1的向量，即我们需要拟合的回归系数，S是一个K ×M的已知矩阵，s是一个K ×1的已知向量，γ是一个M×1的未知向量，其中M<K，说明γ中的未知参数比β要更少。
@@ -131,18 +131,18 @@ $$
 
 ## i) 排他约束
 
-若回归中存在如下约束： $\beta_{2}=0,\beta_{4}=0$ ，那么：
+若回归中存在如下约束： $\beta_{2}=0,\quad\beta_{4}=0$ ，那么：
 
 $$
-\beta=\left(\begin{array}{l}{\beta_{1}}\\{0}\\{\beta_{3}}\\{0}\\{\beta_{5}}\end{array}\right)=\left[\begin{array}{lll}{1}&{0}&{0}\\{0}&{0}&{0}\\{0}&{1}&{0}\\{0}&{0}&{0}\\{0}&{0}&{1}\end{array}\right]\left[\begin{array}{l}{\beta_{1}}\\{\beta_{3}}\\{\beta_{5}}\end{array}\right]={\sf S}\gamma+{\sf s}
+\beta=\begin{pmatrix}\beta_{1}\\0\\\beta_{3}\\0\\\beta_{5}\end{pmatrix}=\begin{bmatrix}1&0&0\\0&0&0\\0&1&0\\0&0&0\\0&0&1\end{bmatrix}\begin{bmatrix}\beta_{1}\\\beta_{3}\\\beta_{5}\end{bmatrix}=\mathbb{S}\gamma+\mathbf{s}
 $$
 
 ## ii) 等式约束
 
-若回归中存在如下约束： $\beta_{2}=\beta_{3},\ \beta_{3}=\beta_{4}$ ，那么：
+若回归中存在如下约束： $\beta_{2}=\beta_{3},\quad\beta_{3}=\beta_{4}$ ，那么：
 
 $$
-\boldsymbol{\beta}=\left(\begin{array}{l}{\beta_{1}}\\{\beta_{4}}\\{\beta_{4}}\\{\beta_{4}}\\{\beta_{5}}\end{array}\right)=\left[\begin{array}{lll}{1}&{0}&{0}\\{0}&{1}&{0}\\{0}&{1}&{0}\\{0}&{1}&{0}\\{0}&{0}&{1}\end{array}\right]\left[\begin{array}{l}{\beta_{1}}\\{\beta_{4}}\\{\beta_{5}}\end{array}\right]=\boldsymbol{\mathrm{S}}\boldsymbol{\gamma}+\boldsymbol{\mathrm{s}}
+\beta=\begin{pmatrix}\beta_{1}\\\beta_{4}\\\beta_{4}\\\beta_{4}\\\beta_{5}\end{pmatrix}=\begin{bmatrix}1&0&0\\0&1&0\\0&1&0\\0&1&0\\0&0&1\end{bmatrix}\begin{bmatrix}\beta_{1}\\\beta_{4}\\\beta_{5}\end{bmatrix}=\mathbb{S}\gamma+\mathbf{s}
 $$
 
 iii)一般线性约束
@@ -150,29 +150,29 @@ iii)一般线性约束
 若回归中存在如下约束： $\beta_{3}+\beta_{4}+\beta_{5}=1$ ，那么：
 
 $$
-\beta=\left(\begin{array}{c}{\beta_{1}}\\{\beta_{2}}\\{\beta_{3}}\\{\beta_{4}}\\{\beta_{5}}\end{array}\right)=\left[\begin{array}{cccc}{1}&{0}&{0}&{0}\\{0}&{1}&{0}&{0}\\{0}&{0}&{-1}&{-1}\\{0}&{0}&{1}&{0}\\{0}&{0}&{0}&{1}\end{array}\right]\left[\begin{array}{c}{\beta_{1}}\\{\beta_{2}}\\{\beta_{4}}\\{\beta_{5}}\end{array}\right]+\left[\begin{array}{c}{0}\\{0}\\{1}\\{0}\\{0}\end{array}\right]=5\gamma+\mathrm{s}
+\beta=\begin{pmatrix}\beta_{1}\\\beta_{2}\\\beta_{3}\\\beta_{4}\\\beta_{5}\end{pmatrix}=\begin{bmatrix}1&0&0&0\\0&1&0&0\\0&0&-1&-1\\0&0&1&0\\0&0&0&1\end{bmatrix}\begin{bmatrix}\beta_{1}\\\beta_{2}\\\beta_{4}\\\beta_{5}\end{bmatrix}+\begin{bmatrix}0\\0\\1\\0\\0\end{bmatrix}=\mathbb{S}\gamma+s
 $$
 
-在了解了如何对原始参数进行线性转换之后，我们即可给出模型的解析解版本。假如在回归方程中加入 $\mathbf{\nabla}\cdot{\boldsymbol{\beta}}=\mathbf{S}\gamma+\mathbf{s}$ 约束，那么回归系数可用如下解析解表示：
+在了解了如何对原始参数进行线性转换之后，我们即可给出模型的解析解版本。假如在回归方程中加入 $\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf{\nabla\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\nabla\nabla}\mathbf{\mathbf}\mathbf\mathbf{\nabla}\mathbf{\nabla\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\mathbf\nabla{\nabla\nabla}\mathbf{\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\nabla\nabla}\mathbf\mathbf{}\mathbf\mathbf{\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf\mathbf{\nabla\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf{\nabla}\mathbf\mathbf{\nabla\nabla}\mathbf\mathbf{\nabla}\mathbf\mathbf{\nabla\nabla}\mathbf\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf\mathbf{\nabla}\mathbf\mathbf{\nabla\nabla}\mathbf{\mathbf\mathbf{\nabla$ 约束，那么回归系数可用如下解析解表示：
 
 $$
-{\widehat{\pmb{\beta}}}_{R}={\pmb S}[({\pmb X}{\pmb S})^{\prime}{\pmb W}{\pmb X}{\pmb S}]^{-1}({\pmb X}{\pmb S})^{\prime}{\pmb W}({\pmb y}-{\pmb X}{\pmb S})+{\pmb s}
+\widehat{\pmb{\beta}}_{R}=\pmb{S}[(\pmb{X}\pmb{S})^{\prime}\pmb{W}\pmb{X}\pmb{S}]^{-1}(\pmb{X}\pmb{S})^{\prime}\pmb{W}(\pmb{y}-\pmb{X}\pmb{s})+\pmb{s}
 $$
 
 证明如下：
 
 $$
-y=\mathrm{X}\beta+\varepsilon,X\beta=X(S\gamma+s)=XS\gamma+Xs
+y=X\beta+\varepsilon,X\beta=X(S\gamma+s)=XS\gamma+Xs
 $$
 
-此处我们定义带约束的自变量 $X_{R}=XS$ ，定义带约束的因变量 $y_{R}=y-Xs$ 那么通过如上线性变换就可转换为无约束的最小加权二乘求解：
+此处我们定义带约束的自变量 $X_{R}=XS$ ，定义带约束的因变量 $\begin{array}{r}{\mathopen{}\mathclose\bgroup\left\{y_{R}=y-Xs\aftergroup\egroup\right.}\end{array}$ 那么通过如上线性变换就可转换为无约束的最小加权二乘求解：
 
 $$
 y_{R}=X_{R}\gamma+\varepsilon
 $$
 
 $$
-\begin{array}{c}{{\hat{\gamma}=\underset{\gamma}{\mathrm{argmin}}\Big|\Big|W\Big((y-Xs)-(XS)\gamma\Big)\Big|\Big|^{2}=({X_{R}}^{\prime}WX_{R})^{-1}{X_{R}}^{\prime}Wy_{R}}}\\{{=(S^{\prime}X^{\prime}WXS)^{-1}(XS)^{\prime}W(y-Xs)}}\end{array}
+\begin{align*}\hat{\gamma}=\underset{\gamma}{\arg\min}\left\|W\big((y-Xs)-(XS)\gamma\big)\right\|^2=(X_R'WX_R)^{-1}X_R'Wy_R\\=(S'X'WXS)^{-1}(XS)'W(y-Xs)\end{align*}
 $$
 
 由此我们可以直接得到原始回归系数：
@@ -349,11 +349,11 @@ $$
 | 附录二：财 | 通金工风格因子定义 |  |  |  |
 | --- | --- | --- | --- | --- |
 | 大类因子 | 子类因子 | 因子定义及计算 | 权重 | 备注 |
-| Beta | BETA | $\boldsymbol{\mathrm{r}}_{\mathrm{t}}=\boldsymbol{\alpha}+\beta\boldsymbol{\mathrm{R}}_{\mathrm{t}}+\boldsymbol{\mathrm{e}}_{\mathrm{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
+| Beta | BETA | $\mathbf{r}_{\mathrm{t}}=\alpha+\beta\mathbf{R}_{\mathrm{t}}+\mathbf{e}_{\mathrm{t}},$ 将单只股票过去252天的日度收益率对流通市值加权指数日度收益率进行半衰指数加权回归，半衰期为63天 | 1 | 1) 采用流通市值而非总市值加权，因为各大指数编制采用流通市值加权；2) 需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化；3)若满足条件的样本数据少于42天，我们将其 Beta 置为 NaN。 |
 | 规模 | SIZE | 股票总市值取对数 | 1 | 由于PB、PE等因子的计算是基于总市值的，因此此处也用总市值 |
-| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathsf{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathbf{w}_{\mathrm{t}}(\ln(1+\mathrm{r_{t}}),}\end{array}$ $\mathrm{r_{t}=P_{t}/P_{t-1}-1,~T=504,~L=21,}$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3) 若满足条件的数据样本小于42天，我们将其动量置为NaN |
-| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42 天1/2 $\mathrm{{DASTD}=\left(\sum_{t=1}^{T}w_{t}\big(r_{t}-\mu(r)\big)^{2}\right)}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为 NaN |
-|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathbb{C}\mathbb{M}\mathbb{R}\mathbb{A}=\ln(1+\operatorname*{max}\{\mathrm{Z}(\mathbb{T})\})-\ln(1+}\\{\operatorname*{min}\{\mathrm{Z}(\mathbb{T})),}\end{array}$ 其 $\begin{array}{r}{\mathsf{FZ}(\mathrm{T})=\exp\bigl(\sum_{\mathrm{t}=1}^{\mathrm{T}}\ln(1+\mathrm{r}_{\mathrm{t}})\bigr)-1}\end{array}$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
+| 动量 | RSTR | 过去一段时间个股的累计收益率，不含最近一个月， $\begin{array}{r}{\mathrm{RSTR}=\sum_{\mathrm{t=L}}^{\mathrm{T+L}}\mathrm{w}_{\mathrm{t}}(\ln(1+\mathrm{r}_{\mathrm{t}}),}\end{array}$ $\mathrm{r}_{\mathrm{t}}=\mathrm{P}_{\mathrm{t}}/\mathrm{P}_{\mathrm{t}-1}-1,\quad\mathrm{T}=504,\quad\mathrm{L}=21,$ 收益率序列采用半衰指数加权，半衰期为126天 | 1 | 1)对于数据质量较好的个股，计算动量时采用了2年的数据2) 需要剔除未上市日期数据，但无需剔除停牌日期数据，并将权重归一化3) 若满足条件的数据样本小于42天，我们将其动量置为NaN |
+| 波动率(对Beta因子和市值因子进行正交化处理） | DASTD | 个股相对市值加权指数的超额收益率序列的半衰指数加权标准差，T=252，半衰期为42 天1/2 $\mathrm{DASTD}=\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\mathrm{w}_{\mathrm{t}}\left(\mathrm{r}_{\mathrm{t}}-\mu(\mathrm{r})\right)^2\right)^{\frac{1}{2}}$ | 0.7 | 12 采用流通市值加权计算指数收益需要剔除当日停牌或者未上市日期的数据，并将权重进行归一化3) 若满足条件的数据样本小于42天，我们将其因子值置为 NaN |
+|  | CMRA | 表示过去12个月的波动幅度， $\begin{array}{r}{\mathrm{CMRA}=\ln(1+\operatorname*{max}\{\mathrm{Z(T)}\})-\ln(1+\operatorname*{min}\{\mathrm{Z(T)}\}),}\end{array}$ 其 $\mathrm{Z}(\mathrm{T})=\exp\left(\sum_{\mathrm{t}=1}^{\mathrm{T}}\ln(1+\mathrm{r}_{\mathrm{t}})\right)-1$ ，表示过去T个月的收益率 | 0.15 | 以 21 天为 1 个月 |
 |  | HSIGMA | 计算 Beta 时残差的标准差， Hsigma = std(ei) | 0.15 | 同 Beta 因子的计算 |
 | 非线性规模 | NonLinerSize | 中市值因子，将股票总市值对数的三次方对总市值对数回归，取残差的相反数 | 1 | 用于衡量市值因子的非线性性，总市值越大和越小的股票的非线性规模越小，中市值股票的非线性规模越大 |
 | 估值 | BP | 市净率的倒数，1/PB | 1 | 采用 Wind 中的 pb_lf 因子的倒数 |

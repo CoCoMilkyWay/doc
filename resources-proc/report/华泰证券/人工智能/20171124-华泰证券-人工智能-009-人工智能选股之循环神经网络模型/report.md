@@ -64,7 +64,7 @@ linxiaoming@htsc.com
 
 ## RNN 概述
 
-顾名思义，RNN 是包含循环的网络，如图表 1 左侧所示，神经网络的模块正在读取某个输入 $\mathsf{x},$ ，并输出一个值 $^{0,}$ ，循环可以使得信息从当前步传递到下一步。从表面看，这样的网络结构较难理解，因此将其展开为图表1右侧。对于从序列索引1到T的时间序列数据，如果关注 t 时刻附近的网络结构， $x_{t}$ 代表了在序列索引号 t 时刻训练样本的输入，同理 $x_{t-1}$ 和 ${\boldsymbol{\tau}}{\boldsymbol{x}}_{t+1}$ 代表了在序列索引号 t-1时刻和 t+1 时刻训练样本的输入； $h_{t}$ 代表在 t 时刻模型的隐藏状态，与 ANN 不同的是， $h_{t}$ 不仅由 $x_{t}$ 决定，也受到 $h_{t-1}$ 的影响； $o_{t}$ 代表在 t时刻模型的输出， $o_{t}$ 只由模型当前的隐藏状态 $h_{t}$ 决定； $y_{t}$ 是 t 时刻样本序列的真实值； $L_{t}$ 是 t 时刻模型的损失函数，通过 $o_{t}$ 和 $\boldsymbol{y}_{t}$ 计算得出；U、V、W 这三个矩阵是模型的参数，它们在整个模型中是共享的，这和传统的ANN模型不太一样，同时也体现了RNN模型循环反馈的思想。
+顾名思义，RNN 是包含循环的网络，如图表 1 左侧所示，神经网络的模块正在读取某个输入 ${\sf X},$ ，并输出一个值 $^{\circ,}$ ，循环可以使得信息从当前步传递到下一步。从表面看，这样的网络结构较难理解，因此将其展开为图表1右侧。对于从序列索引1到T的时间序列数据，如果关注 t 时刻附近的网络结构， $x_{t}$ 代表了在序列索引号 t 时刻训练样本的输入，同理 $x_{t-1}$ 和 $\pmb{x}_{t+1}$ 代表了在序列索引号 t-1时刻和 t+1 时刻训练样本的输入； $h_{t}$ 代表在 t 时刻模型的隐藏状态，与 ANN 不同的是， $h_{t}$ 不仅由 $x_{t}$ 决定，也受到 $h_{t-1}$ 的影响； $o_{t}$ 代表在 t时刻模型的输出， $o_{t}$ 只由模型当前的隐藏状态 $h_{t}$ 决定； $y_{t}$ 是 t 时刻样本序列的真实值； $L_{t}$ 是 t 时刻模型的损失函数，通过 $o_{t}$ 和 ${}^{t}y_{t}$ 计算得出；U、V、W 这三个矩阵是模型的参数，它们在整个模型中是共享的，这和传统的ANN模型不太一样，同时也体现了RNN模型循环反馈的思想。
 
 图表1： RNN的展开表示
 ![](images/11f180bf9f478d7754e905dbc88e3ec9e7be526c9b3677174523dc56b89477b2.webp)
@@ -90,7 +90,7 @@ linxiaoming@htsc.com
 
 ## RNN 分类算法基本步骤
 
-我们先关注 RNN的前向传播算法，对于任意 t时刻，隐藏状态 $\cdot h_{t}$ 可由 $x_{t}$ 和 $\cdot h_{t-1}$ 得到
+我们先关注 RNN的前向传播算法，对于任意 t时刻，隐藏状态 $\epsilon h_{t}$ 可由 $\scriptstyle{\left\{x_{t}\right.}$ 和 $\cdot h_{t-1}$ 得到
 
 $$
 h_{t}=\sigma(z_{t})=\sigma(UX_{t}+Wh_{t-1}+b)
@@ -123,23 +123,23 @@ $$
 $$
 
 $$
-\frac{\partial L}{\partial V}=\sum_{t=1}^{\tau}\frac{\partial L_{t}}{\partial V}=\sum_{t=1}^{\tau}\frac{\partial L_{t}}{\partial\sigma_{t}}\times\frac{\partial\sigma_{t}}{\partial V}=\sum_{t=1}^{\tau}(\hat{y}_{t}-y_{t})(h_{t})^{T}
+\frac{\partial L}{\partial V}=\sum_{t=1}^{\tau}\frac{\partial L_t}{\partial V}=\sum_{t=1}^{\tau}\frac{\partial L_t}{\partial\sigma_t}\times\frac{\partial\sigma_t}{\partial V}=\sum_{t=1}^{\tau}(\hat{y}_t-y_t)(h_t)^T
 $$
 
 由于t时刻的梯度损失为当前位置输出对应的梯度损失和t+1时刻的梯度损失两部分之和，我们定义 t 时刻隐藏状态的梯度为
 
 $$
-\delta_{t}=\frac{\partial L}{\partial h_{t}}=\frac{\partial L}{\partial\sigma_{t}}\times\frac{\partial\sigma_{t}}{\partial h_{t}}+\frac{\partial L}{\partial h_{t+1}}\times\frac{\partial h_{t+1}}{\partial h_{t}}=V^{T}((\hat{y}_{t}-y_{t})+W^{T}\delta_{t+1}diag(1-h_{t+1}^{2})
+\delta_{t}=\frac{\partial L}{\partial h_{t}}=\frac{\partial L}{\partial\sigma_{t}}\times\frac{\partial\sigma_{t}}{\partial h_{t}}+\frac{\partial L}{\partial h_{t+1}}\times\frac{\partial h_{t+1}}{\partial h_{t}}=V^{T}((\hat{y}_{t}-y_{t})+W^{T}\delta_{t+1}diag(1-h_{t+1}^{2}))
 $$
 
 再根据 $\cdot\delta_{t}$ 求得W、U、b 的梯度表达式：
 
 $$
-\frac{\partial L}{\partial W}=\sum_{t=1}^{\tau}\frac{\partial L}{\partial h_{t}}\times\frac{\partial h_{t}}{\partial W}=\sum_{t=1}^{\tau}diag(1-h_{t}^{2})\delta_{t}h_{t-1}^{T}
+\frac{\partial L}{\partial W}=\sum_{t=1}^{\tau}\frac{\partial L}{\partial h_{t}}\times\frac{\partial h_{t}}{\partial W}=\sum_{t=1}^{\tau}diag(1-h_{t}^{2})\delta_{t}h_{t-1}^{T},
 $$
 
 $$
-\frac{\partial L}{\partial b}=\sum_{t=1}^{\tau}\frac{\partial L}{\partial h_{t}}\times\frac{\partial h_{t}}{\partial b}=\sum_{t=1}^{\tau}diag(1-h_{t}^{2})\delta_{t}
+\frac{\partial L}{\partial b}=\sum_{t=1}^{\tau}\frac{\partial L}{\partial h_{t}}\times\frac{\partial h_{t}}{\partial b}=\sum_{t=1}^{\tau}diag(1-h_{t}^{2})\delta_{t}.
 $$
 
 $$
@@ -196,7 +196,7 @@ $$
 
 ## LSTM 与 RNN 的区别
 
-在 RNN 模型中，在每个序列索引位置都有一个隐藏状态 ${\cdot}h_{t}$ ，如果我们略去每层都有的 $o_{t}$ $y_{t}$ 和 $L_{t}$ ，那么模型可以简化为如图表 4的形式，通过线条指示的路径可以清晰地看出隐藏状态 $h_{t}$ 由 $h_{t-1}\hbar\pi x_{t}$ 共同决定。 $h_{t}$ 将一方面用于计算当前层模型的损失，另一方面用于计算下一层的 $h_{t+1}$ 1。
+在 RNN 模型中，在每个序列索引位置都有一个隐藏状态 $\cdot h_{t}$ ，如果我们略去每层都有的 $o_{t}$ $y_{t}$ 和 $L_{t}$ ，那么模型可以简化为如图表 4的形式，通过线条指示的路径可以清晰地看出隐藏状态 $h_{t}$ 由 $h_{t-1}和x_t$ 共同决定。 $h_{t}$ 将一方面用于计算当前层模型的损失，另一方面用于计算下一层的 $h_{t+1}$ 1。
 
 图表4： 简化的 RNN模型
 ![](images/5f863959aa5f8c387b20c966c2806d4c6dac37d49c4c26b700c7808fbf593251.webp)
@@ -228,13 +228,13 @@ $\sigma$ 为 sigmoid 激活函数。由于 $f_{t}$ 的值在[0,1]之间，因此
 ![](images/0119abf4409cb069c962a63753ecf152084ae5d80c095449597c78f8541190b6.webp)
 资料来源：华泰证券研究所
 
-图表8是LSTM模型的输入门部分，输入门负责控制是否将当前时刻输 ${\lambda}_{t}$ 融入细胞状态，数学表达式为：
+图表8是LSTM模型的输入门部分，输入门负责控制是否将当前时刻输 $入x_{t}$ 融入细胞状态，数学表达式为：
 
 $$
-\begin{array}{c}{i_{t}=\sigma(W_{i}h_{t-1}+U_{i}x_{t}+b_{i})}\\{\tilde{C}_{t}=tanh(W_{C}h_{t-1}+U_{C}x_{t}+b_{C})}\end{array}
+\begin{aligned}\tilde{i}_{t}&=\sigma(W_{i}h_{t-1}+U_{i}x_{t}+b_{i})\\\tilde{C}_{t}&=tanh(W_{C}h_{t-1}+U_{C}x_{t}+b_{C})\end{aligned}
 $$
 
-$\sigma$ 为 sigmoid 激活函数。由于 $\cdot_{i_{t}}$ 的值在[0,1]之间，因此代表了记住这一层输入信息的概率。通过 $\boldsymbol{i}_{t}\mathcal{\dot{\mathsf{K}}}\bar{C}_{t}$ 两者相乘获得当前细胞状态需要添加的信息。从语言模型角度看，即当遇到新主语 $x_{t}$ 时，我们希望在细胞状态 ${\tilde{C}}_{t}$ 中添加新主语 $x_{t}$ 的属性信息。
+$\sigma$ 为 sigmoid 激活函数。由于 $i_{t}$ 的值在[0,1]之间，因此代表了记住这一层输入信息的概率。通过 $i_{t}和\tilde{C}_{t}$ 两者相乘获得当前细胞状态需要添加的信息。从语言模型角度看，即当遇到新主语 $x_{t}$ 时，我们希望在细胞状态 $\tilde{C}_{t}$ 中添加新主语 $x_{t}$ 的属性信息。
 
 图表8： 输入门结构
 ![](images/6a8b32ad07e40e48650ff511253459a49186e11113dca2aee5fcdde1588db2d1.webp)
@@ -252,10 +252,10 @@ $$
 ![](images/323477fab5afa8f459f16c9412c64e092799f205336b6758abea82047df1fae0.webp)
 资料来源：华泰证券研究所
 
-图表 10是 LSTM 模型的输出门部分，输出门是对当前细胞状态的过滤，目的是从细胞状态 $C_{t}\dot{\bar{\mathbf{\Gamma}}}$ 生隐藏状态 $h_{t}$ ，数学表达式为：
+图表 10是 LSTM 模型的输出门部分，输出门是对当前细胞状态的过滤，目的是从细胞状态 $C_{t}产$ 生隐藏状态 $h_{t}$ ，数学表达式为：
 
 $$
-\begin{array}{c}{{o_{t}=\sigma(W_{o}h_{t-1}+U_{o}x_{t}+b_{o})}}\\{{h_{t}=o_{t}\odot\mathrm{tanh}(C_{t})}}\end{array}
+\begin{aligned}&o_{t}=\sigma(W_{o}h_{t-1}+U_{o}x_{t}+b_{o})\\&\qquad h_{t}=o_{t}\odot\tanh(C_{t})\\\end{aligned}
 $$
 
 图表10： 输出门结构
@@ -269,22 +269,22 @@ $$
 为了方便分析，我们把上一节中介绍 LSTM 隐藏状态结构的所有公式都罗列如下：
 
 $$
-\begin{array}{rl}&{f_{t}=\sigma(W_{f}h_{t-1}+U_{f}x_{t}+b_{f})}\\&{i_{t}=\sigma(W_{i}h_{t-1}+U_{i}x_{t}+b_{i})}\\&{\tilde{C}_{t}=tanh(W_{C}h_{t-1}+U_{C}x_{t}+b_{C})}\\&{\qquad C_{t}=C_{t-1}\odot f_{t}+i_{t}\odot\tilde{C}_{t}}\\&{\qquad o_{t}=\sigma(W_{o}h_{t-1}+U_{o}x_{t}+b_{o})}\\&{\qquad h_{t}=o_{t}\odot\mathrm{tanh}(\tilde{C}_{t})}\end{array}
+\begin{aligned}&f_{t}=\sigma(W_{f}h_{t-1}+U_{f}x_{t}+b_{f})\\&i_{t}=\sigma(W_{i}h_{t-1}+U_{i}x_{t}+b_{i})\\&\tilde{C}_{t}=tanh(W_{C}h_{t-1}+U_{C}x_{t}+b_{C})\\&\quad C_{t}=C_{t-1}\odot f_{t}+i_{t}\odot\tilde{C}_{t}\\&o_{t}=\sigma(W_{o}h_{t-1}+U_{o}x_{t}+b_{o})\\&\quad h_{t}=o_{t}\odot\tanh(\tilde{C}_{t})\\\end{aligned}
 $$
 
 联立上面的式子可得：
 
 $$
-\begin{array}{c}{h_{t}=o_{t}\odot\mathrm{tanh}(C_{t-1}\odot f_{t}+i_{t}\odot tanh(W_{C}h_{t-1}+U_{C}x_{t}+b_{C}))}\\{C_{t}=C_{t-1}\odot f_{t}+i_{t}\odot\tilde{C}_{t}\qquad}\end{array}
+\begin{aligned}h_{t}=o_{t}\odot\tanh(C_{t-1}\odot&f_{t}+i_{t}\odot tanh(W_{C}h_{t-1}+U_{C}x_{t}+b_{C}))\\C_{t}=&C_{t-1}\odot&f_{t}+i_{t}\odot&\tilde{C}_{t}\end{aligned}
 $$
 
-由以上两式可以看出， $h_{t}$ 不仅要由 $h_{t-1}$ 计算得到，还要由 $C_{t}$ 计算得到， $C_{t}$ 的计算本身不依赖于系数 $W_{C}$ ，当遗忘门 $\mid f_{t}$ 被打开时， $C_{t}$ 的梯度可以有效地反向传递给 $C_{t-1}\mathfrak{c}$ 。而系数 $W_{C}$ 正是造成传统 RNN 模型梯度消失的根源所在，所以通过引入另一个隐藏状态 $C_{t}$ 和 3 个门控结构，LSTM缓解了神经网络训练中的梯度消失问题。
+由以上两式可以看出， $h_{t}$ 不仅要由 $h_{t-1}$ 计算得到，还要由 $C_{t}$ 计算得到， $C_{t}$ 的计算本身不依赖于系数 $W_{C}$ ，当遗忘门 $1f_{t}$ 被打开时， $C_{t}$ 的梯度可以有效地反向传递给 $\cdot C_{t-1^{\circ}}$ 。而系数 $W_{C}$ 正是造成传统 RNN 模型梯度消失的根源所在，所以通过引入另一个隐藏状态 $C_{t}$ 和 3 个门控结构，LSTM缓解了神经网络训练中的梯度消失问题。
 
 ## 门控循环单元 GRU
 
 ## GRU 概述
 
-门控循环单元(Gated Recurrent Units)由 Cho 在 2014 年提出，是 LSTM 模型的一类常见变种。与 LSTM不同的是，GRU 将遗忘门和输入门合成为单一的更新门。如图表 11，GRU将输入 $\dot{\Pi}i_{t}$ 和遗忘门 $\mid f_{t}$ 融合成单一的更新 ${\lvert{\bf\bar{\Delta}}\rvert}_{\partial_{t}}$ ，并且融合了细胞状态 $C_{t}$ 和隐藏状态 $h_{t}$ 。
+门控循环单元(Gated Recurrent Units)由 Cho 在 2014 年提出，是 LSTM 模型的一类常见变种。与 LSTM不同的是，GRU 将遗忘门和输入门合成为单一的更新门。如图表 11，GRU将输入 ${\boldsymbol{\dot{\imath}}}\daleth i_{t}$ 和遗忘门 $1f_{t}$ 融合成单一的更新 ${\boldsymbol{\mathsf{j}}}{\boldsymbol{\mathsf{l}}}z_{t}$ ，并且融合了细胞状态 $C_{t}$ 和隐藏状态 $h_{t}$ 。
 
 图表11： GRU隐藏状态结构
 ![](images/efed526dda4075de085c8f99389ebaf436ec39269a78a7c5b36fad57e9f9a816.webp)
@@ -298,16 +298,16 @@ $$
 r_{t}=\sigma(W_{r}h_{t-1}+U_{r}x_{t}+b_{r})
 $$
 
-图表 11中 $z_{t}$ 是 GRU 模型的更新门部分，用于决定是否忽略当前输 ${\lambda}_{t}$ ，类似 LSTM 中的输入门 $|i_{t}$ 。从语言模型角度看，即判断当前 $\dot{\bar{\tau}}\bar{\bar{\tau}}\bar{x}_{t}$ 对整体意思的表达是否重要，数学表达式为：
+图表 11中 $z_{t}$ 是 GRU 模型的更新门部分，用于决定是否忽略当前输 $入x_{t}$ ，类似 LSTM 中的输入门 $|i_{t}$ 。从语言模型角度看，即判断当前 $词x_{t}$ 对整体意思的表达是否重要，数学表达式为：
 
 $$
 z_{t}=\sigma(W_{z}h_{t-1}+U_{z}x_{t}+b_{z})
 $$
 
-定义完 GRU的重置门和更新门之后，我们再来看 GRU 的细胞更新。当更新门打开时， $h_{t}$ 由 $h_{t-1}$ 和 ${\boldsymbol{\mathbf{\mathit{x}}}}_{t}$ 决定；当更新门被关闭时， $h_{t}$ 将仅由 $h_{t-1}$ 决定，帮助梯度反向传播，与 LSTM相同，这种机制有效地缓解了梯度消失现象。数学表达式为：
+定义完 GRU的重置门和更新门之后，我们再来看 GRU 的细胞更新。当更新门打开时， $h_{t}$ 由 $h_{t-1}$ 和 ${}^{t}x_{t}$ 决定；当更新门被关闭时， $h_{t}$ 将仅由 $h_{t-1}$ 决定，帮助梯度反向传播，与 LSTM相同，这种机制有效地缓解了梯度消失现象。数学表达式为：
 
 $$
-\begin{array}{r}{\widetilde{h}_{t}=tanh(Wr_{t}\odot h_{t-1}+Ux_{t}+b_{f})}\\{h_{t}=(1-z_{t})\odot h_{t-1}+z_{t}\odot\widetilde{h}_{t}\quad}\end{array}
+\begin{array}{c}{\tilde{h}_{t}=tanh(Wr_{t}\odot h_{t-1}+Ux_{t}+b_{f})}\\{h_{t}=(1-z_{t})\odot h_{t-1}+z_{t}\odot\tilde{h}_{t}}\end{array}
 $$
 
 ## GRU 对比 LSTM
@@ -334,13 +334,13 @@ b) 回测区间：2011-01-31 至 2017-10-31。分 7 个阶段回测，如图表 
 
 3． 特征预处理：
 
-a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},\ D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},~D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}$ |的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 ${}^{\cdot}D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 b) 缺失值处理：得到新的因子暴露度序列后，将因子暴露度缺失的地方设为中信一级行业相同个股的平均值。
 
 c) 行业市值中性化：将填充缺失值后的因子暴露度对行业哑变量和取对数后的市值做线性回归，取残差作为新的因子暴露度。
 
-d) 标准化：将中性化处理后的因子暴露度序列减去其现在的均值、除以其标准差，得到一个新的近似服从 $_{\mathrm{N}(0,1)}$ 分布的序列。
+d) 标准化：将中性化处理后的因子暴露度序列减去其现在的均值、除以其标准差，得到一个新的近似服从 $\mathrm{N}(0{,}1)$ 分布的序列。
 
 4． 训练集和交叉验证集的合成：在每个月末截面期，选取下月收益排名前 30%的股票作为正例(y = 1)，后 30%的股票作为负例 $(y=-1)$ 。将训练样本合并，随机选取 90%的样本作为训练集，余下 10%的样本作为交叉验证集。
 
@@ -476,7 +476,7 @@ LSTM 缓解了传统 RNN 的梯度消失问题，近年来在文本分析、时�
 
 一直以来，神经网络一类模型都在模型可解释性上受到诟病，模型结构的复杂使人们对于模型的分析难以下手，人们普遍认为神经网络是一个黑箱。但是实际上随着实现工具的完善，分析神经网络的内部结构逐渐变得可行，我们借助 Python Keras 包中相关功能，初步对 LSTM 模型训练过程进行了分析。
 
-为了让读者能够更好地理解 LSTM 模型的迭代优化过程，我们在这里以模型权重为例展开讨论。第一层 LSTM有四类权重矩阵，包括输入部分、遗忘部分、细胞状态部分以及输出部分，为了能直观的展示权重变化的过程，我们截取第一层 LSTM 连接当前输入 $\mathbf{\boldsymbol{\mathbf{\rho}}}\cdot\mathbf{\boldsymbol{\mathbf{\mathit{x}}}}_{t}$ 和当前状态 ${\cdot}h_{t}$ 的输入部分权重，即上文中的 $U_{i}$ 。图表 20 是 In_capital 因子所对应的权重，由于全部显示 In_capital 因子连接的 100 个隐藏状态需要的空间较大，因此我们截取了前 15 个隐藏状态。图中纵坐标为迭代次数，数值为当前权重值，可以看到随着迭代的加深，部分权重值的渐变过程很明显(例如第 1、3、4、7、15 列)，即这部分权重被训练的越来越好，对预测下期收益率的重要性越来越大。
+为了让读者能够更好地理解 LSTM 模型的迭代优化过程，我们在这里以模型权重为例展开讨论。第一层 LSTM有四类权重矩阵，包括输入部分、遗忘部分、细胞状态部分以及输出部分，为了能直观的展示权重变化的过程，我们截取第一层 LSTM 连接当前输入 $x_{t}$ 和当前状态 $\cdot h_{t}$ 的输入部分权重，即上文中的 $U_{i}$ 。图表 20 是 In_capital 因子所对应的权重，由于全部显示 In_capital 因子连接的 100 个隐藏状态需要的空间较大，因此我们截取了前 15 个隐藏状态。图中纵坐标为迭代次数，数值为当前权重值，可以看到随着迭代的加深，部分权重值的渐变过程很明显(例如第 1、3、4、7、15 列)，即这部分权重被训练的越来越好，对预测下期收益率的重要性越来越大。
 
 图表20： In_capital 因子对应的权重变化
 

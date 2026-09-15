@@ -163,7 +163,7 @@ Vs
 则因子的有效分档F_i的定义为：
 
 $$
-F\_i=argmax(\ IR(i)>0.8\ \mathscr{L}\ IR(i)>0.5^{*}IR(1))
+F_{-}i=argmax(IR(i)>0.8且IR(i)>0.5*IR(1))
 $$
 
 这里参数0.8为一个经验值，因子多空信息比若大于0.8，通常来说该因子有效性及单调行均较好；而参数0.5则意味着当因子有效性衰竭为一半时，通常应该考虑该因子是否应该继续使用，关于因子半衰竭性质，请参考前期报告《考虑换手率限制的多因子Alpha模型——多因子Alpha系列报告之（十一）》。
@@ -220,7 +220,7 @@ $$
 另外一类常见的方法是采用优化模型对因子之间由于相关性所导致的组合风险进行权重优化，从而使得组合在风险与收益之间得到平衡：
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{max}\{h^{*}X_{\alpha}-\frac{1}{2}\lambda h^{*}Vh\}}\\{\displaystyle s.t.\quad h^{*}X_{\sigma}=0}\end{array}
+\begin{aligned}\max\{&h^{\prime}X_{\alpha}-\frac{1}{2}\lambda h^{\prime}h\}\\s.t.\quad&h^{\prime}X_{\sigma}=0\end{aligned}
 $$
 
 该方法的优化重点在于风险控制，需要有独立的风险模型，同时相对弱化对组合中Alpha来源的分析和识别。

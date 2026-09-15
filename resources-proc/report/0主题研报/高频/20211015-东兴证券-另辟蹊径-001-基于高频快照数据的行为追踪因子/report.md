@@ -164,7 +164,7 @@ tick 级量价数据记录了当前 tick 时间范围内的量价数据，包括
 高低价格区间成交笔数占比因子是价格区间内所有快照的成交笔数累加与全天成交总笔数的比值。
 
 $$
-\frac{3}{159}\%+33\%\approx127.35\%+33.53\%=\frac{\sum_{j=1}^{N}matchitems*I_{\{j\in set.a\}}}{\sum_{j=1}^{N}matchitems}
+高点价格区间成交老被占比=\frac{\sum_{j=1}^{N}matchtimes\cdot I_{\{j\in set\_a\}}}{\sum_{j=1}^{N}matchtimes}
 $$
 
 $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set_a 代表处于高低价格区间的快照集合，例如将20%作为价格区间判定标准，则计算高价格区间相关因子时，set_a 即为按照价格排序的前 20%快照的集合。
@@ -176,7 +176,7 @@ $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set_a 代�
 高低价格区间成交量占比因子是价格区间内所有快照的成交量数累加与全天成交总成交量的比值。
 
 $$
-\frac{1}{100}+11\times18\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times17\times1\times17\times17\times17\times17\times1\times17\times17\times17\times1\times17\times1\times17\times17\times1\times17\times1\times17\times1\times17\times1\times17\times1\times1\times17\times1\times1\times1\times17\times1\times1\times101\times1\times1\times1\times1\times1\times1\times10\times1\times1\times1\times11\times1\times1\times1\times1\times1\times1\times1\times
+高众价格区间成交量占比=\frac{\sum_{j=1}^{N}volume*I_{\{j\in set\_a\}}}{\sum_{j=1}^{N}volume}
 $$
 
 $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set_a 代表处于高低价格区间的快照集合。
@@ -188,7 +188,7 @@ $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set_a 代�
 高低价格区间平均每笔成交量因子是将目标价格区间内的平均每笔成交量与全天平均水平进行比较。
 
 $$
-\int_{-2}^{\infty}\int\mathop{\mathbb{A}}\langle\mathcal{A}\rangle\mathbin{\mathbb{A}}^{2}\mathrm{E}\langle\mathcal{H}\rangle\mathop{\mathbb{A}}\int\to{\mathbb{A}}\int\oplus\mathrm{E}\langle\mathrm{A}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}^{\infty}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin{\mathbb{A}}\mathbin\mathbb
+\frac{\sum_{j=1}^{N}volume\cdot I_{(j\leq set,a)}/\sum_{j=1}^{N}matches\cdot I_{(j\leq set,a)}}{\sum_{j=1}^{N}volume/\sum_{j=1}^{N}matches}
 $$
 
 $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set_a 代表处于高低价格区间的快照集合。
@@ -368,7 +368,7 @@ $I_{\{j\in set_{-}a\}}$ 表示快照所属区间的判断，其中，set_a 代�
 回溯计算周期 T 日内所有日因子，采用指数加权均值作为当前因子值，距离调仓日越近，日因子值权重越大。
 
 $$
-\sin\xi\overrightarrow{x}+\xi\overrightarrow{\xi}-\Big>\cdot\overrightarrow{\xi}+\frac{\mu}{\Delta t}\overrightarrow{\mathcal{F}}-\frac{\sum_{t=1}^{T}S_{t}\ast k^{T-t+1}}{\sum_{t=1}^{T}k^{T-t+1}}
+加权移动平均因子值=\frac{\sum_{t=1}^{T}S_{t}*k^{T-t+1}}{\sum_{t=1}^{T}k^{T-t+1}}
 $$
 
 $S_{t}$ 为第 t 日的因子值，k 为加权参数。 （T = 5,10 k = 0.8）

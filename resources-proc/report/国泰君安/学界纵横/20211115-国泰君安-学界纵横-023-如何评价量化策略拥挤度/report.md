@@ -153,7 +153,7 @@ le_Summary]量化策略着眼于挖掘市场异象带来的超额收益，而根
 回归模型如下所示：
 
 $$
-U_{i,t}=c+\sum_{j=1}^{J}\sum_{q=2}^{q}\beta_{t,j,q}D_{i,t,j,q}+\sum_{q=2}^{Q}\beta_{t,size,q}D_{i,t,size,q}+\sum_{q=2}^{Q}\beta_{t,\sigma,q}D_{i,t,\sigma,q}+\sum_{q=2}^{Q}\beta_{t,r_{t-1},q}D_{i,t,r_{t-1},q}+\varepsilon_{i,t}
+U_{i,t}=c+\sum_{j=1}^{J}\sum_{q=2}^{Q}\beta_{t,j,q}D_{i,t,j,q}+\sum_{q=2}^{Q}\beta_{t,size,q}D_{i,tsize,q}+\sum_{q=2}^{Q}\beta_{t,\sigma,q}D_{i,t,\sigma,q}+\sum_{q=2}^{Q}\beta_{t,r_{t-1},q}D_{i,t,r_{t-1},q}+\varepsilon_{i,t}
 $$
 
 其中因变量和各虚拟变量的含义如表 1 所示，在回归中控制个股市值、波动率和上一期收益率。上面的公式未加入 q=1 的虚拟变量，以此区分最不具吸引力和最具吸引力的股票。

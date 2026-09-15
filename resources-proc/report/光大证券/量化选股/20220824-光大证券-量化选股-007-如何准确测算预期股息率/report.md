@@ -134,13 +134,13 @@ quhongyu@ebscn.com
 对于市值来说，我们不进行预测，而是通过预期分红率和预期净利润来构建预期股息率指标，该指标可以理解为：未来高派息的股票以当前价格购买的性价比。
 
 $$
-\sin\angle ABP\sin\angle C=\frac{\sin\angle BABD\angle I\sin\angle B}{\underline{{\theta}}\equiv\displaystyle{\frac{1}{\cos\angle B}}\tan\angle BAB}
+预期股息率=\frac{预期分红率\times 预期净利润}{当前市值}
 $$
 
 图 3：股息率预测方法概述
 
 $$
-\begin{array}{rl}&{\frac{\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}}\\&{\frac{\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}}\\&{\frac{\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}}\\&{\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}}\\&{\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}=\frac{\partial\theta(f(\theta),\theta)\partial\theta(f(\theta),\theta)}{\partial\theta(f(\theta),\theta)}}\end{array}
+\frac{分红流方法业的经营结果、行业}{\underline{\underline{分红流方法业的经营结果、行业}}}=\frac{\underline{\underline{分红流方法业的经营结果、行业}}}{\underline{\underline{分红流方法业的经营结果、流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流流�
 $$
 
 资料来源：光大证券研究所
@@ -348,10 +348,10 @@ $$
 回归模型如下：
 
 $$
-\begin{array}{r}{DPS_{i,t}=\beta_{0}\times EPS_{i,t}+\beta_{1}\times D_{i,t}}\end{array}
+DPS_{i,t}=\beta_{0}\times EPS_{i,t}+\beta_{1}\times D_{i,t}
 $$
 
-其中 $\boldsymbol{DPS}_{i,t}$ 表示股票 i 在 t年的税前每股派息， $EPS_{i,t}$ 表示股票 i 在 t年的基本每股收益， $D_{i,t}$ 为业绩增长哑变量，表示股票 i 在 t年净利润是否同比增长。
+其中 $_{|DPS_{i,t}}$ 表示股票 i 在 t年的税前每股派息， $EPS_{i,t}$ 表示股票 i 在 t年的基本每股收益， $D_{i,t}$ 为业绩增长哑变量，表示股票 i 在 t年净利润是否同比增长。
 
 从回归 的描述性统计来看，市场中大多数公司采用的是固定分红比例政策， $R^{2}$ 的 50%分位点维持在 88%左右。
 
@@ -374,10 +374,10 @@ $$
 偏离幅度的计算如下：
 
 $$
-BIAS_{i,t}=\operatorname*{max}\left\{\left|\frac{DPS_{i,t}-\overline{{DPS_{i}}}}{\overline{{DPS_{i}}}}\right|\right\}\quad t=1,2,\ldots n
+BIAS_{i,t}=\max\left\{\left|\frac{\overline{DPS_{i,t}}-\overline{DPS_{i}}}{\overline{DPS_{i}}}\right|\right\}\quad t=1,2,\ldots n
 $$
 
-其中 $\overline{{DPS}}_{\imath}$ 表示股票 i 过去 n 年的平均税前每股派息。
+其中 $\overline{{DPS_{\iota}}}$ 表示股票 i 过去 n 年的平均税前每股派息。
 
 从每股派息最大偏离幅度的分布来看，大部分的股票都不满足固定每股派息政策，25%分位点的偏离幅度在 50%以下。
 
@@ -424,7 +424,7 @@ $$
 我们使用平均绝对偏差（MAE）作为预测结果的评价指标。指标的构造如下所示，用来表征预测值与真实值的平均偏离幅度。
 
 $$
-MAE=\frac{\sum_{i=1}^{n}\left|\frac{predicted_{i}-actual_{i}}{actual_{i}}\right|}{n}
+MAE=\frac{\sum_{i=1}^{n}\left|\frac{predicted_i-actual_i}{actual_i}\right|}{n}
 $$
 
 ## 2.3.1、基于历史业绩线性外推预测
@@ -436,12 +436,12 @@ $$
 我们同样计算占比的最大偏离幅度来区分稳定型和波动型企业，指标构造方式如下：
 
 $$
-PROFIT~BIAS_{i,t}=\operatorname*{max}\left\{\left|\frac{Profitratio_{i,t}^{q3}-\overline{{Prof_{l}trat{o}_{l}^{q3}}}}{\overline{{Prof_{l}trat{o}_{l}^{q3}}}}\right|\right\}~t=1,2,...n
+PROFITBIAS_{i,t}=\max\left\{\left|\frac{Profitratio_{i,t}^{q3}-\overline{Profitratio_{i}^{q3}}}{\overline{Profitratio_{i}^{q3}}}\right|\right\}\quad t=1,2,\ldots n
 $$
 
-其 $\ncong Profitratio_{i,t}^{q3}$ 表示股票 i 在第 t 年前三季度净利润占全年的比重，
+其 $中^{Profitratio_{i,t}^{q3}}$ 表示股票 i 在第 t 年前三季度净利润占全年的比重，
 
-$\overline{{Profutrat{}_{l}o_{l}^{q3}}}$ 表示股票 i 过去 n 年前三季度净利润占全年比重的均值。我们将该指标小于 10%的股票作为业绩稳定型股票。
+$\overline{{Profutratio_{\iota}^{q3}}}$ 表示股票 i 过去 n 年前三季度净利润占全年比重的均值。我们将该指标小于 10%的股票作为业绩稳定型股票。
 
 下图展示了全样本股票池和业绩稳定股票池的预测结果对比。业绩稳定公司预测值的最大偏离幅度在各年度均小于全样本，预测值的平均偏离幅度在 10%-20%之间。
 
@@ -612,7 +612,7 @@ SmartBeta 的本质是构造出最能够代表特定风格的股票组合，红�
 
 （1） 成长性： $factor_{yoy}=factor_{q}-factor_{q-4}$
 
-（2） 稳定性： $factor_{std}=std(factor_{q_{t,t-1,.....,t-13}})$
+（2） 稳定性： $factor_{std}=std(factor_{q_{t,t-1,\ldots\ldots,t-13}})$
 
 （3） 持续性： $factor_{growth}=factor_{yoy_{t}}-factor_{yoy_{t-}}$ 4
 

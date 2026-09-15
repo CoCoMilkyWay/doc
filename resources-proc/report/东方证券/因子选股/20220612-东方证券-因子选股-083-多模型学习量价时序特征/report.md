@@ -135,7 +135,7 @@ Transformer 一经提出便在深度学习的各个领域取得了巨大成功�
 我们的因子单元相对 Transformer（Vaswani et al., 2017）的 encoder 部分主要做了两个调整，一是将加法整合的位置编码（positional embedding）调整为拼接整合的时间编码，二是将各个时间步的输出通过特殊的设计汇总成 alpha 因子输出。如果不考虑时间维度的周期性，时间也可以按照位置编码，但是如果直接将位置信息加到输入特征数据上会丢失部分特征信息（NLP 任务中词编码后加法引入位置信息不仅和拼接等价而且可以大幅减少特征数量）， 因此我们采用拼接的方法引入时间编码信息，时间编码方式采用 Kazemi（2019）提出的 Time2Vec 方法，具体如下：
 
 $$
-t2v(\tau)[i]=\left\{\begin{array}{ll}{\omega_{i}\tau+\varphi_{i},}&{ifi=0.}\\{\mathcal{F}(\omega_{i}\tau+\varphi_{i}),}&{if1\leq i\leq k.}\end{array}\right.
+\begin{array}{r}{\pmb{t2v}(\tau)[i]=\left\{\begin{aligned}&{\omega_{i}\tau+\varphi_{i},}&{\mathrm{if}\;i=0.}\\&{\mathcal{F}(\omega_{i}\tau+\varphi_{i}),}&{if\;1\leq i\leq k.}\end{aligned}\right.}\end{array}
 $$
 
 其中，k是时间编码的维度，本文取 1，即仅保留一个周期性时间编码，τ是原始时间特征，ω和φ是一组可学习的参数（实际上我们也尝试过采用固定的时间编码，因子单元效果几乎完全一致），ℱ取作者建议的正弦函数。
@@ -241,7 +241,7 @@ TOP组合对冲收益及换手
 假设每个模型得分的期望 IC 相等而且两两间相关系数一样，那么很容易可以推导出 N 个模型得分均值的 IC期望值有如下显式表达形式：
 
 $$
-E(IC^{c})=\frac{E(IC^{s})}{\sqrt{\frac{1}{N}(1-\rho)+\rho}}
+E(IC^{c})=\frac{E(IC^{s})}{\sqrt{\displaystyle\frac{1}{N}(1-\rho)+\rho}},
 $$
 
 其中，E(ICs)表示单模型的期望 IC，ρ表示模型得分的相关系数

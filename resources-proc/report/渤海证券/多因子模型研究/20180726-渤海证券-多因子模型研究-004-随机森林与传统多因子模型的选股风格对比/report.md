@@ -89,9 +89,9 @@ SAC NO：S1150517100002
 |  | STOQ | 季度平均换手率；最近一季度的交易量/流通股数 |
 |  | STOS | 半年平均换手率；最近半年的交易量/流通股数 |
 |  | STOA | 年度平均换手率；最近一年的交易量/流通股数 |
-|  | STOM_barra | Barra 因子；公式： $\ln\left(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}}\right)$ ，Vt为t日成交金额， $S_{t}$ 为t日流动市值 |
-|  | STOQ_barra | Barra 因子；公式：ln $[\frac{1}{T}\sum_{t=1}^{T}\exp{(STOM_{t})}]$ ，T=63 个交易日 |
-|  | STOA_barra | Barra 因子；公式：In $[\frac{1}{T}\sum_{t=1}^{T}\exp{(STOM_{t})}]$ ，T=244 个个交易日 |
+|  | STOM_barra | Barra 因子；公式： $\begin{array}{r}{\ln\left(\sum_{t=1}^{21}\frac{V_{t}}{S_{t}}\right)}\end{array}$ ，Vt为t日成交金额， $S_{t}$ 为t日流动市值 |
+|  | STOQ_barra | Barra 因子；公式：ln $\scriptstyle[{\frac{1}{T}}\sum_{t=1}^{T}\exp{(STOM_{t})}]$ ，T=63 个交易日 |
+|  | STOA_barra | Barra 因子；公式：In $\scriptstyle[{\frac{1}{T}}\sum_{t=1}^{T}\exp{(STOM_{t})}]$ ，T=244 个个交易日 |
 | 流动性 | Ins | 机构持股比例；机构持股变动/总股本 |
 |  | ins_c | 机构持股比例变动 |
 |  | MSM | 一个月换手率变动；最近1个月换手率/最近1年换手率 |
@@ -196,7 +196,7 @@ SAC NO：S1150517100002
 去极值：为避免数据中的极端值对回归结果产生过多影响，我们使用“中位数去极值法”，将超过上下限的极端值用上下限值代替。
 
 $$
-\widetilde\mathrm{x}_{\mathrm{i}}=\left\{\begin{array}{ll}{\mathrm{x}_{\mathrm{M}}+5\times\mathrm{x}_{\mathrm{MAD}},~\mathrm{x}_{\mathrm{i}}>\mathrm{x}_{\mathrm{M}}+5\times\mathrm{x}_{\mathrm{MAD}}}\\{\mathrm{x}_{\mathrm{i}},~\mathrm{x}_{\mathrm{M}}-5\times\mathrm{x}_{\mathrm{MAD}}\leq\mathrm{x}_{\mathrm{i}}\leq\mathrm{x}_{\mathrm{M}}+5\times\mathrm{x}_{\mathrm{MAD}}}\\{~\mathrm{x}_{\mathrm{M}}-5\times\mathrm{x}_{\mathrm{MAD}},~\mathrm{x}_{\mathrm{i}}<\mathrm{x}_{\mathrm{M}}-5\times\mathrm{x}_{\mathrm{MAD}}}\end{array}\right.
+\begin{aligned}\tilde{\mathbf{x}}_{\mathbf{i}}=&\left\{\begin{aligned}\mathbf{x}_{\mathbf{M}}+&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}},\mathbf{x}_{\mathbf{i}}>\mathbf{x}_{\mathbf{M}}+5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\\\mathbf{x}_{\mathbf{i}},\mathbf{x}_{\mathbf{M}}-&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\leq\mathbf{x}_{\mathbf{i}}\leq\mathbf{x}_{\mathbf{M}}+5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\\\mathbf{x}_{\mathbf{M}}-&5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}},\mathbf{x}_{\mathbf{i}}<\mathbf{x}_{\mathbf{M}}-5\times\mathbf{x}_{\mathbf{M}\mathbf{A}\mathbf{D}}\end{aligned}\right.\end{aligned}
 $$
 
 ：原始序列

@@ -89,18 +89,18 @@ zhujiantao@orientsec.com.cn
 假设有 N 只股票，无约束条件的组合优化问题可以表示成如下二次型函数形式：
 
 $$
-\operatorname*{max}_{\mathbf{w}}~w^{\prime}f-\lambda\cdot w^{\prime}\cdot\Sigma\cdot w\qquad\cdots\ (1)
+\operatorname*{max}_{w}\quad w^{\prime}f-\lambda\cdot w^{\prime}\cdot\Sigma\cdot w\quad\cdots\cdots\quad(1)
 $$
 
 其中 为 向量，表示预期股票收益率； 为 矩阵，表示股票收益率的协方差； 为向量，如果是做绝对收益组合，w 表示 N 个股票在组合中的权重，如果是做指数增强，优化目标则是策略组合相对基准指数的超额收益，此时w 表示N个股票的主动权重（Active Weight），即个股在策略组合中的权重减去其在基准指数中的权重。 是人为设定的大于零的常数，称作风险厌恶系数（Risk Aversion Parameter），需要注意的是，为了求导计算方便，有很多文献在式（1）的二次项前面加 作为乘数，因此这两者之间可能会差一个倍数。为了求解组合优化问题，我们必须先设定风险厌恶系数。
 
-直观的讲，风险厌恶系数代表投资者为了获得一个单位的收益愿意承担多少风险，风险采用组合收益率的方差作为度量；风险厌恶系数越大，得到的组合就越保守。风险厌恶系数的设定与要构建的策略组合有关。假设我们是做全市场选股的中证 500 指数增强，此时 w 为策略组合的主动权重， $\mathbf{w^{\prime}}\cdot\mathbf{f}$ 表示策略组合的超额收益， $\mathbf{w}^{\prime}\cdot\boldsymbol{\Sigma}\cdot\mathbf{w}=\sigma_{\mathrm{p}}^{2}$ $\sigma_{\mathrm{p}}^{2}$ 为策略组合的跟踪误差，策略组合的信息比 $\mathrm{IR}={\frac{w^{\prime}\cdot f}{\sigma_{p}}}.$ ，所以（1）式可以写作
+直观的讲，风险厌恶系数代表投资者为了获得一个单位的收益愿意承担多少风险，风险采用组合收益率的方差作为度量；风险厌恶系数越大，得到的组合就越保守。风险厌恶系数的设定与要构建的策略组合有关。假设我们是做全市场选股的中证 500 指数增强，此时 w 为策略组合的主动权重， $\mathbf{w}^{\prime}\cdot\mathbf{f}$ 表示策略组合的超额收益， $\mathbf{w}^{\prime}\cdot\boldsymbol{\Sigma}\cdot\mathbf{w}=\sigma_{\mathrm{p}}^{2}$ $\sigma_{\mathrm{p}}^{2}$ 为策略组合的跟踪误差，策略组合的信息比 $\begin{array}{r}{\mathrm{IR}=\frac{\boldsymbol{w}^{\prime}\cdot\boldsymbol{f}}{\sigma_{p}},}\end{array}$ ，所以（1）式可以写作
 
 $$
 IR\cdot\sigma_{p}-\lambda\cdot\sigma_{p}^{2}\qquad\cdots\cdots\tag{2}
 $$
 
-容易求得（2）式在 ${\sigma}_{\mathbf{p}}=IR/(2\lambda)$ 时取最大值，由此反推出 $\lambda=\mathrm{IR}/(2\sigma_{\mathrm{p}})$ 。得益于 A 股近几年小盘风格的稳健持续，基于多因子选股的纯多头组合即使不做行业和市值风险控制，相对中证 500指数的信息比也可以达到 1.5 以上，但年化跟踪误差可能超过 30%。把这两个数值代入前式，得到 。如果是做一个纯多头组合，这时 w 表示个股的绝对权重，上面推导过程的 IR 可以近似理解成 Sharpe 值（分子项相差一个无风险收益率）， $\sigma_{\mathrm{p}}$ 则为组合收益的波动率。最近十年，中证全指的 Sharpe 值不超过 0.5，年化波动率接近 30%。代入上式可以得到 。
+容易求得（2）式在 $\sigma_{\mathrm{p}}=IR/(2\lambda)$ 时取最大值，由此反推出 $\lambda=\mathrm{IR}/(2\sigma_{\mathrm{p}})$ 。得益于 A 股近几年小盘风格的稳健持续，基于多因子选股的纯多头组合即使不做行业和市值风险控制，相对中证 500指数的信息比也可以达到 1.5 以上，但年化跟踪误差可能超过 30%。把这两个数值代入前式，得到 。如果是做一个纯多头组合，这时 w 表示个股的绝对权重，上面推导过程的 IR 可以近似理解成 Sharpe 值（分子项相差一个无风险收益率）， $\sigma_{\mathrm{p}}$ 则为组合收益的波动率。最近十年，中证全指的 Sharpe 值不超过 0.5，年化波动率接近 30%。代入上式可以得到 。
 
 可以看到对于不同的组合问题，适用的风险厌恶系数也不一样。BARRA组合优化模块默认的风险厌恶系数是 0.75，它是基于 SP500 指数长期6%年化收益和 20%波动率估算得到（Liu & Xu,2010），Fabozzi（2007）建议风险厌恶系数的一般取值范围设为 2 到 4. 不过和成熟市场相比，国内股票市场目前有效性不高，alpha 空间更大，量化组合能获得更高的信息比或 Sharpe值，因此在测试时可能需要测试在这个区间之外更大的风险厌恶系数。
 
@@ -111,7 +111,7 @@ $$
 以上的估算是在无约束条件下进行的，而实际做组合时会有很多约束条件，例如图 1 中证 500增强策略对应的优化问题可以写作
 
 $$
-\begin{array}{rl}&{\underset{\mathbf{w}}{\operatorname*{max}}~w^{\prime}\cdot f-\lambda w^{\prime}\cdot\Sigma\cdot w\qquad\cdots(3)}\\&{\mathrm{s.t.}~\mathrm{IE}\cdot\mathrm{w}=0\qquad\cdots(\mathrm{c}1)}\\&{\quad\left|MCE\cdot w\right|\le0.5\qquad\cdots(c2)}\\&{\quad\quad0\le\mathbf{w}+\mathbf{w_{bench}}\le0.01\quad\cdots(c3)}\end{array}
+\begin{aligned}\max_{\mathbf{w}}&w^{\prime}\cdot f-\lambda w^{\prime}\cdot\Sigma\cdot w\quad\cdots(3)\\s.t.&\operatorname{IE}\cdot\mathbf{w}=0\quad\cdots(c1)\\&|MCE\cdot w|\leq0.5\quad\cdots(c2)\\&0\leq\mathbf{w}+\mathbf{w}_{\text{bench }}\leq0.01\quad\cdots(c3)\end{aligned}
 $$
 
 IE 为行业因子风险暴露矩阵，MCE 为市值因子风险暴露矩阵， $\mathbf{w_{bench}}$ 为基准指数中的个股权重。另外我们还会在优化做完后再对股票权重做调整，保证股票数量不超过200只(具体做法参考第 2.4节)。为了研究不同约束条件下风险厌恶系数对组合优化结果的影响，这里另外测试了两个策略
@@ -177,52 +177,52 @@ Model 3：
 
 优化问题的数值求解是一个大类学科，对于非专业人员，自己独立开发一套快速、高效优化算法程序的难度大、成本高，更经济的做法是使用第三方提供的工具包，包括免费的 Python CVXOPT包、R 的 Rdonlp2、Quadprog 工具包；付费的 MATLAB Optimization Toolbox、MOSEK；适合大型商务运用的 CPLEX、XPRESS；和专门针对组合优化的 Axioma、BARRA、Northfield 等。使用第三方工具包可以帮我们节省大量时间，但也让投研人员面临选择的问题，特别是一些付费商用软件，他们能提供复杂的约束条件和目标函数设臵并返回优化结果，不过对背后的算法讳莫如深，我们期望的是专业人员为每一个问题都设计了“最优”算法，但不是所有的优化问题都能数值求解，开发人员是否在后台做了一些近似简化、返回的结果是否满足收敛条件无从知晓，如果投资者想做改进会面临比较大的障碍。下面将简单介绍一些常用数值优化算法原理，以便说明第三方工具包中常见的专业术语和论述我们为什么建议把组合优化问题尽可能简化成二次规划，详细的算法和数学论证建议参考 Nocedal & Wright(2006)。
 
-首先讨论无约束条件的优化问题。无限制优化问题可以简单表示为 $\mathrm{min}_{\mathrm{x}\in\mathrm{R}^{\mathrm{n}}}f(x)$ ，x 是一个 n维列向量，目标函数 通常要求是光滑函数，这样在数值求解的每一次步进中目标函数的变化在可控范围内。对于无法计算导数的目标函数，没有通用的优化算法，一种做法是用有限差分（FiniteDifference）近似逼近函数的导数，再使用类似光滑函数的优化求解。另一种是使用遗传算法（GA，Genetic Algorithm）这样的随机搜索方法，它对目标函数几乎没有任何限制，但是遗传算法没法从理论上保证它得到结果一定收敛于最优解，而且由于它没有用到任何函数结构的信息，运算速度很慢；运算过程涉及初始样本数量、交叉、变异等多个参数，受参数影响大，需要反复调试。遗传算法更适合用于一些确定性算法无法解决的问题。
+首先讨论无约束条件的优化问题。无限制优化问题可以简单表示为 $\min_{x\in\mathbb{R}^n}f(x)$ ，x 是一个 n维列向量，目标函数 通常要求是光滑函数，这样在数值求解的每一次步进中目标函数的变化在可控范围内。对于无法计算导数的目标函数，没有通用的优化算法，一种做法是用有限差分（FiniteDifference）近似逼近函数的导数，再使用类似光滑函数的优化求解。另一种是使用遗传算法（GA，Genetic Algorithm）这样的随机搜索方法，它对目标函数几乎没有任何限制，但是遗传算法没法从理论上保证它得到结果一定收敛于最优解，而且由于它没有用到任何函数结构的信息，运算速度很慢；运算过程涉及初始样本数量、交叉、变异等多个参数，受参数影响大，需要反复调试。遗传算法更适合用于一些确定性算法无法解决的问题。
 
-求解无限制优化问题的方法通常可以分为两类，一类是线性搜索法（Line Search），它由一个初始点 $\mathbf{\Delta x}_{0}$ 出发，沿着一个目标函数数值下降的方向前进一定的步长，第 k+1 次迭代式可以表示为 $\mathbf{x}_{\mathbf{k}+1}=x_{k}+\alpha_{k}p_{k}$ ，其中 $\alpha_{\mathrm{k}}\frac{\varTheta}{\ A\varepsilon}$ 一个正数，表示步长； $\mathrm{p}_{\mathrm{k}}$ 是一个向量，沿这个方向函数的数值在下降 $\mathrm{p}_{\bf k}^{\mathrm{T}}\cdot\nabla f(x_{k})<0$ $\mathrm{p}_{\mathrm{k}}$ 最 直 接 的 选 择 是 最 速 递 降 方 向 (steepest descent direction) $\mathbf{p}_{\mathbf{k}}=$ $-\nabla f(x_{k})/\|\nabla f(x_{k})\|$ ，不过这种选择在一些问题上（例如条件数特别大的二次规划问题）收敛速度非常慢。另一种选择是牛顿法 $\mathfrak{p}_{\bf k}=-\nabla^{2}f_{k}^{-1}\cdot\nabla f_{k}$ ，这种方法的收敛速度很快，但是要用到目标函数的二次导数，计算复杂，而且极易 $\vec{\mathcal{P}}$ 生误差，因此实际中用的更多的是牛顿方法的变体Quasi-Newton 方法 $\mathsf{p}_{\bf k}=-B_{k}^{-1}\nabla f_{k}$ ， $\mathtt{B_{k}}$ 是一个正定矩阵，常用的选择有 SR1 和 BFGS 两种，在每次迭代时更新，这种方法可以保证一阶线性以上的收敛速度。对于一般的线性搜索方法，步长 $\alpha_{\mathrm{k}}$ 必须满足一定的条件（Wolfe 或 Goldstein 条件）才能保证每次迭代让目标函数数值有足够幅度的下降，最终算法收敛于局部最优值。
+求解无限制优化问题的方法通常可以分为两类，一类是线性搜索法（Line Search），它由一个初始点 $\mathbf{\bar{x}}_{0}$ 出发，沿着一个目标函数数值下降的方向前进一定的步长，第 k+1 次迭代式可以表示为 $\mathbf{x}_{\mathbf{k}+1}=x_{k}+\alpha_{k}p_{k}$ ，其中 $\alpha_{\mathrm{k}}是$ 一个正数，表示步长； $\mathbf{p}_{\mathbf{k}}$ 是一个向量，沿这个方向函数的数值在下降 $\mathbf{p}_{\mathbf{k}}^{\mathrm{T}}\cdot\nabla f(x_{k})<0$ $\mathbf{p}_{\mathbf{k}}$ 最 直 接 的 选 择 是 最 速 递 降 方 向 (steepest descent direction) $\mathbf{p}_{\mathrm{k}}=$ $-\nabla f(x_{k})/\|\nabla f(x_{k})\|$ ，不过这种选择在一些问题上（例如条件数特别大的二次规划问题）收敛速度非常慢。另一种选择是牛顿法 $\mathbf{p_{k}}=-\nabla^{2}f_{k}^{-1}\cdot\nabla f_{k}$ ，这种方法的收敛速度很快，但是要用到目标函数的二次导数，计算复杂，而且极易 $\begin{aligned}产\end{aligned}$ 生误差，因此实际中用的更多的是牛顿方法的变体Quasi-Newton 方法 $\mathbf{p_{k}}=-B_{k}^{-1}\nabla f_{k}$ ， $\mathbf{B_{k}}$ 是一个正定矩阵，常用的选择有 SR1 和 BFGS 两种，在每次迭代时更新，这种方法可以保证一阶线性以上的收敛速度。对于一般的线性搜索方法，步长 $\mathbf{a}_{\mathbf{k}}$ 必须满足一定的条件（Wolfe 或 Goldstein 条件）才能保证每次迭代让目标函数数值有足够幅度的下降，最终算法收敛于局部最优值。
 
-无限制优化问题另一种常用的算法类型叫信任域方法（Trust-Region Method），这类算法在大型优化问题中经常用到。算法先选定一个初始点，再给它设臵一个初始邻域，称作信任域，在这个邻域里通过二阶泰勒展开的方式对目标函数进行逼近，由于这个过程也涉及到目标函数二次求导的运算，因此和之前线性搜索中的 Quasi-Newton 方法类似，Hessian 矩阵通常会换做一些对称矩阵进行逼近。再在这个邻域上求解二次规划问题（二次规划问题有非常高效的数值算法，参考后文），得到一个递进方向 $\mathrm{p}_{\mathrm{k}}$ ，得到一个潜在迭代点 $\mathbf{\boldsymbol{x}}_{\mathbf{k}+1}=\boldsymbol{x}_{k}+\boldsymbol{p}_{k}$ 。下一步是判断在这个邻域内简化的二次型目标函数和原来的目标函数逼近效果如何，这可以使用原始目标函数和简化二次型函数在递进方向上的数值下降幅度的比例作为衡量。如果这个比例很小，说明信任域范围设臵的太大，简化二次型目标函数对原目标函数的逼近效果差，需要缩小信任域再重复上面的求解和判断过程；如果这个比例大到超过一定阈值，则可以进行下一步迭代，给点 $\mathbf{X}_{\mathbf{k}+1}$ 设臵同样大小的信任域，再重复上面的求解过程；如果这个比例非常大， 接近 1，则可以适当扩大信任域范围，增加算法的收敛速度。
+无限制优化问题另一种常用的算法类型叫信任域方法（Trust-Region Method），这类算法在大型优化问题中经常用到。算法先选定一个初始点，再给它设臵一个初始邻域，称作信任域，在这个邻域里通过二阶泰勒展开的方式对目标函数进行逼近，由于这个过程也涉及到目标函数二次求导的运算，因此和之前线性搜索中的 Quasi-Newton 方法类似，Hessian 矩阵通常会换做一些对称矩阵进行逼近。再在这个邻域上求解二次规划问题（二次规划问题有非常高效的数值算法，参考后文），得到一个递进方向 $\mathbf{p}_{\mathbf{k}}$ ，得到一个潜在迭代点 $(\mathbf{x}_{\mathbf{k}+1}=x_{k}+p_{k},$ 。下一步是判断在这个邻域内简化的二次型目标函数和原来的目标函数逼近效果如何，这可以使用原始目标函数和简化二次型函数在递进方向上的数值下降幅度的比例作为衡量。如果这个比例很小，说明信任域范围设臵的太大，简化二次型目标函数对原目标函数的逼近效果差，需要缩小信任域再重复上面的求解和判断过程；如果这个比例大到超过一定阈值，则可以进行下一步迭代，给点 $\mathbf{x}_{\mathbf{k}+1}$ 设臵同样大小的信任域，再重复上面的求解过程；如果这个比例非常大， 接近 1，则可以适当扩大信任域范围，增加算法的收敛速度。
 
 量化投资碰到更多的是带约束条件的优化问题，一般形式可以写为
 
 $$
-\operatorname*{min}_{\mathbf{x}\in\mathrm{R}^{\mathrm{n}}}f(x)\quad\quad s.t\left\{{c_{i}(x)=0}\quad i\in\mathcal{E}\right.
+\min_{x\in\mathbf{R}^n}f(x)\quad s.t\left\{\begin{aligned}c_i(x)&=0&i\in\mathcal{E}\\c_i(x)&\geq0&i\in\mathcal{I}\end{aligned}\right.
 $$
 
 满足约束条件的点构成的集合称为可行域，对于一个可行域的一个点 x，编号集
 
 $$
-\mathcal{A}(\mathrm{x})=\mathcal{E}\cup\left\{\mathrm{i}\in\mathcal{I}\mid c_{i}(x)=0\right\}
+\mathcal{A}(\mathrm{x})=\mathcal{E}\cup\{\mathrm{~i\in\mathcal{I}~}|\mathrm{~}c_{i}(x)=0\}
 $$
 
-称作点 $\mathsf{x}$ 的有效集（Active Set）。对于光滑的目标函数和约束条件函数，如果存在局部最优解 $\mathbf{x}^{*}$ ，且限制函数在最优解处满足一定的线性独立条件，则存在 Lagrange 乘数 $\lambda^{*}$ 使得函数
+称作点 $\mathbf{x}$ 的有效集（Active Set）。对于光滑的目标函数和约束条件函数，如果存在局部最优解 $\mathbf{x}^{*}$ ，且限制函数在最优解处满足一定的线性独立条件，则存在 Lagrange 乘数 $\lambda^{*}$ 使得函数
 
 $$
-\mathcal{L}(\mathbf{x},\lambda)=\mathbf{f}(\mathbf{x})-\sum_{i\in\mathcal{E}\cup\mathcal{I}}\lambda_{i}\cdot c_{i}(x)
+\mathcal{L}(\mathtt{x},\lambda)=\mathsf{f}(\mathtt{x})-\sum_{i\in\mathcal{E}\cup\mathcal{I}}\lambda_{i}\cdot c_{i}(x),
 $$
 
 满足下列 KKT（Karush-Kuhn-Tucker）条件：
 
 $$
-\begin{array}{rl}&{\nabla_{\mathbf x}\mathcal{L}(x^{*},\lambda^{*})=0;}\\&{\qquad\quad\mathrm{~c_i(}x^{*})=0~for~i\in\mathcal E}\\&{\qquad\mathrm{~c_i(}x^{*})\geq0~for~i\in\mathcal I}\\&{\qquad\quad\lambda^{*}\geq0~for~i\in\mathcal I}\\&{\qquad\quad\lambda^{*}c_{i}(x^{*})=0~for~i\in\mathcal E\cup\mathcal I}\end{array}
+\begin{aligned}\nabla_{\mathbf{x}}\mathcal{L}(\boldsymbol{x}^*,\lambda^*)&=0;\\\mathbf{c}_{\mathrm{i}}(\boldsymbol{x}^*)&=0\quad for\quad i\in\mathcal{E}\\\mathbf{c}_{\mathrm{i}}(\boldsymbol{x}^*)&\geq0\quad for\quad i\in\mathcal{I}\\\lambda^*\geq0\quad&for\quad i\in\mathcal{I}\\\lambda^*\boldsymbol{c}_i(\boldsymbol{x}^*)&=0\quad for\quad i\in\mathcal{E}\cup\mathcal{I}\end{aligned}
 $$
 
 KKT条件是局部最优解的必要条件，可以通过数值求解 Lagrange 函数的一阶条件等式来确定最优解的范围。带约束条件优化问题最常用的算法有两类：
 
-一种是序列二次规划法（SQP, Sequential Quadratic Programming），如果上面的优化问题只有等式约束问题，可以证明用 Newton 法求解 KKT 一阶条件等式等价与求解一个由目标函数的梯度函数和Lagrange函数的Hessian矩阵构成的二次规划。对于带不等式约束条件的优化问题，可以类似对限制函数求梯度，求解对应的二次规划问题得到递进方向，这中间需要解决二次规划可行域可能为空集、Hessian 矩阵估计等技术问题。 ${\tt SQP}$ 算法一般可以获得高于一阶线性的收敛速度。
+一种是序列二次规划法（SQP, Sequential Quadratic Programming），如果上面的优化问题只有等式约束问题，可以证明用 Newton 法求解 KKT 一阶条件等式等价与求解一个由目标函数的梯度函数和Lagrange函数的Hessian矩阵构成的二次规划。对于带不等式约束条件的优化问题，可以类似对限制函数求梯度，求解对应的二次规划问题得到递进方向，这中间需要解决二次规划可行域可能为空集、Hessian 矩阵估计等技术问题。 $\mathsf{SQP}$ 算法一般可以获得高于一阶线性的收敛速度。
 
 另一种叫内点法（Interior Point）。它首先考虑与原问题对应的一个优化问题
 
 $$
-\operatorname*{min}_{\mathbf x}~f(x)-\mu\cdot\sum_{i\in\mathcal I}\ln(c_{i}(x))~\mathrm{s.t.}~\mathrm{c.}_{\mathrm{i}}(x)=0~i\in\mathcal E
+\operatorname*{min}_{\mathbf{x}}f(x)-\mu\cdot\sum_{i\in\mathcal{I}}\ln(c_{i}(x))\quad\mathrm{s.t.}\quad c_{\mathrm{i}}(x)=0\mathrm{~}i\in\mathcal{E}
 $$
 
-其中 是一个大于零的常数。因为 $1_{\mathrm{X}\to0^{+}}\ln(x)=-\infty$ ，所以上述问题隐含要求原问题的不等式约束条件严格成立，它的解都在可行域内部，这也是内点法的名称由来。但它和原问题并不等价，需要需找一个收敛于零的序列 $\{\mu_{\mathrm{k}}\}0^{+}$ ，使得求解系列优化问题的解收敛于原问题的局部最优解，而这一系列优化问题都可以通过 prime-dual 方法求解 KKT一阶条件等式来寻找最优解。序列 ${\bf\dot{\mu}_{\bf k}}\}$ 收敛于零的速度必须适中，通常使用 Fiacco-McCormick 方法或 Adaptive Strategies 来生成。内点法也可以达到超线性的收敛速度，而且由于每一步优化过程不需要考虑所有约束条件，需要求解的线性系统结构相同，因此运算强度可能会低很多，很适合解决大型的优化问题，
+其中 是一个大于零的常数。因为 $\ln_{x\rightarrow0^{+}}\ln(x)=-\infty$ ，所以上述问题隐含要求原问题的不等式约束条件严格成立，它的解都在可行域内部，这也是内点法的名称由来。但它和原问题并不等价，需要需找一个收敛于零的序列 $\{\mu_{\mathbf{k}}\}\rightarrow0^{+}$ ，使得求解系列优化问题的解收敛于原问题的局部最优解，而这一系列优化问题都可以通过 prime-dual 方法求解 KKT一阶条件等式来寻找最优解。序列 $\{\mu_{\mathrm{k}}\}$ 收敛于零的速度必须适中，通常使用 Fiacco-McCormick 方法或 Adaptive Strategies 来生成。内点法也可以达到超线性的收敛速度，而且由于每一步优化过程不需要考虑所有约束条件，需要求解的线性系统结构相同，因此运算强度可能会低很多，很适合解决大型的优化问题，
 
 我们组合优化中碰到最多是下面的二次规划问题：
 
 $$
-\begin{array}{r}{\operatorname*{min}_{{\bf x}\in{\bf R}^{n}}\frac{1}{2}{\boldsymbol x}^{\prime}\cdot{\boldsymbol\Sigma}\cdot{\boldsymbol x}+{\boldsymbol{\alpha}}^{\prime}\cdot{\boldsymbol x}{\bf\Sigma}~s.t.~a_{i}^{\prime}\cdot{\boldsymbol x}=b_{i}~for~i\in\mathcal{E},\quad a_{i}^{\prime}\cdot{\boldsymbol x}\geq b_{i}~for~i\in\mathcal{I},}\end{array}
+\begin{array}{r}{\operatorname*{min}_{\boldsymbol{x}\in\mathbb{R}^{\mathsf{B}}}\frac{1}{2}\boldsymbol{x}^{\prime}\cdot\boldsymbol{\Sigma}\cdot\boldsymbol{x}+\boldsymbol{\alpha}^{\prime}\cdot\boldsymbol{x}\quad s.t.\quad a_{i}^{\prime}\cdot\boldsymbol{x}=b_{i}\quad for\quad i\in\mathcal{E},\quad a_{i}^{\prime}\cdot\boldsymbol{x}\geq b_{i}\quad for\quad i\in\mathcal{I},}\end{array}
 $$
 
 其中 表示协方差矩阵，是一个正定矩阵，因此目标函数是一个凸函数，而约束条件都是线性的。这种类型的二次规划称作凸二次规划，它在数值求解上有许多便利之处，比如说，股票权重大小一般在[0,1]之间，因此上述约束条件的可行域如果非空的话，是一个有界闭集，凸函数在欧式空间的有界闭集上一定有最小值，而且是全局最小值。此时 KKT条件也变成充分必要条件，它的一阶条件等式形式相对简单，有许多高效的数值算法。凸二次规划的算法可以分为内点法和有效集法两类，一些测试实验表明在求解大型凸二次规划优化问题时，内点法的速度一般会更快。商用的MATLAB,MOSEK, CPLEX, XPRES 都提供使用内点法的凸二次规划工具。
@@ -242,7 +242,7 @@ $$
 一些投资经理可能对组合波动率或跟踪误差有明确的控制目标，例如某中证 500 指数增强基金经理要求增强组合的年化跟踪误差不超过 5%，这个约束条件可以用数学表达式写作
 
 $$
-\mathbf{w}^{\prime}\cdot\boldsymbol{\Sigma}\cdot\mathbf{w}\leq0.05^{2}
+\mathsf{w}^{\prime}\cdot\Sigma\cdot\mathsf{w}\leq0.05^{2}
 $$
 
 其中 w 为策略组合的主动权重， 为收益率的协方差矩阵。对于标准 Mean-Variance 优化，目标函数里的二次项作用是用来控制跟踪误差，如果加入了上述二次约束条件，那么可以拿掉目标函数的二次项，使其变为线性函数，避免作用重复。在设定目标跟踪误差需要注意两点：
@@ -255,30 +255,30 @@ $$
 
 ## c) 非光滑约束
 
-换手率控制是最常见的非光滑约束条件，它可以表示为 $|\mathbf{w}-\mathbf{w}_{0}|<\delta$ ，其中 $^{1}\mathrm{w}_{0}$ 表示调仓前组合的个股权重， 为双边换手率上限。带换手率控制约束条件的优化问题可以通过引入辅助变量转换成标准的凸二次规划，例如，对于如下优化问题：
+换手率控制是最常见的非光滑约束条件，它可以表示为 $|\mathsf{w}-\mathsf{w}_{0}|<\delta$ ，其中 $^1\mathbf{W_{0}}$ 表示调仓前组合的个股权重， 为双边换手率上限。带换手率控制约束条件的优化问题可以通过引入辅助变量转换成标准的凸二次规划，例如，对于如下优化问题：
 
 $$
-\begin{array}{rl}&{\quad\underset{\mathbf{w}}{\mathrm{max}}~w^{\prime}\cdot f-\lambda w^{\prime}\cdot\Sigma\cdot w\qquad\cdots\cdots(4)}\\&{\quad}\\&{\mathrm{s.t.}\quad\mathrm{A_{1}}\cdot\mathbf{w}\leq\mathbf{b}_{1}}\\&{\quad\quad\quad\mathrm{A_{2}}\cdot w=b_{2}}\\&{\quad\quad\quad\quad|\mathbf{w}-\mathbf{w}_{0}|\leq\delta}\end{array}
+\begin{aligned}&\max_{\mathbf{w}}w^{\prime}\cdot f-\lambda w^{\prime}\cdot\Sigma\cdot w\quad&\cdots\cdots(4)\\&s.t.\quad\mathsf{A}_{1}\cdot\mathsf{w}\leq\mathsf{b}_{1}\\&\quad&\mathsf{A}_{2}\cdot w=b_{2}\\&\quad&|\mathsf{w}-\mathsf{w}_{0}|\leq\delta\\\end{aligned}
 $$
 
-其中 $\mathrm{A}_{1},\mathrm{A}_{2}$ 分别为 $\mathrm{K}_{1}\times N$ 和 $\mathrm{K}_{2}\times N$ 矩阵，代表 $\mathrm{K}_{1}$ 个不等式线性约束条件和 $\mathrm{K}_{2}$ 个线性等式约束条件。引入辅助变量 $\mathbf{\dot{w}}^{+}=\operatorname*{max}(0,w-w_{0}),\mathbf{w}^{-}=-\mathbf{min}(0,w-w_{0})$ ，问题（4）的不等式约束条件可写作：
+其中 $\mathrm{A}_{1},\mathrm{A}_{2}$ 分别为 $\mathrm{K}_{1}\times N$ 和 $\mathrm{K}_{2}\times N$ 矩阵，代表 $\mathrm{K_{1}}$ 个不等式线性约束条件和 $\mathrm{K}_{2}$ 个线性等式约束条件。引入辅助变量 $\mathbf{w}^{+}=\max(0,w-w_0),\mathbf{w}^{-}=-\min(0,w-w_0)$ ，问题（4）的不等式约束条件可写作：
 
 $$
-\begin{array}{rl}&{\quad\ A_{1}\cdot w=A_{1}\cdot\left(w-w_{0}+w_{0}\right)=A_{1}\cdot\left(w^{+}-w^{-}+w_{0}\right)\leq b_{1}}\\{}&{}\\{\implies}&{\quad A_{1}(\mathsf{w}^{+}-\mathsf{w}^{-})\leq\mathsf{b}_{1}-\mathsf{A}_{1}\cdot\mathsf{w}_{0}}\\{}&{}\\{\implies}&{\quad\mathsf{C}_{1}\cdot\mathrm{X}\leq\mathsf{b}_{1}-\mathsf{A}_{1}\cdot\mathsf{w}_{0}\quad\mathrm{where~}\mathsf{C}_{1}=\left(\begin{array}{ll}{A_{1}}&{0}\\{0}&{-A_{1}}\end{array}\right),X=\binom{w^{+}}{w^{-}}}\end{array}
+\begin{aligned}&\mathsf{A}_{1}\cdot w=A_{1}\cdot\left(w-w_{0}+w_{0}\right)=A_{1}\cdot\left(w^{+}-w^{-}+w_{0}\right)\leq b_{1}\\&\\\Longrightarrow\quad&\mathsf{A}_{1}(\mathsf{w}^{+}-\mathsf{w}^{-})\leq\mathsf{b}_{1}-\mathsf{A}_{1}\cdot\mathsf{w}_{0}\\&\\\Longrightarrow\quad&\mathsf{C}_{1}\cdot\mathsf{X}\leq\mathsf{b}_{1}-\mathsf{A}_{1}\cdot\mathsf{w}_{0}\quad where\mathsf{C}_{1}=\begin{pmatrix}A_{1}&0\\0&-A_{1}\end{pmatrix},\boldsymbol{X}=\begin{pmatrix}w^{+}\\w^{-}\end{pmatrix}\\\end{aligned}
 $$
 
 如果把 向量 X当成新变量，上式是关于变量 X 的一个线性约束条件。同理(4)的等式约束条件可表示为：
 
 $$
-\begin{array}{r}{\mathsf{C}_{2}\cdot X=b_{2}-A_{2}\cdot w_{0}\quad where\ \mathsf{C}_{2}=\left(\begin{array}{cc}{A_{2}}&{0}\\{0}&{-A_{2}}\end{array}\right)}\end{array}
+\mathbb{C}_{2}\cdot X=b_{2}-A_{2}\cdot w_{0}\quad{\mathrm{~where~}}\mathbb{C}_{2}={\binom{A_{2}\quad0}{0\quad-A_{2}}}
 $$
 
-换手率约束条件可写作： $\mathsf C_{3}\cdot\boldsymbol X\le\delta\quad\mathrm{where~}\mathsf C_{3}=\left(\begin{array}{cc}{1_{1}\times\boldsymbol N}&{0}\\{0}&{1_{1}\times\boldsymbol N}\end{array}\right)$
+换手率约束条件可写作： $\mathbb{C}_{3}\cdot X\leq\delta\quad\mathrm{where}\quad\mathbb{C}_{3}=\binom{1_{1\times N}\quad0}{0\quad1_{1\times N}}$
 
-此外还需加上一个约束条件 $\geq0_{\mathfrak{c}}$ 。目标函数同样可以转换成变量 X的二次型：
+此外还需加上一个约束条件 $\geq0_{\circ}$ 。目标函数同样可以转换成变量 X的二次型：
 
 $$
-{\mathrm{X}}^{\prime}\cdot{\mathrm{F}}-\lambda\cdot{\mathrm{X}}^{\prime}\cdot{\Phi}\cdot{\mathrm{X}}{\mathrm{~where~}}{\mathrm{F}}={\binom{f-2\lambda\Sigma\cdot w_{0}}{-f+2\lambda\Sigma\cdot w_{0}}},\quad{\Phi}={\binom{\Sigma}{-\Sigma}}\quad{\mathrm{\Sigma}}^{-\Sigma}{\Big)}
+\begin{array}{r}{\mathtt{X}^{\prime}\cdot\mathtt{F}-\lambda\cdot\mathtt{X}^{\prime}\cdot\Phi\cdot\mathtt{X}\quad\mathrm{where}\quad\mathtt{F}=\left(\begin{matrix}{f-2\lambda\Sigma\cdot w_{0}}\\{-f+2\lambda\Sigma\cdot w_{0}}\end{matrix}\right),\quad\Phi=\left(\begin{matrix}{\Sigma}&{-\Sigma}\\{-\Sigma}&{\Sigma}\end{matrix}\right)}\end{array}
 $$
 
 经过如上变量替换，原问题转换成了一个标准凸二次规划，虽然变量的维度由 N 提升到了 2N，但考虑到求解凸二次规划算法的高效性，这种维度的提升最终有助于总运算量的降低和最优解精确度的提高。
@@ -288,7 +288,7 @@ $$
 常用的整型约束有两种：一种是针对“碎股”效应，A 股交易有最小一手 100 股限制，因此实际交易的股票都是正整数，而并非优化结果里的实数。碎股的影响对小资金和高股价股票的影响较大。对与机构投资者而言，可以直接拿优化的实数结果取整即可，碎股影响很小。另一种是对组合持股数量的要求，例如：要求组合持股数量不超过 200 个，此类型约束可以用数学式表示为：
 
 $$
-\begin{array}{l}{\mathfrak{\eta}_{\mathrm{i}}=1\cdot(w_{i}>0)+0\cdot(w_{i}==0)\quad for\quad i=1,2\dots N}\\{\quad}\\{0\le\mathbf{w}_{\mathrm{i}}\le\eta_{i}\quad and\quad\sum_{i=1}^{N}\eta_{i}\le200}\end{array}
+\begin{aligned}&\begin{aligned}\\&\boldsymbol{\eta}_{\mathrm{i}}=1\cdot(\boldsymbol{w}_{i}>0)+0\cdot(\boldsymbol{w}_{i}==0)\quad\mathit{for}\quad i=1,2\ldots N\\&\end{aligned}\\&0\leq\mathbf{w}_{\mathrm{i}}\leq\eta_{i}\quad\mathit{and}\quad\textstyle\sum_{i=1}^{N}\eta_{i}\leq200\\\end{aligned}
 $$
 
 凸二次规划若加上整型约束条件则转化为一个混合整型优化（MIP, Mixed Integer Programming）问题，可以用”Branch-and-Bound”方法求解，它的基本流程是先去掉整型约束求解连续优化问题，再对连续最优解的分量逐个进行取整，用这个整数点对可行域两分，求解子问题，递归获取数值解。要判定算法数值解是不是全局最优解，至少要把离散变量的取值域遍历一遍，这对于高维问题显然不可行，数值算法往往求得的是一个次优解。
@@ -319,46 +319,46 @@ $$
 
 一种是 Michaud(1998)提出的重复抽样方法，对资产的收益率时间序列进行 bootstrap 重复抽样，每一抽样都可以得到一个预期收益率和协方差矩阵和估计，代入组合优化中得到一个优化后的组合权重。如果做了 1000 次抽样，就会得到 1000 个组合权重，把这些组合权重进行简单平均得到最终权重。实证显示这种方法会降低优化结果对估计误差的敏感度，得到的权重也更加分散。但需要注意的是，这是一种纯经验做法，无法从理论上证明重复抽样的结果会收敛与原问题的最优解，而且重复抽样的方法非常耗时，特别是在历史回溯的时候，把抽样得到的结果进行简单平均可能会导致某些约束条件不满足（例如：股票数量限制），因此这种方法对于量化选股而言实用价值不高。
 
-另一种在实务投资中已得到运用的方法是稳健组合优化（Robust Portfolio Optimization）,这种方法起源于优化理论，用于处理某些变量存在不确定性的问题。对于组合优化而言，预期收益的估计误差影响是主要的，协方差矩阵估计误差的影响次之，因此这里主要讨论处理预期收益误差的稳健优化问题。假设股票预期收益的真实值 在估计值 f 附近做正态波动 $\mu\sim\Nu(\mathrm{f},\Sigma_{\mathrm{f}})$ ，则 的臵信域可以表示为
+另一种在实务投资中已得到运用的方法是稳健组合优化（Robust Portfolio Optimization）,这种方法起源于优化理论，用于处理某些变量存在不确定性的问题。对于组合优化而言，预期收益的估计误差影响是主要的，协方差矩阵估计误差的影响次之，因此这里主要讨论处理预期收益误差的稳健优化问题。假设股票预期收益的真实值 在估计值 f 附近做正态波动 $\boldsymbol{\mu}\sim\mathrm{N}(\mathbf{f},\boldsymbol{\Sigma}_{\mathrm{f}})$ ，则 的臵信域可以表示为
 
 $$
-\mathcal{D}{:}\quad(\mu-\mathrm{f})^{\prime}\cdot\Sigma_{\mathrm{f}}^{-1}\cdot(\mu-f)\le\kappa^{2}\quad where\quad\kappa^{2}=\chi_{n}^{2}(1-\theta\%)
+\begin{array}{rlrl}{\mathcal{D}\colon}&{{}(\mu-\mathrm{f})^{\prime}\cdot\Sigma_{\mathrm{f}}^{-1}\cdot(\mu-f)\leq\kappa^{2}}&{\mathrm{~where~}}&{{}\kappa^{2}=\chi_{n}^{2}(1-\theta\%)}\end{array}
 $$
 
 $\chi_{n}^{2}(\cdot)$ 是自由度为 n 的卡方累积分布函数的逆函数。 值越大，真实值 的波动空间就越广，估计值 f 就越不可靠。由于组合优化的“误差放大”作用，基于预测收益的均值方差有效前沿往往高于实际有效前沿，如果组合的权重 w 已知，那么在上述臵信域内，组合预期收益与实际收益的最大差额可以通过求解下面优化问题得到
 
 $$
-\operatorname*{max}_{\mathfrak{u}}f^{\prime}\cdot w-\mu\cdot w\quad s.t.\ :\ :(\mu-\mathfrak{f})^{\prime}\cdot\Sigma_{\mathsf{f}}^{-1}\cdot(\mu-f)\leq\kappa^{2}\quad\cdots\cdots(5)
+\operatorname*{max}_{\boldsymbol{\mu}}f^{\prime}\cdot w-\boldsymbol{\mu}\cdot w\quad s.t.\quad(\boldsymbol{\mu}-\boldsymbol{\mathrm{f}})^{\prime}\cdot\boldsymbol{\Sigma}_{\boldsymbol{\mathrm{f}}}^{-1}\cdot(\boldsymbol{\mu}-\boldsymbol{f})\leq\kappa^{2}\quad\cdots\cdots(5)
 $$
 
-利用 KKT一阶条件，容易知道当 $\begin{array}{r}{\mathsf{\Pi}\mu=\mathbf{f}-\sqrt{\frac{\kappa^{2}}{w^{\prime}\cdot\Sigma_{\mathbf{f}}\cdot w}}\cdot\mathsf{T}_{\mathbf{f}}\cdot w}\end{array}$ 时，两个组合收益差额的最大值
+利用 KKT一阶条件，容易知道当 $\begin{array}{r}{\mathbf{\mu}=\mathbf{f}-\sqrt{\frac{\kappa^{2}}{w^{\prime}\cdot\Sigma_{\mathbf{f}}\cdot w}}\cdot\Sigma_{\mathbf{f}}\cdot w}\end{array}$ 时，两个组合收益差额的最大值
 
 $$
-\mathbf{f}^{\prime}\cdot\mathbf{w}-\mathbf{\mu}\cdot\mathbf{w}=\kappa\cdot{\sqrt{w^{\prime}\cdot\Sigma_{f}\cdot w}}\quad\implies\quad\mu\cdot\mathbf{w}=\mathbf{f}^{\prime}\cdot\mathbf{w}-\kappa\cdot{\sqrt{w^{\prime}\cdot\Sigma_{f}\cdot w}}
+\mathbf{f}^{\prime}\cdot\mathbf{w}-\mathbf{\mu}\cdot\mathbf{w}=\mathbf{\kappa}\cdot{\sqrt{\mathbf{w}^{\prime}\cdot\Sigma_{f}\cdot\mathbf{w}}}\quad\Longrightarrow\quad\mathbf{\mu}\cdot\mathbf{w}=\mathbf{f}^{\prime}\cdot\mathbf{w}-\mathbf{\kappa}\cdot{\sqrt{\mathbf{w}^{\prime}\cdot\Sigma_{f}\cdot\mathbf{w}}}
 $$
 
 假设原优化问题的形式是（这里把方差控制放到约束条件中，方便后续问题的求解）
 
 $$
-\operatorname*{max}_{\mathbf{w}}f^{\prime}\cdot w\qquad s.t.\quad w^{\prime}\cdot\Sigma\cdot w\leq v,A_{1}w\leq0,\qquad A_{2}w=0
+\operatorname*{max}_{\mathbf{w}}f^{\prime}\cdot w\quad s.t.\quad w^{\prime}\cdot\Sigma\cdot w\leq v,\quad A_{1}w\leq0,\quad A_{2}w=0
 $$
 
 其对应的稳健组合优化问题即是在真实收益“最坏”的情况下，对权重进行优化，即
 
 $$
-\operatorname*{max}_{\mathbf{w}}\quad(\operatorname*{min}_{\mu\in\mathcal{D}}\mu\cdot w)\qquad s.t.\quad w^{\prime}\cdot\Sigma\cdot w\leq v,A_{1}w\leq0,\qquad A_{2}w=0
+\operatorname*{max}_{\mathbf{w}}\quad(\operatorname*{min}_{\boldsymbol{\mu}\in\mathcal{D}}\boldsymbol{\mu}\cdot\boldsymbol{w})\quad s.t.\quad\boldsymbol{w}^{\prime}\cdot\boldsymbol{\Sigma}\cdot\boldsymbol{w}\leq\boldsymbol{v},\quad A_{1}\boldsymbol{w}\leq0,\quad A_{2}\boldsymbol{w}=0
 $$
 
 代入问题(5)的优化结果，上式变为
 
 $$
-\operatorname*{max}_{w}\boldsymbol{\mathrm{f}}^{\prime}\cdot\mathbf{w}-\kappa\cdot\sqrt{w^{\prime}\cdot\Sigma_{f}\cdot w}\qquad s.t.\quad w^{\prime}\cdot\Sigma\cdot w\leq v,\ A_{1}w\leq0,\qquad A_{2}w=0
+\operatorname*{max}_{w}\mathbf{f}^{\prime}\cdot\mathbf{w}-\mathbf{\kappa}\cdot\sqrt{w^{\prime}\cdot\Sigma_{f}\cdot w}\quad s.t.\quad w^{\prime}\cdot\Sigma\cdot w\leq v,\quad A_{1}w\leq0,\quad A_{2}w=0.
 $$
 
 因此稳健优化相当于在目标函数加了一个误差惩罚项， 可理解成误差厌恶系数，引入辅助变量 ，上式可以进一步变换为
 
 $$
-\operatorname*{max}_{w,\gamma}{\boldsymbol f}^{\prime}\cdot{\mathbf{w}}-\kappa\cdot\boldsymbol{\gamma}\quad s.t.\quad w^{\prime}\cdot\Sigma\cdot w\leq v,A_{1}w\leq0,\qquad A_{2}w=0.\quad w^{\prime}\cdot\Sigma_{f}\cdot w\leq\gamma^{2}
+\operatorname*{max}_{w,\gamma}\mathsf{f}^{\prime}\cdot\mathsf{w}-\mathsf{\kappa}\cdot\mathsf{\gamma}\quad s.t.\quad w^{\prime}\cdot\Sigma\cdot w\leq v,\quad A_{1}w\leq0,\quad A_{2}w=0.\quad w^{\prime}\cdot\Sigma_{f}\cdot w\leq\gamma^{2}
 $$
 
 这是一个 SOCP 问题，可以用 2.4 节介绍的专门工具包快速求解。
@@ -380,50 +380,50 @@ Mean-Variance 另一个和人们习惯不切合的地方在于风险的度量，
 CVaR, 也称作期望亏损指标（Expectaion Shortfall），由 VaR 指标衍生而来。对于 ，一个资产组合的 表示一个最大亏损值 ，该组合损失超过此亏损值的概率小于 ，用数学式可以表示为
 
 $$
-\alpha_{\beta}(w)=\underset{\alpha\in\mathbb{R}}{\operatorname*{min}}\Psi(w,\alpha)\geq\beta,\quad where\quad\Psi(w,\alpha)=\underset{-w^{\prime}\cdot r\leq\alpha}{\int}p(r)\cdot dr
+\alpha_{\beta}(w)=\operatorname*{min}_{\alpha\in\mathsf{R}}\Psi(w,\alpha)\geq\beta,\quad where\quad\Psi(w,\alpha)=\int\displaylimits_{-w^{\prime}\cdot r\leq\alpha}p(r)\cdot dr.
 $$
 
 其中 是 向量，表示 n 个资产的权重。 为n 个资产的收益率的联合分布密度函数。CVaR衡量的是组合亏损大于β-VaR 时的平均亏损，用数学式可以表示为
 
 $$
-\Phi_{\beta}(w)=(1-\beta)^{-1}\int_{-w^{\prime}\cdot r\geq\alpha_{\beta}(w)}(-w^{\prime}\cdot r)\cdot p(r)\cdot dr
+\phi_{\beta}(w)=(1-\beta)^{-1}\int\limits_{-w^{\prime}\cdot r\geq\alpha_{\beta}(w)}(-w^{\prime}\cdot r)\cdot p(r)\cdot dr.
 $$
 
 可以证明 CVaR 不依赖于资产收益分布，是一个一致风险测度。对应均值方差优化，我们也可以考虑如下的 CVaR 优化问题
 
 $$
-\operatorname*{min}_{\mathbf{w}}\phi_{\beta}(w)\mathrm{~}s.t.\mathrm{~}w\in\mathcal{W}
+\operatorname*{min}_{w}\phi_{\beta}(w)\quad s.t.\quad w\in\mathcal{W}
 $$
 
 Rockafellar & Uryasev（2000）证明上述优化问题可以通过 Monte-Carlo 模拟转换成线性规划问题。首先, 他们证明最小化 CVaR 等价于下列最优化问题
 
 $$
-\operatorname*{min}_{\mathbf{w}\in\mathcal{W}}\phi_{\beta}(w)=\operatorname*{min}_{(w,\alpha)\in\mathcal{W}\times R}F_{\beta}(w,\alpha)
+\operatorname*{min}_{w\in\mathcal{W}}\phi_{\beta}(w)=\operatorname*{min}_{(w,\alpha)\in\mathcal{W}\times R}F_{\beta}(w,\alpha)
 $$
 
 $$
-F_{\beta}(w,\alpha)=\alpha+(1-\beta)^{-1}\int_{r\in R^{n}}[-w^{\prime}\cdot r-\alpha]^{+}\cdot p(r)\cdot dr
+F_{\beta}(w,\alpha)=\alpha+(1-\beta)^{-1}\int\limits_{r\in R^{n}}[-w^{\prime}\cdot r-\alpha]^{+}\cdot p(r)\cdot dr^{\prime}
 $$
 
-函数 $F_{\beta}(w,\alpha)$ 的多元积分部分则可以通过 Monte-Carlo 方法求得近似值，即根据 n 元资产的联合分布，模拟生成 q 个 n 维收益率序列 $\left\{\boldsymbol{r}_{k}=\left(\boldsymbol{r}_{1,k},\boldsymbol{r}_{2,k},\ldots\boldsymbol{r}_{n,k}\right)^{\prime}\right\}_{k=1}^{q}$ ，则 $F_{\beta}(w,\alpha)$ 的近似值可以表示为
+函数 $F_{\beta}(w,\alpha)$ 的多元积分部分则可以通过 Monte-Carlo 方法求得近似值，即根据 n 元资产的联合分布，模拟生成 q 个 n 维收益率序列 $\left\{r_{k}=\left(r_{1,k},r_{2,k},\ldots r_{n,k}\right)^{\prime}\right\}_{k=1}^{q}$ ，则 $F_{\beta}(w,\alpha)$ 的近似值可以表示为
 
 $$
-\alpha+\frac{1}{q\cdot(1-\beta)}{\sum_{k=1}^{q}}[-w^{\prime}\cdot r_{k}-\alpha]^{+}
+\alpha+\frac{1}{q\cdot\quad(1-\beta)}{\sum_{k=1}^{q}}[-w^{\prime}\cdot r_{k}-\alpha]^{+}
 $$
 
-引入辅助变量 $\mathbf{u}_{\mathrm{k}}=[-w^{\prime}\cdot r_{k}-\alpha]^{+}$ ， 最小化 CVaR 可以转换成求解如下线性规划
+引入辅助变量 $\mathbf{u_{k}}=[-w^{\prime}\cdot r_{k}-\alpha]^{+}$ ， 最小化 CVaR 可以转换成求解如下线性规划
 
 $$
-\operatorname*{min}_{\alpha,{\bf w},{\mathrm u}}\ \alpha+\frac{1}{q(1-\beta)}\sum_{k=1}^{q}u_{k}
+\operatorname*{min}_{\alpha,\mathrm{w},\mathrm{u}}\quad\alpha+\frac{1}{q(1-\beta)}\sum_{k=1}^{q}u_{k},
 $$
 
 $$
-\begin{array}{r}{\mathrm{~s.t.~w\in\mathcal{W},~}\ \begin{array}{r}{\mathrm{u}_{\mathrm{k}}\geq0,\ \quad w^{\prime}\cdot r_{k}+\alpha+u_{k}\geq0,\ fork=1,2\ldots q}\end{array}}\end{array}
+\begin{array}{r}{\mathrm{s.t.}\quad\mathsf{w}\in\mathcal{W},\qquad\mathtt{u}_{\mathtt{k}}\geq0,\qquad\boldsymbol{w}^{\prime}\cdot\boldsymbol{r}_{k}+\alpha+u_{k}\geq0,\quad for\quad k=1,2\ldots q}\end{array}
 $$
 
 CVaR 也可以放到约束条件，做类似线性化处理。
 
-上面的方法从理论上解决了 CVaR 优化的计算，但实际使用中，要模拟生成收益率序列样本，必须先准确估计多个资产的联合分布，这对于 A 股 3000 只股票来说难度太大。为了保证Monte-Carlo 方法的结果尽快收敛，可能还需要使用 variance-reduction 或 quasi monte carlo 方法。因此从计算难度上讲，CVaR 优化可能更适用于大类资 $\colon{\vec{p}}$ 配臵，但此时大类资产的预期收益率较难估计，会让优化出的组合权重变化十分剧烈。CVaR 优化用于投资实践前还有许多难点需要解决。
+上面的方法从理论上解决了 CVaR 优化的计算，但实际使用中，要模拟生成收益率序列样本，必须先准确估计多个资产的联合分布，这对于 A 股 3000 只股票来说难度太大。为了保证Monte-Carlo 方法的结果尽快收敛，可能还需要使用 variance-reduction 或 quasi monte carlo 方法。因此从计算难度上讲，CVaR 优化可能更适用于大类资 $\begin{aligned}:产\end{aligned}$ 配臵，但此时大类资产的预期收益率较难估计，会让优化出的组合权重变化十分剧烈。CVaR 优化用于投资实践前还有许多难点需要解决。
 
 ## 3.3 主观与量化信息的融合
 
@@ -431,23 +431,23 @@ CVaR 也可以放到约束条件，做类似线性化处理。
 
 下文提到的模型主要还是基于 Black-Litterman 模型框架，我们在收益率先验分布选择，参数设定方面做了改进，使得观点表达更加便捷，选股因子信息也可以包含在内。BL 模型最早是用来做大类资产配臵，预期收益率较难估算，因此假设市场处于均衡状态，从市场组合中各类资产的权重反算出隐含预期收益率作为先验的预期收益。但对股票组合而言，alpha因子模型能提供的信息更多，把它的预测作为先验更为合适，而后面的 Bayes 推导过程和标准的 BL模型完全一致。
 
-BL 模型的 Bayes 推导过程可以参考 Cheung(2009)，这里只陈述模型结果。假设股票的收益率满足多元正态分布 $\mathrm{r}{\sim}\mathrm{N}(\mu,\Sigma)$ ，期望收益 $\mu{\sim}\mathrm{N}(\pi,\Phi)$ ，在原始 BL 模型里， 是均衡市场隐含收益率，这里 代表 alpha 因子模型的预测收益。投资者的 k 个主观观点可以表示成如下矩阵形式
+BL 模型的 Bayes 推导过程可以参考 Cheung(2009)，这里只陈述模型结果。假设股票的收益率满足多元正态分布 $\mathbf{r}{\sim}\mathbf{N}(\mathbf{\mu},\Sigma)$ ，期望收益 $\mu{\sim}\mathsf{N}(\mathfrak{n},\Phi)$ ，在原始 BL 模型里， 是均衡市场隐含收益率，这里 代表 alpha 因子模型的预测收益。投资者的 k 个主观观点可以表示成如下矩阵形式
 
 $$
-\mathrm{P}\cdot\mu=\mathrm{q}+\epsilon\quad\mathrm{where~}\epsilon{\sim}\mathrm{N}(0,\Omega)
+\mathbf{P}\cdot\mathbf{\mu}=\mathbf{q}+\mathbf{\epsilon}\quad\mathrm{where}\quad\mathbf{\epsilon}\sim\mathbf{N}(0,\Omega)
 $$
 
-其中 P 是一个 矩阵， 是一个 对角阵，认为投资者的主观观点都是不相关的，对角线上元素的大小衡量了观点的准确性, 可以看作已知 情况下的观察值，利用 Bayes 公式可以证明后验变量 $\mu\mid\mathsf{P}\cdot\mu$ 同样满足正态分布，其均值和方差分别为
+其中 P 是一个 矩阵， 是一个 对角阵，认为投资者的主观观点都是不相关的，对角线上元素的大小衡量了观点的准确性, 可以看作已知 情况下的观察值，利用 Bayes 公式可以证明后验变量 $\mu\mid\mathrm{P}\cdot\mu$ 同样满足正态分布，其均值和方差分别为
 
 $$
-\begin{array}{rl}&{\mathrm{E}(\mu\mid P\cdot\mu)=(\Phi^{-1}+P^{\prime}\cdot\Omega^{-1}\cdot P)^{-1}\cdot(\Phi^{-1}\cdot\pi+P^{\prime}\cdot\Omega^{-1}\cdot q)}\\&{\qquad=\pi+\Phi\cdot P^{\prime}\cdot(P\cdot\Phi\cdot P^{\prime}+\Omega)^{-1}\cdot(q-P\cdot\pi)}\\&{\mathrm{Var}(\mu\mid P\cdot\mu)=(\Phi^{-1}+P^{\prime}\cdot\Omega^{-1}\cdot P)^{-1}}\end{array}
+\begin{aligned}&\mathrm{E}(\mu\mid P\cdot\mu)=(\Phi^{-1}+P^{\prime}\cdot\Omega^{-1}\cdot P)^{-1}\cdot(\Phi^{-1}\cdot\pi+P^{\prime}\cdot\Omega^{-1}\cdot q)\\&\quad=\pi+\Phi\cdot P^{\prime}\cdot(P\cdot\Phi\cdot P^{\prime}+\Omega)^{-1}\cdot(q-P\cdot\pi)\\&\\&\mathrm{Var}(\mu|P\cdot\mu)=(\Phi^{-1}+P^{\prime}\cdot\Omega^{-1}\cdot P)^{-1}\\\end{aligned}
 $$
 
-BL 对 先验分布的方差做了进一步简化，假设 $\smash{\Phi=\tau\Sigma,\tau>0_{\circ}\tau}$ 值越小，说明先验信息，也就是alpha 因子预测收益更为可靠； 值越大，说明先验信息越不靠谱，主观信息对组合的影响也就越大。Black-Litterman 认为预期收益率的波动比收益率本身的波动要小很多，因此 应该是一个很小接近于零的值，但具体数值应该取多少没有定论。后续其他学者研究时, 的取值范围很多在0.025 至 0.05 之间，但也有学者认为 应该取 1 ( Satchell 2000)。Mankert(2011)通过抽样理论推导，得到 $\tau=\boldsymbol{\mathrm{k}}/N_{sample}$ ，k为前面提到的主观观点数量， $\mathrm{N_{sample}}$ 为 alpha 因子模型估算预期收益时用到的样本期数；同时 ${\mathbf{\mathopen{/{\vphantom{(\sum}\theta\kern-delimiterspace}\Omega}}}={\mathbf{\mathopen{\kern-delimiterspace}\Omega}}^{\prime}\cdot{\boldsymbol{\Sigma}}\cdot{\mathbf{\mathstrut}}\mathbf{P}$ ，即主观观点矩阵对应的股票组合历史收益的协方差矩阵，不一定是对角阵。下文的实证将采用 Mankert(2011)的方法。
+BL 对 先验分布的方差做了进一步简化，假设 $\Phi=\tau\Sigma,\tau>0\mathrm{~~}\tau$ 值越小，说明先验信息，也就是alpha 因子预测收益更为可靠； 值越大，说明先验信息越不靠谱，主观信息对组合的影响也就越大。Black-Litterman 认为预期收益率的波动比收益率本身的波动要小很多，因此 应该是一个很小接近于零的值，但具体数值应该取多少没有定论。后续其他学者研究时, 的取值范围很多在0.025 至 0.05 之间，但也有学者认为 应该取 1 ( Satchell 2000)。Mankert(2011)通过抽样理论推导，得到 $\tau=\mathrm{k}/N_{sample}.$ ，k为前面提到的主观观点数量， $\mathrm{N_{sample}}$ 为 alpha 因子模型估算预期收益时用到的样本期数；同时 $\mathsf{I}\Omega=\mathsf{P}^{\prime}\cdot\Sigma\cdot\mathsf{P}$ ，即主观观点矩阵对应的股票组合历史收益的协方差矩阵，不一定是对角阵。下文的实证将采用 Mankert(2011)的方法。
 
 量化模型大部分时间有效，只在市场突发剧烈变化时，才需要利用主观信息对模型进行调整。因此，BL 模型不需要在长样本内验证，只需挑一些市场发生突变的时段进行测试即可。我们这里选择的是今年 1 月作为测试月份，当月沪深 300 涨 2.35% ，中证 500 跌 0.64%，涨幅居前的四个行业分别是钢铁(6.1%)、国防军工(6.0%)、银行(4.3%)、有色金属(2.7%)，跌幅居前的四个行业分别是综合(-4.8%)，计算机(-4.6%)，通信(-4.3%)、纺织服装(-4.1%)。周期股崛起明显，估值类因子表现亮眼，反转类因子失效，但基于过去 24 个月因子的 IC_IR 加权的话，反转类因子的权重依然最大，所以采用 2.2 节 Model 3（ ）做全市场选股中证 500 增强策略组合时，策略组合当月收益-1%，跑输基准 0.36%。假设投资者在 1 月初计划用 BL 模型对量化模型做出主观调整，我们测试了不同类型观点和不同乐观程度下，主观调整对策略组合收益的影响。这里考察三类观点：
 
-第一类主观观点：某行业未来一个月会表现的比市场强或弱。例如：投资者在一月初，通过基本面分析，认为有色金属行业未来一个月收益会比市场平均收益高 。那么假设全市场有 N 只股票， $\mathsf{N}_{1}$ 只有色股，那么此观点的观点矩阵 P 可以表示成两个 向量 $\mathrm{P}_{1},P_{2}$ 的差； $\mathrm{P}_{1}$ 在有色股对应下标的元素等于 $1/\mathsf{N}_{1},$ ，其它元素都是零； $\mathrm{P}_{2}$ 元素都是 ； 值的大小代表了投资者对有色股未来表现的乐观程度。为了定量去表达投资者的乐观程度，我们可以先计算有色行业等权指数相对全市场等权指数的历史月度超额收益，假设超额收益满足正态分布，基于历史数据估算得到均值 $\mu_{s}\dot{}$ 和标准差 ${\bf\sigma}_{:}\sigma_{s}$ ，令 $\theta\%=\mu_{s}+\sigma_{s}\cdot norminv(\alpha)$ ，norminv 为标准正态分布累计分布函数的逆函数， 为投资者设定的正态分布分位数，分位数数值越大，说明投资者越乐观。我们是用过去24个月的alpha因子数据来预测下一期的股票收益，因此取 $\textstyle{\mathfrak{T}}={\frac{1}{24}}$ ；测试结果如图 5 所示。
+第一类主观观点：某行业未来一个月会表现的比市场强或弱。例如：投资者在一月初，通过基本面分析，认为有色金属行业未来一个月收益会比市场平均收益高 。那么假设全市场有 N 只股票， $\mathrm{N_1}$ 只有色股，那么此观点的观点矩阵 P 可以表示成两个 向量 $\mathrm{P}_{1},P_{2}$ 的差； $\mathtt{P_{1}}$ 在有色股对应下标的元素等于 $1/\mathrm{N}_{1},$ ，其它元素都是零； $\mathrm{P_{2}}$ 元素都是 ； 值的大小代表了投资者对有色股未来表现的乐观程度。为了定量去表达投资者的乐观程度，我们可以先计算有色行业等权指数相对全市场等权指数的历史月度超额收益，假设超额收益满足正态分布，基于历史数据估算得到均值 $\mu_{s}\mathrm{{i}}$ 和标准差 $\mathrm{i}\sigma_{s}$ ，令 $\cdot\theta\%=\mu_{s}+\sigma_{s}\cdot norminv(\alpha)$ ，norminv 为标准正态分布累计分布函数的逆函数， 为投资者设定的正态分布分位数，分位数数值越大，说明投资者越乐观。我们是用过去24个月的alpha因子数据来预测下一期的股票收益，因此取 $\tau=\frac{1}{24}$ ；测试结果如图 5 所示。
 
 图5：不同主观观点、不同乐观程度对策略组合收益的影响
 
@@ -471,7 +471,7 @@ BL 对 先验分布的方差做了进一步简化，假设 $\smash{\Phi=\tau\Sig
 
 数据来源：东方证券研究所 & Wind资讯
 
-其中 MAE 表示主观调整过的因子模型预测收益同真实股票收益的偏差绝对值的平均。可以看到，因为未来一个月有色金属行业确实跑赢了大盘，所以看到 值越大，主观观点越乐观，MAE 下降的越多，调整后因子模型对未来收益的预测更准，策略组合的收益也在不断提高。但是因为策略组合做了行业中性控制，有色股在指数成份股里的权重只有 6.9%，因此策略收益随观点乐观度的提升幅度不明显。如果是做主动量化组合，不做风险控制，策略收益的变化可能更大。另外， $\alpha=0.5\mu\ J$ 投资者的主观观点中性，认为 和观点组合的历史收益的均值相等，而过去 24 个月里面，有色等权指数平均每个月跑输全市场等权指数-2.8%，也就是说投资者的主观观点错了，因此 MAE 相对未调整模型变大，预测变得不准，但策略组合收益却得到了增强，这也是由于策略组合做了风险控制的原因。另外，如果投资者过于乐观或者过于悲观，可能会出现一种情况，即时投资者看对了方向，但主观观点收益数值和真实收益比相差太多，导致 BL模型对原来因子模型预测值调整幅度过大，反而会使 MAE 增加，模型预测变得不准。因此，建议投资者在表达主观观点乐观程度时，把 的取值设定在区间(0.2, 0.8)内。
+其中 MAE 表示主观调整过的因子模型预测收益同真实股票收益的偏差绝对值的平均。可以看到，因为未来一个月有色金属行业确实跑赢了大盘，所以看到 值越大，主观观点越乐观，MAE 下降的越多，调整后因子模型对未来收益的预测更准，策略组合的收益也在不断提高。但是因为策略组合做了行业中性控制，有色股在指数成份股里的权重只有 6.9%，因此策略收益随观点乐观度的提升幅度不明显。如果是做主动量化组合，不做风险控制，策略收益的变化可能更大。另外， $\alpha=0.5时$ 投资者的主观观点中性，认为 和观点组合的历史收益的均值相等，而过去 24 个月里面，有色等权指数平均每个月跑输全市场等权指数-2.8%，也就是说投资者的主观观点错了，因此 MAE 相对未调整模型变大，预测变得不准，但策略组合收益却得到了增强，这也是由于策略组合做了风险控制的原因。另外，如果投资者过于乐观或者过于悲观，可能会出现一种情况，即时投资者看对了方向，但主观观点收益数值和真实收益比相差太多，导致 BL模型对原来因子模型预测值调整幅度过大，反而会使 MAE 增加，模型预测变得不准。因此，建议投资者在表达主观观点乐观程度时，把 的取值设定在区间(0.2, 0.8)内。
 
 第二类观点，某 alpha 因子未来表现会更好或更差。Alpha 因子的表现通常可以 top 10%minus bottom 10% 多空组合的收益来衡量，但多空组合只覆盖了20%的股票，用到 BL 模型里面会被直接调整的股票范围太小（即使只主观调整个别股票收益，通过 BL 公式，其它股票的预期收益也会被间接调整），因此我们这里采用 top 1/3 minus bottom 1/3 的多空组合来衡量 alpha 因子的表现。假设投资者对 BP 估值因子未来一个月的表现做出主观判断，其观点矩阵就是该因子的多空组合，在不同乐观程度下的表现见图 5. 因为 BP因子 1 月份的真实多空组合收益是 3.8%，因此和之前类似，投资越乐观，其观点越正确，预测收益越准，策略组合收益随之提升。因为 BP做过行业和市值中性化处理，受策略组合约束条件的影响小，所以不同乐观程度对策略收益的影响幅度相对之前的行业观点要大。
 

@@ -243,7 +243,7 @@ zhanghuishu@orientsec.com.cn
 从上面 4 个行业的结果来看，在医药和计算机行业内，研发营收比的表现要更好些，这里我们将通过统计方法来解释这一现象的原因。我们参考文献《公司R&D投入与企业业绩相关性研究》中类似的方法，来检验本年度研发营收比与公司未来业绩的关系。这里用到的 3个模型为：
 
 $$
-\begin{array}{rl}&{\mathrm{NPM}_{\mathrm{t+1}}=\beta_{0}+\beta_{1}\ln(\mathrm{Asset}_{\mathrm{t+1}})+\beta_{2}\mathrm{DAR}_{\mathrm{t+1}}+\beta_{3}RD2S_{t}}\\&{}\\&{\mathrm{NPM}_{\mathrm{t+2}}=\beta_{0}+\beta_{1}\ln(\mathrm{Asset}_{\mathrm{t+2}})+\beta_{2}\mathrm{DAR}_{\mathrm{t+2}}+\beta_{3}RD2S_{t}}\\&{}\\&{\mathrm{NPM}_{\mathrm{t+3}}=\beta_{0}+\beta_{1}\ln(\mathrm{Asset}_{\mathrm{t+3}})+\beta_{2}\mathrm{DAR}_{\mathrm{t+3}}+\beta_{3}RD2S_{t}}\end{array}
+\begin{aligned}&\mathrm{NPM}_{\mathrm{t}+1}=\beta_{0}+\beta_{1}\ln(\mathrm{Asset}_{\mathrm{t}+1})+\beta_{2}\mathrm{DAR}_{\mathrm{t}+1}+\beta_{3}\mathrm{RD2}S_{\mathrm{t}}\\&\mathrm{NPM}_{\mathrm{t}+2}=\beta_{0}+\beta_{1}\ln(\mathrm{Asset}_{\mathrm{t}+2})+\beta_{2}\mathrm{DAR}_{\mathrm{t}+2}+\beta_{3}\mathrm{RD2}S_{\mathrm{t}}\\&\mathrm{NPM}_{\mathrm{t}+3}=\beta_{0}+\beta_{1}\ln(\mathrm{Asset}_{\mathrm{t}+3})+\beta_{2}\mathrm{DAR}_{\mathrm{t}+3}+\beta_{3}\mathrm{RD2}S_{\mathrm{t}}\\\end{aligned}
 $$
 
 这里 NPM是公司的净利润率，代表了盈利的能力。Asset 是公司的总资产，这是为了避免公司规模效应带来的影响。DAR 是公司的财务杠杆，因为债务融资有税收优势，因此高财务杠杆可能带来企业短期的业绩提升。RD2S 是研发营收比，这里仅取有研发营收比大于 0的公司作为样本。这里我们测试了 4个行业2010.6-2017.12的模型结果，这里是按照半年报和年报对数据进行匹配的，并且限制了行业内有研发投入的股票大于 30支。我们在每个横截面进行回归，并检验了时间序列上回归系数的显著性。

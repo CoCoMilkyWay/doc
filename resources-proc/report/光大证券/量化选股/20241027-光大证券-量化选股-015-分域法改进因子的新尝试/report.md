@@ -95,7 +95,7 @@ weightfactor=\frac{x}{|x|}\times|x|^{n}
 $$
 
 $$
-weight=\frac{weightfactor}{\sum weightfactor}
+weight={\frac{weightfactor}{\sum weightfactor}}
 $$
 
 其中，x 为对数市值的倒数。参数 n 越大，权重越向 x 正方向集中。
@@ -123,7 +123,7 @@ $$
 我们在报告《日内收益的精细切分：提炼动量与反转效应——量化选股系列之二》（2021.10.23）中也使用到了时序分域的方式修复早盘收益因子。早盘收益因子计算方式如下：
 
 $$
-\begin{array}{c}{{morning_{-}vwap=\displaystyle\sum_{\textstyle{\sum}volume,open-morning.cut}^{\textstyle{\sum}money_{open-morning.cut}}}}\\{{}}\\{{morning_{-}ret=\displaystyle\frac{morning_{-}vwap}{pre_{-}close}-\frac{open_{-}price}{pre_{-}close}}}\\{{}}\\{{factor=\displaystyle\sum_{i=T-1}^{T-window}morning_{-}ret_{i}}}\end{array}
+\begin{aligned}morning\_vwap&=\frac{\sum money_{open-morning\_cut}}{\sum volume_{open-morning\_cut}}\\\vdots\\mnorming\_ret&=\frac{morning\_vwap}{pre\_close}-\frac{open\_price}{pre\_close}\\factor&=\sum_{i=T-1}^{T-window}morning\_ret_{i}\end{aligned}
 $$
 
 我们先以 vwap（成交量加权价格）方式计算早盘涨幅，open-morning_cut 表示早盘量价数据的时间范围为 9:30 至 10:30；然后，定义早盘收益率为早盘vwap 涨幅与开盘价涨幅之差，这种计算方式使得一字涨停板并不计入早盘收益；最后，用过去一段天数(window)的早盘收益率之和作为因子。
@@ -139,7 +139,7 @@ $$
 通过观察图中展示的回测结果，我们发现原始的早盘收益因子没有如期呈现出稳定的动量效果。在前述报告中，我们认为早盘收益需要“温和”才能呈现动量效果。因此，我们对早盘收益因子进行了改进，改进方式如下：
 
 $$
-\begin{array}{c}{{morning\_ret_{i}=-morning\_ret_{i}\ if\ abs(morning\_ret_{i})\ >2\%}}\\{{\ }}\\{{factor=\displaystyle\sum_{i=T-1}^{T-window}morning\_ret_{i}}}\end{array}
+\begin{aligned}&morning_{-}ret_{i}=-morning_{-}ret_{i}\textit{ i f }abs(morning_{-}ret_{i})>2\%\\&\quad factor=\sum_{i=T-1}^{T-window}morning_{-}ret_{i}\\\end{aligned}
 $$
 
 我们在时序上对早盘收益进行了极值调整，我们以 2%为阈值，将股票池进行分域。改进后的早盘收益因子回测结果如下。从回测结果可以发现，改进后的因子呈现了单调的特征，且呈现了稳定的动量特征。
@@ -270,13 +270,13 @@ $$
 预测目标 $y_{\circ}$ 初代公式为：
 
 $$
-y=3X_{1}+X_{2}^{2}-0.6
+y=\:3X_{1}+X_{2}^{2}-0.6
 $$
 
 在遗传规划中用 S-表达式表示：
 
 $$
-y=\left(-\bigl(+(\times3X_{1})(\times X_{2}X_{2})\bigr)0.6\right)
+y=\bigl(-\bigl(+(\times3X_{1})(\times X_{2}X_{2})\bigr)0.6\bigr)
 $$
 
 我们可以把公式表示为一个二叉树，如下表所示：
@@ -287,7 +287,7 @@ $$
 
 ## 3.1.2 交叉
 
-交叉是在两个已有公式树之间生成子树的方法，是最常用也最有效的进化方式。交叉首先需要在种群中选择适应度最高的公式树 A 作为父代，并从 A中随机选择子树 $A_{1}$ 作为被替换对象；然后在剩余种群中选择适应度最高的公式树 B 作为捐赠者，从中随机选择子树 $\pmb{{\cal B}}_{1}$ ，替换 $A_{1}$ 生成后代。
+交叉是在两个已有公式树之间生成子树的方法，是最常用也最有效的进化方式。交叉首先需要在种群中选择适应度最高的公式树 A 作为父代，并从 A中随机选择子树 $A_{1}$ 作为被替换对象；然后在剩余种群中选择适应度最高的公式树 B 作为捐赠者，从中随机选择子树 $B_{1}$ ，替换 $A_{1}$ 生成后代。
 
 图 14：交叉图示
 ![](images/7c1e9bbcfdf2607d94190aea871e12e63043954301438a09494fbb0c8e832e75.webp)
@@ -295,7 +295,7 @@ $$
 
 ## 3.1.3 子树变异
 
-子树变异是一种较为激进的变异操作，父代的子树可以被随机生成的子树完全替代，这样做的好处是将已经被淘汰的公式重新引入公式种群，保持了公式的多样性。如图，首先选择适应度最高的公式树 A 作为父代，然后随机选择子树 $A_{1}$ 作为被替换的子树，接着随机生成子树 $\pmb{{\cal B}}_{1}$ 将 $A_{1}$ 替代。
+子树变异是一种较为激进的变异操作，父代的子树可以被随机生成的子树完全替代，这样做的好处是将已经被淘汰的公式重新引入公式种群，保持了公式的多样性。如图，首先选择适应度最高的公式树 A 作为父代，然后随机选择子树 $A_{1}$ 作为被替换的子树，接着随机生成子树 $B_{1}$ 将 $A_{1}$ 替代。
 
 图 15：子树变异图示
 ![](images/9ea6cdba2879b23b522dd9678f28b09cd8c3195c1c8762a3f8fdcec74d57d256.webp)
@@ -326,7 +326,7 @@ Hoist 变异是一种较为复杂的变异方法。这种方法的目的是移�
 时序分域的算子可以构建为：
 
 $$
-\mathtt{ts\_max\_mean}(\mathsf{X},\mathsf{Y},\mathsf{window}1,\mathsf{window}2)
+\mathsf{ts\_max\_mean(X,Y,window1,window2)}
 $$
 
 该算子表示的是对数据 X，计算历史 window2 个交易日中，Y 数据最大的window1 个交易日对应的 X 的均值。
@@ -334,7 +334,7 @@ $$
 在截面分域部分，根据上文中对因子进行连续分域的方式，截面分域算子可以构建为：
 
 $$
-\mathsf{multiply}(\mathsf{X},\mathsf{sigmoid}(\mathsf{standardize}(\mathsf{winsorize}(\mathsf{Y}))))
+\mathsf{multiply(X,sigmoid(standardize(winsorize(Y))))}
 $$
 
 该算子表示，使用因子 Y 对因子 X 进行连续分域：通过 winsorize 函数对因子 Y进行 MAD 去极值、standardize 函数对因子 Y 标准化、sigmoid 激活函数对因子 Y 进行非线性变换，将其映射到区间（0,1）内，最后与因子 X 相乘。
@@ -388,13 +388,13 @@ $$
 有了上述算子后，我们便可构建因子分域方程，例如时序分域方程：
 
 $$
-\texttt ts\_max\_std(\times,\mathsf{subtract(Y1,Y2)},5,15)
+\mathsf{ts\_max\_std(X,subtract(Y1,Y2),5,15)}
 $$
 
 表示过去 15 个交易日中，Y1 减去 Y2 最大的 5 个交易日，对应 X 的标准差；截面分域方程：
 
 $$
-\mathsf{multiply}(\mathsf{X},\mathsf{sigmoid}(\mathsf{standardize}(\mathsf{winsorize}(\mathsf{add}(\mathsf{ts\_mean}(\mathsf{Y}1,\mathsf{S}),\mathsf{Y}2)))))
+\mathsf{mutitply(X,}\mathsf{sigmoid(standardize(winsorize(add(ts\_mean(Y1,}5\mathsf{),}\mathsf{Y2)))))}
 $$
 
 表示过去 5 个交易日中，求 Y1 的均值，再加上 Y2，经过去极值、标准化、非线性变换后，与 X 相乘。
@@ -448,11 +448,11 @@ $$
 原始因子为单季度营业收入同比增长率（SalesYOY），该因子近几年失效明显。通过分域算法挖掘出的改进因子提升明显。分域因子为股票过去 8 个交易日最高价的标准差，减去当天的成交笔数。
 
 $$
-\mathsf{Y}=\mathsf{subtract}(\mathsf{ts\_std}(\mathsf{H}\mathsf{I}\mathsf{G}\mathsf{H},\mathsf{\otimes}),\mathsf{TRADE}\mathsf{S\_COUNT})
+\mathsf{Y}\mathop{\mathsf{=}}\mathsf{subtract}(\mathsf{ts\_std}(\mathsf{HIGH},8),\mathsf{TRADES\_COUNT})
 $$
 
 $$
-\mathsf{multiply}(\mathsf{SalesYOY},\mathsf{sigmoid}(\mathsf{standardize}(\mathsf{winsorize}(\mathsf{Y}))))
+\mathsf{multiply(SalesYOY,sigmoid(standardize(winsorize(Y))))}
 $$
 
 因子回测区间为 2014.01.03-2024.09.30，其中 2016.01.04-2018.12.28 为样本内区间，其余为样本外区间。若无特别说明，下文所称的样本外区间，均指2019.01.02-2024.09.30。
@@ -528,11 +528,11 @@ multiply(ProfitYOY, sigmoid(standardize(winsorize(Y))))
 原始因子为 5 日反转（5DR，当前股价除以过去 5 个交易日股价均值再减 1），该因子历史表现较好。通过分域算法挖掘出的改进因子仍然具有明显的提升效果。分域因子为股票过去 14 个交易日开盘价的最小值，求过去 5 天的变化率，再减去当天的成交笔数。
 
 $$
-\mathsf{Y}=\mathsf{subtract}(\mathsf{ts\_delta}(\mathsf{ts\_min}(\mathsf{OPEN},14),5),\mathsf{TRADES\_COUNT})
+\mathsf{Y}\mathop{\mathsf{=}}\mathsf{subtract}(\mathsf{ts\_delta}(\mathsf{ts\_min}(\mathsf{OPEN},\mathsf{14}),\mathsf{5}),\mathsf{TRADES\_COUNT})
 $$
 
 $$
-\mathsf{multip}|\mathsf{y}(5\mathsf{DR},\mathsf{sigmoid}(\mathsf{standardize}(\mathsf{winsorize}(\mathsf{Y}))))
+\mathsf{multiply(5DR,sigmoid(standardize(winsorize(Y))))}
 $$
 
 从回测结果来看，改进因子相对于原始因子提升明显。样本外区间内，改进因子的多空组合仍然大幅领先原始因子。从多头组来看，改进因子的多头组相对原始因子的多头组，提升效果明显。
@@ -573,7 +573,7 @@ $$
 ## ts_mean(RETURN, 15)
 
 $$
-\mathtt{ts\_max\_mean\_minus\_min\_mean(RETURN,RETURN,5,15)}
+\mathsf{ts\_max\_mean\_minus\_min\_mean(RETURN,RETURN,5,15)}
 $$
 
 从回测结果来看，改进因子相对于原始因子提升明显。样本外区间内，改进因子的多空组合大幅领先原始因子。从多头组来看，改进因子的多头组相对原始因子的多头组，提升效果十分显著。
@@ -610,7 +610,7 @@ $$
 原始因子为过去 15 个交易日的 TAIL_RET 均值，该因子历史表现较好。通过分域算法挖掘出的改进因子具有一定的提升效果。分域因子为股票过去 15 个交易日中，股票尾盘收益率最大的 5 个交易日的平均尾盘收益率。
 
 $$
-\mathsf{ts\_mean}(\mathsf{TAIL\_RET},15)
+\mathsf{ts\_mean(TAIL\_RET,15)}
 $$
 
 $$
@@ -651,11 +651,11 @@ $$
 原始因子为过去 15 个交易日的 SWING 均值，该因子历史表现较好。通过分域算法挖掘出的改进因子具有明显的提升效果。分域因子为股票过去 15 个交易日中，最高价开方后最大的 5 个交易日的振幅均值，减去最高价开方后最小的 5个交易日的振幅均值。
 
 $$
-\mathsf{ts\_mean}(\mathsf{SW}|\mathsf{NG},15)
+\mathsf{ts\_mean(SWING,15)}
 $$
 
 $$
-\mathfrak{ts\_max\_mean\_minus\_min\_mean}\left(SW1NG,sign\_sqrt(\mathsf{H}\mathsf{I}\mathsf{G}\mathsf{H}),5,15\right)
+\mathsf{ts\_max\_mean\_minus\_min\_mean}\left(\mathsf{SWING},\mathsf{sign\_sqrt}(\mathsf{HIGH}),\mathsf{5},\mathsf{15}\right)
 $$
 
 从回测结果来看，改进因子相对于原始因子提升明显。样本外区间内，改进因子的多空组合大幅领先原始因子。从多头组来看，改进因子的多头组相对原始因子的多头组，提升效果较为明显，但去年底、今年初，改进因子多头组出现了较大回撤。

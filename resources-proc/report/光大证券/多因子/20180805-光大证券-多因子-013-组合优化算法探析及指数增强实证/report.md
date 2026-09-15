@@ -91,14 +91,14 @@ zhouxiaoxiao@ebscn.com
 常见的马科维茨均值方差优化模型MVO中的期望收益率取各类资产（个股）历史收益率分布的均值，预期风险则用收益率的方差代表，优化目标函数的常用形式是最大化投资者效用函数:
 
 $$
-\mathsf{Max}F(w)=w^{T}\mu-\lambda w^{T}\Sigma w/2
+\operatorname{\mathsf{Max}}F(w)=w^{T}\mu-\lambda w^{T}\Sigma w/2
 $$
 
 其中，
 
 λ代表风险厌恶系数；
 
-$\ b\mathrm{\ b{w}=(\ b{w},\ b{w}_{2},\ b{\dots},\ b{w}_{n})}$ 代表待求解的各标的权重向量；
+$\mathbf{w}=(w,\ w_2,\ \ldots,\ w_{\mathrm{n}})$ 代表待求解的各标的权重向量；
 
 μ代表各标的预期收益率向量；
 
@@ -115,7 +115,7 @@ $\ b\mathrm{\ b{w}=(\ b{w},\ b{w}_{2},\ b{\dots},\ b{w}_{n})}$ 代表待求解�
 对于每只股票i而言，Barra 基本面风险模型模型的标准线性表达式如下：
 
 $$
-r_{i}=x_{1}f_{1}+x_{2}f_{2}+\ \cdots\ +x_{k}f_{k}+\varepsilon_{i}
+r_{i}={\pmb x}_{1}f_{1}+{\pmb x}_{2}f_{2}+\cdots+{\pmb x}_{k}f_{k}+\varepsilon_{i}
 $$
 
 其中，
@@ -131,19 +131,19 @@ $u_{i}$ 表示股票i第t期末的特质收益率。
 当一个投资组合中含有n只时，模型的矩阵形式可表达如下：
 
 $$
-{\underset{{r_{n}}}{\left[{r_{1}}\right]}}={\binom{{r_{1}}}{\lambda}}*f_{1}+{\binom{{r_{2}}}{\lambda_{2}}}*f_{2}+\cdots+{\binom{{r_{1}}}{\lambda_{2k}}}*f_{k}+{\binom{\mu_{1}}{\mu_{2}}}*f_{k}+\left[{\begin{array}{c}{{r_{1}}}\\{{r_{2}}}\\{\vdots}\\{{r_{n}}}\end{array}}\right]
+\begin{bmatrix}r_{1}\\r_{2}\\\vdots\\r_{n}\end{bmatrix}=\begin{bmatrix}x_{11}\\x_{21}\\\vdots\\x_{n1}\end{bmatrix}*f_{1}+\begin{bmatrix}x_{12}\\x_{22}\\\vdots\\x_{n2}\end{bmatrix}*f_{2}+\cdots+\begin{bmatrix}x_{1k}\\x_{2k}\\\vdots\\x_{nk}\end{bmatrix}*f_{k}+\begin{bmatrix}\mu_{1}\\\mu_{2}\\\vdots\\\mu_{n}\end{bmatrix}
 $$
 
-设投资组合中股票的权重向量为 $\mathbf{w}=(x_{1},x_{2},\cdots,x_{\mathrm{n}})^{T}$ ，则对应的组合收益率为
+设投资组合中股票的权重向量为 $\mathbf{w}=(x_{1},x_{2},\cdots,x_{\mathbf{n}})^{T}$ ，则对应的组合收益率为
 
 $$
-R_{p}=\sum_{i=1}^{n}w_{i}(\sum_{k=1}^{K}x_{k}f_{ik}+u_{i})
+R_{p}=\sum_{i=1}^{n}w_{i}(\sum_{k=1}^{K}x_{k}f_{ik}+u_{i}),
 $$
 
 假设每只股票的公共因子收益与特质收益之间不存在相关性，且不同股票特质收益率之间也不存在相关性（即满足线性回归的基本假设），基于以上假设投资组合的风险表达式为：
 
 $$
-\sigma_{p}=\sqrt{w^{T}(X\varSigma X^{T}+\varDelta)w}
+\sigma_{p}=\sqrt{w^{T}(X\Sigma X^{T}+\varDelta)w}
 $$
 
 其中，
@@ -161,7 +161,7 @@ $$
 目标风险作为MVO的常见衍生模型，也同时是组合优化中用来控制组合整体风险的常用手段，目标风险模型可以表达为：
 
 $$
-\begin{array}{c}{{\mathrm{Max}~w^{T}\mu}}\\{{\mathrm{s.t.}~w^{\prime}\Sigma w\leq Target\_Risk}}\end{array}
+\begin{aligned}\operatorname{Max}\ w^{T}\mu\quad&\\s.t.\quad w^{\prime}\Sigma w\leq Target\_Risk\end{aligned}
 $$
 
 Target_Risk 目标风险代表所希望组合保持的年化波动率。不过实际测试中的实现年化波动往往会略高于设置的目标波动率水平。
@@ -209,7 +209,7 @@ ABL 模型最大的弊端在于它的配置过程不够透明，投资者无法�
 因此基于跟踪误差限制的MVO模型基础构造如下：
 
 $$
-\begin{array}{r}{\mathbb{M}\mathrm{ax}F(\omega)=\omega^{T}\mu_{active}}\\{\mathrm{s.t.}\sqrt{(w-w_{bench})^{\prime}\Sigma(w-w_{bench})}\le target\llangle{TE}}\end{array}
+\begin{aligned}\operatorname{Max}F(\omega)&=\omega^{T}\mu_{active}\\\text{ s.t. }\quad\sqrt{(w-w_{bench})^{\prime}\Sigma(w-w_{bench})}&\leq target_{-}TE\end{aligned}
 $$
 
 其中：
@@ -416,7 +416,7 @@ c) 个股权重不超过 5%
 在上一节的 MVO 模型及其衍生模型的对比中可见，市值风险因子暴露控制对于组合整体信息比和回撤的表现都具有较好的提升效果。由于指数增强产品并非一味追求收益的产品，而是追求可以稳定的跑赢其基准，因此行业暴露度控制和跟踪误差控制对于指数增强类的组合来讲是十分必要的约束，在保证增强组合的稳定性和有效性上具有很重要的作用。因此我们实证的光大Alpha1.0 中证 500 增强组合采取行业中性、市值暴露控制的跟踪误差 MVO优化模型:
 
 $$
-\begin{array}{rl}&{\mathrm{Max}F(\omega)=\omega^{T}\mu_{active}}\\{\mathrm{~s.t.~}}&{\sqrt{(w-w_{bench})^{\prime}\Sigma(w-w_{bench})}\leq target_{-}TE}\\&{|\mathrm{M}(w-w_{bench})|\leq Mcap_{-}exp}\\&{|\mathrm{H}(w-w_{bench})|\leq Ind_{-}exp}\\&{0<w\leq Max_{-}weight}\\&{1^{T}w=1}\end{array}
+\begin{aligned}\operatorname{Max}F(\omega)&=\omega^{T}\mu_{active}\\s.t.\quad&\sqrt{(w-w_{bencch})'\Sigma(w-w_{bencch})}\leq target\_TE\\&|\mathsf{M}(w-w_{bencch})|\leq Mcap\_exp\\&|\mathsf{H}(w-w_{bencch})|\leq Ind\_exp\\&0<w\leq Max\_weight\\&1^{T}w=1\end{aligned}
 $$
 
 其中：
@@ -550,49 +550,49 @@ ABL优化模型具体构造流程如下：
 为了将因子观点融合到BL模型的主观观点中，首先需要利用多因子模型将资产的收益率解释为多个有效因子的线性组合，假设由N个资产与L个因子构成ABL模型，则具体的因子模型如下:
 
 $$
-\mathrm{{r}=\alpha+B\cdot r_{\mathrm{{L}}}+\xi}
+\mathbf{r}=\boldsymbol{\alpha}+\mathbf{B}\cdot\mathbf{r}_{\mathrm{L}}+\boldsymbol{\xi}
 $$
 
-式中r表示资 $\dot{\mathcal{P}}$ 收益率， $\mathrm{r_{L}}$ 表示因子收益率，B为N×L的因子系数矩阵，α是常数项，而ξ是误差项。
+式中r表示资 $v产$ 收益率， $\mathrm{r_{L}}$ 表示因子收益率，B为N×L的因子系数矩阵，α是常数项，而ξ是误差项。
 
-求得资 $\dot{\mathcal{P}}$ 收益协方差矩阵:
+求得资 $v产$ 收益协方差矩阵:
 
 $$
-\boldsymbol{\Sigma}_{\mathrm{r}}=\mathrm{B}\boldsymbol{\Sigma}_{\mathrm{L}}\mathrm{B}^{\mathrm{T}}+\boldsymbol{\Sigma}_{\boldsymbol{\xi}}
+\Sigma_{\mathrm{r}}=\mathrm{B}\Sigma_{\mathrm{L}}\mathrm{B}^{\mathrm{T}}+\Sigma_{\xi}
 $$
 
 ## 2) 融入 BL 模型
 
-由上面得到的协方差矩阵，求得资产隐含均衡收益向量 $\Pi_{\mathrm{r}}=\lambda\Sigma_{\mathrm{r}}\omega_{\mathrm{m}}$ ，以及通过上述的线性因子模型和 CAPM 模型推导得到因子的隐含均衡收益$\Pi_{\mathrm{L}}=\lambda\Sigma_{\mathrm{L}}\mathbf{B}^{\mathrm{T}}\omega_{\mathrm{m}}$ ，即可求得市场隐含均衡收益矩阵Π $\mathrm{\Omega=\left(\Pi_{n}^{\Pi}\right)=\lambda\left(\begin{array}{c}{{\Sigma_{r}}}\\{{\Sigma_{L}B^{\mathrm{T}}}}\end{array}\right)\omega_{m\circ}}$ ABL模型中的后验预期收益则与BL完全相同:
+由上面得到的协方差矩阵，求得资产隐含均衡收益向量 $\Pi_{\mathrm{r}}=\lambda\Sigma_{\mathrm{r}}\omega_{\mathrm{m}}$ ，以及通过上述的线性因子模型和 CAPM 模型推导得到因子的隐含均衡收益$\Pi_{\mathrm{L}}=\lambda\Sigma_{\mathrm{L}}\mathrm{B}^{\mathrm{T}}\omega_{\mathrm{m}}$ ，即可求得市场隐含均衡收益矩阵Π $=\binom{\Pi_{\mathbf{r}}}{\Pi_{\mathrm{L}}}=\lambda\binom{\Sigma_{\mathbf{r}}}{\Sigma_{\mathrm{L}}\mathrm{B}^{\mathrm{T}}}\boldsymbol{\omega}_{\mathbf{m}}\mathrm{。}$ ABL模型中的后验预期收益则与BL完全相同:
 
 $$
-\mathrm{E(R)}=((\tau\Sigma)^{-1}+\mathrm{P}^{\mathrm{T}}\Omega^{-1}\mathrm{P})^{-1}((\tau\Sigma)^{-1}\Pi+\mathrm{P}^{\mathrm{T}}\Omega^{-1}\mathrm{Q}),
+\begin{array}{r}{\mathrm{E}(\mathbb{R})=((\tau\Sigma)^{-1}+\mathsf{P}^{\mathsf{T}}\Omega^{-1}\mathsf{P})^{-1}((\tau\Sigma)^{-1}\Pi+\mathsf{P}^{\mathsf{T}}\Omega^{-1}\mathbb{Q}),}\end{array}
 $$
 
 所有的变量维数都被扩充到N+L维，且在ABL中:
 
 $$
-\Sigma=\left({\begin{array}{cc}{\Sigma_{\mathrm{r}}}&{\mathrm{B}\Sigma_{\mathrm{L}}}\\{\Sigma_{\mathrm{L}}\mathrm{B}^{\mathrm{T}}}&{\Sigma_{\mathrm{L}}}\end{array}}\right),
+\Sigma={\binom{\Sigma_{\mathbf{r}}\quad\mathrm{B}\Sigma_{\mathrm{L}}}{\Sigma_{\mathrm{L}}\mathrm{B}^{\mathrm{T}}\quad\Sigma_{\mathrm{L}}}},
 $$
 
 Σ是资产收益率与因子收益率共N+L个变量的协方差矩阵。
 
-P是ABL模型使用者需要输入的投资者主观观点，当投资者对资 $\dot{\mathcal{P}}$ 有 ${\bf{\dot{p}}}_{1}$ 个观点，对因子有 ${\mathfrak{p}}_{2}$ 个观点时，P是 $({\bf p}_{1}+{\bf p}_{2})\times(\mathrm{N+L})$ 矩阵:
+P是ABL模型使用者需要输入的投资者主观观点，当投资者对资 $v产$ 有 $\mathbf{\dot{p}_{1}}$ 个观点，对因子有 $\mathbf{\dot{p}_{2}}$ 个观点时，P是 $(\mathtt{p_{1}}+\mathtt{p_{2}})\times(\mathtt{N}\mathtt{+L})$ 矩阵:
 
 $$
-\mathrm{\Delta P}=\biggl(\begin{array}{cc}{\mathrm{P_{p1xN}}}&{0}\\{0}&{\mathrm{P_{p2xL}}}\end{array}\biggr),
+\tt P=\binom{P_{p1xN}}{0}P_{p2xL},
 $$
 
 观点收益向量Q:
 
 $$
-\begin{array}{r}{\mathbf{Q}=\binom{\mathbf{Q}_{\mathrm{p1X1}}}{\mathbf{Q}_{\mathrm{p2x1}}},}\end{array}
+\begin{array}{r}{\mathbb{Q}=\binom{\mathbb{Q}_{\mathtt{p}1\mathtt{x}1}}{\mathbb{Q}_{\mathtt{p}2\mathtt{x}1}},}\end{array}
 $$
 
 观点收益矩阵Ω:
 
 $$
-\Omega=\binom{\Omega_{\mathrm{p1xp1}}}{0}\Omega_{\mathrm{p2xp2}}\bigg),
+\Omega=\left(\begin{matrix}{\Omega_{\mathtt{p}1\mathtt{x}\mathtt{p}1}}&{0}\\{0}&{\Omega_{\mathtt{p}2\mathtt{x}\mathtt{p}2}}\end{matrix}\right),
 $$
 
 最后，截取后验预期收益向量中的前N维，也即关于资产的后验预期收益部分，代入到MVO模型中，进行优化求解，最终得到新的组合权重向量。

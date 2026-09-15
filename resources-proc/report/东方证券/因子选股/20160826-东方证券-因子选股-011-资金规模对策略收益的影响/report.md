@@ -89,20 +89,20 @@ zhujiantao@orientsec.com.cn
 Breen等人（2002）运用线性模型研究了价格移动和净买卖量之间的关系：
 
 $$
-\begin{array}{r}{\mathrm{I_{i,t}}=\mathrm{X_{i,t}}\bar{\Gamma}NTO_{i,t}\times0.5(1-\frac{1}{n}),}\end{array}
+\begin{array}{r}{\mathrm{I}_{\mathrm{i},\mathrm{t}}=\mathrm{X}_{\mathrm{i},\mathrm{t}}\bar{\Gamma}NTO_{i,t}\times0.5(1-\frac{1}{n}),}\end{array}
 $$
 
-其中，因变量为股票 i 在 t 时刻的冲击成本， $NTO_{i,t}$ 为股票 i 在 t 时刻的交易数量， ${\tt X}_{\mathrm{i,t}}$ 股票特有因素的回归系数， ̅为市场因素的回归系数。作者对这个模型做了截面回归并估计1993年1月到1997年5月美国股票的结果，接着用模型进行样本外的预测，发现平均有-71bps的预测误差。
+其中，因变量为股票 i 在 t 时刻的冲击成本， $NTO_{i,t}$ 为股票 i 在 t 时刻的交易数量， $\mathrm{X_{i,t}}$ 股票特有因素的回归系数， ̅为市场因素的回归系数。作者对这个模型做了截面回归并估计1993年1月到1997年5月美国股票的结果，接着用模型进行样本外的预测，发现平均有-71bps的预测误差。
 
 Lillo 等人（2003）运用金融物理学方法统计分析了冲击成本与净买卖量之间的关系，发现它们是呈幂指数关系的特征：
 
 $$
-\begin{array}{r}{\Delta\mathrm{p}=\mathrm{C}^{-\gamma}sgn(w)\left|\frac{w}{{C}^{\delta}}\right|^{\beta},}\end{array}
+\begin{array}{r}{\Delta\mathtt{p}=\mathtt{C}^{-\gamma}sgn(w)\left|\frac{w}{C^{\delta}}\right|^{\beta},}\end{array}
 $$
 
-其中 是冲击成本， 为一个市值区间中股票平均市值， $,\boldsymbol{\mathsf{W}}$ 为交易量，估计出的参数大小为 $\gamma=\delta\mathrm{=}0.3$ 在不同年份介于0.2-0.5之间。
+其中 是冲击成本， 为一个市值区间中股票平均市值， $,w$ 为交易量，估计出的参数大小为 $\gamma=\delta=0.3$ 在不同年份介于0.2-0.5之间。
 
-Almgren 等人（2002,2003,2005）在三篇论文中分别建立了非线性的冲击成本模型并运用了花旗银行 2001.12-2003.6 的订单数据进行了实证数据的分析，统计出了冲击成本函数的参数（永久性冲击函数的指数： $\alpha=0.891$ ，暂时性冲击函数的指数： $\beta=0.6\AA$ ，这个模型相对于之前两个模型而言被业界的认可程度更高。
+Almgren 等人（2002,2003,2005）在三篇论文中分别建立了非线性的冲击成本模型并运用了花旗银行 2001.12-2003.6 的订单数据进行了实证数据的分析，统计出了冲击成本函数的参数（永久性冲击函数的指数： $\alpha=0.891$ ，暂时性冲击函数的指数： $\beta=0.6)$ ，这个模型相对于之前两个模型而言被业界的认可程度更高。
 
 Chiyachantana 等人（2004）统计了 1997,1998 和 2001 年 37 个全球市场的数据发现影冲击成本受市场因素影响较大，在牛市期间买入的冲击成本通常要大于卖出的，在熊市期间则呈现相反的规律。Gatheral 等人（2011）建立了优化冲击成本的算法交易模型。Kissell等人（2013）提出了另一种描述冲击成本的非线性模型——I-star模型，与Almgren模型的主要区别是在波动率项上加上了指数。我们比较了两种模型的结果之后，采用 Almgren 建立的模型并用它来衡量分析中国股票市场的冲击成本大小。
 
@@ -112,25 +112,25 @@ Chiyachantana 等人（2004）统计了 1997,1998 和 2001 年 37 个全球市�
 
 这里我们参考Almgren and Chriss (2000)和Almgren (2003)中所提出的衡量冲击成本的模型。首先我们对模型的输入变量作出定义。
 
-对于一个订单而言，我们有订单发起时的市场价格 ${\boldsymbol{S}}_{0}$ ；订单执行完后的市场价格 $S_{\mathrm{post}}$ $S_{\mathrm{post}}$ 指的是订单执行完一段时间之后暂时性冲击消失后的价格，也就是说 $S_{\mathrm{post}}$ 仅包含了订单的永久性冲击效果；平均执行价格 $\begin{array}{r}{\bar{\bf{s}}=\sum x_{j}S_{j}/\sum x_{j},}\end{array}$ 其中 $\vert x_{j}$ 和 $S_{j}$ 分别为订单中第j部分执行的成交量和成交价格，̅度量了订单交易的平均价格，也就是永久性冲击和临时性冲击的共同效果。定义了价格以后，我们可以得到冲击变量：
+对于一个订单而言，我们有订单发起时的市场价格 ${\cdot}S_{0}$ ；订单执行完后的市场价格 $S_{\mathrm{post}}$ $S_{\mathrm{post}}$ 指的是订单执行完一段时间之后暂时性冲击消失后的价格，也就是说 $S_{\mathrm{post}}$ 仅包含了订单的永久性冲击效果；平均执行价格 $\begin{array}{r}{\bar{s}=\sum x_{j}S_{j}/\sum x_{j},}\end{array}$ 其中 $\mid x_{j}$ 和 $S_{j}$ 分别为订单中第j部分执行的成交量和成交价格，̅度量了订单交易的平均价格，也就是永久性冲击和临时性冲击的共同效果。定义了价格以后，我们可以得到冲击变量：
 
 $$
-\begin{array}{r}{\hat{\jmath}_{\mathrm{k}}\hbar\lambda_{\mathit{l}}\vert_{\pm}\rangle\#\pmb{\mathbb{E}}:I=\frac{S_{post}-S_{0}}{S_{0}},}\end{array}
+永久性冲击:$I=\frac{S_{post}-S_{0}}{S_{0}},$
 $$
 
 $$
-\begin{array}{r}{\rangle\dag\equiv\dag\mathbb{H}\dag\bar{\mathcal{\mathrm{I}}}\dag\mathcal{K}\dag\mathbb{K}:\ \boldsymbol{J}=\frac{\bar{S}-S_{0}}{S_{0}}\dag}\end{array}
+冲击成本:$J=\frac{\bar{S}-S_{0}}{S_{0}}。$
 $$
 
 我们可以想象对于一个订单而言，在成交的过程中会始终受到发起时刻到当前的永久性冲击作用，因此综合整个订单的执行过程而言，冲击成本中的永久性冲击部分实际是I/2.因此我们可以定义暂时性冲击为：
 
 $$
-\sharp\mathbb{F}\sharp\mathbb{\cdot}|\mathbb{\cdot}|\mathbb{\cdot}|\mathbb{\cdot}\mathbb{\cdot}\mathbb{\cdot}\mathbb{\cdot}|\mathbb{\cdot}|P=J-\frac{I}{2}\circ
+暂时性冲击:$P=J-\frac{I}{2}\mathrm{。}$
 $$
 
-同时，对于一个订单而言，交易量和交易的时间也是必须的，我们定义订单执行总 $\textstyle\varXi{\mathrm{x}}=\sum_{\mathrm{j}=1}^{n}x_{j}$ 交易量时间 ， 指的是当天开始到时刻t时的交易量占一天总交易量的百分比，所以在开盘的时候$\tau=0$ ，在收盘的时候 $\tau=1$ ；订单交易量时间 $=\tau_{\mathrm{n}}-\tau_{0}$ ，其中 $\tau_{\mathrm{n}}$ 和 $\tau_{0}$ 分别为订单开始和结束时的交易量时间，T也就是订单交易量占全天交易量的比重；冲击交易时间 $\mathrm{T}_{\mathrm{post}}=\tau_{\mathrm{post}}-\tau_{0}$ ，其中 $\tau_{\mathrm{post}}$ 为订单执行结束后暂时性冲击消失时的交易量时间。
+同时，对于一个订单而言，交易量和交易的时间也是必须的，我们定义订单执行总 $量X=\textstyle\sum_{j=1}^{n}x_{j}$ 交易量时间 ， 指的是当天开始到时刻t时的交易量占一天总交易量的百分比，所以在开盘的时候$\tau=0$ ，在收盘的时候 $\tau=1$ ；订单交易量时间 $\mathbf{\tau}=\mathbf{\tau}_{\mathrm{n}}-\mathbf{\tau}_{0}$ ，其中 $\tau_{\pi}$ 和 $\tau_{0}$ 分别为订单开始和结束时的交易量时间，T也就是订单交易量占全天交易量的比重；冲击交易时间 $\mathtt{T_{post}}=\mathtt{\tau_{post}}-\mathtt{\tau_{0}}$ ，其中 $\tau_{\mathrm{post}}$ 为订单执行结束后暂时性冲击消失时的交易量时间。
 
-在模型中，我们还会用到平均日交易量 V 和日内波动率 ，用 V 来对 X 做标准化，可以得到订单量与平均日交易量的比例，参数的估计在时间尺度上更加稳定， 是衡量日内股票交易活跃度的指标， 代表了股票价格日内的变 $\nexists$ 剧烈程度，与冲击成本大小也有一定的关系。
+在模型中，我们还会用到平均日交易量 V 和日内波动率 ，用 V 来对 X 做标准化，可以得到订单量与平均日交易量的比例，参数的估计在时间尺度上更加稳定， 是衡量日内股票交易活跃度的指标， 代表了股票价格日内的变 $动$ 剧烈程度，与冲击成本大小也有一定的关系。
 
 ## 1.2.2 动力学模型
 
@@ -140,10 +140,10 @@ $$
 dS=S_{0}g(\nu)d\tau+S_{0}\sigma dB
 $$
 
-其中 $g(\nu)$ 为永久性冲击函数， 是一个标准布朗运动变量， 为单位时间内的交易量。 $|\mathbf{g}(\nu)|$ |随着| |增大而增大，且 $\mathbf{g}(0)=0$ 。把上式对 从0到T做积分，同时令 $\nu=\mathrm{X}/\mathrm{T}$ ，可以得到永久性冲击的表达式为：
+其中 $g(\nu)$ 为永久性冲击函数， 是一个标准布朗运动变量， 为单位时间内的交易量。 $|\mathbf{g}(v)|$ |随着| |增大而增大，且 $\mathbf{.g}(0)=0$ 。把上式对 从0到T做积分，同时令 $\nu=\mathrm{X}/\mathrm{T}$ ，可以得到永久性冲击的表达式为：
 
 $$
-\begin{array}{r}{I=Tg\left(\frac{X}{T}\right)+\sigma\sqrt{T_{post}}\xi}\end{array}
+\begin{array}{r}{I=Tg\left(\frac{X}{T}\right)+\sigma\sqrt{T_{post}}\xi.}\end{array}
 $$
 
 其中ξ是一个标准正态分布的随机变量。
@@ -151,13 +151,13 @@ $$
 包含暂时性冲击的股价动力学方程为：
 
 $$
-\bar{\mathsf{S}}(\tau)=S(\tau)+S_{0}h(\frac{X}{T})
+\overline{{S}}(\tau)=S(\tau)+S_{0}h(\cfrac{X}{T})
 $$
 
 其中 $g(\nu)$ 为暂时性冲击函数，可以看到上述方程是一个连续交易量时间方程，对其做交易量时间加权平均可以得到：
 
 $$
-J-\frac{I}{2}=h\left(\frac{X}{T}\right)+\sigma\left(\sqrt{\frac{T}{12}\left(4-3\frac{T}{T_{post}}\right)}\chi-\frac{T_{post}-T}{2\sqrt{T_{post}}}\xi\right)
+J-\cfrac{I}{2}=h\left(\cfrac{X}{T}\right)+\sigma\left(\sqrt{\cfrac{T}{12}\left(4-3\cfrac{T}{T_{post}}\right)}\chi-\cfrac{T_{post}-T}{2\sqrt{T_{post}}}\xi\right).
 $$
 
 其中 是独立于ξ的标准正态分布随机变量。
@@ -165,11 +165,11 @@ $$
 这样我们就得到了永久性冲击与暂时性冲击的表达式：
 
 $$
-\begin{array}{r}{I=Tg\left(\frac{X}{T}\right)+<\mathrm{noise}>_{\circ}}\end{array}
+I=Tg\left(\frac{X}{T}\right)+<\mathrm{noise}>_{\circ}
 $$
 
 $$
-\begin{array}{r}{J-\frac{I}{2}=\ h\left(\frac{X}{T}\right)+<\mathrm{noise}>_{\circ}}\end{array}
+J-\frac{I}{2}=h\left(\frac{X}{T}\right)+<noise>
 $$
 
 ## 1.2.3 冲击成本函数
@@ -177,7 +177,7 @@ $$
 根据 Almgren (2003),Lillo（2003）和 Barra (1997)等人的研究结果来看，学界通常认为冲击成本函数 )和 )都是 的幂函数，形式如下：
 
 $$
-\begin{array}{l}{{\mathrm{g(u)}=\pm\gamma^{\prime}|\mathrm{u}|^{\alpha},}}\\{{\mathrm{h(u)}=\pm\eta^{\prime}|\mathrm{u}|^{\beta},}}\end{array}
+\begin{aligned}&\mathsf{g}(\mathsf{v})=\pm\gamma^{\prime}|\mathsf{v}|^{\alpha},\\&\mathsf{h}(\mathsf{v})=\pm\mathsf{\eta}^{\prime}|\mathsf{v}|^{\beta}。\\\end{aligned}
 $$
 
 我们假设冲击成本函数是关于原点中心对称的，也就是说相同大小的买卖单对价格的冲击仅符号相反。接着我们把 除以平均交易量 V 来去除变量的量纲，把 变成日均交易量百分比的形式，这样可以让自变量在时间尺度上始终保持在0-1之间，参数估计的稳定性更好。此外，我们知道日内波动率是描述股价在天内波动情况的指标，这个指标与冲击成本也相关，所以我们从 和 中提取出并除到因变量上来对永久性冲击和暂时性冲击标准化。最后，根据 Breen 等人（2002）的实证研究结果，我们在永久性冲击函数上加上流动性因子 ，
@@ -186,23 +186,23 @@ $$
 \begin{array}{r}{\mathcal{L}=\left(\frac{\theta}{V}\right)^{\delta},}\end{array}
 $$
 
-其中 为股票的流通股本数， ${\frac{\theta}{V}}\cdot$ 也就是平均换手率的倒数。
+其中 为股票的流通股本数， $\frac{\theta}{V}^{-}$ 也就是平均换手率的倒数。
 
 综合上述结果，我们最终得到了标准化的永久性冲击函数和标准化的暂时性冲击函数：
 
 标准化的永久性冲击： $\begin{array}{r}{\frac{I}{\sigma}=\gamma Tsgn(X)\left|\frac{X}{VT}\right|^{\alpha}\left(\frac{\theta}{V}\right)^{\delta}+<noise>}\end{array}$
 
 $$
-\begin{array}{r}{\frac{1}{\sqrt[\hphantom{-}]{2}}\langle\sum\vert\mathcal{E}\vert\vert\mathcal{E}\vert\rangle^{\frac{1}{2}}\overleftarrow{\mathrm{gr}}\vert\mathbb{H}\rangle^{+}\vert\mathcal{I}\vert\dag;\dag;\dag;\dag;\frac{1}{\mathrm{d}}\big.::\frac{1}{\sigma}\Big(\big\mathrm{J}-\frac{\mathrm{I}}{2}\Big)=\eta\mathrm{T}\dag\sqrt{\mathrm{sgn}(\mathrm{X})}\left.\frac{\mathrm{X}}{\mathrm{VT}}\right.^{\beta}+<\mathrm{noise}>_{\mathrm{o}}}\end{array}
+\frac{1}{\sigma}\left(J-\frac{1}{2}\right)=\eta\mathrm{Tsgn}(X)\left|\frac{X}{\mathrm{VT}}\right|^{\beta}+<\mathrm{noise}>
 $$
 
-根据 Huberman and Stanzl（2004）的研究， $\mathbf{g}(\mathfrak{v})$ 是 的线性函数，也即 $\alpha=1$ ，此时模型不存在无风险套利机会。根据Robert Almgren等人 (2005)的实证估计（花旗集团股票交易柜台2001.12-2003.07 的股票订单数据）得到 $|\beta=0.6$ 以及 $\delta=0.25$ 。在本文中，我们将根据日频的数据来对模型的参数进行估计。
+根据 Huberman and Stanzl（2004）的研究， $\mathbf{g}(\mathbf{v})$ 是 的线性函数，也即 $\alpha=1$ ，此时模型不存在无风险套利机会。根据Robert Almgren等人 (2005)的实证估计（花旗集团股票交易柜台2001.12-2003.07 的股票订单数据）得到 $|\beta=0.6$ 以及 $\delta=0.25$ 。在本文中，我们将根据日频的数据来对模型的参数进行估计。
 
 ## 1.3 冲击成本模型的实证研究
 
 ## 1.3.1 参数设定
 
-在本文中，我们根据低频的日度数据来估计永久性冲击和暂时性冲击平均在一天内的效果。我们用每日的主动净流入量（正的代表流入，负的代表流出）来代替订单的大小，相当于把每日的主动净流入量看作为一个主动的交易订单，同时我们认为相同的主动买入量与主动卖出量的作用的相互抵消的，所以这个订单是在一天之内以成交量加权平均价（VWAP）来交易完成的，也就是说 T=1，̅=VWAP， $\mathrm{S}_{0}$ 为每日的开盘价格， $\mathrm{S_{post}}$ 为每日的收盘价格。
+在本文中，我们根据低频的日度数据来估计永久性冲击和暂时性冲击平均在一天内的效果。我们用每日的主动净流入量（正的代表流入，负的代表流出）来代替订单的大小，相当于把每日的主动净流入量看作为一个主动的交易订单，同时我们认为相同的主动买入量与主动卖出量的作用的相互抵消的，所以这个订单是在一天之内以成交量加权平均价（VWAP）来交易完成的，也就是说 T=1，̅=VWAP， $\mathsf{S}_{0}$ 为每日的开盘价格， $S_{\mathrm{post}}$ 为每日的收盘价格。
 
 根据《上海证券交易所市场质量报告》中的统计结果可以看到，不同流通市值大小的股票的市场冲击大小不同（图 3），因此我们在估计参数的时候把股票按照流通市值划分为 7 个区间（表 2）。
 
@@ -297,7 +297,7 @@ $$
 
 ## 1.3.3冲击成本估计
 
-根据表3、4的结果，绘制了市值大于1000亿股票的标准化永久性冲击 与标准化主动交易量和流动性因子 的关系图（图11），颜色代表标准化永久性冲击的大小。图12是不同市值区间股票标准化的暂时性冲击 $(\mathrm{J}-\frac{\mathrm{I}}{2})/{\sigma}$ 与标准化主动交易量关系图，可以看到由于不同市值区间的股票有不同的日内波动率和股票价格，所以标准化的暂时性冲击与流通市值大小并没有单调关系。
+根据表3、4的结果，绘制了市值大于1000亿股票的标准化永久性冲击 与标准化主动交易量和流动性因子 的关系图（图11），颜色代表标准化永久性冲击的大小。图12是不同市值区间股票标准化的暂时性冲击 $(\mathrm{J}-\frac{\mathrm{I}}{2})/\sigma$ 与标准化主动交易量关系图，可以看到由于不同市值区间的股票有不同的日内波动率和股票价格，所以标准化的暂时性冲击与流通市值大小并没有单调关系。
 
 图11：标准化永久性冲击与标准化主动交易量（>1000 亿）
 ![](images/68be768a4c6cfbdcd8abd9e129c2d2d458ef5dc3088ff83dd5ab1aae71e17497.webp)
@@ -365,50 +365,50 @@ $$
 
 ## 交易成本模型的构建:
 
-交易成本也是多因子选股模型构建不可缺少的一环。交易成本与组合的权重变化和交易执行策略直接相关。这里我们只讨论交易成本与组合权重变化的关系。假定组合权重变化为 $\Delta\mathbf{w}=\mathbf{w}-\mathbf{w}_{0}$ ，其中 $\mathbf{w}_{0}$ 是调仓前的权重向量，w 是调仓后的权重向量。交易成本可以表示为 f( w) ，即一个关于权重变化 w的函数。根据上文的论述，交易成本通常可以分为显性成本和隐性成本。显性成本包括交易佣金，印花税和买卖价差(bid-ask spread)等。隐性成本则包括冲击成本和机会成本等。由显性成本的定义可知，显性成本与组合的权重变化的绝对值成线性关系，可以表示成如下：
+交易成本也是多因子选股模型构建不可缺少的一环。交易成本与组合的权重变化和交易执行策略直接相关。这里我们只讨论交易成本与组合权重变化的关系。假定组合权重变化为 $\Delta\mathsf{w}=\mathsf{w}-\mathsf{w}_0$ ，其中 $\mathbf{w}_{0}$ 是调仓前的权重向量，w 是调仓后的权重向量。交易成本可以表示为 f( w) ，即一个关于权重变化 w的函数。根据上文的论述，交易成本通常可以分为显性成本和隐性成本。显性成本包括交易佣金，印花税和买卖价差(bid-ask spread)等。隐性成本则包括冲击成本和机会成本等。由显性成本的定义可知，显性成本与组合的权重变化的绝对值成线性关系，可以表示成如下：
 
 $$
-\mathsf{f}(\Delta\mathsf{w})=\tau|\Delta\mathbf{w}|,
+\mathbf{f}(\Delta\mathbf{w})=\mathbf{\tau}|\Delta\mathbf{w}|
 $$
 
 隐性成本在本文中仅考虑冲击成本的作用，冲击成本可以表示成如下：
 
 $$
-\mathrm{J(\Delta\Delta w)=\lambda\sum_{i=1}^{N}\left(A_{i}|w_{i}-w_{0i}|^{\alpha_{i}+1}+B_{i}|w_{i}-w_{0i}|^{\beta_{i}+1}\right),}
+\begin{array}{r}{\mathbf{J}(\Delta\mathbf{w})=\lambda\sum_{\mathbf{i}=1}^{\mathbf{N}}\left(\mathbf{A}_{\mathbf{i}}|\mathbf{w}_{\mathbf{i}}-\mathbf{w}_{0\mathbf{i}}|^{\alpha_{\mathbf{i}}+1}+\mathbf{B}_{\mathbf{i}}|\mathbf{w}_{\mathbf{i}}-\mathbf{w}_{0\mathbf{i}}|^{\beta_{\mathbf{i}}+1}\right),}\end{array}
 $$
 
-其中 $\mathbf{w}_{\mathrm{i}}$ 为第 i 支股票的权重， $\mathrm{w_{0i}}$ 为第 i 支股票的调整前权重， 为调整系数，其意义我们会在后面说明， $\mathrm{A_{i}}$ 和 $\mathtt{B_{i}}$ 分别为：
+其中 $w_{\mathrm{i}}$ 为第 i 支股票的权重， $\mathbf{w_{0i}}$ 为第 i 支股票的调整前权重， 为调整系数，其意义我们会在后面说明， $\mathrm{A_{i}}$ 和 $\mathtt{B_{i}}$ 分别为：
 
 $$
-\begin{array}{r}{\mathsf{A}_{\mathrm{i}}{=}\gamma_{\mathrm{i}}\sigma_{\mathrm{i}}\left(\frac{\mathsf{S}}{\mathsf{P}_{\mathrm{i}}\nabla_{\mathrm{i}}}\right)^{\alpha_{\mathrm{i}}}\left(\frac{\Theta_{\mathrm{i}}}{\mathsf{V}_{\mathrm{i}}}\right)^{\delta_{\mathrm{i}}},}\end{array}
+\begin{array}{r}{\mathrm{A_{i}{=}\gamma_{i}\sigma_{i}\left(\frac{S}{P_{i}V_{i}}\right)^{\alpha_{i}}\left(\frac{\Theta_{i}}{V_{i}}\right)^{\delta_{i}},}}\end{array}
 $$
 
 $$
-\mathrm{{B}_{\mathrm{{i}=\eta_{i}\sigma_{i}\left(\frac{S}{P_{i}V_{i}}\right)^{\alpha_{i}},}}}
+\mathrm{B_{i}{=}\eta_{i}\sigma_{i}\left(\frac{s}{P_{i}V_{i}}\right)^{\alpha_{i}},}
 $$
 
-其中S为组合的总市值， $\mathrm{P_{i}}$ 是第i支股票的价格，引入这两个量是由于原来的冲击成本函数的变量是主动交易量X，而优化时的冲击成本函数以权重作为变量。
+其中S为组合的总市值， $\mathrm{P_{i1}}$ 是第i支股票的价格，引入这两个量是由于原来的冲击成本函数的变量是主动交易量X，而优化时的冲击成本函数以权重作为变量。
 
 ## 2.1.2加入冲击成本函数的组合优化
 
 我们采用经过风险和交易成本调整后的alpha 作为优化的目标函数：
 
 $$
-\mathrm{Max};f^{\prime}w-\tau|w-w_{0}|-\lambda\sum_{i=1}^{N}\bigl(A_{i}|w_{i}-w_{0i}|^{\alpha_{i}+1}+B_{i}|w_{i}-w_{0i}|^{\beta_{i}+1}\bigr)
+\mathtt{Max}\colon f^{\prime}w-\tau|w-w_{0}|-\lambda\sum_{i=1}^{N}\bigl(A_{i}|w_{i}-w_{0i}|^{\alpha_{i}+1}+B_{i}|w_{i}-w_{0i}|^{\beta_{i}+1}\bigr).
 $$
 
 s.t.
 
 $$
-\begin{array}{r}{R^{\prime}w=R^{\prime}w_{bench},}\end{array}
+R^{\prime}w=R^{\prime}w_{bench},
 $$
 
 $$
-\begin{array}{r}{(w-w_{bench})^{\prime}\varSigma\ (w-w_{bench})\leq\frac{TE^{2}}{252},}\end{array}
+\begin{array}{r}{(w-w_{bench})^{\prime}\varSigma\quad(w-w_{bench})\leq\frac{TE^{2}}{252},}\end{array}
 $$
 
 $$
-0\leq w_{i}\leq\operatorname*{min}(maxposition,\ w_{0i}+maxtradesize_{i}/booksize_{i}),
+0\leq w_{i}\leq\operatorname*{min}(maxposition,~w_{0i}+maxtradesize_{i}/booksize_{i}),
 $$
 
 其中  为预期 ， 为组合的期末权重， 为固定成本（0.15%）， 是调整系数（调整优化过程中冲击成本高估的问题，我们将在后面一节解释 的意义）， 是协方差矩阵的压缩估计量， 是基准的权重。

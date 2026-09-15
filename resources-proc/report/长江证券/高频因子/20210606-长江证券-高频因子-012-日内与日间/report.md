@@ -92,7 +92,7 @@
 高频反转因子的计算方式如下，即对时间窗口内划分的所有 k 线量价数据，做价格变动的成交量加权求和：
 
 $$
-\mathrm{Rev}_{vol}=\sum_{i=1}^{period}w_{i}\log\frac{close_{t-i+1}}{close_{t-i}},w_{i}\propto volume_{i}
+\mathrm{Rev}_{vol}=\sum_{i=1}^{period}w_i\log\frac{close_{t-i+1}}{close_{t-i}},w_i\propto volume_i
 $$
 
 其中period为计算因子的时间窗口长度，close为每个时间段收盘价，w 为汇总价格变动的权重，正比于每个时间段的成交量volume。本文中整体法和日内法的因子计算均采用5 分钟频率划分的 k 线。
@@ -162,7 +162,7 @@ $$
 量价相关性因子的计算方式如下，即计算时间段内对应成交量和价格相关性：
 
 $$
-\boxed{\pm|\hat{\jmath}\rangle\dot{\uparrow}\dot{\mathbb{H}}\ni\check{\kappa}\llcorner\check{\pmb{\operatorname{tat}}}\boxed{\pmb{\operatorname{E}}}=corr(volume,close)=\frac{\sum_{i=1}^{period}\left(close_{i}-mean(close_{i})\right)volume_{i}}{std(close_{i})\times std(volume_{i})}}
+量价相关性因子=Corr(volume,close)=\frac{\sum_{i=1}^{period}(close_i-mean(close_i))volume_i}{std(close_i)\times std(volume_i)}
 $$
 
 其中变量含义如上文。本文中整体和日内量价相关性因子计算均采用 5 分钟频率划分的k 线。

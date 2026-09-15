@@ -4,7 +4,7 @@
 
 股票的风险溢价来自于投资者所承担的股票风险。波动率作为衡量股票风险的常见指标，在实证中已被证实存在显著的风险溢价。但波动率是由收益率的二阶矩计算而来，单纯依靠二阶矩无法反映分布的整体情况，因此本文尝试从收益率分布的高阶矩及其尾部特征去度量股票风险，并探究不同风险度量方式下产生的风险溢价情况。
 
-本文首先构建了偏度、 $\mathrm{E}_{\varphi}\setminus\mathsf{S}_{\varphi}\bar{\mathrm{\#}}\mathrm{Asym}_{\mathrm{p}}$ 这四类用于衡量收益率非对称性的因子。从测试结果看，偏度因子具有较高的 IC， $\mathtt{E}_{\varphi}\mathfrak{F}\sharp\mathtt{S}_{\varphi}$ 因子具有较高的 IC_IR，$\mathsf{Asym}_{\mathrm{P}}\boxed{\star}$ 子则介于中间。在中证全指股票池内，偏度因子的 IC 为-4.14%，IC_IR 为-2.48； $\mathrm{E}_{\varphi}(3,1.5)$ 因子的 IC 为-3.18%，IC_IR 为-3.01；Sφ(3,1)因子的 IC 为-2.87%，IC_IR 为-3.3；AsymP因子的 IC 为-3.03%，IC_IR 为-1.91。
+本文首先构建了偏度、 $\mathrm{E}_{\varphi}、\mathrm{S}_{\varphi}和\mathrm{Asym}_{\mathrm{P}}$ 这四类用于衡量收益率非对称性的因子。从测试结果看，偏度因子具有较高的 IC， $E_{\varphi}和S_{\varphi}$ 因子具有较高的 IC_IR，$\mathrm{Asym_{P}}$ 子则介于中间。在中证全指股票池内，偏度因子的 IC 为-4.14%，IC_IR 为-2.48； $\mathtt{E}_{\varphi}(3{,}1.5)$ 因子的 IC 为-3.18%，IC_IR 为-3.01；Sφ(3,1)因子的 IC 为-2.87%，IC_IR 为-3.3；AsymP因子的 IC 为-3.03%，IC_IR 为-1.91。
 
 ⚫针对收益率分布的尾部风险，我们构建了左、右尾CVaR以及Van等人（2016）提出的尾部 Beta 因子。右尾 CVaR（即 MaxRet 因子）的 IC 和 IC_IR 在这三类因子中均为最高，它在中证全指内的 IC 为-8.15%，IC_IR 为-2.72。
 
@@ -53,7 +53,7 @@ luanzhangxinyi@orientsec.com.cn
 
 股票的风险溢价来自于投资者所承担的股票风险。波动率作为衡量股票风险的常见指标，在实证中已被证实存在显著的风险溢价。但波动率是基于收益率的二阶矩计算而来，单纯依靠二阶矩无法反映分布的整体情况，因此本文尝试从更多的角度去度量股票风险，如收益率分布的高阶矩及其尾部特征，并探究不同风险度量方式下产生的风险溢价。
 
-我们首先基于收益率的高阶矩构建了偏度因子，同时参考由 Patil 等人（2012）、Jiang 等人（2020）提出的方法，建立了 $\mathit{\Sigma}^{'}E_{\varphi}\setminus\mathit{S}_{\varphi}\mathfrak{F}\Pi Asym_{P}$ 等同样用于刻画分布非对称程度的因子，通过上述因子来探究蕴含在股票收益率非对称分布中的 Alpha。此外，为定量描述收益率分布的尾部特征，我们采用 CVaR 和 Van 等人（2016）提出的尾部 beta方法，来研究存在于股票收益率尾部特征中的 Alpha。
+我们首先基于收益率的高阶矩构建了偏度因子，同时参考由 Patil 等人（2012）、Jiang 等人（2020）提出的方法，建立了 $E_{\varphi}、S_{\varphi}和Asym_{P}$ 等同样用于刻画分布非对称程度的因子，通过上述因子来探究蕴含在股票收益率非对称分布中的 Alpha。此外，为定量描述收益率分布的尾部特征，我们采用 CVaR 和 Van 等人（2016）提出的尾部 beta方法，来研究存在于股票收益率尾部特征中的 Alpha。
 
 综上，本文首先构建了四种衡量收益率非对称程度的因子，然后对收益率分布的尾部风险也分别构造了三种因子进行测试，最后使用随机森林模型将上述因子转换为预测收益率，并根据预期收益率构建多空组合，考察合成后的因子表现。
 
@@ -113,40 +113,40 @@ Skewness_12因子多空组合的净值与回撤
 
 ## 2.2 $E_{\varphi}$ 与 $S_{\varphi}$
 
-本文参考“Stock Return Asymmetry: Beyond Skewness” 中对股票收益非对称性的度量方法，构建了 $E_{\varphi}$ 和 $\vert S_{\varphi}$ 两类因子。
+本文参考“Stock Return Asymmetry: Beyond Skewness” 中对股票收益非对称性的度量方法，构建了 $E_{\varphi}$ 和 $|S_{\varphi}$ 两类因子。
 
 首先， $E_{\varphi}$ 因子是从异尾概率出发，用左、右尾概率作差的方式度量分布的对称性，其中x为标准化的日度超额收益，k为定义左、右异尾的阈值。 $E_{\varphi}$ 因子的含义非常直观，若该因子大于零，则表示该股票在过去出现大涨的概率胜于大跌的概率，而投资者出于“追涨”的心理往往乐于购买这类股票，从而使得这类股票在未来下跌的概率增大。
 
 $$
-E_{\varphi}=\int_{k}^{+\infty}f(x)dx-\int_{-\infty}^{-k}f(x)dx=P(x\geq k)-P(x\leq-k)
+E_{\varphi}=\int\limits_{k}^{+\infty}f(x)dx-\int\limits_{-\infty}^{-k}f(x)dx=P(x\geq k)-P(x\leq-k).
 $$
 
-$S_{\varphi}$ 因子基于熵原理构造。Racine、Massoumi（2007, 2008）曾说明，若 $\{X_{t}\}_{t=1}^{T}$ 为一个平稳过程且 $\mu_{X}=E[X_{t}]$ ，令 $\widehat{\cdot}\widetilde{X_{t}}=-X_{t}+2\mu_{X}$ $f_{1}(x)$ $f_{2}(x)$ 分别为X 和X̃的概率密度函数，则当 $f_{1}(x)\stackrel{a.s.}{=}f_{2}(x)$ 时， $\{X_{t}\}_{t=1}^{T}$ 关于均值 $\mu_{X}$ 对称。因此， $f_{1}(x)$ 与 $f_{2}(x)$ 之间的距离可以用于衡量一个分布是否对称。但由于单纯的距离无法体现分布非对称性的方向，即无法区分分布是左偏还是右偏，所以 Jiang 等人（2020）在距离前乘以 $E_{\varphi}$ 因子的符号$Sign(E_{\varphi})$ ，使得 $S_{\varphi}$ 加入了非对称性方向的考量。
+$S_{\varphi}$ 因子基于熵原理构造。Racine、Massoumi（2007, 2008）曾说明，若 $\{X_{t}\}_{t=1}^{T}$ 为一个平稳过程且 $\mu_{X}=E[X_{t}]$ ，令 $\widehat{\gamma X_{t}}=-X_{t}+2\mu_{X}$ $f_{1}(x)$ $f_{2}(x)$ 分别为X 和X̃的概率密度函数，则当 $f_{1}(x){\stackrel{a.s.}{=}}f_{2}(x)$ 时， $\{X_{t}\}_{t=1}^{T}.$ 关于均值 $\mu_{X}$ 对称。因此， $f_{1}(x)$ 与 $f_{2}(x)$ 之间的距离可以用于衡量一个分布是否对称。但由于单纯的距离无法体现分布非对称性的方向，即无法区分分布是左偏还是右偏，所以 Jiang 等人（2020）在距离前乘以 $E_{\varphi}$ 因子的符号$Sign(E_{\varphi})$ ，使得 $S_{\varphi}$ 加入了非对称性方向的考量。
 
 $$
-S_{\varphi}=Sign(E_{\varphi})*\frac{1}{2}\Biggl\{\int_{-\infty}^{-k}(f_{1}^{\frac{1}{2}}-f_{2}^{\frac{1}{2}})^{2}dx+\int_{k}^{+\infty}(f_{1}^{\frac{1}{2}}-f_{2}^{\frac{1}{2}})^{2}dx\Biggr\}
+S_{\varphi}=Sign(E_{\varphi})*\frac{1}{2}\left\{\int\limits_{-\infty}^{-k}(f_{1}^{\frac{1}{2}}-f_{2}^{\frac{1}{2}})^{2}dx+\int\limits_{k}^{+\infty}(f_{1}^{\frac{1}{2}}-f_{2}^{\frac{1}{2}})^{2}dx\right\}
 $$
 
-$S_{\varphi}$ 定义中的x和k的含义与 $E_{\varphi}$ 相同。由于 ${\dot{\boldsymbol{\cdot}}}{f_{1}}(x)$ $f_{2}(x)$ 的真实分布未知，所以对二者的估计采用非参数估计中的核密度估计法，核密度函数选取高斯核函数。
+$S_{\varphi}$ 定义中的x和k的含义与 $E_{\varphi}$ 相同。由于 $\dot{\tau}f_{1}(x)$ $f_{2}(x)$ 的真实分布未知，所以对二者的估计采用非参数估计中的核密度估计法，核密度函数选取高斯核函数。
 
 $$
-{\widehat{f(x)}}={\frac{1}{nh}}\sum_{i=1}^{n}\kappa({\frac{r_{i}-x}{h}})
+{\widehat{f(x)}}={\cfrac{1}{nh}}\sum_{i=1}^{n}\kappa({\cfrac{r_{i}-x}{h}}).
 $$
 
 $$
-\kappa(z)={\frac{1}{\sqrt{2\pi}}}e^{-{\frac{1}{2}}z^{2}}
+\kappa(z)=\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}z^{2}}
 $$
 
 其中， $r_{i}$ 为计算区间内标准化的日度超额收益，n为计算区间内的交易天数，ℎ为带宽。本文对带宽ℎ的估计采用 Silverman（1986）经验法则，即ℎ $\approx1.06\hat{\sigma}n^{-1/5}$ 。
 
-我们用符号 $E_{\varphi}(m,k)$ 表示用过去m个月的数据计算 $E_{\varphi}$ 因子，且异尾阈值取k，$S_{\varphi}(m,$ k)同理。从测试结果看，相较于偏度因子， $E_{\varphi}$ 和 $\mathrm{\Delta}S_{\varphi}$ 因子具有更高的 IC_IR 和更低的回撤，整体表现较为稳健。例如 $E_{\varphi}$ (3,1.5)因子在中证全指内的 IC 为-3.18%，IC_IR 为-3.01，多空组合月收益为 0.76%，最大回撤为-7.31%； $S_{\varphi}(3,1)$ )因子在中证全职内的 IC为-2.87%，IC_IR 为-3.3，多空组合月收益为 0.72%，最大回撤为-6.87%。
+我们用符号 $E_{\varphi}(m,k)$ 表示用过去m个月的数据计算 $E_{\varphi}$ 因子，且异尾阈值取k，$S_{\varphi}(m,$ k)同理。从测试结果看，相较于偏度因子， $E_{\varphi}$ 和 $]S_{\varphi}$ 因子具有更高的 IC_IR 和更低的回撤，整体表现较为稳健。例如 $E_{\varphi}$ (3,1.5)因子在中证全指内的 IC 为-3.18%，IC_IR 为-3.01，多空组合月收益为 0.76%，最大回撤为-7.31%； $S_{\varphi}(3{,}1)$ )因子在中证全职内的 IC为-2.87%，IC_IR 为-3.3，多空组合月收益为 0.72%，最大回撤为-6.87%。
 
 ## 2.3 AsymP
 
 Patil 等人（2012）提出了一种衡量分布对称性的新方法，Xu 等人（2019）将其用于解释股票的横截面收益并得到了二者呈负相关的结论。本文也将采用 Patil 的方法构建非对称性因子，其计算公式为：
 
 $$
-\begin{array}{r}{Asym_{P}=\left\{\begin{array}{c}{-corr\big(f(r),F(r)\big)\ ,if\ 0<var\big(f(r)\big)<\infty}\\{0\ ,if\ var\big(f(r)\big)=0}\end{array}\right.}\end{array}
+Asym_{P}=\left\{\begin{aligned}-corr\big(f(r),F(r)\big)&,if\;0<var\big(f(r)\big)<\infty\\0&,if\;var\big(f(r)\big)=0\end{aligned}\right.
 $$
 
 其中， $f(r)$ 与 $F(r)$ )分别是收益率的概率密度函数和分布函数。对f(r)采取与上述 $S_{\varphi}$ 因子相同的方法估计，即非参法下的高斯核密度估计。Xu 等人（2019）发现，当某非对称分布接近于对称分布时，偏度较难识别出其中的非对称性，但 $Asym_{P}$ 却可以，因此$Asym_{P}$ 对于非对称性的衡量要比偏度更准确。
@@ -251,15 +251,15 @@ Asym_3因子多空组合的净值与回撤
 ![](images/a1d64310263658f32a7408901f9a3379e692427b4f35b041c6e27e76efe9d9cf.webp)
 资料来源：Wind 资讯 & 东方证券研究所
 
-我们分别用过去 1、3、6、12 个月的历史收益率计算 $.Asym_{P}$ 因子。从测试结果来看，$Asym_{F}$ 因子的稳健性略低于前述因子。具体地， $Asym_{P}$ _1（用过去 1 个月历史收益率计算得到）在中证全指中的 IC 为-3.03%，IC_IR 为-1.91，多空月收益为 0.60%，最大回撤为-14.84%，但从分组月超额收益看，各组间的超额收益并不完全单调，多头超额明显偏弱。
+我们分别用过去 1、3、6、12 个月的历史收益率计算 $.Asym_{P}$ 因子。从测试结果来看，$Asym_{P}$ 因子的稳健性略低于前述因子。具体地， $Asym_{P_{1}}$ _1（用过去 1 个月历史收益率计算得到）在中证全指中的 IC 为-3.03%，IC_IR 为-1.91，多空月收益为 0.60%，最大回撤为-14.84%，但从分组月超额收益看，各组间的超额收益并不完全单调，多头超额明显偏弱。
 
 ## 三、尾部风险的衡量因子
 
-我们在第二部分详细介绍了偏度、 $E_{\varphi}\setminus S_{\varphi}\mathfrak{F}\sqcup Asym_{P}$ 这四种衡量非对称性的因子，这些因子是站在分布整体的角度去刻画非对称性。而在本报告的第三部分，我们将聚焦于异尾风险，尝试构建描述尾部风险的因子以寻找尾部风险 Alpha。
+我们在第二部分详细介绍了偏度、 $E_{\varphi}、S_{\varphi}和Asym_{P}$ 这四种衡量非对称性的因子，这些因子是站在分布整体的角度去刻画非对称性。而在本报告的第三部分，我们将聚焦于异尾风险，尝试构建描述尾部风险的因子以寻找尾部风险 Alpha。
 
 ## 3.1 CVaR
 
-VaR（ValueatRisk）表示在给定的置信水平α下，某资产在未来一定时期内的最大可能损失，α通常取 0.95。虽然VaR 简单易理解，但它存在两个主要缺陷，一是没有考虑损失超过 VaR 时的极端情况，二是 VaR 不具备次可加性，即组合整体的 VaR 可能大于各资产 VaR 之和。Rockafellar 等人（1999）在此基础上提出了 CVaR（ConditionalValue at Risk）的概念。CVaR 又被称作期望损失（Expected Shortfall），其含义为超出 VaR 损失部分的期望，即C $VaR_{\alpha}=E[X|X<VaR_{\alpha}]_{}\mathrm{{.}}$为了进一步展示VaR与CVaR的区别，我们分别构造了标准正态分布和肥尾分布，这两个分布的 95%VaR 均为-1.64%，但正态分布和肥尾分布的 CVaR 分别为-2.05%和-3.65%，所以 CVaR 比 VaR更适合用来描述尾部风险。
+VaR（ValueatRisk）表示在给定的置信水平α下，某资产在未来一定时期内的最大可能损失，α通常取 0.95。虽然VaR 简单易理解，但它存在两个主要缺陷，一是没有考虑损失超过 VaR 时的极端情况，二是 VaR 不具备次可加性，即组合整体的 VaR 可能大于各资产 VaR 之和。Rockafellar 等人（1999）在此基础上提出了 CVaR（ConditionalValue at Risk）的概念。CVaR 又被称作期望损失（Expected Shortfall），其含义为超出 VaR 损失部分的期望，即C $VaR_{\alpha}=E[X|X<VaR_{\alpha}]_{\circ}$为了进一步展示VaR与CVaR的区别，我们分别构造了标准正态分布和肥尾分布，这两个分布的 95%VaR 均为-1.64%，但正态分布和肥尾分布的 CVaR 分别为-2.05%和-3.65%，所以 CVaR 比 VaR更适合用来描述尾部风险。
 
 图 11：CVaR 与 VaR 的对比
 ![](images/0632931aa515d1b41827a9afc1b4c5fee69d98609509b04c59e6eeccb00495bb.webp)
@@ -334,35 +334,35 @@ $$
 
 ## 3.2 Tail Beta
 
-左尾风险还可以用 Van 等人（2016）提出的尾部beta 的方式衡量。令Re 、 $R_{j}^{e.}$ 分别表示市场和股票j的超额收益，则尾部 beta 为市场超额收益超出其 VaR 时 CAPM 模型中的 beta，即
+左尾风险还可以用 Van 等人（2016）提出的尾部beta 的方式衡量。令Re 、 $R_{j}^{e}{}^{.}$ 分别表示市场和股票j的超额收益，则尾部 beta 为市场超额收益超出其 VaR 时 CAPM 模型中的 beta，即
 
 $$
 R_{j}^{e}=\beta_{j}^{T}R_{m}^{e}+\varepsilon_{j},R_{m}^{e}<-VaR_{m}(\bar{p})
 $$
 
-其中，p̅常取一个很小的值如 5%，且有 $\cdot P\big(R_{m}^{e}<-VaR_{m}(\bar{p})\big)=\bar{p}_{\llangle}$ 。对于尾部 beta $\beta_{j}^{T}$ 采用 Van（2011）中提出的基于极值理论的估计方法，该方法假设市场和股票的超额收益服从肥尾分布且满足
+其中，p̅常取一个很小的值如 5%，且有 $P\big(R_{m}^{e}<-VaR_{m}(\bar{p})\big)=\bar{p}_{\circ}$ 。对于尾部 beta $\beta_{j}^{T}$ 采用 Van（2011）中提出的基于极值理论的估计方法，该方法假设市场和股票的超额收益服从肥尾分布且满足
 
 $$
-P(R_{m}^{e}<-\mu){\sim}A_{m}\mu^{-\alpha_{m}},P\bigl(R_{j}^{e}<-\mu\bigr){\sim}A_{j}\mu^{-\alpha_{j}},{\stackrel{\mathrm{i}\mu}{\equiv}}\mu\to+\infty.
+P\{R_{m}^{e}<-\mu\}{\sim}A_{m}\mu^{-\alpha_{m}},P\{R_{j}^{e}<-\mu\}{\sim}A_{j}\mu^{-\alpha_{j}},当\mu\rightarrow+\infty.
 $$
 
-该方法对于 $\cdot\beta_{j}^{T}$ 的估计公式为：
+该方法对于 $\dot{\tau}\beta_{j}^{T}$ 的估计公式为：
 
 $$
-\widehat{\beta_{J}^{T}}:=\tau_{J}\widehat{(k/_{n})}^{1/\alpha_{m}}\frac{Va\widehat{R_{J}(k/n)}}{Va\widehat{R_{m}(k/n)}}
+\widehat{\beta_{J}^{T}}:=\widehat{\tau_{J}(^{k}/n)^{1/\alpha_{m}}}\frac{Va\widehat{R_{J}(k/n)}}{Va\widehat{R_{m}(k/n)}}.
 $$
 
-令 $X_{t}^{(m)}=-R_{m,t}^{e},t=1,2\cdots n$ ，n为计算期间内交易日天数。然后将市场超额收益的 相反数 $X_{t}^{(m)}$ 从小到大排序，得到 $X_{n,1}^{(m)}\leq X_{n,2}^{(m)}\leq\cdots\leq X_{n,n}^{(m)}\circ X_{t}^{(j)}\setminus X_{n,i}^{(j)}$ 定义方式同上。取 k为n个交易日中 $R_{m}^{e}$ 损失超出其 VaR值的天数 $\left(\ k\approx0.05n\right)$ ，则
+令 ${\boldsymbol{\imath}}X_{t}^{(m)}=-R_{m,t}^{e},t=1{,}2\cdots n$ ，n为计算期间内交易日天数。然后将市场超额收益的 相反数 ${\cal X}_{t}^{(m)}$ 从小到大排序，得到 $X_{n,1}^{(m)}\leq X_{n,2}^{(m)}\leq\cdots\leq X_{n,n}^{(m)}。X_{t}^{(j)}、X_{n,i}^{(j)}$ 定义方式同上。取 k为n个交易日中 $R_{m}^{e}$ 损失超出其 VaR值的天数 $\left(k\approx0.05n\right)$ ，则
 
 $$
-\frac{1}{\widehat{\alpha_{m}}}=\frac{1}{k}\sum_{i=1}^{k}logX_{n,n-i+1}^{(m)}-logX_{n,n-k}^{(m)}
+\frac{1}{\widehat{\alpha_{m}}}=\frac{1}{k}\sum_{i=1}^{k}logX_{n,n-i+1}^{(m)}-logX_{n,n-k}^{(m)},
 $$
 
 $$
-\widehat{\tau_{\ j}\binom{k/\ l}{\ l}}=\frac{1}{k}\sum_{t=1}^{n}1_{\left\{X_{t}^{(j)}>X_{n,n-k}^{(j)}andX_{t}^{(m)}>X_{n,n-k}^{(m)}\right\}}
+\widehat{\tau_{j}\left(k/_{n}\right)}=\frac{1}{k}\sum_{t=1}^{n}1_{\left\{X_{t}^{(j)}>X_{n,n-k}^{(j)}andX_{t}^{(m)}>X_{n,n-k}^{(m)}\right\}}.
 $$
 
-$\widehat{VaR_{\jmath}(k/n)}\setminus\widehat{VaR_{m}(k/n)}$ 分别表示股票j和市场第k+1大损失。尾部 beta 因子表示当市场出现极端下跌行情时，个股收益对市场收益的敏感性。若尾部 beta 越大，表示个股收益对市场的极端负收益越敏感，使得收益率低于尾部 beta 偏小的股票。
+$\widehat{VaR_{j}(k/n)}、\widehat{VaR_{m}(k/n)}$ 分别表示股票j和市场第k+1大损失。尾部 beta 因子表示当市场出现极端下跌行情时，个股收益对市场收益的敏感性。若尾部 beta 越大，表示个股收益对市场的极端负收益越敏感，使得收益率低于尾部 beta 偏小的股票。
 
 图 16：Tail Beta(12,0.05)因子测试结果（2010.01-2021.11）
 图 17：Tail Beta (6,0.05)因子测试结果（2010.01-2021.11）
@@ -395,17 +395,17 @@ $\widehat{VaR_{\jmath}(k/n)}\setminus\widehat{VaR_{m}(k/n)}$ 分别表示股票j
 
 ## 四、因子相关性分析
 
-针对前文介绍的七类因子（偏度、 $E_{\varphi\setminus}S_{\varphi\setminus}Asym_{P\setminus}$ 左尾 CVaR、右尾 CVaR 和尾部 Beta），我们分别从每类因子中根据 IC、IC_IR 的综合表现各挑出一个因子，进行相关性分析与后续的随机森林预测。选出的七个因子分别是Skewness_12、 $E_{\varphi}(3,1.5)$ 、
+针对前文介绍的七类因子（偏度、 $E_{\varphi}、S_{\varphi}、Asym_{P}、$ 左尾 CVaR、右尾 CVaR 和尾部 Beta），我们分别从每类因子中根据 IC、IC_IR 的综合表现各挑出一个因子，进行相关性分析与后续的随机森林预测。选出的七个因子分别是Skewness_12、 $E_{\varphi}(3{,}1.5)$ 、
 
 $$
-S_{\varphi}(3,1)_{\setminus}\ Asym_{P-}1_{\setminus}\ CVaR_{-}(12,0.05)_{\setminus}\ CVaR_{+}(3,0.05)_{\setminus},\ Tail\ Beta(12,0.05)_{\circ}
+S_{\varphi}(3,1)\textbackslash Asym_{P-}1\textbackslash CVaR_{-}(12,0.05)\textbackslash CVaR_{+}(3,0.05)\textbackslash TailBeta(12,0.05)\textbackslash a
 $$
 
 ## 4.1 七类因子间的相关性
 
 我们首先分析上述七类因子间在横截面上的秩相关系数，有如下发现：
 
-（1） 四类衡量非对称性的因子（Skewness_12 $E_{\varphi}(3,1.5)$ $S_{\varphi}(3,1)$ $Asym_{P-}1)$ 彼此间相关系数均大于零，其中 $E_{\varphi}(3,1.5)$ 与 $S_{\varphi}(3,1)$ 的相关系数较大为0.33，其余非对称因子间的相关系数较小，说明各因子描述非对称时抓取的特征不完全相同，因子间的替代性较低；
+（1） 四类衡量非对称性的因子（Skewness_12 $E_{\varphi}(3{,}1.5)$ $S_{\varphi}(3{,}1)$ $Asym_{P-}1\;)$ 彼此间相关系数均大于零，其中 $E_{\varphi}(3{,}1.5)$ 与 $[S_{\varphi}(3{,}1)$ 的相关系数较大为0.33，其余非对称因子间的相关系数较小，说明各因子描述非对称时抓取的特征不完全相同，因子间的替代性较低；
 
 （2） 在三类尾部风险因子中，左尾CVaR 与右尾 CVaR、TailBeta 的相关系数均小于零，而右尾 CVaR 与 Tail Beta 的相关系数大于零，这与前面我们分析左尾 CVaR 为正向因子、右尾 CVaR 与 Tail Beta 为负向因子的逻辑一致。
 
@@ -472,9 +472,9 @@ $$
 
 股票的风险溢价来自于投资者所承担的股票风险。波动率作为衡量股票风险的常见指标，在实证中已被证实存在显著的风险溢价。但波动率是基于收益率的二阶矩计算而来，单纯依靠二阶矩无法反映分布的整体情况，因此本文尝试从收益率分布的高阶矩及其尾部特征去度量股票风险，并探究不同风险度量方式下产生的风险溢价。
 
-本文首先构建了偏度、 $E_{\varphi}\setminus S_{\varphi}\uparrows\big\sqcup Asym_{P}$ 这四类因子用于衡量股票收益率的非对称性。从测试结果来看，偏度因子具有较高的 IC， $E_{\varphi}$ 和 $S_{\varphi}$ 因子具有较高的 IC_IR， $Asym_{P}$ 因子则介于四者中间。选取 2010.01 至 2021.11 为回测区间，在中证全指股票池内，Skewness_12因子的 IC 为-4.14%，IC_IR 为-2.48； $E_{\varphi}(3,1.5)$ 因子的 IC 为-3.18%，IC_IR为-3.01； $S_{\varphi}(3,1)$ 因子的 IC 为-2.87%，IC_IR 为-3.3； $Asym_{P_{-}}1$ 因子的 IC 为-3.03%，IC_IR 为-1.91。
+本文首先构建了偏度、 $,E_{\varphi}、S_{\varphi}和Asym_{P}$ 这四类因子用于衡量股票收益率的非对称性。从测试结果来看，偏度因子具有较高的 IC， $E_{\varphi}$ 和 $S_{\varphi}$ 因子具有较高的 IC_IR， $Asym_{P}$ 因子则介于四者中间。选取 2010.01 至 2021.11 为回测区间，在中证全指股票池内，Skewness_12因子的 IC 为-4.14%，IC_IR 为-2.48； $E_{\varphi}(3{,}1.5)$ 因子的 IC 为-3.18%，IC_IR为-3.01； $S_{\varphi}(3{,}1)$ 因子的 IC 为-2.87%，IC_IR 为-3.3； $Asym_{P-}1$ 因子的 IC 为-3.03%，IC_IR 为-1.91。
 
-针对收益率分布的尾部风险，我们构建了左、右尾 CVaR 因子和 Van 等人（2016）提出的 Tail Beta 因子。右尾 CVaR（即 MaxRet 因子）的 IC 和 IC_IR 均较高，在中证全指内的 IC 为-8.15%，IC_IR 为-2.72；左尾 CVaR 的 IC 为 5.56%， $10\_1{\sf R}$ 为 1.61；Tail Beta 的 IC 为-4.67%，IC_IR 为-1.51。
+针对收益率分布的尾部风险，我们构建了左、右尾 CVaR 因子和 Van 等人（2016）提出的 Tail Beta 因子。右尾 CVaR（即 MaxRet 因子）的 IC 和 IC_IR 均较高，在中证全指内的 IC 为-8.15%，IC_IR 为-2.72；左尾 CVaR 的 IC 为 5.56%， $1\mathsf{C}\_\mathsf{IR}$ 为 1.61；Tail Beta 的 IC 为-4.67%，IC_IR 为-1.51。
 
 在对上述因子进行相关性分析时，我们发现四种非对称性因子间的相关系数为正且相关性较低，说明这四种因子在描述非对称时抓取的特征不完全相同，因子间的替代性较低。此外，这些因子与投机大类因子 Lottery 的相关系数均大于零；除两个描述左尾风险的因子（左尾 CVaR 和 Tail Beta）外，其余因子与反转大类因子 Reversal 的相关性均大于零。
 

@@ -125,15 +125,15 @@ anningning@gf.com.cn
 以股票i在t月月末的行业相关系数因子为例，具体计算方式如下。首先，在全市场范围剔除t月的st股、 ∗st股、停牌股以及上市不满一年的股票；其次，筛选出与股票i办公地所属省份不同、申万一级行业相同的全部共N支股票j，并分别计算与股票i在t月日频收益序列的皮尔森相关系数，即 $CORR_{i,j,t}.$ 。最后，对所有相关系数进行加权求和(若不做特殊说明， $w_{j,t}$ 均设置为 $1/N$ ，即等权)，得到股票i在t月月末换仓日的行业相关系数因子 $INDUCORR_{i,t}$ 0
 
 $$
-CORR_{i,j,t}=\frac{cov\bigl(R_{i},R_{j}\bigr)}{std(R_{i})*std(R_{j})}
+CORR_{i,j,t}=\frac{cov(R_{i},R_{j})}{std(R_{i})*std(R_{j})}
 $$
 
 $$
-INDUCORR_{i,t}=\sum_{j=1}^{N}w_{j,t}\ast CORR_{i,j,t}
+INDUCORR_{i,t}={\sum}_{j=1}^{N}w_{j,t}*CORR_{i,j,t},
 $$
 
 $$
-\begin{array}{c}{{geog_{i}\neq geog_{j}}}\\{{{}}}\\{{industry_{i}=industry_{j}}}\end{array}
+\begin{aligned}geog_{i}&\neq geog_{j}\\industry_{i}&=industry_{j}\end{aligned}
 $$
 
 其中， $geog_{i}(geog_{j})$ 分别为股票i(j)的办公地归属省份。 $industry_{i}\big(industry_{j}\big)$ 为股票i(j)的申万一级行业分类。
@@ -142,18 +142,18 @@ $$
 
 Bollerslev等(2022)[2]在发表论文《Realized semibetas: Disentangling “good”and “bad” downside risks》(Journal of Financial Economics)中，根据市场收益与资产收益序列的符号将传统市场贝塔拆分为四个半贝塔，并实证说明了基于负市场收益与负资产收益序列协方差构建的半贝塔与资产未来收益显著正相关，基于负市场收益与正资产收益序列协方差构建的半贝塔与资产未来收益显著负相关。这一结论对本报告的启示在于：基于不同数值方向收益序列构建的相关系数，可能蕴含的信息量也存在差异。因此，本报告将股票i与股票j的收益序列进行拆分，并定义四种具体的行业相关系数拆解因子(INDUCORRP、INDUCORRN、INDUCORRIP与INDUCORRJP)，用以度量个股与行业关联公司股票的调整后收益序列的相关程度。
 
-以股票i在t月的行业相关系数拆解因子 $(INDUCORRP_{i,t})$ 为例，具体计算方式如下。首先，对于股票i与全部N个股票j，利用 $R_{i}^{+}$ 公式对其日度收益序列进行调整，也就是将负日度收益调整为0。其次，根据行业相关系数因子构造步骤，得到行业相关系数拆解因子 $INDUCORRP_{i,t}$ 。其余三种行业相关系数拆解因子 $(INDUCORRN_{i,t}$ $INDUCORRIP_{i,t}\Xi INDUCORRJP_{i,t})$ 构造方式同理可得。
+以股票i在t月的行业相关系数拆解因子 $(INDUCORRP_{i,t})$ 为例，具体计算方式如下。首先，对于股票i与全部N个股票j，利用 $R_{i}^{+}$ 公式对其日度收益序列进行调整，也就是将负日度收益调整为0。其次，根据行业相关系数因子构造步骤，得到行业相关系数拆解因子 $INDUCORRP_{i,t}$ 。其余三种行业相关系数拆解因子 $I(INDUCORRN_{i,t}$ $INDUCORRIP_{i,t}与INDUCORRIP_{i,t}$ 构造方式同理可得。
 
 $$
-R_{i}^{+}=max(R_{i},0)R_{i}^{-}=min(R_{i},0)
-$$
-
-$$
-INDUCORRP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{+},R_{j}^{+}\big)
+R_{i}^{+}=max(R_{i},0)\quad R_{i}^{-}=min(R_{i},0)
 $$
 
 $$
-INDUCORRN_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{-},R_{j}^{-}\big)
+INDUCORP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{+},R_{j}^{+}\big)
+$$
+
+$$
+INDUCOR_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{-},R_{j}^{-}\big)
 $$
 
 $$
@@ -161,7 +161,7 @@ INDUCORRIP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{+},R_{j}^{-}\big)
 $$
 
 $$
-INDUCORRJP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{-},R_{j}^{+}\big)
+INDUCORIP_{i,t}=\sum_{j=1}^{N}w_{j}*CORR\big(R_{i}^{-},R_{j}^{+}\big)
 $$
 
 ## （二）因子特征分析
@@ -586,7 +586,7 @@ CNE6版本的BARRA因子模型将股票因子划分为市场、价值、成长�
 | investment quality | AGRO | 用过去五年的总资产对时间做回归，得到的斜率再除以五年的平均值。数值乘-1 |
 | leverage | MLEV | 长期资本与股东权益的比值，其中长期资本包括普通股市值、最新优先股市值以及付 息债券市值 |
 | liquidity | STOM | 过去21个交易日的换手率之和的对数值 |
-| long term reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益率 的差额累计和，得到 RSTR 因子 $RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})]$ |
+| long term reversal | RSTR | 计算过去504个交易日的个股超额对数收益率与过去21个交易日的超额对数收益率 的差额累计和，得到 RSTR 因子 $RSTR=\sum_{L}^{T+L}w_{t}[\ln\bigl(1+r_{t}^{i}\bigr)-\ln(1+r_{t}^{f})],$ |
 | mid capitalization | MIDCAP | 用截面上个股的对数流通市值的三次方对对数流通市值进行回归，对回归残差进行 MAD去极值与中性化处理，获得MIDCAP因子 |
 | momentum | HALPHA | 对个股在过去252个交易日的日频收益率序列与同期市场指数收益率序列进行回归， 得到截距项 α 为 HALPHA 因子 |
 | profitability | ROA | $r_{t}^{i}-r_{t}^{f}=\alpha+\beta r_{t}^{m}+e_{t}$ 个股历史12个月滚动净利润与最新报告的总资产的比值 |

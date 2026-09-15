@@ -181,7 +181,7 @@ z 根据 10 月底的数据预测，11 月小盘股表现好于大盘股的概�
 运用所有样本数据拟合模型可得:
 
 $$
-Ln{\Bigg(}{\frac{p}{1-p}}{\Bigg)}=-0.29-0.34cpi\_th-0.20ppi\_th-0.22ia\_th3+0.02marketpe
+Ln\biggl(\frac{p}{1-p}\biggl)=-0.29-0.34cpi_{-}th-0.20ppi_{-}th-0.22ia_{-}th3+0.02n\pmb{w}ketpe
 $$
 
 具体参数及拟合度如下表所示：

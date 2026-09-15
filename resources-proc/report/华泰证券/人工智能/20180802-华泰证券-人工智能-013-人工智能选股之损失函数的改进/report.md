@@ -59,7 +59,7 @@ linxiaoming@htsc.com
 对数损失函数是二分类模型的一个经典损失函数，最早应用于逻辑回归，之后又被应用到了神经网络、XGBoost 等模型上。其标准形式如下：
 
 $$
-\operatorname{Loss}=-{\frac{1}{n}}{\sum_{i=1}^{n}}{\bigl(}y_{i}\log{\bigl(}f(x_{i}){\bigr)}+(1-y_{i})\log{\bigl(}1-f(x_{i}){\bigr)}{\bigr)}
+\mathrm{Loss}=-\frac{1}{n}\sum_{i=1}^{n}\left(y_{i}\log(f(x_{i}))+(1-y_{i})\log(1-f(x_{i}))\right)
 $$
 
 其中，n为训练样本数量， $x_{i}$ 为第 i 个训练样本的特征值向量， $y_{i}$ 为第 i 个训练样本的标签$(y_{i}\epsilon\{0,1\})$ $f(x_{i})$ 为某种机器学习模型的预测值。粗看下来，对数损失函数相比平方损失函数较难理解。接下来我们首先推导对数损失函数，再对其意义进行形象解释。
@@ -85,13 +85,13 @@ P(Y=1|X=x_{i})={\frac{1}{1+e^{-x_{i}}}}=f(x_{i})
 $$
 
 $$
-P(Y=0|X=x_{i})=1-\frac{1}{1+e^{-x_{i}}}=1-f(x_{i})
+P(Y=0|X=x_{i})=1-{\frac{1}{1+e^{-x_{i}}}}=1-f(x_{i})
 $$
 
 根据极大似然估计的原理，可以写出逻辑回归的似然函数为：
 
 $$
-\mathrm{L}=\prod_{i=1}^{n}P(Y=y_{i}|X=x_{i})=\prod_{i=1}^{n}f(x_{i})^{y_{i}}[1-f(x_{i})]^{1-y_{i}}
+\mathbf{L}=\prod_{i=1}^{n}P(Y=y_i|X=x_i)=\prod_{i=1}^{n}f(x_i)^{y_i}\left[1-f(x_i)\right]^{1-y_i}
 $$
 
 对似然函数取对数，可得
@@ -103,7 +103,7 @@ $$
 在模型的优化过程中，我们希望似然函数越大越好，这等价于下面的函数越小越好：
 
 $$
-\operatorname{Loss}=-{\frac{1}{n}}{\sum_{i=1}^{n}}{\bigl(}y_{i}\log{\bigl(}f(x_{i}){\bigr)}+(1-y_{i})\log{\bigl(}1-f(x_{i}){\bigr)}{\bigr)}
+\mathrm{Loss}=-\frac{1}{n}\sum_{i=1}^{n}\left(y_{i}\log\left(f(x_{i})\right)+(1-y_{i})\log\left(1-f(x_{i})\right)\right)
 $$
 
 逻辑回归的对数损失函数就被推导出来了，接下来我们探讨对数损失函数的意义。
@@ -113,7 +113,7 @@ $$
 对数损失函数可以被分解为以下两项：
 
 $$
-\begin{array}{c}{\operatorname{Loss1}=y_{i}\log\bigl(f(x_{i})\bigr)}\\{\operatorname{Loss2}=(1-y_{i})\log\bigl(1-f(x_{i})\bigr)}\end{array}
+\begin{array}{c}{{\mathrm{Loss}1=y_{i}\log\bigl(f(x_{i})\bigr)}}\\{{\mathrm{Loss}2=\;(1-y_{i})\log\bigl(1-f(x_{i})\bigr)}}\end{array}
 $$
 
 对于 Loss1，只有当 $y_{i}$ 为 1 时，Loss1 才可能会为非零值，即 Loss1计算的是模型分错标记为 1的样本的误差，记为假阳性（False Positive）误差。
@@ -129,50 +129,50 @@ $$
 在机器学习模型的使用过程中，经常会出现两类样本不均衡的问题。比如对于某种疾病，发病率仅为 1%，如果训练一个机器学习模型来找出发病样本，该模型使用如下常规的对数损失函数的话，那么模型很可能无法识别出发病样本。
 
 $$
-\operatorname{Loss}=-{\frac{1}{n}}{\sum_{i=1}^{n}}{\bigl(}y_{i}\log{\bigl(}f(x_{i}){\bigr)}+(1-y_{i})\log{\bigl(}1-f(x_{i}){\bigr)}{\bigr)}
+\mathrm{Loss}=-\frac{1}{n}\sum_{i=1}^{n}\left(y_{i}\log(f(x_{i}))+(1-y_{i})\log(1-f(x_{i}))\right)
 $$
 
-因为就算模型把发病样本识别为正常样本，依然只有 1%的样本具有非零的损失函数值，这可以使得总的损失函数非常小，但是这样的模型毫无实用价值。因此在面对不均衡样本时，一种直观的改进方法，就是增大数量较少一类样本的损失项权重,我们可以对损失项进行加权处理，即加入权重 $\beta$ ，得到加权损失函数：
+因为就算模型把发病样本识别为正常样本，依然只有 1%的样本具有非零的损失函数值，这可以使得总的损失函数非常小，但是这样的模型毫无实用价值。因此在面对不均衡样本时，一种直观的改进方法，就是增大数量较少一类样本的损失项权重,我们可以对损失项进行加权处理，即加入权重 $\cdot_{\beta}$ ，得到加权损失函数：
 
 $$
-{\mathrm{Weighted}}_{-}{\mathrm{Loss}}=-{\frac{1}{n}}\sum_{i=1}^{n}{\bigl(}y_{i}\log{\bigl(}f(x_{i}){\bigr)}+\beta(1-y_{i})\log{\bigl(}1-f(x_{i}){\bigr)}{\bigr)}
+\mathsf{Weighted\_Loss}=-\frac{1}{n}\sum_{i=1}^{n}\bigl(y_{i}\log\bigl(f(x_{i})\bigr)+\beta(1-y_{i})\log\bigl(1-f(x_{i})\bigr)\bigr).
 $$
 
 即：
 
 $$
-\mathrm{Weighted\_Loss}=-\frac{1}{n}\sum_{i=1}^{n}(Loss1+\beta Loss2)
+{\sf Weighted\_Loss}=-\frac{1}{n}{\sum_{i=1}^{n}}(Loss1+\beta Loss2).
 $$
 
-关于β值的确定，假设正样本个数为 $n_{1}$ ，负样本个数为 $n_{2},\ n_{1}+n_{2}=n$ ，则 $\beta=n_{1}/n_{2}\qquad$
+关于β值的确定，假设正样本个数为 $n_{1}$ ，负样本个数为 $n_{2},\quad n_{1}+n_{2}=n$ ，则 $\beta=n_{1}/n_{2}\mathrm{。}$
 
-当 $n_{1}$ ≫ $n_{2}$ 时，说明正样本数目远多于负样本，此时 $\boldsymbol{\cdot}\boldsymbol{\beta}$ 取值很大，模型会重点针对Loss2进行优化。
+当 $n_{1}$ ≫ $n_{2}$ 时，说明正样本数目远多于负样本，此时 $\cdot\beta$ 取值很大，模型会重点针对Loss2进行优化。
 
-当 $n_{1}\ll n_{2}$ 时，说明负样本数目远多于正样本，此时 $\boldsymbol{\cdot}\boldsymbol{\beta}$ 取值较小，模型会重点针对Loss1进行优化。
+当 $n_{1}\ll n_{2}$ 时，说明负样本数目远多于正样本，此时 $\cdot\beta$ 取值较小，模型会重点针对Loss1进行优化。
 
 ## 改进方案 2：广义损失函数
 
 对于损失函数，可以加入正则项来控制过拟合，加入正则项的损失函数如下：
 
 $$
-\mathrm{Loss}=\sum_{i=1}^{n}L_{1}(y_{i},\hat{y}_{i})+\varOmega
+\mathbf{Loss}=\sum_{i=1}^{n}L_{1}(y_{i},\hat{y}_{i})+\boldsymbol{\varOmega}
 $$
 
-其中， $L_{1}(y_{i},\hat{y}_{i})$ 为衡量真实值 $y_{i}$ 和预测值 $\hat{y}_{i}\dot{z}$ 间差异的损失项，Ω为正则项，在此基础上，我们还可以加入另一项损失项 $L_{2}(s,\hat{y}_{i})$ ，并给予权重λ，得到如下新的损失函数，这里我们称之为广义损失函数：
+其中， $L_{1}(y_{i},\hat{y}_{i})$ 为衡量真实值 $.y_{i}$ 和预测值 $\cdot\hat{y}_{i}之$ 间差异的损失项，Ω为正则项，在此基础上，我们还可以加入另一项损失项 $L_{2}(s,\hat{y}_{i})$ ，并给予权重λ，得到如下新的损失函数，这里我们称之为广义损失函数：
 
 $$
-{\mathrm{General\_Loss}}=\sum_{i=1}^{n}[L_{1}(y_{i},\hat{y}_{i})+\lambda L_{2}(s_{i},\hat{y}_{i})]+\varOmega
+\mathrm{General\_Loss}=\sum_{i=1}^{n}[L_{1}(y_{i},\hat{y}_{i})+\lambda L_{2}(s_{i},\hat{y}_{i})]+\varOmega
 $$
 
-该损失函数的意义在于模型的优化目标为同时最小化 $L_{1}$ 和 $L_{2}$ ，即模型在尽量减小真实值 ${.y}_{i}$ 和预测值 ${\mathbf{\nabla}}\cdot\hat{y}_{i}$ 之间差异的同时，也要控制预测值 ${\mathbf{\nabla}}\cdot\hat{y}_{i}$ 和 ${}^{\ t}S_{i}$ 之间的差距。
+该损失函数的意义在于模型的优化目标为同时最小化 $.L_{1}$ 和 $L_{2}$ ，即模型在尽量减小真实值 $\cdot y_{i}$ 和预测值 $\hat{y}_{i}$ 之间差异的同时，也要控制预测值 $\hat{\boldsymbol{y}}_{i}$ 和 $^{\prime}s_{i}$ 之间的差距。
 
 关于 General_Loss 损失函数，我们接下来将展示一个实例进行说明。假设一个基于机器学习的多因子选股模型的损失函数如下：
 
 $$
-{\mathrm{General\_Loss}}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\varOmega
+\mathrm{General\_Loss}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\Omega_{i}
 $$
 
-其中， $y_{i}^{t}$ 为第 t 个截面上股票样本 i 的收益率， $\hat{y}_{i}^{t-1}$ 为第 t-1 个截面上股票样本 i 的收益率预测值， $\hat{y}_{i}^{t}$ 为第 t个截面上股票样本 i的收益率预测值，该损失函数使得模型在尽量减小yt和预测值 $\hat{y}_{i}^{t}$ 之间差异的同时，也要控制预测值 $\hat{y}_{i}^{t-1}$ 和ŷt之间的差距。如果两个截面上的收益率预测值ŷt−1和ŷt $\begin{array}{r}{(\hat{y}^{t}=\sum_{i}^{n}\hat{y}_{i}^{t})}\end{array}$ 的差异被控制在一定范围内，那么就可以控制由该模型构建的投资组合的换手率。也就是说，General_Loss 损失函数不仅可以进行收益预测，还起到了约束投资组合换手率的作用，而约束的程度则由参数λ确定，λ越大，则 $\hat{y}^{t-1}\hat{\ast}\ast\hat{y}^{t}$ 之间的差距越小，投资组合换手率和交易成本也会越小，但是模型对于训练数据的拟合精度也会下降。图表 2形象地展示了λ值对训练结果的影响。
+其中， $y_{i}^{t}$ 为第 t 个截面上股票样本 i 的收益率， $\hat{y}_{i}^{t-1}$ 为第 t-1 个截面上股票样本 i 的收益率预测值， $\hat{y}_{i}^{t}$ 为第 t个截面上股票样本 i的收益率预测值，该损失函数使得模型在尽量减小yt和预测值 $\hat{y}_{i}^{t}$ 之间差异的同时，也要控制预测值 $\boldsymbol{\cdot}\boldsymbol{\hat{y}}_{i}^{t-1}$ 和ŷt之间的差距。如果两个截面上的收益率预测值ŷt−1和ŷt $\textstyle({\hat{y}}^{t}=\sum_{i}^{n}{\hat{y}}_{i}^{t})$ 的差异被控制在一定范围内，那么就可以控制由该模型构建的投资组合的换手率。也就是说，General_Loss 损失函数不仅可以进行收益预测，还起到了约束投资组合换手率的作用，而约束的程度则由参数λ确定，λ越大，则 $\left|\hat{y}^{t-1}和\hat{y}^{t}\right.$ 之间的差距越小，投资组合换手率和交易成本也会越小，但是模型对于训练数据的拟合精度也会下降。图表 2形象地展示了λ值对训练结果的影响。
 
 图表2： λ值对训练结果的影响
 ![](images/0dc9c167649dacc23e90ca454ed1988b7cb8942e1448c3b52399b94c2b61ad53.webp)
@@ -236,13 +236,13 @@ b) 每个月末截面，将股票按照超额收益率从高到低排序，为�
 1) 对于改进方案 1，使用如下的加权损失函数代替原始的损失函数：
 
 $$
-{\mathrm{Weighted}}_{-}{\mathrm{Loss}}=-{\frac{1}{n}}\sum_{i=1}^{n}{\bigl(}y_{i}\log{\bigl(}f(x_{i}){\bigr)}+\beta(1-y_{i})\log{\bigl(}1-f(x_{i}){\bigr)}{\bigr)}
+\mathsf{Weighted\_Loss}=-\frac{1}{n}\sum_{i=1}^{n}(y_{i}\log(f(x_{i}))+\beta(1-y_{i})\log(1-f(x_{i})))
 $$
 
 2) 对于改进方案 2，使用如下的广义损失函数代替原始的损失函数：
 
 $$
-{\mathrm{General\_Loss}}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\varOmega
+\mathrm{General\_Loss}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\Omega_{i}
 $$
 
 6． 样本内训练模型：
@@ -463,7 +463,7 @@ $$
 本文测试的广义损失函数形式如下：
 
 $$
-{\mathrm{General\_Loss}}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\varOmega
+\mathrm{General\_Loss}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\Omega_{i}
 $$
 
 在上式中，关键的参数是λ，我们分别测试了λ取 0.1，0.2，0.3 的情况，并和普通损失函数进行对比，对比结果在图表 11 中，组合构建相对于中证 500 进行了行业和市值中性，个股权重偏离上限为 2%。
@@ -526,24 +526,24 @@ $$
 
 XGBoost 的自定义损失函数接口要求提供损失函数的一阶导数和二阶导数。接下来我们将详细展示普通损失函数、加权损失函数和广义损失函数的一阶导数以及二阶导数的推导过程，并给出相应的 Python 实现代码。
 
-设函数 $\begin{array}{r}{f(x_{i})=\frac{1}{1+e^{-x_{i}}}}\end{array}$
+设函数 $\begin{array}{r}{f(x_{i})=\frac{1}{1+e^{-x_{i}}}\circ}\end{array}$
 
-1. 普通损失函数： $\begin{array}{r}{\mathrm{Loss}=-\frac{1}{n}\sum_{i=1}^{n}\bigl(y_{i}\log\bigl(f(x_{i})\bigr)+(1-y_{i})\log\bigl(1-f(x_{i})\bigr)\bigr)}\end{array}$
+1. 普通损失函数： $\begin{array}{r}{\mathrm{Loss}=-\frac{1}{n}\sum_{i=1}^{n}(y_{i}\log(f(x_{i}))+(1-y_{i})\log(1-f(x_{i})))}\end{array}$
 
-为了简单起见，设 ${\cal L}_{1}=\big(y_{i}\log\bigl(f(x_{i})\bigr)+(1-y_{i})\log\bigl(1-f(x_{i})\bigr)\big)$
-
-$$
-{L_{1}}^{\prime}={\frac{\partial L_{1}}{\partial x_{i}}}={\frac{\partial L_{1}}{\partial f}}\cdot{\frac{\partial f}{\partial x_{i}}}={\frac{1}{f}}\cdot y_{i}\cdot{\frac{\partial f}{\partial x_{i}}}+{\frac{1-y_{i}}{1-f}}\cdot(-1)\cdot{\frac{\partial f}{\partial x_{i}}}\tag{1}
-$$
+为了简单起见，设 $L_{1}=\left(y_{i}\log(f(x_{i}))+(1-y_{i})\log(1-f(x_{i}))\right)$
 
 $$
-\begin{array}{r}{\frac{\partial f}{\partial{x_{i}}}=(-1)\cdot\frac{(-1)\cdot e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}=\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}}\end{array}\tag{2}
+L_{1}'=\frac{\partial L_{1}}{\partial x_{i}}=\frac{\partial L_{1}}{\partial f}\cdot\frac{\partial f}{\partial x_{i}}=\frac{1}{f}\cdot y_{i}\cdot\frac{\partial f}{\partial x_{i}}+\frac{1-y_{i}}{1-f}\cdot(-1)\cdot\frac{\partial f}{\partial x_{i}}\tag{1}
+$$
+
+$$
+\frac{\partial f}{\partial x_{i}}=(-1)\cdot\frac{(-1)\cdot e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}=\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}\tag{2}
 $$
 
 联立（1）（2）式子得：
 
 $$
-\begin{array}{rl}&{L_{1}^{\prime}=\frac{\partial L_{1}}{\partial x_{i}}=\Big(\frac{y_{i}}{f}-\frac{1-y_{i}}{1-f}\Big)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}}\\&{\qquad=\Big(y_{i}(1+e^{-x_{i}})-\frac{(1-y_{i})\cdot(1+e^{-x_{i}})}{e^{-x_{i}}}\Big)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}=\frac{y_{i}e^{-x_{i-1}}+y_{i}}{1+e^{-x_{i}}}}\\&{\qquad=\frac{y_{i}(e^{-x_{i+1}})-1}{1+e^{-x_{i}}}=y_{i}-\frac{1}{1+e^{-x_{i}}}=y_{i}-f}\\&{\qquad=|\nabla|\frac{e^{\frac{\partial}{\partial}}\cdot\tilde{x}}{\lVert\tilde{\textbf{ { i } }}\rVert^{2}}=\frac{\partial^{2}L_{1}}{\partial x_{i}^{2}}=\frac{\partial L_{1}}{\partial f}\cdot\frac{\partial f}{\partial x_{i}}=(-1)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}=(-1)\cdot\frac{1+e^{-x_{i-1}}}{\left(1+e^{-x_{i}}\right)^{2}}=-f(1-f)}\end{array}\tag{3}
+\begin{aligned}&{L_{1}}^{\prime}=\frac{\partial{L_{1}}}{\partial{x_{i}}}=\left(\frac{y_{i}}{f}-\frac{1-y_{i}}{1-f}\right)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}\\&\\&\begin{array}{l}=\left(y_{i}(1+e^{-x_{i}})-\frac{(1-y_{i})\cdot\left(1+e^{-x_{i}}\right)}{e^{-x_{i}}}\right)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}=\frac{y_{i}e^{-x_{i}}-1+y_{i}}{1+e^{-x_{i}}}\\\end{array}\\&\\&\begin{array}{l}=\frac{y_{i}(e^{-x_{i}}+1)-1}{1+e^{-x_{i}}}=y_{i}-\frac{1}{1+e^{-x_{i}}}=y_{i}-f\\\end{array}\\&\\&二阶导数:{L_{1}}^{\prime\prime}=\frac{\partial^{2}{L_{1}}}{\partial{x_{i}}^{2}}=\frac{\partial{L_{1}}^{\prime}}{\partial f}\cdot\frac{\partial f}{\partial{x_{i}}}=(-1)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}=(-1)\cdot\frac{1+e^{-x_{i}}-1}{\left(1+e^{-x_{i}}\right)^{2}}=-f(1-f)\\\end{aligned}\tag{3}
 $$
 
 （4）
@@ -562,24 +562,24 @@ return grad, hess
 
 注：由于在 XGBoost 内部使用负梯度更新损失函数，所以图表 14 中一阶导数和二阶导数的符号正负性和式子（3）（4）正好相反。后续两个损失函数的推导中也会出现相同情况，在此统一说明，后续不再赘述。
 
-2. 加权损失函数：Weighted $\begin{array}{r}{.\mathrm{{Loss}}=-\frac{1}{n}\sum_{i=1}^{n}\bigl(y_{i}\log\bigl(f(x_{i})\bigr)+\beta(1-y_{i})\log\bigl(1-f(x_{i})\bigr)\bigr)}\end{array}$
+2. 加权损失函数：Weighted $\begin{array}{r}{\mathsf{Loss}=-\frac{1}{n}\sum_{i=1}^{n}\bigl(y_{i}\log(f(x_{i}))+\beta(1-y_{i})\log(1-f(x_{i}))\bigr)}\end{array}$
 
-为了简单起见，设 $\therefore L_{2}={\bigl(}y_{i}\log{\bigl(}f(x_{i}){\bigr)}+\beta(1-y_{i})\log{\bigl(}1-f(x_{i}){\bigr)}{\bigr)}$
+为了简单起见，设 $L_{2}=\left(y_{i}\log(f(x_{i}))+\beta(1-y_{i})\log(1-f(x_{i}))\right)$
 
 $$
-{L_{2}}^{\prime}={\frac{\partial{L_{2}}}{\partial{x_{i}}}}={\frac{\partial{L_{2}}}{\partial f}}\cdot{\frac{\partial f}{\partial{x_{i}}}}={\frac{1}{f}}\cdot{y_{i}}\cdot{\frac{\partial f}{\partial{x_{i}}}}+\beta{\frac{1-{y_{i}}}{1-f}}\cdot(-1)\cdot{\frac{\partial f}{\partial{x_{i}}}}\tag{5}
+{L_{2}}^{\prime}=\frac{\partial L_{2}}{\partial x_{i}}=\frac{\partial L_{2}}{\partial f}\cdot\frac{\partial f}{\partial x_{i}}=\frac{1}{f}\cdot y_{i}\cdot\frac{\partial f}{\partial x_{i}}+\beta\frac{1-y_{i}}{1-f}\cdot(-1)\cdot\frac{\partial f}{\partial x_{i}}\tag{5}
 $$
 
 联立（2）（5）式子得：
 
 $$
-{\begin{array}{rl}&{L_{2}\mathbf{\Phi}^{\prime}={\frac{\partial L_{2}}{\partial x_{i}}}=\left({\frac{y_{i}}{f}}-\beta{\frac{1-y_{i}}{1-f}}\right)\cdot{\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}}}\\&{\qquad=\left(y_{i}(1+e^{-x_{i}})-\beta{\frac{(1-y_{i})\cdot\left(1+e^{-x_{i}}\right)}{e^{-x_{i}}}}\right)\cdot{\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}}={\frac{ye^{-x_{i}}-\beta+\beta y_{i}}{1+e^{-x_{i}}}}}\\&{\qquad={\frac{ye^{-x_{i}}-\beta+\beta y_{i}+y_{i}-y_{i}}{1+e^{-x_{i}}}}=y_{i}-f(\beta+y_{i}-\beta y_{i})}\end{array}}\tag{6}
+\begin{aligned}{L_{2}}^{\prime}&=\frac{\partial L_{2}}{\partial x_{i}}=\left(\frac{y_{i}}{f}-\beta\frac{1-y_{i}}{1-f}\right)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}&\\&=\left(y_{i}(1+e^{-x_{i}})-\beta\frac{(1-y_{i})\cdot(1+e^{-x_{i}})}{e^{-x_{i}}}\right)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}=\frac{ye^{-x_{i}}-\beta+\beta y_{i}}{1+e^{-x_{i}}}\\&\\&=\frac{ye^{-x_{i}}-\beta+\beta y_{i}+y_{i}-y_{i}}{1+e^{-x_{i}}}=y_{i}-f(\beta+y_{i}-\beta y_{i})\\\end{aligned}\tag{6}
 $$
 
 二阶导数：
 
 $$
-{\begin{array}{rl}&{{L_{2}}^{\prime\prime}={\frac{{{\partial^{2}}{L_{2}}}}{{\partial{x_{i}}^{2}}}}={\frac{{{\partial{L_{2}}}^{\prime}}}{\partial f}}\cdot{\frac{\partial f}{\partial{x_{i}}}}=(-1)\cdot{\frac{{{e^{-{x_{i}}}}}}{{\left(1+{{e^{-{x_{i}}}}}\right)}^{2}}}\cdot\left(\beta+{y_{i}}-\beta{y_{i}}\right)}\\&{}\\&{\qquad=-f(1-f)\cdot(\beta+{y_{i}}-\beta{y_{i}})}\end{array}}\tag{7}
+\begin{array}{rl}&{{L_{2}}^{\prime\prime}=\frac{\partial^{2}L_{2}}{\partial{x_{i}}^{2}}=\frac{\partial{L_{2}}^{\prime}}{\partial f}\cdot\frac{\partial f}{\partial x_{i}}=(-1)\cdot\frac{e^{-x_{i}}}{\left(1+e^{-x_{i}}\right)^{2}}\cdot(\beta+y_{i}-\beta y_{i})}\\&{\quad}\\&{\quad=-f(1-f)\cdot(\beta+y_{i}-\beta y_{i})}\end{array}\tag{7}
 $$
 
 Python 代码实现请见图表 16。
@@ -594,12 +594,12 @@ hess = p * (1 - p) * (beta + y - beta*y)
 return grad, hess
 资料来源：华泰证券研究所
 
-3. $\dot{\bar{\rho_{\mathbf{\theta}}}}$ 义损失函数： $\begin{array}{r}{\mathrm{{General\_Loss}}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\varOmega}\end{array}$
+3. $\begin{aligned}产\end{aligned}$ 义损失函数： $\begin{array}{r}{\mathsf{General\_Loss}=\sum_{i=1}^{n}[L_{1}(y_{i}^{t},\hat{y}_{i}^{t})+\lambda L_{2}(\hat{y}_{i}^{t-1},\hat{y}_{i}^{t})]+\varOmega}\end{array}$
 
-yit和 $\hat{y}_{i}^{t-1}$ 已知，进一步拆分，有
+yit和 $t\hat{y}_{i}^{t-1}$ 已知，进一步拆分，有
 
 $$
-\begin{array}{l}{\displaystyle\mathrm{General\_Loss}=\sum_{i=1}^{n}[(y_{i}^{t}\log\bigl(f(x_{i}^{t})\bigr)+(1-y_{i}^{t})\log\bigl(1-f(x_{i}^{t})\bigr))+}\\{\lambda[(\hat{y}_{i}^{t-1}\log\bigl(f(x_{i}^{t})\bigr)+(1-\hat{y}_{i}^{t-1})\log\bigl(1-f(x_{i}^{t})\bigr)\bigr)]+\varOmega}\end{array}
+\begin{aligned}&\mathsf{General\_Loss}=\sum_{i=1}^{n}[\left(y_{i}^{t}\log\bigl(f(x_{i}^{t})\bigr)+(1-y_{i}^{t})\log\bigl(1-f(x_{i}^{t})\bigr)\right)+\\&\quad\lambda[\left(\hat{y}_{i}^{t-1}\log\bigl(f(x_{i}^{t})\bigr)+(1-\hat{y}_{i}^{t-1})\log\bigl(1-f(x_{i}^{t})\bigr)\right)]+\varOmega\\\end{aligned}
 $$
 
 为了简单起见，设
@@ -609,19 +609,19 @@ L_{3}=[\left(y_{i}^{t}\log\bigl(f(x_{i}^{t})\bigr)+(1-y_{i}^{t})\log\bigl(1-f(x_
 $$
 
 $$
-\lambda\big[\big(\widehat{y}_{i}^{t-1}\log\big(f(x_{i}^{t})\big)+(1-\widehat{y}_{i}^{t-1})\log\big(1-f(x_{i}^{t})\big)\big)\big]=L_{31}+\lambda L_{32}
+\lambda\big[\big(\hat{y}_{i}^{t-1}\log\bigl(f(x_{i}^{t})\bigr)+(1-\hat{y}_{i}^{t-1})\log\bigl(1-f(x_{i}^{t})\bigr)\big)\big]=L_{31}+\lambda L_{32}
 $$
 
-观察可知，若令 $\boldsymbol{x}_{i}=\boldsymbol{x}_{i}^{t},\ \boldsymbol{y}_{i}=\boldsymbol{y}_{i}^{t},\ \boldsymbol{y}_{i}=\boldsymbol{\hat{y}}_{i}^{t-1}$ ，则有 $L_{31}=L_{1},L_{32}=L_{1}$ 。由（1）、（2）、（3）、（4）式可得：
+观察可知，若令 $x_{i}=x_{i}^{t},\quad y_{i}=y_{i}^{t},\quad y_{i}=\hat{y}_{i}^{t-1}$ ，则有 $L_{31}=L_{1},\quad L_{32}=L_{1}$ 。由（1）、（2）、（3）、（4）式可得：
 
 $$
-{L_{3}}^{\prime}=\frac{\partial L_{3}}{\partial x_{i}^{t}}=(y_{i}^{t}-f)+\lambda(\hat{y}_{i}^{t-1}-f)\tag{8}
+\begin{array}{r}{{L_{3}}^{\prime}=\frac{\partial L_{3}}{\partial x_{i}^{t}}=(y_{i}^{t}-f)+\lambda(\hat{y}_{i}^{t-1}-f)}\end{array}\tag{8}
 $$
 
 二阶导数：
 
 $$
-{L_{3}}^{\prime\prime}={\frac{\partial^{2}L_{3}}{\partial{x_{i}}^{2}}}=-f(1-f)+\lambda f(1-f)\tag{9}
+\begin{array}{r}{{L_{3}}^{\prime\prime}=\frac{\partial^{2}L_{3}}{\partial{x_{i}}^{2}}=-f(1-f)+\lambda f(1-f)}\end{array}\tag{9}
 $$
 
 Python 代码实现请见图表 17，其中 obj_series 为任意目标序列，在本文的测试中，obj_series 为上一期模型对股票涨跌预测的序列。

@@ -131,7 +131,7 @@ Ali and Hirshleifer (2019)从三个方面讨论了间接关联可能产生的效
 本文的间接关联强度计算方式并不复杂，如果两家公司通过越多的“中间公司”(中间公司分别与这两家公司直接关联)形成间接关联，与“中间公司”的关联强度越大，那么这两家公司的间接关联强度就越高。由此我们构建了如下的间接关联强度计算方式：
 
 $$
-\mathrm{m_{ij}}=\sum_{\mathrm{k=1}}^{\mathrm{N}}\log(\mathrm{n_{ik}}+1)\times\log(\mathrm{n_{kj}}+1)
+\mathbf{m}_{\mathrm{ij}}=\sum_{\mathrm{k}=1}^{\mathrm{N}}\log(\mathrm{n}_{\mathrm{ik}}+1)\times\log(\mathrm{n}_{\mathrm{kj}}+1)
 $$
 
 其中，mij表示公司 i 和公司 j 的间接关联强度（i ≠ j），N 表示所有的上市公司数量，nik表示公司 i和公司 k 之间共同覆盖的分析师数量。
@@ -197,21 +197,21 @@ $$
 首先我们参照《分析师共同覆盖因子与图神经网络》(2022.7.7)的做法，构建直接关联动量因子 CF1_RET。
 
 $$
-\mathrm{{CF1\_RET_{i}}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)\mathrm{{Ret_{j}}}}{\sum_{j=1}^{N}\log(n_{ij}+1)}}
+\mathrm{CF1\_RET_i}=\frac{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n_{ij}}+1)\mathrm{ReLU_j}}{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n_{ij}}+1)}
 $$
 
-其中 $\mathsf{n}_{\mathsf{I}}$ 为股票 i和股票j的共同覆盖分析师数量， $\mathsf{Retj}$ 为股票j 过去一段时间的收益率。
+其中 $\mathsf{n}_{\mathsf{ij}}$ 为股票 i和股票j的共同覆盖分析师数量， $\mathsf{Retj}$ 为股票j 过去一段时间的收益率。
 
 ## 间接关联动量因子
 
 然后我们构建间接关联动量因子 CF2_RET。
 
 $$
-\mathrm{m_{ij}}=\sum_{\mathrm{k=1}}^{\mathrm{N}}\log(\mathrm{n_{ik}}+1)\times\log(\mathrm{n_{kj}}+1)
+\mathbf{m}_{\mathrm{ij}}=\sum_{\mathrm{k}=1}^{\mathrm{N}}\log(\mathrm{n}_{\mathrm{ik}}+1)\times\log(\mathrm{n}_{\mathrm{kj}}+1)
 $$
 
 $$
-\mathrm{{CF2}\mathrm{{_{-}RET_{i}}=\frac{\sum_{j=1}^{N}m_{ij}\times Ret_{j}}{\sum_{j=1}^{N}m_{ij}}}}
+\mathrm{CF2\_RET_i}=\frac{\sum_{\mathrm{j}=1}^{\mathrm{N}}\mathrm{m_{ij}}\times\mathrm{ReLU_j}}{\sum_{\mathrm{j}=1}^{\mathrm{N}}\mathrm{m_{ij}}}
 $$
 
 其中 $\mathsf{m}_{\mathsf{ij}}$ 是公司 i 和公司 j 的间接关联强度。
@@ -221,7 +221,7 @@ $$
 根据 Ali and Hirshleifer (2019)的论证，如果一家公司有很多直接关联公司，市场难以迅速整合所有关联公司的信息，这种情况下直接关联具有显著的领先滞后效应，而间接关联效果较弱。相反，如果一家公司的直接关联公司很少，那么信息传播效率较高，直接关联公司的信息会快速反映到股价上，此时进一步挖掘间接关联信息可能更有效。因此，我们可以对间接关联强度加以改进，得到改进的间接关联动量因子 ADJ_CF2_RET。
 
 $$
-\begin{array}{rl}&{\mathrm{~\ m_{ij}=\sum_{k=1}^{N}\log(n_{ik}+1)\times\log(n_{kj}+1)}}\\&{\quad\quad\quad\mathrm{~\ m_{ij}=\frac{m_{ij}}{\log(num_{i}+1)}~}}\\&{\quad\quad\quad\mathrm{ADJ\mathrm{~\_~}RET_{i}=\frac{\sum_{j=1}^{N}m_{ij}\times\ Ret_{j}}{\sum_{j=1}^{N}m_{ij}}~}}\end{array}
+\begin{aligned}\mathbf{m}_{ij}=\sum_{k=1}^{N}\log(\mathbf{n}_{ik}+1)\times\log(\mathbf{n}_{kj}+1)\\\mathbf{m}_{ij}=\frac{\mathbf{m}_{ij}}{\log(\mathbf{n}_{u}+1)}\\ADJ\_CF2\_RET_{i}=\frac{\sum_{j=1}^{N}\mathbf{m}_{ij}\times Return_{j}}{\sum_{j=1}^{N}\mathbf{m}_{ij}}\end{aligned}
 $$
 
 第二个式子中 numi表示与公司 i直接关联的公司数量，即间接关联强度与直接关联数量的对数成反比。
@@ -231,7 +231,7 @@ $$
 最后，我们将直接关联动量因子 CF1_RET 和改进的间接关联动量因子 ADJ_CF2_RET 进行截面 Z_SCORE 标准化后等权合成，得到多层关联动量因子 CF_RET。
 
 $$
-\mathrm{CF\_RET}=\mathrm{Z\_SCORE{(CF1\_RET)}+\mathrm{Z\_SCORE{(AD)}\_CF{2\_RET})}}
+\mathsf{CF\_RET}=\mathsf{Z\_SCORE(CF1\_RET)}+\mathsf{Z\_SCORE(ADJ\_CF2\_RET)}
 $$
 
 ## 关联动量因子测试
@@ -369,11 +369,11 @@ $$
 首先我们构建直接关联改进反转因子 CF1_REV，CF1_REV 先计算直接关联动量因子CF1_RET 的 Z_SCORE 标准化和股票自身收益率的 Z_SCORE 标准化，再将二者相减。
 
 $$
-\mathrm{{CF1\_RET_{i}}=\frac{\sum_{j=1}^{N}\log(n_{ij}+1)\mathrm{{Ret_{j}}}}{\sum_{j=1}^{N}\log(n_{ij}+1)}}
+\mathrm{CF1\_RET_i}=\frac{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n_{ij}}+1)\mathrm{ReLU_j}}{\sum_{\mathrm{j}=1}^{\mathrm{N}}\log(\mathrm{n_{ij}}+1)}
 $$
 
 $$
-\mathrm{CF1\_REV}=\mathrm{Z\_SCORE}(\mathrm{CF1\_RET})-\mathrm{Z\_SCORE}(\mathrm{Ret})
+\mathsf{CF1\_REV}=\mathsf{Z\_SCORE(CF1\_RET)}-\mathsf{Z\_SCORE(Ret)}
 $$
 
 该因子的通俗理解方式为：我们在考虑股票自身反转效应的基础上，进一步考虑与之直接关联股票的动量效应，即前期自身跌幅较大，但关联股票涨幅较大的股票，因子取值较大。该因子描述了股价的领先滞后效应，并体现了股价的均值回复现象。
@@ -383,19 +383,19 @@ $$
 接下来我们构建间接关联改进反转因子 CF2_REV，CF2_REV先计算改进的间接关联动量因子 ADJ_CF2_RET 的 Z_SCORE 标准化和股票自身收益率的 Z_SCORE 标准化，再将二者相减。
 
 $$
-\mathrm{m}_{\mathrm{ij}}=\sum_{\mathrm{k}=1}^{\mathrm{N}}\log(\mathrm{n}_{\mathrm{ik}}+1)\times\log(\mathrm{n}_{\mathrm{kj}}+1)
+\mathbf{m}_{\mathrm{ij}}=\sum_{\mathrm{k}=1}^{\mathrm{N}}\log(\mathrm{n}_{\mathrm{ik}}+1)\times\log(\mathrm{n}_{\mathrm{kj}}+1)
 $$
 
 $$
-\mathrm{{m}_{ij}=\frac{\ m_{ij}}{\ log(num_{i}+1)}}
+\mathrm{m_{ij}}=\frac{\mathrm{m_{ij}}}{\log(\mathrm{num_{i}}+1)}
 $$
 
 $$
-\mathsf{ADJ\mathrm{{_{-}CF2_{-}RET_{i}=\frac{\sum_{j=1}^{N}\mathsf{m_{ij}}\times\mathsf{Ret_{j}}}{\sum_{j=1}^{N}\mathsf{m_{ij}}}}}}
+\mathrm{ADJ\_CF2\_RET_i}=\frac{\sum_{j=1}^{N}\mathrm{m_{ij}}\times\mathrm{ReLU_j}}{\sum_{j=1}^{N}\mathrm{m_{ij}}}
 $$
 
 $$
-\mathrm{CF2\mathrm{\mathrm{\mathrm{-}REV}=\mathrm{\mathrm{~Z}\mathrm{SCORE}(ADJ\mathrm{\mathrm{-}CF2\mathrm{\mathrm{-}RET)-\mathrm{\mathrm{\mathrm{Z}\mathrm{.\mathrm{SCORE}(Ret)}}}}}}}}
+\mathsf{CF2\_REV}=\mathsf{Z\_SCORE(ADJ\_CF2\_RET)-Z\_SCORE(Ret)}
 $$
 
 ## 多层关联改进反转因子

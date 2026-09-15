@@ -133,33 +133,33 @@ le_Summary]动态模分解是一种新兴的数据挖掘算法。它把市场内
 考虑我们有m 期的数据，每一期的横截面数据有 n个特征，假设n远大于m，其数据可以用矩阵n×m的矩阵来概括。
 
 $$
-X\ =[x_{_1},x_{_2},x_{_3}.....x_{_m}]
+X=\left[x_{1},x_{2},x_{3}\ldots\ldots x_{m}\right]
 $$
 
-$x_{\mathrm{_i}}$ 为n维向量，代表在 i时刻获得的数据。动态模分解的目的在于在矩阵X 中提取数据中的隐含动态信息。为此，我们从中定义以下两个矩阵：
+$x_{\mathrm{~i~}}$ 为n维向量，代表在 i时刻获得的数据。动态模分解的目的在于在矩阵X 中提取数据中的隐含动态信息。为此，我们从中定义以下两个矩阵：
 
 $$
-X_{\mathrm{~\scriptsize~1~}}=[\boldsymbol{x}_{\mathrm{~\scriptsize~1~}},\boldsymbol{x}_{\mathrm{~\scriptsize~2~}},\boldsymbol{x}_{\mathrm{~\scriptsize~3~}}.......\ \boldsymbol{x}_{\mathrm{~\scriptsize~m~-1~}}]
+X_{1}=\left[x_{1},x_{2},x_{3},\ldots,x_{m-1}\right]
 $$
 
 $$
-X_{\phantom{}_{2}}=[x_{\phantom{}_{2}},x_{\phantom{}_{3}},x_{\phantom{}_{4}}......\phantom{}x_{\phantom{}_{m}}]
+X_{_2}=\left[x_{_2},x_{_3},x_{_4},\ldots,x_{_m}\right]
 $$
 
-$X\mathbf{\Sigma}_{2}$ 即为下一时刻的 $X_{\mathrm{~1~}}$ 。由于 m 小于 n，我们总能找一个矩阵 A，满足以下等式：
+$X_{\mathrm{~2~}}$ 即为下一时刻的 $X_{\mathrm{~i~}}$ 。由于 m 小于 n，我们总能找一个矩阵 A，满足以下等式：
 
 $$
-X_{\textit{ 2 }}=AX_{\textit{ 1 }},[x_{\textit{ 2 }},x_{\textit{ 3 }},x_{\textit{ 4 }}.......\textit{ x }_{\textit{ m }}]=A[x_{1},x_{2},x_{3}......\textit{ x }_{\textit{ m }-1}]
+X_{_2}=AX_{_1},\quad[x_{_2},x_{_3},x_{_4},\ldots\ldots x_{_m}]=A[x_{_1},x_{_2},x_{_3},\ldots\ldots x_{_{m-1}}]
 $$
 
 矩阵A为算法的核心要素。它代表了在过去m 期，样本数据演变规律的线性估计。即，矩阵A 概括了第i 期的样本数据x 如何演变成下一期的
 
-$x_{\mathrm{i}+1}$
+$x_{\mathrm{i+1}}$
 
-动态模分解的目标在于从矩阵 A中提取低维的动态特征（特征值和特征向量）来最优地（最小二乘法角度）刻画系统的运动过程。利用分解得到的低维特征值和特征向量可以计算模型对 m 期真实数据的估计 $\widetilde{x}_{{m}}$ 以及预测未来m 期以后的数据。算法的线性最优特征体现为：算法寻找最优的低维特征值和特征向量，令 $\widetilde{x}_{{m}}$ 与真实值 $x_{{_m}}$ 尽量接近，从而使残差的平方和最小:
+动态模分解的目标在于从矩阵 A中提取低维的动态特征（特征值和特征向量）来最优地（最小二乘法角度）刻画系统的运动过程。利用分解得到的低维特征值和特征向量可以计算模型对 m 期真实数据的估计 $\tilde{x}_{\phantom{\dag}m}$ 以及预测未来m 期以后的数据。算法的线性最优特征体现为：算法寻找最优的低维特征值和特征向量，令 $\tilde{x}_{\phantom{}_{m}}$ 与真实值 $x_{\textit{ m }}$ 尽量接近，从而使残差的平方和最小:
 
 $$
-\left\|\widetilde{\boldsymbol{x}}_{m_{}}-\boldsymbol{x}_{m_{}}\right\|<<1
+\left\|\widetilde{x}_{_m}-x_{_m}\right\|<<1
 $$
 
 可以看出，动态模分解的首要创新在于对数据的一阶差分 $\frac{dX}{dt}$ 进行特征分解而非数据本身，使得模型能够反映时间维度的信息。
@@ -170,41 +170,41 @@ A 的低维度特征值代表了对应特征向量随时间变化的趋势，可
 
 ## 2.2.1. 动态模分解算法实现步骤
 
-动态模分解算法实现十分简单，假设已有时间序列数据 $X_{\mathrm{\Omega_{n\times m}}}$ ，n 表示股
+动态模分解算法实现十分简单，假设已有时间序列数据 $X_{\mathrm{~\scriptsize~n~}\times\mathrm{~m~}}$ ，n 表示股
 
-票样本个数，m 表示时间序列长度。每一列 $x_{\mathrm{i}}$ 即为 i 时刻的股票价格数据。我们可以把动态模分解分为六步：
+票样本个数，m 表示时间序列长度。每一列 $x_{\mathrm{~i~}}$ 即为 i 时刻的股票价格数据。我们可以把动态模分解分为六步：
 
 第一步，标准化时间序列X
 
-根据m日股票收益率的历史数据，使得 $x_{0}$ 初始价格均为 1，从而计算得到每日标准化后的股票价格 $X\ =[x_{_1},x_{_2},x_{_3}.....x_{_m}]$
+根据m日股票收益率的历史数据，使得 $x_{\mathrm{~0~}}$ 初始价格均为 1，从而计算得到每日标准化后的股票价格 $X=\left[x_{1},x_{2},x_{3}\ldots\ldots x_{m}\right]$
 
-第二步，把时间序列X 分成两个矩阵 $X_{\mathrm{~r~}}$ 和 $X~.$
+第二步，把时间序列X 分成两个矩阵 $X_{\mathrm{~i~}}$ 和 $X_{-}$
 
-根据上小节定义， $X_{\mathrm{~1~}}=[x_{1},x_{2},x_{3}......\ x_{m-1}]\ ,\quad X_{\mathrm{~2~}}=[x_{2},x_{3},x_{4}......\ x_{m}]$
+根据上小节定义， $X_{_1}=[x_{_1},x_{_2},x_{_3},.....\ x_{_{m-1}}],\quad X_{_2}=[x_{_2},x_{_3},x_{_4},.....\ x_{_m}]$
 
 ## 第三步，对矩阵X 进行奇异值分解（reduced SVD）
 
-$\boldsymbol{X}\mathbin{\lrcorner}=\mathrm{~U~}\Sigma\mathrm{~W~}^{\mathrm{~T~}}$ ，奇异值分解（reduced SVD）是针对非方阵特征提取的一种常见方式。它把一个 n×m 的矩阵分解为了U、• 和 W三个矩阵的乘积。其中，U为n×k 阶，• 为k×k 阶，W为 k×m阶， $\mathrm{k=min~}\left(\mathrm{~n~,~}\mathrm{~m~}\right),$ 。如果把初始矩阵X 理解为一个线性变换，那么U和W为正交矩阵，刻画了线性变换的主要方向，而方阵• 记录了每个线性变换的重要程度。由于篇幅问题，其具体原理不再赘述。
+$X_{\mathrm{~1~}}=\textbf{ U }\Sigma\textbf{ W }^{\mathrm{~T~}}$ ，奇异值分解（reduced SVD）是针对非方阵特征提取的一种常见方式。它把一个 n×m 的矩阵分解为了U、• 和 W三个矩阵的乘积。其中，U为n×k 阶，• 为k×k 阶，W为 k×m阶， $\mathrm{k}=\min\left(\mathrm{n},\mathrm{~m}\right)$ 。如果把初始矩阵X 理解为一个线性变换，那么U和W为正交矩阵，刻画了线性变换的主要方向，而方阵• 记录了每个线性变换的重要程度。由于篇幅问题，其具体原理不再赘述。
 
 第四步，计算A 的特征值•
 
-首先，计算矩阵 $\widetilde{\textbf{ S }}=\textbf{ U }^{\mathrm{~T~}}X\mathrm{~},W\Sigma^{\mathrm{~}-1}$ ，再计算矩阵 $\tilde{s}$ 的特征值。根据特征值定义： $\tilde{\textbf{ S }}\nu_{\mathrm{~i~}}=\lambda_{\textit{ j }}\nu_{\textit{ j }},j=1,2,...m\ ,\lambda$ 即为A的低维特征值。
+首先，计算矩阵 $\widetilde{\textbf{ S }}=\textbf{ U }^{\top}\textbf{ \em X }_{2}\textbf{ \em W }\boldsymbol{\Sigma}^{\mathrm{~-1~}}$ ，再计算矩阵 $\tilde{\bf s}$ 的特征值。根据特征值定义： $\stackrel{\sim}{\mathrm{S}}v_{j}=\lambda_{j}v_{j},j=1,2,\ldots m,\lambda_{j}$ 即为A的低维特征值。
 
-第五步， 计算 A 的特征向量 $\dot{\varphi}$
+第五步， 计算 A 的特征向量 $\cdot\phi$
 
-A共有m个特征向量。对于第 j个特征向量 $\boldsymbol{\phi}_{j}\ :=\ :U\nu_{j}$
+A共有m个特征向量。对于第 j个特征向量 $\phi_{\quad j}\quad=\quad U\nu_{\quad j}$
 
 第六步，计算对第 m期数据的拟合值。
 
 $$
-\widetilde{x}_{{\scriptsize m}}=Ax_{{\scriptsize m}-1}=\phi\Lambda\ \phi^{-1}x_{{\scriptsize\mathrm{m}}-1}
+\widetilde{x}_{_{m}}=Ax_{_{m-1}}=\phi\Lambda\phi^{^{-1}}x_{_{m-1}}
 $$
 
 如不深究算法原理和证明，根据上述六步，求得矩阵 A 的特征值、特征向量和拟合值即可。
 
 ## 2.2.2. 动态模分解算法原理详解
 
-如上文所提，动态模分解的首个创新点在于对数据的线性变换矩阵A进行特征分解。由于 n 远大于 m，存在不止一个 A 满足条件 $\boldsymbol{X}_{\mathrm{~\scriptsize~2~}}=\boldsymbol{A}\boldsymbol{X}_{\mathrm{~\scriptsize~1~}}$
+如上文所提，动态模分解的首个创新点在于对数据的线性变换矩阵A进行特征分解。由于 n 远大于 m，存在不止一个 A 满足条件 $X_{_{2}}=AX_{_{1}}$
 
 并且矩阵 A 是一个 n×n 的庞大矩阵，所以常规的特征分解无法求得特征值和特征向量。即使A确定，普通的特征分解方法也只能产生十分庞大的 n 组特征值和正交的特征向量，无法实现有效降维。幸运的是，A的特征通常情况下并不需要 n 组特征值和特征向量进行刻画（A 通常不是满秩的），除非原始数据全部是随机游走，毫无规律。。
 
@@ -213,38 +213,38 @@ $$
 当m足够大时， $x_{\mathrm{~m~}}$ 可以由过去的信息X 所表示，即:
 
 $$
-x_{{\scriptscriptstyle m}}=\sum_{i=1}^{m-1}a_{{\scriptscriptstyle i}}x_{{\scriptscriptstyle i}}+r
+x_{_{m}}\;=\;\sum_{_{i=1}}^{^{m\;-1}}a_{_{i}}x_{_{i}}+r_{_{i}}
 $$
 
 其矩阵形式可以表示为：
 
 $$
-\boldsymbol{X}_{\mathrm{~\scriptsize~2~}}=\boldsymbol{X}_{\mathrm{~\scriptsize~1~}}\boldsymbol{S}+r\boldsymbol{e}_{\mathrm{~\scriptsize~1~}}
+X_{_{2}}=X_{_{1}}S+re_{_{1}}
 $$
 
 其中，
 
 $$
-\begin{array}{r}{\left(\begin{array}{ccccccc}{0}&{0}&{\ldots}&{0}&{a_{1}}\\{}&{}&{}&{}&{}&{}\\{|}&{0}&{\ldots}&{0}&{a_{2}}&{|}\\{}&{}&{}&{}&{}&{}&{}\\{|}&{}&{}&{\ldots}&{\cdot}&{}&{a_{3}}&{|}\\{}&{}&{}&{\ldots}&{}&{}&{}&{|}\\{}&{}&{}&{}&{\ldots}&{}&{}&{}\\{}&{}&{}&{}&{}&{}&{}\end{array}\right)}\end{array}
+S=\left|\begin{array}{ccccc}{{0}}&{{0}}&{{\ldots}}&{{0}}&{{a_{_1}}}\\{{}}&{{}}&{{}}&{{}}&{{}}\\{{1}}&{{0}}&{{\ldots}}&{{0}}&{{a_{_2}}}\\{{}}&{{}}&{{}}&{{}}&{{}}&{{}}\\{{0}}&{{1}}&{{\ldots}}&{{\ldots}}&{{a_{_3}}}&{{}}\\{{}}&{{}}&{{}}&{{}}&{{}}&{{}}\\{{}}&{{\cdot}}&{{\cdot}}&{{\ldots}}&{{\cdot}}&{{\cdot}}\\{{}}&{{}}&{{}}&{{\ldots}}&{{1}}&{{a_{_{m-1}}}}\end{array}\right|
 $$
 
-r为残差向量，代表了矩阵A无法完全刻画系统运动过程中的残差部分，$e_{1}$ 为单位向量， $\boldsymbol{e}_{1}\ =\ \{0\ ,0,...1\}\quad\in\ \mathrm{R}^{\mathrm{~m~-~1~}}$
+r为残差向量，代表了矩阵A无法完全刻画系统运动过程中的残差部分，$e_{\mathrm{~i~}}$ 为单位向量， $e_{1}=\{0,0,\ldots1\}\in\mathbb{R}^{\mathrm{~m~-1~}}$
 
 $$
-\begin{array}{r}{\left(\begin{array}{cccccc}{0}&{0}&{.}&{0}&{r_{1}}\\{0}&{0}&{.}&{0}&{r_{2}}\end{array}\right)}\\{\mathrm{r}e_{1}=\left|\begin{array}{ccccc}{1}&{.}&{.}&{.}&{.}&{.}\end{array}\right|}\\{\downarrow\cdot\cdot\cdot\cdot}&{\cdot}&{\cdot}&{\cdot}&{\cdot}\end{array}
+\mathbf{r}e_{_1}=\begin{vmatrix}0&0&.&0&r_{_1}\\|0&0&.&0&r_{_2}\\|&.&.&.&.&|\\|&.&.&.&.&.\\|&.&.&.&.&.\\0&0&.&0&r_{_n}\end{vmatrix}
 $$
 
-由于 $X_{\mathrm{~~}_{2}}\approx AX_{\mathrm{~\scriptsize~1~}}=\mathrm{~}X_{\mathrm{~\scriptsize~1~}}S$ ,可证明，S的特征值一定是 A的特征值，所以A
+由于 $X_{_{2}}\approx AX_{_{1}}=X_{_{1}}S$ ,可证明，S的特征值一定是 A的特征值，所以A
 
 的特征值可由S的特征值近似表示。而S 只有m-1个特征值，其特征值维度得到了明显下降。概括地说，在假设每期的数据呈现自相关性的前提下，动态模分解通过构造了m×m的矩阵S，将求解高维矩阵 A特征值转化为求解低维矩阵 S 特征值。如果每期数据和历史数据毫无关联，则以上估计不成立。
 
-在实际数值求解过程中，矩阵 S这种形式的矩阵性质并不良好，被称之为病态矩阵，常导致无法求解。为此，动态模分解引入了它的相似矩阵$\tilde{\mathrm{s}}$ ，并计算其特征值。由于相似矩阵特征值相同，其解即为 S的特征值，也是A的特征值。而 A 的特征向量与其相似矩阵 $\tilde{.}\tilde{s}$ 满足下式:
+在实际数值求解过程中，矩阵 S这种形式的矩阵性质并不良好，被称之为病态矩阵，常导致无法求解。为此，动态模分解引入了它的相似矩阵$\tilde{s}$ ，并计算其特征值。由于相似矩阵特征值相同，其解即为 S的特征值，也是A的特征值。而 A 的特征向量与其相似矩阵 $1\tilde{s}$ 满足下式:
 
 $$
-\boldsymbol{\phi}_{j}\ :=\ :U\nu_{j}
+\phi_{\quad j}\quad=\quad U\nu_{\quad j}
 $$
 
-关于 $\tilde{\mathrm{s}}$ 的特征值是A的特征值以及 $.\phi_{\textit{ i }}=U\nu$ 的证明详见附录证明。
+关于 $\tilde{s}$ 的特征值是A的特征值以及 $.\phi_{\textit{ j }}=U_{}\nu$ 的证明详见附录证明。
 
 ## 3. 动态模分解对股票价格模式挖掘的启示
 
@@ -257,10 +257,10 @@ $$
 根据特征值和特征向量的定义，模型对于t 期的估计公式为：
 
 $$
-\widetilde{\boldsymbol{x}}_{_{t+1}}=\boldsymbol{A}\boldsymbol{x}_{_{t}}=\boldsymbol{A}^{t}\boldsymbol{x}_{_{1}}=\phi\boldsymbol{\Lambda}^{t}\boldsymbol{\phi}^{-1}\boldsymbol{x}_{_{1}}
+\widetilde{x}_{_{t+1}}=Ax_{_{t}}=A^{^{t}}x_{_{1}}=\phi\Lambda^{^{t}}\phi^{^{-1}}x_{_{1}}
 $$
 
-从上式可以看出，当特征值的模大于 1 时，特征值位于单位圆外，t 期价格 $\tilde{\boldsymbol{x}}_{t+1}$ 随着时间 t 的增加，呈现震荡上涨，是趋势扩张的信号；当特征值的模小于 1 时，特征值位于单位圆内，t 期价格 $\tilde{\boldsymbol{x}}_{t+1}$ 随着时间 t 的增加，呈现震荡下跌，是趋势衰弱的信号。当特征值的模接近于 1时，特征值位于单位圆上，t期价格 $\tilde{\boldsymbol{x}}_{t+1}$ 随着时间t的增加，呈现区间震荡，是趋势震荡的信号。其性质与时间序列分析根据特征方程的特征根是否位于单位圆内来判断平稳性有异曲同工之处。
+从上式可以看出，当特征值的模大于 1 时，特征值位于单位圆外，t 期价格 $\tilde{x}_{{}_{t+1}}$ 随着时间 t 的增加，呈现震荡上涨，是趋势扩张的信号；当特征值的模小于 1 时，特征值位于单位圆内，t 期价格 $\tilde{x}_{{}_{t+1}}$ 随着时间 t 的增加，呈现震荡下跌，是趋势衰弱的信号。当特征值的模接近于 1时，特征值位于单位圆上，t期价格 $\tilde{x}_{{}_{t+1}}$ 随着时间t的增加，呈现区间震荡，是趋势震荡的信号。其性质与时间序列分析根据特征方程的特征根是否位于单位圆内来判断平稳性有异曲同工之处。
 
 需要特别注意的是位于单位圆外横轴上的主导特征值，由于没有虚部的存在，它的增长速率为指数级增长，将快速成为影响市场价格的主导因素。以 2015 年 4 月和 5 月单边上涨的样本数据为例，其主导特征值位于横轴之上，代表市场强势的信号。下图给出了其所有特征值在复平面上的分布，红色实心点为序列前三的特征值。
 
@@ -294,17 +294,17 @@ $$
 
 一个模型无法适用于所有环境，必然有其适用的条件。由于动态模分解的特点是数据驱动，所以其模型的前提假设相当的少。对于任意给定的时间序列数据，即使数据本身不存在明显的规律，模型依然都能返回其最优估计（除非完全线性无关）。所以，我们需要判断模型是否从过去历史价格数据中找到些许规律，还是仅给出了一个误差很大的估计。
 
-为此，我们借鉴线性回归中的 $R^{\ 2}$ 定义了动态模分解的拟合优度:
+为此，我们借鉴线性回归中的 $R^{\mathrm{~2~}}$ 定义了动态模分解的拟合优度:
 
 $$
-\boldsymbol{R}^{\mathrm{~2~}}=\frac{SSR}{SST}=\frac{\parallel\tilde{\boldsymbol{x}}_{m}-\boldsymbol{\overline{{x}}}_{m}\parallel}{\parallel\boldsymbol{x}_{m}-\boldsymbol{\overline{{x}}}_{m}\parallel}
+R^{^2}=\frac{\mathit{SSR}}{\mathit{SST}}=\frac{\|\stackrel{\sim}{x}_{_m}-\stackrel{\sim}{x}_{_m}\|}{\|\stackrel{\sim}{x}_{_m}-\stackrel{\sim}{x}_{_m}\|}.
 $$
 
-其中， $\widetilde{\boldsymbol{x}}_{m}$ 表示模型对第 m 天价格的拟合值， $\overline{{x}}_{m}$ 为第 m 天真实价格的均
+其中， $\tilde{x}_{\phantom{\dag}m}$ 表示模型对第 m 天价格的拟合值， $\overline{{x}}_{m}$ 为第 m 天真实价格的均
 
-值。 $R^{\ 2}$ 的分子 SSR 为回归平方和，反映了被模型所解释的变异部分，
+值。 $R^{\mathrm{~2~}}$ 的分子 SSR 为回归平方和，反映了被模型所解释的变异部分，
 
-分母 SST 为总平方和，反映了真实价格本身的总变异程度。 $R^{\mathit{\Delta}^{2}}$ 越大，
+分母 SST 为总平方和，反映了真实价格本身的总变异程度。 $R^{\mathrm{~2~}}$ 越大，
 
 代表模型拟合的效果越好，模型所得到的结论也更加可信。下图给出了60日时间窗口下的拟合优度。图中显示，日拟合优度的变化过于频繁，缺乏基本的稳定性、周期性与趋势性。一个固定的时间窗口应当是在一段时间内拟合优度较高，适用性较强，而在另一段时间内表现较差。显然，使用日拟合优度的原始值并未达到预期。
 
@@ -318,7 +318,7 @@ $$
 ![](images/d9933043be89063c938efb0d2d665608155e2b7ea2709d916427ed4a8b014fac.webp)
 数据来源：国泰君安证券研究
 
-定性上，当 $R^{\ 2}$ 过小时，模型拟合度较差，自然预测能力较弱。此时，
+定性上，当 $R^{\mathrm{~2~}}$ 过小时，模型拟合度较差，自然预测能力较弱。此时，
 
 模型不对市场进行判断即可。落实到应用层面，需要定量地给出拟合优度过低的具体标准。在设计标准时，我们避免使用拟合优度的绝对数值，而使用相对值作为评判标准。一是为了避免过度拟合当前历史数据、二是鉴于拟合优度的阈值随时间窗口的变化而改变。时间窗口越长，拟合优度自然越高。使用拟合优度的绝对值时，不同的时间窗口需要给出不同的评判标准。以下给出两个相对标准，标准一要求相对严苛、标准二要求相对较低，我们分别检验其效果：
 
@@ -572,41 +572,41 @@ $$
 
 定理： $\tilde{s}$ 的特征值为矩阵 A的特征值
 
-证明： $\tilde{S}\ =\ U\ ^{\mathrm{~T~}}X\ _{2}V\Sigma$
+证明： $\stackrel{\sim}{S}=U^{\mathrm{~T~}}X_{\mathrm{~}_{2}}V\Sigma$
 
 设 $\tilde{s}$ 的特征值为 ，则根据特征值的定义:
 
 $$
-\tilde{S}\nu_{{}_{j}}=\lambda_{{}_{j}}\nu_{{}_{j}},j=1,2,3\ldots m
+\stackrel{\sim}{S}v_{j}=\lambda_{j}v_{j},j=1,2,3\ldots m
 $$
 
 $$
-\tilde{S}\ =\ P\Lambda{\cal P}^{\ -1}
+\stackrel{\sim}{S}\;=\;P\Lambda P^{\;^{-1}}
 $$
 
 P为特征向量组成的矩阵，• 为对角矩阵，对角元素为其特征值。
 
-又因为 $AX_{\mathrm{~\scriptsize~1~}}=\ X_{\mathrm{~\scriptsize~1~}}S\ ,X_{\mathrm{~\scriptsize~1~}}=\ U\Sigma V^{\mathrm{~\scriptsize~T~}}$
+又因为 $AX_{\mathrm{~\tiny~1~}}=X_{\mathrm{~\tiny~1~}}S,\quad X_{\mathrm{~\tiny~1~}}=U\Sigma V^{\mathrm{~\tiny~1~}}$
 
-代入可得 $\boldsymbol{A}\boldsymbol{U}\boldsymbol{\Sigma}\boldsymbol{V}^{\textit{ T }}=\boldsymbol{U}\boldsymbol{\Sigma}\boldsymbol{V}^{\textit{ T }}\boldsymbol{S}$
+代入可得 $AU\Sigma V^{^{\scriptsize~T}}=U\Sigma V^{^{\scriptsize~T}}S$
 
-等式两边右乘矩阵 $\boldsymbol{(\Sigma\boldsymbol{V}}^{\textit{ T }})^{-1}$
+等式两边右乘矩阵 $\big(\sum\boldsymbol{V}^{\textit{ T }}\big)^{\textit{ - 1 }}$
 
 $$
-\boldsymbol{AU}^{\prime}=U\Sigma\boldsymbol{V}^{\prime}\boldsymbol{S}\left(\Sigma\boldsymbol{V}^{\prime}\right)^{-1}=U\widetilde{\boldsymbol{S}}
+AU\quad=\quad U\Sigma V^{^{^{T}}}S(\Sigma V^{^{^{T}}})^{^{-1}}=U\stackrel{\sim}{S}
 $$
 
-又因为 $\tilde{S}\ =\ P\Lambda{\cal P}^{\ {-}1}$
+又因为 $\stackrel{\sim}{S}\;=\;P\Lambda P^{\;^{-1}}$
 
-所以 $AU=U\tilde{S}=UP\Lambda{\cal P}^{-1}$
+所以 $\boldsymbol{A}\boldsymbol{U}^{-1}=\boldsymbol{U}\stackrel{\sim}{\boldsymbol{S}}=\boldsymbol{U}\boldsymbol{P}\boldsymbol{\Lambda}\boldsymbol{P}^{-1}$
 
 等式两边右乘矩阵P可得：
 
 $$
-A(UP~)=(UP~)\Lambda
+A(UP)=(UP)\Lambda
 $$
 
-根据特征值定义可知，• 的对角元素 皆为 A的特征值，其相应的特征向量 $\boldsymbol{\phi}_{j}\ :=\ :U\nu_{j}$
+根据特征值定义可知，• 的对角元素 皆为 A的特征值，其相应的特征向量 $\phi_{\quad j}\quad=\quad U\nu_{\quad j}$
 
 得证。
 

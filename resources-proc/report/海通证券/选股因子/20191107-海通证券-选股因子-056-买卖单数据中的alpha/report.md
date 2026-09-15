@@ -97,19 +97,19 @@ Email:yhm9591@htsec.com
 基于以上筛选流程得到的大单数据，可计算以下大单成交金额占比指标：
 
 $$
-\begin{array}{c}\star_{\sf\dot{X}}^{\ddagger}\mathbin{\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit}\end{array}
+大卖成交金额占比_{i,t}=\frac{大卖成交金额_{i,t}}{总成交金额_{i,t}}
 $$
 
 $$
-\begin{array}{c}\star\Bbbk\mathbin{\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit\vrule hit}hit\end{array}
+大买成交金额占比_{i,t}=\frac{大买成交金额_{i,t}}{总成交金额_{i,t}}
 $$
 
 $$
-\begin{array}{r}{{\star\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk_{i,t}}^{\star}}+\frac{{\star\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk_{i,t}}}{\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk_{i,t}}-\frac{{\star\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk_{i,t}}}{\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk\Bbbk_{i,t}}.\end{array}
+大买大卖成交金额占比差值_{_{i,t}}=\frac{大买成交金额_{_{i,t}}}{总成交金额_{_{i,t}}}-\frac{大卖成交金额_{_{i,t}}}{总成交金额_{_{i,t}}}
 $$
 
 $$
-\begin{array}{r}{\mathbb{k}\underbrace{\vec{\varphi}\mathbin{\lrcorner}\vec{\varkappa}_{\vec{\times}}\vec{\varkappa}_{\vec{\times}}\mathtt{\tiny{\ -\ e}}\mathtt{\cdot}\mathtt{\Pi}_{\vec{\leq}\vec{\pmb{\jmath}}\vec{\backslash}}\mathbb{k}_{i,t}}_{\vec{\leq}\mathbin{\lrcorner}\vec{\varkappa}_{\vec{\times}}\vec{\mathscr{Z}}\frac{\vec{\mathtt{\ -}}\vec{\pmb{\varkappa}}_{\vec{\pmb{\geq}}\vec{\pmb{\jmath}}}}{\vec{\otimes}\vec{\varkappa}_{i,t}}_{i,t}}+\frac{\mathbb{k}\frac{\vec{\kappa}_{\vec{\times}}}{\vec{\kappa}_{\vec{\times}}}\frac{\partial\vec{\kappa}_{\vec{\pmb{\geq}}\vec{\pmb{\jmath}}\vec{\backslash}}}{\partial\vec{\times}_{\vec{\pmb{\geq}}\vec{\pmb{\geq}}\vec{\pmb{\jmath}}}}_{i,t}}{\vec{\leq}{\skew\mathrm/{\lVert~\vec{\times}~\frac{\partial\vec{\kappa}_{\vec{\pmb{\geq}}\vec{\pmb{\jmath}}}}{\partial\vec{\times}_{\vec{\pmb{\geq}}\vec{\pmb{\geq}}\vec{\pmb{\jmath}}}}}_{i,t}}_{i,t}}}\end{array}
+大单成交金额占比_{i,t}=\frac{大买成交金额_{i,t}}{总成交金额_{i,t}}+\frac{大卖成交金额_{i,t}}{总成交金额_{i,t}}
 $$
 
 其中，总成交金额 $^{\mathrm{i,t}}$ 为股票 i在交易日 t的总成交金额，大买成交金额 $^{\mathrm{i,t}}$ 为股票 i在交易日 t 的大买单成交金额，大卖成交金额 $^{\mathrm{i,t}}$ 为股票 i在交易日 t的大卖单成交金额。
@@ -189,10 +189,10 @@ $$
 基于各股票的买卖单数据，可计算以下指标：
 
 $$
-\begin{array}{rl}&{\mathcal{R}\cdot\mathcal{R}+\mathcal{R}\widetilde{\mathcal{R}}_{(j)}^{(k)}=\frac{\sum_{k=1}^{M_{\ell}}\widetilde{\mathcal{R}}_{(k)}\widetilde{\mathcal{R}}_{(k)}\widetilde{\mathcal{R}}_{(k)}^{2}}{\frac{3}{4}\hbar\widetilde{\mathcal{R}}_{(k)}\widetilde{\mathcal{R}}_{(k)}^{2}}}\\&{\mathcal{R}+\mathcal{R}+\mathcal{R}_{(k)}=\frac{\sum_{k=1}^{M_{\ell}}\widetilde{\mathcal{R}}_{(k)}^{2}\mathcal{R}_{(k)}\widetilde{\mathcal{R}}_{(k)}^{2}}{\frac{3}{4}\hbar\widetilde{\mathcal{R}}_{(k)}\widetilde{\mathcal{R}}_{(k)}^{4}}}\\&{\mathcal{R}+\mathcal{R}+\mathcal{R}_{(k)}=\frac{\sum_{k=1}^{M_{\ell}}\widetilde{\mathcal{R}}_{(k)}^{4}\mathcal{R}_{(k)}\widetilde{\mathcal{R}}_{(k)}^{2}}{\frac{3}{4}\hbar\widetilde{\mathcal{R}}_{(k)}\widetilde{\mathcal{R}}_{(k)}^{4}}}\\&\mathcal{R}+\mathcal{R}\Psi\Psi+\mathcal{R}\widetilde{\mathcal{R}}_{(k)}^{4}\mathcal{R}_{(k)}=\frac{\sum_{k=1}^{M_{\ell}}\widetilde{\mathcal{R}}_{(k)}^{4}\mathcal{R}_{(k)}^{4}\widetilde{\mathcal{R}}_{(k)}^{2}}{\frac{3}{4}\hbar\widetilde{\mathcal{R}}_{(k)}\widetilde{\mathcal{R}}_{(k)}^{2}}-\frac\sum_{k=1}^{M_{\ell}}\end{array}
+\begin{aligned}&卖单集中度_{_{i,t}}=\frac{\sum_{k=1}^{N_{i,t}}卖单成交金额_{_{i,t,k}^{2}}^{2}}{总成交金额_{_{i,t}}^{2}}\\&买单集中度_{_{i,t}}=\frac{\sum_{k=1}^{N_{i,t}}关单成交金额_{_{i,t,k}^{2}}^{2}}{总成交金额_{_{i,t}}^{2}}\\&买卖单集中度差值_{_{i,t}}=\frac{\sum_{k=1}^{N_{i,t}}关单成交金额_{_{i,t,k}^{2}}^{2}}{总成交金额_{_{i,t}}^{2}}-\frac{\sum_{k=1}^{N_{i,t}}卖单成交金额_{_{i,t,k}^{2}}^{2}}{总成交金额_{_{i,t}}^{2}}\\&买卖单集中度之和_{_{i,t}}=\frac{\sum_{k=1}^{N_{i,t}}关单成交金额_{_{i,t,k}^{2}}^{2}}{总成交金额_{_{i,t}}^{2}}+\frac{\sum_{k=1}^{N_{i,t}}卖单成交金额_{_{i,t,k}^{2}}^{2}}{总成交金额_{_{i,t}}^{2}}\end{aligned}
 $$
 
-其中，买单成交金额 $^{\mathrm{i,t,k}}$ 为股票 i在交易日 t的第 k 个买单的成交金额，卖单成交金额 $^{\mathrm{i,t,k}}$ 为股票 i在交易日 t 的第 k个卖单的成交金额，总成交金额 $^{\mathrm{i,t}}$ 为股票 i在交易日 t的总成交金额。
+其中，买单成交金额 $\mathsf{i,}\mathsf{t,}\mathsf{k}$ 为股票 i在交易日 t的第 k 个买单的成交金额，卖单成交金额 $\mathrm{i,}\mathrm{t,}\mathrm{k}$ 为股票 i在交易日 t 的第 k个卖单的成交金额，总成交金额 $^{\mathrm{i,t}}$ 为股票 i在交易日 t的总成交金额。
 
 本章基于以上指标首先构建了月度因子，各股票的月度因子值为前 20日指标值的均值。由于指标值的截面分布存在较为明显的偏度，我们建议投资者在计算因子值时进行对数调整。本文在后文中同样会讨论因子在不同调仓频率下的表现。下表展示了各集中度因子在正交前后的截面选股能力。
 

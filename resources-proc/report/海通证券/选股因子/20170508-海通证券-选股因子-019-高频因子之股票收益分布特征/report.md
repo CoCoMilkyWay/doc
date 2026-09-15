@@ -48,25 +48,25 @@ Email:ylq9619@htsec.com
 
 系列前期研究（《选股因子系列研究十八——价格形态因子》）发现，通过引入因子刻画股票日内形态可在现有因子外带来额外选股能力。相关海外研究也表明股票日内价格形态分布特征也对于股票未来收益具有一定预测作用。所以本报告使用了日内分钟级数据构建了相关因子刻画股票日内收益分布的方差、偏度以及峰度。考虑到数据频率对于因子的影响，本文在计算因子时分别使用了股票 分钟对数收益以及股票 分钟对数收益序列。
 
-在任意交易日，基于股票 i的高频收益序列 $\{r_{\mathrm{ij}}\}$ 对于市场上交易的股票可计算高频收益方差、高频收益偏度以及高频收益峰度三个指标。常见计算方法如下：
+在任意交易日，基于股票 i的高频收益序列 $\{\Gamma_{j}\}$ 对于市场上交易的股票可计算高频收益方差、高频收益偏度以及高频收益峰度三个指标。常见计算方法如下：
 
 计算方法 1：
 
-高频收益方差 $\begin{array}{r}{\mathbf{\mathcal{R}}Var_{i}=\sum_{j=1}^{N}r_{ij}^{2}}\end{array}$
+高频收益方差 $\begin{array}{r}{RVar_{i}=\sum_{j=1}^{N}r_{ij}^{2}}\end{array}$
 
-高频收益偏度 $\begin{array}{r}{{\mathbf{\cdot}}RSkew_{i}=\frac{\sqrt{N}\sum_{j=1}^{N}r_{ij}^{2}}{RVar_{i}^{3/2}}}\end{array}$
+高频收益偏度 $\begin{array}{r}{RSkew_{i}=\frac{\sqrt{N}\sum_{j=1}^{N}r_{ij}^{2}}{RVar_{i}^{3/2}}}\end{array}$
 
-高频收益峰度:RK $\begin{array}{r}{\tau rt_{i}=\frac{N\sum_{j=1}^{N}r_{ij}^{4}}{RVar_{i}^{2}}}\end{array}$
+高频收益峰度:RK $\scriptstyle\langle urt_{i}\;=\;{\frac{N\sum_{j=1}^{N}r_{ij}^{4}}{RVar_{i}^{2}}}$
 
 在任意选股时刻，股票的因子值为前 日指标的均值。考虑到在实际进行选股时往往都是月度选股，本报告在计算因子值时使用的是股票过去一个月的均值。考虑到计算方式对于因子的影响，本报告也尝试了使用另外两种不同的方式对于因子进行计算。
 
 计算方法 2：
 
-高频收益方差 $\begin{array}{r}{{\bf\nabla}\cdot{\cal R}{\cal V}ar_{i}=\sum_{j=1}^{N}\bigl(r_{ij}-\bar{r}_{i}\bigr)^{2}}\end{array}$
+高频收益方差 $\begin{array}{r}{\mathrm{{:}}RVar_{i}=\sum_{j=1}^{N}\bigl(r_{ij}-\bar{r}_{i}\bigr)^{2}}\end{array}$
 
-高频收益偏度 $\begin{array}{r}{{\mathbf{\cdot}}RSkew_{i}=\frac{\sqrt{N}\sum_{j=1}^{N}\left(r_{ij}-\bar{r}_{i}\right)^{3}}{RVar_{i}^{3/2}}}\end{array}$
+高频收益偏度 $\begin{array}{r}{cRSkew_{i}=\frac{\sqrt{N}\sum_{j=1}^{N}\left(r_{ij}-\bar{r}_{i}\right)^{3}}{RVar_{i}^{3/2}}}\end{array}$
 
-高频收益峰度:R $\begin{array}{r}{\mathrm{\ curt}_{i}=\frac{N\sum_{j=1}^{N}\left(r_{ij}-\bar{r_{i}}\right)^{4}}{RVar_{i}^{2}}}\end{array}$
+高频收益峰度:R $\begin{array}{r}{Kurt_{i}=\frac{N\sum_{j=1}^{N}\left(r_{ij}-\bar{r}_{i}\right)^{4}}{RVar_{i}^{2}}}\end{array}$
 
 计算方法 3：
 
@@ -75,15 +75,15 @@ Email:ylq9619@htsec.com
 思路在于遍历所有时间段的划分，在不同划分下分别计算因子值并进行平均。
 
 $$
-\begin{array}{r}{\frac{1}{\vert\overrightarrow{\mathbf{e}}\vert}\iiint\ d^{3}\overrightarrow{\mathbfit{l}}\ast\frac{\partial^{2}}{\partial\overrightarrow{\mathbfit{m}}}\ x\overleftarrow{\mathbfit{j}}\succeq\mathbf{R}Var_{i}=\frac{1}{M}\sum_{k=1}^{M}RVar_{i}^{k}}\end{array}
+高频收益方差$RVar_{i}=\frac{1}{M}{\sum_{k=1}^{M}RVar_{i}^{k}}$
 $$
 
 $$
-\begin{array}{r}{\frac{3}{10}\Rightarrow\frac{1}{30}\Rightarrow\frac{3}{40}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{30}\cdot\frac{3}{40}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\frac{3}{160}\Rightarrow\left(\frac{3}{160}\right)}\end{array}
+高频收益偏度RSkew_{i}=\frac{1}{M}\sum_{k=1}^{M}RSkew_{i}^{k}
 $$
 
 $$
-\begin{array}{r}{\frac{1}{\vert\overrightarrow{\overrightarrow{\mathbf{e}}}\rangle}+\frac{1}{\vert\overrightarrow{\mathbf{J}}\vert}\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\frac{\sqrt{3}}{\sqrt{3}}\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow\downarrow=\frac{1}{M}\sum_{k=1}^{M}RKurt_{i}^{k}}\end{array}
+高频收益峰度$RKurt_{i}=\frac{1}{M}{\sum_{k=1}^{M}RKurt_{i}^{k}}$
 $$
 
 本节讨论了高频因子的构建，后文会在不同的数据频率以及不同的计算方式下对于高频方差、高频偏度以及高频峰度进行回测检验。最终我们希望能够在这三个高频因子中得到在不同频率和计算方法下都表现稳定的选股因子。

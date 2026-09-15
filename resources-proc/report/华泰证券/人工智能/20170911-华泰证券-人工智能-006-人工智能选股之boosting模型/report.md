@@ -85,23 +85,23 @@ XGBoost 模型预测能力与其他集成学习模型持平，但运算速度有
 
 本节中，我们介绍 AdaBoost 二元分类算法的具体步骤。
 
-假设输入为样本集 $\mathsf{T}{=}\{(x_{1},y_{1}),(x_{2},y_{2}),{\ldots},(x_{m},y_{m})\}$ ，输出为{-1,+1}，弱分类器迭代次数 K。输出是强分类器f(x)。
+假设输入为样本集 $\mathsf{T}{=}\{(x_{1},y_{1}),(x_{2},y_{2}),...,(x_{m},y_{m})\}$ ，输出为{-1,+1}，弱分类器迭代次数 K。输出是强分类器f(x)。
 算法主要有以下步骤：
 
 （1） 初始化样本集的权重为
 
 $$
-D(1)=(w_{11},w_{12},\ldots w_{1m});w_{1i}=\frac{1}{m};i=1,2...m
+D(1)=(w_{11},w_{12},\ldots w_{1m});\quad w_{1i}=\frac{1}{m};\quad i=1{,}2{\ldots m}.
 $$
 
-（2） 对 $\mp\ k=1,2,\ldots,K$
+（2） 对 $k=1,2,\ldots,K$
 
-①使用具有权重D(k)的样本集来训练数据，得到弱分类器 $G_{k}(\boldsymbol{x}_{i})$
+①使用具有权重D(k)的样本集来训练数据，得到弱分类器 $G_{k}(x_{i})$
 
-②计算 $G_{k}(\boldsymbol{x}_{i})$ 的分类误差率
+②计算 $G_{k}(x_{i})$ 的分类误差率
 
 $$
-e_{k}=P(G_{k}(x_{i})\neq y_{i})=\sum_{i=1}^{m}w_{ki}I(G_{k}(x_{i})\neq y_{i})
+e_{k}=P(G_{k}(x_{i})\neq y_{i})=\sum_{i=1}^{m}w_{ki}I(G_{k}(x_{i})\neq y_{i}).
 $$
 
 ③计算弱分类器 $G_{k}(x)$ 的权重系数
@@ -113,26 +113,26 @@ $$
 ④更新样本集的权重分布
 
 $$
-w_{k+1,i}=\frac{w_{ki}}{Z_{K}}exp(-\alpha_{k}y_{i}G_{k}(x_{i}))\ i=1,2,....m
+w_{k+1,i}=\frac{w_{ki}}{Z_{K}}exp(-\alpha_{k}y_{i}G_{k}(x_{i}))i=1{,}2,\ldots m
 $$
 
 $Z_{k}$ 是规范化因子
 
 $$
-Z_{k}=\sum_{i=1}^{m}w_{ki}exp(-\alpha_{k}y_{i}G_{k}(x_{i}))
+Z_{k}=\sum_{i=1}^{m}w_{ki}exp(-\alpha_{k}y_{i}G_{k}(x_{i})),
 $$
 
 （3） 最后，构建强分类器：
 
 $$
-f(x)=sign(\sum_{k=1}^{K}\alpha_{k}G_{k}(x))
+f(x)=sign(\sum_{k=1}^{K}\alpha_{k}G_{k}(x)),
 $$
 
 ## AdaBoost 回归算法基本步骤
 
 本节中，我们介绍 AdaBoost 回归算法的具体步骤。
 
-假设输入为样本集 ${\mathsf{T}}{=}\{(x_{1},y_{1}),(x_{2},y_{2}),{\ldots},(x_{m},y_{m})\}$ ，输出为{-1,+1}，弱分类器迭代次数 K。
+假设输入为样本集 $\mathsf{T}{=}\{(x_{1},y_{1}),(x_{2},y_{2}),...,(x_{m},y_{m})\}$ ，输出为{-1,+1}，弱分类器迭代次数 K。
 输出是强学习器f(x)。
 
 算法主要有以下步骤：
@@ -140,17 +140,17 @@ $$
 （1） 初始化样本集的权重为
 
 $$
-D(1)=(w_{11},w_{12},\ldots w_{1m});w_{1i}=\frac{1}{m};i=1,2...m
+D(1)=(w_{11},w_{12},\ldots w_{1m});\quad w_{1i}=\frac{1}{m};\quad i=1{,}2{\ldots m}.
 $$
 
-（2） 对于 $\mathbf{\partial}\cdot\mathbf{k}{=}1,2,...,\mathsf{K}\colon$
+（2） 对于 $\mathsf{k}{=}1{,}2{,}...{,}\mathsf{K}{:}$
 
-①使用具有权重D(k)的样本集来训练数据，得到弱分类器 $G_{k}(\boldsymbol{x}_{i})$
+①使用具有权重D(k)的样本集来训练数据，得到弱分类器 $G_{k}(x_{i})$
 
-②计算 $.G_{k}(x_{i})$ 在训练集上的最大误差
+②计算 $\cdot G_{k}(x_{i})$ 在训练集上的最大误差
 
 $$
-E_{\mathsf{k}}=max|y_{i}-G_{k}(x_{i})|;\ i=1,2...m
+E_{\mathsf{k}}=max|y_{i}-G_{k}(x_{i})|;i=1{,}2{\dots}m
 $$
 
 ③计算每个样本的相对误差：
@@ -159,20 +159,20 @@ $$
 
 如果是平方误差，则 $\begin{array}{r}{e_{ki}=\frac{(y_{i}-G_{k}(x_{i}))^{2}}{E_{k}^{2}}}\end{array}$
 
-如果是指数误差，则 $\begin{array}{r}{e_{ki}=1-exp(\frac{-y_{i}+G_{k}(x_{i})}{E_{k}})}\end{array}$
+如果是指数误差，则 $e_{ki}=1-exp(\frac{-y_{i}+G_{k}(x_{i})}{E_{k}})$
 
-④计算回归误差率 $\begin{array}{r}{{\bf\nabla}\cdot{\boldsymbol{e}}_{k}=\sum_{i=1}^{m}w_{ki}\ {\boldsymbol{e}}_{ki}}\end{array}$
+④计算回归误差率 $\begin{array}{r}{\cdot e_{k}=\sum_{i=1}^{m}w_{ki}e_{ki}}\end{array}$
 
 ⑤计算弱学习器的权重系数 $\begin{array}{r}{\alpha_{k}=\frac{e_{k}}{1-e_{k}}}\end{array}$
 
-⑥更新样本集的权重分布为 $\begin{array}{r}{w_{k+1,i}=\frac{w_{ki}}{z_{k}}\alpha_{k}^{1-e_{ki}}}\end{array}$
+⑥更新样本集的权重分布为 $w_{k+1,i}=\frac{w_{ki}}{z_{k}}\alpha_{k}^{1-e_{ki}}$
 
-$Z_{\mathsf{k}}$ 是规范化因子 $\begin{array}{r}{{\bf\nabla}\cdot{Z_{k}}=\sum_{i=1}^{m}w_{ki}\alpha_{k}^{1-e_{ki}}}\end{array}$
+$Z_{\mathrm{k}}$ 是规范化因子 $\begin{array}{r}{\cdot Z_{k}=\sum_{i=1}^{m}w_{ki}\alpha_{k}^{1-e_{ki}}}\end{array}$
 
 （3） 最后，构建强学习器：
 
 $$
-f(x)=\sum_{k=1}^{K}(ln{\frac{1}{\alpha_{k}}})G_{k}(x)
+f(x)=\sum_{k=1}^{K}(ln\frac{1}{\alpha_{k}})G_{k}(x)
 $$
 
 ## AdaBoost 主要参数
@@ -194,7 +194,7 @@ $$
 
 ## GBDT 概述
 
-梯度提升决策树 GBDT 是一种 Boosting 集成学习算法，但是却和传统的 AdaBoost 有很大的不同，且弱学习器限定了只能使用 CART 回归树模型。在 GBDT 的迭代中，假设前一轮迭代得到的强学习器是 $f_{t-1}(x)$ , 损失函数是 $L(y,f_{t-1}(x))$ , 本轮迭代的目标是得到一个 CART 回归树模型的弱学习器 $h_{t}(x)$ ，使得本轮的损失 $L(y,f_{t}(x)){=}L(y,f_{t-1}(x))+h_{t}(x)$ 最小。也就是说，本轮迭代得到的决策树，要让样本的损失尽量变得更小。
+梯度提升决策树 GBDT 是一种 Boosting 集成学习算法，但是却和传统的 AdaBoost 有很大的不同，且弱学习器限定了只能使用 CART 回归树模型。在 GBDT 的迭代中，假设前一轮迭代得到的强学习器是 $f_{t-1}(x)$ , 损失函数是 $L(y,f_{t-1}(x))$ , 本轮迭代的目标是得到一个 CART 回归树模型的弱学习器 $\cdot h_{t}(x)$ ，使得本轮的损失 $L(y,f_{t}(x)){=}L(y,f_{t-1}(x))+h_{t}(x)$ 最小。也就是说，本轮迭代得到的决策树，要让样本的损失尽量变得更小。
 
 GBDT 的思想可以用一个通俗的例子解释，假如某人有 170 厘米身高，我们首先用 160厘米去拟合，发现残差有 10 厘米，这时我们用 6 厘米去拟合剩下的残差，发现残差还有4 厘米，第三轮我们用 3厘米拟合剩下的残差，残差就只有 1厘米了。如果迭代轮数还没有完，可以继续迭代下去，每一轮迭代，拟合的身高残差都会减小。图表 5 显示了 GBDT算法的流程。
 
@@ -206,41 +206,41 @@ GBDT 的思想可以用一个通俗的例子解释，假如某人有 170 厘米�
 
 本节中，我们介绍 GBDT 回归算法的具体步骤。
 
-假设输入是训练集样本 $\mathsf{T}\mathsf{=}\{(x_{1},y_{1}),(x_{2},y_{2}),...,(x_{m},y_{m})\}$ ，最大迭代次数 T, 损失函数为 L。输出是强学习器 $\ b{f}(\ b{x})$ 
+假设输入是训练集样本 $\mathsf{T}{=}\{(x_{1},y_{1}),(x_{2},y_{2}),...,(x_{m},y_{m})\}$ ，最大迭代次数 T, 损失函数为 L。输出是强学习器 $f(x)$ 
 算法主要有以下步骤：
 
 (1) 初始化弱学习器 c
 
 $$
-f_{0}(x)=\underbrace{\mathrm{arg}min}_{c}\sum_{i=1}^{m}L(y_{i},c)
+f_{0}(x)=\underset{c}{\arg min}\sum_{i=1}^{m}L(y_{i},c),
 $$
 
-(2) 对迭代轮数 $\mathrm{t}{=}1,2,...,\top$ 有：
+(2) 对迭代轮数 $\scriptstyle{\mathfrak{t}}=1,2,\ldots,{\mathsf{T}}$ 有：
 
-① 对样本 $\mathsf{i}{=}1,2,...,\mathsf{m}$ ，计算负梯度
-
-$$
-r_{ti}=-[\frac{\partial L(y,f(x_{i})))}{\partial f(x_{i})}]_{f(x)=f_{t-1}(x)}
-$$
-
-② 利用 $(x_{i},r_{ti})\left(\mathsf{i}\mathsf{=}1,2,\ldots,\mathsf{m}\right)$ , 拟合一棵 CART 回归树，得到第 t棵回归树，其对应的叶子节点区域为 $R_{tj},\ \mathsf{j}=1,2,...,\mathsf{J}$ 。其中 J 为回归树 t的叶子节点的个数。
-
-③ 对叶子区域 ${\mathrm{j}}=1,2,\ldots,{\mathrm{J}},$ 计算最佳拟合值
+① 对样本 $\mathsf{i}{=}1{,}2{,}...{,}\mathsf{m}$ ，计算负梯度
 
 $$
-c_{tj}=\underbrace{\arg min}_{c}\sum_{x_{i}\in R_{tj}}L(y_{i},f_{t-1}(x_{i})+c)
+r_{ti}=-[\frac{\partial L(y,f(x_{i})))}{\partial f(x_{i})}]_{f(x)=f_{t-1}\;(x)}
+$$
+
+② 利用 $(x_{i},r_{ti})(\mathsf{i}=1,2,\ldots,\mathsf{m})$ , 拟合一棵 CART 回归树，得到第 t棵回归树，其对应的叶子节点区域为 $R_{tj},\mathrm{~j=1,2,...,J~}$ 。其中 J 为回归树 t的叶子节点的个数。
+
+③ 对叶子区域 $j=1,2,\ldots,J,$ 计算最佳拟合值
+
+$$
+c_{tj}=\underset{c}{\arg min}\sum_{x_{i}\in R_{tj}}L(y_{i},f_{t-1}(x_{i})+c)
 $$
 
 ④ 更新强学习器
 
 $$
-f_{t}(x)=f_{t-1}(x)+\sum_{j=1}^{J}c_{tj}I(x\in R_{tj})
+f_{t}(x)=f_{t-1}(x)+\sum_{j=1}^{J}c_{tj}I(x\in R_{tj}),
 $$
 
 (3) 得到强学习器f(x)的表达式
 
 $$
-f(x)=f_{T}(x)=\sum_{t=1}^{T}\sum_{j=1}^{J}c_{tj}I(x\in R_{tj})
+f(x)=f_T(x)=\sum_{t=1}^{T}\sum_{j=1}^{J}c_{tj}I(x\in R_{tj})
 $$
 
 ## GBDT 二元分类算法基本步骤
@@ -248,7 +248,7 @@ $$
 对于二元分类 GBDT，如果用类似于 Logistic 回归的对数损失函数，则损失函数为：
 
 $$
-L{\bigl(}y,f(x){\bigr)}=log(1+exp(-yf(x)))
+L\big(y,f(x)\big)=log(1+exp(-yf(x)))
 $$
 
 其中 $y\in\{-1,+1\}$ 。则此时的负梯度误差为
@@ -260,13 +260,13 @@ $$
 对于生成的决策树，各个叶子节点的最佳残差拟合值为
 
 $$
-c_{tj}=\underbrace{\arg min}_{c}\sum_{x_{i}\in R_{tj}}log(1+exp(y_{i}(f_{t-1}(x_{i})+c)))
+c_{tj}=\underbrace{\arg min}_{c}\sum_{x_i\in R_{tj}}log(1+exp(y_i(f_{t-1}(x_i)+c)))
 $$
 
 由于上式比较难优化，一般使用近似值代替
 
 $$
-c_{tj}=\sum_{x_{i}\in R_{tj}}r_{ti}/\sum_{x_{i}\in R_{tj}}|r_{ti}|(2-|r_{ti}|)
+c_{tj}=\sum_{x_{i}\in R_{tj}}r_{ti}/\sum_{x_{i}\in R_{tj}}|r_{ti}|(2-|r_{ti}|).
 $$
 
 ## GBDT 常用损失函数
@@ -276,7 +276,7 @@ $$
 （1） 均方差损失函数
 
 $$
-L(y,f(x))=(\bigcirc-f(x))^{2}
+L(y,f(x))=(口-f(x))^2
 $$
 
 （2） 绝对损失函数
@@ -294,25 +294,25 @@ $$
 （3）Huber 损失函数，它是均方差损失函数和绝对损失函数的折中产物，对于远离中心的异常点，采用绝对损失函数，而中心附近的点采用均方差损失函数。这个界限一般用分位数点度量。损失函数如下
 
 $$
-L(y,f(x))=\left\{\begin{array}{rl}{\displaystyle{\frac{1}{2}}(y-f(x))^{2},\quad}&{|y-f(x)|\leq\delta}\\{\displaystyle\delta(|y-f(x)|-{\frac{\delta}{2}}),\quad}&{|y-f(x)|>\delta}\end{array}\right.
+L(y,f(x))=\left\{\begin{aligned}\frac{1}{2}(y-f(x))^2,\quad&|y-f(x)|\leq\delta,\\\delta(|y-f(x)|-\frac{\delta}{2}),\quad&|y-f(x)|>\delta.\end{aligned}\right.
 $$
 
 对应的负梯度误差为
 
 $$
-r(y_{i},f(x_{i}))=\left\{\begin{array}{rl}{y_{i}-f(x_{i}),}&{|y_{i}-f(x_{i})|\leq\delta}\\{\delta sign(y_{i}-f(x_{i})),}&{|y_{i}-f(x_{i})|>\delta}\end{array}\right.
+r(y_{i},f(x_{i}))=\left\{\begin{matrix}y_{i}-f(x_{i}),&&|y_{i}-f(x_{i})|\leq\delta\\\delta sign(y_{i}-f(x_{i})),&&|y_{i}-f(x_{i})|>\delta\end{matrix}\right.
 $$
 
 （4） 分位数损失函数。它对应的是分位数回归的损失函数，表达式为
 
 $$
-L(y,f(x))=\sum_{y\ge f(x)}\theta|y-f(x)|+\sum_{y<f(x)}(1-\theta)|y-f(x)|
+L(y,f(x))=\sum_{y\geq f(x)}\theta|y-f(x)|+\sum_{y<f(x)}(1-\theta)|y-f(x)|
 $$
 
 其中θ为分位数，需要我们在回归前指定。对应的负梯度误差为
 
 $$
-r(y_{i},f(x_{i}))=\left\{\begin{array}{rl}{\theta,}&{{}\quad y_{i}\geq f(x_{i})}\\{\theta-1,}&{{}\quad y_{i}<f(x_{i})}\end{array}\right.
+r(y_{i},f(x_{i}))=\left\{\begin{matrix}\theta,&\quad y_{i}\geq f(x_{i})\\\theta-1,&\quad y_{i}<f(x_{i})\end{matrix}\right.
 $$
 
 对于 Huber 损失和分位数损失，主要用于健壮回归，也就是减少异常点对损失函数的影响。
@@ -330,7 +330,7 @@ $$
 （2） 对数损失函数表达式为
 
 $$
-L{\bigl(}y,f(x){\bigr)}=log(1+exp(-yf(x)))
+L\big(y,f(x)\big)=log(1+exp(-yf(x)))
 $$
 
 ## GBDT 主要参数
@@ -365,15 +365,15 @@ XGBoost 是 Gradient Boosting 方法的一种高效实现，也是 GBDT 算法�
 本文主要介绍以 CART 树为基学习器的 XGBoost 算法。任给一个样本点，计算出该样本在每个 CART 上的得分，累加起来就是该样本的最终得分，由此可进行预测或分类。XGBoost 模型的数学描述和目标函数为：
 
 $$
-\hat{y}_{i}=\sum_{k=1}^{K}f_{k}(x_{i}),Obj(\theta)=\sum_{i=1}^{n}L(y_{i},\hat{y}_{i})+\sum_{k=1}^{K}\varOmega(f_{k}),
+\hat{y}_{i}={\sum}_{k=1}^{K}f_{k}(x_{i}),Obj(\theta)={\sum}_{i=1}^{n}L(y_{i},\hat{y}_{i})+{\sum}_{k=1}^{K}\varOmega(f_{k}),
 $$
 
-其中 n 为样本的个数， $x_{i}$ 表示第 i 个样本， $y_{i}\hbar^{\alpha}\hat{y}_{i}$ 为第 i 个样本的真实值和预测值；K 为CART 的个数， $f_{k}$ 表示第 k 个CART，可看做从样本点到分数的映射； $L(\boldsymbol{\mathrm{y}},\boldsymbol{\hat{y}})$ 为损失函数，$\varOmega(f_{k})$ 为正则项。
+其中 n 为样本的个数， $x_{i}$ 表示第 i 个样本， $y_{i}和\hat{y}_{i}$ 为第 i 个样本的真实值和预测值；K 为CART 的个数， $f_{k}$ 表示第 k 个CART，可看做从样本点到分数的映射； $L(\mathbf{y},{\hat{y}})$ 为损失函数，$\varOmega(f_{k})$ 为正则项。
 
 在训练第 t 棵树时，相当于极小化第 t 棵树的目标函数：
 
 $$
-Obj^{(t)}=\sum_{i=1}^{n}L(y_{i},\hat{y}_{i}^{(t)})+\sum_{k=1}^{t}\Omega(f_{k})=\sum_{i=1}^{n}L(y_{i},\hat{y}_{i}^{(t-1)}+f_{t}(x_{i}))+\Omega(f_{t})+const.
+Obj^{(t)}={\sum}_{i=1}^{n}L(y_{i},\hat{y}_{i}^{(t)})+{\sum}_{k=1}^{t}\varOmega(f_{k})={\sum}_{i=1}^{n}L(y_{i},\hat{y}_{i}^{(t-1)}+f_{t}(x_{i}))+\varOmega(f_{t})+const.
 $$
 
 XGBoost 的特别之处就是用损失函数的二阶泰勒展开来近似原来的损失函数，上述目标函数可近似为：
@@ -382,12 +382,12 @@ $$
 Obj^{(t)}\approx\sum_{i=1}^{n}[L(y_{i},\hat{y}_{i}^{(t-1)})+g_{i}f_{t}(x_{i})+\frac{1}{2}h_{i}f_{t}^{2}(x_{i})]+\varOmega(f_{t})+const.
 $$
 
-其中 $g_{i}\hbar\hbar_{i}$ 分别为第 i 个样本点上损失函数 L 关于第二个变量的一阶和二阶偏导数。如果我们再知道 $f_{t}$ 和Ω的表达式，就能得到第 t 棵树。
+其中 $g_{i}和h_{i}$ 分别为第 i 个样本点上损失函数 L 关于第二个变量的一阶和二阶偏导数。如果我们再知道 $f_{t}$ 和Ω的表达式，就能得到第 t 棵树。
 
 目标函数中正则项部分（相当于树的复杂度）如下定义：
 
 $$
-\varOmega(f_{t})=\gamma T+\frac{1}{2}\lambda\sum_{j=1}^{T}\omega_{j}^{2}
+\varOmega(f_{t})=\gamma T+\frac{1}{2}\lambda et{}{^T}\sum_{j=1}^{T}\omega_{j}^{2}.
 $$
 
 其中 $f_{t}$ 表示第 t棵树，T 表示该树的叶子节点的个数， $\omega_{j}$ 表示第j个叶子节点上的分数；γ和λ为惩罚因子，越大表明对树的复杂度的惩罚力度越大。
@@ -395,10 +395,10 @@ $$
 接下来就是对 $f_{t}$ 的细化，将树拆分成结构部分q和权重部分ω：
 
 $$
-f_{t}(x)=\omega_{q(x)},\omega\in R^{T},q\colon R^{d}\to\{1,2,\cdots,T\}
+f_{t}(x)=\omega_{q(x)},\omega\in R^{T},q\colon R^{d}\to\{1{,}2,\cdots,T\}
 $$
 
-其中ω是一个 T 维向量，对应 T 个叶子节点上的分数；q是一个映射，将样本点 $\boldsymbol{x}\in R^{d}$ 映射到某一个叶子节点上。因此，只要确定了树的结构q和每个叶子节点上的得分ω，就能完全确定这棵树了。
+其中ω是一个 T 维向量，对应 T 个叶子节点上的分数；q是一个映射，将样本点 $x\in R^{d}$ 映射到某一个叶子节点上。因此，只要确定了树的结构q和每个叶子节点上的得分ω，就能完全确定这棵树了。
 
 ## XGBoost 算法基本步骤
 
@@ -407,13 +407,13 @@ XGBoost 算法的基本步骤与 GBDT 类似，差别在于构造新树的方法
 将 $f_{t}$ 和Ω的表达式带入近似的目标函数中，忽略与 $f_{t}$ 无关的常数部分，可以得到：
 
 $$
-\begin{array}{l}{\displaystyle Obj^{(t)}\sim\sum_{i=1}^{n}\Big[g_{i}f_{t}(x_{i})+\frac{1}{2}h_{i}f_{t}^{2}(x_{i})\Big]+2(f_{t})}\\{\displaystyle\quad=\sum_{i=1}^{n}\big[g_{i}\omega_{q(x_{i})}+\frac{1}{2}h_{i}\omega_{q(x_{i})}^{2}\big]+\gamma T+\frac{1}{2}\lambda\sum_{j=1}^{T}\omega_{j}^{2}}\\{\displaystyle\quad=\sum_{j=1}^{T}\big[\big(\sum_{i\in I_{j}}g_{i}\big)\omega_{j}+\frac{1}{2}\big(\sum_{i\in I_{j}}h_{i}+\lambda\big)\omega_{j}^{2}\big]+\gamma T}\\{\displaystyle\quad\triangleq\sum_{j=1}^{T}\Big[G_{j}\omega_{j}+\frac{1}{2}\big(H_{j}+\lambda\big)\omega_{j}^{2}\Big]+\gamma T}\end{array}
+\begin{aligned}&Obj^{(t)}\approx\sum_{i=1}^{n}\left[g_{i}f_{t}(x_{i})+\frac{1}{2}h_{i}f_{t}^{2}(x_{i})\right]+\varOmega(f_{t})\\&\quad=\sum_{i=1}^{n}[g_{i}\omega_{q(x_{i})}+\frac{1}{2}h_{i}\omega_{q(x_{i})}^{2}]+\gamma T+\frac{1}{2}\lambda\sum_{j=1}^{T}\omega_{j}^{2}\\&\quad=\sum_{j=1}^{T}[(\sum_{i\in I_{j}}g_{i})\omega_{j}+\frac{1}{2}(\sum_{i\in I_{j}}h_{i}+\lambda)\omega_{j}^{2}]+\gamma T\\&\quad\triangleq\sum_{j=1}^{T}\left[G_{j}\omega_{j}+\frac{1}{2}\big(H_{j}+\lambda\big)\omega_{j}^{2}\right]+\gamma T\\\end{aligned}
 $$
 
-最后一式中的 $G_{j}$ 和 ${\boldsymbol{\mathsf{H}}}_{\perp}$ 定义为
+最后一式中的 $G_{j}$ 和 $tH_{\perp}$ 定义为
 
 $$
-G_{j}=\sum_{i\in I_{j}}g_{i},H_{j}=\sum_{i\in I_{j}}h_{i}
+G_{j}={\sum}_{i\in I_{j}}g_{i}\quad,\quad H_{j}{=}{\sum}_{i\in I_{j}}h_{i}
 $$
 
 从最后一式可以看出，目标函数的近似是关于 T 个相互独立的变量 $\omega_{j}$ 的二次函数，可以直接解得极小点
@@ -425,7 +425,7 @@ $$
 以及目标函数的极小值 $.Obj^{*}$ ，到此就完成了ω的计算。
 
 $$
-Obj^{*}=-\frac{1}{2}\sum_{j=1}^{T}\frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T
+Obj^{*}=-\cfrac{1}{2}\sum_{j=1}^{T}\cfrac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T
 $$
 
 下面开始构造树的结构。上面式子中 $Obj^{*}$ 表示当我们指定一棵树时，可以在目标函数上最多减少多少，因此可以把它叫做结构分数； $Obj^{*}$ 越小说明树的结构越好，然后利用贪心算法枚举出不同的树结构，选出结构分数最小的树。具体来讲，每一次尝试对已有的叶子加入一个分割，都要通过下面的式子（该式摘录自报告“Introduction to Boosted Trees”,Tianqi Chen, Oct. 22 2014）计算Obj∗的增益来确定是否要引入该分割：
@@ -433,7 +433,7 @@ $$
 加入新叶子节点引入的复杂度代价
 
 $$
-\begin{array}{rl}&{Gain=\frac{1}{2}[\frac{G_{L}^{2}}{H_{L}+\lambda}+\frac{G_{R}^{2}}{H_{R}+\lambda}-\frac{(G_{L}+G_{R})^{2}}{H_{L}+H_{R}+\lambda}]-\gamma}\\&{\qquad\underset{\pounds\not=\mathbb{HM}\not\ni\sharp\not\times\emptyset}{\bigwedge}}\end{array}
+Gain=\underbrace{\frac{1}{2}[\frac{G_{L}^{2}}{H_{L}+\lambda}+\frac{G_{R}^{2}}{H_{R}+\lambda}-\frac{(G_{L}+G_{R})^{2}}{H_{L}+H_{R}+\lambda}]}_{\substack{\nearrow\nearrow\nearrow\\\nwarrow\nwarrow\\右子树分数}}\bigvee_{\substack{\nwarrow\\右子树分数}}\bigwedge_{\substack{\nwarrow\nwarrow\\不分割我们可以拿到的分数}}^{\nwarrow}
 $$
 
 引入分割不一定会使目标函数减小，因为目标函数中还有对引入新叶子的惩罚项，优化这个目标对应了树的剪枝，当引入分割带来的增益小于一个阈值时，可以剪掉这个分割。到此就确定了树的结构。
@@ -483,7 +483,7 @@ a) 股票池：沪深 300 成份股/中证 500 成份股/全 A 股。剔除 ST �
 
 3． 特征预处理：
 
-a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},\ D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
+a) 中位数去极值：设第 T 期某因子在所有个股上的暴露度序列为 $D_{i},~D_{M}$ 为该序列中位数， $D_{M1}$ 为序列 $|D_{i}-D_{M}|$ 的中位数，则将序列 $D_{i}$ 中所有大于 $D_{M}+5D_{M1}$ 的数重设为 $D_{M}+5D_{M1}$ ，将序列 $D_{i}$ 中所有小于 $D_{M}-5D_{M1}$ 的数重设为 $D_{M}-5D_{M1}$ ；
 
 b)缺失值处理：得到新的因子暴露度序列后，将因子暴露度缺失的地方设为中信一级行业相同个股的平均值。
 
@@ -1249,13 +1249,13 @@ XGBoost 模型的一大优点就是运行速度很快，训练模型时可以节
 目前主流的决策树算法包括 C4.5 和 CART：C4.5每个节点可分裂成多个子节点，不支持特征的组合，只能用于分类问题；CART 每个节点只分裂成两个子节点，支持特征的组合，可用于分类和回归问题。而在随机森林中，通常采用 CART 算法来选择划分属性，并使用“基尼指数”（Gini Index）来定义信息增益程度。分类问题中，假设有 K个类，样本集 D中的点属于第 k 类的概率为 $P_{k}$ ，则其 Gini指数为
 
 $$
-\begin{array}{r}{\mathrm{Gini}(\mathrm{D})=\sum_{k=1}^{K}P_{k}(1-P_{k})=1-\sum_{k=1}^{K}P_{k}^{2}}\end{array}
+\begin{array}{r}{\mathrm{Gini(D)}=\sum_{k=1}^{K}P_{k}(1-P_{k})=1-\sum_{k=1}^{K}P_{k}^{2}}\end{array}
 $$
 
-Gini(D)反映了从数据集 D中随机抽取两个样本，其类别标记不一致的概率，Gini(D)越小，数据集 D的纯度越高。二分类问题中，若对于给定的样本集合 D（|D|表示集合元素个数），根据特征 A分裂为 $D_{1}$ 和 $D_{2}$ 两不相交部分，则分裂后的
+Gini(D)反映了从数据集 D中随机抽取两个样本，其类别标记不一致的概率，Gini(D)越小，数据集 D的纯度越高。二分类问题中，若对于给定的样本集合 D（|D|表示集合元素个数），根据特征 A分裂为 $D_{1}$ 和 $tD_{2}$ 两不相交部分，则分裂后的
 
 $$
-\begin{array}{r}{\mathrm{Gini}(\mathrm{D},\mathrm{A})=\frac{|\mathrm{D}_{1}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{1})+\frac{|\mathrm{D}_{2}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{2})}\end{array}
+\mathrm{Gini}(\mathrm{D},\mathrm{A})=\frac{|\mathrm{D}_{1}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{1})+\frac{|\mathrm{D}_{2}|}{|\mathrm{D}|}\mathrm{Gini}(\mathrm{D}_{2})
 $$
 
 从根节点开始，递归地在每个结点分裂时选取Gini(D,A)最小的特征 A为划分属性，将训练集依特征分配到两个子结点中去。照此逐层划分，直至结点中样本个数小于预定阈值，或样本集的 Gini指数小于预定阈值，抑或没有更多特征，即生成了一棵可进行分类预测的决策树。下面我们试举一例说明。
@@ -1277,38 +1277,38 @@ $$
 
 资料来源：华泰证券研究所
 
-前面提到，节点分裂的原则是使得分裂后的信息增益最大，即挑选 $\mathrm{Gini}(D,\mathrm{A})$ 最小的特征 A为划分属性。第一步分裂前，全部 8 个样本中有 3个属于“涨”类别，概率为 $P\big(\omega\ddot{\mathfrak{H}}\ddot{\mathbb{K}}\big)=3/8$ ；5 个属于“跌”类别，概率为 $P\big(\omega^{\mathrm{g}}\big\vert^{2}\big)=5/8$ 。因此分裂前的 Gini 指数为：
+前面提到，节点分裂的原则是使得分裂后的信息增益最大，即挑选 $\operatorname{\mathsf{Gini}}(D,\overline{{A}})$ 最小的特征 A为划分属性。第一步分裂前，全部 8 个样本中有 3个属于“涨”类别，概率为 $P(\omega 涨)=3/8$ ；5 个属于“跌”类别，概率为 $P\big(\omega 跌\big)=5/8$ 。因此分裂前的 Gini 指数为：
 
 $$
-\mathrm{Gini(D)}=1-\left({\frac{3}{8}}\right)^{2}-\left({\frac{5}{8}}\right)^{2}=0.4688
+\mathrm{Gini}(\mathrm{D})=1-\left(\frac{3}{8}\right)^2-\left(\frac{5}{8}\right)^2=0.4688
 $$
 
-如果我们以“是否为大市值”作为规则将全样本分裂成两个子节点，在 2 个大市值样本中属于“涨”类别的概率为 $P\big(\omega\mathfrak{W}\mathbb{K}\big)=0$ ，属于“跌”类别的概率为 $P(\omega^{*\sharp})=1$ ，该子节点的Gini 指数为
+如果我们以“是否为大市值”作为规则将全样本分裂成两个子节点，在 2 个大市值样本中属于“涨”类别的概率为 $P\big(\omega 涨\big)=0$ ，属于“跌”类别的概率为 $P\big(\omega 跌\big)=1$ ，该子节点的Gini 指数为
 
 $$
-{\mathrm{Gini}}\left({\mathrm{D}}_{\star\ \ddag\vert\ddag}\right)=1-0^{2}-1^{2}=0
+Gini\left(D_{大市值}\right)=1-0^{2}-1^{2}=0
 $$
 
 类似地，中小市值子节点的 Gini指数为：
 
 $$
-\mathrm{Gini}\left(\mathrm{D}_{\Phi\cdot\downarrow\cdot\vec{\eta}\cdot\langle\dot{\bf{k}}\rangle}\right)=1-\left(\frac{1}{6}\right)^{2}-\left(\frac{5}{6}\right)^{2}=0.2778
+Gini\left(D_{中小市值}\right)=1-\left(\frac{1}{6}\right)^{2}-\left(\frac{5}{6}\right)^{2}=0.2778
 $$
 
-上述分裂过程中，分裂到大市值的概率为 $P\left(\omega\mathbf{\cdot}\tilde{\pi}\mathbf{\Gamma}\mathbf{/}\mathbf{\ !}\mathbf{\cdot}\mathbf{\bar{\mathbf{k}}}\right)=2/8$ ，分裂到中小市值的概率为$P(\omega$ 中小市值) $r=6/8$ 。因此Gini(D, 市值)为：
+上述分裂过程中，分裂到大市值的概率为 $P\big(\omega 大市值\big)=2/8$ ，分裂到中小市值的概率为$P(\omega$ 中小市值) $)=6/8$ 。因此Gini(D, 市值)为：
 
 $$
-\begin{array}{l}{{\mathrm{Gini}\displaystyle\left(\mathrm{D},\gtrsim\vec{\tau}\vec{\tau}\mathrm{\rlap/{/}}\vec{\mathbb{E}}\right)=\frac{\left|\mathrm{D}_{\star\vec{\tau}\vec{\eta}\mathrm{\rlap/{/}}}\right|}{\left|\mathrm{D}\right|}\mathrm{Gini}\left(\mathrm{D}_{\star\vec{\eta}\mathrm{\rlap/{/}}\vec{\mathbb{E}}}\right)+\frac{\left|\mathrm{D}_{\Psi\mathrm{\rlap/{/}},\downarrow\vec{\tau}\mathrm{\rlap/{/}}}\right|}{\left|\mathrm{D}\right|}\mathrm{Gini}\left(\mathrm{D}_{\Psi\mathrm{\rlap/{/}},\downarrow\vec{\tau}\mathrm{\rlap/{/}}\vec{\mathbb{E}}}\right)}}\\{{=\frac{2}{8}\times\ 0+\frac{6}{8}\times0.2778=0.2083}}\end{array}
+\begin{aligned}Gini(D,大市值)=&\frac{|D_{大市值}|}{|D|}Gini\left(D_{大市值}\right)+\frac{|D_{中小市值}|}{|D|}Gini\left(D_{中小市值}\right)\\=&\frac{2}{8}\times0+\frac{6}{8}\times0.2778=0.2083\end{aligned}
 $$
 
 如果换成“是否为小市值”或“是否为消费类”作为分裂规则，计算出 Gini指数为：
 
 $$
-\operatorname{Gini}\left(\mathrm{D},\mathrm{*}\mathrm{l}\mathrm{*}\operatorname{\dot{\pi}}/\dddot{\mathrm{\textmu}}\right)=\frac{3}{8}\times0-\frac{5}{8}\times0.48=0.3
+Gini(D,小市值)=\frac{3}{8}\times0-\frac{5}{8}\times0.48=0.3
 $$
 
 $$
-\mathrm{Gini}\big(\mathrm{D},\mathrm{\dot{\ y}_{\mathrm{~\scriptsize~1}}^{\ddagger}}\mathrm{\Pi}_{\mathfrak{M}}^{\ddagger}\big)=\frac{3}{8}\times0.4444+\frac{5}{8}\times0.48=0.3667
+Gini(D,消费)=\frac{3}{8}\times0.4444+\frac{5}{8}\times0.48=0.3667
 $$
 
 事实上，在所有可能的分裂规则中，“是否为大市值”的 Gini 指数最小。我们据此进行首次分裂，如图表 43 所示。接下来依照相同办法，继续对子节点进行分裂，直到每个样本都归入终端的叶子节点，如图表 44所示，最终完成整棵决策树的学习。
@@ -1328,7 +1328,7 @@ $$
 特征影响力的计算需要借助于结点分裂时 Gini指数，方法如下：
 
 $$
-\begin{array}{l}{{I_{i}(A)=\mathrm{Gini}(D_{i})-\mathrm{Gini}(D_{i},A)}}\\{{S(A)=\displaystyle\sum_{i}I_{i}(A)}}\end{array}
+\begin{aligned}I_{i}(A)&=Gini(D_{i})-Gini(D_{i},A)\\&S(A)=\sum_{i}I_{i}(A)\end{aligned}
 $$
 
 其中， $I_{i}(A)$ 表示结点 i根据特征 A 分裂为两个子结点后，Gini指数相对于母结点分裂前的下降值。故而可定义特征 A 的绝对重要性S(A)为所有按特征 A 分裂的结点处的Ii(A)之和。将所有特征的绝对重要性标准化，即可得到各个特征的重要性评分，易知所有特征重要性评分和为 1。

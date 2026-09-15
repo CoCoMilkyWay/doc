@@ -186,11 +186,11 @@ tRange:max (HH-LC, HC-LL) ;
 记 $F_{1}$ 为开仓成交价， $F_{2}$ 为平仓成交价， c为单边手续费率， I 为单边冲击成本， M 为杠杆倍数，则单次交易收益率为
 
 $$
-r_{long}=\left[\frac{\big(F_{2}-I\big)\times\big(1-c\big)-\big(F_{1}+I\big)\times\big(1+c\big)}{\big(F_{1}+I\big)\times\big(1+c\big)}\right]\times M
+r_{long}=\left[\frac{(F_2-I)\times(1-c)-(F_1+I)\times(1+c)}{(F_1+I)\times(1+c)}\right]\times M
 $$
 
 $$
-r_{short}=\left[\frac{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1-c\big)-\big(F_{\scriptscriptstyle2}+I\big)\times\big(1+c\big)}{\big(F_{\scriptscriptstyle1}-I\big)\times\big(1+c\big)}\right]\times M
+r_{short}=\left[\frac{(F_1-I)\times(1-c)-(F_2+I)\times(1+c)}{(F_1-I)\times(1+c)}\right]\times M
 $$
 
 此处模拟交易相关设定为：

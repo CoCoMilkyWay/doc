@@ -135,39 +135,39 @@ S0880114060025
 结构化多因子风险模型首先对收益率进行简单的线性分解，对于第 j 只股票收益的分解形式可以表示为：
 
 $$
-r_{_j}=x_{_1}f_{_1}+x_{_2}f_{_2}+x_{_3}f_{_3}+x_{_4}f_{_4}...x_{_K}f_{_K}+u_{_j}
+r_{_{j}}=x_{_{1}}f_{_{1}}+x_{_{2}}f_{_{2}}+x_{_{3}}f_{_{3}}+x_{_{4}}f_{_{4}}...x_{_{K}}f_{_{K}}+u_{_{j}}
 $$
 
-其中， $r_{j}$ 表示第 j 只股票的收益率； $x_{\scriptscriptstyle k}$ 表示第 j 只股票在第k 个因子上的暴露（也称为因子载荷）； $\boldsymbol{f}_{k}$ 表示第 j 只股票第k 个因子的因子收益率（即每单位因子暴露所承载的收益率）； $\boldsymbol{u}_{\ j}$ 表示第 j 只股票的特质因子收益率。
+其中， $r_{j}$ 表示第 j 只股票的收益率； $x_{{k}}$ 表示第 j 只股票在第k 个因子上的暴露（也称为因子载荷）； $f_{k}$ 表示第 j 只股票第k 个因子的因子收益率（即每单位因子暴露所承载的收益率）； $u_{\mathrm{~}_{j}}$ 表示第 j 只股票的特质因子收益率。
 
-那么对于一个包含 N 只股票的投资组合，假设组合的权重为$w={(w_{1},w_{2},...,w_{_{N}})}^{T}$ ，那么组合收益率可以表示为：
+那么对于一个包含 N 只股票的投资组合，假设组合的权重为$w=(w_{1},w_{2},\ldots,w_{N})^{T}$ ，那么组合收益率可以表示为：
 
 $$
-R_{_P}=\sum_{j=1}^{N}w_{_n}\cdot(\sum_{k=1}^{K}x_{_{jk}}f_{_{jk}}+u_{_j})
+R_{_P}\;=\;\sum_{_{j\;=\;1}}^{^N}\;w_{_n}\cdot(\sum_{_{k\;=\;1}}^{^K}\;x_{_{jk}}\;f_{_{jk}}+u_{_j}),
 $$
 
 假设每只股票的特质因子收益率与共同因子收益率不相关，并且每只股票的特质因子收益率也不相关。那么在上述表达式的基础上，可以得到组合的风险结构为：
 
 $$
-\sigma_{_P}=\sqrt{{w}^{T}\left(XFX^{T}+\Delta\right)w}
+\sigma_{_P}=\sqrt{w^{^T}\left(XFX^{^T}+\Delta\right)w}
 $$
 
-其中，X 表示N 只个股在K 个风险因子上的因子载荷矩阵 $(N\times K)$
+其中，X 表示N 只个股在K 个风险因子上的因子载荷矩阵 $\left(\boldsymbol{N}\times\boldsymbol{K}\right)$
 
 $$
-\begin{array}{r}{\left[\begin{array}{llll}{x_{1,1}}&{x_{1,2}}&{\dots}&{x_{1,k}}\\{\vert}&{}&{}&{}\\{x_{2,1}}&{x_{2,2}}&{\dots}&{x_{2,k}}\end{array}\right]}\\{X=\left[\begin{array}{llll}{x_{2,1}}&{}&{}&{}\\{}&{}&{}\\{\dots}&{\dots}&{\dots}&{\dots}&{\dots}\\{}&{}&{}&{}\\{x_{n,1}}&{x_{n,2}}&{\dots}&{x_{n,k}}\end{array}\right]}\end{array}
+X=\begin{array}{c}\left|\begin{array}{cccc}x_{_{1,1}}&x_{_{1,2}}&\ldots&x_{_{1,k}}\\\end{array}\right|\\\left|\begin{array}{cccc}x_{_{2,1}}&x_{_{2,2}}&\ldots&x_{_{2,k}}\\\end{array}\right|\\\left|\begin{array}{cccc}\ldots&\ldots&\ldots&\ldots\\\end{array}\right|\\\left|\begin{array}{cccc}x_{_{n,1}}&x_{_{n,2}}&\ldots&x_{_{n,k}}\\\end{array}\right|\\\end{array}
 $$
 
-F 表示 $K$ 个因子的因子收益率协方差矩阵 $(K\times K)$ )：
+F 表示 $K$ 个因子的因子收益率协方差矩阵 $\left(\boldsymbol{K}\times\boldsymbol{K}\right)$ )：
 
 $$
-\begin{array}{c}\begin{array}{c}\begin{array}{ccccc}{{\displaystyle\prod_{i}^{}{Var}(f_{1})}}&{{Co\nu(f_{1},f_{2})}}&{{...}}&{{Co\nu(f_{1},f_{k})}}\\{{\displaystyle\prod_{}^{}{Co\nu(f_{1},f_{2})}}}&{{Var(f_{2})}}&{{...}}&{{Co\nu(f_{2},f_{k})}}\\{{\displaystyle\hfill\begin{array}{cccccc}{{\hfill}{}}\\{{\ldots}}\\{{\ldots}}\\{{\bigcup_{}{Co\nu(f_{k},f_{1})}}}&{{Co\nu(f_{k},f_{2})}}&{{...}}&{{\ldots}}\end{array}}}&{{\displaystyle\bigcup_{ar}\Gamma_{k}(f_{k})}}\end{array}\\{{\nonumber\begin{array}{ccccc}{{\longrightarrow}}\\{{\longrightarrow}}\\{{\longrightarrow}}\\{{{Co\nu(f_{k},f_{2})}}}\\{{\rule{0ex}{5ex}}}\end{array}}}&{{\longrightarrow}}&{{\begin{array}{ccccc}{{\longrightarrow}}\\{{\longrightarrow}}\\{{\begin{array}{ccccc}{{\longrightarrow}}\\{{\longrightarrow}}\\{{\ldots}}\\{{[{Co\nu(f_{k},f_{2})}}}\end{array}}}&{{[\begin{array}{ccccc}{{}}\\{{}}\\{{}}\end{array}]}}&{{\cdots}}\end{array}}}&{{[\begin{array}{ccccc}{{}}\\{{}}\\{{}}\\{{}}\\{{}}\end{array}]}}\end{array}\end{array}
+F=\left[\begin{array}{cccc}{\left|\begin{array}{cccc}{Var\left(f_{_1}\right)}&{Cov\left(f_{_1},f_{_2}\right)}&{\ldots}&{Cov\left(f_{_1},f_{_k}\right)}\\\end{array}\right|}&{\left|\begin{array}{cccc}{Cov\left(f_{_1},f_{_2}\right)}&{Var\left(f_{_2}\right)}&{\ldots}&{Cov\left(f_{_2},f_{_k}\right)}\\\end{array}\right|}&{\left|\begin{array}{cccc}{Cov\left(f_{_1},f_{_2}\right)}&{\ldots}&{\ldots}&{\ldots}\\\end{array}\right|}&{\left|\begin{array}{cccc}{Cov\left(f_{_1},f_{_2}\right)}&{\ldots}&{\ldots}&{\ldots}\\\end{array}\right|}\\\end{array}\right]
 $$
 
-$\Delta$ 表示 $N$ 只股票的特质因子收益率协方差矩阵 $(N\times N)$
+$\Delta$ 表示 $N$ 只股票的特质因子收益率协方差矩阵 $(N\times N);$
 
 $$
-\begin{array}{cccccc}{{}}&{{\stackrel{\textstyle\bigcap}{}}}&{{Var(u_{1})}}&{{}}&{{0}}&{{}}&{{\ldots}}&{{}}&{{0}}\\{{\stackrel{\textstyle\bigcap}{}}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{}}\\{{\Delta\stackrel{\textstyle\bigcap}{}}}&{{0}}&{{}}&{{Var(u_{2})}}&{{}}&{{\ldots}}&{{}}&{{0}}\\{{\stackrel{\textstyle\bigcap}{}}}&{{}}&{{}}&{{}}&{{}}&{{\ldots}}&{{}}&{{\ldots}}\\{{\stackrel{\textstyle\bigcap}{}}}&{{}}&{{}}&{{}}&{{}}&{{}}&{{\ldots}}&{{}}\\{{\stackrel{\textstyle\bigcup}{}}}&{{0}}&{{}}&{{0}}&{{}}&{{\ldots}}&{{}}&{{Var(u_{k})}}\end{array}
+\Delta=\begin{bmatrix}\lceil Var\left(u_{_1}\right)&0&\ldots&0\\\mid&0&Var\left(u_{_2}\right)&\ldots&0\\\ldots&\ldots&\ldots&\ldots\\\mid&0&0&\ldots&Var\left(u_{_k}\right)\end{bmatrix}
 $$
 
 其中假设每只股票的特质因子收益率相关性为0，因此• 为对角阵。
@@ -209,19 +209,19 @@ $$
 
 在阿尔法策略中，跟踪误差即代表了超额收益的波动率，是衡量策略整体波动的重要指标。而对于指数基金而言，通常也以跟踪误差作为考察组合跟踪标的的偏离程度的重要指标之一。
 
-假设 $R_{bench\_mark}$ 为策略对冲基准的收益率序列，R 表示当前组合的收益率序列，那么策略的跟踪误差即为：
+假设 $R_{{bench\_mark}}$ 为策略对冲基准的收益率序列，R 表示当前组合的收益率序列，那么策略的跟踪误差即为：
 
 $$
-Tracking\_error=\sigma(R-R_{\_{bench\_mark}})
+Tracking_{\_}error=\sigma(R-R_{_{bench_{\_}mark}})
 $$
 
 之前我们提到过，风险模型对于组合波动率的预测存在显著性，当作用某一权重于风险矩阵后，便可得到组合的预期波动率。这里的组合是一个泛的概念，对于阿尔法对冲策略而言，组合指的即为多头股票与空头指数的组合，因此为了计算对冲策略组合的预期跟踪误差，我们只需要作用积极权重即可，即：
 
 $$
-Expected\_Tacking\_Error=\sqrt{{W}_{active}^{T}\cdot({X}^{T}FX+\Delta)\cdot{W}_{active}}\nonumber
+Experted_{\_}Tacking_{\_}Eerror=\ \sqrt{W_{_{active}}^{^T}\cdot(X^{\_}FX^{\_}+\Delta)\cdot W_{_{active}}}
 $$
 
-其中， $W_{\textrm{ \tiny a c t i v e }}=W\ -W_{\textrm{ \tiny b e n c h \_ m a r k }}$ ，表示组合的主动权重，或称为积极权重。其中，F 为公共因子的协方差矩阵估计值，• 为特质因子方差矩阵的估计值，其表达式详见《基于组合权重优化的风格中性多因子选股策略----数量化专题之五十七》。
+其中， $W_{_{active}}=W-W_{_{bench\_mark}}$ ，表示组合的主动权重，或称为积极权重。其中，F 为公共因子的协方差矩阵估计值，• 为特质因子方差矩阵的估计值，其表达式详见《基于组合权重优化的风格中性多因子选股策略----数量化专题之五十七》。
 
 得到组合预期跟踪误差估计值的意义非凡，它可以帮助投资经理在构造组合的同时即可知晓策略在未来一段时间内收益的波动情况，如果投资经理对策略的波动率有严格的控制，那么只需对预期跟踪误差进行一定的约束即可。
 
@@ -236,7 +236,7 @@ $$
 那么，组合预期跟踪误差的估计方法给我们提供了更加精确控制收益波动率的方法，即给定组合年化跟踪误差的控制上限，使得策略的年化波动率在事先严格的定量控制范围内，具体即为：
 
 $$
-Expected\_Tacking\_Error=\sqrt{W_{active}^{\textit{ T }}\cdot(X^{\textit{ F X }}+\Delta)\cdot W_{active}^{\textit{ s }}}\leq TE/\sqrt{12}
+Experted_{\_}Tacking_{\_}Eerror=\sqrt{W_{active}^{\tau}\cdot(XX+\Delta)\cdot W_{active}}\leq TE/\sqrt{12}
 $$
 
 其中，TE 即为给定的策略年化跟踪误差上限。
@@ -246,12 +246,14 @@ $$
 在暴露阿尔法因子敞口，并满足市值中性、行业中性、风格中性约束，同时控制组合年化跟踪误差的约束条件下，最大化经风险调整后组合预期超额收益。具体表达形式为：
 
 $$
-\begin{array}{rl}{Max}&{R_{r}-\lambda\sigma_{\mathrm{~e~}^{\prime}}^{2}-TC\textit{ \textbf { d } }}\\{s.t.}&{\forall k^{\prime}\ :w_{active}^{\prime}\ :.\ :K_{k^{\prime}}=}\\&{w^{\prime}\ :H=h_{bcavk.\ :\ :\mathrm{sark}}}\\&{\sqrt{w_{active}^{T}\ :\cdot\ :(X^{T}FX+\Delta)\cdot w_{active}}\ :\le TE\ :/\ :\sqrt{12}}\\&{w\ge0}\\&{\sum_{i=1}^{N}w_{i}=1}\end{array}
+\begin{aligned}&Max\quad R_{_P}-\lambda\sigma_{_P}^{^T}-TC\quad w\quad)\\&s.t.\quad\forall k^{'}\quad w_{_{active}}^{^T}\cdot X_{_{k^{'}}}=\quad0\\&\quad w^{^T}H=h_{_{bench_{-}mark}}^{^T}\\&\quad\sqrt{w_{_{active}}^{^T}\cdot(X^{^T}FX+\Delta)\cdot w_{_{active}}}\leq TE/\sqrt{12}\\&\quad w\geq0\\&\quad\sum_{_{i=1}}^{^N}w_{_i}=1\\\end{aligned}
 $$
 
-其中， $w_{\substack{acti\nu e}}=w-w_{\substack{bench\_mark}}$ ，TE 表示设定的预期年化跟踪误差上限，
+其中， $w_{_{active}}=w-w_{_{bench\_mark}}$ ，TE 表示设定的预期年化跟踪误差上限，
 
-TC w( ) 表示交易成本， $X_{\mathbf{\Omega}_{k},\mathbf{\Omega}}$ 表示标准化风险因子截面，H 表示行业因子哑变量矩阵， $h_{bench\_mark}$ 表示对冲基准对应的行业权重。
+TC w( ) 表示交易成本， $X_{{k}^{\prime}}$ 表示标准化风险因子截面，H 表示行业因子
+
+哑变量矩阵， $h_{_{bench_{\textrm{ \tiny - }}mark}}$ 表示对冲基准对应的行业权重。
 
 在下一节中，我们将对上述构建最优投资组合的优化方法进行实证检验，具体考察对控制组合跟踪误差的方法效果是否理想。
 
@@ -267,7 +269,7 @@ TC w( ) 表示交易成本， $X_{\mathbf{\Omega}_{k},\mathbf{\Omega}}$ 表示�
 
 2） 交易成本为单边千分之 1，印花税千分之 1；
 
-3）优化目标函数我们采用Max $R_{{\scriptscriptstyle P}}-\lambda\sigma_{{\scriptscriptstyle P}}^{2}-TC\left(w\right)$ 形式，其中 $\lambda={\frac{1}{2}}$
+3）优化目标函数我们采用Max $R_{_P}-\lambda\sigma_{_P}^{^2}-TC\left(w\right)$ 形式，其中 $\lambda=\frac{1}{2}$
 
 4）因子敞口暴露范围具体如下为：
 

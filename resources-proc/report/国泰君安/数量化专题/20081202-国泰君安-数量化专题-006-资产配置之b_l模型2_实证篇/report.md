@@ -51,7 +51,7 @@ B-L 模型的核心思想是使用贝叶斯方法将投资者的主观观点和�
 CAPM 模型中资本市场均衡是资产按市场组合权重配置，我们使用该均衡状态下的市值权重，用 Markowitz收益-方差最优化模型，来求解均衡收益。
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{max}_{w}w^{\prime}\mu-\frac{\lambda}{2}w^{\prime}\Sigma w}\\{\displaystyle w=\left(\lambda\Sigma\right)^{-1}\mu}\end{array}
+\begin{aligned}&\max_{w}w^{\top}\mu-\frac{\lambda}{2}w^{\top}\Sigma w^{\top}\\&w=(\lambda\Sigma)^{-1}\mu\\\end{aligned}
 $$
 
 $$
@@ -68,7 +68,7 @@ $$
 
 我们考量了其它一些财务指标，如净利润增长率、主营业务收入增长率、净资产收益率等，将各指标进行对比后发现，在我国市场，净利润增长率和主营业务收入增长率等指标非常不稳定、有时具有奇异值，而净资产收益率较为稳定，因此我们在本次实证中使用了净资产收益率作为观点收益，考虑到数据的时效性，我们选用朝阳永续提供的主流券商研究员对行业的一致预期净资产收益率(ROE)数据。
 
-另外我们采用 Adzorek (2002)的方法，对第 i个观点设置信心水平 $\mathrm{LC_{i},}$ 根据信心水平和标准刻度因子 CF 来构建观点误差矩阵Ω（详细设定方法参见附录）。对于基金经理来说，可能有各种获得“观点”的渠道，如分析师、数据库、资源库等。对于每种渠道的观点，可以构建信心水平数据库。例如，对分析师编制“信息系数”(Information Coefficient)，即预测值和实际值的相关系数，从而来设定信心水平（Grinold and Kahn (1999)）。
+另外我们采用 Adzorek (2002)的方法，对第 i个观点设置信心水平 $\mathrm{LC_{i}},$ 根据信心水平和标准刻度因子 CF 来构建观点误差矩阵Ω（详细设定方法参见附录）。对于基金经理来说，可能有各种获得“观点”的渠道，如分析师、数据库、资源库等。对于每种渠道的观点，可以构建信心水平数据库。例如，对分析师编制“信息系数”(Information Coefficient)，即预测值和实际值的相关系数，从而来设定信心水平（Grinold and Kahn (1999)）。
 
 ## 1.3. 参数测试
 
@@ -249,16 +249,16 @@ z 跟踪各市场投资领域对 B-L 模型的扩展，并尝试把其他因素�
 B-L模型新合成的后验收益 E[R]：
 
 $$
-E[R]=\Big[\big(\tau\Sigma\big)^{-1}+P^{\prime}\Omega^{-1}P\Big]^{-1}\Big[\big(\tau\Sigma\big)^{-1}\Pi+P^{\prime}\Omega^{-1}Q\Big]
+E[R]=\left[(\tau\Sigma)^{-1}+P^{\prime}\Omega^{-1}P\right]^{-1}\left[(\tau\Sigma)^{-1}\Pi+P^{\prime}\Omega^{-1}Q\right]
 $$
 
-也可以写为： $E[R]=\Pi+\tau\Sigma P^{\prime}(\Omega+\tau P\Sigma P^{\prime})^{-1}(Q-P\Pi)$
+也可以写为： $E[R]=\Pi+\tau\Sigma P^{\dagger}(\Omega+\tau P\Sigma P^{\dagger})^{-1}(Q-P\Pi)$
 
 在本文中：
 
 n 表示资产数量
 
-k 表示投资者观点数量 $\scriptstyle(\ k<=\mathtt{n})$
+k 表示投资者观点数量 $(k<=n)$
 
 ′ 表示矩阵转置
 
@@ -276,10 +276,10 @@ Q：观点收益向量(k×1 列向量)
 
 Ω：观点误差的协方差矩阵，为对角阵，表示每个观点的信心水平(k×k矩阵)
 
-新的资产组合权重 $\mathbf{w}^{*}$ （无约束条件）：
+新的资产组合权重 $\mathbf{W}^{*}$ （无约束条件）：
 
 $$
-w^{*}=w_{mkt}+P^{\prime}(\frac{\Omega}{\tau}+P\Sigma P^{\prime})^{-1}(\frac{Q}{\lambda}-P\Sigma w_{mkt})
+w^{*}=w_{mkt}+P\left(\frac{\Omega}{\tau}+P\Sigma P\right)^{-1}\left(\frac{Q}{\lambda}-P\Sigma w_{mkt}\right)
 $$
 
 隐含均衡收益(∏)：
@@ -292,7 +292,7 @@ $w_{mkt}$ ：流通市值权重
 
 ∑：资产超额收益的协方差矩阵，采用过去 5年历史数据
 
-λ：风险厌恶系数， $\lambda=(E(r)-r_{t})/\sigma_{m}^{2}$
+λ：风险厌恶系数， $\lambda=\left(E(r)-r_f\right)/\sigma_m^2$
 
 E(r)：期望市场收益，用过去 5年历史几何平均来估计
 
@@ -313,7 +313,7 @@ $P^{*}$ ：观点矩阵 P 每列求和所得 1×n 行向量
 每个观点的误差为：
 
 $$
-\frac{1}{LC_{i}}{^*CF}
+\frac{1}{LC_{i}}{}^{*}CF
 $$
 
 LCi：第 i个观点的信心水平
@@ -321,19 +321,19 @@ LCi：第 i个观点的信心水平
 观点误差矩阵，为对角阵：
 
 $$
-\Omega=\left[\begin{array}{ccc}{{\left(\stackrel{\displaystyle\bigcup}{}_{LC_{1}}{}^{*}CF\right)}}&{{0}}&{{0}}\\{{0}}&{{...}}&{{0}}\\{{0}}&{{0}}&{{\left(\stackrel{\displaystyle\bigcup}{}_{LC_{k}}{}^{*}CF\right)}}\end{array}\right]
+\Omega=\left[\begin{matrix}{\left(\begin{matrix}{\mathcal{V}_{LC_{1}}*CF}\\\end{matrix}\right)}&{0}&{0}\\{0}&{...}&{0}\\{0}&{0}&{\left(\begin{matrix}{\mathcal{V}_{LC_{k}}*CF}\\\end{matrix}\right)}\\\end{matrix}\right]
 $$
 
 标量(τ)：
 
-同样使用标准刻度因子 CF 和观点信心水平 $\mathrm{LC_{i}}.$ ，共 k 个观点（k<=n），为Adzorek (2002)的方法。
+同样使用标准刻度因子 CF 和观点信心水平 $\mathrm{LC_{i}},$ ，共 k 个观点（k<=n），为Adzorek (2002)的方法。
 
 $$
-\overline{{\omega}}=\frac{\displaystyle\sum_{i=1}^{k}({/}_{{LC_{i}}}^{*}CF)}{k}
+\overline{\omega}=\frac{\sum\limits_{i=1}^{k}(\sqrt[k]{LC_{i}}^{*}CF)}{k}
 $$
 
 $$
-\tau=\frac{P^{*}\Sigma P^{*}}{\overline{{\omega}}}=\frac{P^{*}\Sigma P^{*}}{\displaystyle{\sum_{i=1}^{k}(\sum_{LC_{i}}^{k}*CF)}}
+\tau=\frac{P^{*}\Sigma P^{*}}{\overline{\omega}}=\frac{P^{*}\Sigma P^{*}}{\sum\limits_{i=1}^{k}\left(\frac{\left|\left(\sum\limits_{LC_{i}}*CF\right)\right|}{k}\right)}
 $$
 
 ## 作者简介：

@@ -128,10 +128,10 @@ anningning@gf.com.cn
 
 先将第k个选基因子 $fund\_attribute_{j,k,t}$ 在时间截面t内标准化。得到标准化后的第k个选基因子fund_attribute_standardj,k,t
 
-将标准化后的第k个选基因子乘以对应基金的持仓比例再累和，最后再除以持仓比例之和，得到第k个选基因子 $fundattr\_factor_{i,k,t}.$
+将标准化后的第k个选基因子乘以对应基金的持仓比例再累和，最后再除以持仓比例之和，得到第k个选基因子 $fundattr\_factor_{i,k,t},$
 
 $$
-fundattr_{-}factor_{i,k,t}=\frac{\sum_{j}(Hold_{-}Ratio_{i,j,t}*fund_{-}attribute_{-}standard_{j,k,t})}{\sum_{j}Hold_{-}Ratio_{i,j,t}}
+fundattr\_factor_{i,k,t}=\frac{\sum_{j}(Hold\_Ratio_{i,j,t}*fund\_attribute\_standard_{j,k,t})}{\sum_{j}Hold\_Ratio_{i,j,t}}
 $$
 
 基于广发金工跟踪的选基因子库，选出若干个选基因子，构建出对应的选基因子相对应的基金属性因子。此时，若干个基金属性因子可以单独作为股票因子来进行实证研究。为综合考虑基金各个属性，考虑将各个选基因子对应的基金属性因子标准化后等权合并，得到综合基金属性因子fundattr_factor_combinationi,t。
@@ -167,11 +167,11 @@ $$
 超额收益率采用几何算法：一季报报告日
 
 $$
-\frac{3}{5}\div\frac{1}{10}\times\frac{3}{17}\times\frac{2}{17}\div\frac{3}{17}\times\frac{3}{17}\times\frac{3}{17}\times\frac{3}{17}\times17
+多空超额收益率=\frac{多头收益率+1}{空头收益率+1}-1
 $$
 
 $$
-\frac{3}{3}\div1\textcircled{1}x+\frac{3\times2}{2}\times\vert\frac{5}{2}\times\frac{3\times2}{3}\times\frac{2}{3}\times\frac{3}{4}=\frac{3\times\vert x-\frac{5}{2}\times\frac{2}{4}\times\frac{3}{4}\times(1+1)}{\frac{1+1\times2}{4}\times\frac{1+1}{4}\times\frac{1}{4}\times\frac{2}{4}\times\frac{3}{4}\times(1+1)}-1
+多头相对基准超额收益率=\frac{多头收益率+1}{基准指数收益率+1}-1
 $$
 
 累积净值采用复利计算。

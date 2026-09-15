@@ -68,28 +68,28 @@ zhujiantao@orientsec.com.cn
 因子收益率和单因子的 Fama-Macbeth 横截面回归密切相关。假设有 N个股票， $\mathrm{X_{i}}$ 为股票 在某个因子上的 ZSCORE得分， $\mathrm{R_{i}}$ 表示未来一期的股票收益率，如果在横截面上做回归：
 
 $$
-\mathrm{R}_{\mathrm{i}}=\alpha+\beta\cdot\mathrm{X}_{\mathrm{i}}+\epsilon\quad\mathrm{i}=1,2\ldots\mathrm{N}
+\mathrm{R_{i}=\alpha+\beta\cdot X_{i}+\epsilon\quad i=1,2\ldots N}
 $$
 
-的 OLS 估计可以写作 $\begin{array}{r}{\widehat{\beta}=\frac{\sum_{i=1}^{N}X_{i}R_{i}-\sum_{i=1}^{N}X_{i}\sum_{i=1}^{N}R_{i}/N}{\sum_{i=1}^{N}X_{i}^{2}-\left(\sum_{i=1}^{N}X_{i}\right)^{2}/N}}\end{array}$ ，因为 $\mathbf{X_{i}}$ 是标准化后的 ZSCORE， 所以$\begin{array}{r}{\sum_{i=1}^{N}X_{i}=0,\sum_{i=1}^{N}X_{i}^{2}=N}\end{array}$ 。代入前式，得到 $\begin{array}{r}{\widehat{\beta}=\frac{1}{N}\sum X_{i}\cdot R_{i}}\end{array}$ ，也就是说如果对单个因子做一元的Fama-Macbeth 回归，再在时间序列上检验 的显著性等价与直接对该因子的因子收益率做 t 检验。
+的 OLS 估计可以写作 $\hat{\beta}=\frac{\sum_{i=1}^{N}X_{i}R_{i}-\sum_{i=1}^{N}X_{i}\sum_{i=1}^{N}R_{i}/N}{\sum_{i=1}^{N}X_{i}^{2}-\left(\sum_{i=1}^{N}X_{i}\right)^{2}/N}$ ，因为 $\mathbf{x_{i}}$ 是标准化后的 ZSCORE， 所以$\begin{array}{r}{\sum_{i=1}^{N}X_{i}=0,\quad\sum_{i=1}^{N}X_{i}^{2}=N}\end{array}$ 。代入前式，得到 $\begin{array}{r}{\hat{\boldsymbol{\beta}}=\frac{1}{N}{\sum\boldsymbol{X_{i}}\cdot\boldsymbol{R_{i}}}}\end{array}$ ，也就是说如果对单个因子做一元的Fama-Macbeth 回归，再在时间序列上检验 的显著性等价与直接对该因子的因子收益率做 t 检验。
 
 纯因子收益率的大小和多因子模型对应，不同的多因子模型，单个因子的纯因子收益率不同。假设有 K个因子，某个股票组合对第 k个因子的暴露度等于 1，对其它因子的暴露度等于 0，（暴露度计算方法参考第 1.4节）则这个组合称为纯因子组合，其收益率称作纯因子收益率。实际投资中，一些专业的风险模型提供商（BARRA、Axioma、Northfield）包含的风险因子数量都在几十个的级别，但全市场的股票有几千个。求解风险因子纯因子组合的个股权重相当于求解几千个变量的线性方程，但等式条件只有几十个。因此实际投资中，风险因子纯因子组合并不唯一，有无穷多个，造成这种结果的原因是因为我们真实投资中无法穷尽列出所有的风险因子。
 
-通过 Fama-Macbeth 多元回归，我们可以构造出一个纯因子组合。假设有 K 个定价因子，股票 在因子 k 上的暴露度为  , 记 矩阵 B 为暴露度矩阵 $\mathtt{B_{i,k}}=\mathtt{X_{i}^{k}}$ ，则做横截面回归
+通过 Fama-Macbeth 多元回归，我们可以构造出一个纯因子组合。假设有 K 个定价因子，股票 在因子 k 上的暴露度为  , 记 矩阵 B 为暴露度矩阵 $\mathbf{B_{i,k}}=\mathbf{X}_{i}^{\mathbf{k}}$ ，则做横截面回归
 
 $$
-\boldsymbol{\mathrm{R}}=\boldsymbol{\mathrm{B}}\cdot\boldsymbol{\mathrm{f}}+\epsilon
+\mathtt{R}=\mathtt{B}\cdot\mathtt{f}+\mathtt{e}
 $$
 
-可以得到 f的 OLS估 ${\hat{f}}=(\mathbf{B}^{\mathrm{T}}\cdot B)^{-1}\cdot\mathbf{B}^{\mathrm{T}}\cdot R$ ，如果记矩阵 $\mathbf{W}=(\mathbf{B}^{\mathrm{T}}\cdot B)^{-1}\cdot\mathbf{B}^{\mathrm{T}}$ ，则W 的第 k个行向量可以看作某个组合的权重，该组合的收益率就等于第 k个因子的回归系数。而
+可以得到 f的 OLS估 $i\hat{f}=(\mathsf{B}^{\mathrm{T}}\cdot B)^{-1}\cdot\mathsf{B}^{\mathrm{T}}\cdot R$ ，如果记矩阵 $\mathsf{W}=(\mathsf{B}^{\mathrm{T}}\cdot B)^{-1}\cdot\mathsf{B}^{\mathrm{T}}$ ，则W 的第 k个行向量可以看作某个组合的权重，该组合的收益率就等于第 k个因子的回归系数。而
 
 $$
 (\mathrm{B}^{\mathrm{T}}\cdot B)^{-1}\cdot\mathrm{B}^{\mathrm{T}}\cdot\mathrm{B}=\mathrm{I}\quad\Rightarrow\quad\mathrm{H}\cdot\mathrm{B}=\mathrm{I}
 $$
 
-其中 I为单位阵，可知该组合对 k个因子的暴露度等于 1，对其它因子的暴露度等于零，是一个纯因子组合。因此横截面回归时，第k个因子的回归系数即是该因子的纯因子收益率。Fama-Macbeth多元回归检验即是在在检验因子的纯因子收益率是否显著。如果进一步假设上述回归的各个股票残差收益的方差不想等，分别记做 ，上述横截面回归以 $\mathsf{S}^{-1}=\mathrm{diag}(\mathsf{S}_{1}^{-1},S_{2}^{-1}\ldots S_{K}^{-1})$ 为权重做加权线性回归可以得到 f 的 WLS（Weighted Least Square）估计 ${\hat{f}}=(\mathrm{B}^{\mathrm{T}}\cdot S^{-1}\cdot B)^{-1}\cdot\mathrm{B}^{\mathrm{T}}\cdot S^{-1}\cdot R$ ，类似的可以证明这样得到的第 k 个因子回归系数也对应着一个 k 因子纯因子组合的收益率，而且这个组合还是 k 因子的所有纯因子组合中方差最小的，称作因子模拟组合（Factor Mimicking Portfolio），也称作因子特征组合（Factor Characteristic Portfolio）。
+其中 I为单位阵，可知该组合对 k个因子的暴露度等于 1，对其它因子的暴露度等于零，是一个纯因子组合。因此横截面回归时，第k个因子的回归系数即是该因子的纯因子收益率。Fama-Macbeth多元回归检验即是在在检验因子的纯因子收益率是否显著。如果进一步假设上述回归的各个股票残差收益的方差不想等，分别记做 ，上述横截面回归以 $\mathbb{S}^{-1}=\mathrm{diag}(\mathbb{S}_{1}^{-1},S_{2}^{-1}\ldots S_{K}^{-1})$ 为权重做加权线性回归可以得到 f 的 WLS（Weighted Least Square）估计 $\cdot{\hat{f}}=(\mathrm{B}^{\mathrm{T}}\cdot S^{-1}\cdot B)^{-1}\cdot\mathrm{B}^{\mathrm{T}}\cdot S^{-1}\cdot R$ ，类似的可以证明这样得到的第 k 个因子回归系数也对应着一个 k 因子纯因子组合的收益率，而且这个组合还是 k 因子的所有纯因子组合中方差最小的，称作因子模拟组合（Factor Mimicking Portfolio），也称作因子特征组合（Factor Characteristic Portfolio）。
 
-在套利定价模型（APT）里面，如果假设市场存在无风险资产，无风险收益率为 $\boldsymbol{\mathrm{r}}_{\mathrm{f}}$ ，则第 k个因子的风险溢价 $\mathbf{\nabla}\cdot\lambda_{\mathbf{k}}=E(f_{k})-r_{f},\mathbf{\nabla}\mathbf{f_{k}}$ 为第 k个因子的特征组合收益率（参考前期报告《Alpha因子库精简与优化》）。所以，纯因子组合不同的构造方式，会得到不同的纯因子收益率，也就有不同的风险溢价，但这并不和 APT理论里面风险溢价的唯一性矛盾，因为 APT理论是假设我们已经找到了所有的股票定价因子，但事实上这不可能做到。
+在套利定价模型（APT）里面，如果假设市场存在无风险资产，无风险收益率为 $\mathbf{r_{f}}$ ，则第 k个因子的风险溢价 $\mathbf{\hat{\lambda}_{k}}=E\left(f_{k}\right)-r_{f},\mathrm{~f_{k}~}$ 为第 k个因子的特征组合收益率（参考前期报告《Alpha因子库精简与优化》）。所以，纯因子组合不同的构造方式，会得到不同的纯因子收益率，也就有不同的风险溢价，但这并不和 APT理论里面风险溢价的唯一性矛盾，因为 APT理论是假设我们已经找到了所有的股票定价因子，但事实上这不可能做到。
 
 在不引起误解的前提下，因子收益率、纯因子收益率、风险溢价几个概念在研究文献常被混用。
 
@@ -177,19 +177,19 @@ $$
 对于个股在某个风险因子上的暴露度，我们之前采取的是简单 ZSCORE 方法。例如，第 k 个股票在市值因子上的风险暴露度
 
 $$
-\mathrm{X}_{\mathrm{k}}={\frac{\log(CAP_{k})-\mu}{\sigma}}
+\mathrm{X}_{\mathrm{k}}=\frac{\log\left(\mathrm{CAP}_{\mathrm{k}}\right)-\mu}{\sigma}
 $$
 
 先对总市值指标 CAP 取对数做正态转换，然后减去横截面上对数市值的均值 再除以横截面标准差 。假设第 k个股票在某个组合中的权重为 $\mathbf{w}_{k}$ ，则该组合在市值因子上的暴露度为
 
 $$
-{\mathrm{X}}^{\mathrm{port}}=w_{1}\cdot X_{1}+w_{2}\cdot X_{2}+\cdots w_{N}\cdot X_{N}
+\mathbf{X^{port}}=w_{1}\cdot X_{1}+w_{2}\cdot X_{2}+\cdots w_{N}\cdot X_{N}
 $$
 
 我们在参阅 BARRA Model Insight 相关研究材料时，发现他们计算风险暴露度的方法有所不同，计算μ 时，BARRA采用的是市值加权而非简单平均
 
 $$
-\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}\mathsf{\Pi}=\frac{CAP_{1}\cdot\log(CAP_{1})+CAP_{2}\cdot\log(CAP_{2})+\cdots CAP_{N}\cdot\log(CAP_{N})}{\sum CAP_{k}}
+\mu_{\mathrm{B}}=\frac{CAP_{1}\cdot\log(CAP_{1})+CAP_{2}\cdot\log(CAP_{2})+\cdots\cdot CAP_{N}\cdot\log(CAP_{N})}{\sum CAP_{k}}
 $$
 
 从经济逻辑上讲，BARRA的方法更为合理，建议投资者采用。因为风险因子模型的核心假设是这些因子风险可以通过股票组合的方式分散掉。如果是采用简单平均方式，那么全市场等权组合（全市场股票做等权构成的组合）的市值风险暴露度等于零；如果采取 BARRA 的市值加权方法，那么全市场市值加权组合（可以近似看作中证全指或Wind全 A 指数）的市值风险暴露度等于 0. 目前市场上市值上总市值小于 100 亿的股票数量占比接近 60%（2016.10.31 日数据），等权组合的小市值风格明显；对比而言，市值加权组合的权重分布更为均匀，没有明显不均衡的市值偏好，更符合风险分散化组合的特征，因此全市场市值加权组合风险暴露度为零的假设更为合理；对应的，因子风险暴露度应采用 BARRA 的计算方法。
@@ -205,10 +205,10 @@ $$
 需要说明的是，风险因子暴露度计算采用简单 zscore 方法还是 BARRA 的市值加权法，对alpha 因子的风险中性化处理和指数增强组合的计算结果没有任何影响。因为这两种方法计算得到的因子暴露度只相差一个常数，alpha 因子通过横截面回归做风险中性化处理时，这种差别不会改变风险因子的回归系数，残差项的 zscore 相等。如果是做指数增强，通常需要控制组合整体的风险暴露，例如要求市值的风险暴露不超过 0.5，限制条件可写为
 
 $$
-\begin{array}{l}{{\displaystyle\sum_{k=1}^{N}w_{k}^{a}\cdot\frac{\log(CAP_{k})-\mu_{B}}{\sigma}\le0.5}}\\{{\displaystyle\sum_{k=1}^{N}w_{k}^{a}\cdot\log(CAP_{k})-\mu_{B}\sum_{k=1}^{N}w_{k}^{a}\le0.5\cdot\sigma}}\\{{\displaystyle\sum_{k=1}^{N}w_{k}^{a}\cdot\log(CAP_{k})\le0.5\cdot\sigma~(due~to~\sum_{k=1}^{N}w_{k}^{a}=0)}}\end{array}
+\begin{aligned}&\sum_{k=1}^{N}w_{k}^{a}\cdot\frac{\log(CAP_{k})-\mu_{B}}{\sigma}\leq0.5\\&\sum_{k=1}^{N}w_{k}^{a}\cdot\log(CAP_{k})-\mu_{B}\sum_{k=1}^{N}w_{k}^{a}\leq0.5\cdot\sigma\\&\sum_{k=1}^{N}w_{k}^{a}\cdot\log(CAP_{k})\leq0.5\cdot\sigma\qquad(dueto\sum_{k=1}^{N}w_{k}^{a}=0)\end{aligned}
 $$
 
-其中 $\mathbf{w_{k}^{a}}$ 为股票 k的主动权重，即个股在组合里的权重减去其在基准指数里的权重；如果是满仓投资，显然个股的主动权重之和等于 $0_{\circ}$ 。因此上述约束条件和风险因子的均值计算方法无关。受风险暴露度计算方式影响较大的主要是组合绩效分析。
+其中 $\mathbf{w}_{\mathbf{k}}^{\mathbf{a}}$ 为股票 k的主动权重，即个股在组合里的权重减去其在基准指数里的权重；如果是满仓投资，显然个股的主动权重之和等于 $0_{\circ}$ 。因此上述约束条件和风险因子的均值计算方法无关。受风险暴露度计算方式影响较大的主要是组合绩效分析。
 
 ## 1.5 因子风险模型的作用
 
@@ -231,7 +231,7 @@ $$
 根据 1.2 节纯因子收益率的回归方程，股票收益率间的协方差矩阵可以写作
 
 $$
-\Sigma=\operatorname{cov}(\mathrm{\mathbb{R}},\mathrm{\mathbb{R}})=\operatorname{cov}(\mathrm{\mathbb{B}}\cdot\mathrm{\mathbf{f}}+\epsilon,\mathrm{\mathbb{B}}\cdot\mathrm{\mathbf{f}}+\epsilon)=\mathrm{\mathbb{B}}\cdot\mathrm{\mathbb{F}}\cdot\mathrm{\mathbb{B}}^{\prime}+\mathrm{\mathbb{S}}\quad\operatorname{where}\mathrm{\mathbb{F}}=\operatorname{cov}(\mathrm{\mathbb{f}},\mathrm{\mathbb{f}}),\qquad\mathrm{S=var}(\epsilon)
+\Sigma=\mathsf{cov}(\mathsf{R},\mathsf{R})=\mathsf{cov}(\mathsf{B}\cdot\mathsf{f}+\mathsf{\epsilon},\mathsf{B}\cdot\mathsf{f}+\mathsf{\epsilon})=\mathsf{B}\cdot\mathsf{F}\cdot\mathsf{B}^{\prime}+\mathsf{S}\quad\mathsf{where}\;\mathsf{F}=\mathsf{cov}(\mathsf{f},\mathsf{f}),\qquad\mathsf{S}=\mathsf{var}(\mathsf{\epsilon})
 $$
 
 F 为纯因子收益率的协方差矩阵，可以直接用样本协方差矩阵做估计，但后面实证发现效果一般，因此我们后面做了改进，用压缩估计量做估计。我们报告里采用的是过去 24个月的月频数据估计 ，BARRA 则是采用日频数据，并且给样本数据赋予了指数变化的权重，给近期数据更高权重，在日收益率协方差矩阵向月收益率协方差矩阵转换时，针对股票日收益率的自相关性，用Newey-West 方法做了调整。
@@ -282,10 +282,10 @@ CNE5 给出了 1997-2011 年间 BARRA 风险模型横截面回归 Adjusted Rsqua
 GMVP 组合可以通过组合优化的方式定义为
 
 $$
-\begin{array}{l}{\displaystyle\operatorname*{min}_{\mathbf{w}}w^{\prime}\cdot\Sigma\cdot w}\\{\mathrm{s.t.}\sum_{i=1}^{N}w_{i}=1}\end{array}
+\begin{aligned}&\min_{\mathbf{w}}w^{\prime}\cdot\Sigma\cdot w\\&s.t.\sum_{i=1}^{N}w_{i}=1\\\end{aligned}
 $$
 
-这个二次规划问题有显式解 $\mathbf{w}^{*}=\Sigma^{-1}\cdot e/(e^{\prime}\cdot\Sigma^{-1}\cdot e)$ ，e 为常数 1向量。这个组合与股票预期收益率无关，完全由股票间的协方差决定。
+这个二次规划问题有显式解 $\mathsf{w}^{*}=\Sigma^{-1}\cdot e/(e^{\prime}\cdot\Sigma^{-1}\cdot e)$ ，e 为常数 1向量。这个组合与股票预期收益率无关，完全由股票间的协方差决定。
 
 另外补充说明一下压缩估计量，它是两个协方差矩阵的线性组合
 
@@ -293,13 +293,13 @@ $$
 \Sigma^{\mathrm{shrink}}=\lambda\cdot\Sigma^{target}+(1-\lambda)\cdot\Sigma^{Sample}
 $$
 
-其中 $0<\lambda<1,\ \Sigma^{sample}$ 是样本协方差矩阵，是无偏估计量，但估计方差太大。因此要找一个估计方差小，允许有偏的估计量和其做中和。参数 可以通过渐进化方法最小化压缩估计量和真实协方差矩阵的样本内二次误差平方和得到。目标矩阵通常有三种选择（Ledoit 2003 & 2004）
+其中 $0<\lambda<1,\quad\Sigma^{\mathrm{sample}}$ 是样本协方差矩阵，是无偏估计量，但估计方差太大。因此要找一个估计方差小，允许有偏的估计量和其做中和。参数 可以通过渐进化方法最小化压缩估计量和真实协方差矩阵的样本内二次误差平方和得到。目标矩阵通常有三种选择（Ledoit 2003 & 2004）
 
-a) 单位阵， $\Sigma^{\mathrm{target}}=(\sigma_{1},\sigma_{2}\dots\sigma_{N})^{\prime}\cdot I\cdot(\sigma_{1},\sigma_{2}\dots\sigma_{N})$ ，其中 I 为单位阵，这种结构最为简单，偏差最大，但只需要估计 N 个股票的方差即可，因此估计参数少，估计量方差小。
+a) 单位阵， $\Sigma^{\mathrm{target}}=(\sigma_{1},\sigma_{2}\ldots\sigma_{N})^{\prime}\cdot I\cdot(\sigma_{1},\sigma_{2}\ldots\sigma_{N})$ ，其中 I 为单位阵，这种结构最为简单，偏差最大，但只需要估计 N 个股票的方差即可，因此估计参数少，估计量方差小。
 
-b) 平均相关系数矩阵。 $\Sigma^{\mathrm{target}}=(\sigma_{1},\sigma_{2}\dots\sigma_{N})^{\prime}\cdot M\cdot(\sigma_{1},\sigma_{2}\dots\sigma_{N})$ ，其中 $\mathbf{M}_{\mathrm{i,j}}=1\cdot(i==j)+\bar{\rho}$ ( )， ̅ 为股票间的平均相关系数。和单位阵比，它的结构复杂一些，估计偏差会减小，但需要多估计一个参数，估计量方差可能变大。
+b) 平均相关系数矩阵。 $\Sigma^{\mathrm{target}}=(\sigma_{1},\sigma_{2}\ldots\sigma_{N})^{\prime}\cdot M\cdot(\sigma_{1},\sigma_{2}\ldots\sigma_{N})$ ，其中 $\mathtt{M_{i,j}}=1\cdot(i==j)+\bar{\rho}$ ( )， ̅ 为股票间的平均相关系数。和单位阵比，它的结构复杂一些，估计偏差会减小，但需要多估计一个参数，估计量方差可能变大。
 
-c) CAPM 单因素协方差矩阵。 $\Sigma^{\mathrm{target}}=\sigma_{m}^{2}\cdot(\beta_{1},\beta_{2}\dots\beta_{N})^{\prime}\cdot(\beta_{1},\beta_{2}\dots\beta_{N})+\Delta$ ，其中 $|\sigma_{\mathrm{m}}^{2}$ 为市场指数收益率方差， 为个股 beta系数， 为残差收益率方差对角阵。这个模型相对前两者结构最为复杂，估计偏度会降低，但估计方差会增大。
+c) CAPM 单因素协方差矩阵。 $\Sigma^{\mathrm{target}}=\sigma_{m}^{2}\cdot(\beta_{1},\beta_{2}\ldots\beta_{N})^{\prime}\cdot(\beta_{1},\beta_{2}\ldots\beta_{N})+\Delta$ ，其中 $1\mathbf{\sigma}_{\mathbf{m}}^{2}$ 为市场指数收益率方差， 为个股 beta系数， 为残差收益率方差对角阵。这个模型相对前两者结构最为复杂，估计偏度会降低，但估计方差会增大。
 
 我们这里测试了五种方法得到 GMVP 组合，
 

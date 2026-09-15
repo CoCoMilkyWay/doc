@@ -45,12 +45,12 @@ A股涨跌幅排行榜效应 2018-11-20
 Grinold (2002)的拆解方法具体如下：
 
 $$
-\begin{array}{rl}&{{{\kappa}_{-}}=\frac{{{D}_{+}}{P_{S}}}{{P_{S}}}-1-\frac{{{D}_{0}}}{{P_{S}}}+\frac{{{D}_{-}}}{{P_{S}}}-1}\\&{=-\frac{D}{{P_{S}}}+\frac{{{E}\beta}^{D/S}}{{E}\beta}\frac{\gamma_{-}^{\prime}\beta}{{E}\beta}{E}\frac{\gamma_{-}}{{E}\beta}}\\&{=-\frac{D}{{P_{S}}}+\frac{{{E}\beta}^{D/S}+{E}\beta{E}\beta}{{E}\beta}\frac{\gamma_{-}^{\prime}\beta}{{E}\beta}}\\&{=-\frac{D}{{P_{S}}}+\frac{1}{{E}\beta}{E}{{E}\beta}_{S}+\frac{1}{{E}\beta}{E}\beta{E}\beta_{S}-\frac{1}{{E}\beta}}\\&{=-\frac{D}{{P_{S}}}+(1+\Phi+\alpha)\alpha\beta\alpha^{\prime}\gamma\gamma^{\prime}\left(1+\Phi\delta\frac{D}{\Delta{E}}\frac{P}{\beta}\right)-1}\\&{\times\frac{D}{{P_{S}}}+\phi+\alpha\beta\alpha\beta{E}\beta^{\prime}\gamma\alpha\beta}\\&{\times\frac{D}{P_{S}}-\alpha8\Delta\Delta\delta+47\delta\alpha{E}^{\prime}\beta\Delta{E}\frac{P}{E\beta}}\end{array}
+\begin{aligned}R&=\frac{D+P_{1}}{P_{0}}-1=\frac{D}{P_{0}}+\frac{P_{1}}{P_{0}}-1&\\&=\frac{D}{P_{0}}+\frac{EPS_{1}}{EPS_{0}}\cdot\frac{P_{1}/_{EPS_{1}}}{P_{0}/_{EPS_{0}}}-1\\&\\&=\frac{D}{P_{0}}+\frac{EPS_{1}+EPS_{1}^{r}}{EPS_{0}}\cdot\frac{P_{1}/_{EPS_{1}}}{P_{0}/_{EPS_{0}}}-1\\&\\&=\frac{D}{P_{0}}+(1+i+\%\Delta EPS^{r})\cdot\left(1+\%\Delta\frac{P}{EPS}\right)-1\\&\\&\approx\frac{D}{P_{0}}+i+\%\Delta EPS^{r}+\%\Delta\frac{P}{EPS}\\&\\&\approx\frac{D}{P_{0}}-\%\Delta S+i+\%\Delta E^{r}+\%\Delta\frac{P}{EPS}\\\end{aligned}
 $$
 
-其中 R 是股票收益率， $P_{0}$ 和 $EPS_{0}$ 是期初的价格和每股收益， $P_{1}$ 和 $EPS_{1}$ 是期末的价格和每股收益， $D_{\mathbf{\lambda}}$ 是时间区间内的股息收入， $iEPS_{1}$ 是通货膨胀的部分，EPSr是减去了通货膨胀部分后的实际每股收益，i是时间区间内的通货膨胀率， $E^{r}$ 是实际利润，S是股数。
+其中 R 是股票收益率， $P_{0}$ 和 $EPS_{0}$ 是期初的价格和每股收益， $P_{1}$ 和 $EPS_{1}$ 是期末的价格和每股收益， $D_{1}$ 是时间区间内的股息收入， $iEPS_{1}$ 是通货膨胀的部分，EPSr是减去了通货膨胀部分后的实际每股收益，i是时间区间内的通货膨胀率， $E^{r}$ 是实际利润，S是股数。
 
-股票收益率被拆解为：股息收益、名义利润增长率和 PE估值变化率三部分，但需要注意的是上式推导是一个近似过程，中间省去了两项 $(i\cdot{\%}\Delta\frac{P}{EPS}+{\%}\Delta EPS^{r}\cdot{\%}\Delta\frac{P}{EPS})$ ，在市场剧烈变化时（例如 2008年），公司盈利和估值都会发生大幅变化，省去项的数值也会比较大，上述等式两边的差额较多。不过如果研究对象是整个股市、历史时间段比较长，省去项的波动会正负部分抵消，对整体的影响较小。
+股票收益率被拆解为：股息收益、名义利润增长率和 PE估值变化率三部分，但需要注意的是上式推导是一个近似过程，中间省去了两项 $\scriptstyle(i\cdot\%\Delta{\frac{P}{EPS}}+\%\Delta EPS^{r}\cdot\%\Delta{\frac{P}{EPS}})$ ，在市场剧烈变化时（例如 2008年），公司盈利和估值都会发生大幅变化，省去项的数值也会比较大，上述等式两边的差额较多。不过如果研究对象是整个股市、历史时间段比较长，省去项的波动会正负部分抵消，对整体的影响较小。
 
 上式的推导是针对个股，对于市场指数而言，还涉及指数成分股变化的问题，对于股票数量不多的行业指数，这个影响尤为明显，所以我们对算法做了如下调整：
 
@@ -83,15 +83,15 @@ $$
 我们选取了沪深 300、中证 500、中证 1000、创业板指和创业板综全收益指数作为研究对象，进行了分解，结果如表 1所示，其中指标含义如下：
 
 $$
-\frac{AB}{BE}=12+16\frac{AC}{BE}=1\frac{AB}{AX}\frac{A}{AX}+\frac{AC}{BX}+\frac{AC}{AX}\frac{AB}{AX}+\frac{AC}{AX}+\frac{AC}{BX}+\frac{AC}{AX}+\frac{AC}{AX}
+模型估计收益=股息收益+名义利润变化率+PE-变化率
 $$
 
 $$
-\pm\frac{1}{2}\frac{1}{3}\times\frac{3}{2}\times\sqrt[1]{3}\times\frac{3}{20}=\frac{1}{13}\frac{1}{20}\pm\frac{3}{20}\sqrt[1]{3}\pm\frac{3}{20}+\frac{3}{30}\pm\frac{3}{20}\vert\times\frac{3}{20}
+指数实际收益=模型估计收益+残差收益
 $$
 
 $$
-\frac{1}{12}\times(1)\times12\div\frac{1}{2}\times(1-\frac{2}{2}\times1)\times12\times14\times\frac{2}{2}\times(1-\frac{2}{2}\times1)\times\frac{2}{2}\times(1-\frac{2}{2}\times1)
+名义利润变化率=实际利润变化率+通货膨胀率(CPI)
 $$
 
 可以看到，从 2009年初算起，这些宽基指数的正收益绝大部分来自于盈利的增长，估值的贡献占比非常低，沪深 300 指数的估值贡献甚至是负的。对比标普 500 指数（表 2），2009年后的指数涨幅绝大部分也来自于盈利增长，估值贡献为负；不过放更长远看，1989-2017 年间，标普500 股息收益、名义利润变化率和 PE 变化率为别为 2.4%, 2.6% 和 2.9%，贡献大致相当。另外我们也对中证一级行业指数进行了拆解（表 3），和直观经验比较相符，食品饮料、医药、建材、家电、餐饮旅游、商贸零售等行业估值变化贡献很小，行业指数收益几乎都来自于盈利增长，钢铁、煤炭、有色、建筑等周期行业明显受估值拖累；通信、机械、化工、国防军工的增长主要得益于估值的提升。

@@ -165,7 +165,7 @@ quhongyu@ebscn.com
 此外，企业分红的来源应当是公司当年利润，一般分红率可以保持稳定。然而股息率指标引入了价格因素，使得预测难度大幅增加。
 
 $$
-\frac{\mathbb{A}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}}{\mathbb{A}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}}=\frac{\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{I}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}}{\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}\mathbb{\underline{{s}}}}
+股息率=\frac{分红率\times 净利润}{市值}
 $$
 
 ## 2、哪些因素影响着分红率
@@ -345,7 +345,7 @@ $$
 
 训练集与测试集：假设当前时间为 t，t-1 与 t-2 两年的数据作为训练集，t年数据作为测试集。
 
-评价指标：拟合优度 ${\mathsf{R}}^{2}$ 、预测分红率前 100 名准确率。
+评价指标：拟合优度 $\mathsf{R}^{2}$ 、预测分红率前 100 名准确率。
 
 $$
 R^{2}=\frac{\sum(y-y^{pred})^{2}}{\sum(y-y^{mean})^{2}}
@@ -385,7 +385,7 @@ $$
 得到预测分红率之后，我们可以结合一致预测净利润计算股票当年的分红金额，进而计算股息率。
 
 $$
-\sin\angle ABR\overset{\triangledown}{\underset{}{\sum}}\stackrel{\triangledown}{\underset{}{\sum}}\stackrel{\triangledown}{\underset{}{\sum}}\stackrel{\triangledown}{=}\frac{\sharp\mathbb{R}(\frac{\sharp}{\sin\big(\frac{\angle}{\theta}\big)}\frac{\xi}{\sin\big(\frac{\angle}{\theta}\big)}\times\frac{\xi}{\big(\frac{\sin\big(\frac{\angle}{\theta}\big)}{\big(\sin\big(\frac{\angle}{\theta}\big)}\big)})}{\underline{{\operatorname\ in}}!\mathbb{R}(\frac{\dot{\ z}}{\big)}}\stackrel{\triangledown}{\big\vert\frac{\dot{\ z}}{\big\vert\big(\frac{\dot{\ z}}{\big)}}\big\vert}\dot{\theta}
+预期股息率=\frac{预期分红率\times 一致预测净利润}{当前市值}
 $$
 
 预期股息率可以理解为：未来高派息的股票以当前价格购买的性价比。

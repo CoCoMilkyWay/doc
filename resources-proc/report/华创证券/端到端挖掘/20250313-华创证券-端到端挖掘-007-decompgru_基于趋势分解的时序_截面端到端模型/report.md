@@ -91,14 +91,14 @@ DecompGRU 模型延续了先前报告的大致框架，使用更加简单的模�
 时序分解是近年时序深度学习论文中常见的模块，例如AutoFormer、Dlinear等工作中使用最简单的移动均值方法来实现趋势分解，在进入骨干网络前，输入X拆分为长期趋势 $X_{t}$ 与季节项 $X_{s}$ ：
 
 $$
-\begin{array}{c}{X_{t}=\mathrm{AvgPool}\bigl(\mathrm{Padding}(X)\bigr)}\\{X_{s}=X-X_{t}}\end{array}
+\begin{aligned}&X_{t}=AvgPool\big(Padding(X)\big)\\&\quad X_{s}=X-X_{t}\\\end{aligned}
 $$
 
 在后续流程，趋势分量和季节分量通常会使用单独的模块进行建模，最后进行合并两个分支得到最终预测。
 
 我们使用上述相同的方法对模型输入进行处理，对股价场景而言，上述趋势分解模块的类似于技术指标 SMA 均线、均线乖离；padding 的作用为保证新序列长度与输入序列长度一致，我们将padding设置在时序的最远端，而非两端。
 
-我们将分解模块输出的趋势分量和残差分量分别记为 $X_{trend}\#\#X_{res}.$ ，其中 $X_{trend}$ 捕捉相对偏向整体的信息，而 $X_{res}$ 则为更偏向局部的信息，两个分量被输入两个分支，进行不同处理。
+我们将分解模块输出的趋势分量和残差分量分别记为 $X_{trained}和X_{res}$ ，其中 $X_{trend}$ 捕捉相对偏向整体的信息，而 $X_{res}$ 则为更偏向局部的信息，两个分量被输入两个分支，进行不同处理。
 
 ## （二）双分支流程
 
@@ -109,7 +109,7 @@ $$
 首先，我们将趋势分量输入1D 卷积 + GRU 来实现时序编码，每个股票在每个时间步被编码为一个 d维的向量。
 
 $$
-X_{trend}=GRU\bigl(Conv1D(X_{trend})\bigr)
+X_{trend}=GRU\Big(Conv1D\big(X_{trend}\big)\Big)
 $$
 
 其中，1D 卷积不使用padding，卷积核大小等于步长，输出 $X_{trend}\in\mathbb{R}^{b,t^{\prime},d}$
@@ -195,7 +195,7 @@ $$
 \mathcal{L}=w\cdot\left(y_{\mathrm{pred}}-y_{\mathrm{true}}\right)^{2}
 $$
 
-其中 $y_{pred}$ 为模型预测值， $\scriptstyle\mathtt{y_{true}}$ 为经过标准化的 label，阈值τ设置为 1.0，权重倍数α设置为 2.0，σ(·)表示 sigmoid 函数。
+其中 $y_{pred}$ 为模型预测值， $y_{\mathrm{true}}$ 为经过标准化的 label，阈值τ设置为 1.0，权重倍数α设置为 2.0，σ(·)表示 sigmoid 函数。
 
 ## 基线模型
 

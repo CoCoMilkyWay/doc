@@ -116,7 +116,7 @@
 
 期货市场的参与者可以分为套期保值者和投机者，前者的目的在于锁定自身收益，对冲未来标的价格变动的风险，愿意支付风险补偿来转移风险；投机者是风险偏好者，愿意承担风险但需要风险补偿。
 
-套期保值压力理论认为，正是这种风险的转移导致了现货市场与期货市场的基差。具体解释如下：如果套保者是一个生产商，他希望对冲掉未来 $\dot{\mathcal{P}}$ 品价格下降而带来的风险，卖出期货合约，此时持有空头的净头寸。为了将风险转移宁愿支付风险补偿，所以期货合约价格将低于基于现货价格的未来期望价格。随着期货合约的到期，期货价格不断上升，趋于现货的期望价格，持有多头净头寸的投机者获得风险补偿；如果套保者是希望锁定原材料成本的加工商，持有净的多头头寸。为了对冲掉原材料价格上涨的风险，愿意支付高于现货未来期望的价格来购买合约。因此，期货价格在到期的过程中下降，持有空头头寸的投机者获得风险补偿。
+套期保值压力理论认为，正是这种风险的转移导致了现货市场与期货市场的基差。具体解释如下：如果套保者是一个生产商，他希望对冲掉未来 $\begin{aligned}\cdot 产\end{aligned}$ 品价格下降而带来的风险，卖出期货合约，此时持有空头的净头寸。为了将风险转移宁愿支付风险补偿，所以期货合约价格将低于基于现货价格的未来期望价格。随着期货合约的到期，期货价格不断上升，趋于现货的期望价格，持有多头净头寸的投机者获得风险补偿；如果套保者是希望锁定原材料成本的加工商，持有净的多头头寸。为了对冲掉原材料价格上涨的风险，愿意支付高于现货未来期望的价格来购买合约。因此，期货价格在到期的过程中下降，持有空头头寸的投机者获得风险补偿。
 
 ## 3、商品成交持仓因子构建
 
@@ -126,11 +126,11 @@
 
 | 因子类别 因子基础算法（N=排名，T=回溯周期） |  |
 | --- | --- |
-|  | $\frac{\sum_{day=0}^{T}\mathrm{~(~}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i}-\sum_{i=1}^{N}\Delta\mathrm{Short}_{i}\mathrm{)}}{\sum_{day=0}^{T}\mathrm{~(~}\|\sum_{i=1}^{N}\Delta\mathrm{Long}_{i}\|+\|\sum_{i=1}^{N}\Delta\mathrm{Short}_{i}\|\mathrm{)}}$ |
-| 商品成交持仓 | $\frac{\sum_{day=0}^{T}\mathrm{~(~}\sum_{i=1}^{N}\mathrm{Long}_{i}-\sum_{i=1}^{N}\mathrm{Short}_{i}\mathrm{~)~}}{\sum_{day=0}^{T}\mathrm{~(~}\sum_{i=1}^{N}\mathrm{Long}_{i}+\sum_{i=1}^{N}\mathrm{Short}_{i}\mathrm{~)~}}$ |
-| 排名因子 | $\frac{(\sum_{i=1}^{N}\mathrm{Long}_{i}-\sum_{i=1}^{N}\mathrm{Short}_{i})_{\mathrm{~}T}}{(\sum_{i=1}^{N}\mathrm{Long}_{i}-\sum_{i=1}^{N}\mathrm{Short}_{i})_{\mathrm{~}\mathrm{T-Day}}}\mathrm{~-~}1$ |
-|  | Long if $\begin{array}{r}{\mathrm{sign}\Bigl(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Lon}{\mathrm{g}}_{i,day}\Bigr)>0\ and\ \mathrm{sign}\Bigl(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day}\Bigr)<0;}\end{array}$ $\begin{array}{r}{\mathrm{Short\ if\ sign}\left(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Lon}\mathbf{g}_{i,day}\right)<0\ and\ sign\left(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day}\right)>0;}\end{array}$ ; |
-| 套期保值压力因子 $\begin{array}{r}{\mathrm{Long~if}\ \mathrm{sign}\Bigl(\sum_{day=0}^{T}\Delta Hedge\mathrm{Long}_{day}\Bigr)>0\ and\ \mathrm{sign}\Bigl(\sum_{day=0}^{T}\Delta Hedge\ Short_{day}\Bigr)<0;}\end{array}$ $\begin{array}{r}{\mathrm{Short~if}~\mathrm{sign}\Bigl(\sum_{day=0}^{T}\Delta Hedge\mathrm{Long}_{day}\Bigr)<0~and~\mathrm{sign}\Bigl(\sum_{day=0}^{T}\Delta HedgeShort_{day}\Bigr)>0;}\end{array}$ |  |
+|  | $\frac{\sum_{day=0}^{T}\left(\sum_{i=1}^{N}\Delta\operatorname{Longg}_{i}-\sum_{i=1}^{N}\Delta\operatorname{Short}_{i}\right)}{\sum_{day=0}^{T}\left(\left\|\sum_{i=1}^{N}\Delta\operatorname{Longg}_{i}\right\|+\left\|\sum_{i=1}^{N}\Delta\operatorname{Short}_{i}\right\|\right)}$ |
+| 商品成交持仓 | $\frac{\sum_{day=0}^{T}\left(\sum_{i=1}^{N}Long_{i}-\sum_{i=1}^{N}short_{i}\right)}{\sum_{day=0}^{T}\left(\sum_{i=1}^{N}Long_{i}+\sum_{i=1}^{N}short_{i}\right)}$ |
+| 排名因子 | $\frac{\left(\sum_{i=1}^{N}Long_{i}-\sum_{i=1}^{N}short_{i}\right)_{T}}{\left(\sum_{i=1}^{N}Long_{i}-\sum_{i=1}^{N}short_{i}\right)_{T-Day}}$ |
+|  | Long if $\begin{array}{r}{\mathrm{sign}\big(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i,day}\big)>0\mathrm{~and~}\mathrm{sign}\big(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day}\big)<0;}\end{array}$ $\begin{array}{r}{\mathrm{Short~if~}\operatorname{sign}\left(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i,day}\right)<0\mathrm{~and~}\operatorname{sign}\left(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day}\right)>0;}\end{array}$ ; |
+| 套期保值压力因子 $\begin{array}{r}{\mathrm{Long~if~}\operatorname{sign}(\sum_{day=0}^{T}\Delta Hedge\;\mathrm{Long}_{day})>0\;\mathrm{and~}\operatorname{sign}(\sum_{day=0}^{T}\Delta Hedge\;Short_{day})<0;}\end{array}$ $\begin{array}{r}{\mathrm{Short~if~}\operatorname{sign}(\sum_{day=0}^{T}\Delta Hedge\;\mathrm{Long}_{day})<0\;\mathrm{and~}\operatorname{sign}(\sum_{day=0}^{T}\Delta Hedge\;\mathrm{Short}_{day})>0;}\end{array}$ |  |
 
 数据来源：郑州商品交易所 华泰期货研究院
 
@@ -141,7 +141,7 @@
 ## 1、商品成交持仓排名因子①：
 
 $$
-\frac{\sum_{day=0}^{T}\mathrm{~(~}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i}-\sum_{i=1}^{N}\Delta\mathrm{Short}_{i}\mathrm{~)~}}{\sum_{day=0}^{T}\mathrm{~(~}|\sum_{i=1}^{N}\Delta\mathrm{Long}_{i}|+|\sum_{i=1}^{N}\Delta\mathrm{Short}_{i}|\mathrm{~)~}}
+\frac{\sum_{day=0}^{T}\left(\sum_{i=1}^{N}\Delta\operatorname{Long}_{i}-\sum_{i=1}^{N}\Delta\operatorname{Short}_{i}\right)}{\sum_{day=0}^{T}\left(\left|\sum_{i=1}^{N}\Delta\operatorname{Long}_{i}\right|+\left|\sum_{i=1}^{N}\Delta\operatorname{Short}_{i}\right|\right)}
 $$
 
 首先，因子①描述了品种合约排名回溯 day 日公布前 N 名的持买入变化量与持卖单变化量差值与前 N 名的持买入变化量与持卖单变化量绝对值之和比的均值，从此传统商品持仓因子算法表示新增持买卖仓位的头寸多空交易意向变化，简单测试下，本报告选择排名N 参数为[1、5、10、20]，而回溯周期 day参数为[1、5、22、60、120]，以横截面与时序方法构建两组对冲组合，分别为以做多因子值前 20%的品种与做空因子值后 20%的合约、做多全部因子值大于零的品种合约与做空全部因子值小于零的品种合约，回测结果的年化收益率矩阵（无手续费）如表 4、表 5 所示。
@@ -177,7 +177,7 @@ $$
 ## 2、商品成交持仓排名因子②：
 
 $$
-\frac{\sum_{day=0}^{T}\mathrm{~(~}\sum_{i=1}^{N}\mathrm{Long}_{i}-\sum_{i=1}^{N}\mathrm{Short}_{i}\mathrm{~)~}}{\sum_{day=0}^{T}\mathrm{~(~}\sum_{i=1}^{N}\mathrm{Long}_{i}+\sum_{i=1}^{N}\mathrm{Short}_{i}\mathrm{~)~}}
+\frac{\sum_{day=0}^{T}\text{ ( }\sum_{i=1}^{N}\operatorname{Longg}_{i}-\sum_{i=1}^{N}\operatorname{Short}_{i}\text{ ) }}{\sum_{day=0}^{T}\text{ ( }\sum_{i=1}^{N}\operatorname{Longg}_{i}+\sum_{i=1}^{N}\operatorname{Short}_{i}\text{ ) }}
 $$
 
 商品成交持仓排名因子②描述了品种合约回溯 day 日排名净头寸占比的均值，表示目前品种整体持仓净头寸的情况，选择排名N 参数为[1、5、10、20]，而回溯周期 day参数为[1、5、22、60、120]，同样以横截面与时序方法构建两组对冲组合，分别为以做多因子值前 20%的品种与做空因子值后 20%的合约、做多全部因子值大于零的品种合约与做空全部因子值小于零的品种合约，回测结果的年化收益率矩阵（无手续费）如表6、表7所示。
@@ -213,7 +213,7 @@ $$
 ## 3、商品成交持仓排名因子③：
 
 $$
-\frac{(\sum_{i=1}^{N}\mathrm{Long}_{i}-\sum_{i=1}^{N}\mathrm{Short}_{i})_{\mathrm{~\tiny~{~T~}~}}}{(\sum_{i=1}^{N}\mathrm{Long}_{i}-\sum_{i=1}^{N}\mathrm{Short}_{i})_{\mathrm{~\tiny~{~T-Day}~}}}-1
+\frac{\left(\sum_{i=1}^{N}Long_{i}-\sum_{i=1}^{N}short_{i}\right)_{T}}{\left(\sum_{i=1}^{N}Long_{i}-\sum_{i=1}^{N}short_{i}\right)_{T-Day}}-1
 $$
 
 商品成交持仓排名因子③描述了在 day 日内里品种合约排名前 N 名会员净头寸变化的情况，利用买卖净头寸的变化情况来假定投资者的交易趋势，参数的选择与组合方法同前因子，回测结果的年化收益率矩阵（无手续费）如表8、表 9所示。
@@ -249,7 +249,7 @@ $$
 4、商品成交持仓排名因子④：
 
 $$
-\begin{array}{r}{\mathrm{Long~if~\ sign}\big(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i,day}\big)>0\ and\ \mathrm{sign}\big(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day}\big)<0;}\\{\mathrm{Short~if~\ sign}\big(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i,day}\big)<0\ and\ \mathrm{sign}\big(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day}\big)>0;}\end{array}
+\begin{array}{r}{\mathrm{Long~if~}\operatorname{sign}(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i,day})>0\mathrm{~and~}\operatorname{sign}(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day})<0;}\\{\mathrm{Short~if~}\operatorname{sign}(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Long}_{i,day})<0\mathrm{~and~}\operatorname{sign}(\sum_{day=0}^{T}\sum_{i=1}^{N}\Delta\mathrm{Short}_{i,day})>0;}\end{array}
 $$
 
 商品成交持仓因子④简化了因子构建算法， 使用持买卖头寸的变化量方向作为入场信号，如表 10所示，依据多头增仓并伴随空头减仓的情况下建立多头头寸，空头增仓并伴随多头减仓的信号建立空头头寸，形成对冲组合，收益率矩阵（无手续费）如表 11 所示。
@@ -285,7 +285,7 @@ $$
 ## 1、套期保值压力因子①
 
 $$
-\begin{array}{r}{\mathrm{sign}\bigl(\sum_{day=0}^{T}HedgeLong_{day}-\sum_{day=0}^{T}Hedgeoshort_{day}\bigr)}\end{array}
+\begin{array}{r}{sign\bigl(\sum_{day=0}^{T}Hedge\;Long_{day}-\sum_{day=0}^{T}Hedgeo\;short_{day}\bigr)}\end{array}
 $$
 
 按照套期保值压力理论策略，利用前 day 日套期保值净头寸的变化方向构建套期保值压力因子，捕捉套期保持交易者为转移生产风险所支付的溢价，当套期保值净头寸为正时，卖出该品种获取风险补偿，而当净头寸为负时，假设卖出套期保值倾向于此价格建立卖出头寸，所以同时可买入该品种，获取卖出套期保值所支付的溢价，并与多头构建对冲组合。由于郑州商品交易所公布品种的套期保值头寸变化较少，再跟踪流动性原则，测试中只保留 OI、RM、TA、MA、CF 和 SR 品种，且只采用时间序列的方法，根据回溯参数与持仓参数组合，得出年化收益率（无手续费）矩阵，如表 12 所示。
@@ -321,7 +321,7 @@ $$
 ## 2、套期保值压力因子②
 
 $$
-\begin{array}{r}{\mathrm{Long~if~}\mathrm{sign}{\left(\sum_{day=0}^{T}\Delta Hedge\mathrm{~Long}_{day}\right)}>0\mathrm{~}and\mathrm{~sign}{\left(\sum_{day=0}^{T}\Delta HedgeShort_{day}\right)}<0;}\\{\mathrm{Short~if~}\mathrm{sign}{\left(\sum_{day=0}^{T}\Delta Hedge\mathrm{~Long}_{day}\right)}<0\mathrm{~}and\mathrm{~sign}{\left(\sum_{day=0}^{T}\Delta HedgeShort_{day}\right)}>0;}\end{array}
+\begin{aligned}&\mathrm{Long}\mathrm{if}\mathrm{sign}\left(\sum_{day=0}^{T}\Delta Hedge\operatorname{Long}_{day}\right)>0\text{ and }\mathrm{sign}\left(\sum_{day=0}^{T}\Delta Hedge\operatorname{Shor}t_{day}\right)<0;\\&\mathrm{Shor}\mathrm{if}\mathrm{sign}\left(\sum_{day=0}^{T}\Delta Hedge\operatorname{Long}_{day}\right)<0\text{ and }\mathrm{sign}\left(\sum_{day=0}^{T}\Delta Hedge\operatorname{Shor}t_{day}\right)>0;\\\end{aligned}
 $$
 
 套期保值压力因子②采用买入套保头寸与卖出套保的头寸两个变化量的方向作为组合构建头寸的依据，主要考量套期保值压力因子对市场近期价格的反应与影响。当品种的买入套保值的变化量增加并伴随卖出套期保值变化量减小时，建立该品种多头头寸，反之建立空头头寸，并构建对冲组合，年化收益回测数据如表13 所示。

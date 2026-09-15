@@ -33,7 +33,7 @@
 偏度是对收益率的衡量指标，是随机变量的三阶中心矩，r代表收益率、 $\mu$ 收益率代表均值、σ代表收益率波动率，偏度具体公式如下：
 
 $$
-\mathrm{skewness}=\mathrm{E}[\Big(\frac{r-\mu}{\sigma}\Big)^{3}]
+\mathrm{skewness}=\mathbb{E}[\left(\frac{r-\mu}{\sigma}\right)^{3}]
 $$
 
 ## （二）峰度
@@ -43,7 +43,7 @@ $$
 峰度也对收益率的衡量指标，是随机变量的四阶中心矩，r 代表收益率、μ收益率代表均值、σ代表收益率波动率，偏度具体公式如下：
 
 $$
-{\mathrm{kurtosis}}=\operatorname{E}[\left({\frac{r-\mu}{\sigma}}\right)^{4}]
+\mathrm{kurtosis}=\mathrm{E}[\left({\frac{r-\mu}{\sigma}}\right)^{4}]
 $$
 
 图 2：不同峰度形态的分布对比图

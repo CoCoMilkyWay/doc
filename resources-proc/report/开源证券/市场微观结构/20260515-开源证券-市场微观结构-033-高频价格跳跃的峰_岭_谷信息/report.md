@@ -492,18 +492,18 @@ wangzhihao@kysec.cn
 我们尝试使用约束优化求解的方式进行沪深 300、中证 500 与中证 1000 增强测试。合成因子为正向因子，因此组合因子暴露度最大化等价于预期收益率最大化。
 
 $$
-\operatorname*{max}\ \alpha^{T}w\quad s.t.
+\operatorname*{max}\quad\alpha^{T}w\quad s.t.
 $$
 
 $$
-s_{l}\le X_{s}(w-w_{b})\le s_{u}
+s_{l}\leq X_{s}(w-w_{b})\leq s_{u}
 $$
 
 $$
-\begin{array}{c}{h_{l}\leq X_{h}(w-w_{b})\leq h_{u}}\\{\ }\\{w_{l}\leq w-w_{b}\leq w_{u}}\\{\ b^{T}w\geq c_{l}}\\{\ }\\{1^{T}w=1}\\{\ }\\{0\leq w\leq1}\end{array}
+\begin{aligned}&\min_{h_{l}}\leq X_{h}(w-w_{b})\leq h_{w_{l}}\\&\quad w_{l}\leq w-w_{b}\leq w_{u}\\&\quad\quad b^{T}w\geq c_{l}\\&\quad\quad1^{T}w=1\\&\quad\quad0\leq w\leq1\\\end{aligned}
 $$
 
-其中， $\alpha.$ 表示因子暴露度，w表示待优化权重， $X_{s}$ 表示风格暴露度矩阵， $X_{h}$ 表示行业哑变量矩阵， $s_{u}$ 和s 分别表示风格暴露度的偏离上下限， $h_{u}\star\mathsf{e}h_{l}$ 分别表示行业偏离上下限， $w_{u}$ 和 $w_{l}$ 分别表示权重偏离的上下限，b表示股票池个股是否位于指数成分股的示性向量， $c_{l}$ 表示成分股权重之和下限。
+其中， $\alpha.$ 表示因子暴露度，w表示待优化权重， $X_{s}$ 表示风格暴露度矩阵， $X_{h}$ 表示行业哑变量矩阵， $s_{u}$ 和s 分别表示风格暴露度的偏离上下限， $h_{u}和h_{l}$ 分别表示行业偏离上下限， $w_{u}$ 和 $w_{l}$ 分别表示权重偏离的上下限，b表示股票池个股是否位于指数成分股的示性向量， $c_{l}$ 表示成分股权重之和下限。
 
 沪深300增强组合年化收益率11.45%，相较于沪深300，超额年化收益率5.9%，年化 IR1.38，最大回撤 8.7%，月度胜率 67%。
 
