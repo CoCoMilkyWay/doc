@@ -1,0 +1,257 @@
+{
+  "schema_version": 2,
+  "id": "20180712-国泰君安-数量化专题-111-风格域划分下的基本面多因子选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "expectation_level", "expectation_revision", "analyst_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Value",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{PB：市净率}",
+          "stats": [0.02, null, null, null],
+          "evidence": "| 估值 | Value | PB |\n|  | Ebitda Ev | 税息折旧及摊销前利润比总市值 |"
+        },
+        {
+          "name": "Ebitda Ev",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{税息折旧及摊销前利润}}{\\text{总市值}}",
+          "stats": [-0.006, null, null, null],
+          "evidence": "| 估值 | Value | PB |\n|  | Ebitda Ev | 税息折旧及摊销前利润比总市值 |"
+        },
+        {
+          "name": "Roe",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产收益率}",
+          "stats": [0.015, null, null, null],
+          "evidence": "| 盈利 | Roe | 净资产收益率 |\n|  | Earnings Yield | 由Ep、Estep、Cetop 三因子合成详细算法详见附录 |"
+        },
+        {
+          "name": "Earnings Yield",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{由Ep、Estep、Cetop三因子合成}",
+          "stats": [0.01, null, null, null],
+          "evidence": "| 盈利 | Roe | 净资产收益率 |\n|  | Earnings Yield | 由Ep、Estep、Cetop 三因子合成详细算法详见附录 |"
+        },
+        {
+          "name": "Leverage",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{由Mlev、Dtoa、Blev三因子合成}",
+          "stats": [0.008, null, null, null],
+          "evidence": "| 财务杠杆 | Leverage | 由Mlev、Dtoa、Blev 三因子合成详细算法详见附录 |\n|  | Fix ratio | 固定资产比总权益 |"
+        },
+        {
+          "name": "Fix ratio",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{固定资产}}{\\text{总权益}}",
+          "stats": [-0.009, null, null, null],
+          "evidence": "| 财务杠杆 | Leverage | 由Mlev、Dtoa、Blev 三因子合成详细算法详见附录 |\n|  | Fix ratio | 固定资产比总权益 |"
+        },
+        {
+          "name": "Yoy Eps",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Eps同比增长率}",
+          "stats": [0.025, null, null, null],
+          "evidence": "| 成长 | Yoy Eps | Eps 同比增长率 |\n|  | Mom Roe | ROE 环比增长率 |\n|  | Growth | 由SGRO、EGRO、EGIB、EGIB_S四因子合成详细算法详见附录 |\n|  | Yoy Operrev | 营业收入同比增长率 |"
+        },
+        {
+          "name": "Mom Roe",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE环比增长率}",
+          "stats": [0.021, null, null, null],
+          "evidence": "| 成长 | Yoy Eps | Eps 同比增长率 |\n|  | Mom Roe | ROE 环比增长率 |\n|  | Growth | 由SGRO、EGRO、EGIB、EGIB_S四因子合成详细算法详见附录 |\n|  | Yoy Operrev | 营业收入同比增长率 |"
+        },
+        {
+          "name": "Growth",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{由SGRO、EGRO、EGIB、EGIB_S四因子合成}",
+          "stats": [-0.005, null, null, null],
+          "evidence": "| 成长 | Yoy Eps | Eps 同比增长率 |\n|  | Mom Roe | ROE 环比增长率 |\n|  | Growth | 由SGRO、EGRO、EGIB、EGIB_S四因子合成详细算法详见附录 |\n|  | Yoy Operrev | 营业收入同比增长率 |"
+        },
+        {
+          "name": "Yoy Operrev",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入同比增长率}",
+          "stats": [0.012, null, null, null],
+          "evidence": "| 成长 | Yoy Eps | Eps 同比增长率 |\n|  | Mom Roe | ROE 环比增长率 |\n|  | Growth | 由SGRO、EGRO、EGIB、EGIB_S四因子合成详细算法详见附录 |\n|  | Yoy Operrev | 营业收入同比增长率 |"
+        },
+        {
+          "name": "Htos",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{前十大股东持股比例}",
+          "stats": [-0.016, null, null, null],
+          "evidence": "| 股权结构 | Htos | 前十大股东持股比例 |\n| 财务质量 | Safexp Operrev | 销售、管理、财务费用比营业收入 |"
+        },
+        {
+          "name": "Safexp Operrev",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{销售、管理、财务费用}}{\\text{营业收入}}",
+          "stats": [0.013, null, null, null],
+          "evidence": "| 股权结构 | Htos | 前十大股东持股比例 |\n| 财务质量 | Safexp Operrev | 销售、管理、财务费用比营业收入 |"
+        },
+        {
+          "name": "Est PB",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{预期PB}",
+          "stats": [0.006, null, null, null],
+          "evidence": "| 一致预期 | Est PB | 预期PB |\n|  | Mom Est Eps | 预期 Eps 环比变化 |\n|  | Rating Up | 90内分析师上调评级家数 |\n|  | Yoy Estnp | 预期净利率同比变化率 |\n|  | Target Return | 预测目标价/当前收盘价-1 |"
+        },
+        {
+          "name": "Mom Est Eps",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{预期Eps环比变化}",
+          "stats": [0.019, null, null, null],
+          "evidence": "| 一致预期 | Est PB | 预期PB |\n|  | Mom Est Eps | 预期 Eps 环比变化 |\n|  | Rating Up | 90内分析师上调评级家数 |\n|  | Yoy Estnp | 预期净利率同比变化率 |\n|  | Target Return | 预测目标价/当前收盘价-1 |"
+        },
+        {
+          "name": "Rating Up",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{90内分析师上调评级家数}",
+          "stats": [0.007, null, null, null],
+          "evidence": "| 一致预期 | Est PB | 预期PB |\n|  | Mom Est Eps | 预期 Eps 环比变化 |\n|  | Rating Up | 90内分析师上调评级家数 |\n|  | Yoy Estnp | 预期净利率同比变化率 |\n|  | Target Return | 预测目标价/当前收盘价-1 |"
+        },
+        {
+          "name": "Yoy Estnp",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{预期净利率同比变化率}",
+          "stats": [0.005, null, null, null],
+          "evidence": "| 一致预期 | Est PB | 预期PB |\n|  | Mom Est Eps | 预期 Eps 环比变化 |\n|  | Rating Up | 90内分析师上调评级家数 |\n|  | Yoy Estnp | 预期净利率同比变化率 |\n|  | Target Return | 预测目标价/当前收盘价-1 |"
+        },
+        {
+          "name": "Target Return",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{预测目标价}}{\\text{当前收盘价}}-1",
+          "stats": [0.03, null, null, null],
+          "evidence": "| 一致预期 | Est PB | 预期PB |\n|  | Mom Est Eps | 预期 Eps 环比变化 |\n|  | Rating Up | 90内分析师上调评级家数 |\n|  | Yoy Estnp | 预期净利率同比变化率 |\n|  | Target Return | 预测目标价/当前收盘价-1 |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "regime_domain", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "市值域、盈利域、波动域划分下，各类基本面因子对不同风格域内股票收益的预测能力存在显著差异，因子权重应相应区分。",
+      "evidence": "研究表明，基于市值域划分、盈利域划分以及波动域划分的状态下，各类基本面因子对不同风格域内的股票收益预测能力存在显著差异，相应的因子权重应有所区分。"
+    },
+    {
+      "text": "大小盘划分下ROE、Earnings Yield、Fix ratio、MOM ROE、HTOS、Yoy Estnp这6个因子IC序列统计结果显著差异，大市值域中盈利、财务杠杆、成长、股权结构因子预测区分度极强，小市值域中分析师预期净利润变化率显著更强。",
+      "evidence": "结果表明，以大小盘划分的检验下，ROE、Earnings Yield、Fix ratio、MOM ROE、HTOS、Yoy Estnp 这 6 个因子 IC 序列统计结果具有显著差异。其中，在大市值域中，盈利类因子ROE和Earnings Yield、财务杠杆类因子 Fix ratio、成长类因子 MOM ROE、股权结构因子 Htos 均极强的预测区分度。在小市值域中则效果较差。而在小市值域中，分析师预期净利润的变化率则显著强于大盘。"
+    },
+    {
+      "text": "高低盈利域划分检验下多达11个因子IC序列统计结果显著差异：高盈利域中Value、ROE、Leverage、Yoy Operrev、Htos等因子预测区分度更强，低盈利域中分析师一致预期PB、上调评价家数及目标收益率等因子显著性更强。",
+      "evidence": "结果表明，以高低盈利域划分的检验下，多达11个因子IC 序列统计结果具有显著差异。例如，在高盈利域股票中，Value、ROE、Leverage、Yoy Operrev、Htos等因子具有更强的预测区分度；而在低盈利域股票中，分析师一致预期 PB、上调评价家数及目标收益率等因子的预测显著性则更强。"
+    },
+    {
+      "text": "Φ-1IC加权算法对模型整体预测能力的效果好于等权、IC加权、ICIR加权等方法。",
+      "evidence": "可以看到， $\\Phi^{\\mathrm{~-~}1}IC$ 加权算法对于模型整体预测能力而言，效果好于等权、IC 加权、ICIR 加权等方法。"
+    },
+    {
+      "text": "整合市值域、盈利域、波动域后的模型预测能力较单独模型有所提升，T检验值达到4.49，预测效果较为稳健。",
+      "evidence": "结果表明，以基本面因子为基础，在风格域划分配置不用因子权重的方法下，模型获取了较为显著的预测能力。同时，在整合了市值域、盈利域、波动域之后的模型预测能力比之单独模型的预测能力有一定的提升，T 检验值达到4.49，预测效果较为稳健。"
+    },
+    {
+      "text": "风格域划分策略2013年至2018年6月实现年化超额收益18%，信息比率2.81；与未分域组合相比，年化收益率由14.6%提升至18%，信息比率由2.2提升至2.8，最大回撤由6.8%下降至6%。",
+      "evidence": "基于风格域划分下的基本面多因子策略自2013年至2018年6月，实现年化超额收益 18%，信息比率2.81。相比于未分域的基本面因子策略，该策略的年化收益、信息比率均有显著提升，最大回撤显著下降。并且回测结果显示，分域研究的优势在近两年的市场环境中，愈发明显。"
+    },
+    {
+      "text": "归因结果中策略选股收益T检验值达4.93，选股收益显著，且中性化严格使风格收益贡献几乎为0，策略实现收益全部由选股收益贡献。",
+      "evidence": "归因计算结果中，策略选股收益 T检验值达到4.93，选股收益显著。并且由于组合构建过程中中性化程度严格，因此风格收益贡献几乎为 0，策略实现收益全部由选股收益贡献。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["BARRA CNE5 相关报告", "《基于不同域研究的多因子选股体系》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

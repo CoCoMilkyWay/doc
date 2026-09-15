@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "id": "20220502-国泰君安-文献解读-028-如何使用傅里叶级数估计波动率",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "傅里叶波动率测算方法基于积分而非微分，比来自二次变差的传统方法具有更强的稳健性，且对高频场景的适用性更强，值得战略、战术配置投资者参考借鉴。",
+      "evidence": "本文基于傅里叶分析，提供了一种全新的波动率测算方法。由于该方法基于积分而非微分，因此其不仅比来自二次变差的传统方法具有更强的稳健性，而且对高频场景的适用性也会更强，值得战略、战术配置投资者参考借鉴。"
+    },
+    {
+      "text": "该方法是一种针对半鞅数据的无模型非参数波动性测算方法，主要数学工具为傅里叶分析，具有很强的数据适应性。",
+      "evidence": "本文提出了一种针对半鞅（semi-martingale）数据的波动性测算方法，主要数学工具为傅里叶分析。该方法本质上一种无模型（model-free）的非参数（nonparametric）方法，因此具有很强的数据适应性。"
+    },
+    {
+      "text": "传统波动性测算方法依赖可微条件的二次变差理论，对病态空间分布的逐笔数据或异步性交易数据力不从心，而傅里叶方法对高频数据甚至逐笔数据都有很好的亲和性。",
+      "evidence": "由于传统的波动性测算方法需要数据具有规整性和同步性，因此对于呈现出病态空间分布的逐笔数据或者异步性的交易数据而言，依赖于可微条件的二次变差理论就显得力不从心。"
+    },
+    {
+      "text": "Monte Carlo 实验表明波动率重建在时间窗口中部的准确度高于窗口两端，为此原文使用紧支撑的磨光函数进行修正。",
+      "evidence": "虽然定理 3的计算公式允许对一个时间窗口中的任意时点进行波动率重建，但 Monte Carlo 实验表明窗口中部的准确度要高于窗口两端的准确度。为了解决这个问题，本文使用了一个紧支撑的磨光函数（smoothingfunction），其支撑集的上下端点分别落在 0 和 $2\\pi$ 的领域之中:"
+    },
+    {
+      "text": "数值实验表明傅里叶系数求和只需刨除首项系数即可，因为首项对β较为敏感，容易引入噪声。",
+      "evidence": "同时建议刨除 $\\mathbf{n}_{0}$ 取值较小时候的项，这主要是因为其对于β较为敏感，容易引入噪声。具体来说，数值实验结果表明只需要刨除首项系数即可。"
+    },
+    {
+      "text": "该方法成功的关键在于三角函数存在积化和差公式；若改用小波基等正交基，由于积化和差公式不存在，难以得到相应版本的定理 3。",
+      "evidence": "最后需要特别说明的是，上述方法之所以能成功主要还是因为三角函数有积化和差公式成立。如果选择的正交基不再是三角函数，例如常见的小波基，由于积化和差公式在小波分析中并不存在，因此很难得到相应版本的定理 3。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Malliavin P, Mancino M E. A Fourier transform method for nonparametric estimation of multivariate volatility[J]. Ann. Statist. 2009.",
+    "Malliavin P, Mancino M E. Fourier series method for measurement of multivariate volatilities[J]. Finance & Stochastics, 2002, 6(1):49-61."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

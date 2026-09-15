@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20260605-国泰海通-量化选股-005-如何构建低波策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "distribution_moment", "liquidity_turnover", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{过去1年股息率，由高到低排序取得分最高的300只股票}",
+          "stats": [null, null, null, null],
+          "evidence": "步骤 3——股息率初筛。按照过去1 年股息率由高到低排序，选择股息率得分最高 300 只股票。"
+        },
+        {
+          "name": "低波因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{低波动率、低换手率、低尾盘成交占比 3 因子等权复合得分}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，低波因子为，低波动率、低换手率、低尾盘成交占比 3 因子等权复合得分；基本面质量因子为，ROE、SUE、加速增长、现金流占比因子等权复合得分。"
+        },
+        {
+          "name": "基本面质量因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{ROE、SUE、加速增长、现金流占比因子等权复合得分}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，低波因子为，低波动率、低换手率、低尾盘成交占比 3 因子等权复合得分；基本面质量因子为，ROE、SUE、加速增长、现金流占比因子等权复合得分。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "quarterly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "红利低波策略2013.01-2026.05期间年化收益20.6%，年化波动率18.7%，信息比1.13，最大回撤34.0%，月胜率64.0%，收益高于红利低波100指数且波动、回撤更低。",
+      "evidence": "红利低波策略，2013.01-2026.05期间，年化收益 20.6%，年化波动率 18.7%，信息比 1.13，最大回撤34.0%，月胜率 64.0%。策略收益高于红利低波 100 指数，波动、回撤也更低。"
+    },
+    {
+      "text": "基于因子分组考察各组股票下月平均波动率，高股息、低波、低换手、低尾盘成交占比个股波动显著低于市场平均水平，而ROE、SUE等基本面类因子对区分个股波动率无显著效果。",
+      "evidence": "基于因子分组，考察各组股票下月平均波动率水平我们发现，高股息、低波、低换手、低尾盘成交占比个股，波动显著低于市场平均水平。而基本面类因子，如 ROE、SUE等，对于区分个股波动率，无显著效果。"
+    },
+    {
+      "text": "限定个股市值不低于50亿元时策略年化收益19.9%、信息比1.10；限定市值不低于100亿元时年化收益18.6%、信息比1.03，均具有较优表现。",
+      "evidence": "若限定个股市值不低于 50 亿元，则策略年化收益 19.9%，信息比 1.10；若限定市值不低于 100 亿元，则年化收益 18.6%，信息比 1.03，也具有较优表现。"
+    },
+    {
+      "text": "以过去1年红利低波策略与成长指数相对沪深300月超额收益的信息比为基础加权，叠加创业板指的复合策略2013年以来年化收益29.0%，优于红利低波策略的20.6%和创业板指的14.6%。",
+      "evidence": "若以创业板指作为成长指数，按照上述方式的复合策略 2013 年以来年化收益 29.0%，优于红利低波策略的 20.6%，也优于创业板指的 14.6%。"
+    },
+    {
+      "text": "红利低波策略防御性强而上涨弹性弱：中证800指数跌幅超过5%的25个月份，800红利低波（全）指数显著优于中证800指数；涨幅超过5%的24个月份则跑输市场。",
+      "evidence": "在中证 800 指数跌幅超过 5%的 25 个月份，800 红利低波（全）指数显著优于中证 800 指数；但在指数涨幅超过 5%的24 个月份，800 红利低波指数跑输市场。"
+    },
+    {
+      "text": "策略每年4、8、10、12月底调仓，一年调仓4次，平均年单边换手率2.25倍，扣除单边千2交易成本后仍取得年化收益20.6%。",
+      "evidence": "一年调仓 4 次，策略平均年单边换手率为 2.25 倍。扣除单边千 2 交易成本后，2013 年以来该组合年化收益 20.6%，年化波动率 18.7%，信息比1.13，最大回撤 34.0%，月胜率 64.0%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20220824-国泰君安-文献解读-033-因子择时模型的泛用框架",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["large"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]},
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "利用 Akaike 信息准则通过逐步纳入条件变量，将静态因子模型的最优化框架推广成了一个泛用的因子择时模型，并导出信息比率指标追踪该模型的改进效率。",
+      "evidence": "本报告利用 Akaike 信息准则通过逐步纳入条件变量，将静态因子模型的最优化框架推广成了一个泛用的因子择时模型。进一步地，本报告还导出了一些信息比率指标，用于追踪该因子择时模型的改进效率，并对改进各种途径的影响进行了分析。"
+    },
+    {
+      "text": "条件变量 D2M 拥有最低的 AIC 取值-576.4，因此其将作为最优条件变量集中的首个变量，最优条件变量集为 D2M、SPX、CC。",
+      "evidence": "由于条件变量 D2M 拥有最低的 AIC 取值-576.4，因此其将作为最优条件变量集中的首个变量。"
+    },
+    {
+      "text": "第一轮筛选出的 D2M 带来了 EMIR 最大幅度的提升，而随着 AIC 的逐步下降，H、X 和E[Q]指标都单调上涨，而 CMIR 指标 Q则并未呈现出单调性。",
+      "evidence": "可以看到第一轮筛选出的 D2M 带来了 EMIR 最大幅度的提升，而随着 AIC 的逐步下降，H、X 和E[Q]指标都单调上涨，而 CMIR 指标 Q则并未呈现出单调性。"
+    },
+    {
+      "text": "二次部分构成了 IR 改进的主要部分，对 EMIR 的正向贡献为 0.142，即相较于静态模型有 67%的性能提升。",
+      "evidence": "实证显示，该部分对 EMIR 的正向贡献为 0.142，即相较于静态模型有 67%的性能提升。"
+    },
+    {
+      "text": "对因子择时模型进行业绩评价时应该更加关注全局型的 IR 指标 EMIR，而非局部型的 IR 指标 CMIR。",
+      "evidence": "因此，本报告建议对因子择时模型进行业绩评价时应该更加关注全局型的 IR 指标 EMIR，而非局部型的 IR 指标 CMIR。"
+    },
+    {
+      "text": "EMIRS 指标 X 是追踪 EMIR 指标E[Q]变动情况的优秀变量，X 和E[Q]的相关系数高达 0.997，但 H和E[Q]之间的相关系数只有 0.985。",
+      "evidence": "事实上 X 和E[Q]的相关系数高达 0.997，但 H和E[Q]之间的相关系数只有 0.985。"
+    },
+    {
+      "text": "尽管 AIC 极力避免模型出现过拟合，但本文计算的 IR 指标仍然是样本内指标，因此呈现出了一点不切实际的乐观性态，未来可利用交叉验证等技术改进。",
+      "evidence": "其次，尽管 AIC 极力避免模型出现过拟合，但本文计算的 IR 指标仍然是样本内指标，因此呈现出了一点不切实际的乐观性态。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Akaike, H. \"Information Theory as an Extension of the Maximum Likelihood Principle, in Petrov and Csake (eds.).\" Second International Symposium on Information Theory, Academiai Kiado, Budapest, (1973).",
+    "Hua, R. , D. Kantsyrev , and E. Qian. \"Factor-Timing Model.\" Journal of Portfolio Management 39.1(2012):75-87.",
+    "Qian, E., E. Sorensen, R. Hua, and R. Schoen. \"Multiple Alpha Sources and Active Management.\" The Journal of Portfolio Management, 30 (2004), pp. 39-45.",
+    "Treynor, J.L., and F. Black. \"How to Use Security Analysis to Improve Portfolio Selection.\" Journal of Business, 46 (1973), pp. 66-86."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

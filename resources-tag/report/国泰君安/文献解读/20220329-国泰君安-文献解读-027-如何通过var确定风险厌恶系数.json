@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "20220329-国泰君安-文献解读-027-如何通过var确定风险厌恶系数",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["na"], "rebalance": "na"}
+    }
+  },
+  "findings": [
+    {
+      "text": "MVO中风险厌恶系数通常被视为外生变量，本文另辟蹊径给出其与风险度量VaR之间的函数关系，值得战略资产配置投资者借鉴。",
+      "evidence": "在 MVO 中，风险厌恶系数通常被视为外生变量，但本文另辟蹊径给出了其与风险度量 VaR 之间的函数关系，值得战略资产配置投资者借鉴。"
+    },
+    {
+      "text": "本文将最优投资组合与VaR相联系，把风险厌恶系数表达为VaR的解析表达式，并从多元正态分布推广到椭圆等值分布族，发现风险厌恶系数的选择与收益率数据的生成模型有关。",
+      "evidence": "利用最优化框架，本文得以将不同效用函数下的最优投资组合和VaR（valueat risk）相联系，并最终将风险厌恶系数表达为 VaR 的解析表达式。本文首先假设资产收益向量为多元正态分布，然后将结果推广到椭圆等值分布族上。本文发现风险厌恶系数的选择与收益率数据的生成模型有关。"
+    },
+    {
+      "text": "根据定理1，风险厌恶系数在α和资产数量k上都是单调递增的，投资组合品种规模增大则最小VaR组合对应的风险厌恶系数越大。",
+      "evidence": "根据定理 1，这些系数在α和 k 上都是单调递增的。因此，如果投资组合的涉及的品种规模增大，那么最小 VaR 组合对应的风险厌恶系数就会越大。"
+    },
+    {
+      "text": "即便α取值很小，最优风险规避系数也远高于指数型效用函数中常用的1到10的取值；若投资者真考虑99%置信程度的VaR，就应采用比现实中高得多的风险厌恶系数。",
+      "evidence": "但即便α的取值很小，最优的风险规避系数也远高于指数型效用函数中常用的 1 到 10 的取值。这意味着，如果投资者真的考虑常用的 99%置信程度上的 VaR 的话，那么他们就应该采用比现实中高得多的风险厌恶系数。"
+    },
+    {
+      "text": "同等α水平下椭圆厚尾分布（如Laplace）的隐含风险厌恶系数比正态分布低，说明转向更厚尾分布时投资者在新框架下的风险厌恶程度会有所降低。",
+      "evidence": "注意到同等α水平下的值比正态分布的值要低，这意味着如果从正态分布转向更加厚尾的分布，投资者在新框架下的风险厌恶程度会有所降低。"
+    },
+    {
+      "text": "资产数量对两类风险厌恶系数的精度有相反的影响：指数效用的概率密度随资产数量增加逐渐松散，二次效用则变得凝聚。",
+      "evidence": "但需要注意的是，资产的数量对这两种风险厌恶系数的精度有相反的影响。对于指数效用，概率密度函数随着资产数量的增加逐渐松散，而对于二次效用，它们将变得凝聚。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bodnar T, Schmid W, Zabolotskyy T (2012) Minimum VaR and minimum CVaR optimal portfolios: estimators, confidence regions, and tests. Stat Risk Model 29:281–314.",
+    "Bodnar, T., et al. \"Determination and estimation of risk aversion coefficients.\" Computational Management Science 15.2(2018):1-21.",
+    "Das S, Markowitz H, Scheid J, Statman M (2010) Portfolio optimization with mental accounts. J Financ Quant Anal 45:311–334.",
+    "Fabozzi FJ, Huang D, Zhou G (2010) Robust portfolios: contributions from operations research and finance. J Ann Oper Res 176:191–220.",
+    "Merton RC (1969) Lifetime portfolio selection under uncertainty: the continuous time case. Rev Econ Stat 50:247–257."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

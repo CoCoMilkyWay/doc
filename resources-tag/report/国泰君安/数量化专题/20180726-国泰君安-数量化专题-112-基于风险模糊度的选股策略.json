@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "id": "20180726-国泰君安-数量化专题-112-基于风险模糊度的选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "VoV",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{VoV}_{i,t}=\\mathrm{std}(VoI_{i,t}^{\\mathrm{norm}}),\\quad VoI_{i,t}=Zscore(\\sigma_{i,t}^{Parkinson}),\\quad \\sigma=\\sqrt{\\frac{1}{4N\\ln 2}\\sum_{i=1}^{N}\\left(\\ln\\left(\\frac{h_i}{l_i}\\right)^2\\right)}",
+          "stats": [-0.0634, null, -2.5, 0.0508],
+          "evidence": "由于个股期权数据的缺失，我们使用日内5分钟级别价格数据构造日内波动率代替个股期权隐含波动率，计算日内波动率的日间波动率。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "growth"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "VoV对个股下一期收益率呈持续且稳定的负相关：未剔除行业与风格时IC为-0.06、ICIR为-2.5，剔除后IC降至-0.04但ICIR提升至-2.81。",
+      "evidence": "结果表明：VoV 对个股下一期整体收益率与残差收益率均呈现持续且较为稳定的负相关关系。未剔除行业与风格的情况下，IC 为-0.06，ICIR 为-2.5；剔除行业与风格后，IC下降至-0.04，但ICIR进一步提升至-2.81。"
+    },
+    {
+      "text": "VoV纯因子年化收益率为5.08%，夏普比率2.25，月最大回撤1.28%，是稳定的ALPHA收益来源。",
+      "evidence": "若把VoV作为ALPHA因子，构建纯因子组合，VoV是稳定的ALPHA 收益来源。VoV纯因子年化收益率为 5.08%，夏普比率为 2.25, 月最大回撤为 1.28%。"
+    },
+    {
+      "text": "从相关性结果来看，VoV与波动因子有34%的相关性，与动量、流动性和特质波动率因子有约20%的相关性，与传统的低频因子相关性并不高，但对风格因子仍然存在一定的相关性，需剔除风格后判断它的增量预测能力。",
+      "evidence": "从相关性结果来看，VoV与波动因子有 34%的相关性，与动量、流动性和特质波动率因子有约 20%的相关性。作为价量类因子，VoV从另一维度刻画了股票收益的不确定性，整体来看，与传统的低频因子相关性并不高，但对风格因子：波动率、动量与流动性仍然存在一定的相关性，对此，我们需要剔除风格后判断它的增量预测能力。"
+    },
+    {
+      "text": "全市场策略TOP100年化超额收益率14.5%、信息比率2.38、月胜率68%；BOTTOM100年化超额收益率-16.4%、信息比率2.98，稳定跑输大盘，应注意规避。",
+      "evidence": "全市场策略截止2018年 5月底，TOP100年化超额收益率 14.5%，信息比率2.38，月胜率68%，自2018年以来获得3.65%的相对年化超额收益，最大回撤 14.5%，发生于 2017 年；BOTTOM100 组合年化超额收益率-16.4%，信息比率2.98。两个组合都有较高的信息比率，特别是BOTTOM100组合，稳定跑输大盘，有较大的投资风险，应注意规避。"
+    },
+    {
+      "text": "创业板内选股超额收益20.3%，信息比率2.02，月胜率63%，2014年后尤为有效，可作为创业板选股增强的参考。",
+      "evidence": "创业板内选股超额收益20.3%，信息比率2.02，月胜率 63%。创业板内策略在2014年以后策略表现收益尤为突出。"
+    },
+    {
+      "text": "风险模糊程度越高的股票未来收益率越低，风险模糊效应被看作一种独特的波动率异象，美国市场也存在显著的低VoV高收益异象。",
+      "evidence": "事实上，美国市场也有显著的低 VoV，高股票收益的异象（GuidoBaltussen，2014）。作者试图通过做空限制、跳跃风险、非对称性风险等各角度解释其VoV效应，但均在实证过程中未发现明显的证据，因而，我们把风险模糊效应看作一种独特的波动率异象。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "GuidoBaltussen, G. (2014).",
+    "Parkinson, M. (1980). \"The Extreme Value Method for Estimating the Variance of the Rate of Return.\" The Journal of Business.",
+    "Sinclair, E. Volatility Trading."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

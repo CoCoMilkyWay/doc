@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "id": "20210907-国泰君安-文献解读-022-如何利用预期和超预期通胀构建多元化实物资产投资组合",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "通胀敏感策略的核心在于“追胀杀缩”，本质是利用资产收益通胀敏感度的差异，在各种通胀状态下动态超配通胀资产的策略。",
+      "evidence": "通胀敏感策略的核心在于“追胀杀缩”，本质上是一种利用资产收益的通胀敏感度的差异、在各种通胀状态下、动态地超配通胀资产的策略。"
+    },
+    {
+      "text": "利用样本外的回溯测试和bootstrap模拟，该策略能有效跑赢等权重策略和通胀自身。",
+      "evidence": "利用样本外的回溯测试和 bootstrap 模拟，该策略能有效跑赢等权重策略和通胀自身。"
+    },
+    {
+      "text": "相比于等权重策略，通胀敏感策略在避免了过度换手的同时，又在各类风险调整指标上表现优异。",
+      "evidence": "如表 2 所示，相比于等权重策略，该策略在避免了过度换手的同时，又在各类风险调整指标上表现优异。"
+    },
+    {
+      "text": "各类实物资产的通胀敏感性存在很大的异质性，通过动态权重调整可以使它们发挥互补作用。",
+      "evidence": "我们发现无论是在数值幅度还是统计显着性上，各类实物资产的通胀敏感性存在很大的异质性（heterogeneity）。由于异质性表明各类实物资产收益在不同通胀状态下具有差异，所以通过动态权重调整可以使它们发挥互补作用。"
+    },
+    {
+      "text": "自然资源类股票的回报更多地受到超预期通胀的推动，当超预期通胀异常时回报更高。",
+      "evidence": "同样，自然资源类股票的回报也更多地受到超预期通胀的推动——当超预期通胀异常时，回报更高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Simonian J, Wu C. Great Expectations: A Tactical Asset Allocation Framework for Diversified Real Asset Portfolios[J]. The Journal of Portfolio Management, 2018, 45(2):38-45."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

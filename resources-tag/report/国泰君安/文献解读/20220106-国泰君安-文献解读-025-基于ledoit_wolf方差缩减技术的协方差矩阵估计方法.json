@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20220106-国泰君安-文献解读-025-基于ledoit_wolf方差缩减技术的协方差矩阵估计方法",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "该方法在最优化框架下综合考虑样本协方差和市场协方差两种估计，从而得到市场缩减估计。",
+      "evidence": "在最优化框架下，该方法综合考虑了样本协方差和市场协方差两种估计，从而得到所谓市场缩减估计。"
+    },
+    {
+      "text": "利用NYSE和AMEX市场1972-1995年的数据，依赖缩减技术的资产组合比其他备选方法拥有更低的样本外方差，改进效果明显。",
+      "evidence": "在实证部分，本文利用NYSE和 AMEX 市场 1972-1995 年的数据，发现依赖缩减技术的资产组合要比其他备选方法拥有更低的样本外方差，改进效果明显。"
+    },
+    {
+      "text": "所有估计量中，单位矩阵估计最差，市场缩减估计最好，单位缩减估计排名第二。",
+      "evidence": "可以看到在所有的估计量中，单位矩阵估计最差，而市场缩减估计最好。但令人吃惊的是，单位缩减估计排名第二，好于除市场缩减估计之外的其他备选估计。"
+    },
+    {
+      "text": "最优缩减强度取值总在0和1之间约为80%左右，且表现出相当的稳定性，虽然k/T是渐近可忽略的修正，但实践中可产生很大不同。",
+      "evidence": "图 2 显示了最优缩减强度的时序变化。正如定理 2 所预测的那样，取值上它总是在 0 和 1 之间约为 80%左右，且表现出相当的稳定性。所以虽然 k/T 是一个渐近可忽略的修正，但在实践中它可以产生很大的不同。"
+    },
+    {
+      "text": "市场缩减估计是两个半正定矩阵的加权平均且F矩阵正定，因此是非奇异矩阵，缩减估计可被视为一种正规化处理。",
+      "evidence": "由于市场缩减估计本身是两个半正定矩阵的加权平均，而 F 矩阵本身又是一个正定矩阵，因此根据线性代数的相关知识我们知道市场缩减估计是一个非奇异矩阵。所以在此视角下，缩减估计可以被视为一种正规化的处理。"
+    },
+    {
+      "text": "利用缩减技术得到的投资组合现金头寸相对较小，其样本外标准差较为可靠。",
+      "evidence": "表 2 表明利用缩减技术得到的投资组合的现金头寸相对较小，所以其得到的样本外标准差较为可靠。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama, Eugene F , and J. D. Macbeth . \"Risk, Return, and Equilibrium: Empirical Tests.\" Journal of Political Economy 81.3(1973):607-636.",
+    "Ledoit, O. , and M. Wolf . \"Improved estimation of the covariance matrix of stock returns with an application to portfolio selection.\" Journal of Empirical Finance 10.5(2003):603-621.",
+    "Wolf, M. , and O. Ledoit . \"A well conditioned estimator for large dimensional covariance matrices.\" DES - Working Papers. Statistics and Econometrics. WS (2000)."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

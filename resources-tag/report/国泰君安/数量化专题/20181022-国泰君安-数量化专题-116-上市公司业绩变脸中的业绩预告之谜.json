@@ -1,0 +1,221 @@
+{
+  "schema_version": 2,
+  "id": "20181022-国泰君安-数量化专题-116-上市公司业绩变脸中的业绩预告之谜",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_alternative"],
+      "approach": ["style_ratio", "accounting_quality", "participant_behavior", "corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text", "flow"], "freq": "quarterly"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "总资产收益率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{前三季度的ROA}",
+          "stats": [null, null, null, null],
+          "evidence": "前三季度的盈利状况指标在正向变脸的样本中同样具有显著为负的预测作用，表示前三季度盈利状况较好的公司其预告的准确性也越强，不论正向还是负向变脸的概率都相对较低。"
+        },
+        {
+          "name": "销售毛利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "GrossPrf=\\frac{\\text{毛利}}{\\text{销售收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "在财务指标方面我们发现，毛利率越高的公司随后发生负向变脸的概率就越低，毛利率反映上市公司初始的盈利空间；"
+        },
+        {
+          "name": "核心利润占比",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "CorePrf=\\frac{\\text{核心利润}}{\\text{净利润}}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，毛利=营业收入-营业成本，是利润表中最难以被操纵和调整的项目，核心利润=营业收入-营业成本-营业税金及附加-销售费用-管理费用-财务费用，反映企业初始获利空间大小，往往与企业所处行业特点和企业在行业中的竞争优势相关。"
+        },
+        {
+          "name": "ROA 同比增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{前三季度ROA的同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "以ROA 同比增长和营业收入增长为代表的成长性越强的公司发生负向变脸的概率也越低；"
+        },
+        {
+          "name": "营业收入增长",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{前三季度营业收入的同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "其次是公司的成长性，较高成长性的伪造难度较高。"
+        },
+        {
+          "name": "需要计提资产减值准备的资产占比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "ImpairAss=\\frac{\\text{长期股权投资}+\\text{投资性房地产}+\\text{固定资产}+\\text{无形资产}+\\text{商誉}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "从公司自身角度来看，业绩变脸的症结绝大多数都出现在计提资产减值损失相关的资产上，因此这类资产需要高度关注。"
+        },
+        {
+          "name": "应收项目资产占比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "Recv=\\frac{\\text{应收账款}+\\text{应收票据}+\\text{其他应收款}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "因此存货和各种应收项目如果在总资产中的占比较高，意味着公司存在更大的利润操纵空间。"
+        },
+        {
+          "name": "存货资产占比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "Invent=\\frac{\\text{存货}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "例如当期已经计提了减值损失的存货资产，在下一期又被销售出去，销售的同时需要结转已经计提的减值。"
+        },
+        {
+          "name": "高管变动",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{前三季度有高管变动为1，否则0}",
+          "stats": [null, null, null, null],
+          "evidence": "高管变动会增加公司负向变脸的概率，因为新上任的高管可能会集中性地处理其前任的一些历史遗留问题，例如应收款项中的坏账处理，从而会对当期账面经营成果产生不确定性的影响。"
+        },
+        {
+          "name": "重要股东增减持",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{重要股东的股权变动比例}",
+          "stats": [null, null, null, null],
+          "evidence": "例如上市公司的高管变动、重要股东在二级市场的交易行为、公司发布业绩修正公告的历史都能够从侧面反映出上市公司的生产经营和会计制度的健康程度。"
+        },
+        {
+          "name": "前十大流通股东持股比例合计",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{前十大流通股东持股比例合计}",
+          "stats": [null, null, null, null],
+          "evidence": "股权集中度指标与业绩变脸也是具有显著的相关性，较高的股权集中度有助于降低公司负向变脸的概率。"
+        },
+        {
+          "name": "控股股东的持股比例",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{控股股东的持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "股权集中度指标与业绩变脸也是具有显著的相关性，较高的股权集中度有助于降低公司负向变脸的概率。"
+        },
+        {
+          "name": "业绩变脸历史",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{滚动3年历史发布过业绩修正公告取值为1，否则为0}",
+          "stats": [null, null, null, null],
+          "evidence": "曾经有业绩变脸历史的公司之后再发生业绩变脸的概率也会明显高于之前没有过变脸的公司，意味着业绩变脸是一种习惯性操作。"
+        },
+        {
+          "name": "业绩预告发布时点",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{业绩预告的发布时间为会计年度截止之后为1，否则为0}",
+          "stats": [null, null, null, null],
+          "evidence": "表示业绩预告发布时间是否会计年度截止之后的二值变量显著为负，意味着12月 31号以后发布的业绩预告的可信度和准确度都显著更高。"
+        },
+        {
+          "name": "预计净利润变动规模",
+          "family": "event",
+          "direction": "unknown",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{预计净利润变动范围均值}",
+          "stats": [null, null, null, null],
+          "evidence": "预计净利润变动 规模 | EstGroRtFlr | 预计净利润变动范围均值"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text", "flow"], "freq": "quarterly"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "按负向变脸预测概率从高到低排序，抽取概率最高的10%公司可涵盖随后真正发生负向变脸的18.91%样本，抽取50%可涵盖75.32%样本。",
+      "evidence": "以10%为例，每个横截面上按照负向变脸预测概率从高到低排序，从样本整体中抽取概率最高的 10%公司，这 10%公司中涵盖了随后真正发生负向变脸的18.91%的样本。在相对极端的情况下，从全样本中抽取50%的公司，这 50%公司涵盖了随后真正发生负向变脸的 75.32%的样本公司。"
+    },
+    {
+      "text": "正向变脸的预测难度更大，抽取50%公司仅涵盖56.74%的真正正向变脸样本，效果近乎于随机抽取。",
+      "evidence": "如果观察正向变脸的情况，效果近乎于随机抽取，换而言之，正向变脸的预测难度更大。"
+    },
+    {
+      "text": "潜在正向变脸预期样本在公告后近120个交易日的累计超额收益为7.12%。",
+      "evidence": "这类样本在公告后近 120 个交易日的累计超额收益对应图4中橘黄色曲线，累计超额收益为7.12%。"
+    },
+    {
+      "text": "潜在负向变脸预期样本在公告后近120个交易日的累计超额收益为4.34%。",
+      "evidence": "这类样本在公告后近 120 个交易日的累计超额收益对应图4中蓝色曲线，累计超额收益为4.34%。"
+    },
+    {
+      "text": "在变脸实际发生前，累计超额收益已经具有明显的下跌趋势性特征，说明市场上的投资者对负向变脸的公司存在提前的反应。",
+      "evidence": "在变量实际发生前，累计超额收益已经具有明显的下跌趋势性特征，说明市场上的投资者对负向变脸的公司存在提前的反应。"
+    },
+    {
+      "text": "正向变脸的规律性较弱，通常难以捕捉，负向变脸相对有迹可循。",
+      "evidence": "上市公司的业绩变脸分为正向变脸和负向变脸，其中正向变脸的规律性较弱，通常难以捕捉，负向变脸相对有迹可循。"
+    },
+    {
+      "text": "12月31号以后发布的业绩预告的可信度和准确度都显著更高。",
+      "evidence": "表示业绩预告发布时间是否会计年度截止之后的二值变量显著为负，意味着12月 31号以后发布的业绩预告的可信度和准确度都显著更高。"
+    },
+    {
+      "text": "曾经有业绩变脸历史的公司之后再发生业绩变脸的概率明显高于没有过变脸的公司，业绩变脸是一种习惯性操作。",
+      "evidence": "曾经有业绩变脸历史的公司之后再发生业绩变脸的概率也会明显高于之前没有过变脸的公司，意味着业绩变脸是一种习惯性操作。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《上市公司信息披露监管问答》"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

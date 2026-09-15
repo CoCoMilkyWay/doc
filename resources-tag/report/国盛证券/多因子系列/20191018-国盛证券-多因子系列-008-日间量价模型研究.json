@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "20191018-国盛证券-多因子系列-008-日间量价模型研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": []
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "robustness", "selection", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi500"], "rebalance": "daily"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["bias_control", "evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "使用遗传规划算法挖掘，测试超过150000个因子，最终得到127个两两正交的有效因子，观察期（过去四年）因子IR均大于5。",
+      "evidence": "我们通过算法挖掘测试了超过 150000个因子，最终挖掘出 127个有效因子，虽然因子数量不多，但是所有这些因子都是两两正交的，即两两相关性均为 0，且在观察期（过去四年）的因子 IR均大于5。"
+    },
+    {
+      "text": "大部分因子样本外有效期为6-8个月，因此每半年进行一次因子库的完全轮动，抛弃原有因子并加入最近半年新数据重新挖掘。",
+      "evidence": "从图中不难看出，大部分因子的有效期为 6-8 个月，因此，我们可以每半年进行一次因子库的完全轮动，即抛弃原来所有因子，加入最近半年的新数据重新挖掘因子。"
+    },
+    {
+      "text": "不考虑策略容量时模型超额收益非常稳定，信息比率高达6以上，但随规模增加模型逐渐失效，适合小资金低成本运作。",
+      "evidence": "同时，在不考虑策略容量情况下，我们发现日间量价模型能够提供非常稳定的超额收益，信息比率高达6以上。然而，随着规模的增加，模型逐渐失效。可见日间量价模型适合小资金低成本运作。"
+    },
+    {
+      "text": "策略极限容量约为10亿左右，100亿规模时约118倍换手率下ALPHA几乎完全被交易成本吞噬，策略失效。",
+      "evidence": "因此，在这种极限状态下，策略的ALPHA 几乎完全被交易成本所吞噬（约118倍的换手率），从而无法提供收益，策略失效。从表格中可以看到，策略的极限容量约为 10亿左右，在这种规模以内，相对低频策略，这种高换手率频繁换仓的策略具有一定优势。"
+    },
+    {
+      "text": "为避免交易价格不可得与过大的冲击成本，t日求得的因子在t+1日开盘前30分钟铺单买入，并在t+2日开盘前30分钟卖出换仓。",
+      "evidence": "为了避免交易价格不可得，或者过大的冲击成本，我们在 t日求得的因子，在 t+1日开盘前 30分钟进行铺单买入，并在 t+2日开盘前30分钟再卖出换仓。"
+    },
+    {
+      "text": "回测增加流动性限制：假设以开盘30分钟VWAP成交，每只股票成交额不高于当天前30分钟成交额的20%，30分钟内涨跌停股票不交易。",
+      "evidence": "这里，我们假设以开盘 30分钟VWAP 成交，则增加限制：每只股票成交额不高于该只股票当天前 30分钟成交额的 20%，且30分钟内涨停或跌停的股票不交易。"
+    },
+    {
+      "text": "2018年开始策略最大回撤显著增加，说明该策略已表现出较为明显的因子拥挤和交易拥挤现象，与策略交易容量在全市场占比很高有关。",
+      "evidence": "但是，从2018年开始，策略的最大回撤显著增加，说明该策略在近期已经表现出较为明显的因子拥挤和交易拥挤现象，这也和报告开头提到的目前策略交易容量在全市场占比很高有着较大关系。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kakushadze, Zura. \"101 formulaic alphas.\" Wilmott 2016.84 (2016): 72-81.",
+    "《多因子系列之一：多因子选股体系的思考》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

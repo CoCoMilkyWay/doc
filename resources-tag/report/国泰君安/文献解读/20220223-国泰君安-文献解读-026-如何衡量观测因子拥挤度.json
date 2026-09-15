@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "id": "20220223-国泰君安-文献解读-026-如何衡量观测因子拥挤度",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {"module": ["L2_zoo"], "approach": ["crowding"], "setup": {"universe": ["all"]}},
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "quarterly"}}
+  },
+  "findings": [
+    {
+      "text": "出现了拥挤信号的因子在后续的12个月中比没有拥挤信号的因子将有更大的频率（相差7倍）出现显著的因子回撤",
+      "evidence": "研究表明，上述信息对在因子波动和收益上都有解释效力，而且本文发现出现了拥挤信号的因子在后续的 12 个月中比没有拥挤信号的因子将有更大的频率（相差 7 倍）出现显著的因子回撤。"
+    },
+    {
+      "text": "当综合分数高于1时，出现5%及以上的因子回撤的概率7.5倍于综合分数小于0.5的情况：此时该概率约为23%",
+      "evidence": "当综合分数高于 1 时，出现 5%及以上的因子回撤的概率 7.5 倍于综合分数小于 0.5 的情况：此时该概率约为 23%。"
+    },
+    {
+      "text": "综合分数与因子未来回报和波动性的相关性峰值一般出现在7-12个月的水平，这表明在反转发生之前，拥挤持续一段时间",
+      "evidence": "综合分数与因子未来回报和波动性的相关性峰值一般出现在 7-12 个月的水平，这表明在反转发生之前，市场持续将持续一段时间。"
+    },
+    {
+      "text": "拥挤的和非拥挤的因子收益率会先发生背离，并在大约6个月左右后达到顶峰，而之后因子收益将趋于收敛",
+      "evidence": "可以看到，拥挤的和非拥挤的因子收益率会先发生背离，并在大约 6 个月左右后达到顶峰，而之后因子收益将趋于收敛。"
+    },
+    {
+      "text": "在动量因子崩溃前的几个月，综合分数下降的事实表明，2009年的动量崩溃不是由拥挤驱动的",
+      "evidence": "然而，在其崩溃前的几个月，综合分数下降的事实表明，2009 年的动量崩溃不是由拥挤驱动的。"
+    },
+    {
+      "text": "更换相关阈值(如2%、10%)和时间期限(如6、18、24个月)，同样可以发现类似结果",
+      "evidence": "而更换相关阈值(如 2%、10%)和时间期限(如 6、18、24 个月)，同样可以发现类似结果。"
+    }
+  ],
+  "builds_on": ["20180601-明晟公司-因子拥挤度-001-msci_integrated_factor_crowding_model"],
+  "external_ref": [
+    "Bayraktar, M., S. Doole, A. Kassam and S. Radchenko. (2015a). \"Lost in the Crowd? Identifying and Measuring Crowded Strategies and Trades.\" MSCI Research Insight.",
+    "Bonne G, Roisenberg L, Kouzmenko R, et al. MSCI integrated factor crowding model. 2018."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

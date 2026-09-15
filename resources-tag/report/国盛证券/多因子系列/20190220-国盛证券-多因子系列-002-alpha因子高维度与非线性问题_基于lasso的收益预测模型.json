@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20190220-国盛证券-多因子系列-002-alpha因子高维度与非线性问题_基于lasso的收益预测模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["csi500"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "全样本最优参数下，ICIR方法合成Alpha的IC为0.091、ICIR值4.536、第一组年化超额收益14.4%，而Adaptive Lasso的IC为0.097、ICIR值5.354、第一组年化超额收益16.2%，从最优预测能力上看显著好于ICIR方法",
+      "evidence": "在全样本最优参数的情况下，ICIR 方法合成的复合 Alpha 的 IC 值为 0.091，ICIR 值为4.536，第一组年化超额收益为 14.4%。而 Adaptive Lasso 回归预测的 Alpha 的 IC 值为0.097，ICIR 值为 5.354，第一组年化超额收益为 16.2%。如果从最优的预测能力上来看，Adaptive Lasso回归预测的方法是要显著好于ICIR方法的。"
+    },
+    {
+      "text": "在全部59个因子中，Adaptive Lasso下平均每期有31个因子能够提供独立的信息，IC值为0.091，第一组年化收益15.8%，而Lasso方法达到相同表现需选出53个因子，说明Adaptive Lasso是更有效的因子筛选方式",
+      "evidence": "因此在全部 59个因子中，平均每期有 31个因子能够提供独立的信息。此时的 IC 值为 0.091，第一组年化收益为 15.8%。在 Lasso 方法中，与此相同表现的模型，选出的选出的因子数量为53个。AdaptiveLasso方法通过更少的因子就达到了和Lasso模型相同的表现，这说明Adaptive Lasso方法确实是一个更加有效的因子筛选方式。"
+    },
+    {
+      "text": "500增强策略中Adaptive Lasso方法年化超额收益16.5%，相比ICIR方法高出4.3%，信息比率2.786，相比ICIR方法高出0.6",
+      "evidence": "对于 500 增强策略来说，Adaptive Lasso 方法的年化超额收益为 16.5%，相比 ICIR 方法高出 4.3%。信息比率为 2.786，相比 ICIR方法要高出0.6。因此，从构建组合的角度来说，Adaptive Lasso 方法也是较为优秀的。"
+    },
+    {
+      "text": "Group Lasso方法合成的复合Alpha相比Lasso方法收益显著提高，平均年化提高2.5%，信息比例提升0.5",
+      "evidence": "从回测结果中可以看到，Group Lasso 方法合成的复合 Alpha 相比于 Lasso 方法的收益有显著的提高，平均年化提高了 2.5%，信息比例提升了 0.5。"
+    },
+    {
+      "text": "Group Lasso能够捕捉因子非线性，对技术因子暴露较高的股票预测收益低于线性模型即低配技术因子，超额收益主要来自14-15年及17年反转、流动性等技术因子失效的时段",
+      "evidence": "而这两段时间正好是反转、流动性因子等技术因子失效的时间。我们认为可能的一个解释是，由于 Group Lasso 方法能够捕捉到因子的非线性，因此对于技术因子暴露较高的股票，该模型预测的收益要低于线性模型，即低配了技术因子。"
+    },
+    {
+      "text": "17年以来线性模型如ICIR方法进行Alpha预测一定程度失效，尽管反转等技术类因子IC值依旧稳定为负，但其第一组收益没有任何超额收益甚至产生回撤，这是因子和收益的非线性问题带来的",
+      "evidence": "17 年以来，用线性模型例如 ICIR 方法进行 Alpha 预测会有一定程度的失效，这是由于尽管一些技术类因子例如反转的 IC 值依旧稳定为负，但是其第一组收益却没有任何超额收益甚至产生回撤。这是由于因子和收益的非线性问题带来的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Feng G, Giglio S, Xiu D. Taming the factor zoo[J]. 2017.",
+    "Tibshirani（1996）提出Lasso方法",
+    "Yuan M, Lin Y. Model selection and estimation in regression with grouped variables[J]. 2006.",
+    "Zou（2006）提出Adaptive Lasso方法"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

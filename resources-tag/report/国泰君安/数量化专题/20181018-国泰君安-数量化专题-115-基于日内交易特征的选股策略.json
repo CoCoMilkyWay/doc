@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "id": "20181018-国泰君安-数量化专题-115-基于日内交易特征的选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "日内 BETA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内1分钟收益率对市场平均收益回归的回归系数}",
+          "stats": [-0.0293, null, -1.48, 0.0559],
+          "evidence": "因子定义： 日内1分钟收益率对市场平均收益回归的回归系数。核心逻辑：日内Beta 越小，表明股票走势越特立独行，投资者情绪受市场影响较小，预期收益越高。"
+        },
+        {
+          "name": "最高价出现时间",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "hp_{-}pos = idx(high_{-}price)",
+          "stats": [-0.0271, null, -2.08, 0.036],
+          "evidence": "因子定义：日内最高价出现的时间索引值（剔除开盘涨跌停的情况）。hp_pos = idx ( high_price ) 核心逻辑：有悖于直觉，最高价出现时间越早，投资者对隔夜信息的超买现象越严重，交易情绪越激进，未来上涨的可能性反而越高。"
+        },
+        {
+          "name": "收盘成交量占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t\\in\\text{收盘前15分钟}}Vol_t}{\\sum_{t}Vol_t}",
+          "stats": [-0.0405, null, 2.64, 0.0556],
+          "evidence": "因子定义： 收盘前15分钟成交量占日总成交量的比例（不包括集合竞价成交量）。核心逻辑：《基于微观市场结构的择时策略》提出投资者可分为知情交易者、趋势追踪者、跟随交易者三大类。"
+        },
+        {
+          "name": "正成交量指标PVI",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{PVI}=\\sum_{t:\\ Vol_t>Vol_{t-1}} r_t",
+          "stats": [-0.0337, null, -1.9, 0.0435],
+          "evidence": "因子定义：放量时收益率之和 核心逻辑：根据费班克教授的观点，股票越是散户主导的市场。散户通常是一个喜欢追涨杀跌的群体，因此，当行情出现价涨量增的走势时，“散户群”参与度会较高。"
+        },
+        {
+          "name": "量价背离",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\widehat{\\rho_{0}}=\\frac{\\mathrm{A}_{xy}}{A_{x}A_{y}}",
+          "stats": [-0.0373, null, -2.45, 0.0485],
+          "evidence": "因子定义： 日内价格与成交量的负相关性 核心逻辑： 日内缩量上涨或者放量下跌优于放量大涨或缩量下跌，缩量上涨的股票，其交易中所负载的信息含量大、信息不对称程度高，因而动量较强（参见《基于流动性偏好的风格配置策略》）。"
+        },
+        {
+          "name": "变异数比率",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "V_{R}=\\frac{Var(vol_{t,k})/k}{Var(vol_{t,j})/j};\\ vol_{t,k}=\\sum_{j=1}^{k-1}vol_{t-j};\\ k=5,\\ j=10",
+          "stats": [0.0336, null, 2.31, 0.0567],
+          "evidence": "核心逻辑：参照Poterba（1987）的观点，变异数比率反映成交量的自相关性。变异数比率大于 1，则成交量有正的自相关性，趋势性较强。变异数比率小于1，则成交量有负的自相关性，均值回复较强。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "多空有效的因子包括日内BETA、最高级出现时间、收盘成交量占比、成交量变异数比率、量价非平稳时间序列相关性等，月度IC绝对值在3%-4%之间。",
+      "evidence": "多空有效的因子包括：日内 BETA、最高级出现时间、收盘成交量占比、成交量变异数比率、量价非平稳时间序列相关性等。月度 IC绝对值在3%-4%之间。"
+    },
+    {
+      "text": "日内交易特征因子绝大多数仍然是空头有效，可作为负面排除因子，仅收盘成交量占比因子多空表现均较为稳定，建议作为多头增强因子。",
+      "evidence": "日内交易特征因子绝大多数仍然是空头有效，可作为负面排除因子，仅收盘成交量占比因子多空表现均较为稳定，建议作为多头增强因子。"
+    },
+    {
+      "text": "仅使用日内交易特征因子构建的指数增强策略，经过基本面初筛、技术面复筛和ALPHA因子增强三步后，年化超额收益18.53%，最大回撤8.14%，信息比率2.15。",
+      "evidence": "仅使用日内交易特征因子构建的指数增强策略，经过基本面初筛、技术面复筛和ALPHA 因子增强三步后，年化超额收益18.53%,最大回撤 8.14%，信息比率 2.15。"
+    },
+    {
+      "text": "利用个股分钟级别量价数据构造月频因子更推荐两步算法：先刻画个股日内交易特征，再统计当月的日内交易特征，更能突出体现个股日内交易细节信息，且与传统因子相关性较低。",
+      "evidence": "利用个股分钟级别的量价数据构造月频因子，我们更为推荐两步算法：首先刻画个股日内交易特征，再统计当月的日内交易特征。其更能突出体现个股日内交易细节信息，且与传统因子相关性较低。"
+    },
+    {
+      "text": "新构造的非平稳时间序列相关系数均值比Pearson系数更接近真实值0，且标准差更小，在捕捉变量之间的独立性时完全占优于Pearson相关性系数。",
+      "evidence": "从结果中，可以看到，新的相关系数均值比Pearson 系数更接近真实值 0。除此之外，它的标准差也小于 Pearson 相关性系数的标准差。所以，新的时间序列相关系数在捕捉变量之间的独立性时完全占优于 Pearson 相关性系数。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于微观市场结构的择时策略》",
+    "《基于流动性偏好的风格配置策略》",
+    "《基于短周期价量特征的多因子选股体系》",
+    "《基于风险模糊度的选股策略》2018.07.26"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

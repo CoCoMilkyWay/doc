@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "id": "20240530-国泰君安-权益配置因子-007-基于barra_cne6的a股风险模型实践_股票协方差矩阵估计篇",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": [
+          "size",
+          "value",
+          "growth",
+          "quality",
+          "dividend",
+          "analyst",
+          "momentum",
+          "reversal",
+          "volatility",
+          "liquidity"
+        ],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "risk_based"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "特征值风险调整后，最优投资组合的偏差统计量均值从2.0减小到1.0，验证该调整方法确实提升了最优投资组合的波动率预测准确性。",
+      "evidence": "同时，最优投资组合的偏差统计量均值从2.0减小到了 1.0，这也证明本文采用的特征值调整方法确实提升了最优投资组合的波动率预测准确性。"
+    },
+    {
+      "text": "波动率预测偏误调整后，因子协方差矩阵横截面偏差统计量均值从0.93提升至0.98，且时序变化波动幅度更低。",
+      "evidence": "经由波动率预测偏误调整后，不难发现其横截面偏差统计量得到了较为有效的控制。其横截面偏差统计量均值从0.93提升至 0.98，且横截面偏差统计量时序变化波动幅度更低。"
+    },
+    {
+      "text": "中证500指数的预测波动率与其未来一个月的实际波动率走势基本相同，预测相关性达到70%。",
+      "evidence": "整体而言，中证500指数的预测波动率分别和其未来一个月的实际波动率走势基本相同，预测相关性达到了70%。"
+    },
+    {
+      "text": "基于协方差矩阵估计构建的最小方差策略相较于中证500指数具有一定的超额表现，最大回撤、年化波动和夏普比率均较样本协方差策略更优。",
+      "evidence": "由表 2可以看出，本文所构建的最小方差策略年化收益为7.41%，相较于中证500指数具有一定的超额表现。重要的是策略的最大回撤与年化波动均较中证500指数有所降低，夏普比率与卡玛比率均有所提升。"
+    },
+    {
+      "text": "沪深300指数增强策略年化收益29.61%，年化超额收益24.13%，年化跟踪误差6.26%；中证500指数增强策略年化收益41.34%，年化超额收益35.50%，年化跟踪误差7.32%。",
+      "evidence": "沪深 300 增强指数策略年化收益 29.61%，年化超额收益 24.13%，夏普比率 1.16，年化跟踪误差为 6.26%；中证 500 指数增强策略年化收益41.34%，年化超额收益 35.50%，夏普比率 1.42，年化跟踪误差为 7.32%。"
+    },
+    {
+      "text": "股票样本协方差矩阵受限于样本数量规模并非正定矩阵，导致SOCP求解中特征分解不可逆、结果不稳定，无法正确构建指数增强组合。",
+      "evidence": "以沪深300指数为例，其 300个成分股的样本协方差矩阵受限于样本数量规模，其样本协方差矩阵并非为正定矩阵。"
+    },
+    {
+      "text": "国家因子对沪深300指数和中证500指数的风险贡献程度分别达到85.4%和93.7%；沪深300中Size因子风险贡献达7.30%，中证500中仅为1.37%。",
+      "evidence": "整体而言，沪深300指数和中证500指数作为市场上备受投资者关注的宽基指数，国家因子对其风险贡献程度分别达到 85.4%和93.7%。"
+    },
+    {
+      "text": "中证500相对沪深300的超额收益波动主要集中在风格因子上，Size因子对超额收益的风险贡献达到60.84%，Beta因子和Mid Capitalization因子分别为4.93%与4.84%。",
+      "evidence": "因此 Size因子对超额收益的风险贡献较高，达到 60.84%，Beta 因子和 Mid Capitalization 因子风险贡献分别为 4.93%与 4.84%；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Menchero, J., Wang, J., & Orr, D. (2011). Eigen-adjusted covariance matrices. MSCI Barra Research Paper(2011-14).",
+    "Morozov, J. Y. A. (2018). Barra China A Total Market Equity Trading Model (CNTR). MSCI Barra 2018.",
+    "《基于 Barra CNE6 的 A 股风险模型实践：风险因子篇——权益配置因子研究系列 06》（2024.05.19）",
+    "《桥水全天候策略和风险平价模型全解析——大类资产配置量化模型研究系列之三》（2023.05.27）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

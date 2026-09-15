@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "20210730-国泰君安-算法交易-002-利用高频数据监测机构动向",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "B+S",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{买单交易量傅里叶频谱峰值数量B与卖单频谱峰值数量S之和，反映机构参与交易的整体活跃程度}",
+          "stats": [null, null, null, null],
+          "evidence": "综合表 4、表 5 数据，B+S 与涨跌幅负相关，均值为-0.0559，75%的分位点的相关系数为 0.0014，接近于 0，说明大部分股票的 B+S 都与涨跌幅有负相关关系。"
+        },
+        {
+          "name": "B-S",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{买单交易量傅里叶频谱峰值数量B与卖单频谱峰值数量S之差，反映机构多空参与度的相对强弱}",
+          "stats": [null, null, null, null],
+          "evidence": "B-S与涨跌幅的相关关系均值为 0.0035，50%以上的股票与涨跌幅的相关系数为正。"
+        },
+        {
+          "name": "B/S",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{买单交易量傅里叶频谱峰值数量B与卖单频谱峰值数量S之比，反映机构算法交易方向}",
+          "stats": [null, null, null, null],
+          "evidence": "B/S与周涨跌幅正相关，但相关系数很小，均值为 0.0029。25%分位点的相关系数为 0.0010，表明 75%以上的股票存在该正相关关系。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "证券机构活跃地参与算法交易，往往会伴随着股价在中短期的下跌，机构整体参与度与周涨跌幅在截面上呈显著负相关，B+S 截面相关系数 t 检验结果为-2.070，p 值为 0.0650，在 10%水平下显著小于 0。",
+      "evidence": "截面数据上，机构整体参与度与周涨跌幅呈现显著的负相关关系。秩相关系数均值在 10%的水平下显著小于 0。由表 7 数据可得，B+S 截面相关系数 t 检验结果为-2.070，p 值为 0.0650。。"
+    },
+    {
+      "text": "算法单交易方向与股价的变动方向一致，B/S 与周涨跌幅截面秩相关系数显著为正，t 值为 3.381，在 10%的显著性水平下显著；B-S 与周涨跌幅无明显关系，t 值为 2.015，p 值大于 0.1。",
+      "evidence": "算法单峰值比例反映的机构算法交易方向与周涨跌幅正相关。表 7 数据可得 B/S 的 t 值为 3.381，在 10%的显著性水平下显著；但 B-S 反映的算法单交易方向与周涨跌幅无明显关系，t 值为 2.015，p 值大于 0.1。"
+    },
+    {
+      "text": "特征平稳性方面，B-S 在 1%显著性水平下、在 99.9%的股票中都表现出平稳性，B+S 在 10%的显著性水平下在 86.3%的股票中表现出平稳性，而 B/S 仅在 37.9%的股票中平稳。",
+      "evidence": "B-S在 1%显著性水平下、在 99.9%的股票中都表现出平稳性。B+S 在 10%的显著性水平下，在 86.3%的股票中表现出平稳性。B+S，B-S 的行为不随时间发生明显变化。"
+    },
+    {
+      "text": "B+S 与周涨跌幅的负相关关系在机构持仓较多的股票中更为明显，算法单交易方向与股价变动趋势相关性更强。",
+      "evidence": "B-S，B/S 与周涨跌幅相关性在基金公司重仓的股票表现的较为明显。对于机构大量持股的股票，机构进行的交易更好地反映了市场的多空意愿，算法单交易方向与股价变动趋势相关性更强，如万科A、美的集团、浙江龙盛、贵州茅台。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20211129-国泰君安-文献解读-024-如何在多因子模型中使用bl框架",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "quality", "dividend", "momentum", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "daily"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "view_blending", "impact"],
+      "setup": {"universe": ["all"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "BLB框架将投资经理关于因子风险溢价的观点整合进传统的APT多因子模型，贯通了APT和BL两大类资产配置方法，对战略资产配置有很好的借鉴意义。",
+      "evidence": "本文通过 BLB 框架，将投资经理关于因子风险溢价的观点整合进传统的 APT 多因子模型，贯通了 APT 和 BL两大类在资产配置领域中被广泛使用的方法，对指导战略资产配置有很好的借鉴意义。"
+    },
+    {
+      "text": "因子择时预测哪些因子将具有更高的收益率，任何此类预测都可以自然地被转化为对因子或因子组合的观点，纳入BLB框架的最优持仓构建。",
+      "evidence": "粗略地说，因子择时其实是在试图预测哪些因子将具有更高的收益率，因此任何此类预测都可以自然地被转化为对因子或因子组合的观点。"
+    },
+    {
+      "text": "从Sharpe比率来看BLB为1.16而MVO仅有0.9，两者换手率大致相当，每日平均换仓约为总市值的10%-15%，较高换手率主要因模型未考虑换仓成本。",
+      "evidence": "从 Sharpe 比率来看，BLB 为 1.16 而 MVO 仅有 0.9。另外，这两种方式的换手率大致相当，每日平均换仓约为总市值的 10%-15%，这种较高的换手率主要是因为在模型中暂时并没有考虑换仓成本。"
+    },
+    {
+      "text": "利用Woodbury逆矩阵技巧，协方差矩阵求逆最多只涉及n×k的矩阵，由于k远小于n，能极大地减少模型计算量。",
+      "evidence": "注意到上述计算最多只涉及到 n×k 的矩阵，由于 k（因子数量）远小于n（资产数量），相比于原始公式多处涉及 n×n 矩阵，能极大地减少模型计算量。"
+    },
+    {
+      "text": "BL模型为投资经理提供了额外的、以观点信心水平ω为参数的自由度，对方差-协方差矩阵的不稳定性较为迟钝，比MVO更有优势。",
+      "evidence": "由于 BL 模型为投资经理提供了额外的、以观点的信心水平ω 为参数的自由度，所以会更有优势，而这一切在 MVO 的分析中并不存在。"
+    },
+    {
+      "text": "只要后验分布隶属于椭圆分布族（如Student-t等肥尾分布），BLB框架下可以使用任意的先验和观点，任意风险厌恶型期望效用函数的最优化都可通过后验期望收益减去方差的常数倍得到。",
+      "evidence": "椭圆分布族是一类较为常见的分布，包括了诸如 Student-t 分布等肥尾分布。这意味着，在 BLB的框架下，只要后验分布p(r |q)隶属于椭圆分布族，可以使用任意的先验和观点，即便分布的充分统计量并不只是均值和方差。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Black, F., and R. B. Litterman. 1992. \"Global Portfolio Optimization.\" Financial Analysts Journal 48 (5): 28–43.",
+    "Chamberlain, G. 1983. \"A Characterization of the Distributions That Imply Mean–Variance Utility Functions.\" Journal of Economic Theory 29 (1): 185–201.",
+    "Gelman, A., J. B. Carlin, H. S. Stern, and D. B. Rubin. Bayesian Data Analysis. 2nd ed. Taylor & Francis, 2003.",
+    "Kolm, P. N., and G. Ritter. 2017. \"On the Bayesian Interpretation of Black–Litterman.\" European Journal of Operational Research 258 (2): 564–572.",
+    "Kolm, Petter N., and G. Ritter. Factor Investing with Black–Litterman–Bayes: Incorporating Factor Views and Priors in Portfolio Construction. The Journal of Portfolio Management, 2020, 47(2).",
+    "Ledoit, O., and M. Wolf. 2004. \"Honey, I Shrunk the Sample Covariance Matrix.\" The Journal of Portfolio Management 30 (4): 110–119."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20211012-国泰君安-文献解读-023-跨市场配置中的换手率预算最优化",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L5_portfolio": {
+      "module": ["L5_cost"],
+      "approach": ["turnover"],
+      "setup": {"universe": ["na"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "最优换手率预算水平随市场的信息比率、信息流动速度和风险厌恶水平的增加而增加，负相关于市场交易成本水平。",
+      "evidence": "本文发现最优换手率预算水平，随着市场的信息比率、信息流动速度和风险厌恶水平的增加而增加，但负相关于市场交易成本水平。"
+    },
+    {
+      "text": "alpha 信号存在速度差异时，信号变动更快的市场会挤占更多换手率，全局换手率预算约束下信息流动缓慢的市场最终将被“挤出”，即使其信息比率等 alpha 信号表现更好。",
+      "evidence": "例如，当不同市场的 alpha 信号存在速度差异时，信号变动更快的市场会挤占更多的换手率，所以在全局换手率预算存在约束的情况下，信息流动缓慢的市场最终将被“挤出”，即使它们在信息比率等 alpha 信号上存在更好的表现。"
+    },
+    {
+      "text": "多市场模型中应将更高比例的换手率预算分配给信息比率更高、信息流速度更快或交易成本更低的市场。",
+      "evidence": "对于多市场模型，则该将更高比例的换手率预算分配给具有如下性质的市场：（1）拥有更高的信息比率，（2）信息流速度更快，或（3）交易成本更低。"
+    },
+    {
+      "text": "数值模拟发现最优换手率预算对特定市场的风险厌恶水平不敏感。",
+      "evidence": "然而数值模拟发现，最优预算对特定市场的风险厌恶水平不敏感。"
+    },
+    {
+      "text": "信息流速度与最优换手率预算之间并非线性关系而是凹函数，信息流速度骤然提升时最佳换手率预算应保持大致稳定。",
+      "evidence": "然而与 Grinold的论证不一样的是，信息流速度与最优换手率预算之间并非线性关系而是一个凹函数。换句话说，即使市场信息流速度骤然提升，相应的最佳换手率预算也应该保持大致稳定。"
+    },
+    {
+      "text": "交易成本水平越高，应分配给该市场的最优换手率预算就越小。",
+      "evidence": "不出所料，交易成本水平越高，应分配给该市场的最优换手率预算就越小。"
+    },
+    {
+      "text": "单市场模型中最优换手率总是等于 d*=√(λ/χ)，而多市场模型中换手率预算的最优取值将发生跨市场联动。",
+      "evidence": "可以看到，在单市场模型中，此时最优换手率（令分子等于零）总是等于："
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Grinold, R. “A Dynamic Model of Portfolio Management.” Journal of Investment Management, 4 (2006), pp. 5–22.",
+    "Grinold, R. “Dynamic Portfolio Analysis.” Journal of Portfolio Management, Vol. 34, No. 1 (Fall 2007), pp. 12–26.",
+    "Hao, Yin. Optimal Turnover Constraints: Scarcity Is Everywhere[J]. The Journal of Portfolio Management, 2009, 35(4):69-75."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

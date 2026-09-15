@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20210526-国泰君安-文献解读-014-战术资产配置的量化方法_下",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "对择时系统进行样本外（2006-2017年）检验，回测结果符合预期——无论是单类资产还是投资组合，应用择时系统后均能够提高风险调整收益。",
+      "evidence": "作者对择时系统进行了样本外（2006-2017年）检验，回测结果符合预期——无论是单类资产还是投资组合，应用择时系统后均能够提高风险调整收益。"
+    },
+    {
+      "text": "从表中可以看到，无论是样本内还是样本外，择时系统均提高了收益率水平，同时降低了波动率与最大回撤。",
+      "evidence": "从表中可以看到，无论是样本内还是样本外，择时系统均提高了收益率水平，同时降低了波动率与最大回撤。"
+    },
+    {
+      "text": "应用于GAA组合的QTAA策略在样本外（2006-2016年）取得4.88%收益、夏普比率0.59、最大回撤-9.45%，而GAA仅为3.51%、0.19、-46.00%，择时配置策略均可以将波动性和最大回撤降低至个位数水平。",
+      "evidence": "从表中可以看到，无论是在样本内还是样本外，择时配置策略均可以将波动性和最大回撤降低至个位数水平。"
+    },
+    {
+      "text": "分别使用6-Month SMA、8-Month SMA、12-Month SMA回测，SMA参数的选择并没有那么重要，采用任何一种长度SMA的择时系统其业绩表现都明显优于买入持有配置策略。",
+      "evidence": "从表中可以看到，SMA 参数的选择并没有那么重要，采用任何一种长度 SMA的择时系统其业绩表现都明显优于买入持有配置策略。"
+    },
+    {
+      "text": "QTAA组合平均约持有30%现金，将现金部分投资于10年期国债，在波动性和最大回撤略微增大的情况下，通过将现金购买10年期国债可以实现近2%的额外年化收益。",
+      "evidence": "从表中可以看到，在波动性和最大回撤略微增大的情况下，通过将现金购买 10 年期国债可以实现近2%的额外年化收益。"
+    },
+    {
+      "text": "激进型QTAA根据最近1、3、6、12个月总收益平均值排序选取前三资产，1972-2016年收益率13.40%、夏普比率0.89均为最高，尽管波动率和回撤量有所增加。",
+      "evidence": "从表中可以看到，尽管激进型 QTAA 的波动率和回撤量有所增加，但其收益率和夏普比率也是最高的。"
+    },
+    {
+      "text": "将待配置资产从5类拓展到13类后，包含更多资产类别的投资组合（GAA+和 QTAA+）可以提高约150个基点的收益，夏普比率也有明显提高。",
+      "evidence": "从表中可以看到，包含更多资产类别的投资组合（GAA+和 QTAA+）可以提高约 150 个基点的收益，夏普比率也有明显提高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Faber, M. (2007). \"A Quantitative Approach to Tactical Asset Allocation\". The Journal of Portfolio Management.",
+    "Faber, M. (2010). \"Relative Strength Strategies for Investing\".",
+    "Faber, M. (2017). \"A Quantitative Approach to Tactical Asset Allocation Revisited 10 Years Later\". The Journal of Portfolio Management. 44.2(2017): 156-167.",
+    "《战术资产配置的量化方法（上）——精品文献解读系列（十三）》（2021.05.11）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "schema_version": 2,
+  "id": "20180206-国泰君安-数量化专题-103-esg投资之公司治理",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior", "corporate_event", "firm_attribute"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ESG公司治理评价因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GF_{n}=\\sum_{j}F_{j,n}",
+          "stats": [0.0206, null, 1.58, 0.0281],
+          "evidence": "经行业、风格因子风险调整之后的 ESG 公司治理评价因子的 IC 为 0.02，ICIR为 1.58，t统计量为 4.44，因子显著性较高。"
+        },
+        {
+          "name": "独立董事比例",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{独立董事人数 / 董事会总人数}",
+          "stats": [null, null, null, null],
+          "evidence": "关于董事会独立性方面，我们考察的问题是独立董事结构是否合理，是否能够充分发挥作用，对此我们筛选了独立董事比例、其财务（法律）专家比例、其是否出席所有董事会会议、其高于 60 岁比例、其工作地点是否与其公司一致以及其是否有多重董事身份等7 个指标进行评价。"
+        },
+        {
+          "name": "高管持股比例",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{高管持股数 / 总股本}",
+          "stats": [null, null, null, null],
+          "evidence": "关于内部持股方面，我们筛选了监事持股比例、高管持股比例以及管理层（除高管外）持股比例等 3 个指标进行评价。"
+        },
+        {
+          "name": "股权集中度指标（前8大股东股票比例）",
+          "family": "other",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{前8大股东持股比例之和}",
+          "stats": [null, null, null, null],
+          "evidence": "首先，我们对股权集中度切入进行分析，在A股市场中，上市公司的股权集中度普遍较高，股权集中的好处是在于大股东拥有较强的权力，大股东与管理层之间的代理成本较低，但却增加了大股东与中小股东之间的代理成本"
+        },
+        {
+          "name": "大股东占款率（其他应收款/总资产）",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{其他应收款}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "另一方面选择大股东占款率（其他应收款/总资产）作为第三类代理成本的代理指标（姜国华等（2005））"
+        },
+        {
+          "name": "投资者调研次数",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{统计期内投资者调研次数}",
+          "stats": [null, null, null, null],
+          "evidence": "对于投资者信息交流，主要统计投资者调研次数以及调研机构、媒体数等2个指标。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "经行业、风格因子风险调整之后的ESG公司治理评价因子IC为0.02，ICIR为1.58，t统计量为4.44，因子显著性较高。",
+      "evidence": "经行业、风格因子风险调整之后的 ESG 公司治理评价因子的 IC 为 0.02，ICIR为 1.58，t统计量为 4.44，因子显著性较高。"
+    },
+    {
+      "text": "公司治理因子在大市值域具有更强的选股能力，IC为0.026，相较于中市值域0.019以及小市值域0.02均有显著提升。",
+      "evidence": "检验ESG公司治理评价因子在大市值域与小市值域中的显著性差异，结果表明其IC为 0.026，相较于中市值域IC 值 0.019以及小市值域 IC 值 0.02 均有显著提升。"
+    },
+    {
+      "text": "全市场优质筛选策略年化超额收益率（相对于万得全A）为11.78%，沪深300优质筛选策略年化超额收益率为6.10%，负面排除策略贡献负向超额。",
+      "evidence": "全市场优质筛选策略年化超额收益率（相对于万得全 A）为 11.78%，负面排除策略年化超额收益率为-3.78%；沪深 300优质筛选策略年化超额收益率（相对于沪深 300）为 6.10%，负面排除策略年化超额收益率为-1.14%。"
+    },
+    {
+      "text": "ESG公司治理评价因子结合盈利的组合策略（G+EY）相对万得全A年化超额收益14.4%，IR由1.38提升至1.68，最大回撤由25.1%降至16.6%。",
+      "evidence": "其中ESG 公司治理评价因子结合盈利的组合策略（G+EY）相对万得全A 年化超额收益 14.4%，跑赢盈利单因子策略 1.5%，IR 由 1.38提升至 1.68，最大回撤由 25.1%降至 16.6%。"
+    },
+    {
+      "text": "G指数累计超额收益76.55%，年化超额收益率为6.96%，2017年全年相对沪深300指数超额收益25.04%，IR为3.14。",
+      "evidence": "G 指数累计超额收益 76.55%，年化超额收益率为 6.96%，年化换手率为 70%。特别是在2017年，其全年相对沪深300指数超额收益 25.04%，月超额胜率为 75%，IR 为 3.14"
+    },
+    {
+      "text": "ESG公司治理评价因子收益衰退缓慢，累计120天衰减了不足1%的收益，比较适合慢牛环境。",
+      "evidence": "观察下图结果可以发现，ESG 公司治理评价因子收益衰退缓慢，累计120 天衰减了不足1%的收益，比较适合慢牛环境。"
+    },
+    {
+      "text": "ESG公司治理评价因子与大市值、高盈利、低杠杆有一定的相关关系，但相关系数均不高，因子独立性较高。",
+      "evidence": "ESG公司治理评价因子与大市值、高盈利、低杠杆有一定的相关关系，但相关系数均不高，因子独立性较高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Jensen & Meckling（1976）",
+    "Lipton & Lorsch（1992）",
+    "MSCI ESG Ratings",
+    "Yermack（1996）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "20200214-国盛证券-多因子系列-009-海外市场市值和价值因子演化研究",
+  "genre": "research",
+  "asset": ["stock_us"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["regression_test", "robustness", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "价值和市值因子收益较低，且在样本外出现明显的衰退；1927年1月到2019年12月底美国市场上动量因子最强，年化收益达7.16%，小市值年化收益2.15%，价值因子3.06%。",
+      "evidence": "相比于动量和质量，价值和市值因子收益较低，且在样本外出现明显的衰退。从 1927 年 1月到 2019 年 12月底，美国市场上动量因子最强，年化收益达7.16%；其次为质量因子；小市值年化收益 2.15%，价值因子 3.06%，且在样本外出现明显的衰退。"
+    },
+    {
+      "text": "美股市值溢价大部分来自于小市值多头的收益，小市值更像是一个风险代理变量，市值因子在剥离流动性风险后几乎不存在超额收益。",
+      "evidence": "美股市值溢价大部分来自于小市值多头的收益，主要是由于小公司承担了更多的流动性风险。小市值更像是一个风险代理变量，市值因子在剥离流动性风险后几乎不存在超额收益。"
+    },
+    {
+      "text": "剥离流动性指标后SMB残差收益几乎不存在超额收益，从侧面反映了小市值股票在交易层面的流动性风险。",
+      "evidence": "指标显著，且在剥离了流动性指标后，残差收益几乎不存在超额收益，从侧面反映了小市值股票在交易层面的流动性风险。"
+    },
+    {
+      "text": "日本自90年代完全放开资本市场以后，出现小盘向大盘风格切换：1990年以前国际机构投资者主要流入小盘股，90年后更多流入大盘股，且交叉持股限制放开提升了股票流动性。",
+      "evidence": "日本自 90 年代完全放开资本市场以后，出现小盘向大盘风格切换，原因其一，在 1990 年以前，国际机构投资者主要流入小盘股，推动小票价格上升，而在 90 年后更多流入大盘股；其二，市场放开交叉持股限制，股票流动性进一步提升。"
+    },
+    {
+      "text": "美股价值溢价主要来自于估值的均值回复效应，在错误定价可能性更高的小市值样本、低质量样本和低机构投资者样本中，价值效应更明显。",
+      "evidence": "美股价值溢价主要来自于估值的均值回复效应。由于价值股往往被市场低估，因此存在较多错误定价的机会，价值股的估值修复带来多头收益，而成长股的估值回落贡献空头收益。我们发现，在错误定价可能性更高的小市值样本、低质量样本和低机构投资者样本中，价值效应更明显。"
+    },
+    {
+      "text": "美股近十年来价值策略的失效主要来自于市场定价效率的提升、因子失真以及策略的行业偏离，价值策略失效已将近十年。",
+      "evidence": "美股近十年来价值策略的失效主要来自于市场定价效率的提升、因子失真以及策略的行业偏离。从历史演化来看，美国市场上价值策略失效已将近十年。"
+    },
+    {
+      "text": "相比于易失真的BP因子，EP和CFP因子在历史上获取了更高的收益，多空年化收益分别为3.78%和3.40%（1951~2019），均好于BP多空组合的3.18%。",
+      "evidence": "相比于易失真的BP因子，EP和CFP因子在历史上获取了更高的收益。参考Fama&French的数据，EP 和 CFP 的多空年化收益分别为 3.78%和 3.40%（1951~2019），均好于 BP多空组合的 3.18%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alquist R, Israel R, Moskowitz T. Fact, fiction, and the size effect[J]. The Journal of Portfolio Management, 2018, 45(1): 34-61.",
+    "Fama E F, French K R. The cross‐section of expected stock returns[J]. the Journal of Finance, 1992, 47(2): 427-465.",
+    "Fama, E F. and French, K R., Migration (February 2007). CRSP Working Paper No. 614.",
+    "Harvey C R, Liu Y, Zhu H. … and the cross-section of expected returns[J]. The Review of Financial Studies, 2016, 29(1): 5-68.",
+    "Jiang H, Yamada T. The impact of international institutional investors on local equity prices: Reversal of the size premium[J]. Financial Analysts Journal, 2011, 67(6): 61-76.",
+    "Linnainmaa J T, Roberts M R. The history of the cross-section of stock returns[J]. The Review of Financial Studies, 2018, 31(7): 2606-2649."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}
