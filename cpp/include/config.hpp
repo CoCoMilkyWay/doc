@@ -7,6 +7,9 @@
 inline constexpr const char *RAW_REPORT_DIR = "resources-raw/report";   // 研报 PDF 输入, 层次 {券商}/{系列}/
 inline constexpr const char *PROC_REPORT_DIR = "resources-proc/report"; // 转换产物, 与输入同层次
 inline constexpr const char *MINERU_DIR = "cpp/package/MinerU";         // MinerU 源码 (剪裁版)
+// stage3 tag 的标签 json, 与 PROC_REPORT_DIR 同层次但独立成树: {券商}/{系列}/{stem}.json
+// (不能放进 proc 的 {stem}/ 内: .stat 清单是 list_tree 逐行相等, 多一个文件即判 [不完整])
+inline constexpr const char *TAG_REPORT_DIR = "resources-tag/report";
 // 内置便携版 CPython (python-build-standalone, 自带 pip, 不依赖系统 python, 整目录搬迁/换机器直接可用):
 //   https://github.com/astral-sh/python-build-standalone/releases
 inline constexpr const char *MINERU_PYTHON_DIR = "cpp/package/python";

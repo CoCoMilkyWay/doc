@@ -87,6 +87,24 @@ std::vector<char32_t> decode_utf8(const std::string &s) {
   return cps;
 }
 
+void append_utf8(std::string &out, char32_t cp) {
+  if (cp < 0x80) {
+    out += (char)cp;
+  } else if (cp < 0x800) {
+    out += (char)(0xC0 | (cp >> 6));
+    out += (char)(0x80 | (cp & 0x3F));
+  } else if (cp < 0x10000) {
+    out += (char)(0xE0 | (cp >> 12));
+    out += (char)(0x80 | ((cp >> 6) & 0x3F));
+    out += (char)(0x80 | (cp & 0x3F));
+  } else {
+    out += (char)(0xF0 | (cp >> 18));
+    out += (char)(0x80 | ((cp >> 12) & 0x3F));
+    out += (char)(0x80 | ((cp >> 6) & 0x3F));
+    out += (char)(0x80 | (cp & 0x3F));
+  }
+}
+
 bool is_digit(char32_t c) { return c >= '0' && c <= '9'; }
 bool is_lower(char32_t c) { return c >= 'a' && c <= 'z'; }
 bool is_cjk(char32_t c) {

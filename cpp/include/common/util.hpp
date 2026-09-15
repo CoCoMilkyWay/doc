@@ -15,6 +15,8 @@ std::string lower_ascii(std::string s);
 
 // UTF-8 解码; 非法序列产出 U+FFFD (不属于任何字符类, 必然触发结构违规)
 std::vector<char32_t> decode_utf8(const std::string &s);
+// UTF-8 编码 (追加到 out)
+void append_utf8(std::string &out, char32_t cp);
 
 // 文件名字符类
 bool is_digit(char32_t c);

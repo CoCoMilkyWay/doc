@@ -28,6 +28,7 @@ add_library(docpipe_core STATIC
   src/common/proc.cpp
   src/common/sha256.cpp
   src/common/pdftext.cpp
+  src/common/json.cpp
   src/stages/registry.cpp
   src/stages/scan/scan.cpp
   src/stages/scan/walk.cpp
@@ -39,6 +40,11 @@ add_library(docpipe_core STATIC
   src/stages/convert/env.cpp
   src/stages/convert/stat.cpp
   src/stages/convert/check.cpp
+  src/stages/tag/tag.cpp
+  src/stages/tag/parse.cpp
+  src/stages/tag/rules.cpp
+  src/stages/tag/cross.cpp
+  src/stages/tag/report.cpp
 )
 target_include_directories(docpipe_core PUBLIC include)
 target_link_libraries(docpipe_core PUBLIC Threads::Threads PkgConfig::POPPLER_CPP)

@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 """cpp/ 下 docpipe 流水线的启动器: 按需 cmake 配置 + 增量编译, 然后以本目录为 ROOT 执行。
 
-用法: python3 run.py [stage...]     不指定 stage 则按序全跑: scan -> convert
+用法: python3 run.py [stage...]     不指定 stage 则按序全跑: scan -> convert -> tag
 目录布局与全部参数见 cpp/include/config.hpp; 各 stage 的规则与输出格式见
-cpp/include/stages/{scan/scan.hpp, convert/convert.hpp} 头部注释。
+cpp/include/stages/{scan/scan.hpp, convert/convert.hpp, tag/tag.hpp} 头部注释。
 """
 import os, shutil, subprocess, sys
 
