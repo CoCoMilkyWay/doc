@@ -103,7 +103,10 @@ inline constexpr bool MINERU_TABLE = true;   // 关掉可省 4 个模型
 // 无卡用 cpu (CPU/GPU 通用: 同一份代码换机器不用改); 也可写死 "cpu"/"cuda" 强制指定, 跳过探测
 inline constexpr const char *MINERU_DEVICE = "auto";
 inline constexpr const char *MINERU_MODEL_SOURCE = "local";       // 环境变量 MINERU_MODEL_SOURCE, 跑前已校验模型齐备, 不联网
-inline constexpr const char *MINERU_FORMULA_CH_SUPPORT = "false"; // 环境变量; true 换用支持中文的 pp_formulanet_plus_m
+// 环境变量; false 用 unimernet_hf_small_2503 (纯英文/LaTeX 训练), 中文研报里"公式+中文变量说明"混排的
+// 行会被整行判成公式, 中文全被猜成最接近的 LaTeX 符号 (\dot{\eta}\dot{\pi}... 一类乱码), 故换用
+// 支持中文的 pp_formulanet_plus_m
+inline constexpr const char *MINERU_FORMULA_CH_SUPPORT = "true";
 // 环境变量 MINERU_API_MAX_CONCURRENT_REQUESTS: 本地 mineru-api 同时处理的任务数. MinerU 默认 3, 那是给 GPU
 // 的; CPU 上每个任务的 torch 都默认吃满全部核, 3 个并发 = 3 倍线程抢同一批核, 只会更慢, 还把日志交错成一团.
 // GPU 下暂时也保持 1: 并发数受显存约束 (每个任务一份模型权重), 调高前先看实测显存占用
