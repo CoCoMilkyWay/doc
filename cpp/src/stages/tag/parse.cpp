@@ -10,25 +10,45 @@
 
 namespace {
 
-// 数字 lexeme 规范形: -?(0|[1-9]\d*)(\.\d*[1-9])?  (无指数, 无尾零, 无 -0); integer 时不允许小数部分
-bool canon_number(const std::string &s, bool integer) {
-  size_t i = 0;
-  if (i < s.size() && s[i] == '-')
-    ++i;
-  size_t int_beg = i;
+// F3 的一部分: 数字 lexeme 归一到 -?(0|[1-9]\d*)(\.\d*[1-9])? (展开指数, 去前导零与尾零, -0 → 0).
+// 只改写法不改值 —— json.hpp 有意保留原文, 这里按标签的规范形重写一遍, 和键序同属 "格式化" 而不是违规:
+// 为 "0.10" 这种事让 agent 多跑一轮不值 (一轮 ~5 分钱 ~40 秒). 真正的类型错误 (int 带小数) 仍由 S2 判.
+// 指数过大时原样留着 (只做改写不做兜底, 越界的值交给 K2 的取值域去判, 不在这里展开出一串零)
+std::string norm_number(const std::string &s) {
+  bool neg = s[0] == '-';
+  size_t i = neg ? 1 : 0;
+  std::string d; // 全部数字, 小数点在下标 pt 处
   while (i < s.size() && is_digit(s[i]))
-    ++i;
-  if (i == int_beg || (s[int_beg] == '0' && i - int_beg > 1))
-    return false;
-  if (i == s.size())
-    return !(s == "-0");
-  if (integer || s[i] != '.')
-    return false;
-  ++i;
-  size_t frac_beg = i;
-  while (i < s.size() && is_digit(s[i]))
-    ++i;
-  return i == s.size() && i != frac_beg && s[i - 1] != '0'; // 无尾零 => -0.0… 也被排除
+    d += s[i++];
+  long pt = (long)d.size();
+  if (i < s.size() && s[i] == '.')
+    for (++i; i < s.size() && is_digit(s[i]); ++i)
+      d += s[i];
+  if (i < s.size())
+    pt += atol(s.c_str() + i + 1); // 余下只可能是 e/E[+-]NN (json.cpp::number 已保证)
+  if (pt < -64 || pt > 64 || d.size() > 64)
+    return s;
+  if (pt <= 0) {
+    d.insert(0, (size_t)(1 - pt), '0');
+    pt = 1;
+  }
+  if ((size_t)pt > d.size())
+    d.append((size_t)pt - d.size(), '0');
+  std::string ip = d.substr(0, (size_t)pt), fp = d.substr((size_t)pt);
+  ip.erase(0, std::min(ip.find_first_not_of('0'), ip.size() - 1));
+  while (!fp.empty() && fp.back() == '0')
+    fp.pop_back();
+  std::string out = fp.empty() ? ip : ip + "." + fp;
+  return neg && out != "0" ? "-" + out : out;
+}
+
+void norm_numbers(Json &j) {
+  if (j.kind == Json::Number)
+    j.num = norm_number(j.num);
+  for (Json &e : j.arr)
+    norm_numbers(e);
+  for (Json &v : j.vals)
+    norm_numbers(v);
 }
 
 bool trimmed_nonempty(const std::string &s) {
@@ -65,8 +85,8 @@ struct Reader {
     keys(obj, std::span<const char *const>(want.begin(), want.size()), path);
   }
 
-  const Json *typed(const Json &obj, const char *key, Json::Kind kind, const char *path) {
-    const Json *v = obj.get(key);
+  Json *typed(Json &obj, const char *key, Json::Kind kind, const char *path) {
+    Json *v = obj.get(key);
     if (!v)
       return nullptr; // S1 已报
     if (v->kind != kind) {
@@ -76,7 +96,7 @@ struct Reader {
     return v;
   }
 
-  bool str(const Json &obj, const char *key, const char *path, std::string &out, size_t max_cp = 0) {
+  bool str(Json &obj, const char *key, const char *path, std::string &out, size_t max_cp = 0) {
     const Json *v = typed(obj, key, Json::String, path);
     if (!v)
       return false;
@@ -90,12 +110,12 @@ struct Reader {
     return true;
   }
 
-  bool integer(const Json &obj, const char *key, const char *path, int &out) {
+  bool integer(Json &obj, const char *key, const char *path, int &out) {
     const Json *v = typed(obj, key, Json::Number, path);
     if (!v)
       return false;
-    if (!canon_number(v->num, true)) {
-      bad(F("S2 %s.%s 非规范整数 %s", path, key, v->num.c_str()), true);
+    if (v->num.find('.') != std::string::npos) { // 归一后还带小数点 = 真的不是整数
+      bad(F("S2 %s.%s 非整数 %s", path, key, v->num.c_str()), true);
       return false;
     }
     out = atoi(v->num.c_str());
@@ -103,7 +123,7 @@ struct Reader {
   }
 
   template <class E>
-  bool enum1(const Json &obj, const char *key, const char *path, bool (*parse)(std::string_view, E &), E &out) {
+  bool enum1(Json &obj, const char *key, const char *path, bool (*parse)(std::string_view, E &), E &out) {
     const Json *v = typed(obj, key, Json::String, path);
     if (!v)
       return false;
@@ -114,11 +134,25 @@ struct Reader {
     return true;
   }
 
-  // 枚举列表: V1 词表内, S3 按词表序严格递增 (自然去重), S4 非空 (nonempty 时)
+  // F3 的一部分: 列表原地排序去重后写回 (元素不动, 只换顺序 —— 和键序、数字写法同属 "格式化".
+  // 实测模型两轮能把同一个列表排成两种相反的顺序: 它在猜, 词表序说明写得再细也治不了, 顺手替它排掉)
+  template <class T, class Code>
+  void sort_back(Json &v, std::vector<T> &out, Code code) {
+    std::sort(out.begin(), out.end());
+    out.erase(std::unique(out.begin(), out.end()), out.end());
+    v.arr.clear();
+    for (const T &t : out) {
+      Json &j = v.arr.emplace_back();
+      j.kind = Json::String;
+      j.str = code(t);
+    }
+  }
+
+  // 枚举列表: V1 词表内, S4 非空 (nonempty 时); 顺序与重复由 F3 按词表序修掉
   template <class E>
-  bool enum_list(const Json &obj, const char *key, const char *path, bool (*parse)(std::string_view, E &),
+  bool enum_list(Json &obj, const char *key, const char *path, bool (*parse)(std::string_view, E &),
                  std::vector<E> &out, bool nonempty) {
-    const Json *v = typed(obj, key, Json::Array, path);
+    Json *v = typed(obj, key, Json::Array, path);
     if (!v)
       return false;
     bool ok = true;
@@ -133,20 +167,20 @@ struct Reader {
         ok = false;
         continue;
       }
-      if (!out.empty() && !(out.back() < val))
-        bad(F("S3 %s.%s 未按词表序去重 (%s)", path, key, e.str.c_str()), false);
       out.push_back(val);
     }
     if (nonempty && v->arr.empty()) {
       bad(F("S4 %s.%s 为空", path, key), true);
       return false;
     }
+    if (ok) // 有词表外的元素就别写回, 否则等于把它悄悄删了 (V1 已致命, 这篇本来就要打回)
+      sort_back(*v, out, [](E e) { return code_of(e); });
     return ok;
   }
 
-  // 字符串列表: S2 非空项, S3 字节序严格递增
-  bool str_list(const Json &obj, const char *key, const char *path, std::vector<std::string> &out) {
-    const Json *v = typed(obj, key, Json::Array, path);
+  // 字符串列表: S2 非空项; 顺序与重复由 F3 按字节序修掉
+  bool str_list(Json &obj, const char *key, const char *path, std::vector<std::string> &out) {
+    Json *v = typed(obj, key, Json::Array, path);
     if (!v)
       return false;
     for (const Json &e : v->arr) {
@@ -154,18 +188,17 @@ struct Reader {
         bad(F("S2 %s.%s 元素非字符串或为空", path, key), true);
         return false;
       }
-      if (!out.empty() && !(out.back() < e.str))
-        bad(F("S3 %s.%s 未按字节序去重 (%s)", path, key, e.str.c_str()), false);
       out.push_back(e.str);
     }
+    sort_back(*v, out, [](const std::string &s) { return s; });
     return true;
   }
 
   // 对象列表: 每项非对象 => S2 (致命); 回调返回该项是否完整可用
   template <class T>
-  void obj_list(const Json &obj, const char *key, const char *path, std::vector<T> &out,
-                bool (*item)(Reader &, const Json &, const char *, T &)) {
-    const Json *v = typed(obj, key, Json::Array, path);
+  void obj_list(Json &obj, const char *key, const char *path, std::vector<T> &out,
+                bool (*item)(Reader &, Json &, const char *, T &)) {
+    Json *v = typed(obj, key, Json::Array, path);
     if (!v)
       return;
     for (size_t k = 0; k < v->arr.size(); ++k) {
@@ -181,7 +214,7 @@ struct Reader {
   }
 };
 
-bool read_factor(Reader &r, const Json &e, const char *path, FactorTag &f) {
+bool read_factor(Reader &r, Json &e, const char *path, FactorTag &f) {
   r.keys(e, {"name", "family", "direction", "evidence"}, path);
   bool ok = r.str(e, "name", path, f.name, TAG_MAX_FACTOR_NAME_CP);
   ok &= r.enum1(e, "family", path, parse_FactorFamily, f.family);
@@ -190,7 +223,7 @@ bool read_factor(Reader &r, const Json &e, const char *path, FactorTag &f) {
   return ok;
 }
 
-bool read_finding(Reader &r, const Json &e, const char *path, Finding &f) {
+bool read_finding(Reader &r, Json &e, const char *path, Finding &f) {
   r.keys(e, {"text", "evidence"}, path);
   bool ok = r.str(e, "text", path, f.text);
   ok &= r.str(e, "evidence", path, f.evidence);
@@ -199,21 +232,16 @@ bool read_finding(Reader &r, const Json &e, const char *path, Finding &f) {
 
 // Metric: pool 阶段多一个 universe 键
 template <bool POOL>
-bool read_metric(Reader &r, const Json &e, const char *path, Metric &m) {
+bool read_metric(Reader &r, Json &e, const char *path, Metric &m) {
   if (POOL)
     r.keys(e, {"kind", "value", "universe", "period", "evidence"}, path);
   else
     r.keys(e, {"kind", "value", "period", "evidence"}, path);
   bool ok = r.enum1(e, "kind", path, parse_MetricKind, m.kind);
-  if (const Json *v = r.typed(e, "value", Json::Number, path)) {
-    if (!canon_number(v->num, false)) {
-      r.bad(F("S2 %s.value 非规范数字 %s", path, v->num.c_str()), true);
-      ok = false;
-    }
-    m.value = v->num;
-  } else {
+  if (const Json *v = r.typed(e, "value", Json::Number, path))
+    m.value = v->num; // 写法已由 norm_numbers 归一, 取值域归 K2
+  else
     ok = false;
-  }
   if (POOL)
     ok &= r.enum1(e, "universe", path, parse_Universe, m.universe);
   if (const Json *p = r.typed(e, "period", Json::Array, path)) {
@@ -233,7 +261,7 @@ bool read_metric(Reader &r, const Json &e, const char *path, Metric &m) {
 }
 
 // 一个阶段子结构: 键集与字段布局由 STAGE_SPEC 决定
-void read_stage(Reader &r, const Json &obj, PipeStage st, StageTag &s) {
+void read_stage(Reader &r, Json &obj, PipeStage st, StageTag &s) {
   const StageSpec &sp = STAGE_SPEC[(size_t)st];
   const char *path = code_of(st);
   std::vector<const char *> want = {"module", "approach"};
@@ -251,7 +279,7 @@ void read_stage(Reader &r, const Json &obj, PipeStage st, StageTag &s) {
     r.enum_list(obj, "baseline", path, parse_Approach, s.baseline, false);
 
   if (sp.has_setup())
-    if (const Json *su = r.typed(obj, "setup", Json::Object, path)) {
+    if (Json *su = r.typed(obj, "setup", Json::Object, path)) {
       std::string sp_path = F("%s.setup", path);
       std::vector<const char *> keys;
       if (sp.universe)
@@ -270,14 +298,14 @@ void read_stage(Reader &r, const Json &obj, PipeStage st, StageTag &s) {
       if (sp.universe)
         r.enum_list(*su, "universe", sp_path.c_str(), parse_Universe, s.universe, true);
       if (sp.data)
-        if (const Json *d = r.typed(*su, "data", Json::Object, sp_path.c_str())) {
+        if (Json *d = r.typed(*su, "data", Json::Object, sp_path.c_str())) {
           std::string dp = sp_path + ".data";
           r.keys(*d, {"source", "freq"}, dp.c_str());
           r.enum_list(*d, "source", dp.c_str(), parse_DataSource, s.data.source, true);
           r.enum1(*d, "freq", dp.c_str(), parse_DataFreq, s.data.freq);
         }
       if (sp.holding)
-        if (const Json *h = r.typed(*su, "holding", Json::Object, sp_path.c_str())) {
+        if (Json *h = r.typed(*su, "holding", Json::Object, sp_path.c_str())) {
           std::string hp = sp_path + ".holding";
           r.keys(*h, {"rebalance", "horizon"}, hp.c_str());
           r.enum1(*h, "rebalance", hp.c_str(), parse_Period, s.holding.rebalance);
@@ -292,7 +320,7 @@ void read_stage(Reader &r, const Json &obj, PipeStage st, StageTag &s) {
     }
 
   if (sp.has_result())
-    if (const Json *re = r.typed(obj, "result", Json::Object, path)) {
+    if (Json *re = r.typed(obj, "result", Json::Object, path)) {
       std::string rp = F("%s.result", path);
       std::vector<const char *> keys;
       if (sp.factors)
@@ -322,7 +350,7 @@ bool parse_tag(const std::string &text, const std::string &stem, Tag &tag, std::
     return false;
   }
   Reader r{viol};
-  canon = json_canonical(j, tag_key_rank); // F3: 与文件不同时由调用方覆盖写回, 不算违规
+  norm_numbers(j); // F3 的一部分, 早于各规则做 (它们读到的也是归一后的 lexeme); 列表排序在下面各 Reader 里就地做
 
   r.keys(j, {"schema_version", "id", "genre", "asset", "primary", "pipe", "findings", "builds_on", "external_ref", "value", "gen"}, "顶层");
 
@@ -336,7 +364,7 @@ bool parse_tag(const std::string &text, const std::string &stem, Tag &tag, std::
   r.enum1(j, "primary", "顶层", parse_PipeStage, tag.primary);
 
   // pipe: 键 = 出现的阶段 (F3 已保证键按字节序 = 阶段序), 值 = 阶段子结构
-  if (const Json *pipe = r.typed(j, "pipe", Json::Object, "顶层")) {
+  if (Json *pipe = r.typed(j, "pipe", Json::Object, "顶层")) {
     if (pipe->keys.empty())
       r.bad("S4 pipe 无阶段", true);
     for (size_t k = 0; k < pipe->keys.size(); ++k) {
@@ -353,7 +381,7 @@ bool parse_tag(const std::string &text, const std::string &stem, Tag &tag, std::
     }
   }
 
-  if (const Json *fi = r.typed(j, "findings", Json::Array, "顶层")) {
+  if (Json *fi = r.typed(j, "findings", Json::Array, "顶层")) {
     findings_key = json_canonical(*fi);
     if (fi->arr.empty())
       r.bad("S4 findings 为空", true);
@@ -364,7 +392,7 @@ bool parse_tag(const std::string &text, const std::string &stem, Tag &tag, std::
   r.str_list(j, "external_ref", "顶层", tag.external_ref);
   r.enum1(j, "value", "顶层", parse_Value, tag.value);
 
-  if (const Json *g = r.typed(j, "gen", Json::Object, "顶层")) {
+  if (Json *g = r.typed(j, "gen", Json::Object, "顶层")) {
     r.keys(*g, {"model", "prompt_sha256"}, "gen");
     r.str(*g, "model", "gen", tag.gen.model);
     if (r.str(*g, "prompt_sha256", "gen", tag.gen.prompt_sha256)) {
@@ -376,5 +404,7 @@ bool parse_tag(const std::string &text, const std::string &stem, Tag &tag, std::
     }
   }
 
+  // F3: 数字与列表都已就地归一, 这里才定稿; 与文件不同时由调用方覆盖写回, 不算违规
+  canon = json_canonical(j, tag_key_rank);
   return !r.fatal;
 }

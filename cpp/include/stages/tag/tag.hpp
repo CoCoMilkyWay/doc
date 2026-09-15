@@ -18,14 +18,17 @@
 // F 文件级 (不读内容)
 //   F1  1:1        标签树上每个 .json 必须对应 raw 的某个 PDF (目录+stem 均一致); 非 .json 文件 => [多余]
 //   F2  id         json 内 id == 文件名 stem
-//   F3  规范格式    文件字节 != json_canonical(解析结果, tag_key_rank) (键按 schema 字段序, 2 空格缩进, 数字原文, 末尾换行)
+//   F3  规范格式    文件字节 != json_canonical(归一后的解析结果, tag_key_rank) (键按 schema 字段序, 2 空格缩进, 末尾换行;
+//                  小 list/小 dict 单行放得下就单行 (见 json.hpp); 数字 lexeme 归一: 展开指数 / 去前导零与尾零 / -0 → 0;
+//                  列表按 S3 的序排序去重) —— 三者都只改写法不改语义
 //                  => 覆盖写回, 计 [格式化], 不违规 (LLM 生成的第一版也由此过 formatter); 解析失败才违规
 //   F4  接地依据    对应 proc 的 report.md 必须存在 (否则 G 规则无法执行)
 // S 结构级
 //   S1  键集合      顶层 / pipe (键 ⊆ PipeStage code) / 阶段子结构 / setup / result / Data / Holding / Metric / Factor
 //                  / Finding / gen 的键集合恰好等于 schema (STAGE_SPEC 决定各阶段 setup/result 有哪些键)
-//   S2  类型        整数不得带小数点/指数; 数字 lexeme 不得有多余尾零; 字符串非空且无首尾空白; period 为 [] 或 [YYYY-MM, YYYY-MM]
-//   S3  列表序      枚举列表按词表顺序严格递增 (=> 去重); builds_on/external_ref 字节序严格递增
+//   S2  类型        整数字段归一后不得带小数点; 字符串非空且无首尾空白; period 为 [] 或 [YYYY-MM, YYYY-MM]
+//   S3  列表序      枚举列表按词表顺序、builds_on/external_ref 按字节序严格递增 (=> 去重). 由 F3 就地排序保证,
+//                  不作为违规: 排序不改变语义, 而模型实测会把同一个列表在两轮里排成两种相反的顺序, 让它猜不值
 //   S4  非空        asset module approach Data.source universe findings 非空; pipe >= 1 个阶段; Factor.name <= TAG_MAX_FACTOR_NAME_CP
 //   S5  版本        schema_version == TAG_SCHEMA_VERSION
 // V 词表级

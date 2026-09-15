@@ -14,6 +14,7 @@ Approach = 模块内的几个流派 (范式级, 3~6 个), 不列实现 (不出�
 
 层次链 PipeStage(9) > Module(25) > Approach(87), 归属由并行数组 Module_stage[] / Approach_module[] 给出, 取值见 §2 各阶段注释. 其余 10 个为正交轴:
 
+
 ```
 Genre         framework        体系搭建 (跨 ≥3 阶段)
               research         原创研究
@@ -60,8 +61,8 @@ DataSource    market_daily     日频行情 (全部资产, 期货期权也用 ma
               macro            宏观
               none             无数据 (纯理论 / 综述)
 
-DataFreq      l2               Level-2 (逐笔 / 十档)
-              l1               Level-1 (3s 快照)
+DataFreq      l1               Level-1 (3s 快照)
+              l2               Level-2 (逐笔 / 十档)
               minute           分钟
               daily            日
               weekly           周
@@ -116,6 +117,8 @@ Value         high             重要结果: 方法或结论可直接复用     
 ```
 
 ## 2. 结构 (注释 = 这是什么 | 允许取值 | 适用规则; 检查内容一律见 §3)
+
+注释里的 `S3` 只标"这是个列表", 顺序和去重交给校验器 (§1), 不用你操心.
 
 ```cpp
 struct Tag {
@@ -357,18 +360,22 @@ json 形态 (国盛-002 Lasso 收益预测, 示意):
 F 文件级 (不读内容)
   F1 对应    标签树每个 .json 的 {目录}/{stem} 必须 == raw 某 PDF 的 {目录}/{stem}; 对不上或非 .json ⇒ [多余]
   F2 id      id == 文件名 stem
-  F3 规范    canonical(解析结果) := 键按 schema 字段序 (schema.hpp TAG_KEY_ORDER, 不是字母序), 2 空格缩进, 数字保留原文, 非 ASCII 原样, 末尾换行
+  F3 规范    canonical(解析结果) := 键按 schema 字段序 (schema.hpp TAG_KEY_ORDER, 不是字母序), 2 空格缩进, 非 ASCII 原样, 末尾换行,
+            数字 lexeme 归一 (展开指数 / 去前导零与尾零 / -0 → 0: 0.10 → 0.1, 1.0 → 1, 1e-2 → 0.01), 列表按 S3 的序排序去重
             文件字节 != canonical ⇒ 原地覆盖写回, 计 [格式化], 不违规 (LLM 第一版也由此过 formatter); json 解析失败 (含重复键) 才违规
+            ⇒ 键序、数字写法、列表顺序都不用操心, 交给 formatter; 它只改写法不改语义
   F4 依据    对应 proc 的 report.md 必须存在 (否则 G 无法执行)
 
 S 结构级
   S1 键集合  每个对象的键集合恰好 == 其 struct 的字段集合, 多键少键皆违规. 适用于: 顶层 / pipe (键 ⊆ 9 个 PipeStage code)
             / 每个出现的阶段子结构 / setup / result / Data / Holding / Metric / PoolMetric / Factor / Finding / gen
-  S2 类型    int: -?(0|[1-9]\d*), 无小数点/指数        number: 上式 + 可选 (\.\d*[1-9]), 无尾零, 无 -0
+            "本文没涉及" 不是省略键的理由: 阶段整个不出现即可, 一旦出现就得把该阶段 §2 列的键写全 (无内容的列表写 [], 如 L3 的 baseline)
+  S2 类型    int (schema_version): 归一后不得带小数点          number (Metric.value): 任意写法均可, 由 F3 归一
             string: 非空, 首尾无 ASCII 空白与 U+3000     period: [] 或 [s,s], s 形如 YYYY-MM 且 MM ∈ 01..12
             prompt_sha256: 64 位 [0-9a-f]
-  S3 列表序  枚举列表 (asset module approach baseline source universe risk_factors): 按词表序严格递增 (⇒ 去重)
-            字符串列表 (builds_on external_ref): 字节序严格递增
+  S3 列表序  枚举列表 (asset module approach baseline source universe risk_factors): 按词表序 (= code 在 §1/§2 里被定义的先后)
+            字符串列表 (builds_on external_ref): 字节序. 两者都严格递增 ⇒ 自动去重
+            由 F3 就地排序保证, 不作为违规: 你按任何顺序写、写重了都不算错
   S4 非空    asset  module  approach  Data.source  universe  findings  pipe(>=1 个阶段键)      码点: Factor.name <= TAG_MAX_FACTOR_NAME_CP
             其余列表与字符串不设上限 (findings 多写无妨, 标签的目的就是不读原文)
   S5 版本    schema_version == TAG_SCHEMA_VERSION
@@ -395,9 +402,13 @@ K 字段间一致性
 
 G 接地 (norm(s) := 去 ASCII 空白/U+3000/U+00A0 与 * | #, 全角 FF01..FF5E → 半角, ASCII 大写 → 小写; 下面均在 norm 后比较)
   G1 逐字    每个 evidence (Metric / Factor / Finding): 码点数 >= TAG_EVIDENCE_MIN_CP 且是 report.md 的子串
+            归一化会去掉空白与 * | #, 所以 "**IC 为 0.065**" 这类短摘录折算下来只有十几个码点 ⇒ 一律连前后文抄够一整句
+            "逐字" = 连续的一段原文: 不可跨行拼接, 不可删中间的字, 不可改标点, 不可把表格拆散重排
   G2 数字    Metric.value 的 lexeme / 去负号 / ×100 (十进制移位) 三者之一出现在自己的 evidence 中
+            ⇒ 挑 evidence 时先确认这个数字就在这句话里, 别用相邻一句
   G3 因子名  Factor.name 出现在 report.md 中
   G4 贴合    Finding.text 与其 evidence 的字符 bigram 重合率 >= TAG_FINDING_OVERLAP_MIN
+            ⇒ text 用 evidence 里的原词原句压缩改写, 不要换一套说法, 也不要写 evidence 里没有的泛论
 
 X 跨文件 (仅单文件规则全过者参与)
   X1 引用    builds_on 每项 ∈ raw 全部 stem; 被引日期 <= 本文日期 (任一为 00000000 跳过); 已标注文件间 builds_on 无环

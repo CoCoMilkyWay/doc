@@ -302,6 +302,61 @@ void dump_string(const std::string &s, std::string &o) {
   o += '"';
 }
 
+// Object 键的排序 (rank 优先, 同 rank 按字节序), 与 dump/compact 共用
+std::vector<size_t> key_order(const Json &j, KeyRank rank) {
+  std::vector<size_t> order(j.keys.size());
+  std::iota(order.begin(), order.end(), 0);
+  std::sort(order.begin(), order.end(), [&](size_t a, size_t b) {
+    int ra = rank ? rank(j.keys[a]) : 0, rb = rank ? rank(j.keys[b]) : 0;
+    return ra != rb ? ra < rb : j.keys[a] < j.keys[b];
+  });
+  return order;
+}
+
+// 单行形式一律可算 (不含换行), 多大都能拼出来; 由调用方按长度决定是否真的用它.
+void compact(const Json &j, KeyRank rank, std::string &o) {
+  switch (j.kind) {
+  case Json::Null:
+    o += "null";
+    break;
+  case Json::Bool:
+    o += j.b ? "true" : "false";
+    break;
+  case Json::Number:
+    o += j.num;
+    break;
+  case Json::String:
+    dump_string(j.str, o);
+    break;
+  case Json::Array:
+    o += '[';
+    for (size_t k = 0; k < j.arr.size(); ++k) {
+      if (k)
+        o += ", ";
+      compact(j.arr[k], rank, o);
+    }
+    o += ']';
+    break;
+  case Json::Object: {
+    std::vector<size_t> order = key_order(j, rank);
+    o += '{';
+    for (size_t k = 0; k < order.size(); ++k) {
+      if (k)
+        o += ", ";
+      dump_string(j.keys[order[k]], o);
+      o += ": ";
+      compact(j.vals[order[k]], rank, o);
+    }
+    o += '}';
+    break;
+  }
+  }
+}
+
+// 单行能放下就放下, 否则展开: 让小 list/小 dict 尽量紧凑, 只有真正装不下才逐行铺开.
+// 阈值按当前缩进算 (不含前面已写的 "key": 前缀, 近似即可, 不追求逐字节精确).
+constexpr size_t kInlineWidth = 100;
+
 void dump(const Json &j, int indent, KeyRank rank, std::string &o) {
   std::string pad((size_t)indent * 2, ' '), pad_in((size_t)(indent + 1) * 2, ' ');
   switch (j.kind) {
@@ -322,6 +377,14 @@ void dump(const Json &j, int indent, KeyRank rank, std::string &o) {
       o += "[]";
       break;
     }
+    {
+      std::string c;
+      compact(j, rank, c);
+      if (pad.size() + c.size() <= kInlineWidth) {
+        o += c;
+        break;
+      }
+    }
     o += "[\n";
     for (size_t k = 0; k < j.arr.size(); ++k) {
       o += pad_in;
@@ -335,12 +398,15 @@ void dump(const Json &j, int indent, KeyRank rank, std::string &o) {
       o += "{}";
       break;
     }
-    std::vector<size_t> order(j.keys.size());
-    std::iota(order.begin(), order.end(), 0);
-    std::sort(order.begin(), order.end(), [&](size_t a, size_t b) {
-      int ra = rank ? rank(j.keys[a]) : 0, rb = rank ? rank(j.keys[b]) : 0;
-      return ra != rb ? ra < rb : j.keys[a] < j.keys[b];
-    });
+    std::vector<size_t> order = key_order(j, rank);
+    {
+      std::string c;
+      compact(j, rank, c);
+      if (pad.size() + c.size() <= kInlineWidth) {
+        o += c;
+        break;
+      }
+    }
     o += "{\n";
     for (size_t k = 0; k < order.size(); ++k) {
       o += pad_in;

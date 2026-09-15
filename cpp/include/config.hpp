@@ -22,7 +22,7 @@ inline constexpr const char *TAG_AGENT_LOG_DIR = "resources-tag/agent-log";     
 inline constexpr const char *TAG_AGENT_SCRIPT = "cpp/agent/tag_loop.py";          // 用 PYTHON_BIN 跑, 依赖 cursor-sdk (装在共享 PYTHON_DEPS_DIR, 见 tag/env.cpp 的 T1/T2)
 inline constexpr const char *TAG_AGENT_KEY_FILE = "cpp/agent/cursor_api_key.txt"; // Cursor API key 一行 (已 gitignore); 不存在则跳过阶段一
 inline constexpr const char *TAG_AGENT_MODEL = "glm-5.2";                         // Cursor.models.list() 的 id; 启动时校验存在. 便宜档还有 kimi-k3 composer-2.5 gemini-3.8-flash
-inline constexpr int TAG_AGENT_WORKERS = 4;                                       // 同时在跑的 agent 数 (受 API 限速)
+inline constexpr int TAG_AGENT_WORKERS = 1;                                       // 同时在跑的 agent 数 (受 API 限速)
 inline constexpr int TAG_AGENT_MAX_ROUND = 3;                                     // 首轮 + 最多 2 次回喂; 用完进 quarantine
 inline constexpr size_t TAG_AGENT_MD_MAX_BYTES = 160000;                          // report.md 超过则只发前这么多字节 (中位 42KB, p90 73KB)
 // ---------- 项目内共享 python (各 stage 共用: convert 跑 MinerU, tag 跑 agent loop) ----------
