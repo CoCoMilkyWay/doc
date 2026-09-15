@@ -54,7 +54,7 @@ inline constexpr const char *TAG_AGENT_REASONING_EFFORT = "high";     // 思考�
 inline constexpr int TAG_AGENT_WORKERS = TAG_AGENT_PRICE.concurrency; // 同时在飞的请求数 = 账户对该模型的并发上限, 开满. 吞吐 = workers / 单篇耗时
                                                                       // (实测单篇 1.5~4.5 分钟: 4 路约 70 篇/小时, glm-5.2 的 10 路约 170 篇/小时, 1121 篇约 6.5 小时).
                                                                       // GLM-5.x 没有 Batch API 可绕并发; 再快只能换 glm-5.3-flash (并发 50, 单价 1/10)
-inline constexpr int TAG_AGENT_MAX_ROUND = 3;                         // 首轮 + 最多 2 次回喂; 用完进 quarantine
+inline constexpr int TAG_AGENT_MAX_ROUND = 5;                         // 首轮 + 最多 n 次回喂; 用完进 quarantine
 inline constexpr size_t TAG_AGENT_MD_MAX_BYTES = 160000;              // report.md 超过则只发前这么多字节 (中位 42KB, p90 73KB)
 // ---------- 项目内共享 python (各 stage 共用: convert 跑 MinerU, tag 跑 agent loop) ----------
 // 内置便携版 CPython (python-build-standalone, 自带 pip, 不依赖系统 python, 整目录搬迁/换机器直接可用):
@@ -102,7 +102,7 @@ inline constexpr bool MINERU_TABLE = true;   // 关掉可省 4 个模型
 // 环境变量 MINERU_DEVICE_MODE. "auto" = 由 env.cpp 跑一次 torch.cuda.is_available() 探测, 有卡用 cuda
 // 无卡用 cpu (CPU/GPU 通用: 同一份代码换机器不用改); 也可写死 "cpu"/"cuda" 强制指定, 跳过探测
 inline constexpr const char *MINERU_DEVICE = "auto";
-inline constexpr const char *MINERU_MODEL_SOURCE = "local";       // 环境变量 MINERU_MODEL_SOURCE, 跑前已校验模型齐备, 不联网
+inline constexpr const char *MINERU_MODEL_SOURCE = "local"; // 环境变量 MINERU_MODEL_SOURCE, 跑前已校验模型齐备, 不联网
 // 环境变量; false 用 unimernet_hf_small_2503 (纯英文/LaTeX 训练), 中文研报里"公式+中文变量说明"混排的
 // 行会被整行判成公式, 中文全被猜成最接近的 LaTeX 符号 (\dot{\eta}\dot{\pi}... 一类乱码), 故换用
 // 支持中文的 pp_formulanet_plus_m
