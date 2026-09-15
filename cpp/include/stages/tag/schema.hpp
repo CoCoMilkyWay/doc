@@ -1,21 +1,21 @@
 // stage3 tag: 研报标签 schema —— 全部词表 (named enum) 与字段结构的唯一出处. 设计与规则原文见同目录 tag.md.
 //
-// 设计原则: 能被脚本判对错的字段才存在. 除 Factor.name / Finding.text / external_ref[] / gen.model
-// 四处自由文本外, 其余全是封闭词表或数字. LLM 只做 "从词表里选 + 从原文里逐字摘", 不做写作.
+// 设计原则: 能被脚本判对错的字段才存在. 除 Factor.name / Factor.formula / Finding.text / external_ref[] / gen.model
+// 五处自由文本外, 其余全是封闭词表或数字. LLM 只做 "从词表里选 + 从原文里逐字摘", 不做写作.
 // 词表增删必须 bump config.hpp 的 TAG_SCHEMA_VERSION 并全量重标.
 //
 // 每个词表用 X-宏 (code, 中文说明[, 附加属性]) 列出一次, NAMED_ENUM 展开为
 //   enum class Name { code..., COUNT }  +  Name_code[] (json 里写的字符串就是 code)  +  Name_desc[]
 //   +  parse_Name(string_view, Name&)  +  code_of(Name)
-// 附加属性 (Module 的所属 PipeStage, Approach 的所属 Module, MetricKind 的取值域) 另用专用 X-宏展开成并行数组.
+// 附加属性 (Module 的所属 PipeStage, Approach 的所属 Module, Stat 的取值域) 另用专用 X-宏展开成并行数组.
 //
 // 分类骨架 = 我们自己总结的因子流水线 (tag.md §0), 三层:
 //   PipeStage (L0~L8) > Module (阶段内按功能步骤 partition) > Approach (模块内的几个范式级流派)
 // 资产/股票池/数据/频率/周期是正交轴, 不进模块; 检索 = 取交.
 //
 // json 形态 (tag.md §2): 顶层 {schema_version id genre asset primary pipe findings builds_on external_ref value gen},
-// pipe 的键 = 出现的 PipeStage code, 值 = 该阶段子结构 {module approach [baseline] [setup] [result]},
-// setup/result 的键集由 STAGE_SPEC 给出.
+// pipe 的键 = 出现的 PipeStage code, 值 = 该阶段子结构 {module approach [baseline] [setup] [factors]},
+// setup 的键集与 factors 的有无由 STAGE_SPEC 给出. 数字型结果只有 L1 的 Factor.stats (策略层数字一律进 findings).
 #pragma once
 
 #include <climits>
@@ -116,13 +116,14 @@ inline constexpr DataFreq HF_FREQS[] = {DataFreq::l1, DataFreq::l2, DataFreq::mi
 inline constexpr DataFreq HF_FREQS_STRICT[] = {DataFreq::l1, DataFreq::l2, DataFreq::minute};
 inline constexpr DataSource HF_SOURCES[] = {DataSource::market_minute, DataSource::market_l1_l2};
 
-// 通用周期: 调仓周期 / 持有期 / 预测期 / 风险预测期 都用它
+// 通用周期: 调仓周期 / 持有期 / 预测期 / 风险预测期 / 因子原始数据周期 都用它
 #define PERIOD_LIST(X)                \
   X(second, "高频 (秒级)")            \
   X(intraday, "日内 (分钟级)")        \
   X(daily, "日")                      \
   X(weekly, "周")                     \
   X(monthly, "月")                    \
+  X(quarterly, "季 (财报)")           \
   X(event, "事件触发 (低频, 不定期)") \
   X(na, "不适用")
 NAMED_ENUM(Period, PERIOD_LIST)
@@ -155,21 +156,19 @@ NAMED_ENUM(FactorFamily, FACTOR_FAMILY_LIST)
   X(unknown, "文中未明确")
 NAMED_ENUM(Direction, DIRECTION_LIST)
 
-// 只留能跨研报标准化比较的核心指标, 其余数字一律进 findings. 第三/四列: 取值域 [lo, hi] (K2)
-#define METRIC_KIND_LIST(X)                   \
-  X(ic, "IC 均值", -1.0, 1.0)                 \
-  X(rank_ic, "RankIC 均值", -1.0, 1.0)        \
-  X(icir, "ICIR", -10.0, 10.0)                \
-  X(return_ls, "多空组合年化收益", -1.0, 5.0) \
-  X(excess_annual, "组合年化超额", -1.0, 3.0) \
-  X(ir, "信息比率", -10.0, 20.0)              \
-  X(drawdown, "最大回撤 (正数)", 0.0, 1.0)    \
-  X(turnover, "换手率", 0.0, 100.0)
+// Factor.stats 的位序: 只留能跨研报比较因子的核心指标 (数字只为比较因子, 不为比较策略; alpha 因子只对超额负责),
+// 其余数字一律进 findings. 第三/四列: 取值域 [lo, hi] (K2)
+#define STAT_LIST(X)                   \
+  X(ic, "IC 均值", -1.0, 1.0)          \
+  X(rank_ic, "RankIC 均值", -1.0, 1.0) \
+  X(icir, "ICIR", -10.0, 10.0)         \
+  X(return_ls, "多空组合年化收益", -1.0, 5.0)
 #define NE_LO_(c, d, lo, hi) lo,
 #define NE_HI_(c, d, lo, hi) hi,
-NAMED_ENUM(MetricKind, METRIC_KIND_LIST)
-inline constexpr double MetricKind_lo[] = {METRIC_KIND_LIST(NE_LO_)};
-inline constexpr double MetricKind_hi[] = {METRIC_KIND_LIST(NE_HI_)};
+NAMED_ENUM(Stat, STAT_LIST)
+inline constexpr double Stat_lo[] = {STAT_LIST(NE_LO_)};
+inline constexpr double Stat_hi[] = {STAT_LIST(NE_HI_)};
+inline constexpr size_t N_STAT = (size_t)Stat::COUNT; // stats 定长
 
 // 我们对这篇研报的价值判断, 不是标注置信度
 #define VALUE_LIST(X)                       \
@@ -316,36 +315,34 @@ NAMED_ENUM(Approach, APPROACH_LIST)
 #define NE_APPROACH_MODULE_(c, d, m) Module::m,
 inline constexpr Module Approach_module[] = {APPROACH_LIST(NE_APPROACH_MODULE_)};
 
-// ---------- D. 各阶段子结构的字段布局 (S1 键集合 / K3 允许指标 的唯一出处) ----------
-// 阶段对象键 = {module approach} ∪ {baseline | has_baseline} ∪ {setup | 任一 setup 字段} ∪ {result | has_result}
-// setup 键 ⊆ {universe data holding risk_factors horizon rebalance}, result 键 = {factors | has_factors} ∪ {metrics}
+// ---------- D. 各阶段子结构的字段布局 (S1 键集合的唯一出处) ----------
+// 阶段对象键 = {module approach} ∪ {baseline | has_baseline} ∪ {setup | 任一 setup 字段} ∪ {factors | factors}
+// setup 键 ⊆ {universe data holding risk_factors horizon rebalance}. 没有 result / metrics: 数字只在 L1 的 Factor.stats
 struct StageSpec {
   bool baseline, universe, data, holding, risk_factors, horizon, rebalance; // baseline 在阶段对象里, 其余是 setup 字段
-  bool factors, metrics, pool;                                              // result 字段; pool = Metric 带 universe
-  std::vector<MetricKind> kinds;                                            // K3: result.metrics.kind 允许子集
+  bool factors;                                                             // 阶段对象里的 factors 列表 (只有 L1)
   bool has_setup() const { return universe || data || holding || risk_factors || horizon || rebalance; }
-  bool has_result() const { return factors || metrics; }
 };
-inline const StageSpec STAGE_SPEC[(size_t)PipeStage::COUNT] = {
-    // baseline universe data  holding risk  horizon rebal  factors metrics pool
-    /*L0*/ {false, false, true, false, false, false, false, false, false, false, {}},
-    /*L1*/ {false, true, true, true, false, false, false, true, true, true, {MetricKind::ic, MetricKind::rank_ic, MetricKind::icir, MetricKind::return_ls, MetricKind::turnover}},
-    /*L2*/ {false, true, false, false, false, false, false, false, true, true, {MetricKind::ic, MetricKind::rank_ic, MetricKind::icir, MetricKind::return_ls, MetricKind::turnover}},
-    /*L3*/ {true, true, true, true, false, false, false, false, true, true, {MetricKind::ic, MetricKind::rank_ic, MetricKind::icir, MetricKind::excess_annual, MetricKind::ir, MetricKind::drawdown, MetricKind::turnover}},
-    /*L4*/ {false, false, true, false, true, true, false, false, true, false, {MetricKind::excess_annual, MetricKind::ir, MetricKind::drawdown}},
-    /*L5*/ {false, true, false, false, false, false, true, false, true, true, {MetricKind::excess_annual, MetricKind::ir, MetricKind::drawdown, MetricKind::turnover}},
-    /*L6*/ {false, false, false, false, false, false, false, false, false, false, {}},
-    /*L7*/ {false, false, true, false, false, false, false, false, false, false, {}},
-    /*L8*/ {false, false, false, false, false, false, true, false, true, false, {MetricKind::excess_annual, MetricKind::ir, MetricKind::drawdown}},
+inline constexpr StageSpec STAGE_SPEC[(size_t)PipeStage::COUNT] = {
+    // baseline universe data  holding risk  horizon rebal  factors
+    /*L0*/ {false, false, true, false, false, false, false, false},
+    /*L1*/ {false, true, true, true, false, false, false, true},
+    /*L2*/ {false, true, false, false, false, false, false, false},
+    /*L3*/ {true, true, true, true, false, false, false, false},
+    /*L4*/ {false, false, true, false, true, true, false, false},
+    /*L5*/ {false, true, false, false, false, false, true, false},
+    /*L6*/ {false, false, false, false, false, false, false, false},
+    /*L7*/ {false, false, true, false, false, false, false, false},
+    /*L8*/ {false, false, false, false, false, false, true, false},
 };
 
 // ---------- 输出键序 (F3 格式化用) ----------
 // 一个全局序, 使 json 里每个对象的键按它排出来 == 该对象在 tag.md §2 struct 里的字段序 (而不是字母序).
-// 同名键 (universe/rebalance/horizon/value/evidence) 在不同对象里的相对位置互不冲突, 所以一个序够用:
+// 同名键 (universe/rebalance/horizon/evidence) 在不同对象里的相对位置互不冲突, 所以一个序够用:
 //   顶层   schema_version id genre asset primary pipe findings builds_on external_ref value gen
-//   阶段   module approach baseline setup result        pipe 的阶段键不在表内 => 字节序 = L0..L8
+//   阶段   module approach baseline setup factors        pipe 的阶段键不在表内 => 字节序 = L0..L8
 //   setup  universe risk_factors data holding rebalance horizon      Data: source freq      Holding: rebalance horizon
-//   result factors metrics       Factor: name family direction evidence       Metric: kind value universe period evidence
+//   Factor name family direction data_period horizon formula stats evidence
 //   Finding: text evidence       gen: model prompt_sha256
 inline constexpr const char *TAG_KEY_ORDER[] = {
     "schema_version",
@@ -357,29 +354,28 @@ inline constexpr const char *TAG_KEY_ORDER[] = {
     "findings",
     "builds_on",
     "external_ref",
-    "kind",
     "value",
     "gen",
     "module",
     "approach",
     "baseline",
     "setup",
-    "result",
+    "factors",
     "universe",
     "risk_factors",
     "data",
     "holding",
     "rebalance",
-    "horizon",
-    "source",
-    "freq",
-    "factors",
-    "metrics",
     "name",
     "family",
     "direction",
+    "data_period",
+    "horizon",
+    "formula",
+    "stats",
+    "source",
+    "freq",
     "text",
-    "period",
     "evidence",
     "model",
     "prompt_sha256",
@@ -399,17 +395,14 @@ struct Data {
 struct Holding {
   Period rebalance, horizon;
 };
-struct Metric {
-  MetricKind kind;
-  std::string value;                  // 原文 lexeme (K2 转 double 比较, G2 用字面匹配)
-  Universe universe;                  // 仅 pool 阶段有效
-  std::string period_beg, period_end; // "YYYY-MM"; 均空 = 未给出
-  std::string evidence;
-};
 struct FactorTag {
   std::string name;
   FactorFamily family;
   Direction direction;
+  std::vector<Period> data_period;
+  Period horizon;
+  std::string formula;
+  std::string stats[N_STAT]; // 按 Stat 位序的原文 lexeme (K2 转 double 比较, G2 用字面匹配); 空 = null
   std::string evidence;
 };
 struct StageTag { // 一个阶段子结构; 哪些字段有效由 STAGE_SPEC 决定, 其余保持默认
@@ -421,7 +414,6 @@ struct StageTag { // 一个阶段子结构; 哪些字段有效由 STAGE_SPEC 决
   std::vector<FactorFamily> risk_factors;
   Period horizon, rebalance;
   std::vector<FactorTag> factors;
-  std::vector<Metric> metrics;
 };
 struct Finding {
   std::string text, evidence;

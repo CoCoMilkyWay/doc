@@ -215,10 +215,32 @@ struct Reader {
 };
 
 bool read_factor(Reader &r, Json &e, const char *path, FactorTag &f) {
-  r.keys(e, {"name", "family", "direction", "evidence"}, path);
+  r.keys(e, {"name", "family", "direction", "data_period", "horizon", "formula", "stats", "evidence"}, path);
   bool ok = r.str(e, "name", path, f.name, TAG_MAX_FACTOR_NAME_CP);
   ok &= r.enum1(e, "family", path, parse_FactorFamily, f.family);
   ok &= r.enum1(e, "direction", path, parse_Direction, f.direction);
+  ok &= r.enum_list(e, "data_period", path, parse_Period, f.data_period, true);
+  ok &= r.enum1(e, "horizon", path, parse_Period, f.horizon);
+  ok &= r.str(e, "formula", path, f.formula);
+  // stats: 定长 N_STAT, 每项 Number 或 Null (= 原文未给); 写法已由 norm_numbers 归一, 取值域归 K2
+  if (const Json *st = r.typed(e, "stats", Json::Array, path)) {
+    if (st->arr.size() != N_STAT) {
+      r.bad(F("S2 %s.stats 须恰好 %zu 项 [ic, rank_ic, icir, return_ls]", path, N_STAT), true);
+      ok = false;
+    } else {
+      for (size_t i = 0; i < N_STAT; ++i) {
+        const Json &v = st->arr[i];
+        if (v.kind == Json::Number) {
+          f.stats[i] = v.num;
+        } else if (v.kind != Json::Null) {
+          r.bad(F("S2 %s.stats[%zu] (%s) 须为数字或 null", path, i, code_of((Stat)i)), true);
+          ok = false;
+        }
+      }
+    }
+  } else {
+    ok = false;
+  }
   ok &= r.str(e, "evidence", path, f.evidence);
   return ok;
 }
@@ -227,36 +249,6 @@ bool read_finding(Reader &r, Json &e, const char *path, Finding &f) {
   r.keys(e, {"text", "evidence"}, path);
   bool ok = r.str(e, "text", path, f.text);
   ok &= r.str(e, "evidence", path, f.evidence);
-  return ok;
-}
-
-// Metric: pool 阶段多一个 universe 键
-template <bool POOL>
-bool read_metric(Reader &r, Json &e, const char *path, Metric &m) {
-  if (POOL)
-    r.keys(e, {"kind", "value", "universe", "period", "evidence"}, path);
-  else
-    r.keys(e, {"kind", "value", "period", "evidence"}, path);
-  bool ok = r.enum1(e, "kind", path, parse_MetricKind, m.kind);
-  if (const Json *v = r.typed(e, "value", Json::Number, path))
-    m.value = v->num; // 写法已由 norm_numbers 归一, 取值域归 K2
-  else
-    ok = false;
-  if (POOL)
-    ok &= r.enum1(e, "universe", path, parse_Universe, m.universe);
-  if (const Json *p = r.typed(e, "period", Json::Array, path)) {
-    bool two = p->arr.size() == 2 && p->arr[0].kind == Json::String && p->arr[1].kind == Json::String;
-    if (two) {
-      m.period_beg = p->arr[0].str;
-      m.period_end = p->arr[1].str;
-    } else if (!p->arr.empty()) {
-      r.bad(F("S2 %s.period 须为 [] 或两个字符串", path), true);
-      ok = false;
-    }
-  } else {
-    ok = false;
-  }
-  ok &= r.str(e, "evidence", path, m.evidence);
   return ok;
 }
 
@@ -269,8 +261,8 @@ void read_stage(Reader &r, Json &obj, PipeStage st, StageTag &s) {
     want.push_back("baseline");
   if (sp.has_setup())
     want.push_back("setup");
-  if (sp.has_result())
-    want.push_back("result");
+  if (sp.factors)
+    want.push_back("factors");
   r.keys(obj, want, path);
 
   r.enum_list(obj, "module", path, parse_Module, s.module, true);
@@ -319,20 +311,8 @@ void read_stage(Reader &r, Json &obj, PipeStage st, StageTag &s) {
         r.enum1(*su, "rebalance", sp_path.c_str(), parse_Period, s.rebalance);
     }
 
-  if (sp.has_result())
-    if (Json *re = r.typed(obj, "result", Json::Object, path)) {
-      std::string rp = F("%s.result", path);
-      std::vector<const char *> keys;
-      if (sp.factors)
-        keys.push_back("factors");
-      if (sp.metrics)
-        keys.push_back("metrics");
-      r.keys(*re, keys, rp.c_str());
-      if (sp.factors)
-        r.obj_list(*re, "factors", rp.c_str(), s.factors, read_factor);
-      if (sp.metrics)
-        r.obj_list(*re, "metrics", rp.c_str(), s.metrics, sp.pool ? &read_metric<true> : &read_metric<false>);
-    }
+  if (sp.factors)
+    r.obj_list(obj, "factors", path, s.factors, read_factor);
 }
 
 } // namespace

@@ -70,11 +70,12 @@ DataFreq      l1               Level-1 (3s 快照)
               quarterly        季 (财报)
               mixed            混频
 
-Period        second           高频 (秒级)                    通用周期: 调仓周期 / 持有期 / 预测期 / 风险预测期 都用它
+Period        second           高频 (秒级)                    通用周期: 调仓周期 / 持有期 / 预测期 / 风险预测期 / 因子原始数据周期 都用它
               intraday         日内 (分钟级)
               daily            日
               weekly           周
               monthly          月
+              quarterly        季 (财报)
               event            事件触发 (低频, 不定期)
               na               不适用
 
@@ -102,14 +103,10 @@ Direction     positive         因子值越大未来收益越高
               nonmonotonic     非单调
               unknown          文中未明确
 
-MetricKind    ic               IC 均值                    [-1, 1]        因子预测力      只留能跨研报标准化比较的核心指标,
-              rank_ic          RankIC 均值                [-1, 1]                        其余数字 (t 值/胜率/夏普/滑点/偏差统计量...)
-              icir             ICIR                       [-10, 10]                      一律写进 findings, 不强行结构化
-              return_ls        多空组合年化收益           [-1, 5]        因子收益
-              excess_annual    组合年化超额               [-1, 3]        组合表现
-              ir               信息比率                   [-10, 20]
-              drawdown         最大回撤 (正数)            [0, 1]
-              turnover         换手率                     [0, 100]
+Stat          ic               IC 均值                    [-1, 1]        Factor.stats 的位序 (§2 L1): 数字只为比较因子, 不为比较策略.
+              rank_ic          RankIC 均值                [-1, 1]        策略/组合层面的收益·超额·回撤·换手·夏普一律不结构化:
+              icir             ICIR                       [-10, 10]      alpha 因子只对超额负责, beta 的回撤归 beta 因子, 总体收益说明不了因子.
+              return_ls        多空组合年化收益           [-1, 5]        其余数字 (t 值/胜率/换手/滑点/偏差统计量...) 写进 findings
 
 Value         high             重要结果: 方法或结论可直接复用            我们对这篇研报的价值判断, 不是标注置信度
               medium           有参考价值: 结论一般或已知
@@ -141,15 +138,6 @@ struct Tag {
       Period rebalance;              // Period 词表  | V1
       Period horizon;                // Period 词表  | V1
     };
-    struct Metric {                  // 一个数字型结果, 无股票池概念 (L4 L8)
-      MetricKind kind;               // MetricKind 词表, 各阶段允许子集见该阶段 result 注释  | V1 K3
-      number     value;              // 原文数字  | S2 K2 G2
-      [ym, ym]   period;             // 统计区间, [] 或 ["YYYY-MM","YYYY-MM"]  | S2 K6
-      string     evidence;           // 原文摘录  | S2 G1
-    };
-    struct PoolMetric : Metric {     // 带股票池的结果 (L1 L2 L3 L5)
-      Universe   universe;           // Universe 词表  | V1 K3
-    };
 
     struct L0 {                                                                       // 数据层: 库工程 → 派生加工
       vector<Module>   module;       // L0_warehouse L0_derivation  | V1 S3 S4 V3
@@ -163,11 +151,15 @@ struct Tag {
     } L0_data;
 
     struct L1 {                                                                       // 因子构造: 按信息源 partition, 机器挖掘单列
-      struct Factor {                // 本文新提出/重构的一个因子 (只有 L1 产出因子)
-        string       name;           // 因子名  | S2 S4 G3
-        FactorFamily family;         // 风格桶: FactorFamily 词表  | V1
-        Direction    direction;      // positive negative nonmonotonic unknown  | V1
-        string       evidence;       // 原文摘录  | S2 G1
+      struct Factor {                // 本文新提出/重构的一个因子 (只有 L1 产出因子, 只有因子有数字)
+        string         name;         // 因子名  | S2 S4 G3
+        FactorFamily   family;       // 风格桶: FactorFamily 词表  | V1
+        Direction      direction;    // positive negative nonmonotonic unknown  | V1
+        vector<Period> data_period;  // 构造因子用的原始数据/特征的周期 (财报=quarterly, 分钟线=intraday, 逐笔/快照=second): Period 词表  | V1 S3 S4
+        Period         horizon;      // 预测周期 (因子对哪个期限的收益负责, 唯一): Period 词表  | V1
+        string         formula;      // 因子表达式, LaTeX (无闭式的写 \text{...} 伪公式)  | S2
+        number|null[4] stats;        // 定长 4, 位序 = Stat 词表 [ic, rank_ic, icir, return_ls]; 取最宽股票池上的值, 原文没给的填 null  | S2 K2 G2
+        string         evidence;     // 因子定义的原文摘录  | S2 G1
       };
       vector<Module>   module;       // L1_fundamental L1_expectation L1_market L1_alternative L1_mining | V1 S3 S4 V3
       vector<Approach> approach;     // L1_fundamental: style_ratio             (风格比率: 估值/成长/盈利/质量/红利/杠杆, 含学术异象移植)
@@ -196,10 +188,7 @@ struct Tag {
         Data             data;       // | S1 K4
         Holding          holding;    // | S1
       } setup;
-      struct {
-        vector<Factor>     factors;  // | S1 K1
-        vector<PoolMetric> metrics;  // kind ⊆ {ic rank_ic icir return_ls turnover}  | S1 K3
-      } result;
+      vector<Factor> factors;        // 全库唯一的数字型结果: 因子及其 stats  | S1 K1
     } L1_factor;
 
     struct L2 {                                                                       // 因子处理与检验: 加工 → 检验 → 管理
@@ -215,7 +204,6 @@ struct Tag {
                                      //                  decay_monitor   (失效预警/衰减监控/动态纠正)
                                      //                  crowding        (拥挤度度量与预警)  | V1 S3 S4 V3
       struct { vector<Universe> universe; } setup;                                    // | S1 V1 S3 S4 K5
-      struct { vector<PoolMetric> metrics; } result;   // kind ⊆ {ic rank_ic icir return_ls turnover}; 前后对比 = 两条同 kind | S1 K3
     } L2_process;
 
     struct L3 {                                                                       // 收益预测 (Alpha 模型): 函数形式 → 训练范式 → 模型组织
@@ -233,7 +221,6 @@ struct Tag {
                                      //                          fusion              (多源融合: 基本面×量价/先验观点/事件与因子贝叶斯整合)  | V1 S3 S4 V3
       vector<Approach> baseline;     // 对照组: 同上 L3_* 任一流派 (只有 L3 有对照组字段, 其他阶段的对照进 findings)  | V1 S3 V3
       struct { vector<Universe> universe; Data data; Holding holding; } setup;        // | S1 V1 S3 S4 K4 K5
-      struct { vector<PoolMetric> metrics; } result;   // kind ⊆ {ic rank_ic icir excess_annual ir drawdown turnover} | S1 K3
     } L3_alpha;
 
     struct L4 {                                                                       // 风险模型: 因子结构 → 协方差估计 → 尾部
@@ -252,7 +239,6 @@ struct Tag {
         Data                 data;           // | S1
         Period               horizon;        // 风险预测期: Period 词表  | V1
       } setup;
-      struct { vector<Metric> metrics; } result;       // kind ⊆ {excess_annual ir drawdown}  | S1 K3
     } L4_risk;
 
     struct L5 {                                                                       // 组合构建: 权重 → 摩擦 → 对冲
@@ -272,10 +258,9 @@ struct Tag {
         vector<Universe> universe;   // 基准: Universe 词表  | V1 S3 S4 K5
         Period           rebalance;  // Period 词表  | V1
       } setup;
-      struct { vector<PoolMetric> metrics; } result;   // kind ⊆ {excess_annual ir drawdown turnover} | S1 K3
     } L5_portfolio;
 
-    struct L6 {                                                                       // 回测与归因 (产出是方法, 无 setup/result; 归因里的数字进 findings)
+    struct L6 {                                                                       // 回测与归因
       vector<Module>   module;       // L6_backtest L6_attribution  | V1 S3 S4 V3
       vector<Approach> approach;     // L6_backtest:    bias_control      (框架偏差: 前视/幸存/数据覆盖)
                                      //                 overfit_detection (过拟合: 交叉验证/重采样/多重检验/回测过拟合概率)
@@ -309,7 +294,6 @@ struct Tag {
                                      //              macro_valuation   (宏观/估值/泡沫)
                                      //              ml_timing         (机器学习/强化学习)  | V1 S3 S4 V3
       struct { Period rebalance; } setup;              // Period 词表  | S1 V1
-      struct { vector<Metric> metrics; } result;       // kind ⊆ {excess_annual ir drawdown}  | S1 K3
     } L8_timing;
   } pipe;                            // | S1 S4 V2 K1
 
@@ -329,24 +313,23 @@ struct Tag {
 };
 ```
 
-子结构定义在使用它的层级内: 只被一个阶段用的 (`Factor`) 在该阶段, 跨阶段共用的 (`Data` `Holding` `Metric` `PoolMetric`) 在 `Pipe` 顶部, `Finding`/`gen` 在 `Tag`. `Tag` 之外只有 §1 的 13 个 enum.
+子结构定义在使用它的层级内: 只被 L1 用的 (`Factor`) 在 L1, 跨阶段共用的 (`Data` `Holding`) 在 `Pipe` 顶部, `Finding`/`gen` 在 `Tag`. `Tag` 之外只有 §1 的 13 个 enum.
 
-json 形态 (国盛-002 Lasso 收益预测, 示意):
+json 形态 (示意: 一篇提出订单流因子、并用它做了指增的研报):
 
 ```jsonc
 {
-  "schema_version": 1, "id": "...", "genre": "research", "asset": ["stock_cn"], "primary": "L3_alpha",
+  "schema_version": 1, "id": "...", "genre": "research", "asset": ["stock_cn"], "primary": "L1_factor",
   "pipe": {
-    "L2_process": { "module": ["L2_zoo"], "approach": ["selection"],
-                    "setup": { "universe": ["all"] }, "result": { "metrics": [] } },
-    "L3_alpha":   { "module": ["L3_model", "L3_composition"],
-                    "approach": ["linear", "regime_domain"], "baseline": ["weighting"],
-                    "setup": { "universe": ["all", "csi500"], "data": { "source": ["market_daily", "statement"], "freq": "daily" },
+    "L1_factor":  { "module": ["L1_market"], "approach": ["order_flow"],
+                    "setup": { "universe": ["all", "csi500"], "data": { "source": ["market_l1_l2"], "freq": "l2" },
                                "holding": { "rebalance": "monthly", "horizon": "monthly" } },
-                    "result": { "metrics": [ { "kind": "ic", "value": 0.097, "universe": "all", "period": [], "evidence": "..." } ] } },
+                    "factors": [ { "name": "买卖压力失衡", "family": "microstructure", "direction": "negative",
+                                   "data_period": ["second"], "horizon": "monthly",
+                                   "formula": "\\frac{\\sum_{t} (BuyVol_t - SellVol_t)}{\\sum_{t} (BuyVol_t + SellVol_t)}",
+                                   "stats": [null, -0.062, -2.1, null], "evidence": "..." } ] },
     "L5_portfolio": { "module": ["L5_optimizer"], "approach": ["mean_variance"],
-                      "setup": { "universe": ["csi500"], "rebalance": "monthly" },
-                      "result": { "metrics": [ { "kind": "excess_annual", "value": 0.165, "universe": "csi500", "period": [], "evidence": "..." } ] } }
+                      "setup": { "universe": ["csi500"], "rebalance": "monthly" } }      // 指增的超额/回撤只进 findings
   },
   "findings": [ ... ], "builds_on": [ "...-001-..." ], "external_ref": [ "Taming the Factor Zoo" ], "value": "high", "gen": { ... }
 }
@@ -368,15 +351,15 @@ F 文件级 (不读内容)
 
 S 结构级
   S1 键集合  每个对象的键集合恰好 == 其 struct 的字段集合, 多键少键皆违规. 适用于: 顶层 / pipe (键 ⊆ 9 个 PipeStage code)
-            / 每个出现的阶段子结构 / setup / result / Data / Holding / Metric / PoolMetric / Factor / Finding / gen
+            / 每个出现的阶段子结构 / setup / Data / Holding / Factor / Finding / gen
             "本文没涉及" 不是省略键的理由: 阶段整个不出现即可, 一旦出现就得把该阶段 §2 列的键写全 (无内容的列表写 [], 如 L3 的 baseline)
-  S2 类型    int (schema_version): 归一后不得带小数点          number (Metric.value): 任意写法均可, 由 F3 归一
-            string: 非空, 首尾无 ASCII 空白与 U+3000     period: [] 或 [s,s], s 形如 YYYY-MM 且 MM ∈ 01..12
-            prompt_sha256: 64 位 [0-9a-f]
-  S3 列表序  枚举列表 (asset module approach baseline source universe risk_factors): 按词表序 (= code 在 §1/§2 里被定义的先后)
+            任何阶段都没有 result / metrics 键, 数字只在 Factor.stats; 别处写了即多键
+  S2 类型    int (schema_version): 归一后不得带小数点          stats: 恰好 4 项, 每项数字或 null (数字任意写法均可, 由 F3 归一)
+            string: 非空, 首尾无 ASCII 空白与 U+3000          prompt_sha256: 64 位 [0-9a-f]
+  S3 列表序  枚举列表 (asset module approach baseline source universe risk_factors data_period): 按词表序 (= code 在 §1/§2 里被定义的先后)
             字符串列表 (builds_on external_ref): 字节序. 两者都严格递增 ⇒ 自动去重
             由 F3 就地排序保证, 不作为违规: 你按任何顺序写、写重了都不算错
-  S4 非空    asset  module  approach  Data.source  universe  findings  pipe(>=1 个阶段键)      码点: Factor.name <= TAG_MAX_FACTOR_NAME_CP
+  S4 非空    asset  module  approach  Data.source  universe  data_period  findings  pipe(>=1 个阶段键)      码点: Factor.name <= TAG_MAX_FACTOR_NAME_CP
             其余列表与字符串不设上限 (findings 多写无妨, 标签的目的就是不读原文)
   S5 版本    schema_version == TAG_SCHEMA_VERSION
 
@@ -389,23 +372,21 @@ V 词表级
 
 K 字段间一致性
   K1 体裁    genre=framework ⇒ pipe 阶段键数 >= 3
-            genre=review    ⇒ 每个出现阶段的 result 内所有列表为空
+            genre=review    ⇒ L1_factor 若出现则 factors == []
             genre=handbook  ⇒ primary ∈ {L1_factor, L2_process}, 且 L1_factor 出现
-            genre=research ∧ primary=L1_factor ∧ L1.module != [L1_mining] ⇒ |L1.result.factors| >= 1
-  K2 数值域  Metric.value ∈ [MetricKind_lo, MetricKind_hi] (kind 的取值域, §1)
-  K3 结果归属 Metric.kind ∈ 所在阶段允许子集 (§2 各 result 注释)      PoolMetric.universe ∈ 同阶段 setup.universe
+            genre=research ∧ primary=L1_factor ∧ L1.module != [L1_mining] ⇒ |L1.factors| >= 1
+  K2 数值域  stats[i] 非 null ⇒ ∈ [Stat_lo[i], Stat_hi[i]] (§1)                     (K3 随 metrics 一起删除, 编号不复用)
   K4 高频    高频(Data) := freq ∈ {l1 l2 minute mixed} ∧ source ∩ {market_minute market_l1_l2} ≠ ∅
             每个 Data: freq ∈ {l1 l2 minute} ⇒ source ∩ {market_minute market_l1_l2} ≠ ∅ (频率与数据源自洽)     L7 出现 ⇒ 高频(L7.setup.data)
   K5 资产↔池 asset ∩ {stock_cn stock_hk stock_us} = ∅  ⇔  每个出现的 setup.universe == [na]
-  K6 日期    period 非空 ⇒ beg < end, 且 end <= 文件名日期所在月 (日期占位 00000000 时跳过后半)
-  K7 自引    builds_on ∌ id
+  K7 自引    builds_on ∌ id                                              (K6 随 period 字段一起删除, 编号不复用)
 
 G 接地 (norm(s) := 去 ASCII 空白/U+3000/U+00A0 与 * | #, 全角 FF01..FF5E → 半角, ASCII 大写 → 小写; 下面均在 norm 后比较)
-  G1 逐字    每个 evidence (Metric / Factor / Finding): 码点数 >= TAG_EVIDENCE_MIN_CP 且是 report.md 的子串
+  G1 逐字    每个 evidence (Factor / Finding): 码点数 >= TAG_EVIDENCE_MIN_CP 且是 report.md 的子串
             归一化会去掉空白与 * | #, 所以 "**IC 为 0.065**" 这类短摘录折算下来只有十几个码点 ⇒ 一律连前后文抄够一整句
             "逐字" = 连续的一段原文: 不可跨行拼接, 不可删中间的字, 不可改标点, 不可把表格拆散重排
-  G2 数字    Metric.value 的 lexeme / 去负号 / ×100 (十进制移位) 三者之一出现在自己的 evidence 中
-            ⇒ 挑 evidence 时先确认这个数字就在这句话里, 别用相邻一句
+  G2 数字    stats[i] 非 null ⇒ 其 lexeme / 去负号 / ×100 (十进制移位) 三者之一出现在 report.md 中
+            ⇒ 只抄原文有的数字 (百分数写成小数: 5.2% → 0.052), 不做换算 (不要把月度 IC 年化、不要自己算 ICIR)
   G3 因子名  Factor.name 出现在 report.md 中
   G4 贴合    Finding.text 与其 evidence 的字符 bigram 重合率 >= TAG_FINDING_OVERLAP_MIN
             ⇒ text 用 evidence 里的原词原句压缩改写, 不要换一套说法, 也不要写 evidence 里没有的泛论

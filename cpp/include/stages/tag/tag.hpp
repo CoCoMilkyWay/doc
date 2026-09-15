@@ -24,9 +24,9 @@
 //                  => 覆盖写回, 计 [格式化], 不违规 (LLM 生成的第一版也由此过 formatter); 解析失败才违规
 //   F4  接地依据    对应 proc 的 report.md 必须存在 (否则 G 规则无法执行)
 // S 结构级
-//   S1  键集合      顶层 / pipe (键 ⊆ PipeStage code) / 阶段子结构 / setup / result / Data / Holding / Metric / Factor
-//                  / Finding / gen 的键集合恰好等于 schema (STAGE_SPEC 决定各阶段 setup/result 有哪些键)
-//   S2  类型        整数字段归一后不得带小数点; 字符串非空且无首尾空白; period 为 [] 或 [YYYY-MM, YYYY-MM]
+//   S1  键集合      顶层 / pipe (键 ⊆ PipeStage code) / 阶段子结构 / setup / Data / Holding / Factor
+//                  / Finding / gen 的键集合恰好等于 schema (STAGE_SPEC 决定各阶段 setup 有哪些键、有无 factors)
+//   S2  类型        整数字段归一后不得带小数点; 字符串非空且无首尾空白; Factor.stats 恰好 N_STAT 项, 每项数字或 null
 //   S3  列表序      枚举列表按词表顺序、builds_on/external_ref 按字节序严格递增 (=> 去重). 由 F3 就地排序保证,
 //                  不作为违规: 排序不改变语义, 而模型实测会把同一个列表在两轮里排成两种相反的顺序, 让它猜不值
 //   S4  非空        asset module approach Data.source universe findings 非空; pipe >= 1 个阶段; Factor.name <= TAG_MAX_FACTOR_NAME_CP
@@ -36,17 +36,15 @@
 //   V2  主阶段      primary ∈ pipe 出现的阶段
 //   V3  归属链      阶段 K 下每个 module 属于 K; 每个 approach 所属 module ∈ module; L3.baseline 属于 L3 且与 approach 不交
 // K 字段间一致性
-//   K1  体裁        framework => 阶段数 >= 3; review => 全部 result 列表为空; handbook => primary ∈ {L1,L2} 且 L1 出现;
+//   K1  体裁        framework => 阶段数 >= 3; review => L1.factors 为空; handbook => primary ∈ {L1,L2} 且 L1 出现;
 //                  research 且 primary=L1 且 L1.module != [L1_mining] => L1.factors 非空
-//   K2  数值域      Metric.value ∈ [MetricKind_lo, MetricKind_hi]
-//   K3  结果归属    Metric.kind ∈ 所在阶段 STAGE_SPEC.kinds; pool 阶段 Metric.universe ∈ 同阶段 setup.universe
+//   K2  数值域      Factor.stats[i] 非 null => ∈ [Stat_lo[i], Stat_hi[i]]
 //   K4  高频        每个 Data: freq ∈ HF_FREQS_STRICT => source ∩ HF_SOURCES ≠ ∅; L7 出现 => 高频(L7.setup.data)
 //   K5  资产↔股票池 asset ∩ STOCK_ASSETS = ∅ <=> 每个出现的 setup.universe == [na]
-//   K6  日期        period 非空 => beg < end, end <= 文件名日期所在月 (日期占位 00000000 时跳过后半)
-//   K7  自引        builds_on ∌ 自身 id
+//   K7  自引        builds_on ∌ 自身 id                     (K3 / K6 随 metrics / period 一起删除, 编号不复用)
 // G 接地 (anti-hallucination, 对 report.md 归一化后比对: 去空白与 markdown 装饰符 * | #, 全角转半角, ASCII 小写)
 //   G1  逐字        每个 evidence 归一化后 >= TAG_EVIDENCE_MIN_CP 码点且为 report.md 子串
-//   G2  数字        Metric.value 的 lexeme (或去符号 / ×100 百分数形式) 出现在自己的 evidence 中
+//   G2  数字        Factor.stats[i] 的 lexeme (或去符号 / ×100 百分数形式) 出现在 report.md 中 (stats 没有自己的 evidence)
 //   G3  因子名      Factor.name 归一化后出现在 report.md 中
 //   G4  结论贴合    Finding.text 与其 evidence 的字符 bigram 重合率 >= TAG_FINDING_OVERLAP_MIN
 // X 跨文件 (全部单文件通过后)
@@ -74,7 +72,7 @@
 // ---------- tag: 研报标签 json 校验 ----------
 // 词表与字段定义在 stages/tag/schema.hpp (改词表必须 bump 版本并全量重标); 规则见 stages/tag/tag.hpp
 // 阈值只留能纠正 LLM 行为的; 列表长度一律不设上限 (S3 严格递增已保证有界, findings 多写无妨)
-inline constexpr int TAG_SCHEMA_VERSION = 1;
+inline constexpr int TAG_SCHEMA_VERSION = 2;         // 2: 删 result/metrics, Factor 增 data_period/horizon/formula/stats, Period 增 quarterly
 inline constexpr size_t TAG_MAX_FACTOR_NAME_CP = 40; // 因子名不是句子 (S4)
 // 接地 (G): evidence 归一化后最少码点数; findings.text 与 evidence 的字符 bigram 重合率下限
 inline constexpr size_t TAG_EVIDENCE_MIN_CP = 20;
@@ -104,8 +102,8 @@ struct TagRec {
 // parse.cpp: F2 F3 S1-S5 V1. text 为 json 文件内容; canon 为规范格式 (解析失败时为空); 违规写入 viol, 返回 tag 是否可用于后续规则
 bool parse_tag(const std::string &text, const std::string &stem, Tag &tag, std::string &findings_key, std::string &canon,
                std::vector<std::string> &viol);
-// rules.cpp: V2 V3 K1-K7 (不读 report.md) 与 G1-G4 (md 为 report.md 原文)
-void check_consistency(const Tag &tag, const std::string &date, std::vector<std::string> &viol);
+// rules.cpp: V2 V3 K1 K2 K4 K5 K7 (不读 report.md) 与 G1-G4 (md 为 report.md 原文)
+void check_consistency(const Tag &tag, std::vector<std::string> &viol);
 void check_grounding(const Tag &tag, const std::string &md, std::vector<std::string> &viol);
 // 接地用文本归一化 (G 规则口径), 暴露出来便于单测/复用
 std::string norm_text(const std::string &s);

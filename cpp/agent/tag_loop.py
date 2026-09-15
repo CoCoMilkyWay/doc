@@ -39,10 +39,10 @@ INSTRUCTION = """你是量化研报标注员. 任务: 为下面这篇研报写�
 
 硬性要求:
 - "id" 必须是 "{stem}"; "schema_version" 必须是 {ver}; "gen" 必须是 {{"model": "{model}", "prompt_sha256": "{hash}"}}.
-- 研报日期 {date} (来自文件名); Metric.period 若给出, 不得晚于该月.
-- 所有 evidence 与 Factor.name 必须逐字抄自下面的研报正文 (不改标点、不合并行、不缩写、不翻译); Metric.value 必须是它自己 evidence 里出现的数字 (原文百分数可写成小数, 如 16.5% -> 0.165).
+- 所有 evidence 与 Factor.name 必须逐字抄自下面的研报正文 (不改标点、不合并行、不缩写、不翻译); Factor.stats 里的每个数字必须是正文里出现的数字 (原文百分数写成小数, 如 16.5% -> 0.165; 不做任何换算), 正文没给的位置填 null.
 - 枚举值只能用 tag.md §1/§2 列出的 code, 且每个字段只认它自己那张词表 (如 Factor.family 只能用 FactorFamily 的 code, 不能填 Approach 的).
-- 只写研报实际涉及的阶段; result 里没有可逐字抄的数字就给空列表; findings 至少一条, 每条都要有 evidence.
+- 只写研报实际涉及的阶段; 数字只在 L1 的 Factor.stats, 策略/组合的收益·超额·回撤只进 findings; findings 至少一条, 每条都要有 evidence.
+- 每个 Factor 都要有 data_period (构造它用的原始数据周期)、horizon (它预测的收益期限) 和 formula (LaTeX 表达式, 无闭式的写 \\text{{...}} 描述).
 - 流派 (approach) 选范式级的类别, 不要按具体实现名硬套; 例行的 IC/分组检验不算 L2, 高频/日内预测信号归 L1_market.
 - 研报正文可能被截断 (见标记), 只根据看到的内容标注, 不要臆测.
 - 键序、数字写法 (尾零/指数)、列表顺序都不用管, 校验器会自动规范化.
@@ -51,7 +51,7 @@ INSTRUCTION = """你是量化研报标注员. 任务: 为下面这篇研报写�
 1. V1 每个枚举字段只认它自己那张词表: primary 和 pipe 的键填 PipeStage (L0_data…L8_timing), module 填 Module (L8_rotation 是 Module 不是阶段), approach 填 Approach.
 2. S1 每个出现的阶段, tag.md §2 给它列的键一个不少, 没内容的列表写 [] (L3_alpha 的 baseline 最常漏).
 3. G1 每条 evidence 是正文里连续的一整句, 去掉空白与 markdown 符号后仍有 20 个以上码点.
-4. G2 Metric.value 的那个数字就在它自己的 evidence 里, 不是在相邻一句.
+4. S2 Factor.stats 恰好 4 项, 位序固定 [ic, rank_ic, icir, return_ls], 不确定的填 null 而不是猜.
 5. G4 findings[i].text 用它 evidence 里的原词原句压缩而成, 不要换一套说法.
 
 ## schema 说明 (tag.md, 原文)

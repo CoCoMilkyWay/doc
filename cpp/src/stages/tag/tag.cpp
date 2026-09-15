@@ -85,7 +85,7 @@ void check_rec(const Ctx &ctx, TagRec &r) {
   }
   if (!ok)
     return;
-  check_consistency(r.tag, r.date, r.viol);
+  check_consistency(r.tag, r.viol);
   std::string md = md_path_of(ctx, r);
   if (!path_exists(md))
     r.viol.push_back(F("违规:F4 无 %s, 无法接地", PROC_MD_NAME));

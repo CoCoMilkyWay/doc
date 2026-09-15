@@ -13,17 +13,6 @@ bool in(const T (&arr)[N], T v) {
   return std::find(arr, arr + N, v) != arr + N;
 }
 
-// "YYYY-MM"
-bool is_ym(const std::string &s) {
-  if (s.size() != 7 || s[4] != '-')
-    return false;
-  for (size_t i : {0, 1, 2, 3, 5, 6})
-    if (!is_digit(s[i]))
-      return false;
-  int m = (s[5] - '0') * 10 + (s[6] - '0');
-  return m >= 1 && m <= 12;
-}
-
 // 去符号的 lexeme 乘 100 (十进制移位, 不经浮点): "0.045" -> "4.5", "0.5" -> "50", "12" -> "1200"
 std::string times100(std::string s) {
   if (s.front() == '-')
@@ -73,7 +62,7 @@ void each_stage(const Tag &t, Fn fn) {
 }
 } // namespace
 
-void check_consistency(const Tag &t, const std::string &date, std::vector<std::string> &viol) {
+void check_consistency(const Tag &t, std::vector<std::string> &viol) {
   auto bad = [&](std::string s) { viol.push_back("违规:" + std::move(s)); };
 
   // V2 主阶段出现
@@ -105,44 +94,27 @@ void check_consistency(const Tag &t, const std::string &date, std::vector<std::s
   each_stage(t, [&](PipeStage, const StageTag &) { ++n_stage; });
   if (t.genre == Genre::framework && n_stage < 3)
     bad(F("K1 genre=framework 但只有 %zu 个阶段", n_stage));
-  if (t.genre == Genre::review)
-    each_stage(t, [&](PipeStage st, const StageTag &s) {
-      if (!s.factors.empty() || !s.metrics.empty())
-        bad(F("K1 genre=review 但 %s.result 非空", code_of(st)));
-    });
   const std::optional<StageTag> &l1 = t.pipe[(size_t)PipeStage::L1_factor];
+  if (t.genre == Genre::review && l1 && !l1->factors.empty())
+    bad("K1 genre=review 但 L1_factor.factors 非空");
   if (t.genre == Genre::handbook &&
       ((t.primary != PipeStage::L1_factor && t.primary != PipeStage::L2_process) || !l1))
     bad("K1 genre=handbook 须 primary ∈ {L1,L2} 且 L1 出现");
   if (t.genre == Genre::research && t.primary == PipeStage::L1_factor && l1 &&
       !(l1->module.size() == 1 && l1->module[0] == Module::L1_mining) && l1->factors.empty())
-    bad("K1 research 且 primary=L1_factor 但 L1.result.factors 为空");
+    bad("K1 research 且 primary=L1_factor 但 L1_factor.factors 为空");
 
-  // K2 数值域 / K3 结果归属 / K6 日期
-  std::string ym = date == "00000000" ? "" : date.substr(0, 4) + "-" + date.substr(4, 2);
+  // K2 数值域 (stats 非 null 项)
   each_stage(t, [&](PipeStage st, const StageTag &s) {
-    const StageSpec &sp = STAGE_SPEC[(size_t)st];
-    for (size_t k = 0; k < s.metrics.size(); ++k) {
-      const Metric &m = s.metrics[k];
-      std::string where = F("%s.result.metrics[%zu]", code_of(st), k);
-      double v = atof(m.value.c_str());
-      if (v < MetricKind_lo[(size_t)m.kind] || v > MetricKind_hi[(size_t)m.kind])
-        bad(F("K2 %s %s=%s 越界", where.c_str(), code_of(m.kind), m.value.c_str()));
-      if (std::find(sp.kinds.begin(), sp.kinds.end(), m.kind) == sp.kinds.end())
-        bad(F("K3 %s kind=%s 不属于该阶段", where.c_str(), code_of(m.kind)));
-      if (sp.pool && std::find(s.universe.begin(), s.universe.end(), m.universe) == s.universe.end())
-        bad(F("K3 %s universe=%s 不在 setup.universe 中", where.c_str(), code_of(m.universe)));
-      if (m.period_beg.empty())
-        continue;
-      if (!is_ym(m.period_beg) || !is_ym(m.period_end)) {
-        bad(F("K6 %s.period 非 YYYY-MM", where.c_str()));
-        continue;
+    for (size_t k = 0; k < s.factors.size(); ++k)
+      for (size_t i = 0; i < N_STAT; ++i) {
+        const std::string &lex = s.factors[k].stats[i];
+        if (lex.empty())
+          continue;
+        double v = atof(lex.c_str());
+        if (v < Stat_lo[i] || v > Stat_hi[i])
+          bad(F("K2 %s.factors[%zu].stats[%zu] %s=%s 越界", code_of(st), k, i, code_of((Stat)i), lex.c_str()));
       }
-      if (!(m.period_beg < m.period_end))
-        bad(F("K6 %s.period 起止倒置", where.c_str()));
-      if (!ym.empty() && m.period_end > ym)
-        bad(F("K6 %s.period 止于研报日期之后", where.c_str()));
-    }
   });
 
   // K4 高频
@@ -194,21 +166,21 @@ void check_grounding(const Tag &t, const std::string &md, std::vector<std::strin
   each_stage(t, [&](PipeStage st, const StageTag &s) {
     for (size_t k = 0; k < s.factors.size(); ++k) {
       const FactorTag &f = s.factors[k];
-      std::string where = F("%s.result.factors[%zu]", code_of(st), k);
+      std::string where = F("%s.factors[%zu]", code_of(st), k);
       g1(f.evidence, where);
       // G3
       if (nmd.find(norm_text(f.name)) == std::string::npos)
         bad(F("G3 %s.name \"%s\" 未在 report.md 出现", where.c_str(), f.name.c_str()));
-    }
-    for (size_t k = 0; k < s.metrics.size(); ++k) {
-      const Metric &m = s.metrics[k];
-      std::string where = F("%s.result.metrics[%zu]", code_of(st), k);
-      std::string ne = g1(m.evidence, where);
-      // G2: 原文 lexeme / 去符号 / ×100 百分数 三选一出现即可
-      std::string abs = m.value.front() == '-' ? m.value.substr(1) : m.value;
-      if (ne.find(m.value) == std::string::npos && ne.find(abs) == std::string::npos &&
-          ne.find(times100(m.value)) == std::string::npos)
-        bad(F("G2 %s.value %s 未出现在 evidence 中", where.c_str(), m.value.c_str()));
+      // G2: stats 没有自己的 evidence, 对整篇 report.md 查; 原文 lexeme / 去符号 / ×100 百分数 三选一出现即可
+      for (size_t i = 0; i < N_STAT; ++i) {
+        const std::string &lex = f.stats[i];
+        if (lex.empty())
+          continue;
+        std::string abs = lex.front() == '-' ? lex.substr(1) : lex;
+        if (nmd.find(lex) == std::string::npos && nmd.find(abs) == std::string::npos &&
+            nmd.find(times100(lex)) == std::string::npos)
+          bad(F("G2 %s.stats[%zu] %s=%s 未在 report.md 出现", where.c_str(), i, code_of((Stat)i), lex.c_str()));
+      }
     }
   });
   for (size_t k = 0; k < t.findings.size(); ++k) {
