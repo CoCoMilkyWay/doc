@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "id": "20181023-东方证券-因子选股-045-基于copula的尾部相关性研究_上尾异常相关系数因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "上尾相关系数",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\lambda_{U}=2-2^{1/\\theta},\\ \\theta\\text{ 为 Gumbel copula 参数}",
+          "stats": [null, 0.056, 2.51, null],
+          "evidence": "我们在每个月月末用中证全指过去 3个月的日度收益率和股票过去 3个月的日度收益率（剔除了正常交易天数少于一半的样本）来分布估计 Gumbel copula和 Claytoncopula 的参数，并据此分别计算股票和市场的短期上下尾相关系数。"
+        },
+        {
+          "name": "下尾相关系数",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\lambda_{L}=2^{-1/\\theta},\\ \\theta\\text{ 为 Clayton copula 参数}",
+          "stats": [null, 0.043, 1.88, null],
+          "evidence": "我们在每个月月末用中证全指过去 3个月的日度收益率和股票过去 3个月的日度收益率（剔除了正常交易天数少于一半的样本）来分布估计 Gumbel copula和 Claytoncopula 的参数，并据此分别计算股票和市场的短期上下尾相关系数。"
+        },
+        {
+          "name": "上尾异常相关系数",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\lambda_{Ut}=\\beta_{0}+\\beta_{1}\\lambda_{Lt}+\\varepsilon_{t}\\text{，取回归残差 } \\varepsilon_{t}",
+          "stats": [null, 0.039, 2.76, null],
+          "evidence": "这个因子是上尾相关系数对下尾相关系数做回归的残差，它反映的相同分布情况下上下尾相关系数相对位置的差距，即相对于市场普遍水平而言的上下尾相关系数差，这个因子值越大，那就说明这个股票在市场普遍的水平下，上尾相关系数相对越大于其下尾相关系数。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "上下尾相关系数原始值和行业市值中性化后因子值在中证全指均有很强选股效果（中性化后 rankIC 0.056/0.043，ICIR 2.51/1.88），但两因子与特异度高度相关，剔除完特异度后并没有选股效果，单纯的尾部相关系数不能带来独立 alpha 源。",
+      "evidence": "从结果看，上下尾部相关系数原始值和行业市值中性化后因子值在中证全指范围内均有着很强的选股效果，从 2006.1-2018.9行业市值中性化后的 rankIC分别为 0.056 和 0.043，ICIR 分别为 2.51 和 1.88，但是从因子间相关性角度出发，发现这两个因子和特异度高度相关，剔除完特异度后并没有选股效果。"
+    },
+    {
+      "text": "结合上下尾相关系数构建的上尾异常相关系数因子（上尾对下尾回归的残差），原始值和行业市值中性化后在三个样本空间均有稳健选股效果：中证全指 rankIC 0.039、ICIR 2.76，中证 500 rankIC 0.032、ICIR 1.77，沪深 300 rankIC 0.033、ICIR 1.76。",
+      "evidence": "经过测试我们发现在中证全指、中证 500和沪深 300内因子原始值和行业市值中性化后的因子值均有选股效果，行业市值中性化后因子在中证全指范围内的 rankIC为0.039，ICIR 为 2.76，在中证 500 内因子的 rankIC 为 0.032，ICIR 为 1.77，在沪深 300 内因子的 rankIC 为 0.033，ICIR 为 1.76，"
+    },
+    {
+      "text": "上尾异常相关系数与其他因子的 rankIC 相关系数较低，中性化后绝对值均在 40%以下且绝大多数小于 30%，该因子存在一定的独立信息源，可考虑加入 alpha 因子库。",
+      "evidence": "因子原始值和其他因子的 rankIC相关系数绝对值仅有少数略微大于 40%，而中性化后因子和其他因子的 rankIC 相关系数绝对值均在 40%以下，且绝大多数都小于 30%，说明该因子确实存在有一定的独立信息。"
+    },
+    {
+      "text": "上尾异常相关系数因子在中证全指内不论是原始值还是中性化以后选股效果都非常稳健，中性化后 rankIC 为 0.039、ICIR 高达 2.76，且多空最大回撤仅-10.86%。",
+      "evidence": "从结果可以看到这个因子不论是原始值还是中性化以后都有着非常稳健的选股效果，中性化后效果更好一些，rankIC 为 0.039，ICIR 高达 2.76，而且多空最大回撤也只有-10.86%"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chabi-Yo, F., Ruenzi, S., & Weigert, F. (2018). Crash Sensitivity and the Cross Section of Expected Stock Returns",
+    "业绩超预期类因子"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

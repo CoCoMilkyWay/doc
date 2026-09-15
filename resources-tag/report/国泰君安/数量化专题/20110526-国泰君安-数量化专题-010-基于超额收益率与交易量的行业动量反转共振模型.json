@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "id": "20110526-国泰君安-数量化专题-010-基于超额收益率与交易量的行业动量反转共振模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "基于价格和交易量的动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "R_{Momentum}=R_{形成期}*(1+\\Delta V_{形成期}),\\quad \\Delta V_{形成期}=\\overline{V_{形成期}}/\\overline{V_{前k周}}-\\overline{V_{E,形成期}}/\\overline{V_{E,前k周}}",
+          "stats": [null, null, null, null],
+          "evidence": "与单纯的价格动量不同，本报告中我们构建了基于价格和交易量的动量因子："
+        },
+        {
+          "name": "价格反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "R_{Reversal}=\\text{反转形成期内的行业超额收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "行业的反转效应形成期较长（一般为几个月），其反转的规律更多由行业属性和周期等基本面因素决定，而受短期市场情绪的影响应该比较小。经过测算，引入交易量的反转因子并不能使反转效应更明显或更稳定，因此我们只用单纯的价格反转因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection"]},
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_momentum"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "基于超额收益率和交易量的动量因子构建行业动量反转共振模型，样本外回测总体准确率达81.34%。",
+      "evidence": "本报告构建了基于超额收益率和交易量的动量因子，对各行业建立了最佳形成期下的动量反转共振模型，并通过优化决策流程使模型只应用在适用的时期和行业上。在最近约 3 年半时间的样本外回测中，模型总体准确率达 81.34%。"
+    },
+    {
+      "text": "引入交易量后动量效应显著性明显提高，效应显著次数由402提高到558，共振模型准确率由72.88%提高到81.34%。",
+      "evidence": "为了比较引入交易量后的动量因子与单纯的价格动量的效果，我们分别测算了所有行业两种动量效应的显著期数，也分别用两种动量与反转构建共振模型，比较模型预测的效果。结果表明，引入交易量后，动量效应的显著性明显提高了，共振模型的预测效果也得到了较大的改进。"
+    },
+    {
+      "text": "动量效应置信度90%、反转效应置信度99%时预测效果最理想，强势行业方向准确率高达81.34%。",
+      "evidence": "当动量效应的显著置信度设为 90%，反转效应显著置信度设为 99%时，模型的预测效果最为理想，模型选取的强势行业方向准确率高达81.34%。"
+    },
+    {
+      "text": "模拟组合（07年11月至11年4月，含0.4%换仓成本）相对沪深300累计超额涨幅30.2%，年化超额收益率10.3%。",
+      "evidence": "在2007年11月至2011年4 月的模拟期间，在计算0.4%的换仓成本下，我们的模拟组合相对沪深 300 指数的累计超额涨幅为 30.2%，年化超额收益率为 10.3%。"
+    },
+    {
+      "text": "只在动量、反转效应明显的时期和行业使用模型，放弃一部分预测次数换取更高的准确率。",
+      "evidence": "由于设置了使用模型的前提条件，在动量、反转效应不明显的行业和市场时期都不进行预测，因此模型预测的次数减少了很多，但预测的准确率显著提高了。"
+    },
+    {
+      "text": "截至2011年5月20日没有一个行业动量、反转效应都显著，共振模型不做预测；置信度降为90%和90%时判断有色金属未来3周强于沪深300。",
+      "evidence": "动量效应和反转效应的显著性检验的置信度设为90%和 99%的情况下，模型认为当前（数据截至2011年 5 月20 日）市场环境下，没有一个行业的动量、反转效应都显著，故共振模型不做预测。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于动量反转策略的强势行业选取》（2010.12.02）",
+    "《基于支持向量机的个股及组合择时》（2010.08.24）",
+    "《基于支持向量机的股票市场择时》（2010.07.21）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

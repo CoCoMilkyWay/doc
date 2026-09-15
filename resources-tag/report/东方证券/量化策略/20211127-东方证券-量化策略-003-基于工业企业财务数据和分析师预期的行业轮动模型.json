@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "id": "20211127-东方证券-量化策略-003-基于工业企业财务数据和分析师预期的行业轮动模型",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "expectation_level"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst", "macro"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "工业企业利润总额的累计同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当月累计利润总额}}{\\text{上年同期累计利润总额}}-1",
+          "stats": [null, null, null, 0.0447],
+          "evidence": "工业企业利润总额的累计同比指标效果最好，多空超额最显著。2007 年至今 top5行业年化收益达到 12.77%，bottom5 行业年化收益为 -0.82%，多头超额 3.65%，多空超额 4.47%。"
+        },
+        {
+          "name": "工业企业营业收入的累计同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当月累计营业收入}}{\\text{上年同期累计营业收入}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "其次是工业企业营业收入的累计同比（多头超额 2.97%）、分析师一致预期行业净利润同比（多头超额 1.84%）、工业企业销售净利率的累计同比（多头超额 1.08%）、工业企业资产负债率同比增速（多头超额 1.22%）。"
+        },
+        {
+          "name": "工业企业销售净利率的累计同比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当月累计销售净利率}}{\\text{上年同期累计销售净利率}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "行业销售净利率的累计同比反映了行业盈利能力的改善。近年来投资者越来越重视公司的质量，盈利能力是衡量公司质量优劣的重要维度，其中销售净利率则是衡量盈利能力的朴素指标。"
+        },
+        {
+          "name": "工业企业资产负债率同比增速",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当月资产负债率}}{\\text{上年同期资产负债率}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "工业企业资产负债率同比增速实际表现为负向指标，行业负债率增速过快更多意味着行业财务风险越大。"
+        },
+        {
+          "name": "分析师一致预期行业净利润同比增速",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当月一致预期净利润}}{\\text{上年同期一致预期净利润}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "该指标逻辑直观，行业内分析师的盈利预测，可以在一定程度上反映行业整体预期盈利水平的前景，分析师一致预期业绩高增长的行业未来大概率表现更好。"
+        },
+        {
+          "name": "分析师预期+统计局数据合成指标",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "f=\\frac{1}{5}\\sum_{i=1}^{5}z_i,\\ z_i\\ \\text{为第i个单因子异常值处理并标准化后的得分}",
+          "stats": [null, null, null, 0.0845],
+          "evidence": "2007年至今，top5行业组合年化收益达到16.57%，bottom5行业组合年化收益-1.01%，多头超额 7.44%，多空超额 8.45%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst", "macro"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "2007年至今，5指标等权合成的行业因子top5行业组合年化收益16.57%，bottom5行业组合年化收益-1.01%，多头超额7.44%，多空超额8.45%。",
+      "evidence": "2007年至今，top5行业组合年化收益达到16.57%，bottom5行业组合年化收益-1.01%，多头超额 7.44%，多空超额 8.45%。"
+    },
+    {
+      "text": "基于行业基本面的行业轮动策略近几年表现尤为出色，2019年以来top5行业组合年化绝对收益39%，年化超额14%。",
+      "evidence": "基于行业基本面的行业轮动策略在近几年的表现尤为出色，2019 年以来 top5行业组合年化绝对收益 39%，年化超额 14%，这也与近年来主动投资者普遍重视基本面投资有关。"
+    },
+    {
+      "text": "统计局公布的工业企业的营收、利润增速和A股工业类上市公司的营收、利润增速有很好的同步性，可以用统计局数据预判A股工业类上市公司的盈利情况。",
+      "evidence": "统计局公布的工业企业的营收、利润增速，和 A 股工业类上市公司的营收、利润增速之间，有着很好的同步性，尤其是利润增速趋势几乎完全一致。"
+    },
+    {
+      "text": "工业企业利润总额累计同比指标表现优于分析师一致预期行业净利润同比增速，差异在2020年之前格外明显，分析师预期样本量少且有偏。",
+      "evidence": "工业企业利润总额的累计同比指标的表现优于分析师一致预期行业净利润同比增速，差异在2020年之前格外明显。"
+    },
+    {
+      "text": "沪深300增强组合引入行业轮动策略调整行业暴露敞口效果更好，相比行业完全中性组合年化收益可提高1%左右，信息比从2.6提升到2.74。",
+      "evidence": "对应的增强组合相比于行业完全中性组合，年化收益可以提高 1%左右，信息比也从 2.6 提升到2.74，在实现收益提升的同时，组合稳定性也有所提高。"
+    },
+    {
+      "text": "中证500增强组合同时放开行业暴露并调整个股zscore得分，相比行业完全中性组合年化收益提升0.5%，信息比基本不变。",
+      "evidence": "对应的增强组合相比于行业完全中性组合，年化收益提升 0.5%，信息比基本不变。从分年收益来看，过去 12 年中，有10 年都可以跑赢中性策略，胜率较高。"
+    },
+    {
+      "text": "夏普比top10%叠加行业轮动筛选的基金组合2010年以来相对等权基金池平均可取得8.69%的年化超额收益，过去12年中有10年跑赢等权基金池。",
+      "evidence": "这样的基金组合 2010年以来，相对于等权基金池，平均可取得 8.69%的年化超额收益。从分年收益来看，过去 12 年中有 10 年都可以跑赢等权基金池。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《东方 A 股因子风险模型——DFQ-2020》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

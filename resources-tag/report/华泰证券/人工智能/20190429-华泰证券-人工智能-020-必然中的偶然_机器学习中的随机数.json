@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20190429-华泰证券-人工智能-020-必然中的偶然_机器学习中的随机数",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L6_evaluation",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "tree", "neural", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection", "evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "当随机数种子变化时，逻辑回归的结果几乎保持不变，对随机数不敏感；全连接神经网络的结果可能发生较大变化，对随机数较敏感；XGBoost 和随机森林对随机数的敏感程度介于上述两者之间",
+      "evidence": "结果表明，当随机数种子变化时，逻辑回归的结果几乎保持不变，对随机数不敏感；全连接神经网络的结果可能发生较大变化，对随机数较敏感；XGBoost 和随机森林对随机数的敏感程度介于上述两者之间。"
+    },
+    {
+      "text": "sklearn 和 xgboost 包设置 random_state 超参数后就能保证结果可完全复现；keras 包在单线程、不用 GPU 环境下同时固定 numpy 和 tensorflow 两处随机数种子即可得到可重复结果",
+      "evidence": "我们测试了多种常用 Python 机器学习包随机数种子设置方法，结果表明 sklearn 和 xgboost 包设置 random_state 超参数后就能保证结果可完全复现；当以 tensorflow 作为后端使用 keras 包时，如果不使用 GPU，在单线程环境下同时固定 numpy 和 tensorflow 两处随机数种子就能确保全连接神经网络模型得到可重复的结果。"
+    },
+    {
+      "text": "四种随机性来源中，回测时间选择的变异程度较高、对模型表现影响较大；样本内数据随机扰动和算法本身随机数种子的变异程度较低、对模型表现影响较小",
+      "evidence": "比较四种随机性来源的变异系数，可知回测时间的变异程度较高，说明回测时间选择对模型表现的影响较大；样本外数据的变异程度居中，说明样本外数据的随机扰动对模型表现的影响一般；样本内数据和随机数种子的变异程度较低，说明样本内数据的随机扰动以及算法本身包含的随机数对模型表现的影响较小。"
+    },
+    {
+      "text": "变更随机数种子时，全连接神经网络的结果面临较大不确定性：Top 组合最差和最好情形年化收益率相差甚至超过 1.5%，多空组合相差超过 2%",
+      "evidence": "而全连接神经网络的结果面临较大的不确定性，Top组合最差和最好情形下的年化收益率相差甚至超过 1.5%，多空组合的最差和最好情形下的年化收益率相差超过 2%。"
+    },
+    {
+      "text": "对于简单模型或已证实随机数影响程度不高的模型，仅使用固定的单个随机数种子即可；对复杂模型或随机数影响较大的模型，应综合考虑多个随机数种子下的结果",
+      "evidence": "我们建议对于简单模型（如逻辑回归）或者已证实随机数影响程度不高的模型（如 XGBoost），策略开发过程中仅使用固定的单个随机数种子即可。对于复杂模型或者随机数影响程度较大的模型，可取的做法是综合考虑多个随机数种子下的结果。"
+    }
+  ],
+  "builds_on": [
+    "20170622-华泰证券-人工智能-002-广义线性模型",
+    "20190422-华泰证券-人工智能-019-偶然中的必然_重采样技术检验过拟合"
+  ],
+  "external_ref": [
+    "Hinton, G.E. et al. (2012). 《Improving neural networks by preventing co-adaptation of feature detectors》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

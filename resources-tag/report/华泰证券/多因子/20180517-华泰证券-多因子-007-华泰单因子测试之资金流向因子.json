@@ -1,0 +1,144 @@
+{
+  "schema_version": 2,
+  "id": "20180517-华泰证券-多因子-007-华泰单因子测试之资金流向因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "mfd_buyord（主力流入单数）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{当日主力（挂单额20万元以上的超大单与大单合计）流入的委托单数，回测时取相反数}",
+          "stats": [0.0335, null, 0.58, 0.2756],
+          "evidence": "mfd_buyord（主力流入单数）在组内的因子收益率、ICIR 值排名均较高，因此我们挑选其作为流入类代表因子进行展示。"
+        },
+        {
+          "name": "mfd_sellord（主力流出单数）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{当日主力（挂单额20万元以上的超大单与大单合计）流出的委托单数，回测时取相反数}",
+          "stats": [0.0467, null, 0.69, 0.4212],
+          "evidence": "mfd_sellord（主力流出单数）在组内的因子收益率、ICIR 值排名均较高，因此我们挑选其作为流出类代表因子进行展示。"
+        },
+        {
+          "name": "mfd_volinflowrate_m（主力净流入率）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{当日主力净流入量占当日总成交量的比率}",
+          "stats": [0.0393, null, 0.5, 0.1225],
+          "evidence": "mfd_volinflowrate_m（主力净流入率）在组内的因子收益率、t 值排名均较高，因此我们挑选其作为流入类代表因子进行展示。"
+        },
+        {
+          "name": "mfd_volinflowrate_open_m（开盘主力净流入率）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{早盘10:00前主力净流入量占成交量的比率}",
+          "stats": [0.0551, null, 0.78, 0.1471],
+          "evidence": "mfd_volinflowrate_open_m（开盘主力净流入率）在组内的因子收益率、t值排名均较高，因此我们挑选其作为流入类代表因子进行展示。"
+        },
+        {
+          "name": "mfd_buyord_turnover",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{主力流入单数因子与5日平均换手率因子横截面回归取残差所得因子}",
+          "stats": [0.0264, null, 0.49, 0.1892],
+          "evidence": "mfd_buyord_turnover：主力流入单数因子与换手率因子回归取残差所得因子。"
+        },
+        {
+          "name": "mfd_sellord_turnover",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{主力流出单数因子与5日平均换手率因子横截面回归取残差所得因子}",
+          "stats": [0.0391, null, 0.63, 0.3642],
+          "evidence": "mfd_sellord_turnover：主力流出单数因子与换手率因子回归取残差所得因子。"
+        },
+        {
+          "name": "mfd_volinflowrate_m_turnover",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{主力净流入率因子与5日平均换手率因子横截面回归取残差所得因子}",
+          "stats": [0.0125, null, 0.21, 0.0764],
+          "evidence": "mfd_volinflowrate_m_turnover：主力净流入率因子与换手率因子回归取残差所得因子。"
+        },
+        {
+          "name": "mfd_volinflowrate_open_m_turnover",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘主力净流入率因子与5日平均换手率因子横截面回归取残差所得因子}",
+          "stats": [0.026, null, 0.53, 0.087],
+          "evidence": "mfd_volinflowrate_open_m_turnover：开盘主力净流入率因子与换手率因子回归取残差所得因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "对Wind五十个资金流向因子按相关强度分为八类并逐一单因子测试，其中流入类、流出类、主力净流入类、开盘主力净流入类四类因子在选股上存在一定的实用性。",
+      "evidence": "本文对八类因子进行单因子测试，发现其中四类因子（流入类因子、流出类因子、主力净流入类因子、开盘主力净流入类因子）在选股上存在一定的实用性。"
+    },
+    {
+      "text": "持仓10个交易日下，mfd_buyord多空组合年化收益率27.56%、夏普3.53；mfd_sellord多空42.12%、夏普4.43；mfd_volinflowrate_m多空12.25%、夏普2.02；mfd_volinflowrate_open_m多空14.71%、夏普3.12。",
+      "evidence": "mfd_buyord（主力流入单数）和 mfd_sellord（主力流出单数）在 2017 年之前表现不错，mfd_buyord 的多空组合年化收益率为27.56%，夏普比率为 3.53；mfd_sellord 的多空组合年化收益率为 42.12%，夏普比率为 4.43；mfd_volinflowrate_m（主力净流入率）的多空组合年化收益率为 12.25%，夏普比率为 2.02；mfd_volinflowrate_open_m（开盘主力净流入率）的多空组合年化收益率为 14.71%，夏普比率为 3.12。"
+    },
+    {
+      "text": "流入类mfd_buyord与流出类mfd_sellord在2017年之前表现较好、之后回撤较大，mfd_sellord更好；主力净流入类mfd_volinflowrate_m与开盘主力净流入类mfd_volinflowrate_open_m表现平稳，2015年牛市期间因子收益率和IC值较大。",
+      "evidence": "从上面的图表可以看出，流入类因子 mfd_buyord（主力流入单数）与流出类因子mfd_sellord（主力流出单数）在 2017 年之前表现较好，2017 年之后回撤较大，mfd_sellord的表现要比 mfd_buyord 更好；主力净流入类因子 mfd_volinflowrate_m（主力净流入率）与开盘主力净流入类因子 mfd_volinflowrate_open_m（开盘主力净流入率）表现比较平稳，2015年牛市期间因子收益率和IC值较大。"
+    },
+    {
+      "text": "净主动买入类因子IC值与t值均较低、解释能力不显著，被定义为无效因子。",
+      "evidence": "观察发现净主动买入类因子的 IC 值与 t值均较低，反映模型整体线性拟合优度较差，被测单因子对模型的解释能力不显著，因此该类因子被我们定义为无效因子，后续步骤略过。"
+    },
+    {
+      "text": "与动量、换手率、波动率三类传统量价因子对比，动量、波动率类因子在t检验及因子收益率上表现不如资金流向因子，换手率因子表现相近。",
+      "evidence": "本文将四个资金流向代表因子和三类传统价量因子（动量、换手率、波动率）进行对比。在持仓时间为 10 个交易日的情况下，动量、波动率类因子在 t 检验以及因子收益率上表现不如资金流向因子，换手率因子的表现与资金流向因子相近。"
+    },
+    {
+      "text": "残差分析显示换手率因子对四个代表因子影响均较大，动量因子对流入和流出因子影响较大，波动率因子影响均较小；剔除三类量价因子后资金流向因子仍具增量信息。",
+      "evidence": "本文随后将四个资金流向代表因子对三类量价因子做残差分析，其中换手率因子对四个代表因子影响均较大，动量因子对流入和流出因子影响较大，波动率因子则对四个代表因子影响均较小。在剔除了三类量价因子的后，资金流向因子仍然具有传统量价因子中没有的增量信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《华泰单因子测试之估值类因子》",
+    "《华泰单因子测试之动量类因子》",
+    "《华泰单因子测试之换手率类因子》",
+    "《华泰单因子测试之波动率类因子》",
+    "《华泰多因子模型体系初探》（2016.09）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

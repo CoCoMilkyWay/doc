@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "20201110-中银国际-量化权益投资-003-有关barra中国权益cne5模型的思考_下",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["taxonomy"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["regression_test"], "setup": {"universe": ["all"]}},
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "CNE5局限一：行业因子不完全适用于A股，行业划分采用GICS标准，而A股从长周期考量中信行业分类更合理",
+      "evidence": "BarraCNE5局限性一：行业因子并不完全适用于 A股市场的分析习惯。CNE5模型针对 A股市场的行业划分采用的是 GICS国际行业划分标准，但是，在 A股市场大家常用的行业划分主要有两类：一是申万行业划分标准，二是中信行业划分标准。"
+    },
+    {
+      "text": "Barra计算因子收益率的股票池应根据分析对象群调整，针对不同类型产品模型对应的股票样本池应不同",
+      "evidence": "Barra CNE5局限性二：Barra计算因子收益率的股票池需要根据分析特定的分析对象群而进行调整。由于各机构投资风格、各类型产品的投资限制不同，各家机构的股票可选池差异很大，甚至同一个机构不同属性的产品，其可选标的差异也十分显著。"
+    },
+    {
+      "text": "中银CNE5风格因子在解释力显著性、稳定度与共线性上均不逊于官方：|t|均值2.6高于官方2.4",
+      "evidence": "中银 CNE5风格因子在因子解释力显著性、稳定度以及共线性角度均不逊于 BarraCNE5官方测试结果。具体来看：从因子解释力显著度角度：中银 CNE5 版本十个风格因子的|t|值的均值为 2.6，略高于官方文档的 2.4；"
+    },
+    {
+      "text": "2013年个股表现分化是CNE5解释力中枢下行的重要原因，模型解释力周期波动与个股离散度增减显著正相关",
+      "evidence": "1） 2013 年个股表现分化严重是导致 CNE5 因子解释力中枢下行的重要原因，且 CNE5 的模型解释力的周期性上升与下降与个股离散度的增减显著正相关；"
+    },
+    {
+      "text": "熊市中个股相关性快速增长、离散度Rho中枢上行，推测CNE5在熊市表现大概率优于牛市",
+      "evidence": "因此在大牛市中，各股相关性会趋势性下降，在熊市中各股相关性会快速增长，导致离散度 Rho 中枢上行。因此可以推测，CNE5 在熊市表现会有较大概率优于牛市，这一猜想也是可以通过观察图表 13 - 15 予以验证的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["有关 Barra 中国权益 CNE5 模型的思考（上）"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "id": "20240222-华泰证券-人工智能-074-gpt因子工厂_多智能体与因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["llm_generation"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GPT-Alpha1",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Div(TS\\_Corr(Mul(S\\_DQ\\_CLOSE, S\\_DQ\\_VOLUME), TS\\_Return(S\\_DQ\\_CLOSE, 1), 10), TS\\_Std(S\\_DQ\\_VOLUME, 10))}",
+          "stats": [null, null, null, null],
+          "evidence": "首次因子挖掘能最大程度反映GPT在因子挖掘方面的能力。图表11展示初次挖掘出的部分因子表达式，因子表达式总体较为复杂，FactorGPT可以产出复杂且具备因子释义的因子。"
+        },
+        {
+          "name": "GPT-Alpha2",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Div(TS\\_Return(Add(S\\_DQ\\_HIGH, S\\_DQ\\_LOW), 10), TS\\_Mean(S\\_DQ\\_VOLUME, 10))}",
+          "stats": [null, null, null, null],
+          "evidence": "首次因子挖掘能最大程度反映GPT在因子挖掘方面的能力。图表11展示初次挖掘出的部分因子表达式，因子表达式总体较为复杂，FactorGPT可以产出复杂且具备因子释义的因子。"
+        },
+        {
+          "name": "GPT-Alpha3",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Rank\\_Div(TS\\_Corr(Decay\\_Linear(S\\_DQ\\_CLOSE, 5), Decay\\_Linear(S\\_DQ\\_VOLUME, 5), 5), TS\\_Std(Sub(Add(S\\_DQ\\_HIGH, S\\_DQ\\_LOW), Mul(S\\_DQ\\_OPEN, 2)), 5))}",
+          "stats": [null, null, null, null],
+          "evidence": "首次因子挖掘能最大程度反映GPT在因子挖掘方面的能力。图表11展示初次挖掘出的部分因子表达式，因子表达式总体较为复杂，FactorGPT可以产出复杂且具备因子释义的因子。"
+        },
+        {
+          "name": "GPT-Alpha4",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Rank\\_Mul(TS\\_Return(S\\_DQ\\_CLOSE, 20), Rank(TS\\_Mean(S\\_DQ\\_VOLUME, 20)))}",
+          "stats": [null, null, null, null],
+          "evidence": "首次因子挖掘能最大程度反映GPT在因子挖掘方面的能力。图表11展示初次挖掘出的部分因子表达式，因子表达式总体较为复杂，FactorGPT可以产出复杂且具备因子释义的因子。"
+        },
+        {
+          "name": "GPT-Alpha5",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Rank\\_Div(Rank\\_Add(TS\\_Return(S\\_DQ\\_CLOSE, 10), TS\\_Std(Sub(S\\_DQ\\_HIGH, S\\_DQ\\_LOW), 10)), Rank(TS\\_Mean(S\\_DQ\\_VOLUME, 10)))}",
+          "stats": [null, null, null, null],
+          "evidence": "首次因子挖掘能最大程度反映GPT在因子挖掘方面的能力。图表11展示初次挖掘出的部分因子表达式，因子表达式总体较为复杂，FactorGPT可以产出复杂且具备因子释义的因子。"
+        },
+        {
+          "name": "更进一步优化的量价动力因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Rank\\_Mul(Div(Rank(TS\\_Mean(S\\_DQ\\_CLOSE, 10)), Rank(TS\\_Mean(S\\_DQ\\_VOLUME, 10))), Inv(TS\\_Std(Sub(S\\_DQ\\_HIGH, S\\_DQ\\_LOW), 30)))}",
+          "stats": [null, null, null, null],
+          "evidence": "图8、图9和图10展示GPT因子工厂挖掘出因子后，进行第二次优化后的一个因子实例。从累计周度IC和RankIC看，因子表现较为稳定，方向为正向；从分层回测结果上看，因子分层差异明显，不同分层间指标单调变化，表明该因子效果较好。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "二次优化后的因子中，IC表现靠前（前20%）绝对值均值为0.034，RankIC表现靠前（前20%）绝对值均值为0.054，因子表现整体较好。",
+      "evidence": "在二次优化后的因子中，IC表现靠前（前20%）绝对值均值为0.034，RankIC表现靠前（前20%）绝对值均值为0.054，因子表现整体较好。"
+    },
+    {
+      "text": "首次因子挖掘获得的因子中，分层1年化超额收益均值为11.14%，分层5年化超额收益均值为-1.11%，分层1-分层5年化超额收益均值为12.25%，因子分层效果总体较好。",
+      "evidence": "对于因子挖掘效果，首次因子挖掘获得的因子中，分层1年化超额收益均值为11.14%，分层5年化超额收益均值为-1.11%，分层1-分层5年化超额收益均值为12.25%，因子分层效果总体较好。"
+    },
+    {
+      "text": "首次因子挖掘中因子相关系数绝对值均值为0.229，优化后变为0.192和0.230，两次优化后相关性水平依旧保持，产出的因子相关性普遍较低。",
+      "evidence": "对于因子相关性，首次因子挖掘中，因子相关系数绝对值均值为0.229，优化后变为0.192和0.230，第一次优化后与第二次优化后的因子相关性水平依旧保持，因子工厂产出的因子相关性普遍较低。"
+    },
+    {
+      "text": "第二次优化相较首次挖掘和第一次优化显示出较明显的提升效果，例如|t|均值从4.57和4.53提升至4.65，|t|>2占比从69.44%和69.60%提升至71.27%。",
+      "evidence": "对于因子优化效果，第二次优化后，相较首次挖掘和第一次优化，显示出较为明显的提升效果，例如|t|均值从4.57和4.53提升至4.65，|t|>2占比从69.44%和69.60%提升至71.27%。"
+    },
+    {
+      "text": "词频分析显示FactorGPT能够从底层表字段出发较准确显示因子的量价特征，EvalGPT则擅长从窗长等角度对因子提出优化建议。",
+      "evidence": "词频分析显示FactorGPT能够从底层表字段出发，较准确显示出因子的量价特征；EvalGPT则擅长从窗长等角度对因子提出优化建议。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Wang, L., Ma, C., Feng, X., Zhang, Z., Yang, H., Zhang, J., ... & Wen, J. R. (2023). A survey on large language model based autonomous agents. arXiv preprint arXiv:2308.11432.",
+    "Wang, S., Yuan, H., Zhou, L., Ni, L. M., Shum, H. Y., & Guo, J. (2023). Alpha-GPT: Human-AI Interactive Alpha Mining for Quantitative Investment. arXiv preprint arXiv:2308.00016."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

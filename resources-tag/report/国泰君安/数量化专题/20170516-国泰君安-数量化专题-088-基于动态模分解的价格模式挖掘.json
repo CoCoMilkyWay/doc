@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "id": "20170516-国泰君安-数量化专题-088-基于动态模分解的价格模式挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "主导特征值",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\lambda_{j}=\\text{eig}(\\tilde{S}),\\quad \\tilde{S}=U^{\\top}X_{2}W\\Sigma^{-1}",
+          "stats": [null, null, null, null],
+          "evidence": "模型的主导特征值反映了股价运动的未来趋势。当特征值的模大于1时，特征值位于单位圆外，是趋势扩张的信号；当特征值的模小于1时，特征值位于单位圆内，是趋势衰弱的信号；当特征值的模接近于1时，特征值位于单位圆上，是趋势震荡的信号。"
+        },
+        {
+          "name": "拟合优度",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "R^{2}=\\frac{SSR}{SST}",
+          "stats": [null, null, null, null],
+          "evidence": "模型的拟合优度反映了模型与市场的契合度。拟合优度过低时表明从技术分析层面来看市场的规律性较少，模型的适用性较低，模型结果的可信度较低。通常，我们在拟合优度不处于历史低位时使用该模型。"
+        },
+        {
+          "name": "平均拟合优度",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{对拟合优度 } R^{2} \\text{ 作30日算术平均}",
+          "stats": [null, null, null, null],
+          "evidence": "在对拟合优度作 30 日算术平均后，拟合优度体现出了良好的平滑性与周期性。拟合优度的变化表明了当前时间窗口下模型的可信度。平均拟合优度在一年内约完成一到两次完整的周期震荡，基本符合拟合优度的经济逻辑。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["smoothing"], "setup": {"universe": ["csi300"]}},
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "基于主导特征值与拟合优度的事件交易在过去11年中有近九成胜率，共发出25次信号，千三手续费下累积收益70%，最大回撤7%。",
+      "evidence": "基于主导特征值与拟合优度的事件交易在过去 11 年中有近九成胜率，共发出 25 次信号，千三手续费下累积收益 70%。最大回撤 7%。"
+    },
+    {
+      "text": "择时策略千三手续费下单边买入年化收益率21.7%；优化卖点后年化收益率提高至24.1%，夏普比率1.61，收益回撤比1.31，最大回撤18.3%发生于2007年牛市调整期间，自2008年以来最大回撤为12.2%。",
+      "evidence": "基于主导特征值与拟合优度的择时策略，千三手续费下，单边买入策略年化收益率为21.7%。继续优化卖点后，年化收益率提高至 24.1%，夏普比率1.61，收益回撤比 1.31，最大回撤18.3%，发生于2007年牛市调整期间。自2008年以来，最大回撤为 12.2%。"
+    },
+    {
+      "text": "同时使用滚动最优参数和平滑拟合优度筛选后，主导特征值系数在0.1%的显著性水平显著大于0，T统计量从1.22上升至3.49，模型预测进一步增强。",
+      "evidence": "结果表明，主导特征值系数在 0.1%的显著性水平显著大于0，T 统计量从 1.22上升至3.49。在结合两种改进方式后，模型的预测进一步得到增强。"
+    },
+    {
+      "text": "简单机械地用动态模分解的主导特征值预测未来收益率有一定预测能力但效果并不理想，T统计量仅为0.776，需要引入适用性检验与滚动时间窗口改进。",
+      "evidence": "结果表明，简单机械地用动态模分解的主导特征值预测未来的收益率，有一定的预测能力，但其效果并不理想。"
+    },
+    {
+      "text": "标准一筛选后主导特征值系数在1%显著性水平下显著大于0，预测能力显著增强，阈值为1.08时事件策略准确度可达88%，共发生25次信号。",
+      "evidence": "而主导特征值系数在 1%显著性水平下显著大于0。主导特征值的预测能力显著增强。"
+    },
+    {
+      "text": "随着阈值增加至1.08，事件策略准确度可达88%，但筛选要求较高导致信号次数较少，共25次，平均一年2次信号。",
+      "evidence": "随着阈值的增加至 1.08，策略的准确度可达 88%，但由于筛选要求较高，导致策略的信号发生次数较少，共发生了25次，平均一年 2次信号。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Fama 和 MacBeth(1973)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

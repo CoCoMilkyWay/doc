@@ -1,0 +1,149 @@
+{
+  "schema_version": 2,
+  "id": "20250611-兴业证券-基本面-009-事件驱动视角下的公司公告alpha挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["text"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment", "participant_behavior", "corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "另类公告事件",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{从发布后有明显超额收益的公告出发，用TextRank抽取公告标题双词关键词组，滚动三年训练筛选核心关键词组触发的事件信号}",
+          "stats": [null, null, null, null],
+          "evidence": "我们从发布后有明显超额收益的公告出发，总结出触发哪些公告关键词的公告值得关注，从而建立另类公告事件数据库。"
+        },
+        {
+          "name": "综合公告事件",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{另类文本公告事件与逻辑公告事件（股权激励、股东增持、股份回购、员工持股计划等）合并触发的正向事件信号}",
+          "stats": [null, null, null, null],
+          "evidence": "上文基于公司公告数据从另类文本和逻辑两个维度分别构建了公告事件库，下面我们将事件合并作为综合公告事件库。"
+        },
+        {
+          "name": "股权激励",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{基于聚源激励计划（LC_IncentivePlans）表，按首次发布日期识别的股权激励公告事件}",
+          "stats": [null, null, null, null],
+          "evidence": "我们基于聚源的激励计划（LC_IncentivePlans）表筛选 2014 年 1 月 1 日至2025年3月31日发布股权激励公告的公司（按照首次发布日期作为事件发生日）"
+        },
+        {
+          "name": "股东增持",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{基于聚源股东增减持计划表（LC_TransferPlan）识别的股东增持公告事件}",
+          "stats": [null, null, null, null],
+          "evidence": "如果我们在上市公司发布股东增持事件后买入，其往后的 60 个交易日中的超额收益整体较高，但并非特别稳定，持有 60 个交易日平均能够获得5.21%的超额收益，胜率达 54.20%，盈亏比为 1.97。"
+        },
+        {
+          "name": "股份回购",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{基于聚源股份回购计划表识别的股份回购公告事件}",
+          "stats": [null, null, null, null],
+          "evidence": "如果我们在上市公司发布股权回购事件后买入，其往后的 60 个交易日中的超额收益表现相对一般，持有 60 个交易日平均能够获得 3.08%的超额收益，胜率达 49.13%，盈亏比为 1.53。"
+        },
+        {
+          "name": "员工持股计划",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{基于聚源员工持股计划表识别的员工持股计划公告事件}",
+          "stats": [null, null, null, null],
+          "evidence": "如果我们在上市公司发布员工持股计划事件后买入，其往后的 60 个交易日中的超额收益相对稳定，持有 60 个交易日平均能够获得 4.91%的超额收益，胜率达 51.79%，盈亏比为 1.88。"
+        },
+        {
+          "name": "股东质押/冻结",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{基于聚源股东质押表筛选质押/冻结比例超过20%的股权质押/冻结公告事件}",
+          "stats": [null, null, null, null],
+          "evidence": "如果我们在上市公司发布相应事件后买入，其往后的 60 个交易日中的负向超额收益相对稳定，持有 60 个交易日平均能够获得-3.37%的超额收益，胜率为 38.98%，盈亏比为 0.71。"
+        },
+        {
+          "name": "股东被动减持",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{基于聚源股东增减持计划表（LC_TransferPlan）识别的股东被动减持公告事件}",
+          "stats": [null, null, null, null],
+          "evidence": "如果我们在上市公司发布股东被动减持事件后买入，其往后的 60 个交易日中的负超额收益较为稳定，持有 60 个交易日平均能够获得-3.28%的超额收益，胜率为 39.44%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "个股综合公告事件发生后买入，持有60个交易日平均能获得8.82%的超额收益，超额胜率达50.91%，超额盈亏比为2.25。",
+      "evidence": "若我们在个股综合公告事件发生后买入，持有 60 个交易日平均能获得 8.82%的超额收益，超额胜率达 50.91%，超额盈亏比为 2.25。"
+    },
+    {
+      "text": "目标导向方法将公告事件生成流程化、动态化，解决传统逻辑事件库更新缓慢、适应市场环境较难等问题，正向和负向公告事件效果均十分显著。",
+      "evidence": "此方法可将公告事件生成流程化、动态化，同时解决传统逻辑事件库更新缓慢、适应市场环境较难等问题，通过此方法构建的正向和负向公告事件效果均十分显著。"
+    },
+    {
+      "text": "另类公告事件发生后买入，持有20个交易日平均能够获得14.40%的相对中证500超额收益，超额胜率为49.28%，盈亏比高达3.24。",
+      "evidence": "如果我们在上市公司发布另类公告事件后买入，平均超额收益率较高，持有20个交易日平均能够获得14.40%的相对中证500超额收益，超额胜率为49.28%。"
+    },
+    {
+      "text": "叠加多因子的定期离场公告事件策略，考虑双边千三费率后2014至2025年3月年化收益30.88%，相对中证500超额收益率24.57%，超额收益风险比2.32。",
+      "evidence": "以叠加多因子的定期离场公告事件策略为例，考虑双边千三费率后，此策略2014 至 2025 年 3 月期间的年化收益为 30.88%，相对中证 500 指数的超额收益率为 24.57%，超额收益风险比达 2.32；"
+    },
+    {
+      "text": "沪深300指数负面剔除40天策略年化收益率7.64%，相对沪深300指数超额收益率2.54%，分年度超额收益率相对稳定。",
+      "evidence": "同时以剔除 40 天策略为例，策略年化收益率为 7.64%，相对沪深300 指数超额收益率为 2.54%，且分年度来看超额收益率相对稳定。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《事件驱动角度下的个股质量监控体系搭建》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

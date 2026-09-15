@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "id": "20230217-中信建投-逐鹿alpha-013-基于openfe的基本面因子挖掘框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "成长因子",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{CSRank}(x\\cdot f(a) \\pm y\\cdot f(b)),\\quad a,b\\in\\text{损益表/现金流量表/资产负债表},\\ f\\in\\{QOQ,YOY\\},\\ x,y\\in[0,5]",
+          "stats": [null, null, null, null],
+          "evidence": "同理，借鉴资产负债率，ROE，净利润现金比率，PE，净利润同比增长率等因子结构，本文构建了杠杆因子，收益因子，质量因子，估值因子，成长因子共 5 类风格因子，因子结构如下表所示。"
+        },
+        {
+          "name": "价值因子",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{CSRank}((a \\pm b)/\\text{market\\_value}),\\quad a,b\\in\\text{损益表/现金流量表/资产负债表}",
+          "stats": [null, null, null, null],
+          "evidence": "在构造估值类合成因子时，我们将其扩展为二阶因子，具体做法为分子端的单因子改为 a±b 的形式，其中 a，b∈损益表/现金流量表/资产负债表，分母端为总市值，当 a=b，且算子为+时，此二阶因子等价于 PE。"
+        },
+        {
+          "name": "盈利因子",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{CSRank}((a \\pm b)/(c \\pm d)),\\quad a,b\\in\\text{损益表},\\ c,d\\in\\text{资产负债表}",
+          "stats": [null, null, null, null],
+          "evidence": "同理，借鉴资产负债率，ROE，净利润现金比率，PE，净利润同比增长率等因子结构，本文构建了杠杆因子，收益因子，质量因子，估值因子，成长因子共 5 类风格因子，因子结构如下表所示。"
+        },
+        {
+          "name": "质量因子",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{CSRank}((a \\pm b)/(c \\pm d)),\\quad a,b\\in\\text{损益表},\\ c,d\\in\\text{现金流量表}",
+          "stats": [null, null, null, null],
+          "evidence": "从各类风格因子的平均重要性可以看出，价值因子的重要性最高，其次为成长因子，质量因子的平均重要性最低。"
+        },
+        {
+          "name": "杠杆因子",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{CSRank}((a \\pm b)/(c \\pm d)),\\quad a,b,c,d\\in\\text{资产负债表}",
+          "stats": [null, null, null, null],
+          "evidence": "同理，借鉴资产负债率，ROE，净利润现金比率，PE，净利润同比增长率等因子结构，本文构建了杠杆因子，收益因子，质量因子，估值因子，成长因子共 5 类风格因子，因子结构如下表所示。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "将三大报表的数据与基础算子按一定结构排列组合，构建出不同风格类型的因子共计约70万个，再利用 openFE 的两步筛选法，筛选出不同风格类型下表现最好的合成因子。",
+      "evidence": "本文介绍了一种基于 openFE 的基本面因子挖掘方法，将三大报表的数据以及基础算子之间按照一定的结构进行排列组合，构建出不同风格类型的因子共计约 70 万个，再利用 openFE 的两步筛选法，筛选出不同风格类型下表现最好的合成因子。"
+    },
+    {
+      "text": "动量，市值，行业为最重要的因子，其次估值及成长因子表现较好，质量因子在A股的表现较为一般。",
+      "evidence": "对比因子的表现，动量，市值，行业为最重要的因子，其次估值及成长因子表现较好，质量因子在 A 股的表现较为一般。"
+    },
+    {
+      "text": "利用构造的合成因子以及基础因子训练月频选股模型，回测区间内全市场内选股的年化超额为21%，夏普比率为1.19。",
+      "evidence": "利用构造的合成因子以及基础因子，训练月频的选股模型，模型在回测区间内，在全市场内选股的年化超额为 21%，夏普比率为 1.19，年化超额收益 21%，夏普比率为 1.19。"
+    },
+    {
+      "text": "模型应用于不同指数成分股表现明显分化，在中证500和中证1000中表现较好，而在沪深300中表现一般。",
+      "evidence": "将训练好的模型应用于不同的指数成分股中进行预测，策略的表现会出现明显的分化，在中证 500 和中证1000 中，模型表现较好，而在沪深 300 中，模型表现一般。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Alpha360", "AlphaZero", "DeepLOB", "openFE"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

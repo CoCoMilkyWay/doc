@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "id": "20210714-国泰君安-学界纵横-013-防御性因子择时_低频化风险控制工具",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "weekly"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "风险容忍指标",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "event",
+          "formula": "RTI=Corr[q(R_{t}),q(\\sigma_{t})]",
+          "stats": [null, null, null, null],
+          "evidence": "为了确定这种风险容忍度较低的时期，本文如下定义了风险容忍指标（Risk ToleranceIndicator，下文简称 RTI）"
+        },
+        {
+          "name": "分散比率指标",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "event",
+          "formula": "\\frac{\\sum w_{i}\\sigma_{i}}{\\sigma_{p}}",
+          "stats": [null, null, null, null],
+          "evidence": "基于这种效应，本文提出了分散比率指标，以估测投资组合的集中度"
+        },
+        {
+          "name": "估值指标",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "event",
+          "formula": "\\text{对每个宏观因子分别估值并衡量其相对历史长期平均值的价格与内在价值关系}",
+          "stats": [null, null, null, null],
+          "evidence": "在此部分中，文章分别对每个宏观因子进行估值并衡量其相对历史价值。一个正的估值指标代表其当前价格较便宜，反之则代表当前价格更贵。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["risk_based"],
+      "setup": {"universe": ["na"], "rebalance": "event"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation", "L8_timing"],
+      "approach": ["relative_value", "sentiment_flow", "macro_valuation"],
+      "setup": {"rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "防御性因子择时通过风险容忍、分散比率与因子估值三个指标，在观测到极端值后对组合去风险化，能在多次下行市场中缩小最大回撤",
+      "evidence": "数据显示，若根据防御性因子择时策略，在观测到对应指标出现极端值后对投资组合进行去风险化，都能使最大回撤在一定程度上缩小，这说明了该策略的有效性。"
+    },
+    {
+      "text": "RTI 与分散比率的相关系数约为-0.2，两指标互补，可在较多情况下进行预测",
+      "evidence": "同时需要注意的是，在 2006 年-2018 年的历史样本中，RTI 与分散比率的相关系数约为-0.2，这意味着两指标是互补的。"
+    },
+    {
+      "text": "策略行动频率很低，约 12-18 月一次，分析与操作成本较低",
+      "evidence": "故此策略的行动频率很低，约 12-18 月一次。"
+    },
+    {
+      "text": "2010 年欧债危机中 RTI 极速下跌触发去风险 20%，最大回撤由 4.1%缩小至 3.3%；2012 年 4 月 RTI 快速下降后同样去风险 20%，回撤由 1.9%缩小至 1.5%",
+      "evidence": "将组合去风险 20%后，调整后的投资组合最大回撤仅为 3.3%，小于原投资组合的 4.1%，这说明了 RTI 指数的有效性。"
+    },
+    {
+      "text": "2013 年缩减恐慌中，对比调整后的投资组合与原组合，投资组合在此期间的最大回撤由原组合的 9.5%缩小到了 7.3%",
+      "evidence": "在对比调整后的投资组合与原组合后可以发现，投资组合在此期间的最大回撤由原组合的 9.5%缩小到了 7.3%。"
+    },
+    {
+      "text": "2015 年 7 月 RTI 快速下跌触发去风险化 20%，将该期间最大回撤由 5.5%缩小到 4.5%",
+      "evidence": "2015 年 7 月，随着 RTI 指标再次快速下跌，我们依然选择将投资组合去风险化 20%，直至 2015 年 10 月 RTI 指标回升。这种调整同样将该期间的最大回撤由 5.5%缩小到了 4.5%"
+    },
+    {
+      "text": "2004-2017 年 14 个主要资产种类的前三个主要成分对收益解释率达 82%，前六个达 92%，支撑以六个宏观因子代表主流资产收益",
+      "evidence": "通过对 2004 年-2017 年间 14 个主要资产种类的分析与计算，Fergis 发现前三个主要成分对收益的解释率达到 82%，而前六个主要成分的解释率则高达 92%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Defensive Factor Timing"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

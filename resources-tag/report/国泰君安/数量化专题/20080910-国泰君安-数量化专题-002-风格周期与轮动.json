@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "20080910-国泰君安-数量化专题-002-风格周期与轮动",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "风格走势预测准确性必须达到80%以上才能弥补预测不准的风险成本，不完美的风格走势预测将导致风格转换收益比不上风格固定比例组合。",
+      "evidence": "结论显示，必须要达到 80%以上对未来风格走势的预测准确性，才能弥补由于预测不准所带来的风险成本。不完美的风格走势预测将导致风格转换收益比不上风格固定比例组合。"
+    },
+    {
+      "text": "从多国家、长区间结果看价值股表现优于成长股的概率更大，但仍有39%-45%的概率成长股表现更好，这预示风格转换仍有研究价值。",
+      "evidence": "虽然上述研究均证明，长期来说，价值股的表现优于成长股，但仍有成长股表现好的证据，Robert等人的研究表明，1975年 1月-1995年 6月期间，在美国、英国、日本、加拿大及德国五国，有 39%-45%的概率成长股表现更好。"
+    },
+    {
+      "text": "美国、日本市场上不同规模组合在不同经济条件下的收益表现呈现出周期变换，且对于某一经济因素的变化美、日市场呈现出一致性。",
+      "evidence": "来自 Salomon Brothers Inc.的一份报告显示，美国、日本市场上，不同规模组合在不同经济条件下的收益表现呈现出周期变换，且对于某一经济因素的变化，美、日市场呈现出一致性。"
+    },
+    {
+      "text": "结合盈利预期动量反转与价值成长两种划分，可以得到四种风格策略：成长动量、成长反转、价值动量和价值反转。",
+      "evidence": "将以上两种划分结合起来，就可以得到四种风格策略：成长动量、成长反转、价值动量和价值反转。"
+    },
+    {
+      "text": "基于多重标准的风格轮换组合能获得比基于单一股票指数的风格轮换组合高出2.78%的收益率，夏普比率0.58高于风格指数的0.54。",
+      "evidence": "Bruce Jacobs andKenneth Levy（1999）的研究表明，在 1990-1994 年期间，基于多重标准的风格轮换组合能获得比基于单一股票指数的风格轮换组合高出 2.78%的收益率，夏普比率为 0.58，高于风格指数 0.54的水平。"
+    },
+    {
+      "text": "BARRA风格分析系统将组合收益率对各种风格指数收益率进行回归，然后根据回归系数将组合收益率在不同风格指数间进行分配。",
+      "evidence": "BARRA 公司在夏普（1998）风格鉴别方法的基础上，开发了风格分析系统，其主要思路是：将组合收益率对各种风格指数收益率进行回归，然后根据回归系数将组合收益率在不同风格指数间进行分配。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bernstein, Richard, Style Investing: Unique Insight into Equity Management, John Wiley & Sons, 1995",
+    "Farrell, James L., Portfolio Management: Theory and Applications, McGraw-Hill/Irwin, 1996"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

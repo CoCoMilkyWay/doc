@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "id": "20220721-华泰证券-人工智能-059-强化学习初探与dqn择时",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L8_timing": {"module": ["L8_timing"], "approach": ["ml_timing"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "使用DQN构建上证指数择时策略，原始超参数样本外2017年至2022年6月年化超额收益率18.2%，夏普比率1.31，年均调仓42.0次，优化后策略表现进一步提升。",
+      "evidence": "使用 DQN 构建上证指数择时策略，原始超参数样本外 2017 年至 2022 年 6 月年化超额收益率18.2%，夏普比率 1.31，年均调仓 42.0 次，优化后策略表现进一步提升。"
+    },
+    {
+      "text": "优化后超参数（折扣因子γ=0.5，回放内存replay_memory=32，回看区间lookback=5，预测区间horizon=10）下，择时策略样本外年化超额收益率提升至37.0%，夏普比率提升至3.27，年均调仓35.5次。",
+      "evidence": "优化后的超参数为：折扣因子 γ=0.5，回放内存 replay_memory=32，回看区间 lookback=5，预测区间 horizon=10。此时，择时策略样本外年化超额收益率提升至 37.0%，夏普比率提升至 3.27，年均调仓 35.5 次。"
+    },
+    {
+      "text": "强化学习模型对随机数种子敏感：每组随机数种子单独产生信号，样本外年化超额收益均值13.4%，最高28.0%，最低-0.3%，标准差高达8.0%，超过均值的一半。",
+      "evidence": "以前述择时策略为例，每组随机数种子单独产生信号，样本外策略相对基准强弱如下图，各随机数种子表现差距较大。年化超额收益均值 13.4%，最高 28.0%，最低-0.3%，标准差高达 8.0%，标准差超过均值的一半。"
+    },
+    {
+      "text": "折扣因子γ越小，远期奖励权重越低，越关注短期收益，越有利于择时策略；γ=0.5和0.7表现接近，γ=0.9较差。",
+      "evidence": "不同折扣因子收益率表现：γ=0.5 和 0.7 接近，γ=0.9 较差。折扣因子 γ 越小，远期奖励权重越低，越关注短期收益，有利于择时策略。"
+    },
+    {
+      "text": "预测区间horizon=10最好，horizon=5次之，horizon=1最差；预测区间越大，计算奖励时目光越长远，有利于择时策略。",
+      "evidence": "不同预测区间收益率表现：horizon=10 最好，horizon=5 次之，horizon=1 最差。预测区间越大，计算奖励时目光越长远，有利于择时策略。"
+    },
+    {
+      "text": "股票择时场景数据量不足：日频行情样本量约在103数量级，分钟频约106数量级，逐笔约107数量级，强化学习可能更适用于高频领域。",
+      "evidence": "对于股票择时场景，日频行情样本量约在 103数量级，分钟频行情样本量约在 106 数量级，逐笔数据样本量约在 107数量级。强化学习可能更适用于高频领域。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Sutton, R. , & Barto, A. . (2018). Reinforcement Learning: An Introduction Second edition. MIT Press.",
+    "Volodymyr, M. , Koray, K. , David, S. , Rusu, A. A. , Joel, V. , & Bellemare, M. G. , et al. (2015). Human-level control through deep reinforcement learning. Nature 518, 529–533."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

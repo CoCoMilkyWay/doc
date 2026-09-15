@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "20161110-东方证券-因子选股-016-非对称价格冲击带来的超额收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "价格冲击偏差",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\gamma^{up}-\\gamma^{down}}{S_{\\gamma^{up}-\\gamma^{down}}}",
+          "stats": [null, -0.081, -2.62, 0.296],
+          "evidence": "我们基于股票5 分钟的资金流和行情数据提出了价格冲击偏差的概念，用于捕捉这一特征。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "价格冲击偏差在横截面上有很强的选股能力：因子RankIC均值-0.081，IC_IR-2.62，价格冲击偏差最小的1/10组合相对市场等权年化超额收益高达11.2%，信息比1.53，月胜率74.1%。",
+      "evidence": "因子 RankIC均值-0.081，IC_IR-2.62，价格冲击偏差最小的 1/10 组合相对市场等权年化超额收益高达 11.2%，信息比 1.53，月胜率 74.1%。"
+    },
+    {
+      "text": "价格冲击偏差具有alpha的信息增量：控制市值、行业、月收益率、特异度、日内特质偏度等因子后，表现虽稍有回落但超额收益依然显著，说明其存在相对独立的超额收益来源。",
+      "evidence": "但在控制住月收益率、特异度、日内特质偏度等alpha因子后价格冲击偏差的表现虽稍有回落，但因子的超额收益依然显著，说明其存在相对独立的超额收益来源，具有alpha的信息增量。"
+    },
+    {
+      "text": "价格冲击偏差表现出反转特征，价格冲击偏差越小的股票未来收益越高，RankIC均值的绝对值高达0.081，属于相对较高水平。",
+      "evidence": "价格冲击偏差越小的股票未来收益越高，RankIC均值的绝对值高达0.081，在单因子中也属于相对较高的水平。"
+    },
+    {
+      "text": "价格冲击偏差间接反映了股票在特定时间区间的乐观和悲观程度，情绪乐观时主动买单容易拉升股价，情绪悲观时主动卖单容易打压股价。",
+      "evidence": "价格冲击偏差间接反映了股票在特定时间区间的乐观和悲观程度，情绪乐观时，卖单少，而且卖家也会延迟卖出，所以主动买单容易拉升股价，情绪悲观是，买单少，而且买家会延迟买入，所以主动卖单容易打压股价。"
+    },
+    {
+      "text": "在做风格中性处理（加入市值对数、行业）后，价格冲击偏差因子的收益水平变差，但稳定性有所增强，IC_IR与多空组合夏普比改善。",
+      "evidence": "价格冲击偏差在做风格中性处理后，因子的收益水平变差，但稳定性有所增强, 回归方程（1）、（2）。在回归方程的控制变量中加入市值对数、行业后，因子的 IC_IR、多空组合的夏普比都有所改善，但 IC 的均值和多空组合的收益率回落明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

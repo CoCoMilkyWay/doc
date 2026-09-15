@@ -1,0 +1,174 @@
+{
+  "schema_version": 2,
+  "id": "20160219-东方证券-因子选股-006-用组合优化构建更精确多样的投资组合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP_LF",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近财报公布的净资产}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 价值 BP_LF | 最近财报公布的净资产/总市值 |"
+        },
+        {
+          "name": "EP_Fwd12M",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{预测未来12个月的净利润}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 价值 EP_Fwd12M | 预测未来12 个月的净利润/总市值 |"
+        },
+        {
+          "name": "DP_FY1",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近预测财年(FY1)每股股利}}{\\text{收盘价}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 价值 DP_FY1 | 最近预测财年(FY1)每股股利/收盘价 |"
+        },
+        {
+          "name": "ProfitGrowth_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度净利润同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "| 成长 ProfitGrowth_YOY | 单季度净利润同比增长率 |"
+        },
+        {
+          "name": "IRFF",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "1-R^{2}\\text{，其中R为个股收益对Fama French三因子收益率时间序列回归的R方}",
+          "stats": [null, null, null, null],
+          "evidence": "| 风险 IRFF | (1–R），其中R 为个股收益对 Fama French 三因子收益率时间序 列回归的R方 |"
+        },
+        {
+          "name": "TO",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{20日日均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "| 风险 TO | 20 日日均换手率 |\n| 风险 LNMV | 总市值的对数 |"
+        },
+        {
+          "name": "LNMV",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{总市值})",
+          "stats": [null, null, null, null],
+          "evidence": "| 风险 LNMV | 总市值的对数 |\n| 技术 PPReversal | 5 日成交均价/60 日成交均价 |"
+        },
+        {
+          "name": "PPReversal",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{5日成交均价}}{\\text{60日成交均价}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 技术 PPReversal | 5 日成交均价/60 日成交均价 |"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "w_k=\\frac{E[IC_k]}{std(IC_k)},\\ \\text{合成因子}=\\sum_k w_k f_k",
+          "stats": [null, null, null, null],
+          "evidence": "由于本文的重点放在风险模型构建和投资组合优化上，简单起见，我们只采用单个因子过去 24 个月滚动 IR进行加权，得到合成的因子值。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_covariance"],
+      "approach": ["shrinkage"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "根据Ledoit and Wolf (2003)的方法在国内首次提出具有实用性的风险模型构建方式：协方差矩阵的压缩估计量，解决股票数量N超过样本个数T时样本协方差矩阵不可逆的问题，同时降低估计误差，且构建和维护过程相对简单、具有较好的风险预测能力。",
+      "evidence": "根据 Ledoit and Wolf (2003)的方法，我们在国内首次提出了一种具有实用性的风险模型构建方式：协方差矩阵的压缩估计量(Shrinkage Estimator)。它解决了当股票数量 N超过样本个数 T时样本协方差矩阵不可逆的问题，同时降低了协方差矩阵中的估计误差。同多因子风险模型相比，该风险模型的构建和维护过程相对简单，不需要针对不同市场和不同的 alpha 模型做调整，并且具有较好的风险预测能力。"
+    },
+    {
+      "text": "采取风险优化构建组合的方式明显优于简单分层，夏普比率从2.37提升到了3.26，日胜率从56.2%提升到59.1%，组合的月均换手率从64%下降到了48%，组合最大回撤也有所降低。",
+      "evidence": "对比表 5和表 6，我们可以看到采取风险优化构建组合的方式明显优于简单分层。具体表现为夏普比率从 2.37提升到了 3.26，日胜率从 56.2%提升到 59.1%。同时组合的月均换手率从 64%下降到了48%。组合最大回撤也有所降低。"
+    },
+    {
+      "text": "组合的月均换手率对模型的参数λ非常敏感，风险优化可以在一定程度上控制组合的月均换手率。",
+      "evidence": "从表 7 可以进一步看出，组合的月均换手率对模型的参数 非常敏感，说明风险优化可以在一定程度上控制组合的月均换手率。"
+    },
+    {
+      "text": "行业中性处理已经能够把组合的跟踪误差控制在一个相对较小的范围内，基于压缩估计量构建的风险模型能够更加精确地控制组合事后跟踪误差，满足指数增强基金经理对组合主动风险进行精确控制的要求。",
+      "evidence": "另一方面，对于指数增强基金，我们指出传统上的行业中性处理已经能够把组合的跟踪误差控制在一个相对较小的范围内，而基于压缩估计量构建的风险模型能够更加精确地控制组合事后跟踪误差，这可以满足指数增强基金经理对组合主动风险进行精确控制的要求。"
+    },
+    {
+      "text": "实际跟踪误差要高于目标跟踪误差，剔除2015年数据后仍比目标跟踪误差高20%到50%，说明风险模型在一定程度上低估了组合的主动风险。",
+      "evidence": "另一方面，我们看到组合的实际跟踪误差要高于目标跟踪误差。即使在剔除 2015 年的数据后，实际跟踪误差也比目标跟踪误差高20%到50%。说明风险模型在一定程度上低估了组合的主动风险。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barra(2011). The Barra US Equity Model (USE4) Methodology Notes",
+    "Ledoit and Wolf (2003). Improved Estimation of the Covariance Matrix of Stock Returns With an Application to Portfolio Selection",
+    "Ledoit and Wolf (2004). Honey, I Shrunk the Sample Covariance Matrix",
+    "Michaud, R. O. (1989). The Markowitz optimization enigma: Is 'optimized' optimal?"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

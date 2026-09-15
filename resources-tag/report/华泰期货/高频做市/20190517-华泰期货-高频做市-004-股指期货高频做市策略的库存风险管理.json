@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "id": "20190517-华泰期货-高频做市-004-股指期货高频做市策略的库存风险管理",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L7_execution",
+  "pipe": {
+    "L7_execution": {
+      "module": ["L7_making"],
+      "approach": ["quoting", "inventory"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "模拟回测发现，与Avellaneda-Stoikov模型相比，ASQ库存约束模型在日内交易中的最大持仓能有效减少，而做市盈利与AS模型相当。",
+      "evidence": "模拟回测发现，与 Avellaneda-Stoikov 模型相比，这个模型在日内交易中的最大持仓能有效减少，而做市盈利却与Avellaneda-Stoikov 模型相当。"
+    },
+    {
+      "text": "虽然ASQ模型建立在最大库存Q约束基础上，但最优报价的最终结果却与Q没有关系，做市商能够通过拉开买卖价差把库存控制在远远小于Q值的范围内。",
+      "evidence": "值得注意的是，虽然模型是建立在最大库存Q的约束基础上的，但是最终结果却与Q没有关系，其中的原因是在这个模型的假设条件下，做市商能够通过拉开买卖价差，把库存控制在远远小于Q值的范围内。"
+    },
+    {
+      "text": "从2015年数据看，AS模型和ASQ模型的买卖价差相差非常小，通常都小于1个最小变动单位，ASQ模型对库存的管理并不来源于买卖价差的优化，而是来源于围绕中间价所做的买卖报价优化。",
+      "evidence": "从 2015 年的数据看，AS 模型和ASQ 模型的买卖价差相差非常小，通常都是小于1 个最小变动单位。因此 ASQ 模型对库存的管理并不一定是来源于买卖价差的优化，而是来源于围绕中间价所做的买卖报价优化。"
+    },
+    {
+      "text": "AS模型在所有回测日都会触碰到15手最大净持仓限制，而ASQ模型的最大净持仓在2015年9月前为2-3手，9月后出现4手，远低于AS模型的15手限制。",
+      "evidence": "而ASQ模型的净持仓则能较好地得到控制，由图可见ASQ模型的最大净持仓在2015年9月前都是在 2-3手，在 2015年9月后会出现 4手的情况，但是在回测期内最大持仓都是远远低于使用AS模型时 15手最大持仓的限制。"
+    },
+    {
+      "text": "虽然ASQ模型的各项指标都有所下降，但是所需要的手续费返还比例也更低了；使用ASQ模型能有效地进行库存管理，盘中的最大净持仓只有4手，做市风险能够得到有效控制。",
+      "evidence": "虽然 ASQ 模型的各项指标都有所下降，但是所需要的手续费返还比例也更低了。最重要的是使用 ASQ 模型能有效地进行库存管理，盘中的最大净持仓只有 4手，做市风险能够得到有效控制。"
+    },
+    {
+      "text": "ASQ模型在沪深300股指期货做市回测中盘中产生的累积库存非常小，远远小于AS模型可能产生的累积库存，且所需手续费返还比例更小，具有更广阔的盈利空间。",
+      "evidence": "而且在沪深 300 股指期货做市回测中发现，ASQ 模型在盘中产生的累积库存非常小，远远小于AS模型可能产生的累积库存，这充分体现了ASQ 模型的优越性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Avellaneda, M. and S. Stoikov. (2008). \"High-frequency trading in a limit order book.\" Quantitative Finance.",
+    "Gueant, O., C.-A. Lehalle and J. Fernandez-Tapia. \"Dealing with the Inventory Risk A solution to the market making problem.\""
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

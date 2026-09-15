@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "20190630-东方证券-因子选股-056-大小盘风格择时与投资运用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "macro"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_timing"],
+      "approach": ["sentiment_flow", "macro_valuation"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "A股的小盘股溢价现象非常显著，平均每月有 1.1%溢价，小盘股跑赢大盘股的月份占比接近六成（58.9%）。",
+      "evidence": "从过往 23年历史看，A股的小盘股溢价现象非常显著，平均每月有 1.1%溢价。按月份统计，小盘股跑赢大盘股的月份占比接近六成（58.9%）"
+    },
+    {
+      "text": "度量小市值溢价的多空组合年化波动率平均值高达 21%，和美国股市整体的波动程度相当，2015年 6月时最高冲到 36.8%。",
+      "evidence": "如果采用 GARCH(1,1)模型来计算多空组合的年化波动率，平均值高达 21%，和美国股市整体的波动程度相当，在 2015年 6月时，波动率最高冲到 36.8%。"
+    },
+    {
+      "text": "样本外 100个月里模型在 57个月给出预测，其中 42个月方向准确，正确率 73.6%，对 2016年到 2017年的风格切换把握十分精准。",
+      "evidence": "模型在样本外的 100个月里，有 57个月找到了显著指标预测市值多空组合收益，57个月里有 42个月方向预测准确，正确率 73.6%，对 2016年到 2017年的风格切换把握十分精准。"
+    },
+    {
+      "text": "2013年后，PPI 走势对 A股大小盘风格影响越来越大。",
+      "evidence": "样本内分析发现，2013年后，PPI 走势对 A股大小盘风格影响越来越大。"
+    },
+    {
+      "text": "A股小市值溢价的驱动因素在不停改变，早期主要是市场情绪和资金面，最近三年则主要是通胀和经济增长。",
+      "evidence": "A股小市值溢价的驱动因素在不停改变，早期的时候主要是市场情绪和资金面，最近三年则主要是通胀和经济增长。"
+    },
+    {
+      "text": "指数增强策略叠加风格择时后，和标准策略相比，风险暴露策略的收益显著提高，风险有所下降，换手率和持股数量基本没变。",
+      "evidence": "可以看到，和标准策略相比，风险暴露策略的收益显著提高，风险有所下降，换手率和持股数量基本没变。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Baker, M., Wrugler, J., (2012), Investor Sentiment and Cross Section of Stock Returns",
+    "Dangl, T., Halling, M., (2012), Predictive Regressions with Time-varying Coefficients",
+    "Kelly, B., Pruitt, S., (2015), the Three-pass Regression Filter",
+    "Kostakis, A., (2015), Robust Econometric Inference for Stock Return Predictability",
+    "Stambaugh, R., (2000), Predictive Regression",
+    "东方证券《A 股小市值溢价的来源》",
+    "东方证券《因子择时》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

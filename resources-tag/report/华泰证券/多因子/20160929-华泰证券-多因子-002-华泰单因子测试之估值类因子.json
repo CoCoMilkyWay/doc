@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "id": "20160929-华泰证券-多因子-002-华泰单因子测试之估值类因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EP=\\frac{\\text{净利润（TTM）}}{\\text{总市值}}",
+          "stats": [0.0211, null, 0.265, 0.0438],
+          "evidence": "观察图 5和表 8可以发现，EP因子具备选股能力。从收益率的角度来看，组合 1年化超额收益率 3.44%为五组中最高；从夏普比率、信息比率的角度来看，组合 1都是最优的"
+        },
+        {
+          "name": "EPcut",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EPcut=\\frac{\\text{扣非后净利润（TTM）}}{\\text{总市值}}",
+          "stats": [0.0221, null, 0.285, 0.0608],
+          "evidence": "观察图 11 和表 10 可以发现，EPcut 因子具备选股能力。从收益率的角度来看，组合 1 年化超额收益率 2.82%为五组中最高"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP=\\frac{\\text{净资产}}{\\text{总市值}}",
+          "stats": [0.028, null, 0.334, 0.1395],
+          "evidence": "观察图 17 和表 12 可以发现，BP因子具备非常好的选股能力。从收益率的角度来看，组合1 年化超额收益率 4.92%为五组中最高，且数值绝对大小非常大"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "SP=\\frac{\\text{营业收入（TTM）}}{\\text{总市值}}",
+          "stats": [0.0229, null, 0.35, 0.0641],
+          "evidence": "观察图 23 和表 14 可以发现，SP因子具备较好的选股能力。从收益率的角度来看，组合 1年化超额收益率 3.77%为五组中最高，且数值绝对大小也很大"
+        },
+        {
+          "name": "NCFP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "NCFP=\\frac{\\text{净现金流（TTM）}}{\\text{总市值}}",
+          "stats": [0.0061, null, 0.166, 0.0659],
+          "evidence": "观察图 29 和表 16 可以发现，NCFP 因子具备较好的选股能力。从收益率的角度来看，组合 1 年化超额收益率 4.58%为五组中最高，且数值绝对大小也非常大"
+        },
+        {
+          "name": "OCFP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "OCFP=\\frac{\\text{经营现金流（TTM）}}{\\text{总市值}}",
+          "stats": [0.0171, null, 0.526, 0.0649],
+          "evidence": "观察图 35 和表 18 可以发现，OCFP 因子具备较好的选股能力，组合 1一枝独秀，剩下四个组合区分不是很大。从收益率的角度来看，组合 1 年化超额收益率 4.72%为五组中最高"
+        },
+        {
+          "name": "FCFP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "FCFP=\\frac{\\text{自由现金流（最新年报）}}{\\text{总市值}}",
+          "stats": [0.0047, null, 0.174, 0.0724],
+          "evidence": "观察图 41 和表 20 可以发现，FCFP 因子具备较好的选股能力。从收益率的角度来看，组合1 年化超额收益 3.16%为五组中最高"
+        },
+        {
+          "name": "DP",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "DP=\\frac{\\text{近12个月现金红利（按除息日计）}}{\\text{总市值}}",
+          "stats": [0.0164, null, 0.372, 0.0449],
+          "evidence": "观察图 47 和表 22 可以发现，DP因子具备较好的选股能力。从收益率的角度来看，组合 1年化超额收益 2.19%为五组中最高"
+        },
+        {
+          "name": "EV2EBITDA",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EV2EBITDA=\\frac{\\text{企业价值（扣除现金）}}{\\text{EBITDA（最新年报）}}",
+          "stats": [-0.0234, null, 0.372, 0.0589],
+          "evidence": "观察图53和表24可以发现，EV2EBITDA因子具备较好的选股能力。从收益率的角度来看，组合 5年化超额收益 3.63%为五组中最高"
+        },
+        {
+          "name": "PEG",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "PEG=\\frac{\\text{总市值}/\\text{净利润（TTM）}}{\\text{净利润（TTM）同比增长率}}",
+          "stats": [-0.0177, null, 0.386, 0.0696],
+          "evidence": "观察图 59 和表 26 可以发现，PEG 因子具备较好的选股能力。从收益率的角度来看，组合5 年化超额收益 3.41%为五组中最高"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "BP因子综合表现最优：各项表现基本都是最优的，回归法|t|均值为5.02为所有因子中最大，IC序列均值2.80%，多空组合年化收益率13.95%。",
+      "evidence": "从上面的图表可以看出，所有估值因子中 BP因子在统计意义上效果最优，回归法得出的|t|均值为 5.02 是所有因子中最大的，其次是 EP、EPcut、SP，并且这四个因子的 t值序列中|t| > 2占比都超过 70%。"
+    },
+    {
+      "text": "综合来看，BP因子各项表现基本都是最优的，其余因子各具特点、互有优劣。",
+      "evidence": "综合来看，BP因子各项表现基本都是最优的，其余因子各具特点、互有优劣。"
+    },
+    {
+      "text": "统计意义下 NCFP、FCFP效果不佳可以删去，其中 NCFP因子在分层测试中发现适于精选因子排名前 20%的股票，效果突出。",
+      "evidence": "我们发现在统计意义下 NCFP、FCFP效果不佳可以删去，其中 NCFP 因子在分层测试中发现适于精选因子排名前 20%的股票，效果突出。"
+    },
+    {
+      "text": "不同行业间估值因子的水平存在明显差异，且随时间变化同一行业估值因子的绝对与相对大小也在不断变化。",
+      "evidence": "图 2 说明了，在同一时间点，不同行业间估值因子的水平存在明显差异。事实上，随时间变化，同一行业的估值因子的绝对大小和与其他行业对比的相对大小也在不断变化中。"
+    },
+    {
+      "text": "市值对估值因子有显著影响，随着市值增大 EP因子也有增大的趋势，且这一效应随时间推移相对稳定。",
+      "evidence": "可以看出，随着市值增大 EP因子也有增大的趋势，且这一效应随着时间推移是相对稳定的。"
+    },
+    {
+      "text": "正相关性极强的为 EP 和 EPcut、BP和 SP这两对因子，DP与 EP、EPcut、BP、SP、OCFP 正相关性都比较强。",
+      "evidence": "通过观察可以发现，正相关性极强的为 EP 和 EPcut、BP和 SP这两对因子，DP与 EP、EPcut、BP、SP、OCFP 正相关性都比较强，BP与 EP、EPcut、SP、OCFP 正相关性亦较强。"
+    },
+    {
+      "text": "IC值分析下 OCFP、PEG、EV2EBITDA、DP、SP、BP 效果比较好，NCFP 和 FCFP 效果一般，与回归法结果一致。",
+      "evidence": "根据计算结果，OCFP、PEG、EV2EBITDA、DP、SP、BP 因子的效果比较好，从 IC 序列均值的角度看，EPcut、EP 的效果也还不错，剩下的 NCFP 和 FCFP 效果一般，这与回归法的结果是一致的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《华泰多因子模型体系初探》（2016.09）"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

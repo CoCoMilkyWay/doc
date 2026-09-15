@@ -1,0 +1,172 @@
+{
+  "schema_version": 2,
+  "id": "20220520-东方证券-因子选股-082-超大单冲击对大单因子的影响",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大单买入占比（未剔除超大单）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{Big\\ Buy_{i,t}}{Big\\ Buy_{i,t}+Big\\ Sell_{i,t}}",
+          "stats": [null, 0.0319, 1.07, 0.1434],
+          "evidence": "则该股票在当天的大单买入占比因子为其所有大买单成交金额占所有大单成交金额的比例，即："
+        },
+        {
+          "name": "大单买入占比（剔除超大单）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{Normal\\ Big\\ Buy_{i,t}}{Normal\\ Big\\ Buy_{i,t}+Normal\\ Big\\ Sell_{i,t}}",
+          "stats": [null, 0.0858, 3.01, 0.2504],
+          "evidence": "我们从大单数据中剔除超大单数据、仅用非超大单的大单数据构建了大单买入占比和大单涨跌幅两类因子。"
+        },
+        {
+          "name": "早盘大单买入占比（未剔除超大单）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\left.\\frac{Big\\ Buy_{i,t}}{Big\\ Buy_{i,t}+Big\\ Sell_{i,t}}\\right|_{\\text{仅计上午10:00前的大买单与大卖单}}",
+          "stats": [null, 0.0483, 1.75, 0.1836],
+          "evidence": "此外，鉴于更多的信息交易会发生在早盘，我们也定义了早盘大单买入占比因子"
+        },
+        {
+          "name": "早盘大单买入占比（剔除超大单）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\left.\\frac{Normal\\ Big\\ Buy_{i,t}}{Normal\\ Big\\ Buy_{i,t}+Normal\\ Big\\ Sell_{i,t}}\\right|_{\\text{仅计上午10:00前的大买单与大卖单}}",
+          "stats": [null, 0.0748, 3.13, 0.2042],
+          "evidence": "剔除超大单的早盘大单买入占比因子，仅在大市值股票池中的表现优于大单买入占比因子"
+        },
+        {
+          "name": "大单涨跌幅（未剔除超大单）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i\\in S}\\Delta\\ln P_{i}",
+          "stats": [null, 0.0718, 2.69, 0.2528],
+          "evidence": "通过上述计算过程可以看出，大单涨跌幅因子本质刻画的是由大单主导的已成交订单的涨跌幅。"
+        },
+        {
+          "name": "大单涨跌幅（剔除超大单）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i\\in S_2}\\Delta\\ln P_{i}",
+          "stats": [null, 0.0784, 2.93, 0.27],
+          "evidence": "为每笔成交数据下的对数价格变动，则剔除超大单影响后的普通大单涨跌幅因子"
+        },
+        {
+          "name": "早盘大单涨跌幅（未剔除超大单）",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\left.\\sum_{i\\in S}\\Delta\\ln P_{i}\\right|_{\\text{仅计上午10:00前成交的大单}}",
+          "stats": [null, 0.0885, 3.3, 0.3034],
+          "evidence": "与大单买入因子类似，我们也定义了早盘大单涨跌幅因子"
+        },
+        {
+          "name": "剔除超大单的早盘大单涨跌幅",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\left.\\sum_{i\\in S_2}\\Delta\\ln P_{i}\\right|_{\\text{仅计上午10:00前成交的大单}}",
+          "stats": [null, 0.0922, 3.44, 0.3188],
+          "evidence": "剔除超大单前、后的早盘大单涨跌幅在各个样本池的表现均优于大单涨跌幅"
+        },
+        {
+          "name": "超大单买入占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{Super\\ BigBuy_{i,t}}{Super\\ BigBuy_{i,t}+Super\\ BigSell_{i,t}}",
+          "stats": [null, -0.0405, -1.84, 0.1276],
+          "evidence": "本文将订单成交金额占该个股当天总成交金额比例超过一定阈值的订单定义为超大单，本文默认取 1%的阈值"
+        },
+        {
+          "name": "超大单涨跌幅",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i\\in S_1}\\Delta\\ln P_{i}",
+          "stats": [null, -0.0644, -2.82, 0.1735],
+          "evidence": "超大单涨跌幅描述的是由超大单主导的已成交订单的涨跌幅之和"
+        },
+        {
+          "name": "早盘超大单买入占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\left.\\frac{Super\\ BigBuy_{i,t}}{Super\\ BigBuy_{i,t}+Super\\ BigSell_{i,t}}\\right|_{\\text{仅计上午10:00前的超大买单与超大卖单}}",
+          "stats": [null, -0.0018, -0.15, -0.0129],
+          "evidence": "若将二者限制在上午 10:00以前的超大买单和超大卖单，则可得早盘超大单买入占比因子。"
+        },
+        {
+          "name": "早盘超大单涨跌幅",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\left.\\sum_{i\\in S_1}\\Delta\\ln P_{i}\\right|_{\\text{仅计上午10:00前成交的超大单}}",
+          "stats": [null, -0.0308, -1.89, 0.0819],
+          "evidence": "对于早盘计算的超大单因子的负向 alpha 并不是特别明显，我们认为主要是因为早盘大单由于信息优势带来的正向选股效果更加显著"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "超大单因子测试证实了超大单的负向alpha冲击，市值越小的股票池因子负向RankIC越大，说明超大单冲击的负向效应在小票中更强。",
+      "evidence": "为了量化超大单的负向 alpha 冲击，我们用超大单数据构建了超大单买入占比和超大单涨跌幅这两类因子，因子测试结果证实了超大单的负向 alpha 冲击，市值越小的股票池因子负向RankIC越大，说明超大单冲击的负向效应在小票中更强。"
+    },
+    {
+      "text": "剔除超大单后的大单因子在中证500及其他样本空间明显更强，剔除超大单后的大单买入占比在沪深300和中证全指中的RankIC分别为4.90%和8.58%。",
+      "evidence": "两类因子剔除超大影响后在沪深 300中选股效果差异不大，但是在中证 500及其他样本空间中明显更强，其中剔除超大单后的大单买入占比在沪深 300和中证全指中的 RankIC 分别为 4.90%和 8.58%。"
+    },
+    {
+      "text": "剔除超大单后的大单因子信息衰减速度较慢，月度RankIC半衰期大致在70个交易日左右，形成期持有期长达3个月的中长期依然有较好的选股效果。",
+      "evidence": "剔除超大单后的大单因子信息衰减速度较慢，因子月度 RankIC半衰期大致在 70个交易日左右，基于大单因子构建的 JK组合（不同形成期持有期）多空年化收益显示大单因子在形成期持有期长达 3个月的中长期依然有较好的选股效果。"
+    },
+    {
+      "text": "大单因子的正向Alpha没有随大单阈值的降低而减弱，甚至更强，说明其选股效果并不完全来源于大单，除了迷你单之外的中大订单均有一定的动量效应。",
+      "evidence": "大单因子的正向 Alpha没有随大单阈值的降低而减弱，甚至更强，说明大单因子的选股效果并不完全来源于所谓的大单，除了迷你单之外的中大订单均有一定的动量效应。"
+    },
+    {
+      "text": "剔除超大单数据后的大单买入占比与反转因子的相关性显著降低、与波动、换手的相关性显著上升，与其他因子的相关性较剔除超大单以前没有太大变化。",
+      "evidence": "剔除超大单数据后的大单买入占比与反转因子的相关性显著降低、与波动、换手的相关性显著上升，与其他因子的相关性较剔除超大单以前没有太大变化。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Jegadeesh 和 Titman 动量效应研究",
+    "基于大单的 alpha 因子构建——因子选股系列之七十九"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

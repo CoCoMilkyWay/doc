@@ -1,0 +1,214 @@
+{
+  "schema_version": 2,
+  "id": "20170217-东方证券-因子选股-020-技术类新alpha因子的批量测试",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "DOWNILLIQ",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}=\\alpha+\\beta_1 S_{i,t}+\\beta_2 B_{i,t}+\\epsilon_{it},\\ \\text{取每月5分钟涨跌幅回归中主动卖出额的系数}\\ \\beta_1",
+          "stats": [null, -0.074, -3.383, 0.297],
+          "evidence": "DOWNILLIQ通过过去一个月的所有 5分钟收益率对主动买入、卖出金额做回归得到，测试的时间区间从 2009.9-2016.9。"
+        },
+        {
+          "name": "UPILLIQ",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}=\\alpha+\\beta_1 S_{i,t}+\\beta_2 B_{i,t}+\\epsilon_{it},\\ \\text{取每月5分钟涨跌幅回归中主动买入额的系数}\\ \\beta_2",
+          "stats": [null, 0.075, 3.229, null],
+          "evidence": "通过把每个月的5分钟的涨跌幅与主动买入额和主动卖出额做回归的系数，衡量了买入单的非流动性"
+        },
+        {
+          "name": "NCSKEW",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{NCSKEW}_i=\\frac{-(n(n-1))^{1.5}\\sum(r_{it}-\\bar{r}_i)^3}{((n-1)(n-2)\\sum(r_{it}-\\bar{r}_i)^2)^{1.5}}",
+          "stats": [null, 0.068, 3.034, null],
+          "evidence": "这是一个衡量股价暴跌可能性的指标，学界通常认为NCSKEW高的股票有着更高的暴跌可能，也就有着期望更高的风险溢价。"
+        },
+        {
+          "name": "DUVOL",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{DUVOL}_i=\\log\\left(\\frac{(n_u-1)\\sum_d(r_{it}-\\bar{r}_i)^2}{(n_d-1)\\sum_u(r_{it}-\\bar{r}_i)^2}\\right)",
+          "stats": [null, 0.062, 3.029, 0.228],
+          "evidence": "DUVOL因子计算了低于历史60日复合收益率的日收益波动除以高于历史60日复合收益率的日收益波动的对数，主要比较了下行风险的非平衡性，是衡量股票暴跌可能性的指标，因子值越大，投资者需要的风险补偿就越高，期望的收益率就越大，因此因子值于股票未来收益呈现显著的正相关性。"
+        },
+        {
+          "name": "IVmonthly",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{IV}_{t,i}^2=\\frac{1}{\\sum w_k}\\sum_{k=0}^{\\tau}w_k*(\\varepsilon_{m-k,i})^2,\\ w_k=0.9^k",
+          "stats": [null, -0.053, -2.871, 0.184],
+          "evidence": "IVmonthly是通过过去 24个月根据月度数据的 FAMA 三因子回归残差平方做指数加权得到的，因此最近的数据在因子中所占的权重最高。"
+        },
+        {
+          "name": "EIVOL",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{基于过去2年的月度数据用EGarch(1,1)模型估计的月度期望特质波动率}",
+          "stats": [null, -0.028, -2.117, null],
+          "evidence": "基于过去2年的月度数据用EGarch(1,1)模型估计的月度期望特质波动率"
+        },
+        {
+          "name": "COSKEW",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{CS}=\\frac{\\sum_{t=1}^{n}(r_{1,t}-\\bar{r}_1)(r_{2,t}-\\bar{r}_2)^2}{\\sum_{t=1}^{n}(r_{2,t}-\\bar{r}_2)^3}",
+          "stats": [null, -0.028, -1.313, null],
+          "evidence": "根据过去20个交易日计算的与市场指数的协偏度"
+        },
+        {
+          "name": "CVTURN",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{CVTURN}_i=\\frac{\\sigma(\\mathrm{TURN}_i)}{\\mathrm{TURN}_i}",
+          "stats": [null, -0.024, -1.468, null],
+          "evidence": "如果 CVTURN 较高，说明换手率的波动较大，也就是说对于持有股票的投资者在未来卖出股票有着更高的交易成本不确定性，所以这类股票就需要有更高的风险溢价来补偿这些不确定性。"
+        },
+        {
+          "name": "CVILLIQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{CVILLIQ}_i=\\frac{\\sigma(\\mathrm{ILLIQ}_i)}{\\overline{\\mathrm{ILLIQ}_i}},\\ \\mathrm{ILLIQ}_{i,t}=\\frac{|r_{i,t}|}{Amount_{i,t}}",
+          "stats": [null, -0.004, -0.271, null],
+          "evidence": "如果 CVILLIQ较高，说明非流动性的波动较大，也就是说对于持有股票的投资者在未来卖出股票有着更高的交易成本不确定性，所以这类股票就需要有更高的风险溢价来补偿这些不确定性。"
+        },
+        {
+          "name": "BSI",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{BSI}=\\frac{B-S}{B+S}",
+          "stats": [null, 0.002, 0.094, null],
+          "evidence": "根据统计的结果来看，散户的交易情绪对于股票价格的影响较大，若 BSI 较大，说明散户在过去持续的买入，股票未来的短期收益率也较好，反之亦然。"
+        },
+        {
+          "name": "Dbeta",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\beta^-=\\frac{cov(r_i,r_m|r_m<\\mu_m)}{var(r_m|r_m<\\mu_m)}",
+          "stats": [null, 0.003, 0.109, null],
+          "evidence": "对下行风险更加敏感的投资者对于下行 beta 高的股票会要求更大的风险补偿，所以理论上说 Dbeta越大，股票的期望收益率越高。"
+        },
+        {
+          "name": "TSMON",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{TSMOM}_{mi}=sign\\left(\\frac{1}{N}(\\sum_{j=1}^{12}\\hat{r}_{m-j,i})*\\hat{r}_{m,i}/\\hat{\\sigma}_{m,i}\\right)",
+          "stats": [null, -0.035, -1.837, null],
+          "evidence": "传统动量因子考虑个股在行业内过去一段时间的相对表现，时间序列动量考虑个股本身过去一段时间的绝对表现"
+        },
+        {
+          "name": "EDR",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{极值分布 } H(x)=1-\\exp[-(1-\\gamma*\\frac{x-\\mu}{\\sigma})^{-1/\\gamma}] \\text{ 中由MLE估计得到的刻画尾部厚度的参数}",
+          "stats": [null, 0.004, 0.43, null],
+          "evidence": "因子度量了股票收益率分布尾部厚度，利用个股过去两年 Fama-French三因子回归的残差收益率月极小值数据，通过极值分布和极大似然估计得到刻画分布尾部厚度的参数。"
+        },
+        {
+          "name": "IVshort",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{对过去12个月的IVmonthly做趋势噪声分解得到的噪声项}",
+          "stats": [null, -0.023, -1.775, null],
+          "evidence": "对过去12个月的IVmontly做趋势噪声分解得到的噪声项，度量短期特质波动"
+        },
+        {
+          "name": "IVlong",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\min\\sum_{k=1}^{K}\\left[(\\mathrm{IV}_{m,i}-\\mathrm{IVlong}_{m,i})^2+\\lambda*(\\mathrm{IVlong}_{m,i}-2*\\mathrm{IVlong}_{m-1,i}+\\mathrm{IVlong}_{m-2,i})\\right]",
+          "stats": [null, -0.024, -1.293, null],
+          "evidence": "对过去12个月的IVmontly做趋势噪声分解得到的趋势项，度量长期特质波动"
+        },
+        {
+          "name": "NEGILLIQ",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{ILLIQ}_{i,t}=\\frac{1}{n_d}\\sum_{k\\in d}\\frac{|r_{d,i,t-k}|}{Amount_{i,t-k}}",
+          "stats": [null, 0.039, 1.949, null],
+          "evidence": "负的日收益率/负收益的当天的日成交量，按月取平均"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "16个技术类因子中大多数在A股表现不佳，DOWNILLIQ、UPILLIQ、NCSKEW、DUVOL和IVmonthly这5个因子表现较好，rankIC绝对值均大于0.05，IR绝对值均大于2.5",
+      "evidence": "检验发现 16个中的大多数因子在 A股市场表现不佳，但其中分别是 DOWNILLIQ，UPILLIQ，NCSKEW，DUVOL 和IVmonthly 这 5 个因子表现较好，rankIC 的绝对值均大于 0.05，IR 的绝对值也都大于 2.5。"
+    },
+    {
+      "text": "DOWNILLIQ与UPILLIQ负相关性高达-82%，说明A股不存在买卖非流动性的非对称现象，A股亏损厌恶效果较弱，因此选择DOWNILLIQ进一步分析",
+      "evidence": "从相关性上可以看到，DOWNILLIQ与 UPILLIQ 负相关性非常高（-82%），也就是说这两个因子基本上就是对称的，说明 A 股市场与美股市场不同，不存在买卖非流动性的非对称现象，其中DOWNILLIQ 与 ILLIQ 因子相关性较 UPILLIQ 更低，所以我们选择 DOWNILLIQ 来进一步分析。"
+    },
+    {
+      "text": "Fama-MacBeth剔除原因子库12因子后，DOWNILLIQ的rankIC为-0.037且IR接近2，IVmonthly的IC仅-0.015、IR为-1.32，而DUVOL的IC不到0.01且IR不到1，基本没有增量信息",
+      "evidence": "结果我们可以看到 DOWNILLIQ 的 rankIC 还有-0.037 且 IR 依然有接近 2 的水平，IVmonthy 的效果降低较多，IC仅有-0.015，IR也下降至-1.32，而 DUVOL因子因为与反转类因子相关性较高，在剔除 12因子之后 IC不到 0.01且 IR也不到 1，可以认为这个因子相对于原来的 12个因子基本上没有增量信息。"
+    },
+    {
+      "text": "加入新因子后精简选出14个有效因子，ILLIQ被去除，Ret1M被Ret3M和DUVOL替代，新增IVmonthly和EIVOL",
+      "evidence": "我们对因子库精简选出了 14 个有效的因子，相比于原来的 12 个，可以看到基本面因子并没有变化，ILLIQ 这个因子被从 12 个因子中去除了，Ret1M 这一反转因子被 Ret3M 和 DUVOL这两个反转类的因子所替代了，此外增加的因子为 IVmonthly和 EIVOL。"
+    },
+    {
+      "text": "DOWNILLIQ和UPILLIQ有显著增量信息，DOWNILLIQ与其他因子相关性较低，因此推荐DOWNILLIQ因子，可在多因子模型中加入其中之一",
+      "evidence": "综合来看，DOWNILLIQ 和 UPILLIQ 这两个因子有显著的增量信息，因此可以在多因子模型中加入其中的一个，其中 DOWNILLIQ 与其他因子相关性较低，且在美股市场 DOWNILLIQ 表现显著好于 UPILLIQ，因此我们推荐DOWNILLIQ因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Harvey, C. R., Liu, Y., & Zhu, H. (2016). ... And the cross-section of expected returns"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

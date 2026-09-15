@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "id": "20140718-国泰君安-数量化专题-049-不确定性与事件投资策略1市场观察篇",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "earnings_surprise",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "corporate_event"
+      ],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "平均换手率",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{事前平均换手率}}{\\text{T-40日换手率}}",
+          "stats": [null, null, null, null],
+          "evidence": "对于换手率，方法是用每只股票事前换手率除以其 T-40日的换手率；对于波动率，用事前的 5日波动率除以其[T-35，T-30] 日的波动率。"
+        },
+        {
+          "name": "平均波动率",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{事前5日波动率}}{\\text{[T-35,T-30]日波动率}}",
+          "stats": [null, null, null, null],
+          "evidence": "过度交易下，股票将表现出波动率变大，换手率上升的特征。频繁的仓 位调整必然使得股票换手率上升，同时带来股价波动。"
+        },
+        {
+          "name": "利润超预期程度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{实际净利润相对分析师一致预期的超出幅度}",
+          "stats": [null, 0.87, null, null],
+          "evidence": "秩相关检验结果表明，事后收益与利润超预期程度、T-3累计收益相关性均较高，而与收入超预期程度的相关性相对较低。"
+        },
+        {
+          "name": "收入超预期程度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{实际营业收入相对分析师一致预期的超出幅度}",
+          "stats": [null, 0.42, null, null],
+          "evidence": "秩相关检验结果表明，事后收益与利润超预期程度、T-3累计收益相关性均较高，而与收入超预期程度的相关性相对较低。"
+        },
+        {
+          "name": "T-3累计收益",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{t=T-3}^{T-1} r_t",
+          "stats": [null, 0.76, null, null],
+          "evidence": "秩相关检验结果表明，事后收益与利润超预期程度、T-3累计收益相关性均较高，而与收入超预期程度的相关性相对较低。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "换手率、波动率指标对股票在定期报告后的涨跌幅具有较好的区分作用，对定期报告数据处理后，策略在年报、半年报和三季报时期均可使用。",
+      "evidence": "我们观察到换手率、波动率指标对股票在定期报告后的涨跌幅具有较好的区分作用。我们对定期报告数据进行处理后，使得策略在年报、半年报和三季报时期均可使用。"
+    },
+    {
+      "text": "事后收益与利润超预期水平的年报、半年报、三季报秩相关系数分别为87%、26%、87%，与T-3累积收益的秩相关系数分别为76%、85%、60%，可结合利润超预期数据和T-3累计收益作为事件催化剂。",
+      "evidence": "事后收益与收入超预期水平的年报、半年报、三季报秩相关系数分别为 42%、-2%、45%；与利润超预期水平的秩相关系数分别为 87%、26%、87%；与 T-3 累积收益的秩相关系数分别为 76%、85%、60%。"
+    },
+    {
+      "text": "换手率数据较之波动率数据规律性更强，衡量不确定性效果更优，因为频繁交易必然带来换手率上升，但股价波动率上升却不是必然。",
+      "evidence": "时间序列数据的观察结果发现，换手率数据较之波动率数据规律性更强。我们认为主要原因在于当投资者处于不确定性状态时，频繁交易必然会带来换手率的上升，但股价波动率上升却不是必然，换手率上升传导到股价的过程还受到股票流动性的影响。"
+    },
+    {
+      "text": "定增股解禁前后跌幅较大的股票，其事前换手率、波动率都显著高于解禁前后股价平稳或上涨的股票。",
+      "evidence": "我们发现定增股解禁前后跌幅较大的股票，其事前换手率、波动率都显著高于解禁前后股价平稳或上涨的股票。"
+    },
+    {
+      "text": "换手率和波动率随事后累积收益下降到0附近逐渐下降，收益由正转负并进一步降低时又逐渐增大，且事后下跌股票的换手率、波动率更高，呈现非对称特征。",
+      "evidence": "结果发现，随着事后累积收益从正收益逐渐下降到 0 附近，换手率和波动率都在逐渐下降；随着收益由正转负并进一步降低，换手率和波动率又开始逐渐增大。并且这种特征对时间区间的取值范围不敏感。"
+    },
+    {
+      "text": "目前波动率与换手率的信息含量过于丰富，如能进一步过滤或提高数据频率，指标有效性有望进一步提升。",
+      "evidence": "目前指标的问题在于波动率与换手率的信息含量过于丰富。如能对其进一步过滤，或者提高数据频率，指标有效性有望进一步提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《不确定性与事件投资策略 2：策略构建篇》",
+    "《基于预期风险的 PEAD策略》",
+    "《寻找牛、熊股基本特征》",
+    "《统计结合个案分析，把握确定性对冲机会》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

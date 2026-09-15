@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20160512-东方证券-因子选股-007-投机_交易行为与股票收益_下",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "价差偏离度",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "SpreadBias_{i,t}=\\frac{PriceSpead_{i,t}-mean(PriceSpead_{i,t})}{std(PriceSpead_{i,t})},\\quad PriceSpead_{i,t}=\\ln(StockPrice_{i,t})-\\ln(ReferencePrice_{i,t})",
+          "stats": [null, -0.095, -0.854, 0.385],
+          "evidence": "价差偏离度度量了个股相对其特征组合（相似的股票集）价格的偏离程度，实质是一个相对意义上的反转因子，价差偏离度低，股票近期跑输其特征组合，股票相对估值偏低，有向上回复的动力，有正的预期超额收益，价差偏离度越高，股票处于相对高估状态，后期有回调的压力。"
+        },
+        {
+          "name": "交易热度",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "BehaviorIndex_{i,t}=\\frac{1}{3}\\left[Q(IVR_{i,t})+Q(adjTurnover_{i,t})+Q(SpreadBias_{i,t})\\right]",
+          "stats": [null, -0.132, -1.256, 0.5836],
+          "evidence": "根据交易热度的定义可知，交易热度的取值在 0-1 之间，交易热度取值越高，表明股票交易的活跃程度越高，相对越高估，后期预期收益率越低。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["all"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "价差偏离度因子业绩表现优异，过去10年月度RankIC-0.095，IR-0.85，top组合相对市场等权年化超额收益17.8%，IC负显著比例69.9%，多空组合月胜率76.4%，最大回撤15.16%。",
+      "evidence": "价差偏离度因子业绩表现优异，过去 10年月度 RankIC-0.095，IR-0.85，分组的 top组合相对市场等权年化超额收益17.8%，而且，其稳定性也较高，IC正显著比例9.8%，负显著比例69.9%，多空组合月胜率 76.4%，最大回撤 15.16%。"
+    },
+    {
+      "text": "通过因子分层和Fama-Macbeth回归发现，传统的1个月反转和3个月反转可以被价差偏离度替代，而价差偏离度信息来源相对独立，不能被其他常见因子所解释。",
+      "evidence": "价差偏离度和传统的市值因子、估值因子相关性弱，通过因子分层后分组和 Fama-Macbeth回归我们发现，传统的 1 个月反转和 3 个月反转可以被价差偏离度替代，而价差偏离度因子信息来源相对独立，不能被其他的常见因子所解释。"
+    },
+    {
+      "text": "加总特异度、市值调整换手和价差偏离度得到的交易热度较单一因子有明显提升，RankIC-0.132，top组合超额收益27.7%，负显著比率79.7%，多空组合胜率87.8%，回撤11.87%，且信息衰退速度相当快。",
+      "evidence": "加总特异度、市值调整换手和价差偏离度得到的交易热度较单一因子有明显提升，不仅体现在收益水平上，RankIC-0.132，top 组合超额收益 27.7%，稳定性也大幅提升，RankIC 正显著比率仅 4.9%，负显著比率 79.7%，多空组合胜率 87.8%，回撤 11.87%，其选股对市值和行业均没有明显的偏好，另外，交易热度的信息速度相当之快，构建组合时需要注意。"
+    },
+    {
+      "text": "不定期调仓的组合调整方法可以在月度定期调仓的换手水平下实现周度定期调仓的业绩。",
+      "evidence": "为了克服这一矛盾，我们提出了一种不定期调仓的组合调整方法，对于交易热度 top100 组合，可以在月度定期调仓的换手水平下实现周度定期调仓的业绩。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Fama-Macbeth回归", "统计套利"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

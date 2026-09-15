@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "20181202-东方证券-量化策略-002-产业链与公司股价关联",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting", "linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "样本内行业间超额收益存在显著领先滞后特性，但这种领先滞后性与两行业是否具备产业链关联并无太大关系",
+      "evidence": "可以看到，样本内有不少行业间的超额收益确实存在显著的领先滞后特性，但这种领先滞后性和两个行业间是否具备产业链上的关联并无太大关系。"
+    },
+    {
+      "text": "滞后一个月显著点密度为5.4%，只考虑具备产业链上下游关系的行业时密度为6.1%，数值略高但并不显著",
+      "evidence": "比方说，以图 8中滞后一个月的热度图为例，显著点的密度（显著点数量/(83*83)）为 5.4%。然后我们只考虑那些具备产业链上下游关系的行业（基于 2015年投入产出图，由于中信行业分类和统计局行业分类不一致，我们进行了手动近似匹配），显著点的密度为 6.1%，数值略高，但并不显著，产业链上下游关系并没有让对应行业的股价有明显更高的关联度。"
+    },
+    {
+      "text": "回溯区间缩减后显著点密度明显降低，行业间领先滞后关系在时间序列上可能不稳定",
+      "evidence": "另外，如果我们把回溯区间从 2011.01 – 2018.10 缩减到 2011.01 –2015.12，可以热力图（图 9）变化明显，显著点密度明显降低，说明行业间的领先滞后关系在时间序列上可能不稳定。"
+    },
+    {
+      "text": "基于行业领先滞后性的行业选择策略回溯测试结果不佳，IC和TOP组合的超额收益都在零附近，并不显著",
+      "evidence": "策略回溯测试结果不佳，IC和TOP 组合的超额收益都在零附近，并不显著。"
+    },
+    {
+      "text": "房地产行业居中度最高但对产业链上下游的带动作用并非最大，建筑、化学产品、金属加工三个制造业行业的需求推动能力显著更强",
+      "evidence": "房地产行业虽然居中度最高，但从它接受的中间投入和对其它行业的中间投入额度来看，它对产业链上下游的带动作用并非最大，建筑、化学产品、金属加工三个制造业行业的需求推动能力显著更强。"
+    },
+    {
+      "text": "2015年国内居中度高的行业以制造业居多，金融、批发零售、房地产、农林牧渔、建筑等高GDP大行业处于整个中国经济产业链的中心地带",
+      "evidence": "从图 5 可以看到，居中度高的行业（圆心+内圈）里制造业行业数量较多，金融、批发零售、房地产、农林牧渔、建筑等几个高 GDP的大行业居中度也高，处于整个中国经济产业链的中心地带。"
+    },
+    {
+      "text": "美国市场上居中度较高的行业几乎都来自第三产业，电脑系统设计和相关服务行业处于整个经济的中央位置",
+      "evidence": "和美国的产业结构相对应，美国市场上居中度较高的行业几乎都来自于第三产业，“电脑系统设计和相关服务”行业处于整个经济的中央位置。"
+    },
+    {
+      "text": "Carvalho(2014)发现投入产出网络图上两行业路径距离越近，其行业产出增速时序相关性越高，相关系数最高可达0.3以上",
+      "evidence": "Carvalho(2014) 研究发现，在投入产出网络图上，两个行业的路径距离越近，其行业产出增速在时间序列上的相关性越高，相关系数最高可达 0.3 以上。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Carvalho, V.M. , (2014), \" From Micro to Macro via Production Networks\", Journal of Economic Perspectives, vol 28(4), pp: 23-48",
+    "Newman, M.E.J., (2010), \" Networks, An Introduction\", Oxford University Press.",
+    "Rapach, D.E., (2010), \"Out-of-Sample Equity Premium Prediction: Combination Forecasts and Links to the Real Economy\", The Review of Financial Studies, vol 23(2), pp: 821-862.",
+    "Rapach, D.E., Strauss, J., Tu, J., Zhou, G., (2015), \"Industry Interdependencies and Cross Industry Return Predictability\", working paper, available at: https://ink.library.smu.edu.sg/lkcsb_research/4515.",
+    "Thomas, B., Marjani, R.K., Alex,W., (2016), \"Supply Chain Predictability of Returns and Portfolio Selection\" . Available at SSRN: https://ssrn.com/abstract=2755474"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

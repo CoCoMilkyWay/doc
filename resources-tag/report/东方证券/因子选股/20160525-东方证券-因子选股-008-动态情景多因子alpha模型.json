@@ -1,0 +1,194 @@
+{
+  "schema_version": 2,
+  "id": "20160525-东方证券-因子选股-008-动态情景多因子alpha模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP_LF",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近财报的净资产}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "总体来看，估值类因子中，BP因子和 SP因子在小盘股中表现显著优于大盘股中的表现，具体表现在 IR从 0.4提升到了 0.6左右，并且 IC的方差的差别在统计上具有显著性。"
+        },
+        {
+          "name": "EP2_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{剔除非经常性损益的过去12个月净利润}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "| EP2_TTM | 剔除非经常性损益的过去12个月净利润/总市值 |"
+        },
+        {
+          "name": "SP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去12个月总营业收入}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "| SP_TTM | 过去12 个月总营业收入/总市值 |"
+        },
+        {
+          "name": "GP2Asset",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{销售毛利润}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "比如GP2Asset因子的 IC从低估值股票中的 2.3%提升到了高估值股票中的 4.1%，并且两者的差别具有统计上的显著性。"
+        },
+        {
+          "name": "PEG",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{TTM PE}}{\\text{预测未来2年净利润复合增长率}}",
+          "stats": [null, null, null, null],
+          "evidence": "唯一的例外是 PEG 因子，PEG 因子在大盘股中的 IC 和 IR 都更高，部分原因可能是 PE因子在大盘股的效果更好。"
+        },
+        {
+          "name": "ProfitGrowth_Qr_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润增长率（季度同比）}",
+          "stats": [null, null, null, null],
+          "evidence": "| ProfitGrowth_Qr_YOY | 净利润增长率（季度同比） |"
+        },
+        {
+          "name": "PPReversal",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{5日均价}}{\\text{60日成交均价}}",
+          "stats": [null, null, null, null],
+          "evidence": "| PPReversal | 5 日均价/60 日成交均价 |"
+        },
+        {
+          "name": "TO_adj",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以流通股本计算的20日日均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "| TO_adj | 以流通股本计算的20 日日均换手率 |"
+        },
+        {
+          "name": "IRFF",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "1 - R^2_{\\text{Fama-French}}",
+          "stats": [null, null, null, null],
+          "evidence": "| IRFF | 1 - Fama-French 回归 R 方 |"
+        },
+        {
+          "name": "MV",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值}",
+          "stats": [null, null, null, null],
+          "evidence": "从表 2 可以看出，我们的检验结果和 Barra 的结论基本一致，市值因子 Rank IC 正负显著比例之和高达 83%，对风格具有极强的捕捉能力。"
+        },
+        {
+          "name": "EquityGrowth_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子中净资产同比增长率具有比 EPS 增长率更强的风格捕捉能力。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "从表 3 可以看出，分层因子的秩相关系数普遍较低，其中最高的则是净资产同比增长率和 ROE。"
+        },
+        {
+          "name": "STOQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{季度日均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "| 因子名称 | BP_LF ROE Growth MV STOQ |"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "动态情景 alpha 模型相比传统模型更能捕捉横截面定价信息、适应风格切换，月度 Rank IC 高达 12%，IC_IR 高达 1.64。",
+      "evidence": "实证检验表明，动态情景 alpha 模型能够更加精确地捕捉横截面股票定价信息，并且大幅提升了模型对市场风格剧烈切换的适应能力，动态情景 alpha模型的月度 Rank IC 高达 12%，IC_IR 高达 1.64。"
+    },
+    {
+      "text": "基于动态情景模型的中证500增强组合年化收益率 39%，信息比率 4.06，月度胜率 88%。",
+      "evidence": "根据该动态情景模型构建的中证500指数增强策略和模拟对冲组合在超额收益和稳定性方面都大幅战胜传统 alpha 模型，月度调仓增强组合的年化收益率为 39%，信息比率高达 4.06，月度胜率高达 88%。"
+    },
+    {
+      "text": "Fama-Macbeth 检验表明 DCAM 模型包含超过 SM 模型的额外定价信息，对 SM 模型有替代作用。",
+      "evidence": "Fama-Macbeth 检验结果表明，DCAM 模型的确包含了超过 SM 模型的额外的定价信息，DCAM模型对 SM模型有替代作用。"
+    },
+    {
+      "text": "模型信息衰减较快，滞后一个月建仓 Rank IC 从 12% 衰减到 5% 左右，IC 半衰期小于 1 个月，可能需要周度调仓。",
+      "evidence": "从图 10可以看出，当滞后一个月建仓时，模型的 Rank IC从 12%衰减到了5%左右，模型的 IC半衰期小于 1个月，说明模型的信息衰减较快，实际构建组合时可能需要进行周度级别的调仓来维持组合的 alpha暴露。"
+    },
+    {
+      "text": "2013 年风格切换中 DCAM 模型仍维持 83% 的月度胜率，远超 SM 模型的 67% 和 EQM 模型的 58%。",
+      "evidence": "DCAM模型在 2013年仍然维持了高达 83%的月度胜率，远远超过 SM模型的 67%和 EQM模型的 58%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra CNE5 Empirical Notes (2012)", "Fama-Macbeth (1973)", "Sorenson, Hua and Qian (2005)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

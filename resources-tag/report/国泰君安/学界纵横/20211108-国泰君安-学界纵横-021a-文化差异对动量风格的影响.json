@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "20211108-国泰君安-学界纵横-021a-文化差异对动量风格的影响",
+  "genre": "review",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "个人主义强的市场中动量策略收益更高，控制企业特征、市场发展等因素后仍然显著；个人主义强市场的投资者更易过度自信或自我归因偏见，西方国家动量收益比东亚国家更强",
+      "evidence": "个人主义强的市场中动量策略收益更高，并且在控制了企业特征、市场发展等因素后这一关系仍然显著。在投资者个人主义强的市场中，投资者更容易出现过度自信或者自我归因偏见，因而更容易产生动量收益，因此西方国家的动量收益比东亚国家更强。"
+    },
+    {
+      "text": "长期来看动量收益会出现回撤，高个人主义国家的长期收益逆转程度明显强于低个人主义国家",
+      "evidence": "从长远来看，动量收益会出现会回撤，高个人主义国家的长期收益逆转的程度明显强于低个人主义国家。"
+    },
+    {
+      "text": "高个人主义国家等权动量组合月均收益差1.04%，低个人主义国家0.65%，复合组合高低个人主义收益差为每月0.58%",
+      "evidence": "高个人主义国家等权投资组合的平均收益率差异为 1.04% /月（t 值 7.93），低个人主义国家等权投资组合的平均收益率差异为 0.65% /月（t 值 4.30）。同样，高个人主义组和低个人主义组复合动量投资组合的平均收益率差为每月0.58%（t 值 2.61）。"
+    },
+    {
+      "text": "1984至2002年间高低个人主义国家组合平均收益年度差异在19年中有14年为正，平均年收益差异8.57%，中位数7.02%，最小-9.75%，最大26.56%",
+      "evidence": "文章还发现从 1984 年到 2002 年，高个人主义和低个人主义国家平均投资组合之间的平均收益的年度差异，在这 19 年中有 14 年为正，平均年收益差异为 8.57%。年收益差异的中位数、最小值和最大值分别为 7.02%、-9.75%和 26.56%"
+    },
+    {
+      "text": "动量利润与分析师预测离散度、交易成本正相关，与公司规模及市场个股平均波动性负相关；控制这些变量后动量收益与个人主义的正相关依然显著",
+      "evidence": "动量利润还与分析师预测的离散度、交易成本等因素正相关，与公司规模以及市场个股的平均波动性呈负相关。控制这些变量后，动量收益和个人主义之间的正相关性依然显著。"
+    },
+    {
+      "text": "我国文化更接近集体主义，分析师一致预期类指标是A股有效选股指标；随着90后自信和自主意识增强，投资者敢于寻找超预期并信任自己的判断，有助于动量风格的形成",
+      "evidence": "我国文化更接近集体主义，投资者更加关注他人的决策，例如分析师一致预期类指标是 A股量化选股中十分有效的选股指标。而随着经济发展和社会思潮的进步，90 后的自信和自主意识大大增强，无论机构投资者还是个人投资者不再拘泥于股价历史的涨幅，敢于寻找市场的超预期，并信任自己的判断，有助于动量风格的形成。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Asness, C, 2011. Momentum in Japan: The exception that proves the rule. Journal of Portfolio Management, 37(4), 67-75",
+    "Chui, C.W. Andy, Sheridan Titman, and K.C. John Wei, Individualism and Momentum around the World",
+    "Hofstede, Geert, 2001, Culture's Consequences: Comparing Values, Behaviors, Institutions, and Organizations across Nations, 2nd ed."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

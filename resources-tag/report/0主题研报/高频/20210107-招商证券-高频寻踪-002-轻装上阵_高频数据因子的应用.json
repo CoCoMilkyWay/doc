@@ -1,0 +1,92 @@
+{
+  "schema_version": 2,
+  "id": "20210107-招商证券-高频寻踪-002-轻装上阵_高频数据因子的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "VPIN",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VPIN\\approx\\frac{1}{N}{\\sum_{\\tau=1}^{N}}|V_{\\tau}^{S}-V_{\\tau}^{B}|/V",
+          "stats": [0.098, null, 0.807, 0.2445],
+          "evidence": "“高频数据，低频信号“，月末交易日取月度均值，作为月频因子暴露度。"
+        },
+        {
+          "name": "VWPIN",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "VWPIN=\\sum_{i=1}^{48}w_{i}\\left(\\left|\\ln\\frac{p_{i}}{p_{i-1}}\\right|\\right)^{\\zeta}",
+          "stats": [0.082, null, 0.737, null],
+          "evidence": "“高频数据，低频信号“，月（周）末交易日取月（周）度均值，作为月（周）频因子暴露度。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "将VPIN因子调仓频率从月频提升至周频后，多空组合年化收益从24.45%提升至26.87%。",
+      "evidence": "本报告对本系列的第一篇报告进行了拓展，我们发现，将高频数据因子的调仓频率从月频提升至周频之后，能有效提升因子的多空组合收益。以VPIN因子为例，过去五年的累积年化收益从24.45%提升至26.87%。"
+    },
+    {
+      "text": "直接赋值方式将原风格因子组合的多空年化收益提升了2.93%，事前剔除和事后剔除方式也能显著提升组合多头端的收益。",
+      "evidence": "通过直接赋值方式和空头剔除方式可以提升组合的整体收益，其中直接赋值方式将原风格因子组合的多空年化收益提升了2.93%；事前剔除方式和事后剔除方式也能显著提升组合多头端的收益。"
+    },
+    {
+      "text": "VPIN因子回撤主要集中在2017年末到2018年整年，主因是投资者结构特点的改变。",
+      "evidence": "从多空组合的累积收益来看，因子的回撤主要集中在2017年末到2018年整年，我们猜测其主要原因是来自于投资者结构的特点的改变。"
+    },
+    {
+      "text": "多因子模型引入VPIN因子后，多空组合整体收益提升48%，年化收益提升2.93%，Sharpe值提升0.14，最大回撤有所减小。",
+      "evidence": "模型引入VPIN因子之后，多空组合整体收益在过去近6年时间里提升48%，年化收益提升2.93%，Sharpe值提升0.14，最大回撤反而有所减小。"
+    },
+    {
+      "text": "多因子模型引入VWPIN因子之后，回撤有所减小，但是整体没有太大的改善。",
+      "evidence": "模型引入VWPIN因子之后，回撤有所减小，但是整体没有太大的改善。"
+    },
+    {
+      "text": "针对VPIN因子的实践局限性提出改良后的VWPIN因子，在不同的股票池范围下均有显著的选股能力。",
+      "evidence": "此外，针对VPIN因子的存在的一些实践局限性，我们提出了改良后的VWPIN因子，在不同的股票池范围下均有显著的选股能力。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Andersen & Bondarenko (2014)",
+    "Easley, Lopez De Prado, O'Hara (2011) The microstructure of the \"flash crash\": flow toxicity, liquidity crashes, and the probability of informed trading"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

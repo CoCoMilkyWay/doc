@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "id": "20240823-华泰期货-高频收益预测-002-高频收益如何及何时可预测_中",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      },
+      "factors": [
+        {
+          "name": "总成交量因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{过去n个tick内的总成交量，取不同回溯区间的均值作为模型输入}",
+          "stats": [null, null, null, null],
+          "evidence": "在文献构造的13个因子中，仅总成交量因子，报价不平衡因子，成交不平衡因子，历史收益因子、换手率因子、报价价差因子这6个因子可以在国内期货市场复现（因子具体构造方式请参考《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》）。"
+        },
+        {
+          "name": "报价不平衡因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{基于五档买卖报价及挂单量计算的报价不平衡度，取不同回溯区间的均值作为模型输入}",
+          "stats": [null, null, null, null],
+          "evidence": "在文献构造的13个因子中，仅总成交量因子，报价不平衡因子，成交不平衡因子，历史收益因子、换手率因子、报价价差因子这6个因子可以在国内期货市场复现（因子具体构造方式请参考《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》）。"
+        },
+        {
+          "name": "成交不平衡因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{基于交易方向（基于最新成交价与上一tick最优报价之间的关系确定）计算的成交不平衡度，取不同回溯区间的均值作为模型输入}",
+          "stats": [null, null, null, null],
+          "evidence": "在文献构造的13个因子中，仅总成交量因子，报价不平衡因子，成交不平衡因子，历史收益因子、换手率因子、报价价差因子这6个因子可以在国内期货市场复现（因子具体构造方式请参考《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》）。"
+        },
+        {
+          "name": "历史收益因子",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{过去n个tick的区间收益率，取不同回溯区间的均值作为模型输入}",
+          "stats": [null, null, null, null],
+          "evidence": "在文献构造的13个因子中，仅总成交量因子，报价不平衡因子，成交不平衡因子，历史收益因子、换手率因子、报价价差因子这6个因子可以在国内期货市场复现（因子具体构造方式请参考《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》）。"
+        },
+        {
+          "name": "换手率因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{过去n个tick内的换手率，取不同回溯区间的均值作为模型输入}",
+          "stats": [null, null, null, null],
+          "evidence": "在文献构造的13个因子中，仅总成交量因子，报价不平衡因子，成交不平衡因子，历史收益因子、换手率因子、报价价差因子这6个因子可以在国内期货市场复现（因子具体构造方式请参考《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》）。"
+        },
+        {
+          "name": "报价价差因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{买卖报价价差，取不同回溯区间的均值作为模型输入}",
+          "stats": [null, null, null, null],
+          "evidence": "在文献构造的13个因子中，仅总成交量因子，报价不平衡因子，成交不平衡因子，历史收益因子、换手率因子、报价价差因子这6个因子可以在国内期货市场复现（因子具体构造方式请参考《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》）。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "tree", "label_horizon", "sample_window", "interpretability"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "文献13个因子中仅总成交量、报价不平衡、成交不平衡、历史收益、换手率、报价价差这6个因子可以在国内期货市场复现，因为国内期货市场难以获取逐笔成交数据且快照间隔为500毫秒。",
+      "evidence": "在文献构造的13个因子中，仅总成交量因子，报价不平衡因子，成交不平衡因子，历史收益因子、换手率因子、报价价差因子这6个因子可以在国内期货市场复现（因子具体构造方式请参考《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》）。"
+    },
+    {
+      "text": "仅依赖六个可复现因子构建的模型预测表现并不理想，因此启动广泛的高频因子收集和开发工作，最终整理并开发了超过130个高频因子纳入高频因子库。",
+      "evidence": "基于初步测试结果，我们发现仅依赖这六个因子构建的模型在预测表现上并不理想。为了进一步提升模型的预测能力，我们启动了一项广泛的高频因子收集和开发工作。最终，我们整理并开发了超过130个高频因子，并将其纳入华泰期货的高频因子库中。"
+    },
+    {
+      "text": "原文献9个不重合回溯区间的构造方式会降低模型样本外预测表现，因此修改为过去1tick至过去512tick共10个回溯区间。",
+      "evidence": "然而，经过检验，我们发现这样的构造方式会降低模型在样本外的预测表现，因此我们对原文的回溯区间进行了一定的修改，构造的回溯区间为过去 1tick，过去 2tick，过去 4tick……过去 512tick 共 10 个回溯区间。"
+    },
+    {
+      "text": "预测目标是未来10个Tick（5秒）的收益率，即未来一段时间内的平均成交价格与当前中间价的比值减一，且考虑交易延迟将计算向后延迟一个tick。",
+      "evidence": "我们的预测目标是未来10个Tick（5秒）的收益率，计算方式为未来一段时间内的平均成交价格与当前中间价的比值减一"
+    },
+    {
+      "text": "实证使用3种线性回归模型（OLS,Ridge,Lasso）及3种机器学习回归模型（随机森林、XGBoost、LightGBM），并对1300+特征进行预筛选。",
+      "evidence": "在实证过程中，我们主要使用了3种线性回归模型（OLS,Ridge,Lasso）以及3种机器学习回归模型（随机森林、XGBoost、LightGBM）进行拟合，以下是对这些模型的简要介绍："
+    },
+    {
+      "text": "模型训练流程与原文献基本保持一致，共60个交易日数据中有40天测试集可用作模型整体预测效果的样本外验证。",
+      "evidence": "在我们的数据集中共有60个交易日，也就是说，共有40天的测试集可用作模型整体预测效果的样本外验证。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Aït-Sahalia, Y., Fan, J., Xue, L., & Zhou, Y. (2022). How and When are High-Frequency Stock Returns Predictable? (No. w30366). National Bureau of Economic Research.",
+    "《华泰期货量化策略专题报告20240621：做市高频系列（十六）高频收益如何及何时可预测（上）》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

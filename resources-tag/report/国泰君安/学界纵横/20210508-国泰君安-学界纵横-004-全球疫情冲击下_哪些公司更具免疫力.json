@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20210508-国泰君安-学界纵横-004-全球疫情冲击下_哪些公司更具免疫力",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_alternative"],
+      "approach": ["style_ratio", "relation_graph", "firm_attribute"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "flow", "alt", "macro"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": []
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "财务方面，疫情前拥有更多现金、利润和可贷款额度，负债更少的公司股价表现较好；现金变量Cash每增加一个标准差，相应股票收益率提高0.25个百分点。",
+      "evidence": "财务方面，疫情前拥有更多现金、利润和可贷款额度，负债更少的公司股价表现较好。"
+    },
+    {
+      "text": "供应商和客户所在国家受新冠影响越深，公司股价受到的负面影响越大，供应商暴露程度和国际客户暴露程度分别下降一个标准差时，收益率分别提升0.14和0.35个百分点。",
+      "evidence": "表 3表明，供应商和客户所在国家受新冠影响越深，公司股价受到的负面影响越大。当供应商暴露程度和国际客户暴露程度分别下降一个标准差时，收益率分别提升 0.14 和 0.35个百分点。"
+    },
+    {
+      "text": "疫情前有更多CSR活动的公司股价表现较好，企业社会责任提高了利益相关者的忠诚度，加强了与他们的联系，使他们在面临危机时愿意对公司提供支持。",
+      "evidence": "公司社会责任方面，疫情前有更多CSR 活动的公司股价表现较好。这符合以下观点：企业社会责任提高了利益相关者的忠诚度，加强了与他们的联系，这使工人，供应商和客户更愿意在面临危机时提供支持。"
+    },
+    {
+      "text": "反收购措施的数量越多，管理层防御越强、越根深蒂固，公司股价在大流行中越容易下跌。",
+      "evidence": "表 5表明，反收购措施的数量越多，管理层为稳固其地位采取的防御越强，管理层越“根深蒂固”，公司股价在大流行中越容易下跌。"
+    },
+    {
+      "text": "被家族、政府、大公司等控制的且管理层较少持股的公司免疫力更强，而被资产管理公司尤其对冲基金重仓的公司股票表现比较糟糕。",
+      "evidence": "被家族、非金融公司、政府、银行和其他金融机构控制的公司免疫力强于公众广泛持股的公司，而被资产管理公司重仓的公司股票表现比较糟糕。"
+    },
+    {
+      "text": "危机到来时，公司内部的因素同样值得考虑，比如管理层持股较少的公司反而表现更好，这给践行基本面投资的投资者以信心。",
+      "evidence": "此外，本文考察的公司治理和所有权结构在危机期间对股价的影响也给我们提供了一个新的思路，即当危机到来时，公司内部的因素同样值得考虑，比如管理层持股较少的公司反而表现更好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ding, W., R. Levine, C. Lin and W. Xie. (2020). \"Corporate immunity to the COVID-19 pandemic.\"",
+    "Fama 和 Jesen (1983) 管理防御假说",
+    "Lins et al. (2013)",
+    "Reinhart 和 Rogoff (2009)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

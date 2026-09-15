@@ -1,0 +1,242 @@
+{
+  "schema_version": 2,
+  "id": "20220518-东方证券-量化策略-005-dfq工业类行业轮动策略_中观行业数据_分析师预期_业绩超预期_资金流向",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "expectation_revision",
+        "earnings_surprise",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst", "flow", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "工业企业利润累计同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{行业利润总额累计同比增速（统计局工业企业经济效益月度报告）}",
+          "stats": [null, null, null, null],
+          "evidence": "（1）行业利润总额的累计同比、营业收入的累计同比、PPI当月同比反映了行业的成长性。优异的成长性是支撑公司股价上涨的重要因素。"
+        },
+        {
+          "name": "工业企业营收累计同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{行业营业收入累计同比增速（统计局工业企业经济效益月度报告）}",
+          "stats": [null, null, null, null],
+          "evidence": "统计局口径下的工业企业营收、利润增速，和 A 股工业类上市公司的营收、利润增速一致性较高。"
+        },
+        {
+          "name": "工业企业销售利润率同比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{行业销售利润率累计同比增速（依据营业收入与利润总额自行计算）}",
+          "stats": [null, null, null, null],
+          "evidence": "（2）行业销售利润率的累计同比反映了行业盈利能力的改善。盈利能力是衡量公司质量优劣的重要维度，其中销售利润率则是衡量盈利能力的朴素指标。"
+        },
+        {
+          "name": "工业企业速动比率同比增速",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{行业速动比率（流动资产/负债总额近似值）同比增速}",
+          "stats": [null, null, null, null],
+          "evidence": "（3）行业速动比率同比增速反映了行业的风险性。由于流动负债、速动资产数据并未公布，此处计算的速动比率指流动资产相对负债总额计算的速动比率近似值。"
+        },
+        {
+          "name": "PPI当月同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{按工业行业分类的工业生产者出厂价格指数当月同比}",
+          "stats": [null, null, null, null],
+          "evidence": "理论上，产品价格既可能增厚利润也可能挤压利润。从增厚影响来说，利润作为名义变量，包含了价格因素，所以当工业品价格上升，将会对工业企业利润产生正向影响。"
+        },
+        {
+          "name": "分析师一致预期净利润同比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{当月底行业内个股一致预期净利润加总后相比去年同期一致预期数据的变化率}",
+          "stats": [null, null, null, null],
+          "evidence": "该指标逻辑直观，行业内分析师的盈利预测，可以在一定程度上反映行业整体预期盈利水平的前景，分析师一致预期业绩高增长的行业未来大概率表现更好。"
+        },
+        {
+          "name": "fom_等权",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{FOM}=(K-M)/N",
+          "stats": [null, null, null, null],
+          "evidence": "该指标计算时，以当前最新的分析师盈利预测作为基准，不仅与该分析师过去的盈利预测对比，而且也和过去一段时间里其它分析师的盈利预测进行对比，计算盈利预测上调和下调的比例差，从而可以及时反映当前市场对于公司盈利情况的预期变化。"
+        },
+        {
+          "name": "sue0_市值加权",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{SUE}=\\frac{Q-E(Q)}{\\sigma}\\;\\text{（SUE0假设随机游走模型含漂移项）}",
+          "stats": [null, null, null, null],
+          "evidence": "其中：Q 表示公司实际公告的净利润，E（Q）表示公告前的预期值，σ表示 Q 的预测标准差。 E（Q）和 σ均通过季节性时间序列模型估计。"
+        },
+        {
+          "name": "sue1_市值加权",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{SUE}=\\frac{Q-E(Q)}{\\sigma}\\;\\text{（SUE1假设随机游走模型不含漂移项）}",
+          "stats": [null, null, null, null],
+          "evidence": "对于时间序列建模维度，在之前的报告中，我们构建过预期外盈利因子SUE0，SUE1，预期外营收因子 SUR0，SUR1。这类因子是使用历史财务数据建模估计预期收益和收益标准差。"
+        },
+        {
+          "name": "sur0_市值加权",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{将SUE中的净利润替换为营业收入，其余计算不变，随机游走模型含漂移项}",
+          "stats": [null, null, null, null],
+          "evidence": "SUR因子仅将净利润替换为营业收入，其余计算均不变，因而下面仅展示SUE因子的计算公式。"
+        },
+        {
+          "name": "sur1_市值加权",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{将SUE中的净利润替换为营业收入，其余计算不变，随机游走模型不含漂移项}",
+          "stats": [null, null, null, null],
+          "evidence": "市值加权得到的SUE、SUR因子均有不错的选行业效果。"
+        },
+        {
+          "name": "过去一个月股东高管减持金额/成交额之和",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月行业内股东高管减持金额之和/行业总成交额之和}",
+          "stats": [null, null, null, null],
+          "evidence": "股东、高管是重要的产业资本，他们比其他投资者更加了解企业情况，通过其增减持行为可以更好的把握企业和行业的情况。"
+        },
+        {
+          "name": "北上资金持仓市值占比",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{北上资金行业持股市值汇总到行业层面的占比}",
+          "stats": [null, null, null, null],
+          "evidence": "关注北向资金的持仓偏向。北上资金着重配置某行业就意味着其对该行业比较看好。通过北上资金当前持股数量乘以收盘价，可以计算其在个股上的持股市值情况，汇总到行业层面即可得到北上资金在各行业上的持股市值占比。"
+        },
+        {
+          "name": "过去一个月北上资金流入额",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月北上资金净流入额之和/行业总成交额之和}",
+          "stats": [null, null, null, null],
+          "evidence": "通过北上资金持股数增量乘以当日 vwap 均价，可以计算北向资金每日在每只股票上的净流入额。个股的净流入金额可以汇总到行业层面，即可得到北上资金每日在不同行业的资金净流入额。"
+        },
+        {
+          "name": "净换手率因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{行业过去 5 天的净换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "净换手率因子和动量因子相关性较高，属于高频技术面量价指标，换手率较高，且在非周期性行业中胜率相对更高，在工业类行业中多头端超额并不明显，仅空头端负向超额明显。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst", "flow", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于证监会二级行业的DFQ工业类行业轮动策略效果最佳：合成因子叠加行业NTO5因子处于前80%的top5行业组合，多头超额15.36%，信息比率1.49，超额收益最大回撤24%，除2014年外每年超额都在5%以上。",
+      "evidence": "基于证监会二级行业下的行业轮动策略效果最佳。2010年至今，合成因子叠加行业 NTO5因子处于前 80%的 top5行业组合，多头超额达到 15.36%，信息比率 1.49，超额收益最大回撤 24%。"
+    },
+    {
+      "text": "策略整体更适合震荡市；分阶段看，牛市期间中观基本面类行业因子表现较好，熊市期间资金流向类行业因子表现较好，震荡市中超预期类行业因子表现较好。",
+      "evidence": "从不同市场阶段来看，DFQ工业类行业轮动策略整体更适合震荡市。牛市期间，中观基本面类行业因子表现较好。熊市期间，资金流向类行业因子表现较好。震荡市中，超预期类行业因子表现较好。"
+    },
+    {
+      "text": "由统计局细分行业经济效益月度报告生成的中观行业因子效果明显优于上市公司财报因子，属于行业层面的特有因子；此外工业企业速动比率同比增速、PPI当月同比也有不错的选行业效果。",
+      "evidence": "中观行业数据：由统计局公布的细分行业经济效益月度报告生成的行业因子效果明显优于上市公司财报因子，属于行业层面的特有因子。"
+    },
+    {
+      "text": "PPI当月同比指标多头超额最显著，2010年至今top5行业年化收益11.02%、多头超额6.12%，其次是速动比率同比增速、营收累计同比、利润累计同比和销售利润率累计同比。",
+      "evidence": "PPI 当月同比指标多头超额最显著，2010 年至今 top5 行业年化收益达到 11.02%，多头超额 6.12%。"
+    },
+    {
+      "text": "股东高管减持因子更有效，净增持指标对行业几乎没有区分度，出于换手和回撤考虑选择一个月作为计算周期。",
+      "evidence": "从单因子结果来看，减持因子更有效，净增持指标对于行业几乎没有区分度，过去 5 天或者过去一个月的因子效果相差不大。出于换手和回撤的考虑，选择一个月作为计算周期。"
+    },
+    {
+      "text": "指数增强组合中对5个超配行业完全放开正向暴露、5个低配行业完全放开负向暴露，沪深300增强组合扣费后年化对冲收益14.48%、信息比2.66，中证500增强组合扣费后年化对冲收益18.33%、信息比2.48。",
+      "evidence": "沪深 300全市场增强组合扣费后年化对冲收益可达 14.48%，信息比 2.66。中证 500全市场增强组合扣费后年化对冲收益可达 18.33%，信息比 2.48。"
+    },
+    {
+      "text": "主动选股组合中根据行业轮动策略调整个股zscore得分再选top股票的方法效果最好，调整后多因子top30等权组合2010年以来扣费后年化收益28%、年化夏普比1.06，相比常规组合年化收益提升5%。",
+      "evidence": "根据行业轮动策略调整个股 zscore得分，再根据调整后个股因子得分选择top股票构建组合的方法效果最好。调整后的多因子 top30等权股票组合 2010年以来扣费后年化收益达 28%，年化夏普比 1.06。相比常规组合，年化收益提升 5%。"
+    },
+    {
+      "text": "基金组合中将夏普比最高作为目标函数、约束行业配置与指定行业配置偏差小于80%的组合优化法效果更好，2010年以来相对偏股基金指数可取得10%的年化超额收益，过去13年中有10年跑赢偏股基金指数。",
+      "evidence": "将基金组合夏普比最高作为目标函数，约束基金组合的行业配置与指定行业配置的偏差小于 80%，这样得到的基金组合，2010年以来相对于偏股基金指数，可取得 10%的年化超额收益。过去13年中有10年都可以跑赢偏股基金指数。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于主动买卖单的行业轮动模型》（2022-02-25《量化策略研究 之 四》）",
+    "《基于工业企业财务数据和分析师预期的行业轮动模型》（2021-11-27《量化策略研究 之 三》）",
+    "《更稳健易算的分析师盈利上调因子》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

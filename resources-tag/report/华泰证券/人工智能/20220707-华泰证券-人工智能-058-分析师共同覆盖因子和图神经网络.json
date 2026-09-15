@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "id": "20220707-华泰证券-人工智能-058-分析师共同覆盖因子和图神经网络",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "relation_graph"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "CF_RET",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{CF\\_RET_i}=\\frac{\\sum_{j=1}^{N}\\log(n_{ij}+1)\\mathrm{Ret}_j}{\\sum_{j=1}^{N}\\log(n_{ij}+1)}",
+          "stats": [null, 0.0098, 0.07, null],
+          "evidence": "本文参照 Ali and Hirshleifer (2019)中的因子构建方法，构建了基于分析师共同覆盖的关联动量因子CFRET，该因子认为与某只股票关联的其他股票过去一段时间的收益率可以预测该股票未来的收益率，即体现出股票涨跌的领先滞后效应"
+        },
+        {
+          "name": "CF_REV",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{CF\\_REV_i}=\\frac{\\sum_{j=1}^{N}\\log(n_{ij}+1)\\mathrm{Ret}_j}{\\sum_{j=1}^{N}\\log(n_{ij}+1)}-\\mathrm{Ret}_i",
+          "stats": [null, 0.0652, 0.59, null],
+          "evidence": "该因子的通俗理解方式为：我们在考虑股票自身反转效应的基础上，进一步考虑与之关联股票的动量效应，即前期自身跌幅较大，但关联股票涨幅较大的股票，因子取值较大。该因子同样描述了股价的领先滞后效应，并体现了股价的均值回复现象。"
+        },
+        {
+          "name": "CF_TURN",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{CF\\_TURN_i}=\\frac{\\sum_{j=1}^{N}\\log(n_{ij}+1)\\mathrm{TURN}_j}{\\sum_{j=1}^{N}\\log(n_{ij}+1)}-\\mathrm{TURN}_i",
+          "stats": [null, 0.0709, 0.46, null],
+          "evidence": "该因子的通俗理解方式为：我们在考虑股票i自身换手率的基础上，进一步考虑与之关联股票的换手率，即前期自身缩量(换手率较低)，但关联股票放量(换手率较高)的股票，因子取值较大。"
+        },
+        {
+          "name": "CF_STD",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{CF\\_STD_i}=\\frac{\\sum_{j=1}^{N}\\log(n_{ij}+1)\\mathrm{STD}_j}{\\sum_{j=1}^{N}\\log(n_{ij}+1)}-\\mathrm{STD}_i",
+          "stats": [null, 0.0605, 0.38, null],
+          "evidence": "该因子的通俗理解方式为：我们在考虑股票i自身波动率的基础上，进一步考虑与之关联股票的波动率，即前期自身波动率较低，但关联股票波动率放大的股票，因子取值较大。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["neural"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "分析师共同覆盖的关联动量因子CFRET在多种测试条件下TOP组合都表现最好，说明分析师共同覆盖是刻画股票间关系的有效方式；股票间的关联动量效应可能偏短期，持续时间在一周左右。",
+      "evidence": "在多种测试条件下，CFRET因子TOP组合都表现最好，侧面说明了分析师共同覆盖确实是刻画股票间关系的有效方式。此外，股票间的关联动量效应可能偏短期，持续时间在一周左右。"
+    },
+    {
+      "text": "基于金融市场均值回复的现象，分析师共同覆盖能改进反转、换手率、波动率因子，构建了改进反转因子CFREV、改进换手率因子CFTURN、改进波动率因子CFSTD，是均值回复现象的表现。",
+      "evidence": "基于金融市场均值回复的现象，本文进一步构建了基于分析师共同覆盖的改进反转因子CFREV、改进换手率因子CFTURN、改进波动率因子CFSTD。对于CFREV，其含义是前期自身跌幅较大，但关联股票涨幅较大的股票因子取值较大，是均值回复现象的表现(CFTURN和CFSTD的含义类似)。"
+    },
+    {
+      "text": "将分析师共同覆盖关系输入图神经网络GAT作为显式建图方式，相比全连接网络，GAT的RankIC从6.87%提升到7.29%，ICIR从0.46提升到0.55，TOP组合年化超额收益率提升了3.17%，分析师共同覆盖为三个因子的合成贡献了增量信息。",
+      "evidence": "针对反转、换手率、波动率因子的合成，相比全连接网络，GAT 的 RankIC 从 6.87%提升到 7.29%，ICIR 从 0.46提升到 0.55，分5层测试TOP组合年化超额收益率提升了3.17%，分析师共同覆盖确实为三个因子的合成贡献了增量信息。"
+    },
+    {
+      "text": "从注意力权重矩阵角度看GAT可解释性：相比关联股票，股票自身的特征对收益预测贡献最显著，关联股票特征提供信息补充；股票之间的相互影响程度是不对称的。",
+      "evidence": "本文还从注意力权重矩阵的角度对GAT做可解释性分析，结论有：(1)相比关联股票，股票自身的特征对于收益预测贡献最显著，关联股票的特征能提供一定信息补充；(2)股票之间的相互影响程度是不对称的。"
+    },
+    {
+      "text": "日频和周频调仓时，改进反转因子TOP组合受交易费用影响很大，无法作为单因子直接选股，可将因子加入组合并控制组合换手率来缓解这个问题。",
+      "evidence": "日频和周频调仓时，改进反转因子的TOP组合受交易费用影响很大，无法作为单因子来直接选股，可将因子加入组合并控制组合换手率来缓解这个问题。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ali, Usman, and David Hirshleifer. \"Shared Analyst Coverage: Unifying Momentum Spillover Effects.\" Journal of Financial Economics forthcoming (2019).",
+    "华泰金工人工智能系列报告《图神经网络选股与Qlib实践》(2021.2.21)",
+    "华泰金工人工智能系列报告《图神经网络选股的进阶之路》(2022.4.11)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

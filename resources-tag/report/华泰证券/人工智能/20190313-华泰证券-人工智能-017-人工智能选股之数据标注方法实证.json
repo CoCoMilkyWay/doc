@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20190313-华泰证券-人工智能-017-人工智能选股之数据标注方法实证",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "label_horizon", "sample_window", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection"]}
+  },
+  "findings": [
+    {
+      "text": "XGBR-Combine等权集成模型综合三个基模型优点，在年化超额收益率(14.74%~18.22%)、信息比率(2.28~3.39)上表现最好，在超额收益最大回撤(3.83%~8.79%)、Calmar比率(2.13~3.87)上也有不错表现",
+      "evidence": "回测结果中，XGBR-Combine综合了三个基模型的优点，在年化超额收益率(14.74%~18.22%)、信息比率(2.28~3.39)上都表现最好，在超额收益最大回撤(3.83%~8.79%)、Calmar比率(2.13~3.87)上也有不错的表现。"
+    },
+    {
+      "text": "XGBR-Combine的以上4个回测指标的标准差都比较小，多次测试中受随机性干扰程度最小，表现最为稳定",
+      "evidence": "同时，XGBR-Combine的以上4个回测指标的标准差都比较小，说明其在多次测试中受随机性的干扰程度最小，表现最为稳定。"
+    },
+    {
+      "text": "XGBR相比XGBC在信息比率上有稳定优势，其他指标不相上下，整体来看XGBoost回归的表现更好",
+      "evidence": "本文还构建了相对于中证500的行业、市值中性全A选股策略并进行回测，XGBR 相比 XGBC 在信息比率上有稳定优势。在其他指标上，XGBR 和 XGBC 的表现不相上下。整体来看，XGBoost回归的表现更好。"
+    },
+    {
+      "text": "XGBR-Sharpe比XGBR的夏普比率更高，XGBR-IR比XGBR的信息比率更高，XGBR-Calmar比XGBR的Calmar比率更高，三种数据标注方法的回测表现与其学习目标相匹配，结果整体符合预期",
+      "evidence": "整体来看，在对应的测试中，XGBR-Sharpe比 XGBR的夏普比率更高，XGBR-IR 比 XGBR 的信息比率更高，XGBR-Calmar 比 XGBR 的Calmar比率更高。三种数据标注方法的回测表现和它们各自所设定的学习目标相匹配，结果整体符合预期。"
+    },
+    {
+      "text": "单次测试结果未必有说服力，多次测试中对模型设置不同随机数种子，统计策略指标的分布情况，可得到统计意义上更具说服力的结果",
+      "evidence": "在多次测试中，可以对模型设置不同的随机数种子，使得每次测试中模型的预测都有一定差别，最后我们统计对比模型构建策略的相应指标的分布情况，就能得到更具有说服力的结果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《人工智能选股之损失函数的改进》", "《人工智能选股之特征选择》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

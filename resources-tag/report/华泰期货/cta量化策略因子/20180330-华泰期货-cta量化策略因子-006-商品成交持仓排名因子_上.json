@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "id": "20180330-华泰期货-cta量化策略因子-006-商品成交持仓排名因子_上",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["flow"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "商品成交持仓排名因子①",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\sum_{day=0}^{T}\\left(\\sum_{i=1}^{N}\\Delta\\operatorname{Long}_{i}-\\sum_{i=1}^{N}\\Delta\\operatorname{Short}_{i}\\right)}{\\sum_{day=0}^{T}\\left(\\left|\\sum_{i=1}^{N}\\Delta\\operatorname{Long}_{i}\\right|+\\left|\\sum_{i=1}^{N}\\Delta\\operatorname{Short}_{i}\\right|\\right)}",
+          "stats": [null, null, null, null],
+          "evidence": "首先，因子①描述了品种合约排名回溯 day 日公布前 N 名的持买入变化量与持卖单变化量差值与前 N 名的持买入变化量与持卖单变化量绝对值之和比的均值，从此传统商品持仓因子算法表示新增持买卖仓位的头寸多空交易意向变化"
+        },
+        {
+          "name": "商品成交持仓排名因子②",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\sum_{day=0}^{T}\\left(\\sum_{i=1}^{N}Long_{i}-\\sum_{i=1}^{N}short_{i}\\right)}{\\sum_{day=0}^{T}\\left(\\sum_{i=1}^{N}Long_{i}+\\sum_{i=1}^{N}short_{i}\\right)}",
+          "stats": [null, null, null, null],
+          "evidence": "商品成交持仓排名因子②描述了品种合约回溯 day 日排名净头寸占比的均值，表示目前品种整体持仓净头寸的情况，选择排名N 参数为[1、5、10、20]，而回溯周期 day参数为[1、5、22、60、120]"
+        },
+        {
+          "name": "商品成交持仓排名因子③",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\left(\\sum_{i=1}^{N}Long_{i}-\\sum_{i=1}^{N}short_{i}\\right)_{T}}{\\left(\\sum_{i=1}^{N}Long_{i}-\\sum_{i=1}^{N}short_{i}\\right)_{T-Day}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "商品成交持仓排名因子③描述了在 day 日内里品种合约排名前 N 名会员净头寸变化的情况，利用买卖净头寸的变化情况来假定投资者的交易趋势，参数的选择与组合方法同前因子"
+        },
+        {
+          "name": "商品成交持仓排名因子④",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{Long if } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\sum_{i=1}^{N}\\Delta\\operatorname{Long}_{i,day}\\right)>0 \\text{ and } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\sum_{i=1}^{N}\\Delta\\operatorname{Short}_{i,day}\\right)<0; \\text{ Short if } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\sum_{i=1}^{N}\\Delta\\operatorname{Long}_{i,day}\\right)<0 \\text{ and } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\sum_{i=1}^{N}\\Delta\\operatorname{Short}_{i,day}\\right)>0",
+          "stats": [null, null, null, null],
+          "evidence": "商品成交持仓因子④简化了因子构建算法， 使用持买卖头寸的变化量方向作为入场信号，如表 10所示，依据多头增仓并伴随空头减仓的情况下建立多头头寸，空头增仓并伴随多头减仓的信号建立空头头寸，形成对冲组合"
+        },
+        {
+          "name": "套期保值压力因子①",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "sign\\left(\\sum_{day=0}^{T}Hedge\\;Long_{day}-\\sum_{day=0}^{T}Hedgeo\\;short_{day}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "按照套期保值压力理论策略，利用前 day 日套期保值净头寸的变化方向构建套期保值压力因子，捕捉套期保持交易者为转移生产风险所支付的溢价，当套期保值净头寸为正时，卖出该品种获取风险补偿"
+        },
+        {
+          "name": "套期保值压力因子②",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{Long if } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\Delta Hedge\\operatorname{Long}_{day}\\right)>0 \\text{ and } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\Delta Hedge\\operatorname{Short}_{day}\\right)<0; \\text{ Short if } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\Delta Hedge\\operatorname{Long}_{day}\\right)<0 \\text{ and } \\operatorname{sign}\\left(\\sum_{day=0}^{T}\\Delta Hedge\\operatorname{Short}_{day}\\right)>0",
+          "stats": [null, null, null, null],
+          "evidence": "套期保值压力因子②采用买入套保头寸与卖出套保的头寸两个变化量的方向作为组合构建头寸的依据，主要考量套期保值压力因子对市场近期价格的反应与影响"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "商品成交持仓排名因子①④受手续费影响明显大于因子②，附加单边万分之三手续费后年化收益分别下降107%和84%，说明手续费占比、换手率较高。",
+      "evidence": "虽然三个因子的最优策略同为回溯 1日，但商品成交持仓排名因子①④受手续费的影响明显大于因子②，年化收益分别下降 107%和 84%，说明手续费占比、换手率较高。"
+    },
+    {
+      "text": "商品成交持仓排名因子②附加单边万分之3的手续费后年化收益仅下降12.8%，手续费占比及换手率尚可接受。",
+      "evidence": "而商品成交持仓排名因子②，附加单边万分之 3 的手续费后，年化收益下降12.8%，手续费占比及换手率尚可接受。"
+    },
+    {
+      "text": "商品成交持仓排名因子③未能取得正收益，N 日净头寸变化率与未来价格呈负相关关系。",
+      "evidence": "而商品成交持仓排名因子③，利用 day 日净头寸变化率判断会员的交易目的并未能取得正收益，表 9 的商品成交持仓排名因子③全品种对冲的年化收益矩阵，N 日净头寸变化率与未来价格呈负相关关系。"
+    },
+    {
+      "text": "套期保值净头寸变化在统计过去20日以内时能取得一定收益，且持仓周期越久收益效果越显著。",
+      "evidence": "从整体收益发现，在统计过去20日以内的套期保值净头寸变化情况时，能够取得一定收益，且持仓周期越久，收益效果越显著。"
+    },
+    {
+      "text": "商品成交持仓排名策略与动量策略整体相关性0.09，套期保值压力因子策略与动量策略整体相关性更低达到0.01，可作为互补策略组合配置。",
+      "evidence": "商品成交持仓排名策略与传统 CTA 动量策略做相关性比较，动量策略采用回溯 10 天滚动持仓 5天的参数，具体组合方法可参考，回测周期从 2010 年1 月 1日至 2018 年 3 月16 日，整体的相关性0.09，滚动100天的相关性如图 11，在[-0.4,+0.4]区间波动。套期保值压力因子策略与动量策略整体相关性则更低，达到 0.01，而从图 12的套期保值压力因子与动量策略 100 天滚动相关性来看，除 2014 年及 2018 年在 0.4 附近，其余大部分时间在[-0.2,+0.2]间波动。"
+    },
+    {
+      "text": "套期保值压力因子①组合策略月胜率56.87%，年胜率达到80%。",
+      "evidence": "套期保值压力因子①组合策略测试周期为 2014年1月 1日至 2018年 3月16日，策略的月胜率 56.87%，年胜率达到80%。"
+    },
+    {
+      "text": "商品成交持仓排名的回测周期从2010年至2018年3月16日，月度及年度的胜率分别达到62.6%和90%。",
+      "evidence": "商品成交持仓排名的回测周期从 2010年至2018年3 月16 日，月度及年度的胜率分别达到 62.6%和 90%。"
+    },
+    {
+      "text": "商品持仓因子最优参数持仓时间较短，且对手续费和滑点较为敏感，策略组合的收益容易被侵蚀。",
+      "evidence": "从回测参数优化结果得出，商品持仓因子最优参数持仓时间较短，且对手续费和滑点较为敏感，策略组合的收益容易被侵蚀。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《CTA量化策略因子系列》报告"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

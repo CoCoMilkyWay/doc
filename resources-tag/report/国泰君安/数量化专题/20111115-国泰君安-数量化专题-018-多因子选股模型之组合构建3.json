@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "20111115-国泰君安-数量化专题-018-多因子选股模型之组合构建3",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "analyst_behavior", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "regime_domain", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "HS300中直接选股和分周期非周期选股分别取得相对于hs300等权指数19.4%和16%的年化超额收益率",
+      "evidence": "HS300 中，直接选股和分周期非周期选股分别取得了相对于 hs300 等权指数 19.4%和 16%的年化超额收益率（相对于 hs300 指数的超额收益会更高）。"
+    },
+    {
+      "text": "ZZ500中直接选股和分周期非周期选股分别获得相对于zz500等权指数10.8%和14.7%的年化超额收益率",
+      "evidence": "ZZ500中，直接选股和分周期非周期选股分别获得了相对于 zz500 等权指数10.8%和 14.7%的年化超额收益率。"
+    },
+    {
+      "text": "各模拟组合最大跑输基准幅度都在12.3%以内，月胜率基本在60%以上，hs300和zz500中分周期非周期选股的季度胜率都在70%以上，表现比较稳健",
+      "evidence": "从稳健性看，各模拟组合的最大跑输基准幅度都在 12.3%以内，月胜率基本在 60%以上，在 hs300 和 zz500 中分周期非周期选股的季度胜率都在70%以上，可见模拟组合的表现比较稳健。"
+    },
+    {
+      "text": "分周期非周期选股相对于直接选股确实改进了效果，尤其在zz500股票池中，分周期非周期选股的收益和稳健性都明显优于直接选股",
+      "evidence": "分周期非周期选股相对于直接选股确实改进了效果，尤其是在 zz500 股票池中，分周期非周期选股的收益和稳健性都明显优于直接选股。"
+    },
+    {
+      "text": "财务类因子有效性在财报公布后有较明显的衰减现象，因此财报刚公布完的那个月（5、9、11月）财务类因子的大类权重比其他月份高10%，而价量类相应减少10%",
+      "evidence": "由于在单因子的有效性测算和分析中发现，财务类的因子有效性在财报公布后有较明显的衰减现象，因此我们在财报刚公布完的那个月（5、9、11 月）财务类因子的大类权重比其他月份高 10%，而价量类相应减少10%。"
+    },
+    {
+      "text": "敏感性测试表明权重的微小变动并不会对模拟组合的表现产生较大影响，大大增加了模型的实用性",
+      "evidence": "而敏感性测试结果表明，这些人为判断的差异造成权重的微小变动并不会对模拟组合的表现产生较大影响，这大大增加了模型的实用性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《多因子选股模型之因子分析与筛选 II：财务质量、价量和一致预期类指标》（2011.10.14）",
+    "《多因子选股模型之因子分析与筛选Ⅰ：估值与财务成长类指标》（2011.09.26）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

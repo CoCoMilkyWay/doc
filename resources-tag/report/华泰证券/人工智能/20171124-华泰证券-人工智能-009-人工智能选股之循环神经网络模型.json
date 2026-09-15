@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "20171124-华泰证券-人工智能-009-人工智能选股之循环神经网络模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "sample_window", "interpretability"],
+      "baseline": ["linear", "tree"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "LSTM 模型相对中证 500 的超额收益在 20.36%~25.05%之间，信息比率在 2.95~3.76 之间，年化超额收益率、信息比率优于线性回归，但最大回撤普遍更大。",
+      "evidence": "总的来看，LSTM模型在年化超额收益率、信息比率上优于线性回归算法，但是最大回撤普遍大于线性回归算法。在目前测试的所有神经网络模型中，LSTM表现最好。"
+    },
+    {
+      "text": "三种循环神经网络模型样本外平均 AUC 分别为 0.5429、0.5576、0.5410，样本外平均正确率分别为 58.57%、57.61%、56.85%，正确率出色但 AUC 表现一般。",
+      "evidence": "我们在 2011-01-31 至 2017-10-31 的回测区间中分 7 个阶段训练并测试模型，三种模型样本外平均 AUC 分别为 0.5429，0.5576，0.5410，样本外平均正确率分别为 58.57%，57.61%，56.85%。"
+    },
+    {
+      "text": "在行业中性全 A 选股方面，XGBoost 在年化收益率、信息比率和 Calmer 比率上表现最好，LSTM 和 GRU 相比其他神经网络模型有一定优势，但综合表现不如 XGBoost。",
+      "evidence": "从图表 38 和图表 39 中可以看出，在行业中性的全 A选股方面，XGBoost 在年化收益率、信息比率和 Calmer 比率都表现最好。LSTM 和 GRU 相比其他神经网络模型在年化收益率、信息比率上有一定的优势。"
+    },
+    {
+      "text": "月频多因子数据量较小，不利于神经网络模型发挥优势，以 LSTM 为代表的神经网络在月频多因子选股上表现并不突出，之后将尝试更高频、数据量更大的场景。",
+      "evidence": "目前看来，以 LSTM 为代表的神经网络在月频的多因子选股上表现并不突出，综合表现不如 XGBoost。我们认为这是因为月频的多因子数据量较小，并不利于神经网络模型发挥其优势。之后我们将尝试在更加高频、数据量更大的场景中继续研究神经网络模型。"
+    },
+    {
+      "text": "通过分析 LSTM 网络训练过程中神经元的权重更新过程以及权重值分布情况，打开神经网络“黑箱”，使模型具有可解释性，训练中权重被区分得越来越好。",
+      "evidence": "我们通过分析 LSTM 网络训练过程中神经元的权重更新过程以及权重值分布情况，打开了神经网络这个“黑箱”，使得模型具有可解释性。"
+    },
+    {
+      "text": "LSTM 行业中性策略随每个行业入选个股数目增多，年化收益率下降、信息比率和 Calmar 比率先升后降，最优入选个股数目在 14 个左右。",
+      "evidence": "对于 LSTM 模型的行业中性策略来说，随着每个行业入选个股数目增多，年化收益率在下降、信息比率和 Calmar比率先升后降，最优每个行业入选个股数目在 14 个左右。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "华泰人工智能选股系列之七：基于 XGBoost 的机器学习选股模型（2017-09）",
+    "华泰人工智能选股系列之八：人工智能选股之广义线性模型（2017-10）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

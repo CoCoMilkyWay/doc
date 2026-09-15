@@ -1,0 +1,323 @@
+{
+  "schema_version": 2,
+  "id": "20210708-华泰期货-cta策略-006-商品里的_alpha",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "alpha1",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "mean(close,window=12)/close",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha1：mean(close,window=12)/close | 趋势 | 时序 |"
+        },
+        {
+          "name": "alpha2",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*volume/mean(volume,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha2: -1*volume/mean(volume,window=20) | 反转 | 时序 |"
+        },
+        {
+          "name": "alpha3",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*cor(vwap,volume,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha3: -1*cor(vwap,volume,window=20) | 背离 | 时序 |"
+        },
+        {
+          "name": "alpha4",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*cor(high/low,volume,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha4: -1*cor(high/low,volume,window=20) | 背离 | 时序 |"
+        },
+        {
+          "name": "alpha5",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*skewness(returns,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha5: -1*skewness(returns,window=20) | 统计 | 时序 |"
+        },
+        {
+          "name": "alpha6",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "open/close",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha6：open/close | 趋势 | 时序 |"
+        },
+        {
+          "name": "alpha7",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "(close-Delay(close,6))/Delay(close,6)*100",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha7: (close-Delay(close,6))/Delay(close,6)*100 | 趋势 | 时序 |"
+        },
+        {
+          "name": "alpha8",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "sd(amount,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha8: sd(amount,window=20) | 统计 | 时序 |"
+        },
+        {
+          "name": "alpha9",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "kurtosis(amount,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha9: kurtosis(amount,window=20) | 统计 | 时序 |"
+        },
+        {
+          "name": "alpha10",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "mean(amount,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha10:mean(amount,window=20) | 统计 | 时序 |"
+        },
+        {
+          "name": "alpha11",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*Rank(open-Delay(high,1))*Rank(open-Delay(close,1))*Rank(open-Delay(low,1))",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha11: -1*Rank(open-Delay(high,1))*Rank(open-Delay(close,1))*Rank(open-Delay(low,1)) | 趋势 | 截面 |"
+        },
+        {
+          "name": "alpha12",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*Delta(((close-low)-(high-close))/(high-low),1)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha12: -1*Delta(((close-low)-(high-close))/(high-low),1) | 趋势 | 时序 |"
+        },
+        {
+          "name": "alpha13",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*Rank(sd(abs(close-open),window=5)+(close-open)+cor(close,open,window=10))",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha13: -1*Rank(sd(abs(close-open),window=5)+(close-open)+cor(close,open,window=10)) | 反转 | 截面 |"
+        },
+        {
+          "name": "alpha14",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*Sign((close-Delay(close,7))+Delta(close,7))*(1+Rank(1+sum(returns,window=250)))",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha14: -1*Sign((close-Delay(close,7))+Delta(close,7))*(1+Rank(1+sum(returns,window=250))) alpha15: | 反转 | 截面 |"
+        },
+        {
+          "name": "alpha15",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "(close<Delay(close,5))?(close-Delay(close,5))/Delay(close,5):((close==Delay(close,5))?0:((close-Delay(close,5))/close))",
+          "stats": [null, null, null, null],
+          "evidence": "| (close<Delay(close,5))?(close-Delay(close,5))/Delay(close,5))/Delay(close,5):(close==Delay(close,5)?0:(反转 close-Delay(close,5))/close) |  | 时序 |"
+        },
+        {
+          "name": "alpha16",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Sign(0-(close-Delay(close,7)))*Rank(sum((close-Delay(close,1))/Delay(close,1),250))",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha16: Sign(0-(close-Delay(close,7))* Rank(sum((close-Delay(close,1))/Delay(close,1),250) | 背离 | 截面 |"
+        },
+        {
+          "name": "alpha17",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "(sum(high,20)/20<high)?(-1*Delta(high,2)):0",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha17:(((sum(high,20)/20<high)?(-1*Delta(high,2)):0) | 趋势 | 时序 |"
+        },
+        {
+          "name": "alpha18",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "(1-Rank(Sign(close-Delay(close,1))+Sign(Delay(close,1)-Delay(close,2))+Sign(Delay(close,2)-Delay(close,3))))*sum(volume,5)/sum(volume,20)",
+          "stats": [null, null, null, null],
+          "evidence": "| alpha18: [(((1-Rank(((Sign((close-Delay(close,1))) + Sign((Delay(close,1) - Delay(close,2)))+Sign(Delay(close,2)-Delay(close,3)))))] * [sum(volume/5)] / sum(volume,20)] | 反转 | 截面 |"
+        },
+        {
+          "name": "abpha19",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "TS_Rank(volume,32)*(1-TS_Rank((close-high)-low,16))*(1-TS_Rank(returns,32))",
+          "stats": [null, null, null, null],
+          "evidence": "\\mathrm{abpha19:TS_{\\_}Rank(volume,32)*(1-TS_{\\_}Rank((close-high)-low),16)))*(1-TS_{\\_}Rank(returns,32)))}"
+        },
+        {
+          "name": "allpha20",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "cor(mean(volume,20),low,5)+(high+low)/2",
+          "stats": [null, null, null, null],
+          "evidence": "\\mathrm{allpha20:~((cor(mean(volume,20),low,5)+(high+low)/2))\\cdot lcos}"
+        },
+        {
+          "name": "allpha21",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*Delta(cor(high,volume,5),5)*Rank(sd(close,20))",
+          "stats": [null, null, null, null],
+          "evidence": "\\mathrm{allpha21:~-1^{\\circ}(DeIn(cor(high,volume,5),5)*Rank(sd(close,20))~}"
+        },
+        {
+          "name": "apha22",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*sum(Rank(cor(Rank(high),Rank(volume),3)),3)",
+          "stats": [null, null, null, null],
+          "evidence": "\\mathrm{apha22:-1*sum(Rank(cor(Rank(high),Rank(volume),3)),3)}"
+        },
+        {
+          "name": "alpha23",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*TS_Max(cor(TS_Rank(volume,5),TS_Rank(high,5),5),3)",
+          "stats": [null, null, null, null],
+          "evidence": "$\\mathtt{alpha23}\\colon\\mathtt{\\cdot1^{+}TS\\_Max(cor(TS\\_Rank(volume,}5\\mathtt{),}\\mathtt{TS\\_Rank(high,}5\\mathtt{),}5\\mathtt{),}3\\mathtt{))}$肯高$时序$"
+        },
+        {
+          "name": "apha24",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Rank(TS_Argmax(SignedPower(returns/sd(returns,window=20),2),5))*0.5",
+          "stats": [null, null, null, null],
+          "evidence": "\\mathrm{apha24:\\ Rank(TS\\_Argmax(SigndPower((returns\\_0)/'sd(returns,window=20);close),2),5)\\cdot0.5}"
+        },
+        {
+          "name": "-1*cor(vwap,turnover,window=20)",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "-1*cor(vwap,turnover,window=20)",
+          "stats": [null, null, null, null],
+          "evidence": "$\\mathtt{alpha}25\\colon$-1*cor(vwap,turnover,window=20)}\\quad 肯离\\quad 时序$"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["regression_test", "selection"],
+      "setup": {"universe": ["na"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "上述构建的alpha因子并不能通过单因子的线性测试，tvalue均小于2",
+      "evidence": "从表中可以看到，总的来说，上述构建的 alpha因子并不能通过单因子的线性测试（tvalue均小于 2）。"
+    },
+    {
+      "text": "原因在于不同品种间的有效alpha因子存在差异性，且alpha因子一般只在某一段时间内有效，因此使用中必须去择时",
+      "evidence": "这里分析原因，我们认为是：1.不同品种间的有效 alpha 因子存在差异性：存在很多 alpha因子对单品种可以通过单因子测试，但是总的来看并不能通过单因子测试的情况。2.alpha因子一般来说只在某一段时间内有效，这也告诉了我们在 alpha 因子的使用中必须去择时。"
+    },
+    {
+      "text": "很少有在各个品种间长期有效的alpha因子，但到具体的单一品种中来看，alpha因子在某些时段依然具有有效性",
+      "evidence": "我们尝试基于交易行为，构建一套alpha 因子。我们发现：总的来说，很少有在各个品种间长期有效的 alpha 因子，但到具体的单一品种中来看，alpha因子在某些时段依然具有有效性。"
+    },
+    {
+      "text": "对铜选定相关性较低且均通过单因子测试的alpha9与alpha12构建因子组策略（tvalue分别为-2.05和2.66）",
+      "evidence": "从上图的相关性来看，alpha9 和 alpha12 之间相关性较低且对铜来说均通过了单因子测试（其中 alpha9 的 tvalue2 为-2.05，alpha12 的 tvalue 为 2.66），回测的结果如下图所示。"
+    },
+    {
+      "text": "与标的物相比，策略IR为0.9365高于标的物的0.6634，CVaR、VaR及最大回撤均明显降低，收益均值明显提高",
+      "evidence": "和标的物相比，策略的 IR(Information Ratio,即收益率除以波动率)为 0.9365，高于标的物的 0.6634。其次，在风险指标上我们可以看到，CVaR，VaR以及最大回撤都有较为明显的降低。在收益率上，策略的均值也有较为明显的提高。"
+    },
+    {
+      "text": "部分alpha因子之间相关性较强，如alpha1、alpha7及alpha15；alpha21与其他所有alpha因子之间的相关性较低",
+      "evidence": "从相关性图中可以看到，部分因子之间的较强的相关性。如在上面举例的品种中，alpha1，alpha7以及 alpha15之间均有着较强的相关性。另一方面，也有一些 alpha因子和其他所有的 alpha 因子之间的相关性较低，比如 alpha21因子。"
+    },
+    {
+      "text": "alpha3因子的IC并不大，且不随时间递减，反而在step=36时到达最大值",
+      "evidence": "可以看到虽然alpha3 因子是基于交易特征构建的，但是 IC 并不大。有趣的是，alpha3因子的 IC 并不是随时间递减，反而在 step=36时到达最大值。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

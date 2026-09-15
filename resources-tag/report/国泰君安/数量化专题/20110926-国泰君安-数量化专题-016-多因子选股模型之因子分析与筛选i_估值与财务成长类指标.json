@@ -1,0 +1,291 @@
+{
+  "schema_version": 2,
+  "id": "20110926-国泰君安-数量化专题-016-多因子选股模型之因子分析与筛选i_估值与财务成长类指标",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["point_in_time"],
+      "setup": {"data": {"source": ["statement"], "freq": "quarterly"}}
+    },
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "PE（TTM)",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市值}}{\\text{最近4个季度归属母公司净利润}}",
+          "stats": [null, -0.12, null, null],
+          "evidence": "总体来看，五档累计收益图基本呈现出 PE 较低的组合收益率较高的特征。值得注意的是，在HS300成份股中，最靠前的是第 4档、而非第 5档的股票，且其收益率大幅领先其他组"
+        },
+        {
+          "name": "PEcut（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市值}}{\\text{最近4个季度扣除非经常收益的净利润}}",
+          "stats": [null, -0.05, null, null],
+          "evidence": "总体来看，无论是 HS300 还是 ZZ500 股票池中，第 3、4、5 档的股票组合明显跑赢对应指数和 1、2 档的股票，而且和 PE 类似，并不是第 5档股票的收益率最高。"
+        },
+        {
+          "name": "PEG（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{PE}}{\\text{最近4个季度净利润增长率}}",
+          "stats": [null, -0.1, null, null],
+          "evidence": "总体来看，HS300股票池中明显表现出 PEG越低表现越好的规律，而在ZZ500 中，收益率最高的是第 4档，其次是第 2档，而第 5档股票甚至跑不赢指数"
+        },
+        {
+          "name": "PS(TTM)",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市值}}{\\text{最近4个季度营业收入}}",
+          "stats": [null, -0.24, null, null],
+          "evidence": "总体来看，市销率（PS）越小的组合表现越好，这在 ZZ500中表现的尤为明显，而在 HS300中PS较小的第四档表现优于 PS最小的第五档。"
+        },
+        {
+          "name": "PCF（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市值}}{\\text{最近4个季度净现金流量}}",
+          "stats": [null, -0.08, null, null],
+          "evidence": "总体来看，市现率（PCF）越小的组合表现越好，这规律在HS300和ZZ500中都表现非常明显。"
+        },
+        {
+          "name": "PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{市值}}{\\text{当期净资产}}",
+          "stats": [null, -0.22, null, null],
+          "evidence": "总体来看，从五档累计收益图中可以看出，HS300股票池按收益率从高到低依次是 3、4、5、1、2档，其中只有第 3档明显战胜指数，可见是PB 适中的组合表现较好；ZZ500的排序则为 4、5、3、2、1档，大体呈现 PB较低表现较好的规律。"
+        },
+        {
+          "name": "EV/EBITDA",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{剔除货币资金后的企业价值}}{\\text{最近4个季度税息折旧及摊销前利润}}",
+          "stats": [null, -0.26, null, null],
+          "evidence": "总体来看，无论是 HS300 还是 ZZ500 股票池中，都很明显地呈现出了EV/EBITDA越小的组合表现越好的规律。"
+        },
+        {
+          "name": "营业收入增长率-单季",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当年单季度营业收入}}{\\text{上年同期营业收入}}-1",
+          "stats": [null, 0.07, null, null],
+          "evidence": "总体来看，单季营业收入增长率越高的组合表现越好，但在 ZZ500股票池中的区分度不是很高。"
+        },
+        {
+          "name": "营业收入增长率-同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当年当期营业收入}}{\\text{上年同期营业收入}}-1",
+          "stats": [null, 0.07, null, null],
+          "evidence": "无论是总体来看还是具体分市值、行业属性和市场环境来看，营业收入同比增长率与单季增长率的规律相似。"
+        },
+        {
+          "name": "营业收入增长率-1年（TTM）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度营业收入}}{\\text{上期4个季度营业收入}}-1",
+          "stats": [null, -0.01, null, null],
+          "evidence": "总体来看，1 年营业收入增长率（TTM）较高的组合收益表现偏好，但并不明显。"
+        },
+        {
+          "name": "净利润增长率-单季",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当年单季度归属母公司利润}}{\\text{上年该季度归属母公司利润}}-1",
+          "stats": [null, 0.15, null, null],
+          "evidence": "总体来看，单季净利润增长率越高的组合表现越好，但在 ZZ500股票池中的区分度不是很高。这与单季营业收入增长率类似。从有效性看，该因子的有效性强于单季营业收入增长率。"
+        },
+        {
+          "name": "净利润增长率-同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当年当期归属母公司利润}}{\\text{上年同期归属母公司利润}}-1",
+          "stats": [null, 0.01, null, null],
+          "evidence": "总体来看，净利润同比增长率与单季增长率相似，只是在 HS300股票池里，净利同比增长率最大的第 1档股票组合大幅跑赢指数和其他各档组合。"
+        },
+        {
+          "name": "净利润增长率-1年（TTM）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度归属母公司利润}}{\\text{上期4个季度归属母公司利润}}-1",
+          "stats": [null, 0, null, null],
+          "evidence": "总体来看，HS300股票池中按收益率从高到低依次是 1、4、2、3、5档，没有明显规律；ZZ500的排序更加混乱，为 5、4、1、3、2档。"
+        },
+        {
+          "name": "经营性现金流增长率-单季",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当年单季度经营性现金流}}{\\text{上年该季度经营性现金流}}-1",
+          "stats": [null, 0.12, null, null],
+          "evidence": "总体来看，经营性现金流单季增长率较高的组合表现较好，但各档的表现区分度不是很高。"
+        },
+        {
+          "name": "经营性现金流增长率-同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当年当期经营性现金流}}{\\text{上年同期经营性现金流}}-1",
+          "stats": [null, 0.14, null, null],
+          "evidence": "总体来看，经营性现金流同比增长率在 HS300中的有效性较好，区分度明显，但在 ZZ500 中各档的表现较为无序。"
+        },
+        {
+          "name": "经营性现金流增长率-1年(TTM）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度经营性现金流}}{\\text{上期4个季度经营性现金流}}-1",
+          "stats": [null, 0.08, null, null],
+          "evidence": "总体来看，HS300与 ZZ500的五档累计收益排序一致，均是 2、1、4、3、5档，总体还是经营性现金流增长率（TTM）较高的组合表现相对较好。"
+        },
+        {
+          "name": "ROE增长率-单季",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本年单季度归属母公司净利润}-\\text{上年该季度归属母公司净利润}}{\\text{平均净资产}}",
+          "stats": [null, 0.01, null, null],
+          "evidence": "总体来看，ROE 单季增长率越高的组合表现越好，但在 ZZ500 中各档表现的区分度不是很高。"
+        },
+        {
+          "name": "ROE增长率-同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本年当期归属母公司净利润}-\\text{上年同期归属母公司净利润}}{\\text{平均净资产}}",
+          "stats": [null, -0.02, null, null],
+          "evidence": "总体来看，HS300股票池中，ROE同比增长率越高的组合表现越好，且该规律明显，但在 ZZ500中各档表现几乎没有规律。"
+        },
+        {
+          "name": "ROE增长率-1年（TTM）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度归属母公司净利润}-\\text{上期4个季度归属母公司净利润}}{\\text{平均净资产}}",
+          "stats": [null, -0.02, null, null],
+          "evidence": "总体来看，HS300股票池中，ROE增长率（TTM）越高的组合表现越好，且最高的第一档明显跑赢市场指数和其他各档，但在 ZZ500中各档表现几乎没有规律。"
+        },
+        {
+          "name": "ROA 增长率-单季",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本年单季度归属母公司净利润}-\\text{上年同期归属母公司净利润}}{\\text{平均总资产}}",
+          "stats": [null, 0.01, null, null],
+          "evidence": "无论从总体来看还是具体来看，ROA 单季增长率的有效性规律与 ROE单季增长率非常相近，都是在 HS300 有效，而 ZZ500 无效，在非周期类股票池中有效性较强，震荡市的有效性最强。"
+        },
+        {
+          "name": "ROA 增长率-同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{本年当期归属母公司净利润}-\\text{上年同期归属母公司净利润}}{\\text{平均总资产}}",
+          "stats": [null, -0.02, null, null],
+          "evidence": "无论从总体来看还是具体来看，ROA 同比增长率的有效性规律与 ROE的同比增长率非常相近，都是在 HS300 有效，而 ZZ500 无效，在非周期类股票池中有效性较强，震荡市的有效性最强。"
+        },
+        {
+          "name": "ROA增长率-1年（TTM）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度归属母公司净利润}-\\text{上期4个季度归属母公司净利润}}{\\text{平均总资产}}",
+          "stats": [null, -0.01, null, null],
+          "evidence": "无论从总体来看还是具体来看，ROA 增长率（TTM）的有效性规律与ROE 增长率（TTM）非常相近，都是在 HS300 有效，而 ZZ500 无效，在非周期类股票池中有效性较强，震荡市的有效性最强。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "robustness", "selection"],
+      "setup": {"universe": ["csi300", "csi500"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "HS300中首选有效因子有PS、PCF及各类财务增长率指标；ZZ500中首选有效因子有PS、PB、EV/EBITDA、净利润增长率（单季）。",
+      "evidence": "（1）HS300 中，首选有效因子有：PS，PCF，营业收入增长率（单季、同比），净利润增长率（单季、同比），经营现金流增长率（单季、同比），ROE 增长率（单季、同比），ROA增长率（单季、同比、TTM）。ZZ500中，首选有效因子有：PS，PB，EV/EBITDA，净利润增长率（单季）。"
+    },
+    {
+      "text": "市值大小对因子有效性影响显著：ROE、ROA 增长率在 HS300中有效性明显，而在 ZZ500中几乎无效；EV/EBITDA则反之。",
+      "evidence": "（2）市值大小对因子有效性影响显著：如 ROE、ROA 增长率在 HS300中有效性明显，而在 ZZ500中几乎无效；EV/EBITDA则反之。"
+    },
+    {
+      "text": "估值类中PS最有效且在周期股中相对更高，PE只在非周期中表现有效。",
+      "evidence": "总体来看，PS有效性在所有因子中最高，在周期股中相对更高；PE只在非周期中表现有效。"
+    },
+    {
+      "text": "PB 在熊市表现得更有效，而营业收入、净利润和经营现金流增长率等指标都在震荡市表现最佳。",
+      "evidence": "大部分因子都在牛市中更有效，但是 PB 在熊市表现得更有效，而营业收入增长率（单季、同比、TTM）、净利润增长率（单季、同比、TTM）和经营现金流增长率（单季、同比、TTM）等指标都在震荡市表现最佳。"
+    },
+    {
+      "text": "财务指标的单季增长率有效性略高于同比，同比增长率高于TTM，短期增长率有效性更高。",
+      "evidence": "我们发现一个有意思的结论：单季增长率的有效性略高于同比，而同比增长率的有效性高于 TTM。可见这些财务指标的短期增长率有效性更高，这也许与市场乐于炒作短期业绩爆发的股票有关。"
+    },
+    {
+      "text": "PE不是最小的最好，而是较小的（第四档）最好，PE最小的第五档组合表现并不是最好的。",
+      "evidence": "总体来说，估值因子 PE较低的组合表现优于 PE较高的，但是从我们的测算来看，PE 最小的 20%（即第五档）组合表现并不是最好的，而第四档（PE值居于后 40%~20%）表现明显好于第五档。可见，PE 不是最小的最好，而是较小的（第四档）最好。"
+    },
+    {
+      "text": "PB在ZZ500周期类股票池的熊市阶段有效性很高，TOP20%-BOTTOM20%和TOP40%-BOTTOM40%的有效性均达到85%。",
+      "evidence": "值得特别指出的是，PB 在 ZZ500 的周期类股票池的熊市阶段里表现出了很高的有效性，TOP20%- BOTTOM20%和TOP40%- BOTTOM40%的有效性均达到 85%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于全市场的 GARP 选股研究》——数量化研究系列之十五（2011.09.14）",
+    "《基于动量和阻力测算的短线择时模型——数量化系列研究之十四》（2011.08.21）",
+    "《风格投资 III：A 股周期非周期风格轮动研究——数量化研究系列之十六》（2011.09.15）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

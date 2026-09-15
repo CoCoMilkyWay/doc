@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "20170911-华泰证券-人工智能-006-人工智能选股之boosting模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon", "sample_window", "loss_generalization", "interpretability"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "XGBoost分类模型在沪深300、中证500成份内和全A行业中性策略的超额收益分别为6.4%、7.2%、31.5%，信息比率分别为1.78、2.03、4.4，各策略构建方式下都稳定优于线性回归。",
+      "evidence": "对于沪深 300 成份股内选股的行业中性策略（每个行业选 6 只个股），XGBoost 分类模型的超额收益为 6.4%，信息比率为 1.78。对于中证 500成份股内选股的行业中性策略，XGBoost 分类模型的超额收益为 7.2%，信息比率为 2.03。对于全 A选股的行业中性策略，XGBoost 分类模型相对于中证 500 的超额收益为 31.5%，信息比率为 4.4。"
+    },
+    {
+      "text": "AdaBoost、GBDT、XGBoost三种模型样本外平均AUC分别为0.5695、0.5699、0.5696，预测能力持平，但XGBoost运算速度优势明显，其他集成学习模型训练时间普遍是其2～8倍。",
+      "evidence": "AdaBoost、GBDT、XGBoost 三种模型样本外平均AUC 分别为 0.5695，0.5699，0.5696，样本外平均正确率分别为 53.94%，54.12%，54.02%。但 XGBoost 模型在运算速度上有明显优势，其他集成学习模型训练所需时间普遍在 XGBoost 模型的 2～8 倍。"
+    },
+    {
+      "text": "Boosting分类模型在年化超额收益率、信息比率和Calmar比率上优于线性回归算法，但最大回撤普遍大于线性回归，是一种高收益、高回撤的选股模型。",
+      "evidence": "总的来看，Boosting 分类模型（XGBoost 分类、GBDT 分类、AdaBoost 分类）在年化超额收益率、信息比率和 Calmar 比率上优于线性回归算法，但是最大回撤普遍大于线性回归算法。说明 Boosting 分类模型是一种高收益、高回撤的选股模型，但能够提升投资组合的信息比率和 Calmar 比率。"
+    },
+    {
+      "text": "Boosting分类模型的超额收益：沪深300成份内在2.4%~8.1%之间，中证500成份内在3.32%~8.99%之间，全A选股相对中证500在24.1%~35.3%之间，信息比率分别为0.82~1.74、1.07~2.11、3.91~4.44。",
+      "evidence": "对于沪深 300 成份股内选股的行业中性策略，Boosting 分类模型的超额收益在2.4%~8.1%之间，信息比率在 0.82~1.74 之间，超额收益、信息比率、Calmar优于线性回归模型。对于中证 500 成份股内选股的行业中性策略，Boosting 分类模型的超额收益在3.32%~8.99%之间，信息比率在 1.07~2.11之间，相比线性回归模型优势不大。对于全 A选股的行业中性策略，Boosting 分类模型相对于中证 500 的超额收益在 24.1%~35.3%之间，超额收益最大回撤在 14.4%~18.8%之间，信息比率在 3.91~4.44 之间，除了最大回撤，表现优于线性回归。"
+    },
+    {
+      "text": "在达到相近预测能力和回测绩效时，Boosting模型比Bagging模型（随机森林）更简单：Boosting决策树深度为3、总数100，随机森林决策树深度普遍在20以上、总数数百个。",
+      "evidence": "在达到相近预测能力和回测绩效时，Boosting 模型比 Bagging 模型（随机森林）要简单。本文的 Boosting 模型中，每个决策树的深度都为 3，决策树总数为 100。而 Bagging 模型中每个决策树的深度普遍在 20 以上，决策树总数有数百个，模型的复杂程度远大于 Boosting 模型。"
+    },
+    {
+      "text": "XGBoost网格搜索全局最优解为max_depth=3、subsample=0.95，且多数参数使用默认值即可，能显著提高模型预测能力的参数很少。",
+      "evidence": "我们取 subsample = (0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1)，max_depth = (3, 4, 5, 6,7, 8)，测试每一组 subsample 和 max_depth 值，得到交叉验证集的 AUC 值，全局最优解为 max_depth=3，subsample=0.95。"
+    },
+    {
+      "text": "因子重要性方面，ln_capital（对数市值）在2017年之前一直是市场上最为有效的因子，重要性远超其他因子，但2017年之后迅速下滑。",
+      "evidence": "ln_capital（对数市值）在 2017 年之前一直是市场上最为有效的因子，重要性远超其他因子，但在 2017 年之后其重要性迅速下滑。另外四个因子则重要性相差不大，且其时间序列呈现出近似平稳的状态。"
+    },
+    {
+      "text": "三种模型的第一个决策树都选择从exp_wgt_return_3m（3个月改进的动量反转因子）开始进行划分，下面两层中也有一些因子被三种模型共同选中，如turn_1m（一个月日均换手率）、In_capital（对数市值）。",
+      "evidence": "三种模型的第一个决策树都选择从 exp_wgt_return_3m（3 个月改进的动量反转因子）开始进行划分，说明使用该因子进行划分所带来的信息增益较大。在决策树的下面两层中，也有一些因子被三种模型共同选中，如 turn_1m（一个月日均换手率），In_capital（对数市值）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Introduction to Boosted Trees, Tianqi Chen, Oct. 22 2014",
+    "华泰人工智能选股系列上一篇报告：人工智能选股之随机森林模型",
+    "华泰人工智能选股系列第三篇报告：人工智能选股之支持向量机模型",
+    "华泰人工智能选股系列第二篇报告：12 个月滚动回测的线性回归模型"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

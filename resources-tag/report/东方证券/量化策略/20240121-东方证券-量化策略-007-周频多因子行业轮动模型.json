@@ -1,0 +1,326 @@
+{
+  "schema_version": 2,
+  "id": "20240121-东方证券-量化策略-007-周频多因子行业轮动模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative", "L1_mining"],
+      "approach": [
+        "style_ratio",
+        "accounting_quality",
+        "expectation_revision",
+        "earnings_surprise",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "technical_pattern",
+        "corporate_event",
+        "representation_learning"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "单季度净利润同比增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "Quart\\_np\\_yoy=\\frac{NP_t-NP_{t-4}}{|NP_{t-4}|}",
+          "stats": [0.04, null, 1.265, null],
+          "evidence": "单季度净利润同比增速是典型的成长因子，其定义如下："
+        },
+        {
+          "name": "单季度净利润超预期幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "UE\\_pct=\\frac{NP_t-E(NP_t)}{|E(NP_t)|}",
+          "stats": [0.038, null, 1.194, null],
+          "evidence": "单季度净利润超预期幅度是也是超预期成长类因子中较为显著的有效因子，其主要刻画最新季度的净利润超过分析师预期单季度净利润的幅度，其中分析师预期单季度净利润是基于去年同季度的净利润占比乘以今年预期全年的净利润来估计"
+        },
+        {
+          "name": "分析师认可度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Rec\\_pct=\\frac{\\text{认可业绩的机构数量}-\\text{不认可业绩的机构数量}}{\\text{覆盖机构总数}}",
+          "stats": [0.046, null, 1.503, null],
+          "evidence": "行业中股票获得分析师的认可度越高，越可能带来更多的机构关注从而未来收益可能也越好。"
+        },
+        {
+          "name": "标准化预期外盈利",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "SUE=\\frac{NP_t-E(NP_t)}{\\sigma_{NP_t}}",
+          "stats": [0.053, null, 1.733, null],
+          "evidence": "标准化预期外盈利SUE因子刻画了股票经历史盈利增长修正后的单季度盈利增长水平，定义如下："
+        },
+        {
+          "name": "Delta ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "DeltaROE=ROE_{t}-ROE_{t-4}",
+          "stats": [0.045, null, 1.488, null],
+          "evidence": "公司发布盈余公告后当期单季度 ROE 相比其去年同期 ROE 的改善幅度越大，其盈利能力提升越强，未来收益可能越高。"
+        },
+        {
+          "name": "盈余公告开盘跳空超额",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "AOG_{t}=Open_{t+1}/Close_{t}-Open_{mkt,t+1}/Close_{mkt,t}",
+          "stats": [0.033, null, 1.231, null],
+          "evidence": "如果盈余公告次日开盘高开，那么可以认为市场对于其盈余公告业绩的认可，我们将股票盈余公告后开盘收益减去当日市场开盘收益率作为开盘跳空超额（Alpha of Open Gap，简称 AOG）因子："
+        },
+        {
+          "name": "单季度 ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "Quart\\_ROE=\\frac{\\text{单季度归母净利润}}{\\text{净资产}}",
+          "stats": [0.048, null, 1.335, null],
+          "evidence": "这里我们进一步介绍盈利类因子，单季度 ROE因子定义如下："
+        },
+        {
+          "name": "单季度 EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "Quart\\_EP=\\frac{\\text{单季度归母净利润}}{\\text{总市值}}",
+          "stats": [0.032, null, 1.03, null],
+          "evidence": "这里我们进一步介绍短期估值因子单季度 EP，因子定义如下："
+        },
+        {
+          "name": "ROETTM滚动标准差",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "ROETTM\\_STD=ts\\_std(ROETTM,\\ 8)",
+          "stats": [0.037, null, 1.1, null],
+          "evidence": "我们以每只股票过去8个季报的 ROETTM的标准差来衡量公司的盈利能力的稳定性，定义如下："
+        },
+        {
+          "name": "预期净利润三个月环比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "F\\_NP\\_change\\_60d=\\frac{F\\_NP_{t}-F\\_NP_{t-60}}{|F\\_NP_{t-60}|}",
+          "stats": [0.06, null, 1.967, null],
+          "evidence": "分析师对股票一致预期净利润的环比提升越高，说明分析师普遍看好公司未来的业绩，股票的未来收益可能越高，而通过股票合成到行业上可能预期环比提升越高的行业未来收益也越高。"
+        },
+        {
+          "name": "三个月盈利上下调比例差",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "UD\\_rect=\\frac{\\text{上调家数}-\\text{下调家数}}{\\text{总家数}}",
+          "stats": [0.042, null, 1.276, null],
+          "evidence": "过去 3 个月内分析师上调净利润的家数越多，说明分析师纷纷看好该公司业绩，股票的未来收益可能更高。"
+        },
+        {
+          "name": "预期 ROE 一个月环比变化",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "F\\_ROE\\_change\\_20d=F\\_ROE_{t}-F\\_ROE_{t-20}",
+          "stats": [0.045, null, 1.424, null],
+          "evidence": "所以我们可以进一步将环比变化的窗口缩短，构建一致预期滚动ROE的一个月环比变化因子："
+        },
+        {
+          "name": "剔除近一月的一年动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Momentum\\_1Y\\_1m=\\frac{delay(close,20)}{delay(close,244)}-1",
+          "stats": [0.042, null, 1.124, null],
+          "evidence": "行业上动量效应较为显著，我们采用剔除近一月的一年动量是经典的动量因子构造方式，其定义如下："
+        },
+        {
+          "name": "一个月 UMR",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "UMR=\\sum_{i=t-m+1}^{t}w_{i}\\cdot Risk_{i}\\cdot(r_{i}-mkt_{i}),\\ m=20",
+          "stats": [0.032, null, 0.859, null],
+          "evidence": "这里我们取一个月窗口下的UMR因子，其定义如下："
+        },
+        {
+          "name": "三个月 UMR",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "UMR=\\sum_{i=t-m+1}^{t}w_{i}\\cdot Risk_{i}\\cdot(r_{i}-mkt_{i}),\\ m=60",
+          "stats": [0.041, null, 0.992, null],
+          "evidence": "我们将 UMR 因子的加权窗口从一个月调整为三个月，合成行业因子后检验其行业轮动能力。"
+        },
+        {
+          "name": "30日日内波动率结构",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "HV\\_30d=ts\\_std\\left(\\frac{Close-Open}{Open},\\ 30\\right)-ts\\_std\\left(\\frac{High-Low}{(High+Low)/2},\\ 30\\right)",
+          "stats": [0.046, null, 1.222, null],
+          "evidence": "我们分别计算日内开盘到收盘收益的波动率和日内最高价和最低价的极差波动率，以两个波动率的差作为日内波动率因子，计算方式如下："
+        },
+        {
+          "name": "深度学习因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{基于残差神经网络的收益预测模型输出因子，以成分股权重加权合成行业因子}",
+          "stats": [0.119, null, 3.128, null],
+          "evidence": "我们将该深度学习因子以成分股权重加权得到行业深度学习因子，并检验其行业轮动能力。"
+        },
+        {
+          "name": "一个月超预期股票数量占比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Title\\_ue\\_pct=\\frac{\\text{过去一个月内有研报标题超预期的股票数量}}{\\text{行业内股票数量}}",
+          "stats": [0.027, null, 0.878, null],
+          "evidence": "在每个截面上我们取每个行业内过去一个月内存在研报标题超预期的股票数量占比作为行业超预期因子："
+        },
+        {
+          "name": "10日波动率调整后动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Ret\\_2\\_Vol=\\frac{Close_{t}/Close_{t-10}-1}{ts\\_std(Ret,10)}",
+          "stats": [0.053, null, 1.213, null],
+          "evidence": "首先我们根据过去 10日的波动率调整后动量因子构建短期价格动量因子，定义如下："
+        },
+        {
+          "name": "10日 RSI",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "RSI\\_10d=ts\\_mean\\left(100-\\frac{100}{1+RS},10\\right)",
+          "stats": [0.024, null, 0.692, null],
+          "evidence": "RSI 是技术分析中的一个经典动量指标，早在 1978年由 JW Wilder提出。"
+        },
+        {
+          "name": "20日前低距离",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "LD\\_20d=\\frac{Close_t}{ts\\_delay(ts\\_min(Close,\\ 20),1)}",
+          "stats": [0.048, null, 1.12, null],
+          "evidence": "我们取过去20 个交易日内每个行业离窗口内最低价以来的前低距离，即最低价以来的反弹幅度，作为锚点型动量因子，主要捕捉底部反弹以来最强势的行业，其定义如下："
+        },
+        {
+          "name": "静态复合行业轮动因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "weekly", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{基本面、预期变化、传统量价、深度学习四大类复合因子以1:1:4:4加权复合}",
+          "stats": [0.121, null, 3.108, null],
+          "evidence": "我们将基本面、预期变化、传统量价、深度学习四大类因子以1:1:4:4的方式复合得到静态复合行业轮动因子。"
+        },
+        {
+          "name": "因子择时后复合行业轮动因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "weekly", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{静态复合因子并按滚动10周RankIC胜率低于40%剔除因子后动态复合}",
+          "stats": [0.122, null, 3.066, null],
+          "evidence": "基于胜率的因子择时：如果某个因子滚动 10 周的 Rank IC 胜率低于 40%，则我们不配置该因子这样基于胜率的因子择时使得模型在未来具有一定的自适应性。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_momentum"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "市值、估值、长期价量等因子对行业轮动来说都是典型的风险因子，在股票层面先进行风格中性再合成行业轮动因子后，因子的IC均值、ICIR、多空收益和多头超额均有明显提升。",
+      "evidence": "可以看到，剥离任意的风格后行业轮动因子的IC均值、ICIR、多空收益都有提升，全部风格都剥离的稳定性最好，IC均值从原始因子的 0.026提高到 0.04，年化 ICIR从 0.78提升到 1.27，周度多头超额均值从 0.08%提升到 0.11%，提升效果显著。"
+    },
+    {
+      "text": "深度学习因子合成行业因子后具有非常突出的行业轮动能力，IC均值达0.12，年化ICIR达3.13，周度多头超额均值高达0.43%。",
+      "evidence": "可以看到该因子的 IC均值达 0.12,，年化 ICIR达3.13，周度多头超额均值高达0.43%，具有非常突出的行业轮动能力。"
+    },
+    {
+      "text": "基本面、预期变化、传统量价、深度学习四大类以1:1:4:4复合的静态复合行业轮动因子，周度IC均值达0.12，年化ICIR达3.11，周度多头超额均值0.41%，自相关性较高、衰减速度较为缓慢。",
+      "evidence": "复合因子的周度 IC 均值达 0.12，年化ICIR达 3.11，周度多头超额均值 0.41%，并且由于加入了换手较低的基本面和预期变化类因子，因子的自相关性较高，衰减速度也较为缓慢。"
+    },
+    {
+      "text": "引入基于滚动10周RankIC胜率的因子择时后，周度多头超额均值从0.41%提升到0.45%，多头年化超额收益从24.94%提升到27.61%。",
+      "evidence": "复合因子的周度 IC均值变化不大，周度多头超额均值从 0.41%提升到0.45%，周度多头超额胜率从 61.9%提升到63.9%。"
+    },
+    {
+      "text": "考虑交易费用和滞后1日调仓的周频Top5等权组合，自2016年以来年化收益19.7%，相比行业等权基准年化超额20.71%，每年都能稳定跑赢基准。",
+      "evidence": "考虑交易费用和调仓时间后构建周频调仓的 Top5 等权组合，组合自 2016 年以来年化收益 19.7%，相比于行业等权基准年化超额 20.71%，每年都能稳定跑赢基准指数。"
+    },
+    {
+      "text": "纯深度学习因子组合年化超额18.65%且有明显大小年，加入传统量价因子后提升到20.94%，再加入基本面和预期变化类因子后年化超额进一步提升到24.34%。",
+      "evidence": "由此可见通过加入基本面、预期变化、传统量价因子可以大幅提升整体组合的收益，年化超额收益提升了近 6%。"
+    },
+    {
+      "text": "行业beta间收益分化空间较大，2023年行业间多空收益仍有50%，最低的年份也有30%的收益差，而选股alpha持续衰减，行业轮动的性价比日益凸显。",
+      "evidence": "可以看到 2023 年行业间多空收益仍然有 50%，多空收益最低的年份也有 30%的收益差，行业 beta间的收益分化空间较大。"
+    },
+    {
+      "text": "自2021年9月以来行业月度自相关系数大部分时间为负，月度动量消失，但周度自相关系数没有明显持续为负，因此构建周频行业轮动模型捕捉快速行业切换。",
+      "evidence": "可以看到自 2021年9月以来行业间的月度自相关系数大部分时间为负，更多体现为月度的“反转”而非“动量”，市场行业轮动的速度非常快，通过月频的行业动量很难获取超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "DFQ 工业类行业轮动策略：量化策略研究之五（2022-05-18）",
+    "UMR2.0——风险溢价视角下的动量反转统一框架再升级：因子选股系列之九十三（2023-07-13）",
+    "基于主动买卖单的行业轮动模型：量化策略研究之四（2022-02-25）",
+    "基于时点动量的因子轮动：因子选股系列之九十二（2023-06-28）",
+    "基于残差网络的端到端因子挖掘模型：因子选股系列之九十六（2023-08-24）",
+    "行业动量的刻画：量化策略研究之六（2022-12-01）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": 2,
+  "id": "20190701-东方证券-因子选股-057-温和收益的动量与极端收益的反转效应",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "隔夜收益率",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\ln(C_t/O_t)",
+          "stats": [null, null, null, null],
+          "evidence": "本篇报告中我们把股票每天的收益率（closetoclose）分解为隔夜收益率部分（closetoopen）和盘中收益率部分（opentoclose），盘中收益率进一步根据日内分钟收益率的相对大小区分为温和收益率（mildreturn）和极端收益率（extremereturn）部分。"
+        },
+        {
+          "name": "温和收益率",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内48个5分钟对数收益率中，与中位数偏离不超过1.96倍MAD_e的收益率之和}",
+          "stats": [null, null, null, null],
+          "evidence": "其他的5 分钟对数收益率之和称为该股票当天的温和收益率（mild return）"
+        },
+        {
+          "name": "极端收益率",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内48个5分钟对数收益率中，与中位数偏离超过1.96倍MAD_e的收益率之和}",
+          "stats": [null, null, null, null],
+          "evidence": "在每只股票的每个交易日，我们计算 48 个日内5 分钟数据对数收益率的中位数md和MAD ，偏离 md1.96 倍 ${{{{MAD}}_{e}}}$ 以上的所有 5 分钟对数收益率之和称为该股票当天的极端收益率（extremereturn），其他的5 分钟对数收益率之和称为该股票当天的温和收益率（mild return）。"
+        },
+        {
+          "name": "动量成分",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sum_{t \\in \\text{过去9个月}} (\\text{隔夜收益}_t + \\text{温和收益}_t)",
+          "stats": [null, 0.0583, 1.42, null],
+          "evidence": "我们把区间内隔夜收益和温和收益之和称为收益率的动量成分，把极端收益部分称为收益率的反转成分。"
+        },
+        {
+          "name": "反转成分",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sum_{t \\in \\text{过去1个月}} \\text{极端收益}_t",
+          "stats": [null, -0.0915, -3.17, null],
+          "evidence": "我们把区间内隔夜收益和温和收益之和称为收益率的动量成分，把极端收益部分称为收益率的反转成分。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "隔夜收益部分和温和收益部分表现出显著的“动量”特征，极端收益部分表现出极端的“反转”特征",
+      "evidence": "采用 Jegadeesh and Titman（1993）的 JK 组合构建方法，我们发现，隔夜收益部分和温和收益部分表现出显著的“动量”特征，极端收益部分表现出极端的“反转”特征。"
+    },
+    {
+      "text": "“动量”部分在大市值股票中收益更高，“反转”部分在大小市值股票中差异不大，而原始收益的反转在大市值股票中明显更弱",
+      "evidence": "其中，“动量”部分在大市值股票中收益更高，“反转”部分在大小市值股票中差异不大，而原始收益的反转在大市值股票中明显更弱。"
+    },
+    {
+      "text": "1 个月收益的反转成分在中证全指内 RankIC 高达 9.15%，9 个月收益的动量成分在大市值股票中收益更佳，沪深 300 内原始 RankIC 高达 8.16%",
+      "evidence": "我们把隔夜收益、日内温和收益之和定义为原始收益的动量成分，极端收益定义为反转成分，1 个月收益的反转成分在中证全指内 RankIC 高达 9.15%，9 个月收益的动量成分在大市值股票中收益更佳，沪深 300 内原始 RankIC 高达 8.16%。"
+    },
+    {
+      "text": "1 个月原始收益及其反转成分 RankIC 的衰减都较快，第二个月就衰减一半以上，而 9 个月收益的动量成分半衰期在半年以上",
+      "evidence": "1 个月原始收益及其反转成分 RankIC 的衰减都较快，第二个月就衰减一半以上，而 9 个月收益的动量成分半衰期在半年以上。"
+    },
+    {
+      "text": "剔除各大类后因子 RankIC 的月度均值和多空的月均收益都大幅回落，但统计上都显著异于零，说明通过对原始收益的拆分为我们的因子库引入了新的信息",
+      "evidence": "从图 17 的结果来看，虽然剔除各大类后因子 RankIC 的月度均值和多空的月均收益都大幅回落，但无论 RankIC 还是多空月度收益统计上都显著异于零，说明通过对原始收益的拆分为我们的因子库引入了新的信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Jegadeesh and Titman（1993）", "选股因子数据的异常值处理和正态转换"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

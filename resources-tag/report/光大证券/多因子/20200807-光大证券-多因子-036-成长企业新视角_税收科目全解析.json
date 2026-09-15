@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "id": "20200807-光大证券-多因子-036-成长企业新视角_税收科目全解析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["statement_detail"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "PTCF_qoq_Z",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "PTCF_{qoq,t}=\\frac{PTCF_t-PTCF_{t-1}}{|PTCF_{t-1}|},\\quad PTCF\\_qoq\\_Z_t=\\frac{PTCF_{qoq,t}-\\frac{1}{8}\\sum_{i=1}^{8}PTCF_{qoq,t-i}}{std(PTCF_{qoq})_{8}}",
+          "stats": [0.0168, null, 0.526, null],
+          "evidence": "缴税现金流构造的因子有效性优于经营性现金流。PTCF_qoq_Z因子的IC 均值为 1.68%，IC_IR 达 0.526，而经营性现金流变化率因子（OCF_qoq）IC_IR 仅 0.317。"
+        },
+        {
+          "name": "OT_qoq_Z",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "OT_{qoq,t}=\\frac{OT_t-OT_{t-1}}{|OT_{t-1}|},\\quad OT\\_qoq\\_Z_t=\\frac{OT_{qoq,t}-\\frac{1}{8}\\sum_{i=1}^{8}OT_{qoq,t-i}}{std(OT_{qoq})_{8}}",
+          "stats": [0.0118, null, 0.331, null],
+          "evidence": "税金及附加变化率因子刻画企业经营活动的活跃程度，活跃程度提升时，税收金额相应提升，因子值较高。该因子在行业、市值中性化处理后，因子稳定性有明显提升，因子IC 均值为1.29%，IC_IR达0.48，2018年以来表现较好。"
+        },
+        {
+          "name": "PT2NA_Z",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "PT2NA_t=\\frac{PT_t}{NA_t},\\quad PT2NA\\_Z_t=\\frac{PT2NA_t-\\frac{1}{8}\\sum_{i=0}^{7}PT2NA_{t-i}}{std(PT2NA)_{8}}",
+          "stats": [0.0168, null, 0.427, null],
+          "evidence": "应交税费占比因子刻画税务口径核算的税费情况，若当期税费在过去两年中相对较高，则因子值较高。该因子在行业、市值中性化处理后，IC_IR稳定性有所提升，因子 IC 均值为 1.46%，IC_IR 达 0.48。"
+        },
+        {
+          "name": "IT_qoq_Z",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "IT_{qoq,t}=\\frac{IT_t-IT_{t-1}}{|IT_{t-1}|},\\quad IT\\_qoq\\_Z_t=\\frac{IT_{qoq,t}-\\frac{1}{8}\\sum_{i=1}^{8}IT_{qoq,t-i}}{std(IT_{qoq})_{8}}",
+          "stats": [0.0261, null, 0.687, null],
+          "evidence": "多类税收指标的变化趋势，均有一定的选股效果。如下表所示，所得税、税金及附加、缴税现金流、应交税费占比等指标的变化趋势，选股有效性均较为显著，其中 IC_IR 表现最佳的是 IT_qoq_Z，达 0.687。"
+        },
+        {
+          "name": "OT2NP_qoq_Z",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "OT2NP_{qoq,t}=\\frac{OT2NP_t-OT2NP_{t-1}}{|OT2NP_{t-1}|},\\quad OT2NP\\_qoq\\_Z_t=\\frac{OT2NP_{qoq,t}-\\frac{1}{8}\\sum_{i=1}^{8}OT2NP_{qoq,t-i}}{std(OT2NP_{qoq})_{8}}",
+          "stats": [-0.0161, null, -0.469, null],
+          "evidence": "IT_qoq_Z、OT2NP_qoq_Z 因子与成长因子相关性较高。无论从 IC 序列相关系数，还是截面相关系数来看，IT_qoq_Z、OT2NP_qoq_Z 因子均与成长因子具有较高的相关性，难以提供增量信息。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "PTCF_qoq_Z、OT_qoq_Z、PT2NA_Z因子与成长因子的截面spearman相关系数较低，均在0.2以内，与传统成长因子的分布存在明显差异",
+      "evidence": "虽然从 IC 序列相关系数来看，PTCF_qoq、OT_qoq_Z、PT2NA_Z因子与成长因子均具有一定的相关性，但从截面spearman相关系数来看，这三个因子与成长因子相关系数较低，均在 0.2 以内，说明这三个因子与传统成长因子的分布存在差异。"
+    },
+    {
+      "text": "税金及附加变化率因子在行业、市值中性化处理后，与传统成长、盈利因子IC序列相关性较低，IC均值为1.29%，IC_IR达0.48，可提供企业经营活动方面的增量信息",
+      "evidence": "其中，税金及附加变化率因子在行业、市值中性化处理后，与传统成长、盈利因子 IC 序列相关性较低，IC 均值为 1.29%，IC_IR 达 0.48（统计期：2010-01-01 至 2020-06-30），可提供企业经营活动方面的增量信息。"
+    },
+    {
+      "text": "缴税现金流构造的因子有效性优于经营性现金流，PTCF_qoq_Z因子的IC均值为1.68%，IC_IR达0.526，而经营性现金流变化率因子（OCF_qoq）IC_IR仅0.317",
+      "evidence": "缴税现金流构造的因子有效性优于经营性现金流。PTCF_qoq_Z因子的IC 均值为 1.68%，IC_IR 达 0.526，而经营性现金流变化率因子（OCF_qoq）IC_IR 仅 0.317。"
+    },
+    {
+      "text": "企业认为当前现金流较为宽松时选择当期缴纳更多的税，带来递延所得税资产增加或递延所得税负债减少；现金流紧张时则延后缴纳税负，递延所得税的变化可反映企业对当前现金流的观点",
+      "evidence": "企业认为当前现金流较为宽松，选择在当期缴纳更多的税，带来递延所得税资产增加或递延所得税负债减少；相反，如果企业当前现金流相对紧张，可能会选择尽量延后缴纳税负的时间，带来递延所得税负债增加或递延所得税资产减少。"
+    },
+    {
+      "text": "围绕“高成长+健康现金流”理念构建的优质成长选股策略2009年以来年化收益达35.0%，绝大部分年份相对偏股型基金等权指数均有超额收益，仅2017年表现不佳",
+      "evidence": "该策略收益 2009 年以来年化收益达 35.0%，与偏股型基金的同期收益率相比较，绝大部分年份的收益率排名前30%。如下图所示，该策略在绝大部分年份相对偏股型基金等权指数均有超额收益，仅 2017 年表现不佳。"
+    },
+    {
+      "text": "2019年以来策略表现较好，2019年度收益率达56.2%，截至2020年7月31日今年以来的收益达93.2%，按9成仓位计算在偏股型基金中亦可排名前30%",
+      "evidence": "2019年以来，该策略表现较好，2019 年度收益率达 56.2%；截至 2020 年 7 月31 日，2020 年度收益率达 93.2%，即使按9成仓位计算策略收益，在偏股型基金中亦可排名前30%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《业绩“爆雷”公司特征探析——量化排雷系列报告之一》（2019-10-20）",
+    "《现金偿债因子：规避企业潜在财务风险——多因子系列报告三十二》（2020-04-23）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

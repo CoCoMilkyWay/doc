@@ -1,0 +1,175 @@
+{
+  "schema_version": 2,
+  "id": "20120907-华泰证券-数量化选股策略-014-再论多因子选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "总市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总股本}\\times\\text{股票收盘价}",
+          "stats": [null, null, null, null],
+          "evidence": "经典的 三因素模型早已表明市值对股票的收益率有显著的影响，各种主动型投资基金也常常按照投资标的的市值进行风格划分，而大、小市值股票的估值等指标存在整体性的水平差异，不具备可比性。"
+        },
+        {
+          "name": "市盈率（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股票收盘价}}{\\text{最近12个月每股收益}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 估值因子 | 市盈率（TTM） | 股票收盘价/最近12个月每股收益 | -4 |"
+        },
+        {
+          "name": "营业收入同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入}}{\\text{去年同期营业收入}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "| 成长因子 | 营业收入同比增长率 | 营业收入/去年同期营业收入-1 | +2 |"
+        },
+        {
+          "name": "净资产收益率ROE（扣除非经常性损益、摊薄）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{扣除非经常性损益后的净利润}}{\\text{期末净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 盈利因子 | 净资产收益率ROE（扣除非经常性损益、摊薄） | 扣除非经常性损益后的净利润/期末净资产 | +2 |"
+        },
+        {
+          "name": "前1个月涨跌幅",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{前1个月涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "| 动量反转因子 | 前1个月涨跌幅 |  | -4 |\n| 交投因子 | 前1个月日均换手率 |  | -3 |"
+        },
+        {
+          "name": "前1个月日均换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{前1个月日均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "| 动量反转因子 | 前1个月涨跌幅 |  | -4 |\n| 交投因子 | 前1个月日均换手率 |  | -3 |"
+        },
+        {
+          "name": "前一个月波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{日收益率的标准差的年化值}",
+          "stats": [null, null, null, null],
+          "evidence": "| 波动因子 | 前一个月波动率 | 日收益率的标准差的年化值 | -4 |"
+        },
+        {
+          "name": "户均持股比例变化",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{户均持股比例}-\\text{前1季度户均持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 股东因子 | 户均持股比例变化 | 户均持股比例-前1季度户均持股比例 | +3 |"
+        },
+        {
+          "name": "机构持股比例变化",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{机构持股比例}-\\text{前1季度机构持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 机构持股比例变化 | 机构持股比例-前1季度机构持股比例 |  |"
+        },
+        {
+          "name": "最近1个月预测净利润上调幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最新当年净利润预测平均值}}{\\text{1个月前当年净利润预测平均值}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "| 分析师预测因子 | 最近1个月预测净利润上调幅度 | 最新当年净利润预测平均值/1个月前当年净利润预测平均值-1 | +4 |"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "多因子选股策略在各个样本池下均取得较好表现，以样本等权重为基准时，中证500、中证800和全部A股样本池下月度胜率均超过70%，沪深300样本池下也超过60%，各年均战胜基准。",
+      "evidence": "我们分析了多因子选股策略在不同样本池下的表现，整体上看，多因子选股策略在各个样本池下均取得了较好的表现。以相对应的样本等权重为比较基准，多因子选股策略大幅超越基准，在以中证500 指数成分股、中证 800 指数成分股和全部 A 股为样本池时，月度胜率均超过 70%，以沪深 300 指数成分股为样本池时的月度胜率也超过 60%；从年度看，在各样本池下，多因子选股策略在各年均战胜了基准。"
+    },
+    {
+      "text": "以全部A股为样本池，等权重50只组合2005年至2012年8月累计收益率1778.23%，年化收益率46.00%，大幅超越沪深300指数的123.84%与样本等权重的322.59%。",
+      "evidence": "2005 年 1 月 1 日至 2012 年 8 月 28 日间，等权重——50 只的累计收益率为 1778.23%，年化收益率为46.00%；等权重——100 只的累计收益率为 1435.19%，年化收益率为 42.25%；等权重——200 只的累计收益率为1205.97%，年化收益率为39.31%；同期沪深300指数的累计收益率为123.84%，年化收益率为10.96%，样本等权重的累计收益率322.59%，年化收益率为20.44%。"
+    },
+    {
+      "text": "以中证500指数成分股为样本池表现最强，等权重50只累计收益率1479.77%，年化收益率42.78%，超越中证500指数的220.10%与样本等权重的302.06%。",
+      "evidence": "2005 年 1 月 1 日至 2012 年 8 月 28 日间，等权重——50 只的累计收益率为 1479.77%，年化收益率为42.78%；等权重——100只的累计收益率为993.14%，年化收益率为36.15%；等权重——200只的累计收益率为714.41%，年化收益率为31.08%；同期中证500指数的累计收益率为220.10%，年化收益率为16.20%，样本等权重的累计收益率302.06%，年化收益率为19.67%。"
+    },
+    {
+      "text": "行业分层多因子策略在各样本池表现较好但并未超越不分层策略：收益率低于不分层策略，但月度超额收益标准差及跟踪误差下降，信息比率略逊。",
+      "evidence": "从收益率看，行业分层的多因子选股策略的收益率低于不采用行业分层的多因子选股策略；但是采用行业分层时，月度超额收益的标准差及跟踪误差都有所下降。从信息比例看，行业分层的多因子选股策略的表现略逊于不采用行业分层的多因子选股策略。"
+    },
+    {
+      "text": "行业分层策略未能战胜不分层策略的可能原因：细分到23个申万一级后部分行业股票较少、失去统计可靠性；大样本有效的策略在单个行业内可能失效；等权重方法未考虑行业与个股权重。",
+      "evidence": "我们认为行业分层的多因子选股策略并没有战胜不采用行业分层的多因子选股策略可能有如下原因：（1）细分到 23 个申万一行后，部分行业的股票较少，选股样本大幅减少，结果可能失去了统计意义上的可靠性"
+    },
+    {
+      "text": "规模分层多因子策略收益率略低于不规模分层的策略，但月度超额收益率标准差及跟踪误差均下降，信息比率略好。",
+      "evidence": "从收益率看，规模分层的多因子选股策略的收益率略低于不采用规模分层的多因子选股策略；但是采用规模分层时，月度超额收益率的标准差及跟踪误差均有所下降。从信息比率看，规模分层的多因子选股策略的表现略好于不采用规模分层的多因子选股策略。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《数量化选股策略之十二：多因子选股模型》（2011.09）"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

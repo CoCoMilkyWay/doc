@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20200703-光大证券-多因子-035-分层优化体系_融合行业轮动的指数增强模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "analyst_behavior", "momentum_reversal"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EBQC 综合质量因子",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利能力、成长能力、盈余质量、营运效率、安全性、公司治理6大类质量因子各自等权加总表征后，再等权相加}",
+          "stats": [null, null, null, null],
+          "evidence": "构建过程中，每个质量因素维度上均分别由一个或多个单因子等权加总表征；再将6大类质量因子等权相加，就得到我们最终的 EBQC 因子值。"
+        },
+        {
+          "name": "中证500增强复合因子",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{14个单因子（动量、波动率、流动性、股息率、一致预期、盈利质量等）按滚动历史2年组合ICIR最优化配置权重加权合成}",
+          "stats": [null, null, null, null],
+          "evidence": "中证 500增强复合因子采用的是较为主流的多因子复合体系，其每个单因子的权重由滚动历史 2 年组合 ICIR 最优化的方式进行配置。"
+        },
+        {
+          "name": "SAMI 行业轮动指标",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "SAMI_{t}(sector,\\alpha)=\\sum_{i\\in sector}w_{it}*\\alpha_{it}",
+          "stats": [0.137, null, 0.58, null],
+          "evidence": "SAMI 行业轮动指标是个复合指标，由多个 SAMI 单指标构成。而对于每个SAMI单指标，其构建逻辑较为简单，即通过将相应成分股因子按照自由流通市值加权的方式映射成行业指标即可。"
+        },
+        {
+          "name": "ADC_Revise 轮动指标",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{保留ADC模型中观微观综合打分，并依据宏观周期模型与宏观情景聚类模型的推荐结果对打分进行数值变换后的行业截面指标}",
+          "stats": [0.155, null, 0.67, null],
+          "evidence": "ADC_Revise 轮动指标是在 ADC 轮动模型的基础上针对分层优化体系做的改动版本。其原因是在分层优化体系中我们需要数值化的行业观点，而原始的 ADC 轮动模型的观点并非完全是基于打分体系给出。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "view_blending"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "分层优化体系分两层：先基于行业轮动模型观点在指数原始行业配置上做超/低配调整并缩放成分股权重，再以调整后的行业与成分股权重为基准进行多因子组合优化，兼顾信息融入与模块独立。",
+      "evidence": "不同于直接以指数本身的风格、行业作为基准进行多因子组合优化构建增强组合，分层优化体系搭建了两层逐步优化的步骤：（1）先基于行业轮动模型的观点在指数原始行业配置的基础上进行超/低配调整，并相应缩放调整相应成分股的权重，为后续的选股优化提供行业暴露及个股暴露的参照基准。（2）再根据调整后的行业与成分股权重基准，运用多因子选股信息进行组合优化，构建出最终的指数增强组合。"
+    },
+    {
+      "text": "沪深300分层优化（SAMI+EBQC）在2010/1-2020/5期间年化超额收益7.4%、信息比率1.84，相比纯多因子沪深300增强，超额收益提升3个百分点，信息比率提升0.5。",
+      "evidence": "在分层优化沪深 300 增强（SAMI+EBQC）中，组合在 2010/1-2020/5 期间年化超额收益 7.4%，信息比率1.84。相比纯多因子沪深 300 增强，超额收益提升3个百分点，信息比率提升0.5。"
+    },
+    {
+      "text": "沪深300分层优化（ADC_Revise+EBQC）在2016/6-2020/5期间相比纯多因子增强组合，超额收益有3个百分点以上提升，信息比率提升幅度接近0.5。",
+      "evidence": "而分层优化沪深300增强（ADC_Revise +EBQC）在 2016/6-2020/5 期间相比纯多因子沪深 300 增强组合，在超额收益上亦有 3个百分点以上提升，信息比率提升幅度也接近0.5。"
+    },
+    {
+      "text": "行业信息在指数成分股上的预测能力显著影响分层优化效果：SAMI轮动指标在中证500指数内行业轮动效果有限，分层优化中证500增强（SAMI+中证500复合因子）年化超额收益12.7%、信息比率1.98，仅比纯多因子增强超额收益提升1个百分点、信息比率提升0.2。",
+      "evidence": "由于指数内行业成分股与行业指数的走势存在一定差异，SAMI轮动指标与在中证500指数内的行业轮动效果有限。受此影响分层优化在中证500增强中的提升效果较小。分层优化中证 500 增强（SAMI+中证 500 复合因子）在 2010/1-2020/5 期间年化超额收益 12.7%，信息比率 1.98。相比纯多因子中证 500 增强组合，在超额收益上提升 1 个百分点，信息比率提升 0.2。"
+    },
+    {
+      "text": "ADC_Revise在中证500上未产生提升作用：分层优化增强年化超额收益5.4%、信息比率1.02，与纯多因子增强组合5.5%的超额年化、1.03的信息比率几乎一样。",
+      "evidence": "在2016年6月到2020年5月间，分层优化增强组合年化超额收益率5.4%，信息比率1.02；这个数据与纯多因子增强组合5.5%的超额年化、1.03的信息比率几乎一样，并未产生提升作用。"
+    },
+    {
+      "text": "参数敏感性测试显示分层优化的提升效果受优化参数影响较小：沪深300上年化超额收益平均提升3个百分点、信息比率平均提升0.5。",
+      "evidence": "在测试的参数样本内，分层优化增强相比对照组（纯多因子优化增强）在年化超额收益上平均提升 3 个百分点，在信息比率上平均提升0.5。"
+    },
+    {
+      "text": "中证500上分层优化的提升效果亦较稳定、参数敏感性低：年化超额收益平均提升1个百分点，信息比率平均提升0.18。",
+      "evidence": "在测试的参数样本内，分层优化增强相比对照组（纯多因子优化增强）在年化超额收益上平均提升1个百分点，在信息比率上平均提升 0.18。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《三位一体：自适应（ADC）行业轮动模型——行业轮动系列报告之综合篇》",
+    "《以质取胜：EBQC 综合质量因子详解——多因子系列报告之十七》",
+    "《基于股票因子映射的行业轮动方法——行业轮动系列研究之微观篇》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

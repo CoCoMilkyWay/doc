@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "20180915-国泰君安-数量化专题-114-基于宏观状态的风险预算和资产配置",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_covariance"],
+      "approach": ["dynamic_adjust"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "quarterly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["risk_based"],
+      "setup": {"universe": ["na"], "rebalance": "quarterly"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["macro_valuation"], "setup": {"rebalance": "quarterly"}}
+  },
+  "findings": [
+    {
+      "text": "大类资产随宏观状态呈明显轮动：债券在经济下行通胀下行时期表现最佳，股票在经济上行通胀下行时期相对出色，商品在经济上行通胀上行时期超额收益显著，滞胀时期黄金和货币相对推荐。",
+      "evidence": "债券资产在经济下行通胀下行时期表现最佳。股票资产经济上行通胀下行时期表现相对出色。商品在经济上行通胀上行时期超额收益显著。而滞胀时期，黄金和货币是相对推荐的投资标的。"
+    },
+    {
+      "text": "经济增长的状态切换对权益类资产影响显著，而通胀指标的上下行并没有造成沪深300或中证500收益率表现上的显著差别；黄金对各宏观指标的状态切换均不敏感。",
+      "evidence": "可以明显地看到，经济增长的状态切换对权益类资产产生了显著的影响，而通胀指标的上下行并没有造成沪深 300或者中证 500收益率表现上的显著差别。"
+    },
+    {
+      "text": "不考虑分红和债券杠杆的季度调仓情形下，风险预算策略年化收益率5%~6%，年化波动率3%左右，Sharpe 1.5左右，历史最大回撤5%~6%，年化双边换手30%左右。",
+      "evidence": "在不考虑分红和债券杠杆的季度调仓情形下，策略年化收益率5%~6%，年化波动率3%左右，Sharpe 1.5左右，历史最大回撤5%~6%，年化双边换手 30%左右。"
+    },
+    {
+      "text": "依据宏观状态进行战术调整可增强原有策略，年化收益提升0.5%~1%；低换手使宏观战术调整影响有限，但策略对宏观观点具备很高的“容错率”。",
+      "evidence": "依据宏观状态进行战术调整可以对原有策略有所增强，年化收益提升0.5%~1%。低换手的特点限制了宏观战术调整带来的影响，但优点则是策略对宏观观点具备很高的“容错率”。"
+    },
+    {
+      "text": "考虑股票分红收益与债券加1.4倍杠杆后，策略年化收益率提升至7%~9%，年化波动率4%左右，Sharpe 1.6左右，历史最大回撤6%~8%。",
+      "evidence": "在回测中考虑股票资产分红收益以及债券资产加杠杆的影响之后，策略的年化收益率提升至 7%~9%，年化波动率4%左右，Sharpe1.6左右，历史最大回撤6%~8%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ang, A. (2014). Asset management: A systematic approach to factor investing. Oxford University Press.",
+    "Lynch, M. (2004). The Investment Clock. Special report.",
+    "Roncalli, T. (2013). Introduction to risk parity and budgeting. CRC Press."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

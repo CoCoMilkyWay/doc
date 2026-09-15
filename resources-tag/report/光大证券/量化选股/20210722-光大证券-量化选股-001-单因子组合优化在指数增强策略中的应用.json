@@ -1,0 +1,221 @@
+{
+  "schema_version": 2,
+  "id": "20210722-光大证券-量化选股-001-单因子组合优化在指数增强策略中的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "1月反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{过去1个月个股收益率取负}",
+          "stats": [0.035, null, null, null],
+          "evidence": "我们在各细分类别中分别选择了市场上常用的 1 月反转因子、换手率相对波动率因子、非流动性因子以及 20 日平均换手率因子。"
+        },
+        {
+          "name": "换手率相对波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "TurnoverVolatility=std(turnover_{i})",
+          "stats": [0.0299, 0.0304, null, null],
+          "evidence": "因此我们选择换手率相对波动率因子为例进行对比，具体计算方法为股票近 20 个交易日换手率的标准差："
+        },
+        {
+          "name": "非流动性",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{1}{20}\\sum_{t=1}^{20}\\frac{|r_t|}{Amount_t}",
+          "stats": [0.0199, null, null, null],
+          "evidence": "我们在各细分类别中分别选择了市场上常用的 1 月反转因子、换手率相对波动率因子、非流动性因子以及 20 日平均换手率因子。"
+        },
+        {
+          "name": "20日平均换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{1}{20}\\sum_{t=1}^{20}turnover_t",
+          "stats": [0.0205, null, null, null],
+          "evidence": "我们在各细分类别中分别选择了市场上常用的 1 月反转因子、换手率相对波动率因子、非流动性因子以及 20 日平均换手率因子。"
+        },
+        {
+          "name": "单季度GPOA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{单季度营业收入}-\\text{单季度营业成本}}{\\text{总资产}}",
+          "stats": [0.0214, null, null, null],
+          "evidence": "盈利能力类因子我们选择了单季度 GPOA、单季度 ROE、季度 ROE 稳定性和综合 ROIC 四个因子，其中综合 ROIC 因子是 ROIC 的成长性、稳定性和持续性的合成因子。"
+        },
+        {
+          "name": "单季度ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{单季度净利润}}{\\text{净资产}}",
+          "stats": [0.0239, null, null, null],
+          "evidence": "盈利能力类因子我们选择了单季度 GPOA、单季度 ROE、季度 ROE 稳定性和综合 ROIC 四个因子，其中综合 ROIC 因子是 ROIC 的成长性、稳定性和持续性的合成因子。"
+        },
+        {
+          "name": "ROIC-enchance",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{ROIC因子稳定性、成长性与持续性等权合成}",
+          "stats": [0.0299, null, null, null],
+          "evidence": "盈利能力类因子我们选择了单季度 GPOA、单季度 ROE、季度 ROE 稳定性和综合 ROIC 四个因子，其中综合 ROIC 因子是 ROIC 的成长性、稳定性和持续性的合成因子。"
+        },
+        {
+          "name": "季度ROE稳定性",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{过去14个季度ROE均值}}{\\text{过去14个季度ROE标准差}}",
+          "stats": [0.017, null, null, null],
+          "evidence": "盈利能力类因子我们选择了单季度 GPOA、单季度 ROE、季度 ROE 稳定性和综合 ROIC 四个因子，其中综合 ROIC 因子是 ROIC 的成长性、稳定性和持续性的合成因子。"
+        },
+        {
+          "name": "ROE同比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{单季度净资产收益率}-\\text{去年同期单季度净资产收益率}",
+          "stats": [0.0264, null, null, null],
+          "evidence": "成长类因子我们挑选了 ROE 同比、SUE 因子进行测试，传统方法下上述两个因子均为有效因子。"
+        },
+        {
+          "name": "SUE",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{单季度净利润}-\\text{过去8个季度净利润均值}}{\\text{过去8个季度净利润标准差}}",
+          "stats": [0.0286, null, null, null],
+          "evidence": "成长类因子我们挑选了 ROE 同比、SUE 因子进行测试，传统方法下上述两个因子均为有效因子。"
+        },
+        {
+          "name": "市净率",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{净资产}}{\\text{总市值}}",
+          "stats": [0.0186, null, null, null],
+          "evidence": "估值类因子我们选择了 PEG、市净率、经营市盈率以及 PBROE 四个因子进行测试，传统方法下估值类因子在 2019 年之前有效，之后处于反向失效状态。"
+        },
+        {
+          "name": "PEG",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{PEG估值因子}",
+          "stats": [0.0194, null, null, null],
+          "evidence": "估值类因子我们选择了 PEG、市净率、经营市盈率以及 PBROE 四个因子进行测试，传统方法下估值类因子在 2019 年之前有效，之后处于反向失效状态。"
+        },
+        {
+          "name": "经营市盈率",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{经营性市盈率倒数}",
+          "stats": [0.0196, null, null, null],
+          "evidence": "估值类因子我们选择了 PEG、市净率、经营市盈率以及 PBROE 四个因子进行测试，传统方法下估值类因子在 2019 年之前有效，之后处于反向失效状态。"
+        },
+        {
+          "name": "PBROE",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{市净率与ROE结合因子}",
+          "stats": [0.0219, null, null, null],
+          "evidence": "估值类因子我们选择了 PEG、市净率、经营市盈率以及 PBROE 四个因子进行测试，传统方法下估值类因子在 2019 年之前有效，之后处于反向失效状态。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "robustness"],
+      "setup": {"universe": ["csi800"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi800"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "情绪类因子受约束影响较大，成长、盈利及估值维度在增加了各种约束条件后依然表现稳定。",
+      "evidence": "结果显示，情绪类因子受约束影响较大，成长、盈利及估值维度在增加了各种约束条件后依然表现稳定。"
+    },
+    {
+      "text": "换手率相对波动率因子因子值RankIC为3.04%，控制风格暴露后权重IC下降为1.33%，很难为收益模型提供增量信息。",
+      "evidence": "因子值 RankIC为 3.04%，为有效因子，但是控制了风格暴露之后，权重 IC 下降为 1.33%。可以预想，该因子很难为收益模型提供增量信息。"
+    },
+    {
+      "text": "传统ICIR加权策略以沪深300为基准平均超额年化收益率11.56%、超额夏普比率1.32、最大回撤8.38%；以中证500为基准超额年化收益率21.27%、超额夏普比率2.57、最大回撤8.58%。",
+      "evidence": "回测结果如下，以沪深 300 指数为基准的策略平均超额年化收益率 11.56%，超额夏普比率 1.32，最大回撤为 8.38%；以中证 500 指数为基准的策略平均超额年化收益率为 21.27%，超额夏普比率 2.57，最大回撤为 8.58%。"
+    },
+    {
+      "text": "单因子组合优化ICIR加权策略以沪深300为基准超额年化收益率14.75%、超额夏普比率1.88、最大回撤6.04%；以中证500为基准超额年化收益率19.23%、超额夏普比率2.77、最大回撤6.52%。",
+      "evidence": "回测结果如下，以沪深300指数为业绩基准的策略平均超额年化收益率14.75%，超额夏普比率 1.88，最大回撤为 6.04%。以中证 500 指数为业绩基准的策略平均超额年化收益率为 19.23%，超额夏普比率 2.77，最大回撤为 6.52%。"
+    },
+    {
+      "text": "情绪类因子收益大多来自空头，受刚性约束影响更大；成长、盈利以及估值类因子受刚性约束影响较小。",
+      "evidence": "因子类别来看，情绪类因子由于收益大多来自于空头，受刚性约束影响更大；成长、盈利以及估值类因子受刚性约束影响较小。"
+    },
+    {
+      "text": "以沪深300为业绩基准时受行业约束影响更大，盈利能力类因子受行业约束影响更大，单季度GPOA因子的组合绩效相关性仅39.44%；成长与估值类因子受影响相对较小。",
+      "evidence": "从业绩基准角度来看，以沪深 300 作为基准时受行业影响更大，行业暴露与市值暴露完全不做约束的情况下，组合绩效相关性较低。按因子类别角度来看，盈利能力类因子受约束影响更大，其中单季度 GPOA因子的组合绩效相关性仅39.44%；成长与估值类因子受影响相对较小。"
+    },
+    {
+      "text": "单因子组合优化方法在2017年之后对IC值较高但多头端已经失效的因子降低了权重。",
+      "evidence": "对比两种加权方法的结果可以发现，在 2017 年之后，两种策略表现出现了明显的差异。单因子组合优化方法在 2017 年之后对一些 IC 值较高但是多头端已经失效的因子降低了权重。"
+    },
+    {
+      "text": "以沪深300为业绩基准时情绪类因子2017年之后失效明显，单因子组合优化策略相比传统策略提升更显著；以中证500为基准收益略降但波动率和最大回撤得到更好控制。",
+      "evidence": "对比两个业绩基准的组合优化结果来看，以沪深 300 指数为业绩基准时情绪类因子在 2017 年之后失效明显，因此单因子组合优化策略相比于传统策略的提升作用更为显著。以中证 500 指数为业绩基准的策略虽然在收益上略有下降，但是其波动率和最大回撤均得到了更好的控制。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

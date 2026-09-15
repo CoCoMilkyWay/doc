@@ -1,0 +1,236 @@
+{
+  "schema_version": 2,
+  "id": "20230129-中金公司-量化多因子-010-港股因子初探",
+  "genre": "handbook",
+  "asset": ["stock_hk"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["point_in_time"],
+      "setup": {"data": {"source": ["market_daily", "statement"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "accounting_quality",
+        "expectation_level",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["hk_connect", "other"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "相对均价的1年收益率因子（mmt_avg_A）",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{Close_{t-1M}}{Mean(Close, \\text{过去1年})}",
+          "stats": [0.0415, null, 0.29, 0.2013],
+          "evidence": "恒生综指范围内，相对均价的1年收益率因子（mmt_avg_A）的IC均值为4.15%，IC_IR为0.29，年化超额收益达到11.13%；1年收益率因子(mmt_normal_A)的IC均值为4.20%，IC_IR为0.3，年化超额收益为9.20%。"
+        },
+        {
+          "name": "1年收益率因子(mmt_normal_A)",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Ret_{t-12M,t-1M} - Ret_{t-1M,t}",
+          "stats": [0.042, null, 0.3, 0.1932],
+          "evidence": "恒生综指范围内，相对均价的1年收益率因子（mmt_avg_A）的IC均值为4.15%，IC_IR为0.29，年化超额收益达到11.13%；1年收益率因子(mmt_normal_A)的IC均值为4.20%，IC_IR为0.3，年化超额收益为9.20%。"
+        },
+        {
+          "name": "1年日内动量（mmt_intraday_A）",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum \\text{过去一年日内涨跌幅} - \\sum \\text{过去一个月日内涨跌幅}",
+          "stats": [0.0375, null, 0.35, 0.1685],
+          "evidence": "除此以外，1年日内动量（mmt_intraday_A）的单调性优异，预测能力和稳定性也较为突出。"
+        },
+        {
+          "name": "3个月日内振幅标准差因子（vol_highlow_std_3M）",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "std_{3M}(High_t / Low_t)",
+          "stats": [-0.0432, null, -0.35, 0.1533],
+          "evidence": "在恒生综指范围内，3个月日内振幅标准差因子（vol_highlow_std_3M）也有着不俗的表现。"
+        },
+        {
+          "name": "3个月威廉上影线标准差因子（vol_w_upshadow_std_3M）",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "std_{3M}\\left(\\frac{High_t - Close_t}{High_t}\\right)",
+          "stats": [-0.0446, null, -0.32, 0.1682],
+          "evidence": "3个月威廉上影线标准差因子(vol_w_upshadow_std_3M)在2个选股域中的表现均衡较优，且空头收益显著。"
+        },
+        {
+          "name": "3个月换手率标准差因子(liq_turn_std_3M)",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "std_{3M}(Turnover_t)",
+          "stats": [-0.0215, null, -0.17, null],
+          "evidence": "其中，3个月换手率标准差因子(liq_turn_std_3M)在恒生综指范围内表现较好，IC 均值为-2.15%，IC_IR 为-0.17，单调性尚可，但该因子在恒生港股通范围内表现不佳。"
+        },
+        {
+          "name": "corr_price_turn_prior_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "corr_{20d}(Turnover_t, Price_{t-1})",
+          "stats": [-0.0178, null, -0.23, 0.0756],
+          "evidence": "在恒生综指范围内，价领先一期的换手率与价格相关性因子（corr_price_turn_prior_1M）的超额预测能力和有效性较好，年化超额为6.10%，IC_IR为-0.23；"
+        },
+        {
+          "name": "全部资产现金回收率TTM（CFOA_TTM）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营现金流净额TTM}}{\\text{总资产}}",
+          "stats": [0.0304, null, 0.41, 0.1202],
+          "evidence": "在恒生综指范围中，全部资产现金回收率因子（CFOA_TTM）表现出色，IC均值为3.04%，IC_IR达到0.41；在恒生港股通范围内，该因子同样表现不俗，IC均值和IC IR分别为2.58%和0.38。"
+        },
+        {
+          "name": "经营性现金流比总市值因子(OCFP_TTM)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营性现金流TTM}}{\\text{总市值}}",
+          "stats": [0.0188, null, 0.24, 0.0641],
+          "evidence": "其中经营性现金流比总市值因子(OCFP_TTM)和市盈率倒数因子（EP_TTM）的预测稳定性较好，且选股能力较为出色，其IC_IR 分别为0.25和0.24，多头年化超额则分别为4.12%和 5.32%。"
+        },
+        {
+          "name": "净利润TTM增速因子(NPD）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期净利润TTM} - \\text{上期净利润TTM}}{\\text{上期净利润TTM}}",
+          "stats": [0.0137, null, 0.19, null],
+          "evidence": "其中，净利润TTM增速因子(NPD）在恒生综指范围内的IC_IR 为0.19，IC 均值为 1.37%。"
+        },
+        {
+          "name": "净利率变动因子（NPMD）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期净利率TTM} - \\text{上期净利率TTM}",
+          "stats": [0.0193, null, 0.29, 0.0379],
+          "evidence": "在恒生综指范围内，净利率变动因子（NPMD）和营业利润率变动因子（OPMD）的IC_IR分别为0.29和0.28；在恒生港股通范围内，两者的IC_IR分别为0.31和0.38，有效性良好，且多头年化超额分别为5.18%和3.37%，在港股市场中选股能力相对不错。"
+        },
+        {
+          "name": "营业利润率变动因子（OPMD）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期营业利润率TTM} - \\text{上期营业利润率TTM}",
+          "stats": [0.0201, null, 0.28, 0.057],
+          "evidence": "在恒生综指范围内，净利率变动因子（NPMD）和营业利润率变动因子（OPMD）的IC_IR分别为0.29和0.28；在恒生港股通范围内，两者的IC_IR分别为0.31和0.38，有效性良好，且多头年化超额分别为5.18%和3.37%，在港股市场中选股能力相对不错。"
+        },
+        {
+          "name": "应计利润占比因子（APR_TTM）",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{应计利润TTM}}{\\text{营业利润TTM}}",
+          "stats": [-0.0115, null, -0.19, 0.0239],
+          "evidence": "盈余质量因子中，推荐关注应计利润占比因子（APR_TTM)。该因子在2个选股域中都有着均衡的有效性、选股能力和良好的单调性。"
+        },
+        {
+          "name": "现金流动负债比率因子(CCR)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营净现金流}}{\\text{流动负债}}",
+          "stats": [0.0303, null, 0.36, 0.1075],
+          "evidence": "在恒生综指范围中，现金流动负债比率因子的IC均值为3.03%，IC_IR为0.36，多头预测能力稍显普通；"
+        },
+        {
+          "name": "一致预期营业收入三个月变化率（EOPChange_3M）",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期一致预期营业收入} - \\text{前三个月一致预期营业收入}}{\\text{前三个月一致预期营业收入}}",
+          "stats": [0.0145, null, 0.13, null],
+          "evidence": "综合而言，分析师因子的单调性和有效性较弱，其中，一致预期营业收入三个月变化率(EOPChange_3M)的选股能力稍好。但目前测试的分析师因子受限于Wind 港股一致预期的数据，数据质量仍待提升。"
+        },
+        {
+          "name": "股利支付率因子（DPR_TTM）",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股利}}{\\text{净利润TTM}}",
+          "stats": [0.021, null, 0.27, 0.0158],
+          "evidence": "股利支付率因子（DPR_TTM）在恒生综指中有效性较好，而股利支付率变动因子（DPRD）在恒生港股通范围内选股能力较好。"
+        },
+        {
+          "name": "总市值因子（MC）",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值}",
+          "stats": [-0.0097, null, -0.18, 0.0281],
+          "evidence": "综合而言，规模因子中相对表现略好的是总市值因子（MC），但其单调性普通。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "在港股市场中，价量因子的有效性及选股能力较强，而基本面因子的信息有效性偏弱、单调性较差。",
+      "evidence": "整体而言，在港股市场中，价量因子的有效性及选股能力较强，而基本面因子的信息有效性偏弱、单调性较差。"
+    },
+    {
+      "text": "与A股相比，港股市场因子整体有效性和预测能力较弱，市场错误定价与非理性波动空间更小，超额收益获得难度更高。",
+      "evidence": "与A股市场相比，港股市场因子整体有效性和预测能力较弱。由于港股市场较为成熟、多空机制完善，且投资者中散户占比较低，使得市场存在的错误定价与股价的非理性波动空间更小，超额收益的获得难度更高。"
+    },
+    {
+      "text": "年度动量因子的多头选股能力是本文测试各类因子中整体表现最为优异的，且单调性十分良好；波动率因子的有效性较好。",
+      "evidence": "价量因子中，年度动量因子预测能力和多头表现突出，波动率因子的有效性较好。年度动量因子的多头选股能力是本文测试各类因子中整体表现最为优异的，且单调性十分良好。"
+    },
+    {
+      "text": "仙股筛选条件有效：筛选后仙股占筛选前比例均值约80%，其成交额占全市场比例基本小于1%，仅为筛选前的25%不到。",
+      "evidence": "可以看出，从数量上而言，筛选后的仙股占筛选前的仙股比例均值为80%左右，说明筛选条件并未过度保留股价较低的股票。在此基础上，筛选后的仙股成交额占全市场成交额的比例基本小于1%，仅为筛选前的相应比例的25%不到。"
+    },
+    {
+      "text": "推荐因子：估值中推荐经营性现金流比总市值因子（OCFP_TTM)，营运效率中净利率变动因子（NPMD）和营业利润率变动因子（OPMD）性价比较高，盈余质量中应计利润占比因子（APR_TTM）有效性和选股能力良好。",
+      "evidence": "估值因子中，推荐经营性现金流比总市值因子（OCFP_TTM)；营运效率因子中，净利率变动因子（NPMD）和营业利润率变动因子（OPMD）的性价比较高；盈余质量因子中，应计利润占比因子（APR_TTM）的有效性和选股能力良好。"
+    },
+    {
+      "text": "基本面因子表现较弱的原因：选股域内公司质量较好使财务指标区分度不高，且机构投资者占比较高、基本面信息被充分交易。",
+      "evidence": "基本面因子表现较弱，其原因可能包括选股域内公司质量较好，使得财务指标的区分度不高；且港股中的机构投资者占比较高，基本面信息被充分交易，因此有效性较弱。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["中金量化价量因子", "中金量化基本面因子"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

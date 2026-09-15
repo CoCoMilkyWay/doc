@@ -1,0 +1,144 @@
+{
+  "schema_version": 2,
+  "id": "20181202-东方证券-因子选股-048-alpha与smart_beta",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "large"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "估值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{BP、EP、CFP、SP、Sales2EV 等权合成的估值大类因子}",
+          "stats": [0.0259, 0.0259, 0.6, 0.0818],
+          "evidence": "从大类因子检测结果来看，1997.1-2017.12 间，仅估值因子在美股全市场上的整体选股作用较为显著，IC达到 2.59%，IC_IR为 0.6，多空年化收益 8.18%，但从 2014年至今，也出现了大幅回撤。"
+        },
+        {
+          "name": "盈利",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROA、ROE、GrossMargin 等权合成的盈利大类因子}",
+          "stats": [null, 0.0052, 0.14, -0.0371],
+          "evidence": "| 盈利 | 0.52% | 0.14 | 0.59 | -0.15% | 52.42% | -0.10 | -65.14% | -3.71% |"
+        },
+        {
+          "name": "成长",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{SalesGrowth_Qr_YOY、ProfitGrowth_Qr_YOY、OCFGrowth_YOY 等权合成的成长大类因子}",
+          "stats": [null, 0.0024, 0.08, -0.0378],
+          "evidence": "| 成长 | 0.24% | 0.08 | 0.34 | -0.19% | 49.34% | -0.15 | -57.91% | -3.78% |"
+        },
+        {
+          "name": "波动率",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{RealizedVolatility_3M、MaxRet 等权合成的波动率大类因子}",
+          "stats": [null, 0.0151, 0.23, -0.0322],
+          "evidence": "| 波动率 | 1.51% | 0.23 | 1.00 | 0.18% | 51.10% | 0.07 | -80.14% | -3.22% |"
+        },
+        {
+          "name": "动量",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Ret9M_1：9个月收益剔除最近1个月}",
+          "stats": [null, 0.0081, 0.14, -0.0601],
+          "evidence": "| 动量 | 0.81% | 0.14 | 0.60 | -0.04% | 55.95% | -0.01 | -87.90% | -6.01% |"
+        },
+        {
+          "name": "流动性",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{TO_1M、ILLIQ、AmountAvg_1M_3M 等权合成的流动性大类因子}",
+          "stats": [null, 0.0032, 0.1, 0.0163],
+          "evidence": "| 流动性 | 0.32% | 0.10 | 0.42 | 0.31% | 51.98% | 0.19 | -58.37% | 1.63% |"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{各大类因子等权合成的多因子合成因子}",
+          "stats": [null, 0.0207, 0.43, 0.0175],
+          "evidence": "| 合成因子 | 2.07% | 0.43 | 1.85 | 0.42% | 55.07% | 0.20 | -60.41% | 1.75% |"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "large"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "heuristic_ranking", "impact", "turnover"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "A股常用指数增强策略用于标普500后仅估值因子总体显著且近三年明显衰减，不扣费年化超额收益仅0.16%，可见标普500市场有效性",
+      "evidence": "用到的 alpha因子中只有估值因子在标普 500成分股内总体效果显著，但最近三年也有明显衰减。在不扣费情况下，年化超额收益仅 0.16%，由此可见标普 500指数的市场有效性。"
+    },
+    {
+      "text": "1997.1-2017.12美股仅估值因子选股显著（IC 2.59%、ICIR 0.6、多空年化8.18%），2014年以来大幅回撤，其它因子基本无选股效果",
+      "evidence": "从大类因子检测结果来看，1997.1-2017.12 间，仅估值因子在美股全市场上的整体选股作用较为显著，IC达到 2.59%，IC_IR为 0.6，多空年化收益 8.18%，但从 2014年至今，也出现了大幅回撤。其它因子基本没有什么选股效果，这和 A股的充裕 alpha形成鲜明对比。"
+    },
+    {
+      "text": "规模最大20只Smart Beta ETF中十支过去十年年化超额为正，Invesco等权ETF十年超额达4%；低管理费+低换手+可接受超额是Smart Beta发展迅速的核心因素",
+      "evidence": "对比看规模最大的 20 只 Smart Beta ETF 产品，有十支过去十年相对标普500 的年化超额收益为正，Invesco S&P 500 Equal Weight ETF 表现最为亮眼，过去 10年超额收益达到 4%。低管理费 + 交易便捷（低换手）+ 可接受的超额收益是 Smart Beta 产品这些年发展迅速的最核心因素"
+    },
+    {
+      "text": "Smart Beta换手率显著低于指数增强；资金规模小时指数增强占优，资金规模大时冲击成本将抹去指数增强的优势",
+      "evidence": "Smart Beta 策略的换手率显著低于指数增强策略，当资金规模较小时，高换手带来的冲击成本影响并不大，指数增强策略占优，但当资金规模较大时，冲击成本将抹去指数增强策略的优势。"
+    },
+    {
+      "text": "用I-STAR模型估算交易冲击成本，实证发现扩大选股股票池、增加持股数量、少用技术类因子都可以增加alpha策略在大资金下的收益",
+      "evidence": "在 Alpha充裕的 A股市场，Alpha产品的收益更高，但换手也更高，资金规模大了以后，冲击成本会抹去很多超额收益。我们用 I-STAR 模型来估算交易冲击成本，实证发现扩大选股股票池、增加持股数量、少用技术类因子都可以增加 alpha策略在大资金下的收益。"
+    },
+    {
+      "text": "按A股历史alpha水平与流动性，10个交易日完成调仓下，沪深300与中证500指数增强单策略新增资金达1500亿左右时收益与对应Smart Beta产品基本持平",
+      "evidence": "按照 A股历史的 alpha水平和市场流动性，在 10 个交易日完成调仓的设定下，当前单策略新增资金达到 1500 亿左右时，沪深 300 和中证 500 指数增强策略收益将和对应的Smart Beta 产品基本持平。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "FTSE Russell. Five-year trends and outlook for smart beta",
+    "Fama E F, French K R. Luck versus skill in the cross-section of mutual fund returns (2010)",
+    "Kissell R, Glantz M. Optimal Trading Strategies (2003), I-STAR 模型",
+    "东方证券《业绩超预期类因子》",
+    "东方证券《东方A股因子风险模型（DFQ-2018）——因子选股系列研究之四十四》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

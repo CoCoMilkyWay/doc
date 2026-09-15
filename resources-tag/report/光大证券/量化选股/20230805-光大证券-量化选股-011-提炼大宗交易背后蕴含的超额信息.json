@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "id": "20230805-光大证券-量化选股-011-提炼大宗交易背后蕴含的超额信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大宗交易折溢价率",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_{block,t}}{P_{close,t}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "因此，衍生出一个重要指标：折溢价率，即以大宗交易成交价格/当日收盘价格，当大于 0 时，为溢价成交，等于 0 时为平价成交，小于 0 时为折价成交。"
+        },
+        {
+          "name": "买卖双方席位",
+          "family": "institution",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{根据买卖双方名称中的关键词将席位划分为营业部席位、机构席位、自营席位}",
+          "stats": [null, null, null, null],
+          "evidence": "当名称中出现“分公司”、“营业部”、“大街”等词时，将其划分为营业部席位；当名称中出现“机构专用”、“交易单元”等词时，将其划分为机构席位；当名称中出现“自营”、“总部”等词时，将其划分为自营席位。"
+        },
+        {
+          "name": "股价分位",
+          "family": "momentum",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近1个月收盘价均值处于最近1年收盘价均值序列中的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "我们通过每只股票在大宗交易时，最近 1 个月收盘价均值处于最近 1 年的分位（简称“股价分位”）情况，按照股价分位从低到高将样本进行分组，对各组进行测算。"
+        },
+        {
+          "name": "大宗交易成交金额比率",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{大宗交易成交金额}}{\\text{当日非大宗交易成交金额}}",
+          "stats": [null, null, null, null],
+          "evidence": "大宗交易披露的信息包含成交金额，由此衍生出一个重要指标：成交金额比率。即大宗交易成交金额/当日非大宗交易成交金额。"
+        },
+        {
+          "name": "股票 6 日成交金额波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\mathrm{std}(Amt_{t-5:t})}{\\mathrm{mean}(Amt_{t-5:t})}",
+          "stats": [null, null, null, null],
+          "evidence": "因此，我们考虑使用成交金额波动率（本文用“6 日成交金额波动率”作为代理指标，即大宗交易日及之前共计 6 个交易日竞价交易成交金额波动率）进行比较。当成交金额波动率较大时，说明该股最近受到较多关注。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "经统计，大宗交易折溢价率、买卖双方席位、股价分位、成交金额比率、6日成交金额波动率这5个指标均对大宗交易后股价走势起到不同程度的正向影响。",
+      "evidence": "通过事件研究方法，我们对大宗交易折溢价率、买卖双方席位、股票大宗交易时价格分位、大宗交易成交金额比率、股票 6 日成交金额波动率这 5 个指标进行探讨。经统计，我们发现这些指标均对大宗交易后股价走势起到不同程度的正向影响。"
+    },
+    {
+      "text": "时序回溯测试中，大宗交易成交金额比率和股票6日成交金额波动率两指标能够获取较为可观的超额收益，其余指标对提升超额收益作用有限。",
+      "evidence": "从时序上对上述指标进行回溯测试，以上 5 个指标中“大宗交易成交金额比率”和“股票 6 日成交金额波动率”两指标能够获取较为可观的超额收益，其余指标对提升超额收益作用有限。"
+    },
+    {
+      "text": "成交金额比率对股价的影响是正面的，5组单调，成交金额比率越高，股票表现越好。",
+      "evidence": "从大宗交易成交金额比率来看，我们按照大宗交易成交金额比率从低到高将样本均分为 5 组（group1-group5）。测算结果如下图所示。可以发现，成交金额比率对股价的影响是正面的，即 5 组单调，成交金额比率越高，股票表现越好。"
+    },
+    {
+      "text": "成交金额波动率最高的组表现最差，最低的组表现最佳，指标单调性较好。",
+      "evidence": "我们按照成交金额波动率从高到低将样本均分为 5 组（依次为 group1-group5），从测算结果可以发现，成交金额波动率最高的组，表现最差，而成交金额波动率最低的组，表现最佳，且指标单调性较好。"
+    },
+    {
+      "text": "股价分位与后续表现非单调：第10组（历史高位）后续下跌风险过高，分位适中（group7-group9）的样本后续表现较好。",
+      "evidence": "我们更为详细地，将样本划分为了 10 组（从低到高依次为 group1-group10），可以发现第 10 组样本表现反而大幅下滑，说明股价处于历史高位，这样的股票在后续下跌的风险过高；而股价分位适中的样本（group7-group9），后续表现较好。"
+    },
+    {
+      "text": "当大宗交易折价率高于15%时，结合大额成交量，这样的股票表现最佳。",
+      "evidence": "可以发现，当大宗交易折价率高于 15%时，结合大额成交量，这样的股票表现最佳。"
+    },
+    {
+      "text": "高成交、低波动组合持有20只股票，总收益率938.30%，年化收益率19.54%，相对中证全指年化超额收益率16.41%，组合月均换手率约90%。",
+      "evidence": "从测算结果可知，在两指标下选股，能够获取较为可观的超额收益。持有 20 只股票的总收益率为 938.30%，年化收益率为 19.54%，相对中证全指年化超额收益率 16.41%，组合月均换手率约为 90%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

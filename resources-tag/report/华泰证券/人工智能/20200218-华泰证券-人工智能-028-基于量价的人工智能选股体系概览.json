@@ -1,0 +1,169 @@
+{
+  "schema_version": 2,
+  "id": "20200218-华泰证券-人工智能-028-基于量价的人工智能选股体系概览",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{随机森林模型对遗传规划挖掘出的量价因子进行合成}",
+          "stats": [null, 0.0887, 1.16, 0.282],
+          "evidence": "本文从日频量价信息出发，通过遗传规划滚动挖掘调仓周期为 20 个交易日的因子，并使用随机森林模型拟合得到合成因子。"
+        },
+        {
+          "name": "alpha125",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ts_corr(sub(open,free_turn),close,10)",
+          "stats": [null, null, null, null],
+          "evidence": "在图表 24 的 alpha125 的分层测试中，该因子为正向的线性因子，但第一层和第二层区分不大，且第二层比第一层稳定。"
+        },
+        {
+          "name": "alpha89",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank_mul(turn, add(high, volume))",
+          "stats": [null, null, null, null],
+          "evidence": "在图表 26 的 alpha89 的分层测试中，该因子为反向的线性因子，但第四层和第五层区分不大，且第四层比第五层稳定。"
+        },
+        {
+          "name": "alpha103",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ts_corr(high,low,20)",
+          "stats": [null, null, null, null],
+          "evidence": "在图表 28 的 alpha103 的分层测试中，因子的第二层到第五层的超额收益表现单调，但是第一层的超额收益表现位于中间，因子呈现出非线性特征。"
+        },
+        {
+          "name": "ts_corr(div(vwap, high), high, 10)",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ts_corr(div(vwap, high), high, 10)",
+          "stats": [null, null, null, null],
+          "evidence": "遗传规划通过暴力生成+进化的方式，从原始量价数据中挖掘选股因子。"
+        },
+        {
+          "name": "ts_sum(rank(ts_corr (high, low, 20)),20)",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ts_sum(rank(ts_corr (high, low, 20)),20)",
+          "stats": [null, null, null, null],
+          "evidence": "遗传规划通过暴力生成+进化的方式，从原始量价数据中挖掘选股因子。"
+        },
+        {
+          "name": "-sigmoid(rank(ts_cov(turn, close, 10)))",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-sigmoid(rank(ts_cov(turn, close, 10)))",
+          "stats": [null, null, null, null],
+          "evidence": "遗传规划通过暴力生成+进化的方式，从原始量价数据中挖掘选股因子。"
+        },
+        {
+          "name": "-ts_cov(delay(turn, 3), volume, 7)",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-ts_cov(delay(turn, 3), volume, 7)",
+          "stats": [null, null, null, null],
+          "evidence": "遗传规划通过暴力生成+进化的方式，从原始量价数据中挖掘选股因子。"
+        },
+        {
+          "name": "-ts_cov(delay(volume, 5), vwap, 4)",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-ts_cov(delay(volume, 5), vwap, 4)",
+          "stats": [null, null, null, null],
+          "evidence": "遗传规划通过暴力生成+进化的方式，从原始量价数据中挖掘选股因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "sample_window", "interpretability", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于量价信息的全流程人工智能选股体系（遗传规划挖掘因子、随机森林合成、SHAP可解释性分析）能提供独立于传统多因子模型的增量超额收益。",
+      "evidence": "本文构建了基于量价信息的全流程人工智能选股体系，主要包含三个步骤：(1) 遗传规划自动挖掘因子；(2) 机器学习模型进行多因子合成；(3) 机器学习模型的可解释性分析。在测试中，该体系能提供独立于传统多因子模型的增量超额收益。"
+    },
+    {
+      "text": "合成因子五因子中性化后RankIC均值为8.87%，IC_IR为1.16，分五层测试中TOP组合年化超额收益率为9.65%，信息比率为3.08，增量信息显著。",
+      "evidence": "合成因子进行行业、市值、20 日收益率、20 日波动率、20 日换手率五因子中性化后，RankIC均值为 8.87%，IC_IR 为 1.16，分五层测试中 TOP组合年化超额收益率为 9.65%，信息比率为 3.08。"
+    },
+    {
+      "text": "将合成因子叠加到使用传统因子的模型上后构建中证500增强选股组合，组合的年化超额收益率平均提升1.38%，信息比率平均提升0.14。",
+      "evidence": "将合成因子叠加到使用传统因子的模型上后构建中证 500 增强选股组合，可使得组合的年化超额收益率平均提升 1.38%，信息比率平均提升0.14。"
+    },
+    {
+      "text": "以RankIC为适应度可挖掘线性因子，以互信息为适应度可挖掘非线性因子，后者可能为现有体系提供增量的alpha信息。",
+      "evidence": "如果以因子的 RankIC 作为适应度，则可以挖掘线性因子；如果以因子的互信息为适应度，则可以挖掘非线性因子。非线性因子可能描述了市场中更高维度的规律，如果能利用这种规律，则可能为现有体系提供增量的 alpha信息。"
+    },
+    {
+      "text": "以残差收益率为预测目标的增量信息挖掘方法，可避免频繁正交化带来的时间开销，提升因子挖掘效率。",
+      "evidence": "挖掘增量信息需要引入因子正交化机制，为了避免频繁正交化带来的时间开销，我们提出以残差收益率为预测目标的增量信息挖掘方法。"
+    },
+    {
+      "text": "SHAP值可解释性分析显示，随机森林模型有效利用了遗传规划挖掘出的线性因子和非线性因子。",
+      "evidence": "SHAP值可解释性分析显示，随机森林模型有效利用了遗传规划挖掘出的线性因子和非线性因子。"
+    },
+    {
+      "text": "KPCA+线性回归的拟合优度和显著性最高，对残差收益率中增量信息的提纯效果最好。",
+      "evidence": "图表 33展示了三组测试在多个截面上的平均拟合优度和显著性。可以看出，KPCA+线性回归的拟合优度和显著性最高，对增量信息的提纯效果最好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《人工智能选股之Boosting 模型》（2017.9.11）",
+    "《人工智能选股之特征选择》（2018.7.25）",
+    "《再探基于遗传规划的选股因子挖掘》（2019.8.7）",
+    "《基于遗传规划的选股因子挖掘》（2019.6.10）",
+    "《对抗过拟合：从时序交叉验证谈起》（2018.11.28）",
+    "《揭开机器学习模型的“黑箱”》（2020.2.6）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

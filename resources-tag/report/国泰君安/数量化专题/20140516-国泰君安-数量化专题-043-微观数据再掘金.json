@@ -1,0 +1,100 @@
+{
+  "schema_version": 2,
+  "id": "20140516-国泰君安-数量化专题-043-微观数据再掘金",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "即期知情交易概率因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{利用1分钟行情数据，通过基于量钟的知情交易概率模型计算每只股票月末的知情交易概率}",
+          "stats": [0.0664, null, 0.54, 0.1376],
+          "evidence": "经过测试，即期知情交易概率低的股票收益显著高于即期知情交易概率高的股票，分档月度平均收益单调性良好。"
+        },
+        {
+          "name": "12 月滚动平均知情交易概率因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "PIN^{12m}_{i,t}=\\frac{1}{12}\\sum_{k=0}^{11}PIN_{i,t-k}",
+          "stats": [0.0788, null, 0.59, 0.2473],
+          "evidence": "通过对 12 月滚动平均知情交易概率因子按照从高到低进行排列，将股票分成10档，结果分档月度平均收益较即期因子单调性更佳。"
+        },
+        {
+          "name": "残差因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "monthly"],
+          "horizon": "monthly",
+          "formula": "PIN_{i,t}=\\alpha+\\beta_1 Size_{i,t}+\\beta_2 Amt_{i,t}+\\beta_3 Turn_{i,t}+\\beta_4 Vol_{i,t}+\\beta_5 Ret1_{i,t}+\\beta_6 Ret12_{i,t}+\\epsilon_{i,t},\\ \\text{ResidFactor}_{i,t}=\\epsilon_{i,t}",
+          "stats": [0.0604, null, 0.61, 0.1966],
+          "evidence": "通过对残差因子按照从高到低进行排列，将股票分成 10 档，即第一档为残差最大的股票集合，第十档是残差最小的股票集合。经过测试，残差小的股票收益显著高于残差大的股票，分档月度平均收益单调性依然良好。"
+        },
+        {
+          "name": "滚动平均残差因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "monthly"],
+          "horizon": "monthly",
+          "formula": "PIN^{12m}_{i,t}=\\alpha+\\beta_1 Size_{i,t}+\\beta_2 Amt_{i,t}+\\beta_3 Turn_{i,t}+\\beta_4 Vol_{i,t}+\\beta_5 Ret1_{i,t}+\\beta_6 Ret12_{i,t}+\\epsilon_{i,t},\\ \\text{ResidFactor}^{12m}_{i,t}=\\epsilon_{i,t}",
+          "stats": [0.082, null, 0.83, 0.25],
+          "evidence": "通过对滚动平均残差因子按照从高到低进行排列，将股票分成 10 档，结果分档月度平均收益单调性十分优异。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["csi300"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "残差因子均能获得明显 Alpha，知情交易概率模型确实捕捉到了传统因子所未能获得的 Alpha。",
+      "evidence": "无论是通过即期因子还是滚动平均因子进行计算，残差因子均能获得明显 Alpha，也就是说，知情交易概率模型确实捕捉到了我们列举的传统因子所未能获得的Alpha。"
+    },
+    {
+      "text": "知情交易概率因子和残差因子经12个月滚动平均后效果增强，改善了策略风险收益特征并大幅降低了换手率。",
+      "evidence": "无论是知情交易概率因子还是残差因子，12 个月滚动平均后效果都有所增强，不仅改善了策略的风险收益特征，还大幅降低了策略换手率；"
+    },
+    {
+      "text": "滚动平均残差因子表现最优：IC均值8.20%，ICIR 0.83，多空组合累计收益144.14%，最大回撤-4.61%，夏普比率2.55。",
+      "evidence": "经过回测，四年间多空组合累计收益 144.14%，净值最大回撤-4.61%，夏普比率2.55。"
+    },
+    {
+      "text": "残差因子组合较原策略净值最大回撤和波动性明显缩小，四年间多空组合累计收益105.05%，夏普比率1.97。",
+      "evidence": "经过回测，四年间多空组合累计收益105.05%，净值最大回撤-4.78%，夏普比率 1.97。"
+    },
+    {
+      "text": "组合测算时间较短，样本内效果良好难免有数据挖掘之嫌，需通过样本外跟踪进一步观察因子效果。",
+      "evidence": "此外，由于组合测算时间较短，样本内效果良好难免有数据挖掘之嫌。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《从微观数据中寻找 Alpha 的新来源》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

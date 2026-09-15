@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20230711-国泰君安-学界纵横-049-估值分化期的价值策略",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["regression_test"], "setup": {"universe": ["na"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["na"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "深度价值期定义为价值股与成长股账面价值比取对数后的差值超过历史上80分位数的时期，也就是价值股估值远低于成长股的时期。",
+      "evidence": "深度价值期定义为价值股与成长股账面价值比取对数后的差值超过历史上 80 分位数的时期，也就是价值股估值远低于成长股的时期。"
+    },
+    {
+      "text": "深度价值策略能获得较高的收益，这种价值投资在价值差较大时更有效，且会持续数年（至少有24个月）。",
+      "evidence": "深度价值策略能获得较高的收益。这种价值投资在价值差较大时更有效，且会持续数年（至少有 24 个月）。"
+    },
+    {
+      "text": "深度价值策略与市场因子、动量因子负相关，且与动量的关系更强，因为深度价值资产往往有特别负的过去收益。",
+      "evidence": "结果显示，深度价值策略与市场因子、动量因子负相关关系，且与动量的关系更强。因为深度价值资产往往有特别负的过去收益。"
+    },
+    {
+      "text": "价值策略的收益与深度价值事件发生的数量正相关，深度价值事件越多，波动率越大，收益也越大。",
+      "evidence": "结果显示，价值策略的收益与深度价值事件发生的数量正相关。对于所有资产和SS斜率系数都是显著正的，这表明当有许多深度价值事件时，深度价值策略获得了更高的平均回报。"
+    },
+    {
+      "text": "价值股的新闻基调往往比成长股悲观，深度价值事件发生前价值股投资情绪特别消极，约一年后恢复正常。",
+      "evidence": "价值股的新闻基调往往比成长股悲观。在深度价值事件发生前，价值股的投资情绪变得特别消极，大约一年后恢复到正常水平。"
+    },
+    {
+      "text": "深度价值套利受到交易成本升高、卖空费用和波动性的限制，只能在有限的程度上实现。",
+      "evidence": "综上所述，深度价值套利受到交易成本升高、卖空费用和波动性的限制。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Cliff Asness. (2021). \"Deep Value.\" Journal of Portfolio Management."],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

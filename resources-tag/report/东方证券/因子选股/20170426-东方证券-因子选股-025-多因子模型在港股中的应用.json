@@ -1,0 +1,302 @@
+{
+  "schema_version": 2,
+  "id": "20170426-东方证券-因子选股-025-多因子模型在港股中的应用",
+  "genre": "handbook",
+  "asset": ["stock_hk"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["hk_connect", "other"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP_LF",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{Newest Book Value}}{\\text{Market Cap}}",
+          "stats": [0.0273, null, 1.01, 0.1213],
+          "evidence": "BP_LF | 2.73% | 3.89 | 1.01 | 1.01% | 63.69% | 25.20% | 12.13% | 1.05"
+        },
+        {
+          "name": "EP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{TTM earnings}}{\\text{Market Cap}}",
+          "stats": [0.0283, null, 1.15, 0.0737],
+          "evidence": "EP_TTM | 2.83% | 4.43 | 1.15 | 0.64% | 56.42% | 21.42% | 7.37% | 0.70"
+        },
+        {
+          "name": "SP_TTM",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{TTM Sales}}{\\text{Market Cap}}",
+          "stats": [-0.0172, null, -0.59, 0.1095],
+          "evidence": "SP_TTM | -1.72% | -2.28 | -0.59 | 0.93% | 59.22% | 20.41% | 10.95% | 0.86"
+        },
+        {
+          "name": "CFP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{TTM Operating Cash Flow}}{\\text{Market Cap}}",
+          "stats": [0.0276, null, 1.3, 0.0617],
+          "evidence": "CFP_TTM | 2.76% | 5.02 | 1.30 | 0.54% | 60.34% | 27.43% | 6.17% | 0.60"
+        },
+        {
+          "name": "Sales2EV",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入_TTM}}{\\text{总市值}+\\text{非流动负债合计_最新财报}-\\text{货币资金_最新财报}}",
+          "stats": [-0.018, null, -0.67, 0.093],
+          "evidence": "营业收入_TTM/(总市值+非流动负债合计_最新财报-货币资金_最新财报)"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产收益率}",
+          "stats": [0.028, null, 1.05, 0.0417],
+          "evidence": "ROA | 2.80% | 4.06 | 1.05 | 0.38% | 59.78% | 17.96% | 4.17% | 0.38"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产收益率}",
+          "stats": [0.0275, null, 1.12, 0.0507],
+          "evidence": "ROE | 2.75% | 4.31 | 1.12 | 0.45% | 60.34% | 16.39% | 5.07% | 0.48"
+        },
+        {
+          "name": "GrossMargin",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{销售毛利率}",
+          "stats": [0.0216, null, 0.96, 0.0392],
+          "evidence": "GrossMargin | 2.16% | 3.72 | 0.96 | 0.36% | 58.10% | 25.04% | 3.92% | 0.38"
+        },
+        {
+          "name": "SalesGrowth_Qr_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入增长率(季度同比)}",
+          "stats": [0.0113, null, 0.5, 0.0368],
+          "evidence": "SalesGrowth_Qr_YOY | 1.13% | 1.87 | 0.50 | 0.35% | 55.56% | 29.83% | 3.68% | 0.36"
+        },
+        {
+          "name": "ProfitGrowth_Qr_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润增长率(季度同比)}",
+          "stats": [0.0249, null, 1.1, 0.037],
+          "evidence": "ProfitGrowth_Qr_YOY | 2.49% | 4.17 | 1.10 | 0.36% | 56.14% | 20.37% | 3.70% | 0.35"
+        },
+        {
+          "name": "OCFGrowth_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营现金流增长率(同比)}",
+          "stats": [0.0204, null, 0.8, 0.0615],
+          "evidence": "OCFGrowth_YOY | 2.04% | 3.07 | 0.80 | 0.54% | 64.41% | 13.57% | 6.15% | 0.64"
+        },
+        {
+          "name": "AssetTurnover",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产周转率}",
+          "stats": [0.0185, null, 0.91, 0.051],
+          "evidence": "AssetTurnover | 1.85% | 3.50 | 0.91 | 0.45% | 56.98% | 22.10% | 5.10% | 0.52"
+        },
+        {
+          "name": "Debt2Asset",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{债务资产比例}",
+          "stats": [-0.0049, null, -0.17, -0.0457],
+          "evidence": "Debt2Asset | -0.49% | -0.65 | -0.17 | -0.33% | 46.37% | 56.02% | -4.57% | -0.42"
+        },
+        {
+          "name": "TO_1M",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以流通股本计算的1个月日均换手率}",
+          "stats": [-0.0002, null, -0.01, 0.0356],
+          "evidence": "TO_1M | -0.02% | -0.02 | -0.01 | 0.36% | 50.28% | 21.38% | 3.56% | 0.26"
+        },
+        {
+          "name": "ILLIQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{每天一个亿成交量能推动的股价涨幅}",
+          "stats": [-0.0082, null, -0.21, -0.0356],
+          "evidence": "ILLIQ | -0.82% | -0.83 | -0.21 | -0.20% | 50.28% | 60.83% | -3.56% | -0.21"
+        },
+        {
+          "name": "AmountAvg_1M_3M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去一个月日均成交额}}{\\text{过去三个月日均成交额}}",
+          "stats": [0.0177, null, 0.8, 0.0786],
+          "evidence": "流动类因子中的 AmountAvg_1M_3M（过去一个月日均成交额/过去三个月日均成交额）表现优异，特别是在港股通成分股当中，夏普比率最高 0.99，十分稳健。"
+        },
+        {
+          "name": "Ret1M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月收益反转}",
+          "stats": [-0.0155, null, -0.43, 0.0378],
+          "evidence": "Ret1M | -1.55% | -1.68 | -0.43 | 0.39% | 51.96% | 40.28% | 3.78% | 0.27"
+        },
+        {
+          "name": "Momentumlast6M",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P^{adj}_t}{P^{adj}_{t-6M}}-1",
+          "stats": [0.0182, null, 0.44, 0.0278],
+          "evidence": "Momentumlast6M | 1.82% | 1.70 | 0.44 | 0.35% | 59.78% | 52.27% | 2.78% | 0.20"
+        },
+        {
+          "name": "Momentumave1M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_t - \\overline{P}_{1M}}{\\overline{P}_{1M}}",
+          "stats": [-0.0328, null, -0.95, 0.0814],
+          "evidence": "港股只有 Momentumave1M（股价相对于最近一个月均价涨幅）是显著有效的，IC 为-3.28%，说明港股在短期一个月内是存在反转效应的"
+        },
+        {
+          "name": "PPReversal",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{乒乓球反转因子}",
+          "stats": [0.0073, null, 0.19, 0.0147],
+          "evidence": "PPReversal | 0.73% | 0.73 | 0.19 | 0.23% | 55.87% | 48.22% | 1.47% | 0.12"
+        },
+        {
+          "name": "CGO_3M",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Capital Gains Overhang (3M)}",
+          "stats": [-0.005, null, -0.14, -0.0031],
+          "evidence": "CGO_3M | -0.50% | -0.54 | -0.14 | 0.06% | 50.29% | 58.73% | -0.31% | -0.02"
+        },
+        {
+          "name": "RealizedVolatility_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sigma(r_{t-3M:t})",
+          "stats": [-0.0292, null, -0.65, -0.0039],
+          "evidence": "RealizedVolatility_3M | -2.92% | -2.53 | -0.65 | 0.09% | 51.40% | 55.02% | -0.39% | 0.01"
+        },
+        {
+          "name": "MaxRet",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\max_{t\\in\\text{上月}} r_t",
+          "stats": [-0.0204, null, -0.64, 0.0391],
+          "evidence": "MaxRet | -2.04% | -2.47 | -0.64 | 0.38% | 55.87% | 33.65% | 3.91% | 0.31"
+        },
+        {
+          "name": "InMV",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{流通市值})",
+          "stats": [0.0418, null, 0.92, -0.0025],
+          "evidence": "InMV | 4.18% | 3.54 | 0.92 | 0.16% | 55.87% | 70.38% | -0.25% | 0.05"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["hk_connect", "other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "港股偏基本面的因子效用明显，估值大类因子IC为3.33%，多空组合夏普比率最高0.89",
+      "evidence": "从大类因子检测结果来看，港股和美股相似，偏基本面的因子效用明显，估值大类因子 IC 为3.33%，多空组合夏普比率最高 0.89，其中 BP_LF的夏普比率最高 1.05"
+    },
+    {
+      "text": "港股在3-12个月都存在显著的动量效应，并且组合相对稳健，并没有美股的动量崩盘现象",
+      "evidence": "另外我们也检测了港股的动量效应，与美股类似，港股在 3-12 个月都存在显著的动量效应，并且组合相对稳健，并没有美股的动量崩盘现象。"
+    },
+    {
+      "text": "港股的大市值股票表现更好，市值因子IC为4.18%，港股以机构和海外投资者为主导",
+      "evidence": "而港股的大市值股票表现更好，IC 为4.18%，这是因为港股以机构和海外投资者为主导，海外投资者往往通过配臵港股来分散风险，所以低估值、盈利能力强的蓝筹股备受青睐。"
+    },
+    {
+      "text": "流动类因子中的AmountAvg_1M_3M表现优异，在港股通成分股当中夏普比率最高0.99，十分稳健",
+      "evidence": "流动类因子中的 AmountAvg_1M_3M（过去一个月日均成交额/过去三个月日均成交额）表现优异，特别是在港股通成分股当中，夏普比率最高 0.99，十分稳健。"
+    },
+    {
+      "text": "港股在短期一个月内存在反转效应，Momentumave1M显著有效，IC为-3.28%",
+      "evidence": "港股只有 Momentumave1M（股价相对于最近一个月均价涨幅）是显著有效的，IC 为-3.28%，说明港股在短期一个月内是存在反转效应的"
+    },
+    {
+      "text": "港股的Alpha空间不大，除了估值大类因子，其他大类因子很难获得超额收益",
+      "evidence": "总的来看港股的Alpha 空间不大，除了估值大类因子，其他大类因子很难获得超额收益。"
+    },
+    {
+      "text": "估值类因子合成的大类因子表现最好，纯多头组合年化收益率10.04%，年化超额收益4.17%",
+      "evidence": "估值类因子合成的大类因子表现最好，纯多头组合年化收益率 10.04%，年化超额收益 4.17%，信息比 0.38，夏普比率 0.46，可见低估值的港股具有较强的表现力"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Joseph W. Cheng 和 Hiu-fung Wu(2010)", "中美市场因子选股效果对比分析"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

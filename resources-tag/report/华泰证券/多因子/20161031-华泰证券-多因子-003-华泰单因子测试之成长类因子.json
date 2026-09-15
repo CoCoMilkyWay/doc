@@ -1,0 +1,185 @@
+{
+  "schema_version": 2,
+  "id": "20161031-华泰证券-多因子-003-华泰单因子测试之成长类因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Sales_G_q",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}-X_{t-1y}}{X_{t-1y}},\\;X=\\text{Wind因子oper_rev（最近一期已公布财报）}",
+          "stats": [0.0189, null, 0.36, 0.059],
+          "evidence": "Sales_G_q Wind因子 oper_rev（最近一期已公布财报）的同比增长率"
+        },
+        {
+          "name": "Sales_G_ttm",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}^{TTM}-X_{t-1y}^{TTM}}{X_{t-1y}^{TTM}},\\;X=\\text{Wind因子or\\_ttm}",
+          "stats": [0.0124, null, 0.24, 0.0221],
+          "evidence": "Sales_G_ttm Wind 因子 or_ttm 的同比增长率"
+        },
+        {
+          "name": "Sales_G_3y",
+          "family": "growth",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\left(\\frac{X_{t}^{TTM}}{X_{t-3y}^{TTM}}\\right)^{1/3}-1,\\;X=\\text{Wind因子or\\_ttm}",
+          "stats": [0.0061, null, 0.13, -0.0219],
+          "evidence": "Sales_G_3y Wind 因子 or_ttm 的三年复合增长率"
+        },
+        {
+          "name": "Profit_G_q",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}-X_{t-1y}}{X_{t-1y}},\\;X=\\text{Wind因子net\\_profit\\_is（最近一期已公布财报）}",
+          "stats": [0.0231, null, 0.36, 0.0561],
+          "evidence": "Profit_G_q Wind 因子 net_profit_is（最近一期已公布财报）的同比增长率"
+        },
+        {
+          "name": "Profit_G_ttm",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}^{TTM}-X_{t-1y}^{TTM}}{X_{t-1y}^{TTM}},\\;X=\\text{Wind因子profit\\_ttm}",
+          "stats": [0.0134, null, 0.25, 0.0162],
+          "evidence": "Profit_G_ttm Wind 因子 profit_ttm 的同比增长率"
+        },
+        {
+          "name": "Profit_G_3y",
+          "family": "growth",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\left(\\frac{X_{t}^{TTM}}{X_{t-3y}^{TTM}}\\right)^{1/3}-1,\\;X=\\text{Wind因子profit\\_ttm}",
+          "stats": [0.0063, null, 0.11, -0.0177],
+          "evidence": "Profit_G_3y Wind 因子 profit_ttm 的三年复合增长率"
+        },
+        {
+          "name": "OCF_G_q",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}-X_{t-1y}}{X_{t-1y}},\\;X=\\text{Wind因子net\\_cash\\_flows\\_oper\\_act（最近一期已公布财报）}",
+          "stats": [0.0107, null, 0.39, 0.0359],
+          "evidence": "OCF_G_q Wind 因子 net_cash_flows_oper_act（最近一期已公布财报）的同比增长率"
+        },
+        {
+          "name": "OCF_G_ttm",
+          "family": "growth",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}^{TTM}-X_{t-1y}^{TTM}}{X_{t-1y}^{TTM}},\\;X=\\text{Wind因子operatecashflow\\_ttm}",
+          "stats": [0.0073, null, 0.26, 0.0029],
+          "evidence": "OCF_G_ttm Wind 因子 operatecashflow_ttm 的同比增长率"
+        },
+        {
+          "name": "OCF_G_3y",
+          "family": "growth",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\left(\\frac{X_{t}^{TTM}}{X_{t-3y}^{TTM}}\\right)^{1/3}-1,\\;X=\\text{Wind因子operatecashflow\\_ttm}",
+          "stats": [0.0066, null, 0.23, -0.0262],
+          "evidence": "OCF_G_3y Wind 因子 operatecashflow_ttm 的三年复合增长率"
+        },
+        {
+          "name": "ROE_G_q",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}-X_{t-1y}}{X_{t-1y}},\\;X=\\text{Wind因子roe\\_diluted（最近一期已公布财报）}",
+          "stats": [0.0201, null, 0.34, 0.065],
+          "evidence": "ROE_G_q Wind 因子 roe_diluted（最近一期已公布财报）的同比增长率"
+        },
+        {
+          "name": "ROE_G_ttm",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{X_{t}^{TTM}-X_{t-1y}^{TTM}}{X_{t-1y}^{TTM}},\\;X=\\text{profit\\_ttm（当日）除以tot\\_equity（最近一期已公布财报）}",
+          "stats": [0.0123, null, 0.26, 0.0189],
+          "evidence": "ROE_G_ttm Wind 因子 profit_ttm（当日）除以 tot_equity（最近一期已公布财报）的同比增长率"
+        },
+        {
+          "name": "ROE_G_3y",
+          "family": "growth",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\left(\\frac{X_{t}^{TTM}}{X_{t-3y}^{TTM}}\\right)^{1/3}-1,\\;X=\\text{profit\\_ttm（当日）除以tot\\_equity（最近一期已公布财报）}",
+          "stats": [0.0062, null, 0.13, -0.0019],
+          "evidence": "ROE_G_3y Wind 因子 profit_ttm（当日）除以 tot_equity（最近一期已公布财报）三年复合增长率"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "分层模型回测中，从TOP组合信息比率、多空组合年化收益率、多空组合夏普比率等角度来说，都是Sales_G_q、Profit_G_q、ROE_G_q三个因子表现出众，回归法和IC值分析结果与之一致。",
+      "evidence": "在分层模型回测中，从 TOP组合信息比率、多空组合年化收益率、多空组合夏普比率等角度来说，都是 Sales_G_q、Profit_G_q、ROE_G_q 三个因子表现出众。"
+    },
+    {
+      "text": "成长因子与市值因子相关性不大，除Sales_G_3y、Profit_G_3y、OCF_G_3y、ROE_G_3y四个长期增长率因子略呈正相关性外，其余因子与市值相关性不大。",
+      "evidence": "通过计算成长因子与市值因子的相关性发现，除四个长期增长率因子 Sales_G_3y、Profit_G_3y、OCF_G_3y、ROE_G_3y与市值因子略呈正相关性外，其余因子与市值相关性不大。"
+    },
+    {
+      "text": "成长因子间相关性比估值因子间相关性要弱，因子合成时可据此赋予各因子合理权重。",
+      "evidence": "总体来讲，成长因子间相关性比估值因子间相关性要弱。"
+    },
+    {
+      "text": "成长因子完全源于财务数据，逻辑清楚，与量价信息和市值因子基本不相关，构建多因子模型时不易发生共线性，是比较优质的因子。",
+      "evidence": "不过，成长因子的好处在于它完全源于财务数据，与量价信息不相关，经前文验证与市值因子也基本不相关，在构建多因子模型过程中不易发生共线性现象，是比较优质的因子。"
+    },
+    {
+      "text": "成长因子在不同行业间存在显著差异，且随时间变化同一行业的相对水平也在不断变化，直接跨行业比较意义不大。",
+      "evidence": "成长因子在不同行业间存在显著差异。例如，房地产行业当前具有较高的营业收入增长率和净利润增长率，但其经营现金流增长率、ROE 增长率都是负的；家电行业营业收入增长率表现一般，但净利润增长率、和经营现金流增长率都比较优秀。"
+    },
+    {
+      "text": "营业收入、净利润、经营现金流、ROE增长率的效果都是当季最优，ttm其次，三年复合增长率已经基本无效，表明市场对财务数据的消化反应速度很灵敏。",
+      "evidence": "从上面的图表可以看出，营业收入、净利润、经营现金流、ROE 增长率的效果都是当季最优，ttm 其次，三年复合增长率已经基本无效了。"
+    },
+    {
+      "text": "三个比较突出的成长因子整体效果大致与估值因子中的SP相差不远，比BP有一定差距。",
+      "evidence": "互相对比发现，三个比较突出的成长因子整体效果大致与估值因子中的 SP相差不远，比 BP有一定差距。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《华泰单因子测试之估值类因子》2016.09",
+    "《华泰多因子模型体系初探》2016.09"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

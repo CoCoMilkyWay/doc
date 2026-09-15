@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20140815-银河证券-cta程序化交易实务-008-期指level2行情的价格发现研究及高频实战体会",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      },
+      "factors": [
+        {
+          "name": "WP2-5",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "WP^{n_1-n_2}=\\frac{\\sum_{j=n_1}^{n_2} Q_j^b P_j^b + Q_j^a P_j^a}{\\sum_{j=n_1}^{n_2}(Q_j^b + Q_j^a)},\\quad n_1=2, n_2=5",
+          "stats": [null, null, null, null],
+          "evidence": "MID、LP、WP2-5的信息份额均值分别为62.19%、20.67%、19.98%。"
+        },
+        {
+          "name": "订单簿不平衡强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\sum_{j=1}^{5}\\omega_j QR_j,\\quad QR_j=\\frac{Q_j^b-Q_j^a}{Q_j^b+Q_j^a},\\ j=1,2,\\ldots,5",
+          "stats": [null, null, null, null],
+          "evidence": "Level2订单簿不平衡和价格变化也成明显的单调性，在同样的时间内(1tick)，推动价格变化的空间要比Level1有了明显的提升，平均价格变化从0.08提高到接近0.2。"
+        },
+        {
+          "name": "价格不平衡强度",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "HR_j=\\frac{(P_j^a-P_{j-1}^a)-(P_j^b-P_{j-1}^b)}{(P_j^a-P_{j-1}^a)+(P_j^b-P_{j-1}^b)},\\ j=1,2,\\ldots,5",
+          "stats": [null, null, null, null],
+          "evidence": "因此 $HR_{\\mathrm{~}_{j}}$ 在国内股指期货行情中的意义不大。下文重点考察挂单量的不平衡。"
+        }
+      ]
+    },
+    "L7_execution": {
+      "module": ["L7_algo"],
+      "approach": ["optimal_execution"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "Hasbrouck信息份额模型实证表明，MID、LP、WP2-5的信息份额均值分别为62.19%、20.67%、19.98%，WP2-5包含了不可忽视的信息",
+      "evidence": "Hasbrouck信息份额模型实证表明，MID（中间价）、LP（最新价）、WP2-5（2-5档加权价格）的信息份额均值分别为62.19%、20.67%、19.98%，可见 WP2-5 包含了不可忽视的信息。"
+    },
+    {
+      "text": "Level2订单簿不平衡和价格变化成明显单调性，同样时间(1tick)内推动价格变化的空间比Level1明显提升，平均价格变化从0.08提高到接近0.2",
+      "evidence": "Level2订单簿不平衡和价格变化也成明显的单调性，在同样的时间内(1tick)，推动价格变化的空间要比Level1有了明显的提升，平均价格变化从0.08提高到接近0.2。"
+    },
+    {
+      "text": "高频策略增加2-5档订单簿不平衡信息后，一个月业绩由7.81%提升到9.45%，提升幅度不大但表现非常稳定、持续",
+      "evidence": "增加2-5档订单簿的不平衡信息，实证结果如图8所示，以20w投资一手期指主力合约测算，一个月的业绩由7.81%提升到9.45%，虽然提升的幅度不大，但是表现非常稳定、持续。"
+    },
+    {
+      "text": "2014年上半年样本外业绩接近50%，最大回撤1.09%，样本外收益比样本内下降不少，除模型问题也与2014年行情波动性下降有关",
+      "evidence": "2014年上半年业绩接近50%，最大回撤1.09%，盈利天数80，亏损天数39。样本外的收益比样本内下降了不少，除了模型的问题，也和2014年行情的波动性下降有关。"
+    },
+    {
+      "text": "高频交易收益不仅依赖信号，IT设备、程序运算效率和下单技巧等因素也非常重要",
+      "evidence": "高频交易要获得收益，不仅依赖信号，IT设备、程序运算效率和下单技巧等因素也非常重要，简要总结5点。"
+    },
+    {
+      "text": "买卖各档挂单深度基本对称，一档挂单量约占总挂单量10%，一档买卖价差较大，其他相邻档价差为0.2",
+      "evidence": "从图2可以看出，买卖各档的挂单深度基本对称，一档的挂单量大约占总挂单量的10%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cao (2009)",
+    "Glosten (1994)",
+    "Hasbrouck (1995)",
+    "IF市场微观结构特征分析之庖丁解牛——CTA程序化交易实务研究之七 201405"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20160705-国泰君安-数量化专题-075-基于文本挖掘的主题投资策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["text"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["momentum_reversal", "text_sentiment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Return_{t-m}^{(i)}=\\frac{P_{t-m}^{(i)}-P_{t-m-1}^{(i)}}{P_{t-m-1}^{(i)}},\\quad m=1,2,\\ldots,10",
+          "stats": [null, null, null, null],
+          "evidence": "这里，我们选择过去 n 天（n=1,2,…,10）的单日相对收益作为个股的动量特征。"
+        },
+        {
+          "name": "分析师推荐因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "weekly",
+          "formula": "CoOccurrence_{i}(Research)=\\frac{Sup_{fre-term}}{|Doc|},\\quad Sim\\text{-}TFIDF_{i}(Research)=\\frac{\\overrightarrow{V_{i}}\\cdot\\overrightarrow{V_{motif}}}{\\left|\\left|\\overrightarrow{V_{i}}\\right|\\right|\\cdot\\left|\\left|\\overrightarrow{V_{motif}}\\right|\\right|}",
+          "stats": [null, null, null, null],
+          "evidence": "具体来说，我们定义了两个因子来描述此信息，即共现相似度和 TF-IDF相似度"
+        },
+        {
+          "name": "新闻报道因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "weekly",
+          "formula": "Cooccurrence_{i}(news)=\\frac{Sup_{fre-term}}{|Doc|},\\quad Sim\\text{-}TFIDF_{i}(news)=\\frac{\\overrightarrow{V_{i}}\\cdot\\overrightarrow{V_{motif}}}{\\left|\\left|\\overrightarrow{V_{i}}\\right|\\right|\\cdot\\left|\\left|\\overrightarrow{V_{motif}}\\right|\\right|}",
+          "stats": [null, null, null, null],
+          "evidence": "借鉴研报文本挖掘的思路，我们希望在新闻中使用类似的因子刻画个股的投资潜力。"
+        },
+        {
+          "name": "行业相似度因子",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "weekly",
+          "formula": "Sim\\text{-}industry_{i}=\\frac{\\left|Stock\\in Industry_{j}\\right|}{\\left|Stock\\right|}",
+          "stats": [null, null, null, null],
+          "evidence": "该因子衡量的是主题内某只股票所在的行业，其行业的个股数量占整个主题股票池中股票数量的比值。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于四类因子构建主题内选股多空组合，2014年至今实证能在5.04%的较低回撤下获得21.57%的年化收益。",
+      "evidence": "基于四类因子，我们发现通过构建多空组合进行主题内选股可以获得较稳定的超额收益。从 2014 年至今的实证结果表明，组合能在较低回撤（5.04%）前提下获得较为可观的收益（年化收益 21.57%）。"
+    },
+    {
+      "text": "利用15维四类因子对相对主题指数的累计超额收益回归，每周第一个交易日做多打分前10%、做空后10%，双边费用千二。",
+      "evidence": "利用以上模型，我们构建了周换仓的多空策略，在每周第一个交易日做多模型打分最高的前 10%标的，做空打分后 10%标的，考虑双边交易费用千二。"
+    },
+    {
+      "text": "大部分主题龙头股持续时间在2-6个交易日，龙头切换需要一定时间演变，因此可借助动量策略第一时间介入个股。",
+      "evidence": "由上图不难看出，大部分主题龙头股持续时间在 2-6个交易日，即龙头的切换需要一定的时间演变。因此，我们可以借助动量策略的思想，在第一时间介入个股，获得收益。"
+    },
+    {
+      "text": "大部分情况下领涨股从属主题内主要行业的概率超过80%，仅在大盘弱势时下滑到70%左右，据此定义行业相似度因子。",
+      "evidence": "从上图不难看出，大部分情况下，领涨股从属主题内主要行业的概率都超过了 80%，只有在大盘相对弱势的情况下下滑到 70%左右。因此利用此信息，定义了行业相似度因子"
+    },
+    {
+      "text": "模型主要贡献因子为三维动量特征、新闻共现因子和行业相似性因子，选股偏重主题内主要龙头行业、新闻热度高且有动量特征的个股。",
+      "evidence": "从表 6 不难发现，主要贡献因子有三维的动量特征，新闻共现因子，以及行业相似性因子。也就是说，模型在选股时偏重于那些主题内的主要龙头行业，并且新闻热度较高，同时具有动量特征的个股。"
+    },
+    {
+      "text": "研报文本对模型贡献不高，TF-IDF特征甚至有微弱负作用，主因研报中混杂日报周报噪音；新闻深度源有前瞻性，对模型贡献更大。",
+      "evidence": "另外，我们也可以看到，研报文本对模型的贡献并没有想象的那么高，甚至通过 TF-IDF 作为特征有微弱的负作用。我们对研报文本进行了具体考察，发现主要原因是研报文本中夹杂了比较多的日报、周报或者快报这样并非深度的报告，使得混杂了许多噪音。而新闻数据中，由于我们使用的是新闻行业深度源，新闻报道有一定的前瞻性，所以反而对模型有更大的正向贡献。"
+    },
+    {
+      "text": "特定时间点活跃主题数量一般不超过300个，可通过主题热度阈值过滤非活跃主题；策略后期活跃主题明显减少，主题内个股区分效应减弱。",
+      "evidence": "实验数据表明，在市场上某一特定时间点 t，活跃的主题数量一般不超过 300 个。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《分析师对投资者行为的影响》", "《基于文本挖掘的量化投资应用》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

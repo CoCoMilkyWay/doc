@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20221109-兴业证券-高频-005-市场微观结构剖析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "订单比率Order Ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OrderRatio=\\frac{\\left|\\sum_{i=1}^{m}VBuy_{i}-\\sum_{j=1}^{k}VSell_{j}\\right|}{\\sum_{n=1}^{N}V_{n}}",
+          "stats": [null, null, null, null],
+          "evidence": "订单比率（Order Ratio，以下简称 OR）通过计算买卖双方订单上的不平衡性以衡量资产的深度。"
+        },
+        {
+          "name": "shallowLIX",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "shallowLIX_{t}=\\log_{10}\\left(\\frac{Amount_{t}}{P_{t}^{H}-P_{t}^{L}}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "shallowLIX 本质上是描述一类问题：从交易员的角度来看，一位投资者可以买入或卖出多少钱而不改变当前流动资产的价格？抑或者说：一位投资者需要多少资金来创造流动资产一个单位的价格变动？"
+        },
+        {
+          "name": "报价差QS",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "QS_{j}=\\frac{askprice_{j}^{(1)}-bidprice_{j}^{(1)}}{0.5\\left(askprice_{j}^{(1)}+bidprice_{j}^{(1)}\\right)}",
+          "stats": [null, null, null, null],
+          "evidence": "报价差（简称 QS）是用来衡量市场紧密度性的首选方法之一，其衡量的是流动性资产买卖价格之间的差异。"
+        },
+        {
+          "name": "有效价差ES",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "ES_{j}=\\frac{2\\left|tradeprice_{j}-0.5\\left(askprice_{j}^{(1)}+bidprice_{j}^{(1)}\\right)\\right|}{0.5\\left(askprice_{j}^{(1)}+bidprice_{j}^{(1)}\\right)}",
+          "stats": [null, null, null, null],
+          "evidence": "有效价差（简称 ES）在报价差的基础上考虑了最后的交易价，是用来衡量实际的交易成本。"
+        },
+        {
+          "name": "交易弹性elatricityTrading",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "eletricityTrading_{j}=\\frac{\\%\\Delta T_{j}}{\\%\\Delta P_{j}}",
+          "stats": [null, null, null, null],
+          "evidence": "交易弹性通过计算股价与成交量的边际变化比 ，来描述价格相对于成交量的变化速度。交易弹性指标越大，说明交易的边际变化度越高，流动性资产的价格弹性越高。"
+        },
+        {
+          "name": "修正的Roll指标",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\gamma_{j}=-cov\\left(\\Delta p_{j},\\Delta p_{j+1}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "Roll 指标由 Roll 于 1984 年提出，并被学者们进行了多次修正改进。其核心思路在于：一项资产若缺乏流动性，会导致其价格中存在暂时性的价格变动成分（即前一时间段残留的价格变动）。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "截至2022年10月31日，基于万得全A的微观流动性择时策略多空年化收益率34.92%，多头收益率20.02%，收益风险比1.344，收益回撤比1.034，风险控制能力较好。",
+      "evidence": "从截至2022年10月31日的回测结果上看，基于上述参数构建的微观流动性择时策略表现十分优秀，其策略多空年化收益率为 34.92%，多头收益率为20.02%。此外，多空策略的收益风险比为1.344，收益回撤比为1.034，具有较好的风险控制能力。"
+    },
+    {
+      "text": "报价差日度警示信号能正确提示日内交易异常情况，包括2015年8月24日暴跌、2016年熔断、2020年2月3日等；在警示指标较大的日期下，市场均出现较大幅度下跌。",
+      "evidence": "可以看出，报价差在日度层面能够正确提示出日内的交易异常情况，包括2015年8月24的暴跌、2016年的熔断、2020年2月3日等。"
+    },
+    {
+      "text": "紧密度指标对价格未来走势的预测性最强且稳定性最优，滚动相关性均值为4.75%；深度类似（2.30%），弹性相反（-2.32%）。",
+      "evidence": "结果表明：紧密度指标对于价格走势的未来走势有着较强的预测性，其滚动计算的相关性均为 4.75%。这表明紧密度当期出现上升，价格未来倾向于上涨。深度也有着类似的结论（相关性均为 2.30%），弹性则与之相反，相关性均为 -2.32%。结合三者相关性序列的标准差，我们发现，紧密度指标的预测稳定性最优。"
+    },
+    {
+      "text": "大小盘的市场深度走势在2016年底至2017年初开始出现背离，侧面反映出当时市场大小盘风格切换的时刻。",
+      "evidence": "因此，从趋势上看，在 2016年底至 2017年初，大小盘的市场深度走势开始出现背离，这侧面反映出当时市场大小盘风格切换的时刻。"
+    },
+    {
+      "text": "同一参数设置下，微观流动性择时策略在不同宽基指数内的表现均明显战胜基准；对不同弹性阈值与紧密度阈值的遍历测试也均明显战胜基准，普适性与稳定性较好。",
+      "evidence": "可以看出，无论是在不同的弹性阈，还是在不同的紧密度阈下，微观流动性择时策略的表现均明显战胜基准，这体现出策略具有较好的稳定性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《高频漫谈》2022-01-04",
+    "《高频研究系列三—收益率分布中的 Alpha(2)》2022-05-04",
+    "《高频研究系列二—收益率分布因子构建》2022-01-23",
+    "《高频研究系列四—成交量分布中的 Alpha》2022-08-29"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

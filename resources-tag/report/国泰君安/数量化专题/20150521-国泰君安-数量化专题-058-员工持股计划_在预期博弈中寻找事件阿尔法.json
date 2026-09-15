@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20150521-国泰君安-数量化专题-058-员工持股计划_在预期博弈中寻找事件阿尔法",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["corporate_event"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "text"], "freq": "daily"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "二级市场型员工持股计划",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "\\text{以员工持股计划草案公告日为事件日，公告后5-10个交易日形成买点，买入并持有60个交易日}",
+          "stats": [null, null, null, null],
+          "evidence": "预案公告后5-10个交易日形成事件投资买点。在上市公司一定会通过二级市场买入股票的预期下，样本累计收益在公告日5个交易日后开始攀升。"
+        },
+        {
+          "name": "股价和定增价之间的距离",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "D = [P(min)-P(offer)]/P(offer)",
+          "stats": [null, null, null, null],
+          "evidence": "我们首先定义股价和定增价之间的距离：D = [P(min)-P(offer)]/P(offer)"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["other"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "二级市场型员工持股草案公布前后，股价呈现V型反转走势，低点在公告后5-10个交易日，反映了投资者对股价上涨催化剂预期和公司压低股价预期的博弈。",
+      "evidence": "二级市场型员工持股草案公布前后，股价呈现V型反转走势，低点在公告后5-10个交易日。我们认为这一走势背后，反映了投资者对股价未来出现上涨催化剂预期和公司希望降低持股成本从而压低股价预期的博弈。"
+    },
+    {
+      "text": "高管持股比例越高，平均累计超额收益越高；持股比例与累计超额收益的相关系数接近40%。",
+      "evidence": "结果发现高管持股比例越高，平均累计超额收益越高；持股比例与累计超额收益的相关系数接近40%。"
+    },
+    {
+      "text": "无差别策略样本外检验两个月累计收益48.98%，最大回撤仅1.97，信息比率1.06，开了个不错的头。",
+      "evidence": "在不到两个月的样本外检验中，策略累计收益48.98%，最大回撤仅1.97，信息比率1.06，应该说开了个不错的头。"
+    },
+    {
+      "text": "双高投资策略收益显著高于无差别策略，两个月累计收益达61.28%，周胜率100%，信息比率高达8.43%。",
+      "evidence": "“双高”投资策略的收益显著高于“无差别”投资策略，两个月的累计收益达到 61.28%，周胜率 100%，信息比率高达8.43%。"
+    },
+    {
+      "text": "定向增发型员工持股计划下，消息跟着股价走，相对累计收益的80%集中在事件日前后4个交易日内，收益过于集中，不建议在公告日后买入。",
+      "evidence": "事件中，消息跟着股价走，相对累计收益的80%集中在事件日前后4个交易日内。"
+    },
+    {
+      "text": "定增破发策略：当股价回落到定增价1.05倍以下时买入并持有60个交易日，历史平均超额收益能达到20%之上。",
+      "evidence": "建议当股价回落到定增价1.05倍以下时买入，并持有60个交易日，历史平均超额收益能达到20%之上。"
+    },
+    {
+      "text": "策略风险在于样本容量有限，时间不够长，无法跨越牛熊周期，还需进一步做样本外跟踪。",
+      "evidence": "策略风险在于样本容量有限，时间不够长，还需进一步做样本外跟踪。由于员工持股计划推出不到一年，因此一方面样本数量偏少，另一方面样本时间无法跨越牛熊周期。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

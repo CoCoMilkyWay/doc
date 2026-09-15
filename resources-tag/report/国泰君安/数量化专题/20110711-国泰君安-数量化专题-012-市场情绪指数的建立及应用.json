@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "20110711-国泰君安-数量化专题-012-市场情绪指数的建立及应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_alternative"],
+      "approach": ["style_ratio", "liquidity_turnover", "participant_behavior", "corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GMX",
+          "family": "sentiment",
+          "direction": "nonmonotonic",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{对市场PE、PB、换手率（-4）、上涨家数占比、IPO首日涨幅、新增A股开户数标准化后作主成分分析，选用第一主成分构建GMX，并按滚动窗口剔除样本变动对参数估计的影响}",
+          "stats": [null, null, null, null],
+          "evidence": "综合各个指标与沪深 300的相关性、领先滞后关系以及适用性，我们选择市场 PE、PB、换手率（-4）、上涨家数占比、IPO 首日涨幅、新增 A股开户数、融资买入占比以及基差作为基础指标集，并进行主成分分析。"
+        },
+        {
+          "name": "GMVX",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{对标准化的情绪基础指标集作主成分分析，取第三主成分构建GMVX}",
+          "stats": [null, null, null, null],
+          "evidence": "此外，第三主成分除了与沪深 300具有较强的相关性外，我们发现其与沪深 300收益率的相关性较强，因此我们选择第三主成分构建市场情绪变动指数（Gtja Mood Variation Index，以下简称 GMVX）。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "GMX指数在大盘下跌时具有领先作用，可作为先行指标；在大盘上涨时滞后于大盘，可作为确认指标。",
+      "evidence": "从长期来看，GMX指数在大盘下跌时具有领先作用，可以作为先行指标，在大盘上涨时滞后于大盘，可作为确认指标。"
+    },
+    {
+      "text": "利用GMX指数的均值回复特性：首次上穿阈值上界时提示风险，未来大盘下行概率较高；首次下穿阈值下界时提示机会，未来上涨概率较大。",
+      "evidence": "利用 GMX 指数的均值回复特性，我们可以提示短期的风险与机会：当GMX 指数首次上穿阈值上界时，提示风险，未来大盘下行概率较高；当 GMX 指数首次下穿阈值下界时，提示机会，未来上涨概率较大。"
+    },
+    {
+      "text": "第一主成分的解释力度已近70%，选用第一主成分构建市场情绪指数GMX。",
+      "evidence": "由表 2可以看出，第一主成分的解释力度已近 70%，我们选用第一主成分构建市场情绪指数（Gtja Mood Index，以下简称 GMX）。"
+    },
+    {
+      "text": "GMVX指数与沪深300当周收益率的相关系数为26.75%，与下周收益率的相关系数为24.64%；判断下周走势的准确率为64.45%，GMVX大于0时准确率提高到75%。",
+      "evidence": "我们统计发现，自 2005 年至今，GMVX 指数与沪深 300 当周收益率的相关系数为 26.75%，与下周收益率的相关系数为 24.64%。利用GMVX 指数可以判断沪深 300下周的走势即若情绪指数大于 0，则判断下周上涨，反之则判断为下跌。该指数判断的准确率为64.45%，在GMVX大于 0的情况下，准确率会提高到 75%。"
+    },
+    {
+      "text": "加入创新市场指标后，主成分的解释力度和与沪深300的相关性均减弱，情绪指数分析市场走势的能力被削弱。",
+      "evidence": "由表 5可以看出，加入创新市场指标后，无论是从主成分的解释力度还是从与沪深 300的相关性来看，主成分分析的力度都减弱了。"
+    },
+    {
+      "text": "目前GMX指数处于历史底部区域，中长期大盘正处于筑底过程；中短期GMX已跌破阈值下界，市场情绪有均值回复的需求。",
+      "evidence": "从目前情况来看，GMX 指数处于历史底部区域，结合 GMX 指数与沪深 300 的关系，我们认为从中长期来看，大盘正处于筑底的过程；从中短期来看，GMX 指数已跌破阈值下界，市场情绪有均值回复的需求；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《衍生品与行为金融隐含的 A股走向》2008 年 9 月——2009 年 8 月，月报(多期)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

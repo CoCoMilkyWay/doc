@@ -1,0 +1,124 @@
+{
+  "schema_version": 2,
+  "id": "20200223-东吴证券-技术分析拥抱选股因子-001-高频价量相关性_意想不到的选股因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "PV_corr_avg",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{PV\\_corr\\_avg}=\\frac{1}{20}\\sum_{t=1}^{20}\\rho_t,\\quad \\rho_t=\\mathrm{corr}(\\text{当日分钟收盘价},\\text{分钟成交量})",
+          "stats": [null, null, null, null],
+          "evidence": "每只股票取20日相关系数的平均值，做横截面市值中性化处理，将得到的结果记为平均数因子 PV_corr_avg；"
+        },
+        {
+          "name": "PV_corr_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{PV\\_corr\\_std}=\\mathrm{std}(\\rho_1,\\rho_2,\\dots,\\rho_{20})",
+          "stats": [null, null, null, null],
+          "evidence": "每只股票取20日相关系数的标准差，同样做市值中性化处理，将结果记为波动性因子 PV_corr_std；"
+        },
+        {
+          "name": "PV_corr",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{PV\\_corr}=\\frac{\\mathrm{PV\\_corr\\_avg}-\\mathrm{mean}(\\mathrm{PV\\_corr\\_avg})}{\\mathrm{std}(\\mathrm{PV\\_corr\\_avg})}+\\frac{\\mathrm{PV\\_corr\\_std}-\\mathrm{mean}(\\mathrm{PV\\_corr\\_std})}{\\mathrm{std}(\\mathrm{PV\\_corr\\_std})}",
+          "stats": [-0.058, -0.081, -2.93, 0.1962],
+          "evidence": "采用最简单的方式综合上述两个因子的信息，将 PV_corr_avg 和 PV_corr_std分别横截面标准化，等权线性相加得到价量相关性综合因子 PV_corr，即"
+        },
+        {
+          "name": "PV_corr_deRet20",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化（PV\\_corr\\_avg 剔除反转因子）}+\\text{标准化（PV\\_corr\\_std 剔除反转因子）}",
+          "stats": [-0.054, -0.076, -3.28, 0.195],
+          "evidence": "先将两个子因子 PV_corr_avg 和 PV_corr_std 分别剔除反转因子，再各自横截面标准化，等权线性相加构建综合因子，将得到的新因子记为 PV_corr_deRet20。"
+        },
+        {
+          "name": "PV_corr_trend",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\rho_t=\\beta\\cdot t+\\varepsilon_t,\\quad \\mathrm{PV\\_corr\\_trend}=\\beta\\ (t=1,2,\\dots,20,\\ \\text{横截面剔除市值及传统价量类因子})",
+          "stats": [-0.042, -0.057, -3.45, 0.1455],
+          "evidence": "将所有股票的回归系数β在横截面上剔除市值、传统价量类因子（20日反转、20日换手率、20日波动率因子），将得到的结果定义为趋势因子PV_corr_trend。"
+        },
+        {
+          "name": "CPV",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{CPV}=\\frac{\\mathrm{PV\\_corr\\_deRet20}-\\mathrm{mean}(\\mathrm{PV\\_corr\\_deRet20})}{\\mathrm{std}(\\mathrm{PV\\_corr\\_deRet20})}+\\frac{\\mathrm{PV\\_corr\\_trend}-\\mathrm{mean}(\\mathrm{PV\\_corr\\_trend})}{\\mathrm{std}(\\mathrm{PV\\_corr\\_trend})}",
+          "stats": [-0.053, -0.073, -3.77, 0.1929],
+          "evidence": "因此我们将 PV_corr_trend 带来的增量信息叠加到 PV_corr_deRet20 之上，最终因子命名为 CPV 因子（Correlation of Price andVolume），涵盖了本篇报告提出的价量相关性 3个维度上的综合信息："
+        },
+        {
+          "name": "纯净CPV",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{每月月底将 CPV 因子对 Barra 风格因子和 28 个申万一级行业虚拟变量进行回归的残差}",
+          "stats": [-0.042, -0.056, -4.19, 0.1481],
+          "evidence": "每月月底将 CPV 因子对 Barra 风格因子和 28 个申万一级行业虚拟变量进行回归，将残差作为选股因子。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "平均数因子利用成交量的信息修正传统反转因子：价格涨跌的反转不完全由价格自己决定，若有量的确认，则月度行情的反转效应更强；若没有量的确认，则月度行情更容易呈现动量效应。",
+      "evidence": "平均数因子利用成交量的信息，修正了传统反转因子对股票价格涨跌的判断，即价格涨跌的反转不完全由价格自己决定，还需看成交量的信息，若有量的确认，则月度行情的反转效应更强；若没有量的确认，则月度行情更容易呈现动量效应。"
+    },
+    {
+      "text": "波动性因子从价量形态稳定性的角度改进反转因子：只要每日价量关系维持某种稳定形态，下个月就更有可能上涨；价量关系在多种形态间频繁切换的股票，下个月更有可能下跌。",
+      "evidence": "波动性因子则从价量形态稳定性的角度，对反转因子进行了改进，即无论股票价格过去的涨跌，只要每日价量关系维持某种稳定形态，下个月就更有可能上涨；而价量关系在多种形态间频繁切换的股票，下个月更有可能下跌。"
+    },
+    {
+      "text": "趋势因子显示，价量相关系数随时间推移变小的股票，下个月的收益倾向于越高，与平均数因子的逻辑相呼应。",
+      "evidence": "回测结果显示，价量相关系数随时间推移变小的股票，下个月的收益倾向于越高。"
+    },
+    {
+      "text": "回测期 2014/01/01-2020/01/31 内，CPV 因子的月度 IC 均值为-0.053，年化 ICIR 为-3.77，5 分组多空对冲的年化收益为 19.29%，信息比率为 3.03，月度胜率为87.32%，最大回撤为2.90%。",
+      "evidence": "在回测期 2014/01/01-2020/01/31 内，以全体 A 股为研究样本，CPV 因子的月度 IC 均值为-0.053，年化 ICIR 为-3.77，5 分组多空对冲的年化收益为 19.29%，信息比率为 3.03，月度胜率为87.32%，最大回撤为2.90%。"
+    },
+    {
+      "text": "剔除市场常用风格和行业的干扰后，纯净CPV 因子仍然具备良好的选股能力，其5分组多空对冲的信息比率甚至有所提升，可达 3.43。",
+      "evidence": "剔除市场常用风格和行业的干扰后，纯净CPV 因子仍然具备良好的选股能力，其5分组多空对冲的信息比率甚至有所提升，可达 3.43。"
+    },
+    {
+      "text": "在沪深 300 和中证 500 成分股中，CPV 因子的选股能力均显著优于传统反转因子。",
+      "evidence": "在沪深 300 和中证 500 成分股中，CPV 因子的选股能力均显著优于传统反转因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《成交量对动量因子的修正：日与夜的殊途同归》20190906"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

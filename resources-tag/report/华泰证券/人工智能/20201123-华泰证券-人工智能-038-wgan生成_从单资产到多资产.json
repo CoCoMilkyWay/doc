@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20201123-华泰证券-人工智能-038-wgan生成_从单资产到多资产",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "将WGAN拓展至多资产序列生成：改造判别器为多通道输入并新增5项多资产协变评价指标后，WGAN生成的多资产序列在单资产与多资产评价指标上均比Bootstrap和MGARCH更接近真实序列的典型化事实。",
+      "evidence": "结果表明，无论是单资产序列评价指标还是多资产序列评价指标，相较于对照组 Bootstrap和 MGARCH 方法，WGAN 生成的多资产序列均能更好复现真实序列呈现的典型化事实，各项评价指标均与真实序列的结果较为接近。"
+    },
+    {
+      "text": "为使判别器能鉴别多资产序列，将第一层卷积层设置为多通道输入，每一通道对应一项资产，从而既能在时间维度提取单资产时序特征，也能在通道维度提取多资产相关性特征。",
+      "evidence": "在多资产生成的应用场景下，为了使判别器 D具有鉴别多资产序列的能力，我们将第一层卷积层设置为多通道输入，每一通道对应一项资产。此时，判别器 D不仅能在时间序列维度上提取单资产时序相关性的局部特征，也能在通道维度上提取多资产相关性的局部特征。"
+    },
+    {
+      "text": "在6项单资产评价指标基础上，新设计交叉相关性、波动率相关性、交叉杠杆效应、滚动相关系数分布相似度、极端值相关性共5项多资产收益率序列评价指标，衡量生成序列对资产间协变关系的复现能力。",
+      "evidence": "本文进一步设计交叉相关性、波动率相关性、交叉杠杆效应、滚动相关系数分布相似度、极端值相关性共 5 项多资产收益率序列评价指标，衡量 WGAN的生成效果。"
+    },
+    {
+      "text": "Bootstrap虽能维持同日内截面结构与0阶正相关性及滚动相关系数分布，但因不保持交易日顺序，无法复现依赖时序动态结构的波动率相关性、杠杆效应和1阶正相关性。",
+      "evidence": "另一方面，Bootstrap 不能保持原来交易日的顺序，无法维持相邻交易日之间资产收益率的时序因果关系，而波动率相关性、杠杆效应、1 阶正相关性对序列在时间维度上的动态结构有较强的依赖性，因此，Bootstrap 难以复现真实序列的上述典型化事实。"
+    },
+    {
+      "text": "AD双样本检验显示三种方法生成的滚动相关系数分布均与真实分布存在差异，但WGAN的检验统计量更小、p值更大，分布更接近真实。",
+      "evidence": "不过相较于 Bootstrap 和 MGARCH，WGAN 的结果具有更小的检验统计量和更大的 p 值，表明WGAN的滚动相关系数分布更接近真实分布。"
+    },
+    {
+      "text": "单资产层面，杠杆效应、粗细波动率相关、盈亏不对称性等典型化事实，对照组Bootstrap与MGARCH均无法复现，WGAN复现效果整体更优。",
+      "evidence": "尤其是单资产收益率的杠杆效应、粗细波动率相关和盈亏不对称性，以及两资产收益率的 1 阶正相关性和交叉杠杆效应，对照组Bootstrap 和 MGARCH 方法均无法复现真实序列具有的上述典型化事实。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Arjovsky 等（2017）使用 Wasserstein 距离（简称 W 距离）替代 GAN 所使用的 JS 散度",
+    "Cont, R. (2001). Empirical properties of asset returns: Stylized facts and statistical issues. Quantitative Finance, 1(2), 223–236.",
+    "Engle, R. F., Kroner, K. F. (1995). Multivariate simultaneous generalized ARCH. Econometric Theory, 11, 122–150.",
+    "Takahashi, S., Chen, Y., Tanaka-Ishii, K. (2019). Modeling financial time-series with generative adversarial networks. Physica A: Statistical Mechanics and its Applications, 527, 121261."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

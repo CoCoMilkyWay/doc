@@ -1,0 +1,100 @@
+{
+  "schema_version": 2,
+  "id": "20151207-东方证券-因子选股-003-投机_交易行为与股票收益_上",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "特质波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "IVol=std(\\varepsilon_{i,t})\\cdot\\sqrt{T}",
+          "stats": [-0.065, -0.088, null, null],
+          "evidence": "我们沿用 AHXZ(2006)的方法对特质波动率进行度量，在每月月底基于上月的日交易数据回归以下方程："
+        },
+        {
+          "name": "特异度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{IVR}=\\frac{SSR}{SST}=1-\\mathrm{R}_{Fama-French}^{2}",
+          "stats": [-0.071, -0.091, null, null],
+          "evidence": "特异度反应了股票收益中不能被市场、规模、估值三种常见的风格因子解释的成分占比，特异度越高说明个股涨跌与市场风格的相关性越小，交易中市场层面的信息占比越低，个股层面的信息占比越高。"
+        },
+        {
+          "name": "价格时滞",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "PriceDelay=1-\\frac{R_{\\delta_{i}^{(k)}=0}^{2}}{R^{2}}",
+          "stats": [-0.049, -0.058, null, null],
+          "evidence": "关于价格时滞的度量我们参照了 Hou and Moskowitz（2005）和胡聪慧等（2015）的定义，在每月月底利用本月日交易数据回归下述方程："
+        },
+        {
+          "name": "市值调整换手",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ln\\big(Turnover_{i,t}\\big)=\\alpha_{t}+\\beta_{t}\\cdot ln\\big(MktValue_{i,t}\\big)+\\varepsilon_{i,t}\\,,\\ \\text{市值调整换手取回归残差}\\ \\varepsilon_{i,t}",
+          "stats": [-0.074, -0.098, null, null],
+          "evidence": "我们采用最简单的回归方法剔除换手率中的市值成分，考虑到经典的回归模型要求残差项符合正态分布，为了使回归残差项更接近正态分布我们在回归时对换手率和市值均做了对数化处理。"
+        },
+        {
+          "name": "日均换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月的日均换手率}",
+          "stats": [null, -0.06, null, null],
+          "evidence": "我们用过去一个月的日均换手率作为过去一段时间换手高低的衡量标准。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "特异度正端超额收益最大，年均超越市场等权17.3%，2005年以来多空组合最大回撤仅10.25%，风险最小；市值调整换手超额收益也较高但风险较大，特质波动率和价格时滞较为平淡。",
+      "evidence": "具体到各指标，特异度的正端超额收益最大，年均超越市场等权 17.3%，2005 年以来多空组合最大回撤仅 10.25%，市值调整换手正端收益也较大，但风险相对较高，相比之下，特质波动率和价格时滞较为平淡。"
+    },
+    {
+      "text": "因子分层与因子收益率回归显示，特质波动率和价格时滞的超额收益信息能被特异度和市值调整换手完全解释，而特异度和市值调整换手仍含独有信息。",
+      "evidence": "通过因子分层后分组和因子收益率回归，我们发现特质波动率和价格时滞预测收益率的能力能够完全被特异度和市值调整换手解释，相反，特异度和市值调整换手在控制其他交易行为类指标后仍能带来明显的超额收益。"
+    },
+    {
+      "text": "交易行为类指标与市值几乎不相关，与同期月收益率显著正相关、账面市值比显著负相关，控制月收益率与账面市值比后预测能力几乎不受影响。",
+      "evidence": "除低特质波动率选股略偏大票外，其他交易行为类指标几乎与市值不相关，交易行为类指标和同期的月收益率显著正相关，账面市值比显著负相关，但在控制月收益率、账面市值比后交易行为类指标预测收益的能力几乎不受影响。"
+    },
+    {
+      "text": "2012年之后市值效应强劲，日均换手率指标正端alpha丧失，换手率超额收益几乎消失。",
+      "evidence": "从历史的表现来看，12 年之前低换手率组合大概率跑赢高换手组合，但是 12年之后换手率的超额收益效应几乎消失。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["因子选股研究系列之二——低特质波动，高超额收益 20150909"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

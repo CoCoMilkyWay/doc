@@ -1,0 +1,223 @@
+{
+  "schema_version": 2,
+  "id": "20231017-华泰证券-人工智能-070-高频因子计算的gpu加速",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "return_intraday",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "close_{15:00}-open_{9:30}",
+          "stats": [null, 0.06, 0.64, 0.184],
+          "evidence": "价格全局特征类：return_intraday、tp_diff、return_improved 的本质是不同形式的日内反转因子，return_var 的本质是日内低波动因子。"
+        },
+        {
+          "name": "return_var",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\sum_{i=1}^{n}(r_i-\\bar{r})^2",
+          "stats": [null, 0.062, 0.56, 0.149],
+          "evidence": "价格全局特征类：return_intraday、tp_diff、return_improved 的本质是不同形式的日内反转因子，return_var 的本质是日内低波动因子。"
+        },
+        {
+          "name": "tp_diff",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{(high_{15:00}+low_{15:00}+close_{15:00})-(high_{9:30}+low_{9:30}+close_{9:30})}{3}",
+          "stats": [null, 0.059, 0.68, 0.156],
+          "evidence": "价格全局特征类：return_intraday、tp_diff、return_improved 的本质是不同形式的日内反转因子，return_var 的本质是日内低波动因子。"
+        },
+        {
+          "name": "return_improved",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "close_{15:00}/close_{10:00}",
+          "stats": [null, 0.062, 0.72, 0.2],
+          "evidence": "价格全局特征类：return_intraday、tp_diff、return_improved 的本质是不同形式的日内反转因子，return_var 的本质是日内低波动因子。"
+        },
+        {
+          "name": "return_last_30min",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "close_{15:00}/close_{14:31}",
+          "stats": [null, null, null, null],
+          "evidence": "价格局部特征类：return_last_30min 和 return_skewness_last_30min 的本质是尾盘反转因子，return_upward_var 和 return_downward_var 的本质是日内低波动因子的精细化刻画。"
+        },
+        {
+          "name": "return_skewness_last_30min",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "skew(r_t),\\ 14:31\\leq t\\leq 15:00",
+          "stats": [null, null, null, null],
+          "evidence": "价格局部特征类：return_last_30min 和 return_skewness_last_30min 的本质是尾盘反转因子，return_upward_var 和 return_downward_var 的本质是日内低波动因子的精细化刻画。"
+        },
+        {
+          "name": "return_upward_var",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{var}(r_t),\\ r_t>0",
+          "stats": [null, null, null, null],
+          "evidence": "价格局部特征类：return_last_30min 和 return_skewness_last_30min 的本质是尾盘反转因子，return_upward_var 和 return_downward_var 的本质是日内低波动因子的精细化刻画。"
+        },
+        {
+          "name": "return_downward_var",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{var}(r_t),\\ r_t<0",
+          "stats": [null, null, null, null],
+          "evidence": "价格局部特征类：return_last_30min 和 return_skewness_last_30min 的本质是尾盘反转因子，return_upward_var 和 return_downward_var 的本质是日内低波动因子的精细化刻画。"
+        },
+        {
+          "name": "volume_open_30min_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{t=9:30}^{10:00}volume_t}{\\sum_{t=13:00}^{13:30}volume_t}",
+          "stats": [null, null, null, null],
+          "evidence": "volume_open_30min_ratio 给予开盘成交不活跃的股票风险溢价，市场 情绪一般在开盘释放，该因子或反映理性交易者占比。"
+        },
+        {
+          "name": "amount_out_order_avg_ratio",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{i=1}^{N}(amount_i\\cdot I_{r_i<0})/\\sum_{i=1}^{N}(items_i\\cdot I_{r_i<0})}{\\sum_{i=1}^{N}amount_i/\\sum_{i=1}^{N}items_i}",
+          "stats": [null, null, null, null],
+          "evidence": "amount_out_order_avg_ratio 给予单笔流出金额较大的股票风险溢价，或对应快速下跌后的反转或者主力的操纵行为。"
+        },
+        {
+          "name": "cum_return_top30_order",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\prod_{i\\in top30}(1+r_i),\\quad top30=rank\\left(\\frac{amount_i}{items_i}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "成交关联价格类：cum_return_top30_order 的本质是反转因子的精细化刻画，大单推动的涨幅更具信息量。"
+        },
+        {
+          "name": "VP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{cov(x,y)}{std(x)\\cdot std(y)},\\ x=volume,\\ y=close",
+          "stats": [null, null, null, null],
+          "evidence": "价量相关性类：VP、VP_top33_volume、VR_1min_lag 的本质都是捕捉量价背离，即缩量上涨或放量下跌。"
+        },
+        {
+          "name": "VP_top33_volume",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{cov(x,y)}{std(x)\\cdot std(y)},\\ x=volume_{i\\in top\\frac{1}{3}},\\ y=close_{i\\in volume_{top\\frac{1}{3}}}",
+          "stats": [null, null, null, null],
+          "evidence": "价量相关性类：VP、VP_top33_volume、VR_1min_lag 的本质都是捕捉量价背离，即缩量上涨或放量下跌。"
+        },
+        {
+          "name": "VR_1min_lag",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{cov(x,y)}{std(x)\\cdot std(y)},\\ x=volume_i,\\ y=return_{i-1}",
+          "stats": [null, null, null, null],
+          "evidence": "价量相关性类：VP、VP_top33_volume、VR_1min_lag 的本质都是捕捉量价背离，即缩量上涨或放量下跌。"
+        },
+        {
+          "name": "分钟线合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{最大化ICIR法合成50个分钟线因子}",
+          "stats": [null, 0.07, 1.5, 0.202],
+          "evidence": "采用最大化 ICIR 法对前述 50 个因子进行合成，以未来 5 日收益为预测目标，合成因子 RankICIR（未年化）1.50，对冲组合夏普比率 3.59，Top 层信息比率 3.81。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "fusion"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在RTX 3090和i9-10980XE测试环境下计算分钟线因子，CuPy和cuDF替换库函数提速约6倍，同时将for循环替换为矩阵运算后最终提速超100倍。",
+      "evidence": "在 RTX 3090 和 i9-10980XE 测试环境下计算分钟线因子，CuPy 和 cuDF 替换库函数的提速效果约为 6 倍，若同时将 for 循环替换为矩阵运算，最终提速超 100 倍。"
+    },
+    {
+      "text": "不引入矩阵运算时单独替换库函数反而增加时间开销；两步同时进行时，替换库函数性能提升约6倍，矩阵运算约18倍。",
+      "evidence": "结果表明：若不引入矩阵运算，单独替换库函数反而增加时间开销。若两步同时进行，替换库函数带来的性能提升约在 6 倍（RTX 3090），矩阵运算带来的性能提升约在 18 倍。"
+    },
+    {
+      "text": "GPU性能主要取决于数据量，单次运算数据量越大加速效果越显著，数据量过小时反而不如CPU计算效率。",
+      "evidence": "GPU性能表现主要取决于数据量，单次运算涉及的数据量越大，GPU加速效果越显著。若数据量过小，反而不如 CPU 计算效率。"
+    },
+    {
+      "text": "最大化ICIR法合成50个分钟线因子，以未来5日收益为预测目标，合成因子RankICIR（未年化）1.50，对冲组合夏普比率3.59，Top层信息比率3.81。",
+      "evidence": "采用最大化 ICIR 法对前述 50 个因子进行合成，以未来 5 日收益为预测目标，合成因子 RankICIR（未年化）1.50，对冲组合夏普比率 3.59，Top 层信息比率 3.81。"
+    },
+    {
+      "text": "最大化ICIR法合成后因子单调性提升，但仍表现出空头端筛选效果明显优于多头端的特点，是大多数高频因子的典型特征。",
+      "evidence": "最大化 ICIR法合成后，因子单调性提升，但仍然表现出空头端筛选效果明显优于多头端的特点，这也是大多数高频因子的典型特征。"
+    },
+    {
+      "text": "结合分钟线合成因子后策略各项指标均有提升，尤其体现在回撤控制：中证500增强信息比率从2.78提升至3.01，超额收益Calmar比率从1.37提升至2.07；中证1000增强信息比率从3.70提升至3.87，超额收益Calmar比率从2.41提升至3.96。",
+      "evidence": "结果显示，结合分钟线合成因子后，策略各项指标均有提升，尤其体现在回撤控制。中证500增强信息比率从2.78提升至3.01，超额收益Calmar比率从 1.37 提升至 2.07，中证 1000 增强信息比率从 3.70 提升至 3.87，超额收益 Calmar比率从 2.41 提升至 3.96。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《神经网络多频率因子挖掘模型》（2023-05-11）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

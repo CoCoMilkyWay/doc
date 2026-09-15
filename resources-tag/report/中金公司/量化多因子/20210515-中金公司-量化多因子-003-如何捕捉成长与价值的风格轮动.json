@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "id": "20210515-中金公司-量化多因子-003-如何捕捉成长与价值的风格轮动",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["momentum_reversal", "distribution_moment", "participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "风格强势股占比",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{成长股票池内股价超过20日均线的个股数量占比}-\\text{价值股票池内股价超过20日均线的个股数量占比}",
+          "stats": [null, null, null, null],
+          "evidence": "风格强势股占比指标是用某一风格的股票内目前处于股价强势阶段的个股的占比来计算的。如果某一个风格的股票内处于股价强势阶段的个股占比越高，说明市场参与者当前对于该风格的股票的情绪越高涨，基于情绪动量的角度，该风格后续的收益表现也应较好。"
+        },
+        {
+          "name": "机构调研估值偏好",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{当月所有被调研的上市公司估值中位数处于全市场公司估值指标的分位数水平}",
+          "stats": [null, null, null, null],
+          "evidence": "具体的，在每个月底计算当月所有被调研的上市公司估值中位数处于全市场公司估值指标的分位数水平(此处估值因子采用前文定义的价值因子 Value)。"
+        },
+        {
+          "name": "新增投资者数量",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{月度新增投资者（新开户）数量}",
+          "stats": [null, null, null, null],
+          "evidence": "由于新增股票开户数量反映了投资者信心，同时也是新增资金的代理变量，所以新增开户数的变动往往预示着股市未来的发展动向。"
+        },
+        {
+          "name": "北上资金估值偏好",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "LGT\\_relative\\_value=\\sum_{i=1}^{N}LGT\\_r_{i}\\ *\\ (value\\_quantile_{i}-0.5)",
+          "stats": [null, null, null, null],
+          "evidence": "每月底计算每只个股的北上资金月度环比持仓变动幅度（LGT_r）"
+        },
+        {
+          "name": "成长因子拥挤度",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{因子离散度、因子组内相关性、因子收益动量、因子收益波动四个维度标准化后等权相加}",
+          "stats": [null, null, null, null],
+          "evidence": "从拥挤度的指标来看，成长因子的拥挤度整体上仍然处于较低的水平，而价值因子的拥挤度自 2019 年以来出现了较大幅度的波动，2021 年 2 月的拥挤度更是达到了历史高点。"
+        },
+        {
+          "name": "价值因子拥挤度",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{因子离散度、因子组内相关性、因子收益动量、因子收益波动四个维度标准化后等权相加}",
+          "stats": [null, null, null, null],
+          "evidence": "拥挤度的指标逻辑与测试结果是较为吻合的，其逻辑也比较直观：即成长因子拥挤度越高，后期成长/价值风格收益下降；价值因子拥挤度越高，后期成长/价值风格收益提升。"
+        },
+        {
+          "name": "综合指标",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "quarterly",
+          "formula": "\\text{市场情绪、拥挤度、金融环境、经济环境四大类复合指标等权加权}",
+          "stats": [0.3009, null, null, null],
+          "evidence": "综合指标的构建同样采取等权加权的方式，四大类复合指标等权加权得到的综合指标具有较显著的预测能力。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "综合指标与后三个月的成长/价值风格收益的相关系数超过 0.30，p-value 低于 0.001，显著性较高。",
+      "evidence": "综合指标与成长/价值风格收益相关性显著。综合指标与后三个月的成长/价值风格收益的相关系数超过 0.30，p-value低于 0.001，显著性较高。"
+    },
+    {
+      "text": "基于成长/价值风格择时信号的策略调仓胜率为 85%，月度胜率为 64%，回测期间累计超额成长组合 227.71ppt，共调仓 7 次。",
+      "evidence": "基于成长/价值风格择时信号的策略调仓胜率为 85%，月度胜率为 64%。回测期间（2011 年 1 月 1 日至 2021 年 4 月 30 日）累计超额成长组合227.71ppt，共调仓 7 次，平均每 1.4 年发出一次调仓信号，较低的信号频率对组合换手率的影响较低。"
+    },
+    {
+      "text": "基于成长/价值风格择时信号的策略（k=0.5）2011 年以来年化收益 22.65%，累计超额成长组合 227.71ppt，累计超额价值组合 478.76ppt。",
+      "evidence": "基于成长/价值风格择时信号的策略（2011 年 1 月 1 日至 2021 年 4 月 30 日）年化收益为22.65%，累计超额成长组合 227.71ppt,累计超额价值组合 478.76ppt。"
+    },
+    {
+      "text": "基于成长/价值风格轮动仓位调整的策略年化收益 20.24%，累计超额成长组合 98.98ppt，累计超额价值组合 342.49ppt。",
+      "evidence": "基于成长/价值风格轮动仓位调整的策略（2011 年 1月 1 日至 2021 年 4月 30 日）年化收益为 20.24%，累计超额成长组合 98.98ppt,累计超额价值组合 342.49ppt。"
+    },
+    {
+      "text": "成长因子拥挤度越高，后期成长/价值风格收益下降；价值因子拥挤度越高，后期成长/价值风格收益提升。",
+      "evidence": "拥挤度的指标逻辑与测试结果是较为吻合的，其逻辑也比较直观：即成长因子拥挤度越高，后期成长/价值风格收益下降；价值因子拥挤度越高，后期成长/价值风格收益提升。"
+    },
+    {
+      "text": "期限利差收敛时价值风格占优；M2-M1 指标与成长/估值因子收益具有较显著的负面相关性。",
+      "evidence": "期限利差收敛时价值风格占优，利差收敛时成长板块相对优势减弱，此价值更具有性价比；M2 与 M1 的增速差反映经济景气度，M2-M1 指标与成长/估值因子收益具有较显著的负面相关性。"
+    },
+    {
+      "text": "当 k 取值处于 0.3 至 0.6 区间时，轮动策略均可获得较为稳定的超额收益，最终选择 k=0.5 作为开平仓阈值。",
+      "evidence": "经过参数敏感性测试，当 k取值处于 0.3 至 0.6区间时，轮动策略均可以获得较为稳定的相对成长组合和价值组合的超额收益。最终，我们选择 k=0.5 作为策略的开平仓阈值。"
+    },
+    {
+      "text": "成长风格长期收益显著优于价值风格，价值风格会阶段性的体现出收益上的相对优势。",
+      "evidence": "整体上来看，成长风格长期收益显著的优于价值风格，价值风格会阶段性的体现出收益上的相对优势（例如 2007 年至 2009 年，2014 年末，2017 年）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "量化多因子系列（1）：QQC 综合质量因子与指数增强应用 (2021.01.14)",
+    "量化多因子系列（2）：非线性假设下的情景分析因子模型 (2021.02.28)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

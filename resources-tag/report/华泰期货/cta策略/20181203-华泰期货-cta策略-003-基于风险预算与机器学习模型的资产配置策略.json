@@ -1,0 +1,147 @@
+{
+  "schema_version": 2,
+  "id": "20181203-华泰期货-cta策略-003-基于风险预算与机器学习模型的资产配置策略",
+  "genre": "research",
+  "asset": ["future_commodity", "fund"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "macro"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "各类资产四周累计涨跌幅",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "R_{t} = \\frac{P_t}{P_{t-4}} - 1",
+          "stats": [0.058, null, 0.1094, 0.221],
+          "evidence": "本文既然是通过机器学习去挖掘过去价格变动与未来价格的非线性相关关系，因此舍弃了复杂的技术指标，选用常用且便于理解的动量因子——各类资产的四周累积收益率作为模型中的技术指标因子。"
+        },
+        {
+          "name": "标准普尔 500 指数收益率",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "r_t = \\frac{P_t}{P_{t-1}} - 1",
+          "stats": [0.0199, null, 0.1183, 0.067],
+          "evidence": "因此本文选用标准普尔500指数收益率作为市场指标因子中的第一个细分因子。"
+        },
+        {
+          "name": "英国布伦特原油现货收益率",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "r_t = \\frac{P_t}{P_{t-1}} - 1",
+          "stats": [-0.0064, null, -0.0354, 0.0065],
+          "evidence": "现全球 65%以上的实货原油挂靠布伦特体系定价，因此本文选用布伦特原油现货价格收益率作为本文的第二个市场指标因子。"
+        },
+        {
+          "name": "美元指数收益率",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "r_t = \\frac{P_t}{P_{t-1}} - 1",
+          "stats": [-0.0054, null, -0.041, -0.0265],
+          "evidence": "它通过计算美元和对选定的一揽子货币的综合的变化率，来衡量美元的强弱程度，从而间接反映美国的出口竞争能力和进口成本的变动情况。"
+        },
+        {
+          "name": "美国国债1月收益率",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{1月期美国国债收益率水平}",
+          "stats": [-0.012, null, -0.0849, 0.0444],
+          "evidence": "选取美国国债 1月，1年和 3年收益率，分别用以衡量短、中、长期的基准利率水平，作为第二类宏观指标因子。"
+        },
+        {
+          "name": "美国国债1年收益率",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{1年期美国国债收益率水平}",
+          "stats": [-0.0168, null, -0.1613, -0.0003],
+          "evidence": "选取美国国债 1月，1年和 3年收益率，分别用以衡量短、中、长期的基准利率水平，作为第二类宏观指标因子。"
+        },
+        {
+          "name": "美国国债3年收益率",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{3年期美国国债收益率水平}",
+          "stats": [-0.0153, null, -0.1524, 0.0377],
+          "evidence": "选取美国国债 1月，1年和 3年收益率，分别用以衡量短、中、长期的基准利率水平，作为第二类宏观指标因子。"
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_tail"],
+      "approach": ["extreme_dependence"],
+      "setup": {
+        "risk_factors": ["other"],
+        "data": {"source": ["market_daily", "macro"], "freq": "daily"},
+        "horizon": "daily"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["view_blending", "risk_based"],
+      "setup": {"universe": ["na"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "全球ETF实证中风险平价组合年化波动率5.03%、最大回撤8%、年化收益率3.2%为三种组合中最高，夏普比率0.64高于等权组合。",
+      "evidence": "回测结果显示，风险平价模型的年化波动率为 5.03%，处于最小方差组合和等权组合之间；最大回撤为 8%，也处于最小方差组合和等权组合之间；另外风险平价组合的年化收益率为3.2%，为三种组合中的最高值；风险平价组合的夏普比率为 0.64，与最小方差组合接近，高于等权组合。"
+    },
+    {
+      "text": "融入机器学习预测的风险预算模型年化收益率达6.71%（风险平价为1.4%），夏普比率0.82超过风险平价模型的0.28，同时继承低波动率、低最大回撤优势。",
+      "evidence": "相对风险平价模型 1.4%的年化收益率，风险预算模型达到了 6.71%，同时风险预算模型继承了风险平价模型低波动率、低最大回撤的优势。最终风险预算模型的夏普比率还是达到了 0.82，超过了风险平价模型的0.28。"
+    },
+    {
+      "text": "以动量指标为代表的技术因子IC均值5.80%、多空年化收益率22.10%，可获得比较稳定的超额收益；除美元指数外其余宏观因子也较为有效。",
+      "evidence": "整体上看，以动量指标为代表的技术指标，无论是 IC 指标，还是多空组合指标，都具有良好的表现，可以证明动量因子可以获得比较稳定的超额收益。"
+    },
+    {
+      "text": "Copula压力测试显示风险预算组合和最小方差组合对四类宏观因子的尾部相依性较弱，尾部风险相对较低。",
+      "evidence": "综合来看，在四中大类资产配置模型中，风险预算组合和最小方差组合相较另外两种组合而言，对于四类宏观因子的尾部相依性较弱，在压力测试中呈现出相对较低的尾部风险。"
+    },
+    {
+      "text": "2017年国内商品期货实证中，主观观点风险预算模型夏普比率提高到1.90，在保持低波动率、低回撤的同时年化收益率大幅提高。",
+      "evidence": "在经过主观观点调整后，风险预算模型在波动率和最大回撤上与继承了风险评价模型的优势，在年化收益率上则大幅提高，并且风险预算模型的夏普比率也提高到了 1.90。"
+    },
+    {
+      "text": "风险平价模型的缺陷在于只能处理组合资产收益率的波动，不能解决组合内资产整体收益率的下行，且未纳入组合资产的尾部风险。",
+      "evidence": "桥水基金的达里奥也提到，风险平价模型只能处理组合资产的收益率的波动，而不能解决组合内资产整体收益率的下行。"
+    },
+    {
+      "text": "尾部压力测试显示极端行情下债券与股票的相关性会变高，且这种时变相关性在市场恶劣情况下更明显。",
+      "evidence": "不过值得注意的是，通常情况下，会认为债券和股票之间的相关性较低，但是在尾部的压力测试中可以看到在极端行情下，两者的相关性会变高，并且这种时变的相关性在市场恶劣的情况下表现的更为明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Edward Qian. (2005). \"Risk Parity Portfolios: Efficient Portfolios Through True Diversification.\"",
+    "GMO. (2010). \"The Hidden Risks of Risk Parity Portfolios.\"",
+    "Roncalli等（2010）风险平价模型的二次规划求解",
+    "Roncalli等（2012）风险预算模型",
+    "《华泰期货研究院商品策略年报》系列"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

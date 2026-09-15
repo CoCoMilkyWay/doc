@@ -1,0 +1,129 @@
+{
+  "schema_version": 2,
+  "id": "20201231-开源证券-开源量化评论-013-高频股东数据的隐含信息量",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "低频股东户数因子（ABS_N）",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{定期报告披露的股东户数具体数值，经市值行业中性化}",
+          "stats": [null, -0.015, -0.46, 0.14],
+          "evidence": "对于股东户数相关因子的构建主要从两个维度出发，一是直接将股东户数的具体数值作为因子值，二是将股东户数的变化值作为因子值。"
+        },
+        {
+          "name": "低频股东户数变化因子（PCT_N）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{隔季选取股东户数变化序列，回溯一年做时序ZSCORE，再做市值行业中性化}",
+          "stats": [null, -0.03, -1.69, 0.21],
+          "evidence": "在构建股东变化因子时，我们通过隔季选取股东户数进行时序上的 ZSCORE 处理，从而得到相应股东变化的因子值。"
+        },
+        {
+          "name": "ABS",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{定期报告披露的股东户数具体数值（未中性化）}",
+          "stats": [null, -0.04, -0.94, 0.28],
+          "evidence": "我们亦测试过不进行中性化的股东户数因子，其分组收益稳定，中性化后的表现急剧下滑，说明股东户数因子的超额收益来源于市值效应带来的增量。"
+        },
+        {
+          "name": "PCT",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{隔季选取股东户数变化序列做时序ZSCORE（未中性化）}",
+          "stats": [null, -0.033, -1.52, 0.23],
+          "evidence": "由于股东数据是使用前值填充的，所以直接使用股东户数变化的百分比会在特定月份产生诸多的 0值，如每年的5月、6月和 7 月，从而导致因子值无法有效分组。"
+        },
+        {
+          "name": "高频合成股东户数变化因子（M_PCT_N）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{互动易高频股东数据补全定期报告数据后，每隔两个月选取，回溯一年做时序ZSCORE，再市值行业中性化}",
+          "stats": [null, -0.032, -1.74, 0.22],
+          "evidence": "高频股东因子的构建遵循低频数据为主，高频数据为辅的理念，即互动易披露的股东数据仅对定期报告股东数据缺失的月份进行补全，对当月已先披露的数据进行更新。"
+        },
+        {
+          "name": "低频股东户数因子（H_PCT_N）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{高回复股票池内，隔季选取股东户数变化序列做时序ZSCORE，再市值行业中性化}",
+          "stats": [null, null, null, null],
+          "evidence": "参与比较的因子包括原始低频股东户数变动因子（PCT_N）、高频合成股东户数变动因子(M_PCT_N)、高回复低频股东户数变动因子(H_PCT_N)和高回复高频合成股东户数变动因子(H_M_PCT_N)。"
+        },
+        {
+          "name": "高频合成股东户数变化因子（H_M_PCT_N）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{高回复股票池内，互动易高频股东数据补全定期报告数据后，每隔两个月选取，回溯一年做时序ZSCORE，再市值行业中性化}",
+          "stats": [null, -0.042, -1.78, 0.19],
+          "evidence": "我们以上市公司过去一年中至少有六个月在互动易平台上进行有效回复为限，构建高回复股票池。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "低频股东户数因子（ABS_N）不具有选股能力，低频股东户数变化因子（PCT_N）具有比较优秀的选股能力。",
+      "evidence": "低频股东户数因子（ABS_N）不具有选股能力，但低频股东户数变化因子（PCT_N）具有比较优秀的选股能力。"
+    },
+    {
+      "text": "M_PCT_N因子多头累计净值4.79，多空累计净值1.97，年化收益率22%，夏普比率0.74。",
+      "evidence": "M_PCT_N因子多头累计净值 4.79，多空累计净值1.97，年化收益率 22%，夏普比率 0.74。"
+    },
+    {
+      "text": "高频股东数据的纳入能够帮助传统的低频股东因子产生额外的收益增益，但增益幅度的大小与选取的股票池相关。",
+      "evidence": "一言以蔽之，高频股东数据的纳入能够帮助传统的低频股东因子产生额外的收益增益，但增益幅度的大小与选取的股票池相关。"
+    },
+    {
+      "text": "不进行中性化的股东户数因子分组收益稳定，中性化后的表现急剧下滑，说明股东户数因子的超额收益来源于市值效应带来的增量。",
+      "evidence": "我们亦测试过不进行中性化的股东户数因子，其分组收益稳定，中性化后的表现急剧下滑，说明股东户数因子的超额收益来源于市值效应带来的增量。"
+    },
+    {
+      "text": "纳入高频股东数据的因子在不同股票池之间都产生了超额收益，其中深证成指表现最好，年化超额收益超10%。",
+      "evidence": "从累计净值上看，纳入高频股东数据的因子在不同股票池之间都产生了超额收益，其中深证成指表现最好，年化超额收益超 10%；"
+    },
+    {
+      "text": "纳入高频股东数据后的因子 RankIC 和 ICIR 都有了一定的提升。",
+      "evidence": "可以看到，纳入高频股东数据后的因子 RankIC 和 ICIR 都有了一定的提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《开源量化评论（10）-北向资金行为视角下的行业轮动》-2020.10.28",
+    "《开源量化评论（11）-北向资金高频数据的 CTA 潜力》-2020.11.14",
+    "《开源量化评论（12）-国债期货的假期效应》-2020.11.17",
+    "《开源量化评论（9）-长端动量因子与基本面更兼容》-2020.10.15"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

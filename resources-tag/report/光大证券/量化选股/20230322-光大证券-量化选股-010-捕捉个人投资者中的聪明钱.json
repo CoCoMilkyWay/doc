@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20230322-光大证券-量化选股-010-捕捉个人投资者中的聪明钱",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "平均累计收益率",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "R=(1+R_{1})(1+R_{2})\\ldots(1+R_{n})-1",
+          "stats": [null, null, null, null],
+          "evidence": "长期投资者经常在同一只股票上做出增持减持的波段操作，在测算其持有收益时我们需要将买入卖出行为纳入考虑。"
+        },
+        {
+          "name": "近8年成功率均值",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{投资者买入后最高涨幅超过收益阈值的概率，取近8年成功率均值作为筛选标准}",
+          "stats": [null, null, null, null],
+          "evidence": "我们以投资者买入后的最高涨幅作为统计口径设定收益率阈值，计算投资者买入后最高涨幅超过阈值的概率作为投资者的成功率。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi1000"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "优秀短期交易者跟踪组合回测表明优秀短期交易者具有Alpha信息，策略超额年化收益率16.39%，月度胜率66.94%。",
+      "evidence": "从回测表现上来看，优秀短期交易者的确具有 Alpha 信息，策略的超额年化收益率为 16.39%，月度胜率为66.94%。"
+    },
+    {
+      "text": "优秀长期投资者跟踪组合长期跑赢基准指数，2020年以后组合表现显著优于指数，策略超额年化收益率10.30%，月度胜率58.68%。",
+      "evidence": "长期来看，优秀投资者的持仓能够跑赢基准指数，2020 年以后的组合表现显著优于指数。策略超额年化收益率为10.30%，月度胜率为 58.68%。"
+    },
+    {
+      "text": "两类个人投资者均偏好小市值股票且热衷次新股：短期交易者持仓中约26%为次新股，长期投资者约23%，持有ST股票比例不足10%。",
+      "evidence": "经统计，两类投资者都热衷于购买次新股，截止 2022 年，短期交易者的持仓中有26%左右的股票为次新股，长期投资者的比例为 23%左右。"
+    },
+    {
+      "text": "超短线型交易在股东数据披露时已完成拉升出货，不具备跟踪价值；埋伏型交易入场隐秘、后期拉升可能性大，具备跟踪价值。",
+      "evidence": "因此，我们认为超短线型交易并不具备跟踪价值，而且需要尽可能规避相关股票。"
+    },
+    {
+      "text": "考虑增减持波段的持有收益测算下，葛**在股票C上2013年至2016年的投资收益为25.74%。",
+      "evidence": "通过上面的公式我们很容易计算出他在该股票上的投资收益为 25.74%。"
+    },
+    {
+      "text": "两类投资者炒作“小差新”特征明显，组合跟踪时统一剔除次新股和ST股票。",
+      "evidence": "综上可知，无论是长期投资者还是短期交易者，均具有炒作“小差新”的特征，因此在后续组合跟踪时，我们会统一剔除次新股和 ST 股票。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基金经理的投资能力圈暨主动偏股基金标签体系研究框架——主动偏股基金评价于研究系列之四》（2022-11-11）",
+    "《机构调研火热，如何提炼超额收益？——量化选股系列报告之八》（2022-10-22）",
+    "《逐层画像，多维度拆解北向资金——量化策略研究系列之一》（2021-08-27）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

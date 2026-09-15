@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20190409-华泰证券-人工智能-018-机器学习选股模型的调仓频率实证",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "模型在2017年以后超额收益波动明显变大，并反复出现回撤，2017年至今年化超额收益率为4.87%，信息比率为0.87，相比2011年至2016年明显下滑",
+      "evidence": "可以看出，模型在 2017 年以后超额收益波动明显变大，并反复出现回撤，2017 年至今(2019 年 3 月 29 日)年化超额收益率为 4.87%，信息比率为 0.87，相比 2011 年至 2016 年(年化超额收益率为 20.75%，信息比率为 3.90)明显下滑。"
+    },
+    {
+      "text": "2017年之后XGBoost模型的月度RankIC均值出现下滑，可能原因之一是2017年以后A股市场变得更加有效，月频调仓的模型面临挑战",
+      "evidence": "2017 年之前，XGBoost 模型的月度 RankIC 均值维持在较高位置，2017 年之后，其月度 RankIC 均值出现下滑，可能原因之一是 2017 年以后 A股市场变得更加有效，月频调仓的模型面临挑战。"
+    },
+    {
+      "text": "当回测期为20110131～20190329时，对于年化超额收益率、超额收益最大回撤、信息比率和Calmar比率，周频XGBoost都表现最好；半月频相比月频没有明显优势",
+      "evidence": "当回测期为 20110131～20190329 时，对于年化超额收益率、超额收益最大回撤、信息比率和 Calmar比率，周频 XGBoost 都表现最好。半月频 XGBoost 相比月频 XGBoost 没有明显优势。"
+    },
+    {
+      "text": "2017年以来，月频XGBoost在每月后半月的超额收益增长率表现欠佳，加快调仓频率可以较大提升模型在后半月的超额收益增长率，并平滑整个月内的分布且平摊交易成本",
+      "evidence": "2017 年以来，月频 XGBoost 在每月后半月的超额收益增长率表现欠佳，加快调仓频率可以较大提升模型在后半月的超额收益增长率，且有助于平滑模型在整个月内的超额收益增长率分布并平摊交易成本。"
+    },
+    {
+      "text": "周频XGBoost在年均双边换手率为23.91倍时表现最好，年化超额收益率为21.02%，超额收益最大回撤为3.98%，信息比率为3.86，Calmar比率为5.28",
+      "evidence": "周频 XGBoost 在年均双边换手率为 23.91 倍时表现最好，其年化超额收益率为 21.02%，超额收益最大回撤为 3.98%，信息比率为 3.86，Calmar 比率为 5.28。"
+    },
+    {
+      "text": "不控制换手率时两个模型都达到很高的年均双边换手率且回测结果表现都不佳，对于较高调仓频率的模型来说，使用组合优化来控制换手率很有必要",
+      "evidence": "两个模型在不控制换手率时都达到了很高的年均双边换手率(半月频XGBoost 为 32.96 倍，周频 XGBoost 为 59.63 倍)，而且回测结果表现都不佳。所以对于较高调仓频率的模型来说，使用组合优化来控制换手率很有必要。"
+    },
+    {
+      "text": "周频XGBoost相比于月频XGBoost回测超额收益有显著提升，但调仓频率越高对交易水平的要求也越高，投资者可以参考不同交易成本下的回测结果来设计调仓方案",
+      "evidence": "周频 XGBoost 相比于月频 XGBoost，回测超额收益有显著提升，但需要注意的是调仓频率越高，对交易水平的要求也越高，投资者可以参考不同交易成本下的回测结果来设计调仓方案。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Richard Grinold. The Fundamental Law of Active Management (1989)",
+    "《金工: 人工智能选股之数据标注方法实证》（2019.03）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

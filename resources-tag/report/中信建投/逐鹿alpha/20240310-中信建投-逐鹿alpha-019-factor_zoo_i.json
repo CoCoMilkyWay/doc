@@ -1,0 +1,155 @@
+{
+  "schema_version": 2,
+  "id": "20240310-中信建投-逐鹿alpha-019-factor_zoo_i",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["infrastructure", "reconstruction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "intraday_pattern",
+        "technical_pattern"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "Max($high,240)/Min($low,240)-1",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{DownResample}(\\text{Max}(High,240)/\\text{Min}(Low,240)-1,240,239)",
+          "stats": [-0.0706, null, 3.46, -0.0068],
+          "evidence": "随着频率的逐步降低，即时间间隔的增加，因子的信息系数（IC）绝对值呈逐渐增长之势。当频率降至 240 分钟，即转换为日频时，因子的信息系数（IC）绝对值达到其最大值，数值为-0.0706。"
+        },
+        {
+          "name": "Mad($high,240)/$close",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{DownResample}(\\text{Mad}(High,240)/Close,240,\\text{last})",
+          "stats": [-0.0583, null, 2.92, -0.0067],
+          "evidence": "振幅类因子二包括三类因子，分别是日内价格的中位数/平均绝对偏差与收盘价的比值，或者日内最后一个价格在全天的排序值。其中表现最好的因子为最高价平均绝对偏差与收盘价的比值。"
+        },
+        {
+          "name": "UpStd($close/Ref($close,4)-1,240)",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{DownResample}(\\text{UpStd}(Close_t/Close_{t-4}-1,240),240,\\text{last})",
+          "stats": [-0.0839, null, 5.22, -0.0099],
+          "evidence": "通过详细的对比分析，我们可以观察到，在三种标准差计算方法中，上行标准差的整体有效性优于传统标准差，而传统标准差又优于下行标准差。这表明标准差的计算方式对因子的性能有显著影响。"
+        },
+        {
+          "name": "Kurt($close/Ref($close,4)-1,240)",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{DownResample}(\\text{Kurt}(Close_t/Close_{t-4}-1,240),240,\\text{last})",
+          "stats": [-0.0442, null, 3.69, -0.0012],
+          "evidence": "在对这些因子的信息系数（IC）进行细致对比之后，我们发现峰度类因子的 IC 显著优越于偏度类因子。而且峰度因子在频率变化过程中显示出一种先降后升的有效性变化趋势，其 IC值的极致表现出现在以 4 分钟为周期计算的收益率峰度上。"
+        },
+        {
+          "name": "成交笔数占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{t\\in[235,240]} num\\_trades_t}{\\sum_{t\\in[0,240]} num\\_trades_t}",
+          "stats": [-0.0487, null, 5.3, -0.0076],
+          "evidence": "成交占比因子反映了日内不同时间段内的成交笔数、成交量或成交金额占全日总量的比重。通过对成交笔数占比的分析观察，我们可以发现，在 30 分钟和 5 分钟的测量频率下，该因子都展现出倒 U型的结构特征，即在中午时段，成交占比与未来收益之间呈现出显著的正相关性。"
+        },
+        {
+          "name": "尾盘流动性因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{t\\in[235,240]} volume_t}{\\sum_{t\\in[0,240]} volume_t}\\times FreeTurnover",
+          "stats": [-0.0911, null, 4.89, -0.0115],
+          "evidence": "从分析结果来看，流动性因子在性能上显著超越了仅考虑成交占比的因子，其增量信息主要源自于自由流通换手率因子本身，这一因子的信息系数（IC）均值达到了-0.0854。在日内的多个流动性因子中，尾盘流动性因子的表现尤其突出，其效果超过了原有的成交占比因子。"
+        },
+        {
+          "name": "滞后一期的最高价与成交量相关性因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{DownResample}(\\text{Corr}(High_{t-1},Volume_t,237),240,236)",
+          "stats": [-0.0544, null, 5, -0.0096],
+          "evidence": "对于领先滞后量价相关性因子的研究表明，滞后一期的因子总体上优于其他时间单位的因子。具体来说，滞后价格相关性因子的效果超过了滞后成交量相关性因子。在所有考察的因子中，滞后一期的最高价与成交量相关性因子的表现最为突出，超越了同步最高价与成交量的相关性因子。"
+        },
+        {
+          "name": "收益率最小值因子",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{DownResample}(\\text{Min}(Close_t/Close_{t-7}-1,240),240,\\text{last})",
+          "stats": [0.0765, null, 4.03, 0.0106],
+          "evidence": "就收益率极值因子的表现而言，我们观察到收益率的最大值与未来收益率之间存在负相关关系，而收益率的最小值则与未来收益率呈现正相关性。在比较两种极值因子的信息系数时，收益率最小值因子的整体表现优于收益率最大值因子。"
+        },
+        {
+          "name": "Peak($close,240)",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{DownResample}(\\text{Peak}(Close,240),240,\\text{last})",
+          "stats": [-0.0465, null, 2.26, -0.0075],
+          "evidence": "通过对比可以看出，在极值位置因子中，股价最大值，最小值的位置并没有显著的预测能力，日内极值点的个数与未来收益存在明显的正相关性。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "return_test", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "批量构建了振幅、标准差、高阶矩、成交占比、流动性、动量、量价相关性、极值位置等八大类上千个日内因子，在各大类因子中筛选出八个表现较好的因子，因子间相关性较低，且与传统的Barra风格因子也不存在明显相关性。",
+      "evidence": "批量构建了振幅、标准差、高阶矩、成交占比、流动性、动量、量价相关性、极值位置等八大类上千个日内因子，通过优化因子框架，能够高效灵活的挖掘以及检验因子，最终在各大类因子中筛选出八个表现较好的因子，对其进行进一步分析表明，因子间相关性较低，且与传统的 Barra 风格因子也不存在明显相关性。"
+    },
+    {
+      "text": "日内振幅与未来收益存在显著负向相关性，随时间间隔增加因子IC绝对值逐渐增长，频率降至240分钟即转换为日频时IC绝对值达到最大值-0.0706。",
+      "evidence": "随着频率的逐步降低，即时间间隔的增加，因子的信息系数（IC）绝对值呈逐渐增长之势。当频率降至 240 分钟，即转换为日频时，因子的信息系数（IC）绝对值达到其最大值，数值为-0.0706。"
+    },
+    {
+      "text": "流动性因子在性能上显著超越了仅考虑成交占比的因子，其增量信息主要源自自由流通换手率因子本身，该因子IC均值达到-0.0854，其中尾盘流动性因子表现尤其突出。",
+      "evidence": "从分析结果来看，流动性因子在性能上显著超越了仅考虑成交占比的因子，其增量信息主要源自于自由流通换手率因子本身，这一因子的信息系数（IC）均值达到了-0.0854。在日内的多个流动性因子中，尾盘流动性因子的表现尤其突出，其效果超过了原有的成交占比因子。"
+    },
+    {
+      "text": "三种标准差计算方法中，上行标准差的整体有效性优于传统标准差，传统标准差又优于下行标准差，标准差的计算方式对因子性能有显著影响。",
+      "evidence": "通过详细的对比分析，我们可以观察到，在三种标准差计算方法中，上行标准差的整体有效性优于传统标准差，而传统标准差又优于下行标准差。这表明标准差的计算方式对因子的性能有显著影响。"
+    },
+    {
+      "text": "通过Python/C++混合编程加速，单只股票因子的单核计算效率从约100秒提升至约1秒，全市场股票8年分钟频因子的数据读取加计算平均在25秒左右。",
+      "evidence": "在之前的高频 level2 因子测试中，通过 Python/C++混合编程方式，我们将单只股票因子的单核计算效率从约 100 秒提升至约 1 秒。目前全市场股票 8 年分钟频因子的数据读取加计算平均在 25秒左右。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

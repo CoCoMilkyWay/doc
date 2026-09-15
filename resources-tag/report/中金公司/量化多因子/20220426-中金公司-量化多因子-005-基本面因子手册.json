@@ -1,0 +1,265 @@
+{
+  "schema_version": 2,
+  "id": "20220426-中金公司-量化多因子-005-基本面因子手册",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "accounting_quality",
+        "expectation_level",
+        "expectation_revision",
+        "earnings_surprise",
+        "analyst_behavior",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "CFOA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营现金流净额}_{TTM}}{\\text{总资产}}",
+          "stats": [0.0221, null, 0.48, null],
+          "evidence": "CFOA因子选股能力表现良好。相较于其他盈利能力因子，全部资产现金回收率因子（CFOA）在不同选股域中有效性均较为显著，体现其对收益率较强的预测能力。"
+        },
+        {
+          "name": "ROE_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}_{TTM}}{\\text{净资产}}",
+          "stats": [0.0278, null, 0.37, null],
+          "evidence": "CFOA和ROE_TTM因子在盈利能力因子有效性检验中表现较为出色。相较于其他盈利能力因子，CFOA和ROE TTM因子在不同选股域中均有较强的收益预测能力。"
+        },
+        {
+          "name": "APR_TTM",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{应计利润}_{TTM}}{\\text{营业利润}_{TTM}}",
+          "stats": [-0.0124, null, -0.41, null],
+          "evidence": "相较于其他盈余质量因子，应计利润占比因子（APR_TTM）在全市场和中证500中表现良好，但在沪深300中表现相对较弱，反映该因子在大市值股票的有效性偏弱。"
+        },
+        {
+          "name": "CCR",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营净现金流}}{\\text{流动负债}}",
+          "stats": [0.0147, null, 0.39, null],
+          "evidence": "现金流动负债比率因子（CCR）在不同选股域中具有较强的收益预测能力，同时，该因子在全市场和中证500中有良好的收益表现和单调性，体现CCR因子的有效性和选股能力。"
+        },
+        {
+          "name": "ATD",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期资产周转率}_{TTM}-\\text{上期资产周转率}_{TTM}",
+          "stats": [0.0187, null, 0.46, null],
+          "evidence": "在全市场、沪深300和中证500中，资产周转率变动因子（ATD）、毛利率变动因子(GPMD）、产能利用率提升因子(OCFA）和营业利润率变动因子（OPMD）的多头组合均有较强的年化收益表现，选股能力整体表现较为优异。"
+        },
+        {
+          "name": "GPMD",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期毛利率}_{TTM}-\\text{上期毛利率}_{TTM}",
+          "stats": [0.0223, null, 0.63, null],
+          "evidence": "在全市场、沪深300和中证500中，资产周转率变动因子（ATD）、毛利率变动因子(GPMD）、产能利用率提升因子(OCFA）和营业利润率变动因子（OPMD）的多头组合均有较强的年化收益表现，选股能力整体表现较为优异。"
+        },
+        {
+          "name": "OCFA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近一期营业总成本在固定资产上滚动回归残差}",
+          "stats": [0.0157, null, 0.51, null],
+          "evidence": "在全市场、沪深300和中证500中，资产周转率变动因子（ATD）、毛利率变动因子(GPMD）、产能利用率提升因子(OCFA）和营业利润率变动因子（OPMD）的多头组合均有较强的年化收益表现，选股能力整体表现较为优异。"
+        },
+        {
+          "name": "OPMD",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期营业利润率}_{TTM}-\\text{上期营业利润率}_{TTM}",
+          "stats": [0.028, null, 0.63, null],
+          "evidence": "在全市场、沪深300和中证500中，资产周转率变动因子（ATD）、毛利率变动因子(GPMD）、产能利用率提升因子(OCFA）和营业利润率变动因子（OPMD）的多头组合均有较强的年化收益表现，选股能力整体表现较为优异。"
+        },
+        {
+          "name": "QPT",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{业绩增速与加速度的分层打分}",
+          "stats": [0.0413, null, 0.91, null],
+          "evidence": "多数成长能力因子有效性较好。在全市场中，多数成长能力因子的IC检验有效性较为显著，其中业绩趋势因子（QPT)和标准化预期外净利润因子（NP_SUE1）在不同选股域中具有较强的收益预测能力。"
+        },
+        {
+          "name": "NP_SUE1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{实际净利润}-\\text{预期净利润}}{\\text{预期标准差}}\\;(\\text{模型带漂移项})",
+          "stats": [0.0347, null, 0.74, null],
+          "evidence": "多数成长能力因子有效性较好。在全市场中，多数成长能力因子的IC检验有效性较为显著，其中业绩趋势因子（QPT)和标准化预期外净利润因子（NP_SUE1）在不同选股域中具有较强的收益预测能力。"
+        },
+        {
+          "name": "DP",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{分红}_{TTM}}{\\text{总市值}}",
+          "stats": [0.038, null, 0.6, null],
+          "evidence": "在全市场中，市净率倒数因子（BP_LR)、股息率因子（DP)、市盈率倒数因子(EP_TTM)、经营现金流市值比因子(OCFP_TTM)和市销率倒数因子(SP_TTM)具有较强的单调性，其中DP、EP_TTM和OCFP_TTM因子在不同选股域中均有较为良好的单调性表现。"
+        },
+        {
+          "name": "EP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}_{TTM}}{\\text{总市值}}",
+          "stats": [0.0453, null, 0.56, null],
+          "evidence": "在全市场中，市净率倒数因子（BP_LR)、股息率因子（DP)、市盈率倒数因子(EP_TTM)、经营现金流市值比因子(OCFP_TTM)和市销率倒数因子(SP_TTM)具有较强的单调性，其中DP、EP_TTM和OCFP_TTM因子在不同选股域中均有较为良好的单调性表现。"
+        },
+        {
+          "name": "OCFP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营性现金流}_{TTM}}{\\text{总市值}}",
+          "stats": [0.0318, null, 0.53, null],
+          "evidence": "在全市场中，市净率倒数因子（BP_LR)、股息率因子（DP)、市盈率倒数因子(EP_TTM)、经营现金流市值比因子(OCFP_TTM)和市销率倒数因子(SP_TTM)具有较强的单调性，其中DP、EP_TTM和OCFP_TTM因子在不同选股域中均有较为良好的单调性表现。"
+        },
+        {
+          "name": "TOP_MANA_INCOME",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{前十位高管薪酬总和}",
+          "stats": [0.0205, null, 0.61, null],
+          "evidence": "高管薪酬因子(TOP_MANA_INCOME）在全市场和中证500中有效性较为显著。全市场中TOP_MANA_INCOME因子的IC均值为2.05%，IC_IR为0.61。"
+        },
+        {
+          "name": "CAFR",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{分析师预期修正平均值}}{\\text{分析师预期修正标准差}}",
+          "stats": [0.0428, null, 0.58, null],
+          "evidence": "CAFR因子选股能力突出。在不同选股域中，一致性修正因子(CAFR)的多头组合均有较高的超额收益。同时，该因子在分组回测中具有较强的单调性，选股能力整体表现在基本面因子中较为出色。"
+        },
+        {
+          "name": "HN_z",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股东数目}-\\text{均值}}{\\text{标准差}}",
+          "stats": [0.0337, null, 0.53, null],
+          "evidence": "相较于其他股东因子，股东数目时序标准分数因子（HN_z）和持仓机构个数因子(Ln_IH)具有较为显著的收益预测能力，且两个因子的多头组合年化收益表现良好，具有较强的单调性。"
+        },
+        {
+          "name": "Ln_IH",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{持仓机构个数}",
+          "stats": [0.0252, null, 0.44, null],
+          "evidence": "相较于其他股东因子，股东数目时序标准分数因子（HN_z）和持仓机构个数因子(Ln_IH)具有较为显著的收益预测能力，且两个因子的多头组合年化收益表现良好，具有较强的单调性。"
+        },
+        {
+          "name": "Ln_MC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\log(\\text{总市值})",
+          "stats": [-0.0282, null, -0.56, null],
+          "evidence": "大多数规模因子的IC检验有效性表现欠佳，总市值对数因子(Ln_MC)在全市场有效性检验中表现较为出色，但在宽基指数范围内表现相对较弱。"
+        },
+        {
+          "name": "Growth",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "w_{1}\\cdot OP_{SD}+w_{2}\\cdot QPT+w_{3}\\cdot NP_{Q\\_YOY},\\;\\text{等权相加}",
+          "stats": [0.0375, null, 0.63, null],
+          "evidence": "复合因子选股能力整体较强。我们构建的基本面复合因子的多头组合均有较强的年化收益表现，其中综合成长因子(Growth)和综合质量因子（QQC）的多头组合具有较高的年化收益和较低的超额最大回撤，选股能力表现优异。"
+        },
+        {
+          "name": "QQC",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{其他六种复合因子等权相加}",
+          "stats": [0.0392, null, 0.67, null],
+          "evidence": "复合因子选股能力整体较强。我们构建的基本面复合因子的多头组合均有较强的年化收益表现，其中综合成长因子(Growth)和综合质量因子（QQC）的多头组合具有较高的年化收益和较低的超额最大回撤，选股能力表现优异。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "本文将基本面因子划分为10大类，根据上述分类汇总7个复合因子，对共计105个基本面因子在全市场、沪深300和中证500进行IC检验与分组回测检验。",
+      "evidence": "本文对10类基本面因子进行有效性检验。我们将基本面因子划分为10大类，分别为盈利能力、成长能力、营运效率、盈余质量、安全性因子、公司治理、估值因子、分析师因子、股东和规模因子。同时，我们根据上述分类汇总7个复合因子，对共计105个基本面因子进行有效性检验。"
+    },
+    {
+      "text": "CFOA因子选股能力表现良好，全部资产现金回收率因子在不同选股域中有效性均较为显著，多头组合在全市场具有较高的年化收益和较低的超额最大回撤。",
+      "evidence": "CFOA因子选股能力表现良好。相较于其他盈利能力因子，全部资产现金回收率因子（CFOA）在不同选股域中有效性均较为显著，体现其对收益率较强的预测能力。同时，CFOA因子的多头组合在全市场具有较高的年化收益和较低的超额最大回撤，选股收益表现也同样较为优秀。"
+    },
+    {
+      "text": "多数成长能力因子的IC检验有效性较为显著，其中业绩趋势因子（QPT）和标准化预期外净利润因子（NP_SUE1）在不同选股域中具有较强的收益预测能力。",
+      "evidence": "多数成长能力因子有效性较好。在全市场中，多数成长能力因子的IC检验有效性较为显著，其中业绩趋势因子（QPT)和标准化预期外净利润因子（NP_SUE1）在不同选股域中具有较强的收益预测能力。"
+    },
+    {
+      "text": "应计利润占比因子（APR_TTM）在全市场和中证500中表现良好，但在沪深300中表现相对较弱，反映该因子在大市值股票的有效性偏弱。",
+      "evidence": "相较于其他盈余质量因子，应计利润占比因子（APR_TTM）在全市场和中证500中表现良好，但在沪深300中表现相对较弱，反映该因子在大市值股票的有效性偏弱。"
+    },
+    {
+      "text": "一致性修正因子(CAFR)的多头组合在不同选股域中均有较高的超额收益，分组回测中具有较强的单调性，选股能力整体表现在基本面因子中较为出色。",
+      "evidence": "CAFR因子选股能力突出。在不同选股域中，一致性修正因子(CAFR)的多头组合均有较高的超额收益。同时，该因子在分组回测中具有较强的单调性，选股能力整体表现在基本面因子中较为出色。"
+    },
+    {
+      "text": "基本面复合因子的多头组合均有较强的年化收益表现，其中综合成长因子(Growth)和综合质量因子（QQC）的多头组合具有较高的年化收益和较低的超额最大回撤，选股能力表现优异。",
+      "evidence": "复合因子选股能力整体较强。我们构建的基本面复合因子的多头组合均有较强的年化收益表现，其中综合成长因子(Growth)和综合质量因子（QQC）的多头组合具有较高的年化收益和较低的超额最大回撤，选股能力表现优异。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "量化策略|基本面量化系列（7）：如何提高预期修正信息的利用效率？(2022.02.27)",
+    "量化策略|量化多因子系列（1）：QQC综合质量因子与指数增强应用(2021.01.14)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

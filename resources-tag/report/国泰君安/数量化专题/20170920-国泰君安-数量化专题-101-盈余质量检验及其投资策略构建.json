@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20170920-国泰君安-数量化专题-101-盈余质量检验及其投资策略构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["accounting_quality"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "Accruals（利润表）",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "ACC1_{t}=\\frac{ACC_{1,t}}{TA_{t-1}},\\quad ACC_{t}=营业利润_{t}-经营性净现金流_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "为了不同资产规模的标的能够进行横向比较，我们采用应计利润/上一期总资产作为盈余质量的代理变量，用于计量标的盈余质量的好坏，其数值越大，标的盈余质量越差；当数值为负时，标的存在“藏利润”的可能性。"
+        },
+        {
+          "name": "Accruals（资产负债表）",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "ACC2_{t}=\\frac{ACC_{2,t}}{TA_{t-1}},\\quad ACC_{t}=\\Delta(流动资产-现金-短期投资-一年内到期的非流动资产)-\\Delta(流动负债-短期借款-一年内到期的非流动负债-应交税费)-折旧\\&摊销",
+          "stats": [null, null, null, null],
+          "evidence": "为了不同资产规模的标的能够进行横向比较，我们采用应计利润/上一期总资产作为盈余质量的代理变量，用于计量标的盈余质量的好坏，其数值越大，标的盈余质量越差；当数值为负时，标的存在“藏利润”的可能性。"
+        },
+        {
+          "name": "DACC（应计盈余管理）",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{DACC_{t}}{TA_{t-1}}=\\frac{ACC_{t}}{TA_{t-1}}-\\frac{NDACC_{t}}{TA_{t-1}},\\quad \\frac{NDACC_{t}}{TA_{t-1}}=\\beta_{0}+\\beta_{1}\\frac{\\Delta REV_{t}-\\Delta REC_{t}}{TA_{t-1}}+\\beta_{2}\\frac{PPE_{t}}{TA_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "操纵性应计利润更准确地反映了上市公司对利润操纵的程度，可作为我们检验盈余质量好坏的代理变量，其数值越大，则说明标的盈余质量越差；当数值为负时，该数值代表标的“藏利润”的程度。"
+        },
+        {
+          "name": "REM（真实盈余管理）",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "REM=-AbnormalCFO+AbnormalPROD-AbnormalDISEXP",
+          "stats": [null, null, null, null],
+          "evidence": "该指标可以作为盈余质量的代理变量，其值越大，说明上市公司通过操控真实生产经营活动做大的利润越多；而当其值为负值时，实际经济意义不够明确。"
+        },
+        {
+          "name": "M-Score",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "M-Score=-4.84+0.92(DSR)+0.528(GMI)+0.404(AQI)+0.892(SGI)+0.115(DEPI)-0.172(SGAI)+4.679(Accruals)-0.327(LEVI)",
+          "stats": [null, null, null, null],
+          "evidence": "当某企业对应的M-Score指标大于-1.78的时候，该企业有很大可能进行了盈余操纵。M-Score 作为盈余质量好坏的代理变量，其数值越大，盈余质量越差。"
+        },
+        {
+          "name": "C-Score",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "C-Score=\\varphi_{0}+\\varphi_{1}SIZE_{t}+\\varphi_{2}MTB_{t}+\\varphi_{3}LEV_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "若企业会计较为稳健，其盈余则相对保守，表现为较高的盈余质量，所以 C-Score 指标可以作为盈余质量的代理变量，其指标数值越大，则盈余质量越高。"
+        },
+        {
+          "name": "SM2",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "SmoothIndex2=\\rho(\\Delta PDI,\\Delta DAC)",
+          "stats": [null, null, null, null],
+          "evidence": "从下一半年报公布后至年报公布之间的所有月份，平滑组相对于未平滑组均表现较好，下一半年报期前后（7-9 月）平滑组可获得相对收益1.76%，胜率 80%，年报期前后（次年 1-4 月）平滑组可获得相对收益2.97%，胜率 80%。"
+        },
+        {
+          "name": "BFL",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "X=\\sum_{i=1}^{9}\\left[p(d_i)-p_e(d_i)\\right]^2",
+          "stats": [null, null, null, null],
+          "evidence": "若X越大，则说明两者分布相差越大，对应企业盈余操纵嫌疑越大，盈余质量越差。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "由应计盈余管理、应计利润、真实盈余管理以及M-Score模型得到的代理变量DAC、ACC、REM、M-Score是较为有效的盈余质量投资指标，其划分的组合在未来财报期具有较稳定的相对收益。",
+      "evidence": "通过考察盈余质量代理变量与未来业绩、投资收益之间的逻辑传导关系，发现了由应计盈余管理、应计利润、真实盈余管理以及 M-Score模型得到的代理变量 DAC、ACC、REM、M-Score是较为有效的盈余质量投资指标，通过这四个指标划分的组合在未来财报期具有较稳定的相对收益。"
+    },
+    {
+      "text": "通过应计盈余管理（DAC）筛选的高盈余质量组在下一半年报以及年报期的平均收益，相比于低盈余质量组分别高达2.49%、1.58%，胜率分别为88%、75%。",
+      "evidence": "其中通过应计盈余管理（DAC）筛选的高盈余质量组在下一半年报以及年报期的平均收益，相比于低盈余质量组分别高达 2.49%、1.58%，胜率分别为 88%、75%。"
+    },
+    {
+      "text": "DAC在适用行业中划分的高盈余质量组，半年报期胜率75%、相对收益平均3.64%，年报期胜率88%、相对收益平均3.41%，较未分行业处理分别提升1.16%和1.83%。",
+      "evidence": "通过应计盈余管理模型（DAC）在适用的行业中划分的高盈余质量组，相对于低盈余质量组在下一半年报期的胜率为 75%，相对收益平均为 3.64%，相较于未进行分行业处理前的收益提升了1.16%；在下一年报期的胜率为 88%，相对收益平均为 3.41%，相较于未进行分行业处理前的收益提升了1.83%。"
+    },
+    {
+      "text": "“低REM+低DAC”高盈余质量组与其对应的低盈余质量组相比，历史胜率100%（09-17年），相对收益平均可达13.59%。",
+      "evidence": "关于“指标组合”：通过真实盈余管理模型（REM）与应计盈余管理模型（DAC）构造了代理变量组合——“低REM+低DAC”高盈余质量组，与其对应的低盈余质量组相比，该组合历史胜率100%（09-17年），相对收益平均可达13.59%；"
+    },
+    {
+      "text": "“扭亏为盈+高盈余质量”组比“扭亏为盈+低盈余质量”组的收益每年平均高出9.47%。",
+      "evidence": "以“扭亏为盈”事件为例，“扭亏为盈+高盈余质量”组比“扭亏为盈+低盈余质量”组的收益每年平均高出 9.47%。"
+    },
+    {
+      "text": "SM2划分的平滑组在下一半年报期前后及年报期前后相对收益分别为1.76%和2.97%，胜率均为80%，说明利润平滑一定程度上向市场传递了较为稳定的信息。",
+      "evidence": "从下一半年报公布后至年报公布之间的所有月份，平滑组相对于未平滑组均表现较好，下一半年报期前后（7-9 月）平滑组可获得相对收益1.76%，胜率 80%，年报期前后（次年 1-4 月）平滑组可获得相对收益2.97%，胜率 80%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Beneish（1999）", "Khan & Watts（2009）", "Roychowdhury（2006）", "Sloan（1996）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

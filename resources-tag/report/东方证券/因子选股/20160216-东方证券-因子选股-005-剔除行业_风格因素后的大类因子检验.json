@@ -1,0 +1,189 @@
+{
+  "schema_version": 2,
+  "id": "20160216-东方证券-因子选股-005-剔除行业_风格因素后的大类因子检验",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP_LF",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近财报净资产}}{\\text{总市值}}",
+          "stats": [null, 0.051, 0.4, 0.115],
+          "evidence": "| BP_LF | 最近财报的净资产/总市值 | 降序 是 | 是 |"
+        },
+        {
+          "name": "CFP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去12个月经营性现金流}}{\\text{总市值}}",
+          "stats": [null, 0.027, 0.61, 0.053],
+          "evidence": "| CFP_TTM | 过去12个月经营性现金流/总市值 | 降序 是 | 是 |"
+        },
+        {
+          "name": "EP_Fwd12M",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{未来12个月预测净利润}}{\\text{总市值}}",
+          "stats": [null, 0.04, 0.47, 0.107],
+          "evidence": "| EP_Fwd12M | 未来12个月预测净利润/总市值 降序 |"
+        },
+        {
+          "name": "EBIT2EV",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去12个月息税前利润}}{\\text{总市值}}",
+          "stats": [null, 0.039, 0.49, 0.073],
+          "evidence": "| EBIT2EV | 过去12个月息税前利润/总市值 | 降序 | 是 | 是 |"
+        },
+        {
+          "name": "PEG",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{TTM PE}}{\\text{预测未来2年净利润复合增长率}}",
+          "stats": [null, -0.042, -0.66, 0.109],
+          "evidence": "| PEG | TTM PE/预测未来2年净利润复合增长率 | 升序 | 是 | 是 |"
+        },
+        {
+          "name": "ProfitGrowth_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润增长率(季度同比)}",
+          "stats": [null, 0.037, 0.7, 0.11],
+          "evidence": "| ProfitGrowth_YOY | 净利润增长率(季度同比) | 降序 | 是 | 是 |"
+        },
+        {
+          "name": "PPReversal",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_{5d}}{VWAP_{60d}}",
+          "stats": [null, -0.074, -0.55, 0.183],
+          "evidence": "| PPReversal | 5 日均价/60 日成交均价 | 升序 | 否 | 是 |"
+        },
+        {
+          "name": "TO",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以流通股本计算的20日日均换手率}",
+          "stats": [null, -0.086, -0.71, 0.231],
+          "evidence": "| TO | 以流通股本计算的20 日日均换手率 | 升序 否 |  | 是 |"
+        },
+        {
+          "name": "MV",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值}",
+          "stats": [null, -0.082, -0.45, 0.291],
+          "evidence": "市值因子 MV 和流通市值因子 FFMV 的 Rank IC 都超过 7%，显示出了非常强的收益预测能力。"
+        },
+        {
+          "name": "ILLIQ",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{每天一个亿成交量能推动的股价涨幅}",
+          "stats": [null, 0.063, 0.71, 0.201],
+          "evidence": "| ILLIQ | 每天一个亿成交量能推动的股价涨幅 | 升序 | 否 | 是 |"
+        },
+        {
+          "name": "IVRFF",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama-French 回归残差波动率}",
+          "stats": [null, -0.096, -0.87, 0.222],
+          "evidence": "| IVRFF | Fama-French 回归残差波动率 | 降序 | 否 | 否 |"
+        },
+        {
+          "name": "IRFF",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "1 - R^2_{\\text{Fama-French}}",
+          "stats": [null, -0.095, -1.04, 0.285],
+          "evidence": "| IRFF | 1 - Fama-French 回归 R 方 | 降序 | 否 | 否 |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "估值类因子能稳定提供超额收益，但Bottom组合的负alpha普遍比Top组合的正alpha更显著，A股缺乏有效个股做空机制，难以充分获得估值类因子的alpha",
+      "evidence": "从表 4 可以看出，估值类因子 Bottom 组合的负 alpha 普遍要比 Top 组合的正 alpha 较为显著，这可能与 A 股市场缺乏有效的个股做空机制有关，"
+    },
+    {
+      "text": "剔除行业和市值影响后成长类因子仍表现不俗，季度净利润同比增长因子多空组合夏普比率高达1.82；总量指标成长因子比每股指标更适合A股，高成长股票正alpha比低成长负alpha更显著，更易获取",
+      "evidence": "即使在剔行业和市值的影响以后，成长类因子仍然表现不俗，季度净利润同比增长因子的多空组合夏普比率高达 1.82. 我们同时发现利用总量指标计算的成长因子比利用每股指标计算的成长因子更加适合 A股市场，并且高成长股票的正 alpha普遍要比低成长股票的负 alpha更为显著，使得成长类因子的 alpha更加容易被获取。"
+    },
+    {
+      "text": "技术类反转与换手率因子剔除市值和Beta影响后仍具很强预测能力，月均RankIC超7%，但整体波动大、换手率高、回撤大，不适合作为独立选股指标",
+      "evidence": "技术类因子中反转因子和换手率因子在剔除市值和 Beta 影响后，对收益仍然具有很强的预测能力，月均 Rank IC超过 7%。但是技术因子整体波动较大，换手率高，多空组合的月度最大回撤也普遍较大。"
+    },
+    {
+      "text": "流动性风险因子具有独立于市值效应之外的收益预测能力且表现稳健，多空组合夏普比率2.13；特异度因子最优异，夏普比高达2.62、最大回撤5%",
+      "evidence": "流动性风险因子具有独立于市值效应之外的收益预测能力，并且表现稳健，多空组合夏普比率达高 2.13。捕捉股票投机行为的特质风险因子普遍表现稳健，其中特异度因子最为优异，多空组合夏普比高达 2.62，最大回撤 5%."
+    },
+    {
+      "text": "市值因子收益预测能力强但波动幅度大、杀伤力十足，MV和FFMV多空组合最大回撤均高达25%",
+      "evidence": "MV 和 FFMV 的多空组合最大回撤均高达 25%，在所有风险类因子中居于榜首。"
+    },
+    {
+      "text": "综合推荐的9个选股因子均通过历史较长时间严格的显著性检验，具有合理的经济逻辑，因子间相关性较低，能带来显著的分散效应",
+      "evidence": "这些因子均通过了历史较长时间严格的显著性检验，并且具合理的经济逻辑。因子之间具有较低的相关性，能够带来显著的分散效应。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Qian,E, Hua,R., and Eric.S. 2007. Quantitative Equity Portfolio Management: Modern Techniques and Applications",
+    "东方证券单因子有效性检验报告",
+    "投机，交易行为与股票收益(上)",
+    "高秋明，胡聪慧，燕翔. 中国 A 股市场动量效应的特征和形成机理研究[J]. 财经研究,2014,(40): 107-118."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

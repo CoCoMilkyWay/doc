@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20180725-华泰证券-人工智能-012-人工智能选股之特征选择",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_training"],
+      "approach": ["interpretability"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以逻辑回归_6m 和 XGBoost_6m 为基学习器时，随着入选特征数的增加，模型的 AUC 先上升后下降，70个特征中入选特征数在 50 左右效果最好",
+      "evidence": "以逻辑回归_6m 和 XGBoost_6m 为基学习器时，随着入选特征数的增加，模型的 AUC 先上升后下降；对于我们的 70个特征而言，入选特征数在 50 左右效果最好。"
+    },
+    {
+      "text": "各种特征选择方法对逻辑回归_6m 和 XGBoost_6m 基学习器的 AUC 均有一定提升，其中基于 F 值+FDR 方法对 AUC 的提升效果最好",
+      "evidence": "不同方法的提升效果各异，其中基于 F 值+FDR 方法对 AUC 的提升效果最好。"
+    },
+    {
+      "text": "以 XGBoost_72m 为基学习器时，基于 F值+K最优、基于互信息+K最优、基于 F 值+FPR、基于 F 值+FDR 四种方法在年化超额收益、超额收益最大回撤、信息比率、Calmar 比率四项指标上相对于基学习器均有明显提升",
+      "evidence": "以 XGBoost_72m 为基学习器时，回测表现较好的是基于 F值+K最优、基于互信息+K最优、基于 F 值+FPR、基于 F 值+FDR 四种方法，在年化超额收益、超额收益最大回撤、信息比率、Calmar 比率四项指标上相对于基学习器均有明显提升。"
+    },
+    {
+      "text": "入选频次排名前列的因子主要是动量反转、换手率和波动率因子，排名靠后的因子为财务质量、杠杆因子",
+      "evidence": "入选频次排名前列的因子主要是动量反转、换手率和波动率因子，排名靠后的因子为财务质量、杠杆因子。"
+    },
+    {
+      "text": "基于特征选择构建的选股策略对年化超额收益的提升在 3%以内，特征选择本质上是降维，难以对基学习器的学习效果有质的提升",
+      "evidence": "基于特征选择构建的选股策略对年化超额收益的提升在 3%以内。特征选择本质上是一种降维，没有改变原始的特征空间，也没有引入新的信息，难以对基学习器的学习效果有质的提升，更多的是一种“锦上添花”。"
+    },
+    {
+      "text": "面对海量的原始特征，仅靠人力无法逐一筛选时，特征选择方法将大幅提升机器学习模型的开发效率",
+      "evidence": "特征选择的优势在于，当我们面对海量的原始特征，仅靠人力无法逐一筛选时，该方法将大幅提升机器学习模型的开发效率。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "华泰人工智能选股系列报告第三篇：支持向量机模型",
+    "华泰人工智能选股系列报告第二篇：广义线性模型",
+    "华泰人工智能选股系列报告第五篇：随机森林模型",
+    "华泰人工智能选股系列报告第六篇：Boosting 模型"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

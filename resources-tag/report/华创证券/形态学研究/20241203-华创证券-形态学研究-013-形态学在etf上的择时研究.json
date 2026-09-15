@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "20241203-华创证券-形态学研究-013-形态学在etf上的择时研究",
+  "genre": "research",
+  "asset": ["fund"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "形态信号",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{跟踪指数成分股K线形态信号合成指数信号，形态出现看多信号时持有多头，否则空仓}",
+          "stats": [null, null, null, null],
+          "evidence": "ETF 的跟踪标的也是指数，因此我们在ETF 上继续尝试使用跟踪指数成分股形态合成指数信号来对 ETF进行择时："
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "对富国基金36支ETF测试后，自2010年至今（2024/12/2），基于形态的ETF择时在所有ETF产品中获得超额收益，稳定跑赢买入持有ETF策略。",
+      "evidence": "在对富国基金的 36 支 ETF 测试后，自 2010 年至今（2024/12/2），基于形态的ETF 择时可以在所有 ETF 产品中获得超额收益，稳定跑赢买入持有 ETF 策略。"
+    },
+    {
+      "text": "以稀土ETF为例，自2010年至今（2024/12/2），策略可以获得32.77%的年化收益，远超买入持有收益率。",
+      "evidence": "以稀土 ETF为例，自 2010年至今（2024/12/2），策略可以获得 32.77%的年化收益。收率远超买入持有收益率。"
+    },
+    {
+      "text": "形态学系统基于成分股，目前不支持港股，排除成分股含有港股的ETF，选择富国基金旗下36只ETF进行形态学分析。",
+      "evidence": "上述方法中因为是基于成分股，我们的形态学系统目前不支持港股，首先我们排除成分股含有港股的ETF，选择富国基金旗下 36只ETF进行形态学分析。"
+    },
+    {
+      "text": "华创金工将形态信号API化，可通过Python接口获取形态学系统中全部的形态介绍、形态定义与每日出现的信号，通过接口可以完全复现ETF择时策略。",
+      "evidence": "华创金工为了更方便大家使用形态信号，我们直接将形态信号API化，可以直接通过API获取形态信号。可以通过 Python的接口直接获取形态学系统中全部的形态介绍、形态定义与每日出现的信号，可以获取历史的与最新的信号。通过接口也可以完全复现我们的 ETF择时策略。"
+    },
+    {
+      "text": "策略基于历史数据的回测，不保证策略未来的有效性。",
+      "evidence": "策略基于历史数据的回测，不保证策略未来的有效性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《形态学研究之十二：期货形态和技术分析》2024-09-13"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

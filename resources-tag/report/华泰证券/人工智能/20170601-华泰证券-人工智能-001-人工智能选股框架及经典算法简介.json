@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20170601-华泰证券-人工智能-001-人工智能选股框架及经典算法简介",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["infrastructure", "structuring"],
+      "setup": {"data": {"source": ["market_daily", "text"], "freq": "mixed"}}
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["cleaning", "selection"],
+      "setup": {"universe": ["all", "sse50", "csi300"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["linear", "tree", "neural", "loss_generalization", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "sse50", "csi300"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection", "evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "机器学习基本框架主要步骤包括数据获取、特征提取、数据转换、模型训练、模型选择和模型预测。",
+      "evidence": "图表 1展示了机器学习的基本框架，主要步骤包括：数据获取、特征提取、数据转换、模型训练、模型选择和模型预测。"
+    },
+    {
+      "text": "数据转换包括缺失值填充、标准化和降维，这一步看似简单，但往往是机器学习成败的关键。",
+      "evidence": "对于包含缺失值的条目，可以直接删去或以总体均值填充。标准化可以将所有特征限制在相同的范围内。降维能够避免特征之间相关性的影响，也能避免维数灾难的发生。数据转换这一步看似简单，但往往是机器学习成败的关键。"
+    },
+    {
+      "text": "避免过拟合最重要的方法是进行交互验证，使用不曾在训练中出现过的数据来进行验证，考察模型在训练集和验证集的表现是否接近。",
+      "evidence": "避免过拟合最重要的方法是进行交互验证。交互验证是指使用不曾在训练中出现过的数据来进行验证。如果模型在验证时性能和训练时大致相同，那么就可以确信模型真的“学会”了如何发现数据中的一般规律，而不是“记住”训练样本。"
+    },
+    {
+      "text": "监督学习应用最为广泛，并且学习效果较好，因此报告着重围绕监督学习介绍线性回归、支持向量机、决策树和随机森林、神经网络、K最近邻等主流方法。",
+      "evidence": "监督学习应用最为广泛，并且学习效果较好，因此第二部分我们将着重围绕监督学习进行介绍。"
+    },
+    {
+      "text": "随机森林中的每棵树只采用一个因子，但组合在一起后反而更加稳定，不容易过拟合，且训练和预测速度快，适合处理大量、高维数据，并能计算每个特征的重要性。",
+      "evidence": "尽管随机森林中的每棵树只采用一个因子，但是组合在一起后反而更加稳定，不容易过拟合。除了良好的稳定性之外，随机森林的优点还有训练和预测速度快，适合处理大量、高维数据，同时算法能够计算出每个特征的重要性，因而成为目前非常流行的机器学习算法。"
+    },
+    {
+      "text": "未来将把机器学习技术同华泰多因子模型结合，测试各种机器学习模型的回测效果，并探索机器学习在择时、大类资产配置等方向的应用。",
+      "evidence": "我们未来将把机器学习技术同华泰多因子模型结合，测试各种机器学习模型的回测效果，以一种非常接地气的描述方式推送给读者，使人工智能方法脱去神秘的外衣，让读者都有可能开发出成功的选股策略。我们也将探索机器学习在择时、大类资产配置等方向的应用。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fisher (1968)",
+    "Freund & Schapire (1995,1996)",
+    "Goldstein (2010) Sensation and Perception",
+    "LeCun, Bottou, Bengio, & Haffner (1998)",
+    "Shannon (1948)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

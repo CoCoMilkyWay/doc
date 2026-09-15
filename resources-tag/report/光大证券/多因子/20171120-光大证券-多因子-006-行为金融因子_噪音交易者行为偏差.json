@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "id": "20171120-光大证券-多因子-006-行为金融因子_噪音交易者行为偏差",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "text"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "行为偏差因子（BE_mean）",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "BE\\_mean_{i,m}=\\frac{1}{m}\\sum_{t=1}^{m}BE_{i,t},\\quad BE_{i}=\\beta_{i}^{C}-\\beta_{i}^{B}",
+          "stats": [-0.028, null, -0.25, 0.046],
+          "evidence": "（1） 行为偏差变量 BE 的均值，命名为“行为偏差因子（BE_mean）”：用来刻画股票对于噪音交易行为的暴露程度：取过去 m 个交易日 BE的平均值"
+        },
+        {
+          "name": "行为偏差波动因子（BE_std）",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "BE\\_std_{i,m}=\\sqrt{\\frac{1}{m}\\sum_{t=1}^{m}\\left(BE_{i,t}-\\overline{BE}_{i}\\right)^{2}},\\quad BE_{i}=\\beta_{i}^{C}-\\beta_{i}^{B}",
+          "stats": [-0.032, null, -0.54, 0.074],
+          "evidence": "（2） 行为偏差变量BE的标准差，命名为“行为偏差波动因子（BE_std）”：用来刻画股票对于噪音交易行为暴露程度的变化：取过去 m 个交易日 BE 的标准差"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "行为偏差波动因子BE_std的预测能力相对BE_mean更胜一筹：m=6时BE_std因子IC小于零的比例为74%，IC均值为-3.2%，IR值为-0.54，且分组单调性表现显著胜出。",
+      "evidence": "图12则是以m=6为例，可见m=6时因子BE_std的IC小于零的比例为74%，因子与未来收益呈现较强的负相关性；IC 均值为-2.9%，IR 绝对值为 0.54，可见BE_std的预测能力相对BE_mean 更胜一筹。"
+    },
+    {
+      "text": "β_B与β_C之间存在显著差异，β_B在99%的情形下都小于β_C，证明BE显著不等于零，我国A股市场尚未达到有效市场的标准。",
+      "evidence": "同时我们发现， $\\beta_{i}^{B}$ 与 $\\beta_{i}^{C}$ 之间的确存在较为显著的差异， $\\beta_{i}^{B}$ 在 99%的情形下都是小于 $\\cdot\\beta_{i}^{C}$ 的， $\\beta_{i}^{C}$ 要显著的高于 $\\cdot\\beta_{i}^{B}$ ，也就证明了BE 显著的不等于零，从而得出我国 A股市场的并未达到有效市场的标准的结论。"
+    },
+    {
+      "text": "对BE_std做行业、市值中性处理并剔除STD_1M、BP_LR影响后，因子检验结果仍然显著，中性化后IC平均值为-1.55%，IC大于零的比例为21.5%，IR绝对值达-0.49，多空组合年化收益为6.0%。",
+      "evidence": "对 BE_std 因子做行业、市值中性处理并剔除 STD_1M、BP_LR 影响后，因子的有效性检验等结果仍然显著，但因子收益、IC 均值均有明显下降。中性化后，IC 平均值为-1.55%，IC大于零的比例为21.5%，IR 绝对值达-0.49。此外因子的分组效果也有所减弱，多空组合年化收益为6.0%，夏普比率为0.61。"
+    },
+    {
+      "text": "行为偏差波动因子BE_std在熊市中表现更为出色，表明噪音交易者的情绪波动在熊市中更为剧烈，BE_std因子在熊市阶段预测能力更强。",
+      "evidence": "与行为偏差因子BE_mean 的分化情况有所不同，行为偏差波动因子BE_std在熊市中表现更为出色，而牛市和震荡市的表现不分伯仲。"
+    },
+    {
+      "text": "BE_std_6因子选股表现尚可：累计年化收益率可达13.27%，夏普比率0.60，相对基准的年化超额收益为9.5%，2011-2017年的7年中5年跑赢基准。",
+      "evidence": "以 BE_std_6 为例，该因子的累计年化收益率可达 13.27%，夏普比率为 0.60，最大回撤为 49.57%，相对基准的年化超额收益为 9.5%，相对最大回撤 13.62%出现在 2014-2015 年牛市阶段；2011-2017 年的7年中，5 年跑赢基准，2017年的相对回撤较大，跑输500指数 1.45%。"
+    },
+    {
+      "text": "BE_std因子在m取值小于20个交易日的区间内表现较好，且m小于10个交易日时IC、IR值上升格外明显。",
+      "evidence": "由图 11 参数 m 的敏感性测试结果可得，BE_std 因子在 m 取值小于 20 个交易日的区间内表现较好。且值得注意的是，m 取值小于10 个交易日时的IC、IR 值上升格外明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ramiah and Davidson (2007) Information-Adjusted Noise Model",
+    "Shefrin and Statman (1994) Behavioral Asset-Pricing Model",
+    "《因子测试全集——多因子系列报告之一》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

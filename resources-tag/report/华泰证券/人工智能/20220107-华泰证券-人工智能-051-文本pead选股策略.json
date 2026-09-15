@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20220107-华泰证券-人工智能-051-文本pead选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SUE.txt",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "SUE.txt=SUE_{0}*0.95^{T-t},\\quad SUE_{0}=L_{h}(x)-L_{l}(x),\\quad L_{c}(x)=\\log\\frac{p_{c}(x)}{1-p_{c}(x)}",
+          "stats": [null, null, null, 0.208],
+          "evidence": "最后，本文分别测试了 Logistic 模型和 XGBoost 模型，将模型预测的上涨和下跌类别的 log-odds 值之差，在进行指数衰减后，作为最终的 SUE.txt 因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon", "sample_window"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于业绩预告与相关研报文本构建的SUE.txt因子具有较强的选股能力，模型对文本的拆分和解构与直观逻辑相符；用华泰金工因子库对SUE.txt基础池增强后，20130104-20211231回测期年化收益43.47%，相对中证500超额年化收益29.98%，2021年收益52.79%。",
+      "evidence": "基于业绩预告与相关研报文本的数据实证表明，SUE.txt 因子具有较强的选股能力，机器学习模型对文本的拆分和解构与直观逻辑相符，模型可信度较高。最后使用华泰金工因子库对 SUE.txt 基础池进行增强，20130104-20211231 回测期年化收益 43.47%，相对中证 500 超额年化收益 29.98%；2021 年收益 52.79%。"
+    },
+    {
+      "text": "XGBoost模型构建的SUE.txt因子多头端收益与分层效果均优于Logistic模型，第一层股票池年化收益分别为27.62%与24.68%。",
+      "evidence": "从结果来看，基于 XGBoost 模型和 Logistic 模型分别构建的 SUE.txt因子分层表现均较为优秀，其中 XGBoost 模型的多头端收益与分层效果均优于 Logistic 模型，两者在第一层股票池的年化收益分别为 27.62%与24.68%，回测期为 20130104-20211231。"
+    },
+    {
+      "text": "SUE.txt因子在盈利能力和分层能力上均显著强于同样做指数衰减处理的2日AR因子，具有明显的增益效果。",
+      "evidence": "此外，本文使用构建训练标签的2 日 AR 特征，在进行同样的指数衰减处理后直接作为因子进行回测，发现SUE.txt 因子在盈利能力和分层能力上均显著强于 2 日 AR 因子，说明SUE.txt 因子对 2 日 AR因子具有明显的增益效果。"
+    },
+    {
+      "text": "词重要性分析表明，“上调”、“预增”、“景气”等词对SUE.txt有较大正面影响，“下调”、“下滑”、“亏损”等词有较大负面影响，与直观逻辑相符。",
+      "evidence": "对词重要性分析的结果表明，“上调”、“预增”、“景气”等词对 SUE.txt 有较大的正面影响，而“下调”、“下滑”、“亏损”等词则有较大的负面影响，与直观逻辑相符。"
+    },
+    {
+      "text": "段落重要性分析发现，宏观环境段落占比最低但对SUE.txt有较大正面影响，运营段落占比最高且有较大负面影响，财报段落包含较多好坏参杂的重要信息。",
+      "evidence": "分析发现，描述宏观环境的段落占比最低，对 SUE.txt 有较大的正面影响；描述运营的段落占比最高，对 SUE.txt 有较大的负面影响；此外，描述财报的段落则包含较多好坏参杂的重要信息。"
+    },
+    {
+      "text": "SUE.txt因子在全A股覆盖度不高，全历史均值约15%，绝对数量均值约450只，且近年覆盖占比逐渐走低。",
+      "evidence": "整体来看 SUE.txt因子占全 A股的覆盖度不高，全历史均值在 15%左右，绝对数量均值约 450 只；近年来随着 A 股数量的持续增加，SUE.txt 因子覆盖股票数量却并未明显上涨，意味着 A 股覆盖的分析师数量并未显著增多，因此覆盖度占比逐渐走低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Liang P J , Meursault V , Routledge B B , et al. PEAD.txt: Post-Earnings-Announcement Drift Using Text[J]. Working Papers, 2021.",
+    "Yano T , Smith N A , Wilkerson J D . Textual Predictors of Bill Survival in Congressional Committees[J]. 2012.",
+    "《华泰人工智能系列之六：人工智能选股之 Boosting 模型》（20170911）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

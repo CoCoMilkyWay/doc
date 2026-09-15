@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "id": "20250721-东方证券-因子选股-117-dfq_factorgcl_基于超图卷积神经网络和时间残差对比学习的股票收益预测模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "FactorGCL",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\hat{y}^{t}=w_{o1}\\,\\text{HyperGCN}_{prior}(\\beta_{s}^{t},X^{t,0})+w_{o2}\\,\\text{HyperGCN}_{hidden}(\\beta_{h}^{t},X^{t,1})+w_{o3}f_{\\alpha}(X^{t,2})+b",
+          "stats": [0.1246, 0.1614, 1.05, null],
+          "evidence": "FactorGCL 融合 HyperGCN 与 TRCL 两大机制，通过超图卷积网络（HyperGCN）提取预定义与隐藏概念的高阶关联信息，再结合时间残差对比学习（TRCL）机制强化股票特质特征的跨时间一致性建模，最终统一整合形成结构化且稳健的因子预测框架。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_training"],
+      "approach": ["label_horizon", "loss_generalization"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "DFQ-FactorGCL 模型在中证全指、沪深300、中证500和中证1000股票池中均表现优异，中证全指 IC 为 12.46%、rankIC 为 16.14%、多头年化超额收益 32.65%，沪深300 IC 为 8.71%、多头年化超额收益 12.37%",
+      "evidence": "DFQ-FactorGCL 模型在中证全指、沪深 300、中证 500 和中证 1000 股票池中均表现优异。中证全指股票池 IC为 12.46%，rankIC为 16.14%，多头组合年化超额收益达 32.65%；沪深 300 股票池 IC 为 8.71%，rankIC 为 10.61%，多头年化超额收益为 12.37%。"
+    },
+    {
+      "text": "引入 HyperGCN 后多头选股能力显著增强，多头夏普比率从 HIST 的 2.90 提升至 3.47，多头年化超额收益从 28.01%上升到 31.52%",
+      "evidence": "在多头表现方面，多头夏普比率从HIST的2.90显著提升至3.47。多头年化超额收益从HIST的 28.01%上升到 31.52%。"
+    },
+    {
+      "text": "对 InfoNCE 损失修改后 HIST_TRCL 绩效在多头组明显改进，多头夏普比从 HIST 的 2.90 提升到 3.11，年化收益率从 28.01%提升到 31.22%，最大回撤从 8.76%降低到 6.99%",
+      "evidence": "在对InfoNCE损失做了修改后，HIST_TRCL绩效在多头组明显改进，多头夏普比从HIST的 2.90 提升到 3.11，年化收益率从 28.01%提升到 31.22%，最大回撤从 8.76%降低到 6.99%。"
+    },
+    {
+      "text": "沪深300指增组合年化信息比 2.20，年化对冲收益 12.14%，超额收益中 66%来自特质收益，风格暴露控制良好，风险稳定可控",
+      "evidence": "沪深 300股票池年化信息比为 2.20，年化对冲收益 12.14%，超额收益中 66%来自特质收益；模型组合具有明显的 Alpha获取能力，风格暴露控制良好，风险稳定可控。"
+    },
+    {
+      "text": "DFQ-FactorGCL 因子与 HIST 因子相关性最高，因子值相关系数为 87.91%，多头超额收益序列相关系数为 83.75%，与 FactorVAE、FactorVAE-new、Diversify 等模型因子值相关系数也在 80%以上",
+      "evidence": "DFQ-FactorGCL 因子与 HIST 因子的相关性最高，因子值相关系数为 87.91%，多头超额收益序列相关系数为 83.75%；另外和 FactorVAE、FactorVAE-new、Diversify 等模型的相关性也比较高，因子值相关系数在 80%以上，多头超额收益序列相关系数在 75%以上。"
+    },
+    {
+      "text": "大部分隐藏因子与人工风格因子的相关系数集中在 -0.25 到 0.25 区间，表明模型在一定程度上提取了传统风格因子的有效信息，同时展现明显的结构差异性与独立性",
+      "evidence": "从整体相关性分布来看，大部分隐藏因子与人工风格因子的相关系数集中在 -0.25 到 0.25 区间，表明模型在一定程度上提取了传统风格因子的有效信息，同时也展现出明显的结构差异性与独立性。"
+    },
+    {
+      "text": "不同随机种子下月均 RANKIC 在 15.62%到15.98%之间比较稳定，多头收益率在 28.00%到 31.55%之间，模型对随机种子不敏感",
+      "evidence": "不同种子下，月均 RANKIC 在 15.62%到15.98%之间比较稳定；多头收益率在 28.00%到 31.55%之间；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Duan Y, Wang W, Li J. FactorGCL: A Hypergraph-Based Factor Model with Temporal Residual Contrastive Learning for Stock Returns Prediction[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2025, 39(1): 173-181.",
+    "Feng Y, You H, Zhang Z, et al. Hypergraph neural networks[C]//Proceedings of the AAAI conference on artificial intelligence. 2019, 33(01): 3558-3565.",
+    "《DFQ-HIST：添加图信息的选股因子挖掘系统》",
+    "《东方 A 股因子风险模型（DFQ-2020）》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

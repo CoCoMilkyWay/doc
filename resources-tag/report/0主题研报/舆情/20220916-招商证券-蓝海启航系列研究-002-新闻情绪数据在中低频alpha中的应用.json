@@ -1,0 +1,160 @@
+{
+  "schema_version": 2,
+  "id": "20220916-招商证券-蓝海启航系列研究-002-新闻情绪数据在中低频alpha中的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Avg-Score",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Avg-Score}_i=\\sum_{n\\in N_{i,T}}\\left(p_n^{+}-p_n^{-}\\right)",
+          "stats": [0.0124, null, 0.23, 0.1458],
+          "evidence": "| Avg-Score | 对过去一段时间所有相关新闻的情绪得分求和 |"
+        },
+        {
+          "name": "Avg-Score_Num",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Avg-Score\\_Num}_i=\\frac{N_i^{+}-N_i^{-}}{N_i^{+}+N_i^{-}}",
+          "stats": [0.0108, null, 0.23, 0.0911],
+          "evidence": "| Avg-Score_Num | 正负面新闻数目之差占二者总数的比重 |"
+        },
+        {
+          "name": "Avg_Score_Num_Ex",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{剔除相关性低于0.7的新闻后，}\\frac{N_i^{+}-N_i^{-}}{N_i^{+}+N_i^{-}}",
+          "stats": [0.0078, null, 0.16, 0.0835],
+          "evidence": "| Avg_Score_Num_Ex | 剔除相关性低于0.7的新闻后，正负面新闻数目之差占二者总数的比重 |"
+        },
+        {
+          "name": "Avg_Score_REL",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Avg\\_Score\\_REL}_i=\\sum_{n\\in N_{i,T}} r_n\\left(p_n^{+}-p_n^{-}\\right)",
+          "stats": [0.011, null, 0.22, 0.1316],
+          "evidence": "| Avg-Score_REL | 对过去一段时间所有相关新闻的相关性修正情绪得分求和 |"
+        },
+        {
+          "name": "Avg-Score_REL_Ex",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{剔除相关性低于0.7的新闻后，}\\sum_{n} r_n\\left(p_n^{+}-p_n^{-}\\right)",
+          "stats": [0.0125, null, 0.24, 0.1474],
+          "evidence": "| Avg-Score_REL_Ex | 剔除相关性低于0.7的新闻后，对过去一段时间所有相关新闻的相关性修正情绪得分求和 |"
+        },
+        {
+          "name": "Avg_Score_REL_T",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Avg\\_Score\\_REL\\_T}_i=\\sum_{n\\in N_{i,T}} w_{t_n}\\, r_n\\left(p_n^{+}-p_n^{-}\\right)",
+          "stats": [0.0097, null, 0.19, 0.1341],
+          "evidence": "| Avg_Score_REL_T | 按照时间衰减的加权方式，对过去一段时间所有相关新闻的相关性修正情绪得分求和 |"
+        },
+        {
+          "name": "Avg-Score_REL_T_Ex",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{剔除相关性低于0.7的新闻后，}\\sum_{n} w_{t_n}\\, r_n\\left(p_n^{+}-p_n^{-}\\right)",
+          "stats": [0.0109, null, 0.2, 0.1464],
+          "evidence": "| Avg_Score_REL_T_Ex | 剔除相关性低于0.7的新闻后，按照时间衰减的加权方式，对过去一段时间所有相关新闻的相关性修正情绪得分求和 |"
+        },
+        {
+          "name": "Avg_Score_T",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Avg\\_Score\\_T}_i=\\sum_{n\\in N_{i,T}} w_{t_n}\\left(p_n^{+}-p_n^{-}\\right)",
+          "stats": [0.0108, null, 0.2, 0.153],
+          "evidence": "| Avg-Score_T | 按照时间衰减的加权方式，对过去一段时间所有相关新闻的情绪得分求和 |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["tree"],
+      "setup": {
+        "universe": ["all", "csi300"],
+        "data": {"source": ["market_daily", "text"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "新闻情绪因子在全A和沪深300中的选股效果更为突出，而在中证500中表现一般。",
+      "evidence": "无论是否进行中性化，新闻情绪因子在全A和沪深300中的选股效果均更为突出，而在中证500中则表现一般。"
+    },
+    {
+      "text": "行业市值中性化后因子IC整体略有下降，但由于波动性和最大回撤明显降低，多空组合的风险调整后表现多数反而有所提升。",
+      "evidence": "行业市值中性化以后，因子IC整体略有下降。但由于整体的波动性和最大回撤明显降低，所以因子多空组合的风险调整后表现多数反而有所提升。"
+    },
+    {
+      "text": "新闻情绪因子大多偏大市值，必须对市值的影响予以剔除。",
+      "evidence": "从相关性分析来看，我们所构建的新闻情绪因子大多偏大市值。而2017年以来，大市值风格能够贡献明显的Alpha。因此，必须对市值的影响予以剔除。"
+    },
+    {
+      "text": "在考虑成本以后，提升调仓频率有助于提升因子解释能力和多空组合表现。",
+      "evidence": "整体来看，在考虑成本以后，提升调仓频率是有助于提升因子解释能力和多空组合表现的。"
+    },
+    {
+      "text": "并非调仓频率越高越好，提升至周频调仓时因子在沪深300中的表现反而有所减弱。",
+      "evidence": "并非调仓频率越高越好。当提升至周频调仓时，因子在沪深300中的表现反而有所减弱。"
+    },
+    {
+      "text": "缩短回溯期以后，无论是IC还是多空组合表现提升均不明显。",
+      "evidence": "整体来看，缩短回溯期以后，无论是IC还是多空组合表现提升均不明显。"
+    },
+    {
+      "text": "结合新闻情绪因子后，沪深300中IC平均值为6.77%，标准差9.41%，最小值-16.68%，最大值22.34%，IC_IR为0.72，t统计量4.88，优于传统Alpha策略的5.41%、9.57%、-18.78%、24.93%、0.57、3.84。",
+      "evidence": "| 传统A1pha策略 | 5.41% | 9.57% | -18.78% | 24.93% | 0.57 | 3.84 | 300 | 46 |\n| 结合新闻情绪因子 | 6.77% | 9.41% | -16.68% | 22.34% | 0.72 | 4.88 | 300 | 46 |"
+    },
+    {
+      "text": "结合新闻情绪因子后，沪深300多空组合总收益率125.55%，年化收益率23.62%，最大回撤5.74%，显著优于传统Alpha策略的34.42%、8.02%、20.76%。",
+      "evidence": "| 总收益率 | 34.42% | 125.55% |\n| 年化收益率 | 8.02% | 23.62% |\n| 波动率 | 12.05% | 8.81% |\n| Sharpe比率 | 0.67 | 2.68 |\n| 最大回撤 | 20.76% | 5.74% |"
+    },
+    {
+      "text": "新闻情绪因子在事件驱动策略、与传统Alpha策略融合以及对传统Alpha进行增强三个维度均具有较好的效果。",
+      "evidence": "从应用层面，新闻情绪因子在事件驱动策略、与传统Alpha策略融合以及对传统Alpha进行增强三个维度均具有较好的效果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["ChinaScope新闻情绪数据"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

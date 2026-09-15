@@ -1,0 +1,242 @@
+{
+  "schema_version": 2,
+  "id": "20230217-东方证券-因子选股-087-分析师研报类alpha增强",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision", "analyst_behavior"],
+      "setup": {
+        "universe": ["all", "csi800", "csi1000"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "FOM因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{FOM}=(\\mathrm{K}-\\mathrm{M})/\\mathrm{N}",
+          "stats": [0.0271, null, 2.2472, 0.1208],
+          "evidence": "（3） 分析师预测上调的概率（FOM）：在《更稳健易算的盈利上调因子》报告中，我们提出了 FOM 因子。"
+        },
+        {
+          "name": "CFR因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{当前一致预期净利润相对过去N个月之前一致预期的变化率}",
+          "stats": [0.022, null, 2.0362, 0.0899],
+          "evidence": "（1） 分析师一致预期调整幅度（CFR）：计算当前的一致预期相对于过去一段时间之前的一致预期的变化率。测算发现使用过去三个月的变化率效果更好。"
+        },
+        {
+          "name": "WFR因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{过去三个月各机构最后一次预期调整幅度按最新报告撰写时间加权}",
+          "stats": [0.0236, null, 1.3729, 0.113],
+          "evidence": "（2） 单个分析师加权预期调整幅度（WFR）：计算过去三个月每个机构的最后一次预期调整幅度，再按照最新报告的撰写时间进行加权。"
+        },
+        {
+          "name": "FOM_123mean",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{FOM_FY1, FOM_FY2, FOM_FY3 三因子非空部分取均值}",
+          "stats": [0.0282, null, 2.11, 0.1456],
+          "evidence": "我们构造了 FOM_123mean 因子，将 FOM_FY1，FOM_FY2，FOM_FY3 三因子非空部分取均值，综合衡量分析师对未来三个年度的盈利预测调整情况。"
+        },
+        {
+          "name": "FOM_or_123mean",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{FOM_or_FY1, FOM_or_FY2, FOM_or_FY3 三因子非空部分取均值}",
+          "stats": [0.02, null, 1.72, 0.106],
+          "evidence": "我们尝试构造 FOM_or_123mean 因子，将 FOM_or _FY1，FOM_or _FY2，FOM_or _FY3三因子非空部分取均值，综合衡量分析师对未来三个年度的营收预期调整情况。"
+        },
+        {
+          "name": "FYROE_resid_12mean",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动FY1ROE_resid与滚动FY2ROE_resid两因子非空部分取均值}",
+          "stats": [0.029, null, 2.26, 0.1115],
+          "evidence": "分析师一致预期的股票盈利能力也可以用横截面模型来进行解释，模型残差即为分析师预期残差因子。全市场中性化的滚动 FYROE_resid_12mean 因子 IC为 3%，ICIR为 2.3，多空组合年化收益 11 %。"
+        },
+        {
+          "name": "rollingepfy_12mean",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动一致预期净利润 / 总市值}",
+          "stats": [0.042, null, 2.01, 0.173],
+          "evidence": "分析师预期估值滚动 EP_FY_12mean因子，表现优于单因子。全市场中性化因子IC 为 4.2%，ICIR 为 2，多空组合年化收益 17%。"
+        },
+        {
+          "name": "rollingepfy_12mean_diff3",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{rollingepfy_12mean相对三个月以前因子值的变化}",
+          "stats": [0.042, null, 2.6174, 0.2022],
+          "evidence": "此外，我们还对所因子的差分效果进行了测算，最终确定了12个单因子，构成我们的分析师类选股因子库。"
+        },
+        {
+          "name": "COV",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{过去6个月有覆盖的机构数量}}",
+          "stats": [0.041, null, 1.5203, 0.1795],
+          "evidence": "在之前的报告《分析师研报的数据特征与 alpha》中，我们使用分析师覆盖度 COV，分析师分歧度 DISP、分析师预期估值 EP_FY1、加权盈余调整 WFR、目标价隐含收益率 TPER，一致预期评级 SCORE，一致预期 PEG，共 7 个 alpha 因子作为分析师大类。"
+        },
+        {
+          "name": "COV_diff6",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{COV相对六个月以前因子值的变化}",
+          "stats": [0.0175, null, 1.3246, 0.1019],
+          "evidence": "此外，我们还对所因子的差分效果进行了测算，最终确定了12个单因子，构成我们的分析师类选股因子库。"
+        },
+        {
+          "name": "TPER",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{目标价隐含的收益率}",
+          "stats": [0.0254, null, 1.5091, 0.1279],
+          "evidence": "在之前的报告《分析师研报的数据特征与 alpha》中，我们使用分析师覆盖度 COV，分析师分歧度 DISP、分析师预期估值 EP_FY1、加权盈余调整 WFR、目标价隐含收益率 TPER，一致预期评级 SCORE，一致预期 PEG，共 7 个 alpha 因子作为分析师大类。"
+        },
+        {
+          "name": "TPER_diff3",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{TPER相对三个月以前因子值的变化}",
+          "stats": [0.0293, null, 1.832, 0.1385],
+          "evidence": "此外，我们还对所因子的差分效果进行了测算，最终确定了12个单因子，构成我们的分析师类选股因子库。"
+        },
+        {
+          "name": "PEG",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{PE(FY1/FY2)隐含的利润增量率}",
+          "stats": [-0.0289, null, -1.715, 0.1311],
+          "evidence": "在之前的报告《分析师研报的数据特征与 alpha》中，我们使用分析师覆盖度 COV，分析师分歧度 DISP、分析师预期估值 EP_FY1、加权盈余调整 WFR、目标价隐含收益率 TPER，一致预期评级 SCORE，一致预期 PEG，共 7 个 alpha 因子作为分析师大类。"
+        },
+        {
+          "name": "PEG_diff6",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{PEG相对六个月以前因子值的变化}",
+          "stats": [-0.031, null, -1.9067, 0.1341],
+          "evidence": "此外，我们还对所因子的差分效果进行了测算，最终确定了12个单因子，构成我们的分析师类选股因子库。"
+        },
+        {
+          "name": "SCORE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师一致预期综合评级}",
+          "stats": [0.0205, null, 1.1592, 0.1045],
+          "evidence": "在之前的报告《分析师研报的数据特征与 alpha》中，我们使用分析师覆盖度 COV，分析师分歧度 DISP、分析师预期估值 EP_FY1、加权盈余调整 WFR、目标价隐含收益率 TPER，一致预期评级 SCORE，一致预期 PEG，共 7 个 alpha 因子作为分析师大类。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "分析师预期调整指标三种构造方式中FOM因子效果最好，全市场中性化IC为2.8%，ICIR超过2，多空组合年化收益12%。",
+      "evidence": "分析师预期调整指标有三种构造方式，其中 FOM因子效果最好。全市场中性化 IC为 2.8%，ICIR超过 2。多空组合年化收益 12%。"
+    },
+    {
+      "text": "FOM因子剔除WFR和CFR因子后仍有显著选股效果，WFR和CFR因子剔除FOM因子后便失去选股效力。",
+      "evidence": "FOM因子剔除WFR和 CFR因子后仍有显著的选股效果，WFR和 CFR因子剔除 FOM因子后便失去了选股效力。"
+    },
+    {
+      "text": "FOM_123mean因子多空组合表现优于单因子，全市场中性化IC为2.8%，ICIR超过2，多空组合年化收益15%。",
+      "evidence": "FOM_123mean因子多空组合表现优于单因子，全市场中性化 IC为 2.8%，ICIR为超过 2，多空组合年化收益 15%。"
+    },
+    {
+      "text": "分析师一致预期盈利能力可用横截面模型解释，模型残差即分析师预期残差因子；滚动FYROE_resid_12mean因子IC为3%，ICIR为2.3，多空年化收益11%。",
+      "evidence": "分析师一致预期的股票盈利能力也可以用横截面模型来进行解释，模型残差即为分析师预期残差因子。全市场中性化的滚动 FYROE_resid_12mean 因子 IC为 3%，ICIR为 2.3，多空组合年化收益 11 %。"
+    },
+    {
+      "text": "分析师预期估值滚动EP_FY_12mean因子表现优于单因子，全市场中性化IC为4.2%，ICIR为2，多空组合年化收益17%。",
+      "evidence": "分析师预期估值滚动 EP_FY_12mean因子，表现优于单因子。全市场中性化因子IC 为 4.2%，ICIR 为 2，多空组合年化收益 17%。"
+    },
+    {
+      "text": "滚动EP_FY_12mean剔除EP_TTM因子后仍有很强选股效果，说明分析师一致预期净利润的相对大小提供了额外的有用信息。",
+      "evidence": "而滚动EP_FY_12mean剔除EP_TTM因子后仍然有很强的选股效果，这说明EP_FY指标在横截面上的排序和 EP很不一样，分析师一致预期净利润的相对大小提供了额外的有用信息。"
+    },
+    {
+      "text": "全市场中改进后的分析师合成因子IC由5.93%提升到6.45%，ICIR由3.21提升到3.92；多空年化收益达29%，最大回撤明显降低仅为3.7%，年化夏普比3.6，月度胜率85%。",
+      "evidence": "在全市场中（1）改进后的分析师合成因子 IC由 5.93%提升到 6.45%，ICIR由 3.21 提升到 3.92。（2）多空组合收益和稳定性明显提升。年化收益达到 29%，提升 7%，最大回撤明显降低，仅为 3.7%，年化夏普比达到 3.6，月度胜率达到 85%。"
+    },
+    {
+      "text": "分析师因子改进前后，中证500对冲组合改进较明显，年化收益由15.33%提高到17.44%，提升2.11%，跟踪误差略有上升、最大回撤有所下降。",
+      "evidence": "分析师因子改进前后，中证 500对冲组合改进较明显，年化收益由原来的 15.33%提高到17.44%，提升 2.11%，跟踪误差略有上升、最大回撤有所下降。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Hou(2012)",
+    "东方 A 股因子风险模型——DFQ-2020",
+    "东方 A 股因子风险模型（DFQ-2018）",
+    "分析师研报的数据特征与 alpha",
+    "更稳健易算的盈利上调因子",
+    "盈利预测与市价隐含预期收益"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

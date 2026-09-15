@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "id": "20180503-华泰证券-人工智能-011-人工智能选股之stacking集成学习",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Stacking最优模型的输出值",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{两层Stacking集成：第一层为72个月数据训练的XGBoost与6个月数据训练的逻辑回归（验证集2个月），第二层用逻辑回归对第一层预测值再训练，输出个股下月超额收益预测值}",
+          "stats": [0.1094, null, 1.47, 0.3382],
+          "evidence": "Stacking 集成学习模型最终在每个月底可以产生对全部个股下月上涨或下跌的预测值。因此可以将其看作一个因子合成模型，即在每个月底将因子池中所有因子合成为一个“因子”。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["sample_window", "ensemble"],
+      "baseline": ["linear", "tree"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "本文使用改进的Stacking框架，第一层不仅使用不同的模型，还使用有差异的训练数据，增大输出值差异性，适合训练和预测数据不同分布的金融数据预测。",
+      "evidence": "本文使用的是一种改进的 Stacking框架，框架的第一层不仅使用不同的模型，还使用有差异的训练数据，这进一步增大了模型输出值之间的差异性，这样的差异性往往适合于训练和预测数据不是同分布的领域，可以增强预测的稳定性，如金融数据的预测。"
+    },
+    {
+      "text": "提出基于适应度指标S=Sharpe/Corr的基模型选择方法，XGBoost_6m以及逻辑回归_6m最适合与XGBoost_72m进行Stacking集成。",
+      "evidence": "通过分析，我们认为使用 6 个月数据训练的 XGBoost模型（XGBoost_6m）以及逻辑回归模型（逻辑回归_6m）最适合与使用72 个月数据训练的 XGBoost（XGBoost_72m）进行 Stacking 集成。"
+    },
+    {
+      "text": "Stacking第一层应使用不同种类的基模型和训练数据；并非集成越多基模型越好，需要基模型两两相关性低且有足够好的预测能力；较短的验证集长度（2个月）使超额收益最大回撤较小、Calmar比率较高、IR比率较高。",
+      "evidence": "（1）Stacking 第一层应该使用不同种类的基模型和训练数据以达到最好的预测结果；（2）Stacking 第一层并非集成越多的基模型表现就越好，要达到更好的集成学习效果，需要各个基模型两两之间相关性低，且基模型有足够好的预测能力。（3）较短的验证集数据长度（2 个月）可以使得 Stacking 集成学习模型的超额收益最大回撤较小，Calmar 比率较高，模型预测值的 IR比率较高。"
+    },
+    {
+      "text": "最优模型（XGBoost_72m与逻辑回归_6M集成、验证集2个月）2011年2月至2018年4月相对中证500年化超额收益27.75%~29.45%，超额收益最大回撤8.92%~10.18%，信息比率3.33~3.84，Calmer比率2.73~3.25，提升最显著。",
+      "evidence": "2011 年 2 月至 2018 年 4 月，对于全 A 选股的行业中性策略，最优模型相对于中证 500 的年化超额收益在27.75%~29.45%之间，超额收益最大回撤在 8.92%~10.18%之间，信息比率在 3.33~3.84 之间，Calmer 比率在 2.73~3.25 之间，Calmer 比率的提升最为显著。"
+    },
+    {
+      "text": "Stacking最优模型输出值单因子测试优秀：分5层多空组合年化收益率33.82%，夏普比率5.03；分10层组合1和组合10在所有回测年份中排名都没有变化，因子表现稳定。",
+      "evidence": "我们对 Stacking 最优模型的输出值进行单因子测试。因子分 5层测试多空组合年化收益率为 33.82%，夏普比率为 5.03。因子分 10 层测试组合 1和组合 10在所有回测年份中排名都没有变化，因子表现稳定。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "华泰人工智能系列之五《人工智能选股之随机森林模型》",
+    "华泰人工智能系列之六《人工智能选股之 Boosting 模型》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

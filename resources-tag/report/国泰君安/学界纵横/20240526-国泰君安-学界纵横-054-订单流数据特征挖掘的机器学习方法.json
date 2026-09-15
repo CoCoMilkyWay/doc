@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "20240526-国泰君安-学界纵横-054-订单流数据特征挖掘的机器学习方法",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["order_flow", "representation_learning"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "期望-现实差距因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "y(O_{n},\\nabla O_{n})=\\sum_{k=1}^{K}\\|v_{n}^{k}-\\nabla v_{n}^{k}\\|_{2}",
+          "stats": [0.0817, 0.0787, null, null],
+          "evidence": "论文利用循环神经网络模型，以历史片段的订单流数据，进行对第 n 段买入/卖出的预估；再以预估和实际的订单簿几何距离构建期望-现实差距因子。"
+        }
+      ]
+    },
+    "L7_execution": {
+      "module": ["L7_algo"],
+      "approach": ["optimal_execution"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "文章提出的模型在每日收益预测的所有评估指标中始终取得最佳结果，IC比表现最佳的基准方法高出81%，RankIC高出91%，RankIR高出69%。",
+      "evidence": "发现文章提出的模型，在所有评估指标中始终取得最佳结果。具体而言，文章提出的模型在 IC 中比表现最佳的基准方法高出 81%，在 RankIC 中高出 91%，在 RankIR 中高出 69%。"
+    },
+    {
+      "text": "在订单执行任务中，将基于规则的方法提取的日内特征集成到 OPD 中可提升模型性能，文章提出的基于机器学习的方法在PA中表现出38.64%的提升，在GLR中表现出3%的提升。",
+      "evidence": "与原始 OPD 模型相比，将 Group2 中所有基于规则的方法合并以提取日内特征并将其集成到 OPD 中，可以提高模型性能。文章提出的基于机器学习的方法在PA中表现出38.64%的提升，在GLR中表现出3%的提升。"
+    },
+    {
+      "text": "在点i（11:19:28）处，大量流入量大小的比例从38.4%猛增至54.5%，表明机构对市场进行干预，主力开始推动价格上涨；在点j（11:25:36）处，买方已经建立了主导地位，通过竞价量比例增加33.0%（从54.2%增加到87.2%）得到证明，随后股价持续上涨。",
+      "evidence": "例如，在点 i（11:19:28）处，我们观察到大量流入量大小的比例从 38.4%猛增至 54.5%，表明机构对市场进行干预，主力开始推动价格上涨。在点j（11:25:36）处，买方已经建立了主导地位，这可以通过竞价量比例增加33.0%（从 54.2%增加到87.2%）得到证明，随后股价持续上涨。"
+    },
+    {
+      "text": "文章提出加权掩饰码矩阵，避免信息泄露。",
+      "evidence": "值得注意的是，文章提出加权掩饰码矩阵，避免信息泄露。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fang et al., 2021, OPD 强化学习订单执行模型",
+    "Jiao, X., Li, Z., Xu, C., Liu, Y., Liu, W., & Bian, J. (2023). Microstructure-Empowered Stock Factor Extraction and Utilization. In Proceedings of the 32nd ACM International Conference on Information and Knowledge Management (CIKM), Birmingham, UK. Association for Computing Machinery.",
+    "McGroarty, 2019, High-Freq LOB Feature",
+    "Ruff et al., 2018, DeepSVDD"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

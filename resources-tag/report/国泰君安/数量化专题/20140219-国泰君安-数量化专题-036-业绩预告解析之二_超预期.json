@@ -1,0 +1,92 @@
+{
+  "schema_version": 2,
+  "id": "20140219-国泰君安-数量化专题-036-业绩预告解析之二_超预期",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_market"],
+      "approach": ["earnings_surprise", "technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "整体超预期幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\frac{\\text{预告净利润}-\\text{一致预期净利润}}{\\left|\\text{一致预期净利润}\\right|}",
+          "stats": [0.1627, null, null, null],
+          "evidence": "整体超预期幅度：（预告净利润 – 一致预期净利润）/ ABS（一致预期净利润）"
+        },
+        {
+          "name": "未公布超预期幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\frac{\\text{预告净利润}-\\text{一致预期净利润}}{\\left|\\text{一致预期净利润}-\\text{本年已公布季度净利润}\\right|}",
+          "stats": [null, null, null, null],
+          "evidence": "未公布超预期幅度：（预告净利润 – 一致预期净利润）/ ABS（一致预期净利润 – 本年已公布季度净利润）"
+        },
+        {
+          "name": "20BIAS-相对行业 BIAS",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "\\text{BIAS}_{20}=\\frac{close-MA_{20}}{MA_{20}},\\quad \\text{20BIAS-相对行业BIAS}=\\text{股票}BIAS_{20}-\\text{行业指数}BIAS_{20}",
+          "stats": [0.145, null, null, null],
+          "evidence": "事实上，BIAS基于均线，LWR 基于点位，类似的技术指标选取的都是强势股，前期走势强势是股性，业绩预增+业绩超预期是催化剂，三者的结合很大可能上能够持续推动股价快速上涨，这也是基本面信息与技术面信息相结合的魅力。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "整体超预期幅度指标能够较好地区分业绩预告样本在事件日后的Alpha（相对行业收益率）大小，超预期15%~100%的股票平均超额收益率最高",
+      "evidence": "1. 整体超预期幅度指标能够较好地区分业绩预告样本在事件日后的Alpha（相对行业收益率）大小。超预期 15%~100%的股票平均超额收益率最高，0~15%的股票次之，低于预期 100%的股票 CAAR 最低。"
+    },
+    {
+      "text": "预告盈利超过一致预期的股票表现出显著的盈余漂移现象，事件发生后60日内具有明显的正向超额收益",
+      "evidence": "2. 对于预告盈利超过一致预期的股票（Q5,Q6档）表现出显著的盈余漂移现象，具体表现为该档股票在事件发生后 60 日内具有明显的正向超额收益，说明超预期事件在大概率上会持续推动股价上涨。"
+    },
+    {
+      "text": "预告业绩不达预期的股票在事件后2个交易日内有明显负Alpha，之后调头向上，投资者短期过度反应并在之后修正",
+      "evidence": "3. 对于预告业绩不达预期的股票（Q1,Q2,Q3 档），其 CAAR 的走势明显与业绩超预期组不同，在事件发生后 2 个交易日内有明显的负 Alpha，但在 T+2日后 Alpha不会继续下跌，反而是调头向上。表明对于业绩低于预期的股票，投资者会在短期内过度反应，并在之后进行修正。"
+    },
+    {
+      "text": "股价在T+0日对事件反应最强烈，事件IC在T+0日达到28.46%，T+20日为11.92%，T+60日回升至16.27%",
+      "evidence": "4. 无论是超预期还是不达预期，股价在 T+0 日对事件的反应最为强烈。从上图中即可看到，T+0 日，指标的事件 IC 值能够达到 28.46%，但随后即快速衰减，在 T+20 日为 11.92%，随后又缓慢上升至 T+60 日16.27%。"
+    },
+    {
+      "text": "设定8个选股标准，60日内获得11.71%的相对行业超额收益，胜率74%；用20日相对行业BIAS技术指标优化后，60日CAAR提升到15.95%，胜率82%",
+      "evidence": "选股：设定 8 个选股标准，在 60 日内获得 11.71%的相对行业超额收益，胜率为 74%。若使用―20 日相对行业 BIAS‖技术指标进一步优化信号，则可以使 60日 CAAR 提升到 15.95%，胜率 82%。"
+    },
+    {
+      "text": "有86.37%的样本整体超预期幅度小于等于0，说明分析师对盈利的预期普遍比较乐观",
+      "evidence": "有 86.37%的样本整体超预期幅度小于等于 0，也从侧面说明了分析师对于盈利的预期普遍比较乐观。"
+    },
+    {
+      "text": "未公布超预期幅度相比整体超预期幅度指标效果有小幅提升，在选股时可作为辅助判断指标",
+      "evidence": "相比整体超预期指标，该指标的效果在某些方面有小幅提升：例如CAAR 曲线更为平滑，累计收益更稳定，胜率、CAAR IC 均有小幅提高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Ball & Brown（1968）", "《业绩预告解析之一：高增长》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

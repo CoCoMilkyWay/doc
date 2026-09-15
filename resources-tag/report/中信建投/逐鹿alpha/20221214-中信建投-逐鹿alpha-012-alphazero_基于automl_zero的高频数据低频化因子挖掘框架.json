@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20221214-中信建投-逐鹿alpha-012-alphazero_基于automl_zero的高频数据低频化因子挖掘框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_daily", "market_minute"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "Alpha1",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "ts_norm(cs_norm(HIGH),20)",
+          "stats": [-0.0366, null, 4.38, 0.2617],
+          "evidence": "因子一的定义较为简单，为改进后的反转因子，代表了股票最高价的横截面排序的 20 日时间序列标准化，排序相对于过去 20 天的排名越低，未来收益越高。因子的 IC 均值为-0.0366，IR 为 4.38。因子胜率为 61.22%（小于 0 占比）。"
+        },
+        {
+          "name": "Alpha2",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "ts_max((ts_min(interval(volume, sum, 9:30, 10:00)/VOLUME, 2)+ts_corr(high, volume, 240)), 5)",
+          "stats": [-0.0367, null, 7.33, 0.2251],
+          "evidence": "因子二是开盘后半小时成交量占比的两日最小值与日内的最高价与成交量的相关性求和之后取五日最大值得到的因子，很明显，此因子是由原始开盘后半小时成交量占比因子与最高价成交量相关性两个因子的基因进化得到的合成因子。因子二的 IC 均值为-0.0367，IR 为 7.33，因子胜率为 68.21%，因子二的稳定性和胜率显著高于因子一。"
+        },
+        {
+          "name": "Alpha3",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "ts_max((ts_min(cs_norm(VOLUME), 2) + ts_corr(high, volume, 240), 2)",
+          "stats": [-0.042, null, 6.93, 0.2573],
+          "evidence": "因子三是横截面标准化的成交量两日最小值与日内的最高价与成交量的相关性求和之后取五日最大值得到的因子，很明显，此因子与因子二相比，部分基因发生了替换，因子二的开盘成交量占比替换成了横截面标准化的成交量。因子三的 IC 均值为-0.042，IR 为 6.93，因子胜率为 69.90%，因子三的在 IC 以及胜率高于因子二。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "AlphaZero 相比传统遗传规划与 AutoML-Zero，在挖掘效率与因子可解释性上做了优化：对数据采用量纲化处理并要求最终生成无量纲因子，同时限制合成因子的长度以避免过拟合。",
+      "evidence": "与传统的遗传规划以及 AutoML-Zero 相比，AlphaZero 在挖掘的效率以及因子的可解释性上做了更多的优化，首先，我们对所有数据采用了量纲化处理，避免了在因子挖掘中经常出现的不同量纲之间的因子运算，并且我们要求最终生成的因子为无量纲因子，这样使得因子可解释性问题有所缓解。其次，对于合成因子的长度我们也进行了限制，避免了因子计算过于复杂，容易导致的过拟合问题。"
+    },
+    {
+      "text": "限制所有变异均需与原有代码关联，即图结构上的改动均与原有边或节点关联，配合加入常用算子，能够极大的提高进化的效率。",
+      "evidence": "我们限制了所有的变异均需要与原有的代码有关联，即所有在图结构上的改动均与原有的边或者节点相关联。通过这两项改动，能够极大的提高进化的效率。"
+    },
+    {
+      "text": "热启动可用于进化已有个体：原始因子 ts_mean(close,240)/CLOSE 经多轮变异后，样本内 IC 从 0.057 提升到了 0.064。",
+      "evidence": "利 用 AlphaZero 我 们 可 以 展 示 此 因 子 的 进 化 过 程 ， 首 先 分 子 从 ts_mean(close,240) 进 化 为ts_mean(ts_mean(close,240)，5)，为原始因子的五日平均。第二步，分母从 CLOSE 进化为 CLOSE+LOW，在第三次 进 化 中 ， 分 母 再 次 进 化 为 CLOSE+ts_min(LOW,5) ， 在 最 后 一 次 进 化 中 ， 分 母 变 为CLOSE+ts_std(ts_std(close,240),5)，随着不断进化，因子在样本内的 IC 从 0.057 提升到了 0.064。"
+    },
+    {
+      "text": "三个挖掘因子的多空年化收益率分别为 26.17%、22.51%以及 25.73%；其中 Alpha1 多头组自 19 年起累计收益 118%，空头组累计收益-16%。",
+      "evidence": "从因子的分组收益率可以看出，多头组自 19 年起，累计收益 118%，空头组的累计收益为-16%，多空年化收益 26.17%，多头组的年化收益为 23.77%。"
+    },
+    {
+      "text": "Alpha3 的 IC 均值为-0.042，IR 为 6.93，胜率 69.90%，在 IC 以及胜率上高于因子二。",
+      "evidence": "因子三的 IC 均值为-0.042，IR 为 6.93，因子胜率为 69.90%，因子三的在 IC 以及胜率高于因子二。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "AlphaEvolve: A Learning Framework to Discover Novel Alphas in Quantitative Investment,中信建投",
+    "AutoML-Zero: Evolving Machine Learning Algorithms From Scratch",
+    "Real, E., Aggarwal, A., Huang, Y., & Le, Q. V. (2019). Regularized Evolution for Image Classifier Architecture Search. Proceedings of the AAAI Conference on Artificial Intelligence"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

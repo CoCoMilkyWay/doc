@@ -1,0 +1,138 @@
+{
+  "schema_version": 2,
+  "id": "20230723-中信建投-逐鹿alpha-015-基于领域知识生成的基本面因子挖掘框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "基本面因子一",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "s\\_qfa\\_yoyprofit - s\\_fa\\_yoy\\_equity + s\\_qfa\\_yoyop - (s\\_qfa\\_saleexpensetogr + s\\_qfa\\_yoynetprofit)/s\\_fa\\_roa2\\_yearly",
+          "stats": [null, null, null, null],
+          "evidence": "s_qfa_yoyprofit - s_fa_yoy_equity + s_qfa_yoyop – (s_qfa_saleexpensetogr + s_qfa_yoynetprofit)/s_fa_roa2_yearly"
+        },
+        {
+          "name": "基本面因子二",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "s\\_fa\\_yoy\\_equity + s\\_fa\\_finaexpensetogr + s\\_fa\\_finaexpensetogr - (s\\_qfa\\_saleexpensetogr + s\\_qfa\\_yoynetprofit) / (s\\_fa\\_salescashintoor + s\\_fa\\_longdebttoworkingcapital)",
+          "stats": [null, null, null, null],
+          "evidence": "s_fa_yoy_equity + s_fa_finaexpensetogr + s_fa_finaexpensetogr – (s_qfa_saleexpensetogr + s_qfa_yoynetprofit) / (s_fa_salescashintoor + s_fa_longdebttoworkingcapital)"
+        },
+        {
+          "name": "基本面因子三",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "s\\_qfa\\_yoyprofit - s\\_fa\\_yoy\\_equity + s\\_qfa\\_yoyop - (s\\_qfa\\_saleexpensetogr + s\\_qfa\\_yoynetprofit)/s\\_fa\\_roa2\\_yearly",
+          "stats": [null, null, null, null],
+          "evidence": "s_qfa_yoyprofit - s_fa_yoy_equity + s_qfa_yoyop – (s_qfa_saleexpensetogr + s_qfa_yoynetprofit)/s_fa_roa2_yearly"
+        },
+        {
+          "name": "基本面因子四",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "s\\_qfa\\_yoyop - s\\_qfa\\_gctogr - s\\_qfa\\_yoyprofit / s\\_fa\\_longdebttoworkingcapital",
+          "stats": [null, null, null, null],
+          "evidence": "s_qfa_yoyop - s_qfa_gctogr – s_qfa_yoyprofit / s_fa_longdebttoworkingcapital"
+        },
+        {
+          "name": "基本面因子五",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "s\\_qfa\\_yoyop + s\\_qfa\\_saleexpensetogr + s\\_qfa\\_yoynetprofit - s\\_fa\\_yoy\\_equity - s\\_fa\\_finaexpensetogr",
+          "stats": [null, null, null, null],
+          "evidence": "s_qfa_yoyop + s_qfa_saleexpensetogr + s_qfa_yoynetprofit - s_fa_yoy_equity - s_fa_finaexpensetogr"
+        },
+        {
+          "name": "基本面因子六",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "s\\_fa\\_yoy\\_equity + s\\_fa\\_finaexpensetogr + s\\_fa\\_finaexpensetogr - s\\_fa\\_salescashintoor - s\\_fa\\_longdebttoworkingcapital - s\\_qfa\\_yoyop",
+          "stats": [null, null, null, null],
+          "evidence": "s_fa_yoy_equity + s_fa_finaexpensetogr + s_fa_finaexpensetogr – s_fa_salescashintoor -s_fa_longdebttoworkingcapital - s_qfa_yoyop"
+        },
+        {
+          "name": "估值因子一",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "(cash\\_pay\\_dist\\_dpcp\\_int\\_exp - net\\_profit\\_incl\\_min\\_int\\_inc - net\\_profit\\_excl\\_min\\_int\\_inc - surplus\\_rsrv - cash\\_pay\\_beh\\_empl) / s\\_val\\_mv",
+          "stats": [null, null, null, null],
+          "evidence": "(cash_pay_dist_dpcp_int_exp - net_profit_incl_min_int_inc - net_profit_excl_min_int_inc - surplus_rsrv - cash_pay_beh_empl) / s_val_mv"
+        },
+        {
+          "name": "估值因子二",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "(net\\_profit\\_excl\\_min\\_int\\_inc + cash\\_pay\\_beh\\_empl) / s\\_val\\_mv",
+          "stats": [null, null, null, null],
+          "evidence": "(net_profit_excl_min_int_inc + cash_pay_beh_empl) / s_val_mv"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "利用启发式算法（遗传规划）作为专家生成适应度较高的种群，分析种群内个体的基因以及结构，得到优秀个体的先验信息（领域知识）",
+      "evidence": "利用启发式算法（遗传规划）作为专家生成适应度较高的种群，分析种群内个体的基因以及结构。得到优秀个体的先验信息。"
+    },
+    {
+      "text": "再利用这些信息，结合枚举法批量产生类似的因子进行分析，筛选最终效果较好且相关性较低的个体",
+      "evidence": "再利用这些信息，结合枚举法批量产生类似的因子进行分析，筛选最终效果较好且相关性较低的个体。"
+    },
+    {
+      "text": "基于有效的基因和结构，遍历所有可能的因子（深度不超过3），结合枚举法批量产生约45万个因子并计算两两相关性筛选",
+      "evidence": "基于有效的基因和结构，遍历所有可能的因子（深度不超过3），154*5 + 154*4~450000"
+    },
+    {
+      "text": "遗传规划设置种群2500个体、进化10轮、运行10次，生成~400000个因子，记录因子结构以及IC",
+      "evidence": "~400000个因子，记录因子结构以及IC"
+    },
+    {
+      "text": "对因子进行有效性检验和相关性检验，保留效果较好的因子",
+      "evidence": "对因子进行有效性检验和相关性检验，保留效果较好的因子。"
+    },
+    {
+      "text": "基本面因子三2020/12/31多空组合LS收益32.27%，空头S为6.48%，多头L为-19.53%",
+      "evidence": "| 2020/12/31 | 32.27% | 6.48% | -19.53% |"
+    },
+    {
+      "text": "估值因子一2017/12/31多空组合LS收益54.83%，空头S为-4.15%，多头L为-38.20%",
+      "evidence": "| 2017/12/31 | 54.83% | -4.15% | -38.20% |"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": 2,
+  "id": "20250313-华创证券-端到端挖掘-007-decompgru_基于趋势分解的时序_截面端到端模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "DecompGRU-IC",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{时序+截面端到端深度学习模型：趋势分解后双分支编码并分组去均值截面交互，以rank标准化标签与IC损失训练，输出每股得分}",
+          "stats": [null, 0.13, 1.1, null],
+          "evidence": "在中证全指股票池上， DecompGRU 综合表现强于基线模型，DecompGRU-IC 的 10日 RankIC 为 0.13，RankIC 为 1.1，胜率为 88%，20 日 RankIC 为 0.141，RankICIR为 1.23，胜率为 90%；"
+        },
+        {
+          "name": "DecompGRU-MSE",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{时序+截面端到端深度学习模型：趋势分解后双分支编码并分组去均值截面交互，以zscore标准化标签与样本加权MSE损失训练，输出每股得分}",
+          "stats": [null, 0.11, 1.09, null],
+          "evidence": "我们延续并拓展先前报告“股票时序内的局部-整体交互+截面股票间交互”的整体思路，构建新的时序+截面端到端模型 DecompGRU。我们通过趋势分解模块得到时序趋势与残差分量解耦表征，随后使用单独的分支进行特征提取，其中股票的截面交互同样基于去均值处理实现；"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["label_horizon", "sample_window", "loss_generalization"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "DecompGRU 与基线模型最低相关性为 0.72，在风格倾向上与基线模型存在一定差异，在小市值选股域中优势更为明显。",
+      "evidence": "DecompGRU 与基线模型最低相关性为 0.72，在风格倾向上与基线模型存在一定差异，在小市值选股域中优势更为明显；"
+    },
+    {
+      "text": "在 300、500股票池内，DecompGRU的 IC 表现弱于基线模型，在 1000上略强于基线。",
+      "evidence": "在 300、500股票池内，DecompGRU的 IC 表现弱于基线模型，在 1000上略强于基线；"
+    },
+    {
+      "text": "中证全指 20190101~20250228 区间内，DecompGRU 的 10 日 RankIC 为 0.13、RankICIR 为 1.1；20 日 RankIC 为 0.141，RankICIR 为 1.23，均优于基线模型。",
+      "evidence": "在中证全指 20190101~20250228 区间内，DecompGRU 的 10 日 RankIC 为 0.13、RankICIR 为 1.1；20 日 RankIC 为 0.141，RankICIR 为 1.23，均优于基线模型；"
+    },
+    {
+      "text": "分组测试中 DecompGRU 的 TOP 组年化收益最高达 52.82%，相比基线实现了 7.2%的提高；在300、500选股域中则整体表现弱于基线。",
+      "evidence": "分组测试中，DecompGRU 的TOP 组年化收益最高达 52.82%，相比基线实现了 7.2%的提高；在300、500选股域中则整体表现弱于基线；"
+    },
+    {
+      "text": "基于 DecompGRU-MSE 构建指增组合，双边换手 30%约束下，回测区间内 300/500/1000 指增组合年化超额收益分别为 8.48%、11.65%、17.11%，对应跟踪误差分别为 4.8、5.88、6.69。",
+      "evidence": "基于 DecompGRU-MSE 构建指增组合，在双边换手 30%的约束下，回测区间内 300/500/1000 指增组合年化超额收益分别为 8.48%、11.65%、17.11%，对应跟踪误差分别为 4.8、5.88、6.69。"
+    },
+    {
+      "text": "对比不同损失函数，使用 IC 损失函数训练的模型，在大多数 IC 相关指标的表现上优于 MSE损失。",
+      "evidence": "对比不同损失函数，使用 IC 损失函数训练的模型，在大多数 IC 相关指标的表现上优于 MSE损失。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "AI+HI 系列（4）：CrossGRU：基于交叉注意力的时序+截面端到端模型",
+    "AI+HI 系列（5）：CrossGRU-2：基于 Patch 与多尺度时序改进端到端模型",
+    "AI+HI 系列（6）：对端到端模型泛化性的思考与改进——基于样本加权与风格约束",
+    "Wu, Haixu, et al. \"Autoformer: Decomposition transformers with auto-correlation for long-term series forecasting.\"",
+    "Yu, Weihao, et al. \"Metaformer is actually what you need for vision.\""
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

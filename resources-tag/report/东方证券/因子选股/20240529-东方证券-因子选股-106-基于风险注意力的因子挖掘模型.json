@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "20240529-东方证券-因子选股-106-基于风险注意力的因子挖掘模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "Risk-Attention",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathbf{A}=\\mathrm{softmax}\\left(\\frac{\\mathbf{Q}\\mathbf{K}^{T}}{\\sqrt{H}}\\right),\\ \\mathbf{Z}=\\mathbf{A}\\mathbf{V},\\ \\mathbf{Y}=\\mathrm{MLP}(\\mathbf{H}\\|\\mathbf{Z})",
+          "stats": [null, 0.106, 6.3, null],
+          "evidence": "在本文中，Q 和 K 源自风险因子经由不同线性变化过后的风险特征，而V源自GRU对行情数据提取后的量价特征，用以探索基于风险特征的注意力是否能引入关联股票的量价特征，从而增强个股的量价特征。我们将这个模型称为Risk-Attention 模型。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "Risk-Attention 模型在周频（2018年1月5日-2024年3月15日）上的表现为：RankIC 为 0.106，ICIR 为 6.30，夏普值为 5.23，多头超额年化收益率达到 40.3%。",
+      "evidence": "Risk-Attention 模型在周频（2018 年 1 月 5 日-2024 年 3 月 15日）上的表现如下：RankIC 为 0.106，ICIR 为 6.30，夏普值为 5.23，多头超额年化收益率达到 40.3%。"
+    },
+    {
+      "text": "2020 年之后，Risk-Attention 表现显著超过 Raw GRU 和 Cat MLP，超出具有相同信息但不同结构的 CatMLP 近 10% 的年化超额，超出仅包含行情时序信息的 Raw GRU 近 20% 的年化超额。",
+      "evidence": "2020 年之后，Risk-Attention 表现显著超过二者，超出具有相同信息但不同结构的 CatMLP近 10%的年化超额，超出仅包含行情时序信息的 Raw GRU近 20%的年化超额。"
+    },
+    {
+      "text": "先验图的应用面临稀疏性、对称性、主观性、滞后性和类别众多等挑战，本文希望引入自适应图结构、数据驱动的关系学习，构建有向的、稠密的关联关系。",
+      "evidence": "综上所述，先验图的应用面临稀疏性、对称性、主观性、滞后性和类别众多等挑战。我们希望引入自适应图结构、数据驱动的关系学习，最终可以根据股票自身信息及时构建出有向的、稠密的关联关系。"
+    },
+    {
+      "text": "注意力权重矩阵显示市值在注意力的形成中扮演重要角色，2024年2月6日之后市场上涨时微盘股的影响力会向更大市值股票延伸，而在下跌时则不然。",
+      "evidence": "例如，2024年 2 月 6 日之后市场上涨时，微盘股的影响力会向更大市值股票延伸，而在下跌时则不然。微盘股持续赋予大盘股高权重，可能是一种借鉴大盘特征用于合成特异度类特征的行为。"
+    },
+    {
+      "text": "2024年2月8日的热力图中，微盘股的高 Beta 反转特征影响延伸到了中位数市值的股票，使得该周因子的 IC 达到了 0.48。",
+      "evidence": "特别是在2024年2月8日的热力图中，微盘股的高 Beta 反转特征影响延伸到了中位数市值的股票，使得该周因子的 IC 达到了0.48。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Vaswani, A., et al. (2017). Attention is All You Need.",
+    "Veličković, P., et al. (2018). Graph Attention Networks.",
+    "《东方A股因子风险模型（DFQ-2020）》",
+    "《基于异构图神经网络的股票关联因子挖掘》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

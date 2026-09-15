@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "20160812-东方证券-因子选股-010-alpha因子库精简与优化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "基于Fama-MacBeth回归设计的因子筛选方法把11个Alpha因子筛选至5个，筛选过程几乎没有alpha信息的损失，筛选前后的多因子多空组合表现相当，可在不损耗alpha信息的前提下减少因子数量与需估计的参数数量。",
+      "evidence": "在实证中，我们把 11 个 Alpha 因子筛选至 5 个，筛选过程几乎没有 alpha 信息的损失，筛选前后的多因子多空组合表现相当。"
+    },
+    {
+      "text": "压缩估计量方法牺牲部分偏差获得更稳健的IC协方差估计，Shrink优化多空组合平均月收益0.032、月胜率90.3%、Sharpe 2.85，显著优于样本协方差矩阵方法的0.020、81.6%与2.39。",
+      "evidence": "SampleCov估计方差太大，估计值不准，而 Shrink方法牺牲了部分偏差，却获得了更稳健的估计量，因此优化得到的组合更符合做 alpha 优化时设定的目标，Sharpe 值、稳定性更高，平均月收益也更高则是附带的效果。"
+    },
+    {
+      "text": "Qian(2007)的Alpha优化考虑了因子间的相关性，剔除重复信息影响，Shrink多空组合月胜率90.3%、Sharpe 2.85，明显高于等权Alpha模型的76.7%与2.29。",
+      "evidence": "这主要是 Alpha 优化的方法考虑了因子间的相关性，剔除了重复信息的影响，而等权方法会人为的去变更这些重复信息的权重，增加收益的波动。"
+    },
+    {
+      "text": "拿个股收益率对Z6与Z_res做Fama-MacBeth回归，Z_res系数Student-t检验p-value等于0.23，在5%置信度下不显著，说明本报告里的因子筛选方法没有信息损失。",
+      "evidence": "我们实证得到的 Z_res 系数 Student-t 检验 p-value 等于 0.23，在 5%置信度下不显著，这也能说明本报告里的因子筛选方法没有信息损失。"
+    },
+    {
+      "text": "对因子库做敏感性分析，11种情形里有五种情形的Fama-MacBeth回归检验pval<0.05，筛选方法确实可能导致信息损失，但筛选后因子库的多空组合表现和原始因子库相当，损失的信息量很小。",
+      "evidence": "可以看到，随着原始因子库的变化，本文的因子筛选方法确实有可能会到导致信息损失，11种情形里面，有五种情形的 Fama-MacBeth 回归检验 pval <0.05。但是从多空组合表现来看，经过筛选的因子库构建的多空组合表现和原始因子库相当，说明损失的信息量很小。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama, E. F., MacBeth, J. D., (1973), Risk, Return, and Equilibrium: Empirical Tests",
+    "Ledoit, O. and Wolf, M. (2004), A well-conditioned estimator for large-dimensional covariance matrices",
+    "Qian, E., Hua, R., Sorensen, E., (2007), Quantitative Equity Portfolio Management: Modern Techniques and Applications"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

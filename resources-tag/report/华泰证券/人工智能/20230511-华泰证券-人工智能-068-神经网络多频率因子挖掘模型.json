@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "id": "20230511-华泰证券-人工智能-068-神经网络多频率因子挖掘模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "15 分钟频模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{GRU 对标准化后的 15 分钟频开、高、低、收、vwap、成交量序列进行端到端学习，直接输出选股因子}",
+          "stats": [null, 0.093, 1.15, null],
+          "evidence": "考虑到神经网络具有强大的特征提取能力，本文省去人工构建因子的步骤，直接对标准化后的原始 15 分钟 K线数据进行学习，神经网络骨干部分使用GRU 网络。"
+        },
+        {
+          "name": "多频率混合模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{日频与 15 分钟频量价数据分别经 GRU 提取特征后拼接，经全连接层输出选股因子}",
+          "stats": [null, 0.0858, 1.02, null],
+          "evidence": "为了融入更多市场信息，我们在 15 分钟频数据的模型上，加入日频数据，构建多频率混合模型。模型通过两个输入分别接收日频量价和 15 分钟频量价数据，并分别使用 GRU提取特征，最后将两部分特征拼接并对接输出。"
+        },
+        {
+          "name": "多频率增量混合模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\hat{y}=\\hat{y}_{1}+\\hat{y}_{2}",
+          "stats": [null, 0.1022, 1.33, null],
+          "evidence": "第二阶段：将日频量价数据分支网络结构的参数冻结，只前向传播，然后引入 15 分钟频数据学习残差，即再让网络学习分钟频量价数据能够贡献的增量信息。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000", "other"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "15 分钟频模型在全 A 股回测期内周度 RankIC 均值为 9.30%，分 10 层 TOP 组合年化超额收益率为 24.18%，加入注意力机制后没有改进效果。",
+      "evidence": "样本空间为全 A 股，模型在 2017/1/4～2023/4/28 的回测期内周度RankIC均值为9.30%，分10层TOP组合年化超额收益率为24.18%(不计交易成本)。我们还尝试对 GRU 加入注意力机制，希望帮助模型更好地记忆长程序列信息，但在本文的测试中，加入注意力机制后没有改进效果。"
+    },
+    {
+      "text": "多频率混合模型引入日频量价信息对模型有较大贡献，TOP 组合年化超额收益率相比 15 分钟频模型有较大提升。",
+      "evidence": "两个多频率混合模型的 TOP组合年化超额收益率相比 15 分钟频模型有较大提升，说明引入日频量价信息对模型有较大贡献。"
+    },
+    {
+      "text": "多频率增量混合模型在各个股票池内都表现最好，且 TOP 组合换手率最低，体现出增量学习模型的优势。",
+      "evidence": "多频率增量混合模型在各个股票池内都表现最好，且 TOP组合换手率最低，体现出增量学习模型的优势。"
+    },
+    {
+      "text": "基于参数冻结+残差预测的多频率增量混合模型在全 A 股周度 RankIC 均值为 10.22%，分 10 层 TOP 组合年化超额收益率为 36.36%，在本文的所有模型中表现最好。",
+      "evidence": "样本空间为全 A股，模型在 2017/1/4～2023/4/28的回测期内周度 RankIC均值为10.22%，分 10 层 TOP组合年化超额收益率为 36.36%(不计交易成本)，在本文的所有模型中表现最好。"
+    },
+    {
+      "text": "基于多频率增量混合模型构建的指数增强组合回测表现优秀：沪深 300、中证 500、中证 1000、国证 2000 增强组合年化超额收益率分别为 8.77%~9.48%、17.39%~18.18%、28.93%~31.57%、29.38%~31.19%。",
+      "evidence": "在 2017/1/4～2023/4/28 的回测期内，沪深 300 增强组合年化超额收益率为8.77%~9.48%，信息比率为1.21~1.40。中证 500 增强组合年化超额收益率为 17.39%~18.18%，信息比率为 3.11~3.29。中证 1000 增强组合年化超额收益率为28.93%~31.57%，信息比率为 4.45~4.79。国证 2000 增强组合年化超额收益率为29.38%~31.19%，信息比率为 4.09~4.25。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《AlphaNet：因子挖掘神经网络》(2020.6.14)",
+    "《基于遗传规划的选股因子挖掘》(2019.6.10)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "id": "20240514-东方证券-因子选股-103-dfq_factorvae_融合变分自编码器和概率动态因子模型的alpha预测方案",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "DFQ-FactorVAE",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{以变分自编码器的编码器-解码器架构将因子作为潜在变量，提取先验/后验因子的分布，预测阶段仅用先验因子经因子模型解码得到股票收益率预测得分}",
+          "stats": [0.1247, 0.1513, 1.3, null],
+          "evidence": "在中证全指股票池中，DFQ-FactorVAE 模型所得到因子的稳定性明显最强，ICIR、RANKICIR、多头日度超额收益夏普比均为最高。测试集上 rankic 达到 15%，rankicir 达到 1.38，20 分组多头日度超额年化收益率达到 31.75%，多头日超额收益夏普比 3.52，多头日度超额收益最大回撤8.28%，多头月度胜率88%，月均单边换手79%。分组单调性好。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中证全指股票池中DFQ-FactorVAE因子稳定性明显最强，ICIR、RANKICIR、多头日超额收益夏普比均为最高，测试集上rankic达15%，rankicir达1.38，20分组多头日度超额年化收益率达31.75%。",
+      "evidence": "在中证全指股票池中，DFQ-FactorVAE 模型所得到因子的稳定性明显最强，ICIR、RANKICIR、多头日度超额收益夏普比均为最高。测试集上 rankic 达到 15%，rankicir 达到 1.38，20 分组多头日度超额年化收益率达到 31.75%，多头日超额收益夏普比 3.52，多头日度超额收益最大回撤8.28%，多头月度胜率88%，月均单边换手79%。分组单调性好。"
+    },
+    {
+      "text": "沪深300股票池中DFQ-FactorVAE因子多头表现明显最强，测试集上rankic达10.6%，rankicir达0.6，5分组多头日度超额年化收益率达14.47%，多头日超额收益夏普比1.72。",
+      "evidence": "在沪深300股票池中，DFQ-FactorVAE模型所得到因子的多头表现明显最强。测试集上 rankic 达到 10.6%，rankicir 达到 0.6，5 分组多头日度超额年化收益率达到14.47%，多头日超额收益夏普比1.72，多头日度超额收益最大回撤6.74%，月均单边换手 54%。分组单调性好。"
+    },
+    {
+      "text": "先验因子对沪深300股票的解释度最高，平均能达到36.5%，其次为中证500成分股的27.95%，中证1000成分股的25.45%，全市场解释度最低，为20.78%。",
+      "evidence": "结果显示，先验因子对沪深 300 股票的解释度最高，平均能达到 36.5%，其次为中证 500 成分股的 27.95%，中证 1000 成分股的 25.45%，全市场解释度最低，为 20.78%。"
+    },
+    {
+      "text": "与GRU模型相比，FactorVae模型效果明显占优，20日rankic提高近2%，多头组年化超额收益提高4%。",
+      "evidence": "我们比较了 GRU 模型和 FactorVae 模型的效果，结果显示：FactorVae 模型效果明显占优，20 日 rankic 提高近 2%，多头组年化超额收益提高 4%。"
+    },
+    {
+      "text": "用60个基础特征作为输入并结合双重GRU编码效果最好，月均rankic可达15%，rankicir达1.4，多头组合年化超额收益可达29%，多头年化超额夏普达3.76。",
+      "evidence": "通过双重 GRU 编码，模型可以分别从两个不同维度的特征中学习到更丰富和更准确的信息，从而提高了模型的性能。月均 rankic 可达15%，rankicir达 1.4，多头组合年化超额收益可以达到 29%，多头年化超额夏普达到 3.76。"
+    },
+    {
+      "text": "标签Y使用绝对收益的zscore标准化得分后效果有明显提升，将每只股票的收益率转化为相对于市场平均水平的标准分数，使预测更为稳健和准确。",
+      "evidence": "使用绝对收益的zscore标准化得分，效果有明显提升。zscore标准化可以消除绝对收益率的绝对数值差异，将每只股票的收益率转化为相对于市场平均水平的标准分数。"
+    },
+    {
+      "text": "直接取模型输出的股票收益率均值效果不如同时预测收益率均值和标准差的原始模型，说明考虑风险建模更适合含有噪声的股票收益率预测。",
+      "evidence": "如果直接取模型输出的股票收益率均值的话，效果不如原模型。这也反映了 FactorVAE 模型预测收益率分布的意义。"
+    },
+    {
+      "text": "DFQ-FactorVAE合成因子在沪深300指增组合中年化信息比达2.55，年化对冲收益13.53%，年化跟踪误差5.03%，超额收益最大回撤仅为5.35%，单边年换手7.67倍。",
+      "evidence": "（1）整体表现：2020 年以来年化信息比达到 2.55，年化对冲收益 13.53%，年化跟踪误差5.03%，超额收益最大回撤仅为 5.35%，单边年换手7.67倍。"
+    },
+    {
+      "text": "设置100%成分内选股增强可明显提高组合业绩稳定性，跟踪误差降低到4.37%，超额收益最大回撤降低到3.31%，最大回撤恢复仅需30天，仍可获得超过10%的年化超额。",
+      "evidence": "设置 100%成分内选股增强，可以明显提高组合业绩表现稳定性，同时也会牺牲一定的组合收益。组合跟踪误差可以降低到 4.37%，超额收益最大回撤降低到3.31%，最大回撤恢复仅需 30 天，并且仍然可以获得超过 10%的年化超额。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Duan Y, Wang L, Zhang Q, et al. Factorvae: A probabilistic dynamic factor model based on variational autoencoder for predicting cross-sectional stock returns[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2022, 36(4): 4468-4476.",
+    "《DFQ 强化学习因子组合挖掘系统》——因子选股系列之九十五",
+    "《DFQ 遗传规划价量因子挖掘系统》——因子选股系列之九十",
+    "《DFQ-HIST：添加图信息的选股因子挖掘系统》——因子选股系列之一百",
+    "《DFQ-TRA：多交易模式学习因子挖掘系统》——因子选股系列之九十七",
+    "《东方 A 股因子风险模型（DFQ-2020）》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

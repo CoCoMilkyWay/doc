@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "id": "20221206-东方证券-因子选股-086-研报文本情感倾向因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative", "L1_mining"],
+      "approach": ["text_sentiment", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["analyst"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "词频因子 RPTF",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\Lambda=\\log(tf+1) \\text{ 作为对数词频特征，经 XGB 回归预测打分}",
+          "stats": [null, 0.034, 1.3, 0.2],
+          "evidence": "词频因子 RPTF：统计训练窗口内的高频词，形成 log 词频矩阵，用 XGB 进行回归预测，全样本 Rank IC 3.4%，ICIR 1.3，年化收益率20%。"
+        },
+        {
+          "name": "正则表达式因子 RPRF",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{318 个正则表达式对标题与摘要匹配，形成 N \\times 636 的 One-Hot 矩阵，经 XGB 回归预测打分}",
+          "stats": [null, 0.035, 1.7, 0.19],
+          "evidence": "正则表达式因子 RPRF：人工提取研报中常见、并且具有情感倾向的表达，类似于((产能)|(规模)|(如期)).∗ ((达产)|(投放))，形成 regex 的 One-Hot 矩阵，用 XGB 进行回归预测，全样本 Rank IC 3.5%，ICIR 1.7，年化收益率19%。"
+        },
+        {
+          "name": "同义映射词组因子 RPBF",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{分词经同义词映射后相邻两两组成 bigram，统计高频词组频矩阵，经 XGB 回归预测打分}",
+          "stats": [null, 0.035, 1.5, 0.19],
+          "evidence": "同义映射词组因子 RPBF：将分词用同义词进行映射降维，相邻两词组成一个词组，统计高频词组，形成词组频矩阵，用 XGB 进行回归预测，全样本 Rank IC3.5%，ICIR 1.5，年化收益率 19%。"
+        },
+        {
+          "name": "循环神经网络因子 RPNN",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{分词序列经词向量映射为固定长度矩阵，用单层 GRU 训练预测打分}",
+          "stats": [null, 0.03, 1.2, 0.16],
+          "evidence": "循环神经网络因子 RPNN：将分词序列用词向量进行映射，形成词向量序列，用单层 GRU 进行训练预测，全样本 Rank IC 3.0%，ICIR 1.2，年化收益率 16%。"
+        },
+        {
+          "name": "合成因子 RPST",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{RPST}=\\frac{1}{4}(\\text{RPTF}+\\text{RPRF}+\\text{RPBF}+\\text{RPNN})",
+          "stats": [null, 0.038, 1.4, 0.2],
+          "evidence": "合成因子 RPST：由前面四个因子等权合成，全样本 Rank IC 3.8%，ICIR 1.4，年化收益率 20%，中性化之后全样本 Rank IC 3.9%，ICIR 2.4，年化收益率 19%，各项回测指标都超过WFR，符合预期。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "五个因子中合成因子 RPST 全样本 Rank IC 3.8%、ICIR 1.4、年化收益率 20%，中性化后 Rank IC 3.9%、ICIR 2.4，各项回测指标都超过WFR。",
+      "evidence": "合成因子 RPST：由前面四个因子等权合成，全样本 Rank IC 3.8%，ICIR 1.4，年化收益率 20%，中性化之后全样本 Rank IC 3.9%，ICIR 2.4，年化收益率 19%，各项回测指标都超过WFR，符合预期。"
+    },
+    {
+      "text": "摘要文本蕴含大量增量信息，RPTF 模型中摘要信息的加入使多头年化收益率从 5% 提升到 11%。",
+      "evidence": "本文分开使用标题文本和摘要文本提取体征，因为经过测试发现摘要文本中蕴含着大量增量信息，在 RPTF模型中摘要信息的加入能够提升一倍的多头年化收益率，从 5%提升到 11%。"
+    },
+    {
+      "text": "四个单因子相关性在 0.57-0.67 并不算高，说明文本的不同特征抓取方式包含不同的信息。",
+      "evidence": "前四个因子使用相同的文本数据和训练标签，但是彼此之间的因子相关性在 0.57-0.67，相关性并不算高，说明对于文本的不同特征抓取方式其实包含了不同的信息。"
+    },
+    {
+      "text": "RPST 行业市值中性化后，选股能力 RankIC 在中证 1000 中提升到 4.5%，沪深 300 中下降到 2.4%，全样本 ICIR 和 Sharpe 明显提升，MaxDD 显著下降。",
+      "evidence": "RPST在各个样本空间进行行业市值中性化之后，选股能力 RankIC在中证 1000中提升到了 4.5%，而在沪深300中下降到了 2.4%，这种现象在WFR因子中也同样存在，而在全样本中，中性化之后 ICIR和 Sharpe都有明显提升，MaxDD在各样本空间都显著下降，说明选股能力和盈利能力在剔除了行业市值的影响之后都变得更加稳定。"
+    },
+    {
+      "text": "RPST 各项回测指标均超过 WFR，与 WFR 相关性仅 0.16，说明模型从文本中学习到了盈利调整之外的额外信息。",
+      "evidence": "本文实证结果中RPST的各项回测指标均超过WFR（盈余调整度量，Weighted Forecast Revision）在一定程度上也印证了上述想法。"
+    },
+    {
+      "text": "以 RPBF 为例对比标签：盈利调整分类 Rank IC 3.3% 高于异常收益分类的 2.7%，回归标签 Rank IC 3.5% 高于分类标签的 3.3%，盈利调整作为标签因果关系更强。",
+      "evidence": "本文用 Rank IC最高的“同义映射词组模型 RPBF”来对比两种标签的表现，采用的分类器为 XGB，发现盈利调整分类 Rank IC为 3.3%，异常收益分类 Rank IC为 2.7%，在分组年化收益上，盈利调整的分组更加单调，多头收益更高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "PEAD.txt: Post-Earnings-Announcement Drift Using Text",
+    "《分析师研报的数据特征与 alpha》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

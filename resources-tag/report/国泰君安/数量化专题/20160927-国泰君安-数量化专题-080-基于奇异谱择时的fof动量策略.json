@@ -1,0 +1,169 @@
+{
+  "schema_version": 2,
+  "id": "20160927-国泰君安-数量化专题-080-基于奇异谱择时的fof动量策略",
+  "genre": "research",
+  "asset": ["fund"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "历史收益率（HR）",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{样本的年化收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "样本的年化收益率。 基金的收益可以分解为市场收益和基金管理人创造的超额收益，我们利用基金指数或者基金基准的收益率对基金收益率进行OLS回归，得到基金对其基准的风险因子β"
+        },
+        {
+          "name": "超额收益率（Alpha）",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Alpha=\\mu-\\beta\\times\\mu_{b}",
+          "stats": [null, null, null, null],
+          "evidence": "基金的收益可以分解为市场收益和基金管理人创造的超额收益，我们利用基金指数或者基金基准的收益率对基金收益率进行OLS回归，得到基金对其基准的风险因子β"
+        },
+        {
+          "name": "调整在险值（MVaR）",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{MVaR}_{\\alpha}=\\mu+\\left(z_{c}+\\frac{1}{6}\\left(z_{c}^{2}-1\\right)S+\\frac{1}{24}\\left(z_{c}^{3}-3z_{c}\\right)K-\\frac{1}{36}\\left(2z_{c}^{3}-5z_{c}\\right)S^{2}\\right)\\sigma",
+          "stats": [null, null, null, null],
+          "evidence": "调整在险值是利用收益率偏度和峰度对传统在险值调整后的指标。传统的在险值 (VaR）无法捕捉基金收益率肥尾属性，因此提出调整在险值。"
+        },
+        {
+          "name": "最大回撤（MD）",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净值历史回撤幅度最大值}",
+          "stats": [null, null, null, null],
+          "evidence": "i 时刻回撤是指净值在i 时刻的水平相对i 时刻以前最高净值的降幅。"
+        },
+        {
+          "name": "平均回撤（AD）",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{AD}=\\sum_{i=0}^{N-1}DD_{N-i}\\times0.9^{i}",
+          "stats": [null, null, null, null],
+          "evidence": "i 时刻回撤是指净值在i 时刻的水平相对i 时刻以前最高净值的降幅。本指标代表了基金长期管理下平均回撤 水平。"
+        },
+        {
+          "name": "负向收益波动率（LPM）",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{仅计算样本负向收益的波动率}",
+          "stats": [null, null, null, null],
+          "evidence": "平均回撤是对基金长期回撤控制能力的一种考察。 仅计算样本负向收益的波动率。"
+        },
+        {
+          "name": "收益波动率（SIGMA）",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{样本收益率的波动率}",
+          "stats": [null, null, null, null],
+          "evidence": "仅计算样本负向收益的波动率。 样本收益率的波动率。"
+        },
+        {
+          "name": "夏普比率",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "SR=\\frac{HR}{SIGMA}",
+          "stats": [null, null, null, null],
+          "evidence": "从绝对收益角度看，最终收益越高，夏普比率越高的历史表现选基策略反映的基金动量效应越明显；"
+        },
+        {
+          "name": "X 比率",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "XR=\\frac{Alpha}{LPM}",
+          "stats": [null, null, null, null],
+          "evidence": "注：X 比率分子是 alpha，分母是负向收益波动率；信息比率分子是跟踪偏离度平均，分母是跟踪误差。"
+        },
+        {
+          "name": "信息比率",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "IR=\\frac{\\text{跟踪偏离度平均}}{\\text{跟踪误差}}",
+          "stats": [null, null, null, null],
+          "evidence": "注：X 比率分子是 alpha，分母是负向收益波动率；信息比率分子是跟踪偏离度平均，分母是跟踪误差。"
+        },
+        {
+          "name": "综合指标CI",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "CI=sigmoid(HR)+sigmoid(Alpha)+sigmoid(MVar)+\\cdots+sigmoid(TR)+sigmoid(IR)",
+          "stats": [null, null, null, null],
+          "evidence": "除以上指标外，本报告同时设计综合指标CI。综合指标是将以上所有指标等权加总得到的指标。在加总之前先将每个指标的值映射到[0,1]之间。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["na"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "基金动量效应短期存在长期衰减，且动量效应和基金排序方式有关。",
+      "evidence": "本报告验证了基金的动量效应的两个特点：动量效应短期存在长期衰减；动量效应和基金排序方式有关。"
+    },
+    {
+      "text": "股票型和混合型基金短期动量效应明显，混合型基金动量更强、收益高波动大；债券型基金收益稳定风险小，动量策略能增强收益。",
+      "evidence": "其中股票型基金和混合型基金短期动量效应明显，但混合型基金动量更强，动量策略收益高，波动大，债券型基金总体收益稳定，风险小，动量策略能在一定程度上增强收益。"
+    },
+    {
+      "text": "调仓频率越高相对收益越高越稳定，月调仓下利用综合指标选基有较为显著的超额收益。",
+      "evidence": "从相对收益角度来看，调仓频率越高相对收益越高越稳定，月调仓下利用综合指标选基有较为显著的超额收益。"
+    },
+    {
+      "text": "以奇异谱趋势线组为择时体系，月末看多下个持仓周期持有混合型基金，月末看空持有债券型基金。",
+      "evidence": "本文将利用此趋势判断系统进行FOF大类资产配臵的时机选择。如果体系在月末处于看多区间，下个持仓周期持有混合型基金，如果体系在月末处于看空区间，则下个持仓周期持有债券型基金。"
+    },
+    {
+      "text": "2006年1月到2016年6月回测期间，较激进组合年化26.93%、最大回撤-20.51%，较稳健组合年化20.54%、最大回撤-13.37%，相对沪深300长期获得超额收益。",
+      "evidence": "结合最优选基指标，在 2006年 1月到2016 年6月的回测期间较激进组合获得年化 26.93%的收益，最大回撤-20.51%，较稳健组合获得年化 20.54%的收益，最大回撤-13.37%，相对沪深300 能够长期获得一定的超额收益。"
+    },
+    {
+      "text": "奇异谱择时FOF动量策略比简单持有混合型基金收益更好、回撤更小，其中收益回撤比最大的组合为H_AD(债)+SR(混)。",
+      "evidence": "从最终的回测结果可以看到，奇异谱择时FOF动量策略绝对收益相比于简单持有混合型基金更好，回撤更小，且相对沪深300 指数能够长期获得一定的超额收益。其中收益回撤比最大的组合为H_AD(债)+SR(混)。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《基于奇异谱分析的均线择时研究》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

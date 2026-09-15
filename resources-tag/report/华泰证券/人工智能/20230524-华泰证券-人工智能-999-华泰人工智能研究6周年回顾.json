@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "20230524-华泰证券-人工智能-999-华泰人工智能研究6周年回顾",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring", "synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_alternative", "L1_mining"],
+      "approach": ["text_sentiment", "symbolic_search", "representation_learning", "llm_generation"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "analyst", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": [
+        "tree",
+        "neural",
+        "label_horizon",
+        "loss_generalization",
+        "interpretability",
+        "ensemble",
+        "fusion"
+      ],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["learned_solver"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection"]},
+    "L8_timing": {"module": ["L8_timing"], "approach": ["ml_timing"], "setup": {"rebalance": "na"}}
+  },
+  "findings": [
+    {
+      "text": "随机森林、XGBoost这两类决策树集成模型较为适合多因子选股场景，兼具拟合能力强、稳定性好、训练效率高等优点",
+      "evidence": "2017年，我们测试广义线性模型、支持向量机、决策树、神经网络等模型的选股效果，发现随机森林、XGBoost这两类决策树集成模型较为适合多因子选股场景，兼具拟合能力强、稳定性好、训练效率高等优点。"
+    },
+    {
+      "text": "基于GRU混频因子挖掘构建的周频中证500指数增强组合回测期内年化超额收益率18.18%，信息比率3.29；周频中证1000指数增强组合年化超额收益率28.93%，信息比率4.45",
+      "evidence": "基于GRU混频因子挖掘构建的周频中证500指数增强组合回测期内（2017-01-03~2023-04-28）年化超额收益率18.18%，信息比率3.29；周频中证1000指数增强组合回测期内（2017-01-03~2023-04-28）年化超额收益率28.93%，信息比率4.45。"
+    },
+    {
+      "text": "时序交叉验证相比传统交叉验证方法更适用于金融时序数据，重采样技术基于真实数据构建“平行世界”检验策略参数过拟合概率，组合对称交叉验证（CSCV）是更为简单易行的过拟合检验流程",
+      "evidence": "时序交叉验证相比传统交叉验证方法更适用于金融时序数据；重采样技术基于真实数据构建“平行世界”，检验策略参数过拟合概率；组合对称交叉验证（CSCV）是更为简单易行的过拟合检验流程；SHAP、ICE、SDT等模型可解释性工具能够揭示机器学习的“思考”过程。"
+    },
+    {
+      "text": "生成对抗网络（GAN）可以生成以假乱真的“伪造”数据，有助于训练模型和理解市场，从单资产生成拓展至多资产生成和宏观指标生成，应用于资产配置、策略调参等实践场景",
+      "evidence": "金融市场数据量有限，过拟合难以避免，生成对抗网络（GAN）可以生成以假乱真的“伪造”数据，有助于我们训练模型和理解市场。"
+    },
+    {
+      "text": "GPT能大幅提升投研效率，通过量化分析、网页抓取、文字摘要及行情复盘四个案例展示了GPT在投研工作中的可能应用场景，GPT均有不俗的表现",
+      "evidence": "此外GPT能大幅提升投研效率，我们通过量化分析、网页抓取、文字摘要及行情复盘四个案例展示了GPT在投研工作中的可能应用场景，GPT均有不俗的表现。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《人工智能14：对抗过拟合：从时序交叉验证谈起》（2018-11-28）",
+    "《人工智能21：基于遗传规划的选股因子挖掘》（2019-06-10）",
+    "《人工智能22：基于CSCV框架的回测过拟合概率》（2019-06-17）",
+    "《人工智能32：AlphaNet：因子挖掘神经网络》（2020-06-14）",
+    "《人工智能68：神经网络多频率因子挖掘模型》（2023-05-11）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

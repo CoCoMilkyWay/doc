@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20161102-东方证券-因子选股-014-非流动性的度量及其横截面溢价",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "相对买卖价差",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "PercentQuotedSpread_s=(Ask_s-Bid_s)/((Ask_s+Bid_s)/2)",
+          "stats": [null, 0.044, 1.58, 0.193],
+          "evidence": "相对买卖价差是十分直观的概念，其度量的是若要立即成交，在股价上必须做出的让步。"
+        },
+        {
+          "name": "实际交易价差",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "PercentEffectiveSpread_k=2D_k(\\ln(P_k)-\\ln(M_k))",
+          "stats": [null, -0.005, -0.21, -0.016],
+          "evidence": "相对买卖价差从时间维度上看买卖价差大小，实际交易价差从实际每笔的成交上看买卖价差的大小。"
+        },
+        {
+          "name": "价格冲击弹性",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "r_n=\\lambda\\cdot S_n+\\mu_n,\\quad S_n=\\sum_k Sign(\\nu_{kn})\\cdot\\sqrt{|\\nu_{kn}|}",
+          "stats": [null, 0.058, 3.15, 0.201],
+          "evidence": "我们沿用 Hasbrouck(2006)和 Goyeneko, Holden, and Trzcinka(2009)的算法，定义价格冲击弹性 $\\lambda$ 为如下回归方程的系数："
+        },
+        {
+          "name": "Amihud非流动性",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AmihudILLIQ=Average(|r_t|\\cdot Volume_t)",
+          "stats": [null, 0.061, 2.51, 0.202],
+          "evidence": "Amihud（2002）在研究股票非流动性和未来收益的关系时提出了后来被广为接受的非流动性度量方法："
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Turnover=Average(Volume_t/FloatShares_t)",
+          "stats": [null, -0.086, -2.55, 0.274],
+          "evidence": "但换手率具有双重属性，除了度量投机性泡沫还是股票流动性的一个重要参考，股票在过去一段时间换手率较高，意味着区间成交量大，单位成交对股价的冲击就较小。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "风格中性下除实际交易价差外的其他非流动性指标均有预测横截面收益的能力，其中价格冲击弹性稳定性最高，IC_IR高达 3.15，仅就超额收益大小而言，换手率和 Amihud非流动性表现最好。",
+      "evidence": "通过考察各个非流动性因子的 alpha 属性，我们发现在风格中性下除实际交易价差外的其他非流动性指标均有预测横截面收益的能力，其中价格冲击弹性稳定性最高，IC_IR高达 3.15（年化），多空夏普比2.22，仅就超额收益大小而言，换手率和 Amihud非流动性表现最好。"
+    },
+    {
+      "text": "Amihud非流动性可以作为相对买卖价差和价格冲击弹性的低频代理变量，换手率相对非流动性的微观度量指标较为独立。",
+      "evidence": "（2）Amihud非流动性可以作为相对买卖价差和价格冲击弹性的低频代理变量。Amihud非流动性和扩展的 Amihud 和两个微观度量的非流动性因子相关性大，IC 表现一致，在微观度量不可获得的情况下可以作为其代理变量；"
+    },
+    {
+      "text": "Amihud非流动性和换手率因子可以完全替代相对买卖价差，但不能完全替代价格冲击弹性，说明价格冲击弹性有存在的必要性。",
+      "evidence": "（1）Amihud非流动性和换手率因子可以完全替代相对买卖价差，但不能完全替代价格冲击弹性（lambda）。Amihud 非流动性因子和换手率虽然和价格冲击弹性相关性高，但在控制了它们之后，价格冲击弹性依然十分显著【式（2）】，说明价格冲击弹性有存在的必要性，而同样的条件下，相对买卖价差已变得不显著【式（1）】。"
+    },
+    {
+      "text": "换手率可以被投机性泡沫和非流动性两个维度完全解释，在控制特异度和其他非流动性因子的度量后已完全失效。",
+      "evidence": "（4）换手率可以被投机性泡沫和非流动性两个维度完全解释。换手率因子在控制特异度和其他非流动性因子的度量后已完全失效【式（7）、（8）】。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Amihud Y. Illiquidity and stock returns[J]. Journal of Financial Markets, 2002(3)",
+    "Goyenko R Y, Holden C W, Trzcinka C A. Do liquidity measures measure liquidity?[J]. Journal of Financial Economics, 2009, 92(2):153-181",
+    "Joel Hasbrouck. Trading Costs and Returns for US Equities: The Evidence from Daily Data[J]. Ssrn Electronic Journal, 2005",
+    "东方证券前期专题报告《投机、交易行为与股票收益（上）》",
+    "东方证券前期专题报告《投机、交易行为与股票收益（下）》（2016-05-12）",
+    "张峥, 刘力. 换手率与股票收益:流动性溢价还是投机性泡沫?[C]// 经济学.2006:871-892"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

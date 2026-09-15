@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20210310-华泰证券-人工智能-043-因子观点融入机器学习",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "interpretability", "fusion"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "机器学习模型由于结构复杂，灵活性相比线性模型大幅下降，在历史数据上训练好之后不易调整，一旦市场环境发生变化，模型面临失效的风险，因此提升机器学习模型的灵活性使投资者对模型更加可控是本文研究重点。",
+      "evidence": "然而机器学习模型由于结构复杂，灵活性相比线性模型大幅下降。具体表现为机器学习模型在历史数据上训练好之后不易调整，一旦市场环境发生变化，模型面临失效的风险，投资者想调整模型却无从下手。"
+    },
+    {
+      "text": "针对sklearn随机森林源码修改，使决策树可在顶端若干层根据指定的优先因子进行分裂，人为增大这些因子的重要性，改进后的模型新增了speci_features和max_speci_depth两个参数。",
+      "evidence": "为了将因子观点融入模型，我们针对sklearn中的随机森林源码做了修改，使得模型中的决策树可在顶端的若干层根据指定的优先因子进行分裂，人为增大这些因子的重要性。改进后的模型新增了两个参数(1)speci_features：优先分裂的因子；(2)max_speci_depth：在决策树顶部使用优先因子分裂的层数。"
+    },
+    {
+      "text": "以价值因子为例，其他参数不变的情况下，随着max_speci_depth的增大，价值因子在模型里的重要性上升。",
+      "evidence": "以价值因子为例，其他参数不变的情况下，随着max_speci_depth的增大，价值因子在模型里的重要性上升。"
+    },
+    {
+      "text": "中证800价值组合(max_speci_depth=3)回测年化收益率14.40%，年化波动率24.90%，夏普比率0.577，最大回撤46.60%，月均双边换手率97.80%。",
+      "evidence": "中证 800 价值(max_speci_depth=3) | 14.40% | 24.90% | 0.577 | 46.60% | 97.80% |"
+    },
+    {
+      "text": "将量价类因子和基本面因子一起输入模型时，量价类因子往往具有过大的权重，对倾向于使用基本面因子的投资者并非理想结果，而机器学习模型灵活性低又导致投资者难以通过调整增大基本面因子权重。",
+      "evidence": "此外，我们在将机器学习应用于因子投资时发现，如果将量价类因子和基本面因子一起输入模型，量价类因子往往具有过大的权重，这对于倾向于使用基本面因子的投资者来说并非是一个理想的结果。而机器学习模型灵活性低的特性又导致投资者难以通过模型调整来增大基本面因子的权重。"
+    },
+    {
+      "text": "风格因子表现有很大的不稳定性：市值因子在2017年前后的表现截然相反，估值因子2019年出现持续回撤，动量反转、波动率、换手率因子的有效性2017年后大幅减弱。",
+      "evidence": "市值因子在2017年前后的表现截然相反，从小市值风格变为大市值风格。估值因子在2019年前长期有效，2019年出现持续回撤。2017年后，动量反转、波动率、换手率因子的有效性相比之前大幅减弱。"
+    },
+    {
+      "text": "在中证800成分股内，我们构建了中证800价值、中证800成长、中证800质量三个月频调仓的组合，测试了不同max_speci_depth下模型的表现。",
+      "evidence": "在中证800成分股内，我们构建了中证800价值、中证800成长、中证800质量三个月频调仓的组合，测试了不同max_speci_depth下模型的表现。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ronen Israel, Bryan Kelly, Tobias Moskowitz. Can Machines “Learn” Finance? Journal of Investment Management, Vol. 18, No. 2, (2020), pp. 23–36."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

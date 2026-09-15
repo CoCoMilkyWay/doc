@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20180621-国泰君安-数量化专题-109-基于股票特别处理的a股财务困境预测研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "accounting_quality"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "Fisher判别得分",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "y=w^{T}x",
+          "stats": [null, null, null, null],
+          "evidence": "本文在此基础上尝试使用变系数和非固定投入变量的模型构建方法，使用当期年报披露指标去预测下一期年报披露之后，公司是否会被实施特别处理。"
+        },
+        {
+          "name": "ST 条件概率",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "P_{t-1}\\left(Y_{i,t}^{j}=1\\mid Y_{i,t-1}^{j}=0\\right)=\\frac{1}{1+\\exp(-\\alpha_{j}-\\beta_{j}x_{i,t-1})}",
+          "stats": [null, null, null, null],
+          "evidence": "在进行模型预测时，被解释变量为实施ST的条件概率，也就是在 t-1期没有被 ST 的公司，在 t 期的 ST 状况。"
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_tail"],
+      "approach": ["distress"],
+      "setup": {
+        "risk_factors": ["value", "growth", "quality"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "horizon": "quarterly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "ST 实施前 150 个交易日的平均超额收益达到-31.32%，事后短期超额收益为-25.7%，投资者对具有ST 风险的公司应该提前规避。",
+      "evidence": "从 2018 年被实施 ST 的公司平均表现来看，ST 实施前 150 个交易日的平均超额收益达到-31.32%，事后截至报告写作时间的短期超额收益为-25.7%。因此投资者对具有ST 风险的公司应该提前规避。"
+    },
+    {
+      "text": "两类模型均具有较好的预测效果，Logistic 模型体现出更强的极端值预测能力，Fisher 判别分析在全样本的情况下有更强的适应性。",
+      "evidence": "两类模型均具有较好的预测效果，Logistic 模型体现出更强的极端值预测能力，而 Fisher 判别分析在则在全样本的情况下有更强的适应性，两种模型可各取其优。"
+    },
+    {
+      "text": "10%分位数的阈值下，每一期超过 2/3 的实际被 ST 公司都落在预测ST 范围内。",
+      "evidence": "在 10%分位数的阈值下，每一期超过 2/3 的实际被 ST 公司都落在预测ST 范围内。"
+    },
+    {
+      "text": "财务状况最为健康的分组年化收益为17.9%，财务状况最差的分组年化收益为 15.4%，组合之间差距并不明显。",
+      "evidence": "从五条收益曲线的表现来看，组合之间的差距并不明显。财务状况最为健康的分组年化收益为17.9%，财务状况最差的分组年化收益为 15.4%，差距甚微。"
+    },
+    {
+      "text": "自 2017年开始，财务健康公司相对财务困境公司体现出明显的溢价趋势，预计财务健康公司的相对溢价会在未来继续保持。",
+      "evidence": "自 2017年开始，财务健康公司相对财务困境公司体现出明显的溢价趋势，并且我们基于宏观金融环境预测财务健康公司的相对溢价会在未来继续保持。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Altman（1968）Z-Score 模型",
+    "Altman（1983）Z'-Score 与 Z''-Score 模型",
+    "Campbell et al.（2008）基于 Logistic 回归分析的财务困境预测模型"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

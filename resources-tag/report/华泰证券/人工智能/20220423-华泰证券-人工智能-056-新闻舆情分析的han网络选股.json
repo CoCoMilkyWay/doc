@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "id": "20220423-华泰证券-人工智能-056-新闻舆情分析的han网络选股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative", "L1_mining"],
+      "approach": ["text_sentiment", "representation_learning"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "text"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "HAN日频因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{HAN网络对个股过去10个自然日的新闻舆情经词语注意力、新闻注意力、BiGRU与时序注意力整合后，输出样本外属于上涨类别的概率作为日频因子}",
+          "stats": [0.0154, null, 0.126, null],
+          "evidence": "以样本外预测得到属于上涨类别的概率作为HAN日频因子，并构建 30 只股票等权持有的组合，每天根据 HAN 日频因子值替换 1 只股票，该策略相对沪深 300 等权的年化超额为 15.96%，回测期20190103-20220331，分层回测表明HAN日频因子多头端收益较为明显。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "sample_window"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "text"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以样本外预测得到属于上涨类别的概率作为HAN日频因子，构建TopK-Dropout策略相对沪深300等权的年化超额为15.96%，分层回测表明HAN日频因子多头端收益较为明显。",
+      "evidence": "以样本外预测得到属于上涨类别的概率作为HAN日频因子，并构建 30 只股票等权持有的组合，每天根据 HAN 日频因子值替换 1 只股票，该策略相对沪深 300 等权的年化超额为 15.96%，回测期20190103-20220331，分层回测表明HAN日频因子多头端收益较为明显。"
+    },
+    {
+      "text": "注意力机制的有无对最终结果有较大影响，词注意力模块缺失影响相对较小，去除后年化收益与年化超额收益大约削减2%左右；新闻注意力与时序注意力的缺失对选股结果影响较大。",
+      "evidence": "结果表明注意力机制的有无对最终结果有较大影响，有注意力模块的网络选股效果明显要好于无注意力模块的网络；不同模块注意力机制影响不同，词注意力模块的缺失对选股结果影响相对较小，去除词注意力模块以后年化收益与年化超额收益大约削减2%左右；新闻注意力与时序注意力的缺失对选股结果影响较大。"
+    },
+    {
+      "text": "实验组日频IC均值为0.0154，IC_IR为0.1260，从因子IC的角度来看即使是实验组的有效性也不能称之为很强，IC_IR不高可能是由于非多头端的相关性不强造成的。",
+      "evidence": "实验组日频IC均值为0.0154，IC_IR为0.1260；从因子IC的角度来看即使是实验组的有效性也不能称之为很强（一般认为IC_IR大于0.5是有效因子），一方面或许提示我们网络结构的设计仍有改进空间；但另一方面从下文的分析可以看出，HAN 日频因子的 IC_IR 不高可能是由于非多头端的相关性不强造成的。"
+    },
+    {
+      "text": "从分层回测的结果可以看到，HAN实验组日频因子的多头侧收益非常明显，长期来看相对基准净值较为稳健。",
+      "evidence": "从分层回测的结果可以看到，HAN 实验组日频因子的多头侧收益非常明显，长期来看相对基准净值较为稳健；后面四层虽然单调性不如第一层，但整体可以看出区分度。"
+    },
+    {
+      "text": "注意力系数分析具有一定逻辑：词注意力对有实际含义的词赋予较高注意力，新闻注意力对与个股直接相关的新闻赋予较高注意力，时序注意力对较近期的新闻赋予较高注意力，整体与预期较为符合。",
+      "evidence": "分析各个模块的注意力系数，发现词注意力模块中模型会对有实际含义的词赋予较高的注意力，对专有名词赋予较低的注意力；新闻注意力中模型会对与个股直接相关的新闻赋予较高的注意力，对行业/宏观的新闻赋予较低的注意力；时序注意力模块中会对较近期的新闻赋予较高的注意力。整体来看注意力系数的分析具有一定的逻辑，与我们的预期较为符合。"
+    },
+    {
+      "text": "HAN预测得分在沪深300股票池上的覆盖度整体超过90%，其实际含义为过去10个自然日中至少有1则新闻的股票数量。",
+      "evidence": "在展示数据测试的结果之前，我们可以首先看一下HAN预测得分在沪深300股票池上的覆盖度，该覆盖度的实际含义为：过去10个自然日中至少有1则新闻的股票数量，可以看到整体覆盖度超过90%，偶尔覆盖度会有降低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Hu, Ziniu, et al. \"Listening to chaotic whispers: A deep learning framework for news-oriented stock trend prediction.\" Proceedings of the eleventh ACM international conference on web search and data mining. 2018.",
+    "《人工智能 37：舆情因子和 BERT 情感分类模型》（20201022）",
+    "《人工智能 41：基于 BERT 的分析师研报情感因子》（20210118）",
+    "《人工智能 51：文本 PEAD 选股策略》（20220107）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "id": "20181101-光大证券-多因子-016-创新基本面因子_捕捉产能利用率中的讯号",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["statement_detail"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "产能利用率因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\beta_{X} \\text{ from } Total\\_Operation\\_Cost=\\beta_{\\alpha}+\\beta_{X}*Fized\\_Assets+\\varepsilon",
+          "stats": [0.0102, null, 0.26, null],
+          "evidence": "从测试结果来看，产能利用率本身具有一定的预测能力，但效果不强，作为因子其IC 均值在1%左右，ICIR 在 0.25左右。同时由下表可以看出用线性框架构造的产能利用率因子在IC均值与IR上都较直接求比的方式效果更佳。"
+        },
+        {
+          "name": "营业总成本/固定资产",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业总成本}}{\\text{固定资产}}",
+          "stats": [0.009, null, 0.24, null],
+          "evidence": "为了方便比较，我们同时也测试了营业总成本/固定资产作为产能利用率因子的效果。从测试结果来看，产能利用率本身具有一定的预测能力，但效果不强，作为因子其IC 均值在1%左右，ICIR 在 0.25左右。"
+        },
+        {
+          "name": "OCFA因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon \\text{ from } Total\\_Operation\\_Cost=\\beta_{\\alpha}+\\beta_{X}*Fized\\_Assets+\\varepsilon",
+          "stats": [0.0173, null, 0.52, 0.071],
+          "evidence": "通过将营业总成本对固定资产进行滚动回归取残差的方式构造了产能利用率提升（OCFA）因子。该因子预测能力突出，月度 IC 均值 1.73%，月度 IR 值 0.52。基于该因子构造的多空组合在 2009 年至 2018 年 6 月期间年化收益 7.1%，夏普比率 2.18，最大回撤 4.7%。"
+        },
+        {
+          "name": "中性化后OCFA因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon_{i} \\text{ from } OCFA_{i}=\\beta_{1}*MC_{i}+\\beta_{2}*Industry_{i}+\\beta_{3}*ROE_{i}+\\cdots+\\varepsilon_{i}",
+          "stats": [0.0149, null, 0.53, 0.056],
+          "evidence": "对 OCFA 因子中性化处理后因子的有效性检验等结果仍然较显著，IC均值小幅下降至 1.49%，但同时 IC标准差也下降不少，从而 IR反而有小幅提升，微升至0.53。说明中性化处理起到了一定信息提纯的作用，使得因子的预测稳定性都得到进一步提升。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "营业总成本与固定资产求比及滚动回归取斜率两种方式构造的产能利用率因子IC均值皆在1%左右，ICIR在0.25上下，有一定预测效果但整体效果偏弱",
+      "evidence": "通过将营业总成本与固定资产进行求比，以及进行滚动回归取斜率的方式，分别构造了产能利用率因子。两种方式下，产能利用率因子的 IC 均值皆在 1%左右，而 ICIR 则在 0.25上下，有一定预测效果但整体效果偏弱。"
+    },
+    {
+      "text": "通过将营业总成本对固定资产进行滚动回归取残差的方式构造OCFA因子，该因子预测能力突出，月度IC均值1.73%，月度IR值0.52，多空组合年化收益7.1%，夏普比率2.18，最大回撤4.7%",
+      "evidence": "通过将营业总成本对固定资产进行滚动回归取残差的方式构造了产能利用率提升（OCFA）因子。该因子预测能力突出，月度 IC 均值 1.73%，月度 IR 值 0.52。基于该因子构造的多空组合在 2009 年至 2018 年 6 月期间年化收益 7.1%，夏普比率 2.18，最大回撤 4.7%。"
+    },
+    {
+      "text": "OCFA因子等分5组分组单调性十分优秀，因子越大的组合收益越大，以第五组对冲第一组构建多空组合，年化收益7.1%，年化波动仅3.2%，最大回撤4.7%，夏普比率2.18",
+      "evidence": "在等分5组的情况下，分组单调性十分优秀，因子越大的组合收益越大，区分程度在收尾两端极为突出，但在中间几组区分度较小。以第五组对冲第一组的方式构建多空组合，年化收益7.1%，年化波动仅3.2%，最大回撤4.7%，夏普比率2.18。"
+    },
+    {
+      "text": "与OCFA因子有较强相关性的因子有ROE、净利润增速（NP_YOY）、BP估值因子与流动性（VSTD）因子，其中相关性最高的为净利润增速与流动性因子，相关系数分别为0.35与-0.32",
+      "evidence": "从下图可以看出与 OCFA 因子有较强相关性的因子有 ROE，净利润增速（NP_YOY）、BP 估值因子与流动性（VSTD）因子。其中相关性最高的两个为净利润增速与流动性因子，相关系数分别为 0.35 与-0.32。"
+    },
+    {
+      "text": "横截面回归取残差剔除相关因子影响后，中性化后OCFA因子月度IC均值为1.49%，月度IR值0.53，多空组合年化收益5.6%，夏普比率1.93，最大回撤仅2.6%，中性化起到了信息提纯的作用",
+      "evidence": "在经过横截面回归取残差的方式剔除上述因子对 OCFA 因子的影响后，因子效果仍稳定，月度IC均值为1.49%，月度IR值 0.53，中性化处理起到了一定信息提纯的作用。以中性化后 OCFA 因子构建的多空组合，年化收益 5.6%，夏普比率 1.93，最大回撤仅2.6%。"
+    },
+    {
+      "text": "中性化后的多空组合每年表现都极其稳定，年度胜率100%，最大回撤整体控制在3%以下",
+      "evidence": "中性化后的多空组合每年表现都极其稳定，年度胜率 100%。从夏普比率来看，仅 2016 年表现稍差不足 1，其余年份夏普比皆在 1 以上。最大回撤方面整体控制在3%以下，分年看也仅在2009、2010、2015、2016这四年超过 2%。"
+    },
+    {
+      "text": "OCFA因子在不同行业内的预测能力差异较大，预测能力较好的行业有家电、轻工制造、建材等，计算机、传媒、通信等TMT板块行业预测能力都很弱",
+      "evidence": "OCFA因子在不同行业内的预测能力差异较大，我们按中信一级行业统计了各行业下的因子预测能力。预测能力较好的行业有家电、轻工制造、建材等。其它一些制造类行业的预测能力也皆位前列；而计算机、传媒、通信等 TMT 板块行业预测能力都很弱。"
+    },
+    {
+      "text": "OCFA因子在沪深300内预测能力较差，在中证500内虽然预测能力较高，但稳定性较为不足",
+      "evidence": "简单从下表的IC与 IR数据中，容易看出该因子在沪深 300 内预测能力较差，在中证 500 内虽然预测能力较高，但稳定性较为不足。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《创新基本面因子：提纯净利数据中的选股信息 ——多因子系列报告之十五》",
+    "《创新基本面因子：财务数据间线性关系初窥——多因子系列报告之十四》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

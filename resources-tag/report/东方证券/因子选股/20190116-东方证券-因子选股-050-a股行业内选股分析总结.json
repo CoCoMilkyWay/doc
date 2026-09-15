@@ -1,0 +1,225 @@
+{
+  "schema_version": 2,
+  "id": "20190116-东方证券-因子选股-050-a股行业内选股分析总结",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "earnings_surprise",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "市值因子",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股总市值}",
+          "stats": [null, null, null, null],
+          "evidence": "图 2 展示了市值因子在各个行业中的 rankIC 和年化 ICIR，市值因子这里没有做方向的调整，可以看到市值的选股方向整体为负向，说明在这个时间区间内小市值股票平均是可以获得超额收益的"
+        },
+        {
+          "name": "估值大类因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{账面市值比、盈利市值比等估值比率}",
+          "stats": [null, null, null, null],
+          "evidence": "从原始值表现来看，RankIC大于 0.04且 ICIR大于 1的行业为轻工制造、机械、电力设备、国防军工、汽车、食品饮料、农林牧渔、交通运输、电子元器件、通讯和计算机，整体估值表现比较好的行业主要集中在制造业和 TMT"
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{公司净资产}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "从 BP 来看，BP 因子在大多数行业中有着显著的选股效果，我们知道 BP 是公司净资产与市值的比值"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入TTM}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "从 SP 上来看，SP 表现要弱于 BP 和 EP，从 rankIC 上看，银行和非银中 SP 表现最好，其次是传媒、电子和建材，rankIC 均大于 0.04"
+        },
+        {
+          "name": "CFP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营性现金流TTM}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "CFP 因子整体表现也要弱于 BP 和 EP，从 rankIC 上看，食品饮料、餐饮旅游、国防军工、轻工制造、机械和交通运输行业中 CFP 表现较好，rankIC 均大于 0.04"
+        },
+        {
+          "name": "股息率因子",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去一年分红}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "股息率因子表现较好的行业有银行、非银、国防军工、钢铁和交通运输。"
+        },
+        {
+          "name": "盈利大类因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{投资现金收益率、净资产收益率等盈利指标}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利大类因子rankIC大于 0.02，ICIR大于 0.5的行业仅有电力及公用事业、钢铁、交通运输和电子元器件，在绝大多数行业盈利并不是有效的选股指标，且盈利大类的多空最大回撤都非常的大。"
+        },
+        {
+          "name": "成长大类因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{归属母公司的净利润季度同比等成长指标}",
+          "stats": [null, null, null, null],
+          "evidence": "基于我们之前报告《业绩超预期类因子》的结果，成长因子和超预期大类中的因子度量方法比较接近，在剥离了超预期的 ALPHA 之后，成长因子几乎没有选股能力"
+        },
+        {
+          "name": "超预期大类因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{实际净利润}-\\text{带漂移项随机游走模型预测的净利润}",
+          "stats": [null, null, null, null],
+          "evidence": "综合来看，超预期因子整体都表现不错，相对表现很弱的行业有石油石化、煤炭、房地产和传媒，都是未来行业表现比较难预测的行业；相对表现很强的行业有机械、电力设备、医药、交通运输这几个行业。"
+        },
+        {
+          "name": "高管薪酬因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\log(\\text{高管薪酬前三之和})",
+          "stats": [null, null, null, null],
+          "evidence": "公司治理因子中仅包括了高管薪酬因子，从原始值结果来看，并没有哪个行业里的 rankIC 高于 0.02 且 ICIR 大于 0.5，也就是说单看原始值高管薪酬在过去 9 年是没有选股效果的"
+        },
+        {
+          "name": "非流动性因子",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\log(\\text{20日Amihud非流动性})",
+          "stats": [null, null, null, null],
+          "evidence": "因为技术类因子整体表现较好，所以我们设定一个相对高的标准来划分，非流动性 rankIC小于 0.05或 ICIR小于 1的行业仅有煤炭；反转因子有石油石化、煤炭、有色、钢铁、建筑、纺织服装和食品饮料；投机性因子有石油石化、建筑和传媒。"
+        },
+        {
+          "name": "反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "反转因子有石油石化、煤炭、有色、钢铁、建筑、纺织服装和食品饮料；投机性因子有石油石化、建筑和传媒。"
+        },
+        {
+          "name": "投机性因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日的波动率等彩票型指标}",
+          "stats": [null, null, null, null],
+          "evidence": "我们进一步比较了不同行业内股票的月收益 Dispersion（图 24），发现非流动性和投机表现都与行业内的 Dispersion 有显著的正相关关系"
+        },
+        {
+          "name": "分析师因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{过去6个月有覆盖的机构数量}}\\text{、盈利预测分歧度等}",
+          "stats": [null, null, null, null],
+          "evidence": "综合来看，分析师因子 rankIC大于 0.04，ICIR大于 1的行业有轻功制造、电力设备、医药、食品饮料、交通运输、电子元器件和计算机"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "行业内小市值股票占比越高，市值因子在行业内的rankIC越低，小市值效果也就更强，这是不同行业间市值表现差异的最大影响因素",
+      "evidence": "我们计算了每个行业内市值最小 30%的股票占比，发现小市值股票占比和市值的 rankIC呈显著的负相关，回归的 R-square为 39%，也就是说行业内小市值股票占比越高，市值因子在行业内的 rankIC越低，小市值效果也就更强"
+    },
+    {
+      "text": "BP的选股效果与公司资产结构有关，若公司存在比较多的预期能够产生很高价值的资产，那么BP的效用也会有所下降",
+      "evidence": "这也就是说明 BP的选股效果与公司资产结构是有关的，若公司存在比较多的预期能够产生很高价值的资产，那么 BP 的效用也会有所下降。"
+    },
+    {
+      "text": "除了在传媒行业成长与超预期表现接近，在别的行业中超预期均大幅好于成长",
+      "evidence": "而且除了在传媒行业成长与超预期表现接近，在别的行业中超预期均大幅好于成长（图 16），这个结论与我们之前的报告的结果是相符的"
+    },
+    {
+      "text": "强周期行业预测相对困难，分析师因子在这类行业中效果会相对变弱",
+      "evidence": "这是因为这些强周期行业预测相对困难，即使是分析师也很难对于这类行业未来的表现作出很好的判断，因此分析师因子在这类行业中效果会相对变弱。"
+    },
+    {
+      "text": "两种筛选标准下的行业内增强组合在几乎所有行业中均可以获得正的超额收益，但仅仅通过一个统一标准去选择行业内的因子并不能得到让每个行业增强表现都最优的因子组合",
+      "evidence": "两类组合在几乎所有行业中均可以获得正的超额收益，但我们发现，在不同标准下行业内的增强效果有强有弱，也就是说仅仅通过一个统一标准去选择行业内的因子并不能得到让每个行业增强表现都最优的因子组合。"
+    },
+    {
+      "text": "细分行业建模后组合表现与整体建模组合基本相当，换手率较高，综合下来行业建模提升的整体Alpha并不显著",
+      "evidence": "从结果来看，细分行业建模后组合表现与整体建模组合基本相当，主要是因为用统一的标准筛选不同行业的因子会导致不同的行业适应性不同，结果有强有弱，其次也因为细分行业建模组合换手率较高，综合下来行业建模提升的整体 Alpha并不显著。"
+    },
+    {
+      "text": "从2016年底开始，市场投机性下降，投资者更加关注公司的价值和质量因素，小市值溢价效果基本消失",
+      "evidence": "从 2016年底开始，由于政策收紧，市场整体的投机性下降，投资者更加关注公司的价值和质量因素，小市值溢价效果基本消失。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["A股小市值溢价来源", "业绩超预期类因子"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

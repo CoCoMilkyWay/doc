@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "id": "20191231-华泰期货-高频做市-007-基于离散时间的高频做市策略",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L7_execution",
+  "pipe": {
+    "L7_execution": {
+      "module": ["L7_making"],
+      "approach": ["quoting", "inventory"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "用基于离散时间的Bellman方程代替连续时间的HJB方程求解做市最优挂单策略，通过求解基于离散时间的Bellman方程得到最优做市策略。",
+      "evidence": "因此这篇报告参考 YacineAit-Sahalia 和 Mehmet Saglam 在 High Frequency Market Making: Optimal Quoting 中的做法，通过求解基于离散时间的 Bellman 方程得到最优做市策略。"
+    },
+    {
+      "text": "模型把限价单的队列位置考虑进去后，虽然盈利有所下降但能够更好地控制盘中的市场风险和策略回撤，策略夏普率也得到大幅提高。",
+      "evidence": "当模型把限价单的队列位置考虑进去后，虽然盈利有所下降但能够更好地控制盘中的市场风险和策略回撤，策略夏普率也得到大幅提高。"
+    },
+    {
+      "text": "沪铜主力合约回测中，Bellman模型年化夏普率达到17.6，比不使用模型增加近2倍，但按公司标准手续费返佣比例须达到93%才能盈亏持平。",
+      "evidence": "同时年化夏普率能达到 17.6，比不使用模型增加近 2 倍。但是按公司标准手续费，返佣比例须达到 93%才能盈亏持平，比不使用模型稍高。"
+    },
+    {
+      "text": "Bellman方程策略的收益从日均5536元下降到3925元，但优势主要是降低风险，提高盈利的稳定性，日内盘中亏损能得到比较有效的控制。",
+      "evidence": "因此使用 Bellman 方程策略的优势主要是降低风险，提高盈利的稳定性。"
+    },
+    {
+      "text": "不使用模型盘中最大亏损差异较大，很多时候会出现10000元以上亏损，使用Bellman方程模型后亏损基本上都能控制在10000元以下。",
+      "evidence": "如果不使用模型盘中的最大亏损差异较大，很多时候会出现 10000 元以上亏损，但是使用 Bellman 方程模型后亏损基本上都能控制在 10000元以下，而且盘中的波动也比较小。"
+    },
+    {
+      "text": "模型总共包含约160万种做市状态，状态种类包含库存、挂单、以及买卖双方的限价单队列长度和排名，从四种挂单方式中给出最优策略，动态平衡库存风险和逆向选择风险。",
+      "evidence": "这个模型总共包含了约 160 万种做市状态，状态种类包含了库存、挂单、以及买卖双方的限价单队列长度和排名，该策略根据当前所处状态从四种挂单方式中给出最优策略。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ait-Sahalia, Y. and M. Saglam. High Frequency Market Making: Optimal Quoting.",
+    "Cartea, Á. and S. Jaimungal. 基于连续时间的 Hamilton-Jacobi-Bellman(HJB)方程做市策略"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

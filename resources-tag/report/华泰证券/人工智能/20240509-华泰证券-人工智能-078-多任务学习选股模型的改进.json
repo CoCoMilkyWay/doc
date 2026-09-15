@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "id": "20240509-华泰证券-人工智能-078-多任务学习选股模型的改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "gru_1day",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU网络对日K线提取特征，预测未来10日收益率作为单因子}",
+          "stats": [null, null, null, null],
+          "evidence": "对于日K线和周K线，采用GRU模型预测未来10日收益率，将预测值作为单因子；"
+        },
+        {
+          "name": "gru_5day",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU网络对周K线提取特征，预测未来10日收益率作为单因子}",
+          "stats": [null, null, null, null],
+          "evidence": "日K线和周K线模块的GRU模型同时预测未来10日和20日收益率。"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{日K线、周K线、分钟K线三组模块的因子等权求均值}",
+          "stats": [null, null, null, null],
+          "evidence": "日K线、周K线、分钟K线三者等权求均值得到合成因子，单因子测试结果如下表。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "loss_generalization", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "改进模型相比基线均有提升，引入PLE总体优于引入夏普比率，PLE结合多周期优化模型在指数增强组合的超额收益上优于大部分对照模型。",
+      "evidence": "结果表明，改进后的模型相比基线均有提升，其中引入PLE的效果总体优于引入夏普比率，PLE结合多周期优化的模型在指数增强组合超额收益上优于大部分对照模型。"
+    },
+    {
+      "text": "回测期2016-12-30至2024-04-30内，周单边换手20%条件下，中证500增强组合年化超额收益18.1%，信息比率3.05；中证1000增强组合年化超额收益28.7%，信息比率4.24。",
+      "evidence": "回测期2016-12-30至2024-04-30内，周单边换手20%条件下，中证500增强组合年化超额收益18.1%，信息比率3.05，超额收益Calmar比率3.22；中证1000增强组合年化超额收益28.7%，信息比率4.24，超额收益Calmar比率6.93。"
+    },
+    {
+      "text": "从GRU单因子看，引入夏普比率和引入PLE均优于对应的基线，三项改进相比基线均有提升。",
+      "evidence": "测试结果表明，三项改进相比基线均有提升。从GRU单因子看，引入夏普比率和引入PLE均优于对应的基线。"
+    },
+    {
+      "text": "多周期优化在超额收益和信息比率方面略弱于单独用20日预测值构建的组合，但Calmar比率优于其他模型，展现出回撤控制上的优势。",
+      "evidence": "多周期优化在超额收益和信息比率方面略弱于单独用20日预测值构建的组合，但Calmar比率优于其他模型，展现出回撤控制上的优势。"
+    },
+    {
+      "text": "扩大多周期优化的换手率惩罚系数后，换手率显著降低，但超额收益也同步下降。",
+      "evidence": "扩大惩罚系数后，可以观察到换手率显著降低，但超额收益也同步下降。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Boyd, S., Busseti, E., Diamond, S., Kahn, R. N., Koh, K., Nystrup, P., & Speth, J. (2017). Multi-period trading via convex optimization.",
+    "Liu, S., Johns, E., & Davison, A. J. (2019). End-to-end multi-task learning with attention.",
+    "Tang, H., Liu, J., Zhao, M., & Gong, X. (2020). Progressive layered extraction (PLE): A novel multi-task learning (MTL) model for personalized recommendations.",
+    "《AI模型如何一箭多雕：多任务学习》（2023-05-06）",
+    "《基于全频段量价特征的选股模型》（2023-12-08）",
+    "《自适应网络：从削足适履到量体裁衣》（2023-12-01）",
+    "《高频因子计算的GPU加速》（2023-10-16）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

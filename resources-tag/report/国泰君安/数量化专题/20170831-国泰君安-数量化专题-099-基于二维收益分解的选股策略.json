@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20170831-国泰君安-数量化专题-099-基于二维收益分解的选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "基本面收益",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\hat{\\beta}_{0,t}+\\sum_{k=1}^{5}\\hat{\\beta}_{1t}^{k}F_{i,t}^{k}+\\sum_{k=1}^{5}\\hat{\\beta}_{2t}^{k}FTTM_{i,t}^{k}+\\sum_{I=1}^{27}\\hat{\\beta}_{t}^{I}InduDu_{i,t}^{I}",
+          "stats": [null, null, null, null],
+          "evidence": "基于该模型，各股原始收益可分解为两个部分，模型可解释的部分我们称之为基本面收益，残差项是基本面信息无法解释的我们称之为投机性收益。"
+        },
+        {
+          "name": "投机性收益",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon_{it}=r_{it}-\\left(\\hat{\\beta}_{0,t}+\\sum_{k=1}^{5}\\hat{\\beta}_{1t}^{k}F_{i,t}^{k}+\\sum_{k=1}^{5}\\hat{\\beta}_{2t}^{k}FTTM_{i,t}^{k}+\\sum_{I=1}^{27}\\hat{\\beta}_{t}^{I}InduDu_{i,t}^{I}\\right)",
+          "stats": [null, 0.077, null, null],
+          "evidence": "个股的投机性收益由模型的残差项表示，也即个股收益中基本面信息无法解释的部分，反映个股收益中的非理性。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "投机性收益的Rank_IC均值为7.7%，一个月反转因子为7.1%，但投机性收益T统计量9.21，接近一个月反转因子的两倍，反转预测属性显著更强。",
+      "evidence": "投机性收益的 Rank_IC 的均值为 7.7%，一个月反转因子的相应值为7.1%，虽然从均值的角度来看，二者差别不大，投机性收益只是略胜一筹。但是从标准差的表现来看，投机性收益预测稳定性显著更高，T 统计量值为9.21，接近一个月反转因子的两倍。"
+    },
+    {
+      "text": "加入基本面双向选股后，组合整体表现明显增强，年化收益由29.02%上升到36.8%，夏普比率从0.84上升到1.04。",
+      "evidence": "与黄色曲线所代表的投机性收益最高分组组合相比，加入基本面选股之后，组合整体表现明显增强，年化收益由29.02%上升到36.8%，夏普比率从 0.84上升到 1.04。"
+    },
+    {
+      "text": "基于二维收益分解构建的行业中性策略相对中证500实现14.2%年化超额收益，信息比率1.81，最大回撤4.19%，月度胜率73.4%。",
+      "evidence": "策略在回测期内的表现如图 6 所示，可实现年化超额收益为 14.2%，信息比率 1.81，最大回撤 4.19%，相对中证 500 的月度胜率为 73.4%，整体表现出优异的收益回撤比。"
+    },
+    {
+      "text": "模型平均每期拟合优度为13%，基本面信息可捕捉的收益部分十分有限，导致基本面收益预测效果相对较弱。",
+      "evidence": "本文设定的模型平均每期的拟合优度为13%，这意味着基本面信息可捕捉的收益部分十分有限。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于信息冲击视角的盈余公告事件研究》",
+    "《基于组合权重优化的风格中性多因子选股策略》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

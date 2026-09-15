@@ -1,0 +1,151 @@
+{
+  "schema_version": 2,
+  "id": "20200429-光大证券-多因子-033-科技关联因子_专利数据再挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph", "firm_attribute"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Tech_Momemtum_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Tech\\_Momentum_{i,t}=\\frac{\\sum_{j\\neq i}Tech_{ij,t}\\cdot Ret_{j,t}}{\\sum_{j\\neq i}Tech_{ij,t}},\\quad Tech_{ij,t}=\\frac{T_{i,t}T_{j,t}^{\\prime}}{(T_{i,t}T_{i,t}^{\\prime})^{1/2}(T_{j,t}T_{j,t}^{\\prime})^{1/2}}",
+          "stats": [0.0184, null, 0.18, 0.048],
+          "evidence": "结合动量指标和科技关联度构造的科技动量因子，整体预测能力表现一般，测试期内（2011-01-01 至 2020-03-31），基于 5 年期发明公布专利的科技动量因子 Tech_Momemtum_fmgb_5Y 的 IC 均值为 1.84%，IC_IR为 0.18。"
+        },
+        {
+          "name": "Tech_Mean_Rev_V1_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Tech\\_Mean\\_Rev\\_V1_{i,t}=\\frac{\\sum_{j\\neq i}Tech_{ij,t}\\cdot Ret_{j,t}}{\\sum_{j\\neq i}Tech_{ij,t}}-Ret_{i,t}",
+          "stats": [0.041, null, 0.42, null],
+          "evidence": "仅从因子 IC 和 IC_IR 指标来看，Tech_Mean_Rev_V1_fmgb_5Y 因子的预测能力表现更出色，但下图因子相关性测试的结果中表明，该因子与一个月动量因子（Momentum_1M）之间存在极高的相关性，相关性达到-0.68。"
+        },
+        {
+          "name": "Tech_Mean_Rev_V2_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Tech\\_Mean\\_Rev\\_V2_{i,t}=\\frac{\\sum_{j\\neq i}(Tech_{ij,t}\\cdot Ret_{j,t}-Ret_{i,t})}{\\sum_{j\\neq i}Tech_{ij,t}}",
+          "stats": [0.0241, null, 0.25, 0.06],
+          "evidence": "Tech_Mean_Rev_V2_fmgb_5Y 因子的多空年化收益为 6.00%，多空收益夏普比为1.41，多头年化超额收益为 8.50%，多头收益的信息比为 1.64，相较于原始的科技动量因子Tech_Momemtum_fmgb_5Y各项表现均有显著提升。"
+        },
+        {
+          "name": "Tech_Spec_Momentum_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Tech\\_Spec\\_Momentum_{i,t}=\\frac{\\sum_{j\\neq i}Tech_{ij,t}\\cdot Ret_{j,t}}{\\sum_{j\\neq i}Tech_{ij,t}}\\cdot Weight\\_Tech\\_Spec_{i,t}",
+          "stats": [0.0131, null, 0.13, null],
+          "evidence": "结合技术行业集中度的科技动量因子和科技动量领先因子在IC和IC_IR的表现上出现下滑，因子胜率和稳定性上则有一定程度的提高。整体上看，Tech_spec因子的改进效果较为一般。"
+        },
+        {
+          "name": "Tech_Spec_Mean_Rev_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Tech\\_Spec\\_Mean\\_Rev_{i,t}=\\frac{\\sum_{j\\neq i}(Tech_{ij,t}\\cdot Ret_{j,t}-Ret_{i,t})}{\\sum_{j\\neq i}Tech_{ij,t}}\\cdot Weight\\_Tech\\_Spec_{i,t}",
+          "stats": [0.0202, null, 0.22, null],
+          "evidence": "结合技术行业集中度的科技动量因子和科技动量领先因子在IC和IC_IR的表现上出现下滑，因子胜率和稳定性上则有一定程度的提高。整体上看，Tech_spec因子的改进效果较为一般。"
+        },
+        {
+          "name": "Improved_Tech_Momentum_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Improved\\_Tech\\_Momentum_{i,t}=\\frac{\\sum_{j\\neq i}Tech\\_Pat_{ij,t}\\cdot Ret_{j,t}}{\\sum_{j\\neq i}Tech\\_Pat_{ij,t}}",
+          "stats": [0.0212, null, 0.18, null],
+          "evidence": "仍然以5年期发明公布专利数据构造的因子为例，结合专利关联度的科技动量因子和科技动量领先因子测试结果如下："
+        },
+        {
+          "name": "Improved_Tech_Mean_Rev_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Improved\\_Tech\\_Mean\\_Rev_{i,t}=\\frac{\\sum_{j\\neq i}(Tech\\_Pat_{ij,t}\\cdot Ret_{j,t}-Ret_{i,t})}{\\sum_{j\\neq i}Tech\\_Pat_{ij,t}}",
+          "stats": [0.0255, null, 0.23, 0.075],
+          "evidence": "改造后的，结合专利关联度的 5年期发明公布科技动量领先因子（Improved_Tech_Mean_Rev_fmgb_5Y）IC 均值达到 2.55%，IC_IR 为 0.23；多空年化收益为7.50%，多空收益夏普比为 1.67，同时因子多头组合年化超额收益为10.61%，多头组合信息比 2.11。"
+        },
+        {
+          "name": "Improved_Tech_Spec_Mean_Rev_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "Improved\\_Tech\\_Spec\\_Mean\\_Rev_{i,t}=\\frac{\\sum_{j\\neq i}(Tech\\_Pat_{ij,t}\\cdot Ret_{j,t}-Ret_{i,t})}{\\sum_{j\\neq i}Tech\\_Pat_{ij,t}}\\cdot Weight\\_Tech\\_Spec_{i,t}",
+          "stats": [0.0318, null, 0.26, null],
+          "evidence": "Improved_Tech_Spec_Mean_Rev_fmgb_5Y 因子 IC 均值达到 3.18%，IC_IR 为 0.26，是上述几种改造方式中表现最佳的。"
+        },
+        {
+          "name": "Neu_Improved_Tech_Mean_Rev_fmgb_5Y",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{与ROE_TTM、营业利润单季度同比、1个月动量、1个月波动率、1个月换手率、市净率做截面回归中性化，取残差作为中性化后的因子值}",
+          "stats": [0.0262, null, 0.24, null],
+          "evidence": "中性化后，Neu_Improved_Tech_Mean_Rev_fmgb_5Y 因子的预测能力和稳定性未受到影响，反而得到一定程度的提升，IC 均值提高至 2.62%，IC_IR 提高至 0.24"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "Tech_Mean_Rev_V2_fmgb_5Y 因子多空年化收益 6.00%、夏普比 1.41、多头年化超额收益 8.50%、信息比 1.64，相较原始科技动量因子各项表现均有显著提升。",
+      "evidence": "Tech_Mean_Rev_V2_fmgb_5Y 因子的多空年化收益为 6.00%，多空收益夏普比为1.41，多头年化超额收益为 8.50%，多头收益的信息比为 1.64，相较于原始的科技动量因子Tech_Momemtum_fmgb_5Y各项表现均有显著提升。"
+    },
+    {
+      "text": "Improved_Tech_Mean_Rev_fmgb_5Y 多空年化收益 7.50%、夏普比 1.67、多头组合年化超额收益 10.61%、信息比 2.11，因子收益稳定性较强，是改造方式中收益表现最出色的因子。",
+      "evidence": "Improved_Tech_Mean_Rev_fmgb_5Y 因子分组表现优异，其多空年化收益为7.50%，多空收益夏普比为 1.67，同时因子多头组合年化超额收益为10.61%，多头组合信息比 2.11，因子收益稳定性较强，是上述几种改造方式中收益表现最为出色的因子。"
+    },
+    {
+      "text": "Improved_Tech_Spec_Mean_Rev_fmgb_5Y 因子 IC 均值 3.18%、IC_IR 0.26，是几种改造方式中表现最佳的。",
+      "evidence": "Improved_Tech_Spec_Mean_Rev_fmgb_5Y 因子 IC 均值达到 3.18%，IC_IR 为 0.26，是上述几种改造方式中表现最佳的。"
+    },
+    {
+      "text": "中性化后 Neu_Improved_Tech_Mean_Rev_fmgb_5Y 因子的预测能力和稳定性未受到影响，反而得到提升，IC 均值提高至 2.62%，IC_IR 提高至 0.24，具有与常用风格因子低相关的稳定 alpha 信息。",
+      "evidence": "中性化后，Neu_Improved_Tech_Mean_Rev_fmgb_5Y 因子的预测能力和稳定性未受到影响，反而得到一定程度的提升，IC 均值提高至 2.62%，IC_IR 提高至 0.24"
+    },
+    {
+      "text": "Tech_Mean_Rev_V1_fmgb_5Y 因子预测能力表现更出色，但与一个月动量因子（Momentum_1M）之间存在极高的相关性，相关性达到-0.68，收益大部分由反转效应提供。",
+      "evidence": "仅从因子 IC 和 IC_IR 指标来看，Tech_Mean_Rev_V1_fmgb_5Y 因子的预测能力表现更出色，但下图因子相关性测试的结果中表明，该因子与一个月动量因子（Momentum_1M）之间存在极高的相关性，相关性达到-0.68。"
+    },
+    {
+      "text": "Tech_Momemtum_fmgb_5Y 因子与大部分因子的相关性极低，仅与1个月动量因子有微弱的相关性，相关性为 0.21。",
+      "evidence": "由下图可见 Tech_Momemtum_fmgb_5Y 因子与大部分因子的相关性极低，仅与1个月动量因子有微弱的相关性，相关性为 0.21。"
+    },
+    {
+      "text": "Improved_Tech_Mean_Rev_fmgb_5Y 因子 2014 年至今的 IC 表现较为稳定，多空收益较为稳定，多空收益的夏普比高达 1.67。",
+      "evidence": "结 合 专 利 关 联 度 的 5 年 期 发 明 公 布 科 技 动 量 领 先 因 子（Improved_Tech_Mean_Rev_fmgb_5Y）的多空收益较为稳定，多空收益的夏普比高达 1.67。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Lee, C.M.C., S.T. Sun, R. Wang and R. Zhang. (2019). \"Technological Links and Predictable Returns.\" Journal of Financial Economics, 132: 76–96.",
+    "Nguyen, P.-A. and A. Kecskés. (2020). \"Do Technology Spillovers Affect the Corporate Information Environment.\" Journal of Corporate Finance, 62: 101581.",
+    "《专利数据中有哪些 Alpha？——多因子系列报告之三十一》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

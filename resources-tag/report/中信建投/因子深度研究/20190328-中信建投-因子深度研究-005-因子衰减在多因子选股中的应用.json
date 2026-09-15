@@ -1,0 +1,182 @@
+{
+  "schema_version": 2,
+  "id": "20190328-中信建投-因子深度研究-005-因子衰减在多因子选股中的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EP_{TTM}=\\frac{1}{PE_{TTM}}",
+          "stats": [0.046, null, 0.58, null],
+          "evidence": "EP_TTM 因子的当期（即衰减 0 期）IC 为 0.046，衰减 3 期的IC 为 0.02，第一次低于当期 IC 的一半，因此我们定义 EP_TTM 因子的半衰期为 3。"
+        },
+        {
+          "name": "BP_LYR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP_{LYR}=\\frac{1}{PB_{LYR}}",
+          "stats": [0.046, null, 0.476, null],
+          "evidence": "同理 BP_LYR因子的当期（即衰减 0 期）IC 为 0.046，衰减 3 期的IC 为 0.02，第一次低于当期 IC 的一半，因此我们定义 BP_LYR 因子的半衰期为 3。"
+        },
+        {
+          "name": "SaleEarnings_SQ_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度营业利润同比增长率}",
+          "stats": [0.025, null, 0.488, null],
+          "evidence": "我们再看看成长因子的表现情况，我这边选取了单季度营业利润同比增长率 SaleEarnings_SQ_YoY 因子，其半衰期为 4 期。"
+        },
+        {
+          "name": "Sales_SQ_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度营业收入同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "下面，我们看下两个成长因子 SaleEarnings_SQ_YoY（单季度营业利润同比增长率）和 Sales_SQ_YoY（单季度营业收入同比增长率）的因子加权方法对比，两个因子的半衰期均为 4。"
+        },
+        {
+          "name": "ROE_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE_{TTM}=\\frac{\\text{净利润}_{TTM}}{\\text{股东权益合计}_{\\text{最新财报}}}",
+          "stats": [0.02, null, 0.249, null],
+          "evidence": "质量因子选取了 ROE_TTM 因子，其半衰期为 4 期。"
+        },
+        {
+          "name": "Momentum_1m",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Momentum_{1m}=\\frac{\\text{复权收盘价}_t}{\\text{复权收盘价}_{t-1\\text{个月}}}-1",
+          "stats": [-0.069, null, -0.711, null],
+          "evidence": "动量/反转因子选取了一个月收益率 Momentum_1m 因子，这个因子比较特别，当期 IC 为非常明显的负向因子，高达-0.069，而衰减 1 期的 IC 均值已经下降到-0.014，因此其半衰期可能远小于 1 个月，但我们这边的分析都基于月频，因此把其半衰期定义为 1 期。"
+        },
+        {
+          "name": "Momentum_3m",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Momentum_{3m}=\\frac{\\text{复权收盘价}_t}{\\text{复权收盘价}_{t-3\\text{个月}}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "下面，我们再看下两个反转因子 Momentum_1m（最近一个月收益率）和 Momentum_3m（最近三个月收益率）的因子加权方法对比，两个因子的半衰期均为 1。"
+        },
+        {
+          "name": "GrowthProfit_FY1_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{预测净利润}_{FY1}}{\\text{预测净利润}_{FY1\\_\\text{三月前}}}-1",
+          "stats": [0.034, null, 0.707, null],
+          "evidence": "情绪（一致预期）因子选取了 GrowthProfit_FY1_3M 因子，计算公式为（预测净利润 FY1/预测净利润 FY1_三月前-1），其半衰期为 2 期。"
+        },
+        {
+          "name": "TurnoverAvg1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月日均换手率}",
+          "stats": [-0.077, null, -0.843, null],
+          "evidence": "技术因子选取了过去一个月日均换手率 TurnoverAvg1M 因子，其半衰期为 3 期。"
+        },
+        {
+          "name": "Volatility1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月日收益波动率}",
+          "stats": [-0.064, null, -0.554, null],
+          "evidence": "另外一个技术因子选取了过去一个月日收益波动率 Volatility1M 因子，其半衰期为 3 期。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "decay_monitor"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在对大部分不同类型但衰减速度相同的因子做多因子 IC 或 IC_IR 半衰期加权时，半衰期参数H等于因子本身的半衰期 H_Factor 时组合表现最好或接近最好，如 IC_IR 从等权组合的 0.47 提升到 0.55，第一分位年化超额收益从 12.73%提升到 14.16%。",
+      "evidence": "例如我们在对两个半衰期均为 4的成长因子“单季度营业利润同比增长率”和“单季度营业收入同比增长率”做 IC 半衰期加权时，半衰期参数H等于 4 时，组合的表现在所有加权方法里可以达到最好。IC_IR 从等权组合的 0.47 提升到 0.55，第一分位组合年化超额收益从等权组合的 12.73%提升到 14.16%。"
+    },
+    {
+      "text": "EP_TTM 因子利用过去 3 期因子值进行最大化复合因子 IC_IR 加权的效果最好，复合因子 IC 达到 6.64%、IC_IR 达到 1.04，第一分位组合年化超额收益达到 18%，相比仅用当期因子的超额收益（8.68%）有将近 10%的提升。",
+      "evidence": "我们利用过去 3期的因子值进行最大化复合因子 IC_IR 加权的效果最好，复合因子的 IC 达到 6.64%，相比仅用当期因子的 IC 值（4.99%）提升较大，IC_IR 达到 1.04，而第一分位组合年化超额收益达到 18%，相比仅用当期因子的超额收益（8.68%）有将近 10%的年化超额收益提升。"
+    },
+    {
+      "text": "利用历史因子值进行加权的效果总体上比仅用当期因子值要好，当历史样本期 T 等于因子的半衰期 H_Factor 时效果最佳。",
+      "evidence": "我们利用复合因子 IC_IR 最大化的方法搭建了一套基于单个因子不同历史期限暴露值的时间序列加权方法，发现利用历史因子值进行加权的效果总体上比仅用当期因子值要好，当历史样本期 T 等于因子的半衰期H_Factor 时，效果最佳。"
+    },
+    {
+      "text": "动态 IC 半衰期加权多因子组合（按因子半衰期分类、大类因子内 IC 半衰期加权、每期选打分前 100 只股票）最近十年累计超额收益 727%，年化超额收益 23.52%，夏普比率 2.08。",
+      "evidence": "组合收益在所有加权方法里面表现最优，最近十年的累计超额收益达到 727%，年化超额收益 23.52%，夏普比率为 2.08，除了 2017 年市场风格比较极端跑输指数之外，其余年份都能够取得超过10%的超额收益。"
+    },
+    {
+      "text": "做因子 IC 半衰期加权时可以按照因子衰减速度进行归类合并而不是按照因子类型进行合并。",
+      "evidence": "由此可见，我们在做因子 IC 半衰期加权时可以按照因子衰减速度进行归类合并而不是按照因子类型进行合并。"
+    },
+    {
+      "text": "单因子的半衰期 H_Factor 在足够长的测试样本内基本不会变化，在多因子选股里可以作为一个稳健的最优参数。",
+      "evidence": "由于因子的半衰期 H_Factor在足够长的测试样本内基本不会变化，因此其在多因子选股里可以作为一个稳健的最优参数，后期我们可以对其进行拓展和深入研究。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "2018-06-08 因子深度研究系列：宏观变量控制下的有效因子轮动",
+    "2019-01-15 因子深度研究系列：市值因子择时"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

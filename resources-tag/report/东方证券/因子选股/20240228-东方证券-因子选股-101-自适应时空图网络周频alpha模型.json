@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "id": "20240228-东方证券-因子选股-101-自适应时空图网络周频alpha模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "ASTGNN生成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly"],
+          "horizon": "daily",
+          "formula": "\\text{个股时间序列经GRU提取时序信息得到隐层, 再经自适应图卷积层 } Z=(I+softmax(ReLU(MM^{T})))XW \\text{ 提取空间交互信息}",
+          "stats": [null, 0.1422, 1.33, null],
+          "evidence": "本文提出了一个RNN中嵌入自适应图的网络结构（ASTGNN）来进行因子挖掘任务。这种新的网络结构能够同时对时间和空间信息进行挖掘，既能考虑到时间维度上个股特征演化关系，又能兼顾空间截面上所有个股的交互作用。"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly"],
+          "horizon": "daily",
+          "formula": "\\text{各数据集上ASTGNN生成的弱因子经决策树非线性加权得到最终个股打分}",
+          "stats": [null, 0.16, 1.52, null],
+          "evidence": "从最终因子回测结果来看我们可以得到：1. 相较于GRU，ASTGNN模型RankIC、ICIR、RankIC>0占比等指标均显著提升，最大回撤也显著降低。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["tree"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "数据集week生成因子表现最好，RankIC和多头收益率均显著超过另外几个数据集，但波动和回撤也较大，l2数据集表现最弱但多头最大回撤相对较低。",
+      "evidence": "数据集 week 生成因子表现最好，RankIC和多头收益率均显著超过另外几个数据集，但波动和回撤也较大。而l2数据集表现最弱，但多头最大回撤相对较低走势稳健性相对较好。"
+    },
+    {
+      "text": "ASTGNN和GRU在各数据集上生成因子的相关系数普遍位于85%~95%之间，相似度较高但仍具有差异性；ASTGNN生成因子间的相关性普遍低于GRU。",
+      "evidence": "ASTGNN和GRU在各个数据集上生成因子的相关系数普遍位于85%~95%之间，相对较高，说明两个模型在各个数据集上挖掘出的有效信息相似度较高但仍具有一定的差异性。2. ASTGNN在各个数据集上生成因子之间的相关性普遍低于GRU，这意味着不同数据集上挖掘出的个股关联关系可能有所不同。"
+    },
+    {
+      "text": "相较于GRU，ASTGNN模型RankIC、ICIR、RankIC>0占比等指标均显著提升，最大回撤也显著降低，说明嵌入图结构能辅助GRU得到更多信息增量。",
+      "evidence": "从最终因子回测结果来看我们可以得到：1. 相较于GRU，ASTGNN模型RankIC、ICIR、RankIC>0占比等指标均显著提升，最大回撤也显著降低。这说明通过在因子挖掘阶段嵌入图结构确实能辅助GRU得到更多的的信息增量。"
+    },
+    {
+      "text": "ASTGNN打分2018年以来在中证全指、沪深300、中证500、中证1000上十日RankIC均值分别为16.00%、10.50%、12.30%、15.27%，top组年化超额分别为46.11%、27.92%、25.28%、34.44%。",
+      "evidence": "基于ASTGNN模型在各个数据集上进行因子挖掘然后非线性加权所得打分2018年和2020年以来在中证全指、沪深300、中证500、中证1000四个指数上十日RankIC均值分别为16.00%、10.50%、12.30%、15.27%和 14.27%、9.68%、10.32%、12.99%，top组年化超额分别为46.11%、27.92%、25.28%、34.44%和 37.19%、27.28%、21.91%、27.48%。相较于基准模型各宽基指数股票池上选股效果均有明显提升。"
+    },
+    {
+      "text": "在成分股不低于80%限制、周单边换手率约束20%下，2018年以来新模型打分在沪深300、中证500和中证1000增强策略上年化超额收益率分别为16.59%、22.32%和31.12%。",
+      "evidence": "在成分股不低于 80%限制、周单边换手率约束为 20%约束下，2018 年以来，新模型打分在沪深300、中证 500 和中证 1000 增强策略上年化超额收益率分别为 16.59%、22.32%和 31.12%。"
+    },
+    {
+      "text": "相较于GRU，新模型换手率有所上升，可能与邻接矩阵变化导致两期最终生成的弱因子差异性上升有关。",
+      "evidence": "2. 相较于GRU，新模型换手率有所上升，这可能和邻接矩阵变化存在一定的关系，即本期和上一期RNN部分挖掘的特征向量可能变化不大，但由于邻接矩阵变化导致两期最终生成的弱因子差异性上升，最终使得换手率上升。"
+    }
+  ],
+  "builds_on": [
+    "20230606-东方证券-因子选股-091-基于循环神经网络的多频率因子挖掘",
+    "20230824-东方证券-因子选股-096-基于残差网络的端到端因子挖掘模型",
+    "20231224-东方证券-因子选股-098-基于抗噪的AI量价模型改进方案"
+  ],
+  "external_ref": [
+    "Bai L, Yao L, Li C, et al. Adaptive graph convolutional recurrent network for traffic forecasting[J]. Advances in neural information processing systems, 2020, 33: 17804- 17815.",
+    "Feng F, He X, Wang X, et al. Temporal relational ranking for stock prediction[J]. ACM Transactions on Information Systems (TOIS), 2019, 37(2): 1-30.",
+    "Kipf T N, Welling M. Semi-Supervised Classification with Graph Convolutional Networks[C] International Conference on Learning Representations. 2016.",
+    "Wang H, Wang T, Li S, et al. Adaptive long-short pattern transformer for stock investment selection[C] Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence. 2022: 3970-3977.",
+    "东方A股因子风险模型（DFQ-2020）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

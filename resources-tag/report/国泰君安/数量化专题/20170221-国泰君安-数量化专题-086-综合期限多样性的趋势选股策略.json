@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20170221-国泰君安-数量化专题-086-综合期限多样性的趋势选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "综合趋势模型",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "E_{t}\\left[r_{i,t+1}\\right]=\\sum_{n}E_{t}\\left[\\beta_{n,t+1}\\right]\\tilde{A}_{it}^{n},\\quad \\tilde{A}_{it}^{n}=\\frac{A_{it}^{n}}{P_{it}},\\quad E_{t}[\\beta_{n,t+1}]=\\frac{1}{12}\\sum_{m=1}^{12}\\beta_{n,t+1-m}",
+          "stats": [null, 0.074, null, null],
+          "evidence": "本报告策略的核心思想在于同时捕捉个股历史短期、中期、长期趋势特征，并结合市场整体环境，进行个股收益的预测。模型本身不依赖于市场短期、中期、长期的动量反转特征的事前假设，各移动平均指标的预测方向和力度随市场整体环境而动态变化。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["cleaning"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以个股短期、中期、长期标准化EMA做截面回归预测下月收益，测试期内RankIC整体均值为7.4%，为正比例占70%，T检验统计量值为5.9。",
+      "evidence": "测试期内RankIC 为正的比例占总样本的 70%，整体均值为 7.4%，最大值高达45%，最小值-25.6%，T 检验统计量值为 5.9。"
+    },
+    {
+      "text": "策略在2005年1月至2016年12月回测期内表现平稳，相对中证500的年化超额收益达到15.3%，最大回撤5.4%，信息比率1.8，胜率为72.8%。",
+      "evidence": "在整个样本回测期内，策略的表现较为平稳，组合的年化超额收益达到15.3%，最大回撤5.4%，信息比率 1.8，胜率为 72.8%。"
+    },
+    {
+      "text": "综合多方信息的趋势模型相较单均线策略，夏普比、信息比例、最大回撤和胜率均更优，整体稳定性更高，体现为较强的风险控制能力。",
+      "evidence": "虽然从收益的角度来看，趋势模型选股相较于单均线策略并没有明显的优势，但是不论从组合收益的夏普比、信息比例、最大回撤和胜率的角度，依据趋势模型构建的股票组合的效果均更优。这就意味着综合多方信息的趋势模型的整体稳定性更高，体现为较强的风险控制能力。"
+    },
+    {
+      "text": "用换手率纵向与横向双重条件定位受短期事件干扰的样本并删除，整个样本期内被定义为异常交易的样本占全样本的比例平均为26.2%。",
+      "evidence": "在整个样本期内被定义为异常交易的样本占全样本的比例平均为 26.2%。"
+    },
+    {
+      "text": "趋势模型选择的股票具有明显的大市值偏好，规模最小的第一组股票平均占比仅5.4%，规模最大的第10组占比达到14.9，需做规模中性化处理。",
+      "evidence": "趋势模型选择的股票具有明显的大市值偏好。其中，规模最小的第一组的股票平均占比仅5.4%，而规模最大的第10组的相应占比达到了 14.9，接近于最小规模组的 3 倍"
+    },
+    {
+      "text": "趋势策略选股在市场趋势特征较为明显的阶段更为有效，相对横盘震荡阶段，选股策略在市场整体趋势较强时表现更优，震荡行情中选股能力略为逊色。",
+      "evidence": "从表3中各年度的收益风险特征来看，趋势模型在各年的表现均较为稳定，但还是受到市场宏观环境的影响，相对横盘震荡阶段，选股策略在市场整体趋势较强时表现更优。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Han et al. (2016)", "Wang（1993）", "《动量测评之均线策略》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

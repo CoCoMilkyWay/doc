@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "id": "20170615-国泰君安-数量化专题-089-基于短周期价量特征的多因子选股体系",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "价量背离",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Alpha_{t}^{i}=-1*corr(vwap_{t-d:t}^{i},volume_{t-d:t}^{i})",
+          "stats": [0.003, null, 2.65, 0.0527],
+          "evidence": "以短周期内个股均价序列与成交量序列的相关系数衡量价量背离的程度，相关系数越低，后期实现超额收益的概率越高，累计因子收益率仅在股灾期间发生波动，其余时间段均较为显著。"
+        },
+        {
+          "name": "开盘缺口",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Alpha_{t}^{i}=Open-price_{t}^{i}/Close-price_{t-1}^{i}",
+          "stats": [0.005, null, 2.94, 0.09],
+          "evidence": "当日个股开盘缺口，短周期内有较强的动量效应，累计因子收益率较为显著。"
+        },
+        {
+          "name": "异常成交量",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Alpha_{t}^{i}=-1*Volume_{t}^{i}/mean(Volume_{t-d:t}^{i})",
+          "stats": [0.005, null, 1.71, 0.0835],
+          "evidence": "个股成交量的异常变化往往预示着阶段性反转，尤其是异常缩量，是阶段底部的特征。成交量的因子处理过程中应注意区分由于涨跌停导致的成交量异常变化。"
+        },
+        {
+          "name": "量幅背离",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Alpha_{t}^{i}=-1*corr(high_{t-d:t}^{i}/low_{t-d:t}^{i},volume_{t-d:t}^{i})",
+          "stats": [0.007, null, 4.26, 0.1252],
+          "evidence": "以短周期内个股振幅序列（最高价比最低价）与成交量序列的相关系数衡量价量背离的程度，相关系数越低，后期实现超额收益的概率越高，累计因子收益率是所有因子中稳定性最强的。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["weighting", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "horizon": "daily"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi500"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "策略自2012年1月至2017年4月，扣除所有交易成本后，较中证500指数实现年化超额收益率50.2%，最大回撤5.9%，信息比率4.67。",
+      "evidence": "模型自 2012 年 1 月至 2017 年 4 月，在扣除所有交易成本后，较之中证 500指数，实现年化超额收益率 50.2%，最大回撤5.9%，信息比率4.67。"
+    },
+    {
+      "text": "因子体系日度预测阿尔法收益截面的IC均值为0.057，模型预测系数显著性高达18.23，整体预测胜率接近90%，除2015年股灾期间外稳定性较强。",
+      "evidence": "结果表明，因子体系在日度预测阿尔法收益截面的情况下，IC 均值为0.057，模型预测系数显著性高达18.23，整体预测胜率接近 90%，仅在2015年股灾期间有所波动，其余时间段稳定性较强。"
+    },
+    {
+      "text": "短周期因子体系呈现高显著、低相关特征：因子收益率相关系数分布均值仅为-0.0057，94%的相关系数绝对值小于0.1。",
+      "evidence": "经计算，因子收益率相关系数分布均值仅为-0.0057，并且94%的因子收益率相关系数绝对值小于0.1。"
+    },
+    {
+      "text": "因子体系对越短周期的预测显著性越强，T+4日之后因子收益率IR均值未达95%统计显著性水平，预测周期极限即为T+4日。",
+      "evidence": "而在 T+4日之后，整体因子收益率 IR均值未达到 95%统计显著性水平。换言之，因子体系的预测周期极限即为T+4日。"
+    },
+    {
+      "text": "由于对换手率与交易成本进行了最优平衡处理，策略可容纳的极限交易成本接近双边1%，Tc=0.8%时年化超额收益仍接近30%，模型实战能力较强。",
+      "evidence": "对交易成本的敏感性分析结果表明，由于对换手率与交易成本进行了最优平衡过程的处理，因此策略可容纳的极限交易成本接近双边1%，模型实战能力较强。"
+    },
+    {
+      "text": "策略可容纳规模与市场成交量相关：2012-2014年约1亿，2014-2016年牛市阶段最高接近7亿，2017年当前市场成交水平下约2到3亿。",
+      "evidence": "2012 年至 2014 年，由于市场整体成交萎缩，导致策略可容纳规模在 1亿左右。而2014年至 2016年牛市阶段，市场成交活跃，因此策略可容纳规模大幅提升，最高接近 7 亿水平。而在2017年当前市场成交水平，策略可容纳规模在2到 3亿左右。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "BARRA CNE5",
+    "《基于动态模分解的价格模式挖掘》2017.05.15",
+    "《基于短周期价量特征的多因子选股体系》2017.06.01"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

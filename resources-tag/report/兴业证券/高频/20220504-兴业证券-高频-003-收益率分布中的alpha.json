@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20220504-兴业证券-高频-003-收益率分布中的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "exRtn_maxVal",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{参考VaR与Expected Shortfall刻画思路估计的日内五分钟收益率极大值的相对幅度}",
+          "stats": [0.043, null, 0.85, 0.444],
+          "evidence": "以收益率极大值的幅度 exRtn maxVal 和出现频率 exRtn maxFre 为例，若当期极端上涨幅度较大或极端上涨的次数较多时，基于展望理论，持有该股的投资者将倾向于做出风险厌恶的投资行为，在未来过度抛售此股，因此预期股价将出现下跌。"
+        },
+        {
+          "name": "exRtn_maxFre",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{日内五分钟收益率中极端上涨出现的次数}",
+          "stats": [0.0224, null, 0.42, 0.095],
+          "evidence": "同时，由于极端收益率出现时，极端值的幅度和出现频率对于投资者的影响也不尽相同。此外，投资者不同的心理变化不一定能完全反应至股价变动上。因此，我们需要探究在极大值和极小值这两个角度下计算的幅度和出现频率因子是否同时有效，抑或者有效性是否存在差异。"
+        },
+        {
+          "name": "exRtn_minVal",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{日内五分钟收益率极小值的绝对幅度}",
+          "stats": [-0.0092, null, -0.19, -0.0935],
+          "evidence": "反之，以收益率极小值的绝对幅度 exRtn minVal 和出现频率 exRtn minFre 为例，在该股极度亏损或极端下跌的次数较多后，持有该股的投资者将倾向于做出风险偏好的投资行为，继续持有该股、或继续投资以试图拟补亏损，此类行为往往会在未来推高股价。"
+        },
+        {
+          "name": "exRtn_minFre",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{日内五分钟收益率中极端下跌出现的次数}",
+          "stats": [0.0344, null, 0.62, 0.3752],
+          "evidence": "反之，以收益率极小值的绝对幅度 exRtn minVal 和出现频率 exRtn minFre 为例，在该股极度亏损或极端下跌的次数较多后，持有该股的投资者将倾向于做出风险偏好的投资行为，继续持有该股、或继续投资以试图拟补亏损，此类行为往往会在未来推高股价。"
+        },
+        {
+          "name": "gmm_mean",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\mu_{J}",
+          "stats": [0.0544, null, 0.9, 0.4888],
+          "evidence": "由于 $\\mu_{J}$ 本身代表着大额投资者推动股价的方向和幅度，我们直接基于该指标构建因子，记为gmm_mean，该因子值越大，未来预期股价下跌幅度越大。"
+        },
+        {
+          "name": "gmm_mean2wgt",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\mu_{J}/w_{J}",
+          "stats": [0.0352, null, 0.82, 0.3617],
+          "evidence": "此现象表明大额投资者对于该股的操作能力较弱。由此我们计算用于刻画大额投资者对于个股上涨/下跌的操作能力的因子gmm_mean2wgt，具体计算方式为："
+        },
+        {
+          "name": "gmm_meandif",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\mu_{S}-\\mu_{J}",
+          "stats": [0.0516, null, 0.87, 0.528],
+          "evidence": "若当期某一股票在震荡期和“跳价”期的收益率差异过大，说明该股在不同股价时期的价格特征差异较明显，股价有着更大的价格弹性。为了同时衡量比较震荡期和“跳价”期之间股价变动的方向与大小，我们计算两个收益率的均值差值作为价格弹性的代理变量。gmm_meandif因子的因子值越大，预期未来收益越高。"
+        },
+        {
+          "name": "gmm_meandif2wgtdif",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "(\\mu_{S}-\\mu_{J})/(w_{S}-w_{J})",
+          "stats": [0.0492, null, 0.74, 0.466],
+          "evidence": "此外，我们还可以计算两个高斯分布的权重差值，以表明该股当日两种股价变动时期的占比差异，并以此计算均值差与权重差的比值，即同时考虑日内两个时期的均值差异与权重差异。该因子值越大，预期未来收益越高。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "exRtn_maxVal（极端上涨幅度）因子多空年化收益率44.40%，夏普比率8.73，IC均值4.30%。",
+      "evidence": "我们以exRtn maxVal（极端上涨幅度）为例进行阐述。该因子多空年化收益率44.40%，夏普比率8.73，IC均值4.30%。"
+    },
+    {
+      "text": "gmm_mean因子表现更为出色，多空收益率为48.88%，多头收益率为23.47%，夏普为7.53。",
+      "evidence": "gmm_mean因子表现更为出色，多空收益率为48.88%，多头收益率为23.47%，夏普为 7.53。"
+    },
+    {
+      "text": "与real_skew正交化后得到的新因子gmm_meanN表现依旧优秀，多空年化收益率32.47%，IC均值为3.93%，ICIR为0.77，因子表现出优秀的特异性。",
+      "evidence": "从结果上看，与 real_skew 正交化后得到的新因子gmm_meanN表现依旧优秀，多空年化收益率 32.47%，多头年化 19.14%。IC 均值为 3.93%，ICIR 为 0.77，因子表现出优秀的特异性。"
+    },
+    {
+      "text": "flexibility因子的IC均值均在5%以上，且ICIR均大于0.8，表现出较好的股价预测能力。",
+      "evidence": "从日度IC测试结果上看，flexibility因子的 IC 均值均在 5%以上，且ICIR均大于0.8，表现出较好的股价预测能力。"
+    },
+    {
+      "text": "gmm_mean在中证800股票池中的多空收益率为30%，多头收益率为19%，夏普比率为4.31。",
+      "evidence": "以gmm_mean为例，该因子在中证800股票池中的多空收益率为30%，多头收益率为 19%，夏普比率为 4.31。"
+    },
+    {
+      "text": "绝大部分因子在不同的交易价下的表现均十分优秀与稳定，开盘30分钟均价对因子表现的影响相对较大，但对多头端的收益影响均较小。",
+      "evidence": "从结果上看，无论是组合回测还是IC测试结果，绝大部分因子在不同的交易价下的表现均十分优秀与稳定，其中开盘30分钟均价对于因子表现的影响相对较大，但对于多头端的收益影响均较小。"
+    }
+  ],
+  "builds_on": [
+    "20220104-兴业证券-高频-001-高频漫谈",
+    "20220123-兴业证券-高频-002-收益率分布因子构建"
+  ],
+  "external_ref": [
+    "Clark P K. A subordinated stochastic process model with finite variance for speculative prices[J]. Econometrica, 1973, 41: 135-155."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

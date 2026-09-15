@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "20170901-光大证券-多因子-005-见微知著_成交量占比高频因子解析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "OCVP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OCVP_{t}=\\frac{1}{d}\\sum_{i=1}^{d}\\left(\\frac{VOL_{call}}{VOL_{total}}\\right)_{t-i}",
+          "stats": [-0.056, null, -0.83, 0.115],
+          "evidence": "集合竞价阶段的交易数据是日内高频数据的特有部分，我们以成交量为切入点，以相对指标个股集合竞价成交量占比（集合竞价阶段成交量/日内总成交量）为日内高频指标，采用技术分析中最常用指标构造方式——简单移动平均（MA）构造开盘集合竞价成交量占比因子OCVP（opening call auction volume percent），作为月初选股的指标。"
+        },
+        {
+          "name": "TWOCVP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "TWOCVP_{t}=\\sum_{i=1}^{\\infty}w_{t-i}*CVP_{t-i}",
+          "stats": [null, null, null, null],
+          "evidence": "集合竞价成交量属于日内高频数据，根据信息传递过程中的衰减规律，距离指标因子计算日的时间越长其信息的时效性也会随之递减，因此我们进一步考虑引入具有时变效用的权重因子w 修正原始的 OCVP 因子。"
+        },
+        {
+          "name": "BCVP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "BCVP_t=\\frac{1}{d}\\sum_{i=1}^{d}\\left(\\frac{VOL_{close}}{VOL_{total}}\\right)_{t-i}",
+          "stats": [-0.028, null, -0.36, 0.124],
+          "evidence": "为了统一沪深两市，我们选择收盘前5 分钟的交易信息作为尾盘效应时段，以与OCVP 同样的方式构造收盘前成交量占比因子 BCVP（before closing volume percent）。"
+        },
+        {
+          "name": "OBCVP",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{OBCVP}=0.91*\\mathrm{OCVP}+0.09*\\mathrm{BCVP}",
+          "stats": [-0.07, null, -1.024, 0.151],
+          "evidence": "考虑到收盘前阶段为日内信息传递到当日交易的最后时点，我们纳入收盘前5分钟成交量占比因子，通过加权方式构造复合因子 OBCVP。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "OCVP因子的有效性、稳定性及预测能力表现良好，IC大于零的比例仅为14.1%，IC均值为-5.6%，IR绝对值为0.83，预测能力较突出",
+      "evidence": "OCVP 因子的有效性、稳定性及预测能力表现良好。因子 IC 大于零的比例仅为 14.1%，说明因子与未来收益呈现较显著的负相关性；此外 IC 均值为-5.6%，IR 绝对值为 0.83，该因子的预测能力较突出。"
+    },
+    {
+      "text": "复合后的OBCVP因子的有效性和预测能力较单因子显著提升，IC均值为-7%，IR绝对值大于1，预测能力突出",
+      "evidence": "复合后的 OBCVP 因子的有效性和预测能力较单因子显著提升。因子 IC 大于零的比例仅为 15.73%，说明因子与未来收益的负相关性显著；此外 IC 均值为-7%，IR绝对值大于1，该因子的预测能力突出。"
+    },
+    {
+      "text": "OBCVP因子分组效果很好，分组收益区分度明显，多空组合即第一组对冲第五组年化收益约15.10%，夏普比率达3.03，最大回撤为10.2%",
+      "evidence": "复合因子OBCVP分组效果进一步提升。我们同样根据因子值从小到大排序将股票后等分为 5 组，分别计算其净值曲线。从下图可以看到，OBCVP 因子的分组效果很好，分组收益区分度明显；多空组合即第一组对冲第五组年化收益约15.10%，夏普比率达 3.03，最大回撤为10.2%。"
+    },
+    {
+      "text": "剔除VSTD效应后OBCVP选股效果依然显著，做行业、市值中性处理并剔除VSTD、动量影响后，有效性检验结果仍然显著，IC大于零的比例为13.5%，IR绝对值达0.79",
+      "evidence": "剔除VSTD效应 OBCVP选股效果依然显著。对OBCVP因子做行业、市值中性处理并剔除 VSTD、动量影响后，因子的有效性检验等结果仍然显著，IC 大于零的比例为 13.5%，IR 绝对值达 0.79。"
+    },
+    {
+      "text": "成交量占比因子的月度换手率较高，平均换手率高达60%，选股策略对费率敏感，费率从0.0%上升到单边0.3%时组合年化收益率从23.6%下降到16.3%",
+      "evidence": "对比不同费用比率下的因子选股策略回测指标，我们发现由于成交量占比因子的月度换手率较高，平均换手率高达 60%，因此该因子的选股策略对费率的敏感度较高。依照前文回测框架月度调仓，每月等权配置 100 只股票，随着费率从 0.0%上升到单边 0.3%时，组合年化收益率从23.6%下降到 16.3%。"
+    },
+    {
+      "text": "OBCVP因子月度选股多头策略相对表现良好，相对于中证500的超额收益为14.7%，信息比率达1.35，平均月胜率为65.9%",
+      "evidence": "（2）策略相对表现：相对于中证 500 的超额收益为 14.7%，相对波动率为10.9%，信息比率达1.35，相对回撤为13.3%，平均月胜率为 65.9%；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《别开生面：公司治理因子详解多因子系列报告之四》",
+    "《因子测试全集多因子系列报告之二》",
+    "《因子测试框架—多因子系列报告之一》",
+    "《多因子组合“光大 Alpha 1.0”多因子系列报告之三》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

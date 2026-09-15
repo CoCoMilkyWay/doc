@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20230426-华泰证券-人工智能-066-面向投资研究行业的gpt使用指南",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["infrastructure", "structuring"],
+      "setup": {"data": {"source": ["market_daily", "text"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "event", "horizon": "daily"}
+      },
+      "factors": []
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "ChatGPT 在代码编写、文本编写这两类任务上表现较好，可替代日常重复劳动，并能拓展投研人员的能力圈。",
+      "evidence": "总的来看，ChatGPT 在代码编写、文本编写这两类任务上表现较好。一方面可以替代日常重复劳动，另一方面能够拓展投研人员的能力圈。"
+    },
+    {
+      "text": "任务提示 Prompt 应写在开头位置，当 Prompt 写在结尾时，ChatGPT 可能无法正确理解意图。",
+      "evidence": "任务提示 Prompt 应写在开头位置。实验表明当 Prompt 写在结尾时，ChatGPT 可能无法正确理解意图。"
+    },
+    {
+      "text": "GPT 处理上下文字数有限制，需要拆分段落，合理分配每轮对话字数，输入以 1000 个左右汉字为宜。",
+      "evidence": "GPT 处理上下文字数有限制，需要拆分段落，合理分配每轮对话字数，输入以 1000个左右汉字为宜。"
+    },
+    {
+      "text": "ChatGPT 生成的代码可能有错误，需要人工查错，可提供报错信息要求 ChatGPT 修改。",
+      "evidence": "需要使用者有代码基础。ChatGPT 生成的代码可能有错误，需要人工查错；另外，涉及输入数据、输出结果这些个性化程度较高的环节，人工实现效率可能更高。"
+    },
+    {
+      "text": "MACD 金叉死叉信号对个股的多、空信号胜率在 50% 左右，难言有效，多头赔率相对高、空头赔率相对低。",
+      "evidence": "至此我们完成了对 MACD 个股择时信号的胜率、赔率统计。多、空信号胜率在 50%左右，难言有效。多头胜率低于 50%但赔率相对高，空头胜率高于 50%但赔率相对低。"
+    },
+    {
+      "text": "行情复盘任务提供样例后生成质量显著提升，依次描述开盘、上午、午后、收盘行情，最后总结全天价、量情况。",
+      "evidence": "提供样例后生成质量显著提升，依次描述开盘、上午、午后、收盘行情，最后总结全天价、量情况。"
+    },
+    {
+      "text": "东方财富股吧评论是使用较广泛的另类数据，可以反映短期散户投资者的情绪，是传统财务数据和行情数据的补充。",
+      "evidence": "东方财富股吧评论是使用较广泛的另类数据，可以反映短期散户投资者的情绪。通过网页抓取技术得到的文本结合自然语言处理技术，可以进行更为定量的多空情绪识别，是传统财务数据和行情数据的补充。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Brown 等（2020）Language Models are Few-Shot Learners"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

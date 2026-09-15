@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "id": "20220701-华泰证券-人工智能-057-文本fadt选股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_alternative"],
+      "approach": ["expectation_revision", "text_sentiment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "forecast_adj_txt",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "forecast_{-}adj_{-}txt=L_{h}(x)-L_{l}(x),\\quad L_{c}(x)=\\log\\frac{p_{c}(x)}{1-p_{c}(x)}",
+          "stats": [0.0399, 0.0382, 0.38, null],
+          "evidence": "在构建模型时，输入特征为分析师研报文本转换成的词频矩阵，预测标签为研报发布前后两天对应个股的超额收益。在样本外根据模型预测得分构建 forecast_adj_txt 因子。"
+        },
+        {
+          "name": "forecast_score_adj_txt",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{基于分析师评级调整研报文本，与forecast_adj_txt同构的分类概率log-odds之差}",
+          "stats": [null, null, null, null],
+          "evidence": "按照与分析师盈利预测调整类似的方法论，我们对分析师评级调整的研报文本进行文本挖掘。我们构建的forecast_score_adj_txt因子的回测结果如下述图表所示。"
+        },
+        {
+          "name": "forecast_adj_txt_res_1",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{forecast_adj_txt 对 forecast_adj 因子正交处理得到的残差因子}",
+          "stats": [0.039, 0.0373, 0.38, null],
+          "evidence": "令 forecast_adj_txt 对 forecast_adj 因 子 进 行 正 交 处 理 得 到 残 差 因子forecast_adj_txt_res_1，我们发现残差因子仍然具有非常明显的分层效果及多头收益。"
+        },
+        {
+          "name": "forecast_adj_txt_res_2",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{forecast_adj_txt 对 sue_txt 因子正交处理得到的残差因子}",
+          "stats": [0.0252, 0.0219, 0.3, null],
+          "evidence": "令forecast_adj_txt 因子对 sue_txt 因子进行正交处理得到残差因子 forecast_adj_txt_res_2，发现虽然残差因子分层效果有明显削弱，但多头端收益仍然较为显著，第一层年化收益为18.48%。"
+        },
+        {
+          "name": "forecast_adj",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "forecast\\_adj_{s,T}=\\operatorname*{median}_{i,t}\\left(\\frac{forecast\\_new_{s,i,t}-forecast\\_last_{s,i,t}}{forecast\\_last_{s,i,t}}\\right),\\; T-1<t\\leq T",
+          "stats": [0.0164, 0.0377, 0.33, null],
+          "evidence": "传统对分析师盈利预测调整进行分析时，我们更多会使用分析师盈利预测调整的幅度来构建因子。例如以下计算的分析师盈利预测调整因子为常见的构建方法："
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon", "sample_window"],
+      "baseline": ["linear", "ensemble"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "forecast_adj_txt因子分十层回测严格单调，多头第一层绝对收益年化23.51%，相对中证500超额收益年化14.66%，因子覆盖度平均每期1107只且近年呈上升趋势",
+      "evidence": "从结果来看，forecast_adj_txt 因子分层效果十层严格单调，多头第一层自 2009 年以来全回测期的绝对收益为年化23.51%，相对于中证500的超额收益为年化14.66%；因子覆盖度平均每期为 1107 只，且近年来覆盖度呈现上升趋势。"
+    },
+    {
+      "text": "以forecast_adj_txt多头第一层为基础池进行股票精选，FADT选股组合回测期20090123～20220630内年化收益44.13%，夏普比率1.48，年化双边换手16倍，相对中证500年化超额约30%",
+      "evidence": "该组合在回测期 20090123～20220630 内年化收益 44.13%，夏普比率 1.48，年化双边换手16倍，相对中证500年化超额约30%。"
+    },
+    {
+      "text": "文本因子对各组参数均不敏感，多头端绝对年化收益稳定在21%～23%之间，模型大概率不存在人为过度调参导致的过拟合问题，参数敏感性较低",
+      "evidence": "测试结果表明，文本因子对各组参数均不敏感，不同参数下 forecast_adj_txt 因子均具有较为稳定的分层效果，多头端绝对年化收益在 21%～23%之间，模型大概率不存在人为过度调参导致的过拟合问题，参数敏感性较低，这可能提示我们分析师盈利预测调整研报文本的情感识别是信噪比较高且规律不易随时间改变的场景。"
+    },
+    {
+      "text": "forecast_adj_txt与forecast_adj因子数据同源但相关性不高，平均值约0.1左右，正交残差因子仍具明显分层效果",
+      "evidence": "forecast_adj_txt 和 forecast_adj 因子数据同源，但是因子相关性并不高，平均值大约在 0.1左 右 。"
+    },
+    {
+      "text": "基于评级调整样本构建的forecast_score_adj_txt因子效果不如盈利预测调整样本，可能因未剔除评级不变的样本",
+      "evidence": "从结果来看，基于评级调整样本构建的因子效果不如盈利预测调整样本，一个可能的原因在于数据预处理时，我们对于盈利预测调整的样本，剔除了盈利预测不变的样本；而对于评级调整的样本没有进行类似操作。"
+    },
+    {
+      "text": "FADT选股组合历史平均单日策略容量约1.5亿元，进一步提高策略容量可考虑多个交易日建仓、降低调仓频率",
+      "evidence": "从结果来看，历史平均单日策略容量为1.5亿元左右，如果需要进一步提高策略容量，可以考虑多个交易日建仓，同时降低调仓频率。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Mark Minervini《股票魔法师》",
+    "《人工智能51：文本PEAD选股策略》（20220107）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

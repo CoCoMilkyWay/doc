@@ -1,0 +1,146 @@
+{
+  "schema_version": 2,
+  "id": "20200117-中信建投-因子深度研究-007-分析师预期修正动量效应选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_market"],
+      "approach": ["expectation_revision", "momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EPS FY1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "P1=当月EPS一致预期上调且预期标准差上升；P2=上调且标准差下降；P3=下调且标准差上升；P4=下调且标准差下降",
+          "stats": [null, null, null, 0.0946],
+          "evidence": "对于预期 EPS 的第一财年分析师预期（FY1）修正选股组合，表现最好的是 P1 阶段的股票，年化超额收益为 12.22%。"
+        },
+        {
+          "name": "净利润 FY1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "P1=当月净利润一致预期上调且预期标准差上升；P2=上调且标准差下降；P3=下调且标准差上升；P4=下调且标准差下降",
+          "stats": [null, null, null, 0.1149],
+          "evidence": "下面是预期净利润的第一财年分析师预期（FY1）修正选股组合在各个阶段的超额收益统计对比。与预期EPS 类似，表现最好的是 P1 阶段的股票（年化超额为 11.33%），表现最差的是 P3 阶段的股票（年化超额收益为负），因此其分层效果也较好。"
+        },
+        {
+          "name": "目标价FY1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "P1=当月目标价一致预期上调且预期标准差上升；P2=上调且标准差下降；P3=下调且标准差上升；P4=下调且标准差下降",
+          "stats": [null, null, null, 0.0131],
+          "evidence": "下面是预期目标价的第一财年分析师预期（FY1）修正选股组合在各个阶段的超额收益统计对比。表现最好的是 P2 阶段的股票（年化超额为 13.03%），表现最差的是 P4 阶段的股票（年化超额收益为 2.68%），因此其选股的分层效果不太显著。"
+        },
+        {
+          "name": "EPS FY2",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "第二财年FY2的EPS一致预期修正阶段：均值上调且标准差上升为P1，上调且标准差下降为P2，下调且标准差上升为P3，下调且标准差下降为P4",
+          "stats": [null, null, null, 0.1246],
+          "evidence": "首先是预期 EPS 的第二财年分析师预期（FY2）修正选股组合在各个阶段的超额收益统计对比。表现最好的是 P1 阶段的股票，年化超额收益为 13.38%，这和第一财年分析师预期（FY1）的选股效果比较接近，表现最差的是 P3 阶段的股票"
+        },
+        {
+          "name": "净利润 FY2",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "第二财年FY2的净利润一致预期修正阶段：均值上调且标准差上升为P1，上调且标准差下降为P2，下调且标准差上升为P3，下调且标准差下降为P4",
+          "stats": [null, null, null, 0.1191],
+          "evidence": "下面是预期净利润的第二财年分析师预期（FY2）修正选股组合在各个阶段的超额收益统计对比，表现最好的是 P1 阶段的股票，表现最差的是 P3 阶段的股票，其分层选股效果仍然比较显著。"
+        },
+        {
+          "name": "EPS FY1,2",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "选取EPS第一财年FY1与第二财年FY2预期修正所处阶段相同的股票取交集构建组合",
+          "stats": [null, null, null, 0.17],
+          "evidence": "下面是预期 EPS 的第一（FY1）和第二（FY2）财年分析师预期叠加修正选股组合在各个阶段的超额收益统计对比。表现最好的是 P1 阶段的股票，年化超额收益为 16.34%，表现最差的是 P3 阶段的股票，分层选股效果比较显著。"
+        },
+        {
+          "name": "EPS FY1,2 NP1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "在EPS FY1,2阶段相同取交集的基础上，再叠加预期净利润第一财年FY1修正阶段相同的股票取交集构建组合",
+          "stats": [null, null, null, 0.2007],
+          "evidence": "下面是第一财年（FY1）、第二财年（FY2）预期 EPS 和第一财年（FY1）预期净利润三个分析师指标叠加修正选股组合在各个阶段的超额收益统计对比。表现最好的是 P1 阶段的股票，表现最差的是 P3 阶段的股票，分层选股效果比较显著。"
+        },
+        {
+          "name": "EPS FY1,2 NP1 1M_Reverse",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "EPS FY1,2与净利润FY1修正阶段相同的股票取交集，P1阶段组合叠加过去一月全市场跌幅最大的50%股票，P3阶段组合叠加过去一月全市场涨幅最大的50%股票",
+          "stats": [null, null, null, 0.3603],
+          "evidence": "具体策略为 P1 阶段组合叠加过去 N 个月全市场跌幅最大的 50%股票，P3 阶段组合叠加过去 N 个月全市场涨幅最大的 50%股票。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "分析师预期修正对下一月的分析师预期值有着同向的影响，这一影响在预期 EPS、净利润以及目标价格上表现得最为明显。",
+      "evidence": "综合来看，统计结果初步显示，分析师预期修正的调整对下一月的分析师预期值有着同向的影响。这一影响在预期 EPS、净利润以及目标价格上表现得最为明显。"
+    },
+    {
+      "text": "将预期上调和下调进一步划分为四阶段后，各指标第一或第三阶段调整后期发生同向调整的概率显著增加，发生反向调整的概率显著减少。",
+      "evidence": "我们利用分析师预期均值和预期离散程度把对预期上调进一步划分为阶段一（P1）与阶段二（P2），把预期下调划分为阶段三（P3）和阶段四（P4）。经过统计，当将预期上调和下调进一步划分时，各指标第一或第三阶段调整后期发生同向调整的概率显著增加，而发生反向调整的概率显著减少。"
+    },
+    {
+      "text": "预期EPS FY1修正选股组合中P1阶段表现最好，年化超额收益12.22%，其次为P1&P2（10.48%）和P2，表现最差的是P3阶段。",
+      "evidence": "表现最好的是 P1 阶段的股票，年化超额收益为 12.22%，接下来是 P1&P2 阶段的股票，年化超额收益为 10.48%，然后是 P2阶段的股票，表现最差的是 P3 阶段的股票，即 p1>p1&p2>p2>预期不变>p4>p3&p4>p3。"
+    },
+    {
+      "text": "预期目标价分层效果不太显著，主要原因是目标价格是一个范围且不是分析师预测的核心指标，因此后续不再把预期目标价作为候选选股因子。",
+      "evidence": "主要原因是目标价格是一个范围，我们这边用的是目标价上下限的均值，另外预期目标价不是分析师预测的核心指标，分析师对其预测准确度没有 EPS 和净利润高，因此我们后续不再把预期目标价作为候选选股因子。"
+    },
+    {
+      "text": "预期EPS第一二财年叠加选股效果好于单个预测年度，P1组合FY1,2年化超额收益16.34%，比FY1（12.22%）和FY2（13.38%）有3%以上增强，夏普比率最高。",
+      "evidence": "我们发现预期 EPS 的第一二财年分析师预期修正叠加选股的效果要好于单个预测年度，P1 组合 FY1,2 的年化超额收益（16.34%）比 FY1（12.22%）和 FY2（13.38%）有 3%以上的增强，夏普比率也是最高的。"
+    },
+    {
+      "text": "叠加预期净利润指标后P1组合超额收益（16.87%）与不叠加的组合（16.34%）相差不大，主要原因是预期EPS和预期净利润信息重合度较高，预期净利润新增信息不大。",
+      "evidence": "但我们发现三指标 P1 阶段的组合超额收益（16.87%）和不叠加第一财年（FY1）预期净利润的组合超额收益（16.34%）相差不大，其主要原因可能在于预期 EPS 和预期净利润的信息重合度较高，分析师一般在调整股票预期 EPS 同时也会调整预期净利润，因此预期净利润的新增信息不大。"
+    },
+    {
+      "text": "叠加过去一个月反转指标后P1阶段有19%的年化超额收益率，P3阶段负超额收益最为显著达-14%，多空组合年化收益高达36%。",
+      "evidence": "我们发现叠加过去一月收益的收益表现最好，在叠加过去一个月反转指标后 P1 阶段有着 19%的年化超额收益率，同时，P3 阶段的负超额收益也最为显著，达到-14%，多空组合年化收益高达 36%。"
+    },
+    {
+      "text": "叠加短期反转策略P1阶段除2014和2017年小幅度跑输基准外其余年份均有显著超额收益，2019年截至7月底超额收益高达21%，夏普比率高达4.78。",
+      "evidence": "我们对各年度超额收益进行统计，除了 2014和 2017 年小幅度跑输基准之外，其余年份均有较显著的超额收益，2019年截至 7 月底超额收益高达 21%，夏普比率高达 4.78，表现非常优异。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barber, B, Lehavy, R, Mcnichols, M and Trueman, B. Reassessing the returns to analysts stock recommendations. Financial Analysts Journal (2003): 88-96.",
+    "Boni, L, and Womack, KL. Analysts, industries, and price momentum. Journal of Financial and Quantitative Analysis 41.01 (2006): 85-109.",
+    "Jegadeesh, N, and Kim, W. Value of analyst recommendations: International evidence. Journal of Financial Markets 9.3 (2006): 274-309.",
+    "《中信建投一致预期因子体系搭建》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

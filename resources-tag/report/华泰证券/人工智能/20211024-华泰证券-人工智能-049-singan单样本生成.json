@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "20211024-华泰证券-人工智能-049-singan单样本生成",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us", "multi"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "mixed"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "以资产收益率生成为实验任务，以WGAN为对照组，测试结果表明，WGAN在真序列较短、样本量较小时效果不佳，而SinGAN在拟真性和多样性上均占优",
+      "evidence": "以资产收益率生成为实验任务，以 WGAN为对照组，测试结果表明，WGAN 在真序列较短、样本量较小时效果不佳，而SinGAN 在拟真性和多样性上均占优。"
+    },
+    {
+      "text": "SinGAN能更完整地捕捉真序列的频域特征，而WGAN无法复现中、长尺度周期",
+      "evidence": "同时，SinGAN 能更完整地捕捉真序列的频域特征，而WGAN无法复现中、长尺度周期。"
+    },
+    {
+      "text": "日频科创50生成任务中，由于真序列较短、样本量较小，WGAN出现严重的模式崩溃，而SinGAN在真实性和多样性指标上全面占优",
+      "evidence": "日频科创 50 生成任务中，由于真序列较短、样本量较小，WGAN 出现严重的模式崩溃，而 SinGAN 在真实性和多样性指标上全面占优。"
+    },
+    {
+      "text": "月频标普500和欧元兑美元生成任务中，SinGAN频域信号和真实序列接近，具有42、100、200个月附近的周期，而WGAN无法复现中、长尺度的周期",
+      "evidence": "月频标普 500 和欧元兑美元生成任务中，SinGAN 频域信号和真实序列接近，具有 42、100、200 个月附近的周期，而WGAN 无法复现中、长尺度的周期。"
+    },
+    {
+      "text": "本质上，SinGAN的低层GAN学习低频信息，高层GAN学习高频信息，因此能更完整地捕捉数据的频域特征",
+      "evidence": "本质上，SinGAN 的低层 GAN 学习低频信息，高层 GAN 学习高频信息，因此能更完整地捕捉数据的频域特征。"
+    },
+    {
+      "text": "“训练GAN本身需要大样本”是制约GAN广泛应用的一大瓶颈",
+      "evidence": "“训练 GAN 本身需要大样本”是制约 GAN 广泛应用的一大瓶颈。"
+    },
+    {
+      "text": "可以借助SinGAN检验低频量化策略有效性和过拟合程度，SinGAN生成的完整长度数据可以满足低频策略回测需求",
+      "evidence": "可以借助 SinGAN 检验低频量化策略有效性和过拟合程度。低频策略使用数据时间跨度长，普通 GAN 及其变式生成的模拟数据长度不足以支持策略回测，而 SinGAN 生成的完整长度数据可以满足需求。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Shaham, T. R., Dekel, T., & Michaeli, T.. (2019). SinGAN: learning a generative model from a single natural image. IEEE.",
+    "Zhu, J. Y., Park, T., Isola, P., & Efros, A. A.. (2017). Unpaired image-to-image translation using cycle-consistent adversarial networks. IEEE.",
+    "《人工智能 31：生成对抗网络 GAN 初探》（2020-05-08）",
+    "《人工智能 35：WGAN应用于金融时间序列生成》（2020-08-28）",
+    "《工业社会的秩序》（2021-05-17）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

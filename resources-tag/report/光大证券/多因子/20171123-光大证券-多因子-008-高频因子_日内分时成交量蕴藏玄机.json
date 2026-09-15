@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20171123-光大证券-多因子-008-高频因子_日内分时成交量蕴藏玄机",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "成交量占比因子",
+          "family": "microstructure",
+          "direction": "nonmonotonic",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "vpct_{t}=\\frac{Vol_{t}}{Vol_{total}}",
+          "stats": [null, null, null, null],
+          "evidence": "其中 $Vol_{t}$ ：表示每日个股 t-1至 t 时刻 5分钟内的成交量"
+        },
+        {
+          "name": "成交量比值因子VR",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VR_{t}=\\frac{1}{d}{\\sum_{i=1}^{d}w_{t-i}*\\left(\\frac{Vol_{moring}}{Vol_{afternoon}}\\right)_{t-i}}",
+          "stats": [-0.071, null, -0.76, 0.071],
+          "evidence": "以上午开盘的前 30分钟成交量作为分子（含集合竞价阶段），下午开盘的前 30分钟成交量作为分母构造成交量比值因子，简记为VR（VolumeRatio）。"
+        },
+        {
+          "name": "中性化后的成交量比值VR因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VR_{i}=\\beta_{1}*VSTD_{i}+\\beta_{2}*STD_{i}+\\beta_{3}*TURNOVER_{1M_{i}}+\\beta_{4}*MC_{i}+\\beta_{5}*Industry_{i}+\\varepsilon_{i}, \\text{取残差}",
+          "stats": [-0.0213, null, -0.42, 0.0301],
+          "evidence": "对 VR 因子中性化处理后因子的有效性检验等结果仍然显著，IC 平均值为-2.13%，IC 大于零的比例为32.22%，IR 绝对值达 0.42。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "日内不同时段成交量占比因子有效性差异明显：上午10:00之前和14:50之后与下月收益呈较强负相关，10:10至14:50之间呈较强正相关。",
+      "evidence": "在上午 10:00 之前和 14:50 之后，成交量占比因子与股票下月收益呈较强的负相关性；而在 10:10至 14:50之间成交量占比因子与股票次月收益呈现较强的正相关性。"
+    },
+    {
+      "text": "尾盘30分钟成交量不具有显著预测能力，但上午开盘成交量占比因子与下期收益显著负相关、下午开盘显著正相关，据此以上午前30分钟成交量作分子、下午开盘前30分钟成交量作分母构造VR因子。",
+      "evidence": "尾盘 30 分钟的成交量并不具有显著的预测能力，但上午开盘时的成交量占比因子与下期收益具有显著的负相关关系；下午开盘时的成交量占比因子与下期收益具有显著正相关关系，这两点均值得关注。"
+    },
+    {
+      "text": "VR因子呈显著负向效应，IC均值-7.10%，IC大于零比例22.2%，IR绝对值0.76，预测能力和显著性良好；多空组合年化收益约7.1%。",
+      "evidence": "观察因子的月度IC，呈现显著的负向效应，IC均值达到-7.10%，IC 大于零的比例为22.2%，IR 绝对值为0.76，因子具有良好的预测能力和显著性。"
+    },
+    {
+      "text": "VR因子与流动性因子和波动率因子正相关，横截面回归剔除规模、波动、流动性和行业因素后仍显著，IC平均值-2.13%，IR绝对值0.42，多空组合年化收益3.01%。",
+      "evidence": "对 VR 因子中性化处理后因子的有效性检验等结果仍然显著，IC 平均值为-2.13%，IC 大于零的比例为32.22%，IR 绝对值达 0.42。"
+    },
+    {
+      "text": "月度算术平均VR因子选股组合回测最佳，年化收益率15.5%，夏普比率0.95，最大回撤31.9%，相对中证500超额收益6.0%；随费率升至单边0.3%年化收益降至8.8%，费率大于单边千分之一时60日移动平均VR因子更优。",
+      "evidence": "当费率大于单边千分之一时，选股的收益率出现了反转情形，即：当投资规模较高，冲击成本较大时，60 日移动平均VR 因子的表现更优。"
+    },
+    {
+      "text": "VR因子有效性来源于噪音交易者早盘的交易潮，随投资者结构改善模型存在失效风险。",
+      "evidence": "测试结果均基于模型和历史数据，由于VR 因子的有效性来源于噪音交易者早盘的交易潮，未来随着资本市场投资者结构的改善，噪音交易者数量可能逐渐减少，此时模型存在失效的风险。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《见微知著：成交量占比高频因子解析——多因子系列报告之五》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

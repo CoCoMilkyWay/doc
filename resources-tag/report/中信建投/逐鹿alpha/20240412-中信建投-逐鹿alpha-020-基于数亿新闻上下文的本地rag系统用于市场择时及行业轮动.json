@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "20240412-中信建投-逐鹿alpha-020-基于数亿新闻上下文的本地rag系统用于市场择时及行业轮动",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["text"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["llm_generation"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "预测信号",
+          "family": "sentiment",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{本地RAG系统检索过去一周重要市场新闻，由LLM代理分析新闻与历史市场表现后输出对未来一周市场走势及推荐行业的预测}",
+          "stats": [null, null, null, null],
+          "evidence": "在本研究中，我们运用 LLM 对市场趋势进行预测，并制定相应的市场择时和行业轮动策略。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation", "L8_timing"],
+      "approach": ["ml_rotation", "ml_timing"],
+      "setup": {"rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "对比 qwen:14b、mixtral、gpt3.5、gpt4 四个模型的择时表现，mixtral 表现最好，alpha 达到 13%，择时准确率为 60.66%。",
+      "evidence": "从各模型对比可以看出，表现最好的是 mixtral，其次是 gpt3.5, gpt4 以及 qwen:14b 表现较为一般。其中mixtral 的 alpha 达到 13%，择时准确率为 60.66%。"
+    },
+    {
+      "text": "LLM 行业轮动策略要求 LLM 预测未来一周表现最好的五个行业，等权组合周频调仓，相较于基准 alpha 为 8.5%，明显超越基准表现。",
+      "evidence": "相较于基准，LLM 行业轮动策略的 alpha 为 8.5%，明显超越基准表现。"
+    },
+    {
+      "text": "将 LLM 行业择时与行业轮动叠加的复合策略，相较于基准年化 alpha 达到 22.9%，最大回撤也有明显改善。",
+      "evidence": "LLM 行业轮动+择时策略，相较于基准年化 alpha 达到了 22.9%，最大回撤也有明显改善。"
+    },
+    {
+      "text": "新闻数据经 SimHash 去重及清洗后，得到 44 万条不重复的新闻文本数据，总文本长度约为 4.3 亿字段。",
+      "evidence": "其他的清洗步骤包括：去除特殊符号，剔除太长或者太短的新闻文本，剔除非专业新闻媒体信息等。最终得到了 44 万条不重复的新闻文本数据，总文本长度约为 4.3 亿字段。"
+    },
+    {
+      "text": "选取 2023 年及以后主流财经网站新闻数据以确保新颖性，数据集总计包含超过 50 万条新闻样本，日均新闻样本数量的中位数达到 1061 条。",
+      "evidence": "数据集总计包含超过 50 万条新闻样本，日均新闻样本数量的中位数达到 1061 条。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Borgeaud, S. et al. \"Improving language models by retrieving from trillions of tokens.\"",
+    "Gao, Y. et al. \"Retrieval-Augmented Generation for AI-Generated Content: A Survey.\"",
+    "Large Language Models in Finance: A Survey",
+    "Manku, G. S., A. Jain and A. D. Sarma. (2007). \"Detecting Near-duplicates for web crawling.\""
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

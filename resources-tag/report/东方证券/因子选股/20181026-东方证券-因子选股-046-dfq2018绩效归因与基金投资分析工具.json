@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "20181026-东方证券-因子选股-046-dfq2018绩效归因与基金投资分析工具",
+  "genre": "framework",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L6_evaluation",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_daily", "flow"], "freq": "mixed"}}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "na"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["holding_based", "factor_based", "return_based"]}
+  },
+  "findings": [
+    {
+      "text": "组合绩效归因分两大类：基于收益率的归因（T-M、H-M、C-L 及其 FF3 扩展）与基于组合持仓的归因（Brinson 模型和多因子模型），后者能从更多角度刻画组合管理人的投资能力。",
+      "evidence": "基于收益率的绩效归因主要有 T-M 模型、H-M 模型、C-L模型、TM-FF3 、HM-FF3 和 CL-FF3 模型。基于组合持仓的绩效归因主要依据 Brinson 模型和多因子模型。"
+    },
+    {
+      "text": "风险归因分为事前与事后两类：事前依赖多因子模型做预测型风险分解，事后依据组合已实现波动率做线性分解。",
+      "evidence": "风险归因分为事前(ex-ante)风险归因和事后(ex-post)风险归因，事前风险归因依赖于多因子模型，事后风险归因依据的是组合已实现波动率。"
+    },
+    {
+      "text": "全市场增强 300 模拟组合多期合计相对沪深 300 超额收益为 121.97%，因没有现金资产资产组合的资产配置收益为 0，收益均来自股票组合中的证券选择收益 121.97%。",
+      "evidence": "由多期合计结果可知，模拟组合相对沪深 300 的超额收益为 121.97%。由于组合没有现金资产，所以资产组合的资产配置收益为 0，收益均来自于股票组合中的证券选择收益 121.97%。"
+    },
+    {
+      "text": "300 组合超额收益中风险因子收益贡献比例 35%，风险模型不能解释的特质收益占比 65%，特质收益一部分来自 alpha 模型、一部分可能是市场随机因素。",
+      "evidence": "从多期合计结果可知，风险因子收益贡献比例为 35%，风险模型不能解释的特质收益占比65%，特质收益里一部分是 alpha模型的贡献，一部分可能是市场随机因素。"
+    },
+    {
+      "text": "500 模拟组合超额收益 273.18% 明显高于 300 组合，公共因子收益贡献比例 60%，说明中证 500 的收益大部分能被已识别因子解释，收益来源比 300 更丰富。",
+      "evidence": "500 模拟组合超额收益为 273.18%，收益明显高于 300 模拟组合。与 300 不同的是，500组合中公共因子收益贡献比例为 60%，说明中证 500的收益大部分能够被已识别的因子所解释。"
+    },
+    {
+      "text": "基金分析工具基于公募基金公开的半年报和年报持仓数据，收益率按持有半年假设计算，与实际收益会有出入，但每期因子暴露是准确的。",
+      "evidence": "工具基于的是公募基金公开的半年报和年报持仓数据，但基金可能在半年中有调仓行为，所以我们在工具中计算的收益率都是假设持有半年，所以与基金的实际收益会存在出入，但每期的因子暴露是准确的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Menchero, J. (2004). Multiperiod arithmetic attribution. Financial Analysts Journal",
+    "Menchero, J. (2006). Portfolio Risk Attribution. The Journal of Performance Measurement",
+    "Treynor & Mazuy (1966). Can mutual funds outguess the market. Harvard business review"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

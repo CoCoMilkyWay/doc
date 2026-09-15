@@ -1,0 +1,162 @@
+{
+  "schema_version": 2,
+  "id": "20190424-东方证券-因子选股-055-优质民企策略指数",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "earnings_surprise", "distribution_moment"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{账面价值}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "Value | BP | 账面市值比 |\n|  | EP | 归属母公司的净利润TTM/总市值 |"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{归母净利润}_{TTM}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "Value | BP | 账面市值比 |\n|  | EP | 归属母公司的净利润TTM/总市值 |"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入}_{TTM}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "SP | 营业收入TTM/总市值 |\n|  | EP_FY1 | 预期的估值 |"
+        },
+        {
+          "name": "EP_FY1",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{FY1一致预期净利润}}{\\text{总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "SP | 营业收入TTM/总市值 |\n|  | EP_FY1 | 预期的估值 |"
+        },
+        {
+          "name": "PEG",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{PE}_{FY1}/\\text{FY2隐含的利润增量率}",
+          "stats": [null, null, null, null],
+          "evidence": "Profitability | PEG | PE_FY1/FY2隐含的利润增量率 |\n|  | CFROI | 投资现金收益率 |"
+        },
+        {
+          "name": "CFROI",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{投资现金收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "Profitability | PEG | PE_FY1/FY2隐含的利润增量率 |\n|  | CFROI | 投资现金收益率 |"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{归母净利润}}{\\text{归母净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "Growth | ROE | 净资产收益率 |\n|  | PROFIT_GROWTH_YOY | 归属母公司的净利润季度同比 |"
+        },
+        {
+          "name": "PROFIT_GROWTH_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{归母净利润}_t}{\\text{归母净利润}_{t-4}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "Growth | ROE | 净资产收益率 |\n|  | PROFIT_GROWTH_YOY | 归属母公司的净利润季度同比 |"
+        },
+        {
+          "name": "SUEO",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润}_t-\\text{带漂移项随机游走模型的预期净利润}_t",
+          "stats": [null, null, null, null],
+          "evidence": "SUEO | 基于带漂移项随机游走模型计算的预期外的净利润"
+        },
+        {
+          "name": "VOL120",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去120个交易日日收益率的标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "Lottery | VOL120 | 过去120个交易日的波动率"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "民企样本空间内股票的平均市值大概在 80 亿左右，与中证 500 接近",
+      "evidence": "样本空间内股票的平均市值大概在 80 亿左右，与中证 500比较接近。"
+    },
+    {
+      "text": "结果发现，估值、成长、分析师、投机大类表现较好",
+      "evidence": "结果发现，估值、成长、分析师、投机大类表现较好。"
+    },
+    {
+      "text": "优质民企策略指数选用四个大类的 5 个单因子，每期计算因子综合得分，选出得分最高的 200 只股票作为指数样本股",
+      "evidence": "综合考虑选股逻辑、因子表现、换手率，我们最终选用的因子包含四个大类的 5 个单因子（图 54）。每一期调仓时，我们都对样本空间内的股票计算因子综合得分，选出得分最高的 200只股票作为指数样本股。"
+    },
+    {
+      "text": "策略指数采取流通市值加权，个股权重上限 5%，行业权重上限 15%",
+      "evidence": "策略指数采取流通市值加权，同时设定个股权重上限 5%，行业权重控制上限 15%。"
+    },
+    {
+      "text": "优质民企主动量化组合各项绩效指标明显好于常见市场指数，过去 10 年年化收益可达 25%，单边年换手率不到 3 倍",
+      "evidence": "可以看到，我们自己构建的优质民企主动量化组合，各项绩效指标表现明显好于常见市场指数，过去 10年间年化收益可以达到 25%，单边年换手率不到 3倍。"
+    },
+    {
+      "text": "优质民企策略指数过去 10 年年化收益可达 16%，单边换手率不到 1 倍",
+      "evidence": "可以看到，我们构建的优质民企策略指数过去 10年间的年化收益可以达到 16%，单边率不到 1倍，从分年表现来看，2015、2017年表现都比较好。"
+    },
+    {
+      "text": "自建的两个民企指数整体表现好于现有 6 个指数，仅低于民企红利指数和中华民企指数",
+      "evidence": "可以看到：我们自己构建的两个民企指数的整体表现好于现有 6 个指数，仅低于民企红利指数和中华民企指数。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

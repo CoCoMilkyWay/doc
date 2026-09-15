@@ -1,0 +1,161 @@
+{
+  "schema_version": 2,
+  "id": "20240527-东方证券-因子选股-104-融合基本面信息的astgnn因子挖掘模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst", "flow"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "week",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{将每五个交易日日K线形成矩阵数据，经ResNets提取特征向量后按时间先后输入RNN时序学习生成的alpha因子}",
+          "stats": [null, 0.1355, 1.28, null],
+          "evidence": "其中周度和分钟线数据集我们分别是将每五个交易日日K线和每日半小时K线形成矩阵数据，然后将这些矩阵通过ResNets提取出相应时间频度的特征向量，接着将 ResNets 提取的特征向量按照时间先后输入到 RNN 模型中进行时序学习，最终获得相应数据集的 alpha 因子。"
+        },
+        {
+          "name": "day",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{将预处理好的日K线数据直接通过RNN模型提取出的alpha因子}",
+          "stats": [null, 0.141, 1.43, null],
+          "evidence": "数据集 day 则是直接将预处理好的日 K 线数据通过 RNN 模型提取出相应的 alpha 因子。"
+        },
+        {
+          "name": "ms",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{将每日半小时K线形成矩阵数据，经ResNets提取特征向量后按时间先后输入RNN时序学习生成的alpha因子}",
+          "stats": [null, 0.1413, 1.32, null],
+          "evidence": "其中周度和分钟线数据集我们分别是将每五个交易日日K线和每日半小时K线形成矩阵数据，然后将这些矩阵通过ResNets提取出相应时间频度的特征向量，接着将 ResNets 提取的特征向量按照时间先后输入到 RNN 模型中进行时序学习，最终获得相应数据集的 alpha 因子。"
+        },
+        {
+          "name": "l2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{将Level-2原始数据通过人工合成成日频因子后输入模型生成的alpha因子}",
+          "stats": [null, 0.1206, 1.32, null],
+          "evidence": "四个数据集中只有 Level-2 则是将原始数据通过人工合成成日频因子的方式形成的。"
+        },
+        {
+          "name": "lfq_daily",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{长周期基本面特征（估值/成长/超预期/确定性）按日度采样构建数据集，经RNN和DNN端到端提取的因子单元}",
+          "stats": [null, 0.1448, 1.34, null],
+          "evidence": "为了克服上述问题，我们对数据按照不同采样模式构建数据集（日度采样对应数据集我们称为 lfq_daily，月度采样我们则称之为 lfq_monthly），并将生成因子在中证全指上选股效果列示如下表格所示"
+        },
+        {
+          "name": "lfq_monthly",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{长周期基本面特征（估值/成长/超预期/确定性）按月度采样构建数据集，经RNN和DNN端到端提取的因子单元}",
+          "stats": [null, 0.1009, 0.74, null],
+          "evidence": "为了克服上述问题，我们对数据按照不同采样模式构建数据集（日度采样对应数据集我们称为 lfq_daily，月度采样我们则称之为 lfq_monthly），并将生成因子在中证全指上选股效果列示如下表格所示"
+        },
+        {
+          "name": "加法",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "weekly",
+          "formula": "Z=(I+softmax(ReLU(MM^T)))XW",
+          "stats": [null, 0.1646, 1.56, null],
+          "evidence": "通过引入机器学习风险因子来构建图模型的邻接矩阵后（减法和加法栏），因子 RankIC、ICIR、因子多头和空头组超额能够得到进一步提升，而多头组合的换手情况也能进一步下降。说明使用机器学习风险因子来进行股票相似度的刻画更加精确。"
+        },
+        {
+          "name": "减法模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "weekly",
+          "formula": "Z=(I-softmax(ReLU(MM^T)))XW",
+          "stats": [null, 0.1661, 1.57, null],
+          "evidence": "基于两种改进方案融合后，新模型非线性加权合成打分 2018 年以来截至 2024 年 4月30日在中证全指上周频RankIC均值可达16.61%，top组年化超额可达50.41%；"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble", "fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst", "flow"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "两种改进方案融合后，新模型非线性加权合成打分在中证全指周频RankIC均值16.61%，top组年化超额50.41%；沪深300、中证500、中证1000上RankIC均值分别为10.70%、13.05%、16.09%",
+      "evidence": "基于两种改进方案融合后，新模型非线性加权合成打分 2018 年以来截至 2024 年 4月30日在中证全指上周频RankIC均值可达16.61%，top组年化超额可达50.41%；在沪深 300、中证 500、中证 1000 这三个指数上 RankIC 均值分别为 10.70%、13.05%、16.09%。"
+    },
+    {
+      "text": "加入与高频量价数据集低相关的长周期数据集后，模型RankIC、ICIR等指标显著提升，多头组合换手率显著降低，全模型获得更多信息增量",
+      "evidence": "相较于基准模型，加入长周期数据集之后模型 RankIC、ICIR等指标均显著提升，多头组合换手率也显著降低。这说明通过加入与高频量价数据集低相关的长周期数据集后，全模型能够得到更多的信息增量，从而大大提高最终生成因子的选股效果。"
+    },
+    {
+      "text": "用机器学习风险因子构建图模型邻接矩阵后，因子RankIC、top组年化超额进一步提升，换手率进一步降低，股票相似度刻画更精确",
+      "evidence": "通过引入机器学习得到的风险因子来构建图模型的邻接矩阵后，因子 RankIC、top 组年化超额收益率等指标得到进一步提升，多头组合换手率也能进一步降低，这说明使用机器学习风险因子来进行股票相似度的刻画更加精确。"
+    },
+    {
+      "text": "新模型打分用于指数增强，成分股100%限制和周单边换手率20%约束下，沪深300、中证500、中证1000增强策略年化超额收益率分别为16.98%、19.96%和31.63%",
+      "evidence": "在成分股 100%限制和周单边换手率约束为 20%约束下，2018 年以来截至2024年 4月 30日，新模型打分在沪深 300、中证 500和中证 1000增强策略上年化超额收益率分别为 16.98%、19.96%和 31.63%。"
+    },
+    {
+      "text": "长周期数据集与其他数据集相关性较低，lfq_monthly因子相关性均低于0.5，引入基本面带来信息增量；日度采样的估值因子包含日度个股价格序列信息，与day和Ms生成因子相关性相对较高",
+      "evidence": "长周期数据集与其他数据集相关性较低，其中 lfq_monthly 因子相关性均低于 0.5，这意味着通过引入基本面可以给数据集带来信息增量，但日度采样的估值因子中包含了日度个股价格序列信息，在 RNN 进行时序学习的时候可能过度捕捉这一部分信息，最终导致最终生成因子与数据集 day 和 Ms 生成因子相关性相对较高"
+    },
+    {
+      "text": "合成打分直接用于月频同样有效，2018年和2020年以来月频RankIC分别达19.16%和17.53%，ICIR为2.07和2.10，分二十组多头超额为35.03%和35.27%",
+      "evidence": "另外，经过测试合成打分直接用于月频也有着较好的选股效果，2018年和2020年以来截至2024年 4 月 30 日月频 RankIC 分别可达 19.16%和 17.53%，ICIR 可达 2.07 和 2.10，分二十组多头超额为 35.03%和 35.27%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《东方A股因子风险模型（DFQ-2020）》",
+    "《基于循环神经网络的多频率因子挖掘》——因子选股系列之九十一（2023-06-06）",
+    "《基于抗噪的 AI 量价模型改进方案》——因子选股系列之九十八（2023-12-24）",
+    "《基于残差网络的端到端因子挖掘模型》——因子选股系列之九十六（2023-08-24）",
+    "《基本面因子重构》——因子选股系列之一〇二（2024-03-21）",
+    "《自适应时空图网络周频 alpha 模型》——因子选股系列之一〇一（2024-02-28）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

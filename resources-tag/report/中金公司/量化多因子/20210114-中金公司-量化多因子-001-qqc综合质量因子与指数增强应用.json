@@ -1,0 +1,190 @@
+{
+  "schema_version": 2,
+  "id": "20210114-中金公司-量化多因子-001-qqc综合质量因子与指数增强应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "accounting_quality"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement", "text"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "QQC",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利能力、成长能力、盈余质量、营运效率、安全性、公司治理6大类复合因子等权相加}",
+          "stats": [0.0451, null, 0.87, 0.111],
+          "evidence": "同时为了降低过拟合的程度，通过等权加权的方式将六大类因子结合为综合质量因子 QQC。"
+        },
+        {
+          "name": "经营现金流/总资产（CFOA）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营现金流净额}}{\\text{总资产}}",
+          "stats": [0.0201, null, 0.47, 0.035],
+          "evidence": "经营现金流/总资产（CFOA）具有相对较高的预测能力，其因子 IC_IR 高达 0.47。同时，ROE 和 ROIC 的 IC_IR 也超过 0.2。"
+        },
+        {
+          "name": "OP_SD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业利润稳健增速（过去N期增速均值/增速标准差）的一阶差分}",
+          "stats": [0.0255, null, 0.73, 0.096],
+          "evidence": "综合考虑收入成长能力和收入增速稳定性的因子营业收入稳健加速度因子（OP_SD）具有较高的预测能力，其因子 IC_IR 高达 0.73，多空组合的 Sharpe 比率高达 2.95，单调性得分也超过 2。"
+        },
+        {
+          "name": "净利润加速度",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{NP_t}=\\alpha\\times\\mathrm{t^2}+\\beta\\times\\mathrm{t}+\\mathrm{c}",
+          "stats": [0.0277, null, 0.71, 0.098],
+          "evidence": "加速度指标的计算方法是：利用连续 N 个季度的单季利润，对期数的二次方程进行回归，取二次项系数作为业绩增长加速度的代理变量，回归公式如下："
+        },
+        {
+          "name": "NP_SD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润稳健增速指标的一阶差分}",
+          "stats": [0.0238, null, 0.68, 0.091],
+          "evidence": "稳健加速度指标则是稳健增速指标的一阶差分。"
+        },
+        {
+          "name": "业绩趋势因子（QPT）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{依据业绩增速与业绩增长加速度分层打分后求和}",
+          "stats": [0.0344, null, 0.57, 0.0933],
+          "evidence": "业绩趋势模型采用分层筛选的方式实现，首先依据业绩增速指标筛选增速较高的三分之一的股票作为基础股票池；再依据业绩增长加速度指标在基础股票池中筛选三分之一的股票作为最终持仓。"
+        },
+        {
+          "name": "OCFA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "Total\\_Operation\\_Cost=\\beta_{\\alpha}+\\beta_{X}*Fized\\_Assets+\\varepsilon,\\ \\text{取残差}\\varepsilon",
+          "stats": [0.0173, null, 0.52, 0.071],
+          "evidence": "产能利用率提升因子（OCFA，Operation Cost on Fixed Assets）的因子是我们采用创新基本面因子挖掘框架挖掘出来的具有较强预测能力的营运效率类因子，其具体的构造方式为，营业总成本在固定资产上滚动回归取最近一期残差，具体的："
+        },
+        {
+          "name": "ATD",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期总资产周转率}-\\text{上期总资产周转率}",
+          "stats": [0.0215, null, 0.55, 0.072],
+          "evidence": "总资产周转率变动指标 ATD 的各项表现均优于其他营运效率因子，IC_IR 达到 0.55，多空年化收益 7.20%，多空组合的 Sharpe 比率也达到 2.07，该因子的预测能力和稳定性均较好。"
+        },
+        {
+          "name": "应计利润占比（APR）",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业利润}-\\text{经营性现金流量净额}}{\\text{营业利润}}",
+          "stats": [-0.0123, null, -0.42, -0.015],
+          "evidence": "上述测试的盈余质量因子整体预测能力相对较弱，其中，应计利润占比（APR）因子的负向预测能力相对较强，IC均值为-1.23%，IC_IR 达到-0.42。因此在盈余质量方面的因子中，选择 APR作为基础因子。"
+        },
+        {
+          "name": "现金流动负债比率（CCR）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营净现金流}}{\\text{流动负债}}",
+          "stats": [0.0153, null, 0.39, 0.018],
+          "evidence": "上述测试的安全性因子整体预测能力不高，其中，现金流动负债比率（CCR）因子具有较好的预测能力，IC 均值为 1.53%，IC_IR 达到 0.39，因子收益均值为 0.13%，月度胜率 68%。因此我们在安全性方面的因子中，选择现金流动负债比率 CCR 作为基础因子。"
+        },
+        {
+          "name": "公司治理因子（Governance）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{流通股占比、管理层薪酬、管理层持股数量、受处罚情况（取负）、股权激励，按方向调整后等权相加}",
+          "stats": [0.0279, null, 0.49, 0.023],
+          "evidence": "在简单加权的方法下，将流通股占比、管理层薪酬、管理层持股数量、受证监会、交易所等处罚情况、是否实施股权激励这 5 大指标根据方向调整等权相加结合成为公司治理因子（Governance）。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "QQC 因子在不同样本空间内均具有较强预测能力：全市场 IC_IR 高达 0.87，中证 500 内 IC 高达 5.67%，多空组合夏普比率 2.18。",
+      "evidence": "QQC 因子在不同样本空间内均具有较强的预测能力，因子在全市场的 IC_IR 高达0.87；在中证 500 样本内 IC 高达 5.67%，多空组合的夏普比率达到 2.18。"
+    },
+    {
+      "text": "QQC 因子样本外（2019-01-01 至 2020-12-31）月度平均 IC 达到 5.84%，月度胜率高达 87.5%，样本外表现同样相当出色。",
+      "evidence": "QQC 因子在样本外（2019-01-01 至 2020-12-31）的月度平均 IC 达到 5.84%，月度胜率高达 87.5%，样本外表现同样相当出色。"
+    },
+    {
+      "text": "基于 QQC 的沪深 300 增强组合年化超额收益 10.47%，跟踪误差 3.37%，信息比 3.11，月度胜率接近 80%，相对基准的最大回撤仅为 3.9%。",
+      "evidence": "组合年化超额收益 10.47%，跟踪误差 3.37%，信息比 3.11。组合自 2011 年至今每年度均跑赢沪深 300指数，月度胜率接近 80%，相对基准的最大回撤仅为 3.9%。"
+    },
+    {
+      "text": "沪深 300 增强样本外年化超额收益 15.02%，跟踪误差 3.65%，信息比 4.11；2020 年组合累计收益 46.58%，跑赢沪深 300指数 19.37 个百分点。",
+      "evidence": "样本外（2019-01-01 至 2020-12-31）年化超额收益为 15.02%，跟踪误差3.65%，信息比 4.11。2020 年全年，组合累计收益 46.58%，跑赢沪深 300指数 19.37 个百分点。"
+    },
+    {
+      "text": "IC_IR 加权下成长能力因子权重显著高于其余因子，综合质量因子更多暴露在成长风格上，成长风格回撤时整体质量因子也会遭遇较大回撤。",
+      "evidence": "同时，考虑到 IC_IR 加权方法下，成长能力因子的权重会显著高于其余因子，因此综合质量因子会更多的暴露在成长风格上，一旦成长风格出现回撤时，整体质量因子也会遭遇较大回撤。"
+    },
+    {
+      "text": "以 IC 绝对值大于 3%、IC_IR绝对值大于 0.3 为标准，沪深 300 成分股内有效因子仅有 20 个，有效因子占比只有 10%。",
+      "evidence": "以 IC 绝对值大于 3%，IC_IR绝对值大于 0.3 为标准，沪深 300 成分股内，满足上述标准的具有一定选股能力的因子个数仅有 20 个，有效因子占比只有 10%，如下图所示："
+    },
+    {
+      "text": "沪深 300 内的有效因子以基本面类型的因子为主，基本面因子的占比超过 65%，与中证 500 或中证 1000 截然相反。",
+      "evidence": "沪深 300 内的有效因子中以基本面类型的因子为主，基本面因子的占比超过 65%。而这一特征与中证 500 或者中证 1000 是截然相反的。"
+    },
+    {
+      "text": "六大类质量指标中成长能力指标的 IC 和 IC_IR 均显著高于其他 5 类指标，盈利能力指标的表现相对较弱。",
+      "evidence": "可以看到上面整理的这 6 类质量指标的整体预测能力和收益稳定性仍存在较大的差异，其中成长能力指标的 IC 和 IC_IR 均显著高于其他 5 类指标，而盈利能力指标的表现则相对较弱："
+    },
+    {
+      "text": "等权加权逻辑直观、省去参数优化过程，降低样本内过拟合概率，因子表现与 IC 加权、IC_IR 加权差异并不明显。",
+      "evidence": "而等权加权方式下的 QQC因子在 IC 或者 IC_IR 的表现上与另外两种加权方式下的因子差异并不明显，并且等权相加的方式逻辑更为直观，省去了滚动计算 IC 或者 IC_IR 的时间区间长度的参数优化过程，一定程度上避免了样本内的过拟概率。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Asness（2017）Quality Minus Junk"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

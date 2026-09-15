@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20200709-中信建投-因子深度研究-009-高频量价选股因子初探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute", "market_l1_l2"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "VOI1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VOI1_{t}=\\Delta V_{t}^{B}-\\Delta V_{t}^{A}",
+          "stats": [-0.0274, null, -0.47, 0.1245],
+          "evidence": "为了量化这种交易意图，我们看一下委托买入和委托卖出量之间的差异，我们称为订单失衡。"
+        },
+        {
+          "name": "VOI2",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VOI2_{t}=\\Delta V_{t}^{WB}-\\Delta V_{t}^{WA},\\quad V_{t}^{WB(WA)}=\\frac{\\sum w_{i}\\times V_{i,t}^{B(A)}}{\\sum w_{i}},\\quad w=1-(i-1)/5",
+          "stats": [-0.0335, null, -0.45, 0.1473],
+          "evidence": "为充分利用盘口数据信息，我们对 VOI 因子进行了两点改进。即利用衰减加权的方法对委托量加权，得到加权后的委托量"
+        },
+        {
+          "name": "VOI2_2",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{VOI2 对 ROIC_TTM 和 Momentum_12m 中性化后的残差因子}",
+          "stats": [-0.0359, null, -0.48, 0.1512],
+          "evidence": "处理后的因子 IC 均值-3.59%，年化多空收益 15.12%，夏普比率 1.91，选股效果相比 VOI2 进一步提升。"
+        },
+        {
+          "name": "OIR",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OIR_{t}=\\frac{V_{t}^{WB}-V_{t}^{WA}}{V_{t}^{WB}+V_{t}^{WA}}",
+          "stats": [-0.037, null, -0.36, 0.1605],
+          "evidence": "OIR 为正说明市场买压大于卖压，未来价格趋向上涨，且 OIR 的比值越大，其上涨的概率越高，反之亦然。"
+        },
+        {
+          "name": "OIR_2",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{OIR 对 Momentum_12m 中性化后的残差因子}",
+          "stats": [-0.0419, null, -0.42, 0.1775],
+          "evidence": "处理后的因子 IC 均值-4.19%，年化多空收益 17.75%，选股效果相比 OIR 进一步提升。"
+        },
+        {
+          "name": "MPB",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MPB_{t}=\\overline{TP_{t}}-\\cfrac{M_{t}+M_{t-1}}{2},\\quad M_{t}=\\frac{P_{t}^{B}+P_{t}^{A}}{2}",
+          "stats": [-0.0523, null, -0.77, 0.2124],
+          "evidence": "最后因子 $MPB_{t}$ 为平均交易价格和平均中间价格的差值，即为 Mid-Price Basis（MPB），由于其均值回归的特性而成为价格变化的重要预测指标。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "MPB 因子总体选股效果是所有因子里最好的，IC 均值-5.23%，年化 IR 为-2.68，年化多空收益达到 21.24%，夏普比率高达 2.68。",
+      "evidence": "其中 MPB 因子 IC 均值-5.23%，年化 IR 为-2.68，年化多空收益达到 21.24%，夏普比率高达 2.68，总体选股效果是所有因子里最好的。"
+    },
+    {
+      "text": "VOI1、VOI2 和 OIR 因子在高频上与收益率正相关，MPB 因子与收益率负相关；降频后订单失衡相关因子与股票的长期受益相关性出现了反转。",
+      "evidence": "我们看到 VOI1、VOI2 和 OIR 因子在高频上与收益率正相关，MPB 因子与收益率负相关。然而将高频量价因子降频后，订单失衡相关因子与股票的长期受益相关性出现了反转。"
+    },
+    {
+      "text": "低频（月频）量价因子的 IC 绝对值相比高频（分钟）有所降低，一是高频信息向低频转换过程中信息有效性衰减，二是部分高频信息对低频策略不适用。",
+      "evidence": "低频（月频）量价因子的 IC 绝对值相比高频（分钟）有所降低，一是由于高频信息向低频转换的过程中信息有效性会出现衰减，二是由于部分高频信息对低频策略不适用。"
+    },
+    {
+      "text": "量因子低频化反转的原因：散户追高杀跌，且大单交易很可能是主力的“对倒”行为，其目的主要是吸引散户，长期来看市场价格则会回落，造成低频上因子与收益率呈反向关系。",
+      "evidence": "强的买卖压力一般是大单交易造成的，大单交易很可能是主力的“对倒”行为，其目的主要是吸引散户，此时高频因子与收益率呈正相关。但从长期来看，市场价格则会回落，因此造成了低频上因子与收益率呈反向关系。"
+    },
+    {
+      "text": "中性化提升效果：VOI2 剥离相关性较大的 ROIC_TTM 和 Momentum_12m 因子后 IC 均值-3.59%、年化多空收益 15.12%；OIR 剥离相关性最大的 Momentum_12m 因子后 IC 均值-4.19%、年化多空收益 17.75%。",
+      "evidence": "VOI2 因子剥离相关性较大的 ROIC_TTM 和 Momentum_12m 因子后的 IC 均值-3.59%，年化多空收益 15.12%，夏普比率 1.91。OIR 因子 IC 均值-3.7%，年化多空收益 16.05%， OIR 因子剥离相关性最大的 Momentum_12m 因子后的IC均值-4.19%，年化多空收益17.75%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Rama Cont, Arseniy Kukanov, and Sasha Stoikov. The price impact of order book events. Journal of Financial Econometrics, 12(1):47-88, 2014.",
+    "Tarun Chordia and Avanidhar Subrahmanyam. Order imbalance and individual stock returns: Theory and evidence. Journal of Financial Economics, 72:485-518, 2004."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

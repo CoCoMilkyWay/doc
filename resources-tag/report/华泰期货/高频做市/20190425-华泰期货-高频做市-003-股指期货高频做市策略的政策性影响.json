@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "id": "20190425-华泰期货-高频做市-003-股指期货高频做市策略的政策性影响",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L7_execution",
+  "pipe": {
+    "L7_execution": {
+      "module": ["L7_making"],
+      "approach": ["quoting", "inventory"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "股指期货受限后各层限价单更容易被击穿，限价指令簿上限价单数量大大减少，这是股指期货流动性降低的直接原因。",
+      "evidence": "但是受限后各层限价单更容易被击穿，也就是说限价指令簿上限价单的数量被大大减少了，这也是股指期货流动性降低的直接原因。"
+    },
+    {
+      "text": "无论股指期货受限前后，假设市价单冲击符合指数分布的规律都能较好地反映市场冲击情况，公式(8)的线性关系都非常明显。",
+      "evidence": "这里假设市价单对限价指令簿的冲击符合指数分布的规律，分析结果表明无论股指期货受限前后，指数分布都能较好地反映市场冲击情况。"
+    },
+    {
+      "text": "k值是市场流动性的反映，k值越小市场流动性越差，限价指令簿越容易被击穿，市价买卖单的k值在限仓后达到历史低位。",
+      "evidence": "从公式(8)可以看出，k值其实是市场流动性的反映，k值越小市场流动性越差，限价指令簿越容易被击穿。"
+    },
+    {
+      "text": "AS模型日均收益可达39.7万元，远高于中间价报单方法，使用AS模型后返佣临界点从84.51%下降到57.22%，效果明显提升。",
+      "evidence": "虽然AS模型产生的交易量较少但是日均收益可以达到 39.7万元远高于中间价报单的方法，交易费用也更少。为了准确衡量策略表现需要考虑交易所返佣的比例，需要交易所返佣越少则策略盈利空间越大，使用AS模型后返佣临界点从 84.51%下降到 57.22%，效果有了明显提升。"
+    },
+    {
+      "text": "AS模型通过调整买卖报价实现库存风险控制，无论限仓前后都能有效管理库存风险，同时为做市交易提供更高收益。",
+      "evidence": "回测结果表明无论限仓前后，AS模型能够有效地管理库存风险，同时为做市交易提供更高的收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Marco Avellaneda 和 Sasha Stoikov 的论文 High-frequency trading in a limit order book",
+    "Tanmoy Chakraborty 和 Michael Kearns 的论文 Market Making and Mean Reversion, 2011"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

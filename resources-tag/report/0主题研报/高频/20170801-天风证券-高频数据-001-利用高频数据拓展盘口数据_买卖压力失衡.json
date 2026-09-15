@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "20170801-天风证券-高频数据-001-利用高频数据拓展盘口数据_买卖压力失衡",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "event", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "买卖压力比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "P=\\log(Pbuy)-\\log(PSell)",
+          "stats": [null, null, null, null],
+          "evidence": "如果需要计算买盘与卖盘上的买卖压力，我们就应该对当前价格距离不同的挂单赋予不同的权重，离当前价格更近的挂单赋予更高的权重，而离当前价格远的挂单赋予较低的权重。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "买压占优情况下短期内个股会呈现明显的正向超额收益",
+      "evidence": "1、在买压占优情况下短期内个股会呈现明显的正向超额收益；"
+    },
+    {
+      "text": "买卖压力失衡消失后超额收益反向逆转，失衡带来的超额收益仅为短期冲击影响，后期股价逐步修正恢复原状态",
+      "evidence": "买卖压力失衡情况消失后，股票的超额收益呈现反向逆转，这意味着买卖压力失衡带来的超额收益仅仅为短期冲击影响，后期股价会逐步修正恢复到原状态。"
+    },
+    {
+      "text": "选择当日下跌过程中出现买压占优的个股构建事件驱动策略，持有10个交易日，10通道组合获得年化19.66%收益，16、17年分别取得9.07%和6.68%",
+      "evidence": "依据这个结论，我们构建个股层面的事件驱动策略，选择在下跌过程中触发买盘占优个股，并买入持有 10 个交易日。10 个通道的组合，我们获得了年化 19.66%的收益，并且16、17 年该策略的表现较为出色，分别取得 9.07%和 6.68%（截止 2017 年 4 月 28 日）。"
+    },
+    {
+      "text": "当日下跌然后出现买压占优的个股，接下来6、7个交易日呈现明显的超额收益",
+      "evidence": "1、 对于买压占优的个股当日下跌然后出现买压占优时，接下来 6、7 个交易日呈现明显的超额收益；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

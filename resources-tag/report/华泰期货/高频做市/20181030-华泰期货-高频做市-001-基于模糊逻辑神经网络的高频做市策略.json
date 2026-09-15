@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "20181030-华泰期货-高频做市-001-基于模糊逻辑神经网络的高频做市策略",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L7_execution",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "模糊逻辑神经网络",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "intraday",
+          "formula": "o_{ij}=e^{-(x_{ij}-m_{ij})^{2}/\\sigma_{ij}^{2}},\\ \\text{模糊化后的120维向量经3个128神经元的隐藏层输出下一分钟中间价上涨/不变/下跌的概率}",
+          "stats": [null, null, null, null],
+          "evidence": "这里的输入特征由铁矿石的高频数据构成，首先把 1 秒 2 笔的高频数据按每分钟 120 笔合成分钟数据。输入特征包括 20 分钟的收盘价对数收益率序列和成交量对数收益率序列，所以输入样本是一个包含有40个元素的向量。"
+        }
+      ]
+    },
+    "L7_execution": {
+      "module": ["L7_making"],
+      "approach": ["quoting", "inventory"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "在均值回复、限价单触碰成交、挂单不造成市场冲击的理想化假设下，做市策略能够稳定盈利，并可据此推导出做市策略的理论收益作为收益上限。",
+      "evidence": "在市场为均值回复、限价单为触碰成交以及做市商挂单不造成市场冲击等理想化的假设条件下，基本可以判定做市策略是能够稳定盈利的，并参考 Tanmoy Chakraborty 和 Michael Kearns 等人的论文提供了理论盈亏的计算方法。"
+    },
+    {
+      "text": "对比铁矿石、螺纹钢和铜三个品种的理论收益和手续费，理论上铁矿石最适合高频做市策略，其手续费返还临界点普遍小于0。",
+      "evidence": "利用这个方法对比了高频做市策略在铁矿石、螺纹钢和铜这三个品种上的理论收益和手续费，发现理论上铁矿石是最适合高频做市策略的。"
+    },
+    {
+      "text": "模糊逻辑神经网络以1分钟为界预测铁矿石中间价涨跌，上涨和下跌的概率各占32%，不变约占36%，各类预测都有一定准确性。",
+      "evidence": "在铁矿石这个品种上以 1 分钟为界，上涨和下跌的概率各占 32%，不变的一类约占 36%，因此从神经网络的训练结果看，各类的预测都有一定准确性。"
+    },
+    {
+      "text": "2018年4月之前使用神经网络预测与不使用模型的做市收益差别不大，4月之后铁矿石进入偏趋势行情，神经网络的策略收益开始领先，能够及时平仓主动止损、减少做市策略亏损。",
+      "evidence": "同时也对比了不使用模型预测而只进行两边挂单的情况，在 2018年4月之前两者差别并不大，而在 4月份之后使用神经网络的策略收益便开始领先。"
+    },
+    {
+      "text": "使用神经网络做预测后日均收益明显提高，交易次数和手续费也有所提高；手续费返还临界点从86%降到85%左右，所需手续费返还更低，做市商利润空间更大。",
+      "evidence": "综合回测收益与所交手续费来看，使用神经网络做预测后手续费返还临界点从 86%下降到了 85%左右，也就是说使用神经网络后所需的手续费返还会更低，做市商会有更大的利润空间。"
+    },
+    {
+      "text": "FNN2 预测不变的验证集准确率最高，其做市回测表现也最好，说明可以根据验证集结果选择模型；三个神经网络表现差异不大，结果较为稳定。",
+      "evidence": "对比表格 1 的结果 FNN2 预测不变的情况准确率最高，因此在这里做市回测的表现也是最好的，这说明可以根据验证集结果选择模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Deep Direct Reinforcement Learning for Financial Signal Representation and Trading",
+    "Market Making and Mean Reversion, 2011"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

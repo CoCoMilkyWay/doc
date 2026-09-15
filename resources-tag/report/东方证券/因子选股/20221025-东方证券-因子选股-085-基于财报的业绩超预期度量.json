@@ -1,0 +1,269 @@
+{
+  "schema_version": 2,
+  "id": "20221025-东方证券-因子选股-085-基于财报的业绩超预期度量",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_market", "L1_mining"],
+      "approach": ["earnings_surprise", "momentum_reversal", "order_flow", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SUE0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUE_{i,t}=\\frac{\\Delta Q_{i,t}-\\frac{1}{n}\\sum_{j=1}^{n}\\Delta Q_{i,t-j}}{\\sqrt{\\frac{1}{n-1}\\sum_{j=1}^{n}(\\Delta Q_{i,t-j}-\\mu)^{2}}},\\ \\Delta Q_{i,t}=\\text{净利润单季同比增长}",
+          "stats": [null, 0.0389, 2.44, null],
+          "evidence": "我们用 SUE0、SUE1表示两类净利润因子（0表示含漂移项、1表示不含漂移项，下同）"
+        },
+        {
+          "name": "SUE1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUE_{i,t}=\\frac{\\Delta Q_{i,t}}{\\sqrt{\\frac{1}{n-1}\\sum_{j=1}^{n}\\Delta Q_{i,t-j}^{2}}},\\ \\Delta Q_{i,t}=\\text{净利润单季同比增长}",
+          "stats": [null, 0.0406, 1.67, null],
+          "evidence": "我们用 SUE0、SUE1表示两类净利润因子（0表示含漂移项、1表示不含漂移项，下同）"
+        },
+        {
+          "name": "SUR0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUR_{i,t}=\\frac{\\Delta Q_{i,t}-E(\\Delta Q_{i,t})}{\\sigma(\\Delta Q_{i,t})},\\ \\Delta Q_{i,t}=\\text{营业收入单季同比增长（含漂移项）}",
+          "stats": [null, 0.0334, 2.22, null],
+          "evidence": "用 SUR0、SUR1表示两类营业收入因子，用 SUG0、SUG1表示两类毛利因子"
+        },
+        {
+          "name": "SUR1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUR_{i,t}=\\frac{\\Delta Q_{i,t}}{\\sigma(\\Delta Q_{i,t})},\\ \\Delta Q_{i,t}=\\text{营业收入单季同比增长（不含漂移项）}",
+          "stats": [null, 0.0353, 1.51, null],
+          "evidence": "如 SUG1、SUE1、SUR1 的原始值在沪深 300 中的RankIC分别为 6.51%、5.72%和 4.99%，三者在中证全指中的 RankIC分别为 4.16%、4.06%和 3.53%。"
+        },
+        {
+          "name": "SUG0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUG_{i,t}=\\frac{\\Delta Q_{i,t}-E(\\Delta Q_{i,t})}{\\sigma(\\Delta Q_{i,t})},\\ \\Delta Q_{i,t}=\\text{毛利单季同比增长（含漂移项）}",
+          "stats": [null, 0.0397, 2.33, null],
+          "evidence": "相对营业收入，毛利多了一些成本的考虑，相对净利润，毛利少了一些更容易操控的会计项目。"
+        },
+        {
+          "name": "SUG1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUG_{i,t}=\\frac{\\Delta Q_{i,t}}{\\sigma(\\Delta Q_{i,t})},\\ \\Delta Q_{i,t}=\\text{毛利单季同比增长（不含漂移项）}",
+          "stats": [null, 0.0416, 1.64, null],
+          "evidence": "特别地，对于用新增字段毛利构建的 SUG 因子，它与常见的 SUE、SUR 的相关性较低、且RankIC更高。如不含漂移项的SUG1，其原始值在沪深300、中证全指里的RankIC分别为 6.51%和 4.16%，高于 SUE1 的 5.72%和 4.06%，也高于 SUR1 的 4.99%和3.53%。"
+        },
+        {
+          "name": "SUE0(含预告)",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{在 SUE0 基础上，以预告净利润上下限均值作为最新财报数据更新因子}",
+          "stats": [null, 0.0425, 2.78, null],
+          "evidence": "将业绩预告视作真实财报数据，是指当业绩预告发出后，把预告净利润上、下限的均值作为最新的财报数据更新因子。"
+        },
+        {
+          "name": "SUE1(含预告)",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{在 SUE1 基础上，以预告净利润上下限均值作为最新财报数据更新因子}",
+          "stats": [null, 0.0451, 1.96, null],
+          "evidence": "如SUE0因子在加入业绩预告数据后，其原始值在中证全指内的月胜率由 78.43%提升至 83.01%，SUE1 因子的月胜率则是由 67.97%上升至 71.90%。"
+        },
+        {
+          "name": "EBIAS0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "EBIAS_{0}=\\frac{\\text{财报(单季)净利润}-\\text{预告(单季)净利润上下限均值}}{\\text{预告(单季)净利润上下限均值}}",
+          "stats": [null, 0.0115, 0.67, null],
+          "evidence": "在报告《上市公司业绩预告信息研究》业绩预告均值偏离度因子的基础上，我们新增了财报净利润相对业绩预告上下限因子，并分别用 EBIAS0和 EBIAS1表示。"
+        },
+        {
+          "name": "EBIAS1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "EBIAS_{1}=\\frac{\\text{财报净利润}-\\text{预告净利润下限}}{\\text{预告净利润上限}-\\text{预告净利润下限}}",
+          "stats": [null, 0.008, 0.46, null],
+          "evidence": "在报告《上市公司业绩预告信息研究》业绩预告均值偏离度因子的基础上，我们新增了财报净利润相对业绩预告上下限因子，并分别用 EBIAS0和 EBIAS1表示。"
+        },
+        {
+          "name": "公告当天的开盘/前收",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{公告日开盘价}}{\\text{公告日前收盘价}}",
+          "stats": [null, 0.0361, 2.6, null],
+          "evidence": "记公司发布财报的公告日期为 T，我们分别计算了公告日 T当天的开盘/前收、最低/前收，同时计算了[T-1,T+1]三天范围内的开盘/前收与最低/前收的因子均值，总共 4 个因子。"
+        },
+        {
+          "name": "公告当天的最低/前收",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{公告日最低价}}{\\text{公告日前收盘价}}",
+          "stats": [null, 0.0314, 1.63, null],
+          "evidence": "最低/前收因子在考虑公告可能产生的跳空影响外，额外加入了波动率的考量，如最低/前收越高，可能意味着公告为利好且股价波动小"
+        },
+        {
+          "name": "公告前后三天的开盘/前收",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{3}\\sum_{t\\in[T-1,T+1]}\\frac{\\text{开盘价}_t}{\\text{前收盘价}_t}",
+          "stats": [null, 0.0321, 2.06, null],
+          "evidence": "记公司发布财报的公告日期为 T，我们分别计算了公告日 T当天的开盘/前收、最低/前收，同时计算了[T-1,T+1]三天范围内的开盘/前收与最低/前收的因子均值，总共 4 个因子。"
+        },
+        {
+          "name": "公告前后三天的最低/前收",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{3}\\sum_{t\\in[T-1,T+1]}\\frac{\\text{最低价}_t}{\\text{前收盘价}_t}",
+          "stats": [null, 0.0371, 1.45, null],
+          "evidence": "记公司发布财报的公告日期为 T，我们分别计算了公告日 T当天的开盘/前收、最低/前收，同时计算了[T-1,T+1]三天范围内的开盘/前收与最低/前收的因子均值，总共 4 个因子。"
+        },
+        {
+          "name": "公告当天的大单买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{公告日（早盘）大单买入金额占成交金额的比例}",
+          "stats": [null, 0.0282, 1.91, null],
+          "evidence": "受此启发，我们尝试将大单因子与公告事件相结合，计算公告日 T 与[T-1,T+1]三天范围内的（早盘）大单买入占比因子与（早盘）大单涨跌幅，试图通过公告前后大单的买卖方向和强度去捕捉业绩公告的超预期信息进而获得选股的 alpha。"
+        },
+        {
+          "name": "公告当天的大单涨跌幅",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{公告日（早盘）大单买入拉动的涨跌幅}",
+          "stats": [null, 0.0351, 2.45, null],
+          "evidence": "受此启发，我们尝试将大单因子与公告事件相结合，计算公告日 T 与[T-1,T+1]三天范围内的（早盘）大单买入占比因子与（早盘）大单涨跌幅，试图通过公告前后大单的买卖方向和强度去捕捉业绩公告的超预期信息进而获得选股的 alpha。"
+        },
+        {
+          "name": "公告前后三天的大单买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{[T-1,T+1]三天范围内（早盘）大单买入金额占成交金额比例的均值}",
+          "stats": [null, 0.0329, 1.92, null],
+          "evidence": "如公告日前后三天的（早盘）大单买入占比因子，其原始值在沪深300和中证全指内的RankIC分别为4.09%和3.29%，且多空净值近期回撤较小。"
+        },
+        {
+          "name": "公告前后三天的大单涨跌幅",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{[T-1,T+1]三天范围内（早盘）大单买入拉动涨跌幅的均值}",
+          "stats": [null, 0.0454, 2.64, null],
+          "evidence": "受此启发，我们尝试将大单因子与公告事件相结合，计算公告日 T 与[T-1,T+1]三天范围内的（早盘）大单买入占比因子与（早盘）大单涨跌幅，试图通过公告前后大单的买卖方向和强度去捕捉业绩公告的超预期信息进而获得选股的 alpha。"
+        },
+        {
+          "name": "时序网络算法下的因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{AGRU 时序网络从历史季度业绩序列提取 alpha 因子，再用树模型合成绩效超预期打分}",
+          "stats": [null, 0.0562, 2.13, null],
+          "evidence": "该因子原始值在沪深 300 和中证全指内的RankIC分别为5.69%和5.62%，多空最大回撤均控制在-20%以内。此外，其在中证全指上的多头年化超额收益为 14.21%，且近期波动小于传统SUE系列因子。"
+        },
+        {
+          "name": "综合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{4}\\sum_{k=1}^{4}\\text{大类因子}_k",
+          "stats": [null, 0.0781, 2.94, null],
+          "evidence": "合成后的因子在沪深 300和中证全指内的 RankIC分别为 6.69%和 7.81%，且在中证全指上的多头年化超额收益为 18.53%。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "新增毛利字段的SUG因子与SUE、SUR相关性较低且RankIC更高，SUG1在沪深300、中证全指的RankIC为6.51%和4.16%",
+      "evidence": "特别地，对于用新增字段毛利构建的 SUG 因子，它与常见的 SUE、SUR 的相关性较低、且RankIC更高。如不含漂移项的SUG1，其原始值在沪深300、中证全指里的RankIC分别为 6.51%和 4.16%，高于 SUE1 的 5.72%和 4.06%，也高于 SUR1 的 4.99%和3.53%。"
+    },
+    {
+      "text": "含预告的SUE因子在多头收益、夏普率和月胜率等方面优于原始SUE因子",
+      "evidence": "针对前者，我们构建了含预告的SUE因子，并发现改进后的SUE因子在多头收益、夏普率和月胜率等方面要优于原始 SUE 因子。"
+    },
+    {
+      "text": "EBIAS0和EBIAS1的RankIC不高，但胜在回撤小、相关性低",
+      "evidence": "针对后者，我们构建了业绩偏离度因子 EBIAS0 和 EBIAS1，虽然这两类因子的 RankIC不高，但它们胜在回撤小、相关性低。"
+    },
+    {
+      "text": "两类大单因子在公告日附近的表现优于最低前收、开盘/前收，且多空净值近期回撤较小",
+      "evidence": "从因子表现来看，两类大单因子在公告日附近的表现要优于最低前收、开盘/前收，如公告日前后三天的（早盘）大单买入占比因子，其原始值在沪深300和中证全指内的RankIC分别为4.09%和3.29%，且多空净值近期回撤较小。"
+    },
+    {
+      "text": "时序网络因子RankIC为5.69%和5.62%，中证全指多头年化超额14.21%，近期波动小于传统SUE系列因子",
+      "evidence": "该因子原始值在沪深 300 和中证全指内的RankIC分别为5.69%和5.62%，多空最大回撤均控制在-20%以内。此外，其在中证全指上的多头年化超额收益为 14.21%，且近期波动小于传统SUE系列因子。"
+    },
+    {
+      "text": "四大类因子等权合成的综合因子RankIC为6.69%和7.81%，中证全指多头年化超额收益18.53%",
+      "evidence": "合成后的因子在沪深 300和中证全指内的 RankIC分别为 6.69%和 7.81%，且在中证全指上的多头年化超额收益为 18.53%。"
+    },
+    {
+      "text": "六类业绩超预期因子原始值在大市值股票池选股效果优于小市值，行业市值中性化后该特征不再显著",
+      "evidence": "（1）六类业绩超预期因子的原始值在大市值股票池中的选股效果要优于小市值股票池，行业市值中性化后该特征不再显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bartov, Radhakrishnan & Krinsky (2000) Investor sophistication and patterns in stock returns after earnings announcements",
+    "Chan, Jegadeesh & Lakonishok (1996) Momentum strategies",
+    "Jegadeesh & Livnat (2006) Revenue surprises and stock returns",
+    "Kinney, Burgstahler & Martin (2002) Earnings surprise materiality as measured by stock returns",
+    "Zhou & Zhu (2012) Jump on the post-earnings announcement drift",
+    "东方证券《上市公司业绩预告信息研究》",
+    "东方证券《业绩超预期类因子》(2018-05)",
+    "东方证券《分析师覆盖度因子改进——因子选股系列之八十四》",
+    "东方证券《基于大单的 alpha 因子构建》",
+    "东方证券《多模型学习量价时序特征——因子选股系列之八十三》",
+    "东方证券《超大单冲击对大单因子的影响——因子选股系列之八十二》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

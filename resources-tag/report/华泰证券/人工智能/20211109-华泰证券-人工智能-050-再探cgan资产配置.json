@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "20211109-华泰证券-人工智能-050-再探cgan资产配置",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["neural"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["adaptive"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "risk_based"],
+      "setup": {"universe": ["na"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "cGAN以多资产过去40个交易日收益率序列作为条件信息，结合随机数序列引导生成未来20个交易日收益率序列，基于1000次生成结果计算收益率均值及协方差均值",
+      "evidence": "cGAN 预测资产收益均值及协方差的核心思想是：以多资产过去 40 个交易日收益率序列作为条件信息，结合随机数序列，引导 cGAN 模型生成多资产未来 20 个交易日收益率序列，计算 20 日区间收益率及协方差。"
+    },
+    {
+      "text": "cGAN方法预测协方差相比历史波动率方法更接近未来真实协方差",
+      "evidence": "结果表明cGAN 方法预测协方差相比历史波动率方法更接近未来真实协方差。"
+    },
+    {
+      "text": "cGAN在仓位分配和风险分配上均更接近理想情形",
+      "evidence": "将cGAN 和历史波动率方法分别应用于风险平价模型，比较 1）各资产实际仓位与理想仓位，2）各资产实际风险分配与理想风险分配，结果表明cGAN 在仓位分配和风险分配上均更接近理想情形。"
+    },
+    {
+      "text": "cGAN方法在风险平价模型上显著优于历史波动率方法，夏普比率分别为1.61和1.41，Calmar比率分别为1.17和0.61，超额收益较为稳定",
+      "evidence": "结果表明，cGAN 方法显著优于历史波动率方法，夏普比率分别为 1.61 和 1.41，Calmar 比率分别为1.17 和 0.61，并且超额收益较为稳定。"
+    },
+    {
+      "text": "改进方法夏普比率均优于原始方法，改进方法年化波动率均低于原始方法，改进方法在控制波动方面更具优势",
+      "evidence": "无论是 cGAN预测波动率还是历史波动率，改进方法夏普比率均优于原始方法（cGAN：1.74＞1.61；历史：1.63＞1.41），改进方法年化波动率均低于原始方法（cGAN：3.14%＜3.62%；历史：2.81%＜3.35%）。改进方法在控制波动方面更具优势。"
+    },
+    {
+      "text": "相关矩阵距离指标上cGAN方法均值为-0.05，历史波动率方法均值为-0.07，cGAN更接近0，即更接近真实协方差",
+      "evidence": "cGAN 方法均值为-0.05，历史波动率方法均值为-0.07，Wilcoxon 检验显示 cGAN 显著高于历史波动率方法（p=0.001），cGAN 更接近 0，即更接近真实协方差。"
+    },
+    {
+      "text": "cGAN预测单资产绝对收益表现不佳，预测多资产相对收益排名表现较好",
+      "evidence": "总的来看，cGAN 预测单资产绝对收益表现不佳，预测多资产相对收益排名表现较好。"
+    },
+    {
+      "text": "在国内资产配置、全球资产配置以及A股板块配置场景下，cGAN在获取收益、控制波动和控制回撤方面具有稳定优势，夏普比率和Calmar比率普遍高于传统方法",
+      "evidence": "结果表明，在国内资产配置、全球资产配置以及 A 股板块配置场景下，相比传统的基于历史收益和波动率方法，cGAN 在获取收益、控制波动和控制回撤方面具有稳定优势，夏普比率和Calmar 比率普遍高于传统方法。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Zhu, Y., Mariani, G., & Li, J. (2020). Pagan: portfolio analysis with generative adversarial networks. SSRN Electronic Journal.",
+    "《不同协方差估计方法对比分析》（2019-11-05）",
+    "《人工智能 45：cGAN 应用于资产配置》（2021-04-19）",
+    "《人工智能 47：cGAN 模拟宏观指标》（2021-08-04）",
+    "《人工智能 48：对抗过拟合：cGAN 应用于策略调参》（2021-10-12）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

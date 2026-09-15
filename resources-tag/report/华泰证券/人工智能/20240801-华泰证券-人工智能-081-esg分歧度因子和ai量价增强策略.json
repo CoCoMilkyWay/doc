@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "id": "20240801-华泰证券-人工智能-081-esg分歧度因子和ai量价增强策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["firm_attribute"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["alt"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ESG评级因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ESG评级因子_i=\\frac{1}{n_i}\\sum_{k=1}^{n_i}q_{i,k}",
+          "stats": [null, 0.026, 0.27, 0.025],
+          "evidence": "同 时 ， 定 义 ESG 评 级 因 子 为 有 效 评 级 的 均 值 ， 即(0.3+0.5+0.8)/3=0.5333 。"
+        },
+        {
+          "name": "ESG分歧度因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ESG分歧度因子_i=-\\frac{2}{n_i(n_i-1)}\\sum_{j<k}\\mathrm{std}(q_{i,j},q_{i,k})",
+          "stats": [null, 0.002, 0.11, -0.001],
+          "evidence": "每期在获得至少两家评级的公司中计算ESG分歧度因子，两两分别计算评级机构之间ESG得分的标准差，再取均值即为ESG分歧度因子。"
+        },
+        {
+          "name": "ESG综合因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "ESG综合因子_i=ESG评级因子_i+ESG分歧度因子_i",
+          "stats": [null, 0.015, 0.36, 0.014],
+          "evidence": "ESG综合因子：ESG评级与ESG分歧度等权相加。ESG综合因子值较大的个股对应的ESG评级较高且各家评级机构的一致性较高。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在单因子层面，结合ESG分歧度的ESG综合因子在RankICIR、多头组合表现等方面优于ESG评级因子。",
+      "evidence": "测试结果表明，在单因子层面，结合ESG分歧度的ESG综合因子在RankICIR、多头组合表现等方面优于ESG评级因子。"
+    },
+    {
+      "text": "从RankICIR和RankIC胜率来看，ESG分歧度因子的有效性不如ESG评级因子本身。",
+      "evidence": "从RankICIR和RankIC胜率来看，ESG分歧度因子的有效性不如ESG评级因子本身。"
+    },
+    {
+      "text": "无中性化的因子在收益表现上更优，但行业市值中性化后的因子在2020-2022年间的累计RankIC和Top层净值的回撤明显减小，RankIC稳定性更高。",
+      "evidence": "无中性化的因子在收益表现上更优，但行业市值中性化后的因子在2020-2022年间的累计RankIC和Top层净值的回撤明显减小，RankIC稳定性更高。"
+    },
+    {
+      "text": "两两配对求标准差的方法所构建的ESG综合因子在Top层和对冲组合收益表现上优于普通标准差的方法，RankIC更稳健。",
+      "evidence": "不同分歧度计算方式中，两两配对求标准差的方法所构建的ESG综合因子在Top层和对冲组合收益表现上优于普通标准差的方法，RankIC更稳健。"
+    },
+    {
+      "text": "ESG底仓+AI增强组合年化超额收益10.55%，对照模型AI增强组合年化超额收益9.0%，ESG底仓带来1.55pct的年化收益提升，信息比率从2.17提升至2.79。",
+      "evidence": "结果表明，回测期2017-12-29至2024-06-28内，ESG底仓+AI增强组合年化超额收益10.55%，对照模型AI增强组合年化超额收益9.0%，ESG底仓带来1.55pct的年化收益提升，信息比率从2.17提升至2.79，换手率年化双边15倍。"
+    },
+    {
+      "text": "结合高ESG底仓和AI量价因子的策略在回测期内实现了10.55%的年化超额收益，信息比率2.79，业绩表现和ESG水平相较于仅用AI量价因子的基准策略有明显提升。",
+      "evidence": "实证结果表明，结合高ESG底仓和AI量价因子的策略在回测期内（2017-01-26至2024-06-28）实现了10.55%的年化超额收益，信息比率2.79，业绩表现和ESG水平相较于仅用AI量价因子的基准策略有明显提升。"
+    },
+    {
+      "text": "ESG底仓结合AI组合平均ESG得分0.77，高于沪深300指数（0.74）和纯AI量价组合（0.71），ESG底仓提升了组合收益表现，同时提升了组合的ESG水平。",
+      "evidence": "计算组合加权ESG得分，ESG底仓结合AI组合平均得分为0.77，高于沪深300指数（0.74）和纯AI量价组合（0.71）。ESG底仓提升了组合收益表现，同时提升了组合的ESG水平。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Avramov, D., Cheng, S., Lioui, A., & Tarelli, A. (2022). Sustainable investing with ESG rating uncertainty. Journal of financial economics, 145(2), 642-664.",
+    "Berg, F., Koelbel, J. F., & Rigobon, R. (2022). Aggregate confusion: The divergence of ESG ratings. Review of Finance, 26(6), 1315-1344.",
+    "Gibson Brandon, R., Krueger, P., & Schmidt, P. S. (2021). ESG rating disagreement and stock returns. Financial analysts journal, 77(4), 104- 127.",
+    "Liu, X., Yang, Q., Wei, K., & Dai, P. F. (2024). ESG rating disagreement andidiosyncratic return volatility: Evidence from China. Research in International Business and Finance, 70, 102368.",
+    "Wang, J., Wang, S., Dong, M., & Wang, H. (2024). ESG rating disagreement and stock returns: Evidence from China. International Review of Financial Analysis, 91, 103043.",
+    "《人工智能72：基于全频段量价特征的选股模型》（2023-12-08）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

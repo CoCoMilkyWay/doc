@@ -1,0 +1,168 @@
+{
+  "schema_version": 2,
+  "id": "20200514-天风证券-市场微观结构探析-004-结合中高频信息的指数增强策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Alpha1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha1=Alpha(ts\\_Rank(8, pctchange\\_ts(6, highest\\_price)), 1500, mean/std, 40)",
+          "stats": [-0.04, null, -3.93, 0.154],
+          "evidence": "Alpha1 因子表现出稳定的选股能力，分组收益单调性显著。2011 年以来多空收益 15.4%，多头超额 7.5%，IC 均值 4.0%，ICIR 达到 3.93。"
+        },
+        {
+          "name": "Alpha2",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha2=Alpha(pctchange\\_ts(4, close\\_price), 1500, mean/std, 40)",
+          "stats": [-0.04, null, -2.8, 0.138],
+          "evidence": "Alpha2 因子表现出稳定的选股能力，分组收益单调性显著。2011 年以来多空收益 13.8%，多头超额 6.5%，IC 均值 4.0%，ICIR 达到-2.80。"
+        },
+        {
+          "name": "Alpha3",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha3=Alpha(div(open\\_price, pre\\_close), 1000, min, 40)",
+          "stats": [0.035, null, 3.45, 0.098],
+          "evidence": "Alpha3因子表现出稳定的选股能力，分组收益单调性显著。2011年以来多空收益9.8%，多头超额 7.0%，IC 均值 3.5%，ICIR 达到-2.80。"
+        },
+        {
+          "name": "Alpha4",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha4=Alpha(sub(highest\\_price, lowest\\_price), sortmeandiv\\_turnover, mean/std, 40)",
+          "stats": [0.032, null, 2.67, 0.099],
+          "evidence": "Alpha4因子表现出稳定的选股能力，分组收益单调性显著。2011年以来多空收益9.9%，多头超额 4.2%，IC 均值 3.2%，ICIR 达到 2.67。"
+        },
+        {
+          "name": "Alpha5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha5=Alpha(div(today\\_vwap, vwap), mean\\_kline, max, 40)",
+          "stats": [-0.045, null, -4.3, 0.138],
+          "evidence": "Alpha5 因子表现出稳定的选股能力，分组收益单调性显著。2011 年以来多空收益 13.8%，多头超额 7.4%，IC 均值-4.5%，ICIR 达到-4.30。"
+        },
+        {
+          "name": "Alpha6",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha6=Alpha(ts\\_Rank(8, turnover), 1500, mean, 40)",
+          "stats": [-0.048, null, -2.46, 0.184],
+          "evidence": "Alpha6 因子表现出稳定的选股能力，分组收益单调性显著。2011 年以来多空收益 18.4%，多头超额 7.9%，IC 均值-4.8%，ICIR 达到-2.46。"
+        },
+        {
+          "name": "Alpha7",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha7=Alpha(TR, 1000, max, 40)",
+          "stats": [-0.037, null, -2.71, 0.128],
+          "evidence": "Alpha7 因子表现出稳定的选股能力，分组收益单调性显著。2011 年以来多空收益 12.8%，多头超额 7.7%，IC 均值-3.7%，ICIR 达到-2.71。"
+        },
+        {
+          "name": "Alpha8",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha8=Alpha(TR, 1500, max, 40)",
+          "stats": [-0.055, null, -3.86, 0.19],
+          "evidence": "Alpha8 因子表现出稳定的选股能力，分组收益单调性显著。2011 年以来多空收益 19.0%，多头超额 8.5%，IC 均值-5.5%，ICIR 达到-3.86。"
+        },
+        {
+          "name": "Alpha9",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha9=Alpha(highest\\_price, diff\\_RET, mean/std, 40)",
+          "stats": [0.03, null, 2.17, 0.099],
+          "evidence": "Alpha9因子表现出稳定的选股能力，分组收益单调性显著。2011年以来多空收益9.9%，多头超额 5.4%，IC 均值 3.0%，ICIR 达到 2.17。"
+        },
+        {
+          "name": "Alpha10",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "Alpha10=Alpha(correlation(6, RET, highest\\_price), 1500, mean, 40)",
+          "stats": [-0.037, null, -3.3, 0.142],
+          "evidence": "Alpha10 因子表现出稳定的选股能力，分组收益单调性显著。2011 年以来多空收益14.2%，多头超额 6.0%，IC 均值-3.7%，ICIR 达到 3.30。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于中高频数据公式化构建的10个月频长周期因子，剔除常见量价风格后平均IC均值为4.0%、ICIR达到3.16，多空收益13.6%、多头收益6.8%，选股能力稳健。",
+      "evidence": "基于中高频数据，本文采用以上 Alpha 表达式构建了 10 个以月为预测宽度的长周期因子，因子剔除常见量价风格后平均 IC 均值为 4.0%、ICIR 达到 3.16，多空收益 13.6%、多头收益 6.8%，表现出稳健的选股能力。"
+    },
+    {
+      "text": "中高频因子给选股模型带来显著增量信息：模型多空收益从44.2%提高到47.5%，多头收益从22.1%提高到23.5%，多头组合IR从3.53提升到4.25，ICIR从6.44提升到6.94，且未导致额外换手。",
+      "evidence": "对比由上表基础指标构建的原始模型、基础因子加入中高频指标后的新模型，中高频因子给模型带来了显著的增量信息。模型多空收益从 44.2%提高到 47.5%，其中多头收益从22.1%提高到 23.5%，多头组合 IR 从 3.53 提升到 4.25，ICIR 从 6.44 提升到 6.94；"
+    },
+    {
+      "text": "中证500指数增强组合2011年以来年化超额基准24.5%，信息比率4.21，月度胜率84.8%，日度胜率61.3%，相对最大回撤5.1%。",
+      "evidence": "中证 500 指数增强组合 2011 年以来的绩效如下表所示，组合年化超额基准 24.5%，信息比率 4.21，月度胜率 84.8%，日度胜率 61.3%，相对最大回撤 5.1%。"
+    },
+    {
+      "text": "沪深300指数增强组合2011年以来年化超额基准12.2%，信息比率2.87，月度胜率75.0%，日度胜率57.3%，相对最大回撤3.6%。",
+      "evidence": "沪深 300 指数增强组合 2011 年以来的绩效如下表所示，组合年化超额基准 12.2%，信息比率 2.87，月度胜率 75.0%，日度胜率 57.3%，相对最大回撤 3.6%。"
+    },
+    {
+      "text": "Alpha1到Alpha10因子自相关均值在50%附近，多头组合换手率约60%，整体具有较低多头换手和较高自相关，加入组合后未带来额外换手率。",
+      "evidence": "本文构建的 Alpha1 到 Alpha10 因子自相关性和换手率如下左图所示，因子自相关均值在50%附近，多头组合换手率约 60%，因子整体具有较低的多头换手以及较高自相关。"
+    }
+  ],
+  "builds_on": [
+    "20190905-天风证券-市场微观结构探析-002-订单簿上的alpha",
+    "20200225-天风证券-市场微观结构探析-003-分时K线中的alpha"
+  ],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

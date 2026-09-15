@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20220609-信达证券-资产配置研究系列-004-基于拥挤度判断的行业轮动策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "F_{i,t}=\\frac{closeprice_{i,t}}{closeprice_{i,t-win_{-}len+1}}-1",
+          "stats": [null, 0.025, null, 0.119],
+          "evidence": "本文定义各行业的动量因子为过去一段时间的行业累计收益率，有"
+        },
+        {
+          "name": "资产集中度",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "C_{i}=\\frac{\\sum_{j=1}^{n}\\left(AR^{j}\\cdot\\frac{|EV_{i}^{j}|}{\\sum_{k=1}^{N}|EV_{k}^{j}|}\\right)}{\\sum_{j=1}^{n}AR^{j}}",
+          "stats": [null, null, null, 0.134],
+          "evidence": "STEP3：计算单个行业i的资产集中度。以前n个AR为加权比例，计算第i个行业分别在n个特征向量暴露的绝对值在所有行业中的占比。行业i的资产集中度指标即作为行业i的拥挤度度量指标，有"
+        },
+        {
+          "name": "行业拥挤度分散度因子SDC",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "SDC_{t}=-\\sqrt{\\frac{1}{N-1}{\\sum_{i=1}^{N}(C_{i,t}-mean(C_{i,t}))^{2}}}",
+          "stats": [null, null, null, null],
+          "evidence": "当期行业拥挤度分散度因子 ${\\cdot}SDC_{t}$ 定义为资产集中度 $\\cdot C_{i,t}$ 截面标准差的相反数，截面所有行业的拥挤度分化越小，说明当前市场越拥挤。"
+        },
+        {
+          "name": "换手率因子TurnOver",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{万得全A每日换手率过去60日的移动平均值}",
+          "stats": [null, null, null, null],
+          "evidence": "（2）换手率因子TurnOver：万得全 A（881001）每日换手率过去 60日的移动平均值。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "剔除最拥挤行业显著提升动量组合表现：多头年化收益率从12.6%升至14.2%，多空组合从11.9%升至13.4%，最大回撤明显优化",
+      "evidence": "（1）剔除最拥挤行业后，行业动量多头组合、多空组合的表现均得到了显著提升，多头组合全区间年化收益率从 12.6%上升为 14.2%，多空组合全区间年化收益率从 11.9%上升为 13.4%，最大回撤也得到了明显优化。"
+    },
+    {
+      "text": "市场+行业双拥挤信号使动量多空组合年化收益率达16.3%（收益波动比1.10），多头超额年化收益率达10.0%（收益波动比1.20）",
+      "evidence": "考虑市场+行业双拥挤后的行业动量多空组合年化收益率高达 16.3%，收益波动比为1.10，多头超额年化收益率达 10.0%，收益波动比为1.20。"
+    },
+    {
+      "text": "双拥挤信号大幅改善动量崩溃时段表现：2015年多空收益由-11.2%转正至15.3%、回撤从-29.9%降至-2.6%；2021年多空与多头超额收益分别提升至24.0%和15.5%",
+      "evidence": "其中，2015年普通行业动量策略的多空组合收益和回撤分别为-11.2%和-29.9%；叠加市场拥挤+行业拥挤信号后，当年多空收益转正为 15.3%，最大回撤幅度降至-2.6%。2021 年普通行业动量策略的多空组合和多头超额收益分别为 13.2%和 7.9%；叠加市场拥挤+行业拥挤信号后，当年多空收益和多头超额收益分别提升至 24.0%和 15.5%，整体策略年度胜率为 83%，表现优异。"
+    },
+    {
+      "text": "基于过去250日收益率的中期动量行业轮动策略表现优秀，全区间日度RankIC的t值达到4.3，多空组合与多头超额年化收益率分别为11.9%和7.2%",
+      "evidence": "（1）基于过去 250 日收益率的行业动量策略表现优秀，全区间日度 RankIC 的 t 值达到 4.3；且除2018 年以外 RankIC 均值均为正值。（2）全区间 2010/1/1-2022/5/27 内，多空组合和多头超额年化收益率分别为 11.9%和 7.2%，且 2017 年后表现尤其优异，对应1.1节中所描述的“反转行业”在时间序列上的占比变化。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kinlaw, W., Kritzman, M., & Turkington, D. (2019). Crowded trades: Implications for sector rotation and factor timing. The Journal of Portfolio Management, 45(5), 46-57",
+    "资产配置研究系列之二：基于行业动量的固收加产品设计"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

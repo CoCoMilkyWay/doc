@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20240909-中信建投-量化策略-001-量化策略_商品期货的中高频数据的高阶特征分析",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "Vol-skew",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "skew\\left(\\frac{volume_{t}}{\\sum_{i}^{n}volume_{i}}\\right)",
+          "stats": [null, null, null, 0.0253],
+          "evidence": "逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的成交量作为计算标准，计算出前 K 线各商品品种与前 500 根 K 线成交量占比，选取成交量占比偏度最大的部分品种做多，选取成交量占比偏度最小的部分品种做空。"
+        },
+        {
+          "name": "Vol-kurt",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "kart\\left(\\frac{volume_{t}}{\\sum_{i}^{n}volume_{i}}\\right)",
+          "stats": [null, null, null, 0.0914],
+          "evidence": "逻辑：我们这里使用的是距当前成交价格 500 根 K 线的成交量作为计算标准，计算出前 K 线各商品品种与前 500根K线成交量占比，选取成交量占比偏度最大的部分品种做多，选取成交量占比偏度最小的部分品种做空。"
+        },
+        {
+          "name": "Vol-sk_ratio",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "Vol-skew/Vol-kart",
+          "stats": [null, null, null, 0.1716],
+          "evidence": "逻辑：我们这里使用的是距当前成交价格 500 根 K 线的成交量作为计算标准，计算出前 K 线各商品品种与前 500根K线成交量占比，再计算其峰度与偏度的比值，选取数值最大的部分品种做多，选取数值最小的部分品种做空。"
+        },
+        {
+          "name": "yield-skew",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "skew\\left(\\frac{volume_{t}}{\\sum_{i}^{n}volume_{i}}\\right)",
+          "stats": [null, null, null, 0.1668],
+          "evidence": "逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的收益率作为计算标准，选取收益率峰度最大的部分品种做多，选取收益率峰度最小的部分品种做空。"
+        },
+        {
+          "name": "yield-kurt",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "kart\\left(\\frac{volume_{t}}{\\sum_{i}^{n}volume_{i}}\\right)",
+          "stats": [null, null, null, 0.4018],
+          "evidence": "逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的收益率作为计算标准，选取收益率偏度最大的部分品种做多，选取收益率偏度最小的部分品种做空。"
+        },
+        {
+          "name": "yield-sk_ratio",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\mathrm{yield-sk}=\\mathrm{Vol-skew/Vol-kurt}",
+          "stats": [null, null, null, 0.3007],
+          "evidence": "逻辑：使用的是日内 15 分钟的成交数据，我们这里使用的是距当前成交价格 500 根 K 线的收益率作为计算标准，再计算其峰度与偏度的比值，选取收益率偏度最大的部分品种做多，选取收益率偏度最小的部分品种做空。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "收益率偏度与峰度比值因子表现较好，具有良好的单调性，与常见因子不存在显著相关性；而成交量占比峰度因子的表现较差，在各个年份均不存在明显正收益。",
+      "evidence": "全市场范围内，收益率偏度与峰度比值因子表现较好，具有良好的单调性，与常见因子不存在显著相关性；而成交量占比峰度因子的表现较差，在各个年份均不存在明显正收益。"
+    },
+    {
+      "text": "收益率偏度与峰度比值因子与收益率偏度因子具有良好有效性，在 15 分钟中高频测试下年化收益超过 30%，夏普比率与卡玛比率均超过0.5。",
+      "evidence": "收益率偏度与峰度比值因子与收益率偏度因子具有良好有效性，在 15 分钟中高频测试下，两个因子的年化收益超过 30%。夏普比率与卡玛比率均超过0.5"
+    },
+    {
+      "text": "六个因子等权合成后，组合策略夏普比率提升超过 400%，最大回撤缩小超过 40%，且每个年度均能取得正收益。",
+      "evidence": "合成策略后，策略的绩效水平显著高于前述 6个波动率策略的绩效水平，合成策略的夏普比率超过 ，卡玛比率超过 ，相较于之前策略，组合策略夏普比率提升超过 400%，但最大回撤大幅度缩小，缩小超过 40%，从年度收益表现来看，策略也在每个年度均能取得正收益"
+    },
+    {
+      "text": "收益率的高阶特征因子相较于成交量的高阶特征因子表现更好，且两者之间相关性较低。",
+      "evidence": "收益率的高阶特征因子相较于成交量的高阶特征因子表现更好，且两者之间相关性较低，将 6 个因子合成后，组合策略绩效提升幅度较大"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

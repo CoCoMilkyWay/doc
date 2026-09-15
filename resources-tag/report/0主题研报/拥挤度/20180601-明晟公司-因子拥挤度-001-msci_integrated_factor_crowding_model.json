@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "20180601-明晟公司-因子拥挤度-001-msci_integrated_factor_crowding_model",
+  "genre": "research",
+  "asset": ["stock_us"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "crowding"],
+      "setup": {"universe": ["all"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "factors that appear crowded on our model had a much higher frequency (over seven times higher) of significant drawdowns in factor performance over the subsequent 12 months",
+      "evidence": "We also find that factors that appear crowded on our model had a much higher frequency (over seven times higher) of significant drawdowns in factor performance over the subsequent 12 months than factors that did not appear crowded."
+    },
+    {
+      "text": "the frequency of a 5% or larger drawdown in factor return in the next year is approximately 23% when the crowding score is above 1 — 7.5 times the frequency of 3% when the score is less than 0.5",
+      "evidence": "We see in Exhibit 7 that the frequency of a 5% or larger drawdown in factor return in the next year is approximately 23% when the crowding score is above 1 — 7.5 times the frequency of 3% when the score is less than 0.5."
+    },
+    {
+      "text": "The peak correlation with future factor returns and volatility generally occurred at the 7-12 month horizon, indicating that crowding continued to build for some time before a reversal occurred",
+      "evidence": "The peak correlation with future factor returns and volatility generally occurred at the 7-12 month horizon, indicating that crowding continued to build for some time before a reversal occurred."
+    },
+    {
+      "text": "high levels of crowding in a factor have historically implied greater risk of poor performance and higher volatility for that factor thereafter, particularly over the subsequent six to 12 months",
+      "evidence": "While not indicative of future events, we found that high levels of crowding in a factor have historically implied greater risk of poor performance and higher volatility for that factor thereafter, particularly over the subsequent six to 12 months."
+    },
+    {
+      "text": "the integrated crowding score dropped several months before the momentum factor crashed suggests that the momentum crash of 2009 was not driven by crowding",
+      "evidence": "However, the fact that the integrated crowding score dropped several months before the momentum factor crashed suggests that the momentum crash of 2009 was not driven by crowding."
+    },
+    {
+      "text": "we have examined other drawdown thresholds (e.g., 2%, 10%) and time horizons (e.g., 6, 18, 24 months) and found qualitatively similar results",
+      "evidence": "We have also examined other drawdown thresholds (e.g., 2%, 10%) and time horizons (e.g., 6, 18, 24 months) and found qualitatively similar results."
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bayraktar, M., I. Mashtaler, N. Meng and S. Radchenko. (2015b). \"Barra US Total Market Equity Model for Medium-Term Investors, Empirical Notes.\" MSCI Model Insight.",
+    "Bayraktar, M., S. Doole, A. Kassam and S. Radchenko. (2015a). \"Lost in the Crowd? Identifying and Measuring Crowded Strategies and Trades.\" MSCI Research Insight.",
+    "Hanson, S. and A. Sunderam. (2014). \"The Growth and Limits of Arbitrage: Evidence from Short Interest.\" The Review of Financial Studies.",
+    "Lou, D. and C. Polk. (2013). \"Comomentum: Inferring Arbitrage Activity from Return Correlations.\""
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

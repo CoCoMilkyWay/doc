@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20210309-东方证券-因子选股-073-更稳健易算的分析师盈利上调因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_revision"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "FOM",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{FOM} = \\frac{K-M}{N}",
+          "stats": [0.0269, null, 2.53, 0.1255],
+          "evidence": "该指标计算时，以当前最新的分析师盈利预测作为基准，不仅与该分析师过去的盈利预测对比，而且也和过去一段时间里其它分析师的盈利预测进行对比，计算盈利预测上调和下调的比例差，从而可以及时反映市场分析师对于公司的盈利情况的预期变化。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning"],
+      "setup": {"universe": ["all", "csi800"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "使用过去12个月的分析师数据计算的FOM因子效果最好；加入年报、快报、预告等公告信息后，FOM因子效果可以得到提升。",
+      "evidence": "（1）计算周期的选择：使用过去 12 个月的分析师数据进行计算得到的 FOM 因子效果最好。（2）年报、快报、预告数据的影响：加入上市公司的公告信息后，FOM因子效果都可以得到提升。"
+    },
+    {
+      "text": "全指和800成分内，FOM与WFR从多空组合收益上看差别不大，但FOM因子的多空组合稳定性更好，最大回撤明显降低。",
+      "evidence": "在全指和 800 成分内，FOM 因子和 WFR 因子从多空组合收益上看差别不大，但 FOM 因子的多空组合稳定性更好，最大回撤明显降低。"
+    },
+    {
+      "text": "FOM和WFR因子间存在40%相关性，和其他常见大类因子相关性都不高；FOM剔除WFR后仍有显著选股效果，WFR剔除FOM后失去选股效力。",
+      "evidence": "从因子原始值间的两两相关系数来看，FOM 和 WFR 因子间存在 40%相关性，和其他常见的大类因子相关性都不高。FOM 因子剔除 WFR 因子后仍然有显著的选股效果，而相反WFR 因子剔除 FOM因子后失去了选股效力。"
+    },
+    {
+      "text": "对覆盖度不高的因子，缺失值填充方法对因子表现影响较大，回归方程的填充方法效果更优。",
+      "evidence": "对于覆盖度不高的因子来说，缺失值的填充方法对于因子表现的影响比较大。回归方程的填充方法效果更优。"
+    },
+    {
+      "text": "FOM因子样本数量更多，对中证全指的平均覆盖度接近70%，WFR为63%。",
+      "evidence": "历史平均来看，FOM 对于中证全指的平均覆盖度接近 70%，WFR 为63%。"
+    },
+    {
+      "text": "分组收益基本满足单调性，盈利预期上调幅度大的股票未来收益更高；FOM多头端收益高于空头端，多头对收益贡献更大。",
+      "evidence": "各分组收益基本满足单调性，盈利预期上调幅度大的股票未来收益更高。但WFR 因子的空头端收益跟多头端收益基本相当，而 FOM因子多头端收益高于空头端收益，多头对收益贡献更大。"
+    },
+    {
+      "text": "在不同机构持仓占比的细分股票池中，两因子均在高机构持仓比的股票中表现较好。",
+      "evidence": "在不同机构持仓占比的细分股票池中，两因子均表现出在高机构持仓比的股票中表现较好的特点。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《分析师研报的数据特征与 alpha》",
+    "《来自年报季业绩超预期事件的异常收益》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

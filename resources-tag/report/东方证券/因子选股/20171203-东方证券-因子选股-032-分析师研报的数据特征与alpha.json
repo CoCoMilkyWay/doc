@@ -1,0 +1,152 @@
+{
+  "schema_version": 2,
+  "id": "20171203-东方证券-因子选股-032-分析师研报的数据特征与alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["point_in_time"],
+      "setup": {"data": {"source": ["analyst"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision", "analyst_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["analyst"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "COV",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\log(1+\\text{过去3个月有报告覆盖的券商数量})",
+          "stats": [null, 0.032, 1.11, 0.1595],
+          "evidence": "分析师覆盖（Analyst Coverage，COV）最直观的理解就是过去一段时间（本文综合考虑分析师的覆盖率和信息的及时性，这里取过去 3 个月）有报告覆盖的券商数量"
+        },
+        {
+          "name": "DISP",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{std}(\\text{过去3个月各家机构最新盈余预测})}{\\text{mean}(\\text{过去3个月各家机构最新盈余预测})}",
+          "stats": [null, -0.0124, -0.99, 0.0686],
+          "evidence": "本文讨论的分析师预期分歧程度是指对某只股票盈利预测的分歧程度（Dispersion，DISP），具体计算为过去 3 个月各家券商/机构对该股票最新盈余预测的标准差除以均值"
+        },
+        {
+          "name": "EP_FY1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期FY1净利润}}{\\text{总市值}}",
+          "stats": [null, 0.0493, 2.13, 0.1283],
+          "evidence": "一致预期 FY1净利润/总市值，因子取值越高，估值越低。"
+        },
+        {
+          "name": "PEG",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期FY1净利润}}{\\text{FY2一致预期净利润相对FY0的年化增长率}}",
+          "stats": [null, -0.0402, -3.27, 0.1764],
+          "evidence": "一致预期 FY1 净利润/预期净利润增长率，该指标最先由 Slater 在 1960 年提出，后被彼得林奇推广"
+        },
+        {
+          "name": "SCORE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{Accwt2加权的一致预期评级}",
+          "stats": [null, 0.0294, 1.69, 0.1301],
+          "evidence": "一致预期评级，评级高的公司分析师更加看好，一般基本面更好，未来空间更大。"
+        },
+        {
+          "name": "TPER",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期目标价}}{\\text{当前股价}}",
+          "stats": [null, 0.0336, 2.57, 0.1641],
+          "evidence": "目标价隐含收益率（Target price expected return,TPER），由 Da and Schaumburg（2011）提出，隐含目标价收益越高，预期未来的收益率也更高。"
+        },
+        {
+          "name": "WFR",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{按Accwt2方法加权过去3个月各机构相对自己上次预测的盈余调整幅度}",
+          "stats": [null, 0.0329, 2.99, 0.1334],
+          "evidence": "我们考虑用各个分析师预测净利润相对于自己之前预测的调整比例按照第四章提出的 Accwt2 方法进行加权构建加权的盈余调整度量（Weighted Forecast Revision，WFR）"
+        },
+        {
+          "name": "CFR",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{Accwt2一致预期盈余过去3个月的变化率}",
+          "stats": [null, 0.0171, 1.04, 0.0936],
+          "evidence": "我们也计算了 accwt2 一致预期盈余过去 3 个月的变化率（当上期一致预期净利润不足 100 万元时做与 WFR 类似处理）作为一致预期调整（Consensus Forecast Revision, CFR）与加权预期调整WFR作为对比。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "分析师覆盖多的股票未来表现更好，但因子使用时需要做风险中性处理",
+      "evidence": "由于分析师选择性发布报告等原因，分析师覆盖多的股票未来表现更好，但因子使用时需要做风险中性处理。"
+    },
+    {
+      "text": "分析师预期分歧比较大的公司更容易高估，未来收益较差，该因子覆盖率较低，不适合全市场选股使用",
+      "evidence": "分析师预期分歧比较大的公司更容易高估，未来收益较差，但该因子覆盖率较低，不适合全市场选股使用。"
+    },
+    {
+      "text": "预测精度加权和朝阳永续的预测精度显著高于其他加权方法，但两者差距不显著，考虑到透明度建议采用预测精度加权",
+      "evidence": "我们比较了 wind、朝阳永续、等权、最近预测、预测精度排序加权和预测精度加权 6种分析师一致预期加权方法，发现预测精度加权和朝阳永续的预测精度显著高于其他加权方法，但这两者之间差距并不显著，考虑到加权方法透明度，我们建议采用预测精度加权。"
+    },
+    {
+      "text": "使用预测精度加权各个分析师相对自己前期的预测调整（WFR），相比一致预期调整，中证全指内 IC_IR 从 1.04 提升到 2.99",
+      "evidence": "我们建议使用分析师预测精度加权各个分析师相对于自己前期的预测调整得到加权的预期调整，相比于一致预期的调整，中证全指内 IC_IR 从 1.04 提升到 2.99。"
+    },
+    {
+      "text": "剔除其他大类因子后，分析师大类因子中证全指内 IC_IR 依然高达 3.44，加入分析预期后沪深 300 增强收益率可提升 1%左右",
+      "evidence": "剔除估值、成长、盈利、流动性、投机性等因子后除预期分歧度由于覆盖率较低导致选股效果不显著外，其他因子在中证全指（非金融）内依然有显著的选股效果，分析师大类因子在剔除其他影响后，中证全指内 IC_IR 依然高达 3.44，加入分析预期后沪深 300 增强收益率可提升 1%左右。"
+    },
+    {
+      "text": "加入分析师预期后沪深 300 对冲组合年化收益由 8.65%提高到 9.62%，跟踪误差几乎不变，最大回撤小幅降低",
+      "evidence": "加入分析师预期数据后，沪深 300对冲组合年化收益由原来的 8.65%提高到 9.62%，提升近1%，跟踪误差前后几乎没有变化，由原来的 4.0%小幅降低到 3.9%，最大回测也从 8.37%小幅降低至 8.25%，总体而言，策略的收益收益性尚可，但最大回测较大，后面可从风险因子入手寻求改进方案。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Diether K B, Malloy C J, Scherbina A. Differences of Opinion and the Cross Section of Stock Returns",
+    "Lee C M C, So E C. Uncovering expected returns: Information in analyst coverage proxies",
+    "Zhang X F. Information Uncertainty and Analyst Forecast Behavior"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

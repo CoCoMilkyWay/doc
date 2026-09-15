@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20201213-东方证券-因子选股-072-隐藏风险因子_组合风控的另一种选择",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "tree", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural", "statistical"],
+      "setup": {
+        "risk_factors": ["size", "value", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中证500月频增强中，控制前20至30个隐藏风险因子与行业中性+市值中性相比跟踪误差基本一致，年化超额收益提高1%-2%，回撤更小",
+      "evidence": "在做中证 500 指数月频增强策略时，和传统的“行业中性+市值中性”策略相比，控制前 20 至 30 个隐藏风险因子，得到组合的跟踪误差基本一致，但年化超额收益能够提高 1%-2%，回撤更小，组合换手率略微提升。"
+    },
+    {
+      "text": "修正PCA提取的第一个隐藏风险因子跟beta因子高度相关，第二、三个隐藏风险因子分别跟估值、市值最相关，其它隐藏因子和常见风险因子相关性都不高，是一套相关性较低的新风险框架",
+      "evidence": "修正 PCA 方法提取的第一个隐藏风险因子跟 beta 因子高度相关，第二、三个隐藏风险因子分别跟估值、市值最相关，其它隐藏因子和常见风险因子的相关性都不高，由此可见这种统计方法提取的是一个相关性较低的新风险框架。"
+    },
+    {
+      "text": "沪深300增强中控制隐藏风险因子暴露的组合表现不佳，沪深300行业权重差别大、行业风险突出，行业+市值的风险框架比隐藏风险因子更适合",
+      "evidence": "做沪深 300 指数月频增强策略时，控制隐藏风险因子暴露的组合表现不佳。可能的原因是沪深 300 指数成分里，行业权重差别绝大，行业风险突出，“行业+市值”的风险框架比隐藏风险因子更适合。"
+    },
+    {
+      "text": "隐藏风险因子的因子收益率是股票池里个股收益率的线性组合，波动越大越稳定（滞后一期截面相关性越高），组合控制对其因子暴露后风控效果越好",
+      "evidence": "隐藏风险因子的因子收益率是股票池里个股收益率的线性组合，波动越大，越稳定（滞后一期截面相关性越高），组合控制对其因子暴露后，风控效果越好。"
+    },
+    {
+      "text": "前四个隐藏风险因子平均截面相关系数在0.9以上，与月频BP估值因子、市值因子相当，稳定性较好适宜用于风险控制；从第二十个开始截面相关系数逐渐低于0.5，风控效果较差",
+      "evidence": "前四个隐藏风险因子在 2010.01-2020.10 期间的平均截面相关系数在 0.9 以上，和常用的月频 BP 估值因子、市值因子的截面相关系数相当，稳定性较好，适宜用于风险控制"
+    },
+    {
+      "text": "Catboosting模型的IC和多空组合收益比大类等权方法显著更高且稳定性更强，但滞后一期相关系数不到0.7，模型偏好量价类因子，换手较高回撤较大",
+      "evidence": "可以看到 Catboosting 模型的 IC 和多空组合收益比大类等权方法显著更高，而且稳定性更强，但缺点它滞后一期的相关系数只有 0.7 不到，模型偏好量价类因子，换手会比较高，而且回撤也相应比较大。"
+    },
+    {
+      "text": "中证500机器学习增强中，控制30个隐藏风险因子后组合风险与行业中性+市值中性基本相当，但收益仍高出1%",
+      "evidence": "控制 30个隐藏因子后，组合风险和“行业中性+市值中性”组合基本相当，但收益仍要高出 1%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bai, J., (2003), “Inferential theory for factor models of large dimensions”, Econometrica, 71:1645 – 1680.",
+    "Barigozzi, M., (2020), “Consistent estimation of high-dimensional factor models when the factor model number is over-estimated”, arXiv:1811.00306."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

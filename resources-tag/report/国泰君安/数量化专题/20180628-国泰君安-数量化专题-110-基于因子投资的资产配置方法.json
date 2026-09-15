@@ -1,0 +1,135 @@
+{
+  "schema_version": 2,
+  "id": "20180628-国泰君安-数量化专题-110-基于因子投资的资产配置方法",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "价值（Value）",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{预期PE、PB、每股经营性现金流ttm/股价的Z-score等权加和后经Final Score变换}",
+          "stats": [null, null, null, null],
+          "evidence": "| 价值（Value） 质量（Quality） | 预期 PE、PB、每股经营性现金流 ttm/股价 ROE、ROA、负债权益比 | 银行和非银金融仅采用预期PE和PB两个指标 |"
+        },
+        {
+          "name": "质量（Quality）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{ROE、ROA、负债权益比的Z-score等权加和后经Final Score变换}",
+          "stats": [null, null, null, null],
+          "evidence": "| 价值（Value） 质量（Quality） | 预期 PE、PB、每股经营性现金流 ttm/股价 ROE、ROA、负债权益比 | 银行和非银金融仅采用预期PE和PB两个指标 |"
+        },
+        {
+          "name": "市值（Size）",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{流通市值对数的Z-score经Final Score变换}",
+          "stats": [null, null, null, null],
+          "evidence": "由于我们在构建市值组合时采用了流通市值对数这一指标，市值组合不出意料地在历史上占据了复制中证500指数组合的大部分比例。"
+        },
+        {
+          "name": "成长（Growth）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{净利润同比增长率、营业收入同比增长率的Z-score等权加和后经Final Score变换}",
+          "stats": [null, null, null, null],
+          "evidence": "| 成长（Growth） | 净利润同比增长率、营业收入同比增长率 |  |"
+        },
+        {
+          "name": "动量（Momentum）",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{滞后一个月的6个月和12个月风险调整后动量（以过去一年周度收益率的标准差进行风险调整）的Z-score加和}",
+          "stats": [null, null, null, null],
+          "evidence": "| 动量（Momentum） | 滞后一个月的6个月和12个月风险调整后动量 | 以过去一年周度收益率的标准差进行风险调整 |"
+        },
+        {
+          "name": "低波动（Low Volatility）",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{过去3个月和过去一年日度收益率的标准差的Z-score加和后经Final Score变换}",
+          "stats": [null, null, null, null],
+          "evidence": "| 低波动（Low Volatility） | 过去3个月和过去一年日度收益率的标准差 |  |"
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "quarterly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "risk_based"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "quarterly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "quarterly"}}
+  },
+  "findings": [
+    {
+      "text": "资产配置的本质在于配置风险因子而非资产本身；报告介绍了对组合风险的尽职调查、对风格因子的调整和自下而上基于风格因子的优化三种应用路径。",
+      "evidence": "Koedijk et al.(2014)总结了三种将因子投资应用于资产配置的路径，分别是对组合风险的尽职调查（Risk Due Diligence）、对风格因子的调整（Factor Tilts）和自下而上基于风格因子的优化（FactorOptimization）。"
+    },
+    {
+      "text": "利用风格因子组合复制沪深300指数效果出色：年化跟踪误差3.74%，年化超额收益6.11%，IR 1.63，月胜率70.40%。",
+      "evidence": "其中，复制沪深300组合的效果较好，年化跟踪误差为 3.74%，年化超额收益达到 6.11%，IR 1.63，年化换手率 309%，月胜率70.40%。"
+    },
+    {
+      "text": "对中证500指数的复制效果稍差：年化跟踪误差6.32%，年化超额收益率2.89%，IR 0.46，月胜率55.10%。",
+      "evidence": "对中证500指数的复制效果稍差，年化跟踪误差为 6.32%，年化超额收益率 2.89%，IR 0.46，年化换手率 140%，月胜率 55.10%。"
+    },
+    {
+      "text": "自行构建的6个风格因子组合均表现出显著的超额收益，年化换手率低、Beta接近1，可作为可投资的被动配置标的。",
+      "evidence": "可以看到，所有风格因子组合都表现出了显著的超额收益，年化双边换手率均在1 倍到 1.5倍左右，历史Beta 在0.9~1.1 附近。"
+    },
+    {
+      "text": "该方法使管理人可将现有对市场指数的配置方案映射到风格因子组合上，在不改变大类资产配置比例的同时提升风险收益表现，且不受子基金管理人风格切换影响。",
+      "evidence": "应用这一方法，资产管理人可以非常容易地将现有对市场指数的配置方案应用到相应的风格因子组合上，在不改变原有大类资产配置比例的同时获得配置风格带来的风险收益表现的提升，也无需再担心由于子基金管理人投资风格切换对整体组合的影响。"
+    },
+    {
+      "text": "在SAA层面可采用风险平价方法构建宏观因子等风险贡献组合，再按收益风险比、尾部风险和流动性调整各宏观因子的风险预算，进而确定资产配置比例。",
+      "evidence": "对所考虑的宏观因子（如BlackRock的 6类宏观因子——经济增长、真实利率、通货膨胀、信用、新兴市场和商品），采用风险平价（Risk Parity）方法进行配置，使得各因子对整体组合的风险贡献相等。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ang, Andrew. Asset management: A systematic approach to factor investing. Oxford University Press, 2014.",
+    "Bender, J., Briand, R., Nielsen, F., & Stefek, D. Portfolio of Risk Premia: A New Approach to Diversification. The Journal of Portfolio Management, 2010, 36(2), 17–25.",
+    "Greenberg, D., Babu, A., & Ang, A. Factors to Assets: Mapping Factor Exposures to Asset Allocations. Journal of Portfolio Management, 2016.",
+    "Koedijk, C. G., A. M. H. Slager, and P. A. Stork. Factor Investing in Practice: A Trustees' Guide to Implementation. 2014.",
+    "Madhavan, Ananth, Aleksander Sobczyk, and Andrew Ang. What's in Your Benchmark? A Factor Analysis of Major Market Indexes. Working paper, 2017.",
+    "《基于组合权重优化的风格中性多因子选股策略》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "20200528-东方证券-因子选股-067-东方a股因子风险模型_dfq_2020",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": ["growth", "momentum", "other"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "risk_based"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "DFQ-2020 因子风险模型对沪深 300 成分股解释度最高，Adjusted Rsquare 平均 35.4%，中证 500 为 18.6%，全市场为 21.4%",
+      "evidence": "DFQ-2020 因子风险模型对沪深 300 成分股的解释度最高，横截面回归Adjusted Rsquare 平均能达到 35.4%，其次为中证 500 成分股的 18.6%，全市场为 21.4%。"
+    },
+    {
+      "text": "市场突变时 DFQ-2020 模型预测的个股下月波动率和平均相关系数与真实值十分接近，DFQ-2018 大幅低估，风险预测更准确",
+      "evidence": "可以看到，DFQ-2020模型预测的个股下个月波动率和平均相关系数与真实值十分接近，DFQ-2018模型则大幅低估，可见 DFQ-2020模型在市场突变时对个股的风险预测更为准确。"
+    },
+    {
+      "text": "GMVP 组合显示两模型对个股方差预测性差别不大，但 DFQ-2020 风险模型得出的 GWVP 组合换手率明显降低",
+      "evidence": "因而，两个模型对于个股方差的预测性整体来看差别不大，但 DFQ-2020风险模型得出的 GWVP组合换手率明显降低。"
+    },
+    {
+      "text": "DFQ-2020 用于沪深 300 全市场增强组合可同时实现最大回撤和跟踪误差的降低，以及组合收益的提升，综合信息比更高",
+      "evidence": "DFQ-2020因子风险模型用于沪深 300 全市场增强组合时优势较为明显，可以同时实现最大回撤和跟踪误差的降低，以及组合收益的提升，综合信息比更高。"
+    },
+    {
+      "text": "对因子收益率和残差收益率建立带 ARMA 的 GARCH 模型，刻画自相关和异方差特性，改进协方差矩阵与残差方差估计",
+      "evidence": "我们对风险因子收益率和残差收益率均建立带 ARMA 的 GARCH 模型，刻画其自相关和异方差特性，对协方差矩阵估计进行了时间序列上的改进。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["东方 A 股因子风险模型（DFQ-2018）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

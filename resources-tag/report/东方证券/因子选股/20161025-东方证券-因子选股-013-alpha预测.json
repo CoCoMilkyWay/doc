@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "20161025-东方证券-因子选股-013-alpha预测",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting", "linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "Spearman秩相关系数做显著性检验不依赖正态分布假设、更稳健，因子选股计算IC多采用后者",
+      "evidence": "在两个变量满足正态分布时，Pearson 和 Spearman 相关系数的数值很接近，但 Spearman 秩相关系数在做显著性检验时不依赖于变量的正态分布特性，更稳健，因此因子选股计算 IC时多采用后者。"
+    },
+    {
+      "text": "因子筛选产生相互正交的残差因子，对其做IC_IR加权可规避因子间共线性，即本报告的增量正交化方法",
+      "evidence": "因子筛选过程产生了一系列相互正交的“残差因子“，用这些因子做 IC_IR加权可以规避因子间的共线性问题，也就是本报告的”增量正交化“方法。"
+    },
+    {
+      "text": "Qian(2007)的alpha优化方法过于强调稳健性、牺牲较多alpha收益，在无法做空、杠杆交易难度大的国内市场适用性有限",
+      "evidence": "Qian(2007)的 alpha 优化方法过于强调稳健性，会牺牲比较多的 alpha 收益，在无法做空、杠杆交易难度大的国内市场，这种方法的适用性有限。"
+    },
+    {
+      "text": "A股市值效应强劲，Risk Adjusted IC方法整体偏好大盘股数据，全市场选股做指数增强时实际效果反不如Purifed Alpha",
+      "evidence": "由于当前 A股市场的市值效应依然十分强劲，而 Risk Adjusted IC方法整体偏好大盘股的数据，因此在全市场选股做指数增强时，Risk Adjusted IC方法理论上虽然更合理，但实际效果反不如 Purifed Alpha。"
+    },
+    {
+      "text": "中证500增强：IC_IR加权年化超额28.3%、信息比3.71，Alpha优化23.7%、3.26，增量正交化26.8%、3.52",
+      "evidence": "| IC_IR 加权 | 28.3% | 3.71 | 88.2% | -4.3% | 175.2 | 71.3% |\n| Alpha 优化 | 23.7% | 3.26 | 90.3% | -7.3% | 179.0 | 63.4% |\n| 增量正交化 | 26.8% | 3.52 | 92.5% | -4.7% | 175.5 | 68.4% |"
+    },
+    {
+      "text": "Alpha优化多空组合Sharpe最高最稳健，但做指数增强时信息比最低、回撤最大，多空组合表现与指数增强表现并不完全一致",
+      "evidence": "在本报告第三部分 alpha 因子多空组合结果分析中，Alpha 优化是 Sharpe 值最高、最稳健的方法，但是在做指数增强时，它的信息比却是最低的，回撤也最大，稳定性最差，由此可见多空组合的表现或指数增强的表现并不完全一致。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Gleiser & McKenna (2010) Converting Scores into Alphas",
+    "Grinold & Kahn (1999) Active Portfolio Management",
+    "Qian, Hua, Sorensen (2007) Quantitative Equity Portfolio Management",
+    "Stubbs (2013) Consistent Portfolio Management: Alpha Construction",
+    "Zhou & Jain (2014) Active Equity Management",
+    "东方证券《Alpha 因子库精简与优化》2016-08-12",
+    "东方证券《动态情景多因子 Alpha 模型》2016-05-25"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

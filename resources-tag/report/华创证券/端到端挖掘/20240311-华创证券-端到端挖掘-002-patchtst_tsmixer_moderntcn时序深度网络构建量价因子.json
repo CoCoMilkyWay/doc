@@ -1,0 +1,94 @@
+{
+  "schema_version": 2,
+  "id": "20240311-华创证券-端到端挖掘-002-patchtst_tsmixer_moderntcn时序深度网络构建量价因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "PatchTST",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Patch+通道独立的Transformer encoder，多头自注意力提取时序依赖，50个预测头输出均值聚合作为股票得分}",
+          "stats": [null, 0.106, 0.83, null],
+          "evidence": "预测标签为标准化未来 10日收益（t+1日~t+11 日以收盘价计算），每个模型最终预测头输出维度均设置为50，将50 个因子用均值聚合，作为每只股票的最终得分，计算其与上述未来 10日收益的IC 作为损失函数。"
+        },
+        {
+          "name": "Transformer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{通道混合的Transformer encoder，位置编码时序嵌入，可学习特殊token获取序列表征，50个预测头输出均值聚合作为股票得分}",
+          "stats": [null, 0.108, 0.82, null],
+          "evidence": "我们测试 PatchTST、Transformer、TSMixer、ModernTCN 模型。我们在 PatchTST 骨干网络中也加入一个基于自注意力机制的通道交互模块；对 PatchTST 和 Transformer 模型，在时序编码时添加可学习的特殊 token（类似自然语言中的[CLS]），用于获取序列表征。"
+        },
+        {
+          "name": "TSMixer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Patch+通道独立的MLP骨干网络，时序/特征/通道交互模块由MLP与门控注意力构成，50个预测头输出均值聚合作为股票得分}",
+          "stats": [null, 0.11, 0.91, null],
+          "evidence": "TSMixer 同样先对数据进行 patch embedding，骨干网络由时序信息提取模块、特征信息提取模块、通道信息提取三个模块组成，三个模块则均由MLP、门控注意力、残差连接构成，通过调整输入MLP 层的数据形状实现不同类型的信息抽取。"
+        },
+        {
+          "name": "ModernTCN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{1D卷积实现Patch嵌入，DWConv与ConvFFN骨干网络提取时序与通道交互，50个预测头输出均值聚合作为股票得分}",
+          "stats": [null, 0.107, 0.88, null],
+          "evidence": "ModernTCN在骨干网络中同样包含时序、特征、通道的信息提取模块，流程同 TSMixer类似，区别在于各个模块采用了卷积网络实现。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "中证全指股票池下四个模型的量价周频因子10日RankIC均达10%以上，TSMixer和ModernTCN略优，区间IC均值分别为10.6%、10.8%、11.0%、10.7%，ICIR为0.83、0.82、0.91、0.88",
+      "evidence": "在中证全指股票池下，四个模型生成的量价周频因子 10 日 RankIC 均达到了 10%以上，TSMixer 和ModernTCN的整体表现略优于 PatchTST和 Transformer: 4 个周度因子的区间IC 均值分别为 10.6%、10.8%、11.0%、10.7%，ICIR 为 0.83、0.82、0.91、0.88。"
+    },
+    {
+      "text": "四个模型20分组TOP组年化超额收益分别为21%、14.28%、22.39%、18.18%，差异较大；设计差异最大的两个模型TOP组选股重叠度约为61%",
+      "evidence": "不同模型 20 分组的 TOP 组超额收益差异较大，四个模型 TOP 组的年化超额收益分别为 21%、14.28%、22.39%、18.18%；模型设计差异最大的两个模型的 TOP 组选股重叠度约为 61%；"
+    },
+    {
+      "text": "2024年初至2月8日四个模型TOP组超额收益最大回撤分别为4%、5%、7%、21%，ModernTCN回撤幅度明显大于其他模型",
+      "evidence": "在 2024 年初至 2 月 8 日区间，四个模型的 TOP 组超额收益最大回撤表现不一，分别为 4%、5%、7%、21%，ModernTCN 模型回撤幅度明显大于其他模型。"
+    },
+    {
+      "text": "对TSMixer和ModernTCN剔除Patch与通道独立后RankIC仅轻微下降，但TOP组年化收益分别降低8.07%、5.25%，骨干网络的设计对模型综合表现有重要影响",
+      "evidence": "对 TSMixer 和 ModernTCN 模型进行模块剔除实验，无 Patch+通道混合模型因子的 RankIC 出现轻微下降，但 TOP 组超额收益表现出明显差异，TOP 组年化收益分别降低了 8.07%、5.25%。骨干网络的设计对模型综合表现有重要影响。"
+    },
+    {
+      "text": "四个模型因子相关性非常高，全区间两两相关性最低达78%（ModernTCN与Transformer），其次为ModernTCN与PatchTST的81%；架构差异越大的模型因子差异相对更大",
+      "evidence": "在全区间统计范围内，两两相关性最低也达到了 78%，为 ModernTCN 模型与 Transformer模型，其次为 ModernTCN 模型与 PatchTST 模型，达到 81%；但在 2018 年、2024年 1 月，ModernTCN 和 Transformer 系模型的相关性降低至 50% - 60%之间；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ekambaram, Vijay, et al. \"TSMixer: Lightweight MLP-Mixer Model for Multivariate Time Series Forecasting.\"",
+    "Luo, Wang, et al. \" ModernTCN: A Modern Pure Convolution Structure for General Time Series Analysis.\"",
+    "Nie, Yuqi, et al. \"A time series is worth 64 words: Long-term forecasting with transformers.\"",
+    "Vaswani, Ashish, et al. \"Attention is all you need.\""
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

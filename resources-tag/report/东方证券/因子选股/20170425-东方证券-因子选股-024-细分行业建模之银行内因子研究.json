@@ -1,0 +1,238 @@
+{
+  "schema_version": 2,
+  "id": "20170425-东方证券-因子选股-024-细分行业建模之银行内因子研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EP2TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{剔除非经常性损益后的盈市率（市盈率的倒数）}",
+          "stats": [null, null, null, 0.126],
+          "evidence": "扣除非经常性损益的盈市率(EP2TTM)，盈市率是市盈率的倒数，与市盈率一样都是衡量公司估值高低的指标，但是盈市率对于净利润为负的公司的排序较市盈率更好。"
+        },
+        {
+          "name": "BPTTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{账面价值比：账面价值/总市值}",
+          "stats": [null, null, null, 0.142],
+          "evidence": "账面价值比(BPTTM)，账面价值比也是传统的衡量公司估值高低的指标。"
+        },
+        {
+          "name": "NPL",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{不良贷款}}{\\text{总贷款余额}}",
+          "stats": [null, null, null, 0.0665],
+          "evidence": "不良贷款率（NPL），不良贷款率指金融机构不良贷款占总贷款余额的比重。"
+        },
+        {
+          "name": "NPC",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{贷款损失准备}}{\\text{不良贷款}}",
+          "stats": [null, null, null, 0.0586],
+          "evidence": "不良贷款拨备覆盖率（NPC），拨备覆盖率是实际上银行贷款可能发生的呆、坏账准备金的使用比率。"
+        },
+        {
+          "name": "CCAR",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{核心一级资本}}{\\text{加权风险资产总额}}",
+          "stats": [null, null, null, 0.0976],
+          "evidence": "核心一级资本充足率（CCAR），核心一级资本充足率是指核心一级资本与加权风险资产总额的比率，根据《商业银行资本管理办法》的规定"
+        },
+        {
+          "name": "Equity Ratio",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{负债总额}}{\\text{股东权益}}",
+          "stats": [null, null, null, 0.0816],
+          "evidence": "产权比率（Equity Ratio），产权比率反映由债权人提供的负债资金与所有者提供的权益资金的相对关系，这一比率是衡量企业长期偿债能力的指标之一"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}}{\\text{总资产}}",
+          "stats": [null, null, null, 0.0258],
+          "evidence": "资产收益率（ROA），资产收益率是业界应用最为广泛的衡量银行盈利能力的指标之一"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}}{\\text{平均股东权益}}",
+          "stats": [null, null, null, 0.0576],
+          "evidence": "净资产收益率（ROE），净资产收益率是净利润与平均股东权益的百分比，是公司税后利润除以净资产得到的百分比率"
+        },
+        {
+          "name": "ADMINEXPENSETOGR",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{管理费用}}{\\text{总营业收入}}",
+          "stats": [null, null, null, 0.0001],
+          "evidence": "管理费用/总营业收入（ADMINEXPENSETOGR），近年来，由于银行总体利润增速持续下降，银行在费用控制上也做出诸多努力。"
+        },
+        {
+          "name": "LDR",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{贷款余额}}{\\text{存款余额}}",
+          "stats": [null, null, null, 0.0281],
+          "evidence": "存贷比（LDR），“存贷比”应该称为“贷存比”，是银行贷款余额与存款余额的比率，是商业银行用来衡量银行流动性风险的指标之一。"
+        },
+        {
+          "name": "NonIM",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{非利息收入}}{\\text{营业收入}}",
+          "stats": [null, null, null, 0.0474],
+          "evidence": "非利息收入占比（NonIM），非利息收入是指商业银行除利差收入之外的营业收入，主要是中间业务收入和咨询、投资等活动产生的收入。"
+        },
+        {
+          "name": "CIR",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业费用}}{\\text{营业收入}}",
+          "stats": [null, null, null, 0.0358],
+          "evidence": "成本收入比（CIR），成本收入比率是银行营业费用与营业收入的比率,反映出银行每一单位的收入需要支出多少成本"
+        },
+        {
+          "name": "NIM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利息收入}}{\\text{生息资产}}",
+          "stats": [null, null, null, 0.0141],
+          "evidence": "净息差（NIM），净息差指的是银行净利息收入和银行全部生息资产的比值，用以衡量商业银行生息资产获取净利息收入的能力。"
+        },
+        {
+          "name": "YOYSALES",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入同比增长率}",
+          "stats": [null, null, null, 0.1117],
+          "evidence": "营业收入同比增长率（YOYSALES），营业收入同比增长率可以直观地反映企业本期取得的营业收入与上年同期数据对比取得的增长或下降幅度的大小"
+        },
+        {
+          "name": "YOYNETPROFIT",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润同比增长率}",
+          "stats": [null, null, null, 0.0944],
+          "evidence": "净利润同比增长率（YOYNETPROFIT），与营业收入同比增长率类似，净利润同比增长率也是企业经营情况好坏与否的一个直观反映。"
+        },
+        {
+          "name": "IASSET2NIASSET",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{总盈利资产}}{\\text{总非盈利资产}}",
+          "stats": [null, null, null, -0.0185],
+          "evidence": "总盈利资产/总非盈利资产（IASSET2NIASSET），盈利资产是指能够直接为银行带来盈利的资产，包括贷款、短期投资、长期投资、拆放同业等资产。"
+        },
+        {
+          "name": "LOAN2ASSET",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{贷款总额}-\\text{贷款损失准备}}{\\text{总资产}}",
+          "stats": [null, null, null, -0.0642],
+          "evidence": "贷款净值/总资产（LOAN2ASSET），贷款是一个银行最重要的资产，因此贷款净值在总资产中的比例高低直接决定了银行未来运营的健康程度。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "长期来看，EP2TTM、BPTTM、NPL、NPC、CCAR、YOYSALES、YOYNETPROFIT、EQUITY RATIO 这几个因子表现较好。",
+      "evidence": "长期来看，EP2TTM、BPTTM、NPL、NPC、CCAR、YOYSALES、YOYNETPROFIT、EQUITY RATIO 这几个因子表现较好。"
+    },
+    {
+      "text": "加入了风险监管类因子的银行内增强组合更好，2011.1.31-2017.1.26 年化对冲收益 7.52%，IR 为 1.33。",
+      "evidence": "综合来看，由于最近经济下行压力较大且银行监管压力增大，所以加入了风险监管类因子的组合相对而言更好，该组合从2011.1.31-2017.1.26 的年化对冲收益为 7.52%，IR 为 1.33。"
+    },
+    {
+      "text": "相同跟踪误差下，单独建模的银行组合年化收益高于常规建模组合 6%左右，对银行的分块建模大约能提升沪深 300 增强组合收益 0.5%-1%。",
+      "evidence": "在相同的跟踪误差条件下，单独建模的银行组合年化收益高于常规建模组合 6%左右，鉴于银行在沪深 300 指数内的高权重，对银行的分块建模大约能提升沪深 300增强组合收益 0.5%-1%。"
+    },
+    {
+      "text": "常规整体建模下沪深 300 增强组合的银行部分表现很差，年化收益仅 0.4%，最大回撤 10.43%，换手率 37%。",
+      "evidence": "常规的整体建模方法虽然整体表现表现不错，但是银行内部的表现其实很差，年化收益仅为 0.4%，且最大回撤有 10.43%，换手率高达 37%。"
+    },
+    {
+      "text": "技术类因子在银行内选股效力很差，应避免使用效果较差且高换手的技术类因子。",
+      "evidence": "技术类因子普遍效果较差且换手率显著高于基本面因子，此外技术类因子除 ILLIQ 以外，空头端的收益基本都显著好于多头端，综合考虑以后我们可以认为技术类因子在银行内选股的效力很差。"
+    },
+    {
+      "text": "银行股截面标准差（dispersion）较低的区间，alpha 模型预期收益率与截面标准差成正比，增强组合收益较低。",
+      "evidence": "这是因为之前年份银行股月收益率的截面标准差（dispersion）较低(图 12)，alpha 模型的预期收益率大小直接和截面标准差成正比，因此在截面标准差较低的区间增强组合收益较低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

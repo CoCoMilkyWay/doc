@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "20190417-光大证券-多因子-020-红利因子_低波因子的新构造",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_l1_l2", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "预测股息率因子",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{预测DP}=\\frac{\\text{预期分红}}{\\text{股票市值}}=\\frac{\\text{分析师一致预期净利润}\\times\\text{近三年平均股息支付率}}{\\text{股票市值}}",
+          "stats": [0.0329, null, 0.56, null],
+          "evidence": "通过将股息率分拆为净利润和股息支付率两部分的方法，并分别对净利润和股息支付率进行估计。同时，考虑分红预告时间点至除权除息日之间的股息预期，将股息率的计算进行较为细节的拆分计算。"
+        },
+        {
+          "name": "Value_D_STD_60",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以等价日度时间K线的成交额等分K线为基础，计算过去60个K线的收益率标准差}",
+          "stats": [-0.0496, null, -0.74, 0.2823],
+          "evidence": "Value_D的K 线构造方式具体是，以等价日度时间K 线的成交额等分K线为基础，计算过去 60个 K线的收益率标准差。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "预测股息率因子的IC胜率和分组单调性都相对原始股息率因子有一定程度的提升，其IC由3.00%提高到了3.29%，因子IC的波动有所下降，IC_IR由0.49提高到了0.56。",
+      "evidence": "预测股息率因子的IC胜率和分组单调性都相对原始股息率因子有一定程度的提升。其 IC 由 3.00%提高到了 3.29%，因子 IC 的波动有所下降，IC_IR由0.49提高到了0.56，有一定的改善效果。"
+    },
+    {
+      "text": "预测股息率因子（预测DP）与常用股息率因子（DP_TTM）的相关性为0.83，同时与ROE因子具有正向的0.63的相关性。",
+      "evidence": "预测 DP 因子与常用股息率因子（DP_TTM）的相关性为 0.83，同时与 ROE 因子也具有正向的 0.63 的相关性。"
+    },
+    {
+      "text": "从IC_IR上看，成交额等分K线在各个样本内均优于时间等分K线，时间等分K线波动率因子的IC序列波动率显著高于成交额等分K线，成交额等分K线下的波动率因子稳定性显著优于时间等分的K线。",
+      "evidence": "从IC_IR上看，成交额等分 K线在各个样本内均优于时间等分 K线。IC的均值上，时间等分 K 线高于成交额等分 K 线，但时间等分 K 线波动率因子的 IC 序列波动率显著高于成交额等分 K 线。可见成交额等分 K 线下的波动率因子稳定性显著的优于时间等分的K 线。"
+    },
+    {
+      "text": "沪深300成分股内的改善效果更加明显，成交额等分K线在沪深300内IC均值为-3.43%，IC_IR为-0.43，显著高于时间K线因子的-0.27。",
+      "evidence": "并且沪深 300成分股内的改善效果更加明显：原始时间 K线因子在沪深300内表现较为一般，且波动较大，而成交额等分K 线在沪深 300 内的优势更为明显，IC 均值为-3.43%，IC_IR 为-0.43，显著高于时间 K 线因子的-0.27。"
+    },
+    {
+      "text": "Value_D_STD_60因子的多空表现显著优于Time_D_STD_60，累计多空年化收益为28.23%，显著高于Time_D_STD_60的多空年化收益12.3%。",
+      "evidence": "Value_D_STD_60 因子的多空表现显著优于 Time_D_STD_60。Value_D_STD_60 因子的累计多空年化收益为 28.23%，显著高于 Time_D_STD_60 的多空年化收益 12.3%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《数据纵横：探秘 K线结构新维度——机器学习系列报告之二》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

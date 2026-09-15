@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20230821-国泰君安-学界纵横-051-防御型股票的特征",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "accounting_quality", "distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "高收益质量、低杠杆和低波动性都是防御型股票的特征；而高资产周转率、低投资和高盈利性只有在特定定义和适当杠杆水平下才是防御特征；增长不是防御特征。",
+      "evidence": "综上所述，高收益质量、低杠杆和低波动性都是防御型股票的特征；而高资产周转率、低投资和高盈利性只有在特定定义和适当杠杆水平下才是防御特征；增长不是防御特征。"
+    },
+    {
+      "text": "高资产周转率、高收益质量、低投资、低杠杆、低波动性和高盈利性的投资组合将具有更低的永久资本损失风险，而高增长的投资组合将具有更高的永久资本损失风险。",
+      "evidence": "永久资本损失风险：高资产周转率、高收益质量、低投资、低杠杆、低波动性和高盈利性的投资组合将具有更低的永久资本损失风险，而高增长的投资组合将具有更高的永久资本损失风险。"
+    },
+    {
+      "text": "低杠杆和低波动性是对商业周期风险最具防御性的特征；低杠杆、低波动性、高盈利性和高收益质量的投资组合具有低市场风险，高增长的投资组合则市场风险较高。",
+      "evidence": "商业周期风险：低杠杆和低波动性是对商业周期风险最具防御性的特征。市场风险：低杠杆、低波动性、高盈利性和高收益质量的投资组合具有低市场风险，高增长的投资组合则市场风险较高。"
+    },
+    {
+      "text": "回归结果显示波动性最显著，资产周转率、Accr1、Accr2以及投资、杠杆和盈利性指标都有非常显著的负系数，其中杠杆指标的系数最为显著，其次是盈利性系数。",
+      "evidence": "结果发现，波动性最显著，表明人们过于区分暂时价格波动风险和永久资本损失风险；资产周转率、Accr1、Accr2 以及投资、杠杆和盈利性指标都有非常显著的负系数，在这些特征中，杠杆指标的系数最为显著，其次是盈利性系数。"
+    },
+    {
+      "text": "高收益质量、低杠杆率和低波动性在理论上都是良好的防御特征，高资产周转率、低投资和高盈利能力只有在适当定义和控制杠杆水平的情况下才应在防御策略中实施，而增长完全不适合防御型投资策略。",
+      "evidence": "本文以三个防御属性为标准，探讨了其具体的防御特征。结果发现，高收益质量、低杠杆率和低波动性在理论上都是良好的防御特征，高资产周转率、低投资和高盈利能力只有在适当定义和控制杠杆水平的情况下，才应该在防御策略中实施，而增长完全不适合防御型投资策略。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["In Search of a Defensive Equity Factor"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

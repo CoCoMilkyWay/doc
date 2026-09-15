@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20211201-国泰君安-学界纵横-031-机器学习算法在a股市场中的应用",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "neural", "sample_window"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "11种机器学习方法在中国股市中的检验显示，神经网络模型对收益率的预测能力优于其他机器学习模型。",
+      "evidence": "本文研究了 11 种机器学习方法在中国股市中的预测能力，发现神经网络模型对收益率的预测能力优于其他机器学习模型。"
+    },
+    {
+      "text": "对中国股市而言，最重要的因子是基于流动性的交易信号，基本面因子次之，而基于价格动量的信号只起着很小的作用，这一结论与美国市场截然不同。",
+      "evidence": "另外，对于中国股市而言，最重要的因子是基于流动性的交易信号，基本面因子是第二类重要的因子，而基于价格动量的信号只起着很小的作用。这一结论是与美国市场截然不同的。"
+    },
+    {
+      "text": "中国市场的可预测性明显高于美国市场，市场R2oos最高达到2.71%，几乎是美国市场最高值的七倍。",
+      "evidence": "中国市场的可预测性明显高于美国市场，中国市场的 $R_{oos}^{2}$ 最高达到 2.71%，这几乎是美国市场 $R_{oos}^{2}$ 最高值的七倍。"
+    },
+    {
+      "text": "散户投资者的短期主义在短期具有很大的可预测性，特别是对于小盘股；由于政府发挥至关重要的作用，国有企业在长期的可预测性显著提高。",
+      "evidence": "作者还发现，散户投资者的短期主义在短期具有了很大的可预测性，特别是对于小盘股。同时，由于政府在中国市场发挥着至关重要的作用，作者观察到国有企业在长期的可预测性的显著提高。"
+    },
+    {
+      "text": "考虑long-only资产组合策略、交易成本以及10%的涨跌幅等限制后，上述结论仍是显著的。",
+      "evidence": "结合我国国情，将 long-only 资产组合策略、交易成本以及 10%的涨跌幅等限制考虑在内，以上结论仍是显著的。"
+    },
+    {
+      "text": "预测步长调整为一年后，模型对全样本的预测能力显著提升，SOE与大股东主导股票的预测表现显著提升，与短期预测相反，说明短期预测能力主要来自散户投机行为。",
+      "evidence": "结果发现，较短期相比，模型对全样本的预测能力显著提升。另外，国有企业（SOE）、由大股东主导的股票（AMCPS top 70%）的预测表现显著提升，这一结论恰好与短期预测相反。由此，作者推断，股票收益的短期预测能力主要来自散户投资者的投机行为。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Leippold, M., Q. Wang and W. Zhou. (2021). \"Machine learning in the Chinese stock market\". Journal of Financial Economics."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

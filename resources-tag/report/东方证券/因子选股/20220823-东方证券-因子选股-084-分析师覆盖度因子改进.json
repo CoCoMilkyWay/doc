@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "id": "20220823-东方证券-因子选股-084-分析师覆盖度因子改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["analyst_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth"],
+        "data": {"source": ["statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "cov",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{过去6个月分析师对标的公司出具的研报总数量}}",
+          "stats": [0.0441, null, 1.63, 0.1786],
+          "evidence": "常规的分析师覆盖度因子一般有两种计算方法：（1）使用过去一段时间分析师对标的公司出具的研报总数量；（2）使用过去一段时间针对标的公司出具过报告的机构数量。"
+        },
+        {
+          "name": "anncov",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{过去6个月财报公告（包括季报、快报、预告）发布后7天内的研报总数量}}",
+          "stats": [0.0456, null, 1.93, 0.1823],
+          "evidence": "公告后分析师覆盖度因子计算方法如下：考虑到数据覆盖度问题，我们认为公告后 7 天内的分析师报告都可以看作是分析师对此次公告信息的反映。每月底回溯过去 6 个月，统计财报公告（包括季报、快报、预告）发布后 7 天内的研报总数量。"
+        },
+        {
+          "name": "firstcov",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\text{过去6个月首次覆盖的机构数量}}",
+          "stats": [0.0344, null, 1.49, 0.1889],
+          "evidence": "分析师首次覆盖度因子计算方法如下：每月底回溯过去 6 个月，统计首次覆盖的机构数量。因子需要取根号进行正态化处理。缺失值用 0填充。"
+        },
+        {
+          "name": "cov_ortho_inshold",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Resid}(\\sqrt{\\text{过去6个月研报数量}} \\sim \\text{最新机构持仓比例})",
+          "stats": [0.0351, null, 2.03, 0.1574],
+          "evidence": "我们尝试了两种因子构造方法：1、每月底，将常规的分析师覆盖度因子对最新机构持仓比例进行正交化。2、每月底，将常规的分析师覆盖度因子的排名分位数减去最新机构持仓比例的排名分位数。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "加入业绩预告、快报后，anncov因子表现进一步提升；相同计算周期下，anncov因子表现均优于cov因子，且在大票、机构重仓股中优势更明显",
+      "evidence": "加入业绩预告、快报后，anncov因子表现进一步提升。相同计算周期下，anncov因子表现均优于 cov因子。anncov因子在大票、机构重仓股中优势更明显。"
+    },
+    {
+      "text": "anncov因子在创业板指和沪深300中效果最好，多空组合年化收益相比cov因子均能提升近2%；在中证500中提升1.2%，但在中证1000中略逊于cov因子",
+      "evidence": "在创业板指和沪深 300 中 anncov 因子的效果最好，多空组合年化收益相比 cov 因子均能提升近 2%。在中证500中anncov因子的多空组合年化收益提升1.2%。但在中证1000股票池中anncov因子表现略逊于 cov 因子。"
+    },
+    {
+      "text": "firstcov因子在小票、低机构持仓组中优势更明显：中证全指中多空组合年化收益相比cov因子提升1%，多头组合提升2%，最近两年单年收益提升10%",
+      "evidence": "在中证全指中因子多空组合年化收益相比 cov因子能提升 1%，多头组合提升 2%。2021年以来因子表现优势明显，最近两年相比 cov因子单年收益提升 10%。"
+    },
+    {
+      "text": "cov_ortho_inshold因子多空组合稳定性好、夏普比高、回撤小：除创业板指外，常见宽基指数中相比cov因子回撤接近减半，多空组合夏普比均有较大提升",
+      "evidence": "除创业板指之外，在其他常见宽基指数中，cov_ortho_inshold 因子相比 cov 因子回撤都有明显降低，接近减半，多空组合夏普比均有较大提升。"
+    },
+    {
+      "text": "常规cov因子自2021年起收益出现较大回撤，多空组合2021年和2022年单年收益为6%和-2%，多头端最近两年收益均在-6%左右",
+      "evidence": "21年开始因子收益出现较大回撤，多空组合 2021年和 2022年单年收益为 6%和-2%。多头端表现更差，最近两年收益均在-6%左右。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《更稳健易算的分析师盈利上调因子》——因子选股系列研究之七十三"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

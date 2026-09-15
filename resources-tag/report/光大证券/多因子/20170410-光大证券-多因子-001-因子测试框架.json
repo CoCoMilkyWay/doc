@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "id": "20170410-光大证券-多因子-001-因子测试框架",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "technical_pattern"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP_LR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP_{LR}=\\frac{净资产_{最新财报}}{总市值}",
+          "stats": [0.052, null, 0.46, null],
+          "evidence": "由上表可知，BP_LYR 因子收益序列显著的大于 0，因子收益情况较好，同时IC值高达5.20%，IR值达到0.46。"
+        },
+        {
+          "name": "TURNOVER_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近一个月换手率}",
+          "stats": [-0.0767, null, -0.67, null],
+          "evidence": "与之相反，换手率因子TURNOVER_1M是一个负面因子，IC 值为-7.67%，并且显著性比BP因子更高，也就代表着换手率越高的股票，下期的收益率越低。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "相比全体样本面板回归，分期截面回归更有利于提高模型对因子变化趋势的捕捉。",
+      "evidence": "相比全样本面板回归（PanelData Regression）的方法，截面回归更有利于对因子变化趋势的捕捉。"
+    },
+    {
+      "text": "RLM稳健回归通过迭代加权最小二乘根据残差大小赋权，可以更好的处理异常值的影响，提高回归分析的有效性，因此单因子测试采用这种更为稳健的回归方法。",
+      "evidence": "由这个简单的例子可见 RLM 方法可以更好的处理异常值的影响，从而提高回归分析的有效性。因此我们在单因子测试时将采取这种更为稳健的回归方法。"
+    },
+    {
+      "text": "因子测试体系以分期截面RLM回归计算因子收益、Spearman秩相关IC值并结合分层回测检验单调性，构建较为综合全面的因子测试体系。",
+      "evidence": "首先通过分期截面RLM回归计算因子收益，再计算因子暴露与下期收益率的相关度IC 值，同时结合分层回测法检验因子单调性，构建较为综合全面的因子测试体系。"
+    },
+    {
+      "text": "BP_LR因子收益序列显著大于0，IC值高达5.20%，IR值达到0.46，因子收益情况较好。",
+      "evidence": "由上表可知，BP_LYR 因子收益序列显著的大于 0，因子收益情况较好，同时IC值高达5.20%，IR值达到0.46。"
+    },
+    {
+      "text": "换手率因子TURNOVER_1M是负面因子，IC值为-7.67%，换手率越高的股票下期收益率越低，但分组1、3、4之间单调性不足。",
+      "evidence": "与之相反，换手率因子TURNOVER_1M是一个负面因子，IC 值为-7.67%，并且显著性比BP因子更高，也就代表着换手率越高的股票，下期的收益率越低。"
+    },
+    {
+      "text": "因子库覆盖估值、规模、成长、质量、杠杆、动量、波动、技术、流动性、分析师和其他因子共11大类108个细分因子。",
+      "evidence": "估值因子（Value），规模因子（Size），成长因子（Growth），质量因子（Quality），杠杆因子（Leverage），动量因子（Momentum），波动因子（Volatility），技术因子（Technical），流动性因子（Liquidation），分析师因子（Analyst）和其他因子共 11大类108个细分因子。"
+    },
+    {
+      "text": "常见3σ去极值法基于正态分布假设，而因子值普遍厚尾，因此采用更稳健的MAD绝对中位数法处理异常值。",
+      "evidence": "由于常见的3σ去极值法是基于样本服从正态分布这个假设的，但往往我们发现大部分因子值的分布都并不服从正态分布，厚尾分布的情况较为普遍。因此我们采用更加稳健的 MAD（Median Absolute Deviation 绝对中位数法）"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barra 风险模型",
+    "Fama/French 三因素模型",
+    "套利定价理论（APT）",
+    "资本资产定价模型（CAPM）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

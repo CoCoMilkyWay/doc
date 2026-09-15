@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "20240419-华创证券-端到端挖掘-004-crossgru_基于交叉注意力的时序_截面端到端模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "CrossGRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU提取30日量价时序表征S，可学习市场隐状态R经两次交叉注意力得到截面表征B并完成个股截面交互得S'，门控残差} S_{mix}=S+\\alpha S' \\text{，经FFN后64个输出均值作为股票得分}",
+          "stats": [null, 0.109, 0.92, null],
+          "evidence": "我们以 GRU 模型作为对比基准，在中证全指股票池回测区间内，CrossGRU 因子的 5 日 RankIC 为 10.9%，10 日 RankIC 为 11.7%，均略优于 GRU 模型"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中证全指回测区间内，CrossGRU因子5日RankIC为10.9%、10日RankIC为11.7%，均略优于GRU模型，20分组TOP组超额收益相较GRU实现了7%的年化收益提升。",
+      "evidence": "在中证全指股票池回测区间内，CrossGRU 因子的 5 日 RankIC 为 10.9%，10 日 RankIC 为 11.7%，均略优于 GRU 模型；在 20 分组的 TOP 组超额收益表现上，CrossGRU 相较于 GRU 模型实现了 7%的年化收益提升"
+    },
+    {
+      "text": "2024年初至4月区间，CrossGRU的TOP组超额收益最大回撤为8%，优于GRU模型的21%，在GRU因子表现较弱的2018、2024年CrossGRU取得显著更优表现。",
+      "evidence": "在 2024年初至 4 月区间，模型的 TOP 组超额收益最大回撤为 8%，优于 GRU 模型的 21%，在 GRU 因子表现较弱的 2018、2024 年，CrossGRU 取得了显著更优的表现。"
+    },
+    {
+      "text": "消融测试中，不同市场隐状态数量设置下CrossGRU的IC表现仍优于GRU，TOP组多头收益提高幅度为3%~7%，回撤也得到不同程度改善。",
+      "evidence": "不同参数设置下，CrossGRU 模型的 IC表现优于 GRU 模型，TOP 组多头收益提高幅度为 3%~7%，同时在回撤方面也得到不同程度改善。"
+    },
+    {
+      "text": "用加性注意力替代交叉注意力的CsAGRU性能介于GRU和CrossGRU之间，TOP组多头收益表现优于GRU，印证了截面交互模块的正面效果。",
+      "evidence": "CsAGRU 的性能介于 GRU 和 CrossGRU 之间，在 TOP 组多头收益表现也优于 GRU 模型，进一步印证了引入截面交互模块的正面效果。"
+    },
+    {
+      "text": "将CrossGRU(ensemble)因子市值行业中性化后构建中证1000指增组合（周频调仓、持有10天），超额年化12.28%，超额收益最大回撤6.8%。",
+      "evidence": "对因子进行市值行业中性化后在上述设置下，指增组合的超额年化为 12.28%，超额收益最大回撤 6.8%，区间换手率均值 17.7%，统计图表如下："
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Duan, Yitong, et al. \"Factorvae: A probabilistic dynamic factor model based on variational autoencoder for predicting cross-sectional stock returns.\"",
+    "Vaswani, Ashish, et al. \"Attention is all you need.\"",
+    "《PatchTST、TSMixer、ModernTCN 时序深度网络构建量价因子》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

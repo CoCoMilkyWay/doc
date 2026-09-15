@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20200630-招商证券-琢璞-017-高频数据中的知情交易_二",
+  "genre": "research",
+  "asset": ["future_index", "future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "event", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "VPIN 指令流毒性指标",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "VPIN=\\frac{\\alpha\\mu}{\\alpha\\mu+2\\varepsilon}\\approx\\frac{\\sum_{\\tau=1}^{n}\\left|V_{\\tau}^{S}-V_{\\tau}^{B}\\right|}{nV}",
+          "stats": [null, null, null, null],
+          "evidence": "从上面的计算可知，文章可以得出等交易量信息交易概率，即 VPIN 指令流毒性指标，"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["na"]}}
+  },
+  "findings": [
+    {
+      "text": "高水平的VPIN意味着后续价格大幅波动的风险，这种基于流动性的风险对做市商和交易员都很重要，VPIN可作为高频市场有效的风险管理工具。",
+      "evidence": "在高频交易的世界，指令流毒性影响着做市商活动的规模和范围，而高水平的VPIN 意味着后续价格大幅波动的风险，这种基于流动性的风险对于直接承担毒性影响的做市商很重要，而对于面临毒性导致价格大幅变动的交易员也同样重要。"
+    },
+    {
+      "text": "VPIN基于交易量时间（volume-time）而不是时钟时间为基准来更新，使其可在高频交易领域内进行应用，结果表明VPIN指标是一个更为有效的反应短期毒性诱导波动率的指标。",
+      "evidence": "VPIN基于交易量时间（volume-time）而不是时钟时间为基准来更新，使其可在高频交易领域内进行应用。估算VPIN 指标并不需要对一些不可观测的描述指令流的或者数值方法的中间参数进行估计，但其需要输入交易类型是买入还是卖出。基于一种文章认为比逐笔分类（tick-by-tick classification）更为适用于高频交易的新的量钟（bulk volume）分类方法，文章对交易进行分类。结果表明VPIN指标是一个更为有效的反应短期毒性诱导波动率的指标。"
+    },
+    {
+      "text": "不同交易起始位置对VPIN估计结果的影响可以忽略，各轨迹差异均值仅0.015上下，而VPIN本身估计值远高于此水平（约0.23），算法整体稳定。",
+      "evidence": "结果显示，不同交易起始位置对于VPIN 估计结果的影响可以忽略。事实上，各轨迹差异的均值处于 0.015 上下而 VPIN 的本身估计值远高于此水平（约 0.23），例如 2010年5月6日美股闪崩当日，各轨迹的标准差来到0.02，但当日的VPIN水平却接近0.5。"
+    },
+    {
+      "text": "参数组合（50，250）下VPIN与期货价格变化的相关性达到0.4，且相关性表面光滑平稳，不用担心过拟合。",
+      "evidence": "对于这样的参数组合，相关性达到了 0.4，并且这样的取值不用担心过拟合的发生，因为整个相关性表面非常光滑平稳，因此临近的参数组合皆具有同样的效果而不会产生大幅度的变化。"
+    },
+    {
+      "text": "使VPIN预测能力最大化的参数取值为（10，350），有78.57%的概率能够在高VPIN下观测到超过0.75%的价格波动。",
+      "evidence": "而使 VPIN预测能力最大化的参数取值为（10，350），即每天10个交易篮子，样本长度为 350（约1.6个月）。对于此组参数组合，有78.57%的概率能够在高VPIN下观测到超过0.75%的价格波动。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "David E, López de Prado Marcos M, Maureen O. Flow Toxicity and Liquidity in a High-frequency World, 2012",
+    "Easley and O'Hara (2011a)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

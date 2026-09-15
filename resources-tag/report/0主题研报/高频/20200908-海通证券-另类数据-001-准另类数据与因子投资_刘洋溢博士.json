@@ -1,0 +1,99 @@
+{
+  "schema_version": 2,
+  "id": "20200908-海通证券-另类数据-001-准另类数据与因子投资_刘洋溢博士",
+  "genre": "review",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["distribution_moment", "relation_graph", "participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "statement", "analyst", "flow", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "准另类数据必须要有另类数据的一些特征：被传统分析或传统投资者所忽视、利用不那么充分的数据，处于传统数据和另类数据中间的地带。",
+      "evidence": "第三，准另类数据也必须要有另类数据的一些特征。这意味着，它必须是那些被传统分析或传统投资者所忽视，或者至少说是利用不那么充分的数据。"
+    },
+    {
+      "text": "方差不对称性指标（RSJ）对下一天的股票收益存在显著为负的效应，且t统计量的绝对值非常大。",
+      "evidence": "由第一列可见，方差不对称性指标对下一天的股票收益存在显著为负的效应。而且，t统计量的绝对值也非常大。"
+    },
+    {
+      "text": "Semibetas（BOASB）策略的年化收益大约在7%到10%之间，是一个比较高的水平，两个策略的t统计量也都非常大。",
+      "evidence": "而从 alpha 的角度来看，第一行代表的年化收益大约在 7%到 10%之间，是一个比较高的水平，而第二行展示的两个策略的 t 统计量也都非常大。"
+    },
+    {
+      "text": "科技关联动量因子无论用哪一种加权方法，多空组合的收益都是非常显著的，既体现在t统计量上，也体现在水平上。",
+      "evidence": "从中可见，无论是用哪一种加权方法，科技关联动量因子的收益都是非常显著的。这一点既体现在 t 统计量上，也体现在它的水平上。"
+    },
+    {
+      "text": "重要客户动量指标的多空组合收益非常显著，水平大概可以达到月均1.6%，比科技关联度的收益还要高。",
+      "evidence": "下表中最后一列是重要客户动量指标的多空组合，收益非常显著，而且水平大概可以达到月均 1.6%，比最开始讲的科技关联度的收益还要高。"
+    },
+    {
+      "text": "地理动量多空组合的收益和alpha都非常显著，但只有40多个bp，与科技关联动量相比明显要小很多。",
+      "evidence": "如下表中的实证结果所示，多空组合的收益和 alpha 都非常显著。但我们也需注意，无论是收益还是 alpha，都只有 40多个 bp，与科技关联动量相比，明显要小很多。"
+    },
+    {
+      "text": "复杂公司动量因子的多空组合和纯多头组合收益都非常显著，水平也都非常高。",
+      "evidence": "从下表中的最后两行可以看到，无论是多空组合还是纯多头组合，收益都非常显著，水平也都非常高。"
+    },
+    {
+      "text": "共同分析师覆盖动量因子的多空收益非常显著，纯多头组合结论亦如此，且收益水平高于之前讨论的所有关联动量因子。",
+      "evidence": "如下表所示，通过这个动量因子得到的多空组合，多空收益同样非常显著。即使是纯多头组合，结论亦是如此。更值得注意的是，该因子的收益水平高于之前讨论的所有关联动量因子。"
+    },
+    {
+      "text": "A股2003-2018实证：无论是在小盘股还是大盘股中，关联公司（共同分析师覆盖）动量效应都是显著的，控制了各种各样的公司特征后这个因子仍然很显著。",
+      "evidence": "从下表中可以看到，无论是在小盘股还是大盘股中，关联公司动量效应都是显著的。我们也做了很多其他分析，发现在控制了各种各样的公司特征后，这个因子都是很显著的。"
+    },
+    {
+      "text": "公司间关联因子可以带来alpha的原因是：投资者对公司间关联信息的注意力不足，导致他们的反应不足。",
+      "evidence": "投资者对公司间关联信息的注意力不足，导致他们的反应不足，大概是所有公司间关联因子可以带来 alpha 的原因。"
+    },
+    {
+      "text": "公司间关联数据大部分可通过公开渠道获取，历史数据表明在美股和A股市场都比较有效，还有很多种关联未被充分挖掘，有机会带来更多潜在alpha。",
+      "evidence": "公司间的关联作为我们所讨论的准另类数据的典型代表，它的数据大部分是可以通过公开渠道获取的。而且历史数据表明，不管是在美股还是 A股市场，看起来都是比较有效的。"
+    },
+    {
+      "text": "隐含alpha因子（GIA）：买入隐含alpha高的股票、卖出隐含alpha低的股票，可以获得非常显著的收益。",
+      "evidence": "买入隐含 alpha高的股票，卖出隐含 alpha低的股票，可以获得非常显著的收益（见下表）。"
+    },
+    {
+      "text": "预期FIT因子（E[FIT]）对股票未来1到4个季度的收益都有显著的预测能力。",
+      "evidence": "由下表可见，这样得到的 FIT 因子（E[FIT]）对股票未来 1到 4个季度的收益都有显著的预测能力。"
+    },
+    {
+      "text": "ETF持股比例因子的收益和相对于各种模型的alpha都非常显著而稳定，水平虽不高（平均每月30到40个bp），但稳定性很高。",
+      "evidence": "从下表中可以看到，ETF 持股比例这个因子，无论是收益，还是相对于各种模型的alpha，都是非常显著而稳定的。虽然它的水平值不是太高，平均每月 30 到 40 个 bp，但稳定性却很高。"
+    },
+    {
+      "text": "日内数据因子（如方差不对称性、Semibetas）可更好预测股票风险及未来短期收益，但随交易频率降低（如月频），效果会大打折扣。",
+      "evidence": "总结来看，利用日内数据可以对股票的风险及其未来短期收益进行更好的预测，从而获得更高的 alpha。一个典型的应用场景就是日频换仓的交易。然而，随着交易频率的降低，比如，在学术研究中或中低频的基本面量化投资中更常见的月频，这些因子虽仍然有效，但效果却会大打折扣。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Flow-Based Explanation for Return Predictability",
+    "Complicated Firms",
+    "Do ETFs Increase Volatility?",
+    "Economic Links and Predictable Returns",
+    "Forecasting Stock Returns through an Efficient Aggregation of Mutual Fund Holdings",
+    "Geographic Lead-Lag Effects",
+    "Good Volatility, Bad Volatility, and the Cross Section of Stock Returns",
+    "Realized Semibetas",
+    "Shared Analyst Coverage: Unifying Momentum Spillover Effects",
+    "Technological Links and Predictable Returns"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

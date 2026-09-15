@@ -1,0 +1,149 @@
+{
+  "schema_version": 2,
+  "id": "20230606-东方证券-因子选股-091-基于循环神经网络的多频率因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "一元 day",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{RNN最后一个时间步输出经NN层与批标准化得到的一维因子单元}",
+          "stats": [null, 0.1342, 1.41, null],
+          "evidence": "日度 k 线、分钟 k 线合成的日度数据集、l2 数据合成的日度数据集，我们分别称之为 day、ms、l2数据集，其中 day数据集包含 6个特征，ms包含 22个特征，l2包含 20个特征。"
+        },
+        {
+          "name": "多元 day",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "c_{i}=\\frac{1}{K}\\sum_{k=1}^{K}batchnorm(h_{i,k})",
+          "stats": [null, 0.1328, 1.42, null],
+          "evidence": "若每个时序数据的对应的因子单元是高维的（本文中我们选为 64维）我们则称之为多元 RNN。"
+        },
+        {
+          "name": "一元 ms",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{RNN最后一个时间步输出经NN层与批标准化得到的一维因子单元}",
+          "stats": [null, 0.1308, 1.33, null],
+          "evidence": "日度 k 线、分钟 k 线合成的日度数据集、l2 数据合成的日度数据集，我们分别称之为 day、ms、l2数据集，其中 day数据集包含 6个特征，ms包含 22个特征，l2包含 20个特征。"
+        },
+        {
+          "name": "多元 ms",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "c_{i}=\\frac{1}{K}\\sum_{k=1}^{K}batchnorm(h_{i,k})",
+          "stats": [null, 0.1346, 1.42, null],
+          "evidence": "若每个时序数据的对应的因子单元是高维的（本文中我们选为 64维）我们则称之为多元 RNN。"
+        },
+        {
+          "name": "一元12",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{RNN最后一个时间步输出经NN层与批标准化得到的一维因子单元}",
+          "stats": [null, 0.1095, 1.27, null],
+          "evidence": "日度 k 线、分钟 k 线合成的日度数据集、l2 数据合成的日度数据集，我们分别称之为 day、ms、l2数据集，其中 day数据集包含 6个特征，ms包含 22个特征，l2包含 20个特征。"
+        },
+        {
+          "name": "多元12",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "c_{i}=\\frac{1}{K}\\sum_{k=1}^{K}batchnorm(h_{i,k})",
+          "stats": [null, 0.1121, 1.29, null],
+          "evidence": "若每个时序数据的对应的因子单元是高维的（本文中我们选为 64维）我们则称之为多元 RNN。"
+        },
+        {
+          "name": "一元 RNN 生成单因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{day、ms、l2三个数据集一元模型因子等权平均合成个股打分}",
+          "stats": [null, 0.1447, 1.46, null],
+          "evidence": "等权合成因子回测实验结果显示，2017 年以来，一元和多元 RNN 等权合成因子在中证全指、沪深 300、中证 500、中证 1000 四个指数成分股上双周频 RankIC 均值分别为 14.47%、10.05%、11.03%、14.45%和 14.63%、10.24%、11.15%、14.91%，数值均超过了 10%。"
+        },
+        {
+          "name": "多元 RNN 生成因子单元等权合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{day、ms、l2三个数据集多元模型64个因子单元等权平均合成个股打分}",
+          "stats": [null, 0.1463, 1.46, null],
+          "evidence": "等权合成因子回测实验结果显示，2017 年以来，一元和多元 RNN 等权合成因子在中证全指、沪深 300、中证 500、中证 1000 四个指数成分股上双周频 RankIC 均值分别为 14.47%、10.05%、11.03%、14.45%和 14.63%、10.24%、11.15%、14.91%，数值均超过了 10%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["weighting", "neural", "label_horizon", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "一元和多元RNN等权合成因子在中证全指、沪深300、中证500、中证1000四个指数成分股上双周频RankIC均值分别为14.47%、10.05%、11.03%、14.45%和14.63%、10.24%、11.15%、14.91%，均超过10%，市值偏向性较低。",
+      "evidence": "等权合成因子回测实验结果显示，2017 年以来，一元和多元 RNN 等权合成因子在中证全指、沪深 300、中证 500、中证 1000 四个指数成分股上双周频 RankIC 均值分别为 14.47%、10.05%、11.03%、14.45%和 14.63%、10.24%、11.15%、14.91%，数值均超过了 10%。"
+    },
+    {
+      "text": "成分股不低于80%限制、周单边换手率约束为20%约束下，一元模型打分在沪深300、中证500和中证1000增强策略上年化对冲收益率分别为12.22%、13.79%和23.63%，多元模型打分分别为12.52%、14.85%和22.15%。",
+      "evidence": "RNN在各数据集生成因子等权合成之后可应用于指数增强策略，成分股不低于80%限制、周单边换手率约束为 20%约束下，2017 年以来，一元模型打分在沪深 300、中证 500 和中证 1000增强策略上年化对冲收益率分别为12.22%、13.79%和23.63%，多元模型打分在沪深300、中证500 和中证 1000 增强策略上年化对冲收益率分别为 12.52%、14.85%和 22.15%。"
+    },
+    {
+      "text": "适当降低学习率有助于找到验证集上更优参数但增加训练时间；增加丢弃率有助泛化但降低验证集表现；模型性能随正交惩罚参数先升后降；适当增加因子单元个数有利于低相关性但增加过拟合风险。",
+      "evidence": "通过讨论模型中一些参数的设置，我们认为：1）适当降低模型的学习率有助于梯度下降时寻找到验证集上表现更优的模型参数，但会大大增加模型训练时间；2）增加RNN 中丢弃率大小有助于增强模型的泛化能力，但会降低模型在验证集上的表现；3）验证集上模型性能随正交惩罚参数增大呈现先上升后下降的趋势；4）适当增加因子单元个数有利于控制生成各单因子间的低相关性，但会增加过拟合风险。"
+    },
+    {
+      "text": "多元RNN在三个数据集上分别生成的64个因子RankIC普遍超过5%，RankIC_IR均值超过0.85，挖掘出的因子质量较高。",
+      "evidence": "多元 RNN 在三个数据集上分别生成的 64 个因子 RankIC 普遍超过了 5%，RankIC_IR 均值超过了 0.85，说明多元 RNN挖掘出的因子质量较高体现了多元 RNN挖掘因子的优越性。"
+    },
+    {
+      "text": "level2特征数据集所包含信息与日频及分钟特征数据集重叠度更低，进一步研究level2特征将会给整个模型带来更多增量。",
+      "evidence": "3）我们 level2 特征数据集所包含的信息与日频及分钟特征数据集重叠度更低，进一步研究 level2特征将会给整个模型带来更多增量。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "东方A股因子风险模型（DFQ-2020）",
+    "周频量价指增策略",
+    "多模型学习量价时序特征",
+    "神经网络日频 alpha 模型初步实践"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

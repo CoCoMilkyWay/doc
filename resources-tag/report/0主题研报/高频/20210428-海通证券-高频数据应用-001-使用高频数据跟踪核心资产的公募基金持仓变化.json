@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "20210428-海通证券-高频数据应用-001-使用高频数据跟踪核心资产的公募基金持仓变化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "个股公募基金持仓占比变化回归模型",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["second", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "chgPct_{i,t,t+1}=\\alpha+\\beta_{1}hldPct_{i,t}+\\beta_{2}chgPct_{i,t-1,t}+\\beta_{3}BO_{i,t,t+1}+\\beta_{4}BS_{i,t,t+1}+\\beta_{5}Ret_{i,t,t+1}+\\varepsilon_{i,t}",
+          "stats": [null, null, null, null],
+          "evidence": "基于海外相关研究结果并结合国内的实际情况以及数据可得性，我们可构建以下回归模型："
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "全市场模型在滚动使用历史系数均值进行样本外预测时，样本外相关性在0.43上下波动，样本外R方在18%上下波动。",
+      "evidence": "在滚动使用历史系数均值进行样本外预测时，模型样本外相关性在 0.43 上下波动，样本外 R方在 18%上下波动。"
+    },
+    {
+      "text": "按宽基指数划分股票范围后，模型在沪深300指数内样本外R方均值达28.3%，样本外相关性均值达0.56。",
+      "evidence": "模型在沪深 300 指数内的样本外 R方以及样本外相关性相对较高，样本外R 方均值达 28.3%，样本外相关性均值达 0.56。"
+    },
+    {
+      "text": "按期初公募基金持仓占比划分股票范围，机构持仓占比较高的股票样本外方均值达30.3%，样本外相关性均值达0.58。",
+      "evidence": "模型在机构持仓占比较高的股票中的样本外方均值达 30.3%，样本外相关性均值达 0.58。"
+    },
+    {
+      "text": "按期初持仓占比划分的分板块模型在全市场样本外R方中位数为30.2%，明显高于其余各模型。",
+      "evidence": "从全市场的角度看，模型的样本外 R方中位数为 30.2%，明显高于其余各模型。"
+    },
+    {
+      "text": "大单净买入占比以及净主买占比的回归系数均值在不同的指数范围内为正，且显著比例较高，说明大单净买入或净主买更可能是公募基金的交易行为。",
+      "evidence": "大单净买入占比以及净主买占比的回归系数均值在不同的指数范围内为正，且显著比例较高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《选股因子系列研究（七十一）——逐笔大单因子与大资金行为》2020.12.17",
+    "《选股因子系列研究（五十六）——买卖单数据中的 Alpha》2019.11.17",
+    "《选股因子系列研究（六十六）——寻找逐笔交易中的有效信息》2020.06.21"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "id": "20211116-国泰君安-学界纵横-024-基本面指数化与市场超额回报率的预测",
+  "genre": "research",
+  "asset": ["stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "accounting_quality"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "FUNDPLS",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "S_{j,t-1}=\\alpha_{j,0}+\\alpha_{j,1}R_{t}+\\xi_{j,t-1},\\quad S_{j,t}=\\gamma_{t}+FUND_{t}^{PLS}\\hat{\\alpha}_{j,1}+\\psi_{j,t}",
+          "stats": [null, null, null, null],
+          "evidence": "作者通过 Partial least squares (PLS)的方法，结合 Piotroski(2000) 所选取的能够代表公司基本面信息的 10 个财务指标，构建出了一个新的基本面指数FUNDPLS。这种方法减少了财务指标中异质性（Idiosyncratic error），并显著提高指数对市场超额回报的预测能力。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["macro_valuation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "值得注意的是，FUNDPLS对市场超额回报的解释力在市场下行时期，市场情绪高涨时期，或者经济萧条周期中尤为显著。",
+      "evidence": "值得注意的是，FUNDPLS对市场超额回报的解释力在市场下行时期，市场情绪高涨时期，或者经济萧条周期中尤为显著。"
+    },
+    {
+      "text": "FUNDPLS无论在样本内或样本外预测，均具有更好的表现，优于将财务指标简单加总的FUNDPIOT以及等权加总的指数FUNDEW。",
+      "evidence": "与将财务指标简单加总的FUNDPIOT (Piotroski, 2000)以及等权加总的指数FUNDEW相比，本文的基本面指数FUNDPLS无论在样本内或样本外预测，均具有更好的表现。"
+    },
+    {
+      "text": "FUNDPLS在市场下行阶段表现出更有效的预测能力，且这种状态的显著差异是基准指数所不具备的。",
+      "evidence": "数据显示， $FUND^{PLS}$ 在市场下行阶段表现出更有效的预测能力 $\\left(R_{D}^{2}=10\\%VSR_{U}^{2}=0.47\\%\\right)$）,并且这种状态的显著的差异是基准指数所不具备的。"
+    },
+    {
+      "text": "样本外检验中FUNDPLS得到正的R²_OS并显著通过CW test，且只有它在经济萧条时期拥有正的R²_OS，样本外预测能力胜过其他基本面指数。",
+      "evidence": "数据显示， $FUND^{PLS}$ 的回归结果得到了正的 $R_{OS}^{2}$ 并且能够显著通过 CWtest。同时注意到，只有 $FUND^{PLS}$ 能够在经济萧条时期拥有正的 $R_{OS}^{2}$ 。由此可见， $FUND^{PLS}$ 的样本外预测能力胜过其他的基本面指数。"
+    },
+    {
+      "text": "控制八个经济变量后FUNDPLS仍对超额回报率具有显著的预测能力。",
+      "evidence": "可以看到在控制了经济变量之后， $FUND^{PLS}$ 仍然对超额回报率具有显著的预测能力。"
+    },
+    {
+      "text": "FUNDPLS的系数在长达9期的预测中仍是显著的，并在6期达到峰值（R²=11.5%），且预测能力依旧在市场下行状态中表现更好。",
+      "evidence": "数据显示，FUNDPLS的系数在长达 9期的预测中仍是显著的，并且在 6 期的时候达到峰值 $(R^{2}=11.5\\%)$ 与前文结论相似的是， $FUND^{PLS}$ 的预测能力依旧在市场下行状态中有更好的表现。"
+    },
+    {
+      "text": "利用PLS方法构建因子可在降维的同时尽可能最大化因子对股票收益的预测能力，是需要对输入数据降维时的可参考方法。",
+      "evidence": "利用 PLS 的方法构建因子，可在降维的同时尽可能最大化因子对股票收益的预测能力，在我们需要对输入数据进行降维时是一种可供参考的方法。"
+    },
+    {
+      "text": "财务数据由年报、半年报、季报发布，一个季度更新一次，无法达到月度频率；当预测步长为季度时FUNDPLS的解释能力和长期预测能力是否仍显著有待商榷。",
+      "evidence": "财务数据更新频率无法达到月度（monthly）。一般来说，公司的财务数据由年报、半年报、季报发布，一个季度更新一次。当预测步长为季度时（quarterly），FUNDPLS对市场的超额回报率的解释能力，特别是长期的预测能力，是否仍是显著的，有待商榷。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Campbell & Thompson (2008)",
+    "Clark & West (2007)",
+    "Huang et al. (2015)",
+    "Kelly & Pruitt (2015)",
+    "Li & Galvani (2018)",
+    "Piotroski (2000)",
+    "Samuel YM Ze-To. 《Fundamental index aligned and excess market return predictability》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

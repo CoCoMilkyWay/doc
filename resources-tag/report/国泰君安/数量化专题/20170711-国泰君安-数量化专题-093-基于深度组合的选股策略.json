@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "20170711-国泰君安-数量化专题-093-基于深度组合的选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "sample_window", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "沪深300等权做多策略从2010年中至2017年中的七年里，在8.33%的最大回撤下获得约18.37%的年化收益，领先于传统动量策略，今年取得7.113%的超额收益。",
+      "evidence": "该策略从 2010 年中至 2017 年中的七年时间里，在 8.33%的最大回撤下获得约18.37%的年化收益，领先于传统的动量策略，并且，策略在今年取得了 7.113%的超额收益。"
+    },
+    {
+      "text": "损失函数Δ(W)与策略月度收益的相关性绝对值高达0.3776，且领先于策略收益、无滞后性，可作为判断策略失效的可靠指标。",
+      "evidence": "我们针对上述策略的月度收益和损失函数计算两者的相关性，其相关性绝对值高达 0.3776（之所以取绝对值因为两者是反向变动关系），说明指标策略有很好的预测性。"
+    },
+    {
+      "text": "利用损失函数放弃置信度不高时间区间的投资后，策略最大回撤从8.33%降低到6.14%，年化收益从18.372%提升到19.985%。",
+      "evidence": "通过放弃对置信度不高的时间区间的投资，策略的稳定性得到了提升，最大回撤从 8.33%降低到 6.14%，年化收益从 18.372%提升到 19.985%。"
+    },
+    {
+      "text": "相对沪深300，策略倾向于配置小市值、高盈利性、动量效应、高流动性的股票；行业上高配电子元器件、医药、房地产、机械，低配传媒、银行、非银金融、国防军工。",
+      "evidence": "相对于沪深 300，策略比较倾向于配置小市值、高盈利性、动量效应、高流动性的股票。行业方面，策略倾向于高配电子元器件、医药、房地产、机械类股票，低配传媒、银行、非银金融、国防军工类股票。"
+    },
+    {
+      "text": "中证500内选股策略效果与沪深300差异不大，在9.61%的最大回撤下获得19.032%的年化收益。",
+      "evidence": "在中证500 中的策略选股效果和沪深300差异不大，在9.61%的最大回撤下可以获得 19.032%的年化收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Aungiers, J. \"LSTM Neural Network for Time Series Prediction.\"",
+    "Heaton, J.B. (2016). \"Deep Learning in Finance: Deep Portfolios.\"",
+    "Takeuchi, L. \"Applying Deep Learning to Enhance Momentum Trading Strategies in Stocks.\""
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

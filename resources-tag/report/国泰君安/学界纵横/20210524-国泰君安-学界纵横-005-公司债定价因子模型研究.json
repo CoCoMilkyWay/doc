@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20210524-国泰君安-学界纵横-005-公司债定价因子模型研究",
+  "genre": "research",
+  "asset": ["bond"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "firm_attribute"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "下行风险因子DRF",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近36个月历史损失分布下5%的VaR，即将最近36个月的损失排序后选取第二大的损失值}",
+          "stats": [null, null, null, 0.1188],
+          "evidence": "本文选取的是36个月时间窗口组成的历史分布下5%的VaR，也就是说，对于某个债券，将最近 36个月的损失进行排序，选取第二大的损失值作为VaR."
+        },
+        {
+          "name": "信用风险因子CRF",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "CRF=\\text{5个低评级组合的平均收益率}-\\text{5个高评级组合的平均收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "本文直接使用个债的信用评级来作为信用风险的度量，评级主要来自标普和穆迪。个债的评级综合了发行人的财务状况，运营绩效和风险管理策略的信息，以及债券特征（如票面利率，期限和期权特征）等，使用评级来衡量信用风险是一个自然的选择。"
+        },
+        {
+          "name": "流动性风险因子LRF",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ILLIQ=-Cov_{t}(\\Delta p_{itd},\\Delta p_{itd+1})",
+          "stats": [null, null, null, null],
+          "evidence": "参考 Bao, Pan, and Wang (2011)的做法，本文构建个债的非流动性度量，即 ILLIQ."
+        },
+        {
+          "name": "反转因子REV",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "REV_{i,t}=r_{i,t-1}",
+          "stats": [null, null, null, null],
+          "evidence": "其中下行风险以 5%的 VaR 作为度量，流动性风险以 ILLIQ 作为度量，反转以滞后一期的收益率作为度量，信用风险以评级作为度量。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "由DRF、CRF、LRF和市场因子组成的四因子模型比现有文献中的因子模型表现更加优异。",
+      "evidence": "我们发现由DRF，CRF，LRF和市场因子组成的四因子模型比现有文献中的因子模型表现更加优异。"
+    },
+    {
+      "text": "同时控制股票五因子和债券五因子后，高VaR组的月收益仍比低VaR组高出0.72%，相当于8.42%的显著年化收益。",
+      "evidence": "即使是同时控制了股票五因子和债券五因子这十个风险因子后，高VaR 组的月收益仍然比低VaR 组高出0.72%，相当于8.42%的显著年化收益。"
+    },
+    {
+      "text": "反转可以作为单个债券的特征预测收益率，但不能作为债券市场的共同风险因子。",
+      "evidence": "因此反转可以作为单个债券的特征预测收益率，而不能作为债券市场的共同风险因子。"
+    },
+    {
+      "text": "在控制了这些著名因子后，新四因子收益率仍然显著，已有因子并不能捕获新四因子的信息。",
+      "evidence": "可以看到，在控制了这些著名因子后，新四因子收益率仍然显著，这说明已有因子并不能捕获新四因子的信息，新四因子解释了未来收益率的重要来源。"
+    },
+    {
+      "text": "下行风险因子DRF、流动性风险因子LRF和信用风险因子CRF在经济下行期间能够产生更高的风险溢价。",
+      "evidence": "结果显示，下行风险因子 DRF，流动性风险因子 LRF 和信用风险因子CRF在经济下行期间能够产生更高的风险溢价。"
+    },
+    {
+      "text": "下行风险因子VaR产生的99个基点收益中，64个基点来自波动率，25个基点来自偏度，6个基点来自峰度。",
+      "evidence": "表 3中下行风险因子VaR产生的99个基点收益中，有 64 个基点来自于波动率，25 个基点来自于偏度，6 个基点来自于峰度。"
+    },
+    {
+      "text": "中国债市评级独立性存疑且存在违约率倒挂现象，使用个债评级构建信用风险因子可能失效。",
+      "evidence": "我国的公司债评级还处于初级阶段，评级机构间存在恶性竞争、独立性和评级质量存疑等问题，甚至还出现了较为明显的违约率倒挂现象，在中国债市使用个债评级构建信用风险因子可能失效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bai, J., T. Bali and Q. Wen. \"Common risk factors in the cross-section of corporate bond returns.\"",
+    "Bao, J., J. Pan and J. Wang. (2011). \"The Illiquidity of Corporate Bonds.\"",
+    "Lewellen, J., S. Nagel and J. Shanken. (2010). \"A skeptical appraisal of asset pricing tests.\""
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

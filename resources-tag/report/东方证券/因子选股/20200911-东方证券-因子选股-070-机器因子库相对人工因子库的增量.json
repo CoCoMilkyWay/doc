@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "id": "20200911-东方证券-因子选股-070-机器因子库相对人工因子库的增量",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "遗传算法技术类因子",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{遗传规划算法从日频量价数据（adjopen、adjclose、adjhigh、adjlow、adjvwap、adjvolume、pctchg）中搜索得到的树状公式表达式}",
+          "stats": [null, 0.1011, 2.13, 0.2139],
+          "evidence": "遗传算法技术类因子与传统技术类因子相比，不论是 IC、ICIR 还是多空组合月均收益、年化夏普比均有提高，IC 达到 10.11%，ICIR 达到 2.13，多空组合月均收益 2.97%，年化夏普比1.5。"
+        },
+        {
+          "name": "遗传算法财务类因子",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{遗传规划算法从财务报表数据（资产负债表25个、利润表20个、现金流量表28个指标）中搜索得到的树状公式表达式，最外层函数限定为除法或增长率}",
+          "stats": [null, 0.0417, 0.96, 0.1062],
+          "evidence": "遗传算法财务类因子与传统财务类因子相比，不论是 IC、ICIR 还是多空组合月均收益均有降低。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["tree", "ensemble"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "遗传算法技术类因子与传统技术类因子相比，IC、ICIR、多空组合月均收益均有提高，IC达到10.11%，ICIR达到2.13，多空组合月均收益2.97%",
+      "evidence": "遗传算法技术类因子与传统技术类因子相比，不论是 IC、ICIR 还是多空组合月均收益、年化夏普比均有提高，IC 达到 10.11%，ICIR 达到 2.13，多空组合月均收益 2.97%，年化夏普比1.5。"
+    },
+    {
+      "text": "叠加传统技术类因子后，IC达到10.41%，ICIR达到2.19，多空组合月均收益2.86%，多空组合最大回撤从22.34%降低为17.6%",
+      "evidence": "叠加后 IC 达到 10.41%，ICIR 达到 2.19，多空组合月均收益 2.86%，年化夏普比 1.48，并且多空组合最大回撤也有明显降低，从原有 22.34%降低为 17.6%。"
+    },
+    {
+      "text": "遗传算法技术类因子对传统技术类因子正交化后，仍有显著的选股效果，IC达到7.57%",
+      "evidence": "遗传算法技术类因子对传统技术类因子正交化后，仍有显著的选股效果，IC 达到 7.57%，ICIR 达到 1.35，多空组合月均收益 2.39%。"
+    },
+    {
+      "text": "T检验p值均大于10%，遗传算法因子挖掘带来的组合差异在统计上并不显著",
+      "evidence": "对不同组合的 IC 序列和多空组合收益率序列进行了双边 T 检验，结果显示 T 检验 p 值均大于 10%，说明遗传算法因子挖掘带来的组合差异在统计上并不显著。"
+    },
+    {
+      "text": "遗传算法财务类因子与传统财务类因子相比，IC、ICIR、多空组合月均收益均有降低，因子整体效果不如传统财务因子",
+      "evidence": "可以看到，经过遗传规划算法可以从财务报表数据中挖掘出有效的月频财务类指标，但因子整体效果不如传统财务因子。"
+    },
+    {
+      "text": "在低频领域，挖掘新因子相对成熟因子库的增量有限，组合收益更多还得靠因子择时",
+      "evidence": "在低频领域，挖掘新因子相对成熟因子库的增量有限，组合收益更多还得靠因子择时。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["gplearn", "机器的比拼"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

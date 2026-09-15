@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "20180802-东方证券-因子选股-042-上市公司业绩预告信息研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "earnings_surprise"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "业绩预告均值偏离度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\\\frac{实际的累积净利润-(上限+下限)/2}{实际的单季度净利润}",
+          "stats": [null, 0.023, 2.36, 0.078],
+          "evidence": "所以这里我们以上文中提到的业绩预告均值偏离度作为因子，来测试这个因子的表现。"
+        },
+        {
+          "name": "EP_TTM（含预告）",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\\\frac{归母净利润TTM（若有业绩预告则用预告上下限均值更新）}{总市值}",
+          "stats": [null, 0.062, 3.206, 0.1841],
+          "evidence": "在更新因子的时候若有业绩预告，则用净利润预告上下限的均值作为最新的数据，并且更新原来的因子值。"
+        },
+        {
+          "name": "ROE（含预告）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\\\frac{净利润TTM（含预告上下限均值更新）}{净资产（含预告推算的最新净资产）}",
+          "stats": [null, 0.038, 1.904, 0.0894],
+          "evidence": "与公司净利润有关的盈利因子主要是 ROE，这里我们按照上文的处理方式处理分子上净利润的数据，对于分母上的净资产，我们假设最近一期的公司的净利润都加到了净资产上，这样就可以得到最新的预告净资产数据。"
+        },
+        {
+          "name": "SUE0（含预告）",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\\\text{用含业绩预告的单季净利润、基于带漂移项随机游走模型计算的预期外净利润}",
+          "stats": [null, 0.036, 3.967, 0.1763],
+          "evidence": "与公司净利润有关的超预期因子主要是 SUE0、SUE1两个，这里我们按照上文的处理方式处理净利润的数据，并且对现有的 SUE0 和 SUE1 因子进行改进。"
+        },
+        {
+          "name": "SUE1（含预告）",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\\\text{用含业绩预告的单季净利润、基于不带漂移项随机游走模型计算的预期外净利润}",
+          "stats": [null, 0.047, 3.673, 0.1916],
+          "evidence": "加入了业绩预告的 SUE1表现基本与原始的 SUE1因子相同，但多空收益年化少了 1.3%（图 14）。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "行业市值中性化后的业绩预告均值偏离度 RankIC 为 0.023，ICIR 2.36，多空组合年化收益 7.8%，信息比 2.04，最大回撤仅-3.54%，有非常好的选股效果",
+      "evidence": "我们基于业绩预告与实际归母净利润构建超预期因子，行业市值中性化后的业绩预告均值偏离度在 2012.12.31-2018.6.29 这个区间的 RankIC 为0.023， ICIR 有 2.36，多空组合年化收益为 7.8%，信息比为 2.04，且最大回撤仅为-3.54%，还是有着非常好的选股效果。"
+    },
+    {
+      "text": "对常规 4 个超预期因子（SUE0、SUE1、SUR0、SUR1）正交化后，业绩预告均值偏离度因子 ICIR 下降到 0.74，多空年化收益 5%，信息比 1.4，与常规超预期因子有信息重叠但仍有一定信息增量",
+      "evidence": "在对常规的 4 个超预期因子（SUE0、SUE1、SUR0、SUR1）做正交化之后，业绩预告均值偏离度因子的 ICIR 下降到了0.74，多空组合年化收益下降到了 5%，信息比下降到了 1.4，说明这个因子与常规的业绩超预期因子确实存在一定的信息重叠，但是在剥离完这 4个超预期因子后，仍然有着一定的信息增量。"
+    },
+    {
+      "text": "SUE0（含预告）剔除 SUE0 和 SUE1 后 RankIC 0.2、ICIR 2.4、多空信息比 1.06；SUE1(含预告) rankIC 0.19、ICIR 2.05、信息比 1.37，均有非常明显的额外信息，可作为新超预期因子与原因子结合使用",
+      "evidence": "SUE0（含预告）在剔除了 SUE0 和 SUE1 后，RankIC为 0.2，ICIR 为 2.4，多空的信息比为 1.06；SUE1(含预告) 在剔除了 SUE0 和 SUE1 后，rankIC为 0.19，ICIR 有 2.05，多空的信息比为 1.37，均有着非常明显的额外信息。"
+    },
+    {
+      "text": "加入业绩预告后的 EP_TTM 表现有提升，RankIC 从 0.057 提升到 0.062，多空年化收益从 15.4% 提升到 18.41%，信息比从 1.7 提升到 1.9，但 HACp-value 为 37%，提升不显著",
+      "evidence": "从结果来看，加入了业绩预告的 EP_TTM 因子表现确实有了一定的提升，RankIC 从 0.057 提升到了 0.062.多空组合年化收益从 15.4%提升到了 18.41%，信息比从 1.7 提升到了 1.9，从分组超额收益来看，加入了预告的因子单调性也有一定的提升。"
+    },
+    {
+      "text": "加入业绩预告后的 ROE 表现有提升，RankIC 从 0.033 提升到 0.038，多空年化收益从 6.31% 提升到 8.94%，信息比从 0.83 提升到 1.17，且 HACp-value 为 0.46%，差异非常显著",
+      "evidence": "从结果来看，加入了业绩预告的 ROE 因子表现确实有了一定的提升，RankIC 从 0.033 提升到了0.038.多空组合年化收益从 6.31%提升到了 8.94%，信息比从 0.83提升到了 1.17，从分组超额收益来看，加入了预告的因子单调性也有一定的提升。"
+    },
+    {
+      "text": "业绩预告与实际单季净利润偏离在正负 10% 以内的占比 50.84%，正负 20% 以内占比 67.94%，多数公司实际单季净利润不会偏离业绩预告上下限均值太远，质量有一定保证",
+      "evidence": "从业绩预告的质量来看，2007-2018.6 区间内业绩预告与实际的单季净利润偏离在正负 10%以内的预告占比在 50.84%，正负 20%以内的预告占比在 67.94%，也就是说大多数公司的实际单季净利润不会偏离业绩预告上下限的均值太远，总体来说质量还是有一定的保证的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["业绩超预期类因子"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

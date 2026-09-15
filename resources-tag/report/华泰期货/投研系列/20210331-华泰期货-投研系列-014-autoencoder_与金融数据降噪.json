@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "20210331-华泰期货-投研系列-014-autoencoder_与金融数据降噪",
+  "genre": "research",
+  "asset": ["future_index", "future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "中间层节点",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{对长/短周期分解后的价格序列训练带假邻居正则项的Autoencoder，取中间层波动特征最集中的前3个活跃节点输出作为降噪序列}",
+          "stats": [null, null, null, null],
+          "evidence": "所以，在后面的研究中，我们都只取波动特征最为集中的前 3 个中间层节点进行测试。同时这样也方便我们对于不同品种间的横向比较。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "自编码器的样本外输出与原始（长/短周期）数据有较高的相关性，所有测试品种第一活跃节点的相关性绝对值都高于移动均值，节点依然包含原始数据的主要波动特征。",
+      "evidence": "从表格1 容易看出，自编码器的样本外输出与原始（长/短周期）数据有较高的相关性。特别是跟移动均值相比，我们看到对于所有测试品种，第一活跃节点都具有更高的相关性绝对值。"
+    },
+    {
+      "text": "自编码器算法和移动均值都显著提高了信息比率，起到对数据降噪、提高信号有效性的作用；除长周期尺度上的豆粕外，自编码器算法的结果都优于线性算法。",
+      "evidence": "与原始数据对比，自编码器算法和移动均值都显著提高了信息比率，也就是说两种算法都能起到对数据降噪、提高信号有效性的作用。除了长周期尺度上的豆粕，自编码器算法的结果都优于线性算法。"
+    },
+    {
+      "text": "移动均值方法的市场反应钝化明显且与均值计算使用的历史数据窗口直接相关；自编码器中间层节点数据与原始数据没有绝对的领先/滞后特征，节点1&3上还略强领先。",
+      "evidence": "首先，移动均值方法的市场反应钝化明显，并且与均值计算使用的历史数据窗口直接相关。"
+    },
+    {
+      "text": "结合市场动力学优化的Autoencoder模型利用假邻居正则项能较好实现数据压缩目的，相比移动均值算法又能有效避免数据关键特征丢失和指标钝化。",
+      "evidence": "Autoencoder模型在结合了市场动力学模型优化之后，利用假邻居正则项能够较好的实现上述数据压缩目的，同时相比移动均值算法而言又能有效避免数据关键特征丢失和指标钝化。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "William Gilpin, \"Deep reconstruction of strange attractors from time series\", arXiv: 2002.05909, (2020)",
+    "华泰期货金融时序专题 20210326：金融科技赋能投研系列之十三：Autoencoder 与金融数据应用"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

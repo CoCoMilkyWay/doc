@@ -1,0 +1,307 @@
+{
+  "schema_version": 2,
+  "id": "20190807-华泰证券-人工智能-023-再探基于遗传规划的选股因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Alpha1",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(delay(turn, 3), volume, 7)}",
+          "stats": [null, -0.0081, null, 0.2158],
+          "evidence": "Alpha1 计算的是 delay(turn, 3)和volume 在过去7个交易日内的协方差相反数。"
+        },
+        {
+          "name": "Alpha2",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(delay(volume, 5), vwap, 4)}",
+          "stats": [null, -0.0057, null, 0.205],
+          "evidence": "Alpha2 计算的是 delay(volume， 5)和 volume 在过去 4 个交易日内的协方差相反数。"
+        },
+        {
+          "name": "Alpha3",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(ts\\_cov(delay(low, 3), turn, 7), turn, 7)}",
+          "stats": [null, 0.0091, null, 0.118],
+          "evidence": "Alpha3 是先计算 delay(low，5)和 turn 在过去7个交易日内的协方差，然后再计算这个协方差与turn在过去7个交易日内的协方差，最后取相反数作为因子值。"
+        },
+        {
+          "name": "Alpha4",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(ts\\_cov(sub(vwap, close), high, 5), turn, 7)}",
+          "stats": [null, -0.0092, null, 0.0901],
+          "evidence": "Alpha4 是先计算 sub(vwap，close)和high 在过去 5 个交易日内的协方差，然后再计算这个协方差与turn在过去7个交易日内的协方差，最后取相反数作为因子值。"
+        },
+        {
+          "name": "Alpha5",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-mul(ts\\_sum(vwap, 5), ts\\_cov(volume, vwap, 3))}",
+          "stats": [null, 0.0403, null, 0.1657],
+          "evidence": "Alpha5 是先对过去 5 个交易日的 vwap 求和，然后计算 volume 和 vwap 在过去 3 个交易日内的协方差，最后对这两个数的乘积取相反数。"
+        },
+        {
+          "name": "Alpha6",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(ts\\_max(turn, 7), free\\_turn, 9)}",
+          "stats": [null, 0.0403, null, 0.0898],
+          "evidence": "Alpha6 是计算 ts_max(turn， 7)和free_turn在过去9个交易日内的协方差。"
+        },
+        {
+          "name": "Alpha7",
+          "family": "momentum",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{rank\\_div(rank\\_sub(rank\\_div(close, open), open), ts\\_min(sub(free\\_turn, close), 3))}",
+          "stats": [null, 0.0207, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha8",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ts\\_cov(ts\\_prod(low, 4), close, 6)}",
+          "stats": [null, 0.0052, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha9",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-mul(free\\_turn, mul(ts\\_cov(low, high, 5), delta(low, 5)))}",
+          "stats": [null, 0.0214, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha10",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-div(add(turn, volume), ts\\_zscore(close, 9))}",
+          "stats": [null, 0.0154, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha11",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(mul(close, return1), turn, 7)}",
+          "stats": [null, 0.0332, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha12",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(mul(close, return1), turn, 4)}",
+          "stats": [null, 0.0308, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha13",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-div(rank\\_div(vwap, volume), ts\\_prod(close, 10))}",
+          "stats": [null, 0.0075, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha14",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(ts\\_prod(turn, 5), turn, 7)}",
+          "stats": [null, 0.0273, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha15",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-mul(free\\_turn, mul(high, delta(low, 5))}",
+          "stats": [null, 0.0206, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha16",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-mul(return1, mul(turn, decay\\_linear(turn, 5)))}",
+          "stats": [null, 0.0111, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha17",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ts\\_cov(mul(close, rank\\_div(close, return1)), high, 10)}",
+          "stats": [null, 0.0046, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha18",
+          "family": "momentum",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_min(ts\\_prod(delta(vwap, 10), 10), 10)}",
+          "stats": [null, 0.0119, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha19",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts\\_cov(ts\\_stddev(turn, 4), close, 6)}",
+          "stats": [null, 0.0285, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha20",
+          "family": "liquidity",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{mul(free\\_turn, rank\\_sub(open, delta(volume, 9)))}",
+          "stats": [null, 0.0192, null, null],
+          "evidence": "图表8展示了这些因子的表达式、互信息和RankIC(因子进行了行业、市值、20日收益率、20日波动率、20日换手率中性化)"
+        },
+        {
+          "name": "Alpha21",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-sigmoid(rank(ts\\_cov(turn, close, 10))}",
+          "stats": [null, 0.0406, null, null],
+          "evidence": "Alpha21是先计算 turn和 close 在过去10 个交易日内的协方差，然后对这个协方差依次用 rank 和 sigmoid 两个变换函数进行调整并取相反数。"
+        },
+        {
+          "name": "Alpha22",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{rank\\_div(open, volume)}",
+          "stats": [null, 0.0261, null, 0.1038],
+          "evidence": "Alpha22 计算的是 rank(open)除以 rank(volume)所得商的相反数。"
+        },
+        {
+          "name": "Alpha23",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-sigmoid(rank\\_div(mul(volume, high), rank(high)))}",
+          "stats": [null, 0.0397, null, 0.0974],
+          "evidence": "Alpha23 是先用 rank(mul(volume,high)除以rank(rank(high)，然后用 sigmoid 函数对所得商进行变换。"
+        },
+        {
+          "name": "Alpha24",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{sigmoid(ts\\_prod(rank\\_div(vwap, free\\_turn), 3))}",
+          "stats": [null, 0.0263, null, 0.0823],
+          "evidence": "Alpha24的核心成分是 rank(vwap)除以rank(free_turn)得到的商，再计算这一商在过去3个交易日的连乘乘积，最后使用sigmoid函数对这一乘积进行变换。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection"]}
+  },
+  "findings": [
+    {
+      "text": "互信息可以捕捉因子和收益间的非线性关系，在遗传规划中使用互信息作为适应度指标，可以挖掘出多个互信息较高的因子。",
+      "evidence": "互信息可以捕捉因子和收益间的非线性关系，在遗传规划中使用互信息作为适应度指标，可以挖掘出多个互信息较高的因子。"
+    },
+    {
+      "text": "互信息挖掘的因子在分层测试中大多呈现“中间分层收益高，两端分层收益低”的稳定规律，能被基于机器学习的多因子选股模型有效利用。",
+      "evidence": "在分层测试中，该类因子与收益的关系大多呈现出“中间分层收益高，两端分层收益低”的特性，且分层规律稳定，这种规律能被基于机器学习的多因子选股模型有效利用。"
+    },
+    {
+      "text": "三次方回归残差法较为简单，但转换效果较差；多项式拟合法转换效果较好，但需要逐个对因子拟合非线性关系，拟合结果对不同因子不能通用。",
+      "evidence": "两个方法各有优劣，在本文的测试中，三次方回归残差法较为简单，但转换效果较差；多项式拟合法转换效果较好，但需要逐个对因子拟合非线性关系，拟合结果对不同因子不能通用。"
+    },
+    {
+      "text": "观测验证集平均适应度的收敛性，当其明显收敛时停止循环；在本文的测试中，确实观察到了因子平均适应度在验证集收敛的情况。",
+      "evidence": "对于每一代新生成的因子，模型都会在验证集上计算适应度，并记录每一代的验证集平均适应度，观测验证集平均适应度的收敛性，当其明显收敛时，停止循环。在本文的测试中，确实观察到了因子平均适应度在验证集收敛的情况。"
+    },
+    {
+      "text": "将多头超额收益加入到适应度指标中，挖掘出了数个多头超额收益较高的因子。",
+      "evidence": "另外，部分投资者可能希望以多头超额收益来评价因子，本文也将多头超额收益加入到适应度指标中，挖掘出了数个多头超额收益较高的因子。"
+    },
+    {
+      "text": "Alpha1~Alpha6的分层测试表明，互信息挖掘的因子大致都具有“中间分层收益高，两端分层收益低”的特性。",
+      "evidence": "在 Alpha1~Alpha6的分层测试中，可以看出这些因子大致都具有“中间分层收益高，两端分层收益低”的特性。"
+    },
+    {
+      "text": "经过多项式拟合法转换后，超额收益和层数之间呈现单调关系，即转换后的因子与收益之间存在较强的线性关系。",
+      "evidence": "经过多项式拟合法转换后，超额收益和层数之间呈现单调关系，即转换后的因子与收益之间存在较强的线性关系。"
+    },
+    {
+      "text": "本文在测试中展示了20多个挖掘出的选股因子供投资者参考，说明遗传规划或许能挖掘出大量因子(尤其是非线性因子)。",
+      "evidence": "本文在测试中展示了20多个挖掘出的选股因子供投资者参考。通过方法论的介绍，本文旨在说明遗传规划或许能挖掘出大量的因子(尤其是非线性因子)，这对于能够利用非线性因子的机器学习选股模型来说具有重要意义。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Menchero, J. (2010). Characteristics of Factor Portfolios.",
+    "华泰证券《人工智能选股之特征选择》(2018.7)",
+    "华泰证券《基于遗传规划的选股因子挖掘》(2019.6)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

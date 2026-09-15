@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20210528-国泰君安-学界纵横-006-价值溢价的来源_预期偏差导致的错误定价",
+  "genre": "review",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "Incongruent Strategy 策略明显跑赢其它两个策略，年化收益率可达 22.64%，而单纯的 Congruent V/G strategy 的收益率近似为零",
+      "evidence": "数据表明 Incongruent Strategy 策略明显跑赢其它两个策略。IncongruentV/G strategy 可以获得 22.64% 的年化收益率；而另一方面，单纯的Congruent V/G strategy 的收益率近似为零。"
+    },
+    {
+      "text": "Incongruent V/G 策略年化收益率 22.64%，congruentV/G 策略年化收益率只有 0.14%，跑输 21.5%；只有市场预期与基本面预期出现偏离时，个股后续才能体现出超额收益",
+      "evidence": "表 6 中表明 Incongruent V/G 策略的年化收益率为 22.64% ，而 congruentV/G 策略的年化收益率只有 0.14%，跑输 21.5%；可见当市场预期与个股的基本面表现过度一致时，个股基本面的预期变化会被迅速定价，后续不存在超额收益的空间。只有当市场预期与个股的基本面预期出现偏离，市场由于预期偏差的存在出现了定价偏差时，个股后续才能体现出超额收益。"
+    },
+    {
+      "text": "常规的做多低估值股票的策略收益几乎全部来自于低估值股票中存在预期偏差的个股，其背后的逻辑是预期偏差的修正",
+      "evidence": "可以得到一致的结论：低估值股票相对于高估值股票存在超额收益的来源主要是组合中存在预期偏差的股票，而这背后的逻辑是预期偏差的修正。"
+    },
+    {
+      "text": "基本面改善最明显的公司（F-SCORE≥7）年平均原始收益为 19.12%，基本面最差的公司（F-SCORE≤3）平均年原始收益为 6.62%",
+      "evidence": "基本面改善最明显的公司（F-SCORE≥7）产生的年平均原始收益为19.12％，而基本面最差的公司（F-SCORE≤3）的平均年原始收益为6.62％。"
+    },
+    {
+      "text": "在投资者情绪高(低)时期，Incongruent Strategy 策略的回报最大(最小)，而 congruent Strategy 策略在这些时期的回报没有显著差异",
+      "evidence": "与这些系统性错误定价的观点一致，我们发现，在投资者情绪高(低)时期，Incongruent Strategy 策略的回报最大(最小)，而 congruent Strategy 策略在这些时期的回报没有显著差异。"
+    },
+    {
+      "text": "市净率变化通常能够反应市场的高估和低估，但对于技术创新型企业不太适用，能否用更合适的指标量化预期偏差是该策略更好应用于 A 股需要思考的问题",
+      "evidence": "两篇文章主要使用市净率为重要指标，该指标比较稳定，因为净资产不会像利润那样波动很大，所以市净率的变化，通常能够反应市场的高估和低估；但市净率对于技术创新型企业不太适用，体现不出来新经济的优势。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Piotroski, J. and E. So. (2012). \"Identifying Expectation Errors in Value/Glamour Strategies: A Fundamental Analysis Approach\"",
+    "石川.《寻找股票市场中的预期偏差》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

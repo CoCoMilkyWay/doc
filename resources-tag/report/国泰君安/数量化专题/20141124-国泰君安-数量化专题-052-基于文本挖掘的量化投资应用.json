@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "id": "20141124-国泰君安-数量化专题-052-基于文本挖掘的量化投资应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["text"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment", "relation_graph", "corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "text"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "投资者情绪指标",
+          "family": "sentiment",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{对每日股票论坛全部发帖进行情感分析，输出正负情感数值并统计，得到反映投资者群体情绪的指标}",
+          "stats": [null, null, null, null],
+          "evidence": "那么所有论坛的帖子反应了整个投资者群体对当前股市的情绪，基于这样的想法，我们按天去收集股票论坛中所有的发贴，并对这些帖子进行情感分析、统计分析，得到一个可量化的、反映投资者群体情绪的指标。"
+        },
+        {
+          "name": "主题热度指标",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{heat}_{t}=\\text{MA}_{10}(\\text{论坛中主题词出现的频率}_{t})",
+          "stats": [null, null, null, null],
+          "evidence": "具体的操作方法是：我们统计每日论坛中这些主题词出现的频率，然后计算其10日移动平均值，得到主题热度指标。"
+        },
+        {
+          "name": "发帖量",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{postvol}_{i,t}=\\text{股票}i\\text{所属子论坛第}t\\text{日新发帖数量，按发帖量分为5组}",
+          "stats": [null, null, null, null],
+          "evidence": "具体的操作方法是：我们统计每个股票所属的子论坛下每日新发贴的数量，我们认为那些新发帖量较大的股票属于相对热门的股票，而那些新发帖量较小的股票属于相对冷门的股票。"
+        },
+        {
+          "name": "TF-IDF值",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "TFIDF_{i}=TF_{i}\\times IDF_{i},\\ \\text{根据设定好的阀值筛选主题相关个股}",
+          "stats": [null, null, null, null],
+          "evidence": "字词的重要性随着它在该文件中出现的次数（TF）正比增加，但同时会随着它在总的语料库中出现的频率(IDF)反比下降。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "情感分析的正确率仅在85%左右，因此情感分析仅针对较大样本下的统计才有意义。",
+      "evidence": "由于中文词语博大精深，我们的测试结果显示：情感分析的正确率仅在85%左右，因此情感分析仅针对较大样本下的统计才有意义。"
+    },
+    {
+      "text": "发帖量最小的20%的股票组合Q1具有非常稳定的超额收益，发帖量最大的20%的Q5稳定跑输基准，冷门股与热门股效应在A股中存在。",
+      "evidence": "Q1，也就是发帖量最小的20%的股票组合，具有非常稳定的超额收益；Q5，也就发帖量最大的20%的股票组合，稳定的跑输基准。这就是说明冷门股以及热门股效应在A股中也同样是存在的。"
+    },
+    {
+      "text": "几乎所有的主题热度与相关个股走势均趋于同步性，仅依据主题热度难以对主题做出择时判断。",
+      "evidence": "然而经过我们的统计发现，几乎所有的主题热度与相关个股走势均趋于同步性。仅仅依据主题热度这样一个同步指标，我们很难对主题做出择时的判断，因为在某种程度上基于主题热度投资和基于股价本身投资是一样的。"
+    },
+    {
+      "text": "选取最近3个月至6个月的文本数据挑选出的相关个股偏中规中矩、与主题确定相关；较短窗口则挑出新近相关、波动性大的个股。",
+      "evidence": "我们的研究结果显示，如果选取最近3个月至6个月的文本数据，则挑选出的相关个股基本偏向一些中规中矩、与主题确定相关的股票；如果选取较短时间内的文本数据，则挑选出的会是一些新近才与主题产生联系、相关性不确定的个股，且这些股票的波动性也非常大。"
+    },
+    {
+      "text": "国际机器人展览会召开前20个交易日到召开当日均有超额收益，2013、2014年近10%，2012年约6%，会后慢慢消减至0。",
+      "evidence": "每次在该展览会前20个交易日到展览会召开当日均有一定的超额收益，在2013年、2014年的时候有近10%的超额收益，2012年的时候有6%左右的超额收益，并且这些超额收益在展览会召开后慢慢消减至0（2013年因为其他的利好而导致了一定的偏差)。"
+    },
+    {
+      "text": "相比分析师覆盖家数因子，论坛发帖量因子数据量大、覆盖全，因子本身小幅波动对结果影响较小。",
+      "evidence": "比如分析师覆盖家数因子，也能在一定程度上反映股票的冷热程度，但是它的数据量较少，一方面会导致不是所有股票均有因子值，另一方面因子本身的小幅波动对结果影响较大。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于市场强弱度的择时》2014.11.20",
+    "《是税！基于大宗交易数据的事件驱动策略》2014.11.21",
+    "《阿尔法来源的再探索》2014.11.19"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

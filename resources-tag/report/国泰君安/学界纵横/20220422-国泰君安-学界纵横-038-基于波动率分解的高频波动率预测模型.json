@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "id": "20220422-国泰君安-学界纵横-038-基于波动率分解的高频波动率预测模型",
+  "genre": "research",
+  "asset": ["fund"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "intraday_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "日度波动率",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "intraday",
+          "formula": "\\text{将日度收益率代入GARCH(1,1)模型得到日方差预测值}\\;\\widehat{h}_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "日度波动率直接决定了当天日内所有波动率的整体水平，因此可以作为高频波动率的基准；"
+        },
+        {
+          "name": "日内波动率确定性趋势",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday", "daily"],
+          "horizon": "intraday",
+          "formula": "\\hat{s}_{i}=\\frac{1}{T}\\sum_{t=1}^{T}\\left(\\frac{r_{t,i}^{2}}{h_{t}}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "由于 $s_{i}$ 表示的是日内波动率的确定性趋势，不同日期的日内趋势均相同，且随机趋势项期望值为1，因此在剔除日度波动率的影响之后，我们可以将剩余两项的历史均值作为日内确定性趋势项的估计。"
+        },
+        {
+          "name": "日内波动率随机项",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday", "daily"],
+          "horizon": "intraday",
+          "formula": "z_{t,i}=r_{t,i}/\\sqrt{h_{t}s_{i}},\\quad z_{t,i}|F_{t,i-1}\\sim N(0,q_{t,i}),\\quad q_{t,i}=\\omega+\\alpha z_{t,i-1}^{2}+\\beta q_{t,i-1}",
+          "stats": [null, null, null, null],
+          "evidence": "由于波动率随机项具有聚集（Cluster）的特征，作者用 GARCH（1,1）过程为剩余波动率建模，得到 $q_{t,i}$ 的预测值"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "将日内高频波动率拆分为日度波动率、日内趋势项、日内随机项三部分进行分解，可以有效提高日内高频波动率的预测准确度",
+      "evidence": "文章认为日内高频波动率由上述三部分决定，按照这三项进行分解可以有效提高日内高频波动率的预测准确度；"
+    },
+    {
+      "text": "扩充样本数据可以提高模型参数估计的稳定性，使用相似特征的股票联合估计参数具有更高的预测准确度和稳定性",
+      "evidence": "扩充样本数据可以提高模型参数估计的稳定性，相比于对每个股票分别建模，使用相似特征的股票联合估计参数具有更高的预测准确度和稳定性。"
+    },
+    {
+      "text": "国内实证中模型预测结果的有效性表现优于不含随机项的 NSTOCH 模型以及直接对高频数据使用 GARCH 模型，一定程度上验证了波动率分解模型在国内市场的有效性",
+      "evidence": "结果显示，模型在预测结果的有效性上表现优于不含随机项的 NSTOCH 模型以及直接对高频数据使用 GARCH 模型，一定程度上验证了波动率分解模型在国内市场的有效性。"
+    },
+    {
+      "text": "样本外测试集内得到波动率预测后代入损失函数MSE，得到L = 4.637",
+      "evidence": "剩余 1/3 的数据（2020 年 5 月 25 日到 2022 年 1 月 25）作为样本外测试集，在测试集内得到波动率预测 $\\mathbf{q}_{\\mathrm{t,i}}^{\\mathrm{f}}$ ，代入到损失函数 MSE 中，得到L = 4.637。"
+    },
+    {
+      "text": "与NSTOCH模型比较，未添加随机日内方差项的模型代入损失函数MSE得到L = 4.855，差于分解模型",
+      "evidence": "对于未添加随机日内方差项的模型而言，将 $\\mathbf{q}_{\\mathrm{t,i}}^{\\mathrm{f}}$ 视作常数，由（7）式有 $E(z_{t,i}^{2})=E(q_{t,i})$ 计算后代入到损失函数 MSE中，得到L = 4.855。"
+    },
+    {
+      "text": "对分钟数据直接运用 GARCH模型建模，代入损失函数MSE得到L = 4.856，差于分解模型",
+      "evidence": "对分钟数据直接运用 GARCH模型，得到相应的波动率预测 $\\mathbf{q}_{\\mathrm{t,i}}^{\\mathrm{f}}$ 后代入到损失函数 MSE中，得到L = 4.856。"
+    },
+    {
+      "text": "按流动性分组后大多数组的(α+β)值集中在0.9以上，估计持久性较强，分组联合估计得到有效改进",
+      "evidence": "分组之后大多数组的(α+ β)值集中在 0.9 以上，这说明将公司按流动性分组后的估计持久性较强，估计得到了有效改进。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Forecasting intraday volatility in the US equity market. Multiplicative component GARCH"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "id": "20130901-明晟公司-barra模型-001-barra_china_equity_model_cne5_descriptor_details",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "horizon": "na"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "The ten style factors of CNE5 comprise a total of 21 descriptors, and this document defines these descriptors and their weights in the style factors.",
+      "evidence": "The ten style factors of CNE5 comprise a total of 21 descriptors. This document defines these descriptors and their weights in the style factors."
+    },
+    {
+      "text": "The Residual Volatility factor is orthogonalized to Beta to reduce collinearity.",
+      "evidence": "Note: The Residual Volatility factor is orthogonalized to Beta to reduce collinearity."
+    },
+    {
+      "text": "RSTR is computed as the sum of excess log returns over the trailing T= 504 trading days with a lag of L = 21 trading days.",
+      "evidence": "Computed as the sum of excess log returns over the trailing T= 504 trading days with a lag of L = 21 trading days,"
+    },
+    {
+      "text": "Beta is computed as the slope coefficient in a time-series regression of excess stock return against the cap-weighted excess return of the estimation universe.",
+      "evidence": "Computed as the slope coefficient in a time-series regression of excess stock return, $\\boldsymbol{r}_{t}-\\boldsymbol{r}_{ft}$ , against the cap-weighted excess return of the estimation universe $R_{t},$"
+    },
+    {
+      "text": "NLSIZE: the standardized Size exposure (i.e., log of market cap) is cubed, then orthogonalized to the Size factor on a regressionweighted basis, and finally winsorized and standardized.",
+      "evidence": "First, the standardized Size exposure (i.e., log of market cap) is cubed. The resulting factor is then orthogonalized to the Size factor on a regressionweighted basis. Finally, the factor is winsorized and standardized."
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra China Equity Model (CNE5)"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

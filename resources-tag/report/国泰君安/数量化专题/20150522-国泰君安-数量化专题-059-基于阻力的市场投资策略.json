@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20150522-国泰君安-数量化专题-059-基于阻力的市场投资策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "technical_pattern"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "相对阻力",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\sum_{i} V_i \\omega_{1i}\\omega_{2i}}{\\sum_{j} V_j \\omega_{1j}\\omega_{2j}},\\; \\omega_{1i}=\\log[1/(abs(p_i-p_c)/p_c)],\\; \\omega_{2i}=\\log(j+1)/\\log(N+1)",
+          "stats": [null, null, null, null],
+          "evidence": "阻力应该与过去一段时间的交易量是紧密相关的，以当前的价格为基准，高于当前价格成交量越大，向上的阻力就越大，反之亦然。阻力的大小应该与价格的距离成反向关系，历史交易价格距当前价格越远，形成的阻力便越小，反之则越大。阻力的大小应该与交易时间成反向关系，即交易形成的时间越早,对现在所形成的阻力便越小，反之则越大。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation", "L8_timing"],
+      "approach": ["relative_momentum", "technical_trend"],
+      "setup": {"rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于相对阻力指标的指数择时策略基本可以把握大的市场趋势，在牛市中跟住走势、熊市中规避大幅下跌，双边多空择时策略年化收益接近40%。",
+      "evidence": "基于相对阻力指标的指数择时策略，基本上可以把握大的市场趋势：在牛市中跟住市场走势，在熊市中规避大幅下跌。若进行双边多空择时策略，年化收益接近 40%。"
+    },
+    {
+      "text": "基于阻力的单边做多策略过去10年操作56次，年化收益接近30%，胜率只有33%但盈亏比接近20。",
+      "evidence": "基于阻力的单边做多策略取得了较好的效果：过去10年总共操作56次，年化收益接近 30%，尽管胜率只有 33%，但盈亏比很高，接近20。"
+    },
+    {
+      "text": "将牛熊分界线扩展为0.5到0.9的牛熊分界带后，改进的双边多空策略年化收益提高、回撤降低、交易信号大幅减少、胜率大幅提高。",
+      "evidence": "由上述图表可以看到，改进的双边多空策略年化收益有所提高，回撤有所降低，交易信号大幅减少，胜率大幅提高。"
+    },
+    {
+      "text": "基于相对阻力指数的多空对冲行业配臵策略在考虑周频率交易成本的情况下可获取年化19.66%的超额收益，且每年都有正收益。",
+      "evidence": "基于相对阻力指数的多空对冲行业配臵策略，在考虑周频率交易成本的情况下，可获取年化 19.66%的超额收益，同时实现了每年都有正收益的业绩。"
+    },
+    {
+      "text": "敏感性测试显示计算阻力的周期选取120个交易日效果较好，周期在120-250个交易日之间时策略收益及波动性相对趋于稳定。",
+      "evidence": "由图7及表 4 可以看出，综合年化收益、胜率以及最大回撤等指标，计算阻力的周期选取120 个交易日效果较好。不过，当计算阻力的周期在120-250 个交易日之间时，策略的收益及波动性相对趋于稳定。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《股票做手回忆录》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

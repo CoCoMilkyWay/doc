@@ -1,0 +1,306 @@
+{
+  "schema_version": 2,
+  "id": "20170428-光大证券-多因子-002-因子测试全集",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "technical_pattern"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP_LR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净资产（最新财报）}}{\\text{总市值}}",
+          "stats": [0.051, null, 0.48, 0.104],
+          "evidence": "估值因子中的BP因子正是Fama-French三因子模型中的一个重要组成部分，因此也很容易理解 BP_LR 和 BP_TTM 因子的历史收益表现和 IC 值均强于其他同类型的估值因子。"
+        },
+        {
+          "name": "E2P_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{归属母公司股东权益}}{\\text{总市值}}",
+          "stats": [0.05, null, 0.46, 0.106],
+          "evidence": "估值因子的单调性则表现各异，其中 BP_LR 和 E2P_TTM 的单调性表现同样突出，SP_LYR和 EV2EBITDA单调性表现较好，其他因子的单调性则并不显著"
+        },
+        {
+          "name": "SP_LYR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入（最新年报）}}{\\text{总市值}}",
+          "stats": [0.027, null, 0.31, 0.065],
+          "evidence": "由上表可见，BP_LR 作为估值因子中平均收益率最高的因子，与包括SP_TTM、SP_LYR、E2P_TTM、EV2EBITDA 之间的相关性都很强。"
+        },
+        {
+          "name": "EV2EBITDA",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{企业价值倍数}",
+          "stats": [-0.032, null, -0.33, -0.067],
+          "evidence": "估值因子的单调性则表现各异，其中 BP_LR 和 E2P_TTM 的单调性表现同样突出，SP_LYR和 EV2EBITDA单调性表现较好，其他因子的单调性则并不显著"
+        },
+        {
+          "name": "MC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值}",
+          "stats": [-0.064, null, -0.39, -0.235],
+          "evidence": "由于自然对数仅仅是通过因子值的变形得到的不同因子表示方式，可以发现Ln_MC与MC完全相关，同理，Ln_FC与FC的IC值序列也是完全相关的。"
+        },
+        {
+          "name": "Ln_MC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{总市值})",
+          "stats": [-0.068, null, -0.4, -0.235],
+          "evidence": "规模因子（市值因子和流通市值因子）的 IR 绝对值均高于 0.3，IC 绝对值均高于 5%，是显著性和预测能力都非常强的因子。而 FC_MC 的表现则并不显著。"
+        },
+        {
+          "name": "OPG_TTM",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入增长率_TTM}",
+          "stats": [-0.028, null, -0.37, -0.054],
+          "evidence": "营业收入增长率 OPG_TTM 因子的历史累积收益情况表现明细优于其他的成长类因子，其他的成长类因子的收益率基本持平。"
+        },
+        {
+          "name": "OPM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业利润率}",
+          "stats": [0.008, null, 0.1, -0.03],
+          "evidence": "质量因子中累计收益率较高的因子为OPM和 OPM_TTM，并且从上图已经可以观察出，除OPM、NPM以外的因子收益率走势十分类似，相关性较高。"
+        },
+        {
+          "name": "OPM_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业利润率_TTM}",
+          "stats": [0.004, null, 0.06, -0.031],
+          "evidence": "质量因子中累计收益率较高的因子为OPM和 OPM_TTM，并且从上图已经可以观察出，除OPM、NPM以外的因子收益率走势十分类似，相关性较高。"
+        },
+        {
+          "name": "AT_TTM",
+          "family": "quality",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产周转率_TTM}",
+          "stats": [-0.007, null, -0.07, 0.003],
+          "evidence": "例如资产周转率 AT_TTM 因子，组1 和组 5的年化收益率分别为 17.5%和 19.2%，而组 3的年化收益仅有 15.5%"
+        },
+        {
+          "name": "QR",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{速动比率}",
+          "stats": [-0.006, null, -0.1, 0.047],
+          "evidence": "我们统计了杠杆因子历史IC 值序列的相关性，发现除了CUR与 QR之间存在较强的共线性以外，其他因子间 IC 值得共线性均比较弱。"
+        },
+        {
+          "name": "Momentum_1M",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近1个月收益率}",
+          "stats": [-0.079, null, -0.75, -0.118],
+          "evidence": "由上表可见，动量因子整体的因子收益和 IC 值表现都非常出色，不过可以预见的是，动量因子的相关性和共线性会比较强"
+        },
+        {
+          "name": "Momentum_1M_Max",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近1个月的日收益率的最大值}",
+          "stats": [-0.066, null, -0.81, -0.012],
+          "evidence": "1 个月最高价因子与其他动量因子之间的相关性较低，而1 个月、3 个月、6个月、12 个月、24 个月的收益率因子之间的相关性均较高，其中最高的是6 个月收益率和12个月收益率，这两个因子之间IC值相关性高达 85%。"
+        },
+        {
+          "name": "Momentum_6M",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近6个月收益率}",
+          "stats": [-0.064, null, -0.55, -0.125],
+          "evidence": "由上表可见，动量因子整体的因子收益和 IC 值表现都非常出色，不过可以预见的是，动量因子的相关性和共线性会比较强"
+        },
+        {
+          "name": "VSTD_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月成交量标准差}",
+          "stats": [-0.065, null, -0.82, -0.207],
+          "evidence": "由上表可见，波动因子整体的因子收益和 IC 值表现都比较出色，而成交量标准差VSTD的三个因子单调性表现格外突出。"
+        },
+        {
+          "name": "STD_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月日收益率标准差}",
+          "stats": [-0.055, null, -0.47, -0.031],
+          "evidence": "成交量波动率VSTD 因子与其他波动性因子之间的相关性较低，CAPM残差风险（特质波动因子）与股价标准差因子之间的相关性均较高，因此在筛选波动因子时可以考虑 VSTD 和其他波动因子合成一个大类波动因子。"
+        },
+        {
+          "name": "Residual_Risk",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{CAMP模型残差的标准差（12个月）}",
+          "stats": [-0.036, null, -0.27, -0.034],
+          "evidence": "成交量波动率VSTD 因子与其他波动性因子之间的相关性较低，CAPM残差风险（特质波动因子）与股价标准差因子之间的相关性均较高，因此在筛选波动因子时可以考虑 VSTD 和其他波动因子合成一个大类波动因子。"
+        },
+        {
+          "name": "TURNOVER_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近一个月换手率}",
+          "stats": [-0.066, null, -0.49, -0.085],
+          "evidence": "由上表可见，流动性因子整体的因子收益和 IC 值表现都非常出色，单调性表现较差。"
+        },
+        {
+          "name": "VA_FC_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近一个月买卖循环率}",
+          "stats": [-0.067, null, -0.51, -0.066],
+          "evidence": "流动性因子作为一个显著性较高的负向因子，其因子单调性却差强人意，下表就展示了流动性因子做行业中性的分层回溯后各组的历史年化收益情况"
+        },
+        {
+          "name": "RSI",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{相对强弱指标}",
+          "stats": [-0.055, null, -0.49, -0.13],
+          "evidence": "技术因子整体的因子收益和 IC值表现较好，其中SOBV和RSI相对强弱指标的收益率最高。"
+        },
+        {
+          "name": "SOBV",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{能量潮}",
+          "stats": [-0.027, null, -0.24, -0.094],
+          "evidence": "下表统计了技术因子历史 IC 值序列的相关性，同时我们发现 SOBV 与 RSI 的 IC 值相关系数非常接近 0，可见技术因子的选择余地更大，多个因子的组合也成为一种可能。"
+        },
+        {
+          "name": "TargetReturn",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期目标价}/\\text{收盘价}-1",
+          "stats": [0.036, null, 0.63, 0.126],
+          "evidence": "分析师因子中的一致预期目标价（TargetReturn）、一致预期营业收入1 个月增长率（EOPChange_1M）等因子的 IC 和 IR 值较高，历史的收益率排名可进入前 20。一致预期目标价的历史 IR 为 0.63、一致预期营业收入1个月增长率历史IR为0.40。"
+        },
+        {
+          "name": "EOPChange_1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期营业收入变化1M}",
+          "stats": [0.014, null, 0.4, 0.06],
+          "evidence": "分析师因子中的一致预期目标价（TargetReturn）、一致预期营业收入1 个月增长率（EOPChange_1M）等因子的 IC 和 IR 值较高，历史的收益率排名可进入前 20。一致预期目标价的历史 IR 为 0.63、一致预期营业收入1个月增长率历史IR为0.40。"
+        },
+        {
+          "name": "EEP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期EP}",
+          "stats": [0.036, null, 0.37, 0.097],
+          "evidence": "由上表可见，TargetReturn、EEP、EOPChange_1M 等因子的因子收益和IC 值表现都非常出色。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "通过分期截面RLM回归计算因子收益、计算因子暴露与下期收益率的相关度IC值，并结合分层回测法检验因子单调性，构建综合全面的因子测试体系。",
+      "evidence": "通过分期截面RLM回归计算因子收益，计算因子暴露与下期收益率的相关度IC值，同时结合分层回测法检验因子单调性，构建较为综合全面的因子测试体系。"
+    },
+    {
+      "text": "行情类因子中的流动性因子、波动因子、动量因子显著性很高，因子收益率与IC值、IR值普遍高于财务类因子，行情类因子有效性整体高于财务类因子。",
+      "evidence": "行情类因子中的流动性因子、波动因子、动量因子的显著性均普遍具有很高的显著性，因子收益率与IC 值、IR 值也普遍高于财务类因子。"
+    },
+    {
+      "text": "历史IR值最高的30个因子中共包含7个财务类因子、3个预期类因子、20个行情类因子。",
+      "evidence": "我们简单排序后列出了因子库中历史 IR 值最高的 30 个因子，如下表所示，30 个因子中共包含 7 个财务类因子、3 个预期类因子、20 个行情类因子"
+    },
+    {
+      "text": "一致预期目标价（TargetReturn）、一致预期营业收入1个月增长率等分析师预期因子的IC和IR值较高，历史收益率排名可进入前20。",
+      "evidence": "分析师因子中的一致预期目标价（TargetReturn）、一致预期营业收入 1个月增长率等等因子的 IC 和 IR 值较高，历史的收益率排名可进入前 20。"
+    },
+    {
+      "text": "规模因子（市值因子和流通市值因子）的IR绝对值均高于0.3、IC绝对值均高于5%，是显著性和预测能力都非常强的因子。",
+      "evidence": "规模因子（市值因子和流通市值因子）的 IR 绝对值均高于 0.3，IC 绝对值均高于 5%，是显著性和预测能力都非常强的因子。而 FC_MC 的表现则并不显著。"
+    },
+    {
+      "text": "分析师因子间共线性较弱的原因是预期类因子覆盖率较低，大部分一致预期因子只能覆盖60-70%的全A股票。",
+      "evidence": "而这其中很可能的原因是预期类的因子覆盖率较低，大部分的一致预期因子只能覆盖60-70%的全A 股票，因此IC 值的相关性较弱。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《多因子系列报告之一：因子测试框架》2017-04-10"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

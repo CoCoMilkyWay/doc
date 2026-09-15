@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20211124-国泰君安-学界纵横-027a-加权回撤框架_统一化度量风险指标",
+  "genre": "research",
+  "asset": ["fund"],
+  "primary": "L6_evaluation",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "最大回撤MDD",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "MDD=\\frac{TroughValue-PeakValue}{peakValue}",
+          "stats": [null, null, null, null],
+          "evidence": "最大回撤 MDD 出自 Garcia and Gould， 1987，衡量在选定周期内任一历史时点往后推，产品净值走到最低点时的收益率回撤幅度的最大值，计算公式为："
+        },
+        {
+          "name": "平均回撤ADD",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "ADD=\\frac{1}{N}\\sum_{i=1}^{N}D_{i}",
+          "stats": [null, null, null, null],
+          "evidence": "平均回撤ADD是选定周期内回撤的平均值。如果说最大回撤记录了历史上的偶发性黑天鹅事件，那么平均回撤能够更加准确地反映未来的回撤水平，是期望回撤的估计值。"
+        },
+        {
+          "name": "均方回撤ADD²",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "ADD^{2}=\\sqrt{\\frac{1}{N}\\sum_{i=1}^{N}D_{i}^{2}}",
+          "stats": [null, null, null, null],
+          "evidence": "均方回撤ADD²又被称作溃疡指数(Ulcer Index)，于 Martin and McCann(1989)中提出。均方回撤的计算方法为，将每一期的回撤平方相加，除以总期数，再开方。"
+        },
+        {
+          "name": "线性加权回撤",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "wDD=\\sum_{i=1}^{N}\\omega_{i}D_{i},\\ \\omega_{i}\\propto i\\ (\\text{权重随时期线性增加后标准化})",
+          "stats": [null, null, null, null],
+          "evidence": "在wDD框架下，自创指标非常容易。例如，希望更关注投资末期的回撤，那么可以让权重随着时期t线性增加，取"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["na"], "rebalance": "quarterly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "wDD将常见回撤指标纳入统一框架，把回撤指标转化为对回撤图的加权问题，投资者也可以从自身需求出发发明不同的回撤指标。",
+      "evidence": "wDD将常见的各种回撤指标都纳入到了统一的框架下，将回撤指标转化为对回撤图的加权问题，为理论分析和程序实现提供了便利。在这一框架下，投资者也可以从自身的需求出发，发明不同的回撤指标。"
+    },
+    {
+      "text": "ADD、ADD²和lwDD之间的相关系数在0.85±0.03，三者排序结果非常相似；它们与twDD相关性有所下降，与单点权重的MDD和eopDD相关性显著下降。",
+      "evidence": "观察表2，ADD、ADD²和lwDD之间的相关系数在0.85±0.03，意味着使用这3 个指标会得到非常相似的结果。这些指标与权重时变的 twDD的相关性有所下降，与单点权重的 MDD和 eopDD 的相关性则显著下降。"
+    },
+    {
+      "text": "在区分基金经理能力方面回撤指标表现可圈可点，充分利用回撤图全部信息的ADD、lwDD、ADD2优于只运用部分信息的twDD、MDD，基于实际损失的回撤指标比基于波动率的指标反映更多风险信息。",
+      "evidence": "总的来说，在区分基金经理的能力方面，回撤指标都表现得可圈可点。因为基于实际损失的回撤指标比基于波动率的指标反映除了更多的风险信息。另外，那些对回撤图的所有信息利用得更加充分的回撤指标(ADD、lwDD、ADD2)比那些只运用了回撤图部分信息的指标(twDD、MDD)表现得更加优异。"
+    },
+    {
+      "text": "随着计算频率加快回撤指标相关系数逐渐上升；纵向比较mDD的持续性最优，aDD与aDD²次之，lwDD相关性最弱。",
+      "evidence": "可以看到，随着计算频率的加快，指标的相关系数逐渐上升。而纵向比较，mDD的持续性最优，aDD与aDD²次之，lwDD相关性最弱。"
+    },
+    {
+      "text": "以2020年1月1日为分界，前半段基金净值平均波动率为14.86%，后半段波动率为32.31%，波动率上升对aDD、aDD²和lwDD影响更大，导致aDD的延续性不如mDD。",
+      "evidence": "以2020年1月1日作为分界，前半段的基金净值平均波动率为14.86%，而后半段的波动率则为32.31%。"
+    },
+    {
+      "text": "A股业绩回测显示不同回撤指标对业绩具有一定区分度，aDD最优，aDD²次之，mDD最弱；aDD经济学意义更强，对未来风险反映更准确，应用于选基的优异表现具有理论支持。",
+      "evidence": "实证结果显示，不同回撤指标对业绩具有一定的区分度，aDD最优，aDD²次之，mDD最弱。相比于mDD，aDD所具有的经济学意义更强，对未来风险的反映程度也更准确，因此aDD应用于选基的优异表现具有理论支持。"
+    },
+    {
+      "text": "在业绩评价应用中回撤指标表现不如传统夏普比率，原因是收益为负时指标分子与分母高度相关、存在内生性，影响风险信息的反映。",
+      "evidence": "在业绩评价的应用中，回撤指标表现不如传统的夏普比率。这是因为在收益为负的情形下，指标的分子与分母高度相关，存在内生性，影响了风险信息的反映。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Drawdown Measures: Are They All the Same?",
+    "Garcia and Gould (1987)",
+    "Martin and McCann (1989)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

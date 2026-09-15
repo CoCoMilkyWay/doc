@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20180103-光大证券-多因子-009-一致交易因子_挖掘集体行为背后的收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "一致交易因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "TCV_{t}=\\frac{1}{d}\\sum_{i=1}^{d}\\left(\\frac{Consistent\\_Volume}{Volume}\\right)_{t-i}",
+          "stats": [null, 0.0778, 0.84, null],
+          "evidence": "我们将上述因子称为一致交易因子（Total Consistent Volume, 简称TCV）。结合可能采取的因子平滑操作，一致交易因子的数学表达为："
+        },
+        {
+          "name": "一致买入交易因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "PCV_{t}=\\frac{1}{d}\\sum_{i=1}^{d}\\left(\\frac{Consistent\\_Volume_{rise}}{Volume}\\right)_{t-i}",
+          "stats": [null, 0.0547, 0.64, null],
+          "evidence": "一致买入交易因子（Positive Consistent Volume，简称 PCV）："
+        },
+        {
+          "name": "一致卖出交易因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "NCV_{t}=\\frac{1}{d}\\sum_{i=1}^{d}\\left(\\frac{Consistent\\_Volume_{fall}}{Volume}\\right)_{t-i}",
+          "stats": [null, 0.0769, 0.91, 0.142],
+          "evidence": "与一致卖出交易因子（Negative Consistent Volume，简称 NCV）："
+        },
+        {
+          "name": "中性化后一致卖出交易因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "NCV_{i}=\\beta_{1}*MC_{i}+\\beta_{2}*Industry_{i}+\\beta_{3}*TURNOVER_{1M_{i}}+\\beta_{4}*STD_{i}+\\beta_{5}*VSTD_{i}+\\beta_{6}*BP_{i}+\\beta_{7}*ROE_{i}+\\beta_{8}*FC_{i}+\\varepsilon_{i}",
+          "stats": [null, 0.0237, 0.6, 0.048],
+          "evidence": "在经过中性化处理后一致卖出交易因子的有效性检验等结果虽然有明显下降，但仍然十分显著，IC 平均值为2.37%， IR 绝对值达 0.60。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "一致参数为0.95时，一致交易因子、一致买入交易因子与一致卖出交易因子的IR值分别达到0.84、0.64与0.91；综合IC序列整体与近期表现，一致卖出交易因子更具预测能力，其IC均值7.7%，IR值0.91。",
+      "evidence": "在一致参数为0.95时，一致交易因子、一致买入交易因子与一致卖出交易因子的 IR 值都达到十分显著的水平：0.84，0.64 与 0.91。综合比较IC 序列整体与近期的表现，一致卖出交易因子更具有预测能力，其 IC 均值 7.7%，IR 值为 0.91。"
+    },
+    {
+      "text": "一致卖出交易因子分组单调性优异，组合收益随分组因子值上升单调提升，多空组合（第十组对冲第一组）年化收益14.2%，夏普比率1.91，最大回撤11.9%。",
+      "evidence": "随着分组因子值的上升，组合收益单调提高，且区分度较为明显。多空组合（第十组对冲第一组）表现优异，年化收益 14.2%，夏普比率 1.91，最大回撤 11.9%。"
+    },
+    {
+      "text": "30日指数移动平均下的一致卖出交易因子选股组合表现较好，年化收益22.0%，夏普比率1.09，相对中证500基准的年化超额收益为14.6%，相对最大回撤17.6%出现在2010年后半年。",
+      "evidence": "在 30 日指数移动平均下的一致卖出交易因子选股组合表现较好，该因子组合的年化收益22.0%，夏普比率为 1.09，最大回撤为 44.0%，相对中证500 基准的年化超额收益为 14.6%，相对最大回撤 17.6%出现在 2010 年后半年，之后最大回撤基本控制在 10%以内。"
+    },
+    {
+      "text": "中性化后一致卖出交易因子IC均值降至2.37%、IR绝对值0.60，仍十分显著；多空组合年化收益由14.2%降至4.8%，但夏普比率仍有1.23，最大回撤仅4.8%，稳定性亮眼。",
+      "evidence": "中性化处理后一致卖出交易因子的选股能力有所下降，多空组合收益更是从中性化前的 14.2%大幅下降到 4.8%。但其稳定性依然较为亮眼，多空组合年化波动3.9%，夏普比率仍有 1.23，最大回撤仅 4.8%。"
+    },
+    {
+      "text": "一致交易类因子信息衰减速率较大：一日预测窗口年化IR在6到7，预测窗口扩大到月时年化IR降到2到3；调仓频率越快组合收益越高，考虑交易成本后月度调仓仍是较优选择。",
+      "evidence": "当日因子值预测次日相对收益的一日窗口年化 IR 基本都在 6 到 7 的水平，而当预测窗口扩大到月时，年化IR 则下降到2到3的水平。"
+    },
+    {
+      "text": "一致卖出交易因子与技术因子中的波动因子、换手因子跟流动性因子有非常高的负相关性，说明该因子会选出波动较小、换手率低、没有太多流动性的股票。",
+      "evidence": "从相关性测试结果可以明显看出，一致卖出交易因子与技术因子中的波动因子、换手因子跟流动性因子都有非常高的负相关性。说明该因子会选出波动较小，换手率低，没有太多流动性的股票。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《因子测试框架——多因子系列报告之一》",
+    "《见微知著：成交量占比高频因子解析——多因子系列报告之五》",
+    "《高频因子：日内分时成交量蕴藏玄机——多因子系列报告之八》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

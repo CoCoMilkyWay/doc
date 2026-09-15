@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20220410-光大证券-量化选股-004-哪些股票将迎来高股息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "expectation_level"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "预期股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "预期股息率=\\frac{预期分红率\\times 一致预测净利润}{当前市值}",
+          "stats": [null, null, null, null],
+          "evidence": "得到预测分红率之后，我们可以结合一致预测净利润计算股票当年的分红金额，进而计算股息率。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "高分红的企业多集中在产业生命周期的成熟期，表现出低盈利能力、低投资回报率、低外部筹资依赖度以及较好的财务质量等特点。",
+      "evidence": "我们对 A 股公司按分红率高低分组，通过对相关财务指标进行研究，最终发现高分红的企业多集中在产业生命周期的成熟期，表现出低盈利能力、低投资回报率、低外部筹资依赖度以及较好的财务质量等特点。"
+    },
+    {
+      "text": "预测模型的分红率前100名预测准确率相比于基准模型平均提升10个百分点左右，且近两年提升效果尤为明显。",
+      "evidence": "预测模型的分红率前100名预测准确率相比于基准模型平均提升10个百分点左右，且近两年提升效果尤为明显。对于筛选高股息股票来说，模型具备较好的预测能力。"
+    },
+    {
+      "text": "预期股息率可以理解为未来高派息的股票以当前价格购买的性价比，投资者可据此提前布局。",
+      "evidence": "预期股息率可以理解为：未来高派息的股票以当前价格购买的性价比。"
+    },
+    {
+      "text": "高股息股票市值呈现 U 形分布，大盘蓝筹股只是高股息股票的一部分，更多的高股息企业集中在中小盘股票。",
+      "evidence": "一般认为高股息股票集中在大盘蓝筹股，然而从中证红利指数的统计结果来看，市值呈现 U 形分布，大盘蓝筹股只是高股息股票的一部分，更多的高股息企业集中在中小盘股票。"
+    },
+    {
+      "text": "分组统计来看，营收增长与分红率的负相关关系最为明显，分红率最高组的资本开支和盈利能力均显著低于其它组。",
+      "evidence": "分组统计来看，营收增长与分红率的负相关关系最为明显，资本开支和盈利能力等指标虽然单调性一般，但是分红率最高组均显著低于其它组。"
+    },
+    {
+      "text": "分红企业占比近10年均维持在70%以上，A股分红意愿持续抬升，市场逐渐走向成熟。",
+      "evidence": "分红企业占比近 10年均维持在 70%以上，这是 A股逐渐走向成熟的表现。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

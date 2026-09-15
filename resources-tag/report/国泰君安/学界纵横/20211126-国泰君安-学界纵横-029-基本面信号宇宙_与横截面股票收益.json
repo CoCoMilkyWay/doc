@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "20211126-国泰君安-学界纵横-029-基本面信号宇宙_与横截面股票收益",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": ["style_ratio", "momentum_reversal", "symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection"]}
+  },
+  "findings": [
+    {
+      "text": "即使将数据挖掘偏差考虑在内，仍有许多基本面信号是截面股票收益的重要预测因素；这些信号可分为已被文献证明、信息高度相关、尚未被发现三类，第三类占绝大多数。",
+      "evidence": "作者发现，即使将数据挖掘偏差考虑在内，仍有许多基本面信号是截面股票收益的重要预测因素。这些信号可以大致分为三类：（1）已经被现有的文献证明的；（2）包含的信息与前者高度相关的；（3）还未被研究者发现的，这一类占了绝大多数。"
+    },
+    {
+      "text": "就等权四因子模型而言，alpha 的 t 统计量绝对值大于 5 的有 549 个基本面信号，市值加权四因子模型的 alpha 对应的 t 统计量大于 3 的有 362 个。",
+      "evidence": "就平均加权的四因子模型而言，alpha 的 t 统计量绝对值大于 5 的有 549 个基本面信号，而市值加权的四因子模型的 alpha 对应的 t 统计量大于 3 的有 362 个。"
+    },
+    {
+      "text": "基本面异象因子不能归因于样本的选择，而是能够有效地被错误定价解释；造成错误定价的主要原因不是交易成本，而是投资者有限的注意力导致他们不能充分地利用公开的财务信息。",
+      "evidence": "数据表明，这些基本面异象因子不能归因于样本的选择，而是能够有效地被错误定价解释。造成错误定价的主要原因，不是交易成本，而是投资者有限的注意力导致他们不能充分地利用公开的财务信息。"
+    },
+    {
+      "text": "与收益正相关的历史信号几乎都是 3-12 期的短期收益；负相关的历史信号大多长于五年，作者把这种新发现称为“long long-run reversal”。",
+      "evidence": "值得注意的是，与收益正相关的历史信号几乎都是 3-12 期的短期收益，这与前人的研究结果相符。与之相对的，负相关的历史信号大部分都是长期的，但是与前人的研究不同的是，这些历史的长期收益大多长于五年，作者把这种新发现称为“long long-run reversal”"
+    },
+    {
+      "text": "1963-1987 年间预测能力最显著的基本面信号仍有 50.65%能够在 1988-2013年保持最显著的预测能力（Q1→Q1），Q5→Q5 的保有率高达 30%，说明基本面信号对股票收益的预测能力不随时间、样本的随机选择而变化。",
+      "evidence": "可以看到，对于等权 EW 的投资组合而言，在 1963-1987 年间预测能力最显著的基本面信号仍有 50.65%能够在 1988-2013年保持最显著的预测能力（Q1→Q1）。同理，Q5→Q5 的保有率也能够高达 30%。"
+    },
+    {
+      "text": "纳入金融股、改用五因子模型、调整非空数据量限制、无放回抽样以及拓展到其他市场后结论类似：大量基本面因子对股票收益的预测能力在考虑数据挖掘偏差后仍然显著。",
+      "evidence": "结果发现，我们能够得到类似的结论，即有大量基本面因子能够对股票收益有显著的预测能力，并且这种预测能力在考虑了数据挖掘偏差后仍然是显著的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kosowski et al. (2006)",
+    "Xuemin Yan & Lingling Zheng. \"Fundamental Analysis and the Cross-Section of Stock Returns: A Data-Mining Approach\""
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

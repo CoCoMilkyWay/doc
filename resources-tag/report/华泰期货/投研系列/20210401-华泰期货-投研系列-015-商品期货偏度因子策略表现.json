@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20210401-华泰期货-投研系列-015-商品期货偏度因子策略表现",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "偏度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{skewness}=\\mathrm{E}[\\left(\\frac{r-\\mu}{\\sigma}\\right)^3]",
+          "stats": [null, null, null, 0.0726],
+          "evidence": "通常使用各期货主力日收益率序列在历史时间窗口的偏度作为其对偏度因子的暴露程度。偏度因子策略通过做多偏度排名靠后的品种，做空偏度排名靠前的品种，获得偏度因子的风险溢价。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "偏度策略在2014年后开始走强，偏度后5名收益表现明显优于前5名（除2015年基本持平），可能有较稳定的超额收益，或受市场参与者逐步走向成熟影响。",
+      "evidence": "通过下图可以看到，在 2010-2014 年之前前5名表现更佳，在 2014年之后偏度后5名收益表现明显优于前 5名（除2015年基本持平），这有可能是受到市场的参与者逐步走向成熟影响。"
+    },
+    {
+      "text": "偏度基于价值回归逻辑，与动量趋势策略出发点不同，但下行行情可能因下跌不足而正偏、上涨行情可能因上行动力不足而负偏，两者可能给予相同持仓方向，偏度和动量结合有机会优化单因子策略。",
+      "evidence": "但是由于偏度是相对均值的概念（公式 r-μ），在一个下行的行情有可能出现下跌不足（统计上）而导致正偏，上涨的行情也有可能出现上行动力不足（统计上）而导致负偏，这两种情况下动量与偏度可能会给予相同的持仓方向，偏度抓住了更高维度的收益率特征，因此我们认为将偏度和动量结合有机会对单因子策略进行优化。"
+    },
+    {
+      "text": "多空2个品种的年化收益率最高但波动也最大，多空10个品种波动最小；2014年以来多空5个品种信息比率最高（1.07，年化收益率7.26%，最大回撤8.79%），适当增加多空品种数量能明显提高策略的风险收益并降低回撤。",
+      "evidence": "多空 2个品种的年化收益率最高，但同时波动也是最大的，多空 10 个品种的波动最小。使用 2014年以来的历史数据统计，多空5个品种的信息比率时最高。仅仅使用两个品种虽然有机会获得更高的收益，但同时也需要承担较大的风险，适当的增加多空品种数量能明显提高策略的风险收益，回撤也明显的得到降低。"
+    },
+    {
+      "text": "铜期货近一年偏度排名多次垫底（-0.49，倒数第二），但近一年均处在偏度策略的多头持仓中，连续上行行情与负偏同时出现。",
+      "evidence": "同时，在铜期货在近一年均处在偏度策略的多头持仓中，连续上行行情与负偏同时出现。"
+    },
+    {
+      "text": "策略设计：以1年为偏度计算窗口，每月底按偏度排序，多空品种默认5个，月度调仓，等额分配、无杠杆，流动性较差的品种不参与排名。",
+      "evidence": "我们选取选取1年作为偏度计算时间窗口，即每个月底计算各个品种过去一年的偏度值排序，做多偏度排名靠后的品种，做空偏度排名靠前的品种，多空品种默认选取5 个，调仓周期为月度，月内不做调仓操作，资金分配比例采取等额分配，无杠杆交易，流动性较差的品种不参与排名。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fernandez-Perez A , Frijns B , Fuertes A M , et al. Commodities as Lotteries: Skewness and the Returns of Commodity Futures[J]. SSRN Electronic Journal, 2015.",
+    "Fernandez-Perez A , Frijns B , Fuertes A M , et al. The skewness of commodity futures returns[J]. Journal of Banking &, 2018, 86(Jan.):143-158.",
+    "因子系列（五）偏度与峰度因子（2017-12-25）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "20181128-国泰君安-数量化专题-118-上市公司核心竞争力投资策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail", "accounting_quality"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "竞争力评价因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{将技术竞争力、产品竞争力、内控竞争力和持续发展性四个维度下经行业内标准化与极值塌缩平滑后的指标维度内等权加总，再将四个维度指标加权汇总}",
+          "stats": [0.0159, null, 1.4, 0.0575],
+          "evidence": "中性化后的竞争力评价因子月度 IC 为 1.59%，ICIR 为 1.40，对下一期行业与传统风格因子调整后的收益具有较好的预测效果。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中性化后的竞争力评价因子月度 IC 为 1.59%，ICIR 为 1.40，在 10 年~13 年以及 17 年至今的长期慢熊环境中表现更好，IC 可以达到 2.95%，ICIR 则为 2.87。",
+      "evidence": "具体来看，竞争力评价因子在长期慢熊环境中有更好的表现，如 10 年~13 年以及 17年至今，IC 可以达到 2.95%，ICIR 则为 2.87。"
+    },
+    {
+      "text": "沪深300内TOP组合年化超额收益 6.10%，最大回撤 7.22%，月胜率66%；中证500内TOP组合年化超额收益5.63%，最大回撤9.33%，月胜率63%。",
+      "evidence": "沪深300内TOP组合年化超额收益 6.10%，最大回撤 7.22%，月胜率66%；中证500内TOP组合年化超额收益5.63%，最大回撤9.33%，月胜率63%。"
+    },
+    {
+      "text": "竞争力评价因子能有效选出下期成长性较强的公司，因子 alpha 收益反映的是企业未来真正的竞争优势，而非基于当前时刻的竞争力预期。",
+      "evidence": "这说明竞争力评价因子能有效选出下期成长性较强的公司，即因子 alpha收益反映的是企业未来真正的竞争优势。"
+    },
+    {
+      "text": "再中性化因子的 IC、ICIR 以及多空年收益均低于原因子，验证了因子 alpha 收益来源于企业未来真正的竞争优势。",
+      "evidence": "结果显示，再中性化因子的 IC、ICIR以及多空年收益均低于原因子，与我们的预期相同。"
+    },
+    {
+      "text": "竞争力评价因子在中短期内收益持续性较好，在中长期出现一定回撤，而在进入年报发布区间后收益回升，年报后和半年报后持仓期 alpha 收益要高于三季报后持仓期。",
+      "evidence": "整体上说，竞争力评价因子在中短期内收益持续性较好，在中长期出现一定回撤，而在进入年报发布区间后收益回升。作为一个长持仓期的低频因子，竞争力评价因子在换仓初期有稳定的 alpha 收益，且年报后和半年报后持仓期alpha收益要高于三季报后持仓期。"
+    },
+    {
+      "text": "因子适用性强的行业多为制造业下游产业或技术密集型产业，基于以上行业的增强策略自 07 年以来可获得 9.98% 的年化收益，最大回撤 10.37%，月胜率63%。",
+      "evidence": "策略自07年以来可获得9.98%的年化收益，最大回撤 10.37%，月胜率63%，夏普比率1.21。"
+    },
+    {
+      "text": "竞争力评价因子与传统风格因子的相关性较低，均不足10%，可以认为因子独立性较强，提供了增量信息。",
+      "evidence": "从结果来看，竞争力评价因子与传统风格因子的相关性较低，均不足10%，可以认为因子独立性较强，提供了增量信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Prahalad C K, Hamel G. The core competence of the corporation",
+    "Stalk G, Evans P, Shulman L E. Competing on capabilities: The new rules of corporate strategy"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

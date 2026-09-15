@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20210413-华泰证券-人工智能-044-深度卷积gan实证",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "DCGAN 生成效果不理想，结合 W 距离损失函数的 W-DCGAN 效果好且略优于 WGAN，能较好地复现出真实序列的各项典型化事实。",
+      "evidence": "结果表明DCGAN 表现不理想，结合 W 距离损失函数的W-DCGAN 效果好且略优于WGAN，W-DCGAN 能较好地复现出真实序列的各项典型化事实。"
+    },
+    {
+      "text": "DCGAN 的核心思想是针对网络结构改进原始 GAN：使用转置卷积层和带步长的卷积层分别替代上采样层和池化层，并取消全连接层，使生成器和判别器均为全卷积网络结构。",
+      "evidence": "DCGAN 使用更灵活的转置卷积层和带步长的卷积层，分别替代 GAN 模型中的上采样层和池化层。同时，DCGAN 取消全连接层，并调整归一化层、激活函数、优化器等网络组件，使生成器和判别器均为全卷积网络结构。"
+    },
+    {
+      "text": "生成器输出层若采用 Tanh 激活函数会失去真实资产收益率的厚尾特性，输出层不激活得到的资产收益率服从厚尾分布。",
+      "evidence": "实证表明，如果输出层采用 Tanh 激活函数，得到的资产收益率更接近正态分布，从而失去真实资产收益率的厚尾特性；输出层不激活得到的资产收益率服从厚尾分布。"
+    },
+    {
+      "text": "Hurst 均值假设检验中 W-DCGAN 检验统计量为 68.78，充分远离拒绝域，而 DCGAN 与 WGAN 落在拒绝域中，仅有 W-DCGAN 生成序列复现出了真实序列的长时程相关特性。",
+      "evidence": "W-DCGAN 模型 1000 条生成序列的 Hurst 均值假设检验统计量为 68.78，充分远离拒绝域；DCGAN 模型检验统计量为-712.20，WGAN 模型检验统计量为-5.48，落在拒绝域中，可以认为 DCGAN 和 WGAN 模型的 Hurst 均值小于 0.5。因此仅有 W-DCGAN生成序列复现出了真实序列的长时程相关特性。"
+    },
+    {
+      "text": "在生成序列多样性上 WGAN 优于 W-DCGAN 优于 DCGAN，印证了 W 距离的引入从根源上解决了原始 GAN 模型多样性低相似度高且容易模式崩溃的不足。",
+      "evidence": "这意味着在生成序列的多样性上，WGAN 优于 W-DCGAN 优于 DCGAN。这印证了 W 距离的引入确实从根源上解决了原始 GAN 模型多样性低相似度高且容易模式崩溃的不足。"
+    },
+    {
+      "text": "W-DCGAN 在滚动相关系数分布上具有更小的 AD 检验统计量和更大的 p 值，各项多资产序列评价指标表现均更为优异。",
+      "evidence": "不过相较于 DCGAN 和 WGAN，W-DCGAN 的结果具有更小的检验统计量和更大的 p值，表明W-DCGAN 的滚动相关系数分布更接近真实分布。"
+    }
+  ],
+  "builds_on": [
+    "20200828-华泰证券-人工智能-035-wgan应用于金融时间序列生成",
+    "20201124-华泰证券-人工智能-038-wgan生成-从单资产到多资产"
+  ],
+  "external_ref": [
+    "Arjovsky, M., & Bottou, L. (2017). Towards principled methods for training generative adversarial networks. arXiv preprint arXiv:1701.04862.",
+    "Cont, R. (2001). Empirical properties of asset returns: Stylized facts and statistical issues. Quantitative Finance, 1(2), 223–236.",
+    "Odena, A., Dumoulin, V., & Olah, C.. (2016). Deconvolution and checkerboard artifacts. Distill, 1(10).",
+    "Radford, A., Metz, L., & Chintala, S.. (2015). Unsupervised representation learning with deep convolutional generative adversarial networks. Computer Science."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

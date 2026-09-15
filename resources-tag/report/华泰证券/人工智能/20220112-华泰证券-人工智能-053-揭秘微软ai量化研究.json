@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20220112-华泰证券-人工智能-053-揭秘微软ai量化研究",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["infrastructure", "synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative", "L1_mining"],
+      "approach": [
+        "technical_pattern",
+        "text_sentiment",
+        "relation_graph",
+        "participant_behavior",
+        "corporate_event",
+        "representation_learning"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_daily", "text", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_training", "L3_composition"],
+      "approach": ["loss_generalization", "regime_domain", "ensemble"],
+      "baseline": ["linear", "neural"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["statistical"],
+      "setup": {
+        "risk_factors": ["size", "value", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L7_execution": {
+      "module": ["L7_algo"],
+      "approach": ["optimal_execution"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["ml_timing"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "自产品成立日至2021年底，以中证500全收益指数为基准，华夏中证500指数增强A年化超额收益率18.2%，太平资产量化5号年化超额收益率9.3%，实盘运作产品表现较为出色。",
+      "evidence": "自产品成立日至 2021 年底，以中证 500 全收益指数为比较基准，华夏中证 500 指数增强 A年化收益率 42.6%，年化超额收益率18.2%；太平资产量化5号（人工智能）年化收益率16.3%，年化超额收益率9.3%。"
+    },
+    {
+      "text": "回测期内（2017至2020年），引入显式和隐式图结构能够提升选股表现，HIST在中证100和沪深300股票池的RankIC、多头收益高于LSTM、GATs等深度学习模型。",
+      "evidence": "结果显示，回测期内（2017 至 2020 年），引入显式和隐式图结构能够提升选股表现，HIST在中证 100 和沪深 300 股票池的 Rank IC、多头收益高于 LSTM、GATs 等深度学习模型。"
+    },
+    {
+      "text": "回测期内（2018年9月至2020年6月），相比基线模型，TRA+OT能够有效提升IC及多空组合表现。",
+      "evidence": "结果显示，回测期内（2018年 9 月至 2020 年 6 月），相比基线模型，TRA+OT 能够有效提升 IC及多空组合表现。"
+    },
+    {
+      "text": "回测期内（2016年5月至2017年3月），相比于对照组，HAN的预测正确率更高，构建的多头组合年化收益率更高。",
+      "evidence": "结果显示，回测期内（2016年5月至2017年 3 月），相比于对照组，HAN 的预测正确率更高，构建的多头组合年化收益率更高。"
+    },
+    {
+      "text": "引入深度学习因子的风险模型相比原始BarraUSE4风险模型在回测期内（2017年1月至2020年2月）R2提升1.9%。",
+      "evidence": "结果显示引入深度学习因子的风险模型相比原始 Barra USE4 风险模型在回测期内（2017 年 1 月至 2020年 2 月）R2提升 1.9%。"
+    },
+    {
+      "text": "回测期内（2021年5月至6月），使用中证800成分股分钟线训练的OPD模型相比TWAP、VWAP等拆单算法在收益、盈亏比等指标上更具优势。",
+      "evidence": "本文使用中证 800 成分股的分钟线价格和成交量训练 OPD 模型，并与对照组 TWAP、VWAP等拆单算法进行对比，结果显示，回测期内（2021 年 5 月至 6 月）OPD 模型在收益、盈亏比等指标上更具优势。"
+    },
+    {
+      "text": "回测期内（2016至2019年），ADD超额收益预测器的IC和RankIC优于对照组，市场收益预测器的正确率和F1score优于对照组。",
+      "evidence": "结果表明，回测期内（2016 至 2019 年），超额收益预测器的 IC 和 RankIC 优于对照组，市场收益预测器的正确率和 F1 score优于对照组。"
+    },
+    {
+      "text": "9篇研究中图神经网络和注意力机制是上镜率最高的方法，各被4篇研究采用，两者更匹配投资场景，未来可能具备广阔应用前景。",
+      "evidence": "本文介绍的 9 篇研究中，图神经网络和注意力机制是上镜率最高的方法，各被 4 篇研究采用。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cuturi, M. . (2013). Sinkhorn distances: lightspeed computation of optimal transportation distances. Advances in Neural Information Processing Systems, 26, 2292-2300.",
+    "Rusu, A. A., Colmenarejo, S. G., Gulcehre, C., Desjardins, G., Kirkpatrick, J., & Pascanu, R., et al. (2015). Policy distillation. Computer Science.",
+    "《人工智能 40：微软 AI 量化投资平台 Qlib 体验》（2020-12-22）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

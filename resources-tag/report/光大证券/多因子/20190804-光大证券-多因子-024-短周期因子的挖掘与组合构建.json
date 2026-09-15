@@ -1,0 +1,238 @@
+{
+  "schema_version": 2,
+  "id": "20190804-光大证券-多因子-024-短周期因子的挖掘与组合构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "Alpha001",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "add(multiply(log(value),multiply(bs_sum_rate,add(smaller(low,add(log(ts_std(sqrt(sqrt(value)),20)),bs_sum_rate)),smaller(sqrt(ts_skew(avg,4)),bs_sum_rate)))),ts_skew(volume,20))",
+          "stats": [-0.071, null, 0.76, 2.046],
+          "evidence": "Alpha001 | add(multiply(log(value),multiply(bs_sum_rate,add(smaller(low,add(log(ts_std(sqrt(sqrt(value)),20)),bs_sum_rate)),smaller(sqrt(ts_skew(avg,4)),bs_sum_rate)))),ts_skew(volume,20))"
+        },
+        {
+          "name": "Alpha002",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "add(ts_skew(bs_count_rate,20),ts_skew(avg,4))",
+          "stats": [-0.022, null, 0.33, 0.866],
+          "evidence": "Alpha002 | add(ts_skew(bs_count_rate,20),ts_skew(avg,4))"
+        },
+        {
+          "name": "Alpha003",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "divide(divide(multiply(bs_sum_rate,subtract(ts_std(value,4),ts_rank(ts_kurt(ts_median(ts_set_count(high,4),4),20),80))),divide(avg,low)),divide(avg,low))",
+          "stats": [-0.098, null, 0.78, 1.33],
+          "evidence": "Alpha003 | divide(divide(multiply(bs_sum_rate,subtract(ts_std(value,4),ts_rank(ts_kurt(ts_median(ts_set_count(high,4),4),20),80))),divide(avg,low)),divide(avg,low))"
+        },
+        {
+          "name": "Alpha004",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "multiply(ts_std(log(high),4),ts_std(sqrt(value),4))",
+          "stats": [-0.094, null, 0.95, 2.036],
+          "evidence": "Alpha004 | multiply(ts_std(log(high),4),ts_std(sqrt(value),4))"
+        },
+        {
+          "name": "Alpha005",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "add(log(sqrt(value)),add(add(ts_skew(volume,20),smaller(sqrt(value),add(log(ts_std(log(value),20)),bs_sum_rate))),ts_skew(avg,4)))",
+          "stats": [-0.075, null, 0.97, 1.69],
+          "evidence": "Alpha005 | add(log(sqrt(value)),add(add(ts_skew(volume,20),smaller(sqrt(value),add(log(ts_std(log(value),20)),bs_sum_rate))),ts_skew(avg,4)))"
+        },
+        {
+          "name": "Alpha006",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "ts_max(ts_std(add(bs_sum_rate,sqrt(sqrt(sqrt(add(bs_std_ratio,value))),4),4)",
+          "stats": [-0.072, null, 0.8, 0.687],
+          "evidence": "Alpha006 | ts_max(ts_std(add(bs_sum_rate,sqrt(sqrt(sqrt(add(bs_std_ratio,value))),4),4)"
+        },
+        {
+          "name": "Alpha007",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "ts_correlation(ts_set_count(add(divide(ts_std(ts_correlation(ts_set_count(add(ts_std(ts_max(ts_mean(delay(low,4),4),80),4),multiply(volume,multiply(low,bs_sum_rate))),1),volume,4),4),delay(low,4)),multiply(volume,multiply(low,bs_sum_rate))),1),volume,4)",
+          "stats": [-0.069, null, 0.78, 0.766],
+          "evidence": "Alpha007 | ts_correlation(ts_set_count(add(divide(ts_std(ts_correlation(ts_set_count(add(ts_std(ts_max(ts_mean(delay(low,4),4),80),4),multiply(volume,multiply(low,bs_sum_rate))),1),volume,4),4),delay(low,4)),multiply(volume,multiply(low,bs_sum_rate))),1),volume,4)"
+        },
+        {
+          "name": "Alpha008",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "smaller(ts_std(log(multiply(high,value)),4),multiply(bs_sum_rate,open))",
+          "stats": [-0.063, null, 0.86, 2.869],
+          "evidence": "Alpha008 | smaller(ts_std(log(multiply(high,value)),4),multiply(bs_sum_rate,open))"
+        },
+        {
+          "name": "Alpha009",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "multiply(absolute(multiply(bs_sum_rate,ts_max(ts_std(sqrt(ts_std(log(high),4)),4),4))),ts_skew(value,20))",
+          "stats": [-0.06, null, 0.86, 1.438],
+          "evidence": "Alpha009 | multiply(absolute(multiply(bs_sum_rate,ts_max(ts_std(sqrt(ts_std(log(high),4)),4),4))),ts_skew(value,20))"
+        },
+        {
+          "name": "Alpha010",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "divide(multiply(bs_sum_rate,ts_std(sqrt(value),4)),bigger(high,ts_argmax(high,80)))",
+          "stats": [-0.058, null, 0.75, 1.377],
+          "evidence": "Alpha010 | divide(multiply(bs_sum_rate,ts_std(sqrt(value),4)),bigger(high,ts_argmax(high,80)))"
+        },
+        {
+          "name": "Alpha011",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "divide(multiply(ts_std(high,4),ts_kurt(volume,40)),ts_mean(absolute(ts_std(smaller(ts_std(volume,40),multiply(close,bs_sum_rate)),80)),4))",
+          "stats": [-0.057, null, 0.94, 0.765],
+          "evidence": "Alpha011 | divide(multiply(ts_std(high,4),ts_kurt(volume,40)),ts_mean(absolute(ts_std(smaller(ts_std(volume,40),multiply(close,bs_sum_rate)),80)),4))"
+        },
+        {
+          "name": "Alpha012",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "multiply(ts_mean(ts_std(log(high),4),1),ts_skew(sqrt(sqrt(value)),20))",
+          "stats": [-0.053, null, 0.84, 0.498],
+          "evidence": "Alpha012 | multiply(ts_mean(ts_std(log(high),4),1),ts_skew(sqrt(sqrt(value)),20))"
+        },
+        {
+          "name": "Alpha013",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "divide(divide(multiply(bs_sum_rate,ts_std(multiply(ts_kurt(add(avg,volume),40),value),4)),ts_skew(value,1)),ts_median(bs_sum_rate,20))",
+          "stats": [-0.053, null, 0.86, 1.046],
+          "evidence": "Alpha013 | divide(divide(multiply(bs_sum_rate,ts_std(multiply(ts_kurt(add(avg,volume),40),value),4)),ts_skew(value,1)),ts_median(bs_sum_rate,20))"
+        },
+        {
+          "name": "Alpha014",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "add(add(ts_skew(volume,20),smaller(sqrt(value),smaller(close,bs_sum_rate))),ts_skew(open,4))",
+          "stats": [-0.046, null, 0.76, 1.006],
+          "evidence": "Alpha014 | add(add(ts_skew(volume,20),smaller(sqrt(value),smaller(close,bs_sum_rate))),ts_skew(open,4))"
+        },
+        {
+          "name": "Alpha015",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "add(ts_skew(volume,40),smaller(low,add(log(absolute(ts_std(sqrt(absolute(value)),20))),smaller(sqrt(value),ts_skew(bs_count_rate,4))))",
+          "stats": [-0.044, null, 0.75, 0.415],
+          "evidence": "Alpha015 | add(ts_skew(volume,40),smaller(low,add(log(absolute(ts_std(sqrt(absolute(value)),20))),smaller(sqrt(value),ts_skew(bs_count_rate,4))))"
+        },
+        {
+          "name": "Alpha016",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "multiply(ts_skew(ts_std(log(high),4),1),ts_skew(ts_std(negative(sqrt(value)),4),20))",
+          "stats": [-0.042, null, 0.88, 0.4],
+          "evidence": "Alpha016 | multiply(ts_skew(ts_std(log(high),4),1),ts_skew(ts_std(negative(sqrt(value)),4),20))"
+        },
+        {
+          "name": "Alpha017",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "add(log(smaller(close,bs_sum_rate)),smaller(close,smaller(sqrt(value),add(ts_std(ts_max(multiply(log(value),smaller(ts_skew(volume,20),open)),4),20),ts_skew(avg,4)))))",
+          "stats": [-0.037, null, 0.76, 0.462],
+          "evidence": "Alpha017 | add(log(smaller(close,bs_sum_rate)),smaller(close,smaller(sqrt(value),add(ts_std(ts_max(multiply(log(value),smaller(ts_skew(volume,20),open)),4),20),ts_skew(avg,4)))))"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["cleaning", "selection", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "短周期Alpha17中几乎所有因子的信息半衰期都集中在第5天左右，衰减最慢的因子也在第9日损失一半以上信息，量价交易型因子更适合作为短周期组合因子。",
+      "evidence": "同时统计这些因子 IR 的半衰期，可以发现短周期 Alpha17 中几乎所有因子的半衰期都集中在第5 天左右，衰减最慢的因子也在第 9日损失一半以上信息。"
+    },
+    {
+      "text": "交易成本决定最优调仓频率：单边0.05%及以下时每日调仓效果最好，单边0.1%到0.15%时2日调仓频率效果最好，单边0.2%及以上时短周期调仓效果不明显甚至弱于中低频调仓。",
+      "evidence": "交易成本在单边0.05%及以下时，每日调仓效果最好；交易成本在单边0.1%到单边0.15%时，2 日调仓频率效果最好；交易成本在单边0.2%及以上时，短周期调仓的效果已经不明显甚至弱于中低频调仓，此场景下不推荐短周期因子组合。"
+    },
+    {
+      "text": "短周期Alpha17量价组合在双边千三成本、2日调仓下，2010年至2019年中样本期间年化收益31.1%，夏普比率1.04，相对中证500指数年化超额收益30.8%，信息比率3.01，相对最大回撤18.7%。",
+      "evidence": "选取该复合因子值最大的 150 只股票构建的选股组合，在2010 年至 2019年中，年化收益31.1%，年化波动率 30.8%，夏普比率1.04，最大回撤45.1%。相对中证500 指数年化收益 30.8%，相对波动率9.1%，信息比率3.01，相对最大回撤18.7%。"
+    },
+    {
+      "text": "该组合换手率高，双边换手率平均每年182倍，平均每次调仓大约换3/4的仓位。",
+      "evidence": "该组合换手率高。双边换手率平均每年182倍，平均每次调仓大约换3/4 的仓位。"
+    },
+    {
+      "text": "短周期Alpha17量价组合受益于更多短周期因子信息与更短调仓周期，相比月频量价组合年化收益增加9个百分点，最大回撤减少7个百分点，相对中证500指数信息比率增加0.6。",
+      "evidence": "在 2010 年至 2019 年中测试区间，相比于月频量价组合，年化收益增加9个百分点，最大回撤减少7 个百分点，相对中证 500 指数信息比率增加 0.6。"
+    },
+    {
+      "text": "如果交易成本不能控制在双边千4以下，则不太适合做短周期因子组合投资。",
+      "evidence": "从我们测试结果来看，如果成本不能控制在双边千 4 以下，则不太适合做短周期因子组合投资。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《A Field Guide to Genetic Programming》March 2008",
+    "《因子测试全集——多因子系列报告之二》2017.05",
+    "《多因子组合“光大 Alpha 1.0”——多因子系列报告之三》2017.05",
+    "《数据纵横：探秘 K 线结构新维度——机器学习系列报告之二》2019.02"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

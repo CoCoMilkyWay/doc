@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "20190213-华泰证券-人工智能-015-人工智能选股之卷积神经网络",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "CNN合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{将个股82个因子在5个历史截面期的暴露度组织成82*5的\"因子图片\"，经一层卷积（10个5*5卷积核）与RELU激活后一维展开，输入3层全连接网络，输出股票下期上涨概率的预测值作为合成因子}",
+          "stats": [null, 0.1362, 1.25, 0.4041],
+          "evidence": "从单因子测试的角度来看，CNN 合成因子的 RankIC 均值为 13.62%，因子收益率均值为 1.021%，略高于全连接神经网络，也要高于线性回归。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "sample_window", "loss_generalization"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "CNN合成因子的RankIC均值为13.62%，因子收益率均值为1.021%，略高于全连接神经网络，也要高于线性回归。",
+      "evidence": "从单因子测试的角度来看，CNN 合成因子的 RankIC 均值为 13.62%，因子收益率均值为 1.021%，略高于全连接神经网络，也要高于线性回归。"
+    },
+    {
+      "text": "分五层测试中，CNN合成因子的TOP组合年化收益率为20.05%，夏普比率为0.72，信息比率为4.04，多空组合的夏普比率为4.84，表现都要优于全连接神经网络和线性回归。",
+      "evidence": "在分五层测试中，CNN 合成因子的 TOP组合年化收益率为 20.05%，夏普比率为 0.72，信息比率为 4.04，多空组合的夏普比率为 4.84，表现都要优于全连接神经网络和线性回归。"
+    },
+    {
+      "text": "当以中证500为基准时，CNN的年化超额收益在13.69%~16.38%之间，信息比率在2.29~2.56之间，各项指标都优于另外两个模型；当以沪深300为基准时，两种神经网络的表现都不如线性回归。",
+      "evidence": "当以中证 500 为基准时，CNN 的年化超额收益在 13.69%~16.38%之间，超额收益最大回撤在 4.80%~7.55%之间，信息比率在 2.29~2.56 之间，Calmer 比率在 2.16~2.85 之间，CNN在以上各项指标上的表现都优于另外两个模型，全连接神经网络略优于线性回归。"
+    },
+    {
+      "text": "当以沪深300为基准时，两种神经网络在年化超额收益率、信息比率和Calmer比率上的表现都不如线性回归。",
+      "evidence": "当以沪深 300 为基准时，两种神经网络在年化超额收益率、信息比率和 Calmer 比率上的表现都不如线性回归。"
+    },
+    {
+      "text": "卷积核作用于股票因子数据本质上是在进行因子合成，因此只使用一层卷积层；池化层是对因子数据的\"模糊化\"，对体现因子的明确意义不利，因此未使用池化层。",
+      "evidence": "（2）当卷积核作用于股票因子数据时，本质上是在进行因子合成，因此本文只使用了一层卷积层。（3）池化层是对因子数据的“模糊化”，这对体现因子的明确意义是不利的，因此本文未使用池化层。"
+    },
+    {
+      "text": "因子数据在\"图片\"中的排列顺序会影响到CNN的学习结果，因为不同因子排列顺序会影响卷积核中权重的训练。",
+      "evidence": "由于卷积核本质上是在对部分因子进行合成，因此不同的因子排列顺序会影响卷积核中权重的训练"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《金工: 因子合成方法实证分析》2019.01"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

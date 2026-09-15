@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20200508-华泰证券-人工智能-031-生成对抗网络gan初探",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "mixed"}}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection"]},
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "GAN生成序列能够复现自相关性、厚尾分布、波动率聚集、杠杆效应、粗细波动率相关、盈亏不对称性6项真实序列特性，Bootstrap和GARCH仅能复现部分性质，GAN生成数据质量优于其它方法",
+      "evidence": "结果表明，GAN 生成序列能够复现出上述 6 项真实序列具备的特性，而 Bootstrap 和 GARCH 仅能复现出部分性质。GAN 相比于其它金融时间序列生成方法具有显著优势。"
+    },
+    {
+      "text": "GAN在量化投资领域的潜在应用价值包括提供训练样本、检验量化策略过拟合程度、预测未来",
+      "evidence": "GAN 在量化投资领域的潜在应用价值包括：提供训练样本，检验量化策略过拟合程度，预测未来。"
+    },
+    {
+      "text": "双均线择时参数(7,28)的年化超额收益在86.7%的虚假数据回测中占优，信息比率在85.8%的虚假数据回测中占优，配对样本t检验p值均显著，该参数选择大概率不是过拟合",
+      "evidence": "参数(7,28)的年化超额收益在 86.7%的虚假数据回测中占优，信息比率在 85.8%的虚假数据回测中占优。对两组参数的年化超额收益和信息比率分别进行配对样本 t 检验，p 值均达到显著性水平（p<1e-167 和 p<1e-166）。"
+    },
+    {
+      "text": "若认为GAN生成数据能完美复刻真实数据，虚假数据回测弱于真实数据回测说明双均线择时策略两组参数均存在一定过拟合",
+      "evidence": "如果我们认为 GAN 生成数据能够完美复刻真实数据的方方面面，那么虚假数据回测弱于真实数据回测的结果说明，双均线择时策略的两组参数均存在一定过拟合。"
+    },
+    {
+      "text": "月频序列上GAN生成序列仅在波动率聚集指标上表现不佳，其余5项指标复现效果良好，也优于Bootstrap和GARCH",
+      "evidence": "2. 对于月频序列，GAN 生成序列仅在波动率聚集指标上表现不佳，其余 5项指标的复现效果良好，也优于 Bootstrap 和 GARCH。"
+    },
+    {
+      "text": "4组不同随机数种子点下训练GAN，6项评价指标在种子点间差异较小，GAN模型对种子点不敏感",
+      "evidence": "不同种子点训练出的 G 生成模型是否有较大差异？我们在 4 组不同的种子点下训练 GAN，发现 6 项指标在种子点间的差异较小，如下表所示。可以认为 GAN 模型对种子点不敏感。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., & Bengio, Y. (2014). Generative adversarial nets.",
+    "Takahashi, S. & Chen, Y. & Tanaka-Ishii, K. (2019). Modeling financial time-series with generative adversarial networks.",
+    "《人工智能 19：偶然中的必然：重采样技术检验过拟合》（20190422）",
+    "《人工智能 20：必然中的偶然：机器学习中的随机数》（20200429）",
+    "《人工智能 22：基于 CSCV 框架的回测过拟合概率》（20190617）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

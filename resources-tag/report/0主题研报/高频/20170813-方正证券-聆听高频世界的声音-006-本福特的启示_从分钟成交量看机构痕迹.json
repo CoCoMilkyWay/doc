@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "20170813-方正证券-聆听高频世界的声音-006-本福特的启示_从分钟成交量看机构痕迹",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "机构痕迹指标",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "X=\\sum_{n=1}^{9}(f(n)-P(n))^{2},\\quad P(n)=\\log_{10}(n+1)-\\log_{10}(n)",
+          "stats": [null, null, null, null],
+          "evidence": "（1）在每个月底，对每只股票，向前取其最近5000个非零的分钟成交量数据（若前推 40个交易日仍未取足5000个非零数据，则该股票当期不参与X指标的计算）；"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "本福特法则下，首位数字出现1的频率超过30%，出现2的频率约为18%，其他数字的出现频率依次递减。",
+      "evidence": "具体而言，首位数字出现1 的频率超过 30%，出现 2的频率约为 18%，其他数字的出现频率依次递减(图表 3)。"
+    },
+    {
+      "text": "机构痕迹指标X是成交量首位数字分布与本福特理想分布各项偏差的平方和，X的数值越大，机构的行为痕迹也越大。",
+      "evidence": "X 的数学含义是真实分布与理想分布各项偏差的平方和，我们将 X 指标称为“机构痕迹指标”。X的数值越大，则成交量数据与本福特理想分布的偏离越大，机构的行为痕迹也越大。"
+    },
+    {
+      "text": "机构痕迹增量最大的情景空间中，换手率的变化率因子ICIR为1.26，五分组多空对冲的年化收益为18.2%。",
+      "evidence": "在机构痕迹增量最大的情景空间中，因子的 ICIR 为 1.26，五分组多空对冲的年化收益为18.2%（绿线）。"
+    },
+    {
+      "text": "机构痕迹增量最大的情景空间中，聪明钱Q因子ICIR为2.93，五分组多空对冲的年化收益为29.2%。",
+      "evidence": "在机构痕迹增量最大的情景空间中，因子的ICIR为2.93，五分组多空对冲的年化收益为 29.2%（绿线）。"
+    },
+    {
+      "text": "在机构痕迹增大的情景空间中，yoyprofit因子的选股效果更好。",
+      "evidence": "图表7展示了对yoyprofit因子的情景分析。结论是相同的，在机构痕迹增大的情景空间中，因子的选股效果更好。"
+    },
+    {
+      "text": "情景分析关心因子对于哪些股票有效，是横截面（样本空间）的划分，与因子择时形成对照。",
+      "evidence": "而“情景分析”，则是在关心“因子对于哪些股票有效，对于哪些股票不可用？”，是横截面（样本空间）的划分。"
+    },
+    {
+      "text": "X指标与成交量变化率和动量因子均呈现负相关。",
+      "evidence": "方正金工检验发现，X 指标与成交量变化率和动量因子均呈现负相关。"
+    },
+    {
+      "text": "用横截面回归剔除X指标中成交量变化率的影响后，情景区分的效果仍然存在。",
+      "evidence": "为了检验 X指标是否真正贡献了“情景分析”的能力，我们用横截面回归的方法，剔除 X指标中成交量变化率的影响，再重复前文情景分析的过程。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Hill T P. A statistical derivation of the significant digit law",
+    "Pietronero L, Tosatti E, Tosatti V, et al. Explaining the uneven distribution of numbers in nature: the laws of Benford and Zipf",
+    "跟踪聪明钱：从分钟行情到数据选股因子（20160708）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "schema_version": 2,
+  "id": "20211127-国联证券-barra模型-001-周期内barra_cne6的a股适用探析_规模和成长因子迎来春天",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "对数市值lncap",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{流通市值})",
+          "stats": [-0.029, null, -0.22, -0.0538],
+          "evidence": "对数市值分组1 和分组5 在样本期内的累计收益率分别为3.53 倍和 0.52倍，差值大且各组净值严格单调递增。"
+        },
+        {
+          "name": "midcap",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{size的三次方值再经size正交化}",
+          "stats": [-0.038, null, -0.59, -0.0577],
+          "evidence": "非线性市值分组 1、分组5的累计收益率分别为5.60 倍和 0.97倍，且分组1的表现远远超出其他分组。"
+        },
+        {
+          "name": "residual vol",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{BETA回归中的残差波动率}",
+          "stats": [-0.038, null, -0.31, 0.0239],
+          "evidence": "异质波动率分组 1、分组 5 的累计收益率分别为 2.74 倍、-0.15 倍，差值达 2.89 倍且各组净值区分度高。"
+        },
+        {
+          "name": "liquidity",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{月度换手率})",
+          "stats": [-0.036, null, -0.34, -0.045],
+          "evidence": "流动性因子分组 1 和分组 5 的累计收益率则分别为 2.68倍、-0.07 倍，差值达2.75倍且组间收益的单调性较好。"
+        },
+        {
+          "name": "earnings yield",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去12个月的盈利}}{\\text{当前市值}}",
+          "stats": [0.025, null, 0.26, 0.0518],
+          "evidence": "EP 因子（earnings yield）分组1、分组 5的累计收益率为0.5倍、3.1 倍，差值高达2.6倍。"
+        },
+        {
+          "name": "growth",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去5个财年的eps增长率}",
+          "stats": [0.013, null, 0.36, 0.0411],
+          "evidence": "成长因子的累计收益率在分组1 和分组5内则为0.89倍、2.21倍，组间差值仅为 1.32 倍。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "dividend", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "quarterly"}}
+  },
+  "findings": [
+    {
+      "text": "FM检验显示对数市值、非线性市值、异质波动率、流动性因子和EP价值因子分别有-11.3%、-7.3%、-5.7%、-5.4%和4.4%的年化溢酬，t统计量均满足大于等于3的要求。",
+      "evidence": "对数市值、非线性市值、异质波动率、流动性因子和 EP价值因子分别有-11.3%、-7.3%、-5.7%、-5.4%和 4.4%的年化溢酬，且 t 统计量均满足 Harvey et al.（2016）[11]大于等于 3的要求。"
+    },
+    {
+      "text": "纯因子组合检验下成长、EP价值、流动性、反转、对数市值和非线性市值的年化纯因子收益率分别为4.11%、5.18%、-4.5%、2.71%、-5.38%、-5.77%，在经济意义上和统计意义上都是显著的。",
+      "evidence": "成长、EP价值、流动性、反转、对数市值和非线性市值的年化纯因子收益率分别为4.11%、5.18%、-4.5%和2.71 % ，-5.38%、-5.77%，其在经济意义上和统计意义上都是显著的。"
+    },
+    {
+      "text": "异质波动率因子的溢酬在纯因子组合检验中统计上不再显著，其风险溢酬更多源于价值、规模、动量和整体经济环境的变化。",
+      "evidence": "而异质波动率因子的溢酬在统计意义上则不再显著，Feijoo 等（2015）[12]的研究就认为异质波动率因子的风险溢酬更多源于价值、规模、动量和整体经济环境的变化。"
+    },
+    {
+      "text": "分组检验显示规模、EP和BP价值、成长、流动性、异质波动率、红利因子的不同分组间收益差异大且单调性良好，为优秀的风险因子。",
+      "evidence": "根据 2010年 1月-2021年 10月底的分组检验结果，规模、EP和BP价值、成长、流动性、异质波动率、红利因子的不同分组间收益差异大且单调性良好，是为优秀的风险因子。"
+    },
+    {
+      "text": "规模因子即小市值效应更易受金融周期状态变化影响，2012-2016年金融高涨期内领跑所有风格因子，2017-2018年金融衰退期内遭遇巨大回撤。",
+      "evidence": "实证发现在 A 股市场上规模因子即小市值效应更易受到金融周期状态变化的影响，规模因子组合在 2012-2016年的金融高涨期内领跑所有风格因子、却又在 2017-2018 年的金融衰退期内遭遇巨大回撤。"
+    },
+    {
+      "text": "今年规模因子迎来周期的春天，至3季度末规模因子的多空组合收益率较年初大涨32%、纯因子组合收益率较年初增长6%。",
+      "evidence": "至 3季度末，规模因子的多空组合收益率较年初大涨32%、纯因子组合收益率也较年初增长 6%。"
+    },
+    {
+      "text": "成长因子更多受经济新周期的影响，在新周期的主导趋势下预计2022年成长因子仍将延续高景行情。",
+      "evidence": "成长因子则更多受经济新周期的影响。近2 年来创新驱动型产业迅猛发展，经济增长的动能推陈出新。在新周期的主导趋势下，预计 2022年成长因子仍将延续高景行情。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama, E. F. and K. R. French (1996). Multifactor explanations of asset pricing anomalies",
+    "Liu, J., R.F. Stambaugh and Y. Yuan (2018). Size and Value in China",
+    "The Barra US Equity Model (USE4)",
+    "陈雨露, 马勇,阮卓阳(2015).金融周期和金融波动如何影响经济增长与金融稳定"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

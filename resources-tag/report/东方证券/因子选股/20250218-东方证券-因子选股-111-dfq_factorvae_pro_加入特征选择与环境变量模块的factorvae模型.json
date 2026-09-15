@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "20250218-东方证券-因子选股-111-dfq_factorvae_pro_加入特征选择与环境变量模块的factorvae模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "factorvae_new",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{FactorVAE端到端神经网络合成因子：特征选择器生成二值掩码筛选60个量价特征，先验-后验学习提取公共因子，因子解码器输出股票收益率预测}",
+          "stats": [0.1209, 0.1508, 1.24, null],
+          "evidence": "在中证全指股票池中，因子多头表现优异，多头超额收益夏普和最大回撤均为各模型中最优，分组单调性较好。测试集上 IC 达到 12.09%，RANKIC 达到 15.08%，RANKICIR达到 1.24。20分组多头年化超额收益达到 29.77%，多头超额收益夏普比3.48，多头日度超额收益最大回撤 5.35%。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "loss_generalization", "interpretability", "regime_domain", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "other"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest", "L6_attribution"], "approach": ["bias_control", "factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "在FactorVAE模型中添加特征选择模块后因子效果明显提高，20日rankic提高近0.5%，20组年化超额收益提高4%，二值掩码与加权掩码整体性能接近。",
+      "evidence": "在 FactorVAE 模型中添加特征选择模块，因子效果明显提高，20 日 rankic 提高近 0.5%，20组年化超额收益提高 4%。"
+    },
+    {
+      "text": "去掉重构损失后因子效果明显下降，特征选择器不再有效，样本外泛化能力不足。",
+      "evidence": "我们比较了重构损失项加入前后的因子效果，结果显示：去掉重构损失后，因子效果明显下降，和FactorVAE基础模型绩效相似。"
+    },
+    {
+      "text": "协同训练加入日期变量后模型效果明显提高，20日rankic提高0.5%，20组年化超额收益提高2%；加入市场状态指标效果并未提高。",
+      "evidence": "从结果来看：（1）加入市场状态指标作为环境变量，模型效果也并未提高。（2）加入日期变量作为环境变量，模型效果明显提高，20 日 rankic 提高 0.5%，20 组年化超额收益提高 2%。"
+    },
+    {
+      "text": "多标签模型（5-30日收益率标签）打分标准化等权合成后，模型表现有一定提升。",
+      "evidence": "我们分别使用未来 5 日、10 日、15 日、20 日、25 日、30 日收益率 6 个标签分别训练，得到 6 个因子打分，测试样本外 20 日调仓时对应的组合绩效。从结果来看，多标签模型等权结合后，模型表现有一定提升。"
+    },
+    {
+      "text": "滚动增量训练优于滚动独立训练，但仍不如单次训练。",
+      "evidence": "从结果来看，滚动增量训练优于滚动独立训练，但仍不如单次训练。"
+    },
+    {
+      "text": "中证全指股票池测试集上IC达12.09%，RANKIC达15.08%，RANKICIR达1.24，20分组多头年化超额收益29.77%，多头日度超额收益最大回撤5.35%。",
+      "evidence": "在中证全指股票池中，因子多头表现优异，多头超额收益夏普和最大回撤均为各模型中最优，分组单调性较好。测试集上 IC 达到 12.09%，RANKIC 达到 15.08%，RANKICIR达到 1.24。20分组多头年化超额收益达到 29.77%，多头超额收益夏普比3.48，多头日度超额收益最大回撤 5.35%。"
+    },
+    {
+      "text": "行业市值中性化后因子表现依然优异，icir由1.09提高到1.35，中性化仅使多头年化超额收益降低4%。",
+      "evidence": "原始因子 ic 达到12.09%，中性化后仍有11.20%。原始因子icir达到1.09，中性化后提高到1.35。原始因子20分组多头年化超额收益达到 29.77%，中性化降低到 25.31%，仅降低 4%。"
+    },
+    {
+      "text": "多头组偏向小市值、低波动、低流动性、低估值、强反转、低成长，与tra、hist等神经网络模型相比在市值上的负暴露更小，在beta风格上基本无暴露。",
+      "evidence": "DFQ-FactorVAE-pro 模型得到的因子得分（factorvae_new）对应的多头组偏向小市值、低波动、低流动性、低估值、强反转、低成长。与其他tra、hist等神经网络模型相比，在市值上的负暴露更小，在beta风格上基本无暴露，在低估值上的正暴露更大，在非线性市值上的负暴露更小。"
+    },
+    {
+      "text": "指增组合表现突出：沪深300指增2020年以来信息比2.23、年化对冲收益12.32%，中证500指增信息比1.98、年化对冲收益12.98%，中证A500指增信息比1.98、年化对冲收益12.97%。",
+      "evidence": "沪深 300 指增：2020 年以来信息比 2.23，年化对冲收益 12.32%，跟踪误差 5.28%。2024 年超额收益为5.15%。中证 500 指增：2020 年以来信息比 1.98，年化对冲收益 12.98%，跟踪误差 6.27%，2024 年超额收益为 8.5%。中证 A500 指增：2020 年以来信息比 1.98，年化对冲收益 12.97%，跟踪误差 6.28%， 2024 年超额收益为 4.31%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cao H, Zou J, Liu Y, et al. InvariantStock: Learning Invariant Features for Mastering the Shifting Market[J]. arXiv preprint arXiv:2409.00671, 2024.",
+    "Duan Y, Wang L, Zhang Q, et al. FactorVAE: A probabilistic dynamic factor model based on variational autoencoder for predicting cross-sectional stock returns[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2022, 36(4): 4468-4476."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

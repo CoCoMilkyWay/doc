@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20201103-中银国际-量化权益投资-002-有关barra中国权益cne5模型的思考_上",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization", "smoothing"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity", "other"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "na"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "Barra与Fama因子模型的内在联系：Fama因子收益率是多空组合的真实收益率，而Barra的收益率为因子多空组合的预期收益率",
+      "evidence": "Barra和 Fama因子模型内在联系为：Fama模型的因子收益率是多空组合的“真实收益率”，而 Barra的收益率为因子多空组合的“预期收益率”。"
+    },
+    {
+      "text": "传统截断缩尾法会打破原始观测值的相对排名，因此推荐EUE3异常值处理方法，在处理异常值时保留原始数据的相对排名不变，更好保存原始数据信息",
+      "evidence": "基于上述两点局限性，我们推荐 2009年发布的欧洲 EUE3版本中有关异常值的处理方法：该方法在处理异常值时同时保留了原始数据的相对排名不变，更好地保存了原始数据的信息。"
+    },
+    {
+      "text": "Barra的数据填充算法应该是多重填补法，其本质是通过股票其他特征的交叉验证来估计一个最可能的值",
+      "evidence": "我们认为，Barra 这里面的数据填充算法（data-replacement algorithm）应该是多重填补法（MultipleImputation）。"
+    },
+    {
+      "text": "半衰期的作用是赋予近期观测值更高的权重，观测值权重随时间呈指数递减，距当前为半衰期个交易日时权重为当前日期的一半",
+      "evidence": "半衰期的作用是赋予近期观测值更高的权重，随着时间的远离，观测值权重随时间呈指数递减趋势，且当某交易日距离当前日期的时间间隔为“半衰期”个交易日时，该日观测值的权重为当前日期 T权重的一半"
+    },
+    {
+      "text": "因子中性化处理的核心目的是减少该因子与市值因子和Beta因子的共线性，使通过回归方式估计的因子回报率更加稳健",
+      "evidence": "因子中性化处理的核心目的是减少该因子与市值因子和 Beta因子的共线性，使得通过回归方式估计的因子回报率更加稳健。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["MSCI Barra CNE5", "基于沪深300“规模效应”的指数增强策略"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

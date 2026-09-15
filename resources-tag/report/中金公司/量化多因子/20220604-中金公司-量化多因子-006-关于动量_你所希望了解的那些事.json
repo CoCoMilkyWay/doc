@@ -1,0 +1,258 @@
+{
+  "schema_version": 2,
+  "id": "20220604-中金公司-量化多因子-006-关于动量_你所希望了解的那些事",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_hk", "stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "一个月动量（MOM_1M）",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "P_{T}/P_{T-1}-1",
+          "stats": [-0.063, null, 0.41, null],
+          "evidence": "一个是以标的过去一个月收益率计算的“一个月动量”因子，公式为： $P_{T}/P_{T-1}-1$ ，我们不妨将其记为MOM_1M"
+        },
+        {
+          "name": "一年动量（MOM_1Y）",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "P_{T-1}/P_{T-12}-1",
+          "stats": [-0.016, null, 0.11, null],
+          "evidence": "另一个是以标的过去1年排除最近一个月的区间内收益率计算的“一年动量”因子，公式为： $P_{T-1}/P_{T-12}-1$ ，我们不妨将其记为MOM_1Y"
+        },
+        {
+          "name": "一个月基础动量",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=0}^{19}r_{T-i}^{close}",
+          "stats": [-0.063, null, 0.63, null],
+          "evidence": "逻辑：最近一个月的收益率更多体现了散户投资者对于近期信息的过度反映。"
+        },
+        {
+          "name": "一年基础动量",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=20}^{239}r_{T-i}^{close}",
+          "stats": [-0.002, null, 0.02, null],
+          "evidence": "逻辑：最近一年除去最近一个月的收益率一定程度从价格信息体现了公司的业绩能力。"
+        },
+        {
+          "name": "一个月隔夜动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=0}^{19}(Open_{T-i}/Close_{T-i-1}-1)",
+          "stats": [0.031, null, 0.64, null],
+          "evidence": "逻辑：收益率中隔夜涨跌幅可能蕴含与日度收益率不同的信息特征，业界认为A股中隔夜收益率包含日度收益率中的“动量”成份。"
+        },
+        {
+          "name": "一年隔夜动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=20}^{239}(Open_{T-i}/Close_{T-i-1}-1)",
+          "stats": [0.029, null, 0.59, null],
+          "evidence": "逻辑：收益率中隔夜涨跌幅可能蕴含与日度收益率不同的信息特征，业界认为A股中隔夜收益率包含日度收益率中的“动量”成份。"
+        },
+        {
+          "name": "一个月日内动量",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=0}^{19}(Close_{T-i}/Open_{T-i}-1)",
+          "stats": [-0.073, null, 0.81, null],
+          "evidence": "逻辑：收益率中日内涨跌幅可能蕴含与日度收益率不同的信息特征，业界认为A股中日内收益率包含日度收益率中的“反转”成份。"
+        },
+        {
+          "name": "一年夏普动量",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=20}^{239}r_{T-i}^{close}\\cdot m^{i},\\; m^{i}=1/\\sigma_{[T-239,T-20]}(r^{close})",
+          "stats": [-0.007, null, 0.07, null],
+          "evidence": "逻辑：最近一年除去最近一个月的收益率一定程度从价格信息体现了公司的业绩能力。而收益率波动越低的股票，说明该股票交易中散户投资者参与的程度可能越低，动量延续概率越高。"
+        },
+        {
+          "name": "一年去涨跌停动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=20}^{239}r_{T-i}^{close}\\cdot m_{T-i},\\; m_{t}=\\text{1(非涨跌停)或0(涨跌停)}",
+          "stats": [0.027, null, 0.31, null],
+          "evidence": "逻辑：涨跌停具有强烈的吸引市场关注的能力，更容易造成“羊群效应”的产生。同时A股打板策略的流行，也使得涨跌停收益中容纳了太多的“泡沫”收益。去掉该部分能提高因子中的“动量”成份。"
+        },
+        {
+          "name": "一年路径调整动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{i=20}^{239}r_{T-i}^{close}}{\\sum_{i=20}^{239}|r_{T-i}^{close}|}",
+          "stats": [0.02, null, 0.23, null],
+          "evidence": "逻辑：涨跌路径的定义为收益率区间内，每日收益率绝对值的总和。一个股票的涨跌路径长度越大，表明达到该总收益率的波动越大，噪音交易的占比可能越高，该股票的“动量”特征就越弱。"
+        },
+        {
+          "name": "mmt_route_M",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{i=0}^{19}r_{T-i}^{close}}{\\sum_{i=0}^{19}|r_{T-i}^{close}|}",
+          "stats": [-0.049, null, 0.5, null],
+          "evidence": "逻辑：涨跌路径的定义为收益率区间内，每日收益率绝对值的总和。一个股票的涨跌路径长度越大，表明达到该总收益率的波动越大，噪音交易的占比可能越高，该股票的“动量”特征就越弱。"
+        },
+        {
+          "name": "一个月振幅调整动量",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=0}^{19}r_{T-i}^{close}\\cdot m_{T-i},\\; m_{t}=\\text{1(振幅高于80%分位),-1(振幅低于20%分位),0(其余)}",
+          "stats": [-0.069, null, 1.04, null],
+          "evidence": "逻辑：对于每一个股票，振幅较大的交易日相比振幅较小的交易日，个人投资者交易占比可能更高，因此振幅越大的交易日收益率可能更偏“反转”，而振幅越小的交易日收益率可能更偏“动量”。"
+        },
+        {
+          "name": "一年振幅调整动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=0}^{239}r_{T-i}^{close}\\cdot m_{T-i},\\; m_{t}=\\text{-1(振幅高于80%分位),1(振幅低于20%分位),0(其余)}",
+          "stats": [0.044, null, 0.68, null],
+          "evidence": "逻辑：对于每一个股票，振幅较大的交易日相比振幅较小的交易日，个人投资者交易占比可能更高，因此振幅越大的交易日收益率可能更偏“反转”，而振幅越小的交易日收益率可能更偏“动量”。"
+        },
+        {
+          "name": "业绩公告期动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近业绩报告日}t\\text{前后三日(}t-1,t,t+1\\text{)收盘超额收益率，其余日权重为0}",
+          "stats": [0.018, null, 0.36, null],
+          "evidence": "逻辑：业绩披露日前后，机构投资者交易占比会大概率上升，该段时期的收益率有较强的“动量”特征。"
+        },
+        {
+          "name": "业绩公告前隔夜动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近业绩报告日前20个交易日的隔夜收益率}",
+          "stats": [0.034, null, 0.81, null],
+          "evidence": "逻辑：业绩披露前，部分投资者可能事先获知业绩信息，因此在业绩披露前的一段时间，该股票的知情交易占比可能上升。该短时间的收益率中“动量”特征会更显著。"
+        },
+        {
+          "name": "业绩公告跳空动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{业绩披露后首日隔夜超额收益率}",
+          "stats": [0.02, null, 0.78, null],
+          "evidence": "逻辑：业绩披露后的第一个交易日的跳开方向与幅度，体现了该股票的业绩超预期的方向与幅度，该类有效信息有较强的“动量”特征。"
+        },
+        {
+          "name": "SUE",
+          "family": "analyst",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUE_{T}=(Earning_{T}-\\mathbb{E}(Earning_{T}))/\\sigma",
+          "stats": [null, null, null, null],
+          "evidence": "一个经典主流的“基本面动量”因子是基于盈余公告后价格漂移效应(PEAD）逻辑的SUE(Standard Unexpected Earning)因子，其构建方式为："
+        },
+        {
+          "name": "EER",
+          "family": "analyst",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "EER_{T}=(EarningForecast_{T}-EarningForecast_{T-3})/EarningForecast_{T-3}",
+          "stats": [null, null, null, null],
+          "evidence": "同样，对于“分析师动量”，我们用经典的一致预期净利润调整因子来表征，其构建方式为："
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "robustness", "decay_monitor"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "交易的投资者结构是影响动量因子方向的重要因素，价格变动主要由机构投资者主导时动量特征更明显，由散户主导时反转效应更强烈。",
+      "evidence": "交易的投资者结构是影响动量因子方向的重要因素。理性投资者的交易行为特征，提供了风险溢价补偿的“动量”收益。而非理性投资者的交易行为特征，以不同的行为偏差方式，既提供了“反转”收益，也为“动量”收益提供来源。因此，当价格的变动主要由机构投资者主导时，动量特征更明显；而如果价格变动主要由散户投资者主导时，反转效应更强烈。"
+    },
+    {
+      "text": "2005年至2022年4月，一年动量因子在美股、港股与A股的IC均值分别为4.2%、4.0%与-1.6%，一个月动量分别为-1.1%、-1.8%与-6.3%，A股动量呈反转特征。",
+      "evidence": "我们以2005年到2022年4月的数据测试一年动量因子分别在美股、港股与A股上的效果，其IC均值分别为4.2%，4.0%与-1.6%。实际上，不仅仅是一年动量，一个月动量（MOM_1M）也是在A股市场有更浓重的反转特征，一个月动量因子在美股、港股与A股上的IC均值分别为-1.1%，-1.8%与-6.3%。"
+    },
+    {
+      "text": "以2007年-2017年的数据，一年动量因子的IC年度均值与机构投资者交易占比的相关系数高达0.86。",
+      "evidence": "以2007年-2017年的数据，一年动量因子的IC年度均值与机构投资者交易占比的相关系数高达0.86。"
+    },
+    {
+      "text": "一年动量中有一部分来自业绩基本面带来的动量收益，源自业绩风险补偿；一个月动量收益主要来自行为偏差，其IC均值呈明显反转衰减。",
+      "evidence": "因此，我们可以说一年动量中有一部分来自业绩基本面带来的动量收益，这部分动量收益很大概率是源自业绩风险补偿。而一个月动量在这个维度上的动量收益则较少。"
+    },
+    {
+      "text": "截面分域中，动量特征在高覆盖、大市值、低波动、高价值股票池更明显，反转效果在低覆盖、小市值、高波动、低流动性、低价值股票池更显著。",
+      "evidence": "其中一年动量在高覆盖、大市值、低波动、高价值的股票池能均显示出了正向动量预测能力。相对的，一个月动量的反转效果在低覆盖、小市值、高波动、低流动性、低价值的股票池能均更为显著。"
+    },
+    {
+      "text": "时序分域中，市场下跌低波动、大盘成长占优时动量特征更多，市场上涨高波动、小盘价值占优时反转特征更多。",
+      "evidence": "测试结果显示，市场处于下跌、低波动时期；风格处于大盘占优、成长占优的时期时，动量类因子倾向释放更多的“动量”特征；而当市场与上涨、高波动时期；风格处于小盘占优、价值占优的时期时，动量类因子倾向释放更多的“反转”特征。"
+    },
+    {
+      "text": "反转逻辑推荐一个月振幅调整动量与一个月日内动量，一个月振幅调整动量在全市场IC均值-6.9%、ICIR绝对值高达1.04；动量逻辑推荐业绩公告前隔夜动量与业绩公告跳空动量。",
+      "evidence": "测试结果显示，反转逻辑因子中，一个月振幅调整动量与一个月日内动量无论在全市场范围、中证500成分股、还是沪深300成分股范围内，均具有不错且超过一个月基础动量因子的预测能力。一个月振幅调整动量在全市场的IC 均值-6.9%，ICIR绝对值高达1.04。"
+    },
+    {
+      "text": "一个月动量因子在中信一级行业、中信二级行业、中信三级行业、股票上的IC均值以4.0%、1.8%、-0.6%、-6.3%依次递减，行业呈动量而股票呈反转。",
+      "evidence": "统计一个月动量因子，其在中信一级行业、中信二级行业、中信三级行业、股票上的IC均值单调地以4.0%、1.8%、-0.6%、-6.3%依次递减。"
+    },
+    {
+      "text": "不少改进方式增强了预测能力，但预测能力集中在空头部分、多头超额收益不尽人意的现象仍未显著改善。",
+      "evidence": "不得不指出，即使上述因子中不少改进方式的确增强了动量或反转因子的整体预测能力，预测能力主要集中在空头部分的现象仍未得到显著改善。"
+    },
+    {
+      "text": "长期看A股机构投资者交易占比提升将使动量特征更明显、反转效果削弱，近期建议提高动量逻辑因子权重、降低反转逻辑因子权重。",
+      "evidence": "长期来看，随着A股市场越来越规范，机构投资者交易占比逐渐提升。A股的动量特征会越来越明显，而反转效果将逐步削弱。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Unified Theory of Underreaction, Momentum Trading, and Overreaction in Asset Markets",
+    "Rational Momentum Effects"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

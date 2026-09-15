@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20200620-招商证券-高频寻踪-001-交易指令流中的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "VPIN因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VPIN \\approx \\frac{1}{N} \\sum_{\\tau=1}^{N} |V_{\\tau}^{S} - V_{\\tau}^{B}| / V",
+          "stats": [null, -0.08, 0.47, 0.1143],
+          "evidence": "我们根据VPIN的计算方式构建了 VPIN 因子，并在沪深300历史成分股中进行因子测试。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "VPIN因子的原始因子和中性化因子均具有较好的选股能力，在沪深300成分股内，观测期rank_IC均值绝对值为0.08，IR为0.47，近五年来多空组合收益78%",
+      "evidence": "VPIN因子的原始因子和中性化因子均具有较好的选股能力。在沪深300成分股内，观测期rank_IC均值绝对值为0.08，IR为0.47，近五年来，多空组合收益78%；"
+    },
+    {
+      "text": "VPIN因子与波动率因子、换手率（流动性）因子有较高的相关性，而与市值因子、收益偏度因子以及20日动量因子、BP因子的相关系数较小",
+      "evidence": "我们计算了VPIN因子与其他重要量价因子的spearman相关系数，发现与波动率因子、换手率（流动性）因子有较高的相关性。而与市值因子、收益偏度因子以及20日动量因子、BP因子的相关系数较小。"
+    },
+    {
+      "text": "剥离其他因子（标准化）之后因子依然具备较好的选股能力，近五年来多空组合的收益约为61.85%，且大部分来自多头端的收益",
+      "evidence": "我们在每期横截面上对VPIN因子进行因子剥离，剥离其他因子（标准化）之后因子依然具备较好的选股能力。近五年来，多空组合的收益约为61.85%，且大部分来自多头端的收益。"
+    },
+    {
+      "text": "VPIN原始因子单调性较好，过去5年半时间多空组合获取收益78%",
+      "evidence": "因子单调性较好、过去5年半时间多空组合获取收益78%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Easley, Lopez De Prado, O'Hara (2011) The microstructure of the flash crash",
+    "Easley等（2012）VPIN",
+    "《琢璞系列之二：高频数据中的知情交易》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

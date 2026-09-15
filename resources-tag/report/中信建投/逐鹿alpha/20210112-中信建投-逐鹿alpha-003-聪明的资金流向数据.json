@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20210112-中信建投-逐鹿alpha-003-聪明的资金流向数据",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_l1_l2"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "小单买入总量",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日小单买入量之和（含主动与被动）}",
+          "stats": [-0.0572, null, 0.3302, null],
+          "evidence": "小单买入总量的 IC 表现相当稳定，整体胜率达到了 67%，从 17 年至 20 年底，"
+        },
+        {
+          "name": "小单买入金额",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日小单买入金额之和（含主动与被动）}",
+          "stats": [-0.0324, null, 0.4241, null],
+          "evidence": "结果表明，在基础因子中，中小单资金流向和收益存在明显负相关性，随着金额增大，相关性有所减弱。"
+        },
+        {
+          "name": "小单卖出总量",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日小单卖出量之和（含主动与被动）}",
+          "stats": [-0.0543, null, 0.3323, null],
+          "evidence": "整体上买入和卖出的 IC 较为接近，主动和被动的成交 IC 也比较接近，成交量的 IC 明显高于成交金额的 IC，成交金额和成交笔数的 IC 也相差不大。"
+        },
+        {
+          "name": "中单买入总量",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日中单买入量之和（含主动与被动）}",
+          "stats": [-0.0534, null, 0.4, null],
+          "evidence": "通过上述结果，可以看出整体上基础因子中小单和中单和收益存在明显的负相关，超大单因子的表现一般。相较于交易金额，交易量的显著性更高。"
+        },
+        {
+          "name": "中单卖出总量(仅主动)",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日中单主动卖出量之和}",
+          "stats": [-0.0566, null, 0.4257, null],
+          "evidence": "中单卖出总量（仅主动）的 IC 表现相当稳定，整体胜率达到了 67%，从 17 年至20 年底，第一组取得了 73%的收益，第五组的收益为-40%，多空组的收益达到113%。"
+        },
+        {
+          "name": "大单开盘资金流向占比(量)",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后半小时内大单净流入量占总资金流向的占比}",
+          "stats": [0.0311, null, 0.4011, null],
+          "evidence": "大单开盘资金流向占比(量)的 IC 表现相当稳定，整体胜率达到了 66%，从 17 年至 20 年底，第一组取得了 60%的收益，第五组的收益为-42%，多空组的收益达到 102%。"
+        },
+        {
+          "name": "大单开盘资金流向占比(金额)",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后半小时内大单净流入金额占总资金流向的占比}",
+          "stats": [0.031, null, 0.4002, null],
+          "evidence": "五日累积的资金流向因子检验结果表明，大单开盘资金流向占比因子的IC 较为显著。"
+        },
+        {
+          "name": "小单NPR因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathit{NPR}_{t}=\\frac{\\sum_{t-\\mathrm{T}}^{t}\\left(buy_{t}-sell_{t}\\right)}{\\sum_{t-\\mathrm{T}}^{t}\\left(buy_{t}+sell_{t}\\right)}",
+          "stats": [null, null, null, null],
+          "evidence": "从上表中可以看出，小单的NPR系数相对于其他因子系数更为明显，说明小单NPR系数和收益的相关性更高，这和上一章的IC检验结论相符。"
+        },
+        {
+          "name": "大单NPR",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathit{NPR}_{t}=\\frac{\\sum_{t-\\mathrm{T}}^{t}\\left(buy_{t}-sell_{t}\\right)}{\\sum_{t-\\mathrm{T}}^{t}\\left(buy_{t}+sell_{t}\\right)},\\ \\text{buy、sell取大单买入金额与卖出金额}",
+          "stats": [null, null, null, null],
+          "evidence": "值得注意的是，大单的DSL较为显著，表明大单NPR最小的5%能够取得5.5%的多空收益。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "单因子IC检验与NPR Fama-Macbeth因子检验均表明，小单资金流向与未来收益存在较为明显的负相关性；小单资金流向一般被认为是个人投资者交易偏好，个人投资者交易频繁的股票未来有较高概率收益较低。",
+      "evidence": "结果表明，无论是单因子的检验还是 NPR Fama-Macbeth 因子检验，小单资金流向均与未来收益存在较为明显的负相关性。小单资金流向一般被认为是个人投资者交易偏好，据此可以看出个人投资者交易频繁的股票未来有较高的概率收益较低。"
+    },
+    {
+      "text": "小单买入总量因子的IC表现相当稳定，整体胜率达到67%，17年至20年底多头组合取得93%的收益，空头为-45%，多空组合收益达138%。",
+      "evidence": "小单买入总量的 IC 表现相当稳定，整体胜率达到了 67%，从 17 年至 20 年底，"
+    },
+    {
+      "text": "NPR模型中小单NPR系数相对其他因子更为明显，t值达到-19和-16，均通过显著性检验；模型二DSL系数显著，小单NPR最小的5%有较为明显的负收益（-3.81%）。",
+      "evidence": "从上表中可以看出，小单的NPR系数相对于其他因子系数更为明显，说明小单NPR系数和收益的相关性更高，这和上一章的IC检验结论相符。同样的，系数的t值分别达到了-19和-16，说明两者均通过了显著性检验。模型二中的DSL系数较为显著，说明小单NPR最小的5%有较为明显的负收益（-3.81%）。"
+    },
+    {
+      "text": "一阶差分后因子与收益率不存在明显的相关性，五日累积求和因子相较于原始因子存在明显的规律，机构主导的资金流向偏好在开盘和尾盘之前调仓。",
+      "evidence": "因此我们对上述因子分别做一阶差分和五日累积求和，结果表明一阶差分之后，因子与收益率不存在明显的相关性。五日累积求和因子相较于原始因子，存在明显的规律。"
+    },
+    {
+      "text": "中单、大单和超大单的NPR系数均为正值，与收益呈正相关；超大单相关性比其他因子低一个量级且显著性较低，大单NPR最小的5%能够取得5.5%的多空收益。",
+      "evidence": "其中超大单的相关性与其他因子相比，低了一个量级，显著性也较低。值得注意的是，大单的DSL较为显著，表明大单NPR最小的5%能够取得5.5%的多空收益。"
+    },
+    {
+      "text": "时间段因子IC整体表现不如前几章因子，但相对其他时间段因子，大单开盘因子表现较好，且与未来收益呈现正相关。",
+      "evidence": "时间段因子 IC 整体表现不如前几章的因子，值得注意的是，相对其他时间段因子，大单开盘因子的表现较好，且与未来收益呈现正相关。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Lakonishok, J. and I. Lee (2015)"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "schema_version": 2,
+  "id": "20180415-光大证券-多因子-011-爬罗剔抉_一致预期因子分类与精选",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision", "analyst_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "csi800"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "一致预期目标收益率因子TargetReturn",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{复权一致预期目标价}}{\\text{现价}}-1",
+          "stats": [0.0383, null, 0.7, 0.156],
+          "evidence": "一致预期目标收益率因子的构造方式相对简单，基于分析师正式报告中的目标价信息，使用朝阳永续的一致预期目标价（后复权），每个月末计算股票现价相对于目标价的预期收益率，得到一致预期目标收益率因子。"
+        },
+        {
+          "name": "一致预期PEG因子（EPEG）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期PE}}{\\sqrt{\\frac{\\text{一致预期滚动净利润}}{\\text{历史滚动净利润}}}-1}",
+          "stats": [-0.0336, null, -0.73, 0.101],
+          "evidence": "一致预期PE/一致预期净利润增长率，其中一致预期净利润增长率的计算方式为：（SQRT（一致预期滚动净利润/历史滚动净利润）-1）"
+        },
+        {
+          "name": "一致预期EP因子（EEP）",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期净利润}}{\\text{市值}}",
+          "stats": [0.0505, null, 0.65, 0.0889],
+          "evidence": "报告中的一致预期净利润、一致预期营业收入、一致预期 EP 等数据均取自朝阳永续数据库。"
+        },
+        {
+          "name": "一致预期营业收入增长率EOPG",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期营业收入}}{\\text{最近一期实际营业收入}}-1",
+          "stats": [0.0188, null, 0.26, 0.099],
+          "evidence": "测试的两个成长因子中，一致预期营业收入增长率EOPG的表现相对较好，多空年化收益为 9.90%，但整体上看选股能力并不突出，IC均值未达到2%。"
+        },
+        {
+          "name": "一致预期净利润增长率ENPG",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期净利润}}{\\text{最近一期实际净利润}}-1",
+          "stats": [0.0053, null, 0.1, 0.051],
+          "evidence": "我们同样将一致预期成长因子与之所对应的财报公告因子做对比，从下表中的结论可见，一致预期成长因子EOPG相比OPG_TTM表现略胜一筹，而ENPG则仅仅在单调性和多空年化收益上相对财报公告因子有所提升。"
+        },
+        {
+          "name": "EEChange_1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{朝阳永续一致预期净利润的近1个月变化率}",
+          "stats": [0.0195, null, 0.55, 0.104],
+          "evidence": "（1） 一致预期净利润调整因子（EEChange_1M、EEChange_3M）"
+        },
+        {
+          "name": "EEChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{朝阳永续一致预期净利润的近3个月变化率}",
+          "stats": [0.0256, null, 0.58, 0.127],
+          "evidence": "而从 IR 和因子收益的角度来看，三个月一致预期净利润调整因子 EEChange_3M 的表现较好，平均 IC 为 2.56%，IR 为 0.58，多空年化收益也高达12.7%。由于该类因子从逻辑上讲与常用基本面因子的逻辑均无太大相关，因此我们会重点探究该因子是否存在常用基本面因子之外的超额 alpha。"
+        },
+        {
+          "name": "EOPChange_1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{朝阳永续一致预期营业收入的近1个月变化率}",
+          "stats": [0.0169, null, 0.54, 0.074],
+          "evidence": "（2） 一致预期营业收益调整因子（EOPChange_1M、EOPChange_3M）"
+        },
+        {
+          "name": "EOPChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{朝阳永续一致预期营业收入的近3个月变化率}",
+          "stats": [0.0241, null, 0.5, 0.106],
+          "evidence": "（2） 一致预期营业收益调整因子（EOPChange_1M、EOPChange_3M）"
+        },
+        {
+          "name": "RPP_25D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{一定期限内市场上发布的关于某只股票的卖方报告总数}",
+          "stats": [0.0172, null, 0.19, 0.049],
+          "evidence": "（1） 卖方报告覆盖数因子（RPP_25D、RPP_75D）,表示一定期限内市场上发布的关于某只股票的报告总数"
+        },
+        {
+          "name": "RPP_75D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{一定期限内市场上发布的关于某只股票的卖方报告总数}",
+          "stats": [0.0228, null, 0.22, 0.0535],
+          "evidence": "（1） 卖方报告覆盖数因子（RPP_25D、RPP_75D）,表示一定期限内市场上发布的关于某只股票的报告总数"
+        },
+        {
+          "name": "EINS_25D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{一定期限内市场上发布了关于某只股票报告的机构总数}",
+          "stats": [0.012, null, 0.16, 0.052],
+          "evidence": "（2） 卖方机构覆盖数因子（EINS_25D、EINS_75D），表示一定期限内市场上发布了关于某只股票报告的机构总数"
+        },
+        {
+          "name": "EINS_75D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{一定期限内市场上发布了关于某只股票报告的机构总数}",
+          "stats": [0.013, null, 0.15, 0.051],
+          "evidence": "（2） 卖方机构覆盖数因子（EINS_25D、EINS_75D），表示一定期限内市场上发布了关于某只股票报告的机构总数"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "一致预期目标收益率因子TargetReturn在全市场的选股能力较为突出，平均IC为3.83%，IR达到0.70，单调性得分为2.97；沪深300与中证800内的表现相对较弱但仍具不俗的IC和IR表现。",
+      "evidence": "一致预期目标收益率因子TargetReturn 在全市场的选股能力较为突出，平均IC 为 3.83%，IR 达到 0.70，单调性得分为 2.97。沪深 300 与中证 800 内的表现相对较弱单依旧具有不俗的IC和 IR表现。"
+    },
+    {
+      "text": "TargetReturn与1个月动量因子的IC相关性为-0.51，说明一致预期目标收益率包含一定程度的反转因子风格。",
+      "evidence": "通过检验 TargetReturn 因子与其他常用因子的 IC 序列相关性，可知该因子与 1 个月动量因子的相关性的确较高，IC 相关性为-0.51，也就是说一致预期目标收益率包含一定程度的反转因子风格。"
+    },
+    {
+      "text": "中性化处理后，一致预期目标收益率因子的超额alpha在近期（2017年以来）出现了较为显著的回撤。",
+      "evidence": "中性化处理后，可见一致预期目标收益率因子的超额 alpha 在近期（2017年以来）出现了较为显著的回撤。"
+    },
+    {
+      "text": "一致预期PEG因子（EPEG）和一致预期EP因子（EEP）均表现出相对对应财报公告因子较大的优势，EPEG的IC_IR绝对值高达0.73，相比PEG_TTM的0.44明显提升，中性化后超额alpha依旧稳定。",
+      "evidence": "一致预期PEG因子（EPEG）和一致预期EP因子（EEP）均表现出相对对应财报公告因子较大的优势。其中，EPEG 因子的提升效果最为明显，IC_IR 绝对值高达0.73，相比财报公告因子PEG_TTM的IC_IR 绝对值0.44 有了明显的提升；"
+    },
+    {
+      "text": "一致预期成长因子EOPG多空年化收益9.90%相对较好，但整体选股能力并不突出，历史平均IC未达到2%，稳定性较弱。",
+      "evidence": "测试的两个成长因子中，一致预期营业收入增长率EOPG的表现相对较好，多空年化收益为 9.90%，但整体上看选股能力并不突出，IC均值未达到2%。"
+    },
+    {
+      "text": "三个月一致预期净利润调整因子EEChange_3M表现较好，平均IC为2.56%，IR为0.58，多空年化收益高达12.7%，与常用基本面因子的逻辑相关性较弱。",
+      "evidence": "而从 IR 和因子收益的角度来看，三个月一致预期净利润调整因子 EEChange_3M 的表现较好，平均 IC 为 2.56%，IR 为 0.58，多空年化收益也高达12.7%。由于该类因子从逻辑上讲与常用基本面因子的逻辑均无太大相关，因此我们会重点探究该因子是否存在常用基本面因子之外的超额 alpha。"
+    },
+    {
+      "text": "中性化处理后EEChange_3M因子的超额alpha表现十分抢眼，IC上升至3.89%，IR提高至1.01，多空组合年化收益高达15.10%，因子稳定性和分组单调性显著提升。",
+      "evidence": "中性化处理后， EEChange_3M 因子的超额 alpha 表现十分抢眼，IC 上升至 3.89%，IR 由原先的 0.58 提高至 1.01，多空组合年化收益高达 15.10%，因子稳定性和分组单调性显著提升。"
+    },
+    {
+      "text": "关注度因子整体表现一般，因子收益显著性较低，并不具有显著的选股能力。",
+      "evidence": "从下表可见，关注度因子的整体表现一般，尤其是体现在因子收益的显著性较低，因此此类因子并不具有显著的选股能力。"
+    },
+    {
+      "text": "2006至2008年卖方报告覆盖率均低于70%，2009年以来覆盖率显著上升，最近几个年度全体A股整体覆盖率维持在80%左右，为一致预期因子提供了稳定的覆盖基础。",
+      "evidence": "2006 至 2008 年卖方报告覆盖率均低于 70%，而自 2009 年以来覆盖率出现了显著上升，最近几个年度的全体A 股整体覆盖率均维持在 80%左右。"
+    },
+    {
+      "text": "过于严格的因子定义导致缺失值过多、分组单调性失真，本文对朝阳永续数据统一采用宽松方法，类别1、2、3、4的数据均予以采纳。",
+      "evidence": "因此本文中取自朝阳永续数据库的因子值均采用了表 14 中的宽松方法，对于类别1、2、3、4 的数据均予以采纳。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《卖方推票事件驱动策略研究》",
+    "《多因子组合“光大 Alpha 1.0”——多因子系列报告之三》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

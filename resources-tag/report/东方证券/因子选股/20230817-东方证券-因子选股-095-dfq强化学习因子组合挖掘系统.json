@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "id": "20230817-东方证券-因子选股-095-dfq强化学习因子组合挖掘系统",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "强化学习合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathbf{c}(X;F,w)=\\sum_{j=1}^{k}\\omega_{j}f_{j}(X)",
+          "stats": [0.0897, 0.114, 1.03, null],
+          "evidence": "我们将优化后因子组合的 IC，作为当前动作的奖励。因子组合的 IC 使用合成因子值和收益率来计算。合成因子值通过单因子值和单因子权重加权计算。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": ["linear", "neural"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "DFQ强化学习因子明显优于人工因子和遗传规划因子，在三个股票池中都有很强的选股效力，市值偏向性低；中证1000测试集rankic达11.4%，RANKICIR达1.38（未年化），10分组多头年化超额收益达13.65%。",
+      "evidence": "DFQ强化学习因子明显优于人工因子和遗传规划因子，在三个股票池中都有很强的选股效力，市值偏向性低。在沪深 300股票池中，测试集上rankic接近 8%，RANKICIR接近 1（未年化），5分组多头年化超额收益接近 15%。在中证500股票池中，测试集上 rankic 达到 8.5%，RANKICIR达到 1.15（未年化），5分组多头年化超额收益达到 8.22%。在中证 1000股票池中，测试集上 rankic达到 11.4%，RANKICIR达到 1.38（未年化），10分组多头年化超额收益达到 13.65%。"
+    },
+    {
+      "text": "强化学习因子可完全替代人工因子，在300和500股票池中可替代GP因子；强化学习合成因子对人工因子和GP因子分别回归后残差仍有显著选股效果，RANKIC超过5%，RANKICIR年化超过1；强化学习因子和神经网络因子间存在信息差异，两两回归残差都具备选股效果。",
+      "evidence": "强化学习因子可完全替代人工因子，在 300 和 500 股票池中可替代 GP 因子。强化学习合成因子对人工因子和 GP 因子分别回归后，残差仍有显著选股效果，RANKIC 超过 5%，RANKICIR 年化超过 1。（2）强化学习因子和神经网络因子间存在信息差异，互相之间都不能被完全解释，两两回归残差都具备选股效果。"
+    },
+    {
+      "text": "沪深300成分内指数增强组合2020年以来年化对冲收益近8%，单边年换手8倍，最大回撤6%，每年均取得正超额，2023年到8.7号对冲收益达到5.28%。",
+      "evidence": "可以看到，沪深 300 成分内指数增强组合表现较好，20 年以来年化对冲收益近 8%，单边年换手 8倍，最大回撤 6%，每年均取得正超额，2023年到 8.7号对冲收益达到 5.28%。"
+    },
+    {
+      "text": "相关性很高的两个单因子可能具有协同性，线性组合后能达到1+1>2的效果；中证500中相关系数97%的两个因子线性组合IC达6%，高于各自单独的IC，显示了协同效应。",
+      "evidence": "实际上，相关性很高的两个单因子可能也具有的协同性，线性组合后能达到 1+1>2 的效果。例如在中证 500股票池中 a1和 a2两个因子的相关系数达到 97%，然而，a1和a2的线性组合的IC达到 6%，高于各自单独的IC（4%和 5%），显示了协同效应。"
+    },
+    {
+      "text": "保存因子表达式和因子值供缓存复用大幅提升运算效率，大概可以节省10倍的运算时间，原先在中证1000股票池进行30万步训练需要24小时以上，修改后仅需3-5小时。",
+      "evidence": "因而我们将每次因子池中的因子表达式和因子值予以保存，每次计算 IC和相关系数之前，将首先从保存的数据中查找，如果因子之前已存在，因子值数据直接调用即可，无需重复计算。这将大幅提升运算效率，测试显示大概可以节省 10 倍的运算时间，原先在中证1000股票池中进行 30万步训练需要 24小时以上，修改后仅需 3-5小时。"
+    }
+  ],
+  "builds_on": [
+    "20230528-东方证券-因子选股-090-dfq遗传规划价量因子挖掘系统",
+    "20230606-东方证券-因子选股-091-基于循环神经网络的多频率因子挖掘"
+  ],
+  "external_ref": [
+    "Easy RL：强化学习教程",
+    "Generating Synergistic Formulaic Alpha Collections via Reinforcement Learning"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

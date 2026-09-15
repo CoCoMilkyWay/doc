@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20200226-东方证券-因子选股-065-主动买卖单的批量成交划分法",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "净主买占比 OI",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{个股全天主动买入量}-\\text{个股全天主动卖出量}}{\\text{个股全天成交量}}",
+          "stats": [-0.0214, null, -1.03, 0.12],
+          "evidence": "净主买占比 OI = （个股全天主动买入量–主动卖出量）/ 个股全天成交量"
+        },
+        {
+          "name": "主动买卖差额占比 |OI|",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{|\\text{个股全天主动买入量}-\\text{个股全天主动卖出量}|}{\\text{个股全天成交量}}",
+          "stats": [0.013, null, 0.92, null],
+          "evidence": "主动买卖差额占比 |OI| = |个股全天主动买入量–主动卖出量|/ 个股全天成交量"
+        },
+        {
+          "name": "净换手率 NTO",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{个股全天主动买入量}-\\text{个股全天主动卖出量}}{\\text{个股流通股本}}",
+          "stats": [-0.0289, null, -1.63, 0.1355],
+          "evidence": "净换手率 NTO =（个股全天主动买入量–主动卖出量）/ 个股流通股本"
+        },
+        {
+          "name": "多空力量差异度 |NTO|",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{|\\text{个股全天主动买入量}-\\text{个股全天主动卖出量}|}{\\text{个股流通股本}}",
+          "stats": [-0.0566, null, -3.14, 0.2399],
+          "evidence": "多空力量差异度 |NTO| = |个股全天主动买入量–主动卖出量|/ 个股流通股本"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_cost"],
+      "approach": ["impact"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "na"}
+    }
+  },
+  "findings": [
+    {
+      "text": "BVC算法得到的净主买占比与日内股价涨跌幅的相关性更高，两种算法下回归R2分别为54%和36%，相关系数分别为73%和59%。",
+      "evidence": "从全市场平均结果来看，BVC 算法得到的净主买占比与日内股价涨跌幅的相关性更高，两种算法下回归的R2分别为 54%和 36%，相关系数分别为 73%和 59%。"
+    },
+    {
+      "text": "月频剔除所有常规大类因子后，BVC算法OI5因子全市场IC为-2.14%，ICIR为-1.03，多空年化收益达12%；NTO20因子全市场IC为-2.89%，ICIR为-1.63，多空收益14%，均有显著选股效果，而订单流算法正交化后均无效。",
+      "evidence": "月频层面剔除了所有常规大类因子后， BVC 算法得到的 OI5 因子全市场IC 为-2.14%，ICIR 为-1.03，多空年化收益达 12%；NTO20 因子全市场 IC为-2.89%，ICIR为-1.63，多空收益 14%，均有显著的选股效果。"
+    },
+    {
+      "text": "BVC算法的OI和NTO因子使用中短周期来计算效果更强，基于过去5-20个交易日构造的因子均有效，60和120个交易日基本无效。",
+      "evidence": "基于过去 5-20 个交易日构造的因子均有效，60 和 120 个交易日基本无效。"
+    },
+    {
+      "text": "BVC算法的OI和NTO因子在小市值股票池中因子效果更强，ICIR绝对值排序为全市场>中证500>沪深300，在沪深300中无效。",
+      "evidence": "因子 ICIR绝对值排序：全市场>中证 500>沪深 300，在沪深 300 中无效。"
+    },
+    {
+      "text": "BVC算法对冲击成本Istar模型的方程1解释度大幅提升（2% VS 17%），方程2有所降低（11% VS 9%），整体解释力更高。",
+      "evidence": "方程 1 的解释度大幅提升（2% VS 17%），方程 2 有所降低（11% VS 9%）。"
+    },
+    {
+      "text": "因子持有期越短效果越好，BVC算法得到的OI5因子持有1天的ICIR为-10.06，NTO5为-10.27，短线选股能力与反转不相上下。",
+      "evidence": "因子持有期越短效果越好。BVC 算法得到的 OI5 因子持有 1 天的 ICIR 为-10.06，NTO5 为-10.27。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chordia, Roll & Subrahmanyam (2002). Order imbalance, liquidity, and market returns",
+    "Easley, Lopez de Prado & O'Hara (2012). Bulk classification of trading activity"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

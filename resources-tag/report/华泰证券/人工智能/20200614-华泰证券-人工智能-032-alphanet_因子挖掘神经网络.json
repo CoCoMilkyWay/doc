@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "20200614-华泰证券-人工智能-032-alphanet_因子挖掘神经网络",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "AlphaNet-v1 合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{AlphaNet-v1端到端神经网络：将9×30的个股量价数据图片输入特征提取层(ts_corr/ts_cov/ts_stddev等自定义运算层+BN)、池化层、全连接层，加权合成个股未来10天/5天收益的预测}",
+          "stats": [null, 0.0954, 1.01, 0.4429],
+          "evidence": "合成因子在进行了行业、市值、动量、波动率、换手率五因子中性化后，RankIC 均值为 9.54%(10 天调仓)和 8.19%(5 天调仓)。分 5 层测试中 TOP 组合年化超额收益率为 12.42%(10 天调仓)和11.36%(5 天调仓)。合成因子的增量信息显著。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["neural"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "本文整合多因子选股中的因子生成和多因子合成步骤，设计端到端网络AlphaNet，能有效提取股票原始量价数据特征，其合成因子相比传统因子具有显著的增量信息。",
+      "evidence": "本文为了整合多因子选股中的因子生成和多因子合成步骤，设计了一种全新的网络结构：AlphaNet。在测试中，AlphaNet 能有效提取股票原始量价数据中的特征，其合成因子相比传统因子具有显著的增量信息。"
+    },
+    {
+      "text": "合成因子五因子中性化后RankIC均值为9.54%(10天调仓)和8.19%(5天调仓)，TOP组合年化超额收益率12.42%(10天调仓)和11.36%(5天调仓)，增量信息显著。",
+      "evidence": "合成因子在进行了行业、市值、动量、波动率、换手率五因子中性化后，RankIC 均值为 9.54%(10 天调仓)和 8.19%(5 天调仓)。分 5 层测试中 TOP 组合年化超额收益率为 12.42%(10 天调仓)和11.36%(5 天调仓)。合成因子的增量信息显著。"
+    },
+    {
+      "text": "换仓时在每个截面期得到预测值，通过组合优化模型得到新的持仓股票和权重，在截面期下一个交易日按当日vwap换仓，每次调仓双边换手率限制在30%。",
+      "evidence": "2. 换仓：在每个截面期得到预测值，通过组合优化模型得到新的持仓股票和权重，在截面期下一个交易日按当日 vwap 换仓，交易费用为单边千分之二，每次调仓双边换手率限制在 30%。"
+    },
+    {
+      "text": "模型从2011年1月31日开始每隔半年滚动训练，样本内为过去1500个交易日的数据，训练集和验证集按1：1划分。",
+      "evidence": "模型训练：从 2011 年 1 月 31 日开始，每隔半年进行滚动训练。样本内数据为过去1500 个交易日的数据，训练集和验证集按照 1：1 划分。"
+    },
+    {
+      "text": "借助SHAP分析展平后每个特征与预测目标的关系，得出特征重要性，对AlphaNet-v1进行可解释性分析。",
+      "evidence": "我们可以借助模型可解释性工具 SHAP 分析展平后的每个特征与预测目标的关系，得出特征重要性，从而辅助对模型的理解。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于遗传规划的选股因子挖掘》（2019-6-10）",
+    "《基于量价的人工智能选股体系概览》（2020-02-18）",
+    "《揭开机器学习模型的“黑箱”》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

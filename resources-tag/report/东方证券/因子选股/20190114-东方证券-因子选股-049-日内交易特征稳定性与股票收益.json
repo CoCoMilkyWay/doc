@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "id": "20190114-东方证券-因子选股-049-日内交易特征稳定性与股票收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SDRVOL",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma^{NW}(RVOL_{i,t})/\\mu(RVOL_{i,t})",
+          "stats": [null, -0.0645, -2.98, null],
+          "evidence": "考虑到时间序列自相关性，我们采用 Newey-West 调整标准差度量日内交易特征的稳定性（SDRVOL，SDRSKEW，SDRKURT，SDVVOL，SDVSKEW，SDVKURT和 SDVHHI）。"
+        },
+        {
+          "name": "SDRSKEW",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma^{NW}(RSKEW_{i,t})",
+          "stats": [null, -0.0436, -2.18, null],
+          "evidence": "考虑到时间序列自相关性，我们采用 Newey-West 调整标准差度量日内交易特征的稳定性（SDRVOL，SDRSKEW，SDRKURT，SDVVOL，SDVSKEW，SDVKURT和 SDVHHI）。"
+        },
+        {
+          "name": "SDRKURT",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma^{NW}(RKURT_{i,t})",
+          "stats": [null, -0.0442, -2.41, null],
+          "evidence": "考虑到时间序列自相关性，我们采用 Newey-West 调整标准差度量日内交易特征的稳定性（SDRVOL，SDRSKEW，SDRKURT，SDVVOL，SDVSKEW，SDVKURT和 SDVHHI）。"
+        },
+        {
+          "name": "SDVVOL",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma^{NW}(VVOL_{i,t})/\\mu(VVOL_{i,t})",
+          "stats": [null, -0.0675, -3.3, null],
+          "evidence": "考虑到时间序列自相关性，我们采用 Newey-West 调整标准差度量日内交易特征的稳定性（SDRVOL，SDRSKEW，SDRKURT，SDVVOL，SDVSKEW，SDVKURT和 SDVHHI）。"
+        },
+        {
+          "name": "SDVSKEW",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma^{NW}(VSKEW_{i,t})",
+          "stats": [null, -0.0335, -2, null],
+          "evidence": "考虑到时间序列自相关性，我们采用 Newey-West 调整标准差度量日内交易特征的稳定性（SDRVOL，SDRSKEW，SDRKURT，SDVVOL，SDVSKEW，SDVKURT和 SDVHHI）。"
+        },
+        {
+          "name": "SDVKURT",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma^{NW}(VKURT_{i,t})",
+          "stats": [null, -0.0311, -1.7, null],
+          "evidence": "考虑到时间序列自相关性，我们采用 Newey-West 调整标准差度量日内交易特征的稳定性（SDRVOL，SDRSKEW，SDRKURT，SDVVOL，SDVSKEW，SDVKURT和 SDVHHI）。"
+        },
+        {
+          "name": "SDVHHI",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\sigma^{NW}(VHHI_{i,t})",
+          "stats": [null, -0.0524, -2.33, null],
+          "evidence": "考虑到时间序列自相关性，我们采用 Newey-West 调整标准差度量日内交易特征的稳定性（SDRVOL，SDRSKEW，SDRKURT，SDVVOL，SDVSKEW，SDVKURT和 SDVHHI）。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "smoothing", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "7个日内交易特征稳定性因子在各个样本空间均展现出稳定性越差未来平均收益越低的选股效果，大市值股票内效果不明显更差，SDRVOL在沪深300 RankIC均值6.57%、中证1000为6.56%。",
+      "evidence": "7 个日内交易特征稳定性因子在各个样本空间均展现出日内交易特征稳定性越差的股票未来平均收益越低的选股效果，而且部分因子在大市值股票内的选股效果并没有明显比小市值股票差，比如 SDRVOL 在沪深 300 中的 RankIC 均值为 6.57%，而在中证 1000 中为 6.56%。"
+    },
+    {
+      "text": "日内交易特征稳定性因子最近几年alpha没有衰减，在沪深300依然有显著多头收益。",
+      "evidence": "从时间序列上看，日内交易特征稳定性因子在最近几年的 alpha 没有衰减的趋势，近几年部分技术类 alpha 因子在大票中失效，但日内交易特征稳定性因子在沪深 300 依然有显著的多头收益。"
+    },
+    {
+      "text": "拉长计算周期可大幅降低因子换手：基于过去一年计算的截面自相关系数平均94%，top组合每月换仓股票仅20%。",
+      "evidence": "而基于过去一年数据计算的因子取值截面自相关系数平均94%，top 组合每月需要换仓的股票仅为 20%，因子换手率大幅降低。"
+    },
+    {
+      "text": "剔除各大类因子后仅SDRVOL、SDVVOL有独立的显著选股效果，相对因子库真正有增量信息的可能只有这两个因子。",
+      "evidence": "虽然两两来看这三个因子和常见的技术类 alpha 因子相关性都低，但剔除各大类因子后仅SDRVOL、SDVVOL 有独立的显著选股效果。"
+    },
+    {
+      "text": "引入日内技术类因子后沪深300和中证500增强模型在跟踪误差、回撤和换手相差不大的情况下提升组合收益，投机反转类权重占比较大时差异更显著。",
+      "evidence": "在引入日内相关的技术类因子（SDRVOL、SDVVOL 和日内特质偏度）后沪深 300 和中证500增强模型在跟踪误差、回撤和换手相差不大的情况下能提升组合收益，在投机反转类权重占比较大的模型中这种差异更加显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A股涨跌幅排行榜效应",
+    "投机、交易行为与股票收益（上）",
+    "日内残差高阶矩与股票收益"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20200119-光大证券-多因子-028-规模调整的盈利因子_从盈余公积谈起",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE_equity_qoq",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE\\_equity\\_qoq = ROE\\_qoq - Equity\\_qoq,\\quad A\\_qoq=\\frac{A_t-A_{t-1}}{|A_{t-1}|}",
+          "stats": [0.031, null, 0.664, null],
+          "evidence": "实际上，直接以盈利能力指标的变化率作为选股因子，其月度IC均值可达0.032，ICIR 可达 0.531，已具有较好的选股效果了；经净资产调整后，虽 IC 均值变化不大，但ICIR 提升至 0.664，IC大于0.02的概率也从 57.5%提升到了62.5%，因子稳定性变得更好了。"
+        },
+        {
+          "name": "ROE_qoq",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE\\_qoq=\\frac{ROE_t-ROE_{t-1}}{|ROE_{t-1}|}",
+          "stats": [0.032, null, 0.531, null],
+          "evidence": "实际上，直接以盈利能力指标的变化率作为选股因子，其月度IC均值可达0.032，ICIR 可达 0.531，已具有较好的选股效果了；经净资产调整后，虽 IC 均值变化不大，但ICIR 提升至 0.664，IC大于0.02的概率也从 57.5%提升到了62.5%，因子稳定性变得更好了。"
+        },
+        {
+          "name": "GPR_equity_qoq",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "GPR\\_equity\\_qoq = GPR\\_qoq - Equity\\_qoq,\\quad A\\_qoq=\\frac{A_t-A_{t-1}}{|A_{t-1}|}",
+          "stats": [0.03, null, 0.63, null],
+          "evidence": "在前述测试中，我们发现 ROE_equity_qoq、GPR_equity_qoq 因子在全市场、中证 500 范围内，有效性较强，ICIR 均超过 0.6；ROE_equity(adj)_reg、ROE_TA(adj)_reg、ROE_SR_reg 因子在沪深 300 成分股范围内，表现较好，ICIR 超过 0.42。"
+        },
+        {
+          "name": "ROE_TA(adj)_reg",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{连续8个季度的ROE序列对总资产序列做OLS回归（回归前分别标准化），总资产仅取年报数据，取最新一期残差作为因子值}",
+          "stats": [0.044, null, 0.425, null],
+          "evidence": "同时，我们也发现净资产、总资产按只取年报数据的方法进行调整后，相应因子ICIR从 0.35 左右提升至 0.42 以上，可逼近ROE 对盈余公积回归所构造因子的表现。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_zoo"],
+      "approach": ["selection"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "经规模调整后的盈利因子稳定性明显提升，全市场范围内ICIR可从0.53提升至0.66，分组单调性较好，多空夏普达2.05，月度胜率也达66%。",
+      "evidence": "我们尝试用不同方式构建了规模调整的盈利因子，并发现调整后的盈利因子的稳定性明显提升，全市场范围内，其 ICIR可从0.53提升至0.66。从分组表现来看，调整后的因子分组单调性较好，多空夏普达 2.05，月度胜率也达 66%。"
+    },
+    {
+      "text": "中证500指数增强模型中应用规模调整的盈利因子后，测试期内组合年化超额收益从17.4%提升至18.5%，信息比率从3.02提升至3.24。",
+      "evidence": "我们尝试在中证500指数增强模型中应用规模调整的盈利因子，应用新因子后，测试期内（2011-07-01 至 2019-12-31）组合年化超额收益从 17.4%提升至18.5%，信息比率从3.02提升至3.24。"
+    },
+    {
+      "text": "沪深300内，回归方法构造的因子有效性较强，且规模指标只取年报数据可显著提升因子有效性，ICIR从0.35左右提升至0.42以上。",
+      "evidence": "沪深300内，回归方法构造的因子有效性较强，并且规模指标只取年报数据可显著提升因子有效性。从 ICIR 角度来看，回归方法构造的因子优于简单标准化或取变化率的因子，这可能是由于沪深 300 内的企业盈利能力与规模成负相关关系的比例相对较高，用回归的方法可以更好地处理这种情况。"
+    },
+    {
+      "text": "A股市场上超过70%的上市公司规模与盈利能力的相关系数绝对值达到0.4以上，企业盈利能力的变化一部分由规模变化引起，该部分增长并不可持续。",
+      "evidence": "如下图所示，A 股市场上，超过 70%的上市公司，其规模与盈利能力的相关系数绝对值达到了0.4 以上，其中，约45%的上市公司，其规模与盈利能力的相关系数绝对值达0.7 以上。"
+    },
+    {
+      "text": "ROE_equity_qoq因子与市值、成长、盈利因子的相关系数均低于0.3，信息相对独立。",
+      "evidence": "ROE_equity_qoq 因子与成长、盈利因子的相关性较低。如下图所示，该因子与市值、成长、盈利因子的相关系数均低于 0.3，相关性较低，信息相对独立。"
+    },
+    {
+      "text": "相同构造方式的因子之间相关系数达0.9以上，不同构造方式的因子之间相关系数在0.5以下，据此主要推荐ROE_equity_qoq和ROE_TA(adj)_reg两个因子。",
+      "evidence": "相同构造方式的因子反映的信息较为一致。ROE_equity_qoq 和GPR_equity_qoq 因子以及 ROE_equity(adj)_reg、ROE_TA(adj)_reg和 ROE_SR_reg 因子之间的相关系数都达到 0.9 以上；而不同构造方式的因子之间，相关系数在 0.5以下。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《光大Alpha3.0：基本面优选多因子组合多因子系列报告之十九》",
+    "《创新基本面因子：财务数据全扫描——多因子系列报告之二十六》",
+    "《组合优化算法探析及指数增强实证——多因子系列报告之十三》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

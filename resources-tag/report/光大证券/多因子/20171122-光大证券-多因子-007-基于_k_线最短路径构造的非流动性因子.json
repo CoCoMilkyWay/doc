@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "id": "20171122-光大证券-多因子-007-基于_k_线最短路径构造的非流动性因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "K线最短路径非流动性因子",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "ShortCut=2*(High-Low)-|Open-Close|,\\quad ILLIQ_{t}=\\frac{1}{d}\\sum_{i=1}^{d}\\left(\\sum_{j=1}^{p}\\frac{Shortcut_{j}}{Value_{j}}\\right)_{t-i}",
+          "stats": [0.0472, null, 0.57, 0.104],
+          "evidence": "在一根K线上，我们定义在该K 线的时间段上，非流动性的代理变量为单位成交额下的最短路径长度。若是定义在日线上取平均，即："
+        },
+        {
+          "name": "TS 非流动性因子",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "ILLIQ_{t}=\\frac{1}{d}\\sum_{i=1}^{d}\\left(\\frac{\\sum_{j=1}^{p}ShortCut_{j}}{\\sum_{j=1}^{p}Value_{j}}\\right)_{t-i}",
+          "stats": [0.065, null, 0.72, 0.173],
+          "evidence": "多空数据最优秀的为变形定义下未经移动平均操作的K线最短路径非流动性因子，多空收益高达 17.3%，年化波动率 11.8%，夏普比率 1.405，最大回撤 20.3%。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "随着数据频率的提高，K线最短路径定义对经典定义下的非流动性因子提升程度愈加显著，能更充分地利用高频数据新引入的信息。",
+      "evidence": "同时随着数据频率的提高，K 线最短路径定义对经典定义下的非流动性因子提升程度愈加显著。比起经典的定义方式，K 线最短路径能更充分地利用高频数据新引入的信息。"
+    },
+    {
+      "text": "变形定义下未经移动平均操作的K线最短路径非流动性因子选股能力最优，多空收益高达17.3%，夏普比率1.405。",
+      "evidence": "多空数据最优秀的为变形定义下未经移动平均操作的K线最短路径非流动性因子，多空收益高达 17.3%，年化波动率 11.8%，夏普比率 1.405，最大回撤 20.3%。"
+    },
+    {
+      "text": "TS非流动性因子选股组合2010至2017年年化收益18.2%，相对中证全指年化收益12.5%，相对最大回撤仅8.35%。",
+      "evidence": "将5组分组中的第5组作为我们的选股组合，在2010年至2017年间，年化收益18.2%，年化波动率 24.8%，夏普比率0.8，最大回撤 48.3%，月度换手率 31.4%。相对中证全指年化收益 12.5%， 相对波动率 8.3%，相对最大回撤仅 8.35%。"
+    },
+    {
+      "text": "中性化并剔除换手、动量等因素后，TS非流动性因子依然显著，IC平均值3.5%，IR值0.39。",
+      "evidence": "对 TS 非流动性因子做行业、市值中性处理并剔除换手、动量等因素的影响后，因子的有效性检验等结果有不小下降，但依然显著，IC 平均值为3.5%，，IR 值为 0.39。"
+    },
+    {
+      "text": "TS非流动性因子在剔除其它类型因子的效应后依然有大量的独有信息，但整体效果有较大程度地回撤。",
+      "evidence": "综上，TS 非流动性因子在剔除其它类型因子的效应后依然有大量的独有信息，但是整体效果有较大程度地回撤。"
+    },
+    {
+      "text": "双边千六成本下，前100支股票等权组合年化收益从20.29%降至13.20%，市值加权组合从16.84%降至9.85%。",
+      "evidence": "在双边千六的成本下，等权组合的年化收益从20.29%降至 13.20%，市值加权组合的收益率从 16.84%降至 9.85%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Amihud, JFM 2002",
+    "《行为金融因子：噪音交易者行为偏差——多因子系列报告之六》",
+    "《见微知著：成交量占比高频因子解析——多因子系列报告之五》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "id": "20210610-国泰君安-学界纵横-008-天然气期货的高频交易模式是怎样的",
+  "genre": "review",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "信号处理工具用于提取交易数据中的明显交易模式，非均匀傅立叶变化比Lomb-Scargle谱分析是更有效的提取工具",
+      "evidence": "分析工具方面：信号处理工具用于提取交易数据中的明显的交易模式，如非均匀傅立叶变化、Lomb-Scargle 谱分析。非均匀傅立叶变化是更有效的提取工具。"
+    },
+    {
+      "text": "频谱图中每分钟一次的交易峰值恰好出现在每分钟一次，这一精确性证明了市场中存在基于时间触发的算法交易，如TWAP、VWAP",
+      "evidence": "每年该特殊峰值都恰好出现在每分钟一次，这一精确性证明了市场中存在基于时间触发的算法交易。大量交易发生在每分钟的前5 秒，尤其是第一秒，且近年来这一现象愈发突出。这有力地证明天然气期货市场中存在算法交易，如 TWAP、VWAP。"
+    },
+    {
+      "text": "2009-2013年间每分钟一次峰值的幅度比附近100,000个频率的幅度平均值强十倍以上，相对强度均大于10",
+      "evidence": "在2009-2013 年间，该峰值的幅度比附近100,000个频率的幅度平均值强十倍以上，相对强度均大于 10. 相对强度为峰值幅度与附近 100,000 个频率的平均幅度之比，见表5。"
+    },
+    {
+      "text": "高频交易的特征近年来越来越明显，频谱图高频成分相对强度持续增加，且这一规律强于市场操作结构所产生的规律",
+      "evidence": "高频交易的特征近年来越来越明显，而且这一规律强于市场操作结构所产生的规律。"
+    },
+    {
+      "text": "广泛的算法交易存在本身很可能影响了市场行为，可能放大了市场的波动性，使得市场对级联事件的反应更加快速、剧烈",
+      "evidence": "广泛的算法交易存在本身很可能影响了市场行为，这可能放大了市场的波动性，使得市场对级联事件的反应更加快速、剧烈。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《Intraday Patterns in Natural Gas Futures: Extracting Signals from High-Frequency Trading Data》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

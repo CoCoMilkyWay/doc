@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "20160811-东方证券-因子选股-009-日内残差高阶矩与股票收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "日内特质波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "iDVol_{t}=\\sqrt{\\sum_{i=1}^{N}\\varepsilon_{t,i}^{2}},\\quad iVol_{t}=\\left(\\frac{1}{20}\\sum_{j=0}^{19}iDVol_{t-j}\\right)^{1/2}",
+          "stats": [null, -0.075, -0.752, 0.2202],
+          "evidence": "日内特质波动率度量的是剔除市场风格后日内收益率的波动水平，交易日 t 的日内特质波动率为："
+        },
+        {
+          "name": "日内特质偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "iDSkew_{t}=\\frac{\\sqrt{N}\\sum_{i=1}^{N}\\varepsilon_{t,i}^{3}}{iDVol_{t}^{3/2}},\\quad iSkew_{t}=\\frac{1}{20}\\sum_{j=0}^{19}iDSkew_{t-j}",
+          "stats": [null, -0.076, -1.37, 0.2719],
+          "evidence": "偏度衡量了随机变量分布的对称性，日内特质偏度度量了在剔除市场风格后 5 分钟线是向上拉升还是向下打压。"
+        },
+        {
+          "name": "日内特质峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "iDKurt_{t}=\\frac{N\\sum_{i=1}^{N}\\varepsilon_{t,i}^{4}}{iDVol_{t}^{2}},\\quad iKurt_{t}=\\frac{1}{20}\\sum_{j=0}^{19}iDKurt_{t-j}",
+          "stats": [null, -0.06, -1.27, 0.2078],
+          "evidence": "日内特质峰度度量的是剔除市场风格后日内 5分钟收益率的厚尾程度，峰度越大，尾部越厚，意味着收益率的极值更常见。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "日内特质偏度超额收益最明显且稳定性最高，月度RankIC均值0.076，IC_IR-1.37，top组合超额收益10.0%，多空组合最大回撤5.29%",
+      "evidence": "相对之下，日内特质偏度超额收益最明显，且稳定性最高，月度 Rank IC 均值 0.076，IC_IR -1.37，top 组合超额收益 10.0%，多空组合最大回撤 5.29%；"
+    },
+    {
+      "text": "日内残差高阶矩因子信息衰减快，月度IC半衰期约两周，应适度提高调仓频率或改进调仓方法",
+      "evidence": "日内残差高阶矩因子信息衰减速度较快，月度 IC 半衰期在两周左右，因此在使用这些因子时应该适度提高调仓频率或者改进调仓方法，充分利用因子的效率。"
+    },
+    {
+      "text": "日内特质波动率的超额收益来源可以被特异度完全解释，经特异度分层后该因子失效，Fama-Macbeth回归中控制特异度等因子后也变的不显著",
+      "evidence": "日内特质波动率的超额收益来源可以被特异度完全解释。在经过特异度分层后，日内特质波动率因子失效，在 Fama-Macbeth 回归中，控制了特异度等因子后日内特质波动率也变的不显著。"
+    },
+    {
+      "text": "日内特质偏度和日内特质峰度有很高的信息重叠，在控制日内特质偏度后，日内特质峰度几乎失效",
+      "evidence": "日内特质偏度和日内特质峰度有很高的信息重叠，在控制日内特质偏度后，日内特质峰度几乎失效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "低特质波动，高超额收益",
+    "动态情景多因子 Alpha 模型",
+    "投机、交易行为与股票收益（上）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

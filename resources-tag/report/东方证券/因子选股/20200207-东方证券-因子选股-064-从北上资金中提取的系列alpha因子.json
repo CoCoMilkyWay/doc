@@ -1,0 +1,174 @@
+{
+  "schema_version": 2,
+  "id": "20200207-东方证券-因子选股-064-从北上资金中提取的系列alpha因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["csi300", "csi800", "other"],
+        "data": {"source": ["flow"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "HoldPER",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{月末持仓占流通市值比}",
+          "stats": [null, 0.086, 2.279, 0.1091],
+          "evidence": "图 5-6 展示了北上持有占比因子 HoldPER 和 MholdPER 因子的表现，这两个因子原始值和中性化以后因子在3个样本空间中均具有显著的选股效果"
+        },
+        {
+          "name": "MHoldPER",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{20}\\sum_{t=1}^{20}\\text{每日持仓占流通市值比}_t",
+          "stats": [null, 0.079, 2.112, 0.1035],
+          "evidence": "图 5-6 展示了北上持有占比因子 HoldPER 和 MholdPER 因子的表现，这两个因子原始值和中性化以后因子在3个样本空间中均具有显著的选股效果"
+        },
+        {
+          "name": "Hold",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{月末持仓市值}",
+          "stats": [null, 0.092, 1.985, 0.0563],
+          "evidence": "图 7-8 展示了北上持有因子 Hold 和 Mhold 因子的表现，这两个因子原始值具有非常强的选股效果，在中证 800 和沪深 300 内的 RankIC 均高于 10%"
+        },
+        {
+          "name": "MHold",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{20}\\sum_{t=1}^{20}\\text{持仓市值}_t",
+          "stats": [null, 0.088, 1.912, 0.0504],
+          "evidence": "图 7-8 展示了北上持有因子 Hold 和 Mhold 因子的表现，这两个因子原始值具有非常强的选股效果，在中证 800 和沪深 300 内的 RankIC 均高于 10%"
+        },
+        {
+          "name": "DHoldPER",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{月末持仓占流通市值比}-\\text{20个交易日之前的持仓占流通市值比}",
+          "stats": [null, 0.039, 2.346, 0.1143],
+          "evidence": "DHoldPER 反映了月末和月初的北上资金持仓占流通市值比的变化，这个值越大说明新增的北上资金流入公司越多，是个正面的信号"
+        },
+        {
+          "name": "DV2Hold",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去5个交易日净流入量均值}}{\\text{过去20交易日日均持仓量}}",
+          "stats": [null, 0.018, 1.551, 0.0703],
+          "evidence": "DV2Hold是过去 5 个交易日净流入量均值/过去 20 交易日日均持仓量，如果最近 5 日北上资金大以较大的比例流入，说明这个公司在短期被北上资金看好"
+        },
+        {
+          "name": "DV2DV_STD",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去20个交易日净流入量均值}}{\\text{过去20个交易日流入量标准差}}",
+          "stats": [null, 0.038, 1.847, 0.0801],
+          "evidence": "DV2DV_STD 是股票过去 20 个交易日净流入量均值/过去 20 个交易日净流入量标准差，这个因子同时反映了北上资金流入量和流入量稳定性的关系"
+        },
+        {
+          "name": "DV2ABSDV",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去5个交易日净流入量均值}}{\\text{过去20交易日净流入量绝对值的均值}}",
+          "stats": [null, 0.029, 2.19, 0.0582],
+          "evidence": "DV2ABSDV 是过去 5 个交易日净流入量均值/过去 20 交易日净流入量绝对值的均值，如果最近 5 个交易日流入量相比于过去 20 交易日的净交易量更大，说明最近的北上资金流入是一种加速流入的行为"
+        },
+        {
+          "name": "DV2Hold_MAXCP",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股价最高3个交易日的净流入量均值}}{\\text{过去20交易日日均持仓量}}",
+          "stats": [null, 0.024, 1.929, 0.0551],
+          "evidence": "DV2Hold_MAXCP是股价最高 3 个交易日的净流入量均值/过去 20 交易日日均持仓量。如果在过去一个月内股价最高的几天还有较大比例的北上资金流入，说明当前股价处于一个相对安全的价位"
+        },
+        {
+          "name": "DV2ABSDV_MAXCP",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股价最高3个交易日的净流入量均值}}{\\text{过去20交易日净流入量绝对值的均值}}",
+          "stats": [null, 0.029, 1.912, 0.0709],
+          "evidence": "DV2ABSDV_MAXCP 是股价最高 3 个交易日的净流入量均值/过去 20 交易日净流入量绝对值的均值，如果在过去一个内股价最高的几天还有北上资金加速流入，说明当前股价处于一个较有吸引力的位置"
+        },
+        {
+          "name": "DV2Hold_MAXVOL",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{交易量最高3个交易日的净流入量均值}}{\\text{过去20交易日日均持仓量}}",
+          "stats": [null, 0.026, 1.826, 0.0543],
+          "evidence": "DV2Hold_MAXCP 是交易量最高 3 个交易日的净流入量均值/过去 20 交易日日均持仓量。北上资金在股票放量的时候以较大比例进入，说明北上资金在一定程度上对股票的看好"
+        },
+        {
+          "name": "DV2ABSDV_MAXVOL",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{交易量最高3个交易日的净流入量均值}}{\\text{过去20交易日净流入量绝对值的均值}}",
+          "stats": [null, 0.034, 2.097, 0.06],
+          "evidence": "DV2ABSDV_MAXVOL 交易量最高 3 个交易日的净流入量均值/过去 20 交易日净流入量绝对值的均值。北上资金在股票放量的时候加速进入，同样说明北上资金在一定程度上对股票的看好"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection", "decay_monitor"],
+      "setup": {"universe": ["csi300", "csi800", "other"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于流入流出交易行为的因子绝大多数在正交化后依然具有显著的选股效果，说明北上资金短期的交易特征与现存 ALPHA 因子关系不大；北上持仓类型因子正交化后几乎失去效果",
+      "evidence": "基于流入流出交易行为的因子绝大多数在正交化后依然具有显著的选股效果，说明北上资金短期的交易特征与现存 ALPHA 因子关系不大。"
+    },
+    {
+      "text": "所有北上因子与常规大类因子相关性都非常低，仅北上持仓的 4 个因子与盈利、运营、分析师和超预期因子有 5%以上的相关性",
+      "evidence": "从相关关系来看，所有的北上因子和常规大类因子相关性都非常低，仅有北上持仓的 4 个因子和常规大类因子有着一些相关性，其中 HoldPER 和 MHoldPER 与盈利、运营、分析师和超预期因子都有 5%以上的相关性"
+    },
+    {
+      "text": "北上因子衰减速度较慢，半衰期基本都在 20 交易日以上，表现较好的几个因子半衰期在 40 个交易日左右，基于北上因子构建组合换手率不高",
+      "evidence": "北上因子的衰减速度较慢，半衰期基本都在 20 交易日以上，其中表现较好的几个因子半衰期在 40 个交易日左右，因此基于北上因子构建组合的话换手率并不高。"
+    },
+    {
+      "text": "中性化后的北上大类因子在 3 个样本空间中的 RankIC 均高于 0.04，沪深 300 内 RankIC 为 0.052，多头端月均超额收益均在 0.7%以上",
+      "evidence": "中性化后的北上大类因子在 3 个样本空间中的RankIC 均高于 0.04，其中在沪深 300 内 RankIC 为 0.052，分组超额收益单调性较好，多头端月均超额收益均在 0.7%以上。"
+    },
+    {
+      "text": "基于北上大类因子构建的中信一级行业多空组合 2016.12-2019.12 年化收益为 15%，月最大回撤-4.63%，Top 组合年化 9%，高于全行业平均组合",
+      "evidence": "基于北上大类因子构建的中信一级行业多空组合（前后 20%），从 2016.12-2019.12 的组合年化收益为 15%，月最大回撤-4.63%，Top 组合年化 9%，而同期全行业平均组合组合年化仅为-2.6%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["基于机构持仓的因子情景分析", "资本开放对因子投资影响"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

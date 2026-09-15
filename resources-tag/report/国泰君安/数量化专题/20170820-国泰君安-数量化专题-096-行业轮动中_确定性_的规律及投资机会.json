@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "id": "20170820-国泰君安-数量化专题-096-行业轮动中_确定性_的规律及投资机会",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "市场下行风险指标",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{VaR}=\\mathrm{u}+\\frac{\\sigma}{\\delta}[\\left(\\frac{N}{n}p\\right)^{-\\delta}-1]",
+          "stats": [null, null, null, null],
+          "evidence": "由于股票市场收益的分布有明显的肥尾效应，我们根据极值定理 (Extreme value theory)，按照以下的公式，以沪深300指数的日频数据滚动计算出沪深300指数日频的 VaR，再以该指数每月VaR的均值作为市场下行风险的代理变量。"
+        },
+        {
+          "name": "行业分化度指标",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{以申万28个行业的月度数据为基准计算行业间波动率，当月行业间波动率超过上月指标时定义行业间分化程度加大}",
+          "stats": [null, null, null, null],
+          "evidence": "在本篇报告中，我们以申万28 个行业的月度数据为基准，计算出行业间的波动率。"
+        },
+        {
+          "name": "行业波动率",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{每月月末根据行业指数的日频数据计算当月各行业的波动率，并与行业平均波动率比较}",
+          "stats": [null, null, null, null],
+          "evidence": "在本篇报告中，我们运用行业的波动率去描述行业自身的风险大小。在每月的月末，我们根据行业指数的日频数据计算出当月各行业的波动率。"
+        },
+        {
+          "name": "行业自身下行风险的 VaR指标",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{VaR}=\\mathrm{u}+\\frac{\\sigma}{\\delta}[\\left(\\frac{N}{n}p\\right)^{-\\delta}-1]",
+          "stats": [null, null, null, null],
+          "evidence": "为了去除市场下行风险对估算行业自身下行风险的影响，我们首先以行业指数的日频数据计算出各行业与行业平均收益之差（行业超额收益）; 然后，基于行业超额收益滚动计算出各行业的日频 VaR（N=200，u=0，p=10%）; 最后以行业当月日频 VaR 的均值作为该行业当月的 VaR值。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum", "macro_cycle", "ml_rotation"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "综合所有指标下确定性规律构建的行业轮动策略，样本外获得年化8.29%超额收益率，月度最大回撤为-1.24%，战胜行业平均的概率为75%。",
+      "evidence": "该策略在样本外获得了年化8.29%超额收益率, 月度最大回撤为-1.24%，战胜行业平均的概率为75%。"
+    },
+    {
+      "text": "基于宏观指标确定性规律的策略在样本外有10.10%的年化超额收益，月度最大回撤为-3.75%，样本外战胜行业平均的胜率达到75%。",
+      "evidence": "从表2中我们可知，相对于行业平均收益，基于宏观指标“确定性”规律的策略在样本外有10.10%的年化超额收益，月度最大回撤为-3.75%,样本外战胜行业平均的胜率达到75%。"
+    },
+    {
+      "text": "市场整体指标对弱势行业的预测最好，根据其与弱势行业之间的确定性规律，样本外获得年化14.43%的超额收益，战胜市场行业平均的胜率为75%。",
+      "evidence": "根据市场整体指标与弱势行业之间“确定性”规律，我们在样本外获得了年化14.43%的超额收益，最大回撤为-5.40%，战胜市场行业平均的胜率为 75%。"
+    },
+    {
+      "text": "六类指标与强势行业之间确定性规律构建的行业轮动策略全部在样本外跑赢行业平均，而弱势行业策略仅有一半在样本外跑赢行业平均。",
+      "evidence": "我们发现，根据这六类指标与强势行业之间“确定性”的规律构建的行业轮动策略全部在样本外跑赢了行业平均。"
+    },
+    {
+      "text": "2014年底大小盘明显分化时，基于市场风格构建的行业轮动策略受影响最严重，出现了13.59%的巨大回撤，而基于宏观信息构建的策略未受过多影响。",
+      "evidence": "例如，在 2014 年底大小盘出现明显分化时，受到影响最为严重的是基于市场风格构建的行业轮动策略，出现了 13.59%的巨大回撤，而基于其他市场交易信息构建的指标上的行业轮动策略也不同程度的受到影响。"
+    },
+    {
+      "text": "随着行业轮动速度加快，传统行业轮动中的动量效应所带来的超额收益逐渐消失，连续两月高于行业平均的概率低于40%。",
+      "evidence": "根据历史数据，对于绝大多数行业，连续两月高于行业平均的概率低于40%。近年来，随着行业轮动速度的加快，传统的行业轮动中的动量效应所带来的超额收益逐渐消失。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Bali et all (JFQA，2009)", "Chen et all (JPM，2015)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

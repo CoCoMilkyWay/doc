@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20230729-国泰君安-学界纵横-050-基于未来现金流构建新价值因子",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "用新价值因子FM=FE/ME对股票分类时，强劲持久且相对稳定的价值溢价再次出现；且在控制FM后，BM的价值溢价大幅下降并在统计上不显著。",
+      "evidence": "实证检验发现，虽然传统上使用账面市值比(BM = BE/ME)来定义的价值溢价已经下降，但当我们使用新的价值因子(FM = FE/ME)对股票进行分类时，强劲持久且相对稳定的价值溢价再次出现。并且在控制 FM 后，BM 的价值溢价大幅下降，且在统计上不显著。"
+    },
+    {
+      "text": "BM与FM的相关系数为0.47，证实BM是FM合理但不完美的度量；该相关性从早期样本的0.67下降到后期样本的0.26，BM对FM的度量能力呈下降趋势。",
+      "evidence": "总体而言，Cor(bm, fm) = 0.47，证实 BM 是 FM 的合理但不完美的度量。同样与方差分解结果相似的是，Cor(bm, fm)随着时间的推移而下降(从早期样本的 0.67 下降到后期样本的0.26)，表明 BM 在最近几十年中成为FM 的较差度量。"
+    },
+    {
+      "text": "1年持有期下FM多空组合平均回报率8.5%，强于BM多空组合的5.9%；FM溢价在前后期样本均稳定（8.8%与8.2%），BM溢价则从10.3%降至1.5%。",
+      "evidence": "就强度而言， FM 多空组合的平均回报率为 8.5%$(\\mathrm{t_{stat}}=3.96)$ ，而 BM 多空组合的类似平均回报率为 5.9% $(\\mathsf{t_{stat}}=1.90)$在稳定性方面，与 相关的溢价随着时间的推移是稳定的，在早期样本中有 8.8% $(\\mathsf{t_{stat}}=2.87)$ 溢价，在后期样本中有 8.2% $(\\mathsf{t_{stat}}=2.72)$ 溢价，而与 BM 相关的溢价在早期样本中很强 $(\\mathsf{t_{stat}}=2.58$ 时为 10.3%)，但在后期样本中弱得多 $\\mathrm{(t_{stat}=0.33}$ 时为 1.5%)。"
+    },
+    {
+      "text": "在控制FM后，与BM相关的价值溢价仅为3.6%（tstat=1.25），而FM相关溢价仍高达8.7%（tstat=4.29）；BM单变量溢价从7.8%降至0.5%，FM单变量溢价保持强劲。",
+      "evidence": "例如，列[1]显示，在控制了 FM 后，与 BM 相关的价值溢价为 3.6% (tstat= 1.25)，而与 FM 相关的价值溢价仍然很高(在 tstat = 4.29 时为 8.7%)。上表还显示了样本前期和后期 BM 和 FM 溢价的结果。以 BM 衡量的单变量价值溢价从 7.8% (tstat = 2.45)下降到 0.5% (tstat = 0.15)，而单变量FM 溢价在我们的样本期后半段保持强劲，从 9.2% (tstat = 3.76)变化到7.4% (tstat = 2.68)。"
+    },
+    {
+      "text": "FM因子使用VAR系统估计未来现金流，通过价值、增长、盈利和资本结构四方面共12个指标间的牵制与平衡来确保模型的稳定性与收敛性。",
+      "evidence": "本文使用 VAR 系统估1070计未来现金流，通过价值、增长、盈利和资本结构四方面共12个指标间的牵制与平衡来确保模型的稳定性与收敛性，从而实现对未来现金流的估计。"
+    },
+    {
+      "text": "价值溢价明显下降的原因是账面权益BE不再是基本权益FE的良好代表：FM相关溢价保持相对稳定，而FM与BM的横截面相关性随时间下降。",
+      "evidence": "作者估计了美国上市公司的FE，发现与基本市值比(FM)相关的溢价保持相对稳定，而 FM 与账面市值比(BM)之间的横截面相关性随着时间的推移而下降，导致价值溢价明显下降。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Andrei S. Gonçalves 和 Gregory Leonard. The fundamental-to-market ratio and the value premium decline"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

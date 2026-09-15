@@ -1,0 +1,142 @@
+{
+  "schema_version": 2,
+  "id": "20241203-东方证券-因子选股-110-abcm_基于神经网络的alpha因子和beta因子协同挖掘模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "alpha1",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{ABCM模型数据集1（日频量价数据）经RNN与全连接层端到端生成的alpha因子}",
+          "stats": [null, 0.1269, 0.96, null],
+          "evidence": "id为0到13为数据集 1生成的风险因子，alpha1表示数据集 1生成的 alpha因子"
+        },
+        {
+          "name": "alpha2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "weekly",
+          "formula": "\\text{ABCM模型数据集2（月频k线与长周期基本面因子）经RNN与全连接层端到端生成的alpha因子}",
+          "stats": [null, 0.1109, 0.9, null],
+          "evidence": "（这里 id 为 f0 到 f8 为数据集 2 生成的风险因子，alpha2 表示数据集 2 生成的 alpha因子，id为0到13为数据集 1生成的风险因子，alpha1表示数据集 1生成的 alpha因子）"
+        },
+        {
+          "name": "合成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "monthly"],
+          "horizon": "weekly",
+          "formula": "\\text{ABCM模型数据集1与数据集2生成的alpha因子加权合成}",
+          "stats": [null, 0.1354, 1.03, null],
+          "evidence": "接着，我们展示 ABCM模型在数据集 1和 2 上生成alpha因子以及合成因子在中证全指上的绩效表现以及这些因子今年以来多头超额的净值走势："
+        },
+        {
+          "name": "Model1",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "monthly"],
+          "horizon": "weekly",
+          "formula": "\\text{已有AI量价模型因子与ABCM生成alpha因子加权合成后的最终打分}",
+          "stats": [null, 0.1639, 1.66, null],
+          "evidence": "通过把前者纳入到我们已有的 AI 量价模型中进行合成，新生成的 alpha 因子在中证全指、中证 500 和中证 1000 上 RankIC 分别提升至 16.39%、11.94%和 14.94%，多头年化超额分别提升至 52.63%、26.46%和 39.61%，在中证全指上 RankICIR 也提升至 1.66，说明新因子获取alpha 收益的能力更强，稳定性也更好。"
+        },
+        {
+          "name": "因子 id0",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ABCM模型数据集1经RNN与ASTGNN非对称图结构生成的beta风险因子（id为0）}",
+          "stats": [null, 0.0267, 0.16, null],
+          "evidence": "以及数据集 1对应风险因子组中 id为 0和 1的这两个风险因子时序 RankIC 曲线和多空净值曲线（多头空头分别为分十组的 top 组合 bottom 组）分别如下所示："
+        },
+        {
+          "name": "f0",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{ABCM模型数据集2经RNN与ASTGNN非对称图结构生成的beta风险因子（id为f0）}",
+          "stats": [null, 0.0153, 0.09, null],
+          "evidence": "（这里 id 为 f0 到 f8 为数据集 2 生成的风险因子，alpha2 表示数据集 2 生成的 alpha因子，id为0到13为数据集 1生成的风险因子，alpha1表示数据集 1生成的 alpha因子）"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["adaptive"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在各个股票池上ABCM1&2风险因子滚动Rsquare曲线均稳定位于Barra风险因子上方，ABCM2风险模型Rsquare在沪深300、中证500和中证全指上分别提升至47.02%、34.28%和20.53%，解释能力整体强于Barra风险模型。",
+      "evidence": "在各个股票池上 ABCM1&2 风险因子滚动 Rsquare 曲线均稳定位于 Barra 风险因子上方，且相对于Barra风险因子，ABCM2风险模型Rsquare显著提升，在沪深300、中证500和中证全指上分别提升至47.02%、34.28%和20.53%。因此基于神经网络生成的风险模型对未来收益率的解释能力整体强于 Barra风险模型。"
+    },
+    {
+      "text": "两个数据集生成风险因子的RankIC基本上都在3%以内、ICIR基本上都在0.2以内而RankIC胜率基本上都在60%以内，意味着各个风险因子均不具有显著的选股能力，且对未来收益率预测的方向波动十分剧烈。",
+      "evidence": "两个数据集生成风险因子的RankIC基本上都在3%以内、ICIR基本上都在0.2以内而RankIC胜率基本上都在 60%以内，意味着各个风险因子均不具有显著的选股能力，且对未来收益率预测的方向波动十分剧烈；"
+    },
+    {
+      "text": "ABCM模型生成的alpha因子合成后有较强的获取超额收益能力，2017年至今年化超额达36.55%，往年超额收益回撤仅有5.86%，说明该因子能稳定获取较高的超额。",
+      "evidence": "有着较强的获取超额收益的能力，2017 年至今年化超额达 36.55%。且该因子往年超额收益回撤仅有 5.86%，且今年该因子最大回撤相对不大，这说明该因子能稳定的获取较高的超额。"
+    },
+    {
+      "text": "ABCM2模型生成的alpha因子对已有AI量价模型起到较大增量作用，纳入合成后新因子在中证全指、中证500和中证1000上RankIC分别提升至16.39%、11.94%和14.94%，多头年化超额分别提升至52.63%、26.46%和39.61%，中证全指上RankICIR提升至1.66。",
+      "evidence": "ABCM2 模型生成的 alpha 因子对我们已有的 AI 量价模型生成 alpha 因子能够起到较大增量作用，通过把前者纳入到我们已有的 AI 量价模型中进行合成，新生成的 alpha 因子在中证全指、中证 500 和中证 1000 上 RankIC 分别提升至 16.39%、11.94%和 14.94%，多头年化超额分别提升至 52.63%、26.46%和 39.61%，在中证全指上 RankICIR 也提升至 1.66，说明新因子获取alpha 收益的能力更强，稳定性也更好。"
+    },
+    {
+      "text": "将ABCM2风险模型生成的风险因子直接用于组合优化，新组合具有更高的信息比率，中证500增强组合由2.79提升至3.30，中证1000增强组合由3.83提升至4.25，年化超额及超额最大回撤均有显著改善。",
+      "evidence": "相对于使用 Barra 风险模型，将 ABCM2 风险模型生成的风险因子直接用于组合优化，新组合具有更高的信息比率，其中中证 500 增强组合由 2.79 提升至 3.30，中证 1000 增强组合则由3.83提升至 4.25。并且组合的年化超额以及超额最大回撤均有显著改善。"
+    },
+    {
+      "text": "ABCM模型生成alpha因子获取alpha信息的来源与常规机器学习生成的alpha因子差异性较大，今年三季度多头未出现大幅回撤，与常规机器学习因子有着较强互补性。",
+      "evidence": "这说明通过 ABCM 模型生成 alpha 因子获取 alpha 信息的来源与常规机器学习生成的 alpha因子差异性较大，与常规机器学习因子有着较强互补性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《KD-Ensemble：基于知识蒸馏的 alpha 因子挖掘模型》",
+    "《东方 A 股因子风险模型（DFQ-2020）》",
+    "《基于循环神经网络的多频率因子挖掘模型》",
+    "《融合基本面信息的 ASTGNN 因子挖掘模型》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

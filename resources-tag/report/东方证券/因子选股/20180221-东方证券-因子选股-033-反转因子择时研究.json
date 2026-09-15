@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "id": "20180221-东方证券-因子选股-033-反转因子择时研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大类反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{行业市值中性化后，Ret1M、Ret3M、PPReversal、CGO_3M、IRFF 五个反转因子等权合成}",
+          "stats": [null, null, null, null],
+          "evidence": "这里的反转因子我们先进行了行业市值中性化，然后再通过等权加权的方式把下面 5 个主要的反转因子进行合成（图 2）来生成大类反转因子。"
+        },
+        {
+          "name": "MKTILLIQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{市值加权的ILLIQ（市场非流动性）}",
+          "stats": [null, null, null, null],
+          "evidence": "从结果上看，对于三个样本空间内反转因子表现都有显著预测能力的单因子有 4 个 MKTILLIQ、MKTTO、MKTVOL 和 BAS。"
+        },
+        {
+          "name": "MKTTO",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日的自由流通市值计算的换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "同样的，低换手的市场环境说明市场的交易活跃度变低，这样的市场也不容易发生过度反映"
+        },
+        {
+          "name": "MKTVOL",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{中证全指过去20个交易日的波动率}",
+          "stats": [null, null, null, null],
+          "evidence": "而市场波动率除了反映了市场的振幅，也和因子整体的dispersion 有着较高的相关性，因此当波动率降低后，除了对市场反映程度的影响，也影响了因子本身的 alpha。"
+        },
+        {
+          "name": "BAS",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日的平均bid-ask spread}",
+          "stats": [null, null, null, null],
+          "evidence": "BAS 指标与 MKTILLIQ 类似，都描述了市场整体的非流动性水平，因此对于反转因子表现的解释逻辑也都一致。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "MKTILLIQ、MKTTO、MKTVOL和BAS这4个市场状态指标能够显著的预测下个月反转因子多空组合的表现，这 4 个指标越低的时候，反转因子表现越差。",
+      "evidence": "本文主要研究了影响反转因子的表现的因素，包括市场状态和宏观因素，从结果上来看，MKTILLIQ、MKTTO、MKTVOL和BAS这4个市场状态指标能够显著的预测下个月反转因子多空组合的表现。综合来看，这 4 个指标越低的时候，反转因子表现越差。"
+    },
+    {
+      "text": "通过逐步回归在三个样本空间拟合得到的预测模型，Adjusted R-square 均在 20%左右，预测效果明显。",
+      "evidence": "我们通过逐步回归的方法在中证全指、中证 500 和沪深 300 这 3 个样本空间中进行拟合，得到了我们的预测模型，预测模型的 Adjusted R-square 均在 20%左右，预测效果明显。"
+    },
+    {
+      "text": "通过过去 5 年历史数据构建动态调整的预测模型，并用曲线调整和阈值调整两种方法加入组合构建，4 个组合的对冲年化收益、信息比和换手率均有所改进。",
+      "evidence": "我们通过过去 5 年历史数据构建动态调整的预测模型，并通过曲线调整和阈值调整两种方法把预测模型加入到了组合构建当中，加入了动态预测模型的 4 个组合，对冲年化收益、信息比和换手率均有所改进。"
+    },
+    {
+      "text": "曲线调整的全市场增强 500 组合年化对冲收益 17.46%，相比于常规组合提升 1.13%，提升主要来自 15 年和 17 年。",
+      "evidence": "其中曲线调整的全市场增强 500 组合年化对冲收益 17.46%，相比于常规组合提升 1.13%，其中 15 年提升 4%，17 年提升 3%；"
+    },
+    {
+      "text": "HAC 检验对 15-17 年的月收益差进行检验，发现全市场增强 500 中两种动态调整组合均显著好于常规组合。",
+      "evidence": "我们采用 Ledoit 和 Wolf (2008)提出的检验信息比的 HAC 检验对 15-17年的月收益差进行检验，发现两种动态调整组合均显著好于常规组合。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Avramov, Cheng 和Hameed（2016）",
+    "Cooper, Gutierrez 和 Hameed（2004）",
+    "Ledoit 和 Wolf (2008)",
+    "《中美市场因子选股效果对比分析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "id": "20220104-兴业证券-高频-001-高频漫谈",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["momentum_reversal", "distribution_moment", "symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "已实现收益率方差",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\frac{1}{T}\\sum_{t=1}^{T}\\sum_{i=1}^{N}(r_{M,i,t})^{2}",
+          "stats": [null, null, null, null],
+          "evidence": "选取已实现收益率方差的 10 天平均作为高频因子，收益率 10 日方差作为低频因子，以日频调仓计算它们 2014 年 8月 30 日到 2021 年 8 月 31 日的平均 RankIC。"
+        },
+        {
+          "name": "收益率方差",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{1}{T}\\sum_{t=1}^{T}(r_{D,t}-\\overline{r_{D,t}})^{2}",
+          "stats": [null, null, null, null],
+          "evidence": "选取已实现收益率方差的 10 天平均作为高频因子，收益率 10 日方差作为低频因子，以日频调仓计算它们 2014 年 8月 30 日到 2021 年 8 月 31 日的平均 RankIC。"
+        },
+        {
+          "name": "波动率因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\mu_{t}=E[r_{t}],\\quad \\sigma_{t-j}=std([\\mu_{j},\\mu_{j+1},\\dots,\\mu_{t}])",
+          "stats": [null, null, null, null],
+          "evidence": "事实上，动量因子的标准差就是波动率因子，波动率因子衡量了动量因子在时序上的差异，这种差异来自于动量因子在时序上分布的差异。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural", "statistical"],
+      "setup": {
+        "risk_factors": ["momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "horizon": "daily"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "高频因子已实现收益率方差比低频因子收益率方差快 10天到达 IC一半的位置，年化多空收益率也衰减得更快",
+      "evidence": "在两个因子原始 IC 相近的情况下，高频因子已实现收益率方差比低频因子收益率方差快 10天到达 IC一半的位置。在年化多空收益率方面，已实现收益率方差也比收益率方差衰减得更快。"
+    },
+    {
+      "text": "随着等权平均天数增加，已收现收益率方差因子的多空收益率与 IC先上升后下降，存在最优等权平均天数n∗ = 20",
+      "evidence": "可以看到，随着等权平均天数的增加，已收现收益率方差因子的多空收益率与 IC先上升后下降，存在一个最优等权平均天数n∗，在图中n∗ = 20。"
+    },
+    {
+      "text": "时序相关性在 0.3 以下是不同的因子；0.3 到 0.5 之间因子描述了共有风险的某部分特征；0.5以上是同一种因子",
+      "evidence": "我们认为时序相关性在 0.3 以下是不同的因子；时序相关性在 0.3 到 0.5 之间，因子描述了共有风险的某部分特征，需要进一步分类处理。时序相关性在 0.5以上，这些因子是同一种因子。"
+    },
+    {
+      "text": "高频风险可能没有在 Barra 模型中被很好的定义出来，风险模型与收益模型错配会导致组合收益率的风险被低估，影响组合优化结果",
+      "evidence": "高频因子暴露的高频风险可能没有在 Barra 模型中被很好的定义出来，因此在高频因子中使用 Barra 模型可能会出现风险模型与收益模型的错配。许多研究发现错配的风险会导致组合收益率的风险被低估，影响组合优化结果。"
+    },
+    {
+      "text": "在中位数划分多空后，使用全市场的因子值分配多空组合权重，以最大限度实现风险匹配",
+      "evidence": "因此，我们在中位数划分多空后，使用全市场的因子值分配多空组合权重。"
+    },
+    {
+      "text": "为减少过拟合，要求因子在样本内至少 7 年有效，样本外至少半年有效，并且样本内外表现差异不超过20%",
+      "evidence": "为了减少过拟合现象，我们还要求因子在样本内至少 7 年有效，样本外至少半年有效，并且样本内外表现差异不超过20%。"
+    },
+    {
+      "text": "构建高频指标本质是从高频数据中提取对应的信息，可借鉴机器学习中的特征工程方法，学习分布信息函数的构造方法",
+      "evidence": "构建高频指标本质就是从高频数据中提取对应的信息，在这个基础上，我们可以借鉴机器学习中的特征工程方法，学习分布信息函数的构造方法。"
+    },
+    {
+      "text": "风险识别第一步：根据已有知识构建适合于高频因子的大类风险因子，如高换手率水平下的动量因子，波动率因子，流动性因子",
+      "evidence": "第一步，根据已有知识构建适合于高频因子的大类风险因子，如高换手率水平下的动量因子，波动率因子，流动性因子。"
+    },
+    {
+      "text": "风险因子的用途之一是估计投资组合的协方差矩阵，精准估计协方差矩阵能让多因子规避更多风险，从而表现更好",
+      "evidence": "（1） 估计投资组合的协方差矩阵，这是组合优化的重要参数。精准地估计收益模型的协方差矩阵能够让多因子规避更多的风险，从而表现更好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Haldane (1942)", "MeucciA . Risk and Asset Allocation[J]. springer finance, 2005."],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

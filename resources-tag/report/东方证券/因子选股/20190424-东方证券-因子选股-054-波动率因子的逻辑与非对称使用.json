@@ -1,0 +1,136 @@
+{
+  "schema_version": 2,
+  "id": "20190424-东方证券-因子选股-054-波动率因子的逻辑与非对称使用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Vol20",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Std}(r_{t-19},\\ldots,r_{t})",
+          "stats": [null, -0.06, -1.27, 0.099],
+          "evidence": "图 1展示了一个月、三个月、6个月波动率因子从 2005-2019.3 在中证全指和中证 800 中的选股效果。"
+        },
+        {
+          "name": "Vol60",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Std}(r_{t-59},\\ldots,r_{t})",
+          "stats": [null, -0.06, -1.12, 0.0758],
+          "evidence": "|  | Vol60 | -6.0% | -1.12 | 0.82% | 7.58% | -36.67% | 0.44 |"
+        },
+        {
+          "name": "Vol120",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Std}(r_{t-119},\\ldots,r_{t})",
+          "stats": [null, -0.053, -0.97, 0.0583],
+          "evidence": "|  | Vol120 | -5.3% | -0.97 | 0.69% | 5.83% | -46.59% | 0.36 |"
+        },
+        {
+          "name": "iVol20",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama-French-3 特质波动率：特质回归残差的标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "图 9 展示了特质波动率的结果，可以看到一个月和 3 个月的特质波动率，虽然在低估股票中也有高特质波动好于低特质波动的结果，但是超额收益主要由低波动贡献"
+        },
+        {
+          "name": "iVol60",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama-French-3 特质波动率：特质回归残差的标准差（3个月窗口）}",
+          "stats": [null, null, null, null],
+          "evidence": "iVol60 | rankIC | -10.91% | -8.37% | -8.06% | -6.22% | -5.42% | -4.79% | -4.34% | -3.05% | -2.51% | -0.84%"
+        },
+        {
+          "name": "iVol120",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Fama-French-3 特质波动率：特质回归残差的标准差（6个月窗口）}",
+          "stats": [null, null, null, null],
+          "evidence": "iVol120 | rankIC | -9.11% | -6.37% | -6.06% | -4.29% | -3.32% | -3.18% | -2.65% | -0.85% | -1.08% | -0.57%"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "regression_test", "robustness"],
+      "setup": {"universe": ["all", "csi800"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi500"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "波动率因子整体负向，但多空收益完全来源于空头端，第一档低波动股票长期没有超额收益",
+      "evidence": "但是从因子分组表现来看，不论在哪个样本空间中，波动率因子的多空收益都完全来源于空头端，其第一档其实并没有贡献超额收益"
+    },
+    {
+      "text": "剥离彩票属性因子 MAXRet 或 DWF 后波动率因子选股效果大幅削弱，说明波动率异像主要由投资者彩票偏好解释",
+      "evidence": "而剥离了彩票属性的因子 MAXRet或 DWF 后，波动率因子的 rankIC、ICIR 均降到了 0附近，选股效果被大幅削弱了"
+    },
+    {
+      "text": "波动率存在套利非对称性：优质低估股中高波动未来一个月有正超额收益，劣质高估股中低波动远好于高波动，两者叠加构成波动率负向的原因之一",
+      "evidence": "在综合得分较高的优质股中，波动较高的股票在未来一个月有正的超额收益，而波动较低的股票反而超额收益为负；而在得分较低的劣质股中，低波动股票表现则远好于高波动股票，这两者的叠加效果就是我们观察到波动率负向的原因之一。"
+    },
+    {
+      "text": "波动率非对称现象存续期较短，一个月持仓期明显，3个月或6个月持仓期不再显著，SmartBeta 指数仍宜用波动率倒数加权",
+      "evidence": "不过波动率的这个非对称现象的存续期相对较短，在一个月的持仓期非常明显，但是在3个月或6个月的持仓期则不再显著，这是由于投资者的投机带来的价格修复往往时间较短，因此如果是构建 SmartBeta 指数的话，还是用波动率倒数加权会更好一些。"
+    },
+    {
+      "text": "基于套利非对称性构建的波动率正向主动量化组合年化比常规低波动组合提升2%-3%，今年至3月底跑赢常规组合5%-10%",
+      "evidence": "我们构建了波动率正向的主动量化组合，相比于常规的用低波动或低波动倒数加权的组合年化可以提升2%-3%，且今年至3月底就跑赢常规组合 5%-10%。"
+    },
+    {
+      "text": "波动率正向的中证500全市场增强组合年化比常规波动率负向组合提升2%，信息比高0.4，今年至3月底跑赢3%",
+      "evidence": "我们还构建了波动率正向的中证 500全市场增强组合，相比于常规的波动率负向加权的组合年化提升 2%，信息比高 0.4，且今年至 3 月底就跑赢常规组合 3%。"
+    },
+    {
+      "text": "波动率正向组合的风格暴露并不极端，优质股叠加高波动在动量、波动和确定性上更接近基金重仓股风格，更偏主动选股风格",
+      "evidence": "从组合风格暴露上看，优质股叠加高波动的组合在动量、波动和确定性上的风格更接近于整体基金重仓股的风格，也就说可能更偏向于主动的选股风格，且并没有在风格上有极端暴露。"
+    },
+    {
+      "text": "波动率异像源于彩票偏好，且该投机行为同样存在于投资者对基金产品的选择上，因此即使散户比例降低，波动率异像长期仍会持续",
+      "evidence": "发现波动率异像主要还是投资者的彩票偏好导致的，这种彩票偏好（投机行为）不仅在于股票当中，也存在于投资者选择基金的行为当中，因此即使后续投资者结构发生变化，散户比例降低，投资者对于选择基金产品的投机性依然会持续，波动率异像长期来看应该也会持续存在。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A股榜单效应研究",
+    "Stambaugh, Yu和 Yuan (2015). Arbitrage asymmetry and the idiosyncratic volatility puzzle",
+    "业绩超预期类因子"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

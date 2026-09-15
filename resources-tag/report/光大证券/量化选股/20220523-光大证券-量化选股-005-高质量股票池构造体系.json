@@ -1,0 +1,233 @@
+{
+  "schema_version": 2,
+  "id": "20220523-光大证券-量化选股-005-高质量股票池构造体系",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "statement_detail", "accounting_quality"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "利息保障倍数",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{利息保障倍数}=\\frac{\\text{税前利润总额}}{\\text{利息费用}}",
+          "stats": [null, null, null, null],
+          "evidence": "| EBITTOINTEREST | 利息保障倍数 | 税前利润总额/利息费用 |"
+        },
+        {
+          "name": "总资产周转率",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{总资产周转率}=\\frac{\\text{销售收入}}{\\text{总资产平均净值}}",
+          "stats": [null, null, null, null],
+          "evidence": "| ASSETSTURN | 总资产周转率 | 销售收入/总资产平均净值 |"
+        },
+        {
+          "name": "总资产周转率变动",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{总资产周转率同比变化}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | ASSETSTURN_YOY | 总资产周转率变动 | 多头无效、空头有效 |"
+        },
+        {
+          "name": "存货指数",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{本期存货占营业收入比例}-\\text{上年同期存货占营业收入比例}",
+          "stats": [null, null, null, null],
+          "evidence": "如果企业存货相对营业成本增长过快，我们有理由怀疑企业有通过加大生产从而降低单位成本，进而提升毛利率来进行财务粉饰的可能。"
+        },
+        {
+          "name": "净现率指数",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{本期净现率}-\\text{上年同期净现率}",
+          "stats": [null, null, null, null],
+          "evidence": "| NETCASHPROFIT_INDEX | 净现率指数 | 本期净现率-上年同期净现率,净现率=本期经营现金流量净额占净利润比例 |"
+        },
+        {
+          "name": "营业总收入比净利润",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{营业总收入}}{\\text{净利润}}",
+          "stats": [null, null, null, null],
+          "evidence": "| PROFITTOGR | 营业总收入比净利润 | 营业总收入/净利润 |"
+        },
+        {
+          "name": "异常存货",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "-\\frac{(\\text{当期存货}-\\text{上年同期存货}\\times\\text{正常增长乘数})}{\\text{当期总资产}}",
+          "stats": [null, null, 0.23, null],
+          "evidence": "| AB_INV | 异常存货 | -(当期存货-上年同期存货*正常增长乘数)/当期总资产 |"
+        },
+        {
+          "name": "异常应收账款",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "-\\frac{(\\text{当期应收账款}-\\text{上年同期应收账款}\\times\\text{正常增长乘数})}{\\text{当期总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "| AB_ACCT | 异常应收款 | -(当期应收账款-上年同期应收账款*正常增长乘数)/当期总资产 |"
+        },
+        {
+          "name": "异常其他应收款",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "-\\frac{(\\text{当期其他应收账款}-\\text{上年同期其他应收账款}\\times\\text{正常增长乘数})}{\\text{当期总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "| AB_OTH | 异常其他应收款 | -(当期其他应收账款-上年同期其他应收账款*正常增长乘数)/当期总资产 |"
+        },
+        {
+          "name": "传统有息负债率",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{短期借款}+\\text{长期借款}+\\text{应付债券}}{\\text{总资产}}",
+          "stats": [null, null, 0.28, null],
+          "evidence": "| WithInterestDebtRate | 传统有息负债率 | (短期借款+长期借款+应付债券)/总资产 |"
+        },
+        {
+          "name": "总资产增长率",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{资产总计相对年初增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "| ASSETS_YOY | 总资产增长率 | 资产总计相对年初增长率 |"
+        },
+        {
+          "name": "ROIC增强因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{等权合成ROIC的成长性、稳定性与持续性}",
+          "stats": [null, null, 2.15, null],
+          "evidence": "| ROICenchance | ROIC 增强因子 | 计算ROIC的成长性、稳定性、持续性进行等权合成。其中，成长性为ROIC的上一年 同期变化；稳定性为 ROIC 过去n 个季度的标准差，持续性为ROIC 的二阶同比变化。 |"
+        },
+        {
+          "name": "单季度归母净利润同比行业分位数",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{单季度归母净利润同比在中信一级行业中的分位数}",
+          "stats": [null, null, 1.6, null],
+          "evidence": "| NP_YOY_Quantile | 单季度归母净利润同比行业分位数 | 单季度归母净利润同比在中信一级行业中的分位数 |"
+        },
+        {
+          "name": "单季度归母净利润加速度",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{单季度归母净利润二阶同比}}{\\text{过去8个单季度归母净利润标准差}}",
+          "stats": [null, null, 1.73, null],
+          "evidence": "| NP_YOY2 | 单季度归母净利润加速度 | 单季度归母净利润二阶同比/过去8个单季度归母净利润标准差 |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "selection"],
+      "setup": {"universe": ["csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "股票池优化的目标是保证可交易性的同时提升质量，据此构造两层优化框架。",
+      "evidence": "股票池优化的目标是保证可交易性的同时提升质量。据此，我们构造了两层优化："
+    },
+    {
+      "text": "第一层为刚性优化，目的是保证股票可交易，优化目标包括风险警示股票（ST/*ST）、次新股、低流动性、极小市值以及净资产为负等。",
+      "evidence": "第一层为刚性优化，目的是保证股票可交易。优化的目标包括风险警示股票（ST/*ST）、次新股、低流动性、极小市值以及净资产为负等。"
+    },
+    {
+      "text": "第二层为柔性优化，目的是提升股票池质量，对列入基本面负面清单、量价因子空头组合、有可能财务造假以及发生过负面事件的股票进行剔除。",
+      "evidence": "第二层为柔性优化，目的是提升股票池质量。我们对列入基本面负面清单、量价因子空头组合、有可能财务造假以及发生过负面事件的股票进行剔除，可以保证股票池相对“干净”。"
+    },
+    {
+      "text": "参考中证指数编制方案中的缓冲区规则引入粘性剔除机制后，流动性 1500 股票池在保证了因子有效性的前提下提升了股票的可交易性。",
+      "evidence": "回测对比发现，流动性 1500 股票池在保证了因子有效性的前提下提升了股票的可交易性。"
+    },
+    {
+      "text": "多空均可贡献收益的单调因子并不属于负向因子，只有因子在多头收益不强，但是空头预测能力强时才可算作负向因子。",
+      "evidence": "我们认为多空均可贡献收益的单调因子并不属于负向因子，只有因子在多头收益不强，但是空头预测能力强时才可算作负向因子。"
+    },
+    {
+      "text": "据此构建了负向因子筛选流程，并且从多个财务分析维度筛选了 11 个负向因子。",
+      "evidence": "据此，我们构建了负向因子筛选流程，并且从多个财务分析维度筛选了 11 个负向因子。"
+    },
+    {
+      "text": "对空头单调的因子进行 ICIR 加权效果最好，对空头尾部有效的因子使用组合复合法效果最好；对流动性 1500 中非指数成分股进行剔除效果最好；剔除阈值选择 4%-6%对策略提升最为明显。",
+      "evidence": "结果发现对于合成方法来说，对空头单调的因子进行 ICIR 加权效果最好，对空头尾部有效的因子使用组合复合法效果最好。对于剔除范围来说，对流动性 1500 中非指数成分股进行剔除效果最好。对于剔除阈值来说，选择剔除 4%-6%对策略提升最为明显。"
+    },
+    {
+      "text": "在流动性 1500 的非指数成分股中进行剔除操作对策略提升最为明显，沪深 300 增强策略年化收益从 13.74%提升到了 15.16%，中证 500 增强策略年化收益率从 16.91%提升至 18.10%。",
+      "evidence": "测试结果显示，只在流动性 1500 的非指数成分股中进行剔除操作，对策略的表现提升最为明显。沪深 300 增强策略年化收益从 13.74%提升到了 15.16%，中证 500 增强策略年化收益率从 16.91%提升至 18.10%。"
+    },
+    {
+      "text": "中证 500 指数增强基准组合年化收益16.91%，夏普比率 2.28；沪深 300 指数增强基准组合年化收益 13.74%，夏普比率 1.66。",
+      "evidence": "指数增强基准策略表现如下所示，中证 500 指数增强基准组合年化收益16.91%，夏普比率 2.28。沪深 300 指数增强基准组合年化收益 13.74%，夏普比率 1.66。"
+    },
+    {
+      "text": "多空均有效的单调因子加权方式的提升效果明显优于尾部剔除方式，负面剔除优化时应避免将其当作负向因子使用。",
+      "evidence": "方法对比来看，加权方式的提升效果明显优于尾部剔除方式。因此，我们在进行负面剔除优化时应当尽量避免将多空均有效的单调因子当作负向因子使用。"
+    },
+    {
+      "text": "空头端尾部有效因子以加权方式纳入模型会引入噪音降低模型表现，使用尾部剔除法纳入模型对组合有提升作用。",
+      "evidence": "回测结果可以发现，由于因子仅在空头尾部持续跑输基准，其它部分均表现为噪音，所以因子以加权方式纳入模型会降低模型表现；使用尾部剔除法纳入模型对组合有提升作用。"
+    }
+  ],
+  "builds_on": ["20210722-光大证券-量化选股-001-单因子组合优化在指数增强策略中的应用"],
+  "external_ref": ["中证指数公司沪深300指数编制方案", "汪荣飞和张然(2018)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

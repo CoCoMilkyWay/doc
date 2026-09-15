@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "20200804-东方证券-因子选股-068-因子加权过程中的大类权重控制",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["weighting", "loss_generalization", "interpretability"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在一定的情形下，最小化预测收益率和实际收益率的均方误差等价于最大化ZSCORE 的 IC，基于均方误差学习参数相当于找到使模型ZSCORE 平均 IC 最高的一组参数。",
+      "evidence": "在一定的情形下，最小化预测收益率和实际收益率的均方误差等价于最大化ZSCORE 的 IC，基于均方误差学习参数相当于找到一组参数使得模型ZSCORE 过去一段时间的平均 IC 最高。"
+    },
+    {
+      "text": "对量价大类因子权重进行适当控制后，虽然 ZSCORE 的 RankIC 和多空组合都会变弱，但指数增强组合的实际业绩有不同程度的提升。",
+      "evidence": "我们尝试了对量价总个大类的权重进行适当的控制，发现在对大类因子进行适当程度的干预后虽然 ZSCORE 的 RankIC 和多空组合都会变弱，但指数增强组合的实际业绩却有不同程度的提升。"
+    },
+    {
+      "text": "基于优化等权方法（端对端一体化学习大类内部权重）构建的 300 增强组合和 500 增强组合长期业绩优于其他 3 种大类等权方法，对组合收益提升有一定帮助。",
+      "evidence": "从增强组合表现层面看，基于优化等权方法构建的 300 增强组合和 500 增强组合长期业绩也要优于其他 3 种大类等权方法，因此，对于大类等权模型来讲，通过“端对端”的学习一体化确定各大类因子内部的权重的确对组合收益提升有一定帮助。"
+    },
+    {
+      "text": "将收益率预测转换为分类问题，采用二元交叉熵损失函数学习股票截面收益排名靠前的概率，实际测算相对均方误差损失，增强组合表现占优，但该结果可能有数据依赖。",
+      "evidence": "我们可以将收益率预测问题转换为分类问题，采用二元交叉熵损失函数作为学习的目标，学习股票截面收益排名靠前的概率，实际测算下来相对学习均方误差损失，增强组合表现占优。但需要注意的是，二元交叉熵损失函数学习的股票排名靠前的概率和 ZSCORE 的 RankIC、增强组合收益并没有明确的关联，上述结果可能有数据依赖。"
+    },
+    {
+      "text": "通过 ALE Plot 分析发现，虽然各大类因子合成 ZSCORE 的权重一样，但对 ZSCORE 的实际贡献依然有较大差别，一体化学习的大类等权倾向于降低 ZSCORE 对过去表现较差的大类因子的依赖。",
+      "evidence": "通过 ALE Plot 方法分析不同大类等权方式下 ZSCORE 对各大类因子的依赖情况，我们发现虽然各个大类因子合成 ZSCORE 的权重一样，但对 ZSCORE的实际贡献依然有较大差别，通过一体化学习的大类等权倾向于降低ZSCORE 对过去表现较差的大类因子的依赖。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Christoph Molnar, Interpretable Machine Learning", "关于组合换手的若干问题"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "schema_version": 2,
+  "id": "20240115-中金公司-量化多因子-012-高频因子手册",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "technical_pattern"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "mmt_ols_beta_mean_o",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{50根分钟k线最高与最低价回归系数均值}",
+          "stats": [-0.0734, null, 1.09, 0.215],
+          "evidence": "mmt_ols_beta_mean_o、mmt_top20VolumeRet_std 和 mmt_last30_std 因子在大多数选股域中有效性良好。月度 ICIR最高的 mmt_ols_beta_mean 因子在全市场周度年化多空收益率55%，多头超额 23%"
+        },
+        {
+          "name": "mmt_top20VolumeRet_std",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{成交量最高20根k线收益率动量，每期取当期标准差}",
+          "stats": [-0.0952, null, 1, 0.291],
+          "evidence": "量能动量因子指的是与成交量特征相关的动量因子。mmt_top20VolumeRet_std 全市场因子 IC 均值-9.52%，有效性显著；沪深 300 范围内可关注 mmt_top20VolumeRet_o 因子，即前 20 成交量 k线的收益率因子"
+        },
+        {
+          "name": "vol_upVol_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内分钟级别数据，计算分钟级上行波动率，每期取当期标准差}",
+          "stats": [-0.0844, null, 1.35, 0.26],
+          "evidence": "上行波动率因子有效性优于分钟 k线波动率因子、下行波动率因子，全市场 ICIR 绝对值可达 1.35，IC均值可达-8.4%。"
+        },
+        {
+          "name": "shape_skew_m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟k线收益率的偏度，每期取当期算术平均}",
+          "stats": [-0.0695, null, 1.28, 0.226],
+          "evidence": "全市场范围内，shape_skew_m、shape_skew_std 和 shape_skratio_m 因子具有良好有效性，月度调仓频率下，它们的 ICIR表现均超过 1.0，且 shape_skew_m 因子的年化多空收益达到了 22.6%。"
+        },
+        {
+          "name": "liq_amihud_1min_o",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内分钟级别数据构建常见的Amihud非流动因子，每期取最后一个有效值}",
+          "stats": [0.0911, null, 1.02, 0.334],
+          "evidence": "在月度调仓频率下，liq_amihud_1min_o 因子的 ICIR 为 1.02，年化多空收益超过 33%，且该因子在中证 1000和中证 500的选股域中也表现良好。"
+        },
+        {
+          "name": "corr_pvl_std",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收盘价与领先成交量相关系数，每期取当期标准差}",
+          "stats": [-0.0954, null, 1.06, 0.292],
+          "evidence": "其中，corr_pvl 的变体均值和标准差表现均较为有效，月度 ICIR分别达 1.09和 1.06，前额周度年化多空超 46%，后者多头月度超额达 8%。"
+        },
+        {
+          "name": "doc_vol_pdf90_std",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码90%占比收益率分位，每期取当期标准差}",
+          "stats": [-0.0886, null, 1.52, 0.283],
+          "evidence": "以 doc_vol_pdf90_std 为例，在全市场范围内，其 ICIR表现为1.52，年化多空收益超过 28%；在沪深 300 中，其 IC 均值为-5.6%，ICIR 降为 0.83。"
+        },
+        {
+          "name": "crowd_fftv20_3s_w0_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换3s快照数据和1min数据补零，取前20%周期占比，每期取当期标准差}",
+          "stats": [-0.0509, null, 1.37, 0.201],
+          "evidence": "crowd_fftv20_3s_w0_std 因子在全市场和中证 1000范围内有效性较为显著，ICIR均超过 1.30，年化多空收益超过 20%。"
+        },
+        {
+          "name": "trade_headRatio_std",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘一定时间内的成交量与当日总成交量的比例，每期取当期标准差}",
+          "stats": [-0.0524, null, 1.07, 0.14],
+          "evidence": "从因子有效性角度来看，开盘资金流向因子有效性多强于尾盘资金流向因子，trade_headRatio_std 因子相比其他开盘/尾盘资金流因子在全市场的有效性表现良好，周度调仓频率下其 ICIR 为0.92，年化多空收益可达 24.9%。"
+        },
+        {
+          "name": "trade_top20retRatio_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{前20根K线中，收益率与成交量比例的均值，每期取当期算术平均}",
+          "stats": [-0.0523, null, 0.9, 0.141],
+          "evidence": "高收益量能占比因子（trade_top20retRatio）在全市场表现相对较为稳定，月度ICIR为 0.9 和 0.64，多空年化收益为 14%。"
+        },
+        {
+          "name": "syn_corr_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取价量相关因子中周度综合表现前5名，进行市值和行业中性化及标准化后等权合并，每期取最后一个有效值}",
+          "stats": [0.0756, null, 1.23, 0.239],
+          "evidence": "月度频率下 syn_corr_o 和 syn_crowd_o 因子在全市场选股中相对其他因子有效性较高，其中全市场范围内 syn_corr_o 因子有效性更强，ICIR 达 1.23。"
+        },
+        {
+          "name": "syn_crowd_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取拥挤度因子中周度综合表现前5名，进行市值和行业中性化及标准化后等权合并，每期取最后一个有效值}",
+          "stats": [0.0925, null, 0.98, 0.302],
+          "evidence": "而 syn_crowd_o 因子的收益预测能力更佳，其多空收益达 69.9%，多头超额 11.1%，相对优于其他复合因子。"
+        },
+        {
+          "name": "syn_mmt_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取动量反转因子中周度综合表现前5名，进行市值和行业中性化及标准化后等权合并，每期取最后一个有效值}",
+          "stats": [0.0671, null, 1.09, 0.217],
+          "evidence": "周度频率下 syn_crowd_o 和syn_mmt_o 因子表现较优。其中，syn_mmt_o 因子有效性更强，ICIR 为 1.1，多空收益为64.2%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "高频数据构建的因子有效比例较高，全市场多个因子周度年化多空收益夏普超5.0，多头信息比率超3.0，因子池中近3成因子月度IC均值绝对值超5%，月度ICIR超0.65。",
+      "evidence": "测试结果显示使用高频数据构建的因子有效比例较高，在全市场范围内多个因子周度年化多空收益夏普超 5.0，多头信息比率超 3.0，因子池中近 3 成因子月度IC均值绝对值超 5%，月度ICIR超 0.65。"
+    },
+    {
+      "text": "与低频价量因子类似，高频因子表现随股票池平均市值增加有效性明显呈线性下降。",
+      "evidence": "与低频价量因子类似，高频因子表现随股票池平均市值增加有效性明显呈线性下降。"
+    },
+    {
+      "text": "ICIR表现最好的动量因子为mmt_ols_beta_mean，mmt_pm_m因子周度多空年化收益率58%，沪深300范围内可关注mmt_top20VolumeRet_o因子。",
+      "evidence": "ICIR表现最好的因子为mmt_ols_beta_mean因子，全市场月度 达 ，月度多头超额达 ，周度多空达 ； 因子在全市场范围内表现较为出色，月度ICIR达 1，月度多头超额为 5.6%。此外，mmt_pm_m因子虽然ICIR表现稍弱，但超额收益能力较强，周度多空年化收益率 58%。沪深 300 范围内可关注mmt_top20VolumeRet_o因子，即前 20成交量k线的收益率因子。"
+    },
+    {
+      "text": "筹码占比因子整体表现优于筹码分布形状因子，效果最好的为筹码分位盈亏水平因子（doc_vol_pdf90_std），全市场月度ICIR达1.52，周度多空年化收益率45%。",
+      "evidence": "综合来看，筹码占比因子整体表现优于筹码分布形状因子。其中doc_vol_pdf90_std、doc_vol_pdf95_std和doc_vol_pdf90bi_std因子整体表现优异，在不同选股域中均有着较强的预测能力和良好的单调性，值得关注。其中，效果最好的为筹码分位盈亏水平因子（doc_vol_pdf90_std），全市场月度ICIR达 1.52，周度多空年化收益率 45%。"
+    },
+    {
+      "text": "傅里叶变换机构拥挤度指标在个股和行业层面表现均较为优秀，crowd_fftv20_3s_w0_std因子月度和周度ICIR分别为1.37和1.38，周度多空夏普超过5.0。",
+      "evidence": "该因子在个股和行业层面表现均较为优秀。crowd_fftv20_3s_w0_std因子月度和周度ICIR分别为 1.37 和 1.38，周度多空夏普超过 5.0。在沪深 300 中因子有效性下降显著，相对较好的tv50m5_std因子月度ICIR为 0.53，多头超额 4%。"
+    },
+    {
+      "text": "月度频率下syn_corr_o因子有效性更强ICIR达1.23；周度频率下syn_crowd_o因子的收益预测能力更佳，多空收益达69.9%，多头超额11.1%。",
+      "evidence": "月度频率下syn_corr_o和syn_crowd_o因子在全市场选股中相对其他因子有效性较高，其中全市场范围内syn_corr_o因子有效性更强，ICIR达 1.23。周度频率下syn_crowd_o和syn_mmt_o因子表现较优。其中，syn_mmt_o因子有效性更强，ICIR为 1.1，多空收益为 64.2%。而syn_crowd_o因子的收益预测能力更佳，其多空收益达 69.9%，多头超额 11.1%，相对优于其他复合因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "量化策略 | 市场微观结构系列（2）： 高频视角下的微观流动性与波动性 (2021.11.18)",
+    "量化策略 | 资金结构系列（2）如何利用日内交易数据左侧预警机构成交拥挤度 (2023.05.30)",
+    "量化策略 | 量化多因子系列（6）：关于动量，你所希望了解的那些事 (2022.06.04)",
+    "量化策略 | 量化多因子系列（7）：价量因子手册 (2022.08.06)",
+    "量化策略 | 量化择时系列（1）：金融工程视角下的技术择时艺术 (2021.01.21)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20140226-国泰君安-数量化专题-038-kelly公式在行业配置中的应用一",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "Kelly投资比例",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "f^{*}=\\frac{pWL-q}{WL}",
+          "stats": [null, null, null, null],
+          "evidence": "以申万 23个一级行业为例，我们利用 2007年至今的数据估算各个行业的胜率、盈亏比、Kelly 投资比例以及预期几何增长率，如下表所示"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_momentum"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "将Kelly最优组合构建运用于一级行业周数据，过去一年Kelly策略跑赢hs300 30%以上，胜率超过70%，最大回撤5%，夏普比率达到2.4。",
+      "evidence": "将上述最优组合构建运用于一级行业的周数据中，我们发现 Kelly 策略取得了良好的效果，在过去的一年里，Kelly 策略跑赢 hs300 30%以上，胜率超过 70%，最大回撤 5%，夏普比率达到 2.4。"
+    },
+    {
+      "text": "Kelly公式运用到二级行业周数据中效果比一级行业更好，过去一年该策略跑赢hs300 50%以上，胜率超过70%，最大回撤8%，夏普比率达到2.6。",
+      "evidence": "将 Kelly 公式运用到二级行业的周数据中，我们得到了比一级行业还好的效果。在过去的一年里，该策略跑赢 hs300 50%以上，胜率超过 70%，最大回撤 8%，夏普比率达到 2.6，具体表现如下面图表所示："
+    },
+    {
+      "text": "预期几何增长率都高于行业的实际复合回报率，这表明Kelly公式起码在理论上是有效的。",
+      "evidence": "由表 1 可以看出，预期几何增长率都高于行业的实际复合回报率，这表明 Kelly 公式起码在理论上是有效的。"
+    },
+    {
+      "text": "投资比例与几何增长率呈抛物线关系，当投资比例超过Kelly准则后，不仅波动率在加大，而且复合回报率也在下降，呈现双输的局面。",
+      "evidence": "关于投资比例与几何增长率的关系，从 Kelly 准则来看，呈现抛物线关系，即在 Kelly准则之前呈抛物线上升的趋势，而在 Kelly准则之后，呈抛物线下降的趋势，因此当某一标的的投资比例超过 Kelly 准则后，不仅波动率在加大，而且其复合回报率也在下降，从而呈现双输的局面。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "J.L.Kelly. (1956). \"A New Intepretation of Imformation Rate.\"",
+    "威廉.庞德斯通著《财富公式：玩转拉斯维加斯和华尔街的故事》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

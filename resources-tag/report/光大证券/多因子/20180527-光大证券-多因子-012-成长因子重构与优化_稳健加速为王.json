@@ -1,0 +1,245 @@
+{
+  "schema_version": 2,
+  "id": "20180527-光大证券-多因子-012-成长因子重构与优化_稳健加速为王",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi800"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "营业利润同比增长OPG_TTM",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{OPG\\_TTM}_{t}=\\mathrm{OP\\_TTM}_{t}/abs(\\mathrm{OP\\_TTM}_{t-1})",
+          "stats": [0.026, null, 0.41, 0.062],
+          "evidence": "原有的基础成长因子中表现最好的营业利润同比增长OPG_TTM得分为3，平均IC为2.60%，信息比IR为0.41，多空年化收益仅为6.2%，单调性得分为1.46。"
+        },
+        {
+          "name": "NPG_TTM",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{NPG\\_TTM}=\\mathrm{NP\\_TTM}_{t}/abs(\\mathrm{NP\\_TTM}_{t-1})",
+          "stats": [0.026, null, 0.41, null],
+          "evidence": "对于净利润TTM同比增速因子（NPG_TTM），在分母（上期TTM净利润）接近零的情形下因子计算存在问题，该因子的计算公式如下所示："
+        },
+        {
+          "name": "NPG_TTM_Re",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{将 NPG_TTM 与上期净利润绝对值 abs(NP_TTM_{t-1}) 回归取残差}",
+          "stats": [0.0277, null, 0.44, null],
+          "evidence": "改进的净利润同比增速因子NPG_TTM_Re在选股能力上较NPG_TTM有了较为稳健的提高：IC 和IR 分别提高了0.17个百分点和 0.03。"
+        },
+        {
+          "name": "营业利润单季度同比因子OP_Q_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{OP_Q_YOY}=\\text{OP_Q}_{t}/abs(\\text{OP_Q}_{t-4})",
+          "stats": [0.0337, null, 0.63, null],
+          "evidence": "同时净利润单季度同比 NP_Q_YOY 和营业利润单季度同比因子OP_Q_YOY 的 IC 均值最高，分别为 3.37%和 3.43%，IC_IR 均超过 0.6，表明这两个因子也具有较强的区分能力。"
+        },
+        {
+          "name": "净利润单季度同比 NP_Q_YOY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{NP_Q_YOY}=\\text{NP_Q}_{t}/abs(\\text{NP_Q}_{t-4})",
+          "stats": [0.0343, null, 0.6, null],
+          "evidence": "同时净利润单季度同比 NP_Q_YOY 和营业利润单季度同比因子OP_Q_YOY 的 IC 均值最高，分别为 3.37%和 3.43%，IC_IR 均超过 0.6，表明这两个因子也具有较强的区分能力。"
+        },
+        {
+          "name": "单季净利润环比增速NP_QOQ",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{NP_QOQ}=\\text{NP_Q}_{t}/abs(\\text{NP_Q}_{t-1})",
+          "stats": [0.0165, null, 0.44, null],
+          "evidence": "综合因子表现和因子之间的相关性分析，筛选出复合成长因子构造时的基础因子包括：营业利润稳健增速OP_SD、单季净利润环比增速NP_QOQ、营业利润TTM同比增速OPG_TTM、经营性现金流同比增速OCFG_TTM。"
+        },
+        {
+          "name": "OP_QOQ",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{OP_QOQ}=\\text{OP_Q}_{t}/abs(\\text{OP_Q}_{t-1})",
+          "stats": [0.0145, null, 0.43, null],
+          "evidence": "由于因子的构造方式比较类似，因此有很大比例的成长类因子之间存在高度的相关性。"
+        },
+        {
+          "name": "加速度指标：NP_Acc",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{NP_t}=\\alpha\\times\\mathrm{t^2}+\\beta\\times\\mathrm{t}+\\mathrm{c}\\text{，取二次项系数 }\\alpha\\text{ 作为业绩增长加速度的代理变量}",
+          "stats": [0.0217, null, 0.53, null],
+          "evidence": "加速度指标的计算方法是：利用连续 N 个季度的单季利润，对期数的二次方程进行回归，取二次项系数作为业绩增长加速度的代理变量"
+        },
+        {
+          "name": "稳健增速指标：NP_Stable",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{NP\\_Stable}=\\mathrm{mean}(g_{1..N})/\\mathrm{std}(g_{1..N})",
+          "stats": [0.0178, null, 0.25, null],
+          "evidence": "稳健增速指标刻画的是过去一段时间内业绩增速的稳定性，当指标值比较高的时候，表示过去一段时间内上市公司的业绩保持了稳定增长的态势。它的计算方式是用过去N 期的利润增速均值除以利润增速标准差。"
+        },
+        {
+          "name": "稳健加速度指标：NP_SD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\Delta\\mathrm{NP\\_Stable}\\text{（稳健增速指标的一阶差分）}",
+          "stats": [0.0228, null, 0.65, null],
+          "evidence": "净利润稳健增速因子 NP_SD 和营业利润稳健增速因子 OP_SD 表现相当出色，其因子IC、IR、单调性以及多空收益夏普比均显著优于其他成长因子。"
+        },
+        {
+          "name": "OP_Acc",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{OP_t}=\\alpha\\times\\mathrm{t^2}+\\beta\\times\\mathrm{t}+\\mathrm{c}\\text{，取二次项系数 }\\alpha",
+          "stats": [0.0198, null, 0.38, null],
+          "evidence": "加速度指标的计算方法是：利用连续 N 个季度的单季利润，对期数的二次方程进行回归，取二次项系数作为业绩增长加速度的代理变量"
+        },
+        {
+          "name": "OP_Stable",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{OP\\_Stable}=\\mathrm{mean}(g^{OP}_{1..N})/\\mathrm{std}(g^{OP}_{1..N})",
+          "stats": [0.016, null, 0.23, null],
+          "evidence": "同比类的成长因子均高度相关，环比类因子之间同样高度相关，稳健增速、稳健加速度因子也有较强的相关性。"
+        },
+        {
+          "name": "营业利润稳健加速度因子OP_SD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\Delta\\mathrm{OP\\_Stable}\\text{（营业利润稳健增速指标的一阶差分）}",
+          "stats": [0.0246, null, 0.77, 0.089],
+          "evidence": "OP_SD 的多空年化收益达到 8.9%，夏普比为 2.85，IC 均值为2.46%，IC_IR高达 0.77，选股能力和单调性均表现出色。"
+        },
+        {
+          "name": "OR_Acc",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{OR_t}=\\alpha\\times\\mathrm{t^2}+\\beta\\times\\mathrm{t}+\\mathrm{c}\\text{，取二次项系数 }\\alpha",
+          "stats": [0.0142, null, 0.29, null],
+          "evidence": "加速度指标的计算方法是：利用连续 N 个季度的单季利润，对期数的二次方程进行回归，取二次项系数作为业绩增长加速度的代理变量"
+        },
+        {
+          "name": "OR_Stable",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{OR\\_Stable}=\\mathrm{mean}(g^{OR}_{1..N})/\\mathrm{std}(g^{OR}_{1..N})",
+          "stats": [0.0166, null, 0.24, null],
+          "evidence": "它的计算方式是用过去N 期的利润增速均值除以利润增速标准差。"
+        },
+        {
+          "name": "OR_SD",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\Delta\\mathrm{OR\\_Stable}\\text{（营业收入稳健增速指标的一阶差分）}",
+          "stats": [0.0143, null, 0.41, null],
+          "evidence": "稳健加速度指标则是稳健增速指标的一阶差分。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "regression_test", "robustness", "selection"],
+      "setup": {"universe": ["all", "csi300", "csi800"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "基础成长因子稳定性一般，表现最好的OPG_TTM得分为3，平均IC为2.60%，信息比IR为0.41，多空年化收益仅为6.2%。",
+      "evidence": "由下表可见，我们跟踪的各大类因子中，基础成长因子中表现最好的OPG_TTM得分为3，平均IC为2.60%，信息比IR为0.41，多空年化收益仅为6.2%。"
+    },
+    {
+      "text": "营业利润稳健加速度因子OP_SD表现最优秀：多空年化收益8.9%，夏普比2.85，IC均值2.46%，IC_IR高达0.77，是更为推荐使用的成长类因子。",
+      "evidence": "OP_SD 的多空年化收益达到 8.9%，夏普比为 2.85，IC 均值为2.46%，IC_IR高达 0.77，选股能力和单调性均表现出色。"
+    },
+    {
+      "text": "改进的净利润同比增速因子NPG_TTM_Re较NPG_TTM选股能力稳健提高，IC和IR分别提高0.17个百分点和0.03，且与前期净利润的相关性显著降低。",
+      "evidence": "改进的净利润同比增速因子NPG_TTM_Re在选股能力上较NPG_TTM有了较为稳健的提高：IC 和IR 分别提高了0.17个百分点和 0.03。"
+    },
+    {
+      "text": "后文的因子测试时将默认对每一个增速类（同比增速、环比增速）因子均使用与分母值回归取残差的方式处理，剔除前期净利润极小值的影响。",
+      "evidence": "因此在后文的因子测试时我们将默认对每一个增速类（同比增速、环比增速）因子均使用与分母值回归取残差的方式处理。"
+    },
+    {
+      "text": "净利润单季度同比NP_Q_YOY和营业利润单季度同比因子OP_Q_YOY的IC均值最高，IC_IR均超过0.6，具有较强的区分能力。",
+      "evidence": "同时净利润单季度同比 NP_Q_YOY 和营业利润单季度同比因子OP_Q_YOY 的 IC 均值最高，分别为 3.37%和 3.43%，IC_IR 均超过 0.6，表明这两个因子也具有较强的区分能力。"
+    },
+    {
+      "text": "成长类因子行业差异明显：消费类、制造类行业中表现优秀，金融类行业内表现远远弱于其他行业，同比类成长因子在TMT行业中表现较好。",
+      "evidence": "成长类因子在消费类、制造类行业中表现优秀，在金融类行业内表现远远弱于其他行业，同比类成长因子在TMT行业中表现较好。"
+    },
+    {
+      "text": "OP_SD在沪深300成分股样本内表现相对较弱，中证800成分股样本内的表现与全市场较为接近，中证800内IC_IR为0.55，多空夏普比为1.65。",
+      "evidence": "营业利润稳健增速因子OP_SD 在沪深300 成分股样本内的表现相对较弱，中证 800 成分股样本内的表现与全市场较为接近，中证 800 成分股内的IC_IR 为 0.55，多空夏普比为 1.65。"
+    },
+    {
+      "text": "复合多空夏普比构造的复合因子Comp_G_v2表现相对较好，IC_IR为0.62，多空Sharpe为2.52，单调性得分2.51。",
+      "evidence": "其中，复合多空夏普比的复合因子 Comp_G_v2 的表现相对较好，IC_IR 为 0.62，多空Sharpe 为 2.52，单调性得分 2.51。"
+    },
+    {
+      "text": "复合因子Comp_G_v2在整体稳定性上有略微改善，分组单调性较好，但其余各项指标均未能超越OP_SD，使用复合因子的必要性并不大。",
+      "evidence": "复合因子 Comp_G_v2 在整体稳定性上有略微改善，分组单调性较好，然后其余各项指标均未能超越OP_SD。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《因子测试框架——多因子系列报告之一》",
+    "《多维度寻找高增长公司——业绩链选股策略报告》",
+    "《必需消费品：毛利、周转双轮驱动——行业基本面选股系列报告之一》",
+    "《爬罗剔抉：一致预期因子分类与精选——多因子系列报告之十一》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

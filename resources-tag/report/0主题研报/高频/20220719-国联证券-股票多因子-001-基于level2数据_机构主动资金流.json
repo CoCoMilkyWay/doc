@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20220719-国联证券-股票多因子-001-基于level2数据_机构主动资金流",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "ABSR",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\mathrm{ABSR}=\\left(\\frac{buyex-sellex}{buyex+sellex}\\right).\\mathrm{mean}(n)",
+          "stats": [null, null, null, null],
+          "evidence": "通过逐笔数据刻画机构主动资金，构建一个机构主动资金因子ABSR，构建一个常见的量价因子RETAMT。"
+        },
+        {
+          "name": "RETAMT",
+          "family": "reversal",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\mathrm{RETAMT}=-[Ret(n)*\\log(amt+1)].\\mathrm{mean}(n),\\ Ret(n)=\\frac{close}{close(n)}-1",
+          "stats": [null, null, null, null],
+          "evidence": "RETAMT = −[Ret(n) ∗ log(amt + 1)]. mean(n)"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800", "csi1000"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "组合因子在中证全指上收益增强表现较好，总超额收益为206.26%，超额年化收益率为9.16%，信息比率为0.84，持股数量随成分股增加而相应增加，策略容量上限大。",
+      "evidence": "在中证全指上的收益增强表现较好，总超额收益为206.26%，超额年化收益率为9.16%，信息比率为0.84，持股数量也随着中证全指成分股的增加而相应增加。"
+    },
+    {
+      "text": "宽基指数成分股涵盖越多，因子组合的信息比率越高，机构主动资金在股票数量多的样本中区分度要好于股票数量少的样本中。",
+      "evidence": "宽基指数成分股涵盖越多，因子组合的信息比率越高，这展现出机构主动资金的快速轮动效应，以及在股票数量多的样本中区分度要好于股票数量少的样本中。"
+    },
+    {
+      "text": "机构主动资金因子ABSR的long-short的PNL时序平稳度明显好于常见的量价因子RETAMT。",
+      "evidence": "机构主动资金因子 ABSR 的 long-short 的 PNL 时序平稳度明显好于常见的量价因子 RETAMT。"
+    },
+    {
+      "text": "各股票池行业因子整体贡献均较少，机构主动资金偏好在市值因子上长期正向的暴露。",
+      "evidence": "在中证全指、沪深 300、中证 500 和中证 1000 不同股票池里面，行业因子的整体贡献均较少。在风格因子上，机构主动资金偏好在市值因子上长期正向的暴露。"
+    },
+    {
+      "text": "增加选股池的范围能比较明显地增强相对于基准的收益，机构主动资金在大股票池里的选股区分度要大于小股票池。",
+      "evidence": "增加选股池的范围，能比较明显的增强相对于基准的收益。这表明了机构主动资金在大股票池里的选股区分度要大于小股票池。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

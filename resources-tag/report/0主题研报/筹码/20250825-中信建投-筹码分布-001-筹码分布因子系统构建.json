@@ -1,0 +1,137 @@
+{
+  "schema_version": 2,
+  "id": "20250825-中信建投-筹码分布-001-筹码分布因子系统构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_daily", "market_minute"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "kurtosis",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "kurtosis_t=\\sum\\left(\\frac{price_{i,t}-mean_t}{std_t}\\right)^4*p_{i,t}",
+          "stats": [-0.0374, null, -2.59, 0.1353],
+          "evidence": "kurtosis 因子表现出优异的选股能力。因子年化多空收益13.53%，夏普比率2.29，IC均值-3.74%，年化IC_IR达到-2.59。"
+        },
+        {
+          "name": "chip_distri_1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "chip\\_distri_1=\\frac{2*(Price95_t-Price05_t)}{Price95_t+Price05_t}",
+          "stats": [0.0325, null, 1.38, 0.1654],
+          "evidence": "chip_distri 因子表现出优异的选股能力。因子年化多空收益16.54%，夏普比率1.73，IC均值3.25%，年化IC_IR达到1.38。"
+        },
+        {
+          "name": "chip_distri_2",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "chip\\_distri_2=\\frac{Price95_t-Price05_t}{Chip\\_Hightest_t}",
+          "stats": [0.0396, null, 1.86, 0.201],
+          "evidence": "筹码集中度因子整体表现不错，选股能力相对最好的为chip_distri_2 因子，年化多空收益 20.10%，夏普比率 2.26，IC 均值3.96%，年化 IC_IR 达到 1.86。"
+        },
+        {
+          "name": "ASR",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "ASR_t=\\text{高位价格与低位价格之间的筹码占比}",
+          "stats": [-0.0413, null, -1.72, 0.125],
+          "evidence": "ASR因子表现出优异的选股能力。因子年化多空收益12.50%，夏普比率1.37，IC均值-4.13%，年化IC_IR 达到-1.72。"
+        },
+        {
+          "name": "PTR_2",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "PTR\\_2_t=\\frac{\\text{当月股票最高价与最低价之间筹码占比}}{turnover_t}",
+          "stats": [0.051, null, 2.14, 0.1776],
+          "evidence": "选股能力相对最好的为 PTR_2 ，年化多空收益 17.76%，夏普比率 1.97，IC 均值 5.10%，年化 IC_IR 达到 2.14。"
+        },
+        {
+          "name": "TG",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "TG_{i,t}=SUM(IF(p\\leq close_{i,t},Vol_{i,t,p}*(close_{i,t}-p)*T_{i,t},0))",
+          "stats": [-0.0721, null, -3.31, 0.3034],
+          "evidence": "TG 因子表现出优异的选股能力。因子年化多空收益 30.34%，夏普比率 3.03，IC 均值-7.21%，年化 IC_IR 达到-3.31。"
+        },
+        {
+          "name": "TL",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "TL_{i,t}=SUM(IF(p>close_{i,t},Vol_{i,t,p}*(p-close_{i,t})*T_{i,t},0))",
+          "stats": [-0.0609, null, -2.78, 0.2258],
+          "evidence": "TL 因子表现出优异的选股能力。因子年化多空收益 22.58%，夏普比率 2.21，IC 均值-6.09%，年化 IC_IR 达到-2.78。"
+        },
+        {
+          "name": "TGRatio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "TGRatio_{i,t}=\\frac{TG_{i,t}}{PG_{i,t}}",
+          "stats": [-0.1075, null, -4.41, 0.3159],
+          "evidence": "从 2024 年 7 月开始样本外跟踪，截至 2025 年 7 月，有 4 个因子多空收益超 20%，其中表现最好的因子是TGRatio，多空收益 31.59%，夏普比率 2.72，IC 均值-10.75%，年化 IC_IR 达到-4.41，表现非常不错。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "筹码因子在中证1000与中证500等中小市值股票中表现优于含大市值股票的中证800及沪深300，可见因子在小市值股票中表现较好",
+      "evidence": "将上述四类筹码因子限制在中证 1000、中证 800、中证 500、沪深 300 成分股中，发现筹码因子在中证 1000 与中证 500 等中小市值股票中表现优于含大市值股票的中证 800 及沪深 300，可见因子在小市值股票中表现较好。"
+    },
+    {
+      "text": "样本外跟踪中表现最好的因子是TGRatio，多空收益31.59%，夏普比率2.72，IC均值-10.75%，年化IC_IR达到-4.41",
+      "evidence": "从 2024 年 7 月开始样本外跟踪，截至 2025 年 7 月，有 4 个因子多空收益超 20%，其中表现最好的因子是TGRatio，多空收益 31.59%，夏普比率 2.72，IC 均值-10.75%，年化 IC_IR 达到-4.41，表现非常不错。"
+    },
+    {
+      "text": "筹码因子整体上与传统大类因子的相关性较低，具备良好的互补性",
+      "evidence": "进一步分析显示，这些筹码因子在中证1000 等小市值股票中表现更为突出，说明其对非充分定价股票具有更强的刻画能力；同时，筹码因子整体上与传统大类因子的相关性较低，具备良好的互补性。"
+    },
+    {
+      "text": "基于筹码集中度逻辑构建的chip_distri_2因子年化多空收益20.10%，IC均值3.96%，年化IC_IR达到1.86",
+      "evidence": "筹码集中度因子整体表现不错，选股能力相对最好的为chip_distri_2 因子，年化多空收益 20.10%，夏普比率 2.26，IC 均值3.96%，年化 IC_IR 达到 1.86。"
+    },
+    {
+      "text": "TG因子年化多空收益30.34%，夏普比率3.03，IC均值-7.21%，年化IC_IR达到-3.31",
+      "evidence": "TG 因子表现出优异的选股能力。因子年化多空收益 30.34%，夏普比率 3.03，IC 均值-7.21%，年化 IC_IR 达到-3.31。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Li An, Asset Pricing When Traders Sell Extreme Winners and Losers [J], The Review of Financial Studies, Volume 29, Issue 3, March 2016, Pages 823–861",
+    "处置效应与V型处置效应在量化选股中的应用"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

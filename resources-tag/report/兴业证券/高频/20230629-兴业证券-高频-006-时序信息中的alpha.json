@@ -1,0 +1,144 @@
+{
+  "schema_version": 2,
+  "id": "20230629-兴业证券-高频-006-时序信息中的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "other"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "foc_Comb",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{等权合成分钟收益率一阶自相关系数与分钟成交量占比一阶自相关系数，并取过去15日均值}",
+          "stats": [null, 0.0685, 0.76, 0.674],
+          "evidence": "此外，三类复合因 的表现更为优秀，以foc_Comb为例，该因 的 度RankIC均值为6.85%，ICIR为0.76，有效性较强。"
+        },
+        {
+          "name": "DW_Comb",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{等权合成分钟收益率D-W统计量与分钟成交量占比D-W统计量，并取过去15日均值}",
+          "stats": [null, 0.0435, 0.38, 0.397],
+          "evidence": "我们直接计算收益率与成交量占 时序数据的比D-W统计量，其统计量的绝对 可以判定时序数据是否存在 相关性，以及相关性的正负性。"
+        },
+        {
+          "name": "rho_Comb",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{等权合成分钟收益率与成交量占比在AR(1)模型下的残差自相关系数，并取过去15日标准差}",
+          "stats": [null, 0.0402, 0.59, 0.519],
+          "evidence": "我们尝试测试时序数据在AR(1)模型下的残差 阶 相关回归模型的系数。我们进 步计算个股过去15 指标的标准差作为最终因 值。因 排序为升序。"
+        },
+        {
+          "name": "LBQ_Comb",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{等权合成基于分钟收益率与分钟成交量占比的多次LB检验Q统计量序列标准差，并取过去15日均值}",
+          "stats": [null, 0.0486, 0.6, 0.492],
+          "evidence": "在具体计算维度，我们同时以分钟级收益率和分钟级成交量占 作为时间序列数据，统计其在量和价上的 阶稳定性，并最终取时序上15 均值作为最终因 ，分为叫做rtn_LBQ与vol_LBQ。"
+        },
+        {
+          "name": "highStdRtn_mean",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{筛选5分钟滚动收益率标准差处于日内80%分位数以上的分钟节点，统计该节点5分钟滚动收益率的均值}",
+          "stats": [null, 0.0334, 0.72, 0.412],
+          "evidence": "我们以已实现波动率作为条件，计算各个分钟节点过去30分钟的5分钟滚动收益率标准差，并筛选出标准差处于 内该股80%分位数以上的时间节点，并统计该时间节点中5分钟滚动收益率的均值，最终构建因 highStdRtn_mean。"
+        },
+        {
+          "name": "rtn_condVaR",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{假设前后分钟对数价格服从相关系数为ρ的二元正态分布，计算考虑股价自相关后的日内VaR，取过去15日标准差}",
+          "stats": [null, 0.0401, 0.52, 0.441],
+          "evidence": "计算得到个股每 的股价相关性VaR之后，我们取时序上15 标准差作为最终因 ，叫做rtn_condVaR。标准差越 ，说明该股过去 段时间内的 险不稳定性越 ，个股下 险较 。"
+        },
+        {
+          "name": "flashCrashProb",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{基于前一日分钟收益率估计连续下跌泊松分布参数λ，引入累计分布函数计算连续下跌相对连续上涨的崩盘概率，取过去15日标准差}",
+          "stats": [null, 0.0165, 0.3, 0.251],
+          "evidence": "最终，我们计算个股过去15 “崩盘”概率的标准差，记为 ashCrashProb因 。标准差越 ，说明该股下险较 ，预期收益较低。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "other"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "股价相关性VaR因子表现十分优秀，多空收益率在44%左右，多头收益率约为21%，夏普率在5.7左右。",
+      "evidence": "从 度组合测试结果上看，股价相关性VaR因 的表现 分优秀，因 的多空收益率在44%左右，多头收益率约为21%，夏普 率在5.7左右。"
+    },
+    {
+      "text": "时序信息复合因子在全市场内周度RankIC均值为6.64%，ICIR为0.98，月度RankIC均值为8.07%，ICIR为1.32；周度测试下多头组合年化收益率为26.7%，同期基准为10.8%，多空夏普率为4.91。",
+      "evidence": "复合因 在全市场内周度RankIC均值为6.64%，ICIR为0.98； 度子RankIC均值为8.07%，ICIR为1.32。周度测试下因 多头组合年化收益率为26.7%，同期基准为10.8%，多空夏普 率为4.91。"
+    },
+    {
+      "text": "复合因子在国证2000内的周度多空夏普率为5.35，在中证1000内为4.18，因子在中盘股票上的表现优秀。",
+      "evidence": "此外，该因 在国证2000内的多空夏普 率为5.35，在中证1000内的多空夏普 率为4.18，因 在中 盘股票上的表现优秀。"
+    },
+    {
+      "text": "正交化处理后时序因子的最高相关性约在0.6以下；“闪电崩盘”概率因子相关性本身较低，最高相关性仅0.4，不需要进行正交化处理。",
+      "evidence": "并与底层相关性最 的因 进 正交化处理，保证正交化后的时序因 的最 相关性约在0.6以下。在测试中发现，“闪电崩盘”概率因 的相关性本 较低，最 相关性仅0.4，不需要进 正交化处理。"
+    },
+    {
+      "text": "highStdRtn_mean因子Rank IC均值为3.34%，ICIR为0.72；经过rtn5_mean正交化后的因子仍保持较好的选股能力，ICIR为0.41。",
+      "evidence": "从 度IC测试结果上看，highStdRtn_mean因 表现较好，Rank IC均值为3.34%，ICIR为0.72，表现出较好的股价预测能 。经过rtn5_mean正交化后的因 保持着较好的选股能 ，ICIR为0.41。"
+    },
+    {
+      "text": "正交化后几乎所有因子的多空夏普率高于3，以非同步交易程度LBQ因子为例，多空年化收益率为34%，多头年化收益率约为19%，多空夏普率为6.4。",
+      "evidence": "以 同步交易程度LBQ因 为例，该因的多空年化收益率为34%，多头年化收益率约为19%，多空夏普 率为6.4。此外， 阶序列相关系数因 的多头年化收益率约为27%。"
+    },
+    {
+      "text": "月度调仓下复合因子全市场十分位多头组合年化收益率为17.6%，同期基准为7.9%，多空夏普率为3.28，在国证2000内多空夏普率为3.42。",
+      "evidence": "具体来看，该因 在全市场 分位组合测试中，多头组合年化收益率为17.6%，同期基准为7.9%，多空夏普 率为3.28。此外，该因 在国证2000内的多空夏普 率为3.42，因 在中 盘股票上的表现优秀。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "高频研究系列一：高频漫谈",
+    "高频研究系列三：收益率分布中的Alpha(2)",
+    "高频研究系列二：收益率分布因子构建",
+    "高频研究系列五：市场微观结构剖析",
+    "高频研究系列四：成交量分布中的Alpha"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

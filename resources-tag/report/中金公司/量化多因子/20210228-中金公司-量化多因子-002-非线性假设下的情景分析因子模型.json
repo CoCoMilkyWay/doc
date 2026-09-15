@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "id": "20210228-中金公司-量化多因子-002-非线性假设下的情景分析因子模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "盈利特征",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Profit}=\\text{过去三年ROE\\_TTM均值}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利特征：为了体现公司的稳健的盈利能力特征，我们选取过去三年的平均 ROE作为盈利特征因子。"
+        },
+        {
+          "name": "成长特征",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Growth}=\\text{使用历史8个季度数据计算的稳健加速度成长指标，分别使用净利润和营业利润计算并等权合成}",
+          "stats": [null, null, null, null],
+          "evidence": "成长特征：考虑到特征因子需要具有较好的稳定性，采用历史 8 个季度数据计算的稳健加速度成长指标，分别使用净利润和营业利润计算并等权合成。"
+        },
+        {
+          "name": "估值特征",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Cheapness}=\\text{BP\\_LR（市净率倒数）}",
+          "stats": [null, null, null, null],
+          "evidence": "估值特征：采用估值因子中稳定性较高的市净率因子。"
+        },
+        {
+          "name": "规模特征",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Size}=\\ln(MC)",
+          "stats": [null, null, null, null],
+          "evidence": "例如采用规模因子作为特征，就可以区分大小市值的股票。而假如采用一些复杂的技术因子作为特征，就很难在逻辑上解释其区分出来的股票的意义所在"
+        },
+        {
+          "name": "流动性特征",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Liquidity}=\\text{VSTD\\_1M, VSTD\\_3M, VSTD\\_6M等权}",
+          "stats": [null, null, null, null],
+          "evidence": "流动性是比较重要的股票交易性特征，为了降低因子的换手，这里选择六个月的成交额/收益率波动因子（VSTD_6M）。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "Fama-MacBeth回归测试表明规模特征、盈利特征和估值特征具有较高的显著性，双样本T检验的结果显示规模特征和盈利特征在分股票池内的IC具有显著的差异，整体上看规模、流动性和估值特征是A股市场有效性和显著性较高的特征因子。",
+      "evidence": "Fama-MacBeth 回归测试表明规模特征、盈利特征和估值特征具有较高的显著性，双样本 T检验的结果显示规模特征和盈利特征在分股票池内的IC 具有显著的差异。组合收益测试中则是规模特征、估值特征和流动性特征较为有效，整体上看，规模、流动性和估值特征是 A股市场有效性和显著性较高的特征因子。"
+    },
+    {
+      "text": "估值因子（EP_TTM）在小市值股票池内长期有比较稳定的超额收益，而大市值股票池内的多空收益2018年以后的回撤幅度甚至大于全市场，说明因子对股票收益的影响是非线性的。",
+      "evidence": "但假设我们按照市值将股票池分为大市值和小市值两组，分别在两个组内测试估值因子（EP_TTM）的表现，会发现估值因子在小市值股票池内长期有比较稳定的超额收益，而在大市值股票池内的多空收益表现与全市场类似，2018年以后的回撤幅度甚至大于全市场内多空收益的回撤幅度。"
+    },
+    {
+      "text": "基于流动性特征的全市场多头组合收益能力稳健，长期稳定战胜沪深300和中证500两大宽基指数，相对主动权益基金经理的表现也有较明显优势。",
+      "evidence": "由上图可见，基于流动性特征的全市场组合的收益能力是比较稳健的，除了可以长期稳定的战胜沪深 300 和中证 500 这两大宽基指数以外，组合相对于市场上的主动权益基金经理的表现也是有较明显优势的。"
+    },
+    {
+      "text": "基于流动性特征的情景因子中证500增强组合年化超额收益由15.84%提升至18.38%，提升2.5个百分点，信息比由2.73提升至3.02。",
+      "evidence": "与原始的最优化 IR组合相比，基于流动性特征的情景因子中证 500 增强组合在 2017、2018和 2020 年有比较明显的收益提升。组合的年化超额收益由原先 15.84%提升至 18.38%，提升 2.5 个百分点，信息比也由 2.73 提升至 3.02。"
+    },
+    {
+      "text": "情景分析因子模型在2017年之前与原组合收益表现几乎无异，主要超额收益来自2017年以后，整体可获得年化2.5个百分点左右的增强收益。",
+      "evidence": "整体上看，采用情景分析因子模型可以获得年化 2.5个百分点左右的增强收益表现。2017年之前，情景因子模型与原组合收益表现几乎无异，而主要的超额收益来自于 2017 年以后。"
+    },
+    {
+      "text": "采用情景分析因子模型提高了组合整体的换手率，由原先的月均52%提升至58%。",
+      "evidence": "同时值得注意的是，采用情景分析因子模型也提高了组合整体的换手率，组合换手率由原先的月均 52%提升至了 58%。"
+    }
+  ],
+  "builds_on": ["20210114-中金公司-量化多因子-001-QQC综合质量因子与指数增强应用"],
+  "external_ref": [
+    "Sorensen, Hua 和 Qian（2005）",
+    "《量化多因子系列（1）：QQC 综合质量因子与指数增强应用》（2021.01.14）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

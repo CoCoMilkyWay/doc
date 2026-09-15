@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "id": "20230528-东方证券-因子选股-090-dfq遗传规划价量因子挖掘系统",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "log(rank_div(amount, apb))",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{log}(\\text{rank\\_div}(\\text{amount}, \\text{apb}))",
+          "stats": [-0.0935, null, -4.54, null],
+          "evidence": "因子表达式中涉及的算子均为截面运算，表示每日的个股成交额（amount）和个股买卖压力（apb，等权加权均价和成交量加权均价之比的对数）的截面排名之比，再取 log(abs(x))。"
+        },
+        {
+          "name": "mul(power3(max(rskew, lnto)), swing)",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{mul}(\\text{mul}(\\text{power3}(\\text{max}(\\text{rskew}, \\text{lnto})), \\text{swing}), \\text{lnto})",
+          "stats": [-0.0915, null, -4.01, null],
+          "evidence": "由于日内收益率偏度（rskew）和日内对数换手率（lnto）量纲相近，因子可以理解为取rskew和 lnto最大值的立方，再乘上日内振幅（swing），再乘上 lnto。"
+        },
+        {
+          "name": "ts_max(lncoret, 40)",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{mul}(\\text{ts\\_max}(\\text{lncoret}, 40), \\text{if\\_then\\_else}(\\text{tr}, \\text{amihud}, \\text{sqrskew}, \\text{lnhlret}))",
+          "stats": [-0.0979, null, -4.06, null],
+          "evidence": "因子表达式为两部分相乘，第一部分为过去 40 个交易日的开盘-收盘对数收益率（lncoret）的最大值，第二部分为逻辑判断 if_then_else 算子，意思是比较日内真实波动率（tr）和非流动性（amihud）的大小，若 tr 获胜取日内偏度的平方（sqrskew），若 amihud 获胜取最高-最低对数收益率（lnhlret）。"
+        },
+        {
+          "name": "curt(ts_mean(power3(amount), 10))",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{umr}(\\text{max}(\\text{inv}(\\text{curt}(\\text{ts\\_mean}(\\text{power3}(\\text{amount}), 10))), \\text{lnto}), \\text{vhhi})",
+          "stats": [-0.1022, null, -4.08, null],
+          "evidence": "公式相对较为复杂，但可以基本简化为umr(lnto,vhhi)。umr(x1,x2)是我们自定义的算子,表示(x1-mean(x1))*x2。"
+        },
+        {
+          "name": "rank_mul(ts_to_wm(adjhigh, 20), lnto)",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{scale}(\\text{power3}(\\text{rank\\_mul}(\\text{ts\\_to\\_wm}(\\text{adjhigh}, 20), \\text{lnto})))",
+          "stats": [-0.0902, null, -4.94, null],
+          "evidence": "因子表达式可近似理解为两个元素排名相乘，第一个元素为过去 20 个交易日的复权最高价（adjhigh）/过去20个交易日最高价的线性衰减加权均值，第二个元素为 lnto。"
+        },
+        {
+          "name": "if_then_else(arpp, lnto, swing, cret)",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{industry\\_norm}(\\text{if\\_then\\_else}(\\text{arpp}, \\text{lnto}, \\text{swing}, \\text{cret}))",
+          "stats": [-0.096, null, -4.01, null],
+          "evidence": "该因子同样用到了逻辑判断 if_then_else 算子，比较日内买卖压力（arpp，时间加权均价的相对价格位置）和 lnto 的大小，若 arpp 获胜取日内振幅（swing），若 lnto 获胜取收盘价对数收益率（cret）。"
+        },
+        {
+          "name": "ts_max(ts_cov(sqrvol, ex_lnret, 20), 60)",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ts\\_max}(\\text{ts\\_cov}(\\text{sqrvol}, \\text{ex\\_lnret}, 20), 60)",
+          "stats": [-0.0824, null, -4.56, null],
+          "evidence": "因子可以理解为日内波动率的平方（sqrvol）和个股超额收盘价对数收益率（ex_lnret）在过去 20个交易日的协方差，再取时序上 60个交易日的最大值。"
+        },
+        {
+          "name": "ts_cov(adjvolume, rank(adjvolume), 20)",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{scale}(\\text{mul}(\\text{ts\\_sum}(\\text{ts\\_cov}(\\text{adjvolume}, \\text{rank}(\\text{adjvolume}), 20), 1), \\text{rvol}))",
+          "stats": [-0.0904, null, -4.91, null],
+          "evidence": "因子可以近似理解为过去 20 个交易日复权成交量（adjvolume）方差，乘上日内波动率（rvol）。"
+        },
+        {
+          "name": "ts_max_to_min(apb, 10)",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{mean2}(\\text{ts\\_mean}(\\text{lncoret}, 60), \\text{ts\\_max\\_to\\_min}(\\text{apb}, 10))",
+          "stats": [-0.0933, null, -4.42, null],
+          "evidence": "因子可以近似理解为过去 60个交易日开盘-收盘对数收益率（lncoret）均值，和过去 10个交易日 apb的最大值-最小值，二者取均值。"
+        },
+        {
+          "name": "sqrt(power2(rank(amount)))",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{rank\\_sub}(\\text{amihud}, \\text{ts\\_max}(\\text{sqrt}(\\text{power2}(\\text{rank}(\\text{amount}))), 1))",
+          "stats": [0.0993, null, 4.12, null],
+          "evidence": "因子大致等于非流动性（amihud）和过去2天成交额（amount）最大值的截面排名之差。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting", "linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "挖掘3天已找到324个训练集适应度超过5%且与人工价量因子相关性不高的单因子，其中仅45个全样本中性化IC绝对值不到5%，样本外衰减率不到14%",
+      "evidence": "我们在挖掘 3天后已找到 324个训练集适应度超过 5%，不重复，且与人工 18个价量因子相关性不高的单因子。其中只有 45个在12年以来全样本中性化 IC绝对值不到5%，样本外衰减率不到 14%。"
+    },
+    {
+      "text": "DFQ遗传规划因子可完全替代18个人工因子：152个DFQ合成因子对人工合成因子回归后残差RANKIC超过5%、年化ICIR超过3；反向回归残差RANKIC不到1%，年化ICIR仅0.5",
+      "evidence": "（1）DFQ 遗传规划因子效果可完全替代 18 个人工因子。152 个 DFQ 合成因子对18个人工合成因子回归后，残差仍有显著选股效果，RANKIC超过5%，年化ICIR超过3。而 18 个人工合成因子对 152 个 DFQ 合成因子回归后，残差已无选股效力，RANKIC 不到 1%，年化 ICIR 仅为 0.5。"
+    },
+    {
+      "text": "弹性网络下DFQ合成因子17年以来月频RankIC达12.72%，年化ICIR5.44，多头超额年化13.29%，年化夏普2.42，最大回撤仅3.5%",
+      "evidence": "在弹性网络模型下，DFQ合成因子 17年以来的月频 RankIC达到 12.72%，年化ICIR5.44。合成因子 20分组单调性较好，多头端分年表现也十分稳定，2017-2023年每年多头超额均超过 8%，17年以来多头超额年化 13.29%，年化夏普 2.42，最大回撤仅为 3.5%，月度胜率达到 74%，月均换手单边72%。"
+    },
+    {
+      "text": "DFQ模型挖掘效率较高，一轮15代完整挖掘用时5-24小时，一轮可产生20-50个适应度超过5%且相互间相关系数不超过50%的单因子",
+      "evidence": "DFQ 模型挖掘效率较高，进行一轮 15代完整挖掘用时 5-24小时不等，一轮完成后可产生 20-50个适应度超过 5%，且互相间相关系数不超过 50%的单因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "周频量价指增模型",
+    "机器因子库相对人工因子库的增量",
+    "神经网络日频 alpha 模型初步实践"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

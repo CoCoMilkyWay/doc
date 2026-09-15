@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "id": "20230905-中信建投-逐鹿alpha-016-基于graph_embedding的行业因子向量化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "利用行业相关性矩阵构建图结构，采用Graph Embedding算法Node2vec将行业因子向量化，得到的行业因子能够有效包括行业内在相关性",
+      "evidence": "本文利用行业相关性矩阵构建图结构，采用Graph Embedding的算法Node2vec将行业因子进行向量化处理，得到的行业因子能够有效的包括行业内在相关性。"
+    },
+    {
+      "text": "传统one-hot哑变量方法无法表示行业之间的内在关联关系，且哑变量为稀疏矩阵，信息密度较低，增加了计算开销",
+      "evidence": "传统方法在处理行业因子信息时通常采用one-hot将行业转变为哑变量进行处理（对于某些特殊模型，可以采用category变量）。这两者均无法表示行业之间的内在关联关系。且哑变量为稀疏矩阵，信息密度较低，增加了计算开销。"
+    },
+    {
+      "text": "相比于行业哑变量，行业graph embedding向量信息密度更高，且向量之间内在包含了行业之间的相关性关系",
+      "evidence": "相比于行业哑变量，行业graph embedding向量信息密度更高，且向量之间内在的包含了行业之间的相关性关系。"
+    },
+    {
+      "text": "Embedding向量可以作为各类机器学习和深度学习模型的输入，更好地提高预测效果",
+      "evidence": "Embedding向量可以作为各类机器学习和深度学习模型的输入，更好的提高预测效果。"
+    },
+    {
+      "text": "每个行业均可用30维向量表示，并可利用TSNE将向量压缩到2维进行可视化展示",
+      "evidence": "每个行业均可用30维向量表示，利用TSNE将向量压缩到2维可视化展示"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "DeepWalk: online learning of social representations",
+    "node2vec: Scalable Feature Learning for Networks"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

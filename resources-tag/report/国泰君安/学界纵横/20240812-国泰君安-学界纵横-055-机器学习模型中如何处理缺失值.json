@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20240812-国泰君安-学界纵横-055-机器学习模型中如何处理缺失值",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["cleaning"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["linear", "tree", "neural", "regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "股票收益预测效果与缺失值填充方法的关系不大，并且复杂的机器学习方法的表现可能不如简单OLS回归。",
+      "evidence": "结论是股票收益预测效果与缺失值填充方法的关系不大，并且复杂的机器学习方法的表现可能不如简单OLS 回归。"
+    },
+    {
+      "text": "在预测股票收益时，在PCR、sPCR、GBRT等模型中根据市值分组可以显著提升投资组合表现。",
+      "evidence": "文章发现在预测股票收益时，在PCR、sPCR、GBRT等模型中根据市值分组可以显著提升投资组合表现。"
+    },
+    {
+      "text": "在大多数情况下，使用简单均值填充的效果最好，原因包括数据截面相关性整体较低、缺失值在时间维度上聚集出现、同一数据源的缺失值往往聚集出现。",
+      "evidence": "文章发现在大多数情况下，使用简单均值填充的效果最好。这可能是由于（1）数据截面相关性整体较低，因此已有数据对于缺失值数据而言提供的信息较为有限；（2）缺失值往往在时间维度上聚集出现，时间序列方法和 EM 算法能利用的信息有效度较低；（3）同一数据源的缺失值往往聚集出现，甚至会出现缺失值数量远大于观测值的情况，不利于进行严格的逻辑填充。"
+    },
+    {
+      "text": "EM算法填充相比于直接删除缺失值，在策略平均收益和夏普上确实有改进，但不明显。",
+      "evidence": "结果表明 EM 算法填充相比于直接删除缺失值而言，在策略平均收益和夏普上确实有改进，但不明显。"
+    },
+    {
+      "text": "对于小市值股票，EM算法填充造成的误差比较显著，EM算法填充引入的噪声有可能对预测造成较大程度的负面影响，噪声可能超过其所带来的信息增益。",
+      "evidence": "可以发现对于小市值股票，EM算法填充造成的误差比较显著，意味着EM算法填充引入的噪声有可能对预测造成较大程度的负面影响。"
+    },
+    {
+      "text": "在实际预测股票收益时，只有神经网络的预测效果优于简单OLS，复杂的机器学习方法的表现可能不如简单OLS回归。",
+      "evidence": "在实际预测股票收益时，复杂的机器学习方法的表现可能不如简单 OLS回归。根据下表，只有神经网络的预测效果优于简单OLS。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Andrew Y. Chen, Jack McCoy, Missing values handling for machine learning portfolios, Journal of Financial Economics, Volume 155,2024,103815",
+    "Gu, Kelly, Xiu (2020)",
+    "Huang 等（2022）Scaled PCA"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

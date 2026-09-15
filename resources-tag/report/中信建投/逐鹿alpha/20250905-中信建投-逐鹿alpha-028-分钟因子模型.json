@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20250905-中信建投-逐鹿alpha-028-分钟因子模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "综合预测信号",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "f_{t} = \\frac{1}{2}\\left(f^{LightGBM}_{t} + f^{pegformer}_{t}\\right)",
+          "stats": [0.087, null, 9.136, null],
+          "evidence": "我们将 LightGBM 与pegformer的预测结果进行等权相加，以得到最终的综合预测信号。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "sample_window", "interpretability", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "intraday"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi1000"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "样本外测试中，预测因子 IC 均值达到 0.087，信息比率高达9.136。",
+      "evidence": "在样本外测试中，预测因子 IC 均值达到 0.087，信息比率高达9.136。在千 2 的交易成本假设下，策略能实现超过 64.15%的年化超额收益和 3.53的夏普比率，即使在较高的交易成本压力测试下，依然能取得显著的超额收益。"
+    },
+    {
+      "text": "千2交易成本假设下，策略能实现超过64.15%的年化超额收益和3.53的夏普比率，即使在较高的交易成本压力测试下，依然能取得显著的超额收益。",
+      "evidence": "在千 2的交易成本假设下，策略能实现超过64.15%的年化超额收益和 3.53的夏普比率，即使在较高的交易成本压力测试下，依然能取得显著的超额收益。"
+    },
+    {
+      "text": "手续费上调至千四，策略依然能跑赢基准，表明该策略盈利能力足以承受较高的交易摩擦。",
+      "evidence": "将手续费上调至千四，策略依然能跑赢基准，这表明该策略其盈利能力足以承受较高的交易摩擦。"
+    },
+    {
+      "text": "尾盘买入持有至次日开盘卖出的隔夜交易策略，持仓交易时间约60分钟，理论平均收益约11.9bp，持有时间更短收益更高。",
+      "evidence": "隔夜交易策略：若在尾盘买入并持有至次日开盘后卖出，持仓的交易时间大约为 60 分钟，不考虑隔夜涨跌影响，理论平均收益为~11.9bp (尾盘 1.000785 与下午低点之差 + 次日上午高点与开盘价之差)。"
+    },
+    {
+      "text": "最初为预测周线级别收益构建的因子，在剔出降频算子后于分钟频率模型中依然展现强大预测力，说明其在不同时间尺度上的普适性和有效性。",
+      "evidence": "一个非常有趣的现象是，尽管我们最初构建因子库的目标是预测周线级别的收益，但这些因子在剔出降频算子后，在分钟频率的模型中依然展现出了强大的预测力，这充分说明了它们在不同时间尺度上的普适性和有效性。"
+    },
+    {
+      "text": "Alpha158 作为机器学习模型的特征输入，其预测效果优于Alpha360。",
+      "evidence": "我们此前的研究结果表明，Alpha158 作为机器学习模型的特征输入，其预测效果优于Alpha360。"
+    },
+    {
+      "text": "因子整体多空收益较为均衡，不存在空头占优的情况，且分组单调性较好。",
+      "evidence": "因子的分组表现如下图所示，可以看出，因子整体多空收益较为均衡，不存在空头占优的情况，且分组单调性较好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Qlib", "Vision Transformer（ViT）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

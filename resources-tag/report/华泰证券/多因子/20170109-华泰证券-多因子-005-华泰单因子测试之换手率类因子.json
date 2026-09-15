@@ -1,0 +1,186 @@
+{
+  "schema_version": 2,
+  "id": "20170109-华泰证券-多因子-005-华泰单因子测试之换手率类因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "turn_1m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{t=1}^{N}\\text{turn}_t,\\;N=1\\text{个月}",
+          "stats": [-0.0679, null, 0.66, 0.1118],
+          "evidence": "turn_Nm（个股最近 N 个月日均换手率，N=1、3、6）"
+        },
+        {
+          "name": "turn_3m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{t=1}^{N}\\text{turn}_t,\\;N=3\\text{个月}",
+          "stats": [-0.0537, null, 0.52, 0.068],
+          "evidence": "turn_Nm（个股最近 N 个月日均换手率，N=1、3、6）"
+        },
+        {
+          "name": "turn_6m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{t=1}^{N}\\text{turn}_t,\\;N=6\\text{个月}",
+          "stats": [-0.0468, null, 0.47, 0.05],
+          "evidence": "turn_Nm（个股最近 N 个月日均换手率，N=1、3、6）"
+        },
+        {
+          "name": "bias_turn_1m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{近N个月日均换手率}}{\\text{近两年日均换手率}}-1,\\;N=1\\text{个月}",
+          "stats": [-0.0481, null, 0.61, 0.1635],
+          "evidence": "bias_turn_Nm（个股最近 N 个月日均换手率除以最近两年日均换手率再减 1，N=1、3、6）"
+        },
+        {
+          "name": "bias_turn_3m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{近N个月日均换手率}}{\\text{近两年日均换手率}}-1,\\;N=3\\text{个月}",
+          "stats": [-0.0348, null, 0.44, 0.1352],
+          "evidence": "bias_turn_Nm（个股最近 N 个月日均换手率除以最近两年日均换手率再减 1，N=1、3、6）"
+        },
+        {
+          "name": "bias_turn_6m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{近N个月日均换手率}}{\\text{近两年日均换手率}}-1,\\;N=6\\text{个月}",
+          "stats": [-0.0257, null, 0.35, 0.096],
+          "evidence": "bias_turn_Nm（个股最近 N 个月日均换手率除以最近两年日均换手率再减 1，N=1、3、6）"
+        },
+        {
+          "name": "std_turn_1m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Std}(\\text{日换手率序列}_{\\text{近N个月}}),\\;N=1\\text{个月}",
+          "stats": [-0.0737, null, 0.82, 0.1209],
+          "evidence": "std_turn_Nm（个股最近 N 个月的日换手率序列标准差，N=1、3、6）"
+        },
+        {
+          "name": "std_turn_3m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Std}(\\text{日换手率序列}_{\\text{近N个月}}),\\;N=3\\text{个月}",
+          "stats": [-0.0591, null, 0.64, 0.1016],
+          "evidence": "std_turn_Nm（个股最近 N 个月的日换手率序列标准差，N=1、3、6）"
+        },
+        {
+          "name": "std_turn_6m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Std}(\\text{日换手率序列}_{\\text{近N个月}}),\\;N=6\\text{个月}",
+          "stats": [-0.049, null, 0.54, 0.0625],
+          "evidence": "std_turn_Nm（个股最近 N 个月的日换手率序列标准差，N=1、3、6）"
+        },
+        {
+          "name": "bias_std_turn_1m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{近N个月日换手率序列标准差}}{\\text{近两年日换手率序列标准差}}-1,\\;N=1\\text{个月}",
+          "stats": [-0.0492, null, 0.78, 0.1624],
+          "evidence": "bias_std_turn_Nm（个股最近 N 个月的日换手率序列标准差除以最近两年的日换手率序列标准差再减 1，N=1、3、6）"
+        },
+        {
+          "name": "bias_std_turn_3m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{近N个月日换手率序列标准差}}{\\text{近两年日换手率序列标准差}}-1,\\;N=3\\text{个月}",
+          "stats": [-0.0363, null, 0.56, 0.1224],
+          "evidence": "bias_std_turn_Nm（个股最近 N 个月的日换手率序列标准差除以最近两年的日换手率序列标准差再减 1，N=1、3、6）"
+        },
+        {
+          "name": "bias_std_turn_6m",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{近N个月日换手率序列标准差}}{\\text{近两年日换手率序列标准差}}-1,\\;N=6\\text{个月}",
+          "stats": [-0.0243, null, 0.38, 0.0855],
+          "evidence": "bias_std_turn_Nm（个股最近 N 个月的日换手率序列标准差除以最近两年的日换手率序列标准差再减 1，N=1、3、6）"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "分层测试中bias_turn_1m、bias_std_turn_1m各方面表现出众，而回归测试的因子收益率和IC值均值、IR比率角度看turn_1m、std_turn_1m效果更好一些，两者结果略有出入",
+      "evidence": "从分层测试的结果来看，bias_turn_1m、bias_std_turn_1m 因子各方面都表现出众，而 turn_1m、std_turn_1m 因子单调性不佳。但从回归测试的因子收益率表现和 IC 值均值、IR 比率等角度来看，turn_1m、std_turn_1m因子效果更好一些，与分层测试的结果略有出入。"
+    },
+    {
+      "text": "将回归方式由WLS（流通市值平方根加权）改成OLS后，bias_turn_1m、bias_std_turn_1m因子效果强于turn_1m、std_turn_1m，说明乖离率因子在大市值股票中失效程度更高",
+      "evidence": "如果将回归方式由WLS（流通市值平方根加权）改成 OLS，则 bias_turn_1m、bias_std_turn_1m因子效果又会强于 turn_1m、std_turn_1m 因子，这从一定程度上说明前者在大市值股票中失效程度更高。"
+    },
+    {
+      "text": "样本期敏感性测试显示换手率类因子用5天左右样本期即达最佳，动量因子取1个月左右合适，换手率因子可考虑更短样本期",
+      "evidence": "我们对动量类和换手率类因子进行了样本期长度的敏感性测试，发现对换手率类因子来说，用 5 天左右长度的样本期能使回归测试中因子收益率以及 IC 值均值、IR 比率达到最佳。但对于动量类因子，样本期长度在 21～33 天附近变动时，因子会有较好表现。"
+    },
+    {
+      "text": "各换手率因子两两之间普遍具有非常强的正相关性，比估值、成长、动量类因子更突出，组合使用需注意处理多重共线性问题",
+      "evidence": "通过观察可以发现，各换手率因子两两之间普遍具有非常强的正相关性，与之前测试过的估值、成长、动量类因子对比，相关性显得更加突出。如果要组合使用各换手率因子构建选股模型，需要注意处理多重共线性问题。"
+    },
+    {
+      "text": "换手率类因子与市值因子呈负相关关系，日均换手率和标准差类尤其明显，而乖离率类因子与市值因子的相关性比较小",
+      "evidence": "经观察发现，换手率类因子确实与市值因子间呈负相关关系，尤其是日均换手率和日换手率序列标准差。对于换手率衍生的乖离率类因子，其与市值因子的相关性比较小。"
+    },
+    {
+      "text": "换手率因子整体效果比估值、成长因子要好，但不如动量因子",
+      "evidence": "与前三篇单因子测试的报告结果进行对比，我们发现换手率因子的整体效果比估值、成长因子要好，但不如动量因子。"
+    },
+    {
+      "text": "从IR比率来看turn_1m、std_turn_1m稍好，尤其std_turn_1m的IR比率达到0.82，比动量因子中经典的1个月反转因子IR值还要高",
+      "evidence": "从 IR比率来看还是 turn_1m、std_turn_1m 要稍好一些，尤其是 std_turn_1m 因子的 IR比率达到 0.82，比动量因子中经典的 1个月反转因子 IR值还要高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《华泰单因子测试之估值类因子》",
+    "《华泰单因子测试之动量类因子》",
+    "《华泰多因子模型体系初探》（2016.09）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

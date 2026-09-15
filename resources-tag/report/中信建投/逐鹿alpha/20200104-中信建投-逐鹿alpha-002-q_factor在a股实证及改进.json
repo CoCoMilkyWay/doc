@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20200104-中信建投-逐鹿alpha-002-q_factor在a股实证及改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "市值因子",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "r_{ME}=\\frac{1}{9}\\sum(\\text{小市值组合收益})-\\frac{1}{9}\\sum(\\text{大市值组合收益})",
+          "stats": [null, null, null, null],
+          "evidence": "由于 A 股存在明显的壳污染（Liu, J., et al. 2019），在构建市值因子时，剔除掉市值排名后 30%的股票，剩下的股票按照市值排序从大到小排序，前 50%和后 50%分别记为 B/S。"
+        },
+        {
+          "name": "投资因子",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "r_{I/A}=\\frac{1}{6}\\sum(\\text{保守投资组合收益})-\\frac{1}{6}\\sum(\\text{积极投资组合收益})",
+          "stats": [null, null, null, null],
+          "evidence": "在盈利能力相等的情况下，投资比率高的公司预期回报低于投资比率低的公司。"
+        },
+        {
+          "name": "盈利因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "r_{ROE}=\\frac{1}{6}\\sum(\\text{高盈利组合收益})-\\frac{1}{6}\\sum(\\text{低盈利组合收益})",
+          "stats": [null, null, null, null],
+          "evidence": "在投资比率相等情况下，盈利能力强的公司预期回报高于盈利能力低的公司。"
+        },
+        {
+          "name": "价值因子",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "r_{value}=\\text{按价值因子排序构建的多空组合收益率之差（多首空尾）}",
+          "stats": [null, null, null, null],
+          "evidence": "我们将 q 因子模型的投资因子替换为价值因子，一方面是由于投资因子本身在 A 股不是非常显著，另一方面是因为模型对价值因子的收益无法解释。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["regression_test"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "weekly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "q因子模型在A股对Value、Momentum因子的解释度偏低",
+      "evidence": "本文通过建立 A 股的 q 因子模型，并用其解释 Barra CNE6 风格因子收益，结果表明，q 因子模型在 A 股对于 Value，Momentum 因子的解释度偏低。"
+    },
+    {
+      "text": "q因子模型对Volatility、Growth和Liquidity因子解释度较好，但对Quality、Momentum、Value、Yield因子解释度较差",
+      "evidence": "结果表明 q 因子模型对 Volatility，Growth 和 Liquidity 因子有较好的解释度，但是对于 Quality，Momentum，Value，Yield 因子的解释度较差。"
+    },
+    {
+      "text": "将投资因子替换为价值因子后，改进模型对A股股票收益率的解释度有明显提升",
+      "evidence": "将模型原有的投资因子替换为价值因子，用改进前后两个模型对 A股所有股票收益率进行回归，结果表明改进后的模型对于 A 股股票收益率的解释度有明显提升。"
+    },
+    {
+      "text": "改进后模型在A|α|上区别不大，但显著性水平有所提升，对A股股票收益整体解释度明显提升",
+      "evidence": "改进后的模型，在 A|α|上区别不大，但是显著性水平有所提升，同时模型对于A 股股票收益的整体的解释度有明显提升。"
+    },
+    {
+      "text": "改进模型三因子构建组合，2017年至2020年11月底相较中证全指基准取得年化25%超额收益",
+      "evidence": "利用改进后模型的三因子构建组合，进行回测，从 2017 年至 2020年 11 月底，相较于中证全指基准，能够取得年化 25%的超额收益。"
+    },
+    {
+      "text": "按高市值、高ROE、低Value综合打分排序，选前100只股票市值加权构建多头组合，月频调仓",
+      "evidence": "根据改进模型的三个因子，我们对全市场的股票按照高市值，高 ROE，以及低 Value 进行综合打分排序，选择前 100 只股票按照市值加权构建多头组合。"
+    },
+    {
+      "text": "A股市值因子2016年后存在明显大市值跑赢小市值效应，盈利因子较明显，投资因子不显著",
+      "evidence": "结合累计收益率和因子的显著性，我们可以看出，A 股市值因子在 2016 年以后存在明显的大市值跑赢小市值效应（更准确来讲，是在 2017 年以后）。盈利因子也较为明显，但是投资因子在 A 股并不是十分显著。"
+    },
+    {
+      "text": "18个资产组合中只有B/A/R周收益率0.313%通过10%显著性水平检验",
+      "evidence": "从上表可以看出，只有 B/A/R 资产组合的周收益率 0.313%通过了 10%的显著性水平检验。说明在 A 股 2016 年以后，大市值，高投资，高收益率的股票能取得较为显著的收益率。"
+    },
+    {
+      "text": "Value和Yield两个因子收益水平和显著性表现较好",
+      "evidence": "可以看出，Value 和 Yield 两个因子无论是收益水平还是显著性都表现较好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Hou, Xue and Zhang (2015) q-factor model", "Liu, J., et al. (2019) 壳污染"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

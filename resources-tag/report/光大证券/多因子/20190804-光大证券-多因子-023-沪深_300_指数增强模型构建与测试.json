@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20190804-光大证券-多因子-023-沪深_300_指数增强模型构建与测试",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EBQC",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{在盈利能力、成长能力、盈余质量、营运效率、安全性、公司治理6个大类质量指标中各挑选满足筛选条件的单因子构成大类复合因子后加权合成}",
+          "stats": [0.0384, null, 0.57, null],
+          "evidence": "在沪深300 样本内的表现也较为出色，因子 IC 为 3.84%，IC_IR 为 0.57。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["csi300"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "regime_domain"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "沪深300成分股内银行和非银行业权重之和高达35%，这两个行业的走势将极大程度影响指数的走势，行业分布不均衡是沪深300增强的第一个难点。",
+      "evidence": "（2） 沪深 300 指数成分股内，银行和非银行业权重之和高达 35%，这两个行业的走势将极大程度影响指数的走势；"
+    },
+    {
+      "text": "以IC绝对值大于3%、IC_IR绝对值大于0.3为标准，沪深300成分股内具有一定选股能力的因子个数仅有20个，有效因子占比只有10%，有效因子数量少。",
+      "evidence": "以IC绝对值大于3%，IC_IR绝对值大于0.3为标准，沪深300成分股内，满足上述标准的具有一定选股能力的因子个数仅有 20 个，有效因子占比只有10%，如下表所示："
+    },
+    {
+      "text": "行业基本面选股模型直接运用于沪深300增强年化超额收益5.7%，但2017年以来超额收益显著下滑，未能跑赢基准。",
+      "evidence": "结合行业基本面选股模型构造的沪深300增强的表现尚可，年化超额收益为 5.7%，但组合近年来（2017年以来）超额收益显著下滑，2017与2019 年前7个月均未能跑赢基准。"
+    },
+    {
+      "text": "基于EBQC综合质量因子的沪深300增强组合超额收益稳定，2010年至今每年度均跑赢沪深300指数，年化超额收益5.6%，信息比1.75。",
+      "evidence": "基于EBQC综合质量因子的沪深300增强组合具有稳定的超额收益，2010 年至今每年度均跑赢沪深 300 指数。年化超额收益为 5.6%，信息比为1.75。"
+    },
+    {
+      "text": "沪深300权重股通过基本面因子（EBQC结合BP_LR、EP_TTM）结合权重优化，可做到年化1.2%的超额收益，超额虽不显著但样本内外的稳定性较好。",
+      "evidence": "这里我们采用了较为保守的方式，对沪深300 权重股通过基本面因子结合权重优化，可以做到年化1.2%的超额收益，超额虽不显著但样本内外的稳定性较好。"
+    },
+    {
+      "text": "权重股模型结合多因子增强的沪深300指数增强组合年化超额收益8.1%，跟踪误差3.4%，信息比2.41，月度胜率超过80%，相对基准的最大回撤仅为3.6%，但年度之间表现有所差异。",
+      "evidence": "组合年化超额收益为 8.1%，跟踪误差 3.4%，信息比 2.41。组合自 2011年至今每年度均跑赢沪深 300 指数，月度胜率超过 80%，相对基准的最大回撤仅为3.6%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《以质取胜：EBQC 综合质量因子详解——多因子系列报告之十七》",
+    "《光大 Alpha3.0：基本面优选多因子组合——多因子系列报告之十九》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

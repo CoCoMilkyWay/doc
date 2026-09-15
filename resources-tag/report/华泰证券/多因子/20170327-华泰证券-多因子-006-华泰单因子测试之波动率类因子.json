@@ -1,0 +1,142 @@
+{
+  "schema_version": 2,
+  "id": "20170327-华泰证券-多因子-006-华泰单因子测试之波动率类因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "std_4m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sigma=\\sqrt{\\frac{1}{N-1}\\sum_{i=1}^{N}(r_{i}-\\bar{r})^{2}}",
+          "stats": [-0.033, null, 0.28, 0.1144],
+          "evidence": "该类因子的定义为过去一段时间内个股日收益率序列的标准差（剔除停牌的交易日），我们首先对该类因子进行样本期长度敏感性测试，确定最优样本期长度。"
+        },
+        {
+          "name": "id1_std_3m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{std}(\\varepsilon_{i}),\\;r_{i}=\\alpha+\\beta r_{m,i}+\\varepsilon_{i}",
+          "stats": [-0.0485, null, 0.5, 0.154],
+          "evidence": "特质波动率因子将股票的系统风险与公司层面的特质风险剥离开来，一般可以简单基于CAPM 模型计算股票特质波动率，即为过去一段时间内个股日收益率序列对市场组合（我们这里采用中证全指）日收益率序列进行一元线性回归的残差的标准差（剔除停牌的交易日）。"
+        },
+        {
+          "name": "id2_std_3m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{std}(\\varepsilon_{i}),\\;r_{i}=\\alpha+\\beta_{1}r_{m,i}+\\beta_{2}r_{SMB,i}+\\beta_{3}r_{HML,i}+\\varepsilon_{i}",
+          "stats": [-0.0525, null, 0.57, 0.1622],
+          "evidence": "接下来，我们提供第二种计算特质波动率因子的公式，即为过去一段时间内个股日收益率序列对市场组合（我们这里采用中证全指）日收益率序列、规模因子日收益率序列、账面市值比因子日收益率序列进行多元线性回归的残差的标准差（剔除停牌的交易日）。"
+        },
+        {
+          "name": "id2_std_up_3m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(\\sum_{r_{t}>0}{r_{t}}^{2})/\\sqrt{K}",
+          "stats": [-0.0538, null, 0.64, 0.1661],
+          "evidence": "我们将上行、下行波动率分别记为 id2_std_up_Nm、id2_std_down_Nm，然后将此二者分别相减、相加得到衍生因子 id2_std_umd_Nm、id2_std_upd_Nm。"
+        },
+        {
+          "name": "id2_std_down_3m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(\\sum_{r_{t}<0}{r_{t}}^{2})/\\sqrt{K}",
+          "stats": [-0.0495, null, 0.55, 0.1479],
+          "evidence": "我们将上行、下行波动率分别记为 id2_std_up_Nm、id2_std_down_Nm，然后将此二者分别相减、相加得到衍生因子 id2_std_umd_Nm、id2_std_upd_Nm。"
+        },
+        {
+          "name": "id2_std_upd_3m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{id2_std_up_Nm 与 id2_std_down_Nm 之和}",
+          "stats": [-0.0537, null, 0.61, 0.1625],
+          "evidence": "我们将上行、下行波动率分别记为 id2_std_up_Nm、id2_std_down_Nm，然后将此二者分别相减、相加得到衍生因子 id2_std_umd_Nm、id2_std_upd_Nm。"
+        },
+        {
+          "name": "high_r_std_4m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{std}\\left(\\frac{\\mathrm{High}_{t}}{\\mathrm{Close}_{t-1}}-1\\right)",
+          "stats": [-0.0412, null, 0.42, 0.1365],
+          "evidence": "high_r_std_Nm（N=1,2,……,10），即在过去 N 个月内，用个股每日最高价除以前一日收盘价计算日内最大涨幅（此处有复权处理），再计算最大涨幅序列的标准差；"
+        },
+        {
+          "name": "hml_r_std_5m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{high_r_std_Nm 减去 low_r_std_Nm}",
+          "stats": [-0.0344, null, 0.56, 0.1456],
+          "evidence": "hml_r_std_Nm（N=1,2,……,10），等于 high_r_std_Nm 减去 low_r_std_Nm；"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "考虑交易成本后，波动率因子样本期一般取3～5个月较佳，列举出的八个因子TOP组合年化收益率均在28%左右，超过大部分估值、成长、换手率类因子（BP除外），略逊于动量反转因子。",
+      "evidence": "在考虑交易成本的条件下，波动率因子样本期一般取 3～5 个月较佳，列举出的八个因子 TOP 组合年化收益率均在 28%左右，整体效果相差不大，超过大部分估值、成长、换手率类因子（BP除外），略逊于动量反转因子。"
+    },
+    {
+      "text": "综合来看特质波动率因子id2_std_3m、id2_std_up_3m、id2_std_down_3m、id2_std_upd_3m表现稍好，id2_std_up_3m（上行波动率）略微强于id2_std_down_3m（下行波动率）。",
+      "evidence": "综合来看特质波动率因子 id2_std_3m、id2_std_up_3m、id2_std_down_3m、id2_std_upd_3m 表现稍好，id2_std_up_3m（上行波动率）略微强于 id2_std_down_3m（下行波动率）。"
+    },
+    {
+      "text": "high_r_std_Nm因子的选股效果大幅好于low_r_std_Nm，个股上方波动率的预测能力好于下方波动率，两侧波动率的效果并非对称。",
+      "evidence": "从以上图表我们可以看出，high_r_std_Nm因子的选股效果大幅好于 low_r_std_Nm，即从某种角度来讲，个股“上方”波动率的预测能力好于“下方”波动率，两侧波动率的效果并非对称的。"
+    },
+    {
+      "text": "除hml_r_std_5m外各波动率因子两两之间普遍具有很强的正相关性，组合使用各波动率因子构建选股模型时需要小心处理多重共线性问题。",
+      "evidence": "并且，除hml_r_std_5m 外，各波动率因子两两之间普遍具有很强的正相关性，与之前测试过的估值、成长、动量反转、换手率类因子对比，相关性显得更加突出。如果要组合使用各波动率因子构建选股模型，需要小心处理多重共线性问题。"
+    },
+    {
+      "text": "从IR比率的角度看，已测过几类因子有效性排序大致为：动量反转>换手率、波动率>估值、成长。",
+      "evidence": "若从IR 比率的角度看，已测过几类因子有效性排序大致为：动量反转>换手率、波动率>估值、成长。"
+    },
+    {
+      "text": "波动率因子在不同行业间存在一定差异，对上市公司直接进行跨行业比较意义不大，在单因子测试中还是应考虑行业中性处理。",
+      "evidence": "我们认为对上市公司直接进行跨行业比较意义不大，在单因子测试中还是应考虑行业中性处理。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《华泰单因子测试之估值类因子》",
+    "《华泰单因子测试之动量类因子》",
+    "《华泰多因子模型体系初探》（2016.09）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

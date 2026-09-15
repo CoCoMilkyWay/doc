@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "id": "20201214-华泰期货-投研系列-012-智_ai_科技_慧投未来_下",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "期限结构因子",
+          "family": "carry",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Roll_{t}^{c}=\\ln(\\frac{P_{t}^{c,sport}}{P_{t}^{c,dom}})\\times\\frac{365}{t_{c,dom}-t_{c,sport}}}",
+          "stats": [null, null, null, null],
+          "evidence": "因此，利用展期收益来判断市场的升贴水结构，并构建多空组合，即买入展期收益最高的一篮子期货合约，卖出展期收益最低的一篮子期货合约，持有各商品的主力合约组合可获得期限结构的展期收益。"
+        },
+        {
+          "name": "价值因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{value}_{\\mathrm{t}}^{\\mathrm{c}}=\\ln\\left(\\frac{\\mathrm{P}_{\\mathrm{t}}^{\\mathrm{c},\\mathrm{spot}}}{\\mathrm{P}_{\\mathrm{t}}^{\\mathrm{c},\\text{near }_{-}1\\mathrm{y}}}\\right)\\times\\frac{12}{\\mathrm{t}_{\\mathrm{c},\\text{near }_{-}1\\mathrm{y}}-\\mathrm{t}_{\\mathrm{c},\\text{s p o t}}}",
+          "stats": [null, null, null, null],
+          "evidence": "但是库存数据较难及时获取，量化指标计算中可以使用期货期限结构曲线的近月合约溢价程度作为替代指标。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "interpretability", "ensemble"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "在11个时序基础因子中，价值因子与期限结构因子表现最好，具有长期稳定的正向收益，且两套风格因子指数策略可以复现。",
+      "evidence": "时序基础因子具有可投资性，而在 11个因子中，价值因子与期限结构因子表现最好，具有长期稳定的正向收益。"
+    },
+    {
+      "text": "黑色建材板块今年主要正向暴露给价值因子，农产品和能化板块反向暴露，对应板块收益表现黑色建材累计收益最大、能化是唯一负收益板块，价值因子具有相当大的风格因子投资潜力。",
+      "evidence": "而根据价值因子的时序基础因子策略每月选出的5个多头品种与5 个空头品种的板块分布权重上看，黑色建材板块在今年主要正向暴露给了价值因子，农产品和能化板块反向暴露给价值因子，而对应到今年各板块的收益率表现，黑色建材板块累计收益最大，能化板块是唯一的负收益板块，所以价值因子的具有相当大的风格因子投资潜力。"
+    },
+    {
+      "text": "多因子模型在商品市场比股票市场具有更强的解释效果，Rsquare 和 AdjRsquare 明显更大，且商品市场的解释力随时间逐渐降低。",
+      "evidence": "通过对比股票和商品市场因子组在历史上的解释力，我们发现多因子模型在商品市场具有更强的解释效果，Rsquare 和 AdjRsquare 明显更大。同时，商品市场的解释力随着时间的变化逐渐降低，我们认为这可能与商品期货品种的逐渐丰富有关。"
+    },
+    {
+      "text": "随机森林重要性排名中商品国家因子country_com位列第一，商品动量因子mom排名第二，股票材料板块因子materials排名第三，可能与材料板块包含大量大宗商品上下游企业有关。",
+      "evidence": "纵观全市场指数的主要影响因子，商品国家因子“country_com”无疑是最主要的影响因素，在主导因子排名中都位列第一，商品动量因子“mom”排名第二，而股票材料板块因子“materials”排名第三，这可能与材料板块包含大量大宗商品上下游企业有关。"
+    },
+    {
+      "text": "相比回归分析，分类方法明显抓住了更多期股联动的信息，影响力排名靠前的因子中股票因子所占的席位明显增加，股票材料板块因子materials对所有板块均有较大影响。",
+      "evidence": "相比于回归分析，分类方法明显抓住了更多期股联动的信息，影响力排名靠前的因子中股票因子所占的席位明显增加，股票材料板块因子“materials”对所有板块均有较大影响。"
+    },
+    {
+      "text": "随机森林预测中，大部分商品板块用历史两周的数据对未来一周数据进行预测效果最好，农产品、黑色建材板块预测效果最好，贵金属板块最差。",
+      "evidence": "从使用的历史数据长度上看，大部分商品板块用历史两周的数据对未来一周数据进行预测效果最好。从不同板块的预测效果上看，商品农产品板块、黑色建材板块的预测效果最好，贵金属板块的预测效果最差。"
+    },
+    {
+      "text": "T-1 周因子数据能有效增强 T+1 周预测效果，T 周因子数据能有效增强 T+2 周预测效果，相隔的两周之间似乎具有重要的关联。",
+      "evidence": "通过上述结果，T-1 周因子数据能有效增强 T+1 周预测效果，T 周因子数据能有效增强T+2 周预测效果，似乎相隔的两周之间具有重要的关联。"
+    },
+    {
+      "text": "随机森林模型无法对贵金属做出有效的涨跌预测，主要原因是贵金属受到海外市场的影响很大，而且交易者结构较复杂，难以用浅度AI模型识别价格传导模式。",
+      "evidence": "对比表格8&10，我们发现随机森林模型无法对贵金属做出有效的涨跌预测，主要原因是贵金属受到海外市场的影响很大，而且交易者结构较复杂，难以用浅度AI模型识别价格传导模式。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

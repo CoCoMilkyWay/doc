@@ -1,0 +1,92 @@
+{
+  "schema_version": 2,
+  "id": "20210513-国信证券-cta系列-001-基于开盘动量效应的股指期货交易策略",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "technical_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "开盘动量效应",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{开盘45分钟内连续三根15分钟K线：若开盘价、最低价、收盘价随K线依次上升判为多头趋势；若开盘价、最高价、收盘价随K线依次下降判为空头趋势}",
+          "stats": [null, null, null, null],
+          "evidence": "我们定义：如果开盘价，最低价以及收盘价随 K 线依次上升，那么可以判定为上涨（多头）趋势。如果开盘价，最高价以及收盘价随 K线依次下降，那么可以判定为下跌（空头）趋势。"
+        },
+        {
+          "name": "隔夜仓",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{若当天开盘动量为多头趋势，当天收盘开多仓并持有至第二天开盘平仓；若为空头趋势，当天收盘平仓，不持隔夜仓}",
+          "stats": [null, null, null, null],
+          "evidence": "如果当天开盘动量为多头趋势，那么持有隔夜仓，持有到第二天的开盘进行平仓，如果当天开盘动量为空头趋势，那么不持隔夜仓，当天收盘平仓。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "intraday"}}
+  },
+  "findings": [
+    {
+      "text": "股指期货长期存在显著的开盘动量效应，开盘收益往往决定了日内价格的走向。",
+      "evidence": "我们通过对股指期货开盘动量效应的研究发现，股指期货长期存在显著的开盘动量效应。为此我们定义：如果开盘价，最低价以及收盘价随 K线依次上升，那么可以判定为上涨（多头）趋势。如果开盘价，最高价以及收盘价随 K线依次下降，那么可以判定为下跌（空头）趋势。"
+    },
+    {
+      "text": "开盘45分钟定义的多空趋势对日内剩余收益预测显著：多头趋势日度胜率57.36%且T值4.03显著，空头趋势胜率43.31%且收益显著为负。",
+      "evidence": "其中，多头趋势中平均收益率以及收益率的中位数均为正，且 T 值显著。收益率的上四分位显著大于下四分位，日度胜率为 57.36%，显示出未来收益率的分布中正收益率概率较高。而空头趋势中平均收益率以及收益率的中位数显著为负。收益率的下四分位显著小于上四分位，日度胜率为 43.31%，显示出未来收益率的分布中负收益率概率较高。"
+    },
+    {
+      "text": "开盘的多头趋势对当天收盘后的隔夜收益率预测效果显著，预测胜率高达65.89%，平均隔夜收益率0.14%，T值4.81；空头趋势对隔夜收益几乎没有预测效果。",
+      "evidence": "从表 7 可以看出，开盘的多头趋势对于当天收盘后的隔夜收益率呈现出非常显著的预测效果。预测胜率高达 65.89%，平均可以获得 0.14%的隔夜收益率，且隔夜收益率的 T 值为 4.81。同时，由于股指长期来看隔夜收益较强，因此开盘空头趋势的隔夜收益率表现较弱，但长期来看并没有显著为负。空头趋势对于隔夜收益率几乎没有预测效果，可以看到开盘空头趋势当天收盘后的隔夜收益率预测胜率为 53.15%，统计的 T 值为 0.47。"
+    },
+    {
+      "text": "加入止损条件后策略稳健性提升：夏普率由1.35提升至1.43，Calmar比率由1.34提升至1.82，最大回撤由8.57%降为5.09%。",
+      "evidence": "与之前的基础策略相比，夏普率以及 Calmar 比率均有提升，其中夏普率由 1.35 提升至 1.43，Calmar 比率由 1.34 提升至 1.82，全样本期最大回撤由 8.57%降为 5.09%。加入止损后的策略体现出更强的稳健性，以及更高的收益回撤比。"
+    },
+    {
+      "text": "加入隔夜仓判断后策略样本期内所有年份收益均为正，夏普率由1.43提升至1.67，Calmar比率由1.82提升至2.37，最大回撤由5.09%降为4.85%。",
+      "evidence": "从表 8 可以看出，加入隔夜仓判断后的基础策略在样本期内所有年份的收益均为正。与之前的仅加入止损后基础策略相比，在策略收益提升的同时，策略的夏普率以及 Calmar 比率均有提升，其中夏普率由 1.43 提升至 1.67，Calmar比率由 1.82 提升至 2.37，全样本期最大回撤由 5.09%降为 4.85%。"
+    },
+    {
+      "text": "策略应用于IF、IC、IH三个股指期货合约，2011年6月以来费后年化收益率25.79%，夏普率1.77，最大回撤7.66%，Calmar比率3.37；策略对不同合约交易频率均衡、适应性相似，对交易成本不敏感。",
+      "evidence": "我们通过一系列的研究与探讨最终形成了基于开盘动量效应的股指期货交易策略，策略应用于 IF、IC 以及 IH三个股指期货合约上，其中，策略费后年化收益率为 25.79%，夏普率为 1.77，最大回撤为 7.66%，Calmar比率为 3.37。策略对于不用合约交易频率均衡，适应性相似，对于交易成本不敏感。"
+    },
+    {
+      "text": "策略对交易成本变化不敏感：交易成本从1.3%%增至2.5%%后，年化收益率从25.79%降到22.42%，夏普率仅从1.77下降到1.54。",
+      "evidence": "从表 13可以看出策略对于交易成本的变化不敏感，随着交易成本的增加策略年化收益率变化缓慢。当交易成本从 1.3%%增长至 2.5%%后，策略的年化收益率从 25.79%降到 22.42%，夏普率仅从 1.77 下降到 1.54。"
+    },
+    {
+      "text": "策略采用ATR资金管理法与目标波动控制法进行杠杆调整：1单位ATR对应总资金规模0.5%，并以过去一年策略波动率为基准将目标年化波动控制在15%，最高4倍杠杆截断。",
+      "evidence": "对于波动的控制，一方面我们使用海龟交易法则中的 ATR 资金管理法，来控制一单位 ATR 对应总资金规模的 0.5%，另一方面我们使用目标波动控制法，是根据已实现波动率进行杠杆调整的乘数以使得策略整体波动率控制在 15%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alexander, Elder. Come into my trading room: A complete guide to trading. Vol. 146. John Wiley & Sons, 2002.",
+    "Fung, William, and David A. Hsieh. \"The risk in hedge fund strategies: Theory and evidence from trend followers.\" The review of financial studies 14.2 (2001): 313-341.",
+    "Gao, Lei, et al. \"Intraday momentum: The first half-hour return predicts the last half-hour return.\" Available at SSRN 2552752 (2015).",
+    "Lou, Dong, Christopher Polk, and Spyros Skouras. \"A tug of war: Overnight versus intraday expected returns.\" Journal of Financial Economics 134.1 (2019): 192-213."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

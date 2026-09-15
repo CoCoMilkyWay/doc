@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20180806-光大证券-多因子-014-创新基本面因子_财务数据间线性关系初窥",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["statement_detail"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "营业能力改善（RROC）因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon_{0},\\quad \\text{其中对最近}N=8\\text{个季度标准化后的样本做回归 } Revenue_{i}=\\beta_{i1}*Cost_{i}+\\beta_{i2}+\\varepsilon_{i},\\; i\\in\\{0,1,\\ldots,N-1\\}",
+          "stats": [0.0244, null, 0.66, 0.1221],
+          "evidence": "基于营业收入与营业成本线性关系的改变反映公司运营效率改善程度的逻辑。通过回归模型最后一期残差来构造的营业能力改善（RROC）因子，有着非常突出的预测能力，IC均值 2.44%，月度 IR 值 0.66。"
+        },
+        {
+          "name": "中性化后RROC因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "RROC_{i}=\\beta_{1}*MC_{i}+\\beta_{2}*Industry_{i}+\\beta_{3}*NPyoy_{i}+\\beta_{4}*ROE_{i}+\\cdots+\\varepsilon_{i},\\;\\text{因子取}\\varepsilon_{i}",
+          "stats": [0.0225, null, 0.82, 0.0753],
+          "evidence": "在经过横截面回归取残差的方式剔除上述因子对RROC 因子的影响后，因子稳定性有了进一步提升，IC均值为2.25%，而 IR高达 0.82，中性化处理起到了信息提纯的作用。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "RROC因子预测能力突出，IC均值2.44%，月度IR值0.66；2009年至2018年6月多空组合年化收益12.21%，夏普比率2.12，最大回撤8.90%。",
+      "evidence": "通过回归模型最后一期残差来构造的营业能力改善（RROC）因子，有着非常突出的预测能力，IC均值 2.44%，月度 IR 值 0.66。基于该因子构造的多空组合在 2009 年至 2018 年 6 月期间年化收益12.21%，夏普比率 2.12，最大回撤8.90%。"
+    },
+    {
+      "text": "横截面回归取残差剔除市值、行业、净利润增速、ROE等因子影响后，中性化后RROC因子IC均值2.25%，IR高达0.82，稳定性进一步提升。",
+      "evidence": "在经过横截面回归取残差的方式剔除上述因子对RROC 因子的影响后，因子稳定性有了进一步提升，IC均值为2.25%，而 IR高达 0.82，中性化处理起到了信息提纯的作用。"
+    },
+    {
+      "text": "RROC与净利润增速强正相关，相关系数高达0.56，与市值因子相关系数接近0.5，表明该因子偏向大市值的股票。",
+      "evidence": "其中，与净利润增速强正相关，相关系数高达 0.56。与市值因子的相关系数也接近 0.5，表明该因子偏向大市值的股票。"
+    },
+    {
+      "text": "RROC因子对回归季度数目参数不敏感，4至12个季度之间预测能力稳定，最终选择N=8即使用最近2年财务数据。",
+      "evidence": "从下表可以看出，RROC因子的预测能力对于使用季度数目在 4 个季度到 12 个季度之间时还是很稳定的，对于该参数的敏感程度并不高。"
+    },
+    {
+      "text": "挑选RROC因子值最大的100只股票构建选股组合，2009至2018年年化收益21.6%，相对中证500指数年化超额11.2%，相对最大回撤仅7.8%。",
+      "evidence": "通过挑选RROC 因子值最大的 100只股票构建的选股组合，在 2009年至2018年间，年化收益 21.6%，年化波动率29.2%，夏普比率 0.82，最大回撤50.6%。相对中证500指数年化收益11.2%， 相对波动率 6.1%，夏普比率1.76，相对最大回撤仅 7.8%。"
+    },
+    {
+      "text": "中性化后RROC在中证500内构建选股组合年化收益15.5%，相对中证500指数年化收益6.0%，信息比率1.31，相对最大回撤7.5%。",
+      "evidence": "按中证500成分股中因子值最大的100只股票构建选股组合，在2009年至 2018年间，年化收益 15.5%，年化波动率 30.1%，夏普比率0.63，最大回撤53.7%。相对中证500指数年化收益6.0%，相对波动率4.5%，夏普比率1.31，相对最大回撤7.5%。"
+    },
+    {
+      "text": "银行企业全部无法计算出RROC因子，非银金融超过6成公司没有因子值，因子覆盖度问题导致其在沪深300内选股能力较为有限。",
+      "evidence": "银行企业全部无法计算出该因子，而非银金融也有超过 6成的公司没有该因子值。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《别开生面：公司治理因子详解——多因子系列报告之四》",
+    "《因子测试全集——多因子系列报告之二》",
+    "《多因子组合“光大 Alpha 1.0”——多因子系列报告之三》",
+    "《成长因子重构与优化：稳健加速为王——多因子系列报告之十二》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

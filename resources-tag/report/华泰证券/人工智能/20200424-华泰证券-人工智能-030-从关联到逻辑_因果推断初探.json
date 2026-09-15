@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20200424-华泰证券-人工智能-030-从关联到逻辑_因果推断初探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior", "corporate_event", "firm_attribute"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "基金重仓(季调)",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{股票属于基金重仓(季调)概念取1，否则取0；因果效应为控制混淆变量后处理组与对照组未来一个月收益排序数之差}",
+          "stats": [null, null, null, null],
+          "evidence": "各种倾向性评分法的因果效应估计值在图表 14 中，其中倾向性评分匹配法(PSM)因果效应估计值为 0.0388，即在 2016 年 1 月至 2020 年 3 月这段时间中，属于基金重仓(季调)概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要高出 0.0388。"
+        },
+        {
+          "name": "股票质押",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{股票属于股票质押概念取1，否则取0；因果效应为控制混淆变量后处理组与对照组未来一个月收益排序数之差}",
+          "stats": [null, null, null, null],
+          "evidence": "各种倾向性评分法的因果效应估计值在 19 中，其中倾向性评分匹配法(PSM)因果效应估计值为-0.0118，即在 2016 年 1 月至 2020 年 3 月这段时间中，属于股票质押概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要低 0.0118。"
+        },
+        {
+          "name": "预增",
+          "family": "event",
+          "direction": "unknown",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{股票属于预增概念取1，否则取0；因果效应为控制混淆变量后处理组与对照组未来一个月收益排序数之差}",
+          "stats": [null, null, null, null],
+          "evidence": "各种倾向性评分法的因果效应估计值在图表 24 中，其中倾向性评分匹配法(PSM)因果效应估计值为 0.0138，即在 2016 年 1 月至 2020 年 3 月这段时间中，属于预增概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要高出 0.0138。"
+        },
+        {
+          "name": "护城河",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{股票属于护城河概念取1，否则取0；因果效应为控制混淆变量后处理组与对照组未来一个月收益排序数之差}",
+          "stats": [null, null, null, null],
+          "evidence": "各种倾向性评分法的因果效应估计值在图表 29 中，其中倾向性评分匹配法(PSM)因果效应估计值为 0.0205，即在 2016 年 1 月至 2020 年 3 月这段时间中，属于护城河概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要高出 0.0205。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "robustness"],
+      "setup": {"universe": ["csi800"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "通过倾向性评分法的分析，基金重仓(季调)概念与股票收益有正向因果关系，股票质押概念与股票收益有反向因果关系，预增和护城河概念与股票收益的因果效应存疑。",
+      "evidence": "通过倾向性评分法的分析，我们认为基金重仓(季调)概念与股票收益有正向因果关系，股票质押概念与股票收益有反向因果关系，预增和护城河概念与股票收益的因果效应存疑。"
+    },
+    {
+      "text": "倾向性评分加权法(PSW)在均衡性测试和反驳测试中表现都最好，可以认为其估计的因果效应较为可靠。",
+      "evidence": "另外，倾向性评分加权法(PSW)在均衡性测试和反驳测试中表现都最好，可以认为其估计的因果效应较为可靠。"
+    },
+    {
+      "text": "2016年1月至2020年3月，属于基金重仓(季调)概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要高出0.0388。",
+      "evidence": "各种倾向性评分法的因果效应估计值在图表 14 中，其中倾向性评分匹配法(PSM)因果效应估计值为 0.0388，即在 2016 年 1 月至 2020 年 3 月这段时间中，属于基金重仓(季调)概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要高出 0.0388。"
+    },
+    {
+      "text": "2016年1月至2020年3月，属于股票质押概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要低0.0118。",
+      "evidence": "各种倾向性评分法的因果效应估计值在 19 中，其中倾向性评分匹配法(PSM)因果效应估计值为-0.0118，即在 2016 年 1 月至 2020 年 3 月这段时间中，属于股票质押概念的股票，其未来一个月收益的排序数相比于不属于该概念的股票要低 0.0118。"
+    },
+    {
+      "text": "预增概念对股票收益的正向因果效应存疑：添加随机混淆变量法和子集数据法估计的因果效应绝对值小于安慰剂数据法，干预后因果效应不显著。",
+      "evidence": "在添加随机混淆变量法和子集数据法中，其估计的因果效应值的绝对值已经小于安慰剂数据法，说明在对原始数据添加干预之后，因果效应已不显著，因此预增概念对于股票收益的正向因果效应是存疑的。"
+    },
+    {
+      "text": "护城河概念对股票收益的正向因果效应存疑：添加随机混淆变量法和子集数据法估计的因果效应绝对值与安慰剂数据法接近，干预后因果效应不显著。",
+      "evidence": "在添加随机混淆变量法和子集数据法中，其估计的因果效应值的绝对值与安慰剂数据法接近，说明在对原始数据添加干预之后，因果效应已不显著，因此护城河概念对于股票收益的正向因果效应是存疑的。"
+    },
+    {
+      "text": "预增和护城河概念描述包含较多混淆变量信息(如净利润、利润总额)，因果效应存疑；基金重仓(季调)和股票质押概念使用了混淆变量不能解释的信息，分别具有正向和反向的因果效应。",
+      "evidence": "从概念描述的角度可对因果效应的估计结果做出解释，预增和护城河概念的描述中包含较多混淆变量的信息(如净利润、利润总额)，那么在考虑混淆变量的情况下，其因果效应存疑。而对于基金重仓(季调)和股票质押概念来说，它们使用了混淆变量中所不能解释的信息，且该信息对股票收益造成了影响，因此分别具有正向和反向的因果效应。"
+    },
+    {
+      "text": "Lalonde数据集中PSM因果效应估计值为2196.61，参加职业培训可以使得一个人的收入增加约2196.61美元。",
+      "evidence": "其中倾向性评分匹配法(PSM)因果效应估计值为 2196.61，即参加职业培训可以使得一个人的收入增加约 2196.61 美元。"
+    },
+    {
+      "text": "机器学习本质是曲线拟合，选择性偏差和混杂偏倚产生的关联是不稳定的；因果推断可帮助恢复数据中的因果关联，实现可解释的稳定预测。",
+      "evidence": "现有的大部分机器学习模型是关联驱动的，本质上是曲线拟合。关联主要有三个来源：因果关联，选择性偏差和混杂偏倚。其中选择性偏差和混杂偏倚产生的关联是不稳定的。因果推断可以帮助恢复数据中的因果关联，用于指导机器学习，实现可解释的稳定预测。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Judea Pearl, Dana Mackenzie. The Book of Why: The New Science of Cause and Effect. Allen Lane, 2018",
+    "Judea Pearl. Causality: Models, Reasoning and Inference. Cambridge University Press, 2009",
+    "Paul R. Rosenbaum, Donald B. Rubin. Reducing Bias in Observational Studies Using Subclassification on the Propensity Score. Journal of the American Statistical Association 79(387), 1984",
+    "Peng Cui. Towards Explainable and Stable Prediction."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

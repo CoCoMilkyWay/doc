@@ -1,0 +1,179 @@
+{
+  "schema_version": 2,
+  "id": "20241118-华泰期货-cta策略-010-多元_cta_策略分析与展望",
+  "genre": "framework",
+  "asset": ["future_index", "future_commodity", "future_bond"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "截面库存因子",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "Factor=Rank\\left(\\frac{Stock_{t}}{Stock_{(t-1)}}-1\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "其中截面库存因子侧重于对比多品种间库存变化率的大小关系，时序库存因子侧重于对比单品种当前库存水平与历史库存水平的大小关系，然后基于当前库存水平的高低来判断多空方向。"
+        },
+        {
+          "name": "时序库存因子",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "Factor=Short\\ Window\\ Mean.percentileof(Long\\ Window\\ Distribution)",
+          "stats": [null, null, null, null],
+          "evidence": "选取两个一长一短的时间周期，通过对比短周期（近期）的平均库存水平所处长周期（远期）的库存水平分布的分位数，来判断近期库存水平较高还是较低"
+        },
+        {
+          "name": "基差因子",
+          "family": "carry",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "BasisRate=\\left(\\frac{Spot_{t}}{Future_{t}}-1\\right)*\\frac{365}{Days_{t}}",
+          "stats": [null, null, null, null],
+          "evidence": "基于基差均值回归的底层逻辑，我们可以通过时间序列上基差本身大小及基差变动趋势方向来判断期货的升贴水情况，并由此来判断当前的期货价格相对于现货价格是否偏离较大，从而生成多空信号。"
+        },
+        {
+          "name": "T-2日反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\mathrm{sign}(R_{T-2})",
+          "stats": [null, null, null, null],
+          "evidence": "接下来我们以 T-2 日的涨跌方向做为我们的反转因子，使用十年期国债期货主力合约构建一个最基础的反转策略，在 T-1 日收盘前计算前一日涨跌方向作为交易信号"
+        },
+        {
+          "name": "报价不平衡因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{衡量回溯区间内最优报价处挂单量的不平衡性}",
+          "stats": [null, null, null, null],
+          "evidence": "第一个要介绍的因子是报价不平衡因子 （LobImbalance），该因子衡量了回溯区间内最优报价处挂单量的不平衡性。该因子来自于文献，且同时也是所有因子中最有效的因子。"
+        },
+        {
+          "name": "成交收益因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{衡量用回溯区间内平均成交价和当前中价计算出的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "第二个要介绍的因子是成交收益因子（TransactionReturn），该因子是我们在原文献历史收益因子（PastReturn）的基础上做了相应调整的因子（国内期货市场无逐笔成交数据），衡量了用回溯区间内平均成交价和当前中价计算出的收益率。"
+        },
+        {
+          "name": "实际下行波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{衡量回溯区间内下行收益的波动率}",
+          "stats": [null, null, null, null],
+          "evidence": "最后一个要介绍的因子是实际下行波动率因子（RealDownVariance），该因子衡量了回溯区间内下行收益的波动率。"
+        },
+        {
+          "name": "order_flow_imb",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{基于订单流的盘口不平衡因子，降频取相应时间段内均值}",
+          "stats": [null, null, null, null],
+          "evidence": "有些因子如：基于挂单变化的因子order_flow_imb，盘口处价格相关的因子 driv_ap_1、trendratio 在不同频率上都有不错的表现。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_hedge"],
+      "approach": ["pairs_arbitrage"],
+      "setup": {"universe": ["na"], "rebalance": "daily"}
+    },
+    "L7_execution": {
+      "module": ["L7_algo"],
+      "approach": ["optimal_execution"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "趋势策略表现尤为突出，其得益于交易拥挤度的下降、市场有效波动的提升以及策略适用性的修复，表现强劲，一扫过去两年横盘震荡的颓势。",
+      "evidence": "1.趋势策略表现尤为突出，其得益于交易拥挤度的下降、市场有效波动的提升以及策略适用性的修复，表现强劲，一扫过去两年横盘震荡的颓势。"
+    },
+    {
+      "text": "相比 2021 年开始的三维持在 0.6 附近，今年的平均有效波动达到了 0.93，市场有效波动的提高为 CTA 趋势策略的好转提供了动力。",
+      "evidence": "相比 2021 年开始的三年维持在 0.6 附近，今年的平均有效波动达到了 0.93，市场有效波动的提高为 CTA 趋势策略的好转提供了动力。"
+    },
+    {
+      "text": "反常的期限结构是造成跨期策略表现不佳的主要原因，期限结构相关策略 2024 年上半年表现不佳，其中黑色板块全年都处于水下状态。",
+      "evidence": "从结果来看，期限结构相关策略在 2024 年上半年表现不佳，下半年有部分修复，其中黑色板块全年都处于水下状态。我们认为反常的期限结构是造成跨期策略表现不佳的主要原因。"
+    },
+    {
+      "text": "库存策略净值走势平稳且稳健，2024 年的夏普略高于过去两年，整体收益自 2022 年略有下降，但仍能创出新高。",
+      "evidence": "从策略表现来看，库存策略净值走势平稳且稳健，2024 年的夏普略高于过去两年，整体收益情况自 2022 年略有下降，但仍能创出新高。"
+    },
+    {
+      "text": "基差策略今年夏普仅有 0.33，相比 2023 年的 2.24 大幅下降，基差策略与期限结构策略的表现不佳均折射出升贴水结构异常导致的商品整体定价逻辑的转变。",
+      "evidence": "今年以来，基差策略夏普仅有 0.33，相比 2023 年的 2.24 大幅下降，我们认为基差策略与期限结构策略的表现不佳是一脉相承的，均折射出升贴水结构异常导致的商品整体定价逻辑的转变。"
+    },
+    {
+      "text": "除三十年期国债期货外的三个品种都呈现出明显的短期反转效应，其中滞后日为 2 的回归结果最为显著，即在 T-2 日下跌的品种在 T 日更倾向于上涨。",
+      "evidence": "而在对除三十年期国债期货之外的三个品种的回归分析里我们还发现，三个品种都呈现出了明显的短期反转效应，其中最为明显的则是滞后日为 2 的回归结果，其无论在哪个品种中都展现出显著和强烈的反转效应，即在 T-2 日下跌的品种，在 T 日更倾向于上涨；相反的，在 T-2 日上涨的品种，则在 T 日更倾向于下跌。"
+    },
+    {
+      "text": "跨境套利策略在整个回测期间三分之一的天数触发开仓信号，盈亏比达 1.51，最大回撤控制在 2.5% 左右，扣除交易成本后夏普比例为 1.35，属于稳健型策略。",
+      "evidence": "跨境策略在整个回测期间，三分之一的天数触发了开仓信号，盈亏比达到1.51，且最大回撤控制在 2.5%左右，扣除所有交易成本后的夏普比例为 1.35，属于稳健型策略。"
+    },
+    {
+      "text": "相比传统的跨期策略以及部分广为人知的跨品种策略，跨境策略方兴未艾，仍大有可为。",
+      "evidence": "相比传统的跨期策略，以及部分已经广为人知的跨品种策略，我们认为跨境策略方兴未艾，仍大有可为。"
+    },
+    {
+      "text": "高频多因子模型在 RB 上的最佳样本外 R 方为 20.74%、FU 为 15.05%，均优于文献中的样本外 R 方中位数 10%。",
+      "evidence": "从 40 天测试集（Test set）的样本外 R 方上看，高频多因子模型在 RB（螺纹钢）上的预测表现优于 FU（燃料油），最佳模型的样本外 R方分别为 20.74%及 15.05%，均优于文献中的样本外 R 方中位数 10%。"
+    },
+    {
+      "text": "随着预测区间从 10 个 Tick 延长到 120 个 Tick，样本外 R 方从 20.74% 单调递减至 4.94%，方向准确性从 64.86% 单调递减到 53.97%，高频收益率在较短区间内可预测性更强。",
+      "evidence": "以品种 RB，模型 LASSO 为例，随着预测区间从 10 个 Tick 延长到 120 个 Tick，样本外 R 方从 20.74%单调递减至 4.94%，样本外方向准确性从 64.86%单调递减到 53.97%。"
+    },
+    {
+      "text": "基于高频因子的下单算法在样本外的模拟中有大约 75%的概率是三者中最优的算法。",
+      "evidence": "从最优概率上看，基于高频因子的下单算法在样本外的模拟中有大约 75%的概率是三者中最优的算法。"
+    },
+    {
+      "text": "大部分高频因子降至日频后效果不佳，综合最大回撤、夏普比率、交易成本等来看，30min 在回测的 4 个频率中表现较好。",
+      "evidence": "总体来看，大部分高频因子降至日频后效果不佳，综合最大回撤、夏普比率、交易成本等来看，30min 在回测的 4 个频率中表现较好。"
+    },
+    {
+      "text": "CTA 策略仍将是利率显著下行后为数不多的绝对收益性产品，高度具备配置价值。",
+      "evidence": "结合全文对各项细分策略类型的讨论，我们认为 CTA 策略仍将是利率显著下行后为数不多的绝对收益性产品，高度具备配置价值。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "How and When are High-Frequency Stock Returns Predictable?",
+    "华泰期货量化专题报告 20230823：基于库存因子的基本面量化策略",
+    "华泰期货量化专题报告 20230825：CTA 如何突围",
+    "华泰期货量化专题报告 20240119：交易所最新交返规则对市场及高频策略的影响",
+    "华泰期货量化专题报告 20240517：基于时序反转因子的国债期货策略",
+    "华泰期货量化策略专题报告 20240529：做市高频系列（十五）Micro：优秀的高频公允价指标"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

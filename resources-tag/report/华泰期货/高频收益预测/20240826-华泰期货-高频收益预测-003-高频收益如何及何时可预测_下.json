@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20240826-华泰期货-高频收益预测-003-高频收益如何及何时可预测_下",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      },
+      "factors": [
+        {
+          "name": "报价不平衡因子",
+          "family": "microstructure",
+          "direction": "nonmonotonic",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "LobImbalance(T,\\varDelta_{1},\\varDelta_{2},M)=Average[\\frac{s_{t}^{a}-s_{t}^{b}}{s_{t}^{a}+s_{t}^{b}}:t\\in Int^{back}(T,\\varDelta_{1},\\varDelta_{2},M)]",
+          "stats": [null, null, null, null],
+          "evidence": "第一个要介绍的因子是报价不平衡因子(Loblmbalance），该因子衡量了回溯区间内最优报价处挂单量的不平衡性。该因子来自于文献，且同时也是所有因子中最有效的因子"
+        },
+        {
+          "name": "成交收益因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "TransactionReturn(T,\\varDelta_{1},\\varDelta_{2},M)=1-\\left(\\frac{\\sum_{t\\in Int^{back}(T,\\varDelta_{1},\\varDelta_{2},M)}Amount_{t}}{\\sum_{t\\in Int^{back}(T,\\varDelta_{1},\\varDelta_{2},M)}Volume_{t}*ContractUnit}\\right)/Mid_{T-\\varDelta_{1}}",
+          "stats": [null, null, null, null],
+          "evidence": "第二个要介绍的因子是成交收益因子(TransactionReturn)，该因子是我们在原文献历史收益因子(PastReturn）的基础上做了相应调整的因子(国内期货市场无逐笔成交数据），衡量了用回溯区间内平均成交价和当前中价计算出的收益率。"
+        },
+        {
+          "name": "实际下行波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "RealDownVariance(T,\\varDelta_1,\\varDelta_2,M)=\\frac{\\sum_{t\\in Int^{back}(T,\\varDelta_1,\\varDelta_2,M)}[Min(Return_t,0)]^2}{|Int^{back}(T,\\varDelta_1,\\varDelta_2,M)|}",
+          "stats": [null, null, null, null],
+          "evidence": "最后一个要介绍的因子是实际下行波动率因子(RealDownVariance)，该因子衡量了回溯区间内下行收益的波动率。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear", "tree"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      }
+    },
+    "L7_execution": {
+      "module": ["L7_algo"],
+      "approach": ["optimal_execution"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "高频多因子模型在RB与FU上最佳模型的样本外R方分别为20.74%及15.05%，均优于文献中的样本外R方中位数10%；方向准确性分别为64.86%及62.97%，接近文献中的64%。",
+      "evidence": "高频多因子模型在 RB（螺纹钢）上的预测表现优于FU(燃料油)，最佳模型的样本外R方分别为20.74%及15.05%，均优于文献中的样本外R方中位数10%。"
+    },
+    {
+      "text": "高频多因子模型在RB上的方向预测同样略优于FU，最佳模型的方向准确性分别为64.86%及62.97%，接近于文献中的样本外方向准确性64%。",
+      "evidence": "高频多因子模型在 RB(螺纹钢)上的预测表现同样略优于FU(燃料油)，最佳模型的方向准确性分别为 64.86%及 62.97%，接近于文献中的样本外方向准确性64%。"
+    },
+    {
+      "text": "训练集长度对测试集MSE影响不大，2天已足够；FU比RB更过拟合，LGBM比LASSO过度拟合样本内数据，减小偏差但增大方差。",
+      "evidence": "可以看出，训练集长度对于测试集的MSE影响不大，说明2天的训练集长度已经足够，即便再加大样本量也无法显著提升预测效果。其次，FU训练集与测试集之间的差值相比于RB而言更大，说明模型在FU上的训练会更加过拟合一些。最后，LGBM模型在训练集上的表现虽然略优于LASSO模型，但测试集上的表现没有明显优化，说明LGBM模型相比于LASSO模型而言过度拟合了样本内数据，即减小了偏差，但增大了方差。"
+    },
+    {
+      "text": "报价不平衡因子短期的回归系数小于0，但长期大于0：短期内卖方挂单量相对买方挂单量越大时价格越有可能下跌，而在更长回溯期间的回归系数大于0，有点超预期。",
+      "evidence": "第一，该因子短期的回归系数小于0，但长期大于0。该因子短期（回溯区间取1个tick时)的回归系数小于0，说明当短期内卖方挂单量相对于买方挂单量越大时，越来价格越有可能下跌，这一点与预期一致。但该因子在更长回溯期间的回归系数大于0，这一点其实是有点超预期的。"
+    },
+    {
+      "text": "成交收益因子的回归系数在不同回溯期均小于0，其信息量主要集中在较短的回溯周期内，回溯区间超过16个tick后额外预测信息趋于饱和。",
+      "evidence": "从结果上看，成交收益因子的回归系数在不同回溯期均小于0，说明当近期成交均价小于当前中价时，未来价格更有可能下跌。此外，成交收益因子同样表现出对近期数据的高敏感性，即其信息量主要集中在较短的回溯周期内，一旦回溯区间扩展至超过16个tick，其提供的额外预测信息便趋于饱和，几乎不再增加新的预测价值。"
+    },
+    {
+      "text": "实际下行波动率因子的回归系数普遍小于0，且在回溯区间扩大至一定范围后才展现较强有效性，不遵循信息集中在近期数据的原则。",
+      "evidence": "实际下行波动率因子的回归系数普遍小于0，说明当市场在过去经历较大的价格下行波动时，其未来价格走势更倾向于继续下跌，这一点与我们的直观预期一致。有趣的是，该因子不再遵循“信息最丰富的预测变量往往是通过使用最近的过去数据构建的”这一原则。该因子在使用较短的回溯区间时并不显著，而是当回溯区间扩大至一定范围后，才展现出较强的有效性。"
+    },
+    {
+      "text": "高频收益率在较短区间内可预测性很强，随预测区间从10个Tick延长到120个Tick，样本外R方从20.74%单调递减至4.94%，方向准确性从64.86%单调递减到53.97%。",
+      "evidence": "以品种RB，模型LASSO为例，随着预测区间从10 个Tick延长到120 个Tick，样本外 R方从20.74%单调递减至4.94%，样本外方向准确性从64.86%单调递减到53.97%。"
+    },
+    {
+      "text": "模型在早晨和下午开盘时段预测表现显著弱于其他时段，因开盘初期信息涌入消化产生较大分歧波动、噪声较多导致因子预测效果减弱；模型在午盘的预测效果略优于早盘，尤其在FU上明显。",
+      "evidence": "我们发现，每天早晨和下午开盘时，模型的预测表现显著弱于其他时段。一个合理的解释是，开盘初期的交易反映了投资者对于隔夜（中午）新闻、公告及全球市场动态的综合反映，这些信息的迅速涌入和消化过程中产生了较大的市场分歧与波动，存在较多噪声，导致因子预测效果减弱。另外，模型在午盘的预测效果会略优于早盘，尤其是在FU上体现的比较明显。"
+    },
+    {
+      "text": "基于高频因子的下单算法在样本外的模拟中有大约75%的概率是三者中最优的算法。",
+      "evidence": "从最优概率上看，基于高频因子的下单算法在样本外的模拟中有大约75%的概率是三者中最优的算法。"
+    },
+    {
+      "text": "基于高频因子的下单算法的平均滑点显著优于TWAP算法和VWAP算法，平均约有0.15跳的优化。",
+      "evidence": "从平均滑点上看，基于高频因子的下单算法的平均滑点显著优于TWAP算法和VWAP算法，平均约有0.15跳的优化。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Aït-Sahalia, Y., Fan, J., Xue, L., & Zhou, Y. (2022). How and When are High-Frequency Stock Returns Predictable? (No. w30366). National Bureau of Economic Research.",
+    "《华泰期货量化专题报告20240119：交易所最新交返规则对市场及高频策略的影响》",
+    "《华泰期货量化策略专题报告20240529：做市高频系列（十五）Micro：优秀的高频公允价指标》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

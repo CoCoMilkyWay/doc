@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "id": "20210603-华泰期货-量价特征-003-席位特征",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "flow"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "净头寸占比",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{席位净多头头寸占全市场总持仓的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "我们以净头寸占比+20%以及-20%为分界线，将所有席位分为 Posi+1、Posi+0、Posi-1 三个类别，分别代表主体投资者方向常为多、平、空；"
+        },
+        {
+          "name": "净头寸排名",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{席位净头寸数量在全市场各席位中的相对排名}",
+          "stats": [null, null, null, null],
+          "evidence": "同样，以相对排名+5 以及-5 为分界线，将所有席位分为 Rank+1、Rank+0、Rank-1三个类别，分别代表主体投资者方向常为多、平、空。"
+        },
+        {
+          "name": "净头寸排名波动",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{席位净头寸相对排名序列的波动程度}",
+          "stats": [null, null, null, null],
+          "evidence": "与（1）持仓方向类似，这里我们也将所有席位在持仓排名波动上分为 Vega+2、Vega+1、Vega+0三类。对此的具体分析见下文。"
+        },
+        {
+          "name": "换手率",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{每日成交量对每日多空总持仓的占比}",
+          "stats": [null, null, null, null],
+          "evidence": "与（1）持仓方向类似，将所有席位在成交持仓比上分为Turn+2、Turn+1、Turn+0三类，分别代表各席位换手率的高低。"
+        },
+        {
+          "name": "指数相关性",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{席位净头寸序列与标的指数走势的相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "最后考察各席位持仓与标的指数的相关性，简单来看大部分席位可以分为与指数正相关的追涨杀跌类型或与指数负相关的高抛低吸类型，小部分席位与指数的相关性不明确，可能存在一些比较独特的交易模式。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "根据上文规则对席位分类后，可以明显发现在Pos、Rank、Vega、Corr这四个持仓维度上，收益与因子呈正的单调性，而在Turn这个成交维度上，收益与因子呈负的单调性。",
+      "evidence": "进一步根据上文的规则进行分类，可以明显发现在Pos、Rank、Vega、Corr这四个持仓维度上，收益与因子呈正的单调性，而在Turn这个成交维度上，收益与因子呈负的单调性。"
+    },
+    {
+      "text": "具有明显的方向偏好、并且头寸跟随市场具有一定的正向波动、同时换手并不剧烈的席位在收益角度上表现良好。",
+      "evidence": "对于这样的现象，我们简单理解即为具有明显的方向偏好、并且头寸跟随市场具有一定的正向波动、同时换手并不剧烈的席位在收益角度上表现良好。"
+    },
+    {
+      "text": "考察2019年1月1日至2021年4月30日的IF主力合约成交持仓表，前5、前10以及前20的持仓与成交占比较为稳定，分别在30%、50%、70%左右。",
+      "evidence": "考察 2019 年 1 月 1 日至 2021 年 4 月 30 日的 IF 主力合约成交持仓表情况，以全市场总持仓、总成交为基准，可以发现前 5、前 10 以及前 20 的占比较为稳定，分别在 30%、50%、70%左右。"
+    },
+    {
+      "text": "与其把所有上榜经纪商席位混为一谈，不如找出不同席位之间的显著差别并据此分类，总结席位特征背后的投资者行为逻辑，在此基础上再去开发相应的策略更为可靠。",
+      "evidence": "我们认为与其把所有的上榜经纪商席位混为一谈，不如试图找出不同席位之间的显著差别，并依据差别对席位进行分类，并总结席位特征背后的投资者行为逻辑，在此基础上再去开发相应的策略更为可靠。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "id": "20211225-东方证券-因子选股-080-收益率的非对称分布与尾部蕴含的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Skewness_12",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "E\\left[\\left(\\frac{X-\\mu}{\\sigma}\\right)^{3}\\right]",
+          "stats": [-0.0414, null, -2.48, 0.0093],
+          "evidence": "以Skewness_12（用过去 12 个月的数据计算得到的偏度因子）为例，其在中证全指中的IC 为-4.14%，IC_IR 为-2.48，多空组合月收益为 0.93%，最大回撤为-13.00%。"
+        },
+        {
+          "name": "Eφ(3,1.5)",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "E_{\\varphi}=P(x\\geq k)-P(x\\leq -k)",
+          "stats": [-0.0318, null, -3.01, 0.0076],
+          "evidence": "例如 $E_{\\varphi}$ (3,1.5)因子在中证全指内的 IC 为-3.18%，IC_IR 为-3.01，多空组合月收益为 0.76%，最大回撤为-7.31%；"
+        },
+        {
+          "name": "Sφ(3,1)",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "S_{\\varphi}=Sign(E_{\\varphi})*\\frac{1}{2}\\left\\{\\int_{-\\infty}^{-k}(f_1^{1/2}-f_2^{1/2})^{2}dx+\\int_{k}^{+\\infty}(f_1^{1/2}-f_2^{1/2})^{2}dx\\right\\}",
+          "stats": [-0.0287, null, -3.3, 0.0072],
+          "evidence": "$S_{\\varphi}(3{,}1)$ )因子在中证全职内的 IC为-2.87%，IC_IR 为-3.3，多空组合月收益为 0.72%，最大回撤为-6.87%。"
+        },
+        {
+          "name": "AsymP_1",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Asym_{P}=-corr\\big(f(r),F(r)\\big)",
+          "stats": [-0.0303, null, -1.91, 0.006],
+          "evidence": "$Asym_{P_{1}}$ _1（用过去 1 个月历史收益率计算得到）在中证全指中的 IC 为-3.03%，IC_IR 为-1.91，多空月收益为 0.60%，最大回撤为-14.84%，但从分组月超额收益看，各组间的超额收益并不完全单调，多头超额明显偏弱。"
+        },
+        {
+          "name": "CVaR (12,0.05)",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "CVaR_{-}=E[X\\mid X<VaR],\\ P(X<VaR)=5\\%",
+          "stats": [0.0556, null, 1.61, 0.0098],
+          "evidence": "如用过去 12 个月的历史收益率数据计算CVaR (12,0.05)因子在中证全指内的 IC 为 5.56%，IC_IR 为 1.61，多空月收益为 0.98，最大回撤为-29.24%。"
+        },
+        {
+          "name": "MaxRet",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{计算过去一段时间内前几个最大收益率的均值}",
+          "stats": [-0.0815, null, -2.72, 0.0152],
+          "evidence": "对于右尾CVaR 因子来说，它在短考察期内表现较好，例如用过去 3 个月数据计算得到的CVaR (3,0.05)的 IC 为-8.15%，IC_IR 为-2.72，多空组合月收益为 1.52%，最大回撤为-19.83%。"
+        },
+        {
+          "name": "Tail Beta(12,0.05)",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "R_{j}^{e}=\\beta_{j}^{T}R_{m}^{e}+\\varepsilon_{j},\\ R_{m}^{e}<-VaR_{m}(\\bar{p})",
+          "stats": [-0.0467, null, -1.51, 0.0057],
+          "evidence": "尾部 beta 因子的测试结果显示，该因子与收益率的关系为负相关且用过去 12 个月的历史数据估计的因子效果相对较好，其 IC 为-4.67%，IC_IR 为-1.51，多空组合月收益为 0.57%，最大回撤为-27.56%，但多头组的月度超额收益不如空头显著。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["tree"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "随机森林Alpha预测因子相比原始七类因子稳健性显著提升：IC_IR绝对值由2.85提升至3.12，多空月收益由1.55%提升至1.73%，最大回撤由-19.83%降低至-11.67%，多头月超额收益由0.33%提升至0.59%。",
+      "evidence": "与原始七类因子相比，随机森林模型下的 Alpha 预测因子在稳健性上的确得到较大提升。与七类因子中 IC 最高的右尾 CVaR 因子相比，虽然 Alpha 预测因子的 IC 略低，但 IC_IR 的绝对值由 2.85 提升至 3.12，多空月收益由 1.55%提升至 1.73%，最大回撤由-19.83%降低至-11.67%，多头月超额收益由0.33%提升至 0.59%。"
+    },
+    {
+      "text": "右尾CVaR（即MaxRet因子）的IC和IC_IR在三类尾部风险因子中均为最高，中证全指内IC为-8.15%，IC_IR为-2.72。",
+      "evidence": "右尾 CVaR（即 MaxRet 因子）的 IC 和 IC_IR 在这三类因子中均为最高，它在中证全指内的 IC 为-8.15%，IC_IR 为-2.72。"
+    },
+    {
+      "text": "四种非对称性因子间的相关系数为正且相关性较低，说明其在衡量非对称程度时抓取的特征不完全相同；各类因子与投机大类因子的相关系数均为正数。",
+      "evidence": "通过相关性分析，我们发现四种非对称性因子间的相关系数为正且相关性较低，说明这四种因子在衡量非对称程度时抓取的特征不完全相同。此外，各类因子与投机大类因子的相关系数均为正数；除两个描述左尾风险的因子（左尾CVaR 和尾部 Beta）外，其余因子与反转大类因子的相关性也均为正数。"
+    },
+    {
+      "text": "相较于偏度因子，Eφ和Sφ因子具有更高的IC_IR和更低的回撤，整体表现较为稳健。",
+      "evidence": "从测试结果看，相较于偏度因子， $E_{\\varphi}$ 和 $]S_{\\varphi}$ 因子具有更高的 IC_IR 和更低的回撤，整体表现较为稳健。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A measure of asymmetry (Patil, Patil & Bagkavos, 2012)",
+    "Optimization of conditional value-at-risk (Rockafellar & Uryasev, 1999)",
+    "Return asymmetry and the cross section of stock returns (Xu, Vapatrakul & Li, 2019)",
+    "Stock Return Asymmetry: Beyond Skewness (Jiang, Wu, Zhou & Zhu, 2020)",
+    "Systematic tail risk (Oordt & Zhou, 2016)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

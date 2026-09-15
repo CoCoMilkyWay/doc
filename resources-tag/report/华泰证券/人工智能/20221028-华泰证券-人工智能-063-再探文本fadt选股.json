@@ -1,0 +1,123 @@
+{
+  "schema_version": 2,
+  "id": "20221028-华泰证券-人工智能-063-再探文本fadt选股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative", "L1_mining"],
+      "approach": ["text_sentiment", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["analyst", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "forecast_adj_txt_bert",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "L_{c\\in\\{h,m,l\\}}(x)=\\log\\frac{p_{c}(x)}{1-p_{c}(x)},\\ \\text{forecast\\_adj\\_txt}=L_{h}(x)-L_{l}(x),\\ \\text{因子值}=\\text{个股过去一个季度盈利预测调整点评研报文本得分的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "3）使用上述编码好的特征向量替代词频向量，使用与原版模型同样的标签，引导 XGBoost 模型样本内进行交叉验证训练，样本外预测并构建 forecast_adj_txt_bert 因子。"
+        },
+        {
+          "name": "SUE_txt_bert",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{业绩公告文本经FinBERT编码与XGBoost预测后，上涨与下跌类别log-odds之差，在回溯区间内对个股全部公告样本求均值}",
+          "stats": [null, null, null, null],
+          "evidence": "在业绩发布场景下我们也可以对 SUE_txt 因子进行升级，SUE_txt 在计算时样本匹配流程如下图所示，业绩公告的类型包括业绩预告、业绩快报及正式财报。"
+        },
+        {
+          "name": "forecast_score_adj_txt_bert",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{评级调整点评研报文本经FinBERT编码与XGBoost预测后，上涨与下跌类别log-odds之差在回溯区间内的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "卖方发布评级调整时也会伴随着点评研报，在《人工智能 57：文本 FADT 选股》中我们也讨论过针对评级调整事件的文本挖掘，彼时构建的文本因子 forecast_score_adj_txt 因子效果一般。这里我们同样对该因子进行升级，升级以后的效果如下所示。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "引入FinBERT编码后文本因子十分层多头第一层年化收益由原版22.87%提升至27.50%，相对中证500超额收益由14.75%提升至19.19%。",
+      "evidence": "升级以后的文本因子十分层多头第一层年化收益由原版的 22.87%提升至27.50%，相对中证 500 超额收益由 14.75%提升至 19.19%（回测期20090123-20220930），提升较为明显。"
+    },
+    {
+      "text": "截断与分段、微调与不微调、CLS层编码与全连接层编码、CLS编码与词频结合等前四组扩展测试都有效，模型升级大概率不是偶然因素导致的过拟合。",
+      "evidence": "整体来看前四组测试都有效，模型升级大概率不是偶然因素导致的过拟合。"
+    },
+    {
+      "text": "不对FinBERT微调时因子相比词频向量版本没有明显提升，因此有必要对FinBERT进行微调。",
+      "evidence": "从结果来看，如果不对 FinBERT 进行微调，虽然forecast_adj_txt_bert 因子也有比较明显的多头收益，但是相比于词频向量的版本没有明显提升。因此我们认为有必要对 FinBERT 进行微调。"
+    },
+    {
+      "text": "CLS编码已能涵盖绝大部分文本信息，额外加入词频向量作为特征以后效果并未有进一步提升。",
+      "evidence": "从上述结果来看，额外加入词频向量作为特征以后效果并未有进一步提升，说明 CLS编码确实已经能涵盖绝大部分文本信息，但加入词频特征以后，forecast_adj_txt_bert 因子的分层效果有所提升。"
+    },
+    {
+      "text": "仅使用FinBERT微调而不引入第二步骤的XGBoost模型训练，构建出的文本因子效果明显削弱。",
+      "evidence": "从上述结果来看，如果仅使用 FinBERT 微调而不引入第二步骤的 XGBoost 模型训练，构建出的文本因子效果明显削弱。"
+    },
+    {
+      "text": "forecast_adj_txt_bert因子与Barra因子及传统多因子的相关性较低，alpha特异性较强，与传统因子相关系数均值都不超过0.5。",
+      "evidence": "此外我们讨论了 forecast_adj_txt_bert 因子与 Barra 因子及传统多因子的相关性，发现相关性较低，alpha 特异性较强。"
+    },
+    {
+      "text": "无论是业绩发布还是卖方评级调整场景，引入FinBERT编码以后文本因子均有较为明显的提升，说明提升是稳健的而非过拟合的结果。",
+      "evidence": "整体来看，无论是何种场景，引入 FinBERT 编码以后文本因子均有较为明显的提升，再次说明文本编码方式的改变带来的提升是稳健的，而非过拟合的结果。"
+    },
+    {
+      "text": "25只股票不等权主动量化选股组合回测期内年化收益45.90%，相对中证500年化超额36.35%，夏普比率1.58。",
+      "evidence": "案例一：不带任何风格限制的主动量化选股组合（25 只股票，不等权组合），回测期20090123-20220930内年化收益 45.90%，相对中证 500年化超额 36.35%，夏普比率 1.58，回测表现如下图所示。"
+    },
+    {
+      "text": "限制在总市值100亿以上股票池构建等权精选组合，Top20年化收益31.12%，相对中证500年化超额23.94%。",
+      "evidence": "2）限制在总市值 100 亿以上的股票池中用文本因子构建等权精选组合，Top20 年化收益 31.12%，相对中证 500 年化超额 23.94%；"
+    },
+    {
+      "text": "沪深300内精选30不等权组合回测期内年化收益17.58%，相对沪深300年化超额12.44%。",
+      "evidence": "3）构建沪深 300 内精选 30 不等权组合，年化收益 17.58%，相对沪深 300 年化超额 12.44%。"
+    }
+  ],
+  "builds_on": [
+    "20220107-华泰证券-人工智能-051-文本pead选股策略",
+    "20220701-华泰证券-人工智能-057-文本fadt选股"
+  ],
+  "external_ref": [
+    "Devlin J, Chang M W, Lee K, et al. Bert: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805, 2018.",
+    "Houlsby N, Giurgiu A, Jastrzebski S, et al. Parameter-efficient transfer learning for NLP. International Conference on Machine Learning. PMLR, 2019: 2790-2799.",
+    "Liang P J, Meursault V, Routledge B B, et al. PEAD.txt: Post-Earnings-Announcement Drift Using Text. Working Papers, 2021.",
+    "Yu Li, Panpan Hou, etc. (2020), FinBERT, https://github.com/valuesimplex/FinBERT."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

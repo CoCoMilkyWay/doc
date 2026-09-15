@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "20240705-华创证券-端到端挖掘-005-crossgru_2_基于patch与多尺度时序改进端到端模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "CrossGRU-2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{双分支Patch+GRU时序模块与截面交叉注意力模块的端到端深度学习模型，MLP预测头输出64个值的均值作为因子得分，损失函数为IC}",
+          "stats": [null, 0.125, 1.06, null],
+          "evidence": "我们以 GRU 模型作为对比基准，CrossGRU-2 在 30D、90D、30min 数据集的 10 日RankIC 分别为 12.3%、12.5%、11.9%；因子 TOP 组在上述三个数据集的年化收益分别为 28.60%、32.01%、23.26%，相比 GRU 实现了 7.1%、8.3%、4.2%的提高；"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "sample_window", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "CrossGRU-2在30D、90D、30min数据集的10日RankIC分别为12.3%、12.5%、11.9%，TOP组年化收益28.60%、32.01%、23.26%，相比GRU提高7.1%、8.3%、4.2%",
+      "evidence": "我们以 GRU 模型作为对比基准，CrossGRU-2 在 30D、90D、30min 数据集的10 日 RankIC 分别为 12.3%、12.5%、11.9%；分组测试中 TOP 组在上述三个数据集的年化收益分别为 28.60%、32.01%、23.26%，相比 GRU 实现了 7.1%、8.3%、4.2%的提高；"
+    },
+    {
+      "text": "较长序列数据集上加入Patch改进明显，GRU加入patch后因子TOP组收益提高2~3%，改为双分支的多尺度结构后表现进一步提高",
+      "evidence": "在较长序列的数据集上加入 Patch改进明显：对 90D、30min数据集， GRU 加入 patch 后因子 TOP 组收益提高2~3%，改为双分支的多尺度结构后表现进一步提高；"
+    },
+    {
+      "text": "序列长度对Patch效果存在影响，在更长的序列中Patch效果更好，Patch在提升模型因子表现的同时拥有更高的训练效率",
+      "evidence": "序列长度可能对 Patch效果存在影响，在更长的序列中Patch效果更好。对输入较长序列的90D数据集和30min数据集，GRU 加入 Patch的优势明显——Patch在提升模型因子表现的同时拥有更高的训练效率；对于序列长度较短的30D数据集，加入Patch后因子表现略微下降。"
+    },
+    {
+      "text": "30D、90D数据集上同时加入双分支时序、截面模块效果好于仅使用单个模块，30D数据集剔除截面模块效果显著下降，包含截面模块的模型在24年回撤明显更少",
+      "evidence": "对基于日频数据的30D、90D数据集，同时加入双分支时序、截面模块后效果好于仅使用单个时序或截面模块；在 30D 数据集上，剔除截面模块会造成模型效果的显著下降；包含截面模块的模型在 24年的回撤明显更少；"
+    },
+    {
+      "text": "最优的90D数据集CrossGRU-2模型在中证1000指增组合超额收益年化19.43%，年化跟踪误差2.83%，每期换手平均32%",
+      "evidence": "以下图表展示了指增组合的超额走势及逐年累计收益。1000 指增超额收益年化 19.43%，年化跟踪误差为 2.83%，每期换手平均32%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chen, Chun-Fu Richard, Quanfu Fan, and Rameswar Panda. \"Crossvit: Cross-attention multiscale vision transformer for image classification.\" Proceedings of the IEEE/CVF international conference on computer vision. 2021.",
+    "Zhang, Yunhao, and Junchi Yan. \"Crossformer: Transformer utilizing cross-dimension dependency for multivariate time series forecasting.\" The eleventh international conference on learning representations. 2022.",
+    "《AI+HI 系列（4）：CrossGRU：基于交叉注意力的时序+截面端到端模型》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "schema_version": 2,
+  "id": "20181101-海通证券-高频量价-001-高频量价因子在股票与期货中的表现",
+  "genre": "research",
+  "asset": ["stock_cn", "future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "order_flow",
+        "intraday_pattern",
+        "technical_pattern"
+      ],
+      "setup": {
+        "universe": ["all", "na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频偏度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "RSkew_{i}=\\frac{\\sqrt{N}\\sum_{j=1}^{N}r_{ij}^{3}}{RVar_{i}^{3/2}}",
+          "stats": [-0.047, null, -2.61, 0.0145],
+          "evidence": "高频偏度因子分组收益和 IC 表现如图 2-5 所示，原始因子和正交因子的 IC 均值分别为-0.047 和-0.023，ICIR 分别为-2.61 和-2.38，top-bottom 多空组合月均收益差分别为 1.45%和0.82%。"
+        },
+        {
+          "name": "高频峰度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "RKurtosis_{i}=\\frac{N\\sum_{j=1}^{N}r_{ij}^{4}}{RVar_{i}^{2}}",
+          "stats": [-0.005, null, -0.14, 0.0021],
+          "evidence": "股票高频峰度因子分组收益和 IC 表现如图 7-11所示，原始因子和正交因子的 IC均值分别为-0.005 和-0.008，ICIR 分别为-0.14 和-0.45，多空组合月均收益差均为 0.21%，没有选股效果。"
+        },
+        {
+          "name": "高频下行波动占比因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{j=1}^{N}r_{ij}^{2}\\cdot I_{r_{ij}<0}}{\\sum_{j=1}^{N}r_{ij}^{2}}",
+          "stats": [0.063, null, 3.31, 0.0187],
+          "evidence": "高频下行波动占比因子的分组收益和 IC 表现如图 11-14 所示，原始因子和正交因子的 IC 均值分别为 0.063 和 0.031，ICIR 分别为 3.31 和 3.12，多空组合月均收益差分别为 1.87%和0.94%。"
+        },
+        {
+          "name": "10:30-11:00 成交量占比因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VolumeRatio_{t}=\\frac{Volume_{t}}{Volume_{total}}",
+          "stats": [0.037, null, 2.43, 0.0135],
+          "evidence": "10:30-11:00 成交量占比因子的分组收益和 IC 表现如图 18-21 所示，原始因子和正交因子的 IC 均值分别为 0.037 和 0.022；ICIR 分别为 2.43 和 2.26，多空组合月均收益差分别为 1.35%和0.82%。"
+        },
+        {
+          "name": "14:30-15:00 成交量占比因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VolumeRatio_{t}=\\frac{Volume_{t}}{Volume_{total}}",
+          "stats": [-0.027, null, -1.01, 0.0099],
+          "evidence": "14:30-15:00 成交量占比因子的分组收益和 IC 表现如图 22-25 所示，原始因子和正交因子的 IC 均值分别为-0.027 和-0.047；ICIR 分别为-1.01 和-3.24，多空组合月均收益差分别为 0.99%和 1.54%。"
+        },
+        {
+          "name": "高频量价相关性因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\rho=corr(\\boldsymbol{P}_{t},\\boldsymbol{V}_{t})",
+          "stats": [-0.061, null, -2.48, 0.021],
+          "evidence": "高频量价相关性因子同样具有显著的选股能力，因子分组收益和 IC 表现如图 26-29所示，原始因子和正交因子的IC均值分别为-0.061和-0.037，ICIR分别为-2.48和-2.73，多空组合月均收益差分别为 2.10%和 1.17%。"
+        },
+        {
+          "name": "高频仓价相关性因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\rho=corr(P_{t}, OI_{t})",
+          "stats": [null, null, null, 0.0358],
+          "evidence": "仓价相关性因子在不同参数组下的表现如表 9 所示。与量价相关性因子表现相似，当回看期 R 和持有期 H 较短时，因子取得负收益，随着 R和 H 增加因子收益开始由负转正，在 R=10-30，H=1-10 参数区域内表现相对稳定，平均年化收益率 3.58%。"
+        },
+        {
+          "name": "期货资金流入因子",
+          "family": "microstructure",
+          "direction": "nonmonotonic",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "flowInRation=\\sum_{i}\\sum_{j}volume_{ij}\\cdot close_{ij}\\cdot\\frac{close_{ij}-close_{ij-1}}{\\left|close_{ij}-close_{ij-1}\\right|}/\\sum_{i}Amount_{i,total}",
+          "stats": [null, null, null, null],
+          "evidence": "因子 1和因子 2表现相近，在回看期和持有期较短时取得负收益，在回看期和持有期较长时取得正收益（见表 10-11），这意味着期货资金流入因子具有短期反转、长期动量特征。"
+        },
+        {
+          "name": "股票趋势强度因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "trendStrength=\\frac{\\boldsymbol{P}_{n}-\\boldsymbol{P}_{1}}{\\sum_{i=2}^{n}abs(\\boldsymbol{P}_{i}-\\boldsymbol{P}_{i-1})}",
+          "stats": [-0.034, null, null, 0.0118],
+          "evidence": "股票趋势强度因子具有一定选股效果，IC均值为-0.034，多空组合月均收益差为1.18%，但剔除风格因子后，因子 IC 均值为 0.002，top-bottom 月均收益为-0.05%，完全丧失了选股效果。"
+        },
+        {
+          "name": "改进反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{剔除隔夜和开盘后半小时涨幅后计算当日涨幅}r\\text{，取过去一个月}r\\text{的累计值}",
+          "stats": [-0.037, null, -3.25, 0.0142],
+          "evidence": "正交因子 IC 均值为-0.037，ICIR 为-3.25，多空组合月均收益差为 1.42%，胜率高达 80.8%，选股效果仍然显著。"
+        },
+        {
+          "name": "期货日内动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{t时刻做多日内累计涨幅高的前20%品种、做空涨幅低的前20%品种，持有至收盘平仓}",
+          "stats": [null, null, null, 0.1061],
+          "evidence": "日内动量因子表现稳定，当 t为 9:03 时，因子取得 10.61%的年化收益率和 1.97 的夏普比率，随着 t 的延长收益逐渐衰减，但胜率有所提升。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "大多数高频因子在股票中体现出反转效应，在期货中体现出动量效应，这种差异化特征与交易机制和投资者结构有关。",
+      "evidence": "大多数高频因子在股票中体现出反转效应，即因子值小的股票未来收益更高，而在期货中体现出动量效应，即因子值大的期货品种未来收益更高。这种差异化特征与交易机制和投资者结构有关。"
+    },
+    {
+      "text": "高频偏度因子的选股能力全部可以被下行波动占比因子所解释。",
+      "evidence": "在剔除了下行波动占比因子影响后，高频偏度因子 C下降至 ，多空组合月均收益差下降至 0.17%，说明高频偏度因子的选股能力全部可以被下行波动占比因子所解释。"
+    },
+    {
+      "text": "成交量分布因子具备一定的选股效果，收盘前成交量越大的股票未来表现越差，上午 10-11 点成交量越大的股票未来表现越好。",
+      "evidence": "成交量分布因子同样具备一定的选股效果，收盘前成交量越大的股票未来表现越差，而上午 10-11 点成交量越大的股票未来表现越好。"
+    },
+    {
+      "text": "使用日内信息对传统因子进行改进，反转因子多空组合月均收益差可以从 1.79%提升至 2.28%。",
+      "evidence": "此外，还可以使用日内信息对传统因子进行改进，反转因子多空组合月均收益差可以从 1.79%提升至 2.28%。2017 年以来提升效果尤为显著。"
+    },
+    {
+      "text": "期货资金流入因子具有短期反转、长期动量特征。",
+      "evidence": "因子 1和因子 2表现相近，在回看期和持有期较短时取得负收益，在回看期和持有期较长时取得正收益（见表 10-11），这意味着期货资金流入因子具有短期反转、长期动量特征。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Amaya et al.(2011)",
+    "Feunou B et al.(2015)",
+    "选股因子系列研究(二十五)——高频因子之已实现波动率分解",
+    "选股因子系列研究(十一)——Level2 行情选股因子初探",
+    "选股因子系列研究(十九)——高频因子之股票收益分布特征",
+    "选股因子系列研究(十二)——“量”与“价”的结合"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": 2,
+  "id": "20200824-中泰证券-寻找另类alpha因子系列-001-基于新闻舆情数据的选股因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "新闻情感平均值因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{i=1}^{N} s_i",
+          "stats": [null, null, null, 0.0291],
+          "evidence": "在每月末计算每只股票当月所有新闻的情感分数的平均值，来刻画个股当月的新闻情感度，并以此作为次月持仓个股的筛选条件。"
+        },
+        {
+          "name": "新闻热度因子",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当月个股新闻总数}",
+          "stats": [null, null, null, 0.0129],
+          "evidence": "每月末用个股当月的新闻总数作为新闻热度因子进行回测。"
+        },
+        {
+          "name": "新闻情绪因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=1}^{N} s_i",
+          "stats": [null, null, null, 0.0365],
+          "evidence": "进一步考虑将新闻情感和新闻热度结合起来，对个股每月新闻情感值求和作为新闻情绪因子,既体现了新闻对个股的正负向评价度，又体现了新闻热度。"
+        },
+        {
+          "name": "包含基本面信息的强相关新闻情绪因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i \\in \\text{包含基本面信息的强相关新闻}} s_i",
+          "stats": [null, null, null, 0.081],
+          "evidence": "因此进一步用相关度对新闻情绪因子进行改进，采用包含基本面信息的强相关新闻计算情绪因子"
+        },
+        {
+          "name": "新闻情绪差值因子",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_{i=1}^{N_t} s_{i,t} - \\sum_{j=1}^{N_{t-1}} s_{j,t-1}",
+          "stats": [null, null, null, 0.0244],
+          "evidence": "每月末对个股该月的强相关新闻情绪值（去重）求和，并与上个月作差，按情绪差值从大到小分为5档回测。"
+        },
+        {
+          "name": "新闻情绪标准差因子",
+          "family": "sentiment",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{1}{N}\\sum_{i=1}^{N}(s_i-\\bar{s})^2}",
+          "stats": [null, null, null, null],
+          "evidence": "用当月个股新闻情感数据的标准差作为情绪分歧度因子"
+        },
+        {
+          "name": "新闻情绪分歧度因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\left|\\sum_{i \\in \\text{正向}} s_i\\right|}{\\left|\\sum_{i \\in \\text{正向}} s_i\\right|+\\left|\\sum_{j \\in \\text{负向}} s_j\\right|}",
+          "stats": [null, null, null, 0.0981],
+          "evidence": "正向情感得分占比越大，说明个股当月的正向情感一致性越强，从回测结果看，其次月收益也相应较高。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "对新闻标签和相关度改进后，新闻情绪因子的多空年化收益率由3.65%提升至8.10%，最大组多头年化收益率由5.63%提升至14.53%，最大回撤缩小，相对基准月胜率提升，分层单调性也有所提升。",
+      "evidence": "对新闻标签和相关度进行改进后，新闻情绪因子的多空年化收益率由3.65%提升至8.10%；因子最大组的多头年化收益率由5.63%提升至14.53%，最大回撤由-32%缩小至-27.5%，相对基准月胜率由63%提升至69%；因子不同时期的分层单调性也有所提升。"
+    },
+    {
+      "text": "叠加高情绪、低标准差、高正向情感占比三种选股条件后，组合多头持仓年化收益率提升至31.22%，最大回撤减小至-17.2%，相对基准月胜率为70%。",
+      "evidence": "组合多头持仓年化收益率提升至31.22%，最大回撤减小至-17.2%，相对基准月胜率为70%。"
+    },
+    {
+      "text": "新闻情绪在月频上对大市值股票的影响较为持续，市值越小反转效应越明显，本月情绪最高的股票组合次月收益最低。",
+      "evidence": "1)新闻情绪在月频上，对大市值股票的影响较为持续；市值越小，反转效应越明显（即本月情绪最高的股票组合，次月收益最低)；"
+    },
+    {
+      "text": "高一致性的高舆情组合有最高的月度收益表现，即当月新闻情感总值较高且标准差较小的组合表现最好。",
+      "evidence": "标准差下的分歧度因子没有明显的单调性分层。但结合新闻情绪的绝对值水平后，当月新闻情感的总值较高、且标准差较小的组合表现最好，即高一致性的高舆情组合有最高的月度收益表现。"
+    },
+    {
+      "text": "采用包含基本面信息的强相关新闻数据后，流通市值最小组的新闻情绪因子表现提升明显，因子值最大档年化收益率达17.90%，多空年化收益率达13.78%。",
+      "evidence": "采用包含基本面信息的强相关新闻数据后，较小市值中的新闻情绪因子表现提升明显，特别是流通市值最小组(流通市值最低的30%)，新闻情绪因子值最大档的年化收益率达17.90%，多空年化收益率达13.78%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["掘金次新股"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

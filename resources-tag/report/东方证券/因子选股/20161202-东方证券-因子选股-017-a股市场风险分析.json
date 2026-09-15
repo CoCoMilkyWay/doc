@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "id": "20161202-东方证券-因子选股-017-a股市场风险分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "adaptive", "shrinkage"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "简单风险模型对沪深300股票解释度最高平均34.0%，中证500为18.2%，中证800外小盘股最低只有13.7%",
+      "evidence": "简单风险模型对沪深300 股票的解释度最高，平均能达到 34.0%，其次为中证 500 成分股的 18.2%，对中证 800 外小盘股的解释度最低，平均只有 13.7%。"
+    },
+    {
+      "text": "压缩估计量模型中M4波动率最小，在模型复杂度和估计量方差之间取得了最好的平衡，压缩估计量方法效果明显优于月频简单风险模型",
+      "evidence": "三个采用压缩估计量的模型中，M4 的波动率最小，说明它在模型复杂度和估计量方差之间取得了最好的平衡。"
+    },
+    {
+      "text": "风险因子并非控制越多越好，控制过多导致Alpha损失过快，稳健性反而下降，需按重要性排序优先控制",
+      "evidence": "风险因子并非控制越多越好，控制过多会导致 Alpha 损失过快，损失速度超过组合波动降低的速度，稳健性反而下降，因此优先控制哪些因子便是需要考量的问题。"
+    },
+    {
+      "text": "实证显示全市场行业内和市值是最重要的风险因子，沪深300内波动率和动量重要性强于市值，优先控制重要性高的风险因子能获得更稳健的组合收益",
+      "evidence": "实证显示全市场范围内，行业和市值是最重要的风险因子；但在沪深 300成分股内，波动率和动量因子重要性要强于市值因子，优先控制重要性高的风险因子能获得更稳健的组合收益。"
+    },
+    {
+      "text": "控制Industry+Volatility策略稳健性更高，建议优先控制对个股收益率解释度更高的风险因子",
+      "evidence": "可以看到控制 Industry+Volatility 策略稳健性更高，建议投资者实际投资中优先控制对个股收益率解释度更高的风险因子。"
+    },
+    {
+      "text": "风险因子暴露度建议采用BARRA市值加权方法而非简单zscore标准化，市值加权组合更符合风险分散特征；两种方法对alpha中性化和组合优化结果无影响",
+      "evidence": "个股在某个风险因子上的暴露度，我们建议采用 BARRA的市值加权方法，而不是简单的 zscore 标准化，因为全市场市值加权组合比等权组合更符合风险分散的特征。"
+    },
+    {
+      "text": "风险模型对风险模型有需求的投资者，建议直接购买BARRA系统或采用压缩估计量方法估计协方差矩阵，计算便捷高效",
+      "evidence": "我们建议对风险模型有需求的投资者直接购买 BARRA系统或者采用报告里提到的压缩估计量方法来估计协方差矩阵，计算便捷高效，实际使用效果良好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alpha 因子库精简与优化 (东方证券前期报告)",
+    "Alpha 预测 (东方证券前期报告)",
+    "Ledoit & Wolf (2004) Honey, I Shrunk the Sample Covariance Matrix",
+    "Orr, Mashtaler, Nagy (2012) The Barra China Equity Model (CNE5)",
+    "用组合优化构建更精确多样的投资组合 (东方证券前期报告)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

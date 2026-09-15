@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20210618-国泰君安-文献解读-016-black_litterman模型的理论应用与拓展",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["none"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "view_blending", "turnover"],
+      "setup": {"universe": ["na"], "rebalance": "na"}
+    }
+  },
+  "findings": [
+    {
+      "text": "BL模型以均衡状态下的市场组合蕴含的预期收益信息作为锚点，用贝叶斯方法将其与投资者对资产收益的观点结合，获得更稳健的预期收益预测。",
+      "evidence": "它以均衡状态下的市场组合蕴含的预期收益信息作为锚点，使用贝叶斯的方法将其与投资者对资产收益的观点结合以获得更为稳健的预期收益预测。"
+    },
+    {
+      "text": "对投资观点不确定性的估计是BL模型最为关键的应用要点：主观观点用试错方法估计，量化观点用再抽样等方法估计。",
+      "evidence": "其次，对投资观点不确定性的估计是 Black-Litterman 模型最为关键的应用要点，作者推荐对主观观点使用试错的方法估计观点不确定性，而对量化观点则以再抽样等方法估计观点不确定性。"
+    },
+    {
+      "text": "仅需对目标函数简单修改，就可以在BL模型中纳入对交易成本的考虑。",
+      "evidence": "最后，作者发现仅需对目标函数简单修改，投资者就可以在Black-Litterman模型中纳入对交易成本的考虑。"
+    },
+    {
+      "text": "BL模型可拓展调整以便于使用多因子模型设定先验分布以及放松投资观点的线性约束。",
+      "evidence": "作者还介绍了如何对 Black-Litterman 模型的形式进行拓展调整以便于使用多因子模型设定先验分布以及放松投资观点的线性约束。"
+    },
+    {
+      "text": "BL模型天然提供了结合机器学习模型预测结果的组合构建流程，因为其假设输入的投资观点不完整且伴随噪音。",
+      "evidence": "我们认为 BL 模型天然提供了可以结合机器学习模型(尤其是统计机器学习模型)预测结果的组合构建流程。这是因为 BL 模型假设输入的投资观点是并不完整且伴随着噪音的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Black & Litterman (1990, 1991)",
+    "Chamberlain (1983)",
+    "Herold (2003); Da Silva, Lee, & Pornrojnangkool (2009)",
+    "Idzorek (2007)",
+    "Kolm & Ritter (2017, 2020)",
+    "Kolm, Ritter, & Simonian (2021). Black-Litterman and Beyond: The Bayesian Paradigm in Investment Management. The Journal of Portfolio Management, 47(5), 91-113.",
+    "Meucci (2008); Meucci, Ardia, & Colasante (2014)",
+    "Satchell & Scowcroft (2000)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

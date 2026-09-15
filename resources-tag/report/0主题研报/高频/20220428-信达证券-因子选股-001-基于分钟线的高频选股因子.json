@@ -1,0 +1,247 @@
+{
+  "schema_version": 2,
+  "id": "20220428-信达证券-因子选股-001-基于分钟线的高频选股因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "高频收益反转因子",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "-\\frac{1}{30}\\sum_{t-29}^{t} r_{i,t}",
+          "stats": [null, 0.09, 0.97, null],
+          "evidence": "本文尝试使用当前 30分钟区间内的每分钟收益取均值去预测下一个 30分钟的收益序列，例如 09：30分至 10：00的信号预测 10：00至 10：30分的收益率，因构建逻辑是一个负向指标，因此在均值前添加负号"
+        },
+        {
+          "name": "日频收益反转因子",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "-\\frac{1}{235}\\sum_{t=1}^{t=235} r_{i,t,T}",
+          "stats": [null, 0.033, 0.26, null],
+          "evidence": "从下表可以看出收益反转因子在日度上并不是很有效，总体日度 Rank IC只有 0.033，ICIR为0.26，且年度来看并不稳定。"
+        },
+        {
+          "name": "改进放量的正收益反转因子",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "-\\frac{\\sum_{t=1}^{t=235} r_{i,t,T} I_{r_{i,t,T}>0} I_{vol_{i,t}>vol_{up,i,T}}}{\\sum_{t=1}^{t=235} I_{r_{i,t,T}>0} I_{vol_{i,t}>vol_{up,i,T}}}",
+          "stats": [null, 0.0599, 0.74, null],
+          "evidence": "只统计收益大于 0 且属于放量时段的收益均值，当全天没有放量且大于 0 的收益，则从当天的样本池中剔除该股票"
+        },
+        {
+          "name": "改进放量的负收益动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\sum_{t=1}^{t=235} r_{i,t,T} I_{r_{i,t,T}<0} I_{vol_{i,t}>vol_{up,i,T}}",
+          "stats": [null, 0.046, 0.62, null],
+          "evidence": "正收益的强反转与负收益的弱动量也证明了上述多头与空头力量存在差异的结论。"
+        },
+        {
+          "name": "高频收益波动率因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "-\\sqrt{\\frac{1}{30}\\sum_{t-29}^{t}(r_{i,t}-r_{i,mean})^2}",
+          "stats": [null, 0.0334, 0.33, null],
+          "evidence": "即使用当前 30 分钟区间内的分钟收益标准差去预测下一个 30分钟的收益序列，例如 09：30分至 10：00的信号预测 10：30 分的时点价相对 10：00 的时点价的收益。"
+        },
+        {
+          "name": "日频收益波动率",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "-\\sqrt{\\frac{1}{235}\\sum_{t=1}^{t=235}(r_{i,t,T}-r_{i,mean,T})^2}",
+          "stats": [null, 0.0562, 0.45, null],
+          "evidence": "在日度层面，为了保证因子的时效性，该因子预测目标为当日收盘价距下一个交易日收盘价的收益。"
+        },
+        {
+          "name": "日频改进收益波动率因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "-\\sqrt{\\sum_{r_{i,t,T}\\in r_{vol_{up},T}} \\frac{(r_{i,t,T}-r_{mean,T})^2}{\\|r_{vol_{up},T}\\|}}",
+          "stats": [null, 0.0652, 0.7, null],
+          "evidence": "当第 t分钟成交量大于分钟成交量均值加分钟成交量标准差时，将第 t分钟定义为放量时段"
+        },
+        {
+          "name": "尾盘成交额占比因子",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "-\\frac{\\sum_{t=210}^{t=235} ttv_{i,t,T}}{FloatMV_{T-1}}",
+          "stats": [null, 0.0545, 0.5, null],
+          "evidence": "由于 A股的 $\\mathrm{T}{+}1$ 机制，通常开盘和尾盘的成交量较大，相较于盘中蕴含额外的信息，因此，从尾盘的角度可以定义一个尾盘成交额因子。"
+        },
+        {
+          "name": "Amp_Mean",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(High/Low)}",
+          "stats": [null, -0.0548, -0.46, null],
+          "evidence": "振幅因子 Amp_Mean Mean(High/Low) -5.48% -0.46"
+        },
+        {
+          "name": "Amp_Std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Std(High/Low)}",
+          "stats": [null, -0.0497, -0.43, null],
+          "evidence": "Amp_Std Std(High/Low) -4.97% -0.43"
+        },
+        {
+          "name": "Amp_Stability",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(High/Low)/ Std(High/Low)}",
+          "stats": [null, 0.0489, 0.43, null],
+          "evidence": "Amp_Stability Mean(High/Low)/ Std(High/Low) 4.89% 0.43"
+        },
+        {
+          "name": "Amp_Skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Skew(High/Low)}",
+          "stats": [null, -0.0383, -0.53, null],
+          "evidence": "Amp_Skew Skew(High/Low) -3.83% -0.53"
+        },
+        {
+          "name": "Vwap_Close_Std",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Std(Vwap/Close)}",
+          "stats": [null, -0.0507, -0.45, null],
+          "evidence": "Vwap_Close_Std Std(Vwap/Close) -5.07% -0.45"
+        },
+        {
+          "name": "Vwap_Close_Stability",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Vwap/Close) / Std(Vwap/Close)}",
+          "stats": [null, 0.0509, 0.46, null],
+          "evidence": "Vwap_Close_Stability Mean(Vwap/Close) / Std(Vwap/Close) 5.09% 0.46"
+        },
+        {
+          "name": "Ret_Std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Std(Ret)}",
+          "stats": [null, -0.0575, -0.46, null],
+          "evidence": "Ret_Std Std(Ret) -5.75% -0.46"
+        },
+        {
+          "name": "Ret(Vol_Up)_Std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Std(Ret(Vol_Up))}",
+          "stats": [null, -0.068, -0.61, null],
+          "evidence": "Ret(Vol_Up)_Std Std(Ret(Vol_Up)) -6.80% -0.61"
+        },
+        {
+          "name": "Vol_Weighted_Std",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Std(Ret/Vol)}",
+          "stats": [null, 0.0453, 0.41, null],
+          "evidence": "Vol_Weighted_Std Std(Ret/Vol) 4.53% 0.41"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["all"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "收益反转因子在30分钟频率上RankIC均值达9%、ICIR为0.97，在日度频率上RankIC均值为3.19%、ICIR为0.3，30分钟维度上非常有效。",
+      "evidence": "收益反转因子在 30 分钟的频率上 Rank IC 均值达到 9%，ICIR为 0.97，在日度频率上 Rank IC 均值为 3.19%，ICIR 为 0.3。"
+    },
+    {
+      "text": "改进正收益反转因子中性化后在日度频率上RankIC可达5.99%，ICIR为0.74；改进负收益动量因子中性化后RankIC可达4.60%，ICIR为0.62。",
+      "evidence": "加上成交量和收益筛选后的改进正收益反转因子中性化后在日度频率上 RankIC 可达 5.99%，ICIR 为 0.74，改进负收益动量因子中性化后在日度频率上 RankIC 可达 4.60%，ICIR 为 0.62。"
+    },
+    {
+      "text": "改进波动率因子中性化后在日度频率上RankIC均值为6.52%，ICIR为0.70。",
+      "evidence": "加上成交量筛选后的改进波动率因子中性化后在日度频率上 RankIC均值为 6.52%，ICIR为0.70。"
+    },
+    {
+      "text": "尾盘成交额占比因子中性化后在日度频率上RankIC均值为5.45%，ICIR为0.50。",
+      "evidence": "尾盘成交额占比因子中性化后在日度频率上 RankIC 均值为 5.45%，ICIR 为 0.50。"
+    },
+    {
+      "text": "将分钟线收益分为大于0和小于0分别测算后，基于成交量改进后的因子在多头和空头情形下分别呈现反转和动量。",
+      "evidence": "将分钟线收益分为大于 0和小于 0的情况分别测算，发现基于成交量改进后的因子在多头和空头两种情形下分别呈现了反转和动量两种情形。"
+    },
+    {
+      "text": "相关性加权的三因子前10%等权纯多头组合相对中证全指的累积超额收益在双边0.05%手续费下达261.93%，年化28.57%。",
+      "evidence": "相关性加权的三因子前 10%等权纯多头组合相对中证全指的累积超额收益在双边 0.05%的手续费下可达 261.93%，年化 28.57%。"
+    },
+    {
+      "text": "超额收益对费率较为敏感，每日较高换手率削弱了超额收益，导致收益覆盖不了更高的费率。",
+      "evidence": "可以看出超额收益对于费率较为敏感，主要是由于每日较高的换手率削弱了超额收益导致收益覆盖不了更高的费率。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

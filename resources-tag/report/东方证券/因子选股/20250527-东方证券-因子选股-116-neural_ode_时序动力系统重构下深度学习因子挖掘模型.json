@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "id": "20250527-东方证券-因子选股-116-neural_ode_时序动力系统重构下深度学习因子挖掘模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "Neural ODE模型生成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{RNN对时序数据压缩降维后，Neural ODE学习时序演化规律并重构数据，MLP对重构数据提取特征并拟合个股未来收益率}",
+          "stats": [null, 0.1633, 1.66, null],
+          "evidence": "本文提出一种 RNN+Neural ODE+MLP 融合模型，将时序数据建模为微分动力系统，通过RNN和NeuralODE模型构建变分自编码层（VAE层），利用 RNN 进行时序数据的压缩和降维，再将神经微分方程（Neural ODE）学习时序数据隐含的时序演化规律，将数据进行重构，最后我们将重构去噪后的数据输入 MLP模型进行 alpha信息的捕捉和挖掘，从而提升模型样本外的选股鲁棒性。"
+        },
+        {
+          "name": "Neural SDE模型生成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Encoder-Decoder层将时序数据建模为随机微分方程进行重构去噪，MLP对重构数据提取特征并拟合个股未来收益率}",
+          "stats": [null, 0.1627, 1.65, null],
+          "evidence": "Model2：Neural SDE模型生成因子截面标准化后与 Baseline 因子截面标准化后等权。"
+        },
+        {
+          "name": "Model3因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Model1因子剥离掉相关短期风险因子后的残差}",
+          "stats": [null, 0.1609, 1.75, null],
+          "evidence": "Model3：Model1因子剥离掉相关短期风险因子后的残差。"
+        },
+        {
+          "name": "行业因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{将选股因子按照行业进行聚合形成行业的得分，聚合时权重设置为个股的流通市值}",
+          "stats": [null, 0.1255, 0.42, null],
+          "evidence": "行业因子合成方法：将选股因子按照行业进行聚合形成行业的得分，聚合时权重设置为个股的流通市值。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "分组超额来看，Model1的Top组和Grp1组超额相较于Baseline模型分别提升了1.91%和3.07%，新模型能大幅改善多头的表现",
+      "evidence": "而分组超额来看，Model1的Top组和Grp1组超额相较于Baseline模型分别提升了1.91%和 3.07%，说明新模型相对于Baseline能大幅改善多头的表现。"
+    },
+    {
+      "text": "2024年极端市场环境下Model1因子多头超额相较于Baseline模型提升了6.63%，最大回撤也有所下降，抗风险能力相对更强",
+      "evidence": "在 2024 年出现较为极端的市场环境下，Model1 因子多头超额相较于 Baseline 模型提升了6.63%，最大回撤也有所下降，说明 Model1抗风险能力相对更强。"
+    },
+    {
+      "text": "Model3因子多头超额相较于另外三个模型有大幅度提升，最大回撤也有明显下降，剥离短期风险信息后抗风险能力相对更强",
+      "evidence": "在 2024 年较为极端的市场环境下，Model3 因子多头超额相较于另外三个模型有大幅度提升，最大回撤也有明显下降，说明通过剥离掉一些短期风险信息以后，得到的 Model3 抗风险能力相对更强。"
+    },
+    {
+      "text": "各回测区间Model1因子多头组合换手率相较于Baseline均有一定下降，实盘可能有更高的交易成本优势",
+      "evidence": "在各个回测区间，Model1 因子的多头组合换手率相较于 Baseline均有一定程度的下降。这意味着实盘可能有更高的交易成本优势。"
+    },
+    {
+      "text": "新模型2018年以来在中证全指上十日RankIC均值为16.33%，top组年化超额为54.54%，选股效果明显提升",
+      "evidence": "新模型 2018年以来在中证全指上十日 RankIC均值为 16.33%，top组年化超额分别为 54.54%。相较于基准，新模型选股效果均有明显提升。"
+    },
+    {
+      "text": "行业轮动方面新模型RankIC可达12.55%，Top组年化超额可达25.27%，显著战胜基准",
+      "evidence": "行业轮动方面，2018 年以来，新模型RankIC可达 12.55%，Top组年化超额可达 25.27%，各项指标表现也显著战胜基准。"
+    },
+    {
+      "text": "沪深300、中证500和中证1000增强策略上2018年以来新模型年化超额收益率分别为16.67%，21.37%和32.41%，超额夏普比率分别为3.14、3.21、4.37",
+      "evidence": "在沪深 300、中证 500 和中证 1000 增强策略上 2018 年以来新模型年化超额收益率分别为 16.67%，21.37%和 32.41%，超额的夏普比率分别为 3.14、3.21、4.37。"
+    },
+    {
+      "text": "模型2023年验证集重构损失值为0.2475，2024年样本外重构损失值为0.379，重构能力在样本外仍表现较好",
+      "evidence": "模型在 2023 年验证集上重构损失值为 0.2475，2024 年样本外的重构损失值为 0.379，这说明模型重构能力在样本外仍具有较好的表现效果；"
+    },
+    {
+      "text": "隐藏层样本外R-square平均值为20.73%（同期Barra模型为20.38%），可作为挖掘风险因子的新手段",
+      "evidence": "隐藏层在样本外的 R-square 平均值为 20.73%（同期 Barra模型的 R-square 为 20.38%），这意味着隐藏层所挖掘的特征在样本外对个股未来收益有较高的解释能力，因此该方法可作为挖掘风险因子的一个新的手段。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chen, T. Q., Rubanova, Y., Bettencourt, J., and Duvenaud, D. K. (2018). Neural ordinary differential equations.",
+    "《ABCM：基于神经网络的alpha和beta 因子协同挖掘模型》",
+    "《东方A股因子风险模型（DFQ-2020）》",
+    "《基于循环神经网络的多频率因子挖掘》",
+    "《基于抗噪的AI量价模型改进方案》",
+    "《基于残差网络端到端因子挖掘模型》",
+    "《融合基本面信息的 ASTGNN 因子挖掘模型》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

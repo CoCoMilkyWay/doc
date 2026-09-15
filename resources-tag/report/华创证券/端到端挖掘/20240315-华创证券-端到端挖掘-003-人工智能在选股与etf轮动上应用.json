@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "id": "20240315-华创证券-端到端挖掘-003-人工智能在选股与etf轮动上应用",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GRU",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU门控循环网络对量价时序端到端学习，以收益率为目标，再以分类任务继续训练，取最后时间步输出作为样本表征}",
+          "stats": [0.084, null, null, null],
+          "evidence": "GRU 模型属于通道混合模型，通过门控循环机制学习输入的时序交互，对一个形状为(M,L)的输入样本，通常取最后一个时间步的GRU输出作为样本的表征，输出形状为(M,D)，其中D 为时点token的嵌入维度。"
+        },
+        {
+          "name": "ModernTCN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Patch+通道独立的ModernTCN卷积时序网络端到端输出的股票打分}",
+          "stats": [0.097, null, null, null],
+          "evidence": "在之前的报告《AI+HI 系列：PatchTST、TSMixer、ModernTCN 时序深度网络构建量价因子》中我们介绍了三个Patch +通道独立的设计时序深度学习模型，它们分别基于自注意力、MLP、CNN实现时序信息挖掘。"
+        },
+        {
+          "name": "PatchTST",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{基于自注意力的PatchTST时序网络端到端输出的股票打分}",
+          "stats": [0.093, null, null, null],
+          "evidence": "GRU与PatchTST、TSMixer、ModernTCN、Transformer 的相关性分别为：0.65、0.59、0.55、0.64。而其他四个单因子间的相关性均较高（均大于 0.8）。"
+        },
+        {
+          "name": "Transformer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{Transformer自注意力时序网络端到端输出的股票打分}",
+          "stats": [0.095, null, null, null],
+          "evidence": "对比各因子的 IC 统计结果相差不大，从数据上来看 TSMixer 的测试结果在几个时序因子中效果最佳。IC 的均值和中位数分别为 0.099和0.104，年化IC_IR 为5.976，三个维度均为几个时序因子中最大值。"
+        },
+        {
+          "name": "TSMixer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{基于MLP的TSMixer时序网络端到端输出的股票打分}",
+          "stats": [0.099, null, null, null],
+          "evidence": "上图表示 5 个时序因子的 IC 测试结果，对比各因子的 IC 统计结果相差不大，从数据上来看 TSMixer 的测试结果在几个时序因子中效果最佳。"
+        },
+        {
+          "name": "Ensemble_factor",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{先中性化合成ModernTCN、PatchTST、Transformer、TSMixer四个因子，再与GRU因子两阶段集成}",
+          "stats": [0.101, null, null, null],
+          "evidence": "因此我们采用中性化的方式进行两阶段合成，首先将 ModernTCN、PatchTST、Transformer、TSMixer 四个相关性很高的因子进行合成，然后再将GRU与合成因子进行集成生成Ensemble_factor。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["other"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "集成因子Ensemble_factor在全A上的IC均值和中位数相比集成前的每个单因子结果均有提升，IC均值和中位数均大于0.1，年化IC_IR提升到6.37。",
+      "evidence": "在全 A 上的测试结果表明，Ensemble_factor 在全 A 上的 IC 均值和中位数相比集成前的每个单因子结果均有提升，IC 均值和中位数均大于0.1，另外其年化 IC_IR 提升到6.37。"
+    },
+    {
+      "text": "集成因子在中证1000上的IC测试结果最佳，IC均值和中位数均接近0.1，大于0占比高达79.4%，组合每年对比中证1000指数均有显著超额，24年至今累计超额收益已达5%。",
+      "evidence": "在中证1000上的 IC 测试结果最佳，IC的均值和中位数均接近 0.1，大于 0占比高达79.4%，组合每年对比中证 1000指数均有显著的超额，24年至今累计超额收益已达 5%。"
+    },
+    {
+      "text": "集成因子在基金重仓股上的测试结果略优于风格基准池，IC均值和中位数由0.08和0.084提高到0.081和0.088，IC大于0占比由70.3%提升到75.2%，年化IC_IR由4提升到4.7。",
+      "evidence": "我们发现在基金重仓股上的测试结果略优于在风格基准池中的测试结果。IC均值和中位数由 0.08 和 0.084 提高到 0.081 和 0.088，IC 大于 0 占比由 70.3%提升到 75.2%，年化 IC_IR 由 4提升到 4.7。"
+    },
+    {
+      "text": "风格池选股策略2018年来年化收益12.1%，最大回撤23.4%，相对收益8.9%；基金重仓股策略年化收益13.5%，最大回撤27.8%，相对收益12.1%。",
+      "evidence": "风格池选股策略 2018 年来年化收益 12.1%，最大回撤 23.4%，相对收益 8.9%。基金重仓股策略 2018 年来年化收益 13.5%，最大回撤 27.8%，相对收益 12.1%。"
+    },
+    {
+      "text": "GRU策略样本外自2023年12月以来实现2.33%的绝对收益，基准中证1000指数下跌12.1%，超额收益达14.43%。",
+      "evidence": "自2023年 12月份以来，策略实现了 2.33%的绝对收益，而基准中证 1000指数下跌了 12.1%。因此，策略在这一时期的超额收益达到了14.43%。"
+    },
+    {
+      "text": "宽基、风格ETF轮动策略2019年1月1日至2024年2月29日年化收益率11.7%，大幅超过基准（沪深300）的3.1%，阿尔法达8.5%。",
+      "evidence": "宽基、风格 ETF轮动策略在 2019年 01 月 01日至 2024年 2月 29日期间年化收益率达到 11.7%，大幅超过基准（沪深 300）的 3.1%，阿尔法达到 8.5%。"
+    },
+    {
+      "text": "行业、主题ETF轮动策略在此期间年化收益率16%，阿尔法12.8%，策略最大回撤为21.9%。",
+      "evidence": "行业、主题 ETF轮动策略在此期间年化收益率 16%，阿尔法12.8%。策略最大回撤为21.9%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "\" ModernTCN: A Modern Pure Convolution Structure for General Time Series Analysis.\" International Conference on Learning Representations(2024).",
+    "\"A time series is worth 64 words: Long-term forecasting with transformers.\" arXiv preprint arXiv:2211.14730 (2022).",
+    "\"Attention is all you need.\" Advances in neural information processing systems 30 (2017).",
+    "\"TSMixer: Lightweight MLP-Mixer Model for Multivariate Time Series Forecasting.\" arXiv preprint arXiv:2306.09364 (2023).",
+    "《AI+HI 系列（2）：PatchTST、TSMixer、ModernTCN 时序深度网络构建量价因子》（2024-03-11）",
+    "《AI+HI 系列：GRU 网络在风格自适应中的创新与应用》（2023-12-04）",
+    "《CANSLIM 2.0 投资法——华创金工大师系列成长型之一》（2021-10-16）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

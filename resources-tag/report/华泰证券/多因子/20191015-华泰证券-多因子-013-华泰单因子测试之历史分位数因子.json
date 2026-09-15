@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "20191015-华泰证券-多因子-013-华泰单因子测试之历史分位数因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "ts_rank(EP, 2)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ts\\_rank}(EP, 2)=\\text{EP 当前取值在过去 2 个季度里的分位数}",
+          "stats": [null, 0.0621, 0.8, null],
+          "evidence": "2007 年 4 月以来，ts_rank(EP, 2)因子在沪深 300、中证 500、全 A 股的RankIC均值分别为5.14%、6.13%、6.21%，分五层测试中多空组合夏普比率分别为0.77、1.88、2.46。"
+        },
+        {
+          "name": "ts_rank(qfa_roa, 6)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{ts\\_rank}(qfa\\_roa, 6)=\\text{单季度总资产净利率当前取值在过去 6 个季度里的分位数}",
+          "stats": [null, 0.0689, null, null],
+          "evidence": "2007 年 4月以来，ts_rank(qfa_roa, 6)因子在沪深 300、中证 500、全 A 股的 RankIC 均值分别为 6.50%、5.68%、6.89%，分五层测试中多空组合夏普比率分别为 0.75、0.76、1.97。"
+        },
+        {
+          "name": "ts_rank(qfa_grossprofitmargin, 6)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{ts\\_rank}(qfa\\_grossprofitmargin, 6)=\\text{单季度销售毛利率当前取值在过去 6 个季度里的分位数}",
+          "stats": [null, 0.0563, 1.58, null],
+          "evidence": "例如 ts_rank(qfa_grossprofitmargin, n)因子中 n 的取值分别为 6、8、12 时，因子在全 A股的因子收益率均值为分别为0.88%、0.85%、0.73%，RankIC 均值分别为5.63%、5.37%、4.69%，多空组合夏普比率分别为 2.01、1.82、1.52。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "本文基于估值和财务质量基础因子系统测试了89个历史分位数因子，其中估值类、盈利能力类、收益质量类、营运能力类历史分位数因子选股效果较好，现金流量类、资本结构类、偿债能力类历史分位数因子选股效果较差。",
+      "evidence": "本文系统测试了 89 个相关因子，其中估值类、盈利能力类、收益质量类、营运能力类历史分位数因子选股效果较好，现金流量类、资本结构类、偿债能力类历史分位数因子选股效果较差。"
+    },
+    {
+      "text": "在剔除了行业、市值、反转和对应原始因子的影响后，EP、SP历史分位数因子表现较好：ts_rank(EP, 2)因子在沪深 300、中证 500、全 A 股的RankIC均值分别为5.14%、6.13%、6.21%，多空组合夏普比率分别为0.77、1.88、2.46。",
+      "evidence": "2007 年 4 月以来，ts_rank(EP, 2)因子在沪深 300、中证 500、全 A 股的RankIC均值分别为5.14%、6.13%、6.21%，分五层测试中多空组合夏普比率分别为0.77、1.88、2.46。"
+    },
+    {
+      "text": "在剔除了行业、市值、成长和对应原始因子的影响后，盈利能力类历史分位数因子选股效果最好：ts_rank(qfa_roa, 6)因子在沪深 300、中证 500、全 A 股的 RankIC 均值分别为 6.50%、5.68%、6.89%，多空组合夏普比率分别为 0.75、0.76、1.97。",
+      "evidence": "2007 年 4月以来，ts_rank(qfa_roa, 6)因子在沪深 300、中证 500、全 A 股的 RankIC 均值分别为 6.50%、5.68%、6.89%，分五层测试中多空组合夏普比率分别为 0.75、0.76、1.97。"
+    },
+    {
+      "text": "表现较好的因子选股效果随着回看期数的增加大致呈现出逐渐减弱的趋势：ts_rank(qfa_grossprofitmargin, n)中n为6、8、12时，全A股因子收益率均值分别为0.88%、0.85%、0.73%，RankIC均值分别为5.63%、5.37%、4.69%，多空组合夏普比率分别为2.01、1.82、1.52，推测因回看期数越小因子值变化越及时。",
+      "evidence": "例如 ts_rank(qfa_grossprofitmargin, n)因子中 n 的取值分别为 6、8、12 时，因子在全 A股的因子收益率均值为分别为0.88%、0.85%、0.73%，RankIC 均值分别为5.63%、5.37%、4.69%，多空组合夏普比率分别为 2.01、1.82、1.52。"
+    },
+    {
+      "text": "因子在回测期内的覆盖度较好，全 A 股覆盖度普遍在90%以上；估值类历史分位数因子对行业、市值、反转和对应原始因子进行了中性化，财务质量类历史分位数因子对行业、市值、成长和对应原始因子进行了中性化。",
+      "evidence": "这些因子在回测期内的覆盖度较好，全 A 股覆盖度普遍在90%以上。为了显示因子的增量信息，对于估值类历史分位数因子，因子对行业、市值、反转和对应原始因子进行了中性化(例如：ts_rank(EP, 2)的对应原始因子为 EP)；对于财务质量类历史分位数因子，因子对行业、市值、成长和对应原始因子进行了中性化(例如：ts_rank(qfa_roe, 6)的对应原始因子为 qfa_roe)。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra 手册", "Dashan Huang 等人《TwinMomentum: Fundamental Trends Matter》(2019)"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

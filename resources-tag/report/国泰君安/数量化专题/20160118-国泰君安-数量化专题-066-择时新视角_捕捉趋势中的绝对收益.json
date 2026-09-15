@@ -1,0 +1,116 @@
+{
+  "schema_version": 2,
+  "id": "20160118-国泰君安-数量化专题-066-择时新视角_捕捉趋势中的绝对收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "驱动段收益",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "event",
+          "formula": "\\text{基于MACD之DEA指标价格分段，确认点之前部分（驱动段）的涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "在原有的基于MACD之DEA指标分段规则的基础上，我们基于上涨和下跌确认点，进一步将每一个波段划分为两部分。将在确认点之前的部分成为驱动段，确认点之后的部分作为延伸段。"
+        },
+        {
+          "name": "连续信息强度",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "ID=sgn(rtn)\\times[%neg-%pos]",
+          "stats": [null, null, null, null],
+          "evidence": "为了量化连续信息强度，我们引用 Zhi Da（2014）中的信息离散度作为代理变量，探究连续信息强度对延伸幅度的影响。"
+        },
+        {
+          "name": "前期趋势动能",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "event",
+          "formula": "\\text{lag}(\text{驱动幅度})",
+          "stats": [null, null, null, null],
+          "evidence": "因此，下面我们将进一步探索滞后一阶波段的驱动力是否会对下一波段走势产生影响。基于此前的模型，我们加入前一波段的驱动幅度作为前期趋势动能的代理变量。"
+        },
+        {
+          "name": "市场同质性",
+          "family": "relation",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "\\text{所有个股基于CAPM模型回归所得R方的算术平均，回归样本窗口：40个交易日}",
+          "stats": [null, null, null, null],
+          "evidence": "因此，我们基于CAPM模型，将市场收益对个股进行回归，所得的R-square即是市场收益对个股收益的解释程度。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "在波段确认形成后，上涨或下跌行情延续的概率高达85%，据此以上涨确认点为买入点、下跌确认点为卖出点构建择时策略。",
+      "evidence": "在《基于 MACD 的价格分段应用举例》一文中，我们对波段特征做了详细统计。在波段确认形成后，上涨或下跌行情延续的概率高达 85%。"
+    },
+    {
+      "text": "基于30分钟级别趋势的择时策略自2003年至2015年末可获得约320%的绝对收益，同期上证综指累计收益仅为169%。",
+      "evidence": "从图2可以看出，策略自2003年至2015年末可获得约320%的绝对收益，而同期上证综指累计收益仅为 169%。"
+    },
+    {
+      "text": "引入日线级别作为辅助指标过滤小级别反抽后，策略自2003年以来的累计收益从320%上升至479%。",
+      "evidence": "从图 5 中可以看出，引入日线级别作为辅助指标之后，策略自 2003 年以来的累计收益从 320%上升至 479%。"
+    },
+    {
+      "text": "驱动强、信息更加连续、前期动能弱、市场同质性低有助于增加波段的延伸幅度。",
+      "evidence": "研究发现，驱动强、信息更加连续、前期动能弱、市场同质性低有助于增加波段的延伸幅度。"
+    },
+    {
+      "text": "驱动段收益的系数为1.29且P值小于0.001，每当驱动段收益增加1%，延伸幅度上升1.297%。",
+      "evidence": "从表 1 中可以看出，驱动段收益的系数为 1.29，且 P 值小于 0.001，统计显著。换句话说，每当驱动段收益增加 1%，则延伸幅度上升1.297%。"
+    },
+    {
+      "text": "连续信息强度的系数为-0.037且统计显著，每当连续信息强度提高0.1，波段延伸幅度提高0.37%。",
+      "evidence": "从结果来看，每当连续信息强度提高 0.1，则波段延伸幅度提高0.37%。"
+    },
+    {
+      "text": "前期趋势动能的系数为-0.87且P值小于0.0001，每当前期趋势动能增加1%，当下波段延续的幅度将减少0.87%。",
+      "evidence": "这意味着每当前期趋势动能增加 1%，当下波段延续的幅度将减少 0.87%。"
+    },
+    {
+      "text": "市场同质性变量的系数为-0.052且在5%显著性水平下统计显著，每当市场同质性指标增加1%，当前波段延续的幅度将减少0.052%。",
+      "evidence": "也就是说，每当市场同质性指标增加 1%，当前波段延续的幅度将减少 0.052%。"
+    },
+    {
+      "text": "驱动幅度对延伸幅度的影响系数呈递减趋势，模型解释力逐年下降，体现出中国市场有效性提高、羊群效应减弱。",
+      "evidence": "具体来看，驱动幅度对延伸幅度的影响系数呈递减趋势。从图7中也可以看到，模型对延伸幅度的解释力（Ajusted-R-square）也逐年下降。这体现出中国市场有效性在近年来有所提高，市场羊群效应减弱，驱动幅度对后续延伸幅度的影响有所降低。"
+    },
+    {
+      "text": "基于驱动幅度和连续信息强度滚动外推361个波段，剔除前后各10%极端值后，下跌波段预测偏差为2.49%，上涨波段为2.21%。",
+      "evidence": "整体来看，如图 13 所示，剔除前 10%和后 10%的极端值后，下跌波段的预测偏差为 2.49%，上涨波段为 2.21%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Gino和Bazerman (2009)",
+    "Zhi Da（2014）信息离散度",
+    "《发现价格走势规律之基于 MACD分段研究》",
+    "《基于 MACD 的价格分段应用举例》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

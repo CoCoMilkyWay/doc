@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "20181013-东北证券-barra模型-001-barra模型cne6介绍与应用",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"}}
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": [
+          "size",
+          "value",
+          "growth",
+          "quality",
+          "dividend",
+          "momentum",
+          "volatility",
+          "liquidity",
+          "sentiment"
+        ],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "horizon": "daily"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "CNE6包含48个描述变量、20个基础因子和9个风格因子，风格因子需经两次加权得到；新增质量、情绪和分红风格，并将非线性市值与市值合并。",
+      "evidence": "CNE6中，包括48个描述变量、20个基础因子和9个风格因子。为得到风格因子，需进行两次加权。就种类来说，CNE6增加了质量、情绪和分红风格，将非线性市值与市值进行了合并。"
+    },
+    {
+      "text": "本地搭建了A股基础信息、行情、财务与一致预期数据表，并基于因子定义计算描述变量、基础因子和风格因子三张表，2006年至今每日更新。",
+      "evidence": "基于因子定义，我们计算了Barra_Descriptor（描述变量）、Barra_Basic（基础因子）和Barra_Style（风格因子）三张表，时间区间为2006年至今；每日进行数据更新。"
+    },
+    {
+      "text": "20个基础因子中18个平均覆盖度在95%以上，分红和情绪因子覆盖度仅67.54%、65.21%，因此截面回归计算了全部9因子与剔除分红和情绪因子的7因子两个版本。",
+      "evidence": "因子覆盖度：20个基础因子中，18个因子的平均覆盖度在95%以上；分红和情绪因子，平均覆盖度分别为67.54%、65.21%，处于较低水平。因此，在进行截面回归时，我们计算了两个版本：一，使用全部9个因子；二，剔除分红和情绪因子进行计算。"
+    },
+    {
+      "text": "单因子纯因子收益：anasent、beta和btop最高，分别为8.19%、5.86%和5.42%；liquidity、strev和midcap最低，分别为-11.22%、-11.10%和-6.76%。",
+      "evidence": "单因子表现：anasent、beta 和 btop 收益最高，分别为8.19%、5.86%和 5.42%；liquidity、strev 和 midcap 最低，分别为-11.22%、-11.10%和-6.76%。"
+    },
+    {
+      "text": "9因子回归R²均值为42.33%，7因子为37.43%，整体解释度处于较高水平，二者走势基本一致，7因子结果与CNE5较为一致。",
+      "evidence": "9 因子R²均值为 42.33%，7 因子为 37.43%，整体解释度处于较高的水平；从时间来看，二者走势基本一致；后者与CNE5的结果较为一致。"
+    },
+    {
+      "text": "与CNE5对比：value表现提升；momentum因包含短期动量而加强；size基本一致；volatility由beta与residual volatility合并得到，方向与beta更一致；liquidity变动较小。",
+      "evidence": "与CNE5 对比来看，value表现有所提升；momentum因为包含了短期动量，整体表现得到加强；size 表现基本一致；volatility 是将 beta 与 residual volatility 合并得到，方向与beta更为一致；尽管新添加了一个描述变量，liquidity整体表现变动较小。"
+    },
+    {
+      "text": "极值处理采用区别于3倍标准差的做法，将风险暴露限制在[-3.5,3.5]，既限制取值又保留原始数据排序。",
+      "evidence": "与传统的极值限制在3个标准差的做法不同，我们采取以下极值处理方式，将风险暴露限制在[-3.5,3.5]。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barra China International",
+    "Barra Emerging Markets",
+    "Barra US Total",
+    "《港股研究系列：Barra模型及应用》2018-07-17"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

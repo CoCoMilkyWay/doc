@@ -1,0 +1,176 @@
+{
+  "schema_version": 2,
+  "id": "20220123-兴业证券-高频-002-收益率分布因子构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "nos_gs",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "e_t=\\frac{R_t-E[R_t]}{\\sigma}\\sim N(0,1),\\;\\; nos_{gs}=\\text{度量样本}\\{e_t\\}\\text{偏离}N(0,1)\\text{程度的统计量}",
+          "stats": [0.0512, null, 0.7781, 0.611],
+          "evidence": "我们从收益率的噪音中构造第一个收益率分布因子—收益率噪音偏离因子，收益率噪音偏离因子（nos）事实上是流动性因子，它的投资逻辑如下。"
+        },
+        {
+          "name": "nos_sw",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "e_t=\\frac{R_t-E[R_t]}{\\sigma}\\sim N(0,1),\\;\\; nos_{sw}=\\text{度量样本}\\{e_t\\}\\text{偏离}N(0,1)\\text{程度的统计量}",
+          "stats": [0.0441, null, 0.5798, 0.5451],
+          "evidence": "在计算方式上，我们引入了两种方法来估计nos，分别命名为nos_gs 和 nos_sw。"
+        },
+        {
+          "name": "nos_gsn",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "nos_{gsn}=\\text{nos}_{gs}\\text{对收益率峰度因子}rtn_{kurt}\\text{正交化后的残差因子}",
+          "stats": [0.0399, null, 0.6722, 0.4487],
+          "evidence": "从结果上看，与 rtn_kurt 正交化后得到的新因子 nos_gsn 表现依旧优秀，多空年化收益率44.87%，多头年化16.75%，优于原始因子。"
+        },
+        {
+          "name": "rtn5_mean",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\bar{R}^{5min}_{t}=\\frac{1}{N}\\sum_{i=1}^{N}R^{5min}_{i,t}",
+          "stats": [0.0586, null, 0.5801, 0.7021],
+          "evidence": "因子IC 都较显著，rtn5_mean的 IC 甚至达到了5.86%，各个因子的多空夏普比率几乎都在8以上。"
+        },
+        {
+          "name": "real_var",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "RV_t=\\sum_{i=1}^{N}R_{i,t}^2",
+          "stats": [0.0503, null, 0.5471, 0.5496],
+          "evidence": "例如，已实现方差与上行收益率已实现方差、下行收益率已实现方差的相关性在0.75以上，这也表明它们含有相同的波动率风险。"
+        },
+        {
+          "name": "rtn_skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Skew}_t=\\frac{\\frac{1}{N}\\sum_i(R_i-\\bar{R})^3}{\\left(\\frac{1}{N}\\sum_i(R_i-\\bar{R})^2\\right)^{3/2}}",
+          "stats": [0.0445, null, 0.8782, 0.4722],
+          "evidence": "其中，收益率偏度因子的多空年化收益率为47.22%，年化多头为12.98%，夏普比率约为10。"
+        },
+        {
+          "name": "rtn_kurt",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Kurt}_t=\\frac{\\frac{1}{N}\\sum_i(R_i-\\bar{R})^4}{\\left(\\frac{1}{N}\\sum_i(R_i-\\bar{R})^2\\right)^{2}}",
+          "stats": [0.0365, null, 0.61, 0.4646],
+          "evidence": "nos_gs具有较好的特异性，与绝大多数的收益率分布因子的相关性在0.5以下，与rtn_kurt（日度IC均值为3.65%，在常见收益率分布因子中排名靠后）的时序相关性在0.7左右。"
+        },
+        {
+          "name": "rv_up",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "RV^+_t=\\sum_{i=1}^{N}\\max(R_{i,t},0)^2",
+          "stats": [0.0543, null, 0.6388, 0.9146],
+          "evidence": "Barndor-Nielsen 和 Shephard (2010)发现已实现波动率可以依照收益率的正负分解为上行波动率(RV+)，下行波动率(RV-)，上下行波动率之差描述了跳跃的符号变化(signed jump variation)，表明正收益率与负收益率的总体分布是不同的（例如图4)。"
+        },
+        {
+          "name": "rv_down",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "RV^-_t=\\sum_{i=1}^{N}\\max(-R_{i,t},0)^2",
+          "stats": [0.0314, null, 0.4212, 0.4683],
+          "evidence": "Barndor-Nielsen 和 Shephard (2010)发现已实现波动率可以依照收益率的正负分解为上行波动率(RV+)，下行波动率(RV-)，上下行波动率之差描述了跳跃的符号变化(signed jump variation)，表明正收益率与负收益率的总体分布是不同的（例如图4)。"
+        },
+        {
+          "name": "rv_umd",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "rv\\_umd_t=\\frac{RV^+_t-RV^-_t}{RV_t}",
+          "stats": [0.0475, null, 0.8689, 0.5217],
+          "evidence": "Barndor-Nielsen 和 Shephard (2010)发现已实现波动率可以依照收益率的正负分解为上行波动率(RV+)，下行波动率(RV-)，上下行波动率之差描述了跳跃的符号变化(signed jump variation)，表明正收益率与负收益率的总体分布是不同的（例如图4)。"
+        },
+        {
+          "name": "cpr_sw",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "R^{cum}_t=\\sum_{i=0}^{t}R_i,\\;\\; cpr\\_sw=\\text{基于日内累计收益率的改进非参偏度估计量}",
+          "stats": [0.017, null, 0.3153, 0.1304],
+          "evidence": "可以明显看到，在剔除了涨跌停股票后，该因子的日度回测效果明显变差，尤其是在多头收益上，由之前的超20%年化收益率降低至-0.31%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "噪音偏离因子nos_gs多空年化收益率61.10%，夏普比率9.50，IC均值5.12%，具有较强选股能力与特异性。",
+      "evidence": "噪音偏离因子 nos_gs多空年化收益率 61.10%，夏普比率 9.50，IC 均值 5.12%。"
+    },
+    {
+      "text": "将nos_gs对收益率峰度因子做正交化处理后，因子表现依旧优秀，多空年化收益率44.87%，夏普比率7.37，IC均值3.99%。",
+      "evidence": "将nos_gs因子对收益率峰度因子做正交化处理后，因子表现依旧优秀，多空年化收益率44.87%，夏普比率7.37，IC均值3.99%。"
+    },
+    {
+      "text": "样本外（2021年9月至2022年1月14日）nos_gs多空年化收益率高达67.05%，夏普比率12.72，最大回撤仅1.33%，因子在样本外延续优秀表现。",
+      "evidence": "在样本外（2021年9月至2022年1月14日）nos_gs因子的多空年化收益率高达67.05%，多空夏普比率为12.72，最大回撤仅1.33%。"
+    },
+    {
+      "text": "nos_gs与大多数常见收益率分布因子的时序相关性低于0.5，仅与收益率峰度因子相关性达0.7，具有较好的特异性。",
+      "evidence": "另外该因子具有较好的特异性，与大多数常见的收益率分布因子的时序相关性低于0.5，仅与收益率峰度因子相关性达0.7。"
+    },
+    {
+      "text": "剔除涨跌停股票后，高频因子日度回测效果明显变差，cpr_sw多头收益由超20%年化收益率降低至-0.31%。",
+      "evidence": "可以明显看到，在剔除了涨跌停股票后，该因子的日度回测效果明显变差，尤其是在多头收益上，由之前的超20%年化收益率降低至-0.31%。"
+    },
+    {
+      "text": "常见收益率分布因子的多空收益率绝大部分来自空头效应。",
+      "evidence": "但从多头与空头收益率的对比上看，其因子的多空收益率绝大部分来自于空头效应。"
+    },
+    {
+      "text": "收益率噪音越偏离正态分布，股票潜在风险越大，市场参与者要求的风险溢价越高，nos与风险溢价同向。",
+      "evidence": "大额投资者对某支股票收益率影响越大，收益率噪音就越偏离正态分布，这支股票潜在的风险也就越大，因此市场参与者对股票的风险溢价要求也就越高。"
+    },
+    {
+      "text": "nos_gs和nos_sw的平均时序相关性为0.906，表明收益率噪音的估计在统计上是稳健的。",
+      "evidence": "而实测结果来看，nos_gs和nos_sw的平均时序相关性为 0.906，表明收益率噪音的估计在统计上是稳健的，两种方式对于收益率噪音的估计的都是有效的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《高频漫谈》2022-01-04"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

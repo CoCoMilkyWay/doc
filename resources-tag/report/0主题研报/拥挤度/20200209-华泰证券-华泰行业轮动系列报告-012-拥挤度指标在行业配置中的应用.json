@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "id": "20200209-华泰证券-华泰行业轮动系列报告-012-拥挤度指标在行业配置中的应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "收盘价乖离率",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "close_{-}bias_{t,K}=\\frac{close_{t,K}-\\sum_{i=0}^{N-1}close_{t-i,K}/N}{\\sum_{i=0}^{N-1}close_{t-i,K}/N}",
+          "stats": [null, null, null, null],
+          "evidence": "乖离率越大，说明当前市场价格超出过去 N天的平均价越高，当前市场出现了剧烈的价格抬升，呈超买状态。在乖离率较大时，价格出现回弹的可能性更大。"
+        },
+        {
+          "name": "换手率乖离率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "turn_{-}bias_{t,K}=\\frac{turn_{t,K}-\\sum_{i=0}^{N-1}turn_{t-i,K}/N}{\\sum_{i=0}^{N-1}turn_{t-i,K}/N}",
+          "stats": [null, null, null, null],
+          "evidence": "本研究对乖离率的用法做出延伸，计算了成交量、成交额和换手率的乖离率，分析市场最新的流动性指标是否与平均值出现了明显的偏离。收盘价或流动性指标的乖离率较大时，说明市场成交活跃度非常高，量和价都超出了均衡水平，此时可以考虑降低仓位，规避风险。"
+        },
+        {
+          "name": "换手率拥挤度",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{换手率历史分位数高于规定阈值且过去N日行业指数涨跌幅为正时判定为拥挤状态，标为1，否则标为0}",
+          "stats": [null, null, null, null],
+          "evidence": "我们将行业指数在过去一段窗口期内的成交量、成交额和换手率平均值与历史数据进行对比，当有处于历史高位的流动性数据出现时，判定此时市场处于拥挤状态。"
+        },
+        {
+          "name": "成交量与收盘价的相关系数",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "corr_{-}volume_{-}close_{t,K}=\\frac{\\sum_{i=0}^{N-1}(close_{t-i,K}-\\overline{close}_{t,K})(volume_{t-i,K}-\\overline{volume}_{t,K})}{\\sum_{i=0}^{N-1}(close_{t-i,K}-\\overline{close}_{t,K})^2\\sum_{i=0}^{N-1}(volume_{t-i,K}-\\overline{volume}_{t,K})^2}",
+          "stats": [null, null, null, null],
+          "evidence": "本研究采用行业指数收盘价和流动性指标的相关系数来定量分析量价背离现象。量价相关系数越大，说明量价指标的走势越接近，反之则表示两者出现背离。"
+        },
+        {
+          "name": "换手率与收盘价相关系数",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "corr_{-}turn_{-}close_{t,K}=\\frac{\\sum_{i=0}^{N-1}(close_{t-i,K}-\\overline{close}_{t,K})(turn_{t-i,K}-\\overline{turn}_{t,K})}{\\sum_{i=0}^{N-1}(close_{t-i,K}-\\overline{close}_{t,K})^2\\sum_{i=0}^{N-1}(turn_{t-i,K}-\\overline{turn}_{t,K})^2}",
+          "stats": [null, null, null, null],
+          "evidence": "当股价上涨时，如果某个行业指数的量价相关系数下降，意味着出现了量价背离的现象。当量价相关系数处于历史低位时，需要警惕可能出现的下跌风险。我们还计算了收盘价和成交额以及换手率的相关系数对量价背离现象进行分析："
+        },
+        {
+          "name": "峰度",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "kurt_{t,K}\\;=\\;\\frac{\\frac{1}{N}{\\sum_{i=0}^{N-1}(r_{t-i,K}-\\bar{r}_{t,K})^{4}}}{(\\frac{1}{N}{\\sum_{i=0}^{N-1}(r_{t-i,K}-\\bar{r}_{t,K})^{2}})^{2}}",
+          "stats": [null, null, null, null],
+          "evidence": "如果过去一段时间日收益率峰度越低，说明收益率取值较为分散，短期市场波动率更高，风险更大，拥挤度更高。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "regression_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "最终选定收盘价乖离率、换手率与收盘价相关系数、成交量与收盘价的相关系数、峰度、换手率乖离率以及换手率拥挤度六项拥挤度指标，并用蒙特卡洛模拟确定最优参数。",
+      "evidence": "经过层层筛选，我们最终选定了收盘价乖离率、换手率与收盘价相关系数、成交量与收盘价的相关系数、峰度、换手率乖离率以及换手率拥挤度这六项拥挤度指标，并通过蒙特卡洛模拟确定了每项拥挤度指标的最优参数。"
+    },
+    {
+      "text": "基于复合拥挤度指标构建的非拥挤行业组合，取得优于单项指标的回测效果，年化收益率9.28%，月频调仓胜率58.82%。",
+      "evidence": "基于复合拥挤度指标构建的非拥挤行业组合，能够取得优于单项指标的回测效果，可以达到 9.28%的年化收益率以及 58.82%的月频调仓胜率。"
+    },
+    {
+      "text": "2015、2016和2019年市场急速上涨、交易过热时拥挤度信号触发次数显著增加，非拥挤行业组合分别取得18.11%、9.90%和8.22%的超额年化收益。",
+      "evidence": "在2015、2016和2019年市场急速上涨之时，市场处于交易过热状态，拥挤度信号触发次数显著增加，在这三个年份处于非拥挤状态的行业组合能够分别取得 18.11%、9.90%和 8.22%的超额年化收益。"
+    },
+    {
+      "text": "拥挤度和景气度复合策略年化收益率20.83%，优于纯景气度策略的13.33%；最大回撤-36.50%，较纯景气度策略的-56.05%大幅提升。",
+      "evidence": "拥挤度和景气度复合策略的年化收益率可以达到20.83%，优于纯景气度策略13.33%的年化收益率。复合策略最大回撤为-36.50%，与纯景气度策略的最大回撤-56.05%相比也有着大幅提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于 CSCV 框架的回测过拟合概率》（2019-6-17）",
+    "《景气度指标在行业配置中的应用》（2019-9-12）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

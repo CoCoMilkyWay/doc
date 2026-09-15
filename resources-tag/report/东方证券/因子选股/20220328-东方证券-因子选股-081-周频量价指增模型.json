@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "id": "20220328-东方证券-因子选股-081-周频量价指增模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "rawbar_多元",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU/AGRU/LSTM多元因子单元对30日rawbar量价序列生成的多个alpha因子按最大化IC汇总的打分}",
+          "stats": [null, 0.142, null, 0.379],
+          "evidence": "数据集 rawbar 包括原始日线复权后的高开低收、vwap 和成交量共 6 个字段，由于不同股票的价格和成交量不具有可比性，因此我们参考 Microsoft qlib 的示例数据集 Alpha360采用每天的最新收盘价和成交量对价格和成交量序列进行量纲调整"
+        },
+        {
+          "name": "mschars_多元",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU/AGRU/LSTM多元因子单元对分钟日度特征序列生成的多个alpha因子按最大化IC汇总的打分}",
+          "stats": [null, 0.153, null, 0.352],
+          "evidence": "数据集 mschars 涵盖了业内常用的和我们前期报告中提出的各种由分钟线构建的日度特征，包括日内偏度、峰度、日内波动率、极端收益、apb、arpp等 28个特征。"
+        },
+        {
+          "name": "I2chars_多元",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU/AGRU/LSTM多元因子单元对L2日度特征序列生成的多个alpha因子按最大化IC汇总的打分}",
+          "stats": [null, 0.135, null, 0.271],
+          "evidence": "数据集 l2chars以《基于委托订单数据的 alpha因子》和《基于大单的 alpha因子构建》两篇报告为基础，收集了 23 个由 L2 数据生成的日度特征序列。"
+        },
+        {
+          "name": "模型得分",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{rawbar、mschars、l2chars因子单元打分经LightGBM动态加权合成的综合模型得分}",
+          "stats": [null, 0.158, 1.64, 0.427],
+          "evidence": "因此我们采用动态加权的方法整合量价因子，给予近期表现好的因子更高的重要性，在第四章我们对比了最大化 IC（线性加权）和 gbdt（非线性加权）两种常见的动态加权方法。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "多元因子单元明显优于生成唯一预测的神经网络，rawbar并没有明显弱于mschars",
+      "evidence": "本文采用原始日线数据 rawbar、分钟特征序列 mschars、L2特征序列 l2chars共三个数据集，每个数据集构建 3个因子单元，从每个数据集汇总打分的选股表现来看，同时生成多个 alpha因子的多元因子单元明显优于生成唯一预测的神经网络，另外简单直接的 rawbar并没有明显弱于精心设计的 mschars也说明因子单元强大的特征提取能力。"
+    },
+    {
+      "text": "GBDT动态加权相对maxic改善分组多头端收益，因子拥挤情形下改善更明显",
+      "evidence": "近年来量价因子由于因子拥挤多头收益不断回落而空头保持稳定，根据长周期数据训练的因子单元难以捕捉这种近期才出现的非线性，我们采用 LightGBM实现的GBDT动态加权因子在一定程度上缓解了这种非线性，模型得分相对 maxic在分组的多头端收益有所改善，这种改善在容易出现因子拥挤的情形下更加明显。"
+    },
+    {
+      "text": "label选择应充分考虑可交易性，换手控制下应适当拉长预测收益率",
+      "evidence": "损失函数直接决定了模型学习的方向，损失函数中预测收益率 label 的选择应该充分到可交易性，同时在组合存在换手控制的情形下应该适当拉长预测收益率使得组合收益和损失函数更加匹配。"
+    },
+    {
+      "text": "剔除大类因子后模型得分RankIC小幅回落但IC_IR提升，top年化收益从42.7%回落至38.7%",
+      "evidence": "本文构建的模型得分和常见非量价大类因子的因子值相关性极低，模型完全根据量价信号生成，和基本面信号信息重叠较少，两者互补优势明显，通过回归剔除其他大类因子后模型得分 RankIC小幅回落但 IC_IR 提升，top组合 2017 年以来年化收益（次日 vwap 成交，未扣费）从 42.7%小幅回落至 38.7%。"
+    },
+    {
+      "text": "周单边换手30%下中证500增强费后年化对冲收益21.3%，沪深300增强11.2%，成分股80%约束后回落至19.1%和11.1%",
+      "evidence": "模型得分可以作为一个大类因子用于指数增强，也可以单独用来构建指数增强组合，在不考虑成分股限制、周单边换手 30%的情况下，纯量价模型中证 500 增强2017 年以来费后年化对冲收益 21.3%，沪深 300 增强 11.2%，考虑成分股 80%约束后上述收益回落至 19.1%和 11.1%。"
+    }
+  ],
+  "builds_on": ["20210311-东方证券-因子选股-074-神经网络日频alpha模型初步实践"],
+  "external_ref": [
+    "Microsoft qlib 示例数据集 Alpha360",
+    "东方A股因子风险模型（DFQ-2020）",
+    "关于组合换手的若干问题",
+    "因子加权过程中的大类权重控制",
+    "基于大单的 alpha因子构建",
+    "基于委托订单数据的 alpha因子"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

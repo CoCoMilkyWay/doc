@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "20200104-中信建投-逐鹿alpha-001-一致预期因子深度挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_mining"],
+      "approach": ["expectation_level", "symbolic_search"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "因子一",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{EST\\_NET\\_PROFIT \\times EPS - PE/EST\\_EPS}{EST\\_OPER\\_PROFIT}",
+          "stats": [null, null, null, 0.246],
+          "evidence": "((EST_NET_PROFIT * EPS) - PE/EST_EPS)/EST_OPER_PROFIT"
+        },
+        {
+          "name": "因子二",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE + EST\\_OFPS - EST\\_PB",
+          "stats": [null, null, null, 0.267],
+          "evidence": "\\mathsf{ROE}+\\mathsf{EST\\_OFPS}-\\mathsf{EST\\_PB}"
+        },
+        {
+          "name": "因子三",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE + EST\\_EPS",
+          "stats": [null, null, null, 0.256],
+          "evidence": "因子三在样本内外的累计净值，累计超额净值，以及最大回撤如下图所示："
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于遗传规划挖掘出的三个合成因子在2016年至2020年间回测的年化收益分别为24.6%、26.7%、25.6%，夏普比率分别为1.28、1.30、1.31，与传统因子合成方法对比效果有所提升。",
+      "evidence": "本文展示了基于遗传规划挖掘出的三个合成因子，在 2016 年至 2020年间，回测的年化收益分别为 24.6%，26.7%，25.6%，夏普比率分别为 1.28，1.30，1.31。与传统因子合成方法对比，效果有所提升。"
+    },
+    {
+      "text": "遗传规划挖掘因子与传统方法合成的因子对比，无论是年化收益还是夏普比率，均有一定程度的提升。",
+      "evidence": "与传统方法合成的因子对比，无论是年化收益还是夏普比率，均有一定程度的提升。"
+    },
+    {
+      "text": "在2016年-2017年20日IC分析中，同类因子中除去营业收入类因子，大部分一致预期因子的表现均好于传统因子。",
+      "evidence": "下表列出了所有因子在 2016 年-2017 年 20 日的 IC 信息，按照 2.1 中相关性分类列出，可以看出，在同类因子中，除去营业收入类因子，大部分一致预期因子的表现均好于传统因子。"
+    },
+    {
+      "text": "传统因子和相应的一致预期因子相关性基本上都在0.8以上，其中一致预期营业收入和营业收入的相关性最高达到0.94，市盈率和一致预期市盈率相关度相对较低为0.72。",
+      "evidence": "可以看出，传统因子和相应的一致预期因子相关性基本上都在0.8以上。其中一致预期营业收入和营业收入的相关性最高，达到0.94。净利润和一致预期净利润的相关度也达到了0.87。市盈率和一致预期市盈率相关度相对较低，为0.72。"
+    },
+    {
+      "text": "中证800内一致预期数据整体覆盖度和准确率均表现较好，若推广到全A覆盖度下降到只有50%左右，本文之后的所有研究均基于中证800股票池。",
+      "evidence": "可以看出，在中证800内，一致预期数据整体覆盖度和准确率均表现较好。若推广到全A，则覆盖度下降到只有50%左右（2088家）。若无特殊说明，本文之后的所有研究均基于中证800股票池。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra CNE6 中的 Earnings Variability, Earnings Yield, Dividend Yield, Growth 二级因子"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

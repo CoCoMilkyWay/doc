@@ -1,0 +1,373 @@
+{
+  "schema_version": 2,
+  "id": "20231208-华泰证券-人工智能-072-基于全频段量价特征的选股模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "尾盘收益率偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\frac{1}{n}\\sum_{i}(r_i-\\bar{r})^3}{\\left(\\frac{1}{n}\\sum_{i}(r_i-\\bar{r})^2\\right)^{3/2}},\\; r_i \\text{为尾盘分钟收益率}",
+          "stats": [0.0174, null, 0.31, null],
+          "evidence": "使用尾盘收益率偏度，可大幅降低与下行收益率波动占比因子的相关性，同时尾盘具有较强的投机性和反转效应。"
+        },
+        {
+          "name": "下行收益率波动占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{r_i<0} r_i^2}{\\sum_{i} r_i^2},\\; r_i \\text{为分钟收益率}",
+          "stats": [0.0672, null, 0.55, null],
+          "evidence": "下行收益率波动占比刻画了股票收益的不对称性和极端性，下行波动越大，说明股票经历了较大的负收益，未来可能会发生反转。"
+        },
+        {
+          "name": "前后两分钟收益率的相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr(r_i, r_{i+1})",
+          "stats": [0.0556, null, 0.37, null],
+          "evidence": "| corr_ret_lastret | 前后两分钟收益率的相关性 | -1 |"
+        },
+        {
+          "name": "前一分钟收盘价与后一分钟开盘价的相关性",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr(close_i, open_{i+1})",
+          "stats": [0.0236, null, 0.16, null],
+          "evidence": "| corr_close_nextopen | 前一分钟收盘价与后一分钟开盘价的相关性 | 1 |"
+        },
+        {
+          "name": "第2个半小时成交量占全天成交量比例",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
+          "stats": [0.0129, null, 0.14, null],
+          "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
+        },
+        {
+          "name": "第3个半小时成交量占全天成交量比例",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
+          "stats": [0.04, null, 0.59, null],
+          "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
+        },
+        {
+          "name": "第4个半小时成交量占全天成交量比例",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
+          "stats": [0.044, null, 0.76, null],
+          "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
+        },
+        {
+          "name": "第 5 个半小时成交量占全天成交量比例",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
+          "stats": [0.0473, null, 0.68, null],
+          "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
+        },
+        {
+          "name": "第6个半小时成交量占全天成交量比例",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
+          "stats": [0.0445, null, 0.67, null],
+          "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
+        },
+        {
+          "name": "第7个半小时成交量占全天成交量比例",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
+          "stats": [0.0435, null, 0.59, null],
+          "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
+        },
+        {
+          "name": "成交量与成交笔数的相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr(volume_i, n_i),\\; n_i \\text{为第} i \\text{分钟成交笔数}",
+          "stats": [0.0578, null, 0.42, null],
+          "evidence": "| corr_volume_item | 成交量与成交笔数的相关性 | -1 |"
+        },
+        {
+          "name": "早盘成交量与收益率的相关性",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr(volume_i, r_i),\\; i \\in \\text{早盘}",
+          "stats": [0.0159, null, 0.22, null],
+          "evidence": "利用价格与成交量的关联，构造了早盘成交量与收益率相关性、大单推动涨幅等因子。"
+        },
+        {
+          "name": "大单推动涨幅",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大单成交带来的短时间区间涨幅（分钟频口径）}",
+          "stats": [0.0539, null, 0.66, null],
+          "evidence": "大单推动涨幅反映了大单对市场的冲击，由大单交易带来的短时间上涨较难持续，未来可能会回归到正常水平。"
+        },
+        {
+          "name": "下行单笔成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{下跌时段平均单笔成交金额}}{\\text{全天平均单笔成交金额}}",
+          "stats": [0.0556, null, 0.42, null],
+          "evidence": "下行单笔成交金额占比则刻画了下跌时平均每笔成交金额的相对大小，因子值越大，说明可能是大单卖出带来的短时间下跌，或是下跌时仍有大单买入抄底，未来大概率会反弹。"
+        },
+        {
+          "name": "成交量与振幅的相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "corr(volume_i, amplitude_i)",
+          "stats": [0.0438, null, 0.35, null],
+          "evidence": "| corr_volume_amplitude | 成交量与振幅的相关性 | -1 |"
+        },
+        {
+          "name": "大单成交金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum \\text{大单成交金额}}{\\sum \\text{成交金额}}",
+          "stats": [0.0429, null, 0.32, null],
+          "evidence": "大单成交金额占比刻画了股票成交中大单的贡献度。"
+        },
+        {
+          "name": "早盘大单买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{\\text{早盘}} \\text{大单买入金额}}{\\sum_{\\text{早盘}} \\text{大单成交金额}}",
+          "stats": [0.0251, null, 0.27, null],
+          "evidence": "早盘大单买入占比反映了早盘大单中买入与卖出的相互博弈。"
+        },
+        {
+          "name": "大单推动涨幅",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{大单成交带来的短时间区间涨幅（逐笔成交口径）}",
+          "stats": [0.0469, null, 0.58, null],
+          "evidence": "大单推动涨幅与使用分钟频数据计算出的因子逻辑类似，但由于使用不同颗粒度的数据，两个因子的相关性其实不高。"
+        },
+        {
+          "name": "早盘主动大单推动涨幅",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{早盘主动大单成交带来的区间涨幅}",
+          "stats": [0.049, null, 0.49, null],
+          "evidence": "| early_active_bigorder_ret | 早盘主动大单推动涨幅 | 1 |"
+        },
+        {
+          "name": "买卖单集中度之差",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{i \\in buy} A_i^2}{(\\sum_i A_i)^2}-\\frac{\\sum_{i \\in sell} A_i^2}{(\\sum_i A_i)^2},\\; A_i \\text{为每笔成交金额}",
+          "stats": [0.0502, null, 0.57, null],
+          "evidence": "交易集中度的定义是每笔买单或卖单的成交金额的平方和，除以全天成交金额的平方。"
+        },
+        {
+          "name": "早盘主动买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{\\text{早盘}} \\text{主动买入金额}}{\\sum_{\\text{早盘}} \\text{成交金额}}",
+          "stats": [0.0261, null, 0.24, null],
+          "evidence": "早盘主动买入占比体现了早盘交易中主动买入意愿的强度，也具有正向选股作用。"
+        },
+        {
+          "name": "后一分钟净主动买入与前一分钟收益率的相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "corr(NetActiveBuy_i, r_{i-1})",
+          "stats": [0.0588, null, 0.52, null],
+          "evidence": "| corr_netactivebuy_lastret | 后一分钟净主动买入与前一分钟收益率的相关性 | -1 |"
+        },
+        {
+          "name": "前一分钟净主动买入与后一分钟收益率的相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "corr(NetActiveBuy_i, r_{i+1})",
+          "stats": [0.0417, null, 0.39, null],
+          "evidence": "| corr_netactivebuy_nextret | 前一分钟净主动买入与后一分钟收益率的相关性 | -1 |"
+        },
+        {
+          "name": "买卖单委托量偏度之差",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "skew(\\{q_i^{buy}\\})-skew(\\{q_i^{sell}\\}),\\; q_i \\text{为委托量}",
+          "stats": [0.0146, null, 0.21, null],
+          "evidence": "| skew_order_diff | 买卖单委托量偏度之差 | -1 |"
+        },
+        {
+          "name": "买卖单委托量峰度之差",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "kurt(\\{q_i^{buy}\\})-kurt(\\{q_i^{sell}\\})",
+          "stats": [0.0361, null, 0.43, null],
+          "evidence": "| kurt_order_diff | 买卖单委托量峰度之差 | -1 |"
+        },
+        {
+          "name": "早盘委托量的峰度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "kurt(\\{q_i\\}_{i \\in \\text{早盘}})",
+          "stats": [0.0296, null, 0.25, null],
+          "evidence": "| early_kurt_order | 早盘委托量的峰度 | -1 |"
+        },
+        {
+          "name": "买单委托量与委托价格的相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "corr(q_i^{buy}, p_i^{order})",
+          "stats": [0.0409, null, 0.52, null],
+          "evidence": "| corr_buyorder_volume_price | 买单委托量与委托价格的相关性 | -1 |"
+        },
+        {
+          "name": "高频深度学习因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{以 GRU 为核心的深度学习模型对 27 个高频因子合成的信号，三次随机数种子模型等权集成}",
+          "stats": [null, 0.091, 0.89, null],
+          "evidence": "样本空间为全 A 股，模型在 2017/1/4～2023/11/30 的回测期内周度 RankIC均值为 9.10%，分 10 层 TOP 组合年化超额收益率为 26.20%(不计交易成本)。"
+        },
+        {
+          "name": "低频多任务因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "weekly", "monthly"],
+          "horizon": "weekly",
+          "formula": "Loss=-[corr(\\hat{y}_{1},y)+corr(\\hat{y}_{2},y)+corr(\\hat{y}_{3},y)]+\\lambda[corr(\\hat{y}_{1},\\hat{y}_{2})+corr(\\hat{y}_{1},\\hat{y}_{3})+corr(\\hat{y}_{2},\\hat{y}_{3})]",
+          "stats": [null, 0.1044, 1.21, null],
+          "evidence": "样本空间为全 A股，模型在 2017/1/4～2023/11/30 的回测期内周度 RankIC 均值为 10.44%，分 10 层 TOP组合年化超额收益率为 31.05%(不计交易成本)，TOP组合表现明显优于日频量价模型。消融实验验证了多任务学习设计的有效性。"
+        },
+        {
+          "name": "全频段融合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "monthly"],
+          "horizon": "weekly",
+          "formula": "\\hat{y}=0.25\\hat{y}_{HF}+0.75\\hat{y}_{MT},\\; \\text{高频深度学习因子与低频多任务因子按 1:3 比例合成}",
+          "stats": [null, 0.1147, 1.33, null],
+          "evidence": "样本空间为全 A 股，全频段融合因子在 2017/1/4～2023/11/30 的回测期内周度 RankIC 均值为 11.47%，分 10 层 TOP 组合年化超额收益率为32.25%(不计交易成本)，回测表现进一步提升。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "loss_generalization", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以 GRU 为核心的深度学习模型合成的高频深度学习因子，周度 RankIC 均值 9.10%，TOP 组合年化超额收益率 26.20%，在多项指标上表现优于单因子中的最佳表现",
+      "evidence": "样本空间为全 A 股，模型在 2017/1/4～2023/11/30 的回测期内周度 RankIC均值为 9.10%，分 10 层 TOP 组合年化超额收益率为 26.20%(不计交易成本)。高频深度学习因子在 RankIC 均值、IC_IR、IC>0 占比、TOP 组合年化超额收益率、TOP 组合信息比率、TOP 组合胜率多项指标上表现优于单因子中的最佳表现，体现了多因子合成的优势。"
+    },
+    {
+      "text": "等权和 ICIR 加权两种线性合成方法表现明显不如深度学习因子，说明深度学习能够更好地捕捉时序和非线性的规律",
+      "evidence": "此外，本研究还测试了等权和 ICIR 加权两种线性合成方法，表现明显不如深度学习因子，说明深度学习能够更好地捕捉时序和非线性的规律。"
+    },
+    {
+      "text": "硬参数共享的多任务深度学习模型有效，若简单进行等权合成，或者采用独立 GRU，因子在多数指标的表现均有所减弱",
+      "evidence": "若简单进行等权合成，或者采用独立 GRU，因子在多数指标的表现均有所减弱，说明多任务学习和参数共享的设计是有效的。"
+    },
+    {
+      "text": "低频多任务因子周度 RankIC 均值 10.44%，TOP 组合年化超额收益率 31.05%，表现明显优于日频量价模型",
+      "evidence": "样本空间为全 A股，模型在 2017/1/4～2023/11/30 的回测期内周度 RankIC 均值为 10.44%，分 10 层 TOP组合年化超额收益率为 31.05%(不计交易成本)，TOP组合表现明显优于日频量价模型。消融实验验证了多任务学习设计的有效性。"
+    },
+    {
+      "text": "全频段融合因子周度 RankIC 均值 11.47%，TOP 组合年化超额收益率 32.25%，回测表现较低频多任务因子进一步提升",
+      "evidence": "样本空间为全 A 股，全频段融合因子在 2017/1/4～2023/11/30 的回测期内周度 RankIC 均值为 11.47%，分 10 层 TOP 组合年化超额收益率为32.25%(不计交易成本)，回测表现进一步提升。"
+    },
+    {
+      "text": "基于全频段融合因子的中证 500 增强组合年化超额收益率为 19.46%、18.44%和 17.68%，中证 1000 增强组合年化超额收益率为 29.48%、30.14%和 28.97%",
+      "evidence": "在周双边换手率分别控制为 30%、40%和 50%的情况下，2017/1/4～2023/11/30 回测期内中证 500 增强组合年化超额收益率为 19.46%、18.44%和 17.68%，信息比率为 3.31、3.11 和2.97；中证 1000 增强组合年化超额收益率为 29.48%、30.14%和 28.97%，信息比率为 4.33、4.30 和 4.05。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Caruana R. Multitask learning[J]. Machine learning, 1997, 28: 41-75.",
+    "Ma T, Tan Y. Stock ranking with multi-task learning[J]. Expert Systems with Applications, 2022, 199: 116886.",
+    "《神经网络多频率因子挖掘模型》（2023.5.11）",
+    "《高频因子计算的 GPU加速》（2023.10.16）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

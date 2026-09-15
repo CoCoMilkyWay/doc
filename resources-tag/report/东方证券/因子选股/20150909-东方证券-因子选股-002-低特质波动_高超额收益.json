@@ -1,0 +1,94 @@
+{
+  "schema_version": 2,
+  "id": "20150909-东方证券-因子选股-002-低特质波动_高超额收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "年化波动率STD",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "STD_{i,t}=Std\\big(r_{i,t}\\big)\\cdot\\sqrt{T},\\ T=243",
+          "stats": [-0.0134, -0.0426, null, null],
+          "evidence": "我们沿用经典的风险度量方法，将股票的总风险 STD 定义为过去一个月内股票日收益率的样本标准差。"
+        },
+        {
+          "name": "特质波动率IVCAPM",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "IVCAPM_{i,t}=Std\\left(\\varepsilon_{i,t}\\right)\\cdot\\sqrt{T},\\ \\varepsilon_{i,t}\\ \\text{来自回归} \\ r_{i,t}=\\alpha_{i,t}+\\beta_{i,t}MKT_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.0318, -0.069, null, null],
+          "evidence": "特质波动率 IVCAPM通过以上回归结果的残差项的年化标准差来度量:"
+        },
+        {
+          "name": "特质波动率IVFF",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "IVFF_{i,t}=Std\\left(\\varepsilon_{i,t}\\right)\\cdot\\sqrt{T},\\ \\varepsilon_{i,t}\\ \\text{来自回归} \\ r_{i,t}=\\alpha_{i,t}+\\beta_{i,t}MKT_{t}+s_{i,t}SMB_{t}+h_{i,t}HML_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.04, -0.0793, null, null],
+          "evidence": "在 t日，利用股票 i过去一个月内的日收益率按以下方程对 Fama、French（1993）的三因子数据进行回归："
+        },
+        {
+          "name": "特质波动率IVCARHART",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "IVCARHART_{i,t}=Std(\\varepsilon_{i,t})\\cdot\\sqrt{T},\\ \\varepsilon_{i,t}\\ \\text{来自回归} \\ r_{i,t}=\\alpha_{i,t}+\\beta_{i,t}MKT_{t}+s_{i,t}SMB_{t}+h_{i,t}HML_{t}+m_{i,t}MOM_{t}+\\varepsilon_{i,t}",
+          "stats": [-0.0382, -0.0766, null, null],
+          "evidence": "特质波动率 IVCARHART通过以上回归结果的残差项的年化标准差来度量:"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "A股市场存在“特质波动率之谜”：低特质波动的股票，未来预期收益更高",
+      "evidence": "我们的研究发现A股市场也有“特质波动率之谜”现象，即低特质波动的股票，未来预期收益更高。"
+    },
+    {
+      "text": "基于Fama-French三因子模型的特质波动率IVFF对收益率的预测能力最强，与经典的流通市值、市净率相差无几",
+      "evidence": "基于Fama-French 三因子模型的特质波动率较其他不同测度下的特质波动率在预测预期收益率方面的效果更佳，甚至和经典的市值因子、PB因子相差无几。"
+    },
+    {
+      "text": "IVFF top组合年化收益率33.84%、实现22.4倍增长，远胜市场等权指数和中证全指；bottom组合年化收益率低于基准23.63%，选股时应规避高特质波动率的股票",
+      "evidence": "2004 年 12 月 31 日至 2015 年 8 月 31日，基于 IVFF的 top组合实现了 22.4倍的增长，年化收益率 33.84%，远胜同期市场等权指数和中证全指的表现；相比之下，bottom组合净值仅为期初的 1.3倍，远输于基准和 top组合。"
+    },
+    {
+      "text": "行业中性条件下IVFF分组超额收益的单调性依然明显，top组合年化收益率28.88%，超越中证全指13.30%",
+      "evidence": "经过行业中性处理之后，分组超额收益的单调性依然明显，低 IVFF 组合超额收益显著。top 组合年化收益率 28.88%，超越中证全指 13.30%，月底胜率 64.84%，信息比 1.14。"
+    },
+    {
+      "text": "换手率对特质波动率之谜的解释作用最强，反转因子和估值因子次之，流通市值对特质波动率选股有负的贡献，流通市值、市净率、月收益率、换手率均不能完全解释IVFF的超额收益",
+      "evidence": "换手率指标对特质波动率之谜的解释作用最强，反转因子和估值因子次之，流通市值对特质波动率选股有负的贡献。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ang、Hodrick、Xing & Zhang（2006）",
+    "Carhart（1997）",
+    "Fama、French（1993）",
+    "单因子有效性检验2015-06-26"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

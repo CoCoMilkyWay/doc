@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "id": "20240815-东方证券-因子选股-107-dfq_xgb_基于树模型的alpha预测方案",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "DFQ-XGB",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{XGBoost梯度提升树模型：以430个人工构造的量价与基本面特征为输入，对截面Zscore标准化后的未来20日个股收益率进行回归预测，输出模型打分作为选股因子}",
+          "stats": [0.1296, 0.1543, 1.29, 0.2958],
+          "evidence": "考虑到内存占用，我们采用滚动窗口统计方法，在原始设计的 70 个截面特征的基础上，再将70特征里面的60个量价特征做5，10，20天的平均与标准差，从而得到430个特征。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "label_horizon", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "以纯截面70特征为输入的模型表现明显弱于以添加时序信息的430特征为输入的模型，IC低1pct以上，RANKIC低接近2pct，多头年化超额低7pct以上。",
+      "evidence": "结果显示：以纯截面 70 特征为输入的模型表现，明显弱于以添加时序信息的 430 特征为输入的模型，IC 低 1pct 以上，RANKIC 低接近 2pct，ICIR 和 RANKICIR 也有较大差距，多头年化超额低 7pct以上。"
+    },
+    {
+      "text": "使用Optuna调参方法，调参后模型在测试集上的效果有明显提高，IC和RANKIC提高近1pct，多头年化超额提高近4pct。",
+      "evidence": "调参技巧：使用 Optuna 调参方法，调参后模型在测试集上的效果有明显提高，IC 和RANKIC 提高近 1pct，多头年化超额提高近 4pct。"
+    },
+    {
+      "text": "随机种子对树模型的整体影响较小，不同种子下得到的模型表现较为接近，IC和RANKIC相差都在0.5pct以内，多头年化超额相差2pct以内。",
+      "evidence": "（3）随机种子对树模型的整体影响较小。不同种子下得到的模型表现较为接近，IC和RANKIC相差都在 0.5pct以内，多头年化超额相差 2pct以内。"
+    },
+    {
+      "text": "相同输入特征下MLP、GRU模型效果均不如XGBoost模型，RANKIC低1pct左右，XGB模型多头表现最好，年化超额达到29%。",
+      "evidence": "（1）MLP、GRU 模型效果均不如 XGBoost 模型，RANKIC 低 1pct 左右。MLP 模型多头端表现最差，年化超额仅为 21.55%，GRU 模型多头表现相对较好，年化超额 27.56%，XGB 模型多头表现最好，年化超额达到 29%；"
+    },
+    {
+      "text": "中证全指股票池中DFQ-XGB模型所得因子稳定性最强，测试集上IC12.96%，RANKIC15.43%，20分组多头年化超额收益29.58%。",
+      "evidence": "在中证全指股票池中，DFQ-XGB 模型所得到因子的稳定性最强，测试集上 IC12.96%， RANKIC15.43%，20 分组多头年化超额收益 29.58%。"
+    },
+    {
+      "text": "中证全指股票池中DFQ-XGB模型与DFQ-HIST模型等权合成后效果更佳，达到1+1>2的集成效果，测试集IC达到13.39%，RANKIC达到17.19%，20分组多头日度超额年化收益率达到36.12%。",
+      "evidence": "在中证全指股票池中，DFQ-XGB 模型与 DFQ-HIST 模型等权合成后效果更佳，达到 1+1>2 的集成效果。测试集上 IC 达到 13.39%，RANKIC 达到17.19%，20分组多头日度超额年化收益率达到 36.12%。"
+    },
+    {
+      "text": "中证全指内使用DFQ-XGB模型构建的top100组合绩效表现优于其他模型，2020年以来年化绝对收益达到25.68%，年化夏普比达到1.17，最大回撤27.28%。",
+      "evidence": "在中证全指内，使用 DFQ-XGB 模型构建的 top100 组合，绩效表现优于其他模型。2020年以来年化绝对收益达到 25.68%，年化夏普比达到 1.17，最大回撤 27.28%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Zhang C, Li Y, Chen X, et al. DoubleEnsemble: A new ensemble method based on sample reweighting and feature selection for financial data analysis",
+    "《DFQ 强化学习因子组合挖掘系统》",
+    "《DFQ 遗传规划价量因子挖掘系统》",
+    "《DFQ-FactorVAE：融合变分自编码器和概率动态因子模型的 alpha 预测方案》",
+    "《DFQ-HIST：添加图信息的选股因子挖掘系统》",
+    "《DFQ-TRA：多交易模式学习因子挖掘系统》",
+    "《东方 A股因子风险模型(DFQ-2020)》",
+    "《基于机构持仓的因子情景分析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

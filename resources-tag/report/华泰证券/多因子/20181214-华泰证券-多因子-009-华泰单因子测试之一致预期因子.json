@@ -1,0 +1,243 @@
+{
+  "schema_version": 2,
+  "id": "20181214-华泰证券-多因子-009-华泰单因子测试之一致预期因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision", "analyst_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "一致预期EP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "CON\\_EP = \\frac{\\text{一致预期EPS}}{\\text{统计日收盘价}}",
+          "stats": [null, 0.0452, 0.39, 0.0897],
+          "evidence": "可以发现，银行行业具有较高的 CON_EP和CON_BP，国防军工行业的 CON_EP和CON_BP都较低，这两个因子在不同行业间的水平存在一定差异。"
+        },
+        {
+          "name": "一致预期EP同行业位序",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期EP在申万二级行业内的位序}",
+          "stats": [null, 0.0403, 0.59, 0.0934],
+          "evidence": "| CON_EP_RANK | 一致预期EP同行业位序(申万二级行业) | 90.67% |"
+        },
+        {
+          "name": "一致预期EP季度环比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期EP的季度环比}",
+          "stats": [null, 0.0477, 0.59, 0.1316],
+          "evidence": "| CON_EP_REL | 一致预期EP季度环比 | 87.20% |"
+        },
+        {
+          "name": "一致预期BP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "CON\\_BP = \\frac{\\text{一致预期净资产}}{\\text{统计日收盘价}}",
+          "stats": [null, 0.0504, 0.31, 0.0963],
+          "evidence": "可以发现，银行行业具有较高的 CON_EP和CON_BP，国防军工行业的 CON_EP和CON_BP都较低，这两个因子在不同行业间的水平存在一定差异。"
+        },
+        {
+          "name": "一致预期BP同行业位序",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期BP在申万二级行业内的位序}",
+          "stats": [null, 0.0478, 0.67, 0.1154],
+          "evidence": "| CON_BP_RANK | 一致预期BP同行业位序（申万二级行业） | 90.68% |"
+        },
+        {
+          "name": "一致预期BP季度环比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期BP的季度环比}",
+          "stats": [null, 0.0478, 0.41, 0.1078],
+          "evidence": "| CON_BP_REL | 一致预期 BP季度环比 | 87.23% |"
+        },
+        {
+          "name": "一致预期EPS",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{对过去一段时间内所有卖方分析师相关报告中的预测EPS进行加权，取最远预测年份的一致预期EPS}",
+          "stats": [null, 0.0162, 0.13, 0.0375],
+          "evidence": "以股票000001.SZ的一致预期EPS 因子为例，在2018年10月31日这天，一致预期数据表会记录该股票未来3年（2018、2019、2020）的一致预期EPS因子值，该因子值并非单一分析师报告的预测EPS，而是通过对过去一段时间内所有卖方分析师相关报告中的预测EPS进行加权，得到加权后的一致预期EPS因子数据。"
+        },
+        {
+          "name": "一致预期EPS同行业位序",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期EPS在申万二级行业内的位序}",
+          "stats": [null, 0.0164, 0.17, 0.0377],
+          "evidence": "| CON_EPS_RANK | 一致预期EPS同行业位序（申万二级行业） | 90.69% |"
+        },
+        {
+          "name": "一致预期EPS季度环比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期EPS的季度环比}",
+          "stats": [null, 0.0174, 0.38, 0.054],
+          "evidence": "| CON_EPS_REL | 一致预期 EPS 季度环比 | 87.43% |"
+        },
+        {
+          "name": "一致预期ROE",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "CON\\_ROE = \\frac{\\text{一致预期净利润}}{\\text{一致预期净资产}}",
+          "stats": [null, 0.0076, 0.08, 0.0164],
+          "evidence": "一致预期EP和一致预期BP的相关因子在行业内选股表现较好，在多个行业内都有入选，一致预期ROE相关因子只在银行行业内选股排名进入前50，一致预期EPS和一致预期归母净利润相关因子没有一个排名进入前50。"
+        },
+        {
+          "name": "一致预期ROE同行业位序",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期ROE在申万二级行业内的位序}",
+          "stats": [null, 0.0072, 0.1, 0.0107],
+          "evidence": "| CON_ROE_RANK | 一致预期 ROE同行业位序（申万二级行业） | 90.69% |"
+        },
+        {
+          "name": "一致预期ROE季度环比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期ROE的季度环比}",
+          "stats": [null, 0.0174, 0.39, 0.0619],
+          "evidence": "| CON_ROE_REL | 一致预期 ROE 季度环比 | 87.43% |"
+        },
+        {
+          "name": "一致预期归母净利润",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{对过去一段时间内所有卖方分析师报告中的预测归母净利润进行加权，取最远预测年份的一致预期归母净利润}",
+          "stats": [null, -0.0092, -0.06, -0.0517],
+          "evidence": "一致预期EP和一致预期BP的相关因子在行业内选股表现较好，在多个行业内都有入选，一致预期ROE相关因子只在银行行业内选股排名进入前50，一致预期EPS和一致预期归母净利润相关因子没有一个排名进入前50。"
+        },
+        {
+          "name": "一致预期归母净利润同行业位序",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期归母净利润在申万二级行业内的位序}",
+          "stats": [null, 0, 0, -0.0284],
+          "evidence": "| CON_NP_RANK | 一致预期归母净利润同行业位序（申万二级行业） | 90.69% |"
+        },
+        {
+          "name": "一致预期归母净利润季度环比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期归母净利润的季度环比}",
+          "stats": [null, 0.0222, 0.43, 0.0795],
+          "evidence": "| CON_NP_REL | 一致预期归母净利润季度环比 | 87.43% |"
+        },
+        {
+          "name": "个股季度报告数",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{个股季度报告数量}",
+          "stats": [null, 0.0245, 0.18, 0.0657],
+          "evidence": "| 个股季度报告数 | REPORT_NUMBER | 个股季度报告数量 |"
+        },
+        {
+          "name": "个股季度关注研究员数",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{个股季度关注的研究员数量}",
+          "stats": [null, 0.0167, 0.12, 0.0421],
+          "evidence": "| 个股季度关注研究员数 | AUTHOR_NUMBER | 个股季度关注的研究员数量 |"
+        },
+        {
+          "name": "个股季度机构覆盖数",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{个股季度至少有一篇报告记录的机构总量}",
+          "stats": [null, 0.0178, 0.13, 0.0415],
+          "evidence": "| 个股季度机构覆盖数 | ORGAN_NUMBER | 个股季度至少有一篇报告记录的机构总量 |"
+        },
+        {
+          "name": "个股季度买入评级报告数",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{个股季度买入评级报告数}",
+          "stats": [null, 0.0308, 0.24, 0.0725],
+          "evidence": "| 个股季度买入评级报告数 | BUY_NUMBER | 个股季度买入评级报告数 |"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "三个股票池内一致预期因子效果排序为：沪深300>全A>中证500。",
+      "evidence": "总体来看，三个股票池内一致预期因子效果排序为：沪深300>全A>中证500。"
+    },
+    {
+      "text": "同行业位序因子的RankIC均值相比原始因子会有一定降低，但是ICIR会有较大提升，分层测试表现更加稳定。",
+      "evidence": "（1）原始因子与其同行业位序因子相关性较高，大多数情况下，同行业位序因子的RankIC均值相比原始因子会有一定降低，但是ICIR会有较大提升，分层测试表现更加稳定。"
+    },
+    {
+      "text": "季度环比因子会比原始因子有更高的ICIR和多空组合夏普比率，但换手率更高，多空组合的良好表现多数情况下来自于空头。",
+      "evidence": "(2）原始因子与其季度环比因子相关性较低，大多数情况下，季度环比因子会比原始因子有更高的ICIR和多空组合夏普比率，但是换手率也更高，其多空组合的良好表现多数情况下来自于空头。"
+    },
+    {
+      "text": "沪深300内RankIC均值最高的因子是一致预期EP，RankIC均值为6.32%，ICIR为0.33，多空组合夏普比率为0.79；中证500内RankIC均值最高的是一致预期BP，RankIC均值为4.60%，IC_IR为0.26；全A内RankIC均值最高的是一致预期BP同行业位序，RankIC均值为4.78%，ICIR为0.67。",
+      "evidence": "其中沪深300内 RankIC 均值最高的因子是一致预期 EP，RankIC 均值为 6.32%，ICIR为 0.33，多空组合夏普比率为 0.79。中证 500 内RankIC 均值最高的因子是一致预期 BP，RankIC 均值为 4.60%，IC_IR 为 0.26，多空组合夏普比率为 0.93。全 A 内 RankIC 均值最高的因子是一致预期 BP 同行业位序，RankIC 均值为 4.78%，ICIR 为 0.67，多空组合夏普比率为 1.94。"
+    },
+    {
+      "text": "关注度类一致预期因子表现并不亮眼，其中个股季度买入评级报告数因子在沪深300内表现较好，RankIC均值为4.33%，ICIR为0.26，多空组合夏普比率为0.81。",
+      "evidence": "测试发现该类因子表现并不亮眼，其中个股季度买入评级报告数因子在沪深300内表现较好，RankIC 均值为 4.33%，ICIR 为 0.26，多空组合夏普比率为 0.81。"
+    },
+    {
+      "text": "一致预期因子在银行行业内表现最好，有6个因子排名进入前50，其中4个因子的RankIC在10%以上，多空组合夏普比率在1以上。",
+      "evidence": "一致预期因子在银行行业内表现最好，有6个因子排名进入前50，其中4个因子的RankIC在10%以上，多空组合夏普比率在1以上。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["华泰单因子测试之估值类因子", "华泰多因子模型体系初探(2016.09)"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

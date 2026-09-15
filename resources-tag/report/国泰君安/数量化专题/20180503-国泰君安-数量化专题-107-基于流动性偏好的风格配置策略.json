@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "20180503-国泰君安-数量化专题-107-基于流动性偏好的风格配置策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ILLIQ",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ILLIQ=flag*\\frac{2*(high-low)-|close-open|}{amount/flow_{-}equity}",
+          "stats": [null, null, null, null],
+          "evidence": "基于以上的逻辑，我们构建了ILLIQ 指标，其刻画了单位成交金额所负载的信息含量。具体指标构建过程如下所示，其中，分子部分刻画了股票价格在日内运动路径的过程。"
+        },
+        {
+          "name": "ILLIQ_ADJ",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ILLIQ_{-}ADJ=\\frac{ILLIQ}{MA300_{-}ILLIQ}",
+          "stats": [null, null, null, null],
+          "evidence": "我们通过使用个股过去移动平均300日指标值对指标进行过滤处理，从而使得调整后的指标在股票横截面上具备可比性。在此基础上，我们每日根据ILLIQ_ADJ 指标对所有股票进行排序，其中，排序靠前的股票代表其当日交易负载正向信息，也就越安全。"
+        },
+        {
+          "name": "流动性集中度",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "conc_{t}=MA_{S}(安全池成交占比)_{t}-MA_{L}(风险池成交占比)_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "流动性集中度（conct）=S日移动平均成交占比-L日移动平均成交占比"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "策略在2005-2017回测中累计净值达8.12，年化收益19.06%，但2015年8月-2016年2月出现净值下跌33%的显著模型失效。",
+      "evidence": "从图6中可以看出，策略在过去将近12年的时间里累计净值达到 8.12，年化收益19.06%。但是，策略在 2015年8月-2016年 2 月之间有较为显著的模型失效问题，净值下跌 33%。"
+    },
+    {
+      "text": "多数风格因子收益在不同风险偏好下有显著区别：风险偏好低时配置市值大、估值低、动量强势、异质波动较低的股票，风险偏好抬升时转向小市值、高成长、特质收益强的股票。",
+      "evidence": "从图5中可以看出，多数风格因子受风险偏好的影响，其收益在不同风险偏好下有显著区别。当风险偏好较低，投资者趋于稳健的时候，更倾向于配置市值大、估值低、动量强势、异质波动较低的股票，这与 2017年上半年的风格表现一致，可以统括为大盘蓝筹。"
+    },
+    {
+      "text": "风格因子的超额收益并非恒定功率产生，绝大多数超额收益来源于投资者风险偏好较高的时候，随风险偏好变化呈现周期特征。",
+      "evidence": "但是，其产生超额收益的效率却有很大区别，其中绝大多数超额收益都来源于投资者风险偏好较高的时候。因此，风格因子的收益并不是以恒定的功率产生，而是随投资者风险偏好变化，有一定周期特征。"
+    },
+    {
+      "text": "2015-2016年模型失效的核心原因是证金公司等救市资金的外力冲击，股灾时风格表现受救市资金偏好而非市场内生性风险偏好变化影响。",
+      "evidence": "本次模型失效的核心原因是证金公司等救市资金的外力冲击，也就是说，市场在股灾时的风格表现并不受市场内生性风险偏好变化影响，更多的是受救市资金偏好影响。"
+    },
+    {
+      "text": "流动性集中度指标时间序列相对稳定，多空切换周期约1个月，2017年上半年延续周期显著拉长，与抱团大盘蓝筹行情一致。",
+      "evidence": "从图2中可以看出，流动性集中度指标在时间序列上处于相对稳定的状态，多空切换周期大概在 1个月左右。其中值得一提的是，该指标在2017年上半年的延续周期显著拉长，这与市场抱团大盘蓝筹的行情一致。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra 九大类风格因子"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "20240621-华泰期货-高频收益预测-001-高频收益如何及何时可预测_上",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "order_flow"],
+      "setup": {
+        "universe": ["large"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "tree"],
+      "baseline": [],
+      "setup": {
+        "universe": ["large"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "高频收益率在极短时间范围内展现出显著、系统性和普遍的可预测性，与可预测性较小且不稳定的中长期收益率相反",
+      "evidence": "作者发现，与中长期收益率相反（可预测性较小且不稳定），高频收益率在短期内显示出显著、系统性和普遍的可预测性。"
+    },
+    {
+      "text": "基于成交数据构建的预测因子（如成交不平衡和历史收益因子）对预测高频收益率帮助相对较高，基于报价数据构造的因子则相对较弱；前两名预测变量是成交不平衡(TxnImbalance)因子和历史收益(PastReturn)因子，都来自于成交而不是报价数据",
+      "evidence": "两种衡量方式都给出了较为一致的结果，前两名的预测变量是成交不平衡(TxnImbalance)因子和历史收益(PastReturn)因子，这两者都来自于成交而不是报价数据；这两个因子的回归系数符号与预期一致：如果在短期内发生多笔买入交易，这种趋势可能会持续一段时间并推动价格上涨。"
+    },
+    {
+      "text": "较短区间内的可预测性很强，但随着区间的延长而逐渐减弱，成交和成交额时钟的结果与日历时钟一致",
+      "evidence": "成交和成交额时钟的结果与日历时钟的结果是一致的：较短区间内的可预测性很强，但随着区间的延长而逐渐减弱。"
+    },
+    {
+      "text": "预测5秒回报的方向准确性中位数约为64%，预测30秒回报时下降到约59%",
+      "evidence": "日历时钟中，预测5秒回报的方向准确性中位数约为64%，而预测30秒回报时的方向准确性下降到了约 59%，成交和成交额时钟的结果与日历时钟基本一致。"
+    },
+    {
+      "text": "交易持续期的预测效果甚至比收益率更准确，更长的交易持续期具备更强的可预测性，R 方中位数约为15%",
+      "evidence": "从结果上看，交易持续期的预测效果甚至比收益率更准确，并且更长的交易持续期具备更强的可预测性，R 方中位数约为15%（等待 200 笔交易发生或20,000 股交易的时间对比 10 笔交易或 1,000 股交易的持续期）。"
+    },
+    {
+      "text": "随着延迟的增加，可预测性单调急剧下降，延迟 10ms（0.01秒）后平均样本外 R2 从14% 下降到 2.5%，表明数据时效性的重要性",
+      "evidence": "结果表明，随着延迟的增加，可预测性单调急剧下降。尤其是日历时钟，平均样本外 R2 在延迟 10ms（0.01秒）后从14% 下降到 2.5%，类似的急剧下降也出现在其他问题和其他时钟中，表明了数据时效性的重要性。"
+    },
+    {
+      "text": "获取关于未来订单流方向的前瞻性信息可显著提高收益预测：包含平均未来交易方向的符号可将收益可预测性从 14% 提高到 27%，方向准确性从 68% 提高到 79%",
+      "evidence": "结果表明，包含平均未来交易方向的符号可以将收益可预测性从 14% 提高到 27%，方向准确性从 68% 提高到 79%。而且，正如预期的那样，随着信号信息量的减少（p 增加），可预测性单调下降。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Aït-Sahalia, Y., Fan, J., Xue, L., & Zhou, Y. (2022). How and When are High-Frequency Stock Returns Predictable? (No. w30366). National Bureau of Economic Research.",
+    "Cont, R., Kukanov, A., Stoikov, S., 2014. The price impact of order book events. Journal of Financial Econometrics 12, 47-88.",
+    "Kercheval, A. N., Zhang, Y., 2015. Modelling high-frequency limit order book dynamics with support vector machines. Quantitative Finance 15, 1315-1329.",
+    "Lee, C. M., Ready, M. J., 1991. Inferring trade direction from intraday data. The Journal of Finance 46, 733-746."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "id": "20210721-国泰君安-学界纵横-016-基于随机贴现模型的因子筛选法",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L2_process",
+  "pipe": {
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["regression_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "近年新提出的因子中，BETA、投资能力（HXZ 的 IA）和盈利能力因子（Fama-French 的 RMW、HXZ 的 ROE）有显著贡献；双重选择方法可以充分利用因子库中包含的信息，减小变量遗漏误差，进而更保守地评估新因子贡献。",
+      "evidence": "文章得出的主要结论：第一，近年新提出的因子中，BETA、投资能力（HXZ 的 IA）和盈利能力因子（Fama-French 的 RMW、HXZ 的 ROE）有显著贡献。同时对比不同基准模型，双重选择方法可以充分利用因子库中包含的信息，减小变量遗漏误差，进而更保守地评估新因子贡献。"
+    },
+    {
+      "text": "随着时间递归地应用文章方法，可以对因子库进行缩减：从1994年开始每年进行双重选择，只有 17 个因子被认为是有用的，其中绝大多数被认为是冗余或无效因子。",
+      "evidence": "图3为测试结果，加下划线的即为贡献显著的因子。可以看出如果从1994年开始每年进行双重选择，只有 17 个因子被认为是有用的，其中绝大多数被认为是多冗余或无效因子。"
+    },
+    {
+      "text": "文章方法对于模型参数具有稳健性，其他机器学习的变量选择方法也与文章的实证结果相似，说明双重选择方法可以克服模型选择错误而能够产生正确的推论。",
+      "evidence": "第三，文章方法对于模型参数具有稳健性，同时使用其他机器学习的变量选择方法，也与文章的实证结果相似，说明双重选择方法可以克服模型选择错误而能够产生正确的推论。"
+    },
+    {
+      "text": "在纯技术因子库的应用上，双重选择方法虽能在一定程度精简因子库，剔除部分相关性较高的因子，但效果不显著。",
+      "evidence": "实证结果显示，在纯技术因子库的应用上，双重选择方法虽能在一定程度精简因子库，剔除部分相关性较高的因子，但效果不显著。"
+    },
+    {
+      "text": "计算选择前后因子库的绝对相关性均值，发现双重选择方法并没有显著降低因子间的相关性。",
+      "evidence": "同时表 3 计算选择前后因子库的绝对相关性均值，发现双重选择方法并没有显著降低因子间的相关性。"
+    },
+    {
+      "text": "技术因子库中没有对收益解释力度较强的核心因子，且通过修改参数构成的同类因子相关性较大，使用双重选择方法对因子精简的效果不明显。",
+      "evidence": "而在技术因子库中没有对收益解释力度较强的核心因子，且通过修改参数构成的同类因子相关性较大，使用双重选择方法对因子精简的效果不明显。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Feng G , Giglio S , Xiu D . Taming the Factor Zoo: A Test of New Factors[J]. Social Science Electronic Publishing.",
+    "Haddad V , Kozak S , Santosh S . Factor Timing[J]. NBER Working Papers, 2020.",
+    "Kozak S , Nagel S , Santosh S . Shrinking the Cross Section[J]. Social Science Electronic Publishing."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

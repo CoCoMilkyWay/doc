@@ -1,0 +1,188 @@
+{
+  "schema_version": 2,
+  "id": "20220829-兴业证券-高频-004-成交量分布中的_alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "logvol_skew",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对日内分钟对数成交量 \\log(volume) 计算偏度}",
+          "stats": [0.0303, null, 0.45, 0.4192],
+          "evidence": "首先，我们基于成交量近似服从对数正态分布的特性2，挖掘其本身的分布信息，构造了3个有效的对数成交量分布因子。"
+        },
+        {
+          "name": "logvol_90tail",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对数成交量中高于90%分位数的成交量占比}",
+          "stats": [0.029, null, 0.58, 0.3463],
+          "evidence": "首先，我们基于成交量近似服从对数正态分布的特性2，挖掘其本身的分布信息，构造了3个有效的对数成交量分布因子。"
+        },
+        {
+          "name": "logvol_10tail",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对数成交量中低于10%分位数的成交量占比}",
+          "stats": [0.022, null, 0.38, 0.1969],
+          "evidence": "首先，我们基于成交量近似服从对数正态分布的特性2，挖掘其本身的分布信息，构造了3个有效的对数成交量分布因子。"
+        },
+        {
+          "name": "volroc_skew",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{15分钟成交量变化率的偏度}",
+          "stats": [0.0206, null, 0.44, 0.224],
+          "evidence": "因此，我们将分钟成交量进行重新切片以修正。在此基础上，我们构建了两个有效的成交量分布因子，以判断成交量的激增情况（偏度）或稳定情况（峰度）。"
+        },
+        {
+          "name": "volroc_kurt",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{15分钟成交量变化率的峰度}",
+          "stats": [0.0198, null, 0.44, 0.2179],
+          "evidence": "因此，我们将分钟成交量进行重新切片以修正。在此基础上，我们构建了两个有效的成交量分布因子，以判断成交量的激增情况（偏度）或稳定情况（峰度）。"
+        },
+        {
+          "name": "cumsumvol_mean",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{按时间维度异构的累计成交量占比序列的均值}",
+          "stats": [0.0304, null, 0.37, 0.3556],
+          "evidence": "在分钟级的成交量中，周期效应，即日内成交量的U型分布是最为常见的特征之一。"
+        },
+        {
+          "name": "cumsumvol_std",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{按时间维度异构的累计成交量占比序列的标准差}",
+          "stats": [0.0225, null, 0.28, 0.197],
+          "evidence": "在分钟级的成交量中，周期效应，即日内成交量的U型分布是最为常见的特征之一。"
+        },
+        {
+          "name": "vol_entropy",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对日内分钟成交量剔除时间维度后分桶计算熵，再取近20日标准差}",
+          "stats": [0.0218, null, 0.53, 0.2949],
+          "evidence": "在此计算下，如果某股的成交量分桶熵因子值较大，说明该股的成交量相对均匀地分布在最大值与最小值之间；反之如果某股的成交量分桶熵因子值较小，说明该股的成交量相对集中地分布在某一桶中，具体表现即为成交量分布相对不均匀。"
+        },
+        {
+          "name": "vol_maxmean",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对日内分钟成交量用Bootstrapping重采样得到极大值样本，取样本均值，再取近15日标准差}",
+          "stats": [0.042, null, 0.51, 0.5038],
+          "evidence": "基于该算法得到极大值的样本数据后，该极大值的样本均值越大，说明该股成交量极值出现的次数相对较多，且骤增的量较大；该极大值的样本标准差越小，说明该股成交量极大值的量相对均衡，极值部分差异较小。"
+        },
+        {
+          "name": "vol_maxstd",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对日内分钟成交量用Bootstrapping重采样得到极大值样本，取样本标准差，再取近15日标准差}",
+          "stats": [0.0366, null, 0.47, 0.4629],
+          "evidence": "基于该算法得到极大值的样本数据后，该极大值的样本均值越大，说明该股成交量极值出现的次数相对较多，且骤增的量较大；该极大值的样本标准差越小，说明该股成交量极大值的量相对均衡，极值部分差异较小。"
+        },
+        {
+          "name": "vsa_ratio",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{成交量支撑区域VSA的下限与当日收盘价之间的差异，按因子值降序排序}",
+          "stats": [0.0407, null, 0.57, 0.3829],
+          "evidence": "因此，我们计算成交量支撑区域 VSA 的下限与当日的收盘价之间的差异，并以此构建因子。若差异较大，说明该股收盘后处于异常推动状态，当日大幅跌穿公允价格区域，其未来预计会回到公允价格区域，出现回弹上涨，因此因子值为降序排序。"
+        },
+        {
+          "name": "vsa_low2max",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{基于VSA上下限判断同价成交量分布形态，值越大越接近P型分布，降序排序}",
+          "stats": [0.0422, null, 0.35, 0.242],
+          "evidence": "以vsa_low2max为例，若该因子值越大，说明成交量支撑区域越接近日内的高价区域，则该股日内的成交量分布越接近于P型分布，该股预期上涨；以vsa_high2min为例，若该因子值越小，说明成交量支撑区域越接近日内的低价区域，则该股日内的成交量分布越接近于 b型分布，该股预期下跌。"
+        },
+        {
+          "name": "vsa_high2min",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{基于VSA上下限判断同价成交量分布形态，值越小越接近b型分布，升序排序}",
+          "stats": [0.0548, null, 0.47, 0.3919],
+          "evidence": "以vsa_low2max为例，若该因子值越大，说明成交量支撑区域越接近日内的高价区域，则该股日内的成交量分布越接近于P型分布，该股预期上涨；以vsa_high2min为例，若该因子值越小，说明成交量支撑区域越接近日内的低价区域，则该股日内的成交量分布越接近于 b型分布，该股预期下跌。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "六个特异成交量分布因子均展示出极强的选股能力，其中vol_maxmean（成交量极大值均值）的多空收益率高达50%，多头收益率高达约24%，夏普比率在6左右。",
+      "evidence": "六个特异因子均展示出极强的选股能力：我们以 vol_maxmean（成交量极大值均值）为例进行阐述：该因子的多空收益率高达 50%，多头收益率高达约 24%，夏普比率在 6左右。"
+    },
+    {
+      "text": "常见成交量分布因子IC均值几乎都在2%以上，表现出较好的股价预测能力，大多数因子的多空夏普大于3，部分因子的多空夏普大于6。",
+      "evidence": "从日度 IC 测试结果上看，成交量分布因子 IC均值几乎都在2%以上，表现出较好的股价预测能力。"
+    },
+    {
+      "text": "成交量分桶熵、两个极大值分布因子与vsa_ratio共计四个因子与基础高频因子库内的因子时序相关性较低，具有较高的特异性。",
+      "evidence": "总结而言：我们基于三个角度构建的异构成交量分布因子整体特异性保持相对较好，其中成交量分桶熵、两个极大值分布因子与 vsa_ratio 共计四个因子与基础高频因子库内的因子时序相关性较低，具有较高的特异性。"
+    },
+    {
+      "text": "选取四个特异性较强且表现优秀的因子进行中性化处理，处理后因子表现依旧优秀，多空夏普比率几乎都大于4，且保持了较高的多头收益率。",
+      "evidence": "从测试结果来看，经过中性化处理后的因子表现依旧优秀，多空夏普比率几乎都大于 4，且保持了较高的多头收益率。"
+    },
+    {
+      "text": "正交化后的vsa_ratio_Neu因子多空年化收益率为29.25%，多头年化为15.27%，多空最大回撤仅5%，成交量极大值均值因子正交化后多头年化收益率约为20%。",
+      "evidence": "以对已实现方差因子进行正交化后的 vsa_ratio_Neu 因子为例，该因子的多空年化收益率为29.25%，多头年化为 15.27%，多空最大回撤仅 5%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《高频漫谈》（2022-01-04）",
+    "《高频研究系列三—收益率分布中的 Alpha(2)》（2022-05-04）",
+    "《高频研究系列二—收益率分布因子构建》（2022-01-23）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

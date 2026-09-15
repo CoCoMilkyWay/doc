@@ -1,0 +1,734 @@
+{
+  "schema_version": 2,
+  "id": "20190226-西南证券-barra模型-001-barra中国市场模型cne6解读",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "accounting_quality",
+        "expectation_level",
+        "expectation_revision",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Volatility",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Beta 与 Residual Volatility 等权合成}",
+          "stats": [-0.0527, null, -0.38, 0.0578],
+          "evidence": "| Volatility | 一级因子 | -5.27% | -0.38 | 66.67% | 多头：6.77% | 多头：58.20% | 31.98% |"
+        },
+        {
+          "name": "Residual Volatility",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{HSIGMA、DASTD、CMRA 等权合成}",
+          "stats": [-0.0594, null, -0.41, 0.0819],
+          "evidence": "| Residual Volatility | 二级因子 | -5.94% | -0.41 | 66.67% | 多头：7.67% | 多头：57.50% | 37.19% |"
+        },
+        {
+          "name": "HBETA",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{历史 Beta}",
+          "stats": [-0.0239, null, -0.23, 0.0108],
+          "evidence": "| HBETA | 二级因子 | -2.39% | -0.23 | 66.67% |  | 多头：63.32% | 27.39% |"
+        },
+        {
+          "name": "HSIGMA",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{历史残差波动率}",
+          "stats": [-0.0473, null, -0.36, null],
+          "evidence": "| HSIGMA | 三级因子 | -4.73% | -0.36 | 62.96% |  | 多头：58.93% | 24.35% |"
+        },
+        {
+          "name": "DASTD",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sigma(\\text{日超额收益})",
+          "stats": [-0.0728, null, -0.53, 0.0558],
+          "evidence": "| DASTD | 三级因子 | -7.28% | -0.53 | 75.93% | 多空：5.58% |  | 41.77% |"
+        },
+        {
+          "name": "CMRA",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{累计超额收益离差}",
+          "stats": [-0.0371, null, -0.31, 0.1011],
+          "evidence": "| CMRA | 三级因子 | -3.71% | -0.31 | 64.81% | 多空：10.11% | 多空：29.22% | 44.87% |"
+        },
+        {
+          "name": "Momentum",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Momentum、Industry Momentum、Short-Term Reversal、Seasonality 等权合成}",
+          "stats": [-0.044, null, -0.48, 0.0826],
+          "evidence": "| Momentum | 一级因子 | -4.40% | -0.48 | 64.81% | 多头：3.95% | 多头：66.77% | 72.91% |"
+        },
+        {
+          "name": "Industry Momentum",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{INDMOM 行业动量}",
+          "stats": [0.0609, null, 0.66, null],
+          "evidence": "图 9：二级因子 Industry Momentum 多空表现"
+        },
+        {
+          "name": "Short-Term Reversal",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{STREV 短期反转}",
+          "stats": [-0.049, null, -0.5, 0.1495],
+          "evidence": "| Short-Term Reversal | 二级因子 | -4.90% | -0.50 | 69.44% | 多空：14.95% | 空头：77.12% 多空：12.89% | 80.92% |"
+        },
+        {
+          "name": "Seasonality",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{SEASON 季节因素}",
+          "stats": [0.0132, null, 0.24, 0.1342],
+          "evidence": "| Seasonality | 二级因子 | 1.32% | 0.24 | 42.59% | 多空：13.42% | 多空：9.95% | 81.43% |"
+        },
+        {
+          "name": "RSTR",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{与市场的相对强弱}",
+          "stats": [-0.0265, null, -0.25, 0.0439],
+          "evidence": "| RSTR | 三级因子 | -2.65% | -0.25 | 58.33% | 多空：4.39% | 多空：6.11% | 47.67% |"
+        },
+        {
+          "name": "HALPHA",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{短期历史 Alpha}",
+          "stats": [-0.0315, null, -0.29, 0.0354],
+          "evidence": "| HALPHA | 三级因子 | -3.15% | -0.29 | 61.11% | 多空：3.54% | 多空：18.64% | 45.98% |"
+        },
+        {
+          "name": "Size",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{LNSIZE 与 Mid Cap 等权合成}",
+          "stats": [-0.0565, null, -0.33, 0.1997],
+          "evidence": "| Size | 一级因子 | -5.65% | -0.33 | 66.67% | 多头：17.45%空头：-1.21%多空：19.97% | 多头：56.48%空头：63.52%多空：35.84% | 23.31% |"
+        },
+        {
+          "name": "LNSIZE",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{市值})",
+          "stats": [-0.0529, null, -0.3, 0.1925],
+          "evidence": "| LNSIZE | 二级因子 | -5.29% | -0.30 | 63.89% | 多头：15.24%空头：-2.33%多空：19.25% | 多头：57.09%空头：62.03%多空：39.60% | 22.50% |"
+        },
+        {
+          "name": "Mid cap",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-\\ln(\\text{市值})^{3}",
+          "stats": [-0.0566, null, -0.6, 0.1943],
+          "evidence": "| Mid cap | 二级因子 | -5.66% | -0.60 | 75.93% | 多头：17.09%空头：-2.14%多空：19.43% | 多头：53.17%空头：70.60%多空：15.59% | 26.63% |"
+        },
+        {
+          "name": "Quality",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Leverage、Earnings Variability、Earnings Quality、Profitability、Investment Quality 等权合成}",
+          "stats": [0.0104, null, 0.1, 0.0006],
+          "evidence": "| Quality | 一级因子 | 1.04% | 0.10 | 49.07% | 多头：3.70% | 多头：62.95% | 35.29% |"
+        },
+        {
+          "name": "Leverage",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{MLEV、BLEV、DTOA 等权合成}",
+          "stats": [0.0014, null, 0.01, -0.0108],
+          "evidence": "| Leverage | 二级因子 | 0.14% | 0.01 | 50.93% | 多头：2.21% | 多头：65.90% | 21.02% |"
+        },
+        {
+          "name": "Earnings Variability",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{VSAL、VERN、VFLO、ETOPF\\_STD 等权合成}",
+          "stats": [-0.0068, null, -0.1, null],
+          "evidence": "| Earnings Variability | 二级因子 | -0.68% | -0.10 | 54.63% | 多头：3.77% | 多头：66.45% | 28.83% |"
+        },
+        {
+          "name": "Earnings Quality",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ABS、ACF 等权合成}",
+          "stats": [0.0103, null, 0.2, 0.0251],
+          "evidence": "| Earnings Quality | 二级因子 | 1.03% | 0.20 | 37.96% | 多空：2.51% | 多空：15.95% | 42.13% |"
+        },
+        {
+          "name": "Profitability",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ATO、GP、GPM、ROA 等权合成}",
+          "stats": [0.0052, null, 0.07, 0.0174],
+          "evidence": "| Profitability | 二级因子 | 0.52% | 0.07 | 46.30% | 多空：1.74% | 多空：23.65% | 22.33% |"
+        },
+        {
+          "name": "Investment Quality",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{AGRO、IGRO、CXGRO 等权合成}",
+          "stats": [null, null, null, 0.0085],
+          "evidence": "| Investment Quality | 二级因子 |  |  |  | 多空：0.85% | 多空：22.57% |  |"
+        },
+        {
+          "name": "MLEV",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{市场杠杆}",
+          "stats": [0.0109, null, 0.16, 0.0198],
+          "evidence": "| MLEV | 三级因子 | 1.09% | 0.16 | 42.59% | 多空：1.98% | 多空：13.17% | 22.13% |"
+        },
+        {
+          "name": "BLEV",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{账面杠杆}",
+          "stats": [-0.0017, null, -0.03, 0.0121],
+          "evidence": "| BLEV | 三级因子 | -0.17% | -0.03 |  | 多空：1.21% | 多空：17.82% |  |"
+        },
+        {
+          "name": "DTOA",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产负债比}",
+          "stats": [-0.0002, null, 0, 0.0102],
+          "evidence": "| DTOA | 三级因子 | -0.02% | 0.00 |  | 多空：1.02% | 多空：16.48% |  |"
+        },
+        {
+          "name": "VSAL",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入波动率}",
+          "stats": [-0.0137, null, -0.32, 0.0074],
+          "evidence": "| VSAL | 三级因子 | -1.37% | -0.32 |  | 多空：0.74% | 多空：21.26% |  |"
+        },
+        {
+          "name": "VERN",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利波动率}",
+          "stats": [null, null, -0.11, 0.0388],
+          "evidence": "| VERN | 三级因子 |  | -0.11 |  | 多空：3.88% | 多空：7.72% |  |"
+        },
+        {
+          "name": "VFLO",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{现金流波动率}",
+          "stats": [-0.0037, null, -0.08, 0.0229],
+          "evidence": "| VFLO | 三级因子 | -0.37% | -0.08 | 56.48% | 多空：2.29% 多头：2.08% | 多空：6.84% 多头：68.78% | 31.88% |"
+        },
+        {
+          "name": "ETOPF_STD",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\sigma(\\text{预期 EPS})",
+          "stats": [0.0037, null, 0.04, -0.0033],
+          "evidence": "| ETOPF_STD | 三级因子 | 0.37% | 0.04 |  | 多空：-0.33% | 多空：13.77% |  |"
+        },
+        {
+          "name": "ABS",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产负债表应计项目}",
+          "stats": [0.0028, null, 0.05, 0.0003],
+          "evidence": "| ABS | 三级因子 | 0.28% | 0.05 | 48.15% | 多空：0.03% | 多空：23.78% | 36.95% |"
+        },
+        {
+          "name": "ACF",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{现金流量表应计项目}",
+          "stats": [0.0128, null, 0.29, -0.0084],
+          "evidence": "| ACF | 三级因子 | 1.28% | 0.29 | 33.33% | 多空：-0.84% | 多空：26.07% | 44.45% |"
+        },
+        {
+          "name": "ATO",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产周转率}",
+          "stats": [0.0072, null, 0.16, 0.0361],
+          "evidence": "| ATO | 三级因子 | 0.72% | 0.16 | 47.22% | 多空：3.61% | 多空：17.00% | 19.96% |"
+        },
+        {
+          "name": "GP",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总盈利能力}",
+          "stats": [0.0034, null, 0.04, 0.0121],
+          "evidence": "| GP | 三级因子 | 0.34% | 0.04 | 41.67% | 多空：1.21% | 多空：8.63% |  |"
+        },
+        {
+          "name": "GPM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{毛利率}",
+          "stats": [0.0062, null, 0.09, 0.0011],
+          "evidence": "| GPM | 三级因子 | 0.62% | 0.09 | 44.44% | 多空：0.11% | 多空：25.59% |  |"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产收益率}",
+          "stats": [0.0035, null, 0.04, 0.0121],
+          "evidence": "| ROA | 三级因子 | 0.35% | 0.04 | 44.44% | 多空：1.21% | 多空：20.78% | 25.71% |"
+        },
+        {
+          "name": "AGRO",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产增长率}",
+          "stats": [0.0161, null, 0.22, 0.012],
+          "evidence": "| AGRO | 三级因子 | 1.61% | 0.22 | 40.74% | 多空：1.20% | 多空：24.88% |  |"
+        },
+        {
+          "name": "IGRO",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{股票发行数量增长率}",
+          "stats": [0.0116, null, 0.21, 0.0452],
+          "evidence": "| IGRO | 三级因子 | 1.16% | 0.21 | 37.96% | 多空：4.52% | 多空：12.22% |  |"
+        },
+        {
+          "name": "CXGRO",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资本支出增长率}",
+          "stats": [0.0033, null, 0.07, 0.0058],
+          "evidence": "| CXGRO | 三级因子 | 0.33% | 0.07 | 46.30% | 多头：3.80% | 多头：68.01% |  |"
+        },
+        {
+          "name": "Liquidity",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{STOM、STOQ、STOA、ATVR 等权合成}",
+          "stats": [-0.0642, null, -0.51, 0.1161],
+          "evidence": "| Liquidity | 一级因子 | -6.42% | -0.51 | 72.22% | 多头：9.16%空头：-5.08%多空：11.61% | 多头：54.07%空头：76.86%多空：21.04% | 33.57% |"
+        },
+        {
+          "name": "STOM",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一月换手情况}",
+          "stats": [-0.0775, null, -0.65, 0.1582],
+          "evidence": "| STOM | 三级因子 | -7.75% | -0.65 | 75.93% | 多头：9.49%空头：-8.28%多空：15.82% | 多头：54.33%空头：79.05%多空：21.43% | 52.47% |"
+        },
+        {
+          "name": "STOQ",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一季换手情况}",
+          "stats": [-0.0657, null, -0.58, 0.1364],
+          "evidence": "| STOQ | 三级因子 | -6.57% | -0.58 | 74.07% | 多头：9.13%空头：-6.64%多空：13.64% | 多头：53.90%空头：78.67%多空：13.85% | 36.16% |"
+        },
+        {
+          "name": "STOA",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一年换手情况}",
+          "stats": [-0.0487, null, -0.43, 0.086],
+          "evidence": "| STOA | 三级因子 | -4.87% | -0.43 | 68.52% | 多头：8.04%空头：-2.91%多空：8.60% | 多头：54.47%空头：75.93%多空：21.80% | 22.28% |"
+        },
+        {
+          "name": "ATVR",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一年换手加权和}",
+          "stats": [-0.0578, null, -0.55, 0.1136],
+          "evidence": "| ATVR | 三级因子 | -5.78% | -0.55 | 73.15% | 多头：8.52%空头：-4.87%多空：11.36% | 多头：57.52%空头：77.96%多空：14.31% | 27.06% |"
+        },
+        {
+          "name": "Growth",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{EGRLF、SGRO、EGRO 等权合成}",
+          "stats": [-0.0022, null, -0.03, null],
+          "evidence": "| Growth | 一级因子 | -0.22% | -0.03 | 50.00% | 多头：3.16% | 多头：69.24% | 24.43% |"
+        },
+        {
+          "name": "EGRLF",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{预测长期盈利增长率}",
+          "stats": [0.0039, null, 0.06, -0.004],
+          "evidence": "| EGRLF | 三级因子 | 0.39% | 0.06 | 50.93% | 多空：-0.40% | 多空：16.65% 多头：64.46% |  |"
+        },
+        {
+          "name": "SGRO",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\Delta\\text{营业收入}/\\text{营业收入}",
+          "stats": [-0.0071, null, -0.1, 0.0119],
+          "evidence": "| SGRO | 三级因子 | -0.71% | -0.10 | 56.48% |  | 空头：68.75% | 19.91% |"
+        },
+        {
+          "name": "EGRO",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\Delta\\text{盈利}/\\text{盈利}",
+          "stats": [-0.008, null, -0.18, 0.0323],
+          "evidence": "| EGRO | 三级因子 | -0.80% | -0.18 | 60.00% | 多头：7.19% | 多头：66.82% |  |"
+        },
+        {
+          "name": "Value",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{Btop、Earning Yield、Long-Term Reversal 等权合成}",
+          "stats": [0.0446, null, 0.33, 0.0797],
+          "evidence": "| Value | 一级因子 | 4.46% | 0.33 | 38.89% | 多头：8.31%空头：-1.13%多空：7.97% | 多头：54.13%空头：73.13%多空：24.97% | 30.88% |"
+        },
+        {
+          "name": "Btop",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{账面市值比}",
+          "stats": [0.0439, null, 0.37, 0.0882],
+          "evidence": "| Btop | 二级因子 | 4.39% | 0.37 | 38.89% | 多头：7.56%空头：-2.11%多空：8.82% | 多头：56.65%空头：73.94%多空：20.55% | 26.92% |"
+        },
+        {
+          "name": "Earning Yield",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ETOP、ETOPF、CETOP、EM 等权合成}",
+          "stats": [0.0385, null, 0.37, 0.0728],
+          "evidence": "| Earning Yield | 二级因子 | 3.85% | 0.37 | 35.19% | 多头：7.33%空头：-0.93% | 多头：51.87%空头：73.77% | 30.64% |"
+        },
+        {
+          "name": "Long-Term Reversal",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{LTRSTR、LTHALPHA 等权合成}",
+          "stats": [0.0173, null, 0.2, null],
+          "evidence": "| Long-Term Reversal | 二级因子 | 1.73% | 0.20 | 40.74% | 多头：5.28% | 多头：64.99% | 36.94% |"
+        },
+        {
+          "name": "ETOP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{报告的盈利价格比}",
+          "stats": [0.044, null, 0.43, 0.0323],
+          "evidence": "| ETOP | 三级因子 | 4.40% | 0.43 | 36.11% | 多空：3.23% 多头：8.42% | 多空：20.39% 多头：51.17% | 27.22% |"
+        },
+        {
+          "name": "ETOPF",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{预测的盈利价格比}",
+          "stats": [0.0428, null, 0.34, 0.0778],
+          "evidence": "| ETOPF | 三级因子 | 4.28% | 0.34 | 38.89% | 空头：-2.88% | 空头：72.63% | 35.97% |"
+        },
+        {
+          "name": "CETOP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{现金盈利价格比}",
+          "stats": [0.0238, null, 0.33, null],
+          "evidence": "| CETOP | 三级因子 | 2.38% | 0.33 | 35.19% | 多头：5.53% | 多头：57.59% | 27.96% |"
+        },
+        {
+          "name": "EM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "1/\\text{企业价值倍数}",
+          "stats": [0.0231, null, 0.27, 0.0358],
+          "evidence": "| EM | 三级因子 | 2.31% | 0.27 | 44.44% | 多空：3.58% 多头：5.26% | 多空：16.92% 多头：55.37% | 26.32% |"
+        },
+        {
+          "name": "LTRSTR",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{长期相对强弱}",
+          "stats": [0.0192, null, 0.24, 0.0377],
+          "evidence": "| LTRSTR | 三级因子 | 1.92% | 0.24 | 39.81% | 空头：0.88% |  |  |"
+        },
+        {
+          "name": "LTHALPHA",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{长期历史 alpha}",
+          "stats": [0.0146, null, 0.18, 0.0236],
+          "evidence": "| LTHALPHA | 三级因子 | 1.46% | 0.18 | 39.81% | 多头：4.51% |  | 36.01% |"
+        },
+        {
+          "name": "Sentiment",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{RRIBS、EPIBSC、EARNC 等权合成}",
+          "stats": [0.0267, null, 0.48, 0.0799],
+          "evidence": "| Sentiment | 一级因子 | 2.67% | 0.48 | 28.70% | 多头：5.75% | 多头：57.05% 空头：71.52% | 45.83% |"
+        },
+        {
+          "name": "RRIBS",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{评级调整比率}",
+          "stats": [0.0032, null, 0.06, null],
+          "evidence": "| RRIBS | 三级因子 | 0.32% | 0.06 | 50.93% | 多头：3.19% | 多头：63.72% | 44.37% |"
+        },
+        {
+          "name": "EPIBSC",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\Delta(\\text{分析师预测盈利价格比})",
+          "stats": [0.0259, null, null, null],
+          "evidence": "| EPIBSC | 三级因子 | 2.59% |  |  | 空头：-0.93% | 空头：68.22% | 32.18% |"
+        },
+        {
+          "name": "EARNC",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\Delta(\\text{预测每股盈利})",
+          "stats": [0.0194, null, 0.39, 0.0675],
+          "evidence": "| EARNC | 三级因子 | 1.94% | 0.39 | 33.33% | 多头：6.79% | 多头：57.82% | 54.03% |"
+        },
+        {
+          "name": "Dividend Yield",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{DTOP、DTOPF 等权合成}",
+          "stats": [0.0321, null, 0.38, 0.0715],
+          "evidence": "| Dividend Yield | 一级因子 | 3.21% | 0.38 | 35.19% | 多头：7.46%空头：-0.59%多空：7.15% | 多头：54.09%空头：72.66%多空：21.52% | 26.05% |"
+        },
+        {
+          "name": "DTOP",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{分红价格比}",
+          "stats": [0.0313, null, 0.39, 0.0821],
+          "evidence": "| DTOP | 三级因子 | 3.13% | 0.39 | 33.33% | 多头：7.82%空头：-1.21%多空：8.21% | 多头：53.51%空头：72.06%多空：19.82% | 22.70% |"
+        },
+        {
+          "name": "DTOPF",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{预测分红价格比}",
+          "stats": [0.0314, null, 0.29, 0.0479],
+          "evidence": "| DTOPF | 三级因子 | 3.14% | 0.29 | 37.04% | 多头：5.31%空头：-0.86%多空：4.79% | 多头：51.24%空头：66.33%多空：23.89% | 34.63% |"
+        },
+        {
+          "name": "残差 20 日均值",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{20}\\sum_{t=1}^{20}u_t",
+          "stats": [-0.0711, null, -0.83, 0.1875],
+          "evidence": "| 残差 20 日均值 | -7.11% | -0.83 | 84.11% | 多头：7.46%空头：-9.58%多空：18.75% | 多头：63.91%空头：80.89%多空：10.32% | 80.98% |"
+        },
+        {
+          "name": "残差 20 日标准差",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{1}{20}\\sum_{t=1}^{20}(u_t-\\bar{u})^2}",
+          "stats": [-0.0836, null, -0.9, 0.1878],
+          "evidence": "| 残差 20 日标准差 | -8.36% | -0.90 | 81.31% | 多头：9.00%空头：-9.83%多空：18.78% | 多头：58.68%空头：81.58%多空：9.85% | 72.66% |"
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": [
+          "size",
+          "value",
+          "growth",
+          "quality",
+          "dividend",
+          "momentum",
+          "volatility",
+          "liquidity",
+          "sentiment"
+        ],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "CNE6因子体系大约能够解释股票收益率33.63%的变动",
+      "evidence": "图65给出了样本期内的累积纯因子收益率，回归的平均R2大约是33.63%，即使用CNE6的因子体系大约能够解释 33.63%股票收益率的变动。"
+    },
+    {
+      "text": "回归残差20日均值和20日标准差仍具有非常显著的选股能力，IC值分别为-7.11%和-8.36%，说明CNE6的因子体系对股票收益率的解释并不完备",
+      "evidence": "结果发现，回归残差 20日均值和 20 日标准差仍然具有非常显著的选股能力，IC 值分别为-7.11%和-8.36%，IC 序列超过80%的值小于 0，体现了良好的稳定性，这就说明 CNE6的因子体系对股票收益率的解释并不完备。"
+    },
+    {
+      "text": "从累计纯因子收益率的绝对值来看，Size、Liquidity、Volatility累积纯因子收益率最高",
+      "evidence": "从累计纯因子收益率的绝对值来看，Size、Liquidity、Volatility累积纯因子收益率最高。"
+    },
+    {
+      "text": "一级因子 Quality和 Growth 与股票收益率的相关性较低，选股效果不佳",
+      "evidence": "但是部分因子与股票收益率的相关性较低，选股效果不佳，例如：一级因子 Quality和 Growth 以及它们相应的二级因子。"
+    },
+    {
+      "text": "新增的 Sentiment因子覆盖度相对较低，大约在50%左右，很难用于选股或者风险管理实践",
+      "evidence": "新增的 Sentiment因子覆盖度相对较低，大约在 50%左右，其余 8 个一级因子的覆盖度都在 90%以上，存在大量缺失值的因子很难用于选股或者风险管理实践。"
+    },
+    {
+      "text": "加入残差的均值和残差的波动率两因子后，模型的解释能力由33.63%上升至34.22%",
+      "evidence": "经计算，加入两因子后，模型的解释能力由 33.63%上升至 34.22%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "MSCI, Barra China A Total Market Equity Model for Long-Term Investors, 2018-08",
+    "MSCI, New China Equity Model Launch Series, 2018-08-23"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

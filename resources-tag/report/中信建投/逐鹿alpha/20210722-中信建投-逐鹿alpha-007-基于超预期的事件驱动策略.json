@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "20210722-中信建投-逐鹿alpha-007-基于超预期的事件驱动策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["earnings_surprise", "analyst_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "分析师调升",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "quarterly",
+          "formula": "\\text{此次业绩预测与上次相比有所上调则标记为超预期事件，事件发生则为1，否则为0}",
+          "stats": [null, null, null, null],
+          "evidence": "分析师调升主要是依据此次业绩预测与上次相比是否有所上调："
+        },
+        {
+          "name": "文本标题超预期",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "quarterly",
+          "formula": "\\text{研究员发布的公司报告标题中含有“超预期”关键字则标记为超预期事件，事件发生则为1，否则为0}",
+          "stats": [null, null, null, null],
+          "evidence": "以文本标题超预期为例，此类主要是根据研究员发布的公司报告标题中是否含有超预期为判断标准。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "核心研究员调升、分析师调升、文本标题超预期事件发生后一定时间内股票能够取得较为明显的正向收益。",
+      "evidence": "结果表明：核心研究员调升、分析师调升、文本标题超预期事件发生后一定时间内股票能够取得较为明显的正向收益。"
+    },
+    {
+      "text": "基于分析师调升和文本标题超预期的事件驱动型策略分别能够取得年化 23.33%和 23.45%的收益，超额收益分别为 12.34%和 12.45%。",
+      "evidence": "本文构建了基于分析师调升和文本标题超预期的事件驱动型策略，回测结果表明，两个策略分别能够取得年化 23.33%和 23.45%的收益，超额收益分别为 12.34%和 12.45%。"
+    },
+    {
+      "text": "除第一年外，其它各年份分析师调升策略均能取得稳定的超额收益，第一年的负超额收益主要是由于在上涨期间策略还在建仓，未能达到满仓。",
+      "evidence": "可以看出，除第一年外，其它各年份分析师调升策略均能取得稳定的超额收益。对比超额收益和仓位图可以看出，第一年的负超额收益主要是由于在上涨期间策略还在建仓，未能达到满仓，因此策略收益会受到影响。"
+    },
+    {
+      "text": "超预期事件和财报发布的日期重合度较高，基本集中在 1，3，4，7，8，10月等财报发布月份。",
+      "evidence": "超预期事件和财报发布的日期重合度较高，基本集中在 1，3，4，7，8，10月等财报发布月份。"
+    },
+    {
+      "text": "利用文本标题超预期和分析师调升构建的业绩超预期事件驱动策略，取得了稳健的超额收益。",
+      "evidence": "本文主要从研究员报告的角度分析了 PEAD 现象。基于朝阳永续的业绩超预期数据，分析了几类超预期情况的收益率。最终，利用文本标题超预期和分析师调升构建的业绩超预期事件驱动策略，取得了稳健的超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Ball and Brown (1968)", "Bernard and Thomas (1990)", "Chan et al. (1996)", "FAMA (1998)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

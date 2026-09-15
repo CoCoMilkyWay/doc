@@ -1,0 +1,161 @@
+{
+  "schema_version": 2,
+  "id": "20230713-东方证券-因子选股-094-umr2_0_风险溢价视角下的动量反转统一框架再升级",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "intraday_pattern"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "TR_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\frac{\\max(high_t-low_t,\\ high_t-close_{t-1},\\ |low_t-close_{t-1}|)}{close_{t-1}}",
+          "stats": [0.109, null, 5.77, null],
+          "evidence": "我们认为低波动环境下股价表现出动量效应而高波动环境下股价表现出反转效应，由于我们直接考察每个交易日的风险高低，所以我们以个股日度的真实波动 (True Range) 作为代理变量："
+        },
+        {
+          "name": "复合换手_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\frac{\\text{总成交量}}{\\text{流通股本}}",
+          "stats": [0.106, null, 4.73, null],
+          "evidence": "我们以个股日度的换手率作为筹码松动风险的代理变量，代入公式（4）和（5）构建换手调整下的 UMR因子。"
+        },
+        {
+          "name": "复合大单均价偏离_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\frac{|VWAP_{big}-VWAP|}{VWAP},\\ VWAP_{big}=\\frac{\\text{超大单买入金额}+\\text{大单买入金额}}{\\text{超大单买入量}+\\text{大单买入量}}",
+          "stats": [0.078, null, 5.07, null],
+          "evidence": "我们以股票每日的大单买入均价偏离作为风险代理变量，代入公式（4）和（5）构建大单均价偏离调整下的 UMR 因子。"
+        },
+        {
+          "name": "复合小单买入占比_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\frac{\\text{小单主动买入金额}}{\\text{总成交额}}",
+          "stats": [0.083, null, 4.32, null],
+          "evidence": "我们以该指标作为风险代理变量，代入公式（4）和（5）构建小单买入占比调整下的 UMR 因子。"
+        },
+        {
+          "name": "复合平均单笔成交量_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\sqrt{\\frac{\\text{总成交量}}{\\text{总成交笔数}}}",
+          "stats": [0.072, null, 4.29, null],
+          "evidence": "我们以该指标作为风险代理变量，代入公式（4）和（5）构建平均单笔成交量调整下的 UMR 因子。"
+        },
+        {
+          "name": "复合早尾盘成交占比_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\frac{\\sum_{i=9:35}^{10:00}amount_{t,i}+\\sum_{i=14:35}^{15:00}amount_{t,i}}{float\\_cap_t}",
+          "stats": [0.091, null, 5.28, null],
+          "evidence": "我们以该指标作为风险代理变量，代入公式（4）和（5）构建早尾盘成交占比调整下的 UMR 因子。"
+        },
+        {
+          "name": "复合分钟收益波动率_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\sqrt{\\frac{\\sum_{i=9:40}^{15:00}(r_i-\\bar{r})^2}{47-1}}",
+          "stats": [0.095, null, 5.63, null],
+          "evidence": "我们以该指标作为风险代理变量，代入公式（4）和（5）构建分钟收益波动率调整下的 UMR 因子。"
+        },
+        {
+          "name": "复合分钟收益偏度_UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t=\\text{剔除开盘5分钟的剩余5分钟K线收益偏度}",
+          "stats": [0.084, null, 3.57, null],
+          "evidence": "我们以该指标作为风险代理变量，代入公式（4）和（5）构建分钟收益偏度调整下的 UMR 因子。"
+        },
+        {
+          "name": "复合UMR因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "f_t=\\sum_{i=t-m+1}^{t}w_i\\left(\\frac{\\Sigma_{j=i-d+1}^{i}R_j}{d}-R_i\\right)(r_i-mkt_i),\\ R_t\\in\\{\\text{真实波动,换手率,大单买入均价偏离,小单主动买入占比,平均单笔成交量,早盘尾盘成交占比,分钟收益波动率,分钟收益偏度}\\},\\ \\text{对称正交后等权复合}",
+          "stats": [0.116, null, 5.56, null],
+          "evidence": "我们从股票日度的真实波动、换手率，大单买入均价偏离、小单主动买入金额占比、平均单笔成交量，早盘尾盘成交占比、分钟收益波动率、分钟收益偏度等维度刻画股票的日度风险并用以调整其每日超额收益，经过上述 2.0的框架调整，加权得到风险调整后的UMR因子，每个调整后的因子都具有非常显著的选股能力，复合UMR因子月度 IC 均值达到 0.116，年化 ICIR 达 5.56，IC 月度胜率 96%，月均多头超额 1.35%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization", "smoothing"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000", "other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "复合UMR因子月度IC均值达0.116，年化ICIR达5.56，IC月度胜率96%，月均多头超额收益1.35%，月均多空收益3.20%，选股效果非常显著。",
+      "evidence": "复合 UMR 因子的月度 IC 均值达 0.116，年化 ICIR 达到 5.56，IC 月度胜率 96%，月均多头超额收益 1.35%，月均多空收益 3.20%，选股效果非常显著。"
+    },
+    {
+      "text": "将UMR因子加入现有指数增强模型后各宽基指增年化超额明显提升：沪深300从16.27%提升到17.36%，中证500从19.64%提升到20.86%，中证1000从25.70%提升到26.97%，国证2000从26.44%提升到28.41%。",
+      "evidence": "沪深 300 增强模型年化超额从 16.27%提升到 17.36%；中证 500 增强模型年化超额从 19.64%提升到20.86%；中证 1000 增强模型年化超额从 25.70%提升到 26.97% ；国证 2000 增强模型年化超额从 26.44%提升到 28.41%。"
+    },
+    {
+      "text": "特殊时点调整以及影响因素剥离的调整方式应用到三个月反转因子上，选股效果同样大幅提升，月度IC均值从-0.059提升到-0.07，年化ICIR从-1.99提升到-3.66，IC胜率从74%提升到87%，月均多头超额从0.43%提升到0.76%。",
+      "evidence": "我们将特殊时点调整以及影响因素剥离的调整方式应用到三个月反转因子上，因子的选股效果同样得到了大幅提升，月度 IC 均值从-0.059 提升到-0.07，年化 ICIR 从-1.99 提升到-3.66，IC 胜率从 74%提升到 87%，月均多头超额从 0.43%提升到 0.76%。"
+    },
+    {
+      "text": "不同收益加权窗口下复合UMR因子选股能力：IC均值保持在0.09以上，ICIR持续高于3.8，随加权窗口长度增加基本呈缓慢下滑趋势，且持续表现出正向的动量效应。",
+      "evidence": "可以看到，短期和长期窗口下的因子都具有非常显著的选股能力，IC均值保持在 0.09以上，ICIR持续高于 3.8，随着加权窗口长度的增加，因子的选股能力基本呈现缓慢下滑的趋势，且持续表现出正向的动量效应。"
+    }
+  ],
+  "builds_on": ["20230628-东方证券-因子选股-092-基于时点动量的因子轮动"],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

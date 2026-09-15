@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20230608-华创证券-形态学研究-003-十字孕线",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "正面十字孕线",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{一根阴线后第二日为十字线K线，且第二日K线最高价与最低价均在前一根K线最高价与最低价之内}",
+          "stats": [null, null, null, null],
+          "evidence": "如果第二天的 K线为十字线，则被称为“十字孕线”。十字孕线分为正面形态和负面形态，正面形态十字孕线为一根阴线后第二日为十字线 K线，负面形态十字孕线为一根阳线后第二日为十字线 K线。"
+        },
+        {
+          "name": "负面十字孕线",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{一根阳线后第二日为十字线K线，且第二日K线最高价与最低价均在前一根K线最高价与最低价之内}",
+          "stats": [null, null, null, null],
+          "evidence": "十字孕线形态所蕴含的技术意义，比普通的孕线形态重要得多。一般的孕线形态并不属于主要反转形态，但是，十字孕线形态恰恰是一种主要反转形态。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "在不耦合指标的情况下，十字孕线负面胜率为53%，正面信号胜率为51%；耦合MA60指标后，负面信号胜率最高提升为55%，正面信号胜率最高提升为53%。",
+      "evidence": "在不耦合指标的情况下，十字孕线负面胜率为 53%，而正面信号胜率为 51%。在耦合MA60 指标的情况下，负面信号胜率最高提升为55%，正面信号胜率最高提升为53%。"
+    },
+    {
+      "text": "负面十字孕线对短期的预测胜率超过对长期的胜率，其在5日的预测胜率最高。",
+      "evidence": "从历史统计角度，负面十字孕线对短期的预测胜率超过对长期的胜率，其在 5 日的预测胜率最高。"
+    },
+    {
+      "text": "十字孕线结合MA60的策略回测获得24%的年化收益，0.98的夏普比例，31%的最大回撤；由于策略是负面提示，其beta为-0.76，alpha为0.28。",
+      "evidence": "策略获得了 24%的年化收益，0.98的夏普比例，31%的最大回撤。由于策略是负面提示，其 beta 为-0.76，其 alpha 为 0.28。"
+    },
+    {
+      "text": "十字孕线较多发生在机械、化工和医药等行业，较少发生在煤炭、银行和综合金融行业，其行业内的平均收益并不具有显著差异。",
+      "evidence": "从行业信号发生的行业和平均收益来看，十字孕线较多发生在机械，化工和医药等行业，较少发生在煤炭，银行和综合金融行业。从平均收益来看，其行业内的平均收益并不具有显著差异。"
+    },
+    {
+      "text": "在特定个股上十字孕线结合指标可以获得更高胜率，例如在000632.SZ上耦合MA60的负向信号胜率超过80%。",
+      "evidence": "例如，根据历史数据回测在 000632.SZ 上耦合 MA60 的负向信号胜率超过 80%。"
+    },
+    {
+      "text": "对于正面信号，股价在均线下方的胜率超过股价在均线上方，表明十字孕线提示了短期股价止跌回升。",
+      "evidence": "对于正面信号，股价在均线下方的胜率超过股价在均线上方，表明十字孕线提示了短期股价止跌回升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《华创金工形态学研究之二：如何利用形态信号进行市场择时》2023-05-12",
+    "《双重筹码集中的基本面选股策略》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

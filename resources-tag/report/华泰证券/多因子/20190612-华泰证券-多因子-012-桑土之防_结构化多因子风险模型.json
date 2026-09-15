@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "20190612-华泰证券-多因子-012-桑土之防_结构化多因子风险模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "调整后的风险矩阵风险预测能力良好，2011-02-01至2019-05-31区间内，模型对沪深300指数和中证500指数的预测波动率与真实波动率的相关性为0.70和0.73。",
+      "evidence": "调整后的风险矩阵风险预测能力良好，在 2011-02-01 至 2019-05-31 区间内，模型对于沪深 300 指数和中证 500指数的预测波动率与真实波动率的相关性为 0.70 和 0.73。"
+    },
+    {
+      "text": "使用华泰多因子风险模型和XGBoost收益模型构建最大化风险调整后主动收益组合，行业市值中性及持仓上限约束组合年化超额收益率17.08%、信息比率3.77，较不使用风险模型提升0.20；仅持仓上限约束组合年化超额收益率23.24%、信息比率4.20，提升0.65。",
+      "evidence": "本文使用华泰多因子风险模型和 XGBoost 收益模型构建最大化风险调整后主动收益组合，在 2011-02-01 至 2019-05-31 区间内，行业市值中性及持仓上限约束组合的年化超额收益率 17.08%，年化跟踪误差 4.53%，信息比率 3.77，与不使用风险模型相比，信息比率提升 0.20；仅持仓上限约束组合的年化超额收益率 23.24%，年化跟踪误差 5.53%，信息比率 4.20，与不使用风险模型相比，信息比率提升 0.65。"
+    },
+    {
+      "text": "模型对因子收益协方差矩阵依次进行Newey-West调整、特征值调整和波动率偏误调整，对特异性收益方差矩阵依次进行Newey-West调整、结构化调整、贝叶斯压缩调整和波动率偏误调整，有效提升风险估计的准确度。",
+      "evidence": "为了保证风险预测的准确度，模型对因子收益协方差矩阵依次进行 Newey-West 调整、特征值调整和波动率偏误调整，对特异性收益方差矩阵依次进行 Newey-West调整、结构化调整、贝叶斯压缩调整和波动率偏误调整。"
+    },
+    {
+      "text": "除了最小化主动风险以外，全A股选股均比指数成分股内选股效果更好；风险厌恶系数的选取取决于优化目的，当组合优化约束条件较多时，风险厌恶系数调整能力相对有限。",
+      "evidence": "不同基准指数的跟踪难度可能不同。除了最小化主动风险以外，全 A股选股均比指数成分股内选股效果更好。风险厌恶系数的选取取决于优化目的。当组合优化约束条件较多时，风险厌恶系数调整能力相对有限。"
+    },
+    {
+      "text": "贝叶斯压缩调整后偏误统计量随股票预测特异波动的变化基本呈水平趋势，良好地修正了模型的样本外风险偏误；波动率偏误调整后偏误统计量更接近于1。",
+      "evidence": "贝叶斯压缩调整（黄色）之后，偏误统计量随股票预测特异波动的变化基本呈水平趋势，说明贝叶斯压缩调整良好地修正了模型的样本外风险偏误。最后一步波动率偏误调整（红色，具体方法见下一小节）后，偏误统计量更接近于 1，说明波动率偏误调整效果良好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barra USE4",
+    "Menchero, Jose, Jun Wang, and D.J. Orr. \"Improving risk forecasts for optimized portfolios.\" Financial Analysts Journal, 2012, 68(3): 40-50.",
+    "Newey, W., and K. West. 1987. \"A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix.\" Econometrica, Vol. 55, No. 3: 703-708."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

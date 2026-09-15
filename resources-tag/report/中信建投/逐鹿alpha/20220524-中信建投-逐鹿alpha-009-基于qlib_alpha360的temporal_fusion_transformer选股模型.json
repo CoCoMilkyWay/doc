@@ -1,0 +1,281 @@
+{
+  "schema_version": 2,
+  "id": "20220524-中信建投-逐鹿alpha-009-基于qlib_alpha360的temporal_fusion_transformer选股模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "technical_pattern"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "LOW2",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($low, 2)/$close",
+          "stats": [0.053, null, 0.35, null],
+          "evidence": "| LOW2 | 0.053 | 0.350 | LOW3 | 0.060 | 0.386 |"
+        },
+        {
+          "name": "LOW3",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($low, 3)/$close",
+          "stats": [0.06, null, 0.386, null],
+          "evidence": "| LOW2 | 0.053 | 0.350 | LOW3 | 0.060 | 0.386 |"
+        },
+        {
+          "name": "LOW6",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($low, 6)/$close",
+          "stats": [0.058, null, 0.355, null],
+          "evidence": "| LOW6 | 0.058 | 0.355 | LOW5 | 0.065 | 0.403 |"
+        },
+        {
+          "name": "LOW5",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($low, 5)/$close",
+          "stats": [0.065, null, 0.403, null],
+          "evidence": "| LOW6 | 0.058 | 0.355 | LOW5 | 0.065 | 0.403 |"
+        },
+        {
+          "name": "VWAP3",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($vwap, 3)/$close",
+          "stats": [0.056, null, 0.36, null],
+          "evidence": "| VWAP3 | 0.056 | 0.360 | VWAP0 | 0.053 | 0.404 |"
+        },
+        {
+          "name": "VWAP0",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($vwap, 0)/$close",
+          "stats": [0.053, null, 0.404, null],
+          "evidence": "| VWAP3 | 0.056 | 0.360 | VWAP0 | 0.053 | 0.404 |"
+        },
+        {
+          "name": "VWAP1",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($vwap, 1)/$close",
+          "stats": [0.053, null, 0.36, null],
+          "evidence": "| VWAP1 | 0.053 | 0.360 | HIGH4 | 0.066 | 0.406 |"
+        },
+        {
+          "name": "HIGH4",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($high, 4)/$close",
+          "stats": [0.066, null, 0.406, null],
+          "evidence": "| VWAP1 | 0.053 | 0.360 | HIGH4 | 0.066 | 0.406 |"
+        },
+        {
+          "name": "VWAP6",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($vwap, 6)/$close",
+          "stats": [0.058, null, 0.36, null],
+          "evidence": "| VWAP6 | 0.058 | 0.360 | VWAP5 | 0.066 | 0.407 |"
+        },
+        {
+          "name": "VWAP5",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($vwap, 5)/$close",
+          "stats": [0.066, null, 0.407, null],
+          "evidence": "| VWAP6 | 0.058 | 0.360 | VWAP5 | 0.066 | 0.407 |"
+        },
+        {
+          "name": "OPENO",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($open, 0)/$close",
+          "stats": [0.051, null, 0.364, null],
+          "evidence": "| OPENO | 0.051 | 0.364 | OPEN3 | 0.065 | 0.411 |"
+        },
+        {
+          "name": "OPEN3",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($open, 3)/$close",
+          "stats": [0.065, null, 0.411, null],
+          "evidence": "| OPENO | 0.051 | 0.364 | OPEN3 | 0.065 | 0.411 |"
+        },
+        {
+          "name": "LOW1",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($low, 1)/$close",
+          "stats": [0.054, null, 0.37, null],
+          "evidence": "| LOW1 | 0.054 | 0.370 | OPEN4 | 0.067 | 0.417 |"
+        },
+        {
+          "name": "OPEN4",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($open, 4)/$close",
+          "stats": [0.067, null, 0.417, null],
+          "evidence": "| LOW1 | 0.054 | 0.370 | OPEN4 | 0.067 | 0.417 |"
+        },
+        {
+          "name": "CLOSE6",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($close, 6)/$close",
+          "stats": [0.06, null, 0.371, null],
+          "evidence": "| CLOSE6 | 0.060 | 0.371 | CLOSE5 | 0.067 | 0.418 |"
+        },
+        {
+          "name": "CLOSE5",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($close, 5)/$close",
+          "stats": [0.067, null, 0.418, null],
+          "evidence": "| CLOSE6 | 0.060 | 0.371 | CLOSE5 | 0.067 | 0.418 |"
+        },
+        {
+          "name": "OPEN5",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($open, 5)/$close",
+          "stats": [0.06, null, 0.373, null],
+          "evidence": "| OPEN5 | 0.060 | 0.373 | CLOSE4 | 0.067 | 0.424 |"
+        },
+        {
+          "name": "CLOSE4",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($close, 4)/$close",
+          "stats": [0.067, null, 0.424, null],
+          "evidence": "| OPEN5 | 0.060 | 0.373 | CLOSE4 | 0.067 | 0.424 |"
+        },
+        {
+          "name": "HIGH5",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($high, 5)/$close",
+          "stats": [0.061, null, 0.38, null],
+          "evidence": "| HIGH5 | 0.061 | 0.380 | LOW4 | 0.068 | 0.428 |"
+        },
+        {
+          "name": "LOW4",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "Ref($low, 4)/$close",
+          "stats": [0.068, null, 0.428, null],
+          "evidence": "| HIGH5 | 0.061 | 0.380 | LOW4 | 0.068 | 0.428 |"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "loss_generalization"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "与传统ICIR加权对比，TFT模型取得更加优异的表现；TFT(50,1)在与中长期策略换手率接近的情况下取得年化19.57%、超额15.57%、信息比率1.74、换手率4.6的表现。",
+      "evidence": "通过约束不同的换手率，TFT 策略能够取得与中长期策略近似的换手率，并且收益以及稳定性也非常优异， TFT(50,1)能够取得年化 19.57%，超额 15.57%，信息比率 1.74，换手率 4.6 的优异表现。"
+    },
+    {
+      "text": "ICIR加权基准策略年化收益率8.92%，年化超额4.92%，最大回撤26.33%，换手率37.34，信息比率0.53，21年以后表现较为一般。",
+      "evidence": "策略的年化收益率为 8.92%，年化超额 4.92%，最大回撤 26.33%，换手率 37.34，信息比率 0.53。从策略的收益曲线可以看出，整体上策略超额收益波动较大，18 年上半年和 20 年下半年策略表现突出，但是在 21年以后，策略的表现较为一般。"
+    },
+    {
+      "text": "TFT(50,5)策略年化收益率15.94%，年化超额11.94%，最大回撤29.43%，换手率17.36，信息比率1.22，除回撤增大外各维度均大幅提升。",
+      "evidence": "策略的年化收益率为 15.94%，年化超额 11.94%，最大回撤 29.43%，换手率 17.36，信息比率 1.22。除了回撤有所增大外，策略在各个维度上均有了大幅提升。"
+    },
+    {
+      "text": "N=1时策略收益最高，年化收益率19.57%，年化超额15.57%，最大回撤25.99%，换手率4.60，信息比率1.74，收益和稳定性明显提升。",
+      "evidence": "当 N=1 时，策略的收益最高，策略的年化收益率为 19.57%，年化超额 15.57%，最大回撤 25.99%，换手率4.60，信息比率 1.74。此时换手已经接近中长期持仓策略的换手率，并且策略的收益和稳定性有了明显的提升。"
+    },
+    {
+      "text": "ALPHA360因子IC平均值0.061、IR平均值0.391，整体因子与头部因子表现均好于ALPHA158（IC均值0.055、IR均值0.387）。",
+      "evidence": "ALPHA158 因子 IC 的平均值为 0.055，IR 的平均值为 0.387。ALPHA360因子 IC 的平均值为 0.061，IR 的平均值为 0.391。ALPHA360 无论是整体因子还是头部因子的表现，均好于ALPHA158。"
+    },
+    {
+      "text": "N>7时换手率超过70倍，策略收益不能弥补手续费导致亏损；N较小时换手在20倍以内，收益较为稳定。",
+      "evidence": "当 N>7 时,换手率超过 70 倍,策略的收益已经不能弥补手续费,导致策略亏损。在 N 较小的情况，换手较低，在 20 倍以内，策略的收益较为稳定。"
+    },
+    {
+      "text": "训练在第二轮就达到验证集误差最小：一是样本量较大，二是股票收益率信噪比极低且模式多变，较大EPOCH并不能使网络在样本外取得更优异的表现。",
+      "evidence": "与传统的模型训练最大的不同在于，训练在第二轮就能够达到验证集误差最小。这主要是由于两方面的原因导致的，一是样本量较大， 当采用较小的数据集的话，收敛的 EPOCH随之变大。另外一点主要是由于数据自身的特点决定的，股票收益率属于信噪比极低的数据，并且模式并非一成不变，因此较大的 EPOCH 并不能使网络在样本外取得更优异的表现。"
+    },
+    {
+      "text": "将日期标签、每周周几、每年第几天、月份等信息作为额外的已知未来变量输入TFT模型。",
+      "evidence": "TFT 模型的输入除了传统的观测变量之外，还能够处理静态变量以及已知未来的变量，我们将日期标签，每周周几，每年第几天，月份等信息作为额外的已知未来变量输入模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Attention Is All You Need",
+    "Qlib : An AI-oriented Quantitative Investment Platform",
+    "Temporal Fusion Transformers for interpretable multi-horizon time series forecasting",
+    "Transformers in Time Series: A Survey"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

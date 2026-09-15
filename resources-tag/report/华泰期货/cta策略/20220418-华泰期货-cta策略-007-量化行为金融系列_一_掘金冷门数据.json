@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20220418-华泰期货-cta策略-007-量化行为金融系列_一_掘金冷门数据",
+  "genre": "review",
+  "asset": ["future_commodity"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["text", "flow", "alt"], "freq": "mixed"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "行为金融学背后的两大支柱是心理学（包括预期偏差、风险偏好偏差、认知限制三部分）和套利限制（limits to arbitrage）。",
+      "evidence": "总结而言，行为金融学背后的两大支柱是心理学（包括预期偏差、风险偏好偏差，以及认知限制三部分）和套利限制（limits to arbitrage）。"
+    },
+    {
+      "text": "应用行为金融学需要投资者行为数据，包括舆情数据、非交易行为数据、比赛数据、持仓数据（外资席位、CFTC 等）。",
+      "evidence": "我们需要投资者行为数据，其中包括：1.舆情数据 2.非交易行为数据（资讯点击量、自选股等）3.比赛数据（私募大赛、期货日报大赛等）4.持仓数据（外资席位、CFTC 等）"
+    },
+    {
+      "text": "还需要另类基本面数据，包括行业热度（百度指数、从业相关指标等）和卫星数据（遥感卫星、星光数据等）。",
+      "evidence": "其次，我们需要另类基本面数据，其中包括：1. 行业热度（百度指数、从业相关指标等）2. 卫星数据（遥感卫星、星光数据等）"
+    },
+    {
+      "text": "在行为金融的框架下对投资者行为构建模型，其外推性和鲁棒性都可能达到更优。",
+      "evidence": "当我们能够在行为金融的框架下对投资者行为构建模型，其外推性和鲁棒性都可能达到更优。"
+    },
+    {
+      "text": "期货日报实盘交易大赛披露详实，是观察真实交易市场的优秀窗口，第十六届已吸引超过6万名投资者，投入总资金近300亿元。",
+      "evidence": "2022年 3月 25日，第十六届大赛开始，目前已吸引超过 6万名投资者，投入总资金近300 亿元。实盘交易大赛定期披露选手账户信息，包括选手的整体情况、分类情况以及各选手自身的情况。"
+    },
+    {
+      "text": "本文作为系列第一篇，介绍行为金融研究背景与愿景目标，后续将结合具体数据与行情给出案例分享。",
+      "evidence": "本文作为系列的第一篇，主要尝试给各位投资者介绍我们的行为金融研究背景以及我们想要达成的愿景目标，接下来我们就将结合具体数据与行情，给出一个个经典案例分享，请大家持续关注。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barberis, N. (2018). Chapter 2 Psychology-based models of asset prices and trading volume.",
+    "Barberis, N. and R. Thaler (2003). Chapter 18 A survey of behavioral finance.",
+    "Hirshleifer, D. (2015). Behavioral finance. Annual Review of Financial Economics 7.",
+    "Sewell, M. (2007). Behavioural finance. Working paper.",
+    "Shiller, R. J. (2003). From efficient markets theory to behavioral finance.",
+    "石川，刘洋溢，连祥斌 (2020). 因子投资：方法与实践."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

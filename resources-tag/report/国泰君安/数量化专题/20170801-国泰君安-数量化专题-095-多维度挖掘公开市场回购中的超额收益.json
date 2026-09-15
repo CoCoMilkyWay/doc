@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20170801-国泰君安-数量化专题-095-多维度挖掘公开市场回购中的超额收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "event", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "回购金额占自由流通市值",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "\\frac{回购金额}{自由流通市值}",
+          "stats": [null, null, null, null],
+          "evidence": "为了去除公司自身大小的影响，我们选取回购金额/公司自由流通市值构建一个相对指标（若只公布金额区间的以区间中位数计算）。"
+        },
+        {
+          "name": "股权集中度",
+          "family": "event",
+          "direction": "nonmonotonic",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{第一大股东持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "我们将上市公司第一大股东的持股比例作为考量上市公司股权结构的标准。"
+        },
+        {
+          "name": "回购溢价(折价)率",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "溢价率=\\frac{回购上限-MA5}{MA5}",
+          "stats": [null, null, null, null],
+          "evidence": "我们采取回购预案中公布的回购价格上限与预案前该股票的5日均价计算溢价率，即："
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "回购溢价(折价)率角度构建的策略超额收益与胜率最高，持有20个交易日相对沪深300超额收益10.72%，胜率76.2%。",
+      "evidence": "其中从回购溢价(折价)率角度构建的策略超额收益与胜率最高，持有 20 个交易日相对沪深 300 超额收益10.72%，胜率 76.2%。"
+    },
+    {
+      "text": "预案后5日股价处于相对低位，是买入的好时机；投资于回购预案这一事件时持有期不宜过长，以持有20个交易日为佳。",
+      "evidence": "我们发现预案后 5 日股价处于相对低位，是买入的好时机。且投资于回购预案这一事件时持有期不宜过长，以持有 20 个交易日为佳。"
+    },
+    {
+      "text": "预案发布当日存在显著的公告日效应，取相对收益后样本单日平均涨幅达到4%左右，但事件超额收益呈短期脉冲性，约30个交易日后收益率大幅下滑。",
+      "evidence": "取相对收益后，样本单日平均涨幅达到了 4%左右，显示了市场投资者整体对于上市公司回购的认可，尤其是在上市公司大多选择在熊市时进行回购的大背景下，在市场低迷的时期能取得如此收益已实属不易，并在未来的一段时间内都能维持该上涨的趋势，直到该热点褪去，收益率出现均值回归。"
+    },
+    {
+      "text": "回购金额占自由流通市值大的公司在回购预案发布后的表现显著优于占比低的公司，剔除占比3%以下的股票后策略超额收益4.04%，胜率59.2%。",
+      "evidence": "无论是从事件超额收益还是从胜率上看，回购金额占自由流通市值大的公司在回购预案发布后的表现显著优于占比低的公司。"
+    },
+    {
+      "text": "大股东控制权居中（持股比例20%至30%）的公司能从二级市场回购中获得最大的边际收益，该策略持仓期累计超额收益4.9%，胜率65.2%。",
+      "evidence": "对于大股东控制权居中的公司，反而能从二级市场回购中获得最大的边际收益。"
+    },
+    {
+      "text": "折价回购形成的“安全垫”作用短期提振作用明显，折价率20%以内的折价回购无论胜率还是超额收益都显著强于其余三组。",
+      "evidence": "由上表可见，折价回购形成的“安全垫”作用在股份回购，尤其是投资者对个股的信心不足，股价处于下跌趋势时的短期提振作用十分明显，20天平均超额收益达到9.97%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《员工持股计划：在预期博弈中寻找事件阿尔法》"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

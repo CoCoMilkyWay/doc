@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "id": "20220918-中信建投-逐鹿alpha-011-基于限价订单簿数据的deeplob模型",
+  "genre": "research",
+  "asset": ["stock_cn", "convertible"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["order_flow", "representation_learning"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "event", "horizon": "second"}
+      },
+      "factors": [
+        {
+          "name": "盘口订单委托强弱",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\sum_{i=1}^{10}\\frac{P_{bt}^{i}}{P_{at}^{i}+P_{bt}^{i}},\\;\\sum_{i=1}^{10}\\frac{V_{bt}^{i}}{V_{at}^{i}+V_{bt}^{i}}",
+          "stats": [null, null, null, null],
+          "evidence": "分别代表了量价的盘口订单委托强弱，其中 P 为价格，V 为委托量，b 代表 bid，a 代表 ask，i 代表档位，取值从 1 到 10。"
+        },
+        {
+          "name": "量价的变化率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "AP_{t}^{i},AV_{t}^{i}",
+          "stats": [null, null, null, null],
+          "evidence": "代表了量价的变化率，时间长度取 100 个 tick。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "当触发信号参数 N 大于 15 时，股票单次交易的平均收益率超过 0.8%，将模型直接应用于可转债，单次交易的平均收益率可以达到 5.55%，收益非常显著。",
+      "evidence": "本文主要通过 level2 的订单簿数据构建了 LOB 数据，结合深度神经网络 DeepLOB 模型，在股票和可转债上进行测试，结果表明，当触发信号参数 N 大于 15 时，股票单次交易的平均收益率超过 0.8%，将模型直接应用于可转债，单次交易的平均收益率可以达到 5.55%，收益非常显著。"
+    },
+    {
+      "text": "可转债的单次交易收益率更加显著，当 N 取 20 时，单次交易的平均收益率为 5.55%，且随着 N 的增大，平均收益率具有明显的单调性。",
+      "evidence": "与股票相比，可转债的单次交易收益率更加显著，当 N 取 20 时，单次交易的平均收益率为 5.55%，且随着 N 的增大，平均收益率具有明显的单调性。"
+    },
+    {
+      "text": "加“深”的 DeepLOB 效果优于加“宽”的 DeepLOB 结构，更深的网络能够提取因子更高维度的特征。",
+      "evidence": "通过对比两者的表现，加“深”的 DeepLOB 效果优于加“宽”的 DeepLOB 结构，原因在于更深的网络能够提取因子更高维度的特征，因此本文我们采用加“深”的 DeepLOB 结构。"
+    },
+    {
+      "text": "N 越大，说明日内趋势越显著，此时单次交易的收益较高，说明了日内交易具有短期动量效应。",
+      "evidence": "N 代表了日内趋势预测的显著程度，N 越大，说明日内趋势越显著，此时单次交易的收益较高，说明了日内交易具有短期动量效应。"
+    },
+    {
+      "text": "模型在可转债上依然具有显著的收益水平，说明模型具有良好的泛化能力，非常适合在可转债上进行交易。",
+      "evidence": "模型在可转债上依然具有显著的收益水平，说明模型具有良好的泛化能力。且由于可转债对于高频交易相对较少的限制，此模型非常适合在可转债上进行交易。"
+    },
+    {
+      "text": "收益率的阈值设为 5e-4，对应交易时印花税的收费标准，0/1/2 样本占比分别为25.6%，49%，25.4%，相对较为均衡。",
+      "evidence": "收益率的阈值设为 5e-4，对应交易时印花税的收费标准。将收益率大于 5e-4 的样本标价为 2，小于-5e-4 的样本标记为 0，中间的样本标记为 1。0/1/2 样本占比分别为25.6%，49%，25.4%。相对较为均衡。"
+    },
+    {
+      "text": "在 N 较小时，累计收益收到交易手续费影响较大，在单边万五（双边千一）的手续费下，N=6 的累计收益率达到 16.8%，而在单边千一的手续费下，N=11 的累计收益率为0.9%。",
+      "evidence": "可以看出在 N 较小时，累计收益收到交易手续费影响较大，在单边万五（双边千一）的手续费下，N=6 的累计收益率达到 16.8%，而在单边千一的手续费下，N=11 的累计收益率为0.9%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Temporal Fusion Transformer 模型（前期报告）",
+    "Z. Zhang, S. Zohren and S. Roberts. \"DeepLOB: Deep Convolutional Neural Networks for Limit Order Books\""
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

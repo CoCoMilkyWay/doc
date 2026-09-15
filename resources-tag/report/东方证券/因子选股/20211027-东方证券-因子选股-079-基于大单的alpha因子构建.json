@@ -1,0 +1,94 @@
+{
+  "schema_version": 2,
+  "id": "20211027-东方证券-因子选股-079-基于大单的alpha因子构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大单买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{i \\in \\text{大买单}} \\text{成交金额}_i}{\\sum_{i \\in \\text{大单}} \\text{成交金额}_i}",
+          "stats": [0.0108, null, 0.39, 0.0495],
+          "evidence": "（3） 取该股票在这一交易日的所有大买单成交金额之和占所有大单成交金额之和的占比作为大单买入占比特征。"
+        },
+        {
+          "name": "早盘大单买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{i \\in \\text{大买单},\\, t<10:00} \\text{成交金额}_i}{\\sum_{i \\in \\text{大单},\\, t<10:00} \\text{成交金额}_i}",
+          "stats": [0.0327, null, 1.37, 0.1196],
+          "evidence": "另外，考虑到更多的信息交易发生在早盘，我们也计算了早盘大单买入占比特征，计算方法上就是将上述步骤（3）中的成交金额修正为发生在上午 10：00 前的成交金额。"
+        },
+        {
+          "name": "大单涨跌幅",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\sum_{t \\in \\text{主动大单成交}} \\left( \\ln P_t - \\ln P_{t-1} \\right)",
+          "stats": [0.0661, null, 2.35, 0.2273],
+          "evidence": "（3） 根据逐笔成交汇总求和所有主动订单为大单的对数价格变动得到大单涨跌幅。"
+        },
+        {
+          "name": "早盘大单涨跌幅",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\sum_{t \\in \\text{主动大单成交},\\, t<10:00} \\left( \\ln P_t - \\ln P_{t-1} \\right)",
+          "stats": [0.0842, null, 3.02, 0.3199],
+          "evidence": "和大单买入占比类似，我们除了基于全天的逐笔成交计算大单涨跌幅，也计算了上午10：00 前的早盘大单涨跌幅，具体做法只需在步骤（3）中仅汇总上午 10：00 前的大单涨跌幅即可。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["smoothing", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi800", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "早盘大单买入占比在沪深300中月度RankIC均值高达7.33%，多空年化收益为25.4%，而在中证全指中的RankIC仅3.27%，多空年化收益12.0%，且近两年没有衰减迹象。",
+      "evidence": "早盘大单买入占比在沪深 300 中月度 RankIC 均值高达 7.33%，多空年化收益为 25.4%，而在中证全指中的 RankIC仅 3.27%，多空年化收益 12.0%，从时间序列上看，因子近两年也没有衰减的迹象。"
+    },
+    {
+      "text": "大单涨跌幅和早盘大单涨跌幅表现出明显的动量特征，涨跌幅越大的股票后期平均持有收益越高。",
+      "evidence": "大单涨跌幅和早盘大单涨跌幅两个因子表现出明显的动量特征，即大单涨跌幅和早盘大单涨跌幅度越大的股票，后期平均持有收益越高。"
+    },
+    {
+      "text": "大单买入占比、早盘大单买入占比和多数大类因子几乎无相关性，和反转有较强负相关，因子表现和反转完全互补，呈现动量特征。",
+      "evidence": "大单买入占比、早盘大单买入占比在因子取值上和多数大类因子几乎没有任何相关性，和反转有较强的负相关，因子表现和反转完全互补，呈现一定的动量特征。"
+    },
+    {
+      "text": "4个因子对大单划分标准不敏感；拉长平滑周期可大幅降低换手，选股效果回落有限，如年度平滑的早盘大单买入占比在沪深300中月均RankIC均值依然高达7.17%，多空年化收益15.36%，top组合月单边换手仅20%。",
+      "evidence": "本文提出的 4 个因子对大单的划分标准并不敏感，在较长平滑周期下，因子的换手率大幅降低，但因子的选股效果回落幅度有限，比如年度平滑的早盘大单买入占比因子在沪深 300 中的月均 RankIC 均值依然高达 7.17%，多空年化收益 15.36%，但 top 组合月单边换手仅 20%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "“居中”和“离群”股的 Alpha：因子选股系列之七十七",
+    "基于委托订单数据的 alpha 因子：因子选股系列之七十六",
+    "存在于全市场范围内的稳健动量效应：因子选股系列研究之七十八"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "id": "20230130-华泰证券-人工智能-064-九坤kaggle量化大赛有哪些启示",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "均值因子",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\bar{f}_{t}=\\frac{1}{N}\\sum_{i=1}^{N}f_{i,t}",
+          "stats": [null, null, null, null],
+          "evidence": "特征工程引入截面上全部股票因子的均值，均值因子可能反映原始因子整体分布的时变特性，是市场环境的一种简单表达。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "neural", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "na"}
+    }
+  },
+  "findings": [
+    {
+      "text": "特征工程引入均值因子对神经网络有效；CCC损失优于MSE损失和IC损失；时序交叉验证作用不明显；集成神经网络和决策树类模型提升较稳定。",
+      "evidence": "结果表明：(1)特征工程引入均值因子对神经网络有效；(2)CCC 损失优于 MSE 损失和 IC 损失；(3)时序交叉验证作用不明显；(4) 集成神经网络和决策树类模型提升较稳定。"
+    },
+    {
+      "text": "改进策略相比基线策略有稳定提升，回测期2011年至2022年内，年化超额收益从14.2%提升至17.0%，信息比率从2.3/2.4提升至2.7。",
+      "evidence": "结果显示，改进策略相比基线策略有稳定提升，回测期 2011 年至 2022 年内，年化超额收益从 14.2%提升至17.0%，信息比率从 2.3/2.4 提升至 2.7。"
+    },
+    {
+      "text": "IC损失单因子测试优于MSE损失，但指增组合表现差，本质是因子合成和组合优化的目标错配。",
+      "evidence": "研究还发现 IC 损失单因子测试优于 MSE 损失，但指增组合表现差，本质是因子合成和组合优化的目标错配。"
+    },
+    {
+      "text": "XGBoost引入弱因子后，特征采样使原始因子可能被排除在外，从而削弱模型；神经网络可通过预处理缩小取值，有限度地使用弱因子。",
+      "evidence": "XGBoost 引入弱因子后，特征采样使原始因子可能被排除在外，从而削弱模型。神经网络可通过预处理缩小取值，有限度地使用弱因子。"
+    },
+    {
+      "text": "MSE给予极端误差较大惩罚，恰好弥补IC弱点；CCC融合IC和MSE，兼顾共性和个性，是一类理想的损失函数。",
+      "evidence": "MSE 的特点之一是给予极端误差较大惩罚，恰好弥补IC弱点。CCC融合IC和MSE，兼顾共性和个性，是一类理想的损失函数。"
+    },
+    {
+      "text": "交叉验证调参改进不显著，考虑到时间开销大，性价比不高，算力有限前提下，使用经验超参数即可。",
+      "evidence": "交叉验证调参改进不显著，考虑到时间开销大，性价比不高，算力有限前提下，使用经验超参数即可。"
+    },
+    {
+      "text": "模型集成提升较稳定，神经网络类和决策树类模型有互补效果。",
+      "evidence": "模型集成提升较稳定，神经网络类和决策树类模型有互补效果。"
+    },
+    {
+      "text": "损失函数中，MSE表现不突出；IC损失单因子测试表现好，但指增组合回测表现差；CCC损失在单因子测试表现一般，但指增组合回测表现较好；加权均优于等权。",
+      "evidence": "损失函数中，MSE 表现不突出；IC 损失单因子测试表现好，但指增组合回测表现差；CCC 损失在单因子测试表现一般，但指增组合回测表现较好；加权均优于等权。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Ubiquant Market Prediction, Kaggle, 2022"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

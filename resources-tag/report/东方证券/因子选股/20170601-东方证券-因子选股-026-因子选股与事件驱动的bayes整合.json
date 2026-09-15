@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "id": "20170601-东方证券-因子选股-026-因子选股与事件驱动的bayes整合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "corporate_event"
+      ],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "随着τ值增大，整合四个利空事件的模型MAE越来越小，说明利空事件对残差收益的预测能力比多因子模型更强，加入利空事件驱动因素确实可以明显提高多因子模型对残差收益的预测精度。",
+      "evidence": "可以看到随着 数值的增大，整合模型的 MAE 越来越小，说明加入利空事件驱动因素确实可以明显提高多因子模型对残差收益的预测精度；而且 值越大，Bayes 计算式中事件驱动因素的权重越大，而此时 MAE 越小，说明利空事件对残差收益的预测能力比多因子模型更强。"
+    },
+    {
+      "text": "事件库里的事件并非越多越好，只有当事件对残差收益的预测能力强于多因子模型时整合才有益；两个利好事件绝大部分 alpha 在公告日前反应完毕、公告日后不显著，加入反而增加数据噪音、降低模型预测能力。",
+      "evidence": "也就是说事件库里的事件并非越多越好，只有当事件对残差收益的预测能力强于多因子模型时，这种整合才是有益的；而两个利好事件，正如图 6 和图 8 所示，绝大部分 alpha 在公告日前就反应完毕，公告日后并不显著，对 alpha贡献不大，反而增加了数据噪音，降低了模型的预测能力。"
+    },
+    {
+      "text": "Bayes 整合后事件调整的预期收益是多因子模型预期残差收益和事件预期残差收益的线性加权，权重为预期残差收益方差的倒数；事件样本太少则方差大、预测不可靠、权重占比小。",
+      "evidence": "可以看到，事件调整后的预期收益是多因子模型预期残差收益和事件预期残差收益的线性加权，权重为预期残差收益方差的倒数。如果一个事件样本太少，则其预期残差收益的方差会很大，预测结果不可靠，在最终结果里的权重占比会很小。"
+    },
+    {
+      "text": "四个利空事件在指数成分股里的事件覆盖率平均只有 3.2%，加入事件后对多因子策略的总体影响将非常有限。",
+      "evidence": "少数月份事件覆盖率能超过10%，但平均下来只有3.2%，因此可以预期加入事件后，对多因子策略的总体影响将非常有限。"
+    },
+    {
+      "text": "τ 取 0.4、0.5、0.6 时整合策略表现最好，平均下来比纯多因子模型年化收益高 19bp，最大回撤略有下降，组合换手率变化很小。",
+      "evidence": "从测试结果看， 取值在 0.5附近时表现最好，其分别取 0.4, 0.5, 0.6 的结果平均下来比纯多因子模型年化收益高 19bp，最大回撤略有下降，组合换手率变化很小。"
+    },
+    {
+      "text": "A 股利空类事件使用价值最高但数量有限、事件覆盖率低，对月频多因子模型增强幅度有限；实际操作中可提高调仓频率、多挖掘短线事件提升事件的增强效果。",
+      "evidence": "目前来看，A 股利空类事件的使用价值最高，但数量有限，事件在股票池里的覆盖率低，对月频多因子模型的增强幅度有限。实际操作中，投资者可以考虑提高调仓频率，多挖掘一些短线事件来提升事件的增强效果"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Black-Litterman 模型",
+    "《Alpha 预测中》",
+    "《A股市场风险分析》",
+    "《区分真事件与伪事件：事件效应的准确度量与高效统计检验》",
+    "《反转因子失效市场下的量化策略应对》",
+    "《寻找贡献真实 alpha 的事件》",
+    "《组合优化是与非》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "schema_version": 2,
+  "id": "20230311-中金公司-量化多因子-011-如何捕捉四象限的风格轮动",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "technical_pattern",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "大小盘收益差值",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "R_{HS300,t}-R_{CSI1000,t}",
+          "stats": [null, null, null, null],
+          "evidence": "此指标计算方式为沪深300指数收益减去中证1000指数收益，代表当前的市场状态。其对大小盘的影响可以视为一种动量。"
+        },
+        {
+          "name": "大小盘PB比值分位数",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{Percentile}(PB_{HS300}/PB_{CSI1000},\\ 24M)",
+          "stats": [null, null, null, null],
+          "evidence": "大小盘收益差值、大小盘PB比值分位数是一类动量指标，从收益和估值的角度分别给出大小盘风格相对占优的信息。此类动量趋势指标值越大，越说明大盘相对小盘占优。"
+        },
+        {
+          "name": "大小盘相对换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{SUM}(Turn_{HS300}/Turn_{CSI1000},\\ 3)",
+          "stats": [null, null, null, null],
+          "evidence": "大小盘相对换手率是一个反转指标，当相对换手处于高位时，大盘市场过热，市场风格会向小盘转向。其中大盘用沪深300指数代表，小盘用中证1000指数代表。"
+        },
+        {
+          "name": "全A换手率在过去两年分位数",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{wind全A的换手率在过去两年分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "全A换手率在过去两年的分位数指标极性为负。换手率可以描述市场的活跃程度和投资者的风险偏好，换手率较高的时期往往小盘股相对表现较好。"
+        },
+        {
+          "name": "中证1000人气指标(AR)",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "AR=\\mathit{SUM}(High-Open,250)/\\mathit{SUM}(Open-Low,250)",
+          "stats": [null, null, null, null],
+          "evidence": "中证1000人气指标代表市场对中证1000的多空态度，指标越大，代表小盘相对占优。人气指标以当天开盘价为基础，通过一段时期内开盘价在股价中的地位反映市场买卖人气，进一步反映投资者对该资产是否乐观。"
+        },
+        {
+          "name": "成长价值收益差值",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "(R_{\\text{巨潮大盘成长},t}+R_{\\text{巨潮小盘成长},t})-(R_{\\text{巨潮大盘价值},t}+R_{\\text{巨潮小盘价值},t})",
+          "stats": [null, null, null, null],
+          "evidence": "成长价值收益差值是一个动量指标，指标较高时说明成长风格占优，并且在未来成长风格会持续占优。"
+        },
+        {
+          "name": "偏股基金募资额",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{偏股型基金近1周的发行份额}",
+          "stats": [null, null, null, null],
+          "evidence": "此指标计算方式为偏股型基金近一周的发行份额，代表资金流向，属于市场情绪类指标。当偏股型基金发行频繁时，意味着大量资金通过机构投资者涌入股市，而机构投资者投资的更多是大盘股、价值股，因此该指标的上升可以看作是对大盘风格和价值风格持乐观态度。"
+        },
+        {
+          "name": "创新高个股占比",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{当天创新高的个股数量占比（剔除上市5个交易日内的股票）}",
+          "stats": [null, null, null, null],
+          "evidence": "创新高个股占比为当天创新高的个股数量占比（剔除上市5日以内的股票），极性为负。小盘股相对于大盘股的创新高概率更大，因此该指标处于高位可以看作是对小盘风格持乐观态度。"
+        },
+        {
+          "name": "期权认沽认购比",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{50ETF看跌期权合约当日总成交量}}{\\text{50ETF看涨期权合约当日总成交量}}",
+          "stats": [null, null, null, null],
+          "evidence": "期权认沽认购比为50ETF所有看跌期权合约当日总成交量与所有看涨期权合约当日总成交量的比值，极性为负。该指标较高时，意味着市场对50ETF的看跌情绪较大，50ETF偏向于大盘股，因此该指标是一种对大盘的看空情绪。"
+        },
+        {
+          "name": "新增投资者数量",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月新增股票开户数量}",
+          "stats": [null, null, null, null],
+          "evidence": "新增投资者数量反映散户的投资情绪，是一个常用的市场情绪代理变量。与机构投资者相比，散户投资者会相对更偏好市值偏小成长性较好的风格的股票，因此当散户入市速度加快时，可能意味着成长情绪过热，未来市场会转向价值风格。"
+        },
+        {
+          "name": "中国波指",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{基于50ETF期权的VIX指数}",
+          "stats": [null, null, null, null],
+          "evidence": "中国波指是基于50ETF期权的VIX指数，成长价值极性为正。50ETF中价值股占多，该指标较高时意味着价值股波动较大，此时投资者会更倾向于投资成长风格。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "relative_momentum", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "从市场状态、市场情绪、宏观环境三个维度筛选有经济学意义的候选指标，采用格兰杰检验和相关性检验测试有效性，最终选出共15个指标用于四象限风格预测。",
+      "evidence": "从市场状态、市场情绪、宏观环境三个维度寻找有经济学意义的候选指标，采用格兰杰检验和相关性检验对指标有效性进行测试，旨在筛选出既对四象限风格收益有预测效果，且符合经济学逻辑的轮动指标，最终选出共15个指标。"
+    },
+    {
+      "text": "在指标标准化基础上叠加滚动胜率信息纳入指标近期趋势，回测表明叠加滚动胜率信息有助于增强模型的轮动效果，表现最稳定的是滚动4期胜率信息。",
+      "evidence": "回测结果表明，叠加滚动胜率信息有助于增强模型的轮动效果，且表现最为稳定的是滚动4期胜率信息。"
+    },
+    {
+      "text": "四象限轮动模型广义胜率良好，全时点平均广义胜率为83%；狭义胜率自2018年起表现较好，近5年平均狭义胜率为40%，2022年至今为44%。",
+      "evidence": "测试结果中，广义胜率良好，全时点平均广义胜率为83%。狭义胜率自2018年起也表现较好，近5年（2018年至2023年2月）平均狭义胜率为40%，2022年至今平均狭义胜率为44%。"
+    },
+    {
+      "text": "策略应用于巨潮风格指数可在样本期内持续跑赢基准，分年收益除2016年以外也均战胜基准，年化收益为9.30%，年化超额收益为5.06%，信息比率为0.75。",
+      "evidence": "策略应用于巨潮风格指数可在样本期内持续跑赢基准，分年收益除2016年以外也均战胜基准。四象限轮动策略的年化收益为9.30%，年化超额收益为5.06%，信息比率为0.75。"
+    },
+    {
+      "text": "策略应用于自建四象限风格指数同样稳定，年化收益10.52%，超额收益4.31%，信息比率0.70，轮动策略在大多数年份都能够跑赢基准收益，说明模型对不同指数应用场景有一定适用性。",
+      "evidence": "在此策略的年化收益为10.52%，超额收益为4.31%，信息比率为0.70。轮动策略在大多数年份都能够跑赢基准收益，且在2014年有着较为优秀的轮动表现。由于筛选指标均以巨潮风格指数为参考，但策略在四象限风格指数上仍有不错的轮动效果，说明模型对于不同指数应用场景有一定适用性。"
+    },
+    {
+      "text": "2023年3月的最新推荐持仓风格为小盘价值风格。",
+      "evidence": "2023年3月的最新推荐持仓风格为小盘价值风格。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《基本面量化系列(8)：四象限风格内应如何选股？》(2022.12.15)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

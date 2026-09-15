@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "20160826-东方证券-因子选股-011-资金规模对策略收益的影响",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting", "linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_covariance"],
+      "approach": ["shrinkage"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "daily"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "impact"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "加入冲击成本函数做组合优化会降低理论alpha，但考虑冲击成本后能显著提升账面收益，对大资金提升尤为明显",
+      "evidence": "实证发现，加入冲击成本函数做优化会降低策略的理论 alpha，但如果在计算组合收益时，把资金的冲击成本考虑进去，这种组合组合优化方式将能显著提升“账面收益”，对大资金的提升尤为明显（下表）。"
+    },
+    {
+      "text": "资金量达10亿时不优化冲击成本的组合基本不能战胜市场，高额冲击成本吞噬了13.44%的超额收益",
+      "evidence": "可以看到在这种情况下，不优化冲击的成本的组合已经基本不能战胜市场了，高额的冲击成本吞噬了13.44%的超额收益。在这种情况下，冲击成本的优化就显得尤为重要了"
+    },
+    {
+      "text": "在成交价格上加减固定比例冲击成本的传统做法不可行，无法反应不同时点、不同股票、不同资金量造成冲击的差异",
+      "evidence": "在成交价格上加减一个固定比例的冲击成本的传统做法并不可行，它无法反应不同时点、不同股票、不同资金量造成冲击的差异。"
+    },
+    {
+      "text": "资金规模达到5个亿的中证500增强型产品就有必要考虑冲击成本的问题",
+      "evidence": "从我们测试结果来看，资金规模达到5个亿的中证500增强型产品就有必要考虑冲击成本的问题。"
+    },
+    {
+      "text": "冲击成本大小与股票市场走势负相关，人为设定20-50bp冲击成本在资金量较大时明显低估，造成纸面收益与回溯收益巨大差别",
+      "evidence": "可以明显看到，冲击成本大小与股票市场走势负相关。之前的实证研究，通常会在回溯过程中人为的设定 20-50个bp冲击成本，对比下图可以发现，这种估计在资金量较大时，是明显低估的，造成纸面收益和回溯收益的巨大差别。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Almgren R, Thum C, Hauptmann E, et al. Direct estimation of equity market impact",
+    "Ledoit O, Wolf M. Improved estimation of the covariance matrix of stock returns with an application to portfolio selection"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

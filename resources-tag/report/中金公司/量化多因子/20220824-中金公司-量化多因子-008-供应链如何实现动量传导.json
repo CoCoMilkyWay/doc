@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "id": "20220824-中金公司-量化多因子-008-供应链如何实现动量传导",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["statement"], "freq": "quarterly"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["momentum_reversal", "relation_graph"],
+      "setup": {
+        "universe": ["all", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "mmt_normal_M供应链动量差因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{MMD}_{normal}=\\mathrm{Mom}_{customer,1M}-\\mathrm{Mom}_{firm,1M}",
+          "stats": [0.041, null, 0.66, null],
+          "evidence": "因此，我们构建供应链动量差因子，即供应商或客户的动量减去公司自身动量，引入供应链中的增量信息，用供应链动量溢出效应改进动量因子。"
+        },
+        {
+          "name": "mmt_intraday_M供应链动量差因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{MMD}_{intraday}=\\sum_{t\\in 1M}\\mathrm{IntradayRet}_{customer,t}-\\sum_{t\\in 1M}\\mathrm{IntradayRet}_{firm,t}",
+          "stats": [0.0475, null, 0.83, null],
+          "evidence": "此外，一个月普通、日内、振幅调整的客户动量差因子表现良好，在全市场范围内一个月振幅调整的客户动量差因子的IC均值为4.87%，ICIR达到1.10。"
+        },
+        {
+          "name": "mmt_range_M供应链动量差因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{MMD}_{range}=\\mathrm{RangeMom}_{customer,1M}-\\mathrm{RangeMom}_{firm,1M}",
+          "stats": [0.0487, null, 1.1, null],
+          "evidence": "其中mmt_range_M的供应链动量差因子在全市场的IC均值达到4.87%，ICIR为1.10；在中证1000范围内的IC均值为4.89%，ICIR为0.83。"
+        },
+        {
+          "name": "供应链动量差残差因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon=\\mathrm{Mom}_{customer}-\\beta\\,\\mathrm{Mom}_{firm}",
+          "stats": [0.0069, null, 0.28, null],
+          "evidence": "供应链动量差残差因子在全市场和中证1000范围内有较好的有效性表现，反映供应链动量差因子为市场提供了一定的增量信息。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "mmt_range_M供应链动量差因子在全市场IC均值4.87%、ICIR 1.10，在中证1000范围内IC均值4.89%、ICIR 0.83，表现突出。",
+      "evidence": "其中mmt_range_M的供应链动量差因子在全市场的IC均值达到4.87%，ICIR为1.10；在中证1000范围内的IC均值为4.89%，ICIR为0.83。"
+    },
+    {
+      "text": "供应链动量差残差因子在全市场和中证1000范围内有较好的有效性表现，反映供应链动量差因子为市场提供了一定的增量信息。",
+      "evidence": "供应链动量差残差因子在全市场和中证1000范围内有较好的有效性表现，反映供应链动量差因子为市场提供了一定的增量信息。"
+    },
+    {
+      "text": "一个月的供应链动量溢出表现突出，动量溢出大多来源于主要供应链关系，普通、日内、振幅调整的供应链动量差因子表现更加有效，且客户传导的溢出效果更加显著。",
+      "evidence": "首先，一个月的供应链动量溢出表现突出，优于一天、一周、两周的短期动量和两个月至一年的长期动量；第二，动量溢出大多来源于主要供应链关系；第三，普通、日内、振幅调整的供应链动量差因子表现更加有效，同时客户传导的供应链动量溢出效果更加显著。"
+    },
+    {
+      "text": "供应链动量差因子的多头组合表现优于动量因子，年化收益率4.74%，超额最大回撤-5.48%。",
+      "evidence": "此外，供应链动量差因子的多头组合表现优于动量因子，其年化收益率为4.74%，超额最大回撤为-5.48%。"
+    },
+    {
+      "text": "引入第二层供应链关系后覆盖度提升，样本期间供应商和客户平均覆盖度分别为1963和1926，最新覆盖度2167和2081，覆盖率47.01%和48.95%。",
+      "evidence": "由下图所示，供应链覆盖度在引入第二层供应链关系后得到提升，样本期间供应商和客户的平均覆盖度分别为1963和1926，最新一期的覆盖度分别为2167和2081，覆盖率达到47.01%和48.95%。"
+    },
+    {
+      "text": "三种供应链动量差因子在分析师覆盖较低的中证1000市场表现出色，在沪深300和中证500范围内表现不足，进一步体现供应链动量溢出源自投资者的有限关注。",
+      "evidence": "三种因子在分析师覆盖较低的中证1000市场中表现出色，而在沪深300和中证500范围内表现不足，进一步体现供应链动量溢出源自于投资者的有限关注。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bozok and Özyildirim, 2022. Firm centrality and limited attention",
+    "Cohen and Frazzini, 2008",
+    "Huang et al., 2022",
+    "量化多因子系列（6）：关于动量，你所希望了解的那些事(2022.06.04)",
+    "量化多因子系列（7）：价量因子手册(2022.08.06)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

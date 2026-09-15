@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "id": "20210125-中信建投-逐鹿alpha-004-基于南向资金的选股择时策略",
+  "genre": "research",
+  "asset": ["stock_hk"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["hk_connect"],
+        "data": {"source": ["flow"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "择时指标",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{依据南向资金净流入的时间序列，当此时间序列突破布林带上轨，次日进行开仓，突破下轨，次日进行平仓}",
+          "stats": [null, null, null, null],
+          "evidence": "据此我们通过南向资金构建恒生的择时指标，构建思路为依据南向资金净流入的时间序列，当此时间序列突破布林带上轨，说明南向资金对后市非常乐观，则次日进行开仓，突破下轨则表明南向资金的避险倾向，次日进行平仓。"
+        },
+        {
+          "name": "净买入额",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "w_i=\\frac{\\text{净买入额}_i}{\\sum_{j}{\\text{净买入额}_j}},\\ \\text{选取净买入额}>0\\ \\text{的股票，次日买入}",
+          "stats": [null, null, null, null],
+          "evidence": "基于活跃股的策略构建思路根据当日公布的十大成交活跃股，计算当日活跃股的净买入额，选取净买入额大于 0 的股票，根据其净买入额作为权重构建组合，次日买入。"
+        },
+        {
+          "name": "增持金额",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{增持金额}_i=\\text{持仓变动}_i\\times VWAP_i",
+          "stats": [null, null, null, null],
+          "evidence": "港交所自 2017 年 3 月开始每日会公布中央结算系统内的持股数量，根据每天持仓变化量，我们可以估算其每日增持金额（持仓变动*VWAP 价格）。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["hk_connect"], "rebalance": "daily"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "根据港股通资金流向构造择时指标，对恒生指数开仓平仓，能够取得年化14%的超额收益。",
+      "evidence": "根据港股通资金流向构造择时指标，按照信号对恒生指数进行开仓和平仓，结果表明，此策略能够取得年化 14%的超额收益。"
+    },
+    {
+      "text": "分别根据十大活跃股和持仓数据构建组合，两个策略分别能取得年化41.3%和21.7%的超额收益。",
+      "evidence": "分别根据港股通每日公布的十大活跃股和持仓数据构建组合，持有固定时长，结果表明，两个策略分别能取得年化 41.3%和 21.7%的超额收益。"
+    },
+    {
+      "text": "择时策略样本内外年化收益率12.70%，超额年化14.7%，择时胜率63.16%，夏普比率0.89。",
+      "evidence": "最终样本内外的年化收益率为 12.70%，超额年化 14.7%，择时胜率为 63.16%，夏普比率 0.89。"
+    },
+    {
+      "text": "活跃成交股策略持仓一个月的各项指标相当优异，年化收益达到33.96%，夏普比率为1.38。",
+      "evidence": "可以看出持仓一个月策略的各项指标相当优异，年化收益达到 33.96%，夏普比率为 1.38，作为中低频策略，表现相当优异。"
+    },
+    {
+      "text": "南向资金背后的投资者相对理性，偏好在AH溢价较高的时候投资港股。",
+      "evidence": "说明南向资金背后的投资者相对理性，偏好在 AH 溢价较高的时候投资港股。"
+    },
+    {
+      "text": "持仓变动策略的数据表现不如活跃成交股策略，主要是由于持仓数据存在一定的滞后性，半个月持仓表现更好。",
+      "evidence": "整体上持仓变动策略的数据表现不如活跃成交股策略，主要是由于持仓数据存在一定的滞后性。相比与一个月持仓，半个月持仓表现更好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

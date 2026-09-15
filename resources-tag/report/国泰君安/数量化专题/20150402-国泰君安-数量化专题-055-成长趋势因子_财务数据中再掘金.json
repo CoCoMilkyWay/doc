@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20150402-国泰君安-数量化专题-055-成长趋势因子_财务数据中再掘金",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi800"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "成长趋势因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "MA_{profit}=profit_{t1}+profit_{t2}+profit_{t3}+profit_{t4},\\quad E_{profit}=MA_{profit}/lag(MA_{profit})",
+          "stats": [null, null, null, 0.1475],
+          "evidence": "在计算好的净利润移动平均线的基础上，我们用当期移动平均净利润相对上期移动平均净利润的增幅作为成长趋势因子。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["heuristic_ranking", "futures_hedge"],
+      "setup": {"universe": ["csi300", "csi500", "csi800"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "通过构建 Top 50和Bottom 50 多空组合，2009 年以来年化收益可达 14.75%，信息比1.68，月度胜率超过 70%。",
+      "evidence": "通过构建 Top 50和Bottom 50 多空组合，2009 年以来年化收益可达 14.75%，信息比1.68，月度胜率超过 70%。"
+    },
+    {
+      "text": "因子在沪深 300 内的选股能力也非常出色，Top50组合相对沪深 300指数年化超额收益可达 10%。",
+      "evidence": "值得一提的是，因子在沪深 300 内的选股能力也非常出色，Top50组合相对沪深 300指数年化超额收益可达 10%。"
+    },
+    {
+      "text": "历史持仓股票财务报告公告后 20 个交易日相对中证 800 平均超额收益为1.82%，远低于 TOP 50 组合相对中证 800年化超额收益14.75%，PEAD 现象不是组合收益的主要来源。",
+      "evidence": "历史持仓股票财务报告公告后 20 个交易日相对中证 800 平均超额收益为1.82%，而TOP 50 组合相对中证 800年化超额收益为14.75%，远超于PEAD 现象带来的收益。"
+    },
+    {
+      "text": "成长趋势因子不受股票透明度影响，在分析师覆盖的股票池中选出的组合仍然有年化 6.74%的超额收益。",
+      "evidence": "但成长趋势因子不受股票透明度影响，在分析师覆盖的股票池中选出的组合仍然有年化 6.74%的超额收益。"
+    },
+    {
+      "text": "行业配置上，做多排名第二的行业累计超额收益更加显著（103%），做多行业 CAAR 为 103%,做空行业 CAAR 为-33%，注意力分散效应在行业择时中依旧有效。",
+      "evidence": "因此，我们进一步测试只做多达到阀值且排名第二的行业。在图11 中可以看出，排名第二的行业2008年底以来的累计超额收益更加显著（103%），回撤幅度大幅降低，该结果说明“注意力分散效应”在行业择时中依旧有效，做多排名第二的行业效果更好。"
+    },
+    {
+      "text": "成长趋势因子时效性较强，当期得分对下一期收益解释力最高，随着时间跨度的增加，因子的超额收益及信息比明显下降。",
+      "evidence": "成长趋势因子时效性较强，当期分值对下期组合超额收益的驱动力最强，随着时间跨度的增加，因子的超额收益及信息比明显下降。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Ball and Brown(1968)", "Hirshleifer,Lim and Teoh(2009)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

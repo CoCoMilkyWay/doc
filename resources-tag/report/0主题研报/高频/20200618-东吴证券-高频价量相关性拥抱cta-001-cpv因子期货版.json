@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "20200618-东吴证券-高频价量相关性拥抱cta-001-cpv因子期货版",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "CPV因子",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\mathrm{PV}=\\mathrm{corr}(\\Delta P_{i},\\ \\Delta OI_{i}^{修正})",
+          "stats": [null, null, null, null],
+          "evidence": "计算日内价量相关系数 PV 值：用日内分钟价格与分钟修正持仓量，构造∆P序列和∆OI序列，计算两个序列之间的相关系数"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "综合策略年化收益44.48%、收益波动比2.24、最大回撤10.34%，绩效表现显著优于基准策略。",
+      "evidence": "回测期2017年4月至2020年4月内，综合策略的年化收益为44.48%（不含杠杆），年化波动为 19.84%，收益波动比2.24，日度胜率 57.27%，最大回撤为 10.34%，绩效表现显著优于基准策略。"
+    },
+    {
+      "text": "修正持仓量将日内持仓量从“山谷”变为“山峰”，真实还原交易者的多空意图。",
+      "evidence": "修正后的持仓量，通过分配日内总持仓量变化，将持仓量的形态从“山谷”变为“山峰”，真实地还原了交易者的多空意图。"
+    },
+    {
+      "text": "交割周期余下四天只在当月合约与次月合约信号相同时进行交易，其余交易日剔除信号，不做交易。",
+      "evidence": "因此对于交割周期中余下的四天，只在当月合约与次月合约信号相同时进行交易，其余交易日剔除信号，不做交易。"
+    },
+    {
+      "text": "与下一交易日间隔超过3天的信号直接剔除，不做交易。",
+      "evidence": "因此，对于下一个交易日间隔超过3天的信号，我们将直接剔除，不做交易。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "“技术分析拥抱选股因子”系列研究（一）：高频价量相关性，意想不到的选股因子"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

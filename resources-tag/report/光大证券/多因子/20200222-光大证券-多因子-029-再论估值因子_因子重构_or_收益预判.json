@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "id": "20200222-光大证券-多因子-029-再论估值因子_因子重构_or_收益预判",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP_t=\\frac{\\text{净资产（最新财报）}_t}{\\text{总市值}_t}",
+          "stats": [0.0462, null, 0.47, 0.088],
+          "evidence": "估值因子中的BP因子正是Fama-French三因子模型中的一个重要组成部分，因此也很容易理解 BP 和 BP_TTM 因子的历史收益表现和 IC 值均强于其他同类型的估值因子。"
+        },
+        {
+          "name": "BP_quantile_60",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当前BP所处百分位（过去60日）}",
+          "stats": [null, null, null, null],
+          "evidence": "基本面研究中时常会提及某某股票的估值跌破 20%历史分位数这样的说法，用以表示目前这只股票的估值比较便宜，具有一定的投资机会。因此我们很自然的想到历史分位数这种方式，来改造原始估值因子。"
+        },
+        {
+          "name": "BP_quantile_120",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当前BP所处百分位（过去120日）}",
+          "stats": [null, null, 0.6, null],
+          "evidence": "上述因子经过行业中性处理后的因子 IC、IR 表现如下图所示。可见使用分位数方法改造的估值因子BP_quantile在回溯时长为120个交易日时具有较高的 IC_IR（接近 0.60），时间区间拉长后因子有效性出现逐步下降。"
+        },
+        {
+          "name": "BP_quantile_240",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当前BP所处百分位（过去240日）}",
+          "stats": [null, null, null, null],
+          "evidence": "基于多因子体系中的 BP 因子，构造以下不同参数下的历史分位数估值因子"
+        },
+        {
+          "name": "BP_quantile_360",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当前BP所处百分位（过去360日）}",
+          "stats": [null, null, null, null],
+          "evidence": "基于多因子体系中的 BP 因子，构造以下不同参数下的历史分位数估值因子"
+        },
+        {
+          "name": "BP_Z_60",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP\\_Z\\_60_t=\\frac{BP_t-\\mu_{60}(BP)}{\\sigma_{60}(BP)}",
+          "stats": [null, null, null, null],
+          "evidence": "时序 z_score方法与分位数方法在逻辑上是类似的，不同点则在于分位数仅仅考虑了数据的排序分布情况，而 z_score考虑到了数据的实际分布情况。"
+        },
+        {
+          "name": "BP_Z_120",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP\\_Z\\_120_t=\\frac{BP_t-\\mu_{120}(BP)}{\\sigma_{120}(BP)}",
+          "stats": [0.0621, null, 0.63, 0.099],
+          "evidence": "其中，BP_Z_120 因子 IC_IR 最高，达到 0.63。而同样的随着时间区间的拉长，因子有效性逐渐下降。"
+        },
+        {
+          "name": "BP_Z_240",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP\\_Z\\_240_t=\\frac{BP_t-\\mu_{240}(BP)}{\\sigma_{240}(BP)}",
+          "stats": [null, null, null, null],
+          "evidence": "基于多因子体系中的 BP 因子，构造以下不同参数下的时序 z_score 估值因子"
+        },
+        {
+          "name": "BP_Z_360",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "BP\\_Z\\_360_t=\\frac{BP_t-\\mu_{360}(BP)}{\\sigma_{360}(BP)}",
+          "stats": [null, null, null, null],
+          "evidence": "基于多因子体系中的 BP 因子，构造以下不同参数下的时序 z_score 估值因子"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}},
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "macro_cycle"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "BP_Z_120因子IC_IR相对BP原始因子提升0.16，多空年化收益上升1.10个百分点，多空收益最大回撤下降6个百分点，IC、IC_IR均表现最为出色",
+      "evidence": "在测试区间（2005-01-01至2020-01-31），采用历史分位数和时序z_score两种方法改造后的 BP 因子预测能力相对于原始 BP 因子均有所提升。其中BP_Z_120 因子的 IC、IC_IR 均表现最为出色。BP_Z_120 因子 IC_IR 相对BP 原始因子提升了 0.16，多空年化收益上升了 1.10 个百分点，多空收益的最大回撤也下降了6个百分点。"
+    },
+    {
+      "text": "BP_Z_120与股票价格动量存在较强相关性，且在银行非银行业预测能力下滑，尽管具有更高的IC_IR和多空收益，仍不足以被视为有效的改进估值因子",
+      "evidence": "由于改造后的BP_Z_120因子，与股票价格动量之间存在较强的相关性，且BP_Z_120在银行非银行业中的预测能力有所下滑。因此尽管BP_Z_120具有更高的IC_IR和多空收益，我们认为它仍然不足以被视为一个有效的改进估值因子。"
+    },
+    {
+      "text": "因子估值差（Value_Spread）指标对估值因子收益具有较强的正向预测能力，但用估值差对估值因子表现做判断存在逻辑上的矛盾，估值因子失效时该逻辑同样失效",
+      "evidence": "采用估值差（Value_Spread）指标来判断估值因子收益则存在逻辑上的矛盾，由于估值差指标来进行因子择时的本质上就是在使用估值指标来评价一个因子是比较“贵”还是比较“便宜”。而当估值因子失效时，这个逻辑也是失效的，那么通过估值差来对估值因子的表现做判断就失去了逻辑。"
+    },
+    {
+      "text": "包括TIPS_1Y、Bond_yield_1Y、Bond_yield_10Y在内的利率指标与估值因子收益呈现较为显著的负向相关性，反映货币政策的M2-M1指标也与估值因子收益具有较高的相关性",
+      "evidence": "包括 TIPS_1Y、Bond_yield_1Y、Bond_yield_10Y 在内的利率指标，与估值因子收益呈现较为显著的负向相关性。"
+    },
+    {
+      "text": "北上资金流入增速与VALUE因子（BP）有较强的负相关，外资加速投入A股时估值因子受到较大冲击，北上资金并不偏好低估值股票",
+      "evidence": "北上资金流入增速与VALUE因子（BP）有较强的负相关，可见在外资加速投入A 股时，估值因子受到了较大的冲击。两图结合起来看，北上资金流入金额与估值因子几乎不相关，因此其并不偏好低估值股票，同时北上资金的加速流入，导致估值因子的收益受到一定影响。"
+    },
+    {
+      "text": "2019年估值因子多空收益大幅回撤与市场整体估值扩张存在联系，优质公司估值不断抬升使低估值选股模型很难选到优质公司或降低其配置权重",
+      "evidence": "2019年估值因子的多空收益出现的很大幅度的回撤，这一结果与2019年市场整体的估值扩张存在一定的联系。尤其是优质公司的估值不断抬升，导致从量化估值因子角度选取低估值个股的模型很难选到这些优质公司，或者模型最终对这些优质公司降低配置权重，从而影响到组合表现。"
+    },
+    {
+      "text": "估值因子收益预判打分模型判断胜率为62.05%，对近期估值因子回撤状态有较好的预警作用",
+      "evidence": "模型的判断胜率为62.05%，且从 2018年 10 月以来，模型给出的估值因子收益预测方向基本上均为负（除 2019 年 7 月）。从结果上看，模型对于近期的估值因子回撤状态，有较好的预警作用。"
+    },
+    {
+      "text": "截止2020年1月底模型总分上升至3分，对估值因子的收益预判连续两个月为正，当前对估值因子的中期收益持较为乐观的观点",
+      "evidence": "当前模型的指标状态有所变化，截止 2020 年 1 月底，模型总分上升至3 分，对估值因子的收益预判已经连续两个月为正。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《因子择时的“是”与“非”》", "《构建情绪体系，寻找涨跌信号》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

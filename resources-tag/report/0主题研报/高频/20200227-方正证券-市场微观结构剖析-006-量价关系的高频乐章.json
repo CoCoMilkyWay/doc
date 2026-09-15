@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "id": "20200227-方正证券-市场微观结构剖析-006-量价关系的高频乐章",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "COPA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "COPA=corr(P_{t},A_{t}),\\quad t\\in[1,240]",
+          "stats": [-0.0362, -0.0422, -3.94, 0.1458],
+          "evidence": "首先，我们在分钟频度上构建初始因子 COPA(Correlationcoefficient between Price and Amount)，衡量分钟价格和分钟成交额的相关程度："
+        },
+        {
+          "name": "CORA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "CORA=corr(|Ret_{t}|,A_{t}),\\quad t\\in[1,240]",
+          "stats": [-0.017, -0.0189, -1.21, null],
+          "evidence": "以此构建因子 CORA（Correlation coefficient between Return and Amount），衡量分钟价格变动幅度与分钟成交额之间的相关程度："
+        },
+        {
+          "name": "CORA_A",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "CORA\\_A=corr(A_{t-1},|Ret_{t}|)",
+          "stats": [-0.0309, -0.0345, -2.55, 0.1354],
+          "evidence": "在分钟频度上构建错期量在价先因子 CORA_A (Correlationcoefficient between Return and Amount _Amount before Return)，表示量在价前一分钟，衡量前一分钟的量与后一分钟的价的协同运动情况。"
+        },
+        {
+          "name": "CORA_R",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "CORA\\_R=corr(|Ret_{t-1}|,A_{t})",
+          "stats": [-0.0364, -0.045, -3.05, 0.1481],
+          "evidence": "因此，我们在分钟频度上构建错期价在量先因子 CORA_R (Correlationcoefficient between Return and Amount _Return before Amount)，衡量前一分钟的价与后一分钟的量的协同运动情况。"
+        },
+        {
+          "name": "adj_CORA_A",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "adj\\_CORA\\_A=corr(adjA_{t-1},|Ret_{t}|),\\; Ret_{t}\\neq 0",
+          "stats": [-0.036, -0.04, -3.25, 0.1592],
+          "evidence": "量先价后的日内错期因子 在优化后改善效果显著，年化ICIR 从-2.550 上升到了-3.250，多空组的累计净值曲线显得更为平坦，呈现出显著的Alpha特性，时间轴上的回撤大幅降低，可以看到2015 年中以及 2019 年下半年的回撤变小了，夏普比率从 2.500 升高到 3.189，多头组（即第一组）的年化收益显著上升，分组年化收益率更加单调。"
+        },
+        {
+          "name": "adj_CORA_R",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "adj\\_CORA\\_R=corr(|Ret_{t-1}|,adjA_{t}),\\; Ret_{t-1}\\neq 0",
+          "stats": [-0.042, -0.05, -3.186, 0.1934],
+          "evidence": "3、对于价先量后的错期因子adj_CORA_R来说，随着N的增大，均值越来越负，多空组年化收益和多头年化收益显著变大，但波动也略有提升，N 的增大在一定程度上可以提升因子的有效性，根据结果来看，建议 N 取 5~15。"
+        },
+        {
+          "name": "合成高频量价因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{合成因子}=COPA+adj\\_CORA\\_A+adj\\_CORA\\_R",
+          "stats": [-0.0503, -0.0573, -4.3146, 0.2251],
+          "evidence": "对市值、行业、换手、波动、反转中性后，合成高频量价关系因子具有不俗的表现，其月度 IC 序列为负的概率为 87.32%，月度表现十分稳定。IC 均值为-0.0503，RankIC 均值为-0.0573，年化 ICIR 为-4.3146。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "等权合成因子中性后IC均值-5.03%、RankIC均值-5.73%、年化ICIR-4.31，十分组多空组合年化收益22.51%，最大回撤仅4.92%，表现非常优秀。",
+      "evidence": "对常见因子中性后，等权合成因子的IC均值仍有-5.03%，RankIC 均值为-5.73%，年化 ICIR 为-4.31。2014-2019 年，因子十分组收益分化明显，多空组合年化收益达到 22.51%，年化波动 5.48%，年化 IR达到4.11，月度胜率超过85%，最大回撤仅 4.92%，表现非常优秀。"
+    },
+    {
+      "text": "错期因子在中性前效果很强，剔除掉常见因子后仍蕴含新的Alpha。",
+      "evidence": "错期因子在中性前效果很强，剔除掉常见因子后，仍然有比较好的预测效果，证明市场中性量价错期运动的协同性确实蕴含了新的Alpha。"
+    },
+    {
+      "text": "日内分钟成交额分布不独立且极值较多，量价同向的关系被打破。",
+      "evidence": "由于日内分钟成交额分布不独立且极值较多，量价同向的关系被打破，两者没有呈现出显著的关系，因此日度COPA因子和日内高频COPA因子均值有明显的差异。"
+    },
+    {
+      "text": "对错期量价因子CORA_A和CORA_R进行分钟成交额标准化与零涨跌幅剔除优化后，效果大幅提升，因子均值下降至0.1附近。",
+      "evidence": "我们对前文中的错期量价因子CORA_A 和 CORA_R 进行优化，捕捉更真实、纯粹的量价异动。优化后的因子在时间序列上表现更为平坦，因子均值下降至 0.1附近。"
+    },
+    {
+      "text": "高频COPA因子预测能力和稳健性大幅提升，中性后月度胜率高达84.51%。",
+      "evidence": "高频 COPA因子的结论和日频因子基本相同，不过因子的预测能力和稳健性有大幅提升，中性后的因子在测试期内的月度胜率高达84.51%。"
+    },
+    {
+      "text": "合成因子在沪深300内RankIC达-0.0404、多空年化收益13.05%，中证500内RankIC达-0.0423、多空年化收益12.41%，指数内仍有选股效果。",
+      "evidence": "在沪深 300范围内选股，因子的 RankIC 值达到-0.0404，多空组年化收益为 13.05%，年化波动 8.55%，年化 IR1.53。在中证 500 内选股，因子的 RankIC 达到-0.0423，多空组年化收益为12.41%，年化波动为 8%，年化 IR1.55。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Joel Hasbrouck《市场微观结构实证》",
+    "Karpoff（1987）asymmetric volume-price change hypothesis",
+    "分钟线的尾部特征",
+    "超越反转：基于均线的乖离率选股因子",
+    "量价抢跑，推陈出新：基于价量互动的选股因子 3",
+    "量价齐飞，水天一色：基于价量互动的选股因子 2"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

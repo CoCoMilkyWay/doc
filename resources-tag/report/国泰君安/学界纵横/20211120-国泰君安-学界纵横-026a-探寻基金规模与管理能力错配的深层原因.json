@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "id": "20211120-国泰君安-学界纵横-026a-探寻基金规模与管理能力错配的深层原因",
+  "genre": "research",
+  "asset": ["fund"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "flow"], "freq": "monthly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "历史因子暴露收益",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "quarterly",
+          "formula": "\\Delta_{i,t}=\\frac{1}{m}\\sum_{\\tau=t-\\frac{m}{12}}^{t-\\frac{1}{12}}\\left(s_{i,t}SMB_{\\tau}+h_{i,t}HML_{\\tau}+p_{i,t}UMD_{\\tau}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "对每一只基金的时间序列数据采用 Fama-French 5 因子模型进行回归，计算相应的样本期因子暴露收益和多因子α，简单定义基金的规模流量为样本期末的基金规模（合计）减去样本期初的基金规模（合计）。"
+        },
+        {
+          "name": "Factor 2",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{1}{2}\\Delta_{i,t}+\\frac{1}{2}AUM,\\quad AUM=\\frac{AUM_{0}-AUM_{-m}}{AUM_{-m}}",
+          "stats": [null, null, null, null],
+          "evidence": "但 FRR 并没有考虑到不同基金规模增长率之间不具有可比性。因此，Factor2 使用加总 Z值法对 FRR 和规模增长率进行等权平均。"
+        },
+        {
+          "name": "超额规模",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "quarterly",
+          "formula": "\\text{以基金绝对规模与历史因子暴露收益双重排序所度量的规模与主动管理能力的错配程度}",
+          "stats": [null, null, null, null],
+          "evidence": "但本文作者认为，导致未来收益下降的不是基金的绝对规模，而是基金规模与主动管理能力的错配，即超额规模(excessive AUM)。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "控制多因子α后，基金规模流量与历史因子暴露收益呈现正相关关系，历史因子暴露收益是造成基金规模错配的主要原因，不能被主动管理能力解释的基金规模增量被称为基金的超额规模。",
+      "evidence": "控制多因子α后，基金规模流量与历史因子暴露收益呈现正相关关系。这表明历史因子暴露收益是造成基金规模错配的主要原因。不能被主动管理能力解释的基金规模增量被称为基金的超额规模。"
+    },
+    {
+      "text": "规模效应只作用于超额规模：对存在高交易成本的基金，历史因子暴露收益与未来业绩的负相关更加显著；对历史因子暴露收益为负的基金，交易成本对未来业绩没有显著预测能力。",
+      "evidence": "实证结果表明，对于那些存在高交易成本的基金，历史因子暴露收益与未来业绩的负相关关系更加显著。而对于历史因子暴露收益为负的基金，其交易成本对未来业绩表现没有显著的预测能力。"
+    },
+    {
+      "text": "羊群效应：有大量基金资金流入的风格板块未来产生-4%到-5%的α收益，资金流入最多和最少的组合α差值为7%，且在1%的显著性水平下显著。",
+      "evidence": "如表 5 所示，有大量基金资金流入的风格板块在未来会产生-4%到-5%的α收益。资金流入最多和最少的组合的α差值为 7%，且在 1%的显著性水平下显著。"
+    },
+    {
+      "text": "基金规模与主动管理能力错配的现象在A股市场同样存在，基金规模的增量一部分归因为历史因子暴露的收益，且高因子暴露收益伴随着更低的主动管理能力。",
+      "evidence": "表 7 的结果表明，基金的规模与主动管理能力错配的现象在 A股市场同样存在。基金规模的增量一部分归因为历史因子暴露的收益，并且高因子暴露收益伴随着更低的主动管理能力。"
+    },
+    {
+      "text": "A股单因子回测中H组的收益在总体上优于L组，与原文结论相悖，可能与2020年来基金的抱团行情有关，历史FRR带来的收益并不能保证持续。",
+      "evidence": "但令人惊讶的是，H组的收益在总体上优于 L组，这一点与原文结论相悖。这可能与 2020 年来基金的抱团行情有关。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["The Mismatch Between Mutual Fund Scale and Skill"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20181120-东方证券-因子选股-047-a股涨跌幅排行榜效应",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "涨幅榜单因子DWF",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{1-(1-\\alpha)^{N}}{\\alpha}\\cdot\\sum_{l=0}^{N-1}(1-\\alpha)^{l}\\cdot I_{i,t-l}^{W}}",
+          "stats": [null, -0.0924, -4.36, 0.0229],
+          "evidence": "我们通过指数加权方法构建了涨幅榜单因子 DWF 和跌幅榜单因子 DLF，具有十分显著的选股效果，其中中证全指内 DWF 的 RankIC 月均值达到9.24%，IC_IR 为 4.36，多空组合月度收益 2.29%"
+        },
+        {
+          "name": "跌幅榜单因子DLF",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{1-(1-\\alpha)^{N}}{\\alpha}\\cdot\\sum_{l=0}^{N-1}(1-\\alpha)^{l}\\cdot I_{i,t-l}^{L}}",
+          "stats": [null, -0.0583, -2.49, 0.0139],
+          "evidence": "类似的，我们也可以计算跌幅榜单因子（DLF，daily loserfactor），考虑到 DWF 和 DLF分布均严重右偏，我们在因子数据处理时均取根号处理。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "构建榜单组合发现，上个月进入单日涨幅榜的股票下个月明显跑输其他股票，跌停榜股票也跑输但幅度更小。",
+      "evidence": "构建榜单组合，我们发现上个月进入单日涨幅榜的股票在下个月明显跑输其他股票，而进入跌停榜的股票虽然也跑输但幅度更小。"
+    },
+    {
+      "text": "中证全指内DWF的RankIC月均值达9.24%，IC_IR为4.36，多空组合月度收益2.29%，且因子表现对构建参数不敏感。",
+      "evidence": "我们通过指数加权方法构建了涨幅榜单因子 DWF 和跌幅榜单因子 DLF，具有十分显著的选股效果，其中中证全指内 DWF 的 RankIC 月均值达到9.24%，IC_IR 为 4.36，多空组合月度收益 2.29%，而且因子表现对因子构建的参数不敏感。"
+    },
+    {
+      "text": "涨幅榜单因子DWF可解释日收益率波动率、偏度、特质偏度、过去一个月最大收益等技术类alpha因子的收益来源，回归控制常见技术类alpha后依然有显著选股能力。",
+      "evidence": "通过因子分层分析，我们发现涨幅榜单因子 DWF 可以解释日收益率的波动率、偏度、特质偏度、过去一个月最大收益等技术类 alpha因子的收益来源，而且通过回归控制常见技术类 alpha后依然有显著的选股能力。"
+    },
+    {
+      "text": "涨幅榜单因子DWF与特异度IVR相关性较低，两者结合可解释包括特质波动率IVOL在内的大多数投机类alpha因子的收益来源。",
+      "evidence": "通过相关性分析，我们发现涨幅榜单因子 和特异度 两者相关性较低，两者结合可以解释包括特质波动率 IVOL 在内的大多数投机类 alpha 因子的收益来源"
+    },
+    {
+      "text": "基于DWF和IVR构建的投机类合成因子明显优于基于所有投机类指标合成的大类因子。",
+      "evidence": "基于涨幅榜单因子 DWF和特异度 IVR 构建的投机类合成因子明显优于基于所有投机类指标合成的大类因子"
+    },
+    {
+      "text": "投机类合成因子对指数增强模型的改进有限，500全市场增强仅提升30个bp且不显著。",
+      "evidence": "但实测下来对我们指数增强模型的改进有限，500全市场增强仅提升了 30个 bp且不显著，如果投资者比较看重技术类 alpha，可重点考虑该做法。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barber, B. M., & Odean, T. (2007)",
+    "Kumar, A., Ruenzi, S., & Ungeheuer, M. (2018)",
+    "Wang, B. (2017)",
+    "俞庆进, & 张兵. (2012)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

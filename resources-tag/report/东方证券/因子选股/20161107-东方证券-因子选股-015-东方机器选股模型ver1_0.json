@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20161107-东方证券-因子选股-015-东方机器选股模型ver1_0",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "loss_generalization"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["all", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "随机森林模型的多空组合收益率和稳健性都高于传统 IC_IR 加权方法，且处理 alpha 因子间信息重叠的效果比之前报告的线性方法更好",
+      "evidence": "实证结果显示，和传统 alpha 因子 IC_IR 加权方法相比，随机森林模型得到的多空组合收益率和稳健性都更高，处理alpha 因子间信息重叠的效果要比我们之前报告提出的线性方法好。"
+    },
+    {
+      "text": "中证500指数增强中，未扣费前 RF 方法年化超额收益 31.2%，比 IC_IR 加权高 2.8%，最大回撤多 0.6%，稳健性水平基本相当",
+      "evidence": "可以看到，在未扣费前 RF方法年化超额收益达到 31.2%，比 IC_IR 加权高2.8%，但最大回撤也多了0.6%，两个组合的稳健性水平基本相当。"
+    },
+    {
+      "text": "MACH-100 指数在 2009.01.01-2016.10.31 近八年净值上涨 41.7 倍，年化收益率 63.9%，84% 的月份战胜中证 500",
+      "evidence": "这个指数在 2009.01.01-2016.10.31 近八年时间里，净值上涨了 41.7 倍，年化收益率 63.9%，84%的月份可以战胜中证 500；2016 年年初到 10 月31 日，策略指数获得了 18.7%的正绝对收益，表现非常优异。"
+    },
+    {
+      "text": "最终选择随机森林是因为它结构简单、参数调整容易、过拟合可能性更小，同时具有很强的样本外预测能力",
+      "evidence": "我们最终选择随机森林的原因主要是它结构简单，参数调整容易，过拟合的可能性更小，方便进一步改进研究。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alpha 预测",
+    "Hastie, T., Tibshirani, R., Friedman, J., (2008). “The Elements of Statistical Learning”"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

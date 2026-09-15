@@ -1,0 +1,156 @@
+{
+  "schema_version": 2,
+  "id": "20220417-中信建投-因子深度研究-014-券商金股组合深度解析及分析师因子再增强",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_revision", "analyst_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "分析师预期净利润调整幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Analyst\\_Forecast\\_Adjust\\_3M_{s,T}=\\mathrm{median}\\big(Income\\_Adjust\\_single_{s,i,t}\\big),\\;T-3<t\\leq T",
+          "stats": [0.0425, null, 2.11, 0.1607],
+          "evidence": "分析师预期净利润调整幅度因子表现出优异的选股能力。Q1 组相对 Q10 组具有 16.6%的超额收益（其中 Q1超过 14%的多头超额收益，Q10 仅-2.02%）。因子年化多空收益 16.07%，夏普比率 1.86，IC 均值 4.25%，年化 IC_IR达到 2.11。"
+        },
+        {
+          "name": "分析师预期 EPS 调整幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Analyst\\_Forecast\\_Adjust\\_3M_{s,T}=\\mathrm{median}\\big(EPS\\_Adjust\\_single_{s,i,t}\\big),\\;T-3<t\\leq T",
+          "stats": [0.041, null, 2.13, 0.1244],
+          "evidence": "分析师预期 EPS 调整因子表现出优异的选股能力。 Q1 组相对 Q10 组具有将近 14%的超额收益（其中 Q1 有12.27%的多头超额收益，Q10 仅-1.13%）。因子年化多空收益 12.44%，夏普比率 1.27，IC 均值 4.10%，年化 IC_IR达到 2.13。"
+        },
+        {
+          "name": "分析师预期目标价调整幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Analyst\\_Forecast\\_Adjust\\_3M_{s,T}=\\mathrm{median}\\big(TargetPrice\\_Adjust\\_single_{s,i,t}\\big),\\;T-3<t\\leq T",
+          "stats": [0.0234, null, 0.82, 0.1146],
+          "evidence": "分析师预期目标价调整因子表现出良好的选股能力。 Q1 组相对 Q10 组具有将近 12%的超额收益（其中 Q1有 10.69%的多头超额收益，Q10 仅-1.44%）。因子年化多空收益 11.46%，夏普比率 0.89，IC 均值 2.34%，年化 IC_IR达到 0.82。"
+        },
+        {
+          "name": "市场一致预期净利润调整幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Market\\_Forecat\\_Adjust_{s,t}=\\frac{Forecat\\_Mean\\_New_{s,t-1\\rightarrow t}-Forecat\\_Mean\\_old_{s,t-12\\rightarrow t-1}}{Forecat\\_Mean\\_old_{s,t-12\\rightarrow t-1}}",
+          "stats": [0.0409, null, 1.41, 0.1759],
+          "evidence": "市场一致预期净利润调整因子表现出优异的选股能力。 Q1 组相对 Q10 组具有将近 18%的超额收益（其中Q1 超过 15%的多头超额收益，Q10 仅不足-2%）。因子年化多空收益 17.59%，夏普比率 1.49，IC 均值 4.09%，年化IC_IR 达到 1.41。"
+        },
+        {
+          "name": "市场一致预期 EPS 调整幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Market\\_Forecat\\_Adjust_{s,t}=\\frac{Forecat\\_Mean\\_New_{s,t-1\\rightarrow t}-Forecat\\_Mean\\_old_{s,t-12\\rightarrow t-1}}{Forecat\\_Mean\\_old_{s,t-12\\rightarrow t-1}}",
+          "stats": [0.0377, null, 1.45, 0.1792],
+          "evidence": "市场一致预期 EPS 调整因子表现的选股能力优异。 Q1 组相对 Q10 组具有超过 18%的超额收益（其中 Q1 有15.86%的多头超额收益，Q10 仅-2.58%）。因子年化多空收益 17.92%，夏普比率 1.57，IC 均值 3.77%，年化 IC_IR达到 1.45。"
+        },
+        {
+          "name": "市场一致预期目标价调整幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Market\\_Forecat\\_Adjust_{s,t}=\\frac{Forecat\\_Mean\\_New_{s,t-1\\rightarrow t}-Forecat\\_Mean\\_old_{s,t-12\\rightarrow t-1}}{Forecat\\_Mean\\_old_{s,t-12\\rightarrow t-1}}",
+          "stats": [0.0202, null, 0.49, 0.1006],
+          "evidence": "市场一致预期目标价调整因子表现的选股能力一般。 Q1 组相对 Q10 组具有将近 12%的超额收益（其中 Q1有 13.19%的多头超额收益，Q10 仅 1.42%）。因子年化多空收益 10.06%，夏普比率 0.55，IC 均值 2.02%，年化 IC_IR达到 0.49。"
+        },
+        {
+          "name": "纯净的分析师覆盖度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "Log\\big(1+TOT_{i,m}\\big)=\\beta_{0}+\\beta_{1}SIZE_{i,m}+\\beta_{2}TO_{i,m}+\\beta_{3}MOMEN_{i,m}+\\in_{i,m},\\quad CoverPure3M=\\in_{i,m}",
+          "stats": [0.041, null, 1.54, 0.1958],
+          "evidence": "纯净的分析师覆盖度因子表现出优异的选股能力。 Q1 组相对 Q10 组具有超过 18%的超额收益（其中 Q1 超过 10%的多头超额收益，Q10 仅不足-8%）。因子年化多空收益 19.58%，夏普比率 1.94，IC 均值 4.10%，年化 IC_IR达到 1.54。"
+        },
+        {
+          "name": "等权因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{分析师预期净利润调整幅度、市场一致预期净利润调整幅度和纯净的分析师覆盖度类因子等权打分求和}",
+          "stats": [0.0562, null, 1.8, 0.2155],
+          "evidence": "等权因子是分析师预期净利润调整幅度、市场一致预期净利润调整幅度和纯净的分析师覆盖度类因子等权求和得到的因子。从下图可以看出，等权因子表现出优异的选股能力。Q1 组相对 Q10 组具有超过 21%的超额收益（其中 Q1 超过 16%的多头超额收益，Q10 仅不足-4%）。因子年化多空收益 21.55%，夏普比率 1.69，IC 均值 5.62%，年化 IC_IR 达到 1.80。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["other"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "各家券商推荐金股历史平均超额收益（相对中证 500）为 1.84%，中位数为 1.95%，平均月度胜率为 65.09%。",
+      "evidence": "各家券商推荐金股历史平均超额收益（相对中证500）为 1.84%，中位数为 1.95%。各家券商推荐金股历史平均月度胜率（相对中证 500）为 65.09%，中位数为 66.67%。"
+    },
+    {
+      "text": "券商金股等权组合在每月初第五个交易日收盘调仓下表现良好，但相对每月末最后一个交易日收盘调仓大约衰减了 10%的超额收益，说明券商金股的信息滞后效应显著。",
+      "evidence": "从下图可以看出，在每月初第五个交易日收盘调仓下，券商金股等权组合表现良好，但相对每月末最后一个交易日收盘调仓，大约衰减了 10%的超额收益，说明券商金股的信息滞后效应显著。"
+    },
+    {
+      "text": "等权因子表现出优异的选股能力，Q1 组相对 Q10 组具有超过 21%的超额收益，因子年化多空收益 21.55%，IC 均值 5.62%，年化 IC_IR 达到 1.80。",
+      "evidence": "从下图可以看出，等权因子表现出优异的选股能力。Q1 组相对 Q10 组具有超过 21%的超额收益（其中 Q1 超过 16%的多头超额收益，Q10 仅不足-4%）。因子年化多空收益 21.55%，夏普比率 1.69，IC 均值 5.62%，年化 IC_IR 达到 1.80。"
+    },
+    {
+      "text": "分析师预期调整类因子在金股股票池的多头超额表现较好，能够在分析师推荐的基础上进一步刻画出分析师对于股票的推荐力度。",
+      "evidence": "基于分析师预期因子在金股组合中的单因子测试结果，我们发现分析师预期调整类因子在金股股票池的多头超额表现较好。因此，我们尝试使用所构造的分析师预期调整类因子在金股组合股票池中进行进一步精选，以增强金股组合的收益表现。"
+    },
+    {
+      "text": "根据分析师预期调整类等权因子选取前二十只股票构建的金股 20 组合，在每月末最后一个交易日、每月初第一个交易日和每月初第五个交易日收盘调仓下，年化超额中证 500 收益分别为 41.14%、39.41%和 31.10%。",
+      "evidence": "我们根据分析师预期调整类等权因子选取前二十只股票，构建出最终的金股 20 组合，在每月末最后一个交易日收盘调仓、每月初第一个交易日收盘调仓和每月初第五个交易日收盘调仓下，组合年化超额中证 500 收益分别为 41.14%、39.41%和 31.10%，信息比率分别为 2.80、2.43 和 1.89。"
+    },
+    {
+      "text": "金股 20 组合样本外跟踪一年，绝对收益达 35.18%，相对中证 500 指数超额收益 24.61%。",
+      "evidence": "我们从 2021 年 3 月底开始样本外跟踪，截至 2022 年 2 月底，金股 20 组合绝对收益达 35.18%，相对中证 500指数超额收益 24.61%，值得持续关注。"
+    },
+    {
+      "text": "选取每月券商组合中个股数量前三的行业构建行业轮动策略组合，年化超额行业等权指数收益为 10.18%，超额中证 500 的收益为 12.88%。",
+      "evidence": "本文选取每月券商组合中个股数量前三的行业构建行业轮动策略组合。从下图可以看出，组合年化超额行业等权指数收益为 10.18%，超额中证 500 的收益为 12.88%，有一定幅度的超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Jiang G J, Lu L, Zhu D. The information content of analyst recommendation revisions — Evidence from the Chinese stock market[J]. Pacific-Basin Finance Journal, 2014.",
+    "Lee C, So E C. Uncovering expected returns: Information in analyst coverage proxies[J]. Journal of Financial Economics, 2017."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

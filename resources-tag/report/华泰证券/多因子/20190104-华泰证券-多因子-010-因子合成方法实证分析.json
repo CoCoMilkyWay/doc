@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20190104-华泰证券-多因子-010-因子合成方法实证分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "最大化 IC_IR 复合因子（压缩）",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\max IC\\_IR=\\frac{\\vec{w}^T\\vec{IC}}{\\sqrt{\\vec{w}^T\\Sigma^*\\vec{w}}},\\ s.t.\\ \\vec{w}\\ge 0,\\ \\Sigma^*=\\rho_1 I+\\rho_2 S",
+          "stats": [null, 0.0438, 0.29, 0.0969],
+          "evidence": "从结果看出，最大化 IC_IR（压缩）复合因子在回归法、IC 法、分层测试法中均表现优秀。相对于等权复合因子和原始因子，最大化 IC 复合因子的因子收益率、多空组合夏普比率和 IC_IR 远超等权复合因子，提升效果显著。"
+        },
+        {
+          "name": "历史收益率加权复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\sum_i w_i x_i,\\ w_i=\\overline{r_i}/\\sum_j \\overline{r_j},\\ \\overline{r_i}\\ \\text{为历史因子收益率均值}",
+          "stats": [null, 0.0329, 0.33, 0.0862],
+          "evidence": "合成 8 个成长因子时，除第一主成分复合因子外，其余复合因子均战胜了等权复合因子。而其中历史收益率加权复合因子在 t统计量、因子收益率、IC_IR、多空组合夏普比率、胜率等方面均大幅优于其他因子。"
+        },
+        {
+          "name": "最大化 IC 复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\max IC=\\frac{\\vec{w}^T\\vec{IC}}{\\sqrt{\\vec{w}^T V\\vec{w}}},\\ s.t.\\ \\vec{w}\\ge 0,\\ \\text{V为因子值相关系数矩阵（压缩估计）}",
+          "stats": [null, 0.0969, 0.82, 0.206],
+          "evidence": "该类因子的合成后效果没有那么突出，但也有一些提升。最大化 IC 复合因子的表现相对最好，因子收益率、IC_IR、多空组合夏普比率的增幅在 30%左右，最大回撤也进一步降低。历史收益率（半衰）加权、历史 IC（半衰）加权表现接近，仅次于最大化 IC 复合因子，也能战胜等权复合因子。"
+        },
+        {
+          "name": "最大化IC 复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\max IC=\\frac{\\vec{w}^T\\vec{IC}}{\\sqrt{\\vec{w}^T V\\vec{w}}},\\ s.t.\\ \\vec{w}\\ge 0,\\ \\text{V为因子值相关系数矩阵（压缩估计）}",
+          "stats": [null, 0.083, 0.69, 0.1425],
+          "evidence": "总体而言，最大化 IC 复合因子表现相对最好，最大化 IC_IR 复合因子表现次之，优于其他复合因子。"
+        },
+        {
+          "name": "最大化IC 复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\max IC=\\frac{\\vec{w}^T\\vec{IC}}{\\sqrt{\\vec{w}^T V\\vec{w}}},\\ s.t.\\ \\vec{w}\\ge 0,\\ \\text{V为因子值相关系数矩阵（压缩估计）}",
+          "stats": [null, 0.087, 0.69, 0.1332],
+          "evidence": "合成 5 个波动率因子时，我们也有类似的结论。最大化 IC 复合因子在各方面均优于其他复合因子。其次是最大化 IC_IR 复合因子，除第一主成分外的其余复合因子也能战胜等权复合因子。"
+        },
+        {
+          "name": "历史收益率半衰加权复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "w_t=2^{\\frac{t-T-1}{H}}/\\sum_t w_t,\\ \\text{以半衰权重对历史因子收益率加权求和}",
+          "stats": [null, 0.0112, 0.1, 0.0332],
+          "evidence": "财务质量因子的合成结果显示，历史收益率半衰加权复合因子的因子收益率、多空组合夏普比率、多空组合年化收益率均高于其他大部分因子，且最大回撤明显降低。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "6种因子合成方法中，最大化IC_IR及最大化IC法合成的因子效果较好，能大概率战胜等权复合因子。",
+      "evidence": "本文对 6 种因子合成方法进行测试，从单因子测试结果看，最大化IC_IR及最大化IC法合成的因子效果较好，能大概率战胜等权复合因子。"
+    },
+    {
+      "text": "因子合成基本能使得复合因子具有优于原始因子的选股能力。",
+      "evidence": "根据测试结果，因子合成基本能使得复合因子具有优于原始因子的选股能力。"
+    },
+    {
+      "text": "从复合因子稳定性看，除等权法外，主成分分析法得到的第一主成分复合因子最稳定；最大化IC法和历史IC（半衰）加权法稳定性较差。",
+      "evidence": "从复合因子稳定性看，除等权法外，主成分分析法得到的第一主成分复合因子最稳定。"
+    },
+    {
+      "text": "时间窗口参数对大部分因子组合取T=12即可达到很好的效果，部分组合可采用T=9、24、36；T=3时历史数据不足以对未来IC值和IC协方差矩阵形成准确预测，甚至不能战胜等权复合因子。",
+      "evidence": "测试结果表明，对大部分因子组合 T=12 就可以达到很好的效果，对有些因子组合也可以采用 T=9、24、36。"
+    },
+    {
+      "text": "相关性极强的因子建议采用主成分分析法，有一定相关性的因子采用最大化IC方法合成可战胜等权复合因子，合成因子数目不宜过多。",
+      "evidence": "相关性极强的因子建议采用主成分分析法，有一定相关性的因子往往也意义相近，采用最大化 IC 的方法可以战胜等权复合因子。"
+    },
+    {
+      "text": "估值因子合成中，最大化IC_IR（压缩）复合因子在回归法、IC法、分层测试法中均表现优秀，长期来看BP因子权重最高。",
+      "evidence": "从结果看出，最大化 IC_IR（压缩）复合因子在回归法、IC 法、分层测试法中均表现优秀。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ledoit & Wolf（2004）压缩协方差矩阵估计",
+    "Qian《Quantitative Equity Portfolio Management》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

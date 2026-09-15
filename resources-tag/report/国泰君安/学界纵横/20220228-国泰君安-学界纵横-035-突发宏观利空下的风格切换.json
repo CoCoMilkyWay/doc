@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20220228-国泰君安-学界纵横-035-突发宏观利空下的风格切换",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "久期指标",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "na",
+          "formula": "\\mathit{Duration}=\\frac{\\sum_{t=1}^{T} t\\cdot CF_{t}/(1+r)^{t}}{ME_{\\theta}}+\\left(T+\\frac{1+r}{r}\\right)\\cdot\\frac{ME_{\\theta}-\\sum_{t=1}^{T} CF_{t}/(1+r)^{t}}{ME_{\\theta}},\\; CF_{t}=BE_{t-1}(ROE_{t}-g_{t})",
+          "stats": [null, null, null, null],
+          "evidence": "参照文献久期定义，我们计算了 A股个股的久期指标，当前 A股市场平均久期在 50 年左右，相对美国市场更大。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_value", "macro_cycle"],
+      "setup": {"rebalance": "event"}
+    }
+  },
+  "findings": [
+    {
+      "text": "美股疫情初期买入高久期、卖出低久期股票可产生超过36%的多空收益；疫苗突破性进展公布后反转，2020年11月以来低久期公司跑赢高久期约12%。",
+      "evidence": "研究发现如果在疫情初期买入高久期股票、卖出低久期股票，则可产生超过 36%的多空收益，但当疫苗研发突破性进展公布后，情况开始反转，低久期公司开始跑赢于高久期公司，2020 年 11 以来，低久期公司跑赢高久期约 12%。"
+    },
+    {
+      "text": "价值风格只是久期风格的代理变量：疫情期间基于久期指标的年化超额收益为145%，高于基于EP价值因子的130%。",
+      "evidence": "作者发现，使用 EP、BP 等价值因子时，分组收益差距没有久期风格大，表明价值风格只是久期风格的代理变量，久期风格是更为本质的市场风格。具体来说，疫情期间，基于久期指标的年化超额收益为 145%，而基于 EP 价值因子的年化超额收益为 130%。"
+    },
+    {
+      "text": "A股久期风格长期多空几乎为零、高低久期切换频繁；2020上半年呈高久期风格、下半年疫情缓解后呈低久期风格，2022年2月以来高久期风格再度占优。",
+      "evidence": "从分组收益来看，久期风格长期多空几乎为零，高久期和低久期间的风格切换十分频繁，表明久期是 A股市场十分重要的风格因子；与美国市场类似，A股灾 2020 上半年整体呈现为高久期风格，在下半年疫情缓解后 A股市场呈现为低久期风格；2022 年 2月以来高久期风格再度占优。"
+    },
+    {
+      "text": "在俄乌冲突结束前市场仍将呈现高久期风格，应避免低估值陷阱；冲突影响消退后价值风格有望再次主导。",
+      "evidence": "从 股实证分析来看，整体支持短期宏观利空利好高久期风格的结论，在俄乌冲突结束前，市场仍将呈现为高久期风格，应避免踏入低估值陷阱，在俄乌冲突影响逐渐消退后，价值风格有望再次成为市场主导风格。"
+    },
+    {
+      "text": "A股久期指标与BP价值风格较接近，绝对相关性45%，但不完全等价于价值风格。",
+      "evidence": "从相关性来看，久期指标与 BP 价值风格较为接近，有 45%的绝对相关性，但不完全等价于价值风格。"
+    },
+    {
+      "text": "2020年一季度平均行业久期与平均行业收益相关性为0.62，低久期行业集中在能源和金融，高久期行业集中在科技和医药。",
+      "evidence": "低久期行业主要集中在能源和金融领域，而高久期行业主要集中在科技和医药领域。 表 2 的最后一列报告了 2020 年第一季度每个行业的平均股票回报率，期间煤炭收益最低 -63.33% ，医疗设备最高位 3.95%。2020 年第一季度平均行业久期与平均行业收益之间的（未列出的）相关性为 0.62。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Dechow 等《Implied Equity Duration: A Measure of Pandemic Shutdown Risk》(Journal of Accounting Research)",
+    "Goncalves（2020）久期因子异象研究",
+    "Hasler, Marfe(2016) DQR (disasters with quick recoveries) 模型",
+    "Weber（2018）久期收益差与市场情绪研究"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

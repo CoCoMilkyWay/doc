@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "id": "20220411-华泰证券-人工智能-055-图神经网络选股的进阶之路",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GAT+residual(sector+wmse+hidden64)",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{原始因子经全连接层编码后，掩码自注意力层学习股票间板块关联解释的收益，全局自注意力层学习股票间因子关联解释的收益，上一层残差代表因子解释自身的特异性收益，三部分收益预测相加后经全连接层得到收益预测}",
+          "stats": [0.072, 0.078, 0.694, null],
+          "evidence": "将模型对个股的收益预测值视作合成后的单因子，可进行单因子 IC 测试和分层测试（分 10层）。本文测试的全部模型合成因子评价指标如下表。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": ["tree"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["bias_control"]}
+  },
+  "findings": [
+    {
+      "text": "引入残差结构GAT+residual有显著改进效果，能够从股票间板块、因子的关联中挖掘出有效信息",
+      "evidence": "引入残差结构（GAT+residual）有显著改进效果，能够从股票间板块、因子的关联中挖掘出有效信息。"
+    },
+    {
+      "text": "板块建图表现优于行业建图，产业链上下游股票即使分属不同行业，也存在相互影响",
+      "evidence": "板块建图表现优于行业建图，产业链上下游股票即使分属不同行业，也存在相互影响。"
+    },
+    {
+      "text": "从超额收益表现看，2011~2013年两者接近，2014~2016年mse占优，2017年至今wmse占优。随着因子多头端日趋拥挤，wmse的优势逐步体现",
+      "evidence": "从超额收益表现看，2011~2013 年两者接近，2014~2016 年 mse 占优，2017 年至今wmse 占优。随着因子多头端日趋拥挤，wmse 的优势逐步体现。"
+    },
+    {
+      "text": "GAT+residual和XGBoost等权配置，组合策略年化超额收益率为16.60%，信息比率提升至2.94，超额收益Calmar比率提升至2.36",
+      "evidence": "将两个策略等权配置，每60个交易日进行再平衡。组合策略年化超额收益率为16.60%，信息比率从 2.14 和 2.19（GAT+residual 和 XGBoost，下同）提升至 2.94，超额收益 Calmar比率从 1.84 和 1.26 提升至 2.36，改进效果显著。"
+    },
+    {
+      "text": "对因子做传统线性行业中性化并未提升模型表现，GAT+residual带来的提升并非简单源于中性化操作，而是挖掘出了板块或行业间的关系信息",
+      "evidence": "结果表明，中性化并未提升模型表现，回测绩效与原模型接近。由此可以推测，GAT+residual带来的提升并非简单源于中性化操作，而是挖掘出了板块或行业间的关系信息。"
+    },
+    {
+      "text": "隐状态64/32/16三组模型超额收益表现hidden64＞hidden32＞hidden16，提升网络复杂度有一定改进效果",
+      "evidence": "对比隐状态分别为64/32/16的三组模型，加权RankIC差距不大，超额收益表现上hidden64＞hidden32＞hidden16，表明提升网络复杂度有一定改进效果。"
+    },
+    {
+      "text": "为防止信息泄露，应删除训练集和验证集末尾与后续区间重叠的样本",
+      "evidence": "合理的处理方式为删除训练集和验证集末尾的样本，上例中训练集末端从 2008-12-05 提前11 个交易日至 2008-11-20，验证集末端从 2011-07-11 提前 11 个交易日至 2011-06-23。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Xu, W., Liu, W., Wang, L., Xia, Y., Bian, J., & Yin, J., et al. (2021). Hist: a graph-based framework for stock trend forecasting via mining concept-oriented shared information. arXiv",
+    "华泰金工《人工智能 42：图神经网络选股与 Qlib 实践》（2021-02-21）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

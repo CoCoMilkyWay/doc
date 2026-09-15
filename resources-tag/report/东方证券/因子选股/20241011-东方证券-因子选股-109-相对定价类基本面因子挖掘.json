@@ -1,0 +1,324 @@
+{
+  "schema_version": 2,
+  "id": "20241011-东方证券-因子选股-109-相对定价类基本面因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_mining"],
+      "approach": ["style_ratio", "symbolic_search"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "单季EBIT同比变化比市值",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_EBIT\\_YOY)=\\beta\\cdot ln(MV)+\\alpha+\\varepsilon",
+          "stats": [0.044, null, 3.73, null],
+          "evidence": "其中 EBIT是利润表的科目，反映了企业的息税前利润。该因子表达了经过市值调整后的 EBIT的成长性。"
+        },
+        {
+          "name": "单季综合收益比市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_TOT\\_COMPREH\\_INC)=\\beta\\cdot ln(MV)+\\alpha+\\varepsilon",
+          "stats": [0.061, null, 3.67, null],
+          "evidence": "其中综合收益总额是利润表的科目，反映企业净利润和其他综合收益的合计金额。"
+        },
+        {
+          "name": "单季未分配利润同比变化比市值",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_UNDISTRIBUTED\\_PROFIT\\_YOY)=\\beta\\cdot ln(MV)+\\alpha+\\varepsilon",
+          "stats": [0.036, null, 3.1, null],
+          "evidence": "其中未分配利润是资产负债表的科目，指企业留待以后年度分配或者待分配的利润。"
+        },
+        {
+          "name": "单季其他收益比市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_OTHER\\_INCOME)=\\beta\\cdot ln(MV)+\\alpha+\\varepsilon",
+          "stats": [0.024, null, 2.34, null],
+          "evidence": "其中其他收益是利润表的科目，反映计入其他收益的政府补助，以及其他与日常活动相关且计入其他收益的项目。"
+        },
+        {
+          "name": "单季经营活动现金流净额比市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_NET\\_CASH\\_FLOWS\\_OPER\\_ACT)=\\beta\\cdot ln(MV)+\\alpha+\\varepsilon",
+          "stats": [0.028, null, 2.94, null],
+          "evidence": "其中经营活动产生的现金流量净额是现金流量表的科目，指企业与经营活动有关的现金流入金额减去现金流出的净额。"
+        },
+        {
+          "name": "单季总资产比市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_TOT\\_LIAB\\_SHRHLDR\\_EQY)=\\beta\\cdot ln(MV)+\\alpha+\\varepsilon",
+          "stats": [0.028, null, 3.13, null],
+          "evidence": "其中负债及股东权益总计是资产负债表的科目，反映了企业所有者权益和负债的总和，即企业的总资产，是一个历史累计值。"
+        },
+        {
+          "name": "单季投资现金流出比市值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_STOT\\_CASH\\_OUTLAYS\\_INV\\_ACT)=\\beta\\cdot ln(MV)+\\alpha+\\varepsilon",
+          "stats": [0.025, null, 2.45, null],
+          "evidence": "其中投资活动现金流出小计是现金流量表的科目，指企业经营过程中所产生的与投资活动相关的现金流出的金额的合计值。"
+        },
+        {
+          "name": "应付职工薪酬比去年同期其他应付款",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(EMPL\\_BEN\\_PAYABLE)=\\beta\\cdot ln(Losssame\\_OTH\\_PAYABLE\\_TOT)+\\alpha+\\varepsilon",
+          "stats": [0.027, null, 2.77, null],
+          "evidence": "该因子同时表达了相对占比和同比增速的双重含义。"
+        },
+        {
+          "name": "单季所得税比去年同期单季EBIT",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_INC\\_TAX)=\\beta\\cdot ln(Lassame\\_Quart\\_EBIT)+\\alpha+\\varepsilon",
+          "stats": [0.036, null, 3.08, null],
+          "evidence": "其中所得税是利润表的科目，指缴纳的企业所得税的金额，EBIT 也是利润表的科目，指企业的息税前利润。该因子同时表达了相对占比和同比增速的双重含义。"
+        },
+        {
+          "name": "单季购建长期资产支付现金比去年同期在建工程",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_CASH\\_PAY\\_ACQ\\_CONST\\_FIOLTA)=\\beta\\cdot ln(Losssame\\_CONST\\_IN\\_PROG\\_TOT)+\\alpha+\\varepsilon",
+          "stats": [0.021, null, 2.35, null],
+          "evidence": "该因子反映了上市公司在该季度的固定资产的扩张水平。"
+        },
+        {
+          "name": "单季归母净利润比母公司综合收益",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_NET\\_PROFIT\\_EXCL\\_MIN\\_INT\\_INC)=\\beta\\cdot ln(Quart\\_TOT\\_COMPREH\\_INC\\_PARENT\\_COMP)+\\alpha+\\varepsilon",
+          "stats": [0.047, null, 2.92, null],
+          "evidence": "其中归母净利润是利润表的科目，反映上市公司的归属于母公司的净利润，综合收益总额（母公司）也是利润表的科目，反映归属于母公司股东（所有者）的那部分综合收益总额。"
+        },
+        {
+          "name": "单季营业总成本比去年同期流动负债",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_TOT\\_OPER\\_COST2)=\\beta\\cdot ln(Lassame\\_TOT\\_CUR\\_LIAB)+\\alpha+\\varepsilon",
+          "stats": [0.029, null, 2.4, null],
+          "evidence": "其中营业总成本是利润表的科目，指上市公司的营业总成本，而流动负债合计是资产负债表的科目，指上市公司的流动负债类科目合计值。"
+        },
+        {
+          "name": "单季营业税金比总资产",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_LESS\\_TAXES\\_SURCHARGES\\_OPS)=\\beta\\cdot ln(TOT\\_ASSETS)+\\alpha+\\varepsilon",
+          "stats": [0.021, null, 1.92, null],
+          "evidence": "其中营业税金及附加是利润表的科目，反映企业经营的主要业务应负担的消费税、资源税、教育附加、城市维护建设税等，资产总计是资产负债表的科目，指企业拥有或控制的能以货币计量的经济资源，包括各种财产、债权和其他权利。"
+        },
+        {
+          "name": "盈余公积金比去年同期单季利息费用",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(SURPLUS\\_RSRV)=\\beta\\cdot ln(Losssame\\_Quart\\_STMNOTE\\_FINEXP)+\\alpha+\\varepsilon",
+          "stats": [0.047, null, 2.23, null],
+          "evidence": "其中盈余公积金是资产负债表的科目，反映公司盈余中提取的公积金，利息费用是利润表的科目，反映企业为筹集生成经营所需资金等而发生的应予费用化的利息支出。"
+        },
+        {
+          "name": "未分配利润比去年同期单季度未分配利润",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(UNDISTRIBUTED\\_PROFIT)=\\beta\\cdot ln(Losssame\\_Quart\\_UNDISTRIBUTED\\_PROFIT)+\\alpha+\\varepsilon",
+          "stats": [0.037, null, 2.07, null],
+          "evidence": "其中未分配利润是资产负债表的科目，指企业留待以后年度分配或者待分配的利润。"
+        },
+        {
+          "name": "半年固定资产折旧比去年同期单季利息费用",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Half\\_DEPR\\_FA\\_COGA\\_DPBA)=\\beta\\cdot ln(Lassame\\_Quart\\_STMNOTE\\_FINEXP)+\\alpha+\\varepsilon",
+          "stats": [0.038, null, 2.23, null],
+          "evidence": "其中固定资产折旧、油气资产折耗、生产性生物资产折旧是现金流量表的科目，反映因固定资产、油气资产、生产性生物资产按会计准则要求发生折旧在本报告期的体现，利息费用是利润表的科目，反映企业为筹集生成经营所需资金等而发生的应予费用化的利息支出。"
+        },
+        {
+          "name": "单季经营活动现金流入同比增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(Quart\\_STOT\\_CASH\\_INFLOWS\\_OPER\\_ACT)=\\beta\\cdot ln(Lasstsame\\_Quart\\_STOT\\_CASH\\_INFLOWS\\_OPER\\_ACT)+\\alpha+\\varepsilon",
+          "stats": [0.029, null, 2.7, null],
+          "evidence": "其中经营活动现金流入是现金流量表的科目，指企业与经营活动相关的现金流量的明细统计。"
+        },
+        {
+          "name": "现金等价物比去年同期其他综合收益",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ln(CASH\\_CASH\\_EQU\\_END\\_PERIOD)=\\beta\\cdot ln(Lasssame\\_OTHER\\_COMP\\_INCOME)+\\alpha+\\varepsilon",
+          "stats": [0.031, null, 2.2, null],
+          "evidence": "其中现金及现金等价物余额是现金流量表的科目，指报表截止日期现金及融资期限为三个月或三个月内的，具有高度流动性且内购赚取利息的投资的余额，其他综合收益是资产负债表的科目，指企业根据其他会计准则规定未在当期损益中确认的各项利得和损失。"
+        },
+        {
+          "name": "盈余公告开盘跳空超额比公告后累计行业超额",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "JOR\\_OPEN\\_ZZQZ=\\beta\\cdot EXC\\_CITICS\\_RET\\_AFTER\\_REPORT+\\alpha+\\varepsilon",
+          "stats": [0.052, null, 5.47, null],
+          "evidence": "下图分别展示了该回归改进版本的因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值 0.052，年化 ICIR5.47，IC 胜率 94%，各项指标均明显好于基础的盈余公告次日开盘跳空超额因子。"
+        },
+        {
+          "name": "盈余公告次日换手率比公告后累计市场超额",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "TURNOVER\\_REPORT=\\beta\\cdot EXC\\_RET\\_AFTR\\_REPORT+\\alpha+\\varepsilon",
+          "stats": [-0.054, null, -2.38, null],
+          "evidence": "下图分别展示了该回归改进版本因子全样本区间的月度 IC和多空净值。可以看到，因子在样本内外的表现较为一致，并且持续有效。因子月度 IC 均值-0.054，年化 ICIR-2.38，IC 胜率 73%，各项指标好于基础的盈余公告次日换手率因子。"
+        },
+        {
+          "name": "基本面复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{以截面对称正交剔除共线性后，以因子滚动一年ICIR加权线性复合32个挖掘得到的基本面因子}",
+          "stats": [0.069, null, 3.48, null],
+          "evidence": "可以看到，复合因子在样本内外的表现较为一致，并且持续有效。复合因子月度 IC 均值 0.069，年化ICIR3.48，IC胜率87%。"
+        },
+        {
+          "name": "基本面衍生复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以截面对称正交剔除共线性后，以因子滚动一年ICIR加权线性复合2个基本面衍生因子}",
+          "stats": [0.069, null, 4.38, null],
+          "evidence": "可以看到，复合因子在样本内外的表现较为一致，并且持续有效。复合因子月度 IC 均值 0.069，年化ICIR4.38，IC胜率91%。"
+        },
+        {
+          "name": "相对定价类基本面复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{以截面对称正交剔除共线性后，以因子滚动一年ICIR加权线性复合32个基本面因子和2个基本面衍生因子}",
+          "stats": [0.084, null, 4.21, null],
+          "evidence": "可以看到，复合因子在样本内外的表现较为一致，并且持续有效。复合因子月度 IC 均值 0.084，年化ICIR4.21，IC胜率89%。"
+        },
+        {
+          "name": "基本面类复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{以截面对称正交剔除共线性后，以因子滚动一年ICIR加权线性复合34个挖掘因子与26个传统基本面因子}",
+          "stats": [0.103, null, 5.17, null],
+          "evidence": "下图展示了该复合因子的月度 IC 以及多空收益。可以看到，复合因子长期表现非常稳定，月度 IC均值 0.103，年化 ICIR 达 5.17，IC 胜率 93%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "将传统经典的个体除法调整为截面整体回归的方式重构基本面因子，重构后的因子普遍表现优于传统的版本，显示了回归版本基本面因子的显著优势。",
+      "evidence": "我们将传统经典的个体除法调整为截面整体回归的方式来重构这些基本面因子，重构后的因子普遍表现优于传统的版本，显示了回归版本基本面因子的显著优势。"
+    },
+    {
+      "text": "以三大报表满足截面覆盖度要求的字段加工为515个字段，两两回归并剔除高相关因子后得到32个基本面因子，复合因子月度IC均值0.069，年化ICIR3.48，IC胜率87%，月均多头超额1.01%。",
+      "evidence": "我们以三大报表利润表、现金流量表、资产负债表中满足截面覆盖度要求的所有字段作为可用的基础数据，加工为单季度、去年同期单季度、单季度同比变化等类型共 515 个字段，两两回归并剔除高相关因子后得到 32 个基本面因子，两两相关系数低于 0.5，这些因子在样本内外均保持了稳定显著的选股能力，复合因子月度 IC 均值 0.069，年化ICIR3.48，IC 胜率 87%，月均多头超额 1.01%。"
+    },
+    {
+      "text": "将盈余公告披露时衍生的量价数据作为回归模型输入，挖掘得到2个低相关的有效基本面衍生因子，复合因子月度IC均值0.069，年化ICIR4.38，IC胜率91%，月均多头超额0.77%。",
+      "evidence": "我们进一步将盈余公告披露时衍生的量价数据也作为广义的基本面衍生指标，作为回归模型的输入来挖掘基本面衍生类相对定价因子，并用同样方式筛选得到2个低相关的有效因子，复合因子月度 IC 均值 0.069，年化 ICIR4.38，IC 胜率 91%，月均多头超额0.77%。"
+    },
+    {
+      "text": "34个挖掘因子复合后的相对定价类基本面复合因子月度IC均值0.084，年化ICIR4.21，IC胜率89%，月均多头超额1.12%，样本内外表现较为一致。",
+      "evidence": "我们将挖掘得到的34个因子进行复合，复合因子在样本内外的表现较为一致，月度IC均值 0.084，年化 ICIR4.21，IC 胜率 89%，月均多头超额 1.12%。"
+    },
+    {
+      "text": "加入传统26个基本面因子复合得到的基本面类复合因子月度IC均值0.103，年化ICIR达5.17，IC胜率93%，月均多头超额1.43%，在沪深300、中证500、中证1000指数内的IC均值分别为0.085、0.094、0.106。",
+      "evidence": "将挖掘得到的因子加入传统 26 个基本面因子集合进行复合得到基本面类复合因子，月度 IC 均值 0.103，年化ICIR 达 5.17，IC 胜率 93%，月均多头超额 1.43%，在各个指数内均具有显著的选股能力，在沪深 300、中证 500、中证 1000 指数内的 IC 均值分别为 0.085、0.094、0.106。"
+    },
+    {
+      "text": "沪深300指数增强组合年化超额收益12.01%，相对最大回撤-4.86%，信息比2.78，年化跟踪误差4.11%，今年截止20240731超额达8.83%。",
+      "evidence": "沪深 300 指数增强组合年化超额收益 12.01%，相对最大回撤-4.86%，信息比2.78，年化跟踪误差 4.11%，今年截止 20240731 超额达 8.83%；"
+    },
+    {
+      "text": "中证500指数增强组合年化超额收益21.22%，相对最大回撤-4.9%，信息比3.88，年化跟踪误差4.94%，今年截止20240731超额达10.82%。",
+      "evidence": "中证 500指数增强组合年化超额收益 21.22%，相对最大回撤-4.9%，信息比 3.88，年化跟踪误差 4.94%，今年截止 20240731 超额达 10.82%；"
+    },
+    {
+      "text": "中证1000指数增强组合年化超额收益23.99%，相对最大回撤-7.21%，信息比3.39，年化跟踪误差6.43%，今年截止20240731超额达12.36%。",
+      "evidence": "中证 1000 指数增强组合年化超额收益 23.99%，相对最大回撤-7.21%，信息比3.39，年化跟踪误差 6.43%，今年截止 20240731 超额达 12.36%。"
+    },
+    {
+      "text": "回归改进的盈余公告开盘跳空超额比公告后累计行业超额因子月度IC均值0.052，年化ICIR5.47，IC胜率94%，各项指标均明显好于基础的盈余公告次日开盘跳空超额因子。",
+      "evidence": "因子月度 IC 均值 0.052，年化 ICIR5.47，IC 胜率 94%，各项指标均明显好于基础的盈余公告次日开盘跳空超额因子。"
+    },
+    {
+      "text": "回归改进的盈余公告次日换手率比公告后累计市场超额因子月度IC均值-0.054，年化ICIR-2.38，IC胜率73%，各项指标好于基础的盈余公告次日换手率因子。",
+      "evidence": "因子月度 IC 均值-0.054，年化 ICIR-2.38，IC 胜率 73%，各项指标好于基础的盈余公告次日换手率因子。"
+    }
+  ],
+  "builds_on": ["20240321-东方证券-因子选股-102-基本面因子的重构"],
+  "external_ref": ["Graham, B. (1934). \"Security Analysis\""],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

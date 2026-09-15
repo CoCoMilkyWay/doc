@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20220329-国泰君安-学界纵横-036-重新思考深度学习的泛化能力",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_training"],
+      "approach": ["loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["none"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "通过单独随机化标签，可以在不改变模型、模型容量、超参数或优化器的情况下强制模型的泛化误差大幅上升",
+      "evidence": "通过单独随机化标签，我们可以在不改变模型、模型容量、超参数或优化器的情况下强制模型的泛化误差大幅上升。"
+    },
+    {
+      "text": "显式正则化可以一定程度上提高泛化性能，但对于泛化误差的控制既不是必要的，也不是足够的",
+      "evidence": "显式正则化可以一定程度上提高泛化性能，但对于泛化误差的控制既不是必要的，也不是足够的。"
+    },
+    {
+      "text": "深度神经网络的泛化能力归因于：记忆+规律，即深度神经网络在暴力记忆的过程中或许优先学习到了规律",
+      "evidence": "深度神经网络确实记住了大量的数据，它的泛化能力归因于：记忆+规律。即深度神经网络在暴力记忆的过程中或许优先学习到了规律，这种规律的提取保证了一定的泛化能力。"
+    },
+    {
+      "text": "即使是完全随机化的标签，神经网路依旧能完成优化收敛，只增加了常数级别的训练时间",
+      "evidence": "即使是完全随机化的标签，神经网路依旧能完成优化收敛，只增加了常数级别的训练时间。"
+    },
+    {
+      "text": "在模型容量大大超过训练集大小的过度参数化机制中，拟合所有训练示例（包括噪声示例）不一定与泛化矛盾，直觉从U形风险曲线扩展到双下降风险曲线",
+      "evidence": "具体来说，在模型容量大大超过训练集大小的过度参数化机制中，拟合所有训练示例，包括噪声示例，不一定与泛化矛盾。"
+    },
+    {
+      "text": "对于泛化误差提升最为明显的是神经网络的自身结构",
+      "evidence": "对于泛化误差提升最为明显的是神经网络的自身结构。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Zhang, C., S. Bengio, M. Hardt, B. Recht and O. Vinyals. (2017). \"Understanding Deep Learning (Still) Requires Rethinking Generalization.\""
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

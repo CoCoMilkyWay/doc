@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20201022-华泰证券-人工智能-037-舆情因子和bert情感分类模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["text"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["text"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "新闻舆情因子",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "F_{i,T}=\\sum_{t=T-29}^{T}w_{t}S_{i,t},\\quad S_{i,t}=\\text{正面新闻数量}-\\text{负面新闻数量},\\quad w_{t}=\\frac{30-(T-t)}{30}",
+          "stats": [null, 0.0179, 0.25, 0.0539],
+          "evidence": "在每个交易日 T，针对每只个股 i，取过去 T-30 个自然日的情感得分，按照时间先后对个股情感得分求线性衰减加权和，得到新闻舆情因子 $F_{i,T}$"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "新闻舆情因子在沪深300成分股内表现最好，行业市值中性后RankIC均值为6.13%，IC_IR为0.42，分5层测试中TOP组合年化收益率17.79%，多空组合夏普比率1.66；在中证500表现次之，全A股最差。",
+      "evidence": "因子在沪深 300 成分股内表现最好，行业市值中性后 RankIC 均值为6.13%，IC_IR 为 0.42，分 5 层测试中 TOP 组合年化收益率为17.79%，多空组合夏普比率为 1.66。因子在中证 500 成分股内表现次之，在全 A股内则表现最差。"
+    },
+    {
+      "text": "2017年以来，因子在沪深300、中证500、全A股的平均覆盖率分别为84.41%、76.16%、63.03%，且覆盖率随时间推移逐渐上升。",
+      "evidence": "2017 年以来，因子在沪深 300、中证 500、全 A股的平均覆盖率分别为 84.41%，76.16%，63.03%，且覆盖率随时间推移逐渐上升。"
+    },
+    {
+      "text": "基于Wind有标注金融新闻数据训练的BERT情感分类模型在正负不平衡样本上达到很高的预测精度，样本外准确率0.9826，AUC 0.9746，精确率0.9736，召回率0.9744。",
+      "evidence": "模型在正负不平衡样本上达到了很高的预测精度，样本外的准确率为 0.9826，AUC 为 0.9746，精确率为 0.9736，召回率为 0.9744。"
+    },
+    {
+      "text": "LIT的Salience Maps模块显示，BERT预测正面新闻时“同比预增”、“中标”等字符重要性较高，预测负面新闻时“风控”、“摘牌”、“减持”等字符重要性较高，说明BERT能较好抓住文本关键词做出准确预测。",
+      "evidence": "例句中的结果显示，正面情感新闻中“同比预增”、“中标”等字符重要性较高，负面情感新闻中“风控”、“摘牌”、“减持”等字符重要性较高。说明 BERT 都能够较好地抓住文本中的关键词，做出准确预测。"
+    },
+    {
+      "text": "Wind金融新闻数据只覆盖部分新闻来源，构建的舆情因子可能是有偏的，舆情因子测试结果是历史表现的总结，存在失效可能。",
+      "evidence": "舆情因子的测试结果是历史表现的总结，存在失效的可能。本文使用的金融新闻数据只覆盖了部分新闻来源，构建的因子可能是有偏的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Devlin, J., M. Chang, K. Lee and K. Toutanova. (2018). \"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.\"",
+    "Tenney, I., D. Das and E. Pavlick. (2020). \"Language Interpretability Tool (LIT).\" Google.",
+    "Vaswani, A., et al. (2017). \"Attention Is All You Need.\"",
+    "《A Large-scale Chinese Corpus for Pre-training Language Model》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

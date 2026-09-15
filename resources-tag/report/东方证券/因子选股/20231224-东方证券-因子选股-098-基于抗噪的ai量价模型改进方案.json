@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "id": "20231224-东方证券-因子选股-098-基于抗噪的ai量价模型改进方案",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "abn_tr20",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{KNN/LOF/iForest 对日频振幅(最高价-最低价)/前收盘价截面判定异常的信号，滚动20个交易日取均值}",
+          "stats": [null, 0.079, 0.88, null],
+          "evidence": "2010 年以来中证全指上基于振幅和换手率构建的 abn_tr20 和 abn_to20 因子 RankIC分别为7.90%和6.85%，分十组多头年化超额收益率分别为13.28%和9.25%，且这两个因子分组单调性也表现较好。"
+        },
+        {
+          "name": "abn_to20",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{KNN/LOF/iForest 对日频换手率截面判定异常的信号，滚动20个交易日取均值}",
+          "stats": [null, 0.0685, 0.72, null],
+          "evidence": "我们将每个交易日截面个股的振幅（即（最高价-最低价）/前收盘价）和个股的换手率作为输入，利用机器学习方法将每个交易日截面所有股票相应的数据作为输入进行半监督学习，根据机器学习模型的输出来判断该交易日个股是否属于异常，最终得到振幅和换手率对应的异常信号，我们将这两个信号分别简称为 abn_tr 和 abn_to。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "通过对抗训练在损失函数加入正则项降低模型对噪声敏感性，相较于自然训练基准，模型生成因子在 RankIC、RankICIR 和多头超额等指标上均有较大幅度提升，且周均单边换手率显著下降。",
+      "evidence": "相较于自然训练所得打分的基准，对抗训练下模型生成因子在 RankIC、RankICIR 和多头超额等指标上均有较大幅度的提升。并且我们还发现对抗训练下模型生成因子多头组合周均单边换手率显著下降，这意味着模型输出因子换手率与训练模型的损失函数存在一定的关系；"
+    },
+    {
+      "text": "不同模型生成的异常信号相关性较高，说明是否异常只与数据分布有关；异常信号滚动二十个交易日后的 abn_tr20 与 abn_to20 因子本身选股表现较好，RankIC 分别为7.90%和6.85%，多头年化超额收益率分别为13.28%和9.25%。",
+      "evidence": "我们发现通过不同模型得到该数据是否属于异常的概率之间相关性较高，这意味着是否异常只与数据分布有关，而使用的模型只影响生成概率的准确度。本文新提出的异常信号经过二十个交易日滚动之后得到的因子本身均具有较好的选股表现，2010 年以来中证全指上基于振幅和换手率构建的 abn_tr20 和 abn_to20 因子 RankIC分别为7.90%和6.85%，分十组多头年化超额收益率分别为13.28%和9.25%，且这两个因子分组单调性也表现较好。"
+    },
+    {
+      "text": "加入异常信号因子辅助训练后，模型输出因子选股能力稳定性提升，RankIC 和 RankICIR 显著上升，年化波动率和最大回撤显著下降。",
+      "evidence": "加入异常信号之后，模型输出因子选股能力的稳定性得到较大幅度提升，RankIC和 RankICIR显著上升，而年化波动率和最大回撤显著下降。"
+    },
+    {
+      "text": "抗噪方案下各数据集非线性加权打分在中证全指、沪深300、中证500、中证1000 上 2018 年以来隔天十日 RankIC 均值分别为 15.71%、10.11%、11.82%、15.14%，RankICIR 分别为 1.52、0.69、0.96、1.43，多头年化超额分别为 46.74%、28.74%、21.42%、34.25%，各宽基指数下均有优异选股表现，市值偏向性较低。",
+      "evidence": "我们提出的抗噪方案下，各数据集非线性加权打分 2018 年以来在中证全指、沪深300、中证 500、中证 1000 四个指数上隔天十日 RankIC 均值分别为 15.71%、10.11%、11.82%、15.14%，RankICIR（未年化）分别为 1.52、0.69、0.96、1.43，分 20 组多头年化超额分别为 46.74%、28.74%、21.42%、34.25%"
+    },
+    {
+      "text": "新模型打分可直接应用于指数增强策略，在成分股不低于80%限制、周单边换手率约束20%下，沪深300、中证500、中证1000 增强策略年化超额收益率分别为17.40%、21.39%和 31.52%，整体表现较基准模型有较大幅度提升。",
+      "evidence": "以上两个打分也可直接应用于指数增强策略，各宽基指数上均能获得显著的超额收益，在成分股不低于80%限制、周单边换手率约束为20%约束下，2018年以来，新模型打分在沪深 300、中证 500 和中证 1000 增强策略上年化超额收益率分别为17.40%、21.39%和 31.52%"
+    },
+    {
+      "text": "异常信号因子能捕捉个股与市场交互作用带来增量信息，对抗训练增加模型鲁棒性，提升 RNN 模型获取有效信息的能力，使 RNN 输出与自然训练方法产生差异性。",
+      "evidence": "根据单因子和指增策略回测结果，我们认为1）异常信号因子本身能捕捉到个股与市场交互作用，因此会给模型带来增量信息；2）通过对抗训练增加模型的鲁棒性，这将提升 RNN 模型在高信噪比数据中获取有效信息的能力，从而使 RNN 输出与自然训练方法产生差异性。"
+    }
+  ],
+  "builds_on": [
+    "20230606-东方证券-因子选股-091-基于循环神经网络的多频率因子挖掘",
+    "20230824-东方证券-因子选股-096-基于残差网络的端到端因子挖掘模型"
+  ],
+  "external_ref": [
+    "Goodfellow et al. (2014) Explaining and harnessing adversarial examples",
+    "Madry et al. (2017) Towards deep learning models resistant to adversarial attacks",
+    "东方A股因子风险模型（DFQ-2020）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

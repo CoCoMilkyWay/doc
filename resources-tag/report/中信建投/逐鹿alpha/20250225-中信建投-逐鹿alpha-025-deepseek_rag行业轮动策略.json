@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "id": "20250225-中信建投-逐鹿alpha-025-deepseek_rag行业轮动策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["market_daily", "analyst", "text"], "freq": "mixed"}}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "策略每周将中信行业指数技术指标、市场重要新闻以及策略研报信息交由大模型分析，并将上周预测结果输入大模型进行自我反省，输出本周推荐的五个行业代码。",
+      "evidence": "每周将中信行业指数技术指标，市场重要新闻，以及策略研报信息交由大模型进行分析，将上周预测结果输入大模型进行自我反省"
+    },
+    {
+      "text": "利用5个推荐行业指数构建等权组合，下一个交易日交易，基准为30个中信行业等权组合。",
+      "evidence": "利用5个行业指数构建等权组合，下一个交易日交易，基准为30个行业等权"
+    },
+    {
+      "text": "策略年化收益10.94%，夏普比率0.44，最大回撤23.14%，周胜率59.61%，月胜率60.86%。",
+      "evidence": "| 策略 | 10.94% | 0.44 | 23.14% | 59.61% | 月胜率 60.86% |"
+    },
+    {
+      "text": "基准（30个行业等权）年化收益为-0.76%，夏普比率-0.03，最大回撤26.87%，策略显著跑赢基准。",
+      "evidence": "| 基准 | -0.76% | -0.03 | 26.87% | – |  |"
+    },
+    {
+      "text": "过去两年推荐行业主要集中在传媒、有色金属、机械、汽车、计算机、银行，均为涨幅较好的行业，平均单次换手率为36%，年化换手率为18.72倍。",
+      "evidence": "过去两年推荐行业主要集中在传媒，有色金属，机械，汽车，计算机，银行，均为涨幅较好的行业平均单次换手率为36%，年化换手率为18.72倍。"
+    },
+    {
+      "text": "对比Qwen2.5-Max（通义千问系列效果最好的模型），DeepSeek-R1在行业预测任务上具有显著优势。",
+      "evidence": "对比Qwen2.5-Max（通义千问系列效果最好的模型）， DeepSeek-R1具有显著优势。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["DeepSeek-R1", "Qwen2.5-Max"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

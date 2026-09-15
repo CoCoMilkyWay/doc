@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "id": "20190902-华泰证券-人工智能-024-真假序列识别研究_投石问路_技术分析可靠否",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["liquidity_turnover", "technical_pattern"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "换手率序列",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{连续60个交易日的日换手率序列经时序维度Z-score标准化后输入卷积神经网络，识别真假序列}",
+          "stats": [null, null, null, null],
+          "evidence": "总的来看，无论是训练集还是测试集，基于换手率的模型识别能力均较强，精确率接近 1，召回率也高于 0.85。模型在外推时间区间内的表现略有下滑，但是 F1_score 仍高于 0.9。该结果表明，单纯基于换手率的 CNN 模型能够有效识别真假序列。"
+        },
+        {
+          "name": "收益率序列",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{连续60个交易日的日收益率序列经时序维度Z-score标准化后输入卷积神经网络，识别真假序列}",
+          "stats": [null, null, null, null],
+          "evidence": "总的来看，无论是训练集还是测试集，基于收益率的 CNN 模型识别能力均较弱。改变时间区间和指数对模型表现均有显著的负向影响，其中外推时间区间的精确率和召回率均出现较大滑坡，召回率接近 0。该结果表明，单纯基于收益率的 CNN 模型无法有效识别真假序列。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "卷积神经网络（CNN）对真假价量序列的识别能力突出，表现显著优于其它模型；逻辑回归、随机森林、XGBoost 等模型几乎没有识别能力。",
+      "evidence": "模型初筛阶段的结果表明，卷积神经网络（CNN）对真假价量序列的识别能力突出，表现显著优于其它模型；支持向量机和全连接神经网络表现出一定的识别能力，但是总体较弱；而逻辑回归、随机森林、XGBoost 等模型几乎没有识别能力。"
+    },
+    {
+      "text": "价量序列的主要信息来源于换手率，而收益率包含的信息较少或者提取难度较大；单纯基于换手率的 CNN 模型识别效果良好。",
+      "evidence": "将收益率和换手率序列分离并单独测试，发现单纯基于收益率序列的CNN 模型识别效果不佳，在召回率上存在短板；单纯基于换手率序列的 CNN模型识别效果良好。由此推测价量序列的主要信息来源于换手率，而收益率包含的信息较少或者提取难度较大。"
+    },
+    {
+      "text": "DIF、MACD 和 PSY 等基于价格的技术指标对识别效果没有显著提升，带来的增量信息有限。",
+      "evidence": "我们进而尝试通过技术指标对收益率信息进行定向提取，发现MACD家族的DIF和MACD指标以及 PSY 指标对识别效果没有显著提升。由此推测这些基于价格的技术指标带来的增量信息有限。"
+    },
+    {
+      "text": "基于量的技术分析或有合理之处，而单纯基于价的技术分析可靠性存疑，量可能比价更有用。",
+      "evidence": "本研究测试结果表明，换手率序列存在可识别特征，并且在外推时间区间内 CNN 模型仍有良好表现；而基于收益率序列的 CNN 模型无法识别真假序列。换言之，基于量的技术分析或有合理之处，而单纯基于价的技术分析可靠性存疑，量可能比价更有用。"
+    },
+    {
+      "text": "Grad-CAM 可视化表明 CNN 模型识别真假序列主要依靠换手率序列的局部特征，对持续的高换手以及换手大幅降低的局部特征有提取作用。",
+      "evidence": "将 Grad-CAM 热力图和部分真实换手率序列相结合，发现 CNN 模型对持续的高换手以及换手大幅降低的局部特征有提取作用。"
+    },
+    {
+      "text": "Ljung-Box 检验无法识别真假收益率序列，但能有效识别真假换手率序列。",
+      "evidence": "Ljung-Box 白噪声检验结果无法有效识别真假收益率序列。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Selvaraju 等人于 2016 年发表的论文《 Grad-CAM: Visual Explanations from Deep Networks via Gradient-basedLocalization》",
+    "华泰金工人工智能系列之二十《必然中的偶然：机器学习中的随机数》20190429"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "schema_version": 2,
+  "id": "20231025-兴业证券-高频-007-高频风险模型构建与应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "特质性波动率",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "vol\\_risk=0.74\\times DASTD+0.16\\times CMRA+0.10\\times HSIGMA",
+          "stats": [null, null, null, null],
+          "evidence": "对于 频 险中的特质性波动率，我们沿 Barra 险模型中ResidualVolatility 险因 的计算 式，并将其周期缩短。"
+        },
+        {
+          "name": "短期动量",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "mom\\_risk=\\sum_{s=t-T+1}^{t}w_{t-s}\\big(ln\\big(1+r_{i,s}\\big)\\big)-\\sum_{s=t-T'+1}^{t}w_{t-s}\\big(ln\\big(1+r_{alpha,s}\\big)\\big)",
+          "stats": [null, null, null, null],
+          "evidence": "我们假设 期动量为过去20 收益率的半衰加权；短期动量为过去5 的收益率半衰加权减去市场收益率半衰期加权；最后将 期动量减去短期动量，以此构建短期动量 险因"
+        },
+        {
+          "name": "集中性",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "con\\_risk=skew\\left(\\cfrac{volume_{t}}{sum(volume_{t})}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "当交易量均匀分布在 内每 分钟时， 内交易集中性低，该指标较 。"
+        },
+        {
+          "name": "价差",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "spread\\_risk=\\frac{askprice_{t}^{(1)}-bidprice_{t}^{(1)}}{0.5\\left(askprice_{t}^{(1)}+bidprice_{t}^{(1)}\\right)}",
+          "stats": [null, null, null, null],
+          "evidence": "是 来衡量市场紧密度性的 选 法之 ，其衡量的是流动性资产买卖价格之间的差异。"
+        },
+        {
+          "name": "流动性",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{基于价格波动与成交额刻画个股高频流动性风险}",
+          "stats": [null, null, null, null],
+          "evidence": "我们基于价格波动与成交 额，刻画交易流动性liq_risk，代表着 额对于价格波动的影响。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "statistical", "shrinkage"],
+      "setup": {
+        "risk_factors": ["momentum", "volatility", "liquidity", "microstructure"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "horizon": "daily"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以高频因子多头与空头组合为收益率的回归中，基于高频复合风险模型（即高频基本风险模型+统计风险模型）的解释度相对强于基于Barra的风险模型，Adjusted R2均值大致在75%左右，且在时间段早期差异较大。",
+      "evidence": "从结果上看，在以因 多头以及空头组合为收益率的回归模型中，基于 频复合 险模型（即 频基本 险模型+统计 险模型）的解释 度相对强于基于Barra的 险模型： $AjustedR^{2}$ 均值 致在75%左右，Barra解释 度略逊于 频 险模型，且在时间段早期差异较 。"
+    },
+    {
+      "text": "riskFct0与残差波动率以及流动性风险因子相关性偏高，表明高频因子组合多在这两类风险上存在暴露，但与其他Barra风险因子相关性极低，高频风险因子与Barra风险因子存在差异。",
+      "evidence": "结果表明：riskFct0与残差波动率以及流动性 险因 相关性偏 ，这表明 频因 组合 多在这两类 险上存在暴露，但与其他Barra 险因 相关性极低， 频 险因 与Barra 险因 存在差异。"
+    },
+    {
+      "text": "最大化Top夏普复合因子在全市场内IC均值为0.100，ICIR为1.364；在中证1000与国证2000中的IC均值为0.092与0.106，表现十分优秀，稳定战胜以Barra风险因子复合的因子。",
+      "evidence": "以最 化Top夏普复合因 为例，该因 在全市场内IC均值为0.100，IC IR为1.364；该因 在中证1000与国证2000中的IC均值为0.092与0.106，表现 分优秀。"
+    },
+    {
+      "text": "基于高频风险因子最大化Top组夏普率复合因子全市场Top组年化收益率接近50%，基准法年化收益率为38.51%，Top年化超额收益率为38.32%，多空夏普率为8.08，表现十分优秀。",
+      "evidence": "率复合因 为例，该因 全市场Top组年化收益率接近50%，基准 法年化收益率为38.51%。该因 Top年化超额收益率为38.32%，多空夏普 率为8.08，表现 分优秀。"
+    },
+    {
+      "text": "在不同的约束条件下，中证1000指数增强策略加入高频因子后年化超额收益率均得到明显提升，均增加2-3个百分点。",
+      "evidence": "从测试结果上看：在不同的约束条件下，加 频因 后年化超额收益率均得到明显提升，均增加2-3个百分点。以个股权重约束±0.1%，市值 业约束±2.0%为例，加 频因 后，策略年化超额收益率提升约3个百分点。"
+    },
+    {
+      "text": "加入高频复合因子后的中证1000指数增强策略年化超额收益率为20.43%，相对净值收益风险比为3.35，收益回撤比为3.46。",
+      "evidence": "该中证1000指数增强策略的年化超额收益率为20.43%，相对净值收益 险 为3.35，收益回撤 为3.46。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra Risk Model Handbook (2007)", "Statistical Risk Models (Zura Kakushadze, Willie Yu, 2017)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

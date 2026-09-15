@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20201221-华泰证券-人工智能-039-周频量价选股模型的组合优化实证",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "weekly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest", "L6_attribution"], "approach": ["evaluation_metric", "factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "综合 10 年和 6 年回测区间的表现，预测期限为周频的风险因子模型表现最为稳定，可在 95%置信区间下认为其风险预测比较准确。",
+      "evidence": "综合 10 年回测区间和 6 年回测区间的表现，预测期限为周频的风险因子模型表现最为稳定，可以在 95%置信区间下认为其风险预测比较准确。"
+    },
+    {
+      "text": "随着风险厌恶系数的增大，周频调仓 AlphaNet 组合的跟踪误差逐渐减小，信息比率逐渐上升，超额收益最大回撤有一定下降，体现了多因子风险模型对组合风险的控制能力。",
+      "evidence": "随着风险厌恶系数的增大，周频调仓 AlphaNet 组合的跟踪误差逐渐减小，信息比率逐渐上升，超额收益最大回撤有一定下降，体现了多因子风险模型对组合风险的控制能力。"
+    },
+    {
+      "text": "在行业市值中性的基础上，通过额外限定 Barra 量价风格因子（momentum、residual volatility 和 liquidity）中性，可明显降低组合的跟踪误差和超额收益最大回撤，该组合在 2019 年底的超额收益回撤明显减小。",
+      "evidence": "由于 AlphaNet 完全基于量价数据构建而来，在行业市值中性的基础上，通过额外限定 Barra 量价风格因子(momentum，residual volatility 和 liquidity)中性，可明显降低组合的跟踪误差和超额收益最大回撤，并提高信息比率和Calmar比率，该组合在2019年底的超额收益回撤明显减小，但是年化超额收益率有一定下降。"
+    },
+    {
+      "text": "通过市值中性+扩大行业偏配，可明显提升组合的超额收益，但同时也会增大超额收益最大回撤和跟踪误差，导致信息比率和 Calmar 比率的下降。",
+      "evidence": "通过市值中性+扩大行业偏配，可明显提升组合的超额收益，但同时也会增大超额收益最大回撤和跟踪误差，导致信息比率和 Calmar 比率的下降。"
+    },
+    {
+      "text": "业绩归因表明，2011 年以来行业市值中性下周频 AlphaNet 模型具有非常显著的 alpha 收益，但 2015 年之后风格因子贡献的收益逐渐增加，比较明显的有 Momentum、Liquidity 和 Size 因子。",
+      "evidence": "业绩归因表明，2011 年以来，行业市值中性下周频 AlphaNet 模型具有非常显著的 alpha收益，但是2015年之后风格因子贡献的收益逐渐增加，比较明显的有 Momentum、Liquidity和 Size 因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Briner, B. G. and G. Connor. How much structure is best? A comparison of market model, factor model and unstructured equity covariance matrices. The Journal of Risk, 2008.",
+    "Gregory Connor. Robust confidence intervals for the bias test of risk forecasts. Technical Report, MSCI Barra, 2002.",
+    "《AlphaNet：因子挖掘神经网络》(2020.6.14)",
+    "《再探 AlphaNet：结构和特征优化》(2020.8.24)",
+    "《桑土之防：结构化多因子风险模型》(2019.6.12)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

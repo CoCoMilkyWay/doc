@@ -1,0 +1,188 @@
+{
+  "schema_version": 2,
+  "id": "20161220-华泰证券-多因子-004-华泰单因子测试之动量类因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "HAlpha",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股60个月收益与上证综指线性回归的截矩项}",
+          "stats": [-0.0196, null, 0.23, 0.1551],
+          "evidence": "包括 HAlpha（个股 60 个月收益与上证综指线性回归的截矩项），return_Nm（个股最近 N 个月的收益率，N=1、3、6、12）"
+        },
+        {
+          "name": "return_1m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近1个月收益率}",
+          "stats": [-0.0573, null, 0.63, 0.2618],
+          "evidence": "动量类因子主要是指过去一段时间内资产的收益率，是一类非常重要的风格因子。"
+        },
+        {
+          "name": "return_3m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近3个月收益率}",
+          "stats": [-0.044, null, 0.43, 0.2197],
+          "evidence": "动量类因子主要是指过去一段时间内资产的收益率，是一类非常重要的风格因子。"
+        },
+        {
+          "name": "return_6m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近6个月收益率}",
+          "stats": [-0.0323, null, 0.32, 0.2125],
+          "evidence": "动量类因子主要是指过去一段时间内资产的收益率，是一类非常重要的风格因子。"
+        },
+        {
+          "name": "return_12m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近12个月收益率}",
+          "stats": [-0.0254, null, 0.25, 0.163],
+          "evidence": "经典的 1个月反转是与市值因子是具有某种程度的负相关性的，相比较而言，过去 12 个月收益率与市值因子的相关性就会比较弱一点。"
+        },
+        {
+          "name": "wgt_return_1m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近1个月内以每日换手率作为权重对每日收益率求算术平均值}",
+          "stats": [-0.0724, null, 0.92, 0.2538],
+          "evidence": "个股最近N个月内以每日换手率作为权重对每日收益率求算术平均值"
+        },
+        {
+          "name": "wgt_return_3m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近3个月内以每日换手率作为权重对每日收益率求算术平均值}",
+          "stats": [-0.0612, null, 0.74, 0.2147],
+          "evidence": "wgt_return_Nm（个股最近 N 个月的日换手率加权平均日收益率，N=1、3、6、12）"
+        },
+        {
+          "name": "wgt_return_6m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近6个月内以每日换手率作为权重对每日收益率求算术平均值}",
+          "stats": [-0.0516, null, 0.6, 0.1449],
+          "evidence": "wgt_return_Nm（个股最近 N 个月的日换手率加权平均日收益率，N=1、3、6、12）"
+        },
+        {
+          "name": "wgt_return_12m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股最近12个月内以每日换手率作为权重对每日收益率求算术平均值}",
+          "stats": [-0.0418, null, 0.51, 0.0901],
+          "evidence": "wgt_return_Nm（个股最近 N 个月的日换手率加权平均日收益率，N=1、3、6、12）"
+        },
+        {
+          "name": "exp_wgt_return_1m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_i \\omega_i r_i,\\quad \\omega_i \\propto turn_i \\cdot \\exp(-x_i/N/4),\\; N=1",
+          "stats": [-0.0604, null, 0.75, 0.2067],
+          "evidence": "exp_wgt_return_Nm（个股最近 N 个月的指数衰减权重乘以日换手率加权平均日收益率，N=1、3、6、12）。经实证检验，两种改进方式都对传统的 N个月反转因子有所加强。"
+        },
+        {
+          "name": "exp_wgt_return_3m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_i \\omega_i r_i,\\quad \\omega_i \\propto turn_i \\cdot \\exp(-x_i/N/4),\\; N=3",
+          "stats": [-0.0774, null, 0.96, 0.2642],
+          "evidence": "exp_wgt_return_Nm（个股最近 N 个月的指数衰减权重乘以日换手率加权平均日收益率，N=1、3、6、12）。经实证检验，两种改进方式都对传统的 N个月反转因子有所加强。"
+        },
+        {
+          "name": "exp_wgt_return_6m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_i \\omega_i r_i,\\quad \\omega_i \\propto turn_i \\cdot \\exp(-x_i/N/4),\\; N=6",
+          "stats": [-0.077, null, 0.92, 0.2773],
+          "evidence": "exp_wgt_return_Nm（个股最近 N 个月的指数衰减权重乘以日换手率加权平均日收益率，N=1、3、6、12）。经实证检验，两种改进方式都对传统的 N个月反转因子有所加强。"
+        },
+        {
+          "name": "exp_wgt_return_12m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\sum_i \\omega_i r_i,\\quad \\omega_i \\propto turn_i \\cdot \\exp(-x_i/N/4),\\; N=12",
+          "stats": [-0.0686, null, 0.78, 0.223],
+          "evidence": "exp_wgt_return_Nm（个股最近 N 个月的指数衰减权重乘以日换手率加权平均日收益率，N=1、3、6、12）。经实证检验，两种改进方式都对传统的 N个月反转因子有所加强。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "从 TOP 组合信息比率、多空组合年化收益率、多空组合夏普比率等角度来说，都是 exp_wgt_return_6m、exp_wgt_return_3m、wgt_return_1m、return_1m 四个因子表现出众。",
+      "evidence": "从 TOP 组合信息比率、多空组合年化收益率、多空组合夏普比率等角度来说，都是 exp_wgt_return_6m、exp_wgt_return_3m、wgt_return_1m、return_1m 四个因子表现出众。"
+    },
+    {
+      "text": "IR 比率最高的三个因子为 exp_wgt_return_3m、exp_wgt_return_6m、wgt_return_1m，只有 HAlpha、return_12m 两个因子的 IR 比率不足 0.3。",
+      "evidence": "因子 IC 值的分析结果与回归法基本一致，IR 比率最高的三个因子为 exp_wgt_return_3m、exp_wgt_return_6m、wgt_return_1m，只有 HAlpha、return_12m 两个因子的 IR 比率不足 0.3。"
+    },
+    {
+      "text": "除 HAlpha 之外的其他十二个动量因子月均因子收益率显著异于 0，综合表现最好的两个因子是指数衰减日换手率加权平均 3 个月、6 个月动量因子（即 exp_wgt_return_3m、exp_wgt_return_6m）。",
+      "evidence": "除 HAlpha 因子之外的其他十二个动量因子能通过该假设检验。将这些因子互相比较可以发现，综合表现最好的两个因子是指数衰减日换手率加权平均 3 个月、6 个月动量因子（即 exp_wgt_return_3m、exp_wgt_return_6m）"
+    },
+    {
+      "text": "动量因子的整体效果比估值、成长因子要好很多，估值与成长因子是部分或全部源于财务数据的因子，灵敏度不如量价类因子，但对月度调仓的多因子模型，量价类因子的贡献比财务类因子大。",
+      "evidence": "与前两篇单因子测试的报告结果进行对比，我们发现动量因子的整体效果比估值、成长因子要好很多。估值与成长因子是部分或全部源于财务数据的因子，灵敏度不如量价类因子。"
+    },
+    {
+      "text": "两种改进方式（换手率加权、指数衰减换手率加权）都对传统的 N个月反转因子有所加强。",
+      "evidence": "经实证检验，两种改进方式都对传统的 N个月反转因子有所加强。"
+    },
+    {
+      "text": "各动量因子两两之间普遍具有比较强的正相关性，与估值、成长类因子对比相关性更加突出，组合使用各动量因子构建选股模型时需要注意处理多重共线性问题。",
+      "evidence": "通过观察可以发现，各动量因子两两之间普遍具有比较强的正相关性，与之前测试过的估值、成长类因子对比，相关性显得更加突出。如果要组合使用各动量因子构建选股模型，需要注意处理多重共线性问题。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["华泰单因子测试之估值类因子", "华泰多因子模型体系初探（2016.09）"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20211117-国泰君安-学界纵横-025-纳入风格的宏观因子组合构建",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["na"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["risk_based", "turnover"],
+      "setup": {"universe": ["na"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "正增长环境下，经济增长组合显示出非凡的收益率(19.64%和22.29%)，但在负增长时期表现不佳；通胀MFMP和防御MFMP则成功地减轻了通胀时期和经济衰退时期的宏观风险。",
+      "evidence": "风险平价组合和三个宏观因子模拟投资组合的表现：正增长环境下，经济增长组合显示出非凡的收益率(19.64%和 22.29%)，但在负增长时期表现不佳( 9.65%)；通胀 MFMP 和防御 MFMP 则成功地减轻了通胀时期和经济衰退时期的宏观风险。"
+    },
+    {
+      "text": "全样本期增长MFMP收益最高，在8.97%的波动性下实现年均9.71%收益；通胀MFMP产生-11.35%负收益，使MFRP总回报降至3.56%，夏普比率0.54。",
+      "evidence": "在全样本期，增长MFMP收益最高，在8.97%的波动性下实现了年均9.71%的收益。而通胀 MFMP 则产生了-11.35%的负收益，这使得风险平价MFRP 组合的总回报降低到 3.56%，夏普比率为 0.54，低于增长 MFMP的1.08和防御组合的0.76."
+    },
+    {
+      "text": "MFRP的波动率最低，换手率（2.84%）远低于其他组合，且在任何时候的有效押注数量均为3。",
+      "evidence": "但是MFRP的波动率最低，且值得注意的是，MFRP 的换手率（2.84%）远低于其他组合，且在任何时候的有效押注数量（number of bets）均为 3."
+    },
+    {
+      "text": "将已有组合向宏观因子组合调整可提高组合表现：60/40组合加入防御因子后，年化收益由7.34%提升至11.79%，最大回撤由36.54%降至22.95%，夏普比率由0.73升至1.12，有效投注数量由1.27增至2.47。",
+      "evidence": "以加入防御因子为例，原 60/40 组合的风险以经济增长风险为主，全样本的年化收益为 7.34%，最大回撤 36.54%，夏普比率为 0.73，衡量分散程度的有效投注数量为 1.27%；加入防御因子后，年化收益提升至 11.79%，最大回撤降至 22.95%，夏普比率升至 1.12，有效投注数量增至 2.47."
+    },
+    {
+      "text": "构建正交宏观因子采取“最小误差变换矩阵”方法，在实现因子正交化的同时力求正交因子与原因子的距离最小。",
+      "evidence": "在构建正交宏观因子及其模拟投资组合时，采取“最小误差变换矩阵”的方法。该方法在实现因子正交化的同时，力求正交因子与原因子的距离最小。"
+    },
+    {
+      "text": "通缩或危机时期防御MFMP是唯一正收益的组合，年化收益13.32%；风险平价组合MFRP吸收三个组合优点，以放弃少量好处为代价降低宏观经济对组合的冲击。",
+      "evidence": "在通缩或危机时期，防御 MFMP 是唯一正收益的组合，年化收益 13.32%，波动 9.04%. 风险平价组合 MFRP吸收了三个组合的优点、减弱了其缺点，以放弃少量好处为代价降低了宏观经济对组合的冲击。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alexander, Harald, Mark and Sandra. (2021). Macro Factor Investing with Style",
+    "Bass, Gladstone, and Ang (2017)",
+    "Deguest, Martellini, and Meucci (2013)",
+    "Dichtl, Drobetz, Lohre, and Rother (2021)",
+    "Meucci, Santangelo and Deguest (2015)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

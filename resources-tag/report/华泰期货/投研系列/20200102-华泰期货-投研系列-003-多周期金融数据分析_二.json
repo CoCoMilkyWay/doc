@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "id": "20200102-华泰期货-投研系列-003-多周期金融数据分析_二",
+  "genre": "research",
+  "asset": ["stock_us", "future_commodity"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "对于相变点的确认或者预期，将有助于对当前市场行情更好的理解，并为投研策略回测提供明确的择时思路。",
+      "evidence": "我们指出，对于相变点的确认或者预期，实际上将有助于我们对于当前市场行情更好的理解。将来对于我们的投研策略回测提供了明确的择时思路。"
+    },
+    {
+      "text": "金融数据的类周期性特征和相变特征在RQA框架下得到统一：类周期现象由RP图的重复点表示，相变点则是RP中的空白段，方法能直观得到相变时间段并对应重大历史事件。",
+      "evidence": "我们看到金融数据的类周期性特征和相变特征在这一研究框架下得到了很好的统一，组成了一张图上的两种特征：类周期现象由RP 图的重复点表示，相变点则是RP中的空白段。我们的方法能直观地得到相变时间段信息，并且对应到当时时间点的市场或者政治经济所发生的重大历史事件。"
+    },
+    {
+      "text": "金价在一些重要时间点出现断层（空白部分），表现出相变特征，与重要历史事件相吻合，如1980年1月金价达到极值点后20多年无法再触及，直到2008年次贷海啸才突破。",
+      "evidence": "金价在一些重要时间点出现了断层（空白部分），表现出相变特征（参考方法介绍）。这和重要历史事件相吻合。比如 1980 年1 月，是金价与美元脱钩以后达到的第一个极值点，随后的 20 多年间都无法再触及，直到 2008 年次贷海啸才明确突破。"
+    },
+    {
+      "text": "S&P 500指数月度收益率数据显示，2008年次贷海啸和1987年黑色星期一是最为严重的两次市场相变。",
+      "evidence": "从图中，我们看到，2008年开始的次贷海啸和 1987年的黑色星期一是最为严重的两次市场相变。"
+    },
+    {
+      "text": "1980年市场过激买入黄金的避险行为难以在后续历史时段找到相似情况，恰好对应空白递归图部分，验证了方法的有效性。",
+      "evidence": "我们认为当时市场的过激买入黄金的避险行为，是难以在后面的历史时段找到相似情况的；这恰好对应到我们观察到的空白递归图部分，显示了我们方法的有效性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Dalio, R. (2019). \"Paradigm Shifts.\"",
+    "Michael A. Rley,Guy C. Van Orden,\" Tutorials in Contemporary Nonlinear Mehtods for the Behavioral Sciences\", Arlington, VA: National Science Foundation, Internet resource (2005)",
+    "Teodoro Semeraro, Nobert Marwan, Bruce K.Jones, \" Recurrence Analysis of Vegetation Time Series and Phase Transitions in Mediterranean Rangelands\", arXiv:1705.04813 (2017)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

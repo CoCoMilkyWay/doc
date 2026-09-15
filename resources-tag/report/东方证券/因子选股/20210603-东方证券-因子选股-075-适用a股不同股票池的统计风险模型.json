@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20210603-东方证券-因子选股-075-适用a股不同股票池的统计风险模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["statistical", "shrinkage", "dynamic_adjust"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "因子模型对股票池有较强依赖性：DFQ-2020 全市场 Adjusted Rsquare 平均 20.9%，中证 800 内 27.9%，800 外仅 13.7%，不同股票池应设定不同风险因子。",
+      "evidence": "DFQ-2020 模型在全市场范围内 Adjusted Rsquare 平均可达到 20.9%；在中证 800 成分内解释度较高，平均可达 27.9%，而在 800 成分外解释度明显下降，仅为 13.7%。"
+    },
+    {
+      "text": "基于修正压缩估计量的 DFQ-STAT 风险模型 GMVP 组合预测方差与真实方差最接近，平均仅高估 30%，DFQ2020 与简单压缩估计方法平均高估 50%左右。",
+      "evidence": "从 GWVP组合的预测方差与真实方差的比值来看，修正压缩估计量方法最接近于 1，预测方差相比真实方差平均高估 30%，而 DFQ2020 模型和简单压缩估计方法平均要高估 50%左右。"
+    },
+    {
+      "text": "修正压缩估计量方法在 500 全市场指数增强组合中优势明显，可同时实现最大回撤、跟踪误差的降低以及组合收益的提升，综合信息比更高。",
+      "evidence": "修正压缩估计量方法在 500全市场指数增强组合中优势明显。可以同时实现最大回撤、跟踪误差的降低，以及组合收益的提升，综合信息比更高。"
+    },
+    {
+      "text": "GMVP 组合的年化波动率指标只能衡量截面上股票协方差预测相对大小的准确性，而无法衡量整体股票协方差是否高估或低估，故补充预测方差与真实方差比值这一评价维度。",
+      "evidence": "GMVP 组合的年化波动率指标只能衡量截面上股票协方差预测相对大小的准确性，而无法衡量整体股票协方差是否高估或低估。"
+    },
+    {
+      "text": "统计模型可以避免模型设定偏误，不需要维护风险因子库，只需要用到股票收益率数据，计算更便捷，单纯估计协方差矩阵输入组合优化器时是可行做法。",
+      "evidence": "统计模型可以避免模型设定偏误，不需要维护风险因子库，只需要用到股票收益率数据，计算更便捷。"
+    },
+    {
+      "text": "全市场增强组合中，可以考虑将DFQ-2020和DFQ-STAT模型结合起来使用，效果更稳健；统计上，将两个协方差矩阵平均是一种比较常见的做法。",
+      "evidence": "全市场增强组合中，可以考虑将DFQ-2020和DFQ-STAT模型结合起来使用，效果更稳健。在统计上，将两个协方差矩阵平均是一种比较常见的做法。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chen et al., Shrinkage Algorithms for MMSE Covariance Estimation",
+    "东方A股因子风险模型（DFQ-2018）",
+    "东方A股因子风险模型（DFQ-2020）",
+    "风险模型提速组合优化的另一种方案"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

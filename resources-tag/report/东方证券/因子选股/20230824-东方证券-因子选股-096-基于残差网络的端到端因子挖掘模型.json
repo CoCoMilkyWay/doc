@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20230824-东方证券-因子选股-096-基于残差网络的端到端因子挖掘模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "数据集week",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{将过去150个交易日按每五个交易日的高开低收、vwap、turnover字段构成6×5数据图片，经ResNet截面特征提取后按时序输入RNN，取最后一个RNN Cell输出经NN Layer得到打分}",
+          "stats": [null, 0.1317, 1.25, null],
+          "evidence": "数据集week上生成因子选股能力显著好于数据集day，说明更长时序作为输入对未来收益率的预测能力更强。"
+        },
+        {
+          "name": "数据集msnew",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{将过去30个交易日每日八个半小时k线的高开低收、amt字段构成5×8数据图片，经ResNet截面特征提取后按时序输入RNN，取最后一个RNN Cell输出经NN Layer得到打分}",
+          "stats": [null, 0.1332, 1.4, null],
+          "evidence": "数据集msnew生成打分的选股能力整体略高于数据集ms。通过将数据集msnew生成的弱因子替代数据集ms参与非线性加权得到的打分在四个股票池上表现并没有发生较大改变，这说明数据集msnew对数据集ms有较好的替代性。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "数据集week生成因子选股能力显著好于数据集day，更长时序作为输入对未来收益率的预测能力更强，week能对整体模型起到增量作用。",
+      "evidence": "数据集week上生成因子选股能力显著好于数据集day，说明更长时序作为输入对未来收益率的预测能力更强。"
+    },
+    {
+      "text": "将msnew生成的弱因子替代ms参与非线性加权，四个股票池表现没有较大改变，msnew对ms有较好的替代性。",
+      "evidence": "通过将数据集msnew生成的弱因子替代数据集 ms参与非线性加权得到的打分在四个股票池上表现并没有发生较大改变，这说明数据集 msnew对数据集 ms有较好的替代性。"
+    },
+    {
+      "text": "非线性加权之后生成的打分表现远好于任意一个数据集打分的选股表现，多元rnn生成因子非线性加权方式优于等权方式。",
+      "evidence": "非线性加权之后生成的打分表现远好于任意一个数据集打分的选股表现。这说明多元 rnn 生成因子非线性加权方式优于等权方式。"
+    },
+    {
+      "text": "Model3和Model4非线性加权打分在中证全指、沪深300、中证500、中证1000上十日RankIC均值分别为14.97%、9.57%、11.29%、14.63%和14.99%、9.36%、11.98%、14.57%，top组年化超额分别为41.48%、26.02%、21.28%、35.02%和41.76%、25.58%、21.67%、34.56%，打分市值偏向性较低。",
+      "evidence": "我们提出的两种不同数据集组合Model3和Model4非线性加权打分在中证全指、沪深300、中证 500、中证 1000 四个指数上十日 RankIC 均值分别为 14.97%、9.57%、11.29%、14.63%和 14.99%、9.36%、11.98%、14.57%，top 组年化超额分别为 41.48%、26.02%、21.28%、35.02%和 41.76%、25.58%、21.67%、34.56%，打分市值偏向性较低。"
+    },
+    {
+      "text": "在成分股不低于80%限制、周单边换手率约束为20%约束下，2018年以来Model3打分在沪深300、中证500和中证1000增强策略上年化超额收益率分别为14.49%、19.76%和29.41%，Model4分别为14.76%、20.15%和28.72%。",
+      "evidence": "Model3 打分在沪深 300、中证 500 和中证 1000 增强策略上年化超额收益率分别为 14.49%、19.76%和 29.41%，Model4打分在沪深 300、中证 500 和中证 1000 增强策略上年化超额收益率分别为 14.76%、20.15%和28.72%。"
+    }
+  ],
+  "builds_on": ["20230606-东方证券-因子选股-091-基于循环神经网络的多频率因子挖掘"],
+  "external_ref": [
+    "Chen, R. T., Rubanova, Y., Bettencourt, J., & Duvenaud, D. K. (2018). Neural ordinary differential equations",
+    "He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image recognition",
+    "东方A股因子风险模型（DFQ-2020）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

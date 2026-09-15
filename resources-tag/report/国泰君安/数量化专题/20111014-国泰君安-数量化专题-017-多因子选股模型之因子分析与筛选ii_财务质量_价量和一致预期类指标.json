@@ -1,0 +1,240 @@
+{
+  "schema_version": 2,
+  "id": "20111014-国泰君安-数量化专题-017-多因子选股模型之因子分析与筛选ii_财务质量_价量和一致预期类指标",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": ["style_ratio", "analyst_behavior", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE（TTM）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度归属母公司净利润}}{\\text{平均净资产}}",
+          "stats": [null, 0.11, null, null],
+          "evidence": "总体来看，HS300股票池中，ROE（TTM）越高的组合表现越好，且最高的第一档明显跑赢市场指数和其他各档，但在ZZ500 中各档表现几乎没有规律。"
+        },
+        {
+          "name": "ROA（TTM）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度归属母公司净利润}}{\\text{平均总资产}}",
+          "stats": [null, 0.1, null, null],
+          "evidence": "总体来看，ROA（TTM）的有效性不明显，在 HS300 中有一定的区分度，但是五档累计收益的差异是在 2010 年以来的震荡市中才表现出来的；在ZZ500 中完全无效。"
+        },
+        {
+          "name": "毛利率（当期）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期营业收入}-\\text{当期营业成本}}{\\text{当期营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "具体来看，毛利率（当期）只在HS300股票池中、震荡市场环境下有一定的效果，但也不明显，其余情况下均无效。"
+        },
+        {
+          "name": "毛利率（TTM）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度归属母公司毛利润}}{\\text{最近4个季度营业收入}}",
+          "stats": [null, -0.02, null, null],
+          "evidence": "具体来看，毛利率（TTM）只在HS300 股票池中、震荡市场环境下有一定的有效性，但并不显著，其余情况下均无效。规律与毛利率（当期）一致。"
+        },
+        {
+          "name": "净利率（当期）",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期净利润}}{\\text{当期营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "在各个股票池中，当期净利率有效性均不明显。"
+        },
+        {
+          "name": "净利率（TTM）",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近4个季度归属母公司净利润}}{\\text{最近4个季度营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "与当期净利率一样，在各个股票池中，净利率（TTM）有效性不明显。"
+        },
+        {
+          "name": "股本乘数",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期总资产}}{\\text{当期净资产}}",
+          "stats": [null, 0.13, null, null],
+          "evidence": "具体来看：从市值特征看，股本乘数在 HS300 中明显有效，而在 ZZ500有效性不明显；从行业属性看，股本乘数在周期与非周期中的表现没有明显差异；从市场环境看，股本乘数在牛市中最有效，而在熊市和震荡市中效果不明显。"
+        },
+        {
+          "name": "有息负债率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期短期借款}+\\text{一年内到期借款}+\\text{长期借款}}{\\text{当期净资产}}",
+          "stats": [null, 0.02, null, null],
+          "evidence": "从市场环境看，有息负债率在 HS300中的震荡市阶段明显负向有效（即有息负债率越高，收益越低），而在ZZ500 中各个市场阶段均是正向有效。"
+        },
+        {
+          "name": "单位净利润现金流含量",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期经营性现金流量}}{\\text{当期净利润}}",
+          "stats": [null, null, null, null],
+          "evidence": "总体来看，无论是在 HS300 和 ZZ500 中，单位净利润现金流含量都没有明显的有效性。"
+        },
+        {
+          "name": "税息折旧及摊销前利润率",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期税息折旧及摊销前利润}}{\\text{当期营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "无论是从总体收益表现来看，还是从具体的有效性分析表来看，税息折旧及摊销前利润率都没有明显的有效性。"
+        },
+        {
+          "name": "1 个月收益率",
+          "family": "momentum",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当前收盘价}}{\\text{1个月前收盘价}}-1",
+          "stats": [null, 0.03, null, null],
+          "evidence": "具体来看，1 个月收益率的有效性在周期与非周期股中没有明显差异，在熊市中有明显的负向有效性（即反转效应），在 HS300 的牛市中有正向有效性（即动量效应）。"
+        },
+        {
+          "name": "3个月收益率",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当前收盘价}}{\\text{3个月前收盘价}}-1",
+          "stats": [null, 0.01, null, null],
+          "evidence": "总体来看，HS300 中，各档组合的收益表现没有明显规律，ZZ500中五档累计收益的排序为5、4、3、2、1档，因子表现出了显著的负向有效性。"
+        },
+        {
+          "name": "6个月收益率",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当前收盘价}}{\\text{6个月前收盘价}}-1",
+          "stats": [null, 0.02, null, null],
+          "evidence": "具体来看，与 3 个月收益率相似，6 个月收益率在牛市和熊市表现为反转效应，而在震荡市表现为动量效应。"
+        },
+        {
+          "name": "1 个月换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月平均换手率}",
+          "stats": [null, -0.06, null, null],
+          "evidence": "具体来看，1 个月换手率在 HS300 中有效性不高，只是在熊市中有比较明显的负向有效性；而在 ZZ500 中，各个市场阶段下都非常有效；另外，非周期股中的有效性相对更高。"
+        },
+        {
+          "name": "3个月换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月平均换手率}",
+          "stats": [null, -0.04, null, null],
+          "evidence": "具体从有效性分析表来看，3个月换手率在ZZ500中（尤其是非周期股中）反转效应非常明显，其他股票池中则不显著。"
+        },
+        {
+          "name": "6个月换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月平均换手率}",
+          "stats": [null, -0.03, null, null],
+          "evidence": "6 个月换手率的有效性规律与 3 个月换手率比较一致，只是有效性有所减弱。"
+        },
+        {
+          "name": "机构覆盖数",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{覆盖该只股票的卖方机构总数}",
+          "stats": [null, 0.03, null, null],
+          "evidence": "具体来看，机构覆盖数的有效性并不高，在HS300（主要是非周期股中）的震荡市中有一定的正向有效性，而在有些股票池中表现出了负向有效性。"
+        },
+        {
+          "name": "评级调整",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月分析师评级上调次数减下调次数}",
+          "stats": [null, 0.17, null, null],
+          "evidence": "具体来看，评级调整在HS300 中更有效，在非周期股中有效性高于周期股，在HS300中牛市和震荡市中更有效，而在ZZ500 中熊市比较有效。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "robustness", "decay_monitor"],
+      "setup": {"universe": ["csi300", "csi500"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "HS300中首选有效因子有权益乘数、评级调整，备选因子有ROE（TTM）、ROA（TTM）、有息负债率；ZZ500中首选有效因子有有息负债率、1个月换手率、3个月换手率。",
+      "evidence": "（1）HS300中，首选有效因子有：权益乘数、评级调整；备选因子有：ROE（TTM），ROA（TTM），有息负债率。ZZ500中，首选有效因子有：有息负债率，1 个月换手率，3 个月换手率；备选因子有：权益乘数， 1个月收益率（反转），6个月收益率（反转）。"
+    },
+    {
+      "text": "财务质量类因子的整体有效性不高，毛利率（当期、TTM）、净利率（当期、TTM）等指标在各股票池中的有效性都不明显。",
+      "evidence": "相对于财务成长类的因子，财务质量类因子的有效性不高。毛利率（当期、TTM）、净利率（当期、TTM）等指标在各个股票池中的有效性都不明显。"
+    },
+    {
+      "text": "ROE（TTM）和ROA（TTM）只在HS300震荡市阶段明显有效，权益乘数在牛市中特别有效，有息负债率在HS300牛市正向有效、震荡市负向有效，在ZZ500主要正向有效。",
+      "evidence": "ROE（TTM）和 ROA（TTM）只在 HS300 股票池中的震荡市阶段明显有效。权益乘数在牛市中特别有效。有息负债率在 HS300 的牛市中正向有效，在震荡市中负向有效，而在 ZZ500 中主要表现为正向有效。"
+    },
+    {
+      "text": "换手率主要表现为负向有效性，换手率较高的组合收益表现较差；换手率在ZZ500中的有效性明显高于HS300，非周期股明显高于周期股。",
+      "evidence": "换手率（无论 1 个月、3 个月还是 6 个月）主要表现出来的都是负向有效性，即换手率较高的组合收益表现较差。换手率在ZZ500 中的有效性明显高于 HS300，非周期股中的有效性明显高于周期股。"
+    },
+    {
+      "text": "评级调整的有效性比较明显，HS300中有效性明显高于ZZ500，非周期明显高于周期。",
+      "evidence": "评级调整的有效性比较明显，而且HS300 中有效性明显高于ZZ500，非周期明显高于周期。"
+    },
+    {
+      "text": "财务类因子有效性存在明显的衰减现象，离财报公布最近的月份里因子有效性最高，可按时滞长短动态调整财务类因子权重。",
+      "evidence": "通过比较离最新财报公布时间不同时滞的月份里因子有效性的差异，我们发现财务类（包括财务成长类和财务质量类）因子的有效性存在明显的衰减现象，即离财报公布最近的月份里因子有效性最高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《多因子选股模型之因子分析与筛选Ⅰ：估值与财务成长类指标》2011.09.26"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

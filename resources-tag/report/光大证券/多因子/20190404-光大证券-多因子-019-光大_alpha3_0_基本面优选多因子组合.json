@@ -1,0 +1,172 @@
+{
+  "schema_version": 2,
+  "id": "20190404-光大证券-多因子-019-光大_alpha3_0_基本面优选多因子组合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "accounting_quality",
+        "expectation_level",
+        "expectation_revision"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "EEP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{EEP}=\\text{一致预期每股收益}/\\text{每股股价}",
+          "stats": [0.0505, null, 0.68, null],
+          "evidence": "| EEP | 一致预期 EP | 2.25 | 3.70% | 5.05% | 0.68 |"
+        },
+        {
+          "name": "EBP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{EBP}=\\text{一致预期每股净资产}/\\text{每股股价}",
+          "stats": [0.0427, null, 0.43, null],
+          "evidence": "| EBP | 一致预期 BP | 2.97 | 3.30% | 4.27% | 0.43 |"
+        },
+        {
+          "name": "EBQC",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{EBQC}=\\text{纯财报数据构建的综合质量因子}",
+          "stats": [0.0344, null, 0.66, null],
+          "evidence": "| EBQC | 综合质量因子 | 1.70 | 6.40% | 3.44% | 0.66 |"
+        },
+        {
+          "name": "EEChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{EEChange\\_3M}=\\text{近3个月一致预期净利润调整幅度}",
+          "stats": [0.0276, null, 0.55, null],
+          "evidence": "| EEChange_3M | 预期净利润调整 | 1.27 | 15.40% | 2.76% | 0.55 |"
+        },
+        {
+          "name": "Ln_MC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{市值})",
+          "stats": [-0.0332, null, -0.5, null],
+          "evidence": "由结果可见，优选股票池内一致预期类估值因子（EEP、EBP、Targetreturn）表现出色，可见分析师在我们的优选股票池内的覆盖情况和跟踪情况较好。同时，低换手、低波动因子和表现出较强的选股能力，而小市值因子（Ln_MC）的收益能力有所下降。"
+        },
+        {
+          "name": "TURNOVER_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{TURNOVER\\_1M}=\\text{近1个月换手率}",
+          "stats": [-0.0796, null, -0.9, null],
+          "evidence": "TURNOVER_1M 1 个月换手 3.82 -8.40% -7.96% -0.90"
+        },
+        {
+          "name": "Momentum_1M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{Momentum\\_1M}=\\text{近1个月收益率}",
+          "stats": [-0.0653, null, -0.71, null],
+          "evidence": "| Momentum_1M | 1个月动量 | 3.46 | -15.70% | -6.53% | -0.71 |"
+        },
+        {
+          "name": "STD_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{STD\\_1M}=\\text{近1个月收益率波动}",
+          "stats": [-0.0567, null, -0.51, null],
+          "evidence": "| STD_1M | 1个月波动 | 3.73 | -1.50% | -5.67% | -0.51 |"
+        },
+        {
+          "name": "VSTD_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{VSTD\\_1M}=\\text{近1个月成交量标准差}",
+          "stats": [-0.0564, null, -0.78, null],
+          "evidence": "| VSTD_1M | 流动性 | 2.44 | -24.30% | -5.64% | -0.78 |"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["regime_domain"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "2011年至2019年3月，Alpha3.0组合年化超额收益14.63%，信息比2.45，2017和2018年表现显著改善，显著优于全市场选股的Alpha1.0组合。",
+      "evidence": "2011 年 1 月 1 日至 2019 年 3 月 29 日，Alpha3.0 组合年化超额收益为 14.63%，信息比 2.45，组合在 2017 和 2018 年的表现显著得到改善，显著优于全市场选股的 Alpha1.0 组合。"
+    },
+    {
+      "text": "500增强组合年化超额20.42%，信息比3.34，最大相对回撤7.61%。",
+      "evidence": "500增强组合年化超额20.42%，信息比3.34，最大相对回撤7.61%；"
+    },
+    {
+      "text": "300增强组合年化超额6.98%，信息比1.75，最大相对回撤3.17%，稳定性较好。",
+      "evidence": "300增强组合年化超额6.98%，信息比为1.75，最大相对回撤3.17%；"
+    },
+    {
+      "text": "行业基本面股票池的表现整体略微优于EBQC（综合质量因子）股票池的选股表现，收益走势相关度较高，行业基本面的选股池整体信息比更高，回撤更小。",
+      "evidence": "行业基本面股票池的表现整体略微优于 EBQC（综合质量因子）股票池的选股表现。两种方法给出的股票池收益走势相关度较高，行业基本面的选股池整体信息比更高，回撤更小。"
+    },
+    {
+      "text": "根据行业基本面逻辑优选后的策略可以提高组合稳定性，一定程度上避免选到劣质公司从而影响组合表现，在风格偏向蓝筹的17、18年有效提高收益。",
+      "evidence": "根据行业的基本面逻辑优选后的策略，的确可以起到提高组合稳定性，一定程度上避免选到劣质公司从而影响组合表现的作用。"
+    },
+    {
+      "text": "经过基本面筛选后的组合具有更好的稳定性和抗跌能力，Alpha3.0组合2017和2018年收益-1.72%和18.16%，优于Alpha1.0组合的-11.12%和7.13%。",
+      "evidence": "经过基本面筛选后的组合具有更好的稳定性，和抗跌能力。Alpha3.0 组合在 2017 和 2018 年的收益分别为-1.72%和 18.16%，优于 Alpha1.0 组合的-11.12%和 7.13%"
+    },
+    {
+      "text": "行业内基本面指标的筛选存在样本内过拟合的问题，且过拟的程度较难以估计，基本面指标存在未来失效的可能性。",
+      "evidence": "行业内基本面指标的筛选存在样本内过拟合的问题，且过拟的程度较难以估计；"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《以质取胜：EBQC 综合质量因子详解——多因子系列报告之十七》",
+    "《因子正交与择时：基于分类模型的动态权重配置——多因子系列报告之十》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

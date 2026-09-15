@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "id": "20200901-东方证券-因子选股-069-机器增强一致预期",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "expectation_revision"],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "delta_cons_roa",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{t期一致预期净利润} - \\text{(t-1)期一致预期净利润}}{\\text{t期总资产}}",
+          "stats": [0.029, null, null, null],
+          "evidence": "t期一致预期变化 = (t期一致预期净利润 - (t - 1)期一致预期净利润) ÷ t期总资产"
+        },
+        {
+          "name": "一致预期 EP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期净利润}}{\\text{总市值}}",
+          "stats": [0.038, null, 0.75, null],
+          "evidence": "第二个测试的因子是一致预期 EP。用 zyyx 数据算的 EP 因子 $IC=0.034,IC_{IR}=0.71$ 用 GBRT_adj 算的 EP 因子 $IC=0.038,IC_{IR}=0.75$ ，两者表现基本一致。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "sample_window", "fusion"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "除2011和2015年外，其它年份GBRT样本外预测MAE都小于LASSO，MAE差距都在1%置信度下显著，非线性的引入可以显著提升模型预测效果。",
+      "evidence": "从上图可以看到除2011和2015年外，其它年份GBRT样本外预测MAE都小于LASSO，MAE差距都在1%置信度下显著，非线性的引入可以显著的提升模型预测效果。"
+    },
+    {
+      "text": "经过乐观偏差修正的GBRT方法一致预期预测精度显著高于zyyx，而未做乐观偏差修正的dfjg方法和zyyx相差不大。",
+      "evidence": "我们之前开发的基于预测精度加权的dfjg方法未做乐观偏差修正，预测精度整体上和zyyx相差不大；经过乐观偏差修正的GBRT方法预测精度显著更高。"
+    },
+    {
+      "text": "把一致预期数据从 zyyx替换为 GBRT 后，一致预期变化因子IC 从0.02提升到 0.029；用zyyx一致预期数据算的因子从2018 年开始失效，但用GBRT数据算的因子2018年之后依然表现强劲。",
+      "evidence": "可以看到，把一致预期数据从 zyyx替换为 GBRT 后，因子IC 从0.02提升到 0.029；特别值得注意的是，用zyyx一致预期数据算的因子从2018 年开始失效，但用GBRT数据算的因子2018年之后依然表现强劲。"
+    },
+    {
+      "text": "一致预期EP因子用zyyx数据算IC=0.034、ICIR=0.71，用GBRT_adj数据算IC=0.038、ICIR=0.75，两者表现基本一致。",
+      "evidence": "用 zyyx 数据算的 EP 因子 $IC=0.034,IC_{IR}=0.71$ 用 GBRT_adj 算的 EP 因子 $IC=0.038,IC_{IR}=0.75$ ，两者表现基本一致。"
+    },
+    {
+      "text": "对分析师乐观偏差影响最大的三个因素分别是：股票当前的盈利、报告评级和其他分析师之前的盈利预测。",
+      "evidence": "对分析师乐观偏差影响最大的三个因素分别是：股票当前的盈利(roa)、报告评级(rpt_rating_7等）和其他分析师之前的盈利预测（forecast_q80等）。"
+    },
+    {
+      "text": "模型只能解释乐观偏差的很小一部分，基于预测的乐观偏差去修正盈利预测并不能完全消除乐观偏差，修正后的GBRT一致预期仍明显高估但高估程度显著低于zyyx一致预期。",
+      "evidence": "由于模型只能解释乐观偏差的很小一部分，预测值的方差小于真实值的方差，因此基于预测的乐观偏差去修正盈利预测并不能完全消除乐观偏差。如图11所示，修正过乐观偏差的GBRT一致预期预测仍然有明显的高估，但高估程度显著低于zyyx一致预期。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["分析师研报的数据特征与alpha", "因子加权过程中的大类权重控制"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20241012-华泰证券-人工智能-084-sam_提升ai量化模型的泛化性能",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "预测因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{两个GRU模型分别从日K线和周K线中提取特征得到预测值，作为单因子，再将两个单因子等权合成得到最终的预测信号}",
+          "stats": [null, 0.1359, 1.31, null],
+          "evidence": "分别使用两个GRU模型从日K线和周K线中提取特征得到预测值，作为单因子，再将两个单因子等权合成得到最终的预测信号。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "SAM模型在验证集上IC、IR指标下降幅度较缓，训练集上损失函数地形更加平坦，测试集上损失函数值整体更低，有效抑制过拟合、提升泛化性能",
+      "evidence": "从评价指标的变化趋势分析，SAM模型在验证集上IC、IR指标下降幅度较缓，训练过程中评价指标最大值均高于基线模型；从损失函数地形分析，SAM模型在训练集上损失函数地形相较基线模型更加平坦，测试集上损失函数值整体更低。"
+    },
+    {
+      "text": "5组SAM模型TOP组收益率均高于基线模型，GAM、GSAM、FSAM提升明显，FSAM表现最佳，SAM优化器能改善预测因子多头端预测准确性",
+      "evidence": "5组SAM模型TOP组收益率均高于基线模型，其中GAM、GSAM、FSAM组提升较为明显，FSAM模型表现最佳。证明应用SAM优化器能有效改善预测因子多头端预测准确性，提升多头组表现；"
+    },
+    {
+      "text": "回测全区间内综合表现最佳模型为GSAM模型，沪深300、中证500和中证1000增强组合年化超额收益分别为10.9%、15.1%和23.1%，信息比率分别为1.87、2.26和3.12，显著优于基线模型",
+      "evidence": "2016-12-30至2024-09-30内，综合表现最佳模型为GSAM模型，单因子回测TOP层年化收益高于31%，沪深300、中证500和中证1000增强组合年化超额收益分别为10.9%、15.1%和23.1%，信息比率分别为1.87、2.26和3.12，显著优于基线模型。"
+    },
+    {
+      "text": "ASAM模型2024年表现突出，三组指增业绩均排名第一，超额收益领先基线模型约5%",
+      "evidence": "其中ASAM模型在2024年表现突出，三组指增业绩均排名第一，且超额收益领先基线模型约5%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Foret, P., Kleiner, A., Mobahi, H., Neyshabur, B., 2021. Sharpness-Aware Minimization for Efficiently Improving Generalization.",
+    "《神经网络多频率因子挖掘模型》（2023-05-11）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

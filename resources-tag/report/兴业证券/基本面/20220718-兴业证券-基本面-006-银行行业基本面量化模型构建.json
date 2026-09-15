@@ -1,0 +1,163 @@
+{
+  "schema_version": 2,
+  "id": "20220718-兴业证券-基本面-006-银行行业基本面量化模型构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE_Fwd12M",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一致预期净利润未来12个月预测值}}{\\text{股东权益合计最新财报}}",
+          "stats": [0.0574, null, 0.19, null],
+          "evidence": "在银行盈利维度，我们选择ROEFwd12M、净息差、成本收入比例三个指标进行捕捉，其中ROEFwd12M为盈利综合指标，净息差度量了银行行业的“价”、成本收入比例度量了银行的成本结构。"
+        },
+        {
+          "name": "净息差",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{银行全部利息收入}-\\text{银行全部利息支出}}{\\text{全部生息资产}}",
+          "stats": [0.0077, null, 0.03, null],
+          "evidence": "净息差度量了银行行业的“价”、成本收入比例度量了银行的成本结构。"
+        },
+        {
+          "name": "成本收入比例",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{银行营业费用}}{\\text{营业收入}}",
+          "stats": [0.0173, null, 0.07, null],
+          "evidence": "净息差度量了银行行业的“价”、成本收入比例度量了银行的成本结构。"
+        },
+        {
+          "name": "拨备覆盖率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{银行贷款可能发生的呆、坏账准备金的使用比率}",
+          "stats": [0.0555, null, 0.21, null],
+          "evidence": "拨备覆盖率是实际上银行贷款可能发生的呆、坏账准备金的使用比率，为衡量商业银行贷款损失准备金计提是否充足的一个重要指标。"
+        },
+        {
+          "name": "不良贷款率",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{金融机构不良贷款}}{\\text{总贷款余额}}",
+          "stats": [0.0475, null, 0.17, null],
+          "evidence": "金融机构不良贷款率是评价金融机构信贷资产安全状况的重要指标之一。不良贷款率高，可能无法收回的贷款占总贷款的比例越大；不良贷款率低，说明金融机构不能收回贷款占总贷款的比例越小。"
+        },
+        {
+          "name": "存款总额",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{银行存款总额}",
+          "stats": [0.041, null, 0.13, null],
+          "evidence": "我们采用存款总额、贷款总额作为资产规模的核心指标。"
+        },
+        {
+          "name": "贷款总额",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{银行贷款总额}",
+          "stats": [0.0382, null, 0.12, null],
+          "evidence": "我们采用存款总额、贷款总额作为资产规模的核心指标。"
+        },
+        {
+          "name": "拨备覆盖率环比",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{拨备覆盖率的单季环比变化}",
+          "stats": [0.0644, null, 0.26, null],
+          "evidence": "下面计算核心指标边际变化要素的选股能力，即从银行股的成长能力对未来股价表现的作用。"
+        },
+        {
+          "name": "EP_Fwd12M",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{每股收益未来12个月预测值}}{\\text{收盘价}}",
+          "stats": [0.1157, null, 0.36, null],
+          "evidence": "我们选取EP、BP等常用指标来度量银行股的估值水平，并测试估值指标对银行股股价的影响。"
+        },
+        {
+          "name": "Bank_factor",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE_Fwd12M、拨备覆盖率、存款总额、拨备覆盖率环比、EP_Fwd12M各细分维度核心因子合成}",
+          "stats": [0.1162, null, 0.35, null],
+          "evidence": "通过上述测试，我们在每个重要维度上选取核心指标进行选股，并将细分因子合成为最终的银行选股因子，Bank_factor。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["sector"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["macro_valuation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "历史上市场处于紧货币紧信用时期，银行区间收益为负的概率为100%；据此构建的动态配置多头策略年化收益15.72%，最大回撤从71.16%降低至29.50%，有明显好转。",
+      "evidence": "因此，我们考虑以下方式来动态配置银行行业：1）紧货币紧信用下看空银行行业；2）其他市场状态下配置银行行业。可以看出策略表现较为优秀。以多头配置策略为例，中信银行指数年化收益为6.03%，策略年化收益达15.72%，且最大回撤从71.16%降低至29.50%，有明显好转。"
+    },
+    {
+      "text": "宏观视角下的银行配置策略：多头策略2006.12-2022.5月年化收益率达15.29%，较中信银行行业的6.03%明显提升，同时最大回撤下降明显。",
+      "evidence": "1）宏观视角下的银行配置策略：多头策略2006.12-2022.5月年化收益率达15.29%，较中信银行行业的6.03%明显提升，同时最大回撤下降明显；"
+    },
+    {
+      "text": "静态选股策略：基于银行行业有效选股因子合成综合选股因子，运用合成因子构建定比策略年化收益率为13.39%，较中信银行行业亦有明显提升。",
+      "evidence": "2）静态选股策略：基于银行行业有效选股因子合成综合选股因子，运用合成因子构建定比策略年化收益率为13.39%，较中信银行行业亦有明显提升；"
+    },
+    {
+      "text": "叠加景气度择时的选股策略：以定比策略为例，叠加景气度择时后年化收益率达22.75%，表现优异。",
+      "evidence": "3）叠加景气度择时的选股策略：我们在静态选股策略的基础上叠加景气度择时。以定比策略为例，叠加景气度择时后年化收益率达22.75%，表现优异。"
+    },
+    {
+      "text": "从IC表现来看，ROE_Fwd12M指标总体表现最为优秀，IC均值达5.74%，ICIR为0.19。",
+      "evidence": "首先，从IC表现来看，ROE_Fwd12M指标总体表现最为优秀，IC均值达5.74%，ICIR为0.19。"
+    },
+    {
+      "text": "拨备覆盖率的IC均值为5.55%，IC_IR为0.21，不良贷款率的IC均值为4.75%，IC_IR为0.17。",
+      "evidence": "同时两个因子 IC 均值均较高，其中拨备覆盖率的 IC 均值为 5.55%，IC_IR 为0.21，不良贷款率的 IC 均值为 4.75%，IC_IR 为 0.17。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于宏观趋势状态下的ROE因子动态配置》",
+    "《基本面量化系列之五：家电行业基本面量化模型构建》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

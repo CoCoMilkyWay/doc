@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "id": "20241203-华泰期货-高频收益预测-004-高频因子在股指期货上的低频化应用",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "technical_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "intraday", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "order_flow_imb",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{基于挂单变化的订单流失衡因子，降频时计算该因子在相应时间段中的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "从因子层面上来看，不同品种上因子的有效程度差异较大，但有个别因子如order_flow_imb在IM、IC、IF上效果都排名靠前；从降频方式上来看，不同因子可能适用不同的降频方式；从高频因子低频化的效果上来看，IM、IF的整体效果较好，在30min的交易频率上，通过优选因子构建的合成因子夏普可达到3以上。"
+        },
+        {
+          "name": "trendratio",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{盘口处价格相关的趋势比率因子，降频时计算该因子在相应时间段中的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "从3个因子排名前5以及排名后5的阈值效果来看，阈值的设置存在一定的参数敏感性，其中 trendratio的参数敏感性较强，当开仓阈值逐渐向两端靠近时，夏普从2.5 以上逐渐下降至1 以下。"
+        },
+        {
+          "name": "deriv_ap_1",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{盘口处卖价相关的衍生因子，降频时计算该因子在相应时间段中的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "不同频率下表现最优的因子有所差异，有些因子如：基于挂单变化的因子order_flow_imb，盘口处价格相关的因子driv_ap_1、trendratio 在不同频率上都有不错的表现。"
+        },
+        {
+          "name": "deriv_av_1",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{盘口处卖量相关的衍生因子，降频时计算该因子在相应时间段中的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "结合总收益以及单笔收益统计来看，日内的3个频率中，30min下的因子表现较优。排名前5的因子单次交易可以承受6倍以上的最小跳价。日频策略中，只有deriv_av_1 的表现较好。"
+        },
+        {
+          "name": "quoted_spread",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{盘口买卖价差因子，降频时计算该因子在相应时间段中的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "经过观察发现，股指期货的盘口买卖价差大于商品，挂单量显著少于商品。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["sentiment_flow"], "setup": {"rebalance": "intraday"}}
+  },
+  "findings": [
+    {
+      "text": "由于股指期货交易数据的特征与商品期货不同，导致高频多因子模型在股指期货收益的预测效果不及商品期货。",
+      "evidence": "经过观察发现，股指期货的盘口买卖价差大于商品，挂单量显著少于商品。与商品窄且厚的盘口相比，股指期货盘口展示出了宽且薄的特征。盘口薄可能导致因子值变动过于频繁，使得因子有效性减弱，股指期货的日内手续费加收也会导致超高频策略失效。"
+    },
+    {
+      "text": "大部分高频因子降至日频后效果不佳，综合最大回撤、夏普比率、交易成本等来看，30min在回测的4个频率中表现较好。",
+      "evidence": "总体来看，大部分高频因子降至日频后效果不佳，综合最大回撤、夏普比率、交易成本等来看，30min在回测的4个频率中表现较好。"
+    },
+    {
+      "text": "结合总收益以及单笔收益统计来看，日内的3个频率中，30min下的因子表现较优，排名前5的因子单次交易可以承受6倍以上的最小跳价，日频策略中只有deriv_av_1的表现较好。",
+      "evidence": "结合总收益以及单笔收益统计来看，日内的3个频率中，30min下的因子表现较优。排名前5的因子单次交易可以承受6倍以上的最小跳价。日频策略中，只有deriv_av_1 的表现较好。"
+    },
+    {
+      "text": "阈值的设置存在一定的参数敏感性，其中trendratio的参数敏感性较强，3个因子对下阈值y的敏感性都略强于x。",
+      "evidence": "从3个因子排名前5以及排名后5的阈值效果来看，阈值的设置存在一定的参数敏感性，其中 trendratio的参数敏感性较强，当开仓阈值逐渐向两端靠近时，夏普从2.5 以上逐渐下降至1 以下。3 个因子对下阈值y的敏感性都略强于x，当y向最小值靠近时，因子效果下降较明显。"
+    },
+    {
+      "text": "合成信号通过增加开仓条件降低了交易频率从而降低交易成本，方案二的合成方式提升了策略的整体收益，但最大回撤较单因子有所上升。",
+      "evidence": "合成信号通过增加开仓条件降低了交易频率从而降低交易成本。方案二的合成方式提升了策略的整体收益，但最大回撤较单因子有所上升。"
+    },
+    {
+      "text": "和平均值有关的降频方式相比起其他方式在IM上更加有效，合成信号因子分别在年化收益、最大回撤、夏普比率上较单因子有所改善。",
+      "evidence": "经过测试，和平均值有关的降频方式相比起其他方式在IM上更加有效，合成信号因子分别在年化收益、最大回撤、夏普比率上较单因子有所改善。"
+    },
+    {
+      "text": "个别因子如order_flow_imb在IM、IC、IF上效果都排名靠前；IM、IF的整体效果较好，在30min的交易频率上，通过优选因子构建的合成因子夏普可达到3以上。",
+      "evidence": "从因子层面上来看，不同品种上因子的有效程度差异较大，但有个别因子如order_flow_imb在IM、IC、IF上效果都排名靠前；从降频方式上来看，不同因子可能适用不同的降频方式；从高频因子低频化的效果上来看，IM、IF的整体效果较好，在30min的交易频率上，通过优选因子构建的合成因子夏普可达到3以上。"
+    },
+    {
+      "text": "股指高频因子低频化后，能够覆盖成交滑点与手续费，特别是在今年股指波动加大的市场环境下，相关低频化策略表现优秀。",
+      "evidence": "总体来说，股指高频因子低频化后，能够覆盖成交滑点与手续费，特别是在今年股指波动加大的市场环境下，相关低频化策略表现优秀。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《高频收益如何及何时可预测》系列报告"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

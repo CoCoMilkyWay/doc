@@ -1,0 +1,146 @@
+{
+  "schema_version": 2,
+  "id": "20180901-东方证券-因子选股-043-盈利预测与市价隐含预期收益",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "expectation_level"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "ROE_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{TTM 净利润 / 净资产}",
+          "stats": [0.003, null, 0.08, null],
+          "evidence": "例如，投资者如果用 TTM 的 ROE 在全市场选股，该因子的选股效果如图 1 所示，ROE 高（低）的股票并未获得对应的正（负）超额收益，股票未来收益跟ROE 的相关性不强。"
+        },
+        {
+          "name": "ROE_12M_shift",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{12 个月后上市公司的 } ROE\\_TTM",
+          "stats": [0.056, null, 1.43, null],
+          "evidence": "我们假设投资者能准确知道 12个月后上市公司的 ROE_TTM，并基于此来做选股，这个包含未来信息的 ROE因子选股效果如图 2所示，因子 IC有 0.06，IC_IR达到 1.43，因子分组超额收益十分单调，多空组合表现稳健。"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "EP = \\frac{eps_{TTM}}{P_0}",
+          "stats": [0.013, null, 0.35, null],
+          "evidence": "三个指标的分母都是总市值，分子分别是 TTM的净利润、一致预期净利润和通过调整过预测偏度后的一致预期净利润。"
+        },
+        {
+          "name": "EP_FY1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "EP_{FY1} = \\frac{eps_{FY1}}{P_0}",
+          "stats": [0.044, null, 1.07, null],
+          "evidence": "一致预期数据虽然预测精度上没有 TTM 方法高，但是用它计算得到的 EP_FY1 的选股能力很强，因子 IC_IR 超过 1。"
+        },
+        {
+          "name": "EP_FY1_adj",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "EP_{FY1,adj} = \\frac{\\text{回归调整预测偏差后的一致预期净利润}}{P_0}",
+          "stats": [0.022, null, 0.52, null],
+          "evidence": "用回归模型调整了分析师预测偏差后，虽然一致预测数据的预测精度会变得更准，但是EP_FY1_ajd 指标的因子选股效果显著变弱，可能的原因是模型调整偏差的过程中可能打乱了一致预期数据的相对排序。"
+        },
+        {
+          "name": "残差因子",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{横截面上 EP_FY1 对 EP 回归的残差项}",
+          "stats": [0.036, null, 1.19, null],
+          "evidence": "如果在横截面上拿 EP_FY1 对 EP指标做回归，取残差项做选股因子，残差因子的 IC 仍有 0.036, IC_IR提高到 1.19，进一步说明一致预期相对历史数据而言提供了信息增量。"
+        },
+        {
+          "name": "ICC",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r = \\sqrt{G/PE},\\quad r^2-\\left(\\frac{d_1}{P_0}\\right)r-\\frac{eps_2-eps_1}{P_0}=0",
+          "stats": [null, null, null, null],
+          "evidence": "我们根据Easton(2004)的证券估值模型反算当前股价隐含的预期收益（ICC），在一定理论假设下，它和实际投资中常用的 PE和 PEG 指标等价，选股能力优秀，衍生的 PEG_his 和 Delta_ICC 指标也有不错的选股效果。"
+        },
+        {
+          "name": "PEG_his",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "PEG_{his} = \\frac{eps_2 - eps_1}{P_0}",
+          "stats": [null, null, null, null],
+          "evidence": "此时eps2是有可能小于eps1的，原理上和上述模型有出入，从效果看是一个刚够格的 alpha 因子（图 13），09 年之前的表现略差。"
+        },
+        {
+          "name": "Delta_ICC",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ICC 前后两个月的变化值}",
+          "stats": [null, null, null, null],
+          "evidence": "ICC 前后两个月的变化值 Delta_ICC 也可以为一个 alpha 因子（图 14），表现也十分稳健，隐含预期收益走高的股票未来收益也更高。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["macro_valuation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "历史 ROE 选股无效的原因主要在于其对公司未来盈利的预测作用太弱，把分子换成一年后的未来盈利后选股能力显著提高，准确的盈利预测可以带来超额收益。",
+      "evidence": "但如果 ROE 的分子换成一年后的未来盈利，ROE的选股能力将显著提高，说明历史 ROE 选股无效的原因主要在于其对公司未来盈利的预测作用太弱，准确的盈利预测可以为投资者带来超额收益。"
+    },
+    {
+      "text": "分析师的一致预期净利润一直处于高估状态，4 月底时平均高估 75%左右，随着年报发布期的临近，高估程度降低，到第二年二月底仍然高估了 30%，预测精度上时间序列法、横截面法优于一致预期。",
+      "evidence": "可以看到分析师的一致预期净利润一直处于高估状态，4 月底时平均高估 75%左右，随着年报发布期的临近，高估程度降低，但到第二年二月底，仍然高估了 30%."
+    },
+    {
+      "text": "一致预期的价值不在静态绝对值而在横截面相对差异：EP_FY1 选股能力很强，IC_IR 超过 1，其相对 EP 的残差因子 ICIR 提高到 1.19，说明一致预期提供了信息增量。",
+      "evidence": "如果在横截面上拿 EP_FY1 对 EP指标做回归，取残差项做选股因子，残差因子的 IC 仍有 0.036, IC_IR提高到 1.19，进一步说明一致预期相对历史数据而言提供了信息增量。"
+    },
+    {
+      "text": "基于 Easton(2004) 模型反算的股价隐含预期收益（ICC）与 PE、PEG 指标在理论假设下等价，选股能力优秀，衍生的 PEG_his 和 Delta_ICC 也有不错的选股效果。",
+      "evidence": "我们根据Easton(2004)的证券估值模型反算当前股价隐含的预期收益（ICC），在一定理论假设下，它和实际投资中常用的 PE和 PEG 指标等价，选股能力优秀，衍生的 PEG_his 和 Delta_ICC 指标也有不错的选股效果。"
+    },
+    {
+      "text": "ICC 无法用于短期择时：只对中证 500 指数未来 12 个月收益率有显著预测作用，EP_FY1 最为显著，p 值小于 0.05，更短期预测基本不显著。",
+      "evidence": "如果按臵信度 5%作为统计检验标准，事件隐含预期收益只对中证 500指数未来 12个月的收益率有显著预测作用，其中 EP_FY1 指标最为显著，p 值小于 0.05。市价隐含预期收益指标无法用于市场的短期择时。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Easton (2004), PE Ratios, PEG Ratios, and Estimating the Implied Expected Rate of Return on Equity Capital",
+    "Hou, van Dijk, Zhang (2012), The implied cost of capital",
+    "Penman (2012) 证券估值教科书",
+    "上篇报告《分析师研报的数据特征与 alpha》",
+    "上篇报告《因子择时》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

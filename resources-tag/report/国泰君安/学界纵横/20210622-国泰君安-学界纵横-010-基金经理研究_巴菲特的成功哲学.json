@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20210622-国泰君安-学界纵横-010-基金经理研究_巴菲特的成功哲学",
+  "genre": "review",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L6_evaluation",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L6_evaluation": {
+      "module": ["L6_backtest", "L6_attribution"],
+      "approach": ["evaluation_metric", "factor_based", "return_based"]
+    }
+  },
+  "findings": [
+    {
+      "text": "巴菲特投资上市股票的超额收益和夏普比率都高于非上市公司股权收益，其过人之处主要来自于选股能力，而非经理人能力",
+      "evidence": "通过分拆其收益数据，巴菲特投资上市股票的超额收益和夏普比率都高于非上市公司股权收益，这表明巴菲特的过人之处主要来自于他的选股能力，而非作为类公司管理者的“经理人能力”。"
+    },
+    {
+      "text": "巴菲特购买安全（低贝塔值和低波动性）、便宜（市净率低的价值股票）和高质量（盈利、稳定、成长性高的股息率股票）的股票，并长期坚持该策略，同时利用杠杆提高回报",
+      "evidence": "巴菲特的投资组合的几个基本特征:他购买安全(低贝塔值和低波动性)、便宜(即市净率低的价值股票)和高质量(盈利、稳定、成长性高的股息率股票)的股票，并长期坚持该策略，同时利用杠杆提高了自己的回报。"
+    },
+    {
+      "text": "伯克希尔从1976-2017年的杠杆率为1.7，负债中平均约35%由保险浮存金构成，杠杆成本非常低",
+      "evidence": "通过计算，伯克希尔哈撒韦从1976-2017年的杠杆率为 1.7，且公司的杠杆成本非常低，源于其拥有的保险浮存金，伯克希尔的负债中平均约35%由保险浮存金构成。"
+    },
+    {
+      "text": "伯克希尔对BAB和QMJ因子的风险暴露显著，说明巴菲特喜欢购买低beta（安全）、高质量的股票",
+      "evidence": "从表4可以看出，伯克希尔哈撒韦公司对 BAB和 QMJ因子的风险暴露显著，说明巴菲特喜欢购买低 beta（安全）、高质量的股票。"
+    },
+    {
+      "text": "控制BAB和QMJ后，伯克希尔公开股票投资组合的alpha降到统计上不显著的0.3%，这些因子几乎完全解释了其上市股票组合的表现",
+      "evidence": "在控制这两个因子的情况下，伯克希尔公开股票投资组合的 alpha值降到了统计上不显著的0.3%。也就是说，这些因子几乎完全解释了巴菲特上市股票投资组合的表现。"
+    },
+    {
+      "text": "巴菲特风格策略在A股同样适用：B-Score能很好区分横截面股票收益，市值加权对冲组合经Fama-French三因子调整后年化超额收益达18%",
+      "evidence": "该策略在A股同样适用，胡熠和顾明 (2018) 已经做过相关研究：他们从安全性、便宜性和质量三个维度构建了综合的巴菲特风格选股指标 B-Score 并构建组合，发现 B-score 能够很好地区分横截面股票收益，基于B-score的市值加权对冲组合经过 Fama-French三因子调整后的年化超额收益达到18％。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Buffett's Alpha: Andrea Frazzini, David Kabiller and Lasse Heje Pedersen (2018)",
+    "巴菲特的阿尔法:来自中国股票市场的实证研究[J]. 胡熠,顾明.管理世界. 2018(08)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

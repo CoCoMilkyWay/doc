@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20221129-华宝证券-金融工程专题-001-主动暴露的得与失_从barra框架到私募指增因子分析方法",
+  "genre": "research",
+  "asset": ["fund"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "风格敞口暴露因子",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sum_{u=t-2}^{t}\\sum_{k=1}^{n^{i}}\\left|f_{u,k}^{i}\\right|",
+          "stats": [null, null, null, null],
+          "evidence": "本文首先尝试利用产品的主动暴露绝对值计算敞口暴露因子，具体方法如下："
+        },
+        {
+          "name": "行业敞口暴露因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sum_{u=t-2}^{t}\\sum_{k=1}^{n^{i}}\\left|f_{u,k}^{i}\\right|",
+          "stats": [null, null, null, null],
+          "evidence": "具体业绩统计结果如下，可以发现无论是沪深 300、中证 500 还是中证 1000 的指数增强产品，总体上大的风格敞口暴露和小的行业敞口暴露会导致较差的收益表现。"
+        },
+        {
+          "name": "风格敞口反转因子",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sum_{k=1}^{n^{i}}\\left|f_{t,k}^{i}-f_{t-3,k}^{i}\\right|",
+          "stats": [null, null, null, null],
+          "evidence": "相比敞口暴露的绝对值，暴露的变化意味着动态选择，意味着主动管理的体现。本文将敞口反转 R定义如下："
+        },
+        {
+          "name": "行业敞口反转因子",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sum_{k=1}^{n^{i}}\\left|f_{t,k}^{i}-f_{t-3,k}^{i}\\right|",
+          "stats": [null, null, null, null],
+          "evidence": "当叠加敞口反转因子之后，沪深 300 的指数增强产品显著更差了，不管是风格还是行业，而中证 500 的指数增强在叠加风格敞口反转因子后收益略有降低，但是行业的影响较小，中证 1000 的指数增强和中证 500 相反，在叠加行业敞口反转因子后收益略有降低，但是风格的影响较小，甚至能略微提升收益。"
+        },
+        {
+          "name": "风格轮动因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sum_{k=1}^{n^{i}}\\left(f_{t,k}^{i}-f_{t-3,k}^{i}\\right)\\frac{\\left(m_{t,k}^{i}-m_{t-3,k}^{i}\\right)}{m_{t-3,k}^{i}}",
+          "stats": [null, null, null, null],
+          "evidence": "首先将过去三个月敞口暴露较大的后 50%产品定义为带敞口产品，在此基础上风险轮动能力 V定义如下："
+        },
+        {
+          "name": "行业轮动因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sum_{k=1}^{n^{i}}\\left(f_{t,k}^{i}-f_{t-3,k}^{i}\\right)\\frac{\\left(m_{t,k}^{i}-m_{t-3,k}^{i}\\right)}{m_{t-3,k}^{i}}",
+          "stats": [null, null, null, null],
+          "evidence": "在带敞口产品的基础上选取 V较大的 50%产品构造风险轮动因子，以敞口后50%的大敞口暴露因子作为对比。"
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "growth", "quality"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "总体上大的风格敞口暴露和小的行业敞口暴露会导致指数增强产品较差的收益表现，风格过度放大敞口会侵蚀净值，行业过严约束会削弱收益的贝塔来源。",
+      "evidence": "这说明在带有主观色彩的风格因子控制中，过度放大敞口会侵蚀产品的净值；在相对统一的行业因子控制中，过严的敞口约束会削弱收益的贝塔来源。"
+    },
+    {
+      "text": "沪深300指数增强产品业绩延续性最强，业绩较差的产品无法通过敞口大幅调整追赶净值反而更差，这与沪深300指增中基本面因子比例更高有关。",
+      "evidence": "业绩较差的产品无法通过风格和行业的敞口大幅调整来实现净值的追赶，反而会导致更差的结果，但是对中证 500 和中证 1000 来说没有明显差别。这与沪深 300 指数增强策略中基本面因子的比例更高有关。"
+    },
+    {
+      "text": "在业绩统计筛选方法中加入风险轮动因子可显著提升沪深300指增筛选组合收益，风格轮动因子使年化超额收益从15.6%提升到23.5%，超额最大回撤从6.2%下降到5.5%。",
+      "evidence": "经过测试发现，在业绩统计筛选方法中加入风险轮动因子可以显著提升沪深 300 指数增强产品筛选组合的收益表现，其中加入风格轮动因子后组合年化超额收益从 15.6%提升到了23.5%，超额最大回撤从 6.2%下降到了 5.5%。"
+    },
+    {
+      "text": "优秀的沪深300指数增强产品具有风格和行业的轮动能力，风险轮动因子回测收益明显跑赢大敞口暴露因子；在中证500和中证1000中这种优势不太明显。",
+      "evidence": "在沪深 300 的指数增强产品中风险轮动能力差异比较明显，无论是风格还是行业方面，每期选取历史轮动能力前 50%的产品，最终回测收益都可以明显跑赢大敞口暴露因子。"
+    },
+    {
+      "text": "用产品收益率对因子收益率回归可恢复私募指增产品的风险暴露，回归方法整体解释力度较高，对行业的拟合效果远优于风格。",
+      "evidence": "利用判定系数评估回归效果，可以发现本文回归方法的整体解释力度较高，对行业的拟合效果远优于风格。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Barra 风险模型", "如何构建私募指数增强基金分析框架？"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

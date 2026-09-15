@@ -1,0 +1,267 @@
+{
+  "schema_version": 2,
+  "id": "20170831-东方证券-因子选股-029-质优股量化投资",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "distribution_moment",
+        "liquidity_turnover",
+        "firm_attribute"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "质量因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利、成长、财务安全和公司治理四个大类因子按IC_IR加权合成}",
+          "stats": [0.04, null, 2.7, null],
+          "evidence": "我们把盈利、成长、财务安全和公司治理四个大类因子再通过 IC_IR 加权的方式合成质量因子来衡量上市公司基本面的好坏"
+        },
+        {
+          "name": "质量+估值",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{质量因子与估值因子结合}",
+          "stats": [0.065, null, 3.34, null],
+          "evidence": "如果把质量因子与估值因子结合在一起，因子 IC可以提高到 0.065，IR达到 3.34，选股能力和稳健性得到进一步提升。"
+        },
+        {
+          "name": "质量+估值+投机",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{在质量与估值因子基础上再加投机类因子}",
+          "stats": [0.081, null, 3.22, null],
+          "evidence": "在质量和估值因子基础上再加投机因子可以进一步提高因子选股能力（IC 提高），但投机因子属于技术类因子，稳定性略差，加入后会略微降低因子选股的稳健性（IC_IR 下降）。"
+        },
+        {
+          "name": "营业利润占比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业利润}}{\\text{总利润}}",
+          "stats": [0.023, null, 1.43, null],
+          "evidence": "实证发现确实营业外收入占比高的公司表现更差，这个因子的IC 虽然不高，只有 0.023，但 IC_IR达到 1.43，多空组合最大回撤只有 12.7%，比较稳健。"
+        },
+        {
+          "name": "URONOA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{真实RONOA减去线性回归预测的下一期RONOA}",
+          "stats": [0.028, null, 2.08, null],
+          "evidence": "这里为了保证一致，我们用TTM数据构建了 URONOA，选股能力弱于季度数据得到的因子（图 12），但明显强于 RONOA，IC_IR从 1.1 提升到 2.1， 多空组合最大回撤从-30.8%将为-18.2%。"
+        },
+        {
+          "name": "URONOA – RF",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{真实RONOA减去随机森林预测的下一期RONOA}",
+          "stats": [0.029, null, 2.23, null],
+          "evidence": "如果把预测方法从线性回归改为随机森林，因子的效果可以进一步提升，多空组合的 Sharpe 值从 0.7 提升到 1.0，最大回撤从 18.2% 降为 -12%。"
+        },
+        {
+          "name": "违约距离",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{DD}=\\frac{V_{a}-DP}{V_{a}\\cdot\\sigma_{a}}",
+          "stats": [0.04, null, null, null],
+          "evidence": "我们也用这个方法在 A 股进行了初步测试，因子从 2008.01 至今的 IC 在 0.04 至 0.05 之间，但问题是这个因子通过横截面回归的方式剔除掉股价波动率因子后，IC 不再显著"
+        },
+        {
+          "name": "高管前三名薪酬总额",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{高管前三名薪酬总额}",
+          "stats": [0.026, null, 2.6, null],
+          "evidence": "比较有意思的是，这个因子虽然年度更新数据，但月度 IC仍有 0.026，IR高达 2.6，多空组合的 sharpe值接近 1.2，最大回撤仅 8.7%，表现非常稳健。"
+        },
+        {
+          "name": "分红率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{TTM现金分红率}",
+          "stats": [0.032, null, 2.3, null],
+          "evidence": "我们更建议把分红率仅用作沪深 300成份股内的 alpha因子，因为这个股票池内，分红股票的占比接近 90%，分红率的绝对数值也比较大（2017.07.31 日沪深 300 成份股的平均分红率是 1.4%，中证 500 成份股是 0.8%）"
+        },
+        {
+          "name": "净利润增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{NP_{TTM}-NP_{TTM,-1Y}}{|NP_{TTM,-1Y}|}",
+          "stats": [0.027, null, 1.82, null],
+          "evidence": "实证来看（图 17），净利增长率的选股能力一般，按净利增长率分组后股票收益的单调性不强：净利增长最快的股票收益并非最高"
+        },
+        {
+          "name": "GPOA变动",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期GPOA的TTM值减去一年前的TTM值}",
+          "stats": [0.024, null, 1.7, null],
+          "evidence": "图 19-图 22测试了 GPOA变动，ROE变动、ROIC 变动和 URONOA 变动四个指标（计算时用当期指标 TTM 数值减去一年前的 TTM 数值），其中 GPOA变动因子的整体表现最好"
+        },
+        {
+          "name": "URONOA变动",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期URONOA的TTM值减去一年前的TTM值}",
+          "stats": [null, null, 2.2, null],
+          "evidence": "URONOA 变动因子虽然 IC不高，但最稳定，IC_IR达到 2.2，多空组合回撤仅 6.8%。"
+        },
+        {
+          "name": "利息覆盖率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{EBIT}{\\text{利息费用}}",
+          "stats": [0.025, null, 1.72, null],
+          "evidence": "比较有效的是后面两个有关利息覆盖率的指标，结果如图23、24所示。"
+        },
+        {
+          "name": "现金流利息覆盖率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营现金流}}{\\text{有形资产}}",
+          "stats": [0.024, null, 2.23, null],
+          "evidence": "财务风险衡量的是上市公司偿还债务的能力，财务分析类教材上介绍过很多指标"
+        },
+        {
+          "name": "波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去半年日收益率的标准差}",
+          "stats": [-0.057, null, -1.53, null],
+          "evidence": "下面我们测试了五个 alpha因子：波动率、特质波动率、收益率偏度、过去六个月最大日收益均值、日均换手率。"
+        },
+        {
+          "name": "特质波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{剔除行业和市值影响后的个股特质波动率}",
+          "stats": [-0.065, null, -2.03, null],
+          "evidence": "在全球市场上，低波动股票相对高波动股票都有明显溢价（Blitz (2007)），这种低波动溢价可以类似 Black(1993)放松 CAPM 理论假设或者基于行为金融学结论修改投资者效用函数的方式（Blitz(2014)）来解释。"
+        },
+        {
+          "name": "换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去半年日均换手率}",
+          "stats": [-0.062, null, -2, null],
+          "evidence": "下面我们测试了五个 alpha因子：波动率、特质波动率、收益率偏度、过去六个月最大日收益均值、日均换手率。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "质量因子IC为0.04、IC_IR高达2.7，非常稳健；与估值因子结合后IC提高到0.065、IR达3.34，选股能力和稳健性进一步提升。",
+      "evidence": "质量因子的 IC 有 0.04，IC_IR 高达 2.7(图 38)，非常稳健；如果把质量因子与估值因子结合在一起，因子 IC可以提高到 0.065，IR达到 3.34，选股能力和稳健性得到进一步提升。"
+    },
+    {
+      "text": "纯质量因子选股组合2007.04至2017.07年化收益高达22.3%，结合估值因子的“价值投资”策略年化收益提升到29%，剔除大涨大跌年份后仍有15.7%。",
+      "evidence": "从 2007.04至 2017.07，完全基于质量因子选股，策略组合的年化收益高达 22.3%；剔除 2007、2008、2009和 2015这几个大涨大跌的年份后，平均年收益仍有 11.8%；如果再结合估值因子做“价值投资”，策略年化收益率可以提升到 29%，剔除大涨大跌年份后仍有 15.7%；加入投机因子后组合收益和 Sharpe 值得改善幅度不是很明显。"
+    },
+    {
+      "text": "股票池缩小到中证800成分股后，质量+估值策略年化收益有所下降但仍有24%，适合大型长线机构投资者。",
+      "evidence": "把股票池缩小到中证 800成分股后，“质量+估值”的投资策略年化收益有所下降，但仍有 24%，非常适合大型长线机构投资者。"
+    },
+    {
+      "text": "质量得分时间序列延续性强：半年后相关性高达0.66，一年至三年后约0.4，当前质地优良的公司未来一到三年很可能仍保持优质。",
+      "evidence": "半年后的相关性高达 0.66，一年至三年后的相关性也在 0.4 左右。也就是说 A 股虽然存在业绩变脸的个股案例，但总体来看，好公司的质量可以维持一段时间"
+    },
+    {
+      "text": "BP对质量因子的横截面回归系数总体为负，质量因子得分越高BP越小、PB估值越高，A股过去十年市场给与高质量公司高估值。",
+      "evidence": "可以看到回归系数总体上是负值，也就是说质量因子得分越高，BP 越小，PB 估值越高，A 股过去十年总体来看，市场都会给与高质量的公司高估值。"
+    },
+    {
+      "text": "股票估值水平越低，质量对估值的提升作用越大；在估值最高的股票里，公司质量带来的估值差异非常小。",
+      "evidence": "可以看到，股票估值水平越低，回归系数越小，公司质量对估值的提升作用越大；在估值最高的股票里面，公司质量带来的估值差异非常小。"
+    },
+    {
+      "text": "2014年底市场亢奋时及股灾后至2016.05，回归系数不再显著，基本面和市场估值完全脱钩。",
+      "evidence": "待到 2014年底股市开始进入亢奋时，回归系数便不再显著，也就是说这个时候的市场已经完全不看基本面来给公司估值了；股灾过后国家队入场救市，往后一直持续到 2016.05，回归系数也都不显著，基本面和市场估值完全脱钩。"
+    },
+    {
+      "text": "盈利因子的IC和IC_IR在各大类因子中最小、稳定性和选股能力最差；成长、财务安全和公司治理因子IC_IR约为盈利因子的两倍，稳健性更强。",
+      "evidence": "从图 35可以看到，盈利是投资者最为关心的指标，但实际上盈利因子的 IC和 IC_IR都最小，选股能力和稳定性最差，对比来看成长、财务安全和公司治理因子虽然 IC和盈利因子差不多，可是 IC_IR基本上都有盈利因子的两倍，稳健性要强很多。"
+    },
+    {
+      "text": "质优股里反转效应消失，也没有明显的动量效应，过往涨幅居中的股票未来表现更好，K=6、H=3设臵下差异统计显著。",
+      "evidence": "结果如图 44所示，反转效应在质优股里消失了，但也没有明显的动量效应，倒是过往涨幅居中的股票未来表现更好，而且在 K=6, H=3的设臵下，这种差异在统计上显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Asness, C. S., Frazzini, A., and Pedersen, L.H., (2017), Quality Minus Junk",
+    "Campbell,J.Y., Hilscher,J., Szilagyi,J., (2008), In Search of Distress Risk",
+    "Frazzini, A., Kabiller, D., Pedersen, L.H., (2013), Buffett's Alpha",
+    "Gompers, P.A., Ishii, J.L., Metrick, A., (2001), Corporate Governance and Equity Prices",
+    "Novy-Marx, R. (2013). The Other Side of Value: Good Growth and the Gross Profitability Premium",
+    "Piotroski, J. (2000). Value Investing: The Use of Historical Financial Statement Information to Separate Winners from Losers",
+    "Sloan, R. G., (1996), Do stock prices fully reflect information in accruals and cash flows about future earnings?",
+    "《东方机器选股模型 Ver 1.0》",
+    "《寻找贡献真实alpha 的事件》",
+    "《预期外的盈利能力》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

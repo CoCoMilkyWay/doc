@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20150610-国泰君安-数量化专题-061-探究交易公开信息之市场观察篇",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "daily"},
+        "holding": {"rebalance": "event", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "“机构专用”席位的绝对数量",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{前五大买入交易席位中“机构专用”席位出现的个数}",
+          "stats": [null, null, null, null],
+          "evidence": "我们选取“机构专用”席位出现在公开买入席位中的绝对数量作为衡量机构参与程度的指标之一，规避机构参与卖出，分别选取“机构专用”席位占据3席以上、2 席以上、1席以上，以及交易席位中未出现“机构专用”席位。"
+        },
+        {
+          "name": "“机构专用”席位的总买入金额与个股总成交金额的占比",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{“机构专用”席位买入的总成交金额 / 当天个股总成交金额}",
+          "stats": [null, null, null, null],
+          "evidence": "另一方面，我们选取“机构专用”席位买入的总成交金额与当天个股总成交金额的比值，作为衡量机构参与程度另一指标。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "从上榜后60个交易日的平均收益表现来看，相对万得全A指数及申万一级行业指数均出现了不同程度的回撤。",
+      "evidence": "从上榜后 60 个交易日的平均收益表现来看，相对万得全 A指数及申万一级行业指数均出现了不同程度的回撤。"
+    },
+    {
+      "text": "机构参与的程度与组合收益呈正比，“机构专用”席位出现在买入交易席位中的绝对数量越多、总买入金额与成交金额的占比越高，组合收益越优异。",
+      "evidence": "从收益角度来看，机构参与的程度与组合收益呈正比，“机构专用”席位出现在买入交易席位中的绝对数量越多，“机构专用”席位的总买入金额与成交金额的占比越高，组合收益越优异。"
+    },
+    {
+      "text": "无论相对万得全A指数还是申万一级行业指数，上榜当日价格涨跌幅“为负”的组合表现皆好于“为正”的组合。",
+      "evidence": "通过下面两幅图可以看出，无论是相对万得全A指数，还是相对申万一级行业指数，上榜当日价格涨跌幅“为负”的组合，表现皆好于上榜当日价格涨跌幅“为正”的组合。"
+    },
+    {
+      "text": "换手率达到20%而上榜的股票组合，上榜后60个交易日相对收益回撤达到6%，体现换手率指标在短期内为反向指标。",
+      "evidence": "由于换手率较高而上榜的股票组合，其上榜后 60 个交易日相对收益回撤达到6%，这也体现了换手率指标在短期内为反向指标。"
+    },
+    {
+      "text": "披露原因为“日价格振幅达到15%”的一类，上榜后60个交易日出现了2%以上的收益回撤。",
+      "evidence": "对于披露原因为“日价格振幅达到15%”的这一类，可以看出，其上榜后的60个交易日，出现了2%以上的收益回撤。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

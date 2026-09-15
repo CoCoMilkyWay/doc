@@ -1,0 +1,108 @@
+{
+  "schema_version": 2,
+  "id": "20200904-光大证券-多因子-037-股东大类因子_拆解股东数据中的多元信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["flow"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "股东户数时序标准分（HN_z）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{HN_z}=\\frac{A_t-\\frac{1}{8}\\sum_{i=1}^{8}A_{t-i}}{\\mathrm{std}(A_{t-1},\\ldots,A_{t-8})},\\; A=\\text{股东户数}",
+          "stats": [0.0357, null, 0.54, null],
+          "evidence": "股东数目类数据中，股东数目时序标准分因子（后以简称 HN_z 指代）刻画的是股票当前股东数量在近期历史中所处水平。HN_z 因子有显著的负向预测能力，表明股东数量处于减少趋势中的股票后期相对表现会更好。"
+        },
+        {
+          "name": "十大股东占比离散度（LHRD）",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{LHRD}=\\mathrm{std}(LHR_1,\\ldots,LHR_{10}),\\; LHR_i=\\text{第}i\\text{大股东持仓占比}",
+          "stats": [0.015, null, 0.36, null],
+          "evidence": "LHRD因子刻画了该股票十大股东各自持仓的不均衡程度，该因子为正向因子，说明十大股东持股越不均衡、股票越集中在前几位大股东手中，该股票后续相对走势会更好。"
+        },
+        {
+          "name": "持仓机构个数（IHN）",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{IHN}=\\log(\\text{持仓机构个数})",
+          "stats": [0.0406, null, 0.74, null],
+          "evidence": "与机构持仓占比不同的是，持仓机构个数因子更看重市场上多少机构在该股票上下注，而非下注的多少。该因子逻辑直观，方向为正向，表明有越多机构持仓的股票，未来收益会更强。"
+        },
+        {
+          "name": "持仓机构个数变化（IHN_diff）",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{IHN_diff}=\\text{sign}(\\text{持仓机构个数变化})\\times\\log(|\\text{持仓机构个数变化}|),\\; \\text{持仓机构个数变化}=\\text{当期持仓机构个数}-\\text{上期持仓机构个数}",
+          "stats": [0.0252, null, 0.44, null],
+          "evidence": "持仓机构个数变化因子（后以简称 IHN_diff指代）刻画了持有股票的机构数目的变化。跟直观想法相反，IHN_diff 因子呈现出较为显著的负向预测能力，表明最近机构股东数量减少的股票后期相对表现反而会更好。"
+        },
+        {
+          "name": "股东大类因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{股东大类因子}=\\frac{1}{4}\\left[\\text{HN_z（取负）}+\\text{LHRD}+\\text{log-IHN}+\\text{sign-log-IHN_diff（取负）}\\right]",
+          "stats": [0.0503, null, 0.84, null],
+          "evidence": "股东大类因子在全市场内的预测能力非常稳定，因子IC均值为5.03%，ICIR高达0.84。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "股东户数时序标准分（HN_z）因子具有显著负向预测能力；十大股东占比离散度（LHRD）因子具有显著正向预测能力；持仓机构个数（IHN）因子具有显著正向预测能力，持仓机构个数变化（IHN_diff）因子则具有显著负向预测能力。",
+      "evidence": "股东户数数据中，股东户数时序标准分（HN_z）因子具有显著负向预测能力；十大股东数据中，十大股东占比离散度（LHRD）因子具有显著正向预测能力；机构股东数据中，持仓机构个数（IHN）因子具有显著正向预测能力，持仓机构个数变化（IHN_diff）因子则具有显著负向预测能力。"
+    },
+    {
+      "text": "机构持仓占比因子虽然也有显著的截面预测能力，但其信息基本上都能被其它主流因子解释，并不具备明显增量信息。",
+      "evidence": "另一方面，机构持仓占比因子虽然也有显著的截面预测能力，但其信息基本上都能被其它主流因子解释，并不具备明显增量信息。"
+    },
+    {
+      "text": "将机构持仓占比因子进行换手与估值的中性化操作后，因子不再有显著预测能力，IC符号由正转负，IC均值由中性化前的1.97%变成-0.69%。",
+      "evidence": "我们将机构持仓占比因子进行换手与估值的中性化操作，发现在剥离了换手与估值的信息后，因子不再有显著预测能力，IC 的符号甚至发生变换，由正转负。IC 均值由中性化前的 1.97%变成-0.69%。"
+    },
+    {
+      "text": "IHN_diff因子剥离HN_z因子信息后IC均值基本没变（2.52%→2.65%），说明其有效性并非与HN_z因子同样的逻辑。",
+      "evidence": "IHN_diff因子本身 IC 均值为2.52%，ICIR 为 0.44。在剥离掉 HN_z 因子信息后，IHN_diff 因子 IC 均值基本没变，为 2.65%，ICIR 为 0.46。说明 IHN_diff 因子的有效性并非与 HN_z 因子同样的逻辑。"
+    },
+    {
+      "text": "以2010/04/01-2020/06/30为测试区间，股东大类因子全市场IC均值5.03%，ICIR达0.84；多空组合年化收益19.0%，夏普比率2.93，最大回撤8.7%；多头相对全市场等权基准超额年化收益7.4%，信息比率2.17，最大回撤5.0%。",
+      "evidence": "以 2010/04/01-2020/06/30作为测试区间，因子 IC 均值为 5.03%，ICIR 高达 0.84。具有良好的分组单调性与区分度。基于股东大类因子构建的多空组合，年化收益19.0%，夏普比率2.93，最大回撤 8.7%；而多头组合相对于全市场等权基准的超额净值年化收益为 7.4%，信息比率2.17，最大回撤 5.0%。"
+    },
+    {
+      "text": "中证500内股东大类因子多空组合年化收益18.6%，多头超额年化收益7.8%；沪深300内多空组合年化收益8.2%，多头超额年化收益4.3%，中证500内效果更为显著。",
+      "evidence": "中证 500 内的多空组合，年化收益 18.6%，夏普比率 2.07，最大回撤12.4%；而多头组合相对于 500 等权基准的超额净值年化收益为 7.8%，信息比率 1.49，最大回撤 7.3%。沪深 300 内股票样本不大，分组及组合测试以五分组进行，构建出的多空组合，年化收益 8.2%，夏普比率 1.29，最大回撤 6.3%；而多头组合相对于 300 等权基准的超额净值年化收益为 4.3%，信息比率1.13，最大回撤5.0%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《多因子系列报告之一：因子测试框架》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "id": "20240315-华泰证券-人工智能-075-如何捕捉长时间序列量价数据的规律",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "PatchModel1",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{按交易日划分patch，GRU提取patch内日内时序特征，注意力机制对patch间输出加权后接入全连接层}",
+          "stats": [null, 0.0843, 1.17, null],
+          "evidence": "PatchModel1使用GRU捕捉patch内的时序信息，再通过注意力机制构建patch间的联系，网络结构如下图。"
+        },
+        {
+          "name": "PatchModel2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{借鉴通道独立设计，以patch为时间步用GRU挖掘patch间时序规律，拼接各特征隐含层后接入全连接层}",
+          "stats": [null, 0.0878, 1.31, null],
+          "evidence": "PatchModel2使用GRU来挖掘patch间的时序规律，网络结构如下图。"
+        },
+        {
+          "name": "15分钟频量价模型因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU、PatchModel1、PatchModel2三个模型预测值等权合成}",
+          "stats": [null, 0.0958, 1.27, null],
+          "evidence": "进一步将模型进行等权合成，合成因子的回测表现强于单因子。其中，三模型合成因子的TOP组合年化超额收益率领先其他因子，达到24.65%。"
+        },
+        {
+          "name": "30分钟频量价模型因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU、PatchModel1、PatchModel2三个模型预测值等权合成}",
+          "stats": [null, 0.0862, 1.3, null],
+          "evidence": "其中，三模型合成因子表现较好，RankIC均值为8.62%，TOP组合年化超额收益率为21.64%。"
+        },
+        {
+          "name": "全频段融合因子1.0",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{高频深度学习因子与低频多任务因子按1:3比例合成}",
+          "stats": [null, 0.1042, 1.44, null],
+          "evidence": "华泰金工报告《基于全频段量价特征的选股模型》（2023.12.8）中基于高频因子和低频量价数据，使用深度学习训练得到高频深度学习因子和低频多任务因子，再将两者按照1:3比例合成得到全频段融合因子。"
+        },
+        {
+          "name": "全频段融合因子2.0",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{15分钟频量价模型因子、30分钟频量价模型因子、高频深度学习因子、低频多任务因子按1:1:1:3比例合成}",
+          "stats": [null, 0.1133, 1.5, null],
+          "evidence": "15分钟频量价模型因子、30分钟频量价模型因子、高频深度学习因子、低频多任务因子按照1:1:1:3比例进行合成，得到全频段融合因子2.0版本。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "传统GRU模型在处理长序列数据时存在盲区：序列很长时会有梯度消失、信息遗忘问题，难以捕捉高频量价数据的周期性规律，参数共享导致无法差异化处理日内和日间信息传递。",
+      "evidence": "首先，当序列非常长的时候，GRU会遇到梯度消失、信息遗忘的问题。其次，高频量价数据具有一定的周期性，GRU难以捕捉这种周期性的规律。此外，长时间序列量价数据的日内和日间信息传递具有异质性，但参数共享的设计造成GRU只能一视同仁地处理所有时间点的数据。"
+    },
+    {
+      "text": "15分钟频场景下GRU与patch模型合成后，回测期内周度RankIC均值从8.86%提升到9.58%，分10层TOP组合年化超额收益率从21.15%提升到24.65%。",
+      "evidence": "样本空间为全A股，GRU与patch模型合成后，2017/1/4～2024/2/29的回测期内周度RankIC均 值 从 8.86% 提 升 到 9.58% ， 分 10 层 TOP 组 合 年 化 超 额 收 益 率 从 21.15% 提 升 到24.65%。"
+    },
+    {
+      "text": "30分钟频量价特征序列中patch模型回测表现略弱于GRU但仍能提供增量信息，GRU与patch模型合成后周度RankIC均值从8.27%提升到8.62%，分10层TOP组合年化超额收益率从20.42%提升到21.64%。",
+      "evidence": "在30分钟频量价特征序列中，patch模 型 回 测 表 现 略 弱 于 GRU ， 但 仍 能 提 供 增 量 信 息 。 GRU 与 patch 模 型 合 成 后 ， 周 度RankIC均值从8.27%提升到8.62%，分10层TOP组合年化超额收益率从20.42%提升到21.64%。"
+    },
+    {
+      "text": "使用两个实验场景的合成因子改进全频段融合因子后，回测期内周度RankIC均值从10.42%提升到11.33%，分10层TOP组合年化超额收益率从32.61%提升到34.40%。",
+      "evidence": "全频段融合 因 子 在 2017/1/4 ～ 2024/2/29 的 回 测 期 内 周 度 RankIC 均 值 从 10.42% 提 升 到11.33%，分10层TOP组合年化超额收益率从32.61%提升到34.40%。"
+    },
+    {
+      "text": "基于全频段融合因子2.0构建指数增强组合，周双边换手率控制为30%、40%和50%时，中证500增强组合年化超额收益率为18.93%、18.57%和18.43%，信息比率为3.27、3.12和3.00；中证1000增强组合年化超额收益率为29.25%、30.92%和28.94%，信息比率为4.35、4.48和4.12。",
+      "evidence": "在周双边换手率分别控制为30%、40%和50%的情况下，2017/1/4～2024/2/29回测期内中证500增强组合年化 超 额 收 益 率 为 18.93% 、 18.57% 和 18.43% ， 信 息 比 率 为 3.27 、 3.12 和 3.00； 中 证 1000 增 强 组 合 年 化 超 额 收 益 率 为29.25%、30.92%和28.94%，信息比率为4.35、4.48和4.12。"
+    },
+    {
+      "text": "15分钟频量价模型信号对日频GRU信号做回归后的残差在多数指标上都好于GRU残差，说明patch模型更好地融合日内和日间信息，并非15分钟频GRU和日频GRU的简单加和。",
+      "evidence": "接着使用15分钟 频 量 价 模 型 信 号 对 日 频 GRU 信 号 做 回 归 ， 再 对 残 差 进 行 回 测 ， PatchModel1 、PatchModel2以及三模型合成因子的残差在多数指标上都好于GRU残差。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Nie Y, Nguyen N H, Sinthong P, et al. A time series is worth 64 words: Long-term forecasting with transformers [J]. arXiv preprint arXiv:2211.14730, 2022.",
+    "华泰金工《AlphaNet：因子挖掘神经网络》（2020-06）",
+    "华泰金工《基于全频段量价特征的选股模型》（2023.12.8）",
+    "华泰金工《神经网络多频率因子挖掘模型》（2023.5.11）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

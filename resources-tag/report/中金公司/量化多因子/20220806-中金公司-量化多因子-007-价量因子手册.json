@@ -1,0 +1,296 @@
+{
+  "schema_version": 2,
+  "id": "20220806-中金公司-量化多因子-007-价量因子手册",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "flow"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "mmt_overnight_A",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一年的隔夜涨跌幅之和}-\\text{过去一个月隔夜涨跌幅之和}",
+          "stats": [0.03, null, 0.63, null],
+          "evidence": "隔夜动量因子(mmt_overnight_A)全市场范围内有效性较好，IC_IR达0.63，但沪深300范围内有效性一般；"
+        },
+        {
+          "name": "mmt_report_overnight",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近一个业绩公告日的前一个月的隔夜收益率之和}",
+          "stats": [0.029, null, 0.73, null],
+          "evidence": "全市场中，mmt_report_overnight因子的IC 均值为 2.9%，IC_IR 为 0.73。"
+        },
+        {
+          "name": "mmt_offlimit_A",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{除去涨跌停状态外，过去1年的收盘涨跌幅}-\\text{过去1个月的收盘涨跌幅}",
+          "stats": [0.025, null, 0.29, null],
+          "evidence": "mmt_offlimit_A因子在沪深 300 中单调性良好且多头收益显著"
+        },
+        {
+          "name": "mmt_intraday_M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月的日内涨跌幅之和}",
+          "stats": [-0.068, null, -0.77, null],
+          "evidence": "全市场中，mmt_intraday_M因子的IC均值为-6.8%，IC_IR为-0.77;mmt_range_M因子的IC 均值为-6.8%，IC_IR 为-1.03。"
+        },
+        {
+          "name": "mmt_range_M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月内，振幅大的前20%的收盘收益率}-\\text{振幅小的后20%的收盘收益率}",
+          "stats": [-0.068, null, -1.03, null],
+          "evidence": "月度反转因子整体有效性较强，尤其是mmt_range_M因子，在所有选股域中均有较好的表现。"
+        },
+        {
+          "name": "vol_up_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅大于0的日收益率}",
+          "stats": [-0.079, null, -0.79, null],
+          "evidence": "上行波动率因子有效性优于传统波动率因子、下行波动率因子，全市场IC IR可达-0.79，IC 均值可达-7.9%；"
+        },
+        {
+          "name": "vol_highlow_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月（最高价/最低价）的标准差}",
+          "stats": [-0.072, null, -0.65, null],
+          "evidence": "其中，vol_highlow_std、vol_upshadow_std 和 vol_w_downshadow_std 因子在不同范围内表现均较为突出，有效性与单调性良好，多头选股组合表现优于收益波动率因子；"
+        },
+        {
+          "name": "vol_upshadow_std_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化上影线因子过去6个月的标准差，其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
+          "stats": [-0.06, null, -0.57, null],
+          "evidence": "其中，vol_highlow_std、vol_upshadow_std 和 vol_w_downshadow_std 因子在不同范围内表现均较为突出，有效性与单调性良好，多头选股组合表现优于收益波动率因子；"
+        },
+        {
+          "name": "liq_turn_std_6M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{6个月换手率的标准差}",
+          "stats": [-0.069, null, -0.77, null],
+          "evidence": "换手率标准差因子（liq_turn_std_6M）在沪深300、中证500、中证1000范围内的IC_IR分别为-0.39、-0.70、-0.81，表现均较好。"
+        },
+        {
+          "name": "liq_amihud_avg_1M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（日收益率/成交额)的平均值}",
+          "stats": [0.055, null, 0.66, null],
+          "evidence": "在全市场范围内，上述三类因子IC_IR差异不大，绝对值均可达0.6以上，从多头收益表现来看，则是Amihud非流动性因子表现相对较好，年化超额可达9.4%。"
+        },
+        {
+          "name": "liq_shortcut_avg_1M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{日K线最短路径}_t/\\text{成交额}_t)}{N},\\ \\text{日K线最短路径}=2*(\\text{最高价}-\\text{最低价})-\\text{开盘价}-\\text{收盘价}",
+          "stats": [0.044, null, 0.6, null],
+          "evidence": "价格弹性因子包括Amihud非流动性因子、最短路径非流动因子、成交波动比因子。"
+        },
+        {
+          "name": "corr_price_turn_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率与t日价格的相关系数}",
+          "stats": [-0.061, null, -1, null],
+          "evidence": "全市场范围内，corr_price_turn_1M因子的IC均值为-6.1%，IC_IR为-1.00。"
+        },
+        {
+          "name": "corr_ret_turn_post_1M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率与t+1日收益率的相关系数}",
+          "stats": [0.023, null, 0.52, null],
+          "evidence": "corr_ret_turn_post_1M因子在全市场、沪深300、中证1000范围内表现均较好，全市场范围内，IC均值为2.3%，IC_IR达0.52。"
+        },
+        {
+          "name": "corr_ret_turnd_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率的变动与t日收益率的相关系数}",
+          "stats": [-0.061, null, -1.07, null],
+          "evidence": "其中，corr_ret_turnd_1M因子在不同选股范围内表现均较为突出，全市场内IC均值达-6.1%，IC_IR为-1.07。"
+        },
+        {
+          "name": "distribution_loss_I",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-10%以下收益率的筹码占比}",
+          "stats": [0.04, null, 0.41, null],
+          "evidence": "从因子有效性角度来看，distribution_loss_I和 distribution_ret_avg 因子表现相对较好，但仅在全市场和中证1000范围内具有一定的收益预测能力和单调性。"
+        },
+        {
+          "name": "distribution_ret_avg",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{各筹码收益率的平均数}",
+          "stats": [-0.041, null, -0.38, null],
+          "evidence": "从因子有效性角度来看，distribution_loss_I和 distribution_ret_avg 因子表现相对较好，但仅在全市场和中证1000范围内具有一定的收益预测能力和单调性。"
+        },
+        {
+          "name": "buy_shift_dist_1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{大单买入金额}_t-\\text{大单卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [0.047, null, 0.78, null],
+          "evidence": "从因子有效性角度来看，大单买入因子（buy_shift_dist_1）具有正向预测能力，全市场IC_IR达0.78；小单主动买入因子(act_buy_shift_dist_s)具有负向的预测效果，全市场IC_IR为-0.46。"
+        },
+        {
+          "name": "act_buy_shift_dist_s",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{小单主动买入金额}_t-\\text{小单主动卖出金额}_t)}{\\sum_{t}|\\text{小单主动买入金额}_t-\\text{小单主动卖出金额}_t|}",
+          "stats": [-0.026, null, -0.46, null],
+          "evidence": "从因子有效性角度来看，大单买入因子（buy_shift_dist_1）具有正向预测能力，全市场IC_IR达0.78；小单主动买入因子(act_buy_shift_dist_s)具有负向的预测效果，全市场IC_IR为-0.46。"
+        },
+        {
+          "name": "inflow_shift_dist_open_1",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{开盘资金流入金额}_t}{\\sum_{t}|\\text{开盘资金流入金额}_t|}",
+          "stats": [0.016, null, 0.31, null],
+          "evidence": "此外，开盘资金流入因子(inflow_shift_dist_open_1）在沪深 300、中证500、中证1000范围内也具有较强的选股效果，多头组合年化超额收益分别为6.1%、8.6%、8.8%，分组单调性也较好，亦值得关注。"
+        },
+        {
+          "name": "north_hold_prop",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当日陆股通持仓量}}{\\text{当日流通股本}}",
+          "stats": [0.035, null, 0.6, null],
+          "evidence": "全市场中，north_hold_prop因子的IC均值为3.5%,IC_IR为0.60;north_hold_prefer因子的IC均值为3.8%，IC_IR为0.69，但从多头组合的相对净值表现来看，北向持仓因子在2021年以来选股能力有所回落。"
+        },
+        {
+          "name": "north_hold_prefer",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期北向持仓市值}}{\\text{当期北向持仓的所有股票市值}}",
+          "stats": [0.038, null, 0.69, null],
+          "evidence": "全市场中，north_hold_prop因子的IC均值为3.5%,IC_IR为0.60;north_hold_prefer因子的IC均值为3.8%，IC_IR为0.69，但从多头组合的相对净值表现来看，北向持仓因子在2021年以来选股能力有所回落。"
+        },
+        {
+          "name": "north_hold_prefer_It_chg",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当期北向持仓偏好因子}-\\text{过去60个交易日北向持仓偏好因子的均值}",
+          "stats": [0.023, null, 0.66, null],
+          "evidence": "全市场中，north_hold_prefer_It_chg因子的IC均值为 2.3%，IC_IR 为 0.66；沪深 300 中，north_hold_prefer_st_chg 因子的IC 均值为3.3%，IC_IR为 0.44。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "flow"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "换手率标准差因子liq_turn_std_6M在沪深300、中证500、中证1000范围内的IC_IR分别为-0.39、-0.70、-0.81，表现均较好，在不同范围内值得推荐。",
+      "evidence": "换手率标准差因子（liq_turn_std_6M）在沪深300、中证500、中证1000范围内的IC_IR分别为-0.39、-0.70、-0.81，表现均较好。"
+    },
+    {
+      "text": "量能领先因子（corr_ret_turn_post_1M）与未来收益正相关，全市场IC_IR为0.52；量价同步因子(corr_ret_turnd_1M、corr_price_turn_1M)与未来收益负相关，全市场IC_IR可达-1.00，在不同选股范围内均具有较强的选股能力。",
+      "evidence": "量能领先阶段往往是信息扩散的初期，量能领先因子（corr_ret_turn_post_1M）与未来收益正相关，全市场IC_IR为0.52，在沪深300、中证1000范围内亦有不俗的表现；量价同步阶段往往是信息扩散的中后期，量价同步因子(corr_ret_turnd_1M、corr_price_turn_1M)与未来收益负相关，全市场IC_IR可达-1.00，总体表现较好，在不同选股范围内均具有较强的选股能力。"
+    },
+    {
+      "text": "振幅标准差因子选股能力在不同周期下无显著差异，但长周期（6个月）多头换手率明显低于短周期（1个月），考虑换手成本后长周期振幅标准差因子性价比更高。",
+      "evidence": "同时，对比不同周期的振幅标准差因子的IC 均值和多头组合收益表现，我们发现其选股能力未有显著差异，但长周期（6个月）的波动率因子多头组合换手率明显低于短周期（1个月）的波动率因子。考虑换手成本的情况下，长周期的振幅标准差因子性价比更高。"
+    },
+    {
+      "text": "筹码分布因子在沪深300和中证500范围内IC表现较弱，仅在全市场、中证1000范围内具有一定选股效果，IC_IR绝对值约0.40左右。",
+      "evidence": "该类因子在沪深300和中证500范围内因子IC表现较弱，在全市场、中证1000范围内才具有一定的选股效果，IC_IR的绝对值大概可以达到0.40左右。"
+    },
+    {
+      "text": "北向持仓因子（north_hold_prefer等）在2021年以来选股能力有所回落。",
+      "evidence": "north_hold_prefer因子的IC均值为3.8%，IC_IR为0.69，但从多头组合的相对净值表现来看，北向持仓因子在2021年以来选股能力有所回落。"
+    },
+    {
+      "text": "融资因子与融券因子均表现为负面预测效果，融资买入（或融券卖出）占比越高，未来收益表现越弱。",
+      "evidence": "从因子的预测方向来看，无论是融资因子还是融券因子，均表现为负面的预测效果，即融资买入（或融券卖出）占比越高，未来收益表现越弱。"
+    },
+    {
+      "text": "资金流因子与动量、波动率、流动性因子相关性均较低，可作为有效的增量信息加入多因子模型。",
+      "evidence": "此外，资金流因子虽然IC_IR表现在价量因子中表现不算突出，但考虑到它与动量、波动率、流动性因子相关性均较低，仍可作为有效的增量信息加入多因子模型中使用。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "量化多因子系列（5）：基本面因子手册",
+    "量化多因子系列（6）：关于动量，你所希望了解的那些事"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20131225-国泰君安-数量化专题-032-多维视角_深挖投资异象",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["accounting_quality", "momentum_reversal"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "应计异象",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{盈利利润占比}/\\text{现金流利润占比}\\text{，在HS300股票池中考虑市值大小后取排名前30只的股票}",
+          "stats": [null, null, null, null],
+          "evidence": "在权责发生制的会计准则下，企业的盈利由应计盈利（accruals earnings）和现金盈利（cashearnings）构成，其中应计盈利较高的企业未来盈余会有系统性降低。"
+        },
+        {
+          "name": "超卖选股",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{按涨跌参数10%将价格划分成波段，统计当前股价处于下跌波段中下50%区间的概率}",
+          "stats": [null, null, null, null],
+          "evidence": "通过对拐点、顶点和底点的定义，可以按照一定的涨跌参数（如 10%、20%等）将价格划分成若干波段。以最近下跌波段为开始顶点，根据历史上每次下跌的幅度，判断当前股价处于下跌段某个区间（如下 1/2，下 1/4区域）的概率。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_hedge"],
+      "approach": ["futures_hedge"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "财务异象策略与价量异象策略各具优劣、互为补充，价量研究与基本面研究没有高低之分，只是沿着不同途径寻找超额收益。",
+      "evidence": "财务异象策略与价量异象策略各具优劣，可以互为补充。价量研究与基本面研究没有高低之分，只是沿着不同途径寻找超额收益而已。"
+    },
+    {
+      "text": "在策略分层思维下以“应计异象”为核心、以“超跌选股”为卫星策略进行合成，合成后策略的收益小幅上升，而波动率、最大回撤以及夏普率等风险指标均提升明显。",
+      "evidence": "实战中，以“应计异象”策略为核心，以“超跌选股”为卫星策略进行策略合成。相较于原“应计异象”但策略，合成后策略的收益小幅上升，而波动率、最大回撤以及夏普率等风险指标均提升明显。"
+    },
+    {
+      "text": "应计异象相较于HS300指数，2005年至今策略多头的年化超额收益稳定在8%之上，以半年为一个持有期，持有期胜率接近80%。",
+      "evidence": "收益方面，应计异象相较于 HS300 指数，2005 年至今策略多头的年化超额收益能稳定在8%之上；以半年为一个持有期，持有期胜率接近80%。"
+    },
+    {
+      "text": "应计异象策略波动率高于HS300加权指数，以月为单位最大跑输基准幅度接近10%，尤其在指数下跌阶段显著跑输基准，回撤较大。",
+      "evidence": "波动方面，应计异象策略波动率高于 HS300 加权指数，导致策略信息比率较低。以月为单位，最大跑输基准幅度接近 10%，尤其在指数下跌阶段，策略显著跑输基准，回撤较大。"
+    },
+    {
+      "text": "超卖选股策略在三个样本内窗口测试期的持有期超额收益分别为24.2%、2.4%和8.3%，适用于市场下跌阶段，在个股普涨阶段难以选出标的。",
+      "evidence": "超卖选股策略在三个样本内窗口测试期，策略的持有期超额收益分别为24.2%，2.4%和 8.3%。策略适用于市场下跌阶段，在个股普涨的阶段，难以选出标的。"
+    },
+    {
+      "text": "两种策略契合度较高：应计异象能选出中长期跑赢市场的个股但无法避免中短期波动，超卖选股能选出短期爆发性个股并在熊市中识别下跌风险。",
+      "evidence": "“应计异象”属于财务异象策略，能选出在中长期跑赢市场的个股，但无法避免中短期波动。而“超卖选股”属于价量异象策略，能够选出短期内具有一定爆发性的个股，同时在熊市中起到识别下跌风险的作用。"
+    },
+    {
+      "text": "合成后策略收益有所提升：多头策略收益率小幅上升，对冲策略收益率大幅上升；策略在牛市中收益较合成前有所下降，但熊市中表现远远好于合成前。",
+      "evidence": "（1）策略收益有所提升。多头策略收益率小幅上升；对冲策略收益率大幅上升。同时直观上，策略在牛市中收益相较于合成前有所下降，但在熊市中表现远远好于合成前。"
+    },
+    {
+      "text": "合成后策略波动率大幅下降，年化波动率、最大跑输基准、最大回撤、胜率、夏普比率均较合成前有较大提升。",
+      "evidence": "（2）策略波动率大幅下降。无论是年化波动率、最大跑输基准、最大回撤，还是胜率、夏普比率，均较合成前有较大提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《The Supraview of Return Predictive Signals》, REVIEW OF ACCOUNTING STUDIES, FORTHCOMING",
+    "《发现价格走势规律之基于 MACD 分段研究》2013.12.09",
+    "《基于 MACD 价格分段应用举例》2013.12.19",
+    "《对冲基金表现评价》，维恩·Q.特兰(Vinh Q. Tran)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

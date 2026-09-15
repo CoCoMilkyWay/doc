@@ -1,0 +1,109 @@
+{
+  "schema_version": 2,
+  "id": "20200610-华安证券-市场微观结构剖析-007-高频视角下成交额蕴藏的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "APL20",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "APL_{t,d}=\\frac{\\sum_{i=240-t}^{240}Amount_{t,d}}{TotalAmount_{d}},\\quad APL_{20}=\\sum_{i=1}^{15}\\frac{\\theta^{i}}{\\sum_{j=1}^{15}\\theta^{j}}\\times APL_{20,d},\\ \\theta=1-\\frac{2}{1+d}\\ \\text{(15日EWMA合成月度因子)}",
+          "stats": [-0.0543, -0.0556, -5.18, 0.2319],
+          "evidence": "对常见因子中性后， $APL_{20}因$ 子的 IC 均值为-5.43%，RankIC 均值为-5.56%，月度胜率 93%，年化 ICIR 为-5.18。2014-2019 年，因子十分组收益分化明显，多头端收益明显，多空组合年化收益达到 23.19%，年化波动 5.90%，年化 IR 达到 3.94，最大回撤仅6.38%，预测能力十分优秀。"
+        },
+        {
+          "name": "VMA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "VMA=\\sigma^{2}=\\frac{1}{N}\\sum_{t=1}^{N}(Amount_{t}-\\mu)^{2}",
+          "stats": [-0.068, -0.091, -2.767, 0.2721],
+          "evidence": "仅对行业和市值中性化处理，VMA，SMA，KMA 因子的基本表现如图 39 所示，仅对行业市值中性时，VMA 因子表现出一定的选股能力，SMA 和 KMA 因子无效果，计算三个因子与传统因子市值、动量、波动、换手因子的相关系数后发现，VMA 因子与市值、波动、换手因子相关程度都较高，在进行较强的中性化处理后，VMA 因子选股效果不佳。"
+        },
+        {
+          "name": "SMA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SMA=\\frac{1}{N}\\sum_{t=1}^{N}(\\frac{Amount_{t}-\\mu}{\\sigma})^{3}",
+          "stats": [-0.011, -0.004, -0.647, 0.0251],
+          "evidence": "仅对行业和市值中性化处理，VMA，SMA，KMA 因子的基本表现如图 39 所示，仅对行业市值中性时，VMA 因子表现出一定的选股能力，SMA 和 KMA 因子无效果，计算三个因子与传统因子市值、动量、波动、换手因子的相关系数后发现，VMA 因子与市值、波动、换手因子相关程度都较高，在进行较强的中性化处理后，VMA 因子选股效果不佳。"
+        },
+        {
+          "name": "KMA",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "KMA=\\frac{1}{N}\\sum_{t=1}^{N}(\\frac{Amount_{t}-\\mu}{\\sigma})^{4}",
+          "stats": [-0.015, -0.008, -0.997, 0.0488],
+          "evidence": "仅对行业和市值中性化处理，VMA，SMA，KMA 因子的基本表现如图 39 所示，仅对行业市值中性时，VMA 因子表现出一定的选股能力，SMA 和 KMA 因子无效果，计算三个因子与传统因子市值、动量、波动、换手因子的相关系数后发现，VMA 因子与市值、波动、换手因子相关程度都较高，在进行较强的中性化处理后，VMA 因子选股效果不佳。"
+        },
+        {
+          "name": "ACMA_1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "ACMA_{1}=corr(Amount_{t-1},Amount_{t})",
+          "stats": [-0.081, -0.114, -3.003, 0.3644],
+          "evidence": "对ACMA 因子进行回测，滞后阶数取1~5分钟，ACMA 因子的基本表现如图44~46所示，仅对行业和市值中性化处理时，因子表现出不错的选股能力，但由于其与波动、换手因子的相关系数较高，对行业、市值、波动、换手因子中性化处理后，效果有所下降，最优的ACMA 因子为滞后 1 分钟的自相关系数。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "尾盘20分钟成交额占比因子APL20经常见因子中性后，2014-2019年十分组收益分化明显，多空组合年化收益达23.19%，年化ICIR为-5.18，最大回撤仅6.38%，预测能力十分优秀。",
+      "evidence": "2014-2019 年，因子十分组收益分化明显，多头端收益明显，多空组合年化收益达到 23.19%，年化波动 5.90%，年化 IR 达到 3.94，最大回撤仅6.38%，预测能力十分优秀。"
+    },
+    {
+      "text": "对行业+市值+动量+波动+换手较强的中性化处理后，早盘分钟成交额占比因子效果衰减明显，独立于传统因子的增量Alpha信息集中在尾盘。",
+      "evidence": "在较强的中性化处理后，早盘成交额占比因子效果衰减明显，有效的增量 Alpha信息集中在尾盘。"
+    },
+    {
+      "text": "利用分钟成交额自相关因子ACMA1的空头效应对APL20进行排雷强化，剔除因子值最大的20%股票后，每一组效果都增强，多头组年化收益从18.32%上升到19.31%。",
+      "evidence": "x=20，即剔除 $1CMA_{1}$ 因子值最大的 20%的股票后，各组强化效果如图 45 所示，对每一组效果都增强了。多头组（即第一组）的年化收益从 18.32%上升到 19.31%。"
+    },
+    {
+      "text": "分钟成交额的高阶矩因子（VMA/SMA/KMA）与日度统计量相关性很强，多被传统换手等因子解释，没有出现独特的增量Alpha。",
+      "evidence": "在日内分钟频度上，以分钟成交额计算的高阶矩与日度统计量相关性很强，并没有出现独特的增量 Alpha。"
+    },
+    {
+      "text": "半月调仓效果优于月度调仓：多空组年化收益28.80%对23.19%，最大回撤5.88%对6.38%；双边手续费设为1.5‰时，半月调仓多头组收益23.91%高于月度调仓21.21%。",
+      "evidence": "从多空组收益与回撤对比来看，月度调仓多空组年化收益为 23.19%，最大回撤 6.38%，年化夏普 3.94，半月调仓多空组年化收益为 28.80%，最大回撤 5.88%，年化夏普 4.90%，半月调仓效果优于月度调仓。"
+    },
+    {
+      "text": "APL20在沪深300与中证500指数内同样有效：中性后IC均值均超过-0.05，多头端分组净值显著跑赢其他组合；指数内简单权重优化的中性组合能稳定跑赢指数，500内效果更好。",
+      "evidence": "以 EWMA 法加权的 15 日$APL_{20}$ 为例，对行业+市值+动量+波动+换手中性后，在沪深 300 以及中证 500 内的 IC均值均超过了-0.05，等权加权时多头（即第一组）的分组净值显著跑赢其他组合，多头端收益显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

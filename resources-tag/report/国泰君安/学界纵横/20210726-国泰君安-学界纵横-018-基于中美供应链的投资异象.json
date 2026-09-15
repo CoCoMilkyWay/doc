@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "20210726-国泰君安-学界纵横-018-基于中美供应链的投资异象",
+  "genre": "review",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中国客户公司的收益率对美国供应商股票收益率有可预测性，可预测性直接产生于供应链关系，而美国供应商公司的收益率对中国客户股票收益率没有可预测性。",
+      "evidence": "结论主要有三：（1）中国客户公司的收益率对美国供应商股票收益率有可预测性；（2）可预测性直接产生于供应链关系；（3）美国供应商公司的收益率对中国客户股票收益率没有可预测性。"
+    },
+    {
+      "text": "基于客户滞后月度回报构建的 L/S 投资组合策略产生显著异常回报，在 Fama-French 五因素模型下等权重组合的异常月收益率为 2.179%。",
+      "evidence": "例如，在 Fama-French五因素模型中，在 5%显著性水平上，来自 L/S 投资组合策略的异常月收益率为 2.179%(等权重组合情况)。"
+    },
+    {
+      "text": "Fama-MacBeth 回归显示公告后样本中客户滞后回报系数显著为正，第 3 列系数为 0.247，客户公司股票回报增加 1%将使供应商公司股票回报增加 0.247%，且结果稳健。",
+      "evidence": "回归结果提供了强有力的证据，表明供应链上的公共信息有助于回报的可预测性，在包括其他控制变量后，该结果仍是显著和稳健的。在面板 A的第 3 列中， $CRET_{t-1}$ 的系数为 0.247，这意味着客户公司股票回报增加 1%将使供应商公司的股票回报增加 0.247%。"
+    },
+    {
+      "text": "由于控制公司与供应商没有联系，使用伪样本后回报的可预测性会消失，这一结果支持真实的客户-供应商联系导致回报的可预测性。",
+      "evidence": "由于控制公司与供应商没有联系，回报的可预测性会消失。面板 B类似于表 4 中的面板 B——使用公告前的样本。对于所有的回归， $CRET_{t-1}^{p}$ 没有明显的可预测性。这一结果支持真实的客户-供应商联系导致回报的可预测性。"
+    },
+    {
+      "text": "文章匹配美国供应商和中国客户在年度报告发布后的回报，从发布年份 t + 1 的 7 月到下一年 t + 2 的 6 月，两家公司在此期间的关系成为公开信息，股票收益的时间段为 2010 年 7 月至 2017 年 6 月。",
+      "evidence": "美国的公司通常在 t + 1 年公布财年 t 的年度报告。因此，文章匹配美国供应商和中国客户在年度报告发布后的回报，从发布年份 t + 1 的 7 月到下一年 t + 2 的 6 月。两家公司在此期间的关系成为公开信息。股票收益的时间段为 2010 年 7 月至 2017 年 6 月。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Return Predictability: Evidence from the US–China Supply Chain"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

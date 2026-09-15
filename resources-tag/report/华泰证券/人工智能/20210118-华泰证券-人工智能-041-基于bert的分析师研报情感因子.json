@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "id": "20210118-华泰证券-人工智能-041-基于bert的分析师研报情感因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["analyst", "text"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "senti",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去90个自然日个股研报情感得分的线性衰减加权和，情感得分为BERT预测为正面的概率减去0.5}",
+          "stats": [null, 0.0371, 0.31, 0.1221],
+          "evidence": "按照时间先后对上述 90 个自然日的个股情感得分求线性衰减加权和(越靠近t的情感得分权重越大)，得到t当日的研报情感因子，该研报情感因子我们命名为 senti。"
+        },
+        {
+          "name": "senti_adj",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{同senti，但对情感得分小于0(预测为正面的概率减去0.5后小于0)的文本将其得分乘以3倍后再线性衰减加权求和}",
+          "stats": [null, 0.0281, 0.27, 0.1111],
+          "evidence": "将 BERT 模型预测样本为正面的概率减去 0.5，如果取值小于 0，则将该取值乘 3倍，增大负面样本的权重；如果取值大于 0，则不做处理。"
+        },
+        {
+          "name": "senti_res",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{senti对report_score与report_num横截面回归取残差}",
+          "stats": [null, 0.0234, 0.21, 0.0992],
+          "evidence": "将 senti 因子与 report_score 和 report_num 因子回归取残差得到 senti_res 因子，将 senti_adj 因子与 report_score 和 report_num 因子回归取残差得到 senti_adj_res 因子。"
+        },
+        {
+          "name": "senti_adj_res",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{senti_adj对report_score与report_num横截面回归取残差}",
+          "stats": [null, 0.028, 0.26, 0.1127],
+          "evidence": "将 senti 因子与 report_score 和 report_num 因子回归取残差得到 senti_res 因子，将 senti_adj 因子与 report_score 和 report_num 因子回归取残差得到 senti_adj_res 因子。"
+        },
+        {
+          "name": "report_score",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对Go-Goal研报评级SCORE_ID按研报情感因子相同流程做90个自然日线性衰减加权平均}",
+          "stats": [null, 0.03, 0.28, 0.0835],
+          "evidence": "研报评分因子 report_score：取 CMB_REPORT_RESEARCH 表中 SCORE_ID 字段(Go-Goal 评级 ID)，该字段是朝阳永续整理的研报评级，取值如图表 11 所示。"
+        },
+        {
+          "name": "report_num",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去90个自然日研报数量的线性衰减加权和}",
+          "stats": [null, 0.0284, 0.26, 0.0886],
+          "evidence": "研报数量因子 report_num：对每只股票，取其过去 90 个自然日的研报数据，在同一天内计算当天的研报总数，然后按照图表 10 的线性衰减加权方法计算因子值。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "senti在各个股票池内表现最好，但其残差因子senti_res表现最差，说明其大部分信息可被report_score和report_num因子所解释。",
+      "evidence": "总体来看，senti 在各个股票池内表现最好，但其残差因子 senti_res 表现最差，说明其大部分信息可被report_score 和 report_num 因子所解释。"
+    },
+    {
+      "text": "senti_adj与其残差因子表现相差不大，更能体现研报情感因子相比report_score和report_num的增量信息，在沪深300、中证500、全A股的多头年化超额收益率分别为5.40%、6.26%、4.39%。",
+      "evidence": "senti_adj 因子在沪深 300、中证 500、全 A 股的多头年化超额收益率分别为 5.40%，6.26%，4.39%(回测区间：20100504~20201231)，在最近两年表现优秀。"
+    },
+    {
+      "text": "基于senti因子的研报情感因子TOP80组合年化收益率为14.90%，2019年和2020年分别获得51.61%和69.69%的绝对收益。",
+      "evidence": "研报情感因子 TOP80 组合在 2019 年和 2020 年表现优秀，分别获得了 51.61%和 69.69%的绝对收益。"
+    },
+    {
+      "text": "用Wind金融舆情文本微调后的BERT模型在测试集上准确率0.9833、AUC 0.9762，预测精度很高。",
+      "evidence": "微调完成后，模型在测试集上的准确率为 0.9833，AUC 为 0.9762，具有很高的预测精度，说明 BERT 模型学会了如何判断金融文本的情感。"
+    },
+    {
+      "text": "senti与report_score及report_num相关性较高，senti_adj与其他因子相关性都较低，增量信息更多。",
+      "evidence": "senti和 report_score 及 report_num 的相关性都较高，而 senti_adj 和其他因子的相关性都较低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《舆情因子和 BERT 情感分类模型》（2020.10.22）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20250424-华创证券-形态学研究-015-形态学在etf轮动上的研究",
+  "genre": "research",
+  "asset": ["fund"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "形态学多空数值",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{将ETF指数每天的多空个股个数求和后除以该ETF指数的成分股个数，再进行30天HMA均线求解}",
+          "stats": [null, null, null, null],
+          "evidence": "当我们把ETF 指数每天的多空个股个数求和后，除以当时该ETF 指数的成分股个数，在进行 30 天的 HMA 均线求解后，该指标就表征了该 ETF 从结构上形态学的看多或者看空力量的变化与对比，由于都除以了 ETF 跟踪指数成分股个数，也消除了不同 ETF 因为成分股个数不同不可比的情况"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_momentum"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "基于历史数据回测，固定时间点调仓、每日调仓、买入持有信号消失退出三种策略都可跑赢万得偏股混合型基金指数。",
+      "evidence": "基于历史数据回测，不管是固定时间点调仓、每日调仓、或者是买入持有信号消失退出策略等，都可跑赢万得偏股混合型基金指数。"
+    },
+    {
+      "text": "买入持有信号消失退出策略兼顾了前两种策略的优势，充分利用信号特性也尊重低频换手规则，是更佳的ETF轮动信号。",
+      "evidence": "而买入持有信号消失退出策略则兼顾了前两种策略的优势，充分利用了信号的特性也尊重了低频换手的规则。从目前数据来看，买入持有信号消失退出策略是更佳的 ETF 轮动信号。"
+    },
+    {
+      "text": "固定时间点调仓策略每周选6个ETF效果最好，可跑赢万得偏股混合型基金指数的收益率，但回撤增加，效果一般。",
+      "evidence": "可见固定时间点调仓策略每周选 6个 ETF效果最好。可以跑赢万得偏股混合型基金指数的收益率，但回撤增加，可见ETF 轮动选择固定时间点调仓效果一般。"
+    },
+    {
+      "text": "每日调仓策略选4个ETF效果最好，ETF数目过少分散不了风险，过多则产生大量手续费对冲掉收益。",
+      "evidence": "每日调仓策略选 4个ETF效果最好。同预想大概一致。如果选择ETF 数目过少，分散不了风险，选择ETF 过多，会导致产生了大量的手续费对冲掉收益。"
+    },
+    {
+      "text": "买入持有信号消失退出策略以某天为起点买入持有，直到某ETF不再看多，换入剩余未选入ETF中强度最大者，最佳ETF数为4个。",
+      "evidence": "以最开始某天作为起点，买入持有，直到某ETF 不再看多，选择剩下尚未选入的ETF中强度最大的作为新ETF 买入。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《K线形态研究开篇：形态学初识与应用》",
+    "《形态学研究之十三：形态学在ETF 上的择时研究》",
+    "《形态学研究之十四：形态学在行业轮动上的研究》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

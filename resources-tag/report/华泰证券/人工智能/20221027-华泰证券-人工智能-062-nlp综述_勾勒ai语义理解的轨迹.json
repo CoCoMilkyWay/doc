@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "id": "20221027-华泰证券-人工智能-062-nlp综述_勾勒ai语义理解的轨迹",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["text"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "NLP发展分为三阶段：第一阶段以统计语言模型为主，第二阶段以Word2Vec类词向量模型为主，第三阶段预训练语言模型逐渐成熟，BERT等模型大放异彩，NLP进入崭新时代。",
+      "evidence": "第一阶段以统计语言模型为主，各类词语&句子的表征方法层出不穷，没有哪种模型占据绝对优势；第二阶段以 Word2Vec 类的词向量模型为主，WordEmbedding 技术大行其道，迁移学习的思想崭露头角；第三阶段预训练语言模型逐渐成熟，迁移学习的思想发挥到极致，BERT 等模型站在前人的肩膀上大放异彩，NLP进入崭新的时代。"
+    },
+    {
+      "text": "Word2Vec包括CBOW和Skip-gram两组模型，简化了NNLM的网络结构，并使用Hierarchical Softmax和Negative Sampling提高训练效率，使大规模语料训练成为现实，词向量在语义上表现非常好。",
+      "evidence": "Word2Vec 包括 CBOW 和 Skip-gram 两组模型，任务分别为根据上下文预测中心词以及根据中心词来预测上下文，相比于第一阶段的 NNLM 简化了网络结构，同时使用了 Hierarchical Softmax 和 Negative Sampling 两种方法提高训练效率，使得大规模语料训练成为了现实。更重要的是，模型得到的词向量能够在语义上有非常好的表现。"
+    },
+    {
+      "text": "BERT集前人模型之大成，利用Transformer实现真正意义上的双向语义理解，在预训练阶段使用MLM和NSP两个任务实现语义的更深层次理解，完善和扩展了GPT中的通用任务框架。",
+      "evidence": "BERT 模型集前人模型之大成，利用 Transformer实现了真正意义上的双向语义理解，并在预训练阶段使用MLM和NSP两个任务实现语义的更深层次理解，完善和扩展了GPT中设计的通用任务框架。"
+    },
+    {
+      "text": "在金融领域，使用BERT对新闻舆情、分析师研报等文本数据进行挖掘构建选股策略已不再另类，甚至逐渐成为金融自然语言处理的标配。",
+      "evidence": "使用 BERT 对新闻舆情、分析师研报等文本数据进行挖掘进而构建选股策略已经不能算是很另类的想法，正如在许多其他 NLP的子领域一样，甚至已经逐渐成为金融自然语言处理的标配，文本这一“另类数据”实际上也在逐渐成为“传统数据”。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《人工智能 57：文本 FADT 选股》（20220701）"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

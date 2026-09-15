@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "id": "20230217-中信建投-逐鹿alpha-014-基本面因子与量价因子融合模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": ["style_ratio", "order_flow", "intraday_pattern", "technical_pattern", "symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "openfe37",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "CSRank(((营业利润+支付给职工以及为职工支付的现金)/总市值).公告日期)",
+          "stats": [null, null, null, null],
+          "evidence": "随着频率变低（5D->30D），基本面因子 openfe37（（营业利润 + 支付给职工以及为职工支付的现金）/总市值）的排名不断提升"
+        },
+        {
+          "name": "KMID",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "($close-$open)/$open",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha158 从动量，波动率，流动性等各个维度刻画了股票的中长期变化。"
+        },
+        {
+          "name": "malpha0",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "mean(close)/last(close)",
+          "stats": [null, null, null, null],
+          "evidence": "中信建投 MAlpha65 是我们结合 QLIB 算子以及分钟量价数据，通过考察因子的有效性和相关性，最终生成的 65 个基于分钟频量价降频到日频的因子。"
+        },
+        {
+          "name": "l2alpha0",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{主动性买入成交金额占总成交金额的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "L2 的因子计算方式主要是通过区分逐笔成交的金额大小、方向以及主被动来对成交进行划分，不同类型的交易行为背后所包含的信息有所不同。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "label_horizon", "sample_window", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "将不同类型的因子融入统一模型，相比于单一类型的因子输入，多类型因子输入能够提升模型的整体表现",
+      "evidence": "结果表明，将不同类型的因子融入统一模型，相比于单一类型的因子输入，多类型因子输入能够提升模型的整体表现"
+    },
+    {
+      "text": "对比单一类型输入的Model1，将4类因子作为输入的Model4多头组的年化收益提升了大约10%，空头组的收益也降低了超过 10%",
+      "evidence": "将4类因子作为输入的Model4表现最好，对比单一类型输入的Model1，多头组的年化收益提升了大约10%，空头组的收益也降低了超过 10%。"
+    },
+    {
+      "text": "Model4 年化收益率 35.57%为费前收益率，在 3‰的交易成本下，费后预估的年化收益率为 31%左右",
+      "evidence": "Model4 的回测净值曲线如下图所示，其中年化收益率 35.57%为费前收益率，在 3‰的交易成本下，费后预估的年化收益率为 31%左右。"
+    },
+    {
+      "text": "随着因子维度的拓展，模型收益会有显著提升，同时因子带来的边际贡献会越来越小",
+      "evidence": "结果表明，随着因子维度的拓展，模型收益会有显著提升，同时因子带来的边际贡献会越来越小。"
+    },
+    {
+      "text": "随着频率变低（5D->30D），基本面因子 openfe37的排名不断提升，频率越低基本面因子的边际重要性会随之提高",
+      "evidence": "随着频率变低（5D->30D），基本面因子 openfe37（（营业利润 + 支付给职工以及为职工支付的现金）/总市值）的排名不断提升"
+    },
+    {
+      "text": "整体上因子以分钟频量价因子为主，基本面因子占比较低，行业因子的重要性最高",
+      "evidence": "可以看出，整体上因子以分钟频量价因子为主，基本面因子占比较低。行业因子的重要性最高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "“逐鹿”Alpha专题报告（十三）——基于 openFE的基本面因子挖掘框架",
+    "“逐鹿”Alpha专题报告（十二）——AlphaZero：基于 AutoML-Zero 的高频数据低频化因子挖掘框架"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

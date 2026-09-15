@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "id": "20160908-国泰君安-数量化专题-077-基于机器学习的牛股精选",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily"], "freq": "weekly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "变动速率 ROC",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["weekly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{ROC}=\\frac{\\mathrm{close}_{t}}{\\mathrm{close}_{t-10}}",
+          "stats": [null, null, null, null],
+          "evidence": "变动速率 ROC 反映的是价格的动量，定义为当期价格与十周前价格的比例:"
+        },
+        {
+          "name": "佳庆震荡指标 ADSOC",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["weekly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{AD0}=\\mathrm{ema}_{3}-\\mathrm{ema}_{10},\\ \\mathrm{ema}_{i}=\\frac{2}{i+1}\\mathrm{ADL}+\\frac{i-1}{i+1}\\mathrm{ema}_{t-1}",
+          "stats": [null, null, null, null],
+          "evidence": "在其基础上有佳庆震荡指标，其常见的定义为 3 期 ADL 的移动平均与10 期的差值，即："
+        },
+        {
+          "name": "布林线上轨 UpperBand",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["weekly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Upperband}=\\mathrm{Middleband}+2\\mathrm{MD}",
+          "stats": [null, null, null, null],
+          "evidence": "为了反映当前股价所在布林带的相对位臵，我们分别以布林线三条轨除以当期收盘价。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "label_horizon", "sample_window", "loss_generalization"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily"], "freq": "weekly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["heuristic_ranking", "futures_hedge"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于决策树模型的策略呈现稳定且显著的超额收益，2011年1月至2015年12月获得165%累计超额收益、21.55%年化超额收益、信息比率2.11。",
+      "evidence": "从图 8 中可以看出，基于决策树模型的策略呈现了稳定且显著的超额收益。从 2011年 1月至 2015年 12月，策略获得了 165%的累计超额收益，年化超额收益 21.55%，信息比率 2.11。"
+    },
+    {
+      "text": "2015年6月开始的股灾期间市场切换为极端模式，机器学习的训练样本中并没有遇到过这种情况，模型失效，导致最大回撤9.33%发生于2015年8月下旬。",
+      "evidence": "其中，最大回撤 9.33%，发生于 2015年 8月下旬。可以看出，从 2015年 6月开始的股灾期间，由于市场切换为极端模式，机器学习的训练样本中并没有遇到过这种情况，所以模型失效，导致了策略较大的回撤。"
+    },
+    {
+      "text": "佳庆震荡指标最为有效，解释了31%纯度提升，其次是动量指标ROC和布林线上轨，三者一共可以解释模型71%的变异，其余解释变量相对解释能力都小于10%。",
+      "evidence": "从图 7 中可以看出，佳庆震荡指标最为有效，解释了 31%纯度提升。其次是动量指标 ROC和布林线上轨。三者一共可以解释模型 71%的变异，其余解释变量对被解释变量的相对解释能力都小于 10%。"
+    },
+    {
+      "text": "基于机器学习策略在算法上和逻辑上与传统的多因子模型的区别，模型在一定程度上提供了较好的互补性，提高了收益的稳定性。",
+      "evidence": "基于机器学习策略在算法上和逻辑上与传统的多因子模型的区别，模型在一定程度上提供了较好的互补性，提高了收益的稳定性。"
+    },
+    {
+      "text": "组合整体月超额收益胜率70%，单月最大负收益为-4.2%，出现于2011年11月，月度上的表现较为稳定。",
+      "evidence": "组合整体月超额收益胜率 70%，单月最大负收益为-4.2%，出现于 2011 年 11 月。"
+    },
+    {
+      "text": "为控制模型复杂度、提高样本外表现，对决策树进行预剪枝设定：叶节点个数上限设置为2倍的解释变量个数：6个。",
+      "evidence": "为了控制模型的复杂度、提高其在样本外数据的表现，我们为决策树进行预剪枝设定：把叶节点个数上限设臵为 2倍的解释变量个数：6个。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《基于微观市场结构的择时策略》"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

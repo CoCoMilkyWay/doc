@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "id": "20200702-华泰证券-人工智能-033-数据模式探索_无监督学习案例",
+  "genre": "research",
+  "asset": ["stock_cn", "fund", "multi"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["alt"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "余弦相似度",
+          "family": "relation",
+          "direction": "unknown",
+          "data_period": ["na"],
+          "horizon": "na",
+          "formula": "Similarity(A,B)=\\frac{|A\\cap B|}{\\sqrt{|A|*|B|}}",
+          "stats": [null, null, null, null],
+          "evidence": "从图表 10 可知，聚类算法的模型输入是样本间的相似度或距离，我们使用股票概念的余弦相似度来衡量股票的相似度："
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["statistical"],
+      "setup": {
+        "risk_factors": ["size", "value", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "各流形学习算法降维效果中 t-SNE 的降维效果较好，各数字对应的样本点自然地聚成了 6 个簇。",
+      "evidence": "图表 5 和图表 6展示了各算法的降维效果，可知，t-SNE的降维效果较好，各数字对应的样本点自然地聚成了 6 个簇。"
+    },
+    {
+      "text": "在 t-SNE 算法所得到的二维平面中，收益率相近的基金出现了聚集现象，医疗主题基金的收益率与全指医药指数近似，消费主题基金与全指消费指数近似。",
+      "evidence": "观察图表7可知，在t-SNE算法所得到的二维平面中，收益率相近的基金出现了聚集现象，如上方的医疗主题基金(基金组 1)，它们的收益率与全指医药指数近似；"
+    },
+    {
+      "text": "K-Means 和层次聚类的表现接近，都优于谱聚类，层次聚类将具有相似概念的股票聚到了一起。",
+      "evidence": "结果显示，K-Means 和层次聚类的表现接近，都优于谱聚类，我们展示了层次聚类的详细结果，聚类簇中的概念具有高度相似性，说明层次聚类将具有相似概念的股票聚到了一起。"
+    },
+    {
+      "text": "随着控制变量的变化，Fama-MacBeth 回归法和因子模拟组合法所估计的因子溢价会有变化，甚至有些因子溢价的符号与第一列中的结果符号相反，说明这两种方法表现欠佳。",
+      "evidence": "随着控制变量的变化，Fama-MacBeth 回归法和因子模拟组合法所估计的因子溢价会有变化，甚至有些因子溢价的符号与第一列中的结果符号相反，说明这两种方法表现欠佳。"
+    },
+    {
+      "text": "许多标准的宏观因子没有显著的风险溢价，而与市场摩擦相关的因子(如流动性因子等)有很显著的风险溢价。",
+      "evidence": "结果还显示，许多标准的宏观因子(如 Macro PC2 等)没有显著的风险溢价，而与市场摩擦相关的因子(如流动性因子、Interm.(He)和 Interm.(Adrian))有很显著的风险溢价。"
+    },
+    {
+      "text": "相比传统因子溢价估计方法，三步法能更准确地估计因子溢价。",
+      "evidence": "相比传统因子溢价估计方法，“三步法”能更准确地估计因子溢价。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Asness, C., A. Frazzini and L. Pedersen. (2013). \"Quality Minus Junk.\"",
+    "Frazzini, A. and L. Pedersen. (2014). \"Betting Against Beta.\"",
+    "Giglio, S. and D. Xiu. (2019). \"Asset Pricing with Omitted Factors.\" Chicago Booth Research Paper No. 16-21.",
+    "Ludvigson, S. and S. Ng. (2010). \"Macro Factors in Bond Risk Premia.\""
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

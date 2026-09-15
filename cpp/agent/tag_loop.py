@@ -185,7 +185,9 @@ def complete(client, a, messages, request_id, think_path):
                 if ch.finish_reason:
                     finish = ch.finish_reason
     assert finish is not None, "%s: 流到 [DONE] 却没有 finish_reason" % request_id
-    assert usage is not None, "%s: 流到 [DONE] 却没有 usage" % request_id
+    if usage is None:
+        # 流完成了 (有 finish_reason) 但服务端没在末 chunk 附 usage —— 服务端偶发, 当 sdk_error 只坏这一篇, 不整批停
+        raise ZaiError("%s: 流到 [DONE] 却没有 usage" % request_id)
     return "".join(parts), finish, usage, rid
 
 

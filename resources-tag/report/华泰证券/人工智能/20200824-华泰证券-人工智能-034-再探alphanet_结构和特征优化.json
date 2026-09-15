@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20200824-华泰证券-人工智能-034-再探alphanet_结构和特征优化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi500", "csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "AlphaNet-v1",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{特征提取层(ts_corr/ts_cov/ts_stddev/ts_zscore/ts_return/ts_decaylinear)+池化层+全连接层端到端输出10日收益率预测，10个模型预测等权平均为合成因子}",
+          "stats": [null, 0.0972, 1, 0.45],
+          "evidence": "华泰金工前期报告《AlphaNet：因子挖掘神经网络》(2020.6.14)提出了AlphaNet-v1模型，能以端到端的方式有效提取股票原始量价数据中的因子。"
+        },
+        {
+          "name": "AlphaNet-v2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{扩充6个比率类特征(15*30数据图片)+特征提取层+LSTM层端到端输出10日收益率预测，10个模型预测等权平均为合成因子}",
+          "stats": [null, 0.1076, 1.15, 0.4961],
+          "evidence": "相比AlphaNet-v1，AlphaNet-v2改进了以下几点：(1)考虑到比率类特征的有效性，扩充了6个比率类特征；(2)将池化层和全连接层替换为LSTM层，从而更好地学习特征的时序信息；(3)训练集和验证集划分从1：1变成4：1，验证集更关注近期样本的表现。"
+        },
+        {
+          "name": "AlphaNet-v3",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{双特征提取层(回看区间10和5)+双层GRU端到端输出10日收益率预测，10个模型预测等权平均为合成因子}",
+          "stats": [null, 0.097, 1, 0.3723],
+          "evidence": "相比 AlphaNet-v2，AlphaNet-v3改进了以下几点：(1)扩充特征提取层，特征提取层1和特征提取层2中的运算函数具有不同的回看区间(10 和 5)；(2)将 LSTM 层替换为 GRU，减少模型参数。"
+        },
+        {
+          "name": "因子1",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "ts_corr(div(open,free_turn),close,10)",
+          "stats": [null, null, null, null],
+          "evidence": "因子1：ts_corr(div(open,free_turn),close,10)。"
+        },
+        {
+          "name": "因子2",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "ts_corr(div(volume,low),close,10)",
+          "stats": [null, null, null, null],
+          "evidence": "因子2：ts_corr(div(volume,low),close,10)。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_training", "L3_composition"],
+      "approach": ["sample_window", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi500", "csi800"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi800"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "在全A股和中证800成分股中，AlphaNet-v2表现优于AlphaNet-v1，全A股RankIC均值从9.72%提升至10.76%，ICIR从1.00提升至1.15。",
+      "evidence": "在全 A 股和中证 800 成分股中，AlphaNet-v2 表现优于 AlphaNet-v1。设定回测期为20110131～20200731，调仓周期为10个交易日。在全A股中，AlphaNet-v2相比AlphaNet-v1 的 RankIC 均值从9.72%提升至10.76%，ICIR从1.00提升至1.15。"
+    },
+    {
+      "text": "构建相对于中证500的行业、市值中性的全A选股策略，AlphaNet-v2年化超额收益率从17.17%提升至19.09%，信息比率从2.73提升至3.13。",
+      "evidence": "构建相对于中证500的行业、市值中性的全A选股策略，年化超额收益率从17.17%提升至19.09%，信息比率从2.73提升至3.13。"
+    },
+    {
+      "text": "在中证500成分股中，AlphaNet-v3相比AlphaNet-v2的RankIC均值从9.05%提升至9.70%，ICIR从0.89提升至1.00，表现小幅优于AlphaNet-v2。",
+      "evidence": "在中证500 成分股中，AlphaNet-v3 相比 AlphaNet-v2 的 RankIC 均值从 9.05%提升至9.70%，ICIR从 0.89提升至1.00。构建相对于中证 500的行业、市值中性的选股策略，年化超额收益率从9.40%提升至9.75%，信息比率从2.19 提升至 2.30。"
+    },
+    {
+      "text": "AlphaNet的优点是端到端学习使得因子挖掘和因子合成使用同一目标函数进行优化，且无需维护因子池，从而无需做大量的单因子测试、因子相关性分析、因子中性化等工作。",
+      "evidence": "AlphaNet的优点是：端到端学习使得因子挖掘和因子合成使用同一目标函数进行优化，且无需维护因子池，从而无需做大量的单因子测试、因子相关性分析、因子中性化等工作。"
+    },
+    {
+      "text": "特征提取层得到的特征依然具有时序信息，相比池化层，LSTM/GRU更合适作为后续的网络结构。",
+      "evidence": "如图表11所示，由于特征提取层得到的特征依然具有时序信息，因此相比池化层，LSTM/GRU更合适作为后续的网络结构。"
+    },
+    {
+      "text": "遗传规划挖掘出的因子中包含比率类特征的因子回测表现较好，据此在AlphaNet-v2和AlphaNet-v3中加入了6个比率类特征。",
+      "evidence": "在遗传规划所挖掘出的因子中，我们观察到包含比率类特征的因子回测表现较好"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《AlphaNet：因子挖掘神经网络》（2020.6.14）",
+    "《基于量价的人工智能选股体系概览》（2020.2.18）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

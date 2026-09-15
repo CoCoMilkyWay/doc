@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "id": "20170830-国泰君安-数量化专题-098-基于弹簧模型的量价分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "股价塑性冲击指数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "SPPI=\\frac{\\sum_{i=1}^{N}Q_{K}^{i}(P_{K}^{i}-B_{K})}{Q_{K}^{F}B_{K-1}}=\\frac{W_{K}-B_{K}Q_{K}}{Q_{K}^{F}B_{K-1}},\\quad B_{K}=\\frac{\\sum_{i=0}^{T-1}(open_{K-i}+high_{K-i}+low_{K-i}+close_{K-i})}{T}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，VRBP（variation rate of balanced price）代表了均衡价格的变动率。SPPI(stock price plasticity index)表示股价塑性冲击指数。"
+        },
+        {
+          "name": "塑性系数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "VRBP=\\alpha\\cdot sign(SPPI)\\cdot\\sqrt{abs(SPPI)}+\\varepsilon",
+          "stats": [0.04, null, 1.32, 0.0942],
+          "evidence": "股票塑性指在股票成交量的推动下，股票的均衡价格产生移动的性质。股票塑性越高表明投资者不需要巨大的成交量或大幅拉升股价就能推动均衡价格上涨。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization", "smoothing"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基本模型拟合优度平均大于50%，约90%股票样本的塑性系数显著大于0，基本符合均衡价格往价格偏离方向移动的认知。",
+      "evidence": "基本模型的拟合优度平均大于 50%，模型总体的可信度较好。约 90%股票样本的塑性系数 显著大于 0，基本符合均衡价格往价格偏离方向移动的认知。"
+    },
+    {
+      "text": "二次根式模型更契合股票数据，模型平均R2从64%提升至73%，序列自相关性大于1.5基本消除，被选为最终的弹簧塑性模型。",
+      "evidence": "回归结果表明，二次根式模型确实更契合股票数据。模型平均R2从 64%提升至73%；塑性系数显著性水平也有明显上升；序列自相关性大于1.5，基本消除了自相关性。"
+    },
+    {
+      "text": "塑性系数本质上反映了股票的锁仓比，高锁仓比反映较高的筹码集中度，是投资者对股票未来发展和股价上涨有较强信心的表现。",
+      "evidence": "高锁仓比意味着股票真实的可流通股票数量远小于流通盘。它反映了股票较高的筹码集中度，表明该股票持有者在上涨中惜售，在下跌中不愿轻易止损的心态，这是投资者对股票未来发展和股价上涨有较强信心的表现。"
+    },
+    {
+      "text": "塑性系数作为选股因子具有较强的显著性，IC和ICIR分别约为0.04和1.32，控制市值、反转和行业后因子收益率为9.4%。",
+      "evidence": "塑性系数作为选股因子具有较强的显著性。IC和 ICIR 分别约为0.04和 1.32。在控制了市值、反转和行业后，因子收益率为 9.4%。"
+    },
+    {
+      "text": "塑性系数秩相关系数约为56%，塑性系数较高且排序变化适中，既是较稳定的属性特征，仍可基于因子排序选股。",
+      "evidence": "平均来看，塑性系数的秩相关系数约为 56%，表明塑性系数具有较高的持续性，上月高塑性系数的股票，下一个月塑性系数大概率仍然处于高位，表明股票塑性是股票较为稳定的属性特征"
+    },
+    {
+      "text": "对冲中证500的行业中性策略年化收益率15.9%，信息比率2.1，最大回撤6.9%；年平均换手率约266%，对手续费的冲击敏感度较低。",
+      "evidence": "对冲中证500指数后，基于塑性因子的行业中性策略年化收益率 15.9%，信息比率2.1，最大回撤 6.9%。策略表现为低换手率的特征，年平均换手率约为266%，对手续费的冲击敏感度较低。"
+    },
+    {
+      "text": "塑性因子表现与市场投机氛围有较高相关性，投机氛围浓厚时锁仓比高的股票更易产生价格泡沫，策略在换手率较高的2011、2015和2016年表现较好。",
+      "evidence": "塑性因子表现与市场投机氛围有较高的相关性。当市场投机氛围较浓厚时，锁仓比高的股票更容易产生价格泡沫，故策略在 2011 年、2015 年和2016年等市场换手率较高的年份中表现较好"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

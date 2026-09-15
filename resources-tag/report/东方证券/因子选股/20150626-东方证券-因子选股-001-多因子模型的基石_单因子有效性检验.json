@@ -1,0 +1,378 @@
+{
+  "schema_version": 2,
+  "id": "20150626-东方证券-因子选股-001-多因子模型的基石_单因子有效性检验",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "statement_detail", "momentum_reversal", "liquidity_turnover"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近报告期净资产}}{\\text{指定日总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "估值指标 | BP | 最近报告期净资产/指定日总市值"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近12个月净利润}}{\\text{指定日总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "EP | 42.62% | 34.43% | 31.97% | 45.08% | 十 | 8.20% | -13.11%"
+        },
+        {
+          "name": "SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近12个月主营收入}}{\\text{指定日总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "SP | 43.44% | 27.05% | 41.80% | 28.69% | 十 | 16.39% | 13.11%"
+        },
+        {
+          "name": "CFP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{12个月经营性现金流}}{\\text{指定日总市值}}",
+          "stats": [null, null, null, null],
+          "evidence": "CFP | 12个月经营性现金流/指定日总市值"
+        },
+        {
+          "name": "PE/ProfitGrowRateTTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{PE}}{\\text{ProfitGrowRateTTM}}",
+          "stats": [null, null, null, null],
+          "evidence": "PE/ProfitGrowRateTTM | PE/ProfitGrowRateTTM"
+        },
+        {
+          "name": "EBITDA/EV",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{EBITDA}}{\\text{企业价值}}",
+          "stats": [null, null, null, null],
+          "evidence": "EBITDA/EV | EBITDA/企业价值"
+        },
+        {
+          "name": "hsl22",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近22个交易日的换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "纯技术指标 | hsl22 | 最近22个交易日的换手率"
+        },
+        {
+          "name": "stockzf22",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_t - P_{t-22}}{P_{t-22}}",
+          "stats": [null, null, null, null],
+          "evidence": "stockzf22 | 过去22个交易日涨跌幅"
+        },
+        {
+          "name": "stockpjcj5/60",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{5日VWAP}}{\\text{60日VWAP}}",
+          "stats": [null, null, null, null],
+          "evidence": "stockpjcj5/60 | 5日VWAP/60日VWAP"
+        },
+        {
+          "name": "mv",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值}",
+          "stats": [null, null, null, null],
+          "evidence": "mv | 25.41% | 55.74% | 45.08% | 36.07% | 一 | 30.33% | 9.02%"
+        },
+        {
+          "name": "Totalmarketvalue",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值}",
+          "stats": [null, null, null, null],
+          "evidence": "Total market value | 22.13% | 54.92% | 45.90% | 31.15% | - | 32.79% | 14.75%"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{12个月归母净利润}}{\\text{平均总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "ROA | 42.62% | 36.89% | 38.52% | 40.98% | 十 | 5.74% | -2.46%"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{12个月归母净利润}}{\\text{平均净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "ROE | 34.43% | 35.25% | 32.79% | 36.89% | 一 | 0.82% | -4.10%"
+        },
+        {
+          "name": "ROA1",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近报告期归母净利润}}{\\text{总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "ROA1 | 44.26% | 36.07% | 44.26% | 36.07% | 十 | 8.20% | 8.20%"
+        },
+        {
+          "name": "ROE1",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近报告期归母净利润}}{\\text{净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "ROE1 | 33.61% | 33.61% | 27.05% | 40.16% | 十 | 0.00% | -13.11%"
+        },
+        {
+          "name": "OCFprofitratio",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{12个月经营性现金流}}{\\text{12个月净利润}}",
+          "stats": [null, null, null, null],
+          "evidence": "OCFprofitratio | 12个月经营性现金流/12个月净利润"
+        },
+        {
+          "name": "profitsalesratio",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{12个月归母净利润}}{\\text{12个月总营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "profitsalesratio | 12个月归母净利润/12月个月总营业收入"
+        },
+        {
+          "name": "profitsalesratio1",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近报告期归母净利润}}{\\text{总营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "profitsalesratio1 | 最近报告期归母净利润/总营业收入"
+        },
+        {
+          "name": "opsalesratio",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近12个月营业利润}}{\\text{主营业务收入净额}}",
+          "stats": [null, null, null, null],
+          "evidence": "opsalesratio | 最近12个月营业利润/主营业务收入净额"
+        },
+        {
+          "name": "opsalesratio1",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近报告期营业利润}}{\\text{主营业务收入净额}}",
+          "stats": [null, null, null, null],
+          "evidence": "opsalesratio1 | 最近报告期营业利润/主营业务收入净额"
+        },
+        {
+          "name": "assetturnover",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近12个月主营业务收入净额}}{\\text{平均总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "assetturnover | 最近12个月主营业务收入净额/平均总资产"
+        },
+        {
+          "name": "liquidratio",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近报告期流动资产}}{\\text{流动负债}}",
+          "stats": [null, null, null, null],
+          "evidence": "liquidratio | 最近报告期流动资产/流动负债"
+        },
+        {
+          "name": "CashAssetRatio",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近12个月经营现金净流量}}{\\text{最近报告期流动负债}}",
+          "stats": [null, null, null, null],
+          "evidence": "CashAssetRatio | 最近12个月经营现金净流量/最近报告期流动负债"
+        },
+        {
+          "name": "debt2asset",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近报告期负债总额}}{\\text{资产总额}}",
+          "stats": [null, null, null, null],
+          "evidence": "debt2asset | 最近报告期负债总额/资产总额"
+        },
+        {
+          "name": "daysofturnover",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{应收账款周转天数}+\\text{存货周转天数}-\\text{应付账款周转天数}",
+          "stats": [null, null, null, null],
+          "evidence": "daysofturnover | 应收账款周转天数+存货周转天数-应付账款周转天数"
+        },
+        {
+          "name": "salesgrowrate1",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{12个月销售收入同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "salesgrowrate1 | 12个月销售收入同比增长"
+        },
+        {
+          "name": "ProfitGrowRate1",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近报告期净利润同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "ProfitGrowRate1 | 最近报告期净利润同比增长率(%)"
+        },
+        {
+          "name": "equitygrowrate",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{12个月净资产同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "equitygrowrate | 12个月净资产同比增长"
+        },
+        {
+          "name": "salesgrowrate",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{12个月销售收入同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "salesgrowrate | 12个月销售收入同比增长"
+        },
+        {
+          "name": "assetgrowrate",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近报告期总资产同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "assetgrowrate | 最近报告期总资产同比增长"
+        },
+        {
+          "name": "ProfitGrowRateTTM",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近12个月的净利润增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "ProfitGrowRateTTM | 最近12个月的净利润增长率(%)"
+        },
+        {
+          "name": "NetassetGrowRateTTM",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{最近12个月的每股净资产增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "NetassetGrowRateTTM | 最近12个月的每股净资产增长率(%)"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["return_test", "regression_test", "robustness", "selection"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "表现较好的因子有市值因子、反转因子、换手率指标、各类业绩增速指标和估值指标；资产负债率、周转天数、ROE、ROA 以及销售利润率等指标也对股价有着一定的预测性。",
+      "evidence": "总体而言，表现较好的因子有市值因子、反转因子、换手率指标、各类业绩增速指标和估值指标。另外、资产负债率、周转天数、ROE、ROA 以及销售利润率等指标也对股价有着一定的预测性。"
+    },
+    {
+      "text": "稳健回归能够克服最小二乘回归因异常值而失真的缺陷，得出更为接近实际值的估计。",
+      "evidence": "稳健回归就能够克服最小二乘回归因异常值而失真的缺陷，得出更为接近实际值的估计。"
+    },
+    {
+      "text": "秩相关系数可以排除非线性的因素，但损失一部分信息；一般而言，秩相关系数的显著比例要高于稳健回归系数。",
+      "evidence": "秩相关系数可以排除非线性的因素，但也损失了一部分信息。一般而言，秩相关系数的显著比例要高于稳健回归系数。"
+    },
+    {
+      "text": "同向显著次数占比越大，说明指标的显著性和趋势性越强；切换次数较多则意味着该指标所代表的市场风格经常发生转换，或者说风格持续的时间较短。",
+      "evidence": "一般而言，同向显著次数占比越大，说明指标的显著性和趋势性越强；而切换次数较多则意味着该指标所代表的市场风格经常发生转换，或者说风格持续的时间较短。"
+    },
+    {
+      "text": "同时采用行业内（申万1级）分组和全市场分组对比，发现有的指标在行业内分组的效果更好，而有的指标更适合于直接在全市场进行排序。",
+      "evidence": "我们在对因子的考察中，同时采用了行业内（申万 1 级）分组和全市场分组两种方式进行对比，发现有的指标在行业内分组的效果更好，而有的指标更适合于直接在全市场进行排序。"
+    },
+    {
+      "text": "衡量因子是否显著的标准：秩相关系数的正/负显著比例至少有一项>35%，或者正+负显著比例>60%。",
+      "evidence": "秩相关系数的正/负显著比例至少有一项>35%; 或者正+负显著比例>60%;适合用于行业中性策略的标准："
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

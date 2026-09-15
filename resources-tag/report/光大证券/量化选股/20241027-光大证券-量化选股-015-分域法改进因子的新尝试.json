@@ -1,0 +1,141 @@
+{
+  "schema_version": 2,
+  "id": "20241027-光大证券-量化选股-015-分域法改进因子的新尝试",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "营收同比因子改进",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Y=subtract(ts\\_std(HIGH,8),TRADES\\_COUNT),\\; \\text{factor}=multiply(SalesYOY,sigmoid(standardize(winsorize(Y))))",
+          "stats": [null, 0.0668, null, 0.209],
+          "evidence": "原始因子为单季度营业收入同比增长率（SalesYOY），该因子近几年失效明显。通过分域算法挖掘出的改进因子提升明显。分域因子为股票过去 8 个交易日最高价的标准差，减去当天的成交笔数。"
+        },
+        {
+          "name": "净利润同比因子改进",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Y=add(TRADES\\_COUNT,TURN),\\; \\text{factor}=multiply(ProfitYOY,sigmoid(standardize(winsorize(Y))))",
+          "stats": [null, 0.0831, null, 0.2579],
+          "evidence": "原始因子为单季度净利润同比增长率（ProfitYOY），该因子近几年失效明显。通过分域算法挖掘出的改进因子提升明显。分域因子为股票当日成交笔数加上换手率。"
+        },
+        {
+          "name": "反转因子改进",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "Y=subtract(ts\\_delta(ts\\_min(OPEN,14),5),TRADES\\_COUNT),\\; \\text{factor}=multiply(5DR,sigmoid(standardize(winsorize(Y))))",
+          "stats": [null, 0.0803, null, 0.2232],
+          "evidence": "原始因子为 5 日反转（5DR，当前股价除以过去 5 个交易日股价均值再减 1），该因子历史表现较好。通过分域算法挖掘出的改进因子仍然具有明显的提升效果。分域因子为股票过去 14 个交易日开盘价的最小值，求过去 5 天的变化率，再减去当天的成交笔数。"
+        },
+        {
+          "name": "15 日反转因子",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{factor}=ts\\_max\\_mean\\_minus\\_min\\_mean(RETURN,RETURN,5,15)",
+          "stats": [null, 0.0845, null, 0.276],
+          "evidence": "原始因子为过去 15 个交易日的 RETURN 均值（15 日反转因子），该因子历史表现较好。通过分域算法挖掘出的改进因子具有明显的提升效果。分域因子为股票过去 15 个交易日中，股票收益率最大的 5 个交易日的平均收益率，减去股票收益率最小的 5 个交易日的平均收益率。"
+        },
+        {
+          "name": "尾盘收益因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{factor}=ts\\_max\\_mean(TAIL\\_RET,TAIL\\_RET,5,15)",
+          "stats": [null, 0.0785, null, 0.2341],
+          "evidence": "原始因子为过去 15 个交易日的 TAIL_RET 均值，该因子历史表现较好。通过分域算法挖掘出的改进因子具有一定的提升效果。分域因子为股票过去 15 个交易日中，股票尾盘收益率最大的 5 个交易日的平均尾盘收益率。"
+        },
+        {
+          "name": "振幅因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{factor}=ts\\_max\\_mean\\_minus\\_min\\_mean(SWING,sign\\_sqrt(HIGH),5,15)",
+          "stats": [null, 0.0692, null, 0.1939],
+          "evidence": "原始因子为过去 15 个交易日的 SWING 均值，该因子历史表现较好。通过分域算法挖掘出的改进因子具有明显的提升效果。分域因子为股票过去 15 个交易日中，最高价开方后最大的 5 个交易日的振幅均值，减去最高价开方后最小的 5个交易日的振幅均值。"
+        },
+        {
+          "name": "市值加权估值因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "weightfactor=\\frac{x}{|x|}\\times|x|^{n},\\; weight=\\frac{weightfactor}{\\sum weightfactor},\\; x=\\text{对数市值的倒数}",
+          "stats": [null, 0.0467, null, null],
+          "evidence": "除了上述在截面上根据市值大小将股票池分为大小市值两组外，我们可以对估值因子做一个简单的市值加权，提升小市值股票的估值因子权重。"
+        },
+        {
+          "name": "改进早盘收益因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "factor=\\sum_{i=T-1}^{T-window}morning\\_ret_{i},\\; morning\\_ret_{i}=-morning\\_ret_{i}\\; \\text{if}\\; |morning\\_ret_{i}|>2\\%",
+          "stats": [null, 0.0404, null, null],
+          "evidence": "我们在时序上对早盘收益进行了极值调整，我们以 2%为阈值，将股票池进行分域。改进后的早盘收益因子回测结果如下。从回测结果可以发现，改进后的因子呈现了单调的特征，且呈现了稳定的动量特征。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "截面分域部分，对营收同比因子、净利润同比因子和反转因子改进后提升效果明显，平均周频 Rank IC 分别从 0.8%、1.25%和 3.77%，提升到了 6.68%、8.31%和 8.03%。",
+      "evidence": "在截面分域部分，对营收同比因子、净利润同比因子和反转因子改进后，因子提升效果明显，平均周频 Rank IC 分别从 0.8%、1.25%和 3.77%，提升到了 6.68%、8.31%和 8.03%。"
+    },
+    {
+      "text": "时序分域部分，对反转因子、尾盘收益因子和振幅因子改进后提升效果明显，平均周频 Rank IC 分别从 4.96%、4.89%和 6.12%，提升到了 8.45%、7.85%和 6.92%。",
+      "evidence": "在时序分域部分，对反转因子、尾盘收益因子和振幅因子改进后，因子提升效果明显，平均周频 Rank IC 分别从 4.96%、4.89%和 6.12%，提升到了 8.45%、7.85%和 6.92%。"
+    },
+    {
+      "text": "按市值将股票分成大市值和小市值两个分域后，估值因子在小市值股票池内依然有稳健的超额收益，而在大市值股票池内的表现与全市场的表现一致。",
+      "evidence": "如果按照市值将股票分成大市值和小市值两个分域，我们发现估值因子在小市值股票池内依然有稳健的超额收益，而在大市值股票池内的表现与全市场的表现一致。"
+    },
+    {
+      "text": "市值加权提升小市值股票因子值权重后估值因子表现提升明显，n 由 0 增大到 4 后，周频 RankIC 从 3.84%提升至了 4.67%；月度胜率从 65.89%提升至了 74.42%。",
+      "evidence": "从回测表现来看，提升了小市值股票的因子值权重之后，估值因子的表现提升明显，且提升效果随着 n 的增大而变强。n 由 0 增大到 4 后，因子的周频 RankIC从 3.84%提升至了 4.67%；月度胜率从 65.89%提升至了 74.42%。"
+    },
+    {
+      "text": "以 2%为阈值在时序上对早盘收益进行极值调整分域，改进后的因子呈现了单调的特征，且呈现了稳定的动量特征。",
+      "evidence": "我们在时序上对早盘收益进行了极值调整，我们以 2%为阈值，将股票池进行分域。改进后的早盘收益因子回测结果如下。从回测结果可以发现，改进后的因子呈现了单调的特征，且呈现了稳定的动量特征。"
+    },
+    {
+      "text": "借助遗传规划算法进行分域因子生成，并对成熟的遗传规划库做出深度改进，测试结果表明因子分域后的提升效果显著。",
+      "evidence": "本文借助遗传规划算法来进行分域尝试。首先基于遗传规划算法进行分域因子生成，并基于成熟的遗传规划库做出深度改进。最后，我们测试了基于遗传规划算法生成的分域因子，结果表明，因子分域后的提升效果显著。"
+    },
+    {
+      "text": "以原始因子 Rank IC（RawIC）与分域后新因子 Rank IC（NewIC）比较作为分域有效性标准，NewIC 大于 RawIC 即认为分域操作有效。",
+      "evidence": "我们需要设定分域是否有效的标准，通过计算原始因子的 Rank IC（RawIC）和分域之后新因子的 Rank IC（NewIC），如果 NewIC 大于 RawIC，我们就认为分域操作有效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《因子分域初探：确定分域方式——量化选股系列报告之十四》（2024-09-27）",
+    "《日内收益的精细切分：提炼动量与反转效应——量化选股系列报告之二》（2021-10-22）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

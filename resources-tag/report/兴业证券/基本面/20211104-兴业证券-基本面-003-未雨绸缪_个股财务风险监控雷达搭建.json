@@ -1,0 +1,173 @@
+{
+  "schema_version": 2,
+  "id": "20211104-兴业证券-基本面-003-未雨绸缪_个股财务风险监控雷达搭建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio", "accounting_quality"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "event", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "财务危机预警指数",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{筹资、投资、经营三维度精选指标经无量纲化（含行业内处理）后，由突变级数法归一公式逐层综合得到的总隶属函数，指数越小说明陷入财务危机的概率越大}",
+          "stats": [null, null, null, null],
+          "evidence": "为解决变量赋权和相关性问题，本文引入突变级数法构建财务危机预警指数，并构建“财务危机预警”组合。"
+        },
+        {
+          "name": "毛利率指数",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "GMI=GM_{t}-GM_{t-1}",
+          "stats": [null, null, null, null],
+          "evidence": "若销售毛利率指数小于 0，则说明公司的盈利能力有所下降，可能进一步导致公司的前景变差，公司可能有财务造假的倾向。"
+        },
+        {
+          "name": "折旧率指数",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "DEPI=\\frac{折旧费用_{t}}{固定资产原值_{t}}-\\frac{折旧费用_{t-1}}{固定资产原值_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "此指数小于0时则说明企业的折旧率下降，公司可能修改了资产的可用年限或采用其他方法低估了折旧费用，从而提高盈余。"
+        },
+        {
+          "name": "应收账款指数",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "DSRI=\\frac{应收账款_{t}}{营业收入_{t}}-\\frac{应收账款_{t-1}}{营业收入_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "一般来说，正常经营的公司的应收账款占营收比例会维持相对稳定。该比例的上升通常预示着公司所处的环境恶化，使得公司被迫修改销售-信用政策以促进销售，反映出过于激进的收入政策。"
+        },
+        {
+          "name": "净现率指数",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "DSCI=\\frac{经营活动现金净流量_{t}}{净利润_{t}}-\\frac{经营活动现金净流量_{t-1}}{净利润_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "净现率是指企业本期经营活动产生的现金净流量占净利润比例。在一般情况下，此比率越大，企业盈利质量越高。"
+        },
+        {
+          "name": "资产质量指数",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "AQI=\\left(1-\\frac{固定资产_{t}+流通资产_{t}}{总资产_{t}}\\right)-\\left(1-\\frac{固定资产_{t-1}+流通资产_{t-1}}{总资产_{t-1}}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "其中非实物资产比例=1-(固定资产+流通资产)/总资产。若这个指数大于 0，表明公司的资产质量出现了下降，企业可能会通过异常费用的资本化来进行费用的递延以虚增利润。"
+        },
+        {
+          "name": "应计系数指数",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "TATAI=\\frac{净利润_{t}-经营现金流净额_{t}}{总资产_{t}}-\\frac{净利润_{t-1}-经营现金流净额_{t-1}}{总资产_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "其中应计系数为应计项目（净利润-经营现金流净额）除以总资产。此指标依照Sloan 在 1996 年的文献中设计的方法所构造的，应计利润被认为是财务造假的一个重要参考变量，此指标越大，则认为公司发生财务造假的概率越大。"
+        },
+        {
+          "name": "存货指数",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "InvI=\\frac{存货_{t}}{营业收入_{t}}-\\frac{存货_{t-1}}{营业收入_{t-1}}",
+          "stats": [null, null, null, null],
+          "evidence": "一般来说，正常经营的公司的存货指数会维持相对稳定。该指数的上升通常预示着公司所处的环境恶化。"
+        },
+        {
+          "name": "存贷双高",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{货币资金占比=广义货币资金/总资产>30\\% 且 有息负债占比=有息负债/总资产>30\\%时标记为1，否则为0}",
+          "stats": [null, null, null, null],
+          "evidence": "为更好的度量存贷双高，我们构建货币资金占比、有息负债占比两个指标表示企业存款、贷款情况。本文将货币资金占比、有息负债占比同时大于 30%的情况认定为造假概率较大："
+        },
+        {
+          "name": "审计意见",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{审计意见类型大于4时标记为1（造假概率较大），否则为0}",
+          "stats": [null, null, null, null],
+          "evidence": "换言之，被出具非保留意见的财务报告通常存在很大的财务造假迹象。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "预警组合每年持有个股120到200只，财务危机平均命中率高达55.80%，17年之后每年均有稳定的负超额收益，相对wind全A负超额达-9.68%（2016.05.06-2021.09.30）。",
+      "evidence": "预警组合每年持有个股数量在 120 到 200 之间，财务危机平均命中率高达 55.80%。同时 17 年之后，预警组合每年均有稳定的负超额收益，相对 wind 全 A 负超额达-9.68%（2016.05.06-2021.09.30）。"
+    },
+    {
+      "text": "财务异常组合的财务造假命中率从全样本的1.11%增加至13.39%，组合每年平均持有17只个股，持有财务异常组合有较为显著的负超额收益率，达-6.16%。",
+      "evidence": "财务异常组合的财务造假命中率从全样本的 1.11%增加至 13.39%，有明显提升。组合每年平均持有个股为 17 只，同时持有财务异常组合也有较为显著的负超额收益率，达-6.16%。"
+    },
+    {
+      "text": "复合准则（三准则结合）的识别效果更佳，最终通过复合准则构建财务异常组合。",
+      "evidence": "通过测试，我们发现复合准则（三准则结合）的识别效果更佳，最终通过复合准则构建“财务异常组合”。"
+    },
+    {
+      "text": "沪深300财务风险避雷策略年化超额收益达2.46%，信息比率为1.78，且2017年以来每年均有稳定超额。",
+      "evidence": "以沪深 300 财务风险避雷策略为例，其年化超额收益达 2.46%，信息比率为 1.78，且 2017 年以来每年均有稳定超额。"
+    },
+    {
+      "text": "财务造假后一年内个股相对万得全A指数平均超额收益为-11.87%。",
+      "evidence": "财务造假后一年内个股相对万得全 A 指数平均超额收益为-11.87%。"
+    },
+    {
+      "text": "基础化工、医药、通信行业出现财务造假公司最多，分别为25、23、15家，银行业目前未有财务造假的公司。",
+      "evidence": "从行业来看，基础化工、医药、通信行业出现财务造假公司最多，分别为 25、23、15家；钢铁、煤炭、石油石化公司出现较少，而银行业目前未有财务造假的公司。"
+    },
+    {
+      "text": "选择t值大于1.96的变量构建精选指标库，最终保留八个变量，收益分配风险相关变量并不能很好识别A股的财务危机。",
+      "evidence": "我们选择t值大于 1.96的变量构建精选指标库，最终保留以下八个变量。可以看到收益分配风险相关变量并不能很好的识别A股的财务危机。"
+    },
+    {
+      "text": "加入财务风险信息后，原始北向资金精选50策略、基金重仓股优选策略表现均有明显提升。",
+      "evidence": "同时加入财务风险信息后，原始北向资金精选 50 策略、基金重仓股优选策略表现均有明显提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Sloan (1996)",
+    "《基于北向资金持仓信息的 A股配置全攻略》",
+    "《基本面量化研究系列之一：基本面量化视角下的科技板块选股研究》",
+    "《基本面量化研究系列之二：基本面量化视角下的大健康板块选股研究》",
+    "《基金优选下的重仓股信息研究》",
+    "《猎金系列之三十二：财报季的财务效应研究和因子构建》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

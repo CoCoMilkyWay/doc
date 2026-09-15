@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20200224-光大证券-多因子-030-有息负债_解读企业杠杆的选股信息",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["statement_detail"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "有息负债率",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{有息负债率}=\\frac{\\text{短期借款}+\\text{长期借款}+\\text{应付债券}}{\\text{总资产}}",
+          "stats": [-0.0099, null, -0.11, null],
+          "evidence": "上市公司有息负债包括短期借款、长期借款、应付债券，其中，大部分企业短期借款占比最高。上市公司有息负债率（有息负债/总资产，下同）与行业特征、企业资源禀赋有较大关系，通常相对稳定，绝大部分公司每年有息负债率变化幅度低于2 个百分点。"
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_tail"],
+      "approach": ["distress"],
+      "setup": {
+        "risk_factors": ["quality"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "horizon": "quarterly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "有息负债率作为单一因子有效性较弱，不推荐以因子方式应用，可从排雷和多头选股角度应用。",
+      "evidence": "基于以上分析，有息负债率指标作为单一因子，有效性较弱，不推荐以因子的方式应用有息负债率指标。"
+    },
+    {
+      "text": "高有息负债率企业业绩波动较大，经济景气时业绩弹性大，经济不景气时业绩下滑更快。",
+      "evidence": "时间维度上，高有息负债率企业的业绩波动较大。从时间维度来看，经济环境景气时，高有息负债率企业的业绩弹性较大，业绩增速较高；而经济不景气时，高有息负债率企业的业绩下滑又较快。"
+    },
+    {
+      "text": "有息负债率高于50%且业绩增速低于-5%的股票有较大风险，以此构建的高风险组合2009年以来年化收益率仅1.3%，月度胜率（跑输基准的概率）近70%。",
+      "evidence": "该组合在大部分年份均稳定跑输基准。该组合 2009 年以来，年化收益率仅 1.3%，月度胜率（跑输基准的概率）近 70%。仅个别时间段相对基准有一定超额收益。"
+    },
+    {
+      "text": "高风险组合跑赢基准的时点多为趋势性行情的末端，高风险组合出现超额收益时，可能为趋势性行情即将结束的信号。",
+      "evidence": "该组合跑赢基准的时点多为趋势性行情的末端。如：2011 年上半年、2016年下半年、2018年下半年，该组合均不同程度地跑赢基准指数，而这些时间点恰为之前一波趋势性行情的末端。这一定程度说明，高风险组合出现超额收益时，可能为趋势性行情即将结束的信号。"
+    },
+    {
+      "text": "在业绩趋势模型基础池中筛选有息负债为0的股票，组合年化收益从29.4%提升至38.4%，提升约9个百分点，大部分年份收益排名股票型基金前十分之一。",
+      "evidence": "持有股票池中有息负债率为 0 的企业，组合收益提升显著。2012 年以来，业绩趋势结合有息负债率选股组合相比业绩趋势模型基础池年化收益从 29.4%提升至 38.4%，提升了9个百分点左右；信息比率有所下滑，主要是因为持仓数量下降，带来组合收益波动提高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《多维度寻找高增长公司——业绩链选股策略报告》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

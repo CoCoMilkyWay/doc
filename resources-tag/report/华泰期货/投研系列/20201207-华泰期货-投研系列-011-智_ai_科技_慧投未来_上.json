@@ -1,0 +1,211 @@
+{
+  "schema_version": 2,
+  "id": "20201207-华泰期货-投研系列-011-智_ai_科技_慧投未来_上",
+  "genre": "framework",
+  "asset": ["stock_cn", "future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "technical_pattern"],
+      "setup": {
+        "universe": ["all", "csi300"],
+        "data": {"source": ["market_daily", "macro"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "Curve因子",
+          "family": "carry",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "r_{t}^{c}=r_{t}^{c,future}-r_{t}^{c,spot}",
+          "stats": [0.1128, null, null, null],
+          "evidence": "由于远月合约距离到期时间较长，需要承担更大的不确定性，所以市场会在不同到期期限的期货合约内嵌入相匹配的风险溢价以补偿投资者承担到期前合约价格不确定的风险，而导致远月相对贴水程度应该更深。基于这一逻辑可以通过做多远期合约、做空近期合约获得风险溢价[5]。"
+        },
+        {
+          "name": "期限结构因子",
+          "family": "carry",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{Roll}_{t}^{c}=\\ln\\left(\\frac{P_{t}^{c,spot}}{P_{t}^{c,dom}}\\right)\\times\\frac{365}{t_{c,dom}-t_{c,spot}}",
+          "stats": [-0.1177, null, null, null],
+          "evidence": "因此，利用展期收益来判断市场的升贴水结构，并构建多空组合，即买入展期收益最高的一篮子期货合约，卖出展期收益最低的一篮子期货合约，持有各商品的主力合约组合可获得期限结构的展期收益。"
+        },
+        {
+          "name": "波动率因子",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{CV}_{t}^{c}=\\frac{\\sigma^{2}(R_{t}^{c,dom})}{|R_{t}^{c,dom}|}",
+          "stats": [0.0522, null, null, null],
+          "evidence": "由于期货合约在曲线上嵌入风险溢价以补偿投资者在到期前价格的不确定性，我们选择变动系数（方差/期货收益均值）作为波动率度量，通过做多变动系数高的合约、做空变动系数低的合约获得风险溢价。[13,16,17]"
+        },
+        {
+          "name": "价值因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{Value}_{t}^{c}=\\ln\\left(\\frac{P_{t}^{c,spot}}{P_{t}^{c,near\\_1y}}\\right)\\times\\frac{12}{t_{c,near\\_1y}-t_{c,spot}}",
+          "stats": [0.0073, null, null, null],
+          "evidence": "远月贴水越深的品种，在近月的供需相对更为紧张，因此具有更大的价格上涨潜力，而远月升水越强的品种，相对上涨潜力较小，这与期限结构因子的底层逻辑一致。"
+        },
+        {
+          "name": "持仓金额因子",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\Delta\\mathrm{OI}_{t}^{c}=\\ln\\left(\\mathrm{OI}_{t}^{c,dom}\\right)-\\ln\\left(\\mathrm{OI}_{t-21}^{c,dom}\\right)",
+          "stats": [0.0468, null, null, null],
+          "evidence": "Hong & Yogo (2012)[12] 提出持仓量是经济活动的顺周期指标，它包含有关未来经济活动和通胀预期的信息，而这些信息通常在未来会计入资产价格。"
+        },
+        {
+          "name": "偏度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{SK}_{t}^{c}=\\mathrm{Skw}(R_{t}^{c})",
+          "stats": [0.1335, null, null, null],
+          "evidence": "Liu(2017) [14]和 Fernandez-Perez(2018) [15]使用偏度作为信号，证明了在商品期货中做多偏度小的品种、做空偏度大的品种可以获得风险溢价[6] 。"
+        },
+        {
+          "name": "动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{Mom}_{t}^{c}=\\prod_{j=0}^{D-1}\\left(r_{t-d}^{c,dom}+1\\right)-1,\\quad D=256\\ \\text{days}",
+          "stats": [0.0115, null, null, null],
+          "evidence": "动量效应是指我们相信前期期货品种价格的变动趋势会在未来一段时间继续延续下去，即前期价格上涨的期货品种在未来一段时间会继续上涨。因此，做多历史收益率高的品种，做空历史收益率低的品种可以获得溢价[6]。"
+        },
+        {
+          "name": "流动性因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{LR}_{t}^{c}=\\frac{1}{D}\\mathrm{Amivest}_{t}^{c}",
+          "stats": [0.0987, null, null, null],
+          "evidence": "流动性溢价来自于投资者在流动性相对较低的商品期货中持有多仓超额回报。通过Amivest流动比率可以衡量流动性，做多流动性低的合约、做空流动性高的合约可以获得流动性溢价。[13,22]"
+        },
+        {
+          "name": "均价突破因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{MA}_{t}^{c}=\\frac{P_{t}^{c,dom}-\\overline{P_{t}^{c}}}{\\sigma(R_{t}^{c,dom})P_{t-20}^{c,dom}}",
+          "stats": [-0.0416, null, null, null],
+          "evidence": "本文中，我们使用品种主力合约价格与其自身 20 日均值之差构建均价突破因子，做多价格超越均价并继续趋高的品种，同时做空价格难于维持而向下突破均价并继续趋低的品种。"
+        },
+        {
+          "name": "CPI Beta 因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily", "monthly"],
+          "horizon": "weekly",
+          "formula": "r_{t-j}^{c}=\\alpha_{t}^{c}+\\beta_{t}^{c}\\Delta\\mathrm{CPI}_{t-j\\times21}+\\varepsilon_{t-j\\times21}^{c},\\quad j=0,1,\\ldots,59",
+          "stats": [0.0317, null, null, null],
+          "evidence": "由于大宗商品可以对冲通胀冲击，通胀风险溢价反映了投资者持有对通胀冲击高度敏感的商品期货，承担了通胀下行风险而获得收益补偿。我们使用60 月商品期货收益率与CPI变化线性拟合的斜率制作CPI Beta 因子。"
+        },
+        {
+          "name": "美元指数Beta 因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily", "monthly"],
+          "horizon": "weekly",
+          "formula": "\\text{60月商品期货收益率与美元指数变化线性拟合的斜率}",
+          "stats": [-0.027, null, null, null],
+          "evidence": "美元作为主要国际结算货币，对商品的价格具有较大的影响力，因子本文也采用美元指数Beta 因子。该方法不限于CPI因子的制作，还可以运用到PPI、汇率等多种偏宏观风险敞口的因子制作当中。"
+        },
+        {
+          "name": "国家因子",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{去除（中性化）风格/板块因子之后全商品市场剩余的系统性收益来源}",
+          "stats": [0.0915, null, null, null],
+          "evidence": "从截面因子的角度来说，国家因子是在去除了（中性化）风格/板块因子之后，全商品市场剩余的系统性收益/风险来源，近似代表使用单一货币对本国市场某一类别金融资产投资的整体风险溢价特征；在风险模型中，这也是一类关键的影响因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "regression_test"],
+      "setup": {"universe": ["all", "csi300"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["tree", "neural"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "carry", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "weekly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "在去掉共线性之前，商品value因子的收益率和term structure因子的收益率接近-0.79，高度负相关；去掉共线性之后，相关性降为-0.04，且多因子组的解释力（Rsq）提升了约7%。",
+      "evidence": "在去掉共线性之前，商品 value因子的收益率和term structure因子的收益率接近-0.79，高度负相关; 而在去掉共线性之后，相关性降为-0.04。而实际上，去掉共线性的多因子组的解释力不降反增，在去掉共线性之后，因子组的解释力（Rsq）提升了约 7%。"
+    },
+    {
+      "text": "股票国家因子与沪深300指数的相关性约为98%；商品国家因子与华泰全商品指数的相关性约为93%，与Wind全商品指数相关性约为87%。",
+      "evidence": "我们的股票国家因子与沪深 300 指数的相关性约为 98%；商品国家因子与华泰全商品指数的相关性约为 93%, 与Wind全商品指数相关性约为87%。"
+    },
+    {
+      "text": "商品国家因子和股票国家因子之间存在较高的相关性且逐年上升，从全部历史数据估算值的0.52上升到近3年的0.61，再到今年以来的0.78。",
+      "evidence": "商品国家因子和股票国家因子之间也存在较高的相关性，并且逐年上升--从全部历史数据估算值的 0.52 上升到近 3 年的 0.61，再到今年以来的 0.78。"
+    },
+    {
+      "text": "从预测结果可以看出深度神经网络具有更优的预测效果，并且对于所有商品板块都可以达到几乎同等程度的预测效率，而随机森林模型对于影响因素复杂的标的物预测效果明显较差。",
+      "evidence": "从预测结果我们可以看出深度神经网络具有更优的预测效果，并且对于所有商品板块都可以达到几乎同等程度的预测效率。而随机森林模型尽管也能取得一定的预测效果，但是对于影响因素复杂的标的物预测效果明显较差。"
+    },
+    {
+      "text": "在森林的棵树等于6000的时候，平均rmse以及平均胜率都已收敛，森林数目达到6000-7000棵树就可以保证模型的收敛。",
+      "evidence": "从表中可以看到，在森林的棵树等于 6000 的时候，平均 rmse 以及平均胜率都已收敛。所以，针对这里的实测对象，森林数目达到 6000-7000棵树就可以保证模型的收敛。"
+    },
+    {
+      "text": "beta因子领先于商品期限结构因子，即仅从数据角度出发，股票投资者对经济的预期提前于商品投资者对经济的预期；长周期上基本金属也领先于材料板块。",
+      "evidence": "我们考察了商品期限结构因子和股票beta风格因子之间的协相关性，可以看到 beta因子领先于商品期限结构因子，即仅从数据角度出发，股票投资者对经济的预期提前于商品投资者对经济的预期。"
+    },
+    {
+      "text": "从MSE上升和平均因子纯度上升这两个指标来看，商品国家因子，中国CPI因子以及股票国家因子对商品（CCFI）的影响力居于前三的位置。",
+      "evidence": "从这两个指标来看，商品国家因子，中国 CPI 因子以及股票国家因子对商品（CCFI）的影响力居于前三的位置。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fernandez-Perez, Adrian , A. M. Fuertes , and J. Miffre . \"Harvesting Commodity Styles: An Integrated Framework.\" Ssrn Electronic Journal (2017).",
+    "J. Menchero, D.J. Orr and J. Wang, \"The Barra US Equity Model (USE4)\", Methodology Notes.(2011)",
+    "华泰期货量化策略专题报告：CTA 量化策略因子系列（三）期限结构因子 2017-10-25",
+    "华泰期货金融时序专题 20200101：金融科技赋能投研系列之二：多尺度数据分析(一)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

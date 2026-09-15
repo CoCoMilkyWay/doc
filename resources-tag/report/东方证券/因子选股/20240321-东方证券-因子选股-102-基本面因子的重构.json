@@ -1,0 +1,212 @@
+{
+  "schema_version": 2,
+  "id": "20240321-东方证券-因子选股-102-基本面因子的重构",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "单季EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Quart\\_E)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.069, null, 4.39, null],
+          "evidence": "单季 EP因子是用单季度净利润除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "单季净利同比增速",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Quart\\_E_{t})=\\beta\\cdot \\ln(abs(Quart\\_E_{t-4}))+\\alpha+\\varepsilon)",
+          "stats": [0.055, null, 3.21, null],
+          "evidence": "因此我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "EPTTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(TTM\\_E)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.055, null, 2.81, null],
+          "evidence": "EPTTM因子是用 TTM净利润除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "单季SP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Quart\\_S)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.041, null, 1.45, null],
+          "evidence": "单季 SP因子是用单季营业收入除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "单季CFP",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Quart\\_CFOA)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.027, null, 2.98, null],
+          "evidence": "单季 CFP因子用单季经营现金流净额除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "BP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Book)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.045, null, 1.4, null],
+          "evidence": "BP因子用净资产除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "现金估值",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Cash\\_equal)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.036, null, 1.77, null],
+          "evidence": "现金估值因子用企业的现金和现金等价物除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "股息率TTM",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(TTM\\_div)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.042, null, 2.71, null],
+          "evidence": "股息率TTM因子用过去一年有分红预案的分红总金额除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "一致预期滚动EP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Con\\_np\\_roll)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon)",
+          "stats": [0.051, null, 2.67, null],
+          "evidence": "分析师一致预期滚动 EP 因子用分析师一致预期滚动净利润除以市值，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "单季ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Quart\\_E)=\\beta\\cdot \\ln(Book)+\\alpha+\\varepsilon)",
+          "stats": [0.046, null, 2.16, null],
+          "evidence": "单季 ROE因子用单季净利润除以净资产，我们以如下回归方式重构并取残差作为因子取值："
+        },
+        {
+          "name": "DeltaROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(Delta\\_Quart\\_E)=\\beta\\cdot \\ln(Book)+\\alpha+\\varepsilon)",
+          "stats": [0.049, null, 3.61, null],
+          "evidence": "其是一个减法操作，减法很难直接转化为除法，考虑到ROE的分母都是净资产，而净资产的时序变化较小，因此我们以分子相减比分母的形式重构该因子："
+        },
+        {
+          "name": "EPTTM滚动ZScore",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "resid(\\ln(TTM\\_E)=\\beta\\cdot \\ln(MV)+\\alpha+\\varepsilon) 替换 (EPTTM - ts\\_wmean(EPTTM, 244))/ts\\_std(EPTTM, 244) 中的 EPTTM",
+          "stats": [0.07, null, 3.63, null],
+          "evidence": "EPTTM 滚动 ZScore 因子用每只股票每日的 EPTTM 经过过去一年的滚动均值和标准差进行调整：(EPTTM − ts_wmean(EPTTM, 244))⁄ts_std(EPTTM, 244)"
+        },
+        {
+          "name": "PB-ROE",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "rank(PB)-rank(ROE), 其中 PB 与 ROE 为回归版本",
+          "stats": [0.076, null, 3.7, null],
+          "evidence": "PB-ROE因子用截面上全市场股票的 PB的排名减去单季 ROE的排名："
+        },
+        {
+          "name": "复合因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{对回归版本基本面因子在每个截面上进行对称正交剔除共线性后等权复合}",
+          "stats": [0.0829, null, 4.32, null],
+          "evidence": "这里我们将上一节的因子进行复合，看复合因子经过回归版本改造前后的选股能力改善情况。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基本面因子重构方式：把个体除法调整为截面整体回归，以个股取值离比值中枢的距离构建相对基本面因子",
+      "evidence": "相比于传统基本面指标用个股的 A与 B相除构建，更强调自身指标间的绝对定价，我们将所有股票的 A与 B在截面进行整体比较，得到一个比值的中枢，以每只股票的取值离比值中枢的距离来构建相对基本面因子，即将传统经典的个体除法调整为现代统计理论支撑下的截面整体回归的方式。"
+    },
+    {
+      "text": "比值形式的基本面指标存在除数效应，截面去极值不能改变相对排序",
+      "evidence": "常见的基本面指标例如估值、盈利、成长等往往以比值的形式来构建，存在除数效应的问题导致部分股票的取值异常高/低，而截面去极值操作并不能改变相对排序。"
+    },
+    {
+      "text": "重构后因子选股能力大幅提高：月度IC均值、ICIR、IC胜率、多头超额、多空收益都有了大幅提高",
+      "evidence": "回归版本因子的月度IC均值、ICIR、IC胜率、多头超额、多空收益都有了大幅提高，月度自相关系数略微下降从 0.97下降到 0.95。"
+    },
+    {
+      "text": "近两年失效的单季净利同比增速在回归模式重构下仍具有持续稳健的选股能力",
+      "evidence": "并且例如单季净利同比增速这种近两年“失效”的因子在回归模式重构下仍然具有持续稳健的选股能力。"
+    },
+    {
+      "text": "重构改善幅度与因子噪声含量正相关：估值合理程度高的沪深300下两版本接近，估值合理程度越不高、噪声含量越高，回归版本效果越好",
+      "evidence": "在沪深300指数这种个股估值合理程度高的基准下，两个版本因子表现接近，而其他基准指数下估值合理程度越不高、噪声含量越高，回归版本因子的效果更好。"
+    },
+    {
+      "text": "回归版单季EP的中证500 MFE组合年化超额收益从6.7%提升到8.29%，信息比从2.35提升到3.01",
+      "evidence": "大部分年份中回归版本因子的超额表现都好于传统版本因子，年化超额收益从 6.7%提升到 8.29%，信息比从 2.35提升到 3.01，月度超额胜率从75%提升到 81.55%。"
+    },
+    {
+      "text": "重构后基本面复合因子构建的中证500指数增强组合年化超额收益从13.17%提升到14.48%，相对最大回撤从-9.83%下降到-6.55%，信息比从2.2提升到2.51",
+      "evidence": "我们将重构后的因子进行复合，复合因子的 ICIR、多头超额收益相比于原复合因子有了显著提升，以该基本面复合因子构建的中证 500 指数增强组合年化超额收益从13.17%提升到 14.48%，相对最大回撤从-9.83%下降到-6.55%，信息比从 2.2 提升到 2.51，指增模型提升效果显著。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["本杰明·格雷厄姆《证券分析 (Security Analysis)》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

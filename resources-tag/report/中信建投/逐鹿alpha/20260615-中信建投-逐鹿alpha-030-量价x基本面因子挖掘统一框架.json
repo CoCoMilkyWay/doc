@@ -1,0 +1,128 @@
+{
+  "schema_version": 2,
+  "id": "20260615-中信建投-逐鹿alpha-030-量价x基本面因子挖掘统一框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["point_in_time"],
+      "setup": {"data": {"source": ["market_daily", "statement"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search", "llm_generation"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "研发费用标准化 – 成交额标准化",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "zscore(rd_expense_intensity)-zscore(amount)",
+          "stats": [0.051, null, null, null],
+          "evidence": "因子一表明在中证500 成分股内，高研发投入、但市场关注度低（交易不活跃）的股票未来表现较好"
+        },
+        {
+          "name": "流动性排名 + 营收与利润双成长的时序波动性",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "rank(amount)+ts_std((rank(oper_rev_ttm__yoy)*zscore(s_fa_yoyebt)),30)",
+          "stats": [-0.06, null, null, null],
+          "evidence": "因子二表明在中证 500 成分股内，低流动性 + 低成长波动 即被市场忽视、且基本面成长信号稳定的公司，表现较好，本质上是 \"冷门稳定成长股\" 的短期反转/价值修复逻辑"
+        },
+        {
+          "name": "低质量股的短期反转",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "geom_mean((harm_mean(rank(s_fa_cogstosales),rank(s_fa_ocftoshortdebt))+rank(s_qfa_yoynetprofit)),zscore((close -low)))",
+          "stats": [-0.045, null, null, null],
+          "evidence": "因子三表明在中证500 成分股内，（成本率+偿债能力+利润增速）偏低、同时价格动量（close-low）偏弱的股票未来表现较好，本质是 低质量股的短期反转 效应"
+        },
+        {
+          "name": "质量股短期反转",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "zscore((geom_mean(rank((-rank(ts_pct(close,5)))),rank(operating_cf_margin_ttm))*rank(safe_div(ts_sum(amount,40),ts_std(amount,40)))))",
+          "stats": [0.0437, null, null, null],
+          "evidence": "因子一表明在沪深 300 成分股内，近 5 日下跌 + 现金流质量高 + 流动性稳定的股票未来表现较好，本质是一个 \"质量股短期反转\"因子"
+        },
+        {
+          "name": "资本开支强度与最低价 5 日时序百分位平均值的 300日平均值",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "zscore(ts_mean(harm_mean(rank(capex_to_operating_cf_ttm),ts_rank(low,5)),300))",
+          "stats": [0.038, null, null, null],
+          "evidence": "因子二表明在沪深 300 成分股内，长期维持\"高投资+股价有支撑\"的公司，未来 5 日有正超额。本质上是 \"市场认可的增长型投资\" 信号 — 公司在持续烧钱扩业务，但股价始终没有崩（市场给予了正面定价），说明投资方向被认可，未来可能有产出兑现。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "建立了一套方法体系：以点时一致性作为数据基础，以变量语义组织作为研究前提，通过受约束的候选生成控制表达空间，借助多目标函数完成候选评估，并以冗余控制与因子库准入保证研究质量，最终通过持续跟踪和分层归档实现研究资产的系统化管理。",
+      "evidence": "本文建立了一套较为完整的方法体系：以点时一致性作为数据基础，以变量语义组织作为研究前提，通过受约束的候选生成控制表达空间，借助多目标函数完成候选评估，并以冗余控制与因子库准入保证研究质量，最终通过持续跟踪和分层归档实现研究资产的系统化管理。"
+    },
+    {
+      "text": "采用日频量价信息、三大财务报表及WIND金融指标表数据，起始日期2016年1月1日，因子预测目标为未来5日收益率，分别在中证500和沪深300内进行测试。",
+      "evidence": "在本文中，我们采用基础的日频量价信息，三大财务报表，以及WIND的金融指标表等基础数据，数据起始日期设定为2016 年1月 1日，因子预测目标为未来 5日的收益率，分别在中证 500和沪深300内进行测试。"
+    },
+    {
+      "text": "基本面与量价因子挖掘的关键不在于两类变量的简单组合，而在于将\"企业经营变化\"与\"市场定价确认\"统一为一个可经横截面检验的定价模型。",
+      "evidence": "本文的核心结论是：基本面与量价因子挖掘的关键，并不在于两类变量的简单组合，而在于将\"企业经营变化\"与\"市场定价确认\"统一为一个可经横截面检验的定价模型。"
+    },
+    {
+      "text": "以本次挖掘得到的5个沪深300 Alpha因子为例，采用线性等权方式进行因子合成，并据此构建因子选股组合。",
+      "evidence": "在此之前，本文先以本次挖掘得到的 5 个沪深300 Alpha 因子为例，采用线性等权方式进行因子合成，并据此构建因子选股组合。"
+    },
+    {
+      "text": "中证500成分股内高研发投入、但市场关注度低（交易不活跃）的股票未来表现较好，该因子IC为0.051。",
+      "evidence": "因子一表明在中证500 成分股内，高研发投入、但市场关注度低（交易不活跃）的股票未来表现较好"
+    },
+    {
+      "text": "沪深300成分股内近5日下跌、现金流质量高、流动性稳定的股票未来表现较好，本质是质量股短期反转因子，IC为0.0437。",
+      "evidence": "因子一表明在沪深 300 成分股内，近 5 日下跌 + 现金流质量高 + 流动性稳定的股票未来表现较好，本质是一个 \"质量股短期反转\"因子"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Factor Zoo 系列报告"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

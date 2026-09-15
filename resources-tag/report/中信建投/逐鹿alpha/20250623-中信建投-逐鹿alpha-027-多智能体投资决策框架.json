@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20250623-中信建投-逐鹿alpha-027-多智能体投资决策框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["llm_generation"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "statement", "analyst", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "构建了包含分析师、基金经理、风控官的全流程多智能体投资决策框架，通过分析K线图像、技术指标、新闻文本、财务报告PDF、研究报告等多模态信息生成投资建议。",
+      "evidence": "本文构建了一个包含分析师，基金经理，风控官的全流程，多智能体投资决策框架，它通过模拟一个高效、理性且纪律严明的投研组织，通过分析 K 线图像，技术指标，新闻文本，财务报告 PDF，研究报告等多模态信息，生成投资建议，为投资决策提供了强大的技术支持。"
+    },
+    {
+      "text": "系统核心由三大层次、共计八种类型的AI智能体构成，输入K线图像、技术指标、新闻文本、财务报告PDF、研究报告等多模态数据，由中央工作流编排器统一生命周期管理和任务调度。",
+      "evidence": "输入的数据包括 K 线图像，技术指标，新闻文本，财务报告PDF，研究报告等多模态数据，系统的核心由三大层次、共计八种类型的AI智能体构成，并通过一个中央工作流编排器 进行统一的生命周期管理和任务调度。"
+    },
+    {
+      "text": "分析层构建四类智能体：技术分析师、新闻分析师、基本面分析师、研报分析师，分别处理K线和技术指标、新闻文本、财务报告以及券商研究报告。",
+      "evidence": "本文中我们构建了四类智能体：技术分析师，新闻分析师，基本面分析师以及研报分析师，分别处理 K 线和技术指标，新闻文本，财务报告以及券商研究报告。"
+    },
+    {
+      "text": "决策层构建了三类基金经理智能体：成长型基金经理，价值型基金经理以及量化基金经理，负责将分析师研究观点加工成可执行的投资建议。",
+      "evidence": "本文中我们构建了三类基金经理智能体：成长型基金经理，价值型基金经理以及量化基金经理。"
+    },
+    {
+      "text": "多智能体分析报告不仅罗列主观观点，还包含置信度、趋势预测、支持位、阻力位、情感分析、目标价、建议仓位、风险等级等量化指标，可用于量化分析策略。",
+      "evidence": "在多智能体分析报告中，不仅罗列了每个智能体的主观观点，还包含置信度，趋势预测，支持位，阻力位，情感分析，影响度，预测区间，市场反应，信用度，操作建议，目标价，建议仓位，风险等级等量化指标，可以用于量化分析策略。"
+    },
+    {
+      "text": "工作流编排器支持模块化配置，可增加智能体、调整大模型类型，系统输出Json/markdown/word/pdf等多类型格式的完整投资分析报告。",
+      "evidence": "将所有智能体的观点进行综合整理，系统会生成一份完整的投资分析报告，包含 Json/markdown/word/pdf等多类型格式输出，便于不同场景下的应用。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Han, X., N. Wang, S. Che, H. Yang, K. Zhang and S. X. Xu. (2024). \"Enhancing Investment Analysis: Optimizing AI-Agent Collaboration in Financial Research.\" arXiv:2411.04788.",
+    "Li, X., Y. Zeng, X. Xing, J. Xu and S. Xu. (2025). \"HedgeAgents: A Balanced-aware Multi-agent Financial Trading System.\" arXiv:2502.13165.",
+    "Xiao, Y., E. Sun, D. Luo and W. Wang. (2024). \"TradingAgents: Multi-Agents LLM Financial Trading Framework.\" arXiv:2412.20138.",
+    "《“逐鹿”Alpha 专题报告（二十五）——DeepSeek+RAG行业轮动策略》",
+    "《“逐鹿”专题报告（二十一）——基于新闻、研报、财务、技术指标的大模型个股分析框架初探》",
+    "《“逐鹿”专题报告（二十）——基于数亿新闻上下文的本地系统用于市场择时及行业轮动》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

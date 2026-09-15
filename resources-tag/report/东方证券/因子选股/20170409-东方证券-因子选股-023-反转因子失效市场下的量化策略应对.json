@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "20170409-东方证券-因子选股-023-反转因子失效市场下的量化策略应对",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "一个月收益率反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一个月股票收益率（行业和市值中性化后分组，做多最差组G1、做空最好组G10）}",
+          "stats": [null, null, null, null],
+          "evidence": "如果按照过去一个月的股票收益，把全市场股票等分成 10组，做多过去一个月跑的最差的一组股票（G1），做空过去一个月跑的最好的一组股票（G10），其多空组合的月度收益如图 1所示（反转因子做了行业和市值中性化处理，报告里其它 alpha因子也做了同样处理）。"
+        },
+        {
+          "name": "特异度因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{个股收益回归残差的特异波动（历史表现优异的技术类alpha因子）}",
+          "stats": [null, null, null, null],
+          "evidence": "另一个和它相关性很高而且历史表现非常优异的因子，特异度，其多头组合最近半年多时间基本也没有跑赢大盘（图 4）。"
+        },
+        {
+          "name": "个股差异度",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\sigma_t=\\mathrm{Std}_{i\\in\\text{市场}}\\left(R_{i,t}\\right)",
+          "stats": [null, null, null, null],
+          "evidence": "我们可以用每个月横截面上股票收益率的标准差来衡量个股差异度，这个指标和当月的 A 股市场整体换手率高度正相关（图 11），相关系数达到 0.80；"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test", "L2_zoo"],
+      "approach": ["robustness", "selection", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["heuristic_ranking", "turnover"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "反转因子多头组合G1从2016.04开始一年时间基本没有跑赢市场，而空头组合G10稳健保持跑输市场的态势，alpha收益主要来自多头的策略下反转因子已进入失效期。",
+      "evidence": "可以看到多头组合 G1 从 2016.04 开始，至今一年的时间基本没有跑赢市场，而空头组合 G10则稳健保持跑输市场的态势。"
+    },
+    {
+      "text": "特异度因子与反转因子相关性高且历史表现优异，但其多头组合最近半年多时间基本也没有跑赢大盘。",
+      "evidence": "另一个和它相关性很高而且历史表现非常优异的因子，特异度，其多头组合最近半年多时间基本也没有跑赢大盘（图 4）。"
+    },
+    {
+      "text": "剔除技术类因子后，扣除交易费用，全因子组合与基本面因子组合的年化对冲收益差只有5%，其它年份基本持平，低波动市场里剔除技术类因子不会损失太多alpha。",
+      "evidence": "全因子组合换手率大概是基本面因子组合的三倍，如果扣除交易费用，两者的年化对冲收益差只有 5%；而且按年份看，扣除 2008、2009 和 2015 三个大波动年份，其它年份全因子组合和基本面因子组合基本持平。"
+    },
+    {
+      "text": "舍弃技术类因子使多空组合收益下降近60%，但损失主要发生在2008、2009、2015三个高波动年份，其它年份的差额要小很多。",
+      "evidence": "结果如图 7 所示，剔除基本面因子后，多空组合的收益下降了近 60%，除去 2010 年，全因子多空组合一直都强于基本面因子多空组合，2008、2009、2015 三个高波动年份尤为明显。"
+    },
+    {
+      "text": "个股差异度与当月反转因子G1组合超额收益正相关（相关系数0.23），近半年市场个股差异度处在历史低位，反转因子的未来表现可能一般，当前可考虑剔除技术类因子。",
+      "evidence": "和当月的反转因子 G1组合超额收益率也是正相关（图12），相关系数 0.23。近半年以来，市场个股差异度处在历史低位，和 2011、2012 年基本相当（图 13），情绪低迷；未来中长期看，经济复苏速度可能曲折反复，在美联储加息预期和金融去杠杆大背景下，国内货币紧缩压力大，股市很难吸引到资金来增加市场波动和个股差异度，反转因子的未来表现可能一般。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alpha 因子库精简与优化",
+    "中美市场因子选股效果对比分析",
+    "组合优化是与非"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

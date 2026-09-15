@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "id": "20190821-中信建投-因子深度研究-006-一致预期因子体系搭建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["statement", "analyst"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["expectation_level", "analyst_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "forecast_or",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动一致预期营业收入：前6个月各月报告按分析师预测权重加权，再由近至远赋予半衰权重32、16、8、4、2、1}",
+          "stats": [0.034, null, 0.49, 0.123],
+          "evidence": "测试指标包括滚动一致预期营业收入 forecast_or、滚动一致预期利润总额 forecast_tp、滚动一致预期净利润 forecast_np、一致预期 forecast_peg、滚动一致预期估值 ep_rolling。"
+        },
+        {
+          "name": "forecast_tp",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动一致预期利润总额：前6个月各月报告按分析师预测权重加权，再由近至远赋予半衰权重32、16、8、4、2、1}",
+          "stats": [0.042, null, 0.5, 0.1839],
+          "evidence": "测试指标包括滚动一致预期营业收入 forecast_or、滚动一致预期利润总额 forecast_tp、滚动一致预期净利润 forecast_np、一致预期 forecast_peg、滚动一致预期估值 ep_rolling。"
+        },
+        {
+          "name": "forecast_np",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动一致预期净利润：前6个月各月报告按分析师预测权重加权，再由近至远赋予半衰权重32、16、8、4、2、1}",
+          "stats": [0.047, null, 0.55, 0.1936],
+          "evidence": "以一致预期净利润值为例，我们对比自己计算的一致预期净利润值与朝阳永续数据库中表的一致预期净利润值，发现大部分时间两者一致。"
+        },
+        {
+          "name": "forecast_peg",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期 forecast_peg}",
+          "stats": [0.031, null, 0.58, 0.1056],
+          "evidence": "测试指标包括滚动一致预期营业收入 forecast_or、滚动一致预期利润总额 forecast_tp、滚动一致预期净利润 forecast_np、一致预期 forecast_peg、滚动一致预期估值 ep_rolling。"
+        },
+        {
+          "name": "ep_rolling",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动一致预期估值：一致预期净利润与市值之比}",
+          "stats": [0.054, null, 0.65, 0.158],
+          "evidence": "测试指标包括滚动一致预期营业收入 forecast_or、滚动一致预期利润总额 forecast_tp、滚动一致预期净利润 forecast_np、一致预期 forecast_peg、滚动一致预期估值 ep_rolling。"
+        },
+        {
+          "name": "bp_rolling",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{滚动一致预期估值 bp_rolling}",
+          "stats": [null, null, null, null],
+          "evidence": "具体包括滚动 BP、滚动一致预期估值 bp_rolling、ep_rolling、滚动一致预期净利润 forecast_np 和滚动一致预期营业收入 forecast_or。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "分层测试发现市值、行业、EP_TTM、ROA_TTM、营业利润率_TTM、一个月换手率、一个月波动率、时间跨度对分析师的预测偏度有显著影响。",
+      "evidence": "通过步骤一分层测试发现，市值、行业、EP_TTM、ROA_TTM、营业利润率_TTM、一个月换手率、一个月波动率、时间跨度对分析师的预测偏度有显著影响。"
+    },
+    {
+      "text": "由于使用了业绩预报与快报信息，中信建投算法构建的一致预期净利润在每年年初相对朝阳永续有更小的预测偏离度。",
+      "evidence": "以一致预期净利润值为例，我们对比自己计算的一致预期净利润值与朝阳永续数据库中表的一致预期净利润值，发现大部分时间两者一致。但在每年年初，由于使用了业绩预报与快报信息，因此相对于朝阳永续有更小的预测偏离度。"
+    },
+    {
+      "text": "五个一致预期因子多空年化收益达10%-20%，夏普比率在1.4-2.2之间，IC均值在3%-5%。",
+      "evidence": "从上面五个因子的表现可以看出，多空年化收益达 10%-20%，夏普比率在 1.4-2.2之间，IC 均值在 3%-5%。"
+    },
+    {
+      "text": "中信建投算法下滚动BP、滚动EP和forecast_or的年化收益分别为11.05%、13.21%和13.63%，比朝阳永续算法增强1.43%、1.61%和2.13%。",
+      "evidence": "其中中信建投算法下的滚动 BP、滚动 EP 和滚动一致预期营业收入 forecast_or 的年化收益分别为 11.05%、13.21%和 13.63%，分别比朝阳永续算法增强 1.43%、1.61%和 2.13%。"
+    },
+    {
+      "text": "业绩快报的偏差基本上在2%以下，业绩快报和预告的准确性比较高，具有很高的使用价值。",
+      "evidence": "同样，我们按年度分组，计算对应样本的偏度中位数，发现业绩快报的偏差基本上在 2%以下："
+    },
+    {
+      "text": "约有35%的分析师报告能在当天入库，68%在一天之内入库。",
+      "evidence": "下图展示了朝阳永续数据库 2006 年 1 月到 2019 年 3 月分析师报告发布和入库时间差的概率分布，从左到右依次为 0,1，…。可以看到，约有 35% 的报告能在当天入库，68%在一天之内入库。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Engelberg, Joseph, R. David McLean, and Jeffrey Pontiff. 2018. \"Analysts and Anomalies.\"",
+    "Lee, Charles M. C., and Eric C. So. 2017. \"Uncovering Expected Returns: Information in Analyst Coverage Proxies.\" Journal of Financial Economics 124 (2): 331–48."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

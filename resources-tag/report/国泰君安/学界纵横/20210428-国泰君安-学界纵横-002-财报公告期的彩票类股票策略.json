@@ -1,0 +1,141 @@
+{
+  "schema_version": 2,
+  "id": "20210428-国泰君安-学界纵横-002-财报公告期的彩票类股票策略",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "Maxret",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "\\text{过去一个月最高单日收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "表1展示了本文使用的五个彩票性质的代理指标和一个综合指标Z-score。五个彩票性质代理指标均与预期收益负相关。计算指标用到的股票收益数据来自于 CRSP，会计数据来自 Compustat。"
+        },
+        {
+          "name": "Skewexp",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["monthly"],
+          "horizon": "event",
+          "formula": "\\text{将特质偏度对60个月之前的特质偏度、特质波动率及一系列控制变量回归，以回归系数作为权重求后者的平均值}",
+          "stats": [null, null, null, null],
+          "evidence": "Skewexp | 预期特质偏度：将特质偏度和60个月之前的特质偏度、特质波动率以及一系列控制变量的回归系数作为权重，求后者的平均值"
+        },
+        {
+          "name": "Prc",
+          "family": "size",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "Prc=-\\log(1+Price)",
+          "stats": [null, null, null, null],
+          "evidence": "Prc | 对收盘价做标准化处理： Prc = -log(1 + Price)"
+        },
+        {
+          "name": "Jackpotp",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["monthly"],
+          "horizon": "event",
+          "formula": "\\text{将偏度、对数收益、公司寿命等个股层面指标加权平均，使用逻辑斯谛函数标准化}",
+          "stats": [null, null, null, null],
+          "evidence": "Jackpotp | 头奖概率：将偏度、对数收益、公司寿命等一系列个股层面的指标做加权平均，使用逻辑斯谛函数标准化"
+        },
+        {
+          "name": "Ivol",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "event",
+          "formula": "\\sigma(\\varepsilon_{FF3})",
+          "stats": [null, null, null, null],
+          "evidence": "Ivol | 特质波动率：Fama-French三因子模型残差的标准差"
+        },
+        {
+          "name": "Z-score",
+          "family": "composite",
+          "direction": "nonmonotonic",
+          "data_period": ["daily", "monthly"],
+          "horizon": "event",
+          "formula": "Z=\\frac{1}{5}\\sum_{i=1}^{5}\\text{std}\\big(\\text{rank}(X_i)\\big)",
+          "stats": [null, null, null, null],
+          "evidence": "Z - score | 对于每支股票的每个月，将以上五个指标转化为对应的等级后进行标准化处理，计算五个指标得分的平均值"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "彩票类股票在财报发布之前具有显著正收益，发布之后具有显著负收益，累计收益呈现典型倒V模式。",
+      "evidence": "图 3表明，彩票类股票（高投机性股票）在收益发布之前具有显著正收益，在收益发布之后具有显著负收益，呈现出典型的倒V模式。"
+    },
+    {
+      "text": "倒V型收益模式的主要原因是投资者对投机资产的偏好和注意力驱动的散户交易，两者均对倒V模式的产生据有推动作用。",
+      "evidence": "倒 V 型收益模式的主要原因是投资者对投机资产的偏好和注意力驱动的散户交易。"
+    },
+    {
+      "text": "随机选取的伪日期未产生稳健的收益模式，倒V型收益模式是财报发布窗口期独有。",
+      "evidence": "表3和表4表明，随机选取的伪日期并没有产生稳健的收益模式，倒V型收益模式是财报发布窗口期独有的。"
+    },
+    {
+      "text": "财报公布前彩票股表现优于非彩票股的现象在不同国家广泛存在，且换手率较高的国家更明显。",
+      "evidence": "表 21 表明，财报公布之前彩票股表现优于非彩票股的现象在不同国家广泛存在，且在换手率较高的国家中这一现象更为明显。"
+    },
+    {
+      "text": "机构投资者比例越低，事前股票累计收益越高，事后股票表现不佳的情况越严重。",
+      "evidence": "机构投资者比例越低，事前股票累计收益越高，事后股票表现不佳的情况越严重，与前面的分析一致。"
+    },
+    {
+      "text": "改进的彩票股策略有效：以Z-score为例，每月平均Fama-French四因子alpha值从1.09%增加到1.50%。",
+      "evidence": "以 Z-score 为例，每月平均Fama-French 四因子 alpha 值从 1.09％增加到 1.50％，表明策略的改进是有效的。"
+    },
+    {
+      "text": "实际策略为每月月初筛选本月发布财报的公司，以上月末彩票股性质排序，财报公布前10天买入持有彩票股，财报当天卖出彩票股、买入非彩票股并持有至月底。",
+      "evidence": "实际策略：每月月初筛选本月发布财报的公司，以上月末彩票股性质排序，在财报公布前 10 天买入持有彩票股，在财报当天卖出彩票股、买入非彩票股并持有至月底卖出。"
+    },
+    {
+      "text": "国内股市散户比例更高、投机氛围相对较强，类似现象应当存在，但具体形式有待进一步研究。",
+      "evidence": "本文所作的分析大都针对美国股票市场，我们可以推断在散户比例更高、投机氛围相对较强的国内股市，这样的现象应当是存在的，但具体的形式有待进一步的研究。"
+    },
+    {
+      "text": "我国财务披露包含快报、业绩预告和财务报告三个环节且前两个环节不具强制性，导致财报发布前建仓期难以确定，为策略实施增加挑战。",
+      "evidence": "我国的财务披露包含快报、业绩预告和财务报告等三个环节，且前两个环节不具有强制性；市场在信息第一次公开时反应最为强烈，但无法预期发布时间的快报和业绩预告也导致财报发布前的建仓期难以确定，这为策略的具体实施增加了挑战。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bali 等（2011）",
+    "Conrad 等（2014）",
+    "Kumar 等（2011）",
+    "Kumar 等（2019）",
+    "《Time-varying demand for lottery: Speculation ahead of earnings announcements》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

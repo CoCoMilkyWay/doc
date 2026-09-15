@@ -1,0 +1,187 @@
+{
+  "schema_version": 2,
+  "id": "20220407-华泰证券-人工智能-054-基于遗传规划的一致预期因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["point_in_time", "infrastructure"],
+      "setup": {"data": {"source": ["analyst"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_mining"],
+      "approach": [
+        "expectation_level",
+        "expectation_revision",
+        "earnings_surprise",
+        "analyst_behavior",
+        "symbolic_search"
+      ],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Alpha1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ts_return(CON_EPS, 60)",
+          "stats": [null, 0.0179, 0.3, 0.083],
+          "evidence": "Alpha1 = ts_return(CON_EPS， 60)，因子含义是一致预期 EPS 在过去 60 个交易日的变化率。由于该因子逻辑简明，已经被广泛使用，但仍有一定改进空间，改进后的因子为Alpha2。"
+        },
+        {
+          "name": "Alpha2",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "div(ts_return(CON_EPS, 60), ts_decay_linear(DEGREE, 60))",
+          "stats": [null, 0.0292, 0.4, 0.1096],
+          "evidence": "Alpha2 = div(ts_return(CON_EPS，60),ts_decay_linear(DEGREE，60))，因子含义是一致预期EPS在过去60个交易日的变化率除以过去60个交易日分析师预测标准差(DEGREE)的线性衰减加权值。"
+        },
+        {
+          "name": "Alpha3",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "div(ts_return(CON_ROE, 60), ts_decay_linear(DEGREE, 60))",
+          "stats": [null, 0.0314, 0.46, 0.111],
+          "evidence": "Alpha3 = div(ts_return(CON_ROE, 60),ts_decay_linear(DEGREE,60))，因子含义是一致预期ROE在过去60个交易日的变化率除以过去60个交易日分析师预测标准差的线性衰减加权值，该因子形式上与Alpha2一致，属于改进的一致预期ROE变化率因子。"
+        },
+        {
+          "name": "Alpha4",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "sub(CON_ROE, ts_min(CON_ROE, 60))",
+          "stats": [null, 0.0272, 0.47, 0.1297],
+          "evidence": "Alpha4 = sub(CON_ROE, ts_min(CON_ROE， 60))，因子含义是当前的一致预期 ROE 值与过去 60 个交易日一致预期 ROE 最小值之差。"
+        },
+        {
+          "name": "Alpha5",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-rank_div(ts_return(inv(CON_EP), 60), ts_decay_linear(DEGREE, 60))",
+          "stats": [null, 0.0314, 0.39, 0.0656],
+          "evidence": "Alpha5 = -rank_div(ts_return(inv(CON_EP),60),ts_decay_linear(DEGREE, 60))，因子先计算一致预期PE过去60个交易日的变化率和过去60个交易日分析师预测标准差的线性衰减加权值，再将二者的排序数相除并取相反数，本质上是一个改进的一致预期PE变化率因子。"
+        },
+        {
+          "name": "Alpha6",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "div(ts_return(CON_GPE, 40), ts_mean(DEGREE, 40))",
+          "stats": [null, 0.0374, 0.48, 0.0952],
+          "evidence": "Alpha6 = div(ts_return(CON_GPE，40),ts_mean(DEGREE，40))，因子含义是一致预期GPE在过去40个交易日的变化率除以过去40个交易日分析师预测标准差的线性衰减加权值，该因子形式上与 Alpha2 类似，属于改进的一致预期 GPE变化率因子。"
+        },
+        {
+          "name": "Alpha7",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "div(sub(ts_decay_linear(UP_NUMBER90, 60), ts_decay_linear(DOWN_NUMBER90, 60)), ts_decay_linear(DEGREE, 60))",
+          "stats": [null, 0.0198, 0.3, 0.0954],
+          "evidence": "60),ts_decay_linear(DOWN_NUMBER90,60)),ts_decay_linear(DEGREE,60))，因子先分别计算个股季度业绩上调家数和下调家数过去60个交易日的线性衰减加权值，再除以过去60个交易日分析师预测标准差的线性衰减加权值。该因子属于改进的预期业绩上下调因子。"
+        },
+        {
+          "name": "Alpha8",
+          "family": "analyst",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-ts_return(div(inv(CON_BP), CON_EPS), 60)",
+          "stats": [null, 0.0502, 0.53, 0.0961],
+          "evidence": "Alpha8 = -ts_return(div(inv(CON_BP)，CON_EPS)，60)，因子先计算一致预期 PB 和一致预期EPS的比值，再计算其过去60个交易日的变化率，最后取相反数。该因子属于一致预期复合因子。"
+        },
+        {
+          "name": "Alpha9",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "ts_return(mul(CON_GPE, CON_CAGR), 60)",
+          "stats": [null, 0.0366, 0.58, 0.1066],
+          "evidence": "Alpha9 = ts_return(mul(CON_GPE， CON_CAGR)， 60)，因子先计算一致预期 GPE 和一致预期净利润2年复合增长率的乘积，再计算其过去60个交易日的变化率。该因子属于一致预期复合因子。"
+        },
+        {
+          "name": "Alpha10",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank_mul(CON_CAGR, CON_EPS)",
+          "stats": [null, 0.0216, 0.2, 0.0959],
+          "evidence": "Alpha10= rank_mul(CON_CAGR，CON_EPS)，因子计算一致预期净利润 2年复合增长率和一致预期EPS排序数的乘积。该因子属于一致预期复合因子。"
+        },
+        {
+          "name": "Alpha11",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "div(EP, ts_mean(delay(CON_EP, 5), 60))",
+          "stats": [null, 0.0452, 0.57, 0.0669],
+          "evidence": "Alpha11 = div(EP, ts_mean(delay(CON_EP,5)， 60))，因子首先将一致预期 EP 平移 5 天(即跳过最近5天一致预期EP)，再取过去60个交易日的均值，最后用个股真实的EP除以该均值。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "selection"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "针对一致预期数据设计三维数据结构存储方案，解决了预测年份变动问题，修改gplearn因子计算模块支持三维矩阵运算，使短时间内进行大量因子挖掘成为可能。",
+      "evidence": "该数据结构具有以下优点：(1)解决了年度财务报表公布前后一致预期数据预测年份变动的问题。(2)适配了遗传规划中的矩阵运算算法，算法可在三维数据结构上快速运算得出因子值，使得短时间内进行大量因子挖掘成为可能。具体实现中，我们主要对gplearn的因子计算模块进行了修改，可支持三维数据结构的矩阵运算。"
+    },
+    {
+      "text": "11个因子中计算变化率的函数ts_return出现次数最多，分析师对上市公司的预期变化往往表明公司基本面发生变化，可能对公司未来股价产生影响。",
+      "evidence": "(1)11个因子中，计算变化率的函数ts_return出现次数最多，这与一致预期数据的内涵相符，分析师对于上市公司的预期变化，往往表明公司的基本面发生变化，可能对公司未来的股价产生影响。"
+    },
+    {
+      "text": "复合因子中主要为数据之间的乘除，一致预期数据也可以和真实的基本面数据结合挖掘复合因子，本文挖掘所得的复合因子可视为一种超预期因子。",
+      "evidence": "(2)复合因子中，主要为数据之间的乘除，说明这两种运算是构建复合因子的有效方式。(3)一致预期数据也可以和真实的基本面数据结合挖掘复合因子，其中本文挖掘所得的复合因子可视为一种超预期因子。"
+    },
+    {
+      "text": "改进的因子中多出现除以分析师预测标准差的运算，这可能与新冠疫情以来分析师预测离散度增大有关。",
+      "evidence": "(4)改进的因子中多出现除以分析师预测标准差的运算，这可能与新冠疫情以来分析师预测离散度增大有关。"
+    },
+    {
+      "text": "从RankIC均值、IC_IR和多空组合表现来看，Alpha2相比Alpha1在中证500成分股和全A股表现更好。",
+      "evidence": "从 RankIC 均值、IC_IR 和多空组合表现来看，Alpha2 相比 Alpha1 在中证 500 成分股和全A股表现更好。"
+    },
+    {
+      "text": "Alpha11的内在含义是个股当前EP和前一段时间一致预期EP均值的比值，可视为一种超预期因子。",
+      "evidence": "因子的内在含义是个股当前EP和前一段时间一致预期EP均值的比值，可视为一种超预期因子。"
+    },
+    {
+      "text": "一致预期数据中可能出现入库日期晚于预测日期的情形，本文对此进行了处理，避免使用未来信息。",
+      "evidence": "一致预期数据中，可能会出现 ENTRYDATE(入库日期)晚于TDATE(预测日期)的情形，我们针对此也进行了处理，避免使用未来信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Gao H, Wen H, Yu S, \"Pandemic Effect on Analyst Forecast Dispersion: Earnings Uncertainty or Information Lockdown?\", Emerging Markets Finance and Trade 2021: Volume 57, Issue 6, Pages 1699-1715.",
+    "gplearn",
+    "《人工智能23：基于遗传规划选股因子挖掘》(2019.6.10)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

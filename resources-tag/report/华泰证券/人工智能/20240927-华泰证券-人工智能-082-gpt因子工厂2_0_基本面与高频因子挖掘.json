@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "id": "20240927-华泰证券-人工智能-082-gpt因子工厂2_0_基本面与高频因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market", "L1_mining"],
+      "approach": ["style_ratio", "distribution_moment", "llm_generation"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "短期偿债能力因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{货币资金同比增长的截面排名除以短期负债的截面排名}",
+          "stats": [null, null, null, null],
+          "evidence": "从因子释义看，该因子被GPT命名为“短期偿债能力因子”，因子同时考虑企业货币资金同比增长排名和短期负债排名，并将二者相除，试图反映企业流动性管理水平，因子释义与因子表达式相符"
+        },
+        {
+          "name": "高频价格量相关波动因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "Agg_Corr(Agg_Explode_Rollingstd(CLOSE, window_size=10), Agg_Explode_Rollingstd(VOLUME, window_size=10))",
+          "stats": [null, null, null, null],
+          "evidence": "从因子释义看，该因子被GPT命名为“高频价格量相关波动因子”，通过计算收盘价滚动波动性与成交量滚动波动性间的相关系数得到因子值，大模型认为价格与成交量之间的短期相关性反映了市场的情绪变动；从累计周度IC和RankIC看，因子方向为负向，周度IC与RankIC均较为稳定"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["tree"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "30个基本面因子IC均值为0.011，RankIC均值为0.013；23个筛选后的高频因子IC均值为0.020，RankIC均值为0.031，高频因子质量较高。",
+      "evidence": "因子IC方面，30个基本面因子IC均值为0.011，RankIC均值为0.013，|t均值为1.542；23个筛选后的高频因子IC均值为0.020，RankIC均值为0.031，|t|均值为4.588。"
+    },
+    {
+      "text": "GPT产出的因子相关性偏低，基本面因子相关系数绝对值均值为0.10，高频因子相关系数绝对值均值为0.17。",
+      "evidence": "因子相关性方面，基本面因子相关系数绝对值均值为0.10，高频因子相关系数绝对值均值为0.17，因子工厂产出的因子相关性普遍偏低。"
+    },
+    {
+      "text": "基于高频因子的中证1000指增策略年化超额收益率为31.32%，信息比率4.20；沪深300、中证500指增年化超额分别为13.78%、18.40%。",
+      "evidence": "对于高频因子，沪深300指增策略年化超额收益率为13.78%，信息比率2.73，中证500指增策略年化超额收益率为18.40%，信息比率为2.68，中证1000指增策略年化超额收益率为31.32%，信息比率4.20。"
+    },
+    {
+      "text": "量价因子与高频因子按1:4权重合并后，三类指增年化超额分别为12.38%、17.74%、30.72%，效果主要来源于高频合成因子。",
+      "evidence": "将合成后的量价因子与高频因子按1:4权重合并，量价高频合并因子沪深300指增策略年化超额收益率为12.38%，信息比率2.45，中证500指增策略年化超额收益率为17.74%，信息比率为2.56，中证1000指增策略年化超额收益率为30.72%，信息比率4.08。"
+    },
+    {
+      "text": "经LGBM模型合成后的因子TOP层在样本外并未衰减，双周度IC与RankIC保持稳定。",
+      "evidence": "经LGBM模型合成后的因子TOP层相对净值及累计双周度IC和RankIC如图表25和26，因子TOP层在样本外并未衰减，双周度IC与RankIC保持稳定。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《GPT因子工厂：多智能体与因子挖掘》（20240220）",
+    "《基于全频段量价特征的选股模型》（20231208）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

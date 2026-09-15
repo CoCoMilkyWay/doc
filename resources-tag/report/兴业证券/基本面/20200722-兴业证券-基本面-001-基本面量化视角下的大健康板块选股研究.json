@@ -1,0 +1,204 @@
+{
+  "schema_version": 2,
+  "id": "20200722-兴业证券-基本面-001-基本面量化视角下的大健康板块选股研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_revision",
+        "text_sentiment",
+        "firm_attribute"
+      ],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Revenue_SQ_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度营业收入同比增长率}",
+          "stats": [0.038, null, 0.33, null],
+          "evidence": "| Revenue_SQ_YoY | 两行业 | 成长 | 单季度营业收入同比增长率 |"
+        },
+        {
+          "name": "NetProfitDeducted_SQ_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{单季度扣非利润同比增长率}",
+          "stats": [0.053, null, 0.47, null],
+          "evidence": "| NetProfitDeducted_S | 两行业 | 成长 | 单季度扣非利润同比增长率 |"
+        },
+        {
+          "name": "EPS_FY0_R1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期 EPS FYO 过去20天的变化率}",
+          "stats": [0.023, null, 0.24, null],
+          "evidence": "| Q_YoY EPS_FYO_R1M | 两行业 | 情绪 | 一致预期 EPS FYO 过去 20 天的变化率 |"
+        },
+        {
+          "name": "EPS_Fwd12M_R1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期 EPS 未来12个月预测值过去20天的变化率}",
+          "stats": [0.045, null, 0.43, null],
+          "evidence": "| EPS_Fwd12M_R1M | 两行业 | 情绪 | 一致预期 EPS 未来12个月预测值过去 |"
+        },
+        {
+          "name": "OCF_LYR_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营活动产生的现金流量净额最新年报的同比增长率}",
+          "stats": [0.031, null, 0.23, null],
+          "evidence": "| OCF_LYR_YoY | 医药服务 | 成长 | 20 天的变化率 经营活动产生的现金流量净额_最新年 |"
+        },
+        {
+          "name": "BP_DR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{运用误差修正模型构建的基于市净率倒数的估值趋势偏离度因子}",
+          "stats": [0.026, null, 0.16, null],
+          "evidence": "最终在医药行业我们利用市销率、市净率倒数构建了SP_DR、BP_DR 作为估值维度的代表。"
+        },
+        {
+          "name": "SP_DR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{运用误差修正模型构建的基于市销率倒数的估值趋势偏离度因子}",
+          "stats": [0.047, null, 0.31, null],
+          "evidence": "最终在医药行业我们利用市销率、市净率倒数构建了SP_DR、BP_DR 作为估值维度的代表。"
+        },
+        {
+          "name": "RD_FItVal",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{研发费用}}{\\text{市值}}",
+          "stats": [0.029, null, 0.26, null],
+          "evidence": "为了剔除市值的影响，我们用研发费用/市值作为表征公司对研发创新重视程度的指标。"
+        },
+        {
+          "name": "IE_Sale",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{过去三年授权发明专利数}}{\\text{营业收入}_{TTM}}",
+          "stats": [0.021, null, 0.17, null],
+          "evidence": "同时为了更好的衡量研发效率并剔除公司规模的影响，我们用公司过去三年授权的发明专利数/营业收入作为选股因子，展开后续的研究。"
+        },
+        {
+          "name": "Service_Sig",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{医药服务板块内7个选中因子的等权合成}",
+          "stats": [0.081, null, 0.52, 0.371],
+          "evidence": "两个复合因子在相应行业有着非常强的选股能力：Service_Sig因子 IC均值达到0.08，T值达到 5.57，分位数多头年化收益高达 34.1%，月胜率高达 71.1%；"
+        },
+        {
+          "name": "Tech_Sig",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{医药制造与高科技板块内6个选中因子的等权合成}",
+          "stats": [0.062, null, 0.58, 0.233],
+          "evidence": "Tech_Sig 因子 IC 均值达到 0.062，T 值达到 6.19，分位数多头年化收益率达到 28.1%，月胜率达到 76.3%。"
+        },
+        {
+          "name": "负面/正面情绪选股指标",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{K}{M}",
+          "stats": [null, null, null, null],
+          "evidence": "为了应对医药行业政策敏感性强、新产品审批以及新技术对行业及股价影响较大的特点，我们以分析师个股研报标题作为数据源，通过判断标题是否包含正面或者负面词汇并加以汇总，最终形成了负面/正面情绪选股指标。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["market_daily", "statement", "analyst", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["holding_based", "factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "大健康板块量化股票精选策略2011年1月-2020年6月期间年化绝对收益率37.5%，相对中信医药行业年化超额收益23.4%，且每年均实现了正超额收益",
+      "evidence": "综合前面的多个维度的有效信息，我们在大健康板块内搭建了量化股票精选策略：2011年1 月-2020年 6月份期间策略年化绝对收益率 37.5%，相对中信医药行业年化超额收益 23.4%，且每年均实现了正超额收益！"
+    },
+    {
+      "text": "Service_Sig的IC均值达到0.08，T值5.57，多头年化收益34.1%，月胜率71.1%；Tech_Sig的IC均值达到0.062，T值6.19，多头年化收益28.1%，月胜率76.3%，两个复合因子在相应行业内选股能力非常强",
+      "evidence": "两个因子在相应行业内的选股能力非常强：Service_Sig 的 IC 均值达到 0.08，T 值达到 5.57，分位数多头年化收益高达34.1%，月胜率高达71.1%；Tech_Sig 因子在医药制造与高科技领域IC 均值达到 0.062，T 值达到6.19，分位数多头年化收益率达到 28.1%，月胜率达到 76.3%。"
+    },
+    {
+      "text": "以分析师研报标题正面/负面词汇形成的情绪选股指标可用来筛选股票池，进一步优化策略",
+      "evidence": "为了应对医药行业政策敏感性强、新产品审批以及新技术对行业及股价影响较大的特点，我们以分析师个股研报标题作为数据源，通过判断标题是否包含正面或者负面词汇并加以汇总，最终形成了负面/正面情绪选股指标。该因子可以用来筛选股票池，从而达到进一步优化策略的目的。"
+    },
+    {
+      "text": "加入文本筛选后的定比策略年化超额收益13.9%，信息比1.49，优于不加入文本筛选的13.5%",
+      "evidence": "两者较为接近，表现均非常出色：加入文本筛选后的策略年化超额收益达到 13.9%，信息比达到 1.49；不加入文本筛选的策略超额收益达到 13.5%，风险收益比达到1.61。"
+    },
+    {
+      "text": "Barra归因显示残差项贡献占绝对优势，绝大部分收益来自大健康板块Alpha选股模型",
+      "evidence": "但整体来看残差项（表示不能被风格因子解释的部分）的贡献占绝对优势，这表明绝大部分收益来自于我们的大健康板块 Alpha 选股模型，时序维度的收益归因参见图表 55。"
+    },
+    {
+      "text": "Brinson归因表明策略有一定的行业配置能力，但整体上个股选择能力非常突出，占据绝对优势",
+      "evidence": "从统计结果来看，策略有一定的行业配置能力，但整体上个股选择能力非常突出，占据绝对优势。"
+    },
+    {
+      "text": "随着精选股票数目减少收益不断提升，板块选股因子的Alpha信息没有因股票池变窄而衰减，反而效果愈加增强",
+      "evidence": "结果显示：随着选择股票数目减少，收益不断提升。这意味着基于不同板块的选股因子的 Alpha 信息并没有因为股票池变窄而出现衰减，反而效果愈加增强，具体参见图表50-51。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《从中国心到中国芯_由贸易战引发的专利选股有效研究》",
+    "《基于专利分类的科技动量因子研究》",
+    "《基于误差修正模型的估值趋势偏离度因子研究》2020-03-20",
+    "《股东盈余视角下的估值因子研究》2020-06-08"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

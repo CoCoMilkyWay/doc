@@ -1,0 +1,242 @@
+{
+  "schema_version": 2,
+  "id": "20241119-东方证券-量化策略-008-dfq机器学习行业轮动模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search", "representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "DFQ机器学习行业轮动模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{vae、xgb、gp三个行业因子等权合成}",
+          "stats": [0.1428, 0.1521, 0.49, null],
+          "evidence": "（3）DFQ 机器学习行业轮动模型多头表现优异：2020 年以来，top5 行业组合年化超额收益达到18.42%，超额收益最大回撤7.76%，月度胜率66.67%，超额收益夏普比1.77，月均换手51%。"
+        },
+        {
+          "name": "DFQ遗传规划行业因子挖掘模型",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{遗传规划挖掘的单因子经动态xgb加权合成的行业因子}",
+          "stats": [0.0364, 0.0601, 0.15, null],
+          "evidence": "在动态 xgb 加权方法下，2020 年以来 top5 行业组合年化超额 11.10%，超额收益最大回撤 10.28%，月度胜率 61.40%，超额收益夏普比 1.16，月均换手65%。"
+        },
+        {
+          "name": "vae行业因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{vae模型选股因子按个股市值加权合成的行业因子}",
+          "stats": [0.1465, 0.1505, 0.46, null],
+          "evidence": "（2）vae、xgb 模型的多头端 top5 行业组合整体表现较好，2020 年以来 top5 行业组合年化超额收益可达 10%以上，超额收益最大回撤 10%左右，月度胜率接近 60%，超额收益夏普比达到 1，月均换手接近 50%。"
+        },
+        {
+          "name": "xgb行业因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{xgb模型选股因子按个股市值加权合成的行业因子}",
+          "stats": [0.1144, 0.1227, 0.37, null],
+          "evidence": "（2）vae、xgb 模型的多头端 top5 行业组合整体表现较好，2020 年以来 top5 行业组合年化超额收益可达 10%以上，超额收益最大回撤 10%左右，月度胜率接近 60%，超额收益夏普比达到 1，月均换手接近 50%。"
+        },
+        {
+          "name": "tra行业因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{tra模型选股因子按个股市值加权合成的行业因子}",
+          "stats": [0.0987, 0.1059, 0.34, null],
+          "evidence": "下图展示了 tra、hist、factorvae、xgb 这四个模型所得行业因子对应的绩效情况。可以看到：（1）四个模型所得行业因子的 IC、RANKIC都较高，达 10%以上。"
+        },
+        {
+          "name": "hist行业因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{hist模型选股因子按个股市值加权合成的行业因子}",
+          "stats": [0.1132, 0.1266, 0.37, null],
+          "evidence": "下图展示了 tra、hist、factorvae、xgb 这四个模型所得行业因子对应的绩效情况。可以看到：（1）四个模型所得行业因子的 IC、RANKIC都较高，达 10%以上。"
+        },
+        {
+          "name": "2020年 F15",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "demedian(ts_dema(ts_dailypctchg_std(ts_cut_mean_smallersum(l2c14, 40.000), 60.000), 1.000))",
+          "stats": [0.2051, 0.188, 1.12, null],
+          "evidence": "（1）2020年 F15：该因子用到了 1个特征：l2c14（早盘大单买入占比）。用到了 8个算子，其中涉及 1 个时序切割算子：ts_negmax_sum（过去 d 天的最大值取反之后，再求过去 d 天的和）。该因子聚焦于行业因子中极端表现和潜在趋势，同时消除短期波动的干扰，捕捉行业中的潜在风险和机会。"
+        },
+        {
+          "name": "2020 年 F41",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "ts_sum(ts_min(demedian(ts_wmean(ts_min(inv1(ts_negmax_sum(ts_rank_amean(l2c14, 10.000), 20.000)), 40.000), 10.000)), 40.000), 10.000)",
+          "stats": [0.1581, 0.1252, 0.79, null],
+          "evidence": "2020 年 F41：该因子用到了 1 个特征：l2c14（早盘大单买入占比）。用到了 4 个算子，其中涉及 1个时序切割算子：ts_cut_mean_smallersum（过去 d日中，将小于均值的部分切割出来求和）。该因子通过逐步去噪、平滑、去偏差，构建一个可以突出行业风险信号和机会信号的因子，特别关注行业的低迷和波动，并通过平滑和去中位数来提取长期趋势和极端表现。"
+        },
+        {
+          "name": "2021 年 F32",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "power2(rank_mul4(rank(l2c11), ts_negmax_sum(ratio_volumeH3, 60.000), ts_ewm(lntwapret, 40.000), ts_wmean(l2c4, 20.000)))",
+          "stats": [null, null, null, null],
+          "evidence": "2021 年 F32：该因子用到了 4 个特征：l2c11（早盘大单涨跌幅）、ratio_volumeH3（3段成交量占比，开盘后第3个半小时成交量占全天成交量之比）、lntwapret （twap对数收益率）、l2c4（早盘委托买卖单大小比）。用到了 6 个算子，其中涉及 1 个时序切割算子：ts_negmax_sum（过去 d 天的最大值取反之后，再求过去 d 天的和）。该因子通过对多个特征的排名、时间序列处理、加权平均等操作，综合衡量行业的市场情绪、潜在流动性风险、价格走势和供需关系等方面的因素。"
+        },
+        {
+          "name": "2021 年 F27",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly", "event"],
+          "horizon": "monthly",
+          "formula": "ts_negmax_sum(ts_cut_mean_neggreater_sum(scale(ts_fxumr_75(rank(PEG), sigmoid(WFR), 5.000)), 40.000), 60.000)",
+          "stats": [null, null, null, null],
+          "evidence": "2021 年 F27：该因子用到了 2 个特征：PEG （PE_FY1/FY2 隐含的利润增量率）、WFR（加权的分析师预期调整）。用到了 5 个算子，其中涉及 3 个时序切割算子：ts_negmax_sum（过去 d天的最大值取反之后，再求过去 d天的和）、ts_cut_mean_neggreater_sum（过去 d日中，将大于均值的部分切割出来，取反后，再求全序列的和）、ts_fxumr_75（取过去d日作为窗口，将 x 减去窗口内的 75%分位数，而后再乘 y，最后计算窗口内均值）。该因子对分析师预期调整进行分域加权，强调了行业或股票中偏离均值的极端情况，关注行业的潜在风险。"
+        },
+        {
+          "name": "2022年 F70",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "ts_wmean(ts_fxzscore_75(ts_cut_mean_negsmaller_sum(l2c20, 1.000), l2c9, 60.000), 40.000)",
+          "stats": [null, null, null, null],
+          "evidence": "2022年 F70：该因子用到了 2个特征：l2c20（早盘大单涨跌幅）、l2c9（早盘大单资金净流入/(全天资金流入+全天资金流出)）。用到了 3 个算子，其中涉及 2 个时序切割算子：ts_cut_mean_negsmaller_sum（过去d日中，将小于均值的部分切割出来，取反后，再求全序列的和）、ts_fxzscore_75（取过去 d日作为窗口，将 x根据窗口内的 75%分位数进行 zscore标准化，而后再乘 y，最后计算窗口内均值）。该因子结合早盘大单交易和资金流动强度，强调市场的早盘阶段的情绪和资金的活跃度。"
+        },
+        {
+          "name": "2022 年 F53",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "event"],
+          "horizon": "monthly",
+          "formula": "inv1(ts_rank_amean(cut_mean_negsmaller(ts_max(rank_mul4(cum_return_top_10, WFR, induslnhlret, Amihud), 40.000)), 20.000))",
+          "stats": [null, null, null, null],
+          "evidence": "2022 年 F53： 该因子用到了 4个特征：cum_return_top_10（前 10%累计最大涨幅）、WFR（加权的预期调整）、induslnhlret（行业指数的收盘价对数收益率）、Amihud（收盘价对数收益率绝对值/成交额）。用到了 5 个算子， 其中涉及 1 个截面切割算子：cut_mean_negsmaller（x小于截面均值的部分*-1）。该因子通过对多个维度的特征进行排名，并结合时序窗口最大值，来选择在不同维度上表现优异的行业。"
+        },
+        {
+          "name": "2023 年 F40",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "demedian(ts_negmax_sum(power3(cos1(ts_product(abs1(ts_rank_amean(l2c4, 40.000)), 10.000))), 40.000))",
+          "stats": [null, null, null, null],
+          "evidence": "2023 年 F40：该因子用到了 1 个特征：l2c4（早盘委托买卖单大小比）。用到了 7 个算子，其中涉及 1 个时序切割算子：ts_negmax_sum（过去 d 天的最大值取反之后，再求过去 d天的和）。该因子对早盘委托买卖单大小比进行排名，关注市场上买卖力量的相对强弱。结合加权、非线性处理和极端值反转，捕捉市场中的潜在波动、极端表现或风险。"
+        },
+        {
+          "name": "2023 年 F65",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "ts_mad(ts_product(rank(ts_rank_gmean(ts_wmean(l2c14, 60.000), 20.000)), 60.000), 20.000)",
+          "stats": [null, null, null, null],
+          "evidence": "2023 年 F65：该因子用到了 1 个特征：l2c14（早盘大单买入占比）。用到了 5 个算子，其中涉及 4 个时序算子。该因子的逻辑是通过对早盘大单买入占比进行时序加权平滑、截面排序等处理，衡量市场情绪的稳定性或不确定性。"
+        },
+        {
+          "name": "2024 年 F10",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "demedian(ts_negmax_sum2(ts_median(ts_negmin_sum(induslnopenret, 60.000), 40.000), corr_volume_amplitude, 40.000))",
+          "stats": [null, null, null, null],
+          "evidence": "2024 年 F10：该因子用到了两个特征：induslnopenret（行业指数的开盘价对数收益率），corr_volume_amplitude（成交量和振幅相关性）。用到了四个算子，其中涉及两个时序切割算子：ts_negmax_sum2（过去 d 天 y 的最大值位置对应的 x 的值取反，再求过去 d 日 x 序列的和）、ts_negmin_sum（过去 d 天的最小值取反之后，再求过去 d 天的和）。该因子通过分析行业开盘时的收益表现、成交量和振幅的相关性，来揭示行业的负面趋势或潜在风险。"
+        },
+        {
+          "name": "2024年F4",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "softmax(ts_cut_max(softmax(ts_mean(l2c14, 40.000)), indus_loserrnum, 60.000))",
+          "stats": [null, null, null, null],
+          "evidence": "2024年F4：该因子用到了两个特征：l2c14（早盘大单买入占比）、indus_loserrnum（行业内涨跌幅处于当天后 120 的股票个数）。用到了四个算子，其中涉及 1 个时序切割算子：ts_cut_max（过去 d 天 y 的最大值位置对应的 x的值）。该因子将早盘大单买入占比与行业的弱势股票数量结合，旨在捕捉即使在行业弱势的背景下，资金流入的可能性，从而帮助识别出行业中潜在的投资机会。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["tree", "ensemble"],
+      "baseline": ["weighting", "linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]},
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "将vae、xgb、gp三个行业因子等权合成构建DFQ机器学习行业轮动模型，2020年以来top5行业组合年化超额收益达到18.42%，超额收益最大回撤7.76%，月度胜率66.67%，超额收益夏普比1.77。",
+      "evidence": "将 vae、xgb、gp 三个行业因子等权合成，构建 DFQ 机器学习行业轮动模型。模型表现十分突出，能实现 1+1>2 的效果。2020 年以来，top5 行业组合年化超额收益达到18.42%，超额收益最大回撤 7.76%，月度胜率 66.67%，超额收益夏普比 1.77。"
+    },
+    {
+      "text": "采用长周期挖掘、短周期加权的方法可以显著提升合成因子表现，动态xgb加权方法下2020年以来top5行业组合年化超额收益11.10%，超额收益最大回撤10.28%，月度胜率61.40%，超额收益夏普比1.16。",
+      "evidence": "采用长周期挖掘，短周期加权的方法，可以显著提升合成因子表现。动态 xgb 加权方法下 2020 年以来 top5 行业组合年化超额收益11.10%，超额收益最大回撤10.28%，月度胜率61.40%，超额收益夏普比1.16。"
+    },
+    {
+      "text": "通过遗传规划方法得到的行业因子，和其他四个由选股因子合成得到的行业因子相关性非常低，因子值spearman相关性在0%附近。",
+      "evidence": "通过遗传规划方法得到的行业因子，和其他四个由选股因子合成得到的行业因子，相关性非常低，因子值 spearman相关性在 0%附近。"
+    },
+    {
+      "text": "叠加行业轮动模型调整行业暴露敞口可实现组合收益和稳定性提升，沪深300指数增强组合年化超额收益可以提高2%，信息比从1.85提升到2.16，超额收益最大回撤从6.53%降低到6.12%。",
+      "evidence": "叠加行业轮动模型来调整行业暴露敞口，可以实现组合收益和稳定性的提升。对于沪深300指数增强组合提升尤其显著。相比于基础组合，年化超额收益可以提高2%，信息比从 1.85提升到 2.16，超额收益最大回撤从 6.53%降低到6.12%。"
+    },
+    {
+      "text": "2020-2024年用到的277个单因子中，样本外月均多头超额收益中位数为0.15%，60%的单因子样本外月均多头超额收益为正，30%超过0.5%，单因子样本外易失效。",
+      "evidence": "整体来看，2020-2024 年用到的 277 个单因子中，样本外月均多头超额收益中位数为0.15%，60%的单因子样本外月均多头超额收益为正，30%的单因子样本外月均多头超额收益超过0.5%。表现最好的单因子月均多头超额收益达到2.73%，表现最差的单因子月均多头超额收益达到-2.42%。"
+    },
+    {
+      "text": "DFQ行业动量轮动策略2020年以来top5行业组合年化超额仅为3.68%，2023和2024年均未获正超额，行业动量轮动策略近两年表现不佳。",
+      "evidence": "行业动量轮动策略近两年表现不佳：DFQ行业动量轮动策略 2020年以来 top5行业组合年化超额仅为 3.68%，2023和 2024年均未获正超额。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "DFQ 遗传规划价量因子挖掘系统：——因子选股系列之九十（2023-05-28）",
+    "DFQ-FactorVAE：融合变分自编码器和概率动态因子模型的 alpha 预测方案：——因子选股系列之一〇三（2024-05-14）",
+    "DFQ-HIST：添加图信息的选股因子挖掘系统：——因子选股系列之一百（2024-02-07）",
+    "DFQ-TRA：多交易模式学习因子挖掘系统：——因子选股系列之九十七（2023-11-14）",
+    "DFQ-XGB：基于树模型的 alpha 预测方案：——因子选股系列之一〇七（2024-08-15）",
+    "东方 A股因子风险模型(DFQ-2020)",
+    "周频多因子行业轮动模型：——量化策略研究之七（2024-01-21）",
+    "行业动量的刻画：《量化策略研究之六》（2022-12-01）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

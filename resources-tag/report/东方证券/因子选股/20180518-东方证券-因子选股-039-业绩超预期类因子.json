@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "id": "20180518-东方证券-因子选股-039-业绩超预期类因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation"],
+      "approach": ["earnings_surprise"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SUE0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUE_{i,t}=\\frac{Q_{i,t}-E(Q_{i,t})}{\\sigma_{i,t}},\\quad E(Q_{i,t})\\ \\text{由带漂移项的季节性随机游走模型估计}",
+          "stats": [null, 0.0402, 3.49, null],
+          "evidence": "我们基于季节性随机游走模型预测的净利润和营业收入计算标准化的预期外净利润（SUE）和营业收入（SUR），用来度量业绩超预期的程度"
+        },
+        {
+          "name": "SUE1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUE_{i,t}=\\frac{Q_{i,t}-E(Q_{i,t})}{\\sigma_{i,t}},\\quad E(Q_{i,t})\\ \\text{由不带漂移项的季节性随机游走模型估计}",
+          "stats": [null, 0.0483, 2.85, null],
+          "evidence": "SUE0和 SUE1的差别在于假设市场是否会根据历史业绩增长对未来产生预期。"
+        },
+        {
+          "name": "SUR0",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUR_{i,t}=\\frac{REV_{i,t}-E(REV_{i,t})}{\\xi_{i,t}},\\quad \\text{季节性随机游走模型含漂移项}",
+          "stats": [null, 0.0299, 2.89, null],
+          "evidence": "类似的我们也可以计算 SUR0 和 SUR1 两个标准化预期外营收（standardized unexpectedrevenue， SUR）作为 Revenue Surprise 的度量。"
+        },
+        {
+          "name": "SUR1",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "SUR_{i,t}=\\frac{REV_{i,t}-E(REV_{i,t})}{\\xi_{i,t}},\\quad \\text{季节性随机游走模型不含漂移项}",
+          "stats": [null, 0.0358, 2.12, null],
+          "evidence": "SUR0指标假设模型含漂移项，SUR1指标假设模型不含漂移项，参数估计和 SUE类似。"
+        },
+        {
+          "name": "Surprise",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{SUE0、SUE1、SUR0、SUR1 与预期外的 RNOA 共 5 个因子等权合成}",
+          "stats": [null, 0.0393, 3.79, null],
+          "evidence": "但剔除含成长在内的其他大类因子后业绩超预期因子在全市场的RankIC均值依然有 3.93%，IC_IR 提升至 3.79，选股效果依然十分显著。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_zoo"],
+      "approach": ["neutralization", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "业绩公告后的异常收益大约可以持续 3-4个月，且存续期内异常收益的衰减并不明显。",
+      "evidence": "业绩公告后的异常收益大约可以持续 3-4个月，公告日及之后一两个交易日异常收益高，之后的异常收益衰减并不明显，大幅超预期组合在业绩公告后第 2 个月的累计异常收益甚至低于第 3个月"
+    },
+    {
+      "text": "SUE0 行业市值中性的 RankIC 均值 4.02%，IC_IR 高达 3.49，多空月均收益 1.53%，回撤仅 7.27%。",
+      "evidence": "其中 SUE0 行业市值中性的 RankIC 均值 4.02%，IC_IR 高达 3.49，多空月均收益 1.53%，回撤仅 7.27%。"
+    },
+    {
+      "text": "业绩超预期因子与成长因子的因子取值和 IC 的相关系数均在 50%以上，信息重叠较多，剔除业绩超预期因子后成长因子没有显著的选股效果。",
+      "evidence": "业绩超预期类因子与成长因子的因子取值和 IC 的相关系数均在 50%以上，信息重叠较多，通过回归方法剔除业绩超预期因子后成长因子没有显著的选股效果"
+    },
+    {
+      "text": "指数增强时用业绩超预期因子替代成长因子后组合业绩稳定提升，其中全市场增强中证500组合的年化对冲收益提升 4.37%，信息比从2.73 提升至 3.48。",
+      "evidence": "指数增强时用业绩超预期因子替代成长因子后，在风险和换手等变化不大的前提下，组合业绩均有比较稳定的提升，其中全市场增强中证500组合的年化对冲收益提升 4.37%，而跟踪误差和最大回撤相差不到 0.2%，信息比从2.73 提升至 3.48。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["预期外的盈利能力 2017-07-09"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

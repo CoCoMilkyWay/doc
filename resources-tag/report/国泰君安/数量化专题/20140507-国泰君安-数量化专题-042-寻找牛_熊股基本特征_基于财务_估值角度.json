@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "id": "20140507-国泰君安-数量化专题-042-寻找牛_熊股基本特征_基于财务_估值角度",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{ROE}=\\frac{\\text{当年利润}}{\\text{年初所有者权益}}",
+          "stats": [null, null, null, null],
+          "evidence": "考虑用 ROE作为盈利能力的代理变量。计算 ROE 时，用当年利润/年初所有者权益。"
+        },
+        {
+          "name": "扣非净利增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "g=\\frac{\\text{当年扣非净利}}{\\text{上年扣非净利}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "考虑用扣非净利增长率作为成长能力的代理变量。计算扣非净利增长率时，用当年扣非净利/上年扣非净利。"
+        },
+        {
+          "name": "Trailing PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{Trailing PE}=\\frac{\\text{年初股价}}{\\text{上年 EPS}}",
+          "stats": [null, null, null, null],
+          "evidence": "Trailing PE 用的上一年盈利，信息滞后，但基本能同步拿到；"
+        },
+        {
+          "name": "Forward PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{Forward PE}=\\frac{\\text{年初股价}}{\\text{当年 EPS}}",
+          "stats": [null, null, null, null],
+          "evidence": "Forward PE用的是当年盈利信息，需要进行预测，但反映的是未来的信息。"
+        },
+        {
+          "name": "总市值",
+          "family": "size",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{年初总市值}",
+          "stats": [null, null, null, null],
+          "evidence": "流通股市值被更多的用来衡量一只股票的价格弹性，总市值更能反映市场对公司的价值评估，以及市场风格。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["return_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "利用当年业绩计算的ROE较高（低）是牛（熊）股的共性特征之一，利用上一年业绩计算的ROE对牛、熊股无指示意义。",
+      "evidence": "利用当年业绩计算的 ROE 较高（低）是牛（熊）股的共性特征之一，利用上一年业绩计算的 ROE 对牛、熊股无指示意义。"
+    },
+    {
+      "text": "牛、熊股的PE指标特征一直存在，但随着时间推移逐步弱化，trailing PE和forward PE的bull-bear spread随时间不断靠近于0，PE特征趋于模糊。",
+      "evidence": "牛、熊股的 PE指标特征一直存在，但随着时间推移逐步弱化。不管是 trailing PE 还是 forward PE，bull-bear spread 随着时间的推移不断靠近于 0，表牛、熊股 PE 特征趋于模糊。"
+    },
+    {
+      "text": "2008年前牛股的大市值特征显著，之后各市值范围股票的bull-bear spread迅速收窄，牛、熊市值特征趋于模糊。",
+      "evidence": "2008 年前牛股的大市值特征显著，之后各市值范围股票的bull-bear spread 迅速收窄，牛、熊市值特征趋于模糊。"
+    },
+    {
+      "text": "2007年之前牛股和熊股的市值特征非常显著，仅依据市值大小选股就能获得很高的胜率和收益；2008年开始小盘股在牛股中的占比开始超过在熊股中的占比，但差距始终拉不大。",
+      "evidence": "2007年之前，牛股和熊股的市值特征非常显著，仅依据市值大小选股就能获得很高的胜率和收益。2008年开始，小盘股在牛股中的占比开始超过在熊股中的占比，大盘股在熊股中的占比超过在牛股中的占比，但是差距始终拉不大，围绕着零轴变动。"
+    },
+    {
+      "text": "历年牛股均无共性特征，在所有年份的所有指标范围内，没有一个指标的分布概率能够达到80%。",
+      "evidence": "牛股年年有，却难以找到共同的指标特征。在我们检验的所有年份的所有指标范围内，没有一个指标的分布概率能够达到 80%，"
+    },
+    {
+      "text": "熊股的扣非利润增长率普遍低于10%，这一特征除了在2007、2009、2010三年不明显，其他年份都异常显著。",
+      "evidence": "熊股的扣非利润增长率普遍低于10%。这一特征除了在2007、2009、2010 三年不明显，其他年份都异常显著。"
+    },
+    {
+      "text": "投资上，trailing PE不是买入或卖出一只股票的理由，可以参考forward PE，但要小心。",
+      "evidence": "投资上，trailing PE 不是买入或卖出一只股票的理由，可以参考forward PE，但要小心。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

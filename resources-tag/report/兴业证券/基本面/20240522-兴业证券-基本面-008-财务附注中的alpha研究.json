@@ -1,0 +1,148 @@
+{
+  "schema_version": 2,
+  "id": "20240522-兴业证券-基本面-008-财务附注中的alpha研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring"],
+      "setup": {"data": {"source": ["statement"], "freq": "quarterly"}}
+    },
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_alternative"],
+      "approach": ["statement_detail", "corporate_event"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "财务附注静态结构因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{筛选出的有效静态结构指标（各细分科目占合计比）类内等权后再跨维度等权合成}",
+          "stats": [0.0255, null, 0.41, 0.073],
+          "evidence": "财务附注静态结构因子2015年12月至2024年2月区间的IC均值为2.55%，大于2%，t值可达4.03。同时从五分位组合表现来看，有着较好的单调性。"
+        },
+        {
+          "name": "财务附注动态结构因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{分子当期}-\\text{分子去年同期}}{\\text{分母期初与期末的平均值}}",
+          "stats": [0.0261, null, 0.37, 0.0622],
+          "evidence": "财务附注动态结构因子在 2015 年12 月至 2024 年 2 月区间的 IC 均值为2.61%，同时t值达到3.61。同时从五分位组合表现来看，有着较好的单调性。"
+        },
+        {
+          "name": "财务附注结构质量因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{财务附注静态结构因子与财务附注动态结构因子等权合成}",
+          "stats": [0.033, null, 0.42, 0.0834],
+          "evidence": "可以看出财务附注结构质量因子IC 均值提升至3.30%，t值为4.19，同时因子有着较好的单调性。"
+        },
+        {
+          "name": "固定资产折旧货币资金比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{固定资产折旧TTM}}{\\text{货币资金}}",
+          "stats": [0.0202, null, 0.36, 0.0407],
+          "evidence": "上文我们测试了折旧的细分结构是一个较为有效的维度，同时我们基于折旧除以各总项构建选股因子，可以看出有效性较好。"
+        },
+        {
+          "name": "固定资产长期负债比",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{一年内到期的长期借款}}{\\text{固定资产余额}}",
+          "stats": [-0.0207, null, -0.36, -0.0579],
+          "evidence": "例如我们用一年内到期的长期借款除以固定资产(或机器设备）来度量固定资产对长期借款的保障程度，可以看出此指标也有一定有效性。"
+        },
+        {
+          "name": "资源税占比",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{资源税}}{\\text{税金及附加合计值}}",
+          "stats": [0.0714, null, 0.28, 0.1195],
+          "evidence": "我们通过资源税除以税金及附加合计值计算资源税占比因子，可以看出此因子在煤炭行业中此指标有效性较强，即使进行了市值行业中性化依旧维持着优秀的表现。"
+        },
+        {
+          "name": "应收款项融资",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{以发布应收账款融资余额指标为事件，统计发布前后相对万得全A的平均超额收益}",
+          "stats": [null, null, null, null],
+          "evidence": "我们统计发布应收账款融资余额和未发布应收账款融资余额前后5、10、20、40、60、120天的超额收益，可以看出有发布应收账款融资余额的个股在发布财报之后获得了明显的正向超额收益。"
+        },
+        {
+          "name": "其他应收款坏账准备",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{以发布其他应收款坏账准备指标为事件，统计发布前后相对万得全A的平均超额收益}",
+          "stats": [null, null, null, null],
+          "evidence": "我们统计发布其他应收款坏账准备指标和未发布其他应收款坏账准备指标前后5、10、20、40、60、120天的超额收益，可以看出有发布其他应收款坏账准备指标的个股在发布财报之后获得了明显的负向超额收益。"
+        },
+        {
+          "name": "预付款项账面价值",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{以发布预付款项账面价值指标为事件，统计发布前后相对万得全A的平均超额收益}",
+          "stats": [null, null, null, null],
+          "evidence": "我们统计发布预付款项账面价值指标和未发布预付款项账面价值指标前后5、10、20、40、60、120天的超额收益，可以看出有发布预付款项账面价值指标的个股在发布财报之后获得了明显的负向超额收益。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "基于清洗后的财务附注数据库得到678个PIT信号，并从选股因子和发布效应两维度进行应用尝试",
+      "evidence": "通过清洗，我们构建囊括表格—科目—指标三个层次的兴证金工财务附注数据库，并得到678个PIT信号。本文从选股因子和发布效应两维度进行应用尝试。"
+    },
+    {
+      "text": "财务附注结构质量因子在2015.12.31至2024.2.29区间IC均值达3.30%，t值为4.19，与底层约170个因子相关性最高不超过30%",
+      "evidence": "财务附注结构质量因子在2015.12.31至2024.2.29区间IC均值达3.30%，t值为4.19，同时此因子与我们底层约170 个因子相关性最高不超过30%。"
+    },
+    {
+      "text": "财务附注结构质量因子市值行业中性化后IC依旧为3.04%，t值为5.51，且在沪深300、中证500、中证1000中有效性均较强",
+      "evidence": "以财务附注结构质量因子为例，此因子2015.12.31至2024年2月29日区间IC均值达到3.30%，t值为4.19，进行过市值行业中性化后因子IC依旧为 3.04%，t值为5.51，且此因子在沪深300、中证500、中证1000中有效性均较强"
+    },
+    {
+      "text": "发布其他应收款坏账准备等指标的公司在公告发布后5、10、20、60、120天具有明显的负向超额收益",
+      "evidence": "以其他应收款坏账准备为例，发布此指标的公司在公告发布后5、10、20、60、120天具有明显的负向超额收益，且相对未发布此指标个股负向超额收益明显。"
+    },
+    {
+      "text": "资源税占比因子在煤炭行业中有效性较强，市值行业中性化后依旧维持着优秀的表现",
+      "evidence": "我们通过资源税除以税金及附加合计值计算资源税占比因子，可以看出此因子在煤炭行业中此指标有效性较强，即使进行了市值行业中性化依旧维持着优秀的表现。"
+    },
+    {
+      "text": "市值行业中性化剔除市值和行业影响后，静态结构因子IC均值依旧维持在2%以上，t统计量进一步提高至6.30",
+      "evidence": "我们对因子进行市值行业中性化处理，剔除市值和行业影响后因子IC均值依旧维持在2%以上，t统计量进一步提高至6.30。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

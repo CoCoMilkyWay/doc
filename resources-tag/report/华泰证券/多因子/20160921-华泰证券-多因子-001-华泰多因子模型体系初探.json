@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "id": "20160921-华泰证券-多因子-001-华泰多因子模型体系初探",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "technical_pattern",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["weighting", "linear", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance", "L4_tail"],
+      "approach": ["structural", "dynamic_adjust", "specific_risk", "distress"],
+      "setup": {
+        "risk_factors": [
+          "size",
+          "value",
+          "growth",
+          "quality",
+          "analyst",
+          "momentum",
+          "volatility",
+          "liquidity",
+          "institution"
+        ],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {
+      "module": ["L6_backtest", "L6_attribution"],
+      "approach": ["evaluation_metric", "factor_based", "return_based"]
+    }
+  },
+  "findings": [
+    {
+      "text": "主动定量管理本质是统计套利，关注点是因子（共性）而非股票（个性），定量管理从组合的角度对因子暴露进行管理以超越基准。",
+      "evidence": "主动定量管理本质是统计套利，关注点是因子（共性），而非股票（个性）。"
+    },
+    {
+      "text": "多因子模型本质是将对N只股票的收益—风险预测转变成对于K个因子的收益—风险预测，极大降低预测工作量并提升精度。",
+      "evidence": "多因子模型本质上是将对于N只股票的收益—风险预测转变成对于K个因子的收益—风险预测。"
+    },
+    {
+      "text": "三种多因子模型中，基本面因子模型的模型效果明显好于宏观经济因子模型和统计因子模型，是当前主流研究方向。",
+      "evidence": "BARRA 对三种多因子模型都做过研究，基本面因子的模型效果要明显好于其他两类模型。"
+    },
+    {
+      "text": "主要风格因子暂时分成十二大类：估值、成长、财务质量、杠杆、规模、动量、波动率、换手率、改进的动量、分析师情绪、股东和技术因子。",
+      "evidence": "主要的风格因子暂时分成十二大类：估值因子（Value Factor）、成长因子（Growth Factor）、财务质量因子（Financial Quality Factor）、杠杆因子（Leverage Factor）、规模因子（SizeFactor）、动量因子（Momentum Factor）、波动率因子（Volatility Factor）、换手率因子（Turnover Factor）、改进的动量因子（Modified Momentum Factor）、分析师情绪因子（Sentiment Factor）、股东因子（Shareholder Factor）和技术因子（Technical Factor）。"
+    },
+    {
+      "text": "收益类因子是多因子模型超额收益的主要来源，需要风险暴露相对多；风险类因子主要用于风险控制，需要风险暴露尽量少。",
+      "evidence": "收益类因子是多因子模型超额收益的主要来源，在模型中是需要风险暴露相对多的因子。而风险类因子也需要重点关注，因为风险类因子是进行风险控制的重点，需要风险暴露尽量少。"
+    },
+    {
+      "text": "信息比率取决于策略广度和信息系数：提高信息比率要做得频繁（高广度BR）并且做得出色（高能力IC）。",
+      "evidence": "即投资组合的信息比率 IR取决于投资策略的广度 BR（Breadth）和信息系数 IC（InformationCoefficient）。"
+    },
+    {
+      "text": "多因子模型不是因果关系模型，因子只是在统计上和收益率存在相关关系，是解释收益风险的维度。",
+      "evidence": "多因子模型并不是一个因果关系的模型，即所谓的因子只是在统计上和收益率存在相关关系，是试图解释收益风险的维度，多因子模型并不关心他们是否存在因果关系。"
+    },
+    {
+      "text": "协方差矩阵包含计算投资组合风险所需的全部信息，风险模型的目标就是精准预测协方差矩阵。",
+      "evidence": "协方差矩阵包含了计算投资组合风险所需的所有信息，风险模型的目标就是就是精准的预测协方差矩阵。"
+    },
+    {
+      "text": "用HP滤波法提取因子历史累积收益率的趋势项预测因子预期收益，预设参数少且能消除噪声。",
+      "evidence": "由于因子收益率存在较大波动性，我们创新地通过 HP滤波法提取因子历史累积收益率的趋势项，以滤波曲线的终值除以样本期的长度作为因子的预期收益率。"
+    },
+    {
+      "text": "国内多因子模型最流行用法是通过行业中性对冲组合的行业风险，组合在每个行业上的权重分配与业绩基准一致。",
+      "evidence": "通过行业中性对冲组合的行业风险（以业绩基准的行业权重为基准进行对齐，即组合在每个行业上的权重分配与业绩基准一致）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["BARRA Handbook USE3", "《主动投资组合管理》", "《证券组合定量管理》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

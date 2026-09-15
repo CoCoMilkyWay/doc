@@ -1,0 +1,130 @@
+{
+  "schema_version": 2,
+  "id": "20240102-东方证券-因子选股-099-基于异构图神经网络的股票关联因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "行业因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以一级行业同类股票为邻边的同质图神经网络聚合量价因子后经因子单元与XGBoost Ranker二阶段训练得到}",
+          "stats": [null, null, null, null],
+          "evidence": "我们以一级行业作为邻边，观察行业因子的选股表现和收益表现。"
+        },
+        {
+          "name": "基金重仓邻边因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{以基金共同重仓（重仓次数归一化为边权）为邻边的同质图神经网络聚合量价因子后经因子单元与XGBoost Ranker二阶段训练得到}",
+          "stats": [null, null, null, null],
+          "evidence": "使用基金重仓作为邻边特征，我们将该因子命名为基金重仓邻边因子，从下面的左图中看出，其 Rank IC 的变化和行业邻边因子差异不大，但从右图中看出，这个因子的多头超额明显和其他组拉开差距，特别 2022 年和 2023 年，多头超额的涨幅明显超过其他组，Rank IC 均匀地体现在空头和多头。"
+        },
+        {
+          "name": "分析师覆盖邻边因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{以过去6个月被同一分析师覆盖（共同覆盖数为边权）为邻边的同质图神经网络聚合量价因子后经因子单元与XGBoost Ranker二阶段训练得到}",
+          "stats": [null, null, null, null],
+          "evidence": "使用分析师覆盖邻边作为邻边特征，我们将该因子命名为分析师覆盖邻边因子，其 Rank IC的变化和的基金重仓邻边因子差异不大。"
+        },
+        {
+          "name": "GNNXGB",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{异构图神经网络（节点=量价因子截面，邻边=行业/基金共同持仓/分析师共同覆盖）聚合后经因子单元提取正交弱因子，再由XGBoost Ranker二阶段训练得到打分}",
+          "stats": [null, 0.125, 3.19, null],
+          "evidence": "基于 GNN 二阶段模型的因子（月频）表现为：Rank IC 0.125，ICIR3.19，夏普值2.95，多头超额年化收益21.0%。"
+        },
+        {
+          "name": "RNNXGB",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{双层GRU提取量价因子时间序列特征后经因子单元提取正交弱因子，再由XGBoost Ranker二阶段训练得到打分}",
+          "stats": [null, 0.128, 3.15, null],
+          "evidence": "我们可以看到使用因子单元和XGBRanker之后因子的效果是有所提升的。RankIC从0.123提升到了0.128，夏普值从3.05提升到了3.20，多头超额年化收益从21.8%提升到了23.6%，所以使用二阶段模型对 RNN原始因子有一定程度的提升作用。"
+        },
+        {
+          "name": "GNNXGB+RNNXGB",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{standardize}(\\mathrm{GNNXGB})+\\mathrm{standardize}(\\mathrm{RNNXGB})",
+          "stats": [null, 0.131, 3.36, null],
+          "evidence": "将其与RNN结合之后，得到的综合因子绩效均有提升：RankIC0.131，ICIR3.36，夏普值 3.40，多头超额年化收益 25.4%"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "GNNXGB与RNNXGB复合后的综合因子绩效均有提升：RankIC 0.131、ICIR 3.36、夏普值 3.40、多头超额年化收益 25.4%，证明时间与空间信息融合有效。",
+      "evidence": "将其与RNN结合之后，得到的综合因子绩效均有提升：RankIC0.131，ICIR3.36，夏普值 3.40，多头超额年化收益 25.4%"
+    },
+    {
+      "text": "XGBoost Ranker二阶段结构确实能提升原始因子效果：GNN因子RankIC从0.122提升到0.125，ICIR从3.08提升到3.19，多头超额年化收益率从20.7%提升到21.0%。",
+      "evidence": "看到XGBoostRanker对于原始因子确实产生了一定的提升，RankIC从 0.122 提升到了 0.125，ICIR 从 3.08 提升到了 3.19，夏普值从 2.08 提升到了 2.95，多头超额年化收益率从 20.7%提升到了 21.0%，由此证明使用 XGBoost Ranker 来对弱因子进行进一步的学习，这样的两阶段结构确实能够提升原始因子的效果。"
+    },
+    {
+      "text": "GNNXGB对RNNXGB与截面XGB取线性回归残差后RankIC仍达0.049、ICIR达1.81，说明GNNXGB确实提取到时序与截面信息之外的空间信息。",
+      "evidence": "由下图中我们可以看到，GNNXGB 因子对 RNNXGB 因子以及截面 XGB 取了线性回归残差之后，RankIC 仍然能够达到 0.049，ICIR 到了 1.81。"
+    },
+    {
+      "text": "基于综合因子的中证1000指数增强组合年化超额达12.7%，并在多数时间里保持对基准的相对优势。",
+      "evidence": "增强组合在考察的时间段内表现出了显著的超额收益能力，年化超额达到了 12.7%，并在多数时间里保持了对基准的相对优势。"
+    },
+    {
+      "text": "通过网络的残差连接进行克服：将单层GNN的输入和输出相加，作为下一层GNN的输入，起码保证了自身特征有50%的信息进入了下一次传播迭代。",
+      "evidence": "而这个缺点我们可以通过网络的残差连接进行克服，将单层GNN的输入和输出相加，作为下一层 GNN的输入，起码保证了自身特征有 50%的信息进入了下一次传播迭代。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "DFQ 强化学习因子组合挖掘系统：——因子选股系列之九十五",
+    "DFQ-TRA：多交易模式学习因子挖掘系统：——因子选股系列之九十七",
+    "基于抗噪的 AI 量价模型改进方案：——因子选股系列之九十八",
+    "基于残差网络的端到端因子挖掘模型：——因子选股系列之九十六",
+    "集成模型在量价特征中的应用：——因子选股系列之九十三"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

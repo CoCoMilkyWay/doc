@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "id": "20180518-中信建投-因子深度研究-001-特质波动率纯因子在a股的实证与研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Vcapm",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}=\\alpha_{i,t}+\\beta_{i,t}Rmt_{t}+\\varepsilon_{i,t},\\ \\text{特质波动率}=\\text{个股近20个交易日回归得到的20个残差的年化波动率}",
+          "stats": [null, null, null, 0.1812],
+          "evidence": "特质波动率反映公司间波动率的差异，等于资产定价模型中不能被市场或行业解释的部分，指的是可以分散的风险或者非系统性风险。公司特质波动率的度量，一般为前面介绍的模型得到的残差的波动率。"
+        },
+        {
+          "name": "Vff3",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}=\\alpha_{i,t}+\\beta_{i,t}Rm_{t}+S_{i,t}SMB_{t}+H_{i,t}HML_{t}+\\varepsilon_{i,t},\\ \\text{特质波动率}=\\text{残差}\\varepsilon_{i,t}\\text{的年化波动率}",
+          "stats": [null, -0.0728, null, 0.2355],
+          "evidence": "特质波动率反映公司间波动率的差异，等于资产定价模型中不能被市场或行业解释的部分，指的是可以分散的风险或者非系统性风险。公司特质波动率的度量，一般为前面介绍的模型得到的残差的波动率。"
+        },
+        {
+          "name": "Vff5",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}=\\alpha_{i,t}+\\beta_{i,t}Rmt_{t}+S_{i,t}SMB_{t}+H_{i,t}HML_{t}+R_{i,t}RMW_{t}+C_{i,t}CMA_{t}+\\varepsilon_{i,t},\\ \\text{特质波动率}=\\text{残差}\\varepsilon_{i,t}\\text{的年化波动率}",
+          "stats": [null, null, null, 0.228],
+          "evidence": "特质波动率反映公司间波动率的差异，等于资产定价模型中不能被市场或行业解释的部分，指的是可以分散的风险或者非系统性风险。公司特质波动率的度量，一般为前面介绍的模型得到的残差的波动率。"
+        },
+        {
+          "name": "VCarhart",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}=\\alpha_{i,t}+\\beta_{i,t}Rmt_{t}+S_{i,t}SMB_{t}+H_{i,t}HML_{tt}+U_{i,t}UMD_{t}+\\varepsilon_{i,t},\\ \\text{特质波动率}=\\text{残差}\\varepsilon_{i,t}\\text{的年化波动率}",
+          "stats": [null, null, null, 0.2355],
+          "evidence": "特质波动率反映公司间波动率的差异，等于资产定价模型中不能被市场或行业解释的部分，指的是可以分散的风险或者非系统性风险。公司特质波动率的度量，一般为前面介绍的模型得到的残差的波动率。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "以特质波动率排名后30%的个股等权作为策略组合，以全市场个股等权为基准，2005年5月到2018年2月年化超额收益7.55%，跟踪误差4.67%，信息比率1.62，最大回撤5.85%，低特质波动率组合超额收益相当显著。",
+      "evidence": "以特质波动率排名后 30%的个股等权作为策略组合，以全市场个股等权为基准；2005年5月到2018年2月，年化超额收益7.55%，跟踪误差为 4.67%，信息比率 1.62，最大回撤 5.85%。低特质波动率组合超额收益相当显著。"
+    },
+    {
+      "text": "Vff3因子月度IC在20050301到20180330期间平均值为-7.28%，每年都稳定为负，月度IC为负概率77%，特质波动率与个股收益关系稳定且显著有效。",
+      "evidence": "该因子月度 IC 在 20050301 到 20180330 期间，平均值为-7.28%，每年都稳定为负，且月度 IC 同向概率为 64%，月度 IC 为负的概率为 77%。这说明特质波动率与个股收益关系是比较稳定的且显著比较有效的因子。"
+    },
+    {
+      "text": "基于CAPM模型的特质波动率年化多空收益18.12%相对较弱，Fama-French三因子、五因子及Carhart四因子模型分别为23.55%、22.80%和23.55%；加入市值、估值因子提升约5%，加入动量、盈利或投资因子后提升不明显。",
+      "evidence": "CAPM 模型的特质波动率的年化多空收益 18.12%，而 Fama-French 三因子和五因子模型及 Carhart 四因子模型对应分别为 23.55%，22.80%和 23.55%。表明仅用市场因子解释股票收益力度是有限的，而加入市值因子、估值因子后提升效果显著，年化多空收益提升 5%左右；但加入动量因子、盈利因子或投资水平因子后，提升效果并不太明显。"
+    },
+    {
+      "text": "特质波动率纯因子收益月度平均为-5.23%，月度收益为负的概率为71.34%。",
+      "evidence": "2005 年 5 月到 2018 年 2 月区间，纯因子收益月度平均为-5.23%，月度收益为负的概率为 71.34%。"
+    },
+    {
+      "text": "特质波动率与传统因子方差膨胀因子平均值1.57、最大值2.79，不存在明显线性相关性；拟合度平均值34.79%，特质波动率可提供66%的传统因子不能解释的信息。",
+      "evidence": "特质波动率与传统因子之间的方差膨胀因子平均值为 1.57，最大值也只有 2.79，这说明特质波动率与传统的因子不存在明显的线性相关性。且其拟合度平均值为34.79%，说明其它因子对特质波动率的解释力度只有34%左右，也就是说，特质波动率可提供 66%的传统因子不能解释的信息。"
+    },
+    {
+      "text": "特质波动率分组单调性十分显著，排名靠后小组明显优于排名靠前小组，20050301到20180330前五组年化收益基本在20%以下，后五组基本在25%以上。",
+      "evidence": "发现排名靠后的小组明显优于排名靠前的小组，且单调性十分显著。20050301 到 20180330，前五组年化收益基本在 20%以下，后五组年化收益基本在 25%以上。"
+    },
+    {
+      "text": "特质波动率对应t统计量绝对值平均值为3.58，大于2的概率为63.69%，多数情况下纯因子收益有显著意义。",
+      "evidence": "在整个 2005 年 5 月到 2018 年 2 月统计期间，绝对值 t 的平均值为 3.58，大于 2 的概率为 63.69%，也就是说，多数情况下，我们的纯因子收益是有显著意义的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Barra纯因子模型",
+    "Carhart四因子模型",
+    "Fama-French三因子模型",
+    "Fama-French五因子模型"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

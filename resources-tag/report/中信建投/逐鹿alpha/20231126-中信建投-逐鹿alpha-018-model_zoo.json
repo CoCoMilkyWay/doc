@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "20231126-中信建投-逐鹿alpha-018-model_zoo",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "tree", "neural", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "本文采用alpha360因子作为输出测试不同模型表现，包括各类截面模型以及LSTM、GRU、DA-RNN、TCN、以Transformer为基础的各类Xformer模型和基于MLP的Dlinear、TiDE等时序模型",
+      "evidence": "本文我们采用alpha360因子作为输出，测试了不同模型的表现，包括各类截面模型，LSTM,GRU,DA-RNN,TCN,和以Transformer为基础的各类Xformer模型以及基于MLP的时序模型Dlinear，TiDE等。"
+    },
+    {
+      "text": "在因子结构较为简单时，时序模型相比截面模型有明显优势，其中RNN，TCN与原始Transformer结果较好，复杂Xformer没有明显效果",
+      "evidence": "结果表明，在因子结构较为简单时，时序模型相比截面模型有明显优势，其中RNN，TCN与原始Transformer结果较好，复杂Xformer没有明显效果。"
+    },
+    {
+      "text": "因子结构复杂且数量更多时，RNN，TCN，Transformer模型表现均有所提升，其中Transformer以及GRU效果最好",
+      "evidence": "因子结构复杂且数量更多时，RNN，TCN，Transformer模型表现均有所提升，其中Transformer以及GRU效果最好。"
+    },
+    {
+      "text": "RNN类模型的优点是能够有效的提取时序信息，缺点是训练效率慢，难以构建深度网络结构",
+      "evidence": "优点：能够有效的提取时序信息缺点：训练效率慢，难以构建深度网络结构"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Dual-Stage Attention-Based Recurrent Neural Network for Time Series Prediction",
+    "A TIME SERIES IS WORTH 64 WORDS: LONG-TERM FORECASTING WITH TRANSFORMERS",
+    "An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling",
+    "Are Transformers Effective for Time Series Forecasting?",
+    "Autoformer: Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting",
+    "Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling",
+    "ITRANSFORMER: INVERTED TRANSFORMERS ARE EFFECTIVE FOR TIME SERIES FORECASTING",
+    "Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting",
+    "Long-term Forecasting with TiDE: Time-series Dense Encoder"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

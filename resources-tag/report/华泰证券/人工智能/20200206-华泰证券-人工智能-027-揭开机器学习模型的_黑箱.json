@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20200206-华泰证券-人工智能-027-揭开机器学习模型的_黑箱",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["tree", "interpretability"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "特征重要性和SDT的结果表明，价量类因子的重要性整体高于基本面类因子；2019年模型前10个因子特征重要性之和为0.47，接近全体因子特征重要性的一半，前3名均为反转因子。",
+      "evidence": "下表展示 XGBoost 选股 2019 年模型 70 个因子的特征重要性。前 10 个因子特征重要性之和为 0.47，接近全体因子特征重要性的一半，即提供了接近一半的信息增益，其中以价量因子为主导。前 3名均为反转因子，第 4、8 名为换手率因子，第 5、10名为波动率因子，第 6名为市值因子，第 7 名 EP属估值因子，第 9 名为分析师情绪因子。"
+    },
+    {
+      "text": "PDP和SHAP的结果表明：XGBoost模型以非线性的逻辑使用因子，因子的非线性特点在市值、反转、技术、情绪因子上体现尤为明显；部分因子之间存在较强的交互作用；部分因子边际贡献为0，未来可以考虑事先剔除。",
+      "evidence": "PDP 和 SHAP 的结果表明：1）XGBoost 模型以非线性的逻辑使用因子，因子的非线性特点在市值、反转、技术、情绪因子上体现尤为明显；2）部分因子之间存在较强的交互作用；3）部分因子边际贡献为 0，未来可以考虑事先剔除。"
+    },
+    {
+      "text": "XGBoost选股模型（月调仓，全A选股，中证500行业市值中性）在20110201~20200203完整收益区间内年化超额收益12.53%，年化跟踪误差5.20%，信息比率2.41；2019年超额收益3.59%，跟踪误差5.34%，信息比率0.67。",
+      "evidence": "在完整的收益区间内（20110201~20200203），该模型年化超额收益 12.53%，年化跟踪误差 5.20%，信息比率 2.41。2019 年该模型超额收益 3.59%，跟踪误差 5.34%，信息比率 0.67（由于模型为月初调仓，收益区间取20190102~20200102）。"
+    },
+    {
+      "text": "SHAP理论完备，表达直观，既能从全局层面评估特征的重要性，又能从个体层面评估每条样本每项特征对模型输出的影响，还能展示特征间的交互作用，几种方法综合来看更推荐使用SHAP。",
+      "evidence": "SHAP 的优点在于理论完备，表达直观，既能从全局层面评估特征的重要性，又能从个体层面评估每条样本每项特征对模型输出的影响，还能展示特征间的交互作用。SHAP 向我们揭示模型如何运用因子，反过来还可以帮助我们加深对因子的理解。几种机器学习模型解释方法各擅胜场，综合来看我们更推荐使用 SHAP。"
+    },
+    {
+      "text": "ln_capital市值因子|SHAP|均值排名第一，表明市值因子对XGBoost模型输出的边际贡献最高；排名第2至第7的因子分属反转和换手率因子，第8为macd技术因子，第10为rating_change分析师情绪因子。",
+      "evidence": "从左下图的|SHAP|均值排名来看，ln_capital市值因子排名第一，表明市值因子对 XGBoost 模型输出的边际贡献最高。排名第2至第7的因子分属反转和换手率因子，第8为macd技术因子，第 9 为 std_12m 波动率因子，第 10 为 rating_change 分析师情绪因子。"
+    },
+    {
+      "text": "ln_capital市值因子的PDP斜率最大，因子值小于0时上涨概率为49%，大于1.2时为58%，模型高度偏好小市值个股。",
+      "evidence": "其中又以 ln_capital市值因子的 PDP斜率最大，当因子值小于 0时，上涨概率为 49%；当因子值大于 1.2 时，上涨概率为 58%。换言之，模型高度偏好小市值个股。"
+    },
+    {
+      "text": "macd因子的PDP呈现倒U型，当macd因子较小或较大时个股上涨概率约为50%，当macd因子在±0.4之间时上涨概率提升至51%以上，模型捕捉了macd因子的非线性逻辑，偏好macd值中等的个股。",
+      "evidence": "同时，观察到 macd 因子的 PDP 呈现倒 U 型，当 macd 因子较小或较大时，个股上涨概率约为 50%；当 macd 因子在±0.4 之间时，个股上涨概率提升至 51%以上。换言之，模型捕捉了 macd 因子的非线性逻辑，XGBoost 模型偏好 macd 值中等的个股。"
+    },
+    {
+      "text": "rating_average因子SHAP值形态为左高右低，分析师平均评级越高，XGBoost模型预测下月下跌概率越大，在XGBoost模型看来分析师评级属于反向指标，本质上反映出分析师的追涨倾向。",
+      "evidence": "右上图 rating_average 因子（排名第 18）SHAP 值的形态为左高右低，分析师平均评级越高，XGBoost 模型预测下月下跌概率越大。在 XGBoost 模型看来，分析师评级属于反向指标。"
+    },
+    {
+      "text": "目前人工智能算法和线性回归并无本质上的不同，仍是对样本特征X和标签Y进行拟合，模型只能学习相关关系而无法挖掘因果关系，不弄清模型的思考过程而直接使用机器学习的判断结果可能带来较大风险。",
+      "evidence": "目前的人工智能算法，即使是近年来发展迅猛的深度神经网络，和线性回归并无本质上的不同，仍是对样本特征 X和标签 Y进行拟合，区别无非是机器学习模型的非线性拟合能力更强。人工智能并不具备真正的“智能”。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cabitza, F., Rasoini, R., & Gensini, G. F. (2017). Unintended consequences of machine learning in medicine. The Journal of the American Medical Association, 318(6), 517-518.",
+    "Goldstein, A. , Kapelner, A. , Bleich, J. , & Pitkin, E. . (2015). Peeking inside the black box: visualizing statistical learning with plots of individual conditional expectation. Journal of Computational and Graphical Statistics, 24(1), 44-65.",
+    "Lundberg, S. M., Erion, G. G., & Lee, S. I. (2018). Consistent individualized feature attribution for tree ensembles. arXiv preprint arXiv:1802.03888.",
+    "Molnar, C. (2018). Interpretable machine learning: A guide for making black box models explainable.",
+    "Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). \"Why should I trust you?\" Explaining the predictions of any classifier.",
+    "华泰金工《人工智能 25：市场弱有效性检验与择时战场选择》（20191117）",
+    "华泰金工《机器学习选股模型的调仓频率实证》（20190419）",
+    "华泰金工《近一年提高模型调仓频率较有优势》（20200105）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "schema_version": 2,
+  "id": "20210707-中信建投-因子深度研究-012-多层次订单失衡及订单斜率因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_minute", "market_l1_l2"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "OFI1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OFI_{t}^{(1)}=\\Delta V_{t}^{B}-\\Delta V_{t}^{A},\\ \\Delta V_{t}^{B}=\\begin{cases}-V_{t-1}^{B}&P_{t}^{B}<P_{t-1}^{B}\\\\V_{t}^{B}-V_{t-1}^{B}&P_{t}^{B}=P_{t-1}^{B}\\\\V_{t}^{B}&P_{t}^{B}>P_{t-1}^{B}\\end{cases},\\ \\Delta V_{t}^{A}=\\begin{cases}V_{t}^{A}&P_{t}^{A}<P_{t-1}^{A}\\\\V_{t}^{A}-V_{t-1}^{A}&P_{t}^{A}=P_{t-1}^{A}\\\\-V_{t-1}^{A}&P_{t}^{A}>P_{t-1}^{A}\\end{cases}",
+          "stats": [-0.0326, null, -1.74, 0.1707],
+          "evidence": "首先是OFI1因子的效果，因子 IC 均值-3.26%，年化 IR -1.74，年化多空收益 17.07%，夏普比率 1.93。"
+        },
+        {
+          "name": "OFI2",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OFI_{t}^{(2)}=\\Delta V_{t}^{B,(2)}-\\Delta V_{t}^{A,(2)}",
+          "stats": [-0.0411, null, -2.25, 0.1636],
+          "evidence": "OFI2因子的效果，因子 IC 均值-4.11%，年化 IR -2.25，年化多空收益 16.36%，夏普比率 1.99。"
+        },
+        {
+          "name": "OFI3",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OFI_{t}^{(3)}=\\Delta V_{t}^{B,(3)}-\\Delta V_{t}^{A,(3)}",
+          "stats": [-0.0471, null, -2.51, 0.2028],
+          "evidence": "OFI3因子的效果，因子 IC 均值-4.71%，年化 IR -2.51，年化多空收益 20.28%，夏普比率 2.2。"
+        },
+        {
+          "name": "OFI4",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OFI_{t}^{(4)}=\\Delta V_{t}^{B,(4)}-\\Delta V_{t}^{A,(4)}",
+          "stats": [-0.0464, null, -2.48, 0.1981],
+          "evidence": "OFI4因子的效果，因子 IC 均值-4.64%，年化 IR -2.48，年化多空收益 19.81%，夏普比率 2.2。"
+        },
+        {
+          "name": "OFI5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OFI_{t}^{(5)}=\\Delta V_{t}^{B,(5)}-\\Delta V_{t}^{A,(5)}",
+          "stats": [-0.0506, null, -2.6, 0.2111],
+          "evidence": "OFI5因子的效果，因子 IC 均值-5.06%，年化 IR -2.60，年化多空收益 21.11%，夏普比率 2.31。"
+        },
+        {
+          "name": "MOFI",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MOFI=\\sum_{i=1}^{5}OFI^{(i)},\\ i=1,2,3,4,5",
+          "stats": [-0.0445, null, -2.4, 0.1909],
+          "evidence": "MOFI因子是对不同档位的OFI因子进行等权求和得到的，度量了各个档位订单失衡的简单累积影响。"
+        },
+        {
+          "name": "MOFI_Weight",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MOFI\\_Weight=\\frac{\\sum w_{i}\\times OFI_{t}^{(i)}}{\\sum w_{i}},\\ w_{i}=\\frac{i}{5},\\ i=1,2,3,4,5",
+          "stats": [-0.0476, null, -2.55, 0.2168],
+          "evidence": "经过后面检测发现高档位的OFI因子选股效果更优，因此第五档的信息含量最高，第一档的信息含量最低，我们提出利用衰减加权的方式对OFI因子进行求和，得到"
+        },
+        {
+          "name": "LogQuoteSlope",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "LogquoteSlope_{k}=\\frac{\\log(A_{k})-\\log(B_{k})}{\\log(N_{k}^{A})+\\log(N_{k}^{B})}",
+          "stats": [0.0519, null, 1.56, 0.2109],
+          "evidence": "接着我们看下LogQuoteSlope因子的选股效果，因子 IC 均值 5.19%，年化 IR1.56，年化多空收益 21.09%，夏普比率 1.34，总体选股效果也非常不错。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "MOFI_Weight因子 IC 均值-4.76%，年化 IR-2.55，年化多空收益 21.68%，夏普比率 2.1，总体选股效果是所有因子里最好的。",
+      "evidence": "MOFI_Weigℎt因子 IC 均值-4.76%，年化 IR-2.55，年化多空收益 21.68%，夏普比率 2.1，总体选股效果是所有因子里最好的。"
+    },
+    {
+      "text": "高频的OFI1因子与收益率显著正相关，但降频后订单失衡的因子有效性已经衰减为0。",
+      "evidence": "由表 1 可以看出，高频的 OFI1 因子符合之前构造因子的逻辑，即订单失衡因子与收益率显著正相关，然而将高频量价因子降频后，订单失衡的因子有效性已经衰减为 0，这也符合我们前面的分析逻辑。"
+    },
+    {
+      "text": "取了绝对值的OFI类因子月频IC均值均显著为负，且随订单档位提高而不断提升，高档位信息长期更有效，因此加权时需给高档位更多权重。",
+      "evidence": "从下表可以看出，取了绝对值的 OFI 类因子的月频 IC 均值均显著为负，并且月频 IC 均值随着订单档位的提高而不断提升，这和我们上篇报告的 SOIR 因子一样，表明对于订单不平衡类因子来说，高档位的信息在长期来看越有效果，因此我们在对五档因子做加权时，需要对高档位的因子给与更多的权重。"
+    },
+    {
+      "text": "LogQuoteSlope因子多头效果更好，多头效果占多空组合的70%以上，而OFI类因子的多空收益各占50%。",
+      "evidence": "尽管因子多空收益波动比 OFI 类因子要高，但其多头效果更好，多头效果占多空组合的 70%以上，而 OFI 类因子的多空收益各占 50%。"
+    },
+    {
+      "text": "考虑到信息的时效性，距离调仓日越远其信息的有效性越弱，因此用衰减加权的方法对日因子加权，转换成月因子。",
+      "evidence": "考虑到信息的时效性，距离调仓日越远其信息的有效性越弱，因此用衰减加权的方法对日因子加权。即按距离最后一个交易日的时间远近加权将日因子转换成月因子。"
+    },
+    {
+      "text": "短期内买压占优个股呈明显正向收益、卖压占优呈明显负向收益，中长期买卖压力失衡消失后超额收益出现均值回复，失衡带来的超额收益仅为短期冲击影响。",
+      "evidence": "短期内，在买压占优（订单失衡为正）情况下个股会呈现明显的正向收益；在卖压占优（订单失衡为负）情况下个股会呈现明显的负向收益；而在中长期，当买卖压力失衡消失后，股票的超额收益会出现均值回复，这意味着买卖压力失衡带来的超额收益仅仅为短期冲击影响，后期股价会逐步恢复到原状态。"
+    },
+    {
+      "text": "OFI类因子和动量类因子相关性较高，LogQuoteSlope因子和盈利类因子相关性很高，OFI类因子间的相关性较强、包含的信息较为相近。",
+      "evidence": "OFI 类因子和动量类因子（Momentum_1m、Momentum_3m）的相关性较高。同时，LogQuoteSlope 因子和盈利类因子（ROE_TIM、ROA_TIM、ROIC_TIM）的相关性很高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Sim M K , Deng S . Estimation of level-I hidden liquidity using the dynamics of limit order-book[J]. Physica A: Stata Mechanics and its Applications, 540.",
+    "因子深度研究系列：买卖报单流动性因子构建（2020-10-23）",
+    "因子深度研究系列：高频订单失衡及价差因子（2021-01-29）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

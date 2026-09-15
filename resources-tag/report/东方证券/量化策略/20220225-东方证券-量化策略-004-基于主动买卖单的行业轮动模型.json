@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "id": "20220225-东方证券-量化策略-004-基于主动买卖单的行业轮动模型",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "净主买占比 OI",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OI=\\frac{V_b-V_s}{V_{\\text{total}}}",
+          "stats": [null, null, null, null],
+          "evidence": "衡量投资者主动买入的意愿。OI>0 反映市场上主动买入意愿更强烈，买方力量强劲，存在超额的需求；OI<0则说明市场主动卖出意愿更强烈，卖方力量强劲，存在超额的供给。"
+        },
+        {
+          "name": "净换手率 NTO",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "NTO=\\frac{V_b-V_s}{\\text{流通股本}}",
+          "stats": [null, null, null, null],
+          "evidence": "衡量市场中主动买入方的力量强弱。该指标=净主买占比*换手率。NTO>0 说明投资者积极买入；NTO<0说明投资者恐慌出仓；"
+        },
+        {
+          "name": "行业bvc净买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_i V_i^b-\\sum_i V_i^s}{\\sum_i V_i}",
+          "stats": [null, null, null, null],
+          "evidence": "该方法不需要逐笔数据，大大降低了运算量，同时减少了高频订单数据噪音的干扰，与股价涨跌幅的相关性更高。基于买卖单差额指标可以构造有效的个股 Alpha 因子，对交易冲击成本模型的拟合度也更高。"
+        },
+        {
+          "name": "行业bvc净换手率",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_i V_i^b-\\sum_i V_i^s}{\\sum_i \\text{流通股本}_i}",
+          "stats": [null, null, null, 0.1355],
+          "evidence": "（1）基于 bvc 算法计算的行业净换手率因子效果最好，多空超额最显著。2010 年至 2021年 top5 行业年化收益达到 14.13%，bottom5 行业年化收益为 0.58%，多头超额 7.68%，空头超额 5.87%，多空超额 13.55%。多头最大回撤仅为 10%左右。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于bvc算法计算的行业净换手率因子效果最好，多空超额最显著，2010年至2021年top5行业年化收益14.13%，bottom5行业年化收益0.58%，多头超额7.68%，多空超额13.55%。",
+      "evidence": "（1）基于 bvc 算法计算的行业净换手率因子效果最好，多空超额最显著。2010 年至 2021年 top5 行业年化收益达到 14.13%，bottom5 行业年化收益为 0.58%，多头超额 7.68%，空头超额 5.87%，多空超额 13.55%。多头最大回撤仅为 10%左右。"
+    },
+    {
+      "text": "使用个股流通市值加权法、较短因子计算窗口期得到的行业净主买因子效果更好；因子计算窗口期越短越好，过去5天的信息尚未被市场完全消化，对次月股价有一定影响。",
+      "evidence": "可以看出，因子计算窗口期越短越好。这说明在中国股票市场上主动买卖中包含的市场信息可以较快地反映到股票价格上，过去 5 天的信息尚未被市场完全消化，从而对次月股价有一定影响。"
+    },
+    {
+      "text": "双周频调仓情况下行业轮动策略效果得到进一步提升，而周频调仓下行业轮动策略效果不佳，更推荐月频或双周频调仓。",
+      "evidence": "可以看到，在双周频调仓的情况下，行业轮动策略效果得到进一步提升，而周频调仓下行业轮动策略效果不佳。综合来看，我们更推荐月频或双周频调仓。"
+    },
+    {
+      "text": "将基于工业企业行业分类与基于中信一级行业分类的行业轮动模型结合，每月底各选top5行业等权配置，复合策略2010年至2021年的年化收益达到15.05%。",
+      "evidence": "从结果来看，第一种方法效果较好。复合策略 2010年至 2021年的年化收益达到 15.05%。"
+    },
+    {
+      "text": "增强组合中引入行业轮动策略对组合收益提高比较有限，因行业轮动策略和个股的alpha得分有一定的冲突，应用于选股的增效并不十分明显。",
+      "evidence": "从增强组合的结果来看：引入行业轮动策略对组合收益提高比较有限。由于行业轮动策略和个股的 alpha得分有一定的冲突，将行业轮动策略应用于选股的增效并不十分明显。"
+    },
+    {
+      "text": "主动选股组合中根据行业轮动结果调整个股得分后再选top30等权构造组合，2010年以来年化收益最高可达31%，年化夏普比1.12，相比常规组合年化收益提升4%。",
+      "evidence": "在方案一中，根据行业轮动结果对个股得分进行调整，而后再选择个股因子得分 top30 等权构造组合，2010 年以来年化收益最高可达 31%，年化夏普比 1.12。相比常规组合，年化收益提升 4%。"
+    },
+    {
+      "text": "高夏普比叠加行业轮动策略的优选基金组合平均持仓15只基金，2010年以来相对于偏股基金指数可取得10%的年化超额收益，过去13年中有12年跑赢等权基金池。",
+      "evidence": "这样的基金组合平均持仓15只基金，2010 年以来相对于偏股基金指数，可取得 10%的年化超额收益。从分年收益来看，过去 13年中有 12 年都可以跑赢等权基金池。"
+    },
+    {
+      "text": "被动指数基金轮动组合采用代表性基金法，选择前十大超配行业的代表性被动指数基金等权配置，2010年以来相对于被动股基指数年化超额收益6.19%。",
+      "evidence": "根据调仓时最新的行业轮动策略结果，选择前十大中信一级超配行业的代表性被动指数基金，以及前十大工业企业超配行业的代表性被动指数基金进行配置，等权构造组合。2010 年以来，该组合相对于被动股基指数，年化超额收益 6.19%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "ELO（2012）提出的批量成交划分法（Bulk Volume Classification）",
+    "《主动买卖单的批量成交划分法》",
+    "《基于工业企业财务数据和分析师预期的行业轮动模型：——《量化策略研究 之 三》（2021-11-27）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

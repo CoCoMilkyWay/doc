@@ -1,0 +1,90 @@
+{
+  "schema_version": 2,
+  "id": "20210701-国泰君安-学界纵横-012-企业社会责任的纳入如何降低了组合风险",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["firm_attribute"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": []
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_tail"],
+      "approach": ["extreme_dependence"],
+      "setup": {
+        "risk_factors": ["size", "value", "volatility", "other"],
+        "data": {"source": ["market_daily", "alt"], "freq": "mixed"},
+        "horizon": "na"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "na"}
+    }
+  },
+  "findings": [
+    {
+      "text": "高CSR 公司的股票未来一年产生极端收益的可能性相对更低，调整CSR得分与极端收益出现的概率呈负相关",
+      "evidence": "本文首先考察了 CSR 水平和出现极端收益的概率之间的关系，发现高CSR 公司的股票未来一年产生极端收益的可能性相对更低。"
+    },
+    {
+      "text": "基于CSR和其他公司特征的Probit模型可以预测公司未来出现极端收益的概率，预测准确率相比于随机抽取有显著提升",
+      "evidence": "随后文章构建了基于CSR和其他公司特征的Probit模型预测公司未来出现极端收益的概率，预测准确率相比于随机抽取有显著提升。"
+    },
+    {
+      "text": "包含调整CSR的模型在预测未来是否为极端收益时的准确率更高，2009年金融危机时期预测准确率最低，2016 和 2017 年准确度最高达到 26%",
+      "evidence": "逐年统计结果表明模型预测准确率随时间变化，2009年金融危机时期预测准确率最低，2016 和 2017 年准确度最高达到 26%。"
+    },
+    {
+      "text": "模型预测准确率的绝对值并不高，但相比于随机选择（6%样本量）已经很高了",
+      "evidence": "作者指出虽然这一准确率的绝对值并不高但相比于随机选择（6%样本量）已经很高了。"
+    },
+    {
+      "text": "剔除预测极端收益后，CSR 策略的收益基本没有变化（小于1.5%），收益的标准差出现较大幅度的减弱（3%），可以在维持收益的同时降低波动情况",
+      "evidence": "表 5 表明，剔除了极端收益后，CSR 策略的收益基本没有变化（小于1.5%），而收益的标准差出现较大幅度的减弱（3%），表明修正后的CSR策略可以在维持收益的同时降低波动情况。"
+    },
+    {
+      "text": "剔除前后 5%或仅前 3%或仅后 3%的策略效果与剔除前后 3%的结果基本一致，剔除极端收益的做法有效而稳健",
+      "evidence": "表 5 的其余部分表明，从样本中剔除前后 5%或仅前 3%或仅后 3%的策略效果与剔除前后 3%的结果基本一致，表明剔除极端收益的做法是有效而稳健的。"
+    },
+    {
+      "text": "各行业极端收益比例的中位数为 6.28%，行业差异并不是极端收益的直接驱动因素，印证CSR 是极端收益的直接影响因素",
+      "evidence": "作者指出，各行业极端收益比例的中位数为 6.28%，各主要行业的极端收益比例没有显著差异，表明行业差异并不是极端收益的直接驱动因素。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Boutin-Dufresne 等（2004）",
+    "De 和 Clayman (2015)",
+    "Fabozzi等（2008）",
+    "Hong 和 Kacperczyk (2009)",
+    "Kim 等（2014）",
+    "Mishra 和 Modi（2013）",
+    "Peiris 和 Evans(2010)",
+    "《Lowering Portfolio Risk with Corporate Social Responsibility》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

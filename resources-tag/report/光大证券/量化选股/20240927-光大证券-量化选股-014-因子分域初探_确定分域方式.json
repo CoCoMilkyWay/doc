@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "20240927-光大证券-量化选股-014-因子分域初探_确定分域方式",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "intraday_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "市值加权估值因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "weightfactor=\\frac{x}{|x|}\\times|x|^{n},\\ weight=\\frac{weightfactor}{\\sum weightfactor},\\ \\text{其中 } x \\text{ 为对数市值的倒数}",
+          "stats": [null, 0.0469, null, null],
+          "evidence": "除了在截面上根据市值大小将股票池分为大小市值两组外，我们还可以对估值因子进行简单的市值加权，提升小市值股票的估值因子权重，即可实现连续型分域。"
+        },
+        {
+          "name": "改进早盘收益",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "factor=\\sum_{i=T-1}^{T-window}moving\\_ret_{i},\\ \\text{其中 } moving\\_ret_{i} \\text{ 为以2%为阈值在时序上进行极值调整后的早盘收益率}",
+          "stats": [null, 0.0408, null, null],
+          "evidence": "我们在时序上对早盘收益进行了极值调整，这类方式就是时序分域。我们以 2%为阈值，将股票池进行分域。"
+        },
+        {
+          "name": "改进反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "factor=\\sum_{i\\in Top10}r_{i}-\\sum_{i\\in Bottom10}r_{i},\\ \\text{其中 } Top10/Bottom10 \\text{ 为平均每笔成交量最大/最小的10个交易日}",
+          "stats": [null, 0.0457, null, null],
+          "evidence": "具体分域方式为：对每只股票，在过去 20 个交易日中，首先计算“成交量/成交笔数”，得到平均每笔成交量；然后，计算平均每笔成交量最大的 10 个交易日的收益率之和，减去平均每笔成交量最小的 10 个交易日的收益率之和，得到改进反转因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["regime_domain", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "因子分域研究框架分两部分：因子计算和因子合成，从分域结果来看，分域后因子表现相较于原始因子均具有不同程度提升。",
+      "evidence": "从分域结果来看，分域后因子表现相较于原始因子均具有不同程度提升。"
+    },
+    {
+      "text": "按单季度ROE同比将反转因子分域，多空组合在Small组中表现更佳，Small组中的空头组贡献了较多负收益。",
+      "evidence": "可以发现，反转因子多空组合在 Small 组中表现更佳。详细拆解多空组合收益可以发现，Small 组中的空头组，贡献了较多负收益。"
+    },
+    {
+      "text": "市值加权估值因子表现提升明显：总收益率从213.74%提升至346.36%，周频RankIC从3.85%提升至4.69%，月度胜率从65.63%提升至74.22%。",
+      "evidence": "从回测表现来看，提升了小市值股票的因子值权重之后，估值因子的表现提升明显。因子总收益率从213.74%提升至 346.36%，周频 Rank IC 从 3.85%提升至了 4.69%；月度胜率从 65.63%提升至了 74.22%。"
+    },
+    {
+      "text": "时序分域后的早盘收益因子呈现单调且稳定的动量特征。",
+      "evidence": "改进后的早盘收益因子回测结果如下，从回测结果可以发现，改进后的因子呈现了单调的特征，且呈现了稳定的动量特征。"
+    },
+    {
+      "text": "改进反转因子收益率较原始因子略差但更为稳健，拥有更高的月度胜率和夏普比率，多头组表现更佳。",
+      "evidence": "从多空组合来看，改进反转因子收益率较原始因子略差，但更为稳健。改进反转因子拥有更高的月度胜率和夏普比率。从多头组（group_10,后文同理）来看，改进反转因子相对原始因子表现更佳。"
+    },
+    {
+      "text": "成长、盈利和流动性因子对各选股因子均具有较为明显的分域效果。",
+      "evidence": "从分域结果来看，我们发现，成长、盈利和流动性因子对各选股因子均具有较为明显的分域效果。"
+    },
+    {
+      "text": "同花顺量化因子在低流动性域分域后提升明显：收益率从670.37%提升至954.99%，年化收益率从27.44%提升至32.29%，周频RankIC从12.05%提升至13.25%。",
+      "evidence": "从回测结果不难看出，分域后，因子提升非常明显，收益率从 670.37%提升至 954.99%，年化收益率从27.44%提升至 32.29%，周频 Rank IC 从 12.05%提升至 13.25%。"
+    },
+    {
+      "text": "基本面加权量价因子在一定时期内比等权合成效果更佳，但2022年后SUE因子趋于失效，超预期的股票转而贡献负向超额收益。",
+      "evidence": "2022 年前，SUE 因子是较为有效的因子，当行情演绎到极致后，该因子呈现反转特征，超预期的股票无法再带来超额收益，而是贡献负向超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《日内收益的精细切分：提炼动量与反转效应——量化选股系列报告之二》（2021-10-22）",
+    "同花顺量化因子库（iFinD）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

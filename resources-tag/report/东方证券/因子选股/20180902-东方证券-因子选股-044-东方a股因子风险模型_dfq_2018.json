@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20180902-东方证券-因子选股-044-东方a股因子风险模型_dfq_2018",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}},
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage", "dynamic_adjust", "specific_risk"],
+      "setup": {
+        "risk_factors": [
+          "size",
+          "value",
+          "growth",
+          "analyst",
+          "momentum",
+          "volatility",
+          "liquidity",
+          "institution",
+          "other"
+        ],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "risk_based"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "DFQ-2018风险模型对沪深300成份股的解释度最高，每个月横截面回归的Adjusted Rsquared平均能达到30.2%，中证500成分股为14.1%，全市场平均17%",
+      "evidence": "风险模对不同股票池的股票收益都有很强的解释力度，对沪深 300 成份股的解释度最高，每个月横截面回归的 Adjusted Rsquared 平均能达到 30.2%; 中证 500 成分股有 14.1%，全市场平均有17%。"
+    },
+    {
+      "text": "因子风险模型得出的GMVP组合年化波动率均显著低于纯统计模型，且差额在统计上显著（1%置信度），说明DFQ-2018风险模型可以对股票协方差阵做出更为准确的估计",
+      "evidence": "可以看出，因子风险模型得出的 GWVP组合年化波动率均显著低于纯统计模型，且差额在统计上显著（1%置信度），说明我们构建的DFQ-2018 风险模型在理论上具备明显优势，可以对股票协方差阵做出更为准确的估计。"
+    },
+    {
+      "text": "DFQ-2018因子风险模型相比纯统计模型仍有优势，尤其在全市场指数增强组合中优势较为明显，可以同时实现组合收益的提升和最大回撤的降低",
+      "evidence": "从对比结果可以看出，我们开发的 DFQ-2018 因子风险模型，相比之前报告中介绍的纯统计模型仍有优势，尤其在全市场指数增强组合中优势较为明显，可以同时实现组合收益的提升和最大回撤的降低。"
+    },
+    {
+      "text": "贝叶斯压缩改进了beta估计：原有计算方法的估计误差为34.5%，压缩后的beta估计误差为33%",
+      "evidence": "我们对比了新方法计算下的 beta 与传统 beta 的估计误差，整体来看，原有计算方法的估计误差为34.5%，压缩后的beta估计误差为33%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Newey and West (1987)",
+    "《Alpha 因子库精简与优化》",
+    "《A股市场风险分析》",
+    "《选股因子数据的异常值处理和正态转换》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

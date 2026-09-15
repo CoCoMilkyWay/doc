@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "id": "20230506-华泰证券-人工智能-067-ai模型如何一箭多雕_多任务学习",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "隐单元数为256时，多任务学习的加权RankIC均值和信息比率均优于单任务学习，优势既体现在10日和20日两个子任务上，又体现在两者预测值集成上，集成多任务预测值整体优于单独使用子任务预测值。",
+      "evidence": "测试结果表明：隐单元数为 256 时，多任务学习的加权 RankIC 均值和信息比率均优于单任务学习，优势既分别体现在 10 日预测和 20 日预测两个子任务上，又体现在两者预测值集成上，集成多任务预测值整体优于单独使用子任务预测值。"
+    },
+    {
+      "text": "随着模型规模扩大，多任务相比单任务学习的优势体现更充分，多任务相互兼容或需以相对大的网络规模为前提。",
+      "evidence": "对比不同隐单元数的模型表现，随着模型规模扩大，多任务相比单任务学习的优势体现更充分，多任务相互兼容或需以相对大的网络规模为前提。"
+    },
+    {
+      "text": "隐单元数扩大至1024且采用多任务学习时，合成因子加权RankIC均值显著提升且多任务优于单任务，但指增组合信息比率下降，多任务相比单任务学习的优势大幅削弱，因子合成和组合优化错配问题有待探索。",
+      "evidence": "隐单元数为 1024 时，合成因子加权 RankIC 均值显著提升，并且多任务学习mtl_uw_1024 和 mtl_dwa_1024 优于单任务学习 stl_1024。"
+    },
+    {
+      "text": "但与此同时，指增组合信息比率下降，且多任务相比单任务学习的优势大幅削弱。",
+      "evidence": "但与此同时，指增组合信息比率下降，且多任务相比单任务学习的优势大幅削弱。"
+    },
+    {
+      "text": "扩大模型规模和引入多任务学习在因子合成上仍有改进效果，但这两项改进无法体现在指增组合优化上，因子合成和组合优化错配问题本文仍无法解决。",
+      "evidence": "单纯从 AI 因子合成这步看，(1)扩大模型规模和(2)引入多任务学习仍有改进效果。但这两项改进无法体现在指增组合优化上。这也印证了我们在《人工智能 64：九坤 Kaggle 量化大赛有哪些启示》（2023-01-30）提到的因子合成和组合优化错配问题，本文仍无法解决。"
+    },
+    {
+      "text": "从子任务预测集成模型看，多任务相比单任务学习的优势在时序上较稳定，10日预测与20日预测集成的优势在时序上分布更均匀。",
+      "evidence": "10 日预测与 20 日预测集成：融合 10 日预测和 20 日预测的特点，多任务学习的优势在时序上分布更均匀，仅在 2011 年下半年、2019 年下半年、2020 年上半年出现连续且幅度较大的回撤，其余时间多任务学习整体优于单任务学习。"
+    },
+    {
+      "text": "多任务学习中10日和20日收益率预测两个子任务协同训练，两者预测值相关性较单任务学习更高：stl_256为0.954，mtl_uw_256和mtl_dwa_256均为0.977。",
+      "evidence": "观察每组模型内部，10 日预测与 20 日预测相关性，单任务学习 stl_256 为 0.954，多任务学习 mtl_uw_256 和 mtl_dwa_256 均为 0.977。多任务学习内部相关性更高。"
+    },
+    {
+      "text": "多任务学习在加权RankIC上体现出的改进效果，经过组合优化后，很难完全体现在超额净值上。",
+      "evidence": "从 10 日预测、20 日预测和集成的超额收益看，多任务学习相比单任务学习的优势在时序上并不稳定。多任务学习在加权 RankIC上体现出的改进效果，经过组合优化后，很难完全体现在超额净值上。"
+    },
+    {
+      "text": "多任务学习的合成因子测试和指增组合回测指标均优于单任务学习；模型规模扩大，多任务学习的优势随之扩大；从子任务预测集成模型看，多任务相比单任务学习的优势在时序上较稳定。",
+      "evidence": "结果表明：多任务学习的合成因子测试和指增组合回测指标均优于单任务学习；模型规模扩大，多任务学习的优势随之扩大；从子任务预测集成模型看，多任务相比单任务学习的优势在时序上较稳定。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Caruana, R. (1997). Multitask learning. Machine Learning, 28(1), 41-75.",
+    "Kendall, A., Gal, Y., & Cipolla, R. (2017). Multi-Task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics.",
+    "Liu, S., Johns, E., & Davison, A. J. (2018). End-to-end multi-task learning with attention.",
+    "Ma, T., & Tan, Y. (2022). Stock ranking with multi-task learning. Expert Systems with Application(Aug.), 199.",
+    "Ruder, S. (2017). An overview of multi-task learning in deep neural networks.",
+    "《人工智能 17：人工智能选股之数据标注方法实证》（2019-03-13）",
+    "《人工智能 55：图神经网络选股的进阶之路》（2022-04-11）",
+    "《人工智能 60：量化如何追求模糊的正确：有序回归》（2022-10-11）",
+    "《人工智能 64：九坤 Kaggle 量化大赛有哪些启示》（2023-01-30）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

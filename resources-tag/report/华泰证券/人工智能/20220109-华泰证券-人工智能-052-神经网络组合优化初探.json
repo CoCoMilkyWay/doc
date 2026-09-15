@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "id": "20220109-华泰证券-人工智能-052-神经网络组合优化初探",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["risk_based", "learned_solver"],
+      "setup": {"universe": ["na"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["bias_control", "evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "传统组合优化方法是独立过程、不能传播梯度，存在无法端到端影响优化输入（如预期收益、风险预算）、参数（如风险厌恶系数）只能遍历确定、一般只进行单期优化等局限。",
+      "evidence": "传统组合优化方法是一个独立的过程，不能传播梯度，因此无法借助神经网络进行端到端的优化，可能会有以下局限：(1)无法通过端到端的方式影响到组合优化的输入(如预期收益、风险预算)；(2)组合优化中的参数(如风险厌恶系数)只能通过遍历的方式来确定；(3)一般只进行单期优化。"
+    },
+    {
+      "text": "CvxpyLayers 在 Cvxpy 基础上将凸优化过程作为网络层嵌入神经网络，使梯度传播成为可能，从而具有突破传统组合优化方法局限的潜力。",
+      "evidence": "CvxpyLayers 在 Cvxpy 的基础上，将凸优化过程作为网络层嵌入到神经网络中，使得梯度传播成为可能，从而具有突破以上局限的潜力。CvxpyLayers 项目目前由斯坦福大学凸优化研究组维护。"
+    },
+    {
+      "text": "因子模型 FactorModel 人工构建大类资产因子，输入神经网络映射为风险预算，再对接 CvxpyLayers 优化得到资产权重，整合了因子合成和组合优化两个步骤。",
+      "evidence": "因子模型 FactorModel：人工构建大类资产因子，然后输入神经网络映射为风险预算，再对接 CvxpyLayers 优化得到资产权重。FactorModel 整合了因子合成和组合优化两个步骤。"
+    },
+    {
+      "text": "端到端模型 LSTMModel 直接将大类资产的原始日频收益率数据输入 LSTM 层映射为风险预算，再对接 CvxpyLayers 优化得到资产权重，整合了因子挖掘、因子合成和组合优化三个步骤，两个模型都以最大化组合收益作为预测目标并通过反向传播动态学习更优的风险预算。",
+      "evidence": "端到端模型 LSTMModel：直接将大类资产的原始日频收益率数据输入神经网络的 LSTM 层映射为风险预算，再对接 CvxpyLayers 优化得到资产权重。两个模型都以最大化组合收益作为预测目标，并通过反向传播动态学习更优的风险预算。LSTMModel整合了因子挖掘、因子合成和组合优化三个步骤。"
+    },
+    {
+      "text": "在 Softmax 函数后使用激活函数 HardTanh 限制风险预算的上下限在区间(lower,upper)，控制风险预算相比风险平价的偏离程度。",
+      "evidence": "与参考论文不同，我们在 Softmax函数后使用了激活函数 HardTanh，目的是限制风险预算的上下限在区间(lower,upper)，控制风险预算相比风险平价的偏离程度。"
+    },
+    {
+      "text": "在对风险预算的上下限进行合理限制后，FactorModel 和 LSTMModel 在国内外资产配置和国内资产配置两组测试中均能相对风险平价基准获得更好的收益表现。",
+      "evidence": "在对风险预算的上下限进行合理限制后，FactorModel 和 LSTMModel 均能相对基准获得更好的收益表现。我们进一步分析LSTMModel 的超额收益来源。"
+    },
+    {
+      "text": "LSTMModel 的超额收益来源：国内外资产配置中标普 500 和彭博贵金属子指数的偏配是主要的超额收益来源；国内资产配置中中证 500 和 SGE黄金 9999 的偏配是主要的超额收益来源。",
+      "evidence": "可知在国内外资产配置中，标普 500和彭博贵金属子指数的偏配是主要的超额收益来源；在国内资产配置中，中证 500 和 SGE黄金 9999 的偏配是主要的超额收益来源。"
+    },
+    {
+      "text": "考虑神经网络训练受随机数影响较大，将训练与调仓步骤重复 5次，得到多组预测结果并取等权平均为最终预测结果。",
+      "evidence": "考虑到神经网络训练受随机数影响较大，我们将上述步骤重复 5次，得到多组预测结果，并取等权平均为最终预测结果。"
+    },
+    {
+      "text": "在训练集、验证集和测试集之间间隔 21 个交易日，以避免未来信息泄漏。",
+      "evidence": "在训练集、验证集和测试集之间间隔 21 个交易日，以避免未来信息泄漏。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Agrawal, A., B. Amos, S. Barratt, S. Boyd, S. Diamond and J. Z. Kolter. (2019). \"Differentiable Convex Optimization Layers.\" NIPS.",
+    "Amos, B. and J. Z. Kolter. (2017). \"OptNet: Differentiable Optimization as a Layer in Neural Networks.\" ICML.",
+    "Uysal, A. S., X. Li and J. M. Mulvey. (2021). \"End-to-End Risk Budgeting Portfolio Optimization with Neural Networks.\"",
+    "《人工智能 32：AlphaNet：因子挖掘神经网络》（2020-6-14）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

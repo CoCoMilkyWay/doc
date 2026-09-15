@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "20171201-东方证券-因子选股-031-风险模型在时间序列上的改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage", "dynamic_adjust"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["risk_based"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "LS、NLS和不加时变结构的因子模型表现基本相当，差距统计上不显著，横截面方向改进风险模型的空间可能很有限",
+      "evidence": "LS，NLS和不加时变结构的因子模型表现基本相当，差距在统计上不显著。鉴于 NLS方法在仿真测试的优越性，我们预计横截面方向风险模型的改进空间可能很有限。"
+    },
+    {
+      "text": "FM和CCC-GARCH表现显著强于LS和NLS，时间序列上改进风险模型的作用明显，两者等权组合可减小模型设定偏误、增强风控能力并降低换手",
+      "evidence": "FM和 CCC-GARCH 表现显著比 LS和 NLS强，时间序列上改进风险模型的作用明显，把这两者等权组合在一起可以减小模型设定偏误，进一步显著增强模型风控能力，并降低组合换手。"
+    },
+    {
+      "text": "EWMA时变结构是因子模型改进中最重要的一点，不加入EWMA时因子模型与LS、NLS没有显著差别",
+      "evidence": "如果不加入EWMA架构，因子模型在沪深 300内 GMVP 组合的年化波动率等于 17.9%，和 LS,NLS模型非常接近，差异统计上不显著。也就是说，如果不考虑时间序列方向上的改进，横截面上日频因子模型FM、线性压缩 LS和非线性压缩 NLS没有显著差别，投资者可以任选其一，从计算效率上讲后两者更好。"
+    },
+    {
+      "text": "FM和CCC等权组合（FM+CCC）的GMVP波动率数值在不同成份股内都是最小",
+      "evidence": "如果把两者等权合在一起（FM+CCC），会发现其 GMVP 波动率数值在不同成份股内都是最小，虽然有时候这种数值差异在统计上不显著。"
+    },
+    {
+      "text": "时间序列方向上改进风险模型的代价是增加换手率，FM和CCC-GARCH组合在一起可降低部分换手率，利弊取决于alpha模型、组合约束、产品规模、交易成本等因素",
+      "evidence": "在时间序列方向上改进波动率模型是有代价的，可以看到 FM 和 CCC-GARCH 的 GMVP 换手率明显要比 LS和 NLS高，把 FM和 CCC-GARCH 组合在一起可以降低部分换手率。真实投资中，我们除了单个股票权重限制，可能还会加上跟踪误差、风险因子主动暴露等约束，限制更严，用时变风险模型实际增加的换手率会比上面测试结果低，但对应的，时变风险模型降风险的幅度也会减小。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Engle, R.F., Ledoit, O., Wolf, M., (2017), “Large Dynamic Covariance Matrices”",
+    "Ledoit,O., Wolf,M., (2017), “Direct Nonlinear Shrinkage Estimation of Large Dimensional Covariance Matrices”",
+    "Pakel, C., Shephard, N., Sheppard, K., Engle, R., F., (2017), “Fitting Vast Dimensional Time-Varying Covariance Models”",
+    "《A股市场风险分析》（2016.12.02）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

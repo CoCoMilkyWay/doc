@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "id": "20210221-华泰证券-人工智能-042-图神经网络选股与qlib实践",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "GATs_ts (K=1)",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{RNN提取Alpha158量价因子的时序嵌入后，经全局图注意力聚合全部节点特征并加自环，全连接层输出预测日收益率}",
+          "stats": [0.08, 0.09, 0.57, null],
+          "evidence": "对于 GATs_ts 模型，当图注意力层数为一层（即 K＝1）时，2010~2021 年的 Rank IC 均值和 Rank ICIR 分别为 0.09 和 0.63，Rank IC 值大于 0 的交易日占比为 74.76%。"
+        },
+        {
+          "name": "LSTM",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{LSTM提取Alpha158量价因子的时序嵌入后，经全连接层输出预测日收益率}",
+          "stats": [0.08, 0.09, 0.62, null],
+          "evidence": "基准模型 LSTM 在回测期间的 Rank IC 均值和 Rank ICIR 分别为 0.09 和 0.65，Rank IC 值大于0 的交易日占比为 75.65%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["neural", "label_horizon", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "回测期内一层GATs_ts年化收益率35.70%，夏普比率1.42，相对沪深300年化超额收益率28.89%，信息比率2.94，超额收益最大回撤-16.92%，表现优于基准模型LSTM和多层GATs_ts。",
+      "evidence": "回测期内（2010-01-04 至 2021-02-02），一层 GATs_ts年化收益率 35.70%，夏普比率 1.42，相对于基准沪深 300 指数的年化超额收益率 28.89%，信息比率 2.94，超额收益最大回撤-16.92%，表现优于基准模型 LSTM 和多层 GATs_ts。"
+    },
+    {
+      "text": "相比基准模型LSTM，GATs_ts相对沪深300年化超额收益率从25.7%提升至28.9%，信息比率从2.64提升至2.94。",
+      "evidence": "我们测试该方法在沪深 300 成分股量价因子日频选股上的表现，相比基准模型 LSTM，GATs_ts 回测期内（2010 年至 2021 年 2 月初）相对沪深 300年化超额收益率从 25.7%提升至 28.9%，信息比率从 2.64提升至 2.94。"
+    },
+    {
+      "text": "一层GATs_ts在单因子测试上稍弱于LSTM，但在TopkDropout策略回测表现上优于LSTM，可能因为GATs_ts对整个股票池预测能力稍逊，但对头部股票的预测能力较好。",
+      "evidence": "一层 GATs_ts 在单因子测试上稍弱于 LSTM，但在 TopkDropout 策略回测表现上优于 LSTM，我们认为这可能是因为 GATs_ts 对整个股票池的预测能力稍逊，但对头部股票的预测能力较好。"
+    },
+    {
+      "text": "各模型月度Rank IC在2017年及以前相对稳定，2018年及以后逐渐降低，可能说明随着交易拥挤或市场环境变化，量价因子预测能力在逐渐失效。",
+      "evidence": "可以看到各模型月度Rank IC 在 2017 年及以前相对稳定，在 2018 年及以后逐渐降低。这可能说明随着交易拥挤或者市场环境的变化，量价因子预测能力在逐渐失效。"
+    },
+    {
+      "text": "各类型策略超额收益明显衰减，若量价因子拥挤或失效，GATs_ts也不可避免滑坡；GATs_ts只能解决因子合成问题，无法解决因子失效问题，持续挖掘新Alpha因子仍是提升Alpha策略表现的最好途径之一。",
+      "evidence": "从分年度表现来看，各类型策略的超额收益表现出明显的衰减，我们认为这和模型使用的因子有关。Alpha158vwap 因子库包含 158 个量价因子，这些因子是原始量价数据由基础运算符相连接得到的因子表达式。若传统量价出现拥挤，或者因为市场环境变化量价因子整体失效，那么 GATs_ts 模型也不可避免出现滑坡。GATs_ts 只能解决因子合成的问题，无法解决因子失效问题。持续挖掘新 Alpha 因子仍是提升 Alpha 策略表现的最好途径之一。"
+    },
+    {
+      "text": "多层GATs_ts从初始层k=0进行残差连接并加入原始特征自环，以防止图神经网络的过平滑问题，即层数增加后所有节点特征趋于类似而无法区分。",
+      "evidence": "具体做法是在self.gat_layers[l](hidden)的基础上，加入 k=0 原始特征的自环 out[:, -1, :]，这是为了防止图神经网络的过平滑（Over Smoothing）问题，即随着层数增加，节点会学到图中全局信息，导致所有节点的特征趋于类似从而无法区分。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Feng, F., He, X., Wang, X., et al. Temporal relational ranking for stock prediction. ACM Transactions on Information Systems (TOIS), 2019, 37(2): 1-30.",
+    "Hamilton, W., Ying, Z., Leskovec, J. Inductive representation learning on large graphs. Advances in neural information processing systems, 2017: 1024-1034.",
+    "Kipf, T. N., Welling, M. Semi-supervised classification with graph convolutional networks. arXiv preprint arXiv:1609.02907, 2016.",
+    "Veličković, P., Cucurull, G., Casanova, A., et al. Graph attention networks. arXiv preprint arXiv:1710.10903, 2017.",
+    "Yang, X., Liu, W., Zhou, D., et al. Qlib: An AI-oriented Quantitative Investment Platform. arXiv preprint arXiv:2009.11189, 2020.",
+    "华泰金工《人工智能 40：微软 AI 量化投资平台 Qlib 体验》（2020-12-22）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

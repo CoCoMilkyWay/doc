@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "id": "20210704-华泰证券-人工智能-046-alphanet改进_结构和损失函数",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "AlphaNet-v2.1",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{在AlphaNet-v2端到端网络上对特征提取层二元运算函数(ts_corr,ts_cov等)抽样遍历(抽样特征数n=8)，10个模型预测等权平均作为合成因子}",
+          "stats": [null, 0.1145, 1.1, 0.5429],
+          "evidence": "AlphaNet-v2.1：加入特征提取层自定义 Dropout 机制的 AlphaNet-v2 模型，抽样特征数量 n=8。"
+        },
+        {
+          "name": "AlphaNet-v2.2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{Loss}=\\mathrm{MSE}(y,\\hat{y}_{res}),\\ \\hat{y}_{res}=\\text{预测收益率对Barra十大风格因子回归的残差}",
+          "stats": [null, 0.0799, 1.15, null],
+          "evidence": "AlphaNet-v2.2：在 AlphaNet-v2 模型基础上，对损失函数加入中性化机制，中性化因子为 Barra 十大风格因子。"
+        },
+        {
+          "name": "AlphaNet-v2.3",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\mathrm{Loss}=\\sum_{i=1}^{n} w_i * L(y_i,\\hat{y}_i),\\ \\text{截面收益率排名前50\\%的样本}w_i=2,\\text{后50\\%的样本}w_i=1",
+          "stats": [null, 0.117, 1.09, 0.5605],
+          "evidence": "AlphaNet-v2.3：在 AlphaNet-v2 模型基础上，对每个截面中收益率排名前 50%的样本设置权重为2，排名后 50%的样本设置权重为 1。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_training"],
+      "approach": ["loss_generalization"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "加入自定义Dropout机制的AlphaNet在收益方面的表现有小幅提升，同时训练耗时明显减少。",
+      "evidence": "测试中，加入自定义Dropout机制的AlphaNet在收益方面的表现有小幅提升，同时训练耗时明显减少。"
+    },
+    {
+      "text": "损失函数加入中性化机制后，模型超额收益虽下降但稳定性大幅提升，对回撤和波动的控制都显著改善，模型在2014年底、2019年初、2020年初的超额收益回撤都明显减小。",
+      "evidence": "测试中，AlphaNet的损失函数加入中性化机制后，模型的超额收益虽然下降但是稳定性大幅提升，对回撤和波动的控制都显著改善，模型在2014年底、2019年初、2020年初的超额收益回撤都明显减小。"
+    },
+    {
+      "text": "提高多头样本权重的AlphaNet在分层测试中TOP组合收益率、TOP组合信息比率更高，构建中证500指数增强组合的年化超额收益率、信息比率更高。",
+      "evidence": "测试中，提高多头样本权重的AlphaNet在分层测试中TOP组合收益率、TOP组合信息比率更高，构建中证500指数增强组合的年化超额收益率、信息比率更高。"
+    },
+    {
+      "text": "AlphaNet-v2.2的RankIC均值较低是因为已剔除了Barra十大风格因子的信息，更能反映模型挖掘出的增量Alpha，同时也规避了风格因子所带来的波动，IC_IR较高。",
+      "evidence": "AlphaNet-v2.2 的 RankIC 均值较低，这是因为AlphaNet-v2.2 已剔除了Barra 十大风格因子的信息，更能反映模型挖掘出的增量Alpha，同时也规避了风格因子所带来的波动，IC_IR较高。"
+    },
+    {
+      "text": "当n=8时即可覆盖95%以上的两两特征组合，大幅减少二元运算函数需要遍历的特征组合数目。",
+      "evidence": "可知，当n=8时即可覆盖95%以上的两两特征组合，此时二元运算函数需要遍历的特征组合数目仅为"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "AlphaNet：因子挖掘神经网络（2020.6.14）",
+    "Dropout: A Simple Way to Prevent Neural Networks from Overfitting, 2012",
+    "再探AlphaNet：结构和特征优化（2020.8.24）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

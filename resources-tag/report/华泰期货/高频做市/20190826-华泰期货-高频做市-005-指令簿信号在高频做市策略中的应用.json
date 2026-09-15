@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20190826-华泰期货-高频做市-005-指令簿信号在高频做市策略中的应用",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L7_execution",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "na", "horizon": "second"}
+      },
+      "factors": [
+        {
+          "name": "指令簿挂单不平衡信号",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\rho_{t}=\\frac{\\mathrm{V}_{t}^{b}-\\mathrm{V}_{t}^{a}}{\\mathrm{V}_{t}^{b}+\\mathrm{V}_{t}^{a}}\\in[-1,1]",
+          "stats": [null, null, null, null],
+          "evidence": "指令簿挂单不平衡信号可以根据最优买卖报价上的挂单量进行构建。在t时刻收到截面数据后，挂单不平衡信号可以定义为"
+        }
+      ]
+    },
+    "L7_execution": {
+      "module": ["L7_making"],
+      "approach": ["quoting", "inventory", "adverse_selection"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l1"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "挂单不平衡信号对提高做市收益没有明显帮助，但能大大减少盘中亏损并有效控制每日收益波动，从而实现更高夏普率。",
+      "evidence": "虽然这里的指令簿信号对提高做市收益没有明显帮助，但是能大大减少盘中亏损，而且对高频做市策略每天的收益波动也能有效控制，从而策略能实现更高夏普率。"
+    },
+    {
+      "text": "由于使用500毫秒截面数据，信号条件比原论文10毫秒采样的信号弱很多，挂单不平衡信号的预测能力比较有限。",
+      "evidence": "可能是因为只使用了500 毫秒截面数据的原因，挂单不平衡信号的预测能力比较有限，应用在 CDJ 模型中并不能提高策略的收益，但是却对做市盘中和日间收益的波动风险作出了有效控制，从而大大提高了做市策略的夏普率。"
+    },
+    {
+      "text": "分段平仓策略收益最低只有6674元，但风险也最低，标准差仅4839元，年化夏普率达到22。",
+      "evidence": "而分段平仓的策略收益虽然是最低的，只有 6674元，但是风险也最低，只有 4839元，年化夏普率达到22。"
+    },
+    {
+      "text": "增加二档挂单后策略收益明显提高，且库存惩罚系数φ越小、越能承担库存风险，做市收益越大。",
+      "evidence": "从图 8 可以看出增加二档挂单后策略的收益有了明显的提高，而且库存惩罚系数φ越小，即做市商更能承担库存风险，则做市收益越大。"
+    },
+    {
+      "text": "回测做市商在更深价位挂单的情景，使用CDJ 模型能够达到更高的夏普率，而所需的手续费返还则更低。",
+      "evidence": "另外，这篇报告也回测了做市商在更深价位挂单的情景，使用CDJ 模型能够达到更高的夏普率，而所需的手续费返还则更低。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Cartea, A., R. Donnelly and S. Jaimungal. Enhancing Trading Strategies with Order Book Signals"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

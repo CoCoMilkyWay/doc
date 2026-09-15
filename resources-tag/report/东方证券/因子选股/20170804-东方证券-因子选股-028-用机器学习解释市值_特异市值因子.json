@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20170804-东方证券-因子选股-028-用机器学习解释市值_特异市值因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "线性回归特异市值因子",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon_{it},\\ \\text{where}\\ m_{it}=\\alpha_{0t}\\mathrm{IND}_{it}+\\alpha_{1t}b_{it}+\\alpha_{2t}\\ln(NI)_{it}^{+}+\\alpha_{3t}I_{(<0)}\\ln(NI)_{it}^{-}+\\alpha_{4t}\\mathrm{LEV}_{it}+\\alpha_{5t}g_{it}+\\alpha_{6t}\\mathrm{RD}_{it}+\\varepsilon_{it}",
+          "stats": [-0.0591, null, -2.33, 0.2524],
+          "evidence": "图 1 是因子测试的效果，从单因子效果来看，因子表现较好，IC 的均值为-0.0591，IR 为-2.33，分档超额收益单调性较好，多空组合年化收益 25.24，信息比 2.22，整体来看，该因子在估值因子中属于相当出色的因子了。"
+        },
+        {
+          "name": "机器学习特异市值因子",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\varepsilon_{it}=m_{it}-\\text{随机森林}(b_{it},\\mathrm{LEV}_{it},\\ln(NI)_{it}^{+},\\ln(NI)_{it}^{-},g_{it},\\mathrm{RD}_{it})",
+          "stats": [-0.071, -0.071, -2.92, 0.3343],
+          "evidence": "我们采用与上文同样的方法对原始因子进行预处理后得到 purified factor， 测试区间依然为2007.1.1-2017.6.30，新的特异市值因子在全市场的 IC 均值为-0.071，IR 为-2.92，表现相当出色，且相比于线性模型有了很大幅度的提升。"
+        },
+        {
+          "name": "剔除了各类信息后的因子",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{用 Fama-macbeth 回归剔除 BP_LF、EP_TTM、成长、反转、换手、IRFF 等因子信息后的特异市值残差}",
+          "stats": [-0.0231, -0.023, -1.81, 0.1145],
+          "evidence": "我们同样用 Fama-macbeth 回归剔除了上述因子的信息，剔除信息后的因子平均 IC 为-0.0231，IR 为-1.81，说明这个因子的增量信息还是比较可观的，图 6 是剔除信息后的因子表现情况，可以看到分档收益率依然呈现出一定的单调性，且多空组合的年化收益率依然还有 11.45%，信息比 1.78，可以说即使剔除了上述各类因子的信息，特异市值因子还是有较好的选股作用。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "随机森林模型对市值的解释度均值达96.05%，比线性模型提升约18%，残差更纯净，因子表现更好",
+      "evidence": "整体而言，随机森林模型的  均值等于 96.05%，相比于线性模型提升了 18%左右的解释程度，因此这个模型残差里面剩余的基本面信息也就更少，因子的纯净度更高，理论上说因子的效用也会更好。"
+    },
+    {
+      "text": "剔除传统估值、成长、反转、非流动性等因子信息后，特异市值因子仍有较好选股作用，具有增量信息",
+      "evidence": "在剔除了传统的估值、成长、反转、非流动性等因子后，特异市值因子在中证全指的 IC 均值为有-0.023，IR 为-1.81，多空组合年化收益率 11.45%，信息比 1.78，依然有着比较好的选股作用，说明特异市值是有增量信息的。"
+    },
+    {
+      "text": "机器学习特异市值因子与BP_LP呈极高IC反相关，属同一类型因子",
+      "evidence": "从图 5 的结果来看，这个因子与 BP_LP 因子呈现出极高的 IC 相关性，达到-0.85%，虽然较线性模型有所下降，但是还是可以基本认为新因子和 BP_LP因子属于同一类型的因子。"
+    },
+    {
+      "text": "特异市值表现明显好于BP_LP，构建多因子模型时可考虑用特异市值代替BP_LP",
+      "evidence": "特异市值与 BP_LP 呈现比较高的 IC 反相关关关系，我们认为他们属于同一类型的因子，但是特异市值表现明显好于BP_LP，因此在做构建多因子模型的时候，可以考虑用特异市值代替BP_LP。"
+    },
+    {
+      "text": "在中证500和沪深300内，特异市值因子的IC与IR均好于同期的BP_LP因子",
+      "evidence": "在中证 500样本空间内，特异市值因子的平均 IC 为-0.0569，IR 为-2.26，而同期的 BP_LP 因子的平均 IC 为 0.0401，IR 为 1.43；在沪深 300 样本空间内，特异市值因子的平均 IC 为-0.052，IR 为-1.76，而同期的 BP_LP因子的平均 IC 为 0.0446，IR为 1.34，特异市值因子的表现均一定幅度好于 BP_LP。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Rhodes–Kropf, M., Robinson, D. T., & Viswanathan, S. (2005). Valuation waves and merger activity: The empirical evidence. Journal of Financial Economics, 77(3), 561-603.",
+    "东方机器选股模型 Ver 1.0"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

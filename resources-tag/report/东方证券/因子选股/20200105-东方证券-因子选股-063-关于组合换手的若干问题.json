@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "20200105-东方证券-因子选股-063-关于组合换手的若干问题",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L2_process": {"module": ["L2_zoo"], "approach": ["decay_monitor"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "换手惩罚下，考虑多期 IC 的最大化 RankIC 加权方法相对单期方法有明显业绩提升，周频全市场增强沪深300 组合在年化2 倍单边换手时有高达 3.5%的年化收益提升。",
+      "evidence": "在指数增强组合中，考虑多期 IC 的最大化 RankIC 加权方法相对单期的最大化 RankIC 加权方法在换手惩罚下有明显的业绩提升，周频全市场增强沪深300 组合在年化2 倍单边换手时前者相对后者有高达 3.5%的年化收益提升。"
+    },
+    {
+      "text": "单期优化中换手率约束与换手率惩罚等价；多期考虑时，长期平均换手率相差不大时采用换手率惩罚的组合业绩略优于采用换手率约束的组合。",
+      "evidence": "对于单期优化，换手率约束和换手率惩罚两种换手率控制的方法等价，但从多期考虑时，由于换手率惩罚能够实现组合换手与 alpha 的换手情况相适应，所以长期平均换手率相差不大时采用换手率惩罚的组合业绩略优于采用换手率约束的组合。"
+    },
+    {
+      "text": "换手惩罚与换手约束两种换手控制方法下的年化对冲收益存在显著差异，t 值分别为 3.75、6.15、4.56、8.03。",
+      "evidence": "两种换手控制方法下的年化对冲收益均存在显著差异（t 值分别为 3.75、6.15、4.56、8.03）。"
+    },
+    {
+      "text": "交易成本惩罚使组合收益不仅和 alpha 当期的 IC 相关，也和不同滞后期的 IC 相关，即和 IC 的期限结构有关，评价因子应考虑对随后多期收益的预测。",
+      "evidence": "由于组合优化时交易成本惩罚的存在，组合权重不能及时反应最新的alpha信息，导致组合权重不仅受当前信息影响，还受过去的信息影响，相应的，组合的收益不仅和 alpha 当期的 IC 相关，也和不同滞后期的 IC 相关，也就是说和 IC 的期限结构有关。"
+    },
+    {
+      "text": "多期最大化 RankIC 方法新增参数ρ，但ρ在相当宽的取值范围内均可大幅战胜单期最大化 RankIC 方法，加权方法对参数敏感性低。",
+      "evidence": "多期最大化 RankIC 方法相对单期最大化 RankIC 新增了一个参数ρ，但参数ρ在相当宽的一个取值范围内均可以大幅战胜相应的单期最大化 RankIC 方法，加权方法对参数敏感性低。"
+    },
+    {
+      "text": "组合优化时换手率存在下限，换手惩罚系数大到一定水平时换手率逼近临界水平，直接严格约束换手率可能导致组合优化无可行解。",
+      "evidence": "组合优化时由于约束的存在以及股票相对收益的变化，换手率存在下限，当换手惩罚系数大到一定水平时组合换手率逼近这一临界水平，同样由于换手率存在下限，组合优化时直接对换手率进行比较严格的约束有可能导致组合优化无可行解。"
+    },
+    {
+      "text": "20 日反转因子存续期超短，主要在前两周作用，一个月之后几乎没有选股效果，对换手惩罚较大的组合贡献收益很少。",
+      "evidence": "20 日反转因子虽然看上去挺强，但存续期超短，主要在前两周作用，一个月之后几乎没有任何选股效果，对于交易成本惩罚较大的组合贡献收益很少。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Gerard, X., Guido, R., & Wesselius, P. (2013). Integrated alpha modeling. Journal of Asset Management, 14(3), 140-161.",
+    "Qian, E., Sorensen, E. H., & Hua, R. (2007). Information horizon, portfolio turnover, and optimal alpha models. The Journal of Portfolio Management, 34(1), 27-40.",
+    "Sneddon, L. (2008). The tortoise and the hare: Portfolio dynamics for active managers. The Journal of Investing, 17(4), 106-111."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

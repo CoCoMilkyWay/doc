@@ -1,0 +1,96 @@
+{
+  "schema_version": 2,
+  "id": "20180320-华泰证券-人工智能-010-宏观周期指标应用于随机森林选股",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "上证综指42个月周期高斯滤波值",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{从1996年起到当前月截面上证综指同比序列的42个月周期高斯滤波值}",
+          "stats": [null, null, null, null],
+          "evidence": "截面 T 上 42 个月周期因子的定义为 1996 年至截面 T 区间内上证综指同比序列的 42 个月周期高斯滤波值（可以想象成正弦曲线上的点位，具体计算方法详见《周期三因子定价与资产配置模型》）。"
+        },
+        {
+          "name": "指数衰减因子",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "z^{T-i}=\\exp(-i),\\quad i=0,1,\\cdots,M",
+          "stats": [null, null, null, null],
+          "evidence": "我们在本小节中先提供一种更简单的思路，直接将一个指数衰减因子作为时间序列因子："
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "sample_window", "regime_domain", "ensemble"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "加入周期三因子的随机森林模型样本外平均预测正确率从53.61%提升至53.72%，平均AUC从0.5491提升至0.5503，预测能力有所提高",
+      "evidence": "加入了周期三因子的随机森林模型，样本外的平均预测正确率从 53.61%提升至 53.72%，平均 AUC 从 0.5491 提升至 0.5503。"
+    },
+    {
+      "text": "全A选股策略（中证500行业中性）加入周期三因子后，年化超额收益率平均提升了2.6%，超额收益最大回撤平均下降了3.7%，信息比率平均提升了0.55，Calmar比率平均提升了0.82，选股表现有稳定的提升",
+      "evidence": "加入周期三因子后，随机森林模型构建的选股组合年化超额收益率平均提升了 2.6%，超额收益最大回撤平均下降了 3.7%，信息比率平均提升了 0.55，Calmar 比率平均提升了 0.82，选股表现有稳定的提升。"
+    },
+    {
+      "text": "综合考虑周期因子特性，选用训练集数据长度为6个月：过长训练期在投资风格转变时（2017年）面临较大回撤，较短训练期（10个月以内）能及时扭转投资风格，并更精细切分市场状态、更及时利用拐点信息",
+      "evidence": "综合考虑前期人工智能选股系列报告的结论和周期因子的特性，我们选用的训练集数据长度为 6 个月，具体原因如下：（1）过长的训练期长度在投资风格发生转变时（2017 年）面临较大回撤，2011 年至 2016 年的投资风格已经不适合于当下。"
+    },
+    {
+      "text": "随机森林比XGBoost更适合结合宏观周期因子：周期因子信息增益较少，深度更大、分支节点更多的随机森林更容易选中周期因子成为分支节点，从而利用更多时间序列信息",
+      "evidence": "宏观周期因子相比传统的截面因子能提供的信息增益较少，因此，深度更大、分支节点更多的随机森林模型相比 XGBoost 模型有更大概率能够选中周期因子成为决策树的分支节点，从而利用到更多的时间序列信息，提升预测能力。"
+    },
+    {
+      "text": "周期因子在拐点处的非单调区间内带有切分市场状态的增量信息，这是衰减因子所不具备的特点，实践中周期因子的选股效果优于指数衰减因子",
+      "evidence": "模型通过训练认为波峰（或波谷）与其两侧的投资逻辑存在区别，也就是说在周期因子的拐点处可能存在切分市场状态的增量信息，这是衰减因子所不具备的特点。"
+    },
+    {
+      "text": "线性回归模型不能通过引入时间序列因子产生择时效应：时间序列因子与截面因子正交，引入与否不影响最终选股结果",
+      "evidence": "也就是说引入时间序列因子与否都不影响最终的选股结果。综上，线性回归模型不能通过引入时间序列因子产生择时效应。"
+    },
+    {
+      "text": "周期因子的重要性排名比较靠后，但依然高于一些传统的因子（主要是财务质量类因子）",
+      "evidence": "虽然周期因子的重要性排名都比较靠后，但依然高于一些传统的因子（主要是财务质量类因子）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《人工智能选股之随机森林模型》",
+    "《人工智能选股框架及经典算法简介》",
+    "《周期三因子定价与资产配置模型》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

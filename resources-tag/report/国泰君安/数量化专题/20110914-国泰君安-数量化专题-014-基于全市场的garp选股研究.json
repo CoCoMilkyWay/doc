@@ -1,0 +1,173 @@
+{
+  "schema_version": 2,
+  "id": "20110914-国泰君安-数量化专题-014-基于全市场的garp选股研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "PE",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "PE=\\frac{\\text{最近一个交易日收盘价}\\times\\text{最新总股本}}{\\text{归属母公司股东的净利润}_{TTM}}",
+          "stats": [null, null, null, null],
+          "evidence": "价值指标旨在寻找低估值的股票构建组合。这里我们主要选择市盈率、市净率、PCF（市现率）、PS（市销率）以及 PEG 作为价值指标。"
+        },
+        {
+          "name": "PB",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "PB=\\frac{\\text{最近一个交易日的收盘价}\\times\\text{最新总股本}}{\\text{最近一期归属母公司股东的权益}}",
+          "stats": [null, null, null, null],
+          "evidence": "(最近一个交易日的收盘价×最新总股本)/最近一期归属母公司股东的权益"
+        },
+        {
+          "name": "PCF",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "PCF=\\frac{\\text{最近一个交易日收盘价}\\times\\text{最新总股本}}{\\text{每股经营性现金流}_{TTM}}",
+          "stats": [null, null, null, null],
+          "evidence": "最近一个交易日收盘价*最新总股本/每股经营性现金流_TTM。"
+        },
+        {
+          "name": "PS",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "PS=\\frac{\\text{最新一个交易日收盘价}\\times\\text{最新总股本}}{\\text{营业总收入}_{TTM}}",
+          "stats": [null, null, null, null],
+          "evidence": "(最新一个交易日收盘价×最新总股本)/营业总收入_TTM"
+        },
+        {
+          "name": "PEG",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "PEG=PE/G,\\;G=\\text{最近四个季度的滚动净利润较前四个季度滚动净利润的增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "滚动净利润较前四个季度滚动净利润的增长率"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE=\\frac{\\text{归属母公司股东的净利润}_{TTM}}{(\\text{期初归属母公司股东的权益}+\\text{期末归属母公司股东的权益})/2}",
+          "stats": [null, null, null, null],
+          "evidence": "归属母公司股东的净利润_TTM/（期初归属母公司股东的权益+期末归属母公司 股东的权益）/2"
+        },
+        {
+          "name": "净利润增长率（长期）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "NPG_{L}=\\frac{\\text{最近四个季度归属母公司的滚动净利润}}{\\text{前四个季度归属母公司的滚动净利润}}",
+          "stats": [null, null, null, null],
+          "evidence": "最近四个季度归属母公司的滚动净利润/前四个季度归属母公司的滚动净利润"
+        },
+        {
+          "name": "净利润增长率（短期）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "NPG_{S}=\\frac{\\text{本期归属母公司净利润}}{\\text{1年前同期归属母公司净利润}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "本期归属母公司净利润/1年前同期归属母公司净利润-1"
+        },
+        {
+          "name": "主营业务收入增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "OPG=\\frac{\\text{最近四个季度主营业务收入}}{\\text{前四个季度主营业务收入}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "最近四个季度主营业务收入/前四个季度主营业务收入-1"
+        },
+        {
+          "name": "销售净利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{销售净利率}=\\frac{\\text{最近四个季度归属母公司净利润}}{\\text{最近四个季度的销售收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "最近四个季度归属母公司净利润/最近四个季度的销售收入"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "考虑双边千六的交易成本后，6年多回测GARP组合累计收益633.31%，高于同期沪深300的300.44%和沪深300等权的361.76%。",
+      "evidence": "考虑双边千六的交易成本后，在长达 6 年多的回测过程中，GARP 组合取得 633.31%的累计收益，高于同期沪深 300 指数取得的 300.44%的累计收益,同时也高于沪深 300 等权指数的 361.76%的累计收益。"
+    },
+    {
+      "text": "GARP选股策略在A股市场表现优异，震荡市中表现尤佳，信息比率可达1.92，且好于价值、成长策略，更适合于震荡市。",
+      "evidence": "1.GARP 选股策略在 A 股市场表现优异，在震荡市当中表现尤佳（信息比率可达 1.92），且好于价值、成长策略。这表明 GARP 策略更适合于震荡市。"
+    },
+    {
+      "text": "GARP策略所选股票主要集中在材料、可选消费、工业、金融及能源上，选股数量平均在35只左右，调仓比例差异较大，平均在40%左右。",
+      "evidence": "2 从股票的行业分布来看，GARP 策略所选股票主要集中在材料、可选消费、工业、金融及能源上。选股数量平均在 35 只左右，调仓比例差异较大，平均在40%左右。"
+    },
+    {
+      "text": "比较三种策略，整体而言价值策略表现最好，GARP次之，成长策略最差；但震荡市中表现最好的仍是GARP，价值策略在单边市中表现相对好些。",
+      "evidence": "比较 GARP、价值、成长三种策略，整体而言，价值策略表现最好，GARP 次之，成长策略最差。但分环境来看，震荡市中表现最好的仍是GARP，而价值策略在单边市中表现要相对好些，成长策略在所有情况下都是表现最差的。"
+    },
+    {
+      "text": "交叉选股与综合打分的表现相差无几，不同选取方式对GARP的影响不大。",
+      "evidence": "4.交叉选股与综合打分的表现相差无几，这表明不同选取方式对 GARP的影响不大。"
+    },
+    {
+      "text": "组合收益随着ROE限制条件的增强呈现下跌趋势，ROE限制条件太高反而可能影响组合结果。",
+      "evidence": "在 GARP、价值、成长组合中，组合收益随着 ROE 限制条件的增强呈现下跌趋势。原因可能是我们已经将 ROE 加入成长指标当中，在选取股票的时候ROE 已经在给股票排名上面占了一定的权重，ROE的限制条件太高反而可能会影响组合的结果。"
+    },
+    {
+      "text": "不论如何改变选股方式、筛选标准以及排名限制，GARP策略大都能显著跑赢沪深300，具有宽范围的选股有效性。",
+      "evidence": "不论如何改变选股方式、筛选标准以及排名限制，GARP 策略大都能显著跑赢沪深300，这表明 GARP 策略具有宽范围的选股有效性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

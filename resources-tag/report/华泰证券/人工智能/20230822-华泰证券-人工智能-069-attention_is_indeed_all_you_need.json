@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "20230822-华泰证券-人工智能-069-attention_is_indeed_all_you_need",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "任务间注意力模型在合成因子加权 RankIC 均值、RankICIR、组合年化超额收益、信息比率方面有稳定提升，提升同时体现在10日、20日收益预测及两者等权集成上。",
+      "evidence": "任务间注意力模型在合成因子加权 RankIC 均值、合成因子加权 RankICIR、组合年化超额收益、组合信息比率方面有稳定提升，提升同时体现在 10日收益预测、20 日收益预测以及两者等权集成上。"
+    },
+    {
+      "text": "股票间注意力的提升突出体现在合成因子多头：加权 RankIC 均值、RankICIR、Top 组年化收益率有稳定提升，组合回测仅在部分子任务及集成上观察到优势。",
+      "evidence": "股票间注意力模型在合成因子加权 RankIC 均值、合成因子加权 RankICIR、合成因子Top 组年化收益率方面有稳定提升；10日收益预测的组合回测绩效略有下滑，但 20 日收益预测以及 10 日与 20 日预测等权集成的组合回测绩效有提升。"
+    },
+    {
+      "text": "观察合成因子评价指标，LSTM 和 ALSTM 接近，Transformer 在包括 RankIC、Top 组收益在内各项指标全面胜出，表明 Transformer 在编码时间序列上有显著优势。",
+      "evidence": "观察合成因子评价指标，LSTM 和 ALSTM 接近，Transformer 在包括 RankIC、Top 组收益在内各项指标全面胜出，表明 Transformer在应用注意力机制编码时间序列信息上有显著优势。"
+    },
+    {
+      "text": "原始组合优化约束条件下基线 LSTM 反而更好，Transformer 合成因子的优势难以体现在指增组合上，可能原因是组合优化约束较为严格。",
+      "evidence": "观察原始组合优化约束条件下的指增组合回测绩效，基线 LSTM 反而更好。换言之，Transformer在合成因子中的优势，未能体现在指增组合上。可能原因是组合优化约束较为严格，“淹没”了合成因子的 alpha 信息。"
+    },
+    {
+      "text": "放宽组合优化约束条件后，指增组合以信息比率的下降为代价换取年化超额收益率的提升，Transformer 优于 LSTM 和 ALSTM。",
+      "evidence": "放宽组合优化约束条件后，指增组合的信息比率下降，但年化超额收益率提升，并且Transformer 优于 LSTM 和 ALSTM。"
+    },
+    {
+      "text": "四类模型等权集成后，合成因子 RankIC 均值、对冲收益与指增组合年化超额收益率高于全部子模型；Top组年化收益从 25.8%提升至 28.6%，年化超额收益率从 17.2%提升至 18.2%，信息比率从 2.79 提升至3.00。",
+      "evidence": "集成模型与基线模型累计 RankIC 差值稳定扩大，Top组年化收益从 25.8%提升至 28.6%，指增组合年化超额收益率从 17.2%提升至 18.2%，信息比率从 2.79 提升至3.00。"
+    },
+    {
+      "text": "任务间注意力提升稳定，股票间注意力提升主要体现在因子多头，Transformer 时序注意力提升主要体现在合成因子及放宽组合优化约束情景，注意力机制在多数场景有效。",
+      "evidence": "结果表明：(1)任务间注意力提升稳定；(2)股票间注意力提升主要体现在因子多头；(3)Transformer 时序注意力提升主要体现在合成因子及放宽组合优化约束情景。注意力机制在多数场景有效，Attention is indeed all you need。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ma, T. , & Tan, Y. . (2022). Stock ranking with multi-task learning. Expert Systems with Application(Aug.), 199.",
+    "Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... & Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30.",
+    "《人工智能 42：图神经网络选股与 Qlib实践》（2021-02-21）",
+    "《人工智能 55：图神经网络选股的进阶之路》（2022-04-11）",
+    "《人工智能 58：分析师共同覆盖因子和图神经网络》（2022-07-07）",
+    "《人工智能 67：AI 模型如何一箭多雕：多任务学习》（2023-08-06）",
+    "《人工智能 68：神经网络多频率因子挖掘模型》（2023-05-11）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

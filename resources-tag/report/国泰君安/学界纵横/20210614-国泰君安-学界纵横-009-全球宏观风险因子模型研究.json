@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "20210614-国泰君安-学界纵横-009-全球宏观风险因子模型研究",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L2_process": {"module": ["L2_single_test"], "approach": ["regression_test"], "setup": {"universe": ["na"]}},
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["growth", "carry", "other"],
+        "data": {"source": ["macro"], "freq": "monthly"},
+        "horizon": "monthly"
+      }
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "使用工业增加值、未预期通胀、预期通胀变化、期限利差以及违约利差共五个指标构造CRR全球宏观因子，可以解释价值与动量溢价的相关问题，并对其他跨国家、跨资产组合同样具备解释能力",
+      "evidence": "使用工业增加值，未预期通胀，预期通胀变化，期限利差以及违约利差共五个指标构造 CRR 全球宏观因子，可以解释价值与动量溢价的相关问题，并对其他跨国家、跨资产组合同样具备解释能力。"
+    },
+    {
+      "text": "价值与动量在全球CRR因子上的暴露符号相反，且绝对值大小存在差异，这解释了两者的负相关性以及两者等权组合的正溢价",
+      "evidence": "价值与动量在全球 CRR 因子上的暴露符号相反，且绝对值大小存在差异，这解释了两者的负相关性以及两者等权组合的正溢价。"
+    },
+    {
+      "text": "在对48个价值与动量组合的定价中，全球CRR宏观因子模型的R2和定价误差优于AMP三因子模型和Fama-French五因子模型，各个CRR因子对定价结果的影响均有较好的经济学解释",
+      "evidence": "在对48个价值与动量组合的定价中，全球CRR 宏观因子模型的R2和定价误差优于 AMP 三因子模型和 Fama-French 五因子模型。同时，各个CRR因子对定价结果的影响均有较好的经济学解释。"
+    },
+    {
+      "text": "截面回归的R2值为51%，拟合效果较好，尤其是对这样一个未使用收益率构造因子的模型来说",
+      "evidence": "使用类似 Lettauand Ludvigson(2001)中的计算方法，得出截面回归的R2值为 51%，这意味着拟合的效果较好，尤其是对这样一个未使用收益率构造因子的模型来说。"
+    },
+    {
+      "text": "股票市场的平均定价误差为每月0.17%，非股票市场为每月0.13%，AR/ER平均值为1.19，足以说明模型解释48个价值与动量组合截面差异的能力",
+      "evidence": "其中在股票市场的平均定价误差为每月0.17%，非股票市场为每月0.13%，AR/ER 的平均值为 1.19，中位数为 1.06，足以说明模型解释 48 个价值与动量组合的截面差异的优秀能力。"
+    },
+    {
+      "text": "全球CRR因子模型的定价误差更小，且R2达到了46%，在解释价值与动量的跨市场跨资产组合上表现更加优异",
+      "evidence": "相比之下，全球CRR因子模型的定价误差更小，且R2达到了 46%. 这说明在解释价值与动量的跨市场跨资产组合上，全球 CRR 因子的表现更加优异。"
+    },
+    {
+      "text": "在103个包含其他组合的扩展测试集中，尽管Fama-French五因子的构造与测试资产集存在重合，但全球CRR因子模型的表现与其接近",
+      "evidence": "在包含 103 个包含其他组合的测试集中，尽管 Fama-French 五因子的构造与测试资产集存在重合，但全球 CRR因子模型的表现与其接近。"
+    },
+    {
+      "text": "在全球CRR因子上的不同暴露是价值与动量组合负相关性的来源，也是合并组合产生溢价的原因",
+      "evidence": "总而言之，在全球 CRR 因子上的不同暴露是价值与动量组合负相关性的来源，也是合并组合产生溢价的原因。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A Global Macroeconomic Risk Model for Value, Momentum, and Other Asset Classes",
+    "Asness, Moskowitz and Pedersen (2013)",
+    "Chen, Roll, and Ross (1986)",
+    "Fama and French (2017)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

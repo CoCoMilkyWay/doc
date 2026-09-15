@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "20190304-东方证券-因子选股-052-alpha预测之二_机器的比拼",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["linear", "tree", "neural", "sample_window", "loss_generalization", "ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "“因子分类等权合成”的最基本方法alpha预测能力最弱，显著弱于几乎其它所有模型；PCA降维、ElasticNet正则化都能显著提升线性模型的预测精度",
+      "evidence": "实证发现，“因子分类等权合成”的最基本方法，alpha预测能力最弱，显著弱于几乎其它所有模型。PCA降维、加 ElasticNet惩罚项做正则化都能显著提升线性模型的预测精度。"
+    },
+    {
+      "text": "非线性模型预测能力整体显著优于线性模型，GBRT 和 RandomForrest 最佳；多个模型简单平均合并预测的方法效果更佳，显著优于单个模型",
+      "evidence": "非线性模型预测能力整体显著优于线性模型，GBRT 和 RandomForrest 最佳；人工神经网络增加 Hidden Layer层数和 Neuron数量并不一定能提升预测能力；多个模型简单平均合并预测的方法效果更佳，显著优于单个模型。"
+    },
+    {
+      "text": "个股权重约束下会出现权重大个股预测不准、预测准的股票权重小的情况，模型预测精度无法反映到组合收益上；中证500指数增强里“因子分类等权合成”预测精度最差但超额收益不低，最为稳健",
+      "evidence": "投资策略组合可能有个股权重约束，无法事先获得个股权重，会出现权重大个股预测不准，预测准的股票权重小，导致模型预测精度无法反映到组合收益上的情况。这在中证 500指数增强组合里表现尤为明显，“因子分类等权合成”方法预测精度最差，但增强组合超额收益不低，最为稳健。"
+    },
+    {
+      "text": "中证500增强中预测精度最差的STD模型超额收益比GBRT和RF都大，跟踪误差和回撤小，信息比更高",
+      "evidence": "预测精度最差的因子分组等权合成(STD)模型获得的超额收益比 GBRT 和 RF 都大，跟踪误差和回撤小，信息比更高，但后两个模型的预测精度是明显高于 STD 的。"
+    },
+    {
+      "text": "机器学习模型偏好技术类因子，导致策略组合的换手率较高；事先筛选因子、减少技术类因子占比可以降低换手、获取更高的超额收益，但整体换手水平还是偏高，更适合中小资金的高频操作",
+      "evidence": "机器学习模型偏好技术类因子，导致策略组合的换手率较高。事先筛选因子，减少技术类因子占比可以降低机器学习策略的换手，获取更高的超额收益，但策略的整体换手水平还是偏高，需要投资者有较强的交易成本控制能力，更适合中小资金的高频操作。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Geron (2017) Hands-On Machine Learning with Scikit-Learn and TensorFlow",
+    "Gu, Kelly & Xiu (2018) Empirical Asset Pricing via Machine Learning",
+    "Han, He, Rapach & Zhou (2018) What Firm Characteristics Drive US Stock Returns",
+    "Prado (2018) Advances in Financial Machine Learning",
+    "Rapach, Strauss & Zhou (2009) Out-of-Sample Equity Premium Prediction"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

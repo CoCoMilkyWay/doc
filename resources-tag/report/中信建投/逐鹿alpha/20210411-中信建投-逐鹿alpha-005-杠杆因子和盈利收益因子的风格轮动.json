@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "id": "20210411-中信建投-逐鹿alpha-005-杠杆因子和盈利收益因子的风格轮动",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "杠杆因子",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{杠杆因子}=0.38\\times\\text{市场杠杆}+0.35\\times\\text{DTOA}+0.27\\times\\text{BLEV}",
+          "stats": [-0.013, null, null, null],
+          "evidence": "杠杆因子（leverage）和盈利收益(earnings yield)因子是常见的风格因子。本文主要借鉴了 CNE5 的因子说明，具体的构造方法如下："
+        },
+        {
+          "name": "盈利收益因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利收益因子}=0.66\\times\\text{CETOP}+0.34\\times\\text{ETOP}",
+          "stats": [0.019, null, null, null],
+          "evidence": "其中在计算盈利收益因子时，考虑到因子的覆盖度问题，我们剔除了原有的二级因子 EPFWD。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "杠杆因子和盈利收益因子存在明显的周期性，且两者的周期基本一致，IC 振幅存在明显的差异，杠杆因子的负 IC 区间振幅较大，盈利收益在正 IC 区间振幅较大。",
+      "evidence": "观察两者 IC 的时间序列可以看出，两个因子存在明显的周期性，且两者的周期基本一致。IC 振幅存在明显的差异，杠杆因子的负 IC 区间振幅较大，盈利收益在正 IC 区间振幅较大。"
+    },
+    {
+      "text": "杠杆因子和盈利收益因子的收益率存在明显的负相关性，两者的负相关系数为-0.44，而因子本身的相关性只有 0.10，说明负相关性更多来自因子本身的内禀属性。",
+      "evidence": "可以看出，杠杆因子和盈利收益因子的收益率存在明显的负相关性，两者的负相关系数为-0.44。同时杠杆因子和盈利收益因子本身的相关性（股票因子暴露的时间序列平均值）只有 0.10，说明因子收益率的负相关性更多的是来自因子本身的内禀属性，并非是由于因子值之间的相关性导致的。"
+    },
+    {
+      "text": "将预测平均值：M2:同比指标滞后六期后取 MA5 做平滑处理，当 MA5 环比上升时选择杠杆因子，反之则选择盈利收益因子，实现风格轮动。",
+      "evidence": "具体构建思路为，将预测平均值：M2:同比指标滞后六期后，取 MA5 做平滑处理。当 MA5 环比上升时，选择杠杆因子，反之则选择盈利收益因子。"
+    },
+    {
+      "text": "原始因子的分组收益率分别为 55%和 11%，单独做择时的收益率分别为 282%和 139%，对两者同时做风格轮动收益率达到 814%，能够大幅提高因子收益率。",
+      "evidence": "原始因子的分组收益率分别为 55%和 11%，单独做择时的收益率分别为 282%和 139%。对两者同时做风格轮动，收益率达到了 814%。可以看出，通过预测平均值：M2:同比的择时指标，能够大幅提高因子收益率。"
+    },
+    {
+      "text": "在中证 500 中的组合优化回测取得年化收益 15.74%，超额最大回撤 18.60%，最大回撤 54.30%，Alpha 16.44%。",
+      "evidence": "| 年化收益 | 15.74% |\n| 超额最大回撤 | 18.60% |\n| 最大回撤 | 54.30% |\n| Alpha | 16.44% |"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["CNE5", "霍华德·马克斯《周期》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

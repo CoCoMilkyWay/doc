@@ -1,0 +1,151 @@
+{
+  "schema_version": 2,
+  "id": "20221026-华泰证券-人工智能-061-深挖分析师共同覆盖中的关联因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph", "corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "analyst", "text"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "CF1_RET_10",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\mathrm{CF1\\_RET_i}=\\frac{\\sum_{j=1}^{N}\\log(n_{ij}+1)\\cdot Ret_j}{\\sum_{j=1}^{N}\\log(n_{ij}+1)}",
+          "stats": [null, 0.0097, 0.07, null],
+          "evidence": "1. CF1_RET_n：基于分析师共同覆盖的直接关联动量因子，使用股票过去 n天的收益率计算关联动量。"
+        },
+        {
+          "name": "CF2_RET_10",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "m_{ij}=\\sum_{k=1}^{N}\\log(n_{ik}+1)\\times\\log(n_{kj}+1),\\quad \\mathrm{CF2\\_RET_i}=\\frac{\\sum_{j=1}^{N}m_{ij}\\times Ret_j}{\\sum_{j=1}^{N}m_{ij}}",
+          "stats": [null, 0.0067, 0.06, null],
+          "evidence": "2. CF2_RET_n：基于不加改进的间接关联强度计算的间接关联动量因子，使用股票过去n 天的收益率计算关联动量。"
+        },
+        {
+          "name": "ADJ_CF2_RET_10",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "m_{ij}=\\sum_{k=1}^{N}\\log(n_{ik}+1)\\times\\log(n_{kj}+1),\\quad m_{ij}=\\frac{m_{ij}}{\\log(num_i+1)},\\quad ADJ\\_CF2\\_RET_{i}=\\frac{\\sum_{j=1}^{N}m_{ij}\\times Return_{j}}{\\sum_{j=1}^{N}m_{ij}}",
+          "stats": [null, 0.0132, 0.12, null],
+          "evidence": "3. ADJ_CF2_RET_n：基于改进后的间接关联强度计算的改进间接关联动量因子，使用股票过去 n天的收益率计算关联动量。"
+        },
+        {
+          "name": "CF_RET_10",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "CF\\_RET=Z\\_SCORE(CF1\\_RET)+Z\\_SCORE(ADJ\\_CF2\\_RET)",
+          "stats": [null, 0.0099, 0.07, null],
+          "evidence": "4. CF_RET_n：基于直接关联和改进间接关联动量因子等权合成的多层关联动量因子，使用股票过去 n天的收益率计算关联动量。"
+        },
+        {
+          "name": "CF1_REV_10",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "CF1\\_REV=Z\\_SCORE(CF1\\_RET)-Z\\_SCORE(Ret)",
+          "stats": [null, 0.0402, 0.5, null],
+          "evidence": "1. CF1_REV_n：基于分析师共同覆盖的直接关联改进反转因子，使用股票过去 n 天的收益率计算自身反转和关联动量。"
+        },
+        {
+          "name": "CF2_REV_10",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "CF2\\_REV=Z\\_SCORE(ADJ\\_CF2\\_RET)-Z\\_SCORE(Ret)",
+          "stats": [null, 0.0415, 0.38, null],
+          "evidence": "2. CF2_REV_n：基于分析师共同覆盖的间接关联改进反转因子，使用股票过去 n 天的收益率计算自身反转和关联动量。"
+        },
+        {
+          "name": "CF_REV_10",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "CF\\_REV=CF1\\_REV+CF2\\_REV",
+          "stats": [null, 0.0455, 0.47, null],
+          "evidence": "3. CF_REV_n：基于分析师共同覆盖的多层关联改进反转因子，使用股票过去 n天的收益率计算自身反转和关联动量。"
+        },
+        {
+          "name": "事件因子",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{统计每家公司过去3个月28类事件的累计发生次数并作时间衰减作为特征X，以未来20个交易日超额收益为标签y，用XGBoost滚动训练生成事件因子}",
+          "stats": [null, 0.0196, 0.22, null],
+          "evidence": "从 2014 年开始，每年初使用过去一年的数据训练 XGBoost 模型，并对当年的数据进行预测生成事件因子。每年滚动训练一次。"
+        },
+        {
+          "name": "包含3家关联公司的事件因子",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{将公司自身28类事件特征与前N家直接关联最紧密公司的28类事件特征合并为56维特征，用XGBoost滚动训练生成关联事件因子}",
+          "stats": [null, 0.0282, 0.34, null],
+          "evidence": "我们将上市公司自身的 28 类事件数据和关联公司的 28 类事件数据进行合并，得到 56 个事件特征，即相比事件因子来说，特征 X从原先的 28 个扩充到了 56 个。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "改进组合相比对照组合年化超额收益率从15.56%提升至16.92%，信息比率从1.90提升至2.21，Calmar比率从1.73提升至2.40，年化跟踪误差、超额收益最大回撤均有改善，实现对标的指数更稳健的增强。",
+      "evidence": "2018 年以来，改进组合相比对照组合年化超额收益率从15.56%提升至16.92%，信息比率从1.90提升至2.21，Calmar比率从 1.73 提升至 2.40，年化跟踪误差、超额收益最大回撤均有改善，实现了对标的指数更稳健的增强，体现出分析师共同覆盖动量和反转因子相比传统反转因子更优秀的选股能力。"
+    },
+    {
+      "text": "CF2_REV能改进传统反转因子的选股效果，CF1_REV和CF2_REV合成的多层关联改进反转因子CF_REV在日频和周频调仓的多头组合超额收益都表现最好，相比传统反转因子有较大提升。",
+      "evidence": "基于分析师共同覆盖间接关联，本文首先构建了间接关联改进反转因子 CF2_REV，CF2_REV 能改进传统反转因子的选股效果。本文进一步将直接关联改进反转因子CF1_REV和CF2_REV合成得到多层关联改进反转因子 CF_REV，CF_REV 在日频和周频调仓的多头组合超额收益都表现最好，相比传统反转因子有较大提升。"
+    },
+    {
+      "text": "关联事件因子的TOP组合年化超额收益率先增后减，N=3时达到最高、N=10时表现最差，过多引入关联公司事件信息可能带来噪声；从RankIC均值和IC_IR来看相比事件因子没有提升，提升较为有限。",
+      "evidence": "当 N 逐渐增大时，因子的 TOP 组合年化超额收益率先增后减，当 N=3 时达到最高，而当 N=10 时因子表现最差，说明过多引入关联公司的事件信息可能带来噪声。从 RankIC 均值和 IC_IR 来看，关联事件因子相比事件因子没有提升。汇总测试结果，关联事件因子的提升较为有限。"
+    },
+    {
+      "text": "间接关联较为隐蔽、不易被投资者察觉，数量远超直接关联且难以被完全利用，具有较大的挖掘潜力。",
+      "evidence": "间接关联较为隐蔽，不容易被投资者察觉，并且间接关联的数量远超直接关联，想要完全覆盖和利用间接关联公司的信息也存在困难，这意味着间接关联具有较大的挖掘潜力。"
+    },
+    {
+      "text": "A股共有229,739对直接关联和2,170,928对间接关联，平均每家公司与180家公司直接关联、与1700家左右公司形成间接关联。",
+      "evidence": "使用截至2022年6月底的数据进行统计，A股市场中共有229,739对直接关联和2,170,928对间接关联。对于有分析师覆盖的公司，平均每家公司会与 180 家公司直接关联，与 1700家左右的公司形成间接关联。"
+    },
+    {
+      "text": "CF_REV_n分层回测区分度较好，但受交易费用影响很大，无法作为单因子直接选股，可将因子加入组合并控制组合换手率来缓解。",
+      "evidence": "多层关联改进反转因子 CF_REV_n 的分层回测区分度较好，但受交易费用影响很大，无法作为单因子来直接选股，可将因子加入组合并控制组合换手率来缓解这个问题，我们将在后续的指数增强组合测试中进行说明。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ali, Usman, and David Hirshleifer. \"Shared Analyst Coverage: Unifying Momentum Spillover Effects.\" Journal of Financial Economics forthcoming (2019).",
+    "《分析师共同覆盖因子与图神经网络》(2022.7.7)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

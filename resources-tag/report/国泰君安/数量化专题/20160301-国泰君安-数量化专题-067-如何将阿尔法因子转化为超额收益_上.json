@@ -1,0 +1,202 @@
+{
+  "schema_version": 2,
+  "id": "20160301-国泰君安-数量化专题-067-如何将阿尔法因子转化为超额收益_上",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "expectation_revision",
+        "analyst_behavior",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "YOY_EPS",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "YOY_EPS_{Rt}^{i}=(EPS_{Rt}^{i}-EPS_{Rt-1}^{i})/\\left|EPS_{Rt-1}^{i}\\right|",
+          "stats": [null, null, null, 0.0356],
+          "evidence": "个股各财报期基本EPS 同比增长率，具体计算为："
+        },
+        {
+          "name": "REVERSE",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Reverse_{t}^{i}=(P_{t}^{i}-P_{t-20}^{i})/P_{t-20}^{i}",
+          "stats": [null, null, null, -0.0753],
+          "evidence": "个股过去20 个交易日累计收益率，具体计算为："
+        },
+        {
+          "name": "Est_PB",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Est_PB_{t}^{i}=Est_BPS_{FY}^{i}/P_{t}^{i}",
+          "stats": [null, null, null, 0.0446],
+          "evidence": "分析师一致预期个股PB ，具体计算为：$$\nEst_{-}PB_{_t}^{^i}=Est_{-}BPS_{_{FY}}^{^i}/P_{_t}^{^i}\n$$"
+        },
+        {
+          "name": "MOM_Est_EPS",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "MOM_Est_EPS_{t}^{i}=(Est_EPS_{t}^{i}-Est_EPS_{t-1}^{i})/\\left|Est_EPS_{t-1}^{i}\\right|",
+          "stats": [null, null, null, 0.041],
+          "evidence": "分析师一致预期个股EPS 环比增长率，具体计算为："
+        },
+        {
+          "name": "DISPERSION",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Dispersion_{t}^{i}=\\sqrt{1-R_{it}^{2}}\\cdot\\sigma(\\varepsilon_{it})",
+          "stats": [null, null, null, -0.0521],
+          "evidence": "个股离散度指标，具体计算为：$$\nDispersion_{t}^{i}=\\sqrt{1-{R_{it}}^{2}}\\cdot\\sigma\\left(\\varepsilon_{it}\\right)\n$$"
+        },
+        {
+          "name": "HTOS",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "HTOS_{t}^{i}=Top10\\_Free\\_Holder_{t}^{i}/Total\\_Shares_{t}^{i}",
+          "stats": [null, null, null, -0.0621],
+          "evidence": "个股股本集中度指标，具体计算为：$$\nHTOS_{t}^{i}=Top10_{-}Free_{-}Holder_{t}^{i}/Total_{-}Shares_{t}^{i}\n$$"
+        },
+        {
+          "name": "MOM_ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "MOM_ROE_{Rt}^{i}=(ROE_{Rt}^{i}-ROE_{Rt-1}^{i})/\\left|ROE_{Rt-1}^{i}\\right|",
+          "stats": [null, null, null, 0.0277],
+          "evidence": "个股财报期ROE 环比增长率，具体计算为：$$\nMOM_{-}ROE_{Rt}^{i}=(ROE_{Rt}^{i}-ROE_{Rt-1}^{i})/\\left|ROE_{Rt-1}^{i}\\right|\n$$"
+        },
+        {
+          "name": "RATEUP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Rate\\_Up_{T}^{i}=\\sum_{t=1}^{T}Num\\_Rate\\_Up_{t}^{i}",
+          "stats": [null, null, null, 0.0437],
+          "evidence": "上调个股评级的分析师家数。$$\nRate_{\\mathrm{~-~}}Up_{\\mathrm{~}^{i}}^{\\mathrm{~}^{\\prime}}=\\sum_{\\mathrm{~}_{t=1}}^{\\mathrm{~}^{T}}Num_{\\mathrm{~-~}}Rate_{\\mathrm{~-~}}Up_{\\mathrm{~}^{i}}\n$$"
+        },
+        {
+          "name": "Earnings Yield",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{风险模型Earnings Yield大类因子：EPIBS=est_eps/P，ETOP=earnings_ttm/mkt_freeshares，CETOP=Cash_earnings/P}",
+          "stats": [null, null, null, 0.0699],
+          "evidence": "Earnings Yield 为风险模型中的大类因子，具体定义参见第 2 章风险因子定义。"
+        },
+        {
+          "name": "Liquidity",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{风险模型Liquidity大类因子：STOM=ln(\\sum_{t=1}^{21}(V_t/S_t))，STOQ、STOA为STOM的月度/年度加权汇总}",
+          "stats": [null, null, null, -0.0666],
+          "evidence": "Liquidity 为风险模型中的大类因子，具体定义参见第 2 章风险因子定义。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "最小波动纯因子组合是检验阿尔法因子的最完备组合，可真正意义上判断因子是否具备阿尔法属性。",
+      "evidence": "因此可以说，最小波动纯因子组合是检验阿尔法因子的最完备组合，可真正意义上判断因子是否具备阿尔法属性。"
+    },
+    {
+      "text": "通过基于风险模型的阿尔法因子检验一般流程，找到了包括YOY_EPS、REVERSE、Est PB、MOM Est EPS、DISPERSION、HTOS、MOM ROE、RATEUP、Earnings Yield和Liquidity在内的10类阿尔法因子。",
+      "evidence": "通过定义基于风险模型的阿尔法因子检验的一般流程，我们对若干阿尔法因子的组合特征进行了统计，找到了包括YOY_EPS、 REVERSE、Est PB、MOM Est EPS、DISPERSION、HTOS、MOM ROE、RATEUP、Earnings Yield和 Liquidity在内的10类阿尔法因子。"
+    },
+    {
+      "text": "除Est_PB和Liquidity以外，其余所有因子收益率预测均是方法3（IR×最小波动纯因子组合预测波动率）的预测偏差最小，体现了最小波动纯因子组合在因子收益率预测方面的优势。",
+      "evidence": "而除了在因子 Est_PB和 Liquidity以外，其余所有的因子收益率预测均是方法 3的预测偏差最小，这体现了最小波动纯因子组合的性质在对因子收益率预测方面的优势，也为之后最优投资组合的构建奠定了一定的基础。"
+    },
+    {
+      "text": "简单因子组合包含了过多目标因子以外的收益信息，可能误将风险因子作为阿尔法因子，不能深入挖掘阿尔法因子的全部信息。",
+      "evidence": "因此，简单因子组合可以直观的观察因子组合的一些特点，但是却不能深入充分挖掘阿尔法因子所包含的全部信息。并且由于简单因子组合包含了过多目标因子以外的收益信息，有可能导致误将风险因子作为阿尔法因子，这对日后构建最优投资组合是极其不利的。"
+    },
+    {
+      "text": "每一单位离散度因子暴露可独立贡献年化5.17%的收益率，风险贡献为年化2.21%，收益风险比达到2.34，符合阿尔法因子的定义特征。",
+      "evidence": "每一单位离散度因子暴露，可以独立的贡献年化 5.17%的收益率，同时因子的风险贡献为年化 2.21%，因子的收益风险比达到 2.34。因子组合收益率具备显著性、独立性及稳定性特点，符合阿尔法因子的定义特征。"
+    },
+    {
+      "text": "A股阿尔法来源中市场类因子效果最强，可贡献年化25.62%收益率；分析师预期类因子可贡献年化19.91%；财务类因子贡献相对较低，为6.33%。",
+      "evidence": "从上述统计结果来看，A股市场中影响股票价格的阿尔法来源效果最强的仍是市场类因子，其可以贡献年化25.62%的收益率，而分析师预期类因子可贡献年化19.91%的收益率，而财务类因子贡献相对较低，为6.33%。"
+    },
+    {
+      "text": "所有阿尔法因子的信息比率均大于1.5，可作为判断阿尔法因子属性的定量标准；10类因子中EarningsYield以2.64的信息比率排名第一。",
+      "evidence": "最后，从因子的收益风险比来看，所有阿尔法因子的信息比率均大于1.5，这可以作为判断阿尔法因子属性的定量标准，但是不绝对。10 类因子中，EarningsYield 以 2.64 的信息比率排名第一。"
+    },
+    {
+      "text": "多因子策略样本外跟踪（2015年4月至2016年2月22日）相对沪深300累积超额收益13.5%，最大回撤4.26%，信息比率2.10；相对中证500累积超额收益34.2%，最大回撤3.80%，信息比率3.45。",
+      "evidence": "相对沪深300指数累积超额收益13.5%，最大回撤4.26%，信息比率2.10。"
+    },
+    {
+      "text": "增加跟踪误差控制后，样本外相对中证500累积超额收益16.8%，设定跟踪误差5%，实际实现跟踪误差6.5%，最大回撤2.11%，信息比率5.29。",
+      "evidence": "相对中证 500 指数累积超额收益 16.8%，设定跟踪误差 5%，实际实现跟踪误差6.5%，最大回撤 2.11%，信息比率 5.29。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《中证500之阿尔法验金石》",
+    "《基于组合权重优化的风格中性多因子选股策略》",
+    "《如何控制跟踪误差》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

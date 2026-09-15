@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "id": "20190610-华泰证券-人工智能-021-基于遗传规划的选股因子挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Alpha1",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{correlation(div(vwap, high), high, 10)}",
+          "stats": [null, 0.0406, 0.94, null],
+          "evidence": "Alpha1 计算的是个股的 div(vwap, high)和 high 之间在 10 个交易日内的相关系数。从分层测试上看，Alpha1 的第 1 层表现欠佳，第 2层表现最好。"
+        },
+        {
+          "name": "Alpha2",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ts_sum(rank(correlation(high, low, 20)),20)}",
+          "stats": [null, 0.0505, 0.78, null],
+          "evidence": "Alpah2 计算的是个股的 high 和 low 在 20 个交易日内相关系数的排序数之和。"
+        },
+        {
+          "name": "Alpha3",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-ts_stddev(volume, 5)}",
+          "stats": [null, 0.1026, 0.36, null],
+          "evidence": "Alpha3 的意义非常简明，其描述的是个股成交量近 5 日的波动率。从分层测试上来看，Alpha3 呈现出“中间好，两头差”的情况，也就是说，成交量 5 日波动率偏低或偏高的股票组合表现不如成交量 5日波动率中等的股票组合。"
+        },
+        {
+          "name": "Alpha4",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-mul(rank(covariance(high, volume, 10)), rank(ts_stddev(high, 10)))}",
+          "stats": [null, 0.0583, 0.59, null],
+          "evidence": "Alpha4 因子由两部分相乘而得，左边部分 rank(covariance(high, volume, 10)衡量个股的10 日量价同步程度，右边部分 rank(ts_stddev(high, 10))衡量个股的 10 日最高价波动率。"
+        },
+        {
+          "name": "Alpha5",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-mul(ts_sum(rank(covariance(high, volume, 5)), 5), rank(ts_stddev(high, 5)))}",
+          "stats": [null, 0.061, 0.48, null],
+          "evidence": "Alpha5 的逻辑和 Alpha4 类似，二者的总体表现也接近。Alpha5 的因子收益率均值和RankIC 均值比 Alpha4 略低。"
+        },
+        {
+          "name": "Alpha6",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{ts_sum(div(add(high,low)), close), 5)}",
+          "stats": [null, 0.053, 0.46, null],
+          "evidence": "Alpha6 描述了个股最近 5日内每日的多头力量(high)和空头力量(low)强度的对比。Alpha6的分层测试表现欠佳，首先分层的单调性一般，其次表现最好的层相比基准的超额收益也不明显。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test", "decay_monitor"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "在遗传规划框架中设定预测目标为个股20个交易日后的收益率，初步挖掘出6个选股因子，剔除行业、市值、过去20日收益率、过去20日平均换手率、过去20日波动率五个因子的影响后依然具有较稳定的RankIC。",
+      "evidence": "在遗传规划框架中，我们设定预测目标为个股 20 个交易日后的收益率，初步挖掘出了6 个选股因子。这些因子在剔除了行业、市值、过去 20日收益率、过去 20 日平均换手率、过去 20日波动率五个因子的影响后，依然具有较稳定的 RankIC。"
+    },
+    {
+      "text": "除Alpha4和Alpha5相关性较高外，其他因子的相关性都较低，说明遗传规划能从有限的量价数据中挖掘出具有增量信息的因子。",
+      "evidence": "除了 Alpha4 和 Alpha5 相关性较高外(因为它们的构造逻辑相似)，其他因子的相关性都较低，说明遗传规划能从有限的量价数据中挖掘出具有增量信息的因子。"
+    },
+    {
+      "text": "在进行了行业+4个常见风格中性后，遗传规划所得因子依然具有较显著的增量信息。",
+      "evidence": "其中最后一种情况中的4 个常见风格分别指市值、20 日收益率、20 日换手率、20 日波动率。可以看出，在进行了行业+4 个常见风格中性后，遗传规划所得因子依然具有较显著的增量信息。"
+    },
+    {
+      "text": "Alpha1具有较稳定的因子收益率和RankIC，IC_IR为0.94。",
+      "evidence": "从回归和 IC测试上来看，Alpha1 具有较稳定的因子收益率和 RankIC，IC_IR 为0.94。"
+    },
+    {
+      "text": "Alpha2的因子收益率和RankIC都比Alpha1高，但稳定性略差，IC_IR为0.78。",
+      "evidence": "从回归和 IC 测试上来看，Alpha2 的因子收益率和 RankIC 都比 Alpha1 高，但稳定性略差，IC_IR 为 0.78。"
+    },
+    {
+      "text": "Alpha3呈现出中间好两头差的分层表现，因子收益率和RankIC都不太稳定，IC_IR为0.36。",
+      "evidence": "Alpha3 的因子收益率和 RankIC都不太稳定，IC_IR 为 0.36。"
+    },
+    {
+      "text": "公式进化到第三代，平均适应度从第一代的0.81%提升到第三代的2.43%。",
+      "evidence": "可以看出，公式进化到了第三代，第一代公式是随机生成的，平均长度较长，平均适应度很低。第二代公式平均长度减小，平均适应度明显提升。第三代公式在第二代公式的基础上继续进化，平均长度稍长，平均适应度继续提升。"
+    },
+    {
+      "text": "1000个公式进化3代在2个E5-2650处理器的计算机上耗时约14个小时。",
+      "evidence": "我们的测试在一台有 2个 E5-2650 处理器的计算机上进行，1000 个公式进化 3代耗时约14 个小时。"
+    },
+    {
+      "text": "对gplearn的深度改进包括：详细说明关键参数、扩充函数集、将单因子测试与风格因子中性化引入gplearn、使用Python并行运算加快因子矩阵运算。",
+      "evidence": "本文在遗传规划的应用中做出了以下贡献：(1)应用成熟的 gplearn 项目，对 gplearn 的关键参数进行了详细说明。(2)扩充了 gplearn 中的函数集，添加了一批适合于构造选股因子的函数。(3)将单因子测试过程引入gplearn，可以对待挖掘因子进行传统风格因子中性化。(4)使用了 Python的并行运算技术，加快了因子矩阵的运算速度，缩短了因子挖掘时间。"
+    },
+    {
+      "text": "半衰期的计算方式为因子实际RankIC首次衰减到一半时的滞后期数，如需调整因子参数，或可参考半衰期来进行调整。",
+      "evidence": "图表 33展示了各因子的半衰期，半衰期的计算方式为因子实际 Rank IC 首次衰减到一半时的滞后期数。如需调整因子参数，或可参考半衰期来进行调整。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["gplearn(https://gplearn.readthedocs.io)"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

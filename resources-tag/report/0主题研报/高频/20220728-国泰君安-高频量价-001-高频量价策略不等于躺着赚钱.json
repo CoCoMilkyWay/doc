@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20220728-国泰君安-高频量价-001-高频量价策略不等于躺着赚钱",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["csi300", "csi800", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["csi300", "csi800", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "量化私募指增超额收益相关性中位数0.6远高于公募的0.4，说明私募量价模型存在高度同质化的可能。",
+      "evidence": "我们挑选了 10 家量化私募，其指增产品超额收益自 2021 年起相关性中位数高达 0.6，远高于公募量化指增超额相关性中位数，后者仅为0.4，说明量化私募模型存在高度同质化的可能。"
+    },
+    {
+      "text": "机器挖掘的三组特征组在不同股票池构建的多空组合样本外表现高度相似，扣费后回撤期与量化指增超额回撤期类似，进一步支持量价模型同质化的判断。",
+      "evidence": "发现各组合在样本外的表现呈现高度相似性，扣费后的回撤期与量化指增产品的超额回撤期类似，这进一步增加了量价模型存在高度同质化的可能性。"
+    },
+    {
+      "text": "沪深300股票池中样本外预测扣费后产生明显负向收益，预测能力无法覆盖高度换手的手续费损耗。",
+      "evidence": "然而沪深 300 的股票池中，样本外预测在扣费后甚至产生了明显的负向收益，与上一节中扣费前的表现截然相反，说明此模型在样本外的预测能力无法覆盖高度换手带来的手续费损耗。"
+    },
+    {
+      "text": "量价模型长期在流动性因子上保持负向敞口，2021年8月达到极值后呈周期性走势，对应量价模型扣费后的回撤期。",
+      "evidence": "量价模型长期在流动性因子上保持负向敞口，且在 2021年 8 月达到极值，随后呈现周期性走势，恰恰对应了量价模型扣费后的回撤期。"
+    },
+    {
+      "text": "市值敞口与流动性敞口的差值处于高位时，量价模型倾向持有流动性差的大市值股票，微观交易结构恶化，模型将迎来超额回撤阶段。",
+      "evidence": "经过分析我们认为市值敞口与流动性敞口的差值若处于高位，此时量价模型倾向于持有流动性差的大市值股票，存在微观交易结构恶化的可能性，模型也将会迎来超额回撤阶段。"
+    },
+    {
+      "text": "量价因子主导的选股模型将呈现类风格表现而非稳定alpha，投资者应放低预期，将其当作风格指数进行配置。",
+      "evidence": "大部分量价因子主导的选股模型必然呈现类风格的表现，而非稳定 alpha，即量价风格开始存在，且会长期存在，投资者应放低预期，将其当作风格指数进行配置。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["AutoCross: Automatic Feature Crossing for Tabular Data in Real-World Applications"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

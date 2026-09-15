@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "id": "20250507-东方证券-因子选股-115-dfq_diversify_解决分布外泛化问题的自监督领域识别与对抗解耦模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Diversify",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily"],
+          "horizon": "monthly",
+          "formula": "\\text{GRU特征提取器经自监督领域识别(set_dlabel聚类)与领域-标签对抗解耦训练后，classifier输出的个股未来20日收益预测得分}",
+          "stats": [0.1222, 0.1458, 1.22, null],
+          "evidence": "本节展示 DFQ-Diversify模型得到的因子得分（Diversify），在中证全指、沪深 300、中证 500、中证 1000四个股票池中的表现，并与前期报告《基于机构持仓的因子情景分析》中的基于机构持仓分域的线性多因子模型 dfq"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "loss_generalization", "regime_domain"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "na"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "DFQ-Diversify通过自监督领域识别与对抗训练机制实现标签预测与领域识别的显式解耦，无需人工预设环境变量即可提取跨领域稳定的预测特征，增强分布外泛化能力。",
+      "evidence": "本文提出全新模型 DFQ-Diversify，通过引入自监督领域识别与对抗训练机制，实现标签预测任务与领域识别任务的显式解耦。该模型无需人工预设环境变量，能够自主识别潜在领域信息，进而提取出对外部扰动不敏感、跨领域稳定的预测特征，增强模型的分布外泛化能力。"
+    },
+    {
+      "text": "相比Factorvae-pro依赖人工设定时间标签环境变量，Diversify引入自监督学习动态识别潜在领域，实现对时间与截面双维扰动建模。",
+      "evidence": "Factorvae-pro 依赖人工设定时间标签作为环境变量，主观性强、维度单一；Diversify 引入自监督学习，动态识别潜在领域，实现对时间与截面双维扰动建模，提升灵活性与泛化能力。"
+    },
+    {
+      "text": "双路径训练（领域学习和标签学习各自独立路径）在IC、rankIC及多头超额年化收益上均优于单路径模型，因为Diversify采用对抗训练，两模块目标相反，分开训练更合适。",
+      "evidence": "实验结果表明，Diversify 最优模型（双路径训练，即领域学习和标签学习各自独立路径）在关键性能指标如 IC（12.41% VS S12.12%）、rankIC（14.73% VS 14.01%）以及多头超额年化收益（32.33%VS 27.19%）上均优于单路径模型（即领域学习和标签学习合并训练）。"
+    },
+    {
+      "text": "采用独立瓶颈层的Diversify模型表现优于共享瓶颈层或不使用瓶颈层，独立瓶颈层可避免领域识别与标签预测两个矛盾任务的特征提取冲突。",
+      "evidence": "实验结果表明，采用独立瓶颈层的 Diversify 模型表现优于共享瓶颈层或不使用瓶颈层。这进一步证明了通过分别独立优化每个模块的瓶颈层，可以更有效地学习具有区分性和高泛化能力的特征，从而显著提升模型的性能和鲁棒性。"
+    },
+    {
+      "text": "领域个数超参敏感性测试中domain_num=2的模型展现最佳收益与风险平衡，领域数过多会增大模型复杂度并使tradeoff偏向领域分类而非标签预测。",
+      "evidence": "在不同 latent_domain_num 设置下的模型表现分析中，domain_num = 2 的模型展现了最佳的收益与风险平衡，具备较高的夏普比率、日度超额收益以及较小的最大回撤。随着latent_domain_num 的增大，分类任务增加，模型的复杂度和计算量也随之增大"
+    },
+    {
+      "text": "2020-2025年间中证全指池中IC达12.22%，rankIC达14.58%，多头组合年化超额收益达32.52%，2024年复杂行情中展现更强稳健性。",
+      "evidence": "2020-2025 年间，中证全指池中 IC 达 12.22%，rankIC 达 14.58%，多头组合年化超额收益达 32.52%。在 2024 年复杂行情中展现出更强稳健性。"
+    },
+    {
+      "text": "在沪深300和中证500等大盘股中Diversify模型多头表现优势明显，在中证全指和中证1000等小盘股中表现并不突出，可能因小盘股波动大、模型难以捕捉有效长期信号。",
+      "evidence": "总体来看，在沪深 300 和中证 500 等大盘股中，Diversify 模型的多头表现优势较为明显，在中证全指和中证 1000等小盘股中，Diversify 模型的表现并不突出。"
+    },
+    {
+      "text": "沪深300与中证500增强策略分别实现信息比1.89和1.67，年化超额收益11.27%和12.19%，超额收益主要来源于特质收益，占比超过50%。",
+      "evidence": "在沪深300与中证500增强策略中，模型分别实现信息比1.89和1.67，年化超额收益 11.27%和 12.19%。超额收益主要来源于特质收益，占比超过 50%。"
+    },
+    {
+      "text": "中性化后因子各项指标有所下降但变化不大：IC从12.22%降至11.41%，20分组多头年化超额收益从32.52%降至27.21%，仍在所有模型中保持较高水平。",
+      "evidence": "在中证全指股票池中，DFQ-Diversify 模型的中性化因子，相比原始因子各项指标均有所下降，但变化不大。原始因子 ic 达到 12.22%，中性化后仍有 11.41%。原始因子 20 分组多头年化超额收益达到 32.52%，中性化降低到 27.21%，但仍在所有模型中保持较高的水平。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Lu W, Wang J, Sun X, et al. Out-of-distribution representation learning for time series classification. arXiv preprint arXiv:2209.07027, 2022.",
+    "《DFQ 强化学习因子组合挖掘系统》",
+    "《DFQ 遗传规划价量因子挖掘系统》",
+    "《DFQ-Factorvae-pro：加入特征选择与环境变量模块的 FactorVAE 模型》（2025-02-19）",
+    "《DFQ-HIST：添加图信息的选股因子挖掘系统》（2024-02-07）",
+    "《DFQ-TRA：多交易模式学习因子挖掘系统》",
+    "《DFQ-XGB：基于树模型的 alpha 预测方案》（2024-08-15）",
+    "《东方 A股因子风险模型(DFQ-2020)》",
+    "《基于机构持仓的因子情景分析》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20240426-华泰证券-人工智能-076-ai量价选股模型风控探讨",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "AI量价因子",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["intraday", "daily", "weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{日K线、周K线GRU模型与分钟K线高频因子等权合成得到预测信号}",
+          "stats": [null, null, null, null],
+          "evidence": "本研究以华泰AI量价选股模型为分析对象，对前述模型做简化，仅采用日K线、周K线和分钟K线三类数据，等权合成得到预测信号。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["neutralization", "return_test", "crowding"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "csi1000"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "市值下沉背后的Beta风险以及策略同质化引发的Alpha衰减是本轮量化超额回撤的主要原因。",
+      "evidence": "2024年1月底2月初，量化Alpha策略超额收益大面积回撤，本研究以AI量价选股模型为分析对象，探讨回撤原因和可能应对方法。市值下沉背后的Beta风险以及策略同质化引发的Alpha衰减是主要原因。"
+    },
+    {
+      "text": "AI量价因子和10日动量、10日波动、10日流动性因子长期负相关，长期暴露反转、低波、低流动性风格。",
+      "evidence": "AI量价因子和10日动量、10日波动、10日流动性因子长期负相关，相关系数均值分别为-0.28、-0.43、-0.41。换言之，AI量价因子长期暴露反转、低波、低流动性风格，这也是量价模型的常规特征。"
+    },
+    {
+      "text": "对预测标签y进行更严格的行业、市值和低频量价因子中性化，全域IC和多头收益几乎无影响，仍无法解决2月初的回撤问题。",
+      "evidence": "原模型仅对标签进行行业市值中性，新模型进行行业、市值和上述三个低频量价因子中性。测试表明，无论是全域IC还是多头收益，更严格的中性化对结果几乎无影响，仍无法解决2月初的回撤问题。"
+    },
+    {
+      "text": "2024年2月5-7日因子拥挤度快速上升，但此时因子已出现回撤，拥挤度指标为同步指标，可能不具备预判能力。",
+      "evidence": "局部看，2024年2月5-7日因子拥挤度快速上升，于2月7日达到2018年3月以来峰值。但此时因子已出现回撤，可见拥挤度指标为同步指标，可能不具备预判能力。"
+    },
+    {
+      "text": "配置成分外股票，利用选股模型宽度是重要的收益来源，但盈亏同源。",
+      "evidence": "由此看，配置成分外股票，利用选股模型宽度是重要的收益来源，但盈亏同源。因此并不能一刀切地说，指增是否应该配置成分外。但在评价基金产品时，应将相近成分股约束的产品一同比较。"
+    },
+    {
+      "text": "以市值和流动性因子为代表的风格收益的贡献，掩盖了AI量价模型Alpha本身的衰减，2024年一季度迎来Alpha回撤和市值风格切换的双重考验。",
+      "evidence": "这表明，以市值和流动性因子为代表的风格收益的贡献，掩盖了AI量价模型Alpha本身的衰减。最终迎来了2024年一季度出现Alpha回撤和市值风格切换的双重考验。而Alpha衰减大概率还是由于策略同质化。"
+    },
+    {
+      "text": "组合相对基准市值偏离与未来5个交易日市值因子收益率正相关，相关系数为0.21，AI量价模型在市值上的偏离方向对未来市值风格具备短期预测能力，但包含尾部风险。",
+      "evidence": "如图表27，两者呈现鲜明的正相关关系，相关系数为0.21；实际上，如果剔除左上方的离群点，两者相关系数可达0.27。这表明，AI量价模型在市值上的偏离方向，对未来市值风格具备一定的短期预测能力。"
+    },
+    {
+      "text": "在适当暴露市值风格的前提下，控制非线性市值或者市值高阶矩，可避免哑铃型配置和市值下沉，回测显示在不削弱超额的情况下能有效降低2024年一季度的回撤。",
+      "evidence": "在适当暴露市值风格的前提下，控制非线性市值或者市值高阶矩，可避免哑铃型配置和市值下沉，回测显示在不削弱超额的情况下能有效降低2024年一季度的回撤。"
+    },
+    {
+      "text": "在所测试的市值二阶矩约束范围内，组合2024年一季度回撤均得到改善，整体超额收益以及2024年一季度超额收益还略有提升。",
+      "evidence": "测试结果如下表，在我们所测试的市值二阶矩约束范围内，组合2024年一季度回撤均得到改善，整体超额收益以及2024年一季度超额收益还略有提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于全频段量价特征的选股模型》（2023-12-08）",
+    "《基于拥挤度的市值风格轮动策略》（2022-12-13）",
+    "《神经网络多频率因子挖掘模型》（2023-05-11）",
+    "《高频因子计算的GPU加速》（2023-10-16）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

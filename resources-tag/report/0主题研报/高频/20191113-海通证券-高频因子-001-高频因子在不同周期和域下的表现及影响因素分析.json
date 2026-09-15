@@ -1,0 +1,171 @@
+{
+  "schema_version": 2,
+  "id": "20191113-海通证券-高频因子-001-高频因子在不同周期和域下的表现及影响因素分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "高频偏度",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{n=t-N+1}^{t}\\frac{\\sqrt{N_j}\\sum_{j}r_{i,j,n}^{3}}{\\left(\\sum_{j}r_{i,j,n}^{2}\\right)^{1.5}}",
+          "stats": [0.0604, 0.0779, 3.1, 0.0176],
+          "evidence": "高频偏度 | 日内下行风险大的股票具有更高的风险溢价 | 负向"
+        },
+        {
+          "name": "下行波动占比",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{n=t-N+1}^{t}\\frac{\\sum_{j}r_{i,j,n}^{2}\\cdot I_{r_{i,j,n}<0}}{\\sum_{j}r_{i,j,n}^{2}}",
+          "stats": [0.0664, 0.0875, 2.69, 0.0197],
+          "evidence": "下行波动占比： $\\begin{array}{r}{\\frac{1}{N}{\\sum_{n=t}^{n=t-N+1}}\\frac{\\sum_{j}r_{i,j,n}^{2}\\cdot I_{r_{i,j,n}<0}}{\\sum_{j}r_{i,j,n}^{2}}}\\end{array}$"
+        },
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{n=t-N+1}^{t}\\frac{Vol_{i,14:30-15:00,n}}{\\sum_{j}Vol_{i,j,n}}",
+          "stats": [0.0307, 0.0192, 1.14, 0.0097],
+          "evidence": "尾盘成交占比 | 1. 尾盘投机度较高，容易出现操纵行为； 2. 个人投资者或非知情交易者不愿承担日内波动，更倾向于 尾盘交易，而知情交易者则倾向于在早盘交易 | 负向"
+        },
+        {
+          "name": "量价相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{n=t-N+1}^{t}corr\\left(Close_{i,j,n},\\frac{Vol_{i,j,n}}{\\sum_{j}Vol_{i,j,n}}\\right)",
+          "stats": [0.0618, 0.0747, 2.59, 0.0189],
+          "evidence": "量价相关性 | 量价背离的股票未来表现更好，即日内缩量上涨或者放量下 跌优于放量上涨或缩量下跌。背后可能原因——缩量上涨持 续性强，放量下跌换手充分 | 负向"
+        },
+        {
+          "name": "改进反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\prod_{n=t-N+1}^{t}\\frac{Close_{i,15:00,n}}{Close_{i,10:00,n}}-1",
+          "stats": [0.0719, 0.0761, 2.47, 0.0248],
+          "evidence": "改进反转 | 隔夜和开盘后半小时涨幅属于市场对隔夜信息和数据的合理 定价，而并非投资者行为造成的错误定价，不存在反转效应 | 负向"
+        },
+        {
+          "name": "平均单笔流出金额占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{n=t-N+1}^{t}\\frac{\\sum_{j}Amt_{i,j,n}\\cdot I_{r_{i,j,n}<0}/\\sum_{j}TrdNum_{i,j,n}\\cdot I_{r_{i,j,n}<0}}{\\sum_{j}Amt_{i,j,n}\\cdot\\sum_{j}TrdNum_{i,j,n}}",
+          "stats": [0.0587, 0.0776, 2.61, 0.0182],
+          "evidence": "平均单笔流出金额占比 | 下跌时单笔成交金额大说明委买有大单，是一种抄底行为 | 正向"
+        },
+        {
+          "name": "大单推动涨幅",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\prod_{n=t-N+1}^{t}\\left(\\prod_{j\\in IdxSet}(1+r_{i,j,n})\\right)-1",
+          "stats": [0.0724, 0.0858, 3.42, 0.0238],
+          "evidence": "大单推动涨幅 | 平均单笔成交金额较大的K线多空博弈激烈，未来反转效应 更强 | 负向"
+        },
+        {
+          "name": "成交委托相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{N}\\sum_{n=t-N+1}^{t}corr\\left(r_{i,j,n},\\frac{一档委买变化量_{i,j,n}-一档委卖变化量_{i,j,n}}{流通股本_{i,n}}\\right)",
+          "stats": [0.0722, 0.1047, 2.17, 0.0247],
+          "evidence": "成交委托相关性 | 股票在下跌时，若净委买上升，说明投资者抄底意愿强；若 净委买下降，说明投资者抄底意愿弱 | 负向"
+        },
+        {
+          "name": "收盘前成交委托相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{每日仅使用 14:26-14:57 的数据计算成交委托相关性}",
+          "stats": [0.0765, 0.1045, 2.25, 0.027],
+          "evidence": "收盘前成交委托相关性：每日仅使用 14:26-14:57 的数据计算成交委托相关性。"
+        },
+        {
+          "name": "复合高频因子",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{对与常规因子正交后的9个高频因子做进一步对称正交，再按过去12个月因子IC均值加权构建复合因子}",
+          "stats": [0.0635, 0.0685, 5.7, 0.0222],
+          "evidence": "我们首先对和常规因子正交后的 9 个高频因子做进一步对称正交，再按过去 12 个月因子 IC均值加权，构建复合因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "月频调仓下，全市场绝大多数因子月均多空收益差在1.5%以上，rank IC均值在7%以上，其中成交委托相关性因子收益最高",
+      "evidence": "绝大多数因子月均多空收益差在 1.5%以上，rank IC均值在 7%以上，其中成交委托相关性因子收益最高。"
+    },
+    {
+      "text": "剔除行业、市值等常规因子影响后，多数因子选股效果明显下降，尾盘成交占比因子因与市值负相关，正交后选股效果明显提升，月均多空收益差从0.97%提升至1.47%，rank IC均值从1.92%提升至4.30%",
+      "evidence": "在剔除了行业、市值等常规因子影响之后，多数因子选股效果明显下降，其中尾盘成交占比因子由于和市值具有负相关性，正交之后选股效果明显提升，因子月均多空收益差从 0.97%提升至 1.47%，rank IC 均值从 1.92%提升至 4.30%。"
+    },
+    {
+      "text": "高频因子复合后稳定性进一步提升，月频模型rank IC均值和rank ICIR分别为6.82%和6.15，周频模型分别为8.48%和10.86",
+      "evidence": "高频因子复合后稳定性进一步提升，月频模型 rank IC均值和 rank ICIR 分别为 6.82%和 6.15；周频模型的 rank IC 均值和 rank ICIR分别为 8.48%和 10.86。"
+    },
+    {
+      "text": "高频因子稳定性较强，因子收益难以被外生变量解释，回归树模型解释能力普遍较低，且多数高频因子选空头能力强，表现最差的个股的收益对因子收益影响较大",
+      "evidence": "由此可见，由于高频因子稳定性较强，因子收益难以被外生变量解释，且多数高频因子选空头能力强，故表现最差的个股的收益对因子收益影响相对较大。"
+    },
+    {
+      "text": "建议投资者将高频因子作为alpha因子加入到多因子组合中，以提升组合的信息比和胜率，降低组合的回撤",
+      "evidence": "高频因子收益难以被外生变量解释，因此我们建议投资者将高频因子作为 alpha 因子加入到多因子组合中，以提升组合的信息比和胜率，降低组合的回撤。"
+    },
+    {
+      "text": "周频调仓下，绝大多数因子周均多空收益差在0.5%以上，rank IC均值在5%以上，其中改进反转因子收益最高",
+      "evidence": "绝大多数因子周均多空收益差在 0.5%以上，rank IC 均值在 5%以上，其中改进反转因子收益最高，周均多空收益差和 rank IC 均值分别为 1.10%和 7.76%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "选股因子系列研究（五十二）——基于决策树的因子择时模型",
+    "选股因子系列研究（五十六）——买卖单数据中的 Alpha"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

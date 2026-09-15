@@ -1,0 +1,96 @@
+{
+  "schema_version": 2,
+  "id": "20101203-国泰君安-数量化专题-009-基于动量反转策略的强势行业选取",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "动量模型",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{R（形成期）}=\\text{行业指数形成期收益率}-\\text{沪深300指数形成期收益率};\\;\\text{R（持有期）}=k\\times\\text{R（形成期）}+b",
+          "stats": [null, null, null, null],
+          "evidence": "取多长的形成期（或叫采样期）来预测多长的持有期收益率，是动量/反转模型要确定的最重要的参数。"
+        },
+        {
+          "name": "反转模型",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\text{R（形成期）}=\\text{行业指数形成期收益率}-\\text{沪深300指数形成期收益率};\\;\\text{R（持有期）}=k\\times\\text{R（形成期）}+b",
+          "stats": [null, null, null, null],
+          "evidence": "反转效应则是指在一定时期内表现较差的股票或组合在接下来的一段时期内有较大的可能表现较好，反之亦然。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_momentum"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "行业层面短期动量较明显，中长期反转更显著：大多数行业形成期和持有期取0.5-1个月时动量效应显著，取4-6个月时反转效应更显著。",
+      "evidence": "通过对样本数据的测算，大多数行业的形成期和持有期取 0.5-1个月时动量效应较为显著；而形成期和持有期取 4-6个月时反转效应较为显著。"
+    },
+    {
+      "text": "向上的动量和向上的反转现象均比向下更明显，短期“追涨”比“杀跌”更明显，中长期“补涨”比“补跌”更明显。",
+      "evidence": "向上的动量和向上的反转现象均比向下更明显。当模型预测超额收益率为正时，方向准确率较高。这说明短期的“追涨”比“杀跌”更明显，中长期的“补涨”比“补跌”更明显。"
+    },
+    {
+      "text": "动量组合在考虑0.5%交易成本下获得相对沪深300指数237%的超额涨幅，年化超额收益率为16%（不计交易成本时分别为484%和28%）。",
+      "evidence": "在 2006年 2 月到 2010 年 11 月期间，动量组合在考虑 0.5%的交易成本下获得了相对沪深 300指数 237%的超额涨幅，年化超额收益率为 16%（不计交易成本时两者分别为 484%和 28%）。"
+    },
+    {
+      "text": "反转组合在06年8月到10年11月期间获得的累计超额涨幅为145%，年化超额收益率为14%（不计交易成本时分别为218%和20%）。",
+      "evidence": "反转组合在06年8月到10年11月期间获得的累计超额涨幅为145%，年化超额收益率为 14%（不计交易成本时两者分别为 218%和20%）。"
+    },
+    {
+      "text": "预测行业明显跑赢大盘时方向准确率较高，平均达到66.31%，而判断行业跑输大盘时的准确率明显低一些，只有53.03%。",
+      "evidence": "检验结果表明，当利用动量效应判断行业明显跑赢大盘（预测的周均超额收益率>0.25%）时，方向准确率较高，平均达到 66.31%；而判断行业跑输大盘（预测的周均超额收益率<-0.25%）时的准确率明显低一些，只有 53.03%。"
+    },
+    {
+      "text": "间隔期的设置确实能改进模型的效果，尤其是反转效应中，设置适当的间隔期能有效改进模型的效果。",
+      "evidence": "样本数据的检验结果证明，有些行业的间隔期确实不为零，尤其是反转效应中，设置适当的间隔期能有效改进模型的效果。"
+    },
+    {
+      "text": "市场处于大的拐点时，以及行业受政策等方面的重大影响时，动量反转模型容易失效，结合宏观、政策和基本面的研究能很大程度提高成功率。",
+      "evidence": "市场处于大的拐点时，以及行业受政策等方面的重大影响时，动量反转模型容易失效。毕竟动量反转模型只用到过去的价格信息，很难及时反映市场环境、行业政策和基本面突然发生的变化，所以在模型结果的基础上结合宏观、政策和基本面的研究能很大程度上提高成功率。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于支持向量机的个股及组合择时数量化系列研究之九》2010.08.24",
+    "《基于支持向量机的股票市场择时——数量化系列研究之八》2010.07.21"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

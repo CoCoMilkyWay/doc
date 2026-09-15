@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "id": "20241212-华创证券-端到端挖掘-006-基于样本加权与风格约束_对端到端模型泛化性的思考与改进",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GRU_DRO",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU+MLP端到端模型输出的未来10日收益预测值，训练时按流动性分组以组损失指数加权}w_g^{\\text{new}}=\\frac{w_g\\exp(\\rho\\mathcal{L}_g)}{\\sum_{i=1}^{G}w_i\\exp(\\rho\\mathcal{L}_i)}",
+          "stats": [null, 0.143, 1.23, null],
+          "evidence": "针对分域差距问题，我们参考了 GroupDRO（Sagawa et al., 2019），使用样本组损失加权的思路，鼓励模型在不同域间的表现差异更小。"
+        },
+        {
+          "name": "GRU_CONST",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU+MLP端到端模型输出的未来10日收益预测值，训练时加入风格暴露惩罚项}\\mathcal{P}=\\frac{1}{|s|}\\sum_{i\\in s}\\max(|\\operatorname{ICLoss}(\\hat{y},s_i)|-\\epsilon,0)",
+          "stats": [null, 0.141, 1.22, null],
+          "evidence": "针对模型对流动性和残差波动的显著暴露的特点，我们采用一个简单的惩罚项来约束风格暴露"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_training"],
+      "approach": ["loss_generalization"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi1000"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "基于SVE指标，端到端GRU模型在“未见过”的数据上表现不佳，由此展开降低端到端模型泛化风险的研究",
+      "evidence": "基于 SVE 指标，我们发现端到端 GRU 模型在“未见过”的数据上表现不佳，由此展开如何降低端到端模型泛化风险的研究。"
+    },
+    {
+      "text": "表征异常发生时期与模型下游应用较弱表现的时期大致对应，可认为是一种泛化能力不佳",
+      "evidence": "表征异常发生时期与模型的下游应用的较弱表现的时期大致对应，这可以被认为一种的泛化能力不佳；"
+    },
+    {
+      "text": "基线模型存在分域差距：低流组因子IC明显低于高流组，且高流分组中IC贡献最显著的是因子空头部分，与多头端期望不符",
+      "evidence": "低流组的因子 IC 明显低于高流组，另一方面，模型训练采用的损失函数为 IC，而高流分组中 IC 贡献最为显著的为因子的空头部分，并不完全符合我们对模型的多头端的期望；"
+    },
+    {
+      "text": "GRU DRO综合表现最佳：10日RankIC达14.3，TOP组超额年化收益39.67%（较基线提升4%），超额夏普1.55，2024年最大回撤-16%优于基线-21%",
+      "evidence": "GRU DRO 模型 10 日 RankIC 达 14.3；分组多头 TOP 组超额年化收益 39.67%，较基线 GRU 提升 4%；超额夏普比率 1.55，较基线提升 0.12；2024 年最大回撤-16%，优于基线的-21%。"
+    },
+    {
+      "text": "GRU CONST整体与基线持平，但在2024年9-11月区间强/弱约束下TOP组超额收益4.24%、-1.58%，较基线提高7.62%、1.8%",
+      "evidence": "TOP 组整体表现与基线持平，在 2024 年 9-11 月区间，强/弱约束设置下，TOP 组超额收益分别为 4.24%、-1.58%，较基线分别提高 7.62%、1.8%。"
+    },
+    {
+      "text": "约束市值、Barra0.2标准差设置下，GRU DRO指增超额夏普2.64、Calmar比率3，均强于基线GRU的2.38、1.99，改进模型超额年化与夏普相较基线均有所提高",
+      "evidence": "在约束市值、Barra0.2 标准差偏离的设置下，全区间上 GRU DRO 的超额夏普为 2.64，Calmer 比率为 3，均强于对应基线 GRU（对应指标分别为 2.38、1.99），GRU CONST(0.01)则分别为 2.62、1.83，GRU CONST (0.01)分别为 2.46、2.2，改进后的模型在超额年化与夏普指标上相较于基线均有所提高；"
+    },
+    {
+      "text": "GRU DRO除回撤改善外收益指标也优于基线，模型的风险收益二者并非完全对立",
+      "evidence": "GRU DRO的出发点为降低潜在的样本外泛化风险，但除回撤的改善外，模型也在收益指标项上优于基线模型，模型的风险收益二者并非完全对立的关系。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Beery, Sara, Grant Van Horn, and Pietro Perona. \"Recognition in terra incognita.\" Proceedings of the European conference on computer vision (ECCV). 2018.",
+    "Chen, Hao, et al. \"Understanding and mitigating the label noise in pre-training on downstream tasks.\" arXiv preprint arXiv:2309.17002 (2023).",
+    "Sagawa, Shiori, et al. \"Distributionally robust neural networks for group shifts: On the importance of regularization for worst-case generalization.\" arXiv preprint arXiv:1911.08731 (2019)."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

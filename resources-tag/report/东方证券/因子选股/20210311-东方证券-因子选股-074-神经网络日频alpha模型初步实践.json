@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "id": "20210311-东方证券-因子选股-074-神经网络日频alpha模型初步实践",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi500"],
+        "data": {"source": ["market_daily", "market_minute", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "弱因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{原始Alpha因子经全连接层线性变换后批标准化，并以因子相关系数矩阵的L2范数惩罚实现相互正交}",
+          "stats": [null, 0.018, null, null],
+          "evidence": "正交弱因子转换器的任务是将人工和因子单元生成的若干因子转换为相互正交的大量弱因子，然后根据考虑拥挤度的因子表现作为权重加权弱因子。"
+        },
+        {
+          "name": "ZSCORE",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{300个相互正交弱因子按多头对冲组合夏普率加权合成}",
+          "stats": [null, 0.125, null, null],
+          "evidence": "单个 alpha 因子虽然较弱，但是大量低相关的 alpha 因子可以合成很强的 ZSCORE，依然以中证 500 增强为例，2013 年以来，合成 ZSCORE 次日 RankIC 均值高达 12.5%，5 日累计 RankIC均值高达 16.8%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["weighting", "neural", "label_horizon", "sample_window", "loss_generalization"],
+      "baseline": ["linear"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "300个弱因子两两相关性几乎都在20%以内，单因子次日RankIC平均只有1.8%、5日累计仅2.5%，但合成的ZSCORE次日RankIC高达12.5%、5日累计平均16.8%；单因子权重低，回撤对ZSCORE影响不大，模型稳定性较高。",
+      "evidence": "本文生成的300个弱因子两两相关性几乎都在20%以内，单因子次日RankIC平均只有1.8%，5 日累计 RankIC 仅 2.5%，但是大批量低相关的弱因子合成的 ZSCORE 次日 RankIC 却高达12.5%，5 日累计 RankIC 平均 16.8%。"
+    },
+    {
+      "text": "500增强2017年之后组合业绩大幅弱于之前，但日单边换手5%以内近几年费后仍可获取20%左右超额收益；换手放大后近几年费后收益反而回落，每日高频调仓策略衰减较快，相对低频策略更加稳健。",
+      "evidence": "经测算，在次日 VWAP 成交，双边千三费率下，500 增强模型 2017 年之后组合业绩大幅弱于之前，但在换手较低的情况下（日单边换手 5%以内），近几年费后也可以获取 20%左右的超额收益，另外随着组合换手的放大，虽然早期费后收益有明显增长，但近几年费后收益反而回落，说明每日高频调仓的策略近年来衰减较快，反而相对低频的策略更加稳健。"
+    },
+    {
+      "text": "日频调仓增强策略中沪深300明显弱于中证500，中证500弱于中证1000，在中小市值中相对更有优势。",
+      "evidence": "日频调仓的沪深 300 增强策略明显弱于中证 500，中证 500弱于中证 1000，日频调仓增强策略在中小市值中相对更有优势。"
+    },
+    {
+      "text": "因子拥挤导致IC与组合多头收益不一致：特异度因子2019年以来全市场月度RankIC均值7.19%、中证800中2.82%，但成分股内多头对冲组合持续回撤。",
+      "evidence": "比如行业市值中性的特异度因子 2019 年以来全市场月度RankIC 均值依然高达 7.19%，中证 800 中也还有 2.82%，但是因子在中证 800 成分股内的多头对冲组合持续回撤。"
+    },
+    {
+      "text": "越早交易alpha越丰厚；开盘半小时VWAP与全天VWAP成交的业绩差异近三年明显小于早期，低换手时几乎没有差异，通过抢单攫取alpha越来越困难，提升T+2日及之后的alpha更有现实意义。",
+      "evidence": "日频交易信号产生后，一般越早交易 alpha 越丰厚，对于开盘半小时 VWAP 和全天 VWAP 这两种比较现实的成交价格，近三年组合业绩的差异明显小于早期，组合换手较低时几乎没有差异，说明通过抢单攫取 alpha 越来越困难，对于公募等没有交易优势的机构来讲如何提升 T+2 日及之后的 alpha 更有现实意义。"
+    }
+  ],
+  "builds_on": ["20200804-东方证券-因子选股-068-因子加权过程中的大类权重控制"],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

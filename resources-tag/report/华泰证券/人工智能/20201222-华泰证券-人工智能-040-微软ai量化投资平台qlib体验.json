@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20201222-华泰证券-人工智能-040-微软ai量化投资平台qlib体验",
+  "genre": "framework",
+  "asset": ["stock_cn", "stock_hk"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "daily"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "KMID",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "(close_{t}-open_{t})/open_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "以前两个因子KMID和KLEN为例，查看源码知，KMID=(close-open)/open，其含义为日内涨跌幅，KLEN=(high-low)/open，其含义为日内振幅。"
+        },
+        {
+          "name": "KLEN",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "(high_{t}-low_{t})/open_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "以前两个因子KMID和KLEN为例，查看源码知，KMID=(close-open)/open，其含义为日内涨跌幅，KLEN=(high-low)/open，其含义为日内振幅。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["cleaning"], "setup": {"universe": ["all"]}},
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["tree"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "daily"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "Qlib的主要优势在于覆盖量化投资全过程，用户无需切换工具包或编程语言，降低AI算法使用门槛；并对因子数据储存、因子计算等环节提出创新解决方案，提升运算性能和开发效率",
+      "evidence": "我们认为 Qlib 的主要优势在于：1）覆盖量化投资全过程，用户无需切换工具包或编程语言，降低 AI 算法使用门槛；2）从工程实现角度，对因子数据储存、因子计算等环节提出创新解决方案，提升运算性能和开发效率，或能解决量化投资研究中的部分痛点。"
+    },
+    {
+      "text": "Qlib在读取原始数据和生成因子任务上的性能表现优于传统关系型数据库MySQL、非关系型数据库MongoDB、时序数据库InfluxDB和HDF5",
+      "evidence": "据论文 Qlib: An AI-oriented QuantitativeInvestment Platform 测试显示，Qlib 在读取原始数据和生成因子任务上的性能表现优于传统关系型数据库 MySQL、非关系型数据库 MongoDB、时序数据库 InfluxDB 和 HDF5。"
+    },
+    {
+      "text": "Qlib在术层面的创新大于道层面的创新，核心是量价因子结合AI模型选股流程，在道的层面未脱离传统因子选股方法论",
+      "evidence": "笔者使用 Qlib 的体会是，Qlib 在“术”层面的创新要大于在“道”层面的创新。Qlib 在宣传中称其为“业内首个 AI 量化投资开源平台”，而就目前公开的功能看，Qlib 的核心是“量价因子结合 AI 模型选股流程”，在“道”的层面未脱离传统因子选股方法论。"
+    },
+    {
+      "text": "Qlib提出的数据存储方案、表达式引擎等工程创新一定程度上能够解决研究中的部分痛点，开源能够降低整个行业的学习和研发成本，或能推动量化投资行业的技术发展",
+      "evidence": "在“术”的层面， Qlib 提出的数据存储方案、表达式引擎等工程创新一定程度上能够解决研究中的部分痛点。微软此次的开源尝试能够降低整个行业的学习和研发成本，或能推动量化投资行业的技术发展。"
+    },
+    {
+      "text": "案例中的港股AI选股模型在2020年7~10月超额收益较稳定，但在11月份出现回撤",
+      "evidence": "观察知，选股模型在2020年7~10月超额收益较稳定，但在11月份出现回撤。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Yang, X. , Liu, W. , Zhou, D. , Bian, J. , & Liu, T. Y. . (2020). Qlib: an ai-oriented quantitative investment platform. arXiv."
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

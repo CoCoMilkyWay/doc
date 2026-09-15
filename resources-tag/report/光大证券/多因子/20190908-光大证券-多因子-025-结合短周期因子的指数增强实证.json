@@ -1,0 +1,286 @@
+{
+  "schema_version": 2,
+  "id": "20190908-光大证券-多因子-025-结合短周期因子的指数增强实证",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_mining"],
+      "approach": ["style_ratio", "symbolic_search"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "Alpha_1",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{multiply(add(ts_correlation(pct_chg(volume,1),pct_chg(avg,1),20),ts_correlation(add(log(value),ts_rank(bs_count_rate ,4)),multiply(low,divide(value,bs_count_rate)),20)),ts_std(multiply(ts_skew(volume,40),sqrt(value)),20))}",
+          "stats": [0.0773, null, 1.77, null],
+          "evidence": "Alpha_1 | multiply(add(ts_correlation(pct_chg(volume,1),pct_chg(avg,1),20),ts_correlation(add(log(value),ts_rank(bs_count_rate ,4)),multiply(low,divide(value,bs_count_rate)),20)),ts_std(multiply(ts_skew(volume,40),sqrt(value)),20)) |"
+        },
+        {
+          "name": "Alpha_2",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{absolute(multiply(pct_chg(close,20),multiply(log(avg),ts_skew(volume,80))))}",
+          "stats": [0.0629, null, 1.45, null],
+          "evidence": "Alpha_2 | absolute(multiply(pct_chg(close,20),multiply(log(avg),ts_skew(volume,80)))) |"
+        },
+        {
+          "name": "Alpha_3",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{add(bigger(ts_median(volume,4),divide(avg,close)),ts_autocorrelation(bs_sum_rate,1,1))}",
+          "stats": [0.0558, null, 1.72, null],
+          "evidence": "Alpha_3 | add(bigger(ts_median(volume,4),divide(avg,close)),ts_autocorrelation(bs_sum_rate,1,1)) |"
+        },
+        {
+          "name": "Alpha_4",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{divide(close,open)}",
+          "stats": [0.0679, null, 1.52, null],
+          "evidence": "Alpha_4 | divide(close,open) |"
+        },
+        {
+          "name": "Alpha_5",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{log(multiply(ts_argmin(open,80),ts_std(sqrt(value),4)))}",
+          "stats": [0.0518, null, 1.19, null],
+          "evidence": "Alpha_5 | log(multiply(ts_argmin(open,80),ts_std(sqrt(value),4))) |"
+        },
+        {
+          "name": "Alpha_6",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{ts_max(ts_correlation(negative(low),sqrt(avg),1),4)}",
+          "stats": [0.0604, null, 1.36, null],
+          "evidence": "Alpha_6 | ts_max(ts_correlation(negative(low),sqrt(avg),1),4) |"
+        },
+        {
+          "name": "Alpha_7",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{multiply(multiply(ts_rank(bs_count_rate,4),ts_std(sqrt(value),20)),ts_kurt(pct_chg(value,1),1))}",
+          "stats": [0.0562, null, 1.27, null],
+          "evidence": "Alpha_7 | multiply(multiply(ts_rank(bs_count_rate,4),ts_std(sqrt(value),20)),ts_kurt(pct_chg(value,1),1)) |"
+        },
+        {
+          "name": "Alpha_8",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{multiply(ts_skew(volume,40),ts_std(ts_kurt(open,40),20))}",
+          "stats": [0.0549, null, 1.26, null],
+          "evidence": "Alpha_8 | multiply(ts_skew(volume,40),ts_std(ts_kurt(open,40),20)) |"
+        },
+        {
+          "name": "Alpha_9",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{ts_rank(ts_argmin(add(high,low),20),4)}",
+          "stats": [0.0455, null, 1.03, null],
+          "evidence": "Alpha_9 | ts_rank(ts_argmin(add(high,low),20),4) |"
+        },
+        {
+          "name": "Alpha_10",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{ts_std(add(pct_chg(volume,1),bs_std_ratio),20)}",
+          "stats": [0.0445, null, 1, null],
+          "evidence": "Alpha_10 | ts_std(add(pct_chg(volume,1),bs_std_ratio),20) |"
+        },
+        {
+          "name": "Alpha_11",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{ts_mean(ts_skew(open,40),20)}",
+          "stats": [0.0682, null, 1.56, null],
+          "evidence": "Alpha_11 | ts_mean(ts_skew(open,40),20) |"
+        },
+        {
+          "name": "Alpha_12",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{ts_std(absolute(add(high,ts_max(subtract(sqrt(value),divide(low,bs_std_ratio)),4))),4)}",
+          "stats": [0.0342, null, 0.77, null],
+          "evidence": "Alpha_12 | ts_std(absolute(add(high,ts_max(subtract(sqrt(value),divide(low,bs_std_ratio)),4))),4) |"
+        },
+        {
+          "name": "Alpha_13",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{multiply(ts_kurt(sqrt(value),80),sqrt(open))}",
+          "stats": [0.0473, null, 1.09, null],
+          "evidence": "Alpha_13 | multiply(ts_kurt(sqrt(value),80),sqrt(open)) |"
+        },
+        {
+          "name": "Alpha_14",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{ts_std(add(log(value),ts_rank(bs_count_rate,4)),4)}",
+          "stats": [0.0417, null, 0.93, null],
+          "evidence": "Alpha_14 | ts_std(add(log(value),ts_rank(bs_count_rate,4)),4) |"
+        },
+        {
+          "name": "Alpha_15",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{absolute(ts_correlation(avg,bs_count_rate,4))}",
+          "stats": [0.0316, null, 0.87, null],
+          "evidence": "Alpha_15 | absolute(ts_correlation(avg,bs_count_rate,4)) |"
+        },
+        {
+          "name": "Alpha_16",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{ts_median(smaller(delay(open,80),ts_skew(high,4)),80)}",
+          "stats": [0.0384, null, 0.91, null],
+          "evidence": "Alpha_16 | ts_median(smaller(delay(open,80),ts_skew(high,4)),80) |"
+        },
+        {
+          "name": "Alpha_17",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{multiply(log(log(ts_min(multiply(sqrt(avg),ts_skew(avg,20)),1))),ts_max(ts_kurt(volume,40),20))}",
+          "stats": [0.0259, null, 0.59, null],
+          "evidence": "Alpha_17 | multiply(log(log(ts_min(multiply(sqrt(avg),ts_skew(avg,20)),1))),ts_max(ts_kurt(volume,40),20) |"
+        },
+        {
+          "name": "Alpha_18",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{smaller(ts_median(ts_skew(close,4),4),pct_chg(ts_max(pct_chg(volume,1),4),20))}",
+          "stats": [0.0287, null, 0.65, null],
+          "evidence": "Alpha_18 | smaller(ts_median(ts_skew(close,4),4),pct_chg(ts_max(pct_chg(volume,1),4),20)) |"
+        },
+        {
+          "name": "Alpha_19",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{multiply(ts_skew(add(high,bs_ir_diff),4),add(ts_std(sqrt(sqrt(value)),20),bs_sum_rate))}",
+          "stats": [0.0285, null, 0.64, null],
+          "evidence": "Alpha_19 | multiply(ts_skew(add(high,bs_ir_diff),4),add(ts_std(sqrt(sqrt(value)),20),bs_sum_rate)) |"
+        },
+        {
+          "name": "Alpha_20",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{multiply(subtract(avg,multiply(ts_skew(volume,80),sqrt(value))),ts_kurt(ts_skew(ts_std(add(pct_chg(volume,1),ts_rank (bs_count_rate,4)),20),40),1))}",
+          "stats": [0.0321, null, 0.74, null],
+          "evidence": "Alpha_20 | multiply(subtract(avg,multiply(ts_skew(volume,80),sqrt(value))),ts_kurt(ts_skew(ts_std(add(pct_chg(volume,1),ts_rank (bs_count_rate,4)),20),40),1)) |"
+        },
+        {
+          "name": "综合质量因子EBQC",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利能力、成长能力、盈余质量、营运效率、安全性、公司治理6个大类质量指标中筛选因子构成的复合质量因子}",
+          "stats": [0.044, null, 0.89, 0.111],
+          "evidence": "综合质量因子EBQC在中证全指、中证500、沪深300不同样本空间内，均具有较强的预测能力，因子的 IC 均高于 3%，IC_IR 均大于 0.5。在沪深300 样本内的表现也较为出色，因子 IC 为 3.84%，IC_IR 为 0.57。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["csi500"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于短周期alpha20因子、在严格换手率惩罚和风格行业暴露度控制下优化得到的中证500增强模型，超额收益高达23%，信息比达到3.56，但2017年组合跑输基准3个百分点，表现较为一般。",
+      "evidence": "基于短周期alpha20因子，在较为严格的换手率惩罚和风格行业暴露度控制的条件下，通过组合优化得到的结果来看，短周期因子模型的超额收益高达23%，信息比达到3.56，但2017 年组合跑输基准3 个百分点，表现较为一般。"
+    },
+    {
+      "text": "经过优化的纯基本面因子中证500增强模型整体超额收益能力相对较弱，年化超额基准13%，信息比2.29，但近两年表现出色，2018和2019年的年化超额收益分别为16%和22%，均战胜了纯短周期因子的增强模型。",
+      "evidence": "由此可见，经过优化的纯基本面因子的中证500 增强模型，整体超额收益能力相对较弱，年化超额基准 13%，信息比 2.29。但近两年表现出色，2018和2019年的年化超额收益分别为16%和22%，均战胜了纯短周期因子的增强模型。"
+    },
+    {
+      "text": "基本面因子高频化再结合短周期因子的方式下，组合信息比可以达到4.29，年化超额收益27%，相对最大回撤9%。",
+      "evidence": "由此可见，基本面因子高频化再结合短周期因子的方式下，组合信息比可以达到 4.29，年化超额收益 27%，相对最大回撤 9%。"
+    },
+    {
+      "text": "优化过程中的换手率约束起到较为显著的作用，加入换手率惩罚项后，整体平均换手为单边15%，年度平均双边换手36倍。",
+      "evidence": "这其中，优化过程中的换手率约束起到了较为显著的作用，通过在目标函数中加入换手率惩罚项后，整体的平均换手为单边15%，年度平均双边换手36倍。"
+    },
+    {
+      "text": "日频维度上短周期因子在沪深300成分内的有效性显著较低，而在中证500内仍具有不错的预测能力。",
+      "evidence": "在日频的维度上，短周期因子在沪深 300 成分内的有效性显著较低，而在中证500 内仍具有不错的预测能力。"
+    },
+    {
+      "text": "短周期alpha因子与低频价量因子中的反转因子、换手率因子均具有较高的相关性，与低频多因子模型结合时需考虑相关性的处理方法。",
+      "evidence": "总体上看，短周期alpha因子与低频价量因子中的反转因子、换手率因子均具有较高的相关性。因此，在尝试将短周期因子与低频多因子模型结合时，需要考虑到短周期因子与低频价量因子之前的相关性的处理方法。"
+    },
+    {
+      "text": "基本面股票池+短周期因子调整的方式下，年化超额基准18%，信息比3.03，组合在2017年的表现显著优于基本面因子高频化的组合，超额更加稳定。",
+      "evidence": "基本面股票池+短周期因子调整的方式下，组合超额收益率略有降低，年化超额基准18%，信息比 3.03，但组合在2017年的表现则显著优于上一节中的基本面因子高频化的组合。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《以质取胜：EBQC 综合质量因子详解——多因子系列报告之十七》",
+    "《短周期因子的挖掘与组合构建——多因子系列报告之二十四》",
+    "《组合优化算法探析及指数增强实证——多因子系列报告之十三 》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

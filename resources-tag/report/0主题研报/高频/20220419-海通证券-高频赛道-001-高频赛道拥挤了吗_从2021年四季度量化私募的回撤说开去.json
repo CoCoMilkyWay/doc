@@ -1,0 +1,144 @@
+{
+  "schema_version": 2,
+  "id": "20220419-海通证券-高频赛道-001-高频赛道拥挤了吗_从2021年四季度量化私募的回撤说开去",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["momentum_reversal", "order_flow", "intraday_pattern", "representation_learning"],
+      "setup": {
+        "universe": ["all", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "开盘后买入意愿占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{基于逐笔委托数据刻画开盘后买入意愿占比的逐笔级高频因子}",
+          "stats": [null, null, null, null],
+          "evidence": "尤其是基于逐笔数据构建的开盘后大单买入占比和开盘后买入意愿占比，近五年的多头超额收益十分稳定。"
+        },
+        {
+          "name": "开盘后买入意愿强度",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{基于逐笔委托数据刻画开盘后买入意愿强度的逐笔级高频因子}",
+          "stats": [null, null, null, null],
+          "evidence": "所用的因子包括，尾盘成交占比、开盘后买入意愿强度、开盘后大单净买入占比和深度学习高频因子。"
+        },
+        {
+          "name": "开盘后大单净买入占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{基于逐笔成交数据统计开盘后大单净买入金额占比的逐笔级高频因子}",
+          "stats": [null, null, null, null],
+          "evidence": "与此同时，头部私募在两个逐笔级高频因子——开盘后大单净买入占比和开盘后买入意愿强度上的暴露，在前后两个半年内下降明显，并产生了 1%的损失。"
+        },
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘时段成交量占全日成交量的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "所用的因子包括，尾盘成交占比、开盘后买入意愿强度、开盘后大单净买入占比和深度学习高频因子。"
+        },
+        {
+          "name": "深度学习高频因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{深度学习模型挖掘的高频量价因子，无闭式表达式}",
+          "stats": [null, null, null, null],
+          "evidence": "下图展示的是海通量化团队研发的 4个高频类深度学习因子的收益表现。2017 年以来，4个因子每年的多头超额收益均超过 10%。"
+        },
+        {
+          "name": "改进反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{基于日内分钟行情改进传统反转构造的分钟级高频因子}",
+          "stats": [null, null, null, null],
+          "evidence": "尤其是改进反转因子（图 12），多头累计超额收益稳定向上，年超额收益（月均超额收益*12）高达 12.9%。"
+        },
+        {
+          "name": "量价相关性",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内分钟价格与成交量相关性的分钟级高频因子}",
+          "stats": [null, null, null, null],
+          "evidence": "量价相关性因子有效性的变化，也呈类似特征。2013 年以来，随着以多头成交额占比反映的因子拥挤度的不断上升，相应的多头超额收益也逐渐降低，直至因子彻底失效。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_zoo"],
+      "approach": ["decay_monitor", "crowding"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800", "csi1000"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "heuristic_ranking", "impact", "capacity"],
+      "setup": {"universe": ["csi500", "csi800", "csi1000"], "rebalance": "weekly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "规模扩张是头部私募回撤的主因，但影响机制并非策略拥挤，而是交易频率的降低和交易成本的上升及其连锁反应。",
+      "evidence": "然而，通过详细的数据分析和逻辑推演，我们认为，规模扩张确实是主要原因，但其影响机制却并非是策略拥挤。交易频率的降低和交易成本的上升，以及之后的连锁反应，才是头部私募业绩的不能承受之重。"
+    },
+    {
+      "text": "改进反转等因子的多头超额收益与拥挤程度呈明显负相关（相关系数-0.3），因子越拥挤，多头超额收益越低，简单分钟级高频因子易被复制而拥挤失效。",
+      "evidence": "如图 14所示，因子的多头超额收益和拥挤程度呈较为明显的负相关性（相关系数-0.3）。即，因子越拥挤，多头超额收益越低。"
+    },
+    {
+      "text": "对于周度左右的换仓频率，高频因子较为合理的规模区间大约为 300-400 亿，在此之内仍有望保持稳定的正向超额收益。",
+      "evidence": "根据我们的测算，对于周度左右的换仓频率，较为合理的规模区间大约为 300-400 亿。在此之内，高频因子仍有望保持稳定的正向超额收益。"
+    },
+    {
+      "text": "双边交易成本 0.1%时，换手率从 50%降至 20%，超额收益降幅在 4%以上，降频显著削弱高频策略的超额收益。",
+      "evidence": "当双边交易成本为 0.1%时，换手率从 50%下降至 20%，超额收益的降幅在 4%以上，再次体现出降频对高频策略的影响程度。"
+    },
+    {
+      "text": "头部私募将原本在高频策略或因子上的暴露，转移到了基本面因子，尤其是成长（SUE）和动量因子之上。",
+      "evidence": "从以上的数据分析中，我们可以初步得到一个结论：头部私募将原本在高频策略或因子上的暴露，转移到了基本面因子，尤其是成长（SUE）和动量因子之上。"
+    },
+    {
+      "text": "高频因子研发方向：数据层面使用更细粒度的高频行情如委托队列、逐笔成交和逐笔委托；工具层面使用包含非线性结构的深度学习模型。",
+      "evidence": "但是，根据我们的研发经验和跟踪结果，数据层面，建议使用更细粒度的高频行情，如，委托队列、逐笔成交和逐笔委托；工具层面，建议使用包含非线性结构的深度学习模型。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

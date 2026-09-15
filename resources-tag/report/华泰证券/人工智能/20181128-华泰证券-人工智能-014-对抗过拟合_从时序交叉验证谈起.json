@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "20181128-华泰证券-人工智能-014-对抗过拟合_从时序交叉验证谈起",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "合成后的因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{机器学习模型对股票下期上涨概率的预测值}",
+          "stats": [null, null, null, 0.3575],
+          "evidence": "数据处理方法：将机器学习模型对股票下期上涨概率的预测值视作单因子，因子值为空的股票不参与分层。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "tree", "sample_window", "loss_generalization"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "传统交叉验证用于时序数据会将未来数据划入训练集、历史数据划入验证集，出现用未来规律预测历史结果的“作弊”行为。",
+      "evidence": "采用传统交叉验证会将未来数据划入训练集，历史数据划入验证集，进而出现用未来规律预测历史结果的“作弊”行为。"
+    },
+    {
+      "text": "两种交叉验证的差异在逻辑回归等简单模型上体现不明显，而在XGBoost等复杂模型上较为明显；复杂模型更易过拟合，时序交叉验证带来更大提升。",
+      "evidence": "从不同基学习器的比较看，两种交叉验证的差异在逻辑回归等简单模型上体现不明显，而在 XGBoost 等复杂模型上体现较为明显；复杂模型更易表现出过拟合，时序交叉验证能够带来更大提升。"
+    },
+    {
+      "text": "K折交叉验证应用于XGBoost模型时出现明显过拟合：样本内正确率在90%左右，而时序交叉验证在60%左右。",
+      "evidence": "对于 XGBoost 模型，K折交叉验证的样本内正确率在 90%左右，时序交叉验证的样本内正确率在 60%左右。"
+    },
+    {
+      "text": "相比传统K折交叉验证，时序交叉验证的多空组合具有更高的年化收益率、更小的最大回撤、更高的Calmar比率以及更高的年化波动率。",
+      "evidence": "无论是逻辑回归还是 XGBoost，相比于传统 K 折交叉验证，时序交叉验证都具有更高的年化收益率、更小的最大回撤、更高的 Calmar 比率以及更高的年化波动率。"
+    },
+    {
+      "text": "时序交叉验证对复杂模型XGBoost的提升更明显，Calmar比率提升77%，年化收益率提升22%，夏普比率提升14%。",
+      "evidence": "时序交叉验证对于复杂模型 XGBoost 的提升更明显，Calmar 比率提升 77%，年化收益率提升 22%，夏普比率提升 14%。"
+    },
+    {
+      "text": "时序交叉验证思想可推广至量化策略参数寻优：将样本内数据按时序切分为若干折，寻找多个验证集平均表现最好的参数，提升策略稳定性，避免过拟合。",
+      "evidence": "未来可以借鉴时序交叉验证的思路，将样本内数据按时序切分为若干折，寻找使得策略在多个验证集平均表现最好的参数，从而提升策略的稳定性，避免过拟合的发生。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Bergmeir 和 Benitez（2012）", "Tashman（2000）", "Varma 和 Simon（2006）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

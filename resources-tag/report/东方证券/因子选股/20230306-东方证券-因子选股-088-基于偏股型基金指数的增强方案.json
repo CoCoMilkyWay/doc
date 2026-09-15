@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "20230306-东方证券-因子选股-088-基于偏股型基金指数的增强方案",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_factor_risk", "L4_covariance"],
+      "approach": ["structural", "shrinkage"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_cost"],
+      "approach": ["mean_variance", "turnover"],
+      "setup": {"universe": ["other"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "由于基金规模与基金业绩负相关，等权重计算的885001.WI收益更高且波动更低",
+      "evidence": "由于基金规模与基金业绩的负相关关系，等权重计算的 885001.WI 收益更高且波动更低。"
+    },
+    {
+      "text": "885001.WI模拟组合在方案1、2下的跟踪误差分别为5.25%和5.08%，930950.CSI模拟组合的跟踪误差分别为4.14%和3.57%，方案2的跟踪误差普遍低于方案1",
+      "evidence": "如885001.WI 模拟组合在方案 1、2 下的跟踪误差分别为 5.25%和 5.08%，930950.CSI模拟组合的跟踪误差分别为 4.14%和 3.57%。"
+    },
+    {
+      "text": "月度优化组合以最小化跟踪误差并加L1稀疏约束与协方差压缩，T=60、λ=0.5下年化跟踪误差4.40%，年化收益仅跑输基准0.05%",
+      "evidence": "如 885001.WI 在 T=60、λ=0.5 下的优化组合年化跟踪误差 4.40%，年化收益仅跑输基准指数 0.05%。"
+    },
+    {
+      "text": "月单边换手约束30%下，885001.WI基本面/量价因子增强组合年化超额收益3.8%/7.4%，930950.CSI为4.4%/9.6%",
+      "evidence": "其中，885001.WI 在基本面因子和量价因子增强组合下的年化超额收益分别为 3.8%和 7.4%（月单边换手约束为 30%，下同）、930950.CSI 在基本面因子和量价因子增强组合下的年化超额收益分别为 4.4%和 9.6%。"
+    }
+  ],
+  "builds_on": ["20230217-东方证券-因子选股-087-分析师研报类alpha增强"],
+  "external_ref": [
+    "Chen et al. (2010) Shrinkage Algorithms for MMSE Covariance Estimation",
+    "东方A股因子风险模型（DFQ-2020）",
+    "多模型学习量价时序特征",
+    "适用A股不同股票池的统计风险模型"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

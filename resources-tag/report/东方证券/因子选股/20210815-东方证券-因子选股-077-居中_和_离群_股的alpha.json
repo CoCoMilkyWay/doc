@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "20210815-东方证券-因子选股-077-居中_和_离群_股的alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000", "growth", "sector", "other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "中心度因子",
+          "family": "relation",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "C=\\frac{v_{1}}{\\lVert v_{1}\\rVert_{1}},\\; v_{1}\\text{ 为 denoising 后相关系数矩阵最大特征值对应的特征向量}",
+          "stats": [0.09, null, 0.903, null],
+          "evidence": "本文基于个股的日收益率计算了窗口期内、股票池内的相关系数矩阵，对其进行 denoising 处理，去除噪音使其变得更加的连续，保留较高的相关系数，作为节点的连接，系数值为连接的权重，然后计算该网络各个节点的中心度，得到每只股票的中心度因子。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["csi800"]}}
+  },
+  "findings": [
+    {
+      "text": "中心度因子偏好小市值股票，中证1000表现最好，IC均值0.1、年化收益50%、夏普3.34、最大回撤13.4%",
+      "evidence": "锁定算法为 eigenvector，相关系数窗口 k=20 之后，在沪深 300、中证 500、中证 1000中，alpha、IC、夏普、年化收益都依次增大，最大回撤依次减小，说明该因子在小盘股上面有着更好的效果，中证 1000 上达到了 0.1 的 IC均值，年化收益有 50%，夏普 3.34，最大回撤 13.4%"
+    },
+    {
+      "text": "中心度因子的收益并不来自行业和市值，中性化后在中证800内IC从0.06降至0.05、年化收益从24%降至20.5%，中性化是较为稳健的选择",
+      "evidence": "行市中性化后的中心度因子，在中证 800 股成分股内，IC从 0.06 降至 0.05，年化收益从 24%降至 20.5%，降幅并不大，说明中心度因子的收益并不来自于行业和市值，而是来自个股的风险溢价。"
+    },
+    {
+      "text": "中心度因子与大类因子相关性很低，正交化后在中证全指仍有独立alpha，IC为0.04、夏普为2，是较为独立的技术面因子",
+      "evidence": "中心度因子与传统的大类因子相关性很低，在对常规大类因子正交化之后，在中证全指中，仍然具有 alpha，IC 为 0.04，夏普为 2。"
+    },
+    {
+      "text": "用行业市值中性化后的残差收益做同类因子无效，IC均值为-0.001，接近随机预测，说明中心度因子alpha来自股票间的联系而非个股日收益率",
+      "evidence": "因为该因子的计算完全源于个股的日收益率，所以本文不禁询问用行业市值中性化以后的残差收益去做类似因子是否有效。答案是无效，残差收益的 IC 均值为-0.001，接近随机预测。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["CNE5", "基于机构持仓的因子情景分析"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

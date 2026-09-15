@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "20220824-光大证券-量化选股-007-如何准确测算预期股息率",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "expectation_level"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "预期股息率",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\frac{预期分红率\\times 预期净利润}{当前市值}",
+          "stats": [null, null, null, null],
+          "evidence": "对于市值来说，我们不进行预测，而是通过预期分红率和预期净利润来构建预期股息率指标，该指标可以理解为：未来高派息的股票以当前价格购买的性价比。"
+        },
+        {
+          "name": "ROICenhance",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{使用ROIC数据计算成长性、稳定性、持续性三个因子，并将因子值的排名进行等权重合成}",
+          "stats": [null, null, null, null],
+          "evidence": "对样本空间内证券，计算 ROICenhance 因子由高到低排名，选取排名前 50 只股票以股息率加权构建组合。其中 ROICenhance 的计算方式为使用 ROIC 数据计算下述三个因子，并将因子值的排名进行等权重合成："
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "预期高股息组合的真实股息率整体高于中证红利指数成分股，仅在2015年和2016年低于中证红利，胜率77.8%，提升效果明显。",
+      "evidence": "对比来看，预期高股息组合的真实股息率整体高于中证红利指数成分股，仅在2015 年和 2016 年低于中证红利，胜率 77.8%，提升效果明显。"
+    },
+    {
+      "text": "有三种类型的企业大概率不会进行分红：预期净利润为负、预期净利润大幅下滑以及债务存在瑕疵，我们在开始预测之前首先对上述股票进行了剔除。",
+      "evidence": "综上所述，有三种类型的企业大概率不会进行分红，具体包括有预期净利润为负、预期净利润大幅下滑以及债务存在瑕疵。我们在开始预测之前首先对上述股票进行了剔除，进而在经过剔除后的股票池内进行分红预测研究。"
+    },
+    {
+      "text": "2014年以来上市公司债务瑕疵共发生334起，涉及公司64家，所有发生债务违约的公司在未来三年均未分红。",
+      "evidence": "2014 年以来，上市公司债务瑕疵共发生过 334 起，涉及公司 64 家。所有发生债务违约的公司在未来三年均未分红。"
+    },
+    {
+      "text": "分析师一致预测的净利润预测效果要显著优于历史业绩线性外推，预测值的平均偏离幅度同样在10%-20%之间。",
+      "evidence": "下图为分析师一致预期和历史业绩预测两种方法的对比结果，在相同的股票池内，分析师一致预测的效果要显著优于历史业绩线性外推，预测值的平均偏离幅度同样在 10%-20%之间。"
+    },
+    {
+      "text": "市场中大多数公司采用的是固定分红比例政策，时间序列回归R²的50%分位点维持在88%左右。",
+      "evidence": "从回归 的描述性统计来看，市场中大多数公司采用的是固定分红比例政策， $R^{2}$ 的 50%分位点维持在 88%左右。"
+    },
+    {
+      "text": "使用预期股息率构建的3个SmartBeta组合，经回测每个组合均能战胜沪深300全收益和中证红利全收益。",
+      "evidence": "最后，我们使用预期股息率构建了 3 个 SmartBeta 组合，包括了最能够代表红利风格的预期红利 SmartBeta 组合，以及兼顾红利与其它风格的“红利+”组合。经回测，每个组合均能战胜沪深 300 全收益和中证红利全收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《哪些股票将迎来高股息？——量化选股系列报告之四》（2022-04-10）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

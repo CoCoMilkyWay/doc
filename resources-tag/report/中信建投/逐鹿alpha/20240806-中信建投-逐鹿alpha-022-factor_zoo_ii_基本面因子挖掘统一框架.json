@@ -1,0 +1,90 @@
+{
+  "schema_version": 2,
+  "id": "20240806-中信建投-逐鹿alpha-022-factor_zoo_ii_基本面因子挖掘统一框架",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["point_in_time", "infrastructure", "structuring"],
+      "setup": {"data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "因子一",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ts_std(add(add(s_fa_yoyequity, s_qfa_optogr), s_qfa_yoysales), 12)}",
+          "stats": [-0.0467, null, 1.9615, null],
+          "evidence": "因子一主要表示公司增长和利润率的长期波动率，波动越小，未来收益越高"
+        },
+        {
+          "name": "因子二",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ts_regression_resi(add(net_cash_flows_oper_act,s_stm_bs)/ttm(s_fa_fcff),add(div(tot_shrhldr_eqy_excl_min_int, val_mv), qoq(add(tot_oper_cost2,oper_rev))), 4)}",
+          "stats": [0.0567, null, 1.4513, null],
+          "evidence": "因子二主要表示估值指标的可解释性，当第一项的增长高于第二项的增长时，未来收益越高。"
+        },
+        {
+          "name": "因子三",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{div(ts_mean(surplus_rsrv, 8), val_mv)}",
+          "stats": [0.0537, null, 1.2734, null],
+          "evidence": "因子三是类PE的估值因子，采用了盈余公积金取代了PE中的净利润，该因子值越大，未来收益越高。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_zoo"], "approach": ["selection"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "构建了基本面因子挖掘统一框架，整合多种因子生成技术，自动处理因子量纲与频率，并在适应度中加入相关性惩罚项，能生成更加多样的基本面因子。",
+      "evidence": "本文我们将之前系列基本面因子挖掘的算法进行了统一的整合及优化，构建出了基本面因子挖掘统一框架，相比于传统的基本面因子挖掘方法，我们提出的框架能够适用于各类主观及自动化因子挖掘方案，并且对于因子的量纲及频率进行了自动化处理，确保了生成因子的合法性和有效性，对因子的适应度也进行了改进，加入了相关性的惩罚项，能够生成更加多样的基本面因子。"
+    },
+    {
+      "text": "底层采用cython与流式计算技术，ts_regression_slope滚动回归1000次耗时从约8.15秒降至约0.07秒，效率提升116倍。",
+      "evidence": "以 ts_regression_slope 算子为例，如果使用传统的 scipy.stats.linregress 函数，对一只股票两个因子间进行 1000次 T 为 12 的滚动回归，耗时约 8.15 秒，采用 cython+流式计算技术，耗时约 0.07 秒，效率提升 116 倍。"
+    },
+    {
+      "text": "在适应度计算中引入相关性惩罚项，能筛选出既具有较高适应度又保持较低相关性的因子，减少高相关因子被选中的可能性。",
+      "evidence": "在适应度计算中引入了惩罚项。通过调整相关性惩罚后的适应度，我们能够筛选出既具有较高适应度又保持较低相关性的因子。"
+    },
+    {
+      "text": "用因子IC时间序列的相关性替代因子值相关性评估因子间相关性，效率提升M（~5000）倍，且更贴近市场表现角度的风险分散。",
+      "evidence": "为了提高计算效率，我们采用了因子 IC时间序列的相关性来替代直接的因子值相关性计算，其计算效率为 O（TP2），与原始的因子值相关性计算相比，效率提升M（~5000）倍。"
+    },
+    {
+      "text": "中间生成的因子只要IC超过0.04就会被自动保存，算法运行结束后将保存下来的优秀因子按照IC值排序并计算两两相关性，剔除相关性与IC值表现较差的因子以构建候选因子池。",
+      "evidence": "在算法运行过程中，中间生成的因子，只要其信息系数（IC）超过 0.04，就会被自动保存。算法运行结束后，将保存下来的优秀因子按照它们的 IC值进行排序，并计算它们之间的两两相关性。如果两个因子之间的相关性超过 ，我们会选择剔除 值较低的因子，以此来构建候选因子池。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "AutoML-Zero: Evolving Machine Learning Algorithms From Scratch",
+    "Factor Zoo I",
+    "Generating Synergistic Formulaic Alpha Collections via Reinforcement Learning",
+    "OpenFE: Automated Feature Generation with Expert-level Performance"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

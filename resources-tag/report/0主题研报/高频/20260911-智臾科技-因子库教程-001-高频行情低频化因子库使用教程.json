@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20260911-智臾科技-因子库教程-001-高频行情低频化因子库使用教程",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse", "L0_derivation"],
+      "approach": ["infrastructure", "reconstruction"],
+      "setup": {"data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "intraday_pattern"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": []
+    }
+  },
+  "findings": [
+    {
+      "text": "本教程将公开研报和文献中经过验证的100余个中低频日频因子，高效地适配并应用于分钟K线、Level-2行情快照、逐笔委托和逐笔成交等高频数据源上。",
+      "evidence": "其核心在于，将公开研报和文献中经过验证的100余个中低频日频因子，结合DolphinDB的卓越数据处理能力，高效地适配并应用于分钟K线、Level-2行情快照、逐笔委托和逐笔成交等高频数据源上。"
+    },
+    {
+      "text": "因子库完全基于DolphinDB高性能时序数据库原生构建，能够轻松应对高频数据处理的巨大吞吐与计算复杂度挑战，实现从TB级高频数据到日频因子的秒级生成。",
+      "evidence": "DolphinDB集成了分布式计算、实时流处理与高效存储引擎，其内置的多范式编程语言与丰富的金融分析函数，能够轻松应对高频数据处理的巨大吞吐与计算复杂度挑战，实现从TB级高频数据到日频因子的秒级生成。"
+    },
+    {
+      "text": "因子存储推荐使用窄表模式，相较于宽表，窄表存储支持更加高效地添加、更新、删除因子等操作。",
+      "evidence": "相较于宽表，窄表存储支持更加高效地添加、更新、删除因子等操作，推荐使用窄表存储因子库。"
+    },
+    {
+      "text": "高频数据低频化可将微观、瞬时的市场状态转化为具有稳定预测能力的低频特征或因子，在更低频的交易周期中提前洞察机会、优化风险控制。",
+      "evidence": "高频数据低频化过程的核心业务价值在于：使得策略开发者能够将微观、瞬时的市场状态（如资金流向、订单簿失衡、交易冲击等）转化为具有稳定预测能力的低频特征或因子，从而在更低频的交易周期中，提前洞察机会、优化风险控制，构建具备信息优势的差异化策略。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["WorldQuant 101 Alpha 因子指标库", "国泰君安 191 Alpha 因子库"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

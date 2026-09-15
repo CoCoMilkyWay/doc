@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "20170912-华泰证券-人工智能-007-人工智能选股之python实战",
+  "genre": "framework",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["none"], "freq": "monthly"}}
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["cleaning", "neutralization"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "label_horizon", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "机器学习相较于线性回归的优越之处在于：可以挖掘数据中的非线性规律，正则化的引入能够筛选出最有效的自变量，参数优化的过程能够遴选出预测力最强的模型。",
+      "evidence": "机器学习方法相较于线性回归的优越之处在于：首先，机器学习可以挖掘数据中的非线性规律；其次，正则化的引入能够筛选出最有效的自变量；再次，参数优化的过程能够遴选出预测力最强的模型。"
+    },
+    {
+      "text": "围绕线性SVM模型的预测结果构建简单策略：选取每个月最可能涨的100只股票等权配置资产，年化超额收益0.28，年化超额收益波动率0.23，信息比率1.22。",
+      "evidence": "本模块围绕线性 SVM 模型的预测结果，构建了一个简单策略：选取每个月最可能涨的 100只股票，等权配置资产。随后计算该策略的收益和净值。"
+    },
+    {
+      "text": "样本内数据共包含72个月：82号月对应2005年1月底截面期，153号月对应2010年12月底截面期。",
+      "evidence": "在我们的多因子选股框架中，82 号月对应 2005 年 1 月底截面期，153 号月对应 2010 年 12 月底截面期，样本内数据共包含 72 个月。"
+    },
+    {
+      "text": "数据标记取超额收益前后30%的股票，剔除中间40%，尽量减少噪音影响。",
+      "evidence": "即先按照真实收益降序排列，然后取前后 30%的股票，这样做的好处是尽量减少噪音影响，因为中间 40%的收益很有可能在噪音的影响下变号，从而改变类别。"
+    },
+    {
+      "text": "通过PCA取累计方差贡献率大于等于95%的主成分，起到降维和去除因子共线性的作用。",
+      "evidence": "当 n_components 为 0 到 1 之间的浮点数时，PCA 模型取相应比例的主成分数量，例如 0.95 代表取累计方差贡献率大于等于 95%的主成分。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["华泰人工智能系列第三篇支持向量机模型报告"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

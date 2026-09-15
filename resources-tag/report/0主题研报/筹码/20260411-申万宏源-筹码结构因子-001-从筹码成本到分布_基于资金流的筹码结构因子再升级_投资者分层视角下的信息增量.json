@@ -1,0 +1,148 @@
+{
+  "schema_version": 2,
+  "id": "20260411-申万宏源-筹码结构因子-001-从筹码成本到分布_基于资金流的筹码结构因子再升级_投资者分层视角下的信息增量",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "全价格区间下的机构筹码集中度",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\frac{\\text{筹码峰值50\\%筹码所覆盖的价格区间}}{\\text{整个价格区间}}",
+          "stats": [null, 0.0202, 0.2392, null],
+          "evidence": "我们首先统计了全价格区间下的机构筹码集中度，结果出乎意料——集中度居然呈现正向特征。"
+        },
+        {
+          "name": "最新价±10%范围内的机构筹码集中度",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\frac{\\text{最新价}\\pm10\\%\\text{区间内筹码峰值50\\%筹码所覆盖的价格区间}}{\\text{最新价}\\pm10\\%\\text{区间宽度}}",
+          "stats": [null, -0.0158, -0.2911, null],
+          "evidence": "我们将统计范围重新限定于最新价±10%的价格区间内的机构筹码集中度。"
+        },
+        {
+          "name": "合成因子",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{按因子方向进行正交化后的等权合成}",
+          "stats": [null, -0.0404, -0.4549, null],
+          "evidence": "该合成因子表现出更优的IC和分组表现，尤其在IC积累的稳定性上相比单一指标有了明显改进。"
+        },
+        {
+          "name": "机构筹码集中度减去散户筹码集中度",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{最新价}\\pm10\\%\\text{区间内机构筹码集中度}-\\text{散户筹码集中度}",
+          "stats": [null, -0.0077, -0.204, null],
+          "evidence": "在最新价±10%的价格范围内，用机构筹码集中度减去散户筹码集中度，构建相应的合成指标。"
+        },
+        {
+          "name": "量差机构筹码成本",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "Holling\\_Cost_{t}=\\frac{Holling\\_Price_{t}-close\\_Price_{t}}{close\\_Price_{t}},\\ \\text{其中筹码以机构/散户净买入量差（加较大值调整为非负）加权}",
+          "stats": [0.0514, null, null, null],
+          "evidence": "以调整量差后的机构筹码成本为例，采用量差替代买入总量后，指标的IC从原本机构筹码成本的4.36%进一步上升到5.14%，选股效果总体进一步提升。"
+        },
+        {
+          "name": "三因子合成筹码因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{成交量筹码成本、机构买入总量筹码成本、机构散户筹码成本差的合成}",
+          "stats": [null, 0.0441, 0.312, null],
+          "evidence": "围绕筹码成本构建的三因子合成因子，在IC表现及多头选股效果上均已取得较为理想的实证结果。"
+        },
+        {
+          "name": "筹码结构合成因子",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{筹码成本三因子合成后再纳入机构筹码集中度指标并正交化处理}",
+          "stats": [null, -0.0573, -0.5332, null],
+          "evidence": "在将机构筹码集中度指标纳入合成框架并进行正交化处理之后，筹码结构合成因子的整体表现有了进一步提升。"
+        },
+        {
+          "name": "纯净\"因子",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{合成因子对反转因子进行回归，取残差}",
+          "stats": [null, -0.0512, -0.5308, null],
+          "evidence": "我们将合成因子对反转因子进行回归，取残差作为剔除反转信息后的\"纯净\"因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "全价格区间下的机构筹码集中度呈现正向特征，即机构筹码越分散未来股价表现越好，与投资者普遍认知相悖",
+      "evidence": "我们首先统计了全价格区间下的机构筹码集中度，结果出乎意料——集中度居然呈现正向特征。"
+    },
+    {
+      "text": "将统计范围限定于最新价±10%区间后，机构筹码集中度呈现明显负向IC特征，机构筹码越集中未来股价表现越好，验证了改进思路的有效性",
+      "evidence": "调整后的指标呈现出明显的负向IC特征，即机构筹码越集中（占比越低），未来股价表现越好，这与投资者的直观认知和实际投资逻辑高度吻合，验证了我们改进思路的有效性。"
+    },
+    {
+      "text": "两种机构筹码集中度按因子方向正交化后等权合成的合成因子IC和分组表现更优，IC积累稳定性明显改进",
+      "evidence": "该合成因子表现出更优的IC和分组表现，尤其在IC积累的稳定性上相比单一指标有了明显改进。"
+    },
+    {
+      "text": "筹码集中度指标与传统风格因子相关性整体较低，独立于现有主流因子体系，信息增量高，可为多因子模型提供非冗余alpha来源",
+      "evidence": "这意味着，集中度指标所捕捉到的定价信息，在很大程度上独立于现有主流因子体系，具有较高的信息增量，能够为多因子模型提供新的、非冗余的 alpha 来源。"
+    },
+    {
+      "text": "采用量差替代买入总量刻画机构筹码成本后，指标IC从4.36%上升到5.14%，且与传统筹码成本相关性更低，选股效果进一步提升",
+      "evidence": "以调整量差后的机构筹码成本为例，采用量差替代买入总量后，指标的IC从原本机构筹码成本的4.36%进一步上升到5.14%，选股效果总体进一步提升。"
+    },
+    {
+      "text": "正交化处理能够有效剥离反转因子对原始合成因子选股结构的干扰，使因子更纯粹地反映筹码结构本身所蕴含的定价信息",
+      "evidence": "反转因子在一定程度上干扰了原始合成因子的选股结构，而正交化处理能够有效剥离这部分干扰，使因子更纯粹地反映筹码结构本身所蕴含的定价信息。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["基于资金流数据的筹码结构因子构建——投资者分层视角下的信息增量"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

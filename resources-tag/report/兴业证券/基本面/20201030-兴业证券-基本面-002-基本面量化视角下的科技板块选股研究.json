@@ -1,0 +1,275 @@
+{
+  "schema_version": 2,
+  "id": "20201030-兴业证券-基本面-002-基本面量化视角下的科技板块选股研究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "statement_detail", "expectation_revision"],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "FCFP_LYR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{企业自由现金流量\\_最新年报}}{\\text{总市值}}",
+          "stats": [0.015, null, 0.22, 0.02],
+          "evidence": "选股 因子 | 估值 | FCFP_LYR | 企业自由现金流量(FCFF_最新年报/总市值)"
+        },
+        {
+          "name": "SP_DR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{时序维度的市净率偏离}",
+          "stats": [0.043, null, 0.4, 0.122],
+          "evidence": "估值问题 | SP_DR | 时间序列的市销率估值大小"
+        },
+        {
+          "name": "Revenue_SQ_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{单季度营业收入}}{\\text{去年同期单季度营业收入}}-1",
+          "stats": [0.043, null, 0.35, 0.117],
+          "evidence": "成长 | Revenue_SQ_YoY | 单季度营业收入同比增长率"
+        },
+        {
+          "name": "OperProfit_SQ_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{单季度营业利润}}{\\text{去年同期单季度营业利润}}-1",
+          "stats": [0.048, null, 0.48, 0.155],
+          "evidence": "成长 | OperProfit_SQ_YoY | 单季度营业利润同比增长率"
+        },
+        {
+          "name": "EPS_Fwd12M_R3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期EPS未来12个月预测值过去60天变化率}",
+          "stats": [0.032, null, 0.3, 0.1],
+          "evidence": "情绪 | EPS_Fwd12M_R3M | 一致预期 EPS未来12个月预测值过去60 天变化率"
+        },
+        {
+          "name": "RD_Sig",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{研发费用}}{\\text{流通市值}}",
+          "stats": [0.051, null, 0.56, 0.166],
+          "evidence": "有鉴于此，我们主要使用研发费用/市值（RD_Sig）指标来开发后续选股模型。"
+        },
+        {
+          "name": "OCFP_LYR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营活动产生的现金流量净额\\_最新年报}}{\\text{总市值}}",
+          "stats": [0.02, null, 0.19, 0.06],
+          "evidence": "选股 因子 | 估值 | OCFP_LYR | 经营活动产生的现金流量净额_最新年报/总市值"
+        },
+        {
+          "name": "NetProfit_SQ_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{单季度净利润}}{\\text{去年同期单季度净利润}}-1",
+          "stats": [0.042, null, 0.35, 0.135],
+          "evidence": "成长 | NetProfit_SQ_YoY | 单季度净利润同比增长率"
+        },
+        {
+          "name": "OCF_LYR_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营活动产生的现金流量净额\\_最新年报的同比增长率}",
+          "stats": [0.055, null, 0.3, 0.113],
+          "evidence": "多因子 体系 | 成长 | OCF_LYR_YoY | 经营活动产生的现金流量净额_最新年报的同比 增长率"
+        },
+        {
+          "name": "Debt_LR_Gr",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{负债合计\\_最新财报}-\\text{负债合计\\_去年同期}}{|\\text{负债合计\\_去年同期}|}",
+          "stats": [0.054, null, 0.28, 0.125],
+          "evidence": "我们最终选择了负债同比增速纳入了半导体制造行业的多因子基础模型。"
+        },
+        {
+          "name": "Revenue2Asset",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{2\\times\\text{营业收入\\_TTM}}{\\text{资产总计\\_最新财报}+\\text{资产总计\\_去年同期}}",
+          "stats": [0.041, null, 0.12, 0.068],
+          "evidence": "质量 | Revenue2Asset | 2 *营业收入 TTM /（资产总计 最新财报 + 资 产总计_去年同期)"
+        },
+        {
+          "name": "HardWare_Sig",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{技术硬件与设备行业模型入选因子类内等权、类间等权合成}",
+          "stats": [0.08, null, 0.89, 0.35],
+          "evidence": "通过类内等权、类间等权的方式，我们对图表 7 中的模型入选因子进行了合成，构建了 HardWare_Sig。"
+        },
+        {
+          "name": "SoftWare_Sig",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{软件与服务行业模型入选因子类内等权、类间等权合成}",
+          "stats": [0.06, null, 0.57, 0.375],
+          "evidence": "通过类内等权、类间等权的方式，我们对图表 18 中的入选因子进行了合成，构建了 SoftWare_Sig。"
+        },
+        {
+          "name": "SCM_Sig",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{半导体制造行业模型入选因子类内等权、类间等权合成}",
+          "stats": [0.081, null, 0.41, 0.268],
+          "evidence": "通过类内等权、类间等权的方式，我们对图表 30中的模型入选因子进行了合成，构建了 SCM_Sig(Semi-Conductor Manufacturing)。"
+        },
+        {
+          "name": "SCD_Sig",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{半导体设计行业两个入选因子等权合成}",
+          "stats": [0.067, null, 0.19, null],
+          "evidence": "通过等权的方式，我们对半导体设计领域选中的两个因子进行合成，构建了SCD_Sig(Semi-Conductor Design)。"
+        },
+        {
+          "name": "OCF_TTM_YoY",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营活动现金流\\_TTM}}{\\text{去年经营活动现金流\\_TTM}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "硬件 | OCF_TTM_YoY | 经营活动现金流_TTM/去年经营活动现金流_TTM-1"
+        },
+        {
+          "name": "资本支出效率同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{资本支出\\_TTM\\_L1}/\\text{营业收入\\_TTM}}{\\text{资本支出\\_TTM\\_L2}/\\text{营业收入\\_TTM\\_L1}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "经过测试，我们选择资本支出效率同比增长率作为筛选因子，从初始选股范围中剔除增长率过低的股票，进而达到优化硬件行业股票池的目的。"
+        },
+        {
+          "name": "毛利率加速度",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{毛利率}}{\\text{营业收入\\_TTM}}",
+          "stats": [null, null, null, null],
+          "evidence": "软件 | 毛利率加速度 | 毛利率/营业收入_TTM"
+        },
+        {
+          "name": "ThreeCosts2Revenue_TTM",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{三费\\_TTM}}{\\text{营业收入\\_TTM}}",
+          "stats": [null, null, null, null],
+          "evidence": "半导体制造 | ThreeCosts2Revenue_TTM | 三费_TTM/营业收入_TTM"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["sector"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["holding_based"]}
+  },
+  "findings": [
+    {
+      "text": "科技板块精选策略15（2011年1月底-2020年9月底）年化收益率达45.9%，相对Wind信息技术指数超额收益31.5%，信息比率2.61，月胜率71.8%，每年均能战胜基准15%以上。",
+      "evidence": "从 2011 年 1 月底-2020 年 9 月底，以精选 15 只个股的策略组合为例，年化收益率达 45.9%，相对于 Wind信息技术指数的超额收益高达 31.5%，信息比率2.61，月胜率 71.8%。分年度来看，策略每年均能战胜基准 15%以上。"
+    },
+    {
+      "text": "硬件行业同时叠加资本支出效率同比增长率与OCF_TTM_YoY两个筛选条件后，策略多头收益从33.4%提升至37.1%，多空年化收益率从35.0%提升至39.7%。",
+      "evidence": "若将两个条件同时使用，最终组合的表现则更加优秀：策略多头收益从 33.4%提升至 37.1%，多空年化收益率则从 35.0%提升至 39.7%，提升效果十分显著。"
+    },
+    {
+      "text": "软件行业同时叠加流动资产比率与毛利率加速度两个筛选条件后，策略多头收益从36.8%提升至41.3%，多空年化收益率从37.5%提升至44.8%。",
+      "evidence": "若将两个条件同时使用，最终组合的表现则更加优秀：策略多头收益从 36.8%提升至 41.3%，多空年化收益率则从 37.5%提升至 44.8%，提升效果十分显著。"
+    },
+    {
+      "text": "半导体制造行业特有的商业模式属高负债类型，负债类指标越高反而说明公司在技术升级和产能扩张方面越积极，对股价往往是利好，因此将负债同比增速纳入多因子模型。",
+      "evidence": "特有的商业模式导致这个行业属于高负债类型，所以负债类指标越高，反而说明公司可能在技术升级和产能扩张方面越是积极主动，而这对股价来说则往往是利好的信息。我们最终选择了负债同比增速纳入了半导体制造行业的多因子基础模型。"
+    },
+    {
+      "text": "半导体制造行业叠加三项费用率筛选后模型表现显著提升，策略多头收益从24.2%提升至26.9%，多空年化收益率从26.8%提升至28.6%。",
+      "evidence": "叠加三费费用率后模型表现得到显著提升：策略多头收益从 24.2%提升至 26.9%，多空年化收益率则从 26.8%提升至28.6%。"
+    },
+    {
+      "text": "Barra业绩归因显示残差项（不能被风格因子解释的部分）贡献占绝对优势，表明策略绝大部分收益来自于自建的Alpha选股模型。",
+      "evidence": "但整体来看残差项（表示不能被风格因子解释的部分）的贡献占绝对优势，这表明绝大部分收益来自于我们的构建的 Alpha 选股模型。"
+    },
+    {
+      "text": "与全市场主动偏股型基金对比，仓位折算后除2017年外策略每年收益均排进前30%，今年可比收益70.1%，在594只可比基金中排名第26位。",
+      "evidence": "即便与全市场主动偏股型基金进行对比，在进行年度收益的仓位折算后，除 2017 年外其每年收益均能排进前 30%！以今年以来表现为例：策略满仓收益 84.8%，折算后为 70.1%，在全部可比的主动偏股型基金（594只）中排名第 26位。"
+    },
+    {
+      "text": "策略15调仓频率由月度降为季度后，年化收益率30.6%，超额收益18.3%，分年度稳定，每年均能战胜基准。",
+      "evidence": "从测试结果来看，策略年化收益率高达 30.6%，超额收益高达18.3%，分年度来看非常稳定，每年均能战胜基准，依然体现出了良好的表现。"
+    },
+    {
+      "text": "加入小市值股票过滤（剔除各子行业市值排序后30%）后，策略15多头收益高达39.0%，超额收益24.9%，可投资性更强。",
+      "evidence": "相比于原始的策略 15，即便加入市值限制，我们的精选策略表现依然非常优秀，多头收益高达 39.0%，超额收益 24.9%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于误差修正模型的估值趋势偏离度因子研究》（2020-03-20）",
+    "《基本面量化视角下的大健康板块选股研究》（2020-07-22）",
+    "《股东盈余视角下的估值因子研究》（2020-06-08）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

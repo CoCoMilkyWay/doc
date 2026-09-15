@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "20210902-东方证券-因子选股-078-存在于全市场范围内的稳健动量效应",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "RANK",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank_{i}(N,M)=\\frac{1}{N}\\sum_{j=t-N-M}^{t-M}\\left(\\frac{1}{D}\\sum_{d=1}^{D_j}\\frac{y(R_{i,d})-(N_d+1)/2}{\\sqrt{(N_d+1)(N_d-1)/12}}\\right)",
+          "stats": [0.0271, null, 0.77, 0.1104],
+          "evidence": "改进后的动量因子基于股票每日收益率的 rank 排名，可以剔除异常股价波动的影响，从而使得因子表现更稳健。"
+        },
+        {
+          "name": "MOM",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{MOM(N,M)=T0-N-M 到 T0-M 区间内这 N 期的股票收益率}",
+          "stats": [0.0126, null, 0.33, 0.0762],
+          "evidence": "传统的动量因子以过去一段时间股票的收益率作为因子值，由于 A 股市场短期存在明显的反转效应，所以在构造动量因子时，通常会剔除近期一段时间的收益率。"
+        }
+      ]
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "RANK 因子在全市场各考察期均有效，IC 超 2%，ICIR 超 0.6，多空年化收益最高 11%；MOM 因子全市场无效。",
+      "evidence": "而 RANK因子在全市场范围内，不管是原始值还是中性化，不管采用哪个考察期，因子均有效，IC 均超过 2%，ICIR 超过 0.6，最大回撤在 20%左右，多空组合年化收益最高可达 11%。"
+    },
+    {
+      "text": "两因子均在高机构持仓比股票中表现更好，RANK 因子机构持股比最高分组 IC 均在 0.03 以上、ICIR 在 0.7 以上。",
+      "evidence": "RANK 因子原始值在所有考察期内，机构持股比最高的分组中 IC均在 0.03以上，ICIR在 0.7以上，中性化 RANK因子效果基本和原始值相同，整体效果更稳健。"
+    },
+    {
+      "text": "RANK 与 MOM 相关性 63%，RANK 剔除 MOM 后仍显著有效，MOM 剔除 RANK 后 IC 变负。",
+      "evidence": "RANK 和 MOM因子间存在 63%相关性，和其他常见的大类因子相关性都不高。RANK 因子剔除 MOM因子后仍然有显著的选股效果，而相反 MOM因子剔除 RANK 因子后依然无选股效力，且 IC 变为负。"
+    },
+    {
+      "text": "行业内 RANK 因子明显优于 MOM，IC 在 3%以上、ICIR 接近 1。",
+      "evidence": "可以看出在行业内 RANK 因子表现明显优于MOM 因子，IC在 3%以上，ICIR 接近 1，说明 RANK因子的选股效果在行业内也比较明显。"
+    },
+    {
+      "text": "MOM 和 RANK 因子在行业层面都有明显的选行业效果，行业动量存在。",
+      "evidence": "可以看到在行业层面，MOM和 RANK因子都有明显的选行业效果，说明行业动量的确存在。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Chen T Y, Chou P H, Ko K C, et al. Rank, Sign, and Momentum[J]"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

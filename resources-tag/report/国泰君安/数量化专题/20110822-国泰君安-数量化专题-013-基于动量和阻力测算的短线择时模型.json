@@ -1,0 +1,109 @@
+{
+  "schema_version": 2,
+  "id": "20110822-国泰君安-数量化专题-013-基于动量和阻力测算的短线择时模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "technical_pattern"],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "动量",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "mom_t=\\frac{P_t-P_{t-2}}{P_{t-2}}",
+          "stats": [null, null, null, null],
+          "evidence": "我们取前两周的价格变化趋势作为当前的动量。即取前两周的收益率作为动量因子。"
+        },
+        {
+          "name": "上方阻力",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{价格落在指定区间}成交额\\times 时距权重}{\\sum_{过去50周}成交额\\times 时距权重}",
+          "stats": [-0.1656, null, null, null],
+          "evidence": "靠近当前价格的上方持仓占比高，继续上涨的阻力大"
+        },
+        {
+          "name": "下方支撑",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{价格落在指定区间}成交额\\times 时距权重}{\\sum_{过去50周}成交额\\times 时距权重}",
+          "stats": [0.0765, null, null, null],
+          "evidence": "靠近当前价格的下方持仓占比高，说明下方支撑较强"
+        },
+        {
+          "name": "急跌反弹",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{价格落在指定区间}成交额\\times 时距权重}{\\sum_{过去50周}成交额\\times 时距权重}",
+          "stats": [0.1491, null, null, null],
+          "evidence": "上方较远区间持仓占比高，说明近期可能急跌了，有反弹需求"
+        },
+        {
+          "name": "急涨抛压",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\sum_{价格落在指定区间}成交额\\times 时距权重}{\\sum_{过去50周}成交额\\times 时距权重}",
+          "stats": [-0.1764, null, null, null],
+          "evidence": "下方较远区间持仓占比高，说明近期可能急涨了，有获利回吐"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["linear", "sample_window"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300"],
+        "data": {"source": ["market_daily"], "freq": "weekly"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "取(0.6,0.4)为判断临界值时，样本内准确率73.68%、样本外准确率66.67%；取(0.7,0.3)为判断临界值时，样本外检验准确率提高到69.57%。",
+      "evidence": "这样，样本内的准确率达到73.68%，样本外的准确率为66.67%。取（0.7,0.3）为判断临界值时，样本外检验的准确率提高到 69.57%。"
+    },
+    {
+      "text": "模拟期间（2年）模拟策略获得12.89%的累计超额收益，54期中只有11期跑输指数，最大连续跑输指数幅度仅1.81%，稳健性较好。",
+      "evidence": "在模拟期间（2 年），我们的模拟策略获得了 12.89%的累计超额收益，并表现出了较好的稳健性。在总共 54 期（每期为 2周）的模拟期间，只有 11 期跑输指数，最大连续跑输指数的幅度仅为1.81%。"
+    },
+    {
+      "text": "截止2011年8月19日数据，Logit回归模型预测下两周HS300指数上涨的概率为0.2177，当前向下动量较大、下方支撑小、上方阻力较大，判断下两周市场下跌概率较大。",
+      "evidence": "截止目前数据（2011 年 8 月 19 日），Logit 回归模型预测下两周 HS300指数上涨的概率为0.2177，因此我们判断下两周市场下跌的概率较大。"
+    },
+    {
+      "text": "对当前价位下方30%至上方30%之间各价位区间持仓占比与下期收益的相关性测算后，确定了上方阻力、下方支撑、急跌反弹、急涨抛压四档阻力对下期收益有较明显的影响。",
+      "evidence": "我们对当前价位下方 30%至上方 30%之间，以 1%为区间宽度，测算了各价位区间与下期收益的相关性，最后确定了 4 个区间的持仓占比对下期收益有较明显的影响。我们将这 4 个区间的持仓占比定义为 4 档阻力（或支撑力）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于动量反转策略的强势行业选取_20101202》",
+    "《基于超额收益率与交易量的行业动量反转共振模型_20110525》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

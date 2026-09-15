@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "20240630-华创证券-形态学研究-009-如何结合金股构建投资组合",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "event", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "70%胜率看多形态",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{K线形态在历史上5天持有期的胜率达到70%以上时发出看多买入信号，出现形态后的第二个交易日买入}",
+          "stats": [null, null, null, null],
+          "evidence": "买入时间：出现 70%胜率看多形态后的第二天"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "event"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "金股耦合形态组合从2018年1月至2024年5月底获得年化26.1%的收益率，最大回撤26.5%，夏普比率1.0；而单纯金股组合年化收益率仅2.0%，最大回撤27.1%。",
+      "evidence": "构建的组合从 2018 年 1 月开始，截止到 2024 年 5 月底，可以获得年化 26.1%的收益率，最大回撤 26.5%，夏普比率可达 1.0。"
+    },
+    {
+      "text": "假设券商金股基本面较好，出现形态学买点后第二个交易日买入，等权构建组合持有到当月月底，形态学可以明显提升金股组合的收益率，降低最大回撤。",
+      "evidence": "按月度金股来计算，我们假设券商金股的基本面较好，观察券商推荐后，何时出现形态学买点，并于第二个交易日买入，构建组合持有到当月月底，探索组合的持仓特点。发现形态学可以明显提升金股组合的收益率，降低最大回撤。"
+    },
+    {
+      "text": "基于金股+形态构建的投资组合既体现了金股的基本面特征，又加入了形态的资产择时效应，具有“1+1>2”的特点。",
+      "evidence": "可见，基于金股+形态构建的投资组合既体现了金股的基本面特征，又加入了形态的资产择时效应，具有“1+1>2”的特点。"
+    },
+    {
+      "text": "月度持仓最少11只股票，最多持有232只股票，月度平均持有45只股票。",
+      "evidence": "可以看到，月度持仓最少11只股票，最多持有 232只股票。月度平均持有 45只股票。"
+    },
+    {
+      "text": "出现正面形态的金股主要出现在机械、汽车、医药、基础化工等行业。",
+      "evidence": "可以看到，出现正面形态的金股主要出现在机械、汽车、医药、基础化工等行业。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《CANSLIM4.0 策略：叠加企业生命周期》（2024-06-18）",
+    "《形态学》系列报告"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

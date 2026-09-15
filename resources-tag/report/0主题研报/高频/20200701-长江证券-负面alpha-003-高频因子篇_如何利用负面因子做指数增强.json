@@ -1,0 +1,130 @@
+{
+  "schema_version": 2,
+  "id": "20200701-长江证券-负面alpha-003-高频因子篇_如何利用负面因子做指数增强",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "intraday_pattern"],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "开盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{开盘后N分钟总成交量}}{\\text{全天总成交量}}",
+          "stats": [null, null, null, -0.0799],
+          "evidence": "开盘成交占比在中证 500 中负面组合从长期看能获得较稳定的负面 Alpha，净值比（负面组合/指数增强组合，下同）自 2013 年以后持续向下，平均每年跑输 7.99%。"
+        },
+        {
+          "name": "收盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{收盘前N分钟总成交量}}{\\text{全天总成交量}}",
+          "stats": [null, null, null, -0.1356],
+          "evidence": "收盘成交占比在中证500中的负面组合除了2010和2016年都能跑输了指数增强组合，净值比持续向下，平均每年跑输13.56%。"
+        },
+        {
+          "name": "资金流向",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{i=1}^{N}Amount_{i}\\times\\frac{Class_{i}-close_{i-1}}{|Class_{i}-close_{i-1}|}}{\\sum_{i=1}^{N}Amount_{i}}",
+          "stats": [null, null, null, null],
+          "evidence": "资金流向在中证 500 成分股中的单调性较为明显，但空头效应不是很明显，而在沪深 300 成分股中则完全没有单调性。"
+        },
+        {
+          "name": "量价相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{Corr}(成交量, 价格)",
+          "stats": [null, null, null, -0.1727],
+          "evidence": "量价相关性从稳定性上看是所有因子中表现最好的，负面组合在中证 500 和沪深 300中绝大多数年份都能跑输指数增强组合，净值比均稳定向下，平均年化负面 Alpha 分别为 17.27%和 12.75%，远远跑输指数增强组合。"
+        },
+        {
+          "name": "收益率方差",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{i=1}^{N}(r_i-r_{Avg})^2}{N-1}",
+          "stats": [null, null, null, -0.1078],
+          "evidence": "高阶矩因子在中证 500 中的负面组合在所有年份都能跑输指数增强组合，稳定性较强，平均每年跑输 10.78%。"
+        },
+        {
+          "name": "结构化反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{i=1}^{N}r_{i}\\times volume_{i}}{\\sum_{i=1}^{N}volume_{i}}",
+          "stats": [null, null, null, -0.1301],
+          "evidence": "结构化反转因子在中证 500 和沪深 300 成分股中的空头组具有较强的负向超额收益，分别为 7.26%和 6.25%。"
+        },
+        {
+          "name": "非流动性",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{mean}\\left(\\frac{|Return_{i}|}{Amount_{i}}\\right)",
+          "stats": [null, null, null, -0.1107],
+          "evidence": "非流动性负面组合在中证 500 和沪深 300 中的平均年化负面 Alpha 分别为 11.07%和6.52%，有一定的空头效应，但在 2017 年的表现较差。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "开盘成交占比、收盘成交占比、量价相关性、收益率方差、结构化反转和非流动性因子在中证500中具有显著的负向超额收益。",
+      "evidence": "从因子分组表现看，开盘成交占比、收盘成交占比、量价相关性、收益率方差、结构化反转和非流动性因子在中证 500 中具有显著的负向超额收益。"
+    },
+    {
+      "text": "量价相关性、收盘成交占比、结构化反转、非流动性、收益率方差和开盘成交占比因子的负面组合相对于中证500指数增强组合的年化负面Alpha依次为17.27%、13.56%、13.01%、11.07%、10.78%和7.99%。",
+      "evidence": "从 2010-01-01 至 2020-06-24的测算结果看，量价相关性、收盘成交占比、结构化反转、非流动性、收益率方差和开盘成交占比因子的负面组合相对于中证 500 指数增强组合具有显著的负面 Alpha，年化依次分别为 17.27%、13.56%、13.01%、11.07%、10.78%和 7.99%。"
+    },
+    {
+      "text": "中证500回测中合成因子的负面Alpha高达21.44%，复杂增强策略每年都跑赢了中证500，策略平均年化收益为9.61%，超额指数7.06%，相对基准的最大回撤为1.76%，信息比率为2.4。",
+      "evidence": "从中证 500 的回测结果来看，合成因子的负面 Alpha 高达 21.44%。复杂增强策略每年都跑赢了中证 500，且超额收益更显著。策略平均年化收益为 9.61%，超额指数7.06%，相对基准的最大回撤为 1.76%，收益回撤比为 3.96，信息比率为 2.4，跟踪误差为 2.66%，月度跑赢概率为 77.17%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "如何利用负面因子做指数增强？——风格因子篇",
+    "高频因子（二）：结构化反转因子",
+    "高频因子（五）：高频因子和交易行为"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

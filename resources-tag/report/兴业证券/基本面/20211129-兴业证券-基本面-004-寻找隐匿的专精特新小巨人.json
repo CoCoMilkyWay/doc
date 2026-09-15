@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "id": "20211129-兴业证券-基本面-004-寻找隐匿的专精特新小巨人",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["relation_graph", "firm_attribute"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "财务关联度fin-link",
+          "family": "relation",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "na",
+          "formula": "fin\\text{-}link_{ijt}=\\frac{\\sum_{k=1}^{10}fin_{itk}\\cdot fin_{jtk}}{\\sqrt{\\sum_{k=1}^{10}fin_{itk}^{2}}\\cdot\\sqrt{\\sum_{k=1}^{10}fin_{jtk}^{2}}}",
+          "stats": [null, null, null, null],
+          "evidence": "在财务动量因子中，我们便应用余弦相似度，刻画了两个股票之间在十个财务因子构建的高维空间下的余弦相似度，并定义为财务关联度fin-link："
+        },
+        {
+          "name": "产品关联度sam-link",
+          "family": "relation",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "na",
+          "formula": "sam-link_{ijt}=\\frac{\\sum_{k=1}^{114}sam_{itk}\\cdot sam_{jtk}}{\\sqrt{\\sum_{k=1}^{114}sam_{itk}^{2}}\\cdot\\sqrt{\\sum_{k=1}^{114}sam_{jtk}^{2}}}",
+          "stats": [null, null, null, null],
+          "evidence": "参照上一章节中对于财务相似度的刻画，我们基于产品特征向量，应用公式（1），计算产品关联度sam-link："
+        },
+        {
+          "name": "专利关联度",
+          "family": "relation",
+          "direction": "unknown",
+          "data_period": ["event"],
+          "horizon": "na",
+          "formula": "tech\\cdot link_{ijt}=\\frac{\\sum_{k=1}^{145}tech_{itk}\\cdot tech_{jtk}}{\\sqrt{\\sum_{k=1}^{145}tech_{itk}^{2}}\\cdot\\sqrt{\\sum_{k=1}^{145}tech_{jtk}^{2}}}",
+          "stats": [null, null, null, null],
+          "evidence": "该指标值越大，代表两个公司在申请的专利类别上布局越相似、创新研发方向也越趋于一致。这种相似性的衡量方式，已经跨域了传统财报以及行业分类所能提供的信息，在一定程度上反映了公司未来的发展战略方向（具体参见团队于 2019年 6 月 25 日发布的《基于专利分类的科技动量因子研究》）。"
+        },
+        {
+          "name": "G指标",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "na",
+          "formula": "\\text{由商业道德、风险管理、ESG治理、公司治理信息四个维度共计37个小项按行业权重加权计算得到的公司治理指标}",
+          "stats": [null, null, null, null],
+          "evidence": "在引入的 ESG 指标数据库后，我们在本篇中使用公司治理指标，即 G指标对治理能力仍有欠缺的公司进行筛选和剔除。该指标主要由商业道德、风险管理、ESG 治理、公司治理信息四个维度，共计 37 个小项构成。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "以目前公布的专精特新小巨人公司作为蓝本，在经济效益、专业化程度、创新能力、经营管理四个维度上寻找与小巨人团体最为相似的股票，以解决指标打分筛选必要不充分的问题。",
+      "evidence": "传统的寻找隐匿专精特新小巨人公司的方法大多是从指标打分的角度出发，筛选一部分满足条件的公司作为隐匿的专精特新小巨人。但这种通过指标打分进行筛选在统计学中仅仅是必要不充分的，如专精特新的公司具有高成长属性，但大部分高成长股并不是专精特新。为了解决这个问题，我们以目前公布的专精特新小巨人公司作为蓝本，在市场上寻找与“小巨人”团体最为相似的股票。这里的相似即体现在“经济效益”、“专业化程度”、“创新能力”、“经营管理”这四个维度中。"
+    },
+    {
+      "text": "基于最新的财务、专利和产业链数据，计算与已有的324支小巨人股最相似的500支股，并用G指标进行筛选后，得到452支股票作为最新一期的类小巨人股。",
+      "evidence": "我们基于最新的财务、专利和产业链数据，计算与已有的 324支小巨人股（不含北交所）最相似的500支股，并用G指标进行筛选后，得到452支股票（未被G 指标覆盖的公司不剔除），作为最新一期的类小巨人股。"
+    },
+    {
+      "text": "类小巨人股虽不限制总市值，但有超过37%的类小巨人股的总市值小于50亿元，十分符合小巨人股的市值特性。",
+      "evidence": "需要注意的是，我们在寻找类小巨人股时虽不限制股票总市值，但有超过37%的类小巨人股的总市值小于 50亿元，十分符合小巨人股的市值特性。"
+    },
+    {
+      "text": "从行业分布上看，大多数的类小巨人股集中在机械、电子、电力设备及新能源等，这些行业也是小巨人股的主要行业，类小巨人股保持了与小巨人股类似的特性。",
+      "evidence": "从行业分布上看，大多数的类小巨人股集中在机械、电子、电力设备及新能源等，这些行业也是小巨人股的主要行业。因此，从市值和行业分布上看，类小巨人股保持了与小巨人股类似的特性。"
+    },
+    {
+      "text": "相似度找出的类小巨人股不仅与小巨人股几乎属于同一中信三级行业，且绝大多数属于科创板，相似度很好地刻画出了它们的相似程度。",
+      "evidence": "可以明显看到，与之类似的小巨人股不仅几乎与其属于同一中信三级行业，同时绝大多数与其类似的小巨人股属于科创板。可以说相似度很好地刻画出了它们的相似程度。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于专利分类的科技动量因子研究》2019-06-25",
+    "《标普道指ESG评级体系研究笔记——ESG 巡礼之评级体系全攻略（二）》",
+    "《猎金系列之三十二：财报季的财务效应研究和因子构建》2021-10-20"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

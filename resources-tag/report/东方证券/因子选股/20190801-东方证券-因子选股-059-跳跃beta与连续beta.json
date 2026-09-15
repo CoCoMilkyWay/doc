@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "id": "20190801-东方证券-因子选股-059-跳跃beta与连续beta",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "跳跃Beta",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\beta_{t}^{(d,i)}=\\sqrt{\\frac{\\sum_{s=t-l}^{t}\\sum_{\\tau=1}^{n}\\left(r_{s:\\tau}^{(i)}r_{s:\\tau}^{(0)}\\right)^{2}}{\\sum_{s=t-l}^{t}\\sum_{\\tau=1}^{n}\\left(r_{s:\\tau}^{(0)}\\right)^{4}}}",
+          "stats": [null, -0.059, -1.5, 0.1091],
+          "evidence": "我们在每天基于过去 1 年的 5 分钟数据计算股票和指数的跳跃和连续 beta，加工的时候剔除了每天的 9：30 的数据。"
+        },
+        {
+          "name": "连续Beta",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\beta_{t}^{(c,i)}=\\frac{\\sum_{s=t-L}^{t-1}\\sum_{\\tau}r_{s:\\tau}^{(i)}r_{s:\\tau}^{(0)}}{\\sum_{s=t-L}^{t-1}\\sum_{\\tau}\\left(r_{s:\\tau}^{(0)}\\right)^{2}}",
+          "stats": [null, -0.06, -1.487, 0.1165],
+          "evidence": "Bollerslev 等人（2016）通过把高频的收益率数据分解成了连续和跳跃部分计算了股票和指数的连续和跳跃 beta，经测算，分解后的 beta 相比于传统的 beta 来说，能更好的解释股票的收益率。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess"],
+      "approach": ["neutralization"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "跳跃 Beta 和连续 Beta 不论原始值还是行业中性化之后在各样本空间均有显著选股效果，相比常规 Beta 提升明显，大市值中表现与全市场类似。",
+      "evidence": "从因子表现来看这两个因子不论原始值还是行业中性化之后在各个样本空间都具有显著的选股效果，相比常规 Beta 选股效果提升明显，而且其在大市值股票中的选股表现基本也与全市场类似。"
+    },
+    {
+      "text": "两个因子基于过去一年数据构建，衰减很慢，RankIC 半衰期约 9 个月。",
+      "evidence": "此外，这两个因子是基于过去一年的数据构建的，因此其因子衰减很慢，因子 RankIC 的半衰期大约为 9 个月。"
+    },
+    {
+      "text": "对九大类因子及常规 Beta 正交化后，跳跃 Beta 和连续 Beta 原始值 RankIC 为-0.028、-0.037，中性化后为-0.027、-0.031，仍有显著增量信息。",
+      "evidence": "在对九大类各维度因子以及常规 Beta 做了正交化之后，跳跃 Beta 和连续 Beta 原始值的 RankIC 分别为-0.028，-0.037，ICIR分别为-2.07，-1.95；中性化后的 RankIC 分别为-0.027，-0.031，ICIR 分别为-2.32，-2.18，均有着很显著的增量信息。"
+    },
+    {
+      "text": "正交化后两因子仍具显著选股效果，跳跃 Beta 相对连续 Beta 的增量信息更多，选股效果更好。",
+      "evidence": "可以看到不论是原始值还是中性化之后，因子仍然具有显著的选股效果，跳跃 Beta相对于连续 Beta 的增量信息更多，有着相对更好的选股效果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bollerslev, T., Li, S. Z., & Todorov, V. (2016). Roughing up beta: continuous versus discontinuous betas and the cross section of expected stock returns.",
+    "Frazzini, A., & Pedersen, L. H. (2014). Betting against beta.",
+    "《东方 A 股因子风险模型（DFQ-2018）》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "schema_version": 2,
+  "id": "20191125-华泰证券-人工智能-026-遗传规划在cta信号挖掘中的应用",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_warehouse"],
+      "approach": ["infrastructure"],
+      "setup": {"data": {"source": ["market_minute"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["momentum_reversal", "distribution_moment", "symbolic_search"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "event", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "LINEARREG_ANGLE(high, 210)",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{LINEARREG\\_ANGLE}(high_{t}, 210)",
+          "stats": [null, null, null, null],
+          "evidence": "图表9中截取了一小段回测时间来分析信号含义，标的收盘价和信号取值大致呈现出同涨同跌的关系，可知该信号是一个趋势信号。"
+        },
+        {
+          "name": "MIDPOINT(neg(low), 450)",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{MIDPOINT}(\\text{neg}(low_{t}), 450)",
+          "stats": [null, null, null, null],
+          "evidence": "图表13中截取了一段回测时间来分析信号含义，标的收盘价和信号取值呈现出相反的走势关系，结合信号的表达式，可知该信号是一个反转信号。"
+        },
+        {
+          "name": "neg(DEMA(close, 630))",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{neg}(\\text{DEMA}(close_{t}, 630))",
+          "stats": [null, null, null, null],
+          "evidence": "图表17中截取了一段回测时间来分析信号含义，标的收盘价和信号取值呈现出相反的走势关系，结合信号的表达式，可知该信号是一个反转信号。"
+        },
+        {
+          "name": "delta(ADX(high, low, close, 330), 630)",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{delta}(\\text{ADX}(high, low, close, 330), 630)",
+          "stats": [null, null, null, null],
+          "evidence": "由于信号表达式 delta(ADX(high，low， close，330)，630)中包含趋势信号 ADX，我们推测该信号为类趋势信号。"
+        },
+        {
+          "name": "neg(delta(volume, 60))",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{neg}(volume_{t} - volume_{t-60})",
+          "stats": [null, null, null, null],
+          "evidence": "根据信号表达式neg(delta(volume, 60))可知该信号是与成交量变化相关的信号。"
+        },
+        {
+          "name": "MA(volume, 180)",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\frac{1}{180}\\sum_{i=0}^{179}volume_{t-i}",
+          "stats": [null, null, null, null],
+          "evidence": "根据信号表达式MA(volume，180)可知该信号是与成交量相关的信号，成交量持续放量则可能开多单，成交量持续缩量则可能开空单。"
+        },
+        {
+          "name": "DEMA(delta_open_interest，440)",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{MIDPOINT}(\\text{DEMA}(\\Delta OI_{t}, 440), 450)",
+          "stats": [null, null, null, null],
+          "evidence": "根据信号表达式 MIDPOINT(DEMA(delta_open_interest，440)，450)可知该信号是与持仓量变化相关的信号。"
+        },
+        {
+          "name": "HT_DCPHASE(ADX(high, low, close, 210))",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{HT\\_DCPHASE}(\\text{ADX}(high, low, close, 210))",
+          "stats": [null, null, null, null],
+          "evidence": "本节中我们将详细测试铁矿石期货的信号 HT_DCPHASE(ADX(high，low，close，210))。"
+        },
+        {
+          "name": "HT_DCPHASE(ts_rank(high, 210))",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "intraday",
+          "formula": "\\text{HT\\_DCPHASE}(\\text{ts\\_rank}(high, 210))",
+          "stats": [null, null, null, null],
+          "evidence": "本节中我们将详细测试铁矿石期货的信号HT_DCPHASE(ts_rank(high，210))。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["na"]}},
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "event"}}
+  },
+  "findings": [
+    {
+      "text": "遗传规划可生成大量公式化交易信号，通过启发式搜索寻找潜在有效信号，能对现有CTA策略做出有益补充，提高策略差异化。",
+      "evidence": "遗传规划可以充分利用计算机的强大算力生成大量公式化的交易信号，并通过启发式搜索寻找潜在有效的信号。在计算机7X24小时不间断的挖掘下，我们或许能够找到一些对现有CTA策略做出有益补充的信号，提高策略的差异化。"
+    },
+    {
+      "text": "选择三大商品交易所流动性较好的40个商品期货品种进行测试，挖掘基于一分钟K线的信号。",
+      "evidence": "我们选择三大商品交易所中流动性较好的40个商品期货品种进行测试，挖掘基于一分钟K线的信号。"
+    },
+    {
+      "text": "考虑CTA信号过拟合可能性较高，对每个信号进行参数遍历，各品种信号在全部参数下都有正收益，所用参数表现中上，非刻意挑选的最优信号。",
+      "evidence": "考虑到CTA信号过拟合可能性较高，我们对每个信号进行参数遍历，各品种的信号在全部参数下都有正收益，且各个信号使用的参数在所有参数中表现中上，不是刻意挑选出的最优信号。"
+    },
+    {
+      "text": "挖掘出的信号一部分是趋势/反转信号，另一部分与成交量、持仓量有关。",
+      "evidence": "在挖掘出的信号中，一部分信号是趋势/反转信号，还有一部分信号则与成交量、持仓量有关。"
+    },
+    {
+      "text": "不使用杠杆、单边交易成本万分之三时，2015年以来多策略组合年化收益率25.26%，夏普比率2.25，最大回撤10.51%。",
+      "evidence": "假设不使用杠杆，在单边交易成本为万分之三时，2015年以来多策略组合年化收益率为25.26%，夏普比率为2.25，最大回撤为10.51%。"
+    },
+    {
+      "text": "遗传规划挖掘的CTA信号是历史经验总结，存在失效可能；信号可能过于复杂、可解释性较低，使用需谨慎。",
+      "evidence": "通过遗传规划挖掘的CTA信号是历史经验的总结，存在失效的可能。遗传规划所得CTA信号可能过于复杂，可解释性较低，使用需谨慎。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Hong and Yogo (2012). \"What does futures market interest tell us about the macroeconomy and asset prices?\" Journal of Financial Economics.",
+    "华泰金工人工智能系列之二十五《市场弱有效性检验与择时战场选择》(2019.11.17)",
+    "开源项目 gplearn (https://gplearn.readthedocs.io)",
+    "技术指标库 TA-Lib (https://pypi.org/project/TA-Lib/)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

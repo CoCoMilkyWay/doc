@@ -1,0 +1,90 @@
+{
+  "schema_version": 2,
+  "id": "20180304-东方证券-因子选股-036-a股小市值溢价的来源",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "总市值因子",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值}",
+          "stats": [-0.07, null, 1.25, null],
+          "evidence": "全市场来看，市值因子的 IC 可以达到-0.07，非常之高，市值最小的 10%股票比最大的 10%股票每个月平均跑赢 3%，但稳定性较差，IC_IR 只有 1.25"
+        },
+        {
+          "name": "净资产因子",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产}",
+          "stats": [-0.02, null, null, null],
+          "evidence": "净资产小的公司过去十二年里也是有稳定溢价的，但是因子只有 -0.02，多空组合月收益只有 -1.4%，溢价幅度要比市值因子小很多"
+        },
+        {
+          "name": "壳含量因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\mathrm{Shell}=\\mathrm{SV*Prob/MktCap}",
+          "stats": [null, null, null, null],
+          "evidence": "壳含量指标的横截面数据偏度较大，我们对它做了取对数处理，然后进行了标准的 alpha 测试（图 11），可以看到它的历史表现也是非常不错的，壳含量高的股票表现明显更加优异。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]},
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "A股市值效应在全市场和中证500内都很强，沪深300内较弱且2011年后基本消失",
+      "evidence": "市值效应在 A 股全市场和中证 500 成份股内都很强，在沪深 300 成份股内较弱，2007-2011年间沪深 300内相对较小的股票还有明显溢价，但从 2011年开始基本上消失。"
+    },
+    {
+      "text": "壳效应主要影响市值最小的那组股票，未对A股造成全局影响；剔除壳价值后市值因子稳定性提高",
+      "evidence": "壳效应影响最直接的是市值最小的那组股票，但没有对 A股造成全局影响。"
+    },
+    {
+      "text": "十一年间市值因子收益率累计121.7%，基本面因素解释占比很少，行业贡献19.5%，行业内质量贡献-3%",
+      "evidence": "如下图所示，2007.02 – 2018.02十一年间，市值因子收益率累计达到 121.7%，但其中基本面因素能解释的占比很少，行业因素总共贡献了 19.5%；行业内股票质量的贡献为 -3%，这主要是因为 2016年开始市场对行业内股票质量的关注，而同行业里，大股票的质量相对较高。"
+    },
+    {
+      "text": "用市场波动率、PPI和EPU做多元回归可预测市值因子非基本面收益，调整R方达14.8%",
+      "evidence": "最终我们采用市场波动率、PPI 和 EPU 三者做多元回归，回归方程的 R 方有 16.8%，调整 R 方有 14.8%。这些指标对市值因子收益率的非基本面部分有比较强的预测能力。"
+    },
+    {
+      "text": "同行业内大股票的盈利能力和质量仍占优，小盘股十年间不断改善但未超越",
+      "evidence": "同行业看，最近十年小股票的盈利能力和总体质量相对大股票而言在不断改善，但还是大股票占优，所以当市场回归基本面，考察公司质量时，质量因素会和小盘股溢价发生冲突。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Asness(2015)",
+    "Banz(1981)",
+    "Hou(2014)",
+    "《A股市场风险分析》",
+    "《反转因子择时研究》",
+    "《质优股量化投资》",
+    "屈源育、沈涛(2016a,2016b)壳价值研究"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

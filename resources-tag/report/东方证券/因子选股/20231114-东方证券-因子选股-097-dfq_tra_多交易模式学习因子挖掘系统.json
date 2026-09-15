@@ -1,0 +1,103 @@
+{
+  "schema_version": 2,
+  "id": "20231114-东方证券-因子选股-097-dfq_tra_多交易模式学习因子挖掘系统",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "tra2",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\hat{p}_i=\\sum_{k=1}^{K}q_{ik}\\hat{y}_{ik}",
+          "stats": [0.1092, 0.1638, 0.86, null],
+          "evidence": "合成因子绩效：在中证全指股票池中，TRA 模型合成因子得分在测试集（2020-2023 年）上 rankic16.38%，rankicir1.22（未年化），20 分组多头年化超额收益23.86%，月均单边换手仅57%。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all", "csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "TRA 合成因子在中证全指测试集上 rankic 达到 16.38%，rankicir 1.22（未年化），20 分组多头年化超额收益 23.86%，月均单边换手仅 57%，明显强于各对比模型。",
+      "evidence": "在中证全指股票池中，各模型均有效，但 TRA 模型合成因子得分各项表现均明显最强。测试集上 rankic 达到 16.38%，rankicir 达到 1.22（未年化），20 分组多头年化超额收益 23.86%，月均单边换手仅 57%，比神经网络模型的换手低 30%。"
+    },
+    {
+      "text": "TRA 将样本到预测器的分配表述为最优传输问题，用正则化损失项指导路由器学习，防止输出集中在个别预测器，保证多样化交易模式的发现。",
+      "evidence": "为了防止输出结果集中在个别预测器，进一步保证多样化交易模式的发现，我们将样本到预测器的分配问题表述为一个最优传输问题，并通过一个正则化损失项来指导路由器的学习。"
+    },
+    {
+      "text": "在损失函数中添加相关性惩罚引导预测器差异化设置，修改后 5 个预测器对应的因子值相关性均低于 50%。",
+      "evidence": "因而我们在损失函数中进行了修改，添加相关性惩罚，引导不同预测器差异化设置。可以看到，修改后 5个预测器对应的因子值相关性均低于 50%。"
+    },
+    {
+      "text": "TRA 因子受行业市值风格影响较小，中性化后表现依然很强，rankic 略有降低但稳定性明显提高，中性化后仍有 13.88%。",
+      "evidence": "TRA模型因子受行业市值风格的影响较小，因子中性化后表现依然很强，rankic略有降低，但因子稳定性明显提高。原始因子rankic达到16.38%，中性化后仍有13.88%。"
+    },
+    {
+      "text": "随机种子对全市场训练的 TRA 模型结果影响很小，5 个路径下得到的因子值相关系数在 90% 左右。",
+      "evidence": "随机种子对全市场训练的的 TRA 模型结果影响很小，5 个路径下得到的因子值相关系数在90%左右。"
+    },
+    {
+      "text": "预测标签用 rankY（绝对收益排名分位数）效果更佳，超额收益 zscore 次之，直接用原始收益率效果最差。",
+      "evidence": "使用超额收益的 zscore 得分，或者绝对收益的排名分位数，效果均有明显提升，用 rankY的方式效果更佳。"
+    },
+    {
+      "text": "中证全指内 TRA top100 月频组合 2020 年以来年化超额收益 31.27%，单边年换手 8 倍，最大回撤 21.67%，优于遗传规划、强化学习和常规神经网络因子组合。",
+      "evidence": "在中证全指内，使用 TRA 模型构建的 top100 组合，优于遗传规划、强化学习和常规的神经网络因子，可获得明显的超额收益。2020 年以来年化超额收益达到 31.27%，单边年换手 8 倍，最大回撤 21.67%。"
+    },
+    {
+      "text": "中证 1000 指增组合 2020 年以来信息比 2.35，年化对冲收益 18.47%，单边年换手仅 8.8 倍，优于 300 和 500 增强。",
+      "evidence": "TRA 模型在中证 1000 指增组合中表现突出，优于 300 和 500 增强。2020 年以来信息比达到2.35，年化对冲收益达18.47%，单边年换手仅8.8倍。"
+    },
+    {
+      "text": "tra2 与神经网络_new 等权复合带来的增量最大，测试集上 rankic 达到 18%，多头年化超额收益 25%，月均单边换手仅 70%。",
+      "evidence": "Tra2+神经网络_new，测试集上rankic达到18%，rankicir接近1.6（未年化），多头年化超额收益25%，月均单边换手仅 70%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "DFQ 强化学习因子组合挖掘系统",
+    "DFQ 遗传规划价量因子挖掘系统",
+    "Learning Multiple Stock Trading Patterns with Temporal Routing Adaptor and Optimal Transport (KDD 2021)",
+    "东方 A 股因子风险模型（DFQ-2020）",
+    "基于循环神经网络的多频率因子挖掘",
+    "基于残差网络的端到端因子挖掘模型",
+    "神经网络日频 alpha 模型初步实践"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

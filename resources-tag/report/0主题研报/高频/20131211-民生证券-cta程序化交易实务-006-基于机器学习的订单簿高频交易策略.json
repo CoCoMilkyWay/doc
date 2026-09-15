@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20131211-民生证券-cta程序化交易实务-006-基于机器学习的订单簿高频交易策略",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "second", "horizon": "second"}
+      },
+      "factors": [
+        {
+          "name": "订单簿指标库",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "second",
+          "formula": "\\text{SVM}\\left(\\text{买一价},\\text{卖一价},\\text{深度},\\text{斜率},\\text{相对价差},\\cdots,\\text{基差}\\right)\\to\\text{sign}\\left(\\Delta P_{mid}\\right),\\;P_{mid}=\\frac{P_{ask}+P_{bid}}{2}",
+          "stats": [null, null, null, null],
+          "evidence": "以股指期货Level-1行情为例，订单簿主要包括买一价、卖一价、买一量、卖一量等基础指标，并可以衍生出深度、斜率、相对价差等指标，其他指标包括持仓量、成交量、基差等，共计17个指标，如下表所示。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["ml_timing"], "setup": {"rebalance": "second"}}
+  },
+  "findings": [
+    {
+      "text": "SVM预测未来1tick价格变化，ΔP≥0.4情况下总体准确率约70%，总体准确率大于60%时可转化为交易策略",
+      "evidence": "预测未来1tick的价格变化准确率较高，在ΔP≥0.4情况下，总体准确率大概70%；在总体准确率大于60%的情况下，可以转化为交易策略。"
+    },
+    {
+      "text": "IF1311合约在Δt=2tick情况下，ΔP绝对值大于等于0.4的次数大约有4000次，是潜在的交易机会",
+      "evidence": "以IF1311合约在10月29日的行情数据为例，Δt=2tick的情况下，ΔP绝对值大于等于0.4的次数大约有4000次，这是潜在的交易机会。"
+    },
+    {
+      "text": "模拟交易全天605次，盈利次数339次，胜率56%，净利润11814.99元",
+      "evidence": "全天交易次数605次，包含手续情况下，盈利次数339次，胜率56%，净利润11814.99元。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "2013.9《交易执行细节，从模拟走向实战——CTA程序化交易实务研究之五》",
+    "2013.9《初探市场微观结构：指令单薄与指令单流——资金交易策略之四》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

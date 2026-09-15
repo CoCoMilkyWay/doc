@@ -1,0 +1,165 @@
+{
+  "schema_version": 2,
+  "id": "20240819-东方证券-因子选股-108-kd_ensemble_基于知识蒸馏的alpha因子挖掘模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "小单早盘占比因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\frac{9{:}30\\text{ 至 }10{:}00\\text{ 归属于主动小单的成交额}}{\\text{全天归属于主动小单的成交额}}",
+          "stats": [null, 0.0664, 0.82, 0.288],
+          "evidence": "我们首先构造小单早盘占比因子，该因子的定义如下（该因子方向为负向）："
+        },
+        {
+          "name": "小单早盘净流入因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\frac{9{:}30\\text{ 至 }10{:}00\\text{（主动买入小单的成交额}-\\text{主动卖出小单的成交额）}}{\\text{全天归属于主动小单的成交额}}",
+          "stats": [null, 0.0291, 0.34, 0.1865],
+          "evidence": "小单早盘净流入因子的定义如下（该因子方向为负向）："
+        },
+        {
+          "name": "小单占比因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\frac{\\text{全天归属于主动小单的成交额}}{\\text{全天成交额}}",
+          "stats": [null, 0.044, 0.37, 0.2186],
+          "evidence": "小单占比因子的定义如下（该因子方向为负向）："
+        },
+        {
+          "name": "小单收益率因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\int_{0}^{T}I_{\\{order\\in small\\:order\\}}\\frac{dP(t)}{P(t)}",
+          "stats": [null, 0.0609, 0.68, 0.3733],
+          "evidence": "这里函数 I 表示示性函数，区间 [0,T] 表示开盘到尾盘集合竞价之前交易时间。"
+        },
+        {
+          "name": "十档买卖盘价格分歧度因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\int_{0}^{T}zscore(\\sum_{i=1}^{10}(\\frac{P_{t}^{A}(i)-P_{t}^{B}(i)}{P_{t}^{A}(i)+P_{t}^{B}(i)})w_{i})dt",
+          "stats": [null, 0.0536, 0.33, 0.1932],
+          "evidence": "上述两个因子的方向均为负向，我们首先将过去二十日因子滚动求平均然后统一调成正向并展示相应的回测结果。"
+        },
+        {
+          "name": "十档买卖盘挂单量分歧度因子",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\int_{0}^{T}zscore(\\sum_{i=1}^{10}(\\frac{V_{t}^{A}(i)-V_{t}^{B}(i)}{V_{t}^{A}(i)+V_{t}^{B}(i)})w_{i})dt",
+          "stats": [null, 0.0325, 0.34, 0.2028],
+          "evidence": "上述两个因子的方向均为负向，我们首先将过去二十日因子滚动求平均然后统一调成正向并展示相应的回测结果。"
+        },
+        {
+          "name": "基于知识蒸馏合成打分",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{树模型作教师先训练并对信息进行过滤，将过滤得到的有效信息提供给学生模型（神经网络）训练，输出个股打分}",
+          "stats": [null, 0.1669, 8, null],
+          "evidence": "基于知识蒸馏合成打分2018年以来在中证全指上周频RankIC均值和年化ICIR分别可达 16.69%和 8.00，top 组年化超额可达 51.73%；"
+        },
+        {
+          "name": "基于风险中性模型生成打分",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "weekly",
+          "formula": "Loss=MSE(F_{:K},y_{new})+Rsquare(F_{K:},y)+\\lambda\\left\\|Gorn(F,F)\\right\\|",
+          "stats": [null, 0.1583, 8.15, null],
+          "evidence": "基于风险中性模型生成打分在中证全指上周频RankIC和年化ICIR分别为15.83%和8.15，多头组合年化超额可达 47.96%，该模型 2024 年表现十分突出多头组合截至7月 31日累计超额 29.20%，最大回撤仅-7.48%，稳定性较强。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_training", "L3_composition"],
+      "approach": ["loss_generalization", "ensemble"],
+      "baseline": ["tree"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于知识蒸馏合成打分2018年以来在中证全指上周频RankIC均值和年化ICIR分别可达16.69%和8.00，top组年化超额可达51.73%；在沪深300、中证500、中证1000上RankIC均值分别为12.22%、12.39%、15.35%，分十组多头年化超额分别为34.16%、31.38%、41.81%，相较于基准模型选股能力均有明显提升。",
+      "evidence": "基于知识蒸馏合成打分2018年以来在中证全指上周频RankIC均值和年化ICIR分别可达 16.69%和 8.00，top 组年化超额可达 51.73%；在沪深 300、中证 500、中证1000 三个指数上 RankIC 均值分别为 12.22%、12.39%、15.35%，分十组多头年化超额分别为 34.16%、31.38%、41.81%，相较于基准模型，各宽基指数股票池新模型生成因子的选股能力均有明显提升效果。"
+    },
+    {
+      "text": "基于风险中性模型生成打分在中证全指上周频RankIC和年化ICIR分别为15.83%和8.15，多头组合年化超额可达47.96%，2024年截至7月31日累计超额29.20%，最大回撤仅-7.48%，稳定性较强。",
+      "evidence": "基于风险中性模型生成打分在中证全指上周频RankIC和年化ICIR分别为15.83%和8.15，多头组合年化超额可达 47.96%，该模型 2024 年表现十分突出多头组合截至7月 31日累计超额 29.20%，最大回撤仅-7.48%，稳定性较强。"
+    },
+    {
+      "text": "知识蒸馏对树模型和神经网络进行集成，同时捕捉alpha因子与未来收益率局部线性与非线性函数依赖关系，使得全模型有更好的表达能力。",
+      "evidence": "基于此想法本文采用了知识蒸馏方法来对树模型和神经网络进行集成以捕捉 alpha 因子与未来收益率局部线性与非线性函数依赖关系，从而使得全模型有更好的表达能力。"
+    },
+    {
+      "text": "今年年初基于量价的机器学习因子出现较大回撤，原因是模型预测的市场风格与真实环境出现较大偏差，因此在alpha因子生成阶段加入风险因子生成部分并相互正交，抑制可能带来较大回撤的轮动成分。",
+      "evidence": "今年年初基于量价的机器学习因子出现了较大回撤，原因在于模型预测的市场风格与真实环境出现了较大偏差，因此我们在 alpha因子生成阶段加入风险因子生成部分，并二者相互正交从而抑制 alpha因子中这种可能带来较大回撤的轮动成分。"
+    },
+    {
+      "text": "按照中位数划分的小单占比因子在中证全指上RankIC均值接近0，但绝对值均值13.22%，胜率接近50%，对未来收益有较好的解释能力但预测方向波动较大，可视作刻画短期风险的风险因子。",
+      "evidence": "按照中位数划分的小单占比因子在中证全指上 RankIC 均值接近 0，但绝对值均值13.22%，胜率接近 50%，对未来收益有着较好的解释能力，但预测方向波动较大，可认为该因子可视作一个较好的刻画短期风险的风险因子。"
+    },
+    {
+      "text": "挂单价格分歧度因子在2019~2020年短暂失效，后期RankIC正负波动变大、选股性能下降；挂单量分歧度因子2019年以后出现明显衰减迹象，累积RankIC曲线斜率大幅变低。",
+      "evidence": "根据 RankIC 曲线，挂单价格分歧度因子在 2019~2020 年出现短暂失效，后期虽然累积RankIC曲线斜率保持不变，但RankIC正负波动变大，选股性能有所下降；而挂单量分歧度因子在 2019年以后出现明显衰减迹象，累积 RankIC曲线斜率大幅变低。"
+    },
+    {
+      "text": "新模型生成因子可直接应用于指数增强，在成分股80%限制和周单边换手率20%约束下，2018年以来Barra风控组合在沪深300、中证500和中证1000增强策略上年化超额收益率分别为16.88%、24.02%和31.38%。",
+      "evidence": "本文生成因子也可以直接应用于指数增强策略，在各宽基指数上均能获得显著的超额收益，在成分股80%限制和周单边换手率约束为20%约束下，2018年以来，新模型打分构建的 Barra风控组合在沪深 300、中证 500和中证 1000增强策略上年化超额收益率分别为 16.88%、24.02%和 31.38%。"
+    },
+    {
+      "text": "相较于Barra风控，NLSize风控所构建的沪深300增强组合年化超额显著提升，最大回撤也显著有所下降。",
+      "evidence": "相较于 Barra风控，NLSize风控所构建的沪深 300增强组合年化超额显著提升，最大回撤也显著有所下降。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Hinton, G., Vinyals, O., & Dean, J. (2015). Distilling the knowledge in a neural network.",
+    "《东方A股因子风险模型（DFQ-2020）》",
+    "《基于循环神经网络的多频率因子挖掘》（2023-06-06）",
+    "《基于残差网络的端到端因子挖掘模型》（2023-08-24）",
+    "《基本面因子的重构》（2024-03-21）",
+    "《自适应时空图网络周频alpha模型》（2024-02-28）",
+    "《融合基本面信息的ASTGNN因子挖掘模型》（2024-05-27）",
+    "《非线性市值风控全攻略》（2024-05-27）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

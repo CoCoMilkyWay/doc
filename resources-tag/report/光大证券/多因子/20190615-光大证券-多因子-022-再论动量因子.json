@@ -1,0 +1,109 @@
+{
+  "schema_version": 2,
+  "id": "20190615-光大证券-多因子-022-再论动量因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Momentum_1M",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月股票收益率（月度动量）}",
+          "stats": [-0.0785, null, -0.76, 0.239],
+          "evidence": "且无论是短期涨幅（Momentum_1M）还是长期涨幅（Momentum_24M）都具有显著的负向预测能力，因子的 IC 均值均小于-4%。"
+        },
+        {
+          "name": "趋势动量因子",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "MA_{jt,L}=\\frac{P_{j,d-L+1}^{t}+P_{j,d-L+2}^{t}+\\cdots+P_{j,d}^{t}}{L},\\quad \\widetilde{MA_{jt,L}}=\\frac{MA_{jt,L}}{P_{jd}^{t}}",
+          "stats": [null, null, null, null],
+          "evidence": "动量因子构造时所使用的数据仅为起始节点和末尾节点的股价数据，对于期间的股价信息并未充分反应，因此我们尝试采用均线的思路，构造更好的反应股价趋势的趋势动量因子。"
+        },
+        {
+          "name": "Momentum_1M_Neu",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\text{将Momentum_1M与FC_MC、VSTD_1M做横截面回归取残差}",
+          "stats": [-0.0759, null, -0.79, 0.288],
+          "evidence": "我们主要针对Momentum_1M因子进行改造，采用横截面回归取残差的方法，将 Momentum_1M 因子与 FC_MC、VSTD_1M 因子做中性化处理，剥离流动性对动量因子的影响。"
+        },
+        {
+          "name": "Momentum_1M_Resid",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "r_{i,t}=\\alpha_{i}+m_{i}MKT_{t}+s_{i}SMB_{t}+h_{i}HML_{t}+\\varepsilon_{i,t},\\quad \\text{Momentum_1M_Resid}=\\varepsilon_{i,t}",
+          "stats": [-0.0704, null, -0.8, null],
+          "evidence": "因此我们这里将依然从短期动量入手，尝试直接采用当期残差变量作为剔除风格影响后的特质收益动量因子，我们命名为 Momentum_1M_Resid。"
+        },
+        {
+          "name": "Value_60",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{成交额等分K线下滚动历史20根K线的涨跌幅}",
+          "stats": [-0.0532, null, -0.58, null],
+          "evidence": "从结果上看，成交额等分 K 线动量因子 Value_60、Value_120、Value_D均具有较高的多头超额收益表现，多头超额显著高于传统时间 K线的等价因子。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "A股无论是短期涨幅（Momentum_1M）还是长期涨幅（Momentum_24M）都具有显著的负向预测能力，因子IC均值均小于-4%，反转效应占主导。",
+      "evidence": "且无论是短期涨幅（Momentum_1M）还是长期涨幅（Momentum_24M）都具有显著的负向预测能力，因子的 IC 均值均小于-4%。"
+    },
+    {
+      "text": "常用动量因子如Momentum_1M收益高，但多空收益稳定性较差，单调性不稳定，且换手率极高，多头收益本身较为一般。",
+      "evidence": "短期反转因子（例如Momentum_1M）收益高，但多空收益稳定性较差，单调性不稳定，且换手率极高。"
+    },
+    {
+      "text": "趋势动量因子单调性很高（得分均超过3分，MA_240多空夏普1.23），但预测能力（IC、IC_IR）整体弱于原始动量因子。",
+      "evidence": "由结果可见趋势动量因子均具有很高的单调性，单调性得分均可以超过3 分，MA_240 的多空夏普也达到 1.23，表现较好，但趋势动量因子整体的预测能力上（IC、IC_IR）整体弱于原始的动量因子。"
+    },
+    {
+      "text": "剥离流动性后的提纯动量因子Momentum_1M_Neu单调性改善显著，多空收益从年化23.9%提高到年化28.8%，提升4.97个百分点。",
+      "evidence": "提纯后的动量因子 Momentum_1M_Neu 单调性改善显著，且多空收益从年化23.9%提高到了年化28.8%，提升4.97个百分点，多空收益改善显著。"
+    },
+    {
+      "text": "残差动量因子Momentum_1M_Resid的IC波动率从原始的10%下降到8%左右，IC_IR有所提升，因子稳定性提升较为明显。",
+      "evidence": "风格中性后的残差动量因子 IC均值略低于原始动量因子，但 IC波动率得到有效降低，从原始的 10%下降到 8%左右，因此 IC_IR 有所提升，因子的稳定性提升较为明显。"
+    },
+    {
+      "text": "成交额等分K线动量因子Value_60多空收益贡献绝大部分来自多头，且多头第10组超额收益表现较好，收益结构特征与原始动量因子差异明显。",
+      "evidence": "可见成交额等分 K 线下的动量因子 Value_60 多空收益的贡献绝大部分来自多头，且多头第 10 组的超额收益表现较好。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Blitz D., et al. (2011). residual momentum",
+    "Zhou, Zhu (2016)",
+    "《因子测试全集——多因子系列报告之二》",
+    "《数据纵横：探秘 K线结构新维度——机器学习系列报告之二》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

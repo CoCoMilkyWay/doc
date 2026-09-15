@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "id": "20260602-华泰证券-人工智能-105-基于筹码分层结构的端到端ai因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_mining"],
+      "approach": ["distribution_moment", "order_flow", "representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "筹码龄分层端到端",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "A_{t}(1,p)=\\tau_{t}\\times D_{t}(p),\\quad A_{t}(a+1,p)=(1-\\tau_{t})\\times A_{t-1}(a,p),\\quad C_{t}^{g}(p)=\\sum_{a\\in g}A_{t}(a,p),\\ \\text{分层分布经 CNN+GRU 端到端建模}",
+          "stats": [0.105, 0.123, 0.93, 0.525],
+          "evidence": "其一为按照筹码龄进行分层，将不同历史时期形成并留存至今的筹码加以区分，以刻画新近筹码与长期沉淀筹码在成本结构和交易稳定性上的差异"
+        },
+        {
+          "name": "投资者类型分层端到端",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "C_{t}^{b}(p)=(1-SellTurn_{t}^{b})\\times C_{t-1}^{b}(p)+BuyTurn_{t}^{b}\\times D_{t}^{b}(p)",
+          "stats": [0.09, 0.107, 0.85, 0.411],
+          "evidence": "其二为按照投资者类型分层，通过成交订单金额大小识别散户、中户、大户和机构投资者对应的筹码分布，从资金属性角度描述不同类型投资者的持仓成本和交易行为差异。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["ensemble"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "na"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "筹码分层结构中蕴含较强的非线性 Alpha 信息，其中筹码龄分层因子表现最优，单因子 RankIC 达 12.3%，多头组年化超额 32.5%。",
+      "evidence": "实验结果显示，筹码分层结构中蕴含较强的非线性 Alpha 信息，其中筹码龄分层因子表现最优，2016-12-30 至 2026-05-29 的回测区间内，单因子 RankIC达 12.3%，多头组年化超额 32.5%。"
+    },
+    {
+      "text": "筹码龄分层端到端因子在 IC、RankIC 和多头超额收益上均优于人工构造的静态筹码分布特征与动态筹码流动特征，端到端模型能提取人工指标难以完全刻画的增量信息。",
+      "evidence": "筹码龄分层端到端因子在IC、RankIC 和多头超额收益上均优于人工构造的静态筹码分布特征与动态筹码流动特征，说明端到端模型能够从完整筹码分布结构中提取人工指标难以完全刻画的增量信息。"
+    },
+    {
+      "text": "消融实验显示，从 CNN+GRU 端到端模型中剥离筹码龄分层信息或价格分布形态信息均对因子表现有显著负面影响，证明筹码分层结构特征处理方式和模型设计的合理性。",
+      "evidence": "结果表明，从 CNN+GRU 端到端模型中依次剥离筹码龄分层信息和价格分布形态信息均对因子表现有显著负面影响，可一定程度证明当前筹码分层结构特征处理方式和模型设计的合理性。"
+    },
+    {
+      "text": "将筹码结构因子加入基准 AI 合成因子后，沪深 300、中证 500 和中证 1000 指增组合年化超额收益均改善，其中中证 1000 组合年化超额由 19.0% 提升至 21.2%，信息比由 3.29 提升至 3.53。",
+      "evidence": "同回测区间内，沪深 300、中证 500 和中证 1000 指数增强组合的年化超额收益均有所改善，其中中证 1000 组合年化超额由 19.0%提升至 21.2%，信息比由3.29 提升至 3.53，超额最大回撤由 8.5%下降至 7.7%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Grinblatt, M., and Han, B. (2005). Prospect theory, mental accounting, and momentum. Journal of Financial Economics."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

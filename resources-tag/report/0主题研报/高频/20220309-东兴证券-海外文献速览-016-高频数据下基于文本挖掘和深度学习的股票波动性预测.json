@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "id": "20220309-东兴证券-海外文献速览-016-高频数据下基于文本挖掘和深度学习的股票波动性预测",
+  "genre": "review",
+  "asset": ["stock_cn"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_minute", "text"], "freq": "minute"},
+        "holding": {"rebalance": "daily", "horizon": "daily"}
+      },
+      "factors": []
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["adaptive"],
+      "setup": {
+        "risk_factors": [],
+        "data": {"source": ["market_minute", "text"], "freq": "minute"},
+        "horizon": "daily"
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "随着民意指标的加入，LSTM在MSE、RMSE、MAE、MSLE、R2和RMSPE六个评价标准下的准确率分别提高9.3%、4.7%、6.2%、9.2%、7.9%和16.9%，股东情绪指标对股价波动率预测有正向影响",
+      "evidence": "随着民意指标的加入，LSTM的准确率在六个评价标准 MSE、RMSE、MAE、MSLE 、R2和 RMSPE 下分别提高了 9.3%、4.7%、6.2%、9.2%、7.9%和16.9%，表明股东情绪指标对市场股票股价波动率预测有正向影响。"
+    },
+    {
+      "text": "窗口值为 20 时，LSTM 模型可以达到最优的预测效果",
+      "evidence": "窗口长度的选择也对 LSTM 模型预测的准确性有一定的影响，若窗口时间过小，模型则无法获得足够的数据，若窗口时间过大，数据集会采集到过多的无关数据，影响模型的训练效率，从结果上看，窗口值为 20 时，模型可以达到最优的效果。"
+    },
+    {
+      "text": "深度学习 LSTM模型在六种评价标准下对高频波动的预测准确率高于传统计量经济学模型，且多步预测下更稳健",
+      "evidence": "与传统的计量经济学模型相比，深度学习 LSTM模型在六种评价标准下对高频波动的预测准确率更高。"
+    },
+    {
+      "text": "无论采用何种步长，加入情感指标的 LSTM模型的预测准确率都是最好的，文本情感因子对提高预测波动率精准度有正向性影响",
+      "evidence": "进一步发现，无论采用何种步长，加入情感指标的 LSTM模型的预测准确率都是最好的，说明文本情感因子对提高预测波动率精准度有一定的正向性影响。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bolin Lei, Zhengdi Liu, Yuping Song. On stock volatility forecasting based on text mining and deep learning under high-frequency data. Journal of Forecasting (2021)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

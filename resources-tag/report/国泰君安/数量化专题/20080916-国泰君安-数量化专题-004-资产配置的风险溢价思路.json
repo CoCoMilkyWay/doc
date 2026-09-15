@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "id": "20080916-国泰君安-数量化专题-004-资产配置的风险溢价思路",
+  "genre": "research",
+  "asset": ["multi"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "statement"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "风险溢价",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly", "quarterly"],
+          "horizon": "monthly",
+          "formula": "rp=\\,r_e-r_f,\\quad V_{e}=E_{0}+\\sum_{n=1}^{\\infty}\\frac{(ROE_{n}-r_{e})\\times E_{n-1}}{(1+r_{e})^{n}}\\ \\text{解出隐含股权成本}\\ r_e",
+          "stats": [null, null, null, null],
+          "evidence": "风险溢价定义为资产间隐含收益率的差，例如股票相对于债券的风险溢价就是股票的隐含收益率减去债券的收益率。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["view_blending", "heuristic_ranking"],
+      "setup": {"universe": ["na"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["relative_value"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "Markowitz方法在实际使用中存在两个缺陷：预期收益率很难预测，投资者往往用历史收益率作为预测；最优资产权重对收益率预测极其敏感。",
+      "evidence": "一是预期收益率很难预测，投资者通常只是对部分资产的收益和相对收益有预测，所以实际使用时，投资者往往会使用历史收益率作为预测；二是最优的资产权重对收益率的预测及其敏感。"
+    },
+    {
+      "text": "B-L模型的本质思路是用贝叶斯方法将投资者的主观判断和市场的均衡收益（先验概率）相结合，形成新的B-L期望收益（后验概率），再通过均值方差最优化得出配置权重。",
+      "evidence": "B-L模型的本质思路是用贝叶斯方法将投资者的主观判断和市场的均衡收益（先验概率）相结合，形成了新的 B-L 期望收益（后验概率）。B-L 期望收益通过均值方差的最优化，就得出配置的权重，新的配置和市场均衡配置之间的差异大小反映的就是投资者主观判断的信心水平。"
+    },
+    {
+      "text": "B-L模型要求投资者对资产收益率的预期是确切值而非方向性预期，而国内缺乏广泛的预期数据，制约了B-L模型在国内市场的运用。",
+      "evidence": "投资者对于资产或某些资产组合的收益率的预期应是确切的值，而非仅是方向性的预期，而国内没有非常广泛的预期数据，这同样制约了 B-L模型在国内市场的运用。"
+    },
+    {
+      "text": "提出运用隐含风险溢价进行资产配置的更直观方法：将资产归结为股票、债券和现金及现金等价物三类，基于市场隐含的风险溢价水平与历史水平的比较得出配比。",
+      "evidence": "我们在此提出一种更为直观的方法，即运用隐含风险溢价进行资产配置的方法，我们把资产归结为三类：股票、债券和现金及现金等价物，三类资产的权重取舍会决定组合收益的很大部分。"
+    },
+    {
+      "text": "股票的隐含收益率通过剩余价值估值模型测算：未来股东的剩余价值以股权成本贴现的现值等于现价，其中股权成本即股票的隐含收益率。",
+      "evidence": "通过股票估值模型可以得出股票的隐含收益率，我们选择剩余价值估值模型，即未来股东的剩余价值以股权成本贴现的现值等于现价。"
+    },
+    {
+      "text": "模型估计通过有约束的最优化实现，数据区间间隔为月，按证监会一级行业分类分行业优化，在各行业代表公司理论价值等于实际市场价值的约束下最小化行业残差平方和。",
+      "evidence": "模型的估计是通过有约束的最优化来实现的，数据区间间隔为月，优化分行业进行（按照证监会的一级行业分类），在该行业的代表公司理论价值等于实际市场价值的约束条件下，最小化该行业的残差平方和最小。"
+    },
+    {
+      "text": "以超越概率刻画资产配置：假设权重配比在0%到100%间、均衡配置为各类资产权重33%，用当前风险溢价相对历史均值和标准差的正态分布函数计算超越概率，进而推出各资产权重。",
+      "evidence": "我们对股票、债券和现金等价物这三类资产配置做两个前提假设：各类资产的权重配比在 0%到 100%间；均衡配置为各类资产权重 33%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Black, F. and R. Litterman. (1990). \"Asset Allocation: Combining Investor Views with Market Equilibrium.\"",
+    "Markowitz, H. (1952). \"Portfolio Selection.\""
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "id": "20231204-华创证券-端到端挖掘-001-gru网络在风格自适应中的创新与应用",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "GRU_50 等权因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以股票过去30个交易日的高、开、低、收、均价、成交量六个序列输入GRU网络，取最后时间步隐状态经FC1层生成50个因子求均值，作为每只股票的因子得分}",
+          "stats": [0.099, null, 7.13, 1.5436],
+          "evidence": "对任务一，全连接层 FC1 的输入与输出维度均为 50，可视为模型为每只股票生成 50 个因子，将50个因子求均值合成后得到最终输出，每只股票得到一个因子得分，我们计算其与未来 10日的IC 作为损失，在后文中我们将该因子称为GRU_50等权因子。"
+        },
+        {
+          "name": "GRU_3 分类因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU网络最后时间步隐状态经FC2层输出3分类（止盈、止损、持有），以分类3-分类1作为每只股票的因子得分}",
+          "stats": [0.078, null, 4.61, 0.6466],
+          "evidence": "对任务二，全连接层FC2 的输出维度为 3，我们计算其与未来 10日收益分类的交叉熵损失，并用分类3–分类1作为每只股票的因子得分，在后文中我们将该因子称为GRU_3 分类因子。"
+        },
+        {
+          "name": "GRU_集成因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{FC1层输出的50个因子求均值与FC2层输出的分类3-分类1得分二者等权相加，作为每只股票最终的因子得分}",
+          "stats": [0.096, null, 6.7, 1.0583],
+          "evidence": "对任务三，可以看作前两个模型的集成，前 10 个 epoch 执行任务一，使用 FC1 层连接GRU 层，计算 IC 损失、10 个 epoch 之后执行任务二，使用 FC2 层连接 GRU 层，计算交叉熵损失。将 FC1 层输出的 50 个因子求均值、FC2 层输出的分类 3 – 分类 1 得分二者再进行等权相加，得到每只股票最终的因子得分，在后文中我们将该因子称为 GRU_集成因子。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "label_horizon", "loss_generalization", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000", "other"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi1000", "other"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "无论是原始因子还是中性化后的因子，GRU_50 等权因子在全 A 范围内的测试效果更为显著，原始因子 IC 均值 9.9%，中位数 9.5%，年化 IC_IR 7.13，多头组年化收益率 32.93%，最大回撤 21.78%。",
+      "evidence": "无论是原始因子还是中性化后的因子，GRU_50 等权因子在全 A 范围内的测试效果更为显著。原始GRU_50 等权因子在单因子 IC 均值达到 9.9%，中位数为 9.5%，年化 IC_IR 为7.13。此外，其多头组的年化收益率为 32.93%，最大回撤为 21.78%。"
+    },
+    {
+      "text": "对比三个因子在宽基指数上多头组的年度收益，GRU_50 等权因子在 2021 年前整体表现更佳，而 21 年后 GRU_集成因子的效果最为显著。",
+      "evidence": "对比这三个因子在宽基指数上多头组的年度收益，GRU_50 等权因子在 2021 年前整体表现更佳，而 21 年后GRU_集成因子的效果最为显著。"
+    },
+    {
+      "text": "在风格基准池中 GRU_集成因子表现最为优越，单因子 IC 均值为 8%，中位数为 7.4%，多头分组夏普比率在三者中最为突出。",
+      "evidence": "在风格基准池中对比三个因子的测试结果，GRU_集成因子的表现最为优越。其单因子IC均值为 8%，中位数为 7.4%，多头分组的夏普比率也在三者中最为突出。"
+    },
+    {
+      "text": "采用 GRU_集成因子在基准池中每期选股的策略自 2018 年以来年化收益率 15.2%，最大回撤 23.4%，换手率 42 倍，稳定地超越基准及沪深 300、中证1000、中证500指数；风格基准组合年化收益率 5.3%，最大回撤 31.2%，策略相对收益 9.9%。",
+      "evidence": "因此，我们采用GRU_集成因子在基准池中进行每期选股，策略自2018年以来的年化收益率为 15.2%，最大回撤为 23.4%，换手率达 42 倍。历史数据显示，该策略稳定地超越基准及沪深 300、中证 1000、中证 500指数。"
+    },
+    {
+      "text": "策略长期稳定跑赢风格基准及沪深 300、中证1000，策略组合 2018 年来年化收益率 15.2%，最大回撤 23.4%，换手率 42 倍；风格基准组合年化收益率 5.3%，最大回撤 31.2%，策略相对收益 9.9%。",
+      "evidence": "可以发现策略长期来看稳定跑赢风格基准及沪深 300、中证1000。策略组合2018年来年化收益率 15.2%，最大回撤 23.4%，换手率 42 倍。相比之前因子的测试结果，此时的换手率大幅下降，同时收益率也有所下降。风格基准组合 2018 年来年化收益率 5.3%，最大回撤 31.2%，策略相对收益9.9%。"
+    },
+    {
+      "text": "组合每期 top1、top2、top3 收益行业的仓位大于基准仓位的占比都超过 50%，top3 接近 57%，表明 GRU 网络解决了风格组合之间的结合问题，通过模型训练自适应市场风格的变迁。",
+      "evidence": "上图表示组合每期top1、top2、top3 收益行业的总仓位中大于对应基准持仓比例的占比，统计结果来看都超过 50%，其中 top3 对应的占比最大，接近 57%。表明 GRU 网络解决了风格组合之间的结合问题，GRU网络通过模型的训练，自适应市场风格的变迁。"
+    },
+    {
+      "text": "多头对比中 GRU_50 等权因子表现最佳，多头年化收益率 32.93%，最大回撤 21.78%；多空组合年化收益率超过 154%，大幅领先其他两个因子。",
+      "evidence": "从多头对比结果来看，GRU_50 等权因子表现最佳，多头年化收益率达到 32.93%，最大回撤仅为 21.78%，夏普比率为 1.39。而从多空分组的结果来看，GRU_50 等权因子的表现同样最佳，多空组合实现了年化收益率超过 154%，大幅领先其他两个因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Cho, Kyunghyun, et al. \"Learning phrase representations using RNN encoder-decoder for statistical machine translation.\" arXiv preprint arXiv:1406.1078 (2014).",
+    "De Prado, Marcos Lopez. Advances in financial machine learning. John Wiley & Sons, 2018.",
+    "Leippold, Markus, Qian Wang, and Wenyu Zhou. \"Machine learning in the Chinese stock market.\" Journal of Financial Economics 145.2 (2022): 64-82."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

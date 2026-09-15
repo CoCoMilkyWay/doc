@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "id": "20200901-东吴证券-波动率选股因子-002-信息分布均匀度_基于高频波动率的选股因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_minute"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "信息分布均匀度UID因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\mathrm{std}(Vol\\_daily)}{\\mathrm{mean}(Vol\\_daily)}",
+          "stats": [-0.059, -0.074, -4.19, 0.2132],
+          "evidence": "（3）每只股票，计算 20 个 Vol_daily 的平均值，衡量该股票当月每日波动率的平均水平 mean（Vol_daily）；将 std（Vol_daily）除以 mean（Vol_daily），再做市值中性化处理，得到每只股票的信息分布均匀度 UID因子，即"
+        },
+        {
+          "name": "UID_deVOL20",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{UID 因子对 VOL20 做正交化处理，取残差}",
+          "stats": [-0.044, null, -3.43, 0.1799],
+          "evidence": "因此，我们将 UID 因子对 VOL20 做正交化处理，取残差定义为 UID_deVOL20，考察剔除传统波动率因子的线性信息后，新因子的选股效果。"
+        },
+        {
+          "name": "纯净UID因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{UID 因子对 Barra 风格因子和 28 个申万一级行业虚拟变量回归，取残差}",
+          "stats": [null, null, -3.17, 0.1296],
+          "evidence": "为了剔除常用风格和行业的干扰，我们每月月底将UID 因子对Barra风格因子和28个申万一级行业虚拟变量进行回归，取残差作为纯净新因子，检验其效果。"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "UID 因子的月度 IC 均值为-0.059，RankIC 均值为-0.074，年化 ICIR 为-4.19，年化 RankICIR 为-4.23",
+      "evidence": "回测结果显示，UID 因子的月度 IC 均值为-0.059，RankIC 均值为-0.074，年化 ICIR 为-4.19，年化 RankICIR 为-4.23。"
+    },
+    {
+      "text": "UID 因子年化收益 21.32%，信息比率 3.65，最大回撤 2.18%，选股效果大幅优于传统波动率因子",
+      "evidence": "在整段回测期内，UID 因子的年化收益为 21.32%，年化波动为 5.84%，信息比率可达3.65，月度胜率为 83.12%，最大回撤仅为 2.18%，选股效果大幅优于传统波动率因子。"
+    },
+    {
+      "text": "UID_deVOL20 仍具备不错的选股能力，月度 IC 均值为-0.044，年化ICIR为-3.43，最近表现明显提升",
+      "evidence": "回测结果显示，UID_deVOL20 仍具备不错的选股能力，月度 IC 均值为-0.044，年化ICIR为-3.43；全市场 5分组多空对冲的年化收益为 17.99%，年化波动为 6.42%，信息比率为 2.80，月度胜率为 81.82%，最大回撤为 1.26%。"
+    },
+    {
+      "text": "剔除常用风格和行业后，纯净 UID 因子年化 ICIR 仍可达到-3.17，仍然具备不错的选股能力",
+      "evidence": "剔除常用风格和行业后，纯净 UID因子的年化 ICIR仍可达到-3.17，全市场 5分组多空对冲的年化收益为 12.96%，年化波动为 4.97%，信息比率为 2.61，月度胜率为 75.32%，最大回撤仅为1.22%"
+    },
+    {
+      "text": "信息冲击与股价涨跌的关系呈现较为良好的对称性，好、坏信息冲击的数量与对股价的作用强度都大致相同",
+      "evidence": "由此可见，信息冲击与股价涨跌的关系，呈现较为良好的对称性，即好、坏信息冲击的数量、对股价的作用强度都大致相同。"
+    },
+    {
+      "text": "无论回看 40 还是 60 个交易日，UID 因子均显著优于传统波动率因子",
+      "evidence": "可以看到，无论是回看40还是 60个交易日，UID因子均显著优于传统因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《“求索动量因子”系列研究（一）：成交量对动量因子的修正——日与夜的殊途同归》20190906",
+    "《“波动率选股因子”系列研究（一）：寻找特质波动率中的纯真信息——剔除跨期截面相关性的纯真波动率因子》20200528"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

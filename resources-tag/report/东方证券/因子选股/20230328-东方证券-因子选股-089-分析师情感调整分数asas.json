@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "20230328-东方证券-因子选股-089-分析师情感调整分数asas",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["text_sentiment"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800", "csi1000"],
+        "data": {"source": ["analyst"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "分析师情感调整分数ASAS",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{对过去三个月内该股票每家券商最新研报的标题摘要文本，用双层Transformer Encoder+一维卷积模型输出情感打分，取均值}",
+          "stats": [null, 0.04, 2, null],
+          "evidence": "每个月末采集过去三个月内某只股票每家券商最新报告的模型打分，取均值作为分析师情感调整分数 ASAS。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "ASAS因子在各样本空间Rank IC均为正且ICIR均大于1，预测能力稳定，中证1000样本空间中超额年化收益最高且波动较低。",
+      "evidence": "ASAS 因子在沪深 300、中证 500、中证 1000 样本空间中的 Rank IC 分别为0.047、0.041、0.037，预测能力较为稳定，各个样本空间的 ICIR 均大于 1，因子稳定性较高。"
+    },
+    {
+      "text": "中证500、800和1000样本空间超额年化收益较高，中证1000最优且年化波动率相对较低，风险特征较低。",
+      "evidence": "在中证 500、中证 800 和中证 1000 样本空间中表现出较高的超额年化收益率，尤其在中证 1000 样本空间中表现最优。此外，中证 1000 样本空间中，年化波动率相对较低，显示出较低的风险特征。"
+    },
+    {
+      "text": "ASAS对标签因子正交后Rank IC仍达2.5%，与WFR正交后保留3.7%的Rank IC，说明文本特征提供了额外信息量。",
+      "evidence": "回测发现其本身的选股能力也很突出，在ASAS对标签因子正交后，Rank IC仍然能够达到2.5%，说明ASAS确实达成了提取文本中额外信息的目标，与 WFR 正交之后能保留 3.7%的 Rank IC，说明文本特征相比于 Accwt2加权方式提供了额外的信息量。"
+    },
+    {
+      "text": "ASAS的Rank IC均值为0.040、ICIR2.0，优于标签（0.035、ICIR1.4）和WFR（0.029、ICIR1.3），模型升级修正了盈利预测调整，选股能力与稳定性同步提升。",
+      "evidence": "标签的 Rank IC均值为0.035，ICIR1.4，WFR 的 Rank IC 均值为 0.029，ICIR1.3，ASAS 的Rank IC 均值为 0.040，ICIR2.0，说明模型的升级很好地修正了分析师的盈利预测调整，使得选股能力和稳定性同步提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《20171203分析师研报的数据特征与 alpha》",
+    "《20180518业绩超预期类因子》",
+    "《因子选股系列研究之八十六：研报文本情感倾向因子》(2022-12-06)"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

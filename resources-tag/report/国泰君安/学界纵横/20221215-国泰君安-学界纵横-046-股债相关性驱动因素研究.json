@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "id": "20221215-国泰君安-学界纵横-046-股债相关性驱动因素研究",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L4_risk",
+  "pipe": {
+    "L4_risk": {
+      "module": ["L4_covariance"],
+      "approach": ["dynamic_adjust"],
+      "setup": {"risk_factors": [], "data": {"source": ["macro"], "freq": "monthly"}, "horizon": "na"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["macro_cycle"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "SBC 的关键驱动因素是增长不确定性、通胀不确定性和增长与通胀间的相关性，三者搭建的线性回归模型有很高解释力度。",
+      "evidence": "本文考虑了股票 债券收益的主要宏观经济驱动因素，发现关键在于增长不确定性、通胀不确定性和增长与通胀间的相关性。"
+    },
+    {
+      "text": "SBC 与增长风险负相关，与通胀风险正相关；通胀风险贝塔值为 12 意味着通胀波动率从 4%下降到 1%与 SBC 下降 0.36 相关。",
+      "evidence": "但其经济意义是重大的: 通胀风险贝塔值为 12 意味着通胀波动率从 4%下降到 1%与 SBC 下降 3%*12 = 0.36 相关。"
+    },
+    {
+      "text": "用三个宏观变量拟合的 SBC 具有高解释力，模型 R2 达到 71%，跨境验证中德国达到 87%的 R2。",
+      "evidence": "拟合的 SBC 反映了三个变量的高解释力(R2为 71%)。"
+    },
+    {
+      "text": "若预计本世纪 20 年代通胀不确定性增加，则很可能看到 SBC 上升，股票/债券负相关性减弱甚至大概率转正。",
+      "evidence": "如果我们预计本世纪 20 年代通胀的不确定性会增加，那么我们很可能看到 SBC 上升。"
+    },
+    {
+      "text": "对通胀敏感的假设分散投资组合进行适度分配，可将传统 60/40 组合与通胀的负相关性降至接近零，20%的分配即可将相关性从-0.27 变为-0.05。",
+      "evidence": "比如 20%的分配可将相关性从-0.27 变为-0.05（从高度统计显著变为不显著）。"
+    },
+    {
+      "text": "增长和通胀不确定性并不是 SBC 仅有的驱动因素，货币政策冲击、信用风险、安全资产属性和运气等其他因素也会影响 SBC。",
+      "evidence": "增长和通胀不确定性固然重要，但它们并不是股票和债券收益仅有的驱动因素，因此它们也不太可能是 SBC 仅有的驱动因素。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Ilmanen、Maloney 和 Ross(2014)",
+    "《The Stock/Bond Correlation》",
+    "《When Stock-Bond Diversification Fails》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

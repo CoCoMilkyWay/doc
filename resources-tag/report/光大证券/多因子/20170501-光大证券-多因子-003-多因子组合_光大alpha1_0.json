@@ -1,0 +1,204 @@
+{
+  "schema_version": 2,
+  "id": "20170501-光大证券-多因子-003-多因子组合_光大alpha1_0",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market"],
+      "approach": [
+        "style_ratio",
+        "statement_detail",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "BP_LR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "BP=\\frac{\\text{最近年报账面价值}}{\\text{总市值}}",
+          "stats": [0.051, null, 0.48, null],
+          "evidence": "| BP_LR | 0.49% | 4.32 | 5.10% | 0.48 | 5 |"
+        },
+        {
+          "name": "Ln_MC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Ln\\_MC=\\ln(\\text{总市值})",
+          "stats": [-0.068, null, -0.4, null],
+          "evidence": "| Ln_MC | -0.52% | -2.94 | -6.80% | -0.4 | 5 |"
+        },
+        {
+          "name": "Momentum_1M",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "Momentum\\_1M=\\frac{P_{t-1M}}{P_{t-2M}}-1",
+          "stats": [-0.079, null, -0.75, null],
+          "evidence": "| Momentum_1M | -0.92% | -8.26 | -7.90% | -0.75 | 5 |"
+        },
+        {
+          "name": "RSI",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "RSI=100\\times\\frac{\\sum_{d}\\max(\\Delta P_{d},0)}{\\sum_{d}|\\Delta P_{d}|}",
+          "stats": [-0.055, null, -0.49, null],
+          "evidence": "| RSI | -0.56% | -5.02 | -5.50% | -0.49 | 5 |"
+        },
+        {
+          "name": "STD_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "STD\\_1M=\\sigma(\\text{近1个月日收益率})",
+          "stats": [-0.055, null, -0.47, null],
+          "evidence": "| STD_1M | -0.59% | -5.23 | -5.50% | -0.47 | 5 |"
+        },
+        {
+          "name": "TargetReturn",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "TargetReturn=\\frac{\\text{一致预期目标价}}{\\text{当前股价}}-1",
+          "stats": [0.036, null, 0.63, null],
+          "evidence": "| TargetReturn | 0.34% | 6.39 | 3.60% | 0.63 | 5 |"
+        },
+        {
+          "name": "VA_FC_1M",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{近1个月成交金额与流通市值相关类技术因子}",
+          "stats": [-0.067, null, -0.51, null],
+          "evidence": "| VA_FC_1M | -0.79% | -6.12 | -6.70% | -0.51 | 5 |"
+        },
+        {
+          "name": "VSTD_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "VSTD\\_1M=\\sigma(\\text{近1个月成交量})",
+          "stats": [-0.065, null, -0.82, null],
+          "evidence": "| VSTD_1M | -0.64% | -6.52 | -6.50% | -0.82 | 5 |"
+        },
+        {
+          "name": "DP_TTM",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "DP=\\frac{\\text{TTM现金分红}}{\\text{总市值}}",
+          "stats": [0.021, null, 0.31, null],
+          "evidence": "| DP_TTM | 0.26% | 4.14 | 2.10% | 0.31 | 4 |"
+        },
+        {
+          "name": "SOBV",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{简单能量潮指标（OBV类成交量技术因子）}",
+          "stats": [-0.027, null, -0.24, null],
+          "evidence": "| SOBV | -0.26% | -2.4 | -2.70% | -0.24 | 4 |"
+        },
+        {
+          "name": "EEChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "EEChange\\_3M=\\frac{\\text{当前一致预期EPS}-\\text{3个月前一致预期EPS}}{|\\text{3个月前一致预期EPS}|}",
+          "stats": [0.015, null, 0.24, null],
+          "evidence": "| EEChange_3M | 0.11% | 3.62 | 1.50% | 0.24 | 3 |"
+        },
+        {
+          "name": "OCFP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "OCFP=\\frac{\\text{TTM经营现金流}}{\\text{总市值}}",
+          "stats": [0.015, null, 0.33, null],
+          "evidence": "| OCFP_TTM | 0.10% | 3.1 | 1.50% | 0.33 | 3 |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test", "L2_zoo"],
+      "approach": ["cleaning", "neutralization", "return_test", "regression_test", "selection"],
+      "setup": {"universe": ["all"]}
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "经参数敏感性测试，滚动36个月、持仓数量150只的等权加权组合表现最优，信息比为3.67，年化收益31%。",
+      "evidence": "经参数敏感性测试，滚动 36 个月、持仓数量 150 只的等权加权组合表现最优，信息比为3.67，年化收益 31%。"
+    },
+    {
+      "text": "经验证，动态调整模型信息比显著高于静态因子赋权模型，且等权模型表现优于复合因子得分加权模型。",
+      "evidence": "经验证，动态调整模型信息比显著高于静态因子赋权模型，且等权模型表现优于复合因子得分加权模型。"
+    },
+    {
+      "text": "静态模型在样本外的2017年以来出现较大回撤，持仓数为50和100的组合均出现6.2%的回撤，跑输中证500达3.7%，跑输动态组合9.7%。",
+      "evidence": "可见静态的模型在样本外的 2017年以来出现较大回撤，持仓数为 50 和 100的组合在2017 年以来均出现了 6.2%的回撤，跑输中证 500达 3.7%，跑输动态组合9.7%。"
+    },
+    {
+      "text": "复合因子得分加权略微提高收益率，但波动同时增大，导致组合整体信息比反而下滑。",
+      "evidence": "尽管复合因子得分加权的方法略微提高了收益率，但由于波动同时增大，导致组合的整体信息比反而出现下滑。"
+    },
+    {
+      "text": "根据前期测试结果，从11个大类因子中筛选出收益率较显著、高IC、IR且单调性得分较高的44个因子。",
+      "evidence": "首先，根据前期的测试结果，我们从 11 个大类因子中分别筛选出了收益率较显著，高 IC、IR 并且单调性得分较高的 44 个因子。"
+    },
+    {
+      "text": "持股数大于等于100时组合信息比均高于3，最高可达3.67。",
+      "evidence": "而当持股数大于等于100时，组合信息比均高于 3，最高可达3.67"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Edward Qian《Quantitative Equity Portfolio Management》",
+    "因子测试全集——多因子系列报告之二（2017-04-28）",
+    "多因子系列报告之一：因子测试框架（2017-04-10）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

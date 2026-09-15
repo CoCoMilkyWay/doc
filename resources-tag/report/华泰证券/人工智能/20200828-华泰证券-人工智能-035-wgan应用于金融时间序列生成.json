@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "id": "20200828-华泰证券-人工智能-035-wgan应用于金融时间序列生成",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "mixed"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "WGAN 在生成数据的真实性和多样性上均优于原始 GAN：GAN 无法复现出真实序列的长时程相关等特性，WGAN 则有显著改善，且多样性也有一定提升。",
+      "evidence": "使用 GAN 和WGAN生成上证综指日频和标普 500 月频收益率序列，结果表明 GAN 无法复现出真实序列的长时程相关等特性，WGAN 则有显著改善，并且 WGAN 在多样性上相比于 GAN 也有一定提升。"
+    },
+    {
+      "text": "W 距离避免了 JS 散度带来的梯度消失现象，无需小心平衡 D 和 G 的训练过程；WGAN 判别器的损失函数收敛，可以辅助指示训练进程。",
+      "evidence": "W 距离避免了 JS散度带来的梯度消失现象，故而不用再小心平衡 D和 G的训练过程。WGAN 用判别器近似估计真假分布间的 W 距离，随着训练的进行，W 距离越来越小，即判别器的损失函数收敛，可以辅助指示训练进程。"
+    },
+    {
+      "text": "上证综指日频序列上，GAN 生成序列 Hurst 均值检验统计量-657.02 表明其长时程相关失真，WGAN 检验统计量 192.27 复现了真实序列的长时程相关特征。",
+      "evidence": "GAN 模型1000 条生成序列的 Hurst均值假设检验统计量为-657.02，远小于-1.64，因此有理由相信GAN 模型生成序列在长时程相关上是失真的。WGAN模型检验统计量为 192.27，充分远离拒绝域，因此可以合理认为WGAN 生成序列复现了真实序列的长时程相关特征。"
+    },
+    {
+      "text": "标普 500 月频数据上，GAN 生成序列在波动率聚集、粗细波动率相关和盈亏不对称性指标上表现不佳，WGAN 改善明显，更接近真实序列。",
+      "evidence": "在标普 500 月频数据上，GAN 生成序列在波动率聚集、粗细波动率相关和盈亏不对称性指标上表现不佳，WGAN也改善明显，更接近真实序列。"
+    },
+    {
+      "text": "以 DTW 指标衡量，WGAN 生成序列的多样性相比于 GAN 模型有显著提升。",
+      "evidence": "WGAN 生成序列之间的 DTW 值分布明显位于 GAN 模型生成序列的右侧，说明WGAN 生成序列的多样性相比于 GAN 模型有显著提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Arjovsky, M., Chintala, S., & Bottou, L. (2017). Wasserstein gan. arXiv preprint arXiv:1701.07875.",
+    "De Meer Pardo, F. (2019). Enriching Financial Datasets with Generative Adversarial Networks.",
+    "Gulrajani, I., Ahmed, F., Arjovsky, M., Dumoulin, V., & Courville, A. C. (2017). Improved training of wasserstein gans.",
+    "《人工智能31：生成对抗网络 GAN 初探》（20200508）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

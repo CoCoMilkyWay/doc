@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "20180608-东方证券-因子选股-041-公司研发费用因子探究",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["statement_detail"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "研发营收比",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{管理费用中的研发费用}}{\\text{营业收入(TTM)}}",
+          "stats": [null, 0.004, 0.177, 0.0236],
+          "evidence": "其二是根据管理费用中的研发费用除以营业收入（RD ratio）作为衡量"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["linear", "fusion"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500", "growth", "sector"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500", "growth", "sector"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "研发营收比在高科技行业(医药、电子、通讯、计算机)都有一定效果，构建行业内增强组合后在医药和计算机行业有明显的新 alpha 贡献",
+      "evidence": "研发营收比在高科技行业(医药、电子、通讯、计算机)都有一定的效果，但是在构建行业内增强组合后，发现因子在医药和计算机行业有比较明显的新 alpha贡献，在另外两个行业内新增强组合与原组合表现基本不变"
+    },
+    {
+      "text": "中证500内医药计算机增强组合相比常规组合年化对冲收益提升1.3%，信息比提升0.2，最大回撤降低1.8%，效果比较显著",
+      "evidence": "500 内医药计算机增强组合相比于原来的常规组合年化对冲收益提升 1.3%，信息比提升 0.2，最大回撤降低 1.8%，效果还是比较显著的"
+    },
+    {
+      "text": "创业板指医药计算机增强组合相比原组合年化对冲收益提升1.1%，信息比从0.43提升到0.58，最大回撤下降近1%",
+      "evidence": "新的组合相比于原来的组合年化对冲收益提升 1.1%，信息比从 0.43 提升到 0.58，最大回撤下降近 1%"
+    },
+    {
+      "text": "当期研发投入能较快对公司业绩产生效用的行业，研发营收比因子效用更好，这是因子在计算机和医药行业能明显提升组合收益的原因",
+      "evidence": "综合来看，当期的研发投入能比较快对公司业绩产生效用的行业，研发营收比因子的效用要更好一些，这也就是为什么因子在计算机和医药两个行业能比较明显的提升组合的收益。"
+    },
+    {
+      "text": "医药计算机在中证500内平均权重占比15%左右，板块内1%以上的提升对整个500增强组合的提升仅约0.2-0.3%，效果比较有限",
+      "evidence": "从权重占比来看，这两个行业历史的权重占比不高，平均占比 15%左右，在结合板块内 1%以上的提升，实际对 500 增强组合的提升大约在 0.2-0.3%，效果比较有限。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chan, L. K., Lakonishok, J., Sougiannis, T. (2001) The stock market valuation of research and development expenditures",
+    "Leung, W. S., Mazouz, K., Evans, K. P. (2016) A risk explanation for the R&D anomaly",
+    "《公司R&D投入与企业业绩相关性研究》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "id": "20160527-国泰君安-数量化专题-072-事件驱动策略的因子化特征",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "业绩预增（扭亏、略增、预增）",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{业绩预告公告后，若个股处于持续性阿尔法事件状态影响下则标1，否则标0}",
+          "stats": [null, null, null, null],
+          "evidence": "| 业绩预增（扭亏、略增、预增） | 公告日前后累计异常收益涨幅均较为显 著，公告日前后呈现加速上升。 | 持续性阿尔法事件 |"
+        },
+        {
+          "name": "股东增持",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{股东增持公告后，若个股处于持续性阿尔法事件状态影响下则标1，否则标0}",
+          "stats": [null, null, null, null],
+          "evidence": "| 股东增持 | 公告日累计异常收益达到底点，公告日后 显著上升，持续20个交易日以上。 | 持续性阿尔法事件 |"
+        },
+        {
+          "name": "股权激励",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{股权激励董事会预案公告后，若个股处于持续性阿尔法事件状态影响下则标1，否则标0}",
+          "stats": [null, null, null, null],
+          "evidence": "| 股权激励 | 公告日后累计异常收益显著上升，持续 20 个交易日以上。 | 持续性阿尔法事件 |"
+        },
+        {
+          "name": "投资者调研",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{投资者调研日期后，若个股处于持续性阿尔法事件状态影响下则标1，否则标0}",
+          "stats": [null, null, null, null],
+          "evidence": "| 投资者调研 | 公告日前后累计异常收益涨幅均较为显 著，公告日前后呈现加速上升。 | 持续性阿尔法事件 |"
+        },
+        {
+          "name": "股东减持（非大宗减持）",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{股东减持公告后，若个股处于持续性风险事件状态影响下则标-1，否则标0}",
+          "stats": [null, null, null, null],
+          "evidence": "| 股东减持（非大宗减持） | 公告日累计异常收益达到顶点，公告后显 著下降，持续20个交易日以上。 | 持续性风险事件 |"
+        },
+        {
+          "name": "快报同比盈亏",
+          "family": "event",
+          "direction": "negative",
+          "data_period": ["event"],
+          "horizon": "monthly",
+          "formula": "\\text{业绩快报预告后，若个股处于持续性风险事件状态影响下则标-1，否则标0}",
+          "stats": [null, null, null, null],
+          "evidence": "| 快报同比盈亏 | 公告日前后累计收益涨幅均较为显著，公 告日前后呈现加速下降。 | 持续性风险事件 |"
+        }
+      ]
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size", "value", "growth", "quality", "momentum", "volatility", "liquidity"],
+        "data": {"source": ["market_daily", "statement"], "freq": "daily"},
+        "horizon": "monthly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    },
+    "L6_evaluation": {"module": ["L6_attribution"], "approach": ["factor_based"]}
+  },
+  "findings": [
+    {
+      "text": "多事件驱动投资组合在过去6年时间内均战胜中证500指数，逐年平均可获得19.4%的年超额收益率，平均年信息比率达到2.36，组合年均双边换手率约为4倍。",
+      "evidence": "上述回测结果表明，多事件驱动投资组合在过去 6 年时间内均战胜了中证 500 指数，表现稳定。逐年平均来看，组合可获得 19.4%的年超额收益率，平均年信息比率达到 2.36，组合年均双边换手率约为 4 倍。"
+    },
+    {
+      "text": "考虑事件驱动的多因子组合在最大回撤几乎相同的情况下，相对中证500累计超额收益从50.4%大幅提升至98.3%，信息比率提升至6.25。",
+      "evidence": "从相对中证 500 指数的超额收益来看，考虑事件驱动的多因子组合在最大回撤几乎相同的情况下，累计收益从 50.4%大幅提升至 98.3%，因此组合整体的信息比率也提升至 6.25，表现良好。"
+    },
+    {
+      "text": "大部分事件类型在公告日之前异常收益就有显著波动，事件实际发生即市场预期兑现后异常收益并不一定延续，定向增发、高送转等事件此效应尤为明显。",
+      "evidence": "从上述分析中可以看到，大部分事件类型在公告日之前异常收益就有显著波动，而在事件实际发生之后即市场预期兑现后，异常收益则并不一定可以得到延续，例如定向增发、高送转等事件，此类效应尤为明显。"
+    },
+    {
+      "text": "4类持续性阿尔法事件公告后60个交易日异常收益保持稳定增长，T检验值维持较高水平；持续性风险事件则导致累计异常收益持续下降，需谨慎规避。",
+      "evidence": "总体而言，持续性风险事件将会导致累计异常收益持续下降，投资者对该类股票需谨慎规避。"
+    },
+    {
+      "text": "归因结果显示组合选股层面贡献最高，但风格层面带有较明显的市值风格特征，策略收益中存在部分风格收益。",
+      "evidence": "但是，归因结果同样表明，在风格层面，组合带有较为明显的市值风格特征，即组合选择的股票仍然以中小创居多，策略收益中存在部分风格收益。"
+    },
+    {
+      "text": "事件为状态因子而非截面因子，传统截面因子方法无法处理，故在组合预期收益率中加入事件异常累计收益CAR的估计，并保持风险事件中性约束。",
+      "evidence": "一方面，是因为事件发生的时点并不一致；另一方面，事件为状态因子而不是截面因子，传统的截面因子处理方法无法运用于事件因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《基于组合权重优化的风格中性多因子选股策略》",
+    "《融资融券标的调整事件研究》2016.05.17"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

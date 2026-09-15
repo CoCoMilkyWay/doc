@@ -1,0 +1,120 @@
+{
+  "schema_version": 2,
+  "id": "20250410-东方证券-因子选股-112-adwm_基于门控机制的自适应动态因子加权模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      },
+      "factors": [
+        {
+          "name": "Model2因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{将ABCM模型生成的风险因子进行短周期非线性加权合成得到的个股得分}",
+          "stats": [null, 0.1289, 1.29, null],
+          "evidence": "Model2：将 ABCM模型生成的风险因子进行短周期加权合成得到的因子。"
+        },
+        {
+          "name": "Model3因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{将ABCM模型生成的alpha因子通过ADWM状态门控机制进行长周期加权合成得到的个股得分}",
+          "stats": [null, 0.15, 1.36, null],
+          "evidence": "Model3：将 ABCM模型生成的 alpha因子通过 ADWM进行长周期加权合成得到的因子。"
+        },
+        {
+          "name": "Model4因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{ABCM模型生成的所有因子（风险因子与alpha因子）均参与短周期加权合成得到的个股得分}",
+          "stats": [null, 0.1634, 1.65, null],
+          "evidence": "Model4：为《ABCM：基于神经网络的 alpha 和 beta 因子协同挖掘模型》中的 Model1 的调整版（各个数据集由 ABCM模型生成的所有因子均参与加权）。"
+        },
+        {
+          "name": "Model5因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday", "daily", "weekly", "quarterly"],
+          "horizon": "daily",
+          "formula": "\\text{Model3与Model4所得因子按照一定比例加权合成得到的最终得分}",
+          "stats": [null, 0.1656, 1.65, null],
+          "evidence": "Model5：为 Model3和 Model4所得因子按照一定比例进行加权合成最终得分。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["neural", "loss_generalization", "ensemble"],
+      "baseline": ["tree"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "daily"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    },
+    "L8_timing": {"module": ["L8_rotation"], "approach": ["ml_rotation"], "setup": {"rebalance": "weekly"}}
+  },
+  "findings": [
+    {
+      "text": "Model2使用生成的风险因子进行短周期加权，合成得分RankIC可达12.89%，说明风险因子和未来收益率是否同向有可预测性，可将风险信息一定程度转化为具有选股能力的alpha信息。",
+      "evidence": "Model2 使用生成的风险因子进行短周期加权，所合成的得分依然有较好的选股表现，RankIC 可达 12.89%，这说明风险因子和未来收益率是否同向有可预测性，因此可将风险信息一定程度转化为具有选股能力的 alpha 信息。"
+    },
+    {
+      "text": "Model3因子通过学习长时间A股市场的alpha信息，RankIC可达15.00%显著好于Model2，长期对股票排序的预测能力更强。",
+      "evidence": "对比 Model2 和 Model3 来看，Model3 因子的 RankIC 可达 15.00%，显著好于 Model2，这说明通过学习长时间 A 股市场的 alpha 信息所得到的 alpha 因子长期对股票排序的预测能力更强。"
+    },
+    {
+      "text": "Model2因子年化多头超额收益率可达46.40%，显著好于Model3，说明对所谓的风险因子进行轮动可以使得多头有着极端的高收益。",
+      "evidence": "Model2因子年化多头超额收益率可达46.40%，显著好于Model3，上述结果说明对所谓的风险因子进行轮动可以使得多头有着极端的高收益。"
+    },
+    {
+      "text": "2024年市场状态发生巨大切换，历史数据学习到的轮动信息产生偏差，Model2因子回撤较大超额较低，相比之下Model3因子稳定性更强。",
+      "evidence": "而 2024年由于市场状态发生巨大切换，历史数据学习到的轮动信息产生偏差，因此 Model2 因子回撤较大超额较低，相比之下，Model3因子稳定性更强。"
+    },
+    {
+      "text": "Model3因子在小市值、非线性市值、低波动率、低估值四个风格上相关性显著高于其他模型，因A股市场长期小市值、低波、低估值具有alpha收益，该因子在这些风格上持续稳定暴露。",
+      "evidence": "Model3因子在小市值、非线性市值、低波动率、低估值这四个风格上相关性显著高于其他几个模型，具体原因可能是 Model3 因子根据长期 A 股市场数据学习得到的 alpha 因子，而 A股市场长期小市值、低波、低估值是具有 alpha 收益的因此该因子在这几个风格上会出现持续稳定的暴露。"
+    },
+    {
+      "text": "2018年以来Model5因子行业轮动表现最佳，行业RankIC和ICIR分别可达12.45%和0.42，年化超额可达28.44%。",
+      "evidence": "另外 2018 年以来 Model5 因子表现最佳，行业 RankIC 和 ICIR 分别可达 12.45%和 0.42，年化超额可达 28.44%。"
+    },
+    {
+      "text": "因子直接应用于指数增强策略：2018年以来Model4因子表现最好，沪深300、中证500和中证1000年化超额收益率分别为16.82%、22.56%和32.13%；2024年以来Model5因子表现最好，年化超额收益分别为9.42%、6.80%和11.32%。",
+      "evidence": "在沪深300、中证500和中证1000增强策略上 2018 年以来 Model4 因子表现最好，年化超额收益率分别为 16.82%、22.56%和32.13%；2024年以来，Model5因子表现最好，年化超额收益分别为9.42%、6.80%和11.32%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "ABCM：基于神经网络的alpha和beta因子协同挖掘模型（2024-12-03）",
+    "Burges, C. J. (2010). From ranknet to lambdarank to lambdamart: An overview.",
+    "Li, T., et al. (2024). Master: Market-guided stock transformer for stock price forecasting. AAAI 2024.",
+    "Xiang, Q., et al. (2024). RSAP-DFM: regime-shifting adaptive posterior dynamic factor model for stock returns prediction. IJCAI-24.",
+    "东方A股因子风险模型（DFQ-2020）",
+    "融合基本面信息的 ASTGNN 因子挖掘模型（2024-05-27）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

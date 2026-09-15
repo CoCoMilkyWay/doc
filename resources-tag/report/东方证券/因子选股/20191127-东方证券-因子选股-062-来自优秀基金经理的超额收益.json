@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "id": "20191127-东方证券-因子选股-062-来自优秀基金经理的超额收益",
+  "genre": "research",
+  "asset": ["stock_cn", "fund"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["flow"], "freq": "quarterly"},
+        "holding": {"rebalance": "quarterly", "horizon": "quarterly"}
+      },
+      "factors": [
+        {
+          "name": "优选基金超配股",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{在优选基金（按规模与过去一年夏普比率筛选的基金）的前十大重仓股中，按持股市值占基金总股票投资市值的比例排序，选取权重排名前10\\%的股票，多只基金持有时取平均权重}",
+          "stats": [null, null, null, null],
+          "evidence": "我们按照持股市值占基金总股票投资市值的比例对股票进行排序。在优选基金的前十大重仓股票池中，再选权重排名前 10%的股票作为优选基金组合的超配股。"
+        },
+        {
+          "name": "夏普比率",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "quarterly",
+          "formula": "\\text{过去一年基金收益率均值与标准差之比（年化）}",
+          "stats": [null, null, null, null],
+          "evidence": "每季度末按照过去一年的夏普比率将基金分十组，考察 top10%基金构成的等权基金组合相对于基金池的超额收益。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi300", "csi500"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "季度调仓的高夏普比率基金组合自2008年以来，相对于等权基金池平均可以取得4%的年化超额收益，最近三年更是可以取得平均6%的年化超额收益",
+      "evidence": "季度调仓的高夏普比率基金组合自 2008年以来，相对于等权基金池，平均可以取得 4%的年化超额收益，最近三年更是可以取得平均 6%的年化超额收益。"
+    },
+    {
+      "text": "优选基金超配组合相对于中证全指、沪深300、中证500指数均可以取得超过10%的年均超额收益",
+      "evidence": "优选基金超配组合相对于中证全指、沪深 300、中证 500指数均可以取得超过 10%的年均超额收益。"
+    },
+    {
+      "text": "优选基金超配组合不能提供传统因子之外的增量Alpha，其超额收益其实是源于各类Alpha因子的线性组合",
+      "evidence": "截距项 p 值大于0.1，说明优选基金超配组合不能提供传统因子之外的增量 Alpha，其超额收益其实是源于各类 Alpha 因子的线性组合。"
+    },
+    {
+      "text": "引入优选基金组合超配股的信息后，沪深300全市场指数增强组合的年化收益提升1.4%，改进十分明显",
+      "evidence": "引入优选基金组合超配股的信息后，沪深 300 全市场指数增强组合的年化收益提升 1.4%，改进十分明显。"
+    },
+    {
+      "text": "引入优选基金组合超配股的信息后，中证500全市场增强组合的年化收益提升0.9%，有一定改进效果",
+      "evidence": "引入优选基金组合超配股的信息后，组合的年化收益提升 0.9%，有一定改进效果。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "A股行业内选股分析总结",
+    "业绩超预期类因子",
+    "东方 A 股因子风险模型——DFQ-2018"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

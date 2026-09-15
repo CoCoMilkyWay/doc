@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "id": "20230706-华创证券-形态学研究-004-母子线",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "正面母子线",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{两日K线组合：前一日K线为阴线且实体较长，当日K线实体处于前一日K线实体之内，为看涨（正面）母子线}",
+          "stats": [null, null, null, null],
+          "evidence": "母子线是由两根 K线组合成的图形，前一根 K线的实体较长，可以是阴线，也可以是阳线，后一根 K线的实体相对前一根K线来说要短一些，后一根 K线的实体处于前一根K线的实体之内。当第一根K线为阳线，为看空（负面）母子线，第一根 K线为阴线则为看涨（正面）母子线。"
+        },
+        {
+          "name": "负面母子线",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{两日K线组合：前一日K线为阳线且实体较长，当日K线实体处于前一日K线实体之内，为看空（负面）母子线}",
+          "stats": [null, null, null, null],
+          "evidence": "空头母子线为在上涨趋势中，第一日 K 线长阳，第二日开盘价收盘价在第一日价格振幅之内，预示趋势反转，股价将下跌。考虑 5日的股价变化，在负面母子信号的胜率为 53.2%，平均收益为-0.18%，正面母子线信号胜率为 52.7%，平均收益为 0.55%。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "不耦合指标时母子线5日预测负面胜率53.28%、正面胜率52.68%；耦合MA60指标后负面信号胜率最高提升为54.90%，正面信号胜率最高提升为55.13%。",
+      "evidence": "在不耦合指标的情况下，母子线 5 个交易日间隔股价预测负面胜率为 53.28%，正面信号胜率为52.68%。在耦合 MA60 指标的情况下，负面信号胜率最高提升为54.90%，正面信号胜率最高提升为 55.13%。"
+    },
+    {
+      "text": "母子线结合MA60的负面提示策略回测获得19.6%的年化收益，0.86的夏普比例，31%的最大回撤，beta为-0.79，alpha为0.24。",
+      "evidence": "策略获得了 19.6%的年化收益，0.86 的夏普比例，31%的最大回撤。由于策略是负面提示，其 beta 为-0.79，其 alpha 为 0.24。"
+    },
+    {
+      "text": "正面母子线对短期的预测胜率超过对长期的胜率，在5日的预测胜率最高；负面母子线胜率比同样交易日间隔的正面母子线胜率更高。",
+      "evidence": "从历史统计角度，正面母子线对短期的预测胜率超过对长期的胜率，其在 5 日的预测胜率最高。负面母子线胜率比同样交易日间隔的正面母子线胜率更高。"
+    },
+    {
+      "text": "母子线耦合多种指标在特定个股上表现不同，在300670.SZ上耦合MA60的负向信号胜率超过80%。",
+      "evidence": "例如，根据历史数据回测，在 300670.SZ 上耦合 MA60 的负向信号胜率超过 80%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《K线形态学研究系列之三：十字孕线》(2023-06-08)",
+    "《华创金工形态学研究之二：如何利用形态信号进行市场择时》(2023-05-12)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

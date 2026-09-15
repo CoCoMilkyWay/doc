@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "20210622-国泰君安-学界纵横-010a-基于机器学习的日内波动率预测",
+  "genre": "review",
+  "asset": ["option"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_hedge"],
+      "approach": ["option_overlay"],
+      "setup": {"universe": ["na"], "rebalance": "daily"}
+    },
+    "L6_evaluation": {"module": ["L6_backtest"], "approach": ["overfit_detection", "evaluation_metric"]}
+  },
+  "findings": [
+    {
+      "text": "人工选择合适的波动率模型非常复杂且低效，通过监督性学习算法可以自动化这一过程，并通过指标监测自动修正结果",
+      "evidence": "人工选择合适的模型是一个非常复杂且低效的方法。通过监督性学习算法，我们可以自动化这一过程。同时，通过对一些指标的监测，这个算法可以自动地修正其结果并给出相对准确的波动率预测。"
+    },
+    {
+      "text": "评价波动率模型不应依据策略盈亏，而应将模型预测与基准测试结果比较，并通过分布测试判断预测结果的稳定性",
+      "evidence": "如果盈亏不是很好的评价方式，我们应如何评价波动率模型的表现？作者给出的答案是将模型的预测与基准测试的结果进行比较。例如，对于日终对冲，我们可以将模型预测的收盘波动率与基准进行比较。我们同时也可以通过分布测试来判断预测结果的稳定性。"
+    },
+    {
+      "text": "强预测力模型的样本分布Z(n)应遵循标准正态分布，可通过正态检测选出符合标准的模型，且其给出的波动率范围相对小且精确",
+      "evidence": "对于一个强有力的模型，Z(n)应该遵循标准正态分布。我们可以通过正态检测来选出符合标准的模型。同时，一个强有力模型给出的波动率范围会是相对小且精确的。"
+    },
+    {
+      "text": "在预测标普500指数波动率上，马尔可夫模型31和32常常取得榜首，同时作为相对简单的模型，日内模型1-10也十分可靠",
+      "evidence": "在预测标普500 指数波动率上，马尔可夫模型 31和 32 常常取得榜首。同时，作为相对简单的模型，日内模型 1-10也十分可靠。"
+    },
+    {
+      "text": "财报日期权日内波动率常出现极端变化，可通过给予财报日日期相对高的权重（隐含与实际波动率）来解决预测问题",
+      "evidence": "具体地说，我们可以通过给予财报日日期相对高的权重（隐含与实际波动率）来解决这个问题。我们可以通过分析平值期权的周期性结构特征来得到隐含波动率的调整参数。"
+    },
+    {
+      "text": "对期权Delta与Vega风险只有两到三个风险因子可预测其发生，需要对波动率曲面进行主成分分析",
+      "evidence": "对于 Delta 与 Vega 风险而言，我们只有两到三个风险因子来预测它们的发生。为了解决该问题，我们需要对波动率曲面进行主成分分析。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["Sepp. Machine Learning for Volatility Trading"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

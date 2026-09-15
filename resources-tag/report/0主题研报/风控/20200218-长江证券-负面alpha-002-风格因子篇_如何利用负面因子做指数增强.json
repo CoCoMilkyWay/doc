@@ -1,0 +1,160 @@
+{
+  "schema_version": 2,
+  "id": "20200218-长江证券-负面alpha-002-风格因子篇_如何利用负面因子做指数增强",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_market"],
+      "approach": ["style_ratio", "momentum_reversal", "distribution_moment", "liquidity_turnover"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "成长因子",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{3}\\text{净利润增速}+\\frac{1}{3}\\text{营业利润增速}+\\frac{1}{3}\\text{ROE同比}",
+          "stats": [null, null, null, -0.0986],
+          "evidence": "成长因子负面组合从长期看能获得较稳定的负面 Alpha，净值比（负面组合/指数增强组合，下同）自 2010 年以后持续向下，基本每年都跑输剔除空头组之后的指数成分股，平均每年跑输 9.86%。"
+        },
+        {
+          "name": "质量因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE_{TTM}",
+          "stats": [null, null, null, -0.0878],
+          "evidence": "质量因子负面组合从长期看能获得较稳定的负面 Alpha，净值比持续向下，平均每年跑输指数增强组合 8.78%。"
+        },
+        {
+          "name": "价值因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{4}\\text{EP}+\\frac{1}{4}\\text{BP}+\\frac{1}{4}\\text{CFP}+\\frac{1}{4}\\text{SP}",
+          "stats": [null, null, null, -0.1063],
+          "evidence": "价值因子的长期负面 Alpha 较稳定，负面组合除 2013 和 2019 年都跑输了指数增强组合，净值比持续向下，平均每年跑输增强组合 10.63%。"
+        },
+        {
+          "name": "Beta因子",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\text{过去一个月与沪深300回归得到的Beta}+\\frac{1}{2}\\text{过去一年与沪深300回归得到的Beta}",
+          "stats": [null, null, null, null],
+          "evidence": "Beta 因子的各组超额收益没有单调性，第 5 组的超额收益为-4.51%，具有较高的负向超额收益。"
+        },
+        {
+          "name": "波动率因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\text{近一个月收益率标准差}+\\frac{1}{2}\\text{近一年收益率标准差}",
+          "stats": [null, null, null, -0.1538],
+          "evidence": "波动率因子的平均年化负面 Alpha 高达 15.38%，远远跑输指数增强组合，而且每年都能获得负面 Alpha，净值比也稳定向下。"
+        },
+        {
+          "name": "财务杠杆因子",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{3}\\text{资产负债率}+\\frac{1}{3}\\text{非流动负债占总资产比率}+\\frac{1}{3}\\text{非流动负债占市值比例}",
+          "stats": [null, null, null, null],
+          "evidence": "财务杠杆因子的各组超额收益没有单调性，其中表现最差的为第 3 组，平均每年跑输指数 1.97%，空头组的负向超额收益仅为 1.51%。"
+        },
+        {
+          "name": "流动性因子",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{3}\\ln(\\text{近21日日均换手率})+\\frac{1}{3}\\ln(\\text{近63日日均换手率})+\\frac{1}{3}\\ln(\\text{近252日日均换手率})",
+          "stats": [null, null, null, -0.1719],
+          "evidence": "流动性因子的平均年化负面 Alpha 高达 17.19%，远远跑输指数增强组合，除了 2019年其他年度都能获得负面 Alpha，净值比也稳定向下。"
+        },
+        {
+          "name": "规模因子",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\ln(\\text{流通市值})",
+          "stats": [null, null, null, -0.087],
+          "evidence": "规模因子在 2017 年之前负面 Alpha 较稳定，净值比持续向下，平均每年跑输指数增强组合 8.70%，但近三年没有负面 Alpha。"
+        },
+        {
+          "name": "反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{近一个月收益率}",
+          "stats": [null, null, null, -0.166],
+          "evidence": "反转因子的平均年化负面 Alpha 高达 16.60%，远远跑输指数增强组合，除了 2017 年其他年度都能获得负面 Alpha，净值比也稳定向下。"
+        },
+        {
+          "name": "动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一年扣除近一个月收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "动量因子的各组超额收益没有单调性，空头组的负向超额收益仅为 2.28%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["weighting", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "风格因子空头组具有显著负向超额收益：流动性、反转、波动率、成长、价值、规模和质量因子年化依次分别为 11.20%、10.08%、9.15%、6.87%、6.82%、5.82%和 5.75%。",
+      "evidence": "从 2007-02-01 至 2019-12-31 的测算结果看，流动性、反转、波动率、成长、价值、规模和质量因子具有显著的负向超额收益，年化依次分别为 11.20%、10.08%、9.15%、6.87%、6.82%、5.82%和 5.75%。"
+    },
+    {
+      "text": "风格因子负面组合相对中证 500 指数增强组合具有显著负面 Alpha：流动性、反转、波动率、价值、成长、质量和规模因子年化依次分别为 17.19%、16.60%、15.38%、10.63%、9.86%、8.78%和 8.70%。",
+      "evidence": "从 2007-02-01 至 2019-12-31的测算结果看，流动性、反转、波动率、价值、成长、质量和规模因子的负面组合相对于中证 500 指数增强组合具有显著的负面 Alpha，年化依次分别为 17.19%、16.60%、15.38%、10.63%、9.86%、8.78%和 8.70%。"
+    },
+    {
+      "text": "复杂增强策略每年都跑赢中证 500，平均年化收益 13.72%，超额 7.39%，相对基准最大回撤 2.49%，月度跑赢概率 76.62%，合成因子的负面 Alpha 高达 24.28%。",
+      "evidence": "从中证 500 的回测结果来看，复杂增强策略每年都跑赢了指数，且超额收益更显著。策略平均年化收益为 13.72%，超额中证 500 指数 7.39%，相对基准的最大回撤为 2.49%，收益回撤比为 2.97，信息比率为 2.31，跟踪误差为2.84%，月度跑赢概率为 76.62%，合成因子的负面 Alpha 高达 24.28%。"
+    },
+    {
+      "text": "复杂增强策略每月选取过去一年空头组表现最差的 5 个因子等权合成，流动性和波动率入选频率最高，分别为 153 和134。",
+      "evidence": "表 13 为策略中各因子的入选总次数，流动性和波动率的入选频率最高，分别为 153 和134。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《负面事件指数增强策略》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "20171225-华泰期货-cta量化策略因子-005-偏度与峰度因子",
+  "genre": "research",
+  "asset": ["future_commodity"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "偏度因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\mathrm{skewness}=\\mathbb{E}[\\left(\\frac{r-\\mu}{\\sigma}\\right)^{3}]",
+          "stats": [null, null, null, null],
+          "evidence": "简单可以从图中看出两者均具有一定均值回归性质，利用此特性，即买入具备负偏度前 20%的品种，卖出正偏度前 20%的品种，构建策略组合。"
+        },
+        {
+          "name": "峰度因子",
+          "family": "volatility",
+          "direction": "nonmonotonic",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\mathrm{kurtosis}=\\mathrm{E}[\\left({\\frac{r-\\mu}{\\sigma}}\\right)^{4}]",
+          "stats": [null, null, null, null],
+          "evidence": "所以，在选择构建组合品种时，应该选择峰度适中、接近正态分布的品种。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "na"}}
+  },
+  "findings": [
+    {
+      "text": "偏度因子组合在国内商品期货市场未能取得超额收益，无论不同回溯期和持有周期，相较动量因子与期限结构因子均无优势。",
+      "evidence": "但利用国内商品期货市场品种，从单因子的组合构建回测结果看，无论从不同长短回溯期和不同持有周期，相较动量因子与期限结构因子，并未取得超额收益。"
+    },
+    {
+      "text": "剔除高峰度品种后，动量策略年化收益由10.5%提高至11.3%，最大回撤由13.7%减小至12.6%，对冲效果并未下降。",
+      "evidence": "经测试从 2010年至2017年传统动量策略（回溯10天，滚动持仓5天，10%品种对冲）年化收益 10.5%，最大回撤 13.7%，年化波动率 10%，剔除高峰度的品种后，可提高策略年化收益至 11.3%，最大回撤 12.6%，年化波动率 10.8%，改进策略保持10%对冲比例，尽管对冲品种减少了，年化收益有所提高，对冲效果并未下降，最大回撤减小至12.6%。"
+    },
+    {
+      "text": "利用峰度的大小筛选品种：峰度过小则因子分布相对平均、区分度不够，峰度过大则因子表现不稳定，应选择峰度适中、接近正态分布的品种。",
+      "evidence": "所以，在选择构建组合品种时，应该选择峰度适中、接近正态分布的品种。"
+    },
+    {
+      "text": "偏度因子多空组合从整体效果上看，构建组合并未达到良好的对冲效果，未取得良好超额收益。",
+      "evidence": "从整体效果上看，构建组合并未达到良好的对冲效果，未取得良好超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["华泰期货量化策略专题报告：CTA 量化策略因子系列（三）期限结构因子"],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

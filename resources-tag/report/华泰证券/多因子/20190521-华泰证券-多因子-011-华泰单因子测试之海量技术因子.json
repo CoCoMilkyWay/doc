@@ -1,0 +1,136 @@
+{
+  "schema_version": 2,
+  "id": "20190521-华泰证券-多因子-011-华泰单因子测试之海量技术因子",
+  "genre": "handbook",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Alpha3",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * correlation(rank(OPEN), rank(VOLUME), 10)",
+          "stats": [null, 0.0496, 0.91, null],
+          "evidence": "Alpha3 (-1 * correlation(rank(OPEN), rank(VOLUME), 10))"
+        },
+        {
+          "name": "Alpha13",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * rank(covariance(rank(CLOSE), rank(VOLUME), 5))",
+          "stats": [null, 0.0592, 0.95, null],
+          "evidence": "Alpha13 (-1 * rank(covariance(rank(CLOSE), rank(VOLUME), 5)))"
+        },
+        {
+          "name": "Alpha15",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * sum(rank(correlation(rank(HIGH), rank(VOLUME), 3)), 3)",
+          "stats": [null, 0.0457, 0.85, null],
+          "evidence": "Alpha15 (-1 * sum(rank(correlation(rank(HIGH), rank(VOLUME), 3)), 3))"
+        },
+        {
+          "name": "Alpha16",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * rank(covariance(rank(HIGH), rank(VOLUME), 5))",
+          "stats": [null, 0.0573, 0.91, null],
+          "evidence": "Alpha16 (-1 * rank(covariance(rank(HIGH), rank(VOLUME), 5)))"
+        },
+        {
+          "name": "Alpha44",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * correlation(HIGH, rank(VOLUME), 5)",
+          "stats": [null, 0.0596, 0.89, null],
+          "evidence": "Alpha44 (-1 * correlation(HIGH, rank(VOLUME), 5))"
+        },
+        {
+          "name": "Alpha50",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5)",
+          "stats": [null, 0.0541, 0.87, null],
+          "evidence": "Alpha50 (-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5))"
+        },
+        {
+          "name": "Alpha55",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * correlation(rank((CLOSE - ts_min(LOW, 12)) / (ts_max(HIGH, 12) - ts_min(LOW, 12))), rank(VOLUME), 6)",
+          "stats": [null, 0.0477, 0.9, null],
+          "evidence": "| Alpha55 | (-1 * correlation(rank((CLOSE - ts_min(LOW, 12)) / (ts_max(HIGH, 12) - ts_min(LOW, 12))), rank(VOLUME), 6)) |"
+        }
+      ]
+    },
+    "L2_process": {
+      "module": ["L2_preprocess", "L2_single_test"],
+      "approach": ["neutralization", "return_test", "regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "筛选出的7个有效因子Rank IC累积曲线更平稳，虽Rank IC均值不如4个对照因子，但IC_IR明显优于4个对照因子。",
+      "evidence": "排名前 7 位的 101 技术因子虽然 Rank IC 均值不如 4 个对照因子，但 IC_IR 是明显优于 4个对照因子的。"
+    },
+    {
+      "text": "7个有效因子的Rank IC衰减速度与过去20日收益率因子相当或稍慢，可推测适于月频调仓，分层测试证实其中2个因子同时适合月频或双周频调仓。",
+      "evidence": "我们筛选出的 7 个有效因子的 Rank IC衰减速度都与过去 20 日收益率因子相当或稍慢一些，而过去 20 日收益率因子是比较传统的适于月频调仓的因子，因此可以推测这 7 个有效因子也适于月频调仓。实际上，通过分层测试法可以证实这 7 个因子确实都比较适合月频调仓，其中也存在 2 个因子同时适合月频或双周频调仓。"
+    },
+    {
+      "text": "因子头部选股能力有限，最优选股数目j分别为400，80，80，40，200，80，400，需选取适量股票构建稳健分散组合，且头部组合超额收益不稳定，多空收益良好表现部分源于空头组合。",
+      "evidence": "测试结果显示，在达到年化收益率最高时，因子 Alpha3，13，15，16，44，50，55 的最优 j取值分别为 400，80，80，40，200，80，400，说明这些因子在只选取头部少量个股时效果均达不到最优，需选取适量股票构建较为稳健、分散的投资组合。并且，这些因子头部组合的超额收益并不是十分稳定，而多空收益则稳定得多，说明因子多空收益的良好表现部分源于空头组合，而 A股市场很难做空个股，所以要理性看待。"
+    },
+    {
+      "text": "7个有效因子核心算法都是f(X,Y,d)，逻辑都是选择存在价量背离现象的个股，说明因子构建方式并不是越复杂越好。",
+      "evidence": "我们筛选出的 7个有效因子构建逻辑比较类似，核心算法都是 f(X,Y,d)，其中函数 f 为计算相关系数或协方差的函数，变量 X 为日频价格数据，变量Y为日频交易量数据，d 是一个取值在 3～10 之间的常数。f(X,Y,d)的作用在于探查个股在过去 d 个交易日的价量联动或背离属性，结合测试结果来看，这些因子的逻辑都是选择存在价量背离现象的个股。"
+    },
+    {
+      "text": "大部分排序靠前的因子在行业及市值中性处理时IC_IR值最高，剔除行业、市值两个风险因素后因子效果普遍提升。",
+      "evidence": "大部分排序靠前的因子都是在因子做行业及市值中性处理时 IC_IR值最高，说明剔除了行业、市值这两个最重要的风险因素后因子效果得到了普遍提升。"
+    },
+    {
+      "text": "对7个有效因子做有顺序正交化处理后因子IC_IR值有所下降，加入原有因子库需考虑正交化后是否还有残余价值。",
+      "evidence": "结果显示，做有顺序正交化处理之后，因子IC_IR 值还是有所下降的，若要将这些因子加入自己原有的因子库，还需考虑它们在和因子库中其它因子做正交化处理后是否还有残余价值。"
+    },
+    {
+      "text": "分层测试发现Alpha13，44比较适合月频或双周频调仓（T=20或10），Alpha3，15，16，50，55比较适合月频调仓（T=20）。",
+      "evidence": "在分层测试中我们发现，Alpha13，44 比较适合月频或双周频调仓（T=20 或 10），Alpha3，15，16，50，55 比较适合月频调仓（T=20）。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《华泰单因子测试之估值类因子》",
+    "《华泰单因子测试之财务质量因子》",
+    "《华泰多因子模型体系初探》（2016.09）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

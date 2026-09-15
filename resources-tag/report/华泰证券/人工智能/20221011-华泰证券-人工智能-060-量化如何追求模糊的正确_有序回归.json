@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "20221011-华泰证券-人工智能-060-量化如何追求模糊的正确_有序回归",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_training", "L3_composition"],
+      "approach": ["label_horizon", "loss_generalization", "ensemble"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["market_daily", "statement", "analyst"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "以全连接神经网络或残差图注意力网络为基模型，logistic 有序回归可以提升模型 Rank IC和多空收益；将加权 mse和有序回归预测结果集成，集成后年化超额收益、信息比率显著提升",
+      "evidence": "选股测试中，以全连接神经网络或残差图注意力网络为基模型，logistic 有序回归可以提升模型 Rank IC和多空收益；将加权 mse和有序回归预测结果集成，集成后年化超额收益、信息比率显著提升。"
+    },
+    {
+      "text": "基模型为 nn时，引入有序回归后，年化超额收益由 14.15%提升至 15.98%，信息比率由 2.38 提升至 2.76",
+      "evidence": "下图展示基模型为 nn时，有序回归集成模型和基线模型的超额收益及最大回撤。引入有序回归后，年化超额收益由 14.15%提升至 15.98%，信息比率由 2.38 提升至 2.76。"
+    },
+    {
+      "text": "基模型为 gat_res时，引入有序回归后，年化超额收益由 15.33%提升至 16.30%，信息比率由 2.60 提升至 2.69",
+      "evidence": "下图展示基模型为 gat_res时，有序回归集成模型和基线模型的超额收益及最大回撤。引入有序回归后，年化超额收益由 15.33%提升至 16.30%，信息比率由 2.60 提升至 2.69。"
+    },
+    {
+      "text": "logistic 有序回归损失函数与 wmse 的日度超额收益相关系数约为 0.7~0.92，将 wmse和有序回归预测结果进行集成后，集成模型的年化超额收益、信息比率相比基线显著提升",
+      "evidence": "logistic 有序回归损失函数与 wmse 的日度超额收益相关系数约为 0.7~0.92。将 wmse和有序回归预测结果进行集成，集成模型的年化超额收益、信息比率相比基线显著提升。"
+    },
+    {
+      "text": "Logistic 损失总体优于 exponential 和 hinge 损失；样本加权、类别加权和样本-类别加权差异不大；分类数量为 10 时效果较好；预测值集成效果总体优于组合集成方法",
+      "evidence": "考察损失函数、加权方式、分类数量、模型集成方式对模型表现的影响。Logistic 损失总体优于 exponential 和 hinge 损失；对截面收益高的股票赋予更高权重，样本加权、类别加权和样本-类别加权差异不大；对于全 A 股总市值和流动性前 60%股票池，分类数量为 10 时效果较好；预测值集成方法将子模型的预测值求均值再进行组合优化，效果总体优于子模型组合等权配置季度再平衡的组合集成方法。"
+    },
+    {
+      "text": "直接将不同种子点的wmse模型集成后，年化超额收益、信息比率反不及基线wmse模型，有序回归集成模型表现提升的核心原因可能在于和谁集成，而非集成本身",
+      "evidence": "结果显示，直接将不同种子点的wmse模型集成后，年化超额收益、信息比率反不及基线wmse模型。有序回归集成模型表现提升的核心原因，可能在于和谁集成，而非集成本身。如果子模型损失函数一致，仅仅是随机数种子的差异，那么内部相关性较高，集成未必有效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Rennie, J., & Srebro, N. (2005). Loss Functions for Preference Levels: Regression with Discrete Ordered Labels. IJCAI.",
+    "华泰金工研报《人工智能 55：图神经网络选股的进阶之路》（2022-04-11）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

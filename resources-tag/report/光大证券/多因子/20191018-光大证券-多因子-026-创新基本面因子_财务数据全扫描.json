@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20191018-光大证券-多因子-026-创新基本面因子_财务数据全扫描",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_mining"],
+      "approach": ["statement_detail", "symbolic_search"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement"], "freq": "quarterly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "营业能力改善（RROC）因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "Funda_{\\text{营业收入}}=\\beta_{X}*Funda_{\\text{营业成本}}+\\varepsilon,\\ \\text{因子值取滚动回归(默认8期)最后一期残差}\\ \\varepsilon_T",
+          "stats": [0.0385, null, 0.75, null],
+          "evidence": "基于逻辑与实证构建的3 个创新基本面因子：营业能力改善（RROC）因子、线性提纯净利润（LPNP）因子、产能利用率提升（OCFA）因子从2018年6月份开始样本外跟踪的1年多时间里效果都较为优秀。其中RROC因子样本外跟踪的月度IC均值3.85%，IR 高达 0.75。"
+        },
+        {
+          "name": "线性提纯净利润（LPNP）因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "Funda_{\\text{净利润}}=\\beta_{1}*Funda_{\\text{营业外收入}}+\\beta_{2}*Funda_{\\text{支付给员工现金}}+\\varepsilon,\\ \\text{因子值取滚动回归最后一期残差}\\ \\varepsilon_T",
+          "stats": [0.0273, null, 0.47, null],
+          "evidence": "净利润在营业外收入与支付给员工现金上多元回归取最后一期残差"
+        },
+        {
+          "name": "产能利用率提升（OCFA）因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "Funda_{\\text{营业成本}}=\\beta_{X}*Funda_{\\text{固定资产}}+\\varepsilon,\\ \\text{因子值取滚动回归最后一期残差}\\ \\varepsilon_T",
+          "stats": [0.0133, null, 0.5, null],
+          "evidence": "在 2018 年 7 月到 2019 年 9 月这 15 个月里，RROC、LPNP、OCFA 的月度 IC 均值分别为 3.85%、2.73%、1.33%。"
+        },
+        {
+          "name": "营业利润作为因变量在息税前利润（EBIT）上滚动回归取残差",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "Funda_{\\text{营业利润}}=\\beta_{X}*Funda_{\\text{息税前利润(EBIT)}}+\\varepsilon,\\ \\text{因子值取滚动回归最后一期残差}\\ \\varepsilon_T",
+          "stats": [0.0354, null, 0.89, null],
+          "evidence": "效果最佳的组合为营业利润作为因变量在息税前利润（EBIT）上滚动回归取残差得到的因子，其月度IR可达0.89。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "基于逻辑构建的3个创新基本面因子RROC、LPNP、OCFA自2018年6月样本外跟踪1年多效果优秀，RROC因子月度IC均值3.85%，IR高达0.75。",
+      "evidence": "基于逻辑与实证构建的3 个创新基本面因子：营业能力改善（RROC）因子、线性提纯净利润（LPNP）因子、产能利用率提升（OCFA）因子从2018年6月份开始样本外跟踪的1年多时间里效果都较为优秀。其中RROC因子样本外跟踪的月度IC均值3.85%，IR 高达 0.75。"
+    },
+    {
+      "text": "经覆盖度筛选后留下209个财务数据或指标进行暴力遍历测试，最终得到43472个因子结果。",
+      "evidence": "在经过简单的因子覆盖度筛选后，我们总共留下209 个财务数据或指标进行暴力测试，最终得到 43472（209∗208）个因子结果。"
+    },
+    {
+      "text": "成长类财务指标作为因变量的有效因子效果显著高于其它类型，效果最佳的组合为营业利润在息税前利润（EBIT）上滚动回归取残差得到的因子，月度IR可达0.89。",
+      "evidence": "从整体结果上看，成长类财务指标作为因变量的有效因子，其效果显著高于其它类型财务数据构造的因子。效果最佳的组合为营业利润作为因变量在息税前利润（EBIT）上滚动回归取残差得到的因子，其月度IR可达0.89。"
+    },
+    {
+      "text": "成长类型因变量因子是整体表现最强的一类，因子方向全为正向；营业利润信息量最高，以之滚动回归得到的因子往往有超过3.5%的IC与0.85的IR。",
+      "evidence": "成长类型因变量因子是整体表现最强的一类，其因子方向也都符合因变量的逻辑，全为正向。其中营业利润有着最高的信息量，以之在另一些利润数据滚动回归后得到的因子往往有着超过 3.5%的 IC 与 0.85 的 IR。"
+    },
+    {
+      "text": "盈利类型因子中表现较好的自变量大多为盈余公积金或每股盈余公积，说明盈余公积金相关信息能大幅提升盈利类因子的选股效果。",
+      "evidence": "表现较好的因子其自变量大多为盈余公积金或每股盈余公积，说明盈余公积金相关信息能大幅提升盈利类因子的选股效果。"
+    },
+    {
+      "text": "一些本身没有明显预测能力的财务数据在经过回归处理后呈现出更为有效的选股能力。",
+      "evidence": "一些本身没有明显预测能力的财务数据在经过回归处理后则呈现出更为有效的选股能力。"
+    },
+    {
+      "text": "财务数据样本过小会令过拟合出现概率大大增加，运用时一是尝试理解因子背后的合理逻辑解释，二是观察更多样本外的效果检验。",
+      "evidence": "然而财务数据数据样本过小的确会令过拟合出现的概率大大增加。因此在运用的过程中我们认为两点依然十分重要，一是尝试理解因子背后是否有合理的逻辑解释；二是要观察更多样本外的效果检验。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《创新基本面因子：捕捉产能利用率中的讯号——多因子系列报告之十六》2018.11",
+    "《创新基本面因子：提纯净利数据中的选股信息——多因子系列报告之十五》2018.09",
+    "《创新基本面因子：财务数据间线性关系初窥——多因子系列报告之十四》2018.08"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

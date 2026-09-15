@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "20170217-东方证券-因子选股-019-动态情景alpha模型再思考",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["regime_domain", "fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["mean_variance", "futures_hedge"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "动态情景 Alpha 模型（DCAM）一般框架被抽象出来：DCAM 是传统静态模型的层次化叠加，只有一个情景且只有一个情景区间时退化为静态模型。",
+      "evidence": "本篇报告在《动态情景 alpha 模型》的基础上抽象出了动态情景 Alpha 模型（DCAM）的一般框架，DCAM 是传统的静态模型的层次化叠加，当只有一个情景且该情景只有一个情景区间时DCAM 退化为静态模型。"
+    },
+    {
+      "text": "衡量情景因子好坏的主要标准是不同情景区间 alpha 模型的差异化程度，即不同区间 alpha 因子及权重是否相似。",
+      "evidence": "因此我们认为衡量一个股票属性适合做情景因子的主要标准就是这个情景下不同区间的alpha模型的差异化程度，即不同情景区间下的alpha因子及 alpha 因子权重是否相似等"
+    },
+    {
+      "text": "DCAM_v2 相对静态模型收益和稳定性明显提升：多空组合年复合收益率较 Static 高 11.1%，月胜率高达 95.3%。",
+      "evidence": "DCAM_v2 的多空组合年复合收益率较静态组合 Static高 11.1%，同时回测并没有明显增加，月胜率高达 95.3%，2008 年以来 108 个月份仅有 5 个月多空组合收益为负。"
+    },
+    {
+      "text": "DCAM_v2 模型 top100 组合小市值偏好十分明显，回测期间平均市值分位数高达 75%，组合表现部分由市值贡献。",
+      "evidence": "需要提醒注意的是，DCAM_v2模型 top100组合小市值偏好十分明显，回测期间平均市值分位数高达 75%，top100 组合的表现有部分是由市值贡献。"
+    },
+    {
+      "text": "控制市值、行业风险后，DCAM_v2 相对 Static 模型和 DCAM_v1 收益和稳定性均有大幅提升：500 增强对冲组合收益 28.6%，较 Static 提升 3.7 个百分点，最大回撤降低至 5.9%。",
+      "evidence": "DCAM_v2 模型相对 Static 模型和 DCAM_v1收益和稳定性均有大幅提升，对冲组合收益 28.6%，较 Static 模型提升了 3.7 个百分点，月胜率高达90.7%，最大回测降低至 5.9%，夏普比提升至 3.59%。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Alpha 精简与优化",
+    "动态情景多因子 Alpha 模型（东方金工因子选股系列研究之八）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

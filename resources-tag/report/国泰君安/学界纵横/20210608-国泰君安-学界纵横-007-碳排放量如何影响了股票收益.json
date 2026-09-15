@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20210608-国泰君安-学界纵横-007-碳排放量如何影响了股票收益",
+  "genre": "review",
+  "asset": ["stock_us"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["firm_attribute"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": []
+    },
+    "L2_process": {
+      "module": ["L2_single_test"],
+      "approach": ["regression_test", "robustness"],
+      "setup": {"universe": ["all"]}
+    }
+  },
+  "findings": [
+    {
+      "text": "《Do investors care about carbon risk?》一文发现公司碳排放量与股票收益正相关，碳排放风险溢价是由于承担了更多的风险，从而需要更高的收益予以补偿。",
+      "evidence": "《Do investors care about carbon risk?》一文发现公司碳排放量与股票收益正相关。碳排放风险溢价是由于承担了更多的风险，从而需要更高的收益予以补偿。"
+    },
+    {
+      "text": "在碳排放因子和风险因子的时间序列回归中发现，传统风险因子不能解释碳排放风险溢价，碳排放因子包含横截面收益中的独特信息。",
+      "evidence": "在碳排放因子和风险因子的时间序列回归中发现，传统风险因子不能解释碳排放风险溢价，碳排放因子包含横截面收益中的独特信息。"
+    },
+    {
+      "text": "碳风险溢价在近些年才出现，在2015年《巴黎协定》签署之后明显增加，在1990年代当碳排放尚未成为共识之际相对更低。",
+      "evidence": "碳风险溢价在近些年才出现。在 2015 年《巴黎协定》签署之后，碳风险溢价明显增加；在 1990 年代当碳排放尚未成为共识之际，碳风险溢价相对更低。"
+    },
+    {
+      "text": "机构投资者对特定行业或公司的撤资行为对碳排放风险溢价具有重要影响，银行、生物技术和油气行业的碳排放量相对最高，且在这些行业内部公司特征对于机构选股并无作用。",
+      "evidence": "本文发现银行、生物技术和油气行业的碳排放量相对最高，且在这些行业内部公司特征对于机构选股并无作用；在控制行业因素之后，规模大、资本支出低、成长能力强的公司更有可能受到机构关注。"
+    },
+    {
+      "text": "剔除了碳排放量最高的几个行业之后，公司层面的碳风险溢价更加明显，暗示在碳排放量整体高的行业中，投资者对公司层面的碳风险溢价差异并不敏感。",
+      "evidence": "表23表明，剔除了碳排放量最高的几个行业之后，公司层面的碳风险溢价更加明显。这一发现暗示，在碳排放量整体高的行业中，投资者对公司层面的碳风险溢价差异并不那么敏感。"
+    },
+    {
+      "text": "随着投资者对碳排放风险的认识日益深入，碳排放风险可能从当前的α异象演化为β因子，成为解释股票收益的重要因子。",
+      "evidence": "随着投资者对碳排放风险的认识日益深入，碳排放风险可能从当前的α异象演化为β因子，成为解释股票收益的重要因子。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Hsu、Li 和 Tsou（2019）",
+    "Krueger、Sautner 和 Starks（2020）",
+    "Matsumura、Prakash 和 Vera-Munoz（2014）",
+    "《Do investors care about carbon risk?》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

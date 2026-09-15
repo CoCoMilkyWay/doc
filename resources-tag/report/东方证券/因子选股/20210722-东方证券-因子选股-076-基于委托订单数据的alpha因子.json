@@ -1,0 +1,99 @@
+{
+  "schema_version": 2,
+  "id": "20210722-东方证券-因子选股-076-基于委托订单数据的alpha因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi800", "csi1000", "other"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "盘前撤单比例",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{9:20前撤回的委托单总量}}{\\text{9:20前的委托单总量}}",
+          "stats": [null, -0.0423, -1.82, null],
+          "evidence": "开盘集合阶段第一阶段仅模拟撮合价格实际并不成交，因此投资者可以在 9：20 前通过挂单查看撮合价格后撤单的方法用于测试对手盘的挂单价格和委托量，基于这个逻辑，我们认为集合竞价第一阶段的撤单比例蕴含了重要信息。"
+        },
+        {
+          "name": "早盘买卖单大小比",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\ln\\left(\\frac{\\text{10:30前的买入订单平均委托量}}{\\text{10:30前的卖出订单平均委托量}}\\right)",
+          "stats": [null, 0.0479, 2.14, null],
+          "evidence": "为了因子的分布更加正态，我们对早盘买卖单大小比进行了对数调整，同时和盘前撤单比例因子类似，我们取过去 20个交易日的早盘买卖单大小比（对数调整）的均值作为 alpha因子值。"
+        },
+        {
+          "name": "订单绝对价格分歧程度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{\\sum\\left[\\ln\\left(\\text{订单价格}_i\\right)-\\overline{\\ln p}\\right]^{2}\\cdot \\text{订单量}_i}{\\sum \\text{订单量}_i}}",
+          "stats": [null, -0.0792, -2.51, null],
+          "evidence": "订单数据包括了投资者愿意在指定价格买入或者卖出特定量股票的信息，订单的价格表示了投资者对股票价值的判断，不同订单价格的分歧程度反应了投资者对股票价值的分歧，在缺乏做空机制的情形下，投资者对股票价值的分歧往往带来股票阶段性高估，股票后期的收益一般相对较差。"
+        },
+        {
+          "name": "订单相对价格分歧程度",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\sqrt{\\frac{\\sum\\left[\\ln\\left(\\text{订单价格}_i\\right)-\\ln\\left(\\text{该笔委托时点的最新成交价格}\\right)\\right]^{2}\\cdot \\text{订单量}_i}{\\sum \\text{订单量}_i}}",
+          "stats": [null, -0.0496, -1.52, null],
+          "evidence": "本文用订单相对价格分歧程度度量投资者委托订单价格相对最近成交价格偏离的差异化程度。订单相对价格分歧程度相对绝对价格分歧程度选股表现略差，但和其他因子相关性更低，信息更加独立。"
+        },
+        {
+          "name": "改进APB",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\ln\\left(\\frac{\\text{twap}}{\\text{买单委托量加权的平均价格}}\\right)",
+          "stats": [null, 0.0666, 2.81, null],
+          "evidence": "在订单数据可以获取的情况下我们可以通过直接观察买入订单的分布去刻画买卖压力，同样我们认为在股票价格相对低位新增大量买入订单的股票买入压力大，未来表现较好。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "盘前撤单比例越高，股票未来收益平均越差，该因子用于度量股票的“镰刀”占比。",
+      "evidence": "基于此，我们构建了盘前撤单比例因子用于度量股票的“镰刀”占比，盘前撤单比例越高，股票未来收益平均越差。"
+    },
+    {
+      "text": "在早盘跟随大订单的买卖方向可以获取超额收益，这种超额收益在沪深 300 这种大市值股票中更加明显。",
+      "evidence": "早盘买入订单更大的股票平均表现更好、卖出订单更大的股票表现更差，换句话说就是在早盘跟随大订单的买卖方向可以获取超额收益，而且从因子原始值来看，这种超额收益在沪深 300 这种大市值股票中更加明显，行业市值中性化后大小市值样本空间差异不大。"
+    },
+    {
+      "text": "改进后的APB因子相对原APB因子在RankIC、多空收益、分组表现等方面都有提升，且在原APB因子回撤时依然表现较好。",
+      "evidence": "改进后的 APB 因子相对原 APB 因子在 RankIC、多空收益、分组表现等方面都有提升，而且在近年来原 APB 因子回撤时依然表现较好。"
+    },
+    {
+      "text": "早盘买卖单大小比和订单相对价格分歧程度与现有量价因子的信息重叠程度较低。",
+      "evidence": "早盘买卖单大小比、订单相对价格分歧程度和所有常见量价 alpha因子因子值相关性都在15%以下，部分因子甚至负相关，因子表现的相关性也处于较低水平，可见这两个因子和现有因子的信息重叠程度较低。"
+    },
+    {
+      "text": "盘前撤单比例、订单绝对价格分歧程度和波动、换手等投机性指标存在信息重叠。",
+      "evidence": "盘前撤单比例、订单绝对价格分歧程度和波动、换手等投机性指标的因子值和RankIC 都有较高相关性，在信息层面存在重叠。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《基于量价关系度量股票的买卖压力》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "schema_version": 2,
+  "id": "20170709-东方证券-因子选股-027-预期外的盈利能力",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation"],
+      "approach": ["style_ratio", "statement_detail", "earnings_surprise"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi800"],
+        "data": {"source": ["market_daily", "statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "预期外盈利能力UP",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "UP_q = RNOA_q^{MRQ} - \\widehat{RNOA}_q^{MRQ},\\ \\widehat{RNOA}_q^{MRQ} \\text{ 为横截面回归预测的季度} RNOA",
+          "stats": [null, 0.0431, 3.04, 0.1402],
+          "evidence": "我们采用横截面回归模型（Fama and French, 2000, 2006; Hou andRobinson, 2006）预测企业季度的 RNOA，RNOA 的实现值和预测值之差我们定义为预期外的盈利能力（UP，unexpected profitability）。"
+        },
+        {
+          "name": "RNOA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "RNOA=\\frac{\\text{经营利润}OI}{\\text{净经营资产}NOA}",
+          "stats": [null, 0.013, 0.37, 0.0059],
+          "evidence": "RNOA 相对于传统的 ROE、ROA 指标更加客观地表示了企业经营的盈利能力，而且不易受企业财务政策影响，本文选取RNOA作为盈利能力的度量。"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROE=\\frac{\\text{扣非净利润}}{(\\text{期初净资产}+\\text{期末净资产})/2}",
+          "stats": [null, 0.0142, 0.42, 0.0226],
+          "evidence": "传统上投资者喜欢采用 ROE（净资产收益率）作为盈利能力的度量，但是ROE 容易受企业杠杆的影响，一般情况下，高杠杆的企业 ROE 取值较高。"
+        },
+        {
+          "name": "ROA",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "ROA=\\frac{\\text{扣非净利润}}{(\\text{期初总资产}+\\text{期末总资产})/2}",
+          "stats": [null, 0.0153, 0.43, 0.021],
+          "evidence": "虽然剥离了财务杠杆的影响，但仍然受企业金融活动的影响，比如总资产中可能会有大量的投资性房地产、可供出售金融资产、正常经营活动需求以外的现金等金融资产，这些金融资产并不对经营活动产生影响，但对 ROA指标的计算产生了干扰。"
+        },
+        {
+          "name": "PM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "PM=\\frac{\\text{扣非净利润}}{\\text{主营业务收入}}",
+          "stats": [null, 0.0105, 0.34, 0.007],
+          "evidence": "相比之下，PM属于销售收益率的概念，和预期外盈利能力 UP的相关性相对较低，但依然有很高的信息重叠。"
+        },
+        {
+          "name": "EP",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{盈利收益率（估值因子，文中未给出具体定义）}",
+          "stats": [null, 0.045, 1.75, 0.056],
+          "evidence": "但总体而言，预期外盈利能力和 BP、EP 等估值因子相关性较弱，信息相对比较独立。"
+        },
+        {
+          "name": "EGROWTH",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{扣非净利润的季度同比增长}",
+          "stats": [null, 0.036, 2.2, 0.082],
+          "evidence": "常见的 BP、EP 等估值因子和盈利成长（下文中的 EGROWTH 指扣非净利润的季度同比增长）等成长因子是目前最常用也是最有效的两类基本面因子，本小节主要探讨预期外盈利能力和估值、成长的关系。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "预期外盈利能力UP在选股上能带来明显的超额收益，中性化后在中证全指（剔除金融股）的RankIC均值4.15%、年化IC_IR3.04、多空组合年化收益14.02%、最大回测7.7%，对样本空间依赖性低。",
+      "evidence": "预期外盈利能力 UP 在选股上能带来明显的超额收益，风险中性化后在中证全指成分内（剔除金融股）的 RankIC 均值 4.15%，年化 IC_IR3.04，多空组合年化收益 14.02%，最大回测 7.7%，另外，因子有效性对样本空间的依赖性低，对大中小市值股票均有很强的区分能力，中性化后的因子在沪深 300（剔除金融股）中 Rank IC 均值 4.77%，年化 IC_IR 为 1.60。"
+    },
+    {
+      "text": "在控制预期外盈利能力UP后，其他盈利能力因子均失效；但控制任何单个盈利能力因子，UP的超额收益依然显著，说明盈利能力的alpha主要来源于预期外的部分。",
+      "evidence": "也就是说，在控制预期外盈利能力后其他盈利能力指标均变动无效，盈利能力的选股能力可能主要来源于预期外的部分，相反，控制任何一个盈利能力指标预期外盈利能力的对股票的区分程度依然显著，任何单个盈利能力指标均不能解释预期外盈利能力 UP的超额收益来源。"
+    },
+    {
+      "text": "盈利成长因子的超额收益可能主要来源于盈利能力超预期，但UP还能捕捉到盈利成长之外的超预期信息，与BP、EP等估值因子信息相对独立。",
+      "evidence": "通过相关性分析，我们发现盈利成长能够带来超额收益可能是因为其盈利能力超预期，但预期外盈利能力UP指标能够捕捉到盈利成长之外的超预期信息。"
+    },
+    {
+      "text": "UP的表现对盈利预测模型因变量的选取不敏感，依次剔除各因变量构造的不同预期外盈利能力因子大多表现优异，不存在过度挖掘现象。",
+      "evidence": "通过稳健性分析我们发现UP 的表现对模型的因变量选取不敏感，不存在过度挖掘现象。"
+    },
+    {
+      "text": "预期外盈利能力UP不像多数因子那样在大市值股票中失效，在沪深300等大中小市值股票中均有很强的区分能力。",
+      "evidence": "总体而言，预期外盈利能力 UP 并不像其他大多数因子一样，在全市场看表现很好，而在沪深 300 等大市值股票中相对一般，甚至无效。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Fama and French, 2000, 2006",
+    "Hou and Robinson, 2006",
+    "Nissim and Penman, 2001",
+    "Ohlson, 1995",
+    "Sloan, 1996"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

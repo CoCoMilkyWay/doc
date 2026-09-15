@@ -1,0 +1,141 @@
+{
+  "schema_version": 2,
+  "id": "20200410-光大证券-多因子-031-专利数据中有哪些_alpha",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["firm_attribute"],
+      "setup": {
+        "universe": ["sector"],
+        "data": {"source": ["alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "Factor_fmsq_1Y_num",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年公司获得的发明授权专利数量}",
+          "stats": [0.0339, null, 0.29, null],
+          "evidence": "1 年期发明授权因子（Factor_fmsq_1Y_num）的多头超额收益较为稳定，年化超额收益率9.84%，信息比 1.13。同时因子换手率极低，月度平均单边换手率为6.87%。"
+        },
+        {
+          "name": "Factor_fmsq_2Y_num",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去2年公司获得的发明授权专利数量}",
+          "stats": [0.0331, null, 0.28, null],
+          "evidence": "不同滚动时间区间下的发明授权专利数量因子中，1 年期的因子表现略微好于2年期和3年期的因子表现。说明投资者更为看重公司近期的专利研发情况，过于久远的专利信息对公司的估计影响能力相对较弱。"
+        },
+        {
+          "name": "Factor_fmsq_3Y_num",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3年公司获得的发明授权专利数量}",
+          "stats": [0.0324, null, 0.27, null],
+          "evidence": "不同滚动时间区间下的发明授权专利数量因子中，1 年期的因子表现略微好于2年期和3年期的因子表现。说明投资者更为看重公司近期的专利研发情况，过于久远的专利信息对公司的估计影响能力相对较弱。"
+        },
+        {
+          "name": "Factor_fmsq_1Y_relatedCompanies",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年公司发明授权专利的关联人总数（除去企业本身）}",
+          "stats": [0.035, null, 0.29, null],
+          "evidence": "1 年期发明授权关联人总数因子（Factor_fmsq_1Y_relatedCompanies）的多头超额收益较高，超额收益稳定性相对较弱，年化超额收益率 12.7%，信息比1.08。"
+        },
+        {
+          "name": "Factor_RD_fmsq_1Y",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "Factor\\_RD\\_fmsq\\_1Y\\ =RD\\_1Y/Factor\\_fmsq\\_1Y\\_num",
+          "stats": [-0.0123, null, -0.2, null],
+          "evidence": "1 年期研发效率因子（研发费用/发明授权专利数）（Factor_RD_fmsq_1Y）的多头超额收益较高，超额收益稳定性相对较弱，年化超额收益率 12.0%，超额收益的年化波动为6.8%，信息比0.71。"
+        },
+        {
+          "name": "Factor_RD_fmgb_1Y",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "Factor\\_RD\\_xx\\_yy\\ =RD\\_yy/Factor\\_xx\\_yy\\_num",
+          "stats": [-0.007, null, -0.11, null],
+          "evidence": "因子的构造上，将主要使用一段时间内的研发授权、研发公布、实用新型和外观设计这四类专利数量与公司在相应时间段内的研发费用数据，构造研发效率因子。"
+        },
+        {
+          "name": "Factor_RD_syxx_1Y",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "Factor\\_RD\\_xx\\_yy\\ =RD\\_yy/Factor\\_xx\\_yy\\_num",
+          "stats": [-0.0091, null, -0.15, null],
+          "evidence": "因子的构造上，将主要使用一段时间内的研发授权、研发公布、实用新型和外观设计这四类专利数量与公司在相应时间段内的研发费用数据，构造研发效率因子。"
+        },
+        {
+          "name": "Factor_RD_wgsj_1Y",
+          "family": "other",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "Factor\\_RD\\_xx\\_yy\\ =RD\\_yy/Factor\\_xx\\_yy\\_num",
+          "stats": [-0.0024, null, -0.02, null],
+          "evidence": "因子的构造上，将主要使用一段时间内的研发授权、研发公布、实用新型和外观设计这四类专利数量与公司在相应时间段内的研发费用数据，构造研发效率因子。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi500"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "基于发明授权（fmsq）专利数量的因子，比其他类型专利数量构造的因子具有更好的预测能力和选股效果，实用新型（syxx）类型专利数量因子预测能力较弱。",
+      "evidence": "从测试的结果上看，基于发明授权（fmsq）专利数量的因子，的确比其他类型专利数量构造的因子具有更好的预测能力和选股效果。实用新型（syxx）类型的专利数量虽然较多，但此类专利对于公司的研发能力要求相对较低，在因子层面也表现出较弱的预测能力。"
+    },
+    {
+      "text": "1年期发明授权专利数量因子（Factor_fmsq_1Y_num）回测期IC均值3.39%，IC_IR为0.29，多头超额收益较为稳定，年化超额9.84%，信息比1.13。",
+      "evidence": "1 年期发明授权专利数量因子（Factor_fmsq_1Y_num）回测期 IC 均值 3.39%，IC_IR 为 0.29，且多头超额收益较为稳定，年化超额 9.84%，信 息 比 1.13 。"
+    },
+    {
+      "text": "1年期发明授权关联人总数因子（Factor_fmsq_1Y_relatedCompanies）回测期IC均值3.50%，IC_IR为0.29，年化超额12.7%，信息比1.08，超额收益稳定性相对较弱。",
+      "evidence": "1 年 期 发 明 授 权 专 利 关 联 人 总 数 因 子（Factor_fmsq_1Y_relatedCompanies）回测期 IC 均值 3.50%，IC_IR 为0.29，超额收益稳定性相对较弱，年化超额 12.7%，信息比1.08。"
+    },
+    {
+      "text": "1年期研发效率因子（研发费用/发明授权专利数）（Factor_RD_fmsq_1Y）的预测能力稳定性相对较弱，IC绝对值为0.20，2017年初至今出现了较为明显的回撤。",
+      "evidence": "1 年 期 研 发 效 率 因 子 （ 研 发 费 用 / 发 明 授 权 专 利 数 ）（Factor_RD_fmsq_1Y）的预测能力稳定性相对较弱，IC 绝对值为 0.20，2017 年初至今出现了较为明显的回撤。"
+    },
+    {
+      "text": "在成分股专利数据覆盖度达到62%的前提下，基于Factor_fmsq_1Y_num单因子的中证500增强组合可以较为稳定的跑赢基准，年化超额收益4.20%，相对波动5.08%，信息比0.83。",
+      "evidence": "在上述参数设置下，基于 1 年期发明授权专利数量因子（Factor_fmsq_1Y_num）单因子的500增强组合可以较为稳定的跑赢基准，年化超额收益4.20%，相对波动 5.08%，信息比0.83。"
+    },
+    {
+      "text": "截止2019年底，中证500成分股中专利数据可以覆盖310个公司，覆盖度约为62%，金融板块、必需消费等板块内的专利数据覆盖率极低。",
+      "evidence": "截止 2019 年底，中证 500 成分股中，专利数据可以覆盖 310 个公司，覆盖度约为 62%，而在中证 500 成分股的各个行业上，专利数据的覆盖度如下表所示："
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《以质取胜：EBQC 综合质量因子详解——多因子系列报告之十七》",
+    "《组合优化算法探析及指数增强实证——多因子系列报告之十三》"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

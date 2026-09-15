@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "id": "20220222-中信建投-智能量化-001-基于cne7经典版_多因子拥挤度模型",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L2_process",
+  "pipe": {"L2_process": {"module": ["L2_zoo"], "approach": ["crowding"], "setup": {"universe": ["all"]}}},
+  "findings": [
+    {
+      "text": "短期0-6个月，综合拥挤度指标与市场因子收益负相关而与其波动率正相关，拥挤程度越高会导致未来收益下降和风险上升。",
+      "evidence": "模型结果表明，在短期 0-6 个月，综合拥挤度指标与市场因子收益负相关而与其波动率间正相关，这说明短期来看，拥挤程度越高会导致该因子未来收益的下降和风险的上升。"
+    },
+    {
+      "text": "细分行业中，电力设备行业和汽车行业均于2021年进入高拥挤度区域，计算机等行业尚位于相对安全区。",
+      "evidence": "细分行业中，电力设备行业和汽车行业均于 2021 年进入高拥挤度区域，计算机等行业尚位于相对安全区。"
+    },
+    {
+      "text": "拥挤度细分指标中，估值指标和成长指标对风格因子未来收益与风险的前瞻性相对较好，与未来收益负相关，和风险正相关。",
+      "evidence": "拥挤度细分指标中，估值指标和成长指标对风格因子未来收益与风险的前瞻性相对较好，即与未来收益负相关，和风险正相关。"
+    },
+    {
+      "text": "高度拥挤往往意味着该因子在此后，特别是随后的6至12个月中表现不佳和产生较大波动的风险更大。",
+      "evidence": "虽然每个因子的相关性都不一样，但高度拥挤往往意味着该因子在此后，特别是在随后的 6 至 12 个月中表现不佳和产生较大波动的风险更大。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Asness, C., J. Friedman, R. Krail and J. Liew. （2000）. “Style Timing: Value vs. Growth.”",
+    "Bayraktar, M., S. Doole, A. Kassam and S. Radchenko. （2015a）. “Lost in the Crowd? Identifying and Measuring Crowded Strategies and Trades.”",
+    "George Bonne, Leon Roisenberg, Roman Kouzmenko and Peter Zangari. （2018）. “MSCI Integrated Factor Crowding Model”",
+    "Lou, D. and C. Polk. （2013）. “Comomentum: Inferring Arbitrage Activity from Return Correlations.”"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

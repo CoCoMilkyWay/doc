@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "20201023-中信建投-因子深度研究-010-买卖报单流动性因子构建",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "l2"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["order_flow"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_l1_l2"], "freq": "l2"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "MCI_B",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "MCI_{B}=\\frac{VWAPM_{B}}{DolVol_{B}},\\quad VWAPM_{B}=-\\frac{VWAP_{B}-M}{M},\\quad M=\\frac{P_{A,1}+P_{B,1}}{2}",
+          "stats": [0.0689, null, 2.76, 0.2658],
+          "evidence": "使用买单报单计算得到的因子为买单流动性因子 $MCI_{B}$ （Bid），使用卖单报单计算得到的因子为卖单流动性因子 $MCI_{A}$ （Ask）。"
+        },
+        {
+          "name": "MCI_A",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "MCI_{A}=\\frac{VWAPM_{A}}{DolVol_{A}},\\quad VWAPM_{A}=\\frac{VWAP_{A}-M}{M},\\quad M=\\frac{P_{A,1}+P_{B,1}}{2}",
+          "stats": [0.0656, null, 2.64, 0.2432],
+          "evidence": "使用买单报单计算得到的因子为买单流动性因子 $MCI_{B}$ （Bid），使用卖单报单计算得到的因子为卖单流动性因子 $MCI_{A}$ （Ask）。"
+        },
+        {
+          "name": "MCI_IMB",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "MCI_{IMB}=\\frac{MCI_{B}-MCI_{A}}{MCI_{A}+MCI_{B}}",
+          "stats": [-0.0091, null, null, null],
+          "evidence": "为了消除单位的影响，指标还除以了两者之和。买卖报单流动性不平衡因子定义为： $\\frac{MCI_{IMB}}{}=\\frac{\\frac{MCI_{B}-MCI_{A}}{MCI_{A}+MCI_{B}}}{}$"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "MCI_B因子IC均值6.89%，年化IR2.76，年化多空收益26.58%，夏普比率2.71，总体选股效果非常不错。",
+      "evidence": "首先是 MCI_B 因子的效果，因子 IC 均值 6.89%，年化 IR2.76，年化多空收益 26.58%，夏普比率 2.71，总体选股效果非常不错。"
+    },
+    {
+      "text": "MCI_A因子IC均值6.56%，年化IR2.64，年化多空收益24.32%，夏普比率2.44，总体选股效果也非常不错。",
+      "evidence": "接着我们看下 MCI_A 因子的选股效果，因子 IC 均值 6.56%，年化 IR2.64，年化多空收益 24.32%，夏普比率2.44，总体选股效果也非常不错。"
+    },
+    {
+      "text": "高频（分钟）级别上MCI_B和MCI_A因子方向和前面逻辑完全一致，MCI_A和未来短期收益为负向关系，MCI_B和未来短期收益为正向关系。",
+      "evidence": "由上表可以看出，在高频（分钟）级别上， $MCI_{B}$ 和 $[MCI_{A}$ 因子方向和前面逻辑完全一致， $MCI_{A}$ 和未来短期收益为负向关系， $MCI_{B}$ 和未来短期收益为正向关系。"
+    },
+    {
+      "text": "低频（月频）级别上MCI_B和MCI_A因子方向均显著为正，主要是流动性因子在长期来看具有风险溢价。",
+      "evidence": "在低频（月频）级别上， $MCI_{B}$ 和 $MCI_{A}$ 因子方向均显著为正，主要是流动性因子在长期来看具有风险溢价，因而与未来收益为正向关系。"
+    },
+    {
+      "text": "MCI_B、MCI_A两个因子和自由流通市值（LnFloatCap）的相关性很高，因此对于这两个因子的处理需要做市值中性处理。",
+      "evidence": "MCI_B、 MCI_A 两个因子和自由流通市值（LnFloatCap）的相关性很高，因此对于这两个因子的处理需要做市值中性处理。"
+    },
+    {
+      "text": "沪深300内增强组合3（3因子+MCI_B等权）IC均值6.35%，年化超额收益9.32%，夏普比率1.43，MCI_A和MCI_B均对原指数增强模型有显著提升（年化收益均提升2%以上）。",
+      "evidence": "增强组合 3（3 因子+MCI_B 等权）IC 均值 6.35%，年化超额收益 9.32%，夏普比率 1.43，MCI_A 和 MCI_B 两个买卖报单流动性因子均对原来的指数增强模型有显著的提升（年化收益均提升 2%以上）。"
+    },
+    {
+      "text": "中证500内增强组合3（3因子+MCI_B等权）IC均值7.97%，年化超额收益9.58%，夏普比率1.67，MCI_A和MCI_B同样均对原指数增强模型有显著提升，特别是最近几年。",
+      "evidence": "增强组合 2（3 因子+MCI_A 等权）IC 均值 7.63%，年化超额收益9.88%，夏普比率 1.66，增强组合 3（3 因子+MCI_B 等权）IC 均值 7.97%，年化超额收益 9.58%，夏普比率 1.67，MCI_A 和 MCI_B 两个买卖报单流动性因子同样均对原来的指数增强模型有显著的提升，特别是最近几年。"
+    },
+    {
+      "text": "最近几年3因子等权组合相对基准指数已经没有超额收益，说明大部分常用因子在最近几年已经失效，但加上MCI_A因子后组合在最近几年仍然贡献超额收益。",
+      "evidence": "特别是最近几年，3 因子等权组合相对基准指数已经没有超额收益，说明大部分常用因子在最近几年已经失效，但加上 MCI_A 因子后组合在最近几年仍然贡献超额收益。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Craig W. Holden, and Stacey Jacobsen. Liquidity Measurement Problems in Fast, Competitive Markets: Expensive and Cheap Solutions. Journal of Finance, 69(4):1747–1785, 2014.",
+    "Michael J.Brennan, Tarun Chordia, and Avanidhar Subrahmanyam. Sell-order liquidity and the cross-section of expected stock returns. Journal of Financial Economics, 105(3):523-541, 2012.",
+    "Robert A.Korajczyk, Ronnie Sadka. Pricing the commonality across alternative measures of liquidity. Journal of Financial Economics, 87(1):45-72, 2008.",
+    "Ľuboš Pástor, and Robert F. Stambaugh. Liquidity Risk and Expected Stock Returns. Journal of Political Economy, 111(3):642-685, 2003."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

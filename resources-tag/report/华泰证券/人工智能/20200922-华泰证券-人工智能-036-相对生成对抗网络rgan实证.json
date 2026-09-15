@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "id": "20200922-华泰证券-人工智能-036-相对生成对抗网络rgan实证",
+  "genre": "research",
+  "asset": ["stock_cn", "stock_us"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["synthesis"],
+      "setup": {"data": {"source": ["market_daily"], "freq": "mixed"}}
+    }
+  },
+  "findings": [
+    {
+      "text": "RGAN 引入相对损失函数，应用于金融资产时间序列的生成，在生成数据的真实性上优于原始 GAN，训练更稳定",
+      "evidence": "本文介绍 GAN 的一类重要变式——相对生成对抗网络（RGAN），并将其应用于金融资产时间序列的生成，发现 RGAN 在生成数据的真实性上优于原始 GAN。"
+    },
+    {
+      "text": "上证综指日频数据集上，SGAN 生成序列的 Hurst 指数平均值小于 0.5，长时程相关性不明显，RSGAN 和 RaSGAN 的 Hurst 指数平均值均大于 0.5，更好地模拟了真实数据的长时程相关特点",
+      "evidence": "真实序列的Hurst指数为0.52，即体现出弱长时程相关。SGAN 生成序列的 Hurst 指数平均值小于 0.5，而 RSGAN 和RaSGAN 的 Hurst 指数平均值均大于 0.5，更好地模拟了真实数据的特点。"
+    },
+    {
+      "text": "HingeGAN 生成序列的杠杆效应和盈亏不对称性表现均不明显，指标与真实序列相差一个数量级，RaHingeGAN 的表现与真实数据十分接近",
+      "evidence": "在大部分情况下，相对平均GAN的生成序列质量与GAN接近，在个别指标上有明显改进（标记红色部分）：HingeGAN 的杠杆效应和盈亏不对称性表现均不明显，指标与真实序列相差一个数量级；但是 RaHingeGAN 的表现与真实数据十分接近。"
+    },
+    {
+      "text": "从 8 项衡量生成数据真实性的指标看，RGAN 和 WGAN 较为接近，表现均优于原始 GAN；从 DTW 指标看 RGAN 表现弱于 WGAN，模式崩溃风险更高",
+      "evidence": "从 8 项衡量生成数据真实性的指标看，RGAN 和WGAN 较为接近，表现均优于原始 GAN。从衡量生成数据多样的 DTW 指标看，RGAN 表现弱于 WGAN。原因在于 RGAN 从理论上并未针对模式崩溃问题做出改进，因此 RGAN 的模式崩溃风险相较于WGAN 更高。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Jolicoeur-Martineau A. (2018). The relativistic discriminator: a key element missing from standard GAN.",
+    "Takahashi S, Chen Y, & Tanaka-Ishii K. (2019). Modeling financial time-series with generative adversarial networks.",
+    "《人工智能 31：生成对抗网络 GAN 初探》（20200508）",
+    "《人工智能 35：WGAN 应用于金融时间序列生成》（20200828）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

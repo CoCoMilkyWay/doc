@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20250905-华创证券-端到端挖掘-008-decompgrnv1_基于线性rnn的端到端模型初探",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "DecompGRN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "weekly",
+          "formula": "\\text{将时序趋势分解为趋势与残差分量，基于线性RNN并将市值分组的截面去均值信息与门控单元融合，取最后时间步输出经线性预测头得到股票得分}",
+          "stats": [null, 0.141, 1.26, null],
+          "evidence": "预测标签：市值行业中性化未来10日收益（t+1日~t+11日，以均价计算）。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_training"],
+      "approach": ["label_horizon", "sample_window", "loss_generalization"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "DecompGRN在中证全指/沪深300/中证500/中证1000域内，10日RankIC为0.141/0.099/0.098/0.127，RankICIR分别为1.26/0.65/0.77/1.08，均高于基线GRU模型。",
+      "evidence": "DecompGRN 在中证全指 / 沪深 300 / 中证 500 / 中证 1000 域内，10 日 RankIC 为0.141 / 0.099 / 0.098 / 0.127，RankICIR 分别为 1.26 / 0.65 / 0.77 / 1.08，均高于基线GRU 模型；"
+    },
+    {
+      "text": "在多头TOP组表现上，中证全指/沪深300/中证500/中证1000域内，年化收益分别相比基线+5.28%/-0.64%/+0.73%/+1.88%。",
+      "evidence": "在多头 TOP 组表现上，中证全指 / 沪深 300 / 中证 500 / 中证 1000 域内，年化收益分别相比基线+5.28% / -0.64% / +0.73% / +1.88%。"
+    },
+    {
+      "text": "DecompGRN在沪深300/中证500/中证1000指增组合的年化超额收益分别为10.24%、10.05%、19.58%，跟踪误差分别为5.07、6.1、6.75。",
+      "evidence": "DecompGRN 在沪深 300 / 中证 500 / 中证 1000 指增组合的年化超额收益分别为 10.24%、10.05%、19.58%，跟踪误差分别为 5.07、6.1、6.75。"
+    },
+    {
+      "text": "简单的线性RNN性能略逊于基准模型GRU，但两者表现位于同一水平；通过增加模型层数或与门控线性单元（GLU）结合，线性RNN的性能可以得到有效提升。",
+      "evidence": "实验结果显示，简单的线性 RNN 性能略逊于基准模型 GRU，但两者表现位于同一水平。通过增加模型层数或与门控线性单元（GLU）结合，线性RNN的性能可以得到有效提升；"
+    },
+    {
+      "text": "DecompGRN从实现上看是简化版的DecompGRU，主干部分参数量仅为DecompGRU的65%左右，测试结果表明两个模型处于同一水平。",
+      "evidence": "综上结果，DecompGRN 模型从实现上看是简化版的DecompGRU，主干部分参数量为仅为DecompGRU 的65%左右，而测试结果表明，两个模型处于同一水平"
+    },
+    {
+      "text": "在30分钟K线长序列数据集上，DecompGRN在大多指标上取得了强于基线模型的表现。",
+      "evidence": "在此数据集上，DecompGRN 在大多指标上取得了强于基线模型的表现："
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Orvieto, Antonio, et al. \"Resurrecting recurrent neural networks for long sequences.\" International Conference on Machine Learning. PMLR, 2023.",
+    "《AI+HI 系列（5）：CrossGRU-2：基于 Patch 与多尺度时序改进端到端模型》（2024-07-05）",
+    "《AI+HI 系列（7）：DecompGRU：基于趋势分解的时序+截面端到端模型》（2025-03-13）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": 2,
+  "id": "20240512-光大证券-量化选股-013-探秘股份回购策略_挖掘高收益潜力",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_alternative"],
+      "approach": ["style_ratio", "earnings_surprise", "corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "event"}
+      },
+      "factors": [
+        {
+          "name": "回购事件因子",
+          "family": "event",
+          "direction": "positive",
+          "data_period": ["event"],
+          "horizon": "event",
+          "formula": "\\text{回购类型得分(员工激励、市值管理记1，其他主动式回购、激励注销记0.5，盈利补偿排除)+回购比例的过去一年百分比排名+资金来源得分(自有资金记1，自有+自筹记0.5，其他排除)}",
+          "stats": [null, null, null, null],
+          "evidence": "通过构建回购事件因子来描述事件特征：回购事件因子取三个维度，其一，对回购类型的处理，将员工激励和市值管理类型记 1、其他主动式回购和激励注销类型记 0.5、盈利补偿类型的回购事件进行排除；其二，对回购比例的处理，取回购股份占股本比例在过去一年样本中的百分比排名；其三，对资金来源的处理，将自有资金记 1、自有+自筹资金记 0.5、其他资金来源的回购事件进行排除。"
+        },
+        {
+          "name": "ROEyoy",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{ROE的同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子中，ROEyoy、ROAyoy、标准化预期外盈利因子与回购事件相关性较强，分组测试后效果较好，呈现单调性。"
+        },
+        {
+          "name": "ROAyoy",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{ROA的同比增长率}",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子中，ROEyoy、ROAyoy、标准化预期外盈利因子与回购事件相关性较强，分组测试后效果较好，呈现单调性。"
+        },
+        {
+          "name": "标准化预期外盈利",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "event",
+          "formula": "\\text{SUE：标准化预期外盈利}",
+          "stats": [null, null, null, null],
+          "evidence": "ROEyoy、ROAyoy、标准化预期外盈利因子与回购事件的相关性较强，分组测试后效果良好且呈单调性。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_composition"],
+      "approach": ["fusion"],
+      "baseline": ["weighting"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["statement", "text"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "event"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "董事会预案、开始实施回购、回购完成公告均对股价具有显著积极的影响，4 类公告的 T+20 超额净值分别为 1.0167、1.0147、1.0057、1.0069，均显著大于 1。",
+      "evidence": "相较中证全指，董事会预案、单次回购-实施/完成、连续回购-首次实施、连续回购-完成 4 类公告的 T+20 超额净值分别为 1.0167、1.0147、1.0057、1.0069，均通过检验，显著大于 1。"
+    },
+    {
+      "text": "主动式回购的效果更好，员工激励、市值管理类表现最佳；触发式回购中盈利补偿类基本不能获得超额收益。",
+      "evidence": "对回购类型进行区分后，主动式回购的效果更好，员工激励、市值管理类表现最佳；触发式回购中盈利补偿类基本不能获得超额收益。"
+    },
+    {
+      "text": "A股绝大多数回购利用自有资金进行，利用自有资金进行的回购事件发生后具有稳定的超额表现。",
+      "evidence": "从回购筹码来看，目前 A股绝大多数回购是利用自有资金进行的，利用自有资金进行的回购事件发生后具有稳定的超额表现。"
+    },
+    {
+      "text": "回购与成长类因子的结合效果更佳，ROEyoy、ROAyoy、标准化预期外盈利因子与回购事件的相关性较强，分组测试后效果良好且呈单调性。",
+      "evidence": "回购与成长类因子的结合效果更佳。ROEyoy、ROAyoy、标准化预期外盈利因子与回购事件的相关性较强，分组测试后效果良好且呈单调性。"
+    },
+    {
+      "text": "在定期调仓+因子加权+持有250d+持仓 50 只的处理方式下基础回购策略表现最佳，策略总收益 116.77%，年化收益 16.46%，年化超额 12.16%。",
+      "evidence": "在定期调仓+因子加权+持有250d+持仓 50 只的处理方式下，基础回购策略超额净值表现最佳。在测试区间内（2019.02.01-2024.04.30，下同），策略总收益 116.77%，年化收益16.46%，年化超额 12.16%。"
+    },
+    {
+      "text": "采用将标准化后的成长因子和回购事件因子加总的方式构建回购质量策略，策略总收益 179.84%，年化收益 22.47%，年化超额 17.95%，较基础回购策略得到可观提升。",
+      "evidence": "相较基础回购策略，回购质量策略效果能得到可观提升，采用将标准化后的成长因子和回购事件因子加总的方式，回购质量策略效果更佳。在测试区间内，策略总收益 179.84%，年化收益 22.47%，年化超额 17.95%。"
+    },
+    {
+      "text": "国内回购更多起到逆周期调节作用，回购预案数量与权益市场表现密不可分，回购潮多出现在市场底。",
+      "evidence": "目前国内回购更多地是起到逆周期调节作用。回购预案数量与权益市场表现密不可分，且回购潮多出现在市场底。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

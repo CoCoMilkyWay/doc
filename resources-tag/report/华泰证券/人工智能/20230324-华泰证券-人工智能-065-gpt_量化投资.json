@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "20230324-华泰证券-人工智能-065-gpt_量化投资",
+  "genre": "review",
+  "asset": ["multi"],
+  "primary": "L0_data",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["structuring", "synthesis"],
+      "setup": {
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "text", "macro"],
+          "freq": "mixed"
+        }
+      }
+    }
+  },
+  "findings": [
+    {
+      "text": "短期现实层面，量化投资行业可能难以直接受益于 GPT 模型；但长期看，现有量化投资预测模型可与各类大模型耦合扩展功能，算法升级和规模扩大后量化模型可能涌现出预期外的能力。",
+      "evidence": "我们认为在短期现实层面，量化投资行业可能难以直接受益于 GPT 模型。但长期看，如同人脑各区域分工明确但相互联系，现有量化投资预测模型可与各类大模型耦合扩展功能；算法升级和规模扩大后，量化模型可能涌现出预期外的能力，值得量化从业者期待。"
+    },
+    {
+      "text": "生成的金融数据包含时间序列、K线图像数据、截面特征标签数据、订单簿数据，可以用于训练模型、检验模型、预测收益、预测风险、期权定价等。",
+      "evidence": "量化投资学界和业界实践中，生成的金融数据包含时间序列、K线图像数据、截面特征标签数据、订单簿数据，生成得到的数据可以用于训练模型、检验模型、预测收益、预测风险、期权定价等。"
+    },
+    {
+      "text": "扩散模型生成质量优于 VAE，多样性和稳定性优于 GAN，缺点是对算力要求高、生成效率低，正逐渐取代 GAN 成为生成模型的主流。",
+      "evidence": "扩散模型的优点是生成质量优于 VAE，多样性和稳定性优于 GAN，缺点是对算力要求高，生成效率低。"
+    },
+    {
+      "text": "ChatGPT 或将被用于生成财经新闻、论坛评论、研究报告等文本数据，极大提高文本数据的数量和噪音，对文本挖掘相关的量化交易策略有利有弊。",
+      "evidence": "其一，ChatGPT或将被用于生成财经新闻、论坛评论、研究报告等文本数据，极大提高文本数据的数量和噪音，对文本挖掘相关的量化交易策略有利有弊；"
+    },
+    {
+      "text": "无论是浅度学习模型还是深度学习模型，分类的准确度都与样本量成正比、与样本的不平衡度成反比，ChatGPT 生成的海量财经新闻文本或将助力文本挖掘类量化策略训练。",
+      "evidence": "可以得出的结论是，无论是浅度学习模型还是深度学习模型，分类的准确度都与样本量成正比、与样本的不平衡度成反比。类比至量化投资领域，未来 ChatGPT 生成的海量财经新闻类文本或也将助力文本挖掘类量化交易策略的训练，提供更加“另类”的数据。"
+    },
+    {
+      "text": "ChatGPT 目前与合格的量化研究员尚有差距；若将来能实现生成代码后台运行和自主纠错，并配合数据平台连接，或将实现基础量化策略的批量测试和样本外持续跟踪。",
+      "evidence": "如果将来 ChatGPT对于生成的代码能够实现后台运行和自主纠错，在此基础上配合数据平台的数据支持，将数据接口与 ChatGPT 相连接，那么 ChatGPT 或将可以实现基础量化策略的批量测试和样本外持续跟踪，极大降低量化研究员的人力成本。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kuo, C. H., et al. (2021). Improving generalization in reinforcement learning–based trading by using a generative adversarial market model.",
+    "Ouyang, L., et al. (2022). Training language models to follow instructions with human feedback.",
+    "Wei, J., et al. (2022). Emergent abilities of large language models.",
+    "Wong, M. H., et al. (2020). GANStick: US stock forecasting with GAN-generated candlesticks.",
+    "《人工智能 31：生成对抗网络 GAN 初探》（2020-05-08）",
+    "《人工智能 35：WGAN 应用于金融时间序列生成》（2020-08-28）",
+    "《人工智能 38：WGAN 生成：从单资产到多资产》（2020-11-23）",
+    "《人工智能 45：cGAN 应用于资产配置》（2021-04-19）",
+    "《人工智能 48：对抗过拟合：cGAN 应用于策略调参》（2021-10-12）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

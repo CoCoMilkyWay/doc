@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "id": "20240618-华泰证券-人工智能-080-机器学习模拟投资者分歧",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {
+          "source": ["market_daily", "market_minute", "market_l1_l2", "statement", "analyst"],
+          "freq": "mixed"
+        },
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "机器学习分歧度因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "D_i=\\sqrt{\\frac{1}{M}\\sum_{m=1}^{M}(\\hat{r}_{m,i}-\\bar{\\hat{r}}_i)^2},\\ \\text{其中}\\ \\bar{\\hat{r}}_i=\\frac{1}{M}\\sum_{m=1}^{M}\\hat{r}_{m,i},\\ \\text{即50个LightGBM模型对同一交易日同只股票预测值的标准差}",
+          "stats": [null, 0.0766, 0.75, 0.3289],
+          "evidence": "最后，计算所有模型对同一交易日同只股票的预测值的标准差，构建机器学习分歧度因子。"
+        },
+        {
+          "name": "深度学习分歧度因子",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["second", "intraday", "daily", "weekly", "monthly"],
+          "horizon": "weekly",
+          "formula": "D_i=\\text{多个深度学习模型对同一交易日同只股票预测值的标准差}",
+          "stats": [null, 0.0606, 0.85, null],
+          "evidence": "通过计算深度学习模型间的标准差，构建深度学习分歧度因子，并进行单因子测试。投资者分歧度越高，未来预期收益越低，因此在回测前先进行方向调整（下同）。"
+        },
+        {
+          "name": "认可度因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\bar{\\hat{r}}_i=\\frac{1}{M}\\sum_{m=1}^{M}\\hat{r}_{m,i},\\ \\text{即所有模型对同一交易日同只股票预测值的均值}",
+          "stats": [null, 0.0834, 0.93, null],
+          "evidence": "如果说标准差能够模拟投资者观点分歧，那么均值则可以刻画投资者认可度。计算所有模型对同一交易日同只股票的预测值的均值，构建认可度因子。该因子对未来收益具有正向的预测能力，机器学习中的集成学习也体现了这一思想。"
+        },
+        {
+          "name": "复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{分歧度因子与认可度因子等权合成}",
+          "stats": [null, 0.0902, 0.95, null],
+          "evidence": "将分歧度因子与认可度因子等权合成，得到复合因子的RankIC和多头收益均有提升。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_single_test"], "approach": ["robustness"], "setup": {"universe": ["all"]}}
+  },
+  "findings": [
+    {
+      "text": "机器学习分歧度因子在全A股回测期内周度RankIC均值为7.66%，分5层TOP组合年化超额收益率为9.71%，周频双边换手率为61.97%。",
+      "evidence": "样本空间为全A股，机器学习分歧度因子在2017/1/4～2024/5/31的回测期内周度RankIC均值为7.66%，分5层TOP组合年化超额收益率为9.71%，周频双边换手率为61.97%。"
+    },
+    {
+      "text": "投资者分歧度越高，股票预期收益越低，验证了投资者分歧与股票未来收益的负相关性。",
+      "evidence": "本文利用现有的多个深度学习因子，构建深度学习分歧度因子，验证了投资者分歧与股票未来收益的负相关性。"
+    },
+    {
+      "text": "机构持股比例低的股票池中分歧度因子多空表现更加显著，多空组合年化收益率从32.89%提升至54.05%，说明做空限制是分歧度因子的坚实基础。",
+      "evidence": "使用机构持股比例衡量个股的做空难易程度，机构持股比例低的股票池中分歧度因子多空表现更加显著，多空组合年化收益率从32.89%提升至54.05%，说明做空限制是分歧度因子的坚实基础。"
+    },
+    {
+      "text": "近期涨幅最大的股票池中分歧度因子的多空组合年化收益率高达63.04%，表明乐观投资者占据主导地位，观点分歧造成的买卖不对称性进一步增强。",
+      "evidence": "近期涨幅最大的股票池中分歧度因子的多空组合年化收益率高达63.04%，表明乐观投资者占据主导地位，观点分歧造成的买卖不对称性进一步增强。"
+    },
+    {
+      "text": "根据模型预测均值构建投资者认可度因子，发现一致看多的股票组合预期收益最高，“争议看空”的股票组合预期收益最低，分歧度与认可度因子等权合成的复合因子RankIC和多头收益均有提升。",
+      "evidence": "根据模型预测均值构建投资者认可度因子，发现一致看多的股票组合预期收益最高，“争议看空”的股票组合预期收益最低，分歧度与认可度因子等权合成的复合因子RankIC和多头收益均有提升。"
+    },
+    {
+      "text": "超参数选择对分歧度因子的影响基本不大：预测周期越长TOP组合换手率越低，投资者数量过少会造成RankIC偏低和换手率偏高，特征数量过多会导致投资者之间难以产生预测分歧。",
+      "evidence": "不同预测周期构建的分歧度因子回测表现接近，但预测周期越长，TOP组合换手率越低，因为长线投资者的预测分歧在短期内变化不会太剧烈。不同投资者数量构建的分歧度因子回测表现差异不大，但投资者数量设置过少可能会造成RankIC偏低和换手率偏高。特征数量对分歧度因子的回测表现具有一定影响，随机选取的特征数量过多会导致投资者之间难以产生预测分歧。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Bali T G, Kelly B T, Mörke M, et al. Machine Forecast Disagreement[R]. National Bureau of Economic Research, 2023.",
+    "Miller E M. Risk, uncertainty, and divergence of opinion[J]. The Journal of Finance, 1977, 32(4): 1151-1168.",
+    "《基于全频段量价特征的选股模型》（2023.12.8）",
+    "《如何捕捉长时间序列量价数据的规律》（2024.3.14）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": 2,
+  "id": "20220612-东方证券-因子选股-083-多模型学习量价时序特征",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "RESTCN",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{在TCN(因果卷积+空洞卷积)底层嵌入一维残差块，取最后一个时间步的输出作为alpha因子}",
+          "stats": [null, 0.157, 1.71, 0.43],
+          "evidence": "Bai Shaojie（2018）采用因果卷积、空洞卷积等技术对时间卷积网络 TCN做出了规范化的设计，本文提出的 RESTCN因子单元在 TCN基础上嵌入了一维残差网络以增强模型对局部量价特征的学习能力。"
+        },
+        {
+          "name": "Transformer",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{以time2vec时间编码拼接输入的transformer encoder为骨干，各时间步输出经时间维线性层汇总后拼接最后一个时间步输出}",
+          "stats": [null, 0.161, 1.71, 0.422],
+          "evidence": "本文以采用 time2vec 时间编码的 transformer encoder 为骨干构建因子单元，并在输出端做了特殊设计以充分利用各时间步输出的学习能力。"
+        },
+        {
+          "name": "RCTv1",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{GRU、AGRU、LSTM、RESTCN、Transformer五模型alpha因子各自LightGBM加权生成zscore后等权汇总}",
+          "stats": [null, 0.165, null, 0.457],
+          "evidence": "实验表明 zscore层面整合多模型的选股效果优于因子层面整合，引入 RESTCN、Transformer 后综合打分的 RankIC 和 top 组合收益均有一定提升，10 日 RankIC 均值 16.5%，top 组合年化 45.7%。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_composition"],
+      "approach": ["tree", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance", "heuristic_ranking"],
+      "setup": {"universe": ["all", "csi300", "csi500"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "RESTCN和Transformer提取alpha因子能力不弱于RNN系列模型，单模型下10日RankIC均值分别达15.7%和16.1%，top组合对冲收益分别达43.0%、42.2%",
+      "evidence": "实验表明 RESTCN 和 Transformer 提取 alpha 因子的能力并不弱于 RNN 系列模型，单模型下 10 日 RankIC 均值分别达到 15.7%和 16.1%， top 组合对冲收益（20分组、周度调仓、次日 vwap成交、费前）分别达到 43.0%、42.2%。"
+    },
+    {
+      "text": "zscore层面整合多模型的选股效果优于因子层面整合，引入RESTCN、Transformer后综合打分的10日RankIC均值16.5%，top组合年化45.7%",
+      "evidence": "实验表明 zscore层面整合多模型的选股效果优于因子层面整合，引入 RESTCN、Transformer 后综合打分的 RankIC 和 top 组合收益均有一定提升，10 日 RankIC 均值 16.5%，top 组合年化 45.7%。"
+    },
+    {
+      "text": "多次训练取平均后GRU、AGRU和LSTM两两相关系数约94%，RNN类模型与RESTCN、Transformer两两间相关性约90%，模型结构差异化降低了相关性但幅度有限",
+      "evidence": "我们发现多次训练取平均后模型两两间的相关系数大幅提升，GRU、AGRU 和 LSTM 的两两相关系数大概在 94%左右，RNN 类模型、RESTCN、Transformer 两两间的相关性大约在 90%左右，模型结构的差异化一定程度上降低了模型学习结果的相关性，但是幅度有限。"
+    },
+    {
+      "text": "多模型构建的top100组合各个年度费后绝对收益均为正，周单边5%换手时也有20%以上的超额，适当增加top组合持股数量并不会显著降低组合收益",
+      "evidence": "在合适的换手下，多模型构建的 top100组合各个年度费后绝对收益均为正，周单边 5%换手时也有 20%以上的超额，另外适当增加 top组合持股数量并不会显著降低组合收益。"
+    },
+    {
+      "text": "成分股80%约束下不同换手的沪深300增强组合2017年以来年化对冲收益均超过11%，近期没有明显衰减迹象，周10%换手下增强组合也有11.4%的超额",
+      "evidence": "在成分股 80%约束下不同换手的沪深 300增强组合 2017年以来年化对冲收益均超过 11%，近期没有明显衰减的迹象。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "东方 A股因子风险模型（DFQ-2020）",
+    "周频量价指增模型：因子选股系列之八十一",
+    "神经网络日频 alpha 模型初步实践：因子选股系列之七十四",
+    "超大单冲击对大单因子的影响：因子选股系列之八十二"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

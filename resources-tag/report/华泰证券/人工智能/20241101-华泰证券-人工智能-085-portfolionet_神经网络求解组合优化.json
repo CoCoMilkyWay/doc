@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "id": "20241101-华泰证券-人工智能-085-portfolionet_神经网络求解组合优化",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_mining"],
+      "approach": ["representation_learning"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "Smart Factor",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{双层GRU+RELU+FC+BN+FC+BN网络对过去30个交易日量价特征的输出，与组合优化层联合训练}",
+          "stats": [null, 0.0728, null, 0.1933],
+          "evidence": "该因子是和组合优化层联合训练、共同更新参数得出的“Smart”因子，可帮助做出最优的投资决策"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training"],
+      "approach": ["loss_generalization"],
+      "baseline": ["neural"],
+      "setup": {
+        "universe": ["csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["learned_solver"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "中证1000指增组合年化超额由7.63%提升至13.55%，信息比率由1.15提升至2.24，超额最大回撤由8.99%降低至6.44%",
+      "evidence": "在回测区间2020-11-30至2024-09-30内，中证1000组合的年化超额由7.63%提升至13.55%，信息比率由1.15提升至2.24，超额最大回撤由8.99%降低至6.44%。"
+    },
+    {
+      "text": "传统两阶段框架下组合优化对不同方向的预测误差敏感性截然不同，IC更高的因子反而可能做出更差的投资决策",
+      "evidence": "在传统的“先预测后优化”框架下，组合优化结果对不同方向的预测误差敏感性截然不同，在某些情况下，IC更高的因子反而会做出更差的决策。"
+    },
+    {
+      "text": "LinSAT求解质量满足样本内训练需求，但样本外决策环节采用传统外部求解器或可求得更好的投资组合，故Smart Factor+外部求解器表现好于Decision Weight",
+      "evidence": "综合来看，LinSAT的求解质量完全满足样本内网络训练、参数更新的需求。但在样本外的决策环节，此时不再强求网络层的可微性和求解速度，本着“精益求精”的目的，采用传统外部求解器或可帮助求得更好的投资组合。"
+    },
+    {
+      "text": "相比传统GRU模型，PortfolioNet构建的300指增、1000指增超额收益在全历史区间上分别提升3.70%、5.92%，2024年以来分别提升2.85%、7.40%，最大回撤显著降低",
+      "evidence": "实验结果表明，相比于传统GRU模型，基于PortfolioNet构建的300指增、1000指增超额收益在全历史区间上分别提升3.70%、5.92%；2024年以来则分别提升2.85%、7.40%；最大回撤显著降低。"
+    },
+    {
+      "text": "500指增年化超额在全区间下降0.95%，但2024年以来提升9.55%",
+      "evidence": "500指增年化超额在全区间下降0.95%，2024年以来提升9.55%。"
+    },
+    {
+      "text": "Smart Factor的IC值相比传统GRU因子有小幅下滑，但更高的IC并不意味着更好的决策，能否做出正确的投资决策才是量价模型的金标准",
+      "evidence": "Smart Factor因子的IC值相比传统GRU因子有小幅下滑，这与我们的预期相符。如前文所述，更高的IC、更低的预测误差，并不意味着能做出更好的决策。因此，仅凭IC并不一定能反映全貌；能否做出正确的投资决策，才是量价模型的“金标准”。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Wang, R., Zhang, Y., Guo, Z., Chen, T., Yang, X., & Yan, J. (2023). LinSATNet: the positive linear satisfiability neural networks. In International Conference on Machine Learning (pp. 36605-36625). PMLR.",
+    "《神经网络组合优化初探》(2022-01-09)",
+    "唐博. (2023). 当机器学习遇上运筹学：PyEPO与端对端预测后优化."
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

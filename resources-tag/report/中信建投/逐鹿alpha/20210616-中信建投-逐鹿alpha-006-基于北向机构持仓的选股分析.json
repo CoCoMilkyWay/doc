@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "id": "20210616-中信建投-逐鹿alpha-006-基于北向机构持仓的选股分析",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_alternative"],
+      "approach": ["participant_behavior"],
+      "setup": {
+        "universe": ["other"],
+        "data": {"source": ["flow"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "持仓市值",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日各机构类型（全部北向/银行类/券商类）的持仓市值}",
+          "stats": [0.0385, null, 0.23, null],
+          "evidence": "根据当日不同机构类型（全部北向，银行类，券商类）的持仓市值，分别计算因子的日频，周频以及月频的 IC 和 ICIR。"
+        },
+        {
+          "name": "持仓市值占流通市值比例",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当日机构持仓市值}}{\\text{个股流通市值}}",
+          "stats": [0.0403, null, 0.33, null],
+          "evidence": "根据当日不同机构类型（全部北向，银行类，券商类）的持仓市值占上市公司流通市值比例，分别计算因子的日频，周频以及月频的 IC 和 ICIR"
+        },
+        {
+          "name": "增持市值",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\text{日/周持仓的变化量} \\times \\text{当日均价}",
+          "stats": [0.0295, null, 0.45, null],
+          "evidence": "通过日/周持仓的变化量乘以当日的均价估算机构的增持金额。分别计算因子的日频，周频以及月频的 IC 和 ICIR"
+        },
+        {
+          "name": "增持市值占比",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{增持市值}}{\\text{流通市值}}",
+          "stats": [0.0454, null, 0.82, null],
+          "evidence": "根据当日不同机构类型（全部北向，银行类，券商类）的日频/周频增持市值占上市公司流通市值比例，分别计算因子的日频，周频以及月频的 IC 和 ICIR"
+        },
+        {
+          "name": "增持比例",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "daily",
+          "formula": "\\frac{\\text{增持市值}}{\\text{持仓市值}}",
+          "stats": [0.0335, null, 0.5, null],
+          "evidence": "增持比例是根据增持市值与持仓市值比例计算得到，分别计算日频/周频因子的日频，周频以及月频的 IC 和 ICIR"
+        },
+        {
+          "name": "摩根士丹利持仓市值占比",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{摩根士丹利持仓市值}}{\\text{个股流通市值}}",
+          "stats": [0.0631, null, null, null],
+          "evidence": "将处于这一位置的机构列出后发现，发现造成这一结果的主要机构是摩根士丹利，其单独的持仓市值占比 IC 均值可达 6.31%，具体结果如下所示"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "银行静态因子与月度收益相关性较好，银行类资金持仓市值占比与下月月收益的 IC 系数达到 4.03%。",
+      "evidence": "最终发现对于月度收益的相关性，银行静态因子相关性较好，银行类资金持仓市值占比与下月月收益的 IC 系数达到 4.03%。"
+    },
+    {
+      "text": "基于银行资金持仓市值占比构造的组合自 2018 年 7 月至 2021 年 6 月，年化收益 30.91%、夏普 1.25，近一年收益 51.59%、夏普 1.90，优于全部北向资金持仓市值占比因子组合。",
+      "evidence": "基于银行资金持仓市值占比构造的组合自 2018 年7 月至 2021 年6 月，拥有年化30.91%的收益率和 1.25 的夏普比率，近一年拥有 51.59%的收益率和 1.90 的夏普比率，该策略相对使用全部北向资金持仓市值占比因子构造的组合有了一定提升"
+    },
+    {
+      "text": "北向资金一周内增持市值占比最高的 100 只个股组合年化超额 22.97%、夏普 1.31，尽管因子 IC 表现不佳，有效性更多体现在头部股票选择中。",
+      "evidence": "另外使用北向资金一周之内增持市值占比最高的 100 只个股构建组合，在同样的区间内可以获得年化 22.97%的超额收益和 1.31 的夏普比率，尽管该因子的IC 表现不佳，说明这一因子的有效性更多的体现在头部股票的选择中"
+    },
+    {
+      "text": "跟踪 IC 最好的摩根士丹利，其持仓和增持市值占比 TOP100 组合分别取得 27.78%和 21.78%的超额收益，夏普 1.50 和 1.38。",
+      "evidence": "跟踪 IC表现最好的摩根士丹利，采用其持仓和增持市值占比分别选取 TOP100 个股构建组合，分别取得了 27.78%和 21.78%的超额收益，夏普比率达到了 1.50和 1.38。"
+    },
+    {
+      "text": "静态因子偏向长期收益预测，动态因子偏向短期预测；券商类资金短期预测更佳，银行类资金长期预测 IC 更好。",
+      "evidence": "对比静态因子和动态因子，可以看出静态因子偏向于长期收益预测，而动态因子偏向于短期预测，对比不同类型的资金也可以发现，券商类资金在短期收益的预测中表现更佳，而银行类资金则在长期收益的预测中拥有更好的 IC"
+    },
+    {
+      "text": "在一个月前北向持仓市值最高的 100 只个股股票池内计算增持比例对下一日收益的 IC，可达 5.7%，预测能力大幅提升。",
+      "evidence": "例如，每天选取一个月前北向资金持仓市值最高的 100 个个股作为股票池，在股票池中计算股票增持比例对下一日收益的 IC 表现，可以得到 5.7%的 IC，对收益的预测能力大幅提升。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

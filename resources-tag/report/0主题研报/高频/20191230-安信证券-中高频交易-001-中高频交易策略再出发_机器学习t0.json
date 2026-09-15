@@ -1,0 +1,214 @@
+{
+  "schema_version": 2,
+  "id": "20191230-安信证券-中高频交易-001-中高频交易策略再出发_机器学习t0",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "liquidity_turnover", "order_flow", "intraday_pattern"],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "daily", "horizon": "intraday"}
+      },
+      "factors": [
+        {
+          "name": "隔夜涨幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{P_{open}-P_{close}^{prev}}{P_{close}^{prev}}",
+          "stats": [null, -0.078, null, null],
+          "evidence": "日内涨幅与隔夜涨幅呈现负相关性，因子 Rank IC 均值为-0.078，Rank IC 标准差为-0.082。"
+        },
+        {
+          "name": "第一阶段涨幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{P_{9:20}-P_{9:15}}{P_{9:15}}",
+          "stats": [null, -0.02, null, null],
+          "evidence": "日内涨幅与第一阶段涨幅呈现负相关性，因子 Rank IC 均值为-0.02，Rank IC 标准差为0.061。"
+        },
+        {
+          "name": "第二阶段涨幅",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{P_{9:25}-P_{9:20}}{P_{9:20}}",
+          "stats": [null, 0.053, null, null],
+          "evidence": "日内涨幅与第二阶段涨幅呈现正相关性，因子 Rank IC 均值为 0.053，Rank IC 标准差为0.083。"
+        },
+        {
+          "name": "集合竞价阶段成交金额占比",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{V_{auc}}{\\frac{1}{5}\\sum_{i=1}^{5}V_{i}}",
+          "stats": [null, -0.019, null, null],
+          "evidence": "我们采用集合竞价阶段成交金额比上过去五日日均成交金额，日内涨幅与集合竞价阶段成交金额占比呈现负相关性，因子 Rank IC 均值为-0.019，Rank IC 标准差为-0.103。"
+        },
+        {
+          "name": "第一阶段是否触及涨跌停",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{第一阶段是否触及涨跌停（0/1哑变量）}",
+          "stats": [null, null, null, null],
+          "evidence": "触及涨停的个股平均日内收益-0.03%，触及跌停的个股平均日内收益 0.2%，未触及涨跌停的个股平均日内收益 0.20%。因此，该阶段涨跌停有较大概率是主力的吸筹行为。"
+        },
+        {
+          "name": "第二阶段是否涨停",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{第二阶段是否涨停（0/1哑变量）}",
+          "stats": [null, null, null, null],
+          "evidence": "经过大量实验剔除因子 5：第一阶段是否涨停，因子 6：第二阶段是否涨停和因子，因子 7 第二阶段价格是否平稳上升，因子 12 ： 第二阶段的委买一价，委卖一价均值的最大值，因子13 ： 第二阶段的委买一价，委卖一价均值的最小值和因子 14 ： 第二阶段的委买一价，委卖一价均值的绝对变化值。"
+        },
+        {
+          "name": "第二阶段持续上行/下行",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{第二阶段每一个tick的价格均上涨或与前一个tick持平记为持续上行，反之记为持续下行}",
+          "stats": [null, null, null, null],
+          "evidence": "第二阶段价格持续上行的个股平均日内收益 0.22%，持续下行的个股平均日内收益-0.03%，持续上行的个股日内表现远好于持续下行的个股。"
+        },
+        {
+          "name": "第一阶段委比变化",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{\\text{委比}_{9:20}-\\text{委比}_{9:15}}{\\text{委比}_{9:15}}",
+          "stats": [null, 0.026, null, null],
+          "evidence": "我们采用 9:20 的委比值减去 9:15 的委比值，之后除以 9:15 的委比值。日内涨幅与第一阶段委比变化呈现正相关性，因子 Rank IC 均值为 0.026，Rank IC 标准差为 0.05。"
+        },
+        {
+          "name": "第二阶段委比变化",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{\\text{委比}_{9:25}-\\text{委比}_{9:20}}{\\text{委比}_{9:20}}",
+          "stats": [null, 0.051, null, null],
+          "evidence": "日内涨幅与第二阶段委比变化呈现正相关性，因子 Rank IC 均值为 0.051，Rank IC 标准差为 0.052。"
+        },
+        {
+          "name": "集合竞价阶段成交金额占当天总成交金额的比例",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{V_{auc}}{V_{day}}",
+          "stats": [null, -0.013, null, null],
+          "evidence": "日内涨幅与集合竞价阶段成交金额占当天总成交金额的比例呈现负相关性，因子 Rank IC 均值为-0.013，Rank IC 标准差为 0.09。"
+        },
+        {
+          "name": "第二阶段的委买一价，委卖一价均值的平均值",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\text{mean}_{t\\in\\text{第二阶段}}\\left(\\frac{P^{bid1}_{t}+P^{ask1}_{t}}{2}\\right)",
+          "stats": [null, -0.023, null, null],
+          "evidence": "日内涨幅与第二阶段的委买一价，委卖一价均值的平均值呈现负相关性，因子 Rank IC 均值为-0.023，Rank IC 标准差为 0.149。"
+        },
+        {
+          "name": "第二阶段的委买一价，委卖一价均值的最大值",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\max_{t\\in\\text{第二阶段}}\\left(\\frac{P^{bid1}_{t}+P^{ask1}_{t}}{2}\\right)",
+          "stats": [null, -0.023, null, null],
+          "evidence": "日内涨幅与第二阶段的委买一价，委卖一价均值的最大值呈现负相关性，因子 Rank IC 均值为-0.023，Rank IC 标准差为 0.149。"
+        },
+        {
+          "name": "第二阶段的委买一价，委卖一价均值的最小值",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\min_{t\\in\\text{第二阶段}}\\left(\\frac{P^{bid1}_{t}+P^{ask1}_{t}}{2}\\right)",
+          "stats": [null, -0.023, null, null],
+          "evidence": "日内涨幅与第二阶段的委买一价，委卖一价均值的最小值呈现负相关性，因子 Rank IC 均值为-0.023，Rank IC 标准差为 0.147。"
+        },
+        {
+          "name": "第二阶段的委买一价，委卖一价均值的绝对变化值",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\sum_{t\\in\\text{第二阶段}}\\left|\\Delta\\left(\\frac{P^{bid1}_{t}+P^{ask1}_{t}}{2}\\right)\\right|",
+          "stats": [null, -0.017, null, null],
+          "evidence": "日内涨幅与第二阶段的委买一价，委卖一价均值的绝对变化值呈现负相关性，因子 Rank IC 均值为-0.017，RankIC 标准差为0.103。"
+        },
+        {
+          "name": "第二阶段的委买一价，委卖一价均值的变化比率",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "intraday",
+          "formula": "\\frac{\\left(\\frac{P^{bid1}_{end}+P^{ask1}_{end}}{2}\\right)-\\left(\\frac{P^{bid1}_{start}+P^{ask1}_{start}}{2}\\right)}{\\frac{P^{bid1}_{start}+P^{ask1}_{start}}{2}}",
+          "stats": [null, 0.038, null, null],
+          "evidence": "日内涨幅与第二阶段的委买一价，委卖一价均值的变化比率呈现正相关性，因子 Rank IC 均值为 0.038，Rank IC 标准差为 0.08。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model", "L3_training", "L3_composition"],
+      "approach": ["tree", "sample_window", "ensemble"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "l1"},
+        "holding": {"rebalance": "daily", "horizon": "intraday"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi500"], "rebalance": "daily"}
+    }
+  },
+  "findings": [
+    {
+      "text": "集合分类回归策略样本外（2019.1-2019.10）胜率 57.24%，年化收益率 130.2%，夏普比率 4.32，最大回撤 18.9%；每日持有个股数量最大值、中位数和最小值分别为 6 只、3 只和 1 只。",
+      "evidence": "若按单利和双边千分之二计算，集合分类回归策略胜率 57.24%，年化收益率 130.2%，夏普比率 4.32 和最大回撤 18.9%。每日持有个股数量最大值，中位数和最小值分别为 6 只，3 只和 1 只。"
+    },
+    {
+      "text": "交易成本敏感性：双边成本降为千分之一点二时，集合分类回归策略年化收益率将提升 21%，夏普比率将从 4.32 提升至 5.24，提升幅度 21.3%。",
+      "evidence": "交易成本的变化给该策略的年化收益率带来了较大的影响，如果双边成本为双边千分之一点二，集合分类回归策略年化收益率将提升 21%，夏普比率将从 4.32 提升至 5.24，提升幅度21.3%。"
+    },
+    {
+      "text": "集合学习组合多个弱监督模型，即便某一个弱分类器得到了错误的预测，其他的弱分类器也可以将错误纠正回来，从而得到更全面的强监督模型。",
+      "evidence": "集合学习潜在的思想是即便某一个弱分类器得到了错误的预测，其他的弱分类器也可以将错误纠正回来。"
+    },
+    {
+      "text": "单模型对比：回归模型在年化收益率、夏普比率和盈亏比上好于分类模型，但分类模型的胜率好于回归模型；Kfold 训练的模型胜率、夏普比率和年化收益率好于推进模式。",
+      "evidence": "在模型类型上来看回归模型在年化收益率，夏普比率和盈亏比上的表现好于分类模型，但是分类模型的胜率好于回归模型。从训练方式上来看，Kfold 的模型胜率，夏普比率和年化收益率上好于推进模式。"
+    },
+    {
+      "text": "特征筛选有效：筛选后的模型在胜率、夏普比率、盈亏比和年化收益率均好于未筛选模型；XGBoost-Timesplit 分类模型出现过拟合，原因是前 4 个 fold 样本量不足而调参强度按全样本设计。",
+      "evidence": "特征筛选后的模型在胜率，夏普比率，盈亏比和年化收益率均好于未进行特征筛选的模型，因此我们在上一节根据模型重要度和相关性的特征选择是有效的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["安信金工《机器学习与量化投资之二：避不开的那些事》"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "5780cbb726542adc4327056659f6e3f3bc56929151fda31f01a675c60d286433"
+  }
+}

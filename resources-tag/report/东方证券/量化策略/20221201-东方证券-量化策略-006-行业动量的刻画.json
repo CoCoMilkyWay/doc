@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "id": "20221201-东方证券-量化策略-006-行业动量的刻画",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market", "L1_alternative"],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "participant_behavior"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "行业机构持仓调整动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{过去12个月行业夏普比例}\\times\\text{机构持仓占比}",
+          "stats": [null, null, null, 0.1153],
+          "evidence": "基于此，我们可以对行业动量因子进行横截面维度的调整，对于机构持仓占比高的行业，给予行业动量指标更高的权重，对于机构持仓占比低的行业，给予行业动量指标更低的权重。具体计算方法是使用过去 12个月的行业动量*当前各行业的机构持仓占比。"
+        },
+        {
+          "name": "行业rank动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rankMOM_{i,t}=\\frac{1}{N}\\sum_{d=t-N}^{t}\\frac{y(R_{i,d})-(N_d+1)/2}{\\sqrt{(N_d+1)(N_d-1)/12}}",
+          "stats": [null, null, null, 0.1122],
+          "evidence": "传统行业动量构造时所使用的数据仅为起始点和末尾点的行业指数价格数据，对于期间信息并未充分反映。由于投资者对利好消息容易过度反应，会出现短时间急速拉抬股价的情况，采用传统行业动量因子选出的过去涨幅高的行业，可能只是短期拉升的结果，不具有持续性。行业rank 动量因子在构造时，考虑到了区间内每日行业指数的收益率情况，并且采用 rank 排名来替代收益率绝对大小，可以降低异常股价波动的影响。"
+        },
+        {
+          "name": "行业成分股动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{行业内个股过去N个月收益率均值}}{\\text{行业内个股收益率标准差}}",
+          "stats": [null, null, null, 0.0849],
+          "evidence": "行业内成分股的收益率往往存在分化，若行业内个股一齐上涨，收益率离散程度下降，可能意味着整体行业景气度提升，资金入场时没有进行个股筛选、市场热度较高。具体计算方法是用过去一段时间的行业内个股收益率均值/标准差。"
+        },
+        {
+          "name": "行业换手率调整动量因子",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\overline{(r_i/turn_i)}}{\\mathrm{std}(r_i/turn_i)}",
+          "stats": [null, null, null, 0.13],
+          "evidence": "行业换手率调整动量因子的构造方式如下：首先计算行业指数日收益率与日换手率（成交量/流通股本）的比值，然后将其过去一段时期的均值除以标准差得到行业因子值。"
+        },
+        {
+          "name": "行业间相关性动量因子",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\hat{r}_{i,t+1}=\\mathrm{Lasso}(r_{1,t},\\dots,r_{28,t})",
+          "stats": [null, null, null, 0.0537],
+          "evidence": "具体计算方法为：每月底，对各行业建立 lasso时间序列回归模型。用 1到 t-1时刻的月度数据训练模型，代入 t 时刻最新数据即可得到各行业收益率的预测值。模型自变量为所有行业上月超额收益率，因变量为目标行业下月超额收益率。"
+        },
+        {
+          "name": "复合行业动量因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去12个月rank动量、过去12个月行业内个股收益率均值/标准差、过去12个月行业日换手率调整收益率的均值除以标准差三因子标准化后等权合成}",
+          "stats": [null, null, null, 0.1462],
+          "evidence": "我们选择三个阶段中表现最好的因子：过去 12 个月 rank 动量、过去12个月行业内个股收益率均值/标准差、过去12个月行业日换手率调整收益率的均值除以标准差，等权合成，单因子进行标准化。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["linear"],
+      "baseline": [],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "monthly"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L8_timing": {
+      "module": ["L8_rotation"],
+      "approach": ["relative_momentum"],
+      "setup": {"rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "A股行业动量效应存在且中期动量更有效，但因子效果微弱，传统行业动量top5多头年化超额收益不到2%，信息比率仅为0.2，多头组合超额收益最大回撤高达38%，分组单调性不佳。",
+      "evidence": "A股中传统行业动量效应存在，且中期动量更有效，但因子效果比较微弱，尤其对于多头预测能力有限。多头年化超额收益不到 2%，信息比率仅为 0.2，回撤最高可达 38%，近两年难以获得明显超额。分组单调性不佳。"
+    },
+    {
+      "text": "过去12个月夏普比例*机构持仓占比因子效果最好，多头年化超额收益为4.82%，信息比率0.5，超额收益最大回撤18%，多空年化超额收益达到11.53%。",
+      "evidence": "进行机构持仓调整后的行业动量因子效果均有提升，过去 12 个月夏普比例*机构持仓占比因子效果最好，多头年化超额收益为 4.82%，信息比率达到 0.5，超额收益最大回撤仅为 18%，多空年化超额收益达到 11.53%。"
+    },
+    {
+      "text": "牛市中rank动量表现最好，熊市中成分股动量表现最好，震荡市中换手率调整动量表现最好，据此选择三阶段中表现最好的单因子等权合成复合行业动量因子。",
+      "evidence": "牛市中 rank动量表现最好，熊市中成分股动量表现最好，震荡市中换手率调整动量表现最好。选择三阶段中表现最好的单因子：过去 12个月rank动量、过去 12个月行业内个股收益率均值/标准差、过去 12个月行业日换手率调整收益率的均值除以标准差，等权合成作为复合行业动量因子。"
+    },
+    {
+      "text": "行业换手率调整动量因子单因子表现最佳，按过去12个月计算的因子多头年化超额收益为6.55%，信息比率达到0.7，超额收益最大回撤仅为20%，多空年化超额收益达到13%。",
+      "evidence": "按照过去12个月计算的因子效果最好，多头年化超额收益为6.55%，信息比率达到 0.7，超额收益最大回撤仅为 20%，多空年化超额收益达到 13%。"
+    },
+    {
+      "text": "复合行业动量因子top5组合年化收益13.53%，多头超额8.32%，多头信息比率0.88，多头超额收益最大回撤17%，多空超额14.62%，组合月度胜率在60%左右。",
+      "evidence": "合成因子 top5 行业组合年化收益达到 13.53%，bottom5 行业组合年化收益-1.79%。多头超额 8.32%，多头信息比率 0.88，多头超额收益最大回撤 17%。空头超额-6.29%。多空超额 14.62%。组合换手率很低，top5和 bottom5 行业组合年单边换手率不到 3 倍。组合月度胜率在 60%左右。"
+    },
+    {
+      "text": "lasso模型预测各行业收益率时平均会选到4.56个相关行业收益率作为预测变量，煤炭、食品饮料、电力设备及新能源行业选到的相关行业数量超过10个。",
+      "evidence": "从Lasso回归结果来看，在预测各行业收益率时，平均会选到4.56个相关行业收益率作为预测变量，煤炭、食品饮料、电力设备及新能源行业选到的相关行业数量超过10个。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Chen, Tsung-Yu, et al. \"Rank, Sign, and Momentum.\"",
+    "《存在于全市场范围内的稳健动量效应》"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

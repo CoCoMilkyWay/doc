@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "20210210-国泰君安-文献解读-002-如何有效对冲配置组合中的股票风险",
+  "genre": "review",
+  "asset": ["option", "multi"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L5_portfolio": {
+      "module": ["L5_optimizer", "L5_hedge"],
+      "approach": ["mean_variance", "option_overlay"],
+      "setup": {"universe": ["na"], "rebalance": "quarterly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "最优风险保护组合可以在付出有限预期收益率损失的基础上获得显著的股票风险保护，在保持正预期收益率的同时可以获得-1.1的条件beta暴露。",
+      "evidence": "作者在实证分析中发现，通过这种方法构建的最优风险保护组合可以在付出有限预期收益率损失的基础上获得显著的股票风险保护。在保持正预期收益率的同时可以获得-1.1的条件 beta暴露。"
+    },
+    {
+      "text": "使用最优风险保护组合而不是单一策略对股票回撤的保护优势显著：同样保护效果下，单一持有国债对应-0.4条件beta、1%预期收益率、0.2夏普，最优组合则带来6.4%预期收益率与0.64夏普，获得3倍夏普提升。",
+      "evidence": "以持有国债的策略为例子，单一使用持有国债保护股票回撤风险对应-0.4的条件beta，1%的预期收益率以及0.2的夏普。而使用最优风险保护组合却可以带来 6.4%的预期收益率以及 0.64 的夏普。在同样的保护效果下获得了 3 倍的夏普提升。"
+    },
+    {
+      "text": "风险保护组合预期收益率可分解为风险预算、组合效率与股票保护成本三部分，核心在于权衡风险保护的成本与预期收益率需求。",
+      "evidence": "公式5直观的表明了目标风险组合的关键在于权衡风险保护的成本以及对于预期收益率的需求。投资者可以通过将更多权重赋予高夏普(效率)策略的方式构建预期收益率更高的风险保护组合。"
+    },
+    {
+      "text": "条件beta的估计误差会影响最优风险保护组合：为以95%置信度获得负条件beta暴露，需将条件beta目标设置在-0.6以下。",
+      "evidence": "为了以 95%的置信度获得负的条件 beta 暴露，投资者需要将条件 beta 的目标设置在-0.6 以下。与此类似，如果投资者设定条件beta的目标为 0，搜获得的风险保护组合在 95%的情况下会落在-0.5到 0.5的区间中。"
+    },
+    {
+      "text": "加入卖空限制后最优风险保护组合预期收益率下降：条件beta为-0.5的组合预期收益率由5.9%降至4.9%。",
+      "evidence": "以条件beta为-0.5的组合为例，在加入了卖空约束后，组合预期收益率由5.9%下降至4.9%。"
+    },
+    {
+      "text": "以股票大跌时期的条件beta衡量策略对股票下跌的保护能力，并以约束方式纳入均值方差优化框架。",
+      "evidence": "我们使用股票大跌的市场环境下策略对于股票收益率的 beta（下称条件beta）来衡量这类策略保护股票下跌的能力。Page 和 Panariello(2018)曾指出，在股票下跌的市场环境中，资产之间的相关性与其他“正常”时期并不相同。因此使用条件 beta而不是无条件beta可以更好的捕捉这种关系。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Baz, Davis, Sapra, Gillmann, and Tsai (2020). A Framework for Constructing Equity-Risk-Mitigation Portfolios. Financial Analyst Journal, 76(3), 81-98.",
+    "Campbell, Sunderam & Viceira(2017)",
+    "Fung &Hsieh(2001)",
+    "Goldberg,Hayes & Mahmoud(2013)",
+    "Markowitz(1952)",
+    "Page 和 Panariello(2018)",
+    "Rattray等人 “Strategic Rebalancing”",
+    "Rockafellar& Uryasev(1999)"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

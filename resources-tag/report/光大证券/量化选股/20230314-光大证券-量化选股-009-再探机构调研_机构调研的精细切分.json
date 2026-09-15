@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "20230314-光大证券-量化选股-009-再探机构调研_机构调研的精细切分",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_expectation", "L1_alternative"],
+      "approach": ["analyst_behavior", "participant_behavior", "corporate_event"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["analyst", "text", "alt"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "机构调研打分体系",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["monthly", "event"],
+          "horizon": "monthly",
+          "formula": "\\text{在最近3月调研活动次数为前提下，叠加业绩预告（预增/扭亏）、券商金股和突然被调研（阈值720日）三类情形赋分N（N=6），按分值打分}",
+          "stats": [null, 0.0309, 0.44, null],
+          "evidence": "我们根据本篇报告的研究结果，构造了机构调研打分体系。经测试，分值月度平均 RankIC 为 3.09%，Rank ICIR 为 0.44。"
+        }
+      ]
+    },
+    "L2_process": {"module": ["L2_preprocess"], "approach": ["neutralization"], "setup": {"universe": ["all"]}},
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "机构调研信息不宜采用日频事件驱动的方式进行调仓，每日调仓相比月频调仓并无明显优势，且机构调研信息及时性无法保证。",
+      "evidence": "经过测试，我们认为机构调研信息不宜采用日频事件驱动的方式进行调仓，原因在于每日调仓相比月频调仓并无明显优势，原有获取超额收益的手段在日频下不再适用，且机构调研信息及时性无法保证。"
+    },
+    {
+      "text": "机构调研在叠加业绩预告、券商金股和突然被调研这三类情形下，能够获取明显 alpha。",
+      "evidence": "通过研究，我们发现机构调研在叠加业绩预告、券商金股和突然被调研这三类情形下，能够获取明显 alpha。"
+    },
+    {
+      "text": "当对市值进行中性化而不对行业进行中性化时表现最佳，分值月度平均 Rank IC 为 3.09%，Rank ICIR 为 0.44，机构调研超额收益的一部分源自于行业的偏离。",
+      "evidence": "从测算结果可以发现，当对市值进行中性化而不对行业进行中性化时，表现最佳，分值月度平均 Rank IC 为 3.09%，Rank ICIR 为 0.44，这与我们预期相符，机构调研超额收益的一部分源自于行业的偏离。"
+    },
+    {
+      "text": "持有20只股票的“光大金工——机构调研精选组合”总收益率1682.21%，年化收益率33.91%，超额收益率858.07%，超额年化收益率25.75%，超额夏普比率1.25。",
+      "evidence": "我们以持有 20 只股票为准，构建“光大金工——机构调研精选组合”。该组合从 2013.01.04-2023.02.28，总收益率 1682.21%，年化收益率 33.91%，夏普比率 0.92。超额收益率 858.07%，超额年化收益率 25.75%，超额夏普比率 1.25。"
+    },
+    {
+      "text": "最近 2 年突然被调研的股票，存在超额收益，阈值取720日时超额收益相对突出。",
+      "evidence": "综合上述研究结果，我们认为，最近 2 年突然被调研的股票，存在超额收益。"
+    },
+    {
+      "text": "机构主要偏好于调研估值偏低和偏高的上市公司，PE_TTM 和 PB 分布情况均为下凸型。",
+      "evidence": "从总体分布来看，PE_TTM 和 PB 分布情况均为“下凸型”，即大部分机构热衷于调研估值偏低和偏高的上市公司，这与我们上述预期相符。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《机构调研火热，如何提炼超额收益？——量化选股系列报告之八》（2022-10-22）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

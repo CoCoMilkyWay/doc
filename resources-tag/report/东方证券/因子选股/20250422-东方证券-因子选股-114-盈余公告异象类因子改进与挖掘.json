@@ -1,0 +1,185 @@
+{
+  "schema_version": 2,
+  "id": "20250422-东方证券-因子选股-114-盈余公告异象类因子改进与挖掘",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["momentum_reversal", "order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "AOG",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG_{t+1}=Open_{t+1}/Close_{t}-Open_{mkt,t+1}/Close_{mkt,t}",
+          "stats": [null, null, null, null],
+          "evidence": "如果盈余公告次日开盘高开，可以认为市场对于其盈余公告业绩的认可，由于上市公司并不会都在同一天披露盈余公告，为了跨日可比，一般我们将股票盈余公告次日的开盘收益减去当日市场指数开票收益率作为开盘跳空超额（Alpha of Open Gap，简称 AOG）因子："
+        },
+        {
+          "name": "AOG_RANK",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG\\_RANK_{t+1}=rank(Open_{t+1}/Close_{t})",
+          "stats": [0.041, null, 4.03, null],
+          "evidence": "截面分位数的方式降低了绝对数值的影响更好地刻画了相对强弱程度，对于选股问题来说会更稳健。从下图可以看到，调整后的因子月度 IC 均值仍然保持 0.041，ICIR 从 3.83 提升到 4.03，近3年的多头第 10组的超额略有改进。"
+        },
+        {
+          "name": "AOG_RANK_PRE_MAX_20d",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG\\_RANK\\_PRE\\_MAX\\_20d_{t+1}=ts\\_max(AOG\\_RANK_{t},20)",
+          "stats": [-0.0203, null, -1.34, null],
+          "evidence": "因此我们同样取公告前的开盘跳空幅度作为基本面定价的结果，同上文一样，为了跨日可比我们都将个股开盘涨跌幅转为截面 rank 分位数，然后取公告前 20 个交易日的最大值，以此作为公告前知情交易者提前透支的最大暴露程度，也以此作为衡量是否超预期的“真实预期”水平。"
+        },
+        {
+          "name": "AOG_RANK_DEMAX_20d",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG\\_RANK\\_DEMAX\\_20d_{t+1}=AOG\\_RANK_{t+1}-AOG\\_RANK\\_PRE\\_MAX\\_20d_{t+1}",
+          "stats": [0.042, null, 4.04, null],
+          "evidence": "我们以盈余公告次日AOG减去公告前AOG的20日最大值，以此得到AOG_RANK_DEMAX_20d因子，以此来降低知情交易者的交易带来的过度透支收益的问题，也可以理解为以公告前20日开盘跳空最大值作为预期，和公告次日的开盘跳空来比较，衡量其真实的超预期程度。"
+        },
+        {
+          "name": "AOG_RANK_PRE_QUANTILE_20_20d",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG\\_RANK\\_PRE\\_QUANTILE\\_20\\_20d_{t+1}=ts\\_quantile(AOG\\_RANK_t,20\\%)",
+          "stats": [0.044, null, 2.36, null],
+          "evidence": "最小值是指公告前20个交易日隔夜收益截面排序的下限，其反映了公司股价最差的低开幅度，下限越高说明公司的盈利质量越够硬，其未来收益越好。"
+        },
+        {
+          "name": "AOG_LOW",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{将AOG因子中的开盘涨跌幅替换为盈余公告次日最低价涨跌幅}",
+          "stats": [0.041, null, 3.26, null],
+          "evidence": "我们首先将前文中的开盘涨跌幅替换为最低价涨跌幅 AOG_LOW，并复用其分别构建 DEMAX 和QUANTILE 两个因子。改造后的 DEMAX 和 QUANTILE 因子的十分组超额均值及 IC 表现如下所示，可以看到这两个因子都具有较为单调的选股能力。"
+        },
+        {
+          "name": "AOG_LOW_RANK",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG\\_LOW\\_RANK_{t+1}=rank(\\text{盈余公告次日最低价涨跌幅})",
+          "stats": [0.042, null, 3.22, null],
+          "evidence": "我们首先将前文中的开盘涨跌幅替换为最低价涨跌幅 AOG_LOW，并复用其分别构建 DEMAX 和QUANTILE 两个因子。改造后的 DEMAX 和 QUANTILE 因子的十分组超额均值及 IC 表现如下所示，可以看到这两个因子都具有较为单调的选股能力。"
+        },
+        {
+          "name": "AOG_LOW_RANK_DEMAX",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG\\_LOW\\_RANK\\_DEMAX_{t+1}=AOG\\_LOW\\_RANK_{t+1}-ts\\_max(AOG\\_LOW\\_RANK_{t},20)",
+          "stats": [0.041, null, 3.23, null],
+          "evidence": "我们对比原 AOG_LOW 因子和 AOG_LOW_RANK_DEMAX 因子分别构建宽基指数 MFE 增强组合的收益表现如下表所示。可以看到单因子年化超额能够提升 10%左右，近几年的超额收益也能得到明显提升。"
+        },
+        {
+          "name": "AOG_LOW_RANK_QUANTILE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "AOG\\_LOW\\_RANK\\_QUANTILE_{t+1}=ts\\_quantile(AOG\\_LOW\\_RANK_{t},20\\%)",
+          "stats": [0.048, null, 1.5, null],
+          "evidence": "下表是 AOG_LOW_RANK_QUANTILE 因子构建宽基指数 MFE 增强组合的收益表现情况。可以看到各宽基上都能够持续贡献超额收益，并且 2022-2024年的超额收益非常显著。"
+        },
+        {
+          "name": "开盘大单资金流入因子",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "OPEN\\_MONEYFLOW\\_PCT\\_VALUE\\_L_{t+1}=\\text{盈余公告次日早盘10点前主力净流入金额}/\\text{流通市值}",
+          "stats": [0.03, null, 2.94, null],
+          "evidence": "我们进一步将前文中的开盘涨跌幅替换为盈余公告次日早盘 10 点前主力净流入金额/流通市值占比 OPEN_MONEYFLOW_PCT_VALUE_L，并复用其分别构建 DEMAX 和QUANTILE 两个因子。"
+        },
+        {
+          "name": "开盘大单资金流入 QUANTILE因子",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取公告前20个交易日早盘主力净流入占比截面rank的20%分位点构建的盈利质量型因子}",
+          "stats": [0.056, null, 1.19, null],
+          "evidence": "下表是开盘大单资金流入 QUANTILE因子构建宽基指数 MFE增强组合的收益表现情况。可以看到各宽基上都能够持续贡献超额收益，尤其是沪深 300上超额收益最为稳健。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "AOG因子近3年从全市场维度并没有失效，只是其多头组由于超预期的投资模式被大量投资者熟悉后导致在公告前后过度透支业绩，2021年10月以来十分组多头超额收益走平。",
+      "evidence": "可以看到，2021年10月以来大部分时间该因子十分组的多头第10组和第9组累计单利是平的，而第 1-8 组的收益曲线和 2021 年 10 月前没有明显变化，说明该因子近 3 年从全市场维度并没有失效，而只是其多头组由于超预期的投资模式被大量投资者熟悉后导致在公告前后过度透支业绩从而在公告后没有持续的超额收益。"
+    },
+    {
+      "text": "AOG_RANK因子月度IC均值保持0.041，ICIR从3.83提升到4.03，各宽基MFE增强组合的超额均有所提升。",
+      "evidence": "截面分位数的方式降低了绝对数值的影响更好地刻画了相对强弱程度，对于选股问题来说会更稳健。从下图可以看到，调整后的因子月度 IC 均值仍然保持 0.041，ICIR 从 3.83 提升到 4.03，近3年的多头第 10组的超额略有改进。"
+    },
+    {
+      "text": "AOG_RANK_DEMAX_20d因子月度IC均值0.042，年化ICIR为4.04，IC胜率88%，多头第10组的超额收益持续保持正向。",
+      "evidence": "该因子月度 IC均值 0.042，年化 ICIR为 4.04，IC胜率 88%，十分组超额累计单利收益如上右图所示。可以看到其多头第10组的超额收益持续保持正向。"
+    },
+    {
+      "text": "改进后得到DEMAX超预期因子和QUANTILE盈利质量因子，都具有稳健的选股能力而且近3年的超额收益比历史上更显著，加入现有的多因子体系也能带来超额的提升。",
+      "evidence": "改进后得到两个因子，一个是以公告前最大开盘跳空幅度为“真实预期”进行环比操作的DEMAX 超预期因子，一个是取公告前开盘跳空的“盈利质量下限”而构造的QUANTILE 盈利质量因子，都具有稳健的选股能力而且近 3 年的超额收益比历史上更显著，加入现有的多因子体系也能带来超额的提升。"
+    },
+    {
+      "text": "新因子在79因子体系中权重仅1%左右，却能带来年化0.56%左右的超额提升，信息比和月度胜率都有提高，说明相对于现有模型有增量信息。",
+      "evidence": "虽然新因子只有 1%左右的权重，但是能够带来年化 0.56%左右的提升，大部分年份的超额收益都有提升，每年的相对最大回撤都有下降，信息比和月度胜率都有提高，说明这两个因子确实相对于现有模型有增量信息。"
+    },
+    {
+      "text": "复用盈余公告事件上的价量因子结构加入最低价涨跌幅、早盘大单资金净流入占比等特征，都能衍生出一批显著的选股因子。",
+      "evidence": "复用因子结构加入其他价量特征，例如盈余公告次日最低价涨跌幅、盈余公告次日早盘大单资金净流入占比特征，都能衍生出一批显著的选股因子。"
+    },
+    {
+      "text": "经过事件上的算子改造后因子更新频率很慢从而衰减速度很慢，和日频量价类因子及基本面因子都低相关，可批量构造低相关因子加入因子库。",
+      "evidence": "以上的因子虽然输入的都是价量特征，但是经过事件上的算子改造后因子的更新频率很慢从而衰减速度很慢，其和传统的日频量价类因子低相关，同时又和基本面因子低相关，因此复用这套结构可以很容易构造出一批和现有因子低相关的因子加入因子库中。"
+    },
+    {
+      "text": "公告前隔夜收益各分位点因子从最小值到最大值选股能力由动量到反转单调下滑，最小值及20%-40%分位点都体现出显著的动量效应。",
+      "evidence": "可以看到随着统计量从最小值到最大值，因子的选股能力从“动量到反转”呈现单调下滑的趋势，最小值及20%-40%分位点都体现出显著的动量效应。"
+    },
+    {
+      "text": "AOG_RANK_DEMAX偏成长超预期风格、上半年表现更强，AOG_RANK_QUANTILE呈现低波低估的防守特征、下半年表现更强。",
+      "evidence": "下图展示了因子的月度效应情况。AOG_RANK_DEMAX 因子偏成长超预期风格，在上半年表现更强，尤其是 1、4 月份。而 AOG_RANK_QUANTILE 因子在下半年表现更强，体现出更强的防守性特征，尤其是 11月的IC胜率是 100%凸显了其盈利质量偏低波低估的防守特性。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《ADWM：基于门控机制的自适应动态因子加权模型》（20250409）",
+    "《DFQ-FactorVAE-pro：加入特征选择与环境变量模块的 FactorVAE 模型》（20250218）",
+    "《基本面因子的重构》（20240321）",
+    "《相对定价类基本面因子挖掘》（20241011）"
+  ],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "schema_version": 2,
+  "id": "20111108-华泰证券-数量化选股策略-013-加入择时的多因子策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "总市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总股本}\\times\\text{股票收盘价}",
+          "stats": [null, null, null, null],
+          "evidence": "在上一篇报告中，我们选取规模因子（总市值）、估值因子（市盈率 TTM）、成长因子（营业利润同比增长率）、盈利因子（净资产收益率）、动量反转因子（前 1个月涨跌幅）、交投因子（前 1 个月日均换手率）、波动因子（前 1 个月波动率）、股东因子（户均持股比例变化、机构持股变化）、分析师预测因子（最近 1个月净利润上调幅度）等 10个因子，根据其显著性赋予不同权重，构造加权多因子策略。"
+        },
+        {
+          "name": "市盈率（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股票收盘价}}{\\text{最近12个月每股收益}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 估值因子 | 市盈率（TTM） | 股票收盘价/最近12个月每股收益 | -4 |"
+        },
+        {
+          "name": "营业收入同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入}_t}{\\text{去年同期营业收入}_t}-1",
+          "stats": [null, null, null, null],
+          "evidence": "| 成长因子 | 营业收入同比增长率 | 营业收入/去年同期营业收入-1 | +2 |"
+        },
+        {
+          "name": "净资产收益率ROE（扣除非经常性损益、摊薄）",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{扣除非经常性损益后的净利润}}{\\text{期末净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "| 盈利因子 | 净资产收益率ROE（扣除非经常性损益、摊薄） | 扣除非经常性损益后的净利润/期末净资产 | +2 |"
+        },
+        {
+          "name": "前1个月涨跌幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{前1个月涨跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "在上一篇报告中，我们选取规模因子（总市值）、估值因子（市盈率 TTM）、成长因子（营业利润同比增长率）、盈利因子（净资产收益率）、动量反转因子（前 1个月涨跌幅）、交投因子（前 1 个月日均换手率）、波动因子（前 1 个月波动率）、股东因子（户均持股比例变化、机构持股变化）、分析师预测因子（最近 1个月净利润上调幅度）等 10个因子，根据其显著性赋予不同权重，构造加权多因子策略。"
+        },
+        {
+          "name": "前1个月日均换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{前1个月日均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "在上一篇报告中，我们选取规模因子（总市值）、估值因子（市盈率 TTM）、成长因子（营业利润同比增长率）、盈利因子（净资产收益率）、动量反转因子（前 1个月涨跌幅）、交投因子（前 1 个月日均换手率）、波动因子（前 1 个月波动率）、股东因子（户均持股比例变化、机构持股变化）、分析师预测因子（最近 1个月净利润上调幅度）等 10个因子，根据其显著性赋予不同权重，构造加权多因子策略。"
+        },
+        {
+          "name": "前一个月波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{日收益率的标准差的年化值}",
+          "stats": [null, null, null, null],
+          "evidence": "| 波动因子 | 前一个月波动率 | 日收益率的标准差的年化值 | -4 |"
+        },
+        {
+          "name": "户均持股比例变化",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{户均持股比例}_t-\\text{前1季度户均持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 股东因子 | 户均持股比例变化 | 户均持股比例-前1季度户均持股比例 | +3 |"
+        },
+        {
+          "name": "机构持股比例变化",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{机构持股比例}_t-\\text{前1季度机构持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 机构持股比例变化 | 机构持股比例（基金、券商、券商理财、信托）-前1季度机构持股比例 | +3 |"
+        },
+        {
+          "name": "最近1个月预测净利润上调幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最新当年净利润预测平均值}}{\\text{1个月前当年净利润预测平均值}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "| 分析师预测因子 | 最近1个月预测净利润上调幅度 | 最新当年净利润预测平均值/1个月前当年净利润预测平均值-1 | +4 |"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["all"], "rebalance": "monthly"}
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["technical_trend"], "setup": {"rebalance": "daily"}}
+  },
+  "findings": [
+    {
+      "text": "40日均线（大致相当于两月线）是较为可靠的单均线择时指标：当收盘价位于40日均线上方时持有多头头寸，位于下方时则空仓等待。",
+      "evidence": "通过历史数据的模拟，结合交易次数和交易成本，我们发现 40日均线（大致相当于两月线）是较为可靠的一个单均线择时指标：当收盘价位于 40 日均线上方时，则持有多头头寸，当收盘价位于 40日均线下方时则空仓等待。"
+    },
+    {
+      "text": "2003年1月1日至2011年5月31日，40日均线择时系统共发出46次买入信号和46次卖出信号，累计收益率达624.47%，而同期沪深300指数的累计收益率为171.97%。",
+      "evidence": "在 2003 年 1 月 1 日至 2011 年 5 月 31 日，40日均线择时系统共发出了 46 次买入信号和 46次卖出信号，累计收益率达 624.47%，而同期沪深 300 指数的累计收益率为 171.97%。"
+    },
+    {
+      "text": "加入择时的多因子策略在风险方面大幅下降，2005年1月至2011年5月累计收益率由2364.04%大幅提高至4243.57%，最大单期亏损由23.29%下降至7.15%，最大资本回撤由58.99%大幅下降至12.94%，亏损月份数由23个月减少至14个月。",
+      "evidence": "2005年 1 月至2011年5月间的累计收益率由2364.04%大幅提高至 4243.57%，最大单期亏损由 23.29%下降至 7.15%，最大资本回撤由 58.99%大幅下降至 12.94%，亏损月份数由 23 个月减少至14个月。"
+    },
+    {
+      "text": "2009年以来加入择时的多因子策略整体上并没有明显超越不带择时的多因子模型，主要原因是该策略在此期间有较长时间空仓，虽规避了沪深300指数下跌的系统风险，但也放弃了多因子选股个股相对沪深300指数的较高超额收益。",
+      "evidence": "2009 年以来加入择时的多因子策略整体上并没有明显超越不带择时的多因子模型，主要原因是：加入择时的多因子策略在此期间有较长时间为空仓，虽然规避了沪深300 指数下跌的系统风险，但是我们多因子选股模型选出的个股表现大大好于沪深300 指数，也就是说不带择时的多因子模型虽然承担系统性风险，但是获取了较高的超额收益，因而总体上仍然表现较好。"
+    },
+    {
+      "text": "后续将考虑一直持有多因子模型选出的个股，同时根据择时系统利用股指期货对冲市场大幅下跌的风险，在规避系统性风险的同时分享多因子选股模型相对沪深300指数的超额收益。",
+      "evidence": "因而，在接下来的分析中，我们将考虑一直持有多因子模型选出的个股，同时根据择时系统利用股指期货来规避市场大幅下跌的风险（当择时系统发出卖出信号时，我们卖出相应金额的股指期货合约，对冲持有的多因子组合多头的下跌风险；而当择时系统发出买入信号时，我们对之前建立的股指期货空头合约进行平仓）的策略，期待在规避系统性风险的同时，分享多因子选股模型相对沪深 300 指数的超额收益。"
+    }
+  ],
+  "builds_on": ["20110921-华泰证券-数量化选股策略-012-多因子选股策略"],
+  "external_ref": [],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

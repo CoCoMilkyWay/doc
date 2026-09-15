@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "id": "20180731-华泰期货-cta策略-002-估值因子法预测股指期货收益率",
+  "genre": "research",
+  "asset": ["future_index"],
+  "primary": "L8_timing",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental"],
+      "approach": ["style_ratio"],
+      "setup": {
+        "universe": ["na"],
+        "data": {"source": ["statement"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "估值因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\nu_{i,t}=\\hat{\\phi}_{i,0}+\\hat{\\phi}_{i}r_{t+1},\\;\\nu_{i,t}=\\hat{c}_{t}+\\hat{F}_{t}\\hat{\\phi}_{i},\\;r_{t+1}=\\hat{\\beta}_{0}+\\hat{\\beta}_{1}\\hat{F}_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "这篇报告把上证 50 指数，沪深 300 指数和中证 500 指数作为市场整体，利用这三个指数成份股的账面市值比构建估值因子，用于预测这三个指数的收益率。"
+        },
+        {
+          "name": "周频估值因子",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["weekly"],
+          "horizon": "weekly",
+          "formula": "\\nu_{i,t}=\\hat{\\phi}_{i,0}+\\hat{\\phi}_{i}r_{t+1},\\;\\nu_{i,t}=\\hat{c}_{t}+\\hat{F}_{t}\\hat{\\phi}_{i},\\;r_{t+1}=\\hat{\\beta}_{0}+\\hat{\\beta}_{1}\\hat{F}_{t}",
+          "stats": [null, null, null, null],
+          "evidence": "频率为周度的预测与此类似，但是使用过去 50周的数据进行模型训练，时间序列上有 50个观测点，其余的操作与月频的模型训练类似。"
+        }
+      ]
+    },
+    "L8_timing": {"module": ["L8_timing"], "approach": ["macro_valuation"], "setup": {"rebalance": "monthly"}}
+  },
+  "findings": [
+    {
+      "text": "三大股指的估值因子策略平均年化收益都在10%以上，其中沪深300策略收益达到年化25.37%远高于其他两个股指，年化波动率上策略和股指都较为接近在33%的水平。",
+      "evidence": "三大股指的估值因子策略平均年化收益都在 10%以上，其中沪深 300策略的收益达到年化 25.37%，远高于其他两个股指，在年化波动率上策略和股指都较为接近在 33%的水平。"
+    },
+    {
+      "text": "月频上上证50的样本外拟合度为0.06%效果最差，沪深300的拟合度为1.11%效果最好，中证500的拟合度为0.45%效果在前两者之间，说明估值因子对下月股指收益率具有一定的预测效果但拟合度普遍不高。",
+      "evidence": "上证 50 的拟合度为 0.06%效果最差，沪深 300 的拟合度为 1.11%效果最好，中证 500 的拟合度为 0.45%，效果在前两者之间。"
+    },
+    {
+      "text": "把月频策略改为周频后，策略收益率和最大回撤并不会有太大影响，但是能够提升策略的夏普率。",
+      "evidence": "由此可见，把月频策略改为周频后，策略收益率和最大回撤并不会有太大影响，但是能够提升策略的夏普率。"
+    },
+    {
+      "text": "在最近的贸易战期间三大股指都出现较大下跌时，估值因子策略却能及时预判下跌行情，通过做空股指期货获利，该策略在沪深300和中证500上都创了新高。",
+      "evidence": "另外值得注意的是在最近的贸易战期间虽然三大股指都出现较大下跌，但是估值因子策略却能及时预判下跌行情，通过做空股指期货获利。该策略在沪深 300和中证500上都创了新高。"
+    },
+    {
+      "text": "该策略的收益主要来源于股票市场出现大牛市和大熊市的时候，当市场出现反转暴跌时策略并不会紧随出现大跌反而能够获利，但市场长期小幅震荡时策略也会有长达多年的回撤。",
+      "evidence": "该策略的收益主要来源于股票市场出现大牛市和大熊市的时候，当市场出现反转暴跌时策略并不会紧随出现大跌，反而能够获利。但是当市场出现震荡，没有明显趋势时，该策略就会出现亏损，如果市场出现长期小幅震荡，该策略也会有长达多年的回撤。"
+    },
+    {
+      "text": "上证50策略虽然拟合度最差但长期仍能跑赢股指，回撤期从2008年11月至2014年11月长达6年。",
+      "evidence": "虽然上证 50的拟合度最差，但是长期看估值因子策略仍然能够跑赢股指，但是回撤期从 2008 年 11 月至 2014 年 11 月，长达 6年。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "Kelly, B. and S. Pruitt. (2012). \"The three-pass regression filter: A new approach to forecasting with many predictors.\"",
+    "Kelly, B. and S. Pruitt. (2013). \"Market Expectations in the Cross-Section of Present Values.\""
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

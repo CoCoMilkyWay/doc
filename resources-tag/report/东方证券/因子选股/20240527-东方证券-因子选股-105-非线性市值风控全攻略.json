@@ -1,0 +1,125 @@
+{
+  "schema_version": 2,
+  "id": "20240527-东方证券-因子选股-105-非线性市值风控全攻略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment"],
+      "setup": {
+        "universe": ["all"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "na", "horizon": "na"}
+      },
+      "factors": [
+        {
+          "name": "NLSize",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "\\text{个股对数市值的立方对其对数市值进行市值加权WLS回归，取回归残差去极值标准化}",
+          "stats": [null, null, null, null],
+          "evidence": "NLSize 是 Barra 风险模型中一个经典的非线性市值风格因子，其构建方式为个股的对数市值的立方对其对数市值进行市值加权wls回归，取回归的残差去极值标准化后得到NLSize取值，其能够代表中盘股的风格。"
+        },
+        {
+          "name": "基准相对NLSize",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "Relative\\_NLSize=abs(lnmv_{i}^{2}-\\Sigma w_{j}\\cdot lnmv_{j}^{2})",
+          "stats": [null, null, null, null],
+          "evidence": "因此，基准相对NLSize的构建如下，我们以个股的对数市值的平方离指数在对数市值平方上的加权暴露的距离来衡量市值偏离度："
+        },
+        {
+          "name": "左右侧相对NLSize",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "Left\\_Rel\\_NLSize=max(\\Sigma w_{j}\\cdot lnmv_{j}^{2}-lnmv_{i}^{2},0),\\quad Right\\_Rel\\_NLSize=max(lnmv_{i}^{2}-\\Sigma w_{j}\\cdot lnmv_{j}^{2},0)",
+          "stats": [null, null, null, null],
+          "evidence": "因此我们想可以直接对基准左侧和右侧两边分别施加约束，从而达到较为对称控制左右侧偏离的目标。我们分别构建左右侧 NLSize如下："
+        },
+        {
+          "name": "分组Size",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "na",
+          "formula": "Grp\\_Size\\_lnd_{i}=1\\ if\\ (i-1)/10<rank\\_pct(mv_{j})\\leq i/10,\\ else\\ 0",
+          "stats": [null, null, null, null],
+          "evidence": "“分而治之”地将股票按市值分组后控制每个组内的暴露，能够约束组合在各个市值域内的偏离。我们以分 10组为例构建市值分组指示因子："
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["neural"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi500", "csi1000"],
+        "data": {"source": ["market_daily", "market_minute", "market_l1_l2"], "freq": "mixed"},
+        "holding": {"rebalance": "weekly", "horizon": "weekly"}
+      }
+    },
+    "L4_risk": {
+      "module": ["L4_factor_risk"],
+      "approach": ["structural"],
+      "setup": {
+        "risk_factors": ["size"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "horizon": "weekly"
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["mean_variance"],
+      "setup": {"universe": ["sse50", "csi300", "csi500", "csi1000"], "rebalance": "weekly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "2024年1月底到2月初极端事件冲击下，深度学习因子的中证500增强组合今年以来相对最大回撤达-8.64%、年化跟踪误差10.79%，中证1000增强组合相对最大回撤达-11.21%、跟踪误差13.56%。",
+      "evidence": "中证 500增强组合今年以来的相对最大回撤达-8.64%，年化跟踪误差也达到 10.79%，中证 1000增强组合今年以来相对最大回撤达-11.21%，年化跟踪误差也达到 13.56%。"
+    },
+    {
+      "text": "深度学习因子指增组合形成高配市值两头低配成分股中盘的“哑铃”型结构，通过做多微盘并做多部分大盘股配平约束获取超额收益，当市值因子超额反向时增强组合大幅跑输基准。",
+      "evidence": "该增强组合超配了 20%左右的小微盘股票，中盘的股票几乎没有配置，而成分股内超配了其中的小盘股低配了右侧的大盘股，并且在超大市值股票中高配了部分股票，由此形成了高配市值两头低配成分股中盘的“哑铃”型结构，通过做多微盘并做多部分大盘股配平约束来获取超额收益。"
+    },
+    {
+      "text": "提高成分股内权重占比、约束NLSize等传统风控手段对中证1000指数不能较好控制今年以来回撤，因此提出基准相对NLSize、基准左右侧相对NLSize以及分组Size三种非线性市值风控手段。",
+      "evidence": "我们从提高成分股内权重占比、约束 NLSize 的角度检验传统风控手段的效果，可以发现针对中证 1000指数，传统风控手段并不能较好控制组合今年以来的回撤，因此我们提出了基准相对NLSize、基准左右侧相对 NLSize以及分组 Size的非线性市值风控手段，通过添加这 3种非线性市值约束，中证 500 和中证 1000 增强组合今年以来的超额回撤和跟踪误差大部分情况下都能得到非常显著的控制。"
+    },
+    {
+      "text": "NLSize按全市场市值加权、隐含中盘中心是中证全指，与中证500和中证1000等指数的市值暴露不同，因此约束其控制相对基准市值偏离度的作用大打折扣。",
+      "evidence": "究其原因，我们认为NLSize是全市场股票市值加权后的，因此其隐含的中盘的中心是中证全指，而中证 500 和中证 1000 等指数的市值暴露和中证全指并不相同，因此其控制相对基准的市值偏离度的作用会大打折扣。"
+    },
+    {
+      "text": "同时添加三种非线性市值约束后，中证500增强组合相对最大回撤从-8.64%降至-2.77%，超额收益从3.45%提升到7.18%，年化跟踪误差从10.79%降至7.51%，月度超额胜率100%。",
+      "evidence": "同时添加三种非线性市值约束后，中证 500 增强组合今年以来的相对最大回撤得到了大幅改善，从-8.64%下降到-2.77%，超额收益从 3.45%提升到 7.18%，年化跟踪误差从 10.79%下降到 7.51%，月度超额胜率 100%。"
+    },
+    {
+      "text": "同时添加三种非线性市值约束后，中证1000增强组合相对最大回撤从-11.21%降至-3.13%，超额收益从1.45%提升到5.43%，年化跟踪误差从13.56%降至7.93%，月度超额胜率100%。",
+      "evidence": "中证 1000 增强组合今年以来的相对最大回撤得到了大幅改善，从-11.21%下降到-3.13%，超额收益从1.45%提升到5.43%，年化跟踪误差从13.56%下降到7.93%，月度超额胜率 100%，得到显著改善。"
+    },
+    {
+      "text": "随着约束敞口放大，今年以来超额收益线性下降，相对最大回撤和跟踪误差线性增加，全样本年化超额收益线性增加，可通过调节敞口大小进行收益和风险的权衡。",
+      "evidence": "可以看到，随着敞口的放大，今年以来的超额收益线性下降，相对最大回撤和跟踪误差线性增加，全样本的年化超额收益也线性增加。说明通过调节这些约束的敞口大小，可以帮助我们在今年这种极端的市场环境下较好地进行中证 500指增增强组合收益和风险的权衡。"
+    },
+    {
+      "text": "在上证50和沪深300等指数增强组合上添加非线性市值约束，同样能非常显著地控制今年以来相对回撤和跟踪误差。",
+      "evidence": "并且在上证 50和沪深 300等指数增强组合上添加该约束同样也能非常显著地控制增强组合今年以来的相对回撤和跟踪误差。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《基于残差网络的端到端因子挖掘模型》（20230824）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "id": "20240912-华创证券-形态学研究-011-基于形态研究做投资组合的几点思考",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L5_portfolio",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["technical_pattern"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500", "csi1000"],
+        "data": {"source": ["market_daily"], "freq": "daily"},
+        "holding": {"rebalance": "monthly", "horizon": "weekly"}
+      },
+      "factors": [
+        {
+          "name": "正向形态",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{K线出现胜率70%以上的看多形态时发出正面信号，第二天买入，持有到月底}",
+          "stats": [null, null, null, null],
+          "evidence": "当我们使用正向信号时，开始为空仓，当指数成分股出现正面信号时，第二天买入，持有到月底，每个月往复交易。"
+        },
+        {
+          "name": "负向形态",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{K线出现胜率65%以上的负面形态时发出负面信号，第二天卖出该股票，持有现金}",
+          "stats": [null, null, null, null],
+          "evidence": "当我们使用负向信号时，开始为根据指数成分股构建的底仓，当指数成分股出现负面信号时，第二天卖出该股票，持有到月底，每个月往复交易。"
+        }
+      ]
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi300", "csi500", "csi1000"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "正向与负向信号各个指数都可以明显跑赢指数本身，证明形态研究在指数增强上有效果。",
+      "evidence": "经测试，正向与负向信号各个指数都可以明显跑赢指数本身，证明形态研究在指数增强上有效果。"
+    },
+    {
+      "text": "形态绝对收益组合从2021年1月1日至2024年8月31日，在单边千一手续费下依然可达到34.41%的年化收益，夏普为1.49。",
+      "evidence": "组合从2021 年 1 月 1 日至 2024 年 8 月 31 日，经测试，在单边千一手续费下依然可达到 34.41%的年化收益，夏普为 1.49。"
+    },
+    {
+      "text": "形态学研究系统对行业指数的历史胜率统计时间为5天，从历史数据来看，对市场短期的走势预测较好，但如何应用构建投资组合并获取稳定收益，亟待研究。",
+      "evidence": "华创形态学研究系统对行业指数的历史胜率统计时间为 5 天，从历史数据来看，对市场短期的走势预测较好，但如何应用构建投资组合并获取稳定收益，亟待研究。"
+    },
+    {
+      "text": "不仅仅形态对单独资产有重要指示作用，在组合层面也可以提升组合的收益率，证明了形态有alpha。",
+      "evidence": "通过上述测试，我们发现，不仅仅形态对单独资产有重要指示作用，在组合层面，也可以提升组合的收益率，证明了形态有 alpha。"
+    },
+    {
+      "text": "单纯使用负向形态可以对指数进行增强，组合开始是跟指数等权的底仓，出现看空信号才会卖出。",
+      "evidence": "可以看到，单纯使用负向形态可以对指数进行增强，组合开始是跟指数等权的底仓，出现看空信号才会卖出，供大家参考。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《形态学研究之九：如何结合金股构建投资组合》（2024-06-30）",
+    "《形态学研究之八：如何利用形态信号进行行业择时》（2023-08-07）",
+    "《形态学研究之十：6 种新 K线形态》（2024-07-11）"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "0a667650014a2e0bcfd1c90bddfac71ae47a86d2007842e3c7a9aad3504aab15"
+  }
+}
