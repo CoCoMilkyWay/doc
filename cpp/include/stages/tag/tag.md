@@ -152,6 +152,7 @@ struct Tag {
 
     struct L1 {                                                                       // 因子构造: 按信息源 partition, 机器挖掘单列
       struct Factor {                // 本文新提出/重构的一个因子 (只有 L1 产出因子, 只有因子有数字)
+        // 有些文章里可能有几十个因子, 每个因子都有很高的价值, 请务必完整捕捉
         string         name;         // 因子名  | S2 S4 G3
         FactorFamily   family;       // 风格桶: FactorFamily 词表  | V1
         Direction      direction;    // positive negative nonmonotonic unknown  | V1
@@ -312,8 +313,6 @@ struct Tag {
   } gen;
 };
 ```
-
-子结构定义在使用它的层级内: 只被 L1 用的 (`Factor`) 在 L1, 跨阶段共用的 (`Data` `Holding`) 在 `Pipe` 顶部, `Finding`/`gen` 在 `Tag`. `Tag` 之外只有 §1 的 13 个 enum.
 
 json 形态 (示意: 一篇提出订单流因子、并用它做了指增的研报):
 
