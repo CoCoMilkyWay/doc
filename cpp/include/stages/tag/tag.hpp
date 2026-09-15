@@ -5,6 +5,13 @@
 //                                 TAG_REPORT_DIR/{券商}/{系列}/{stem}.json          (本 stage 校验对象)
 // 期望集合 = raw 全部 PDF (与 convert 同口径). 缺标签只计数不违规 (填充中的正常状态); 违规/多余才退出码 1.
 // 本 stage 会写标签树: 格式不规范的 json 原地覆盖为规范格式 (F3), 其余只读.
+//
+// 两个阶段 + 一个子命令:
+//   阶段一 补全   缺失的篮子交给 TAG_AGENT_SCRIPT (Cursor Cloud Agents API, 设计见 agent loop.md): 每篇一个 agent, 回复里的
+//                json 落 TAG_STAGING_DIR, 用 `docpipe ROOT tag --one <json>` 校验, 违规回喂重问; 通过 rename 进 TAG_REPORT_DIR,
+//                用完轮数进 TAG_QUARANTINE_DIR. 未设 CURSOR_API_KEY 则跳过本阶段
+//   阶段二 校验   下面的规则全量跑一遍, 按券商统计
+//   --one <json>  只跑单文件规则 (F2-F4 S V K G), 违规一行一条到 stdout, 退出码 0/1; 文件须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下
 // 字段与词表见 schema.hpp, 设计与规则原文见 tag.md, 阈值见 config.hpp. 规则按 "越早失败越便宜" 分层,
 // 单文件任一条失败即记违规 (文件内继续收集其余违规, 一次打全):
 //

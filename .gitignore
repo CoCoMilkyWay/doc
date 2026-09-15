@@ -1,5 +1,7 @@
 **/__pycache__/
 /cpp/build/
+/resources-tag/.staging/
+/cpp/agent/cursor_api_key.txt
 **/.cache/
 **/.venv/
 cpp/package/MinerU/deps/

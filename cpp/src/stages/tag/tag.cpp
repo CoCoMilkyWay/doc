@@ -7,6 +7,7 @@
 #include <thread>
 
 #include "common/fs.hpp"
+#include "common/proc.hpp"
 #include "common/util.hpp"
 #include "stages/scan/scan.hpp"
 
@@ -52,16 +53,13 @@ void walk_tag(const std::string &tagdir, const std::string &rel, const std::map<
     walk_tag(tagdir, rel == "." ? d : rel + "/" + d, expected, recs, extra);
 }
 
-} // namespace
-
-int TagStage::run(const Ctx &ctx) {
-  double t0 = now_ms();
+// raw 全集 + 标签树对账. 每次调用重新走一遍目录 (补全之后要刷新 tagged)
+void collect(const Ctx &ctx, std::vector<TagRec> &recs, std::vector<std::pair<std::string, std::string>> &extra) {
   std::string raw = ctx.root + "/" + RAW_REPORT_DIR;
-  std::string proc = ctx.root + "/" + PROC_REPORT_DIR;
   std::string tagdir = ctx.root + "/" + TAG_REPORT_DIR;
   assert(is_dir(raw) && "缺少研报输入目录 RAW_REPORT_DIR");
-
-  std::vector<TagRec> recs;
+  recs.clear();
+  extra.clear();
   walk_raw(raw, ".", recs);
   std::map<std::string, size_t> expected; // "{folder}/{stem}" -> 下标
   for (size_t i = 0; i < recs.size(); ++i) {
@@ -69,12 +67,112 @@ int TagStage::run(const Ctx &ctx) {
     assert(!expected.count(key) && "同目录下 stem 重复");
     expected[key] = i;
   }
-
-  std::vector<std::pair<std::string, std::string>> extra;
   if (is_dir(tagdir))
     walk_tag(tagdir, ".", expected, recs, extra);
+}
 
-  // 单文件规则并行: F2-F4 S V K G
+std::string md_path_of(const Ctx &ctx, const TagRec &r) {
+  return ctx.root + "/" + PROC_REPORT_DIR + "/" + (r.folder == "." ? "" : r.folder + "/") + r.stem + "/" + PROC_MD_NAME;
+}
+
+// 单文件规则: F2-F4 S V K G (r.tagged 且 r.path 有效). F3 不规范则覆盖写回
+void check_rec(const Ctx &ctx, TagRec &r) {
+  std::string text = read_file(r.path), canon;
+  bool ok = parse_tag(text, r.stem, r.tag, r.findings_key, canon, r.viol);
+  if (!canon.empty() && canon != text) {
+    write_file(r.path, canon);
+    r.formatted = true;
+  }
+  if (!ok)
+    return;
+  check_consistency(r.tag, r.date, r.viol);
+  std::string md = md_path_of(ctx, r);
+  if (!path_exists(md))
+    r.viol.push_back(F("违规:F4 无 %s, 无法接地", PROC_MD_NAME));
+  else
+    check_grounding(r.tag, read_file(md), r.viol);
+}
+
+// --one <json>: 只校验这一个文件 (给 agent loop 回喂用). 文件须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下,
+// 相对其的路径 = {folder}/{stem}.json. 违规一行一条到 stdout, 退出码 = 有无违规. 不跑 X 规则
+int run_one(const Ctx &ctx, const std::string &path) {
+  std::string rel;
+  for (const char *base : {TAG_REPORT_DIR, TAG_STAGING_DIR}) {
+    std::string prefix = ctx.root + "/" + base + "/";
+    if (path.starts_with(prefix))
+      rel = path.substr(prefix.size());
+  }
+  assert(!rel.empty() && "--one 路径须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下");
+  assert(rel.ends_with(".json") && "--one 须为 .json");
+  size_t slash = rel.rfind('/');
+  std::string file = slash == std::string::npos ? rel : rel.substr(slash + 1);
+  TagRec r;
+  r.folder = slash == std::string::npos ? "." : rel.substr(0, slash);
+  r.stem = file.substr(0, file.size() - 5);
+  Seg g;
+  assert(parse_name(r.stem + ".pdf", g) && "--one stem 不合规");
+  r.date = g.date;
+  assert(path_exists(ctx.root + "/" + RAW_REPORT_DIR + "/" + (r.folder == "." ? "" : r.folder + "/") + r.stem + ".pdf") &&
+         "--one 对应的 raw PDF 不存在");
+  r.tagged = true;
+  r.path = path;
+  check_rec(ctx, r);
+  for (const std::string &v : r.viol)
+    printf("%s\n", v.c_str());
+  return r.viol.empty() ? 0 : 1;
+}
+
+// 阶段一: 缺失的标签交给 agent loop 补全 (cpp/agent/tag_loop.py). 缺失清单写进 staging, 参数全部由 config.hpp 传下去,
+// python 侧不另存配置. 无 TAG_AGENT_KEY_FILE 则跳过 (纯校验用法)
+void fill_missing(const Ctx &ctx, const std::vector<TagRec> &recs) {
+  std::vector<const TagRec *> missing;
+  for (const TagRec &r : recs)
+    if (!r.tagged)
+      missing.push_back(&r);
+  if (missing.empty())
+    return;
+  std::string key_file = ctx.root + "/" + TAG_AGENT_KEY_FILE;
+  if (!path_exists(key_file)) {
+    fprintf(stderr, "[tag] 缺失 %zu 篇, 无 %s, 跳过补全\n", missing.size(), TAG_AGENT_KEY_FILE);
+    return;
+  }
+  std::string staging = ctx.root + "/" + TAG_STAGING_DIR;
+  remove_all(staging);
+  mkdirs(staging);
+  std::string list;
+  for (const TagRec *r : missing)
+    list += r->folder + "\t" + r->stem + "\t" + r->date + "\n";
+  std::string list_path = staging + "/missing.tsv";
+  write_file(list_path, list);
+  fprintf(stderr, "[tag] 缺失 %zu 篇, 交给 agent loop (model=%s, workers=%d, max_round=%d)\n", missing.size(),
+          TAG_AGENT_MODEL, TAG_AGENT_WORKERS, TAG_AGENT_MAX_ROUND);
+  std::string py = ctx.root + "/" + MINERU_PYTHON_BIN;
+  assert(path_exists(py) && "缺少内置便携 python (见 convert 的环境说明)");
+  int rc = run_cmd({py, ctx.root + "/" + TAG_AGENT_SCRIPT, "--root", ctx.root, "--docpipe", ctx.self, "--key-file", key_file, "--missing", list_path,
+                    "--staging", staging, "--out", ctx.root + "/" + TAG_REPORT_DIR, "--proc", ctx.root + "/" + PROC_REPORT_DIR,
+                    "--md-name", PROC_MD_NAME, "--quarantine", ctx.root + "/" + TAG_QUARANTINE_DIR, "--log",
+                    ctx.root + "/" + TAG_AGENT_LOG, "--spec", ctx.root + "/cpp/include/stages/tag/tag.md", "--model",
+                    TAG_AGENT_MODEL, "--workers", std::to_string(TAG_AGENT_WORKERS), "--max-round",
+                    std::to_string(TAG_AGENT_MAX_ROUND), "--md-max", std::to_string(TAG_AGENT_MD_MAX_BYTES),
+                    "--schema-version", std::to_string(TAG_SCHEMA_VERSION)});
+  assert(rc == 0 && "agent loop 异常退出");
+}
+
+} // namespace
+
+int TagStage::run(const Ctx &ctx) {
+  if (!ctx.args.empty()) {
+    assert(ctx.args.size() == 2 && ctx.args[0] == "--one" && "tag 只认 --one <json>");
+    return run_one(ctx, ctx.args[1]);
+  }
+  double t0 = now_ms();
+  std::vector<TagRec> recs;
+  std::vector<std::pair<std::string, std::string>> extra;
+  collect(ctx, recs, extra);
+  fill_missing(ctx, recs);
+  collect(ctx, recs, extra); // 补全后刷新 tagged
+
+  // 阶段二: 单文件规则并行
   std::atomic<size_t> cursor{0};
   {
     std::vector<std::jthread> pool;
@@ -84,23 +182,8 @@ int TagStage::run(const Ctx &ctx) {
           size_t i = cursor.fetch_add(1);
           if (i >= recs.size())
             return;
-          TagRec &r = recs[i];
-          if (!r.tagged)
-            continue;
-          std::string text = read_file(r.path), canon;
-          bool ok = parse_tag(text, r.stem, r.tag, r.findings_key, canon, r.viol);
-          if (!canon.empty() && canon != text) { // F3: 覆盖为规范格式
-            write_file(r.path, canon);
-            r.formatted = true;
-          }
-          if (!ok)
-            continue;
-          check_consistency(r.tag, r.date, r.viol);
-          std::string md = proc + "/" + (r.folder == "." ? "" : r.folder + "/") + r.stem + "/" + PROC_MD_NAME;
-          if (!path_exists(md))
-            r.viol.push_back(F("违规:F4 无 %s, 无法接地", PROC_MD_NAME));
-          else
-            check_grounding(r.tag, read_file(md), r.viol);
+          if (recs[i].tagged)
+            check_rec(ctx, recs[i]);
         }
       });
   }

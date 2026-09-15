@@ -9,8 +9,10 @@
 
 // 各 stage 共享的输入参数
 struct Ctx {
-  std::string root;     // 文档根目录 (run.py 所在目录), 各 stage 据此拼 config.hpp 里的相对路径
-  unsigned workers = 1; // 并行度
+  std::string root;              // 文档根目录 (run.py 所在目录), 各 stage 据此拼 config.hpp 里的相对路径
+  unsigned workers = 1;          // 并行度
+  std::string self;              // 本可执行文件绝对路径 (子进程回调 docpipe 用)
+  std::vector<std::string> args; // 本 stage 的命令行参数: 命令行里紧跟 stage 名之后的 --xxx 项, 各 stage 自行解释
 };
 
 struct Stage {

@@ -10,6 +10,18 @@ inline constexpr const char *MINERU_DIR = "cpp/package/MinerU";         // Miner
 // stage3 tag 的标签 json, 与 PROC_REPORT_DIR 同层次但独立成树: {券商}/{系列}/{stem}.json
 // (不能放进 proc 的 {stem}/ 内: .stat 清单是 list_tree 逐行相等, 多一个文件即判 [不完整])
 inline constexpr const char *TAG_REPORT_DIR = "resources-tag/report";
+// stage3 补全: 缺失的标签先由 Cursor Cloud Agents API 生成 (无仓库代理, report.md 正文随 prompt 发送, 结果 json 从
+// 回复文本里取; 本机用 docpipe tag --one 校验, 违规原样回喂同一 agent 重问), 全部补完后再整体校验. 见 tag/agent loop.md
+// 以下三个目录/文件都在 TAG_REPORT_DIR 之外 (放进去会被 F1 判多余)
+inline constexpr const char *TAG_STAGING_DIR = "resources-tag/.staging";       // agent 产出先落这里, 校验通过才 rename 进 TAG_REPORT_DIR; 启动清空
+inline constexpr const char *TAG_QUARANTINE_DIR = "resources-tag/.quarantine"; // 用完轮数仍违规: json + .viol. 存在即不再重试 (删掉即重试)
+inline constexpr const char *TAG_AGENT_LOG = "resources-tag/agent.jsonl";      // 每篇一行: 轮数 / 各轮违规 / 用量 / 结局
+inline constexpr const char *TAG_AGENT_SCRIPT = "cpp/agent/tag_loop.py";       // 用 MINERU_PYTHON_BIN 跑, 只用标准库
+inline constexpr const char *TAG_AGENT_KEY_FILE = "cpp/agent/cursor_api_key.txt"; // Cursor API key 一行 (已 gitignore); 不存在则跳过阶段一
+inline constexpr const char *TAG_AGENT_MODEL = "composer-2";                   // GET /v1/models 的 id; 启动时校验存在
+inline constexpr int TAG_AGENT_WORKERS = 4;                                    // 同时在跑的 agent 数 (受 API 限速)
+inline constexpr int TAG_AGENT_MAX_ROUND = 3;                                  // 首轮 + 最多 2 次回喂; 用完进 quarantine
+inline constexpr size_t TAG_AGENT_MD_MAX_BYTES = 160000;                       // report.md 超过则只发前这么多字节 (中位 42KB, p90 73KB)
 // 内置便携版 CPython (python-build-standalone, 自带 pip, 不依赖系统 python, 整目录搬迁/换机器直接可用):
 //   https://github.com/astral-sh/python-build-standalone/releases
 inline constexpr const char *MINERU_PYTHON_DIR = "cpp/package/python";
