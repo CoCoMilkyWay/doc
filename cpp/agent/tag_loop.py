@@ -185,9 +185,12 @@ def complete(client, a, messages, request_id, think_path):
                 if ch.finish_reason:
                     finish = ch.finish_reason
     assert finish is not None, "%s: 流到 [DONE] 却没有 finish_reason" % request_id
-    if usage is None:
-        # 流完成了 (有 finish_reason) 但服务端没在末 chunk 附 usage —— 服务端偶发, 当 sdk_error 只坏这一篇, 不整批停
+    if usage is None and finish == "stop":
+        # 正常收尾却不记账 —— 服务端偶发协议破损, 当 sdk_error 只坏这一篇, 不整批停
         raise ZaiError("%s: 流到 [DONE] 却没有 usage" % request_id)
+    # finish 是错误型 (sensitive / network_error / length / model_context_window_exceeded) 时服务端不附 usage:
+    # 这一轮没用量可记, 但 finish 是该篇失败原因的唯一线索, 原样交给 rounds() 按 run_<finish> 收场.
+    # 别在这里当 "没有 usage" 抛掉: 那会把一篇的确定性失败错记成 sdk_error (服务端偶发), 于是每次 pass 都重来、每次都一样栽
     return "".join(parts), finish, usage, rid
 
 
@@ -387,6 +390,18 @@ class Loop:
         content, finish, usage, rid = await asyncio.to_thread(
             complete, self.client, self.a, messages, req_id, rp + "thinking.md"
         )
+        if usage is None:  # 错误型 finish_reason: 服务端没记账, 这一轮没用量也没费用, 只存身份与 finish
+            rec.setdefault("runs", []).append(
+                {
+                    "round": rnd,
+                    "id": rid,
+                    "request_id": req_id,
+                    "finish_reason": finish,
+                    "usage": None,
+                    "cost_yuan": 0.0,
+                }
+            )
+            return content, finish, rp
         u = rec.setdefault(
             "usage", {"prompt": 0, "cached": 0, "completion": 0}
         )  # 整篇累计, 供 log() 汇总
