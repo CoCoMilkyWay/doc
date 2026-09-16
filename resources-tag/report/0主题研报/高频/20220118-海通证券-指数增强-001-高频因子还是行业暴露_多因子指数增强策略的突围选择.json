@@ -28,6 +28,26 @@
       },
       "factors": [
         {
+          "name": "小市值因子",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{市值最小一组股票等权组合相对于市值最大一组股票等权组合的多空收益（全市场按市值等分10组）}",
+          "stats": [null, null, null, null],
+          "evidence": "基于市值将全市场股票等分为 10 组，考察市值最小一组股票等权组合相对于市值最大一组股票等权组合，每半年度的月均多空收益差，结果如左下图所示。"
+        },
+        {
+          "name": "低估值因子",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{PB最小一组股票相对于PB最大一组股票的月收益差（全市场按PB等分10组）}",
+          "stats": [null, null, null, null],
+          "evidence": "基于 PB将全市场股票等分为 10 组，考察 PB最小一组股票相对于 PB最大一组股票的月收益差，结果如图 12 所示。"
+        },
+        {
           "name": "中盘",
           "family": "size",
           "direction": "positive",
@@ -221,7 +241,7 @@
           "name": "行业动量因子",
           "family": "momentum",
           "direction": "positive",
-          "data_period": ["daily"],
+          "data_period": ["monthly"],
           "horizon": "monthly",
           "formula": "\\text{行业过去若干个月的收益均值}",
           "stats": [null, null, null, null],
