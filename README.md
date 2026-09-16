@@ -11,7 +11,9 @@ doc/
 ├── resources-raw/             # 📥 原始输入 (只读)
 │   ├── report/                # 📥 研报 PDF, 层次 {券商}/{系列}/{日期}-{券商}-{系列}-{序号}-{标题}.pdf
 │   │   └── 0主题研报/{主题}/  # 📥 跨券商主题目录: 同规命名检查, 仅豁免"目录名==券商/系列"的比较
-│   └── paper/{主题}/          # 📥 英文论文/书籍, 主题分类 (AlphaMining/HFT/Factors/...); 暂未纳入流水线
+│   ├── paper/{主题}/          # 📥 论文/书籍, 主题分类 (AlphaMining/HFT/Factors/...);
+│   ├── gzh/{__biz}/           # 📥 公众号文章 (markdown+图片), 由 cpp/app/gzh 同步;
+│   └── web/{站点}/            # 📥 论坛帖子 (markdown+图片), 由 cpp/app/web 同步;
 ├── resources-proc/            # 📤 转换产物 (与输入同层次)
 │   └── report/
 │       ├── {券商}/{系列}/{stem}/
@@ -71,6 +73,9 @@ doc/
 │   │   └── MinerU/            # 📚 MinerU 剪裁版源码 (cli/client.py 关掉了 middle/model/content_list json 与调试 pdf)
 │   │       ├── models/        # 📚 模型缓存 (~2.5G, MODELSCOPE_CACHE 重定向到此)
 │   │       └── mineru.json    # 📚 由 mineru-models-download 生成 (MINERU_TOOLS_CONFIG_JSON 重定向到此)
+│   ├── app/                   # 🕸️ 独立抓取程序, 不属 docpipe 流水线, 各有自己的 run.py:
+│   │   ├── gzh/               # 🕸️ 公众号文章 (C++, MITM 取凭证; 详见 cpp/app/gzh/README.md) → resources-raw/gzh/
+│   │   └── web/               # 🕸️ 论坛帖子 (Python, 果仁/聚宽) → resources-raw/web/{站点}/
 │   └── build/                 # 🎯 构建目录, 产物 cpp/build/docpipe
 └── Win10-VM/                  # 🖥️ 独立的 QEMU/KVM Win10 虚拟机 (与流水线无关, 跑 Windows 版行情/研报客户端)
     ├── start.sh               # 🖥️ 一键启动: 依赖自检 → virtiofsd 共享 → OVMF UEFI 启动; 首次自动建 80G 稀疏盘, 空盘光驱优先

@@ -9,3 +9,6 @@
 /resources-tag/.staging/
 /resources-tag/.quarantine/
 /resources-tag/agent-log/
+/resources-raw/gzh/**/assets/
+/resources-raw/gzh/**/.staging/
+/resources-raw/web/

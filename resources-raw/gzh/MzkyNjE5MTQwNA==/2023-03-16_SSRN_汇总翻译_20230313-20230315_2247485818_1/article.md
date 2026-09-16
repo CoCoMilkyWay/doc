@@ -1,0 +1,235 @@
+# SSRN 汇总翻译 20230313-20230315
+
+Shame1ess 量化前沿速递 2023-03-16 08:30 江苏
+
+> 原文地址: [https://mp.weixin.qq.com/s?\_\_biz=MzkyNjE5MTQwNA==&mid=2247485818&idx=1&sn=259f1f08e8a9a5655016d03d753c33a9&chksm=c30fb01d1248ba63b83b35bcde9ff651fe5a2d56381a1453ae19385220e0fb360b31f4567992#rd](https://mp.weixin.qq.com/s?__biz=MzkyNjE5MTQwNA==&mid=2247485818&idx=1&sn=259f1f08e8a9a5655016d03d753c33a9&chksm=c30fb01d1248ba63b83b35bcde9ff651fe5a2d56381a1453ae19385220e0fb360b31f4567992#rd)
+
+机器翻译，仅供参考！更多文献获取请关注公众号：量化前沿速递  
+
+获取文献链接/翻译/pdf请加入知识星球“量化前沿速递”
+
+![](assets/001.png)
+
+### 
+
+文献汇总
+
+\[1\] The Systemic Risk Approach Based on Implied and Realized Volatility
+
+基于隐含和实现波动性的系统风险方法
+
+出处:-
+
+\[2\] The Frequency of Outperformance and Investment Decisions
+
+表现优异的频率与投资决策
+
+出处:-
+
+\[3\] Internet Appendix to the Only Constant is Change: Non-Constant Volatility and Implied Volatility Spreads
+
+唯一不变的互联网附录：非恒定波动性和隐含波动性价差
+
+出处:-
+
+\[4\] Anomaly Discovery and Arbitrage Trading
+
+异常发现与套利交易
+
+出处:-
+
+\[5\] China's Multi-Level Capital Market Volatility Under Covid-19 Epidemic
+
+新冠肺炎疫情下中国多层次资本市场波动
+
+出处:Australasian Finance and Banking Conference Annual Meeting 2020
+
+\[6\] Carbon Pricing
+
+碳定价
+
+出处:-
+
+\[7\] A Real Cost of Free Trades: Retail Option Trading Increases the Volatility of Underlying Securities
+
+自由交易的实际成本：零售期权交易增加了基础证券的波动性
+
+出处:-
+
+\[8\] Battle of the Bots: Flash Loans, Miner Extractable Value and Efficient Settlement
+
+机器人之战：闪电贷款、矿工可提取价值和高效结算
+
+出处:-
+
+\[9\] Stock Market Participation and Accounting Information
+
+股票市场参与与会计信息
+
+出处:-
+
+\[10\] Investing in Your Alumni: Endowments' Investment Choices in Private Equity
+
+投资校友：捐赠基金对私募股权的投资选择
+
+出处:-
+
+### 
+
+\[1\] The Systemic Risk Approach Based on Implied and Realized Volatility
+
+标题:基于隐含和实现波动性的系统风险方法
+
+作者:Paweł Sakowski,Rafal Sieradzki,Robert Slepaczuk
+
+出处:-
+
+Abstract : We propose a new measure of systemic risk to analyze the impact of the major financial market turmoils in the stock markets from 2000 to 2021 in the USA, Europe, Brazil, and Japan. Our Implied Volatility Realized Volatility Systemic Risk Indicator (IVRVSRI) shows that the reaction of stock markets varies across different geographical locations and the persistence of the shocks depends on the historical volatility and long-term average volatility level in a given market. The methodology applied is based on the logic “the simpler is always better than the more complex, if it leads to the same results”. Such an approach significantly limits the model risk and substantially decreases computational burden. Robustness checks show that IVRVSRI is a precise measure of the current systemic risk in the stock markets. Moreover, IVRVSRI seems to be a valid indication of current systemic risk in equity markets and it can be used for other types of assets and high-frequency data.
+
+Keywords : systemic risk, implied volatility, realized volatility, volatility indices, equity index options, market volatility
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[2\] The Frequency of Outperformance and Investment Decisions
+
+标题:表现优异的频率与投资决策
+
+作者:Michael Ungeheuer,Martin Weber
+
+出处:-
+
+Abstract : Does frequent outperformance cause investors to buy? If so, do investors have a preference to outperform most of the time, or does frequent outperformance bias beliefs about the risk and return of an asset? In several randomized experiments, we show that retail investors purchase frequently outperforming assets, even at the cost of large infrequent underperformance and when assets are first-order stochastically dominated. An experiment with asset management professionals confirms that a large fraction of financial intermediaries anticipates investors' attraction to frequent outperformers. The evidence supports a belief-based mechanism, where frequent outperformance causes overoptimism about an asset's risk and return. Our findings have implications for fund management, the design and regulation of structured products, and for the debate on the (ir)relevance of systematic risk for portfolio choice and asset pricing.
+
+Keywords : Investment Decisions, Regret Theory, Salience Theory, Biased Beliefs, Risk Taking.
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[3\] Internet Appendix to the Only Constant is Change: Non-Constant Volatility and Implied Volatility Spreads
+
+标题:唯一不变的互联网附录：非恒定波动性和隐含波动性价差
+
+作者:T. Colin Campbell,Michael F. Gallmeyer,Alex Petkevich
+
+出处:-
+
+Abstract : We examine the predictability of stock returns using implied volatility spreads (VS) from individual (non-index) options. Volatility spreads can occur under simple no-arbitrage conditions for American options when volatility is time-varying, suggesting that the VS-return predictability could be an artifact of firms’ sensitivities to aggregate volatility. Examining this empirically, we find that the predictability changes systematically with aggregate volatility and is positively related to the firms’ sensitivities to volatility risk. The alpha generated by VS hedge portfolios can be explained by aggregate volatility risk factors. Our results cannot be explained by firm-specific informed trading, transaction costs, or liquidity.
+
+Keywords : Implied Volatility Spreads, Non-constant Volatility
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[4\] Anomaly Discovery and Arbitrage Trading
+
+标题:异常发现与套利交易
+
+作者:Xi Dong,Qi Liu,Lei Lu,Bo Sun,Hongjun Yan
+
+出处:-
+
+Abstract : We analyze a stylized model of anomaly discovery, which has implications for both asset prices andarbitrageurs’ trading. Our evidence based on 99 anomalies is consistent with the prediction thatthe discovery of an anomaly reduces the correlation between the returns of its deciles 1 and 10portfolios. This effect becomes linked to the aggregate trading of hedge funds only after discovery.Hedge funds increase (reverse) their positions in exploiting anomalies when their aggregate wealthincreases (decreases), further suggesting that these discovery effects operate through arbitragetrading.
+
+Keywords : Anomaly, Arbitrage, Discovery, Arbitrageur-based asset pricing.
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[5\] China's Multi-Level Capital Market Volatility Under Covid-19 Epidemic
+
+标题:新冠肺炎疫情下中国多层次资本市场波动
+
+作者:Zeteng Lin,Zewei Lin
+
+出处:Australasian Finance and Banking Conference Annual Meeting 2020
+
+Abstract : This paper analyzes the impact of China's multi-level or cross-market volatility during the COVID-19 epidemic period. We use two key time points to analyze based on the event study method. Empirical findings indicate that the COVID-19 epidemic, as a signal, has a longer negative impact than a positive impact. The Main Board and Growth Enterprise Market exhibit more minor market reaction fluctuations towards epidemic-related events. In contrast, investors in the Science and Technology Innovation Board and H shares exhibit greater uncertainty in their reactions. The heterogeneous impacts on the multi-level capital market's response to epidemic news in China can be attributed to different expectations regarding the spread of the epidemic. During the first wave of the global epidemic, China's multi-level capital market exhibited consistent volatility characteristics. What we study supports the empirical short-term impact research from the COVID-19 stock market shock.
+
+Keywords : stock market; event study; unexpected respond
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[6\] Carbon Pricing
+
+标题:碳定价
+
+作者:Lasse Heje Pedersen
+
+出处:-
+
+Abstract : I solve a simple model with multiple carbon pricing mechanisms: carbon taxes, carbon allowances, carbon offsets, sustainable finance regulation, and ESG investing. The social optimum is achieved by a common carbon price levied on scope 1 emissions and no sustainable finance regulation or ESG investing. The latter tools can be useful when the carbon tax is too low, but do not flow through the supply chain as desired, creating a need for measuring scope 2 and 3 emissions. Using novel data, I analyze carbon pricing empirically, showing a significant violation of the law of one price via variation in carbon prices linked to credibility. I link carbon prices to economic conditions and study which pricing mechanisms are becoming dominant.
+
+Keywords : carbon allowances, carbon offsets, carbon futures, carbon credits, ESG investing, sustainable finance regulation, emission trading system
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[7\] A Real Cost of Free Trades: Retail Option Trading Increases the Volatility of Underlying Securities
+
+标题:自由交易的实际成本：零售期权交易增加了基础证券的波动性
+
+作者:Marc L. Lipson,Davide Tomio,Jiang Zhang
+
+出处:-
+
+Abstract : We examine the link between  retail  trading in options and the volatility of the underlying assets. Using Robinhood's introduction of options as a shock to retail trading, we confirm that option volume increased around this event and show that volatility similarly increased for: interlisted US securities, relative to their Canadian counterparts; optioned shares relative to optionless shares for firms with dual class shares; and more so for shares that would be become more attractive to retail traders as a result of the fee change (relatively high stock prices or low option prices). We provide further evidence suggesting the effect is permanent and that the underlying mechanism is related to market makers hedging their option exposure: volatility increases more for shares with higher option-embedded leverage; spreads and price impacts are lower; market maker volumes increase; and the volatility of retail option volume increases. Our results suggest that a shift in retail trading toward options drives an increase in the volatility of the optioned securities due to that actions of market makers hedging their exposure.
+
+Keywords : Retail traders, Options, Robinhood,  Volatility
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[8\] Battle of the Bots: Flash Loans, Miner Extractable Value and Efficient Settlement
+
+标题:机器人之战：闪电贷款、矿工可提取价值和高效结算
+
+作者:Alfred  Lehar,Christine A. Parlour
+
+出处:-
+
+Abstract : Settlement on decentralized ledgers is transparent and batched. The settlement also allows settlement agents to expropriate profitable arbitrage trades. Arbitrage may be socially beneficial or wasteful. We model the effect of an alternate, private settlement on  arbitrage. We document payments from arbitrageurs to private settlers that exceed 1 million USD per day.
+
+Keywords : Blockchain, Decentralized Finance, Settlement, Miner Extractable Value
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[9\] Stock Market Participation and Accounting Information
+
+标题:股票市场参与与会计信息
+
+作者:Stefan Anchev,Nicha Lapanan
+
+出处:-
+
+Abstract : We find empirical evidence suggesting that, over time, the increased stock market participation of investors has decreased the relevance of firms' accounting information. This negative relation is apparent primarily in the short term (i.e., over two consecutive quarters), unidirectionally Granger-causal, somewhat stronger after mid-1999, driven by transient and quasi-indexing investors and obtained after controlling for time trends, several potential risk factors and various stock market and economy characteristics. Together, these findings support the hypothesis that, due to an improvement in the risk sharing among investors, the increase in their stock market participation has weakened their incentives to process accounting information.
+
+Keywords : Stock market participation, relevance of accounting information, risk sharing, incentives to process accounting information
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取
+
+### 
+
+\[10\] Investing in Your Alumni: Endowments' Investment Choices in Private Equity
+
+标题:投资校友：捐赠基金对私募股权的投资选择
+
+作者:Roland Füss,Stefan Morkoetter,Maria Oliveira
+
+出处:-
+
+Abstract : We investigate the role of alumni ties in university endowments' decision to invest into private equity funds. Based on a sample of 1,590 commitments made by 189 U.S. endowments into 613 funds during the period of 1995 to 2017, we show that endowments are more likely to invest into funds that are managed by the alumni of their own alma mater. This finding is more pronounced for less prestigious and less private equity experienced university endowments. Thus, our results are not only dominated by institutions with a larger proportion of active alumni in the private equity industry. Furthermore, we observe that alumni ties are not associated with better performance compared to other endowment investments where such a tie does not exist.
+
+Keywords : alumni ties, fund managers, investment choice, private equity, university endowment
+
+摘要翻译 : 加入知识星球“量化前沿速递”可获取

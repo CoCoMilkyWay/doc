@@ -1,0 +1,455 @@
+# SSRN Capital Markets eJournals汇总翻译 20211223-20211226
+
+Shame1ess 量化前沿速递 2021-12-26 22:24
+
+> 原文地址: [https://mp.weixin.qq.com/s?\_\_biz=MzkyNjE5MTQwNA==&mid=2247484763&idx=1&sn=a764b5648a92f6d9d511b131dd046525&chksm=c367d0a8f707f66960c118d8f12cf2d9b188faad4021d0bbbf341cf934150691a61a602232fa#rd](https://mp.weixin.qq.com/s?__biz=MzkyNjE5MTQwNA==&mid=2247484763&idx=1&sn=a764b5648a92f6d9d511b131dd046525&chksm=c367d0a8f707f66960c118d8f12cf2d9b188faad4021d0bbbf341cf934150691a61a602232fa#rd)
+
+机器翻译，仅供参考！更多文献获取请关注公众号：量化前沿速递  
+
+获取文献链接/翻译/pdf请加入知识星球“量化前沿速递”
+
+![](assets/001.png)
+
+## 
+
+文献汇总
+
+\[1\] Impact of Self-Learning Based High-Frequency Traders on the Stock Market
+
+基于自学习的高频交易者对股票市场的影响
+
+出处:None
+
+\[2\] The Effects of Social-Based Signals on Investment Decisions in Copy Trading
+
+复制交易中基于社会的信号对投资决策的影响
+
+出处:-
+
+\[3\] Mean-Covariance Robust Risk Measurement
+
+均值协方差稳健风险度量
+
+出处:Swiss Finance Institute Research Paper No. 21-93
+
+\[4\] Asset Price Bubbles and the Explosion of Quadratic Variation
+
+资产价格泡沫与二次变异的爆发
+
+出处:-
+
+\[5\] Probabilistic Machine Learning for Local Volatility
+
+局部波动的概率机器学习
+
+出处:Journal of Computational Finance, Vol. 25, No. 3, 2021
+
+\[6\] A Review of Tree-Based Approaches to Solving Forward–Backward Stochastic Differential Equations
+
+基于树的正倒向随机微分方程求解方法综述
+
+出处:Journal of Computational Finance, Vol. 25, No. 3, 2021
+
+\[7\] Research Unbundling and Market Liquidity: Evidence from MiFID II
+
+研究分拆和市场流动性：来自MiFID II的证据
+
+出处:-
+
+\[8\] Rainbows and Transforms: Semi-Analytic Formulas
+
+彩虹与变换：半解析公式
+
+出处:Journal of Computational Finance, Vol. 25, No. 3, 2021
+
+\[9\] Multi-Dimensional Option Pricing: An Explicit, Simple Formula
+
+多维期权定价：一个明确、简单的公式
+
+出处:-
+
+\[10\] Why Value the Enterprise en route to Equity? Valuation Practice in M&A
+
+为什么要在实现权益的过程中对企业进行估值？并购中的价值评估实践
+
+出处:-
+
+\[11\] Why Naive 1/N Diversification Is Not So Naive, and How to Beat It?
+
+为什么天真的1/N多元化不是那么天真，如何打败它？
+
+出处:-
+
+\[12\] Excess Reconstitution-Day Volume
+
+过剩重建日容量
+
+出处:-
+
+\[13\] Does Wall Street Discriminate by Race? Evidence from Analyst Target Prices
+
+华尔街有种族歧视吗？来自分析师目标价格的证据
+
+出处:-
+
+\[14\] The Information Content of the VIX Options Trading Volume
+
+VIX期权交易量的信息内容
+
+出处:Journal of Futures Markets, Forthcoming
+
+\[15\] Information Transmission between Banks and the Market for Corporate Control
+
+银行与公司控制权市场之间的信息传递
+
+出处:-
+
+\[16\] Asset Pricing under Ambiguity with Optimism and Pessimism
+
+乐观与悲观模糊下的资产定价
+
+出处:-
+
+\[17\] Credit Risk Premia and Intermediaries Leverage
+
+信用风险溢价与中介杠杆
+
+出处:-
+
+\[18\] Short Selling and Product Market Competition
+
+卖空与产品市场竞争
+
+出处:-
+
+\[19\] Using Network-based Causal Inference to Detect the Sources of Contagion in the Currency Market
+
+利用基于网络的因果推理检测货币市场传染源
+
+出处:-
+
+\[20\] Threshold Autoregressive Modeling of Bond Series ---- American Case
+
+债券序列的门限自回归模型——美国案例
+
+出处:-
+
+\[21\] Impact of COVID-19 on Financial Returns: A Spatial Dynamic Panel Data Model with Random Effects
+
+COVID-19对财务回报的影响：一个具有随机效应的空间动态面板数据模型
+
+出处:-
+
+\[22\] Does Financial Disclosure Readability Predict Shareholder Activism?
+
+财务披露可读性是否能预测股东积极性？
+
+出处:IIM Bangalore Research Paper No. 654
+
+## 
+
+\[1\] Impact of Self-Learning Based High-Frequency Traders on the Stock Market
+
+标题:基于自学习的高频交易者对股票市场的影响
+
+作者:Kirill Mansurov,Alexander Semenov,Dmitry Grigoriev,Andrei Radionov,Rustam Ibragimov
+
+出处:None
+
+Abstract : In this paper we investigate the role of self-learning agents in multi-agent models of financial markets. We develop an agent-based simulation model of a financial market and in addition to the agents with fixed strategies used in previous research, we introduce an agent with a self--learning strategy. To model the behavior of such an agent, we use deep reinforcement learning algorithms, namely deep deterministic policy gradient (DDPG). Next, we conduct a comparative analysis of the results of the constructed model with outcomes of previously proposed models, as well as with the characteristics of real market. To conduct a comparative analysis, we use stylized facts of asset returns that allow us to evaluate and compare the characteristics of the markets. Our results show that a model with a self-learning agent gives a better approximation to the real market than a model with classic agents. In particular, unlike the model with classical agents, the model with a self-learning agent turns out to be not so heavy-tailed. Thus, we demonstrate that for a complete understanding of market processes simulation models should take into account self-learning agents that have a significant presence at modern financial markets.
+
+Keywords : Agent-based model, stylized facts, Reinforcement Learning, Fat tails
+
+## 
+
+\[2\] The Effects of Social-Based Signals on Investment Decisions in Copy Trading
+
+标题:复制交易中基于社会的信号对投资决策的影响
+
+作者:Sándor Erdős,Tamás Papp,Zsófia Vörös
+
+出处:-
+
+Abstract : In this study, we examine the importance and effects of social-based signals, i.e., signals generated by the community, when choosing a trader to copy in a mock-up social trading platform. Although the studies examining the effects of social influence in choosing a trader to copy and herding point toward the importance of social influence, these works do not evaluate how related signals in different constellations with other signals affect the decision-making of copying. The results of a two-alternative forced-choice experiment in which subjects made 18 investment decisions systematically show the importance of social-based signals in the selection of traders judged worth copying, i.e., their potential to influence investment decisions and the general preference toward positive social profiles.
+
+Keywords : Social Trading, Copy trading, Social-based signals, Investing, Forced-choice experiment
+
+## 
+
+\[3\] Mean-Covariance Robust Risk Measurement
+
+标题:均值协方差稳健风险度量
+
+作者:Viet-Anh Nguyen,Soroosh Shafieezadeh Abadeh,Damir Filipović,Daniel Kuhn
+
+出处:Swiss Finance Institute Research Paper No. 21-93
+
+Abstract : We introduce a universal framework for mean-covariance robust risk measurement andportfolio optimization.We model uncertainty in terms of the Gelbrich distance on the mean-covariance space, along with prior structural information about the population distribution.Our approach is related to the theory of optimal transport and exhibits superior statistical andcomputational properties than existing models. We find that, for a large class of risk measures,mean-covariance robust portfolio optimization boils down to the Markowitz model, subject to a regularization term given in closed form. This includes the finance standards, value-at-risk and conditional value-at-risk, and can be solved highly efficiently.
+
+Keywords : Robust optimization, risk measurement, optimal transport
+
+## 
+
+\[4\] Asset Price Bubbles and the Explosion of Quadratic Variation
+
+标题:资产价格泡沫与二次变异的爆发
+
+作者:Simon Kwok
+
+出处:-
+
+Abstract : This note examines the dynamic properties of asset price bubbles obtained under the local martingale theory. We establish an explicit link between the bubble process and the quadratic variation of log asset price. Furthermore, the moments of futures price are expressible in terms of dynamic characteristics such as the quadratic variation and its explosion time. The results are useful for estimating the risk-neutral dynamics of asset price nonparametrically using option price data.
+
+Keywords : Asset price bubbles, local martingale, quadratic variation, explosion
+
+## 
+
+\[5\] Probabilistic Machine Learning for Local Volatility
+
+标题:局部波动的概率机器学习
+
+作者:Stephen Roberts,Martin Tegnér
+
+出处:Journal of Computational Finance, Vol. 25, No. 3, 2021
+
+Abstract : The local volatility model is widely used for pricing and hedging financial derivatives. While its main appeal is its capability of reproducing any given surface of observed option prices – it provides a perfect fit – the essential component is a latent function that can be uniquely determined only in the limit of infinite data. To (re)construct this function, numerous calibration methods have been suggested that involve steps of interpolation and extrapolation, most often of parametric form and with point-estimate representations. We use probabilistic machine learning to look at the calibration problem in a probabilistic framework based on Gaussian processes. This immediately gives a way of encoding prior beliefs about the local volatility function and a hypothesis model that is highly flexible yet not prone to overfitting. Besides providing a method for calibrating a (range of) point estimate(s), we draw posterior inference from the distribution over local volatility. This leads to a better understanding of uncertainty associated with the model in general, and with the calibration in particular. Further, we infer dynamical properties of local volatility by augmenting the hypothesis space with a time dimension. Ideally, this provides predictive distributions not only locally, but also for entire surfaces forward in time. We apply our approach to S&P 500 market data.
+
+Keywords : option pricing, local volatility, probabilistic inference, Gaussian processes, machine learning
+
+## 
+
+\[6\] A Review of Tree-Based Approaches to Solving Forward–Backward Stochastic Differential Equations
+
+标题:基于树的正倒向随机微分方程求解方法综述
+
+作者:Long Teng
+
+出处:Journal of Computational Finance, Vol. 25, No. 3, 2021
+
+Abstract : In this work, we study ways of solving (decoupled) forward–backward stochastic differential equations numerically using regression trees. Based on general theta-discretization for time integrands, we show how to efficiently use regression-treebased methods to solve the resulting conditional expectations. Several numerical experiments, including high-dimensional problems, are provided to demonstrate accuracy and performance. To show the applicability of forward–backward stochastic differential equations to financial problems, we apply our tree-based approach to the Heston stochastic volatility model to high-dimensional nonlinear pricing problems.
+
+Keywords : forward-backward stochastic differential equations (FBSDEs), nonparametric regression, binary regression tree, sample-splitting; the Heston BSDE, high-dimensional pricing
+
+## 
+
+\[7\] Research Unbundling and Market Liquidity: Evidence from MiFID II
+
+标题:研究分拆和市场流动性：来自MiFID II的证据
+
+作者:Anqi Fu,Tim Jenkinson,David Newton,Ru Xie
+
+出处:-
+
+Abstract : The second Markets in Financial Instruments Directive (MiFID II) mandated the unbundling of payments for research and trading. This research explores whether the impact of MiFID II differs between large and small firms in terms of analyst coverage and stock liquidity. In particular, we focus on the London Stock Exchange with its more regulated Official List (Main Market) and less regulated Alternative Investment Market (AIM). We find a significant drop in analyst coverage on the Main Market, which leads to a deterioration in market liquidity. In contrast, the requirement of AIM firms to retain a Nominated Adviser (NOMAD), who often provide research coverage, has mitigated the impact of MiFID II. AIM firms have experienced marginally higher research coverage and liquidity, consistent with NOMADs facilitating the dissemination of firm-specific information.
+
+Keywords : MiFID II, Unbundling, Analyst Coverage, Liquidity, Idiosyncratic Liquidity
+
+## 
+
+\[8\] Rainbows and Transforms: Semi-Analytic Formulas
+
+标题:彩虹与变换：半解析公式
+
+作者:Norberto Laghi
+
+出处:Journal of Computational Finance, Vol. 25, No. 3, 2021
+
+Abstract : In this paper we show how the techniques introduced by Hurd and Zhou in 2010 can be used to derive a pricing framework for rainbow options by using the joint characteristic function of the logarithm of the underlying assets. Semi-analytic formulas will be achieved by splitting the option payoff function, applying different damping to its constituent components and finally calculating the Fourier transforms of said components, allowing the pricing of call and put options on the maximum and minimum of multiple assets; we shall also revisit Margrabe’s classical formula. Our work extends a number of classical results that focus on geometric Brownian motion dynamics and it also provides an alternative pricing methodology to that proposed in some of the most recent literature.
+
+Keywords : rainbow options, parity relations, characteristic function, fast Fourier transform, dimensionality reduction
+
+## 
+
+\[9\] Multi-Dimensional Option Pricing: An Explicit, Simple Formula
+
+标题:多维期权定价：一个明确、简单的公式
+
+作者:Moawia Alghalith
+
+出处:-
+
+Abstract : We devise a method to circumvent the complexity that arises from the option multi-dimensionality. That is, we transform the model to make it as simple as the one-dimensional case. Furthermore, the assumption of comonotonicity and other assumptions regarding the structure of the underlying asset become needless.
+
+Keywords : Multi-asset option, comonotonicity
+
+## 
+
+\[10\] Why Value the Enterprise en route to Equity? Valuation Practice in M&A
+
+标题:为什么要在实现权益的过程中对企业进行估值？并购中的价值评估实践
+
+作者:Matthew Shaffer,Jason J. Lee
+
+出处:-
+
+Abstract : In recent decades, M&A advisors have primarily and increasingly used enterprise-value (EV) multiples in the valuations they provide to directors and shareholders as benchmarks for valuing their shares. This contrasts with equity analysts, who predominantly use direct equity-value multiples (especially, price-to-adjusted-earnings). We find that advisors’ use of EV multiples is not systematically driven by the target’s capital structure, but is driven by non-recurring items in its most recent income statement. This indicates that the valuation numerator follows the choice of value-driver denominator, and advisors move up the income statement for smoother metrics, with more “non-GAAP exclusions.” (Capitalizing metrics at or above EBIT entails EV valuation for consistency.) M&A advisors almost never use explicitly “adjusted” bottom-line earnings measures. Using commonly-recognized income-statement levels like EBITDA may serve as an indirect means to the same end, while appearing less discretionary, in this litigious setting. We contribute by explaining variation in valuation practice, and identifying a novel manifestation of the broader “non GAAP” phenomenon in M&A.
+
+Keywords : M&A, Appraisal, Valuation, Accounting Multiples, Non-GAAP
+
+## 
+
+\[11\] Why Naive 1/N Diversification Is Not So Naive, and How to Beat It?
+
+标题:为什么天真的1/N多元化不是那么天真，如何打败它？
+
+作者:Ming Yuan,Guofu Zhou
+
+出处:-
+
+Abstract : In this paper, we study portfolio choice problem under estimation risk and show why the 1/Nrule is very difficult to beat in applications and studies. First, as long as the dimensionality ishigh relative to sample size, we show that the usual estimated investment strategies are biasedeven asymptotically. Second, we show that the 1/N rule is optimal in a one-factor model withdiversifiable risks as dimensionality increases, irrespectively of the sample size, making investmenttheory-based rules inadequate as they suffer from estimation errors. Third, we provide strategiesthat can outperform the 1/N under suitable conditions.
+
+Keywords : portfolio choice; estimation risk; mean-variance optimization; naıve diversification; 1/N.
+
+## 
+
+\[12\] Excess Reconstitution-Day Volume
+
+标题:过剩重建日容量
+
+作者:Alex Chinco,Marco Sammon
+
+出处:-
+
+Abstract : When a stock moves between the Russell 1000 and 2000, an exchange-traded fund (ETF) benchmarked to either index must rebalance. On the day when the move occurs, Russell’s “reconstitution day”, ETF rebalancing typically increases an index switcher’s volume by 139% relative to the past year. Our main result is that, for every share traded by ETFs on Russell’s reconstitution day, an extra 3.15 shares get traded by somebody else. The dollar value of this excess reconstitution-day volume is massive—on par with the annual growth of all Russell-benchmarked ETFs. Yet it is completely outside the scope of existing information-based asset-pricing models, meaning that these models are at best incomplete and missing half the story about the economic consequences of indexing.
+
+Keywords : Indexing, Passive Investing, Exchange-Traded Funds (ETFs), Russell Reconstitution Day, Trading Volume, Information-Based Asset Pricing
+
+## 
+
+\[13\] Does Wall Street Discriminate by Race? Evidence from Analyst Target Prices
+
+标题:华尔街有种族歧视吗？来自分析师目标价格的证据
+
+作者:Kathy Rupar,Sean Wang,Hayoung Yoon
+
+出处:-
+
+Abstract : Analyzing over 97,000 price target valuations from 2005-2020, we find analysts’ judgments reflect over four times more pessimism per dollar of negative earnings news for Non-White CEO firms, resulting in lower target valuations. These lower target valuations are associated with an increased likelihood that Non-White CEO firms exceed their price targets, suggesting such pessimism is unwarranted. Further analyses reveal that the time-series variation in analysts’ pessimism is associated with several exogenous measures of racial sentiment, consistent with racial discrimination that results in a greater negative impact of bad news on analysts’ valuations when the CEO is Non-White.
+
+Keywords : Race, discrimination, financial analyst, valuation, CEO, earnings announcement, target price
+
+## 
+
+\[14\] The Information Content of the VIX Options Trading Volume
+
+标题:VIX期权交易量的信息内容
+
+作者:Chen Gu,Xu Guo,Alexander Kurov,Raluca Stan
+
+出处:Journal of Futures Markets, Forthcoming
+
+Abstract : This paper investigates the predictive content of the VIX options trading volume for the future dynamics of the underlying VIX index. Using a novel dataset from the Chicago Board Options Exchange, we calculate the put-call ratio based on the VIX option volume initiated by buyers to open new positions. We show that the put-call ratio negatively predicts the subsequent changes in the VIX index. The predictability is stronger during periods of elevated VIX levels and for short-dated contracts. These results support the hypothesis that informed traders use the VIX option market as a venue for their trading.
+
+Keywords : VIX options, put-call ratio, information, volatility
+
+## 
+
+\[15\] Information Transmission between Banks and the Market for Corporate Control
+
+标题:银行与公司控制权市场之间的信息传递
+
+作者:Christian Bittner,Falko Fecht,Melissa Pala,Farzad Saidi
+
+出处:-
+
+Abstract : This paper provides evidence of deliberate private information disclosure within banks' business networks. Using supervisory trade-level data, we show that banks with closer ties to a target advisor in a takeover acquire more stocks of the target firm prior to the deal announcement, enabling them to benefit from the positive announcement return. We do not find such effects for bank connections to acquirer advisors or for trades in acquirer stocks. Target advisors benefit from leaking information about takeover bids to connected banks as it drives up the final offer price without compromising the probability of bid success.
+
+Keywords : bank networks, trading, information spillovers, mergers and acquisitions, syndicated lending
+
+## 
+
+\[16\] Asset Pricing under Ambiguity with Optimism and Pessimism
+
+标题:乐观与悲观模糊下的资产定价
+
+作者:Soroush Ghazi,Mark Schneider
+
+出处:-
+
+Abstract : We study a representative agent that separates beliefs, ambiguity, and ambiguity attitude and nests benchmark models of expected utility preferences and ambiguity aversion. Within that framework, matching four market moments (the risk-free rate, equity premium, variance risk premium, and risk-neutral entropy) requires a minor deviation from expected utility theory and ambiguity aversion that accounts for optimistic attitudes toward ambiguity. Importantly, market ambiguity and ambiguity attitude generate a common mechanism underlying return predictability of the variance risk premium, market crash probability, and market correlation when the price-dividend ratio is low, for which we find empirical support.
+
+Keywords : Optimism, Ambiguity, Skewness, Sentiment CAPM, Stock Market Anomalies
+
+## 
+
+\[17\] Credit Risk Premia and Intermediaries Leverage
+
+标题:信用风险溢价与中介杠杆
+
+作者:Amir Khalilzadeh
+
+出处:-
+
+Abstract : We study credit risk premia of large international banks. Credit risk premium is defined as the credit spread net of an estimate of default risk. Our findings are threefold: (1) we show that credit risk premium accounts for two-thirds of the total price of default risk since the financial crisis, (2) this premium had been negative until just before the financial crisis but then rose dramatically and remained rather high until just recently, and (3) we document that risk-bearing capacity of the bank drives the risk premium in the credit market. That is, investors in the credit market require a premium for bearing risk due to the leverage growth of the bank. These findings are consistent with the theories that relate the risk premia to the health of the financial sector. Furthermore, potential risk factors related to the bank, default swap market, macroeconomic condition, and regulatory environment cannot eliminate the premium earned by the leverage.
+
+Keywords : Credit Spreads, Credit Risk Premia, Leverage, Intermediaries Risk Bearing Capacity
+
+## 
+
+\[18\] Short Selling and Product Market Competition
+
+标题:卖空与产品市场竞争
+
+作者:Rafael Matta,Sergio H. Rocha,Paulo Vaz
+
+出处:-
+
+Abstract : We empirically investigate how short selling affects product market performance. We find that higher short sales of stocks lead to declines in firms' market shares. The effects are stronger in larger firms, concentrated industries, and industries where firms compete in strategic substitutes. Further results suggest that firms' competitive interactions amplify the effects of short selling on market shares via a greater sensitivity of output levels to the release of information contained in stock prices. Our findings are consistent with a managerial disciplining channel in which short interest reveals information of inefficient overreach by firms with market power, leading to downsizing and spin-offs.
+
+Keywords : Short sales, product market competition, financial feedback, price informativeness.
+
+## 
+
+\[19\] Using Network-based Causal Inference to Detect the Sources of Contagion in the Currency Market
+
+标题:利用基于网络的因果推理检测货币市场传染源
+
+作者:Katerina Rigana,Ernst C. Wit,Samantha Cook
+
+出处:-
+
+Abstract : Contagion is an extremely important topic in finance. Contagion is at the core of most major financial crises, in particular the 2008 financial crisis. Although various approaches to quantifying contagion have been proposed, many of them lack a causal interpretation. We will present a new measure for contagion among individual currencies within the Foreign exchange market and show how the paths of contagion work within the Forex using causal inference. This approach will allow us to pinpoint sources of contagion and to find which currencies offer good options for diversification and which are more susceptible to systemic risk, ultimately resulting in feedback on the level of global systemic risk.
+
+Keywords : Causal Inference, Financial Crises, Financial Contagion, Network Theory, Systemic Risk, Forex, Currency, Exchange Rate, Safe Haven, Clustering,
+
+## 
+
+\[20\] Threshold Autoregressive Modeling of Bond Series ---- American Case
+
+标题:债券序列的门限自回归模型——美国案例
+
+作者:Jinghong Li, Ph.D.
+
+出处:-
+
+Abstract : In this paper, the author explores the threshold nonlinearity for the daily series of 10-year US T-note prices due to government intervention and price protection pursued by investors. And then, she estimates two 2-regime self-exciting threshold autoregressive (SETAR) models for the time series based on different lag lengths and compare these two models.The author finds strong evidence for a threshold autoregressive model (TAR) using the first lag of the series as the threshold variable. Based on that fact, she estimates the threshold. Finally, the author concludes that the autoregressive structure of 10-year US T-note prices changes once during the studied period.
+
+Keywords : non-linearity, time series, threshold variable, self-exciting threshold autoregressive (SETAR) model, government intervention, and price protection
+
+## 
+
+\[21\] Impact of COVID-19 on Financial Returns: A Spatial Dynamic Panel Data Model with Random Effects
+
+标题:COVID-19对财务回报的影响：一个具有随机效应的空间动态面板数据模型
+
+作者:Anna Gloria Billé,Massimiliano Caporin
+
+出处:-
+
+Abstract : Using data for most of the year 2020, we analysed the impact of COVID-19 deaths on a given country regarding the financial market returns of neighbouring countries. Our empirical evidence show that in the first weeks of the COVID-19 outbreak, until mid-March 2020, the spatial effect of COVID-19 deaths was statistically significant, leading to a contraction in returns and an increase in risk. Moreover, the effects disappeared in the remaining months as financial market moved back to pre-crisis levels, causing a decrease in the overall risk. Our evidence supports a behavioural impact of the pandemic on financial markets.
+
+Keywords : COVID-19, Financial crisis, Spatio-temporal modeling
+
+## 
+
+\[22\] Does Financial Disclosure Readability Predict Shareholder Activism?
+
+标题:财务披露可读性是否能预测股东积极性？
+
+作者:Abhinav Anand,Xing Huan,Jalaj Pathak
+
+出处:IIM Bangalore Research Paper No. 654
+
+Abstract : We examine the impact of financial disclosures’ readability on future shareholder activism, as expressed by shareholder-initiated proxy proposals. Based on a sample of 1,560 proposals made by shareholders of 818 S& P 1500 firms between 2000 and 2014, we find that the semantic complexity of the MD& A section of the 10-K filings significantly predicts future shareholder proposals. Ceteris paribus, firms with more unreadable MD& A sections are more likely to face a higher incidence of shareholder proposals, up to two years in the future. We show that our results are robust to the inclusion of several alternative readability metrics; reverse causality check, and instrumental variables approach; subsample analyses, as well as a variety of confounding events
+
+Keywords : 10-K, corporate governance, financial disclosure, readability, semantic complexity, shareholder activism, shareholder proposals, textual analysis
