@@ -50,7 +50,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "monthly",
-          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}corner\\left(Class_{i,j,n},\\frac{Vol_{i,j,n}}{\\sum_{j}Vol_{i,j,n}}\\right)",
+          "formula": "\\frac{1}{T}\\sum_{n=t}^{n=t-T+1}\\mathrm{corr}\\left(Close_{i,j,n},\\frac{Vol_{i,j,n}}{\\sum_{j}Vol_{i,j,n}}\\right)",
           "stats": [null, 0.0409, 3.33, 0.0118],
           "evidence": "量价背离的股票未来表现更好，即，日内缩量上涨或者放量下跌优于放量上涨或缩量下跌。可能的原因是，缩量上涨持续性强，放量下跌换手充分。"
         },
@@ -61,7 +61,7 @@
           "data_period": ["intraday"],
           "horizon": "monthly",
           "formula": "\\prod_{n=t}^{n=t-T+1}\\frac{Close_{i,j,n}}{Close_{i,10:00,n}}-1",
-          "stats": [null, null, null, null],
+          "stats": [null, null, null, 0.014],
           "evidence": "基于以上推断，可以尝试将隔夜和开盘后半小时的涨幅剔除，构建改进反转因子。"
         },
         {

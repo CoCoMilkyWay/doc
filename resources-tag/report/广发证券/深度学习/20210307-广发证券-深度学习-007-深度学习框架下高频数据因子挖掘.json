@@ -278,7 +278,7 @@
         },
         {
           "name": "ratio_volumeH5",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -288,7 +288,7 @@
         },
         {
           "name": "ratio_volumeH4",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -335,6 +335,436 @@
           "formula": "\\text{大成交量对应的分钟成交量与上一时刻收益率相关性}",
           "stats": [-0.0316, null, null, null],
           "evidence": "| corr_VRlaglarge | 大成交量对应的 corr_VRlag |"
+        },
+        {
+          "name": "ratio_realdownvar",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "real\\_downvar/real\\_var",
+          "stats": [null, null, null, null],
+          "evidence": "| ratio_realdownvar | 下行收益率方差占比，ratio_realdownvar /real_var |"
+        },
+        {
+          "name": "ratio_volumeH1",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第1个半小时成交量占全天成交量之比}",
+          "stats": [null, null, null, null],
+          "evidence": "| ratio_volumeH1 | 成交量占比：开盘后第1个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "ratio_volumeH2",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第2个半小时成交量占全天成交量之比}",
+          "stats": [null, null, null, null],
+          "evidence": "| ratio_volumeH2 | 成交量占比：开盘后第2个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "ratio_volumeH3",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第3个半小时成交量占全天成交量之比}",
+          "stats": [null, null, null, null],
+          "evidence": "| ratio_volumeH3 | 成交量占比：开盘后第3个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "ratio_volumeH6",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第6个半小时成交量占全天成交量之比}",
+          "stats": [null, null, null, null],
+          "evidence": "| ratio_volumeH6 | 成交量占比：开盘后第6个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "ratio_volumeH7",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第7个半小时成交量占全天成交量之比}",
+          "stats": [null, null, null, null],
+          "evidence": "| ratio_volumeH7 | 成交量占比：开盘后第7个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "ratio_volumeH8",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后第8个半小时成交量占全天成交量之比}",
+          "stats": [null, null, null, null],
+          "evidence": "| ratio_volumeH8 | 成交量占比：开盘后第8个半小时成交量占全天成交量之比 |"
+        },
+        {
+          "name": "corr_VR",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟成交量与收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "成交量也是日内行情信息的重要组成部分。一方面，成交量的分布可以反映投资者的行为特征，另一方面，成交量与价格或者价格走势的关系可以确认价格形态的信息。"
+        },
+        {
+          "name": "corr_VRlead",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{分钟成交量与下一时刻收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRlead | 分钟成交量与下一时刻收益率相关性 |"
+        },
+        {
+          "name": "ret_open2AL1",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘价相对第一阶段集合竞价最低价的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "| ret_open2AL1 | 开盘价相对第一阶段集合竞价最低价的收益率 |"
+        },
+        {
+          "name": "ret_open2AH2",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘价相对第二阶段集合竞价最高价的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "| ret_open2AH2 | 开盘价相对第二阶段集合竞价最高价的收益率 |"
+        },
+        {
+          "name": "ret_open2AL2",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘价相对第二阶段集合竞价最高价的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "| ret_open2AL2 | 开盘价相对第二阶段集合竞价最高价的收益率 |"
+        },
+        {
+          "name": "diverge_A1",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{第一阶段集合竞价振幅}",
+          "stats": [null, null, null, null],
+          "evidence": "| diverge_A1 | 第一阶段集合竞价振幅 |"
+        },
+        {
+          "name": "diverge_A2",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{第二阶段集合竞价振幅}",
+          "stats": [null, null, null, null],
+          "evidence": "| diverge_A2 | 第二阶段集合竞价振幅 |"
+        },
+        {
+          "name": "amountdiff_small",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{散户净买入金额，单笔成交额小于4万元}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountdiff_small | 散户净买入金额 |"
+        },
+        {
+          "name": "amountdiff_smallact",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{散户净主动买入金额}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountdiff_smallact | 散户净主动买入金额 |"
+        },
+        {
+          "name": "amountdiff_med",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{中户净买入金额，单笔成交额4万元到20万元之间}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountdiff_med | 中户净买入金额 |"
+        },
+        {
+          "name": "amountdiff_medact",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{中户净主动买入金额}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountdiff_medact | 中户净主动买入金额 |"
+        },
+        {
+          "name": "amountdiff_largeact",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{大户净主动买入金额}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountdiff_largeact | 大户净主动买入金额 |"
+        },
+        {
+          "name": "amountdiff_exlarge",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{机构净买入金额，单笔成交额大于100万元}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountdiff_exlarge | 机构净买入金额 |"
+        },
+        {
+          "name": "amountdiff_exlargeact",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{机构净主动买入金额}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountdiff_exlargeact | 机构净主动买入金额 |"
+        },
+        {
+          "name": "volumeinflowrate_open",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{10点前的资金净流入量/10点前的成交股数}",
+          "stats": [null, null, null, null],
+          "evidence": "| volumeinflowrate_open | 开盘资金流入率，10点前的资金净流入量/10点前的成交股数 |"
+        },
+        {
+          "name": "volumeinflowrate_close",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{14:30后的资金净流入量/14:30后的成交股数}",
+          "stats": [null, null, null, null],
+          "evidence": "| volumeinflowrate_close | 尾盘资金流入率，14:30后的资金净流入量/14:30后的成交股数 |"
+        },
+        {
+          "name": "moneyflow_diff",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{当日主动买入总额-当日主动卖出总额}",
+          "stats": [null, null, null, null],
+          "evidence": "| moneyflow_diff | 净流入金额，当日主动买入总额-当日主动卖出总额 |"
+        },
+        {
+          "name": "amountinflow_rate",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "weekly",
+          "formula": "\\text{当日净流入/成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "| amountinflow_rate | 净流入率，当日净流入/成交额 |"
+        },
+        {
+          "name": "ret_H1",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "本报告针对开盘后半小时和收盘前半小时的价量信息构建了如下因子。"
+        },
+        {
+          "name": "ret_close2H1",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘半小时到收盘的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "| ret_close2H1 | 开盘半小时到收盘的收益率 |"
+        },
+        {
+          "name": "corr_VPH1",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的分钟成交量与价格相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VPH1 | 开盘后半小时的 corr_VP |"
+        },
+        {
+          "name": "corr_VRH1",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的分钟成交量与收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRH1 | 开盘后半小时的 corr_VR |"
+        },
+        {
+          "name": "corr_VRleadH1",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的分钟成交量与下一时刻收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRleadH1 | 开盘后半小时的 corr_VRlead |"
+        },
+        {
+          "name": "corr_VRlagH1",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的分钟成交量与上一时刻收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRlagH1 | 开盘后半小时的 corr_Vrlag |"
+        },
+        {
+          "name": "real_kurtosisH1",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的收益率峰度}",
+          "stats": [null, null, null, null],
+          "evidence": "| real_kurtosisH1 | 开盘后半小时的 real_kurtosis |"
+        },
+        {
+          "name": "real_skewH1",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘后半小时的收益率偏度}",
+          "stats": [null, null, null, null],
+          "evidence": "| real_skewH1 | 开盘后半小时的 real_skew |"
+        },
+        {
+          "name": "corr_VPH8",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的分钟成交量与价格相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VPH8 | 收盘前半小时的 corr_VP |"
+        },
+        {
+          "name": "corr_VRH8",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的分钟成交量与收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRH8 | 收盘前半小时的 corr_VR |"
+        },
+        {
+          "name": "corr_VRleadH8",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的分钟成交量与下一时刻收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRleadH8 | 收盘前半小时的 corr_VRlead |"
+        },
+        {
+          "name": "corr_VRlagH8",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的分钟成交量与上一时刻收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRlagH8 | 收盘前半小时的 corr_Vrlag |"
+        },
+        {
+          "name": "real_varH8",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的收益率方差}",
+          "stats": [null, null, null, null],
+          "evidence": "| real_varH8 | 收盘前半小时的 real_var |"
+        },
+        {
+          "name": "real_kurtosisH8",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的收益率峰度}",
+          "stats": [null, null, null, null],
+          "evidence": "| real_kurtosisH8 | 收盘前半小时的 real_kurtosis |"
+        },
+        {
+          "name": "real_skewH8",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{收盘前半小时的收益率偏度}",
+          "stats": [null, null, null, null],
+          "evidence": "| real_skewH8 | 收盘前半小时的 real_skew |"
+        },
+        {
+          "name": "real_kurtosislarge",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的收益率峰度}",
+          "stats": [null, null, null, null],
+          "evidence": "| real_kurtosislarge | 大成交量对应的收益率峰度 |"
+        },
+        {
+          "name": "corr_VRlarge",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的分钟成交量与收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRlarge | 大成交量对应的 corr_VR |"
+        },
+        {
+          "name": "corr_VRleadlarge",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{大成交量对应的分钟成交量与下一时刻收益率相关性}",
+          "stats": [null, null, null, null],
+          "evidence": "| corr_VRleadlarge | 大成交量对应的 corr_VRlead |"
         },
         {
           "name": "hf3",

@@ -35,6 +35,16 @@
           "evidence": "选取已实现收益率方差的 10 天平均作为高频因子，收益率 10 日方差作为低频因子，以日频调仓计算它们 2014 年 8月 30 日到 2021 年 8 月 31 日的平均 RankIC。"
         },
         {
+          "name": "动量因子",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\mu_{t}=E[r_{t}]",
+          "stats": [null, null, null, null],
+          "evidence": "以动量因子为例，用分钟收益率的平均值来表示动量因子，那么第 t天的动量因子值为"
+        },
+        {
           "name": "波动率因子",
           "family": "volatility",
           "direction": "positive",

@@ -182,7 +182,7 @@
         },
         {
           "name": "成交占比熵",
-          "family": "volatility",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["second"],
           "horizon": "monthly",

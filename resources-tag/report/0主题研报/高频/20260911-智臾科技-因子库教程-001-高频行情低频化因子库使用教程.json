@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "id": "20260911-智臾科技-因子库教程-001-高频行情低频化因子库使用教程",
-  "genre": "review",
+  "genre": "handbook",
   "asset": ["stock_cn"],
-  "primary": "L0_data",
+  "primary": "L1_factor",
   "pipe": {
     "L0_data": {
       "module": ["L0_warehouse", "L0_derivation"],
@@ -12,19 +12,1164 @@
     },
     "L1_factor": {
       "module": ["L1_market"],
-      "approach": [
-        "momentum_reversal",
-        "distribution_moment",
-        "liquidity_turnover",
-        "order_flow",
-        "intraday_pattern"
-      ],
+      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "order_flow", "intraday_pattern"],
       "setup": {
         "universe": ["all"],
         "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},
         "holding": {"rebalance": "daily", "horizon": "daily"}
       },
-      "factors": []
+      "factors": [
+        {
+          "name": "最短路径非流动性因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{股价变动最短路径：2*(high-low)-abs(close-open)最短路径非流动性因子：股价变动最短路径与成交额的比值之和}",
+          "stats": [null, null, null, null],
+          "evidence": "股价变动最短路径：2*(high-low)-abs(close-open)最短路径非流动性因子：股价变动最短路径与成交额的比值之和"
+        },
+        {
+          "name": "一致买入交易因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{集体一致交易：分钟数据满足abs(close-open)≤α*abs(high-low)的K线，其中α为给定常数一致买入交易因子：在满足集}",
+          "stats": [null, null, null, null],
+          "evidence": "集体一致交易：分钟数据满足abs(close-open)≤α*abs(high-low)的K线，其中α为给定常数一致买入交易因子：在满足集"
+        },
+        {
+          "name": "绝对收益与调整后滞后成交量相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{调整后成交额：(amount-μ)/σ，其中μ，σ分别为前20个交易日相同时刻成交额的均值和标准差绝对收益：对数收益率的绝对值绝对收益与调整后滞后成交量相关性：绝对收益与前一时刻调整后成交额的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "调整后成交额：(amount-μ)/σ，其中μ，σ分别为前20个交易日相同时刻成交额的均值和标准差绝对收益：对数收益率的绝对值绝对收益与调整后滞后成交量相关性：绝对收益与前一时刻调整后成交额的相关系数"
+        },
+        {
+          "name": "成交量“潮汐”的价格变动速率因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{领域成交量：日内第n分钟及其前后4分钟的总成交量顶峰时刻：领域成交量最大值所在时刻涨潮时刻：顶峰时刻前领域成交量最低点所在时刻m退潮时刻：顶峰时刻后领域成交量最低点所在时刻n潮汐价格变动速率：涨潮时刻较退潮时刻的收盘价变动速率除以n-m}",
+          "stats": [null, null, null, null],
+          "evidence": "领域成交量：日内第n分钟及其前后4分钟的总成交量顶峰时刻：领域成交量最大值所在时刻涨潮时刻：顶峰时刻前领域成交量最低点所在时刻m退潮时刻：顶峰时刻后领域成交量最低点所在时刻n潮汐价格变动速率：涨潮时刻较退潮时刻的收盘价变动速率除以n-m"
+        },
+        {
+          "name": "跌幅时间重心偏离因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{涨（跌）幅时间重心：上涨（下跌）时间依价格变动幅度的加权平均数跌幅时间重心偏离：在截面跌时间重心对涨时间重心进行回归，得到的残差均值}",
+          "stats": [null, null, null, null],
+          "evidence": "涨（跌）幅时间重心：上涨（下跌）时间依价格变动幅度的加权平均数跌幅时间重心偏离：在截面跌时间重心对涨时间重心进行回归，得到的残差均值"
+        },
+        {
+          "name": "一致交易因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{集体一致交易：满足abs(close-open)≤α*abs(high-low)的K线，其中α为给定常数一致交易：一致交易K线的总成交量与当日总成交量的比值}",
+          "stats": [null, null, null, null],
+          "evidence": "集体一致交易：满足abs(close-open)≤α*abs(high-low)的K线，其中α为给定常数一致交易：一致交易K线的总成交量与当日总成交量的比值"
+        },
+        {
+          "name": "成交额占比熵因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{每分钟成交额占当日总成交额的比值的熵}",
+          "stats": [null, null, null, null],
+          "evidence": "每分钟成交额占当日总成交额的比值的熵|高位成交因子一从量价匹配说起，长江证券"
+        },
+        {
+          "name": "日内持续异常交易量因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{异常交易量：当前分钟交易量与过去一段时间分钟交易量均值的比值（本因子库中为过去10个交易时刻）日内持续异常交易量：}",
+          "stats": [null, null, null, null],
+          "evidence": "异常交易量：当前分钟交易量与过去一段时间分钟交易量均值的比值（本因子库中为过去10个交易时刻）日内持续异常交易量："
+        },
+        {
+          "name": "日耀眼波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{成交量激增时刻：成交量增长量大于当日差值序列均值+1倍标准差的时刻耀眼波动率：成交量激增时刻及其随后四分钟区间内的1分钟收益率标准差日耀眼波动率：交易日内所有耀眼波动率的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "成交量激增时刻：成交量增长量大于当日差值序列均值+1倍标准差的时刻耀眼波动率：成交量激增时刻及其随后四分钟区间内的1分钟收益率标准差日耀眼波动率：交易日内所有耀眼波动率的均值"
+        },
+        {
+          "name": "日午蔽古木因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对每天第6分钟到第240分钟的增量成交量数据进行带截距项的最小二乘回归：其中，volDiff为1分钟增量成交量。若回归方程的F值小于其横截面均值，午蔽古木因子为截距项t值的绝对值的负值，反之为截距项t值的绝对值。}",
+          "stats": [null, null, null, null],
+          "evidence": "对每天第6分钟到第240分钟的增量成交量数据进行带截距项的最小二乘回归：其中，volDiff为1分钟增量成交量。若回归方程的F值小于其横截面均值，午蔽古木因子为截距项t值的绝对值的负值，反之为截距项t值的绝对值。"
+        },
+        {
+          "name": "单一成交额占比熵因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{单一成交额占比熵计算公式为：其中，voli和closei分别为每分钟成交量和每分钟收盘价，VOL和CLOSE分别为整个时间段总成交量和收盘价之和。}",
+          "stats": [null, null, null, null],
+          "evidence": "单一成交额占比熵计算公式为：其中，voli和closei分别为每分钟成交量和每分钟收盘价，VOL和CLOSE分别为整个时间段总成交量和收盘价之和。"
+        },
+        {
+          "name": "日度灾后重建因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{更优波动率：对当前时刻及其前四分钟的高开低收的标准差与均值之比的平方收益波动比：收益率与更优波动率之比日度灾后重建因子：收益波动比与更优波动率的协方差}",
+          "stats": [null, null, null, null],
+          "evidence": "更优波动率：对当前时刻及其前四分钟的高开低收的标准差与均值之比的平方收益波动比：收益率与更优波动率之比日度灾后重建因子：收益波动比与更优波动率的协方差"
+        },
+        {
+          "name": "滞后绝对收益与调整后成交量相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{调整后成交额：(amount-μ)/σ，其中μ，σ分别为前20个交易日相同时刻成交额的均值和标准差绝对收益：对数收益率的绝对值滞后绝对收益与调整后成交量相关性：前一时刻绝对收益与调整后成交}",
+          "stats": [null, null, null, null],
+          "evidence": "调整后成交额：(amount-μ)/σ，其中μ，σ分别为前20个交易日相同时刻成交额的均值和标准差绝对收益：对数收益率的绝对值滞后绝对收益与调整后成交量相关性：前一时刻绝对收益与调整后成交"
+        },
+        {
+          "name": "日耀眼收益率因子",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{差值序列均值+1倍标准差的时刻耀眼收益率：成交量激增时刻的分钟收益率日耀眼收益率：交易日内所有耀眼收益率的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "差值序列均值+1倍标准差的时刻耀眼收益率：成交量激增时刻的分钟收益率日耀眼收益率：交易日内所有耀眼收益率的均值"
+        },
+        {
+          "name": "日度勇攀高峰因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{更优波动比：对当前时刻及其前四分钟的高开低收的标准差与均值之比的平方收益波动比：收益率与更优波动率之比波动率异常高时刻：更优波动率大于其日内均值+1倍标准差的时刻日度勇攀高峰因子：当日波动率异常高时刻的收益波动比序列和更优波动率序列的协方差}",
+          "stats": [null, null, null, null],
+          "evidence": "更优波动比：对当前时刻及其前四分钟的高开低收的标准差与均值之比的平方收益波动比：收益率与更优波动率之比波动率异常高时刻：更优波动率大于其日内均值+1倍标准差的时刻日度勇攀高峰因子：当日波动率异常高时刻的收益波动比序列和更优波动率序列的协方差"
+        },
+        {
+          "name": "绝对收益与成交量相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对数收益率：当前价格与前一时刻价格之比的对数绝对收益与成交量相关性：对数收益率的绝对值与成交额的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "对数收益率：当前价格与前一时刻价格之比的对数绝对收益与成交量相关性：对数收益率的绝对值与成交额的相关系数"
+        },
+        {
+          "name": "绝对收益与滞后成交量相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{绝对收益与滞后成交量相关性：对数收益率的绝对值与前一时刻成交额的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "绝对收益与滞后成交量相关性：对数收益率的绝对值与前一时刻成交额的相关系数"
+        },
+        {
+          "name": "滞后绝对收益与成交量相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{前一时刻对数收益率的绝对值与成交额的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "前一时刻对数收益率的绝对值与成交额的相关系数|量价关系的高频乐章，方正证券"
+        },
+        {
+          "name": "日朝没晨雾因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{对每天第6分钟到第240分钟的增量成交量数据进行带截距项的最小二乘回归：其中，volDiff为1分钟增量成交量。日朝没晨雾因子：五阶增量成交量回归系数的t值的标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "对每天第6分钟到第240分钟的增量成交量数据进行带截距项的最小二乘回归：其中，volDiff为1分钟增量成交量。日朝没晨雾因子：五阶增量成交量回归系数的t值的标准差"
+        },
+        {
+          "name": "T分布主动占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{T分布主动买入金额：amount*t(ret/σ,df)，其中σ为收益率标准差，df为自由度T分布主动占比因子：T分布主动买入金额除以当日总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "T分布主动买入金额：amount*t(ret/σ,df)，其中σ为收益率标准差，df为自由度T分布主动占比因子：T分布主动买入金额除以当日总成交额"
+        },
+        {
+          "name": "置信正态分布主动占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{amount\"N(ret/0.11.96)，即每分钟成交额与对应分钟的标准正态分布累积函数的乘积置信正态分布主动占比因子：置信正态分布主动买入金额除以当日总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "amount\"N(ret/0.11.96)，即每分钟成交额与对应分钟的标准正态分布累积函数的乘积置信正态分布主动占比因子：置信正态分布主动买入金额除以当日总成交额"
+        },
+        {
+          "name": "朴素主动占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{朴素主动买入金额：amount*t(∆close/σ,df)，其中σ为收盘价增长量标准差，df为自由度朴素主动占比因子：主动买入金额除以当日总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "朴素主动买入金额：amount*t(∆close/σ,df)，其中σ为收盘价增长量标准差，df为自由度朴素主动占比因子：主动买入金额除以当日总成交额"
+        },
+        {
+          "name": "均匀分布主动占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{均匀分布主动买入金额：amount*(ret-0.1)/0.2，其中amount为每分钟成交额，ret为对应分钟收益率均匀分布主动占比因子：均匀分布主动买入金额除以当日总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "均匀分布主动买入金额：amount*(ret-0.1)/0.2，其中amount为每分钟成交额，ret为对应分钟收益率均匀分布主动占比因子：均匀分布主动买入金额除以当日总成交额"
+        },
+        {
+          "name": "成交量波峰计数因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{成交量波峰：成交量大于当日成交量均值+1倍标准差的时刻成交量波峰计数因子：统计每条记录与上一条记录时间差超过1分钟的记录条数}",
+          "stats": [null, null, null, null],
+          "evidence": "成交量波峰：成交量大于当日成交量均值+1倍标准差的时刻成交量波峰计数因子：统计每条记录与上一条记录时间差超过1分钟的记录条数"
+        },
+        {
+          "name": "日模糊金额比因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{波动率：当前时刻及之前4分钟内收益率的标准差模糊性：当前时刻及之前4分钟内波动率的标准差起雾时刻：模糊性大于当日模糊性均值的时刻雾中金额：起雾时刻的成交金额均值日模糊金额比：雾中金额除以当日成交金额均值}",
+          "stats": [null, null, null, null],
+          "evidence": "波动率：当前时刻及之前4分钟内收益率的标准差模糊性：当前时刻及之前4分钟内波动率的标准差起雾时刻：模糊性大于当日模糊性均值的时刻雾中金额：起雾时刻的成交金额均值日模糊金额比：雾中金额除以当日成交金额均值"
+        },
+        {
+          "name": "日模糊数量比因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{波动率：当前时刻及之前4分钟内收益率的标准差模糊性：当前时刻及之前4分钟内波动率的标准差起雾时刻：模糊性大于当日模糊性均值的时}",
+          "stats": [null, null, null, null],
+          "evidence": "波动率：当前时刻及之前4分钟内收益率的标准差模糊性：当前时刻及之前4分钟内波动率的标准差起雾时刻：模糊性大于当日模糊性均值的时"
+        },
+        {
+          "name": "P型成交量分布因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{同价成交量：将日内分钟收盘价相同的成交量累加在一起，得到成交量随价格的分布成交量支撑点和成交量支撑区域：成交量累计最大的价格及其附近区域（区域累积成交量达全天成交量50\\%的最小区域）P型成交量分布：成交量支撑区域下限价格与当日最高价之差}",
+          "stats": [null, null, null, null],
+          "evidence": "同价成交量：将日内分钟收盘价相同的成交量累加在一起，得到成交量随价格的分布成交量支撑点和成交量支撑区域：成交量累计最大的价格及其附近区域（区域累积成交量达全天成交量50%的最小区域）P型成交量分布：成交量支撑区域下限价格与当日最高价之差"
+        },
+        {
+          "name": "B型成交量分布",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{同价成交量：将日内分钟收盘价相同的成交量累加在一起，得到成交量随价格的分布成交量支撑点和成交量支撑区域：成交量累计最大的价格及其附近区域（区域累积成交量达全天成交量50\\%的最小区域）B型成交量分布：成交量支撑区域上限价格与当日最低价之差}",
+          "stats": [null, null, null, null],
+          "evidence": "同价成交量：将日内分钟收盘价相同的成交量累加在一起，得到成交量随价格的分布成交量支撑点和成交量支撑区域：成交量累计最大的价格及其附近区域（区域累积成交量达全天成交量50%的最小区域）B型成交量分布：成交量支撑区域上限价格与当日最低价之差"
+        },
+        {
+          "name": "修正日模糊价差因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{日模糊价差：日模糊金额比-日模糊数量比修正日模糊价差：将横截面上值为负的日模糊价差求和，记为s1；将负的日模糊价差除以其过去10日日模糊价差的标准差，值为正的日模糊价差不变调整数量级：将横截面上值为负的修正日模糊价差求和，记为s2；将值为负的修正日模糊价差除以s2后乘以s1}",
+          "stats": [null, null, null, null],
+          "evidence": "日模糊价差：日模糊金额比-日模糊数量比修正日模糊价差：将横截面上值为负的日模糊价差求和，记为s1；将负的日模糊价差除以其过去10日日模糊价差的标准差，值为正的日模糊价差不变调整数量级：将横截面上值为负的修正日模糊价差求和，记为s2；将值为负的修正日模糊价差除以s2后乘以s1"
+        },
+        {
+          "name": "成交量支撑区域下限与收盘价差异因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{同价成交量：将日内分钟收盘价相同的成交量累加在一起，得到成交量随价格的分布成交量支撑点和成交量支撑区域：成交量累计最大的价格及其附近区域（区域累积成交量达全天成交是r00/的目小反ば)}",
+          "stats": [null, null, null, null],
+          "evidence": "同价成交量：将日内分钟收盘价相同的成交量累加在一起，得到成交量随价格的分布成交量支撑点和成交量支撑区域：成交量累计最大的价格及其附近区域"
+        },
+        {
+          "name": "模糊关联度因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{波动率：当前时刻及之前4分钟内收益率的标准差模糊性：当前时刻及之前4分钟内波动率的标准差模糊关联度：模糊性序列和时刻成交额序列的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "波动率：当前时刻及之前4分钟内收益率的标准差模糊性：当前时刻及之前4分钟内波动率的标准差模糊关联度：模糊性序列和时刻成交额序列的相关系数"
+        },
+        {
+          "name": "时间加权平均的股票相对价格位置因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{股票当期价格相对区间最高最低价的分位数：时间加权平均的股票相对价格位置：}",
+          "stats": [null, null, null, null],
+          "evidence": "股票当期价格相对区间最高最低价的分位数：时间加权平均的股票相对价格位置："
+        },
+        {
+          "name": "高频上行波动占比因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{收益率：price /上一时刻price - 1上行收益率：收益率大于0高频上行波动占比：上行收益率的平方和与收益率平方和之比}",
+          "stats": [null, null, null, null],
+          "evidence": "收益率：price /上一时刻price - 1上行收益率：收益率大于0高频上行波动占比：上行收益率的平方和与收益率平方和之比"
+        },
+        {
+          "name": "高频下行波动占比因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{收益率：price /上一时刻price - 1下行收益率：收益率小于0高频下行波动占比：下行收益率的平方和与收益率平方和之比}",
+          "stats": [null, null, null, null],
+          "evidence": "收益率：price /上一时刻price - 1下行收益率：收益率小于0高频下行波动占比：下行收益率的平方和与收益率平方和之比"
+        },
+        {
+          "name": "已实现波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{对数收益率序列：收益率的对数已实现波动率：对数收益率序列平方和的平方根}",
+          "stats": [null, null, null, null],
+          "evidence": "对数收益率序列：收益率的对数已实现波动率：对数收益率序列平方和的平方根"
+        },
+        {
+          "name": "上行已实现波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{对数收益率序列：收益率的对数上行已实现波动率：大于0的收益率的平方和的平方根}",
+          "stats": [null, null, null, null],
+          "evidence": "对数收益率序列：收益率的对数上行已实现波动率：大于0的收益率的平方和的平方根"
+        },
+        {
+          "name": "下行已实现波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{下行已实现波动率: 小于 0 的收益率的平方和}",
+          "stats": [null, null, null, null],
+          "evidence": "上行已实现波动率：大于0的收益率的平方和下行已实现波动率：小于0的收益率的平方和"
+        },
+        {
+          "name": "高频已实现偏度因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{收益率：price /上一时刻price - 1高频已实现偏度：收益率的偏度}",
+          "stats": [null, null, null, null],
+          "evidence": "收益率：price /上一时刻price - 1高频已实现偏度：收益率的偏度"
+        },
+        {
+          "name": "高频已实现峰度因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{收益率：price /上一时刻price - 1高频已实现峰度：收益率的峰度}",
+          "stats": [null, null, null, null],
+          "evidence": "收益率：price /上一时刻price - 1高频已实现峰度：收益率的峰度"
+        },
+        {
+          "name": "上下行波动率不对称性因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{已实现波动率：对数收益率序列平方和上行已实现波动率：大于0的收益率的平方和下行已实现波动率：小于0的收益率的平方和上下行波动率不对称性：上行已实现波动率与下行已实现波动率之差除以已实现波动率}",
+          "stats": [null, null, null, null],
+          "evidence": "已实现波动率：对数收益率序列平方和上行已实现波动率：大于0的收益率的平方和下行已实现波动率：小于0的收益率的平方和上下行波动率不对称性：上行已实现波动率与下行已实现波动率之差除以已实现波动率"
+        },
+        {
+          "name": "中间价变化率偏度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{市场中间价：买一价与卖一价的均值中间价变化率：（当前时刻中间价/前一时刻中间价）-1中间价变化率偏度：中间价变化率的偏度}",
+          "stats": [null, null, null, null],
+          "evidence": "市场中间价：买一价与卖一价的均值中间价变化率：（当前时刻中间价/前一时刻中间价）-1中间价变化率偏度：中间价变化率的偏度"
+        },
+        {
+          "name": "中间价变化率最大值因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{市场中间价：买一价与卖一价的均值中间价变化率：（当前时刻中间价/前一时刻中间价）-1中间价变化率最大值：中间价变化率的最大值}",
+          "stats": [null, null, null, null],
+          "evidence": "市场中间价：买一价与卖一价的均值中间价变化率：（当前时刻中间价/前一时刻中间价）-1中间价变化率最大值：中间价变化率的最大值"
+        },
+        {
+          "name": "大成交量已实现偏度因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大成交量：分钟成交量在当日排名前1/3的成交量大成交量已实现偏度：大成交量订单收益率的偏度}",
+          "stats": [null, null, null, null],
+          "evidence": "大成交量：分钟成交量在当日排名前1/3的成交量大成交量已实现偏度：大成交量订单收益率的偏度"
+        },
+        {
+          "name": "大成交量价量相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大成交量: 分钟成交量在当日排名前 1/3 的成交量; 大成交量价量相关性: 大成交量订单成交量和价格的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "价量相关性：大成交量订单成交量和价格的相关系数"
+        },
+        {
+          "name": "已实现双幂次变差因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{已实现双幂次变差：日内对数收益率的绝对值与前一时刻对数收益率的绝对值的乘积之和}",
+          "stats": [null, null, null, null],
+          "evidence": "已实现双幂次变差：日内对数收益率的绝对值与前一时刻对数收益率的绝对值的乘积之和"
+        },
+        {
+          "name": "已实现三幂次变差因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和}",
+          "stats": [null, null, null, null],
+          "evidence": "已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和"
+        },
+        {
+          "name": "日度惊恐度因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{偏离度：个股收益率与市场收益率的差的绝对值（选取中证全指000985代表市场水平）基准项：个股收益率的绝对值+市场收益率的绝对值+0.1日度惊恐度：偏离度与基准项之比}",
+          "stats": [null, null, null, null],
+          "evidence": "偏离度：个股收益率与市场收益率的差的绝对值（选取中证全指000985代表市场水平）基准项：个股收益率的绝对值+市场收益率的绝对值+0.1日度惊恐度：偏离度与基准项之比"
+        },
+        {
+          "name": "成交量分桶熵因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{将日内分钟成交量基于最大值、最小值区间进行等距分桶，并统计各个区间的概率；分桶信息熵：每个区间计算pk*ln(pk)的值并求和，然后乘以-1}",
+          "stats": [null, null, null, null],
+          "evidence": "将日内分钟成交量基于最大值、最小值区间进行等距分桶，并统计各个区间的概率；分桶信息熵：每个区间计算pk*ln(pk)的值并求和，然后乘以-1"
+        },
+        {
+          "name": "已实现跳跃波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405(正态分布的2/3阶绝对矩）已实现跳跃波动率：max(对数收益率的平方和与积}",
+          "stats": [null, null, null, null],
+          "evidence": "已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405(正态分布的2/3阶绝对矩）已实现跳跃波动率：max(对数收益率的平方和与积"
+        },
+        {
+          "name": "交易量变异系数因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{原文表格该行 OCR 缺失, 未给出计算逻辑}",
+          "stats": [null, null, null, null],
+          "evidence": "交易量变异系数因子 | 2023年2月通联Level-2 快照数据"
+        },
+        {
+          "name": "上行已实现跳跃波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405 (正态分布的2/3阶绝对矩）上行已实现跳跃波动率：max(收益率大于0的对数收益率的平方和与积分波动估计量的一半之差，0)}",
+          "stats": [null, null, null, null],
+          "evidence": "已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405 (正态分布的2/3阶绝对矩）上行已实现跳跃波动率：max(收益率大于0的对数收益率的平方和与积分波动估计量的一半之差，0)"
+        },
+        {
+          "name": "下行已实现跳跃波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405 (正态分布的2/3阶绝对矩）下行已实现跳跃波动率：max(收益率小于0的对数收益率的平方和与积分波动估计量的一半之差，0)原始聪明钱因子：每}",
+          "stats": [null, null, null, null],
+          "evidence": "已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405 (正态分布的2/3阶绝对矩）下行已实现跳跃波动率：max(收益率小于0的对数收益率的平方和与积分波动估计量的一半之差，0)原始聪明钱因子：每"
+        },
+        {
+          "name": "聪明钱因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{分钟涨跌幅绝对值与成交量的四次方根之比聪明钱交易：将原始聪明钱因子按从大到小排序后，成交量累计占比20\\%的分钟交易成交量加权平均价：将价格按照成交量大小进行加权平均聪明钱因子：聪明钱交易的成交量加权平均价除以所有交易的成交量加权平均价}",
+          "stats": [null, null, null, null],
+          "evidence": "分钟涨跌幅绝对值与成交量的四次方根之比聪明钱交易：将原始聪明钱因子按从大到小排序后，成交量累计占比20%的分钟交易成交量加权平均价：将价格按照成交量大小进行加权平均聪明钱因子：聪明钱交易的成交量加权平均价除以所有交易的成交量加权平均价"
+        },
+        {
+          "name": "成交量占比偏度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{日内成交量占比序列的偏度}",
+          "stats": [null, null, null, null],
+          "evidence": "日内成交量占比序列的偏度|高频因子（四）.高阶矩高频因子，长江证券"
+        },
+        {
+          "name": "成交量占比峰度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{日内成交量占比序列的收麻}",
+          "stats": [null, null, null, null],
+          "evidence": "日内成交量占比序列的收麻|高频因子（四）.高阶矩高频因子，长"
+        },
+        {
+          "name": "日度主力交易情绪因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{原文表格该行 OCR 缺失, 未给出计算逻辑}",
+          "stats": [null, null, null, null],
+          "evidence": "日度主力交易情绪因子 | 2023年2月通联Level-2 快照数据"
+        },
+        {
+          "name": "趋势占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{当日收盘价减开盘价，除以每一时刻价格变化量绝对值之和}",
+          "stats": [null, null, null, null],
+          "evidence": "当日收盘价减开盘价，除以每一时刻价格变化量绝对值之和"
+        },
+        {
+          "name": "上下行跳跃波动的不对称性因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405(正态分布的2/3阶绝对矩）上行（下行）已实现跳跃波动率：max(收益率大于（小于）0的对数收益率的平方和与积分波动估计量的一半之差，0)上下行跳跃波动的不对称性：上行已实现跳跃波动率与下行已实现跳跃波动率之差}",
+          "stats": [null, null, null, null],
+          "evidence": "已实现三幂次变差：首先计算每一时刻与t-1时刻、t-2时刻对数收益率绝对值的乘积的2/3次方，其次计算日内所有该值之和积分波动估计量：已实现三幂次变差乘以常数1.935792405(正态分布的2/3阶绝对矩）上行（下行）已实现跳跃波动率：max(收益率大于（小于）0的对数收益率的平方和与积分波动估计量的一半之差，0)上下行跳跃波动的不对称性：上行已实现跳跃波动率与下行已实现跳跃波动率之差"
+        },
+        {
+          "name": "最大涨幅因子",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{日内涨跌幅最大的前10\\%时刻的涨跌幅加1后连乘}",
+          "stats": [null, null, null, null],
+          "evidence": "日内涨跌幅最大的前10%时刻的涨跌幅加1后连乘|高频选股因子分类体系，中信建投证券"
+        },
+        {
+          "name": "大单资金净流入率因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{平均单笔成交金额：每分钟成交金额总额除以成交笔数大单筛选：平均单笔成交金额最大的30\\%的时刻大单资金净流入金额：收益率为正的成交总额与收益率为负的成交总额之差大单资金净流入率：大单资金净流入金额除以当日成交总额}",
+          "stats": [null, null, null, null],
+          "evidence": "平均单笔成交金额：每分钟成交金额总额除以成交笔数大单筛选：平均单笔成交金额最大的30%的时刻大单资金净流入金额：收益率为正的成交总额与收益率为负的成交总额之差大单资金净流入率：大单资金净流入金额除以当日成交总额"
+        },
+        {
+          "name": "大单驱动涨幅因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{平均单笔成交金额：每分钟成交金额总额除以成交笔数大单筛选：平均单笔成交金额最大的30\\%的时刻大单驱动涨幅：大单收益率加1后连乘}",
+          "stats": [null, null, null, null],
+          "evidence": "平均单笔成交金额：每分钟成交金额总额除以成交笔数大单筛选：平均单笔成交金额最大的30%的时刻大单驱动涨幅：大单收益率加1后连乘"
+        },
+        {
+          "name": "每单成交量筛选的局部反转因子",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{每笔成交量 (成交量/成交笔数) 位于 80\\%~100\\% 区间对应时间段的收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "每单成交量筛选的局部反转因子 | 2023年2月通联Level-2 快照数据"
+        },
+        {
+          "name": "平均单笔流出金额占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{原文表格该行 OCR 缺失, 未给出计算逻辑}",
+          "stats": [null, null, null, null],
+          "evidence": "平均单笔流出金额占比因子 | 2023年2月通联Level-2 快照数据"
+        },
+        {
+          "name": "大的上行跳跃波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{率：max(收益率大于0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)下行已实现跳跃波动}",
+          "stats": [null, null, null, null],
+          "evidence": "率：max(收益率大于0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)下行已实现跳跃波动"
+        },
+        {
+          "name": "大的下行跳跃波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{率：max(收益率小于0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的下行跳跃波动率：min(下行已实现跳跃波动率，小于判别阈值相反数的对数收益率的平方和)上行已实现跳跃波动}",
+          "stats": [null, null, null, null],
+          "evidence": "率：max(收益率小于0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的下行跳跃波动率：min(下行已实现跳跃波动率，小于判别阈值相反数的对数收益率的平方和)上行已实现跳跃波动"
+        },
+        {
+          "name": "小的上行跳跃波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{率：max(收益率大于0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)小的上行跳跃波动率：上行已实现跳跃波动率与大的上}",
+          "stats": [null, null, null, null],
+          "evidence": "率：max(收益率大于0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)小的上行跳跃波动率：上行已实现跳跃波动率与大的上"
+        },
+        {
+          "name": "小的下行跳跃波动率因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{行已实现跳跃波动率之差下行已实现跳跃波动}",
+          "stats": [null, null, null, null],
+          "evidence": "动估计量大的下行跳跃波动率：min(下行已实现跳跃波动率，小于判别阈值相反数的对数收益率的平方和)小的下行跳跃波动率：下行已实现跳跃波动率与大的下行已实现跳跃波动率之差"
+        },
+        {
+          "name": "日内条件在险价值因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{分钟VWAR：分钟收益率序列依交易量的加权平均数VaR (在险价值):CVaR:VCVaR:交易日分钟VWAR的置信度为α的CVaR}",
+          "stats": [null, null, null, null],
+          "evidence": "分钟VWAR：分钟收益率序列依交易量的加权平均数VaR (在险价值):CVaR:VCVaR:交易日分钟VWAR的置信度为α的CVaR"
+        },
+        {
+          "name": "隔夜收益率因子",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{当日开盘价与前一日收盘价之比减1}",
+          "stats": [null, null, null, null],
+          "evidence": "当日开盘价与前一日收盘价之比减1 | Overnight Return:the invisible HandBehind intradayReturns, Journal ofFinancialEconometrics. 2.90-100"
+        },
+        {
+          "name": "日内最大回撤因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{交易日内价格峰值到随后谷值的最大跌幅}",
+          "stats": [null, null, null, null],
+          "evidence": "交易日内价格峰值到随后谷值的最大跌幅|高频价量数据的因子化方法，广发证券"
+        },
+        {
+          "name": "日内成交量占比标准差因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{日内时刻成交量占比的标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "日内时刻成交量占比的标准差|高阶矩高频因子，长江证券"
+        },
+        {
+          "name": "每笔成交量收益率相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{分钟平均每笔成交量与收益率的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "分钟平均每笔成交量与收益率的相关系数|量价关系中的反转微观结果，长江证券"
+        },
+        {
+          "name": "日内收益率因子",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{当日收盘价与当日开盘价之比减1}",
+          "stats": [null, null, null, null],
+          "evidence": "当日收盘价与当日开盘价之比减1 | Overnight Return:the invisible HandBehind intradayReturns, Journal ofFinancialEconometrics. 2.90-100"
+        },
+        {
+          "name": "分钟成交额方差因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{日内分钟成交额的方差}",
+          "stats": [null, null, null, null],
+          "evidence": "日内分钟成交额的方差|高频视角下成交额蕴藏的Alpha,华安证券"
+        },
+        {
+          "name": "尾盘半小时收益率因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{14：30~15：00的收盘价收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "14：30~15：00的收盘价收益率|高频价量数据的因子化方法，广发证券"
+        },
+        {
+          "name": "日度盘口价差因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{盘口价差: } 2(a_1-b_1)/(a_1+b_1) \\text{, 其中 } a_1, b_1 \\text{ 为盘口卖一价和买一价; 日度盘口价差 = 盘口价差序列的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "盘口价差：2*(a1-b1)/(a1+b1)，其中"
+        },
+        {
+          "name": "尾盘半小时成交额占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{原文表格该行 OCR 缺失, 未给出计算逻辑}",
+          "stats": [null, null, null, null],
+          "evidence": "尾盘半小时成交额占比因子 | 2023年2月通联Level-2 快照数据"
+        },
+        {
+          "name": "大的上下行跳跃波动不对称性因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{跳跃波动率：max(收益率大于(小于)0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)大的下行跳跃波动率：min(下行已实现跳跃波动率，小于判别阈值相反数的对数收益率的平方和)大的上下行跳跃波动不对称性：大的上行跳跃波动率与大的下行跳跃波动率之差}",
+          "stats": [null, null, null, null],
+          "evidence": "跳跃波动率：max(收益率大于(小于)0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)大的下行跳跃波动率：min(下行已实现跳跃波动率，小于判别阈值相反数的对数收益率的平方和)大的上下行跳跃波动不对称性：大的上行跳跃波动率与大的下行跳跃波动率之差"
+        },
+        {
+          "name": "小的上下行跳跃波动不对称性因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{上行（下行）已实现跳跃波动率：max(收益率大于(小于)0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)大的下行跳跃波动率：min(下行已实现跳跃波动率，小于判别阈值相反数的对数收益率的平方和)小的上行（下行）跳跃波动率：上行(下行)已实现跳跃波动率与大的上行(下行)已实现跳跃波动率之差小的上下}",
+          "stats": [null, null, null, null],
+          "evidence": "上行（下行）已实现跳跃波动率：max(收益率大于(小于)0的对数收益率的平方和与积分波动估计量的一半之差，0)判别阈值：其中，α经验参数为4，Δ为日内股票收益率的采样间隔，IV为积分波动估计量大的上行跳跃波动率：min(上行已实现跳跃波动率，高于判别阈值的对数收益率的平方和)大的下行跳跃波动率：min(下行已实现跳跃波动率，小于判别阈值相反数的对数收益率的平方和)小的上行（下行）跳跃波动率：上行(下行)已实现跳跃波动率与大的上行(下行)已实现跳跃波动率之差小的上下"
+        },
+        {
+          "name": "日度价格弹性因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{价格弹性：最高价与最低价之差与成交额的比值日度价格弹性：价格弹性序列的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "价格弹性：最高价与最低价之差与成交额的比值日度价格弹性：价格弹性序列的均值"
+        },
+        {
+          "name": "日度盘口平均深度因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{盘口平均深度：买卖一量均值日度盘口平均深度：盘口平均深度序列的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "盘口平均深度：买卖一量均值日度盘口平均深度：盘口平均深度序列的均值"
+        },
+        {
+          "name": "加权收盘价比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{其中，VOL为整个时间段总成交量}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，VOL为整个时间段总成交量|高位成交因子一从量价匹配说起，长江证券"
+        },
+        {
+          "name": "结构化反转因子",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{动量时间段和反转时间段：将成交量从小到大进行排序，将小于等于10\\%的时间段记为动量时间段，大于10\\%的时间段记为反转时间段动量时间段反转因子：反转时间段反转因子：结构化反转因子：反转时间段反转因子与动量时间段动量因子之差}",
+          "stats": [null, null, null, null],
+          "evidence": "动量时间段和反转时间段：将成交量从小到大进行排序，将小于等于10%的时间段记为动量时间段，大于10%的时间段记为反转时间段动量时间段反转因子：反转时间段反转因子：结构化反转因子：反转时间段反转因子与动量时间段动量因子之差"
+        },
+        {
+          "name": "日度有效深度因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{有效深度：买卖一量的最小值日度有效深度：有效深度序列的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "有效深度：买卖一量的最小值日度有效深度：有效深度序列的均值"
+        },
+        {
+          "name": "分钟成交额自相关性因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{分钟成交额与其前1分钟的分钟成交额的相关系数}",
+          "stats": [null, null, null, null],
+          "evidence": "分钟成交额与其前1分钟的分钟成交额的相关系数|高频视角下成交额蕴藏的Alpha，华安证券"
+        },
+        {
+          "name": "尾盘半小时成交量占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{14：30~15：00的成交量占当日总成交量比值}",
+          "stats": [null, null, null, null],
+          "evidence": "14：30~15：00的成交量占当日总成交量比值|高频因子的现实与幻想，海通证券"
+        },
+        {
+          "name": "加权偏度因子",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{其中，权重ω为成交量占当日总成交量的比值，分母为收盘价的标准差的三次方}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，权重ω为成交量占当日总成交量的比值，分母为收盘价的标准差的三次方"
+        },
+        {
+          "name": "交易量同步的知情交易概率因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{交易量桶：将交易量等量划分为交易量桶(此处设置单桶交易量为100,000）桶内买方交易量：桶内逐笔交易的加权和，权重为标准正态分布累计密度函数，其参数为环比增量与其标准差之比向量桶内卖方交易量：桶量与买方}",
+          "stats": [null, null, null, null],
+          "evidence": "交易量桶：将交易量等量划分为交易量桶(此处设置单桶交易量为100,000）桶内买方交易量：桶内逐笔交易的加权和，权重为标准正态分布累计密度函数，其参数为环比增量与其标准差之比向量桶内卖方交易量：桶量与买方"
+        },
+        {
+          "name": "开盘后买入意愿强度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{净委买变化额：委托买单增加量减去委托卖单增加量（逐笔委托）净主买成交额：主动买入成交额减去主动卖出成交额买入意愿：净主买成交额与净委买变化额之和开盘后买入意愿强度：开盘后时间段(9:30~10:00)内买入意愿序列的均值除以标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "净委买变化额：委托买单增加量减去委托卖单增加量（逐笔委托）净主买成交额：主动买入成交额减去主动卖出成交额买入意愿：净主买成交额与净委买变化额之和开盘后买入意愿强度：开盘后时间段(9:30~10:00)内买入意愿序列的均值除以标准差"
+        },
+        {
+          "name": "开盘后净委买增额占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{净委买变化额：委托买单增加量减去委托卖单增加量开盘后净委买增额占比：开盘后时间段(9:30~10:00)内净委买变化额的总量除以同时间段内总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "净委买变化额：委托买单增加量减去委托卖单增加量开盘后净委买增额占比：开盘后时间段(9:30~10:00)内净委买变化额的总量除以同时间段内总成交额"
+        },
+        {
+          "name": "开盘后买入意愿占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{净委买变化额：委托买单增加量减去委托卖单增加量（逐笔委托）净主买成交额：主动买入成交额减去主动卖出成交额买入意愿：净主买成交额与净委买变化额之和开盘后买入意愿强度：开盘后时间段(9:30~10:00)内买入意愿的总和除以同时间段内总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "净委买变化额：委托买单增加量减去委托卖单增加量（逐笔委托）净主买成交额：主动买入成交额减去主动卖出成交额买入意愿：净主买成交额与净委买变化额之和开盘后买入意愿强度：开盘后时间段(9:30~10:00)内买入意愿的总和除以同时间段内总成交额"
+        },
+        {
+          "name": "卖出反弹偏离因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{(低于当日收盘价的卖单平均成交价之和/当日收盘价)-1}",
+          "stats": [null, null, null, null],
+          "evidence": "(低于当日收盘价的卖单平均成交价之和/当日收盘价)-1"
+        },
+        {
+          "name": "大单买入占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大单筛选：成交量对数调整后，成交量大于均值+1倍标准差的成交单大单买入占}",
+          "stats": [null, null, null, null],
+          "evidence": "大单筛选：成交量对数调整后，成交量大于均值+1倍标准差的成交单大单买入占"
+        },
+        {
+          "name": "买单集中度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{买单成交额的平方和与总成交额的平方之比}",
+          "stats": [null, null, null, null],
+          "evidence": "买单成交额的平方和与总成交额的平方之比|买卖单数据中的Alpha，海通证券"
+        },
+        {
+          "name": "卖单集中度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{卖单成交额的平方和与总成交额的平方之比}",
+          "stats": [null, null, null, null],
+          "evidence": "卖单成交额的平方和 与总成交额的平方之 | 买卖单数据中的 Alpha，海通证券"
+        },
+        {
+          "name": "开盘后大单净买入占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大单筛选: 成交量对数调整后, 成交量大于均值+1 倍标准差的成交单; 开盘后大单净买入占比: 开盘后 (9:30~10:00) 大买单与大卖单成交额之差/总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "大单筛选：成交量对 数调整后，成交量大 于均值+1 倍标准差 的成交单开盘后大单 净买入占比：开盘后 (9:30~10:00) 大买"
+        },
+        {
+          "name": "日内主买占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{交额之差/总成交额主动买入成交额：剔除处于涨跌停分钟上的主动买入卖出金额数据，逐笔成交数据中的标识为“Buy”的成交额日内主买占比：主动买入成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "主动买入成交额：剔 除处于涨跌停分钟上 的主动买入卖出金额 数据，逐笔成交数据 中的标识为“Buy” 的成交额日内主买占 比：主动买入成交额"
+        },
+        {
+          "name": "大单买入强度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{占当日总成交额之比大单筛选：成交量对数调整后，成交量大于均值+1倍标准差的成交单大单买入强度：大买单成交额的日内均值/大买单成交额的日内标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "大单筛选：成交量对 数调整后，成交量大 于均值+1 倍标准差 的成交单大单买入强 度：大买单成交额的 日内均值/大买单成 交额的日内标准差"
+        },
+        {
+          "name": "开盘后净主买占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{净主买成交额：剔除处于涨跌停分钟上的主动买入金额数据，主动买入成交额与主动卖出成交额之差开盘后净买入占比：开盘后(9:30~10:00)净主买成交额占总成}",
+          "stats": [null, null, null, null],
+          "evidence": "净主买成交额：剔除处于涨跌停分钟上的主动买入金额数据，主动买入成交额与主动卖出成交额之差开盘后净买入占比：开盘后(9:30~10:00)净主买成交额占总成"
+        },
+        {
+          "name": "日内主买强度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{主动买入成交额：剔除处于涨跌停分钟上的主动买入卖出金额数据，逐笔成交数据中的标识为“Buy”的成交额日内主买强度：主动买入成交额的均值与标准差之比}",
+          "stats": [null, null, null, null],
+          "evidence": "主动买入成交额：剔除处于涨跌停分钟上的主动买入卖出金额数据，逐笔成交数据中的标识为“Buy”的成交额日内主买强度：主动买入成交额的均值与标准差之比"
+        },
+        {
+          "name": "开盘后净主买强度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{净主买成交额: 剔除处于涨跌停分钟上的主动买入金额数据, 主动买入成交额与主动卖出成交额之差; 开盘后净主买强度: 开盘后 (9:30~10:00) 净主买成交额的均值与标准差之比}",
+          "stats": [null, null, null, null],
+          "evidence": "净主买成交额：剔 除处于涨跌停分钟上的 主动买入金额数据， 主动买入成交额与主"
+        },
+        {
+          "name": "卖单非流动性因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{以收益率为因变量，主动卖出成交额和主动买入成交额为自变量进行线性回归，其中主动卖出成交额的回归系数}",
+          "stats": [null, null, null, null],
+          "evidence": "以收益率为因变量，主动卖出成交额和主动买入成交额为自变量进行线性回归，其中主动卖出成交额的回归系数"
+        },
+        {
+          "name": "买单非流动性因子",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{以收益率为因变量，主动卖出成交额和主动买入成交额为自变量进行线性回归，其中主动买入成交额的回归系数}",
+          "stats": [null, null, null, null],
+          "evidence": "以收益率为因变量，主动卖出成交额和主动买入成交额为自变量进行线性回归，其中主动买入成交额的回归系数"
+        },
+        {
+          "name": "卖出反弹占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{卖价小于收盘价的所有卖单的成交量之和与总成交量的比值}",
+          "stats": [null, null, null, null],
+          "evidence": "卖价小于收盘价的所有卖单的成交量之和与总成交量的比值"
+        },
+        {
+          "name": "剔除超大单后的普通大单买入占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大单筛选：成交金额的分位数大于70\\%的订单超大单筛选：订单成交金额占当日成交总额比例超过1\\%的订单剔除超大单后的普通大单买入占比：剔除超大单后的大买单成交金额占全部大单成交金额的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "大单筛选：成交金额的分位数大于70%的订单超大单筛选：订单成交金额占当日成交总额比例超过1%的订单剔除超大单后的普通大单买入占比：剔除超大单后的大买单成交金额占全部大单成交金额的比例"
+        },
+        {
+          "name": "超大单买入占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{超大单筛选：订单成交金额占当日成交总额比例超过1\\%的订单超大单买入占比：超大单买入成交金额占全部超大单成交金额的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "超大单筛选：订单成交金额占当日成交总额比例超过1%的订单超大单买入占比：超大单买入成交金额占全部超大单成交金额的比例"
+        },
+        {
+          "name": "小买单主动成交度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{小单筛选：成交量对数调整后，成交量小于均值的成交单小买单主动成交度：小买单主动成交金额占小买单成交金额的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "小单筛选：成交量对数调整后，成交量小于均值的成交单小买单主动成交度：小买单主动成交金额占小买单成交金额的比例"
+        },
+        {
+          "name": "剔除超大单影响后的大单涨跌幅因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大单筛选：成交金额的分位数大于70\\%的订单超大单筛选·}",
+          "stats": [null, null, null, null],
+          "evidence": "大单筛选：成交金额的分位数大于70%的订单超大单筛选·"
+        },
+        {
+          "name": "基于物理时间交易量加权的知情交易概率因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{其中，Si和Bi分别第i个交易时段内的卖单数和买单数}",
+          "stats": [null, null, null, null],
+          "evidence": "其中，Si和Bi分别第i个交易时段内的卖单数和买单数"
+        },
+        {
+          "name": "超大单涨跌幅因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{超大单筛选：订单成交金额占当日成交总额比例超过1\\%的订单对数价格变动：当前成交价格的对数与上一笔成交价格的对数之差超大单涨跌幅：超大单主动成交订单的累计对数价格变动}",
+          "stats": [null, null, null, null],
+          "evidence": "超大单筛选：订单成交金额占当日成交总额比例超过1%的订单对数价格变动：当前成交价格的对数与上一笔成交价格的对数之差超大单涨跌幅：超大单主动成交订单的累计对数价格变动"
+        },
+        {
+          "name": "买入浮亏占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{买单成交价大于当日收盘价的的买单成交量之和，除以当日总成交量}",
+          "stats": [null, null, null, null],
+          "evidence": "买单成交价大于当日收盘价的的买单成交量之和，除以当日总成交量"
+        },
+        {
+          "name": "买入浮亏偏离因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{买单成交价大于当日收盘价的的买单平均成交价之和，除以收盘价，减去1}",
+          "stats": [null, null, null, null],
+          "evidence": "买单成交价大于当日收盘价的的买单平均成交价之和，除以收盘价，减去1"
+        },
+        {
+          "name": "开盘后大单净买入强度因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大单筛选：成交量对数调整后，成交量大于均值+1倍标准差的成交单开盘后大单净买入强度：开盘后(9: 30~10: 00)大买单成交额与大卖单成交额之差的日内均值除以其标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "大单筛选：成交量对数调整后，成交量大于均值+1倍标准差的成交单开盘后大单净买入强度：开盘后(9: 30~10: 00)大买单成交额与大卖单成交额之差的日内均值除以其标准差"
+        },
+        {
+          "name": "大成交量委托单成交量占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大成交量委托单筛选：按照委托单号统计成交量，成交量排前5\\%的委托单大成交量委托单成交量占比：大成交量委托单成交总量占全天成交总量的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "大成交量委托单筛选：按照委托单号统计成交量，成交量排前5%的委托单大成交量委托单成交量占比：大成交量委托单成交总量占全天成交总量的比例"
+        },
+        {
+          "name": "大成交量成交单成交量占比因子",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "daily",
+          "formula": "\\text{大成交量成交单筛选：逐笔成交数据中成交量排前50\\%的订}",
+          "stats": [null, null, null, null],
+          "evidence": "大成交量成交单筛选：逐笔成交数据中成交量排前50%的订"
+        }
+      ]
     }
   },
   "findings": [
@@ -45,8 +1190,51 @@
       "evidence": "高频数据低频化过程的核心业务价值在于：使得策略开发者能够将微观、瞬时的市场状态（如资金流向、订单簿失衡、交易冲击等）转化为具有稳定预测能力的低频特征或因子，从而在更低频的交易周期中，提前洞察机会、优化风险控制，构建具备信息优势的差异化策略。"
     }
   ],
-  "builds_on": [],
-  "external_ref": ["WorldQuant 101 Alpha 因子指标库", "国泰君安 191 Alpha 因子库"],
+  "builds_on": [
+    "20170217-东方证券-因子选股-020-技术类新alpha因子的批量测试",
+    "20170508-海通证券-选股因子-019-高频因子之股票收益分布特征",
+    "20170911-海通证券-选股因子-025-高频因子之已实现波动分解",
+    "20171122-光大证券-多因子-007-基于_k_线最短路径构造的非流动性因子",
+    "20180103-光大证券-多因子-009-一致交易因子_挖掘集体行为背后的收益",
+    "20190417-海通证券-选股因子-046-日内分时成交中的玄机",
+    "20190509-海通证券-选股因子-047-捕捉投资者的交易意愿",
+    "20190601-长江证券-高频因子-002-结构化反转因子",
+    "20191107-海通证券-选股因子-056-买卖单数据中的alpha",
+    "20200113-海通证券-选股因子-057-基于主动买入行为的选股因子",
+    "20200209-开源证券-市场微观结构-003-聪明钱因子模型的2_0版本",
+    "20200227-方正证券-市场微观结构剖析-006-量价关系的高频乐章",
+    "20200421-东方证券-因子选股-066-基于时间尺度度量的日内买卖压力",
+    "20200424-海通证券-选股因子-064-基于直观逻辑和机器学习的高频数据低频化应用",
+    "20200610-华安证券-市场微观结构剖析-007-高频视角下成交额蕴藏的alpha",
+    "20200730-海通证券-选股因子-069-高频因子的现实与幻想",
+    "20200810-长江证券-高频因子-007-分布估计下的主动成交占比",
+    "20200916-长江证券-高频因子-008-高位成交因子_从量价匹配说起",
+    "20201012-长江证券-高频因子-009-高频波动中的时间序列信息",
+    "20210120-海通证券-选股因子-072-大单的精细化处理与大单因子重构",
+    "20210128-长江证券-高频因子-010-量价关系中的反转微观结构",
+    "20210129-中信建投-因子深度研究-011-高频订单失衡及价差因子",
+    "20210712-广发证券-多因子-041-高频价量数据的因子化方法",
+    "20220412-方正证券-多因子选股-001-成交量激增时刻蕴含的alpha信息",
+    "20220508-方正证券-多因子选股-002-个股成交量的潮汐变化及潮汐因子构建",
+    "20220520-东方证券-因子选股-082-超大单冲击对大单因子的影响",
+    "20220530-方正证券-多因子选股-003-个股波动率的变动及勇攀高峰因子构建",
+    "20220804-方正证券-多因子选股-005-波动率的波动率与投资者模糊性厌恶",
+    "20220829-兴业证券-高频-004-成交量分布中的_alpha",
+    "20221024-海通证券-选股因子-085-买卖单主动成交中的隐藏信息",
+    "20221213-方正证券-多因子选股-008-显著效应_极端收益扭曲决策权重和草木皆兵因子",
+    "20221225-开源证券-市场微观结构-019-日内分钟收益率的时序特征_逻辑讨论与因子增强_1",
+    "20230227-国金证券-alpha掘金-004-基于逐笔成交数据的遗憾规避因子"
+  ],
+  "external_ref": [
+    "WorldQuant 101 Alpha 因子指标库",
+    "“持续异常交易量”选股因子PATV，招商证券",
+    "分钟线的尾部特征，方正证券",
+    "国泰君安 191 Alpha 因子库",
+    "推动个股价格变化的因素分解与“花隐林间”因子，方正证券",
+    "高频因子（四）.高阶矩高频因子，长江证券",
+    "高频视角下的微观流动性与波动性，中金公司",
+    "高频选股因子分类体系，中信建投证券"
+  ],
   "value": "high",
   "gen": {
     "model": "glm-5.3-flash",

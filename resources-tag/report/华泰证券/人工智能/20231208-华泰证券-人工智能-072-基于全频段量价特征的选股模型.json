@@ -21,7 +21,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "\\frac{\\frac{1}{n}\\sum_{i}(r_i-\\bar{r})^3}{\\left(\\frac{1}{n}\\sum_{i}(r_i-\\bar{r})^2\\right)^{3/2}},\\; r_i \\text{为尾盘分钟收益率}",
-          "stats": [0.0174, null, 0.31, null],
+          "stats": [null, 0.0174, 0.31, null],
           "evidence": "使用尾盘收益率偏度，可大幅降低与下行收益率波动占比因子的相关性，同时尾盘具有较强的投机性和反转效应。"
         },
         {
@@ -31,7 +31,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "\\frac{\\sum_{r_i<0} r_i^2}{\\sum_{i} r_i^2},\\; r_i \\text{为分钟收益率}",
-          "stats": [0.0672, null, 0.55, null],
+          "stats": [null, 0.0672, 0.55, null],
           "evidence": "下行收益率波动占比刻画了股票收益的不对称性和极端性，下行波动越大，说明股票经历了较大的负收益，未来可能会发生反转。"
         },
         {
@@ -41,7 +41,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "corr(r_i, r_{i+1})",
-          "stats": [0.0556, null, 0.37, null],
+          "stats": [null, 0.0556, 0.37, null],
           "evidence": "| corr_ret_lastret | 前后两分钟收益率的相关性 | -1 |"
         },
         {
@@ -51,7 +51,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "corr(close_i, open_{i+1})",
-          "stats": [0.0236, null, 0.16, null],
+          "stats": [null, 0.0236, 0.16, null],
           "evidence": "| corr_close_nextopen | 前一分钟收盘价与后一分钟开盘价的相关性 | 1 |"
         },
         {
@@ -61,7 +61,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
-          "stats": [0.0129, null, 0.14, null],
+          "stats": [null, 0.0129, 0.14, null],
           "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
         },
         {
@@ -71,7 +71,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
-          "stats": [0.04, null, 0.59, null],
+          "stats": [null, 0.04, 0.59, null],
           "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
         },
         {
@@ -81,7 +81,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
-          "stats": [0.044, null, 0.76, null],
+          "stats": [null, 0.044, 0.76, null],
           "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
         },
         {
@@ -91,7 +91,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
-          "stats": [0.0473, null, 0.68, null],
+          "stats": [null, 0.0473, 0.68, null],
           "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
         },
         {
@@ -101,7 +101,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
-          "stats": [0.0445, null, 0.67, null],
+          "stats": [null, 0.0445, 0.67, null],
           "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
         },
         {
@@ -111,7 +111,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "volume\\_perc_k=\\frac{\\text{Vol}_{k}}{\\text{Vol}_{total}}",
-          "stats": [0.0435, null, 0.59, null],
+          "stats": [null, 0.0435, 0.59, null],
           "evidence": "成交量占比描述了日内成交量的分布特征，根据统计规律，股票未来收益率与开盘半小时和收盘半小时的成交量占比呈负相关，而与其他时刻的成交量占比呈正相关。"
         },
         {
@@ -121,7 +121,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "corr(volume_i, n_i),\\; n_i \\text{为第} i \\text{分钟成交笔数}",
-          "stats": [0.0578, null, 0.42, null],
+          "stats": [null, 0.0578, 0.42, null],
           "evidence": "| corr_volume_item | 成交量与成交笔数的相关性 | -1 |"
         },
         {
@@ -131,7 +131,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "corr(volume_i, r_i),\\; i \\in \\text{早盘}",
-          "stats": [0.0159, null, 0.22, null],
+          "stats": [null, 0.0159, 0.22, null],
           "evidence": "利用价格与成交量的关联，构造了早盘成交量与收益率相关性、大单推动涨幅等因子。"
         },
         {
@@ -141,7 +141,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "\\text{大单成交带来的短时间区间涨幅（分钟频口径）}",
-          "stats": [0.0539, null, 0.66, null],
+          "stats": [null, 0.0539, 0.66, null],
           "evidence": "大单推动涨幅反映了大单对市场的冲击，由大单交易带来的短时间上涨较难持续，未来可能会回归到正常水平。"
         },
         {
@@ -151,7 +151,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "\\frac{\\text{下跌时段平均单笔成交金额}}{\\text{全天平均单笔成交金额}}",
-          "stats": [0.0556, null, 0.42, null],
+          "stats": [null, 0.0556, 0.42, null],
           "evidence": "下行单笔成交金额占比则刻画了下跌时平均每笔成交金额的相对大小，因子值越大，说明可能是大单卖出带来的短时间下跌，或是下跌时仍有大单买入抄底，未来大概率会反弹。"
         },
         {
@@ -161,7 +161,7 @@
           "data_period": ["intraday"],
           "horizon": "weekly",
           "formula": "corr(volume_i, amplitude_i)",
-          "stats": [0.0438, null, 0.35, null],
+          "stats": [null, 0.0438, 0.35, null],
           "evidence": "| corr_volume_amplitude | 成交量与振幅的相关性 | -1 |"
         },
         {
@@ -171,7 +171,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\frac{\\sum \\text{大单成交金额}}{\\sum \\text{成交金额}}",
-          "stats": [0.0429, null, 0.32, null],
+          "stats": [null, 0.0429, 0.32, null],
           "evidence": "大单成交金额占比刻画了股票成交中大单的贡献度。"
         },
         {
@@ -181,7 +181,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\frac{\\sum_{\\text{早盘}} \\text{大单买入金额}}{\\sum_{\\text{早盘}} \\text{大单成交金额}}",
-          "stats": [0.0251, null, 0.27, null],
+          "stats": [null, 0.0251, 0.27, null],
           "evidence": "早盘大单买入占比反映了早盘大单中买入与卖出的相互博弈。"
         },
         {
@@ -191,7 +191,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\text{大单成交带来的短时间区间涨幅（逐笔成交口径）}",
-          "stats": [0.0469, null, 0.58, null],
+          "stats": [null, 0.0469, 0.58, null],
           "evidence": "大单推动涨幅与使用分钟频数据计算出的因子逻辑类似，但由于使用不同颗粒度的数据，两个因子的相关性其实不高。"
         },
         {
@@ -201,7 +201,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\text{早盘主动大单成交带来的区间涨幅}",
-          "stats": [0.049, null, 0.49, null],
+          "stats": [null, 0.049, 0.49, null],
           "evidence": "| early_active_bigorder_ret | 早盘主动大单推动涨幅 | 1 |"
         },
         {
@@ -211,7 +211,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\frac{\\sum_{i \\in buy} A_i^2}{(\\sum_i A_i)^2}-\\frac{\\sum_{i \\in sell} A_i^2}{(\\sum_i A_i)^2},\\; A_i \\text{为每笔成交金额}",
-          "stats": [0.0502, null, 0.57, null],
+          "stats": [null, 0.0502, 0.57, null],
           "evidence": "交易集中度的定义是每笔买单或卖单的成交金额的平方和，除以全天成交金额的平方。"
         },
         {
@@ -221,7 +221,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\frac{\\sum_{\\text{早盘}} \\text{主动买入金额}}{\\sum_{\\text{早盘}} \\text{成交金额}}",
-          "stats": [0.0261, null, 0.24, null],
+          "stats": [null, 0.0261, 0.24, null],
           "evidence": "早盘主动买入占比体现了早盘交易中主动买入意愿的强度，也具有正向选股作用。"
         },
         {
@@ -231,7 +231,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "corr(NetActiveBuy_i, r_{i-1})",
-          "stats": [0.0588, null, 0.52, null],
+          "stats": [null, 0.0588, 0.52, null],
           "evidence": "| corr_netactivebuy_lastret | 后一分钟净主动买入与前一分钟收益率的相关性 | -1 |"
         },
         {
@@ -241,7 +241,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "corr(NetActiveBuy_i, r_{i+1})",
-          "stats": [0.0417, null, 0.39, null],
+          "stats": [null, 0.0417, 0.39, null],
           "evidence": "| corr_netactivebuy_nextret | 前一分钟净主动买入与后一分钟收益率的相关性 | -1 |"
         },
         {
@@ -251,7 +251,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "skew(\\{q_i^{buy}\\})-skew(\\{q_i^{sell}\\}),\\; q_i \\text{为委托量}",
-          "stats": [0.0146, null, 0.21, null],
+          "stats": [null, 0.0146, 0.21, null],
           "evidence": "| skew_order_diff | 买卖单委托量偏度之差 | -1 |"
         },
         {
@@ -261,7 +261,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "kurt(\\{q_i^{buy}\\})-kurt(\\{q_i^{sell}\\})",
-          "stats": [0.0361, null, 0.43, null],
+          "stats": [null, 0.0361, 0.43, null],
           "evidence": "| kurt_order_diff | 买卖单委托量峰度之差 | -1 |"
         },
         {
@@ -271,7 +271,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "kurt(\\{q_i\\}_{i \\in \\text{早盘}})",
-          "stats": [0.0296, null, 0.25, null],
+          "stats": [null, 0.0296, 0.25, null],
           "evidence": "| early_kurt_order | 早盘委托量的峰度 | -1 |"
         },
         {
@@ -281,7 +281,7 @@
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "corr(q_i^{buy}, p_i^{order})",
-          "stats": [0.0409, null, 0.52, null],
+          "stats": [null, 0.0409, 0.52, null],
           "evidence": "| corr_buyorder_volume_price | 买单委托量与委托价格的相关性 | -1 |"
         },
         {

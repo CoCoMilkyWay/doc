@@ -51,7 +51,7 @@
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{卖单中成交量大于均值+1.0倍标准差的订单界定为大卖单，大卖单占比为大卖单成交量占全部卖单成交量的比例}",
-          "stats": [null, 0.07, null, null],
+          "stats": [null, 0.07, null, 0.1786],
           "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
         },
         {
@@ -61,7 +61,7 @@
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{卖单中成交量大于均值+1.5倍标准差的订单界定为大卖单，大卖单占比为大卖单成交量占全部卖单成交量的比例}",
-          "stats": [null, 0.067, null, null],
+          "stats": [null, 0.067, null, 0.1741],
           "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
         },
         {
@@ -71,7 +71,7 @@
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{卖单中成交量大于均值+2.0倍标准差的订单界定为大卖单，大卖单占比为大卖单成交量占全部卖单成交量的比例}",
-          "stats": [null, 0.063, null, null],
+          "stats": [null, 0.063, null, 0.1678],
           "evidence": "本文分别采用3个不同的标准差阈值来对大小单进行界定，假设买卖订单中的成交量服从如图1所示的高斯分布，则买卖订单中大于均值+1.0倍标准差的大单约占15.8%，大于均值+1.5倍标准差的大单约占6.7%，大于均值+2.0倍标准差的大单约占2.3%，以此构建出了大买单占比因子BigBuy_1p0、BigBuy_1p5、BigBuy_2p0，以及大卖单占比因子BigSell_1p0、BigSell_1p5、BigSell_2p0。"
         },
         {
@@ -145,6 +145,106 @@
           "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
         },
         {
+          "name": "BigBuy_1p5_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内以均值+1.5倍标准差界定的大买单占比}",
+          "stats": [null, 0.026, null, 0.1189],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_1p5_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内以均值+1.5倍标准差界定的大买单占比}",
+          "stats": [null, 0.039, null, 0.1552],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_1p5_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内以均值+1.5倍标准差界定的大买单占比}",
+          "stats": [null, 0.03, null, 0.0784],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_1p5_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内以均值+1.5倍标准差界定的大买单占比}",
+          "stats": [null, 0.022, null, 0.059],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_2p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内以均值+2.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.021, null, 0.1001],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_2p0_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内以均值+2.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.034, null, 0.1336],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_2p0_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内以均值+2.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.027, null, 0.0696],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigBuy_2p0_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内以均值+2.0倍标准差界定的大买单占比}",
+          "stats": [null, 0.018, null, 0.0468],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_1p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内以均值+1.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.018, null, 0.0838],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_1p0_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内以均值+1.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.031, null, 0.1087],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
           "name": "BigSell_1p0_14301457",
           "family": "microstructure",
           "direction": "positive",
@@ -165,6 +265,86 @@
           "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
         },
         {
+          "name": "BigSell_1p5_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内以均值+1.5倍标准差界定的大卖单占比}",
+          "stats": [null, 0.014, null, 0.0718],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_1p5_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内以均值+1.5倍标准差界定的大卖单占比}",
+          "stats": [null, 0.026, null, 0.0914],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_1p5_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内以均值+1.5倍标准差界定的大卖单占比}",
+          "stats": [null, 0.028, null, 0.0864],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_1p5_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内以均值+1.5倍标准差界定的大卖单占比}",
+          "stats": [null, 0.02, null, 0.0635],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_2p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内以均值+2.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.01, null, 0.0626],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_2p0_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内以均值+2.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.022, null, 0.078],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_2p0_14301457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内以均值+2.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.024, null, 0.0741],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
+          "name": "BigSell_2p0_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内以均值+2.0倍标准差界定的大卖单占比}",
+          "stats": [null, 0.016, null, 0.0505],
+          "evidence": "例如，以均值+1.0倍标准差作为大单划分阈值，在开盘后15分钟即09:30-09:45时段的大单占比因子为BigBuy_1p0_09300945。以此类推，本小节基于3种不同的大小单界定阈值（大于均值+1.0/1.5/2.0倍标准差），在4个开盘和收盘时间段总共构建了24个从时间维度解耦的大买单占比和大卖单占比因子。"
+        },
+        {
           "name": "BigBuy_BigSell_1p0",
           "family": "microstructure",
           "direction": "positive",
@@ -172,6 +352,36 @@
           "horizon": "monthly",
           "formula": "\\text{买卖双向同为大单（成交量均大于均值+1.0倍标准差）的订单占比}",
           "stats": [null, 0.098, null, 0.3512],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p0",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单为大单、卖单为小单（成交量不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.002, null, 0.0489],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p0",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单为小单、卖单为大单（成交量大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.008, null, -0.0364],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p0",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买卖双向同为小单（成交量均不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.064, null, -0.1825],
           "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
         },
         {
@@ -185,6 +395,36 @@
           "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
         },
         {
+          "name": "BigBuy_SmallSell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单为大单、卖单为小单（成交量不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.015, null, 0.081],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p5",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单为小单、卖单为大单（成交量大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.006, null, -0.0037],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买卖双向同为小单（成交量均不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.063, null, -0.1802],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
           "name": "BigBuy_BigSell_2p0",
           "family": "microstructure",
           "direction": "positive",
@@ -195,13 +435,33 @@
           "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
         },
         {
-          "name": "SmallBuy_SmallSell_1p0",
+          "name": "BigBuy_SmallSell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单为大单、卖单为小单（成交量不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.02, null, 0.0906],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_2p0",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买单为小单、卖单为大单（成交量大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.014, null, 0.0202],
+          "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_2p0",
           "family": "microstructure",
           "direction": "negative",
           "data_period": ["second"],
           "horizon": "monthly",
-          "formula": "\\text{买卖双向同为小单（成交量均不大于均值+1.0倍标准差）的订单占比}",
-          "stats": [null, -0.064, null, -0.1825],
+          "formula": "\\text{买卖双向同为小单（成交量均不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.06, null, -0.1767],
           "evidence": "因此，大小单因子可以拆解为大买单大卖单、大买单小卖单、小买单大卖单、小买单小卖单四种订单属性不同的因子。文小节基于三种不同的大小单划分阈值构建出了12个从订单维度解耦的大小单占比因子。"
         },
         {
@@ -245,6 +505,146 @@
           "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
         },
         {
+          "name": "BigBuy_SmallSell_1p0_09300945",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买单为大单、卖单为小单（不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.003, null, 0.0489],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p0_09301000",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买单为大单、卖单为小单（不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, 0.005, null, 0.0513],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p0_14301457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买单为大单、卖单为小单（不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.005, null, -0.0052],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p0_14451457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买单为大单、卖单为小单（不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.007, null, -0.0039],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p0_09300945",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买单为小单、卖单为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.016, null, -0.0183],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p0_09301000",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买单为小单、卖单为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.015, null, -0.0286],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p0_14301457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买单为小单、卖单为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.005, null, 0.003],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p0_14451457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买单为小单、卖单为大单（大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.007, null, 0.0084],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p0_09300945",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买卖双向同为小单（均不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.025, null, -0.1195],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p0_09301000",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买卖双向同为小单（均不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.038, null, -0.1431],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p0_14301457",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为小单（均不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.038, null, -0.1163],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p0_14451457",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买卖双向同为小单（均不大于均值+1.0倍标准差）的订单占比}",
+          "stats": [null, -0.032, null, -0.1055],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p5_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买卖双向同为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.025, null, 0.1027],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p5_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买卖双向同为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.042, null, 0.1387],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
           "name": "BigBuy_BigSell_1p5_14301457",
           "family": "microstructure",
           "direction": "positive",
@@ -252,6 +652,156 @@
           "horizon": "monthly",
           "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为大单（大于均值+1.5倍标准差）的订单占比}",
           "stats": [null, 0.034, null, 0.0922],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_1p5_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买卖双向同为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.023, null, 0.0561],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p5_09300945",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买单为大单、卖单为小单（不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.005, null, 0.0566],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p5_09301000",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买单为大单、卖单为小单（不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.009, null, 0.0647],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p5_14301457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买单为大单、卖单为小单（不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, 0.001, null, 0.0087],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_1p5_14451457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买单为大单、卖单为小单（不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.003, null, 0.0058],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p5_09300945",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买单为小单、卖单为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.011, null, 0.0002],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p5_09301000",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买单为小单、卖单为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.008, null, -0.0046],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p5_14301457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买单为小单、卖单为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.001, null, 0.0161],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_1p5_14451457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买单为小单、卖单为大单（大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.004, null, 0.02],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p5_09300945",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买卖双向同为小单（均不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.021, null, -0.0997],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p5_09301000",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买卖双向同为小单（均不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.034, null, -0.1217],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p5_14301457",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为小单（均不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.035, null, -0.1007],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_1p5_14451457",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买卖双向同为小单（均不大于均值+1.5倍标准差）的订单占比}",
+          "stats": [null, -0.027, null, -0.0839],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_2p0_09300945",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买卖双向同为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.018, null, 0.0775],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_2p0_09301000",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买卖双向同为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.035, null, 0.115],
           "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
         },
         {
@@ -263,6 +813,146 @@
           "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为大单（大于均值+2.0倍标准差）的订单占比}",
           "stats": [null, 0.028, null, 0.0665],
           "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_BigSell_2p0_14451457",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买卖双向同为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.016, null, 0.0345],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_2p0_09300945",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买单为大单、卖单为小单（不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.004, null, 0.0602],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_2p0_09301000",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买单为大单、卖单为小单（不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.009, null, 0.0657],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_2p0_14301457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买单为大单、卖单为小单（不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.003, null, 0.0173],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "BigBuy_SmallSell_2p0_14451457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买单为大单、卖单为小单（不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.002, null, 0.0083],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_2p0_09300945",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买单为小单、卖单为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.01, null, 0.0079],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_2p0_09301000",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买单为小单、卖单为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.004, null, 0.0092],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_2p0_14301457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买单为小单、卖单为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, 0.001, null, 0.0211],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_BigSell_2p0_14451457",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买单为小单、卖单为大单（大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.004, null, 0.0152],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_2p0_09300945",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-09:45时段内买卖双向同为小单（均不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.016, null, -0.0874],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_2p0_09301000",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘后09:30-10:00时段内买卖双向同为小单（均不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.029, null, -0.106],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_2p0_14301457",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:30-14:57时段内买卖双向同为小单（均不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.031, null, -0.0901],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "SmallBuy_SmallSell_2p0_14451457",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前14:45-14:57时段内买卖双向同为小单（均不大于均值+2.0倍标准差）的订单占比}",
+          "stats": [null, -0.023, null, -0.0734],
+          "evidence": "本小节进一步尝试同时结合时间维度和订单维度来解耦大小单因子，基于三种不同的大小单划分阈值构建出了48个多维度解耦的大小单占比因子。"
+        },
+        {
+          "name": "精选大小单因子组合",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{从上述93个大小单因子中挑选出表现优异者合成的因子组合}",
+          "stats": [null, null, null, 0.3415],
+          "evidence": "最后，本文从上述93个大小单因子中挑选出表现优异者，并构建出了精选大小单因子组合。"
         }
       ]
     },
