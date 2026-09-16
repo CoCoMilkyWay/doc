@@ -304,7 +304,7 @@ struct Tag {
     string evidence;                 // 原文摘录  | S2 G1
   };
   vector<Finding> findings;          // | S1 S4 X4
-  vector<string>  builds_on;         // 本库内被引研报的 stem  | S2 S3 K7 X1
+  vector<string>  builds_on;         // 被引前作的 stem  | S2 S3 K7 X1
   vector<string>  external_ref;      // 库外引用短文本  | S2 S3
   Value           value;             // 价值判断: high medium low  | V1
   struct {                           // 生成元数据
@@ -391,7 +391,7 @@ G 接地 (norm(s) := 去 ASCII 空白/U+3000/U+00A0 与 * | #, 全角 FF01..FF5E
             ⇒ text 用 evidence 里的原词原句压缩改写, 不要换一套说法, 也不要写 evidence 里没有的泛论
 
 X 跨文件 (仅单文件规则全过者参与)
-  X1 引用    builds_on 每项 ∈ raw 全部 stem; 被引日期 <= 本文日期 (任一为 00000000 跳过); 已标注文件间 builds_on 无环
+  X1 引用    已标注文件间 builds_on 无环 (对不上库内 stem 的项跳过)
   X2 分布    primary 在全库 / 每个 module 数 >= 3 的阶段各自的 module 在有该阶段的篇子 / 每个 approach 数 >= 3 的模块各自的 approach 在有该模块的篇子,
             分母 >= TAG_DIST_MIN_N 时查, 任一单值占比 > TAG_DIST_MAX_SHARE ⇒ 库级违规. genre 与只有 2 个 module 的阶段不查 (研报库本就偏 research/L1, 二分必有一侧过半, 查了只报结构)
   X3 死词表  缺失=0 时: Module / Approach 中从未使用的值 ⇒ [提示], 不违规

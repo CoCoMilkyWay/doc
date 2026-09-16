@@ -11,7 +11,8 @@
 //                回复里的 json 落 TAG_STAGING_DIR, 用 `docpipe ROOT tag --one <json>` 校验, 违规回喂重问; 通过 rename 进
 //                TAG_REPORT_DIR, 用完轮数进 TAG_QUARANTINE_DIR. 无 TAG_AGENT_KEY_FILE 则跳过本阶段
 //   阶段二 校验   下面的规则全量跑一遍, 按券商统计
-//   --one <json>  只跑单文件规则 (F2-F4 S V K G), 违规一行一条到 stdout, 退出码 0/1; 文件须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下
+//   --one <json>  只跑单文件规则 (F2-F4 S V K G), 违规一行一条到 stdout, 退出码 0/1; 文件须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下.
+//                agent loop 把这当落库前的关口 (通过才 rename 进 TAG_REPORT_DIR); X 规则要全库视野, 只在阶段二跑
 // 字段与词表见 schema.hpp, 设计与规则原文见 tag.md, 阈值见 config.hpp. 规则按 "越早失败越便宜" 分层,
 // 单文件任一条失败即记违规 (文件内继续收集其余违规, 一次打全):
 //
@@ -48,7 +49,8 @@
 //   G3  因子名      Factor.name 归一化后出现在 report.md 中
 //   G4  结论贴合    Finding.text 与其 evidence 的字符 bigram 重合率 >= TAG_FINDING_OVERLAP_MIN
 // X 跨文件 (全部单文件通过后)
-//   X1  引用        builds_on 每项必须是 raw 中存在的 stem, 且其日期 <= 本文日期; 已标注文件间 builds_on 无环
+//   X1  引用        已标注文件间 builds_on 无环 (对不上库内 stem 的项跳过). 不查引用是否存在、不比日期: 文件名的
+//                  {日期}-{序号} 是为排序人为规整过的, 与正文自称的对不上, 拿它卡模型抄来的前作只会误报
 //   X2  分布        分母 >= TAG_DIST_MIN_N 时: primary 取值 / module 数 >= 3 的阶段内各 module 出现率 / approach 数 >= 3 的
 //                  模块内各 approach 出现率, 任一 > TAG_DIST_MAX_SHARE => 库级违规 (LLM 在"默认填"). genre 与二分阶段不查
 //   X3  死词表      全部标注完成时 (缺失=0), Module/Approach 中从未被使用的值 => [提示], 不违规
@@ -110,7 +112,7 @@ std::string norm_text(const std::string &s);
 // env.cpp: 阶段一的环境检查 T1 内置便携 python / T2 zai-sdk; 缺则打印安装指令后断言。
 // 顺带把 PYTHONNOUSERSITE / PYTHONPATH 设成 TAG_AGENT_SCRIPT 子进程要用的值
 void check_tag_env(const std::string &root);
-// cross.cpp: X1-X4. 库级违规写入 lib_viol, 提示写入 lib_note
+// cross.cpp: X1 无环 + X2-X4. 库级违规写入 lib_viol, 提示写入 lib_note
 void check_cross(std::vector<TagRec> &recs, std::vector<std::string> &lib_viol, std::vector<std::string> &lib_note);
 // report.cpp: 按券商统计打印. extra 为 [多余] 项 (folder, name). 返回 违规数+多余数+库级违规数
 size_t print_tag_report(const std::vector<TagRec> &recs, const std::vector<std::pair<std::string, std::string>> &extra,

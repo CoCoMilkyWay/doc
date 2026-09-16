@@ -16,17 +16,9 @@ void check_cross(std::vector<TagRec> &recs, std::vector<std::string> &lib_viol, 
     if (recs[i].tagged && recs[i].viol.empty())
       ok.push_back(i);
 
-  // X1 引用存在 + 日期不倒置
-  for (size_t i : ok)
-    for (const std::string &ref : recs[i].tag.builds_on) {
-      auto it = by_stem.find(ref);
-      if (it == by_stem.end())
-        recs[i].viol.push_back("违规:X1 builds_on 不存在 " + ref);
-      else if (recs[it->second].date != "00000000" && recs[i].date != "00000000" &&
-               recs[it->second].date > recs[i].date)
-        recs[i].viol.push_back("违规:X1 builds_on 晚于本文 " + ref);
-    }
-  // X1 无环 (DFS 三色)
+  // X1 无环 (DFS 三色). 不查引用是否存在于 raw, 也不比日期: 库里的 {日期}-{序号} 是为了排序人为规整过的,
+  // 与研报正文自称的日期/期号对不上 (很多系列的原始编号本就是乱的), 拿文件名去卡模型从正文里抄来的前作只会误报.
+  // 于是 builds_on 里对不上库内 stem 的项一律跳过, 只在能对上的那些之间查环
   {
     std::vector<int> color(recs.size(), 0);
     std::function<bool(size_t)> dfs = [&](size_t u) -> bool {

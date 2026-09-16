@@ -60,7 +60,7 @@ doc/
 │   │       ├── tag.cpp        # 🏷️ 编排: 收集 raw 全部 PDF 为期望集合 → 遍历标签树 (对不上的记 [多余]) → 并行逐篇 parse→K→G → 跨文件 X → 报告
 │   │       ├── parse.cpp      # 🏷️ F2 F3 S1-S4 V1: json 解析 / canonical 字节比对 / 键集合恰好相等 / 类型·规范数字 / 列表序 / 长度 / 词表
 │   │       ├── rules.cpp      # 🏷️ V2 V3 K1-K8 字段间一致性; G1-G4 接地: evidence 归一化后必须是 report.md 逐字子串, 数字须在 evidence 里
-│   │       ├── cross.cpp      # 🏷️ X1-X4: builds_on 存在·不倒置·无环 / 枚举取值分布 (防 LLM 默认填) / 死词表提示 / findings 串写
+│   │       ├── cross.cpp      # 🏷️ X1-X4: builds_on 无环 (不查存在·不比日期: 库内 {日期}-{序号} 是为排序规整过的) / 枚举取值分布 (防 LLM 默认填) / 死词表提示 / findings 串写
 │   │       └── report.cpp     # 🏷️ 按券商目录统计 (总数/已标注/缺失/违规/多余), 违规项树状列出
 │   ├── agent/                 # 🏷️ stage3 阶段一: tag_loop.py (智谱 GLM 官方 zai-sdk 补标签: system 静态前缀吃缓存, JSON 模式, 流式收思考,
 │   │                          #    违规回喂同一段对话, 每篇打 token 与费用) + agent loop.md 设计 + glm_api_key.txt (gitignore)

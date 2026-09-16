@@ -1,0 +1,198 @@
+{
+  "schema_version": 2,
+  "id": "20210129-中信建投-因子深度研究-011-高频订单失衡及价差因子",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L1_factor",
+  "pipe": {
+    "L0_data": {
+      "module": ["L0_derivation"],
+      "approach": ["reconstruction"],
+      "setup": {"data": {"source": ["market_l1_l2"], "freq": "minute"}}
+    },
+    "L1_factor": {
+      "module": ["L1_market"],
+      "approach": ["distribution_moment", "order_flow"],
+      "setup": {
+        "universe": ["all", "csi300", "csi500"],
+        "data": {"source": ["market_l1_l2"], "freq": "minute"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "SOIR1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SOIR_{i,t}=\\frac{V_{i,t}^{B}-V_{i,t}^{A}}{V_{i,t}^{B}+V_{i,t}^{A}}",
+          "stats": [-0.0268, null, -0.94, 0.0863],
+          "evidence": "首先是 SOIR1 因子的效果，因子 IC 均值-2.68%，年化 IR-0.94，年化多空收益 8.63%，夏普比率 0.88，总体选股效果较为一般。"
+        },
+        {
+          "name": "SOIR2",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SOIR_{i,t}=\\frac{V_{i,t}^{B}-V_{i,t}^{A}}{V_{i,t}^{B}+V_{i,t}^{A}}",
+          "stats": [-0.0418, null, -1.27, 0.1789],
+          "evidence": "接着我们看下 SOIR2 因子的选股效果，因子 IC 均值-4.18%，年化 IR-1.27，年化多空收益 17.89%，夏普比率1.52，总体选股效果相比 SOIR1 显著提升，选股效果非常显著。"
+        },
+        {
+          "name": "SOIR3",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SOIR_{i,t}=\\frac{V_{i,t}^{B}-V_{i,t}^{A}}{V_{i,t}^{B}+V_{i,t}^{A}}",
+          "stats": [-0.0486, null, -1.63, 0.2046],
+          "evidence": "然后是 SOIR3 因子，因子 IC 均值-4.86%，年化 IR-1.63，年化多空收益 20.46%，夏普比率 1.94，选股效果相比 SOIR1 和 SOIR2 因子进一步提升。"
+        },
+        {
+          "name": "SOIR4",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SOIR_{i,t}=\\frac{V_{i,t}^{B}-V_{i,t}^{A}}{V_{i,t}^{B}+V_{i,t}^{A}}",
+          "stats": [-0.0513, null, -1.95, 0.2181],
+          "evidence": "对于 SOIR4 因子，因子 IC 均值-5.13%，年化 IR-1.95，年化多空收益 21.81%，夏普比率 2.28，选股效果优于SOIR1 到 SOIR3。"
+        },
+        {
+          "name": "SOIR5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SOIR_{i,t}=\\frac{V_{i,t}^{B}-V_{i,t}^{A}}{V_{i,t}^{B}+V_{i,t}^{A}}",
+          "stats": [-0.0537, null, -2.29, 0.2132],
+          "evidence": "最后是 SOIR5 因子，因子 IC 均值-5.37%，年化 IR-2.29，年化多空收益 21.32%，夏普比率 2.41，选股效果和SOIR4 比较接近，优于 SOIR1 到 SOIR3。"
+        },
+        {
+          "name": "SOIR",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "SOIR_{t}=\\frac{\\sum_{i=1}^{5}w_{i}SOIR_{i,t}}{\\sum_{i=1}^{5}w_{i}},\\quad w=1-(i-1)/5",
+          "stats": [-0.0457, null, -1.53, 0.1811],
+          "evidence": "最后，为了充分利用盘口各档数据信息，我们采用衰减加权的方法对 SOIR 加权得到 SOIR 因子，根据对买卖压力的影响力的不同将不同档位赋予相应权重，赋予靠近交易价格档位更高的权重。"
+        },
+        {
+          "name": "MPC1",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MPC_{t,k}=\\frac{M_{t}-M_{t-k}}{M_{t-k}},\\quad M_{t}=\\frac{P_{t}^{B}+P_{t}^{A}}{2}",
+          "stats": [-0.0536, null, -1.54, 0.1952],
+          "evidence": "对于中间价变化率因子 MPC，首先是 MPC1 因子的选股效果，因子 IC 均值-5.36%，年化 IR-1.54，年化多空收益 19.52%，夏普比率 1.42，选股效果显著。"
+        },
+        {
+          "name": "MPC5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MPC_{t,k}=\\frac{M_{t}-M_{t-k}}{M_{t-k}},\\quad M_{t}=\\frac{P_{t}^{B}+P_{t}^{A}}{2}",
+          "stats": [-0.0583, null, -1.7, 0.2236],
+          "evidence": "对于 MPC5 因子，因子 IC 均值-5.83%，年化 IR-1.70，年化多空收益 22.36%，夏普比率 1.61，选股效果显著。"
+        },
+        {
+          "name": "MPC1_neut",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{对 MPC1 因子进行流通市值和行业中性化处理}",
+          "stats": [-0.0681, null, -2.87, 0.2699],
+          "evidence": "接着我们对 MPC1 因子进行流通市值和行业中性化处理得到 MPC1_neut，因子 IC 均值-6.81%，年化 IR-2.87，年化多空收益 26.99%，夏普比率 2.66，选股效果相比 MPC1 有了非常显著的提升。"
+        },
+        {
+          "name": "MPC5_neut",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{对 MPC5 因子进行流通市值和行业中性化处理}",
+          "stats": [-0.0726, null, -3.09, 0.3063],
+          "evidence": "我们对 MPC5 因子进行流通市值和行业中性化处理得到 MPC5_neut，因子 IC 均值-7.26%，年化 IR-3.09，年化多空收益30.63%，夏普比率2.88，同样选股效果相比MPC5有非常显著的提升。"
+        },
+        {
+          "name": "MPC1_max",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MPCmax_{d,k}=\\max\\{MPC_{d,t,k},t=k+1,\\dots,N_{d}\\}",
+          "stats": [-0.081, null, -2.97, 0.2002],
+          "evidence": "MPC1_max 因子，因子 IC 均值-8.10%，年化 IR-2.97，年化多空收益 20.02%，夏普比率 1.68。"
+        },
+        {
+          "name": "MPC5_max",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MPCmax_{d,k}=\\max\\{MPC_{d,t,k},t=k+1,\\dots,N_{d}\\}",
+          "stats": [-0.0939, null, -3.28, 0.2401],
+          "evidence": "MPC5_max 因子，因子 IC 均值-9.39%，年化 IR-3.28，年化多空收益 24.01%，夏普比率 1.94。"
+        },
+        {
+          "name": "MPC1_skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MPCskew_{d,k}=\\frac{1}{N_d-k-1}\\sum_{t=k+1}^{N_d}\\left(\\frac{MPC_{d,t,k}-\\overline{MPC_{d,t,k}}}{\\sigma_{d,t,k}}\\right)^3",
+          "stats": [-0.0545, null, -4.08, 0.1532],
+          "evidence": "MPC1_skew 因子，因子 IC 均值-5.45%，年化 IR-4.08，年化多空收益 15.32%，夏普比率 2.89。"
+        },
+        {
+          "name": "MPC5_skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "MPCskew_{d,k}=\\frac{1}{N_d-k-1}\\sum_{t=k+1}^{N_d}\\left(\\frac{MPC_{d,t,k}-\\overline{MPC_{d,t,k}}}{\\sigma_{d,t,k}}\\right)^3",
+          "stats": [-0.0666, null, -4.18, 0.2067],
+          "evidence": "MPC5_skew 因子，因子 IC 均值-6.66%，年化 IR-4.18，年化多空收益 20.67%，夏普比率 3.07。"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "text": "MPC5_neut 因子 IC 均值-7.26%，年化 IR 为-3.09，年化多空收益达到 30.63%，夏普比率高达 2.88，总体选股效果是所有因子里最好的。",
+      "evidence": "其中 MPC5_neut 因子 IC 均值-7.26%，年化 IR 为-3.09，年化多空收益达到 30.63%，夏普比率高达 2.88，总体选股效果是所有因子里最好的。"
+    },
+    {
+      "text": "将高频量价因子降频后，SOIR类因子与 MPC 类因子均与收益率负相关，原因包括散户的追高杀跌行为与主力的对倒式短时操纵。",
+      "evidence": "然而将高频量价因子降频后，SOIR类因子与 MPC 类因子均与收益率负相关。我们从以下两点原因来解释。从散户来看，在短期内散户容易存在追高杀跌行为。"
+    },
+    {
+      "text": "高频 SOIR 的 IC 值均显著为正，且随着档数的升高绝对值降低，这也是做因子加权时给 SOIR1 最高权重的原因。",
+      "evidence": "由下表可以看出，高频 SOIR 的 IC 值均显著为正，且随着档数的升高 绝对值降低，这一结果符合我们的预期以及学术研究的结论，这也是为什么我们在做因子加权时给 SOIR1 最高的权重，SOIR 最低的权重。"
+    },
+    {
+      "text": "SOIR 和 MPC 类因子和自由流通市值（LnFloatCap）的相关性较低，可以不做市值中性处理；除 MPC1_skew 外 MPC 类因子多空年化收益都在 20%以上，MPC5_neut 年化多空收益超过 30%。",
+      "evidence": "除了 MPC1_skew 之外，其他 MPC 类因子的多空年化收益都在 20%以上，表现最好的是 MPC5_neut 因子，年化多空收益超过 30%(30.63%)，多空收益之高在所有常用因子中也是罕见的。"
+    },
+    {
+      "text": "几乎所有因子在中证 500 样本内的年化多空收益都在 10%以上，部分因子在 15%以上，表现最好的仍然是 MPC5 和 MPC5_neut 因子，年化多空收益接近 18%。",
+      "evidence": "我们看到几乎所有因子在中证 500 样本内的年化多空收益都在 10%以上，部分因子在 15%以上，表现最好的仍然是 MPC5 和 MPC5_neut 因子，年化多空收益接近 18%，因此 SOIR 和 MPC 类因子在中证 500 样本内的选股效果仍然非常优秀。"
+    },
+    {
+      "text": "大部分因子在沪深 300 样本内的年化多空收益都接近 10%或在 10%以上，表现最好的是 MPC5_skew 因子，年化多空收益达 12.35%。",
+      "evidence": "我们看到大部分因子在沪深300样本内的年化多空收益都接近10%或在10%以上，表现最好的是MPC5_skew因子，年化多空收益达 12.35%，因此 SOIR 和 MPC 类因子在沪深 300 样本内的选股效果也是非常不错的。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": ["《因子深度研究系列：高频量价选股因子初探》（2020-7-9）"],
+  "value": "high",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "e1c4f3f14b871637735bc86c8a4f037073a5fc74815cae4b6783b8bc86f3a83d"
+  }
+}

@@ -39,7 +39,7 @@
   ],
   "builds_on": [
     "20200828-华泰证券-人工智能-035-wgan应用于金融时间序列生成",
-    "20201124-华泰证券-人工智能-038-wgan生成-从单资产到多资产"
+    "20201123-华泰证券-人工智能-038-wgan生成_从单资产到多资产"
   ],
   "external_ref": [
     "Arjovsky, M., & Bottou, L. (2017). Towards principled methods for training generative adversarial networks. arXiv preprint arXiv:1701.04862.",

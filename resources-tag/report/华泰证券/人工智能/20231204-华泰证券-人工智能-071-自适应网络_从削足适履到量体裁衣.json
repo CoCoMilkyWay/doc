@@ -52,8 +52,8 @@
     }
   ],
   "builds_on": [
-    "20221028-华泰证券-人工智能-063-再探文本FADT选股",
-    "20230511-华泰证券-人工智能-068-神经网络多频率因子挖掘"
+    "20221028-华泰证券-人工智能-063-再探文本fadt选股",
+    "20230511-华泰证券-人工智能-068-神经网络多频率因子挖掘模型"
   ],
   "external_ref": [
     "Han, Y., Huang, G., Song, S., Yang, L., Wang, H., & Wang, Y. (2021). Dynamic neural networks: A survey. IEEE Transactions on Pattern Analysis and Machine Intelligence, 44(11), 7436-7456.",

@@ -93,8 +93,9 @@ void check_rec(const Ctx &ctx, TagRec &r) {
     check_grounding(r.tag, read_file(md), r.viol);
 }
 
-// --one <json>: 只校验这一个文件 (给 agent loop 回喂用). 文件须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下,
-// 相对其的路径 = {folder}/{stem}.json. 违规一行一条到 stdout, 退出码 = 有无违规. 不跑 X 规则
+// --one <json>: 只校验这一个文件 (给 agent loop 回喂用, 也是落库前的最后关口). 文件须在 TAG_REPORT_DIR 或 TAG_STAGING_DIR 下,
+// 相对其的路径 = {folder}/{stem}.json. 违规一行一条到 stdout, 退出码 = 有无违规.
+// X 规则里只有无环检测 (需要全量已标注图谱) 跑不了, 其余 (X1 存在性/日期) 与批量校验用同一份 check_rec, 不会漏
 int run_one(const Ctx &ctx, const std::string &path) {
   std::string rel;
   for (const char *base : {TAG_REPORT_DIR, TAG_STAGING_DIR}) {

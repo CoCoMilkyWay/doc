@@ -81,7 +81,7 @@
   "builds_on": [
     "20230606-东方证券-因子选股-091-基于循环神经网络的多频率因子挖掘",
     "20230824-东方证券-因子选股-096-基于残差网络的端到端因子挖掘模型",
-    "20231224-东方证券-因子选股-098-基于抗噪的AI量价模型改进方案"
+    "20231224-东方证券-因子选股-098-基于抗噪的ai量价模型改进方案"
   ],
   "external_ref": [
     "Bai L, Yao L, Li C, et al. Adaptive graph convolutional recurrent network for traffic forecasting[J]. Advances in neural information processing systems, 2020, 33: 17804- 17815.",
