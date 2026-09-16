@@ -482,7 +482,11 @@ void MitmProxy::Impl::run_mitm(int client_fd, const std::string &host,
   SSL_set1_host(server_ssl, host.c_str());
 
   if (SSL_connect(server_ssl) <= 0) {
-    warn("与上游 " + host + " 的 TLS 握手失败: " + proxy_openssl_error());
+    // stop() 会先置 running=false 再 shutdown 上游 fd（见 stop() 注释），所以停代理
+    // 期间这里的握手必然 EOF——那是我们自己切的，不是上游真挂了，别喊。
+    if (running.load()) {
+      warn("与上游 " + host + " 的 TLS 握手失败: " + proxy_openssl_error());
+    }
   } else {
     SslStream downstream(client_ssl);
     SslStream upstream(server_ssl);

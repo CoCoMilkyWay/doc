@@ -31,7 +31,7 @@ constexpr int kRiskControlRetryMaxMs = 3000;
 // 一页历史消息。翻页逻辑之外没人关心这些字段，所以不出这个文件。
 struct Page {
   std::vector<Entry> entries;
-  bool can_continue = false;
+  int msg_count = 0; // 本页消息条数（含非图文），=0 即真到底
   int next_offset = 0;
 };
 
@@ -165,7 +165,10 @@ Page fetch_page(const Account &account, int offset) {
                             "（key / pass_ticket 多半已过期，需要重新抓包）");
 
   Page page;
-  page.can_continue = root.value("can_msg_continue", 0) != 0;
+  // can_msg_continue 不可靠：部分号整趟都回 0 却还有下一页（实测
+  // SystematicMacro 每页 can_msg_continue=0，但 next_offset 一直前进、每页都吐
+  // 新文章）。真正的到底信号是「本页没消息」+「next_offset 不再前进」，见下。
+  page.msg_count = root.value("msg_count", 0);
   page.next_offset = root.value("next_offset", 0);
 
   const std::string list_text = root.value("general_msg_list", std::string());
@@ -260,12 +263,20 @@ fetch_new_entries(const Account &account, int64_t since,
            " 篇全是重复文章，判定已到历史末尾，停止翻页。");
       break;
     }
-    if (!page.can_continue) {
+    // 到底信号：本页一条消息都没吐（msg_count=0）。can_msg_continue 不可靠
+    // （见 fetch_page 注释），不能拿它当停止条件——否则像 SystematicMacro 这种
+    // 整趟 can_msg_continue=0 的号，第一页就停，只能拿到 10 篇。
+    if (page.msg_count == 0) {
       break;
     }
-    WXMD_ASSERT(page.next_offset > cursor,
-                "next_offset 没有前进（" + std::to_string(cursor) + " → " +
-                    std::to_string(page.next_offset) + "），翻页会死循环");
+    // next_offset 不再前进也是到底：实测真到底时 next_offset 原地不动
+    // （offset 500 → next_offset 500）。这不再是 assert：非前进是合法的末页
+    // 信号，不是死循环 bug；真死循环由上面的「全重复」分支兜住。
+    if (page.next_offset <= cursor) {
+      warn("next_offset 不再前进（" + std::to_string(cursor) + " → " +
+           std::to_string(page.next_offset) + "），判定已到历史末尾。");
+      break;
+    }
     cursor = page.next_offset;
     std::this_thread::sleep_for(
         std::chrono::milliseconds(config::kPageIntervalMs));
