@@ -1,0 +1,402 @@
+{
+  "schema_version": 2,
+  "id": "20110921-华泰证券-数量化选股策略-012-多因子选股策略",
+  "genre": "research",
+  "asset": ["stock_cn"],
+  "primary": "L3_alpha",
+  "pipe": {
+    "L1_factor": {
+      "module": ["L1_fundamental", "L1_expectation", "L1_market", "L1_alternative"],
+      "approach": [
+        "style_ratio",
+        "expectation_level",
+        "expectation_revision",
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "participant_behavior"
+      ],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      },
+      "factors": [
+        {
+          "name": "总市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总股本}\\times\\text{股票收盘价}",
+          "stats": [null, null, null, null],
+          "evidence": "规模因子（总市值、流通市值、自由流通市值）是影响股票收益的重要因子，其中总市值因子最为显著。"
+        },
+        {
+          "name": "流通市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通股本}\\times\\text{股票收盘价}",
+          "stats": [null, null, null, null],
+          "evidence": "规模因子（总市值、流通市值、自由流通市值）是影响股票收益的重要因子，其中总市值因子最为显著。"
+        },
+        {
+          "name": "自由流通市值",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{自由流通股本}\\times\\text{股票收盘价}",
+          "stats": [null, null, null, null],
+          "evidence": "规模因子（总市值、流通市值、自由流通市值）是影响股票收益的重要因子，其中总市值因子最为显著。"
+        },
+        {
+          "name": "市盈率（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股票收盘价}}{\\text{最近12个月每股收益}}",
+          "stats": [null, null, null, null],
+          "evidence": "估值因子（市盈率、市净率、市销率、市现率、企业价值倍数）是影响股票收益的重要因子，其中市盈率（PE,TTM）因子最为显著，其次是市现率（PCF,TTM）。"
+        },
+        {
+          "name": "市净率（上年年报）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股票收盘价}}{\\text{来自于上年年报的每股净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "估值因子（市盈率、市净率、市销率、市现率、企业价值倍数）是影响股票收益的重要因子，其中市盈率（PE,TTM）因子最为显著，其次是市现率（PCF,TTM）。"
+        },
+        {
+          "name": "市销率（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股票收盘价}}{\\text{最近12个月每股销售额}}",
+          "stats": [null, null, null, null],
+          "evidence": "估值因子（市盈率、市净率、市销率、市现率、企业价值倍数）是影响股票收益的重要因子，其中市盈率（PE,TTM）因子最为显著，其次是市现率（PCF,TTM）。"
+        },
+        {
+          "name": "市现率（TTM）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{股票收盘价}}{\\text{最近12个月的每股经营性现金流}}",
+          "stats": [null, null, null, null],
+          "evidence": "估值因子（市盈率、市净率、市销率、市现率、企业价值倍数）是影响股票收益的重要因子，其中市盈率（PE,TTM）因子最为显著，其次是市现率（PCF,TTM）。"
+        },
+        {
+          "name": "企业价值倍数（EV2/EBTIDA）",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{企业价值（剔除货币资金）}}{\\text{企业收益（扣除利息、税金、折旧和摊销前的收益，来源于最新年报）}}",
+          "stats": [null, null, null, null],
+          "evidence": "估值因子（市盈率、市净率、市销率、市现率、企业价值倍数）是影响股票收益的重要因子，其中市盈率（PE,TTM）因子最为显著，其次是市现率（PCF,TTM）。"
+        },
+        {
+          "name": "营业收入同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业收入}}{\\text{去年同期营业收入}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子（营业收入同比增长率、营业利润同比增长率、归属母公司的净利润同比增长率（扣除非经常性损益）、经营活动产生的现金流量净额同比增长率）是影响股票收益的重要因子。"
+        },
+        {
+          "name": "营业利润同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{营业利润}}{\\text{去年同期营业利润}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子（营业收入同比增长率、营业利润同比增长率、归属母公司的净利润同比增长率（扣除非经常性损益）、经营活动产生的现金流量净额同比增长率）是影响股票收益的重要因子。"
+        },
+        {
+          "name": "归属母公司的净利润同比增长率（扣除非经常性损益）",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{归属母公司的净利润}}{\\text{去年同期归属母公司的净利润}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子（营业收入同比增长率、营业利润同比增长率、归属母公司的净利润同比增长率（扣除非经常性损益）、经营活动产生的现金流量净额同比增长率）是影响股票收益的重要因子。"
+        },
+        {
+          "name": "经营活动产生的现金流净额同比增长率",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{经营活动产生的现金流净额}}{\\text{去年同期经营活动产生的现金流净额}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "成长因子（营业收入同比增长率、营业利润同比增长率、归属母公司的净利润同比增长率（扣除非经常性损益）、经营活动产生的现金流量净额同比增长率）是影响股票收益的重要因子。"
+        },
+        {
+          "name": "净资产收益率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{扣除非经常性损益后的净利润}}{\\text{期末净资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利因子（净资产收益率、总资产报酬率、销售毛利率）对股票收益的影响不是特别显著，其中净资产收益率指标较为显著。"
+        },
+        {
+          "name": "总资产报酬率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{息税前利润}\\times2}{\\text{期初总资产}+\\text{期末总资产}}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利因子（净资产收益率、总资产报酬率、销售毛利率）对股票收益的影响不是特别显著，其中净资产收益率指标较为显著。"
+        },
+        {
+          "name": "销售毛利率",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{毛利}}{\\text{营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "盈利因子（净资产收益率、总资产报酬率、销售毛利率）对股票收益的影响不是特别显著，其中净资产收益率指标较为显著。"
+        },
+        {
+          "name": "销售净利率",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{净利润}}{\\text{营业收入}}",
+          "stats": [null, null, null, null],
+          "evidence": "但销售净利率较高股票构造的组合表现反而较差，落后于沪深 300 指数，也落后于销售净利率较低股票构造的组合。"
+        },
+        {
+          "name": "前1个月涨跌幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_{t-1M}-P_{t-2M}}{P_{t-2M}}",
+          "stats": [null, null, null, null],
+          "evidence": "动量反转因子（前 1 个月涨跌幅、前两个月涨跌幅、前 3 个月涨跌幅、前 6 个月涨跌幅）是影响股票收益的重要因子，其中前 1个月涨跌幅的反转效应较为显著。"
+        },
+        {
+          "name": "前2个月涨跌幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_{t-2M}-P_{t-4M}}{P_{t-4M}}",
+          "stats": [null, null, null, null],
+          "evidence": "动量反转因子（前 1 个月涨跌幅、前两个月涨跌幅、前 3 个月涨跌幅、前 6 个月涨跌幅）是影响股票收益的重要因子，其中前 1个月涨跌幅的反转效应较为显著。"
+        },
+        {
+          "name": "前3个月涨跌幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_{t-3M}-P_{t-6M}}{P_{t-6M}}",
+          "stats": [null, null, null, null],
+          "evidence": "动量反转因子（前 1 个月涨跌幅、前两个月涨跌幅、前 3 个月涨跌幅、前 6 个月涨跌幅）是影响股票收益的重要因子，其中前 1个月涨跌幅的反转效应较为显著。"
+        },
+        {
+          "name": "前6个月涨跌幅",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{P_{t-6M}-P_{t-12M}}{P_{t-12M}}",
+          "stats": [null, null, null, null],
+          "evidence": "动量反转因子（前 1 个月涨跌幅、前两个月涨跌幅、前 3 个月涨跌幅、前 6 个月涨跌幅）是影响股票收益的重要因子，其中前 1个月涨跌幅的反转效应较为显著。"
+        },
+        {
+          "name": "前1个月日均换手率",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{前1个月日均换手率}",
+          "stats": [null, null, null, null],
+          "evidence": "通过对 2005 年以来市场的分析，整体上来说，，从前 1 个月日均换手率看，前期交投较为清淡的股票组合表现较好，而前期交投活跃的股票组合表现较差。"
+        },
+        {
+          "name": "前1个月波动率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{日收益率的标准差的年化值}",
+          "stats": [null, null, null, null],
+          "evidence": "波动因子（前 1 个月波动率、前 1 个月振幅）是影响股票收益的重要因子，其中前 1 个月波动率最为显著。"
+        },
+        {
+          "name": "前1个月振幅",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{月最高价}-\\text{月最低价}}{\\text{前一个月收盘价}}",
+          "stats": [null, null, null, null],
+          "evidence": "波动因子（前 1 个月波动率、前 1 个月振幅）是影响股票收益的重要因子，其中前 1 个月波动率最为显著。"
+        },
+        {
+          "name": "户均持股比例",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{流通股合计}/\\text{股东户数}}{\\text{流通股合计}}",
+          "stats": [null, null, null, null],
+          "evidence": "通过对2005 年以来市场的分析，股东因子（户均持股比例、户均持股比例变化、机构持股比例变化）是影响股票收益的重要因子，其中户均持股比例变化、机构持股比例变化是较为显著的正向因子。"
+        },
+        {
+          "name": "户均持股比例变化",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{户均持股比例}-\\text{前1季度户均持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "通过对2005 年以来市场的分析，股东因子（户均持股比例、户均持股比例变化、机构持股比例变化）是影响股票收益的重要因子，其中户均持股比例变化、机构持股比例变化是较为显著的正向因子。"
+        },
+        {
+          "name": "机构持股比例变化",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{机构持股比例（基金、券商、券商理财、信托）}-\\text{前1季度机构持股比例}",
+          "stats": [null, null, null, null],
+          "evidence": "通过对2005 年以来市场的分析，股东因子（户均持股比例、户均持股比例变化、机构持股比例变化）是影响股票收益的重要因子，其中户均持股比例变化、机构持股比例变化是较为显著的正向因子。"
+        },
+        {
+          "name": "预测当年净利润增长率（平均值）",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{预测当年净利润}-\\text{前1年净利润}}{\\left|\\text{前1年净利润}\\right|}",
+          "stats": [null, null, null, null],
+          "evidence": "分析师预测因子（预测当年净利润增长率、预测当年主营业务收入增长率、最近 1 个月预测净利润上调幅度、最近 1 个月预测主营营业收入上调幅度、最近 1 个月盈利预测调高占比、最近 1 个月上调评级占比）是影响股票收益的重要因子，其中最近 1 个月净利润上调幅度是最为显著的正向因子。"
+        },
+        {
+          "name": "预测当年主营业务收入增长率（平均值）",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{预测当年主营收入}-\\text{前1年主营收入}}{\\left|\\text{前1年主营收入}\\right|}",
+          "stats": [null, null, null, null],
+          "evidence": "分析师预测因子（预测当年净利润增长率、预测当年主营业务收入增长率、最近 1 个月预测净利润上调幅度、最近 1 个月预测主营营业收入上调幅度、最近 1 个月盈利预测调高占比、最近 1 个月上调评级占比）是影响股票收益的重要因子，其中最近 1 个月净利润上调幅度是最为显著的正向因子。"
+        },
+        {
+          "name": "最近1个月预测净利润上调幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最新当年净利润预测平均值}}{\\text{1个月前当年净利润预测平均值}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "分析师预测因子（预测当年净利润增长率、预测当年主营业务收入增长率、最近 1 个月预测净利润上调幅度、最近 1 个月预测主营营业收入上调幅度、最近 1 个月盈利预测调高占比、最近 1 个月上调评级占比）是影响股票收益的重要因子，其中最近 1 个月净利润上调幅度是最为显著的正向因子。"
+        },
+        {
+          "name": "最近1个月预测主营营业收入上调幅度",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最新当年主营业务收入预测平均值}}{\\text{1个月前当年主营业务收入预测平均值}}-1",
+          "stats": [null, null, null, null],
+          "evidence": "分析师预测因子（预测当年净利润增长率、预测当年主营业务收入增长率、最近 1 个月预测净利润上调幅度、最近 1 个月预测主营营业收入上调幅度、最近 1 个月盈利预测调高占比、最近 1 个月上调评级占比）是影响股票收益的重要因子，其中最近 1 个月净利润上调幅度是最为显著的正向因子。"
+        },
+        {
+          "name": "最近1个月盈利预测调高占比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近1个月净利润调高家数}}{\\text{最近1个月发布盈利预测报告家数}}",
+          "stats": [null, null, null, null],
+          "evidence": "分析师预测因子（预测当年净利润增长率、预测当年主营业务收入增长率、最近 1 个月预测净利润上调幅度、最近 1 个月预测主营营业收入上调幅度、最近 1 个月盈利预测调高占比、最近 1 个月上调评级占比）是影响股票收益的重要因子，其中最近 1 个月净利润上调幅度是最为显著的正向因子。"
+        },
+        {
+          "name": "最近1个月上调评级占比",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["monthly"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{最近1个月上调评级家数}}{\\text{最近1个月发表评级报告家数}}",
+          "stats": [null, null, null, null],
+          "evidence": "分析师预测因子（预测当年净利润增长率、预测当年主营业务收入增长率、最近 1 个月预测净利润上调幅度、最近 1 个月预测主营营业收入上调幅度、最近 1 个月盈利预测调高占比、最近 1 个月上调评级占比）是影响股票收益的重要因子，其中最近 1 个月净利润上调幅度是最为显著的正向因子。"
+        }
+      ]
+    },
+    "L3_alpha": {
+      "module": ["L3_model"],
+      "approach": ["weighting"],
+      "baseline": [],
+      "setup": {
+        "universe": ["csi800"],
+        "data": {"source": ["market_daily", "statement", "analyst", "flow"], "freq": "mixed"},
+        "holding": {"rebalance": "monthly", "horizon": "monthly"}
+      }
+    },
+    "L5_portfolio": {
+      "module": ["L5_optimizer"],
+      "approach": ["heuristic_ranking"],
+      "setup": {"universe": ["csi800"], "rebalance": "monthly"}
+    }
+  },
+  "findings": [
+    {
+      "text": "等权重10因子多因子策略：综合得分最高的20只中证800成份股组合2005年1月至2011年5月累计收益率1517.29%、年化收益率54.34%，50只组合累计收益率1059.72%、年化收益率46.54%，同期沪深300指数为200.16%、18.69%。",
+      "evidence": "由综合得分最高的 20只中证 800指数成份股构成的等权重组合大幅跑赢沪深300 指数，2005年 1月至2011 年5 月间的累计收益率为 1517.29%，年化收益率达54.34%；由综合得分最高的 50只中证800 指数成份股构成的等权重组合同期的累计收益率为 1059.72%，年化收益率达46.54%；同期沪深300 指数的累计收益率为 200.16%，年化收益率为 18.69%。"
+    },
+    {
+      "text": "加权多因子策略：综合得分最高的20只组合累计收益率1814.25%、年化收益率58.45%，50只组合累计收益率1127.26%、年化收益率47.84%，均大幅跑赢沪深300指数的200.16%、18.69%。",
+      "evidence": "由综合得分最高的 20只中证 800指数成份股构成的等权重组合大幅跑赢沪深300 指数，2005年 1月至2011 年5 月间的累计收益率为 1814.25%，年化收益率达58.45%；由综合得分最高的 50只中证800 指数成份股构成的等权重组合同期的累计收益率为 1127.26%，年化收益率达47.84%；同期沪深 300指数的累计收益率为 200.16%，年化收益率为 18.69%。"
+    },
+    {
+      "text": "规模因子（总市值）、估值因子（市盈率TTM）、动量反转因子（前1个月涨跌幅）、波动因子（前1个月波动率）、分析师预测因子（最近1个月净利润上调幅度）等是较为显著的因子。",
+      "evidence": "在前面几篇报告中我们对规模因子、估值因子、成长因子、盈利因子、动量反转因子、交投波动因子、股东因子和分析师预测因子进行了分析，其中规模因子（总市值）、估值因子（市盈率 TTM）、动量反转因子（前 1 个月涨跌幅）、波动因子（前 1 个月波动率）、分析师预测因子（最近 1 个月净利润上调幅度）等是较为显著的因子。"
+    },
+    {
+      "text": "震荡、大幅下跌、大幅上涨市场中多头组合（1-50）跑赢沪深300指数的概率均在70%左右，超额收益率均值、中值均为正；大幅跑输主要集中在市场大幅上涨期间。",
+      "evidence": "由上表可知，在市场处于震荡、大幅下跌、大幅上涨时，多因子模型多头组合（1-50）均表现较好，跑赢沪深 300 指数的概率均在70%左右，且超额收益率均值、中值也均为正。多因子模型多头组合（1-50）大幅跑输沪深 300 指数主要集中在市场大幅上涨期间。"
+    },
+    {
+      "text": "组合（1-50）、组合（1-100）的alpha值均为正，月超额收益率在1%的显著水平下显著为正，信息比率分别为1.8854和1.5733。",
+      "evidence": "从各组合的绩效指标看，综合得分较高股票组合的表现好于综合得分较低股票组合，组合（1-50）、组合（1-100）的 alpha 值均为正，其月超额收益率在 1%的显著水平下显著为正，信息比率分别为 1.8854 和1.5733。"
+    }
+  ],
+  "builds_on": [],
+  "external_ref": [
+    "《数量化选股策略之七：盈利因子分析》2011-07-27",
+    "《数量化选股策略之九：交投波动因子分析》2011-08-24",
+    "《数量化选股策略之五：估值因子分析》2011-07-06",
+    "《数量化选股策略之八：动量反转因子分析》2011-07-27",
+    "《数量化选股策略之六：成长因子分析》2011-07-12",
+    "《数量化选股策略之十一：分析师预[table_relate]测因子分析》2011-08-31",
+    "《数量化选股策略之十二：多因子选股策略》（本系列前作）相关研究",
+    "《数量化选股策略之十：股东因子分析》2011-08-30",
+    "《数量化选股策略之四：规模因子分析》2011-06-30"
+  ],
+  "value": "medium",
+  "gen": {
+    "model": "glm-5.3-flash",
+    "prompt_sha256": "e1c4f3f14b871637735bc86c8a4f037073a5fc74815cae4b6783b8bc86f3a83d"
+  }
+}
