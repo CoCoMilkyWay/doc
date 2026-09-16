@@ -186,7 +186,7 @@ NAMED_ENUM(Value, VALUE_LIST)
   X(L3_alpha, "收益预测: 函数形式→训练范式→模型组织")                          \
   X(L4_risk, "风险模型: 因子结构→协方差→尾部")                                 \
   X(L5_portfolio, "组合构建: 权重→摩擦→对冲")                                  \
-  X(L6_evaluation, "回测与归因 (无 setup/result)")                             \
+  X(L6_evaluation, "回测与归因: 阶段对象只有 module/approach")                 \
   X(L7_execution, "交易执行: 代理执行→做市 (只放执行算法, 高频预测信号进 L1)") \
   X(L8_timing, "择时与配置: 截面轮动 vs 时序择时")
 NAMED_ENUM(PipeStage, STAGE_LIST)
