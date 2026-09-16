@@ -116,7 +116,7 @@
         },
         {
           "name": "ratio_volumeH1",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -126,7 +126,7 @@
         },
         {
           "name": "ratio_volumeH2",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -136,7 +136,7 @@
         },
         {
           "name": "ratio_volumeH3",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -146,7 +146,7 @@
         },
         {
           "name": "ratio_volumeH4",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -156,7 +156,7 @@
         },
         {
           "name": "ratio_volumeH5",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -166,7 +166,7 @@
         },
         {
           "name": "ratio_volumeH6",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -176,7 +176,7 @@
         },
         {
           "name": "ratio_volumeH7",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -186,7 +186,7 @@
         },
         {
           "name": "ratio_volumeH8",
-          "family": "liquidity",
+          "family": "microstructure",
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
@@ -302,7 +302,7 @@
           "horizon": "weekly",
           "formula": "\\text{第一阶段集合竞价振幅}",
           "stats": [-0.0141, -0.0225, null, 0.1281],
-          "evidence": "diverge_A1 | 第一阶段集合竞价振幅 |\n| diverge_A2 | 第二阶段集合竞价振幅 |"
+          "evidence": "| diverge_A1 | 第一阶段集合竞价振幅 |"
         },
         {
           "name": "diverge_A2",
@@ -312,7 +312,7 @@
           "horizon": "weekly",
           "formula": "\\text{第二阶段集合竞价振幅}",
           "stats": [-0.0178, -0.0286, null, 0.2113],
-          "evidence": "集合竞价信息反映出资金的试盘行为和多空双方的博弈。"
+          "evidence": "| diverge_A2 | 第二阶段集合竞价振幅 |"
         },
         {
           "name": "ret_H1",
@@ -322,7 +322,7 @@
           "horizon": "weekly",
           "formula": "\\text{开盘后半小时的收益率}",
           "stats": [0.0047, 0.0052, null, 0.0466],
-          "evidence": "ret_H1 | 开盘后半小时的收益率 |\n| ret_close2H1 | 开盘后半小时至收盘的收益率 |"
+          "evidence": "| ret_H1 | 0.52% | 0.47% | 53.24% | 5.33% | 4.66% | 1.72% |"
         },
         {
           "name": "ret_close2H1",
@@ -340,7 +340,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VP}",
+          "formula": "\\text{收盘前半小时的 corr\\_VP}",
           "stats": [-0.0167, -0.0208, null, 0.1511],
           "evidence": "corr_VPH1 | 收盘前半小时的 corr_VP"
         },
@@ -350,7 +350,7 @@
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VR}",
+          "formula": "\\text{收盘前半小时的 corr\\_VR}",
           "stats": [0.0063, 0.0078, null, 0.0568],
           "evidence": "corr_VRH1 | 收盘前半小时的 corr_VR"
         },
@@ -360,7 +360,7 @@
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VRlead}",
+          "formula": "\\text{收盘前半小时的 corr\\_VRlead}",
           "stats": [0.0088, 0.0112, null, 0.0816],
           "evidence": "corr_VRleadH1 | 收盘前半小时的 corr_VRlead"
         },
@@ -370,7 +370,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VRlag}",
+          "formula": "\\text{收盘前半小时的 corr\\_VRlag}",
           "stats": [-0.003, -0.0039, null, 0.0285],
           "evidence": "corr_VRlagH1 | 收盘前半小时的 corr_VRlag"
         },
@@ -380,7 +380,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 real_var}",
+          "formula": "\\text{收盘前半小时的 real\\_var}",
           "stats": [-0.0272, -0.0522, null, 0.3029],
           "evidence": "real_varH1 | 收盘前半小时的 real_var"
         },
@@ -390,7 +390,7 @@
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 real_skew}",
+          "formula": "\\text{收盘前半小时的 real\\_skew}",
           "stats": [0.0025, 0.0018, null, 0.0205],
           "evidence": "real_skewH1 | 收盘前半小时的 real_skew"
         },
@@ -400,7 +400,7 @@
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 real_kurtosis}",
+          "formula": "\\text{收盘前半小时的 real\\_kurtosis}",
           "stats": [0.006, 0.0084, null, 0.0247],
           "evidence": "real_kurtosisH1 | 收盘前半小时的 real_kurtosis"
         },
@@ -420,7 +420,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VP}",
+          "formula": "\\text{收盘前半小时的 corr\\_VP}",
           "stats": [-0.0283, -0.0296, null, 0.2869],
           "evidence": "corr_VPH8 | 收盘前半小时的 corr_VP"
         },
@@ -430,9 +430,9 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VR}",
+          "formula": "\\text{收盘前半小时的 corr\\_VR}",
           "stats": [-0.0261, -0.0305, null, 0.2849],
-          "evidence": "收盘前半小时构建的因子中，其中ret_H8、corr_VRH8在全市场及中证500中的选股效果较为显著。"
+          "evidence": "| corr_VRH8 | 收盘前半小时的 corr_VR |"
         },
         {
           "name": "corr_VRleadH8",
@@ -440,7 +440,7 @@
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VRlead}",
+          "formula": "\\text{收盘前半小时的 corr\\_VRlead}",
           "stats": [0.0017, 0.0025, null, 0.0004],
           "evidence": "corr_VRleadH8 | 收盘前半小时的 corr_VRlead"
         },
@@ -450,7 +450,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 corr_VRlag}",
+          "formula": "\\text{收盘前半小时的 corr\\_VRlag}",
           "stats": [-0.0179, -0.0193, null, 0.2036],
           "evidence": "corr_VRlagH8 | 收盘前半小时的 corr_VRlag"
         },
@@ -460,7 +460,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 real_var}",
+          "formula": "\\text{收盘前半小时的 real\\_var}",
           "stats": [-0.0229, -0.0347, null, 0.255],
           "evidence": "real_varH8 | 收盘前半小时的 real_var"
         },
@@ -470,7 +470,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 real_skew}",
+          "formula": "\\text{收盘前半小时的 real\\_skew}",
           "stats": [-0.0187, -0.0206, null, 0.2314],
           "evidence": "real_skewH8 | 收盘前半小时的 real_skew"
         },
@@ -480,7 +480,7 @@
           "direction": "unknown",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{收盘前半小时的 real_kurtosis}",
+          "formula": "\\text{收盘前半小时的 real\\_kurtosis}",
           "stats": [null, null, null, null],
           "evidence": "real_kurtosisH8 | 收盘前半小时的 real_kurtosis"
         },
@@ -530,7 +530,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{大成交量对应的 corr_VP}",
+          "formula": "\\text{大成交量对应的 corr\\_VP}",
           "stats": [-0.0473, -0.0591, null, 0.5443],
           "evidence": "corr_VPlarge | 大成交量对应的 corr_VP"
         },
@@ -540,7 +540,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{大成交量对应的 corr_VR}",
+          "formula": "\\text{大成交量对应的 corr\\_VR}",
           "stats": [-0.0295, -0.0374, null, 0.3062],
           "evidence": "corr_VRlarge | 大成交量对应的 corr_VR"
         },
@@ -550,7 +550,7 @@
           "direction": "positive",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{大成交量对应的 corr_VRlead}",
+          "formula": "\\text{大成交量对应的 corr\\_VRlead}",
           "stats": [0.0056, 0.0057, null, 0.0611],
           "evidence": "corr_VRleadlarge | 大成交量对应的 corr_VRlead"
         },
@@ -560,7 +560,7 @@
           "direction": "unknown",
           "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{大成交量对应的 corr_VRlag}",
+          "formula": "\\text{大成交量对应的 corr\\_VRlag}",
           "stats": [null, null, null, null],
           "evidence": "corr_VRlaglarge | 大成交量对应的 corr_VRlag"
         }

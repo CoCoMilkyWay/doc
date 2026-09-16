@@ -12,6 +12,7 @@
         "distribution_moment",
         "liquidity_turnover",
         "order_flow",
+        "intraday_pattern",
         "technical_pattern"
       ],
       "setup": {
@@ -21,6 +22,86 @@
       },
       "factors": [
         {
+          "name": "mmt_pm_std",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{仅使用下午动量}",
+          "stats": [-0.0849, null, 0.84, 0.242],
+          "evidence": "分段动量因子包括 mmt_last30_std、mmt_between_M 和 mmt_pm_std 等因子。"
+        },
+        {
+          "name": "mmt_last30_std",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{仅使用尾盘30分钟动量}",
+          "stats": [-0.0833, null, 1, 0.263],
+          "evidence": "| 尾盘半小时动量 | mmt_last30 | 仅使用尾盘30分钟动量 |"
+        },
+        {
+          "name": "mmt_paratio",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{上下午盘动量差}",
+          "stats": [null, null, null, null],
+          "evidence": "| 上下午盘动量差 | mmt_paratio | 上下午盘动量差 |"
+        },
+        {
+          "name": "mmt_am_std",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{仅使用上午动量}",
+          "stats": [-0.0736, null, 0.65, 0.156],
+          "evidence": "| mmt_am_std | -7.36% | 0.65 | 15.6% | 1.16 | 1.0% | 0.19 | 16.38% | 53.08% | 65.84% |"
+        },
+        {
+          "name": "mmt_between_m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{使用剔除前后30分钟交易时间动量}",
+          "stats": [-0.0618, null, 0.86, 0.263],
+          "evidence": "| 去头尾动量 | mmt_between | 使用剔除前后30分钟交易时间动量 |"
+        },
+        {
+          "name": "mmt_ols_qrs_o",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{50根分钟k线QRS指标}",
+          "stats": [-0.0807, null, 1, 0.235],
+          "evidence": "| 分钟qrs指标 | mmt_ols_qrs | 50根分钟k线QRS指标 |"
+        },
+        {
+          "name": "mmt_ols_corr_sqaure_mean_o",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{50根分钟k线最高与最低价相关系数平方的均值}",
+          "stats": [-0.0768, null, 0.92, 0.209],
+          "evidence": "| 分钟qrs衍生回归R方 | mmt_ols_corr_sqaure_mean | 50根分钟k线最高与最低价相关系数平方的均值 |"
+        },
+        {
+          "name": "mmt_ols_corr_mean_o",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{50根分钟k线最高与最低价相关系数平均值}",
+          "stats": [-0.0762, null, 0.92, 0.208],
+          "evidence": "| 分钟qrs衍生相关系数均值 | mmt_ols_corr_mean | 50根分钟k线最高与最低价相关系数平均值 |"
+        },
+        {
           "name": "mmt_ols_beta_mean_o",
           "family": "momentum",
           "direction": "negative",
@@ -29,6 +110,36 @@
           "formula": "\\text{50根分钟k线最高与最低价回归系数均值}",
           "stats": [-0.0734, null, 1.09, 0.215],
           "evidence": "mmt_ols_beta_mean_o、mmt_top20VolumeRet_std 和 mmt_last30_std 因子在大多数选股域中有效性良好。月度 ICIR最高的 mmt_ols_beta_mean 因子在全市场周度年化多空收益率55%，多头超额 23%"
+        },
+        {
+          "name": "mmt_ols_beta_zscore_last",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{50根分钟k线最高与最低价回归系数标准分}",
+          "stats": [null, null, null, null],
+          "evidence": "| 分钟qrs衍生beta标准分 | mmt_ols_beta_zscore_last | 50根分钟k线最高与最低价回归系数标准分 |"
+        },
+        {
+          "name": "mmt_top50VolumeRet_std",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{成交量最高50根k线成交量收益率动量}",
+          "stats": [-0.0874, null, 0.86, 0.235],
+          "evidence": "| 50顶量成交动量 | mmt_top50VolumeRet | 成交量最高50根k线成交量收益率动量 |"
+        },
+        {
+          "name": "mmt_bottom50VolumeRet_m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{最低成交量的50根k线收益率动量}",
+          "stats": [-0.0354, null, 0.91, 0.156],
+          "evidence": "| 50底量成交动量 | mmt_bottom50VolumeRet | 最低成交量的50根k线收益率动量 |"
         },
         {
           "name": "mmt_top20VolumeRet_std",
@@ -41,6 +152,46 @@
           "evidence": "量能动量因子指的是与成交量特征相关的动量因子。mmt_top20VolumeRet_std 全市场因子 IC 均值-9.52%，有效性显著；沪深 300 范围内可关注 mmt_top20VolumeRet_o 因子，即前 20 成交量 k线的收益率因子"
         },
         {
+          "name": "mmt_bottom20VolumeRet_m",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{最低成交量的20根k线收益率动量}",
+          "stats": [-0.0372, null, 1.03, 0.139],
+          "evidence": "| 20底量成交动量 | mmt_bottom20VolumeRet | 最低成交量的20根k线收益率动量 |"
+        },
+        {
+          "name": "vol_volumelmin_z",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内分钟k线成交量的标准差}",
+          "stats": [-0.0379, null, 0.66, 0.1],
+          "evidence": "| 分钟成交量的标准差 | vol_volume1min | 日内分钟k线成交量的标准差 |"
+        },
+        {
+          "name": "vol_rangelmin_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟k线的最大值最小值比值的标准差}",
+          "stats": [-0.0738, null, 0.98, 0.205],
+          "evidence": "| 分钟极比的标准差 | vol_range1min | 分钟k线的最大值最小值比值的标准差 |"
+        },
+        {
+          "name": "vol_return1min_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内分钟收益率的标准差}",
+          "stats": [-0.091, null, 1.12, 0.271],
+          "evidence": "| 分钟收益率的标准差 | vol_return1min | 日内分钟收益率的标准差 |"
+        },
+        {
           "name": "vol_upVol_std",
           "family": "volatility",
           "direction": "negative",
@@ -49,6 +200,36 @@
           "formula": "\\text{使用日内分钟级别数据，计算分钟级上行波动率，每期取当期标准差}",
           "stats": [-0.0844, null, 1.35, 0.26],
           "evidence": "上行波动率因子有效性优于分钟 k线波动率因子、下行波动率因子，全市场 ICIR 绝对值可达 1.35，IC均值可达-8.4%。"
+        },
+        {
+          "name": "vol_upRatio_z",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内分钟级别数据, 计算分钟级上行波动占总波动的比例}",
+          "stats": [0.0245, null, 0.53, 0.071],
+          "evidence": "| 上行波动率占比 | vol_upRatio | 使用日内分钟级别数据，计算分钟级上行波动占总波动的比例 |"
+        },
+        {
+          "name": "vol_downVol_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内分钟k线收盘数据, 计算分钟级下行波动率}",
+          "stats": [-0.0657, null, 0.99, 0.213],
+          "evidence": "| 下行波动率 | vol_downVol | 使用日内分钟k线收盘数据，计算分钟级下行波动率 |"
+        },
+        {
+          "name": "vol_downRatio_z",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内分钟级别数据, 计算分钟级下行波动占总波动的比例}",
+          "stats": [0.027, null, 0.59, 0.067],
+          "evidence": "| 下行波动率占比 | vol_downRatio | 使用日内分钟级别数据，计算分钟级下行波动占总波动的比例 |"
         },
         {
           "name": "shape_skew_m",
@@ -61,6 +242,56 @@
           "evidence": "全市场范围内，shape_skew_m、shape_skew_std 和 shape_skratio_m 因子具有良好有效性，月度调仓频率下，它们的 ICIR表现均超过 1.0，且 shape_skew_m 因子的年化多空收益达到了 22.6%。"
         },
         {
+          "name": "shape_kurt_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟k线收益率的峰度}",
+          "stats": [-0.0425, null, 0.98, 0.157],
+          "evidence": "| 分钟收益率峰度 | shape_kurt | 分钟k线收益率的峰度 |"
+        },
+        {
+          "name": "shape_skratio_m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟k线收益率的偏度 (原文表27该行构建方法疑与 shape\\_skew 行错位)}",
+          "stats": [-0.0607, null, 1.03, 0.178],
+          "evidence": "| 分钟收益率峰度偏度比 | shape_skratio | 分钟k线收益率的偏度 |"
+        },
+        {
+          "name": "shape_skewVol_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟k线成交量占比的偏度}",
+          "stats": [-0.0279, null, 0.63, 0.107],
+          "evidence": "| 分钟量比偏度 | shape_skewVol | 分钟k线成交量占比的偏度 |"
+        },
+        {
+          "name": "shape_kurtVol_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟k线成交量占比的峰度}",
+          "stats": [-0.0238, null, 0.53, 0.085],
+          "evidence": "| 分钟量比峰度 | shape_kurtVol | 分钟k线成交量占比的峰度 |"
+        },
+        {
+          "name": "shape_skratioVol_std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{分钟k线成交量占比的偏度和峰度比值}",
+          "stats": [-0.0203, null, 0.66, 0.063],
+          "evidence": "| 分钟量比峰度偏度比 | shape_skratioVo | 分钟k线成交量占比的偏度和峰度比值 |"
+        },
+        {
           "name": "liq_amihud_1min_o",
           "family": "liquidity",
           "direction": "positive",
@@ -71,8 +302,148 @@
           "evidence": "在月度调仓频率下，liq_amihud_1min_o 因子的 ICIR 为 1.02，年化多空收益超过 33%，且该因子在中证 1000和中证 500的选股域中也表现良好。"
         },
         {
+          "name": "liq_askDepthCct",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内tick级别数据, 计算开盘15分钟内市场卖盘深度和占交易日所有市场交易深度之和的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 卖盘深度前15分钟占比 | liq_askDepthCct | 使用日内tick级别数据，计算开盘15分钟内市场卖盘深度和占交易日所有市场交易深度之和的比例，计算以 上四个深度的集中度。 |"
+        },
+        {
+          "name": "liq_avgDepthCct",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内tick级别数据, 计算开盘一段时间(如15分钟)内市场平均盘口深度和占交易日所有市场交易深度之和的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 盘口深度前15分钟占比 | liq_avgDepthCct | 使用日内tick级别数据，计算开盘一段时间(如15分钟)内市场平均盘口深度和占交易日所有市场交易深度 之和的比例，计算以上四个深度的集中度。 |"
+        },
+        {
+          "name": "liq_bidDepthCct",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内tick级别数据, 计算开盘一段时间(如15分钟)内市场买盘深度和占交易日所有市场交易深度之和的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 买盘深度前15分钟占比 | liq_bidDepthCct | 使用日内tick级别数据，计算开盘一段时间(如15分钟)内市场买盘深度和占交易日所有市场交易深度之和 的比例，计算以上四个深度的集中度。 |"
+        },
+        {
+          "name": "liq_closeprevol_z",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{计算集合竞价前的成交量}",
+          "stats": [-0.0374, null, 0.53, 0.057],
+          "evidence": "| 集合竞价前成交量 | liq_closeprevol | 计算集合竞价前的成交量 |"
+        },
+        {
+          "name": "liq_closevol_z",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{计算收盘前3分钟成交量}",
+          "stats": [-0.038, null, 0.6, 0.102],
+          "evidence": "| 收盘前3分钟成交量 | liq_closevol | 计算收盘前3分钟成交量 |"
+        },
+        {
+          "name": "liq_effDepthCct",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内tick级别数据, 计算开盘一段时间(如15分钟)内市场有效盘口深度和占交易日所有市场交易深度之和的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 有效深度前15分钟占比 | liq_effDepthCct | 使用日内tick级别数据，计算开盘一段时间(如15分钟)内市场有效盘口深度和占交易日所有市场交易深度 之和的比例，计算以上四个深度的集中度。 |"
+        },
+        {
+          "name": "liq_firstCallR_o",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内tick级别数据计算上午开盘9:25之前的集合竞价的总交易量占全天交易量的比例}",
+          "stats": [-0.0411, null, 0.85, 0.148],
+          "evidence": "| 开盘集合竞价成交量占比 | liq_firstCallR | 使用日内tick级别数据计算上午开盘9：25之前的集合竞价的总交易量占全天交易量的比例， |"
+        },
+        {
+          "name": "liq_lastCallR_o",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内tick级别数据计算下午收盘前14:57-15:00的集合竞价的总交易量占全天交易量的比例}",
+          "stats": [-0.0215, null, 0.59, 0.052],
+          "evidence": "| 收盘集合竞价成交量占比 | liq_lastCallR | 使用日内tick级别数据计算下午收盘前14：57-15：00的集合竞价的总交易量占全天交易量的比例， |"
+        },
+        {
+          "name": "liq_openvol_o",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{计算开盘集合竞价成交量}",
+          "stats": [-0.0501, null, 0.55, 0.101],
+          "evidence": "| 开盘集合竞价成交量 | liq_openvol | 计算开盘集合竞价成交量 |"
+        },
+        {
+          "name": "liq_spread_std",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{使用日内tick级别数据计算买一价与卖一价的价差再除以买一价和卖一价的算数平均值}",
+          "stats": [-0.0524, null, 0.92, 0.12],
+          "evidence": "| 盘口价差 | liq_spread_std | 使用日内tick级别数据计算买一价与卖一价的价差再除以买一价和卖一价的算数平均值。 |"
+        },
+        {
+          "name": "corr_prv_std",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率与成交量相关系数}",
+          "stats": [-0.0565, null, 1.09, 0.187],
+          "evidence": "| 计算分钟收益率与成交量相关系数 | corr_prv | 计算分钟收益率与成交量相关系数 |"
+        },
+        {
+          "name": "corr_prvr_std",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率与成交量变化率相关系数}",
+          "stats": [-0.0288, null, 0.64, 0.106],
+          "evidence": "| 分钟收益率与成交量变化率相关系数 | corr_prvr | 计算分钟收益率与成交量变化率相关系数 |"
+        },
+        {
+          "name": "corr_pv_std",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收盘价与成交量相关系数}",
+          "stats": [-0.0637, null, 0.97, 0.184],
+          "evidence": "| 分钟收盘价与成交量相关系数 | corr_pv | 计算分钟收盘价与成交量相关系数 |"
+        },
+        {
+          "name": "corr_pvd_std",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收盘价与滞后成交量相关系数}",
+          "stats": [-0.0311, null, 0.84, 0.101],
+          "evidence": "| 分钟收盘价与滞后成交量相关系数 | corr_pvd | 计算分钟收盘价与滞后成交量相关系数 |"
+        },
+        {
           "name": "corr_pvl_std",
-          "family": "reversal",
+          "family": "microstructure",
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "monthly",
@@ -81,14 +452,164 @@
           "evidence": "其中，corr_pvl 的变体均值和标准差表现均较为有效，月度 ICIR分别达 1.09和 1.06，前额周度年化多空超 46%，后者多头月度超额达 8%。"
         },
         {
+          "name": "corr_pvr_std",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收盘价与成交量变化率相关系数}",
+          "stats": [0.0125, null, 0.36, 0.028],
+          "evidence": "| 分钟收盘价与成交量变化率相关系数 | corr_pvr | 计算分钟收盘价与成交量变化率相关系数 |"
+        },
+        {
+          "name": "doc_kurt_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟级k线数据按照收益率分布成交量分布的峰度}",
+          "stats": [-0.0618, null, 0.58, 0.146],
+          "evidence": "| 分钟收益率分组筹码峰度 | doc_kurt | 计算分钟级k线数据按照收益率分布成交量分布的峰度 |"
+        },
+        {
+          "name": "doc_skew_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟级k线数据按照收益率分布成交量分布的偏度}",
+          "stats": [-0.0586, null, 0.71, 0.16],
+          "evidence": "| 分钟收益率分组筹码偏度 | doc_skew | 计算分钟级k线数据按照收益率分布成交量分布的偏度 |"
+        },
+        {
+          "name": "doc_std_z",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟级k线数据按照收益率分布成交量标准差}",
+          "stats": [-0.0271, null, 0.54, 0.074],
+          "evidence": "| 分钟收益率分组收益率分组筹码标准差 | doc_std | 计算分钟级k线数据按照收益率分布成交量标准差 |"
+        },
+        {
+          "name": "doc_vol_pdf60_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码60\\%占比收益率分位}",
+          "stats": [-0.0606, null, 0.97, 0.215],
+          "evidence": "| 分钟收益率分组筹码60%占比收益率分位 | doc_vol_pdf60 | 计算分钟收益率分组筹码60%占比收益率分位 |"
+        },
+        {
+          "name": "doc_vol_pdf70_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码70\\%占比收益率分位}",
+          "stats": [-0.0564, null, 0.76, 0.207],
+          "evidence": "| 分钟收益率分组筹码70%占比收益率分位 | doc_vol_pdf70 | 计算分钟收益率分组筹码70%占比收益率分位 |"
+        },
+        {
+          "name": "doc_vol_pdf80_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码80\\%占比收益率分位}",
+          "stats": [-0.0791, null, 1.25, 0.278],
+          "evidence": "| 分钟收益率分组筹码80%占比收益率分位 | doc_vol_pdf80 | 计算分钟收益率分组筹码80%占比收益率分位 |"
+        },
+        {
           "name": "doc_vol_pdf90_std",
-          "family": "reversal",
+          "family": "institution",
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "monthly",
           "formula": "\\text{计算分钟收益率分组筹码90%占比收益率分位，每期取当期标准差}",
           "stats": [-0.0886, null, 1.52, 0.283],
           "evidence": "以 doc_vol_pdf90_std 为例，在全市场范围内，其 ICIR表现为1.52，年化多空收益超过 28%；在沪深 300 中，其 IC 均值为-5.6%，ICIR 降为 0.83。"
+        },
+        {
+          "name": "doc_vol_pdf90bi_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码双边90\\%占比收益率分位}",
+          "stats": [-0.0834, null, 1.41, 0.268],
+          "evidence": "| 分钟收益率分组筹码90%占比收益率分位 | doc_vol_pdf90bi | 计算分钟收益率分组筹码双边90%占比收益率分位 |"
+        },
+        {
+          "name": "doc_vol_pdf95_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码95\\%占比收益率分位}",
+          "stats": [-0.0839, null, 1.47, 0.272],
+          "evidence": "| 分钟收益率分组筹码95%占比收益率分位 | doc_vol_pdf95 | 计算分钟收益率分组筹码95%占比收益率分位 |"
+        },
+        {
+          "name": "doc_vol10_ratio_o",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码前10大占比}",
+          "stats": [0.0657, null, 0.55, 0.172],
+          "evidence": "| 分钟收益率分组筹码前10大占比 | doc_vol10_ratio | 计算分钟收益率分组筹码前10大占比 |"
+        },
+        {
+          "name": "doc_vol5_ratio_o",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码前5大占比}",
+          "stats": [0.0639, null, 0.54, 0.168],
+          "evidence": "| 分钟收益率分组筹码前5大占比 | doc_vol5_ratio | 计算分钟收益率分组筹码前5大占比 |"
+        },
+        {
+          "name": "doc_vol50_ratio_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{计算分钟收益率分组筹码前50大占比}",
+          "stats": [-0.0728, null, 0.72, 0.212],
+          "evidence": "| 分钟收益率分组筹码前50大占比 | doc_vol50_ratio | 计算分钟收益率分组筹码前50大占比 |"
+        },
+        {
+          "name": "crowd_fftv10_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据fft变换后, 取10\\%强度占比}",
+          "stats": [-0.0872, null, 1.17, 0.246],
+          "evidence": "| 前10%周期占比 | crowd_fftv10 | 傅里叶变换30s快照数据fft变换后，取10%强度占比 |"
+        },
+        {
+          "name": "crowd_fftv20_30s_no0_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据和1min数据不补零}",
+          "stats": [-0.0823, null, 1.24, 0.27],
+          "evidence": "| 前20%周期占比不补零 | crowd_fftv20_30s_no0 | 傅里叶变换30s快照数据和1min数据不补零 |"
+        },
+        {
+          "name": "crowd_fftv20_30s_w0_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据和1min数据补零}",
+          "stats": [-0.0823, null, 1.23, 0.259],
+          "evidence": "| 前20%周期占比补零 | crowd_fftv20_30s_w0 | 傅里叶变换30s快照数据和1min数据补零 |"
         },
         {
           "name": "crowd_fftv20_3s_w0_std",
@@ -101,6 +622,126 @@
           "evidence": "crowd_fftv20_3s_w0_std 因子在全市场和中证 1000范围内有效性较为显著，ICIR均超过 1.30，年化多空收益超过 20%。"
         },
         {
+          "name": "crowd_fftv20_high_o",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据fft变换后, 取高频20\\%强度占比}",
+          "stats": [0.0711, null, 1.26, 0.265],
+          "evidence": "| 高频前20%周期占比 | crowd_fftv20_high | 傅里叶变换30s快照数据fft变换后，取高频20%强度占比 |"
+        },
+        {
+          "name": "crowd_fftv20_low_o",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据fft变换后, 取低频20\\%强度占比}",
+          "stats": [-0.0931, null, 1.13, 0.324],
+          "evidence": "| 低频前20%周期占比 | crowd_fftv20_low | 傅里叶变换30s快照数据fft变换后，取低频20%强度占比 |"
+        },
+        {
+          "name": "crowd_fftv5_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据fft变换后, 取前5强信号占比}",
+          "stats": [-0.0827, null, 1.16, 0.244],
+          "evidence": "| 前5周期占比 | crowd_fftv5 | 傅里叶变换30s快照数据fft变换后，取前5强信号占比 |"
+        },
+        {
+          "name": "crowd_origin_v50_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据fft变换后, 取前50强信号占比}",
+          "stats": [-0.0859, null, 1.18, 0.261],
+          "evidence": "| 前50周期占比 | crowd_origin_v50 | 傅里叶变换30s快照数据fft变换后，取前50强信号占比 |"
+        },
+        {
+          "name": "crowd_fftv50m10_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据fft变换后, 取前50强剔除前5信号占比}",
+          "stats": [-0.073, null, 1.3, 0.255],
+          "evidence": "| 前5到50周期占比 | crowd_fftv50m10 | 傅里叶变换30s快照数据fft变换后，取前50强剔除前5信号占比 |"
+        },
+        {
+          "name": "crowd_fftv50m5_std",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{傅里叶变换30s快照数据fft变换后, 取前50强剔除前10信号占比}",
+          "stats": [-0.0793, null, 1.27, 0.257],
+          "evidence": "| 前10到50周期占比 | crowd_fftv50m5 | 傅里叶变换30s快照数据fft变换后，取前50强剔除前10信号占比 |"
+        },
+        {
+          "name": "trade_bidAskRatio_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以日内tick级数据计算盘口委买赠额(委托买单增加量与委托卖单增加量之差)占成交额的比重}",
+          "stats": [-0.0412, null, 0.82, 0.188],
+          "evidence": "| 开盘后盘口净委买增额占比 | trade_bidAskRatio | 以日内tick级数据计算盘口委买赠额(委托买单增加量与委托卖单增加量之差)占 成交额的比重 |"
+        },
+        {
+          "name": "trade_bottom20retRatio_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{后20根K线每根的收益率乘以其成交量所占比例, 得到的加权收益率之和}",
+          "stats": [-0.0434, null, 0.78, 0.142],
+          "evidence": "| 后20k线收益率成交占比 | trade_bottom20retRatio | 后20根K线每根的收益率乘以其成交量所占比例，得到的加权收益率之和 |"
+        },
+        {
+          "name": "trade_bottom50retRatio",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{后50根K线每根的收益率乘以其成交量所占比例, 得到的加权收益率之和}",
+          "stats": [null, null, null, null],
+          "evidence": "| 后50k线收益率成交占比 | trade_bottom50retRatio | 后50根K线每根的收益率乘以其成交量所占比例，得到的加权收益率之和 |"
+        },
+        {
+          "name": "trade_CBuyRatio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{当日所有撤销的买单量与当日总成交量的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 撤买单量占当日交易总量的占比 | trade_CBuyRatio | 当日所有撤销的买单量与当日总成交量的比例 |"
+        },
+        {
+          "name": "trade_CRatio",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{当日所有撤单(包括买单和卖单)量与当日总成交量的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 总撤单量占当日交易总量的占比 | trade_CRatio | 当日所有撤单(包括买单和卖单)量与当日总成交量的比例 |"
+        },
+        {
+          "name": "trade_CSellRatio",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{当日所有撤销的卖单量与当日总成交量的比例}",
+          "stats": [null, null, 0.4, null],
+          "evidence": "| 撤卖单量占当日交易总量的占比 | trade_CSellRatio | 当日所有撤销的卖单量与当日总成交量的比例 |"
+        },
+        {
           "name": "trade_headRatio_std",
           "family": "microstructure",
           "direction": "negative",
@@ -111,6 +752,26 @@
           "evidence": "从因子有效性角度来看，开盘资金流向因子有效性多强于尾盘资金流向因子，trade_headRatio_std 因子相比其他开盘/尾盘资金流因子在全市场的有效性表现良好，周度调仓频率下其 ICIR 为0.92，年化多空收益可达 24.9%。"
         },
         {
+          "name": "trade_netBuyRatio_std",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{以日内逐笔数据中投资者主动买入和主动卖出的信息, 计算两者的成交金额差值得到净主动买入的金额}",
+          "stats": [0.0467, null, 0.51, 0.088],
+          "evidence": "| 开盘后净主买占比 | trade_netBuyRatio | 以日内逐笔数据中投资者主动买入和主动卖出的信息，计算两者的成交金额差值得 到净主动买入的金额(简称“净主买”) |"
+        },
+        {
+          "name": "trade_tailRatio",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{收盘前一定时间内的成交量与当日总成交量的比例}",
+          "stats": [null, null, null, null],
+          "evidence": "| 尾盘成交占比 | trade_tailRatio | 收盘前一定时间内的成交量与当日总成交量的比例 |"
+        },
+        {
           "name": "trade_top20retRatio_m",
           "family": "microstructure",
           "direction": "negative",
@@ -119,6 +780,36 @@
           "formula": "\\text{前20根K线中，收益率与成交量比例的均值，每期取当期算术平均}",
           "stats": [-0.0523, null, 0.9, 0.141],
           "evidence": "高收益量能占比因子（trade_top20retRatio）在全市场表现相对较为稳定，月度ICIR为 0.9 和 0.64，多空年化收益为 14%。"
+        },
+        {
+          "name": "trade_top50retRatio_std",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{前50根K线中, 收益率与成交量比例的均值}",
+          "stats": [-0.0337, null, 0.8, 0.142],
+          "evidence": "| 前50k线收益率成交占比 | trade_top50retRatio | 前50根K线中，收益率与成交量比例的均值 |"
+        },
+        {
+          "name": "trade_topNeg20retRatio_o",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{前20根K线中, 收益率为负的绝对平均收益率与成交量比例的均值}",
+          "stats": [0.0493, null, 0.58, 0.135],
+          "evidence": "| 前20k线下跌收益率成交占比 | trade_topNeg20retRatio | 前20根K线中，收益率为负的绝对平均收益率与成交量比例的均值 |"
+        },
+        {
+          "name": "trade_topPos20retRatio",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{前20根K线中, 收益率为正的平均收益率与成交量比例的均值}",
+          "stats": [null, null, null, null],
+          "evidence": "| 前20k线上涨收益率成交占比 | trade_topPos20retRatio | 前20根K线中，收益率为正的平均收益率与成交量比例的均值 |"
         },
         {
           "name": "syn_corr_o",
@@ -134,11 +825,31 @@
           "name": "syn_crowd_o",
           "family": "composite",
           "direction": "positive",
-          "data_period": ["intraday"],
+          "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{取拥挤度因子中周度综合表现前5名，进行市值和行业中性化及标准化后等权合并，每期取最后一个有效值}",
           "stats": [0.0925, null, 0.98, 0.302],
           "evidence": "而 syn_crowd_o 因子的收益预测能力更佳，其多空收益达 69.9%，多头超额 11.1%，相对优于其他复合因子。"
+        },
+        {
+          "name": "syn_doc_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取筹码分布因子中周度综合表现前5名, 进行市值和行业中性化及标准化后等权合并}",
+          "stats": [0.069, null, 0.85, 0.198],
+          "evidence": "| 筹码分布 syn_doc | 取筹码分布因子中周度综合表现前5名,进行市值和行业中性化及标准化后等权合并 |"
+        },
+        {
+          "name": "syn_liq_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取流动性因子中周度综合表现前5名, 进行市值和行业中性化及标准化后等权合并}",
+          "stats": [0.0659, null, 0.68, 0.211],
+          "evidence": "| 流动性 syn_liq | 取流动性因子中周度综合表现前5名,进行市值和行业中性化及标准化后等权合并 |"
         },
         {
           "name": "syn_mmt_o",
@@ -149,6 +860,36 @@
           "formula": "\\text{取动量反转因子中周度综合表现前5名，进行市值和行业中性化及标准化后等权合并，每期取最后一个有效值}",
           "stats": [0.0671, null, 1.09, 0.217],
           "evidence": "周度频率下 syn_crowd_o 和syn_mmt_o 因子表现较优。其中，syn_mmt_o 因子有效性更强，ICIR 为 1.1，多空收益为64.2%。"
+        },
+        {
+          "name": "syn_shape_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取高阶特征因子中周度综合表现前5名, 进行市值和行业中性化及标准化后等权合并}",
+          "stats": [0.057, null, 1.07, 0.179],
+          "evidence": "| 高阶特征 | syn_shape 取高阶特征因子中周度综合表现前5名，进行市值和行业中性化及标准化后等权合并 |"
+        },
+        {
+          "name": "syn_trade_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取下单行为因子中周度综合表现前5名, 进行市值和行业中性化及标准化后等权合并}",
+          "stats": [0.0481, null, 1.12, 0.168],
+          "evidence": "| 下单行为 syn_trade | 取下单行为因子中周度综合表现前5名，进行市值和行业中性化及标准化后等权合并 |"
+        },
+        {
+          "name": "syn_vol_o",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{取波动率因子中周度综合表现前5名, 进行市值和行业中性化及标准化后等权合并}",
+          "stats": [0.0829, null, 0.96, 0.228],
+          "evidence": "| 波动率 | syn_vol 取波动率因子中周度综合表现前5名,进行市值和行业中性化及标准化后等权合并 |"
         }
       ]
     },
@@ -164,6 +905,14 @@
     }
   },
   "findings": [
+    {
+      "text": "本文依据价量因子的构建方式将人工构建的高频因子划分为8大类：动量反转、波动性、高阶特征、流动性、量价相关性、筹码分布、拥挤度和成交行为因子，并根据因子表现每一类构建出一个复合因子。",
+      "evidence": "本文通过不同方法和参数构建高频因子共 9 个，依据价量因子的构建方式将其划分为 8 大类：分别为动量反转、波动性、高阶特征、流动性、量价相关性、筹码分布、拥挤度和成交行为因子。最终根据因子表现每一类构建出一个复合因子。"
+    },
+    {
+      "text": "每一个原始因子分别有四种处理方法：每期取最后一个有效值后缀为_o，每期取当期算术平均后缀为_m，每期取z-score标准分后缀为_z，每期取当期标准差后缀为_std。",
+      "evidence": "因子处理方法：每一个原始因子分别有四种处理方法。每期取最后一个有效值，后缀为“_o”；每期取当期算术平均，后缀为“_m”；每期取 z-score 标准分：“_z”；每期取当期标准差：“_std”。"
+    },
     {
       "text": "高频数据构建的因子有效比例较高，全市场多个因子周度年化多空收益夏普超5.0，多头信息比率超3.0，因子池中近3成因子月度IC均值绝对值超5%，月度ICIR超0.65。",
       "evidence": "测试结果显示使用高频数据构建的因子有效比例较高，在全市场范围内多个因子周度年化多空收益夏普超 5.0，多头信息比率超 3.0，因子池中近 3 成因子月度IC均值绝对值超 5%，月度ICIR超 0.65。"
