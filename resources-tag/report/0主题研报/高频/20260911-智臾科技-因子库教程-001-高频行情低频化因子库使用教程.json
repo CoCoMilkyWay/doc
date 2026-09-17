@@ -12,7 +12,13 @@
     },
     "L1_factor": {
       "module": ["L1_market"],
-      "approach": ["momentum_reversal", "distribution_moment", "liquidity_turnover", "order_flow", "intraday_pattern"],
+      "approach": [
+        "momentum_reversal",
+        "distribution_moment",
+        "liquidity_turnover",
+        "order_flow",
+        "intraday_pattern"
+      ],
       "setup": {
         "universe": ["all"],
         "data": {"source": ["market_minute", "market_l1_l2"], "freq": "mixed"},

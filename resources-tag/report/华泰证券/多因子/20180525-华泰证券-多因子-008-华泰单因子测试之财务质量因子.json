@@ -481,7 +481,7 @@
           "data_period": ["quarterly"],
           "horizon": "quarterly",
           "formula": "\\text{存货周转率（营运能力类）}",
-          "stats": [null, 0.0001, 0.0, null],
+          "stats": [null, 0.0001, 0, null],
           "evidence": "| invturn | 存货周转率 | 1.12 | 12.12% | 0.26 | 0.08% | 0.01% | 4.94% | 0.00 | 51.52% |"
         },
         {
@@ -555,7 +555,10 @@
     }
   ],
   "builds_on": [],
-  "external_ref": ["《华泰单因子测试之估值类因子》", "《华泰多因子模型体系初探》（2016.09）"],
+  "external_ref": [
+    "《华泰单因子测试之估值类因子》",
+    "《华泰多因子模型体系初探》（2016.09）"
+  ],
   "value": "high",
   "gen": {
     "model": "glm-5.3-flash",

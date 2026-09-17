@@ -341,7 +341,7 @@
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{买方委托量与卖方委托量之比}",
-          "stats": [0.0, null, -0.126, 0.028],
+          "stats": [0, null, -0.126, 0.028],
           "evidence": "买卖委量比 | 0.000 | -0.126 | 2.8% | 0.360"
         },
         {

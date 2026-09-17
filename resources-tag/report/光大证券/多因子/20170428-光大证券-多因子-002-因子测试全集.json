@@ -759,7 +759,7 @@
           "data_period": ["daily"],
           "horizon": "monthly",
           "formula": "\\text{预测机构数 10D}",
-          "stats": [0.0, null, 0.01, -0.053],
+          "stats": [0, null, 0.01, -0.053],
           "evidence": "| EINS_10D | 0.0% | -0.70 | 1.12 | 17.0% | 0.0% | 20.0% | 3.7% | 13.3% | 0.01 |"
         },
         {
@@ -819,7 +819,7 @@
           "data_period": ["daily"],
           "horizon": "monthly",
           "formula": "\\text{预测报告数量 10D}",
-          "stats": [0.0, null, 0.01, -0.054],
+          "stats": [0, null, 0.01, -0.054],
           "evidence": "| RPP_10D | 0.0% | -0.75 | 1.13 | 17.8% | 0.0% | 19.3% | 3.6% | 13.3% | 0.01 |"
         },
         {
