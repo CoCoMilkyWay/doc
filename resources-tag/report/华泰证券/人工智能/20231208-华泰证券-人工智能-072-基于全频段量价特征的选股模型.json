@@ -135,7 +135,7 @@
           "evidence": "利用价格与成交量的关联，构造了早盘成交量与收益率相关性、大单推动涨幅等因子。"
         },
         {
-          "name": "大单推动涨幅",
+          "name": "bigorder_ret",
           "family": "microstructure",
           "direction": "negative",
           "data_period": ["intraday"],
@@ -185,7 +185,7 @@
           "evidence": "早盘大单买入占比反映了早盘大单中买入与卖出的相互博弈。"
         },
         {
-          "name": "大单推动涨幅",
+          "name": "bigorder_ret2",
           "family": "microstructure",
           "direction": "negative",
           "data_period": ["second"],

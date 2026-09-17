@@ -27,6 +27,26 @@
       },
       "factors": [
         {
+          "name": "mktval",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{股票市值}",
+          "stats": [null, null, null, null],
+          "evidence": "此外，模型输入还包括股票市值（mktval）、股票5 日换手率均值（turnover5D）和股票 5日收益率（ret5D）等三个低频风格因子。"
+        },
+        {
+          "name": "ret5D",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{股票5日收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "此外，模型输入还包括股票市值（mktval）、股票5 日换手率均值（turnover5D）和股票 5日收益率（ret5D）等三个低频风格因子。"
+        },
+        {
           "name": "turnover5D",
           "family": "liquidity",
           "direction": "negative",

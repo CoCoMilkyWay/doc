@@ -53,6 +53,96 @@
           "formula": "\\mu_{t}=E[r_{t}],\\quad \\sigma_{t-j}=std([\\mu_{j},\\mu_{j+1},\\dots,\\mu_{t}])",
           "stats": [null, null, null, null],
           "evidence": "事实上，动量因子的标准差就是波动率因子，波动率因子衡量了动量因子在时序上的差异，这种差异来自于动量因子在时序上分布的差异。"
+        },
+        {
+          "name": "分钟收益率偏度",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{分钟收益率序列的偏度（分布信息类指标，对时序重排序不敏感）}",
+          "stats": [null, null, null, null],
+          "evidence": "如分钟收益率偏度、分钟收益率峰度、分钟成交占比标准差，分钟成交量占比信息熵等等，都是通过分布信息函数挖掘出数据所含的分布信息。"
+        },
+        {
+          "name": "分钟收益率峰度",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{分钟收益率序列的峰度（分布信息类指标，对时序重排序不敏感）}",
+          "stats": [null, null, null, null],
+          "evidence": "如分钟收益率偏度、分钟收益率峰度、分钟成交占比标准差，分钟成交量占比信息熵等等，都是通过分布信息函数挖掘出数据所含的分布信息。"
+        },
+        {
+          "name": "分钟成交占比标准差",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{分钟成交占比序列的标准差（分布信息类指标）}",
+          "stats": [null, null, null, null],
+          "evidence": "如分钟收益率偏度、分钟收益率峰度、分钟成交占比标准差，分钟成交量占比信息熵等等，都是通过分布信息函数挖掘出数据所含的分布信息。"
+        },
+        {
+          "name": "分钟成交量占比信息熵",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{分钟成交量占比序列的信息熵（分布信息类指标）}",
+          "stats": [null, null, null, null],
+          "evidence": "如分钟收益率偏度、分钟收益率峰度、分钟成交占比标准差，分钟成交量占比信息熵等等，都是通过分布信息函数挖掘出数据所含的分布信息。"
+        },
+        {
+          "name": "收益率自相关性",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\rho(r_{t},r_{t-1})",
+          "stats": [null, null, null, null],
+          "evidence": "指标g对于时序重排序函数Reorder敏感，数据在时序上的变化会影响指标值，如收益率自相关性"
+        },
+        {
+          "name": "量价相关性",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\rho(r,volume)",
+          "stats": [null, null, null, null],
+          "evidence": "改变对应收益率水平下的成交量会极大地改变量价相关性的取值。"
+        },
+        {
+          "name": "大单对应收益率",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{大单成交与对应时刻收益率的联合分布信息（关联信息类指标）}",
+          "stats": [null, null, null, null],
+          "evidence": "许多因子都利用了关联信息，如大单对应收益率，每笔成交额，价差等。"
+        },
+        {
+          "name": "每笔成交额",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{成交额}/\\text{成交笔数}",
+          "stats": [null, null, null, null],
+          "evidence": "许多因子都利用了关联信息，如大单对应收益率，每笔成交额，价差等。"
+        },
+        {
+          "name": "价差",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{买卖报价之差（关联信息类指标）}",
+          "stats": [null, null, null, null],
+          "evidence": "许多因子都利用了关联信息，如大单对应收益率，每笔成交额，价差等。"
         }
       ]
     },

@@ -219,7 +219,7 @@ $$
 均值去预测下一个 30分钟的收益序列，例如 09：30分至 10：00的信号预测 10：00至 10：30分的收益率，因构建逻辑是一个负向指标，因此在均值前添加负号，具体因子构造如下：
 
 $$
-Reverse_{i,t}\left(高炀\right)=-\frac{1}{30}\sum_{t=29}^{t}r_{i,t}
+Reverse_{i,t}\left(高频\right)=-\frac{1}{30}\sum_{t=29}^{t}r_{i,t}
 $$
 
 其中 $r_{i,t}$ 为第 i 只股票第 t 分钟的收益率，本因子只考虑了日内每半个小时节点。考虑到隔夜信息对于开盘的冲击较大，在 30 分钟频率上的预测区间只考虑 10：00 之后的每半小时时段（因子构造从 9：30开始），该因子回测参数如下：
@@ -258,7 +258,7 @@ $$
 对于收益反转因子，也可以将其放到日度预测，在日度层面，为了保证因子的时效性，该因子预测目标为当日收盘价距下一个交易日收盘价对应的涨跌幅。为了保证因子的可行性，在计算当日收益求和时剔除 14：56~15：00时段的数据，即只对 09：30 ~ 14：55分的收益取均值。
 
 $$
-Reverse_{i,T}\ \left(刀度\right)\ =-\frac{1}{235}\sum_{t=1}^{t=235}r_{i,t,T}
+Reverse_{i,T}\ \left(日度\right)\ =-\frac{1}{235}\sum_{t=1}^{t=235}r_{i,t,T}
 $$
 
 其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率，因只统计至 14：55分的收益，t取值范围为 1至235，该因子回测参数如下：
@@ -293,7 +293,7 @@ $$
 改进放量的正收益反转因子：
 
 $$
-\begin{aligned}Reverse\_Imp\_pos_{i,T}\left(\textit{of}\mathcal{R}\right)\\=\left\{\begin{aligned}&-\frac{\sum_{t=1}^{t=235}r_{i,t,T}*I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}}{\sum_{t=1}^{t=235}I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}}\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}\neq0\\&NAN\quad\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T>0}}*I_{vol_{i,t}>vol_{up_{i,T}}}=0\end{aligned}\right.\end{aligned}
+\begin{aligned}Reverse\_Imp\_pos_{i,T}\left(日度\right)\\=\left\{\begin{aligned}&-\frac{\sum_{t=1}^{t=235}r_{i,t,T}*I_{r_{i,t,T}>0}*I_{vol_{i,t}>vol_{up_{i,T}}}}{\sum_{t=1}^{t=235}I_{r_{i,t,T}>0}*I_{vol_{i,t}>vol_{up_{i,T}}}}\quad\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T}>0}*I_{vol_{i,t}>vol_{up_{i,T}}}\neq0\\&NAN\quad\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T}>0}*I_{vol_{i,t}>vol_{up_{i,T}}}=0\end{aligned}\right.\end{aligned}
 $$
 
 其中：
@@ -360,7 +360,7 @@ $$
 ## 改进放量的负收益动量因子：
 
 $$
-\begin{aligned}Reverse\_Imp\_neg_{.}&neg_{i,T}\left(\textit{if}\mathcal{R}\right)\\&=\left\{\begin{aligned}&\sum_{t=1}^{t=235}r_{i,t,T}*I_{r_{i,t,T<o}}*I_{vol_{i,t}>vol_{up_{i,T}}}\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T<o}}*I_{vol_{i,t}>vol_{up_{i,T}}}\neq0\\&\textit{NAN}&\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T<o}}*I_{vol_{i,t}>vol_{up_{i,T}}}=0\end{aligned}\right.\\\end{aligned}
+\begin{aligned}Reverse\_Imp\_neg_{i,T}\left(日度\right)\\=\left\{\begin{aligned}&\frac{\sum_{t=1}^{t=235}r_{i,t,T}*I_{r_{i,t,T}<0}*I_{vol_{i,t}>vol_{up_{i,T}}}}{\sum_{t=1}^{t=235}I_{r_{i,t,T}<0}*I_{vol_{i,t}>vol_{up_{i,T}}}}\quad\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T}<0}*I_{vol_{i,t}>vol_{up_{i,T}}}\neq0\\&NAN\quad\textit{if}\sum_{t=1}^{t=235}I_{r_{i,t,T}<0}*I_{vol_{i,t}>vol_{up_{i,T}}}=0\end{aligned}\right.\end{aligned}
 $$
 
 其中：
@@ -431,7 +431,7 @@ $$
 因此我们可以构建基于分钟线的收益反转因子，首先是对高频 30 分钟的预测，即使用当前 30 分钟区间内的分钟收益标准差去预测下一个 30分钟的收益序列，例如 09：30分至 10：00的信号预测 10：30 分的时点价相对 10：00 的时点价的收益。因构建逻辑是一个负向指标，因此在波动率前添加负号，具体因子构造如下：
 
 $$
-Return\_Std_{i,t}\big(高瘾\big)=-\sqrt{\frac{1}{30}\sum_{t=29}^{t}(r_{i,t}-r_{i,mean})^2}
+Return\_Std_{i,t}\big(高频\big)=-\sqrt{\frac{1}{30}\sum_{t=29}^{t}(r_{i,t}-r_{i,mean})^2}
 $$
 
 $$
@@ -474,7 +474,7 @@ $$
 同样对于波动率因子，也可以将其放到日度预测，在日度层面，为了保证因子的时效性，该因子预测目标为当日收盘价距下一个交易日收盘价的收益。为了保证因子的可行性，在计算当日收益求和时剔除 14：56~15：00时段的数据，即只统计 09：30 ~ 14：55时段的收益波动率。
 
 $$
-Return\_Std_{i,T}\ (刀度丿=-\sqrt{\frac{1}{235}\sum_{t=1}^{t=235}(r_{i,t,T}-r_{i,mean,T})^2})
+Return\_Std_{i,T}\ (日度)=-\sqrt{\frac{1}{235}\sum_{t=1}^{t=235}(r_{i,t,T}-r_{i,mean,T})^2}
 $$
 
 $$
@@ -511,7 +511,7 @@ $$
 改进波动率因子：
 
 $$
-Return\_Std\_Imp_{i,T}(刀度)=-\sqrt{\sum_{r_{i,t,T}\in r_{i,vol_{up},T}}\frac{(r_{i,t,T}-r_{i,mean,T})^2}{\left\|r_{i,vol_{up},T}\right\|}}
+Return\_Std\_Imp_{i,T}(日度)=-\sqrt{\sum_{r_{i,t,T}\in r_{i,vol_{up},T}}\frac{(r_{i,t,T}-r_{i,mean,T})^2}{\left\|r_{i,vol_{up},T}\right\|}}
 $$
 
 $$
@@ -528,7 +528,7 @@ $$
 
 其中 $r_{i,t,T}$ 为第 i只股票在 T日第 t分钟的收益率， $\left\|r_{i,vol_{up},T}\right\|$ 定义为集合 $\cdot r_{i,vol_{up},T}$ 的基数，因只统计至 14：55分的收益，t取值范围为 1至 235， $r_{i,mean}$ 为剔除 T日剔除 14：56 ~ 15：00时段后的分钟收益均值，放量时段 $lvol_{up,i,T}$ 定义为 T日剔除 14：56 ~ 15：00时段后的分钟成交量均值加分钟成交量标准差，当第 t分钟成交量大于分钟成交量均值加分钟成交量标准差时，将第 t分钟定义为放量时段，当全天没有放量且大于 0 的收益，则从当天的样本池中剔除该股票，该因子回测参数如下：
 
-样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST 或 $S\Gamma^{*}$ 股票
+样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST 或 ST* 股票
 
 从表中可以看出，同样地，改进后的波动率因子在各个统计指标上均有很大改进，总体日均 RankIC 为 0.0679，日度 ICIR 为 0.6，且分年度来看 Rank IC 也没有较大起伏。中性化后的 Rank IC 有所下降，但 ICIR进一步提升，因子表现得更加稳定。
 
@@ -584,12 +584,12 @@ $$
 尾盘成交额因子：
 
 $$
-TTV_{\_}Ratio_{i,T}=-\frac{\sum_{t=210}^{t=235}ttv_{i,t,T}}{FloadW_{T-1}}
+TTV\_Ratio_{i,T}=-\frac{\sum_{t=210}^{t=235}ttv_{i,t,T}}{FloatMV_{T-1}}
 $$
 
 $ttv_{i,t,T}$ 为个股在 T日第 t分钟的成交额，该因子截取剔除尾盘 5分钟后半小时的成交额（14：55 ~15：00），因此 t 的取值为 210 至 235， $FloatMV_{T-1}$ 为 T-1日的流通市值。该因子回测参数如下：
 
-样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST或 $S\Gamma^{*}$ 股票
+样本筛选：剔除当日涨停或跌停的股票，剔除当日次新股、停牌以及 ST或 ST* 股票
 
 从表中可以看出，中性化后的尾盘成交额因子 Rank IC 为 0.0564，ICIR 为 0.49，因子仅在 2015 年表现一般，其余年份较为稳定。
 
@@ -739,7 +739,7 @@ $$
 计算每一期的因子暴露及其相关性，加权后的因子值为：
 
 $$
-\begin{aligned}a_{corr_{-}weighted}=&\frac{\left|corr_{std*ttv,t}\right|}{\left|corr_{rev,pos*std,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|*a_{rev,pos,t}}\\+&\frac{\left|corr_{rev,pos*ttv,t}\right|}{\left|corr_{rev,pos*td,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|*a_{std,t}}\\+&\frac{\left|corr_{rev,pos*td,t}\right|}{\left|corr_{rev,pos*td,t}\right|+\left|corr_{rev,pos*ttv,t}\right|+\left|color_{std*ttv,t}\right|*a_{ttv,t}}\end{aligned}
+\begin{aligned}a_{corr\_weighted}=&\frac{\left|corr_{std*ttv,t}\right|}{\left|corr_{rev\_pos*std,t}\right|+\left|corr_{rev\_pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|}*a_{rev\_pos,t}\\+&\frac{\left|corr_{rev\_pos*ttv,t}\right|}{\left|corr_{rev\_pos*std,t}\right|+\left|corr_{rev\_pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|}*a_{std,t}\\+&\frac{\left|corr_{rev\_pos*std,t}\right|}{\left|corr_{rev\_pos*std,t}\right|+\left|corr_{rev\_pos*ttv,t}\right|+\left|corr_{std*ttv,t}\right|}*a_{ttv,t}\end{aligned}
 $$
 
 $corr_{x\_y,t}$ 为 t日因子 x和因子 y之间的相关性， $a_{z,t}$ 是中性化后的因子 $\mathbf{Z}\circ$ 对加权后的因子再作去极值、标准化以及中性化等一系列操作。从表中可以看出，相较于等权因子组合，相关性加权因子组合在各个统计指标上均有所提升，行业市值中性化后全区间 Rank IC 可达 7.18%，ICIR 为 0.67。
@@ -846,13 +846,13 @@ $corr_{x\_y,t}$ 为 t日因子 x和因子 y之间的相关性， $a_{z,t}$ 是�
 |  | Ret(Vol_Up)_Skew | Skew(Ret(Vol_Up)) | -1.02% | -0.22 |
 | 缩量收益因子 | Ret(Vol_Down)_Mean | Mean(Ret(Vol_Down)) | -0.72% | -0.10 |
 |  | Ret(Vol_Down)_Std | Std(Ret(Vol_Down)) | -0.82% | -0.08 |
-|  | Ret(Vol_Down)_Stability | Mean(Ret(Vol_Down))/ | -0.64% | -0.084 |
-|  | Ret(Vol_Down)_Mean_Med_Ratio | Mean(Ret(Vol_Down))/ | 0.22% | 0.02 |
+|  | Ret(Vol_Down)_Stability | Mean(Ret(Vol_Down))/ Std(Ret(Vol_Down)) | -0.64% | -0.084 |
+|  | Ret(Vol_Down)_Mean_Med_Ratio | Mean(Ret(Vol_Down))/ Median(Ret(Vol_Down)) | 0.22% | 0.02 |
 |  | Ret(Vol_Down)_Skew | Skew(Ret(Vol_Down)) | 0.27% | 0.04 |
 | 收益离差因子 | Ret_Filtered_Diff | Sum(Ret(Vol_Up)) – Sum(Ret(Vol_Down)) | 3.48% | 0.33 |
 |  | Ret_Filtered_Intensity | Sum(Ret(Vol_Up)) – Sum(Ret(Vol_Down)) | 0.66% | 0.05 |
 
-注：High为分钟高价，Low为分钟低价，Open为分钟开价，Close为分钟收价，Vwap为分钟均价，Ret为分钟收益，Ret (VolUp)为筛选后的放量收益(放量筛选标准与文中相同)，Ret(Vol_Down)为筛选后的缩量收益(缩量筛选标准阈值成交量均值减一倍标准差，即筛选出小于此阈值时的分钟收益)，Mean为均值函数，Std为标准差函数，Median为中位数函数，Skew为偏度函数。
+注：High为分钟高价，Low为分钟低价，Open为分钟开价，Close为分钟收价，Vwap为分钟均价，Ret为分钟收益，Ret(Vol_Up)为筛选后的放量收益(放量筛选标准与文中相同)，Ret(Vol_Down)为筛选后的缩量收益(缩量筛选标准阈值成交量均值减一倍标准差，即筛选出小于此阈值时的分钟收益)，Mean为均值函数，Std为标准差函数，Median为中位数函数，Skew为偏度函数。
 
 作为多因子选股模型的基石，有效因子的挖掘是搭建因子选股模型的第一步也是最重要的一步。本文试图从高频分钟线数据入手，挖掘在日内具有高信息增益的因子，在不同的频率(30 分钟，日度)上检测因子的预测效果。从结果来看，高频因子有很强的收益预测效果：在回测区间2013/01/01 ~ 2022/02/28 内，收益反转因子在 30 分钟的频率上 Rank IC 均值达到 9%，ICIR 为 0.97。加上成交量和收益筛选后的改进正收益反转因子中性化后在日度频率上 RankIC可达 5.99%，ICIR为 0.74。加上成交量筛选后的改进波动率因子中性化后在日度频率上 RankIC均值为 6.52%，ICIR为0.70。尾盘成交额占比因子中性化后在日度频率上 RankIC均值为 5.45%，ICIR为0.50。
 

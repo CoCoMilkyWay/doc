@@ -172,7 +172,7 @@
           "evidence": "| 分钟成交量的标准差 | vol_volume1min | 日内分钟k线成交量的标准差 |"
         },
         {
-          "name": "vol_rangelmin_std",
+          "name": "vol_range1min_std",
           "family": "volatility",
           "direction": "negative",
           "data_period": ["intraday"],

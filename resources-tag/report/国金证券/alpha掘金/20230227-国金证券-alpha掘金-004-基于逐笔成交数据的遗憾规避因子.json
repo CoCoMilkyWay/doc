@@ -162,7 +162,7 @@
           "horizon": "daily",
           "formula": "\\text{买入浮亏占比尾盘因子（尾盘成交占尾盘成交量比例）叠加小单限制}",
           "stats": [0.0251, null, 0.45, 0.5611],
-          "evidence": "其中尾盘则根据上述测试效果，选取买入浮亏占比的尾盘成交占尾盘比例（HCVOLE2）和卖出反弹占比的尾盘成交占全天比例（HCVOLE1）进行构建。"
+          "evidence": "其中尾盘则根据上述测试效果，选取买入浮亏占比的尾盘成交占尾盘比例（HCVOLE2）和卖出反弹占比的尾盘成交占全天比例（LCVOLE1）进行构建。"
         },
         {
           "name": "LCVOLES",
@@ -233,6 +233,36 @@
           "formula": "\\text{FRegretFactorW经行业市值中性化}",
           "stats": [0.0424, null, 0.73, 0.3697],
           "evidence": "从多空组合指标来看，十分组的单调性较好，FRegretFactorW 的多空年化收益率达到 37.12%，夏普比率为 4.09。将该因子进行行业市值中性化后，多空年化收益率为 36.97%，夏普比率提升至 5.00，两者的多头组合年化超额收益率也均达到了 10%以上。"
+        },
+        {
+          "name": "CGT",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期（Consensus）、成长（Growth）、技术（Technique\\_RegM）三个风格因子合成}",
+          "stats": [0.0592, null, 0.8, 0.4469],
+          "evidence": "经过我们的检验，发现一致预期（Consensus）、成长（Growth）和技术（Technique_RegM）三个风格因子在中证 1000上表现较好，从下表可以看出，我们将三个因子合成（CGT）后得到的 IC 均值为 5.92%，风险调整后 IC 为 0.80。"
+        },
+        {
+          "name": "CGTC",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second", "daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{CGT与量价背离因子合成}",
+          "stats": [0.0767, null, 1.02, 0.5674],
+          "evidence": "我们将三个因子与量价背离因子（CGTC）、线性重构因子进行合成（CGTCVmr），最后再与遗憾规避因子进行合成（CGTCVmrFRegret），测试此因子所带来的增量收益。"
+        },
+        {
+          "name": "CGTCVmr",
+          "family": "composite",
+          "direction": "unknown",
+          "data_period": ["second", "daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{CGTC与线性重构因子合成}",
+          "stats": [0.0805, null, 1.01, 0.7089],
+          "evidence": "我们将三个因子与量价背离因子（CGTC）、线性重构因子进行合成（CGTCVmr），最后再与遗憾规避因子进行合成（CGTCVmrFRegret），测试此因子所带来的增量收益。"
         },
         {
           "name": "CGTCVmrFRegret",

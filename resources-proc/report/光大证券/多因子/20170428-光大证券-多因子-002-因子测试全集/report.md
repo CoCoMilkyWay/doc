@@ -142,7 +142,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 1：估值因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | BP_LR | 净资产（最新财报）/总市值 |
 | BP_TTM | 净资产_TTM/总市值 |
@@ -155,9 +155,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 | NCFP_TTM | 净现金流_TTM/总市值 |
 | OCFP_TTM | 经营性现金流_TTM/总市值 |
 | PEG_TTM | 市盈率相对盈利增长率 |
-
 | SP_LYR | 营业收入（最新年报）/总市值 |
-| --- | --- |
 | SP_TTM | 营业收入_TTM/总市值 |
 
 资料来源：光大证券研究所
@@ -249,7 +247,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 5：规模因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | FC | 流通市值 |
 | FC_MC | 流通市值/总市值 |
@@ -263,7 +261,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 6：规模因子测试结果（因子收益&IC_IR）
 
-|  | Factor Mean Return | Factor Return tstat | mean | abs(t_value) Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
+|  | Factor Mean Return | Factor Return tstat | abs(t_value) mean | Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | FC | -0.4% | -2.36 | 6.41 | 37.0% | -5.3% | 34.1% | 16.0% | 28.9% | -0.33 |
 | FC_MC | 0.1% | 1.36 | 2.69 | 54.1% | 1.2% | 56.3% | 7.2% | 43.7% | 0.16 |
@@ -287,7 +285,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表7：规模因子测试结果（分层回溯年化收益率）
 
-|  | Group 1 | Group 2 | Group 3 | Group 4 |  | Group 5 LongShort |
+|  | Group 1 | Group 2 | Group 3 | Group 4 | Group 5 | Long_Short |
 | --- | --- | --- | --- | --- | --- | --- |
 | FC | 31.8% | 21.8% | 15.3% | 11.1% | 7.4% | -20.6% |
 | FC_MC | 8.0% | 9.6% | 9.1% | 12.1% | 13.1% | 5.0% |
@@ -295,7 +293,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 | Ln_MC | 35.4% | 20.8% | 12.9% | 11.0% | 6.7% | -23.5% |
 | MC | 35.4% | 20.8% | 12.9% | 11.0% | 6.7% | -23.5% |
 
-资料来源：Wind，光大证券研究所资料来源：
+资料来源：Wind，光大证券研究所
 
 由上表可见，规模因子整体的因子收益和 IC 值表现都非常出色，不过由于规模因子的同质性较高，我们在筛选规模因子时需要有所取舍，只能保留显著性高并且与其余因子之间共线性较弱的因子。
 
@@ -319,7 +317,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表9：成长因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | BPG_TTM | 每股净资产增长率_TTM |
 | EPSG_TTM | EPS 增长率_TTM |
@@ -327,6 +325,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 | OPG_TTM | 营业收入增长率_TTM |
 | ROAG_TTM | ROA 增长率_TTM |
 | ROEG_TTM | ROE增长率_TTM |
+| TAG | 总资产增长率 |
 | TAG_TTM | 总资产增长率_TTM |
 
 资料来源：光大证券研究所
@@ -397,7 +396,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 13：质量因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | AT | 资产周转率 |
 | AT_TTM | 资产周转率_TTM |
@@ -460,10 +459,12 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 | DPR_TTM | 5.4% | 2.9% | 4.3% | 1.1% | 3.9% | -3.5% |
 | NPM | 18.4% | 17.0% | 17.3% | 16.6% | 18.0% | -1.7% |
 | NPM-TTM | 18.6% | 16.2% | 16.4% | 16.8% | 16.2% | -3.5% |
-| OPM OPM_TTM | 4.2% 4.4% | 2.3% 1.0% | 2.9% 2.7% | 2.4% -1.5% | 3.2% 3.4% | -3.0% -3.1% |
+| OPM | 4.2% | 2.3% | 2.9% | 2.4% | 3.2% | -3.0% |
+| OPM_TTM | 4.4% | 1.0% | 2.7% | -1.5% | 3.4% | -3.1% |
 | ROA | 16.7% | 18.1% | 15.0% | 18.1% | 19.4% | 0.4% |
-| ROA_TTM ROE | 18.5% | 16.8% | 17.4% | 14.2% | 18.4% | -1.9% |
-| ROE_TTM | 15.6% 21.8% | 17.6% 20.3% | 17.9% 16.2% | 16.1% 17.0% | 19.0% 17.2% | 1.6% -5.3% |
+| ROA_TTM | 18.5% | 16.8% | 17.4% | 14.2% | 18.4% | -1.9% |
+| ROE | 15.6% | 17.6% | 17.9% | 16.1% | 19.0% | 1.6% |
+| ROE_TTM | 21.8% | 20.3% | 16.2% | 17.0% | 17.2% | -5.3% |
 
 资料来源：Wind，光大证券研究所
 
@@ -493,7 +494,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 17：杠杆因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | CCR | 现金比率 |
 | CUR | 流动比率 |
@@ -529,7 +530,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表19：杠杆因子测试结果（分层回溯年化收益率）
 
-|  | Group 1 Group 2 |  | Group 3 | Group 4 | Group 5 | LongShort |
+|  | Group 1 | Group 2 | Group 3 | Group 4 | Group 5 | Long_Short |
 | --- | --- | --- | --- | --- | --- | --- |
 | CCR | 7.0% | 4.9% | 8.2% | -0.4% | 4.6% | -0.9% |
 | CUR | 14.2% | 16.9% | 15.5% | 16.5% | 16.9% | 2.9% |
@@ -542,7 +543,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 20：杠杆因子历史 IC 值相关性检验
 
-| CCR |  | CUR | Debt_Asset | QR |
+|  | CCR | CUR | Debt_Asset | QR |
 | --- | --- | --- | --- | --- |
 | CCR | 1.00 | -0.13 | 0.05 | -0.14 |
 | CUR | -0.13 | 1.00 | -0.35 | 0.98 |
@@ -557,7 +558,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 21：动量因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | Momentum_1M | 最近1个月收益率 |
 | Momentum_3M | 最近3个月收益率 |
@@ -572,7 +573,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 22：动量因子测试结果（因子收益&IC_IR）
 
-|  | Factor Mean Return | Factor Return tstat | mean | abs(t_value) Factor t_value positive per | IC mean | IC positive 'per | IC std | IC > 0.02 per | IR |
+|  | Factor Mean Return | Factor Return tstat | abs(t_value) mean | Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Momentum_1M | -0.92% | -8.26 | 5.39 | 21% | -7.9% | 23% | 11% | 19% | -0.75 |
 | Momentum_3M | -0.88% | -6.72 | 5.60 | 22% | -7.6% | 27% | 12% | 18% | -0.62 |
@@ -631,7 +632,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表25：波动因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | HighLow_1M | 1个月最高价/最低价 |
 | HighLow_3M | 3个月最高价/最低价 |
@@ -650,7 +651,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 26：波动因子测试结果（因子收益&IC_IR）
 
-|  | Factor Mean Return | Factor Return tstat | mean | abs(t_value) Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
+|  | Factor Mean Return | Factor Return tstat | abs(t_value) mean | Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | HighLow_1M | -0.5% | -4.15 | 5.21 | 34.3% | -3.9% | 33.6% | 11.8% | 29.1% | -0.34 |
 | HighLow_3M | -0.3% | -2.59 | 5.71 | 36.3% | -1.9% | 36.3% | 13.3% | 34.8% | -0.14 |
@@ -725,7 +726,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 29：流动性因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | TURNOVER_1M | 最近一个月换手率 |
 | TURNOVER_3M | 最近三个月换手率 |
@@ -740,7 +741,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表30：流动性因子测试结果（因子收益&IC_IR）
 
-|  | Factor Mean Return | Factor Return tstat | mean | abs(t_value) Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
+|  | Factor Mean Return | Factor Return tstat | abs(t_value) mean | Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TURNOVER_1M | -0.78% | -5.90 | 5.98 | 29.6% | -6.6% | 29.6% | 13.4% | 27.4% | -0.49 |
 | TURNOVER_3M | -0.56% | -4.42 | 5.58 | 34.8% | -4.6% | 35.6% | 13.3% | 31.9% | -0.34 |
@@ -788,7 +789,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 33：技术因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | DEA | 异同平均数 |
 | DIFF | 差离值 |
@@ -803,7 +804,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表34：技术因子测试结果（因子收益&IC_IR）
 
-|  | Factor Return | Factor Return tstat | mean | abs(t_value) Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
+|  | Factor Mean Return | Factor Return tstat | abs(t_value) mean | Factor t_value positive per | IC mean | IC positive per | IC std | IC > 0.02 per | IR |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | DEA | -0.2% | -1.39 | 3.55 | 38.1% | -1.8% | 36.6% | 10.8% | 29.1% | -0.17 |
 | DIFF | -0.4% | -3.21 | 4.67 | 37.3% | -3.9% | 34.3% | 12.5% | 27.6% | -0.31 |
@@ -860,7 +861,7 @@ IC 值（信息系数）是指个股第 t期在因子 i 上的因子暴露（剔
 
 表 37：分析师因子明细表
 
-| 因子代码 因子名称 |  |
+| 因子代码 | 因子名称 |
 | --- | --- |
 | FORE_Earning | 一致预期净利润 |
 | EEChange_1M | 一致预期净利润变化率1M |

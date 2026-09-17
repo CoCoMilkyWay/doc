@@ -21,34 +21,44 @@
       },
       "factors": [
         {
-          "name": "mmt_overnight_A",
-          "family": "momentum",
-          "direction": "positive",
+          "name": "mmt_normal_M",
+          "family": "reversal",
+          "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{过去一年的隔夜涨跌幅之和}-\\text{过去一个月隔夜涨跌幅之和}",
-          "stats": [0.03, null, 0.63, null],
-          "evidence": "隔夜动量因子(mmt_overnight_A)全市场范围内有效性较好，IC_IR达0.63，但沪深300范围内有效性一般；"
+          "formula": "\\text{过去1个月的收益率}",
+          "stats": [-0.062, null, -0.63, null],
+          "evidence": "| mmt_normal_M | 1个月收益率 | 过去1个月的收益率 |"
         },
         {
-          "name": "mmt_report_overnight",
+          "name": "mmt_normal_A",
           "family": "momentum",
-          "direction": "positive",
+          "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{最近一个业绩公告日的前一个月的隔夜收益率之和}",
-          "stats": [0.029, null, 0.73, null],
-          "evidence": "全市场中，mmt_report_overnight因子的IC 均值为 2.9%，IC_IR 为 0.73。"
+          "formula": "\\text{过去12个月的收益率}-\\text{过去1个月收益率}",
+          "stats": [-0.003, null, -0.03, null],
+          "evidence": "| mmt_normal_A | 1年收益率 | 过去12个月的收益率-过去1个月收益率 |"
         },
         {
-          "name": "mmt_offlimit_A",
-          "family": "momentum",
-          "direction": "positive",
+          "name": "mmt_avg_M",
+          "family": "reversal",
+          "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{除去涨跌停状态外，过去1年的收盘涨跌幅}-\\text{过去1个月的收盘涨跌幅}",
-          "stats": [0.025, null, 0.29, null],
-          "evidence": "mmt_offlimit_A因子在沪深 300 中单调性良好且多头收益显著"
+          "formula": "\\text{当期收盘价}/\\text{过去20个交易日均价}",
+          "stats": [-0.065, null, -0.58, null],
+          "evidence": "| mmt_avg_M | 相对均价的1个月收益率 | 当期收盘价/过去20个交易日均价 |"
+        },
+        {
+          "name": "mmt_avg_A",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月前的收盘价}/\\text{过去1年的均价}",
+          "stats": [-0.011, null, -0.11, null],
+          "evidence": "| mmt_avg_A | 相对均价的1年收益率 | 1个月前的收盘价/过去1年的均价 |"
         },
         {
           "name": "mmt_intraday_M",
@@ -61,14 +71,254 @@
           "evidence": "全市场中，mmt_intraday_M因子的IC均值为-6.8%，IC_IR为-0.77;mmt_range_M因子的IC 均值为-6.8%，IC_IR 为-1.03。"
         },
         {
+          "name": "mmt_intraday_A",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一年的日内涨跌幅之和}-\\text{过去一个月日内涨跌幅之和}",
+          "stats": [-0.023, null, -0.28, null],
+          "evidence": "| mmt_intraday_A | 1年日内动量 | 过去一年的日内涨跌幅之和-过去一个月日内涨跌幅之和 |"
+        },
+        {
+          "name": "mmt_overnight_M",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月内，隔夜涨跌幅之和}",
+          "stats": [0.024, null, 0.5, null],
+          "evidence": "| mmt_overnight_M | 1个月隔夜动量 | 过去1个月内，隔夜涨跌幅之和 |"
+        },
+        {
+          "name": "mmt_overnight_A",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去一年的隔夜涨跌幅之和}-\\text{过去一个月隔夜涨跌幅之和}",
+          "stats": [0.03, null, 0.63, null],
+          "evidence": "隔夜动量因子(mmt_overnight_A)全市场范围内有效性较好，IC_IR达0.63，但沪深300范围内有效性一般；"
+        },
+        {
+          "name": "mmt_off_limit_A",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{除去涨跌停状态外，过去1年的收盘涨跌幅}-\\text{过去1个月的收盘涨跌幅}",
+          "stats": [0.025, null, 0.29, null],
+          "evidence": "| mmt_off_limit_A | 1年去涨跌停动量 | 除去涨跌停状态外，过去1年的收盘涨跌幅-过去1个月的收盘涨跌幅 |"
+        },
+        {
+          "name": "mmt_off_limit_M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{除去涨跌停状态外，过去1个月的收盘涨跌幅}",
+          "stats": [-0.021, null, -0.23, null],
+          "evidence": "| mmt_off_limit_M | 1个月去涨跌停动量 | 除去涨跌停状态外，过去1个月的收盘涨跌幅 |"
+        },
+        {
           "name": "mmt_range_M",
           "family": "reversal",
           "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{过去1个月内，振幅大的前20%的收盘收益率}-\\text{振幅小的后20%的收盘收益率}",
+          "formula": "\\text{过去1个月内，振幅大的前20\\%的收盘收益率}-\\text{振幅小的后20\\%的收盘收益率}",
           "stats": [-0.068, null, -1.03, null],
           "evidence": "月度反转因子整体有效性较强，尤其是mmt_range_M因子，在所有选股域中均有较好的表现。"
+        },
+        {
+          "name": "mmt_range_A",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年内，振幅大的前20\\%的收盘收益率}-\\text{振幅小的后20\\%的收盘收益率}",
+          "stats": [-0.048, null, -0.7, null],
+          "evidence": "| mmt_range_A | 1年振幅调整动量 | 过去1年内，振幅大的前20%的收盘收益率·振幅小的后20%的收盘收益率 |"
+        },
+        {
+          "name": "mmt_route_M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月内收益率}/\\text{过去1个月内日度涨跌幅绝对值之和}",
+          "stats": [-0.049, null, -0.52, null],
+          "evidence": "| mmt_route_M | 1个月路径调整动量 | 过去1个月内收益率/过去1个月内日度涨跌幅绝对值之和 |"
+        },
+        {
+          "name": "mmt_route_A",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年内收益率}/\\text{过去1年内日度涨跌幅绝对值之和}",
+          "stats": [-0.006, null, -0.06, null],
+          "evidence": "| mmt_route_A | 1年路径调整动量 | 过去1年内收益率/过去1年内日度涨跌幅绝对值之和 |"
+        },
+        {
+          "name": "mmt_discrete_M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月内，上涨天数占比}-\\text{下跌天数占比}",
+          "stats": [-0.02, null, -0.29, null],
+          "evidence": "| mmt_discrete_M | 1个月信息离散度动量 | 过去1个月内，上涨天数占比-下跌天数占比 |"
+        },
+        {
+          "name": "mmt_discrete_A",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1年内，上涨天数占比}-\\text{下跌天数占比}",
+          "stats": [-0.005, null, -0.07, null],
+          "evidence": "| mmt_discrete_A | 1年信息离散度动量 | 过去1年内，上涨天数占比-下跌天数占比 |"
+        },
+        {
+          "name": "mmt_sec_rank_M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{每日计算个股日收益在横截面的排名，取过去20个交易日排名均值}",
+          "stats": [-0.023, null, -0.24, null],
+          "evidence": "| mmt_ sec_rank_M | 1个月横截面rank动量 | 每日计算个股日收益在横截面的排名，取过去20个交易日排名均值 |"
+        },
+        {
+          "name": "mmt_sec_rank_A",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{每日计算个股日收益在横截面的排名，取过去1年排名均值}",
+          "stats": [0.022, null, 0.24, null],
+          "evidence": "| mmt_sec_rank_A | 1年横截面rank动量 | 每日计算个股日收益在横截面的排名，取过去1年排名均值 |"
+        },
+        {
+          "name": "mmt_time_rank_M",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{每日计算个股价格在时序（1年内）的排名，取过去20个交易日排名均值}",
+          "stats": [-0.041, null, -0.51, null],
+          "evidence": "| mmt_time_rank_M | 1个月时序rank动量 | 每日计算个股价格在时序（1年内）的排名，取过去20个交易日排名均值 |"
+        },
+        {
+          "name": "mmt_report_overnight",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近一个业绩公告日的前一个月的隔夜收益率之和}",
+          "stats": [0.029, null, 0.73, null],
+          "evidence": "全市场中，mmt_report_overnight因子的IC 均值为 2.9%，IC_IR 为 0.73。"
+        },
+        {
+          "name": "mmt_report_jump_open",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近一个业绩公告日的下一交易日隔夜超额收益率}",
+          "stats": [0.016, null, 0.56, null],
+          "evidence": "| mmt_report_jump_open | 1.6% | 0.56 | 26.7% | 10.0% | 73.3% | 47.3% | 6.88 | 9.8% | 1.1% | -8.5% | 43.1% | 0.81 |"
+        },
+        {
+          "name": "mmt_report_jump_low",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{原文图表4 只给出 mmt\\_report\\_jump（业绩跳开动量）一行定义，未单独给出 mmt\\_report\\_jump\\_low 的计算公式}",
+          "stats": [0.017, null, 0.43, null],
+          "evidence": "| mmt_report_jump_low | 1.7% | 0.43 | 30.7% | 18.7% | 69.3% | 50.0% | 5.26 | 9.0% | 0.3% | -12.2% | 46.4% | 0.76 |"
+        },
+        {
+          "name": "mmt_report_period",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{业绩公告前一交易日至后一交易日}",
+          "stats": [0.014, null, 0.29, null],
+          "evidence": "| mmt_report_period | 业绩期动量 | 业绩公告前一交易日至后一交易日 |"
+        },
+        {
+          "name": "mmt_highest_days_A",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{近1年最高价日期距今的天数}",
+          "stats": [0.013, null, 0.17, null],
+          "evidence": "| mmt_highest_days_A | 近1年最高价日期距今的天数 |  |"
+        },
+        {
+          "name": "vol_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（日收益率）的标准差}",
+          "stats": [-0.069, null, -0.56, null],
+          "evidence": "vol_std_1M 1个月波动率 过去1个月（日收益率）的标准差"
+        },
+        {
+          "name": "vol_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月（日收益率）的标准差}",
+          "stats": [-0.069, null, -0.51, null],
+          "evidence": "vol_std_3M 3个月波动率 | 过去3个月（日收益率）的标准差"
+        },
+        {
+          "name": "vol_std_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月（日收益率）的标准差}",
+          "stats": [-0.063, null, -0.47, null],
+          "evidence": "vol_std_6M 6个月波动率 | 过去6个月（日收益率）的标准差"
+        },
+        {
+          "name": "vol_down_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅小于0的日收益率}",
+          "stats": [-0.032, null, -0.26, null],
+          "evidence": "vol_down_std_1M 1个月下行波动率 过去1个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅小于0的日收益率"
+        },
+        {
+          "name": "vol_down_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅小于0的日收益率}",
+          "stats": [-0.042, null, -0.3, null],
+          "evidence": "vol_down_std_3M 3个月下行波动率 过去3个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅小于0的日收益率"
+        },
+        {
+          "name": "vol_down_std_ 6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅小于0的日收益率}",
+          "stats": [-0.044, null, -0.32, null],
+          "evidence": "vol_down_std_ 6M 6个月下行波动率 过去6个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅小于0的日收益率"
         },
         {
           "name": "vol_up_std_1M",
@@ -81,6 +331,66 @@
           "evidence": "上行波动率因子有效性优于传统波动率因子、下行波动率因子，全市场IC IR可达-0.79，IC 均值可达-7.9%；"
         },
         {
+          "name": "vol_up_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅大于0的日收益率}",
+          "stats": [-0.078, null, -0.69, null],
+          "evidence": "vol_up_std_3M 3个月上行波动率 过去3个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅大于0的日收益率"
+        },
+        {
+          "name": "vol_up_std_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅大于0的日收益率}",
+          "stats": [-0.07, null, -0.59, null],
+          "evidence": "vol_up_std_6M 6个月上行波动率 过去6个月（调整日收益率）的标准差，其中，调整日收益率指涨跌幅大于0的日收益率"
+        },
+        {
+          "name": "vol_highlow_avg_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（最高价/最低价）的均值}",
+          "stats": [-0.07, null, -0.56, null],
+          "evidence": "vol_highlow_avg_1M | 1个月日内振幅 |  | 过去1个月（最高价/最低价）的均值"
+        },
+        {
+          "name": "vol_highlow_avg_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月（最高价/最低价）的均值}",
+          "stats": [-0.061, null, -0.48, null],
+          "evidence": "vol_highlow_avg_3M | 3个月日内振幅 |  | 过去3个月（最高价/最低价）的均值"
+        },
+        {
+          "name": "vol_highlow_avg_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月（最高价/最低价）的均值}",
+          "stats": [-0.052, null, -0.42, null],
+          "evidence": "vol_highlow_avg_6M | 6个月日内振幅 |  | 过去6个月（最高价/最低价） |  |  | 的均值"
+        },
+        {
+          "name": "vol_highlow_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（最高价/最低价）的标准差}",
+          "stats": [-0.073, null, -0.75, null],
+          "evidence": "vol_highlow_std_1M | 1个月日内振幅标准差 |  | 过去1个月（最高价/最低价）的 |  |  | 标准差"
+        },
+        {
           "name": "vol_highlow_std_3M",
           "family": "volatility",
           "direction": "negative",
@@ -91,14 +401,304 @@
           "evidence": "其中，vol_highlow_std、vol_upshadow_std 和 vol_w_downshadow_std 因子在不同范围内表现均较为突出，有效性与单调性良好，多头选股组合表现优于收益波动率因子；"
         },
         {
+          "name": "vol_highlow_std_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月（最高价/最低价）的标准差}",
+          "stats": [-0.066, null, -0.59, null],
+          "evidence": "vol_highlow_std_6M | 6个月日内振幅标准差 过去6个月（最 |  |  |  | 高价/最低价）的 | 标准差"
+        },
+        {
+          "name": "vol_upshadow_avg_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化上影线因子过去1个月的均值；其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
+          "stats": [-0.06, null, -0.59, null],
+          "evidence": "vol_upshadow_avg_1M | 1个月上影线均值 | 标准化上影线因子过去1个月的均值；其中 |  |  | ，标准化上影线= | （最高价-max(开盘价，收盘价））/最高价"
+        },
+        {
+          "name": "vol_upshadow_avg_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化上影线因子过去3个月的均值；其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
+          "stats": [-0.055, null, -0.5, null],
+          "evidence": "vol_upshadow_avg_3M | 3个月上影线均值 标准化上影线因子过去3个月的均值：其中，"
+        },
+        {
+          "name": "vol_upshadow_avg_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化上影线因子过去6个月的均值；其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
+          "stats": [-0.048, null, -0.43, null],
+          "evidence": "vol_upshadow_avg_6M | 6个月上影线均值 标准化上影线因子过去6个月的均值；其中，"
+        },
+        {
+          "name": "vol_upshadow_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化上影线因子过去1个月的标准差；其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
+          "stats": [-0.07, null, -0.77, null],
+          "evidence": "vol_upshadow_std_1M | 1个月上影线标准差 标准化上影线因子过去1个月的标准差 |  |  | ；其中 | ，标准化上影线 | =（最高价-max(开盘价，收盘价））/最高价"
+        },
+        {
+          "name": "vol_upshadow_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化上影线因子过去3个月的标准差；其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
+          "stats": [-0.066, null, -0.64, null],
+          "evidence": "vol_upshadow_std_3M | 3个月上影线标准差 标准化上影线因子过去3个月的标准差"
+        },
+        {
           "name": "vol_upshadow_std_6M",
           "family": "volatility",
           "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{标准化上影线因子过去6个月的标准差，其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
+          "formula": "\\text{标准化上影线因子过去6个月的标准差；其中，标准化上影线=（最高价-max(开盘价，收盘价））/最高价}",
           "stats": [-0.06, null, -0.57, null],
           "evidence": "其中，vol_highlow_std、vol_upshadow_std 和 vol_w_downshadow_std 因子在不同范围内表现均较为突出，有效性与单调性良好，多头选股组合表现优于收益波动率因子；"
+        },
+        {
+          "name": "vol_downshadow_avg_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化下影线因子过去1个月的均值；其中，标准化下影线=（min(开盘价，收盘价）-最低价）/最低价}",
+          "stats": [-0.057, null, -0.62, null],
+          "evidence": "vol_downshadow_avg_1M | 1个月下影线均值 标准化下影线因子过去1个月的均值 |  |  | ；其中， | 标准化下影线= | （min(开盘价，收盘价）-最低价）/最低价"
+        },
+        {
+          "name": "vol_downshadow_avg_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化下影线因子过去3个月的均值；其中，标准化下影线=（min(开盘价，收盘价）-最低价）/最低价}",
+          "stats": [-0.049, null, -0.49, null],
+          "evidence": "vol_downshadow_avg_3M | 3个月下影线均值 标准化下影线因子过去3个月的均值"
+        },
+        {
+          "name": "vol_downshadow_avg_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化下影线因子过去6个月的均值；其中，标准化下影线=（min(开盘价，收盘价）-最低价）/最低价}",
+          "stats": [-0.041, null, -0.41, null],
+          "evidence": "vol_downshadow_avg_6M | 6个月下影线均值 标准化下影线因子过去6个月的均值"
+        },
+        {
+          "name": "vol_downshadow_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化下影线因子过去1个月的标准差；其中，标准化下影线=（min(开盘价，收盘价）-最低价）/最低价}",
+          "stats": [-0.052, null, -0.55, null],
+          "evidence": "vol_downshadow_std_1M | 1个月下影线标准差 标准化下影线因子过去1个月的标准差"
+        },
+        {
+          "name": "vol_downshadow_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化下影线因子过去3个月的标准差；其中，标准化下影线=（min(开盘价，收盘价）-最低价）/最低价}",
+          "stats": [-0.049, null, -0.47, null],
+          "evidence": "vol_downshadow_std_3M | 3个月下影线标准差 标准化下影线因子过去3个月的标准差"
+        },
+        {
+          "name": "vol_downshadow_std_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{标准化下影线因子过去6个月的标准差；其中，标准化下影线=（min(开盘价，收盘价）-最低价）/最低价}",
+          "stats": [-0.045, null, -0.42, null],
+          "evidence": "vol_downshadow_std_6M | 6个月下影线标准差 标准化下影线因子过去6个月的标准差"
+        },
+        {
+          "name": "vol_w_downshadow_avg_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉下影线因子过去1个月的均值，其中，威廉下影线=（收盘价-最低价）/最低价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_downshadow_avg_1M | 1个月威廉下影线均值 威廉下影线因子过去1个月 |  |  | 的均值 | ，其中，威廉下影 | 线=（收盘价-最低价）/最低价"
+        },
+        {
+          "name": "vol_w_downshadow_avg_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉下影线因子过去3个月的均值，其中，威廉下影线=（收盘价-最低价）/最低价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_downshadow_avg_3M | 3个月威廉下影线均值 威廉下影线因子过去3个月 |  |  | 的均值 | ，其中，威廉下影 | 线="
+        },
+        {
+          "name": "vol_w_downshadow_avg_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉下影线因子过去6个月的均值，其中，威廉下影线=（收盘价-最低价）/最低价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_downshadow_avg_6M | 6个月威廉下影线均值 威廉下影线因子过去6个月 |  |  | 的均值 | ，其中，威廉下影 | 线="
+        },
+        {
+          "name": "vol_w_downshadow_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉下影线因子过去1个月的标准差，其中，威廉下影线=（收盘价-最低价）/最低价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_downshadow_std_1M 1个月威廉下影线标准差 威廉下影线因子过去1个月的 |  |  |  | 标准差 | ，其中，威廉下 | 影线 | =（收盘价- | 最低价） | /最低价"
+        },
+        {
+          "name": "vol_w_ downshadow_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉下影线因子过去3个月的标准差，其中，威廉下影线=（收盘价-最低价）/最低价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_ downshadow_std_3M 3个月威廉下影线标准差 威廉下影线因子过去3个月的 |  |  |  | 标准差 | ，其中，威廉下影线="
+        },
+        {
+          "name": "vol_w_downshadow_std_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉下影线因子过去6个月的标准差，其中，威廉下影线=（收盘价-最低价）/最低价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_downshadow_std_6M 6个月威廉下影线标准差 威廉下影线因子过去6个月的 |  |  |  | 标准差 | ，其中，威廉下 | 影线="
+        },
+        {
+          "name": "vol_w_upshadow_avg_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉上影线因子过去1个月的均值，其中，威廉上影线=（最高价-收盘价）/最高价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_upshadow_avg_1M 1个月威廉上影线均值 威廉上影线因子过去1个月 |  |  |  | 的均值 | ，其中，威廉上影线=（ |  | 最高价- | 收盘价）/最高价"
+        },
+        {
+          "name": "vol_w_upshadow_avg_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉上影线因子过去3个月的均值，其中，威廉上影线=（最高价-收盘价）/最高价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_upshadow_avg_3M 3个月威廉上影线均值 威廉上影线因子过去3个月 |  |  |  | 的均值 | ，其中，威廉上影线=（"
+        },
+        {
+          "name": "vol_w_upshadow_avg_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉上影线因子过去6个月的均值，其中，威廉上影线=（最高价-收盘价）/最高价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_upshadow_avg_6M 6个月威廉上影线均值 威廉上影线因子过去6个月的均值 |  |  |  |  | ，其中，威廉上影线=（"
+        },
+        {
+          "name": "vol_w_upshadow_std_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉上影线因子过去1个月的标准差，其中，威廉上影线=（最高价-收盘价）/最高价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_upshadow_std_1M 1个月威廉上影线标准差 威廉上影线因子过去1个月的标准差 |  |  |  |  | ，其中，威廉上影线=（最高价-收盘价）/最高价"
+        },
+        {
+          "name": "vol_w_upshadow_std_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉上影线因子过去3个月的标准差，其中，威廉上影线=（最高价-收盘价）/最高价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_upshadow_std_3M 3个月威廉上影线标准差 威廉上影线因子过去3个月的标准差 |  |  |  |  | ，其中，威廉上影线=（最高价-收盘价）/最高价"
+        },
+        {
+          "name": "vol_w_upshadow_std_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{威廉上影线因子过去6个月的标准差，其中，威廉上影线=（最高价-收盘价）/最高价}",
+          "stats": [null, null, null, null],
+          "evidence": "vol_w_upshadow_std_6M 6个月威廉上影线标准差 威廉上影线因子过去6个月的标准差 |  |  |  |  | ，其中，威廉上影线=（最高价-收盘价）/最高价"
+        },
+        {
+          "name": "liq_turn_avg_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月换手率的均值}",
+          "stats": [-0.081, null, -0.79, null],
+          "evidence": "| liq_turn_avg_1M | 1个月换手率 | 1个月换手率的均值 |"
+        },
+        {
+          "name": "liq_turn_avg_3M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个月换手率的均值}",
+          "stats": [-0.068, null, -0.68, null],
+          "evidence": "| liq_turn_avg_3M | 3个月换手率 | 3个月换手率的均值 |"
+        },
+        {
+          "name": "liq_turn_avg_6M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{6个月换手率的均值}",
+          "stats": [-0.059, null, -0.61, null],
+          "evidence": "| liq_turn_avg_6M | 6个月换手率 |  | 6个月换手率的均值 |"
+        },
+        {
+          "name": "liq_turn_std_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月换手率的标准差}",
+          "stats": [-0.093, null, -1.06, null],
+          "evidence": "| liq_turn_std_1M | 1个月换手率标准差 |  | 1个月换手率的标准差 |"
+        },
+        {
+          "name": "liq_turn_std_3M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个月换手率的标准差}",
+          "stats": [-0.08, null, -0.88, null],
+          "evidence": "| liq_turn_std_3M | 3个月换手率标准差 |  | 3个月换手率的标准差 |"
         },
         {
           "name": "liq_turn_std_6M",
@@ -111,6 +711,36 @@
           "evidence": "换手率标准差因子（liq_turn_std_6M）在沪深300、中证500、中证1000范围内的IC_IR分别为-0.39、-0.70、-0.81，表现均较好。"
         },
         {
+          "name": "liq_vstd_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月成交额}/\\text{过去1个月收益率标准差}",
+          "stats": [-0.05, null, -0.65, null],
+          "evidence": "| liq_vstd_1M | 1个月成交波动比 |  | 1个月成交额/过去1个月收益率标准差 |"
+        },
+        {
+          "name": "liq_vstd_3M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个月成交额}/\\text{过去3个月收益率标准差}",
+          "stats": [-0.035, null, -0.43, null],
+          "evidence": "| liq_vstd_3M | 3个月成交波动比 |  | 3个月成交额/过去3个月收益率标准差 |"
+        },
+        {
+          "name": "liq_vstd_6M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{6个月成交额}/\\text{过去6个月收益率标准差}",
+          "stats": [-0.025, null, -0.31, null],
+          "evidence": "| liq_vstd_6M | 6个月成交波动比 |  | 6个月成交额/过去6个月收益率标准差 |"
+        },
+        {
           "name": "liq_amihud_avg_1M",
           "family": "liquidity",
           "direction": "positive",
@@ -119,6 +749,56 @@
           "formula": "\\text{过去1个月（日收益率/成交额)的平均值}",
           "stats": [0.055, null, 0.66, null],
           "evidence": "在全市场范围内，上述三类因子IC_IR差异不大，绝对值均可达0.6以上，从多头收益表现来看，则是Amihud非流动性因子表现相对较好，年化超额可达9.4%。"
+        },
+        {
+          "name": "liq_amihud_avg_3M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月(日收益率/成交额)的平均值}",
+          "stats": [0.041, null, 0.5, null],
+          "evidence": "liq_amihud_avg_3M | 3个月Amihud非流动因子 |  | 过去3个月(日收益率"
+        },
+        {
+          "name": "liq_amihud_avg_6M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月(日收益率/成交额)的平均值}",
+          "stats": [0.028, null, 0.35, null],
+          "evidence": "| liq_amihud_avg_6M | 6个月Amihud非流动因子 |  | 过去6个月(日收益率/成交额)的平均值 |"
+        },
+        {
+          "name": "liq_amihud_std_1M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（日收益率/成交额)的标准差}",
+          "stats": [0.048, null, 0.59, null],
+          "evidence": "| liq_amihud_std_1M | 1个月Amihud非流动因子标准差 |  | 过去1个月（日收益率/成交额)的标准差 |"
+        },
+        {
+          "name": "liq_amihud_std_3M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月(日收益率/成交额)的标准差}",
+          "stats": [0.031, null, 0.4, null],
+          "evidence": "| liq_amihud_std_3M | 3个月Amihud非流动因子标准差 |  | 过去3个月(日收益率/成交额)的标准差 |"
+        },
+        {
+          "name": "liq_amihud_std_6M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月（日收益率/成交额)的标准差}",
+          "stats": [0.016, null, 0.22, null],
+          "evidence": "| liq_amihud_std_6M | 6个月Amihud非流动因子标准差 |  | 过去6个月（日收益率/成交额)的标准差 |"
         },
         {
           "name": "liq_shortcut_avg_1M",
@@ -131,6 +811,56 @@
           "evidence": "价格弹性因子包括Amihud非流动性因子、最短路径非流动因子、成交波动比因子。"
         },
         {
+          "name": "liq_shortcut_avg_3M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{日K线最短路径}_t/\\text{成交额}_t)}{N},\\ \\text{窗口为过去3个月}",
+          "stats": [0.035, null, 0.48, null],
+          "evidence": "liq_shortcut_avg_3M | 3个月最短路径非流动因子 | 过去3个月（日K线最短路径/成交额）的平均值"
+        },
+        {
+          "name": "liq_shortcut_avg_6M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{日K线最短路径}_t/\\text{成交额}_t)}{N},\\ \\text{窗口为过去6个月}",
+          "stats": [0.028, null, 0.4, null],
+          "evidence": "liq_shortcut_avg_6M | 6个月最短路径非流动因子 | 过去6个月（日K线最短路径/成交额）的平均值"
+        },
+        {
+          "name": "liq_shortcut_std_1M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去1个月（日K线最短路径/成交额）的标准差}",
+          "stats": [0.033, null, 0.45, null],
+          "evidence": "liq_shortcut_std_1M | 1个月最短路径非流动因子标准差 | 过去1个月（日K线最短路径/成交额）的标准差"
+        },
+        {
+          "name": "liq_shortcut_std_3M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去3个月（日K线最短路径/成交额）的标准差}",
+          "stats": [0.026, null, 0.36, null],
+          "evidence": "liq_shortcut_std_3M | 3个月最短路径非流动因子标准差 | 过去3个月（日K线最短路径/成交额）的标准差"
+        },
+        {
+          "name": "liq_shortcut_std_6M",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去6个月（日K线最短路径/成交额）的标准差}",
+          "stats": [0.02, null, 0.3, null],
+          "evidence": "liq_shortcut_std_6M | 6个月最短路径非流动因子标准差 |  | 过去6个月（日K线最短路径/成交额）的标准差"
+        },
+        {
           "name": "corr_price_turn_1M",
           "family": "liquidity",
           "direction": "negative",
@@ -139,6 +869,36 @@
           "formula": "\\text{过去20个交易日，t日换手率与t日价格的相关系数}",
           "stats": [-0.061, null, -1, null],
           "evidence": "全市场范围内，corr_price_turn_1M因子的IC均值为-6.1%，IC_IR为-1.00。"
+        },
+        {
+          "name": "corr_price_turn_post_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率与t+1日价格的相关系数}",
+          "stats": [-0.043, null, -0.78, null],
+          "evidence": "| corr_price_turn_post_1M | 换手率与价格相关性因子（量领先一期） | 过去20个交易日，t日换手率与t+1日价格的相关系数 |"
+        },
+        {
+          "name": "corr_price_turn_prior_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率与t-1日价格的相关系数}",
+          "stats": [-0.037, null, -0.62, null],
+          "evidence": "| corr_price_turn_prior_1M | 换手率与价格相关性因子（价领先一期） | 过去20个交易日，t日换手率与t-1日价格的相关系数 |"
+        },
+        {
+          "name": "corr_ret_turn_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率与t日收益率的相关系数}",
+          "stats": [-0.039, null, -0.72, null],
+          "evidence": "| corr_ret_turn_1M | 换手率与收益率相关性因子（量价同步） | 过去20个交易日，t日换手率与t日收益率的相关系数 |"
         },
         {
           "name": "corr_ret_turn_post_1M",
@@ -151,6 +911,16 @@
           "evidence": "corr_ret_turn_post_1M因子在全市场、沪深300、中证1000范围内表现均较好，全市场范围内，IC均值为2.3%，IC_IR达0.52。"
         },
         {
+          "name": "corr_ret_turn_prior_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率与t-1日收益率的相关系数}",
+          "stats": [-0.047, null, -0.79, null],
+          "evidence": "| corr_ret_turn_prior_1M | 换手率与收益率相关性因子（价领先一期） | 过去20个交易日，t日换手率与t-1日收益率的相关系数 |"
+        },
+        {
           "name": "corr_ret_turnd_1M",
           "family": "liquidity",
           "direction": "negative",
@@ -161,34 +931,214 @@
           "evidence": "其中，corr_ret_turnd_1M因子在不同选股范围内表现均较为突出，全市场内IC均值达-6.1%，IC_IR为-1.07。"
         },
         {
-          "name": "distribution_loss_I",
-          "family": "momentum",
-          "direction": "positive",
+          "name": "corr_ret_turnd_post_1M",
+          "family": "liquidity",
+          "direction": "unknown",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{-10%以下收益率的筹码占比}",
-          "stats": [0.04, null, 0.41, null],
-          "evidence": "从因子有效性角度来看，distribution_loss_I和 distribution_ret_avg 因子表现相对较好，但仅在全市场和中证1000范围内具有一定的收益预测能力和单调性。"
+          "formula": "\\text{过去20个交易日，t日换手率的变动与t+1日收益率的相关系数}",
+          "stats": [0, null, 0, null],
+          "evidence": "| corr_ret_turnd_post_1M | 换手率变动与收益率相关性因子（量领先一期） | 过去20个交易日，t日换手率的变动与t+1日收益率的相关系数 |"
+        },
+        {
+          "name": "corr_ret_turnd_prior_1M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日，t日换手率的变动与t-1日收益率的相关系数}",
+          "stats": [-0.007, null, -0.15, null],
+          "evidence": "| corr_ret_turnd_prior_1M | 换手率变动与收益率相关性因子（价领先一期） | 过去20个交易日，t日换手率的变动与t-1日收益率的相关系数 |"
         },
         {
           "name": "distribution_ret_avg",
-          "family": "momentum",
+          "family": "institution",
           "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
           "formula": "\\text{各筹码收益率的平均数}",
           "stats": [-0.041, null, -0.38, null],
-          "evidence": "从因子有效性角度来看，distribution_loss_I和 distribution_ret_avg 因子表现相对较好，但仅在全市场和中证1000范围内具有一定的收益预测能力和单调性。"
+          "evidence": "从因子有效性角度来看，distribution_loss_l和 distribution_ret_avg 因子表现相对较好，但仅在全市场和中证1000范围内具有一定的收益预测能力和单调性。"
         },
         {
-          "name": "buy_shift_dist_1",
+          "name": "distribution_ret_std",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{各筹码收益率的标准差}",
+          "stats": [0.021, null, 0.26, null],
+          "evidence": "| distribution_ret_std | 筹码标准差因子 | 各筹码收益率的标准差 |"
+        },
+        {
+          "name": "distribution_ret_skew",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{各筹码收益率的偏度统计量}",
+          "stats": [0.009, null, 0.12, null],
+          "evidence": "| distribution_ret_skew | 筹码偏度因子 | 各筹码收益率的偏度统计量 |"
+        },
+        {
+          "name": "distribution_ret_kurt",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{各筹码收益率的峰度统计量}",
+          "stats": [0.01, null, 0.13, null],
+          "evidence": "| distribution_ret_kurt | 筹码峰度因子 | 各筹码收益率从的峰度统计量 |"
+        },
+        {
+          "name": "distribution_max_prob_ret",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{占比最大的筹码区间的收益率}",
+          "stats": [-0.032, null, -0.38, null],
+          "evidence": "| distribution_max_prob_ret | 最大筹码收益率因子 | 占比最大的筹码区间的收益率 |"
+        },
+        {
+          "name": "distribution_bal",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-2\\%至2\\%收益率的筹码占比}",
+          "stats": [-0.022, null, -0.33, null],
+          "evidence": "| distribution_bal | 盈亏平衡筹码占比因子 | -2%至2%收益率的筹码占比 |"
+        },
+        {
+          "name": "distribution_profit_l",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{10\\%以上收益率的筹码占比}",
+          "stats": [-0.021, null, -0.25, null],
+          "evidence": "| distribution_profit_l | 大幅盈利筹码占比因子 | 10%以上收益率的筹码占比 |"
+        },
+        {
+          "name": "distribution_profit_s",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{2\\%至10\\%收益率的筹码占比}",
+          "stats": [-0.015, null, -0.19, null],
+          "evidence": "| distribution_profit_s | 小幅盈利筹码占比因子 | 2%至10%收益率的筹码占比 |"
+        },
+        {
+          "name": "distribution_loss_s",
+          "family": "institution",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-2\\%至-10\\%收益率的筹码占比}",
+          "stats": [-0.014, null, -0.19, null],
+          "evidence": "| distribution_loss_s | 小幅亏损筹码占比因子 | -2%至-10%收益率的筹码占比 |"
+        },
+        {
+          "name": "distribution_loss_l",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{-10\\%以下收益率的筹码占比}",
+          "stats": [0.04, null, 0.41, null],
+          "evidence": "从因子有效性角度来看，distribution_loss_l和 distribution_ret_avg 因子表现相对较好，但仅在全市场和中证1000范围内具有一定的收益预测能力和单调性。"
+        },
+        {
+          "name": "act_buy_prop",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{净流入金额}_t}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.011, null, -0.16, null],
+          "evidence": "| act_buy_prop | -1.1% | -0.16 | 59.2% | 44.0% |"
+        },
+        {
+          "name": "act_buy_shift_dist",
           "family": "microstructure",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\frac{\\sum_{t}(\\text{大单买入金额}_t-\\text{大单卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
-          "stats": [0.047, null, 0.78, null],
-          "evidence": "从因子有效性角度来看，大单买入因子（buy_shift_dist_1）具有正向预测能力，全市场IC_IR达0.78；小单主动买入因子(act_buy_shift_dist_s)具有负向的预测效果，全市场IC_IR为-0.46。"
+          "formula": "\\frac{\\sum_{t}\\text{净流入金额}_t}{\\sum_{t}|\\text{净流入金额}_t|}",
+          "stats": [0.004, null, 0.06, null],
+          "evidence": "| act_buy_shift_dist | 0.4% | 0.06 | 50.4% | 35.4% |"
+        },
+        {
+          "name": "act_buy_prop_xl",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{超大单主动买入金额}_t-\\text{超大单主动卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.004, null, -0.07, null],
+          "evidence": "| act_buy_prop_xl | -0.4% | -0.07 | 54.9% | 36.3% |"
+        },
+        {
+          "name": "act_buy_shift_dist_xl",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{超大单主动买入金额}_t-\\text{超大单主动卖出金额}_t)}{\\sum_{t}|\\text{超大单主动买入金额}_t-\\text{超大单主动卖出金额}_t|}",
+          "stats": [-0.005, null, -0.1, null],
+          "evidence": "| act_buy_shift_dist_xl | -0.5% | -0.10 | 52.2% | 34.5% |"
+        },
+        {
+          "name": "act_buy_prop_l",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{大单主动买入金额}_t-\\text{大单主动卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [0.005, null, 0.08, null],
+          "evidence": "| act_buy_prop_l | 0.5% | 0.08 | 42.5% | 30.1% |"
+        },
+        {
+          "name": "act_buy_shift_dist_l",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{大单主动买入金额}_t-\\text{大单主动卖出金额}_t)}{\\sum_{t}|\\text{大单主动买入金额}_t-\\text{大单主动卖出金额}_t|}",
+          "stats": [0.026, null, 0.39, null],
+          "evidence": "| act_buy_shift_dist_l | 2.6% | 0.39 | 32.7% | 19.5% |"
+        },
+        {
+          "name": "act_buy_prop_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{中单主动买入金额}_t-\\text{中单主动卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.011, null, -0.18, null],
+          "evidence": "| act_buy_prop_m | -1.1% | -0.18 | 58.4% | 46.9% |"
+        },
+        {
+          "name": "act_buy_shift_dist_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{中单主动买入金额}_t-\\text{中单主动卖出金额}_t)}{\\sum_{t}|\\text{中单主动买入金额}_t-\\text{中单主动卖出金额}_t|}",
+          "stats": [0.008, null, 0.15, null],
+          "evidence": "| act_buy_shift_dist_m | 0.8% | 0.15 | 46.9% | 31.9% |"
+        },
+        {
+          "name": "act_buy_prop_s",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{小单主动买入金额}_t-\\text{小单主动卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.018, null, -0.36, null],
+          "evidence": "| act_buy_prop_s | -1.8% | -0.36 | 64.6% | 45.1% |"
         },
         {
           "name": "act_buy_shift_dist_s",
@@ -198,17 +1148,227 @@
           "horizon": "monthly",
           "formula": "\\frac{\\sum_{t}(\\text{小单主动买入金额}_t-\\text{小单主动卖出金额}_t)}{\\sum_{t}|\\text{小单主动买入金额}_t-\\text{小单主动卖出金额}_t|}",
           "stats": [-0.026, null, -0.46, null],
-          "evidence": "从因子有效性角度来看，大单买入因子（buy_shift_dist_1）具有正向预测能力，全市场IC_IR达0.78；小单主动买入因子(act_buy_shift_dist_s)具有负向的预测效果，全市场IC_IR为-0.46。"
+          "evidence": "从因子有效性角度来看，大单买入因子（buy_shift_dist_l）具有正向预测能力，全市场IC_IR达0.78；小单主动买入因子(act_buy_shift_dist_s)具有负向的预测效果，全市场IC_IR为-0.46。"
         },
         {
-          "name": "inflow_shift_dist_open_1",
+          "name": "buy_prop_xl",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{超大单买入金额}_t-\\text{超大单卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.027, null, -0.56, null],
+          "evidence": "| buy_prop_xl | -2.7% | -0.56 | 69.9% | 55.8% |"
+        },
+        {
+          "name": "buy_shift_dist_xl",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{超大单买入金额}_t-\\text{超大单卖出金额}_t)}{\\sum_{t}|\\text{超大单主动买入金额}_t-\\text{超大单主动卖出金额}_t|}",
+          "stats": [-0.028, null, -0.58, null],
+          "evidence": "| buy_shift_dist_xl | -2.8% | -0.58 | 72.6% | 56.6% |"
+        },
+        {
+          "name": "buy_prop_l",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{大单买入金额}_t-\\text{大单卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [0.023, null, 0.42, null],
+          "evidence": "| buy_prop_l | 大单买入占比因子 | 过去20个交易日（大单买入金额-大单卖出金额）之和/过去20个交易日成交额之和 |"
+        },
+        {
+          "name": "buy_shift_dist_l",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{大单买入金额}_t-\\text{大单卖出金额}_t)}{\\sum_{t}|\\text{大单主动买入金额}_t-\\text{大单主动卖出金额}_t|}",
+          "stats": [0.047, null, 0.78, null],
+          "evidence": "从因子有效性角度来看，大单买入因子（buy_shift_dist_l）具有正向预测能力，全市场IC_IR达0.78；小单主动买入因子(act_buy_shift_dist_s)具有负向的预测效果，全市场IC_IR为-0.46。"
+        },
+        {
+          "name": "buy_prop_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{中单买入金额}_t-\\text{中单卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [0.017, null, 0.44, null],
+          "evidence": "| buy_prop_m | 1.7% | 0.44 | 31.9% | 21.2% |"
+        },
+        {
+          "name": "buy_shift_dist_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{中单买入金额}_t-\\text{中单卖出金额}_t)}{\\sum_{t}|\\text{中单主动买入金额}_t-\\text{中单主动卖出金额}_t|}",
+          "stats": [0.019, null, 0.49, null],
+          "evidence": "| buy_shift_dist_m | 1.9% | 0.49 | 31.0% | 20.4% |"
+        },
+        {
+          "name": "buy_prop_s",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{小单买入金额}_t-\\text{小单卖出金额}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.006, null, -0.09, null],
+          "evidence": "| buy_prop_s | -0.6% | -0.09 | 54.9% | 46.9% |"
+        },
+        {
+          "name": "buy_shift_dist_s",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{小单买入金额}_t-\\text{小单卖出金额}_t)}{\\sum_{t}|\\text{小单主动买入金额}_t-\\text{小单主动卖出金额}_t|}",
+          "stats": [-0.013, null, -0.2, null],
+          "evidence": "| buy_shift_dist_s | -1.3% | -0.20 | 58.4% | 46.9% |"
+        },
+        {
+          "name": "inflow_prop_open",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日（开盘资金流入金额/当日成交额）的平均数}",
+          "stats": [0.015, null, 0.3, null],
+          "evidence": "| inflow_prop_open | 1.5% | 0.30 | 38.9% | 25.7% |"
+        },
+        {
+          "name": "inflow_shift_dist_open",
           "family": "microstructure",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
           "formula": "\\frac{\\sum_{t}\\text{开盘资金流入金额}_t}{\\sum_{t}|\\text{开盘资金流入金额}_t|}",
           "stats": [0.016, null, 0.31, null],
-          "evidence": "此外，开盘资金流入因子(inflow_shift_dist_open_1）在沪深 300、中证500、中证1000范围内也具有较强的选股效果，多头组合年化超额收益分别为6.1%、8.6%、8.8%，分组单调性也较好，亦值得关注。"
+          "evidence": "| inflow_shift_dist_open | 1.6% | 0.31 | 36.3% | 27.4% |"
+        },
+        {
+          "name": "inflow_rate_open",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日开盘资金流入率的平均数}",
+          "stats": [0.012, null, 0.19, null],
+          "evidence": "| inflow_rate_open | 1.2% | 0.19 | 38.1% | 31.9% |"
+        },
+        {
+          "name": "amount_prop_open",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日（开盘成交额/当日成交额）的平均数}",
+          "stats": [-0.03, null, -0.47, null],
+          "evidence": "| amount_prop_open | -3.0% | -0.47 | 62.8% | 54.0% |"
+        },
+        {
+          "name": "inflow_prop_open_l",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日（大单开盘资金流入金额/当日成交额）的平均数}",
+          "stats": [0.018, null, 0.34, null],
+          "evidence": "| inflow_prop_open_l | 大单开盘资金流入金额占比因子 | 过去20个交易日（大单开盘资金流入金额/当日成交额）的平均数 |"
+        },
+        {
+          "name": "inflow_rate_open_l",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日大单开盘资金流入率的平均数}",
+          "stats": [0.017, null, 0.33, null],
+          "evidence": "| inflow_rate_open_l | 1.7% | 0.33 | 39.8% | 23.0% |"
+        },
+        {
+          "name": "inflow_shift_dist_open_l",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{大单开盘资金流入金额}_t}{\\sum_{t}|\\text{大单开盘资金流入金额}_t|}",
+          "stats": [0.023, null, 0.41, null],
+          "evidence": "此外，开盘资金流入因子(inflow_shift_dist_open_l）在沪深 300、中证500、中证1000范围内也具有较强的选股效果，多头组合年化超额收益分别为6.1%、8.6%、8.8%，分组单调性也较好，亦值得关注。"
+        },
+        {
+          "name": "inflow_prop_close",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日（尾盘资金流入金额/当日成交额）的平均数}",
+          "stats": [-0.004, null, -0.07, null],
+          "evidence": "| inflow_prop_close | -0.4% | -0.07 | 52.2% | 36.3% |"
+        },
+        {
+          "name": "inflow_shift_dist_close",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{尾盘资金流入金额}_t}{\\sum_{t}|\\text{尾盘资金流入金额}_t|}",
+          "stats": [0, null, 0.01, null],
+          "evidence": "| inflow_shift_dist_close | 0.0% | 0.01 | 46.9% | 28.3% |"
+        },
+        {
+          "name": "inflow_rate_close",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日尾盘资金流入率的平均数}",
+          "stats": [0, null, -0.01, null],
+          "evidence": "| inflow_rate_close | 0.0% | -0.01 | 49.6% | 35.4% |"
+        },
+        {
+          "name": "amount_prop_close",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日（尾盘成交额/当日成交额）的平均数}",
+          "stats": [0.005, null, 0.11, null],
+          "evidence": "| amount_prop_close | 0.5% | 0.11 | 46.9% | 25.7% |"
+        },
+        {
+          "name": "inflow_prop_close_l",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日（大单尾盘资金流入金额/当日成交额）的平均数}",
+          "stats": [-0.013, null, -0.27, null],
+          "evidence": "| inflow_prop_close_l | 大单尾盘资金流入金额占比因子 | 过去20个交易日（大单尾盘资金流入金额/当日成交额）的平均数 |"
+        },
+        {
+          "name": "inflow_rate_close_l",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去20个交易日大单尾盘资金流入率的平均数}",
+          "stats": [-0.013, null, -0.27, null],
+          "evidence": "| inflow_rate_close_l | 大单尾盘资金流入率因子 | 过去20个交易日大单尾盘资金流入率的平均数 |"
+        },
+        {
+          "name": "inflow_shift_dist_close_l",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{大单尾盘资金流入金额}_t}{\\sum_{t}|\\text{大单尾盘资金流入金额}_t|}",
+          "stats": [-0.007, null, -0.14, null],
+          "evidence": "| inflow_shift_dist_close_l | -0.7% | -0.14 | 50.4% | 38.9% |"
         },
         {
           "name": "north_hold_prop",
@@ -221,6 +1381,56 @@
           "evidence": "全市场中，north_hold_prop因子的IC均值为3.5%,IC_IR为0.60;north_hold_prefer因子的IC均值为3.8%，IC_IR为0.69，但从多头组合的相对净值表现来看，北向持仓因子在2021年以来选股能力有所回落。"
         },
         {
+          "name": "north_hold_prop_st_chg",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日北向持仓占比}-\\text{过去20个交易日北向持仓占比的均值}",
+          "stats": [0.017, null, 0.59, null],
+          "evidence": "| north_hold_prop_st_chg | 北向持仓占比短期变动因子 | 当日北向持仓占比-过去20个交易日北向持仓占比的均值 |"
+        },
+        {
+          "name": "north_excess_hold_st",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当期陆股通持仓量}\\times\\text{VWAP}/(\\text{20个交易日前陆股通持仓量}\\times\\text{VWAP}+1)-\\text{过去20个交易日的涨跌幅}",
+          "stats": [0.019, null, 0.6, null],
+          "evidence": "| north_excess_hold_st | 北向短期超额增持因子 | 当期陆股通持仓量"
+        },
+        {
+          "name": "north_inflow_shift_dist",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{北向单日净流入}_t}{\\sum_{t}|\\text{北向单日净流入}_t|},\\ \\text{北向单日净流入}=\\text{当日陆股通持仓量}/\\text{复权因子}-\\text{上日陆股通持仓量}/\\text{复权因子}",
+          "stats": [0.01, null, 0.31, null],
+          "evidence": "| north_inflow_shift_dist | 北向流入的位移路程比因子 | 过去20个交易日（北向单日净流入）之和"
+        },
+        {
+          "name": "north_trade_prop",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(\\text{当期陆股通持仓量}\\times\\text{VWAP}-\\text{20个交易日前陆股通持仓量}\\times\\text{VWAP})/\\text{20日成交额之和}",
+          "stats": [0.006, null, 0.11, null],
+          "evidence": "| north_trade_prop | 北向交易占比因子 | (当期陆股通持仓量"
+        },
+        {
+          "name": "north_hold_prop_lt_chg",
+          "family": "institution",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当日北向持仓占比}-\\text{过去60个交易日北向持仓占比的均值}",
+          "stats": [0.023, null, 0.66, null],
+          "evidence": "| north_hold_prop_lt_chg | 2.3% | 0.66 | 25.7% | 11.4% |"
+        },
+        {
           "name": "north_hold_prefer",
           "family": "institution",
           "direction": "positive",
@@ -231,14 +1441,264 @@
           "evidence": "全市场中，north_hold_prop因子的IC均值为3.5%,IC_IR为0.60;north_hold_prefer因子的IC均值为3.8%，IC_IR为0.69，但从多头组合的相对净值表现来看，北向持仓因子在2021年以来选股能力有所回落。"
         },
         {
-          "name": "north_hold_prefer_It_chg",
+          "name": "north_hold_prefer_st_chg",
+          "family": "institution",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当期北向持仓偏好因子}-\\text{过去20个交易日北向持仓偏好因子的均值}",
+          "stats": [0, null, 0.01, null],
+          "evidence": "| north_hold_prefer_st_chg | 0.0% | 0.01 | 54.3% | 28.6% |"
+        },
+        {
+          "name": "north_hold_prefer_lt_chg",
           "family": "institution",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
           "formula": "\\text{当期北向持仓偏好因子}-\\text{过去60个交易日北向持仓偏好因子的均值}",
-          "stats": [0.023, null, 0.66, null],
-          "evidence": "全市场中，north_hold_prefer_It_chg因子的IC均值为 2.3%，IC_IR 为 0.66；沪深 300 中，north_hold_prefer_st_chg 因子的IC 均值为3.3%，IC_IR为 0.44。"
+          "stats": [0.004, null, 0.08, null],
+          "evidence": "| north_hold_prefer_lt_chg | 0.4% | 0.08 | 48.6% | 28.6% |"
+        },
+        {
+          "name": "margin_buy_money_prop",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{融资买入额}_t}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.001, null, -0.02, null],
+          "evidence": "| margin_buy_money_prop | 融资买入占比因子 | 过去20个交易日融资买入额之和/过去20个交易日成交额之和 |"
+        },
+        {
+          "name": "net_margin_buy_money_prop",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}\\text{融资买入额}_t-\\sum_{t}\\text{融资偿还额}_t}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.019, null, -0.34, null],
+          "evidence": "| net_margin_buy_money_prop | 净融资买入占比因子 | (过去20个交易日融资买入额之和"
+        },
+        {
+          "name": "net_margin_buy_money_shift_dist",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{融资买入额}_t-\\text{融资偿还额}_t)}{\\sum_{t}|\\text{融资买入额}_t-\\text{融资偿还额}_t|}",
+          "stats": [-0.022, null, -0.38, null],
+          "evidence": "| net_margin_buy_money_shift_dist | 净融资买入的位移路程比因子 | 过去20个交易日（融资买入额"
+        },
+        {
+          "name": "margin_money_bal_growth",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当期融资余额占比}-\\text{20个交易日前融资余额占比}",
+          "stats": [0.004, null, 0.06, null],
+          "evidence": "| margin_money_bal_grow th | 融资余额增长率因子 | 当期融资余额占比"
+        },
+        {
+          "name": "margin_money_eg",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当期融资余额}/(\\text{20个交易日前融资余额}+1)-\\text{过去20个交易日涨跌幅}",
+          "stats": [0.006, null, 0.09, null],
+          "evidence": "| margin_money_eg | 融资超额增长率因子 | 当期融资余额/（20个交易日前融资余额+1）"
+        },
+        {
+          "name": "margin_money_bal_prop",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期融资余额}}{\\text{流通市值}}",
+          "stats": [-0.027, null, -0.37, null],
+          "evidence": "| margin_money_bal_prop | 融资余额占比因子 | 当期融资余额/流通市值 |"
+        },
+        {
+          "name": "margin_sell_sec_prop",
+          "family": "sentiment",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{融券卖出量}_t\\times\\text{VWAP}_t)}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [0.003, null, 0.04, null],
+          "evidence": "| margin_sell_sec_prop | 0.3% | 0.04 | 45.1% | 39.8% |"
+        },
+        {
+          "name": "net_margin_sell_sec_prop",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{融券卖出量}_t-\\text{融券偿还量}_t)\\times\\text{VWAP}_t}{\\sum_{t}\\text{成交额}_t}",
+          "stats": [-0.005, null, -0.11, null],
+          "evidence": "| net_margin_sell_sec_prop | 净融券卖出占比因子 | 过去20个交易日（融券卖出量"
+        },
+        {
+          "name": "net_margin_sell_sec_shift_dist",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\sum_{t}(\\text{融券卖出量}_t-\\text{融券偿还量}_t)}{\\sum_{t}|\\text{融券卖出量}_t-\\text{融券偿还量}_t|}",
+          "stats": [-0.011, null, -0.2, null],
+          "evidence": "| net_margin_sell_sec_shift_dist | -1.1% | -0.20 | 60.2% | 38.9% |"
+        },
+        {
+          "name": "margin_sec_bal_growth",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当期融券余额占比}-\\text{20个交易日前融券余额占比}",
+          "stats": [-0.011, null, -0.25, null],
+          "evidence": "| margin_sec_bal_grow th | 融券余额增长率因子 | 当期融券余额占比"
+        },
+        {
+          "name": "margin_sec_eg",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{当期融券余额}/(\\text{20个交易日前融券余额}+1)-\\text{过去20个交易日涨跌幅}",
+          "stats": [-0.012, null, -0.27, null],
+          "evidence": "| margin_sec_eg | -1.2% | -0.27 | 60.2% | 46.0% |"
+        },
+        {
+          "name": "margin_sec_bal_prop",
+          "family": "sentiment",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{当期融券余额}}{\\text{流通市值}}",
+          "stats": [-0.019, null, -0.41, null],
+          "evidence": "| margin_sec_bal_prop | 融券余额占比因子 | 当期融券余额/流通市值 |"
+        },
+        {
+          "name": "动量-隔夜",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{50\\%×mmt\\_overnight\\_A + 50\\%×mmt\\_report\\_overnight}",
+          "stats": [0.036, null, 0.75, null],
+          "evidence": "| 动量-隔夜 | mmt_overnight_A | 50.00% |"
+        },
+        {
+          "name": "动量-报告期",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{50\\%×mmt\\_report\\_jump\\_open + 50\\%×mmt\\_report\\_period}",
+          "stats": [0.02, null, 0.47, null],
+          "evidence": "| 动量-报告期 | mmt_report_jump_open | 50.00% |"
+        },
+        {
+          "name": "动量-年动量",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{100\\%×mmt\\_off\\_limit\\_A}",
+          "stats": [0.025, null, 0.29, null],
+          "evidence": "| 动量-年动量 | mmt_off_limit_A | 100.00% |"
+        },
+        {
+          "name": "反转",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{50\\%×mmt\\_intraday\\_M + 50\\%×mmt\\_range\\_M（均按反转方向取负）}",
+          "stats": [0.075, null, 0.92, null],
+          "evidence": "| 反转 | mmt_intraday_M | 50.00% |"
+        },
+        {
+          "name": "波动率",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{25\\%×vol\\_highlow\\_std\\_6M + 25\\%×vol\\_up\\_std\\_6M + 25\\%×vol\\_upshadow\\_std\\_6M + 25\\%×vol\\_w\\_downshadow\\_std\\_6M}",
+          "stats": [0.072, null, 0.59, null],
+          "evidence": "| 波动率 | vol_highlow_std_6M | 25.00% |"
+        },
+        {
+          "name": "流动性-换手率",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{100\\%×liq\\_turn\\_std\\_6M}",
+          "stats": [0.069, null, 0.77, null],
+          "evidence": "| 流动性-换手率 | liq_turn_std_6M | 100.00% |"
+        },
+        {
+          "name": "流动性-价格弹性",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{50\\%×liq\\_shortcut\\_avg\\_1M + 50\\%×liq\\_vstd\\_1M}",
+          "stats": [0.058, null, 0.68, null],
+          "evidence": "| 流动性-价格弹性 | liq_shortcut_avg_1M | 50.00% |"
+        },
+        {
+          "name": "资金流-大小单流向",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{50\\%×buy\\_shift\\_dist\\_l + 50\\%×act\\_buy\\_shift\\_dist\\_s}",
+          "stats": [0.041, null, 0.66, null],
+          "evidence": "| 资金流-大小单流向 | act_buy_shift_dist_s | 50.00% |"
+        },
+        {
+          "name": "资金流-开盘流向",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{16.67\\%×inflow\\_rate\\_open + 16.67\\%×inflow\\_prop\\_open + 16.67\\%×inflow\\_shift\\_dist\\_open + 50\\%×inflow\\_shift\\_dist\\_open\\_l}",
+          "stats": [0.023, null, 0.4, null],
+          "evidence": "| 资金流-开盘流向 | inflow_rate_open | 16.67% |"
+        },
+        {
+          "name": "北向-持仓占比",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{50\\%×north\\_hold\\_prefer + 50\\%×north\\_hold\\_prop}",
+          "stats": [0.024, null, 0.57, null],
+          "evidence": "| 北向-持仓占比 | north_hold_prefer | 50.00% |"
+        },
+        {
+          "name": "北向-持仓变化",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{50\\%×north\\_hold\\_prop\\_lt\\_chg + 50\\%×north\\_hold\\_prop\\_st\\_chg}",
+          "stats": [0.012, null, 0.39, null],
+          "evidence": "| 北向-持仓变化 | north_hold_prop_lt_chg | 50.00% |"
+        },
+        {
+          "name": "量价相关性",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{33.33\\%×corr\\_ret\\_turnd\\_1M + 33.33\\%×corr\\_price\\_turn\\_1M + 33.33\\%×corr\\_ret\\_turn\\_post\\_1M（均按有效方向取负）}",
+          "stats": [0.059, null, 1, null],
+          "evidence": "| 量价相关性 | corr_ret_turnd_1M | 33.33% |"
         }
       ]
     },
