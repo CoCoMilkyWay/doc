@@ -541,11 +541,11 @@ $$
 |  | profit_growth_q | 扣非后净利润增长率_当季同比 |
 |  | profit_growth_ttm | 扣非后净利润增长率_TTM同比 |
 |  | profit_growth_3y | 扣非和净利润增长率_三年复合增长率 |
-|  |  | operationcashflow_growth_q 经营性现金流增长率_当季同比 |
-|  |  | operationcashflow_growth_ttm经营性现金流增长率_TTM同比 |
-|  | operationcashflow_growth_3y经营性现金流增长率_三年复合增长率 |  |
+|  | operationcashflow_growth_q | 经营性现金流增长率_当季同比 |
+|  | operationcashflow_growth_ttm | 经营性现金流增长率_TTM同比 |
+|  | operationcashflow_growth_3y | 经营性现金流增长率_三年复合增长率 |
 | 财务质量因子 | roe_q | ROE_当季 |
-| (Financial Quality roe_ttm |  | ROE_TTM |
+| (Financial Quality | roe_ttm | ROE_TTM |
 | Factor) | roa_q | ROA_当季 |
 |  | roa_ttm | ROA_TTM |
 |  | grossprofitmargin_q | 毛利率_当季 |
@@ -557,7 +557,7 @@ $$
 |  | operationcashflowratio_q | 经营性现金流/净利润_当季 |
 |  | operationcashflowratio_ttm | 经营性现金流/净利润_TTM |
 | 杠杆因子 | marketvalue_leverage | (市值+优先股+长期负债)/市值 |
-| ( | Leverage financial_leverage | 总资产/普通股权益 |
+| (Leverage | financial_leverage | 总资产/普通股权益 |
 | Factor) | debtequityratio | 长期债务/普通股权益 |
 |  | cashration | 现金比率 |
 |  | currentratio | 流动比率 |

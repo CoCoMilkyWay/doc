@@ -15,44 +15,504 @@
       },
       "factors": [
         {
-          "name": "mfd_buyord（主力流入单数）",
+          "name": "mfd_buyamt_d",
           "family": "microstructure",
-          "direction": "positive",
-          "data_period": ["daily"],
+          "direction": "negative",
+          "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{当日主力（挂单额20万元以上的超大单与大单合计）流入的委托单数，回测时取相反数}",
-          "stats": [0.0335, null, 0.58, 0.2756],
-          "evidence": "mfd_buyord（主力流入单数）在组内的因子收益率、ICIR 值排名均较高，因此我们挑选其作为流入类代表因子进行展示。"
+          "formula": "\\text{主力流入额（traderType=1，2）（流入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0239, 0.48, null],
+          "evidence": "| mfd_buyamt_d | 3.42 | 64.17% | 0.22 | 0.11% | 7.84 | 2.39% | 5.01% | 0.48 | 69.52% |"
         },
         {
-          "name": "mfd_sellord（主力流出单数）",
+          "name": "mfd_buyvol_d",
           "family": "microstructure",
-          "direction": "positive",
-          "data_period": ["daily"],
+          "direction": "negative",
+          "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{当日主力（挂单额20万元以上的超大单与大单合计）流出的委托单数，回测时取相反数}",
-          "stats": [0.0467, null, 0.69, 0.4212],
-          "evidence": "mfd_sellord（主力流出单数）在组内的因子收益率、ICIR 值排名均较高，因此我们挑选其作为流出类代表因子进行展示。"
+          "formula": "\\text{主力流入量（traderType=1，2）（流入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0134, 0.29, null],
+          "evidence": "| mfd_buyvol_d | 3.25 | 61.05% | 0.13 | 0.05% | 3.14 | 1.34% | 4.64% | 0.29 | 62.41% |"
         },
         {
-          "name": "mfd_volinflowrate_m（主力净流入率）",
+          "name": "mfd_buyord",
           "family": "microstructure",
-          "direction": "positive",
-          "data_period": ["daily"],
+          "direction": "negative",
+          "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{当日主力净流入量占当日总成交量的比率}",
-          "stats": [0.0393, null, 0.5, 0.1225],
-          "evidence": "mfd_volinflowrate_m（主力净流入率）在组内的因子收益率、t 值排名均较高，因此我们挑选其作为流入类代表因子进行展示。"
+          "formula": "\\text{主力流入单数（traderType=1，2）（流入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0335, 0.58, null],
+          "evidence": "| mfd_buyord | 4.01 | 70.11% | 0.32 | 0.18% | 10.71 | 3.35% | 5.76% | 0.58 | 72.64% |"
         },
         {
-          "name": "mfd_volinflowrate_open_m（开盘主力净流入率）",
+          "name": "mfd_buyamt_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力主动买入额(traderType=1，2）（流入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0305, 0.58, null],
+          "evidence": "| mfd_buyamt_a | 3.39 | 63.39% | 0.26 | 0.14% | 9.49 | 3.05% | 5.27% | 0.58 | 72.93% |"
+        },
+        {
+          "name": "mfd_buyvol_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力主动买入量(traderType=1，2)（流入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0191, 0.39, null],
+          "evidence": "| mfd_buyvol_a | 3.20 | 59.40% | 0.16 | 0.06% | 4.14 | 1.91% | 4.85% | 0.39 | 65.82% |"
+        },
+        {
+          "name": "mfd_sellamt_d",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力流出额（traderType=1，2）（流出类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0371, 0.64, null],
+          "evidence": "| mfd_sellamt_d | 4.04 | 71.18% | 0.35 | 0.18% | 11.17 | 3.71% | 5.80% | 0.64 | 75.46% |"
+        },
+        {
+          "name": "mfd_sellvol_d",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力流出量（traderType=1，2）（流出类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0165, 0.37, null],
+          "evidence": "| mfd_sellvol_d | 3.29 | 61.93% | 0.19 | 0.07% | 4.63 | 1.65% | 4.45% | 0.37 | 66.21% |"
+        },
+        {
+          "name": "mfd_sellord",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力流出单数（traderType=1，2）（流出类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0467, 0.69, null],
+          "evidence": "| mfd_sellord | 4.52 | 74.49% | 0.41 | 0.24% | 12.52 | 4.67% | 6.74% | 0.69 | 75.66% |"
+        },
+        {
+          "name": "mfd_sellamt_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力主动卖出额（traderType=1，2）（流出类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0249, 0.49, null],
+          "evidence": "| mfd_sellamt_a | 3.46 | 65.04% | 0.27 | 0.13% | 8.88 | 2.49% | 5.10% | 0.49 | 71.28% |"
+        },
+        {
+          "name": "mfd_sellvol_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力主动卖出量（traderType=1，2)（流出类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0151, 0.31, null],
+          "evidence": "| mfd_sellvol_a | 3.32 | 60.56% | 0.19 | 0.07% | 4.32 | 1.51% | 4.83% | 0.31 | 65.24% |"
+        },
+        {
+          "name": "mfd_netbuyamt",
           "family": "microstructure",
           "direction": "positive",
-          "data_period": ["daily"],
+          "data_period": ["intraday"],
           "horizon": "weekly",
-          "formula": "\\text{早盘10:00前主力净流入量占成交量的比率}",
-          "stats": [0.0551, null, 0.78, 0.1471],
-          "evidence": "mfd_volinflowrate_open_m（开盘主力净流入率）在组内的因子收益率、t值排名均较高，因此我们挑选其作为流入类代表因子进行展示。"
+          "formula": "\\text{净买入额（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, -0.0113, 0.25, null],
+          "evidence": "| mfd_netbuyamt | 2.38 | 48.39% | -0.23 | -0.07% | -5.92 | -1.13% | 4.51% | 0.25 | 38.85% |"
+        },
+        {
+          "name": "mfd_netbuyvol",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净买入量（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, -0.0077, 0.19, null],
+          "evidence": "| mfd_netbuyvol | 2.12 | 41.97% | -0.20 | -0.05% | -4.97 | -0.77% | 4.16% | 0.19 | 40.41% |"
+        },
+        {
+          "name": "mfd_netbuyamt_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入额（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0041, 0.09, null],
+          "evidence": "| mfd_netbuyamt_a | 2.28 | 47.03% | -0.04 | 0.00% | -0.10 | 0.41% | 4.65% | 0.09 | 52.58% |"
+        },
+        {
+          "name": "mfd_netbuyvol_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入量（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0031, 0.07, null],
+          "evidence": "| mfd_netbuyvol_a | 2.09 | 43.91% | -0.07 | -0.01% | -0.84 | 0.31% | 4.21% | 0.07 | 50.83% |"
+        },
+        {
+          "name": "mf_amt",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入额（全单）（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0046, 0.1, null],
+          "evidence": "| mf_amt | 2.57 | 50.63% | 0.03 | 0.01% | 1.04 | 0.46% | 4.79% | 0.10 | 53.46% |"
+        },
+        {
+          "name": "mf_amt_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入率（金额）（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0503, 0.64, null],
+          "evidence": "| mf_amt_ratio | 4.09 | 68.35% | 0.67 | 0.62% | 18.29 | 5.03% | 7.83% | 0.64 | 75.07% |"
+        },
+        {
+          "name": "mfd_inflowproportion_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入额占比（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0097, 0.16, null],
+          "evidence": "| mfd_inflowproportion_a | 2.73 | 53.36% | 0.07 | 0.05% | 1.65 | 0.97% | 6.22% | 0.16 | 54.72% |"
+        },
+        {
+          "name": "mf_vol",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入量（全单）（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0016, 0.04, null],
+          "evidence": "| mf_vol | 2.39 | 48.88% | -0.04 | -0.01% | -0.60 | 0.16% | 4.32% | 0.04 | 50.15% |"
+        },
+        {
+          "name": "mfd_volinflowrate_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入率（量）（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0502, 0.64, null],
+          "evidence": "| mfd_volinflowrate_a | 4.09 | 68.45% | 0.67 | 0.62% | 18.26 | 5.02% | 7.83% | 0.64 | 75.17% |"
+        },
+        {
+          "name": "mf_vol_ratio",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{净主动买入量占比（净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0093, 0.15, null],
+          "evidence": "| mf_vol_ratio | 2.74 | 53.75% | 0.07 | 0.04% | 1.51 | 0.93% | 6.17% | 0.15 | 53.94% |"
+        },
+        {
+          "name": "mf_amt_open",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘净主动买入额（开盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, -0.0128, 0.3, null],
+          "evidence": "| mf_amt_open | 2.29 | 47.13% | -0.24 | -0.07% | -7.21 | -1.28% | 4.31% | 0.30 | 37.04% |"
+        },
+        {
+          "name": "mfd_inflowrate_open_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘净主动买入率（金额）（开盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0205, 0.33, null],
+          "evidence": "| mfd_inflowrate_open_a | 2.84 | 51.41% | 0.41 | 0.33% | 12.28 | 2.05% | 6.14% | 0.33 | 60.62% |"
+        },
+        {
+          "name": "mfd_inflowproportion_open_a",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘净主动买入额占比（开盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, -0.0149, 0.28, null],
+          "evidence": "| mfd_inflowproportion_open_a | 2.19 | 45.47% | -0.23 | -0.16% | -7.10 | -1.49% | 5.35% | 0.28 | 36.35% |"
+        },
+        {
+          "name": "mfd_inflowvolume_open_a",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘资金净主动买入量（开盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, -0.0113, 0.28, null],
+          "evidence": "| mfd_inflowvolume_open_a | 2.18 | 44.79% | -0.24 | -0.06% | -6.52 | -1.13% | 4.02% | 0.28 | 36.16% |"
+        },
+        {
+          "name": "mfd_volinflowrate_open_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘净主动买入率（量）（开盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0204, 0.33, null],
+          "evidence": "| mfd_volinflowrate_open_a | 2.83 | 51.41% | 0.41 | 0.33% | 12.24 | 2.04% | 6.14% | 0.33 | 60.43% |"
+        },
+        {
+          "name": "mfd_volinflowproportion_open_a",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘净主动买入量占比（开盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, -0.015, 0.29, null],
+          "evidence": "| mfd_volinflowproportion_open_a | 2.24 | 46.64% | -0.23 | -0.16% | -7.09 | -1.50% | 5.18% | 0.29 | 35.28% |"
+        },
+        {
+          "name": "mf_amt_close",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘净主动买入额（尾盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0218, 0.51, null],
+          "evidence": "| mf_amt_close | 2.59 | 51.90% | 0.28 | 0.08% | 7.40 | 2.18% | 4.26% | 0.51 | 69.66% |"
+        },
+        {
+          "name": "mfd_inflowrate_close_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘净主动买入率（金额）（尾盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0349, 0.75, null],
+          "evidence": "| mfd_inflowrate_close_a | 2.54 | 50.83% | 0.67 | 0.34% | 18.47 | 3.49% | 4.64% | 0.75 | 79.51% |"
+        },
+        {
+          "name": "mfd_inflowproportion_close_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘净主动买入额占比（尾盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0306, 0.61, null],
+          "evidence": "| mfd_inflowproportion_close_a | 2.38 | 49.66% | 0.41 | 0.26% | 12.04 | 3.06% | 5.06% | 0.61 | 73.56% |"
+        },
+        {
+          "name": "mfd_inflowvolume_close_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘资金净主动买入量（尾盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0157, 0.41, null],
+          "evidence": "| mfd_inflowvolume_close_a | 2.31 | 48.39% | 0.20 | 0.05% | 4.73 | 1.57% | 3.83% | 0.41 | 65.46% |"
+        },
+        {
+          "name": "mfd_volinflowrate_close_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘净主动买入率（量）（尾盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0348, 0.75, null],
+          "evidence": "| mfd_volinflowrate_close_a | 2.54 | 50.73% | 0.67 | 0.34% | 18.43 | 3.48% | 4.64% | 0.75 | 79.51% |"
+        },
+        {
+          "name": "mfd_volinflowproportion_close_a",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘净主动买入量占比（尾盘净主动买入类，回测因子值为原因子值乘以-1）}",
+          "stats": [null, 0.0293, 0.6, null],
+          "evidence": "| mfd_volinflowproportion_close_a | 2.41 | 50.54% | 0.40 | 0.25% | 11.43 | 2.93% | 4.88% | 0.60 | 73.27% |"
+        },
+        {
+          "name": "mfd_inflow_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力净流入额（主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0276, 0.55, null],
+          "evidence": "| mfd_inflow_m | 2.93 | 58.62% | 0.41 | 0.14% | 11.45 | 2.76% | 5.03% | 0.55 | IC>0 占比 71.37% |"
+        },
+        {
+          "name": "mfd_inflowrate_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力净流入率（金额）（主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0392, 0.5, null],
+          "evidence": "| mfd_inflowrate_m | 4.42 | 67.09% | 0.72 | 0.74% | 17.80 | 3.92% | 7.92% | 0.50 | 69.52% |"
+        },
+        {
+          "name": "mfd_inflowproportion_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力净流入额占比（主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0338, 0.53, null],
+          "evidence": "| mfd_inflowproportion_m | 3.06 | 59.49% | 0.50 | 0.47% | 14.20 | 3.38% | 6.32% | 0.53 | 72.05% |"
+        },
+        {
+          "name": "mfd_buyvol_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力净流入量（主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0203, 0.47, null],
+          "evidence": "| mfd_buyvol_m | 2.54 | 51.61% | 0.37 | 0.11% | 9.87 | 2.03% | 4.36% | 0.47 | 68.35% |"
+        },
+        {
+          "name": "mfd_volinflowrate_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力净流入率（量）（主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0393, 0.5, null],
+          "evidence": "| mfd_volinflowrate_m | 4.42 | 66.99% | 0.72 | 0.75% | 17.80 | 3.93% | 7.91% | 0.50 | 69.72% |"
+        },
+        {
+          "name": "mfd_volinflowproportion_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{主力净流入量占比（主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.034, 0.54, null],
+          "evidence": "| mfd_volinflowproportion_m | 3.06 | 59.59% | 0.50 | 0.47% | 14.24 | 3.40% | 6.32% | 0.54 | 72.64% |"
+        },
+        {
+          "name": "mfd_inflow_open_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘主力净流入额（开盘主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0377, 0.8, null],
+          "evidence": "| mfd_inflow_open_m | 2.83 | 58.52% | 0.65 | 0.20% | 18.65 | 3.77% | 4.69% | 0.80 | 80.41% |"
+        },
+        {
+          "name": "mfd_inflowrate_open_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘主力净流入率（金额）（开盘主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.055, 0.78, null],
+          "evidence": "| mfd_inflowrate_open_m | 4.38 | 67.96% | 0.96 | 0.88% | 21.69 | 5.50% | 7.09% | 0.78 | 80.96% |"
+        },
+        {
+          "name": "mfd_inflowproportion_open_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘主力净流入额占比（开盘主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0462, 0.84, null],
+          "evidence": "| mfd_inflowproportion_open_m | 2.71 | 53.65% | 0.73 | 0.55% | 20.12 | 4.62% | 5.49% | 0.84 | 82.16% |"
+        },
+        {
+          "name": "mfd_buyvol_open_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘主力净流入量（开盘主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.028, 0.64, null],
+          "evidence": "| mfd_buyvol_open_m | 2.53 | 52.48% | 0.51 | 0.14% | 13.66 | 2.80% | 4.35% | 0.64 | 76.80% |"
+        },
+        {
+          "name": "mfd_volinflowrate_open_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘主力净流入率（量）（开盘主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0551, 0.78, null],
+          "evidence": "| mfd_volinflowrate_open_m | 4.38 | 67.87% | 0.96 | 0.88% | 21.71 | 5.51% | 7.09% | 0.78 | 81.05% |"
+        },
+        {
+          "name": "mfd_volinflowproportion_open_m",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{开盘主力净流入量占比（开盘主力净流入类，原始因子值方向）}",
+          "stats": [null, 0.0462, 0.84, null],
+          "evidence": "| mfd_volinflowproportion_open_m | 2.71 | 53.85% | 0.73 | 0.55% | 20.11 | 4.62% | 5.49% | 0.84 | 82.16% |"
+        },
+        {
+          "name": "mfd_inflow_close_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘主力净流入额（尾盘主力净流入类，原始因子值方向）}",
+          "stats": [null, -0.0057, 0.13, null],
+          "evidence": "| mfd_inflow_close_m | 2.52 | 48.20% | -0.05 | -0.01% | -0.85 | -0.57% | 4.28% | 0.13 | 46.24% |"
+        },
+        {
+          "name": "mfd_inflowrate_close_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘主力净流入率（金额）（尾盘主力净流入类，原始因子值方向）}",
+          "stats": [null, -0.008, 0.17, null],
+          "evidence": "| mfd_inflowrate_close_m | 2.12 | 39.34% | 0.02 | 0.08% | 3.75 | -0.80% | 4.69% | 0.17 | 40.59% |"
+        },
+        {
+          "name": "mfd_inflowproportion_close_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘主力净流入额占比（尾盘主力净流入类，原始因子值方向）}",
+          "stats": [null, -0.0106, 0.21, null],
+          "evidence": "| mfd_inflowproportion_close_m | 2.11 | 40.21% | -0.08 | -0.02% | -0.93 | -1.06% | 4.97% | 0.21 | 43.51% |"
+        },
+        {
+          "name": "mfd_buyvol_close_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘主力净流入量（尾盘主力净流入类，原始因子值方向）}",
+          "stats": [null, -0.0045, 0.12, null],
+          "evidence": "| mfd_buyvol_close_m | 2.22 | 44.11% | -0.02 | 0.00% | -0.30 | -0.45% | 3.74% | 0.12 | 46.34% |"
+        },
+        {
+          "name": "mfd_volinflowrate_close_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘主力净流入率（量）（尾盘主力净流入类，原始因子值方向）}",
+          "stats": [null, -0.0078, 0.17, null],
+          "evidence": "| mfd_volinflowrate_close_m | 2.12 | 39.24% | 0.02 | 0.08% | 3.79 | -0.78% | 4.70% | 0.17 | 40.49% |"
+        },
+        {
+          "name": "mfd_volinflowproportion_close_m",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "weekly",
+          "formula": "\\text{尾盘主力净流入量占比（尾盘主力净流入类，原始因子值方向）}",
+          "stats": [null, -0.0106, 0.21, null],
+          "evidence": "| mfd_volinflowproportion_close_m | 2.11 | 40.02% | -0.08 | -0.02% | -0.96 | -1.06% | 4.97% | 0.21 | 43.41% |"
         },
         {
           "name": "mfd_buyord_turnover",

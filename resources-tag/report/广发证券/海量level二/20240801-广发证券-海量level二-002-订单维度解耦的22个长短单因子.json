@@ -145,14 +145,54 @@
           "evidence": "其中ShortBuy_ShortSell_1p0因子的RankIC均值绝对值最高，为-7.4%，胜率为28%。"
         },
         {
+          "name": "LongBuy_LongSell_1p5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{同时满足长买单与长卖单属性的成交量占比（长短单界定阈值为均值+1.5倍标准差）}",
+          "stats": [null, -0.013, null, -0.0633],
+          "evidence": "LongBuy_LongSell_1p5 | -1.3% | 39% | 12.33% | 21.45% | 0.59 | -6.33% | 22.05% | -2.95"
+        },
+        {
+          "name": "LongBuy_ShortSell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{长买单短卖单属性的成交量占比（长短单界定阈值为均值+1.5倍标准差）}",
+          "stats": [null, 0.057, null, 0.3555],
+          "evidence": "LongBuy_ShortSell_1p5 | 5.7% | 71% | 21.14% | 16.57% | 1.17 | 35.55% | 9.32% | 3.16"
+        },
+        {
+          "name": "ShortBuy_LongSell_1p5",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{短买单长卖单属性的成交量占比（长短单界定阈值为均值+1.5倍标准差）}",
+          "stats": [null, 0.055, null, 0.2974],
+          "evidence": "ShortBuy_LongSell_1p5 | 5.5% | 72% | 22.58% | 18.64% | 1.22 | 29.74% | 6.99% | 2.80"
+        },
+        {
+          "name": "ShortBuy_ShortSell_1p5",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{短买单短卖单属性的成交量占比（长短单界定阈值为均值+1.5倍标准差）}",
+          "stats": [null, -0.071, null, 0.4812],
+          "evidence": "ShortBuy_ShortSell_1p5 | -7.1% | 28% | 22.15% | 16.10% | 1.24 | 48.12% | 11.57% | 3.46"
+        },
+        {
           "name": "LongBuy_LongSell_2p0",
           "family": "microstructure",
           "direction": "negative",
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{同时满足长买单与长卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
-          "stats": [null, -0.013, null, -0.0633],
-          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+          "stats": [null, -0.013, null, -0.0611],
+          "evidence": "LongBuy_LongSell_2p0 | -1.3% | 40% | 11.26% | 22.40% | 0.50 | -6.11% | 21.50% | -3.30"
         },
         {
           "name": "LongBuy_ShortSell_2p0",
@@ -161,8 +201,8 @@
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{长买单短卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
-          "stats": [null, 0.057, null, 0.3555],
-          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+          "stats": [null, 0.055, null, 0.3144],
+          "evidence": "LongBuy_ShortSell_2p0 | 5.5% | 71% | 20.80% | 17.06% | 1.15 | 31.44% | 9.33% | 2.95"
         },
         {
           "name": "ShortBuy_LongSell_2p0",
@@ -171,8 +211,8 @@
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{短买单长卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
-          "stats": [null, 0.055, null, 0.2974],
-          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+          "stats": [null, 0.052, null, 0.2813],
+          "evidence": "ShortBuy_LongSell_2p0 | 5.2% | 72% | 22.54% | 18.65% | 1.22 | 28.13% | 7.30% | 2.75"
         },
         {
           "name": "ShortBuy_ShortSell_2p0",
@@ -181,8 +221,18 @@
           "data_period": ["second"],
           "horizon": "monthly",
           "formula": "\\text{短买单短卖单属性的成交量占比（长短单界定阈值为均值+2.0倍标准差）}",
-          "stats": [null, -0.071, null, 0.4812],
-          "evidence": "因此，长短单因子可以拆解为长买单长卖单、长买单短卖单、短买单长卖单、短买单短卖单四种订单属性不同的因子。"
+          "stats": [null, -0.068, null, 0.4637],
+          "evidence": "ShortBuy_ShortSell_2p0 | -6.8% | 28% | 22.41% | 16.08% | 1.25 | 46.37% | 10.19% | 3.52"
+        },
+        {
+          "name": "精选长短单因子组合",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{从21个长短单因子中挑选表现优异者合成}",
+          "stats": [null, 0.132, null, null],
+          "evidence": "在2021~2023年期间，精选长短单因子组合在全市场板块的RankIC均值达13.2%、胜率达80.5%。"
         }
       ]
     },

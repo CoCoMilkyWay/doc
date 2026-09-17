@@ -183,6 +183,236 @@
           "formula": "\\text{主动资金流入占比}",
           "stats": [-0.0776, null, -0.5063, 0.2232],
           "evidence": "开盘成交占比和主动资金流入是两个较为传统的高频因子，在剥离风格和行业影响后，无选股能力。"
+        },
+        {
+          "name": "低成交量收益率",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{成交量最低20\\%区间的收益率（局部计算）}",
+          "stats": [0.0107, null, 0.1836, 0.0195],
+          "evidence": "低成交量 收益率 | 1.07% | 18.36% | -2.90% | 33.64% | -0.65 | 1.95% | 22.06% | 0.32"
+        },
+        {
+          "name": "高成交量收益率",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{成交量最高20\\%区间的收益率（局部计算）}",
+          "stats": [-0.0752, null, -0.6315, 0.2531],
+          "evidence": "高成交量 收益率 | -7.52% | -63.15% | 0.42% | 26.35% | 0.11 | 25.31% | 23.99% | 1.80"
+        },
+        {
+          "name": "收益成交量相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{区间收益率与成交量的相关性（相关性计算）}",
+          "stats": [-0.0222, null, -0.1976, 0.054],
+          "evidence": "收益成交量 相关性 | -2.22% | -19.76% | -2.33% | 38.23% | -0.39 | 5.40% | 39.20% | 0.51"
+        },
+        {
+          "name": "每笔加权收益率",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以每笔成交量为权重对区间收益率加权求和（加权计算）}",
+          "stats": [-0.0752, null, -0.6519, 0.2315],
+          "evidence": "每笔加权 收益率 | -7.52% | -65.19% | 0.15% | 18.82% | 0.05 | 23.15% | 24.17% | 1.48"
+        },
+        {
+          "name": "收益每笔相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{区间收益率与每笔成交量的相关性（相关性计算）}",
+          "stats": [-0.0541, null, -0.6761, 0.2032],
+          "evidence": "收益每笔相 关性 | -5.41% | -67.61% | 3.16% | 9.64% | 0.58 | 20.32% | 14.93% | 1.88"
+        },
+        {
+          "name": "低波动收益率",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日度波动率最低的20\\%区间的收益率（局部计算）}",
+          "stats": [0.0169, null, 0.2637, 0.0593],
+          "evidence": "低波动收 益率 | 1.69% | 26.37% | -1.96% | 31.01% | -0.29 | 5.93% | 18.73% | 0.79"
+        },
+        {
+          "name": "波动率加权收益率",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以日度波动率为权重对区间收益率加权求和（加权计算）}",
+          "stats": [-0.0821, null, -0.6594, 0.2908],
+          "evidence": "波动率加 权收益率 | -8.21% | -65.94% | 2.38% | 17.81% | 0.37 | 29.08% | 18.05% | 2.00"
+        },
+        {
+          "name": "收益波动相关性",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{区间收益率与日度波动率的相关性（相关性计算）}",
+          "stats": [-0.0634, null, -0.8468, 0.2118],
+          "evidence": "收益波动相 关性 | -6.34% | -84.68% | 4.68% | 10.40% | 1.04 | 21.18% | 16.79% | 2.41"
+        },
+        {
+          "name": "低波动交易成本",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{日度波动率最低20\\%区间均价}}{\\text{全区间均价}}",
+          "stats": [0.0797, null, 0.9204, 0.2561],
+          "evidence": "低波动交 易成本 | 7.97% | 92.04% | 4.70% | 11.08% | 0.82 | 25.61% | 12.26% | 2.23"
+        },
+        {
+          "name": "高波动交易成本",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{日度波动率最高20\\%区间均价}}{\\text{全区间均价}}",
+          "stats": [-0.0786, null, -0.9972, 0.2502],
+          "evidence": "高波动交 易成本 | -7.86% | -99.72% | 4.60% | 9.95% | 0.84 | 25.02% | 10.73% | 2.42"
+        },
+        {
+          "name": "波动率加权均价",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以日度波动率为权重对区间均价加权求和（加权计算）}",
+          "stats": [-0.0885, null, -0.9732, 0.2982],
+          "evidence": "波动率加 权均价 | -8.85% | -97.32% | 3.61% | 10.60% | 0.61 | 29.82% | 10.55% | 2.58"
+        },
+        {
+          "name": "量流动性相关性",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{维度属性成交量、成交属性Amihud非流动性的相关性（同属性拥挤度，无选股能力）}",
+          "stats": [0.0241, null, 0.1716, 0.0551],
+          "evidence": "量流动性相关性 | 2.41% | 17.16% | -3.11% | 47.63% | -0.44 | 5.51% | 53.96% | 0.48"
+        },
+        {
+          "name": "益整主买占比相关性",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{维度属性收益率、成交属性主买占比的相关性（同属性拥挤度，无选股能力）}",
+          "stats": [-0.0205, null, -0.1518, 0.0575],
+          "evidence": "益整主买占比相关性 | -2.05% | -15.18% | -4.17% | 49.79% | -0.70 | 5.75% | 62.42% | 0.50"
+        },
+        {
+          "name": "成交量加权均价",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以成交量为权重对区间均价加权求和（加权计算）}",
+          "stats": [-0.0791, null, -0.8185, 0.2338],
+          "evidence": "成交量加 权均价 | -7.91% | -81.85% | 3.96% | 16.99% | 0.62 | 23.38% | 15.54% | 1.93"
+        },
+        {
+          "name": "成交量价相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{区间成交量与均价的相关性（相关性计算）}",
+          "stats": [-0.0703, null, -0.7167, 0.2394],
+          "evidence": "成交量价 相关性 | -7.03% | -71.67% | 1.91% | 21.60% | 0.33 | 23.94% | 23.51% | 2.03"
+        },
+        {
+          "name": "低每笔交易成本",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{每笔成交量最低20\\%区间均价}}{\\text{全区间均价}}",
+          "stats": [0.0456, null, 0.5951, 0.0956],
+          "evidence": "低每笔交 易成本 | 4.56% | 59.51% | -3.11% | 23.02% | -0.51 | 9.56% | 14.72% | 0.99"
+        },
+        {
+          "name": "高每笔交易成本",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{每笔成交量最高20\\%区间均价}}{\\text{全区间均价}}",
+          "stats": [0.0029, null, 0.0502, 0.0439],
+          "evidence": "高每笔交 易成本 | 0.29% | 5.02% | -8.01% | 41.57% | -1.21 | 4.39% | 14.57% | 0.68"
+        },
+        {
+          "name": "每笔加权均价",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以每笔成交量为权重对区间均价加权求和（加权计算，交易属性交易成本逻辑无效）}",
+          "stats": [-0.0183, null, -0.2737, 0.0176],
+          "evidence": "每笔加权 均价 | -1.83% | -27.37% | -4.32% | 23.70% | -0.80 | 1.76% | 11.33% | 0.27"
+        },
+        {
+          "name": "低价每笔成交",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{价格最低20\\%区间每笔成交量}}{\\text{全区间每笔成交量}}",
+          "stats": [0.0138, null, 0.2317, 0.0432],
+          "evidence": "低价每笔 成交 | 1.38% | 23.17% | -1.20% | 14.39% | -0.23 | 4.32% | 7.89% | 0.63"
+        },
+        {
+          "name": "高价每笔成交",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\frac{\\text{价格最高20\\%区间每笔成交量}}{\\text{全区间每笔成交量}}",
+          "stats": [0.0104, null, 0.1589, 0.019],
+          "evidence": "高价每笔 成交 | 1.04% | 15.89% | 0.20% | 17.61% | 0.06 | 1.90% | 17.73% | 0.33"
+        },
+        {
+          "name": "价每笔相关性",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{区间均价与每笔成交量的相关性（相关性计算）}",
+          "stats": [-0.0184, null, -0.2796, 0.0227],
+          "evidence": "价每笔相 关性 | -1.84% | -27.96% | -5.34% | 28.93% | -1.05 | 2.27% | 12.10% | 0.31"
+        },
+        {
+          "name": "普通反转",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{区间收益率（普通反转因子，作为拥挤度因子的对照基准）}",
+          "stats": [-0.0693, null, -0.4888, 0.2514],
+          "evidence": "普通反转 | -6.93% | -48.88% | -0.31% | 23.97% | 0.01 | 25.14% | 21.75% | 1.56"
+        },
+        {
+          "name": "开盘反转",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{开盘区间收益率（开盘反转因子，测试显示无选股能力）}",
+          "stats": [-0.0004, null, -0.0047, 0.0052],
+          "evidence": "开盘反转 | -0.04% | -0.47% | -8.50% | 69.20% | -1.56 | 0.52% | 40.07% | 0.11"
         }
       ]
     },

@@ -49,7 +49,7 @@ linxiaoming@htsc.com
 | 换手率因子 (Turnover Factor) | turn_1m turn_3m turn_6m | 个股最近N个月内日均换手率 N=1,3, 6 |
 |  | bias_turn_1m bias_turn_3m bias_turn_6m | 个股最近N个月内日均换手率除以最近2年内日均换手率，再减去1 N=1, 3, 6 |
 |  | std_turn_1m std_turn_3m std_turn_6m | 个股最近N个月内日换手率序列的标准差 N=1,3, 6 |
-|  | bias_std_turn_3m 准差，再减去1 bias_std_turn_6m N=1, 3, 6 | bias_std_turn_1m 个股最近N个月内日换手率序列的标准差除以最近 2年内日换手率序列的标 |
+|  | bias_std_turn_1m bias_std_turn_3m bias_std_turn_6m | 个股最近N个月内日换手率序列的标准差除以最近 2年内日换手率序列的标准差，再减去1 N=1, 3, 6 |
 
 资料来源：Wind，华泰证券研究所
 

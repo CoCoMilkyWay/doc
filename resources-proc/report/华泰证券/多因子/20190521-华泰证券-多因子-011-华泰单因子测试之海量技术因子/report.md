@@ -51,30 +51,30 @@
 | 类型 | 名称 | 定义 |
 | --- | --- | --- |
 | 变量 | RETURNS | 个股日频收益率（由相邻两个交易日的后复权收盘价计算得来）。 |
-| 变量 |  | OPEN,CLOSE,HIGH,LOW,VOLUME个股日频开盘价、收盘价、最高价、最低价、成交量。 |
+| 变量 | OPEN,CLOSE,HIGH,LOW,VOLUME | 个股日频开盘价、收盘价、最高价、最低价、成交量。 |
 | 变量 | VWAP,CAP | 个股日频成交量加权平均价、按收盘价计算的总市值。 |
 | 变量 | ADV{N} | 个股过去N个交易日的平均成交量，例如ADV20代表过去20个交易日平均成交量。 |
-| 算符 | +,-,*,/,>,<,^,==,∥,abs(X),log(X),sign(X)标准定义(同 MATLAB 程序中定义)。 | 若 X 为 true 则返回 Y，否则返回 Z（同 C程序中定义）。 |
-| 算符 | X?Y:Z X：以下函数中自变量 | X一般可以理解为向量{Xi}1≤i≤N，代表N只个股在某指定截面日的因子值，例如：X=CLOSE+OPEN； |
-| 函数 | rank(X) | 若X为矩阵，则以下函数可以理解为对每个列向量分别进行运算，再将结果按列合并。 返回值为向量，其中第i个元素为X在向量X中的分位数。 |
+| 算符 | +,-,*,/,>,<,^,==,\|\|,abs(X),log(X),sign(X) | 标准定义(同 MATLAB 程序中定义)。 |
+| 算符 | X?Y:Z | 若 X 为 true 则返回 Y，否则返回 Z（同 C程序中定义）。 |
+|  | X：以下函数中自变量 X一般可以理解为向量{Xi}1≤i≤N，代表N只个股在某指定截面日的因子值，例如：X=CLOSE+OPEN；若X为矩阵，则以下函数可以理解为对每个列向量分别进行运算，再将结果按列合并。 |  |
+| 函数 | rank(X) | 返回值为向量，其中第i个元素为Xi在向量X中的分位数。 |
 | 函数 | delay(X, d) | 返回值为向量，d天以前的X值。 |
 | 函数 | correlation(X, Y, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列和Y值构成的时序数列的相关系数。 |
 | 函数 | covariance(X, Y, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列和Yi值构成的时序数列的协方差。 |
 | 函数 | scale(X, a) | 返回值为向量 a*X/sum(abs(x))，a 的缺省值为 1，一般 a 应为正数。 |
 | 函数 | delta(X, d) | 返回值为向量 X - delay(X, d)。 |
 | 函数 | signedpower(X, a) | 返回值为向量 sign(X).*(abs(X).^a)，其中.*和.^两个运算符代表向量中对应元素相乘、元素乘方。 |
-| 函数 | decay_linear(X, d) | 返回值为向量，其中第i个元素为过去d 天Xi值构成的时序数列的加权平均值，权数为d,d-1， ... 1 |
-| 函数 | indneutralize(X, indclass) | (权数之和应为1，需进行归一化处理)，其中离现在越近的日子权数越大。 返回值为向量，对X进行行业中性化处理，indclass取为中信一级行业。 |
+| 函数 | decay_linear(X, d) | 返回值为向量，其中第i个元素为过去d 天Xi值构成的时序数列的加权平均值，权数为d,d-1， ... 1（权数之和应为1，需进行归一化处理），其中离现在越近的日子权数越大。 |
+| 函数 | indneutralize(X, indclass) | 返回值为向量，对X进行行业中性化处理，indclass取为中信一级行业。 |
 | 函数 | ts_min(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列中最小值。 |
 | 函数 | ts_max(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列中最大值。 |
-| 函数 | ts_argmin(X, d) | 返回值为向量，其中第i个元素为过去d天X值构成的时序数列中最小值出现的位置。 |
-| 函数 | ts_argmax(X, d) | 返回值为向量，其中第i个元素为过去d天X值构成的时序数列中最大值出现的位置。 |
+| 函数 | ts_argmin(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列中最小值出现的位置。 |
+| 函数 | ts_argmax(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列中最大值出现的位置。 |
 | 函数 | ts_rank(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列中本截面日Xi值所处分位数。 |
-| 函数 | min 或 max | 若函数形式为 min(X, Y)，则返回值为向量，其中第i 个元素为min(Xi,Yi)；若函数形式为 min(X, d)， |
-| 函数 | sum | 则定义同 ts_min(X， d)。max 与 min 同理。 若函数形式为sum(X，d)，则返回值为向量，其中第i个元素为过去d 天Xi值构成的时序数列之和；若 |
-|  |  | 函数形式为sum(X)，则返回值为一个数，为向量X中所有元素之和。 |
-| 函数 函数 | product(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列的连乘乘积。 |
-|  | stddev(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列的标准差。 |
+| 函数 | min 或 max | 若函数形式为 min(X, Y)，则返回值为向量，其中第i 个元素为min(Xi,Yi)；若函数形式为 min(X, d)，则定义同 ts_min(X, d)。max 与 min 同理。 |
+| 函数 | sum | 若函数形式为sum(X, d)，则返回值为向量，其中第i个元素为过去d 天Xi值构成的时序数列之和；若函数形式为sum(X)，则返回值为一个数，为向量X中所有元素之和。 |
+| 函数 | product(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列的连乘乘积。 |
+| 函数 | stddev(X, d) | 返回值为向量，其中第i个元素为过去d天Xi值构成的时序数列的标准差。 |
 
 资料来源：华泰证券研究所
 
@@ -136,7 +136,7 @@ delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < 0) ? 1 : ((-1 * 1
 Alpha47 ((rank(1 / CLOSE) * VOLUME) / ADV20) * (HIGH * rank(HIGH - CLOSE) / (sum(HIGH, 5) / 5)) - rank(VWAP - delay(VWAP, 5))
 Alpha48 (indneutralize(((correlation(delta(CLOSE, 1), delta(delay(CLOSE, 1), 1), 250) * delta(CLOSE, 1)) / CLOSE), indclass) /
 sum(((delta(CLOSE, 1) / delay(CLOSE, 1))^2), 250))
-Alpha49 (((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.1)) ? 1 : (delay(CLOSE, 1) - CLOSE)))
+Alpha49 (((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.1)) ? 1 : (delay(CLOSE, 1) - CLOSE))
 Alpha50 (-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5))
 ```
 资料来源：华泰证券研究所
@@ -145,45 +145,43 @@ Alpha50 (-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5))
 
 | 因子名称 | 计算公式 |
 | --- | --- |
-| Alpha51 Alpha52 | (((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.05)) ? 1 : (delay(CLOSE, 1) - CLOSE))) ((((-ts_min(LOW, 5)) + delay(ts_min(LOW, 5), 5)) * rank(((sum(RETURNS, 240) - sum(RETURNS, 20)) / 220))) * ts_rank(VOLUME, 5)) |
-|  | (-1 * delta((((CLOSE - LOW) - (HIGH - CLOSE)) / (CLOSE - LOW)), 9)) |
-| Alpha53 | ((-1 * ((LOW - CLOSE) * (OPEN^5))) / ((LOW - HIGH) * (CLOSE^5))) |
-| Alpha54 |  |
+| Alpha51 | (((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.05)) ? 1 : (delay(CLOSE, 1) - CLOSE)) |
+| Alpha52 | ((((-ts_min(LOW, 5)) + delay(ts_min(LOW, 5), 5)) * rank(((sum(RETURNS, 240) - sum(RETURNS, 20)) / 220))) * ts_rank(VOLUME, 5)) |
+| Alpha53 | (-1 * delta((((CLOSE - LOW) - (HIGH - CLOSE)) / (CLOSE - LOW)), 9)) |
+| Alpha54 | ((-1 * ((LOW - CLOSE) * (OPEN^5))) / ((LOW - HIGH) * (CLOSE^5))) |
 | Alpha55 | (-1 * correlation(rank((CLOSE - ts_min(LOW, 12)) / (ts_max(HIGH, 12) - ts_min(LOW, 12))), rank(VOLUME), 6)) |
-| Alpha56 | (0 - (1 * (rank((sum(RETURNS, 10) / sum(sum(RETURNS, 2), 3))) * rank((RETURNS * CAP)))) |
+| Alpha56 | (0 - (1 * (rank((sum(RETURNS, 10) / sum(sum(RETURNS, 2), 3))) * rank((RETURNS * CAP))))) |
 | Alpha57 | (0 - (1 * ((CLOSE - VWAP) / decay_linear(rank(ts_argmax(CLOSE, 30)), 2)))) |
-| Alpha58 Alpha59 | (-1 * ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), VOLUME, 3.92795), 7.89291), 5.50322)) (-1 * ts_rank(decay_linear(correlation(indneutralize(((VWAP * 0.728317) + (VWAP * (1 - 0.728317))), indclass), VOLUME, 4.25197), |
-|  | 16.2289), 8.19648)) |
-| Alpha60 | (0 - (1 * ((2 * scale(rank(((((CLOSE - LOW) - (HIGH - CLOSE)) / (HIGH - LOW)) * VOLUME)))) - scale(rank(ts_argmax(CLOSE, 10))))) (rank((VWAP - ts_min(VWAP, 16.1219))) < rank(correlation(VWAP, ADV180, 17.9282))) |
-| Alpha61 Alpha62 | -(rank(correlation(VWAP, sum(ADV20, 22.4101), 9.91009)) < rank(((rank(OPEN) * 2) < (rank(((HIGH + LOW) / 2)) + rank(HIGH)))) |
-| Alpha63 | ((rank(decay_linear(delta(indneutralize(CLOSE, indclass), 2.25164), 8.22237)) - rank(decay_linear(correlation(((VWAP * 0.318108) + |
-|  | (OPEN * (1 - 0.318108))), sum(ADV180, 37.2467), 13.557), 12.2883)))* -1) |
-| Alpha64 | ((rank(correlation(sum(((OPEN * 0.178404) + (LOW * (1 - 0.178404))), 12.7054), sum(ADV120, 12.7054), 16.6208)) < rank(delta)((((HIGH + LOW) / 2) * 0.178404) + (VWAP * (1 - 0.178404)), 3.69741))) * -1) |
-| Alpha65 | ((rank(correlation(((OPEN * 0.00817205) + (VWAP * (1 - 0.00817205))), sum(ADV60, 8.6911), 6.40374)) < rank((OPEN - ts min(OPEN, 13.635)))) * -1) |
-| Alpha66 | ((rank(decay_linear(delta(VWAP, 3.51013), 7.23052)) + ts_rank(decay_linear((((LOW * 0.96633) + (LOW * (1 - 0.96633))) - VWAP) / (OPEN - ((HIGH + LOW) / 2))), 11.4157), 6.72611)) * -1) |
+| Alpha58 | (-1 * ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), VOLUME, 3.92795), 7.89291), 5.50322)) |
+| Alpha59 | (-1 * ts_rank(decay_linear(correlation(indneutralize(((VWAP * 0.728317) + (VWAP * (1 - 0.728317))), indclass), VOLUME, 4.25197), 16.2289), 8.19648)) |
+| Alpha60 | (0 - (1 * ((2 * scale(rank(((((CLOSE - LOW) - (HIGH - CLOSE)) / (HIGH - LOW)) * VOLUME)))) - scale(rank(ts_argmax(CLOSE, 10)))))) |
+| Alpha61 | (rank((VWAP - ts_min(VWAP, 16.1219))) < rank(correlation(VWAP, ADV180, 17.9282))) |
+| Alpha62 | -(rank(correlation(VWAP, sum(ADV20, 22.4101), 9.91009)) < rank(((rank(OPEN) * 2) < (rank(((HIGH + LOW) / 2)) + rank(HIGH))))) |
+| Alpha63 | ((rank(decay_linear(delta(indneutralize(CLOSE, indclass), 2.25164), 8.22237)) - rank(decay_linear(correlation(((VWAP * 0.318108) + (OPEN * (1 - 0.318108))), sum(ADV180, 37.2467), 13.557), 12.2883))) * -1) |
+| Alpha64 | ((rank(correlation(sum(((OPEN * 0.178404) + (LOW * (1 - 0.178404))), 12.7054), sum(ADV120, 12.7054), 16.6208)) < rank(delta((((HIGH + LOW) / 2) * 0.178404) + (VWAP * (1 - 0.178404)), 3.69741))) * -1) |
+| Alpha65 | ((rank(correlation(((OPEN * 0.00817205) + (VWAP * (1 - 0.00817205))), sum(ADV60, 8.6911), 6.40374)) < rank((OPEN - ts_min(OPEN, 13.635)))) * -1) |
+| Alpha66 | ((rank(decay_linear(delta(VWAP, 3.51013), 7.23052)) + ts_rank(decay_linear((((LOW * 0.96633) + (LOW * (1 - 0.96633))) - VWAP) / (OPEN - ((HIGH + LOW) / 2)), 11.4157), 6.72611)) * -1) |
 | Alpha67 | -(rank(HIGH - ts_min(HIGH, 2.14593))^rank(correlation(indneutralize(VWAP, indclass), indneutralize(ADV20, indclass), 6.02936))) |
-| Alpha68 | ((ts_rank(correlation(rank(HIGH), rank(ADV15), 8.91644), 13.9333) < rank(delta(((CLOSE * 0.518371) + (LOW * (1 - 0.518371))) 1.06157))) *-1) |
+| Alpha68 | ((ts_rank(correlation(rank(HIGH), rank(ADV15), 8.91644), 13.9333) < rank(delta(((CLOSE * 0.518371) + (LOW * (1 - 0.518371))), 1.06157))) * -1) |
 | Alpha69 | ((rank(ts_max(delta(indneutralize(VWAP, indclass), 2.72412), 4.79344))^ts_rank(correlation(((CLOSE * 0.490655) + (VWAP * (1 - 0.490655))), ADV20, 4.92416), 9.0615)) * -1) |
 | Alpha70 | ((rank(delta(VWAP, 1.29456))^ts_rank(correlation(indneutralize(CLOSE, indclass), ADV50, 17.8256), 17.9171)) * -1) |
 | Alpha71 | max(ts_rank(decay_linear(correlation(ts_rank(CLOSE, 3.43976), ts_rank(ADV180, 12.0647), 18.0175), 4.20501), 15.6948), ts_rank(decay_linear((rank(((LOW + OPEN) - (VWAP + VWAP)))^2), 16.4662), 4.4388)) |
-| Alpha72 | (rank(decay linear(correlation(((HIGH + LOW) / 2), ADV40, 8.93345), 10.1519)) / rank(decay linear(correlation(ts rank(VWAP. 3.72469), ts_rank(VOLUME, 18.5188), 6.86671), 2.95011))) |
+| Alpha72 | (rank(decay_linear(correlation(((HIGH + LOW) / 2), ADV40, 8.93345), 10.1519)) / rank(decay_linear(correlation(ts_rank(VWAP, 3.72469), ts_rank(VOLUME, 18.5188), 6.86671), 2.95011))) |
 | Alpha73 | (max(rank(decay_linear(delta(VWAP, 4.72775), 2.91864)), ts_rank(decay_linear(((delta(((OPEN * 0.147155) + (LOW * (1 - 0.147155))), 2.03608) / ((OPEN * 0.147155) + (LOW * (1 - 0.147155)))) * -1), 3.33829), 16.7411)) * -1) |
-| Alpha74 | ((rank(correlation(CLOSE, sum(ADV30, 37.4843), 15.1365)) < rank(correlation(rank(((HIGH * 0.0261661) + (VWAP * (1 - |
-| Alpha75 | 0.0261661))), rank(VOLUME), 11.4791))) * -1) (rank(correlation(VWAP, VOLUME, 4.24304)) < rank(correlation(rank(LOW), rank(ADV50), 12.4413))) |
-| Alpha76 | (max(rank(decay linear(delta(VWAP, 1.24383), 11.8259)), ts rank(decay linear(ts rank(correlation(indneutralize(LOW, indclass). ADV81, 8.14941), 19.569), 17.1543), 19.383)) * -1) |
-| Alpha77 | min(rank(decay_linear(((((HIGH + LOW) / 2) + HIGH) - (VWAP + HIGH)), 20.0451)), rank(decay_linear(correlation(((HIGH + LOW) / |
-| Alpha78 | 2), ADV40, 3.1614), 5.64125))) (rank(correlation(sum(((LOW * 0.352233) + (VWAP * (1 - 0.352233))), 19.7428), sum(ADV40, 19.7428), |
-| Alpha79 | 6.83313))^rank(correlation(rank(VWAP), rank(VOLUME), 5.77492))) (rank(delta(indneutralize(((CLOSE * 0.60733) + (OPEN * (1 - 0.60733))), indclass), 1.23438)) < rank(correlation(ts_rank(VWAP, |
-|  | 3.60973), ts_rank(ADV150, 9.18637), 14.6644))) ((rank(sign(delta(indneutralize(((OPEN * 0.868128) + (HIGH * (1 - 0.868128))), indclass), 4.04545)))^ts_rank(correlation(HIGH, |
-| Alpha80 | ADV10, 5.11456), 5.53756)) * -1) |
+| Alpha74 | ((rank(correlation(CLOSE, sum(ADV30, 37.4843), 15.1365)) < rank(correlation(rank(((HIGH * 0.0261661) + (VWAP * (1 - 0.0261661)))), rank(VOLUME), 11.4791))) * -1) |
+| Alpha75 | (rank(correlation(VWAP, VOLUME, 4.24304)) < rank(correlation(rank(LOW), rank(ADV50), 12.4413))) |
+| Alpha76 | (max(rank(decay_linear(delta(VWAP, 1.24383), 11.8259)), ts_rank(decay_linear(ts_rank(correlation(indneutralize(LOW, indclass), ADV81, 8.14941), 19.569), 17.1543), 19.383)) * -1) |
+| Alpha77 | min(rank(decay_linear(((((HIGH + LOW) / 2) + HIGH) - (VWAP + HIGH)), 20.0451)), rank(decay_linear(correlation(((HIGH + LOW) / 2), ADV40, 3.1614), 5.64125))) |
+| Alpha78 | (rank(correlation(sum(((LOW * 0.352233) + (VWAP * (1 - 0.352233))), 19.7428), sum(ADV40, 19.7428), 6.83313))^rank(correlation(rank(VWAP), rank(VOLUME), 5.77492))) |
+| Alpha79 | (rank(delta(indneutralize(((CLOSE * 0.60733) + (OPEN * (1 - 0.60733))), indclass), 1.23438)) < rank(correlation(ts_rank(VWAP, 3.60973), ts_rank(ADV150, 9.18637), 14.6644))) |
+| Alpha80 | ((rank(sign(delta(indneutralize(((OPEN * 0.868128) + (HIGH * (1 - 0.868128))), indclass), 4.04545)))^ts_rank(correlation(HIGH, ADV10, 5.11456), 5.53756)) * -1) |
 | Alpha81 | ((rank(LOG(product(rank((rank(correlation(VWAP, sum(ADV10, 49.6054), 8.47743))^4)), 14.9655))) < rank(correlation(rank(VWAP), rank(VOLUME), 5.07914))) * -1) |
-| Alpha82 | (min(rank(decay linear(delta(OPEN, 1.46063), 14.8717)), ts rank(decay linear(correlation(indneutralize(VOLUME, indclass), ((OPEN * 0.634196) + (OPEN * (1 - 0.634196))), 17.4842), 6.92131), 13.4283)) * -1) |
-| Alpha83 | (rank(delay(((HIGH - LOW) / (sum(CLOSE, 5) / 5)), 2)) * rank(VOLUME)) / (((HIGH - LOW) / (sum(CLOSE, 5) / 5)) / (VWAP - CLOSE)) |
+| Alpha82 | (min(rank(decay_linear(delta(OPEN, 1.46063), 14.8717)), ts_rank(decay_linear(correlation(indneutralize(VOLUME, indclass), ((OPEN * 0.634196) + (OPEN * (1 - 0.634196))), 17.4842), 6.92131), 13.4283)) * -1) |
+| Alpha83 | ((rank(delay(((HIGH - LOW) / (sum(CLOSE, 5) / 5)), 2)) * rank(VOLUME)) / (((HIGH - LOW) / (sum(CLOSE, 5) / 5)) / (VWAP - CLOSE))) |
 | Alpha84 | signedpower(ts_rank((VWAP - ts_max(VWAP, 15.3217)), 20.7127), delta(CLOSE, 4.96796)) |
-| Alpha85 | (rank(correlation(((HIGH * 0.876703) + (CLOSE * (1 - 0.876703))), ADV30, 9.61331))^rank(correlation(ts_rank(((HIGH + LOW) / 2) |
-|  | 3.70596), ts_rank(VOLUME, 10.1595), 7.11408))) |
+| Alpha85 | (rank(correlation(((HIGH * 0.876703) + (CLOSE * (1 - 0.876703))), ADV30, 9.61331))^rank(correlation(ts_rank(((HIGH + LOW) / 2), 3.70596), ts_rank(VOLUME, 10.1595), 7.11408))) |
 | Alpha86 | ((ts_rank(correlation(CLOSE, sum(ADV20, 14.7444), 6.00049), 20.4195) < rank(((OPEN + CLOSE) - (VWAP + OPEN)))) * -1) |
-| Alpha87 | (max(rank(decay_linear(delta(((CLOSE * 0.369701) + (VWAP * (1 - 0.369701)), 1.91233), 2.65461)), |
+| Alpha87 | (max(rank(decay_linear(delta(((CLOSE * 0.369701) + (VWAP * (1 - 0.369701))), 1.91233), 2.65461)), ...) |
 
 资料来源：华泰证券研究所
 
@@ -191,22 +189,20 @@ Alpha50 (-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5))
 
 | 因子名称 | 计算公式 |
 | --- | --- |
-| Alpha88 | min(rank(decay_linear(((rank(OPEN) + rank(LOW)) - (rank(HIGH) + rank(CLOSE))), 8.06882)), |
-| Alpha89 | ts_rank(decay_linear(correlation(ts_rank(CLOSE, 8.44728), ts_rank(ADV60, 20.6966), 8.01266), 6.65053), 2.61957)) (ts_rank(decay_linear(correlation(((LOW * 0.967285) + (LOW * (1 - 0.967285))), ADV10, 6.94279), 5.51607), 3.79744) - |
-|  | ts_rank(decay_linear(delta(indneutralize(VWAP, indclass), 3.48158), 10.1466), 15.3012)) |
-| Alpha90 Alpha91 | ((rank((CLOSE - ts_max(CLOSE, 4.66719)))^ts_rank(correlation(indneutralize(ADV40, indclass), LOW, 5.38375), 3.21856)) * -1) ((ts_rank(decay_linear(decay_linear(correlation(indneutralize(CLOSE, indclass), VOLUME, 9.74928), 16.398), 3.83219), 4.8667) - |
-|  | rank(decay_linear(correlation(VWAP, ADV30, 4.01303), 2.6809))) *-1) |
+| Alpha88 | min(rank(decay_linear(((rank(OPEN) + rank(LOW)) - (rank(HIGH) + rank(CLOSE))), 8.06882)), ts_rank(decay_linear(correlation(ts_rank(CLOSE, 8.44728), ts_rank(ADV60, 20.6966), 8.01266), 6.65053), 2.61957)) |
+| Alpha89 | (ts_rank(decay_linear(correlation(((LOW * 0.967285) + (LOW * (1 - 0.967285))), ADV10, 6.94279), 5.51607), 3.79744) - ts_rank(decay_linear(delta(indneutralize(VWAP, indclass), 3.48158), 10.1466), 15.3012)) |
+| Alpha90 | ((rank((CLOSE - ts_max(CLOSE, 4.66719)))^ts_rank(correlation(indneutralize(ADV40, indclass), LOW, 5.38375), 3.21856)) * -1) |
+| Alpha91 | ((ts_rank(decay_linear(decay_linear(correlation(indneutralize(CLOSE, indclass), VOLUME, 9.74928), 16.398), 3.83219), 4.8667) - rank(decay_linear(correlation(VWAP, ADV30, 4.01303), 2.6809))) * -1) |
 | Alpha92 | min(ts_rank(decay_linear(((((HIGH + LOW) / 2) + CLOSE) < (LOW + OPEN)), 14.7221), 18.8683), ts_rank(decay_linear(correlation(rank(LOW), rank(ADV30), 7.58555), 6.94024), 6.80584)) |
-| Alpha93 | (ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), ADV81, 17.4193), 19.848), 7.54455)/ rank(decay_linear(delta(((CLOSE * 0.524434) + (VWAP * (1 - 0.524434))), 2.77377), 16.2664))) |
-| Alpha94 | ((rank((VWAP - ts_min(VWAP, 11.5783)))^ts_rank(correlation(ts_rank(VWAP, 19.6462), ts_rank(ADV60, 4.02992), 18.0926), 2.70756))*-1) |
+| Alpha93 | (ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), ADV81, 17.4193), 19.848), 7.54455) / rank(decay_linear(delta(((CLOSE * 0.524434) + (VWAP * (1 - 0.524434))), 2.77377), 16.2664))) |
+| Alpha94 | ((rank((VWAP - ts_min(VWAP, 11.5783)))^ts_rank(correlation(ts_rank(VWAP, 19.6462), ts_rank(ADV60, 4.02992), 18.0926), 2.70756)) * -1) |
 | Alpha95 | (rank((OPEN - ts_min(OPEN, 12.4105))) < ts_rank((rank(correlation(sum(((HIGH + LOW) / 2), 19.1351), sum(ADV40, 19.1351), 12.8742))^5), 11.7584)) |
-| Alpha96 | (max(ts_rank(decay_linear(correlation(rank(VWAP), rank(VOLUME), 3.83878), 4.16783), 8.38151), ts_rank(decay_linear(ts_argmax(correlation(ts_rank(CLOSE, 7.45404), ts_rank(ADV60, 4.13242), 3.65459), 12.6556), 14.0365), |
-| Alpha97 | 13.4143)) *-1) -(rank(decay_linear(delta(indneutralize(((LOW * 0.721001) + (VWAP * (1 - 0.721001))), indclass), 3.3705), 20.4523)) - |
-| Alpha98 | ts_rank(decay_linear(ts_rank(correlation(ts_rank(LOW, 7.87871), ts_rank(ADV60, 17.255), 4.97547), 18.5925), 15.7152), 6.71659)) (rank(decay_linear(correlation(VWAP, sum(ADV5, 26.4719), 4.58418), 7.18088)) - |
-| Alpha99 | rank(decay_linear(ts_rank(ts_argmin(correlation(rank(OPEN), rank(ADV15), 20.8187), 8.62571), 6.95668), 8.07206))) -(rank(correlation(sum(((HIGH + LOW) / 2), 19.8975), sum(ADV60, 19.8975), 8.8136)) < rank(correlation(LOW, VOLUME, 6.28259))) |
-| Alpha100 | (- (((1.5 * scale(indneutralize(indneutralize(rank((((CLOSE * 2 - LOW - HIGH) / (HIGH - LOW)) * VOLUME)), indclass), indclass))) - |
-| Alpha101 | scale(indneutralize((correlation(CLOSE, rank(ADV20), 5) - rank(ts_argmin(CLOSE, 30))), indclass))) * (VOLUME / ADV20)))) |
-|  | ((CLOSE - OPEN) / ((HIGH - LOW) + .001)) |
+| Alpha96 | (max(ts_rank(decay_linear(correlation(rank(VWAP), rank(VOLUME), 3.83878), 4.16783), 8.38151), ts_rank(decay_linear(ts_argmax(correlation(ts_rank(CLOSE, 7.45404), ts_rank(ADV60, 4.13242), 3.65459), 12.6556), 14.0365), 13.4143)) * -1) |
+| Alpha97 | -(rank(decay_linear(delta(indneutralize(((LOW * 0.721001) + (VWAP * (1 - 0.721001))), indclass), 3.3705), 20.4523)) - ts_rank(decay_linear(ts_rank(correlation(ts_rank(LOW, 7.87871), ts_rank(ADV60, 17.255), 4.97547), 18.5925), 15.7152), 6.71659)) |
+| Alpha98 | (rank(decay_linear(correlation(VWAP, sum(ADV5, 26.4719), 4.58418), 7.18088)) - rank(decay_linear(ts_rank(ts_argmin(correlation(rank(OPEN), rank(ADV15), 20.8187), 8.62571), 6.95668), 8.07206))) |
+| Alpha99 | -(rank(correlation(sum(((HIGH + LOW) / 2), 19.8975), sum(ADV60, 19.8975), 8.8136)) < rank(correlation(LOW, VOLUME, 6.28259))) |
+| Alpha100 | (- (((1.5 * scale(indneutralize(indneutralize(rank((((CLOSE * 2 - LOW - HIGH) / (HIGH - LOW)) * VOLUME)), indclass), indclass))) - scale(indneutralize((correlation(CLOSE, rank(ADV20), 5) - rank(ts_argmin(CLOSE, 30))), indclass))) * (VOLUME / ADV20))) |
+| Alpha101 | ((CLOSE - OPEN) / ((HIGH - LOW) + .001)) |
 
 资料来源：华泰证券研究所
 

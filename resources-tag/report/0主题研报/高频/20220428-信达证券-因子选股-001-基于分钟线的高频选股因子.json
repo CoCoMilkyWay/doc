@@ -188,6 +188,256 @@
           "formula": "\\text{Std(Ret/Vol)}",
           "stats": [null, 0.0453, 0.41, null],
           "evidence": "Vol_Weighted_Std Std(Ret/Vol) 4.53% 0.41"
+        },
+        {
+          "name": "a_equal_weighted",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "a_{equal\\_weighted}=\\frac{1}{2}*a_{std}+\\frac{1}{2}*a_{ttv}",
+          "stats": [null, 0.069, 0.59, null],
+          "evidence": "从表中可以看出，等权结合后的因子相较于原始因子在各个统计指标上均有所改进，中性化后的等权组合因子全区间 Rank IC 可达 0.069，ICIR 为 0.59，在各个年度因子表现均较为稳定。"
+        },
+        {
+          "name": "a_corr_weighted",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{以两两相关性倒数思路对}a_{rev\\_pos}、a_{std}、a_{ttv}\\text{加权合成}",
+          "stats": [null, 0.0718, 0.67, null],
+          "evidence": "从表中可以看出，相较于等权因子组合，相关性加权因子组合在各个统计指标上均有所提升，行业市值中性化后全区间 Rank IC 可达 7.18%，ICIR 为 0.67。"
+        },
+        {
+          "name": "Amp_Mean_Med_Ratio",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(High/Low) /Median(High/Low)}",
+          "stats": [null, -0.0337, -0.41, null],
+          "evidence": "Amp_Mean_Med_Ratio | Mean(High/Low) /Median(High/Low) | -3.37% | -0.41"
+        },
+        {
+          "name": "Vwap_Close_Mean",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Vwap/Close)}",
+          "stats": [null, 0.0099, 0.2, null],
+          "evidence": "Vwap_Close_Mean | Mean(Vwap/Close) | 0.99% | 0.20"
+        },
+        {
+          "name": "Vwap_Close_Mean_Med_Ratio",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Vwap/Close) / Median(Vwap/Close)}",
+          "stats": [null, 0.0033, 0.07, null],
+          "evidence": "Vwap_Close_Mean_Med_Ratio | Mean(Vwap/Close) / Median(Vwap/Close) | 0.33% | 0.07"
+        },
+        {
+          "name": "Vwap_Close_Skew",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Skew(Vwap/Close)}",
+          "stats": [null, 0.0025, 0.06, null],
+          "evidence": "Vwap_Close_Skew | Skew(Vwap/Close) | 0.25% | 0.06"
+        },
+        {
+          "name": "Vol_Weighted_Ret",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret/Vol)}",
+          "stats": [null, 0.0065, 0.17, null],
+          "evidence": "Vol_Weighted_Ret | Mean(Ret/Vol) | 0.65% | 0.17"
+        },
+        {
+          "name": "Vol_Weighted_Stability",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret/Vol) / Std(Ret/Vol)}",
+          "stats": [null, -0.0009, -0.02, null],
+          "evidence": "Vol_Weighted_Stability | Mean(Ret/Vol) / Std(Ret/Vol) | -0.09% | -0.02"
+        },
+        {
+          "name": "Vol_Weighted_Mean_Med_Ratio",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret/Vol) / Median(Ret/Vol)}",
+          "stats": [null, 0.0028, 0.01, null],
+          "evidence": "Vol_Weighted_Mean_Med_Ratio | Mean(Ret/Vol) / Median(Ret/Vol) | 0.28% | 0.01"
+        },
+        {
+          "name": "Vol_Weighted_Skew",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Skew(Ret/Vol)}",
+          "stats": [null, 0.0027, 0.12, null],
+          "evidence": "Vol_Weighted_Skew | Skew(Ret/Vol) | 0.27% | 0.12"
+        },
+        {
+          "name": "Ret_Mean",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret)}",
+          "stats": [null, -0.0217, -0.16, null],
+          "evidence": "Ret_Mean | Mean(Ret) | -2.17% | -0.16"
+        },
+        {
+          "name": "Ret_Stability",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret) / Std(Ret)}",
+          "stats": [null, -0.0203, -0.15, null],
+          "evidence": "Ret_Stability | Mean(Ret) / Std(Ret) | -2.03% | -0.15"
+        },
+        {
+          "name": "Ret_Mean_Med_Ratio",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret) / Median(Ret)}",
+          "stats": [null, 0.0316, 0.09, null],
+          "evidence": "Ret_Mean_Med_Ratio | Mean(Ret) / Median(Ret) | 3.16% | 0.09"
+        },
+        {
+          "name": "Ret_Skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Skew(Ret)}",
+          "stats": [null, -0.0169, -0.21, null],
+          "evidence": "Ret_Skew | Skew(Ret) | -1.69% | -0.21"
+        },
+        {
+          "name": "Ret(Vol_Up)_Mean",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret(Vol\\_Up))}",
+          "stats": [null, -0.0353, -0.34, null],
+          "evidence": "Ret(Vol_Up)_Mean | Mean(Ret(Vol_Up)) | -3.53% | -0.34"
+        },
+        {
+          "name": "Ret(Vol_Up)_Stability",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret(Vol\\_Up))/ Std(Ret(Vol\\_Up))}",
+          "stats": [null, -0.034, -0.32, null],
+          "evidence": "Ret(Vol_Up)_Stability | Mean(Ret(Vol_Up))/ Std(Ret(Vol_Up)) | -3.40% | -0.32"
+        },
+        {
+          "name": "Ret(Vol_Up)_Mean_Med_Ratio",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret(Vol\\_Up)) / Median(Ret(Vol\\_Up))}",
+          "stats": [null, 0.0014, 0.03, null],
+          "evidence": "Ret(Vol_Up)_Mean_Med_Ratio | Mean(Ret(Vol_Up)) / Median(Ret(Vol_Up)) | 0.14% | 0.03"
+        },
+        {
+          "name": "Ret(Vol_Up)_Skew",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Skew(Ret(Vol\\_Up))}",
+          "stats": [null, -0.0102, -0.22, null],
+          "evidence": "Ret(Vol_Up)_Skew | Skew(Ret(Vol_Up)) | -1.02% | -0.22"
+        },
+        {
+          "name": "Ret(Vol_Down)_Mean",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret(Vol\\_Down))}",
+          "stats": [null, -0.0072, -0.1, null],
+          "evidence": "Ret(Vol_Down)_Mean | Mean(Ret(Vol_Down)) | -0.72% | -0.10"
+        },
+        {
+          "name": "Ret(Vol_Down)_Std",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Std(Ret(Vol\\_Down))}",
+          "stats": [null, -0.0082, -0.08, null],
+          "evidence": "Ret(Vol_Down)_Std | Std(Ret(Vol_Down)) | -0.82% | -0.08"
+        },
+        {
+          "name": "Ret(Vol_Down)_Stability",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret(Vol\\_Down))/ Std(Ret(Vol\\_Down))}",
+          "stats": [null, -0.0064, -0.084, null],
+          "evidence": "Ret(Vol_Down)_Stability | Mean(Ret(Vol_Down))/ Std(Ret(Vol_Down)) | -0.64% | -0.084"
+        },
+        {
+          "name": "Ret(Vol_Down)_Mean_Med_Ratio",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Mean(Ret(Vol\\_Down))/ Median(Ret(Vol\\_Down))}",
+          "stats": [null, 0.0022, 0.02, null],
+          "evidence": "Ret(Vol_Down)_Mean_Med_Ratio | Mean(Ret(Vol_Down))/ Median(Ret(Vol_Down)) | 0.22% | 0.02"
+        },
+        {
+          "name": "Ret(Vol_Down)_Skew",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Skew(Ret(Vol\\_Down))}",
+          "stats": [null, 0.0027, 0.04, null],
+          "evidence": "Ret(Vol_Down)_Skew | Skew(Ret(Vol_Down)) | 0.27% | 0.04"
+        },
+        {
+          "name": "Ret_Filtered_Diff",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Sum(Ret(Vol\\_Up)) – Sum(Ret(Vol\\_Down))}",
+          "stats": [null, 0.0348, 0.33, null],
+          "evidence": "Ret_Filtered_Diff | Sum(Ret(Vol_Up)) – Sum(Ret(Vol_Down)) | 3.48% | 0.33"
+        },
+        {
+          "name": "Ret_Filtered_Intensity",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "daily",
+          "formula": "\\text{Sum(Ret(Vol\\_Up)) – Sum(Ret(Vol\\_Down))}",
+          "stats": [null, 0.0066, 0.05, null],
+          "evidence": "Ret_Filtered_Intensity | Sum(Ret(Vol_Up)) – Sum(Ret(Vol_Down)) | 0.66% | 0.05"
         }
       ]
     },

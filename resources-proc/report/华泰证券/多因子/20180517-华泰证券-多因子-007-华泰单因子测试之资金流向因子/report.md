@@ -93,26 +93,26 @@ linxiaoming@htsc.com
 |  | mfd_inflowproportion_a | 净主动买入额占比 |
 |  | mf_vol | 净主动买入量（全单） |
 |  | mfd_volinflowrate_a | 净主动买入率（量） |
-| 开盘净主动买入类 | mf_vol_ratio | 净主动买入量占比 |
-|  | mf_amt_open | 开盘净主动买入额 |
+|  | mf_vol_ratio | 净主动买入量占比 |
+| 开盘净主动买入类 | mf_amt_open | 开盘净主动买入额 |
 |  | mfd_inflowrate_open_a | 开盘净主动买入率（金额） |
 |  | mfd_inflowproportion_open_a | 开盘净主动买入额占比 |
 |  | mfd_inflowvolume_open_a | 开盘资金净主动买入量 |
 |  | mfd_volinflowrate_open_a | 开盘净主动买入率（量） |
-| 尾盘净主动买入类 | mfd_volinflowproportion_open_a | 开盘净主动买入量占比 |
-|  | mf_amt_close | 尾盘净主动买入额 |
+|  | mfd_volinflowproportion_open_a | 开盘净主动买入量占比 |
+| 尾盘净主动买入类 | mf_amt_close | 尾盘净主动买入额 |
 |  | mfd_inflowrate_close_a | 尾盘净主动买入率（金额） |
 |  | mfd_inflowproportion_close_a | 尾盘净主动买入额占比 |
 |  | mfd_inflowvolume_close_a | 尾盘资金净主动买入量 |
 |  | mfd_volinflowrate_close_a | 尾盘净主动买入率（量） |
-| 主力净流入类 | mfd_volinflowproportion_close_a | 尾盘净主动买入量占比 |
-|  | mfd_inflow_m | 主力净流入额 |
+|  | mfd_volinflowproportion_close_a | 尾盘净主动买入量占比 |
+| 主力净流入类 | mfd_inflow_m | 主力净流入额 |
 |  | mfd_inflowrate_m | 主力净流入率（金额） |
 |  | mfd_inflowproportion_m | 主力净流入额占比 |
 |  | mfd_buyvol_m | 主力净流入量 |
 |  | mfd_volinflowrate_m | 主力净流入率（量） |
-| 开盘主力净流入类 | mfd_volinflowproportion_m | 主力净流入量占比 |
-|  | mfd_inflow_open_m | 开盘主力净流入额 |
+|  | mfd_volinflowproportion_m | 主力净流入量占比 |
+| 开盘主力净流入类 | mfd_inflow_open_m | 开盘主力净流入额 |
 |  | mfd_inflowrate_open_m | 开盘主力净流入率（金额） |
 |  | mfd_inflowproportion_open_m | 开盘主力净流入额占比 |
 |  | mfd_buyvol_open_m | 开盘主力净流入量 |
@@ -122,7 +122,8 @@ linxiaoming@htsc.com
 |  | mfd_inflowrate_close_m | 尾盘主力净流入率（金额） |
 |  | mfd_inflowproportion_close_m | 尾盘主力净流入额占比 |
 |  | mfd_buyvol_close_m | 尾盘主力净流入量 |
-|  | mfd_volinflowrate_close_m mfd_volinflowproportion_close_m | 尾盘主力净流入率（量） 尾盘主力净流入量占比 |
+|  | mfd_volinflowrate_close_m | 尾盘主力净流入率（量） |
+|  | mfd_volinflowproportion_close_m | 尾盘主力净流入量占比 |
 
 资料来源：Wind，华泰证券研究所
 

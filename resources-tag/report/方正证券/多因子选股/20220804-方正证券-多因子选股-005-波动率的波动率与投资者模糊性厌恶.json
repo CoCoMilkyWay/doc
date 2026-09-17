@@ -92,7 +92,7 @@
           "horizon": "monthly",
           "formula": "\\mathrm{std}_{20d}\\left(\\frac{\\text{雾中数量}}{\\text{总体数量}}\\right)",
           "stats": [null, -0.0536, -3.14, 0.1969],
-          "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-7.55%、-5.36%和-7.28%，Rank ICIR 达到-4.21、-3.14 和-4.45，年化收益率达 26.09%、19.69%和 26.21%，选股效果较好，并且和“模糊数量比”因子绩效表现相近。"
+          "evidence": "从测试结果来看，上述三个因子 Rank IC 分别为-7.55%、-5.36%和-7.28%，Rank ICIR 达到-4.21、-3.14 和-4.45，年化收益率达 26.09%、19.69%和 26.21%，选股效果较好，并且和“模糊金额比”因子绩效表现相近。"
         },
         {
           "name": "模糊数量比",
@@ -140,7 +140,7 @@
           "direction": "negative",
           "data_period": ["intraday"],
           "horizon": "monthly",
-          "formula": "\\mathrm{mean}_{20d}\\left(\\frac{\\text{日模糊价差}}{\\mathrm{std}_{10d}(\\text{日模糊价差})}\\cdot\\frac{s2}{s1},\\ \\text{仅对负值部分调整}\\right)",
+          "formula": "\\mathrm{mean}_{20d}\\left(\\frac{\\text{日模糊价差}}{\\mathrm{std}_{10d}(\\text{日模糊价差})}\\cdot\\frac{s1}{s2},\\ \\text{仅对负值部分调整}\\right)",
           "stats": [null, -0.0828, -4.6, 0.2679],
           "evidence": "每月月底，计算过去 20个交易日的“修正日模糊价差”的均值，记为“均修正模糊价差”因子。再将其与“稳模糊价差”因子等权合成，得到“修正模糊价差”因子。"
         },

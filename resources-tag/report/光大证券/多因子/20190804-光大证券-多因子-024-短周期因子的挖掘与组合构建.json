@@ -183,6 +183,86 @@
           "formula": "add(log(smaller(close,bs_sum_rate)),smaller(close,smaller(sqrt(value),add(ts_std(ts_max(multiply(log(value),smaller(ts_skew(volume,20),open)),4),20),ts_skew(avg,4)))))",
           "stats": [-0.037, null, 0.76, 0.462],
           "evidence": "Alpha017 | add(log(smaller(close,bs_sum_rate)),smaller(close,smaller(sqrt(value),add(ts_std(ts_max(multiply(log(value),smaller(ts_skew(volume,20),open)),4),20),ts_skew(avg,4)))))"
+        },
+        {
+          "name": "短周期Alpha17复合因子",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["second", "intraday"],
+          "horizon": "daily",
+          "formula": "\\text{短周期Alpha17因子池中17个因子等权相加}",
+          "stats": [null, null, null, null],
+          "evidence": "为方便起见我们对这17 个因子等权相加得到的复合因子称为短周期Alpha17 复合因子，选取该复合因子值最大的 150 只股票构建的选股组合"
+        },
+        {
+          "name": "HighLow_1M",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{近一个月最高价/最低价}",
+          "stats": [null, null, null, null],
+          "evidence": "HighLow_1M | 近一个月最高价/最低价"
+        },
+        {
+          "name": "Ln_MC",
+          "family": "size",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{市值对数}",
+          "stats": [null, null, null, null],
+          "evidence": "Ln_MC | 市值对数 |\n| Momentum_1M | 1个月收益率"
+        },
+        {
+          "name": "Momentum_1M",
+          "family": "reversal",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "Momentum_1M | 1个月收益率 |\n| Momentum_24M | 24个月收益率"
+        },
+        {
+          "name": "Momentum_24M",
+          "family": "momentum",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{24个月收益率}",
+          "stats": [null, null, null, null],
+          "evidence": "Momentum_24M | 24个月收益率 |\n| STD_3M | 3个月收益率波动"
+        },
+        {
+          "name": "STD_3M",
+          "family": "volatility",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个月收益率波动}",
+          "stats": [null, null, null, null],
+          "evidence": "STD_3M | 3个月收益率波动 |\n| VA_FC_1M | 近一个月成交额/流通市值"
+        },
+        {
+          "name": "VA_FC_1M",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{近一个月成交额/流通市值}",
+          "stats": [null, null, null, null],
+          "evidence": "VA_FC_1M | 近一个月成交额/流通市值"
+        },
+        {
+          "name": "VSTD_1M",
+          "family": "liquidity",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月流动性}",
+          "stats": [null, null, null, null],
+          "evidence": "VA_FC_1M | 近一个月成交额/流通市值 |\n| VSTD_1M | 1个月流动性"
         }
       ]
     },

@@ -25,6 +25,256 @@
           "evidence": "2007 年 4 月以来，ts_rank(EP, 2)因子在沪深 300、中证 500、全 A 股的RankIC均值分别为5.14%、6.13%、6.21%，分五层测试中多空组合夏普比率分别为0.77、1.88、2.46。"
         },
         {
+          "name": "ts_rank(EP, 4)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润(TTM)/总市值在过去4 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "| 估值 | 估值 | ts_rank(EP, n) | 净利润(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(EP, 8)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润(TTM)/总市值在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "| 估值 | 估值 | ts_rank(EP, n) | 净利润(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(EP, 12)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润(TTM)/总市值在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "| 估值 | 估值 | ts_rank(EP, n) | 净利润(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(BP, 2)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产/总市值在过去2 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(BP, n) | 净资产/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(BP, 4)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产/总市值在过去4 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(BP, n) | 净资产/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(BP, 8)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产/总市值在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(BP, n) | 净资产/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(BP, 12)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产/总市值在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(BP, n) | 净资产/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(SP, 2)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入(TTM)/总市值在过去2 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(SP, n) | 营业收入(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(SP, 4)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入(TTM)/总市值在过去4 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(SP, n) | 营业收入(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(SP, 8)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入(TTM)/总市值在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(SP, n) | 营业收入(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(SP, 12)",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入(TTM)/总市值在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(SP, n) | 营业收入(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(NCFP, 2)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净现金流(TTM)/总市值在过去2 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(NCFP, n) | 净现金流(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(NCFP, 4)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净现金流(TTM)/总市值在过去4 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(NCFP, n) | 净现金流(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(NCFP, 8)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净现金流(TTM)/总市值在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(NCFP, n) | 净现金流(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(NCFP, 12)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{净现金流(TTM)/总市值在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(NCFP, n) | 净现金流(TTM)/总市值在过去n 个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(OCFP, 2)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{经营现金流(TTM)/总市值在过去2 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(OCFP, n) | 经营现金流(TTM)/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(OCFP, 4)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{经营现金流(TTM)/总市值在过去4 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(OCFP, n) | 经营现金流(TTM)/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(OCFP, 8)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{经营现金流(TTM)/总市值在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(OCFP, n) | 经营现金流(TTM)/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(OCFP, 12)",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{经营现金流(TTM)/总市值在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(OCFP, n) | 经营现金流(TTM)/总市值在过去n个季度里的分位数(n=2,4,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_roe, 6)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度 ROE(平均)在过去 6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "| 财务质量 | 盈利能力 | ts_rank(qfa_roe, n) | 单季度 ROE(平均)在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_roe, 8)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度 ROE(平均)在过去 8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "| 财务质量 | 盈利能力 | ts_rank(qfa_roe, n) | 单季度 ROE(平均)在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_roe, 12)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度 ROE(平均)在过去 12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "| 财务质量 | 盈利能力 | ts_rank(qfa_roe, n) | 单季度 ROE(平均)在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(roe_deducted, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE(扣非/平均)在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(roe_deducted, n) | 当年累计 ROE(扣非/平均)在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(roe_deducted, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE(扣非/平均)在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(roe_deducted, n) | 当年累计 ROE(扣非/平均)在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(roe_deducted, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE(扣非/平均)在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(roe_deducted, n) | 当年累计 ROE(扣非/平均)在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
           "name": "ts_rank(qfa_roa, 6)",
           "family": "quality",
           "direction": "positive",
@@ -35,6 +285,56 @@
           "evidence": "2007 年 4月以来，ts_rank(qfa_roa, 6)因子在沪深 300、中证 500、全 A 股的 RankIC 均值分别为 6.50%、5.68%、6.89%，分五层测试中多空组合夏普比率分别为 0.75、0.76、1.97。"
         },
         {
+          "name": "ts_rank(qfa_roa, 8)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度总资产净利率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_roa, n) | 单季度总资产净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_roa, 12)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度总资产净利率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_roa, n) | 单季度总资产净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(roa, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计总资产净利率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(roa, n) | 当年累计总资产净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(roa, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计总资产净利率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(roa, n) | 当年累计总资产净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(roa, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计总资产净利率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(roa, n) | 当年累计总资产净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
           "name": "ts_rank(qfa_grossprofitmargin, 6)",
           "family": "quality",
           "direction": "positive",
@@ -43,6 +343,536 @@
           "formula": "\\text{ts\\_rank}(qfa\\_grossprofitmargin, 6)=\\text{单季度销售毛利率当前取值在过去 6 个季度里的分位数}",
           "stats": [null, 0.0563, 1.58, null],
           "evidence": "例如 ts_rank(qfa_grossprofitmargin, n)因子中 n 的取值分别为 6、8、12 时，因子在全 A股的因子收益率均值为分别为0.88%、0.85%、0.73%，RankIC 均值分别为5.63%、5.37%、4.69%，多空组合夏普比率分别为 2.01、1.82、1.52。"
+        },
+        {
+          "name": "ts_rank(qfa_grossprofitmargin, 8)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度销售毛利率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_grossprofitmargin, n) | 单季度销售毛利率在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_grossprofitmargin, 12)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度销售毛利率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_grossprofitmargin, n) | 单季度销售毛利率在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(grossprofitmargin_ttm2, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售毛利率 TTM 在过去 6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(grossprofitmargin_ttm2, n) | 销售毛利率 TTM 在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(grossprofitmargin_ttm2, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售毛利率 TTM 在过去 8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(grossprofitmargin_ttm2, n) | 销售毛利率 TTM 在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(grossprofitmargin_ttm2, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售毛利率 TTM 在过去 12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(grossprofitmargin_ttm2, n) | 销售毛利率 TTM 在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_netprofitmargin, 6)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度销售净利率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_netprofitmargin, n) | 单季度销售净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_netprofitmargin, 8)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度销售净利率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_netprofitmargin, n) | 单季度销售净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_netprofitmargin, 12)",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度销售净利率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_netprofitmargin, n) | 单季度销售净利率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(netprofitmargin_ttm2, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售净利率 TTM 在过去 6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(netprofitmargin_ttm2, n) | 销售净利率 TTM 在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(netprofitmargin_ttm2, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售净利率 TTM 在过去 8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(netprofitmargin_ttm2, n) | 销售净利率 TTM 在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(netprofitmargin_ttm2, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售净利率 TTM 在过去 12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(netprofitmargin_ttm2, n) | 销售净利率 TTM 在过去 n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_operateincometoebt, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度经营活动净收益/利润总额在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 收益质量 | ts_rank(qfa_operateincometoebt, n) | 单季度经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_operateincometoebt, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度经营活动净收益/利润总额在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 收益质量 | ts_rank(qfa_operateincometoebt, n) | 单季度经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_operateincometoebt, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度经营活动净收益/利润总额在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 收益质量 | ts_rank(qfa_operateincometoebt, n) | 单季度经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(operateincometoebt, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营活动净收益/利润总额在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(operateincometoebt, n) | 当年累计经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(operateincometoebt, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营活动净收益/利润总额在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(operateincometoebt, n) | 当年累计经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(operateincometoebt, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营活动净收益/利润总额在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(operateincometoebt, n) | 当年累计经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_deductedprofittoprofit, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度扣非净利润/净利润在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_deductedprofittoprofit, n) | 单季度扣非净利润/净利润在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_deductedprofittoprofit, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度扣非净利润/净利润在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_deductedprofittoprofit, n) | 单季度扣非净利润/净利润在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(qfa_deductedprofittoprofit, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度扣非净利润/净利润在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(qfa_deductedprofittoprofit, n) | 单季度扣非净利润/净利润在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(deductedprofittoprofit, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计扣非净利润/净利润在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(deductedprofittoprofit, n) | 当年累计扣非净利润/净利润在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(deductedprofittoprofit, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计扣非净利润/净利润在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(deductedprofittoprofit, n) | 当年累计扣非净利润/净利润在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(deductedprofittoprofit, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计扣非净利润/净利润在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(deductedprofittoprofit, n) | 当年累计扣非净利润/净利润在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(invturn, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{存货周转率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 营运能力 | ts_rank(invturn, n) | 存货周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(invturn, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{存货周转率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 营运能力 | ts_rank(invturn, n) | 存货周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(invturn, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{存货周转率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 营运能力 | ts_rank(invturn, n) | 存货周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(caturn, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动资产周转率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(caturn, n) | 流动资产周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(caturn, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动资产周转率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(caturn, n) | 流动资产周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(caturn, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动资产周转率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(caturn, n) | 流动资产周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(assetsturn, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{总资产周转率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(assetsturn, n) | 总资产周转率在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(assetsturn, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{总资产周转率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(assetsturn, n) | 总资产周转率在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(assetsturn, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{总资产周转率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(assetsturn, n) | 总资产周转率在过去n 个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(apturn, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{应付账款周转率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(apturn, n) | 应付账款周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(apturn, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{应付账款周转率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(apturn, n) | 应付账款周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(apturn, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{应付账款周转率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(apturn, n) | 应付账款周转率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ocftoor, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营性现金流量净额/营业收入在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 现金流量 | ts_rank(ocftoor, n) | 当年累计经营性现金流量净额/营业收入在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ocftoor, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营性现金流量净额/营业收入在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 现金流量 | ts_rank(ocftoor, n) | 当年累计经营性现金流量净额/营业收入在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ocftoor, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营性现金流量净额/营业收入在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 现金流量 | ts_rank(ocftoor, n) | 当年累计经营性现金流量净额/营业收入在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ocftoor_ttm2, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{经营性现金流量净额/营业收入TTM 在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(ocftoor_ttm2, n) | 经营性现金流量净额/营业收入TTM 在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ocftoor_ttm2, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{经营性现金流量净额/营业收入TTM 在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(ocftoor_ttm2, n) | 经营性现金流量净额/营业收入TTM 在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ocftoor_ttm2, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{经营性现金流量净额/营业收入TTM 在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(ocftoor_ttm2, n) | 经营性现金流量净额/营业收入TTM 在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(debttoassets, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{资产负债率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 资本结构 | ts_rank(debttoassets, n) | 资产负债率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(debttoassets, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{资产负债率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 资本结构 | ts_rank(debttoassets, n) | 资产负债率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(debttoassets, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{资产负债率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 资本结构 | ts_rank(debttoassets, n) | 资产负债率在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(currentdebttodebt, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动负债/负债合计在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(currentdebttodebt, n) | 流动负债/负债合计在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(currentdebttodebt, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动负债/负债合计在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(currentdebttodebt, n) | 流动负债/负债合计在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(currentdebttodebt, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动负债/负债合计在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ts_rank(currentdebttodebt, n) | 流动负债/负债合计在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ebittointerest, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{利息保障倍数(EBIT/利息费用)在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 偿债能力 | ts_rank(ebittointerest, n) | 利息保障倍数(EBIT/利息费用)在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ebittointerest, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{利息保障倍数(EBIT/利息费用)在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 偿债能力 | ts_rank(ebittointerest, n) | 利息保障倍数(EBIT/利息费用)在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(ebittointerest, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{利息保障倍数(EBIT/利息费用)在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 偿债能力 | ts_rank(ebittointerest, n) | 利息保障倍数(EBIT/利息费用)在过去n个季度里的分位数(n=6,8,12) |"
+        },
+        {
+          "name": "ts_rank(debttotangibleequity, 6)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{有形净值债务率在过去6 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | ts_rank(debttotangibleequity, n) | 有形净值债务率在过去n个季度里的分位数(n=6,8,12) |  |"
+        },
+        {
+          "name": "ts_rank(debttotangibleequity, 8)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{有形净值债务率在过去8 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | ts_rank(debttotangibleequity, n) | 有形净值债务率在过去n个季度里的分位数(n=6,8,12) |  |"
+        },
+        {
+          "name": "ts_rank(debttotangibleequity, 12)",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{有形净值债务率在过去12 个季度里的分位数}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | ts_rank(debttotangibleequity, n) | 有形净值债务率在过去n个季度里的分位数(n=6,8,12) |  |"
         }
       ]
     },

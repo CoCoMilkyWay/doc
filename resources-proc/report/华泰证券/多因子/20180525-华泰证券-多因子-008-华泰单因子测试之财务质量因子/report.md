@@ -50,57 +50,57 @@ linxiaoming@htsc.com
 
 | 大类 | 子类 | Wind 因子名称 | 因子描述 |
 | --- | --- | --- | --- |
-|  |  | qfa_roe | 单季度 ROE（平均） |
-|  |  | qfa_roe_deducted | 单季度 ROE(平均/扣非） |
-|  |  | roe_basic | 当年累计ROE-财报公布值（加权） |
+| 财务质量（全部因子均从 Wind 直接提取） | 盈利能力 | qfa_roe | 单季度 ROE（平均） |
+|  |  | qfa_roe_deducted | 单季度 ROE（平均/扣非） |
+|  |  | roe_basic | 当年累计 ROE-财报公布值（加权） |
 |  |  | roe_avg | 当年累计 ROE（平均） |
 |  |  | roe_diluted | 当年累计 ROE（摊薄） |
 |  |  | roe_exbasic | 当年累计 ROE（扣非/加权） |
-| 盈利能力 财务质量 | roe_deducted | 当年累计 ROE（扣非/平均） |  |
-|  | roe_exdiluted | 当年累计 ROE（扣非/摊薄） |  |
-|  | roe_ttm2 | ROE 的 TTM 值（算法类似摊薄） |  |
-|  | qfa_roa | 单季度总资产净利率 |  |
-|  | roa | 当年累计总资产净利率 |  |
-|  | roa2 | 当年累计总资产报酬率 |  |
-|  | roa_ttm2 | 总资产净利率TTM |  |
-|  | roa2_ttm2 qfa_grossprofitmargin | 总资产报酬率TTM |  |
-|  |  | 当年累计销售毛利率 | 单季度销售毛利率 |
-|  |  | grossprofitmargin |  |
+|  |  | roe_deducted | 当年累计 ROE（扣非/平均） |
+|  |  | roe_exdiluted | 当年累计 ROE（扣非/摊薄） |
+|  |  | roe_ttm2 | ROE 的 TTM 值（算法类似摊薄） |
+|  |  | qfa_roa | 单季度总资产净利率 |
+|  |  | roa | 当年累计总资产净利率 |
+|  |  | roa2 | 当年累计总资产报酬率 |
+|  |  | roa_ttm2 | 总资产净利率TTM |
+|  |  | roa2_ttm2 | 总资产报酬率TTM |
+|  |  | qfa_grossprofitmargin | 单季度销售毛利率 |
+|  |  | grossprofitmargin | 当年累计销售毛利率 |
 |  |  | grossprofitmargin_ttm2 | 销售毛利率TTM |
 |  |  | qfa_netprofitmargin | 单季度销售净利率 |
 |  |  | netprofitmargin | 当年累计销售净利率 |
 |  |  | netprofitmargin_ttm2 | 销售净利率TTM |
-|  | nptocostexpense_qfa | 当年累计成本费用利润率 |  |
-|  | nptocostexpense | 单季度成本费用利润率 |  |
-|  | roic | 投入资本回报率 |  |
-| (全部因子均从 | roic_ttm2 | 投入资本回报率TTM |  |
-|  | qfa_operateincometoebt | 单季度经营活动净收益/利润总额 |  |
-|  | operateincometoebt operateincometoebt_ttm2 | 当年累计经营活动净收益/利润总额 |  |
-| Wind 直接提取） |  |  |  |
-|  | 收益质量 qfa_deductedprofittoprofit | 经营活动净收益/利润总额TTM 单季度扣非凈利润/净利润 |  |
-|  | deductedprofittoprofit | 当年累计扣非净利润/净利润 |  |
-|  | taxtoebt | 当年累计所得税/利润总额 |  |
-|  | taxtoebt_ttm | 税项/利润总额 TTM |  |
-|  | qfa_ocftosales | 单季度经营性现金流量净额/营业收入 |  |
-|  | ocftoor | 当年累计经营性现金流量净额/营业收入 |  |
-|  | ocftoor_ttm2 | 经营性现金流量净额/营业收入 TTM |  |
-|  | 现金流量 | ocftocf_qfa | 单季度经营性现金流量净额占比 |
+|  |  | nptocostexpense_qfa | 单季度成本费用利润率 |
+|  |  | nptocostexpense | 当年累计成本费用利润率 |
+|  |  | roic | 投入资本回报率 |
+|  |  | roic_ttm2 | 投入资本回报率TTM |
+|  | 收益质量 | qfa_operateincometoebt | 单季度经营活动净收益/利润总额 |
+|  |  | operateincometoebt | 当年累计经营活动净收益/利润总额 |
+|  |  | operateincometoebt_ttm2 | 经营活动净收益/利润总额TTM |
+|  |  | qfa_deductedprofittoprofit | 单季度扣非净利润/净利润 |
+|  |  | deductedprofittoprofit | 当年累计扣非净利润/净利润 |
+|  |  | taxtoebt | 当年累计所得税/利润总额 |
+|  |  | taxtoebt_ttm | 税项/利润总额 TTM |
+|  | 现金流量 | qfa_ocftosales | 单季度经营性现金流量净额/营业收入 |
+|  |  | ocftoor | 当年累计经营性现金流量净额/营业收入 |
+|  |  | ocftoor_ttm2 | 经营性现金流量净额/营业收入 TTM |
+|  |  | ocftocf_qfa | 单季度经营性现金流量净额占比 |
 |  |  | ocftocf | 当年累计经营性现金流量净额占比 |
 |  |  | ocftoassets | 当年累计总资产现金回收率 |
-|  |  | ocftodividend |  |
-|  |  | debttoassets | 当年累计现金股利保障倍数 资产负债率 |
-|  | 资本结构 | catoassets | 流动资产/总资产 |
+|  |  | ocftodividend | 当年累计现金股利保障倍数 |
+|  | 资本结构 | debttoassets | 资产负债率 |
+|  |  | catoassets | 流动资产/总资产 |
 |  |  | currentdebttodebt | 流动负债/负债合计 |
-|  |  | current |  |
-|  | 偿债能力 | quick | 流动比率 |
-|  |  | cashtocurrentdebt | 速动比率 现金比率 |
+|  | 偿债能力 | current | 流动比率 |
+|  |  | quick | 速动比率 |
+|  |  | cashtocurrentdebt | 现金比率 |
 |  |  | debttotangibleequity | 有形净值债务率 |
-|  |  | ebittointerest |  |
-| invturn |  | 利息保障倍数（EBIT/利息费用） 存货周转率 |  |
-| 营运能力 | caturn | 流动资产周转率 |  |
-|  | assetsturn | 总资产周转率 |  |
-|  | arturn | 应收账款周转率 |  |
-|  | apturn | 应付账款周转率 |  |
+|  |  | ebittointerest | 利息保障倍数（EBIT/利息费用） |
+|  | 营运能力 | invturn | 存货周转率 |
+|  |  | caturn | 流动资产周转率 |
+|  |  | assetsturn | 总资产周转率 |
+|  |  | arturn | 应收账款周转率 |
+|  |  | apturn | 应付账款周转率 |
 
 资料来源：Wind，华泰证券研究所
 

@@ -15,6 +15,36 @@
       },
       "factors": [
         {
+          "name": "传统反转因子",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{20日收益率因子（作为改进对照的传统反转因子）}",
+          "stats": [null, -0.0669, -2.33, 0.2774],
+          "evidence": "传统反转因子 | -6.69% | -2.33 | -7.29 | 27.74% | 16.35% | 1.70 | 66.10% | 14.26% |"
+        },
+        {
+          "name": "传统波动因子",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{20日波动率因子（作为改进对照的传统波动因子）}",
+          "stats": [null, -0.073, -2.05, 0.2185],
+          "evidence": "传统波动因子 | -7.30% | -2.05 | -6.41 | 21.85% | 19.34% | 1.13 | 63.56% | 32.02% |"
+        },
+        {
+          "name": "反转+波动",
+          "family": "composite",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\frac{1}{2}\\left(\\text{20日收益率因子}+\\text{20日波动率因子}\\right)",
+          "stats": [null, -0.0827, -2.89, 0.307],
+          "evidence": "反转+波动 | -8.27% | -2.89 | -9.02 | 30.70% | 17.66% | 1.74 | 71.19% | 14.69% |"
+        },
+        {
           "name": "惊恐收益因子",
           "family": "momentum",
           "direction": "negative",

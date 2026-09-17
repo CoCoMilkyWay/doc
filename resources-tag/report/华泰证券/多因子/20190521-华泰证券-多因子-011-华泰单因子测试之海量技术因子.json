@@ -15,74 +15,1054 @@
       },
       "factors": [
         {
-          "name": "Alpha3",
-          "family": "momentum",
+          "name": "Alpha1",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(ts_argmax(signedpower(((RETURNS < 0) ? stddev(RETURNS, 20) : CLOSE), 2.), 5)) - 0.5)",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha1 (rank(ts_argmax(signedpower(((RETURNS < 0) ? stddev(RETURNS, 20) : CLOSE), 2.), 5)) - 0.5)"
+        },
+        {
+          "name": "Alpha2",
+          "family": "other",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "-1 * correlation(rank(OPEN), rank(VOLUME), 10)",
+          "formula": "(-1 * correlation(rank(delta(LOG(VOLUME), 2)), rank(((CLOSE - OPEN) / OPEN)), 6))",
+          "stats": [null, 0.0219, 0.41, null],
+          "evidence": "| Alpha2 | 1.61 | 30.94% | 0.59 | 0.13% | 2.19% | 5.34% | 0.41 | 66.38% |"
+        },
+        {
+          "name": "Alpha3",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * correlation(rank(OPEN), rank(VOLUME), 10))",
           "stats": [null, 0.0496, 0.91, null],
-          "evidence": "Alpha3 (-1 * correlation(rank(OPEN), rank(VOLUME), 10))"
+          "evidence": "| Alpha3 | 2.03 | 41.67% | 1.47 | 0.36% | 4.96% | 5.45% | 0.91 | 83.70% |"
+        },
+        {
+          "name": "Alpha4",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * ts_rank(rank(LOW), 9))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha4 (-1 * ts_rank(rank(LOW), 9))"
+        },
+        {
+          "name": "Alpha5",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank((OPEN - (sum(VWAP, 10) / 10))) * (-1 * abs(rank((CLOSE - VWAP)))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha5 (rank((OPEN - (sum(VWAP, 10) / 10))) * (-1 * abs(rank((CLOSE - VWAP)))))"
+        },
+        {
+          "name": "Alpha6",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * correlation(OPEN, VOLUME, 10))",
+          "stats": [null, 0.0352, 0.46, null],
+          "evidence": "| Alpha6 | 2.39 | 48.22% | 1.10 | 0.23% | 3.52% | 7.69% | 0.46 | 68.83% |"
+        },
+        {
+          "name": "Alpha7",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((ADV20 < VOLUME) ? ((-1 * ts_rank(abs(delta(CLOSE, 7)), 60)) * sign(delta(CLOSE, 7))) : (-1 * 1))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha7 ((ADV20 < VOLUME) ? ((-1 * ts_rank(abs(delta(CLOSE, 7)), 60)) * sign(delta(CLOSE, 7))) : (-1 * 1))"
+        },
+        {
+          "name": "Alpha8",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * rank(((sum(OPEN, 5) * sum(RETURNS, 5)) - delay((sum(OPEN, 5) * sum(RETURNS, 5)) , 10))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha8 (-1 * rank(((sum(OPEN, 5) * sum(RETURNS, 5)) - delay((sum(OPEN, 5) * sum(RETURNS, 5)) , 10))))"
+        },
+        {
+          "name": "Alpha9",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(0 < ts_min(delta(CLOSE, 1), 5)) ? delta(CLOSE, 1) : ((ts_max(delta(CLOSE, 1), 5) < 0) ? delta(CLOSE, 1) : (-1 * delta(CLOSE, 1)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha9 (0 < ts_min(delta(CLOSE, 1), 5)) ? delta(CLOSE, 1) : ((ts_max(delta(CLOSE, 1), 5) < 0) ? delta(CLOSE, 1) : (-1 * delta(CLOSE, 1)))"
+        },
+        {
+          "name": "Alpha10",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank((0 < ts_min(delta(CLOSE, 1), 4)) ? delta(CLOSE, 1) : ((ts_max(delta(CLOSE, 1), 4) < 0) ? delta(CLOSE, 1) : (-delta(CLOSE, 1))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha10 rank((0 < ts_min(delta(CLOSE, 1), 4)) ? delta(CLOSE, 1) : ((ts_max(delta(CLOSE, 1), 4) < 0) ? delta(CLOSE, 1) : (-delta(CLOSE, 1))))"
+        },
+        {
+          "name": "Alpha11",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(ts_max((VWAP - CLOSE), 3)) + rank(ts_min((VWAP - CLOSE), 3))) * rank(delta(VOLUME, 3)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha11 ((rank(ts_max((VWAP - CLOSE), 3)) + rank(ts_min((VWAP - CLOSE), 3))) * rank(delta(VOLUME, 3)))"
+        },
+        {
+          "name": "Alpha12",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(sign(delta(VOLUME, 1)) * (-1 * delta(CLOSE, 1)))",
+          "stats": [null, 0.0342, 0.46, null],
+          "evidence": "| Alpha12 | 2.21 | 42.83% | 1.00 | 0.22% | 3.42% | 7.52% | 0.46 | 71.50% |"
         },
         {
           "name": "Alpha13",
-          "family": "momentum",
+          "family": "other",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "-1 * rank(covariance(rank(CLOSE), rank(VOLUME), 5))",
+          "formula": "(-1 * rank(covariance(rank(CLOSE), rank(VOLUME), 5)))",
           "stats": [null, 0.0592, 0.95, null],
-          "evidence": "Alpha13 (-1 * rank(covariance(rank(CLOSE), rank(VOLUME), 5)))"
+          "evidence": "| Alpha13 | 0.09 | 0.04 | 0.09 | -0.13 | -0.10 | -0.15 | -0.18 | -0.22 | -0.21 | -0.25 | -0.21 | -0.24 |"
+        },
+        {
+          "name": "Alpha14",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((-1 * rank(delta(RETURNS, 3))) * correlation(OPEN, VOLUME, 10))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha14 ((-1 * rank(delta(RETURNS, 3))) * correlation(OPEN, VOLUME, 10))"
         },
         {
           "name": "Alpha15",
-          "family": "momentum",
+          "family": "other",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "-1 * sum(rank(correlation(rank(HIGH), rank(VOLUME), 3)), 3)",
+          "formula": "(-1 * sum(rank(correlation(rank(HIGH), rank(VOLUME), 3)), 3))",
           "stats": [null, 0.0457, 0.85, null],
-          "evidence": "Alpha15 (-1 * sum(rank(correlation(rank(HIGH), rank(VOLUME), 3)), 3))"
+          "evidence": "| Alpha15 | 1.86 | 37.22% | 1.30 | 0.31% | 4.57% | 5.36% | 0.85 | 82.77% |"
         },
         {
           "name": "Alpha16",
-          "family": "momentum",
+          "family": "other",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "-1 * rank(covariance(rank(HIGH), rank(VOLUME), 5))",
+          "formula": "(-1 * rank(covariance(rank(HIGH), rank(VOLUME), 5)))",
           "stats": [null, 0.0573, 0.91, null],
-          "evidence": "Alpha16 (-1 * rank(covariance(rank(HIGH), rank(VOLUME), 5)))"
+          "evidence": "| Alpha16 | 0.11 | 0.05 | 0.11 | -0.16 | -0.11 | -0.16 | -0.23 | -0.25 | -0.26 | -0.22 | -0.20 | -0.19 |"
+        },
+        {
+          "name": "Alpha17",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(((-1 * rank(ts_rank(CLOSE, 10))) * rank(delta(delta(CLOSE, 1), 1))) * rank(ts_rank((VOLUME / ADV20), 5)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha17 (((-1 * rank(ts_rank(CLOSE, 10))) * rank(delta(delta(CLOSE, 1), 1))) * rank(ts_rank((VOLUME / ADV20), 5)))"
+        },
+        {
+          "name": "Alpha18",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * rank(((stddev(abs((CLOSE - OPEN)), 5) + (CLOSE - OPEN)) + correlation(CLOSE, OPEN, 10))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha18 (-1 * rank(((stddev(abs((CLOSE - OPEN)), 5) + (CLOSE - OPEN)) + correlation(CLOSE, OPEN, 10))))"
+        },
+        {
+          "name": "Alpha19",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((-1 * sign(((CLOSE - delay(CLOSE, 7)) + delta(CLOSE, 7)))) * (1 + rank((1 + sum(RETURNS, 250)))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha19 ((-1 * sign(((CLOSE - delay(CLOSE, 7)) + delta(CLOSE, 7)))) * (1 + rank((1 + sum(RETURNS, 250)))))"
+        },
+        {
+          "name": "Alpha20",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(((-1 * rank((OPEN - delay(HIGH, 1)))) * rank((OPEN - delay(CLOSE, 1)))) * rank((OPEN - delay(LOW, 1))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha20 (((-1 * rank((OPEN - delay(HIGH, 1)))) * rank((OPEN - delay(CLOSE, 1)))) * rank((OPEN - delay(LOW, 1))))"
+        },
+        {
+          "name": "Alpha21",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((((sum(CLOSE, 8) / 8) + stddev(CLOSE, 8)) < (sum(CLOSE, 2) / 2)) ? (-1 * 1) : (((sum(CLOSE, 2) / 2) < ((sum(CLOSE, 8) / 8) - stddev(CLOSE, 8))) ? 1 : (((1 < (VOLUME / ADV20)) || ((VOLUME / ADV20) == 1)) ? 1 : (-1 * 1))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha21 ((((sum(CLOSE, 8) / 8) + stddev(CLOSE, 8)) < (sum(CLOSE, 2) / 2)) ? (-1 * 1) : (((sum(CLOSE, 2) / 2) < ((sum(CLOSE, 8) / 8) - stddev(CLOSE, 8))) ? 1 : (((1 < (VOLUME / ADV20)) || ((VOLUME / AD"
+        },
+        {
+          "name": "Alpha22",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * (delta(correlation(HIGH, VOLUME, 5), 5) * rank(stddev(CLOSE, 20))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha22 (-1 * (delta(correlation(HIGH, VOLUME, 5), 5) * rank(stddev(CLOSE, 20))))"
+        },
+        {
+          "name": "Alpha23",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(((sum(HIGH, 20) / 20) < HIGH) ? (-1 * delta(HIGH, 2)) : 0)",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha23 (((sum(HIGH, 20) / 20) < HIGH) ? (-1 * delta(HIGH, 2)) : 0)"
+        },
+        {
+          "name": "Alpha24",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((((delta((sum(CLOSE, 100) / 100), 100) / delay(CLOSE, 100)) < 0.05) || ((delta((sum(CLOSE, 100) / 100), 100) / delay(CLOSE, 100)) == 0.05)) ? (-1 * (CLOSE - ts_min(CLOSE, 100))) : (-1 * delta(CLOSE, 3)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha24 ((((delta((sum(CLOSE, 100) / 100), 100) / delay(CLOSE, 100)) < 0.05) || ((delta((sum(CLOSE, 100) / 100), 100) / delay(CLOSE, 100)) == 0.05)) ? (-1 * (CLOSE - ts_min(CLOSE, 100))) : (-1 * delta"
+        },
+        {
+          "name": "Alpha25",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank(((((-1 * RETURNS) * ADV20) * VWAP) * (HIGH - CLOSE)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha25 rank(((((-1 * RETURNS) * ADV20) * VWAP) * (HIGH - CLOSE)))"
+        },
+        {
+          "name": "Alpha26",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * ts_max(correlation(ts_rank(VOLUME, 5), ts_rank(HIGH, 5), 5), 3))",
+          "stats": [null, 0.0449, 0.63, null],
+          "evidence": "| Alpha26 | 0.05 | 0.02 | 0.05 | -0.13 | -0.12 | -0.18 | -0.09 | -0.05 | -0.16 | -0.18 | -0.14 | -0.21 |"
+        },
+        {
+          "name": "Alpha27",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((0.5 < rank((sum(correlation(rank(VOLUME), rank(VWAP), 6), 2) / 2.0))) ? (-1 * 1) : 1)",
+          "stats": [null, 0.0463, 0.82, null],
+          "evidence": "| Alpha27 | 1.98 | 40.07% | 1.33 | 0.32% | 4.63% | 5.61% | 0.82 | 80.90% |"
+        },
+        {
+          "name": "Alpha28",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "scale(((correlation(ADV20, LOW, 5) + ((HIGH + LOW) / 2)) - CLOSE))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha28 scale(((correlation(ADV20, LOW, 5) + ((HIGH + LOW) / 2)) - CLOSE))"
+        },
+        {
+          "name": "Alpha29",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(min(product(rank(rank(scale(LOG(sum(ts_min(rank(rank((-1 * rank(delta((CLOSE - 1), 5))))), 2), 1))))), 1), 5) + ts_rank(delay((-1 * RETURNS), 6), 5))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha29 (min(product(rank(rank(scale(LOG(sum(ts_min(rank(rank((-1 * rank(delta((CLOSE - 1), 5))))), 2), 1))))), 1), 5) + ts_rank(delay((-1 * RETURNS), 6), 5))"
+        },
+        {
+          "name": "Alpha30",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(((1.0 - rank(((sign((CLOSE - delay(CLOSE, 1))) + sign((delay(CLOSE, 1) - delay(CLOSE, 2)))) + sign((delay(CLOSE, 2) - delay(CLOSE, 3)))))) * sum(VOLUME, 5)) / sum(VOLUME, 20))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha30 (((1.0 - rank(((sign((CLOSE - delay(CLOSE, 1))) + sign((delay(CLOSE, 1) - delay(CLOSE, 2)))) + sign((delay(CLOSE, 2) - delay(CLOSE, 3)))))) * sum(VOLUME, 5)) / sum(VOLUME, 20))"
+        },
+        {
+          "name": "Alpha31",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank(decay_linear(-rank(delta(CLOSE, 10)), 10)) + rank(-delta(CLOSE, 3)) + sign(scale(correlation(ADV20, LOW, 12)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha31 rank(decay_linear(-rank(delta(CLOSE, 10)), 10)) + rank(-delta(CLOSE, 3)) + sign(scale(correlation(ADV20, LOW, 12)))"
+        },
+        {
+          "name": "Alpha32",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(scale(((sum(CLOSE, 7) / 7) - CLOSE)) + (20 * scale(correlation(VWAP, delay(CLOSE, 5), 230))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha32 (scale(((sum(CLOSE, 7) / 7) - CLOSE)) + (20 * scale(correlation(VWAP, delay(CLOSE, 5), 230))))"
+        },
+        {
+          "name": "Alpha33",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank((-1 * ((1 - (OPEN / CLOSE))^1)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha33 rank((-1 * ((1 - (OPEN / CLOSE))^1)))"
+        },
+        {
+          "name": "Alpha34",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "rank(((1 - rank((stddev(RETURNS, 2) / stddev(RETURNS, 5)))) + (1 - rank(delta(CLOSE, 1)))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha34 rank(((1 - rank((stddev(RETURNS, 2) / stddev(RETURNS, 5)))) + (1 - rank(delta(CLOSE, 1)))))"
+        },
+        {
+          "name": "Alpha35",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((ts_rank(VOLUME, 32) * (1 - ts_rank(((CLOSE + HIGH) - LOW), 16))) * (1 - ts_rank(RETURNS, 32)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha35 ((ts_rank(VOLUME, 32) * (1 - ts_rank(((CLOSE + HIGH) - LOW), 16))) * (1 - ts_rank(RETURNS, 32)))"
+        },
+        {
+          "name": "Alpha36",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "2.21 * rank(correlation((CLOSE - OPEN), delay(VOLUME, 1), 15)) + 0.7 * rank(OPEN - CLOSE) + 0.73 * rank(ts_rank(delay((-1 * RETURNS), 6), 5)) + rank(abs(correlation(VWAP, ADV20, 6))) + 0.6 * rank((sum(CLOSE, 200) / 200 - OPEN) * (CLOSE - OPEN))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha36 2.21 * rank(correlation((CLOSE - OPEN), delay(VOLUME, 1), 15)) + 0.7 * rank(OPEN - CLOSE) + 0.73 * rank(ts_rank(delay((-1 * RETURNS), 6), 5)) + rank(abs(correlation(VWAP, ADV20, 6))) + 0.6 * r"
+        },
+        {
+          "name": "Alpha37",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(correlation(delay((OPEN - CLOSE), 1), CLOSE, 200)) + rank((OPEN - CLOSE)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha37 (rank(correlation(delay((OPEN - CLOSE), 1), CLOSE, 200)) + rank((OPEN - CLOSE)))"
+        },
+        {
+          "name": "Alpha38",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((-1 * rank(ts_rank(CLOSE, 10))) * rank((CLOSE / OPEN)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha38 ((-1 * rank(ts_rank(CLOSE, 10))) * rank((CLOSE / OPEN)))"
+        },
+        {
+          "name": "Alpha39",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((-1 * rank((delta(CLOSE, 7) * (1 - rank(decay_linear((VOLUME / ADV20), 9)))))) * (1 + rank(sum(RETURNS, 250))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha39 ((-1 * rank((delta(CLOSE, 7) * (1 - rank(decay_linear((VOLUME / ADV20), 9)))))) * (1 + rank(sum(RETURNS, 250))))"
+        },
+        {
+          "name": "Alpha40",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((-1 * rank(stddev(HIGH, 10))) * correlation(HIGH, VOLUME, 10))",
+          "stats": [null, 0.0812, 0.7, null],
+          "evidence": "| Alpha40 | 0.04 | 0.06 | 0.12 | -0.34 | -0.34 | -0.43 | -0.34 | -0.35 | -0.42 | -0.24 | -0.18 | -0.25 |"
+        },
+        {
+          "name": "Alpha41",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(((HIGH * LOW)^0.5) - VWAP)",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha41 (((HIGH * LOW)^0.5) - VWAP)"
+        },
+        {
+          "name": "Alpha42",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank((VWAP - CLOSE)) / rank((VWAP + CLOSE)))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha42 (rank((VWAP - CLOSE)) / rank((VWAP + CLOSE)))"
+        },
+        {
+          "name": "Alpha43",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(ts_rank((VOLUME / ADV20), 20) * ts_rank((-1 * delta(CLOSE, 7)), 8))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha43 (ts_rank((VOLUME / ADV20), 20) * ts_rank((-1 * delta(CLOSE, 7)), 8))"
         },
         {
           "name": "Alpha44",
-          "family": "momentum",
+          "family": "other",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "-1 * correlation(HIGH, rank(VOLUME), 5)",
+          "formula": "(-1 * correlation(HIGH, rank(VOLUME), 5))",
           "stats": [null, 0.0596, 0.89, null],
-          "evidence": "Alpha44 (-1 * correlation(HIGH, rank(VOLUME), 5))"
+          "evidence": "| Alpha44 | 2.37 | 49.33% | 1.68 | 0.40% | 5.96% | 6.72% | 0.89 | 83.04% |"
+        },
+        {
+          "name": "Alpha45",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-1 * rank(sum(delay(CLOSE, 5), 20) / 20) * correlation(CLOSE, VOLUME, 2) * rank(correlation(sum(CLOSE, 5), sum(CLOSE, 20), 2))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha45 -1 * rank(sum(delay(CLOSE, 5), 20) / 20) * correlation(CLOSE, VOLUME, 2) * rank(correlation(sum(CLOSE, 5), sum(CLOSE, 20), 2))"
+        },
+        {
+          "name": "Alpha46",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((0.25 < (((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10))) ? (-1 * 1) : (((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < 0) ? 1 : ((-1 * 1) * (CLOSE - delay(CLOSE, 1)))))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha46 ((0.25 < (((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10))) ? (-1 * 1) : (((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) <"
+        },
+        {
+          "name": "Alpha47",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(1 / CLOSE) * VOLUME) / ADV20) * (HIGH * rank(HIGH - CLOSE) / (sum(HIGH, 5) / 5)) - rank(VWAP - delay(VWAP, 5))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha47 ((rank(1 / CLOSE) * VOLUME) / ADV20) * (HIGH * rank(HIGH - CLOSE) / (sum(HIGH, 5) / 5)) - rank(VWAP - delay(VWAP, 5))"
+        },
+        {
+          "name": "Alpha48",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(indneutralize(((correlation(delta(CLOSE, 1), delta(delay(CLOSE, 1), 1), 250) * delta(CLOSE, 1)) / CLOSE), indclass) / sum(((delta(CLOSE, 1) / delay(CLOSE, 1))^2), 250))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha48 (indneutralize(((correlation(delta(CLOSE, 1), delta(delay(CLOSE, 1), 1), 250) * delta(CLOSE, 1)) / CLOSE), indclass) / sum(((delta(CLOSE, 1) / delay(CLOSE, 1))^2), 250))"
+        },
+        {
+          "name": "Alpha49",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.1)) ? 1 : (delay(CLOSE, 1) - CLOSE))",
+          "stats": [null, null, null, null],
+          "evidence": "Alpha49 (((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.1)) ? 1 : (delay(CLOSE, 1) - CLOSE))"
         },
         {
           "name": "Alpha50",
-          "family": "momentum",
+          "family": "other",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5)",
+          "formula": "(-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5))",
           "stats": [null, 0.0541, 0.87, null],
-          "evidence": "Alpha50 (-1 * ts_max(rank(correlation(rank(VOLUME), rank(VWAP), 5)), 5))"
+          "evidence": "| Alpha50 | 2.15 | 42.70% | 1.47 | 0.36% | 5.41% | 6.19% | 0.87 | 82.59% |"
+        },
+        {
+          "name": "Alpha51",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.05)) ? 1 : (delay(CLOSE, 1) - CLOSE))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha51 | (((((delay(CLOSE, 20) - delay(CLOSE, 10)) / 10) - ((delay(CLOSE, 10) - CLOSE) / 10)) < (-0.05)) ? 1 : (delay(CLOSE, 1) - CLOSE)) |"
+        },
+        {
+          "name": "Alpha52",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((((-ts_min(LOW, 5)) + delay(ts_min(LOW, 5), 5)) * rank(((sum(RETURNS, 240) - sum(RETURNS, 20)) / 220))) * ts_rank(VOLUME, 5))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha52 | ((((-ts_min(LOW, 5)) + delay(ts_min(LOW, 5), 5)) * rank(((sum(RETURNS, 240) - sum(RETURNS, 20)) / 220))) * ts_rank(VOLUME, 5)) |"
+        },
+        {
+          "name": "Alpha53",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * delta((((CLOSE - LOW) - (HIGH - CLOSE)) / (CLOSE - LOW)), 9))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha53 | (-1 * delta((((CLOSE - LOW) - (HIGH - CLOSE)) / (CLOSE - LOW)), 9)) |"
+        },
+        {
+          "name": "Alpha54",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((-1 * ((LOW - CLOSE) * (OPEN^5))) / ((LOW - HIGH) * (CLOSE^5)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha54 | ((-1 * ((LOW - CLOSE) * (OPEN^5))) / ((LOW - HIGH) * (CLOSE^5))) |"
         },
         {
           "name": "Alpha55",
-          "family": "momentum",
+          "family": "other",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "-1 * correlation(rank((CLOSE - ts_min(LOW, 12)) / (ts_max(HIGH, 12) - ts_min(LOW, 12))), rank(VOLUME), 6)",
+          "formula": "(-1 * correlation(rank((CLOSE - ts_min(LOW, 12)) / (ts_max(HIGH, 12) - ts_min(LOW, 12))), rank(VOLUME), 6))",
           "stats": [null, 0.0477, 0.9, null],
-          "evidence": "| Alpha55 | (-1 * correlation(rank((CLOSE - ts_min(LOW, 12)) / (ts_max(HIGH, 12) - ts_min(LOW, 12))), rank(VOLUME), 6)) |"
+          "evidence": "| Alpha55 | 1.87 | 38.65% | 1.30 | 0.31% | 4.77% | 5.29% | 0.90 | 83.70% |"
+        },
+        {
+          "name": "Alpha56",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(0 - (1 * (rank((sum(RETURNS, 10) / sum(sum(RETURNS, 2), 3))) * rank((RETURNS * CAP)))))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha56 | (0 - (1 * (rank((sum(RETURNS, 10) / sum(sum(RETURNS, 2), 3))) * rank((RETURNS * CAP))))) |"
+        },
+        {
+          "name": "Alpha57",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(0 - (1 * ((CLOSE - VWAP) / decay_linear(rank(ts_argmax(CLOSE, 30)), 2))))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha57 | (0 - (1 * ((CLOSE - VWAP) / decay_linear(rank(ts_argmax(CLOSE, 30)), 2)))) |"
+        },
+        {
+          "name": "Alpha58",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), VOLUME, 3.92795), 7.89291), 5.50322))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha58 | (-1 * ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), VOLUME, 3.92795), 7.89291), 5.50322)) |"
+        },
+        {
+          "name": "Alpha59",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(-1 * ts_rank(decay_linear(correlation(indneutralize(((VWAP * 0.728317) + (VWAP * (1 - 0.728317))), indclass), VOLUME, 4.25197), 16.2289), 8.19648))",
+          "stats": [null, 0.0243, 0.45, null],
+          "evidence": "| Alpha59 | 1.67 | 32.06% | 0.74 | 0.18% | 2.43% | 5.43% | 0.45 | 69.01% |"
+        },
+        {
+          "name": "Alpha60",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(0 - (1 * ((2 * scale(rank(((((CLOSE - LOW) - (HIGH - CLOSE)) / (HIGH - LOW)) * VOLUME)))) - scale(rank(ts_argmax(CLOSE, 10))))))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha60 | (0 - (1 * ((2 * scale(rank(((((CLOSE - LOW) - (HIGH - CLOSE)) / (HIGH - LOW)) * VOLUME)))) - scale(rank(ts_argmax(CLOSE, 10)))))) |"
+        },
+        {
+          "name": "Alpha61",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank((VWAP - ts_min(VWAP, 16.1219))) < rank(correlation(VWAP, ADV180, 17.9282)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha61 | (rank((VWAP - ts_min(VWAP, 16.1219))) < rank(correlation(VWAP, ADV180, 17.9282))) |"
+        },
+        {
+          "name": "Alpha62",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-(rank(correlation(VWAP, sum(ADV20, 22.4101), 9.91009)) < rank(((rank(OPEN) * 2) < (rank(((HIGH + LOW) / 2)) + rank(HIGH)))))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha62 | -(rank(correlation(VWAP, sum(ADV20, 22.4101), 9.91009)) < rank(((rank(OPEN) * 2) < (rank(((HIGH + LOW) / 2)) + rank(HIGH))))) |"
+        },
+        {
+          "name": "Alpha63",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(decay_linear(delta(indneutralize(CLOSE, indclass), 2.25164), 8.22237)) - rank(decay_linear(correlation(((VWAP * 0.318108) + (OPEN * (1 - 0.318108))), sum(ADV180, 37.2467), 13.557), 12.2883))) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha63 | ((rank(decay_linear(delta(indneutralize(CLOSE, indclass), 2.25164), 8.22237)) - rank(decay_linear(correlation(((VWAP * 0.318108) + (OPEN * (1 - 0.318108))), sum(ADV180, 37.2467), 13.557), 12.2883))) * -1) |"
+        },
+        {
+          "name": "Alpha64",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(correlation(sum(((OPEN * 0.178404) + (LOW * (1 - 0.178404))), 12.7054), sum(ADV120, 12.7054), 16.6208)) < rank(delta((((HIGH + LOW) / 2) * 0.178404) + (VWAP * (1 - 0.178404)), 3.69741))) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha64 | ((rank(correlation(sum(((OPEN * 0.178404) + (LOW * (1 - 0.178404))), 12.7054), sum(ADV120, 12.7054), 16.6208)) < rank(delta((((HIGH + LOW) / 2) * 0.178404) + (VWAP * (1 - 0.178404)), 3.69741))) * -1) |"
+        },
+        {
+          "name": "Alpha65",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(correlation(((OPEN * 0.00817205) + (VWAP * (1 - 0.00817205))), sum(ADV60, 8.6911), 6.40374)) < rank((OPEN - ts_min(OPEN, 13.635)))) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha65 | ((rank(correlation(((OPEN * 0.00817205) + (VWAP * (1 - 0.00817205))), sum(ADV60, 8.6911), 6.40374)) < rank((OPEN - ts_min(OPEN, 13.635)))) * -1) |"
+        },
+        {
+          "name": "Alpha66",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(decay_linear(delta(VWAP, 3.51013), 7.23052)) + ts_rank(decay_linear((((LOW * 0.96633) + (LOW * (1 - 0.96633))) - VWAP) / (OPEN - ((HIGH + LOW) / 2)), 11.4157), 6.72611)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha66 | ((rank(decay_linear(delta(VWAP, 3.51013), 7.23052)) + ts_rank(decay_linear((((LOW * 0.96633) + (LOW * (1 - 0.96633))) - VWAP) / (OPEN - ((HIGH + LOW) / 2)), 11.4157), 6.72611)) * -1) |"
+        },
+        {
+          "name": "Alpha67",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-(rank(HIGH - ts_min(HIGH, 2.14593))^rank(correlation(indneutralize(VWAP, indclass), indneutralize(ADV20, indclass), 6.02936)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha67 | -(rank(HIGH - ts_min(HIGH, 2.14593))^rank(correlation(indneutralize(VWAP, indclass), indneutralize(ADV20, indclass), 6.02936))) |"
+        },
+        {
+          "name": "Alpha68",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((ts_rank(correlation(rank(HIGH), rank(ADV15), 8.91644), 13.9333) < rank(delta(((CLOSE * 0.518371) + (LOW * (1 - 0.518371))), 1.06157))) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha68 | ((ts_rank(correlation(rank(HIGH), rank(ADV15), 8.91644), 13.9333) < rank(delta(((CLOSE * 0.518371) + (LOW * (1 - 0.518371))), 1.06157))) * -1) |"
+        },
+        {
+          "name": "Alpha69",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(ts_max(delta(indneutralize(VWAP, indclass), 2.72412), 4.79344))^ts_rank(correlation(((CLOSE * 0.490655) + (VWAP * (1 - 0.490655))), ADV20, 4.92416), 9.0615)) * -1)",
+          "stats": [null, 0.0395, 0.45, null],
+          "evidence": "| Alpha69 | 2.66 | 53.21% | 1.10 | 0.26% | 3.95% | 8.87% | 0.45 | 67.45% |"
+        },
+        {
+          "name": "Alpha70",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(delta(VWAP, 1.29456))^ts_rank(correlation(indneutralize(CLOSE, indclass), ADV50, 17.8256), 17.9171)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha70 | ((rank(delta(VWAP, 1.29456))^ts_rank(correlation(indneutralize(CLOSE, indclass), ADV50, 17.8256), 17.9171)) * -1) |"
+        },
+        {
+          "name": "Alpha71",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "max(ts_rank(decay_linear(correlation(ts_rank(CLOSE, 3.43976), ts_rank(ADV180, 12.0647), 18.0175), 4.20501), 15.6948), ts_rank(decay_linear((rank(((LOW + OPEN) - (VWAP + VWAP)))^2), 16.4662), 4.4388))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha71 | max(ts_rank(decay_linear(correlation(ts_rank(CLOSE, 3.43976), ts_rank(ADV180, 12.0647), 18.0175), 4.20501), 15.6948), ts_rank(decay_linear((rank(((LOW + OPEN) - (VWAP + VWAP)))^2), 16.4662), 4.4388)) |"
+        },
+        {
+          "name": "Alpha72",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(decay_linear(correlation(((HIGH + LOW) / 2), ADV40, 8.93345), 10.1519)) / rank(decay_linear(correlation(ts_rank(VWAP, 3.72469), ts_rank(VOLUME, 18.5188), 6.86671), 2.95011)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha72 | (rank(decay_linear(correlation(((HIGH + LOW) / 2), ADV40, 8.93345), 10.1519)) / rank(decay_linear(correlation(ts_rank(VWAP, 3.72469), ts_rank(VOLUME, 18.5188), 6.86671), 2.95011))) |"
+        },
+        {
+          "name": "Alpha73",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(max(rank(decay_linear(delta(VWAP, 4.72775), 2.91864)), ts_rank(decay_linear(((delta(((OPEN * 0.147155) + (LOW * (1 - 0.147155))), 2.03608) / ((OPEN * 0.147155) + (LOW * (1 - 0.147155)))) * -1), 3.33829), 16.7411)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha73 | (max(rank(decay_linear(delta(VWAP, 4.72775), 2.91864)), ts_rank(decay_linear(((delta(((OPEN * 0.147155) + (LOW * (1 - 0.147155))), 2.03608) / ((OPEN * 0.147155) + (LOW * (1 - 0.147155)))) * -1), 3.33829), 16.7411)) * -1) |"
+        },
+        {
+          "name": "Alpha74",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(correlation(CLOSE, sum(ADV30, 37.4843), 15.1365)) < rank(correlation(rank(((HIGH * 0.0261661) + (VWAP * (1 - 0.0261661)))), rank(VOLUME), 11.4791))) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha74 | ((rank(correlation(CLOSE, sum(ADV30, 37.4843), 15.1365)) < rank(correlation(rank(((HIGH * 0.0261661) + (VWAP * (1 - 0.0261661)))), rank(VOLUME), 11.4791))) * -1) |"
+        },
+        {
+          "name": "Alpha75",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(correlation(VWAP, VOLUME, 4.24304)) < rank(correlation(rank(LOW), rank(ADV50), 12.4413)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha75 | (rank(correlation(VWAP, VOLUME, 4.24304)) < rank(correlation(rank(LOW), rank(ADV50), 12.4413))) |"
+        },
+        {
+          "name": "Alpha76",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(max(rank(decay_linear(delta(VWAP, 1.24383), 11.8259)), ts_rank(decay_linear(ts_rank(correlation(indneutralize(LOW, indclass), ADV81, 8.14941), 19.569), 17.1543), 19.383)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha76 | (max(rank(decay_linear(delta(VWAP, 1.24383), 11.8259)), ts_rank(decay_linear(ts_rank(correlation(indneutralize(LOW, indclass), ADV81, 8.14941), 19.569), 17.1543), 19.383)) * -1) |"
+        },
+        {
+          "name": "Alpha77",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "min(rank(decay_linear(((((HIGH + LOW) / 2) + HIGH) - (VWAP + HIGH)), 20.0451)), rank(decay_linear(correlation(((HIGH + LOW) / 2), ADV40, 3.1614), 5.64125)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha77 | min(rank(decay_linear(((((HIGH + LOW) / 2) + HIGH) - (VWAP + HIGH)), 20.0451)), rank(decay_linear(correlation(((HIGH + LOW) / 2), ADV40, 3.1614), 5.64125))) |"
+        },
+        {
+          "name": "Alpha78",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(correlation(sum(((LOW * 0.352233) + (VWAP * (1 - 0.352233))), 19.7428), sum(ADV40, 19.7428), 6.83313))^rank(correlation(rank(VWAP), rank(VOLUME), 5.77492)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha78 | (rank(correlation(sum(((LOW * 0.352233) + (VWAP * (1 - 0.352233))), 19.7428), sum(ADV40, 19.7428), 6.83313))^rank(correlation(rank(VWAP), rank(VOLUME), 5.77492))) |"
+        },
+        {
+          "name": "Alpha79",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(delta(indneutralize(((CLOSE * 0.60733) + (OPEN * (1 - 0.60733))), indclass), 1.23438)) < rank(correlation(ts_rank(VWAP, 3.60973), ts_rank(ADV150, 9.18637), 14.6644)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha79 | (rank(delta(indneutralize(((CLOSE * 0.60733) + (OPEN * (1 - 0.60733))), indclass), 1.23438)) < rank(correlation(ts_rank(VWAP, 3.60973), ts_rank(ADV150, 9.18637), 14.6644))) |"
+        },
+        {
+          "name": "Alpha80",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(sign(delta(indneutralize(((OPEN * 0.868128) + (HIGH * (1 - 0.868128))), indclass), 4.04545)))^ts_rank(correlation(HIGH, ADV10, 5.11456), 5.53756)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha80 | ((rank(sign(delta(indneutralize(((OPEN * 0.868128) + (HIGH * (1 - 0.868128))), indclass), 4.04545)))^ts_rank(correlation(HIGH, ADV10, 5.11456), 5.53756)) * -1) |"
+        },
+        {
+          "name": "Alpha81",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(LOG(product(rank((rank(correlation(VWAP, sum(ADV10, 49.6054), 8.47743))^4)), 14.9655))) < rank(correlation(rank(VWAP), rank(VOLUME), 5.07914))) * -1)",
+          "stats": [null, 0.0236, 0.42, null],
+          "evidence": "| Alpha81 | 1.67 | 33.48% | 0.59 | 0.13% | 2.36% | 5.62% | 0.42 | 67.72% |"
+        },
+        {
+          "name": "Alpha82",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(min(rank(decay_linear(delta(OPEN, 1.46063), 14.8717)), ts_rank(decay_linear(correlation(indneutralize(VOLUME, indclass), ((OPEN * 0.634196) + (OPEN * (1 - 0.634196))), 17.4842), 6.92131), 13.4283)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha82 | (min(rank(decay_linear(delta(OPEN, 1.46063), 14.8717)), ts_rank(decay_linear(correlation(indneutralize(VOLUME, indclass), ((OPEN * 0.634196) + (OPEN * (1 - 0.634196))), 17.4842), 6.92131), 13.4283)) * -1) |"
+        },
+        {
+          "name": "Alpha83",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank(delay(((HIGH - LOW) / (sum(CLOSE, 5) / 5)), 2)) * rank(VOLUME)) / (((HIGH - LOW) / (sum(CLOSE, 5) / 5)) / (VWAP - CLOSE)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha83 | ((rank(delay(((HIGH - LOW) / (sum(CLOSE, 5) / 5)), 2)) * rank(VOLUME)) / (((HIGH - LOW) / (sum(CLOSE, 5) / 5)) / (VWAP - CLOSE))) |"
+        },
+        {
+          "name": "Alpha84",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "signedpower(ts_rank((VWAP - ts_max(VWAP, 15.3217)), 20.7127), delta(CLOSE, 4.96796))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha84 | signedpower(ts_rank((VWAP - ts_max(VWAP, 15.3217)), 20.7127), delta(CLOSE, 4.96796)) |"
+        },
+        {
+          "name": "Alpha85",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(correlation(((HIGH * 0.876703) + (CLOSE * (1 - 0.876703))), ADV30, 9.61331))^rank(correlation(ts_rank(((HIGH + LOW) / 2), 3.70596), ts_rank(VOLUME, 10.1595), 7.11408)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha85 | (rank(correlation(((HIGH * 0.876703) + (CLOSE * (1 - 0.876703))), ADV30, 9.61331))^rank(correlation(ts_rank(((HIGH + LOW) / 2), 3.70596), ts_rank(VOLUME, 10.1595), 7.11408))) |"
+        },
+        {
+          "name": "Alpha86",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((ts_rank(correlation(CLOSE, sum(ADV20, 14.7444), 6.00049), 20.4195) < rank(((OPEN + CLOSE) - (VWAP + OPEN)))) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha86 | ((ts_rank(correlation(CLOSE, sum(ADV20, 14.7444), 6.00049), 20.4195) < rank(((OPEN + CLOSE) - (VWAP + OPEN)))) * -1) |"
+        },
+        {
+          "name": "Alpha87",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(max(rank(decay_linear(delta(((CLOSE * 0.369701) + (VWAP * (1 - 0.369701))), 1.91233), 2.65461)), ...)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha87 | (max(rank(decay_linear(delta(((CLOSE * 0.369701) + (VWAP * (1 - 0.369701))), 1.91233), 2.65461)), ...) |"
+        },
+        {
+          "name": "Alpha88",
+          "family": "other",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "min(rank(decay_linear(((rank(OPEN) + rank(LOW)) - (rank(HIGH) + rank(CLOSE))), 8.06882)), ts_rank(decay_linear(correlation(ts_rank(CLOSE, 8.44728), ts_rank(ADV60, 20.6966), 8.01266), 6.65053), 2.61957))",
+          "stats": [null, 0.0219, 0.39, null],
+          "evidence": "| Alpha88 | 1.88 | 38.33% | 0.70 | 0.14% | 2.19% | 5.67% | 0.39 | 67.85% |"
+        },
+        {
+          "name": "Alpha89",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(ts_rank(decay_linear(correlation(((LOW * 0.967285) + (LOW * (1 - 0.967285))), ADV10, 6.94279), 5.51607), 3.79744) - ts_rank(decay_linear(delta(indneutralize(VWAP, indclass), 3.48158), 10.1466), 15.3012))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha89 | (ts_rank(decay_linear(correlation(((LOW * 0.967285) + (LOW * (1 - 0.967285))), ADV10, 6.94279), 5.51607), 3.79744) - ts_rank(decay_linear(delta(indneutralize(VWAP, indclass), 3.48158), 10.1466), 15.3012)) |"
+        },
+        {
+          "name": "Alpha90",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank((CLOSE - ts_max(CLOSE, 4.66719)))^ts_rank(correlation(indneutralize(ADV40, indclass), LOW, 5.38375), 3.21856)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha90 | ((rank((CLOSE - ts_max(CLOSE, 4.66719)))^ts_rank(correlation(indneutralize(ADV40, indclass), LOW, 5.38375), 3.21856)) * -1) |"
+        },
+        {
+          "name": "Alpha91",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((ts_rank(decay_linear(decay_linear(correlation(indneutralize(CLOSE, indclass), VOLUME, 9.74928), 16.398), 3.83219), 4.8667) - rank(decay_linear(correlation(VWAP, ADV30, 4.01303), 2.6809))) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha91 | ((ts_rank(decay_linear(decay_linear(correlation(indneutralize(CLOSE, indclass), VOLUME, 9.74928), 16.398), 3.83219), 4.8667) - rank(decay_linear(correlation(VWAP, ADV30, 4.01303), 2.6809))) * -1) |"
+        },
+        {
+          "name": "Alpha92",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "min(ts_rank(decay_linear(((((HIGH + LOW) / 2) + CLOSE) < (LOW + OPEN)), 14.7221), 18.8683), ts_rank(decay_linear(correlation(rank(LOW), rank(ADV30), 7.58555), 6.94024), 6.80584))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha92 | min(ts_rank(decay_linear(((((HIGH + LOW) / 2) + CLOSE) < (LOW + OPEN)), 14.7221), 18.8683), ts_rank(decay_linear(correlation(rank(LOW), rank(ADV30), 7.58555), 6.94024), 6.80584)) |"
+        },
+        {
+          "name": "Alpha93",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), ADV81, 17.4193), 19.848), 7.54455) / rank(decay_linear(delta(((CLOSE * 0.524434) + (VWAP * (1 - 0.524434))), 2.77377), 16.2664)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha93 | (ts_rank(decay_linear(correlation(indneutralize(VWAP, indclass), ADV81, 17.4193), 19.848), 7.54455) / rank(decay_linear(delta(((CLOSE * 0.524434) + (VWAP * (1 - 0.524434))), 2.77377), 16.2664))) |"
+        },
+        {
+          "name": "Alpha94",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((rank((VWAP - ts_min(VWAP, 11.5783)))^ts_rank(correlation(ts_rank(VWAP, 19.6462), ts_rank(ADV60, 4.02992), 18.0926), 2.70756)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha94 | ((rank((VWAP - ts_min(VWAP, 11.5783)))^ts_rank(correlation(ts_rank(VWAP, 19.6462), ts_rank(ADV60, 4.02992), 18.0926), 2.70756)) * -1) |"
+        },
+        {
+          "name": "Alpha95",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank((OPEN - ts_min(OPEN, 12.4105))) < ts_rank((rank(correlation(sum(((HIGH + LOW) / 2), 19.1351), sum(ADV40, 19.1351), 12.8742))^5), 11.7584))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha95 | (rank((OPEN - ts_min(OPEN, 12.4105))) < ts_rank((rank(correlation(sum(((HIGH + LOW) / 2), 19.1351), sum(ADV40, 19.1351), 12.8742))^5), 11.7584)) |"
+        },
+        {
+          "name": "Alpha96",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(max(ts_rank(decay_linear(correlation(rank(VWAP), rank(VOLUME), 3.83878), 4.16783), 8.38151), ts_rank(decay_linear(ts_argmax(correlation(ts_rank(CLOSE, 7.45404), ts_rank(ADV60, 4.13242), 3.65459), 12.6556), 14.0365), 13.4143)) * -1)",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha96 | (max(ts_rank(decay_linear(correlation(rank(VWAP), rank(VOLUME), 3.83878), 4.16783), 8.38151), ts_rank(decay_linear(ts_argmax(correlation(ts_rank(CLOSE, 7.45404), ts_rank(ADV60, 4.13242), 3.65459), 12.6556), 14.0365), 13.4143)) * -1) |"
+        },
+        {
+          "name": "Alpha97",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-(rank(decay_linear(delta(indneutralize(((LOW * 0.721001) + (VWAP * (1 - 0.721001))), indclass), 3.3705), 20.4523)) - ts_rank(decay_linear(ts_rank(correlation(ts_rank(LOW, 7.87871), ts_rank(ADV60, 17.255), 4.97547), 18.5925), 15.7152), 6.71659))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha97 | -(rank(decay_linear(delta(indneutralize(((LOW * 0.721001) + (VWAP * (1 - 0.721001))), indclass), 3.3705), 20.4523)) - ts_rank(decay_linear(ts_rank(correlation(ts_rank(LOW, 7.87871), ts_rank(ADV60, 17.255), 4.97547), 18.5925), 15.7152), 6.71659)) |"
+        },
+        {
+          "name": "Alpha98",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(rank(decay_linear(correlation(VWAP, sum(ADV5, 26.4719), 4.58418), 7.18088)) - rank(decay_linear(ts_rank(ts_argmin(correlation(rank(OPEN), rank(ADV15), 20.8187), 8.62571), 6.95668), 8.07206)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha98 | (rank(decay_linear(correlation(VWAP, sum(ADV5, 26.4719), 4.58418), 7.18088)) - rank(decay_linear(ts_rank(ts_argmin(correlation(rank(OPEN), rank(ADV15), 20.8187), 8.62571), 6.95668), 8.07206))) |"
+        },
+        {
+          "name": "Alpha99",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "-(rank(correlation(sum(((HIGH + LOW) / 2), 19.8975), sum(ADV60, 19.8975), 8.8136)) < rank(correlation(LOW, VOLUME, 6.28259)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha99 | -(rank(correlation(sum(((HIGH + LOW) / 2), 19.8975), sum(ADV60, 19.8975), 8.8136)) < rank(correlation(LOW, VOLUME, 6.28259))) |"
+        },
+        {
+          "name": "Alpha100",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "(- (((1.5 * scale(indneutralize(indneutralize(rank((((CLOSE * 2 - LOW - HIGH) / (HIGH - LOW)) * VOLUME)), indclass), indclass))) - scale(indneutralize((correlation(CLOSE, rank(ADV20), 5) - rank(ts_argmin(CLOSE, 30))), indclass))) * (VOLUME / ADV20)))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha100 | (- (((1.5 * scale(indneutralize(indneutralize(rank((((CLOSE * 2 - LOW - HIGH) / (HIGH - LOW)) * VOLUME)), indclass), indclass))) - scale(indneutralize((correlation(CLOSE, rank(ADV20), 5) - rank(ts_argmin(CLOSE, 30))), indclass))) * (VOLUME / ADV20))) |"
+        },
+        {
+          "name": "Alpha101",
+          "family": "other",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "((CLOSE - OPEN) / ((HIGH - LOW) + .001))",
+          "stats": [null, null, null, null],
+          "evidence": "| Alpha101 | ((CLOSE - OPEN) / ((HIGH - LOW) + .001)) |"
+        },
+        {
+          "name": "（负）对数总市值",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对照风格因子，因子值已乘以-1后测试}",
+          "stats": [null, 0.0617, 0.33, null],
+          "evidence": "| （负）对数总市值 | 5.98 | 79.43% | 0.95 1.90 | 0.20% | 2.32% 6.17% | 7.53% | 0.31 0.33 | 63.62% |"
+        },
+        {
+          "name": "(负)20日收益率",
+          "family": "reversal",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对照风格因子，因子值已乘以-1后测试}",
+          "stats": [null, 0.0717, 0.47, null],
+          "evidence": "| (负)20日收益率 | 4.70 | 72.08% | 2.25 | 0.57% 0.60% | 7.17% | 18.89% 15.22% | 0.47 | 66.47% |"
+        },
+        {
+          "name": "(负)20日换手率",
+          "family": "liquidity",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对照风格因子，因子值已乘以-1后测试}",
+          "stats": [null, 0.0785, 0.42, null],
+          "evidence": "| (负)20日换手率 | 5.84 | 78.50% | 2.36 | 0.42% | 7.85% | 18.68% | 0.42 | 66.87% |"
+        },
+        {
+          "name": "（负)20日波动率",
+          "family": "volatility",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{对照风格因子，因子值已乘以-1后测试}",
+          "stats": [null, 0.0656, 0.38, null],
+          "evidence": "| （负)20日波动率 | 5.19 | 75.60% | 1.59 | 0.22% | 6.56% | 17.21% | 0.38 | 67.59% |"
         }
       ]
     },
@@ -123,11 +1103,7 @@
     }
   ],
   "builds_on": [],
-  "external_ref": [
-    "《华泰单因子测试之估值类因子》",
-    "《华泰单因子测试之财务质量因子》",
-    "《华泰多因子模型体系初探》（2016.09）"
-  ],
+  "external_ref": ["《华泰单因子测试之估值类因子》", "《华泰单因子测试之财务质量因子》", "《华泰多因子模型体系初探》（2016.09）"],
   "value": "high",
   "gen": {
     "model": "glm-5.3-flash",

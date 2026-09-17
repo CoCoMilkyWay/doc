@@ -82,7 +82,7 @@
         {
           "name": "CorrFactor",
           "family": "composite",
-          "direction": "negative",
+          "direction": "positive",
           "data_period": ["second"],
           "horizon": "daily",
           "formula": "\\text{CorrPM、CorrPV、CorrPVPM 和 CorrRV 经分位数变换标准化后等权合成}",
@@ -92,7 +92,7 @@
         {
           "name": "CorrFactorAdjCI",
           "family": "composite",
-          "direction": "negative",
+          "direction": "positive",
           "data_period": ["second"],
           "horizon": "daily",
           "formula": "\\text{CorrFactor 经行业市值中性化处理}",
@@ -162,7 +162,7 @@
         {
           "name": "CorrFactorW",
           "family": "composite",
-          "direction": "negative",
+          "direction": "positive",
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\text{CorrPMW 与 CorrPVW 等权合成}",
@@ -172,7 +172,7 @@
         {
           "name": "CorrFactorWAdjCI",
           "family": "composite",
-          "direction": "negative",
+          "direction": "positive",
           "data_period": ["second"],
           "horizon": "weekly",
           "formula": "\\text{CorrFactorW 经市值行业中性化处理}",
@@ -182,12 +182,52 @@
         {
           "name": "CGTCAdj",
           "family": "composite",
-          "direction": "negative",
+          "direction": "positive",
           "data_period": ["second", "daily", "quarterly"],
           "horizon": "weekly",
           "formula": "\\text{一致预期因子、成长因子、技术因子以及量价背离因子等权合成}",
           "stats": [0.0766, null, 1.02, 0.556],
           "evidence": "我们将一致预期因子、成长因子、技术因子以及量价背离因子以等权的方式合成量价背离增强因子（CGTCAdj），同时，为了对比量价背离合成因子带来的增量信息，我们将前三个因子等权合成为传统合成因子（CGT）。"
+        },
+        {
+          "name": "ConsensusFactor",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期因子（中证1000成分股中作为传统因子对照测试）}",
+          "stats": [0.0133, null, 0.24, 0.1176],
+          "evidence": "ConsensusFactor | 1.33% | 5.65% | -14.78% | 17.49% | 0.24 | 4.33 |"
+        },
+        {
+          "name": "GrowthFactor",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{成长因子（中证1000成分股中作为传统因子对照测试）}",
+          "stats": [0.025, null, 0.33, 0.1964],
+          "evidence": "GrowthFactor | 2.50% | 7.52% | -17.81% | 25.39% | 0.33 | 6.11 |"
+        },
+        {
+          "name": "Technique_regM",
+          "family": "momentum",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "weekly",
+          "formula": "\\text{技术因子（中证1000成分股中作为传统因子对照测试）}",
+          "stats": [0.0718, null, 0.87, 0.4562],
+          "evidence": "Technique_regM | 7.18% | 8.28% | -16.79% | 28.32% | 0.87 | 15.98 |"
+        },
+        {
+          "name": "CGT",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["daily", "quarterly"],
+          "horizon": "weekly",
+          "formula": "\\text{一致预期因子、成长因子、技术因子等权合成的传统合成因子}",
+          "stats": [0.0591, null, 0.79, 0.4357],
+          "evidence": "我们将前三个因子等权合成为传统合成因子（CGT）。"
         }
       ]
     },

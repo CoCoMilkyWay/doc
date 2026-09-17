@@ -82,17 +82,18 @@
 |  |  | ts_rank(qfa_netprofitmargin, n) | 单季度销售净利率在过去n个季度里的分位数(n=6,8,12) |
 |  |  | ts_rank(netprofitmargin_ttm2, n) | 销售净利率 TTM 在过去 n 个季度里的分位数(n=6,8,12) |
 |  | 收益质量 | ts_rank(qfa_operateincometoebt, n) | 单季度经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |
-| ts_rank(operateincometoebt, n) |  | 当年累计经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |  |
-|  |  | ts_rank(qfa_deductedprofittoprofit， n)单季度扣非净利润/净利润在过去n 个季度里的分位数(n=6,8,12) |  |
-|  | 营运能力 | ts_rank(deductedprofittoprofit, n) | 当年累计扣非净利润/净利润在过去n个季度里的分位数(n=6,8,12) |
-|  |  | ts_rank(invturn, n) | 存货周转率在过去n个季度里的分位数(n=6,8,12) |
-|  |  | ts_rank(caturn, n) ts_rank(assetsturn, n) | 流动资产周转率在过去n个季度里的分位数(n=6,8,12) 总资产周转率在过去n 个季度里的分位数(n=6,8,12) |
-|  | 现金流量 | ts_rank(apturn, n) | 应付账款周转率在过去n个季度里的分位数(n=6,8,12) |
-|  |  | ts_rank(ocftoor, n) | 当年累计经营性现金流量净额/营业收入在过去n个季度里的分位数(n=6,8,12) |
-|  | 资本结构 | ts_rank(ocftoor_ttm2, n) | 经营性现金流量净额/营业收入TTM 在过去n个季度里的分位数(n=6,8,12) |
-|  |  | ts_rank(debttoassets, n) | 资产负债率在过去n个季度里的分位数(n=6,8,12) |
-|  | 偿债能力 | ts_rank(currentdebttodebt, n) | 流动负债/负债合计在过去n个季度里的分位数(n=6,8,12) |
-| ts_rank(ebittointerest, n) |  | 利息保障倍数(EBIT/利息费用)在过去n个季度里的分位数(n=6,8,12) |  |
+|  |  | ts_rank(operateincometoebt, n) | 当年累计经营活动净收益/利润总额在过去n个季度里的分位数(n=6,8,12) |
+|  |  | ts_rank(qfa_deductedprofittoprofit, n) | 单季度扣非净利润/净利润在过去n 个季度里的分位数(n=6,8,12) |
+|  |  | ts_rank(deductedprofittoprofit, n) | 当年累计扣非净利润/净利润在过去n个季度里的分位数(n=6,8,12) |
+|  | 营运能力 | ts_rank(invturn, n) | 存货周转率在过去n个季度里的分位数(n=6,8,12) |
+|  |  | ts_rank(caturn, n) | 流动资产周转率在过去n个季度里的分位数(n=6,8,12) |
+|  |  | ts_rank(assetsturn, n) | 总资产周转率在过去n 个季度里的分位数(n=6,8,12) |
+|  |  | ts_rank(apturn, n) | 应付账款周转率在过去n个季度里的分位数(n=6,8,12) |
+|  | 现金流量 | ts_rank(ocftoor, n) | 当年累计经营性现金流量净额/营业收入在过去n个季度里的分位数(n=6,8,12) |
+|  |  | ts_rank(ocftoor_ttm2, n) | 经营性现金流量净额/营业收入TTM 在过去n个季度里的分位数(n=6,8,12) |
+|  | 资本结构 | ts_rank(debttoassets, n) | 资产负债率在过去n个季度里的分位数(n=6,8,12) |
+|  |  | ts_rank(currentdebttodebt, n) | 流动负债/负债合计在过去n个季度里的分位数(n=6,8,12) |
+|  | 偿债能力 | ts_rank(ebittointerest, n) | 利息保障倍数(EBIT/利息费用)在过去n个季度里的分位数(n=6,8,12) |
 |  | ts_rank(debttotangibleequity, n) | 有形净值债务率在过去n个季度里的分位数(n=6,8,12) |  |
 
 资料来源：Wind，华泰证券研究所

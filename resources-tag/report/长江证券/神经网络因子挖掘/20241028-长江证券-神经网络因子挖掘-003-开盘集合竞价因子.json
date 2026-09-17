@@ -122,7 +122,7 @@
           "horizon": "daily",
           "formula": "\\frac{\\text{买一量}+\\text{买二量}+\\text{买三量}}{\\text{买一量}+\\text{买二量}+\\text{买三量}+\\text{卖一量}+\\text{卖二量}+\\text{卖三量}}",
           "stats": [null, 0.0018, 0.0317, null],
-          "evidence": "| 买量委比 | (买一量+买二两+买三量)/ (买一量+买二量+买三量+卖一量+卖二量+卖三量) |"
+          "evidence": "| 买量委比 | (买一量+买二量+买三量)/ (买一量+买二量+买三量+卖一量+卖二量+卖三量) |"
         },
         {
           "name": "一阶段买量委比",
@@ -183,6 +183,26 @@
           "formula": "\\text{人工特征开盘因子与当日开盘集合竞价重采样因子等权合成}",
           "stats": [null, 0.0914, null, null],
           "evidence": "最终从效果出发，我们考虑将后面两次尝试的因子值等权合成作为神经网络开盘量价因子，效果相较于二者单个因子都有明显的提升。"
+        },
+        {
+          "name": "日+分钟",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily"],
+          "horizon": "daily",
+          "formula": "\\text{日频量价因子与分钟频量价因子等权合成}",
+          "stats": [null, 0.111, null, null],
+          "evidence": "日+分钟 | 13.39% | 12.00% | 9.94% | 8.54% | 12.36% | 11.02% | 10.27% | 11.10%"
+        },
+        {
+          "name": "周+日+分钟",
+          "family": "composite",
+          "direction": "positive",
+          "data_period": ["intraday", "daily", "weekly"],
+          "horizon": "daily",
+          "formula": "\\text{周频、日频与分钟频量价因子等权合成（基准因子）}",
+          "stats": [null, 0.1174, null, null],
+          "evidence": "加入开盘因子后，5 日 RankIC 从 11.74%提升至 12.00%，且每年 RankIC 均高于基准的“周+日+分钟”因子"
         },
         {
           "name": "周+日+分钟+开盘",

@@ -55,7 +55,7 @@
           "evidence": "在过往的几年里，我们集中开发了一系列高频因子。在《高频因子：分钟单笔金额序列中的主力行为刻画》报告中，我们利用分钟单笔成交金额作为切割变量开发了单笔金额分位数、主力交易强度和强反转等因子，可以从多个维度中识别出主力资金的交易行为并捕捉其Alpha信息；"
         },
         {
-          "name": "短线交易拥挤度STC",
+          "name": "短线交易拥挤度_STC",
           "family": "microstructure",
           "direction": "negative",
           "data_period": ["intraday"],
@@ -193,6 +193,296 @@
           "formula": "\\text{平均一笔订单委托金额}",
           "stats": [-0.035, null, -2.077, 0.214],
           "evidence": "市场是由资金实力不等的各类投资者组合而成，统计平均一笔订单委托金额的变化能够间接反映市场中机构和散户参与比例的动态变化规律。"
+        },
+        {
+          "name": "卖出高频撤单率_委托量",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖出方向挂单时长小于1秒的撤单委托量占全部撤单委托量的比例}",
+          "stats": [0.042, null, 2.839, 0.236],
+          "evidence": "卖出高频撤单率_委托量 | 0.042 | 2.839 | 23.6% | 2.800"
+        },
+        {
+          "name": "买入高频撤单率_委托量",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买入方向挂单时长小于1秒的撤单委托量占全部撤单委托量的比例}",
+          "stats": [0.04, null, 2.592, 0.21],
+          "evidence": "买入高频撤单率_委托量 | 0.040 | 2.592 | 21.0% | 2.487"
+        },
+        {
+          "name": "买入冲击成本_10万元",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{10万元买入交易金额对应的价格冲击成本}",
+          "stats": [0.034, null, 1.697, 0.202],
+          "evidence": "买入冲击成本_10万元 | 0.034 | 1.697 | 20.2% | 1.689"
+        },
+        {
+          "name": "卖出冲击成本_10万元",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{10万元卖出交易金额对应的价格冲击成本}",
+          "stats": [0.034, null, 1.704, 0.204],
+          "evidence": "卖出冲击成本_10万元 | 0.034 | 1.704 | 20.4% | 1.717"
+        },
+        {
+          "name": "下跌时间重心",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内下跌分钟的时间重心}",
+          "stats": [0.034, null, 1.51, 0.189],
+          "evidence": "下跌时间重心 | 0.034 | 1.510 | 18.9% | 1.703"
+        },
+        {
+          "name": "连续买入笔数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{连续同向买入委托的笔数}",
+          "stats": [0.03, null, 2.241, 0.211],
+          "evidence": "连续买入笔数 | 0.030 | 2.241 | 21.1% | 2.673"
+        },
+        {
+          "name": "上涨时间重心",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内上涨分钟的时间重心}",
+          "stats": [0.027, null, 1.156, 0.119],
+          "evidence": "上涨时间重心 | 0.027 | 1.156 | 11.9% | 1.026"
+        },
+        {
+          "name": "连续卖出笔数",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{连续同向卖出委托的笔数}",
+          "stats": [0.021, null, 0.972, 0.28],
+          "evidence": "连续卖出笔数 | 0.021 | 0.972 | 28.0% | 2.799"
+        },
+        {
+          "name": "原始价差_十档",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{十档盘口的原始买卖价差}",
+          "stats": [0.009, null, 0.352, 0.07],
+          "evidence": "原始价差_十档 | 0.009 | 0.352 | 7.0% | 0.772"
+        },
+        {
+          "name": "加权价差_十档",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{十档盘口按委托量加权的买卖价差}",
+          "stats": [0.009, null, 0.334, 0.063],
+          "evidence": "加权价差_十档 | 0.009 | 0.334 | 6.3% | 0.661"
+        },
+        {
+          "name": "原始价差_一档",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{一档盘口的原始买卖价差}",
+          "stats": [0.009, null, 0.402, 0.068],
+          "evidence": "原始价差_一档 | 0.009 | 0.402 | 6.8% | 0.786"
+        },
+        {
+          "name": "加权价差_五档",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{五档盘口按委托量加权的买卖价差}",
+          "stats": [0.009, null, 0.333, 0.058],
+          "evidence": "加权价差_五档 | 0.009 | 0.333 | 5.8% | 0.638"
+        },
+        {
+          "name": "原始价差_五档",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{五档盘口的原始买卖价差}",
+          "stats": [0.008, null, 0.325, 0.062],
+          "evidence": "原始价差_五档 | 0.008 | 0.325 | 6.2% | 0.692"
+        },
+        {
+          "name": "成交比率",
+          "family": "microstructure",
+          "direction": "positive",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{委托中最终成交的比率}",
+          "stats": [0.001, null, 0.033, 0.021],
+          "evidence": "成交比率 | 0.001 | 0.033 | 2.1% | 0.267"
+        },
+        {
+          "name": "买卖委量比",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买方委托量与卖方委托量之比}",
+          "stats": [0.0, null, -0.126, 0.028],
+          "evidence": "买卖委量比 | 0.000 | -0.126 | 2.8% | 0.360"
+        },
+        {
+          "name": "成交比率_卖出",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖出委托中最终成交的比率}",
+          "stats": [-0.002, null, -0.111, 0.036],
+          "evidence": "成交比率_卖出 | -0.002 | -0.111 | 3.6% | 0.415"
+        },
+        {
+          "name": "尾盘成交占比",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{尾盘成交量占全天成交量的比例}",
+          "stats": [-0.006, null, -0.3, -0.043],
+          "evidence": "尾盘成交占比 | -0.006 | -0.300 | -4.3% | -0.366"
+        },
+        {
+          "name": "广义市价比例",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{广义市价委托占全部委托的比例}",
+          "stats": [-0.009, null, -0.489, 0.055],
+          "evidence": "广义市价比例 | -0.009 | -0.489 | 5.5% | 0.639"
+        },
+        {
+          "name": "成交比率_买入",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买入委托中最终成交的比率}",
+          "stats": [-0.011, null, -0.528, 0.097],
+          "evidence": "成交比率_买入 | -0.011 | -0.528 | 9.7% | 0.957"
+        },
+        {
+          "name": "成交用时",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{委托从挂单到成交的用时}",
+          "stats": [-0.019, null, -0.884, 0.088],
+          "evidence": "成交用时 | -0.019 | -0.884 | 8.8% | 0.921"
+        },
+        {
+          "name": "单笔委托金额_买入",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{买入方向平均一笔订单的委托金额}",
+          "stats": [-0.021, null, -2.121, 0.131],
+          "evidence": "单笔委托金额_买入 | -0.021 | -2.121 | 13.1% | 1.214"
+        },
+        {
+          "name": "尾盘收益波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{尾盘时段分钟收益率的波动}",
+          "stats": [-0.023, null, -1.208, 0.107],
+          "evidence": "尾盘收益波动 | -0.023 | -1.208 | 10.7% | 1.128"
+        },
+        {
+          "name": "单笔委托金额_卖出",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{卖出方向平均一笔订单的委托金额}",
+          "stats": [-0.033, null, -1.909, 0.176],
+          "evidence": "单笔委托金额_卖出 | -0.033 | -1.909 | 17.6% | 1.630"
+        },
+        {
+          "name": "撤单用时",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["second"],
+          "horizon": "monthly",
+          "formula": "\\text{委托从挂单到撤单的用时}",
+          "stats": [-0.035, null, -1.532, 0.161],
+          "evidence": "撤单用时 | -0.035 | -1.532 | 16.1% | 1.333"
+        },
+        {
+          "name": "尾盘成交重心",
+          "family": "microstructure",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{尾盘时段成交量的时间重心}",
+          "stats": [-0.041, null, -2.62, 0.249],
+          "evidence": "尾盘成交重心 | -0.041 | -2.620 | 24.9% | 2.585"
+        },
+        {
+          "name": "日内收益波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内分钟收益率的波动}",
+          "stats": [-0.045, null, -1.676, 0.216],
+          "evidence": "日内收益波动 | -0.045 | -1.676 | 21.6% | 1.601"
+        },
+        {
+          "name": "下行波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内下跌分钟收益率的波动}",
+          "stats": [-0.048, null, -1.778, 0.27],
+          "evidence": "下行波动 | -0.048 | -1.778 | 27.0% | 1.834"
+        },
+        {
+          "name": "早盘收益波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{早盘时段分钟收益率的波动}",
+          "stats": [-0.048, null, -1.69, 0.248],
+          "evidence": "早盘收益波动 | -0.048 | -1.690 | 24.8% | 1.681"
+        },
+        {
+          "name": "上行波动",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{日内上涨分钟收益率的波动}",
+          "stats": [-0.059, null, -2.197, 0.345],
+          "evidence": "上行波动 | -0.059 | -2.197 | 34.5% | 2.342"
         }
       ]
     },

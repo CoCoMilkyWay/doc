@@ -50,11 +50,10 @@ linxiaoming@htsc.com
 
 | 大类因子 | 具体因子 | 因子描述 |
 | --- | --- | --- |
-| 动量因子 (Momentum Factor) | HAlpha return_1m | 个股60个月收益与上证综指线性回归的截矩项 个股最近N个月收益率 |
-|  | return_3m return_6m return_12m | N=1, 3, 6, 12 |
-|  | wgt_return_1m wgt_return_3m | 个股最近N个月内以每日换手率作为权重对每日收益率求算术平均值 N=1, 3, 6, 12 |
-|  | wgt_return_6m wgt_return_12m |  |
-|  | exp_wgt_return_1m exp_wgt_return_3m | 个股最近 N个月内以每日换手率乘以函数 exp(-x_i/N/4)作为权重对每 |
+| 动量因子 (Momentum Factor) | HAlpha | 个股60个月收益与上证综指线性回归的截距项 |
+|  | return_1m return_3m return_6m return_12m | 个股最近N个月收益率 N=1, 3, 6, 12 |
+|  | wgt_return_1m wgt_return_3m wgt_return_6m wgt_return_12m | 个股最近N个月内以每日换手率作为权重对每日收益率求算术平均值 N=1, 3, 6, 12 |
+|  | exp_wgt_return_1m exp_wgt_return_3m exp_wgt_return_6m exp_wgt_return_12m | 个股最近 N个月内以每日换手率乘以函数 exp(-x_i/N/4)作为权重对每 |
 
 资料来源：Wind，华泰证券研究所
 

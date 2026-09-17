@@ -20,9 +20,89 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{单季度净利润}}{(\\text{期初净资产}+\\text{期末净资产})/2}",
-          "stats": [null, 0.0512, 0.44, 0.0432],
-          "evidence": "ROE，即净资产收益率（Return on Equity），又称股东权益收益率，是净利润与股东权益的百分比。该指标反映股东权益的收益水平，指标值越高，说明投资带来的收益越高。"
+          "formula": "\\text{单季度 ROE（平均）（盈利能力类）}",
+          "stats": [null, 0.0512, 0.44, null],
+          "evidence": "| qfa_roe | 单季度 ROE（平均） | 4.98 | 81.82% | 3.61 | 1.52% | 5.12% | 11.59% | 0.44 | 60.61% |"
+        },
+        {
+          "name": "qfa_roe_deducted",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度 ROE（平均/扣非）（盈利能力类）}",
+          "stats": [null, 0.054, 0.46, null],
+          "evidence": "| qfa_roe_deducted | 单季度 ROE（平均/扣非） | 5.10 | 87.88% | 3.72 | 1.53% | 5.40% | 11.86% | 0.46 | 63.64% |"
+        },
+        {
+          "name": "roe_basic",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE-财报公布值（加权）（盈利能力类）}",
+          "stats": [null, 0.0234, 0.18, null],
+          "evidence": "| roe_basic | 当年累计ROE-财报公布值（加权） | 4.64 | 81.82% | 2.53 | 1.14% | 2.34% | 13.18% | 0.18 | 54.55% |"
+        },
+        {
+          "name": "roe_avg",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE（平均）（盈利能力类）}",
+          "stats": [null, 0.0286, 0.23, null],
+          "evidence": "| roe_avg | 当年累计 ROE（平均） | 4.57 | 72.73% | 2.70 | 1.13% | 2.86% | 12.57% | 0.23 | 54.55% |"
+        },
+        {
+          "name": "roe_diluted",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE（摊薄）（盈利能力类）}",
+          "stats": [null, 0.0319, 0.25, null],
+          "evidence": "| roe_diluted | 当年累计 ROE（摊薄） | 4.62 | 72.73% | 2.80 | 1.17% | 3.19% | 12.65% | 0.25 | 54.55% |"
+        },
+        {
+          "name": "roe_exbasic",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE（扣非/加权）（盈利能力类）}",
+          "stats": [null, 0.0149, 0.12, null],
+          "evidence": "| roe_exbasic | 当年累计 ROE（扣非/加权） | 3.93 | 75.76% | 1.82 | 0.87% | 1.49% | 12.37% | 0.12 | 51.52% |"
+        },
+        {
+          "name": "roe_deducted",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE（扣非/平均）（盈利能力类）}",
+          "stats": [null, 0.0329, 0.26, null],
+          "evidence": "| roe_deducted | 当年累计 ROE（扣非/平均） | 4.74 | 78.79% | 2.94 | 1.22% | 3.29% | 12.51% | 0.26 | 57.58% |"
+        },
+        {
+          "name": "roe_exdiluted",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计 ROE（扣非/摊薄）（盈利能力类）}",
+          "stats": [null, 0.0355, 0.28, null],
+          "evidence": "| roe_exdiluted | 当年累计 ROE（扣非/摊薄） | 4.76 | 81.82% | 2.99 | 1.24% | 3.55% | 12.60% | 0.28 | 57.58% |"
+        },
+        {
+          "name": "roe_ttm2",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{ROE 的 TTM 值（算法类似摊薄）（盈利能力类）}",
+          "stats": [null, 0.013, 0.1, null],
+          "evidence": "| roe_ttm2 | ROE 的 TTM 值（算法类似摊薄） | 4.10 | 81.82% | 1.81 | 0.86% | 1.30% | 12.42% | 0.10 | 54.55% |"
         },
         {
           "name": "qfa_roa",
@@ -30,9 +110,49 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{单季度净利润}}{(\\text{期初总资产}+\\text{期末总资产})/2}",
-          "stats": [null, 0.0488, 0.44, 0.0465],
-          "evidence": "ROA，即总资产回报率（Return on Assets），衡量的是企业一段时间内净利润和总资产的比值。ROA与 ROE最大的区别在于分母的不同，ROA分母考虑到的是负债和股东权益，而 ROE分母只考虑了股东权益；对于举债经营的企业，可能会出现 ROE虚高的情况。"
+          "formula": "\\text{单季度总资产净利率（盈利能力类）}",
+          "stats": [null, 0.0488, 0.44, null],
+          "evidence": "| qfa_roa | 单季度总资产净利率 | 4.61 | 81.82% | 2.98 | 1.08% | 4.88% | 11.03% | 0.44 | 69.70% |"
+        },
+        {
+          "name": "roa",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计总资产净利率（盈利能力类）}",
+          "stats": [null, 0.0287, 0.24, null],
+          "evidence": "| roa | 当年累计总资产净利率 | 4.23 | 84.85% | 2.25 | 0.76% | 2.87% | 11.86% | 0.24 | 57.58% |"
+        },
+        {
+          "name": "roa2",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计总资产报酬率（盈利能力类）}",
+          "stats": [null, 0.0275, 0.24, null],
+          "evidence": "| roa2 | 当年累计总资产报酬率 | 4.31 | 78.79% | 2.21 | 0.77% | 2.75% | 11.24% | 0.24 | 60.61% |"
+        },
+        {
+          "name": "roa_ttm2",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{总资产净利率TTM（盈利能力类）}",
+          "stats": [null, 0.0142, 0.11, null],
+          "evidence": "| roa_ttm2 | 总资产净利率TTM | 3.81 | 75.76% | 1.60 | 0.43% | 1.42% | 12.72% | 0.11 | 48.48% |"
+        },
+        {
+          "name": "roa2_ttm2",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{总资产报酬率TTM（盈利能力类）}",
+          "stats": [null, 0.0116, 0.1, null],
+          "evidence": "| roa2_ttm2 | 总资产报酬率 TTM | 3.68 | 72.73% | 1.37 | 0.49% | 1.16% | 11.40% | 0.10 | 48.48% |"
         },
         {
           "name": "qfa_grossprofitmargin",
@@ -40,9 +160,59 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{单季度毛利润}}{\\text{单季度营业收入}}",
-          "stats": [null, 0.0447, 0.43, 0.0531],
-          "evidence": "grossprofitmargin，即毛利率，反映的是收入和成本的差值占收入的比值。毛利率越高，意味着企业有可能存在较强盈利能力和成本控制能力，也可能意味着企业正处于新兴产业、市场竞争少，或者意味着企业具有某种高壁垒核心竞争力，在大多数情况下毛利率高不是一件坏事。"
+          "formula": "\\text{单季度销售毛利率（盈利能力类）}",
+          "stats": [null, 0.0447, 0.43, null],
+          "evidence": "| qfa_grossprofitmargin | 单季度销售毛利率 | 3.10 | 66.67% | 1.93 | 0.71% | 4.47% | 10.29% | 0.43 | 63.64% |"
+        },
+        {
+          "name": "grossprofitmargin",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计销售毛利率（盈利能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | grossprofitmargin | 当年累计销售毛利率 |"
+        },
+        {
+          "name": "grossprofitmargin_ttm2",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售毛利率TTM（盈利能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | grossprofitmargin_ttm2 | 销售毛利率TTM |"
+        },
+        {
+          "name": "qfa_netprofitmargin",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{单季度销售净利率（盈利能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | qfa_netprofitmargin | 单季度销售净利率 |"
+        },
+        {
+          "name": "netprofitmargin",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计销售净利率（盈利能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | netprofitmargin | 当年累计销售净利率 |"
+        },
+        {
+          "name": "netprofitmargin_ttm2",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{销售净利率TTM（盈利能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | netprofitmargin_ttm2 | 销售净利率TTM |"
         },
         {
           "name": "nptocostexpense_qfa",
@@ -50,9 +220,19 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{净利润}}{\\text{营业成本}+\\text{销售费用}+\\text{管理费用}+\\text{财务费用}}",
-          "stats": [null, 0.0369, 0.36, 0.0239],
+          "formula": "\\text{单季度成本费用利润率（盈利能力类）}",
+          "stats": [null, 0.0369, 0.36, null],
           "evidence": "nptocostexpense，即成本费用利润率，在 Wind 中该因子的具体定义是净利润/（营业成本+销售费用+管理费用+财务费用），体现了公司投入的成本费用所带来的经营成果。成本费用利润率的值越大，说明从单位成本费用中获得利润的水平越高，企业的经济效益越好。"
+        },
+        {
+          "name": "nptocostexpense",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计成本费用利润率（盈利能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | nptocostexpense | 当年累计成本费用利润率 |"
         },
         {
           "name": "roic",
@@ -60,9 +240,19 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{税后净营业利润}}{\\text{投入资本总额}}",
-          "stats": [null, 0.0316, 0.26, 0.0144],
+          "formula": "\\text{投入资本回报率（盈利能力类）}",
+          "stats": [null, 0.0316, 0.26, null],
           "evidence": "ROIC，即投入资本回报率，是指生产经营活动中所有投入资本赚取的收益率，这些投入资本既有债务也有权益。分子为企业如果完全按权益筹资所应报告的税后利润，分母则为企业所有要求回报的现金来源的总和。该值能较好地体现企业的盈利能力。"
+        },
+        {
+          "name": "roic_ttm2",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{投入资本回报率TTM（盈利能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "| roic_ttm2 | 投入资本回报率 TTM | 1.95 | 39.39% | 1.36 | 1.12% | 5.27% | 14.06% | 0.49 | 69.70% |"
         },
         {
           "name": "qfa_operateincometoebt",
@@ -70,9 +260,29 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{单季度经营活动净收益}}{\\text{单季度利润总额}}",
-          "stats": [null, 0.0426, 0.66, 0.0695],
+          "formula": "\\text{单季度经营活动净收益/利润总额（收益质量类）}",
+          "stats": [null, 0.0426, 0.66, null],
           "evidence": "operateincometoebt，即经营活动净收益/利润总额，反映公司总利润中，由经营活动所产生的利润的比重，体现了企业的收益质量。"
+        },
+        {
+          "name": "operateincometoebt",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营活动净收益/利润总额（收益质量类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | operateincometoebt | 当年累计经营活动净收益/利润总额 |"
+        },
+        {
+          "name": "operateincometoebt_ttm2",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{经营活动净收益/利润总额TTM（收益质量类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | operateincometoebt_ttm2 | 经营活动净收益/利润总额TTM |"
         },
         {
           "name": "qfa_deductedprofittoprofit",
@@ -80,9 +290,39 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{单季度扣非净利润}}{\\text{单季度净利润}}",
-          "stats": [null, 0.0483, 0.74, 0.0858],
+          "formula": "\\text{单季度扣非净利润/净利润（收益质量类）}",
+          "stats": [null, 0.0483, 0.74, null],
           "evidence": "deductedprofittoprofit，即扣除非经常性损益后净利润/净利润，“非经常性损益”一般不具有可持续性，因此扣非后净利润和净利润比值能够反映收益质量。"
+        },
+        {
+          "name": "deductedprofittoprofit",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计扣非净利润/净利润（收益质量类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | deductedprofittoprofit | 当年累计扣非净利润/净利润 |"
+        },
+        {
+          "name": "taxtoebt",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计所得税/利润总额（收益质量类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | taxtoebt | 当年累计所得税/利润总额 |"
+        },
+        {
+          "name": "taxtoebt_ttm",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{税项/利润总额 TTM（收益质量类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | taxtoebt_ttm | 税项/利润总额 TTM |"
         },
         {
           "name": "qfa_ocftosales",
@@ -90,9 +330,29 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{单季度经营性现金流量净额}}{\\text{单季度营业收入}}",
-          "stats": [null, 0.0109, 0.22, -0.0096],
-          "evidence": "ocftoor，指的是经营性现金流量净额/营业收入，反映了企业现金回收速度。说明公司每单位主营业务收入中，有多少实际收到现金的收益。其中，分子——经营性现金流量净额，对于企业来说是一项较为稳定的收入，可以很好地体现企业的现金流情况。"
+          "formula": "\\text{单季度经营性现金流量净额/营业收入（现金流量类）}",
+          "stats": [null, 0.0109, 0.22, null],
+          "evidence": "| qfa_ocftosales | 单季度经营性现金流量净额/营业收入 | 1.49 | 30.30% | 0.96 | 0.32% | 1.09% | 5.06% | 0.22 | 69.70% |"
+        },
+        {
+          "name": "ocftoor",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营性现金流量净额/营业收入（现金流量类）}",
+          "stats": [null, 0.0088, 0.13, null],
+          "evidence": "| ocftoor | 当年累计经营性现金流量净额/营业收入 | 1.54 | 36.36% | 0.86 | 0.22% | 0.88% | 6.78% | 0.13 | 66.67% |"
+        },
+        {
+          "name": "ocftoor_ttm2",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{经营性现金流量净额/营业收入 TTM（现金流量类）}",
+          "stats": [null, 0.0207, 0.4, null],
+          "evidence": "| ocftoor_ttm2 | 经营性现金流量净额/营业收入 TTM | 1.94 | 54.55% | 1.38 | 0.39% | 2.07% | 5.23% | 0.40 | 66.67% |"
         },
         {
           "name": "ocftocf_qfa",
@@ -100,9 +360,59 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{单季度经营性现金流量净额}}{\\text{单季度现金流量净额}}",
-          "stats": [null, 0.0105, 0.39, 0.0157],
-          "evidence": "ocftocf，即经营性现金流量净额占比，指的是经营性现金流量净额/现金流量净额，体现了现金流量结构，反映出公司的财务状况和发展阶段。"
+          "formula": "\\text{单季度经营性现金流量净额占比（现金流量类）}",
+          "stats": [null, 0.0105, 0.39, null],
+          "evidence": "| ocftocf_qfa | 单季度经营性现金流量净额占比 | 1.16 | 12.12% | 0.23 | 0.15% | 1.05% | 2.73% | 0.39 | 54.55% |"
+        },
+        {
+          "name": "ocftocf",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计经营性现金流量净额占比（现金流量类）}",
+          "stats": [null, 0.0049, 0.16, null],
+          "evidence": "| ocftocf | 当年累计经营性现金流量净额占比 | 0.90 | 6.06% | -0.08 | -0.03% | 0.49% | 3.03% | 0.16 | 45.45% |"
+        },
+        {
+          "name": "ocftoassets",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计总资产现金回收率（现金流量类）}",
+          "stats": [null, 0.0144, 0.2, null],
+          "evidence": "| ocftoassets | 当年累计总资产现金回收率 | 2.03 | 42.42% | 1.42 | 0.50% | 1.44% | 7.34% | 0.20 | 72.73% |"
+        },
+        {
+          "name": "ocftodividend",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{当年累计现金股利保障倍数（现金流量类）}",
+          "stats": [null, 0.0042, 0.06, null],
+          "evidence": "| ocftodividend | 当年累计现金股利保障倍数 | 1.29 | 18.18% | 0.32 | 0.05% | 0.42% | 7.02% | 0.06 | 63.64% |"
+        },
+        {
+          "name": "debttoassets",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{资产负债率（资本结构类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  | 资本结构 | debttoassets | 资产负债率 |"
+        },
+        {
+          "name": "catoassets",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动资产/总资产（资本结构类）}",
+          "stats": [null, 0.0147, 0.14, null],
+          "evidence": "| catoassets | 流动资产/总资产 | 2.16 | 39.39% | 0.91 | 0.60% | 1.47% | 10.13% 0.14 | 51.52% |"
         },
         {
           "name": "currentdebttodebt",
@@ -110,8 +420,8 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{流动负债}}{\\text{负债合计}}",
-          "stats": [null, 0.0495, 0.39, 0.0945],
+          "formula": "\\text{流动负债/负债合计（资本结构类）}",
+          "stats": [null, 0.0495, 0.39, null],
           "evidence": "currentdebttodebt，即流动负债率，指的是流动负债/负债合计。反映一个公司依赖短期债权人的程度。流动负债率越高，说明公司对短期资金的依赖性越强。"
         },
         {
@@ -120,9 +430,69 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{流动资产}}{\\text{流动负债}}",
-          "stats": [null, 0.0255, 0.19, 0.048],
+          "formula": "\\text{流动比率（偿债能力类）}",
+          "stats": [null, 0.0255, 0.19, null],
           "evidence": "current，流动比率，指流动资产/流动负债，用来评价流动资产总体变现能力。"
+        },
+        {
+          "name": "quick",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{速动比率（偿债能力类）}",
+          "stats": [null, 0.0257, 0.18, null],
+          "evidence": "| quick | 速动比率 | 2.53 | 45.45% | -0.05 | -0.15% | 2.57% | 14.40% | 0.18 | 63.64% |"
+        },
+        {
+          "name": "cashtocurrentdebt",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{现金比率（偿债能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | cashtocurrentdebt | 现金比率 |"
+        },
+        {
+          "name": "debttotangibleequity",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{有形净值债务率（偿债能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | debttotangibleequity | 有形净值债务率 |"
+        },
+        {
+          "name": "ebittointerest",
+          "family": "quality",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{利息保障倍数（EBIT/利息费用）（偿债能力类）}",
+          "stats": [null, null, null, null],
+          "evidence": "|  |  | ebittointerest | 利息保障倍数（EBIT/利息费用） |"
+        },
+        {
+          "name": "invturn",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{存货周转率（营运能力类）}",
+          "stats": [null, 0.0001, 0.0, null],
+          "evidence": "| invturn | 存货周转率 | 1.12 | 12.12% | 0.26 | 0.08% | 0.01% | 4.94% | 0.00 | 51.52% |"
+        },
+        {
+          "name": "caturn",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{流动资产周转率（营运能力类）}",
+          "stats": [null, 0.0069, 0.09, null],
+          "evidence": "| caturn | 流动资产周转率 | 1.54 | 33.33% | 0.70 | 0.27% | 0.69% | 7.58% | 0.09 | 51.52% |"
         },
         {
           "name": "assetsturn",
@@ -130,9 +500,29 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "quarterly",
-          "formula": "\\frac{\\text{主营业务收入净额}}{\\text{平均总资产}}",
-          "stats": [null, 0.023, 0.36, 0.0431],
-          "evidence": "assetturnover，即总资产周转率，衡量企业利用资产产生收入的效率。caturn，即流动资产周转率，指的是主营业务收入净额/平均流动资产总额，反映了企业流动资产的周转速度，是用于评价企业资产利用率的一个重要指标。"
+          "formula": "\\text{总资产周转率（营运能力类）}",
+          "stats": [null, 0.023, 0.36, null],
+          "evidence": "| assetsturn | 总资产周转率 | 1.63 | 30.30% | 1.16 | 0.51% | 2.30% | 6.32% | 0.36 | 57.58% |"
+        },
+        {
+          "name": "arturn",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{应收账款周转率（营运能力类）}",
+          "stats": [null, -0.0056, -0.05, null],
+          "evidence": "| arturn | 应收账款周转率 | 1.97 | 45.45% | 0.77 | 0.46% | -0.56% | 10.53% | -0.05 | 51.52% |"
+        },
+        {
+          "name": "apturn",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "quarterly",
+          "formula": "\\text{应付账款周转率（营运能力类）}",
+          "stats": [null, 0.0065, 0.16, null],
+          "evidence": "| apturn | 应付账款周转率 | 1.15 | 15.15% | 0.10 | 0.11% | 0.65% | 3.99% | 0.16 | 60.61% |"
         }
       ]
     },
@@ -165,10 +555,7 @@
     }
   ],
   "builds_on": [],
-  "external_ref": [
-    "《华泰单因子测试之估值类因子》",
-    "《华泰多因子模型体系初探》（2016.09）"
-  ],
+  "external_ref": ["《华泰单因子测试之估值类因子》", "《华泰多因子模型体系初探》（2016.09）"],
   "value": "high",
   "gen": {
     "model": "glm-5.3-flash",

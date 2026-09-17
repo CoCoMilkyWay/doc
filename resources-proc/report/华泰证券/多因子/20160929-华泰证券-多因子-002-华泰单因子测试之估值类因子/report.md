@@ -54,8 +54,8 @@ linxiaoming@htsc.com
 |  | EPcut | 扣非后净利润（TTM）/总市值 |
 |  | BP | 净资产/总市值 |
 |  | SP | 营业收入（TTM）/总市值 |
-| 估值因子 (Value Factor) OCFP | NCFP | 净现金流（TTM）/总市值 |
-|  |  | 经营现金流（TTM）/总市值 |
+| 估值因子 (Value Factor) | NCFP | 净现金流（TTM）/总市值 |
+|  | OCFP | 经营现金流（TTM）/总市值 |
 |  | FCFP | 自由现金流（最新年报）/总市值 |
 |  | DP | 近12个月现金红利（按除息日计）/总市值 |
 |  | EV2EBITDA | 企业价值（扣除现金）/EBITDA（最新年报） |

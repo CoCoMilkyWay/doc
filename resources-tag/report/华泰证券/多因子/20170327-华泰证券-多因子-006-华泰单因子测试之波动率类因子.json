@@ -93,6 +93,36 @@
           "formula": "\\text{high_r_std_Nm 减去 low_r_std_Nm}",
           "stats": [-0.0344, null, 0.56, 0.1456],
           "evidence": "hml_r_std_Nm（N=1,2,……,10），等于 high_r_std_Nm 减去 low_r_std_Nm；"
+        },
+        {
+          "name": "id2_std_umd_1m",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{特质波动率2（三因子回归残差）上行波动率减下行波动率，样本期近1个月}",
+          "stats": [null, null, 0.74, null],
+          "evidence": "同样地，我们首先对因子的样本期长度进行敏感性测试。结果显示，在回归法、IC值测试中，这五种因子都是 1 个月最佳，id2_std_1m、id2_std_up_1m、id2_std_down_1m、id2_std_umd_1m、id2_std_upd_1m 的 IR 比率分别为 0.88、0.92、0.85、0.74、0.90。"
+        },
+        {
+          "name": "low_r_std_Nm",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{过去N个月内每日最低价/前一日收盘价计算日内最大跌幅（复权），再取序列标准差}",
+          "stats": [null, null, null, null],
+          "evidence": "2. low_r_std_Nm（N=1,2,……,10），即在过去 N 个月内，用个股每日最低价除以前一日收盘价计算日内最大跌幅（此处有复权处理），再计算最大跌幅序列的标准差；"
+        },
+        {
+          "name": "hpl_r_std_Nm",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "hpl\\_r\\_std\\_Nm = high\\_r\\_std\\_Nm + low\\_r\\_std\\_Nm",
+          "stats": [null, null, null, null],
+          "evidence": "4. hpl_r_std_Nm（N=1,2,……,10），等于 high_r_std_Nm 加上 low_r_std_Nm。"
         }
       ]
     },
@@ -129,11 +159,7 @@
     }
   ],
   "builds_on": [],
-  "external_ref": [
-    "《华泰单因子测试之估值类因子》",
-    "《华泰单因子测试之动量类因子》",
-    "《华泰多因子模型体系初探》（2016.09）"
-  ],
+  "external_ref": ["《华泰单因子测试之估值类因子》", "《华泰单因子测试之动量类因子》", "《华泰多因子模型体系初探》（2016.09）"],
   "value": "high",
   "gen": {
     "model": "glm-5.3-flash",

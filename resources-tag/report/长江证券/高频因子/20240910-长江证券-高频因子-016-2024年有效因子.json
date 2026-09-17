@@ -213,6 +213,16 @@
           "formula": "\\text{skew}(r)",
           "stats": [0.06, null, 0.7386, null],
           "evidence": "残差波动率高量交易成本每笔成交收益Beta高价成交占比收益偏度"
+        },
+        {
+          "name": "一致卖出占比",
+          "family": "microstructure",
+          "direction": "unknown",
+          "data_period": ["intraday"],
+          "horizon": "monthly",
+          "formula": "\\text{以（收盘价-开盘价）振幅和0.95倍（最高价-最低价）比较确定区间属性，卖出成交额/总成交额}",
+          "stats": [null, null, null, null],
+          "evidence": "一致卖出占比：以（收盘价-开盘价）振幅和0.95倍（最高价-最低价）比较确定区间属性，卖出成交额/总成交额。成交异常时间段卖出占比越高，做空过度反应程度越高"
         }
       ]
     },

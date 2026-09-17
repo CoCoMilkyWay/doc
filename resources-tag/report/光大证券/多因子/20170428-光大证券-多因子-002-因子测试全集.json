@@ -28,9 +28,29 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "monthly",
-          "formula": "\\frac{\\text{净资产（最新财报）}}{\\text{总市值}}",
+          "formula": "\\text{净资产（最新财报）/总市值}",
           "stats": [0.051, null, 0.48, 0.104],
-          "evidence": "估值因子中的BP因子正是Fama-French三因子模型中的一个重要组成部分，因此也很容易理解 BP_LR 和 BP_TTM 因子的历史收益表现和 IC 值均强于其他同类型的估值因子。"
+          "evidence": "| BP_LR | 0.5% | 4.32 | 4.47 | 63.7% | 5.1% | 66.7% | 10.8% | 60.0% | 0.48 |"
+        },
+        {
+          "name": "BP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净资产_TTM/总市值}",
+          "stats": [0.03, null, 0.3, 0.037],
+          "evidence": "| BP_TTM | 0.3% | 2.58 | 3.97 | 57.8% | 3.0% | 60.0% | 9.8% | 53.3% | 0.30 |"
+        },
+        {
+          "name": "DP_TTM",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{分红_TTM/总市值}",
+          "stats": [0.021, null, 0.31, -0.021],
+          "evidence": "| DP_TTM | 0.3% | 4.14 | 2.24 | 60.7% | 2.1% | 60.0% | 6.9% | 51.9% | 0.31 |"
         },
         {
           "name": "E2P_TTM",
@@ -38,19 +58,29 @@
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "monthly",
-          "formula": "\\frac{\\text{归属母公司股东权益}}{\\text{总市值}}",
+          "formula": "\\text{归属母公司股东权益/总市值}",
           "stats": [0.05, null, 0.46, 0.106],
-          "evidence": "估值因子的单调性则表现各异，其中 BP_LR 和 E2P_TTM 的单调性表现同样突出，SP_LYR和 EV2EBITDA单调性表现较好，其他因子的单调性则并不显著"
+          "evidence": "| E2P_TTM | 0.5% | 4.43 | 4.39 | 61.9% | 5.0% | 65.7% | 11.0% | 56.7% | 0.46 |"
         },
         {
-          "name": "SP_LYR",
+          "name": "EP_LYR",
           "family": "value",
           "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "monthly",
-          "formula": "\\frac{\\text{营业收入（最新年报）}}{\\text{总市值}}",
-          "stats": [0.027, null, 0.31, 0.065],
-          "evidence": "由上表可见，BP_LR 作为估值因子中平均收益率最高的因子，与包括SP_TTM、SP_LYR、E2P_TTM、EV2EBITDA 之间的相关性都很强。"
+          "formula": "\\text{净利润（最新年报）/总市值}",
+          "stats": [0.02, null, 0.24, 0.039],
+          "evidence": "| EP_LYR | 0.2% | 1.93 | 2.52 | 54.8% | 2.0% | 55.6% | 8.5% | 49.6% | 0.24 |"
+        },
+        {
+          "name": "EP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润（TTM）/总市值}",
+          "stats": [0.02, null, 0.21, 0.032],
+          "evidence": "| EP_TTM | 0.2% | 2.00 | 3.07 | 49.6% | 2.0% | 50.4% | 9.9% | 46.7% | 0.21 |"
         },
         {
           "name": "EV2EBITDA",
@@ -60,7 +90,107 @@
           "horizon": "monthly",
           "formula": "\\text{企业价值倍数}",
           "stats": [-0.032, null, -0.33, -0.067],
-          "evidence": "估值因子的单调性则表现各异，其中 BP_LR 和 E2P_TTM 的单调性表现同样突出，SP_LYR和 EV2EBITDA单调性表现较好，其他因子的单调性则并不显著"
+          "evidence": "| EV2EBITDA | -0.4% | -4.47 | 3.16 | 34.3% | -3.2% | 33.6% | 9.5% | 26.9% | -0.33 |"
+        },
+        {
+          "name": "FCFP_TTM",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{自由现金流_TTM/总市值}",
+          "stats": [-0.001, null, -0.03, -0.005],
+          "evidence": "| FCFP_TTM | 0.0% | -0.42 | 1.03 | 47.4% | -0.1% | 48.9% | 3.3% | 27.4% | -0.03 |"
+        },
+        {
+          "name": "NCFP_TTM",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净现金流_TTM/总市值}",
+          "stats": [-0.008, null, -0.19, 0.001],
+          "evidence": "| NCFP_TTM | 0.0% | -0.51 | 1.59 | 46.7% | -0.8% | 39.3% | 4.5% | 25.9% | -0.19 |"
+        },
+        {
+          "name": "OCFP_TTM",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{经营性现金流_TTM/总市值}",
+          "stats": [0.015, null, 0.33, -0.001],
+          "evidence": "| OCFP_TTM | 0.1% | 3.10 | 1.30 | 57.0% | 1.5% | 62.2% | 4.6% | 45.2% | 0.33 |"
+        },
+        {
+          "name": "PEG_TTM",
+          "family": "value",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{市盈率相对盈利增长率}",
+          "stats": [-0.009, null, -0.15, 0.026],
+          "evidence": "| PEG_TTM | 0.0% | -1.18 | 0.96 | 45.0% | -0.9% | 42.7% | 5.8% | 25.2% | -0.15 |"
+        },
+        {
+          "name": "SP_LYR",
+          "family": "value",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入（最新年报）/总市值}",
+          "stats": [0.027, null, 0.31, 0.065],
+          "evidence": "| SP_LYR | 0.2% | 3.03 | 2.81 | 61.9% | 2.7% | 61.2% | 8.5% | 56.0% | 0.31 |"
+        },
+        {
+          "name": "SP_TTM",
+          "family": "value",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{营业收入_TTM/总市值}",
+          "stats": [null, null, null, 0.031],
+          "evidence": "| SP_TTM | 14.0% | 19.1% | 18.1% | 18.4% | 18.6% | 3.1% |"
+        },
+        {
+          "name": "FC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值}",
+          "stats": [-0.053, null, -0.33, -0.206],
+          "evidence": "| FC | -0.4% | -2.36 | 6.41 | 37.0% | -5.3% | 34.1% | 16.0% | 28.9% | -0.33 |"
+        },
+        {
+          "name": "FC_MC",
+          "family": "size",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值/总市值}",
+          "stats": [0.012, null, 0.16, 0.05],
+          "evidence": "| FC_MC | 0.1% | 1.36 | 2.69 | 54.1% | 1.2% | 56.3% | 7.2% | 43.7% | 0.16 |"
+        },
+        {
+          "name": "Ln_FC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{流通市值对数}",
+          "stats": [-0.058, null, -0.36, -0.212],
+          "evidence": "| Ln_FC | -0.5% | -2.64 | 6.68 | 37.3% | -5.8% | 34.3% | 16.4% | 29.9% | -0.36 |"
+        },
+        {
+          "name": "Ln_MC",
+          "family": "size",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{总市值对数}",
+          "stats": [-0.068, null, -0.4, -0.235],
+          "evidence": "| Ln_MC | -0.5% | -2.94 | 6.90 | 34.8% | -6.8% | 31.9% | 16.9% | 25.2% | -0.40 |"
         },
         {
           "name": "MC",
@@ -70,17 +200,37 @@
           "horizon": "monthly",
           "formula": "\\text{总市值}",
           "stats": [-0.064, null, -0.39, -0.235],
-          "evidence": "由于自然对数仅仅是通过因子值的变形得到的不同因子表示方式，可以发现Ln_MC与MC完全相关，同理，Ln_FC与FC的IC值序列也是完全相关的。"
+          "evidence": "| MC | -0.4% | -2.63 | 6.58 | 34.1% | -6.4% | 31.9% | 16.4% | 25.2% | -0.39 |"
         },
         {
-          "name": "Ln_MC",
-          "family": "size",
-          "direction": "negative",
-          "data_period": ["daily"],
+          "name": "BPG_TTM",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
           "horizon": "monthly",
-          "formula": "\\ln(\\text{总市值})",
-          "stats": [-0.068, null, -0.4, -0.235],
-          "evidence": "规模因子（市值因子和流通市值因子）的 IR 绝对值均高于 0.3，IC 绝对值均高于 5%，是显著性和预测能力都非常强的因子。而 FC_MC 的表现则并不显著。"
+          "formula": "\\text{每股净资产增长率_TTM}",
+          "stats": [0.017, null, 0.23, 0.007],
+          "evidence": "| BPG_TTM | 0.04% | 0.75 | 1.48 | 53.0% | 1.7% | 59.0% | 7.4% | 47.8% | 0.23 |"
+        },
+        {
+          "name": "EPSG_TTM",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{EPS 增长率_TTM}",
+          "stats": [-0.002, null, -0.03, -0.029],
+          "evidence": "| EPSG_TTM | 0.00% | -0.07 | 0.86 | 47.0% | -0.2% | 54.5% | 8.7% | 44.0% | -0.03 |"
+        },
+        {
+          "name": "NPG_TTM",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利润增长率_TTM}",
+          "stats": [-0.021, null, -0.28, -0.033],
+          "evidence": "| NPG_TTM | -0.12% | -2.50 | 1.10 | 32.1% | -2.1% | 32.8% | 8.0% | 24.9% | -0.28 |"
         },
         {
           "name": "OPG_TTM",
@@ -90,7 +240,97 @@
           "horizon": "monthly",
           "formula": "\\text{营业收入增长率_TTM}",
           "stats": [-0.028, null, -0.37, -0.054],
-          "evidence": "营业收入增长率 OPG_TTM 因子的历史累积收益情况表现明细优于其他的成长类因子，其他的成长类因子的收益率基本持平。"
+          "evidence": "| OPG_TTM | -0.17% | -3.50 | 1.50 | 38.1% | -2.8% | 35.8% | 7.6% | 26.9% | -0.37 |"
+        },
+        {
+          "name": "ROAG_TTM",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROA 增长率_TTM}",
+          "stats": [0.001, null, 0.01, 0.009],
+          "evidence": "| ROAG_TTM | 0.02% | 0.61 | 0.88 | 48.8% | 0.1% | 54.5% | 5.8% | 36.4% | 0.01 |"
+        },
+        {
+          "name": "ROEG_TTM",
+          "family": "growth",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE增长率_TTM}",
+          "stats": [0.008, null, 0.12, 0.01],
+          "evidence": "| ROEG_TTM | 0.01% | 0.45 | 1.00 | 50.4% | 0.8% | 56.4% | 6.7% | 43.6% | 0.12 |"
+        },
+        {
+          "name": "TAG",
+          "family": "growth",
+          "direction": "unknown",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产增长率}",
+          "stats": [null, null, null, 0.036],
+          "evidence": "| TAG | 15.5% | 18.2% | 15.2% | 19.2% | 19.8% | 3.6% |"
+        },
+        {
+          "name": "TAG_TTM",
+          "family": "growth",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{总资产增长率_TTM}",
+          "stats": [-0.008, null, -0.08, 0.015],
+          "evidence": "| TAG_TTM | -0.02% | -0.78 | 1.00 | 44.0% | -0.8% | 46.3% | 9.6% | 37.3% | -0.08 |"
+        },
+        {
+          "name": "AT",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产周转率}",
+          "stats": [0.006, null, 0.12, 0.02],
+          "evidence": "| AT | 0.06% | 1.36 | 1.54 | 54.1% | 0.6% | 56.3% | 5.3% | 40.7% | 0.12 |"
+        },
+        {
+          "name": "AT_TTM",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产周转率_TTM}",
+          "stats": [0.001, null, 0.02, 0.003],
+          "evidence": "| AT_TTM | 0.01% | 0.34 | 1.45 | 50.0% | 0.1% | 48.5% | 5.2% | 36.6% | 0.02 |"
+        },
+        {
+          "name": "DPR_TTM",
+          "family": "dividend",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{股利支付率}",
+          "stats": [0.011, null, 0.17, -0.035],
+          "evidence": "| DPR_TTM | 0.03% | 1.07 | 1.00 | 52.2% | 1.1% | 61.2% | 6.6% | 47.8% | 0.17 |"
+        },
+        {
+          "name": "NPM",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{当期净利率}",
+          "stats": [-0.004, null, -0.04, -0.017],
+          "evidence": "| NPM | -0.04% | -0.87 | 1.45 | 49.6% | -0.4% | 49.6% | 9.7% | 45.9% | -0.04 |"
+        },
+        {
+          "name": "NPM-TTM",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{净利率-TTM}",
+          "stats": [-0.01, null, -0.1, -0.035],
+          "evidence": "| NPM-TTM | -0.07% | -1.83 | 1.35 | 42.5% | -1.0% | 47.0% | 9.8% | 42.5% | -0.10 |"
         },
         {
           "name": "OPM",
@@ -100,7 +340,7 @@
           "horizon": "monthly",
           "formula": "\\text{营业利润率}",
           "stats": [0.008, null, 0.1, -0.03],
-          "evidence": "质量因子中累计收益率较高的因子为OPM和 OPM_TTM，并且从上图已经可以观察出，除OPM、NPM以外的因子收益率走势十分类似，相关性较高。"
+          "evidence": "| OPM | 0.10% | 1.33 | 2.77 | 53.3% | 0.8% | 55.6% | 7.9% | 48.9% | 0.10 |"
         },
         {
           "name": "OPM_TTM",
@@ -110,17 +350,77 @@
           "horizon": "monthly",
           "formula": "\\text{营业利润率_TTM}",
           "stats": [0.004, null, 0.06, -0.031],
-          "evidence": "质量因子中累计收益率较高的因子为OPM和 OPM_TTM，并且从上图已经可以观察出，除OPM、NPM以外的因子收益率走势十分类似，相关性较高。"
+          "evidence": "| OPM_TTM | 0.09% | 1.16 | 2.65 | 51.5% | 0.4% | 53.0% | 7.6% | 44.0% | 0.06 |"
         },
         {
-          "name": "AT_TTM",
+          "name": "ROA",
           "family": "quality",
-          "direction": "nonmonotonic",
+          "direction": "positive",
           "data_period": ["quarterly"],
           "horizon": "monthly",
-          "formula": "\\text{资产周转率_TTM}",
-          "stats": [-0.007, null, -0.07, 0.003],
-          "evidence": "例如资产周转率 AT_TTM 因子，组1 和组 5的年化收益率分别为 17.5%和 19.2%，而组 3的年化收益仅有 15.5%"
+          "formula": "\\text{ROA}",
+          "stats": [0.002, null, 0.01, 0.004],
+          "evidence": "| ROA | 0.04% | 0.34 | 3.84 | 50.4% | 0.2% | 50.4% | 11.9% | 44.4% | 0.01 |"
+        },
+        {
+          "name": "ROA_TTM",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROA_TTM}",
+          "stats": [-0.007, null, -0.06, -0.019],
+          "evidence": "| ROA_TTM | -0.04% | -0.36 | 3.49 | 41.8% | -0.7% | 44.8% | 11.3% | 40.3% | -0.06 |"
+        },
+        {
+          "name": "ROE",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE}",
+          "stats": [0.006, null, 0.06, 0.016],
+          "evidence": "| ROE | 0.03% | 0.38 | 2.58 | 49.6% | 0.6% | 53.3% | 10.7% | 45.2% | 0.06 |"
+        },
+        {
+          "name": "ROE_TTM",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{ROE_TTM}",
+          "stats": [-0.007, null, -0.07, -0.053],
+          "evidence": "| ROE_TTM | -0.01% | -0.16 | 2.06 | 45.2% | -0.7% | 47.4% | 9.7% | 40.0% | -0.07 |"
+        },
+        {
+          "name": "CCR",
+          "family": "quality",
+          "direction": "positive",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{现金比率}",
+          "stats": [0.006, null, 0.05, -0.009],
+          "evidence": "| CCR | -0.02% | -0.86 | 0.74 | 51.1% | 0.6% | 46.7% | 11.4% | 40.0% | 0.05 |"
+        },
+        {
+          "name": "CUR",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{流动比率}",
+          "stats": [-0.005, null, -0.08, 0.029],
+          "evidence": "| CUR | 0.00% | 0.03 | 1.93 | 48.1% | -0.5% | 50.4% | 6.4% | 40.7% | -0.08 |"
+        },
+        {
+          "name": "Debt_Asset",
+          "family": "quality",
+          "direction": "negative",
+          "data_period": ["quarterly"],
+          "horizon": "monthly",
+          "formula": "\\text{资产负债比}",
+          "stats": [-0.001, null, -0.01, 0.04],
+          "evidence": "| Debt_Asset | -0.02% | -0.33 | 2.91 | 48.9% | -0.1% | 52.6% | 8.2% | 37.8% | -0.01 |"
         },
         {
           "name": "QR",
@@ -130,7 +430,7 @@
           "horizon": "monthly",
           "formula": "\\text{速动比率}",
           "stats": [-0.006, null, -0.1, 0.047],
-          "evidence": "我们统计了杠杆因子历史IC 值序列的相关性，发现除了CUR与 QR之间存在较强的共线性以外，其他因子间 IC 值得共线性均比较弱。"
+          "evidence": "| QR | 0.00% | 0.00 | 1.93 | 48.1% | -0.6% | 48.9% | 6.3% | 37.0% | -0.10 |"
         },
         {
           "name": "Momentum_1M",
@@ -140,17 +440,17 @@
           "horizon": "monthly",
           "formula": "\\text{最近1个月收益率}",
           "stats": [-0.079, null, -0.75, -0.118],
-          "evidence": "由上表可见，动量因子整体的因子收益和 IC 值表现都非常出色，不过可以预见的是，动量因子的相关性和共线性会比较强"
+          "evidence": "| Momentum_1M | -0.92% | -8.26 | 5.39 | 21% | -7.9% | 23% | 11% | 19% | -0.75 |"
         },
         {
-          "name": "Momentum_1M_Max",
+          "name": "Momentum_3M",
           "family": "momentum",
           "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{最近1个月的日收益率的最大值}",
-          "stats": [-0.066, null, -0.81, -0.012],
-          "evidence": "1 个月最高价因子与其他动量因子之间的相关性较低，而1 个月、3 个月、6个月、12 个月、24 个月的收益率因子之间的相关性均较高，其中最高的是6 个月收益率和12个月收益率，这两个因子之间IC值相关性高达 85%。"
+          "formula": "\\text{最近3个月收益率}",
+          "stats": [-0.076, null, -0.62, -0.138],
+          "evidence": "| Momentum_3M | -0.88% | -6.72 | 5.60 | 22% | -7.6% | 27% | 12% | 18% | -0.62 |"
         },
         {
           "name": "Momentum_6M",
@@ -160,17 +460,67 @@
           "horizon": "monthly",
           "formula": "\\text{最近6个月收益率}",
           "stats": [-0.064, null, -0.55, -0.125],
-          "evidence": "由上表可见，动量因子整体的因子收益和 IC 值表现都非常出色，不过可以预见的是，动量因子的相关性和共线性会比较强"
+          "evidence": "| Momentum_6M | -0.76% | -6.04 | 5.13 | 27% | -6.4% | 26% | 12% | 22% | -0.55 |"
         },
         {
-          "name": "VSTD_1M",
+          "name": "Momentum_12M",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近12个月收益率}",
+          "stats": [-0.052, null, -0.44, -0.104],
+          "evidence": "| Momentum_12M | -0.60% | -4.82 | 4.96 | 30% | -5.2% | 30% | 12% | 24% | -0.44 |"
+        },
+        {
+          "name": "Momentum_24M",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近24个月收益率}",
+          "stats": [-0.056, null, -0.5, -0.16],
+          "evidence": "| Momentum_24M | -0.59% | -4.44 | 4.75 | 30% | -5.6% | 28% | 11% | 24% | -0.50 |"
+        },
+        {
+          "name": "Momentum_1M_Max",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近1个月的日收益率的最大值}",
+          "stats": [-0.066, null, -0.81, -0.012],
+          "evidence": "| Momentum_1M_Max | -0.58% | -7.50 | 3.95 | 22% | -6.6% | 21% | 8% | 16% | -0.81 |"
+        },
+        {
+          "name": "HighLow_1M",
           "family": "volatility",
           "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{1个月成交量标准差}",
-          "stats": [-0.065, null, -0.82, -0.207],
-          "evidence": "由上表可见，波动因子整体的因子收益和 IC 值表现都比较出色，而成交量标准差VSTD的三个因子单调性表现格外突出。"
+          "formula": "\\text{1个月最高价/最低价}",
+          "stats": [-0.039, null, -0.34, -0.004],
+          "evidence": "| HighLow_1M | -0.5% | -4.15 | 5.21 | 34.3% | -3.9% | 33.6% | 11.8% | 29.1% | -0.34 |"
+        },
+        {
+          "name": "HighLow_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个月最高价/最低价}",
+          "stats": [-0.019, null, -0.14, 0.036],
+          "evidence": "| HighLow_3M | -0.3% | -2.59 | 5.71 | 36.3% | -1.9% | 36.3% | 13.3% | 34.8% | -0.14 |"
+        },
+        {
+          "name": "HighLow_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{6个月最高价/最低价}",
+          "stats": [-0.02, null, -0.15, -0.03],
+          "evidence": "| HighLow_6M | -0.3% | -2.69 | 5.47 | 36.3% | -2.0% | 37.0% | 12.9% | 29.6% | -0.15 |"
         },
         {
           "name": "STD_1M",
@@ -180,7 +530,57 @@
           "horizon": "monthly",
           "formula": "\\text{1个月日收益率标准差}",
           "stats": [-0.055, null, -0.47, -0.031],
-          "evidence": "成交量波动率VSTD 因子与其他波动性因子之间的相关性较低，CAPM残差风险（特质波动因子）与股价标准差因子之间的相关性均较高，因此在筛选波动因子时可以考虑 VSTD 和其他波动因子合成一个大类波动因子。"
+          "evidence": "| STD_1M | -0.6% | -5.23 | 5.21 | 31.3% | -5.5% | 30.6% | 11.8% | 25.4% | -0.47 |"
+        },
+        {
+          "name": "STD_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个月日收益率标准差}",
+          "stats": [-0.052, null, -0.41, -0.072],
+          "evidence": "| STD_3M | -0.6% | -4.74 | 5.25 | 34.1% | -5.2% | 34.1% | 12.7% | 30.4% | -0.41 |"
+        },
+        {
+          "name": "STD_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{6个月日收益率标准差}",
+          "stats": [-0.046, null, -0.35, -0.072],
+          "evidence": "| STD_6M | -0.5% | -4.09 | 4.87 | 34.8% | -4.6% | 38.5% | 13.0% | 33.3% | -0.35 |"
+        },
+        {
+          "name": "VSTD_1M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{1个月成交量标准差}",
+          "stats": [-0.065, null, -0.82, -0.207],
+          "evidence": "| VSTD_1M | -0.6% | -6.52 | 2.80 | 17.9% | -6.5% | 16.4% | 8.0% | 11.2% | -0.82 |"
+        },
+        {
+          "name": "VSTD_3M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{3个月成交量标准差}",
+          "stats": [-0.05, null, -0.6, -0.177],
+          "evidence": "| VSTD_3M | -0.5% | -5.27 | 2.47 | 19.3% | -5.0% | 23.0% | 8.3% | 17.8% | -0.60 |"
+        },
+        {
+          "name": "VSTD_6M",
+          "family": "volatility",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{6个月成交量标准差}",
+          "stats": [-0.04, null, -0.49, -0.178],
+          "evidence": "| VSTD_6M | -0.4% | -4.50 | 2.26 | 26.7% | -4.0% | 25.9% | 8.1% | 21.5% | -0.49 |"
         },
         {
           "name": "Residual_Risk",
@@ -190,7 +590,7 @@
           "horizon": "monthly",
           "formula": "\\text{CAMP模型残差的标准差（12个月）}",
           "stats": [-0.036, null, -0.27, -0.034],
-          "evidence": "成交量波动率VSTD 因子与其他波动性因子之间的相关性较低，CAPM残差风险（特质波动因子）与股价标准差因子之间的相关性均较高，因此在筛选波动因子时可以考虑 VSTD 和其他波动因子合成一个大类波动因子。"
+          "evidence": "| Residual_Risk | -0.5% | -4.22 | 4.97 | 37.3% | -3.6% | 38.8% | 13.2% | 34.3% | -0.27 |"
         },
         {
           "name": "TURNOVER_1M",
@@ -200,7 +600,27 @@
           "horizon": "monthly",
           "formula": "\\text{最近一个月换手率}",
           "stats": [-0.066, null, -0.49, -0.085],
-          "evidence": "由上表可见，流动性因子整体的因子收益和 IC 值表现都非常出色，单调性表现较差。"
+          "evidence": "| TURNOVER_1M | -0.78% | -5.90 | 5.98 | 29.6% | -6.6% | 29.6% | 13.4% | 27.4% | -0.49 |"
+        },
+        {
+          "name": "TURNOVER_3M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近三个月换手率}",
+          "stats": [-0.046, null, -0.34, -0.049],
+          "evidence": "| TURNOVER_3M | -0.56% | -4.42 | 5.58 | 34.8% | -4.6% | 35.6% | 13.3% | 31.9% | -0.34 |"
+        },
+        {
+          "name": "TURNOVER_6M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近六个月换手率}",
+          "stats": [-0.033, null, -0.25, -0.042],
+          "evidence": "| TURNOVER_6M | -0.43% | -3.54 | 5.15 | 37.8% | -3.3% | 40.0% | 12.8% | 35.6% | -0.25 |"
         },
         {
           "name": "VA_FC_1M",
@@ -210,17 +630,67 @@
           "horizon": "monthly",
           "formula": "\\text{最近一个月买卖循环率}",
           "stats": [-0.067, null, -0.51, -0.066],
-          "evidence": "流动性因子作为一个显著性较高的负向因子，其因子单调性却差强人意，下表就展示了流动性因子做行业中性的分层回溯后各组的历史年化收益情况"
+          "evidence": "| VA_FC_1M | -0.79% | -6.12 | 5.85 | 29.1% | -6.7% | 29.1% | 13.1% | 25.4% | -0.51 |"
         },
         {
-          "name": "RSI",
+          "name": "VA_FC_3M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近三个月买卖循环率}",
+          "stats": [-0.05, null, -0.38, -0.038],
+          "evidence": "| VA_FC_3M | -0.61% | -4.64 | 5.64 | 33.6% | -5.0% | 34.3% | 13.5% | 31.3% | -0.38 |"
+        },
+        {
+          "name": "VA_FC_6M",
+          "family": "liquidity",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{最近六个月买卖循环率}",
+          "stats": [-0.039, null, -0.29, -0.044],
+          "evidence": "| VA_FC_6M | -0.48% | -3.78 | 5.44 | 37.3% | -3.9% | 37.3% | 13.5% | 35.8% | -0.29 |"
+        },
+        {
+          "name": "DEA",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{异同平均数}",
+          "stats": [-0.018, null, -0.17, -0.064],
+          "evidence": "| DEA | -0.2% | -1.39 | 3.55 | 38.1% | -1.8% | 36.6% | 10.8% | 29.1% | -0.17 |"
+        },
+        {
+          "name": "DIFF",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{差离值}",
+          "stats": [-0.039, null, -0.31, -0.103],
+          "evidence": "| DIFF | -0.4% | -3.21 | 4.67 | 37.3% | -3.9% | 34.3% | 12.5% | 27.6% | -0.31 |"
+        },
+        {
+          "name": "KDJ",
           "family": "reversal",
           "direction": "negative",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{相对强弱指标}",
-          "stats": [-0.055, null, -0.49, -0.13],
-          "evidence": "技术因子整体的因子收益和 IC值表现较好，其中SOBV和RSI相对强弱指标的收益率最高。"
+          "formula": "\\text{随机指标}",
+          "stats": [-0.024, null, -0.22, -0.062],
+          "evidence": "| KDJ | -0.2% | -2.21 | 3.90 | 42.2% | -2.4% | 40.7% | 10.6% | 31.9% | -0.22 |"
+        },
+        {
+          "name": "MACD",
+          "family": "momentum",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{平滑移动平均线}",
+          "stats": [-0.02, null, -0.18, -0.093],
+          "evidence": "| MACD | -0.2% | -1.43 | 4.01 | 46.7% | -2.0% | 42.2% | 11.2% | 32.6% | -0.18 |"
         },
         {
           "name": "SOBV",
@@ -230,27 +700,47 @@
           "horizon": "monthly",
           "formula": "\\text{能量潮}",
           "stats": [-0.027, null, -0.24, -0.094],
-          "evidence": "下表统计了技术因子历史 IC 值序列的相关性，同时我们发现 SOBV 与 RSI 的 IC 值相关系数非常接近 0，可见技术因子的选择余地更大，多个因子的组合也成为一种可能。"
+          "evidence": "| SOBV | -0.3% | -2.40 | 4.21 | 35.1% | -2.7% | 35.8% | 11.2% | 29.9% | -0.24 |"
         },
         {
-          "name": "TargetReturn",
+          "name": "RSI",
+          "family": "reversal",
+          "direction": "negative",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{相对强弱}",
+          "stats": [-0.055, null, -0.49, -0.13],
+          "evidence": "| RSI | -0.6% | -5.02 | 5.75 | 26.1% | -5.5% | 27.6% | 11.3% | 22.4% | -0.49 |"
+        },
+        {
+          "name": "FORE_Earning",
           "family": "analyst",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{一致预期目标价}/\\text{收盘价}-1",
-          "stats": [0.036, null, 0.63, 0.126],
-          "evidence": "分析师因子中的一致预期目标价（TargetReturn）、一致预期营业收入1 个月增长率（EOPChange_1M）等因子的 IC 和 IR 值较高，历史的收益率排名可进入前 20。一致预期目标价的历史 IR 为 0.63、一致预期营业收入1个月增长率历史IR为0.40。"
+          "formula": "\\text{一致预期净利润}",
+          "stats": [0.035, null, 0.35, -0.096],
+          "evidence": "| FORE_Earning | 0.0% | 1.01 | 0.83 | 58.2% | 3.5% | 59.0% | 10.0% | 51.5% | 0.35 |"
         },
         {
-          "name": "EOPChange_1M",
+          "name": "EEChange_1M",
           "family": "analyst",
           "direction": "positive",
           "data_period": ["daily"],
           "horizon": "monthly",
-          "formula": "\\text{一致预期营业收入变化1M}",
-          "stats": [0.014, null, 0.4, 0.06],
-          "evidence": "分析师因子中的一致预期目标价（TargetReturn）、一致预期营业收入1 个月增长率（EOPChange_1M）等因子的 IC 和 IR 值较高，历史的收益率排名可进入前 20。一致预期目标价的历史 IR 为 0.63、一致预期营业收入1个月增长率历史IR为0.40。"
+          "formula": "\\text{一致预期净利润变化率1M}",
+          "stats": [0.012, null, 0.25, 0.073],
+          "evidence": "| EEChange_1M | 0.1% | 2.58 | 0.81 | 48.1% | 1.2% | 51.9% | 4.7% | 38.3% | 0.25 |"
+        },
+        {
+          "name": "EEChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期净利润变化率3M}",
+          "stats": [0.015, null, 0.24, 0.067],
+          "evidence": "| EEChange_3M | 0.1% | 3.62 | 0.97 | 58.0% | 1.5% | 58.0% | 6.3% | 48.9% | 0.24 |"
         },
         {
           "name": "EEP",
@@ -260,7 +750,167 @@
           "horizon": "monthly",
           "formula": "\\text{一致预期EP}",
           "stats": [0.036, null, 0.37, 0.097],
-          "evidence": "由上表可见，TargetReturn、EEP、EOPChange_1M 等因子的因子收益和IC 值表现都非常出色。"
+          "evidence": "| EEP | 0.4% | 3.73 | 3.42 | 61.2% | 3.6% | 62.7% | 9.9% | 51.5% | 0.37 |"
+        },
+        {
+          "name": "EINS_10D",
+          "family": "analyst",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{预测机构数 10D}",
+          "stats": [0.0, null, 0.01, -0.053],
+          "evidence": "| EINS_10D | 0.0% | -0.70 | 1.12 | 17.0% | 0.0% | 20.0% | 3.7% | 13.3% | 0.01 |"
+        },
+        {
+          "name": "EINS_25D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{预测机构数 25D}",
+          "stats": [0.002, null, 0.03, -0.056],
+          "evidence": "| EINS_25D | 0.0% | 0.01 | 2.34 | 37.0% | 0.2% | 41.5% | 6.1% | 28.9% | 0.03 |"
+        },
+        {
+          "name": "EINS_75D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{预测机构数 75D}",
+          "stats": [0.011, null, 0.11, -0.039],
+          "evidence": "| EINS_75D | 0.2% | 1.95 | 3.78 | 51.9% | 1.1% | 49.6% | 10.2% | 43.7% | 0.11 |"
+        },
+        {
+          "name": "FORE_EPS",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期 EPS}",
+          "stats": [0.017, null, 0.15, 0.023],
+          "evidence": "| FORE_EPS | 0.2% | 1.52 | 3.01 | 52.2% | 1.7% | 50.0% | 10.9% | 43.3% | 0.15 |"
+        },
+        {
+          "name": "EEPSChange_1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期 EPS 变化 1M}",
+          "stats": [0.013, null, 0.28, 0.069],
+          "evidence": "| EEPSChange_1M | 0.1% | 2.56 | 0.86 | 48.9% | 1.3% | 55.6% | 4.6% | 40.6% | 0.28 |"
+        },
+        {
+          "name": "EEPSChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期 EPS 变化 3M}",
+          "stats": [0.015, null, 0.26, 0.084],
+          "evidence": "| EEPSChange_3M | 0.1% | 3.40 | 0.99 | 58.8% | 1.5% | 61.1% | 6.0% | 47.3% | 0.26 |"
+        },
+        {
+          "name": "RPP_10D",
+          "family": "analyst",
+          "direction": "unknown",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{预测报告数量 10D}",
+          "stats": [0.0, null, 0.01, -0.054],
+          "evidence": "| RPP_10D | 0.0% | -0.75 | 1.13 | 17.8% | 0.0% | 19.3% | 3.6% | 13.3% | 0.01 |"
+        },
+        {
+          "name": "RPP_25D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{预测报告数量 25D}",
+          "stats": [0.002, null, 0.03, -0.059],
+          "evidence": "| RPP_25D | 0.0% | -0.16 | 2.33 | 37.8% | 0.2% | 40.7% | 6.0% | 28.9% | 0.03 |"
+        },
+        {
+          "name": "RPP_75D",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{预测报告数量75D}",
+          "stats": [0.012, null, 0.12, -0.036],
+          "evidence": "| RPP_75D | 0.2% | 1.94 | 3.65 | 49.6% | 1.2% | 51.1% | 9.6% | 42.2% | 0.12 |"
+        },
+        {
+          "name": "FORE_OP",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期营业收入}",
+          "stats": [0.026, null, 0.3, -0.103],
+          "evidence": "| FORE_OP | 0.1% | 1.85 | 0.94 | 52.2% | 2.6% | 60.4% | 8.6% | 55.2% | 0.30 |"
+        },
+        {
+          "name": "EOPChange_1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期营业收入变化1M}",
+          "stats": [0.014, null, 0.4, 0.06],
+          "evidence": "| EOPChange_1M | 0.1% | 2.47 | 0.87 | 47.4% | 1.4% | 55.6% | 3.5% | 35.3% | 0.40 |"
+        },
+        {
+          "name": "EOPChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期营业收入变化3M}",
+          "stats": [0.016, null, 0.31, 0.078],
+          "evidence": "| EOPChange_3M | 0.1% | 2.87 | 1.10 | 55.7% | 1.6% | 58.0% | 5.1% | 42.0% | 0.31 |"
+        },
+        {
+          "name": "SCORE_AVRG",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{平均评级}",
+          "stats": [0.013, null, 0.17, 0.014],
+          "evidence": "| SCORE_AVRG | 0.1% | 1.95 | 2.86 | 53.7% | 1.3% | 56.7% | 7.6% | 46.3% | 0.17 |"
+        },
+        {
+          "name": "RatingChange_1M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{评级变化 1M}",
+          "stats": [0.009, null, 0.35, 0.051],
+          "evidence": "| RatingChange_1M | 0.1% | 3.89 | 0.91 | 64.7% | 0.9% | 63.2% | 2.7% | 35.3% | 0.35 |"
+        },
+        {
+          "name": "RatingChange_3M",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{评级变化 3M}",
+          "stats": [0.008, null, 0.25, 0.018],
+          "evidence": "| RatingChange_3M | 0.1% | 3.46 | 1.17 | 59.5% | 0.8% | 56.5% | 3.3% | 35.9% | 0.25 |"
+        },
+        {
+          "name": "TargetReturn",
+          "family": "analyst",
+          "direction": "positive",
+          "data_period": ["daily"],
+          "horizon": "monthly",
+          "formula": "\\text{一致预期目标价/收盘价-1}",
+          "stats": [0.036, null, 0.63, 0.126],
+          "evidence": "| TargetReturn | 0.3% | 6.39 | 2.26 | 74.6% | 3.6% | 76.1% | 5.7% | 61.2% | 0.63 |"
         }
       ]
     },
