@@ -190,7 +190,7 @@
           "evidence": "Vol_Weighted_Std Std(Ret/Vol) 4.53% 0.41"
         },
         {
-          "name": "a_equal_weighted",
+          "name": "a_{equal\\_weighted}",
           "family": "composite",
           "direction": "positive",
           "data_period": ["intraday"],
@@ -200,7 +200,7 @@
           "evidence": "从表中可以看出，等权结合后的因子相较于原始因子在各个统计指标上均有所改进，中性化后的等权组合因子全区间 Rank IC 可达 0.069，ICIR 为 0.59，在各个年度因子表现均较为稳定。"
         },
         {
-          "name": "a_corr_weighted",
+          "name": "a_{corr\\_weighted}",
           "family": "composite",
           "direction": "positive",
           "data_period": ["intraday"],

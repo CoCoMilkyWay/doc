@@ -8,7 +8,7 @@
 import os, shutil, subprocess, sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SKIP = {"build", "package"}  # 构建产物 / 第三方源码 (MinerU)
+SKIP = {"build", "package", "packages"}  # 构建产物 / 第三方源码 (python deps / nlohmann)
 
 args = sys.argv[1:]
 assert set(args) <= {"--check"}, "用法: format.py [--check]"
